@@ -513,7 +513,7 @@ begin
     Options := [eoAutoSizeMaxScrollWidth, eoDragDropEditing, eoEnhanceHomeKey,
                 eoEnhanceEndKey, eoGroupUndo, eoHideShowScrollbars, eoKeepCaretX,
                 eoShowScrollHint, eoSmartTabDelete, eoTabsToSpaces, eoTabIndent,
-                eoTrimTrailingSpaces];
+                eoTrimTrailingSpaces, eoAutoIndent];
     TabWidth := 4;
     WantTabs := True;
     TabWidth := 4;

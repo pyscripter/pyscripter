@@ -105,7 +105,7 @@ inherited UnitTestWindow: TUnitTestWindow
         end
         object TBXSeparatorItem7: TTBXSeparatorItem
         end
-        object TBItem1: TTBItem
+        object TBXItem10: TTBXItem
           Action = actExpandAll
         end
         object TBXItem8: TTBXItem

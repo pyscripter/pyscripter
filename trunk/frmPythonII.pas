@@ -212,7 +212,7 @@ begin
     fCriticalSection.Acquire;
     try
       fOutputStream.Write(Data[1], Length (Data) * 2);
-      fOutputStream.Write(WideLineBreak[1], Length (WideLineBreak) * 2);
+      //fOutputStream.Write(WideLineBreak[1], Length (WideLineBreak) * 2);  RawOutput
       if GetCurrentThreadId = MainThreadId then begin
         SetLength(WS, fOutputStream.Size div 2);
         fOutputStream.Position := 0;
@@ -303,7 +303,8 @@ Var
   i : integer;
   idx : Integer;
   versionIdx : Integer;
-  expectedVersion : String;
+  expectedVersion : string;
+  RegKey : string;
   expectedVersionIdx : Integer;
 begin
   inherited;
@@ -319,6 +320,7 @@ begin
   PythonIO.OnSendUniData := PythonIOSendData;
   PythonIO.OnReceiveUniData := PythonIOReceiveData;
   PythonIO.UnicodeIO := True;
+  PythonIO.RawOutput := True;
 
   // Load Python DLL
 
@@ -406,10 +408,16 @@ begin
   try
     Registry.RootKey := HKEY_LOCAL_MACHINE;
     // False because we do not want to create it if it doesn't exist
-    if Registry.OpenKey('\SOFTWARE\Python\PythonCore\'+SysModule.winver+
-      '\Help\Main Python Documentation', False)
-    then
-      PythonHelpFile := Registry.ReadString('');
+    RegKey := '\SOFTWARE\Python\PythonCore\'+SysModule.winver+
+      '\Help\Main Python Documentation';
+    if Registry.OpenKey(RegKey, False) then
+      PythonHelpFile := Registry.ReadString('')
+    else begin
+      // try Current User
+      Registry.RootKey := HKEY_CURRENT_USER;
+      if Registry.OpenKey(RegKey, False) then
+        PythonHelpFile := Registry.ReadString('')
+    end;
   finally
     Registry.Free;
   end;
@@ -497,6 +505,8 @@ begin
     ecLineBreak :
       begin
         Command := ecNone;  // do not processed it further
+        if SynParamCompletion.Form.Visible then
+          SynParamCompletion.CancelCompletion;
 
         LineN := SynEdit.CaretY - 1;  // Caret is 1 based
         GetBlockBoundary(LineN, StartLineN, EndLineN, IsCode);

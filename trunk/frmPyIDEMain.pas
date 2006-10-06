@@ -154,11 +154,11 @@ Limitations: Python scripts are executed in the main thread
               Help related issues
               Other fixes.
 
- History:   v 1.6
+ History:   v 1.7
           New Features
             Unicode based editor and interactive interpreter
             Full support for Python source file encodings
-            Support for Python v2.5
+            Support for Python v2.5 and Current User installations
             Check syntax as you type and syntax hints (IDE option)
             Tab indents and Shift-Tab unindents (Editor Options - Tab Indents)
             Editor Zoom in/out with keyboard Alt+- and Ctrl+mouse wheel
@@ -199,7 +199,7 @@ Limitations: Python scripts are executed in the main thread
             Wrong line number in External Run traceback message
             No horizontal scroll in output window
             Code completion Error with packages containing module with the same name
-            Problem with sys.stdin.readline()
+            Problems with sys.stdin.readline() and partial line output (stdout) statements
             Infinite loop when root of package is the top directory of a drive
 
   ** Pyscripter flickers a lot when resizing.  I do not know what to do
@@ -247,8 +247,8 @@ uses
   TB2MRU, TBXExtItems,  JvPageList, cRefactoring, dlgCustomShortcuts,
   // Themes
   TBXNexosXTheme, TBXOfficeXPTheme, TBXAluminumTheme, TBXWhidbeyTheme,
-  TBXOffice2003Theme, TBXLists, TB2ExtItems, JvDockTree, JvComponentBase,
-  JvAppInst, uHighlighterProcs, cFileTemplates;
+  TBXOffice2003Theme, TBXOffice2007Theme, TBXLists, TB2ExtItems, JvDockTree,
+  JvComponentBase, JvAppInst, uHighlighterProcs, cFileTemplates;
 
 const
   WM_FINDDEFINITION  = WM_USER + 100;
@@ -1624,6 +1624,7 @@ begin
   TempStringList := TStringList.Create;
   AppStorage.BeginUpdate;
   try
+    AppStorage.WriteString('PyScripter Version', ApplicationVersion);
     AppStorage.WritePersistent('IDE Options', CommandsDataModule.PyIDEOptions);
     with CommandsDataModule do begin
       AppStorage.DeleteSubTree('Editor Options');

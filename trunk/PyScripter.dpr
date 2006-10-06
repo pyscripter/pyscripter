@@ -8,18 +8,8 @@
 
 
 program PyScripter;
-
-
-
-
-
-
-
-
-
-
-
 uses
+  Windows,
   Forms,
   frmPyIDEMain in 'frmPyIDEMain.pas' {PyIDEMainForm},
   uEditAppIntfs in 'uEditAppIntfs.pas',
@@ -92,9 +82,13 @@ uses
   cFileTemplates in 'cFileTemplates.pas',
   dlgCodeTemplates in 'dlgCodeTemplates.pas' {CodeTemplates},
   JvAppIniStorage in 'JvAppIniStorage.pas',
-  dlgNewFile in 'dlgNewFile.pas' {NewFileDialog};
+  dlgNewFile in 'dlgNewFile.pas' {NewFileDialog},
+  TinyWideStrings in 'TinyWideStrings.pas',
+  PythonEngine in 'PythonEngine.pas';
 
 {$R *.RES}
+
+{$SetPEFlags IMAGE_FILE_RELOCS_STRIPPED}
 
 begin
   Application.Initialize;

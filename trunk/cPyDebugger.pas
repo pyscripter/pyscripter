@@ -577,6 +577,7 @@ procedure TPyDebugger.SetDebuggerBreakpoints;
 var
   i, j : integer;
   FName : string;
+  V : Variant;
 begin
   if not fBreakPointsChanged then Exit;
   LoadLineCache;
@@ -586,12 +587,21 @@ begin
       FName := FileName;
       if FName = '' then
         FName := '<'+FileTitle+'>';
-      for j := 0 to BreakPoints.Count - 1 do
-        if TBreakPoint(BreakPoints[j]).Condition <> '' then
-          PythonIIForm.Debugger.set_break(FName, TBreakPoint(BreakPoints[j]).LineNo, 
-            0, TBreakPoint(BreakPoints[j]).Condition)
-        else
-          PythonIIForm.Debugger.set_break(FName, TBreakPoint(BreakPoints[j]).LineNo);
+      for j := 0 to BreakPoints.Count - 1 do begin
+        V := PythonIIForm.Debugger.set_break;
+        if TBreakPoint(BreakPoints[j]).Condition <> '' then begin
+          GetPythonEngine.EvalFunction(ExtractPythonObjectFrom(V),
+            [FName, TBreakPoint(BreakPoints[j]).LineNo,
+            0, TBreakPoint(BreakPoints[j]).Condition]);
+           //  To avoid the implicit conversion of the filename to unicode
+           //  which causes problems due to the strange behaviour of os.path.normcase
+          //PythonIIForm.Debugger.set_break(FName, TBreakPoint(BreakPoints[j]).LineNo,
+          //  0, TBreakPoint(BreakPoints[j]).Condition);
+        end else
+          GetPythonEngine.EvalFunction(ExtractPythonObjectFrom(V),
+            [FName, TBreakPoint(BreakPoints[j]).LineNo]);
+          //PythonIIForm.Debugger.set_break(FName, TBreakPoint(BreakPoints[j]).LineNo);
+      end;
     end;
   fBreakPointsChanged := False;
 end;

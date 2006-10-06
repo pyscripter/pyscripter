@@ -169,7 +169,7 @@ inherited FileExplorerWindow: TFileExplorerWindow
         object TBXItem5: TTBXItem
           Action = actEnableFilter
         end
-        object TBItem1: TTBItem
+        object TBXItem10: TTBXItem
           Action = actNewFolder
         end
       end

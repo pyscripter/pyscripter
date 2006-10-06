@@ -41,7 +41,7 @@ type
     Splitter: TJvNetscapeSplitter;
     actExpandAll: TAction;
     actCollapseAll: TAction;
-    TBItem1: TTBItem;
+    TBXItem10: TTBXItem;
     TBXItem8: TTBXItem;
     TBXSeparatorItem7: TTBXSeparatorItem;
     actClearAll: TAction;
