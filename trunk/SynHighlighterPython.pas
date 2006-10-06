@@ -1332,7 +1332,7 @@ begin
   fPromptAttri := TSynHighlighterAttributes.Create(SYNS_AttrPrompt, SYNS_FriendlyAttrPrompt);
   AddAttribute(fPromptAttri);
   fTracebackStartRE := TRegExpr.Create;
-  fTracebackStartRE.Expression := '^Traceback \(|.*File ".*line';
+  fTracebackStartRE.Expression := '^Traceback \(|File ".*line';
   fTracebackEndRE := TRegExpr.Create;
   fTracebackEndRE.Expression := '^\w*(Error|Exception|Warning|KeyboardInterrupt):'
 end;
