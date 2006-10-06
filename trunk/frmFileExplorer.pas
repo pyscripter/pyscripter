@@ -425,14 +425,13 @@ end;
 procedure TFileExplorerWindow.TBXItemBackPopup(Sender: TTBCustomItem;
   FromLink: Boolean);
 begin
-  VirtualShellHistory.FillPopupMenu_TBX(TBXItemBack, fpdNewestToOldest,
-    False, '');
+  VirtualShellHistory.FillPopupMenu_TB2000(TBXItemBack, TTBXItem, fpdNewestToOldest);
 end;
 
 procedure TFileExplorerWindow.TBXItemForwardPopup(Sender: TTBCustomItem;
   FromLink: Boolean);
 begin
-  VirtualShellHistory.FillPopupMenu_TBX(TBXItemForward, fpdOldestToNewest, False, '');
+  VirtualShellHistory.FillPopupMenu_TB2000(TBXItemForward, TTBXItem, fpdOldestToNewest);
 end;
 
 procedure TFileExplorerWindow.BrowsePathPopup(Sender: TTBCustomItem;

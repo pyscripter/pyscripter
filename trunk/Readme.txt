@@ -23,8 +23,9 @@ To compile the PythonIDE.dpr, you first need to install the following components
 
    - Unicode version of SynEdit (synedit.sf.net) at http://mh-nexus.de/unisynedit.htm
    - VirtualTreeView (www.delphi-gems.com) at http://www.delphi-gems.com/VirtualTreeview/
-   - VirtualShellTools (www.mustangpeak.net)
-     In the file VSToolsAddins.inc in the "Include" directory enable the USE_TBX flag before installing
+   - VirtualShellTools and the "Mustangpeak Common Library" (www.mustangpeak.net)
+     In the file VSToolsAddins.inc in the "Include" directory enable the USE_TOOLBAR_TB2 flag and follow the instructions
+     for recompiling the packages
 
 If you have managed to do all the above then you should be able to compile PyScripter! (:)) 
 
