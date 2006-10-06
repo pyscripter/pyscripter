@@ -1417,15 +1417,8 @@ begin
     { CaretY should never be lesser than 2 right after ecLineBreak, so there's
     no need for a check }
 
-    if eoAutoIndent in SynEdit.Options then begin
-      // undo the effect of autoindent
-      Position := SynEdit.CaretX;
-      SynEdit.BlockBegin := BufferCoord(1, SynEdit.CaretY);
-      SynEdit.BlockEnd :=  BufferCoord(Position, SynEdit.CaretY);
-      SynEdit.SelText := '';
-    end;
-
     iPrevLine := TrimRight( SynEdit.Lines[ SynEdit.CaretY -2 ] );
+
     Position := 1;
     Indent := '';
     while (Length(iPrevLine)>=Position) and
@@ -1440,6 +1433,14 @@ begin
       OldOptions := SynEdit.Options;
       SynEdit.Options := SynEdit.Options - [eoTrimTrailingSpaces];
       try
+        if (eoAutoIndent in SynEdit.Options) and (iPrevLine <> '') then begin
+          // undo the effect of autoindent
+          Position := SynEdit.CaretX;
+          SynEdit.BlockBegin := BufferCoord(1, SynEdit.CaretY);
+          SynEdit.BlockEnd :=  BufferCoord(Position, SynEdit.CaretY);
+          SynEdit.SelText := '';
+        end;
+
         if CommandsDataModule.IsBlockOpener(iPrevLine) then begin
           if eoTabsToSpaces in SynEdit.Options then
             Indent := Indent + StringOfChar(' ', SynEdit.TabWidth)

@@ -296,8 +296,13 @@ begin
       GlobalsNameSpace.CompareToOldItem(OldGlobalsNameSpace);
     if Assigned(LocalsNameSpace) and Assigned(OldLocalsNameSpace) then
       LocalsNameSpace.CompareToOldItem(OldLocalsNameSpace);
-    ReinitChildren(VariablesTree.RootNode, True);
-    VariablesTree.InvalidateToBottom(VariablesTree.GetFirstVisible);
+    VariablesTree.BeginUpdate;
+    try
+      ReinitChildren(VariablesTree.RootNode, True);
+      VariablesTree.InvalidateToBottom(VariablesTree.GetFirstVisible);
+    finally
+      VariablesTree.EndUpdate;
+    end;
   end else begin
     VariablesTree.Clear;
     VariablesTree.RootNodeCount := RootNodeCount;

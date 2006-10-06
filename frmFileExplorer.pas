@@ -82,7 +82,7 @@ type
     TBXItem8: TTBXItem;
     N5: TMenuItem;
     CreateNewFolder1: TMenuItem;
-    TBItem1: TTBItem;
+    TBXItem10: TTBXItem;
     procedure VirtualShellHistoryChange(Sender: TBaseVirtualShellPersistent;
       ItemIndex: Integer; ChangeType: TVSHChangeType);
     procedure FileExplorerTreeKeyPress(Sender: TObject; var Key: Char);

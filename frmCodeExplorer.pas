@@ -323,7 +323,8 @@ begin
   if Terminated or (csDestroying in CodeExplorerWindow.ComponentState) then Exit;
 
   SameModule := (fOldModule.Name = fNewModule.Name) and
-               (fOldModule.FileName = fNewModule.FileName);
+               (fOldModule.FileName = fNewModule.FileName) and
+               (CodeExplorerWindow.ExplorerTree.RootNodeCount > 0);
 
   fOldModule.Free;
   fOldModule := fNewModule;
@@ -335,8 +336,13 @@ begin
     ExplorerTree.TreeOptions.AnimationOptions :=
       ExplorerTree.TreeOptions.AnimationOptions - [toAnimatedToggle];
     if SameModule then begin
-      ExplorerTree.ReinitNode(ExplorerTree.RootNode.FirstChild, True);
-      ExplorerTree.InvalidateToBottom(ExplorerTree.GetFirstVisible);
+      ExplorerTree.BeginUpdate;
+      try
+        ExplorerTree.ReinitNode(ExplorerTree.RootNode.FirstChild, True);
+        ExplorerTree.InvalidateToBottom(ExplorerTree.GetFirstVisible);
+      finally
+        ExplorerTree.EndUpdate;
+      end;
     end else begin
       ExplorerTree.Clear;
       ExplorerTree.RootNodeCount := 1;

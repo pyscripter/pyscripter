@@ -32,5 +32,6 @@
     <Transaction>2006/08/12 19:08:01.995.dfm,C:\Sandbox\P4D\PythonForDelphi\PythonIDE\dlgCodeTemplates.dfm=C:\Sandbox\P4D\PythonForDelphi\PythonIDE\dlgFileTemplates.dfm</Transaction>
     <Transaction>2006/08/15 00:51:31.074.pas,C:\Sandbox\P4D\PythonForDelphi\PythonIDE\Unit1.pas=C:\Sandbox\P4D\PythonForDelphi\PythonIDE\dlgNewFile.pas</Transaction>
     <Transaction>2006/08/15 00:51:31.154.dfm,C:\Sandbox\P4D\PythonForDelphi\PythonIDE\Unit1.dfm=C:\Sandbox\P4D\PythonForDelphi\PythonIDE\dlgNewFile.dfm</Transaction>
+    <Transaction>2006/09/23 02:28:25.884.pas,C:\Sandbox\P4D\PythonForDelphi\PythonIDE\Unit1.pas=C:\Sandbox\P4D\PythonForDelphi\PythonIDE\TinyWideStrings.pas</Transaction>
   </Transactions>
 </BorlandProject>

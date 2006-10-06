@@ -359,10 +359,59 @@ begin
   end;
 end;
 
-function GetPythonDir: string;
+function GetActivePythonDir : string;
 begin
-  Result := SysModule.prefix + '\';
+  Result := IncludeTrailingPathDelimiter(SysModule.prefix);
 end;
+
+function GetPythonDir (VersionString : string) : string;
+{$IFDEF MSWINDOWS}
+var
+  key : String;
+  AllUserInstall : Boolean;
+{$ENDIF}
+begin
+  Result := '';
+
+  // Python provides for All user and Current user installations
+  // All User installations place the Python DLL in the Windows System directory
+  // and write registry info to HKEY_LOCAL_MACHINE
+  // Current User installations place the DLL in the install path and
+  // the registry info in HKEY_CURRENT_USER.
+  // Hence, for Current user installations we need to try and find the install path
+  // since it may not be on the system path.
+
+  AllUserInstall := False;
+  key := Format('\Software\Python\PythonCore\%s\InstallPath', [VersionString]);
+  try
+    with TRegistry.Create do
+      try
+        RootKey := HKEY_LOCAL_MACHINE;
+        if OpenKey(Key, False) then
+          Result := ReadString('');
+      finally
+        Free;
+      end;
+  except
+    // under WinNT, with a user without admin rights, the access to the
+    // LocalMachine keys would raise an exception.
+  end;
+  // We do not seem to have an All User Python Installation.
+  // Check whether we have a current user installation
+  if not AllUserInstall then
+    with TRegistry.Create do
+      try
+        RootKey := HKEY_CURRENT_USER;
+        if OpenKey(Key, False) then
+          Result := ReadString('');
+      finally
+        Free;
+      end;
+
+  if Result <> '' then
+    Result := IncludeTrailingPathDelimiter(Result);
+end;
+
 
 function GetPythonVersion: string;
 begin
@@ -374,13 +423,13 @@ begin
   with Parameters do begin
     (* parameters, valid for current Windows configuration *)
     // Python Paths etc.
-    RegisterParameter('Python24Dir',
-      '$[''HKLM\SOFTWARE\Python\PythonCore\2.4\InstallPath\''-Reg]', nil);
-    RegisterParameter('Python23Dir',
-      '$[''HKLM\SOFTWARE\Python\PythonCore\2.3\InstallPath\''-Reg]', nil);
-    RegisterParameter('Python24Exe', '$[PYTHON24DIR]python.exe', nil);
+    RegisterParameter('Python23Dir', GetPythonDir('2.3'), nil);
+    RegisterParameter('Python24Dir', GetPythonDir('2.4'), nil);
+    RegisterParameter('Python25Dir', GetPythonDir('2.5'), nil);
     RegisterParameter('Python23Exe', '$[PYTHON23DIR]python.exe', nil);
-    RegisterParameter('PythonDir', 'Directory of active python version', GetPythonDir);
+    RegisterParameter('Python24Exe', '$[PYTHON24DIR]python.exe', nil);
+    RegisterParameter('Python25Exe', '$[PYTHON25DIR]python.exe', nil);
+    RegisterParameter('PythonDir', 'Directory of active python version', GetActivePythonDir);
     RegisterParameter('PythonExe', '$[PYTHONDIR]python.exe', nil);
     RegisterParameter('PythonVersion', 'Version of active Python', GetPythonVersion);
 

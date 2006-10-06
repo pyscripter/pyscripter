@@ -1365,7 +1365,7 @@ begin
     TracebackProc;
     if fTracebackEndRE.Exec(fLineStr) then
       fRange := rsUnknown;
-  end else if fTracebackStartRE.Exec(fLineStr) then begin
+  end else if (fLineLen < 100) and fTracebackStartRE.Exec(fLineStr) then begin
     fRange := rsTraceback;
     TracebackProc;
   end else
