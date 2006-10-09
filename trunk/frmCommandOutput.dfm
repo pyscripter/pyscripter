@@ -150,18 +150,18 @@ inherited OutputWindow: TOutputWindow
     Top = 88
     object RunningProcess: TTBXSubmenuItem
       Caption = 'Running Process'
-      object Close1: TTBXItem
+      object mnClose: TTBXItem
         Action = actToolClose
       end
-      object Quit1: TTBXItem
+      object mnQuit: TTBXItem
         Action = actToolQuit
       end
-      object erminate1: TTBXItem
+      object mnTerminate: TTBXItem
         Action = actToolTerminate
       end
       object N3: TTBXSeparatorItem
       end
-      object StopWaiting1: TTBXItem
+      object mnStopWaiting: TTBXItem
         Action = actToolStopWaiting
       end
     end
