@@ -1,0 +1,1 @@
+Copy the included files to the PyScripter installation folder overriding existing files.
