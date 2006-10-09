@@ -26,7 +26,7 @@ type
     RunningProcess: TTBXSubmenuItem;
     Close1: TTBXItem;
     Quit1: TTBXItem;
-    erminate1: TTBXItem;
+    erminate1: TTBXItem;   \
     N3: TTBXSeparatorItem;
     StopWaiting1: TTBXItem;
     N1: TTBXSeparatorItem;
