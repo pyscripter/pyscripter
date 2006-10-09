@@ -82,9 +82,7 @@ uses
   cFileTemplates in 'cFileTemplates.pas',
   dlgCodeTemplates in 'dlgCodeTemplates.pas' {CodeTemplates},
   JvAppIniStorage in 'JvAppIniStorage.pas',
-  dlgNewFile in 'dlgNewFile.pas' {NewFileDialog},
-  TinyWideStrings in 'TinyWideStrings.pas',
-  PythonEngine in 'PythonEngine.pas';
+  dlgNewFile in 'dlgNewFile.pas' {NewFileDialog};
 
 {$R *.RES}
 

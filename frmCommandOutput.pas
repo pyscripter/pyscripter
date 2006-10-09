@@ -24,11 +24,11 @@ type
     TimeoutTimer: TTimer;
     OutputPopup: TTBXPopupMenu;
     RunningProcess: TTBXSubmenuItem;
-    Close1: TTBXItem;
-    Quit1: TTBXItem;
-    erminate1: TTBXItem;   \
+    mnClose: TTBXItem;
+    mnQuit: TTBXItem;
+    mnTerminate: TTBXItem;
     N3: TTBXSeparatorItem;
-    StopWaiting1: TTBXItem;
+    mnStopWaiting: TTBXItem;
     N1: TTBXSeparatorItem;
     Copy1: TTBXItem;
     Clear1: TTBXItem;

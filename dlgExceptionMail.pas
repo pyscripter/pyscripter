@@ -121,7 +121,7 @@ implementation
 uses
   ClipBrd, Math,
   JclBase, JclFileUtils, JclHookExcept, JclPeImage, JclStrings, JclSysInfo, JclSysUtils,
-  uCommonFunctions;
+  uCommonFunctions, PythonEngine;
 
 resourcestring
   RsAppError = '%s - application error';
@@ -435,8 +435,9 @@ var
 begin
   SL := TStringList.Create;
   try
-    // Version Infor
+    // Version Info
     DetailsMemo.Lines.Add(Format('%s version : %s', [Application.Title, ApplicationVersion]));
+    DetailsMemo.Lines.Add(Format('Python DLL : %s', [GetPythonEngine.DllName]));
     NextDetailBlock;
     // Stack list
     if siStackList in SystemInfo then
