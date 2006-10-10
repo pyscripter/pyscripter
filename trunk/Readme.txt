@@ -5,7 +5,7 @@ To compile the PythonIDE.dpr, you first need to install the following components
 
    - JVCL version 3.2 built 2172 (jvcl.sf.net) and JCL versuib 1.97 (jcl.sf.net)
      Downolad the latest version
-   - Download FastMM from http://sourceforge.net/projects/fastmm/
+   - Download FastMM from http://sourceforge.net/projects/fastmm/ (Not needed for compiling with BDS2006)
      Rename FastMM4Options.inc to say OriginalFastMM4Options.inc so that project specific options will apply
    - Toolbar2000 version 2.1.8 (www.jrsoftware.org/tb2k.php)
    - TBX version 2.1b (from www.g32.org/tbx)
