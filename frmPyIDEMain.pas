@@ -202,6 +202,13 @@ Limitations: Python scripts are executed in the main thread
             Problems with sys.stdin.readline() and partial line output (stdout) statements
             Infinite loop when root of package is the top directory of a drive
 
+ History:   v 1.7.1
+          New Features
+            Repeat scrolling of editor tabs
+            Faster Python source file scanning
+          Bug fixes
+            Infinite loop with cyclical Python imports
+
   ** Pyscripter flickers a lot when resizing.  I do not know what to do
      about it. In fact this may be a Windows problem.  Even in .NET try the
      following using C#.  Create a form, add a panel with a caption aligned
@@ -835,6 +842,7 @@ begin
   //  Editor Views Menu
   GI_EditorFactory.SetupEditorViewMenu;
 
+  Update;
   SendMessage(EditorsPageList.Handle, WM_SETREDRAW, 0, 0);  // To avoid flicker
   try
     // Open Files on the command line
@@ -1660,6 +1668,7 @@ begin
     AppStorage.WriteString('File Explorer Path', FileExplorerWindow.ExplorerPath);
     AppStorage.WriteStringList('File Explorer Favourites', FileExplorerWindow.Favourites);
     AppStorage.WriteStringList('Custom Params', CustomParams);
+    AppStorage.DeleteSubTree('Tools');
     AppStorage.WriteCollection('Tools', ToolsCollection, 'Tool');
     AppStorage.WritePersistent('Tools\External Run', ExternalPython);
     AppStorage.WritePersistent('Output Window\Font', OutputWindow.lsbConsole.Font);
@@ -2011,8 +2020,8 @@ begin
       for i := 0 to Screen.FormCount - 1 do
         if Screen.Forms[i] is TIDEDockWindow then
           TIDEDockWindow(Screen.Forms[i]).FGPanelExit(Self);
-    FileExplorerWindow.FileExplorerTree.TreeOptions.VETMiscOptions :=
-      FileExplorerWindow.FileExplorerTree.TreeOptions.VETMiscOptions + [toChangeNotifierThread];
+      FileExplorerWindow.FileExplorerTree.TreeOptions.VETMiscOptions :=
+        FileExplorerWindow.FileExplorerTree.TreeOptions.VETMiscOptions + [toChangeNotifierThread];
     end;
     if Assigned(SaveActiveControl) and SaveActiveControl.Visible
       and SaveActiveControl.CanFocus
@@ -2026,6 +2035,7 @@ end;
 
 procedure TPyIDEMainForm.SaveLayout(Layout: string);
 begin
+  Appstorage.DeleteSubTree('Layouts\'+Layout);
   SaveDockTreeToAppStorage(AppStorage, 'Layouts\'+ Layout);
 end;
 

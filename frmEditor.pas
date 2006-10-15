@@ -1984,8 +1984,9 @@ begin
           BuiltInModule.GetNameSpace(NameSpace);
         end;
 
-        SortedNameSpace.AddStrings(NameSpace);
+        SortedNameSpace.Duplicates := dupIgnore;
         SortedNameSpace.Sorted := True;
+        SortedNameSpace.AddStrings(NameSpace);
         InsertText := SortedNamespace.Text;
         for i := 0 to SortedNamespace.Count - 1 do begin
           S := SortedNamespace[i];

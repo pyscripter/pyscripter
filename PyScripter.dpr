@@ -82,7 +82,9 @@ uses
   cFileTemplates in 'cFileTemplates.pas',
   dlgCodeTemplates in 'dlgCodeTemplates.pas' {CodeTemplates},
   JvAppIniStorage in 'JvAppIniStorage.pas',
-  dlgNewFile in 'dlgNewFile.pas' {NewFileDialog};
+  dlgNewFile in 'dlgNewFile.pas' {NewFileDialog},
+  JvDockInfo in 'JvDockInfo.pas',
+  JvTabBar in 'JvTabBar.pas';
 
 {$R *.RES}
 
@@ -95,4 +97,5 @@ begin
   Application.CreateForm(TPyIDEMainForm, PyIDEMainForm);
   Application.Run;
 end.
+
 

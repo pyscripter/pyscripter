@@ -376,7 +376,7 @@ end;
 function TPyBaseDebugger.SyntaxCheck(Editor: IEditor; Quiet : Boolean = False): Boolean;
 Var
   FName, Source : string;
-  d, tmp: PPyObject;
+  tmp: PPyObject;
   PyErrType, PyErrValue, PyErrTraceback, PyErrValueTuple : PPyObject;
   SupressOutput : IInterface;
 begin
@@ -398,7 +398,7 @@ begin
         if Assigned(PyErr_Occurred()) and
           (PyErr_ExceptionMatches(PyExc_SyntaxError^) = 1) then
         begin
-          PyErr_Fetch(@PyErrType, @PyErrValue, @PyErrTraceback);
+          PyErr_Fetch(@PyErrType, @PyErrValue, @PyErrTraceback);  // Clears the Error
           if Assigned(PyErrValue) then begin
           // Sometimes there's a tuple instead of instance...
             if PyTuple_Check( PyErrValue )  and (PyTuple_Size( PyErrValue) >= 2) then
@@ -412,21 +412,24 @@ begin
               end;
             end else
               // Is it an instance of the SyntaxError class ?
-            if PyInstance_Check( PyErrValue ) then begin
-              // Get informations from the instance object
-              d := PPyInstanceObject(PyErrValue)^.in_dict;
-              // Get the offset where the error should appear
-              tmp := PyDict_GetItemString( d, 'offset' );
-              if Assigned(tmp) and PyInt_Check(tmp) then
-                fErrorPos.Char := PyInt_AsLong(tmp);
-              // Get the line number of the error
-              tmp := PyDict_GetItemString( d, 'lineno' );
-              if Assigned(tmp) and PyInt_Check(tmp) then
-                fErrorPos.Line := PyInt_AsLong(tmp);
+            if PyInstance_Check( PyErrValue ) or (PyType_IsSubtype(PyErrValue^.ob_type,
+              PPyTypeObject(GetPythonEngine.PyExc_SyntaxError^)) = 1) then
+            begin
               // Get the text containing the error, cut of carriage return
-              tmp := PyDict_GetItemString( d, 'text' );
+              tmp := PyObject_GetAttrString(PyErrValue, 'text');
               if Assigned(tmp) and PyString_Check(tmp) then
                 fErrorPos.ErrorMsg := Trim(PyString_AsString(tmp));
+              Py_XDECREF(tmp);
+              // Get the offset where the error should appear
+              tmp := PyObject_GetAttrString(PyErrValue, 'offset' );
+              if Assigned(tmp) and PyInt_Check(tmp) then
+                fErrorPos.Char := PyInt_AsLong(tmp);
+              Py_XDECREF(tmp);
+              // Get the line number of the error
+              tmp := PyObject_GetAttrString(PyErrValue, 'lineno' );
+              if Assigned(tmp) and PyInt_Check(tmp) then
+                fErrorPos.Line := PyInt_AsLong(tmp);
+              Py_XDECREF(tmp);
             end;
             FErrorPos.Editor := Editor;
             fErrorPos.IsSyntax := True;

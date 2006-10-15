@@ -123,6 +123,7 @@ Type
   protected
     function GetAllExportsVar: string; virtual;
     function GetCodeHint : string; override;
+    procedure GetNameSpaceInternal(SList, ImportedModuleCache : TStringList);
 public
     constructor Create;
     destructor Destroy; override;
@@ -1004,58 +1005,83 @@ begin
 end;
 
 procedure TParsedModule.GetNameSpace(SList: TStringList);
-Var
-  i, j, Index, CurrentCount: integer;
-  ModuleImport : TModuleImport;
-  ParsedModule : TParsedModule;
-  PackageRootName : string;
-  PythonPathAdder : IInterface;
-  Path : string;
+{
+   GetNameSpaceInternal takes care of cyclic imports
+}
+var
+  ImportedModuleCache : TStringList;
 begin
-  inherited;
+  ImportedModuleCache := TStringList.Create;
+  try
+    GetNameSpaceInternal(SList, ImportedModuleCache);
+  finally
+    ImportedModuleCache.Free;
+  end;
+end;
+
+procedure TParsedModule.GetNameSpaceInternal(SList, ImportedModuleCache : TStringList);
+var
+  CurrentCount: Integer;
+  j: Integer;
+  Index: Integer;
+  Path: string;
+  PackageRootName: string;
+  i: Integer;
+  PythonPathAdder: IInterface;
+  ModuleImport: TModuleImport;
+  ParsedModule: TParsedModule;
+begin
+  if ImportedModuleCache.IndexOf(FileName) >= 0 then
+    Exit;  //  Called from a circular input
+
+  ImportedModuleCache.Add(FileName);
+
+  inherited GetNameSpace(SList);
+
   //  Add from Globals
   for i := 0 to fGlobals.Count - 1 do
     SList.AddObject(TVariable(fGlobals[i]).Name, fGlobals[i]);
-
   //  Add from imported modules
   Path := ExtractFileDir(Self.fFileName);
-  if Length(Path) > 1 then begin
+  if Length(Path) > 1 then
+  begin
     // Add the path of the executed file to the Python path
     PythonPathAdder := AddPathToPythonPath(Path);
   end;
-
-  for i := 0 to fImportedModules.Count - 1 do begin
+  for i := 0 to fImportedModules.Count - 1 do
+  begin
     ModuleImport := TModuleImport(fImportedModules[i]);
-
     // imported names
-    if ModuleImport.ImportAll then begin
+    if ModuleImport.ImportAll then
+    begin
       // from "module import *" imports
       ParsedModule := PyScripterRefactor.GetParsedModule(ModuleImport.Name, None);
-      if not Assigned(ParsedModule) then break;
+      //  Deal with modules imported themselves (yes it can happen!)
+      if not Assigned(ParsedModule) or (ParsedModule = Self) then
+        break;
       CurrentCount := SList.Count;
-      ParsedModule.GetNameSpace(SList);
+      ParsedModule.GetNameSpaceInternal(SList, ImportedModuleCache);
       // Now filter out added names for private and accounting for __all__
       if not (ParsedModule is TModuleProxy) then
-        for j := Slist.Count - 1 downto CurrentCount do begin
-          if (StrIsLeft(PChar(SList[j]), '__') and not StrIsRight(Pchar(SList[j]), '__')) or
-             ((ParsedModule.AllExportsVar <> '') and
-              (Pos(SList[j], ParsedModule.AllExportsVar) = 0))
-          then
+        for j := Slist.Count - 1 downto CurrentCount do
+        begin
+          if (StrIsLeft(PChar(SList[j]), '__') and not StrIsRight(Pchar(SList[j]), '__')) or ((ParsedModule.AllExportsVar <> '') and (Pos(SList[j], ParsedModule.AllExportsVar) = 0)) then
             SList.Delete(j);
         end;
-    end else if Assigned(ModuleImport.ImportedNames) then
+    end
+    else if Assigned(ModuleImport.ImportedNames) then
       for j := 0 to ModuleImport.ImportedNames.Count - 1 do
-        SList.AddObject(TVariable(ModuleImport.ImportedNames[j]).Name,
-          ModuleImport.ImportedNames[j]);
-
+        SList.AddObject(TVariable(ModuleImport.ImportedNames[j]).Name, ModuleImport.ImportedNames[j]);
     // imported modules
     Index := CharPos(ModuleImport.Name, '.');
     if Index = 0 then
       SList.AddObject(ModuleImport.Name, ModuleImport)
-    else if Index > 0 then begin
+    else if Index > 0 then
+    begin
       // we have a package import add implicit import name
-      PackageRootName := Copy(ModuleImport.Name, 1, Index-1);
-      if SList.IndexOf(PackageRootName) < 0 then begin
+      PackageRootName := Copy(ModuleImport.Name, 1, Index - 1);
+      if SList.IndexOf(PackageRootName) < 0 then
+      begin
         ParsedModule := PyScripterRefactor.GetParsedModule(PackageRootName, None);
         if Assigned(ParsedModule) then
           SList.AddObject(PackageRootName, ParsedModule);
