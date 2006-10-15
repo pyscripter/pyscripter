@@ -38,7 +38,7 @@ var
   Translate: TTranslateProc;
 
 (* checks if AText starts with ALeft *)
-function StrIsLeft(const AText, ALeft: PChar): Boolean;
+function StrIsLeft(AText, ALeft: PChar): Boolean;
 
 (* checks if AText ends with ARight *)
 function StrIsRight(AText, ARight: PChar): Boolean;
@@ -172,17 +172,14 @@ begin
   Result:= AText;
 end;
 
-function StrIsLeft(const AText, ALeft: PChar): Boolean;
+function StrIsLeft(AText, ALeft: PChar): Boolean;
 (* checks if AText starts with ALeft *)
-var
-  i: Integer;
 begin
-  Result:= ALeft = nil;
-  if not Result and Assigned(AText) and (Length(ALeft) <= Length(AText)) then begin
-    for i:= 0 to Length(ALeft)-1 do
-      if (ALeft + i)^ <> (AText + i)^ then Exit;
-    Result:= True;
+  while (ALeft^ <> #0) and (AText^ <> #0) and (ALeft^ = AText^) do begin
+    Inc(ALeft);
+    Inc(AText);
   end;
+  Result := ALeft^ = #0;
 end;
 
 function StrIsRight(AText, ARight: PChar): Boolean;
