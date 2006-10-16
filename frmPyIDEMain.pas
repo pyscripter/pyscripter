@@ -205,6 +205,7 @@ Limitations: Python scripts are executed in the main thread
  History:   v 1.7.1
           New Features
             Repeat scrolling of editor tabs
+            Massively improved start up time
             Faster Python source file scanning
           Bug fixes
             Infinite loop with cyclical Python imports
@@ -864,6 +865,8 @@ begin
     EditorsPageList.Invalidate;
     if Assigned(GetActiveEditor()) then
       GetActiveEditor.Activate;
+    // Start the Python Code scanning thread
+    CodeExplorerWindow.WorkerThread.Resume;
   end;
 
   // To get round the XP drawing bug with ExternalToolLED
@@ -2505,6 +2508,13 @@ begin
   SetupToolsMenu;
   SetupLayoutsMenu;
   SetupSyntaxMenu;
+
+  // Activate File Explorer
+  with FileExplorerWindow.FileExplorerTree do begin
+    TreeOptions.VETMiscOptions :=
+      TreeOptions.VETMiscOptions + [toChangeNotifierThread];
+    Active := True;
+  end;
 end;
 
 procedure TPyIDEMainForm.JvAppInstancesCmdLineReceived(Sender: TObject;

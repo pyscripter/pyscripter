@@ -84,7 +84,8 @@ uses
   JvAppIniStorage in 'JvAppIniStorage.pas',
   dlgNewFile in 'dlgNewFile.pas' {NewFileDialog},
   JvDockInfo in 'JvDockInfo.pas',
-  JvTabBar in 'JvTabBar.pas';
+  JvTabBar in 'JvTabBar.pas',
+  SynEdit in 'SynEdit.pas';
 
 {$R *.RES}
 

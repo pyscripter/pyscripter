@@ -176,12 +176,10 @@ type
     procedure mnExpandAllClick(Sender: TObject);
     procedure nCollapseAllClick(Sender: TObject);
     procedure FormActivate(Sender: TObject);
-  private
-    { Private declarations }
-    fWorkerThread: TThread;
   public
     { Public declarations }
     ModuleCENode : TModuleCENode;
+    WorkerThread: TThread;
     procedure ClearAll;
     procedure UpdateWindow;
     procedure ShutDownWorkerThread;
@@ -233,7 +231,7 @@ begin
   fScanEventHandle := CreateEvent(nil, FALSE, FALSE, nil);
   if (fScanEventHandle = 0) or (fScanEventHandle = INVALID_HANDLE_VALUE) then
     raise EOutOfResources.Create('Couldn''t create WIN32 event object');
-  Resume;
+  //Resume;  It is resumed from the main form
 end;
 
 destructor TScanCodeThread.Destroy;
@@ -371,7 +369,7 @@ begin
   // Let the tree know how much data space we need.
   ExplorerTree.NodeDataSize := SizeOf(TNodeDataRec);
   ModuleCENode := nil;
-  fWorkerThread := TScanCodeThread.Create;
+  WorkerThread := TScanCodeThread.Create;
 end;
 
 procedure TCodeExplorerWindow.ExplorerTreeInitNode(Sender: TBaseVirtualTree;
@@ -463,8 +461,8 @@ end;
 
 procedure TCodeExplorerWindow.UpdateWindow;
 begin
-  if Visible and Assigned(fWorkerThread) then
-    TScanCodeThread(fWorkerThread).SetModified;
+  if Visible and Assigned(WorkerThread) then
+    TScanCodeThread(WorkerThread).SetModified;
 end;
 
 procedure TCodeExplorerWindow.ClearAll;
@@ -482,10 +480,10 @@ end;
 
 procedure TCodeExplorerWindow.ShutDownWorkerThread;
 begin
-  if fWorkerThread <> nil then begin
-    TScanCodeThread(fWorkerThread).Shutdown;
-    TScanCodeThread(fWorkerThread).WaitFor;
-    FreeAndNil(fWorkerThread);
+  if WorkerThread <> nil then begin
+    TScanCodeThread(WorkerThread).Shutdown;
+    TScanCodeThread(WorkerThread).WaitFor;
+    FreeAndNil(WorkerThread);
   end;
 end;
 
