@@ -185,14 +185,13 @@ end;
 function StrIsRight(AText, ARight: PChar): Boolean;
 (* checks if AText ends with ARight *)
 var
-  i: Integer;
+  LenDiff: Integer;
 begin
   Result:= ARight = nil;
-  if not Result and Assigned(AText) and (Length(ARight) <= Length(AText)) then begin
-    Inc(AText, Length(AText)-Length(ARight));
-    for i:= 0 to Length(ARight)-1 do
-      if (ARight + i)^ <> (AText + i)^ then Exit;
-    Result:= True;
+  LenDiff := StrLen(AText) - StrLen(ARight);
+  if not Result and (LenDiff >= 0) then begin
+    Inc(AText, LenDiff);
+    Result := StrIsLeft(AText, ARight);
   end;
 end;
 
