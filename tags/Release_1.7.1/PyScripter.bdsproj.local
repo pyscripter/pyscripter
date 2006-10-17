@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2005/11/14 00:43:35.773.pas,C:\Sandbox\P4D\PythonForDelphi\PythonIDE\Unit1.pas=C:\Sandbox\P4D\PythonForDelphi\PythonIDE\frmRegExpTesting.pas</Transaction>
+    <Transaction>2005/11/14 00:43:35.773.dfm,C:\Sandbox\P4D\PythonForDelphi\PythonIDE\Unit1.dfm=C:\Sandbox\P4D\PythonForDelphi\PythonIDE\frmRegExpTesting.dfm</Transaction>
+    <Transaction>2005/11/14 00:45:32.220.pas,C:\Sandbox\P4D\PythonForDelphi\PythonIDE\frmRegExpTesting.pas=C:\Sandbox\P4D\PythonForDelphi\PythonIDE\frmRegExpTester.pas</Transaction>
+    <Transaction>2005/11/14 00:45:32.220.dfm,C:\Sandbox\P4D\PythonForDelphi\PythonIDE\frmRegExpTesting.dfm=C:\Sandbox\P4D\PythonForDelphi\PythonIDE\frmRegExpTester.dfm</Transaction>
+    <Transaction>2005/12/08 15:21:32.860.pas,C:\Sandbox\P4D\PythonForDelphi\PythonIDE\Unit1.pas=C:\Sandbox\P4D\PythonForDelphi\PythonIDE\cCodeHint.pas</Transaction>
+    <Transaction>2006/01/15 01:31:27.090.pas,C:\Sandbox\P4D\PythonForDelphi\PythonIDE\JvJVCLUtils.pas=</Transaction>
+    <Transaction>2006/02/10 00:28:44.521.pas,C:\Sandbox\P4D\PythonForDelphi\PythonIDE\Unit1.pas=C:\Sandbox\P4D\PythonForDelphi\PythonIDE\dlgCommandLine.pas</Transaction>
+    <Transaction>2006/02/10 00:28:44.581.dfm,C:\Sandbox\P4D\PythonForDelphi\PythonIDE\Unit1.dfm=C:\Sandbox\P4D\PythonForDelphi\PythonIDE\dlgCommandLine.dfm</Transaction>
+    <Transaction>2006/02/21 20:25:49.517.pas,C:\Sandbox\P4D\PythonForDelphi\PythonIDE\frmCustomShortcuts.pas=C:\Sandbox\P4D\PythonForDelphi\PythonIDE\dlgCustomShortcuts.pas</Transaction>
+    <Transaction>2006/02/21 20:25:49.517.dfm,C:\Sandbox\P4D\PythonForDelphi\PythonIDE\frmCustomShortcuts.dfm=C:\Sandbox\P4D\PythonForDelphi\PythonIDE\dlgCustomShortcuts.dfm</Transaction>
+    <Transaction>2006/03/01 12:40:40.562.pas,C:\Sandbox\P4D\PythonForDelphi\PythonIDE\Unit1.pas=C:\Sandbox\P4D\PythonForDelphi\PythonIDE\dlgUnitTestWizard.pas</Transaction>
+    <Transaction>2006/03/01 12:40:40.578.dfm,C:\Sandbox\P4D\PythonForDelphi\PythonIDE\Unit1.dfm=C:\Sandbox\P4D\PythonForDelphi\PythonIDE\dlgUnitTestWizard.dfm</Transaction>
+    <Transaction>2006/03/02 18:46:32.272.pas,C:\Sandbox\P4D\PythonForDelphi\PythonIDE\Unit1.pas=C:\Sandbox\P4D\PythonForDelphi\PythonIDE\frmUnitTests.pas</Transaction>
+    <Transaction>2006/03/02 18:46:32.272.dfm,C:\Sandbox\P4D\PythonForDelphi\PythonIDE\Unit1.dfm=C:\Sandbox\P4D\PythonForDelphi\PythonIDE\frmUnitTests.dfm</Transaction>
+    <Transaction>2006/03/09 18:15:11.570.pas,C:\Sandbox\P4D\PythonForDelphi\PythonIDE\Unit1.pas=C:\Sandbox\P4D\PythonForDelphi\PythonIDE\cFilePersist.pas</Transaction>
+    <Transaction>2006/03/11 03:13:48.806.pas,C:\Sandbox\P4D\PythonForDelphi\PythonIDE\Unit1.pas=C:\Sandbox\P4D\PythonForDelphi\PythonIDE\dlgPickList.pas</Transaction>
+    <Transaction>2006/03/11 03:13:48.837.dfm,C:\Sandbox\P4D\PythonForDelphi\PythonIDE\Unit1.dfm=C:\Sandbox\P4D\PythonForDelphi\PythonIDE\dlgPickList.dfm</Transaction>
+    <Transaction>2006/03/15 02:58:21.252.pas,C:\Sandbox\P4D\PythonForDelphi\PythonIDE\dlgAboutPyScripter.pas=</Transaction>
+    <Transaction>2006/03/15 02:58:21.267.dfm,C:\Sandbox\P4D\PythonForDelphi\PythonIDE\dlgAboutPyScripter.dfm=</Transaction>
+    <Transaction>2006/03/16 15:15:14.125.pas,C:\Sandbox\P4D\PythonForDelphi\PythonIDE\uMMMXP_MainService.pas=</Transaction>
+    <Transaction>2006/04/02 00:57:24.686.pas,C:\Sandbox\P4D\PythonForDelphi\PythonIDE\JvAppStorage.pas=</Transaction>
+    <Transaction>2006/04/20 22:03:34.794.pas,C:\Sandbox\P4D\PythonForDelphi\PythonIDE\Unit1.pas=C:\Sandbox\P4D\PythonForDelphi\PythonIDE\cPyDebuggerBase.pas</Transaction>
+    <Transaction>2006/04/21 04:39:58.954.pas,C:\Sandbox\P4D\PythonForDelphi\PythonIDE\cPyDebuggerBase.pas=C:\Sandbox\P4D\PythonForDelphi\PythonIDE\cPyBaseDebugger.pas</Transaction>
+    <Transaction>2006/04/21 04:48:40.093.pas,C:\Sandbox\P4D\PythonForDelphi\PythonIDE\Unit1.pas=C:\Sandbox\P4D\PythonForDelphi\PythonIDE\cPyRemoteDebugger.pas</Transaction>
+    <Transaction>2006/05/31 06:11:35.209.pas,C:\Delphi\progs32\PythonIDE\SynHighlighterMulti.pas=</Transaction>
+    <Transaction>2006/06/01 00:25:36.274.pas,C:\Delphi\progs32\PythonIDE\SynEditHighlighter.pas=</Transaction>
+    <Transaction>2006/08/08 23:18:38.734.pas,C:\Sandbox\P4D\PythonForDelphi\PythonIDE\Unit1.pas=C:\Sandbox\P4D\PythonForDelphi\PythonIDE\cFileTemplates.pas</Transaction>
+    <Transaction>2006/08/12 19:08:01.975.pas,C:\Sandbox\P4D\PythonForDelphi\PythonIDE\dlgCodeTemplates.pas=C:\Sandbox\P4D\PythonForDelphi\PythonIDE\dlgFileTemplates.pas</Transaction>
+    <Transaction>2006/08/12 19:08:01.995.dfm,C:\Sandbox\P4D\PythonForDelphi\PythonIDE\dlgCodeTemplates.dfm=C:\Sandbox\P4D\PythonForDelphi\PythonIDE\dlgFileTemplates.dfm</Transaction>
+    <Transaction>2006/08/15 00:51:31.074.pas,C:\Sandbox\P4D\PythonForDelphi\PythonIDE\Unit1.pas=C:\Sandbox\P4D\PythonForDelphi\PythonIDE\dlgNewFile.pas</Transaction>
+    <Transaction>2006/08/15 00:51:31.154.dfm,C:\Sandbox\P4D\PythonForDelphi\PythonIDE\Unit1.dfm=C:\Sandbox\P4D\PythonForDelphi\PythonIDE\dlgNewFile.dfm</Transaction>
+    <Transaction>2006/09/23 02:28:25.884.pas,C:\Sandbox\P4D\PythonForDelphi\PythonIDE\Unit1.pas=C:\Sandbox\P4D\PythonForDelphi\PythonIDE\TinyWideStrings.pas</Transaction>
+  </Transactions>
+</BorlandProject>

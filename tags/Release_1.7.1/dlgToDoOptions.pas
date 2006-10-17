@@ -1,0 +1,249 @@
+{-----------------------------------------------------------------------------
+ Unit Name: dlgToDoOptions
+ Author:    Kiriakos Vlahos
+ Date:      19-May-2005
+ Purpose:   Form to configure Todo options
+ History:   Based on GExperts unit and covered by its licence
+            Original Author: AJ Banck <ajbanck@davilex.nl>
+
+GExperts License Agreement
+GExperts is copyright 1996-2005 by GExperts, Inc, Erik Berry, and several other
+authors who have submitted their code for inclusion. This license agreement only covers code written by GExperts, Inc and Erik Berry. You should contact the other authors concerning their respective copyrights and conditions.
+
+The rules governing the use of GExperts and the GExperts source code are derived
+from the official Open Source Definition, available at http://www.opensource.org.
+The conditions and limitations are as follows:
+
+    * Usage of GExperts binary distributions is permitted for all developers.
+      You may not use the GExperts source code to develop proprietary or
+      commercial products including plugins or libraries for those products.
+      You may use the GExperts source code in an Open Source project, under the
+      terms listed below.
+    * You may not use the GExperts source code to create and distribute custom
+      versions of GExperts under the "GExperts" name. If you do modify and
+      distribute custom versions of GExperts, the binary distribution must be
+      named differently and clearly marked so users can tell they are not using
+      the official GExperts distribution. A visible and unmodified version of
+      this license must appear in any modified distribution of GExperts.
+    * Custom distributions of GExperts must include all of the custom changes
+      as a patch file that can be applied to the original source code. This
+      restriction is in place to protect the integrity of the original author's
+      source code. No support for modified versions of GExperts will be provided
+      by the original authors or on the GExperts mailing lists.
+    * All works derived from GExperts must be distributed under a license
+      compatible with this license and the official Open Source Definition,
+      which can be obtained from http://www.opensource.org/.
+    * Please note that GExperts, Inc. and the other contributing authors hereby
+      state that this package is provided "as is" and without any express or
+      implied warranties, including, but not without limitation, the implied
+      warranties of merchantability and fitness for a particular purpose. In
+      other words, we accept no liability for any damage that may result from
+      using GExperts or programs that use the GExperts source code.
+-----------------------------------------------------------------------------}
+unit dlgToDoOptions;
+
+interface
+
+
+uses
+  Classes, Controls, StdCtrls, Forms;
+
+type
+  TfmToDoOptions = class(TForm)
+    btnOK: TButton;
+    btnCancel: TButton;
+    gbxTokens: TGroupBox;
+    gbxOptions: TGroupBox;
+    cbShowTokens: TCheckBox;
+    lblPriority: TLabel;
+    lblToken: TLabel;
+    lstTokens: TListBox;
+    btnInsert: TButton;
+    btnApply: TButton;
+    btnRemove: TButton;
+    edToken: TEdit;
+    cboPriority: TComboBox;
+    gbxSearchFiles: TGroupBox;
+    btnBrowse: TButton;
+    chkInclude: TCheckBox;
+    radScanOpen: TRadioButton;
+    radScanDir: TRadioButton;
+    meDirectories: TMemo;
+    btnHelp: TButton;
+    procedure btnInsertClick(Sender: TObject);
+    procedure btnRemoveClick(Sender: TObject);
+    procedure btnApplyClick(Sender: TObject);
+    procedure edTokenChange(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure lstTokensClick(Sender: TObject);
+    procedure cboPriorityChange(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure radScanDirClick(Sender: TObject);
+    procedure btnBrowseClick(Sender: TObject);
+    procedure btnHelpClick(Sender: TObject);
+  private
+    procedure UpdateButtonState;
+    procedure DirEnable(New: Boolean);
+  end;
+
+implementation
+
+{$R *.dfm}
+
+uses
+  Dialogs, Graphics, SysUtils, frmToDo, dlgDirectoryList;
+
+procedure TfmToDoOptions.UpdateButtonState;
+var
+  HasTokenText: Boolean;
+  TokenTextInList: Boolean;
+  IsListItemSelected: Boolean;
+  TextIsCurrentListItem: Boolean;
+begin
+  HasTokenText := (edToken.Text <> '');
+  TokenTextInList := (lstTokens.Items.IndexOf(edToken.Text) > -1);
+  IsListItemSelected := (lstTokens.ItemIndex > -1);
+
+  with lstTokens do
+    TextIsCurrentListItem := IsListItemSelected and (edToken.Text = Items[ItemIndex]);
+
+  btnInsert.Enabled := HasTokenText and not TokenTextInList;
+  btnRemove.Enabled := IsListItemSelected;
+  btnApply.Enabled := HasTokenText and IsListItemSelected and TokenTextInList;
+
+  if TextIsCurrentListItem then
+    with lstTokens do
+    begin
+      if (cboPriority.ItemIndex = Ord(TTokenInfo(Items.Objects[ItemIndex]).Priority)) then
+        btnApply.Enabled := False;
+    end;
+end;
+
+procedure TfmToDoOptions.btnBrowseClick(Sender: TObject);
+begin
+  EditFolderList(meDirectories.Lines, 'To Do search path ')
+end;
+
+procedure TfmToDoOptions.DirEnable(New: Boolean);
+begin
+  meDirectories.Enabled := New;
+  chkInclude.Enabled   := New;
+  btnBrowse.Enabled    := New;
+  if not New then
+    meDirectories.Color := clBtnFace
+  else
+    meDirectories.Color := clWindow;
+end;
+
+procedure TfmToDoOptions.btnInsertClick(Sender: TObject);
+resourcestring
+  SLeadingDollarNotAllowed = 'A leading "$" character is not allowed in tokens, '+
+                             'as this can conflict with Object Pascal compiler options.' + sLineBreak +
+                             sLineBreak +
+                             'Please choose a different token.';
+
+  SEmptyTokenTextError = 'You cannot insert a token that only consists of white space.';
+var
+  TokenInfo: TTokenInfo;
+  TokenString: string;
+begin
+  TokenString := Trim(edToken.Text);
+  if TokenString <> '' then
+  begin
+    if TokenString[1] = '$' then
+    begin
+      MessageDlg(SLeadingDollarNotAllowed, mtError, [mbOk], 0);
+      Exit;
+    end;
+
+    TokenInfo := TTokenInfo.Create;
+    TokenInfo.Token := TokenString;
+    TokenInfo.Priority := TTodoPriority(cboPriority.ItemIndex);
+    lstTokens.Items.AddObject(TokenInfo.Token, TokenInfo);
+  end
+  else
+  begin
+    // Warning message that an empty token is inserted
+    MessageDlg(SEmptyTokenTextError, mtError, [mbOK], 0);
+  end;
+  UpdateButtonState;
+end;
+
+procedure TfmToDoOptions.btnRemoveClick(Sender: TObject);
+begin
+  with lstTokens do
+    if ItemIndex <> -1 then
+    begin
+      Items.Objects[ItemIndex].Free;
+      Items.Delete(ItemIndex);
+    end;
+  UpdateButtonState;
+end;
+
+procedure TfmToDoOptions.btnApplyClick(Sender: TObject);
+var
+  TokenText: string;
+begin
+  with lstTokens do
+  begin
+    TokenText := edToken.Text;
+
+    if (ItemIndex > -1) and (TokenText <> '') and
+       Assigned(Items.Objects[ItemIndex]) then
+    begin
+      Items[ItemIndex] := TokenText;
+      with TTokeninfo(Items.Objects[ItemIndex]) do
+      begin
+        Token := TokenText;
+        Priority := TToDoPriority(cboPriority.ItemIndex);
+      end;
+    end;
+  end;
+  UpdateButtonState;
+end;
+
+procedure TfmToDoOptions.edTokenChange(Sender: TObject);
+begin
+  UpdateButtonState;
+end;
+
+procedure TfmToDoOptions.FormShow(Sender: TObject);
+begin
+  cboPriority.ItemIndex := 1;
+  UpdateButtonState;
+end;
+
+procedure TfmToDoOptions.lstTokensClick(Sender: TObject);
+begin
+  UpdateButtonState;
+  if lstTokens.ItemIndex > -1 then
+  begin
+    with lstTokens do
+    begin
+      cboPriority.ItemIndex := Ord(TTokenInfo(Items.Objects[ItemIndex]).Priority);
+      edToken.Text := Items[ItemIndex]
+    end;
+  end;
+end;
+
+procedure TfmToDoOptions.cboPriorityChange(Sender: TObject);
+begin
+  UpdateButtonState;
+end;
+
+procedure TfmToDoOptions.FormCreate(Sender: TObject);
+begin
+  DirEnable(radScanDir.Checked);
+end;
+
+procedure TfmToDoOptions.radScanDirClick(Sender: TObject);
+begin
+  DirEnable(radScanDir.Checked);
+end;
+
+procedure TfmToDoOptions.btnHelpClick(Sender: TObject);
+begin
+  Application.HelpContext(HelpContext);
+end;
+
+end.
