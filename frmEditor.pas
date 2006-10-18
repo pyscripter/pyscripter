@@ -593,10 +593,7 @@ begin
                 PyEncoding := ParsePySourceEncoding(S);
               end;
               FileStream.Seek(0, soFromBeginning);
-              if PyEncoding = 'utf-8' then begin
-                fFileEncoding := seUTF8;
-                LoadFromStream(fForm.SynEdit.Lines, FileStream, seUTF8);
-              end else if PyEncoding <> '' then begin
+              if PyEncoding <> '' then begin
                 Len := FileStream.Size;
                 SetLength(S, Len);
                 FileStream.ReadBuffer(S[1], Len);

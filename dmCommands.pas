@@ -1168,6 +1168,8 @@ begin
       Canvas.Brush.Color := SynEdit.ActiveLineColor
     else if Attri.Background <> clNone then
       Canvas.Brush.Color := Attri.Background
+    else if SynPythonSyn.SpaceAttri.Background <> clNone then
+      Canvas.Brush.Color := SynPythonSyn.SpaceAttri.Background
     else
       Canvas.Brush.Color := Synedit.Color;
 
@@ -1201,6 +1203,8 @@ begin
         Canvas.Brush.Color := SynEdit.ActiveLineColor
       else if Attri.Background <> clNone then
         Canvas.Brush.Color := Attri.Background
+      else if SynPythonSyn.SpaceAttri.Background <> clNone then
+        Canvas.Brush.Color := SynPythonSyn.SpaceAttri.Background
       else
         Canvas.Brush.Color := Synedit.Color;
       Pix := SynEdit.RowColumnToPixels(PMD);
