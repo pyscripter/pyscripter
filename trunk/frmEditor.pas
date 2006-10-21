@@ -209,7 +209,8 @@ uses
   frmBreakPoints, Variants, dmCommands, JclFileUtils,
   TBXThemes, StringResources, JclStrings, VarPyth, cRefactoring,
   cPythonSourceScanner, cCodeHint, frmPythonII, dlgConfirmReplace, Math,
-  JvTypes, frmWatches, JclSysUtils, PythonEngine, frmMessages;
+  JvTypes, frmWatches, JclSysUtils, PythonEngine, frmMessages,
+  SynEditTextBuffer;
 
 const
   WM_DELETETHIS  =  WM_USER + 42;
@@ -463,30 +464,44 @@ end;
 
 function TEditor.GetEncodedText: string;
 var
-  PyEncoding: string;
-  S: string;
+  PyEncoding : string;
   UniPy, EncodeMethod, Args, EncodedString : PPyObject;
-  wStr : WideString;
+  wStr, LineBreak : WideString;
   SupressOutput : IInterface;
 begin
+  case (fForm.SynEdit.Lines as TSynEditStringList).FileFormat of
+    sffDos:
+      LineBreak := WideCRLF;
+    sffUnix:
+      LineBreak := WideLF;
+    sffMac:
+      LineBreak := WideCR;
+    sffUnicode:
+      if fFileEncoding = seAnsi then
+        // Ansi-file cannot contain Unicode LINE SEPARATOR,
+        // so default to platform-specific Ansi-compatible LineBreak
+        LineBreak := SynUnicode.SLineBreak
+      else
+        LineBreak := WideLineSeparator;
+  end;
+
+  wStr := fForm.SynEdit.Lines.GetSeparatedText(LineBreak);
+
   case fFileEncoding of
     seAnsi :
       if HasPythonFile then begin
         PyEncoding := '';
-        S := iff(fForm.SynEdit.Lines.Count > 0, fForm.SynEdit.Lines[0], '');
-        PyEncoding := ParsePySourceEncoding(S);
-        if PyEncoding = '' then begin
-          S := iff(fForm.SynEdit.Lines.Count > 1, fForm.SynEdit.Lines[1], '');
-          PyEncoding := ParsePySourceEncoding(S);
-        end;
+        if fForm.SynEdit.Lines.Count > 0 then
+          PyEncoding := ParsePySourceEncoding(fForm.SynEdit.Lines[0]);
+        if (PyEncoding = '') and (fForm.SynEdit.Lines.Count > 1) then
+          PyEncoding := ParsePySourceEncoding(fForm.SynEdit.Lines[1]);
 
         if PyEncoding = 'utf-8' then
-          Result := UTF8BOMString + UTF8Encode(fForm.SynEdit.Text)
+          Result := UTF8BOMString + UTF8Encode(wStr)
         else with GetPythonEngine do begin
           if PyEncoding = '' then
             PyEncoding := SysModule.getdefaultencoding();
           SupressOutput := PythonIIForm.OutputSupressor; // Do not show errors
-          wStr := fForm.SynEdit.Text;
           UniPy := nil;
           EncodeMethod := nil;
           Args := nil;
@@ -509,12 +524,13 @@ begin
               Py_XDECREF(EncodedString);
             end;
           except
+            PyErr_Clear;
             Result := wStr;
           end;
         end;
       end else
-        Result := fForm.SynEdit.Text;
-    seUTF8 : Result := UTF8BOMString + UTF8Encode(fForm.SynEdit.Text);
+        Result := wStr;
+    seUTF8 : Result := UTF8BOMString + UTF8Encode(wStr);
   else  // Should not happen
       Raise Exception.Create('UTF-16 encoded files are not currently upported');
   end;
@@ -612,7 +628,7 @@ begin
               fForm.SynEdit.Lines.LoadFromStream(FileStream);
           seUTF8 : LoadFromStream(fForm.SynEdit.Lines, FileStream, seUTF8);
         else
-          Raise Exception.Create('UTF-16 encoded files are not currently upported');
+          Raise Exception.Create('UTF-16 encoded files are not currently supported');
         end;
       finally
         FileStream.Free;
