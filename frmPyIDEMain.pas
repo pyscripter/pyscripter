@@ -210,10 +210,11 @@ Limitations: Python scripts are executed in the main thread
           Bug fixes
             Infinite loop with cyclical Python imports
 
- History:   v 1.7.1.1
+ History:   v 1.7.1.2
           Bug fixes
             Bracket highlighting with non default background
             Opening UTF8 encoded file with errors
+            File Format (Line End) choice not respected
 
   ** Pyscripter flickers a lot when resizing.  I do not know what to do
      about it. In fact this may be a Windows problem.  Even in .NET try the

@@ -395,49 +395,50 @@ begin
     Result := CheckExecSyntax(Source);
     if not Result then begin
       if Quiet then begin
-        if Assigned(PyErr_Occurred()) and
-          (PyErr_ExceptionMatches(PyExc_SyntaxError^) = 1) then
-        begin
-          PyErr_Fetch(@PyErrType, @PyErrValue, @PyErrTraceback);  // Clears the Error
-          if Assigned(PyErrValue) then begin
-          // Sometimes there's a tuple instead of instance...
-            if PyTuple_Check( PyErrValue )  and (PyTuple_Size( PyErrValue) >= 2) then
-            begin
-              fErrorPos.ErrorMsg := PyString_AsString(PyTuple_GetItem( PyErrValue, 0));
-              PyErrValueTuple := PyTuple_GetItem( PyErrValue, 1);
-              if PyTuple_Check( PyErrValueTuple )  and (PyTuple_Size( PyErrValueTuple) >= 4) then
+        if Assigned(PyErr_Occurred()) then begin
+          if (PyErr_ExceptionMatches(PyExc_SyntaxError^) = 1) then begin
+            PyErr_Fetch(@PyErrType, @PyErrValue, @PyErrTraceback);  // Clears the Error
+            if Assigned(PyErrValue) then begin
+            // Sometimes there's a tuple instead of instance...
+              if PyTuple_Check( PyErrValue )  and (PyTuple_Size( PyErrValue) >= 2) then
               begin
-                fErrorPos.Line := PyInt_AsLong(PyTuple_GetItem( PyErrValueTuple, 1));
-                fErrorPos.Char := PyInt_AsLong(PyTuple_GetItem( PyErrValueTuple, 2));
+                fErrorPos.ErrorMsg := PyString_AsString(PyTuple_GetItem( PyErrValue, 0));
+                PyErrValueTuple := PyTuple_GetItem( PyErrValue, 1);
+                if PyTuple_Check( PyErrValueTuple )  and (PyTuple_Size( PyErrValueTuple) >= 4) then
+                begin
+                  fErrorPos.Line := PyInt_AsLong(PyTuple_GetItem( PyErrValueTuple, 1));
+                  fErrorPos.Char := PyInt_AsLong(PyTuple_GetItem( PyErrValueTuple, 2));
+                end;
+              end else
+                // Is it an instance of the SyntaxError class ?
+              if PyInstance_Check( PyErrValue ) or (PyType_IsSubtype(PyErrValue^.ob_type,
+                PPyTypeObject(GetPythonEngine.PyExc_SyntaxError^)) = 1) then
+              begin
+                // Get the text containing the error, cut of carriage return
+                tmp := PyObject_GetAttrString(PyErrValue, 'text');
+                if Assigned(tmp) and PyString_Check(tmp) then
+                  fErrorPos.ErrorMsg := Trim(PyString_AsString(tmp));
+                Py_XDECREF(tmp);
+                // Get the offset where the error should appear
+                tmp := PyObject_GetAttrString(PyErrValue, 'offset' );
+                if Assigned(tmp) and PyInt_Check(tmp) then
+                  fErrorPos.Char := PyInt_AsLong(tmp);
+                Py_XDECREF(tmp);
+                // Get the line number of the error
+                tmp := PyObject_GetAttrString(PyErrValue, 'lineno' );
+                if Assigned(tmp) and PyInt_Check(tmp) then
+                  fErrorPos.Line := PyInt_AsLong(tmp);
+                Py_XDECREF(tmp);
               end;
-            end else
-              // Is it an instance of the SyntaxError class ?
-            if PyInstance_Check( PyErrValue ) or (PyType_IsSubtype(PyErrValue^.ob_type,
-              PPyTypeObject(GetPythonEngine.PyExc_SyntaxError^)) = 1) then
-            begin
-              // Get the text containing the error, cut of carriage return
-              tmp := PyObject_GetAttrString(PyErrValue, 'text');
-              if Assigned(tmp) and PyString_Check(tmp) then
-                fErrorPos.ErrorMsg := Trim(PyString_AsString(tmp));
-              Py_XDECREF(tmp);
-              // Get the offset where the error should appear
-              tmp := PyObject_GetAttrString(PyErrValue, 'offset' );
-              if Assigned(tmp) and PyInt_Check(tmp) then
-                fErrorPos.Char := PyInt_AsLong(tmp);
-              Py_XDECREF(tmp);
-              // Get the line number of the error
-              tmp := PyObject_GetAttrString(PyErrValue, 'lineno' );
-              if Assigned(tmp) and PyInt_Check(tmp) then
-                fErrorPos.Line := PyInt_AsLong(tmp);
-              Py_XDECREF(tmp);
+              FErrorPos.Editor := Editor;
+              fErrorPos.IsSyntax := True;
+              DoErrorPosChanged;
             end;
-            FErrorPos.Editor := Editor;
-            fErrorPos.IsSyntax := True;
-            DoErrorPosChanged;
-          end;
-          Py_XDECREF(PyErrType);
-          Py_XDECREF(PyErrValue);
-          Py_XDECREF(PyErrTraceback);
+            Py_XDECREF(PyErrType);
+            Py_XDECREF(PyErrValue);
+            Py_XDECREF(PyErrTraceback);
+          end else
+            PyErr_Clear;
         end;
       end else begin
         // Display error
