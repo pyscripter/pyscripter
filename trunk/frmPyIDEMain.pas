@@ -154,7 +154,7 @@ Limitations: Python scripts are executed in the main thread
               Help related issues
               Other fixes.
 
- History:   v 1.7
+ History:   v 1.7.1
           New Features
             Unicode based editor and interactive interpreter
             Full support for Python source file encodings
@@ -189,6 +189,9 @@ Limitations: Python scripts are executed in the main thread
             Windows Explorer file association (installation and IDE option)
             Command line history
             Color coding of new and changed variables in the Variables Window
+            Repeat scrolling of editor tabs
+            Massively improved start up time
+            Faster Python source file scanning
           Bug fixes
             Gutter glyphs painted when gutter is invisible
             Bracket highlighting related bugs
@@ -201,19 +204,13 @@ Limitations: Python scripts are executed in the main thread
             Code completion Error with packages containing module with the same name
             Problems with sys.stdin.readline() and partial line output (stdout) statements
             Infinite loop when root of package is the top directory of a drive
-
- History:   v 1.7.1
-          New Features
-            Repeat scrolling of editor tabs
-            Massively improved start up time
-            Faster Python source file scanning
-          Bug fixes
             Infinite loop with cyclical Python imports
 
  History:   v 1.7.1.2
+          New Features
           Bug fixes
             Bracket highlighting with non default background
-            Opening UTF8 encoded file with errors
+            Opening wrongly encoded UTF8 files
             File Format (Line End) choice not respected
 
   ** Pyscripter flickers a lot when resizing.  I do not know what to do
