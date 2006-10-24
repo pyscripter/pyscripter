@@ -206,12 +206,15 @@ Limitations: Python scripts are executed in the main thread
             Infinite loop when root of package is the top directory of a drive
             Infinite loop with cyclical Python imports
 
- History:   v 1.7.1.2
+ History:   v 1.7.1.3
           New Features
           Bug fixes
             Bracket highlighting with non default background
             Opening wrongly encoded UTF8 files
             File Format (Line End) choice not respected
+            Initial Empty module was not syntax highlighted
+            Save As dialog had no default extension set  
+            Unit Testing broken
 
   ** Pyscripter flickers a lot when resizing.  I do not know what to do
      about it. In fact this may be a Windows problem.  Even in .NET try the
@@ -656,7 +659,7 @@ type
     MenuHelpRequested : Boolean;
     ActionListArray : TActionListArray;
     Layouts : TStringList;
-    function DoOpenFile(AFileName: string) : IEditor;
+    function DoOpenFile(AFileName: string; HighlighterName : string = '') : IEditor;
     function NewFileFromTemplate(FileTemplate : TFileTemplate) : IEditor;
     function GetActiveEditor : IEditor;
     procedure SaveFileModules;
@@ -714,7 +717,7 @@ begin
     Result := nil;
 end;
 
-function TPyIDEMainForm.DoOpenFile(AFileName: string) : IEditor;
+function TPyIDEMainForm.DoOpenFile(AFileName: string; HighlighterName : string = '') : IEditor;
 begin
   Result := nil;
   AFileName := GetLongFileName(ExpandFileName(AFileName));
@@ -731,18 +734,20 @@ begin
   Result := DoCreateEditor;
   if Result <> nil then begin
     try
-      Result.OpenFile(AFileName);
+      Result.OpenFile(AFileName, HighlighterName);
       TBXMRUList.Remove(AFileName);
       Result.Activate;
     except
       Result.Close;
       raise
     end;
-    if (AfileName <> '') and (GI_EditorFactory.Count = 2) and
+    if (AFileName <> '') and (GI_EditorFactory.Count = 2) and
       (GI_EditorFactory.Editor[0].FileName = '') and
       not GI_EditorFactory.Editor[0].Modified
     then
       GI_EditorFactory.Editor[0].Close;
+    if (AFileName = '') and (HighlighterName = 'Python') then
+      TEditorForm(Result.Form).DefaultExtension := 'py';
   end;
 end;
 
@@ -860,7 +865,7 @@ begin
 
     // If we still have no open file then open an empty file
     if GI_EditorFactory.GetEditorCount = 0 then
-      DoOpenFile('');
+      DoOpenFile('', 'Python');
   finally
     EditorsPageList.Visible := False;
     EditorsPageList.Visible := True;
@@ -1548,21 +1553,8 @@ begin
 end;
 
 procedure TPyIDEMainForm.actFileNewModuleExecute(Sender: TObject);
-var
-  Editor : IEditor;
 begin
-  // create a new editor, add it to the editor list
-  Editor := DoCreateEditor;
-  if Editor <> nil then begin
-    try
-      Editor.OpenFile('', 'Python');
-      Editor.Activate;
-    except
-      Editor.Close;
-      raise
-    end;
-  end;
-  TEditorForm(Editor.Form).DefaultExtension := 'py';
+  DoOpenFile('', 'Python')
 end;
 
 procedure TPyIDEMainForm.actFileOpenExecute(Sender: TObject);
