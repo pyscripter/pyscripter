@@ -1330,8 +1330,8 @@ begin
       Exit;
     end;
     fEditor.DoSetFileName(NewName);
-    DoUpdateCaption;
     DoUpdateHighlighter;
+    DoUpdateCaption;
     Result := DoSaveFile;
   end else
     Result := FALSE;

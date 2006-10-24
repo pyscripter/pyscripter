@@ -634,7 +634,12 @@ begin
       Filter := AHighlighter.DefaultFilter
     else
       Filter := SFilterAllFiles;
+
     DefaultExt := DefaultExtension;
+    //  Make the current file extension the default extension 
+    if DefaultExt = '' then
+      DefaultExt := ExtractFileExt(ANewName);
+    
     if Execute then begin
       ANewName := FileName;
       Result := TRUE;
@@ -821,7 +826,7 @@ begin
     Tests := TUnitTestWizard.GenerateTests(GI_ActiveEditor.GetFileNameOrTitle,
       GI_ActiveEditor.SynEdit.Text);
     if Tests <> '' then begin
-      Editor := PyIDEMainForm.DoOpenFile('');
+      Editor := PyIDEMainForm.DoOpenFile('', 'Python');
       if Assigned(Editor) then begin
         Editor.SynEdit.Text := Tests;
         Editor.SynEdit.Modified := True;
