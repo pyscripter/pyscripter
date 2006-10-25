@@ -624,28 +624,51 @@ end;
 procedure TPythonIIForm.SynEditCommandProcessed(Sender: TObject;
   var Command: TSynEditorCommand; var AChar: WideChar; Data: Pointer);
 const
-  OpenBrackets : WideString = '([{';
-  CloseBrackets : WideString = ')]}';
+  OpenBrackets : WideString = '([{"''';
+  CloseBrackets : WideString = ')]}"''';
 Var
   OpenBracketPos : integer;
   Line: WideString;
+  Len, Position : Integer;
+  CharRight: WideChar;
+  CharLeft: WideChar;
 begin
   if (Command = ecChar) and CommandsDataModule.PyIDEOptions.AutoCompleteBrackets then
   with SynEdit do begin
+    Line := LineText;
+    Len := Length(LineText);
+
     if aChar = fCloseBracketChar then begin
-      Line := LineText;
-      if InsertMode and (CaretX <= Length(Line)) and (Line[CaretX] = fCloseBracketChar) then
+      if InsertMode and (CaretX <= Len) and (Line[CaretX] = fCloseBracketChar) then
         ExecuteCommand(ecDeleteChar, WideChar(#0), nil);
       fCloseBracketChar := #0;
     end else begin
       fCloseBracketChar := #0;
       OpenBracketPos := Pos(aChar, OpenBrackets);
-      if (OpenBracketPos > 0) and
-          (CaretX > Length(LineText)) then
-      begin
-        SelText := CloseBrackets[OpenBracketPos];
-        CaretX := CaretX - 1;
-        fCloseBracketChar := CloseBrackets[OpenBracketPos];
+
+      if (OpenBracketPos > 0) then begin
+        CharRight := WideNull;
+        Position := CaretX;
+        while (Position <= Len) and Highlighter.IsWhiteChar(LineText[Position]) do
+          Inc(Position);
+        if Position <= Len then
+          CharRight := Line[Position];
+
+        CharLeft := WideNull;
+        Position := CaretX-2;
+        while (Position >= 1) and Highlighter.IsWhiteChar(LineText[Position]) do
+          Dec(Position);
+        if Position >= 1 then
+          CharLeft := Line[Position];
+
+        if (CharRight <> aChar) and not Highlighter.IsIdentChar(CharRight) and
+          not ((aChar in [WideChar('"'), WideChar('''')])
+          and (Highlighter.IsIdentChar(CharLeft) or (CharLeft= aChar))) then
+        begin
+          SelText := CloseBrackets[OpenBracketPos];
+          CaretX := CaretX - 1;
+          fCloseBracketChar := CloseBrackets[OpenBracketPos];
+        end;
       end;
     end;
   end;
@@ -1239,9 +1262,3 @@ begin
 end;
 
 end.
-
-
-
-
-
-

@@ -206,15 +206,18 @@ Limitations: Python scripts are executed in the main thread
             Infinite loop when root of package is the top directory of a drive
             Infinite loop with cyclical Python imports
 
- History:   v 1.7.1.3
+ History:   v 1.7.2
           New Features
+            Store toolbar positions
+            Improved bracket completion now also works with " and ' (Issue #4)
           Bug fixes
             Bracket highlighting with non default background
             Opening wrongly encoded UTF8 files
             File Format (Line End) choice not respected
             Initial Empty module was not syntax highlighted
-            Save As dialog had no default extension set  
-            Unit Testing broken
+            Save As dialog had no default extension set
+            Unit Testing broken (regression)
+            Gap in the default tool bar (Issue #3)
 
   ** Pyscripter flickers a lot when resizing.  I do not know what to do
      about it. In fact this may be a Windows problem.  Even in .NET try the
@@ -1683,6 +1686,8 @@ begin
     finally
       ActionProxyCollection.Free;
     end;
+    // Store Toolbar positions
+    TBIniSavePositions(Self, AppStorage.FileName, 'Toolbars');
   finally
     AppStorage.EndUpdate;
     TempStringList.Free;
@@ -1690,8 +1695,6 @@ begin
   // Save MRU Lists
   TBXMRUList.SaveToIni(AppStorage.IniFile, 'MRU File List');
   CommandsDataModule.CommandLineMRU.SaveToIni(AppStorage.IniFile, 'CommandLine MRU');
-  // Save Toolbar positions (does not work)
-  //TBIniSavePositions(Self, Appstorage.IniFile.FileName, 'Toolbars');
 end;
 
 procedure TPyIDEMainForm.JvFormStorageRestorePlacement(Sender: TObject);
@@ -1760,9 +1763,6 @@ begin
   TBXMRUList.LoadFromIni(AppStorage.IniFile, 'MRU File List');
   CommandsDataModule.CommandLineMRU.LoadFromIni(AppStorage.IniFile, 'CommandLine MRU');
 
-  // Read Toolbar positions does not work
-  // TBIniLoadPositions(Self, Appstorage.IniFile.FileName, 'Toolbars');
-  // Save IDE Shortcuts
   ActionProxyCollection := TActionProxyCollection.Create(ActionListArray);
   try
     AppStorage.ReadCollection('IDE Shortcuts', ActionProxyCollection, True, 'Action');
@@ -1770,6 +1770,8 @@ begin
   finally
     ActionProxyCollection.Free;
   end;
+  // Restore Toolbar positions
+  TBIniLoadPositions(Self, AppStorage.FileName, 'Toolbars');
 end;
 
 procedure TPyIDEMainForm.TabBarTabSelected(Sender: TObject;

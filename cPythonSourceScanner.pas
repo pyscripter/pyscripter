@@ -428,7 +428,7 @@ begin
   fStringsAndCommentsRE :=
     CompiledRegExpr('(?sm)(\"\"\".*?\"\"\"|''''''.*?''''''|\"[^\"]*\"|\''[^\'']*\''|#.*?\n)');
   fLineContinueRE := CompiledRegExpr('\\[ \t]*(#.*)?$');
-  fImportRE := CompiledRegExpr('^[ \t]*import[ \t]*([^#;]+)');
+  fImportRE := CompiledRegExpr('^[ \t]*import[ \t]+([^#;]+)');
   fFromImportRE :=
     CompiledRegExpr(Format('^[ \t]*from[ \t]+(%s)[ \t]+import[ \t]+([^#;]+)', [DottedIdentRE]));
   fClassAttributeRE :=
