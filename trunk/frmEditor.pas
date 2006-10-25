@@ -1402,11 +1402,12 @@ procedure TEditorForm.doProcessUserCommand(Sender: TObject;
   HandlerData: pointer);
 var
   iPrevLine, Indent: string;
-  Position: integer;
+  Position, Len: integer;
   OldOptions : TSynEditorOptions;
   OpenBrackets, CloseBrackets : WideString;
   OpenBracketPos : integer;
-  Line: WideString;
+  Line : WideString;
+  CharRight, CharLeft : WideChar;
 begin
   if (Command = ecCodeCompletion) and not AfterProcessing and
      (SynEdit.Highlighter = CommandsDataModule.SynPythonSyn) then
@@ -1480,31 +1481,51 @@ begin
     and CommandsDataModule.PyIDEOptions.AutoCompleteBrackets then
   with SynEdit do begin
     if SynEdit.Highlighter = CommandsDataModule.SynPythonSyn then begin
-      OpenBrackets := '([{';
-      CloseBrackets := ')]}';
+      OpenBrackets := '([{"''';
+      CloseBrackets := ')]}"''';
     end else if (SynEdit.Highlighter = CommandsDataModule.SynHTMLSyn) or
        (SynEdit.Highlighter = CommandsDataModule.SynXMLSyn) or
        (SynEdit.Highlighter = CommandsDataModule.SynCssSyn) then
     begin
-      OpenBrackets := '<';
-      CloseBrackets := '>';
+      OpenBrackets := '<"''';
+      CloseBrackets := '>"''';
     end else
       Exit;
 
+    Line := LineText;
+    Len := Length(LineText);
+
     if aChar = fCloseBracketChar then begin
-      Line := LineText;
-      if InsertMode and (CaretX <= Length(Line)) and (Line[CaretX] = fCloseBracketChar) then
+      if InsertMode and (CaretX <= Len) and (Line[CaretX] = fCloseBracketChar) then
         ExecuteCommand(ecDeleteChar, WideChar(#0), nil);
       fCloseBracketChar := #0;
     end else begin
       fCloseBracketChar := #0;
       OpenBracketPos := Pos(aChar, OpenBrackets);
-      if (OpenBracketPos > 0) and
-          (CaretX > Length(LineText)) then
-      begin
-        SelText := CloseBrackets[OpenBracketPos];
-        CaretX := CaretX - 1;
-        fCloseBracketChar := CloseBrackets[OpenBracketPos];
+
+      if (OpenBracketPos > 0) then begin
+        CharRight := WideNull;
+        Position := CaretX;
+        while (Position <= Len) and Highlighter.IsWhiteChar(LineText[Position]) do
+          Inc(Position);
+        if Position <= Len then
+          CharRight := Line[Position];
+
+        CharLeft := WideNull;
+        Position := CaretX-2;
+        while (Position >= 1) and Highlighter.IsWhiteChar(LineText[Position]) do
+          Dec(Position);
+        if Position >= 1 then
+          CharLeft := Line[Position];
+
+        if (CharRight <> aChar) and not Highlighter.IsIdentChar(CharRight) and
+          not ((aChar in [WideChar('"'), WideChar('''')])
+          and (Highlighter.IsIdentChar(CharLeft) or (CharLeft= aChar))) then
+        begin
+          SelText := CloseBrackets[OpenBracketPos];
+          CaretX := CaretX - 1;
+          fCloseBracketChar := CloseBrackets[OpenBracketPos];
+        end;
       end;
     end;
   end;

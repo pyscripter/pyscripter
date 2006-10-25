@@ -8,6 +8,8 @@
 
 
 program PyScripter;
+{%TogetherDiagram 'ModelSupport\default.txaPackage'}
+
 uses
   Windows,
   Forms,
