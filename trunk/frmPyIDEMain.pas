@@ -209,10 +209,10 @@ Limitations: Python scripts are executed in the main thread
  History:   v 1.7.2
           New Features
             Store toolbar positions
-            Improved bracket completion now also works with " and ' (Issue #4)
+            Improved bracket completion now also works with strings (Issue #4)
           Bug fixes
             Bracket highlighting with non default background
-            Opening wrongly encoded UTF8 files
+            Opening wrongly encoded UTF8 files results in empty module
             File Format (Line End) choice not respected
             Initial Empty module was not syntax highlighted
             Save As dialog had no default extension set
