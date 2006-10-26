@@ -534,6 +534,7 @@ Var
   Path, NameOfModule : string;
   PyObject, Module : PPyObject;
   PythonPathAdder : IInterface;
+  TI : TTracebackItem;
 begin
   VarClear(Result);
   //Compile
@@ -558,13 +559,33 @@ begin
     with GetPythonEngine do begin
       Py_XINCREF(PyObject);
       try
-        Module := PyImport_ExecCodeModule(NameOfModule, PyObject);
-        Result := VarPythonCreate(Module);
-        Py_XDECREF(Module);
-      finally
-        Py_XDECREF(PyObject);
+        try
+          Module := PyImport_ExecCodeModule(NameOfModule, PyObject);
+          Result := VarPythonCreate(Module);
+          Py_XDECREF(Module);
+        finally
+          Py_XDECREF(PyObject);
+        end;
+        CheckError;
+      except
+        on E: Exception do begin
+          MessagesWindow.ShowPythonTraceback;
+          MessagesWindow.AddMessage(E.Message);
+          with GetPythonEngine.Traceback do begin
+            if ItemCount > 0 then begin
+              TI := Items[ItemCount -1];
+              if PyIDEMainForm.ShowFilePosition(TI.FileName, TI.LineNo, 1) and
+                Assigned(GI_ActiveEditor)
+              then begin
+                FErrorPos.Editor := GI_ActiveEditor;
+                fErrorPos.Line := TI.LineNo;
+                DoErrorPosChanged;
+              end;
+            end;
+          end;
+          Result := None;
+        end;
       end;
-      CheckError;
     end;
     if VarIsNone(Result) then begin
       MessageDlg('Error in importing module', mtError, [mbOK], 0);
