@@ -87,7 +87,8 @@ uses
   dlgNewFile in 'dlgNewFile.pas' {NewFileDialog},
   JvDockInfo in 'JvDockInfo.pas',
   JvTabBar in 'JvTabBar.pas',
-  SynEdit in 'SynEdit.pas';
+  SynEdit in 'SynEdit.pas',
+  JvThread in 'JvThread.pas';
 
 {$R *.RES}
 
