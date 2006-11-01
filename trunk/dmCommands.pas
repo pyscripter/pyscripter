@@ -20,7 +20,7 @@ uses
   SynEditRegexSearch, SynEditMiscClasses, SynEditSearch, VirtualTrees,
   SynEditTextBuffer, SynEditKeyCmds, JvComponentBase, SynHighlighterXML,
   SynHighlighterCSS, SynHighlighterHtml, JvProgramVersionCheck, JvPropertyStore,
-  SynHighlighterIni, TB2MRU, TBXExtItems;
+  SynHighlighterIni, TB2MRU, TBXExtItems, JvAppInst;
 
 type
   TPythonIDEOptions = class(TPersistent)

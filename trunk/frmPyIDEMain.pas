@@ -206,7 +206,7 @@ Limitations: Python scripts are executed in the main thread
             Infinite loop when root of package is the top directory of a drive
             Infinite loop with cyclical Python imports
 
- History:   v 1.7.2
+ History:   v 1.7.2.1
           New Features
             Store toolbar positions
             Improved bracket completion now also works with strings (Issue #4)
@@ -218,6 +218,7 @@ Limitations: Python scripts are executed in the main thread
             Save As dialog had no default extension set
             Unit Testing broken (regression)
             Gap in the default tool bar (Issue #3)
+            Shell Integration - Error when opening multiple files
 
   ** Pyscripter flickers a lot when resizing.  I do not know what to do
      about it. In fact this may be a Windows problem.  Even in .NET try the
@@ -519,7 +520,6 @@ type
     TBXItem41: TTBXItem;
     actViewRegExpTester: TAction;
     TBXItem42: TTBXItem;
-    JvAppInstances: TJvAppInstances;
     actCommandLine: TAction;
     TBXItem43: TTBXItem;
     TBXItem44: TTBXItem;
@@ -560,6 +560,7 @@ type
     TBXSeparatorItem23: TTBXSeparatorItem;
     actNewFile: TAction;
     TBXItem53: TTBXItem;
+    JvAppInstances: TJvAppInstances;
     procedure mnFilesClick(Sender: TObject);
     procedure actEditorZoomInExecute(Sender: TObject);
     procedure actEditorZoomOutExecute(Sender: TObject);
@@ -2519,6 +2520,7 @@ procedure TPyIDEMainForm.JvAppInstancesCmdLineReceived(Sender: TObject;
 var
   i : integer;
 begin
+  if JvAppInstances.AppInstances.InstanceIndex[GetCurrentProcessID] <> 0 then Exit;
   for i := 0 to CmdLine.Count - 1 do
     if (CmdLine[i][1] <> '-') and FileExists(CmdLine[i]) then
       DoOpenFile(CmdLine[i]);
