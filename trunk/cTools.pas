@@ -111,6 +111,14 @@ type
       stored fUseCustomEnvironment;
   end;
 
+  // Differs only in persistence
+  TExternalRun = class(TExternalTool)
+  published
+    property SaveFiles default sfAll;
+    property Context default tcActiveFile;
+    property ParseTraceback default True;
+  end;
+
   TToolItem = class(TCollectionItem)
   private
     fExternalTool : TExternalTool;
@@ -385,7 +393,7 @@ initialization
   end;
 
   // Create a Python External Run tool which is used in the run menu
-  ExternalPython := TExternalTool.Create;
+  ExternalPython := TExternalRun.Create;
   with ExternalPython do begin
     Caption := 'Pyhton Interpreter';
     Description := 'External Python Interpreter';

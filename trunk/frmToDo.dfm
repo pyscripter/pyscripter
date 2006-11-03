@@ -1,10 +1,10 @@
 inherited ToDoWindow: TToDoWindow
   Left = 377
   Top = 226
-  Width = 500
-  Height = 319
   HelpContext = 465
   Caption = 'To Do List'
+  ClientHeight = 293
+  ClientWidth = 492
   Icon.Data = {
     0000010001002020000000000000A80800001600000028000000200000004000
     0000010008000000000000040000000000000000000000010000000100000000
@@ -77,6 +77,8 @@ inherited ToDoWindow: TToDoWindow
     003FFC00003FFC00003FFC00003FFC00003FFC00003FFC00007FFC0001FFFC00
     07FFFC001FFFFC007FFFFC01FFFFFC07FFFFFC1FFFFFFE7FFFFFFFFFFFFF}
   OnActivate = FormActivate
+  ExplicitWidth = 500
+  ExplicitHeight = 319
   PixelsPerInch = 96
   TextHeight = 13
   inherited FGPanel: TPanel
@@ -84,6 +86,10 @@ inherited ToDoWindow: TToDoWindow
     Top = 6
     Width = 478
     Height = 271
+    ExplicitLeft = 7
+    ExplicitTop = 6
+    ExplicitWidth = 478
+    ExplicitHeight = 271
     object TBXDock1: TTBXDock
       Left = 0
       Top = 0
@@ -93,6 +99,7 @@ inherited ToDoWindow: TToDoWindow
       object Toolbar: TTBXToolbar
         Left = 0
         Top = 0
+        DockPos = 2
         FullSize = True
         Images = CommandsDataModule.Images
         TabOrder = 0

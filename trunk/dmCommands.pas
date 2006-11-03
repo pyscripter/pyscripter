@@ -371,7 +371,7 @@ uses
   StoHtmlHelp, {uMMMXP_MainService, }JvJCLUtils, Menus, SynEditStrConst,
   dlgSearchText, dlgReplaceText, dlgConfirmReplace, dlgCustomShortcuts,
   dlgUnitTestWizard, WinInet, Math, SynUnicode, Registry, ShlObj, ShellAPI,
-  dlgFileTemplates;
+  dlgFileTemplates, JclSysInfo;
 
 { TPythonIDEOptions }
 
@@ -1967,6 +1967,8 @@ procedure TCommandsDataModule.actCheckForUpdatesExecute(Sender: TObject);
 //    MessageDlg('Current version is uptodate!', mtInformation, [mbOK], 0);
 begin
   try
+    ProgramVersionCheck.LocalDirectory :=
+      PathAddSeparator(GetAppdataFolder) + 'PyScripter\Updates';
     ProgramVersionCheck.Execute;
   except
     if Assigned(Sender) then
