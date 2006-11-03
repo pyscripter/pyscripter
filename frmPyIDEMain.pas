@@ -206,7 +206,7 @@ Limitations: Python scripts are executed in the main thread
             Infinite loop when root of package is the top directory of a drive
             Infinite loop with cyclical Python imports
 
- History:   v 1.7.2.1
+ History:   v 1.7.2
           New Features
             Store toolbar positions
             Improved bracket completion now also works with strings (Issue #4)
@@ -218,7 +218,11 @@ Limitations: Python scripts are executed in the main thread
             Save As dialog had no default extension set
             Unit Testing broken (regression)
             Gap in the default tool bar (Issue #3)
+
+ History:   v 1.7.2.2
+          Bug fixes
             Shell Integration - Error when opening multiple files
+            Configure External Run - ParseTraceback not saved properly
 
   ** Pyscripter flickers a lot when resizing.  I do not know what to do
      about it. In fact this may be a Windows problem.  Even in .NET try the

@@ -704,6 +704,7 @@ procedure TToDoWindow.RefreshTodoList;
 var
   Cursor: IInterface;
 begin
+  Application.ProcessMessages;  // to repaint etc.
   Cursor := WaitCursor;
   try
     FScannedFiles.Clear;
