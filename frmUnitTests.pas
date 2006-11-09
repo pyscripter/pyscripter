@@ -76,6 +76,7 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure actRefreshExecute(Sender: TObject);
+    procedure FormActivate(Sender: TObject);
   private
     { Private declarations }
     TestClasses : TStringList;
@@ -202,6 +203,15 @@ begin
       lbFoundTests.Caption := Format(FoundTestsLabel, [TestCount, Iff(TestCount=1, '', 's')]);
       Status := utwLoaded;
     end;
+  end;
+end;
+
+procedure TUnitTestWindow.FormActivate(Sender: TObject);
+begin
+  inherited;
+  if not HasFocus then begin
+    FGPanelEnter(Self);
+    PostMessage(UnitTests.Handle, WM_SETFOCUS, 0, 0);
   end;
 end;
 

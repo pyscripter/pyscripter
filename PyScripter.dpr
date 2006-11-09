@@ -88,7 +88,8 @@ uses
   JvDockInfo in 'JvDockInfo.pas',
   JvTabBar in 'JvTabBar.pas',
   SynEdit in 'SynEdit.pas',
-  JvThread in 'JvThread.pas';
+  JvThread in 'JvThread.pas',
+  JvAppInst in 'JvAppInst.pas';
 
 {$R *.RES}
 

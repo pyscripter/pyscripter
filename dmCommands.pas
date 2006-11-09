@@ -340,6 +340,7 @@ type
       Sender: TVTHeader; var PaintInfo: THeaderPaintInfo;
       var Elements: THeaderPaintElements);
     procedure GetEditorUserCommand(AUserCommand: Integer; var ADescription: String);
+    procedure GetEditorAllUserCommands(ACommands: TStrings);
     procedure DoSearchReplaceText(SynEdit : TSynEdit;
       AReplace: boolean;  ABackwards: boolean);
     procedure ShowSearchReplaceDialog(SynEdit : TSynEdit; AReplace: boolean);
@@ -872,6 +873,7 @@ begin
       OnSetHighlighter := SynEditOptionsDialogSetHighlighter;
       VisiblePages := [soDisplay, soOptions, soKeystrokes, soColor];
       GetUserCommand := GetEditorUserCommand;
+      GetAllUserCommands := GetEditorAllUserCommands;
       UseExtendedStrings := True;
       if Execute(TempEditorOptions) then begin
         UpdateHighlighters;
@@ -1993,6 +1995,12 @@ begin
     ADescription := 'Code Completion'
   else if AUserCommand = ecParamCompletion then
     ADescription := 'Param Completion';
+end;
+
+procedure TCommandsDataModule.GetEditorAllUserCommands(ACommands: TStrings);
+begin
+  ACommands.AddObject('Code Completion', TObject(ecCodeCompletion));
+  ACommands.AddObject('Param Completion', TObject(ecParamCompletion));
 end;
 
 procedure TCommandsDataModule.DoSearchReplaceText(SynEdit : TSynEdit;

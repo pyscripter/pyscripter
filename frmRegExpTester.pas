@@ -60,6 +60,7 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FormResize(Sender: TObject);
     procedure RegExpTextChange(Sender: TObject);
+    procedure FormActivate(Sender: TObject);
   private
     { Private declarations }
     RegExp : Variant;
@@ -86,6 +87,15 @@ procedure TRegExpTesterWindow.FormResize(Sender: TObject);
 begin
   inherited;
   TBXMultiDock.ResizeVisiblePanels(FGPanel.ClientWidth-4);
+end;
+
+procedure TRegExpTesterWindow.FormActivate(Sender: TObject);
+begin
+  inherited;
+  if not HasFocus then begin
+    FGPanelEnter(Self);
+    PostMessage(RegExpText.Handle, WM_SETFOCUS, 0, 0);
+  end;
 end;
 
 procedure TRegExpTesterWindow.FormCreate(Sender: TObject);
