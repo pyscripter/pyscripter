@@ -219,10 +219,15 @@ Limitations: Python scripts are executed in the main thread
             Unit Testing broken (regression)
             Gap in the default tool bar (Issue #3)
 
- History:   v 1.7.2.2
+ History:   v 1.7.2.3
           Bug fixes
             Shell Integration - Error when opening multiple files
             Configure External Run - ParseTraceback not saved properly
+            Order of tabs not preserved in minimised docked forms
+            sys.argv contained unicode strings instead of ansi strings
+            Bug fixes and improvements in Editor Options Keystrokes tab (Issue 6)
+            Better error handling of File Open and File Save
+            Page Setup Header and Footer not saved  (Issue 7)
 
   ** Pyscripter flickers a lot when resizing.  I do not know what to do
      about it. In fact this may be a Windows problem.  Even in .NET try the
@@ -1652,7 +1657,10 @@ begin
       TempStringList.Clear;
       TempStringList.Add('Lines');
       TempStringList.Add('Highlighter');
+      AppStorage.DeleteSubTree('Print Options');
       AppStorage.WritePersistent('Print Options', SynEditPrint, True, TempStringList);
+      AppStorage.WriteWideString('Print Options\HeaderItems', SynEditPrint.Header.AsString);
+      AppStorage.WriteWideString('Print Options\FooterItems', SynEditPrint.Footer.AsString);
 
       AppStorage.StorageOptions.PreserveLeadingTrailingBlanks := True;
       AppStorage.DeleteSubTree('File Templates');
@@ -1703,6 +1711,9 @@ begin
 end;
 
 procedure TPyIDEMainForm.JvFormStorageRestorePlacement(Sender: TObject);
+Const
+  DefaultHeader='$TITLE$\.1\.0\.-13\.Arial\.0\.96\.10\.0\.1\.2';
+  DefaultFooter='$PAGENUM$\\.$PAGECOUNT$\.1\.0\.-13\.Arial\.0\.96\.10\.0\.1\.2';
 Var
   ActionProxyCollection : TActionProxyCollection;
   TempStringList : TStringList;
@@ -1727,6 +1738,8 @@ begin
         AppStorage.ReadPersistent('Editor Search Options', EditorSearchOptions);
 
       AppStorage.ReadPersistent('Print Options', SynEditPrint);
+      SynEditPrint.Header.AsString := AppStorage.ReadWideString('Print Options\HeaderItems', DefaultHeader);
+      SynEditPrint.Footer.AsString := AppStorage.ReadWideString('Print Options\FooterItems', DefaultFooter);
 
       AppStorage.StorageOptions.PreserveLeadingTrailingBlanks := True;
       if AppStorage.IniFile.SectionExists('File Templates') then

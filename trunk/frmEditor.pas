@@ -592,47 +592,55 @@ begin
   if fForm <> nil then begin
     if (AFileName <> '') and FileExists(AFileName) then begin
       CommandsDataModule.JvChangeNotify.Active := False;
-      FileStream := TFileStream.Create(AFileName, fmOpenRead or fmShareDenyWrite);
       try
-        fFileEncoding := GetEncoding(FileStream);
-        case fFileEncoding of
-          seAnsi :
-            // if it is a Pytyhon file detect an encoding spec
-            if CommandsDataModule.GetHighlighterForFile(AFileName) =
-              CommandsDataModule.SynPythonSyn then
-            begin
-              PyEncoding := '';
-              S := ReadLnFromStream(FileStream);
-              PyEncoding := ParsePySourceEncoding(S);
-              if PyEncoding = '' then begin
+        FileStream := TFileStream.Create(AFileName, fmOpenRead or fmShareDenyWrite);
+        try
+          fFileEncoding := GetEncoding(FileStream);
+          case fFileEncoding of
+            seAnsi :
+              // if it is a Pytyhon file detect an encoding spec
+              if CommandsDataModule.GetHighlighterForFile(AFileName) =
+                CommandsDataModule.SynPythonSyn then
+              begin
+                PyEncoding := '';
                 S := ReadLnFromStream(FileStream);
                 PyEncoding := ParsePySourceEncoding(S);
-              end;
-              FileStream.Seek(0, soFromBeginning);
-              if PyEncoding <> '' then begin
-                Len := FileStream.Size;
-                SetLength(S, Len);
-                FileStream.ReadBuffer(S[1], Len);
-                V := S;
-                V := VarPythonCreate(V);
-                try
-                  fForm.SynEdit.Text := V.decode(PyEncoding, 'replace');
-                except
-                  MessageDlg(Format('Error in decoding file "%s" from "%s" encoding',
-                     [AFileName, PyEncoding]), mtWarning, [mbOK], 0);
-                  fForm.SynEdit.Text := S;
+                if PyEncoding = '' then begin
+                  S := ReadLnFromStream(FileStream);
+                  PyEncoding := ParsePySourceEncoding(S);
                 end;
+                FileStream.Seek(0, soFromBeginning);
+                if PyEncoding <> '' then begin
+                  Len := FileStream.Size;
+                  SetLength(S, Len);
+                  FileStream.ReadBuffer(S[1], Len);
+                  V := S;
+                  V := VarPythonCreate(V);
+                  try
+                    fForm.SynEdit.Text := V.decode(PyEncoding, 'replace');
+                  except
+                    MessageDlg(Format('Error in decoding file "%s" from "%s" encoding',
+                       [AFileName, PyEncoding]), mtWarning, [mbOK], 0);
+                    fForm.SynEdit.Text := S;
+                  end;
+                end else
+                  fForm.SynEdit.Lines.LoadFromStream(FileStream);
               end else
                 fForm.SynEdit.Lines.LoadFromStream(FileStream);
-            end else
-              fForm.SynEdit.Lines.LoadFromStream(FileStream);
-          seUTF8 : LoadFromStream(fForm.SynEdit.Lines, FileStream, seUTF8);
-        else
-          Raise Exception.Create('UTF-16 encoded files are not currently supported');
+            seUTF8 : LoadFromStream(fForm.SynEdit.Lines, FileStream, seUTF8);
+          else
+            Raise Exception.Create('UTF-16 encoded files are not currently supported');
+          end;
+        finally
+          FileStream.Free;
+          CommandsDataModule.UpdateChangeNotify;
         end;
-      finally
-        FileStream.Free;
-        CommandsDataModule.UpdateChangeNotify;
+      except
+        on E: Exception do begin
+          MessageBox(0, PChar(E.Message), PChar(Format('Error in opening file: "%s"', [AFileName])),
+            MB_ICONERROR or MB_OK);
+          Abort;
+        end;
       end;
     end else
       fForm.SynEdit.Lines.Clear;
@@ -1304,8 +1312,11 @@ begin
     SynEdit.Modified := FALSE;
     Result := TRUE;
   except
-    Application.HandleException(Self);
-    Result := FALSE;
+    on E: Exception do begin
+      MessageBox(0, PChar(E.Message), PChar(Format('Error in saving file: "%s"', [fEditor.fFileName])),
+        MB_ICONERROR or MB_OK);
+      Result := FALSE;
+    end;
   end;
 end;
 

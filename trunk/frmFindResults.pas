@@ -288,7 +288,7 @@ var
   c: Integer;
   p: Integer;
   i: Integer;
-  TempString: string;
+  TempString, S: string;
   sb: TColor;
   sf: TColor;
   nb: TColor;
@@ -373,50 +373,72 @@ begin
 
     // Paint the match line
     // Set to First match of line
-    MIndx := 0;
-    AMatchResult := ALineResult.Matches[MIndx];
-    for i := 1 to Length(TempString) do
-    begin
-      if (i >= AMatchResult.SPos - c) and (i <= AMatchResult.EPos - c) then
-      begin
-        ResultsCanvas.Font.Color := sf;
-        ResultsCanvas.Brush.Color := sb;
-      end
-      else
-      begin
-        ResultsCanvas.Font.Color := nf;
-        ResultsCanvas.Brush.Color := nb;
-      end;
+//    MIndx := 0;
+//    AMatchResult := ALineResult.Matches[MIndx];
+    i := 1;
+    for MIndx := 0 to ALineResult.Matches.Count-1 do begin
+      AMatchResult := ALineResult.Matches[MIndx];
+      ResultsCanvas.Font.Color := nf;
+      ResultsCanvas.Brush.Color := nb;
+      S := Copy(TempString, i, AMatchResult.SPos - c - i);
+      ResultsCanvas.TextOut(Rect.Left + p, Rect.Top + 1, S);
+      p := p + ResultsCanvas.TextWidth(S);
 
-      // Support printing of MBCS results ("Che Ming" <cheming6150@sina.com>)
-      case ByteType(TempString, i) of
+      ResultsCanvas.Font.Color := sf;
+      ResultsCanvas.Brush.Color := sb;
+      S := Copy(TempString, AMatchResult.SPos - c, AMatchResult.EPos - AMatchResult.SPos + 1);
+      ResultsCanvas.TextOut(Rect.Left + p, Rect.Top + 1, S);
+      p := p + ResultsCanvas.TextWidth(S);
 
-        mbSingleByte:
-          begin
-            ResultsCanvas.TextOut(Rect.Left + p, Rect.Top + 1, Copy(TempString, i, 1));
-            p := p + ResultsCanvas.TextWidth(Copy(TempString, i, 1));
-          end;
-
-        mbLeadByte:
-          begin
-            ResultsCanvas.TextOut(Rect.Left + p, Rect.Top + 1, Copy(TempString, i, 2));
-            p := p + ResultsCanvas.TextWidth(Copy(TempString, i, 2));
-          end;
-
-        mbTrailByte:
-          Continue;
-
-      end;
-
-      // If after last position of this match and
-      // there are still more matches for this line
-      // then set AMatchResult to next match on the line
-      if (i >= AMatchResult.EPos-c) and (MIndx < (ALineResult.Matches.Count-1)) then
-      begin
-        Inc(MIndx);
-        AMatchResult := ALineResult.Matches[MIndx];
-      end;
+      i := AMatchResult.EPos - c + 1;
     end;
+    ResultsCanvas.Font.Color := nf;
+    ResultsCanvas.Brush.Color := nb;
+    S := Copy(TempString, i, Length(TempString) -  i + 1);
+    ResultsCanvas.TextOut(Rect.Left + p, Rect.Top + 1, S);
+
+//    for i := 1 to Length(TempString) do
+//    begin
+//      if (i >= AMatchResult.SPos - c) and (i <= AMatchResult.EPos - c) then
+//      begin
+//        ResultsCanvas.Font.Color := sf;
+//        ResultsCanvas.Brush.Color := sb;
+//      end
+//      else
+//      begin
+//        ResultsCanvas.Font.Color := nf;
+//        ResultsCanvas.Brush.Color := nb;
+//      end;
+//
+//      // Support printing of MBCS results ("Che Ming" <cheming6150@sina.com>)
+//      case ByteType(TempString, i) of
+//
+//        mbSingleByte:
+//          begin
+//            ResultsCanvas.TextOut(Rect.Left + p, Rect.Top + 1, Copy(TempString, i, 1));
+//            p := p + ResultsCanvas.TextWidth(Copy(TempString, i, 1));
+//          end;
+//
+//        mbLeadByte:
+//          begin
+//            ResultsCanvas.TextOut(Rect.Left + p, Rect.Top + 1, Copy(TempString, i, 2));
+//            p := p + ResultsCanvas.TextWidth(Copy(TempString, i, 2));
+//          end;
+//
+//        mbTrailByte:
+//          Continue;
+//
+//      end;
+//
+//      // If after last position of this match and
+//      // there are still more matches for this line
+//      // then set AMatchResult to next match on the line
+//      if (i >= AMatchResult.EPos-c) and (MIndx < (ALineResult.Matches.Count-1)) then
+//      begin
+//        Inc(MIndx);
+//        AMatchResult := ALineResult.Matches[MIndx];
+//      end;
+//    end;
   end;
 end;
 

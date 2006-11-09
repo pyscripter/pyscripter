@@ -498,8 +498,6 @@ Var
   Line, CurLine, Source, Indent : WideString;
   EncodedSource : string;
   Buffer : array of WideString;
-  P : PPyObject;
-  V : Variant;
 begin
   case Command of
     ecLineBreak :
@@ -549,12 +547,7 @@ begin
 
             // Workaround due to PREFER_UNICODE flag to make sure
             // no conversion to Unicode and back will take place
-            with GetPythonEngine do begin
-              P := PyString_FromString(PChar(EncodedSource));
-              V := VarPythonCreate(P);
-              Py_XDECREF(P);
-            end;
-            if II.runsource(V, '<interactive input>') then
+            if II.runsource(VarPythonCreate(EncodedSource), '<interactive input>') then
               NeedIndent := True
             else begin
               // The source code has been executed

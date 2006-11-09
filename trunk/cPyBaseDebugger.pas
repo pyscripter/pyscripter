@@ -718,14 +718,16 @@ begin
   SysMod := SysModule;
   fOldargv := SysMod.argv;
   SysMod.argv := NewPythonList;
-  SysMod.argv.append(ScriptName);
+  // Workaround due to PREFER_UNICODE flag to make sure
+  // no conversion to Unicode and back will take place
+  SysMod.argv.append(VarPythonCreate(ScriptName));
   S := iff(CommandsDataModule.PyIDEOptions.UseCommandLine,
      CommandsDataModule.PyIDEOptions.CommandLine, '');
   if S <> '' then begin
     S := Parameters.ReplaceInText(S);
     P := GetParamStr(PChar(S), Param);
     while Param <> '' do begin
-      SysMod.argv.append(Param);
+      SysMod.argv.append(VarPythonCreate(Param));
       P := GetParamStr(P, Param);
     end;
     PythonIIForm.AppendText(Format(SCommandLineMsg, [S]));

@@ -232,6 +232,7 @@ type
     procedure cbElementBackgroundChange(Sender: TObject);
     procedure cbxElementBoldClick(Sender: TObject);
     procedure btnHelpClick(Sender: TObject);
+    procedure KeyListColumnClick(Sender: TObject; Column: TListColumn);
   private
     FHandleChanges : Boolean;  //Normally true, can prevent unwanted execution of event handlers
 
@@ -256,6 +257,7 @@ type
     function SelectedHighlighter:TSynCustomHighlighter;
     procedure EnableColorItems(aEnable:boolean);
     procedure UpdateColorFontStyle;
+    procedure cmDialogChar( Var msg: TCMDialogChar ); message CM_DIALOGCHAR;
   public
     eKeyShort2: TSynHotKey;
     eKeyShort1: TSynHotKey;
@@ -381,6 +383,15 @@ uses
 {$ELSE}
   SynEditKeyConst, uCommonFunctions;
 {$ENDIF}
+
+function SortByColumn(Item1, Item2: TListItem; Data: integer): integer; stdcall;
+begin
+  if Data = 0 then
+    Result := AnsiCompareText(Item1.Caption, Item2.Caption)
+  else
+    Result := AnsiCompareText(Item1.SubItems[Data-1],
+                              Item2.SubItems[Data-1]);
+end;
 
 { TSynEditOptionsDialog }
 
@@ -767,7 +778,6 @@ begin
       FillInKeystrokeInfo(FSynEdit.Keystrokes.Items[I], Item);
       Item.Data:= FSynEdit.Keystrokes.Items[I];
     end;
-    if (KeyList.Items.Count > 0) then KeyList.Items[0].Selected:= True;
   finally
     KeyList.Items.EndUpdate;
   end;
@@ -964,10 +974,17 @@ procedure TfmEditorOptionsDialog.btnAddKeyClick(Sender: TObject);
 var Item : TListItem;
 begin
   Item:= KeyList.Items.Add;
-  Item.Data:= FSynEdit.Keystrokes.Add;
-  UpdateKey(TSynEditKeystroke(Item.Data));
-  FillInKeystrokeInfo(TSynEditKeystroke(Item.Data), Item);
-  Item.Selected:= True;
+  try
+    Item.Data:= FSynEdit.Keystrokes.Add;
+    UpdateKey(TSynEditKeystroke(Item.Data));
+    FillInKeystrokeInfo(TSynEditKeystroke(Item.Data), Item);
+    Item.Selected:= True;
+  except
+     on E: ESynKeyError do begin
+       MessageBox(0, PChar(E.Message), 'Duplicate Key', MB_ICONERROR or MB_OK);
+       Item.Delete;
+     end;
+  end;
 //  btnUpdateKeyClick(btnAddKey);
 end;
 
@@ -1011,6 +1028,8 @@ begin
       Commands.Free;
     end;
   end;
+  KeyList.CustomSort(@SortByColumn, 0);
+  if (KeyList.Items.Count > 0) then KeyList.Items[0].Selected:= True;
 
   PageControl1.ActivePage := PageControl1.Pages[0];
 
@@ -1148,6 +1167,12 @@ begin
 //    end;
 //  end;
 //  InChanging := False;
+end;
+
+procedure TfmEditorOptionsDialog.KeyListColumnClick(Sender: TObject;
+  Column: TListColumn);
+begin
+  TListView(Sender).CustomSort(@SortByColumn, Column.Index);
 end;
 
 {$IFNDEF SYN_COMPILER_4_UP}
@@ -1331,6 +1356,15 @@ begin
       break;
     end;
 
+end;
+
+procedure TfmEditorOptionsDialog.cmDialogChar( Var msg: TCMDialogChar );
+//  To avoid invoking button accelerators without pressing the ALT button
+begin
+  If ((msg.keydata and $20000000) = 0) or eKeyShort1.Focused or eKeyShort2.Focused Then
+    msg.result := 1 // alt not down, eat key
+  Else
+    inherited;
 end;
 
 end.

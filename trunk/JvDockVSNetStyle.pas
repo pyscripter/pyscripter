@@ -870,6 +870,7 @@ var
 
 var
   NewPane: TJvDockVSPane;
+  Form : TCustomForm;
 begin
   PaneWidth := GetPaneWidth;
   if Control is TJvDockTabHostForm then
@@ -878,12 +879,24 @@ begin
     with TJvDockTabHostForm(Control) do
     begin
       FirstIndex := VSPaneCount;
-      for I := 0 to PageControl.DockClientCount - 1 do
+//      for I := 0 to PageControl.DockClientCount - 1 do
+//      begin
+//        AddPane(PageControl.DockClients[I], PaneWidth);
+//        TJvDockVSNETTabSheet(PageControl.Pages[I]).OldVisible := PageControl.DockClients[I].Visible;
+//        if PageControl.Pages[I] <> PageControl.ActivePage then
+//          PageControl.DockClients[I].Visible := False;
+//      end;
+      for I := 0 to PageControl.Count - 1 do
       begin
-        AddPane(PageControl.DockClients[I], PaneWidth);
-        TJvDockVSNETTabSheet(PageControl.Pages[I]).OldVisible := PageControl.DockClients[I].Visible;
-        if PageControl.Pages[I] <> PageControl.ActivePage then
-          PageControl.DockClients[I].Visible := False;
+        if (PageControl.Pages[I].ControlCount > 0) and
+          (PageControl.Pages[I].Controls[0] is TCustomForm) then
+        begin
+          Form := TCustomForm(PageControl.Pages[I].Controls[0]);
+          AddPane(Form, PaneWidth);
+          TJvDockVSNETTabSheet(PageControl.Pages[I]).OldVisible := Form.Visible;
+          if PageControl.Pages[I] <> PageControl.ActivePage then
+            Form.Visible := False;
+        end;
       end;
       UpdateActivePane(FirstIndex);
     end;
