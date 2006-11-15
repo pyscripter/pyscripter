@@ -892,13 +892,16 @@ begin
           (PageControl.Pages[I].Controls[0] is TCustomForm) then
         begin
           Form := TCustomForm(PageControl.Pages[I].Controls[0]);
-          AddPane(Form, PaneWidth);
+          NewPane := AddPane(Form, PaneWidth);
           TJvDockVSNETTabSheet(PageControl.Pages[I]).OldVisible := Form.Visible;
           if PageControl.Pages[I] <> PageControl.ActivePage then
-            Form.Visible := False;
+            Form.Visible := False
+          else if Assigned(NewPane) then
+            ActivePane := NewPane;
         end;
       end;
-      UpdateActivePane(FirstIndex);
+      if not Assigned(ActivePane) then
+        UpdateActivePane(FirstIndex);
     end;
   end
   else

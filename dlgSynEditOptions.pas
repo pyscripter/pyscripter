@@ -940,12 +940,14 @@ begin
 end;
 
 procedure TfmEditorOptionsDialog.btnUpdateKeyClick(Sender: TObject);
-//var Cmd          : Integer;
-{    KeyLoc       : Integer;
-    TmpCommand   : String;
-    OldShortcut  : TShortcut;
-    OldShortcut2 : TShortcut;
-}
+
+var
+//  Cmd          : Integer;
+//  KeyLoc       : Integer;
+//  TmpCommand   : String;
+  OldShortcut  : TShortcut;
+  OldShortcut2 : TShortcut;
+  Key : TSynEditKeyStroke;
 begin
 //  if (KeyList.Selected = nil) and (Sender <> btnAddKey) then
 //  begin
@@ -956,7 +958,18 @@ begin
   if KeyList.Selected = nil then Exit;
   if cKeyCommand.ItemIndex < 0 then Exit;
 
-  UpdateKey(TSynEditKeyStroke(KeyList.Selected.Data));
+  Key := TSynEditKeyStroke(KeyList.Selected.Data);
+  OldShortcut  := Key.ShortCut;
+  OldShortcut2 := Key.ShortCut2;
+  try
+    UpdateKey(Key);
+  except
+     on E: ESynKeyError do begin
+       Key.ShortCut := OldShortcut;
+       Key.ShortCut2 := OldShortcut2;
+       MessageBox(0, PChar(E.Message), 'Duplicate Key', MB_ICONERROR or MB_OK);
+     end;
+  end;
 //  Cmd := Integer(cKeyCommand.Items.Objects[cKeyCommand.ItemIndex]);
 //
 //  TSynEditKeyStroke(OldSelected.Data).Command:= Cmd;
@@ -982,6 +995,7 @@ begin
   except
      on E: ESynKeyError do begin
        MessageBox(0, PChar(E.Message), 'Duplicate Key', MB_ICONERROR or MB_OK);
+       TSynEditKeyStroke(Item.Data).Free;
        Item.Delete;
      end;
   end;

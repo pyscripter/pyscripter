@@ -536,6 +536,9 @@ begin
   InterpreterEditorOptions.Assign(EditorOptions);
   InterpreterEditorOptions.Options := InterpreterEditorOptions.Options -
     [eoTrimTrailingSpaces, eoTabsToSpaces];
+  InterpreterEditorOptions.Gutter.Visible := False;
+  InterpreterEditorOptions.RightEdge := 0;
+
 
   EditorSearchOptions := TEditorSearchOptions.Create;
   EditorSearchOptions.fSearchTextAtCaret := True;
@@ -844,10 +847,12 @@ begin
   for i := 0 to GI_EditorFactory.Count - 1 do
     GI_EditorFactory.Editor[i].SynEdit.Assign(EditorOptions);
 
-  InterpreterEditorOptions.Assign(EditorOptions);
-  InterpreterEditorOptions.Options := InterpreterEditorOptions.Options -
-    [eoTrimTrailingSpaces, eoTabsToSpaces];
-  PythonIIForm.SynEdit.Assign(InterpreterEditorOptions);
+//  InterpreterEditorOptions.Assign(EditorOptions);
+//  InterpreterEditorOptions.Options := InterpreterEditorOptions.Options -
+//    [eoTrimTrailingSpaces, eoTabsToSpaces];
+//  PythonIIForm.SynEdit.Assign(InterpreterEditorOptions);
+  InterpreterEditorOptions.Keystrokes.Assign(EditorOptions.Keystrokes);
+  PythonIIForm.SynEdit.Keystrokes.Assign(EditorOptions.Keystrokes);
   PythonIIForm.RegisterHistoryCommands;
   PythonIIForm.SynEdit.Highlighter.Assign(CommandsDataModule.SynPythonSyn);
 end;
@@ -861,7 +866,7 @@ begin
     with TSynEditOptionsDialog.Create(Self) do begin
       if Assigned(GI_ActiveEditor) then begin
         TempEditorOptions.Assign(GI_ActiveEditor.SynEdit);
-        Form.cbApplyToAll.Checked := False;
+        Form.cbApplyToAll.Checked := True;
         Form.cbApplyToAll.Enabled := True;
       end else begin
         TempEditorOptions.Assign(EditorOptions);
