@@ -5034,6 +5034,8 @@ begin
         AControl.ManualDock(Self, nil, alClient);
         { DockClients[Index] is always AControl? }
         DockClients[Index].Visible := Boolean(SheetVisible);
+        if (Self is TJvDockVSNETTabPageControl) and (Index = Count - 1) then
+          TJvDockVSNETTabSheet(Pages[Index]).OldVisible := Boolean(SheetVisible);
         Inc(Index);
       end;
     end;

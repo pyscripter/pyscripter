@@ -228,6 +228,8 @@ Limitations: Python scripts are executed in the main thread
             Bug fixes and improvements in Editor Options Keystrokes tab (Issue 6)
             Better error handling of File Open and File Save
             Page Setup Header and Footer not saved  (Issue 7)
+            Hidden Tabbed windows reappearing when restarting
+            Duplicate two-key editor command not detected 
 
   ** Pyscripter flickers a lot when resizing.  I do not know what to do
      about it. In fact this may be a Windows problem.  Even in .NET try the

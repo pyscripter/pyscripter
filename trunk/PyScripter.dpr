@@ -89,7 +89,8 @@ uses
   JvTabBar in 'JvTabBar.pas',
   SynEdit in 'SynEdit.pas',
   JvThread in 'JvThread.pas',
-  JvAppInst in 'JvAppInst.pas';
+  JvAppInst in 'JvAppInst.pas',
+  SynEditKeyCmds in 'SynEditKeyCmds.pas';
 
 {$R *.RES}
 

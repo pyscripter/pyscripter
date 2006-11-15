@@ -54,8 +54,10 @@ inherited PythonIIForm: TPythonIIForm
       Gutter.Font.Height = -11
       Gutter.Font.Name = 'Courier New'
       Gutter.Font.Style = []
+      Gutter.Visible = False
       Gutter.Gradient = True
       Options = [eoDragDropEditing, eoEnhanceHomeKey, eoGroupUndo, eoHideShowScrollbars, eoKeepCaretX, eoShowScrollHint, eoTabIndent, eoTabsToSpaces]
+      RightEdge = 0
       TabWidth = 4
       WantTabs = True
       WordWrap = True
