@@ -38,6 +38,9 @@ var
   Translate: TTranslateProc;
 
 (* checks if AText starts with ALeft *)
+function WideStrIsLeft(AText, ALeft: PWideChar): Boolean;
+
+(* checks if AText starts with ALeft *)
 function StrIsLeft(AText, ALeft: PChar): Boolean;
 
 (* checks if AText ends with ARight *)
@@ -173,6 +176,16 @@ begin
 end;
 
 function StrIsLeft(AText, ALeft: PChar): Boolean;
+(* checks if AText starts with ALeft *)
+begin
+  while (ALeft^ <> #0) and (AText^ <> #0) and (ALeft^ = AText^) do begin
+    Inc(ALeft);
+    Inc(AText);
+  end;
+  Result := ALeft^ = #0;
+end;
+
+function WideStrIsLeft(AText, ALeft: PWideChar): Boolean;
 (* checks if AText starts with ALeft *)
 begin
   while (ALeft^ <> #0) and (AText^ <> #0) and (ALeft^ = AText^) do begin

@@ -101,6 +101,7 @@ type
     fCommandHistory : TWideStringList;
     fCommandHistorySize : integer;
     fCommandHistoryPointer : integer;
+    fCommandHistoryPrefix : WideString;
     fShowOutput : Boolean;
     FCriticalSection : TCriticalSection;
     fOutputStream : TMemoryStream;
@@ -109,6 +110,8 @@ type
               EndLineN: integer; var IsCode: Boolean);
     function GetPromptPrefix(line: string): string;
     procedure SetCommandHistorySize(const Value: integer);
+    procedure GetBlockCode(var Source: WideString;
+      var Buffer: array of WideString; EndLineN: Integer; StartLineN: Integer);
   protected
     procedure PythonIOSendData(Sender: TObject; const Data: WideString);
     procedure PythonIOReceiveData(Sender: TObject; var Data: WideString);
@@ -122,7 +125,7 @@ type
     PythonHelpFile : string;
     function OutputSupressor : IInterface;
     procedure AppendText(S: WideString);
-    procedure AppendToPrompt(Buffer : array of WideString);
+    procedure AppendToPrompt(const Buffer : array of WideString);
     function IsEmpty : Boolean;
     function CanFind: boolean;
     function CanFindNext: boolean;
@@ -251,7 +254,7 @@ begin
   SynEdit.EnsureCursorPosVisible;
 end;
 
-procedure TPythonIIForm.AppendToPrompt(Buffer: array of WideString);
+procedure TPythonIIForm.AppendToPrompt(const Buffer: array of WideString);
 Var
   LineCount, i : integer;
   Line : WideString;
@@ -435,7 +438,7 @@ procedure TPythonIIForm.GetBlockBoundary(LineN: integer; var StartLineN,
   EndLineN: integer; var IsCode: Boolean);
 {-----------------------------------------------------------------------------
 	  GetBlockBoundary takes a line number, and will return the
-	  start and and line numbers of the block, and a flag indicating if the
+	  start and end line numbers of the block, and a flag indicating if the
 	  block is a Python code block.
 	  If the line specified has a Python prompt, then the lines are parsed
     and forwards, and the IsCode is true.
@@ -492,12 +495,14 @@ end;
 procedure TPythonIIForm.SynEditProcessCommand(Sender: TObject;
   var Command: TSynEditorCommand; var AChar: WideChar; Data: Pointer);
 Var
-  LineN, StartLineN, EndLineN, i, Len, Position : integer;
+  LineN, StartLineN, EndLineN, i, Position, Index : integer;
   NeedIndent : boolean;
   IsCode : Boolean;
   Line, CurLine, Source, Indent : WideString;
   EncodedSource : string;
   Buffer : array of WideString;
+  NewCommand : TSynEditorCommand;
+  WChar : WideChar;
 begin
   case Command of
     ecLineBreak :
@@ -515,14 +520,7 @@ begin
            AppendToPrompt(Buffer);
         end else begin
           SetLength(Buffer, EndLineN-StartLineN + 1);
-          Source := '';
-          for i := StartLineN to EndLineN do begin
-            Line := SynEdit.Lines[i];
-            Len := Length(GetPromptPrefix(Line));
-            Buffer[i-StartLineN] := Copy(Line, Len+1, MaxInt);
-            Source := Source + Buffer[i-StartLineN] + WideLF;
-          end;
-          Delete(Source, Length(Source), 1);
+          GetBlockCode(Source, Buffer, EndLineN, StartLineN);
           // If we are in a code-block, but it isnt at the end of the buffer
           // then copy it to the end ready for editing and subsequent execution
           if EndLineN <> SynEdit.Lines.Count - 1 then
@@ -557,6 +555,9 @@ begin
               NeedIndent := False;
 
               //  Add the command executed to History
+              Index := fCommandHistory.IndexOf(Source);
+              if Index >= 0  then
+                fCommandHistory.Delete(Index);
               FCommandHistory.Add(Source);
               SetCommandHistorySize(fCommandHistorySize);
               fCommandHistoryPointer := fCommandHistory.Count;
@@ -609,7 +610,21 @@ begin
         if ((Pos(PS1, Line) = 1) and (SynEdit.CaretX <= Length(PS1))) or
              ((Pos(PS2, Line) = 1) and (SynEdit.CaretX <= Length(PS2)))
         then
-            Command := ecNone;  // do not processed it further
+          Command := ecNone;  // do not processed it further
+      end;
+    ecUp, ecDown :
+      begin
+        LineN := SynEdit.CaretY - 1;  // Caret is 1 based
+        GetBlockBoundary(LineN, StartLineN, EndLineN, IsCode);
+        if IsCode and (EndLineN = SynEdit.Lines.Count - 1) then begin
+          if Command = ecUp then
+            NewCommand := ecRecallCommandPrev
+          else
+            NewCommand := ecRecallCommandNext;
+          WChar := WideNull;
+          SynEditProcessUserCommand(Self, NewCommand, WChar, nil);
+          Command := ecNone;  // do not processed it further
+        end;
       end;
   end;
 end;
@@ -692,9 +707,9 @@ procedure TPythonIIForm.SynEditProcessUserCommand(Sender: TObject;
 Var
   LineN, StartLineN, EndLineN, i: integer;
   IsCode: Boolean;
-  Source : WideString;
+  Source, BlockSource : WideString;
   Buffer : array of WideString;
-  SL : TWideStringList;
+  P1, P2 : PWideChar;
 begin
   if Command = ecCodeCompletion then begin
     if SynCodeCompletion.Form.Visible then
@@ -719,53 +734,102 @@ begin
     SynParamCompletion.CancelCompletion;
     LineN := SynEdit.CaretY -1;
     GetBlockBoundary(LineN, StartLineN, EndLineN, IsCode);
-    // if we have code at the end remove code block
-    if IsCode and (EndLineN = SynEdit.Lines.Count - 1) then begin
-      SynEdit.BeginUpdate;
-      try
-        for i := EndLineN downto StartLineN do
-          SynEdit.Lines.Delete(i);
-      finally
-        SynEdit.EndUpdate;
-      end;
+    SetLength(Buffer, EndLineN-StartLineN + 1);
+    GetBlockCode(BlockSource, Buffer, EndLineN, StartLineN);
+    // Prefix
+    if fCommandHistoryPrefix <> '' then begin
+      if not (IsCode and (EndLineN = SynEdit.Lines.Count - 1) and
+              (SynEdit.CaretX = Length(SynEdit.Lines[SynEdit.Lines.Count - 1])+1) and
+              InRange(fCommandHistoryPointer, 0, fCommandHistory.Count-1) and
+              (BlockSource =  fCommandHistory[fCommandHistoryPointer])) then
+        fCommandHistoryPrefix := ''
+    end else begin
+      if IsCode and (EndLineN = SynEdit.Lines.Count - 1) and
+              (SynEdit.CaretX = Length(SynEdit.Lines[SynEdit.Lines.Count - 1])+1) and
+              not (InRange(fCommandHistoryPointer, 0, fCommandHistory.Count-1) and
+              (BlockSource =  fCommandHistory[fCommandHistoryPointer]))
+      then
+        fCommandHistoryPrefix := BlockSource;
     end;
-    //Append new prompt if needed
-    SetLength(Buffer, 0);
-    AppendToPrompt(Buffer);
-    SynEdit.ExecuteCommand(ecEditorBottom, ' ', nil);
-    SynEdit.EnsureCursorPosVisible;
-  end else
-    Exit;
 
-  // We get here if Command is one or our defined commands
-
-  Source := '';
-  if fCommandHistory.Count = 0 then Exit;
-
-  if Command = ecRecallCommandPrev then
-    fCommandHistoryPointer := Max (fCommandHistoryPointer - 1, -1)
-  else if Command = ecRecallCommandNext then
-    fCommandHistoryPointer := Min (fCommandHistoryPointer + 1, fCommandHistory.Count)
-  else if Command = ecRecallCommandEsc then
-    fCommandHistoryPointer := fCommandHistory.Count;
-
-
-  if (fCommandHistoryPointer >= 0) and
-     (fCommandHistoryPointer < fCommandHistory.Count) then
-    Source := fCommandHistory[fCommandHistoryPointer];
-
-  if Source <> '' then begin
-    SL := TWideStringList.Create;
+    // if we have code at the end remove code block
+    SynEdit.BeginUpdate;
     try
-      SL.Text := Source;
-      SetLength(Buffer, SL.Count);
-      for i := 0 to SL.Count - 1 do
-        Buffer[i] := SL[i];
+      if IsCode and (EndLineN = SynEdit.Lines.Count - 1) then begin
+          for i := EndLineN downto StartLineN do
+            SynEdit.Lines.Delete(i);
+      end;
+      //Append new prompt if needed
+      SetLength(Buffer, 0);
       AppendToPrompt(Buffer);
       SynEdit.ExecuteCommand(ecEditorBottom, ' ', nil);
       SynEdit.EnsureCursorPosVisible;
     finally
-      SL.Free;
+      SynEdit.EndUpdate;
+    end;
+  end else
+    Exit;
+
+  // We get here if Command is one or our defined Recall commands
+
+  Source := '';
+  if fCommandHistory.Count = 0 then Exit;
+
+  if Command = ecRecallCommandEsc then begin
+   fCommandHistoryPointer := fCommandHistory.Count;
+   fCommandHistoryPrefix := '';
+  end else
+    Repeat
+      if Command = ecRecallCommandPrev then
+        Dec(fCommandHistoryPointer)
+      else if Command = ecRecallCommandNext then
+        Inc(fCommandHistoryPointer);
+      fCommandHistoryPointer := EnsureRange(fCommandHistoryPointer, -1, fCommandHistory.Count);
+    Until not InRange(fCommandHistoryPointer, 0, fCommandHistory.Count-1) or
+      (fCommandHistoryPrefix = '') or
+       WideStrIsLeft(PWideChar(fCommandHistory[fCommandHistoryPointer]), PWideChar(fCommandHistoryPrefix));
+
+  if InRange(fCommandHistoryPointer, 0, fCommandHistory.Count-1) then
+    Source := fCommandHistory[fCommandHistoryPointer]
+  else begin
+    if Command <> ecRecallCommandEsc then
+      Beep();
+    Source := fCommandHistoryPrefix;
+    fCommandHistoryPrefix := '';
+  end;
+
+  if Source <> '' then begin
+    SynEdit.BeginUpdate;
+    try
+      i := 0;
+      P1 := PWideChar(Source);
+      while P1 <> nil do begin
+        P1 := StrScanW(P1, WideLF);
+        if Assigned(P1) then Inc(P1);
+        Inc(i);
+      end;
+      SetLength(Buffer, i);
+
+      i := 0;
+      P1 := PWideChar(Source);
+      while P1 <> nil do begin
+        P2 := StrScanW(P1, WideLF);
+        if P2 = nil then
+          Buffer[i] := Copy(Source, P1 - PWideChar(Source) + 1,
+            Length(Source) - (P1 - PWideChar(Source)))
+        else begin
+          Buffer[i] := Copy(Source, P1 - PWideChar(Source) + 1, P2 - P1);
+          Inc(P2);
+        end;
+        P1 := P2;
+        Inc(i);
+      end;
+
+      AppendToPrompt(Buffer);
+      SynEdit.ExecuteCommand(ecEditorBottom, ' ', nil);
+      SynEdit.EnsureCursorPosVisible;
+    finally
+      SynEdit.EndUpdate;
     end;
   end;
   Command := ecNone;  // do not processed it further
@@ -1221,6 +1285,26 @@ begin
     ShortCut := Menus.ShortCut(VK_ESCAPE, []);
     Command := ecRecallCommandEsc;
   end;
+end;
+
+procedure TPythonIIForm.GetBlockCode(var Source: WideString;
+  var Buffer: array of WideString; EndLineN: Integer; StartLineN: Integer);
+var
+  Len: Integer;
+  Line: WideString;
+  i: Integer;
+begin
+  Assert(Length(Buffer) = EndLineN-StartLineN + 1);
+
+  Source := '';
+  for i := StartLineN to EndLineN do
+  begin
+    Line := SynEdit.Lines[i];
+    Len := Length(GetPromptPrefix(Line));
+    Buffer[i - StartLineN] := Copy(Line, Len + 1, MaxInt);
+    Source := Source + Buffer[i - StartLineN] + WideLF;
+  end;
+  Delete(Source, Length(Source), 1);
 end;
 
 
