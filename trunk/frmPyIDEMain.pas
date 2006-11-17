@@ -219,7 +219,12 @@ Limitations: Python scripts are executed in the main thread
             Unit Testing broken (regression)
             Gap in the default tool bar (Issue #3)
 
- History:   v 1.7.2.3
+ History:   v 1.7.2.4
+          New Features
+            Interpreter command history improvements:
+              - Delete duplicates
+              - Filter history by typing the first few command characters
+              - Up|Down keys at the prompt recall commands from history
           Bug fixes
             Shell Integration - Error when opening multiple files
             Configure External Run - ParseTraceback not saved properly
@@ -229,7 +234,7 @@ Limitations: Python scripts are executed in the main thread
             Better error handling of File Open and File Save
             Page Setup Header and Footer not saved  (Issue 7)
             Hidden Tabbed windows reappearing when restarting
-            Duplicate two-key editor command not detected 
+            Duplicate two-key editor command not detected
 
   ** Pyscripter flickers a lot when resizing.  I do not know what to do
      about it. In fact this may be a Windows problem.  Even in .NET try the
