@@ -105,7 +105,8 @@ var
 implementation
 
 uses uCommonFunctions, uHighlighterProcs, frmPyIDEMain, VarPyth, JvJVCLUtils,
-  uEditAppIntfs, PythonEngine, frmPythonII, dmCommands, cPyBaseDebugger, JclSysUtils;
+  uEditAppIntfs, PythonEngine, frmPythonII, dmCommands, cPyBaseDebugger, JclSysUtils,
+  cPyDebugger;
 
 {$R *.dfm}
 
@@ -157,7 +158,7 @@ begin
     ModuleName.Caption := 'Module: ' + Editor.FileTitle;
     ModuleName.Hint := Editor.FileName;
 
-    Module := PyIDEMainForm.PyDebugger.ImportModule(Editor);
+    Module := PyControl.ActiveInterpreter.ImportModule(Editor);
     UnitTest := Import('unittest');
     TestSuite := UnitTest.findTestCases(Module);
     //  This TestSuite contains a list of TestSuites
@@ -422,8 +423,8 @@ Var
   ClassNode, TestCaseNode : PVirtualNode;
   StartTime, StopTime, Freq : Int64;
 begin
-  // Only allow when PyDebugger is inactive
-  if PyIDEMainForm.PyDebugger.DebuggerState <> dsInactive then Exit;
+  // Only allow when PyControl.ActiveDebugger is inactive
+  if PyControl.DebuggerState <> dsInactive then Exit;
   UnitTestModule := Import('unittest');
 
   //  Create a TempTestSuite that contains only the checked tests
@@ -456,7 +457,7 @@ begin
   UpdateActions;
   PyIDEMainForm.DebuggerStateChange(Self, dsInactive, dsRunningNoDebug);
   Application.ProcessMessages;
-  TestResult := PythonIIForm.II.IDETestResult();
+  TestResult := InternalInterpreter.PyInteractiveInterpreter.IDETestResult();
   try
     QueryPerformanceCounter(StartTime);
     TempTestSuite.run(TestResult);
@@ -613,7 +614,7 @@ begin
   Count := SelectedTestCount;
 
   actRun.Enabled := (Status in [utwLoaded, utwRun]) and (Count > 0) and
-    (PyIDEMainForm.PyDebugger.DebuggerState = dsInactive);
+    (PyControl.DebuggerState = dsInactive);
 
   actSelectAll.Enabled := Status in [utwLoaded, utwRun];
   actDeselectAll.Enabled := Status in [utwLoaded, utwRun];

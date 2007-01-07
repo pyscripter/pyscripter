@@ -147,20 +147,27 @@ begin
         else
           ImageIndex := 10;
       end else if Data.NameSpaceItem.IsModule then
-        ImageIndex := 18
+        ImageIndex := 16
       else if Data.NameSpaceItem.IsMethod then
-        ImageIndex := 11
-      else if Data.NameSpaceItem.IsFunction then
         ImageIndex := 14
-      else if Data.NameSpaceItem.Has__dict__ then begin
+      else if Data.NameSpaceItem.IsFunction then
+        ImageIndex := 17
+      else if Data.NameSpaceItem.IsClass or Data.NameSpaceItem.Has__dict__ then begin
         if (Data.NameSpaceItem.ChildCount > 0) and
            (vsExpanded in Node.States)
         then
           ImageIndex := 12
         else
-          ImageIndex := 13;
-      end else
-        ImageIndex := 1
+          ImageIndex := 13; 
+      end else begin
+        if Assigned(Node.Parent) and
+          (PPyObjRec(VariablesTree.GetNodeData(Node.Parent)).NameSpaceItem.IsDict
+            or PPyObjRec(VariablesTree.GetNodeData(Node.Parent)).NameSpaceItem.IsModule)
+        then
+          ImageIndex := 0
+        else
+          ImageIndex := 1;
+      end;
     end
   end else
     ImageIndex := -1;
@@ -278,8 +285,8 @@ begin
     CurrentFileName := CurrentFrame.FileName;
     CurrentFunctionName := CurrentFrame.FunctionName;
     // Set the initial number of nodes.
-    GlobalsNameSpace := PyIDEMainForm.PyDebugger.GetFrameGlobals(CurrentFrame);
-    LocalsNameSpace := PyIDEMainForm.PyDebugger.GetFrameLocals(CurrentFrame);
+    GlobalsNameSpace := PyControl.ActiveDebugger.GetFrameGlobals(CurrentFrame);
+    LocalsNameSpace := PyControl.ActiveDebugger.GetFrameLocals(CurrentFrame);
     if Assigned(GlobalsNameSpace) and Assigned(LocalsNameSpace) then
       RootNodeCount := 2
     else
@@ -287,7 +294,7 @@ begin
   end else begin
     CurrentFileName := '';
     CurrentFunctionName := '';
-    GlobalsNameSpace := TNameSpaceItem.Create('globals', VarPythonEval('globals()'));
+    GlobalsNameSpace := PyControl.ActiveInterpreter.GetGlobals;
     RootNodeCount := 1;
   end;
 
@@ -391,5 +398,6 @@ begin
 end;
 
 end.
+
 
 

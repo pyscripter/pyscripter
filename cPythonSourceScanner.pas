@@ -207,7 +207,7 @@ public
 implementation
 
 uses uCommonFunctions, JclStrings, JclFileUtils, cRefactoring, VarPyth,
-  StringResources, JclSysUtils, Math;
+  StringResources, JclSysUtils, Math, cPyDebugger;
 
 Const
   IdentRE = '[A-Za-z_][A-Za-z0-9_]*';
@@ -395,10 +395,10 @@ begin
   if DocStringSource = '' then Exit;
 
   if DocStringRE.Exec(DocStringSource) then begin
-    if DocStringRE.MatchPos[1] >= 0 then
-      fDocString := DocStringRE.Match[1]
+    if DocStringRE.MatchPos[2] >= 0 then
+      fDocString := DocStringRE.Match[2]
     else
-      fDocString := DocStringRE.Match[2];
+      fDocString := DocStringRE.Match[3];
 
     fDocString := FormatDocString(fDocString);
   end;
@@ -504,6 +504,16 @@ Var
     end;
   end;
 
+  procedure RemoveComment(var S : string);
+  var
+    Index : Integer;
+  begin
+    // Remove comment
+    Index := CharPos(S, '#');
+    if Index > 0 then
+      S := Copy(S, 1, Index -1);
+  end;
+
   function ProcessLineContinuation(var P : PChar; var Line : string;
     var LineNo: integer; LineStarts : TList): boolean;
   // Process continuation lines
@@ -513,6 +523,7 @@ Var
     NewLine : string;
   begin
     LineStarts.Clear;
+    RemoveComment(Line);
     ExplicitContinuation := fLineContinueRE.Exec(Line);
     ImplicitContinuation := HaveImplicitContinuation(Line, CountArray, True);
     Result := ExplicitContinuation or ImplicitContinuation;
@@ -522,6 +533,7 @@ Var
         Line := Copy(Line, 1, fLineContinueRE.MatchPos[0] - 1);
       LineStarts.Add(Pointer(Length(Line)+2));
       GetLine(P, NewLine, LineNo);
+      RemoveComment(NewLine);
       if ExplicitContinuation and (Trim(NewLine)='') then break;
       Line := Line + ' ' + NewLine;
       ExplicitContinuation := fLineContinueRE.Exec(Line);
@@ -635,7 +647,8 @@ Var
             if ParseState in [psInSingleString, psInDoubleString, psInComment] then
               ParseState := psNormal;
           end;
-        ' ', #9 : {do nothing};
+        ' ',
+        #9 : {do nothing};
       else
         if ParseState <> psNormal then
           pRes^ := '*';
@@ -1046,7 +1059,7 @@ begin
   if Length(Path) > 1 then
   begin
     // Add the path of the executed file to the Python path
-    PythonPathAdder := AddPathToPythonPath(Path);
+    PythonPathAdder :=  InternalInterpreter.AddPathToPythonPath(Path);
   end;
   for i := 0 to fImportedModules.Count - 1 do
   begin
@@ -1484,7 +1497,7 @@ end;
 
 initialization
   DocStringRE := TRegExpr.Create;
-  DocStringRE.Expression := '(?sm)\"\"\"(.*?)\"\"\"|''''''(.*?)''''''';
+  DocStringRE.Expression := '(?sm)^[ \t]*[ur]?(\"\"\"(.*?)\"\"\"|''''''(.*?)'''''')';
   DocStringRE.Compile;
 finalization
   FreeAndNil(DocStringRE);

@@ -83,6 +83,7 @@ begin
       end;
       InspCat.Expanded := True;
     end;
+  Inspector.Root.Sort;
 end;
 
 procedure TOptionsInspector.OKButtonClick(Sender: TObject);

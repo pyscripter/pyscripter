@@ -77,6 +77,18 @@ type
     property ModuleImport : TModuleImport read GetModuleImport;
   end;
 
+  TImportNameCENode = class(TAbstractCENode)
+  private
+    function GetVariable : TVariable;
+  protected
+    function GetHint: string; override;
+    function GetCaption: string; override;
+    function GetImageIndex : integer; override;
+  public
+    constructor CreateFromVariable(AVariable : TVariable);
+    property Variable : TVariable read GetVariable;
+  end;
+
   TGlobalsCENode = class(TAbstractCENode)
   private
     fModule : TParsedModule;
@@ -633,25 +645,74 @@ begin
 end;
 
 constructor TImportCENode.CreateFromModuleImport(AModuleImport: TModuleImport);
+Var
+  i : integer;
 begin
   inherited Create;
   fCodeElement := AModuleImport;
+  if Assigned(AModuleImport.ImportedNames) then with AModuleImport do
+    for i := 0 to ImportedNames.Count - 1 do
+      AddChild(TImportNameCENode.CreateFromVariable(ImportedNames[i] as TVariable));
 end;
 
 function TImportCENode.GetImageIndex: integer;
 begin
-  Result := 16;
+  if ModuleImport.ImportAll or (ChildCount > 0) then
+    Result := 19
+  else
+    Result := 16;
 end;
 
 function TImportCENode.GetHint: string;
 begin
-  Result := Format('Imported Module "%s" at line %d',
+  if ModuleImport.RealName <> ModuleImport.Name then
+    Result := Format('Imported Module "%s" as %s at line %d',
+                    [ModuleImport.RealName, ModuleImport.Name, 
+                     fCodeElement.CodePos.LineNo])
+  else
+    Result := Format('Imported Module "%s" at line %d',
                     [ModuleImport.Name, fCodeElement.CodePos.LineNo]);
+  if ModuleImport.ImportAll then
+    Result := Result + ' (* import)';
 end;
 
 function TImportCENode.GetModuleImport: TModuleImport;
 begin
   Result := fCodeElement as TModuleImport;
+end;
+
+{ TImportNameCENode }
+
+constructor TImportNameCENode.CreateFromVariable(AVariable : TVariable);
+begin
+  fCodeElement := AVariable;
+end;
+
+function TImportNameCENode.GetCaption: string;
+begin
+  Result := Variable.Name;
+end;
+
+function TImportNameCENode.GetHint: string;
+begin
+  if Variable.RealName = Variable.Name then
+    Result := Format('Imported identifier "%s" from module "%s"',
+                [Variable.Name,
+                (Variable.Parent as TModuleImport).Name])
+  else
+    Result := Format('Imported identifier "%s" as "%s" from module "%s"',
+                [Variable.RealName, Variable.Name,
+                (Variable.Parent as TModuleImport).Name]);
+end;
+
+function TImportNameCENode.GetImageIndex: integer;
+begin
+  Result := -1;
+end;
+
+function TImportNameCENode.GetVariable: TVariable;
+begin
+  Result := fCodeElement as TVariable;
 end;
 
 { TGlobalsCENode }

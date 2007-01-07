@@ -478,7 +478,9 @@ inherited PythonIIForm: TPythonIIForm
       '        except:'
       '            pass'
       '        if prompt is None: prompt = ""'
-      '        ret=DebugIDE.InputBox('#39'PyScripter'#39', prompt,"")'
+      
+        '        ret=DebugIDE.InputBox(u'#39'Python input'#39', unicode(prompt),u' +
+        '"")'
       '        if ret is None:'
       '            raise KeyboardInterrupt, "operation cancelled"'
       '        return ret'

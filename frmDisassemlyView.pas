@@ -39,8 +39,8 @@ type
 
 implementation
 
-uses frmPyIDEMain, VarPyth, PythonEngine, dmCommands, uCommonFunctions,
-  JvJVCLUtils;
+uses VarPyth, PythonEngine, dmCommands, uCommonFunctions,
+  JvJVCLUtils, cPyBaseDebugger;
 
 {$R *.dfm}
 
@@ -73,7 +73,7 @@ begin
   Cursor := WaitCursor;
   Application.ProcessMessages;
 
-  module := PyIDEMainForm.PyDebugger.ImportModule(Editor);
+  module := PyControl.ActiveInterpreter.ImportModule(Editor);
   GetPythonEngine.ExecString(Code);
 
   getdis := VarPythonEval('GetDis');

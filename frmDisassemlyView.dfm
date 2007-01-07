@@ -1,10 +1,10 @@
 object DisForm: TDisForm
   Left = 281
   Top = 152
-  Width = 607
-  Height = 416
   HelpContext = 860
   Caption = 'Dissassemby View'
+  ClientHeight = 382
+  ClientWidth = 599
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText

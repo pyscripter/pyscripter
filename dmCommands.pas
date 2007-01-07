@@ -20,7 +20,8 @@ uses
   SynEditRegexSearch, SynEditMiscClasses, SynEditSearch, VirtualTrees,
   SynEditTextBuffer, SynEditKeyCmds, JvComponentBase, SynHighlighterXML,
   SynHighlighterCSS, SynHighlighterHtml, JvProgramVersionCheck, JvPropertyStore,
-  SynHighlighterIni, TB2MRU, TBXExtItems, JvAppInst;
+  SynHighlighterIni, TB2MRU, TBXExtItems, JvAppInst, uEditAppIntfs, SynUnicode,
+  JvTabBar;
 
 type
   TPythonIDEOptions = class(TPersistent)
@@ -54,6 +55,10 @@ type
     fCleanupSysModules : Boolean;
     fCheckSyntaxAsYouType : Boolean;
     fFileExplorerContextMenu : Boolean;
+    fNewFileLineBreaks : TSynEditFileFormat;
+    fNewFileEncoding : TFileSaveFormat;
+    fDetectUTF8Encoding: Boolean;
+    fEditorTabPosition : TJvTabBarOrientation;
   public
     constructor Create;
     procedure Assign(Source: TPersistent); override;
@@ -109,6 +114,13 @@ type
       write fCheckSyntaxAsYouType;
     property FileExplorerContextMenu : Boolean read fFileExplorerContextMenu
       write fFileExplorerContextMenu;
+    property NewFileLineBreaks : TSynEditFileFormat read fNewFileLineBreaks
+      write fNewFileLineBreaks;
+    property NewFileEncoding : TFileSaveFormat read fNewFileEncoding write fNewFileEncoding;
+    property DetectUTF8Encoding : Boolean read fDetectUTF8Encoding
+      write fDetectUTF8Encoding;
+    property EditorTabPosition : TJvTabBarOrientation read fEditorTabPosition
+      write fEditorTabPosition;
 
   end;
 
@@ -226,6 +238,8 @@ type
     actFileTemplates: TAction;
     SynIniSyn: TSynIniSyn;
     CommandLineMRU: TTBXMRUList;
+    actEditAnsi: TAction;
+    actEditUTF8NoBOM: TAction;
     function ProgramVersionHTTPLocationLoadFileFromRemote(
       AProgramVersionLocation: TJvProgramVersionHTTPLocation; const ARemotePath,
       ARemoteFileName, ALocalPath, ALocalFileName: string): string;
@@ -291,20 +305,20 @@ type
     procedure actEditShowSpecialCharsExecute(Sender: TObject);
     procedure actFindNextReferenceExecute(Sender: TObject);
     procedure actEditLBExecute(Sender: TObject);
-    procedure actEditUTF8Execute(Sender: TObject);
     procedure actHelpEditorShortcutsExecute(Sender: TObject);
     procedure actInterpreterEditorOptionsExecute(Sender: TObject);
     procedure actEditToggleCommentExecute(Sender: TObject);
     procedure actFileTemplatesExecute(Sender: TObject);
+    procedure actEditFileEncodingExecute(Sender: TObject);
   private
     fHighlighters: TStrings;
     fUntitledNumbers: TBits;
-    fChangeNotifyFileNames : TStringList;
+    fUpdatingChangeNotify : Boolean;
     fSearchFromCaret: boolean;
   public
     BlockOpenerRE : TRegExpr;
     BlockCloserRE : TRegExpr;
-    EOLCleanerRE : TRegExpr;
+    //EOLCleanerRE : TRegExpr;
     CommentLineRE : TRegExpr;
     NumberOfOriginalImages : integer;
     NonExecutableLineRE : TRegExpr;
@@ -313,7 +327,6 @@ type
     PyIDEOptions : TPythonIDEOptions;
     EditorSearchOptions : TEditorSearchOptions;
     ExcludedFileNotificationdDrives : TStringList;
-    function CleanEOLs(S : string) : string;
     function IsBlockOpener(S : string) : Boolean;
     function IsBlockCloser(S : string) : Boolean;
     function IsExecutableLine(Line : string) : Boolean;
@@ -355,6 +368,9 @@ Const
   ecCodeCompletion : word = ecUserFirst + 103;
   ecParamCompletion : word = ecUserFirst + 104;
 
+function LoadFileIntoWideStrings(const AFileName: string;
+  WideStrings : TWideStrings; var Encoding : TFileSaveFormat): boolean;
+
 var
   CommandsDataModule: TCommandsDataModule = nil;
 
@@ -363,7 +379,7 @@ implementation
 {$R *.DFM}
 
 uses
-  uEditAppIntfs, SynEditTypes, dlgSynPageSetup, uHighlighterProcs,
+  SynEditTypes, dlgSynPageSetup, uHighlighterProcs,
   dlgOptionsEditor, frmPythonII, dlgDirectoryList, VarPyth,
   dlgAboutPyScripter, frmPyIDEMain, JclFileUtils, SHDocVw, Variants,
   JclStrings, frmEditor, frmFindResults, cParameters, dlgCustomParams,
@@ -371,8 +387,8 @@ uses
   frmFunctionList, StringResources, TBXThemes, TBX, uCommonFunctions,
   StoHtmlHelp, {uMMMXP_MainService, }JvJCLUtils, Menus, SynEditStrConst,
   dlgSearchText, dlgReplaceText, dlgConfirmReplace, dlgCustomShortcuts,
-  dlgUnitTestWizard, WinInet, Math, SynUnicode, Registry, ShlObj, ShellAPI,
-  dlgFileTemplates, JclSysInfo;
+  dlgUnitTestWizard, WinInet, Math, Registry, ShlObj, ShellAPI,
+  dlgFileTemplates, JclSysInfo, cPyBaseDebugger, JclSysUtils, dlgPickList;
 
 { TPythonIDEOptions }
 
@@ -409,6 +425,10 @@ begin
       Self.fCleanupSysModules := CleanupSysModules;
       Self.fCheckSyntaxAsYouType := CheckSyntaxAsYouType;
       Self.fFileExplorerContextMenu := FileExplorerContextMenu;
+      Self.fNewFileLineBreaks := NewFileLineBreaks;
+      Self.fNewFileEncoding := NewFileEncoding;
+      Self.fDetectUTF8Encoding := DetectUTF8Encoding;
+      Self.fEditorTabPosition := EditorTabPosition;
     end
   else
     inherited;
@@ -420,7 +440,7 @@ begin
   fSaveFilesBeforeRun := True;
   fCreateBackupFiles := False;
   fExporerInitiallyExpanded := False;
-  fPythonFileFilter := SYNS_FilterPython;
+  fPythonFileFilter := 'Python Files (*.py;*.pyw)|*.py;*.pyw';
   fHTMLFileFilter := SYNS_FilterHTML;
   fXMLFileFilter := SYNS_FilterXML;
   fCSSFileFilter := SYNS_FilterCSS;
@@ -442,6 +462,10 @@ begin
   fCleanupSysModules := True;
   fCheckSyntaxAsYouType := True;
   fFileExplorerContextMenu := True;
+  fNewFileLineBreaks := sffDos;
+  fNewFileEncoding := sf_Ansi;
+  fDetectUTF8Encoding := True;
+  fEditorTabPosition := toBottom;
 end;
 
 { TEditorSearchOptions }
@@ -469,8 +493,15 @@ end;
 
 { TCommandsDataModule }
 
+type
+  TCrackSynCustomHighlighter = class(TSynCustomHighlighter)
+  end;
+
 procedure TCommandsDataModule.DataModuleCreate(Sender: TObject);
+
 var
+  i: Integer;
+  Highlighter : TSynCustomHighlighter;
   SHFileInfo: TSHFileInfo;
   Index : integer;
 begin
@@ -479,10 +510,20 @@ begin
   TStringList(fHighlighters).CaseSensitive := False;
   GetHighlighters(Self, fHighlighters, False);
   TStringList(fHighlighters).Sort;
+
   //  Place Python first
   Index := fHighlighters.IndexOf(SynPythonSyn.LanguageName);
   if Index >= 0 then fHighlighters.Delete(Index);
   fHighlighters.InsertObject(0, SynPythonSyn.LanguageName, SynPythonSyn);
+
+  // this is to save the internal state of highlighter attributes
+  // Work around for the reported bug according to which some
+  // highlighter attributes were not saved
+  for i := 0 to Highlighters.Count - 1 do begin
+    Highlighter := Highlighters.Objects[i] as TSynCustomHighlighter;
+    with TCrackSynCustomHighlighter(Highlighter) do
+        SetAttributesOnChange(DefHighlightChange);
+  end;
 
   // DefaultOptions
   PyIDEOptions := TPythonIDEOptions.Create;
@@ -496,10 +537,10 @@ begin
   BlockCloserRE.Expression := '\s*(return|break|continue|raise|pass)\b';
   NonExecutableLineRE := TRegExpr.Create;
   NonExecutableLineRE.Expression := '(^\s*(class|def)\b)|(^\s*#)|(^\s*$)';
-  EOLCleanerRE := TRegExpr.Create;
-  EOLCleanerRE.Expression := '(\r\n)|\r|(\n\r)';
-  EOLCleanerRE.ModifierM := True;
-  EOLCleanerRE.ModifierS := False;
+  //EOLCleanerRE := TRegExpr.Create;
+  //EOLCleanerRE.Expression := '(\r\n)|\r|(\n\r)';
+  //EOLCleanerRE.ModifierM := True;
+  //EOLCleanerRE.ModifierS := False;
   CommentLineRE := TRegExpr.Create;
   CommentLineRE.Expression := '^##';
   CommentLineRE.ModifierM := True;
@@ -550,9 +591,6 @@ begin
     Add('$PAGENUM$/$PAGECOUNT$', nil, taCenter, 1);
   end;
 
-  // Support for ChangeNotify
-    fChangeNotifyFileNames := TStringList.Create;
-
   // Parameter Completion
   PrepareParameterCompletion;
   PrepareModifierCompletion;
@@ -579,12 +617,11 @@ begin
   BlockOpenerRE.Free;
   BlockCloserRE.Free;
   NonExecutableLineRE.Free;
-  EOLCleanerRE.Free;
+  //EOLCleanerRE.Free;
   CommentLineRE.Free;
   PyIDEOptions.Free;
   ExcludedFileNotificationdDrives.Free;
   EditorSearchOptions.Free;
-  fChangeNotifyFileNames.Free;
   imlShellIcon.Handle := 0;
 end;
 
@@ -810,8 +847,15 @@ Var
 begin
   if Assigned(GI_ActiveEditor) then
     if InputQuery('Go to line number', 'Enter line number:', Line) then begin
-      LineNo := StrToInt(Line);
-      GI_ActiveEditor.SynEdit.CaretXY := BufferCoord(1, LineNo);
+      try
+        LineNo := StrToInt(Line);
+        GI_ActiveEditor.SynEdit.CaretXY := BufferCoord(1, LineNo);
+      except
+        on E: EConvertError do begin
+          MessageDlg(Format('"%s" is not a valid integer', [Line]), mtError,
+            [mbAbort], 0);
+        end;
+      end;
     end;
 end;
 
@@ -831,10 +875,8 @@ begin
       GI_ActiveEditor.SynEdit.Text);
     if Tests <> '' then begin
       Editor := PyIDEMainForm.DoOpenFile('', 'Python');
-      if Assigned(Editor) then begin
-        Editor.SynEdit.Text := Tests;
-        Editor.SynEdit.Modified := True;
-      end;
+      if Assigned(Editor) then 
+        Editor.SynEdit.SelText := Tests;
     end;
   end;
 end;
@@ -938,12 +980,17 @@ end;
 
 procedure TCommandsDataModule.actEditToggleCommentExecute(Sender: TObject);
 var
-  i : integer;
+  i, EndLine : integer;
   BlockIsCommented : Boolean;
 begin
   if Assigned(GI_ActiveEditor) then with GI_ActiveEditor.SynEdit do begin
+    if (BlockBegin.Line <> BlockEnd.Line) and (BlockEnd.Char = 1) then
+      EndLine := BlockEnd.Line - 1
+    else
+      EndLine := BlockEnd.Line;
+
     BlockIsCommented := True;
-    for i  := BlockBegin.Line to BlockEnd.Line do
+    for i  := BlockBegin.Line to EndLine do
       if Copy(Lines[i-1], 1, 2) <> '##' then begin
         BlockIsCommented := False;
         Break;
@@ -953,6 +1000,14 @@ begin
       actEditUncommentExecute(Sender)
     else
       actEditCommentOutExecute(Sender);
+  end;
+end;
+
+procedure TCommandsDataModule.actEditFileEncodingExecute(Sender: TObject);
+begin
+  if (Sender is TAction) and Assigned(GI_ActiveEditor) then begin
+    GI_ActiveEditor.FileEncoding := TFileSaveFormat(TAction(Sender).Tag);
+    GI_ActiveEditor.SynEdit.Modified := True;
   end;
 end;
 
@@ -987,7 +1042,9 @@ begin
       SelText := S;
       EndUpdate;
       BlockBegin := OldBlockBegin;
-      BlockEnd := BufferCoord(OldBlockEnd.Char + 2, OldBlockEnd.Line);
+      if Offset = 0 then
+        Inc(OldBlockEnd.Char, 2);
+      BlockEnd := BufferCoord(OldBlockEnd.Char, OldBlockEnd.Line);
     end
     else  begin // no selection; easy stuff ;)
       // Do with selection to be able to undo
@@ -1017,7 +1074,7 @@ begin
       BlockEnd := BufferCoord(OldBlockEnd.Char - 2, OldBlockEnd.Line);
     end else begin
       BlockBegin := BufferCoord(1, CaretY);
-      BlockEnd := BufferCoord(Length(LineText), CaretY);
+      BlockEnd := BufferCoord(Length(LineText)+1, CaretY);
       SelText := CommentLineRE.Replace(SelText, '', False);
       CaretXY := BufferCoord(OldBlockEnd.Char - 2, OldBlockEnd.Line);
     end;
@@ -1058,17 +1115,6 @@ begin
   end;
 end;
 
-procedure TCommandsDataModule.actEditUTF8Execute(Sender: TObject);
-begin
-  if (Sender is TAction) and Assigned(GI_ActiveEditor) then begin
-    if TAction(Sender).Checked then
-      GI_ActiveEditor.FileEncoding := seAnsi
-    else
-      GI_ActiveEditor.FileEncoding := seUTF8;
-    GI_ActiveEditor.SynEdit.Modified := True;
-  end;
-end;
-
 procedure TCommandsDataModule.actSearchMatchingBraceExecute(
   Sender: TObject);
 Var
@@ -1094,12 +1140,6 @@ end;
 function TCommandsDataModule.IsExecutableLine(Line: string): Boolean;
 begin
   Result := not ((Line = '') or NonExecutableLineRE.Exec(Line));
-end;
-
-function TCommandsDataModule.CleanEOLs(S: string): string;
-begin
-  //Result := EOLCleanerRE.Replace(S, #10, False);
-  Result := AdjustLineBreaks(S, tlbsLF)
 end;
 
 procedure TCommandsDataModule.PaintMatchingBrackets(Canvas : TCanvas;
@@ -1236,10 +1276,10 @@ Var
   DirIsMonitored : Boolean;
   FileDrive : string;
 begin
-  if not Assigned(JvChangeNotify.OnChangeNotify) then
+  if not Assigned(JvChangeNotify.OnChangeNotify) or fUpdatingChangeNotify then
     Exit;  // JvChangeNotify was disconnected
   JvChangeNotify.Active := False;
-  fChangeNotifyFileNames.Clear;
+
   JvChangeNotify.Notifications.BeginUpdate;
   try
     JvChangeNotify.Notifications.Clear;
@@ -1249,7 +1289,6 @@ begin
         (ExcludedFileNotificationdDrives.IndexOf(ExtractFileDrive(Editor.FileName)) < 0) then
       begin
         if FindFirst(Editor.FileName, faAnyFile, SR) = 0 then begin
-          fChangeNotifyFileNames.AddObject(Editor.FileName, TObject(SR.Time));
           DirIsMonitored := False;
           for j := 0 to JvChangeNotify.Notifications.Count - 1 do
             if JvChangeNotify.Notifications[j].Directory = ExtractFileDir(Editor.FileName) then begin
@@ -1287,43 +1326,76 @@ end;
 
 procedure TCommandsDataModule.JvChangeNotifyChangeNotify(Sender: TObject;
   Dir: String; Actions: TJvChangeActions);
+
+  function AreFileTimesEqual(FT1, FT2 : TFileTime) : Boolean;
+  begin
+    Result := (FT1.dwLowDateTime = FT2.dwLowDateTime) and
+              (FT1.dwHighDateTime = FT2.dwHighDateTime);
+  end;
+
+Const
+  ZeroFileTime : TFileTime = (dwLowDateTime : 0; dwHighDateTime : 0);
 Var
   i : integer;
   SR: TSearchRec;
   P : TBufferCoord;
   Editor : IEditor;
+  ChangedFiles : TStringList;
+  SafeGuard: ISafeGuard;
 begin
+  ChangedFiles := TStringList.Create;
+  Guard(ChangedFiles, SafeGuard);
   if not Assigned(JvChangeNotify.OnChangeNotify) then
     Exit;  // JvChangeNotify was disconnected
-  // Iterate downwords so that we can remove items
-  for i := fChangeNotifyFileNames.Count - 1 downto 0 do
-    if ExtractFileDir(fChangeNotifyFileNames[i]) = Dir then begin
-      Editor := GI_EditorFactory.GetEditorByName(fChangeNotifyFileNames[i]);
-      if not Assigned(Editor) then continue;
-      if FindFirst(fChangeNotifyFileNames[i], faAnyFile, SR) <> 0 then begin
+
+  for i := 0 to GI_EditorFactory.Count -1 do begin
+    Editor := GI_EditorFactory.Editor[i];
+    if (Editor.FileName <> '') and (ExtractFileDir(Editor.FileName) = Dir) then begin
+      if FindFirst(Editor.FileName, faAnyFile, SR) <> 0 then begin
         // File or directory has been moved or deleted
-        MessageDlg(fChangeNotifyFileNames[i]+' has been renamed or deleted.', mtWarning, [mbOK], 0);
-        // Mark as modified so that we try to save it
-        Editor.SynEdit.Modified := True;
-        // Delete form ChangeNotifyFileNames list to prevent further notifications
-        fChangeNotifyFileNames.Delete(i);
-      end else if Integer(fChangeNotifyFileNames.Objects[i]) <> SR.Time then begin
-        // Timestamp changed
-        if MessageDlg(fChangeNotifyFileNames[i]+' has changed. Reload from disk?',
-          mtConfirmation, [mbYes, mbNo], 0)=mrYes
-        then begin
-          P := Editor.Synedit.CaretXY;
-          Editor.OpenFile(fChangeNotifyFileNames[i]);
-          if (P.Line <= Editor.SynEdit.Lines.Count) then
-            Editor.SynEdit.CaretXY := P;
-        end else begin
+        if not AreFileTimesEqual(TEditorForm(Editor.Form).FileTime, ZeroFileTime) then begin
+          MessageDlg(Editor.FileName + ' has been renamed or deleted.', mtWarning, [mbOK], 0);
           // Mark as modified so that we try to save it
           Editor.SynEdit.Modified := True;
-          // Prevent further notifications on this file !?;
-          fChangeNotifyFileNames.Objects[i] := TObject(SR.Time);
+          // Set FileTime to zero to prevent further notifications
+          TEditorForm(Editor.Form).FileTime := ZeroFileTime;
         end;
+      end else if not AreFileTimesEqual(TEditorForm(Editor.Form).FileTime, SR.FindData.ftLastWriteTime) then begin
+        ChangedFiles.AddObject(Editor.GetFileNameOrTitle, Editor.Form);
+        Editor.SynEdit.Modified := True;
+        // Prevent further notifications on this file
+        TEditorForm(Editor.Form).FileTime := SR.FindData.ftLastWriteTime;
       end;
       FindClose(SR);
+    end;
+  end;
+
+  if ChangedFiles.Count > 0 then
+    with TPickListDialog.Create(Application.MainForm) do begin
+      Caption := 'File Change Notification';
+      lbMessage.Caption := 'The following files have been changed on disk.'+
+      ' Select the files that you wish to reload and press the OK button. '+
+      ' Please note that you will lose all changes to these files.';
+      CheckListBox.Items.Assign(ChangedFiles);
+      SetScrollWidth;
+      mnSelectAllClick(nil);
+      if ShowModal = IdOK then begin
+        fUpdatingChangeNotify := True;
+        try
+          for i := CheckListBox.Count - 1 downto 0 do begin
+            if CheckListBox.Checked[i] then begin
+              Editor := TEditorForm(CheckListBox.Items.Objects[i]).GetEditor;
+              P := Editor.Synedit.CaretXY;
+              Editor.OpenFile(CheckListBox.Items[i]);
+              if (P.Line <= Editor.SynEdit.Lines.Count) then
+                Editor.SynEdit.CaretXY := P;
+            end;
+          end;
+        finally
+          fUpdatingChangeNotify := False;
+        end;
+      end;
+      Free;
     end;
 end;
 
@@ -1371,7 +1443,7 @@ begin
   SetLength(Categories, 7);
   with Categories[0] do begin
     DisplayName := 'IDE';
-    SetLength(Options, 4);
+    SetLength(Options, 5);
     Options[0].PropertyName := 'AutoCheckForUpdates';
     Options[0].DisplayName := 'Check for updates automatically';
     Options[1].PropertyName := 'DaysBetweenChecks';
@@ -1380,6 +1452,8 @@ begin
     Options[2].DisplayName := 'Mask FPU Exceptions';
     Options[3].PropertyName := 'UseBicycleRepairMan';
     Options[3].DisplayName := 'Use BicycleRepairMan';
+    Options[4].PropertyName := 'EditorTabPosition';
+    Options[4].DisplayName := 'Editor Tab Position';
   end;
   with Categories[1] do begin
     DisplayName := 'Python Interpreter';
@@ -1417,7 +1491,7 @@ begin
   end;
   with Categories[4] do begin
     DisplayName := 'Editor';
-    SetLength(Options, 9);
+    SetLength(Options, 12);
     Options[0].PropertyName := 'RestoreOpenFiles';
     Options[0].DisplayName := 'Restore open files';
     Options[1].PropertyName := 'SearchTextAtCaret';
@@ -1436,6 +1510,12 @@ begin
     Options[7].DisplayName := 'Show executable line marks';
     Options[8].PropertyName := 'CheckSyntaxAsYouType';
     Options[8].DisplayName := 'Check syntax as you type';
+    Options[9].PropertyName := 'NewFileLineBreaks';
+    Options[9].DisplayName := 'Default line break format for new files';
+    Options[10].PropertyName := 'NewFileEncoding';
+    Options[10].DisplayName := 'Default file encoding for new files';
+    Options[11].PropertyName := 'DetectUTF8Encoding';
+    Options[11].DisplayName := 'Detect UTF-8 encoding when opening files';
   end;
   with Categories[5] do begin
     DisplayName := 'Code Completion';
@@ -1498,19 +1578,12 @@ end;
 procedure TCommandsDataModule.actPythonPathExecute(Sender: TObject);
 Var
   Paths : TStringList;
-  i : integer;
-  PythonPath : Variant;
 begin
   Paths := TStringList.Create;
   try
-    for i := 0 to Len(SysModule.path) - 1  do
-      Paths.Add(SysModule.path.GetItem(i));
-    if EditFolderList(Paths, 'Python Path', 870) then begin
-      PythonPath := NewPythonList;
-      for i := 0 to Paths.Count - 1 do
-        PythonPath.append(Paths[i]);
-      SysModule.path := PythonPath;
-    end;
+    PyControl.ActiveInterpreter.SysPathToStrings(Paths);
+    if EditFolderList(Paths, 'Python Path', 870) then 
+      PyControl.ActiveInterpreter.StringsToSysPath(Paths);
   finally
     Paths.Free;
   end;
@@ -1573,14 +1646,26 @@ begin
 //  actEditSelectAll.Enabled := (GI_EditCmds <> nil) and GI_EditCmds.CanSelectAll;
 //  actEditUndo.Enabled := (GI_EditCmds <> nil) and GI_EditCmds.CanUndo;
   actEditRedo.Enabled := (GI_EditCmds <> nil) and GI_EditCmds.CanRedo;
+
+  actEditLBDos.Enabled := Assigned(GI_ActiveEditor);
   actEditLBDos.Checked := Assigned(GI_ActiveEditor) and
     ((GI_ActiveEditor.SynEdit.Lines as TSynEditStringList).FileFormat = sffDos);
+  actEditLBUnix.Enabled := Assigned(GI_ActiveEditor);
   actEditLBUnix.Checked := Assigned(GI_ActiveEditor) and
     ((GI_ActiveEditor.SynEdit.Lines as TSynEditStringList).FileFormat = sffUnix);
+  actEditLBMac.Enabled := Assigned(GI_ActiveEditor);
   actEditLBMac.Checked := Assigned(GI_ActiveEditor) and
     ((GI_ActiveEditor.SynEdit.Lines as TSynEditStringList).FileFormat = sffMac);
+  actEditAnsi.Enabled := Assigned(GI_ActiveEditor);
+  actEditAnsi.Checked := Assigned(GI_ActiveEditor) and
+    (GI_ActiveEditor.FileEncoding = sf_Ansi);
+  actEditUTF8.Enabled := Assigned(GI_ActiveEditor);
   actEditUTF8.Checked := Assigned(GI_ActiveEditor) and
-    (GI_ActiveEditor.FileEncoding = seUTF8);
+    (GI_ActiveEditor.FileEncoding = sf_UTF8);
+  actEditUTF8NoBOM.Enabled := Assigned(GI_ActiveEditor);
+  actEditUTF8NoBOM.Checked := Assigned(GI_ActiveEditor) and
+    (GI_ActiveEditor.FileEncoding = sf_UTF8_NoBOM);
+
 
   SelAvail := Assigned(GI_ActiveEditor) and GI_ActiveEditor.SynEdit.SelAvail;
   // Source Code Actions
@@ -2221,21 +2306,97 @@ begin
       Result := LocalFileName;
 end;
 
+function LoadFileIntoWideStrings(const AFileName: string;
+  WideStrings : TWideStrings; var Encoding : TFileSaveFormat): boolean;
+Var
+  FileStream : TFileStream;
+  FileText, S, PyEncoding : string;
+  Len : integer;
+  V : Variant;
+  IsPythonFile : boolean;
+  FileEncoding : TSynEncoding;
+begin
+  Result := True;
+  if (AFileName <> '') and FileExists(AFileName) then begin
+    IsPythonFile :=  CommandsDataModule.GetHighlighterForFile(AFileName) =
+                      CommandsDataModule.SynPythonSyn;
+    try
+      FileStream := TFileStream.Create(AFileName, fmOpenRead or fmShareDenyWrite);
+      try
+        // Read the file into FileText
+        Len := FileStream.Size;
+        SetLength(FileText, Len);
+        FileStream.ReadBuffer(FileText[1], Len);
+        FileStream.Seek(0, soFromBeginning);
+
+        // This routine detects UTF8 text even if there is no BOM
+        FileEncoding := GetEncoding(FileStream);
+        case FileEncoding of
+          seAnsi : Encoding := sf_Ansi;
+          seUTF8 :
+            begin
+              if not StrIsLeft(PChar(FileText), PChar(UTF8BOMString)) then begin
+                if IsPythonFile then
+                  // Ignore detected UTF8 if it is Python and does not have BOM
+                  // File will still be read as UTF8 if it has an encoding comment
+                  Encoding := sf_Ansi
+                else begin
+                  if CommandsDataModule.PyIDEOptions.DetectUTF8Encoding then
+                    Encoding := sf_UTF8_NoBOM
+                  else
+                    Encoding := sf_Ansi;
+                end;
+              end else
+                Encoding := sf_UTF8;
+            end;
+        else
+          Raise Exception.Create('UTF-16 encoded files are not currently supported');
+        end;
+
+        case Encoding of
+          sf_Ansi :
+            // if it is a Pytyhon file detect an encoding spec
+            if IsPythonFile then begin
+              PyEncoding := '';
+              S := ReadLnFromStream(FileStream);
+              PyEncoding := ParsePySourceEncoding(S);
+              if PyEncoding = '' then begin
+                S := ReadLnFromStream(FileStream);
+                PyEncoding := ParsePySourceEncoding(S);
+              end;
+              FileStream.Seek(0, soFromBeginning);
+              if PyEncoding <> '' then begin
+                if PyEncoding = 'utf-8' then
+                  Encoding := sf_UTF8_NoBOM;
+                V := VarPythonCreate(FileText);
+                try
+                  WideStrings.Text := V.decode(PyEncoding, 'replace');
+                except
+                  MessageDlg(Format('Error in decoding file "%s" from "%s" encoding',
+                     [AFileName, PyEncoding]), mtWarning, [mbOK], 0);
+                  WideStrings.Text := FileText;
+                end;
+              end else
+                WideStrings.LoadFromStream(FileStream);
+            end else
+              WideStrings.LoadFromStream(FileStream);
+          sf_UTF8, sf_UTF8_NoBOM :
+            LoadFromStream(WideStrings, FileStream, seUTF8);
+        end;
+      finally
+        FileStream.Free;
+      end;
+    except
+      on E: Exception do begin
+        MessageBox(0, PChar(E.Message), PChar(Format('Error in opening file: "%s"', [AFileName])),
+          MB_ICONERROR or MB_OK);
+        Result := False;
+      end;
+    end;
+  end else
+    Result := False;
+end;
+
+
 end.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

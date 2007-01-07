@@ -1,10 +1,10 @@
 inherited BreakPointsWindow: TBreakPointsWindow
   Left = 491
   Top = 381
-  Width = 387
-  Height = 270
   HelpContext = 495
   Caption = 'Breakpoints'
+  ClientHeight = 244
+  ClientWidth = 379
   Icon.Data = {
     0000010001001010000001002000680400001600000028000000100000002000
     0000010020000000000040000000000000000000000000000000000000000000
@@ -43,6 +43,8 @@ inherited BreakPointsWindow: TBreakPointsWindow
     0000FFFF0000F8070000F8070000F0030000E0030000E0030000C00300008003
     000088030000F8030000F8030000F8070000F80F0000FC1F0000FE7F0000}
   OnActivate = FormActivate
+  ExplicitWidth = 387
+  ExplicitHeight = 270
   DesignSize = (
     379
     244)
@@ -51,6 +53,8 @@ inherited BreakPointsWindow: TBreakPointsWindow
   inherited FGPanel: TPanel
     Width = 370
     Height = 230
+    ExplicitWidth = 370
+    ExplicitHeight = 230
     object BreakPointsView: TVirtualStringTree
       Left = 0
       Top = 0

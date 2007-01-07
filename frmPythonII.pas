@@ -112,6 +112,7 @@ type
     procedure SetCommandHistorySize(const Value: integer);
     procedure GetBlockCode(var Source: WideString;
       var Buffer: array of WideString; EndLineN: Integer; StartLineN: Integer);
+    procedure LoadPythonEngine;
   protected
     procedure PythonIOSendData(Sender: TObject; const Data: WideString);
     procedure PythonIOReceiveData(Sender: TObject; var Data: WideString);
@@ -119,11 +120,9 @@ type
     procedure WMAPPENDTEXT(var Message: TMessage); message WM_APPENDTEXT;
   public
     { Public declarations }
-    II : Variant;   // wrapping sys and code modules
-    Debugger, LineCache, BuiltIns : Variant;
     PS1, PS2 : WideString;
     PythonHelpFile : string;
-    function OutputSupressor : IInterface;
+    function OutputSuppressor : IInterface;
     procedure AppendText(S: WideString);
     procedure AppendToPrompt(const Buffer : array of WideString);
     function IsEmpty : Boolean;
@@ -147,7 +146,8 @@ implementation
 Uses
   SynEditTypes, Math, frmPyIDEMain, dmCommands, VarPyth, Registry,
   frmMessages, uCommonFunctions, JclStrings, frmVariables, StringResources,
-  dlgConfirmReplace, frmUnitTests, JvDockGlobals, SynRegExpr;
+  dlgConfirmReplace, frmUnitTests, JvDockGlobals, SynRegExpr, cPyBaseDebugger,
+  cPyDebugger;
 
 {$R *.dfm}
 
@@ -181,7 +181,7 @@ end;
 
 { PythonIIForm }
 
-function TPythonIIForm.OutputSupressor: IInterface;
+function TPythonIIForm.OutputSuppressor: IInterface;
 begin
   Result := TSuppressOutput.Create(Self);
 end;
@@ -234,11 +234,13 @@ end;
 procedure TPythonIIForm.actCleanUpNameSpaceExecute(Sender: TObject);
 begin
   CommandsDataModule.PyIDEOptions.CleanupMainDict := (Sender as TAction).Checked;
+  InternalInterpreter.Debugger.CleanupMaindict := CommandsDataModule.PyIDEOptions.CleanupMainDict;
 end;
 
 procedure TPythonIIForm.actCleanUpSysModulesExecute(Sender: TObject);
 begin
   CommandsDataModule.PyIDEOptions.CleanupSysModules := (Sender as TAction).Checked;
+  InternalInterpreter.Debugger.CleanupSysModules := CommandsDataModule.PyIDEOptions.CleanupSysModules;
 end;
 
 procedure TPythonIIForm.actCopyHistoryExecute(Sender: TObject);
@@ -271,44 +273,16 @@ begin
         AppendText(Buffer[i] + WideLineBreak + PS2);
     if Length(Buffer) > 0 then AppendText(Buffer[High(Buffer)]);
   finally
-    SynEdit.EndUpdate;   
+    SynEdit.EndUpdate;
   end;
 end;
 
 procedure TPythonIIForm.FormCreate(Sender: TObject);
-
-  function IsPythonVersionParam(const AParam : String; out AVersion : String) : Boolean;
-  begin
-    Result := (Length(AParam) = 9) and
-              SameText(Copy(AParam, 1, 7), '-PYTHON') and
-              (AParam[8] in ['0'..'9']) and
-              (AParam[9] in ['0'..'9']);
-    if Result then
-      AVersion := AParam[8] + '.' + AParam[9];
-  end;
-
-  function IndexOfKnownVersion(const AVersion : String) : Integer;
-  var
-    i : Integer;
-  begin
-    Result := -1;
-    for i := High(PYTHON_KNOWN_VERSIONS) downto Low(PYTHON_KNOWN_VERSIONS) do
-      if PYTHON_KNOWN_VERSIONS[i].RegVersion = AVersion then
-      begin
-        Result := i;
-        Break;
-      end;
-  end;
-
 Var
   S : string;
   Registry : TRegistry;
-  i : integer;
-  idx : Integer;
-  versionIdx : Integer;
-  expectedVersion : string;
   RegKey : string;
-  expectedVersionIdx : Integer;
+  II : Variant;   // wrapping sys and code modules
 begin
   inherited;
   SynEdit.ControlStyle := SynEdit.ControlStyle + [csOpaque];
@@ -325,60 +299,7 @@ begin
   PythonIO.UnicodeIO := True;
   PythonIO.RawOutput := True;
 
-  // Load Python DLL
-
-  // first find an optional parameter specifying the expected Python version in the form of -PYTHONXY
-  expectedVersion := '';
-  expectedVersionIdx := -1;
-  for i := 1 to ParamCount do begin
-    if IsPythonVersionParam(ParamStr(i), expectedVersion) then
-    begin
-      idx := IndexOfKnownVersion(expectedVersion);
-      if idx >= COMPILED_FOR_PYTHON_VERSION_INDEX then
-        expectedVersionIdx := idx;
-      if expectedVersionIdx = -1 then
-        if idx = -1 then
-          MessageDlg(Format('PyScripter can''t use command line parameter %s because it doesn''t know this version of Python.',
-            [ParamStr(i)]), mtWarning, [mbOK], 0)
-        else
-          MessageDlg(Format('PyScripter can''t use command line parameter %s because it was compiled for Python %s or later.',
-            [ParamStr(i), PYTHON_KNOWN_VERSIONS[COMPILED_FOR_PYTHON_VERSION_INDEX].RegVersion]), mtWarning, [mbOK], 0);
-      Break;
-    end;
-  end;
-  // disable feature that will try to use the last version of Python because we provide our
-  // own behaviour. Note that this feature would not load the latest version if the python dll
-  // matching the compiled version of P4D was found.
-  PythonEngine.UseLastKnownVersion := False;
-  if expectedVersionIdx > -1 then
-  begin
-    // if we found a parameter requiring a specific version of Python,
-    // then we must immediatly fail if P4D did not find the expected dll.
-    versionIdx := expectedVersionIdx;
-    PythonEngine.FatalMsgDlg := True;
-    PythonEngine.FatalAbort  := True;
-  end
-  else
-  begin
-    // otherwise, let's start searching a valid python dll from the latest known version
-    versionIdx := High(PYTHON_KNOWN_VERSIONS);
-    PythonEngine.FatalMsgDlg := False;
-    PythonEngine.FatalAbort  := False;
-  end;
-  // try to find an acceptable version of Python, starting from either the specified version,
-  // or the latest know version, but stop when we reach the version targeted on compilation.
-  for i := versionIdx downto COMPILED_FOR_PYTHON_VERSION_INDEX do begin
-    PythonEngine.DllName    := PYTHON_KNOWN_VERSIONS[i].DllName;
-    PythonEngine.APIVersion := PYTHON_KNOWN_VERSIONS[i].APIVersion;
-    PythonEngine.RegVersion := PYTHON_KNOWN_VERSIONS[i].RegVersion;
-    if i = COMPILED_FOR_PYTHON_VERSION_INDEX then begin // last chance, so raise an error if it goes wrong
-      PythonEngine.FatalMsgDlg := True;
-      PythonEngine.FatalAbort  := True;
-    end;
-    PythonEngine.LoadDll;
-    if PythonEngine.IsHandleValid then // we found a valid version
-      Break;
-  end;
+  LoadPythonEngine;
 
   fShowOutput := True;
   // For handling output from Python threads
@@ -397,12 +318,6 @@ begin
 
   PS1 := SysModule.ps1;
   PS2 := SysModule.ps2;
-
-  II := VarPythonEval('_II');
-  PythonEngine.ExecString('del _II');
-  Debugger := II.debugger;
-  LineCache := Import('linecache');
-  BuiltIns := VarPythonEval('__builtins__');
 
   AppendText(PS1);
 
@@ -424,13 +339,23 @@ begin
   finally
     Registry.Free;
   end;
+  // Create internal Interpreter and Debugger
+  II := VarPythonEval('_II');
+  PythonEngine.ExecString('del _II');
+  InternalInterpreter := TPyInternalInterpreter.Create(II);
+  PyControl.ActiveInterpreter := InternalInterpreter;
+  PyControl.ActiveDebugger := TPyInternalDebugger.Create;
 end;
 
 procedure TPythonIIForm.FormDestroy(Sender: TObject);
 begin
-  fCommandHistory.Free;
-  FCriticalSection.Free;
-  fOutputStream.Free;
+  FreeAndNil(PyControl.ActiveDebugger);
+  if PyControl.ActiveInterpreter <> InternalInterpreter then
+    FreeAndNil(PyControl.ActiveInterpreter);
+  FreeAndNil(InternalInterpreter);
+  FreeAndNil(fCommandHistory);
+  FreeAndNil(FCriticalSection);
+  FreeAndNil(fOutputStream);
   inherited;
 end;
 
@@ -543,11 +468,22 @@ begin
             else
               EncodedSource := Source;
 
-            // Workaround due to PREFER_UNICODE flag to make sure
-            // no conversion to Unicode and back will take place
-            if II.runsource(VarPythonCreate(EncodedSource), '<interactive input>') then
-              NeedIndent := True
-            else begin
+            // RunSource
+            NeedIndent := False;  // True denotes an incomplete statement
+            case PyControl.DebuggerState of
+              dsInactive :
+                NeedIndent :=
+                  PyControl.ActiveInterpreter.RunSource(EncodedSource, '<interactive input>');
+              dsPaused :
+                NeedIndent :=
+                  PyControl.ActiveDebugger.RunSource(EncodedSource, '<interactive input>');
+              else //dsRunning, dsRunningNoDebug
+                // it is dangerous to execute code while running scripts
+                // so just beep and do nothing
+                Beep();
+            end;
+
+            if not NeedIndent then begin
               // The source code has been executed
               // If the last line isnt empty, append a newline
               SetLength(Buffer, 0);
@@ -857,10 +793,12 @@ var locline, lookup: String;
     TmpX, Index, ImageIndex, i,
     TmpLocation    : Integer;
     FoundMatch     : Boolean;
-    DisplayText, InsertText, S : string;
-    InspectModule, ItemsDict, ItemKeys,
-    ItemValue, StringModule, LookupObj : Variant;
+    DisplayText, InsertText: string;
+    NameSpaceDict, NameSpaceItem : TBaseNameSpaceItem;
 begin
+  if PyControl.IsRunning then
+    // No code completion while Python is running
+    Exit;
   with TSynCompletionProposal(Sender).Editor do
   begin
     locLine := LineText;
@@ -874,53 +812,47 @@ begin
 
     lookup := GetWordAtPos(LocLine, TmpX, IdentChars+['.'], True, False, True);
     Index := CharLastPos(lookup, '.');
-    InspectModule := Import('inspect');
-    StringModule := Import('string');
-    if Index > 0 then begin
-      lookup := Copy(lookup, 1, Index-1);
-      DisplayText := '';
-      try
-        //Evaluate the lookup expression and get the hint text
-        fShowOutput := False;  // Do not show Traceback for errors
-        LookupObj := II.evalcode(lookup);
-        ItemsDict := BuiltinModule.dict(InspectModule.getmembers(LookupObj));
-      except
-        ItemsDict := BuiltinModule.dict();
-      end;
-      fShowOutput := True;
-    end else begin
-      //  globals and builtins (could add keywords as well)
-      ItemsDict := BuiltInModule.dict();
-      ItemsDict.update(VarPythonEval('vars()'));
-      ItemsDict.update(BuiltinModule.__dict__);
+    NameSpaceDict := nil;
+    if Index > 0 then
+      lookup := Copy(lookup, 1, Index-1)
+    else
+      lookup := '';  // Completion from global namespace
+    if (Index <= 0) or (lookup <> '') then begin
+      if PyControl.DebuggerState = dsInactive then
+        NameSpaceDict := PyControl.ActiveInterpreter.NameSpaceFromExpression(lookup)
+      else
+        NameSpaceDict := PyControl.ActiveDebugger.NameSpaceFromExpression(lookup);
     end;
-    ItemKeys := ItemsDict.keys();
-    ItemKeys.sort();
+
     DisplayText := '';
-    for i := 0 to len(ItemKeys) - 1 do begin
-      S := ItemKeys.GetItem(i);
-      ItemValue := ItemsDict.GetItem(S);
-      if InspectModule.ismodule(ItemValue) then
-        ImageIndex := 16
-      else if InspectModule.isfunction(ItemValue)
-           or InspectModule.isbuiltin(ItemValue) then
-        ImageIndex := 17
-      else if InspectModule.ismethod(ItemValue)
-           or InspectModule.ismethoddescriptor(ItemValue) then
-        ImageIndex := 14
-      else if InspectModule.isclass(ItemValue) then
-        ImageIndex := 13
-      else begin
-        if Index > 0 then
-          ImageIndex := 1
-        else
-          ImageIndex := 0;
+    InsertText := '';
+    if Assigned(NameSpaceDict) then
+      for i := 0 to NameSpaceDict.ChildCount - 1 do begin
+        NameSpaceItem := NameSpaceDict.ChildNode[i];
+        if NameSpaceItem.IsModule then
+          ImageIndex := 16
+        else if NameSpaceItem.IsMethod
+             {or NameSpaceItem.IsMethodDescriptor} then
+          ImageIndex := 14
+        else if NameSpaceItem.IsFunction
+             {or NameSpaceItem.IsBuiltin} then
+          ImageIndex := 17
+        else if NameSpaceItem.IsClass then
+          ImageIndex := 13
+        else begin
+          if Index > 0 then
+            ImageIndex := 1
+          else
+            ImageIndex := 0;
+        end;
+        DisplayText := DisplayText + Format('\Image{%d}\hspace{2}%s', [ImageIndex, NameSpaceItem.Name]);
+        InsertText := InsertText + NameSpaceItem.Name;
+        if i < NameSpaceDict.ChildCount - 1 then begin
+          DisplayText := DisplayText + #10;
+          InsertText := InsertText + #10;
+        end;
       end;
-      DisplayText := DisplayText + Format('\Image{%d}\hspace{2}%s', [ImageIndex, S]);
-      if i < len(ItemKeys) - 1 then
-        DisplayText := DisplayText + #10;
-    end;
-    InsertText := StringModule.join(ItemKeys, ''#10);
+      FreeAndNil(NameSpaceDict);
     FoundMatch := DisplayText <> '';
   end;
 
@@ -946,8 +878,8 @@ var locline, lookup: String;
     FoundMatch : Boolean;
     DisplayText, DocString : string;
     p : TPoint;
-    LookUpObject, PyDocString : Variant;
 begin
+  if PyControl.IsRunning then Exit;  // just in case
   with TSynCompletionProposal(Sender).Editor do
   begin
     locLine := LineText;
@@ -978,7 +910,6 @@ begin
           else if LocLine[TmpX] = '(' then dec(ParenCounter);
           dec(TmpX);
         end;
-        if TmpX > 0 then dec(TmpX);  //eat the open paren
       end else if locLine[TmpX] = '(' then
       begin
         //we have a valid open paren, lets see what the word before it is
@@ -988,18 +919,8 @@ begin
         if TmpX > 0 then
         begin
           lookup := GetWordAtPos(LocLine, TmpX, IdentChars+['.'], True, False, True);
-
-          try
-            //Evaluate the lookup expression and get the hint text
-            fShowOutput := False;  // Do not show Traceback for errors
-            LookUpObject := II.evalcode(lookup);
-            DisplayText := II.get_arg_text(LookUpObject);
-            FoundMatch := True;
-          except
-            DisplayText := '';
-            FoundMatch := False;
-          end;
-          fShowOutput := True;
+          FoundMatch := PyControl.ActiveInterpreter.CallTipFromExpression(
+            lookup, DisplayText, DocString);
 
           if not(FoundMatch) then
           begin
@@ -1011,25 +932,14 @@ begin
     end;
   end;
 
-  if FoundMatch then begin
-    PyDocString := Import('inspect').getdoc(LookUpObject);
-    if not VarIsNone(PyDocString) then
-      DocString := GetNthLine(PyDocString, 1)
-    else
-      DocString := '';
-//    CanExecute := (DisplayText <> '') or (DocString <> '');
-    CanExecute := True;
-  end else
-    CanExecute := False;
+  CanExecute := FoundMatch;
 
   if CanExecute then begin
     with TSynCompletionProposal(Sender) do begin
-      if DisplayText = '' then begin
-        FormatParams := False;
+      FormatParams := not (DisplayText = '');
+      if not FormatParams then
         DisplayText :=  '\style{~B}' + SNoParameters + '\style{~B}';
-      end else begin
-        FormatParams := True;
-      end;
+
       if (DocString <> '') then
         DisplayText := DisplayText + sLineBreak;
 
@@ -1070,14 +980,14 @@ procedure TPythonIIForm.InputBoxExecute(Sender: TObject; PSelf,
   Args: PPyObject; var Result: PPyObject);
 // InputBox function
 Var
-  PCaption, PPrompt, PDefault : PChar;
-  S : string;
+  PCaption, PPrompt, PDefault : PWideChar;
+  WideS : WideString;
 begin
   with GetPythonEngine do
-    if PyArg_ParseTuple( args, 'sss:InputBox', [@PCaption, @PPrompt, @PDefault] ) <> 0 then begin
-      S := PDefault;
-      if InputQuery(PCaption, PPrompt, S) then
-        Result := PyString_FromString(PChar(S))
+    if PyArg_ParseTuple( args, 'uuu:InputBox', [@PCaption, @PPrompt, @PDefault] ) <> 0 then begin
+      WideS := PDefault;
+      if WideInputQuery(PCaption, PPrompt, WideS) then
+        Result := PyUnicode_FromWideChar(PWideChar(WideS), Length(WideS))
       else
         Result := ReturnNone;
     end else
@@ -1287,6 +1197,96 @@ begin
   end;
 end;
 
+procedure TPythonIIForm.LoadPythonEngine;
+
+  function IsPythonVersionParam(const AParam : String; out AVersion : String) : Boolean;
+  begin
+    Result := (Length(AParam) = 9) and
+              SameText(Copy(AParam, 1, 7), '-PYTHON') and
+              (AParam[8] in ['0'..'9']) and
+              (AParam[9] in ['0'..'9']);
+    if Result then
+      AVersion := AParam[8] + '.' + AParam[9];
+  end;
+
+  function IndexOfKnownVersion(const AVersion : String) : Integer;
+  var
+    i : Integer;
+  begin
+    Result := -1;
+    for i := High(PYTHON_KNOWN_VERSIONS) downto Low(PYTHON_KNOWN_VERSIONS) do
+      if PYTHON_KNOWN_VERSIONS[i].RegVersion = AVersion then
+      begin
+        Result := i;
+        Break;
+      end;
+  end;
+
+var
+  i: Integer;
+  idx : Integer;
+  versionIdx : Integer;
+  expectedVersion : string;
+  expectedVersionIdx : Integer;
+begin
+  // first find an optional parameter specifying the expected Python version in the form of -PYTHONXY
+  expectedVersion := '';
+  expectedVersionIdx := -1;
+  for i := 1 to ParamCount do begin
+    if IsPythonVersionParam(ParamStr(i), expectedVersion) then
+    begin
+      idx := IndexOfKnownVersion(expectedVersion);
+      if idx >= COMPILED_FOR_PYTHON_VERSION_INDEX then
+        expectedVersionIdx := idx;
+      if expectedVersionIdx = -1 then
+        if idx = -1 then
+          MessageDlg(Format('PyScripter can''t use command line parameter %s because it doesn''t know this version of Python.',
+            [ParamStr(i)]), mtWarning, [mbOK], 0)
+        else
+          MessageDlg(Format('PyScripter can''t use command line parameter %s because it was compiled for Python %s or later.',
+            [ParamStr(i), PYTHON_KNOWN_VERSIONS[COMPILED_FOR_PYTHON_VERSION_INDEX].RegVersion]), mtWarning, [mbOK], 0);
+      Break;
+    end;
+  end;
+// disable feature that will try to use the last version of Python because we provide our
+  // own behaviour. Note that this feature would not load the latest version if the python dll
+  // matching the compiled version of P4D was found.
+  PythonEngine.UseLastKnownVersion := False;
+  if expectedVersionIdx > -1 then
+  begin
+    // if we found a parameter requiring a specific version of Python,
+    // then we must immediatly fail if P4D did not find the expected dll.
+    versionIdx := expectedVersionIdx;
+    PythonEngine.FatalMsgDlg := True;
+    PythonEngine.FatalAbort := True;
+  end
+  else
+  begin
+    // otherwise, let's start searching a valid python dll from the latest known version
+    versionIdx := High(PYTHON_KNOWN_VERSIONS);
+    PythonEngine.FatalMsgDlg := False;
+    PythonEngine.FatalAbort := False;
+  end;
+  // try to find an acceptable version of Python, starting from either the specified version,
+  // or the latest know version, but stop when we reach the version targeted on compilation.
+  for i := versionIdx downto COMPILED_FOR_PYTHON_VERSION_INDEX do
+  begin
+    PythonEngine.DllName := PYTHON_KNOWN_VERSIONS[i].DllName;
+    PythonEngine.APIVersion := PYTHON_KNOWN_VERSIONS[i].APIVersion;
+    PythonEngine.RegVersion := PYTHON_KNOWN_VERSIONS[i].RegVersion;
+    if i = COMPILED_FOR_PYTHON_VERSION_INDEX then
+    begin
+      // last chance, so raise an error if it goes wrong
+      PythonEngine.FatalMsgDlg := True;
+      PythonEngine.FatalAbort := True;
+    end;
+    PythonEngine.LoadDll;
+    if PythonEngine.IsHandleValid then
+      // we found a valid version
+      Break;
+  end;
+end;
+
 procedure TPythonIIForm.GetBlockCode(var Source: WideString;
   var Buffer: array of WideString; EndLineN: Integer; StartLineN: Integer);
 var
@@ -1339,3 +1339,5 @@ begin
 end;
 
 end.
+
+

@@ -100,7 +100,7 @@ begin
   // Exit if Debugger is not in Stopped state
   if DebuggerState = dsPaused then
     for i := 0 to fWatchesList.Count - 1 do begin
-      PyIDEMainForm.PyDebugger.Evaluate(TWatchInfo(fWatchesList[i]).Watch,
+      PyControl.ActiveDebugger.Evaluate(TWatchInfo(fWatchesList[i]).Watch,
         S, TWatchInfo(fWatchesList[i]).Value);
     end;
   WatchesView.Clear;
@@ -114,7 +114,7 @@ begin
   WatchInfo := TWatchInfo.Create;
   WatchInfo.Watch := S;
   fWatchesList.Add(WatchInfo);
-  UpdateWindow(PyIDEMainForm.PyDebugger.DebuggerState);
+  UpdateWindow(PyControl.DebuggerState);
 end;
 
 procedure TWatchesWindow.mnAddWatchClick(Sender: TObject);
@@ -137,7 +137,7 @@ begin
     WatchInfo := PWatchRec(WatchesView.GetNodeData(Node))^.WatchInfo;
     WatchInfo.Watch := InputBox('Edit Watch', 'Enter new expression:', WatchInfo.Watch);
     if WatchInfo.Watch = '' then fWatchesList.Remove(WatchInfo);
-    UpdateWindow(PyIDEMainForm.PyDebugger.DebuggerState);
+    UpdateWindow(PyControl.DebuggerState);
   end;
 end;
 
@@ -151,7 +151,7 @@ begin
     WatchInfo := PWatchRec(WatchesView.GetNodeData(Node))^.WatchInfo;
     WatchesView.Clear;
     fWatchesList.Remove(WatchInfo);
-    UpdateWindow(PyIDEMainForm.PyDebugger.DebuggerState);
+    UpdateWindow(PyControl.DebuggerState);
   end;
 end;
 
@@ -250,7 +250,7 @@ procedure TWatchesWindow.ReadFromAppStorage(AppStorage: TJvCustomAppStorage;
 begin
   mnClearAllClick(Self);
   AppStorage.ReadObjectList(BasePath, fWatchesList, CreateWatch, True, 'Watch');
-  UpdateWindow(PyIDEMainForm.PyDebugger.DebuggerState);
+  UpdateWindow(PyControl.DebuggerState);
 end;
 
 function TWatchesWindow.CreateWatch(Sender: TJvCustomAppStorage;
@@ -260,4 +260,5 @@ begin
 end;
 
 end.
+
 

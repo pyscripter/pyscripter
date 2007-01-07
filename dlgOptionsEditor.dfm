@@ -1,9 +1,9 @@
 object OptionsInspector: TOptionsInspector
   Left = 437
   Top = 134
-  Width = 329
-  Height = 383
   Caption = 'Options Inspector'
+  ClientHeight = 349
+  ClientWidth = 321
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -33,7 +33,7 @@ object OptionsInspector: TOptionsInspector
       BevelInner = bvRaised
       BevelOuter = bvRaised
       RelativeDivider = True
-      Divider = 63
+      Divider = 62
       ItemHeight = 16
       Painter = JvInspectorDotNETPainter1
     end

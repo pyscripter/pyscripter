@@ -201,7 +201,8 @@ implementation
 uses
   frmPyIDEMain, frmPythonII, PythonEngine, VarPyth, dmCommands,
   uEditAppIntfs, frmMessages, JvDockControlForm, Dialogs, JclStrings,
-  uCommonFunctions, SynEditTypes, JclFileUtils, Math, StringResources;
+  uCommonFunctions, SynEditTypes, JclFileUtils, Math, StringResources,
+  cPyDebugger;
 
 { Refactor }
 
@@ -241,7 +242,7 @@ begin
   LoadOpenFilesToBRMCache;
   try
     if Silent then
-      SupressOutput := PythonIIForm.OutputSupressor;
+      SupressOutput := PythonIIForm.OutputSuppressor;
     // we use the brmctx to avoid resetting the file Cache
     Result := fBRMContext.brmctx.findDefinitionByCoordinates(Filename, Line, Col);
   except
@@ -268,7 +269,7 @@ begin
   LoadOpenFilesToBRMCache;
   try
     if Silent then
-      SupressOutput := PythonIIForm.OutputSupressor;
+      SupressOutput := PythonIIForm.OutputSuppressor;
     // wih use th brmctx to avoid resetting the file Cache
     Result := fBRMContext.brmctx.findReferencesByCoordinates(Filename, Line, Col);
   except
@@ -305,14 +306,14 @@ Var
   FName,
   Source : string;
 begin
-  // inject unsaved code into LineCache
+  // inject unsaved code into BRMCache
   fBRMCache.instance.reset();
   for i := 0 to GI_EditorFactory.Count - 1 do
     with GI_EditorFactory.Editor[i] do
       if HasPythonFile then begin
         FName := GetFileNameOrTitle;
-        Source := CommandsDataModule.CleanEOLs(SynEdit.Text+#10);
-        PythonIIForm.II.loadFileToBRMCache(FName, Source);
+        Source := CleanEOLs(SynEdit.Text)+#10;
+        InternalInterpreter.PyInteractiveInterpreter.loadFileToBRMCache(FName, Source);
       end;
 end;
 
@@ -329,7 +330,7 @@ var
   SupressOutput : IInterface;
 begin
   if Silent then
-    SupressOutput := PythonIIForm.OutputSupressor;
+    SupressOutput := PythonIIForm.OutputSuppressor;
   VarClear(FirstMatch);
   if not VarIsPython(Matches) or VarIsNone(Matches) then Exit;
 
@@ -366,15 +367,15 @@ end;
 
 procedure TBRMRefactor.SetupBRM;
 begin
-  PythonIIForm.II.setupRefactoring();
-  fBRMContext := PythonIIForm.II.BRMContext;
+  InternalInterpreter.PyInteractiveInterpreter.setupRefactoring();
+  fBRMContext := InternalInterpreter.PyInteractiveInterpreter.BRMContext;
   if VarIsNone(fBRMContext) then begin
     fRefactoringIsAvailable := False;
      MessageDlg('Refactoring services are not available.  Please install Bicycle Repair Man from http://sourceforge.net/projects/bicyclerepair/ .',
        mtError, [mbOK], 0);
   end else begin
     fRefactoringIsAvailable := True;
-    fBRMCache := PythonIIForm.II.BRMCache;
+    fBRMCache := InternalInterpreter.PyInteractiveInterpreter.BRMCache;
   end;
   fInitialized := True;
 end;
@@ -423,7 +424,7 @@ begin
     InitializeQuery;
 
     // Add the file path to the Python path - Will be automatically removed
-    PythonPathAdder := AddPathToPythonPath(ExtractFilePath(FileName));
+    PythonPathAdder := InternalInterpreter.AddPathToPythonPath(ExtractFilePath(FileName));
   end;
 
   // GetParsedModule
@@ -501,7 +502,7 @@ begin
       FoundSource := True;
     end else begin
       // Find the source file
-      FName := PythonIIForm.II.findModuleOrPackage(ModuleName, PythonPath);
+      FName := InternalInterpreter.PyInteractiveInterpreter.findModuleOrPackage(ModuleName, PythonPath);
       if not VarIsNone(FName) and (ExtractFileExt(FName) = '.py') and
         GetSource(FName, ModuleSource)
       then begin
@@ -618,7 +619,7 @@ function TPyScripterRefactor.FindUnDottedDefinition(const Ident: string;
 }
 Var
   NameSpace : TStringList;
-  BuiltinModule : TParsedModule;
+  ParsedBuiltinModule : TParsedModule;
   Index: integer;
   CodeElement : TCodeElement;
 begin
@@ -653,11 +654,11 @@ begin
     // then check the builtin module
     NameSpace.Clear;
     if not Assigned(Result) then begin
-      BuiltInModule := GetParsedModule('__builtin__', None);
-      if not Assigned(BuiltInModule) then
+      ParsedBuiltInModule := GetParsedModule('__builtin__', None);
+      if not Assigned(ParsedBuiltInModule) then
         raise ERefactoringException.Create(
           'Internal Error in FindUnDottedDefinition: Could not get the Builtin module');
-      BuiltInModule.GetNameSpace(NameSpace);
+      ParsedBuiltInModule.GetNameSpace(NameSpace);
       Index := NameSpace.IndexOf(Ident);
       if Index >= 0 then
         Result := NameSpace.Objects[Index] as TBaseCodeelement;
@@ -760,7 +761,7 @@ Var
   BaseCE, TypeCE : TBaseCodeElement;
   AVar : TVariable;
   Module : TParsedModule;
-  BuiltInModule : TParsedModule;
+  ParsedBuiltInModule : TParsedModule;
   S : string;
 begin
   Result := nil;
@@ -792,9 +793,9 @@ begin
     try
       // check standard types
       if vaBuiltIn in AVar.Attributes then begin
-        BuiltInModule := GetParsedModule('__builtin__', None);
-        (BuiltInModule as TModuleProxy).Expand;
-        Result := BuiltInModule.GetChildByName(AVar.ObjType)
+        ParsedBuiltInModule := GetParsedModule('__builtin__', None);
+        (ParsedBuiltInModule as TModuleProxy).Expand;
+        Result := ParsedBuiltInModule.GetChildByName(AVar.ObjType)
       end else if (AVar.ObjType <> '') and Assigned(AVar.Parent) and
         (AVar.Parent is TCodeElement) then
       begin
@@ -885,7 +886,7 @@ begin
   InitializeQuery;
 
   // Add the file path to the Python path - Will be automatically removed
-  PythonPathAdder := AddPathToPythonPath(ExtractFilePath(FileName));
+  PythonPathAdder := InternalInterpreter.AddPathToPythonPath(ExtractFilePath(FileName));
 
   // GetParsedModule
   ParsedModule := GetParsedModule(FileNameToModuleName(FileName), None);
@@ -1275,7 +1276,7 @@ end;
 
 function TFunctionProxy.ArgumentsString: string;
 begin
-  Result := PythonIIForm.II.get_arg_text(fPyFunction);
+  Result := InternalInterpreter.PyInteractiveInterpreter.get_arg_text(fPyFunction);
 end;
 
 constructor TFunctionProxy.CreateFromFunction(AName : string; AFunction: Variant);

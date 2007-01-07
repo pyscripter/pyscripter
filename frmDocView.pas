@@ -65,8 +65,8 @@ type
 implementation
 
 uses
-  VarPyth, frmPyIDEMain, JclFileUtils, JclStrings, frmEditor, dmCommands,
-  uCommonFunctions, JvJVCLUtils;
+  VarPyth, JclFileUtils, JclStrings, frmEditor, dmCommands,
+  uCommonFunctions, JvJVCLUtils, cPyBaseDebugger;
 
 {$R *.dfm}
 
@@ -131,7 +131,7 @@ begin
   Cursor := WaitCursor;
   Application.ProcessMessages;
 
-  module := PyIDEMainForm.PyDebugger.ImportModule(Editor);
+  module := PyControl.ActiveInterpreter.ImportModule(Editor);
 
   pydoc := Import('pydoc');
   HTMLDoc := pydoc.html;

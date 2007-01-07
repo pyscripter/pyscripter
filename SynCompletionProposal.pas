@@ -231,7 +231,7 @@ type
 {$IFDEF SYN_CLX}
     function DoMouseWheel(Shift: TShiftState; WheelDelta: Integer;
       const MousePos: TPoint): Boolean; override;
-    procedure KeyString(var S: WideString; var Handled: Boolean); override;      
+    procedure KeyString(var S: WideString; var Handled: Boolean); override;
     function WidgetFlags: Integer; override;
 {$ELSE}
     procedure WMChar(var Msg: TWMChar); message WM_CHAR;
@@ -3222,7 +3222,6 @@ begin
   Editor := nil;
   while fEditors.Count <> 0 do
     RemoveEditor(TCustomSynEdit(FEditors.Last));
-
   inherited;
 
   fEditors.Free;

@@ -115,6 +115,7 @@ type
   public
     BreakPoints : TObjectList;
     HasFocus : Boolean;
+    FileTime : TFileTime;
     DefaultExtension : string;
     procedure DoActivate;
     procedure DoActivateEditor;
@@ -145,10 +146,10 @@ type
     function GetFileTitle: string;
     function GetFileNameOrTitle: string;
     function GetModified: boolean;
-    function GetFileEncoding : TSynEncoding;
-    procedure SetFileEncoding(FileEncoding : TSynEncoding);
+    function GetFileEncoding : TFileSaveFormat;
+    procedure SetFileEncoding(FileEncoding : TFileSaveFormat);
     function GetEncodedText : string;
-    procedure OpenFile(AFileName: string; HighlighterName : string = '');
+    procedure OpenFile(const AFileName: string; HighlighterName : string = '');
     function HasPythonFile : Boolean;
     function GetForm : TForm;
     // IEditCommands implementation
@@ -193,10 +194,12 @@ type
     fModified: boolean;
     fUntitledNumber: integer;
     TabBarItem : TJvTabBarItem;
-    fFileEncoding : TSynEncoding;
+    fFileEncoding : TFileSaveFormat;
     function IsEmpty : Boolean;
     constructor Create(AForm: TEditorForm);
     procedure DoSetFileName(AFileName: string);
+    function GetEncodedTextEx(var EncodedText: string;
+      InformationLossWarning: Boolean) : Boolean;
   end;
 
 
@@ -210,7 +213,7 @@ uses
   TBXThemes, StringResources, JclStrings, VarPyth, cRefactoring,
   cPythonSourceScanner, cCodeHint, frmPythonII, dlgConfirmReplace, Math,
   JvTypes, frmWatches, JclSysUtils, PythonEngine, frmMessages,
-  SynEditTextBuffer;
+  SynEditTextBuffer, cPyDebugger, dlgPickList;
 
 const
   WM_DELETETHIS  =  WM_USER + 42;
@@ -339,7 +342,7 @@ begin
       if TBreakPoint(BreakPoints[i]).LineNo >= FirstLine then begin
         TBreakPoint(BreakPoints[i]).LineNo :=
           TBreakPoint(BreakPoints[i]).LineNo + Count;
-        PyIDEMainForm.PyDebugger.BreakPointsChanged := True;
+        PyControl.BreakPointsChanged := True;
         BreakPointsWindow.UpdateWindow;
       end;
   end;
@@ -354,11 +357,11 @@ begin
       if TBreakPoint(BreakPoints[i]).LineNo >= FirstLine + Count then begin
         TBreakPoint(BreakPoints[i]).LineNo :=
           TBreakPoint(BreakPoints[i]).LineNo - Count;
-        PyIDEMainForm.PyDebugger.BreakPointsChanged := True;
+        PyControl.BreakPointsChanged := True;
         BreakPointsWindow.UpdateWindow;
       end else if TBreakPoint(BreakPoints[i]).LineNo > FirstLine then begin
         BreakPoints.Delete(i);
-        PyIDEMainForm.PyDebugger.BreakPointsChanged := True;
+        PyControl.BreakPointsChanged := True;
         BreakPointsWindow.UpdateWindow;
       end;
   end;
@@ -372,7 +375,7 @@ begin
   inherited Create;
   fForm := AForm;
   fUntitledNumber := -1;
-  fFileEncoding := seAnsi;
+  fFileEncoding := sf_Ansi;
 end;
 
 procedure TEditor.Activate;
@@ -407,7 +410,7 @@ begin
       CommandsDataModule.ReleaseUntitledNumber(fUntitledNumber);
 
     if fForm.BreakPoints.Count > 0 then begin
-      PyIDEMainForm.PyDebugger.BreakPointsChanged := True;
+      PyControl.BreakPointsChanged := True;
       BreakPointsWindow.UpdateWindow;
     end;
 
@@ -463,12 +466,20 @@ begin
 end;
 
 function TEditor.GetEncodedText: string;
+begin
+  GetEncodedTextEx(Result, False);
+end;
+
+function TEditor.GetEncodedTextEx(var EncodedText: string;
+  InformationLossWarning: Boolean) : Boolean;
 var
   PyEncoding : string;
   UniPy, EncodeMethod, Args, EncodedString : PPyObject;
   wStr, LineBreak : WideString;
   SupressOutput : IInterface;
 begin
+  Result := True;
+
   case (fForm.SynEdit.Lines as TSynEditStringList).FileFormat of
     sffDos:
       LineBreak := WideCRLF;
@@ -477,7 +488,7 @@ begin
     sffMac:
       LineBreak := WideCR;
     sffUnicode:
-      if fFileEncoding = seAnsi then
+      if fFileEncoding = sf_Ansi then
         // Ansi-file cannot contain Unicode LINE SEPARATOR,
         // so default to platform-specific Ansi-compatible LineBreak
         LineBreak := SynUnicode.SLineBreak
@@ -488,7 +499,7 @@ begin
   wStr := fForm.SynEdit.Lines.GetSeparatedText(LineBreak);
 
   case fFileEncoding of
-    seAnsi :
+    sf_Ansi :
       if HasPythonFile then begin
         PyEncoding := '';
         if fForm.SynEdit.Lines.Count > 0 then
@@ -496,12 +507,13 @@ begin
         if (PyEncoding = '') and (fForm.SynEdit.Lines.Count > 1) then
           PyEncoding := ParsePySourceEncoding(fForm.SynEdit.Lines[1]);
 
-        if PyEncoding = 'utf-8' then
-          Result := UTF8BOMString + UTF8Encode(wStr)
-        else with GetPythonEngine do begin
+//        if PyEncoding = 'utf-8' then
+//          EncodedText := UTF8BOMString + UTF8Encode(wStr)
+//        else with GetPythonEngine do begin
+        with GetPythonEngine do begin
           if PyEncoding = '' then
             PyEncoding := SysModule.getdefaultencoding();
-          SupressOutput := PythonIIForm.OutputSupressor; // Do not show errors
+          SupressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
           UniPy := nil;
           EncodeMethod := nil;
           Args := nil;
@@ -512,11 +524,39 @@ begin
               CheckError;
               EncodeMethod := PyObject_GetAttrString(UniPy, 'encode');
               CheckError;
-              Args := ArrayToPyTuple([PyEncoding, 'replace']);
-              EncodedString := PyEval_CallObject(EncodeMethod, Args);
-              CheckError;
-              Result := PyString_AsString(EncodedString);
-              CheckError;
+              if InformationLossWarning then begin
+                try
+                  Args := ArrayToPyTuple([PyEncoding, 'strict']);
+                  EncodedString := PyEval_CallObject(EncodeMethod, Args);
+                  CheckError;
+                  EncodedText := PyString_AsString(EncodedString);
+                  CheckError;
+                except
+                  on UnicodeEncodeError do begin
+                    Result :=
+                      MessageDlg(Format('Saving file "%s" using "%s" encoding will ' +
+                        'result in information loss.  Do you want to proceed?',
+                        [GetFileNameOrTitle, PyEncoding]), mtWarning, [mbYes, mbCancel], 0)= mrYes;
+                    if Result then begin
+                      Py_XDECREF(Args);
+                      Py_XDECREF(EncodedString);
+                      Args := nil;
+                      EncodedString := nil;
+                      Args := ArrayToPyTuple([PyEncoding, 'replace']);
+                      EncodedString := PyEval_CallObject(EncodeMethod, Args);
+                      CheckError;
+                      EncodedText := PyString_AsString(EncodedString);
+                      CheckError;
+                    end;
+                  end;
+                end;
+              end else begin
+                Args := ArrayToPyTuple([PyEncoding, 'replace']);
+                EncodedString := PyEval_CallObject(EncodeMethod, Args);
+                CheckError;
+                EncodedText := PyString_AsString(EncodedString);
+                CheckError;
+              end;
             finally
               Py_XDECREF(UniPy);
               Py_XDECREF(EncodeMethod);
@@ -525,14 +565,26 @@ begin
             end;
           except
             PyErr_Clear;
-            Result := wStr;
+            EncodedText := wStr;
+            if InformationLossWarning then
+              Result :=
+                MessageDlg(Format('An error occurred while encoding file "%s" ' +
+                 'using "%s" encoding. The default system encoding has been used instead. ' +
+                 'Do you want to proceed?',
+                  [GetFileNameOrTitle, PyEncoding]), mtWarning, [mbYes, mbCancel], 0)= mrYes ;
           end;
         end;
-      end else
-        Result := wStr;
-    seUTF8 : Result := UTF8BOMString + UTF8Encode(wStr);
-  else  // Should not happen
-      Raise Exception.Create('UTF-16 encoded files are not currently upported');
+      end else begin
+        EncodedText := wStr;
+        if InformationLossWarning and not IsAnsiOnly(wStr) then begin
+          Result :=
+            MessageDlg(Format('Saving file "%s" using ANSI encoding will result ' +
+            'in information loss.  Do you want to proceed?',
+            [GetFileNameOrTitle]), mtWarning, [mbYes, mbCancel], 0)= mrYes ;
+        end;
+      end;
+    sf_UTF8 : EncodedText := UTF8BOMString + UTF8Encode(wStr);
+    sf_UTF8_NoBOM : EncodedText := UTF8Encode(wStr);
   end;
 end;
 
@@ -571,79 +623,39 @@ begin
     Result := FALSE;
 end;
 
-function TEditor.GetFileEncoding: TSynEncoding;
+function TEditor.GetFileEncoding: TFileSaveFormat;
 begin
   Result := fFileEncoding;
 end;
 
-procedure TEditor.SetFileEncoding(FileEncoding: TSynEncoding);
+procedure TEditor.SetFileEncoding(FileEncoding: TFileSaveFormat);
 begin
   fFileEncoding := FileEncoding;
 end;
 
-procedure TEditor.OpenFile(AFileName: string; HighlighterName : string = '');
-Var
-  FileStream : TFileStream;
-  S, PyEncoding : string;
-  Len : integer;
-  V : Variant;
+procedure TEditor.OpenFile(const AFileName: string; HighlighterName : string = '');
 begin
   DoSetFileName(AFileName);
+
   if fForm <> nil then begin
     if (AFileName <> '') and FileExists(AFileName) then begin
-      CommandsDataModule.JvChangeNotify.Active := False;
-      try
-        FileStream := TFileStream.Create(AFileName, fmOpenRead or fmShareDenyWrite);
-        try
-          fFileEncoding := GetEncoding(FileStream);
-          case fFileEncoding of
-            seAnsi :
-              // if it is a Pytyhon file detect an encoding spec
-              if CommandsDataModule.GetHighlighterForFile(AFileName) =
-                CommandsDataModule.SynPythonSyn then
-              begin
-                PyEncoding := '';
-                S := ReadLnFromStream(FileStream);
-                PyEncoding := ParsePySourceEncoding(S);
-                if PyEncoding = '' then begin
-                  S := ReadLnFromStream(FileStream);
-                  PyEncoding := ParsePySourceEncoding(S);
-                end;
-                FileStream.Seek(0, soFromBeginning);
-                if PyEncoding <> '' then begin
-                  Len := FileStream.Size;
-                  SetLength(S, Len);
-                  FileStream.ReadBuffer(S[1], Len);
-                  V := S;
-                  V := VarPythonCreate(V);
-                  try
-                    fForm.SynEdit.Text := V.decode(PyEncoding, 'replace');
-                  except
-                    MessageDlg(Format('Error in decoding file "%s" from "%s" encoding',
-                       [AFileName, PyEncoding]), mtWarning, [mbOK], 0);
-                    fForm.SynEdit.Text := S;
-                  end;
-                end else
-                  fForm.SynEdit.Lines.LoadFromStream(FileStream);
-              end else
-                fForm.SynEdit.Lines.LoadFromStream(FileStream);
-            seUTF8 : LoadFromStream(fForm.SynEdit.Lines, FileStream, seUTF8);
-          else
-            Raise Exception.Create('UTF-16 encoded files are not currently supported');
-          end;
-        finally
-          FileStream.Free;
-          CommandsDataModule.UpdateChangeNotify;
-        end;
-      except
-        on E: Exception do begin
-          MessageBox(0, PChar(E.Message), PChar(Format('Error in opening file: "%s"', [AFileName])),
-            MB_ICONERROR or MB_OK);
-          Abort;
-        end;
-      end;
-    end else
+      //CommandsDataModule.JvChangeNotify.Active := False;
+      if LoadFileIntoWideStrings(AFileName, fForm.SynEdit.Lines, fFileEncoding) then begin
+        CommandsDataModule.UpdateChangeNotify;
+        fForm.FileTime := GetFileLastWrite(AFileName);
+      end else
+        Abort;
+    end else begin
       fForm.SynEdit.Lines.Clear;
+      if AFileName = '' then begin
+        // Default settings for new files
+        if CommandsDataModule.PyIDEOptions.NewFileLineBreaks <> sffUnicode then
+          (fForm.SynEdit.Lines as TSynEditStringList).FileFormat :=
+            CommandsDataModule.PyIDEOptions.NewFileLineBreaks;
+
+        fFileEncoding := CommandsDataModule.PyIDEOptions.NewFileEncoding;
+      end;
+    end;
 
     fForm.SynEdit.Modified := False;
     fForm.DoUpdateHighlighter(HighlighterName);
@@ -892,18 +904,48 @@ end;
 function TEditorFactory.CanCloseAll: boolean;
 var
   i: integer;
-  LEditor: IEditor;
 begin
-  i := fEditors.Count - 1;
-  while i >= 0 do begin
-    LEditor := IEditor(fEditors[i]);
-    if not LEditor.AskSaveChanges then begin
-      Result := FALSE;
-      exit;
+  Result := False;
+  with TPickListDialog.Create(Application.MainForm) do begin
+    Caption := 'Save modified files';
+    lbMessage.Caption := 'The following files have been modified.'+
+    ' Please select the files that you wish to save and press the OK button. '+
+    ' Press Cancel to go back to PyScripter';
+    for i := 0 to fEditors.Count - 1 do
+      if IEditor(fEditors[i]).Modified then
+        CheckListBox.Items.AddObject(IEditor(fEditors[i]).GetFileNameOrTitle,
+          IEditor(fEditors[i]).Form);
+    SetScrollWidth;      
+    mnSelectAllClick(nil);
+    if CheckListBox.Items.Count = 0 then
+      Result := True
+    else if CheckListBox.Items.Count = 1  then
+      Result := TEditorForm(CheckListBox.Items.Objects[0]).DoAskSaveChanges 
+    else if ShowModal = IdOK then begin
+      Result := True;
+      for i := CheckListBox.Count - 1 downto 0 do begin
+        if CheckListBox.Checked[i] then begin
+          if not TEditorForm(CheckListBox.Items.Objects[i]).DoSave then begin
+            Result := False;
+            break;
+          end;
+        end;
+      end;
     end;
-    Dec(i);
+    Free;
   end;
-  Result := TRUE;
+
+//  i := fEditors.Count - 1;
+//  while i >= 0 do begin
+//    LEditor := IEditor(fEditors[i]);
+//    if not LEditor.AskSaveChanges then begin
+//      Result := FALSE;
+//      exit;
+//    end;
+//    Dec(i);
+//  end;
+//  Result := TRUE;
+
 end;
 
 procedure TEditorFactory.CloseAll;
@@ -1085,7 +1127,7 @@ end;
 procedure TEditorForm.SynEditChange(Sender: TObject);
 begin
   CodeExplorerWindow.UpdateWindow;
-  with PyIDEMainForm.PyDebugger.ErrorPos do
+  with PyControl.ErrorPos do
     if  Editor = GetEditor then begin
       Clear;
       PyIDEMainForm.DebuggerErrorPosChange(Self);
@@ -1290,32 +1332,34 @@ begin
           mtWarning, [mbOK], 0);
       end;
     end;
-    FileStream := TFileStream.Create(fEditor.fFileName, fmCreate);
-    try
-      case fEditor.fFileEncoding of
-        seAnsi :
-          begin
-            S := fEditor.GetEncodedText;
-            FileStream.WriteBuffer(S[1], Length(S));
-          end;
-        seUTF8 : SaveToStream(SynEdit.Lines, FileStream, seUTF8, True);
-      else  // Should not happen
-          Raise Exception.Create('UTF-16 encoded files are not currently upported');
-      end;
-    finally
-      FileStream.Free;
-    end;
 
-    CommandsDataModule.UpdateChangeNotify;
-    if not CommandsDataModule.PyIDEOptions.UndoAfterSave then
-      SynEdit.ClearUndo;
-    SynEdit.Modified := FALSE;
-    Result := TRUE;
+    Result := True;
+    if fEditor.fFileEncoding = sf_Ansi then
+      Result := fEditor.GetEncodedTextEx(S, True);
+
+    if Result then begin
+      FileStream := TFileStream.Create(fEditor.fFileName, fmCreate);
+      try
+        case fEditor.fFileEncoding of
+          sf_Ansi : FileStream.WriteBuffer(S[1], Length(S));
+          sf_UTF8 : SaveToStream(SynEdit.Lines, FileStream, seUTF8, True);
+          sf_UTF8_NoBOM : SaveToStream(SynEdit.Lines, FileStream, seUTF8, False);
+        end;
+      finally
+        FileStream.Free;
+      end;
+
+      FileTime := GetFileLastWrite(fEditor.fFileName);
+      CommandsDataModule.UpdateChangeNotify;
+      if not CommandsDataModule.PyIDEOptions.UndoAfterSave then
+        SynEdit.ClearUndo;
+      SynEdit.Modified := False;
+    end;
   except
     on E: Exception do begin
       MessageBox(0, PChar(E.Message), PChar(Format('Error in saving file: "%s"', [fEditor.fFileName])),
         MB_ICONERROR or MB_OK);
-      Result := FALSE;
+      Result := False;
     end;
   end;
 end;
@@ -1549,7 +1593,7 @@ var
   LI: TDebuggerLineInfos;
   ImgIndex: integer;
 begin
-  if (PyIDEMainForm.PyDebugger <> nil) and SynEdit.Gutter.Visible then
+  if (PyControl.ActiveDebugger <> nil) and SynEdit.Gutter.Visible then
   begin
     FirstLine := SynEdit.RowToLine(FirstLine);
     LastLine := SynEdit.RowToLine(LastLine);
@@ -1559,7 +1603,7 @@ begin
     begin
       Y := (LH - imglGutterGlyphs.Height) div 2
            + LH * (SynEdit.LineToRow(FirstLine) - SynEdit.TopLine);
-      LI := PyIDEMainForm.PyDebugger.GetLineInfos(fEditor, FirstLine);
+      LI := PyControl.GetLineInfos(fEditor, FirstLine);
       if dlCurrentLine in LI then begin
         if dlBreakpointLine in LI then
           ImgIndex := 2
@@ -1605,6 +1649,18 @@ begin
 
   ViewsTabBar.Visible := False;
   ViewsTabBar.Tabs[0].Data := SourcePage;
+  case CommandsDataModule.PyIDEOptions.EditorTabPosition of
+    toTop:
+      begin
+        ViewsTabBar.Orientation := toBottom;
+        ViewsTabBar.Align := alBottom;
+      end;
+    toBottom:
+      begin
+        ViewsTabBar.Orientation := toTop;
+        ViewsTabBar.Align := alTop;
+      end;
+  end;
 
   BreakPoints := TObjectList.Create(True);
   TDebugSupportPlugin.Create(Self); // No need to free
@@ -1618,9 +1674,9 @@ procedure TEditorForm.SynEditGutterClick(Sender: TObject;
   Button: TMouseButton; X, Y, Line: Integer; Mark: TSynEditMark);
 begin
   if (SynEdit.Highlighter = CommandsDataModule.SynPythonSyn) and
-    (PyIDEMainForm.PyDebugger <> nil) and not (sfGutterDragging in SynEdit.StateFlags)
+    (PyControl.ActiveDebugger <> nil) and not (sfGutterDragging in SynEdit.StateFlags)
   then
-    PyIDEMainForm.PyDebugger.ToggleBreakpoint(fEditor, SynEdit.RowToLine(Line));
+    PyControl.ToggleBreakpoint(fEditor, SynEdit.RowToLine(Line));
 end;
 
 procedure TEditorForm.SynEditSpecialLineColors(Sender: TObject;
@@ -1628,8 +1684,8 @@ procedure TEditorForm.SynEditSpecialLineColors(Sender: TObject;
 var
   LI: TDebuggerLineInfos;
 begin
-  if PyIDEMainForm.PyDebugger <> nil then begin
-    LI := PyIDEMainForm.PyDebugger.GetLineInfos(fEditor, Line);
+  if PyControl.ActiveDebugger <> nil then begin
+    LI := PyControl.GetLineInfos(fEditor, Line);
     if dlCurrentLine in LI then begin
       Special := TRUE;
       FG := clWhite;
@@ -1718,9 +1774,9 @@ begin
     (HiWord(GetAsyncKeyState(VK_CONTROL)) = 0) and
     not SynEdit.IsPointInSelection(aLineCharPos) and
     //(FindVCLWindow(SynEdit.ClientToScreen(Point(X,Y))) = SynEdit) and
-    (((PyIDEMainForm.PyDebugger.DebuggerState = dsPaused) and
+    (((PyControl.DebuggerState = dsPaused) and
     CommandsDataModule.PyIDEOptions.ShowDebuggerHints) or
-    ((PyIDEMainForm.PyDebugger.DebuggerState = dsInactive) and
+    ((PyControl.DebuggerState = dsInactive) and
     CommandsDataModule.PyIDEOptions.ShowCodeHints))
   then with SynEdit do begin
     // Code and debugger hints
@@ -1728,7 +1784,7 @@ begin
     if (Attri = CommandsDataModule.SynPythonSyn.IdentifierAttri) or
        (Attri = CommandsDataModule.SynPythonSyn.NonKeyAttri) or
        (Attri = CommandsDataModule.SynPythonSyn.SystemAttri) or
-       ((PyIDEMainForm.PyDebugger.DebuggerState = dsPaused) and ((Token = ')')
+       ((PyControl.DebuggerState = dsPaused) and ((Token = ')')
         or (Token = ']'))) then
     begin
       with fHintIdentInfo do begin
@@ -1750,7 +1806,7 @@ begin
         IdentArea.Right := Pix.X;
         IdentArea.Bottom := Pix.Y + LineHeight + 3;
         // Determine where the hint should be shown (beginning of the expression)
-        if PyIDEMainForm.PyDebugger.DebuggerState = dsPaused then
+        if PyControl.DebuggerState = dsPaused then
           aLineCharPos := BufferCoord(ExpStart, aLineCharPos.Line)
         else
           aLineCharPos := StartCoord;
@@ -1811,7 +1867,7 @@ end;
 procedure TEditorForm.SynEditMouseDown(Sender: TObject;
   Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 begin
-  with PyIDEMainForm.PyDebugger.ErrorPos do
+  with PyControl.ErrorPos do
     if Editor = GetEditor then begin
       Clear;
       PyIDEMainForm.DebuggerErrorPosChange(Self);
@@ -1968,10 +2024,10 @@ var
   NameSpace, SortedNameSpace : TStringList;
   Scope: TCodeElement;
   Def, CE : TBaseCodeElement;
-  ParsedModule, BuiltInModule : TParsedModule;
+  ParsedModule, ParsedBuiltInModule : TParsedModule;
   PythonPathAdder : IInterface;
 begin
-  if not fEditor.HasPythonFile then begin
+  if not fEditor.HasPythonFile or PyControl.IsRunning then begin
     CanExecute := False;
     Exit;
   end;
@@ -1992,7 +2048,7 @@ begin
 
     FName := GetEditor.GetFileNameOrTitle;
     // Add the file path to the Python path - Will be automatically removed
-    PythonPathAdder := AddPathToPythonPath(ExtractFilePath(FName));
+    PythonPathAdder := InternalInterpreter.AddPathToPythonPath(ExtractFilePath(FName));
 
     PyScripterRefactor.InitializeQuery;
     // GetParsedModule
@@ -2004,8 +2060,6 @@ begin
     if Assigned(ParsedModule) and Assigned(Scope) then begin
       NameSpace := TStringList.Create;
       SortedNameSpace := TStringList.Create;
-      SortedNameSpace.Duplicates := dupIgnore;
-      SortedNameSpace.CaseSensitive := True;
 
       try
         DisplayText := '';
@@ -2025,13 +2079,14 @@ begin
           end;
 
           //  builtins (could add keywords as well)
-          BuiltInModule := PyScripterRefactor.GetParsedModule('__builtin__', None);
-          BuiltInModule.GetNameSpace(NameSpace);
+          ParsedBuiltInModule := PyScripterRefactor.GetParsedModule('__builtin__', None);
+          ParsedBuiltInModule.GetNameSpace(NameSpace);
         end;
 
-        SortedNameSpace.Duplicates := dupIgnore;
+        SortedNameSpace.Duplicates := dupIgnore; // Remove duplicates
         SortedNameSpace.Sorted := True;
         SortedNameSpace.AddStrings(NameSpace);
+        SortedNameSpace.CustomSort(ComparePythonIdents);
         InsertText := SortedNamespace.Text;
         for i := 0 to SortedNamespace.Count - 1 do begin
           S := SortedNamespace[i];
@@ -2094,7 +2149,7 @@ var
   Token: WideString;
   Attri: TSynHighlighterAttributes;
 begin
-  if not fEditor.HasPythonFile then begin
+  if not fEditor.HasPythonFile or PyControl.IsRunning then begin
     CanExecute := False;
     Exit;
   end;
@@ -2129,7 +2184,6 @@ begin
           else if LocLine[TmpX] = '(' then dec(ParenCounter);
           dec(TmpX);
         end;
-        if TmpX > 0 then dec(TmpX);  //eat the open paren
       end else if locLine[TmpX] = '(' then
       begin
         //we have a valid open paren, lets see what the word before it is
@@ -2150,7 +2204,7 @@ begin
 
             FName := GetEditor.GetFileNameOrTitle;
             // Add the file path to the Python path - Will be automatically removed
-            PythonPathAdder := AddPathToPythonPath(ExtractFilePath(FName));
+            PythonPathAdder := InternalInterpreter.AddPathToPythonPath(ExtractFilePath(FName));
 
             PyScripterRefactor.InitializeQuery;
             // GetParsedModule
@@ -2236,11 +2290,11 @@ begin
     begin
     // Syntax hint
        CodeHint := 'Syntax Error: ' + fSyntaxErrorPos.ErrorMsg;
-    end else if (PyIDEMainForm.PyDebugger.DebuggerState = dsPaused) and
+    end else if (PyControl.DebuggerState = dsPaused) and
       CommandsDataModule.PyIDEOptions.ShowDebuggerHints then
     begin
       // Debugger hints
-      PyIDEMainForm.PyDebugger.Evaluate(fHintIdentInfo.DottedIdent, ObjectType, ObjectValue);
+      PyControl.ActiveDebugger.Evaluate(fHintIdentInfo.DottedIdent, ObjectType, ObjectValue);
       if ObjectValue <> SNotAvailable then begin
         ObjectValue := HTMLSafe(ObjectValue);
         ObjectType := HTMLSafe(ObjectType);
@@ -2248,7 +2302,7 @@ begin
           [fHintIdentInfo.DottedIdent, ObjectType, ObjectValue]);
       end else
         CodeHint := '';
-    end else if (PyIDEMainForm.PyDebugger.DebuggerState = dsInactive) and
+    end else if (PyControl.DebuggerState = dsInactive) and
       CommandsDataModule.PyIDEOptions.ShowCodeHints then
     begin
       // Code hints
@@ -2276,9 +2330,9 @@ begin
   if GetEditor.HasPythonFile and fNeedToCheckSyntax and
     CommandsDataModule.PyIDEOptions.CheckSyntaxAsYouType
   then begin
-    PyIDEMainForm.PyDebugger.SyntaxCheck(GetEditor, True);
-    fSyntaxErrorPos.Assign(PyIDEMainForm.PyDebugger.ErrorPos);
-    PyIDEMainForm.PyDebugger.ErrorPos.Clear;
+    InternalInterpreter.SyntaxCheck(GetEditor, True);
+    fSyntaxErrorPos.Assign(PyControl.ErrorPos);
+    PyControl.ErrorPos.Clear;
     fNeedToCheckSyntax := False;
   end;
 end;
@@ -2289,6 +2343,13 @@ initialization
 finalization
   GI_EditorFactory := nil;
 end.
+
+
+
+
+
+
+
 
 
 

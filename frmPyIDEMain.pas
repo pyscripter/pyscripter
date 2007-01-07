@@ -219,12 +219,21 @@ Limitations: Python scripts are executed in the main thread
             Unit Testing broken (regression)
             Gap in the default tool bar (Issue #3)
 
- History:   v 1.7.2.4
+ History:   v 1.7.2.6
           New Features
             Interpreter command history improvements:
               - Delete duplicates
               - Filter history by typing the first few command characters
               - Up|Down keys at the prompt recall commands from history
+            Code Explorer shows imported names for (from ... import) syntax (Issue 12)
+            Improved sort order in code completion
+            Save modified files dialog on exit
+            Finer control on whether the UTF-8 BOM is written
+              - Three file encodings supported (Ansi, UTF-8, UTF-8 without BOM)
+            IDE option to detect UTF-8 encoding (useful for non-Python files)
+            IDE options for default linebreaks and encoding for new files
+            Warning when file encoding results in information loss
+            IDE option to position the editor tabs at the top
           Bug fixes
             Shell Integration - Error when opening multiple files
             Configure External Run - ParseTraceback not saved properly
@@ -235,6 +244,18 @@ Limitations: Python scripts are executed in the main thread
             Page Setup Header and Footer not saved  (Issue 7)
             Hidden Tabbed windows reappearing when restarting
             Duplicate two-key editor command not detected
+            "Clean up namespace" and "Clean up sys modules" settings
+              become effective after restarting PyScripter
+            Exception when setting the Active Line Color in Editor Options dialog
+            Raw_input does not accept unicode strings
+            Error in docstring extraction (Issue 11)
+            Fixed some problems with the toggle comment command
+            Fixed rare bug in restoring layout
+            Code tips wrong if comments are present among parameters (Issue 15)
+            Notification of file changes can miss files (Issue 17)
+            Certain syntax coloring options were not saved
+            ToDo List did not support encoded files and unicode
+            ToDo List did not support multiline comments (Issue 14)
 
   ** Pyscripter flickers a lot when resizing.  I do not know what to do
      about it. In fact this may be a Windows problem.  Even in .NET try the
@@ -246,11 +267,12 @@ Limitations: Python scripts are executed in the main thread
 // TODO: Project Manager
 
 // Bugs and minor features
+// TODO: Unicode in ToDo Window
+// TODO: Z-Order in CTRL+TAB and CTRL+SHIFT+TAB
 // Internal Tool as in pywin
 // TODO: Interpreter raw_input
 
 // TODO: Option to move editor and docking tabs at the top.  (Maybe)
-// TODO: sort order in code completion
 // TODO: Improve parameter completion with an option to provide more help (docstring)
 
 // TODO: Find module expert
@@ -577,6 +599,8 @@ type
     actNewFile: TAction;
     TBXItem53: TTBXItem;
     JvAppInstances: TJvAppInstances;
+    TBXItem54: TTBXItem;
+    TBXItem55: TTBXItem;
     procedure mnFilesClick(Sender: TObject);
     procedure actEditorZoomInExecute(Sender: TObject);
     procedure actEditorZoomOutExecute(Sender: TObject);
@@ -674,7 +698,6 @@ type
     procedure SyntaxClick(Sender : TObject);
     procedure SelectEditor(Sender : TObject);
   public
-    PyDebugger : TPyBaseDebugger;
     PythonKeywordHelpRequested : Boolean;
     MenuHelpRequested : Boolean;
     ActionListArray : TActionListArray;
@@ -722,7 +745,7 @@ uses
   JvJVCLUtils, DateUtils, cPythonSourceScanner, frmRegExpTester,
   StringResources, dlgCommandLine, frmUnitTests, cFilePersist, frmIDEDockWin,
   dlgPickList, VirtualTrees, VirtualExplorerTree, JvDockGlobals, Math,
-  cCodeHint, dlgNewFile;
+  cCodeHint, dlgNewFile, SynEditTextBuffer;
 
 {$R *.DFM}
 
@@ -806,8 +829,7 @@ begin
   AppStorage.FileName := ChangeFileExt(ExtractFileName(Application.ExeName), '.ini');
   AppStorage.StorageOptions.StoreDefaultValues := False;  
 
-  // Create and layout debugger windows
-
+  // Create and layout IDE windows
   PythonIIForm := TPythonIIForm.Create(self);
   CallStackWindow := TCallStackWindow.Create(Self);
   VariablesWindow := TVariablesWindow.Create(Self);
@@ -823,10 +845,8 @@ begin
   // FindInFilesExpert creates FindResultsWindow
   FindInFilesExpert := TFindInFilesExpert.Create;
 
-  // Create Debugger
-  PyDebugger := TPyDebugger.Create;
   // Assign Debugger Events
-  with PyDebugger do begin
+  with PyControl do begin
     OnBreakpointChange := DebuggerBreakpointChange;
     OnCurrentPosChange := DebuggerCurrentPosChange;
     OnErrorPosChange := DebuggerErrorPosChange;
@@ -867,7 +887,7 @@ begin
   // Create Refactoring Helper
   fRefactoring := TBRMRefactor.Create;
 
-  UpdateDebugCommands(PyDebugger.DebuggerState);
+  UpdateDebugCommands(PyControl.DebuggerState);
   //  Editor Views Menu
   GI_EditorFactory.SetupEditorViewMenu;
 
@@ -915,7 +935,7 @@ begin
     CanClose := False;
     CloseTimer.Enabled := True;
     Exit;
-  end else if PyDebugger.DebuggerState <> dsInactive then begin
+  end else if PyControl.DebuggerState <> dsInactive then begin
     CanClose := False;
     if Windows.MessageBox(Handle,
       'A debugging session is in process.  Do you want to abort the session and Exit?',
@@ -923,7 +943,7 @@ begin
     begin
 //    if (MessageDlg('A debugging session is in process.  Do you want to abort the session and Exit?',
 //      mtWarning, [mbYes, mbNo], 0) = mrYes) then begin
-      PyDebugger.Abort;
+      PyControl.ActiveDebugger.Abort;
       CloseTimer.Enabled := True;
     end;
     Exit;
@@ -958,6 +978,10 @@ begin
     // Disable CodeHint timer
     CodeHint.CancelHint;
 
+    // Shut down help
+    Application.OnHelp := nil;
+    Application.HelpCommand(HELP_QUIT, 0);
+
     // Give the time to the treads to terminate
     Sleep(200);
 
@@ -978,8 +1002,6 @@ begin
     SendMessage(EditorsPageList.Handle, WM_SETREDRAW, 1, 0);
 
     RemoveThemeNotification(Self);
-    // Shut down help
-    Application.HelpCommand(HELP_QUIT, 0);
   end;
 end;
 
@@ -1041,7 +1063,7 @@ begin
   ActiveEditor := GetActiveEditor;
   if not Assigned(ActiveEditor) then Exit;
 
-  if PyDebugger.SyntaxCheck(ActiveEditor) then begin
+  if InternalInterpreter.SyntaxCheck(ActiveEditor) then begin
     MessagesWindow.AddMessage(Format('Syntax of %s is OK!', [ActiveEditor.FileTitle]));
     ShowDockForm(MessagesWindow);
   end;
@@ -1055,7 +1077,7 @@ begin
   ActiveEditor := GetActiveEditor;
   if not Assigned(ActiveEditor) then Exit;
 
-  PyDebugger.ImportModule(ActiveEditor);
+  PyControl.ActiveInterpreter.ImportModule(ActiveEditor);
 
   ModuleName := PathRemoveExtension(ActiveEditor.FileTitle);
   // add Module name to the locals() of the interpreter
@@ -1071,12 +1093,12 @@ var
 begin
   ActiveEditor := GetActiveEditor;
   if Assigned(ActiveEditor) and ActiveEditor.HasPythonFile then
-    PyDebugger.ToggleBreakpoint(ActiveEditor, ActiveEditor.SynEdit.CaretY);
+    PyControl.ToggleBreakpoint(ActiveEditor, ActiveEditor.SynEdit.CaretY);
 end;
 
 procedure TPyIDEMainForm.actClearAllBreakpointsExecute(Sender: TObject);
 begin
-  PyDebugger.ClearAllBreakpoints;
+  PyControl.ClearAllBreakpoints;
 end;
 
 procedure TPyIDEMainForm.actCommandLineExecute(Sender: TObject);
@@ -1102,7 +1124,7 @@ begin
   if CommandsDataModule.PyIDEOptions.SaveFilesBeforeRun then
     SaveFileModules;
 
-  PyDebugger.RunNoDebug(ActiveEditor);
+  PyControl.ActiveInterpreter.RunNoDebug(ActiveEditor);
 
   WriteStatusMsg('Script run OK');
   MessageBeep(MB_ICONASTERISK);
@@ -1119,7 +1141,7 @@ begin
   if CommandsDataModule.PyIDEOptions.SaveFilesBeforeRun then
     SaveFileModules;
 
-  PyDebugger.Run(ActiveEditor);
+  PyControl.ActiveDebugger.Run(ActiveEditor);
 end;
 
 procedure TPyIDEMainForm.actStepIntoExecute(Sender: TObject);
@@ -1128,22 +1150,22 @@ var
 begin
   Editor := GetActiveEditor;
   if Assigned(Editor) then
-    PyDebugger.StepInto(Editor);
+    PyControl.ActiveDebugger.StepInto(Editor);
 end;
 
 procedure TPyIDEMainForm.actStepOverExecute(Sender: TObject);
 begin
-  PyDebugger.StepOver;
+  PyControl.ActiveDebugger.StepOver;
 end;
 
 procedure TPyIDEMainForm.actStepOutExecute(Sender: TObject);
 begin
-  PyDebugger.StepOut;
+  PyControl.ActiveDebugger.StepOut;
 end;
 
 procedure TPyIDEMainForm.actDebugAbortExecute(Sender: TObject);
 begin
-  PyDebugger.Abort;
+  PyControl.ActiveDebugger.Abort;
 end;
 
 procedure TPyIDEMainForm.actRunToCursorExecute(Sender: TObject);
@@ -1151,7 +1173,7 @@ var
   Editor : IEditor;
 begin
   Editor := GetActiveEditor;
-  PyDebugger.RunToCursor(Editor, Editor.SynEdit.CaretY);
+  PyControl.ActiveDebugger.RunToCursor(Editor, Editor.SynEdit.CaretY);
 end;
 
 procedure TPyIDEMainForm.DebuggerBreakpointChange(Sender: TObject; Editor : IEditor;
@@ -1188,7 +1210,7 @@ begin
   actStepOver.Enabled := DebuggerState = dsPaused;
   actDebugAbort.Enabled := DebuggerState in [dsPaused, dsRunning];
   actRunToCursor.Enabled := (not (DebuggerState in [dsRunning, dsRunningNoDebug])) and
-    PyFileActive and PyDebugger.IsExecutableLine(Editor, Editor.SynEdit.CaretY);
+    PyFileActive and PyControl.IsExecutableLine(Editor, Editor.SynEdit.CaretY);
   actToggleBreakPoint.Enabled := PyFileActive;
   actClearAllBreakPoints.Enabled := PyFileActive;
   actAddWatchAtCursor.Enabled := PyFileActive;
@@ -1226,10 +1248,10 @@ end;
 
 procedure TPyIDEMainForm.DebuggerCurrentPosChange(Sender: TObject);
 begin
-  if (PyDebugger <> nil) and not PyDebugger.IsRunning then
-    SetCurrentPos(PyDebugger.CurrentPos.Editor , PyDebugger.CurrentPos.Line)
+  if (PyControl.ActiveDebugger <> nil) and not PyControl.IsRunning then
+    SetCurrentPos(PyControl.CurrentPos.Editor , PyControl.CurrentPos.Line)
   else
-    SetCurrentPos(PyDebugger.CurrentPos.Editor, -1);
+    SetCurrentPos(PyControl.CurrentPos.Editor, -1);
 end;
 
 procedure TPyIDEMainForm.DebuggerErrorPosChange(Sender: TObject);
@@ -1242,15 +1264,15 @@ begin
   Editor := GetActiveEditor;
   if not Assigned(Editor) then Exit;  //No editors!
 
-  if (not Assigned(PyDebugger.ErrorPos.Editor) or (PyDebugger.ErrorPos.Editor = Editor)) and
+  if (not Assigned(PyControl.ErrorPos.Editor) or (PyControl.ErrorPos.Editor = Editor)) and
     (fErrorLine > 0)
   then
     // Remove possible error line
     Editor.SynEdit.InvalidateLine(fErrorLine);
 
-  fErrorLine := PyDebugger.ErrorPos.Line;  // Store
-  if (Editor = PyDebugger.ErrorPos.Editor) and (PyDebugger.ErrorPos.Line > 0) then
-    Editor.SynEdit.InvalidateLine(PyDebugger.ErrorPos.Line);
+  fErrorLine := PyControl.ErrorPos.Line;  // Store
+  if (Editor = PyControl.ErrorPos.Editor) and (PyControl.ErrorPos.Line > 0) then
+    Editor.SynEdit.InvalidateLine(PyControl.ErrorPos.Line);
 end;
 
 procedure TPyIDEMainForm.DebuggerStateChange(Sender: TObject; OldState,
@@ -1314,7 +1336,7 @@ begin
   UpdateStandardActions;
   CommandsDataModule.UpdateMainActions;
   UpdateStatusBarPanels;
-  UpdateDebugCommands(PyDebugger.DebuggerState);
+  UpdateDebugCommands(PyControl.DebuggerState);
   for i := 0 to EditorsPageList.PageCount - 1 do
     if i < TabBar.Tabs.Count then
       TabBar.Tabs[i].Modified :=
@@ -1561,10 +1583,9 @@ end;
 
 procedure TPyIDEMainForm.FormDestroy(Sender: TObject);
 begin
-  PyDebugger.Free;
-  FindInFilesExpert.Free;
-  fRefactoring.Free;
-  Layouts.Free;
+  FreeAndNil(FindInFilesExpert);
+  FreeAndNil(fRefactoring);
+  FreeAndNil(Layouts);
 end;
 
 procedure TPyIDEMainForm.actFileExitExecute(Sender: TObject);
@@ -1619,10 +1640,11 @@ end;
 procedure TPyIDEMainForm.PyIDEOptionsChanged;
 var
   Editor : IEditor;
+  i : integer;
 begin
-  PythonIIForm.II.debugger.CleanupMaindict :=
+  InternalInterpreter.Debugger.CleanupMaindict :=
     CommandsDataModule.PyIDEOptions.CleanupMainDict;
-  PythonIIForm.II.debugger.CleanupSysModules :=
+  InternalInterpreter.Debugger.CleanupSysModules :=
     CommandsDataModule.PyIDEOptions.CleanupSysModules;
   FileExplorerWindow.FileExplorerTree.RefreshTree;
   CommandsDataModule.EditorSearchOptions.SearchTextAtCaret :=
@@ -1636,6 +1658,29 @@ begin
     CommandsDataModule.PyIDEOptions.XMLFileFilter;
   CommandsDataModule.SynCssSyn.DefaultFilter :=
     CommandsDataModule.PyIDEOptions.CSSFileFilter;
+  case CommandsDataModule.PyIDEOptions.EditorTabPosition of
+    toTop:
+      begin
+        TabBar.Orientation := toTop;
+        TabBar.Align := alTop;
+        for i  := 0 to GI_EditorFactory.Count - 1 do
+          with TEditorForm(GI_EditorFactory.Editor[i].Form).ViewsTabBar do begin
+            Orientation := toBottom;
+            Align := alBottom;
+          end;
+      end;
+    toBottom:
+      begin
+        TabBar.Orientation := toBottom;
+        TabBar.Align := alBottom;
+        for i  := 0 to GI_EditorFactory.Count - 1 do
+          with TEditorForm(GI_EditorFactory.Editor[i].Form).ViewsTabBar do begin
+            Orientation := toTop;
+            Align := alTop;
+          end;
+      end;
+  end;
+
   Editor := GetActiveEditor;
   if Assigned(Editor) then
     Editor.SynEdit.InvalidateGutter;
@@ -2093,7 +2138,7 @@ Var
 begin
   with TPickListDialog.Create(Self) do begin
     Caption := 'Delete Layouts';
-    lbMessage.Caption := 'Select layouts to delete:';
+    lbMessage.Caption := 'Please select the layouts you want to delete and press the OK button:';
     CheckListBox.Items.Assign(Layouts);
     if ShowModal = IdOK then begin
       for i := CheckListBox.Count - 1 downto 0 do begin
@@ -2451,7 +2496,8 @@ begin
       Result.Close;
       raise
     end;
-    Result.SynEdit.Text := Parameters.ReplaceInText(FileTemplate.Template);
+    TSynEditStringList(Result.SynEdit.Lines).InsertText(0,
+      Parameters.ReplaceInText(FileTemplate.Template));
     TEditorForm(Result.Form).DefaultExtension := FileTemplate.Extension;
   end;
 end;
@@ -2670,6 +2716,11 @@ begin
 end;
 
 end.
+
+
+
+
+
 
 
 

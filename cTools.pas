@@ -395,7 +395,7 @@ initialization
   // Create a Python External Run tool which is used in the run menu
   ExternalPython := TExternalRun.Create;
   with ExternalPython do begin
-    Caption := 'Pyhton Interpreter';
+    Caption := 'Python Interpreter';
     Description := 'External Python Interpreter';
     ApplicationName := '$[PythonExe-Short]';
     Parameters := '$[ActiveDoc-Short]';

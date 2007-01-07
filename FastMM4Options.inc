@@ -37,6 +37,13 @@ Set the default options for FastMM here.
  multi-threaded DLL.}
 {.$define AssumeMultiThreaded}
 
+{Enable this option to never put a thread to sleep if a thread contention
+ occurs. This option will improve performance if the ratio of the number of
+ active threads to the number of CPU cores is low (typically < 2). With this
+ option set a thread will enter a "busy waiting" loop instead of relinquishing
+ its timeslice when a thread contention occurs.}
+{.$define NeverSleepOnThreadContention}
+
 {Due to QC#14070 ("Delphi IDE attempts to free memory after the shutdown code
  of borlndmm.dll has been called"), FastMM cannot be uninstalled safely when
  used inside a replacement borlndmm.dll for the IDE. Setting this option will
@@ -55,7 +62,7 @@ Set the default options for FastMM here.
 
 {Enable this option to suppress the display of all message dialogs. This is
  useful in service applications that should not be interrupted.}
-{.$define NoMessageBoxes}
+{$define NoMessageBoxes}
 
 {Set this option to use the Windows API OutputDebugString procedure to output
  debug strings on startup/shutdown and when errors occur.}
@@ -78,7 +85,7 @@ Set the default options for FastMM here.
  install the previous MM, but instead a dummy MM handler that throws an error
  if any MM operation is attempted. This will catch attempts to use the MM
  after FastMM has been uninstalled.}
-{$define DetectMMOperationsAfterUninstall}
+{.$define DetectMMOperationsAfterUninstall}
 
 {Set the following option to do extensive checking of all memory blocks. All
  blocks are padded with both a header and trailer that are used to verify the
@@ -90,13 +97,13 @@ Set the default options for FastMM here.
  Very important: If you enable this option your application will require the
  FastMM_FullDebugMode.dll library. If this library is not available you will
  get an error on startup.}
-{.$define FullDebugMode}
+{$define FullDebugMode}
 
   {Set this option to perform "raw" stack traces, i.e. check all entries on the
    stack for valid return addresses. Note that this is significantly slower
    than using the stack frame tracing method, but is usually more complete. Has
    no effect unless FullDebugMode is enabled}
-  {$define RawStackTraces}
+  {.$define RawStackTraces}
 
   {Set this option to check for user code that uses an interface of a freed
    object. Note that this will disable the checking of blocks modified after
@@ -126,7 +133,7 @@ Set the default options for FastMM here.
 
 {Set this option to enable reporting of memory leaks. Combine it with the two
  options below for further fine-tuning.}
-{.$define EnableMemoryLeakReporting}
+{$define EnableMemoryLeakReporting}
 
   {Set this option to suppress the display and logging of expected memory leaks
    that were registered by pointer. Leaks registered by size or class are often
@@ -138,7 +145,7 @@ Set the default options for FastMM here.
   {Set this option to require the presence of the Delphi IDE to report memory
    leaks. This option has no effect if the option "EnableMemoryLeakReporting"
    is not also set.}
-  {$define RequireIDEPresenceForLeakReporting}
+  {.$define RequireIDEPresenceForLeakReporting}
 
   {Set this option to require the program to be run inside the IDE debugger to
    report memory leaks. This option has no effect if the option
@@ -217,7 +224,7 @@ Set the default options for FastMM here.
  With this option enabled FastMM can be shared with applications using the
  Delphi 2006 MM and vice versa. (You may have to add SimpleShareMem.pas to the
  project using the Delphi 2006 memory manager to enable sharing.)}
-{.$define EnableSharingWithDefaultMM}
+{$define EnableSharingWithDefaultMM}
 
 {--------------------------------Option Grouping------------------------------}
 
@@ -283,4 +290,3 @@ Set the default options for FastMM here.
     {$undef FullDebugMode}
   {$endif}
 {$endif}
-
