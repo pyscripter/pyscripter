@@ -55,7 +55,7 @@ var
 implementation
 
 uses frmPyIDEMain, uEditAppIntfs, dmCommands, uCommonFunctions, Clipbrd,
-  JvDockGlobals;
+  JvDockGlobals, cPyDebugger, cPyBaseDebugger;
 
 {$R *.dfm}
 
@@ -119,7 +119,7 @@ begin
      if FileName = '' then Exit; // No FileName or LineNumber
      Editor := GI_EditorFactory.GetEditorByNameOrTitle(FileName);
      if Assigned(Editor) then
-       PyIDEMainForm.PyDebugger.ToggleBreakpoint(Editor, Line);
+       PyControl.ToggleBreakpoint(Editor, Line);
     end;
 end;
 
@@ -137,7 +137,7 @@ begin
         if InputQuery('Edit Breakpoint Condition',
           'Enter Python expression:', Condition)
         then
-          PyIDEMainForm.PyDebugger.SetBreakPoint(FileName, Line, Disabled, Condition);
+          PyControl.SetBreakPoint(FileName, Line, Disabled, Condition);
       end;
     end;
 end;
@@ -224,7 +224,7 @@ begin
       Disabled := False
     else
       Disabled := True;
-    PyIDEMainForm.PyDebugger.SetBreakPoint(FileName, Line, Disabled, Condition);
+    PyControl.SetBreakPoint(FileName, Line, Disabled, Condition);
   end;
 
 end;

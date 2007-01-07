@@ -70,7 +70,7 @@ begin
 //  if Assigned(VariablesWindow) then
 //    VariablesWindow.ClearAll;
   if (DebuggerState = dsPaused) then begin
-    PyIDEMainForm.PyDebugger.GetCallStack(fCallStackList);
+    PyControl.ActiveDebugger.GetCallStack(fCallStackList);
 
     CallStackView.RootNodeCount := fCallStackList.Count;  // Fills the View
     CallStackView.ReinitNode(CallStackView.RootNode, True);

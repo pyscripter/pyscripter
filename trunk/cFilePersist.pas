@@ -189,7 +189,7 @@ begin
         Editor.SynEdit.CaretXY := BufferCoord(FilePersistInfo.Char, FilePersistInfo.Line);
         for j := 0 to FilePersistInfo.BreakPoints.Count - 1 do
           with TBreakPoint(FilePersistInfo.BreakPoints[j]) do
-            PyIDEMainForm.PyDebugger.SetBreakPoint(FilePersistInfo.FileName,
+            PyControl.SetBreakPoint(FilePersistInfo.FileName,
               LineNo, Disabled, Condition);
         for j := 0 to FilePersistInfo.BookMarks.Count - 1 do
           with TBookMarkInfo(FilePersistInfo.BookMarks[j]) do

@@ -36,7 +36,7 @@
  $Id: uParams.pas,v 1.12 2004/06/07 23:03:48 neum Exp $
  }
 unit uParams;
-
+{$I jedi.inc}
 interface
 
 Uses
@@ -183,10 +183,18 @@ begin
 end;
 
 function GetFileDate(const AFileName: string): string;
+  Var
+    DateTime : TDateTime;
 begin
   Result:= '';
-  if FileExists(AFileName) then
-    Result:= DateTimeToStr(FileDateToDateTime(FileAge(AFileName)));
+  if FileExists(AFileName) then begin
+{$IFDEF DELPHICOMPILER10_UP}
+    FileAge(AFileName, DateTime);
+{$ELSE}
+    DateTime := FileDateToDateTime(FileAge(AFileName));
+{$ENDIF}
+    Result:= DateTimeToStr(DateTime);
+  end;
 end;
 
 function GetFileDateCreate(const AFileName: string): string;

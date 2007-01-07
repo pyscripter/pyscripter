@@ -9,6 +9,8 @@
 
 program PyScripter;
 {%TogetherDiagram 'ModelSupport\default.txaPackage'}
+{%TogetherDiagram 'ModelSupport_PyScripter\default.txaPackage'}
+{%ToDo 'PyScripter.todo'}
 
 uses
   Windows,
@@ -97,6 +99,7 @@ uses
 {$SetPEFlags IMAGE_FILE_RELOCS_STRIPPED}
 
 begin
+  ReportMemoryLeaksOnShutdown := DebugHook <> 0;  
   Application.Initialize;
   Application.Title := 'PyScripter';
   Application.CreateForm(TCommandsDataModule, CommandsDataModule);

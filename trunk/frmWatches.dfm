@@ -1,10 +1,10 @@
 inherited WatchesWindow: TWatchesWindow
   Left = 331
   Top = 325
-  Width = 447
-  Height = 251
   HelpContext = 490
   Caption = 'Watches'
+  ClientHeight = 225
+  ClientWidth = 439
   Icon.Data = {
     0000010001001010000001002000680400001600000028000000100000002000
     0000010020000000000040000000000000000000000000000000000000000000
@@ -43,11 +43,15 @@ inherited WatchesWindow: TWatchesWindow
     00009E7F00000C3F00000C3F00000000000080000000C0000000C0000000C000
     0000C0000000C0000000C0000000C0000000C0000000C0000000C0000000}
   OnActivate = FormActivate
+  ExplicitWidth = 447
+  ExplicitHeight = 251
   PixelsPerInch = 96
   TextHeight = 13
   inherited FGPanel: TPanel
     Width = 439
     Height = 218
+    ExplicitWidth = 439
+    ExplicitHeight = 218
     object WatchesView: TVirtualStringTree
       Left = 0
       Top = 0

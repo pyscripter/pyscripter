@@ -138,7 +138,7 @@ implementation
 
 uses frmPyIDEMain, uEditAppIntfs, dmCommands, VarPyth, SHlObj,
   cFindInFiles, frmFindResults, VirtualPIDLTools, JvDockGlobals,
-  dlgDirectoryList, StringResources, VirtualWideStrings;
+  dlgDirectoryList, StringResources, VirtualWideStrings, cPyBaseDebugger;
 
 {$R *.dfm}
 
@@ -439,13 +439,20 @@ procedure TFileExplorerWindow.BrowsePathPopup(Sender: TTBCustomItem;
 var
   i : integer;
   Item : TTBXItem;
+  Paths : TStringList;
 begin
-  TBXPythonPath.Clear;
-  for i := 0 to Len(SysModule.path) - 1  do begin
-    Item := TTBXItem.Create(TBXPythonPath);
-    Item.Caption := SysModule.path.GetItem(i);
-    Item.OnClick := PathItemClick;
-    TBXPythonPath.Add(Item);
+  Paths := TStringList.Create;
+  try
+    PyControl.ActiveInterpreter.SysPathToStrings(Paths);
+    TBXPythonPath.Clear;
+    for i := 0 to Paths.Count - 1  do begin
+      Item := TTBXItem.Create(TBXPythonPath);
+      Item.Caption := Paths[i];
+      Item.OnClick := PathItemClick;
+      TBXPythonPath.Add(Item);
+    end;
+  finally
+    Paths.Free;
   end;
 end;
 

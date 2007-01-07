@@ -57,7 +57,7 @@ type
   TPyRemDebugger = class(TPyBaseDebugger)
   // pdb based internal debugger
   protected
-    procedure SetDebuggerBreakpoints;
+    procedure SetDebuggerBreakpoints; override;
   public
     constructor Create;
 

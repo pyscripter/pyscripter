@@ -67,12 +67,12 @@ type
   TToDoInfo = class(TObject)
   private
     NumericPriority: Cardinal;
-    Owner: string;
-    ToDoClass: string;
+    Owner: WideString;
+    ToDoClass: WideString;
     //
     Priority: TToDoPriority;
-    Raw: string;
-    Display: string;
+    Raw: WideString;
+    Display: WideString;
     FileName: string;
     LineNo: Integer;
   end;
@@ -155,8 +155,8 @@ type
     procedure EnumerateFilesByDirectory;
     procedure EnumerateOpenFiles;
     procedure LoadFile(const FileName: string);
-    procedure ParseComment(const FileName: string; const SComment, EComment: string;
-      const TokenString: string; LineNumber: Integer);
+    function ParseComment(const FileName: string; const SComment, EComment,
+     TokenString: WideString; LineNumber: Integer): TToDoInfo;
   protected
     procedure TBMThemeChange(var Message: TMessage); message TBM_THEMECHANGE;
   public
@@ -188,7 +188,7 @@ var
 implementation
 
 uses dmCommands, Clipbrd, uEditAppIntfs, Math, frmPyIDEMain, dlgToDoOptions,
-  uCommonFunctions, JvJVCLUtils, JvDockGlobals;
+  uCommonFunctions, JvJVCLUtils, JvDockGlobals, SynUnicode;
 
 {$R *.dfm}
 
@@ -199,19 +199,19 @@ Type
     ToDoInfo : TToDoInfo;
   end;
 
-function AnsiCaseInsensitivePos(const SubString, S: string): Integer;
+function WideCaseInsensitivePos(const SubString, S: WideString): Integer;
 begin
-  Result := AnsiPos(AnsiUpperCase(SubString), AnsiUpperCase(S));
+  Result := Pos(WideUpperCase(SubString), WideUpperCase(S));
 end;
 
 procedure TToDoWindow.actEditCopyExecute(Sender: TObject);
 var
-  ClipText: TStrings;
+  ClipText: TWideStrings;
   i: Integer;
 begin
   inherited;
 
-  ClipText := TStringList.Create;
+  ClipText := TWideStringList.Create;
   try
     for i := 0 to fDataList.Count - 1 do
     with TToDoInfo(fDataList[i]) do begin
@@ -220,7 +220,7 @@ begin
         ExtractFileName(FileName) + #9 +
         IntToStr(LineNo));
     end;
-    Clipboard.AsText := ClipText.Text;
+    SetClipboardText(ClipText.Text);
   finally
     FreeAndNil(ClipText);
   end;
@@ -528,18 +528,18 @@ end;
 resourcestring
   SDoneTodoDesignation = 'Done';
 
-procedure TToDoWindow.ParseComment(const FileName, SComment, EComment,
-  TokenString: string; LineNumber: Integer);
+function TToDoWindow.ParseComment(const FileName: string; const SComment, EComment,
+  TokenString: WideString; LineNumber: Integer) : TToDoInfo;
 var
   i, j, k, n, m, TokenPos, NextCharPos: Integer;
-  Info: TToDoInfo;
   IsDoneTodoItem: Boolean;
-  ParsingString: string;
-  OptionChar: Char;
+  ParsingString: WideString;
+  OptionChar: WideChar;
 begin
+  Result := nil;
   for i := 0 to ToDoExpert.FTokenList.Count - 1 do
   begin
-    n := AnsiCaseInsensitivePos(ToDoExpert.FTokenList[i], TokenString);
+    n := WideCaseInsensitivePos(ToDoExpert.FTokenList[i], TokenString);
     if n > 1 then
     begin
       // We found a token that looks like a TODO comment. Now
@@ -553,17 +553,17 @@ begin
       ParsingString := Trim(ParsingString);
 
       // The TODO token should be at the beginning of the comment
-      TokenPos := AnsiCaseInsensitivePos(ToDoExpert.FTokenList[i], ParsingString);
+      TokenPos := WideCaseInsensitivePos(ToDoExpert.FTokenList[i], ParsingString);
       if TokenPos <> 1 then
         Continue;
 
       // The TODO token should be followed by a non-alphanumeric character
       NextCharPos := TokenPos + Length(ToDoExpert.FTokenList[i]);
-      if (NextCharPos <= Length(ParsingString)) and IsCharAlphaNumeric(ParsingString[NextCharPos]) then
+      if (NextCharPos <= Length(ParsingString)) and IsCharAlphaNumericW(ParsingString[NextCharPos]) then
         Continue;
 
       // Token found in comment line
-      Info := TToDoInfo.Create;
+      Result := TToDoInfo.Create;
 
       // Remove token from string
       Delete(ParsingString, 1, Length(ToDoExpert.FTokenList[i]));
@@ -573,19 +573,19 @@ begin
       j := 0;
       while j < Length(ParsingString) do
       begin
-        if not (ParsingString[j + 1] in ['0'..'9']) then
+        if not (ParsingString[j + 1] in [WideChar('0')..WideChar('9')]) then
           Break;
         Inc(j);
       end;
-      Info.NumericPriority := StrToIntDef(Copy(ParsingString, 1, j), 0);
+      Result.NumericPriority := StrToIntDef(Copy(ParsingString, 1, j), 0);
       Delete(ParsingString, 1, j);
       ParsingString := TrimLeft(ParsingString);
 
-      IsDoneTodoItem := (AnsiCaseInsensitivePos(SDoneTodoDesignation, ParsingString) = 1);
+      IsDoneTodoItem := (WideCaseInsensitivePos(SDoneTodoDesignation, ParsingString) = 1);
 
       { zTODO -oTestCase: -cIssue <-- test case for colon }
       // Delete everything being with a possible trailing colon:
-      j := Pos(':', ParsingString);
+      j := Pos(WideChar(':'), ParsingString);
       if j > 0 then
         Delete(ParsingString, j, Length(ParsingString))
       else
@@ -604,12 +604,12 @@ begin
           <-- Multiline test }
       // Identify owner of TODO item (-o)
       // Identify class of TODO item (-c)
-      OptionChar := #0; // Initialize to make compiler happy - redundant
-      while Pos('-', ParsingString) > 0 do
+      OptionChar := WideChar(#0); // Initialize to make compiler happy - redundant
+      while Pos(WideChar('-'), ParsingString) > 0 do
       begin
         if Length(ParsingString) > 1 then
         begin
-          OptionChar := UpCase(ParsingString[2]);
+          OptionChar := WideUpperCase(Copy(ParsingString, 2, 1))[1];
           Delete(ParsingString, 1, 2);
         end
         else
@@ -623,8 +623,8 @@ begin
           k := Length(ParsingString);
 
         case OptionChar of
-          'O': Info.Owner := Trim(Copy(ParsingString, 1, k));
-          'C': Info.ToDoClass := Trim(Copy(ParsingString, 1, k));
+          'O': Result.Owner := Trim(Copy(ParsingString, 1, k));
+          'C': Result.ToDoClass := Trim(Copy(ParsingString, 1, k));
         end;
 
         // Delete everything up to, but not including, the
@@ -632,12 +632,12 @@ begin
         Delete(ParsingString, 1, j);
       end;
 
-      Info.Raw := TokenString;
+      Result.Raw := TokenString;
 
       if IsDoneTodoItem then
-        Info.Priority := tpDone
+        Result.Priority := tpDone
       else
-        Info.Priority := TTokenInfo(ToDoExpert.FTokenList.Objects[i]).Priority;
+        Result.Priority := TTokenInfo(ToDoExpert.FTokenList.Objects[i]).Priority;
 
       if not ToDoExpert.FShowTokens then begin
         n := n + Length(ToDoExpert.FTokenList[i]);
@@ -645,22 +645,22 @@ begin
         n := Max(n, Pos(':', TokenString)+1);
       end;
       if EComment <> '' then // Trim end-comment token.
-        m := AnsiCaseInsensitivePos(EComment, TokenString) - 1
+        m := WideCaseInsensitivePos(EComment, TokenString) - 1
       else
         m := Length(TokenString);
       if m < 1 then
         m := Length(TokenString);
       // Prevent multi-line to do notes
-      j := Pos(#13, TokenString);
-      k := Pos(#10, TokenString);
+      j := Pos(WideChar(#13), TokenString);
+      k := Pos(WideChar(#10), TokenString);
       if j = 0 then j := 999999;
       if k = 0 then k := 999999;
       m := Min(m, Min(j, k));
       // The +1 is necessary to match IDE's line numbering
-      Info.Display := Trim(Copy(TokenString, n, (m - n) + 1));
-      Info.LineNo := LineNumber;
-      Info.FileName := FileName;
-      FDataList.Add(Info);
+      Result.Display := Trim(Copy(TokenString, n, (m - n) + 1));
+      Result.LineNo := LineNumber;
+      Result.FileName := FileName;
+      FDataList.Add(Result);
 
       Break; // Comment line parsed, stop searching for more To Do items in that line
     end;
@@ -669,31 +669,46 @@ end;
 
 procedure TToDoWindow.LoadFile(const FileName: string);
 Var
-  SourceCode : TStringList;
+  SourceCode : TWideStringList;
   Editor : IEditor;
   i, Index : integer;
-  TokenString : string;
+  TokenString : WideString;
+  Encoding : TFileSaveFormat;
+  Info, Info2 : TToDoInfo;
 begin
-  SourceCode := TStringList.Create;
+  SourceCode := TWideStringList.Create;
   try
     //  Read file into SourceCode
     Editor := GI_EditorFactory.GetEditorByNameOrTitle(FileName);
     if Assigned(Editor) then
       SourceCode.Assign(Editor.SynEdit.Lines)
-    else
-      try
-        SourceCode.LoadFromFile(FileName);
-      except
-        MessageDlg('Could not load FileName "' + FileName + '"', mtWarning, [mbOK], 0);
-        Exit;
-      end;
+    else begin
+      if not LoadFileIntoWideStrings(FileName, SourceCode, Encoding) then Exit;
+    end;
+
     // scan source code
-    for i := 0 to SourceCode.Count - 1 do begin
-      Index := Pos('#', SourceCode[i]);
-      if Index > 0 then begin
-        TokenString := Copy(SourceCode[i], Index, Length(SourceCode[i]) - Index + 1);
-        ParseComment(FileName, '#', '', Tokenstring, i);
+    i := 0;
+    Info := nil;
+    while i < SourceCode.Count do begin
+      TokenString := TrimLeft(SourceCode[i]);
+      if (Info <> nil) and (Length(TokenString) > 1) and (TokenString[1] = WideChar('#')) then begin
+        // Check for multiline comments
+        Info2 := ParseComment(FileName, '#', '', TokenString, i);
+        if Info2 = nil then
+          // Append new comment to Info.Display
+          Info.Display := Info.Display + ' ' +
+            Copy(TokenString, 2, Length(TokenString)-1)
+        else
+          Info := Info2;
+      end else begin
+        Info := nil;
+        Index := Pos(WideChar('#'), TokenString);
+        if Index > 0 then begin
+          TokenString := Copy(TokenString, Index, Length(TokenString) - Index + 1);
+          Info := ParseComment(FileName, '#', '', Tokenstring, i);
+        end;
       end;
+      Inc(i);
     end;
   finally
     SourceCode.Free;
@@ -872,7 +887,7 @@ begin
   case Column of
     -1: Result := 0;
     0: Result := Ord(ToDoInfo1.Priority) - Ord(ToDoInfo2.Priority);
-    1: Result := AnsiCompareStr(ToDoInfo1.Display, ToDoInfo2.Display);
+    1: Result := WideCompareStr(ToDoInfo1.Display, ToDoInfo2.Display);
     2: Result := AnsiCompareStr(ExtractFileName(ToDoInfo1.FileName),
                     ExtractFileName(ToDoInfo2.FileName));
     3: Result := ToDoInfo1.LineNo - ToDoInfo2.LineNo;

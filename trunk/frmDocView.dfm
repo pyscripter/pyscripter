@@ -1,10 +1,10 @@
 object DocForm: TDocForm
   Left = 417
   Top = 88
-  Width = 471
-  Height = 480
   HelpContext = 850
   Caption = 'Documentation'
+  ClientHeight = 446
+  ClientWidth = 463
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText

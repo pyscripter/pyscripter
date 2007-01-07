@@ -2,6 +2,7 @@ object FileTemplatesDialog: TFileTemplatesDialog
   Left = 340
   Top = 192
   HelpContext = 640
+  ActiveControl = edExtension
   BorderIcons = []
   BorderStyle = bsDialog
   Caption = 'File Templates'

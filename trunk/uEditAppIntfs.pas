@@ -89,6 +89,8 @@ type
     procedure UpdateView(Editor : IEditor);
   end;
 
+  TFileSaveFormat = (sf_Ansi, sf_UTF8, sf_UTF8_NoBOM);
+
   IEditor = interface
   ['{15E8BD28-6E18-4D49-8499-1DB594AB88F7}']
     procedure Activate;
@@ -104,18 +106,18 @@ type
     function GetFileTitle: string;
     function GetFileNameOrTitle: string;
     function GetModified: boolean;
-    function GetFileEncoding : TSynEncoding;
+    function GetFileEncoding : TFileSaveFormat;
     function GetForm : TForm;
     function GetEncodedText : string;
-    procedure SetFileEncoding(FileEncoding : TSynEncoding);
-    procedure OpenFile(AFileName: string; HighlighterName : string = '');
+    procedure SetFileEncoding(FileEncoding : TFileSaveFormat);
+    procedure OpenFile(const AFileName: string; HighlighterName : string = '');
     function HasPythonFile : Boolean;
     property FileName : string read GetFileName;
     property FileTitle : string read GetFileTitle;
     property Modified : boolean read GetModified;
     property SynEdit : TSynEdit read GetSynEdit;
     property BreakPoints : TObjectList read GetBreakPoints;
-    property FileEncoding : TSynEncoding read GetFileEncoding write SetFileEncoding;
+    property FileEncoding : TFileSaveFormat read GetFileEncoding write SetFileEncoding;
     property EncodedText : string read GetEncodedText;
     property Form : TForm read GetForm;
   end;
@@ -191,5 +193,6 @@ var
 implementation
 
 end.
+
 
 

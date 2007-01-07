@@ -71,67 +71,77 @@ function DarkenColor(Color:TColor; Percentage:integer):TColor;
 (* Return either clSkyBlue or clHighlight depending on current settings *)
 function SelectionBackgroundColor():TColor;
 
-{* Get Exe File Version string *}
+(* Get Exe File Version string *)
 function ApplicationVersion : string;
 
-{* Compares two Version strings and returns -1, 0, 1 depending on result *}
+(* Compares two Version strings and returns -1, 0, 1 depending on result *)
 function  CompareVersion(const A, B : String) : Integer;
 
-{* Checks whether we are connected to the Internet *}
+(* Checks whether we are connected to the Internet *)
 function ConnectedToInternet : boolean;
 
-{* Extracts the nth line from a string *}
+(* Extracts the nth line from a string *)
 function GetNthLine(const S : string; LineNo : integer) : string;
 
-{* Extracts a range of lines from a string *}
+(* Extracts a range of lines from a string *)
 function GetLineRange(const S : string; StartLine, EndLine : integer) : string;
 
-{* Extracts a word from a string *}
+(* Extracts a word from a string *)
 function GetWordAtPos(const LineText : String; Start : Integer; WordChars : TSysCharSet;
   ScanBackwards : boolean = True; ScanForward : boolean = True;
   HandleBrackets : Boolean = False) : string;
 
-{* Mask FPU Excptions - Useful for importing SciPy and other Python libs *}
+(* Mask FPU Excptions - Useful for importing SciPy and other Python libs *)
 procedure MaskFPUExceptions(ExceptionsMasked : boolean);
 
-{* Adds Path to Python path and automatically deletes it when the
-   returned interface is destroyed *}
-function AddPathToPythonPath(const Path : string; AutoRemove : Boolean = True) : IInterface;
-
-{* Format a doc string by removing left space and blank lines at start and bottom *}
+(* Format a doc string by removing left space and blank lines at start and bottom *)
 function FormatDocString(const DocString : string) : string;
 
-{* Calculate the indentation level of a line *}
+(* Calculate the indentation level of a line *)
 function CalcIndent(S : string; TabWidth : integer = 4): integer;
 
-{* check if a directory is a Python Package *}
+(* check if a directory is a Python Package *)
 function IsDirPythonPackage(Dir : string): boolean;
 
-{* Get Python Package Root directory *}
+(* Get Python Package Root directory *)
 function GetPackageRootDir(Dir : string): string;
 
-{* Python FileName to possibly dotted ModuleName accounting for packages *}
+(* Python FileName to possibly dotted ModuleName accounting for packages *)
 function FileNameToModuleName(const FileName : string): string;
 
-{* Convert <  > to &lt; &gt; *}
+(* Convert <  > to &lt; &gt; *)
 function HTMLSafe(const S : string): string;
 
-{* Parses command line parameters *}
+(* Parses command line parameters *)
 // From Delphi's system.pas unit! Need to rewrite
 function GetParamStr(P: PChar; var Param: string): PChar;
 
-{* ReadLn that works with Sreams *}
+(* ReadLn that works with Sreams *)
 // Adapted from Indy
 function ReadLnFromStream(Stream : TStream; AMaxLineLength: Integer = -1;
   AExceptionIfEOF: Boolean = FALSE): String;
 
-{* Parse a line for a Python encoding spec *}
+(* Parse a line for a Python encoding spec *)
 function ParsePySourceEncoding(Textline : string): string;
+
+(* Delphi's InputQuery supporting Wide strings - based on TnT library *)
+function WideInputQuery(const ACaption, APrompt: WideString; var Value: WideString): Boolean;
+
+(* Covert all line breaks to #10 *)
+function CleanEOLs(S: string): string;
+
+(* Similar to Delphi's IdentToInt but operating on sorted IdentMapEntries *)
+function SortedIdentToInt(const Ident: string; var Int: Longint;
+                          const SortedMap: array of TIdentMapEntry;
+                          CaseSensitive : Boolean = False): Boolean;
+
+(* Used for sorting Python Identifiers *)
+function ComparePythonIdents(List: TStringList; Index1, Index2: Integer): Integer;
 
 implementation
 Uses
-  Controls, Forms, ShellApi, JclFileUtils, Math, VarPyth, JclStrings, JclBase,
-  SynRegExpr;
+  Controls, Forms, StdCtrls, ShellApi, JclFileUtils, Math, VarPyth,
+  JclStrings, JclBase, SynRegExpr, VirtualUnicodeControls, Consts;
 
 function GetIconIndexFromFile(const AFileName: string;
   const ASmall: boolean): integer;
@@ -590,56 +600,6 @@ begin
     Set8087CW($1332);
 end;
 
-type
-  TPythonPathAdder = class(TInterfacedObject, IInterface)
-  private
-    fPath : string;
-    fPathAdded : boolean;
-    PackageRootAdder : IInterface;
-    fAutoRemove : Boolean;
-  public
-    constructor Create(const Path : string; AutoRemove : Boolean = True);
-    destructor Destroy; override;
-  end;
-
-{ TPythonPathAdder }
-
-constructor TPythonPathAdder.Create(const Path: string; AutoRemove : Boolean = True);
-var
-  S : string;
-begin
-  inherited Create;
-  fPath := PathRemoveSeparator(Path);
-  fAutoRemove := AutoRemove;
-  if (fPath <> '') and DirectoryExists(fPath) then begin
-    // Add parent directory of the root of the package first
-    if IsDirPythonPackage(fPath) then begin
-      S := ExtractFileDir(GetPackageRootDir(fPath));
-      if S <> fPath then
-        PackageRootAdder := AddPathToPythonPath(S, AutoRemove);
-    end;
-    if SysModule.path.contains(Path) then
-      fPathAdded := false
-    else begin
-      SysModule.path.insert(0, fPath);
-      fPathAdded := true;
-    end;
-  end;
-end;
-
-destructor TPythonPathAdder.Destroy;
-begin
-  PackageRootAdder := nil;  // will remove package root
-  if fPathAdded and FAutoRemove then
-    SysModule.path.remove(fPath);
-  inherited;
-end;
-
-function AddPathToPythonPath(const Path : string; AutoRemove : Boolean = True) : IInterface;
-begin
-  Result := TPythonPathAdder.Create(Path, AutoRemove);
-end;
-
 function FormatDocString(const DocString : string) : string;
 var
   SL : TStringList;
@@ -910,6 +870,139 @@ begin
   finally
     RegExpr.Free;
   end;
+end;
+
+function GetAveCharSize(Canvas: TCanvas): TPoint;
+var
+  I: Integer;
+  Buffer: array[0..51] of WideChar;
+  tm: TTextMetric;
+begin
+  for I := 0 to 25 do Buffer[I] := WideChar(I + Ord('A'));
+  for I := 0 to 25 do Buffer[I + 26] := WideChar(I + Ord('a'));
+  GetTextMetrics(Canvas.Handle, tm);
+  GetTextExtentPointW(Canvas.Handle, Buffer, 52, TSize(Result));
+  Result.X := (Result.X div 26 + 1) div 2;
+  Result.Y := tm.tmHeight;
+end;
+
+function WideInputQuery(const ACaption, APrompt: WideString; var Value: WideString): Boolean;
+var
+  Form: TForm;
+  Prompt: TLabel;
+  Edit: TWideEdit;
+  DialogUnits: TPoint;
+  ButtonTop, ButtonWidth, ButtonHeight: Integer;
+begin
+  Result := False;
+  Form := TForm.Create(Application);
+  with Form do begin
+    try
+      Canvas.Font := Font;
+      DialogUnits := GetAveCharSize(Canvas);
+      BorderStyle := bsDialog;
+      Caption := ACaption;
+      ClientWidth := MulDiv(180, DialogUnits.X, 4);
+      Position := poScreenCenter;
+      Prompt := TLabel.Create(Form);
+      with Prompt do
+      begin
+        Parent := Form;
+        Caption := APrompt;
+        Left := MulDiv(8, DialogUnits.X, 4);
+        Top := MulDiv(8, DialogUnits.Y, 8);
+        Constraints.MaxWidth := MulDiv(164, DialogUnits.X, 4);
+        WordWrap := True;
+      end;
+      Edit := TWideEdit.Create(Form);
+      with Edit do
+      begin
+        Parent := Form;
+        Left := Prompt.Left;
+        Top := Prompt.Top + Prompt.Height + 5;
+        Width := MulDiv(164, DialogUnits.X, 4);
+        MaxLength := 255;
+        Text := Value;
+        SelectAll;
+      end;
+      ButtonTop := Edit.Top + Edit.Height + 15;
+      ButtonWidth := MulDiv(50, DialogUnits.X, 4);
+      ButtonHeight := MulDiv(14, DialogUnits.Y, 8);
+      with TButton.Create(Form) do
+      begin
+        Parent := Form;
+        Caption := SMsgDlgOK;
+        ModalResult := mrOk;
+        Default := True;
+        SetBounds(MulDiv(38, DialogUnits.X, 4), ButtonTop, ButtonWidth,
+          ButtonHeight);
+      end;
+      with TButton.Create(Form) do
+      begin
+        Parent := Form;
+        Caption := SMsgDlgCancel;
+        ModalResult := mrCancel;
+        Cancel := True;
+        SetBounds(MulDiv(92, DialogUnits.X, 4), Edit.Top + Edit.Height + 15, ButtonWidth,
+          ButtonHeight);
+        Form.ClientHeight := Top + Height + 13;
+      end;
+      if ShowModal = mrOk then
+      begin
+        Value := Edit.Text;
+        Result := True;
+      end;
+    finally
+      Form.Free;
+    end;
+  end;
+end;
+
+function CleanEOLs(S: string): string;
+begin
+  Result := AdjustLineBreaks(S, tlbsLF)
+end;
+
+function SortedIdentToInt(const Ident: string; var Int: Longint;
+                          const SortedMap: array of TIdentMapEntry;
+                          CaseSensitive : Boolean = False): Boolean;
+var
+  m, n, k, I: Integer;
+begin
+  m := Low(SortedMap); n := High(SortedMap);
+  while m<=n do
+    begin
+      k := m+(n-m) div 2;
+      if CaseSensitive then
+        I := CompareStr(Ident, SortedMap[k].Name)
+      else
+        I := CompareText(Ident, SortedMap[k].Name);
+      if I = 0 then begin
+          Result := true;
+          Int := SortedMap[k].Value;
+          exit;
+      end else if I > 0 then
+         m := k+1
+      else
+        n := k-1;
+    end;
+  Result := false
+end;
+
+function ComparePythonIdents(List: TStringList; Index1, Index2: Integer): Integer;
+Var
+  S1, S2 : string;
+begin
+  S1 := List[Index1];
+  S2 := List[Index2];
+  if (S1[1] = '_') and (S2[1] = '_') then
+    Result := CompareStr(S1, S2)
+  else if S1[1] = '_' then
+    Result := 1
+  else if S2[1] = '_' then
+    Result := -1
+  else
+    Result := CompareStr(S1, S2)
 end;
 
 initialization

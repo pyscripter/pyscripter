@@ -1402,7 +1402,8 @@ begin
         JvGlobalDockIsLoading := False;
       end;
     finally
-      Form.Release;
+//      Form.Release;
+      Form.Free;
       JvDockUnLockWindow;
       JvDockInfoTree.Free;
     end;
@@ -1468,7 +1469,8 @@ begin
     JvDockInfoTree.ReadInfoFromIni;
     JvGlobalDockIsLoading := False;
   finally
-    Form.Release;
+//    Form.Release;
+    Form.Free;
     JvDockUnLockWindow;
     JvDockInfoTree.Free;
     MemFile.Free;
@@ -1505,7 +1507,8 @@ begin
   finally
     JvDockUnLockWindow;
     JvDockInfoTree.Free;
-    Form.Release;
+//    Form.Release;
+    Form.Free;
   end;
   ReshowAllVisibleWindow;
 end;

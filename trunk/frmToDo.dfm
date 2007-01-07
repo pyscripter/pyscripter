@@ -182,12 +182,14 @@ inherited ToDoWindow: TToDoWindow
         end
         item
           Layout = blGlyphRight
+          MinWidth = 100
           Position = 1
           Width = 243
           WideText = 'Description'
         end
         item
           Layout = blGlyphRight
+          MinWidth = 50
           Position = 2
           Width = 150
           WideText = 'File Name'
@@ -195,6 +197,7 @@ inherited ToDoWindow: TToDoWindow
         item
           Alignment = taRightJustify
           Layout = blGlyphRight
+          MinWidth = 20
           Position = 3
           Width = 60
           WideText = 'Line'

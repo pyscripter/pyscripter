@@ -263,13 +263,14 @@ begin
       poActiveFile :
         if IsEditorValid(fEditor) then with fEditor do begin
           Activate;
-          SynEdit.Text := JvCreateProcess.ConsoleOutput.Text;
+          SynEdit.SelectAll;
+          SynEdit.SelText := JvCreateProcess.ConsoleOutput.Text;
         end;
       poNewFile :
         begin
           PyIDEMainForm.DoOpenFile(''); // NewFile
           if Assigned(GI_ActiveEditor) then
-            GI_ActiveEditor.SynEdit.Text := JvCreateProcess.ConsoleOutput.Text;
+            GI_ActiveEditor.SynEdit.SelText := JvCreateProcess.ConsoleOutput.Text;
         end;
     end;
 
