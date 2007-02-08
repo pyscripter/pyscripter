@@ -1253,19 +1253,19 @@ end;
 procedure TFindResultsWindow.ReadFromAppStorage(
   AppStorage: TJvCustomAppStorage; const BasePath: string);
 begin
-  AppStorage.WriteInteger(BasePath+'\ResultsHeight', lbResults.Height);
-  AppStorage.WriteBoolean(BasePath+'\ShowToolBar', ToolBar.Visible);
-  AppStorage.WriteBoolean(BasePath+'\ShowStatusBar', StatusBar.Visible);
-  AppStorage.WriteBoolean(BasePath+'\ShowContext', ShowContext);
+  lbResults.Height := AppStorage.ReadInteger(BasePath+'\ResultsHeight', lbResults.Height);
+  ToolBar.Visible := AppStorage.ReadBoolean(BasePath+'\ShowToolBar', ToolBar.Visible);
+  StatusBar.Visible := AppStorage.ReadBoolean(BasePath+'\ShowStatusBar', StatusBar.Visible);
+  ShowContext := AppStorage.ReadBoolean(BasePath+'\ShowContext', True);
 end;
 
 procedure TFindResultsWindow.WriteToAppStorage(
   AppStorage: TJvCustomAppStorage; const BasePath: string);
 begin
-  lbResults.Height := AppStorage.ReadInteger(BasePath+'\ResultsHeight', lbResults.Height);
-  ToolBar.Visible := AppStorage.ReadBoolean(BasePath+'\ShowToolBar', ToolBar.Visible);
-  StatusBar.Visible := AppStorage.ReadBoolean(BasePath+'\ShowStatusBar', StatusBar.Visible);
-  ShowContext := AppStorage.ReadBoolean(BasePath+'\ShowContext', True);
+  AppStorage.WriteInteger(BasePath+'\ResultsHeight', lbResults.Height);
+  AppStorage.WriteBoolean(BasePath+'\ShowToolBar', ToolBar.Visible);
+  AppStorage.WriteBoolean(BasePath+'\ShowStatusBar', StatusBar.Visible);
+  AppStorage.WriteBoolean(BasePath+'\ShowContext', ShowContext);
 end;
 
 procedure TFindResultsWindow.TBMThemeChange(var Message: TMessage);

@@ -1,10 +1,10 @@
 object IDEDockWindow: TIDEDockWindow
   Left = 356
   Top = 263
-  Width = 237
-  Height = 436
   BorderStyle = bsSizeToolWin
   Caption = 'IDE Dock Window'
+  ClientHeight = 410
+  ClientWidth = 229
   Color = clBtnFace
   DockSite = True
   DragKind = dkDock
@@ -32,6 +32,7 @@ object IDEDockWindow: TIDEDockWindow
     Height = 396
     Anchors = []
     BevelOuter = bvNone
+    FullRepaint = False
     ParentBackground = False
     TabOrder = 0
     OnEnter = FGPanelEnter

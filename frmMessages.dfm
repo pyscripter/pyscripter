@@ -1,10 +1,10 @@
 inherited MessagesWindow: TMessagesWindow
   Left = 259
   Top = 257
-  Width = 701
-  Height = 212
   HelpContext = 440
   Caption = 'Messages'
+  ClientHeight = 186
+  ClientWidth = 693
   Icon.Data = {
     0000010001001010000001002000680400001600000028000000100000002000
     0000010020000000000040000000000000000000000000000000000000000000
@@ -43,11 +43,15 @@ inherited MessagesWindow: TMessagesWindow
     0000F8FF0000F87F0000C0000000C0000000C0000000C0000000C0000000C000
     0000C0000000C0000000C0000000C0000000C0000000FFFF0000FFFF0000}
   OnActivate = FormActivate
+  ExplicitWidth = 701
+  ExplicitHeight = 212
   PixelsPerInch = 96
   TextHeight = 13
   inherited FGPanel: TPanel
     Width = 676
     Height = 170
+    ExplicitWidth = 676
+    ExplicitHeight = 170
     object MessagesView: TVirtualStringTree
       Left = 0
       Top = 0

@@ -62,7 +62,7 @@ Set the default options for FastMM here.
 
 {Enable this option to suppress the display of all message dialogs. This is
  useful in service applications that should not be interrupted.}
-{$define NoMessageBoxes}
+{.$define NoMessageBoxes}
 
 {Set this option to use the Windows API OutputDebugString procedure to output
  debug strings on startup/shutdown and when errors occur.}
@@ -85,7 +85,7 @@ Set the default options for FastMM here.
  install the previous MM, but instead a dummy MM handler that throws an error
  if any MM operation is attempted. This will catch attempts to use the MM
  after FastMM has been uninstalled.}
-{.$define DetectMMOperationsAfterUninstall}
+{$define DetectMMOperationsAfterUninstall}
 
 {Set the following option to do extensive checking of all memory blocks. All
  blocks are padded with both a header and trailer that are used to verify the
@@ -97,13 +97,13 @@ Set the default options for FastMM here.
  Very important: If you enable this option your application will require the
  FastMM_FullDebugMode.dll library. If this library is not available you will
  get an error on startup.}
-{$define FullDebugMode}
+{.$define FullDebugMode}
 
   {Set this option to perform "raw" stack traces, i.e. check all entries on the
    stack for valid return addresses. Note that this is significantly slower
    than using the stack frame tracing method, but is usually more complete. Has
    no effect unless FullDebugMode is enabled}
-  {.$define RawStackTraces}
+  {$define RawStackTraces}
 
   {Set this option to check for user code that uses an interface of a freed
    object. Note that this will disable the checking of blocks modified after
@@ -128,6 +128,12 @@ Set the default options for FastMM here.
   {Deletes the error log file on startup. No effect if LogErrorsToFile is not
    also set.}
   {$define ClearLogFileOnStartup}
+
+  {Loads the FASTMM_FullDebugMode.dll dynamically. If the DLL cannot be found
+   then stack traces will not be available. Note that this may cause problems
+   due to a changed DLL unload order when sharing the memory manager. Use with
+   care.}
+  {.$define LoadDebugDLLDynamically}
 
 {---------------------------Memory Leak Reporting-----------------------------}
 
@@ -212,19 +218,19 @@ Set the default options for FastMM here.
    application. This option has no effect unless ShareMM is also set.}
   {.$define ShareMMIfLibrary}
 
+  {Define this option to allow sharing between the default memory manager and
+   FastMM. This option only works together with the memory manager of BDS2006.
+   With this option enabled FastMM can be shared with applications using the
+   Delphi 2006 MM and vice versa. (You may have to add SimpleShareMem.pas to the
+   project using the Delphi 2006 memory manager to enable sharing.)}
+  {$define EnableSharingWithDefaultMM}
+
 {Define this to attempt to share the MM of the main application or other loaded
  DLLs in the same process that were compiled with ShareMM set. When sharing a
  memory manager, memory leaks caused by the sharer will not be freed
  automatically. Take into account that statically linked DLLs are initialized
  before the main application, so set the sharing options accordingly.}
 {.$define AttemptToUseSharedMM}
-
-{Define this option to allow sharing between the default memory manager and
- FastMM. This option only works together with the memory manager of BDS2006.
- With this option enabled FastMM can be shared with applications using the
- Delphi 2006 MM and vice versa. (You may have to add SimpleShareMem.pas to the
- project using the Delphi 2006 memory manager to enable sharing.)}
-{$define EnableSharingWithDefaultMM}
 
 {--------------------------------Option Grouping------------------------------}
 

@@ -24,7 +24,7 @@ uses
   SynEditHighlighter, SynEdit,
   SynEditKeyCmds, SynCompletionProposal, JvComponent, JvDockControlForm,
   frmIDEDockWin, ExtCtrls, TBX, TBXThemes, PythonGUIInputOutput, JvComponentBase,
-  SynUnicode, TB2Item, ActnList;
+  SynUnicode, TB2Item, ActnList, cPyBaseDebugger;
 
 const
   WM_APPENDTEXT = WM_USER + 1020;
@@ -48,6 +48,21 @@ type
     actCopyHistory: TAction;
     TBXSeparatorItem2: TTBXSeparatorItem;
     TBXItem4: TTBXItem;
+    actPythonEngineInternal: TAction;
+    TBXSepReinitialize: TTBXSeparatorItem;
+    actReinitialize: TAction;
+    TBXItem6: TTBXItem;
+    actClearContents: TAction;
+    TBXItem7: TTBXItem;
+    TBXPythonEngines: TTBXSubmenuItem;
+    TBXItem5: TTBXItem;
+    TBXItem8: TTBXItem;
+    TBXItem9: TTBXItem;
+    TBXItem10: TTBXItem;
+    actPythonEngineRemote: TAction;
+    actPythonEngineRemoteTk: TAction;
+    actPythonEngineRemoteWx: TAction;
+    TBXSeparatorItem3: TTBXSeparatorItem;
     procedure testResultAddError(Sender: TObject; PSelf, Args: PPyObject;
       var Result: PPyObject);
     procedure testResultAddFailure(Sender: TObject; PSelf, Args: PPyObject;
@@ -96,6 +111,16 @@ type
     procedure actCleanUpSysModulesExecute(Sender: TObject);
     procedure actCopyHistoryExecute(Sender: TObject);
     procedure SynEditDblClick(Sender: TObject);
+    procedure CleanUpMainDictExecute(Sender: TObject; PSelf, Args: PPyObject;
+      var Result: PPyObject);
+    procedure CleanUpSysModulesExecute(Sender: TObject; PSelf, Args: PPyObject;
+      var Result: PPyObject);
+    procedure awakeGUIExecute(Sender: TObject; PSelf, Args: PPyObject;
+      var Result: PPyObject);
+    procedure actReinitializeExecute(Sender: TObject);
+    procedure actClearContentsExecute(Sender: TObject);
+    procedure actPythonEngineExecute(Sender: TObject);
+    procedure TBXPythonEnginesPopup(Sender: TTBCustomItem; FromLink: Boolean);
   private
     { Private declarations }
     fCommandHistory : TWideStringList;
@@ -113,6 +138,7 @@ type
     procedure GetBlockCode(var Source: WideString;
       var Buffer: array of WideString; EndLineN: Integer; StartLineN: Integer);
     procedure LoadPythonEngine;
+    procedure PrintInterpreterBanner;
   protected
     procedure PythonIOSendData(Sender: TObject; const Data: WideString);
     procedure PythonIOReceiveData(Sender: TObject; var Data: WideString);
@@ -123,8 +149,11 @@ type
     PS1, PS2 : WideString;
     PythonHelpFile : string;
     function OutputSuppressor : IInterface;
+    procedure WritePendingMessages;
+    procedure ClearPendingMessages;
     procedure AppendText(S: WideString);
     procedure AppendToPrompt(const Buffer : array of WideString);
+    procedure AppendPrompt;
     function IsEmpty : Boolean;
     function CanFind: boolean;
     function CanFindNext: boolean;
@@ -134,6 +163,7 @@ type
     procedure ExecFindPrev;
     procedure ExecReplace;
     procedure RegisterHistoryCommands;
+    procedure SetPythonEngineType(PythonEngineType : TPythonEngineType);
     property ShowOutput : boolean read fShowOutput write fShowOutput;
     property CommandHistorySize : integer read fCommandHistorySize write SetCommandHistorySize;
   end;
@@ -146,8 +176,8 @@ implementation
 Uses
   SynEditTypes, Math, frmPyIDEMain, dmCommands, VarPyth, Registry,
   frmMessages, uCommonFunctions, JclStrings, frmVariables, StringResources,
-  dlgConfirmReplace, frmUnitTests, JvDockGlobals, SynRegExpr, cPyBaseDebugger,
-  cPyDebugger;
+  dlgConfirmReplace, frmUnitTests, JvDockGlobals, SynRegExpr, 
+  cPyDebugger, cPyRemoteDebugger, JvJVCLUtils, frmCallStack;
 
 {$R *.dfm}
 
@@ -197,34 +227,35 @@ end;
 procedure TPythonIIForm.PythonIOReceiveData(Sender: TObject;
   var Data: WideString);
 Var
-  S : string;
+  SaveThreadState: PPyThreadState;
+  Res : Boolean;
 begin
-  S := Data;
-  if not InputQuery('PyScripter - Input requested', 'Input:', S) then
+  with GetPythonEngine do begin
+    SaveThreadState := PyEval_SaveThread();
+    try
+      Res := SyncWideInputQuery('PyScripter - Input requested', 'Input:', Data);
+    finally
+      PyEval_RestoreThread(SaveThreadState);
+    end;
+  end;
+  if not Res then
     with GetPythonEngine do
       PyErr_SetString(PyExc_KeyboardInterrupt^, 'Operation cancelled')
   else
-    Data := S + #10;
+    Data := Data + #10;
 end;
 
 procedure TPythonIIForm.PythonIOSendData(Sender: TObject; const Data: WideString);
-Var
-  WS : WideString;
 begin
   if fShowOutput then begin
     fCriticalSection.Acquire;
     try
       fOutputStream.Write(Data[1], Length (Data) * 2);
       //fOutputStream.Write(WideLineBreak[1], Length (WideLineBreak) * 2);  RawOutput
-      if GetCurrentThreadId = MainThreadId then begin
-        SetLength(WS, fOutputStream.Size div 2);
-        fOutputStream.Position := 0;
-        fOutputStream.Read(WS[1], Length(WS)*2);
-        AppendText(WS);
-        fOutputStream.Size := 0;
-      end else begin
+      if GetCurrentThreadId = MainThreadId then
+        WritePendingMessages
+      else
         PostMessage(Handle, WM_APPENDTEXT, 0, 0);
-      end;
     finally
       fCriticalSection.Release;
     end;
@@ -234,18 +265,142 @@ end;
 procedure TPythonIIForm.actCleanUpNameSpaceExecute(Sender: TObject);
 begin
   CommandsDataModule.PyIDEOptions.CleanupMainDict := (Sender as TAction).Checked;
-  InternalInterpreter.Debugger.CleanupMaindict := CommandsDataModule.PyIDEOptions.CleanupMainDict;
 end;
 
 procedure TPythonIIForm.actCleanUpSysModulesExecute(Sender: TObject);
 begin
   CommandsDataModule.PyIDEOptions.CleanupSysModules := (Sender as TAction).Checked;
-  InternalInterpreter.Debugger.CleanupSysModules := CommandsDataModule.PyIDEOptions.CleanupSysModules;
+end;
+
+procedure TPythonIIForm.actClearContentsExecute(Sender: TObject);
+begin
+  Synedit.ClearAll;
+  PrintInterpreterBanner;
 end;
 
 procedure TPythonIIForm.actCopyHistoryExecute(Sender: TObject);
 begin
   SetClipboardText(fCommandHistory.Text);
+end;
+
+procedure TPythonIIForm.SetPythonEngineType(PythonEngineType: TPythonEngineType);
+Var
+  Cursor : IInterface;
+  RemoteInterpreter : TPyRemoteInterpreter;
+  Connected : Boolean;
+  ServerType : TServerType;
+begin
+  if PyControl.DebuggerState <> dsInactive then begin
+    MessageDlg('Cannot change the Python engine while it is active.',
+      mtError, [mbAbort], 0);
+    Exit;
+  end;
+
+  VariablesWindow.ClearAll;
+  UnitTestWindow.ClearAll;
+
+  case PythonEngineType of
+    peInternal:
+      begin
+        PyControl.ActiveInterpreter := InternalInterpreter;
+        PyControl.ActiveDebugger := TPyInternalDebugger.Create;
+        CommandsDataModule.PyIDEOptions.PythonEngineType := peInternal;
+      end;
+    peRemote, peRemoteTk, peRemoteWx:
+      begin
+        Application.ProcessMessages;
+        ServerType := TServerType(Ord(PythonEngineType) -1);
+        Cursor := WaitCursor;
+        // Destroy any active remote interpeter
+        PyControl.ActiveInterpreter := nil;
+        try
+          RemoteInterpreter := TPyRemoteInterpreter.Create(ServerType);
+          Connected := RemoteInterpreter.IsConnected;
+        except
+          Connected := False;
+        end;
+        if Connected then begin
+          PyControl.ActiveInterpreter := RemoteInterpreter;
+          PyControl.ActiveDebugger := TPyRemDebugger.Create(RemoteInterpreter);
+          CommandsDataModule.PyIDEOptions.PythonEngineType := PythonEngineType;
+        end else begin
+          // failed to connect
+          FreeAndNil(RemoteInterpreter);
+          PyControl.ActiveInterpreter := InternalInterpreter;
+          PyControl.ActiveDebugger := TPyInternalDebugger.Create;
+          CommandsDataModule.PyIDEOptions.PythonEngineType := peInternal;
+        end;
+      end;
+  end;
+  PyControl.DoStateChange(dsInactive);
+end;
+
+procedure TPythonIIForm.PrintInterpreterBanner;
+var
+  S: string;
+begin
+  S := Format('*** Python %s on %s. ***' + sLineBreak, [SysModule.version, SysModule.platform]);
+  AppendText(S);
+  AppendText(PS1);
+end;
+
+procedure TPythonIIForm.AppendPrompt;
+var
+  Buffer: array of WideString;
+begin
+  SetLength(Buffer, 0);
+  AppendToPrompt(Buffer);
+end;
+
+procedure TPythonIIForm.ClearPendingMessages;
+begin
+  fCriticalSection.Acquire;
+  try
+    fOutputStream.Clear;
+  finally
+    fCriticalSection.Release;
+  end;
+end;
+
+procedure TPythonIIForm.WritePendingMessages;
+var
+  WS: WideString;
+begin
+  Assert(GetCurrentThreadId = MainThreadId);
+  fCriticalSection.Acquire;
+  try
+    if fOutputStream.Size > 0 then begin
+      SetLength(WS, fOutputStream.Size div 2);
+      fOutputStream.Position := 0;
+      fOutputStream.Read(WS[1], Length(WS) * 2);
+      AppendText(WS);
+      fOutputStream.Size := 0;
+    end;
+  finally
+    fCriticalSection.Release;
+  end;
+end;
+
+procedure TPythonIIForm.actReinitializeExecute(Sender: TObject);
+begin
+  PyControl.ActiveInterpreter.ReInitialize;
+end;
+
+procedure TPythonIIForm.actPythonEngineExecute(Sender: TObject);
+Var
+  PythonEngineType : TPythonEngineType;
+  Msg : string;
+begin
+  PythonEngineType := TPythonEngineType((Sender as TAction).Tag);
+  SetPythonEngineType(PythonEngineType);
+  case CommandsDataModule.PyIDEOptions.PythonEngineType of
+    peInternal :  Msg := Format(SEngineActive, ['Internal','']);
+    peRemote : Msg := Format(SEngineActive, ['Remote','']);
+    peRemoteTk : Msg := Format(SEngineActive, ['Remote','(Tkinter) ']);
+    peRemoteWx : Msg := Format(SEngineActive, ['Remote','(wxPython) ']);
+  end;
+  AppendText(WideLineBreak + Msg);
+  AppendPrompt;
 end;
 
 procedure TPythonIIForm.AppendText(S: WideString);
@@ -279,7 +434,6 @@ end;
 
 procedure TPythonIIForm.FormCreate(Sender: TObject);
 Var
-  S : string;
   Registry : TRegistry;
   RegKey : string;
   II : Variant;   // wrapping sys and code modules
@@ -311,15 +465,10 @@ begin
   fCommandHistorySize := 20;
   fCommandHistoryPointer := 0;
 
-  // Get Python vars and print banner
-  S := Format('*** Python %s on %s. ***'+sLineBreak,
-            [SysModule.version, SysModule.platform]);
-  AppendText(S);
-
   PS1 := SysModule.ps1;
   PS2 := SysModule.ps2;
 
-  AppendText(PS1);
+  PrintInterpreterBanner;
 
   // Python Help File
   Registry := TRegistry.Create(KEY_READ);
@@ -342,6 +491,7 @@ begin
   // Create internal Interpreter and Debugger
   II := VarPythonEval('_II');
   PythonEngine.ExecString('del _II');
+
   InternalInterpreter := TPyInternalInterpreter.Create(II);
   PyControl.ActiveInterpreter := InternalInterpreter;
   PyControl.ActiveDebugger := TPyInternalDebugger.Create;
@@ -349,9 +499,9 @@ end;
 
 procedure TPythonIIForm.FormDestroy(Sender: TObject);
 begin
-  FreeAndNil(PyControl.ActiveDebugger);
-  if PyControl.ActiveInterpreter <> InternalInterpreter then
-    FreeAndNil(PyControl.ActiveInterpreter);
+  PyControl.ActiveDebugger := nil;  // Frees it
+  PyControl.ActiveInterpreter := nil;  // Frees it
+
   FreeAndNil(InternalInterpreter);
   FreeAndNil(fCommandHistory);
   FreeAndNil(FCriticalSection);
@@ -485,10 +635,10 @@ begin
 
             if not NeedIndent then begin
               // The source code has been executed
+              WritePendingMessages;
               // If the last line isnt empty, append a newline
               SetLength(Buffer, 0);
               AppendToPrompt(Buffer);
-              NeedIndent := False;
 
               //  Add the command executed to History
               Index := fCommandHistory.IndexOf(Source);
@@ -497,10 +647,8 @@ begin
               FCommandHistory.Add(Source);
               SetCommandHistorySize(fCommandHistorySize);
               fCommandHistoryPointer := fCommandHistory.Count;
-
-              VariablesWindow.UpdateWindow;
-            end;
-            if NeedIndent then begin
+              SynEdit.Refresh;
+            end else begin
               // Now attempt to correct indentation
               CurLine := Copy(SynEdit.Lines[lineN], Length(PS2)+1, MaxInt); //!!
               Position := 1;
@@ -629,7 +777,8 @@ begin
     RegExpr.Expression := STracebackFilePosExpr;
     if RegExpr.Exec(Synedit.LineText) then begin
       ErrLineNo := StrToIntDef(RegExpr.Match[3], 0);
-      FileName := GetLongFileName(ExpandFileName(RegExpr.Match[1]));
+      FileName := RegExpr.Match[1];
+      //FileName := GetLongFileName(ExpandFileName(RegExpr.Match[1]));
       PyIDEMainForm.ShowFilePosition(FileName, ErrLineNo, 1);
     end;
   finally
@@ -698,8 +847,8 @@ begin
       //Append new prompt if needed
       SetLength(Buffer, 0);
       AppendToPrompt(Buffer);
-      SynEdit.ExecuteCommand(ecEditorBottom, ' ', nil);
-      SynEdit.EnsureCursorPosVisible;
+//      SynEdit.ExecuteCommand(ecEditorBottom, ' ', nil);
+//      SynEdit.EnsureCursorPosVisible;
     finally
       SynEdit.EndUpdate;
     end;
@@ -762,8 +911,8 @@ begin
       end;
 
       AppendToPrompt(Buffer);
-      SynEdit.ExecuteCommand(ecEditorBottom, ' ', nil);
-      SynEdit.EnsureCursorPosVisible;
+//      SynEdit.ExecuteCommand(ecEditorBottom, ' ', nil);
+//      SynEdit.EnsureCursorPosVisible;
     finally
       SynEdit.EndUpdate;
     end;
@@ -982,11 +1131,23 @@ procedure TPythonIIForm.InputBoxExecute(Sender: TObject; PSelf,
 Var
   PCaption, PPrompt, PDefault : PWideChar;
   WideS : WideString;
+  SaveThreadState: PPyThreadState;
+  Res : Boolean;
 begin
   with GetPythonEngine do
     if PyArg_ParseTuple( args, 'uuu:InputBox', [@PCaption, @PPrompt, @PDefault] ) <> 0 then begin
       WideS := PDefault;
-      if WideInputQuery(PCaption, PPrompt, WideS) then
+
+      with GetPythonEngine do begin
+        SaveThreadState := PyEval_SaveThread();
+        try
+          Res := SyncWideInputQuery(PCaption, PPrompt, WideS);
+        finally
+          PyEval_RestoreThread(SaveThreadState);
+        end;
+      end;
+
+      if Res then
         Result := PyUnicode_FromWideChar(PWideChar(WideS), Length(WideS))
       else
         Result := ReturnNone;
@@ -1039,6 +1200,14 @@ begin
   Result := GetPythonEngine.PyLong_FromUnsignedLong(Get8087CW);
 end;
 
+procedure TPythonIIForm.awakeGUIExecute(Sender: TObject; PSelf, Args: PPyObject;
+  var Result: PPyObject);
+begin
+  PyControl.DoYield(False);
+  //PostMessage(Application.Handle, WM_NULL, 0, 0);
+  Result := GetPythonEngine.ReturnNone;
+end;
+
 procedure TPythonIIForm.UnMaskFPUExceptionsExecute(Sender: TObject; PSelf,
   Args: PPyObject; var Result: PPyObject);
 begin
@@ -1067,6 +1236,26 @@ procedure TPythonIIForm.testResultStopTestExecute(Sender: TObject; PSelf,
 begin
   UnitTestWindow.StopTest(VarPythonCreate(Args).GetItem(0));
   Result := GetPythonEngine.ReturnNone;
+end;
+
+procedure TPythonIIForm.CleanUpMainDictExecute(Sender: TObject; PSelf,
+  Args: PPyObject; var Result: PPyObject);
+begin
+  if CommandsDataModule.PyIDEOptions.CleanupMainDict then
+    Result := PPyObject(GetPythonEngine.Py_True)
+  else
+    Result := PPyObject(GetPythonEngine.Py_False);
+  GetPythonEngine.Py_INCREF( Result );
+end;
+
+procedure TPythonIIForm.CleanUpSysModulesExecute(Sender: TObject; PSelf,
+  Args: PPyObject; var Result: PPyObject);
+begin
+  if CommandsDataModule.PyIDEOptions.CleanupSysModules then
+    Result := PPyObject(GetPythonEngine.Py_True)
+  else
+    Result := PPyObject(GetPythonEngine.Py_False);
+  GetPythonEngine.Py_INCREF( Result );
 end;
 
 procedure TPythonIIForm.testResultAddSuccess(Sender: TObject; PSelf,
@@ -1098,6 +1287,8 @@ begin
   if not HasFocus then begin
     FGPanelEnter(Self);
     PostMessage(SynEdit.Handle, WM_SETFOCUS, 0, 0);
+    if Synedit.CanFocus then
+      SynEdit.SetFocus;
   end;
 end;
 
@@ -1111,6 +1302,19 @@ begin
   end;
 end;
 
+procedure TPythonIIForm.TBXPythonEnginesPopup(Sender: TTBCustomItem;
+  FromLink: Boolean);
+begin
+  case CommandsDataModule.PyIDEOptions.PythonEngineType of
+    peInternal :  actPythonEngineInternal.Checked := True;
+    peRemote : actPythonEngineRemote.Checked := True;
+    peRemoteTk : actPythonEngineRemoteTk.Checked := True;
+    peRemoteWx : actPythonEngineRemoteWx.Checked := True;
+  end;
+  actReinitialize.Enabled := icReInitialize in
+    PyControl.ActiveInterpreter.InterpreterCapabilities;
+end;
+
 procedure TPythonIIForm.InterpreterPopUpPopup(Sender: TObject);
 begin
   actCleanUpNameSpace.Checked := CommandsDataModule.PyIDEOptions.CleanupMainDict;
@@ -1119,20 +1323,12 @@ end;
 
 procedure TPythonIIForm.WMAPPENDTEXT(var Message: TMessage);
 Var
-  WS : WideString;
+  Msg : TMsg;
 begin
-  fCriticalSection.Acquire;
-  try
-    if fOutputStream.Size > 0 then begin
-      SetLength(WS, fOutputStream.Size div 2);
-      fOutputStream.Position := 0;
-      fOutputStream.Read(WS[1], Length(WS)*2);
-      AppendText(WS);
-      fOutputStream.Size := 0;
-    end;
-  finally
-    fCriticalSection.Release;
-  end;
+  // Remove other similar messages
+  while PeekMessage(Msg, 0, WM_APPENDTEXT, WM_APPENDTEXT, PM_REMOVE) do
+    ; // do nothing
+  WritePendingMessages;
 end;
 
 function TPythonIIForm.IsEmpty : Boolean;

@@ -13,7 +13,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ComCtrls, ExtCtrls, JvComponent, JvDockControlForm, VirtualTrees,
-  VirtualExplorerTree, VirtualShellUtilities,  Menus, frmIDEDockWin,
+  MPShellUtilities, VirtualExplorerTree, Menus, frmIDEDockWin,
   ActnList, VirtualShellHistory,  TBX, TB2Item, TB2Dock,
   TB2Toolbar, JvComponentBase;
                                                       
@@ -137,8 +137,8 @@ var
 implementation
 
 uses frmPyIDEMain, uEditAppIntfs, dmCommands, VarPyth, SHlObj,
-  cFindInFiles, frmFindResults, VirtualPIDLTools, JvDockGlobals,
-  dlgDirectoryList, StringResources, VirtualWideStrings, cPyBaseDebugger;
+  cFindInFiles, frmFindResults, JvDockGlobals, MpCommonUtilities,
+  MPCommonObjects, dlgDirectoryList, StringResources, cPyBaseDebugger;
 
 {$R *.dfm}
 
@@ -336,10 +336,8 @@ begin
     NameSpaceArray[Low(NameSpaceArray)].Folder
   then begin
     Path := NameSpaceArray[Low(NameSpaceArray)].NameForParsing;
-    if fFavourites.IndexOf(Path) < 0 then begin
+    if fFavourites.IndexOf(Path) < 0 then
       fFavourites.Add(Path);
-      // Todo update Favourites Menu
-    end;
   end;
 end;
 

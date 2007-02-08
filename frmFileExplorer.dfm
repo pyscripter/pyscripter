@@ -35,7 +35,6 @@ inherited FileExplorerWindow: TFileExplorerWindow
     0000FD410000FBC10000FFFF0000FBC10000FD410000FBC10000FFFF0000001F
     0000001F0000001F0000001F0000001F0000001F0000003F00000FFF0000}
   OnActivate = FormActivate
-  ExplicitWidth = 320
   ExplicitHeight = 465
   PixelsPerInch = 96
   TextHeight = 13

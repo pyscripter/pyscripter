@@ -17,7 +17,7 @@ type
                                                     piActiveFile);
   TProcessStdOutputOption = (poNone, poWordAtCursor, poCurrentLine, poSelection,
                                                      poActiveFile, poNewFile);
-  TToolContext = (tcAlwaysEnabled, tcActiveFile, tcSelectionAvailable);
+  TToolContext = (tcAlwaysEnabled, tcActiveFile, tcActivePythonFile, tcSelectionAvailable);
 
   TSaveFiles = (sfNone, sfActive, sfAll);
 

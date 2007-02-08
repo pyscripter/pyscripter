@@ -188,6 +188,8 @@ var
   A : TActionProxyItem;
   i : Integer;
 begin
+  if lbCommands.ItemIndex < 0 then Exit;
+
   A := CurrentAction;
 
   edNewShortCut.HotKey := 0;

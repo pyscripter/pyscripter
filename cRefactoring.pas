@@ -235,14 +235,14 @@ end;
 function TBRMRefactor.FindDefinitionByCoordinates(Filename: string; Line,
   Col: integer; ShowMessages : boolean = True; Silent : boolean = False): Variant;
 Var
-  SupressOutput : IInterface;
+  SuppressOutput : IInterface;
 begin
   VarClear(Result);
   if not fRefactoringIsAvailable then Exit;
   LoadOpenFilesToBRMCache;
   try
     if Silent then
-      SupressOutput := PythonIIForm.OutputSuppressor;
+      SuppressOutput := PythonIIForm.OutputSuppressor;
     // we use the brmctx to avoid resetting the file Cache
     Result := fBRMContext.brmctx.findDefinitionByCoordinates(Filename, Line, Col);
   except
@@ -262,14 +262,14 @@ end;
 function TBRMRefactor.FindReferencesByCoordinates(Filename: string; Line,
   Col: integer; ShowMessages : boolean = True; Silent : boolean = False): Variant;
 Var
-  SupressOutput : IInterface;
+  SuppressOutput : IInterface;
 begin
   VarClear(Result);
   if not fRefactoringIsAvailable then Exit;
   LoadOpenFilesToBRMCache;
   try
     if Silent then
-      SupressOutput := PythonIIForm.OutputSuppressor;
+      SuppressOutput := PythonIIForm.OutputSuppressor;
     // wih use th brmctx to avoid resetting the file Cache
     Result := fBRMContext.brmctx.findReferencesByCoordinates(Filename, Line, Col);
   except
@@ -327,10 +327,10 @@ procedure TBRMRefactor.ProcessBRMMatches(Matches: Variant; ShowMessages,
   Silent: Boolean; var FirstMatch : Variant);
 var
   Match : Variant;
-  SupressOutput : IInterface;
+  SuppressOutput : IInterface;
 begin
   if Silent then
-    SupressOutput := PythonIIForm.OutputSuppressor;
+    SuppressOutput := PythonIIForm.OutputSuppressor;
   VarClear(FirstMatch);
   if not VarIsPython(Matches) or VarIsNone(Matches) then Exit;
 
@@ -479,12 +479,14 @@ var
   ParsedModule : TParsedModule;
   Editor : IEditor;
   FoundSource : boolean;
+  SuppressOutput : IInterface;
 begin
   DottedModuleName := ModuleName;
   fSpecialPackages.CommaText := CommandsDataModule.PyIDEOptions.SpecialPackages;
   SpecialPackagesIndex := fSpecialPackages.IndexOf(ModuleName);
   if SpecialPackagesIndex >= 0 then
     try
+      SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
       Import(ModuleName);
     except
       SpecialPackagesIndex := -1;
@@ -1208,7 +1210,7 @@ Var
   VariableProxy : TVariableProxy;
 begin
   InspectModule := Import('inspect');
-  ItemsDict := BuiltInModule.dict(InspectModule.getmembers(fPyClass));
+  ItemsDict := InternalInterpreter.PyInteractiveInterpreter.safegetmembers(fPyClass);
   ItemKeys := ItemsDict.keys();
   ItemKeys.sort();
   for i := 0 to len(ItemKeys) - 1 do begin
@@ -1306,7 +1308,7 @@ Var
 begin
   //  insert members of Function type
   InspectModule := Import('inspect');
-  ItemsDict := BuiltInModule.dict(InspectModule.getmembers(fPyFunction));
+  ItemsDict := InternalInterpreter.PyInteractiveInterpreter.safegetmembers(fPyFunction);
   ItemKeys := ItemsDict.keys();
   ItemKeys.sort();
   for i := 0 to len(ItemKeys) - 1 do begin
@@ -1381,7 +1383,7 @@ Var
   S : string;
 begin
   InspectModule := Import('inspect');
-  ItemsDict := BuiltinModule.dict(InspectModule.getmembers(fPyObject));
+  ItemsDict := InternalInterpreter.PyInteractiveInterpreter.safegetmembers(fPyObject);
   ItemKeys := ItemsDict.keys();
   ItemKeys.sort();
   for i := 0 to len(ItemKeys) - 1 do begin

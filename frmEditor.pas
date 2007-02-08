@@ -223,7 +223,7 @@ resourcestring
   SOverwrite = 'Overwrite';
   SReadOnly = 'Read Only';
   SNonameFileTitle = 'Untitled';
-  SNonamePythonFileTitle = 'Module';
+  SNonamePythonFileTitle = 'module';
 
   SAskSaveChanges = 'The text in the "%s" file has changed.'#13#10#13#10 +
                     'Do you want to save the modifications?';
@@ -476,7 +476,7 @@ var
   PyEncoding : string;
   UniPy, EncodeMethod, Args, EncodedString : PPyObject;
   wStr, LineBreak : WideString;
-  SupressOutput : IInterface;
+  SuppressOutput : IInterface;
 begin
   Result := True;
 
@@ -513,7 +513,7 @@ begin
         with GetPythonEngine do begin
           if PyEncoding = '' then
             PyEncoding := SysModule.getdefaultencoding();
-          SupressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
+          SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
           UniPy := nil;
           EncodeMethod := nil;
           Args := nil;
@@ -1211,7 +1211,8 @@ procedure TEditorForm.DoActivateEditor;
 begin
   DoActivate;
   ViewsTabBar.Tabs[0].Selected := True;
-  SynEdit.SetFocus;
+  if SynEdit.CanFocus then
+    SynEdit.SetFocus;
 end;
 
 function TEditorForm.DoActivateView(ViewFactory : IEditorViewFactory) : IEditorView;
@@ -2343,6 +2344,7 @@ initialization
 finalization
   GI_EditorFactory := nil;
 end.
+
 
 
 

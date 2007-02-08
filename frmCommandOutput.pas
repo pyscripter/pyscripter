@@ -551,10 +551,19 @@ begin
 end;
 
 procedure TOutputWindow.actToolTerminateExecute(Sender: TObject);
+var
+  i: Integer;
 begin
   if (JvCreateProcess.State <> psReady) then begin
     JvCreateProcess.Terminate;
     TimeoutTimer.Enabled := False;
+    for i := 0 to 10 do
+      if JvCreateProcess.State <> psReady then begin
+        // Wait for the threads to terminate
+        Application.ProcessMessages;
+        CheckSynchronize;
+        Sleep(10);
+      end;
   end;
 end;
 
@@ -606,11 +615,9 @@ begin
     TimeoutTimer.Enabled := False;
     if MessageDlg(Format('The External Tool "%s" is still running  Do you want to terminate it?',
       [fTool.Caption]), mtConfirmation, [mbYes, mbNo], 0) = mrYes
-    then begin
-      // Check again since the process may have finished in the meantime
-      if (JvCreateProcess.State <> psReady) then
-        JvCreateProcess.Terminate;
-    end else begin
+    then
+      actToolTerminateExecute(Sender)
+    else begin
       if (JvCreateProcess.State <> psReady) then
         TimeoutTimer.Enabled := True;  // start afresh
     end;

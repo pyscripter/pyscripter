@@ -13,6 +13,7 @@ program PyScripter;
 {%ToDo 'PyScripter.todo'}
 
 uses
+  //FastMM4,
   Windows,
   Forms,
   frmPyIDEMain in 'frmPyIDEMain.pas' {PyIDEMainForm},
@@ -76,21 +77,15 @@ uses
   dlgPickList in 'dlgPickList.pas' {PickListDialog},
   dlgAboutPyScripter in 'dlgAboutPyScripter.pas' {AboutBox},
   JvProgramVersionCheck in 'JvProgramVersionCheck.pas',
-  JvChangeNotify in 'JvChangeNotify.pas',
-  JvAppStorage in 'JvAppStorage.pas',
   cPyBaseDebugger in 'cPyBaseDebugger.pas',
   cPyRemoteDebugger in 'cPyRemoteDebugger.pas',
-  JvCreateProcess in 'JvCreateProcess.pas',
   JvDockVSNetStyle in 'JvDockVSNetStyle.pas',
   JvDockControlForm in 'JvDockControlForm.pas',
   cFileTemplates in 'cFileTemplates.pas',
   dlgCodeTemplates in 'dlgCodeTemplates.pas' {CodeTemplates},
-  JvAppIniStorage in 'JvAppIniStorage.pas',
   dlgNewFile in 'dlgNewFile.pas' {NewFileDialog},
   JvDockInfo in 'JvDockInfo.pas',
-  JvTabBar in 'JvTabBar.pas',
   SynEdit in 'SynEdit.pas',
-  JvThread in 'JvThread.pas',
   JvAppInst in 'JvAppInst.pas',
   SynEditKeyCmds in 'SynEditKeyCmds.pas';
 
@@ -99,7 +94,7 @@ uses
 {$SetPEFlags IMAGE_FILE_RELOCS_STRIPPED}
 
 begin
-  ReportMemoryLeaksOnShutdown := DebugHook <> 0;  
+  ReportMemoryLeaksOnShutdown := DebugHook <> 0;
   Application.Initialize;
   Application.Title := 'PyScripter';
   Application.CreateForm(TCommandsDataModule, CommandsDataModule);

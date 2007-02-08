@@ -225,6 +225,7 @@ inherited UnitTestWindow: TUnitTestWindow
         Width = 240
         Height = 93
         Align = alBottom
+        AutoSize = False
         AutoURLDetect = False
         Anchors = [akLeft, akTop, akRight, akBottom]
         BorderStyle = bsNone

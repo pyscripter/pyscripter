@@ -59,7 +59,7 @@ implementation
 
 uses frmPyIDEMain, frmCallStack, PythonEngine, VarPyth,
   dmCommands, uCommonFunctions, JclFileUtils, StringResources, frmPythonII,
-  JvDockGlobals, cPyDebugger;
+  JvDockGlobals, cPyDebugger, JvJVCLUtils;
 
 {$R *.dfm}
 Type
@@ -111,7 +111,7 @@ begin
     ParentData := VariablesTree.GetNodeData(ParentNode);
     Data.NameSpaceItem := ParentData.NameSpaceItem.ChildNode[Node.Index];
     VariablesTree.ChildCount[Node] := Data.NameSpaceItem.ChildCount;
-    if Data.NameSpaceItem.ChildCount > 0 then
+    if VariablesTree.ChildCount[Node] > 0 then
       InitialStates := [ivsHasChildren]
     else
       InitialStates := [];
@@ -158,7 +158,7 @@ begin
         then
           ImageIndex := 12
         else
-          ImageIndex := 13; 
+          ImageIndex := 13;
       end else begin
         if Assigned(Node.Parent) and
           (PPyObjRec(VariablesTree.GetNodeData(Node.Parent)).NameSpaceItem.IsDict
@@ -256,11 +256,21 @@ Var
   SameFrame : boolean;
   RootNodeCount : Cardinal;
   OldGlobalsNameSpace, OldLocalsNamespace : TBaseNameSpaceItem;
+  Cursor : IInterface;
 begin
-  if not Assigned(CallStackWindow) then begin   // Should not happen!
+  if not (Assigned(CallStackWindow) and
+          Assigned(PyControl.ActiveInterpreter) and
+          Assigned(PyControl.ActiveDebugger)) then begin   // Should not happen!
      ClearAll;
      Exit;
   end;
+
+  if PyControl.IsRunning then begin
+    // should not update
+    VariablesTree.Enabled := False;
+    Exit;
+  end else
+    VariablesTree.Enabled := True;
 
   // Get the selected frame
   CurrentFrame := CallStackWindow.GetSelectedStackFrame;
@@ -299,6 +309,7 @@ begin
   end;
 
   if SameFrame and (RootNodeCount = VariablesTree.RootNodeCount) then begin
+    Cursor := WaitCursor;
     if Assigned(GlobalsNameSpace) and Assigned(OldGlobalsNameSpace) then
       GlobalsNameSpace.CompareToOldItem(OldGlobalsNameSpace);
     if Assigned(LocalsNameSpace) and Assigned(OldLocalsNameSpace) then

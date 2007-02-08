@@ -62,8 +62,10 @@ type
     procedure AddMessage(Msg: string; FileName : string = '';
                          Line : integer = 0; Offset : integer = 0);
     procedure ClearMessages;
-    procedure ShowPythonTraceback;
-    procedure ShowPythonSyntaxError(E: EPySyntaxError);
+    procedure ShowPythonTraceback(SkipFrames : integer = 1);
+    procedure ShowTraceback(Traceback : Variant; SkipFrames : integer = 0);
+    procedure ShowPythonSyntaxError(E: EPySyntaxError); overload;
+    procedure ShowPythonSyntaxError(ErrorClass : string; E: Variant); overload;
     procedure JumpToPosition(Node : PVirtualNode);
     procedure UpdateMsgActions;
   end;
@@ -76,7 +78,7 @@ implementation
 
 uses
   frmPyIDEMain, uEditAppIntfs, SynEditTypes, dmCommands, uCommonFunctions,
-  Clipbrd, JvDockGlobals;
+  Clipbrd, JvDockGlobals, VarPyth;
 
 {$R *.dfm}
 Type
@@ -150,14 +152,14 @@ begin
   Clipboard.AsText := MessagesView.ContentToText(tstAll, #9);
 end;
 
-procedure TMessagesWindow.ShowPythonTraceback;
+procedure TMessagesWindow.ShowPythonTraceback(SkipFrames : integer = 1);
 Var
   i : integer;
 begin
   with GetPythonEngine.TraceBack do begin
     if ItemCount > 0 then begin
       AddMessage('Traceback');
-      for i := 1 {don't show base frame} to ItemCount-1 do
+      for i := SkipFrames {don't show base frame} to ItemCount-1 do
         with Items[i] do
           AddMessage('    '+Context, FileName, LineNo);
       end;
@@ -165,13 +167,52 @@ begin
     end;
 end;
 
+procedure TMessagesWindow.ShowTraceback(Traceback: Variant;
+  SkipFrames: integer);
+Var
+  i : integer;
+  CurrentTraceback : Variant;
+  CodeObject : Variant;
+  LineNo: Integer;
+begin
+  if VarIsPython(Traceback) and not VarIsNone(Traceback) then begin
+    CurrentTraceback := Traceback;
+    for i  := 1 to SkipFrames do begin
+      CurrentTraceback := CurrentTraceback.tb_next;
+      if VarIsNone(Traceback) then break;
+    end;
+    if not VarIsNone(CurrentTraceback) then begin
+      AddMessage('Traceback');
+      while not VarIsNone(CurrentTraceback) do begin
+        try
+          LineNo := CurrentTraceback.tb_lineno;
+        except
+          LineNo := 0;
+        end;
+        CodeObject := CurrentTraceback.tb_frame.f_code;
+        AddMessage('    '+CodeObject.co_name,
+          CodeObject.co_filename, LineNo);
+        CurrentTraceback := CurrentTraceback.tb_next;
+      end;
+      ShowDockForm(Self);
+    end;
+  end;
+end;
+
 procedure TMessagesWindow.ShowPythonSyntaxError(E: EPySyntaxError);
 begin
   AddMessage('Syntax Error');
   with E do begin
-    AddMessage('    ' + E.EValue, EFileName, ELineNumber, EOffset);
+    AddMessage('    ' + EValue, EFileName, ELineNumber, EOffset);
     ShowDockForm(Self);
   end;
+end;
+
+procedure TMessagesWindow.ShowPythonSyntaxError(ErrorClass : string; E: Variant);
+begin
+  AddMessage(ErrorClass);
+  AddMessage('    ' + E, E.filename, E.lineno, E.offset);
+  ShowDockForm(Self);
 end;
 
 procedure TMessagesWindow.ShowWindow;

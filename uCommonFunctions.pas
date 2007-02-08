@@ -17,7 +17,7 @@ const
   IdentChars: TSysCharSet = ['_', '0'..'9', 'A'..'Z', 'a'..'z'];
   WideLineBreak : WideString = WideString(sLineBreak);
   SFileExpr = '(([a-zA-Z]:)?[^\*\?="<>|:,;\+\^]+)'; // fwd slash (/) is allowed
-  STracebackFilePosExpr =  '"' + SFileExpr + '", line (\d+)(, in ([\?\w]+))?';
+  STracebackFilePosExpr =  '"\<?' + SFileExpr + '\>?", line (\d+)(, in ([\<\>\?\w]+))?';
 
 
 type
@@ -125,7 +125,10 @@ function ReadLnFromStream(Stream : TStream; AMaxLineLength: Integer = -1;
 function ParsePySourceEncoding(Textline : string): string;
 
 (* Delphi's InputQuery supporting Wide strings - based on TnT library *)
-function WideInputQuery(const ACaption, APrompt: WideString; var Value: WideString): Boolean;
+//function WideInputQuery(const ACaption, APrompt: WideString; var Value: WideString): Boolean;
+
+(* Version of WideInputQuery that can be called from threads and executes in the main thread *)
+function SyncWideInputQuery(const ACaption, APrompt: WideString; var Value: WideString): Boolean;
 
 (* Covert all line breaks to #10 *)
 function CleanEOLs(S: string): string;
@@ -136,12 +139,13 @@ function SortedIdentToInt(const Ident: string; var Int: Longint;
                           CaseSensitive : Boolean = False): Boolean;
 
 (* Used for sorting Python Identifiers *)
-function ComparePythonIdents(List: TStringList; Index1, Index2: Integer): Integer;
+function ComparePythonIdents(const S1, S2 : string): Integer; overload;
+function ComparePythonIdents(List: TStringList; Index1, Index2: Integer): Integer; overload;
 
 implementation
 Uses
   Controls, Forms, StdCtrls, ShellApi, JclFileUtils, Math, VarPyth,
-  JclStrings, JclBase, SynRegExpr, VirtualUnicodeControls, Consts;
+  JclStrings, JclBase, SynRegExpr, Consts, TntDialogs;
 
 function GetIconIndexFromFile(const AFileName: string;
   const ASmall: boolean): integer;
@@ -886,74 +890,115 @@ begin
   Result.Y := tm.tmHeight;
 end;
 
-function WideInputQuery(const ACaption, APrompt: WideString; var Value: WideString): Boolean;
-var
-  Form: TForm;
-  Prompt: TLabel;
-  Edit: TWideEdit;
-  DialogUnits: TPoint;
-  ButtonTop, ButtonWidth, ButtonHeight: Integer;
+//function WideInputQuery(const ACaption, APrompt: WideString; var Value: WideString): Boolean;
+//var
+//  Form: TForm;
+//  Prompt: TLabel;
+//  Edit: TWideEdit;
+//  DialogUnits: TPoint;
+//  ButtonTop, ButtonWidth, ButtonHeight: Integer;
+//begin
+//  Result := False;
+//  Form := TForm.Create(Application);
+//  with Form do begin
+//    try
+//      Canvas.Font := Font;
+//      DialogUnits := GetAveCharSize(Canvas);
+//      BorderStyle := bsDialog;
+//      Caption := ACaption;
+//      ClientWidth := MulDiv(180, DialogUnits.X, 4);
+//      Position := poScreenCenter;
+//      Prompt := TLabel.Create(Form);
+//      with Prompt do
+//      begin
+//        Parent := Form;
+//        Caption := APrompt;
+//        Left := MulDiv(8, DialogUnits.X, 4);
+//        Top := MulDiv(8, DialogUnits.Y, 8);
+//        Constraints.MaxWidth := MulDiv(164, DialogUnits.X, 4);
+//        WordWrap := True;
+//      end;
+//      Edit := TWideEdit.Create(Form);
+//      with Edit do
+//      begin
+//        Parent := Form;
+//        Left := Prompt.Left;
+//        Top := Prompt.Top + Prompt.Height + 5;
+//        Width := MulDiv(164, DialogUnits.X, 4);
+//        MaxLength := 255;
+//        Text := Value;
+//        SelectAll;
+//      end;
+//      ButtonTop := Edit.Top + Edit.Height + 15;
+//      ButtonWidth := MulDiv(50, DialogUnits.X, 4);
+//      ButtonHeight := MulDiv(14, DialogUnits.Y, 8);
+//      with TButton.Create(Form) do
+//      begin
+//        Parent := Form;
+//        Caption := SMsgDlgOK;
+//        ModalResult := mrOk;
+//        Default := True;
+//        SetBounds(MulDiv(38, DialogUnits.X, 4), ButtonTop, ButtonWidth,
+//          ButtonHeight);
+//      end;
+//      with TButton.Create(Form) do
+//      begin
+//        Parent := Form;
+//        Caption := SMsgDlgCancel;
+//        ModalResult := mrCancel;
+//        Cancel := True;
+//        SetBounds(MulDiv(92, DialogUnits.X, 4), Edit.Top + Edit.Height + 15, ButtonWidth,
+//          ButtonHeight);
+//        Form.ClientHeight := Top + Height + 13;
+//      end;
+//      if ShowModal = mrOk then
+//      begin
+//        Value := Edit.Text;
+//        Result := True;
+//      end;
+//    finally
+//      Form.Free;
+//    end;
+//  end;
+//end;
+
+type
+  TSyncInputQuery = class
+    public
+    Caption, Prompt, Value : WideString;
+    Res : Boolean;
+    constructor Create(ACaption, APrompt, AValue : WideString);
+    procedure InputQuery;
+  end;
+
+{ TSyncInputQuery }
+
+constructor TSyncInputQuery.Create(ACaption, APrompt, AValue: WideString);
 begin
-  Result := False;
-  Form := TForm.Create(Application);
-  with Form do begin
+  Caption := ACaption;
+  Prompt := APrompt;
+  Value := AValue;
+end;
+
+procedure TSyncInputQuery.InputQuery;
+begin
+  Res := WideInputQuery(Caption, Prompt, Value);
+end;
+
+function SyncWideInputQuery(const ACaption, APrompt: WideString; var Value: WideString): Boolean;
+var
+  SyncInputQuery : TSyncInputQuery;
+begin
+  if GetCurrentThreadId = MainThreadId then
+    Result := WideInputQuery(ACaption, APrompt, Value)
+  else begin
+    SyncInputQuery := TSyncInputQuery.Create(ACaption, APrompt, Value);
     try
-      Canvas.Font := Font;
-      DialogUnits := GetAveCharSize(Canvas);
-      BorderStyle := bsDialog;
-      Caption := ACaption;
-      ClientWidth := MulDiv(180, DialogUnits.X, 4);
-      Position := poScreenCenter;
-      Prompt := TLabel.Create(Form);
-      with Prompt do
-      begin
-        Parent := Form;
-        Caption := APrompt;
-        Left := MulDiv(8, DialogUnits.X, 4);
-        Top := MulDiv(8, DialogUnits.Y, 8);
-        Constraints.MaxWidth := MulDiv(164, DialogUnits.X, 4);
-        WordWrap := True;
-      end;
-      Edit := TWideEdit.Create(Form);
-      with Edit do
-      begin
-        Parent := Form;
-        Left := Prompt.Left;
-        Top := Prompt.Top + Prompt.Height + 5;
-        Width := MulDiv(164, DialogUnits.X, 4);
-        MaxLength := 255;
-        Text := Value;
-        SelectAll;
-      end;
-      ButtonTop := Edit.Top + Edit.Height + 15;
-      ButtonWidth := MulDiv(50, DialogUnits.X, 4);
-      ButtonHeight := MulDiv(14, DialogUnits.Y, 8);
-      with TButton.Create(Form) do
-      begin
-        Parent := Form;
-        Caption := SMsgDlgOK;
-        ModalResult := mrOk;
-        Default := True;
-        SetBounds(MulDiv(38, DialogUnits.X, 4), ButtonTop, ButtonWidth,
-          ButtonHeight);
-      end;
-      with TButton.Create(Form) do
-      begin
-        Parent := Form;
-        Caption := SMsgDlgCancel;
-        ModalResult := mrCancel;
-        Cancel := True;
-        SetBounds(MulDiv(92, DialogUnits.X, 4), Edit.Top + Edit.Height + 15, ButtonWidth,
-          ButtonHeight);
-        Form.ClientHeight := Top + Height + 13;
-      end;
-      if ShowModal = mrOk then
-      begin
-        Value := Edit.Text;
-        Result := True;
-      end;
+      TThread.Synchronize(nil, SyncInputQuery.InputQuery);
+      Result := SyncInputQuery.Res;
+      Value := SyncInputQuery.Value;
     finally
-      Form.Free;
+      SyncInputQuery.Free;
     end;
   end;
 end;
@@ -989,12 +1034,8 @@ begin
   Result := false
 end;
 
-function ComparePythonIdents(List: TStringList; Index1, Index2: Integer): Integer;
-Var
-  S1, S2 : string;
+function ComparePythonIdents(const S1, S2 : string): Integer; overload;
 begin
-  S1 := List[Index1];
-  S2 := List[Index2];
   if (S1[1] = '_') and (S2[1] = '_') then
     Result := CompareStr(S1, S2)
   else if S1[1] = '_' then
@@ -1003,6 +1044,15 @@ begin
     Result := -1
   else
     Result := CompareStr(S1, S2)
+end;
+
+function ComparePythonIdents(List: TStringList; Index1, Index2: Integer): Integer; overload;
+Var
+  S1, S2 : string;
+begin
+  S1 := List[Index1];
+  S2 := List[Index2];
+  Result := ComparePythonIdents(S1, S2);
 end;
 
 initialization

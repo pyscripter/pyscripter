@@ -3,8 +3,10 @@ unit StringResources;
 interface
 
 resourcestring
+  SInternalError = 'Internal Error in %s';
   SNotFound = '"%s" not found';
   SNotAvailable = 'n/a';
+  SNotImplented = 'Not implemented';
   SFilterAllFiles = 'All files|*.*|';
   SVariablesDocNotSelected = '<b>Namespace: </b> <color=clBlue>%s</color>';
   SVariablesDocSelected = '<b>Namespace: </b> <color=clBlue>%s</color><br>'+
@@ -44,6 +46,7 @@ resourcestring
   SEmptyList = '(Empty List)';
   SNewFolder = 'New Folder';
   SCommandLineMsg  = 'Command Line : %s' + sLineBreak;
+  SEngineActive = '*** %s Python engine%s is active ***';
 
 implementation
 end.

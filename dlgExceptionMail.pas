@@ -20,7 +20,7 @@
 { Sample Application exception dialog replacement with sending report by the default mail client   }
 { functionality                                                                                    }
 {                                                                                                  }
-{ Last modified: $Date: 2005/10/26 03:29:44 $                                                      }
+{ Last modified: $Date: 2006-09-12 23:39:02 +0200 (mar., 12 sept. 2006) $                                                      }
 {                                                                                                  }
 {**************************************************************************************************}
 
@@ -196,7 +196,7 @@ var
   TApplicationHandleExceptionAddr, SysUtilsShowExceptionAddr: Pointer;
   CALLInstruction: TCALLInstruction;
   CallAddress: Pointer;
-  NW: DWORD;
+  OldProtect, Dummy: DWORD;
 
   function CheckAddressForOffset(Offset: Cardinal): Boolean;
   begin
@@ -222,10 +222,16 @@ begin
   Result := CheckAddressForOffset(CallOffset) or CheckAddressForOffset(CallOffsetDebug);
   if Result then
   begin
-    CALLInstruction.Address := Integer(@HookShowException) - Integer(CallAddress) - SizeOf(CALLInstruction);
-    Result := WriteProcessMemory(GetCurrentProcess, CallAddress, @CALLInstruction, SizeOf(CALLInstruction), NW);
+    Result := VirtualProtect(CallAddress, sizeof(CallInstruction), PAGE_EXECUTE_READWRITE, OldProtect);
     if Result then
-      FlushInstructionCache(GetCurrentProcess, CallAddress, SizeOf(CALLInstruction));
+    try
+      CALLInstruction.Address := Integer(@HookShowException) - Integer(CallAddress) - SizeOf(CALLInstruction);
+      PCALLInstruction(CallAddress)^ := CALLInstruction;
+      if Result then
+        FlushInstructionCache(GetCurrentProcess, CallAddress, SizeOf(CALLInstruction));
+    finally
+      VirtualProtect(CallAddress, sizeof(CallInstruction), OldProtect, Dummy);
+    end;
   end;
 end;
 
@@ -752,19 +758,12 @@ begin
   JclStopExceptionTracking;
 end;
 
-//------------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 
 initialization
   InitializeHandler;
 
 finalization
   UnInitializeHandler;
-
-// History:
-
-// $Log: ExceptDlgMail.pas,v $
-// Revision 1.2  2005/10/26 03:29:44  rrossmair
-// - improved header information, added $Date$ and $Log$ CVS tags.
-//
 
 end.

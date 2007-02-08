@@ -66,6 +66,8 @@ inherited PythonIIForm: TPythonIIForm
       OnProcessUserCommand = SynEditProcessUserCommand
       OnReplaceText = SynEditReplaceText
       OnPaintTransient = SynEditPaintTransient
+      ExplicitLeft = 1
+      ExplicitTop = -1
     end
   end
   object PythonEngine: TPythonEngine
@@ -87,13 +89,79 @@ inherited PythonIIForm: TPythonIIForm
       '    sys.ps2 = '#39'... '#39
       ''
       'class PythonInteractiveInterpreter(code.InteractiveInterpreter):'
+      '    debugIDE = __import__("DebugIDE")'
+      ''
+      '    class Future:'
+      '        """'
+      '            Python future implementation'
+      '            calculates a function value in a thread'
+      '        """'
+      ''
+      '        def __init__(self, func, *args, **kwargs):'
+      '            import threading'
+      '            # Constructor'
+      '            self.__done = False'
+      '            self.__result = None'
+      '            self.__status = '#39'working'#39
+      '            self.__excpt = None'
+      ''
+      '            # Run the actual function in a separate thread'
+      
+        '            self.__T = threading.Thread(target=self.Wrapper, arg' +
+        's=(func, args, kwargs))'
+      '            self.__T.setName("FutureThread")'
+      '            self.__T.start()'
+      ''
+      '        def __repr__(self):'
+      
+        '            return '#39'<Future at '#39'+hex(id(self))+'#39':'#39'+self.__status' +
+        '+'#39'>'#39
+      ''
+      '        def __call__(self):'
+      '            import time'
+      '            debugIDE = __import__("DebugIDE")'
+      '            while not self.__done:'
+      '                debugIDE.awakeGUI()'
+      '                time.sleep(0.001)'
+      ''
+      '            if self.__excpt:'
+      
+        '                raise self.__excpt[0], self.__excpt[1], self.__e' +
+        'xcpt[2].tb_next'
+      ''
+      '            return self.__result'
+      ''
+      '        def isDone(self):'
+      '          return self.__done'
+      ''
+      '        def Wrapper(self, func, args, kwargs):'
+      
+        '            # Run the actual function, and let us housekeep arou' +
+        'nd it'
+      '            import sys'
+      '            try:'
+      '                self.__result = func(*args, **kwargs)'
+      '            except:'
+      '                self.__result = "Exception raised within Future"'
+      '                self.__excpt = sys.exc_info()'
+      ''
+      '            self.__done = True'
+      '            self.__status=`self.__result`'
+      ''
+      '    def execInThread(self, func, args):'
+      '        #keeps GUI alive'
+      '        future = self.Future(func, *args)'
+      '        return future()'
+      ''
       '    class IDEDebugger(__import__('#39'bdb'#39').Bdb):'
-      '        DebugIDE = __import__("DebugIDE")'
+      '        debugIDE = __import__("DebugIDE")'
+      ''
       '        def do_clear(self, arg):'
       '            import string'
       '            numberlist = string.split(arg)'
       '            for i in numberlist:'
       '                self.clear_bpbynumber(i)'
+      ''
       '        def stop_here(self, frame):'
       '            import bdb'
       '            if not self.InitStepIn:'
@@ -101,116 +169,101 @@ inherited PythonIIForm: TPythonIIForm
       '                self.set_continue()'
       '                return 0'
       '            return bdb.Bdb.stop_here(self, frame)'
+      ''
       '        def user_call(self, frame, args):'
       '            self.InIDEDebug = True'
-      '            self.CurrentFrame = frame'
+      '            self.currentframe = frame'
       '            try:'
-      '                self.DebugIDE.user_call(frame, args)'
+      '                self.debugIDE.user_call(frame, args)'
       '            finally:'
       '                self.InIDEDebug = False'
+      ''
       '        def user_line(self, frame):'
       '            self.InIDEDebug = True'
-      '            self.CurrentFrame = frame'
+      '            self.currentframe = frame'
       '            try:'
-      '                self.DebugIDE.user_line(frame)'
+      '                self.debugIDE.user_line(frame)'
       '            finally:'
       '                self.InIDEDebug = False'
+      ''
       '        def user_return(self, frame, retval):'
       '            self.InIDEDebug = True'
-      '            self.CurrentFrame = frame'
+      '            self.currentframe = frame'
       '            try:'
-      '                self.DebugIDE.user_return(frame, retval)'
+      '                self.debugIDE.user_return(frame, retval)'
       '            finally:'
       '                self.InIDEDebug = False'
+      ''
       '        def user_exception(self, frame, exc_stuff):'
       '            self.InIDEDebug = True'
-      '            self.CurrentFrame = frame'
+      '            self.currentframe = frame'
       '            try:'
-      '                self.DebugIDE.user_exception(frame, exc_stuff)'
+      '                self.debugIDE.user_exception(frame, exc_stuff)'
       '            finally:'
       '                self.InIDEDebug = False'
+      ''
       '        def trace_dispatch(self, frame, event, arg):'
       '            self.tracecount += 1'
       
         '            if self.tracecount == 30:  #yield processing every 3' +
         '0 steps'
       '                self.tracecount = 0'
-      '                self.DebugIDE.user_yield()'
+      '                self.debugIDE.user_yield()'
       
         '                if self.quitting: raise __import__('#39'bdb'#39').BdbQui' +
         't'
       
         '            return __import__('#39'bdb'#39').Bdb.trace_dispatch(self, fr' +
         'ame, event, arg)'
-      '        def run_nodebug(self, cmd, globals=None, locals=None):'
-      '            import types'
-      '            import sys'
-      '            import __main__'
-      '            maindictcopy = __main__.__dict__.copy()'
-      '            sysmodulescopy = sys.modules.copy()'
-      '            if globals is None:'
-      '                globals = __main__.__dict__'
-      '            if locals is None:'
-      '                locals = globals'
-      '            if not isinstance(cmd, types.CodeType):'
-      '                cmd = cmd+'#39'\n'#39
-      '            try:'
-      '                try:'
-      '                    exec cmd in globals, locals'
-      '                except SystemExit:'
-      '                    pass'
-      '            finally:'
-      '                if self.CleanupMaindict:'
-      '                    __main__.__dict__.clear()'
-      '                    __main__.__dict__.update(maindictcopy)'
-      '                if self.CleanupSysModules:'
-      '                    sys.modules.clear()'
-      '                    sys.modules.update(sysmodulescopy)'
       ''
       '        def run(self, cmd, globals=None, locals=None):'
       '            import bdb'
       '            import sys'
-      '            import __main__'
-      '            maindictcopy = __main__.__dict__.copy()'
-      '            sysmodulescopy = sys.modules.copy()'
+      ''
       '            if globals is None:'
-      '                globals = __main__.__dict__'
+      '                globals = self.locals'
       '            if locals is None:'
       '                locals = globals'
+      ''
+      '            maindictcopy = self.locals.copy()'
+      '            sysmodulescopy = sys.modules.copy()'
+      ''
       '            try:'
       '                try:'
       '                    bdb.Bdb.run(self, cmd, globals, locals)'
       '                except SystemExit:'
       '                    pass'
       '            finally:'
-      '                if self.CleanupMaindict:'
-      '                    __main__.__dict__.clear()'
-      '                    __main__.__dict__.update(maindictcopy)'
-      '                if self.CleanupSysModules:'
+      
+        '                if self.debugIDE.cleanupMainDict() and (self.loc' +
+        'als is globals):'
+      '                    self.locals.clear()'
+      '                    self.locals.update(maindictcopy)'
+      '                if self.debugIDE.cleanupSysModules():'
       '                    sys.modules.clear()'
       '                    sys.modules.update(sysmodulescopy)'
       ''
       '    class IDETestResult(__import__('#39'unittest'#39').TestResult):'
-      '        DebugIDE = __import__("DebugIDE")'
+      '        debugIDE = __import__("DebugIDE")'
       ''
       '        def startTest(self, test):'
       
         '            __import__('#39'unittest'#39').TestResult.startTest(self, te' +
         'st)'
-      '            self.DebugIDE.testResultStartTest(test)'
+      '            self.debugIDE.testResultStartTest(test)'
       ''
       '        def stopTest(self, test):'
       
         '            __import__('#39'unittest'#39').TestResult.stopTest(self, tes' +
         't)'
-      '            self.DebugIDE.testResultStopTest(test)'
+      '            self.debugIDE.testResultStopTest(test)'
       ''
       '        def addError(self, test, err):'
       
         '            __import__('#39'unittest'#39').TestResult.addError(self, tes' +
         't, err)'
       
-        '            self.DebugIDE.testResultAddError(test, self._exc_inf' +
+        '            self.debugIDE.testResultAddError(test, self._exc_inf' +
         'o_to_string(err, test))'
       ''
       '        def addFailure(self, test, err):'
@@ -218,32 +271,85 @@ inherited PythonIIForm: TPythonIIForm
         '            __import__('#39'unittest'#39').TestResult.addFailure(self, t' +
         'est, err)'
       
-        '            self.DebugIDE.testResultAddFailure(test, self._exc_i' +
+        '            self.debugIDE.testResultAddFailure(test, self._exc_i' +
         'nfo_to_string(err, test))'
       ''
       '        def addSuccess(self, test):'
-      '            self.DebugIDE.testResultAddSuccess(test)'
+      '            self.debugIDE.testResultAddSuccess(test)'
       
         '            __import__('#39'unittest'#39').TestResult.addSuccess(self, t' +
         'est)'
       ''
-      '    def __init__(self, locals = None, globals = None):'
-      '        if locals is None: locals = __main__.__dict__'
-      '        if globals is None: globals = locals'
-      '        self.globals = globals'
+      '    def __init__(self, locals = None):'
       '        code.InteractiveInterpreter.__init__(self, locals)'
+      '        self.locals["__name__"] = "__main__"'
+      ''
       '        self.debugger = self.IDEDebugger()'
       '        self.debugger.InitStepIn = False'
       '        self.debugger.InIDEDebug = False'
       '        self.debugger.tracecount = 0'
-      '        self.debugger.CleanupMaindict = True'
-      '        self.debugger.CleanupSysModules = True'
+      '        self.debugger.locals = self.locals'
       ''
       '        import repr'
-      '        saferepr = repr.Repr()'
-      '        saferepr.maxstring = 80'
-      '        saferepr.maxother = 80'
-      '        self.saferepr = saferepr.repr'
+      '        pyrepr = repr.Repr()'
+      '        pyrepr.maxstring = 80'
+      '        pyrepr.maxother = 80'
+      '        self._repr = pyrepr.repr'
+      ''
+      '    def run_nodebug(self, cmd, globals=None, locals=None):'
+      '        import types'
+      '        import sys'
+      ''
+      '        if globals is None:'
+      '            globals = self.locals'
+      '        if locals is None:'
+      '            locals = globals'
+      ''
+      '        maindictcopy = self.locals.copy()'
+      '        sysmodulescopy = sys.modules.copy()'
+      ''
+      '        if not isinstance(cmd, types.CodeType):'
+      '            cmd = cmd+'#39'\n'#39
+      '        try:'
+      '            try:'
+      '                exec cmd in globals, locals'
+      '            except SystemExit:'
+      '                pass'
+      '        finally:'
+      
+        '            if self.debugIDE.cleanupMainDict() and (self.locals ' +
+        'is globals):'
+      '                self.locals.clear()'
+      '                self.locals.update(maindictcopy)'
+      '            if self.debugIDE.cleanupSysModules():'
+      '                sys.modules.clear()'
+      '                sys.modules.update(sysmodulescopy)'
+      ''
+      '    def objecttype(self, ob):'
+      '        try:'
+      '            if hasattr(ob, "__class__"):'
+      '                return ob.__class__.__name__'
+      '            elif hasattr(ob, "__bases__"):'
+      '                return "classobj"'
+      '            else:'
+      '                return type(ob).__name__'
+      '        except:'
+      '            return "Unknown type"'
+      ''
+      '    def saferepr(self, x):'
+      '        try:'
+      '            return self._repr(x)'
+      '        except:'
+      '            return '#39'<unprintable %s object>'#39' % type(x).__name__'
+      ''
+      '    def _getmembers(self, ob):'
+      '        return [(i, getattr(ob, i)) for i in dir(ob)]'
+      ''
+      '    def safegetmembers(self, x):'
+      '        try:'
+      '            return dict(self._getmembers(x))'
+      '        except:'
+      '            return {}'
       ''
       '    def find_dotted_module(self, name, path=None):'
       '        import imp'
@@ -284,7 +390,7 @@ inherited PythonIIForm: TPythonIIForm
       
         '            """ File like logger that uses the Editor statusbar ' +
         'as output """'
-      '            import DebugIDE'
+      '            debugIDE = __import__("DebugIDE")'
       '            def __init__(self):'
       '                self._buffer = '#39#39
       ''
@@ -292,7 +398,7 @@ inherited PythonIIForm: TPythonIIForm
       '                self._buffer += txt'
       '                if txt.endswith('#39'\n'#39'):'
       
-        '                    DebugIDE.statusWrite('#39'BRM: '#39' + self._buffer.' +
+        '                    debugIDE.statusWrite('#39'BRM: '#39' + self._buffer.' +
         'strip())'
       '                    self._buffer = '#39#39
       ''
@@ -300,7 +406,7 @@ inherited PythonIIForm: TPythonIIForm
       
         '            """ File like logger that uses the Editor statusbar ' +
         'as output """'
-      '            import DebugIDE'
+      '            debugIDE = __import__("DebugIDE")'
       '            def __init__(self):'
       '                self._buffer = '#39#39
       ''
@@ -308,7 +414,7 @@ inherited PythonIIForm: TPythonIIForm
       '                self._buffer += txt'
       '                if txt.endswith('#39'\n'#39'):'
       
-        '                    DebugIDE.messageWrite('#39'  '#39' + self._buffer.st' +
+        '                    debugIDE.messageWrite('#39'  '#39' + self._buffer.st' +
         'rip())'
       '                    self._buffer = '#39#39
       ''
@@ -360,7 +466,7 @@ inherited PythonIIForm: TPythonIIForm
         '            self.BRMCache.instance.srcnodecache[filename]=source' +
         'node'
       '            return True'
-      '        '
+      ''
       '        return False'
       ''
       '    def runcode(self, code):'
@@ -382,10 +488,10 @@ inherited PythonIIForm: TPythonIIForm
       '        try:'
       '            if self.debugger.InIDEDebug:'
       
-        '                exec code in self.debugger.CurrentFrame.f_global' +
-        's, self.debugger.CurrentFrame.f_locals'
+        '                exec code in self.debugger.currentframe.f_global' +
+        's, self.debugger.currentframe.f_locals'
       '            else:'
-      '                exec code in self.globals, self.locals'
+      '                exec code in self.locals'
       '        except SystemExit:'
       '            pass'
       '        except:'
@@ -400,10 +506,10 @@ inherited PythonIIForm: TPythonIIForm
       '        try:'
       '            if self.debugger.InIDEDebug:'
       
-        '                return eval(code, self.debugger.CurrentFrame.f_g' +
-        'lobals, self.debugger.CurrentFrame.f_locals)'
+        '                return eval(code, self.debugger.currentframe.f_g' +
+        'lobals, self.debugger.currentframe.f_locals)'
       '            else:'
-      '                return eval(code, self.globals, self.locals)'
+      '                return eval(code, self.locals)'
       '        except SystemExit:'
       '            return None'
       ''
@@ -470,7 +576,7 @@ inherited PythonIIForm: TPythonIIForm
       '    def Win32RawInput(self, prompt=None):'
       '        "Provide raw_input() for gui apps"'
       '        # flush stderr/out first.'
-      '        import DebugIDE'
+      '        debugIDE = __import__("DebugIDE")'
       '        import sys'
       '        try:'
       '            sys.stdout.flush()'
@@ -479,8 +585,8 @@ inherited PythonIIForm: TPythonIIForm
       '            pass'
       '        if prompt is None: prompt = ""'
       
-        '        ret=DebugIDE.InputBox(u'#39'Python input'#39', unicode(prompt),u' +
-        '"")'
+        '        ret = debugIDE.InputBox(u'#39'Python input'#39', unicode(prompt)' +
+        ',u"")'
       '        if ret is None:'
       '            raise KeyboardInterrupt, "operation cancelled"'
       '        return ret'
@@ -501,7 +607,7 @@ inherited PythonIIForm: TPythonIIForm
     InitThreads = True
     IO = PythonIO
     PyFlags = [pfInteractive]
-    Left = 558
+    Left = 557
     Top = 54
   end
   object PythonIO: TPythonInputOutput
@@ -596,10 +702,22 @@ inherited PythonIIForm: TPythonIIForm
       item
         Name = 'testResultAddError'
         OnExecute = testResultAddError
+      end
+      item
+        Name = 'cleanupMainDict'
+        OnExecute = CleanUpMainDictExecute
+      end
+      item
+        Name = 'cleanupSysModules'
+        OnExecute = CleanUpSysModulesExecute
+      end
+      item
+        Name = 'awakeGUI'
+        OnExecute = awakeGUIExecute
       end>
     ModuleName = 'DebugIDE'
     Errors = <>
-    Left = 613
+    Left = 612
     Top = 54
   end
   object SynParamCompletion: TSynCompletionProposal
@@ -631,8 +749,31 @@ inherited PythonIIForm: TPythonIIForm
   object InterpreterPopUp: TTBXPopupMenu
     Images = CommandsDataModule.Images
     OnPopup = InterpreterPopUpPopup
-    Left = 48
-    Top = 8
+    Left = 46
+    Top = 6
+    object TBXPythonEngines: TTBXSubmenuItem
+      Caption = 'Python Engine'
+      OnPopup = TBXPythonEnginesPopup
+      object TBXItem5: TTBXItem
+        Action = actPythonEngineInternal
+      end
+      object TBXItem10: TTBXItem
+        Action = actPythonEngineRemote
+      end
+      object TBXItem9: TTBXItem
+        Action = actPythonEngineRemoteTk
+      end
+      object TBXItem8: TTBXItem
+        Action = actPythonEngineRemoteWx
+      end
+      object TBXSepReinitialize: TTBXSeparatorItem
+      end
+      object TBXItem6: TTBXItem
+        Action = actReinitialize
+      end
+    end
+    object TBXSeparatorItem3: TTBXSeparatorItem
+    end
     object TBXItem1: TTBXItem
       Action = actCleanUpNameSpace
     end
@@ -644,6 +785,9 @@ inherited PythonIIForm: TPythonIIForm
     object TBXItem4: TTBXItem
       Action = actCopyHistory
     end
+    object TBXItem7: TTBXItem
+      Action = actClearContents
+    end
     object TBXSeparatorItem2: TTBXSeparatorItem
     end
     object TBXItem3: TTBXItem
@@ -652,25 +796,85 @@ inherited PythonIIForm: TPythonIIForm
   end
   object InterpreterActionList: TActionList
     Images = CommandsDataModule.Images
-    Left = 48
-    Top = 40
+    Left = 8
+    Top = 45
     object actCleanUpNameSpace: TAction
       AutoCheck = True
       Caption = 'Clean up &Namespace'
+      HelpContext = 410
+      HelpType = htContext
       Hint = 'Clean up the globals namespace after run'
       OnExecute = actCleanUpNameSpaceExecute
     end
     object actCleanUpSysModules: TAction
       AutoCheck = True
       Caption = 'Clean up &sys.modules'
+      HelpContext = 410
+      HelpType = htContext
       Hint = 'Clean up the globals namespace after run'
       OnExecute = actCleanUpSysModulesExecute
     end
     object actCopyHistory: TAction
       Caption = 'Copy &History'
+      HelpContext = 410
+      HelpType = htContext
       Hint = 'Copy history to Clipboard'
       ImageIndex = 12
       OnExecute = actCopyHistoryExecute
+    end
+    object actReinitialize: TAction
+      Caption = 'Reinitiali&ze Python engine'
+      HelpContext = 340
+      HelpType = htContext
+      OnExecute = actReinitializeExecute
+    end
+    object actClearContents: TAction
+      Caption = 'Clear &All'
+      HelpContext = 410
+      HelpType = htContext
+      Hint = 'Clear all interpreter output'
+      ImageIndex = 14
+      OnExecute = actClearContentsExecute
+    end
+    object actPythonEngineInternal: TAction
+      AutoCheck = True
+      Caption = '&Internal'
+      Checked = True
+      GroupIndex = 1
+      HelpContext = 340
+      HelpType = htContext
+      Hint = 'Use internal Python Engine'
+      OnExecute = actPythonEngineExecute
+    end
+    object actPythonEngineRemote: TAction
+      Tag = 1
+      AutoCheck = True
+      Caption = '&Remote'
+      GroupIndex = 1
+      HelpContext = 340
+      HelpType = htContext
+      Hint = 'Use a remote Python engine'
+      OnExecute = actPythonEngineExecute
+    end
+    object actPythonEngineRemoteTk: TAction
+      Tag = 2
+      AutoCheck = True
+      Caption = 'Remote (&Tk)'
+      GroupIndex = 1
+      HelpContext = 340
+      HelpType = htContext
+      Hint = 'Use a remote Python engine for Tkinter applications'
+      OnExecute = actPythonEngineExecute
+    end
+    object actPythonEngineRemoteWx: TAction
+      Tag = 3
+      AutoCheck = True
+      Caption = 'Remote (&Wx)'
+      GroupIndex = 1
+      HelpContext = 340
+      HelpType = htContext
+      Hint = 'Use a remote Python engine for wxPython applications'
+      OnExecute = actPythonEngineExecute
     end
   end
 end
