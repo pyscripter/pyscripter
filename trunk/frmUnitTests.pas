@@ -159,7 +159,7 @@ begin
     ModuleName.Hint := Editor.FileName;
 
     Module := PyControl.ActiveInterpreter.ImportModule(Editor);
-    UnitTest := Import('unittest');
+    UnitTest := PyControl.ActiveInterpreter.EvalCode('__import__("unittest")');
     TestSuite := UnitTest.findTestCases(Module);
     //  This TestSuite contains a list of TestSuites
     //  each of which contains TestCases corresponding to
@@ -425,7 +425,8 @@ Var
 begin
   // Only allow when PyControl.ActiveDebugger is inactive
   if PyControl.DebuggerState <> dsInactive then Exit;
-  UnitTestModule := Import('unittest');
+
+  UnitTestModule := PyControl.ActiveInterpreter.EvalCode('__import__("unittest")');
 
   //  Create a TempTestSuite that contains only the checked tests
   TempTestSuite := UnitTestModule.TestSuite();
@@ -457,6 +458,8 @@ begin
   UpdateActions;
   PyIDEMainForm.DebuggerStateChange(Self, dsInactive, dsRunningNoDebug);
   Application.ProcessMessages;
+
+  // Always use the internal interpreter!
   TestResult := InternalInterpreter.PyInteractiveInterpreter.IDETestResult();
   try
     QueryPerformanceCounter(StartTime);
@@ -666,7 +669,7 @@ begin
       PythonObject := BuiltinModule.getattr(TestCase, TestName);
     end;
     if VarIsPython(PythonObject) then begin
-      InspectModule := Import('inspect');
+      InspectModule := PyControl.ActiveInterpreter.EvalCode('__import__("inspect")');
       if InspectModule.ismethod(PythonObject) then begin
         FileName := InspectModule.getsourcefile(PythonObject);
         if FileName = 'None' then begin

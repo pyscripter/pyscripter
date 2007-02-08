@@ -26,8 +26,6 @@ object NewFileDialog: TNewFileDialog
     Height = 297
     Align = alClient
     TabOrder = 0
-    ExplicitLeft = -1
-    ExplicitTop = 1
     object Panel2: TPanel
       Left = 1
       Top = 1
@@ -36,7 +34,6 @@ object NewFileDialog: TNewFileDialog
       Align = alTop
       BevelOuter = bvNone
       TabOrder = 0
-      ExplicitTop = 3
       object Splitter1: TSplitter
         Left = 185
         Top = 0
@@ -54,9 +51,6 @@ object NewFileDialog: TNewFileDialog
         Align = alLeft
         BevelOuter = bvNone
         TabOrder = 0
-        ExplicitLeft = 140
-        ExplicitTop = 107
-        ExplicitHeight = 41
         object Label1: TLabel
           Left = 0
           Top = 0
@@ -84,10 +78,6 @@ object NewFileDialog: TNewFileDialog
           TabOrder = 0
           OnChange = tvCategoriesChange
           OnGetText = tvCategoriesGetText
-          ExplicitLeft = 1
-          ExplicitTop = 24
-          ExplicitWidth = 164
-          ExplicitHeight = 223
           Columns = <>
         end
       end
@@ -98,10 +88,6 @@ object NewFileDialog: TNewFileDialog
         Height = 255
         Align = alClient
         TabOrder = 1
-        ExplicitLeft = 140
-        ExplicitTop = 107
-        ExplicitWidth = 185
-        ExplicitHeight = 41
         object Label2: TLabel
           Left = 1
           Top = 1
@@ -123,9 +109,6 @@ object NewFileDialog: TNewFileDialog
           TabOrder = 0
           OnDblClick = lvTemplatesDblClick
           OnSelectItem = lvTemplatesSelectItem
-          ExplicitTop = 23
-          ExplicitWidth = 282
-          ExplicitHeight = 224
         end
       end
     end

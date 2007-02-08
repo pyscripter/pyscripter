@@ -30,8 +30,9 @@ type
 
   TNameSpaceItem = class(TBaseNameSpaceItem)
   // Implementation of the Base class for the internal debugger
-  private
+  protected
     fPyObject : Variant;
+    fChildCount : integer;
     fChildNodes : TStringList;
     fName : string;
   protected
@@ -61,6 +62,7 @@ type
     fOldargv : Variant;
   public
     constructor Create(II : Variant);
+
     function SysPathAdd(const Path : WideString) : boolean; override;
     function SysPathRemove(const Path : WideString) : boolean; override;
     procedure SysPathToStrings(Strings : TStrings); override;
@@ -72,10 +74,11 @@ type
       var DisplayString, DocString : string) : Boolean; override;
     procedure SetCommandLine(const ScriptName : string); override;
     procedure RestoreCommandLine; override;
-    function ImportModule(Editor : IEditor) : Variant; override;
+    function ImportModule(Editor : IEditor; AddToNameSpace : Boolean = False) : Variant; override;
     procedure RunNoDebug(Editor : IEditor); override;
     function SyntaxCheck(Editor : IEditor; Quiet : Boolean = False) : Boolean;
     function RunSource(const Source, FileName : string) : boolean; override;
+    function EvalCode(const Expr : string) : Variant; override;
     property Debugger : Variant read fDebugger;
     property PyInteractiveInterpreter : Variant read fII;
   end;
@@ -99,6 +102,7 @@ type
     property CurrentFrame : Variant read fCurrentFrame;
   public
     constructor Create;
+    destructor Destroy; override;
 
     function SysPathAdd(const Path : WideString) : boolean; override;
     function SysPathRemove(const Path : WideString) : boolean; override;
@@ -155,6 +159,7 @@ constructor TNameSpaceItem.Create(aName : string; aPyObject: Variant);
 begin
   fName := aName;
   fPyObject := aPyObject;
+  fChildCount := -1;  // unknown
 end;
 
 destructor TNameSpaceItem.Destroy;
@@ -172,25 +177,28 @@ end;
 function TNameSpaceItem.GetChildCount: integer;
 var
   i : integer;
-  SupressOutput : IInterface;
+  SuppressOutput : IInterface;
 begin
   if Assigned(fChildNodes) then
     Result := fChildNodes.Count
+  else if fChildCount >= 0 then
+    Result := fChildCount
   else begin
-    SupressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
+    SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
     try
-      if VarIsPythonDict(fPyObject) then
+      if IsDict then
         Result := len(fPyObject)
-      else if SortedIdentToInt(_type(fPyObject).__name__, i, CommonTypes, True) then
+      else if SortedIdentToInt(ObjectType, i, CommonTypes, True) then
         Result := 0  // do not expand common types
-      else if Has__dict__ then
-        Result := len(fPyObject.__dict__)
+//      else if Has__dict__ then
+//        Result := len(fPyObject.__dict__)
       else begin
-        Result := len(Import('inspect').getmembers(fPyObject));
+        Result := len(InternalInterpreter.PyInteractiveInterpreter.safegetmembers(fPyObject));
       end;
     except
       Result := 0;
     end;
+    fChildCount := Result;
   end;
 end;
 
@@ -205,50 +213,55 @@ end;
 
 procedure TNameSpaceItem.GetChildNodes;
 Var
-  Dict, DictKeys : Variant;
-  Count, i : integer;
+  Dict, DictKeys, APyObject : Variant;
+  i : integer;
   Name : string;
   NameSpaceItem : TNameSpaceItem;
-  SupressOutput : IInterface;
+  SuppressOutput : IInterface;
 begin
-  if not Assigned(fChildNodes) then begin
-    SupressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
+  if not (Assigned(fChildNodes) or GotChildNodes) then begin
+    GotChildNodes := True;
+    SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
     try
-      if VarIsPythonDict(fPyObject) then begin
+      if IsDict then begin
         Dict := fPyObject;
-        Count := len(fPyObject);
-      end else if SortedIdentToInt(_type(fPyObject).__name__, i, CommonTypes, True) then
-        Count := 0  // do not expand common types
+        fChildCount := len(Dict);
+      end else if SortedIdentToInt(ObjectType, i, CommonTypes, True) then
+        fChildCount := 0  // do not expand common types
       else begin
-        Dict := BuiltinModule.dict(Import('inspect').getmembers(fPyObject));
-        Count := len(Dict);
+        Dict := InternalInterpreter.PyInteractiveInterpreter.safegetmembers(fPyObject);
+        fChildCount := len(Dict);
       end;
 
-      if Count > 0 then begin
+      if fChildCount > 0 then begin
         fChildNodes := TStringList.Create;
         fChildNodes.CaseSensitive := True;
-        fChildNodes.Duplicates := dupAccept;
         DictKeys := Dict.keys();
-        for i := 0 to Count - 1 do begin
+        for i := 0 to fChildCount - 1 do begin
           Name :=  DictKeys.GetItem(i);
-          NameSpaceItem := TNameSpaceItem.Create(Name,
-            Dict.GetItem(DictKeys.GetItem(i)));
+          try
+            APyObject := Dict.GetItem(DictKeys.GetItem(i));
+          except
+            APyObject := VarPythonCreate('Error in getting object');
+          end;
+          NameSpaceItem := TNameSpaceItem.Create(Name, APyObject);
           fChildNodes.AddObject(Name, NameSpaceItem);
         end;
         fChildNodes.CustomSort(ComparePythonIdents);
-        GotChildNodes := True;
       end;
     except
-      // fail quietly
+      fChildCount := 0;
+      MessageDlg(Format('Error in getting the namespace of %s', [fName]), mtError, [mbAbort], 0);
+      SysUtils.Abort;
     end;
   end;
 end;
 
 function TNameSpaceItem.GetDocString: string;
 Var
-  SupressOutput : IInterface;
+  SuppressOutput : IInterface;
 begin
-  SupressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
+  SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
   try
     Result := Import('inspect').getdoc(fPyObject);
   except
@@ -263,11 +276,16 @@ end;
 
 function TNameSpaceItem.GetObjectType: string;
 Var
-  SupressOutput : IInterface;
+  SuppressOutput : IInterface;
 begin
-  SupressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
+  SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
   try
-    Result := _type(fPyObject).__name__;
+    if GetPythonEngine.PyObject_HasAttrString(
+      ExtractPythonObjectFrom(fPyObject), '__class__') <> 0
+    then
+      Result := fPyObject.__class__.__name__
+    else
+      Result := _type(fPyObject).__name__;
   except
     Result := '';
   end;
@@ -275,9 +293,9 @@ end;
 
 function TNameSpaceItem.GetValue: string;
 Var
-  SupressOutput : IInterface;
+  SuppressOutput : IInterface;
 begin
-  SupressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
+  SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
   try
     Result :=  InternalInterpreter.PyInteractiveInterpreter.saferepr(fPyObject);
   except
@@ -293,12 +311,37 @@ begin
 end;
 
 function TNameSpaceItem.IndexOfChild(AName: string): integer;
+var
+  L, H, I, C: Integer;
+  Found : Boolean;
 begin
   if not Assigned(fChildNodes) then
     GetChildNodes;
-  if Assigned(fChildNodes) then
-    Result := fChildNodes.IndexOf(AName)
-  else
+  if Assigned(fChildNodes) then begin
+    // Child nodes are sorted with ComparePythonIdents
+    // Do a quick search
+    Result := -1;
+    Found := False;
+    L := 0;
+    H := fChildNodes.Count - 1;
+    while L <= H do
+    begin
+      I := (L + H) shr 1;
+      C := ComparePythonIdents(fChildNodes[I], AName);
+      if C < 0 then L := I + 1 else
+      begin
+        H := I - 1;
+        if C = 0 then
+        begin
+          Found := True;
+          L := I;
+        end;
+      end;
+    end;
+    if Found then
+      Result := L;
+    //Result := fChildNodes.IndexOf(AName)
+  end else
     Result := -1;
 end;
 
@@ -334,21 +377,35 @@ begin
   inherited Create;
   fLineCache := Import('linecache');
   fDebuggerCommand := dcNone;
+  PyControl.BreakPointsChanged := True;
+end;
+
+destructor TPyInternalDebugger.Destroy;
+begin
+  with PythonIIForm.DebugIDE.Events do begin
+    Items[0].OnExecute := nil;
+    Items[1].OnExecute := nil;
+    Items[2].OnExecute := nil;
+    Items[3].OnExecute := nil;
+    Items[4].OnExecute := nil;
+  end;
+
+  inherited;
 end;
 
 procedure TPyInternalDebugger.Evaluate(const Expr : string; out ObjType, Value : string);
 Var
-  SupressOutput : IInterface;
+  SuppressOutput : IInterface;
   V : Variant;
 begin
   ObjType := SNotAvailable;
   Value := SNotAvailable;
   if PyControl.DebuggerState = dsPaused then begin
-    SupressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
+    SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
     try
-      V := BuiltInModule.eval(Expr,
-             CurrentFrame.f_globals, CurrentFrame.f_locals);
-      ObjType := BuiltInModule.type(V).__name__;
+      // evalcode knows we are in the debugger and uses current frame locals/globals
+      V := InternalInterpreter.PyInteractiveInterpreter.evalcode(Expr);
+      ObjType := InternalInterpreter.PyInteractiveInterpreter.objecttype(V);
       Value := InternalInterpreter.PyInteractiveInterpreter.saferepr(V);
     except
       // fail quitely
@@ -365,10 +422,11 @@ begin
     Exit;
   Frame := CurrentFrame;
   if VarIsPython(Frame) then
-    // We do not show the last two frames
     while not VarIsNone(Frame.f_back) and not VarIsNone(Frame.f_back.f_back) do begin
       CallStackList.Add(TFrameInfo.Create(Frame));
       Frame := Frame.f_back;
+      if VarIsSame(Frame, InternalInterpreter.Debugger.botframe) then
+        break;
     end;
 end;
 
@@ -389,10 +447,8 @@ begin
 end;
 
 procedure TPyInternalDebugger.Pause;
-// Not pausible to implement with the debugger running in the main thread
 begin
-  if PyControl.DebuggerState = dsRunning then
-    PyControl.DoStateChange(dsPaused);
+  fDebuggerCommand := dcPause;
 end;
 
 // Timer callback function
@@ -417,7 +473,7 @@ begin
   //Compile
   Code := InternalInterpreter.Compile(Editor);
 
-  if VarIsPython(Code) then with PythonIIForm do begin
+  if VarIsPython(Code) then begin
     Path := ExtractFilePath(Editor.FileName);
     OldPath := GetCurrentDir;
     if Length(Path) > 1 then begin
@@ -445,17 +501,22 @@ begin
       ShowDockForm(PythonIIForm);
 
     try
-      OldPS1 := PS1;
-      PS1 := '[Dbg]' + PS1;
-      OldPS2 := PS2;
-      PS2 := '[Dbg]' + PS2;
-      AppendText(sLineBreak+PS1);
+      with PythonIIForm do begin
+        OldPS1 := PS1;
+        PS1 := '[Dbg]' + PS1;
+        OldPS2 := PS2;
+        PS2 := '[Dbg]' + PS2;
+        AppendPrompt;
+      end;
       //attach debugger callback routines
-      DebugIDE.Events.Items[0].OnExecute := UserCall;
-      DebugIDE.Events.Items[1].OnExecute := UserLine;
-      DebugIDE.Events.Items[2].OnExecute := UserReturn;
-      DebugIDE.Events.Items[3].OnExecute := UserException;
-      DebugIDE.Events.Items[4].OnExecute := UserYield;
+      with PythonIIForm.DebugIDE.Events do begin
+        Items[0].OnExecute := UserCall;
+        Items[1].OnExecute := UserLine;
+        Items[2].OnExecute := UserReturn;
+        Items[3].OnExecute := UserException;
+        Items[4].OnExecute := UserYield;
+      end;
+
       //set breakpoints
       SetDebuggerBreakPoints;
 
@@ -471,16 +532,19 @@ begin
       except
         // CheckError already called by VarPyth
         on E: EPyException do begin
-          InternalInterpreter.HandlePyException(E);
+          InternalInterpreter.HandlePyException(E, 2);
           MessageDlg(E.Message, mtError, [mbOK], 0);
           SysUtils.Abort;
         end;
       end;
 
     finally
-      PS1 := OldPS1;
-      PS2 := OldPS2;
-      AppendText(sLineBreak+PS1);
+      VarClear(fCurrentFrame);
+      with PythonIIForm do begin
+        PS1 := OldPS1;
+        PS2 := OldPS2;
+        AppendText(sLineBreak+PS1);
+      end;
 
       // Restore the command line parameters
       RestoreCommandLine;
@@ -512,7 +576,7 @@ begin
   FName := Editor.FileName;
   if FName = '' then
     FName := '<'+Editor.FileTitle+'>';
-  InternalInterpreter.Debugger.set_break(FName, ALine, 1);
+  InternalInterpreter.Debugger.set_break(VarPythonCreate(FName), ALine, 1);
 
   if PyControl.DebuggerState = dsInactive then
     Run(Editor)
@@ -588,12 +652,12 @@ begin
      PyControl.CurrentPos.Line := Frame.f_lineno;
      FCurrentFrame := Frame;
 
-     Pause;
+      if PyControl.DebuggerState = dsRunning then
+        PyControl.DoStateChange(dsPaused);
      FDebuggerCommand := dcNone;
      While  FDebuggerCommand = dcNone do
        PyControl.DoYield(True);
 
-     VarClear(fCurrentFrame);
      if PyControl.BreakPointsChanged then SetDebuggerBreakpoints;
 
      PyControl.DoStateChange(dsRunning);
@@ -605,13 +669,14 @@ begin
      dcStepOver    : InternalInterpreter.Debugger.set_next(Frame);
      dcStepOut     : InternalInterpreter.Debugger.set_return(Frame);
      dcRunToCursor : InternalInterpreter.Debugger.set_continue;
+     dcPause       : InternalInterpreter.Debugger.set_step();
      dcAbort       : begin
                        InternalInterpreter.Debugger.set_quit();
                        MessagesWindow.AddMessage('Debugging Aborted');
                        MessagesWindow.ShowWindow;
                      end;
    end;
-
+   VarClear(fCurrentFrame);
 end;
 
 procedure TPyInternalDebugger.UserReturn(Sender: TObject; PSelf, Args: PPyObject;
@@ -629,7 +694,8 @@ begin
     InternalInterpreter.Debugger.set_quit();
     MessagesWindow.AddMessage('Debugging Aborted');
     MessagesWindow.ShowWindow;
-  end;
+  end else if fDebuggerCommand = dcPause then
+    InternalInterpreter.Debugger.set_step();
   Result := GetPythonEngine.ReturnNone;
 end;
 
@@ -642,7 +708,6 @@ procedure TPyInternalDebugger.SetDebuggerBreakpoints;
 var
   i, j : integer;
   FName : string;
-  V : Variant;
 begin
   if not PyControl.BreakPointsChanged then Exit;
   LoadLineCache;
@@ -653,19 +718,13 @@ begin
       if FName = '' then
         FName := '<'+FileTitle+'>';
       for j := 0 to BreakPoints.Count - 1 do begin
-        V := InternalInterpreter.Debugger.set_break;
         if TBreakPoint(BreakPoints[j]).Condition <> '' then begin
-          GetPythonEngine.EvalFunction(ExtractPythonObjectFrom(V),
-            [FName, TBreakPoint(BreakPoints[j]).LineNo,
-            0, TBreakPoint(BreakPoints[j]).Condition]);
-           //  To avoid the implicit conversion of the filename to unicode
-           //  which causes problems due to the strange behaviour of os.path.normcase
-          //InternalInterpreter.Debugger.set_break(FName, TBreakPoint(BreakPoints[j]).LineNo,
-          //  0, TBreakPoint(BreakPoints[j]).Condition);
+          InternalInterpreter.Debugger.set_break(VarPythonCreate(FName),
+            TBreakPoint(BreakPoints[j]).LineNo,
+            0, TBreakPoint(BreakPoints[j]).Condition);
         end else
-          GetPythonEngine.EvalFunction(ExtractPythonObjectFrom(V),
-            [FName, TBreakPoint(BreakPoints[j]).LineNo]);
-          //InternalInterpreter.Debugger.set_break(FName, TBreakPoint(BreakPoints[j]).LineNo);
+          InternalInterpreter.Debugger.set_break(VarPythonCreate(FName),
+            TBreakPoint(BreakPoints[j]).LineNo);
       end;
     end;
   PyControl.BreakPointsChanged := False;
@@ -674,7 +733,7 @@ end;
 procedure TPyInternalDebugger.LoadLineCache;
 Var
   i : integer;
-  Source : string;
+  FName, Source : string;
 begin
   // inject unsaved code into LineCache
   fLineCache.cache.clear();
@@ -683,8 +742,9 @@ begin
       if HasPythonfile and (FileName = '') then
       begin
         Source := CleanEOLs(EncodedText)+#10;
-        fLineCache.cache.SetItem('<'+FileTitle+'>',
-          VarPythonCreate([0,0,Source, '<'+FileTitle+'>'], stTuple));
+        FName := '<'+FileTitle+'>';
+        fLineCache.cache.SetItem(VarPythonCreate(FName),
+          VarPythonCreate([0, None, Source, FName], stTuple));
       end;
 end;
 
@@ -704,18 +764,24 @@ begin
   fDebugger := II.debugger;
 end;
 
+function TPyInternalInterpreter.EvalCode(const Expr: string): Variant;
+begin
+  // may raise exceptions
+  Result := fII.evalcode(Expr);
+end;
+
 function TPyInternalInterpreter.CallTipFromExpression(const Expr: string;
   var DisplayString, DocString: string) : Boolean;
 var
   LookupObj, PyDocString: Variant;
-  SupressOutput : IInterface;
+  SuppressOutput : IInterface;
 begin
   Result := False;
   DisplayString := '';
   DocString := '';
   if Expr = '' then Exit;
 
-  SupressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
+  SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
   try
     //Evaluate the lookup expression and get the hint text
     LookupObj := fII.evalcode(Expr);
@@ -736,6 +802,12 @@ Var
   co : PPyObject;
   FName, Source : string;
 begin
+  if PyControl.DebuggerState <> dsInactive then begin
+    MessageDlg('You cannot compile, import or run modules while debugging or running programs',
+      mtError, [mbAbort], 0);
+    SysUtils.Abort;
+  end;
+
   VarClear(Result);
   PyControl.ErrorPos.Clear;
   PyControl.DoErrorPosChanged;
@@ -788,7 +860,8 @@ begin
   Result := TNameSpaceItem.Create('globals', VarPythonEval('globals()'));
 end;
 
-function TPyInternalInterpreter.ImportModule(Editor: IEditor) : Variant;
+function TPyInternalInterpreter.ImportModule(Editor: IEditor;
+  AddToNameSpace : Boolean = False) : Variant;
 {
   Imports Editor text without saving the file.
   Does not add the module name to the locals()
@@ -840,7 +913,9 @@ begin
     if VarIsNone(Result) then begin
       MessageDlg('Error in importing module', mtError, [mbOK], 0);
       SysUtils.Abort;
-    end;
+    end else if AddToNameSpace then
+      // add Module name to the locals() of the interpreter
+      GetPythonEngine.ExecString('import ' + NameOfModule);
   finally
     PyControl.DoStateChange(dsInactive);
   end;
@@ -850,24 +925,26 @@ function TPyInternalInterpreter.NameSpaceFromExpression(
   const Expr: string): TBaseNameSpaceItem;
 var
   InspectModule, LookupObj, ItemsDict: Variant;
-  SupressOutput : IInterface;
+  SuppressOutput : IInterface;
 begin
-  SupressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
+  SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
   InspectModule := Import('inspect');
-  ItemsDict := NewPythonDict;
   try
     if Expr <> '' then begin
-        //Evaluate the lookup expression and get the hint text
-        LookupObj := fII.evalcode(Expr);
-        ItemsDict := BuiltinModule.dict(InspectModule.getmembers(LookupObj));
+      //Evaluate the lookup expression and get the hint text
+      LookupObj := fII.evalcode(Expr);
+      ItemsDict := fII.safegetmembers(LookupObj);
+      Result := TNameSpaceItem.Create(Expr, ItemsDict);
     end else begin
-      ItemsDict.update(fII.evalcode('vars()'));
+      ItemsDict := NewPythonDict;
       ItemsDict.update(BuiltinModule.__dict__);
+      ItemsDict.update(fII.evalcode('vars()'));
+      Result := TNameSpaceItem.Create(Expr, ItemsDict);
     end;
   except
-    // Ignore exceptions
+    ItemsDict := NewPythonDict;
+    Result := TNameSpaceItem.Create(Expr, ItemsDict);
   end;
-  Result := TNameSpaceItem.Create(Expr, ItemsDict);
 end;
 
 procedure TPyInternalInterpreter.RestoreCommandLine;
@@ -984,7 +1061,7 @@ begin
         @TimeCallBack, DWORD(@mmResult), TIME_PERIODIC or 256);
     end;
     try
-      Debugger.run_nodebug(Code);
+      fII.run_nodebug(Code);
     except
       // CheckError already called by VarPyth
       on E: EPyException do begin
@@ -998,7 +1075,7 @@ begin
       if (mmResult <> 0) then TimeKillEvent(mmResult);
       TimeEndPeriod(Resolution);
     end;
-    PythonIIForm.AppendText(sLineBreak+PythonIIForm.PS1);
+    PythonIIForm.AppendPrompt;
 
     // Restore the command line parameters
     RestoreCommandLine;
@@ -1011,10 +1088,19 @@ begin
 end;
 
 function TPyInternalInterpreter.RunSource(const Source, FileName : string): boolean;
+Var
+  OldDebuggerState : TDebuggerState;
 begin
-  // Workaround due to PREFER_UNICODE flag to make sure
-  // no conversion to Unicode and back will take place
-  Result := fII.runsource(VarPythonCreate(Source), FileName);
+  Assert(not PyControl.IsRunning, 'RunSource called while the Python engine is active');
+  OldDebuggerState := PyControl.DebuggerState;
+  PyControl.DoStateChange(dsRunningNoDebug);
+  try
+    // Workaround due to PREFER_UNICODE flag to make sure
+    // no conversion to Unicode and back will take place
+    Result := fII.runsource(VarPythonCreate(Source), FileName);
+  finally
+    PyControl.DoStateChange(OldDebuggerState);
+  end;
 end;
 
 function TPyInternalInterpreter.SyntaxCheck(Editor: IEditor; Quiet : Boolean = False): Boolean;
@@ -1022,7 +1108,7 @@ Var
   FName, Source : string;
   tmp: PPyObject;
   PyErrType, PyErrValue, PyErrTraceback, PyErrValueTuple : PPyObject;
-  SupressOutput : IInterface;
+  SuppressOutput : IInterface;
 begin
   PyControl.ErrorPos.Clear;
   PyControl.DoErrorPosChanged;
@@ -1035,7 +1121,7 @@ begin
 
   with GetPythonEngine do begin
     if Quiet then
-      SupressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
+      SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
     Result := CheckExecSyntax(Source);
     if not Result then begin
       if Quiet then begin
@@ -1141,6 +1227,7 @@ begin
 end;
 
 end.
+
 
 
 

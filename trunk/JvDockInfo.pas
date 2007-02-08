@@ -21,7 +21,7 @@ located at http://jvcl.sourceforge.net
 
 Known Issues:
 -----------------------------------------------------------------------------}
-// $Id: JvDockInfo.pas,v 1.39 2005/02/24 22:13:55 remkobonte Exp $
+// $Id: JvDockInfo.pas 10949 2006-09-29 12:37:30Z obones $
 
 unit JvDockInfo;
 
@@ -175,9 +175,9 @@ type
 {$IFDEF UNITVERSIONING}
 const
   UnitVersioning: TUnitVersionInfo = (
-    RCSfile: '$RCSfile: JvDockInfo.pas,v $';
-    Revision: '$Revision: 1.39 $';
-    Date: '$Date: 2005/02/24 22:13:55 $';
+    RCSfile: '$URL: https://jvcl.svn.sourceforge.net/svnroot/jvcl/branches/JVCL3_30_PREPARATION/run/JvDockInfo.pas $';
+    Revision: '$Revision: 10949 $';
+    Date: '$Date: 2006-09-29 14:37:30 +0200 (ven., 29 sept. 2006) $';
     LogPath: 'JVCL\run'
   );
 {$ENDIF UNITVERSIONING}
@@ -225,9 +225,14 @@ begin
           Result := BottomDockPanel
         else
         if Pos('RightDockPanel', ControlName) > Index then
-          Result := RightDockPanel;
-        if (Result <> nil) and (Pos('PopupPanel', ControlName) > 20) then
-          Result := TJvDockVSNETPanel(Result).VSChannel.VSPopupPanel;
+          Result := RightDockPanel
+        else
+        if Pos('CustomDockPanel', ControlName) > Index then
+          Result := CustomDockPanel;
+
+        // Mantis 3603: No more AV, Result may not always be a TJvDockVSNETPanel
+        if (Result is TJvDockVSNETPanel) and (Pos('PopupPanel', ControlName) > 20) then
+          Result := (Result as TJvDockVSNETPanel).VSChannel.VSPopupPanel;
       end;
   end;
 end;

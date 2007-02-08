@@ -24,7 +24,7 @@ located at http://jvcl.sourceforge.net
 
 Known Issues:
 -----------------------------------------------------------------------------}
-// $Id: JvDockControlForm.pas 10674 2006-06-09 07:15:52Z obones $
+// $Id: JvDockControlForm.pas 11124 2007-01-04 10:41:24Z obones $
 
 { Changes:
 
@@ -864,9 +864,9 @@ function DockStateStr(DockState: Integer): string; {return string for a dock sta
 {$IFDEF UNITVERSIONING}
 const
   UnitVersioning: TUnitVersionInfo = (
-    RCSfile: '$URL: https://svn.sourceforge.net:443/svnroot/jvcl/trunk/jvcl/run/JvDockControlForm.pas $';
-    Revision: '$Revision: 10674 $';
-    Date: '$Date: 2006-06-09 00:15:52 -0700 (Fri, 09 Jun 2006) $';
+    RCSfile: '$URL: https://jvcl.svn.sourceforge.net/svnroot/jvcl/branches/JVCL3_30_PREPARATION/run/JvDockControlForm.pas $';
+    Revision: '$Revision: 11124 $';
+    Date: '$Date: 2007-01-04 11:41:24 +0100 (jeu., 04 janv. 2007) $';
     LogPath: 'JVCL\run'
     );
 {$ENDIF UNITVERSIONING}
@@ -3055,7 +3055,8 @@ begin
     from the form it contains. }
   TJvDockTabHostForm(TabHost).DockClient.Assign(Self);
 
-  Assert(TJvDockTabHostForm(TabHost).DockClient.CustomDock, 'DEBUG HELPER: Not working!');
+// Next line commented out, it seems it is useless. See Mantis 3900.
+//  Assert(TJvDockTabHostForm(TabHost).DockClient.CustomDock, 'DEBUG HELPER: Not working!');
 
   if (FTabDockClass <> nil) and (FTabDockClass <> TJvDockTabClass(ClassType)) then
   begin

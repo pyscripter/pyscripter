@@ -64,23 +64,32 @@ begin
   //  Do not update anything if the debugger just entered running state
   //  The callstack and the variables window will be updated when the
   //  Debugger becomes Paused or Inactive
-  if (DebuggerState = dsRunning) then Exit;
+  case DebuggerState of
+    dsPaused:
+      begin
+        CallStackView.Enabled := True;
+        ClearAll;
+        PyControl.ActiveDebugger.GetCallStack(fCallStackList);
 
-  ClearAll;
-//  if Assigned(VariablesWindow) then
-//    VariablesWindow.ClearAll;
-  if (DebuggerState = dsPaused) then begin
-    PyControl.ActiveDebugger.GetCallStack(fCallStackList);
+        CallStackView.RootNodeCount := fCallStackList.Count;  // Fills the View
+        CallStackView.ReinitNode(CallStackView.RootNode, True);
 
-    CallStackView.RootNodeCount := fCallStackList.Count;  // Fills the View
-    CallStackView.ReinitNode(CallStackView.RootNode, True);
-
-    //  The following statement updates the Variables Window as well
-    if Assigned(CallStackView.RootNode.FirstChild) then
-      CallStackView.Selected[CallStackView.RootNode.FirstChild] := True;
-  end else begin
-    if Assigned(VariablesWindow) then
-      VariablesWindow.UpdateWindow;
+        //  The following statement updates the Variables Window as well
+        if Assigned(CallStackView.RootNode.FirstChild) then
+          CallStackView.Selected[CallStackView.RootNode.FirstChild] := True;
+      end;
+    dsRunning:
+      begin
+        CallStackView.Enabled := False;
+        if Assigned(VariablesWindow) then VariablesWindow.UpdateWindow;
+      end;
+    dsRunningNoDebug,
+    dsInactive:
+      begin
+        ClearAll;
+        CallStackView.Enabled := False;
+        if Assigned(VariablesWindow) then VariablesWindow.UpdateWindow;
+      end;
   end;
 end;
 

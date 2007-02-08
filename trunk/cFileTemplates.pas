@@ -64,10 +64,10 @@ procedure TFileTemplate.ReadFromAppStorage(AppStorage: TJvCustomAppStorage;
 Var
   SL : TStringList;
 begin
-  Name := AppStorage.ReadWideString(BasePath+'\Name');
-  Highlighter := AppStorage.ReadWideString(BasePath+'\Highlighter');
-  Extension := AppStorage.ReadWideString(BasePath+'\Extension');
-  Category := AppStorage.ReadWideString(BasePath+'\Category');
+  Name := AppStorage.ReadWideString(BasePath+'\Name', '');
+  Highlighter := AppStorage.ReadWideString(BasePath+'\Highlighter', '');
+  Extension := AppStorage.ReadWideString(BasePath+'\Extension', '');
+  Category := AppStorage.ReadWideString(BasePath+'\Category', '');
   SL := TStringList.Create;
   try
     AppStorage.ReadStringList(BasePath+'\Template', SL);

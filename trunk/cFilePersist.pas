@@ -175,6 +175,7 @@ Var
   FilePersistInfo : TFilePersistInfo;
   Editor : IEditor;
   i, j : integer;
+  FName : string;
 begin
   PersistFileInfo := TPersistFileInfo.Create;
   try
@@ -203,6 +204,12 @@ begin
   finally
     PersistFileInfo.Free;
   end;
+  FName := AppStorage.ReadString(Path+'\ActiveEditor', FName);
+  if FName <> '' then begin
+    Editor := GI_EditorFactory.GetEditorByName(FName);
+    if Assigned(Editor) then
+      Editor.Activate;
+  end;
 end;
 
 function TPersistFileInfo.CreateListItem(Sender: TJvCustomAppStorage;
@@ -221,6 +228,8 @@ class procedure TPersistFileInfo.WriteToAppStorage(
   AppStorage: TJvCustomAppStorage; Path : String);
 Var
   PersistFileInfo : TPersistFileInfo;
+  ActiveEditor : IEditor;
+  FName : string;
 begin
   PersistFileInfo := TPersistFileInfo.Create;
   try
@@ -229,6 +238,12 @@ begin
   finally
     PersistFileInfo.Free;
   end;
+  ActiveEditor := PyIDEMainForm.GetActiveEditor;
+  if Assigned(ActiveEditor) then
+    FName := ActiveEditor.FileName
+  else
+    FName := '';
+  AppStorage.WriteString(Path+'\ActiveEditor', FName);
 end;
 
 procedure TPersistFileInfo.GetFileInfo;

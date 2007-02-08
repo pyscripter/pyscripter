@@ -33,5 +33,11 @@
     <Transaction>2006/08/15 00:51:31.074.pas,C:\Sandbox\P4D\PythonForDelphi\PythonIDE\Unit1.pas=C:\Sandbox\P4D\PythonForDelphi\PythonIDE\dlgNewFile.pas</Transaction>
     <Transaction>2006/08/15 00:51:31.154.dfm,C:\Sandbox\P4D\PythonForDelphi\PythonIDE\Unit1.dfm=C:\Sandbox\P4D\PythonForDelphi\PythonIDE\dlgNewFile.dfm</Transaction>
     <Transaction>2006/09/23 02:28:25.884.pas,C:\Sandbox\P4D\PythonForDelphi\PythonIDE\Unit1.pas=C:\Sandbox\P4D\PythonForDelphi\PythonIDE\TinyWideStrings.pas</Transaction>
+    <Transaction>2007/01/17 02:38:03.267.pas,C:\Sandbox\P4D\PythonForDelphi\PythonIDE\JvAppIniStorage.pas=</Transaction>
+    <Transaction>2007/01/17 02:58:54.907.pas,C:\Sandbox\P4D\PythonForDelphi\PythonIDE\JvAppStorage.pas=</Transaction>
+    <Transaction>2007/01/17 03:03:25.236.pas,C:\Sandbox\P4D\PythonForDelphi\PythonIDE\JvChangeNotify.pas=</Transaction>
+    <Transaction>2007/01/17 03:05:22.374.pas,C:\Sandbox\P4D\PythonForDelphi\PythonIDE\JvCreateProcess.pas=</Transaction>
+    <Transaction>2007/01/17 03:07:20.314.pas,C:\Sandbox\P4D\PythonForDelphi\PythonIDE\JvThread.pas=</Transaction>
+    <Transaction>2007/01/17 03:10:47.602.pas,C:\Sandbox\P4D\PythonForDelphi\PythonIDE\JvTabBar.pas=</Transaction>
   </Transactions>
 </BorlandProject>

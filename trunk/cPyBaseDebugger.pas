@@ -12,8 +12,10 @@ uses
   Windows, SysUtils, Classes, uEditAppIntfs, PythonEngine, Forms, Contnrs;
 
 type
+  TPythonEngineType = (peInternal, peRemote, peRemoteTk, peRemoteWx);
   TDebuggerState = (dsInactive, dsRunning, dsPaused, dsRunningNoDebug);
-  TDebuggerCommand = (dcNone, dcRun, dcStepInto, dcStepOver, dcStepOut, dcRunToCursor, dcAbort);
+  TDebuggerCommand = (dcNone, dcRun, dcStepInto, dcStepOver, dcStepOut,
+                      dcRunToCursor, dcPause, dcAbort);
 
   TDebuggerLineInfo = (dlCurrentLine,
                        dlBreakpointLine,
@@ -21,6 +23,9 @@ type
                        dlExecutableLine,
                        dlErrorLine);
   TDebuggerLineInfos = set of TDebuggerLineInfo;
+
+  TInterpreterCapability = (icReInitialize);
+  TInterpreterCapabilities = set of TInterpreterCapability;
 
   TNamespaceItemAttribute = (nsaNew, nsaChanged);
   TNamespaceItemAttributes = set of TNamespaceItemAttribute;
@@ -76,7 +81,7 @@ type
     function Has__dict__ : Boolean; virtual; abstract;
     function IndexOfChild(AName : string): integer; virtual; abstract;
     procedure GetChildNodes; virtual; abstract;
-    procedure CompareToOldItem(OldItem : TBaseNameSpaceItem);
+    procedure CompareToOldItem(OldItem : TBaseNameSpaceItem); virtual;
     property Name : string read GetName;
     property ObjectType : string read GetObjectType;
     property Value : string read GetOrCalculateValue;
@@ -88,6 +93,8 @@ type
 
   TPyBaseInterpreter = class(TObject)
   //  Base (abstract) class for implementing Python Interpreters
+  protected
+    fInterpreterCapabilities : TInterpreterCapabilities;
   public
     // Python Path
     function SysPathAdd(const Path : WideString) : boolean; virtual; abstract;
@@ -101,13 +108,16 @@ type
     function CallTipFromExpression(const Expr : string;
       var DisplayString, DocString : string) : Boolean; virtual; abstract;
     // Service routines
-    procedure HandlePyException(E : EPyException); virtual;
+    procedure HandlePyException(E : EPyException; SkipFrames : integer = 1); virtual;
     procedure SetCommandLine(const ScriptName : string); virtual; abstract;
     procedure RestoreCommandLine; virtual; abstract;
+    procedure ReInitialize; virtual;
     // Main interface
-    function ImportModule(Editor : IEditor) : Variant; virtual; abstract;
+    function ImportModule(Editor : IEditor; AddToNameSpace : Boolean = False) : Variant; virtual; abstract;
     procedure RunNoDebug(Editor : IEditor); virtual; abstract;
     function RunSource(Const Source, FileName : string) : boolean; virtual; abstract;
+    function EvalCode(const Expr : string) : Variant; virtual; abstract;
+    property InterpreterCapabilities : TInterpreterCapabilities read fInterpreterCapabilities;
   end;
 
   TPyBaseDebugger = class(TObject)
@@ -156,12 +166,14 @@ type
     fOnErrorPosChange: TNotifyEvent;
     fOnStateChange: TDebuggerStateChangeEvent;
     fOnYield: TDebuggerYieldEvent;
+    fActiveInterpreter : TPyBaseInterpreter;
+    fActiveDebugger : TPyBaseDebugger ;
     procedure DoOnBreakpointChanged(Editor : IEditor; ALine: integer);
+    procedure SetActiveDebugger(const Value: TPyBaseDebugger);
+    procedure SetActiveInterpreter(const Value: TPyBaseInterpreter);
   public
     // ActiveInterpreter and ActiveDebugger are created
     // and destroyed in frmPythonII
-    ActiveInterpreter : TPyBaseInterpreter;
-    ActiveDebugger : TPyBaseDebugger ;
 
     constructor Create;
     destructor Destroy; override;
@@ -183,6 +195,10 @@ type
     // Other
     function IsRunning: boolean;
     // properties and events
+    property ActiveInterpreter : TPyBaseInterpreter read fActiveInterpreter
+      write SetActiveInterpreter;
+    property ActiveDebugger : TPyBaseDebugger read fActiveDebugger
+      write SetActiveDebugger;
     property BreakPointsChanged : Boolean read fBreakPointsChanged
       write fBreakPointsChanged;
     property DebuggerState : TDebuggerState read fDebuggerState;
@@ -239,7 +255,7 @@ implementation
 
 uses dmCommands, frmPythonII, VarPyth, frmMessages, frmPyIDEMain,
   MMSystem, Math, JvDockControlForm, JclFileUtils, Dialogs, uCommonFunctions,
-  cParameters, JclSysUtils, StringResources, SynUnicode;
+  cParameters, JclSysUtils, StringResources, SynUnicode, cPyDebugger;
 
 { TEditorPos }
 
@@ -319,11 +335,11 @@ begin
   Result := TPythonPathAdder.Create(SysPathAdd, SysPathRemove, Path, AutoRemove);
 end;
 
-procedure TPyBaseInterpreter.HandlePyException(E: EPyException);
+procedure TPyBaseInterpreter.HandlePyException(E: EPyException; SkipFrames : integer = 1);
 Var
   TI : TTracebackItem;
 begin
-  MessagesWindow.ShowPythonTraceback;
+  MessagesWindow.ShowPythonTraceback(SkipFrames);
   MessagesWindow.AddMessage(E.Message);
   with GetPythonEngine.Traceback do begin
     if ItemCount > 0 then begin
@@ -337,6 +353,11 @@ begin
       end;
     end;
   end;
+end;
+
+procedure TPyBaseInterpreter.ReInitialize;
+begin
+  raise Exception.CreateRes(@SNotImplented);
 end;
 
 { TBaseNameSpaceItem }
@@ -467,6 +488,26 @@ begin
   end;
 end;
 
+procedure TPythonControl.SetActiveDebugger(const Value: TPyBaseDebugger);
+begin
+  if fActiveDebugger <> Value then begin
+    if Assigned(fActiveDebugger) then
+      FreeAndNil(fActiveDebugger);
+    fActiveDebugger := Value;
+  end;
+end;
+
+procedure TPythonControl.SetActiveInterpreter(const Value: TPyBaseInterpreter);
+begin
+  if fActiveInterpreter <> Value then begin
+    if Assigned(fActiveInterpreter) and
+      (fActiveInterpreter <> InternalInterpreter)
+    then
+      FreeAndNil(fActiveInterpreter);
+    fActiveInterpreter := Value;
+  end;
+end;
+
 procedure TPythonControl.SetBreakPoint(FileName: string; ALine: integer;
   Disabled : Boolean; Condition: string);
 var
@@ -534,19 +575,17 @@ procedure TPythonControl.DoStateChange(NewState : TDebuggerState);
 Var
   OldDebuggerState: TDebuggerState;
 begin
-  if fDebuggerState <> NewState then begin
-    OldDebuggerState := fDebuggerState;
-    if NewState in [dsInactive, dsRunning, dsRunningNoDebug] then
-      CurrentPos.Clear
-    else begin
-      ErrorPos.Clear;
-      DoErrorPosChanged;
-    end;
-    fDebuggerState := NewState;
-    if Assigned(fOnStateChange) then
-      fOnStateChange(Self, OldDebuggerState, NewState);
-    PyControl.DoCurrentPosChanged;
+  OldDebuggerState := fDebuggerState;
+  if NewState in [dsInactive, dsRunning, dsRunningNoDebug] then
+    CurrentPos.Clear
+  else begin
+    ErrorPos.Clear;
+    DoErrorPosChanged;
   end;
+  fDebuggerState := NewState;
+  if Assigned(fOnStateChange) then
+    fOnStateChange(Self, OldDebuggerState, NewState);
+  PyControl.DoCurrentPosChanged;
 end;
 
 procedure TPythonControl.DoYield(DoIdle : Boolean);

@@ -21,7 +21,7 @@ uses
   SynEditTextBuffer, SynEditKeyCmds, JvComponentBase, SynHighlighterXML,
   SynHighlighterCSS, SynHighlighterHtml, JvProgramVersionCheck, JvPropertyStore,
   SynHighlighterIni, TB2MRU, TBXExtItems, JvAppInst, uEditAppIntfs, SynUnicode,
-  JvTabBar;
+  JvTabBar, JvStringHolder, cPyBaseDebugger;
 
 type
   TPythonIDEOptions = class(TPersistent)
@@ -59,6 +59,7 @@ type
     fNewFileEncoding : TFileSaveFormat;
     fDetectUTF8Encoding: Boolean;
     fEditorTabPosition : TJvTabBarOrientation;
+    fPythonEngineType : TPythonEngineType;
   public
     constructor Create;
     procedure Assign(Source: TPersistent); override;
@@ -121,7 +122,8 @@ type
       write fDetectUTF8Encoding;
     property EditorTabPosition : TJvTabBarOrientation read fEditorTabPosition
       write fEditorTabPosition;
-
+    property PythonEngineType : TPythonEngineType read fPythonEngineType
+      write fPythonEngineType;
   end;
 
   TEditorSearchOptions = class(TPersistent)
@@ -240,6 +242,7 @@ type
     CommandLineMRU: TTBXMRUList;
     actEditAnsi: TAction;
     actEditUTF8NoBOM: TAction;
+    JvMultiStringHolder: TJvMultiStringHolder;
     function ProgramVersionHTTPLocationLoadFileFromRemote(
       AProgramVersionLocation: TJvProgramVersionHTTPLocation; const ARemotePath,
       ARemoteFileName, ALocalPath, ALocalFileName: string): string;
@@ -327,6 +330,7 @@ type
     PyIDEOptions : TPythonIDEOptions;
     EditorSearchOptions : TEditorSearchOptions;
     ExcludedFileNotificationdDrives : TStringList;
+    UserDataDir : string;
     function IsBlockOpener(S : string) : Boolean;
     function IsBlockCloser(S : string) : Boolean;
     function IsExecutableLine(Line : string) : Boolean;
@@ -388,7 +392,7 @@ uses
   StoHtmlHelp, {uMMMXP_MainService, }JvJCLUtils, Menus, SynEditStrConst,
   dlgSearchText, dlgReplaceText, dlgConfirmReplace, dlgCustomShortcuts,
   dlgUnitTestWizard, WinInet, Math, Registry, ShlObj, ShellAPI,
-  dlgFileTemplates, JclSysInfo, cPyBaseDebugger, JclSysUtils, dlgPickList;
+  dlgFileTemplates, JclSysInfo, JclSysUtils, dlgPickList;
 
 { TPythonIDEOptions }
 
@@ -429,6 +433,7 @@ begin
       Self.fNewFileEncoding := NewFileEncoding;
       Self.fDetectUTF8Encoding := DetectUTF8Encoding;
       Self.fEditorTabPosition := EditorTabPosition;
+      Self.fPythonEngineType := PythonEngineType;
     end
   else
     inherited;
@@ -466,6 +471,7 @@ begin
   fNewFileEncoding := sf_Ansi;
   fDetectUTF8Encoding := True;
   fEditorTabPosition := toBottom;
+  fPythonEngineType := peInternal;
 end;
 
 { TEditorSearchOptions }
@@ -505,6 +511,8 @@ var
   SHFileInfo: TSHFileInfo;
   Index : integer;
 begin
+  // User Data directory for storing the ini file etc.
+  UserDataDir := PathAddSeparator(GetAppdataFolder) + 'PyScripter\';
   // Setup Highlighters
   fHighlighters := TStringList.Create;
   TStringList(fHighlighters).CaseSensitive := False;
@@ -1457,7 +1465,7 @@ begin
   end;
   with Categories[1] do begin
     DisplayName := 'Python Interpreter';
-    SetLength(Options, 5);
+    SetLength(Options, 6);
     Options[0].PropertyName := 'SaveFilesBeforeRun';
     Options[0].DisplayName := 'Save files before run';
     Options[1].PropertyName := 'TimeOut';
@@ -1468,6 +1476,8 @@ begin
     Options[3].DisplayName := 'Clean up namespace after run';
     Options[4].PropertyName := 'CleanupSysModules';
     Options[4].DisplayName := 'Clean up sys.modules after run';
+    Options[5].PropertyName := 'PythonEngineType';
+    Options[5].DisplayName := 'Python engine type';
   end;
   with Categories[2] do begin
     DisplayName := 'Code Explorer';
@@ -2059,8 +2069,7 @@ procedure TCommandsDataModule.actCheckForUpdatesExecute(Sender: TObject);
 //    MessageDlg('Current version is uptodate!', mtInformation, [mbOK], 0);
 begin
   try
-    ProgramVersionCheck.LocalDirectory :=
-      PathAddSeparator(GetAppdataFolder) + 'PyScripter\Updates';
+    ProgramVersionCheck.LocalDirectory := UserDataDir + 'Updates';
     ProgramVersionCheck.Execute;
   except
     if Assigned(Sender) then

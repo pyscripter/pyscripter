@@ -21,7 +21,7 @@ located at http://jvcl.sourceforge.net
 
 Known Issues:
 -----------------------------------------------------------------------------}
-// $Id: JvDockVSNetStyle.pas 10675 2006-06-09 07:20:00Z obones $
+// $Id: JvDockVSNetStyle.pas 11029 2006-11-23 12:09:20Z obones $
 
 unit JvDockVSNetStyle;
 
@@ -542,9 +542,9 @@ var
 {$IFDEF UNITVERSIONING}
 const
   UnitVersioning: TUnitVersionInfo = (
-    RCSfile: '$URL: https://svn.sourceforge.net:443/svnroot/jvcl/trunk/jvcl/run/JvDockVSNetStyle.pas $';
-    Revision: '$Revision: 10675 $';
-    Date: '$Date: 2006-06-09 00:20:00 -0700 (Fri, 09 Jun 2006) $';
+    RCSfile: '$URL: https://jvcl.svn.sourceforge.net/svnroot/jvcl/branches/JVCL3_30_PREPARATION/run/JvDockVSNetStyle.pas $';
+    Revision: '$Revision: 11029 $';
+    Date: '$Date: 2006-11-23 13:09:20 +0100 (jeu., 23 nov. 2006) $';
     LogPath: 'JVCL\run'
   );
 {$ENDIF UNITVERSIONING}
@@ -915,6 +915,39 @@ begin
 end;
 
 function TJvDockVSBlock.AddPane(AControl: TControl; const AWidth: Integer): TJvDockVSPane;
+const
+  ANDbits: array[0..2*16-1] of  byte = ($FF,$FF,
+                                        $FF,$FF,
+                                        $FF,$FF,
+                                        $FF,$FF,
+                                        $FF,$FF,
+                                        $FF,$FF,
+                                        $FF,$FF,
+                                        $FF,$FF,
+                                        $FF,$FF,
+                                        $FF,$FF,
+                                        $FF,$FF,
+                                        $FF,$FF,
+                                        $FF,$FF,
+                                        $FF,$FF,
+                                        $FF,$FF,
+                                        $FF,$FF);
+  XORbits: array[0..2*16-1] of  byte = ($00,$00,
+                                        $00,$00,
+                                        $00,$00,
+                                        $00,$00,
+                                        $00,$00,
+                                        $00,$00,
+                                        $00,$00,
+                                        $00,$00,
+                                        $00,$00,
+                                        $00,$00,
+                                        $00,$00,
+                                        $00,$00,
+                                        $00,$00,
+                                        $00,$00,
+                                        $00,$00,
+                                        $00,$00);
 var
   Icon: TIcon;
   ADockClient: TJvDockClient;
@@ -934,12 +967,17 @@ begin
       ADockClient.VSPaneWidth := AWidth;
   end;
   { Add the form icon }
-  if TCustomFormAccess(AControl).Icon = nil then
+
+  if not Assigned(TCustomFormAccess(AControl).Icon) 
+    {$IFDEF COMPILER6_UP}or not TCustomFormAccess(AControl).Icon.HandleAllocated{$ENDIF COMPILER6_UP} then
   begin
     Icon := TIcon.Create;
     try
       Icon.Width := 16;
       Icon.Height := 16;
+      //2. Adding an Icon without real bitmap does nothing,
+      //so transparent icon needed
+      Icon.Handle := CreateIcon(hInstance,16,16,1,1,@ANDbits,@XORbits);
       FImageList.AddIcon(Icon);
     finally
       Icon.Free;
@@ -3492,7 +3530,7 @@ procedure TJvDockVSPopupPanelSplitter.Notification(AComponent: TComponent;
 begin
   inherited Notification(AComponent, Operation);
   if (Operation = opRemove) and (AComponent = VSPopupPanel) then
-    VSPopupPanel := nil;
+    FVSPopupPanel := nil;
 end;
 
 procedure TJvDockVSPopupPanelSplitter.Paint;

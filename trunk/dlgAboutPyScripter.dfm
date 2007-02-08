@@ -1493,7 +1493,7 @@ object AboutBox: TAboutBox
           Top = 0
           Width = 348
           Height = 199
-          VertScrollBar.Position = 3
+          VertScrollBar.Position = 75
           VertScrollBar.Smooth = True
           VertScrollBar.Style = ssHotTrack
           VertScrollBar.Tracking = True
@@ -1503,42 +1503,46 @@ object AboutBox: TAboutBox
           TabOrder = 0
           object JvLinkLabel: TJvLinkLabel
             Left = 0
-            Top = -3
+            Top = -75
             Width = 327
-            Height = 242
+            Height = 270
             Caption = 
               '<b>Credits</b><br>'#13#10'Special thanks to the many great developers ' +
               'who,'#13#10'with their amazing work, have made PyScripter '#13#10'possible. ' +
               ' PyScripter makes use of the following '#13#10'components and projects' +
               ':'#13#10'<br>'#13#10'<br>'#13#10'- <i>Python for Delphi</i> (<link>www.mmm-experts' +
-              '.com</link>)'#13#10'<br>'#13#10'- <i>JVCL</i> (<link>jvcl.sf.net</link>)'#13#10'<b' +
-              'r>'#13#10'- <i>SynEdit</i> (<link>synedit.sf.net</link>)'#13#10'<br>'#13#10'- <i>V' +
-              'irtualTreeView </i>(<link>www.delphi-gems.com</link>)'#13#10'<br>'#13#10'- <' +
-              'i>VirtualShellTools</i> (<link>www.mustangpeak.net</link>)'#13#10'<br>' +
-              #13#10'- <i>StoHtmlHelp</i> (<link>www.martinstoeckli.ch/delphi</link' +
-              '>)'#13#10'<br>'#13#10'- <i>GExperts</i> (<link>www.gexperts.org</link>)'#13#10'<br' +
-              '>'#13#10'- <i>Syn Editor</i> (<link>syn.sf.net</link>)'#13#10'<br>'#13#10'- <i>Too' +
-              'lbar2000</i> (<link>www.jrsoftware.org/tb2k.php</link>)'#13#10'<br>'#13#10'-' +
-              ' <i>TBX </i>(<link>www.g32.org/tbx</link>)'#13#10'<br>'#13#10'- <i>Additiona' +
-              'l TBX Themes</i> (<link>www.rmklever.com</link>)'#13#10'<br>'#13#10'- <i>JvT' +
-              'BXLib </i>(<link>mxs.bergsoft.net</link>)'
+              '.com</link>)'#13#10'<br>'#13#10'- <i>Rpyc</i> (<link>rpyc.sf.net</link>)'#13#10'<b' +
+              'r>'#13#10'- <i>JVCL</i> (<link>jvcl.sf.net</link>)'#13#10'<br>'#13#10'- <i>SynEdit' +
+              '</i> (<link>synedit.sf.net</link>)'#13#10'<br>'#13#10'- <i>VirtualTreeView <' +
+              '/i>(<link>www.delphi-gems.com</link>)'#13#10'<br>'#13#10'- <i>VirtualShellTo' +
+              'ols</i> (<link>www.mustangpeak.net</link>)'#13#10'<br>'#13#10'- <i>StoHtmlHe' +
+              'lp</i> (<link>www.martinstoeckli.ch/delphi</link>)'#13#10'<br>'#13#10'- <i>G' +
+              'Experts</i> (<link>www.gexperts.org</link>)'#13#10'<br>'#13#10'- <i>Syn Edit' +
+              'or</i> (<link>syn.sf.net</link>)'#13#10'<br>'#13#10'- <i>Toolbar2000</i> (<l' +
+              'ink>www.jrsoftware.org/tb2k.php</link>)'#13#10'<br>'#13#10'- <i>TBX </i>(<li' +
+              'nk>www.g32.org/tbx</link>)'#13#10'<br>'#13#10'- <i>Additional TBX Themes</i>' +
+              ' (<link>www.rmklever.com</link>)'#13#10'<br>'#13#10'- <i>JvTBXLib </i>(<link' +
+              '>mxs.bergsoft.net</link>)'#13#10'<br>'#13#10'- <i>TntWare Unicode Controls</' +
+              'i>(<link>www.tntware.com</link>)'#13#10#13#10#13#10
             Text.Strings = (
               
                 '<b>Credits</b><br>'#13#10'Special thanks to the many great developers ' +
                 'who,'#13#10'with their amazing work, have made PyScripter '#13#10'possible. ' +
                 ' PyScripter makes use of the following '#13#10'components and projects' +
                 ':'#13#10'<br>'#13#10'<br>'#13#10'- <i>Python for Delphi</i> (<link>www.mmm-experts' +
-                '.com</link>)'#13#10'<br>'#13#10'- <i>JVCL</i> (<link>jvcl.sf.net</link>)'#13#10'<b' +
-                'r>'#13#10'- <i>SynEdit</i> (<link>synedit.sf.net</link>)'#13#10'<br>'#13#10'- <i>V' +
-                'irtualTreeView </i>(<link>www.delphi-gems.com</link>)'#13#10'<br>'#13#10'- <' +
-                'i>VirtualShellTools</i> (<link>www.mustangpeak.net</link>)'#13#10'<br>' +
-                #13#10'- <i>StoHtmlHelp</i> (<link>www.martinstoeckli.ch/delphi</link' +
-                '>)'#13#10'<br>'#13#10'- <i>GExperts</i> (<link>www.gexperts.org</link>)'#13#10'<br' +
-                '>'#13#10'- <i>Syn Editor</i> (<link>syn.sf.net</link>)'#13#10'<br>'#13#10'- <i>Too' +
-                'lbar2000</i> (<link>www.jrsoftware.org/tb2k.php</link>)'#13#10'<br>'#13#10'-' +
-                ' <i>TBX </i>(<link>www.g32.org/tbx</link>)'#13#10'<br>'#13#10'- <i>Additiona' +
-                'l TBX Themes</i> (<link>www.rmklever.com</link>)'#13#10'<br>'#13#10'- <i>JvT' +
-                'BXLib </i>(<link>mxs.bergsoft.net</link>)')
+                '.com</link>)'#13#10'<br>'#13#10'- <i>Rpyc</i> (<link>rpyc.sf.net</link>)'#13#10'<b' +
+                'r>'#13#10'- <i>JVCL</i> (<link>jvcl.sf.net</link>)'#13#10'<br>'#13#10'- <i>SynEdit' +
+                '</i> (<link>synedit.sf.net</link>)'#13#10'<br>'#13#10'- <i>VirtualTreeView <' +
+                '/i>(<link>www.delphi-gems.com</link>)'#13#10'<br>'#13#10'- <i>VirtualShellTo' +
+                'ols</i> (<link>www.mustangpeak.net</link>)'#13#10'<br>'#13#10'- <i>StoHtmlHe' +
+                'lp</i> (<link>www.martinstoeckli.ch/delphi</link>)'#13#10'<br>'#13#10'- <i>G' +
+                'Experts</i> (<link>www.gexperts.org</link>)'#13#10'<br>'#13#10'- <i>Syn Edit' +
+                'or</i> (<link>syn.sf.net</link>)'#13#10'<br>'#13#10'- <i>Toolbar2000</i> (<l' +
+                'ink>www.jrsoftware.org/tb2k.php</link>)'#13#10'<br>'#13#10'- <i>TBX </i>(<li' +
+                'nk>www.g32.org/tbx</link>)'#13#10'<br>'#13#10'- <i>Additional TBX Themes</i>' +
+                ' (<link>www.rmklever.com</link>)'#13#10'<br>'#13#10'- <i>JvTBXLib </i>(<link' +
+                '>mxs.bergsoft.net</link>)'#13#10'<br>'#13#10'- <i>TntWare Unicode Controls</' +
+                'i>(<link>www.tntware.com</link>)'#13#10#13#10#13#10)
             Transparent = True
             HotLinks = True
             MarginWidth = 2
@@ -1551,6 +1555,7 @@ object AboutBox: TAboutBox
             Font.Name = 'Arial'
             Font.Style = []
             ParentFont = False
+            ExplicitTop = -29
           end
         end
       end

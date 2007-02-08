@@ -43,7 +43,7 @@ type
 implementation
 
 uses
-  VirtualSystemImageLists, ShellAPI, dmCommands;
+  ShellAPI, dmCommands, MPCommonObjects;
 
 {$R *.dfm}
 

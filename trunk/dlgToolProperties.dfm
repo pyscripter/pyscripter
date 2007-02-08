@@ -292,13 +292,12 @@ object ToolProperties: TToolProperties
             Hint = 'Specifies the context in which'#13#10'the tool is enabled.'
             Style = csDropDownList
             ItemHeight = 13
-            ItemIndex = 0
             TabOrder = 1
-            Text = 'Always enabled'
             Items.Strings = (
               'Always enabled'
-              'Active Editor'
-              'Selection Available')
+              'Active editor'
+              'Active Python file'
+              'Selection available')
           end
           object cbSaveFiles: TComboBox
             Left = 245
