@@ -4,15 +4,13 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ComCtrls, VirtualTrees, StdCtrls, ExtCtrls, cFileTemplates;
+  Dialogs, ComCtrls, VirtualTrees, StdCtrls, ExtCtrls, cFileTemplates,
+  TBXDkPanels, SpTBXControls;
 
 type
   TNewFileDialog = class(TForm)
     Panel1: TPanel;
     Panel2: TPanel;
-    btnCancel: TButton;
-    btnCreate: TButton;
-    btnManageTemplates: TButton;
     Panel3: TPanel;
     Splitter1: TSplitter;
     Label1: TLabel;
@@ -20,6 +18,9 @@ type
     Panel4: TPanel;
     Label2: TLabel;
     lvTemplates: TListView;
+    btnCancel: TSpTBXButton;
+    btnCreate: TSpTBXButton;
+    btnManageTemplates: TSpTBXButton;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure tvCategoriesGetText(Sender: TBaseVirtualTree; Node: PVirtualNode;

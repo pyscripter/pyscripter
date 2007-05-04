@@ -21,7 +21,7 @@ uses
   SynEditTextBuffer, SynEditKeyCmds, JvComponentBase, SynHighlighterXML,
   SynHighlighterCSS, SynHighlighterHtml, JvProgramVersionCheck, JvPropertyStore,
   SynHighlighterIni, TB2MRU, TBXExtItems, JvAppInst, uEditAppIntfs, SynUnicode,
-  JvTabBar, JvStringHolder, cPyBaseDebugger;
+  JvTabBar, JvStringHolder, cPyBaseDebugger, TntDialogs, TntLXDialogs;
 
 type
   TPythonIDEOptions = class(TPersistent)
@@ -29,6 +29,7 @@ type
     fTimeOut : integer;
     fUndoAfterSave : Boolean;
     fSaveFilesBeforeRun : Boolean;
+    fSaveEnvironmentBeforeRun : Boolean;
     fRestoreOpenFiles : Boolean;
     fCreateBackupFiles : Boolean;
     fExporerInitiallyExpanded : Boolean;
@@ -60,6 +61,9 @@ type
     fDetectUTF8Encoding: Boolean;
     fEditorTabPosition : TJvTabBarOrientation;
     fPythonEngineType : TPythonEngineType;
+    fPrettyPrintOutput : Boolean;
+    fSmartNextPrevPage : Boolean;
+    fAutoReloadChangedFiles : Boolean;
   public
     constructor Create;
     procedure Assign(Source: TPersistent); override;
@@ -69,6 +73,8 @@ type
       write fUndoAfterSave;
     property SaveFilesBeforeRun : boolean read fSaveFilesBeforeRun
       write fSaveFilesBeforeRun;
+    property SaveEnvironmentBeforeRun : boolean read fSaveEnvironmentBeforeRun
+      write fSaveEnvironmentBeforeRun;
     property RestoreOpenFiles : Boolean read fRestoreOpenFiles
       write fRestoreOpenFiles;
     property CreateBackupFiles : boolean read fCreateBackupFiles
@@ -124,6 +130,10 @@ type
       write fEditorTabPosition;
     property PythonEngineType : TPythonEngineType read fPythonEngineType
       write fPythonEngineType;
+    property PrettyPrintOutput : Boolean read fPrettyPrintOutput write fPrettyPrintOutput;
+    property SmartNextPrevPage : Boolean read fSmartNextPrevPage write fSmartNextPrevPage;
+    property AutoReloadChangedFiles : Boolean read fAutoReloadChangedFiles
+      write fAutoReloadChangedFiles;
   end;
 
   TEditorSearchOptions = class(TPersistent)
@@ -157,7 +167,6 @@ type
   end;
 
   TCommandsDataModule = class(TDataModule)
-    dlgFileOpen: TOpenDialog;
     actlMain: TActionList;
     actFileSave: TAction;
     actFileSaveAs: TAction;
@@ -169,7 +178,6 @@ type
     actSearchFindNext: TAction;
     actSearchFindPrev: TAction;
     actSearchReplace: TAction;
-    dlgFileSave: TSaveDialog;
     SynPythonSyn: TSynPythonSyn;
     actFileSaveAll: TAction;
     SynEditPrint: TSynEditPrint;
@@ -243,6 +251,13 @@ type
     actEditAnsi: TAction;
     actEditUTF8NoBOM: TAction;
     JvMultiStringHolder: TJvMultiStringHolder;
+    dlgFileOpen: TTntOpenDialogLX;
+    dlgFileSave: TTntSaveDialogLX;
+    actFileReload: TAction;
+    actImportShortcuts: TAction;
+    actExportShortCuts: TAction;
+    actImportHighlighters: TAction;
+    actExportHighlighters: TAction;
     function ProgramVersionHTTPLocationLoadFileFromRemote(
       AProgramVersionLocation: TJvProgramVersionHTTPLocation; const ARemotePath,
       ARemoteFileName, ALocalPath, ALocalFileName: string): string;
@@ -313,6 +328,11 @@ type
     procedure actEditToggleCommentExecute(Sender: TObject);
     procedure actFileTemplatesExecute(Sender: TObject);
     procedure actEditFileEncodingExecute(Sender: TObject);
+    procedure actFileReloadExecute(Sender: TObject);
+    procedure actExportShortCutsExecute(Sender: TObject);
+    procedure actImportShortcutsExecute(Sender: TObject);
+    procedure actExportHighlightersExecute(Sender: TObject);
+    procedure actImportHighlightersExecute(Sender: TObject);
   private
     fHighlighters: TStrings;
     fUntitledNumbers: TBits;
@@ -321,7 +341,6 @@ type
   public
     BlockOpenerRE : TRegExpr;
     BlockCloserRE : TRegExpr;
-    //EOLCleanerRE : TRegExpr;
     CommentLineRE : TRegExpr;
     NumberOfOriginalImages : integer;
     NonExecutableLineRE : TRegExpr;
@@ -392,7 +411,8 @@ uses
   StoHtmlHelp, {uMMMXP_MainService, }JvJCLUtils, Menus, SynEditStrConst,
   dlgSearchText, dlgReplaceText, dlgConfirmReplace, dlgCustomShortcuts,
   dlgUnitTestWizard, WinInet, Math, Registry, ShlObj, ShellAPI,
-  dlgFileTemplates, JclSysInfo, JclSysUtils, dlgPickList;
+  dlgFileTemplates, JclSysInfo, JclSysUtils, dlgPickList, JvAppIniStorage,
+  cFilePersist, JvAppStorage;
 
 { TPythonIDEOptions }
 
@@ -403,6 +423,7 @@ begin
       Self.fTimeOut := TimeOut;
       Self.fUndoAfterSave := UndoAfterSave;
       Self.fSaveFilesBeforeRun := SaveFilesBeforeRun;
+      Self.fSaveEnvironmentBeforeRun := SaveEnvironmentBeforeRun;
       Self.fRestoreOpenFiles := fRestoreOpenFiles;
       Self.fCreateBackUpFiles := CreateBackUpFiles;
       Self.fExporerInitiallyExpanded := ExporerInitiallyExpanded;
@@ -434,6 +455,9 @@ begin
       Self.fDetectUTF8Encoding := DetectUTF8Encoding;
       Self.fEditorTabPosition := EditorTabPosition;
       Self.fPythonEngineType := PythonEngineType;
+      Self.fPrettyPrintOutput := PrettyPrintOutput;
+      Self.fSmartNextPrevPage := SmartNextPrevPage;
+      Self.fAutoReloadChangedFiles := AutoReloadChangedFiles;
     end
   else
     inherited;
@@ -443,13 +467,14 @@ constructor TPythonIDEOptions.Create;
 begin
   fTimeOut := 0; // 5000;
   fSaveFilesBeforeRun := True;
+  fSaveEnvironmentBeforeRun := False;
   fCreateBackupFiles := False;
   fExporerInitiallyExpanded := False;
   fPythonFileFilter := 'Python Files (*.py;*.pyw)|*.py;*.pyw';
   fHTMLFileFilter := SYNS_FilterHTML;
   fXMLFileFilter := SYNS_FilterXML;
   fCSSFileFilter := SYNS_FilterCSS;
-  fFileExplorerFilter := '*.py';
+  fFileExplorerFilter := '*.py;*.pyw';
   fSearchTextAtCaret := True;
   fRestoreOpenFiles := True;
   fDateLastCheckedForUpdates := MinDateTime;
@@ -472,6 +497,9 @@ begin
   fDetectUTF8Encoding := True;
   fEditorTabPosition := toBottom;
   fPythonEngineType := peInternal;
+  fPrettyPrintOutput := True;
+  fSmartNextPrevPage := True;
+  fAutoReloadChangedFiles := True;
 end;
 
 { TEditorSearchOptions }
@@ -513,6 +541,10 @@ var
 begin
   // User Data directory for storing the ini file etc.
   UserDataDir := PathAddSeparator(GetAppdataFolder) + 'PyScripter\';
+  if not ForceDirectories(UserDataDir) then
+    MessageDlg(Format('Pyscripter needs access to the User Application Data directory: "%s". '+
+      'Certain features such as remote debugging  will not function properly otherwise.',
+      [UserDataDir]), mtWarning, [mbOK], 0);
   // Setup Highlighters
   fHighlighters := TStringList.Create;
   TStringList(fHighlighters).CaseSensitive := False;
@@ -545,10 +577,6 @@ begin
   BlockCloserRE.Expression := '\s*(return|break|continue|raise|pass)\b';
   NonExecutableLineRE := TRegExpr.Create;
   NonExecutableLineRE.Expression := '(^\s*(class|def)\b)|(^\s*#)|(^\s*$)';
-  //EOLCleanerRE := TRegExpr.Create;
-  //EOLCleanerRE.Expression := '(\r\n)|\r|(\n\r)';
-  //EOLCleanerRE.ModifierM := True;
-  //EOLCleanerRE.ModifierS := False;
   CommentLineRE := TRegExpr.Create;
   CommentLineRE.Expression := '^##';
   CommentLineRE.ModifierM := True;
@@ -560,6 +588,12 @@ begin
     Gutter.Font.Height := -11;
     Gutter.Font.Name := 'Courier New';
     Gutter.Gradient := True;
+    Gutter.LeftOffset := 25;
+    Gutter.RightOffset := 1;
+    Gutter.Width := 27;
+    Gutter.DigitCount := 3;
+    Gutter.Autosize := True;
+
     Options := [eoAutoSizeMaxScrollWidth, eoDragDropEditing, eoEnhanceHomeKey,
                 eoEnhanceEndKey, eoGroupUndo, eoHideShowScrollbars, eoKeepCaretX,
                 eoShowScrollHint, eoSmartTabDelete, eoTabsToSpaces, eoTabIndent,
@@ -585,6 +619,7 @@ begin
   InterpreterEditorOptions.Assign(EditorOptions);
   InterpreterEditorOptions.Options := InterpreterEditorOptions.Options -
     [eoTrimTrailingSpaces, eoTabsToSpaces];
+  InterpreterEditorOptions.WordWrap := True;
   InterpreterEditorOptions.Gutter.Visible := False;
   InterpreterEditorOptions.RightEdge := 0;
 
@@ -614,6 +649,7 @@ begin
   //Program Version Check
   ProgramVersionCheck.ThreadDialog.DialogOptions.ShowModal := False;
   ProgramVersionCheck.ThreadDialog.DialogOptions.Caption := 'Downloading...';
+  ProgramVersionCheck.ThreadDialog.DialogOptions.ResName := 'WebCopyAvi';
   ProgramVersionCheck.LocalDirectory := ExtractFilePath(Application.ExeName)+ 'Updates';
 end;
 
@@ -625,7 +661,6 @@ begin
   BlockOpenerRE.Free;
   BlockCloserRE.Free;
   NonExecutableLineRE.Free;
-  //EOLCleanerRE.Free;
   CommentLineRE.Free;
   PyIDEOptions.Free;
   ExcludedFileNotificationdDrives.Free;
@@ -685,10 +720,10 @@ begin
       Filter := SFilterAllFiles;
 
     DefaultExt := DefaultExtension;
-    //  Make the current file extension the default extension 
+    //  Make the current file extension the default extension
     if DefaultExt = '' then
       DefaultExt := ExtractFileExt(ANewName);
-    
+
     if Execute then begin
       ANewName := FileName;
       Result := TRUE;
@@ -747,6 +782,12 @@ begin
     GI_FileCmds.ExecPrint;
 end;
 
+procedure TCommandsDataModule.actFileReloadExecute(Sender: TObject);
+begin
+  if GI_FileCmds <> nil then
+    GI_FileCmds.ExecReload;
+end;
+
 procedure TCommandsDataModule.actPrintPreviewExecute(Sender: TObject);
 begin
   if GI_FileCmds <> nil then
@@ -771,7 +812,7 @@ end;
 procedure TCommandsDataModule.actFileCloseExecute(Sender: TObject);
 begin
   if GI_FileCmds <> nil then
-    GI_FileCmds.ExecClose;          
+    GI_FileCmds.ExecClose;
 end;
 
 procedure TCommandsDataModule.actEditCutExecute(Sender: TObject);
@@ -937,6 +978,7 @@ begin
           ApplyEditorOptions;
         end else if Assigned(GI_ActiveEditor) then
           GI_ActiveEditor.SynEdit.Assign(TempEditorOptions);
+        PyIDEMainForm.StoreApplicationData;
       end;
       Free;
     end;
@@ -1110,6 +1152,129 @@ begin
        SelText :=  WideStringReplace(SelText, #9,
          StringOfChar(' ',GI_ActiveEditor.SynEdit.TabWidth), [rfReplaceAll]);
        UpdateCaret;
+    end;
+  end;
+end;
+
+procedure TCommandsDataModule.actExportHighlightersExecute(Sender: TObject);
+Var
+  i : integer;
+  AppStorage : TJvAppIniFileStorage;
+begin
+  with dlgFileSave do begin
+    Title := 'Export Highlighters';
+    Filter := SynIniSyn.DefaultFilter;
+    DefaultExt := 'ini';
+    if Execute then begin
+      AppStorage := TJvAppIniFileStorage.Create(nil);
+      try
+        AppStorage.FlushOnDestroy := True;
+        AppStorage.Location := flCustom;
+        AppStorage.FileName := FileName;
+        AppStorage.WriteString('PyScripter\Version', ApplicationVersion);
+        AppStorage.DeleteSubTree('Highlighters');
+        for i := 0 to Highlighters.Count - 1 do
+          AppStorage.WritePersistent('Highlighters\'+Highlighters[i],
+            TPersistent(Highlighters.Objects[i]));
+      finally
+        AppStorage.Free;
+      end;
+    end;
+  end;
+end;
+
+procedure TCommandsDataModule.actExportShortCutsExecute(Sender: TObject);
+Var
+  AppStorage : TJvAppIniFileStorage;
+  ActionProxyCollection: TActionProxyCollection;
+begin
+  with dlgFileSave do begin
+    Title := 'Export Shortcuts';
+    Filter := SynIniSyn.DefaultFilter;
+    DefaultExt := 'ini';
+    if Execute then begin
+      AppStorage := TJvAppIniFileStorage.Create(nil);
+      try
+        AppStorage.FlushOnDestroy := True;
+        AppStorage.Location := flCustom;
+        AppStorage.FileName := FileName;
+        AppStorage.StorageOptions.StoreDefaultValues := False;
+        AppStorage.WriteString('PyScripter\Version', ApplicationVersion);
+        AppStorage.DeleteSubTree('IDE Shortcuts');
+        ActionProxyCollection := TActionProxyCollection.Create(PyIDEMainForm.ActionListArray);
+        try
+          AppStorage.WriteCollection('IDE Shortcuts', ActionProxyCollection, 'Action');
+        finally
+          ActionProxyCollection.Free;
+        end;
+        AppStorage.DeleteSubTree('Editor Shortcuts');
+        AppStorage.WriteCollection('Editor Shortcuts', EditorOptions.Keystrokes);
+      finally
+        AppStorage.Free;
+      end;
+    end;
+  end;
+end;
+
+procedure TCommandsDataModule.actImportHighlightersExecute(Sender: TObject);
+Var
+  i : integer;
+  AppStorage : TJvAppIniFileStorage;
+begin
+  with dlgFileOpen do begin
+    Title := 'Import Highlighters';
+    Filter := SynIniSyn.DefaultFilter;
+    if Execute then begin
+      AppStorage := TJvAppIniFileStorage.Create(nil);
+      try
+        AppStorage.Location := flCustom;
+        AppStorage.FileName := FileName;
+        for i := 0 to Highlighters.Count - 1 do
+          AppStorage.ReadPersistent('Highlighters\'+Highlighters[i],
+            TPersistent(Highlighters.Objects[i]));
+        PythonIIForm.SynEdit.Highlighter.Assign(CommandsDataModule.SynPythonSyn);
+      finally
+        AppStorage.Free;
+      end;
+    end;
+  end;
+end;
+
+procedure TCommandsDataModule.actImportShortcutsExecute(Sender: TObject);
+Var
+  i : integer;
+  AppStorage : TJvAppIniFileStorage;
+  ActionProxyCollection: TActionProxyCollection;
+begin
+  with dlgFileOpen do begin
+    Title := 'Import Shortcuts';
+    Filter := SynIniSyn.DefaultFilter;
+    if Execute then begin
+      AppStorage := TJvAppIniFileStorage.Create(nil);
+      try
+        AppStorage.Location := flCustom;
+        AppStorage.FileName := FileName;
+
+        if AppStorage.PathExists('IDE Shortcuts') then begin
+          ActionProxyCollection := TActionProxyCollection.Create(PyIDEMainForm.ActionListArray);
+          try
+            AppStorage.ReadCollection('IDE Shortcuts', ActionProxyCollection, True, 'Action');
+            ActionProxyCollection.ApplyShortCuts(PyIDEMainForm.ActionListArray);
+          finally
+            ActionProxyCollection.Free;
+          end;
+        end;
+        if AppStorage.PathExists('Editor Shortcuts') then begin
+          AppStorage.ReadCollection('Editor Shortcuts', EditorOptions.Keystrokes, True);
+          for i := 0 to GI_EditorFactory.Count - 1 do
+            GI_EditorFactory.Editor[i].SynEdit.Keystrokes.Assign(EditorOptions.Keystrokes);
+          InterpreterEditorOptions.Keystrokes.Assign(EditorOptions.Keystrokes);
+          PythonIIForm.SynEdit.Keystrokes.Assign(EditorOptions.Keystrokes);
+          PythonIIForm.RegisterHistoryCommands;
+        end;
+      finally
+        AppStorage.Free;
+      end;
     end;
   end;
 end;
@@ -1345,8 +1510,8 @@ Const
   ZeroFileTime : TFileTime = (dwLowDateTime : 0; dwHighDateTime : 0);
 Var
   i : integer;
+  ModifiedCount : integer;
   SR: TSearchRec;
-  P : TBufferCoord;
   Editor : IEditor;
   ChangedFiles : TStringList;
   SafeGuard: ISafeGuard;
@@ -1370,7 +1535,6 @@ begin
         end;
       end else if not AreFileTimesEqual(TEditorForm(Editor.Form).FileTime, SR.FindData.ftLastWriteTime) then begin
         ChangedFiles.AddObject(Editor.GetFileNameOrTitle, Editor.Form);
-        Editor.SynEdit.Modified := True;
         // Prevent further notifications on this file
         TEditorForm(Editor.Form).FileTime := SR.FindData.ftLastWriteTime;
       end;
@@ -1378,8 +1542,24 @@ begin
     end;
   end;
 
+  ModifiedCount := 0;
+  for I := 0 to ChangedFiles.Count - 1 do begin
+    Editor := TEditorForm(ChangedFiles.Objects[i]).GetEditor;
+    if Editor.Modified then
+      Inc(ModifiedCount);
+    Editor.SynEdit.Modified := True;  //So that we are prompted to save changes
+  end;
+
   if ChangedFiles.Count > 0 then
-    with TPickListDialog.Create(Application.MainForm) do begin
+    if PyIDEOptions.AutoReloadChangedFiles and (ModifiedCount = 0) then begin
+      for I := 0 to ChangedFiles.Count - 1 do begin
+        Editor := TEditorForm(ChangedFiles.Objects[i]).GetEditor;
+        (Editor as IFileCommands).ExecReload(True);
+      end;
+      MessageBeep(MB_ICONASTERISK);
+      PyIDEMainForm.WriteStatusMsg('Changed files have been reloaded');
+    end
+    else with TPickListDialog.Create(Application.MainForm) do begin
       Caption := 'File Change Notification';
       lbMessage.Caption := 'The following files have been changed on disk.'+
       ' Select the files that you wish to reload and press the OK button. '+
@@ -1393,10 +1573,7 @@ begin
           for i := CheckListBox.Count - 1 downto 0 do begin
             if CheckListBox.Checked[i] then begin
               Editor := TEditorForm(CheckListBox.Items.Objects[i]).GetEditor;
-              P := Editor.Synedit.CaretXY;
-              Editor.OpenFile(CheckListBox.Items[i]);
-              if (P.Line <= Editor.SynEdit.Lines.Count) then
-                Editor.SynEdit.CaretXY := P;
+              (Editor as IFileCommands).ExecReload(True);
             end;
           end;
         finally
@@ -1451,7 +1628,7 @@ begin
   SetLength(Categories, 7);
   with Categories[0] do begin
     DisplayName := 'IDE';
-    SetLength(Options, 5);
+    SetLength(Options, 6);
     Options[0].PropertyName := 'AutoCheckForUpdates';
     Options[0].DisplayName := 'Check for updates automatically';
     Options[1].PropertyName := 'DaysBetweenChecks';
@@ -1462,22 +1639,28 @@ begin
     Options[3].DisplayName := 'Use BicycleRepairMan';
     Options[4].PropertyName := 'EditorTabPosition';
     Options[4].DisplayName := 'Editor Tab Position';
+    Options[5].PropertyName := 'SmartNextPrevPage';
+    Options[5].DisplayName := 'Smart Next Previous Page';
   end;
   with Categories[1] do begin
     DisplayName := 'Python Interpreter';
-    SetLength(Options, 6);
+    SetLength(Options, 8);
     Options[0].PropertyName := 'SaveFilesBeforeRun';
     Options[0].DisplayName := 'Save files before run';
-    Options[1].PropertyName := 'TimeOut';
-    Options[1].DisplayName := 'Timeout for running scripts in ms';
-    Options[2].PropertyName := 'UTF8inInterpreter';
-    Options[2].DisplayName := 'UTF8 in interactive interpreter';
-    Options[3].PropertyName := 'CleanupMainDict';
-    Options[3].DisplayName := 'Clean up namespace after run';
-    Options[4].PropertyName := 'CleanupSysModules';
-    Options[4].DisplayName := 'Clean up sys.modules after run';
-    Options[5].PropertyName := 'PythonEngineType';
-    Options[5].DisplayName := 'Python engine type';
+    Options[1].PropertyName := 'SaveEnvironmentBeforeRun';
+    Options[1].DisplayName := 'Save environment before run';
+    Options[2].PropertyName := 'TimeOut';
+    Options[2].DisplayName := 'Timeout for running scripts in ms';
+    Options[3].PropertyName := 'UTF8inInterpreter';
+    Options[3].DisplayName := 'UTF8 in interactive interpreter';
+    Options[4].PropertyName := 'CleanupMainDict';
+    Options[4].DisplayName := 'Clean up namespace after run';
+    Options[5].PropertyName := 'CleanupSysModules';
+    Options[5].DisplayName := 'Clean up sys.modules after run';
+    Options[6].PropertyName := 'PythonEngineType';
+    Options[6].DisplayName := 'Python engine type';
+    Options[7].PropertyName := 'PrettyPrintOutput';
+    Options[7].DisplayName := 'Pretty Print Output';
   end;
   with Categories[2] do begin
     DisplayName := 'Code Explorer';
@@ -1501,7 +1684,7 @@ begin
   end;
   with Categories[4] do begin
     DisplayName := 'Editor';
-    SetLength(Options, 12);
+    SetLength(Options, 13);
     Options[0].PropertyName := 'RestoreOpenFiles';
     Options[0].DisplayName := 'Restore open files';
     Options[1].PropertyName := 'SearchTextAtCaret';
@@ -1526,6 +1709,8 @@ begin
     Options[10].DisplayName := 'Default file encoding for new files';
     Options[11].PropertyName := 'DetectUTF8Encoding';
     Options[11].DisplayName := 'Detect UTF-8 encoding when opening files';
+    Options[12].PropertyName := 'AutoReloadChangedFiles';
+    Options[12].DisplayName := 'Auto-reload changed files';
   end;
   with Categories[5] do begin
     DisplayName := 'Code Completion';
@@ -1555,6 +1740,7 @@ begin
 
   if InspectOptions(PyIDEOptions, Categories, 'IDE Options', 610) then begin
     PyIDEMainForm.PyIDEOptionsChanged;
+    PyIDEMainForm.StoreApplicationData;
     if PyIDEOptions.FileExplorerContextMenu <> IsRegistered then begin
       try
         if IsRegistered then begin
@@ -1580,7 +1766,8 @@ end;
 procedure TCommandsDataModule.actIDEShortcutsExecute(Sender: TObject);
 begin
   with TfrmCustomKeyboard.Create(Self) do begin
-    Execute(PyIDEMainForm.ActionListArray);
+    if Execute(PyIDEMainForm.ActionListArray) then
+      PyIDEMainForm.StoreApplicationData;
     Release;
   end;
 end;
@@ -1697,6 +1884,7 @@ begin
   end;
 
   // File Actions
+  actFileReload.Enabled := (GI_FileCmds <> nil) and GI_FileCmds.CanReload;
   actFileClose.Enabled := (GI_FileCmds <> nil) and GI_FileCmds.CanClose;
   actFilePrint.Enabled := (GI_FileCmds <> nil) and GI_FileCmds.CanPrint;
   actPrintPreview.Enabled := actFilePrint.Enabled;
@@ -2125,18 +2313,22 @@ begin
     SynEdit.SearchEngine := CommandsDataModule.SynEditRegexSearch
   else
     SynEdit.SearchEngine := CommandsDataModule.SynEditSearch;
+
+  PyIDEMainForm.WriteStatusMsg('');
   if SynEdit.SearchReplace(EditorSearchOptions.SearchText,
     EditorSearchOptions.ReplaceText, Options) = 0
   then
   begin
     MessageBeep(MB_ICONASTERISK);
     PyIDEMainForm.WriteStatusMsg(Format(SNotFound, [EditorSearchOptions.SearchText]));
+    fSearchFromCaret := False;
     if ssoBackwards in Options then
       SynEdit.BlockEnd := SynEdit.BlockBegin
     else
       SynEdit.BlockBegin := SynEdit.BlockEnd;
     SynEdit.CaretXY := SynEdit.BlockBegin;
-  end;
+  end else
+    fSearchFromCaret := True;
 
   if ConfirmReplaceDialog <> nil then
     ConfirmReplaceDialog.Free;
@@ -2187,10 +2379,8 @@ begin
         EditorSearchOptions.ReplaceTextHistory := ReplaceTextHistory;
       end;
       fSearchFromCaret := EditorSearchOptions.SearchFromCaret;
-      if EditorSearchOptions.SearchText <> '' then begin
+      if EditorSearchOptions.SearchText <> '' then 
         DoSearchReplaceText(SynEdit, AReplace, EditorSearchOptions.SearchBackwards);
-        fSearchFromCaret := TRUE;
-      end;
     end;
   finally
     dlg.Free;

@@ -42,9 +42,8 @@ inherited BreakPointsWindow: TBreakPointsWindow
     00FF00000000000000000000000000000000000000000000000000000000FFFF
     0000FFFF0000F8070000F8070000F0030000E0030000E0030000C00300008003
     000088030000F8030000F8030000F8070000F80F0000FC1F0000FE7F0000}
-  OnActivate = FormActivate
-  ExplicitWidth = 387
-  ExplicitHeight = 270
+  ExplicitWidth = 395
+  ExplicitHeight = 278
   DesignSize = (
     379
     244)
@@ -70,9 +69,10 @@ inherited BreakPointsWindow: TBreakPointsWindow
       Header.Font.Charset = DEFAULT_CHARSET
       Header.Font.Color = clWindowText
       Header.Font.Height = -11
-      Header.Font.Name = 'Tahoma'
+      Header.Font.Name = 'MS Shell Dlg 2'
       Header.Font.Style = []
       Header.Options = [hoColumnResize, hoDrag, hoHotTrack, hoOwnerDraw, hoVisible]
+      Header.ParentFont = True
       HintMode = hmTooltip
       PopupMenu = TBXPopupMenu
       TabOrder = 0

@@ -112,17 +112,22 @@ object NewFileDialog: TNewFileDialog
         end
       end
     end
-    object btnCancel: TButton
+    object btnCancel: TSpTBXButton
       Left = 378
       Top = 264
       Width = 75
       Height = 25
-      Cancel = True
-      Caption = '&Cancel'
-      ModalResult = 2
+      Caption = 'Cancel'
       TabOrder = 1
+      Cancel = True
+      LinkFont.Charset = DEFAULT_CHARSET
+      LinkFont.Color = clBlue
+      LinkFont.Height = -11
+      LinkFont.Name = 'Tahoma'
+      LinkFont.Style = [fsUnderline]
+      ModalResult = 2
     end
-    object btnCreate: TButton
+    object btnCreate: TSpTBXButton
       Left = 293
       Top = 265
       Width = 75
@@ -131,8 +136,13 @@ object NewFileDialog: TNewFileDialog
       Enabled = False
       TabOrder = 2
       OnClick = btnCreateClick
+      LinkFont.Charset = DEFAULT_CHARSET
+      LinkFont.Color = clBlue
+      LinkFont.Height = -11
+      LinkFont.Name = 'Tahoma'
+      LinkFont.Style = [fsUnderline]
     end
-    object btnManageTemplates: TButton
+    object btnManageTemplates: TSpTBXButton
       Left = 11
       Top = 264
       Width = 144
@@ -140,6 +150,11 @@ object NewFileDialog: TNewFileDialog
       Caption = 'Manage File Templates...'
       TabOrder = 3
       OnClick = btnManageTemplatesClick
+      LinkFont.Charset = DEFAULT_CHARSET
+      LinkFont.Color = clBlue
+      LinkFont.Height = -11
+      LinkFont.Name = 'Tahoma'
+      LinkFont.Style = [fsUnderline]
     end
   end
 end

@@ -375,6 +375,13 @@ Type
     CENode : TAbstractCENode;
   end;
 
+procedure TCodeExplorerWindow.FormActivate(Sender: TObject);
+begin
+  inherited;
+  if ExplorerTree.CanFocus then
+    ExplorerTree.SetFocus;
+end;
+
 procedure TCodeExplorerWindow.FormCreate(Sender: TObject);
 begin
   inherited;
@@ -507,15 +514,6 @@ end;
 procedure TCodeExplorerWindow.nCollapseAllClick(Sender: TObject);
 begin
   ExplorerTree.FullCollapse;
-end;
-
-procedure TCodeExplorerWindow.FormActivate(Sender: TObject);
-begin
-  inherited;
-  if not HasFocus then begin
-    FGPanelEnter(Self);
-    PostMessage(ExplorerTree.Handle, WM_SETFOCUS, 0, 0);
-  end;
 end;
 
 { TAbstractCENode }

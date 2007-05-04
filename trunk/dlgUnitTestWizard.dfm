@@ -58,7 +58,7 @@ object UnitTestWizard: TUnitTestWizard
       ParentFont = False
     end
     object ExplorerTree: TVirtualStringTree
-      Left = 3
+      Left = 2
       Top = 83
       Width = 395
       Height = 319
@@ -97,7 +97,6 @@ object UnitTestWizard: TUnitTestWizard
       Width = 75
       Height = 25
       Anchors = [akRight, akBottom]
-      Caption = '&OK'
       TabOrder = 1
       Kind = bkOK
     end
@@ -107,7 +106,6 @@ object UnitTestWizard: TUnitTestWizard
       Width = 75
       Height = 25
       Anchors = [akRight, akBottom]
-      Caption = '&Cancel'
       TabOrder = 2
       Kind = bkCancel
     end

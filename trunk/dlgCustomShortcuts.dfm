@@ -105,24 +105,6 @@ object frmCustomKeyboard: TfrmCustomKeyboard
     TabOrder = 3
     OnClick = lbCommandsClick
   end
-  object btnAssign: TButton
-    Left = 340
-    Top = 28
-    Width = 75
-    Height = 25
-    Caption = '&Assign'
-    TabOrder = 4
-    OnClick = btnAssignClick
-  end
-  object btnRemove: TButton
-    Left = 340
-    Top = 64
-    Width = 75
-    Height = 25
-    Caption = '&Remove'
-    TabOrder = 5
-    OnClick = btnRemoveClick
-  end
   object lbCurrentKeys: TListBox
     Left = 192
     Top = 156
@@ -147,7 +129,6 @@ object frmCustomKeyboard: TfrmCustomKeyboard
     Width = 75
     Height = 25
     Anchors = [akRight, akBottom]
-    Caption = '&OK'
     TabOrder = 7
     Kind = bkOK
   end
@@ -157,7 +138,6 @@ object frmCustomKeyboard: TfrmCustomKeyboard
     Width = 75
     Height = 25
     Anchors = [akRight, akBottom]
-    Caption = '&Cancel'
     TabOrder = 8
     Kind = bkCancel
   end
@@ -170,5 +150,34 @@ object frmCustomKeyboard: TfrmCustomKeyboard
     TabOrder = 9
     OnClick = HelpButtonClick
     Kind = bkHelp
+  end
+  object btnAssign: TSpTBXButton
+    Left = 340
+    Top = 28
+    Width = 75
+    Height = 25
+    Caption = '&Assign'
+    TabOrder = 4
+    OnClick = btnAssignClick
+    ImageIndex = 0
+    LinkFont.Charset = DEFAULT_CHARSET
+    LinkFont.Color = clBlue
+    LinkFont.Height = -11
+    LinkFont.Name = 'Tahoma'
+    LinkFont.Style = [fsUnderline]
+  end
+  object btnRemove: TSpTBXButton
+    Left = 340
+    Top = 64
+    Width = 75
+    Height = 25
+    Caption = '&Remove'
+    TabOrder = 5
+    OnClick = btnRemoveClick
+    LinkFont.Charset = DEFAULT_CHARSET
+    LinkFont.Color = clBlue
+    LinkFont.Height = -11
+    LinkFont.Name = 'Tahoma'
+    LinkFont.Style = [fsUnderline]
   end
 end

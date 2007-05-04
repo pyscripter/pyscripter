@@ -345,10 +345,9 @@ end;
 procedure TVariablesWindow.FormActivate(Sender: TObject);
 begin
   inherited;
-  if not HasFocus then begin
-    FGPanelEnter(Self);
-    PostMessage(VariablesTree.Handle, WM_SETFOCUS, 0, 0);
-  end;
+  if VariablesTree.CanFocus then
+    VariablesTree.SetFocus;
+  //PostMessage(VariablesTree.Handle, WM_SETFOCUS, 0, 0);
 end;
 
 procedure TVariablesWindow.TBMThemeChange(var Message: TMessage);

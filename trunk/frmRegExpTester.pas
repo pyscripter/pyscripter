@@ -30,16 +30,16 @@ type
     TBXSeparatorItem1: TTBXSeparatorItem;
     TIExecute: TTBXItem;
     TBXMultiDock: TTBXMultiDock;
-    TBXDockablePanel3: TTBXDockablePanel;
+    TBXDockablePanel4: TTBXDockablePanel;
     TBXLabel1: TTBXLabel;
     GroupsView: TVirtualStringTree;
-    TBXDockablePanel1: TTBXDockablePanel;
+    TBXDockablePanel3: TTBXDockablePanel;
     TBXLabel2: TTBXLabel;
     MatchText: TmbTBXJvRichEdit;
-    TBXDockablePanel2: TTBXDockablePanel;
+    TBXDockablePanel1: TTBXDockablePanel;
     TBXLabel3: TTBXLabel;
     RegExpText: TmbTBXJvRichEdit;
-    TBXDockablePanel4: TTBXDockablePanel;
+    TBXDockablePanel2: TTBXDockablePanel;
     TBXLabel4: TTBXLabel;
     SearchText: TmbTBXJvRichEdit;
     TBXSeparatorItem2: TTBXSeparatorItem;
@@ -92,11 +92,10 @@ end;
 procedure TRegExpTesterWindow.FormActivate(Sender: TObject);
 begin
   inherited;
-  if not HasFocus then begin
-    FGPanelEnter(Self);
-    PostMessage(RegExpText.Handle, WM_SETFOCUS, 0, 0);
-  end;
-end;
+  if RegExpText.CanFocus then
+    RegExpText.SetFocus;
+//    PostMessage(RegExpText.Handle, WM_SETFOCUS, 0, 0);
+ end;
 
 procedure TRegExpTesterWindow.FormCreate(Sender: TObject);
 begin

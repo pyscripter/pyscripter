@@ -5,6 +5,7 @@ inherited FindResultsWindow: TFindResultsWindow
   Caption = 'Find in Files Results'
   ClientHeight = 339
   ClientWidth = 603
+  Font.Name = 'Tahoma'
   Icon.Data = {
     0000010001001010000000000000680500001600000028000000100000002000
     0000010008000000000040010000000000000000000000010000000000000000
@@ -50,11 +51,10 @@ inherited FindResultsWindow: TFindResultsWindow
     0000000000000000F77E8477007D0000000000000000000000F77E7E100080FF
     0000007F0000000F000000030000000100000001000000010000000100000001
     0000000300000007000080030000E0010000FF800000FFC00000FFE00000}
-  OnActivate = FormActivate
   OnKeyPress = FormKeyPress
   OnShow = FormShow
-  ExplicitWidth = 611
-  ExplicitHeight = 365
+  ExplicitWidth = 619
+  ExplicitHeight = 373
   PixelsPerInch = 96
   TextHeight = 13
   inherited FGPanel: TPanel

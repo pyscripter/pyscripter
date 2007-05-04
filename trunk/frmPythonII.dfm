@@ -17,19 +17,22 @@ inherited PythonIIForm: TPythonIIForm
     0000000000008000000000000000000000000000000000000000000000000000
     0000000000000000000080010000C00F0000C00F0000C00F0000E01F0000}
   Position = poDefault
-  OnActivate = FormActivate
   OnHelp = FormHelp
-  ExplicitWidth = 711
-  ExplicitHeight = 479
+  ExplicitWidth = 719
+  ExplicitHeight = 487
   DesignSize = (
     703
     453)
   PixelsPerInch = 96
   TextHeight = 13
   inherited FGPanel: TPanel
+    Left = -4
+    Top = -5
     Width = 700
     Height = 444
     Color = clInactiveBorder
+    ExplicitLeft = -4
+    ExplicitTop = -5
     ExplicitWidth = 700
     ExplicitHeight = 444
     object SynEdit: TSynEdit
@@ -66,8 +69,6 @@ inherited PythonIIForm: TPythonIIForm
       OnProcessUserCommand = SynEditProcessUserCommand
       OnReplaceText = SynEditReplaceText
       OnPaintTransient = SynEditPaintTransient
-      ExplicitLeft = 1
-      ExplicitTop = -1
     end
   end
   object PythonEngine: TPythonEngine
@@ -81,6 +82,7 @@ inherited PythonIIForm: TPythonIIForm
     InitScript.Strings = (
       'import sys'
       'import code'
+      'import pyscripter'
       ''
       'try:'
       '    sys.ps1'
@@ -227,6 +229,7 @@ inherited PythonIIForm: TPythonIIForm
       ''
       '            maindictcopy = self.locals.copy()'
       '            sysmodulescopy = sys.modules.copy()'
+      '            self.saveStdio = (sys.stdin, sys.stdout, sys.stderr)'
       ''
       '            try:'
       '                try:'
@@ -235,10 +238,14 @@ inherited PythonIIForm: TPythonIIForm
       '                    pass'
       '            finally:'
       
+        '                sys.stdin, sys.stdout, sys.stderr = self.saveStd' +
+        'io'
+      
         '                if self.debugIDE.cleanupMainDict() and (self.loc' +
         'als is globals):'
       '                    self.locals.clear()'
       '                    self.locals.update(maindictcopy)'
+      '                    __import__("gc").collect()'
       '                if self.debugIDE.cleanupSysModules():'
       '                    sys.modules.clear()'
       '                    sys.modules.update(sysmodulescopy)'
@@ -307,6 +314,7 @@ inherited PythonIIForm: TPythonIIForm
       ''
       '        maindictcopy = self.locals.copy()'
       '        sysmodulescopy = sys.modules.copy()'
+      '        self.saveStdio = (sys.stdin, sys.stdout, sys.stderr)'
       ''
       '        if not isinstance(cmd, types.CodeType):'
       '            cmd = cmd+'#39'\n'#39
@@ -316,11 +324,13 @@ inherited PythonIIForm: TPythonIIForm
       '            except SystemExit:'
       '                pass'
       '        finally:'
+      '            sys.stdin, sys.stdout, sys.stderr = self.saveStdio'
       
         '            if self.debugIDE.cleanupMainDict() and (self.locals ' +
         'is globals):'
       '                self.locals.clear()'
       '                self.locals.update(maindictcopy)'
+      '                __import__("gc").collect()'
       '            if self.debugIDE.cleanupSysModules():'
       '                sys.modules.clear()'
       '                sys.modules.update(sysmodulescopy)'
@@ -470,6 +480,7 @@ inherited PythonIIForm: TPythonIIForm
       '        return False'
       ''
       '    def runcode(self, code):'
+      '        import sys'
       '        def softspace(file, newvalue):'
       '            oldvalue = 0'
       '            try:'
@@ -485,6 +496,7 @@ inherited PythonIIForm: TPythonIIForm
       '                pass'
       '            return oldvalue'
       ''
+      '        self.saveStdio = (sys.stdin, sys.stdout, sys.stderr)'
       '        try:'
       '            if self.debugger.InIDEDebug:'
       
@@ -497,9 +509,9 @@ inherited PythonIIForm: TPythonIIForm
       '        except:'
       '            self.showtraceback()'
       '        else:'
-      '            import sys'
       '            if softspace(sys.stdout, 0):'
       '                print'
+      '        sys.stdin, sys.stdout, sys.stderr = self.saveStdio'
       ''
       '    def evalcode(self, code):'
       '        # may raise exceptions'
@@ -595,10 +607,22 @@ inherited PythonIIForm: TPythonIIForm
       '        "Provide input() for gui apps"'
       '        return eval(raw_input(prompt))'
       ''
+      '    def setupdisplayhook(self):'
+      '        if pyscripter.IDEOptions.PrettyPrintOutput:'
+      '            import sys, pprint, __builtin__'
+      
+        '            def pphook(value, show=pprint.pprint, bltin=__builti' +
+        'n__):'
+      '                if value is not None:'
+      '                    bltin._ = value'
+      '                    show(value)'
+      '            sys.displayhook = pphook'
+      ''
       '_II = PythonInteractiveInterpreter(globals())'
       ''
       'sys.modules['#39'__builtin__'#39'].raw_input=_II.Win32RawInput'
       'sys.modules['#39'__builtin__'#39'].input=_II.Win32Input'
+      ''
       'del DebugOutput'
       'del code'
       'del PythonInteractiveInterpreter'
@@ -611,6 +635,8 @@ inherited PythonIIForm: TPythonIIForm
     Top = 54
   end
   object PythonIO: TPythonInputOutput
+    UnicodeIO = False
+    RawOutput = False
     Left = 586
     Top = 53
   end
@@ -749,28 +775,11 @@ inherited PythonIIForm: TPythonIIForm
   object InterpreterPopUp: TTBXPopupMenu
     Images = CommandsDataModule.Images
     OnPopup = InterpreterPopUpPopup
-    Left = 46
-    Top = 6
+    Left = 45
+    Top = 12
     object TBXPythonEngines: TTBXSubmenuItem
       Caption = 'Python Engine'
-      OnPopup = TBXPythonEnginesPopup
-      object TBXItem5: TTBXItem
-        Action = actPythonEngineInternal
-      end
-      object TBXItem10: TTBXItem
-        Action = actPythonEngineRemote
-      end
-      object TBXItem9: TTBXItem
-        Action = actPythonEngineRemoteTk
-      end
-      object TBXItem8: TTBXItem
-        Action = actPythonEngineRemoteWx
-      end
-      object TBXSepReinitialize: TTBXSeparatorItem
-      end
-      object TBXItem6: TTBXItem
-        Action = actReinitialize
-      end
+      LinkSubitems = PyIDEMainForm.mnPythonEngines
     end
     object TBXSeparatorItem3: TTBXSeparatorItem
     end
@@ -799,6 +808,7 @@ inherited PythonIIForm: TPythonIIForm
     Left = 8
     Top = 45
     object actCleanUpNameSpace: TAction
+      Category = 'Interpreter'
       AutoCheck = True
       Caption = 'Clean up &Namespace'
       HelpContext = 410
@@ -807,6 +817,7 @@ inherited PythonIIForm: TPythonIIForm
       OnExecute = actCleanUpNameSpaceExecute
     end
     object actCleanUpSysModules: TAction
+      Category = 'Interpreter'
       AutoCheck = True
       Caption = 'Clean up &sys.modules'
       HelpContext = 410
@@ -815,6 +826,7 @@ inherited PythonIIForm: TPythonIIForm
       OnExecute = actCleanUpSysModulesExecute
     end
     object actCopyHistory: TAction
+      Category = 'Interpreter'
       Caption = 'Copy &History'
       HelpContext = 410
       HelpType = htContext
@@ -822,13 +834,8 @@ inherited PythonIIForm: TPythonIIForm
       ImageIndex = 12
       OnExecute = actCopyHistoryExecute
     end
-    object actReinitialize: TAction
-      Caption = 'Reinitiali&ze Python engine'
-      HelpContext = 340
-      HelpType = htContext
-      OnExecute = actReinitializeExecute
-    end
     object actClearContents: TAction
+      Category = 'Interpreter'
       Caption = 'Clear &All'
       HelpContext = 410
       HelpType = htContext
@@ -836,45 +843,18 @@ inherited PythonIIForm: TPythonIIForm
       ImageIndex = 14
       OnExecute = actClearContentsExecute
     end
-    object actPythonEngineInternal: TAction
-      AutoCheck = True
-      Caption = '&Internal'
-      Checked = True
-      GroupIndex = 1
-      HelpContext = 340
-      HelpType = htContext
-      Hint = 'Use internal Python Engine'
-      OnExecute = actPythonEngineExecute
-    end
-    object actPythonEngineRemote: TAction
-      Tag = 1
-      AutoCheck = True
-      Caption = '&Remote'
-      GroupIndex = 1
-      HelpContext = 340
-      HelpType = htContext
-      Hint = 'Use a remote Python engine'
-      OnExecute = actPythonEngineExecute
-    end
-    object actPythonEngineRemoteTk: TAction
-      Tag = 2
-      AutoCheck = True
-      Caption = 'Remote (&Tk)'
-      GroupIndex = 1
-      HelpContext = 340
-      HelpType = htContext
-      Hint = 'Use a remote Python engine for Tkinter applications'
-      OnExecute = actPythonEngineExecute
-    end
-    object actPythonEngineRemoteWx: TAction
-      Tag = 3
-      AutoCheck = True
-      Caption = 'Remote (&Wx)'
-      GroupIndex = 1
-      HelpContext = 340
-      HelpType = htContext
-      Hint = 'Use a remote Python engine for wxPython applications'
-      OnExecute = actPythonEngineExecute
-    end
+  end
+  object PyDelphiWrapper: TPyDelphiWrapper
+    Engine = PythonEngine
+    Module = PyscripterModule
+    Left = 612
+    Top = 86
+  end
+  object PyscripterModule: TPythonModule
+    Engine = PythonEngine
+    ModuleName = 'pyscripter'
+    Errors = <>
+    Left = 584
+    Top = 87
   end
 end

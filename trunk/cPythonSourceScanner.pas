@@ -185,8 +185,7 @@ public
     fLineContinueRE : TRegExpr;
     fImportRE : TRegExpr;
     fFromImportRE : TRegExpr;
-    fClassAttributeRE : TRegExpr;
-    fVarRE : TRegExpr;
+    fAssignmentRE : TRegExpr;
     fAliasRE : TRegExpr;
     fListRE : TRegExpr;
 //    function StringAndCommentsReplaceFunc(ARegExpr : TRegExpr): string;
@@ -431,12 +430,9 @@ begin
   fImportRE := CompiledRegExpr('^[ \t]*import[ \t]+([^#;]+)');
   fFromImportRE :=
     CompiledRegExpr(Format('^[ \t]*from[ \t]+(%s)[ \t]+import[ \t]+([^#;]+)', [DottedIdentRE]));
-  fClassAttributeRE :=
-    CompiledRegExpr(Format('^[ \t]*self\.(%s)[ \t]*(=)[ \t]*((%s)(\(?))?',
-      [IdentRE, DottedIdentRE]));
-  fVarRE :=
-    CompiledRegExpr(Format('^[ \t]*(%s)[ \t]*(=)[ \t]*((%s)(\(?))?',
-      [IdentRE, DottedIdentRE]));
+  fAssignmentRE :=
+    CompiledRegExpr(Format('^([ \t]*(self.)?%s[ \t]*(,[ \t]*(self.)?%s[ \t]*)*(=))+[ \t]*((%s)(\(?))?',
+      [IdentRE, IdentRE, DottedIdentRE]));
   fAliasRE :=
     CompiledRegExpr(Format('^[ \t]*(%s)([ \t]+as[ \t]+(%s))?',
       [DottedIdentRE, IdentRE]));
@@ -453,8 +449,7 @@ begin
   fLineContinueRE.Free;
   fImportRE.Free;
   fFromImportRE.Free;
-  fClassAttributeRE.Free;
-  fVarRE.Free;
+  fAssignmentRE.Free;
   fAliasRE.Free;
   fListRE.Free;
   inherited;
@@ -662,7 +657,7 @@ var
   P : PChar;
   LineNo, Indent, Index, CharOffset, CharOffset2, LastLength : integer;
   CodeStart : integer;
-  Line, Token, S : string;
+  Line, Token, AsgnTargetList, S : string;
   Stop : Boolean;
   CodeElement, LastCodeElement, Parent : TCodeElement;
   ModuleImport : TModuleImport;
@@ -671,6 +666,7 @@ var
   IsBuiltInType : Boolean;
   SafeGuard: ISafeGuard;
   LineStarts: TList;
+  AsgnTargetCount : integer;
 begin
   LineStarts := TList(Guard(TList.Create, SafeGuard));
   UseModifiedSource := True;
@@ -859,63 +855,77 @@ begin
         end;
         ModuleImport.Parent := Module;
         Module.fImportedModules.Add(ModuleImport);
-      end else if fClassAttributeRE.Exec(Line) then begin
-        // search for class attributes
-        Klass := GetActiveClass(LastCodeElement);
-        if Assigned(Klass) then begin
-          Variable := TVariable.Create;
-          Variable.Name := fClassAttributeRE.Match[1];
-          Variable.Parent := Klass;
-          Variable.fCodePos.LineNo := LineNo;
-          Variable.fCodePos.CharOffset := fClassAttributeRE.MatchPos[1];
-          if fClassAttributeRE.Match[4] <> '' then begin
-            Variable.ObjType := fClassAttributeRE.Match[4];
-            if fClassAttributeRE.Match[5] = '(' then
-              Include(Variable.Attributes, vaCall);
-          end else begin
-            S := Copy(Line, fClassAttributeRE.MatchPos[2]+1, MaxInt);
-            Variable.ObjType := GetExpressionType(S, IsBuiltInType);
-            if IsBuiltInType then
-              Include(Variable.Attributes, vaBuiltIn)
-            else
-              Variable.ObjType := '';  // not a dotted name so we can't do much with it
+      end else if fAssignmentRE.Exec(Line) then begin
+        S := Copy(Line, 1, fAssignmentRE.MatchPos[5]-1);
+        AsgnTargetList := StrToken(S, '=');
+        CharOffset2 := 1; // Keeps track of the end of the identifier
+        while AsgnTargetList <> '' do begin
+          AsgnTargetCount := 0;
+          Variable := nil;
+          Token := StrToken(AsgnTargetList, ',');
+          while Token <> '' do begin
+            CharOffset := CharOffset2;  // Keeps track of the start of the identifier
+            Inc(CharOffset, CalcIndent(Token));
+            Inc(CharOffset2, Succ(Length(Token))); // account for ,
+            Token := Trim(Token);
+            if StrIsLeft(PChar(Token), 'self.') then begin
+              // class variable
+              Token := Copy(Token, 6, Length(Token) - 5);
+              Inc(CharOffset, 5);  // Length of "self."
+              // search for class attributes
+              Klass := GetActiveClass(LastCodeElement);
+              if Assigned(Klass) then begin
+                Variable := TVariable.Create;
+                Variable.Name := Token;
+                Variable.Parent := Klass;
+                Variable.fCodePos.LineNo := LineNo;
+                Variable.fCodePos.CharOffset := CharOffset;
+                Klass.fAttributes.Add(Variable);
+                Inc(AsgnTargetCount);
+              end;
+            end else begin
+              // search for local/global variables
+              Variable := TVariable.Create;
+              Variable.Name := Token;
+              Variable.Parent := LastCodeElement;
+              Variable.fCodePos.LineNo := LineNo;
+              Variable.fCodePos.CharOffset := CharOffset;
+              if LastCodeElement.ClassType = TParsedFunction then
+                TParsedFunction(LastCodeElement).Locals.Add(Variable)
+              else if LastCodeElement.ClassType = TParsedClass then begin
+                Include(Variable.Attributes, vaClassAttribute);
+                TParsedClass(LastCodeElement).Attributes.Add(Variable)
+              end else begin
+                Module.Globals.Add(Variable);
+                if Variable.Name = '__all__' then begin
+                  Line := GetNthLine(Source, LineNo);
+                  UseModifiedSource := False;
+                  ProcessLineContinuation(P, Line, LineNo, LineStarts);
+                  if fListRE.Exec(Line) then
+                    Module.fAllExportsVar := fListRE.Match[1];
+                  UseModifiedSource := True;
+                end;
+              end;
+              Inc(AsgnTargetCount);
+            end;
+            Token := StrToken(AsgnTargetList, ',');
           end;
-          Klass.fAttributes.Add(Variable);
-        end;
-      end else if fVarRE.Exec(Line) then begin
-        // search for local/global variables
-        Variable := TVariable.Create;
-        Variable.Name := fVarRE.Match[1];
-        Variable.Parent := LastCodeElement;
-        Variable.fCodePos.LineNo := LineNo;
-        Variable.fCodePos.CharOffset := fVarRE.MatchPos[1];
-        if fVarRE.Match[4] <> '' then begin
-          Variable.ObjType := fVarRE.Match[4];
-          if fVarRE.Match[5] = '(' then
-              Include(Variable.Attributes, vaCall);
-        end else begin
-          S := Copy(Line, fVarRE.MatchPos[2]+1, MaxInt);
-          Variable.ObjType := GetExpressionType(S, IsBuiltInType);
-          if IsBuiltInType then
-            Include(Variable.Attributes, vaBuiltIn)
-          else
-            Variable.ObjType := '';  // not a dotted name so we can't do much with it
-        end;
-        if LastCodeElement.ClassType = TParsedFunction then
-          TParsedFunction(LastCodeElement).Locals.Add(Variable)
-        else if LastCodeElement.ClassType = TParsedClass then begin
-          Include(Variable.Attributes, vaClassAttribute);
-          TParsedClass(LastCodeElement).Attributes.Add(Variable)
-        end else begin
-          Module.Globals.Add(Variable);
-          if Variable.Name = '__all__' then begin
-            Line := GetNthLine(Source, LineNo);
-            UseModifiedSource := False;
-            ProcessLineContinuation(P, Line, LineNo, LineStarts);
-            if fListRE.Exec(Line) then
-              Module.fAllExportsVar := fListRE.Match[1];
-            UseModifiedSource := True;
+          // Variable Type if the assignment has a single target
+          if AsgnTargetCount = 1 then begin
+            if fAssignmentRE.Match[7] <> '' then begin
+              Variable.ObjType := fAssignmentRE.Match[7];
+              if fAssignmentRE.Match[8] = '(' then
+                Include(Variable.Attributes, vaCall);
+            end else begin
+              Variable.ObjType := GetExpressionType(
+                Copy(Line, fAssignmentRE.MatchPos[5]+1, MaxInt), IsBuiltInType);
+              if IsBuiltInType then
+                Include(Variable.Attributes, vaBuiltIn)
+              else
+                Variable.ObjType := '';  // not a dotted name so we can't do much with it
+            end;
           end;
+          AsgnTargetList := StrToken(S, '=');
         end;
       end;
     end;

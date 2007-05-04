@@ -42,9 +42,8 @@ inherited VariablesWindow: TVariablesWindow
     000000000000000000000000000000000000000000000000000000000000F00F
     0000F00F0000F0030000F0030000F0000000D0000000F0000000D0000000FC00
     0000DC000000FF0000008F00000007FF0000055F000007FF00008FFF0000}
-  OnActivate = FormActivate
-  ExplicitWidth = 587
-  ExplicitHeight = 273
+  ExplicitWidth = 595
+  ExplicitHeight = 281
   PixelsPerInch = 96
   TextHeight = 13
   inherited FGPanel: TPanel
@@ -66,7 +65,7 @@ inherited VariablesWindow: TVariablesWindow
       Maximized = False
       Minimized = False
       ButtonCursor = crDefault
-      ButtonHighlightColor = 14400935
+      ButtonHighlightColor = 15195862
       AutoHighlightColor = True
     end
     object VariablesTree: TVirtualStringTree
@@ -84,9 +83,10 @@ inherited VariablesWindow: TVariablesWindow
       Header.Font.Charset = DEFAULT_CHARSET
       Header.Font.Color = clWindowText
       Header.Font.Height = -11
-      Header.Font.Name = 'Tahoma'
+      Header.Font.Name = 'MS Shell Dlg 2'
       Header.Font.Style = []
       Header.Options = [hoAutoResize, hoColumnResize, hoDrag, hoHotTrack, hoOwnerDraw, hoVisible]
+      Header.ParentFont = True
       Header.PopupMenu = VTHeaderPopupMenu
       HintMode = hmTooltip
       Images = CommandsDataModule.CodeImages
@@ -141,13 +141,7 @@ inherited VariablesWindow: TVariablesWindow
         MarginHeight = 2
         Align = alTop
         Color = clBtnFace
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -11
-        Font.Name = 'MS Shell Dlg 2'
-        Font.Style = []
         ParentColor = False
-        ParentFont = False
       end
     end
   end

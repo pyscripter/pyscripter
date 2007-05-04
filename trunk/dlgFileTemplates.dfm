@@ -55,28 +55,6 @@ object FileTemplatesDialog: TFileTemplatesDialog
       ViewStyle = vsReport
       OnChange = lvItemsChange
     end
-    object btnCancel: TButton
-      Left = 356
-      Top = 418
-      Width = 75
-      Height = 25
-      Anchors = [akRight, akBottom]
-      Cancel = True
-      Caption = 'Cancel'
-      ModalResult = 2
-      TabOrder = 1
-    end
-    object btnOK: TButton
-      Left = 268
-      Top = 418
-      Width = 75
-      Height = 25
-      Anchors = [akRight, akBottom]
-      Caption = 'OK'
-      Default = True
-      ModalResult = 1
-      TabOrder = 2
-    end
     object JvGroupBox: TJvGroupBox
       Left = 10
       Top = 150
@@ -228,70 +206,127 @@ object FileTemplatesDialog: TFileTemplatesDialog
         OnChange = CBHighlightersChange
       end
     end
-    object TBXButton1: TTBXButton
-      Left = 9
+    object TBXButton1: TSpTBXButton
+      Left = 24
       Top = 118
-      Width = 64
+      Width = 84
       Height = 24
       Action = actAddItem
-      ButtonStyle = bsFlat
-      ImageIndex = 49
-      Images = CommandsDataModule.Images
       TabOrder = 4
+      Images = CommandsDataModule.Images
+      ImageIndex = 49
+      LinkFont.Charset = DEFAULT_CHARSET
+      LinkFont.Color = clBlue
+      LinkFont.Height = -11
+      LinkFont.Name = 'Tahoma'
+      LinkFont.Style = [fsUnderline]
     end
-    object TBXButton3: TTBXButton
-      Left = 115
+    object TBXButton3: TSpTBXButton
+      Left = 122
       Top = 118
-      Width = 64
+      Width = 84
       Height = 24
       Action = actDeleteItem
-      ButtonStyle = bsFlat
-      ImageIndex = 14
-      Images = CommandsDataModule.Images
       TabOrder = 5
+      Images = CommandsDataModule.Images
+      ImageIndex = 14
+      LinkFont.Charset = DEFAULT_CHARSET
+      LinkFont.Color = clBlue
+      LinkFont.Height = -11
+      LinkFont.Name = 'Tahoma'
+      LinkFont.Style = [fsUnderline]
     end
-    object TBXButton4: TTBXButton
-      Left = 222
+    object TBXButton4: TSpTBXButton
+      Left = 220
       Top = 118
-      Width = 80
+      Width = 84
       Height = 24
       Action = actMoveUp
-      ButtonStyle = bsFlat
-      ImageIndex = 47
-      Images = CommandsDataModule.Images
       TabOrder = 6
+      Images = CommandsDataModule.Images
+      ImageIndex = 47
+      LinkFont.Charset = DEFAULT_CHARSET
+      LinkFont.Color = clBlue
+      LinkFont.Height = -11
+      LinkFont.Name = 'Tahoma'
+      LinkFont.Style = [fsUnderline]
     end
-    object TBXButton5: TTBXButton
-      Left = 329
+    object TBXButton5: TSpTBXButton
+      Left = 318
       Top = 118
       Width = 84
       Height = 24
       Action = actMoveDown
-      ButtonStyle = bsFlat
-      ImageIndex = 48
-      Images = CommandsDataModule.Images
       TabOrder = 7
+      Images = CommandsDataModule.Images
+      ImageIndex = 48
+      LinkFont.Charset = DEFAULT_CHARSET
+      LinkFont.Color = clBlue
+      LinkFont.Height = -11
+      LinkFont.Name = 'Tahoma'
+      LinkFont.Style = [fsUnderline]
     end
-    object TBXButton2: TTBXButton
-      Left = 436
+    object TBXButton2: TSpTBXButton
+      Left = 417
       Top = 118
-      Width = 66
+      Width = 84
       Height = 24
       Action = actUpdateItem
-      ButtonStyle = bsFlat
-      ImageIndex = 39
-      Images = CommandsDataModule.Images
       TabOrder = 8
+      Images = CommandsDataModule.Images
+      ImageIndex = 39
+      LinkFont.Charset = DEFAULT_CHARSET
+      LinkFont.Color = clBlue
+      LinkFont.Height = -11
+      LinkFont.Name = 'Tahoma'
+      LinkFont.Style = [fsUnderline]
     end
-    object btnHelp: TButton
+    object btnCancel: TSpTBXButton
+      Left = 356
+      Top = 418
+      Width = 75
+      Height = 25
+      Caption = 'Cancel'
+      Anchors = [akRight, akBottom]
+      TabOrder = 1
+      Cancel = True
+      LinkFont.Charset = DEFAULT_CHARSET
+      LinkFont.Color = clBlue
+      LinkFont.Height = -11
+      LinkFont.Name = 'Tahoma'
+      LinkFont.Style = [fsUnderline]
+      ModalResult = 2
+    end
+    object btnOK: TSpTBXButton
+      Left = 268
+      Top = 418
+      Width = 75
+      Height = 25
+      Caption = 'OK'
+      Anchors = [akRight, akBottom]
+      TabOrder = 2
+      Default = True
+      LinkFont.Charset = DEFAULT_CHARSET
+      LinkFont.Color = clBlue
+      LinkFont.Height = -11
+      LinkFont.Name = 'Tahoma'
+      LinkFont.Style = [fsUnderline]
+      ModalResult = 1
+    end
+    object btnHelp: TSpTBXButton
       Left = 444
       Top = 418
       Width = 75
       Height = 25
-      Anchors = [akRight, akBottom]
       Caption = '&Help'
+      Anchors = [akRight, akBottom]
       TabOrder = 9
       OnClick = btnHelpClick
+      LinkFont.Charset = DEFAULT_CHARSET
+      LinkFont.Color = clBlue
+      LinkFont.Height = -11
+      LinkFont.Name = 'Tahoma'
+      LinkFont.Style = [fsUnderline]
     end
   end
   object ActionList: TActionList

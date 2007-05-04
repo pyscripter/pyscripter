@@ -151,6 +151,7 @@ type
     function GetEncodedText : string;
     procedure OpenFile(const AFileName: string; HighlighterName : string = '');
     function HasPythonFile : Boolean;
+    procedure ExecuteSelection;
     function GetForm : TForm;
     // IEditCommands implementation
     function CanCopy: boolean;
@@ -172,11 +173,13 @@ type
     function CanPrint: boolean;
     function CanSave: boolean;
     function CanSaveAs: boolean;
+    function CanReload: boolean;
     procedure ExecClose;
     procedure ExecPrint;
     procedure ExecPrintPreview;
     procedure ExecSave;
     procedure ExecSaveAs;
+    procedure ExecReload(Quiet : Boolean = False);
     // ISearchCommands implementation
     function CanFind: boolean;
     function CanFindNext: boolean;
@@ -213,7 +216,7 @@ uses
   TBXThemes, StringResources, JclStrings, VarPyth, cRefactoring,
   cPythonSourceScanner, cCodeHint, frmPythonII, dlgConfirmReplace, Math,
   JvTypes, frmWatches, JclSysUtils, PythonEngine, frmMessages,
-  SynEditTextBuffer, cPyDebugger, dlgPickList;
+  SynEditTextBuffer, cPyDebugger, dlgPickList, JvDockControlForm;
 
 const
   WM_DELETETHIS  =  WM_USER + 42;
@@ -417,6 +420,7 @@ begin
     TabSheet := (fForm.Parent as TJvStandardPage);
     fForm.Close;
     TabSheet.Free;
+    PyIDEMainForm.zOrder.Remove(TabBarItem);
     FreeAndNil(TabBarItem);
     CodeExplorerWindow.UpdateWindow;
     CommandsDataModule.UpdateChangeNotify;
@@ -695,6 +699,11 @@ begin
   Result := (fForm <> nil) and fForm.SynEdit.CanRedo;
 end;
 
+function TEditor.CanReload: boolean;
+begin
+  Result := fFileName <> ''; 
+end;
+
 function TEditor.CanSelectAll: boolean;
 begin
   Result := fForm <> nil;
@@ -735,6 +744,21 @@ begin
     fForm.SynEdit.Redo;
 end;
 
+procedure TEditor.ExecReload(Quiet : Boolean = False);
+Var
+  P : TBufferCoord;
+begin
+  if Quiet or not GetModified or
+    (MessageDlg('Reloading the file will result in the loss of all changes.  Do you want to proceed?',
+       mtWarning, [mbYes, mbNo], 0) = mrYes)
+  then begin
+    P := GetSynedit.CaretXY;
+    OpenFile(GetFileName);
+    if (P.Line <= GetSynEdit.Lines.Count) then
+      GetSynEdit.CaretXY := P;
+  end;
+end;
+
 procedure TEditor.ExecSelectAll;
 begin
   if fForm <> nil then
@@ -745,6 +769,32 @@ procedure TEditor.ExecUndo;
 begin
   if fForm <> nil then
     fForm.SynEdit.Undo;
+end;
+
+procedure TEditor.ExecuteSelection;
+var
+  EncodedSource: string;
+begin
+  if not (HasPythonFile and fHasSelection) then Exit;
+  EncodedSource := UTF8BOMString + CleanEOLs(Utf8Encode(fForm.SynEdit.SelText))+#10;
+
+  ShowDockForm(PythonIIForm);
+  PythonIIForm.SynEdit.ExecuteCommand(ecEditorBottom, ' ', nil);
+  PythonIIForm.AppendText(WideLineBreak);
+
+  // RunSource
+  case PyControl.DebuggerState of
+    dsInactive :
+      PyControl.ActiveInterpreter.RunSource(EncodedSource, '<editor selection>', 'exec');
+    dsPaused :
+      PyControl.ActiveDebugger.RunSource(EncodedSource, '<editor selection>', 'exec');
+    else //dsRunning, dsRunningNoDebug
+      // it is dangerous to execute code while running scripts
+      // so just beep and do nothing
+      Beep();
+  end;
+  PythonIIForm.WritePendingMessages;
+  PythonIIForm.AppendPrompt;
 end;
 
 // IFileCommands implementation
@@ -1335,6 +1385,10 @@ begin
     end;
 
     Result := True;
+    // Trim the last lin
+    if (eoTrimTrailingSpaces in Synedit.Options) and (SynEdit.Lines.Count > 0) then
+      SynEdit.Lines[SynEdit.Lines.Count -1] := TrimRight(SynEdit.Lines[SynEdit.Lines.Count -1]);
+
     if fEditor.fFileEncoding = sf_Ansi then
       Result := fEditor.GetEncodedTextEx(S, True);
 
@@ -1496,6 +1550,9 @@ begin
       Indent := Indent + iPrevLine[Position];
       Inc(Position);
     end;
+    
+    if (eoTrimTrailingSpaces in Synedit.Options) and (IPrevLine = '') then
+      SynEdit.Lines[ SynEdit.CaretY -2 ] := '';
 
     if CommandsDataModule.IsBlockOpener(iPrevLine) or (Indent <> '') then
     begin
@@ -1526,7 +1583,7 @@ begin
         end;
         // use ReplaceSel to ensure it goes at the cursor rather than end of buffer
         if Trim(iPrevLine) <> '' then
-          SynEdit.SelText := indent;
+          SynEdit.SelText := Indent;
       finally
         SynEdit.UndoList.EndBlock;
         SynEdit.Options := OldOptions;
@@ -1677,7 +1734,8 @@ begin
   if (SynEdit.Highlighter = CommandsDataModule.SynPythonSyn) and
     (PyControl.ActiveDebugger <> nil) and not (sfGutterDragging in SynEdit.StateFlags)
   then
-    PyControl.ToggleBreakpoint(fEditor, SynEdit.RowToLine(Line));
+    PyControl.ToggleBreakpoint(fEditor, SynEdit.RowToLine(Line),
+      GetKeyState(VK_CONTROL)<0);
 end;
 
 procedure TEditorForm.SynEditSpecialLineColors(Sender: TObject;
@@ -1967,7 +2025,6 @@ begin
 end;
 
 procedure TEditorForm.TBMThemeChange(var Message: TMessage);
-
 begin
   if Message.WParam = TSC_VIEWCHANGE then begin
     if HasFocus then
@@ -1985,7 +2042,7 @@ end;
 
 procedure TEditorForm.SynEditReplaceText(Sender: TObject; const ASearch,
   AReplace: WideString; Line, Column: Integer; var Action: TSynReplaceAction);
-var
+Var
   APos: TPoint;
   EditRect: TRect;
 begin
@@ -2016,7 +2073,7 @@ end;
 procedure TEditorForm.SynCodeCompletionExecute(Kind: SynCompletionType;
   Sender: TObject; var CurrentInput: WideString; var x, y: Integer;
   var CanExecute: Boolean);
-var
+Var
   locline, lookup: string;
   TmpX, Index, ImageIndex, i,
   TmpLocation    : Integer;
@@ -2131,10 +2188,19 @@ begin
   end;
 end;
 
+type
+  TParamCompletionData = record
+    lookup,
+    DisplayText,
+    Doc : string;
+  end;
+Var
+  OldParamCompetionData : TParamCompletionData;
+
 procedure TEditorForm.SynParamCompletionExecute(Kind: SynCompletionType;
   Sender: TObject; var CurrentInput: WideString; var x, y: Integer;
   var CanExecute: Boolean);
-var
+Var
   locline, lookup: String;
   TmpX, StartX,
   ParenCounter,
@@ -2149,6 +2215,7 @@ var
   TokenType, Start: Integer;
   Token: WideString;
   Attri: TSynHighlighterAttributes;
+  AlreadyActive : Boolean;
 begin
   if not fEditor.HasPythonFile or PyControl.IsRunning then begin
     CanExecute := False;
@@ -2157,6 +2224,8 @@ begin
 
   with TSynCompletionProposal(Sender).Editor do
   begin
+    AlreadyActive := TSynCompletionProposal(Sender).Form.Visible;
+
     locLine := LineText;
 
     //go back from the cursor and find the first open paren
@@ -2202,36 +2271,45 @@ begin
              (Attri = CommandsDataModule.SynPythonSyn.SystemAttri) then
           begin
             lookup := GetWordAtPos(LocLine, TmpX, IdentChars+['.'], True, False);
+            if AlreadyActive and (lookup = OldParamCompetionData.lookup) then begin
+              DisplayText := OldParamCompetionData.DisplayText;
+              Doc := OldParamCompetionData.Doc;
+              FoundMatch := True;
+            end else begin
+              FName := GetEditor.GetFileNameOrTitle;
+              // Add the file path to the Python path - Will be automatically removed
+              PythonPathAdder := InternalInterpreter.AddPathToPythonPath(ExtractFilePath(FName));
 
-            FName := GetEditor.GetFileNameOrTitle;
-            // Add the file path to the Python path - Will be automatically removed
-            PythonPathAdder := InternalInterpreter.AddPathToPythonPath(ExtractFilePath(FName));
+              PyScripterRefactor.InitializeQuery;
+              // GetParsedModule
+              ParsedModule := PyScripterRefactor.GetParsedModule(
+                FileNameToModuleName(FName), None);
+              Scope := nil;
+              if Assigned(ParsedModule) then
+                Scope := ParsedModule.GetScopeForLine(CaretY);
+              if Assigned(ParsedModule) and Assigned(Scope) then begin
+                Def := PyScripterRefactor.FindDottedDefinition(lookup, ParsedModule,
+                  Scope, ErrMsg);
 
-            PyScripterRefactor.InitializeQuery;
-            // GetParsedModule
-            ParsedModule := PyScripterRefactor.GetParsedModule(
-              FileNameToModuleName(FName), None);
-            Scope := nil;
-            if Assigned(ParsedModule) then
-              Scope := ParsedModule.GetScopeForLine(CaretY);
-            if Assigned(ParsedModule) and Assigned(Scope) then begin
-              Def := PyScripterRefactor.FindDottedDefinition(lookup, ParsedModule,
-                Scope, ErrMsg);
+                if Assigned(Def) and (Def is TParsedClass) then
+                  Def := TParsedClass(Def).GetConstructor;
 
-              if Assigned(Def) and (Def is TParsedClass) then
-                Def := TParsedClass(Def).GetConstructor;
+                if Assigned(Def) and (Def is TParsedFunction) then begin
+                  DisplayText := TParsedFunction(Def).ArgumentsString;
+                  // Remove self arguments from methods
+                  if StrIsLeft(PChar(DisplayText), 'self') then
+                    Delete(DisplayText, 1, 4);
+                  if StrIsLeft(PChar(DisplayText), ', ') then
+                    Delete(DisplayText, 1, 2);
+                  Doc := TParsedFunction(Def).DocString;
+                  if Doc <> '' then
+                    Doc := GetNthLine(Doc, 1);
 
-              if Assigned(Def) and (Def is TParsedFunction) then begin
-                DisplayText := TParsedFunction(Def).ArgumentsString;
-                // Remove self arguments from methods
-                if StrIsLeft(PChar(DisplayText), 'self') then
-                  Delete(DisplayText, 1, 4);
-                if StrIsLeft(PChar(DisplayText), ', ') then
-                  Delete(DisplayText, 1, 2);
-                Doc := TParsedFunction(Def).DocString;
-                if Doc <> '' then
-                  Doc := GetNthLine(Doc, 1);
-                FoundMatch := True;
+                  OldParamCompetionData.lookup := lookup;
+                  OldParamCompetionData.DisplayText := DisplayText;
+                  OldParamCompetionData.Doc := Doc;
+                  FoundMatch := True;
+                end;
               end;
             end;
           end;

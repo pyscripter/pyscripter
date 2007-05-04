@@ -5,14 +5,12 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ComCtrls, ExtCtrls, JvExStdCtrls, JvEdit,
-  SynEdit, JvGroupBox, ActnList, TBXDkPanels;
+  SynEdit, JvGroupBox, ActnList, TBXDkPanels, SpTBXControls;
 
 type                                   
   TCustomizeParams = class(TForm)
     Panel: TPanel;
     lvItems: TListView;
-    btnCancel: TButton;
-    btnOK: TButton;
     JvGroupBox1: TJvGroupBox;
     Label1: TLabel;
     Label2: TLabel;
@@ -26,11 +24,13 @@ type
     actUpdateItem: TAction;
     Label3: TLabel;
     Label4: TLabel;
-    TBXButton1: TTBXButton;
-    TBXButton3: TTBXButton;
-    TBXButton4: TTBXButton;
-    TBXButton5: TTBXButton;
-    TBXButton2: TTBXButton;
+    TBXButton1: TSpTBXButton;
+    TBXButton3: TSpTBXButton;
+    TBXButton4: TSpTBXButton;
+    TBXButton5: TSpTBXButton;
+    TBXButton2: TSpTBXButton;
+    btnOK: TSpTBXButton;
+    btnCancel: TSpTBXButton;
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure edNameKeyPress(Sender: TObject; var Key: Char);

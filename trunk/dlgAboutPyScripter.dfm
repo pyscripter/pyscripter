@@ -1493,7 +1493,7 @@ object AboutBox: TAboutBox
           Top = 0
           Width = 348
           Height = 199
-          VertScrollBar.Position = 75
+          VertScrollBar.Position = 103
           VertScrollBar.Smooth = True
           VertScrollBar.Style = ssHotTrack
           VertScrollBar.Tracking = True
@@ -1503,9 +1503,9 @@ object AboutBox: TAboutBox
           TabOrder = 0
           object JvLinkLabel: TJvLinkLabel
             Left = 0
-            Top = -75
+            Top = -103
             Width = 327
-            Height = 270
+            Height = 298
             Caption = 
               '<b>Credits</b><br>'#13#10'Special thanks to the many great developers ' +
               'who,'#13#10'with their amazing work, have made PyScripter '#13#10'possible. ' +
@@ -1522,8 +1522,10 @@ object AboutBox: TAboutBox
               'ink>www.jrsoftware.org/tb2k.php</link>)'#13#10'<br>'#13#10'- <i>TBX </i>(<li' +
               'nk>www.g32.org/tbx</link>)'#13#10'<br>'#13#10'- <i>Additional TBX Themes</i>' +
               ' (<link>www.rmklever.com</link>)'#13#10'<br>'#13#10'- <i>JvTBXLib </i>(<link' +
-              '>mxs.bergsoft.net</link>)'#13#10'<br>'#13#10'- <i>TntWare Unicode Controls</' +
-              'i>(<link>www.tntware.com</link>)'#13#10#13#10#13#10
+              '>mxs.bergsoft.net</link>)'#13#10'<br>'#13#10'- <i>SpTBXLib</i>(<link>club.te' +
+              'lepolis.com/silverpointdev</link>)'#13#10'<br>'#13#10'- <i>TntWare Unicode C' +
+              'ontrols</i>(<link>www.tntware.com</link>)'#13#10'<br>'#13#10'- <i>TCommandLi' +
+              'neReader</i>(<link>www.benibela.de</link>)'
             Text.Strings = (
               
                 '<b>Credits</b><br>'#13#10'Special thanks to the many great developers ' +
@@ -1541,8 +1543,10 @@ object AboutBox: TAboutBox
                 'ink>www.jrsoftware.org/tb2k.php</link>)'#13#10'<br>'#13#10'- <i>TBX </i>(<li' +
                 'nk>www.g32.org/tbx</link>)'#13#10'<br>'#13#10'- <i>Additional TBX Themes</i>' +
                 ' (<link>www.rmklever.com</link>)'#13#10'<br>'#13#10'- <i>JvTBXLib </i>(<link' +
-                '>mxs.bergsoft.net</link>)'#13#10'<br>'#13#10'- <i>TntWare Unicode Controls</' +
-                'i>(<link>www.tntware.com</link>)'#13#10#13#10#13#10)
+                '>mxs.bergsoft.net</link>)'#13#10'<br>'#13#10'- <i>SpTBXLib</i>(<link>club.te' +
+                'lepolis.com/silverpointdev</link>)'#13#10'<br>'#13#10'- <i>TntWare Unicode C' +
+                'ontrols</i>(<link>www.tntware.com</link>)'#13#10'<br>'#13#10'- <i>TCommandLi' +
+                'neReader</i>(<link>www.benibela.de</link>)')
             Transparent = True
             HotLinks = True
             MarginWidth = 2
@@ -1555,7 +1559,7 @@ object AboutBox: TAboutBox
             Font.Name = 'Arial'
             Font.Style = []
             ParentFont = False
-            ExplicitTop = -29
+            ExplicitTop = -75
           end
         end
       end

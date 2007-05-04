@@ -13,14 +13,12 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ComCtrls, ExtCtrls, JvExStdCtrls, JvEdit,
-  SynEdit,  JvGroupBox, ActnList, TBXDkPanels, cFileTemplates;
+  SynEdit,  JvGroupBox, ActnList, TBXDkPanels, cFileTemplates, SpTBXControls;
 
 type
   TFileTemplatesDialog = class(TForm)
     Panel: TPanel;
     lvItems: TListView;
-    btnCancel: TButton;
-    btnOK: TButton;
     JvGroupBox: TJvGroupBox;
     Label1: TLabel;
     Label2: TLabel;
@@ -34,18 +32,20 @@ type
     actUpdateItem: TAction;
     Label5: TLabel;
     edCategory: TEdit;
-    TBXButton1: TTBXButton;
-    TBXButton3: TTBXButton;
-    TBXButton4: TTBXButton;
-    TBXButton5: TTBXButton;
-    TBXButton2: TTBXButton;
     Label4: TLabel;
     Label3: TLabel;
     edExtension: TEdit;
     Label6: TLabel;
     Label7: TLabel;
     CBHighlighters: TComboBox;
-    btnHelp: TButton;
+    TBXButton1: TSpTBXButton;
+    TBXButton3: TSpTBXButton;
+    TBXButton4: TSpTBXButton;
+    TBXButton5: TSpTBXButton;
+    TBXButton2: TSpTBXButton;
+    btnCancel: TSpTBXButton;
+    btnOK: TSpTBXButton;
+    btnHelp: TSpTBXButton;
     procedure FormDestroy(Sender: TObject);
     procedure edNameKeyPress(Sender: TObject; var Key: Char);
     procedure ActionListUpdate(Action: TBasicAction; var Handled: Boolean);

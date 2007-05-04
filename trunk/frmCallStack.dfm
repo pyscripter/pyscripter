@@ -42,9 +42,8 @@ inherited CallStackWindow: TCallStackWindow
     000000000000000000000000000000000000000000000000000000000000FFFF
     0000F1FF0000F9C00000F5C00000EFC00000DE000000BE000000BE070000B007
     0000B0070000F03F0000803F0000803F000081FF000081FF000081FF0000}
-  OnActivate = FormActivate
-  ExplicitWidth = 389
-  ExplicitHeight = 194
+  ExplicitWidth = 397
+  ExplicitHeight = 202
   PixelsPerInch = 96
   TextHeight = 13
   inherited FGPanel: TPanel
@@ -71,10 +70,11 @@ inherited CallStackWindow: TCallStackWindow
       Header.Font.Charset = DEFAULT_CHARSET
       Header.Font.Color = clWindowText
       Header.Font.Height = -11
-      Header.Font.Name = 'Tahoma'
+      Header.Font.Name = 'MS Shell Dlg 2'
       Header.Font.Style = []
       Header.MainColumn = 1
       Header.Options = [hoColumnResize, hoDrag, hoHotTrack, hoOwnerDraw, hoVisible]
+      Header.ParentFont = True
       HintMode = hmTooltip
       TabOrder = 0
       TreeOptions.AnimationOptions = [toAnimatedToggle]

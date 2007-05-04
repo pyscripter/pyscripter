@@ -55,8 +55,6 @@ object PickListDialog: TPickListDialog
     Align = alBottom
     Anchors = [akLeft, akBottom]
     TabOrder = 1
-    ExplicitTop = 268
-    ExplicitWidth = 404
     object Bevel1: TBevel
       Left = 0
       Top = 36
@@ -69,7 +67,6 @@ object PickListDialog: TPickListDialog
       Top = 52
       Width = 75
       Height = 25
-      Caption = '&OK'
       TabOrder = 0
       Kind = bkOK
     end
@@ -78,7 +75,6 @@ object PickListDialog: TPickListDialog
       Top = 52
       Width = 75
       Height = 25
-      Caption = '&Cancel'
       TabOrder = 1
       Kind = bkCancel
     end

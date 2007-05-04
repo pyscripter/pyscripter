@@ -242,7 +242,7 @@ implementation
 uses
   SysUtils, Forms, JclStrings, uEditAppIntfs, Dialogs, JvSearchFiles,
   JclFileUtils, VarPyth, frmFindResults, frmPyIDEMain,
-  dlgFindResultsOptions, Controls;
+  dlgFindResultsOptions, Controls, uCommonFunctions;
 
 { TLineMatches }
 
@@ -640,7 +640,9 @@ begin
   FMaskList := TStringList.Create;
   FDirList := TStringList.Create;
   FListFont := TFont.Create;
+  SetVistaContentFonts(FListFont);
   FContextFont := TFont.Create;
+  SetVistaContentFonts(FContextFont);
   FContextMatchColor := clHighlight;
   FNumContextLines := 2;
 

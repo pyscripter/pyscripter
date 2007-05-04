@@ -797,10 +797,9 @@ begin
     FIsFirstActivation := False;
     RefreshTodoList;
   end;
-  if not HasFocus then begin
-    FGPanelEnter(Self);
-    PostMessage(ToDoView.Handle, WM_SETFOCUS, 0, 0);
-  end;
+  if ToDoView.CanFocus then
+    ToDoView.SetFocus;
+  //PostMessage(ToDoView.Handle, WM_SETFOCUS, 0, 0);
 end;
 
 procedure TToDoWindow.actViewStayOnTopExecute(Sender: TObject);

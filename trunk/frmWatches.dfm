@@ -42,9 +42,8 @@ inherited WatchesWindow: TWatchesWindow
     00FF800000FF800000FF800000FF800000FF800000FF800000FF800000FFFFFF
     00009E7F00000C3F00000C3F00000000000080000000C0000000C0000000C000
     0000C0000000C0000000C0000000C0000000C0000000C0000000C0000000}
-  OnActivate = FormActivate
-  ExplicitWidth = 447
-  ExplicitHeight = 251
+  ExplicitWidth = 455
+  ExplicitHeight = 259
   PixelsPerInch = 96
   TextHeight = 13
   inherited FGPanel: TPanel
@@ -66,10 +65,11 @@ inherited WatchesWindow: TWatchesWindow
       Header.Font.Charset = DEFAULT_CHARSET
       Header.Font.Color = clWindowText
       Header.Font.Height = -11
-      Header.Font.Name = 'Tahoma'
+      Header.Font.Name = 'MS Shell Dlg 2'
       Header.Font.Style = []
       Header.MainColumn = 1
       Header.Options = [hoColumnResize, hoDrag, hoHotTrack, hoOwnerDraw, hoVisible]
+      Header.ParentFont = True
       HintMode = hmTooltip
       PopupMenu = TBXPopupMenu
       TabOrder = 0
@@ -81,6 +81,7 @@ inherited WatchesWindow: TWatchesWindow
       OnDblClick = WatchesViewDblClick
       OnGetText = WatchesViewGetText
       OnInitNode = WatchesViewInitNode
+      OnKeyDown = WatchesViewKeyDown
       Columns = <
         item
           Position = 0

@@ -31,28 +31,6 @@ object ToolProperties: TToolProperties
     DesignSize = (
       406
       469)
-    object btnOK: TButton
-      Left = 149
-      Top = 436
-      Width = 75
-      Height = 25
-      Anchors = [akRight, akBottom]
-      Caption = 'OK'
-      Default = True
-      ModalResult = 1
-      TabOrder = 0
-    end
-    object btnCancel: TButton
-      Left = 233
-      Top = 436
-      Width = 75
-      Height = 25
-      Anchors = [akRight, akBottom]
-      Cancel = True
-      Caption = 'Cancel'
-      ModalResult = 2
-      TabOrder = 1
-    end
     object PageControl: TPageControl
       Left = 1
       Top = 1
@@ -224,7 +202,7 @@ object ToolProperties: TToolProperties
             ScrollBars = ssNone
             WantReturns = False
           end
-          object btnAppDir: TButton
+          object btnAppDir: TSpTBXButton
             Left = 357
             Top = 15
             Width = 19
@@ -232,8 +210,13 @@ object ToolProperties: TToolProperties
             Caption = '...'
             TabOrder = 3
             OnClick = btnAppDirClick
+            LinkFont.Charset = DEFAULT_CHARSET
+            LinkFont.Color = clBlue
+            LinkFont.Height = -11
+            LinkFont.Name = 'Tahoma'
+            LinkFont.Style = [fsUnderline]
           end
-          object btnWorkDir: TButton
+          object btnWorkDir: TSpTBXButton
             Left = 357
             Top = 63
             Width = 19
@@ -241,6 +224,11 @@ object ToolProperties: TToolProperties
             Caption = '...'
             TabOrder = 4
             OnClick = btnWorkDirClick
+            LinkFont.Charset = DEFAULT_CHARSET
+            LinkFont.Color = clBlue
+            LinkFont.Height = -11
+            LinkFont.Name = 'Tahoma'
+            LinkFont.Style = [fsUnderline]
           end
         end
         object JvGroupBox4: TJvGroupBox
@@ -344,47 +332,6 @@ object ToolProperties: TToolProperties
             Caption = 'Messages &Format:'
             FocusControl = edMessagesFormat
           end
-          object cbCaptureOutput: TJvCheckBox
-            Left = 232
-            Top = 13
-            Width = 97
-            Height = 17
-            Caption = '&Capture Output'
-            Checked = True
-            State = cbChecked
-            TabOrder = 2
-            LinkedControls = <>
-            HotTrackFont.Charset = DEFAULT_CHARSET
-            HotTrackFont.Color = clWindowText
-            HotTrackFont.Height = -11
-            HotTrackFont.Name = 'MS Shell Dlg 2'
-            HotTrackFont.Style = []
-          end
-          object cbParseMessages: TJvCheckBox
-            Left = 232
-            Top = 30
-            Width = 98
-            Height = 17
-            Hint = 
-              'If checked output lines that look like messages '#13#10'will be parsed' +
-              ' and shown in the messages window.'
-            Caption = 'Parse &Messages'
-            Checked = True
-            State = cbChecked
-            TabOrder = 3
-            LinkedControls = <
-              item
-                Control = edMessagesFormat
-              end
-              item
-                Control = btnStdFormats
-              end>
-            HotTrackFont.Charset = DEFAULT_CHARSET
-            HotTrackFont.Color = clWindowText
-            HotTrackFont.Height = -11
-            HotTrackFont.Name = 'MS Shell Dlg 2'
-            HotTrackFont.Style = []
-          end
           object edMessagesFormat: TEdit
             Left = 98
             Top = 66
@@ -396,34 +343,6 @@ object ToolProperties: TToolProperties
             AutoSelect = False
             AutoSize = False
             TabOrder = 4
-          end
-          object btnStdFormats: TButton
-            Left = 357
-            Top = 66
-            Width = 19
-            Height = 20
-            Caption = '<'
-            TabOrder = 5
-            OnClick = btnStdFormatsClick
-          end
-          object cbParseTraceback: TJvCheckBox
-            Left = 233
-            Top = 47
-            Width = 100
-            Height = 17
-            Hint = 
-              'If checked output lines that look like messages '#13#10'will be parsed' +
-              ' and shown in the messages window.'
-            Caption = 'Parse &Traceback'
-            Checked = True
-            State = cbChecked
-            TabOrder = 6
-            LinkedControls = <>
-            HotTrackFont.Charset = DEFAULT_CHARSET
-            HotTrackFont.Color = clWindowText
-            HotTrackFont.Height = -11
-            HotTrackFont.Name = 'MS Shell Dlg 2'
-            HotTrackFont.Style = []
           end
           object cbStandardInput: TComboBox
             Left = 68
@@ -466,6 +385,63 @@ object ToolProperties: TToolProperties
               'Active file'
               'New file')
           end
+          object btnStdFormats: TSpTBXButton
+            Left = 357
+            Top = 66
+            Width = 19
+            Height = 20
+            Caption = '<'
+            TabOrder = 5
+            OnClick = btnStdFormatsClick
+            LinkFont.Charset = DEFAULT_CHARSET
+            LinkFont.Color = clBlue
+            LinkFont.Height = -11
+            LinkFont.Name = 'Tahoma'
+            LinkFont.Style = [fsUnderline]
+          end
+          object cbCaptureOutput: TSpTBXCheckBox
+            Left = 232
+            Top = 13
+            Width = 94
+            Height = 15
+            Caption = '&Capture Output'
+            ParentColor = True
+            TabOrder = 2
+            Checked = True
+            State = cbChecked
+            ThemeType = thtWindows
+          end
+          object cbParseMessages: TSpTBXCheckBox
+            Left = 232
+            Top = 30
+            Width = 95
+            Height = 15
+            Hint = 
+              'If checked output lines that look like messages '#13#10'will be parsed' +
+              ' and shown in the messages window.'
+            Caption = 'Parse &Messages'
+            ParentColor = True
+            TabOrder = 3
+            OnClick = cbParseMessagesClick
+            Checked = True
+            State = cbChecked
+            ThemeType = thtWindows
+          end
+          object cbParseTraceback: TSpTBXCheckBox
+            Left = 233
+            Top = 47
+            Width = 97
+            Height = 15
+            Hint = 
+              'If checked output lines that look like messages '#13#10'will be parsed' +
+              ' and shown in the messages window.'
+            Caption = 'Parse &Traceback'
+            ParentColor = True
+            TabOrder = 6
+            Checked = True
+            State = cbChecked
+            ThemeType = thtWindows
+          end
         end
         object JvGroupBox5: TJvGroupBox
           Left = 4
@@ -482,42 +458,6 @@ object ToolProperties: TToolProperties
             Caption = '&Timeout (ms):'
             FocusControl = seTimeout
           end
-          object cbHideConsole: TJvCheckBox
-            Left = 8
-            Top = 16
-            Width = 81
-            Height = 17
-            Hint = 'Check to hide the console.'
-            Caption = '&Hide console'
-            Checked = True
-            State = cbChecked
-            TabOrder = 0
-            LinkedControls = <>
-            HotTrackFont.Charset = DEFAULT_CHARSET
-            HotTrackFont.Color = clWindowText
-            HotTrackFont.Height = -11
-            HotTrackFont.Name = 'MS Shell Dlg 2'
-            HotTrackFont.Style = []
-          end
-          object cbWaitForTermination: TJvCheckBox
-            Left = 104
-            Top = 16
-            Width = 119
-            Height = 17
-            Hint = 
-              'If checked will monitor the process '#13#10'and notify you when is ter' +
-              'minated.'
-            Caption = '&Wait for Termination'
-            Checked = True
-            State = cbChecked
-            TabOrder = 1
-            LinkedControls = <>
-            HotTrackFont.Charset = DEFAULT_CHARSET
-            HotTrackFont.Color = clWindowText
-            HotTrackFont.Height = -11
-            HotTrackFont.Name = 'MS Shell Dlg 2'
-            HotTrackFont.Style = []
-          end
           object seTimeout: TJvSpinEdit
             Left = 312
             Top = 16
@@ -529,6 +469,34 @@ object ToolProperties: TToolProperties
             CheckMinValue = True
             Increment = 100.000000000000000000
             TabOrder = 2
+          end
+          object cbHideConsole: TSpTBXCheckBox
+            Left = 8
+            Top = 16
+            Width = 78
+            Height = 15
+            Hint = 'Check to hide the console.'
+            Caption = '&Hide console'
+            ParentColor = True
+            TabOrder = 0
+            Checked = True
+            State = cbChecked
+            ThemeType = thtWindows
+          end
+          object cbWaitForTermination: TSpTBXCheckBox
+            Left = 104
+            Top = 16
+            Width = 116
+            Height = 15
+            Hint = 
+              'If checked will monitor the process '#13#10'and notify you when is ter' +
+              'minated.'
+            Caption = '&Wait for Termination'
+            ParentColor = True
+            TabOrder = 1
+            Checked = True
+            State = cbChecked
+            ThemeType = thtWindows
           end
         end
       end
@@ -598,86 +566,139 @@ object ToolProperties: TToolProperties
             TabOrder = 1
           end
         end
-        object cbUseCustomEnv: TJvCheckBox
+        object cbUseCustomEnv: TSpTBXCheckBox
           Left = 123
           Top = 369
-          Width = 160
-          Height = 17
+          Width = 157
+          Height = 15
           Caption = 'Use Customized Environment'
+          ParentColor = True
           TabOrder = 2
-          LinkedControls = <>
-          HotTrackFont.Charset = DEFAULT_CHARSET
-          HotTrackFont.Color = clWindowText
-          HotTrackFont.Height = -11
-          HotTrackFont.Name = 'MS Shell Dlg 2'
-          HotTrackFont.Style = []
+          ThemeType = thtWindows
         end
-        object TBXButton1: TTBXButton
+        object TBXButton1: TSpTBXButton
           Left = 4
           Top = 243
           Width = 64
           Height = 24
           Action = actAddItem
-          ButtonStyle = bsFlat
-          ImageIndex = 49
-          Images = CommandsDataModule.Images
           TabOrder = 3
+          Images = CommandsDataModule.Images
+          ImageIndex = 49
+          LinkFont.Charset = DEFAULT_CHARSET
+          LinkFont.Color = clBlue
+          LinkFont.Height = -11
+          LinkFont.Name = 'Tahoma'
+          LinkFont.Style = [fsUnderline]
         end
-        object TBXButton3: TTBXButton
+        object TBXButton3: TSpTBXButton
           Left = 75
           Top = 243
           Width = 64
           Height = 24
           Action = actDeleteItem
-          ButtonStyle = bsFlat
-          ImageIndex = 14
-          Images = CommandsDataModule.Images
           TabOrder = 4
+          Images = CommandsDataModule.Images
+          ImageIndex = 14
+          LinkFont.Charset = DEFAULT_CHARSET
+          LinkFont.Color = clBlue
+          LinkFont.Height = -11
+          LinkFont.Name = 'Tahoma'
+          LinkFont.Style = [fsUnderline]
         end
-        object TBXButton4: TTBXButton
+        object TBXButton4: TSpTBXButton
           Left = 146
           Top = 243
           Width = 80
           Height = 24
           Action = actMoveUp
-          ButtonStyle = bsFlat
-          ImageIndex = 47
-          Images = CommandsDataModule.Images
           TabOrder = 5
+          Images = CommandsDataModule.Images
+          ImageIndex = 47
+          LinkFont.Charset = DEFAULT_CHARSET
+          LinkFont.Color = clBlue
+          LinkFont.Height = -11
+          LinkFont.Name = 'Tahoma'
+          LinkFont.Style = [fsUnderline]
         end
-        object TBXButton5: TTBXButton
+        object TBXButton5: TSpTBXButton
           Left = 233
           Top = 243
           Width = 84
           Height = 24
           Action = actMoveDown
-          ButtonStyle = bsFlat
-          ImageIndex = 48
-          Images = CommandsDataModule.Images
           TabOrder = 6
+          Images = CommandsDataModule.Images
+          ImageIndex = 48
+          LinkFont.Charset = DEFAULT_CHARSET
+          LinkFont.Color = clBlue
+          LinkFont.Height = -11
+          LinkFont.Name = 'Tahoma'
+          LinkFont.Style = [fsUnderline]
         end
-        object TBXButton2: TTBXButton
+        object TBXButton2: TSpTBXButton
           Left = 324
           Top = 243
           Width = 66
           Height = 24
           Action = actUpdateItem
-          ButtonStyle = bsFlat
-          ImageIndex = 39
-          Images = CommandsDataModule.Images
           TabOrder = 7
+          Images = CommandsDataModule.Images
+          ImageIndex = 39
+          LinkFont.Charset = DEFAULT_CHARSET
+          LinkFont.Color = clBlue
+          LinkFont.Height = -11
+          LinkFont.Name = 'Tahoma'
+          LinkFont.Style = [fsUnderline]
         end
       end
     end
-    object btnHelp: TButton
+    object btnOK: TSpTBXButton
+      Left = 149
+      Top = 436
+      Width = 75
+      Height = 25
+      Caption = 'OK'
+      Anchors = [akRight, akBottom]
+      TabOrder = 0
+      Default = True
+      LinkFont.Charset = DEFAULT_CHARSET
+      LinkFont.Color = clBlue
+      LinkFont.Height = -11
+      LinkFont.Name = 'Tahoma'
+      LinkFont.Style = [fsUnderline]
+      ModalResult = 1
+    end
+    object btnCancel: TSpTBXButton
+      Left = 233
+      Top = 436
+      Width = 75
+      Height = 25
+      Caption = 'Cancel'
+      Anchors = [akRight, akBottom]
+      TabOrder = 1
+      Cancel = True
+      LinkFont.Charset = DEFAULT_CHARSET
+      LinkFont.Color = clBlue
+      LinkFont.Height = -11
+      LinkFont.Name = 'Tahoma'
+      LinkFont.Style = [fsUnderline]
+      ModalResult = 2
+    end
+    object btnHelp: TSpTBXButton
       Left = 317
       Top = 436
       Width = 75
       Height = 25
-      Anchors = [akRight, akBottom]
       Caption = '&Help'
+      Anchors = [akRight, akBottom]
       TabOrder = 3
       OnClick = btnHelpClick
+      LinkFont.Charset = DEFAULT_CHARSET
+      LinkFont.Color = clBlue
+      LinkFont.Height = -11
+      LinkFont.Name = 'Tahoma'
+      LinkFont.Style = [fsUnderline]
     end
   end
   object FormatsPopup: TPopupMenu

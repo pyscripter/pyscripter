@@ -41,16 +41,16 @@ interface
 
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  StdCtrls;
+  StdCtrls, SpTBXControls, TBXDkPanels;
 
 type
   (* asks for parameter value and optionally stores parameter to file *)
   TAskParamForm = class(TForm)
     Label1: TLabel;
     txtParamValue: TEdit;
-    chkSaveToFile: TCheckBox;
-    btnOK: TButton;
-    btnCancel: TButton;
+    btnOK: TSpTBXButton;
+    btnCancel: TSpTBXButton;
+    chkSaveToFile: TSpTBXCheckBox;
   private
     FParamName: string;
     procedure SetParamName(const Value: string);

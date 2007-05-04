@@ -40,21 +40,25 @@ object FindResultsOptionsDialog: TFindResultsOptionsDialog
       TabOrder = 0
       OnClick = pnlListFontClick
     end
-    object chkGrepMiddle: TCheckBox
+    object chkGrepMiddle: TSpTBXCheckBox
       Left = 12
       Top = 36
-      Width = 241
-      Height = 17
+      Width = 219
+      Height = 15
       Caption = 'Jump to matches in the &middle of the editor'
+      ParentColor = True
       TabOrder = 2
+      ThemeType = thtWindows
     end
-    object chkGrepExpandAll: TCheckBox
+    object chkGrepExpandAll: TSpTBXCheckBox
       Left = 12
       Top = 16
-      Width = 241
-      Height = 17
+      Width = 183
+      Height = 15
       Caption = '&Expand all matches after searching'
+      ParentColor = True
       TabOrder = 1
+      ThemeType = thtWindows
     end
   end
   object gbxMatchContext: TGroupBox
@@ -102,37 +106,52 @@ object FindResultsOptionsDialog: TFindResultsOptionsDialog
       TabOrder = 2
     end
   end
-  object btnOK: TButton
-    Left = 16
+  object btnOK: TSpTBXButton
+    Left = 15
     Top = 248
     Width = 75
     Height = 25
-    Anchors = [akRight, akBottom]
     Caption = 'OK'
-    Default = True
-    ModalResult = 1
+    Anchors = [akRight, akBottom]
     TabOrder = 2
+    Default = True
+    LinkFont.Charset = DEFAULT_CHARSET
+    LinkFont.Color = clBlue
+    LinkFont.Height = -11
+    LinkFont.Name = 'Tahoma'
+    LinkFont.Style = [fsUnderline]
+    ModalResult = 1
   end
-  object btnCancel: TButton
-    Left = 100
+  object btnCancel: TSpTBXButton
+    Left = 99
     Top = 248
     Width = 75
     Height = 25
-    Anchors = [akRight, akBottom]
-    Cancel = True
     Caption = 'Cancel'
-    ModalResult = 2
+    Anchors = [akRight, akBottom]
     TabOrder = 3
+    Cancel = True
+    LinkFont.Charset = DEFAULT_CHARSET
+    LinkFont.Color = clBlue
+    LinkFont.Height = -11
+    LinkFont.Name = 'Tahoma'
+    LinkFont.Style = [fsUnderline]
+    ModalResult = 2
   end
-  object btnHelp: TButton
-    Left = 184
+  object btnHelp: TSpTBXButton
+    Left = 183
     Top = 248
     Width = 75
     Height = 25
-    Anchors = [akRight, akBottom]
     Caption = '&Help'
+    Anchors = [akRight, akBottom]
     TabOrder = 4
     OnClick = btnHelpClick
+    LinkFont.Charset = DEFAULT_CHARSET
+    LinkFont.Color = clBlue
+    LinkFont.Height = -11
+    LinkFont.Name = 'Tahoma'
+    LinkFont.Style = [fsUnderline]
   end
   object dlgGrepListFont: TFontDialog
     Font.Charset = DEFAULT_CHARSET

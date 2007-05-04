@@ -289,13 +289,14 @@ const
     );
 
   // List of non-keyword identifiers
-  NONKEYWORDCOUNT = 65;
+  NONKEYWORDCOUNT = 68;
   NONKEYWORDS: array [1..NONKEYWORDCOUNT] of WideString =
     (
     '__future__',
     '__import__',
     'abs',
     'apply',
+    'bool',
     'buffer',
     'callable',
     'chr',
@@ -313,6 +314,7 @@ const
     'file',
     'filter',
     'float',
+    'frozenset',
     'getattr',
     'globals',
     'hasattr',
@@ -346,6 +348,7 @@ const
     'repr',
     'round',
     'self',
+    'set',
     'setattr',
     'slice',
     'str',

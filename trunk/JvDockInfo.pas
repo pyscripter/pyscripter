@@ -21,7 +21,7 @@ located at http://jvcl.sourceforge.net
 
 Known Issues:
 -----------------------------------------------------------------------------}
-// $Id: JvDockInfo.pas 10949 2006-09-29 12:37:30Z obones $
+// $Id: JvDockInfo.pas 11252 2007-04-05 22:12:55Z remkobonte $
 
 unit JvDockInfo;
 
@@ -175,9 +175,9 @@ type
 {$IFDEF UNITVERSIONING}
 const
   UnitVersioning: TUnitVersionInfo = (
-    RCSfile: '$URL: https://jvcl.svn.sourceforge.net/svnroot/jvcl/branches/JVCL3_30_PREPARATION/run/JvDockInfo.pas $';
-    Revision: '$Revision: 10949 $';
-    Date: '$Date: 2006-09-29 14:37:30 +0200 (ven., 29 sept. 2006) $';
+    RCSfile: '$URL: https://jvcl.svn.sourceforge.net:443/svnroot/jvcl/trunk/jvcl/run/JvDockInfo.pas $';
+    Revision: '$Revision: 11252 $';
+    Date: '$Date: 2007-04-05 15:12:55 -0700 (Thu, 05 Apr 2007) $';
     LogPath: 'JVCL\run'
   );
 {$ENDIF UNITVERSIONING}
@@ -1189,7 +1189,9 @@ begin
       TWinControl(Control).EnableAlign;
     end;
   end;
-  Control.Visible := Visible;
+  //  KV to avoid flickering in Vista
+  //if not ((Control is TForm) and (ParentName <> '')) and Assigned(FindDockClient(Control)) then
+    Control.Visible := Visible;
   Control.LRDockWidth := LRDockWidth;
   Control.TBDockHeight := TBDockHeight;
   Control.UnDockHeight := UnDockHeight;

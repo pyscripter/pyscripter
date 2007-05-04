@@ -8,12 +8,11 @@
 
 
 program PyScripter;
-{%TogetherDiagram 'ModelSupport\default.txaPackage'}
-{%TogetherDiagram 'ModelSupport_PyScripter\default.txaPackage'}
 {%ToDo 'PyScripter.todo'}
 
 uses
-  //FastMM4,
+  uCmdLine in 'uCmdLine.pas',
+  uDpiAware in 'uDpiAware.pas',
   Windows,
   Forms,
   frmPyIDEMain in 'frmPyIDEMain.pas' {PyIDEMainForm},
@@ -79,17 +78,28 @@ uses
   JvProgramVersionCheck in 'JvProgramVersionCheck.pas',
   cPyBaseDebugger in 'cPyBaseDebugger.pas',
   cPyRemoteDebugger in 'cPyRemoteDebugger.pas',
-  JvDockVSNetStyle in 'JvDockVSNetStyle.pas',
-  JvDockControlForm in 'JvDockControlForm.pas',
   cFileTemplates in 'cFileTemplates.pas',
   dlgCodeTemplates in 'dlgCodeTemplates.pas' {CodeTemplates},
   dlgNewFile in 'dlgNewFile.pas' {NewFileDialog},
-  JvDockInfo in 'JvDockInfo.pas',
   SynEdit in 'SynEdit.pas',
   JvAppInst in 'JvAppInst.pas',
-  SynEditKeyCmds in 'SynEditKeyCmds.pas';
+  SynEditKeyCmds in 'SynEditKeyCmds.pas',
+  PythonEngine in 'PythonEngine.pas',
+  TBXOffice2003Theme in 'TBXOffice2003Theme.pas',
+  TBXOffice2007Theme in 'TBXOffice2007Theme.pas',
+  TBXUtils in 'TBXUtils.pas',
+  JvThreadDialog in 'JvThreadDialog.pas',
+  JvDockVSNetStyle in 'JvDockVSNetStyle.pas',
+  JvDockControlForm in 'JvDockControlForm.pas',
+  JvDockSupportControl in 'JvDockSupportControl.pas',
+  JvDockTree in 'JvDockTree.pas',
+  JvDockInfo in 'JvDockInfo.pas',
+  JvDockVIDStyle in 'JvDockVIDStyle.pas';
 
 {$R *.RES}
+{$R WebCopyAvi.RES}
+{$R XP_UAC.RES}
+
 
 {$SetPEFlags IMAGE_FILE_RELOCS_STRIPPED}
 

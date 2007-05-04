@@ -123,7 +123,7 @@
 			<Directories Name="UnitOutputDir"></Directories>
 			<Directories Name="PackageDLLOutputDir"></Directories>
 			<Directories Name="PackageDCPOutputDir"></Directories>
-			<Directories Name="SearchPath"></Directories>
+			<Directories Name="SearchPath">C:\Delphi\components\jvcl\run</Directories>
 			<Directories Name="Packages">vcl;rtl;vcldb;dbrtl;vclx;xmlrtl;vclie;inetdbbde;inet;inetdbxpress;IndySystem;IndyCore;dclOfficeXP;VclSmp;soaprtl;dsnap;IndyProtocols;inetdb;bdertl;vcldbx;vclactnband;vclshlctrls;teeui;teedb;tee;DJcl;JvStdCtrlsD9R;JvAppFrmD9R;JvCoreD9R;JvBandsD9R;JvDlgsD9R;JvCmpD9R;JvCtrlsD9R;JvCustomD9R;JvDockingD9R;JvHMID9R;JvInspectorD9R;JvPageCompsD9R;JvPluginD9R;JvSystemD9R;JvValidatorsD9R;Python_bds3;SynEdit_R2005;tb2k_d9;tbx_d9;VirtualTreesD9;VirtualShellToolsD9;FreeComp9;DJclVcl;mbTBXJvLibD9D;JvRuntimeDesignD9R</Directories>
 			<Directories Name="Conditionals">PYTHON23</Directories>
 			<Directories Name="DebugSourceDirs"></Directories>
@@ -149,7 +149,7 @@
 			<VersionInfo Name="AutoIncBuild">False</VersionInfo>
 			<VersionInfo Name="MajorVer">1</VersionInfo>
 			<VersionInfo Name="MinorVer">8</VersionInfo>
-			<VersionInfo Name="Release">0</VersionInfo>
+			<VersionInfo Name="Release">6</VersionInfo>
 			<VersionInfo Name="Build">0</VersionInfo>
 			<VersionInfo Name="Debug">False</VersionInfo>
 			<VersionInfo Name="PreRelease">False</VersionInfo>
@@ -162,7 +162,7 @@
 		<VersionInfoKeys>
 			<VersionInfoKeys Name="CompanyName"></VersionInfoKeys>
 			<VersionInfoKeys Name="FileDescription"></VersionInfoKeys>
-			<VersionInfoKeys Name="FileVersion">1.8.0.0</VersionInfoKeys>
+			<VersionInfoKeys Name="FileVersion">1.8.6.0</VersionInfoKeys>
 			<VersionInfoKeys Name="InternalName"></VersionInfoKeys>
 			<VersionInfoKeys Name="LegalCopyright"></VersionInfoKeys>
 			<VersionInfoKeys Name="LegalTrademarks"></VersionInfoKeys>
@@ -175,8 +175,9 @@
 			<Language Name="ActiveLang"></Language>
 			<Language Name="ProjectLang">$00000000</Language>
 			<Language Name="RootDir"></Language>
-		</Language>  
-    <Excluded_Packages>
+		</Language>  <Excluded_Packages>
+      <Excluded_Packages Name="c:\program files\borland\bds\4.0\Bin\dclIntraweb_80_100.bpl">Intraweb 8.0 Design Package for Borland Development Studio 2006</Excluded_Packages>
+      <Excluded_Packages Name="C:\WINDOWS\system32\OpenWireDsnD10.bpl">OpenWire Project (Design Time)</Excluded_Packages>
       <Excluded_Packages Name="c:\program files\borland\bds\4.0\Bin\bcbie100.bpl">Borland C++Builder Internet Explorer 5 Components Package</Excluded_Packages>
     </Excluded_Packages>
   </Delphi.Personality>

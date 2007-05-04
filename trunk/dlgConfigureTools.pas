@@ -10,18 +10,19 @@ unit dlgConfigureTools;
 interface
 
 uses
-  SysUtils, Classes, Windows, Controls, Forms, StdCtrls;
+  SysUtils, Classes, Windows, Controls, Forms, StdCtrls, TBXDkPanels,
+  SpTBXControls;
 
 type
   TConfigureTools = class(TForm)
-    AddBtn: TButton;
-    RemoveBtn: TButton;
-    ModifyBtn: TButton;
-    OKBtn: TButton;
-    CancelBtn: TButton;
-    MoveUpBtn: TButton;
-    MoveDownBtn: TButton;
     ToolsList: TListBox;
+    AddBtn: TSpTBXButton;
+    RemoveBtn: TSpTBXButton;
+    ModifyBtn: TSpTBXButton;
+    OKBtn: TSpTBXButton;
+    CancelBtn: TSpTBXButton;
+    MoveUpBtn: TSpTBXButton;
+    MoveDownBtn: TSpTBXButton;
     procedure AddBtnClick(Sender: TObject);
     procedure ModifyBtnClick(Sender: TObject);
     procedure RemoveBtnClick(Sender: TObject);

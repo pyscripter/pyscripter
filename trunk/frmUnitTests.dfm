@@ -40,9 +40,8 @@ inherited UnitTestWindow: TUnitTestWindow
     000000000022000000150000000000000000000000000000000000000000C3C1
     00008001000000000000000000000000000080010000C0030000E00700000000
     000000000000F00F0000C00300008C3100009C390000FC3F0000F99F0000}
-  OnActivate = FormActivate
-  ExplicitWidth = 270
-  ExplicitHeight = 477
+  ExplicitWidth = 278
+  ExplicitHeight = 485
   PixelsPerInch = 96
   TextHeight = 13
   inherited FGPanel: TPanel
@@ -66,7 +65,7 @@ inherited UnitTestWindow: TUnitTestWindow
       Maximized = False
       Minimized = False
       ButtonCursor = crDefault
-      ButtonHighlightColor = 14400935
+      ButtonHighlightColor = 15195862
       AutoHighlightColor = True
     end
     object ExplorerDock: TTBXDock

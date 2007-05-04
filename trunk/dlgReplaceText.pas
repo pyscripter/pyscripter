@@ -42,7 +42,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  dlgSearchText, StdCtrls, ExtCtrls;
+  dlgSearchText, StdCtrls, ExtCtrls, SpTBXControls, TBXDkPanels;
 
 type
   TTextReplaceDialog = class(TTextSearchDialog)
