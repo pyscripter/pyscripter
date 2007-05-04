@@ -17,8 +17,10 @@ object IDEDockWindow: TIDEDockWindow
   FormStyle = fsStayOnTop
   OldCreateOrder = False
   ShowHint = True
+  OnActivate = FormActivate
   OnCreate = FormCreate
   OnDestroy = FormDestroy
+  OnDeactivate = FormDeactivate
   OnResize = FormResize
   DesignSize = (
     229
@@ -35,8 +37,6 @@ object IDEDockWindow: TIDEDockWindow
     FullRepaint = False
     ParentBackground = False
     TabOrder = 0
-    OnEnter = FGPanelEnter
-    OnExit = FGPanelExit
   end
   object DockClient: TJvDockClient
     LRDockWidth = 220

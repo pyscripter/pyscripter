@@ -46,30 +46,30 @@ interface
 
 
 uses
-  Classes, Controls, StdCtrls, Forms;
+  Classes, Controls, StdCtrls, Forms, SpTBXControls, TBXDkPanels;
 
 type
   TfmToDoOptions = class(TForm)
-    btnOK: TButton;
-    btnCancel: TButton;
     gbxTokens: TGroupBox;
     gbxOptions: TGroupBox;
-    cbShowTokens: TCheckBox;
     lblPriority: TLabel;
     lblToken: TLabel;
     lstTokens: TListBox;
-    btnInsert: TButton;
-    btnApply: TButton;
-    btnRemove: TButton;
     edToken: TEdit;
     cboPriority: TComboBox;
     gbxSearchFiles: TGroupBox;
-    btnBrowse: TButton;
-    chkInclude: TCheckBox;
-    radScanOpen: TRadioButton;
-    radScanDir: TRadioButton;
     meDirectories: TMemo;
-    btnHelp: TButton;
+    btnInsert: TSpTBXButton;
+    btnApply: TSpTBXButton;
+    btnRemove: TSpTBXButton;
+    btnOK: TSpTBXButton;
+    btnCancel: TSpTBXButton;
+    btnBrowse: TSpTBXButton;
+    btnHelp: TSpTBXButton;
+    cbShowTokens: TSpTBXCheckBox;
+    chkInclude: TSpTBXCheckBox;
+    radScanOpen: TSpTBXRadioButton;
+    radScanDir: TSpTBXRadioButton;
     procedure btnInsertClick(Sender: TObject);
     procedure btnRemoveClick(Sender: TObject);
     procedure btnApplyClick(Sender: TObject);

@@ -46,20 +46,20 @@ interface
 
 uses
   Classes, Controls, StdCtrls, Forms,
-  cFindInFiles;
+  cFindInFiles, SpTBXControls, TBXDkPanels;
 
 type
   TReplaceInFilesDialog = class(TForm)
     lblWith: TLabel;
     cbReplace: TComboBox;
-    btnOK: TButton;
-    btnCancel: TButton;
-    btnHelp: TButton;
     lblIn: TLabel;
     lblInString: TLabel;
     lblReplace: TLabel;
     lblReplaceString: TLabel;
-    cbBackup: TCheckBox;
+    btnOK: TSpTBXButton;
+    btnCancel: TSpTBXButton;
+    btnHelp: TSpTBXButton;
+    cbBackup: TSpTBXCheckBox;
     procedure btnHelpClick(Sender: TObject);
   private
     FFindInFilesExpert : TFindInFilesExpert;

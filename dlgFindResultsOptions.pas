@@ -46,7 +46,7 @@ interface
 
 uses
   StdCtrls, Dialogs, Controls, ExtCtrls, Classes, Forms, Mask, JvExMask,
-  JvSpin;
+  JvSpin, SpTBXControls, TBXDkPanels;
 
 type
   TFindResultsOptionsDialog = class(TForm)
@@ -55,16 +55,16 @@ type
     gbxMatchContext: TGroupBox;
     pnlContextFont: TPanel;
     lblContextLines: TLabel;
-    btnOK: TButton;
-    btnCancel: TButton;
     dlgGrepListFont: TFontDialog;
     dlgGrepContextFont: TFontDialog;
     pnlMatchLineColor: TPanel;
     dlgContextFontColor: TColorDialog;
-    chkGrepMiddle: TCheckBox;
-    chkGrepExpandAll: TCheckBox;
     spnContextLines: TJvSpinEdit;
-    btnHelp: TButton;
+    chkGrepMiddle: TSpTBXCheckBox;
+    chkGrepExpandAll: TSpTBXCheckBox;
+    btnOK: TSpTBXButton;
+    btnCancel: TSpTBXButton;
+    btnHelp: TSpTBXButton;
     procedure pnlContextFontClick(Sender: TObject);
     procedure pnlMatchLineColorClick(Sender: TObject);
     procedure pnlListFontClick(Sender: TObject);

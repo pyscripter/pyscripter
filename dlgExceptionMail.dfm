@@ -35,17 +35,6 @@ object ExceptionDialogMail: TExceptionDialogMail
     Anchors = [akLeft, akTop, akRight]
     Shape = bsTopLine
   end
-  object SendBtn: TButton
-    Left = 351
-    Top = 32
-    Width = 75
-    Height = 25
-    Hint = 'Send bug report using default mail client'
-    Anchors = [akTop, akRight]
-    Caption = '&Send'
-    TabOrder = 0
-    OnClick = SendBtnClick
-  end
   object TextLabel: TMemo
     Left = 56
     Top = 8
@@ -62,29 +51,6 @@ object ExceptionDialogMail: TExceptionDialogMail
     ReadOnly = True
     TabOrder = 1
     WantReturns = False
-  end
-  object OkBtn: TButton
-    Left = 352
-    Top = 4
-    Width = 75
-    Height = 25
-    Anchors = [akTop, akRight]
-    Caption = '&OK'
-    Default = True
-    ModalResult = 1
-    TabOrder = 2
-  end
-  object DetailsBtn: TButton
-    Left = 352
-    Top = 60
-    Width = 75
-    Height = 25
-    Hint = 'Show or hide additional information|'
-    Anchors = [akTop, akRight]
-    Caption = '&Details'
-    Enabled = False
-    TabOrder = 3
-    OnClick = DetailsBtnClick
   end
   object DetailsMemo: TMemo
     Left = 4
@@ -104,5 +70,54 @@ object ExceptionDialogMail: TExceptionDialogMail
     TabOrder = 4
     WantReturns = False
     WordWrap = False
+  end
+  object SendBtn: TSpTBXButton
+    Left = 351
+    Top = 32
+    Width = 75
+    Height = 25
+    Hint = 'Send bug report using default mail client'
+    Caption = '&Send'
+    Anchors = [akTop, akRight]
+    TabOrder = 0
+    OnClick = SendBtnClick
+    LinkFont.Charset = DEFAULT_CHARSET
+    LinkFont.Color = clBlue
+    LinkFont.Height = -11
+    LinkFont.Name = 'Tahoma'
+    LinkFont.Style = [fsUnderline]
+  end
+  object OkBtn: TSpTBXButton
+    Left = 352
+    Top = 4
+    Width = 75
+    Height = 25
+    Caption = 'OK'
+    Anchors = [akTop, akRight]
+    TabOrder = 2
+    Default = True
+    LinkFont.Charset = DEFAULT_CHARSET
+    LinkFont.Color = clBlue
+    LinkFont.Height = -11
+    LinkFont.Name = 'Tahoma'
+    LinkFont.Style = [fsUnderline]
+    ModalResult = 1
+  end
+  object DetailsBtn: TSpTBXButton
+    Left = 352
+    Top = 60
+    Width = 75
+    Height = 25
+    Hint = 'Show or hide additional information|'
+    Caption = '&Details'
+    Anchors = [akTop, akRight]
+    Enabled = False
+    TabOrder = 3
+    OnClick = DetailsBtnClick
+    LinkFont.Charset = DEFAULT_CHARSET
+    LinkFont.Color = clBlue
+    LinkFont.Height = -11
+    LinkFont.Name = 'Tahoma'
+    LinkFont.Style = [fsUnderline]
   end
 end

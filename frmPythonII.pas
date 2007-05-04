@@ -24,7 +24,7 @@ uses
   SynEditHighlighter, SynEdit,
   SynEditKeyCmds, SynCompletionProposal, JvComponent, JvDockControlForm,
   frmIDEDockWin, ExtCtrls, TBX, TBXThemes, PythonGUIInputOutput, JvComponentBase,
-  SynUnicode, TB2Item, ActnList, cPyBaseDebugger;
+  SynUnicode, TB2Item, ActnList, cPyBaseDebugger, WrapDelphi, WrapDelphiClasses;
 
 const
   WM_APPENDTEXT = WM_USER + 1020;
@@ -48,21 +48,12 @@ type
     actCopyHistory: TAction;
     TBXSeparatorItem2: TTBXSeparatorItem;
     TBXItem4: TTBXItem;
-    actPythonEngineInternal: TAction;
-    TBXSepReinitialize: TTBXSeparatorItem;
-    actReinitialize: TAction;
-    TBXItem6: TTBXItem;
     actClearContents: TAction;
     TBXItem7: TTBXItem;
     TBXPythonEngines: TTBXSubmenuItem;
-    TBXItem5: TTBXItem;
-    TBXItem8: TTBXItem;
-    TBXItem9: TTBXItem;
-    TBXItem10: TTBXItem;
-    actPythonEngineRemote: TAction;
-    actPythonEngineRemoteTk: TAction;
-    actPythonEngineRemoteWx: TAction;
     TBXSeparatorItem3: TTBXSeparatorItem;
+    PyDelphiWrapper: TPyDelphiWrapper;
+    PyscripterModule: TPythonModule;
     procedure testResultAddError(Sender: TObject; PSelf, Args: PPyObject;
       var Result: PPyObject);
     procedure testResultAddFailure(Sender: TObject; PSelf, Args: PPyObject;
@@ -117,10 +108,7 @@ type
       var Result: PPyObject);
     procedure awakeGUIExecute(Sender: TObject; PSelf, Args: PPyObject;
       var Result: PPyObject);
-    procedure actReinitializeExecute(Sender: TObject);
     procedure actClearContentsExecute(Sender: TObject);
-    procedure actPythonEngineExecute(Sender: TObject);
-    procedure TBXPythonEnginesPopup(Sender: TTBCustomItem; FromLink: Boolean);
   private
     { Private declarations }
     fCommandHistory : TWideStringList;
@@ -177,7 +165,7 @@ Uses
   SynEditTypes, Math, frmPyIDEMain, dmCommands, VarPyth, Registry,
   frmMessages, uCommonFunctions, JclStrings, frmVariables, StringResources,
   dlgConfirmReplace, frmUnitTests, JvDockGlobals, SynRegExpr, 
-  cPyDebugger, cPyRemoteDebugger, JvJVCLUtils, frmCallStack;
+  cPyDebugger, cPyRemoteDebugger, JvJVCLUtils, frmCallStack, uCmdLine;
 
 {$R *.dfm}
 
@@ -381,28 +369,6 @@ begin
   end;
 end;
 
-procedure TPythonIIForm.actReinitializeExecute(Sender: TObject);
-begin
-  PyControl.ActiveInterpreter.ReInitialize;
-end;
-
-procedure TPythonIIForm.actPythonEngineExecute(Sender: TObject);
-Var
-  PythonEngineType : TPythonEngineType;
-  Msg : string;
-begin
-  PythonEngineType := TPythonEngineType((Sender as TAction).Tag);
-  SetPythonEngineType(PythonEngineType);
-  case CommandsDataModule.PyIDEOptions.PythonEngineType of
-    peInternal :  Msg := Format(SEngineActive, ['Internal','']);
-    peRemote : Msg := Format(SEngineActive, ['Remote','']);
-    peRemoteTk : Msg := Format(SEngineActive, ['Remote','(Tkinter) ']);
-    peRemoteWx : Msg := Format(SEngineActive, ['Remote','(wxPython) ']);
-  end;
-  AppendText(WideLineBreak + Msg);
-  AppendPrompt;
-end;
-
 procedure TPythonIIForm.AppendText(S: WideString);
 begin
   SynEdit.ExecuteCommand(ecEditorBottom, ' ', nil);
@@ -437,6 +403,7 @@ Var
   Registry : TRegistry;
   RegKey : string;
   II : Variant;   // wrapping sys and code modules
+  P : PPyObject;
 begin
   inherited;
   SynEdit.ControlStyle := SynEdit.ControlStyle + [csOpaque];
@@ -462,7 +429,7 @@ begin
 
   //  For recalling old commands in Interactive Window;
   fCommandHistory := TWideStringList.Create();
-  fCommandHistorySize := 20;
+  fCommandHistorySize := 50;
   fCommandHistoryPointer := 0;
 
   PS1 := SysModule.ps1;
@@ -488,9 +455,23 @@ begin
   finally
     Registry.Free;
   end;
+
+  // for unregistered Python
+  if PythonHelpFile = '' then begin
+    PythonHelpFile := SysModule.prefix + '\Doc\Python' +IntToStr(SysModule.version_info[0]) +
+                     IntToStr(SysModule.version_info[1]) + '.chm';
+    if not FileExists(PythonHelpFile) then
+      PythonHelpFile := '';
+  end;
+
   // Create internal Interpreter and Debugger
   II := VarPythonEval('_II');
   PythonEngine.ExecString('del _II');
+
+  // Wrap IDE Options
+  p := PyDelphiWrapper.Wrap(CommandsDataModule.PyIDEOptions);
+  PyscripterModule.SetVar('IDEOptions', p);
+  PythonEngine.Py_XDECREF(p);
 
   InternalInterpreter := TPyInternalInterpreter.Create(II);
   PyControl.ActiveInterpreter := InternalInterpreter;
@@ -516,7 +497,7 @@ procedure TPythonIIForm.GetBlockBoundary(LineN: integer; var StartLineN,
 	  start and end line numbers of the block, and a flag indicating if the
 	  block is a Python code block.
 	  If the line specified has a Python prompt, then the lines are parsed
-    and forwards, and the IsCode is true.
+    backwards and forwards, and the IsCode is true.
 	  If the line does not start with a prompt, the block is searched forward
 	  and backward until a prompt _is_ found, and all lines in between without
 	  prompts are returned, and the IsCode is false.
@@ -808,11 +789,11 @@ begin
     //SynCodeCompletion.DefaultType := ctParams;
     SynParamCompletion.ActivateCompletion;
     Command := ecNone;
-  end;
+  end
 
   //  The following does not work. compiler bug???
   // if Command in [ecRecallCommandPrev, ecRecallCommandNext, ecRecallCommandEsc] then begin
-  if (Command = ecRecallCommandPrev) or (Command = ecRecallCommandNext) or
+  else if (Command = ecRecallCommandPrev) or (Command = ecRecallCommandNext) or
      (Command = ecRecallCommandEsc) then
   begin
     SynCodeCompletion.CancelCompletion;
@@ -837,82 +818,76 @@ begin
         fCommandHistoryPrefix := BlockSource;
     end;
 
-    // if we have code at the end remove code block
+    Source := '';
+    if Command = ecRecallCommandEsc then begin
+     fCommandHistoryPointer := fCommandHistory.Count;
+     fCommandHistoryPrefix := '';
+    end else
+      Repeat
+        if Command = ecRecallCommandPrev then
+          Dec(fCommandHistoryPointer)
+        else if Command = ecRecallCommandNext then
+          Inc(fCommandHistoryPointer);
+        fCommandHistoryPointer := EnsureRange(fCommandHistoryPointer, -1, fCommandHistory.Count);
+      Until not InRange(fCommandHistoryPointer, 0, fCommandHistory.Count-1) or
+        (fCommandHistoryPrefix = '') or
+         WideStrIsLeft(PWideChar(fCommandHistory[fCommandHistoryPointer]), PWideChar(fCommandHistoryPrefix));
+
+    if InRange(fCommandHistoryPointer, 0, fCommandHistory.Count-1) then
+      Source := fCommandHistory[fCommandHistoryPointer]
+    else begin
+      if Command <> ecRecallCommandEsc then
+        Beep();
+      Source := fCommandHistoryPrefix;
+      fCommandHistoryPrefix := '';
+    end;
+
     SynEdit.BeginUpdate;
     try
       if IsCode and (EndLineN = SynEdit.Lines.Count - 1) then begin
+        // already at the bottom and inside the prompt
+       if (BlockSource <> Source) then begin
           for i := EndLineN downto StartLineN do
             SynEdit.Lines.Delete(i);
+          //Append new prompt if needed
+          SetLength(Buffer, 0);
+          AppendToPrompt(Buffer);
+       end;  // else do nothing
+      end else begin
+        SetLength(Buffer, 0);
+        AppendToPrompt(Buffer);
       end;
-      //Append new prompt if needed
-      SetLength(Buffer, 0);
-      AppendToPrompt(Buffer);
-//      SynEdit.ExecuteCommand(ecEditorBottom, ' ', nil);
-//      SynEdit.EnsureCursorPosVisible;
-    finally
-      SynEdit.EndUpdate;
-    end;
-  end else
-    Exit;
 
-  // We get here if Command is one or our defined Recall commands
-
-  Source := '';
-  if fCommandHistory.Count = 0 then Exit;
-
-  if Command = ecRecallCommandEsc then begin
-   fCommandHistoryPointer := fCommandHistory.Count;
-   fCommandHistoryPrefix := '';
-  end else
-    Repeat
-      if Command = ecRecallCommandPrev then
-        Dec(fCommandHistoryPointer)
-      else if Command = ecRecallCommandNext then
-        Inc(fCommandHistoryPointer);
-      fCommandHistoryPointer := EnsureRange(fCommandHistoryPointer, -1, fCommandHistory.Count);
-    Until not InRange(fCommandHistoryPointer, 0, fCommandHistory.Count-1) or
-      (fCommandHistoryPrefix = '') or
-       WideStrIsLeft(PWideChar(fCommandHistory[fCommandHistoryPointer]), PWideChar(fCommandHistoryPrefix));
-
-  if InRange(fCommandHistoryPointer, 0, fCommandHistory.Count-1) then
-    Source := fCommandHistory[fCommandHistoryPointer]
-  else begin
-    if Command <> ecRecallCommandEsc then
-      Beep();
-    Source := fCommandHistoryPrefix;
-    fCommandHistoryPrefix := '';
-  end;
-
-  if Source <> '' then begin
-    SynEdit.BeginUpdate;
-    try
-      i := 0;
-      P1 := PWideChar(Source);
-      while P1 <> nil do begin
-        P1 := StrScanW(P1, WideLF);
-        if Assigned(P1) then Inc(P1);
-        Inc(i);
-      end;
-      SetLength(Buffer, i);
-
-      i := 0;
-      P1 := PWideChar(Source);
-      while P1 <> nil do begin
-        P2 := StrScanW(P1, WideLF);
-        if P2 = nil then
-          Buffer[i] := Copy(Source, P1 - PWideChar(Source) + 1,
-            Length(Source) - (P1 - PWideChar(Source)))
-        else begin
-          Buffer[i] := Copy(Source, P1 - PWideChar(Source) + 1, P2 - P1);
-          Inc(P2);
+      if (Source <> '') and
+        ((BlockSource <> Source) or (EndLineN < SynEdit.Lines.Count - 1)) then
+      begin
+        i := 0;
+        P1 := PWideChar(Source);
+        while P1 <> nil do begin
+          P1 := StrScanW(P1, WideLF);
+          if Assigned(P1) then Inc(P1);
+          Inc(i);
         end;
-        P1 := P2;
-        Inc(i);
-      end;
+        SetLength(Buffer, i);
 
-      AppendToPrompt(Buffer);
-//      SynEdit.ExecuteCommand(ecEditorBottom, ' ', nil);
-//      SynEdit.EnsureCursorPosVisible;
+        i := 0;
+        P1 := PWideChar(Source);
+        while P1 <> nil do begin
+          P2 := StrScanW(P1, WideLF);
+          if P2 = nil then
+            Buffer[i] := Copy(Source, P1 - PWideChar(Source) + 1,
+              Length(Source) - (P1 - PWideChar(Source)))
+          else begin
+            Buffer[i] := Copy(Source, P1 - PWideChar(Source) + 1, P2 - P1);
+            Inc(P2);
+          end;
+          P1 := P2;
+          Inc(i);
+        end;
+        AppendToPrompt(Buffer);
+      end;
+      SynEdit.ExecuteCommand(ecEditorBottom, ' ', nil);
+      SynEdit.EnsureCursorPosVisible;
     finally
       SynEdit.EndUpdate;
     end;
@@ -1284,12 +1259,8 @@ end;
 procedure TPythonIIForm.FormActivate(Sender: TObject);
 begin
   inherited;
-  if not HasFocus then begin
-    FGPanelEnter(Self);
-    PostMessage(SynEdit.Handle, WM_SETFOCUS, 0, 0);
-    if Synedit.CanFocus then
-      SynEdit.SetFocus;
-  end;
+  if Synedit.CanFocus then
+    SynEdit.SetFocus;
 end;
 
 procedure TPythonIIForm.TBMThemeChange(var Message: TMessage);
@@ -1302,23 +1273,18 @@ begin
   end;
 end;
 
-procedure TPythonIIForm.TBXPythonEnginesPopup(Sender: TTBCustomItem;
-  FromLink: Boolean);
-begin
-  case CommandsDataModule.PyIDEOptions.PythonEngineType of
-    peInternal :  actPythonEngineInternal.Checked := True;
-    peRemote : actPythonEngineRemote.Checked := True;
-    peRemoteTk : actPythonEngineRemoteTk.Checked := True;
-    peRemoteWx : actPythonEngineRemoteWx.Checked := True;
-  end;
-  actReinitialize.Enabled := icReInitialize in
-    PyControl.ActiveInterpreter.InterpreterCapabilities;
-end;
-
 procedure TPythonIIForm.InterpreterPopUpPopup(Sender: TObject);
 begin
   actCleanUpNameSpace.Checked := CommandsDataModule.PyIDEOptions.CleanupMainDict;
   actCleanUpSysModules.Checked := CommandsDataModule.PyIDEOptions.CleanupSysModules;
+  if CommandsDataModule.PyIDEOptions.PythonEngineType in [peRemoteTk, peRemoteWx] then begin
+    // CleanupNamespace and CleanUpSysModules are set to false by these engines and should stay so
+    actCleanUpNameSpace.Enabled := False;
+    actCleanUpSysModules.Enabled := False;
+  end else begin
+    actCleanUpNameSpace.Enabled := True;
+    actCleanUpSysModules.Enabled := True;
+  end;
 end;
 
 procedure TPythonIIForm.WMAPPENDTEXT(var Message: TMessage);
@@ -1395,16 +1361,16 @@ end;
 
 procedure TPythonIIForm.LoadPythonEngine;
 
-  function IsPythonVersionParam(const AParam : String; out AVersion : String) : Boolean;
-  begin
-    Result := (Length(AParam) = 9) and
-              SameText(Copy(AParam, 1, 7), '-PYTHON') and
-              (AParam[8] in ['0'..'9']) and
-              (AParam[9] in ['0'..'9']);
-    if Result then
-      AVersion := AParam[8] + '.' + AParam[9];
-  end;
-
+//  function IsPythonVersionParam(const AParam : String; out AVersion : String) : Boolean;
+//  begin
+//    Result := (Length(AParam) = 9) and
+//              SameText(Copy(AParam, 1, 7), '-PYTHON') and
+//              (AParam[8] in ['0'..'9']) and
+//              (AParam[9] in ['0'..'9']);
+//    if Result then
+//      AVersion := AParam[8] + '.' + AParam[9];
+//  end;
+//
   function IndexOfKnownVersion(const AVersion : String) : Integer;
   var
     i : Integer;
@@ -1428,23 +1394,51 @@ begin
   // first find an optional parameter specifying the expected Python version in the form of -PYTHONXY
   expectedVersion := '';
   expectedVersionIdx := -1;
-  for i := 1 to ParamCount do begin
-    if IsPythonVersionParam(ParamStr(i), expectedVersion) then
-    begin
-      idx := IndexOfKnownVersion(expectedVersion);
-      if idx >= COMPILED_FOR_PYTHON_VERSION_INDEX then
-        expectedVersionIdx := idx;
-      if expectedVersionIdx = -1 then
-        if idx = -1 then
-          MessageDlg(Format('PyScripter can''t use command line parameter %s because it doesn''t know this version of Python.',
-            [ParamStr(i)]), mtWarning, [mbOK], 0)
-        else
-          MessageDlg(Format('PyScripter can''t use command line parameter %s because it was compiled for Python %s or later.',
-            [ParamStr(i), PYTHON_KNOWN_VERSIONS[COMPILED_FOR_PYTHON_VERSION_INDEX].RegVersion]), mtWarning, [mbOK], 0);
-      Break;
-    end;
+//  for i := 1 to ParamCount do begin
+//    if IsPythonVersionParam(ParamStr(i), expectedVersion) then
+//    begin
+//      idx := IndexOfKnownVersion(expectedVersion);
+//      if idx >= COMPILED_FOR_PYTHON_VERSION_INDEX then
+//        expectedVersionIdx := idx;
+//      if expectedVersionIdx = -1 then
+//        if idx = -1 then
+//          MessageDlg(Format('PyScripter can''t use command line parameter %s because it doesn''t know this version of Python.',
+//            [ParamStr(i)]), mtWarning, [mbOK], 0)
+//        else
+//          MessageDlg(Format('PyScripter can''t use command line parameter %s because it was compiled for Python %s or later.',
+//            [ParamStr(i), PYTHON_KNOWN_VERSIONS[COMPILED_FOR_PYTHON_VERSION_INDEX].RegVersion]), mtWarning, [mbOK], 0);
+//      Break;
+//    end;
+//  end;
+  try
+    if CmdLineReader.readFlag('PYTHON23') then
+      expectedVersion := '2.3'
+    else if CmdLineReader.readFlag('PYTHON24') then
+      expectedVersion := '2.4'
+    else if CmdLineReader.readFlag('PYTHON25') then
+      expectedVersion := '2.5';
+    PythonEngine.DllPath := CmdLineReader.readString('PYTHONDLLPATH');
+  except
+    on ECommandLineParseException do;
   end;
-// disable feature that will try to use the last version of Python because we provide our
+
+  if expectedVersion <> '' then begin
+    idx := IndexOfKnownVersion(expectedVersion);
+    if idx >= COMPILED_FOR_PYTHON_VERSION_INDEX then
+      expectedVersionIdx := idx;
+    if expectedVersionIdx = -1 then
+      if idx = -1 then
+        MessageDlg(Format('PyScripter can''t use command line parameter PYTHON%s because it doesn''t know this version of Python.',
+          [StringReplace(expectedVersion, '.', '', [])]), mtWarning, [mbOK], 0)
+      else
+        MessageDlg(Format('PyScripter can''t use command line parameter PYTHON%s because it was compiled for Python %s or later.',
+          [StringReplace(expectedVersion, '.', '', []),
+           PYTHON_KNOWN_VERSIONS[COMPILED_FOR_PYTHON_VERSION_INDEX].RegVersion]),
+           mtWarning, [mbOK], 0);
+  end;
+
+
+  // disable feature that will try to use the last version of Python because we provide our
   // own behaviour. Note that this feature would not load the latest version if the python dll
   // matching the compiled version of P4D was found.
   PythonEngine.UseLastKnownVersion := False;

@@ -38,7 +38,6 @@ type
     procedure TBXPopupMenuPopup(Sender: TObject);
     procedure actCopyToClipboardExecute(Sender: TObject);
     procedure ClearAllExecute(Sender: TObject);
-    procedure FormActivate(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure MessagesViewInitNode(Sender: TBaseVirtualTree; ParentNode,
@@ -49,6 +48,7 @@ type
     procedure MessagesViewDblClick(Sender: TObject);
     procedure actNextMsgsExecute(Sender: TObject);
     procedure actPreviousMsgsExecute(Sender: TObject);
+    procedure FormActivate(Sender: TObject);
   private
     { Private declarations }
     fMessageHistory : TObjectList;
@@ -220,15 +220,6 @@ begin
     ShowDockForm(Self);
 end;
 
-procedure TMessagesWindow.FormActivate(Sender: TObject);
-begin
-  inherited;
-  if not HasFocus then begin
-    FGPanelEnter(Self);
-    PostMessage(MessagesView.Handle, WM_SETFOCUS, 0, 0);
-  end;
-end;
-
 procedure TMessagesWindow.JumpToPosition(Node : PVirtualNode);
 Var
   Msg : TMsg;
@@ -240,6 +231,13 @@ begin
     if (Msg.FileName ='') then Exit; // No FileName or LineNumber
     PyIDEMainForm.ShowFilePosition(Msg.FileName, Msg.Line, Msg.Offset);
   end;
+end;
+
+procedure TMessagesWindow.FormActivate(Sender: TObject);
+begin
+  inherited;
+  if MessagesView.CanFocus then
+    MessagesView.SetFocus;
 end;
 
 procedure TMessagesWindow.FormCreate(Sender: TObject);

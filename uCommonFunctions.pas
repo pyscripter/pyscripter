@@ -142,10 +142,15 @@ function SortedIdentToInt(const Ident: string; var Int: Longint;
 function ComparePythonIdents(const S1, S2 : string): Integer; overload;
 function ComparePythonIdents(List: TStringList; Index1, Index2: Integer): Integer; overload;
 
-implementation
+(* Used to get Vista fonts *)
+procedure SetDefaultFonts(const AFont: TFont);
+procedure SetDesktopIconFonts(const AFont: TFont);
+procedure SetVistaContentFonts(const AFont: TFont);
+
+  implementation
 Uses
   Controls, Forms, StdCtrls, ShellApi, JclFileUtils, Math, VarPyth,
-  JclStrings, JclBase, SynRegExpr, Consts, TntDialogs;
+  JclStrings, JclBase, SynRegExpr, Consts, TntDialogs, TntSysUtils;
 
 function GetIconIndexFromFile(const AFileName: string;
   const ASmall: boolean): integer;
@@ -1005,7 +1010,7 @@ end;
 
 function CleanEOLs(S: string): string;
 begin
-  Result := AdjustLineBreaks(S, tlbsLF)
+  Result := AdjustLineBreaks(S, System.tlbsLF)
 end;
 
 function SortedIdentToInt(const Ident: string; var Int: Longint;
@@ -1053,6 +1058,35 @@ begin
   S1 := List[Index1];
   S2 := List[Index2];
   Result := ComparePythonIdents(S1, S2);
+end;
+
+procedure SetDefaultFonts(const AFont: TFont);
+begin
+  AFont.Handle := GetStockObject(DEFAULT_GUI_FONT);
+end;
+
+procedure SetDesktopIconFonts(const AFont: TFont);
+var
+  LogFont: TLogFont;
+begin
+  if SystemParametersInfo(SPI_GETICONTITLELOGFONT, SizeOf(LogFont),
+    @LogFont, 0) then
+    AFont.Handle := CreateFontIndirect(LogFont)
+  else
+    SetDefaultFonts(AFont);
+end;
+
+procedure SetVistaContentFonts(const AFont: TFont);
+Const
+  VistaContentFont = 'Calibri';
+begin
+  if Win32PlatformIsVista
+    and not SameText(AFont.Name, VistaContentFont)
+    and (Screen.Fonts.IndexOf(VistaContentFont) >= 0) then
+  begin
+    AFont.Size := AFont.Size + 1;
+    AFont.Name := VistaContentFont;
+  end;
 end;
 
 initialization

@@ -77,7 +77,7 @@ type
     function ImportModule(Editor : IEditor; AddToNameSpace : Boolean = False) : Variant; override;
     procedure RunNoDebug(Editor : IEditor); override;
     function SyntaxCheck(Editor : IEditor; Quiet : Boolean = False) : Boolean;
-    function RunSource(const Source, FileName : string) : boolean; override;
+    function RunSource(const Source, FileName : string; symbol : string = 'single') : boolean; override;
     function EvalCode(const Expr : string) : Variant; override;
     property Debugger : Variant read fDebugger;
     property PyInteractiveInterpreter : Variant read fII;
@@ -114,7 +114,7 @@ type
     procedure Pause; override;
     procedure Abort; override;
     procedure Evaluate(const Expr : string; out ObjType, Value : string); override;
-    function RunSource(Const Source, FileName : string) : boolean; override;
+    function RunSource(Const Source, FileName : string; symbol : string = 'single') : boolean; override;
     procedure GetCallStack(CallStackList : TObjectList); override;
     function GetFrameGlobals(Frame : TBaseFrameInfo) : TBaseNameSpaceItem; override;
     function GetFrameLocals(Frame : TBaseFrameInfo) : TBaseNameSpaceItem; override;
@@ -463,6 +463,7 @@ var
   Code : Variant;
   Path, OldPath : string;
   PythonPathAdder : IInterface;
+  ReturnFocusToEditor: Boolean;
 begin
   // Repeat here to make sure it is set right
   MaskFPUExceptions(CommandsDataModule.PyIDEOptions.MaskFPUExceptions);
@@ -491,14 +492,15 @@ begin
 
     PyControl.DoStateChange(dsRunning);
 
-    // Set the layout to the Debug layout is it exists
     MessagesWindow.ClearMessages;
+    ReturnFocusToEditor := Editor = GI_ActiveEditor;
+    // Set the layout to the Debug layout is it exists
     if PyIDEMainForm.Layouts.IndexOf('Debug') >= 0 then begin
       PyIDEMainForm.SaveLayout('Current');
       PyIDEMainForm.LoadLayout('Debug');
       Application.ProcessMessages;
     end else
-      ShowDockForm(PythonIIForm);
+      PyIDEMainForm.actNavInterpreterExecute(nil);
 
     try
       with PythonIIForm do begin
@@ -531,7 +533,7 @@ begin
         InternalInterpreter.Debugger.run(Code);
       except
         // CheckError already called by VarPyth
-        on E: EPyException do begin
+        on E: EPythonError do begin
           InternalInterpreter.HandlePyException(E, 2);
           MessageDlg(E.Message, mtError, [mbOK], 0);
           SysUtils.Abort;
@@ -556,15 +558,27 @@ begin
         PyIDEMainForm.LoadLayout('Current');
 
       PyControl.DoStateChange(dsInactive);
+      if ReturnFocusToEditor then
+        Editor.Activate;
     end;
   end;
 end;
 
-function TPyInternalDebugger.RunSource(const Source, FileName: string): boolean;
+function TPyInternalDebugger.RunSource(const Source, FileName: string; symbol : string = 'single'): boolean;
 // The internal interpreter RunSource calls II.runsource which differs
 // according to whether we debugging or not
+Var
+  OldCurrentPos : TEditorPos;
 begin
-  Result := InternalInterpreter.RunSource(Source, FileName);
+  OldCurrentPos := TEditorPos.Create;
+  OldCurrentPos.Assign(PyControl.CurrentPos);
+  try
+    Result := InternalInterpreter.RunSource(Source, FileName, symbol);
+    PyControl.CurrentPos.Assign(OldCurrentPos);
+    PyControl.DoCurrentPosChanged;
+  finally
+    OldCurrentPos.Free;
+  end;
 end;
 
 procedure TPyInternalDebugger.RunToCursor(Editor : IEditor; ALine: integer);
@@ -718,13 +732,15 @@ begin
       if FName = '' then
         FName := '<'+FileTitle+'>';
       for j := 0 to BreakPoints.Count - 1 do begin
-        if TBreakPoint(BreakPoints[j]).Condition <> '' then begin
-          InternalInterpreter.Debugger.set_break(VarPythonCreate(FName),
-            TBreakPoint(BreakPoints[j]).LineNo,
-            0, TBreakPoint(BreakPoints[j]).Condition);
-        end else
-          InternalInterpreter.Debugger.set_break(VarPythonCreate(FName),
-            TBreakPoint(BreakPoints[j]).LineNo);
+        if not TBreakPoint(BreakPoints[j]).Disabled then begin
+          if TBreakPoint(BreakPoints[j]).Condition <> '' then begin
+            InternalInterpreter.Debugger.set_break(VarPythonCreate(FName),
+              TBreakPoint(BreakPoints[j]).LineNo,
+              0, TBreakPoint(BreakPoints[j]).Condition);
+          end else
+            InternalInterpreter.Debugger.set_break(VarPythonCreate(FName),
+              TBreakPoint(BreakPoints[j]).LineNo);
+        end;
       end;
     end;
   PyControl.BreakPointsChanged := False;
@@ -762,6 +778,11 @@ constructor TPyInternalInterpreter.Create(II: Variant);
 begin
   fII := II;
   fDebugger := II.debugger;
+
+  // Execute PyscripterSetup.py here
+
+  // sys.displayhook
+  fII.setupdisplayhook()
 end;
 
 function TPyInternalInterpreter.EvalCode(const Expr: string): Variant;
@@ -841,7 +862,7 @@ begin
           MessageDlg(E.Message, mtError, [mbOK], 0);
           SysUtils.Abort;
         end;
-        on E: EPyException do begin  //may raise OverflowError or ValueError
+        on E: EPythonError do begin  //may raise OverflowError or ValueError
           HandlePyException(E);
           MessageDlg(E.Message, mtError, [mbOK], 0);
           SysUtils.Abort;
@@ -904,7 +925,7 @@ begin
         end;
         CheckError;
       except
-        on E: EPyException do begin
+        on E: EPythonError do begin
           HandlePyException(E);
           Result := None;
         end;
@@ -1016,6 +1037,7 @@ Var
   tc : TTimeCaps;
   Path, OldPath : string;
   PythonPathAdder : IInterface;
+  ReturnFocusToEditor : Boolean;
 begin
   // Repeat here to make sure it is set right
   MaskFPUExceptions(CommandsDataModule.PyIDEOptions.MaskFPUExceptions);
@@ -1048,7 +1070,8 @@ begin
   // Set the command line parameters
   SetCommandLine(Editor.GetFileNameOrTitle);
 
-  ShowDockForm(PythonIIForm);
+  ReturnFocusToEditor := Editor = GI_ActiveEditor;
+  PyIDEMainForm.actNavInterpreterExecute(nil);
 
   try
     // Set Multimedia Timer
@@ -1064,7 +1087,7 @@ begin
       fII.run_nodebug(Code);
     except
       // CheckError already called by VarPyth
-      on E: EPyException do begin
+      on E: EPythonError do begin
         HandlePyException(E);
         MessageDlg(E.Message, mtError, [mbOK], 0);
         SysUtils.Abort;
@@ -1084,10 +1107,12 @@ begin
     ChDir(OldPath);
 
     PyControl.DoStateChange(dsInactive);
+    if ReturnFocusToEditor then
+      Editor.Activate;
   end;
 end;
 
-function TPyInternalInterpreter.RunSource(const Source, FileName : string): boolean;
+function TPyInternalInterpreter.RunSource(const Source, FileName : string; symbol : string = 'single'): boolean;
 Var
   OldDebuggerState : TDebuggerState;
 begin
@@ -1097,7 +1122,7 @@ begin
   try
     // Workaround due to PREFER_UNICODE flag to make sure
     // no conversion to Unicode and back will take place
-    Result := fII.runsource(VarPythonCreate(Source), FileName);
+    Result := fII.runsource(VarPythonCreate(Source), FileName, symbol);
   finally
     PyControl.DoStateChange(OldDebuggerState);
   end;

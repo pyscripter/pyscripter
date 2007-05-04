@@ -19,13 +19,13 @@ type
   TIDEDockWindow = class(TForm)
     DockClient: TJvDockClient;
     FGPanel: TPanel;
-    procedure FGPanelEnter(Sender: TObject);
-    procedure FGPanelExit(Sender: TObject);
     procedure FormResize(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure DockClientTabHostFormCreated(DockClient: TJvDockClient;
       TabHost: TJvDockTabHostForm);
+    procedure FormDeactivate(Sender: TObject);
+    procedure FormActivate(Sender: TObject);
   private
     { Private declarations }
   protected
@@ -43,19 +43,6 @@ implementation
 uses frmPyIDEMain, uCommonFunctions, JvDockGlobals;
 
 {$R *.dfm}
-
-procedure TIDEDockWindow.FGPanelEnter(Sender: TObject);
-begin
-  HasFocus := True;
-  Color := CurrentTheme.GetItemColor(GetItemInfo('hot'));
-end;
-
-procedure TIDEDockWindow.FGPanelExit(Sender: TObject);
-begin
-  HasFocus := False;
-  //Color := CurrentTheme.GetItemColor(GetItemInfo('inactive'));
-  Color := GetBorderColor('inactive');
-end;
 
 procedure TIDEDockWindow.FormResize(Sender: TObject);
 begin
@@ -86,14 +73,29 @@ begin
   end;
 end;
 
+procedure TIDEDockWindow.FormActivate(Sender: TObject);
+begin
+  HasFocus := True;
+  Color := CurrentTheme.GetItemColor(GetItemInfo('hot'));
+end;
+
 procedure TIDEDockWindow.FormCreate(Sender: TObject);
 begin
+  SetDesktopIconFonts(Self.Font);  // For Vista
+  SetVistaContentFonts(FGPanel.Font);
   FGPanel.ControlStyle := FGPanel.ControlStyle + [csOpaque];
 
   FormResize(Self);
-  FGPanelExit(Self);
+  //FGPanelExit(Self);
 
   AddThemeNotification(Self);
+end;
+
+procedure TIDEDockWindow.FormDeactivate(Sender: TObject);
+begin
+  HasFocus := False;
+  //Color := CurrentTheme.GetItemColor(GetItemInfo('inactive'));
+  Color := GetBorderColor('inactive');
 end;
 
 procedure TIDEDockWindow.FormDestroy(Sender: TObject);

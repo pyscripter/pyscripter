@@ -1,10 +1,10 @@
 object AskParamForm: TAskParamForm
   Left = 262
   Top = 241
-  Width = 393
-  Height = 147
   BorderIcons = [biSystemMenu]
   Caption = 'Unknown parameter'
+  ClientHeight = 113
+  ClientWidth = 385
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -34,34 +34,46 @@ object AskParamForm: TAskParamForm
     Anchors = [akLeft, akTop, akRight]
     TabOrder = 0
   end
-  object chkSaveToFile: TCheckBox
-    Left = 8
-    Top = 73
-    Width = 186
-    Height = 17
-    Caption = 'and save it a custom parameter'
-    TabOrder = 1
-  end
-  object btnOK: TButton
+  object btnOK: TSpTBXButton
     Left = 222
     Top = 82
     Width = 75
     Height = 25
-    Anchors = [akRight, akBottom]
     Caption = 'OK'
-    Default = True
-    ModalResult = 1
+    Anchors = [akRight, akBottom]
     TabOrder = 2
+    Default = True
+    LinkFont.Charset = DEFAULT_CHARSET
+    LinkFont.Color = clBlue
+    LinkFont.Height = -11
+    LinkFont.Name = 'Tahoma'
+    LinkFont.Style = [fsUnderline]
+    ModalResult = 1
   end
-  object btnCancel: TButton
+  object btnCancel: TSpTBXButton
     Left = 302
     Top = 82
     Width = 75
     Height = 25
-    Anchors = [akRight, akBottom]
-    Cancel = True
     Caption = 'Cancel'
-    ModalResult = 2
+    Anchors = [akRight, akBottom]
     TabOrder = 3
+    Cancel = True
+    LinkFont.Charset = DEFAULT_CHARSET
+    LinkFont.Color = clBlue
+    LinkFont.Height = -11
+    LinkFont.Name = 'Tahoma'
+    LinkFont.Style = [fsUnderline]
+    ModalResult = 2
+  end
+  object chkSaveToFile: TSpTBXCheckBox
+    Left = 8
+    Top = 73
+    Width = 166
+    Height = 15
+    Caption = 'and save it a custom parameter'
+    ParentColor = True
+    TabOrder = 1
+    ThemeType = thtWindows
   end
 end

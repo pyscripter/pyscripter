@@ -24,7 +24,7 @@ located at http://jvcl.sourceforge.net
 
 Known Issues:
 -----------------------------------------------------------------------------}
-// $Id: JvDockControlForm.pas 11124 2007-01-04 10:41:24Z obones $
+// $Id: JvDockControlForm.pas 11276 2007-04-24 19:33:37Z remkobonte $
 
 { Changes:
 
@@ -63,6 +63,10 @@ const
   JvDockState_Unknown = 0;
   JvDockState_Docking = 1;
   JvDockState_Floating = 2;
+
+  {$IFNDEF COMPILER9_UP}
+  CM_INVALIDATEDOCKHOST = CM_BASE + 70;
+  {$ENDIF !COMPILER9_UP}
 
 type
   TJvDockSplitterSize = 0..32767;
@@ -668,6 +672,8 @@ type
     function GetParentForm: TJvDockTabHostForm;
     procedure DockStyleChanged(Sender: TObject);
     function GetDockStyle: TJvDockObservableStyle;
+    function GetActiveDockForm: TCustomForm;
+    function GetDockForm(Index: Integer): TCustomForm;
   protected
     procedure AdjustClientRect(var Rect: TRect); override;
     procedure ReloadDockedControl(const AControlName: string;
@@ -694,6 +700,9 @@ type
     procedure DockDrop(Source: TDragDockObject; X, Y: Integer); override;
     procedure LoadFromStream(Stream: TStream); virtual;
     procedure SaveToStream(Stream: TStream); virtual;
+
+    property ActiveDockForm: TCustomForm read GetActiveDockForm;
+    property DockForm[Index: Integer]: TCustomForm read GetDockForm;
     { ParentForm is the Owner }
     property ParentForm: TJvDockTabHostForm read GetParentForm;
     property TabPosition;
@@ -761,7 +770,9 @@ type
     constructor Create(AOwner: TComponent); override;
     procedure ShowDockedControl(AControl:TWinControl); virtual; // If aControl is docked in PageControl, change PageControl to that page. NEW! WPostma.
     procedure UpdateCaption(AControl:TWinControl); virtual; // update tab host's tabs and title bar when page caption changes.
+    procedure DoDock(NewDockSite: TWinControl; var ARect: TRect); override;
 
+    // backwards compatibility: Mantis 4100
     function GetActiveDockForm: TForm;
     property DockClient;
     { Constructed in TJvDockClient.CreateTabDockClass }
@@ -849,7 +860,6 @@ procedure DoFloatAllForm;
 function GetClientAlignControlArea(AControl: TWinControl; Align: TAlign; Exclude: TControl = nil): Integer;
 procedure ResetDockClient(Control: TControl; NewTarget: TControl); overload;
 procedure ResetDockClient(DockClient: TJvDockClient; NewTarget: TControl); overload;
-procedure ReshowAllVisibleWindow;
 
 { Quick way to do tabbed docking programmatically - Added by Warren }
 function ManualTabDock(DockSite: TWinControl; Form1, Form2: TForm): TJvDockTabHostForm;
@@ -860,13 +870,21 @@ function ManualConjoinDock(DockSite: TWinControl; Form1, Form2: TForm): TJvDockC
 
 function DockStateStr(DockState: Integer): string; {return string for a dock state}
 
+procedure BeginDockLoading;
+procedure EndDockLoading;
+function JvGlobalDockIsLoading: Boolean;
+
+{$IFNDEF COMPILER9_UP}
+procedure InvalidateDockHostSiteOfControl(Control: TControl; FocusLost: Boolean);
+{$ENDIF !COMPILER9_UP}
+
 {$IFDEF USEJVCL}
 {$IFDEF UNITVERSIONING}
 const
   UnitVersioning: TUnitVersionInfo = (
-    RCSfile: '$URL: https://jvcl.svn.sourceforge.net/svnroot/jvcl/branches/JVCL3_30_PREPARATION/run/JvDockControlForm.pas $';
-    Revision: '$Revision: 11124 $';
-    Date: '$Date: 2007-01-04 11:41:24 +0100 (jeu., 04 janv. 2007) $';
+    RCSfile: '$URL: https://jvcl.svn.sourceforge.net:443/svnroot/jvcl/trunk/jvcl/run/JvDockControlForm.pas $';
+    Revision: '$Revision: 11276 $';
+    Date: '$Date: 2007-04-24 12:33:37 -0700 (Tue, 24 Apr 2007) $';
     LogPath: 'JVCL\run'
     );
 {$ENDIF UNITVERSIONING}
@@ -903,9 +921,29 @@ var
   DockPageControlHotTrack: Boolean = False;
   TabDockHostBorderStyle: TFormBorderStyle = bsSizeToolWin;
   ConjoinDockHostBorderStyle: TFormBorderStyle = bsSizeToolWin;
-  IsWinXP: Boolean;
+
+  GDockLoadCount: Integer = 0;
+  GShowingChanged: TList;
 
 //=== Local procedures =======================================================
+
+function IsWinXP_UP: Boolean;
+begin
+  Result := (Win32Platform = VER_PLATFORM_WIN32_NT) and
+    ((Win32MajorVersion > 5) or
+    (Win32MajorVersion = 5) and (Win32MinorVersion >= 1));
+end;
+
+procedure ApplyShowingChanged;
+var
+  I: Integer;
+begin
+  if IsWinXP_UP then
+    for I := 0 to Screen.FormCount - 1 do
+      if GShowingChanged.IndexOf(Screen.Forms[I]) >= 0 then
+        Screen.Forms[i].Perform(CM_SHOWINGCHANGED, 0, 0);
+  FreeAndNil(GShowingChanged);
+end;
 
 procedure UpdateCaption(Source: TWinControl; Exclude: TControl);
 var
@@ -928,6 +966,34 @@ begin
     UpdateCaption(Host.HostDockSite, nil);
   end;
 end;
+
+//=== Global procedures ======================================================
+
+procedure BeginDockLoading;
+begin
+  if GDockLoadCount = 0 then
+  begin
+    JvDockLockWindow(nil);
+  end;
+  Inc(GDockLoadCount);
+end;
+
+procedure EndDockLoading;
+begin
+  Dec(GDockLoadCount);
+  if GDockLoadCount = 0 then
+  begin
+    ApplyShowingChanged;
+    JvDockUnLockWindow;
+  end;
+end;
+
+function JvGlobalDockIsLoading: Boolean;
+begin
+  Result := GDockLoadCount > 0;
+end;
+
+{ ahuser: These functions are not call anywhere
 
 function GetActiveControl(AForm: TCustomForm): TWinControl;
 var
@@ -958,9 +1024,7 @@ begin
     end;
     AControl := AControl.Parent;
   end;
-end;
-
-//=== Global procedures ======================================================
+end;}
 
 function ComputeDockingRect(AControl: TControl; var DockRect: TRect; MousePos: TPoint): TAlign;
 var
@@ -1280,6 +1344,29 @@ begin
     TJvDockCustomControl(DockWindow.HostDockSite).UpdateCaption(DockWindow);
 end;
 
+{$IFNDEF COMPILER9_UP}
+procedure InvalidateDockHostSiteOfControl(Control: TControl; FocusLost: Boolean);
+var
+  ChildDockSite: TControl;
+  ParentWalk: TWinControl;
+begin
+  { Invalidate the first dock site we come across; its ui may
+    need updating to reflect which control has focus. }
+  if Control = nil then
+    Exit;
+  ChildDockSite := Control;
+  ParentWalk := Control.Parent;
+  while (ChildDockSite.HostDockSite = nil) and (ParentWalk <> nil) do
+  begin
+    ChildDockSite := ParentWalk;
+    ParentWalk := ParentWalk.Parent;
+  end;
+  if ChildDockSite <> nil then
+    TWinControlAccessProtected(ChildDockSite).SendDockNotification(CM_INVALIDATEDOCKHOST,
+      Integer(Control), Integer(FocusLost));
+end;
+{$ENDIF !COMPILER9_UP}
+
 function IsDockable(Sender: TWinControl; Client: TControl; DropCtl: TControl = nil;
   DockAlign: TAlign = alNone): Boolean;
 var
@@ -1376,38 +1463,24 @@ end;
 procedure LoadDockTreeFromAppStorage(AppStorage: TJvCustomAppStorage; AppStoragePath: string = '');
 var
   JvDockInfoTree: TJvDockInfoTree;
-  Form: TForm;
 begin
   AppStorage.BeginUpdate;
   try
     HideAllPopupPanel(nil); {This is in JvDockVSNetStyle.pas }
 
-    Form := TForm.CreateNew(nil);
-    // What does this form do, and why is it created only during the loading of the app storage?
-    Form.BorderStyle := bsNone;
-    Form.BoundsRect := Rect(0, 0, 0, 0);
-    Form.Visible := True;
-    Form.Name := {NOTRANSLATE} 'LoadDockTreeFromAppStorage_Form';
-
     JvDockInfoTree := TJvDockInfoTree.Create(TJvDockInfoZone);
-
-    JvDockLockWindow(nil);
     try
-      JvDockInfoTree.AppStorage := AppStorage;
-      JvDockInfoTree.AppStoragePath := AppStoragePath;
+      BeginDockLoading;
       try
-        JvGlobalDockIsLoading := True;
+        JvDockInfoTree.AppStorage := AppStorage;
+        JvDockInfoTree.AppStoragePath := AppStoragePath;
         JvDockInfoTree.ReadInfoFromAppStorage;
       finally
-        JvGlobalDockIsLoading := False;
+        EndDockLoading;
       end;
     finally
-//      Form.Release;
-      Form.Free;
-      JvDockUnLockWindow;
       JvDockInfoTree.Free;
     end;
-    ReshowAllVisibleWindow;
   finally
     AppStorage.EndUpdate;
   end;
@@ -1453,6 +1526,8 @@ var
 begin
   HideAllPopupPanel(nil);
 
+  { Creating a form with size 0 before locking the desktop supposedly prevents
+    some screen flicker }
   Form := TForm.CreateNew(nil);
   Form.BorderStyle := bsNone;
   Form.BoundsRect := Rect(0, 0, 0, 0);
@@ -1462,20 +1537,17 @@ begin
   JvDockInfoTree := TJvDockInfoTree.Create(TJvDockInfoZone);
 
   MemFile := TMemIniFile.Create(FileName);
-  JvDockLockWindow(nil);
+  BeginDockLoading;
   try
     JvDockInfoTree.DockInfoIni := MemFile;
     JvGlobalDockIsLoading := True;
     JvDockInfoTree.ReadInfoFromIni;
-    JvGlobalDockIsLoading := False;
   finally
-//    Form.Release;
     Form.Free;
-    JvDockUnLockWindow;
+    EndDockLoading;
     JvDockInfoTree.Free;
     MemFile.Free;
   end;
-  ReshowAllVisibleWindow;
 end;
 
 procedure LoadDockTreeFromReg(ARootKey: DWORD; RegPatch: string);
@@ -1485,6 +1557,8 @@ var
 begin
   HideAllPopupPanel(nil);
 
+  { Creating a form with size 0 before locking the desktop supposedly prevents
+    some screen flicker }
   Form := TForm.CreateNew(nil);
   Form.BorderStyle := bsNone;
   Form.BoundsRect := Rect(0, 0, 0, 0);
@@ -1493,24 +1567,20 @@ begin
 
   JvDockInfoTree := TJvDockInfoTree.Create(TJvDockInfoZone);
 
-  JvDockLockWindow(nil);
+  BeginDockLoading;
   try
     JvDockInfoTree.DockInfoReg := TRegistry.Create;
     try
-      JvGlobalDockIsLoading := True;
       JvDockInfoTree.DockInfoReg.RootKey := ARootKey;
       JvDockInfoTree.ReadInfoFromReg(RegPatch);
     finally
       JvDockInfoTree.DockInfoReg.Free;
-      JvGlobalDockIsLoading := False;
     end;
   finally
-    JvDockUnLockWindow;
+    EndDockLoading;
     JvDockInfoTree.Free;
-//    Form.Release;
     Form.Free;
   end;
-  ReshowAllVisibleWindow;
 end;
 
 {$ENDIF USEJVCL}
@@ -1652,17 +1722,6 @@ begin
   ResetDockClient(FindDockClient(Control), NewTarget);
 end;
 
-procedure ReshowAllVisibleWindow;
-var
-  I: Integer;
-begin
-  if IsWinXP then
-    for I := 0 to Screen.FormCount - 1 do
-      if Screen.Forms[I].Visible then
-        Windows.ShowWindow(Screen.Forms[I].Handle, SW_SHOW)
-      else
-        Windows.ShowWindow(Screen.Forms[I].Handle, SW_HIDE);
-end;
 
 {$IFDEF USEJVCL}
 
@@ -2950,8 +3009,10 @@ end;
 
 procedure TJvDockClient.Activate;
 begin
+  {$IFNDEF COMPILER9_UP}
   if ParentForm.HostDockSite is TJvDockCustomPanel then
-    TJvDockCustomPanel(ParentForm.HostDockSite).JvDockManager.ActiveControl := ParentForm;
+    InvalidateDockHostSiteOfControl(ParentForm, False);
+  {$ENDIF !COMPILER9_UP}
 end;
 
 procedure TJvDockClient.AddDockStyle(ADockStyle: TJvDockBasicStyle);
@@ -3113,9 +3174,10 @@ end;
 
 procedure TJvDockClient.Deactivate;
 begin
+  {$IFNDEF COMPILER9_UP}
   if ParentForm.HostDockSite is TJvDockCustomPanel then
-    if TJvDockCustomPanel(ParentForm.HostDockSite).JvDockManager <> nil then
-      TJvDockCustomPanel(ParentForm.HostDockSite).JvDockManager.ActiveControl := nil;
+    InvalidateDockHostSiteOfControl(ParentForm, True);
+  {$ENDIF !COMPILER9_UP}
 end;
 
 procedure TJvDockClient.DoFloatDockClients(PanelAlign: TAlign);
@@ -3524,8 +3586,13 @@ begin
   begin
     case Msg.Msg of
       CM_SHOWINGCHANGED:
-        if IsWinXP and JvGlobalDockIsLoading then
+        if IsWinXP_UP and JvGlobalDockIsLoading then
+        begin
+          if GShowingChanged = nil then
+            GShowingChanged := TList.Create;
+          GShowingChanged.Add(ParentForm);
           Exit;
+        end;
       WM_NCLBUTTONDOWN:
         begin
           WMNCLButtonDown(TWMNCHitMessage(Msg));
@@ -3589,12 +3656,9 @@ end;
 
 procedure TJvDockClient.WMActivate(var Msg: TWMActivate);
 begin
-  if ParentForm is TJvDockConjoinHostForm then
-    if Msg.Active = WA_INACTIVE then
-      TJvDockConjoinPanel(TJvDockConjoinHostForm(ParentForm).Panel).JvDockManager.ActiveControl := nil
-    else
-      TJvDockConjoinPanel(TJvDockConjoinHostForm(ParentForm).Panel).JvDockManager.ActiveControl :=
-        GetActiveControl(ParentForm);
+  {$IFNDEF COMPILER9_UP}
+  InvalidateDockHostSiteOfControl(ParentForm.ActiveControl, Msg.Active = WA_INACTIVE);
+  {$ENDIF !COMPILER9_UP}
 end;
 
 procedure TJvDockClient.WMNCLButtonDblClk(var Msg: TWMNCHitMessage);
@@ -4567,31 +4631,30 @@ begin
 end;
 
 procedure TJvDockServer.WMActivate(var Msg: TWMActivate);
+{$IFNDEF COMPILER9_UP}
 var
-  I: TAlign;
   Control: TWinControl;
+{$ENDIF !COMPILER9_UP}
 begin
+  {$IFNDEF COMPILER9_UP}
   if Msg.Active = WA_INACTIVE then
   begin
-    for I := alTop to alRight do
-      if Assigned(DockPanelWithAlign[I]) then
-        DockPanelWithAlign[I].JvDockManager.ActiveControl := nil;
+    Control := ParentForm.ActiveControl;
+    if Assigned(Control) then
+      InvalidateDockHostSiteOfControl(Control, True);
   end
   else
-  if AutoFocusDockedForm then
   begin
-    Control := GetActiveControl(ParentForm);
-    if not Assigned(Control) then
-      Exit;
-    for I := alTop to alRight do
-      if Assigned(DockPanelWithAlign[I]) then
-        if GetHostDockParent(Control) = DockPanelWithAlign[I] then
-        begin
-          DockPanelWithAlign[I].JvDockManager.ActiveControl := Control;
-          if Control.CanFocus then
-            Control.SetFocus;
-        end;
+    Control := ParentForm.ActiveControl;
+    if Assigned(Control) then
+    begin
+      //      { ?? }
+      //      if AutoFocusDockedForm and Control.CanFocus then
+      //        Control.SetFocus;
+      InvalidateDockHostSiteOfControl(Control, False);
+    end;
   end;
+  {$ENDIF !COMPILER9_UP}
 end;
 
 //=== { TJvDockSplitter } ====================================================
@@ -4751,11 +4814,21 @@ begin
   BorderStyle := TabDockHostBorderStyle;
 end;
 
+procedure TJvDockTabHostForm.DoDock(NewDockSite: TWinControl; var ARect: TRect);
+begin
+  inherited;
+  if not JvGlobalDockIsLoading and
+    not Assigned(NewDockSite) and
+    (GetActiveDockForm <> nil) and
+    GetParentForm(Self).Visible and
+    GetActiveDockForm.CanFocus then
+       GetActiveDockForm.SetFocus;
+end;
+
 function TJvDockTabHostForm.GetActiveDockForm: TForm;
 begin
-  if PageControl.ActivePage.ControlCount = 1 then
-    { Dirty cast }
-    Result := TForm(PageControl.ActivePage.Controls[0])
+  if PageControl.ActiveDockForm is TForm then
+    Result := TForm(PageControl.ActiveDockForm)
   else
     Result := nil;
 end;
@@ -4998,6 +5071,32 @@ begin
   Result := Perform(CM_UNDOCKCLIENT, Integer(NewTarget), Integer(Client)) = 0;
 end;
 
+function TJvDockTabPageControl.GetActiveDockForm: TCustomForm;
+begin
+  Result := DockForm[ActivePageIndex];
+end;
+
+function TJvDockTabPageControl.GetDockForm(Index: Integer): TCustomForm;
+var
+  Page: TJvDockTabSheet;
+begin
+  Result := nil;
+
+  if (Index > -1) and (Index < Count) then
+  begin
+    Page := Pages[Index];
+    if Assigned(Page) and (Page.ControlCount = 1) and (Page.Controls[0] is TCustomForm) then
+    begin
+      Result := TCustomForm(Page.Controls[0]);
+    end
+  end;
+end;
+
+function TJvDockTabPageControl.GetDockStyle: TJvDockObservableStyle;
+begin
+  Result := FStyleLink.DockStyle;
+end;
+
 function TJvDockTabPageControl.GetParentForm: TJvDockTabHostForm;
 begin
   if Parent is TJvDockTabHostForm then
@@ -5038,6 +5137,7 @@ begin
         AControl.ManualDock(Self, nil, alClient);
         { DockClients[Index] is always AControl? }
         DockClients[Index].Visible := Boolean(SheetVisible);
+        // KV
         if (Self is TJvDockVSNETTabPageControl) and (Index = Count - 1) then
           TJvDockVSNETTabSheet(Pages[Index]).OldVisible := Boolean(SheetVisible);
         Inc(Index);
@@ -5100,11 +5200,6 @@ procedure TJvDockTabPageControl.SyncWithStyle;
 begin
   HotTrack := DockStyle.TabServerOption.HotTrack;
   TabPosition := DockStyle.TabServerOption.TabPosition;
-end;
-
-function TJvDockTabPageControl.GetDockStyle: TJvDockObservableStyle;
-begin
-  Result := FStyleLink.DockStyle;
 end;
 
 //=== { TJvGlobalDockManager } ===============================================
@@ -5243,17 +5338,11 @@ begin
 end;
 
 procedure InitDockManager;
-var
-  OSVersionInfo: TOSVersionInfo;
 begin
   try
     JvGlobalDockManager.Free;
     JvGlobalDockManager := nil;
     JvGlobalDockManager := TJvGlobalDockManager.Create;
-
-    OSVersionInfo.dwOSVersionInfoSize := SizeOf(OSVersionInfo);
-    GetVersionEx(OSVersionInfo);
-    IsWinXP := (OSVersionInfo.dwMajorVersion = 5) and (OSVersionInfo.dwMinorVersion = 1);
   except
   end;
 end;

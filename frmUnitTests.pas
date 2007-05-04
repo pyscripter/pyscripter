@@ -210,10 +210,9 @@ end;
 procedure TUnitTestWindow.FormActivate(Sender: TObject);
 begin
   inherited;
-  if not HasFocus then begin
-    FGPanelEnter(Self);
-    PostMessage(UnitTests.Handle, WM_SETFOCUS, 0, 0);
-  end;
+  if UnitTests.CanFocus then
+    UnitTests.SetFocus;
+  //PostMessage(UnitTests.Handle, WM_SETFOCUS, 0, 0);
 end;
 
 procedure TUnitTestWindow.FormCreate(Sender: TObject);

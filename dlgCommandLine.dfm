@@ -26,7 +26,6 @@ object CommandLineDlg: TCommandLineDlg
     Height = 151
     Align = alClient
     TabOrder = 0
-    ExplicitWidth = 435
     DesignSize = (
       458
       151)
@@ -84,11 +83,9 @@ object CommandLineDlg: TCommandLineDlg
       Width = 75
       Height = 25
       Anchors = [akRight, akBottom]
-      Caption = '&OK'
       TabOrder = 1
       OnClick = OKButtonClick
       Kind = bkOK
-      ExplicitLeft = 89
     end
     object BitBtn2: TBitBtn
       Left = 206
@@ -96,10 +93,8 @@ object CommandLineDlg: TCommandLineDlg
       Width = 75
       Height = 25
       Anchors = [akRight, akBottom]
-      Caption = '&Cancel'
       TabOrder = 2
       Kind = bkCancel
-      ExplicitLeft = 183
     end
     object HelpButton: TBitBtn
       Left = 301
@@ -110,15 +105,6 @@ object CommandLineDlg: TCommandLineDlg
       TabOrder = 3
       OnClick = btnHelpClick
       Kind = bkHelp
-      ExplicitLeft = 278
-    end
-    object cbUseCommandLine: TCheckBox
-      Left = 8
-      Top = 8
-      Width = 241
-      Height = 17
-      Caption = 'Use Command Line Parameters?'
-      TabOrder = 4
     end
     object TBXButton1: TTBXButton
       Left = 429
@@ -131,6 +117,15 @@ object CommandLineDlg: TCommandLineDlg
       ParentShowHint = False
       ShowHint = True
       TabOrder = 5
+    end
+    object cbUseCommandLine: TSpTBXCheckBox
+      Left = 8
+      Top = 8
+      Width = 171
+      Height = 15
+      Caption = 'Use Command Line Parameters?'
+      ParentColor = True
+      TabOrder = 4
     end
   end
   object TBXPopupHistory: TTBXPopupMenu

@@ -30,7 +30,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ExtCtrls, JclMapi, JclDebug;
+  Dialogs, StdCtrls, ExtCtrls, JclMapi, JclDebug, TBXDkPanels, SpTBXControls;
 
 const
   UM_CREATEDETAILS = WM_USER + $100;
@@ -63,12 +63,12 @@ type
   TExcDialogSystemInfos = set of TExcDialogSystemInfo;
 
   TExceptionDialogMail = class(TForm)
-    SendBtn: TButton;
     TextLabel: TMemo;
-    OkBtn: TButton;
-    DetailsBtn: TButton;
     Bevel1: TBevel;
     DetailsMemo: TMemo;
+    SendBtn: TSpTBXButton;
+    OkBtn: TSpTBXButton;
+    DetailsBtn: TSpTBXButton;
     procedure SendBtnClick(Sender: TObject);
     procedure FormPaint(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -121,7 +121,7 @@ implementation
 uses
   ClipBrd, Math,
   JclBase, JclFileUtils, JclHookExcept, JclPeImage, JclStrings, JclSysInfo, JclSysUtils,
-  uCommonFunctions, PythonEngine;
+  uCommonFunctions, PythonEngine, dmCommands, TypInfo, cPyBaseDebugger;
 
 resourcestring
   RsAppError = '%s - application error';
@@ -444,6 +444,9 @@ begin
     // Version Info
     DetailsMemo.Lines.Add(Format('%s version : %s', [Application.Title, ApplicationVersion]));
     DetailsMemo.Lines.Add(Format('Python DLL : %s', [GetPythonEngine.DllName]));
+    DetailsMemo.Lines.Add(Format('Python Engine : %s', [
+      GetEnumName(System.TypeInfo(TPythonEngineType),
+      ord(CommandsDataModule.PyIDEOptions.PythonEngineType))]));
     NextDetailBlock;
     // Stack list
     if siStackList in SystemInfo then

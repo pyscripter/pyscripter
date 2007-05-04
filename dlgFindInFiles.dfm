@@ -47,37 +47,45 @@ object FindInFilesDialog: TFindInFilesDialog
     Height = 106
     Caption = 'Options'
     TabOrder = 1
-    object cbNoCase: TCheckBox
+    object cbNoCase: TSpTBXCheckBox
       Left = 8
       Top = 16
-      Width = 148
-      Height = 17
+      Width = 86
+      Height = 15
       Caption = '&Case sensitive'
+      ParentColor = True
       TabOrder = 0
+      ThemeType = thtWindows
     end
-    object cbNoComments: TCheckBox
+    object cbNoComments: TSpTBXCheckBox
       Left = 8
       Top = 79
-      Width = 148
-      Height = 17
+      Width = 99
+      Height = 15
       Caption = '&Ignore comments'
+      ParentColor = True
       TabOrder = 3
+      ThemeType = thtWindows
     end
-    object cbWholeWord: TCheckBox
+    object cbWholeWord: TSpTBXCheckBox
       Left = 8
       Top = 36
-      Width = 148
-      Height = 17
+      Width = 75
+      Height = 15
       Caption = '&Whole word'
+      ParentColor = True
       TabOrder = 1
+      ThemeType = thtWindows
     end
-    object cbRegEx: TCheckBox
+    object cbRegEx: TSpTBXCheckBox
       Left = 8
       Top = 58
-      Width = 148
-      Height = 17
+      Width = 108
+      Height = 15
       Caption = 'Regular e&xpression'
+      ParentColor = True
       TabOrder = 2
+      ThemeType = thtWindows
     end
   end
   object gbxWhere: TGroupBox
@@ -88,32 +96,38 @@ object FindInFilesDialog: TFindInFilesDialog
     Anchors = [akLeft, akTop, akRight]
     Caption = 'Where'
     TabOrder = 2
-    object rbOpenFiles: TRadioButton
+    object rbOpenFiles: TSpTBXRadioButton
       Left = 8
       Top = 36
-      Width = 168
-      Height = 17
+      Width = 65
+      Height = 15
       Caption = '&Open files'
+      ParentColor = True
       TabOrder = 1
       OnClick = rbDirectoriesClick
+      ThemeType = thtWindows
     end
-    object rbDirectories: TRadioButton
+    object rbDirectories: TSpTBXRadioButton
       Left = 8
       Top = 57
-      Width = 168
-      Height = 17
+      Width = 114
+      Height = 15
       Caption = 'Search in &directories'
+      ParentColor = True
       TabOrder = 2
       OnClick = rbDirectoriesClick
+      ThemeType = thtWindows
     end
-    object rbCurrentOnly: TRadioButton
+    object rbCurrentOnly: TSpTBXRadioButton
       Left = 8
       Top = 16
-      Width = 168
-      Height = 17
+      Width = 90
+      Height = 15
       Caption = 'Current &file only'
+      ParentColor = True
       TabOrder = 0
       OnClick = rbDirectoriesClick
+      ThemeType = thtWindows
     end
   end
   object gbxDirectories: TGroupBox
@@ -155,15 +169,6 @@ object FindInFilesDialog: TFindInFilesDialog
       ItemHeight = 13
       TabOrder = 2
     end
-    object cbInclude: TCheckBox
-      Left = 70
-      Top = 72
-      Width = 266
-      Height = 17
-      Anchors = [akLeft, akTop, akRight]
-      Caption = 'Include su&bdirectories'
-      TabOrder = 3
-    end
     object cbDirectory: TComboBox
       Left = 70
       Top = 22
@@ -175,51 +180,82 @@ object FindInFilesDialog: TFindInFilesDialog
       TabOrder = 0
       OnDropDown = cbDirectoryDropDown
     end
-    object btnBrowse: TButton
+    object btnBrowse: TSpTBXButton
       Left = 313
       Top = 22
       Width = 20
       Height = 20
       Hint = 'Select Directory'
-      Anchors = [akTop, akRight]
       Caption = '...'
+      Anchors = [akTop, akRight]
       ParentShowHint = False
       ShowHint = True
       TabOrder = 1
       TabStop = False
       OnClick = btnBrowseClick
+      LinkFont.Charset = DEFAULT_CHARSET
+      LinkFont.Color = clBlue
+      LinkFont.Height = -11
+      LinkFont.Name = 'Tahoma'
+      LinkFont.Style = [fsUnderline]
+    end
+    object cbInclude: TSpTBXCheckBox
+      Left = 70
+      Top = 72
+      Width = 121
+      Height = 15
+      Caption = 'Include su&bdirectories'
+      Anchors = [akLeft, akTop, akRight]
+      ParentColor = True
+      TabOrder = 3
+      ThemeType = thtWindows
     end
   end
-  object btnOK: TButton
+  object btnOK: TSpTBXButton
     Left = 120
     Top = 256
     Width = 75
     Height = 25
-    Anchors = [akRight, akBottom]
     Caption = 'OK'
-    Default = True
+    Anchors = [akRight, akBottom]
     TabOrder = 4
     OnClick = btnOKClick
+    Default = True
+    LinkFont.Charset = DEFAULT_CHARSET
+    LinkFont.Color = clBlue
+    LinkFont.Height = -11
+    LinkFont.Name = 'Tahoma'
+    LinkFont.Style = [fsUnderline]
   end
-  object btnCancel: TButton
+  object btnCancel: TSpTBXButton
     Left = 200
     Top = 256
     Width = 75
     Height = 25
-    Anchors = [akRight, akBottom]
-    Cancel = True
     Caption = 'Cancel'
-    ModalResult = 2
+    Anchors = [akRight, akBottom]
     TabOrder = 5
+    Cancel = True
+    LinkFont.Charset = DEFAULT_CHARSET
+    LinkFont.Color = clBlue
+    LinkFont.Height = -11
+    LinkFont.Name = 'Tahoma'
+    LinkFont.Style = [fsUnderline]
+    ModalResult = 2
   end
-  object btnHelp: TButton
+  object btnHelp: TSpTBXButton
     Left = 280
     Top = 256
     Width = 75
     Height = 25
-    Anchors = [akRight, akBottom]
     Caption = '&Help'
+    Anchors = [akRight, akBottom]
     TabOrder = 6
     OnClick = btnHelpClick
+    LinkFont.Charset = DEFAULT_CHARSET
+    LinkFont.Color = clBlue
+    LinkFont.Height = -11
+    LinkFont.Name = 'Tahoma'
+    LinkFont.Style = [fsUnderline]
   end
 end

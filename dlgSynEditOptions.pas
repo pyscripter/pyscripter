@@ -85,7 +85,7 @@ uses
   SynEditKeyCmds,
 {$ENDIF}
   Classes,
-  SysUtils;
+  SysUtils, SpTBXControls, TBXDkPanels;
 
 type
 {$IFNDEF SYN_DELPHI_4_UP}
@@ -110,41 +110,19 @@ type
 
   TfmEditorOptionsDialog = class(TForm)
     PageControl1: TPageControl;
-    btnOk: TButton;
-    btnCancel: TButton;
     Display: TTabSheet;
     Options: TTabSheet;
     Keystrokes: TTabSheet;
     gbBookmarks: TGroupBox;
-    ckBookmarkKeys: TCheckBox;
-    ckBookmarkVisible: TCheckBox;
     gbLineSpacing: TGroupBox;
     eLineSpacing: TEdit;
     gbGutter: TGroupBox;
     Label1: TLabel;
-    ckGutterAutosize: TCheckBox;
-    ckGutterShowLineNumbers: TCheckBox;
-    ckGutterShowLeaderZeros: TCheckBox;
-    ckGutterVisible: TCheckBox;
     gbRightEdge: TGroupBox;
     Label3: TLabel;
     eRightEdge: TEdit;
     gbEditorFont: TGroupBox;
-    btnFont: TButton;
     gbOptions: TGroupBox;
-    ckAutoIndent: TCheckBox;
-    ckDragAndDropEditing: TCheckBox;
-    ckDragAndDropFiles: TCheckBox;
-    ckHalfPageScroll: TCheckBox;
-    ckThemeSelection: TCheckBox;
-    ckScrollByOneLess: TCheckBox;
-    ckScrollPastEOF: TCheckBox;
-    ckScrollPastEOL: TCheckBox;
-    ckShowScrollHint: TCheckBox;
-    ckSmartTabs: TCheckBox;
-    ckTabsToSpaces: TCheckBox;
-    ckTrimTrailingSpaces: TCheckBox;
-    ckTabIndent: TCheckBox;
     gbCaret: TGroupBox;
     cInsertCaret: TComboBox;
     Label2: TLabel;
@@ -153,34 +131,19 @@ type
     Panel3: TPanel;
     labFont: TLabel;
     FontDialog: TFontDialog;
-    btnAddKey: TButton;
-    btnRemKey: TButton;
     gbKeyStrokes: TGroupBox;
     Label5: TLabel;
     Label6: TLabel;
     Label7: TLabel;
     cKeyCommand: TComboBox;
-    btnUpdateKey: TButton;
-    ckAltSetsColumnMode: TCheckBox;
-    ckKeepCaretX: TCheckBox;
     eTabWidth: TEdit;
     Label8: TLabel;
     Label9: TLabel;
     Label10: TLabel;
-    cbGutterFont: TCheckBox;
-    btnGutterFont: TButton;
-    ckScrollHintFollows: TCheckBox;
-    ckGroupUndo: TCheckBox;
-    ckSmartTabDelete: TCheckBox;
-    ckRightMouseMoves: TCheckBox;
     pnlGutterFontDisplay: TPanel;
     lblGutterFont: TLabel;
-    ckEnhanceHomeKey: TCheckBox;
     pnlCommands: TPanel;
     KeyList: TListView;
-    ckHideShowScrollbars: TCheckBox;
-    ckDisableScrollArrows: TCheckBox;
-    ckShowSpecialChars: TCheckBox;
     Color: TTabSheet;
     Label11: TLabel;
     lbElements: TListBox;
@@ -189,23 +152,60 @@ type
     Label13: TLabel;
     cbElementBackground: TColorBox;
     GroupBox1: TGroupBox;
-    cbxElementBold: TCheckBox;
-    cbxElementItalic: TCheckBox;
-    cbxElementUnderline: TCheckBox;
-    cbxElementStrikeout: TCheckBox;
     SynEdit1: TSynEdit;
     Label14: TLabel;
     Label15: TLabel;
     cbHighlighters: TComboBox;
-    cbApplyToAll: TCheckBox;
-    btnHelp: TButton;
     cbRightEdgeColor: TColorBox;
     cbGutterColor: TColorBox;
-    ckEnhanceEndKey: TCheckBox;
-    ckGutterStartAtZero: TCheckBox;
-    ckGutterGradient: TCheckBox;
     GroupBox2: TGroupBox;
     cbActiveLineColor: TColorBox;
+    btnGutterFont: TSpTBXButton;
+    btnFont: TSpTBXButton;
+    btnAddKey: TSpTBXButton;
+    btnRemKey: TSpTBXButton;
+    btnUpdateKey: TSpTBXButton;
+    btnOk: TSpTBXButton;
+    btnCancel: TSpTBXButton;
+    btnHelp: TSpTBXButton;
+    ckGutterAutosize: TSpTBXCheckBox;
+    ckGutterShowLineNumbers: TSpTBXCheckBox;
+    ckGutterShowLeaderZeros: TSpTBXCheckBox;
+    ckGutterVisible: TSpTBXCheckBox;
+    cbGutterFont: TSpTBXCheckBox;
+    ckGutterStartAtZero: TSpTBXCheckBox;
+    ckGutterGradient: TSpTBXCheckBox;
+    ckBookmarkKeys: TSpTBXCheckBox;
+    ckBookmarkVisible: TSpTBXCheckBox;
+    ckAutoIndent: TSpTBXCheckBox;
+    ckDragAndDropEditing: TSpTBXCheckBox;
+    ckWordWrap: TSpTBXCheckBox;
+    ckHalfPageScroll: TSpTBXCheckBox;
+    ckThemeSelection: TSpTBXCheckBox;
+    ckScrollByOneLess: TSpTBXCheckBox;
+    ckScrollPastEOF: TSpTBXCheckBox;
+    ckScrollPastEOL: TSpTBXCheckBox;
+    ckShowScrollHint: TSpTBXCheckBox;
+    ckSmartTabs: TSpTBXCheckBox;
+    ckTabsToSpaces: TSpTBXCheckBox;
+    ckTrimTrailingSpaces: TSpTBXCheckBox;
+    ckTabIndent: TSpTBXCheckBox;
+    ckAltSetsColumnMode: TSpTBXCheckBox;
+    ckKeepCaretX: TSpTBXCheckBox;
+    ckScrollHintFollows: TSpTBXCheckBox;
+    ckGroupUndo: TSpTBXCheckBox;
+    ckSmartTabDelete: TSpTBXCheckBox;
+    ckRightMouseMoves: TSpTBXCheckBox;
+    ckEnhanceHomeKey: TSpTBXCheckBox;
+    ckHideShowScrollbars: TSpTBXCheckBox;
+    ckDisableScrollArrows: TSpTBXCheckBox;
+    ckShowSpecialChars: TSpTBXCheckBox;
+    ckEnhanceEndKey: TSpTBXCheckBox;
+    cbxElementBold: TSpTBXCheckBox;
+    cbxElementItalic: TSpTBXCheckBox;
+    cbxElementUnderline: TSpTBXCheckBox;
+    cbxElementStrikeout: TSpTBXCheckBox;
+    cbApplyToAll: TSpTBXCheckBox;
     procedure SynEdit1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnFontClick(Sender: TObject);
@@ -324,6 +324,7 @@ type
   private
     FHideSelection: Boolean;
     FWantTabs: Boolean;
+    FWordWrap: Boolean;
     FMaxUndo: Integer;
     FExtraLineSpacing: Integer;
     FTabWidth: Integer;
@@ -361,6 +362,7 @@ type
     property RightEdge : Integer read FRightEdge write FRightEdge;
     property RightEdgeColor : TColor read FRightEdgeColor write FRightEdgeColor;
     property WantTabs : Boolean read FWantTabs write FWantTabs;
+    property WordWrap : Boolean read FWordWrap write FWordWrap;
     property InsertCaret : TSynEditCaretType read FInsertCaret write FInsertCaret;
     property OverwriteCaret : TSynEditCaretType read FOverwriteCaret write FOverwriteCaret;
     property HideSelection : Boolean read FHideSelection write FHideSelection;
@@ -566,6 +568,7 @@ begin
     Self.RightEdgeColor := TCustomSynEdit(Source).RightEdgeColor;
     Self.TabWidth := TCustomSynEdit(Source).TabWidth;
     Self.WantTabs := TCustomSynEdit(Source).WantTabs;
+    Self.WordWrap := TCustomSynEdit(Source).WordWrap;
     Self.ActiveLineColor := TCustomSynEdit(Source).ActiveLineColor;
 //!!    Self.WordBreakChars := TSynEdit(Source).WordBreakChars;
   end else if Assigned(Source) and (Source is TSynEditorOptionsContainer) then
@@ -588,6 +591,7 @@ begin
     Self.RightEdgeColor := TSynEditorOptionsContainer(Source).RightEdgeColor;
     Self.TabWidth := TSynEditorOptionsContainer(Source).TabWidth;
     Self.WantTabs := TSynEditorOptionsContainer(Source).WantTabs;
+    Self.WordWrap := TSynEditorOptionsContainer(Source).WordWrap;
     Self.ActiveLineColor := TSynEditorOptionsContainer(Source).ActiveLineColor;
   end else
     inherited;
@@ -615,6 +619,7 @@ begin
     TCustomSynEdit(Dest).RightEdgeColor := Self.RightEdgeColor;
     TCustomSynEdit(Dest).TabWidth := Self.TabWidth;
     TCustomSynEdit(Dest).WantTabs := Self.WantTabs;
+    TCustomSynEdit(Dest).WordWrap := Self.WordWrap;
     TCustomSynEdit(Dest).ActiveLineColor := Self.ActiveLineColor;
   end else
     inherited;
@@ -648,6 +653,7 @@ begin
   fActiveLineColor := clNone;
   TabWidth := 8;
   WantTabs := True;
+  WordWrap := False;
 //!!  WordBreakChars:= '.,;:''"&!?$%#@<>[](){}^-=+-*/\|';
 end;
 
@@ -712,6 +718,7 @@ procedure TfmEditorOptionsDialog.GetData;
 var I : Integer;
     Item : TListItem;
 begin
+  ckWordWrap.Checked := FSynedit.WordWrap;
   //Gutter
   ckGutterVisible.Checked:= FSynEdit.Gutter.Visible;
   ckGutterAutosize.Checked:= FSynEdit.Gutter.AutoSize;  //fixed by KF Orig: FSynEdit.Gutter.Visible;
@@ -742,7 +749,6 @@ begin
   //Options
   ckAutoIndent.Checked:= eoAutoIndent in FSynEdit.Options;
   ckDragAndDropEditing.Checked:= eoDragDropEditing in FSynEdit.Options;
-  ckDragAndDropFiles.Checked:= eoDropFiles in FSynEdit.Options;
   ckTabIndent.Checked:= eoTabIndent in FSynEdit.Options;
   ckSmartTabs.Checked:= eoSmartTabs in FSynEdit.Options;
   ckAltSetsColumnMode.Checked:= eoAltSetsColumnMode in FSynEdit.Options;
@@ -796,6 +802,7 @@ var
       Exclude(vOptions, aOption);
   end;
 begin
+  fSynEdit.WordWrap := ckWordWrap.Checked;
   //Gutter
   FSynEdit.Gutter.Visible:= ckGutterVisible.Checked;
   FSynEdit.Gutter.AutoSize := ckGutterAutosize.Checked;
@@ -825,7 +832,6 @@ begin
   vOptions := FSynEdit.Options; //Keep old values for unsupported options
   SetFlag(eoAutoIndent, ckAutoIndent.Checked);
   SetFlag(eoDragDropEditing, ckDragAndDropEditing.Checked);
-  SetFlag(eoDropFiles, ckDragAndDropFiles.Checked);
   SetFlag(eoTabIndent, ckTabIndent.Checked);
   SetFlag(eoSmartTabs, ckSmartTabs.Checked);
   SetFlag(eoAltSetsColumnMode, ckAltSetsColumnMode.Checked);
@@ -879,9 +885,9 @@ begin
     Top := 55;
     Width := 185;
     Height := 21;
-    HotKey := 0;
     InvalidKeys := [];
     Modifiers := [];
+    HotKey := 0;
     TabOrder := 1;
   end;
 
@@ -893,9 +899,9 @@ begin
     Top := 87;
     Width := 185;
     Height := 21;
-    HotKey := 0;
     InvalidKeys := [];
     Modifiers := [];
+    HotKey := 0;
     TabOrder := 2;
   end;
 end;

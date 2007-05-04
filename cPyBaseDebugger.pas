@@ -108,14 +108,14 @@ type
     function CallTipFromExpression(const Expr : string;
       var DisplayString, DocString : string) : Boolean; virtual; abstract;
     // Service routines
-    procedure HandlePyException(E : EPyException; SkipFrames : integer = 1); virtual;
+    procedure HandlePyException(E : EPythonError; SkipFrames : integer = 1); virtual;
     procedure SetCommandLine(const ScriptName : string); virtual; abstract;
     procedure RestoreCommandLine; virtual; abstract;
     procedure ReInitialize; virtual;
     // Main interface
     function ImportModule(Editor : IEditor; AddToNameSpace : Boolean = False) : Variant; virtual; abstract;
     procedure RunNoDebug(Editor : IEditor); virtual; abstract;
-    function RunSource(Const Source, FileName : string) : boolean; virtual; abstract;
+    function RunSource(Const Source, FileName : string; symbol : string = 'single') : boolean; virtual; abstract;
     function EvalCode(const Expr : string) : Variant; virtual; abstract;
     property InterpreterCapabilities : TInterpreterCapabilities read fInterpreterCapabilities;
   end;
@@ -142,7 +142,7 @@ type
     // Evaluate expression in the current frame
     procedure Evaluate(const Expr : string; out ObjType, Value : string); virtual; abstract;
     // Like the InteractiveInterpreter runsource but for the debugger frame
-    function RunSource(Const Source, FileName : string) : boolean; virtual; abstract;
+    function RunSource(Const Source, FileName : string; symbol : string = 'single') : boolean; virtual; abstract;
     // Fills in CallStackList with TBaseFrameInfo objects
     procedure GetCallStack(CallStackList : TObjectList); virtual; abstract;
     // functions to get TBaseNamespaceItems corresponding to a frame's gloabals and locals
@@ -178,7 +178,8 @@ type
     constructor Create;
     destructor Destroy; override;
     // Breakpoint related
-    procedure ToggleBreakpoint(Editor : IEditor; ALine: integer);
+    procedure ToggleBreakpoint(Editor : IEditor; ALine: integer;
+      CtrlPressed : Boolean = False);
     procedure SetBreakPoint(FileName : string; ALine : integer;
       Disabled : Boolean; Condition : string);
     procedure ClearAllBreakpoints;
@@ -335,7 +336,7 @@ begin
   Result := TPythonPathAdder.Create(SysPathAdd, SysPathRemove, Path, AutoRemove);
 end;
 
-procedure TPyBaseInterpreter.HandlePyException(E: EPyException; SkipFrames : integer = 1);
+procedure TPyBaseInterpreter.HandlePyException(E: EPythonError; SkipFrames : integer = 1);
 Var
   TI : TTracebackItem;
 begin
@@ -461,7 +462,8 @@ begin
   end;
 end;
 
-procedure TPythonControl.ToggleBreakpoint(Editor : IEditor; ALine: integer);
+procedure TPythonControl.ToggleBreakpoint(Editor : IEditor; ALine: integer;
+  CtrlPressed : Boolean = False);
 var
   Index : integer;
   i: integer;
@@ -471,7 +473,12 @@ begin
     Index := Editor.Breakpoints.Count;  // append at the end
     for i := 0 to Editor.Breakpoints.Count - 1 do begin
       if TBreakPoint(Editor.Breakpoints[i]).LineNo = ALine then begin
-        Editor.Breakpoints.Delete(i);
+        if CtrlPressed then
+          // Toggle disabled
+          TBreakPoint(Editor.Breakpoints[i]).Disabled :=
+            not TBreakPoint(Editor.Breakpoints[i]).Disabled
+        else
+          Editor.Breakpoints.Delete(i);
         Index := -1;
         break;
       end else if TBreakPoint(Editor.Breakpoints[i]).LineNo > ALine then begin
@@ -482,6 +489,8 @@ begin
     if Index >= 0 then begin
       BreakPoint := TBreakPoint.Create;
       BreakPoint.LineNo := ALine;
+      if CtrlPressed then
+        BreakPoint.Disabled := True;
       Editor.Breakpoints.Insert(Index, BreakPoint);
     end;
     DoOnBreakpointChanged(Editor, ALine);

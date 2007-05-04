@@ -1,7 +1,6 @@
 object JvDirectoryListDialog: TJvDirectoryListDialog
   Left = 206
   Top = 99
-  ActiveControl = AddBtn
   BorderIcons = [biSystemMenu]
   Caption = 'Directory list'
   ClientHeight = 194
@@ -22,63 +21,6 @@ object JvDirectoryListDialog: TJvDirectoryListDialog
     194)
   PixelsPerInch = 96
   TextHeight = 13
-  object AddBtn: TButton
-    Left = 336
-    Top = 12
-    Width = 75
-    Height = 25
-    Anchors = [akTop, akRight]
-    Caption = '&Add...'
-    TabOrder = 0
-    OnClick = AddBtnClick
-    ExplicitLeft = 298
-  end
-  object RemoveBtn: TButton
-    Left = 336
-    Top = 76
-    Width = 75
-    Height = 25
-    Anchors = [akTop, akRight]
-    Caption = '&Remove'
-    TabOrder = 2
-    OnClick = RemoveBtnClick
-    ExplicitLeft = 298
-  end
-  object ModifyBtn: TButton
-    Left = 336
-    Top = 44
-    Width = 75
-    Height = 25
-    Anchors = [akTop, akRight]
-    Caption = '&Modify'
-    TabOrder = 1
-    OnClick = ModifyBtnClick
-    ExplicitLeft = 298
-  end
-  object OKBtn: TButton
-    Left = 336
-    Top = 133
-    Width = 75
-    Height = 25
-    Anchors = [akRight, akBottom]
-    Caption = 'OK'
-    Default = True
-    ModalResult = 1
-    TabOrder = 3
-    ExplicitLeft = 298
-  end
-  object CancelBtn: TButton
-    Left = 336
-    Top = 165
-    Width = 75
-    Height = 25
-    Anchors = [akRight, akBottom]
-    Cancel = True
-    Caption = 'Cancel'
-    ModalResult = 2
-    TabOrder = 4
-    ExplicitLeft = 298
-  end
   object DirectoryList: TListBox
     Left = 8
     Top = 8
@@ -91,6 +33,82 @@ object JvDirectoryListDialog: TJvDirectoryListDialog
     OnClick = DirectoryListClick
     OnDragDrop = DirectoryListDragDrop
     OnDragOver = DirectoryListDragOver
-    ExplicitWidth = 284
+  end
+  object AddBtn: TSpTBXButton
+    Left = 336
+    Top = 12
+    Width = 75
+    Height = 25
+    Caption = '&Add...'
+    Anchors = [akTop, akRight]
+    TabOrder = 0
+    OnClick = AddBtnClick
+    LinkFont.Charset = DEFAULT_CHARSET
+    LinkFont.Color = clBlue
+    LinkFont.Height = -11
+    LinkFont.Name = 'Tahoma'
+    LinkFont.Style = [fsUnderline]
+  end
+  object RemoveBtn: TSpTBXButton
+    Left = 336
+    Top = 76
+    Width = 75
+    Height = 25
+    Caption = '&Remove'
+    Anchors = [akTop, akRight]
+    TabOrder = 2
+    OnClick = RemoveBtnClick
+    LinkFont.Charset = DEFAULT_CHARSET
+    LinkFont.Color = clBlue
+    LinkFont.Height = -11
+    LinkFont.Name = 'Tahoma'
+    LinkFont.Style = [fsUnderline]
+  end
+  object ModifyBtn: TSpTBXButton
+    Left = 336
+    Top = 44
+    Width = 75
+    Height = 25
+    Caption = '&Modify'
+    Anchors = [akTop, akRight]
+    TabOrder = 1
+    OnClick = ModifyBtnClick
+    LinkFont.Charset = DEFAULT_CHARSET
+    LinkFont.Color = clBlue
+    LinkFont.Height = -11
+    LinkFont.Name = 'Tahoma'
+    LinkFont.Style = [fsUnderline]
+  end
+  object OKBtn: TSpTBXButton
+    Left = 336
+    Top = 133
+    Width = 75
+    Height = 25
+    Caption = 'OK'
+    Anchors = [akRight, akBottom]
+    TabOrder = 3
+    Default = True
+    LinkFont.Charset = DEFAULT_CHARSET
+    LinkFont.Color = clBlue
+    LinkFont.Height = -11
+    LinkFont.Name = 'Tahoma'
+    LinkFont.Style = [fsUnderline]
+    ModalResult = 1
+  end
+  object CancelBtn: TSpTBXButton
+    Left = 336
+    Top = 165
+    Width = 75
+    Height = 25
+    Caption = 'Cancel'
+    Anchors = [akRight, akBottom]
+    TabOrder = 4
+    Cancel = True
+    LinkFont.Charset = DEFAULT_CHARSET
+    LinkFont.Color = clBlue
+    LinkFont.Height = -11
+    LinkFont.Name = 'Tahoma'
+    LinkFont.Style = [fsUnderline]
+    ModalResult = 2
   end
 end

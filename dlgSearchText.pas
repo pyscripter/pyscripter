@@ -42,22 +42,22 @@ interface
 
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  StdCtrls, ExtCtrls;
+  StdCtrls, ExtCtrls, SpTBXControls, TBXDkPanels;
 
 type
   TTextSearchDialog = class(TForm)
     Panel1: TPanel;
     Label1: TLabel;
     cbSearchText: TComboBox;
-    gbSearchOptions: TGroupBox;
-    cbSearchCaseSensitive: TCheckBox;
-    cbSearchWholeWords: TCheckBox;
-    cbSearchFromCursor: TCheckBox;
-    cbSearchSelectedOnly: TCheckBox;
-    cbRegularExpression: TCheckBox;
-    rgSearchDirection: TRadioGroup;
-    btnOK: TButton;
-    btnCancel: TButton;
+    btnOK: TSpTBXButton;
+    btnCancel: TSpTBXButton;
+    rgSearchDirection: TSpTBXRadioGroup;
+    gbSearchOptions: TSpTBXGroupBox;
+    cbSearchCaseSensitive: TSpTBXCheckBox;
+    cbSearchWholeWords: TSpTBXCheckBox;
+    cbSearchFromCursor: TSpTBXCheckBox;
+    cbSearchSelectedOnly: TSpTBXCheckBox;
+    cbRegularExpression: TSpTBXCheckBox;
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
   private
     function GetSearchBackwards: boolean;

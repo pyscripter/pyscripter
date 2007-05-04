@@ -328,7 +328,8 @@ begin
         FillBuffer;
       except on E: ELineTooLong do
         begin
-          MessageDlg(E.Message, mtWarning, [mbOK], 0);
+           // Just ingnore Issue 74
+          //MessageDlg(E.Message, mtWarning, [mbOK], 0);
           Exit;
         end;
       end;

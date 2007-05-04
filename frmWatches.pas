@@ -43,6 +43,8 @@ type
       Node: PVirtualNode; Column: TColumnIndex; TextType: TVSTTextType;
       var CellText: WideString);
     procedure TBXPopupMenuPopup(Sender: TObject);
+    procedure WatchesViewKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
   private
     { Private declarations }
     fWatchesList : TObjectList;
@@ -162,8 +164,21 @@ begin
 end;
 
 procedure TWatchesWindow.WatchesViewDblClick(Sender: TObject);
+Var
+  Pt : TPoint;
+  HitInfo: THitInfo;
 begin
-  mnEditWatchClick(Sender);
+  try
+    Pt := Mouse.CursorPos;
+    Pt := WatchesView.ScreenToClient(Pt);
+    WatchesView.GetHitTestInfoAt(Pt.X, Pt.Y, True, HitInfo);
+  except
+    HitInfo.HitNode := nil;
+  end;
+  if Assigned(HitInfo.HitNode) then
+    mnEditWatchClick(Sender)
+  else
+    mnAddWatchClick(Sender);
 end;
 
 procedure TWatchesWindow.mnCopyToClipboardClick(Sender: TObject);
@@ -174,10 +189,9 @@ end;
 procedure TWatchesWindow.FormActivate(Sender: TObject);
 begin
   inherited;
-  if not HasFocus then begin
-    FGPanelEnter(Self);
-    PostMessage(WatchesView.Handle, WM_SETFOCUS, 0, 0);
-  end;
+  if WatchesView.CanFocus then
+    WatchesView.SetFocus;
+  //PostMessage(WatchesView.Handle, WM_SETFOCUS, 0, 0);
 end;
 
 procedure TWatchesWindow.TBMThemeChange(var Message: TMessage);
@@ -216,6 +230,16 @@ begin
   Assert(Integer(Node.Index) < fWatchesList.Count);
   PWatchRec(WatchesView.GetNodeData(Node))^.WatchInfo :=
     fWatchesList[Node.Index] as TWatchInfo;
+end;
+
+procedure TWatchesWindow.WatchesViewKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  inherited;
+  if Key = VK_Delete then begin
+    mnRemoveWatchClick(Sender);
+    Key := 0;
+  end;
 end;
 
 procedure TWatchesWindow.WatchesViewGetText(Sender: TBaseVirtualTree;

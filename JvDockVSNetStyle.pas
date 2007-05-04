@@ -21,7 +21,7 @@ located at http://jvcl.sourceforge.net
 
 Known Issues:
 -----------------------------------------------------------------------------}
-// $Id: JvDockVSNetStyle.pas 11029 2006-11-23 12:09:20Z obones $
+// $Id: JvDockVSNetStyle.pas 11252 2007-04-05 22:12:55Z remkobonte $
 
 unit JvDockVSNetStyle;
 
@@ -273,7 +273,6 @@ type
 
   TJvDockVSNetStyle = class(TJvDockVIDStyle)
   private
-    FMouseleaved: Boolean; { Is the mouse over *any* of the forms with this style }
     FTimer: TTimer;
     FDockServers: TList;
     FCurrentTimer: Integer;
@@ -414,8 +413,8 @@ type
     procedure DoHideZoneChild(AZone: TJvDockZone); override;
     function GetTopGrabbersHTFlag(const MousePos: TPoint;
       out HTFlag: Integer; Zone: TJvDockZone): TJvDockZone; override;
-    procedure DrawDockGrabber(Control: TControl; const ARect: TRect); override;
-    procedure PaintDockGrabberRect(Canvas: TCanvas; Control: TControl;
+    procedure DrawDockGrabber(Control: TWinControl; const ARect: TRect); override;
+    procedure PaintDockGrabberRect(Canvas: TCanvas; Control: TWinControl;
       const ARect: TRect; PaintAlways: Boolean = False); override;
     procedure DrawCloseButton(Canvas: TCanvas; Zone: TJvDockZone;
       Left, Top: Integer); override;
@@ -542,9 +541,9 @@ var
 {$IFDEF UNITVERSIONING}
 const
   UnitVersioning: TUnitVersionInfo = (
-    RCSfile: '$URL: https://jvcl.svn.sourceforge.net/svnroot/jvcl/branches/JVCL3_30_PREPARATION/run/JvDockVSNetStyle.pas $';
-    Revision: '$Revision: 11029 $';
-    Date: '$Date: 2006-11-23 13:09:20 +0100 (jeu., 23 nov. 2006) $';
+    RCSfile: '$URL: https://jvcl.svn.sourceforge.net:443/svnroot/jvcl/trunk/jvcl/run/JvDockVSNetStyle.pas $';
+    Revision: '$Revision: 11252 $';
+    Date: '$Date: 2007-04-05 15:12:55 -0700 (Thu, 05 Apr 2007) $';
     LogPath: 'JVCL\run'
   );
 {$ENDIF UNITVERSIONING}
@@ -553,7 +552,7 @@ const
 implementation
 
 uses
-  SysUtils, Math, {AppEvnts,}
+  SysUtils, Math, {AppEvnts,} JvJVCLUtils,
   JvDockSupportProc;
 
 type
@@ -870,39 +869,32 @@ var
 
 var
   NewPane: TJvDockVSPane;
-  Form : TCustomForm;
+  Form: TCustomForm;
+  APageControl: TJvDockTabPageControl;
 begin
   PaneWidth := GetPaneWidth;
   if Control is TJvDockTabHostForm then
   begin
     FBlockType := btTabBlock;
-    with TJvDockTabHostForm(Control) do
+    APageControl := TJvDockTabHostForm(Control).PageControl;
+    FirstIndex := VSPaneCount;
+    { Mantis 3989: (Kiriakos) PageControl.DockClients does NOT have to be in the
+      same order as PageControl.Pages; for example, if we reorder the pages. }
+    for I := 0 to APageControl.Count - 1 do
     begin
-      FirstIndex := VSPaneCount;
-//      for I := 0 to PageControl.DockClientCount - 1 do
-//      begin
-//        AddPane(PageControl.DockClients[I], PaneWidth);
-//        TJvDockVSNETTabSheet(PageControl.Pages[I]).OldVisible := PageControl.DockClients[I].Visible;
-//        if PageControl.Pages[I] <> PageControl.ActivePage then
-//          PageControl.DockClients[I].Visible := False;
-//      end;
-      for I := 0 to PageControl.Count - 1 do
+      Form := APageControl.DockForm[I];
+      if Assigned(Form) then
       begin
-        if (PageControl.Pages[I].ControlCount > 0) and
-          (PageControl.Pages[I].Controls[0] is TCustomForm) then
-        begin
-          Form := TCustomForm(PageControl.Pages[I].Controls[0]);
-          NewPane := AddPane(Form, PaneWidth);
-          TJvDockVSNETTabSheet(PageControl.Pages[I]).OldVisible := Form.Visible;
-          if PageControl.Pages[I] <> PageControl.ActivePage then
-            Form.Visible := False
-          else if Assigned(NewPane) then
-            ActivePane := NewPane;
-        end;
+        NewPane := AddPane(Form, PaneWidth);
+        TJvDockVSNETTabSheet(APageControl.Pages[I]).OldVisible := Form.Visible;
+        if APageControl.Pages[I] <> APageControl.ActivePage then
+          Form.Visible := False
+        else if Assigned(NewPane) then
+          ActivePane := NewPane;
       end;
-      if not Assigned(ActivePane) then
-        UpdateActivePane(FirstIndex);
     end;
+    if not Assigned(ActivePane) then
+      UpdateActivePane(FirstIndex);
   end
   else
   begin
@@ -968,7 +960,7 @@ begin
   end;
   { Add the form icon }
 
-  if not Assigned(TCustomFormAccess(AControl).Icon) 
+  if not Assigned(TCustomFormAccess(AControl).Icon)
     {$IFDEF COMPILER6_UP}or not TCustomFormAccess(AControl).Icon.HandleAllocated{$ENDIF COMPILER6_UP} then
   begin
     Icon := TIcon.Create;
@@ -1178,7 +1170,12 @@ end;
 procedure TJvDockVSChannel.AutoFocusActiveDockForm;
 begin
   if DockServer.AutoFocusDockedForm and Assigned(ActiveDockForm) and ActiveDockForm.CanFocus then
+  begin
     ActiveDockForm.SetFocus;
+    {$IFNDEF COMPILER9_UP}
+    InvalidateDockHostSiteOfControl(ActiveDockForm, False);
+    {$ENDIF !COMPILER9_UP}
+  end;
 end;
 
 procedure TJvDockVSChannel.CMMouseLeave(var Msg: TMessage);
@@ -1451,7 +1448,7 @@ begin
   inherited MouseMove(Shift, X, Y);
 
   NewDelayPane := PaneAtPos(Point(X, Y));
-  if Assigned(NewDelayPane) and (NewDelayPane <> PopupPane) then
+  if Assigned(NewDelayPane) and (NewDelayPane <> PopupPane) and IsForegroundTask then
   begin
     // Create the timer object if not existing
     if FAnimationDelayTimer = nil then
@@ -2239,7 +2236,6 @@ end;
 constructor TJvDockVSNetStyle.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
-  FMouseleaved := True;
   DockPanelClass := TJvDockVSNETPanel;
   DockSplitterClass := TJvDockVSNETSplitter;
   ConjoinPanelClass := TJvDockVSNETConjoinPanel;
@@ -2313,22 +2309,9 @@ function TJvDockVSNetStyle.DockClientWindowProc(DockClient: TJvDockClient;
   var Msg: TMessage): Boolean;
 var
   Channel: TJvDockVSChannel;
-  FormRect: TRect;
-  MPosTp: TPoint;
 begin
   Result := inherited DockClientWindowProc(DockClient, Msg);
   case Msg.Msg of
-    CM_MOUSEENTER:
-      begin
-        FMouseleaved := False;
-      end;
-    CM_MOUSELEAVE: //Fix bug on AutoHide --Dejoy.
-      begin
-        GetCursorPos(MPosTp);
-        GetWindowRect(DockClient.ParentForm.Handle, FormRect);
-        if not PtInRect(FormRect, MPosTp) then
-          FMouseleaved := True;
-      end;
     CM_ENTER, CM_EXIT:
       begin
         Channel := RetrieveChannel(DockClient.ParentForm.HostDockSite);
@@ -2650,14 +2633,10 @@ begin
     Exit;
   end;
 
-  if not FMouseleaved then
-    Exit;
-
   Dec(FCurrentTimer, 100);
   if FCurrentTimer > 0 then
     Exit;
-  if FCurrentTimer < 0 then
-    DestroyTimer;
+  DestroyTimer;
 
   for I := 0 to FDockServers.Count - 1 do
   begin
@@ -2823,7 +2802,7 @@ begin
   begin
     if AZone.ChildControl is TJvDockTabHostForm then
     begin
-      Form := TJvDockTabHostForm(AZone.ChildControl).GetActiveDockForm;
+      Form := TJvDockTabHostForm(AZone.ChildControl).PageControl.ActiveDockForm;
       if Form <> nil then
       begin
         ADockClient := FindDockClient(Form);
@@ -2930,6 +2909,7 @@ var
   AZone: TJvDockVSNETZone;
   ColorArr: array [1..2] of TColor;
   ADockClient: TJvDockClient;
+  IsActive: Boolean;
 begin
   if Zone <> nil then
   begin
@@ -2938,12 +2918,14 @@ begin
       Left := Left + ButtonWidth; // move the auto hide button to the Close Button's location
 
     AZone := TJvDockVSNETZone(Zone);
+    IsActive := Assigned(Screen.ActiveControl) and Screen.ActiveControl.Focused and
+      AZone.ChildControl.ContainsControl(Screen.ActiveControl);
     if AZone.AutoHideBtnState <> bsNormal then
     begin
       if AZone.AutoHideBtnState = bsUp then
       begin
         ColorArr[1] := clBlack;
-        if GetActiveControl = AZone.ChildControl then
+        if IsActive then
           ColorArr[2] := clBtnFace
         else
           ColorArr[2] := clWhite;
@@ -2969,7 +2951,7 @@ begin
       Inc(Top);
     end;
 
-    if AZone.ChildControl = GetActiveControl then
+    if IsActive then
       Canvas.Pen.Color := clWhite
     else
       Canvas.Pen.Color := clBlack;
@@ -3011,6 +2993,7 @@ var
   ColorArr: array [1..2] of TColor;
   ADockClient: TJvDockClient;
   AForm: TCustomForm;
+  IsActive: Boolean;
 begin
   if Zone <> nil then
   begin
@@ -3019,7 +3002,7 @@ begin
       Exit;
     if Zone.ChildControl is TJvDockTabHostForm then
     begin
-      AForm := TJvDockTabHostForm(Zone.ChildControl).GetActiveDockForm;
+      AForm := TJvDockTabHostForm(Zone.ChildControl).PageControl.ActiveDockForm;
       if AForm <> nil then
       begin
         ADockClient := FindDockClient(AForm);
@@ -3028,6 +3011,8 @@ begin
       end;
     end;
     AZone := TJvDockVSNETZone(Zone);
+    IsActive := Assigned(Screen.ActiveControl) and Screen.ActiveControl.Focused and
+      AZone.ChildControl.ContainsControl(Screen.ActiveControl);
 
     DrawRect.Left := Left + 6;
     DrawRect.Right := DrawRect.Left + 7;
@@ -3039,7 +3024,7 @@ begin
       if AZone.CloseBtnState = bsUp then
       begin
         ColorArr[1] := clBlack;
-        if GetActiveControl = AZone.ChildControl then
+        if IsActive then
           ColorArr[2] := clBtnFace
         else
           ColorArr[2] := clWhite;
@@ -3062,7 +3047,7 @@ begin
     if AZone.CloseBtnState = bsDown then
       OffsetRect(DrawRect, 1, 1);
 
-    if AZone.ChildControl = GetActiveControl then
+    if IsActive then
       Canvas.Pen.Color := clWhite
     else
       Canvas.Pen.Color := clBlack;
@@ -3073,7 +3058,7 @@ begin
   end;
 end;
 
-procedure TJvDockVSNETTree.DrawDockGrabber(Control: TControl; const ARect: TRect);
+procedure TJvDockVSNETTree.DrawDockGrabber(Control: TWinControl; const ARect: TRect);
 begin
   inherited DrawDockGrabber(Control, ARect);
   if DockSite.Align <> alClient then
@@ -3139,12 +3124,15 @@ begin
 end;
 
 procedure TJvDockVSNETTree.PaintDockGrabberRect(Canvas: TCanvas;
-  Control: TControl; const ARect: TRect; PaintAlways: Boolean = False);
+  Control: TWinControl; const ARect: TRect; PaintAlways: Boolean = False);
 var
   DrawRect: TRect;
+  IsActive: Boolean;
 begin
   inherited PaintDockGrabberRect(Canvas, Control, ARect);
-  if (GetActiveControl <> Control) or PaintAlways then
+  IsActive := Assigned(Screen.ActiveControl) and Screen.ActiveControl.Focused and
+    Control.ContainsControl(Screen.ActiveControl);
+  if not IsActive or PaintAlways then
   begin
     Canvas.Pen.Color := clGray;
     DrawRect := ARect;

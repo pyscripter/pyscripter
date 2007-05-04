@@ -35,7 +35,6 @@ type
     N2: TTBXSeparatorItem;
     Font1: TTBXItem;
     BackgroundColor1: TTBXItem;
-    procedure FormActivate(Sender: TObject);
     procedure actSelectColorExecute(Sender: TObject);
     procedure actOutputFontExecute(Sender: TObject);
     procedure actClearOutputExecute(Sender: TObject);
@@ -53,6 +52,7 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure TimeoutTimerTimer(Sender: TObject);
+    procedure FormActivate(Sender: TObject);
   private
     { Private declarations }
     fTool : TExternalTool;
@@ -122,15 +122,6 @@ begin
   lsbConsole.Clear;
   lsbConsole.ScrollWidth := 0;
   fItemMaxWidth := 0;
-end;
-
-procedure TOutputWindow.FormActivate(Sender: TObject);
-begin
-  inherited;
-  if not HasFocus then begin
-    FGPanelEnter(Self);
-    PostMessage(lsbConsole.Handle, WM_SETFOCUS, 0, 0);
-  end;
 end;
 
 procedure TOutputWindow.actSelectColorExecute(Sender: TObject);
@@ -593,6 +584,13 @@ begin
   actToolTerminate.Enabled := JvCreateProcess.State <> psReady;
   actToolStopWaiting.Enabled := (JvCreateProcess.State <> psReady) and
     not (coRedirect in JvCreateProcess.ConsoleOptions);
+end;
+
+procedure TOutputWindow.FormActivate(Sender: TObject);
+begin
+  inherited;
+  if lsbConsole.CanFocus then
+    lsbConsole.SetFocus;
 end;
 
 procedure TOutputWindow.FormCreate(Sender: TObject);

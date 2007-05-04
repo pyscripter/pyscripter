@@ -27,16 +27,17 @@ unit dlgDirectoryList;
 interface
 
 uses
-  SysUtils, Classes, Windows, Controls, Forms, StdCtrls;
+  SysUtils, Classes, Windows, Controls, Forms, StdCtrls, TBXDkPanels,
+  SpTBXControls;
 
 type
   TJvDirectoryListDialog = class(TForm)
-    AddBtn: TButton;
-    RemoveBtn: TButton;
-    ModifyBtn: TButton;
-    OKBtn: TButton;
-    CancelBtn: TButton;
     DirectoryList: TListBox;
+    AddBtn: TSpTBXButton;
+    RemoveBtn: TSpTBXButton;
+    ModifyBtn: TSpTBXButton;
+    OKBtn: TSpTBXButton;
+    CancelBtn: TSpTBXButton;
     procedure AddBtnClick(Sender: TObject);
     procedure ModifyBtnClick(Sender: TObject);
     procedure RemoveBtnClick(Sender: TObject);
@@ -98,7 +99,7 @@ var
   S: string;
 begin
   S := '';
-  if BrowseDirectory(S, 'Select Director to Add:', 0) then
+  if BrowseDirectory(S, 'Select Directory to Add:', 0) then
   begin
     if DirectoryList.Items.IndexOf(S) < 0 then begin
       DirectoryList.AddItem(S, nil);

@@ -1,1 +1,5 @@
-Copy the included files to the PyScripter installation folder overriding existing files.  Please note that to use remote debugging you need to install the Python package Rpyc which is available at http://rpyc.sf.net.
+Copy the included files to the PyScripter installation folder overriding existing files.  
+Please note that to use remote debugging you need to install the Python package Rpyc which is available at http://rpyc.sf.net.
+
+If you upgrade from a version earlier than 1.8.5 you will need to change the PyScripter shortcuts, since now command line 
+arguments are prefixed by double dash ("--").

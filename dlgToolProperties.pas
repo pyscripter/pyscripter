@@ -12,15 +12,13 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, cTools, ExtCtrls, StdCtrls, JvExStdCtrls, JvCheckBox, SynEdit,
+  Dialogs, cTools, ExtCtrls, StdCtrls, SynEdit,
   JvGroupBox, ComCtrls, JvExComCtrls, JvHotKey, Mask, JvExMask,
-  JvSpin, Menus, ActnList, TBXDkPanels;
+  JvSpin, Menus, ActnList, TBXDkPanels, SpTBXControls, JvExStdCtrls;
 
 type
   TToolProperties = class(TForm)
     Panel1: TPanel;
-    btnOK: TButton;
-    btnCancel: TButton;
     FormatsPopup: TPopupMenu;
     Filename1: TMenuItem;
     Linenumber1: TMenuItem;
@@ -42,8 +40,6 @@ type
     SynApplication: TSynEdit;
     SynParameters: TSynEdit;
     SynWorkDir: TSynEdit;
-    btnAppDir: TButton;
-    btnWorkDir: TButton;
     JvGroupBox4: TJvGroupBox;
     Label4: TLabel;
     Label8: TLabel;
@@ -53,16 +49,10 @@ type
     Label10: TLabel;
     Label11: TLabel;
     Label12: TLabel;
-    cbCaptureOutput: TJvCheckBox;
-    cbParseMessages: TJvCheckBox;
     edMessagesFormat: TEdit;
-    btnStdFormats: TButton;
     JvGroupBox5: TJvGroupBox;
     Label9: TLabel;
-    cbHideConsole: TJvCheckBox;
-    cbWaitForTermination: TJvCheckBox;
     seTimeout: TJvSpinEdit;
-    cbParseTraceback: TJvCheckBox;
     lvItems: TListView;
     JvGroupBox6: TJvGroupBox;
     Label15: TLabel;
@@ -75,17 +65,27 @@ type
     actMoveDown: TAction;
     actUpdateItem: TAction;
     edEnvValue: TEdit;
-    cbUseCustomEnv: TJvCheckBox;
-    btnHelp: TButton;
-    TBXButton1: TTBXButton;
-    TBXButton3: TTBXButton;
-    TBXButton4: TTBXButton;
-    TBXButton5: TTBXButton;
-    TBXButton2: TTBXButton;
     cbStandardInput: TComboBox;
     cbStandardOutput: TComboBox;
     cbContext: TComboBox;
     cbSaveFiles: TComboBox;
+    btnOK: TSpTBXButton;
+    btnCancel: TSpTBXButton;
+    btnAppDir: TSpTBXButton;
+    btnWorkDir: TSpTBXButton;
+    btnStdFormats: TSpTBXButton;
+    btnHelp: TSpTBXButton;
+    cbCaptureOutput: TSpTBXCheckBox;
+    cbParseMessages: TSpTBXCheckBox;
+    cbParseTraceback: TSpTBXCheckBox;
+    cbHideConsole: TSpTBXCheckBox;
+    cbWaitForTermination: TSpTBXCheckBox;
+    cbUseCustomEnv: TSpTBXCheckBox;
+    TBXButton1: TSpTBXButton;
+    TBXButton3: TSpTBXButton;
+    TBXButton4: TSpTBXButton;
+    TBXButton5: TSpTBXButton;
+    TBXButton2: TSpTBXButton;
     procedure FormShow(Sender: TObject);
     procedure btnStdFormatsClick(Sender: TObject);
     procedure Filename1Click(Sender: TObject);
@@ -105,6 +105,7 @@ type
       Change: TItemChange);
     procedure ActionListUpdate(Action: TBasicAction; var Handled: Boolean);
     procedure btnHelpClick(Sender: TObject);
+    procedure cbParseMessagesClick(Sender: TObject);
   private
     { Private declarations }
     fEnvStrings : TStrings;
@@ -178,7 +179,6 @@ begin
           Environment.Add(lvItems.Items[i].Caption + '=' + lvItems.Items[i].SubItems[0]);
       end;
     end;
-    cbParseMessages.LinkedControls.Clear;  // workaround to JVCL bug in JvCheckBox
   finally
     Release;
   end;
@@ -192,7 +192,7 @@ begin
   FormatsPopup.Popup(p.x, p.y);
 end;
 
-procedure TToolProperties.Filename1Click(Sender: TObject);
+procedure TToolProperties.Filename1Click(Sender: TObject);  
 begin
   case (Sender as TMenuItem).Tag of
     0: edMessagesFormat.SelText := GrepFileNameParam;
@@ -241,6 +241,12 @@ begin
     SynWorkDir.SelText := S;
     SynWorkDir.SetFocus;
   end;
+end;
+
+procedure TToolProperties.cbParseMessagesClick(Sender: TObject);
+begin
+  edMessagesFormat.Enabled := cbParseMessages.Checked;
+  btnStdFormats.Enabled := cbParseMessages.Checked;
 end;
 
 procedure TToolProperties.btnAppDirClick(Sender: TObject);

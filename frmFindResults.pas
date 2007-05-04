@@ -145,9 +145,9 @@ type
     procedure FormShow(Sender: TObject);
     procedure actReplaceAllExecute(Sender: TObject);
     procedure actReplaceSelectedExecute(Sender: TObject);
-    procedure FormActivate(Sender: TObject);
     procedure actViewStatusBarExecute(Sender: TObject);
     procedure actHelpHelpExecute(Sender: TObject);
+    procedure FormActivate(Sender: TObject);
   private
     FSearchInProgress: Boolean;
     FReplaceInProgress: Boolean;
@@ -260,6 +260,13 @@ begin
     #13:
       GotoHighlightedListEntry;
   end;
+end;
+
+procedure TFindResultsWindow.FormActivate(Sender: TObject);
+begin
+  inherited;
+  if lbResults.CanFocus then
+    lbResults.SetFocus;
 end;
 
 procedure TFindResultsWindow.FormKeyPress(Sender: TObject; var Key: Char);
@@ -1238,15 +1245,6 @@ begin
     end;
   finally
     FreeAndNil(RichEdit);
-  end;
-end;
-
-procedure TFindResultsWindow.FormActivate(Sender: TObject);
-begin
-  inherited;
-  if not HasFocus then begin
-    FGPanelEnter(Self);
-    PostMessage(lbResults.Handle, WM_SETFOCUS, 0, 0);
   end;
 end;
 

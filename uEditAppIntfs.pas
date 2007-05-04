@@ -112,6 +112,7 @@ type
     procedure SetFileEncoding(FileEncoding : TFileSaveFormat);
     procedure OpenFile(const AFileName: string; HighlighterName : string = '');
     function HasPythonFile : Boolean;
+    procedure ExecuteSelection;
     property FileName : string read GetFileName;
     property FileTitle : string read GetFileTitle;
     property Modified : boolean read GetModified;
@@ -163,11 +164,13 @@ type
     function CanPrint: boolean;
     function CanSave: boolean;
     function CanSaveAs: boolean;
+    function CanReload: boolean;
     procedure ExecClose;
     procedure ExecPrint;
     procedure ExecPrintPreview;
     procedure ExecSave;
     procedure ExecSaveAs;
+    procedure ExecReload(Quiet : Boolean = False);
   end;
 
   ISearchCommands = interface

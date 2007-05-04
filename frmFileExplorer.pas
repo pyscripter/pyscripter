@@ -104,7 +104,6 @@ type
     procedure actGoUpExecute(Sender: TObject);
     procedure actRefreshExecute(Sender: TObject);
     procedure actEnableFilterExecute(Sender: TObject);
-    procedure FormActivate(Sender: TObject);
     procedure TBXItemBackPopup(Sender: TTBCustomItem;
       FromLink: Boolean);
     procedure TBXItemForwardPopup(Sender: TTBCustomItem;
@@ -117,6 +116,7 @@ type
     procedure actAddToFavouritesExecute(Sender: TObject);
     procedure mnFavouritesPopup(Sender: TTBCustomItem; FromLink: Boolean);
     procedure actNewFolderExecute(Sender: TObject);
+    procedure FormActivate(Sender: TObject);
   private
     fFavourites: TStringList;
     { Private declarations }
@@ -400,10 +400,8 @@ end;
 procedure TFileExplorerWindow.FormActivate(Sender: TObject);
 begin
   inherited;
-  if not HasFocus then begin
-    FGPanelEnter(Self);
-    PostMessage(FileExplorerTree.Handle, WM_SETFOCUS, 0, 0);
-  end;
+  if FileExplorerTree.CanFocus then
+    FileExplorerTree.SetFocus;
 end;
 
 procedure TFileExplorerWindow.FormCreate(Sender: TObject);

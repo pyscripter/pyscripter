@@ -31,7 +31,6 @@ type
       Node: PVirtualNode);
     procedure BreakPointLVDblClick(Sender: TObject);
     procedure mnClearClick(Sender: TObject);
-    procedure FormActivate(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure BreakPointsViewInitNode(Sender: TBaseVirtualTree; ParentNode,
@@ -39,6 +38,7 @@ type
     procedure BreakPointsViewGetText(Sender: TBaseVirtualTree;
       Node: PVirtualNode; Column: TColumnIndex; TextType: TVSTTextType;
       var CellText: WideString);
+    procedure FormActivate(Sender: TObject);
   private
     { Private declarations }
     fBreakPointsList : TObjectList;
@@ -150,10 +150,8 @@ end;
 procedure TBreakPointsWindow.FormActivate(Sender: TObject);
 begin
   inherited;
-  if not HasFocus then begin
-    FGPanelEnter(Self);
-    PostMessage(BreakPointsView.Handle, WM_SETFOCUS, 0, 0);
-  end;
+  if BreakPointsView.CanFocus then
+    BreakPointsView.SetFocus;
 end;
 
 procedure TBreakPointsWindow.FormCreate(Sender: TObject);

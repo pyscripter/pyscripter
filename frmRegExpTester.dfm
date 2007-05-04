@@ -47,8 +47,7 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
     000000000000000000F77E7E1023000000000000000000000000F77D7E11FFFF
     0000E00F00008003000000010000000100000001000000010000000100000003
     00000007000080030000E0010000FF800000FFC00000FFE00000FFF00000}
-  OnActivate = FormActivate
-  ExplicitWidth = 241
+  ExplicitWidth = 249
   PixelsPerInch = 96
   TextHeight = 13
   inherited FGPanel: TPanel
@@ -189,18 +188,17 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
       Width = 402
       Height = 358
       Position = dpLeft
-      object TBXDockablePanel3: TTBXDockablePanel
+      object TBXDockablePanel4: TTBXDockablePanel
         Left = 0
         Top = 218
         Align = alBottom
-        Caption = 'TBXDockablePanel3'
         DockedWidth = 398
         DockPos = 218
         ShowCaption = False
         ShowCaptionWhenDocked = False
-        SplitHeight = 125
+        SplitHeight = 124
         SupportedDocks = [dkStandardDock, dkMultiDock]
-        TabOrder = 0
+        TabOrder = 3
         object TBXLabel1: TTBXLabel
           Left = 0
           Top = 0
@@ -239,12 +237,14 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
           Header.Font.Name = 'MS Shell Dlg 2'
           Header.Font.Style = []
           Header.Options = [hoAutoResize, hoColumnResize, hoDrag, hoOwnerDraw, hoVisible]
+          Header.ParentFont = True
           HintMode = hmTooltip
           TabOrder = 1
           TreeOptions.MiscOptions = [toFullRepaintOnResize, toInitOnSave, toReportMode, toToggleOnDblClick, toWheelPanning]
           TreeOptions.PaintOptions = [toShowButtons, toShowDropmark, toShowHorzGridLines, toShowVertGridLines, toUseBlendedImages, toUseBlendedSelection]
           TreeOptions.StringOptions = [toAutoAcceptEditChange]
           OnGetText = GroupsViewGetText
+          ExplicitTop = 21
           Columns = <
             item
               Alignment = taRightJustify
@@ -269,17 +269,16 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
             end>
         end
       end
-      object TBXDockablePanel1: TTBXDockablePanel
+      object TBXDockablePanel3: TTBXDockablePanel
         Left = 0
-        Top = 139
-        Caption = 'TBXDockablePanel3'
+        Top = 155
         DockedWidth = 398
-        DockPos = 139
+        DockPos = 155
         ShowCaption = False
         ShowCaptionWhenDocked = False
-        SplitHeight = 79
+        SplitHeight = 63
         SupportedDocks = [dkStandardDock, dkMultiDock]
-        TabOrder = 1
+        TabOrder = 2
         object TBXLabel2: TTBXLabel
           Left = 0
           Top = 0
@@ -305,24 +304,25 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
           Left = 0
           Top = 22
           Width = 398
-          Height = 53
+          Height = 37
           Align = alClient
+          AutoSize = False
           AutoURLDetect = False
           PlainText = True
           TabOrder = 1
+          ExplicitHeight = 53
         end
       end
-      object TBXDockablePanel2: TTBXDockablePanel
+      object TBXDockablePanel1: TTBXDockablePanel
         Left = 0
         Top = 0
-        Caption = 'TBXDockablePanel3'
         DockedWidth = 398
         DockPos = 0
         ShowCaption = False
         ShowCaptionWhenDocked = False
-        SplitHeight = 60
+        SplitHeight = 76
         SupportedDocks = [dkStandardDock, dkMultiDock]
-        TabOrder = 2
+        TabOrder = 0
         object TBXLabel3: TTBXLabel
           Left = 0
           Top = 0
@@ -348,25 +348,26 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
           Left = 0
           Top = 22
           Width = 398
-          Height = 33
+          Height = 50
           Align = alClient
+          AutoSize = False
           AutoURLDetect = False
           PlainText = True
           TabOrder = 1
           OnChange = RegExpTextChange
+          ExplicitHeight = 33
         end
       end
-      object TBXDockablePanel4: TTBXDockablePanel
+      object TBXDockablePanel2: TTBXDockablePanel
         Left = 0
-        Top = 59
-        Caption = 'TBXDockablePanel3'
+        Top = 76
         DockedWidth = 398
-        DockPos = 59
+        DockPos = 76
         ShowCaption = False
         ShowCaptionWhenDocked = False
-        SplitHeight = 81
+        SplitHeight = 79
         SupportedDocks = [dkStandardDock, dkMultiDock]
-        TabOrder = 3
+        TabOrder = 1
         object TBXLabel4: TTBXLabel
           Left = 0
           Top = 0
@@ -392,12 +393,14 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
           Left = 0
           Top = 22
           Width = 398
-          Height = 54
+          Height = 53
           Align = alClient
+          AutoSize = False
           AutoURLDetect = False
           PlainText = True
           TabOrder = 1
           OnChange = RegExpTextChange
+          ExplicitHeight = 54
         end
       end
     end

@@ -70,44 +70,61 @@ object ReplaceInFilesDialog: TReplaceInFilesDialog
     ItemHeight = 13
     TabOrder = 0
   end
-  object btnOK: TButton
+  object btnOK: TSpTBXButton
     Left = 127
     Top = 125
     Width = 75
     Height = 25
-    Anchors = [akRight, akBottom]
     Caption = 'OK'
-    Default = True
-    ModalResult = 1
+    Anchors = [akRight, akBottom]
     TabOrder = 1
+    Default = True
+    LinkFont.Charset = DEFAULT_CHARSET
+    LinkFont.Color = clBlue
+    LinkFont.Height = -11
+    LinkFont.Name = 'Tahoma'
+    LinkFont.Style = [fsUnderline]
+    ModalResult = 1
   end
-  object btnCancel: TButton
+  object btnCancel: TSpTBXButton
     Left = 206
     Top = 125
     Width = 75
     Height = 25
-    Anchors = [akRight, akBottom]
-    Cancel = True
     Caption = 'Cancel'
-    ModalResult = 2
+    Anchors = [akRight, akBottom]
     TabOrder = 2
+    Cancel = True
+    LinkFont.Charset = DEFAULT_CHARSET
+    LinkFont.Color = clBlue
+    LinkFont.Height = -11
+    LinkFont.Name = 'Tahoma'
+    LinkFont.Style = [fsUnderline]
+    ModalResult = 2
   end
-  object btnHelp: TButton
+  object btnHelp: TSpTBXButton
     Left = 285
     Top = 125
     Width = 75
     Height = 25
-    Anchors = [akRight, akBottom]
     Caption = '&Help'
+    Anchors = [akRight, akBottom]
     TabOrder = 3
     OnClick = btnHelpClick
+    LinkFont.Charset = DEFAULT_CHARSET
+    LinkFont.Color = clBlue
+    LinkFont.Height = -11
+    LinkFont.Name = 'Tahoma'
+    LinkFont.Style = [fsUnderline]
   end
-  object cbBackup: TCheckBox
+  object cbBackup: TSpTBXCheckBox
     Left = 10
     Top = 105
-    Width = 191
-    Height = 17
+    Width = 122
+    Height = 15
     Caption = 'Backup Modified Files'
+    ParentColor = True
     TabOrder = 4
+    ThemeType = thtWindows
   end
 end

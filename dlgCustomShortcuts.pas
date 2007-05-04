@@ -11,7 +11,8 @@ interface
 
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  StdCtrls, Menus, ActnList, IniFiles, ComCtrls, Buttons;
+  StdCtrls, Menus, ActnList, IniFiles, ComCtrls, SpTBXControls, TBXDkPanels,
+  Buttons;
 
 type
   TActionProxyItem = class(TCollectionItem)
@@ -50,8 +51,6 @@ type
     lbCommands: TListBox;
     lblCategories: TLabel;
     lblCommands: TLabel;
-    btnAssign: TButton;
-    btnRemove: TButton;
     lbCurrentKeys: TListBox;
     lblCurrent: TLabel;
     lblAssignedTo: TLabel;
@@ -61,6 +60,8 @@ type
     OKButton: TBitBtn;
     BitBtn2: TBitBtn;
     HelpButton: TBitBtn;
+    btnAssign: TSpTBXButton;
+    btnRemove: TSpTBXButton;
     procedure HelpButtonClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure lbCategoriesClick(Sender: TObject);
@@ -443,6 +444,7 @@ begin
       Action := FindActionByName(ActionProxyItem.ActionName, ActionList);
       if Assigned(Action) then begin
         Action.ShortCut := ActionProxyItem.ShortCut;
+        Action.SecondaryShortCuts.Clear;
         if ActionProxyItem.IsSecondaryShortCutsStored then
           Action.SecondaryShortCuts.Assign(ActionProxyItem.SecondaryShortCuts);
       end;

@@ -333,8 +333,7 @@ initialization
     Caption := 'Py&lint';
     Description := 'PyLint tool (www.logilab.org/projects/pylint)';
     ApplicationName := '$[PythonExe-Short]';
-    Parameters := '$[PythonDir-Short]Lib\site-packages\pylint\lint.py $[ActiveDoc-Short] --parseable=y';
-    WorkingDirectory := '$[ActiveDoc-Dir]';
+    Parameters := '$[PythonDir-Short]Lib\site-packages\pylint\lint.py $[ActiveDoc-Short] -f parseable';
     ShortCut := Menus.Shortcut(Ord('L'), [ssCtrl]);
     Context := tcActiveFile;
     SaveFiles := sfAll;
@@ -358,6 +357,21 @@ initialization
     ProcessOutput := poSelection;
     ParseMessages := False;
     CaptureOutput := False;
+    ConsoleHidden := True;
+    WaitForTerminate := True;
+  end;
+
+  with (ToolsCollection.Add as TToolItem).ExternalTool do begin
+    Caption := '&Reindent';
+    Description := 'Reindent the active file';
+    ApplicationName := '$[PythonExe-Short]';
+    Parameters := '$[PythonDir-Short]Tools\Scripts\reindent.py';
+    Context := tcActivePythonFile;
+    SaveFiles := sfNone;
+    ProcessInput := piActiveFile;
+    ProcessOutput := poActiveFile;
+    ParseMessages := False;
+    CaptureOutput := True;
     ConsoleHidden := True;
     WaitForTerminate := True;
   end;

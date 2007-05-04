@@ -28,12 +28,13 @@ object OptionsInspector: TOptionsInspector
       Top = 2
       Width = 317
       Height = 308
+      Style = isItemPainter
       Align = alClient
       BevelKind = bkFlat
       BevelInner = bvRaised
       BevelOuter = bvRaised
       RelativeDivider = True
-      Divider = 62
+      Divider = 61
       ItemHeight = 16
       Painter = JvInspectorDotNETPainter1
     end
@@ -55,7 +56,6 @@ object OptionsInspector: TOptionsInspector
       Width = 75
       Height = 25
       Anchors = [akRight, akBottom]
-      Caption = '&OK'
       TabOrder = 0
       OnClick = OKButtonClick
       Kind = bkOK
@@ -66,7 +66,6 @@ object OptionsInspector: TOptionsInspector
       Width = 75
       Height = 25
       Anchors = [akRight, akBottom]
-      Caption = '&Cancel'
       TabOrder = 1
       Kind = bkCancel
     end
@@ -82,7 +81,32 @@ object OptionsInspector: TOptionsInspector
     end
   end
   object JvInspectorDotNETPainter1: TJvInspectorDotNETPainter
+    CategoryFont.Charset = DEFAULT_CHARSET
+    CategoryFont.Color = clBtnText
+    CategoryFont.Height = -11
+    CategoryFont.Name = 'Tahoma'
+    CategoryFont.Style = []
+    NameFont.Charset = DEFAULT_CHARSET
+    NameFont.Color = clWindowText
+    NameFont.Height = -11
+    NameFont.Name = 'Tahoma'
+    NameFont.Style = []
+    ValueFont.Charset = DEFAULT_CHARSET
+    ValueFont.Color = clWindowText
+    ValueFont.Height = -11
+    ValueFont.Name = 'Tahoma'
+    ValueFont.Style = []
     DrawNameEndEllipsis = False
+    HideSelectFont.Charset = DEFAULT_CHARSET
+    HideSelectFont.Color = clHighlightText
+    HideSelectFont.Height = -11
+    HideSelectFont.Name = 'Tahoma'
+    HideSelectFont.Style = []
+    SelectedFont.Charset = DEFAULT_CHARSET
+    SelectedFont.Color = clHighlightText
+    SelectedFont.Height = -11
+    SelectedFont.Name = 'Tahoma'
+    SelectedFont.Style = []
     Left = 369
     Top = 14
   end

@@ -44,12 +44,10 @@ uses
   Windows, SysUtils, Classes, Graphics, Forms, Controls, StdCtrls,
   Buttons, ExtCtrls, ComCtrls, ToolWin, ImgList, ActnList, Dialogs,
   SynEditPrintTypes, SynEditPrint, SynEditPrintMargins,
-  SynEditPrintHeaderFooter;
+  SynEditPrintHeaderFooter, SpTBXControls, TBXDkPanels;
 
 type
   TPageSetupDlg = class(TForm)
-    OKBtn: TButton;
-    CancelBtn: TButton;
     PageControl: TPageControl;
     Margins: TTabSheet;
     HeaderFooter: TTabSheet;
@@ -65,7 +63,6 @@ type
     Label9: TLabel;
     Label10: TLabel;
     Label11: TLabel;
-    CBMirrorMargins: TCheckBox;
     EditLeft: TEdit;
     EditRight: TEdit;
     EditTop: TEdit;
@@ -81,16 +78,10 @@ type
     REHeaderLeft: TRichEdit;
     REHeaderCenter: TRichEdit;
     REHeaderRight: TRichEdit;
-    CBHeaderMirror: TCheckBox;
     Label12: TLabel;
     Label13: TLabel;
     Label14: TLabel;
     GroupBox2: TGroupBox;
-    CBHeaderLine: TCheckBox;
-    CBHeaderBox: TCheckBox;
-    CBHeaderShadow: TCheckBox;
-    HeaderLineColorBtn: TButton;
-    HeaderShadowColorBtn: TButton;
     PBHeaderLine: TPaintBox;
     PBHeaderShadow: TPaintBox;
     GroupBox3: TGroupBox;
@@ -100,15 +91,9 @@ type
     REFooterLeft: TRichEdit;
     REFooterCenter: TRichEdit;
     REFooterRight: TRichEdit;
-    CBFooterMirror: TCheckBox;
     GroupBox4: TGroupBox;
     PBFooterLine: TPaintBox;
     PBFooterShadow: TPaintBox;
-    CBFooterLine: TCheckBox;
-    CBFooterBox: TCheckBox;
-    CBFooterShadow: TCheckBox;
-    FooterLineColorBtn: TButton;
-    FooterShadowColorBtn: TButton;
     ImageList1: TImageList;
     ActionList1: TActionList;
     PageNumCmd: TAction;
@@ -119,11 +104,6 @@ type
     BoldCmd: TAction;
     ItalicCmd: TAction;
     UnderlineCmd: TAction;
-    CBLineNumbers: TCheckBox;
-    CBLineNumbersInMargin: TCheckBox;
-    CBHighlight: TCheckBox;
-    CBColors: TCheckBox;
-    CBWrap: TCheckBox;
     FontDialog: TFontDialog;
     ColorDialog: TColorDialog;
     TitleCmd: TAction;
@@ -139,6 +119,26 @@ type
     ToolButton7: TToolButton;
     ToolButton8: TToolButton;
     ToolButton9: TToolButton;
+    HeaderLineColorBtn: TSpTBXButton;
+    HeaderShadowColorBtn: TSpTBXButton;
+    FooterLineColorBtn: TSpTBXButton;
+    FooterShadowColorBtn: TSpTBXButton;
+    OKBtn: TSpTBXButton;
+    CancelBtn: TSpTBXButton;
+    CBMirrorMargins: TSpTBXCheckBox;
+    CBLineNumbers: TSpTBXCheckBox;
+    CBLineNumbersInMargin: TSpTBXCheckBox;
+    CBHighlight: TSpTBXCheckBox;
+    CBColors: TSpTBXCheckBox;
+    CBWrap: TSpTBXCheckBox;
+    CBHeaderMirror: TSpTBXCheckBox;
+    CBHeaderLine: TSpTBXCheckBox;
+    CBHeaderBox: TSpTBXCheckBox;
+    CBHeaderShadow: TSpTBXCheckBox;
+    CBFooterMirror: TSpTBXCheckBox;
+    CBFooterLine: TSpTBXCheckBox;
+    CBFooterBox: TSpTBXCheckBox;
+    CBFooterShadow: TSpTBXCheckBox;
     procedure PageNumCmdExecute(Sender: TObject);
     procedure PagesCmdExecute(Sender: TObject);
     procedure TimeCmdExecute(Sender: TObject);

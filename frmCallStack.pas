@@ -18,7 +18,6 @@ type
   TCallStackWindow = class(TIDEDockWindow)
     CallStackView: TVirtualStringTree;
     procedure CallStackViewDblClick(Sender: TObject);
-    procedure FormActivate(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure CallStackViewGetText(Sender: TBaseVirtualTree;
@@ -28,6 +27,7 @@ type
       Node: PVirtualNode; var InitialStates: TVirtualNodeInitStates);
     procedure CallStackViewChange(Sender: TBaseVirtualTree;
       Node: PVirtualNode);
+    procedure FormActivate(Sender: TObject);
   private
     { Private declarations }
     SelectedNode: PVirtualNode;
@@ -121,15 +121,6 @@ begin
         PyIDEMainForm.ShowFilePosition(FileName, Line, 1);
 end;
 
-procedure TCallStackWindow.FormActivate(Sender: TObject);
-begin
-  inherited;
-  if not HasFocus then begin
-    FGPanelEnter(Self);
-    PostMessage(CallStackView.Handle, WM_SETFOCUS, 0, 0);
-  end;
-end;
-
 procedure TCallStackWindow.TBMThemeChange(var Message: TMessage);
 begin
   inherited;
@@ -138,6 +129,13 @@ begin
     CallStackView.Colors.HeaderHotColor :=
       CurrentTheme.GetItemTextColor(GetItemInfo('active'));
   end;
+end;
+
+procedure TCallStackWindow.FormActivate(Sender: TObject);
+begin
+  inherited;
+  if CallStackView.CanFocus then
+    CallStackView.SetFocus;
 end;
 
 procedure TCallStackWindow.FormCreate(Sender: TObject);

@@ -46,31 +46,31 @@ interface
 
 uses
   Classes, Controls, Graphics, Forms, StdCtrls,
-  cFindInFiles, JvAppStorage;
+  cFindInFiles, JvAppStorage, SpTBXControls, TBXDkPanels;
 
 type
   TFindInFilesDialog = class(TForm)
     lblFind: TLabel;
     cbText: TComboBox;
     gbxOptions: TGroupBox;
-    cbNoCase: TCheckBox;
-    cbNoComments: TCheckBox;
     gbxWhere: TGroupBox;
-    rbOpenFiles: TRadioButton;
-    rbDirectories: TRadioButton;
     gbxDirectories: TGroupBox;
     lblMasks: TLabel;
     cbMasks: TComboBox;
-    cbInclude: TCheckBox;
-    btnOK: TButton;
-    btnCancel: TButton;
-    cbWholeWord: TCheckBox;
-    rbCurrentOnly: TRadioButton;
-    btnHelp: TButton;
-    cbRegEx: TCheckBox;
     cbDirectory: TComboBox;
-    btnBrowse: TButton;
     lblDirectory: TLabel;
+    btnBrowse: TSpTBXButton;
+    btnOK: TSpTBXButton;
+    btnCancel: TSpTBXButton;
+    btnHelp: TSpTBXButton;
+    cbNoCase: TSpTBXCheckBox;
+    cbNoComments: TSpTBXCheckBox;
+    cbWholeWord: TSpTBXCheckBox;
+    cbRegEx: TSpTBXCheckBox;
+    cbInclude: TSpTBXCheckBox;
+    rbOpenFiles: TSpTBXRadioButton;
+    rbDirectories: TSpTBXRadioButton;
+    rbCurrentOnly: TSpTBXRadioButton;
     procedure btnBrowseClick(Sender: TObject);
     procedure rbDirectoriesClick(Sender: TObject);
     procedure btnHelpClick(Sender: TObject);

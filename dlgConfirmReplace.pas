@@ -42,16 +42,16 @@ interface
 
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  StdCtrls, ExtCtrls;
+  StdCtrls, ExtCtrls, TBXDkPanels, SpTBXControls;
 
 type
   TConfirmReplaceDialog = class(TForm)
-    btnReplace: TButton;
     lblConfirmation: TLabel;
-    btnSkip: TButton;
-    btnCancel: TButton;
-    btnReplaceAll: TButton;
     Image1: TImage;
+    btnReplace: TSpTBXButton;
+    btnSkip: TSpTBXButton;
+    btnCancel: TSpTBXButton;
+    btnReplaceAll: TSpTBXButton;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
   public

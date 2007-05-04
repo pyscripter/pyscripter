@@ -42,9 +42,8 @@ inherited MessagesWindow: TMessagesWindow
     000000000000000000000000000000000000000000000000000000000000F9FF
     0000F8FF0000F87F0000C0000000C0000000C0000000C0000000C0000000C000
     0000C0000000C0000000C0000000C0000000C0000000FFFF0000FFFF0000}
-  OnActivate = FormActivate
-  ExplicitWidth = 701
-  ExplicitHeight = 212
+  ExplicitWidth = 709
+  ExplicitHeight = 220
   PixelsPerInch = 96
   TextHeight = 13
   inherited FGPanel: TPanel
@@ -66,9 +65,10 @@ inherited MessagesWindow: TMessagesWindow
       Header.Font.Charset = DEFAULT_CHARSET
       Header.Font.Color = clWindowText
       Header.Font.Height = -11
-      Header.Font.Name = 'Tahoma'
+      Header.Font.Name = 'MS Shell Dlg 2'
       Header.Font.Style = []
       Header.Options = [hoColumnResize, hoDrag, hoHotTrack, hoOwnerDraw, hoVisible]
+      Header.ParentFont = True
       HintMode = hmTooltip
       PopupMenu = TBXPopupMenu
       TabOrder = 0

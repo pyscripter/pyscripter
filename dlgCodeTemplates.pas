@@ -13,14 +13,12 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ComCtrls, ExtCtrls, JvExStdCtrls, JvEdit,
-  SynEdit,  JvGroupBox, ActnList, TBXDkPanels;
+  SynEdit,  JvGroupBox, ActnList, TBXDkPanels, SpTBXControls;
 
 type
   TCodeTemplates = class(TForm)
     Panel: TPanel;
     lvItems: TListView;
-    btnCancel: TButton;
-    btnOK: TButton;
     JvGroupBox: TJvGroupBox;
     Label1: TLabel;
     Label2: TLabel;
@@ -34,14 +32,16 @@ type
     actUpdateItem: TAction;
     Label5: TLabel;
     edDescription: TEdit;
-    TBXButton1: TTBXButton;
-    TBXButton3: TTBXButton;
-    TBXButton4: TTBXButton;
-    TBXButton5: TTBXButton;
-    TBXButton2: TTBXButton;
     Label4: TLabel;
     Label3: TLabel;
-    btnHelp: TButton;
+    TBXButton1: TSpTBXButton;
+    TBXButton3: TSpTBXButton;
+    TBXButton4: TSpTBXButton;
+    TBXButton5: TSpTBXButton;
+    TBXButton2: TSpTBXButton;
+    btnCancel: TSpTBXButton;
+    btnOK: TSpTBXButton;
+    btnHelp: TSpTBXButton;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -161,6 +161,7 @@ Var
   i : Integer;
 begin
   if edShortCut.Text <> '' then begin
+    SynTemplate.Modified := False;
     for i := 0 to lvItems.Items.Count - 1 do
       if CompareText(lvItems.Items[i].Caption, edShortCut.Text) = 0 then begin
         Item := lvItems.Items[i];
@@ -202,6 +203,7 @@ begin
       Caption := edShortCut.Text;
       SubItems[0] := edDescription.Text;
       TStringList(Data).Assign(SynTemplate.Lines);
+      SynTemplate.Modified := False;
     end;
   end;
 end;
@@ -218,6 +220,7 @@ begin
     edShortCut.Text := Item.Caption;
     edDescription.Text := Item.SubItems[0];
     SynTemplate.Lines.Assign(TStringList(Item.Data));
+    SynTemplate.Modified := False;
   end;
 end;
 
@@ -275,6 +278,12 @@ end;
 
 procedure TCodeTemplates.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
+  if (edShortcut.Text <> '') and SynTemplate.Modified then begin
+    if (MessageDlg('The template has been modified.  Do you want to update it with the new definition?',
+      mtConfirmation, [mbYes, mbNo], 0) = idYes)
+    then
+      actUpdateItemExecute(Sender);
+  end;
   GetItems;
 end;
 
