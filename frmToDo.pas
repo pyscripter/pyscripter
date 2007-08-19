@@ -94,7 +94,6 @@ type
     actHelpHelp: TAction;
     actEditCopy: TAction;
     JvSearchFiles: TJvSearchFiles;
-    actViewStayOnTop: TAction;
     TBXDock1: TTBXDock;
     Toolbar: TTBXToolbar;
     TBXItem1: TTBXItem;
@@ -104,8 +103,6 @@ type
     TBXItem3: TTBXItem;
     TBXSeparatorItem3: TTBXSeparatorItem;
     TBXItem4: TTBXItem;
-    TBXSeparatorItem4: TTBXSeparatorItem;
-    TBXItem5: TTBXItem;
     PopupMenu: TTBXPopupMenu;
     Goto1: TTBXItem;
     Refresh1: TTBXItem;
@@ -128,8 +125,6 @@ type
     procedure FormActivate(Sender: TObject);
     procedure actEditGotoExecute(Sender: TObject);
     procedure actOptionsConfigureExecute(Sender: TObject);
-    procedure actViewStayOnTopExecute(Sender: TObject);
-    procedure actViewStayOnTopUpdate(Sender: TObject);
     procedure TodoViewKeyPress(Sender: TObject; var Key: Char);
     procedure ToDoViewInitNode(Sender: TBaseVirtualTree; ParentNode,
       Node: PVirtualNode; var InitialStates: TVirtualNodeInitStates);
@@ -800,19 +795,6 @@ begin
   if ToDoView.CanFocus then
     ToDoView.SetFocus;
   //PostMessage(ToDoView.Handle, WM_SETFOCUS, 0, 0);
-end;
-
-procedure TToDoWindow.actViewStayOnTopExecute(Sender: TObject);
-begin
-  if FormStyle = fsNormal then
-    FormStyle := fsStayOnTop
-  else
-    FormStyle := fsNormal;
-end;
-
-procedure TToDoWindow.actViewStayOnTopUpdate(Sender: TObject);
-begin
-  actViewStayOnTop.Checked := FormStyle = fsStayOnTop;
 end;
 
 procedure TToDoWindow.TodoViewKeyPress(Sender: TObject; var Key: Char);

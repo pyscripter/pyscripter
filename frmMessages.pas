@@ -56,6 +56,8 @@ type
     fHistorySize : integer;
   protected
     procedure TBMThemeChange(var Message: TMessage); message TBM_THEMECHANGE;
+    procedure StoreTopNodeIndex;
+    procedure RestoreTopNodeIndex;
   public
     { Public declarations }
     procedure ShowWindow;
@@ -94,6 +96,12 @@ Type
     Msg : TMsg;
   end;
 
+  TMessageList = class(TObjectList)
+  private
+    fTopNodeIndex : Cardinal;
+  public
+    property TopNodeIndex : Cardinal read fTopNodeIndex;
+  end;
 
 { TMessagesWindow }
 
@@ -103,8 +111,9 @@ Var
 begin
   if fMessageHistory.Count = 0 then
     // Create New List
-    fHistoryIndex := fMessageHistory.Add(TObjectList.Create(True))
+    fHistoryIndex := fMessageHistory.Add(TMessageList.Create(True))
   else if fHistoryIndex <> fMessageHistory.Count - 1 then begin
+    StoreTopNodeIndex;
     fHistoryIndex := fMessageHistory.Count - 1;
     MessagesView.Clear;
   end;
@@ -118,26 +127,29 @@ begin
    TObjectList(fMessageHistory[fHistoryIndex]).Add(NewMsg);
   // ReInitializes the list
   MessagesView.RootNodeCount := TObjectList(fMessageHistory[fHistoryIndex]).Count;
+  RestoreTopNodeIndex;
   UpdateMsgActions;
 end;
 
 procedure TMessagesWindow.ClearMessages;
 begin
-  MessagesView.Clear;
   if fMessageHistory.Count = 0 then
     // Create New List
-    fHistoryIndex := fMessageHistory.Add(TObjectList.Create(True))  // Onwns objects
-  else if TObjectList(fMessageHistory[fMessageHistory.Count-1]).Count = 0 then
+    fHistoryIndex := fMessageHistory.Add(TMessageList.Create(True))  // Onwns objects
+  else if TObjectList(fMessageHistory[fMessageHistory.Count-1]).Count = 0 then begin
     // Reuse last list
-    fHistoryIndex := fMessageHistory.Count - 1
-  else begin
+    StoreTopNodeIndex;
+    fHistoryIndex := fMessageHistory.Count - 1;
+  end else begin
     // Create new list
-    fHistoryIndex := fMessageHistory.Add(TObjectList.Create(True));
+    StoreTopNodeIndex;
+    fHistoryIndex := fMessageHistory.Add(TMessageList.Create(True));
     if fMessageHistory.Count > fHistorySize then begin
       fMessageHistory.Delete(0);
       fHistoryIndex := fMessageHistory.Count - 1;
     end;
   end;
+  MessagesView.Clear;
   UpdateMsgActions;
 end;
 
@@ -209,15 +221,35 @@ begin
 end;
 
 procedure TMessagesWindow.ShowPythonSyntaxError(ErrorClass : string; E: Variant);
+Var
+  Msg, FileName : string;
+  LineNo, Offset : integer;
 begin
+  try
+    Msg := E;
+  except
+    Msg := '';
+  end;
+  ExtractPyErrorInfo(E, FileName, LineNo, Offset);
   AddMessage(ErrorClass);
-  AddMessage('    ' + E, E.filename, E.lineno, E.offset);
+  AddMessage('    ' + Msg, FileName, LineNo, Offset);
   ShowDockForm(Self);
 end;
 
 procedure TMessagesWindow.ShowWindow;
 begin
     ShowDockForm(Self);
+end;
+
+procedure TMessagesWindow.StoreTopNodeIndex;
+begin
+  if (fHistoryIndex >= 0) and (fMessageHistory.Count > fHistoryIndex) then begin
+    if Assigned(MessagesView.TopNode) then
+      TMessageList(fMessageHistory[fHistoryIndex]).fTopNodeIndex :=
+        MessagesView.TopNode.Index
+    else
+      TMessageList(fMessageHistory[fHistoryIndex]).fTopNodeIndex := 0;
+  end;
 end;
 
 procedure TMessagesWindow.JumpToPosition(Node : PVirtualNode);
@@ -271,6 +303,21 @@ begin
     TMsg(TObjectList(fMessageHistory[fHistoryIndex])[Node.Index]);
 end;
 
+procedure TMessagesWindow.RestoreTopNodeIndex;
+Var
+  i, Index : Cardinal;
+  Node : PVirtualNode;
+begin
+  if (fHistoryIndex >= 0) and (fMessageHistory.Count > fHistoryIndex) then begin
+    Index := TMessageList(fMessageHistory[fHistoryIndex]).fTopNodeIndex;
+    Node := MessagesView.RootNode.FirstChild;
+    i := 0;
+    while(Assigned(Node) and Assigned(Node.NextSibling) and (i<Index)) do
+      Node := Node.NextSibling;
+    if Assigned(Node) then MessagesView.TopNode := Node;
+  end;
+end;
+
 procedure TMessagesWindow.MessagesViewGetText(Sender: TBaseVirtualTree;
   Node: PVirtualNode; Column: TColumnIndex; TextType: TVSTTextType;
   var CellText: WideString);
@@ -311,9 +358,11 @@ end;
 procedure TMessagesWindow.actNextMsgsExecute(Sender: TObject);
 begin
   if fHistoryIndex < fMessageHistory.Count - 1 then begin
+    StoreTopNodeIndex;
     Inc(fHistoryIndex);
     MessagesView.RootNodeCount := TObjectList(fMessageHistory[fHistoryIndex]).Count;
     MessagesView.ReinitNode(MessagesView.RootNode, True);
+    RestoreTopNodeIndex;
     MessagesView.Invalidate;
   end;
   UpdateMsgActions;
@@ -322,9 +371,11 @@ end;
 procedure TMessagesWindow.actPreviousMsgsExecute(Sender: TObject);
 begin
   if fHistoryIndex > 0 then begin
+    StoreTopNodeIndex;
     Dec(fHistoryIndex);
     MessagesView.RootNodeCount := TObjectList(fMessageHistory[fHistoryIndex]).Count;
     MessagesView.ReinitNode(MessagesView.RootNode, True);
+    RestoreTopNodeIndex;
     MessagesView.Invalidate;
   end;
   UpdateMsgActions;

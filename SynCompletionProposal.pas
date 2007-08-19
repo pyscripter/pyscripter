@@ -29,7 +29,7 @@ replace them with the notice and other provisions required by the GPL.
 If you do not delete the provisions above, a recipient may use your version
 of this file under either the MPL or the GPL.
 
-$Id: SynCompletionProposal.pas,v 1.73.2.7 2006/02/14 12:15:43 maelh Exp $
+$Id: SynCompletionProposal.pas,v 1.73.2.9 2007/07/13 17:38:41 maelh Exp $
 
 You may retrieve the latest version of this file at the SynEdit home page,
 located at http://SynEdit.SourceForge.net
@@ -82,7 +82,7 @@ uses
   SynEditHighlighter,
   SynEditKbdHandler,
   SynEdit,
-  SynUnicode, {$IFDEF USE_JCL_UNICODE_SUPPORT} JclUnicode, {$ENDIF}
+  SynUnicode,
 {$ENDIF}
   SysUtils,
   Classes;
@@ -231,7 +231,7 @@ type
 {$IFDEF SYN_CLX}
     function DoMouseWheel(Shift: TShiftState; WheelDelta: Integer;
       const MousePos: TPoint): Boolean; override;
-    procedure KeyString(var S: WideString; var Handled: Boolean); override;
+    procedure KeyString(var S: WideString; var Handled: Boolean); override;      
     function WidgetFlags: Integer; override;
 {$ELSE}
     procedure WMChar(var Msg: TWMChar); message WM_CHAR;
@@ -1370,13 +1370,6 @@ begin
         Style := Style or WS_THICKFRAME
       else
         Style := Style or WS_DLGFRAME;
-
-    if not (csDesigning in ComponentState) then
-    begin
-      // Necessary for unicode support, especially IME won't work else
-      if Win32Platform = VER_PLATFORM_WIN32_NT then
-        WindowClass.lpfnWndProc := @DefWindowProcW;
-    end;
   end;
 end;
 
@@ -1594,7 +1587,8 @@ begin
 
       if FEffectiveItemHeight <> 0 then
       begin
-        NewLinesInWindow := (NewHeight-FHeightBuffer) div FEffectiveItemHeight;
+        //KV Subtracted BorderWidth
+        NewLinesInWindow := (NewHeight - BorderWidth - FHeightBuffer) div FEffectiveItemHeight;
         if NewLinesInWindow < 1 then
           NewLinesInWindow := 1;
       end else
@@ -1619,7 +1613,8 @@ begin
   inherited;
 
   if FEffectiveItemHeight <> 0 then
-    FLinesInWindow := (Height - FHeightBuffer) div FEffectiveItemHeight;
+    //KV Replaced Height with ClientHeight
+    FLinesInWindow := (ClientHeight - FHeightBuffer) div FEffectiveItemHeight;
 
   if not(csCreating in ControlState) then
     AdjustMetrics;
@@ -2923,11 +2918,11 @@ begin
 
     F.Hide;
 
-    if ((F.CurrentEditor as TCustomSynEdit).Owner is TWinControl) and
-       (((F.CurrentEditor as TCustomSynEdit).Owner as TWinControl).Visible) then
-    begin
-      ((F.CurrentEditor as TCustomSynEdit).Owner as TWinControl).SetFocus;
-    end;
+//    if ((F.CurrentEditor as TCustomSynEdit).Owner is TWinControl) and
+//       (((F.CurrentEditor as TCustomSynEdit).Owner as TWinControl).Visible) then
+//    begin
+//      ((F.CurrentEditor as TCustomSynEdit).Owner as TWinControl).SetFocus;
+//    end;
 
     (F.CurrentEditor as TCustomSynEdit).SetFocus;
 
@@ -3222,6 +3217,7 @@ begin
   Editor := nil;
   while fEditors.Count <> 0 do
     RemoveEditor(TCustomSynEdit(FEditors.Last));
+
   inherited;
 
   fEditors.Free;

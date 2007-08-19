@@ -5,6 +5,7 @@ inherited PythonIIForm: TPythonIIForm
   Caption = 'Python Interpreter'
   ClientHeight = 453
   ClientWidth = 703
+  FormStyle = fsStayOnTop
   Icon.Data = {
     0000010001001010040000000000280100001600000028000000100000002000
     0000010004000000000080000000000000000000000000000000000000000000
@@ -50,6 +51,7 @@ inherited PythonIIForm: TPythonIIForm
       PopupMenu = InterpreterPopUp
       TabOrder = 0
       OnDblClick = SynEditDblClick
+      OnMouseDown = SynEditMouseDown
       BorderStyle = bsNone
       Gutter.BorderStyle = gbsNone
       Gutter.Font.Charset = DEFAULT_CHARSET
@@ -67,7 +69,6 @@ inherited PythonIIForm: TPythonIIForm
       OnCommandProcessed = SynEditCommandProcessed
       OnProcessCommand = SynEditProcessCommand
       OnProcessUserCommand = SynEditProcessUserCommand
-      OnReplaceText = SynEditReplaceText
       OnPaintTransient = SynEditPaintTransient
     end
   end
@@ -173,36 +174,16 @@ inherited PythonIIForm: TPythonIIForm
       '            return bdb.Bdb.stop_here(self, frame)'
       ''
       '        def user_call(self, frame, args):'
-      '            self.InIDEDebug = True'
-      '            self.currentframe = frame'
-      '            try:'
-      '                self.debugIDE.user_call(frame, args)'
-      '            finally:'
-      '                self.InIDEDebug = False'
+      '            self.debugIDE.user_call(frame, args)'
       ''
       '        def user_line(self, frame):'
-      '            self.InIDEDebug = True'
-      '            self.currentframe = frame'
-      '            try:'
-      '                self.debugIDE.user_line(frame)'
-      '            finally:'
-      '                self.InIDEDebug = False'
+      '            self.debugIDE.user_line(frame)'
       ''
       '        def user_return(self, frame, retval):'
-      '            self.InIDEDebug = True'
-      '            self.currentframe = frame'
-      '            try:'
-      '                self.debugIDE.user_return(frame, retval)'
-      '            finally:'
-      '                self.InIDEDebug = False'
+      '            self.debugIDE.user_return(frame, retval)'
       ''
       '        def user_exception(self, frame, exc_stuff):'
-      '            self.InIDEDebug = True'
-      '            self.currentframe = frame'
-      '            try:'
-      '                self.debugIDE.user_exception(frame, exc_stuff)'
-      '            finally:'
-      '                self.InIDEDebug = False'
+      '            self.debugIDE.user_exception(frame, exc_stuff)'
       ''
       '        def trace_dispatch(self, frame, event, arg):'
       '            self.tracecount += 1'
@@ -234,8 +215,11 @@ inherited PythonIIForm: TPythonIIForm
       '            try:'
       '                try:'
       '                    bdb.Bdb.run(self, cmd, globals, locals)'
-      '                except SystemExit:'
-      '                    pass'
+      '                except SystemExit, e:'
+      '                    if isinstance(e.code, basestring):'
+      '                        print e.code'
+      '                    elif isinstance(e.code, int):'
+      '                        print "Exit code: ", e.code'
       '            finally:'
       
         '                sys.stdin, sys.stdout, sys.stderr = self.saveStd' +
@@ -293,8 +277,8 @@ inherited PythonIIForm: TPythonIIForm
       ''
       '        self.debugger = self.IDEDebugger()'
       '        self.debugger.InitStepIn = False'
-      '        self.debugger.InIDEDebug = False'
       '        self.debugger.tracecount = 0'
+      '        self.debugger.currentframe = None'
       '        self.debugger.locals = self.locals'
       ''
       '        import repr'
@@ -321,8 +305,11 @@ inherited PythonIIForm: TPythonIIForm
       '        try:'
       '            try:'
       '                exec cmd in globals, locals'
-      '            except SystemExit:'
-      '                pass'
+      '            except SystemExit, e:'
+      '                if isinstance(e.code, basestring):'
+      '                    print e.code'
+      '                elif isinstance(e.code, int):'
+      '                    print "Exit code: ", e.code'
       '        finally:'
       '            sys.stdin, sys.stdout, sys.stderr = self.saveStdio'
       
@@ -353,11 +340,17 @@ inherited PythonIIForm: TPythonIIForm
       '            return '#39'<unprintable %s object>'#39' % type(x).__name__'
       ''
       '    def _getmembers(self, ob):'
-      '        return [(i, getattr(ob, i)) for i in dir(ob)]'
+      '        result = {}'
+      '        for i in dir(ob):'
+      '            try:'
+      '                result[i] = getattr(ob, i)'
+      '            except:'
+      '                result[i] = None'
+      '        return result'
       ''
       '    def safegetmembers(self, x):'
       '        try:'
-      '            return dict(self._getmembers(x))'
+      '            return self._getmembers(x)'
       '        except:'
       '            return {}'
       ''
@@ -498,14 +491,17 @@ inherited PythonIIForm: TPythonIIForm
       ''
       '        self.saveStdio = (sys.stdin, sys.stdout, sys.stderr)'
       '        try:'
-      '            if self.debugger.InIDEDebug:'
+      '            if self.debugger.currentframe:'
       
         '                exec code in self.debugger.currentframe.f_global' +
         's, self.debugger.currentframe.f_locals'
       '            else:'
       '                exec code in self.locals'
-      '        except SystemExit:'
-      '            pass'
+      '        except SystemExit, e:'
+      '            if isinstance(e.code, basestring):'
+      '                print e.code'
+      '            elif isinstance(e.code, int):'
+      '                print "Exit code: ", e.code'
       '        except:'
       '            self.showtraceback()'
       '        else:'
@@ -516,7 +512,7 @@ inherited PythonIIForm: TPythonIIForm
       '    def evalcode(self, code):'
       '        # may raise exceptions'
       '        try:'
-      '            if self.debugger.InIDEDebug:'
+      '            if self.debugger.currentframe:'
       
         '                return eval(code, self.debugger.currentframe.f_g' +
         'lobals, self.debugger.currentframe.f_locals)'
@@ -623,11 +619,18 @@ inherited PythonIIForm: TPythonIIForm
       'sys.modules['#39'__builtin__'#39'].raw_input=_II.Win32RawInput'
       'sys.modules['#39'__builtin__'#39'].input=_II.Win32Input'
       ''
+      'import os'
+      'try:'
+      '    sys.path.remove(os.path.dirname(sys.executable))'
+      '    sys.path.remove(os.path.dirname(sys.executable))'
+      'except:'
+      '    pass'
+      ''
       'del DebugOutput'
       'del code'
       'del PythonInteractiveInterpreter'
       'del sys'
-      '')
+      'del os')
     InitThreads = True
     IO = PythonIO
     PyFlags = [pfInteractive]
@@ -656,6 +659,7 @@ inherited PythonIIForm: TPythonIIForm
     TitleFont.Style = [fsBold]
     Columns = <>
     Images = CommandsDataModule.CodeImages
+    OnClose = SynCodeCompletionClose
     OnExecute = SynCodeCompletionExecute
     ShortCut = 0
     Editor = SynEdit

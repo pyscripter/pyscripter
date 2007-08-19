@@ -5,6 +5,7 @@ interface
 resourcestring
   SInternalError = 'Internal Error in %s';
   SNotFound = '"%s" not found';
+  SItemsReplaced = '"%d" items replaced';
   SNotAvailable = 'n/a';
   SNotImplented = 'Not implemented';
   SFilterAllFiles = 'All files|*.*|';
@@ -47,6 +48,19 @@ resourcestring
   SNewFolder = 'New Folder';
   SCommandLineMsg  = 'Command Line : %s' + sLineBreak;
   SEngineActive = '*** %s Python engine%s is active ***';
+  SPythonInitError =
+  'PyScripter cannot find the standard Python library modules.' + SLineBreak +
+  'This sounds like a Python installation error.  Please check the Windows Registry key ' + SLineBreak +
+  '    HKEY_LOCAL_MACHINE\SOFTWARE\Python\PythonCore\2.x  or ' + SLineBreak +
+  '    HKEY_CURRENT_USER\SOFTWARE\Python\PythonCore\2.x' + SLineBreak +
+  'for a single user installation of Python.  ("x" stands for the minor version of Python).' + SLineBreak +
+  'In a proper installation the key should exist and the "InstallPath" and "PythonPath" variables defined.' + SLineBreak +
+  'Also check the PYTHONHOME and PYTHONPATH environment variables to see whether they conflict with the Python version used.' ;
+  SPostMortemInfo = 'You are now in post-mortem analysis mode.  You can examine the Call Stack, ' +
+                    'Variables and Watches windows, evaluate expressions etc.' + SLineBreak +
+                    'To exit the post-mortem analysis select the Abort Debugging command.';
+  SFileChangeNotificationProblem = 'File change notification is now disabled, ' +
+                    'due to a problem in the monitoring process.';
 
 implementation
 end.

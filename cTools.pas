@@ -10,7 +10,7 @@ unit cTools;
 
 interface
 uses
-  SysUtils, Classes;
+  SysUtils, Classes, ActnList;
 
 type
   TProcessStdInputOption = (piNone, piWordAtCursor, piCurrentLine, piSelection,
@@ -133,6 +133,18 @@ type
       write fExternalTool;
   end;
 
+  TExternalToolAction = class(TAction)
+  private
+    fExternalTool : TExternalTool;
+  protected
+    procedure Change; override;
+  public
+    function Execute: Boolean; override;
+    function Update: Boolean; override;
+    constructor CreateExtToolAction(AOwner: TComponent; ExternalTool : TExternalTool);
+  end;
+
+
 { Expands environment variables }
 function ExpandEnv(const S: string): string;
 { Surrounds string with quotes when it contains spaces and is not quoted }
@@ -153,7 +165,8 @@ Var
 
 implementation
 
-uses dlgToolProperties, Windows, cParameters, Menus;
+uses dlgToolProperties, Windows, cParameters, Menus, frmCommandOutput,
+  dmCommands, uCommonFunctions, uEditAppIntfs;
 
 
 function ExpandEnv(const S: string): string;
@@ -261,6 +274,68 @@ begin
   fEnvironment.Assign(Value);
 end;
 
+{ TExternalToolAction }
+
+procedure TExternalToolAction.Change;
+begin
+  inherited;
+  if Assigned(fExternalTool) then
+    fExternalTool.ShortCut := ShortCut;
+end;
+
+constructor TExternalToolAction.CreateExtToolAction(AOwner: TComponent;
+  ExternalTool: TExternalTool);
+var
+  S: string;
+  AppFile: string;
+  Index: Integer;
+begin
+  inherited Create(AOwner);
+  fExternalTool := ExternalTool;
+  if Assigned(fExternalTool) then begin
+    ShortCut := fExternalTool.ShortCut;
+    Caption := fExternalTool.Caption;
+    S := StringReplace(Caption, ' ', '', [rfReplaceAll]);
+    S := StringReplace(S, '&', '', [rfReplaceAll]);
+    if IsValidIdent(S) then
+      Name := 'actTools' + S;
+    Category := 'External Tools';
+    Hint := fExternalTool.Description;
+    if (fExternalTool.ApplicationName <> '') then begin
+      AppFile := PrepareCommandLine(fExternalTool.ApplicationName);
+      if FileExists(AppFile) then begin
+        Index := GetIconIndexFromFile(AppFile, True);
+        CommandsDataModule.Images.AddImage(CommandsDataModule.imlShellIcon, Index);
+        ImageIndex := CommandsDataModule.Images.Count - 1;
+      end;
+    end;
+  end;
+end;
+
+function TExternalToolAction.Execute: Boolean;
+begin
+  if Assigned(fExternalTool) then begin
+    OutputWindow.ExecuteTool(fExternalTool);
+  end;
+  Result := True;
+end;
+
+function TExternalToolAction.Update: Boolean;
+begin
+  Result := True;
+  if Assigned(fExternalTool) then begin
+    case fExternalTool.Context of
+      tcAlwaysEnabled : Enabled := True;
+      tcActiveFile : Enabled := Assigned(GI_ActiveEditor);
+      tcActivePythonFile :
+        Enabled := Assigned(GI_ActiveEditor) and GI_ActiveEditor.HasPythonFile;
+      tcSelectionAvailable : Enabled :=
+        Assigned(GI_ActiveEditor) and GI_ActiveEditor.SynEdit.SelAvail;
+    end;
+  end else
+    Enabled := False;
+end;
+
 initialization
   ToolsCollection := TCollection.Create(TToolItem);
   // Add a few standard tools to the collection
@@ -293,7 +368,7 @@ initialization
     Parameters := '$[PythonDir-Short]Lib\tabnanny.py $[ActiveDoc-Short]';
     WorkingDirectory := '$[ActiveDoc-Dir]';
     ShortCut := Menus.Shortcut(Ord('T'), [ssShift, ssCtrl]);
-    Context := tcActiveFile;
+    Context := tcActivePythonFile;
     SaveFiles := sfActive;
     ParseTraceback := True;
     ParseMessages := True;
@@ -319,9 +394,9 @@ initialization
     Caption := 'Profile';
     Description := 'Profile active file';
     ApplicationName := '$[PythonExe-Short]';
-    Parameters := '$[PythonDir-Short]Lib\profile.py $[ActiveDoc-Short]';
+    Parameters := '$[PythonDir-Short]Lib\profile.py $[ActiveDoc-Short] $[CmdLineArgs]';
     WorkingDirectory := '$[ActiveDoc-Dir]';
-    Context := tcActiveFile;
+    Context := tcActivePythonFile;
     SaveFiles := sfActive;
     ParseTraceback := True;
     CaptureOutput := True;
@@ -335,7 +410,7 @@ initialization
     ApplicationName := '$[PythonExe-Short]';
     Parameters := '$[PythonDir-Short]Lib\site-packages\pylint\lint.py $[ActiveDoc-Short] -f parseable';
     ShortCut := Menus.Shortcut(Ord('L'), [ssCtrl]);
-    Context := tcActiveFile;
+    Context := tcActivePythonFile;
     SaveFiles := sfAll;
     ParseTraceback := True;
     ParseMessages := True;
@@ -343,6 +418,21 @@ initialization
     ConsoleHidden := True;
     WaitForTerminate := True;
     MessagesFormat := Format('%s:%s: ', [GrepFileNameParam, GrepLineNumberParam]);
+  end;
+
+  with (ToolsCollection.Add as TToolItem).ExternalTool do begin
+    Caption := 'Advanced Replace';
+    Description := 'Advanced Search and replace';
+    ApplicationName := '$[PythonExe-Short]';
+    Parameters := '-c "import sys, re;l=sys.stdin.read();sys.stdout.write(re.sub(''$[st?Search Text:]'', ''$[rt?Replace Text:]'', l))"';
+    Context := tcSelectionAvailable;
+    SaveFiles := sfNone;
+    ProcessInput := piSelection;
+    ProcessOutput := poSelection;
+    ParseMessages := False;
+    CaptureOutput := False;
+    ConsoleHidden := True;
+    WaitForTerminate := True;
   end;
 
   with (ToolsCollection.Add as TToolItem).ExternalTool do begin
@@ -412,7 +502,7 @@ initialization
     Caption := 'Python Interpreter';
     Description := 'External Python Interpreter';
     ApplicationName := '$[PythonExe-Short]';
-    Parameters := '$[ActiveDoc-Short]';
+    Parameters := '$[ActiveDoc-Short] $[CmdLineArgs]';
     WorkingDirectory := '$[ActiveDoc-Dir]';
     SaveFiles := sfAll;
     Context := tcActiveFile;

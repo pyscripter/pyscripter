@@ -9,7 +9,8 @@ unit cFilePersist;
 
 interface
 Uses
-  Classes, SysUtils, Contnrs, JvAppStorage, uEditAppIntfs, dlgSynEditOptions;
+  Classes, SysUtils, Contnrs, JvAppStorage, uEditAppIntfs, dlgSynEditOptions,
+  Controls;
 
 Type
   TBookMarkInfo = class(TPersistent)
@@ -30,6 +31,10 @@ Type
     FileName : string;
     Highlighter : string;
     EditorOptions : TSynEditorOptionsContainer;
+    SecondEditorVisible : Boolean;
+    SecondEditorAlign : TAlign;
+    SecondEditorSize : integer;
+    EditorOptions2 : TSynEditorOptionsContainer;
   protected
     // IJvAppStorageHandler implementation
     procedure ReadFromAppStorage(AppStorage: TJvCustomAppStorage; const BasePath: string);
@@ -60,7 +65,8 @@ Type
   implementation
 
 uses
-  cPyBaseDebugger, frmPyIDEMain, SynEditTypes, dmCommands, uHighlighterProcs;
+  cPyBaseDebugger, frmPyIDEMain, SynEditTypes, dmCommands, uHighlighterProcs,
+  SynEdit;
 
 { TFilePersistInfo }
 
@@ -69,6 +75,8 @@ begin
   BreakPoints := TObjectList.Create(True);
   BookMarks := TObjectList.Create(True);
   EditorOptions := TSynEditorOptionsContainer.Create(nil);
+  EditorOptions2 := TSynEditorOptionsContainer.Create(nil);
+  SecondEditorAlign := alRight;
 end;
 
 procedure TFilePersistInfo.WriteToAppStorage(AppStorage: TJvCustomAppStorage;
@@ -83,11 +91,18 @@ begin
    AppStorage.WriteString(BasePath+'\Highlighter', Highlighter);
    AppStorage.WriteObjectList(BasePath+'\BreakPoints', BreakPoints, 'BreakPoint');
    AppStorage.WriteObjectList(BasePath+'\BookMarks', BookMarks, 'BookMarks');
+   AppStorage.WriteBoolean(BasePath+'\SecondEditorVisible', SecondEditorVisible);
    IgnoreProperties := TStringList.Create;
    try
      IgnoreProperties.Add('Keystrokes');
      AppStorage.WritePersistent(BasePath+'\Editor Options', EditorOptions,
        True, IgnoreProperties);
+     if SecondEditorVisible then begin
+       AppStorage.WriteEnumeration(BasePath+'\Second Editor Align', TypeInfo(TAlign), SecondEditorAlign);
+       AppStorage.WriteInteger(BasePath+'Second Editor Size', SecondEditorSize);
+       AppStorage.WritePersistent(BasePath+'\Second Editor Options', EditorOptions2,
+         True, IgnoreProperties);
+     end;
    finally
      IgnoreProperties.Free;
    end;
@@ -105,6 +120,14 @@ begin
    AppStorage.ReadObjectList(BasePath+'\BookMarks', BookMarks, CreateListItem, True, 'BookMarks');
    EditorOptions.Assign(CommandsDataModule.EditorOptions);
    AppStorage.ReadPersistent(BasePath+'\Editor Options', EditorOptions, True, True);
+   SecondEditorVisible := AppStorage.ReadBoolean(BasePath+'\SecondEditorVisible', False);
+   if SecondEditorVisible then begin
+     AppStorage.ReadEnumeration(BasePath+'\Second Editor Align', TypeInfo(TAlign),
+       SecondEditorAlign, SecondEditorAlign);
+     SecondEditorSize := AppStorage.ReadInteger(BasePath+'Second Editor Size');
+     EditorOptions2.Assign(CommandsDataModule.EditorOptions);
+     AppStorage.ReadPersistent(BasePath+'\Second Editor Options', EditorOptions2, True, True);
+   end;
 end;
 
 destructor TFilePersistInfo.Destroy;
@@ -112,6 +135,7 @@ begin
   BreakPoints.Free;
   BookMarks.Free;
   EditorOptions.Free;
+  EditorOptions2.Free;
   inherited;
 end;
 
@@ -159,6 +183,15 @@ begin
     end;
   end;
   EditorOptions.Assign(Editor.SynEdit);
+  SecondEditorVisible := Editor.SynEdit2.Visible;
+  if SecondEditorVisible then begin
+    SecondEditorAlign := Editor.SynEdit2.Align;
+    if SecondEditorAlign = alRight then
+      SecondEditorSize := Editor.SynEdit2.Width
+    else
+      SecondEditorSize := Editor.SynEdit2.Height;
+    EditorOptions2.Assign(Editor.SynEdit2);
+  end;
 end;
 
 { TPersistFileInfo }
@@ -199,6 +232,16 @@ begin
           Editor.SynEdit.Highlighter := GetHighlighterFromLanguageName(
             FilePersistInfo.Highlighter, CommandsDataModule.Highlighters);
         Editor.SynEdit.Assign(FilePersistInfo.EditorOptions);
+        if FilePersistInfo.SecondEditorVisible then begin
+          Editor.SynEdit2.Assign(FilePersistInfo.EditorOptions2);
+          if FilePersistInfo.SecondEditorAlign = alRight then begin
+            Editor.SplitEditorVertrically;
+            Editor.SynEdit2.Width := FilePersistInfo.SecondEditorSize;
+          end else begin
+            Editor.SplitEditorHorizontally;
+            Editor.SynEdit2.Height := FilePersistInfo.SecondEditorSize;
+          end;
+        end;
       end;
     end;
   finally
@@ -252,9 +295,10 @@ var
   Editor : IEditor;
   FilePersistInfo : TFilePersistInfo;
 begin
-  for i := 0 to GI_EditorFactory.Count - 1 do begin
-    Editor := GI_EditorFactory.Editor[i];
-    if Editor.FileName <> '' then begin
+  // in the order of the tabbar
+  for i := 0 to PyIDEMainForm.TabBar.Tabs.Count - 1 do begin
+    Editor := EditorFromTab(PyIDEMainForm.TabBar.Tabs[i]);
+    if Assigned(Editor) and (Editor.FileName <> '') then begin
       FilePersistInfo := TFilePersistInfo.CreateFromEditor(Editor);
       fFileInfoList.Add(FilePersistInfo)
     end;

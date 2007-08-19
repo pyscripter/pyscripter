@@ -468,11 +468,19 @@ initialization
   CmdLineReader.automaticalShowError := True;
   CmdLineReader.declareFlag('NEWINSTANCE','Start a new instance of PyScripter', 'N',False);
   CmdLineReader.declareFlag('DPIAWARE','Make PyScripter DPI aware in VISTA', 'D',False);
+  CmdLineReader.declareFlag('DEBUG','Use debug version of Python', 'B',False);
   CmdLineReader.declareFlag('PYTHON23','Use Python version 2.3',False);
   CmdLineReader.declareFlag('PYTHON23','Use Python version 2.3',False);
   CmdLineReader.declareFlag('PYTHON24','Use Python version 2.4',False);
   CmdLineReader.declareFlag('PYTHON25','Use Python version 2.5',False);
   CmdLineReader.declareFile('PYTHONDLLPATH','Use a specific Pythonxx.dll');
+
+  try
+      CmdLineReader.parse;
+  except
+    on E: ECommandLineParseException do Halt(1);
+  end;
+
 finalization
   CmdLineReader.free;
 end.

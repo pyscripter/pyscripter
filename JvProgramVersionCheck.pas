@@ -515,7 +515,7 @@ type
 {$IFDEF UNITVERSIONING}
 const
   UnitVersioning: TUnitVersionInfo = (
-    RCSfile: '$URL: https://jvcl.svn.sourceforge.net/svnroot/jvcl/branches/JVCL3_30_PREPARATION/run/JvProgramVersionCheck.pas $';
+    RCSfile: '$URL: https://jvcl.svn.sourceforge.net/svnroot/jvcl/tags/JVCL3_32/run/JvProgramVersionCheck.pas $';
     Revision: '$Revision: 11059 $';
     Date: '$Date: 2006-11-29 18:12:58 +0100 (mer., 29 nov. 2006) $';
     LogPath: 'JVCL\run'

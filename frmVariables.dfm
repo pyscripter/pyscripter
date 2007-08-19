@@ -55,23 +55,10 @@ inherited VariablesWindow: TVariablesWindow
     ExplicitTop = 11
     ExplicitWidth = 569
     ExplicitHeight = 213
-    object Splitter: TJvNetscapeSplitter
-      Left = 184
-      Top = 0
-      Height = 213
-      Align = alRight
-      MinSize = 10
-      ResizeStyle = rsUpdate
-      Maximized = False
-      Minimized = False
-      ButtonCursor = crDefault
-      ButtonHighlightColor = 15195862
-      AutoHighlightColor = True
-    end
     object VariablesTree: TVirtualStringTree
       Left = 0
       Top = 0
-      Width = 184
+      Width = 189
       Height = 213
       Align = alClient
       Alignment = taRightJustify
@@ -85,7 +72,7 @@ inherited VariablesWindow: TVariablesWindow
       Header.Font.Height = -11
       Header.Font.Name = 'MS Shell Dlg 2'
       Header.Font.Style = []
-      Header.Options = [hoAutoResize, hoColumnResize, hoDrag, hoHotTrack, hoOwnerDraw, hoVisible]
+      Header.Options = [hoAutoResize, hoColumnResize, hoDblClickResize, hoDrag, hoHotTrack, hoOwnerDraw, hoVisible]
       Header.ParentFont = True
       Header.PopupMenu = VTHeaderPopupMenu
       HintMode = hmTooltip
@@ -93,7 +80,7 @@ inherited VariablesWindow: TVariablesWindow
       IncrementalSearch = isVisibleOnly
       TabOrder = 0
       TreeOptions.AnimationOptions = [toAnimatedToggle]
-      TreeOptions.MiscOptions = [toFullRepaintOnResize, toInitOnSave, toToggleOnDblClick, toWheelPanning, toVariableNodeHeight]
+      TreeOptions.MiscOptions = [toFullRepaintOnResize, toInitOnSave, toToggleOnDblClick, toWheelPanning]
       TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowDropmark, toShowRoot, toShowTreeLines, toShowVertGridLines, toUseBlendedImages, toUseBlendedSelection]
       TreeOptions.StringOptions = [toAutoAcceptEditChange]
       OnChange = VariablesTreeChange
@@ -115,11 +102,11 @@ inherited VariablesWindow: TVariablesWindow
         end
         item
           Position = 2
-          Width = 24
+          Width = 29
           WideText = 'Value'
         end>
     end
-    object TBXPageScroller: TTBXPageScroller
+    object DocPanel: TTBXPageScroller
       Left = 194
       Top = 0
       Width = 375
@@ -143,6 +130,15 @@ inherited VariablesWindow: TVariablesWindow
         Color = clBtnFace
         ParentColor = False
       end
+    end
+    object SpTBXSplitter: TSpTBXSplitter
+      Left = 189
+      Top = 0
+      Height = 213
+      Cursor = crSizeWE
+      Caption = 'SpTBXSplitter'
+      Align = alRight
+      MinSize = 3
     end
   end
   inherited DockClient: TJvDockClient

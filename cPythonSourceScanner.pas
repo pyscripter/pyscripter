@@ -865,7 +865,7 @@ begin
           Token := StrToken(AsgnTargetList, ',');
           while Token <> '' do begin
             CharOffset := CharOffset2;  // Keeps track of the start of the identifier
-            Inc(CharOffset, CalcIndent(Token));
+            Inc(CharOffset, CalcIndent(Token, 1)); // do not expand tabs
             Inc(CharOffset2, Succ(Length(Token))); // account for ,
             Token := Trim(Token);
             if StrIsLeft(PChar(Token), 'self.') then begin

@@ -27,10 +27,14 @@ type
     Comments: TLabel;
     Version: TLabel;
     ProductName: TLabel;
+    TabSheet1: TTabSheet;
+    ScrollBox1: TScrollBox;
+    JvLinkLabel1: TJvLinkLabel;
     procedure Panel1Click(Sender: TObject);
     procedure JvLinkLabelLinkClick(Sender: TObject; LinkNumber: Integer;
       LinkText, LinkParam: String);
     procedure FormCreate(Sender: TObject);
+    procedure FormKeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
   public
@@ -50,6 +54,12 @@ uses
 procedure TAboutBox.Panel1Click(Sender: TObject);
 begin
   Close;
+end;
+
+procedure TAboutBox.FormKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key = #27 then
+    Close;
 end;
 
 procedure TAboutBox.JvLinkLabelLinkClick(Sender: TObject;

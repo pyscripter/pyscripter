@@ -47,7 +47,7 @@ var
 implementation
 
 uses frmPyIDEMain, VarPyth, frmVariables, PythonEngine, uCommonFunctions,
-  dmCommands, JvDockGlobals;
+  dmCommands, JvDockGlobals, frmWatches;
 
 {$R *.dfm}
 
@@ -65,7 +65,7 @@ begin
   //  The callstack and the variables window will be updated when the
   //  Debugger becomes Paused or Inactive
   case DebuggerState of
-    dsPaused:
+    dsPaused, dsPostMortem:
       begin
         CallStackView.Enabled := True;
         ClearAll;
@@ -74,7 +74,7 @@ begin
         CallStackView.RootNodeCount := fCallStackList.Count;  // Fills the View
         CallStackView.ReinitNode(CallStackView.RootNode, True);
 
-        //  The following statement updates the Variables Window as well
+        //  The following statement updates the Variables and Watches Windows as well
         if Assigned(CallStackView.RootNode.FirstChild) then
           CallStackView.Selected[CallStackView.RootNode.FirstChild] := True;
       end;
@@ -82,6 +82,7 @@ begin
       begin
         CallStackView.Enabled := False;
         if Assigned(VariablesWindow) then VariablesWindow.UpdateWindow;
+        if Assigned(WatchesWindow) then WatchesWindow.UpdateWindow(DebuggerState);
       end;
     dsRunningNoDebug,
     dsInactive:
@@ -89,6 +90,7 @@ begin
         ClearAll;
         CallStackView.Enabled := False;
         if Assigned(VariablesWindow) then VariablesWindow.UpdateWindow;
+        if Assigned(WatchesWindow) then WatchesWindow.UpdateWindow(DebuggerState);
       end;
   end;
 end;
@@ -108,8 +110,12 @@ begin
   begin
     // Update the Variables Window
     SelectedNode := Node;
+    PyControl.ActiveDebugger.MakeFrameActive(
+      PCallStackRec(CallStackView.GetNodeData(Node))^.FrameInfo);
     if Assigned(VariablesWindow) then
       VariablesWindow.UpdateWindow;
+    if Assigned(WatchesWindow) then
+      WatchesWindow.UpdateWindow(PyControl.DebuggerState);
   end;
 end;
 

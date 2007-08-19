@@ -42,5 +42,14 @@
     <Transaction>2007/03/05 11:09:46.672.pas,C:\Sandbox\P4D\PythonForDelphi\PythonIDE\JvDockVIDVCStyle.pas=</Transaction>
     <Transaction>2007/03/06 02:23:34.218.pas,C:\Sandbox\P4D\PythonForDelphi\PythonIDE\JvDockVIDVCStyle.pas=</Transaction>
     <Transaction>2007/05/03 08:01:05.583.pas,C:\Sandbox\P4D\PythonForDelphi\PythonIDE\Unit1.pas=C:\Sandbox\P4D\PythonForDelphi\PythonIDE\uDpiAware.pas</Transaction>
+    <Transaction>2007/05/13 03:05:30.730.pas,C:\Sandbox\P4D\PythonForDelphi\PythonIDE\dlgSearchText.pas=</Transaction>
+    <Transaction>2007/05/13 03:05:30.730.dfm,C:\Sandbox\P4D\PythonForDelphi\PythonIDE\dlgSearchText.dfm=</Transaction>
+    <Transaction>2007/05/13 03:07:02.071.pas,C:\Sandbox\P4D\PythonForDelphi\PythonIDE\dlgReplaceText.pas=</Transaction>
+    <Transaction>2007/05/13 03:07:02.071.dfm,C:\Sandbox\P4D\PythonForDelphi\PythonIDE\dlgReplaceText.dfm=</Transaction>
+    <Transaction>2007/05/24 04:01:10.835.pas,C:\Sandbox\P4D\PythonForDelphi\PythonIDE\Unit1.pas=C:\Sandbox\P4D\PythonForDelphi\PythonIDE\uSearchHighlighter.pas</Transaction>
+    <Transaction>2007/06/09 00:51:42.636.pas,C:\Sandbox\P4D\PythonForDelphi\PythonIDE\VCLFlickerReduce.pas=</Transaction>
+    <Transaction>2007/06/09 00:58:26.526.pas,C:\Sandbox\P4D\PythonForDelphi\PythonIDE\RtlVclOptimize.pas=</Transaction>
+    <Transaction>2007/06/18 03:18:22.324.pas,C:\Sandbox\P4D\PythonForDelphi\PythonIDE\JvDockTree.pas=</Transaction>
+    <Transaction>2007/06/18 03:36:18.200.pas,C:\Sandbox\P4D\PythonForDelphi\PythonIDE\JvThreadDialog.pas=</Transaction>
   </Transactions>
 </BorlandProject>

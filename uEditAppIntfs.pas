@@ -99,6 +99,8 @@ type
     function CanClose: boolean;
     procedure Close;
     function GetSynEdit : TSynEdit;
+    function GetSynEdit2 : TSynEdit;
+    function GetActiveSynEdit : TSynEdit;
     function GetBreakPoints : TObjectList;
     function GetCaretPos: TPoint;
     function GetEditorState: string;
@@ -113,10 +115,14 @@ type
     procedure OpenFile(const AFileName: string; HighlighterName : string = '');
     function HasPythonFile : Boolean;
     procedure ExecuteSelection;
+    procedure SplitEditorHorizontally;
+    procedure SplitEditorVertrically;
     property FileName : string read GetFileName;
     property FileTitle : string read GetFileTitle;
     property Modified : boolean read GetModified;
     property SynEdit : TSynEdit read GetSynEdit;
+    property SynEdit2 : TSynEdit read GetSynEdit2;
+    property ActiveSynEdit : TSynEdit read GetActiveSynEdit;
     property BreakPoints : TObjectList read GetBreakPoints;
     property FileEncoding : TFileSaveFormat read GetFileEncoding write SetFileEncoding;
     property EncodedText : string read GetEncodedText;
@@ -174,6 +180,7 @@ type
   end;
 
   ISearchCommands = interface
+    ['{490F145F-01EB-486F-A326-07281AA86BFD}']
     function CanFind: boolean;
     function CanFindNext: boolean;
     function CanFindPrev: boolean;

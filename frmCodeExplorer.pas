@@ -188,6 +188,9 @@ type
     procedure mnExpandAllClick(Sender: TObject);
     procedure nCollapseAllClick(Sender: TObject);
     procedure FormActivate(Sender: TObject);
+    procedure ExplorerTreeKeyPress(Sender: TObject; var Key: Char);
+  private
+    procedure NavigateToNodeElement(Node: PVirtualNode);
   public
     { Public declarations }
     ModuleCENode : TModuleCENode;
@@ -412,6 +415,13 @@ begin
       InitialStates := [ivsHasChildren];
 end;
 
+procedure TCodeExplorerWindow.ExplorerTreeKeyPress(Sender: TObject;
+  var Key: Char);
+begin
+  if Key = Char(VK_Return) then
+    NavigateToNodeElement(ExplorerTree.GetFirstSelected);
+end;
+
 procedure TCodeExplorerWindow.ExplorerTreeInitChildren(
   Sender: TBaseVirtualTree; Node: PVirtualNode; var ChildCount: Cardinal);
 var
@@ -457,25 +467,8 @@ begin
 end;
 
 procedure TCodeExplorerWindow.ExplorerTreeDblClick(Sender: TObject);
-var
-  Data : PNodeDataRec;
-  LineNo, CharOffset : integer;
 begin
-  if Assigned(ExplorerTree.HotNode) then begin
-    Data := ExplorerTree.GetNodeData(ExplorerTree.HotNode);
-    if Assigned(Data.CENode.CodeElement) then begin
-      LineNo := Data.CENode.CodeElement.CodePos.LineNo;
-      CharOffset := Data.CENode.CodeElement.CodePos.CharOffset;
-      with PyIDEMainForm.GetActiveEditor.SynEdit do begin
-        CaretXY := BufferCoord(1, LineNo);
-        EnsureCursorPosVisibleEx(True);
-        if CharOffset > 0 then begin
-          SelStart := RowColToCharIndex(CaretXY) + CharOffset - 1;
-          SelEnd := SelStart + Length(Data.CENode.Caption);
-        end;
-      end;
-    end;
-  end
+  NavigateToNodeElement(ExplorerTree.HotNode)
 end;
 
 procedure TCodeExplorerWindow.UpdateWindow;
@@ -503,6 +496,33 @@ begin
     TScanCodeThread(WorkerThread).Shutdown;
     TScanCodeThread(WorkerThread).WaitFor;
     FreeAndNil(WorkerThread);
+  end;
+end;
+
+procedure TCodeExplorerWindow.NavigateToNodeElement(Node: PVirtualNode);
+var
+  Data: PNodeDataRec;
+  LineNo: Integer;
+  CharOffset: Integer;
+begin
+  if Assigned(Node) then
+  begin
+    Data := ExplorerTree.GetNodeData(Node);
+    if Assigned(Data.CENode.CodeElement) then
+    begin
+      LineNo := Data.CENode.CodeElement.CodePos.LineNo;
+      CharOffset := Data.CENode.CodeElement.CodePos.CharOffset;
+      with PyIDEMainForm.GetActiveEditor.SynEdit do
+      begin
+        CaretXY := BufferCoord(1, LineNo);
+        EnsureCursorPosVisibleEx(True);
+        if CharOffset > 0 then
+        begin
+          SelStart := RowColToCharIndex(CaretXY) + CharOffset - 1;
+          SelEnd := SelStart + Length(Data.CENode.Caption);
+        end;
+      end;
+    end;
   end;
 end;
 

@@ -68,13 +68,13 @@ inherited WatchesWindow: TWatchesWindow
       Header.Font.Name = 'MS Shell Dlg 2'
       Header.Font.Style = []
       Header.MainColumn = 1
-      Header.Options = [hoColumnResize, hoDrag, hoHotTrack, hoOwnerDraw, hoVisible]
+      Header.Options = [hoColumnResize, hoDblClickResize, hoDrag, hoHotTrack, hoOwnerDraw, hoVisible]
       Header.ParentFont = True
       HintMode = hmTooltip
       PopupMenu = TBXPopupMenu
       TabOrder = 0
       TreeOptions.AnimationOptions = [toAnimatedToggle]
-      TreeOptions.MiscOptions = [toFullRepaintOnResize, toInitOnSave, toReportMode, toToggleOnDblClick, toWheelPanning, toVariableNodeHeight]
+      TreeOptions.MiscOptions = [toFullRepaintOnResize, toInitOnSave, toReportMode, toToggleOnDblClick, toWheelPanning]
       TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowDropmark, toShowHorzGridLines, toShowVertGridLines, toUseBlendedImages, toUseBlendedSelection]
       TreeOptions.SelectionOptions = [toExtendedFocus, toFullRowSelect, toRightClickSelect]
       TreeOptions.StringOptions = [toAutoAcceptEditChange]

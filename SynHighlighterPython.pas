@@ -188,6 +188,7 @@ type
     fPS1 : string;
     fPS2 : string;
     fDbg : string;
+    fPM : string;
     fBannerAttri: TSynHighlighterAttributes;
     fOutputAttri: TSynHighlighterAttributes;
     fTracebackAttri: TSynHighlighterAttributes;
@@ -219,6 +220,7 @@ type
     property PS1 : string read fPS1 write fPS1;
     property PS2 : string read fPS2 write fPS2;
     property Dbg : string read fDbg write fDbg;
+    property PM : string read fPM write fPM;
   end;
 
 implementation
@@ -289,28 +291,91 @@ const
     );
 
   // List of non-keyword identifiers
-  NONKEYWORDCOUNT = 68;
+  NONKEYWORDCOUNT = 137;
   NONKEYWORDS: array [1..NONKEYWORDCOUNT] of WideString =
     (
+    'ArithmeticError',
+    'AssertionError',
+    'AttributeError',
+    'BaseException',
+    'DeprecationWarning',
+    'EOFError',
+    'Ellipsis',
+    'EnvironmentError',
+    'Exception',
+    'False',
+    'FloatingPointError',
+    'FutureWarning',
+    'GeneratorExit',
+    'IOError',
+    'ImportError',
+    'ImportWarning',
+    'IndentationError',
+    'IndexError',
+    'KeyError',
+    'KeyboardInterrupt',
+    'LookupError',
+    'MemoryError',
+    'NameError',
+    'None',
+    'NotImplemented',
+    'NotImplementedError',
+    'OSError',
+    'OverflowError',
+    'PendingDeprecationWarning',
+    'ReferenceError',
+    'RuntimeError',
+    'RuntimeWarning',
+    'StandardError',
+    'StopIteration',
+    'SyntaxError',
+    'SyntaxWarning',
+    'SystemError',
+    'SystemExit',
+    'TabError',
+    'True',
+    'TypeError',
+    'UnboundLocalError',
+    'UnicodeDecodeError',
+    'UnicodeEncodeError',
+    'UnicodeError',
+    'UnicodeTranslateError',
+    'UnicodeWarning',
+    'UserWarning',
+    'ValueError',
+    'Warning',
+    'WindowsError',
+    'ZeroDivisionError',
+    '_',
+    '__debug__',
+    '__doc__',
     '__future__',
     '__import__',
+    '__name__',
     'abs',
+    'all',
+    'any',
     'apply',
+    'basestring',
     'bool',
     'buffer',
     'callable',
     'chr',
+    'classmethod',
     'cmp',
     'coerce',
     'compile',
     'complex',
+    'copyright',
+    'credits',
     'delattr',
     'dict',
     'dir',
     'divmod',
+    'enumerate',
     'eval',
     'execfile',
-    'False',
+    'exit',
     'file',
     'filter',
     'float',
@@ -329,30 +394,36 @@ const
     'issubclass',
     'iter',
     'len',
+    'license',
     'list',
     'locals',
     'long',
-    'None',
-    'NotImplemented',
     'map',
     'max',
     'min',
+    'object',
     'oct',
     'open',
     'ord',
     'pow',
+    'property',
+    'quit',
     'range',
     'raw_input',
     'reduce',
     'reload',
     'repr',
+    'reversed',
     'round',
     'self',
     'set',
     'setattr',
     'slice',
+    'sorted',
+    'staticmethod',
     'str',
-    'True',
+    'sum',
+    'super',
     'tuple',
     'type',
     'unichr',
@@ -391,9 +462,11 @@ begin
     Inc(temp);
   fStringLen := temp - fToIdent;
 
-  // Check to see if it is a keyword
   SetString(s, fToIdent, fStringLen);
-  if FKeywords.Find(s, i) then
+
+  // Check to see if it is a keyword
+  if ((Run <= 0) or (FLine[Run-1]<> '.')) and (fLastIdentifier <> 'class') and
+    (fLastIdentifier <> 'def') and FKeywords.Find(s, i) then
   begin
     // TWideStringList is not case sensitive!
     if s <> FKeywords[i] then
@@ -1120,7 +1193,7 @@ begin
                begin
                  fBackslashCount := 1;
 
-                 while ((Run > fBackslashCount) and (FLine[Run - fBackslashCount] = '\')) do
+                 while ((Run >= fBackslashCount) and (FLine[Run - fBackslashCount] = '\')) do
                    fBackslashCount := fBackslashCount + 1;
 
                  if (fBackslashCount mod 2 = 1) then inc(Run);
@@ -1135,22 +1208,20 @@ begin
     end;
   end else
   repeat
-    if FLine[Run] = '\' then
-    begin
-       if FLine[Run + 1] = EndChar then
-         begin
-           fBackslashCount := 1;
-
-           while ((Run > fBackslashCount) and (FLine[Run - fBackslashCount] = '\')) do
-             fBackslashCount := fBackslashCount + 1;
-
-           if (fBackslashCount mod 2 = 1) then inc(Run, 2);
-       end;
-     end;// if FLine[Run]...
     if (FLine[Run]=EndChar) and (FLine[Run+1]=EndChar) and (FLine[Run+2]=EndChar) then begin
       inc(Run,3);
       fRange:=rsUnknown;
       EXIT;
+    end;
+    if FLine[Run] = '\' then begin
+      if FLine[Run + 1] = EndChar then begin
+          fBackslashCount := 1;
+
+          while ((Run >= fBackslashCount) and (FLine[Run - fBackslashCount] = '\')) do
+            fBackslashCount := fBackslashCount + 1;
+
+          if (fBackslashCount mod 2 = 1) then inc(Run);
+      end;
     end;
     inc(Run);
   until IsLineEnd(Run);
@@ -1262,6 +1333,7 @@ end;
 procedure TSynPythonSyn.ResetRange;
 begin
   fRange := rsUnknown;
+  fLastIdentifier := '';
 end;
 
 procedure TSynPythonSyn.SetRange(Value: Pointer);
@@ -1283,11 +1355,14 @@ function TSynPythonSyn.GetSampleSource: WideString;
 begin
   Result :=
     '#!/usr/local/bin/python'#13#10 +
+    '__version__ = "$Revision: 01 $"'#13#10 +
     'import string, sys'#13#10 +
-    '""" If no arguments were given, print a helpful message """'#13#10 +
-    'if len(sys.argv)==1:'#13#10 +
-    '    print ''Usage: celsius temp1 temp2 ...'''#13#10 +
-    '    sys.exit(0)';
+    'class Conversions:'#13#10 +
+    '"""A collection of conversion functions"""'#13#10 +
+    '    if len(sys.argv) < 1:'#13#10 +
+    '        print ''Usage: number[, number, ...]'''#13#10 +
+    '        sys.exit(2)'#13#10 +
+    '        assert 0x00 == 00    #well, it better';
 end;
 
 class function TSynPythonSyn.GetFriendlyLanguageName: WideString;
@@ -1323,6 +1398,7 @@ begin
   fPS1 := '>>>';
   fPS2 := '...';
   fDbg := '[Dbg]';
+  fPM := '[PM]';
   fBannerAttri := TSynHighlighterAttributes.Create(SYNS_AttrBanner, SYNS_FriendlyAttrBanner);
   fBannerAttri.Foreground := clBlue;
   AddAttribute(fBannerAttri);
@@ -1353,7 +1429,11 @@ begin
   else if AnsiStartsStr(fDbg + fPS1, Line) then
     Prompt := fDbg + fPS1
   else if AnsiStartsStr(fDbg + fPS2, Line) then
-    Prompt := fDbg + fPS2;
+    Prompt := fDbg + fPS2
+  else if AnsiStartsStr(fPM + fPS1, Line) then
+    Prompt := fPM + fPS1
+  else if AnsiStartsStr(fPM + fPS2, Line) then
+    Prompt := fPM + fPS2;
 
   if (Prompt <> '') then begin
     if fRange = rsTraceback then

@@ -12,7 +12,6 @@ object FindInFilesDialog: TFindInFilesDialog
   Font.Height = -11
   Font.Name = 'MS Sans Serif'
   Font.Style = []
-  KeyPreview = True
   OldCreateOrder = True
   Position = poScreenCenter
   Scaled = False
@@ -46,7 +45,7 @@ object FindInFilesDialog: TFindInFilesDialog
     Width = 161
     Height = 106
     Caption = 'Options'
-    TabOrder = 1
+    TabOrder = 2
     object cbNoCase: TSpTBXCheckBox
       Left = 8
       Top = 16
@@ -95,7 +94,7 @@ object FindInFilesDialog: TFindInFilesDialog
     Height = 106
     Anchors = [akLeft, akTop, akRight]
     Caption = 'Where'
-    TabOrder = 2
+    TabOrder = 3
     object rbOpenFiles: TSpTBXRadioButton
       Left = 8
       Top = 36
@@ -137,7 +136,7 @@ object FindInFilesDialog: TFindInFilesDialog
     Height = 97
     Anchors = [akLeft, akTop, akRight]
     Caption = 'Directory Search'
-    TabOrder = 3
+    TabOrder = 1
     DesignSize = (
       347
       97)
@@ -226,6 +225,7 @@ object FindInFilesDialog: TFindInFilesDialog
     LinkFont.Height = -11
     LinkFont.Name = 'Tahoma'
     LinkFont.Style = [fsUnderline]
+    ModalResult = 1
   end
   object btnCancel: TSpTBXButton
     Left = 200

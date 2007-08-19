@@ -27,7 +27,7 @@ replace them with the notice and other provisions required by the GPL.
 If you do not delete the provisions above, a recipient may use your version
 of this file under either the MPL or the GPL.
 
-$Id: SynEditKeyCmds.pas,v 1.23.2.2 2005/10/20 13:58:51 maelh Exp $
+$Id: SynEditKeyCmds.pas,v 1.23.2.3 2007/01/23 03:29:55 etrusco Exp $
 
 You may retrieve the latest version of this file at the SynEdit home page,
 located at http://SynEdit.SourceForge.net

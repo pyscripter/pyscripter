@@ -143,6 +143,7 @@ var
 begin
   with CommandsDataModule.dlgFileOpen do begin
     Filter := SFilterAllFiles;
+    FileName := '';
     SaveTitle:= Title;
     if ATitle <> '' then
       Title:= ATitle
@@ -420,10 +421,17 @@ begin
     Result := IncludeTrailingPathDelimiter(Result);
 end;
 
-
 function GetPythonVersion: string;
 begin
   Result := SysModule.version;
+end;
+
+function GetCmdLineArgs: string;
+begin
+  if CommandsDataModule.PyIDEOptions.UseCommandLine then
+    Result := CommandsDataModule.PyIDEOptions.CommandLine
+  else
+    Result := '';
 end;
 
 procedure RegisterStandardParametersAndModifiers;
@@ -455,6 +463,7 @@ begin
     RegisterParameter('UserName', 'User Name', GetLocalUserName);
     RegisterParameter('CurrentDir', 'Current Directory', GetCurrentFolder);
     RegisterParameter('Exe', 'Executable Name', GetExe);
+    RegisterParameter('CmdLineArgs', 'Python Command Line Arguments', GetCmdLineArgs);
 
     // register parameter modifiers
     RegisterModifier('Path', 'Path of file', ExtractFilePath);
@@ -540,6 +549,7 @@ begin
     UnRegisterParameter('UserName');
     UnRegisterParameter('CurrentDir');
     UnRegisterParameter('Exe');
+    UnRegisterParameter('CmdLineArgs');
 
     // unregister modifiers
     UnRegisterModifier('Path');
@@ -565,7 +575,7 @@ begin
     UnRegisterModifier('Quote');
     UnRegisterModifier('UnQuote');
 
-   (* parameters, specific for syn *)
+   (* parameters, specific for PyScripter *)
     UnRegisterParameter('SelectFile');
     UnRegisterParameter('SelectedFile');
     UnRegisterParameter('SelectDir');

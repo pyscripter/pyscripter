@@ -81,7 +81,7 @@ object UnitTestWizard: TUnitTestWizard
       ParentShowHint = False
       ShowHint = True
       TabOrder = 0
-      TreeOptions.MiscOptions = [toCheckSupport, toFullRepaintOnResize, toInitOnSave, toWheelPanning, toVariableNodeHeight]
+      TreeOptions.MiscOptions = [toCheckSupport, toFullRepaintOnResize, toInitOnSave, toWheelPanning]
       TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowDropmark, toShowRoot, toShowTreeLines, toShowVertGridLines, toThemeAware, toUseBlendedImages, toUseBlendedSelection]
       TreeOptions.StringOptions = [toAutoAcceptEditChange]
       OnGetText = ExplorerTreeGetText

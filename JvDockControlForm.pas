@@ -882,9 +882,9 @@ procedure InvalidateDockHostSiteOfControl(Control: TControl; FocusLost: Boolean)
 {$IFDEF UNITVERSIONING}
 const
   UnitVersioning: TUnitVersionInfo = (
-    RCSfile: '$URL: https://jvcl.svn.sourceforge.net:443/svnroot/jvcl/trunk/jvcl/run/JvDockControlForm.pas $';
+    RCSfile: '$URL: https://jvcl.svn.sourceforge.net/svnroot/jvcl/tags/JVCL3_32/run/JvDockControlForm.pas $';
     Revision: '$Revision: 11276 $';
-    Date: '$Date: 2007-04-24 12:33:37 -0700 (Tue, 24 Apr 2007) $';
+    Date: '$Date: 2007-04-24 21:33:37 +0200 (mar., 24 avr. 2007) $';
     LogPath: 'JVCL\run'
     );
 {$ENDIF UNITVERSIONING}
@@ -938,7 +938,7 @@ procedure ApplyShowingChanged;
 var
   I: Integer;
 begin
-  if IsWinXP_UP then
+  if IsWinXP_UP and (GShowingChanged <> nil) then
     for I := 0 to Screen.FormCount - 1 do
       if GShowingChanged.IndexOf(Screen.Forms[I]) >= 0 then
         Screen.Forms[i].Perform(CM_SHOWINGCHANGED, 0, 0);
@@ -1696,10 +1696,12 @@ begin
           if UseDockManager and (JvDockManager <> nil) then
             JvDockManager.RemoveControl(DockClient.ParentForm);
 
-      if DockClient.ParentForm.HostDockSite is TJvDockPanel then
-        DockClient.LastDockSite := DockClient.ParentForm.HostDockSite
-      else
-        DockClient.LastDockSite := nil;
+      //KV
+      DockClient.LastDockSite := DockClient.ParentForm.HostDockSite;
+      //if DockClient.ParentForm.HostDockSite is TJvDockPanel then
+      //  DockClient.LastDockSite := DockClient.ParentForm.HostDockSite
+      //else
+      //  DockClient.LastDockSite := nil;
 
       if DockClient.ParentForm.HostDockSite = nil then
       begin
@@ -2219,8 +2221,15 @@ function TJvDockAdvStyle.DockClientWindowProc(DockClient: TJvDockClient;
   var Msg: TMessage): Boolean;
 begin
   if (DockClient <> nil) and (Msg.Msg = WM_NCLBUTTONDBLCLK) then
-    if DockClient.CanFloat then
-      DockClient.RestoreChild;
+    //KV
+    if DockClient.DockState = JvDockState_Floating then begin
+      if Assigned(DockClient.LastDockSite) then
+        DockClient.ParentForm.ManualDock(DockClient.LastDockSite);
+    end else begin
+      if DockClient.CanFloat then
+        DockClient.RestoreChild;
+    end;
+
   Result := inherited DockClientWindowProc(DockClient, Msg);
 end;
 
@@ -5137,7 +5146,6 @@ begin
         AControl.ManualDock(Self, nil, alClient);
         { DockClients[Index] is always AControl? }
         DockClients[Index].Visible := Boolean(SheetVisible);
-        // KV
         if (Self is TJvDockVSNETTabPageControl) and (Index = Count - 1) then
           TJvDockVSNETTabSheet(Pages[Index]).OldVisible := Boolean(SheetVisible);
         Inc(Index);

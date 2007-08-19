@@ -254,6 +254,7 @@ begin
   with CommandsDataModule.dlgFileOpen do begin
     Title := 'Select application or file to execute';
     Filter := 'Executable Files (*.exe;*.bat;*.cmd)|*.exe;*.bat;*.cmd|All files|*.*|';
+    FileName := '';
     if Execute then begin
       SynApplication.SelText := FileName;
       SynApplication.SetFocus;

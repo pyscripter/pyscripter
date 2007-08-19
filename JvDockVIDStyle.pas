@@ -594,9 +594,9 @@ procedure PaintGradientBackground(Canvas: TCanvas; ARect: TRect; StartColor, End
 {$IFDEF UNITVERSIONING}
 const
   UnitVersioning: TUnitVersionInfo = (
-    RCSfile: '$URL: https://jvcl.svn.sourceforge.net:443/svnroot/jvcl/trunk/jvcl/run/JvDockVIDStyle.pas $';
+    RCSfile: '$URL: https://jvcl.svn.sourceforge.net/svnroot/jvcl/tags/JVCL3_32/run/JvDockVIDStyle.pas $';
     Revision: '$Revision: 11274 $';
-    Date: '$Date: 2007-04-24 12:09:06 -0700 (Tue, 24 Apr 2007) $';
+    Date: '$Date: 2007-04-24 21:09:06 +0200 (mar., 24 avr. 2007) $';
     LogPath: 'JVCL\run'
   );
 {$ENDIF UNITVERSIONING}
@@ -3959,23 +3959,25 @@ end;
 
 {$IFDEF DELPHI6_UP}
 procedure TJvDockVIDDragDockObject.DefaultDockImage(Erase: Boolean);
-Var
+var
   DrawRect: TRect;
-  TabControlRect : TRect;
-  TabRect : TRect;
+  TabControlRect: TRect;
+  TabRect: TRect;
   PenSize: Integer;
   ABrush: TBrush;
-  ShowTab : Boolean;
-  LeftOffset : integer;
+  ShowTab: Boolean;
+  LeftOffset: Integer;
   BottomOffset: Integer;
   MaxTabWidth: Integer;
 begin
   FErase := Erase;
   GetBrush_PenSize_DrawRect(ABrush, PenSize, DrawRect, Erase);
-  if Erase then Exit;  // No need to erase
+  if Erase then
+    Exit;  // No need to erase
 
   ShowTab := False;
-  if FIsTabDockOver and Assigned(fDropTabControl) then begin
+  if FIsTabDockOver and Assigned(FDropTabControl) then
+  begin
     TabControlRect := FDropTabControl.BoundsRect;
     TabControlRect := Rect(FDropTabControl.ClientToScreen(TabControlRect.TopLeft),
                      FDropTabControl.ClientToScreen(TabControlRect.BottomRight));
@@ -3987,12 +3989,15 @@ begin
       ShowTab := True;
   end;
 
-  if not ShowTab then begin
+  if not ShowTab then
+  begin
     AlphaBlendedForm.Visible := True;
     AlphaBlendedForm.BoundsRect := DrawRect;
     AlphaBlendedTab.Visible := False;
     AlphaBlendedTab.BoundsRect := Rect(0, 0, 0, 0);
-  end else begin
+  end
+  else
+  begin
     LeftOffset := FDropTabControl.TabLeftOffset;
     BottomOffset := FDropTabControl.Panel.TabHeight;
     if FDropTabControl.Panel.Page.Count > 0 then
@@ -4006,11 +4011,12 @@ begin
     if TabControlRect.Bottom - TabControlRect.Top  < 2 * BottomOffset then
       BottomOffset := Max((TabControlRect.Bottom - TabControlRect.Top) div 2, 0);
 
-    Assert(fDropTabControl.TabPosition in [tpBottom, tpTop],
+    Assert(FDropTabControl.TabPosition in [tpBottom, tpTop],
       RsEDockCannotSetTabPosition);
 
     TabRect := TabControlRect;
-    if fDropTabControl.TabPosition = tpBottom then begin
+    if FDropTabControl.TabPosition = tpBottom then
+    begin
       Dec(TabControlRect.Bottom, BottomOffset);
       AlphaBlendedForm.Visible := True;
       AlphaBlendedForm.BoundsRect := TabControlRect;
@@ -4018,7 +4024,9 @@ begin
                       MaxTabWidth, BottomOffset);
       AlphaBlendedTab.Visible := True;
       AlphaBlendedTab.BoundsRect := TabRect;
-    end else begin
+    end
+    else
+    begin
       Inc(TabControlRect.Top, BottomOffset);
       AlphaBlendedForm.Visible := True;
       AlphaBlendedForm.BoundsRect := TabControlRect;
@@ -4029,7 +4037,6 @@ begin
     end;
   end;
 end;
-
 {$ELSE}
 procedure TJvDockVIDDragDockObject.DefaultDockImage(Erase: Boolean);
 const
@@ -4101,6 +4108,7 @@ begin
   end;
 end;
 {$ENDIF DELPHI6_UP}
+
 function TJvDockVIDDragDockObject.DragFindWindow(const Pos: TPoint): THandle;
 begin
   Result := 0;

@@ -63,7 +63,6 @@ type
     actFileRefresh: TAction;
     actFileAbort: TAction;
     actFilePrint: TAction;
-    actViewStayOnTop: TAction;
     actListGotoSelected: TAction;
     actListContract: TAction;
     actListExpand: TAction;
@@ -94,8 +93,6 @@ type
     TBXItem10: TTBXItem;
     TBXItem11: TTBXItem;
     TBXSeparatorItem6: TTBXSeparatorItem;
-    TBXItem12: TTBXItem;
-    TBXSeparatorItem7: TTBXSeparatorItem;
     TBXItem13: TTBXItem;
     TBXPopupMenu: TTBXPopupMenu;
     mitFileSearch1: TTBXItem;
@@ -133,7 +130,6 @@ type
     procedure actFilePrintExecute(Sender: TObject);
     procedure actFileCopyExecute(Sender: TObject);
     procedure actFileSaveExecute(Sender: TObject);
-    procedure actViewStayOnTopExecute(Sender: TObject);
     procedure actListGotoSelectedExecute(Sender: TObject);
     procedure actListContractExecute(Sender: TObject);
     procedure actListExpandExecute(Sender: TObject);
@@ -436,14 +432,6 @@ begin
   PrintGrepResults(Self, lbResults.Items, grFile);
 end;
 
-procedure TFindResultsWindow.actViewStayOnTopExecute(Sender: TObject);
-begin
-  if FormStyle = fsNormal then
-    FormStyle := fsStayOnTop
-  else
-    FormStyle := fsNormal;
-end;
-
 procedure TFindResultsWindow.actListGotoSelectedExecute(Sender: TObject);
 begin
   GotoHighlightedListEntry;
@@ -470,7 +458,6 @@ begin
   actFileSearch.Enabled := not Processing;
   actFileRefresh.Enabled := not Processing;
   actViewOptions.Enabled := not Processing;
-  actViewStayOnTop.Enabled := not Processing;
   actFilePrint.Enabled := not Processing and HaveItems;
   actFileSave.Enabled := not Processing and HaveItems;
   actFileCopy.Enabled := not Processing and HaveItems;
@@ -478,7 +465,6 @@ begin
   actListContract.Enabled := not Processing and HaveItems;
   actListExpand.Enabled := not Processing and HaveItems;
   actFileAbort.Enabled := Processing;
-  actViewStayOnTop.Checked := FormStyle = fsStayOnTop;
   actViewShowContext.Checked := ShowContext;
   actViewToolBar.Checked := ToolBar.Visible;
   actViewStatusBar.Checked := StatusBar.Visible;

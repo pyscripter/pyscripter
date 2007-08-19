@@ -28,7 +28,7 @@ replace them with the notice and other provisions required by the GPL.
 If you do not delete the provisions above, a recipient may use your version
 of this file under either the MPL or the GPL.
 
-$Id: SynEdit.pas,v 1.386.2.54 2006/05/21 11:59:34 maelh Exp $
+$Id: SynEdit.pas,v 1.386.2.66 2007/06/20 22:12:22 maelh Exp $
 
 You may retrieve the latest version of this file at the SynEdit home page,
 located at http://SynEdit.SourceForge.net
@@ -75,6 +75,10 @@ uses
   ExtCtrls,
   Windows,
   Messages,
+  {$IFDEF SYN_COMPILER_4_UP}
+  StdActns,
+  Dialogs,
+  {$ENDIF}
   {$IFDEF SYN_COMPILER_7}
   Themes,
   {$ENDIF}
@@ -125,6 +129,9 @@ var
   SynEditClipboardFormat: UINT;
 
 type
+	TBufferCoord = SynEditTypes.TBufferCoord;
+	TDisplayCoord = SynEditTypes.TDisplayCoord;
+
 {$IFDEF SYN_CLX}
   TSynBorderStyle = bsNone..bsSingle;
 {$ELSE}
@@ -335,6 +342,11 @@ type
     destructor Destroy; override;
   end;
 
+{$IFDEF SYN_COMPILER_6_UP}
+  TCustomSynEditSearchNotFoundEvent = procedure(Sender: TObject;
+    FindText: WideString) of object;
+{$ENDIF}
+
   TCustomSynEdit = class(TCustomControl)
   private
 {$IFNDEF SYN_CLX}
@@ -356,12 +368,14 @@ type
     procedure WMImeComposition(var Msg: TMessage); message WM_IME_COMPOSITION;
     procedure WMImeNotify(var Msg: TMessage); message WM_IME_NOTIFY;
     procedure WMKillFocus(var Msg: TWMKillFocus); message WM_KILLFOCUS;
-    procedure WMMouseWheel(var Msg: TMessage); message WM_MOUSEWHEEL;
     procedure WMSetCursor(var Msg: TWMSetCursor); message WM_SETCURSOR;
     procedure WMSetFocus(var Msg: TWMSetFocus); message WM_SETFOCUS;
     procedure WMSize(var Msg: TWMSize); message WM_SIZE;
     procedure WMUndo(var Msg: TMessage); message WM_UNDO;
     procedure WMVScroll(var Msg: TWMScroll); message WM_VSCROLL;
+{$ENDIF}
+{$IFNDEF SYN_COMPILER_6_UP}
+    procedure WMMouseWheel(var Msg: TMessage); message WM_MOUSEWHEEL;
 {$ENDIF}
   private
     fAlwaysShowCaret: Boolean;
@@ -469,6 +483,15 @@ type
     fChainUndoAdded: TNotifyEvent;
     fChainRedoAdded: TNotifyEvent;
 
+{$IFDEF SYN_COMPILER_6_UP}
+    fSearchNotFound: TCustomSynEditSearchNotFoundEvent;
+    OnFindBeforeSearch: TNotifyEvent;
+    OnReplaceBeforeSearch: TNotifyEvent;
+    OnCloseBeforeSearch: TNotifyEvent;
+    SelStartBeforeSearch: integer;
+    SelLengthBeforeSearch: integer;
+{$ENDIF}
+
 {$IFNDEF SYN_CLX}
     FWindowProducedMessage: Boolean;
 {$ENDIF}
@@ -573,7 +596,6 @@ type
     procedure SetTabWidth(Value: Integer);
     procedure SynSetText(const Value: WideString);
     procedure SetTopLine(Value: Integer);
-    procedure SetWordBlock(Value: TBufferCoord);
     procedure SetWordWrap(const Value: Boolean);
     procedure SetWordWrapGlyph(const Value: TSynGlyph);
     procedure WordWrapGlyphChange(Sender: TObject);
@@ -585,16 +607,29 @@ type
     procedure UpdateScrollBars;
     procedure WriteAddedKeystrokes(Writer: TWriter);
     procedure WriteRemovedKeystrokes(Writer: TWriter);
+
+{$IFDEF SYN_COMPILER_6_UP}
+    procedure DoSearchFindFirstExecute(Action: TSearchFindFirst);
+    procedure DoSearchFindExecute(Action: TSearchFind);
+    procedure DoSearchReplaceExecute(Action: TSearchReplace);
+    procedure DoSearchFindNextExecute(Action: TSearchFindNext);
+    procedure FindDialogFindFirst(Sender: TObject);
+    procedure FindDialogFind(Sender: TObject);
+    function SearchByFindDialog(FindDialog: TFindDialog) : bool;
+    procedure FindDialogClose(Sender: TObject);                                 
+{$ENDIF}
   protected
     FIgnoreNextChar: Boolean;
     FCharCodeString: string;
+{$IFDEF SYN_COMPILER_6_UP}
+    function DoMouseWheel(Shift: TShiftState; WheelDelta: Integer;
+      MousePos: TPoint): Boolean; override;
+{$ENDIF}
 {$IFDEF SYN_CLX}
     procedure Resize; override;
     function GetClientOrigin: TPoint; override;
     function GetClientRect: TRect; override;
     function WidgetFlags: Integer; override;
-    function DoMouseWheel(Shift: TShiftState; WheelDelta: Integer;
-      const MousePos: TPoint): Boolean; override;
     procedure KeyString(var S: WideString; var Handled: Boolean); override;
     function NeedKey(Key: Integer; Shift: TShiftState;
       const KeyText: WideString): Boolean; override;
@@ -803,6 +838,7 @@ type
     procedure SetCaretAndSelection(const ptCaret, ptBefore, ptAfter: TBufferCoord);
     procedure SetDefaultKeystrokes; virtual;
     procedure SetSelWord;
+    procedure SetWordBlock(Value: TBufferCoord);
     procedure Undo;
     procedure UnlockUndo;
     procedure UnregisterCommandHandler(AHandlerProc: THookedCommandEvent);
@@ -960,6 +996,10 @@ type
       read fOnScroll write fOnScroll;
   published
     property Cursor default crIBeam;
+{$IFDEF SYN_COMPILER_6_UP}
+    property OnSearchNotFound: TCustomSynEditSearchNotFoundEvent
+      read fSearchNotFound write fSearchNotFound;
+{$ENDIF}
   end;
 
   TSynEdit = class(TCustomSynEdit)
@@ -1074,15 +1114,15 @@ implementation
 {$R SynEdit.res}
 
 uses
+{$IFDEF SYN_COMPILER_6_UP}
+  Consts,
+{$ENDIF}
 {$IFDEF SYN_CLX}
   QStdActns,
   QClipbrd,
   QSynEditWordWrap,
   QSynEditStrConst;
 {$ELSE}
-  {$IFDEF SYN_COMPILER_4_UP}
-  StdActns,
-  {$ENDIF}
   Clipbrd,
   ShellAPI,
   SynEditWordWrap,
@@ -2411,7 +2451,7 @@ var
 begin
   if Assigned(fOnGutterClick) then
   begin
-    line := PixelsToRowColumn(X,Y).Row;
+    line := DisplayToBufferPos(PixelsToRowColumn(X,Y)).Line;
     if line <= Lines.Count then
     begin
       Marks.GetMarksForLine(line, allmrk);
@@ -4669,8 +4709,8 @@ var
         if fScrollBars in [ssBoth, ssVertical] then
         begin
           nMaxScroll := DisplayLineCount;
-          if not (eoScrollPastEof in Options) then
-            Dec(nMaxScroll, LinesInWindow - 1);
+          if eoScrollPastEof in Options then
+            Inc(nMaxScroll, LinesInWindow - 1);
 
           FVScrollBar.Min := 1;
           FVScrollBar.Max := Max(1, nMaxScroll);
@@ -4874,16 +4914,25 @@ function TCustomSynEdit.WidgetFlags: Integer;
 begin
   Result := Integer(WidgetFlags_WRepaintNoErase);
 end;
+{$ENDIF}
 
+{$IFDEF SYN_COMPILER_6_UP}
 function TCustomSynEdit.DoMouseWheel(Shift: TShiftState;
-  WheelDelta: Integer; const MousePos: TPoint): Boolean;
+  WheelDelta: Integer; MousePos: TPoint): Boolean;
 const
   WHEEL_DIVISOR = 120; // Mouse Wheel standard
 var
   iWheelClicks: Integer;
   iLinesToScroll: Integer;
 begin
+  Result := inherited DoMouseWheel(Shift, WheelDelta, MousePos);
+  if Result then
+    Exit;  
+{$IFDEF SYN_CLX}
   if ssCtrl in Application.KeyState then
+{$ELSE}
+  if GetKeyState(SYNEDIT_CONTROL) < 0 then
+{$ENDIF}
     iLinesToScroll := LinesInWindow shr Ord(eoHalfPageScroll in fOptions)
   else
     iLinesToScroll := 3;
@@ -4895,7 +4944,9 @@ begin
   if Assigned(OnScroll) then OnScroll(Self,sbVertical);
   Result := True;
 end;
+{$ENDIF}
 
+{$IFDEF SYN_CLX}
 procedure TCustomSynEdit.KeyString(var S: WideString; var Handled: Boolean);
 var
   i: Integer;
@@ -5699,20 +5750,22 @@ begin
         begin
           SetCaretAndSelection(Item.ChangeStartPos, Item.ChangeStartPos,
             Item.ChangeEndPos);
-          fUndoList.AddChange(Item.ChangeReason, Item.ChangeStartPos,
-            Item.ChangeEndPos, SelText, Item.ChangeSelMode);
+          TempString := SelText;
           SetSelTextPrimitiveEx(Item.ChangeSelMode, PWideChar(Item.ChangeStr),
             False);
+          fUndoList.AddChange(Item.ChangeReason, Item.ChangeStartPos,
+            Item.ChangeEndPos, TempString, Item.ChangeSelMode);
           InternalCaretXY := Item.ChangeEndPos;
         end;
       crDelete, crSilentDelete:
         begin
           SetCaretAndSelection(Item.ChangeStartPos, Item.ChangeStartPos,
             Item.ChangeEndPos);
-          fUndoList.AddChange(Item.ChangeReason, Item.ChangeStartPos,
-            Item.ChangeEndPos, SelText, Item.ChangeSelMode);
+          TempString := SelText;
           SetSelTextPrimitiveEx(Item.ChangeSelMode, PWideChar(Item.ChangeStr),
             False);
+          fUndoList.AddChange(Item.ChangeReason, Item.ChangeStartPos,
+            Item.ChangeEndPos, TempString, Item.ChangeSelMode);
           InternalCaretXY := Item.ChangeStartPos;
         end;
       crLineBreak:
@@ -5723,17 +5776,13 @@ begin
         end;
       crIndent:
         begin
-          fUndoList.AddChange(Item.ChangeReason, Item.ChangeStartPos,
-            Item.ChangeEndPos, Item.ChangeStr, Item.ChangeSelMode);
-          // restore the selection
           SetCaretAndSelection(Item.ChangeEndPos, Item.ChangeStartPos,
             Item.ChangeEndPos);
+          fUndoList.AddChange(Item.ChangeReason, Item.ChangeStartPos,
+            Item.ChangeEndPos, Item.ChangeStr, Item.ChangeSelMode);
         end;
        crUnindent :
          begin // re-delete the (raggered) column
-           // add to undo list
-           fUndoList.AddChange(Item.ChangeReason, Item.ChangeStartPos,
-             Item.ChangeEndPos, Item.ChangeStr, Item.ChangeSelMode);
            // Delete string
            StrToDelete := PWideChar(Item.ChangeStr);
            InternalCaretY := Item.ChangeStartPos.Line;
@@ -5774,6 +5823,9 @@ begin
             SetCaretAndSelection( CaretPt, CaretPt,
               BufferCoord(Item.ChangeEndPos.Char - Len, Item.ChangeEndPos.Line) );
           end;
+           // add to undo list
+           fUndoList.AddChange(Item.ChangeReason, Item.ChangeStartPos,
+             Item.ChangeEndPos, Item.ChangeStr, Item.ChangeSelMode);
          end;
       crWhiteSpaceAdd:
         begin
@@ -5971,8 +6023,6 @@ begin
           // If there's no selection, we have to set
           // the Caret's position manualy.
           InternalCaretXY := Item.ChangeStartPos;
-          fRedoList.AddChange(Item.ChangeReason, Item.ChangeStartPos,
-            Item.ChangeEndPos, '', Item.ChangeSelMode);
           if CaretY > 0 then
           begin
             TmpStr := Lines.Strings[CaretY - 1];
@@ -5986,19 +6036,18 @@ begin
           else
             ProperSetLine(CaretY - 1, Item.ChangeStr);
           DoLinesDeleted(CaretY + 1, 1);
+          fRedoList.AddChange(Item.ChangeReason, Item.ChangeStartPos,
+            Item.ChangeEndPos, '', Item.ChangeSelMode);
         end;
       crIndent:
         begin
-          fRedoList.AddChange(Item.ChangeReason, Item.ChangeStartPos,
-            Item.ChangeEndPos, Item.ChangeStr, Item.ChangeSelMode);
-          // restore the selection
           SetCaretAndSelection(Item.ChangeEndPos, Item.ChangeStartPos,
             Item.ChangeEndPos);
+          fRedoList.AddChange(Item.ChangeReason, Item.ChangeStartPos,
+            Item.ChangeEndPos, Item.ChangeStr, Item.ChangeSelMode);
         end;
        crUnindent: // reinsert the (raggered) column that was deleted
          begin
-          fRedoList.AddChange(Item.ChangeReason, Item.ChangeStartPos,
-             Item.ChangeEndPos, Item.ChangeStr, Item.ChangeSelMode);
            // reinsert the string
           if Item.ChangeSelMode <> smColumn then
             InsertBlock(BufferCoord(1, Item.ChangeStartPos.Line),
@@ -6013,14 +6062,17 @@ begin
           end;
            SetCaretAndSelection(Item.ChangeStartPos, Item.ChangeStartPos,
              Item.ChangeEndPos);
-         end;
+          fRedoList.AddChange(Item.ChangeReason, Item.ChangeStartPos,
+             Item.ChangeEndPos, Item.ChangeStr, Item.ChangeSelMode);
+        end;
       crWhiteSpaceAdd:
         begin
           SetCaretAndSelection(Item.ChangeStartPos, Item.ChangeStartPos,
             Item.ChangeEndPos);
-          fRedoList.AddChange(Item.ChangeReason, Item.ChangeStartPos,
-            Item.ChangeEndPos, SelText, Item.ChangeSelMode);
+          TmpStr := SelText;
           SetSelTextPrimitiveEx(Item.ChangeSelMode, PWideChar(Item.ChangeStr), True);
+          fRedoList.AddChange(Item.ChangeReason, Item.ChangeStartPos,
+            Item.ChangeEndPos, TmpStr, Item.ChangeSelMode);
           InternalCaretXY := Item.ChangeStartPos;
         end;
     end;
@@ -6414,7 +6466,6 @@ var
   DoDrop, DropAfter, DropMove: Boolean;
   vBB, vBE: TBufferCoord;
   DragDropText: WideString;
-  Adjust: Integer;
   ChangeScrollPastEOL: Boolean;
 begin
   if not ReadOnly  and (Source is TCustomSynEdit)
@@ -6467,13 +6518,7 @@ begin
               SelText := '';
               // adjust horizontal drop position
               if DropAfter and (vNewCaret.Line = vBE.Line) then
-              begin
-                if vBB.Line = vBE.Line then
-                  Adjust := vBE.Char - vBB.Char
-                else
-                  Adjust := vBE.Char - 1;
-                Dec(vNewCaret.Char, Adjust);
-              end;
+                Dec(vNewCaret.Char, vBE.Char - vBB.Char);
               // adjust vertical drop position
               if DropAfter and (vBE.Line > vBB.Line) then
                 Dec(vNewCaret.Line, vBE.Line - vBB.Line);
@@ -6742,6 +6787,7 @@ var
   VisibleX: Integer;
   vCaretRow: Integer;
 begin
+  HandleNeeded;
   IncPaintLock;
   try
     // Make sure X is visible
@@ -8113,8 +8159,7 @@ begin
   fRedoList.Unlock;
 end;
 
-{$IFDEF SYN_CLX}
-{$ELSE}
+{$IFNDEF SYN_COMPILER_6_UP}
 procedure TCustomSynEdit.WMMouseWheel(var Msg: TMessage);
 var
   nDelta: Integer;
@@ -8129,6 +8174,8 @@ const
 begin
   if csDesigning in ComponentState then
     exit;
+    
+	Msg.Result := 1;
 
 {$IFDEF SYN_COMPILER_4_UP}
   // In some occasions Windows will not properly initialize mouse wheel, but
@@ -8158,7 +8205,9 @@ begin
   Update;
   if Assigned(OnScroll) then OnScroll(Self,sbVertical);
 end;
+{$ENDIF}
 
+{$IFNDEF SYN_CLX}
 procedure TCustomSynEdit.WMSetCursor(var Msg: TWMSetCursor);
 begin
   if (Msg.HitTest = HTCLIENT) and (Msg.CursorWnd = Handle) and
@@ -8783,17 +8832,14 @@ procedure TCustomSynEdit.DoCaseChange(const Cmd: TSynEditorCommand);
   function ToggleCase(const aStr: WideString): WideString;
   var
     i: Integer;
-    s1, s2: WideString;
+    sLower: WideString;
   begin
-    Result := '';
-    s1 := SynWideUpperCase(aStr);
-    s2 := SynWideUpperCase(aStr);
+    Result := SynWideUpperCase(aStr);
+    sLower := SynWideLowerCase(aStr);
     for i := 1 to Length(aStr) do
     begin
-      if aStr[i] = s1[i] then
-        Result := Result + s2[i]
-      else
-        Result := Result + s1[i];
+      if Result[i] = aStr[i] then
+        Result[i] := sLower[i];
     end;
   end;
 
@@ -9545,19 +9591,21 @@ function TCustomSynEdit.ExecuteAction(Action: TBasicAction): Boolean;
 begin
   if Action is TEditAction then
   begin
-    Result := True;
-    if Action is TEditCut then
-      CutToClipboard
-    else if Action is TEditCopy then
-      CopyToClipboard
-    else if Action is TEditPaste then
-      PasteFromClipboard
+    Result := Focused;
+    if Result then
+    begin
+      if Action is TEditCut then
+        CutToClipboard
+      else if Action is TEditCopy then
+        CopyToClipboard
+      else if Action is TEditPaste then
+        PasteFromClipboard
 {$IFDEF SYN_COMPILER_5_UP}
-    else if Action is TEditDelete then
-      if SelAvail then
-        ClearSelection
-      else
-        CommandProcessor(ecDeleteChar, ' ', nil)
+      else if Action is TEditDelete then
+        if SelAvail then
+          ClearSelection
+        else
+          CommandProcessor(ecDeleteChar, ' ', nil)
 {$IFDEF SYN_CLX}
 {$ELSE}
     else if Action is TEditUndo then
@@ -9565,6 +9613,24 @@ begin
 {$ENDIF}
     else if Action is TEditSelectAll then
       SelectAll;
+{$ENDIF}
+    end;
+{$IFDEF SYN_COMPILER_6_UP}
+  end
+  else if Action is TSearchAction then
+  begin
+    Result := Focused;
+    if Action is TSearchFindFirst then
+      DoSearchFindFirstExecute(TSearchFindFirst(Action))
+    else if Action is TSearchFind then
+      DoSearchFindExecute(TSearchFind(Action))
+    else if Action is TSearchReplace then
+      DoSearchReplaceExecute(TSearchReplace(Action));
+  end
+  else if Action is TSearchFindNext then                                        
+  begin                                                                         
+    Result := Focused;
+    DoSearchFindNextExecute(TSearchFindNext(Action))
 {$ENDIF}
   end
   else
@@ -9596,6 +9662,27 @@ begin
         TEditAction(Action).Enabled := True;
 {$ENDIF}
     end;
+{$IFDEF SYN_COMPILER_6_UP}
+  end else if Action is TSearchAction then
+  begin
+    Result := Focused;
+    if Result then
+    begin
+      if Action is TSearchFindFirst then
+        TSearchAction(Action).Enabled := (Text<>'') and assigned(fSearchEngine)
+      else if Action is TSearchFind then
+        TSearchAction(Action).Enabled := (Text<>'') and assigned(fSearchEngine)
+      else if Action is TSearchReplace then
+        TSearchAction(Action).Enabled := (Text<>'') and assigned(fSearchEngine);
+    end;
+  end else if Action is TSearchFindNext then
+  begin
+    Result := Focused;
+    if Result then
+      TSearchAction(Action).Enabled := (Text<>'')
+        and (TSearchFindNext(Action).SearchFind <> nil)
+        and (TSearchFindNext(Action).SearchFind.Dialog.FindText <> '');
+{$ENDIF}
   end
   else
     Result := inherited UpdateAction(Action);
@@ -10548,6 +10635,121 @@ procedure TCustomSynEdit.RemoveMouseCursorHandler(aHandler: TMouseCursorEvent);
 begin
   fKbdHandler.RemoveMouseCursorHandler(aHandler);
 end;
+
+{$IFDEF SYN_COMPILER_6_UP}
+procedure TCustomSynEdit.DoSearchFindFirstExecute(Action: TSearchFindFirst);
+begin
+  OnFindBeforeSearch := Action.Dialog.OnFind;
+  OnCloseBeforeSearch := Action.Dialog.OnClose;
+  SelStartBeforeSearch := SelStart; SelLengthBeforeSearch := SelLength;
+
+  Action.Dialog.OnFind := FindDialogFindFirst;
+  Action.Dialog.OnClose := FindDialogClose;
+  Action.Dialog.Execute();
+end;
+
+procedure TCustomSynEdit.DoSearchFindExecute(Action: TSearchFind);
+begin
+  OnFindBeforeSearch := Action.Dialog.OnFind;
+  OnCloseBeforeSearch := Action.Dialog.OnClose;
+
+  Action.Dialog.OnFind := FindDialogFind;
+  Action.Dialog.OnClose := FindDialogClose;
+  Action.Dialog.Execute();
+end;
+
+procedure TCustomSynEdit.DoSearchReplaceExecute(Action: TSearchReplace);
+begin
+  OnFindBeforeSearch := Action.Dialog.OnFind;
+  OnReplaceBeforeSearch := Action.Dialog.OnReplace;
+  OnCloseBeforeSearch := Action.Dialog.OnClose;
+
+  Action.Dialog.OnFind := FindDialogFind;
+  Action.Dialog.OnReplace := FindDialogFind;
+  Action.Dialog.OnClose := FindDialogClose;
+  Action.Dialog.Execute();
+end;
+
+procedure TCustomSynEdit.DoSearchFindNextExecute(Action: TSearchFindNext);
+begin
+  SearchByFindDialog(Action.SearchFind.Dialog);
+end;
+
+procedure TCustomSynEdit.FindDialogFindFirst(Sender: TObject);
+begin
+  TFindDialog(Sender).CloseDialog;
+
+  if (SelStart = SelStartBeforeSearch) and (SelLength = SelLengthBeforeSearch) then
+  begin
+    SelStart := 0;
+    SelLength := 0;
+  end;
+
+  if Sender is TFindDialog then
+    if not SearchByFindDialog(TFindDialog(Sender)) and (SelStart = 0) and (SelLength = 0) then
+    begin
+      SelStart := SelStartBeforeSearch;
+      SelLength := SelLengthBeforeSearch;
+    end;
+end;
+
+procedure TCustomSynEdit.FindDialogFind(Sender: TObject);
+begin
+  if Sender is TFindDialog then
+    SearchByFindDialog(TFindDialog(Sender));
+end;
+
+function TCustomSynEdit.SearchByFindDialog(FindDialog: TFindDialog) : bool;
+var
+  Options :TSynSearchOptions;
+  ReplaceText, MessageText :String;
+  OldSelStart, OldSelLength: integer;
+begin
+  if (frReplaceAll in FindDialog.Options) then Options := [ssoReplaceAll]
+  else if (frReplace in FindDialog.Options) then Options := [ssoReplace]
+  else Options := [ssoSelectedOnly];
+
+  if (frMatchCase in FindDialog.Options) then Options := Options + [ssoMatchCase];
+  if (frWholeWord in FindDialog.Options) then Options := Options + [ssoWholeWord];
+  if (not (frDown in FindDialog.Options)) then Options := Options + [ssoBackwards];
+
+  if (ssoSelectedOnly in Options)
+    then ReplaceText := ''
+    else ReplaceText := TReplaceDialog(FindDialog).ReplaceText;
+
+  OldSelStart := SelStart; OldSelLength := SelLength;
+  if (UpperCase(SelText) = UpperCase(FindDialog.FindText)) and not (frReplace in FindDialog.Options) then
+    SelStart := SelStart + SelLength
+  else
+    SelLength := 0;
+
+  Result := SearchReplace(FindDialog.FindText, ReplaceText, Options) > 0;
+  if not Result then
+  begin
+    SelStart := OldSelStart; SelLength := OldSelLength;
+    if Assigned(OnSearchNotFound) then
+      OnSearchNotFound(self, FindDialog.FindText)
+    else
+    begin
+      MessageText := Format(STextNotFound, [FindDialog.FindText]);
+      ShowMessage(MessageText);
+    end;
+  end
+  else if (frReplace in FindDialog.Options) then
+  begin
+    SelStart := SelStart - Length(FindDialog.FindText) - 1;
+    SelLength := Length(FindDialog.FindText) + 1;
+  end;
+end;
+
+procedure TCustomSynEdit.FindDialogClose(Sender: TObject);
+begin
+  TFindDialog(Sender).OnFind := OnFindBeforeSearch;
+  if Sender is TReplaceDialog then
+    TReplaceDialog(Sender).OnReplace := OnReplaceBeforeSearch;
+  TFindDialog(Sender).OnClose := OnCloseBeforeSearch;
+end;
+{$ENDIF}
 
 function TCustomSynEdit.GetWordWrap: Boolean;
 begin

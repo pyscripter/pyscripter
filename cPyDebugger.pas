@@ -89,6 +89,7 @@ type
     fDebuggerCommand : TDebuggerCommand;
     fCurrentFrame : Variant;
     fLineCache : Variant;
+    fOldPS1, fOldPS2 : string;
   protected
     procedure SetCommandLine(const ScriptName : string); override;
     procedure RestoreCommandLine; override;
@@ -104,8 +105,10 @@ type
     constructor Create;
     destructor Destroy; override;
 
+    // Python Path
     function SysPathAdd(const Path : WideString) : boolean; override;
     function SysPathRemove(const Path : WideString) : boolean; override;
+    // Debugging
     procedure Run(Editor : IEditor; InitStepIn : Boolean = False); override;
     procedure RunToCursor(Editor : IEditor; ALine: integer); override;
     procedure StepInto(Editor : IEditor); override;
@@ -113,12 +116,21 @@ type
     procedure StepOut; override;
     procedure Pause; override;
     procedure Abort; override;
+    // Evaluate expression in the current frame
     procedure Evaluate(const Expr : string; out ObjType, Value : string); override;
+    // Like the InteractiveInterpreter runsource but for the debugger frame
     function RunSource(Const Source, FileName : string; symbol : string = 'single') : boolean; override;
+    // Fills in CallStackList with TBaseFrameInfo objects
     procedure GetCallStack(CallStackList : TObjectList); override;
+    // functions to get TBaseNamespaceItems corresponding to a frame's gloabals and locals
     function GetFrameGlobals(Frame : TBaseFrameInfo) : TBaseNameSpaceItem; override;
     function GetFrameLocals(Frame : TBaseFrameInfo) : TBaseNameSpaceItem; override;
     function NameSpaceFromExpression(const Expr : string) : TBaseNameSpaceItem; override;
+    procedure MakeFrameActive(Frame : TBaseFrameInfo); override;
+    // post mortem stuff
+    function HaveTraceback : boolean; override;
+    procedure EnterPostMortem; override;
+    procedure ExitPostMortem; override;
   end;
 
 var
@@ -127,8 +139,8 @@ var
 implementation
 
 uses dmCommands, frmPythonII, VarPyth, frmMessages, frmPyIDEMain,
-  MMSystem, Math, JvDockControlForm, JclFileUtils, Dialogs, uCommonFunctions,
-  cParameters, JclSysUtils, StringResources;
+  MMSystem, Math, JvDockControlForm, JclFileUtils, uCommonFunctions,
+  cParameters, JclSysUtils, StringResources, Dialogs, JvDSADialogs;
 
 { TFrameInfo }
 
@@ -251,7 +263,7 @@ begin
       end;
     except
       fChildCount := 0;
-      MessageDlg(Format('Error in getting the namespace of %s', [fName]), mtError, [mbAbort], 0);
+      Dialogs.MessageDlg(Format('Error in getting the namespace of %s', [fName]), mtError, [mbAbort], 0);
       SysUtils.Abort;
     end;
   end;
@@ -393,6 +405,31 @@ begin
   inherited;
 end;
 
+procedure TPyInternalDebugger.EnterPostMortem;
+Var
+  TraceBack : Variant;
+begin
+  if not (HaveTraceback and (PyControl.DebuggerState = dsInactive)) then
+    Exit;
+  with PythonIIForm do begin
+    fOldPS1 := PS1;
+    PS1 := '[PM]' + PS1;
+    fOldPS2 := PS2;
+    PS2 := '[PM]' + PS2;
+    AppendPrompt;
+  end;
+
+  TraceBack := SysModule.last_traceback;
+  InternalInterpreter.Debugger.botframe := TraceBack.tb_frame;
+  while not VarIsNone(TraceBack.tb_next) do
+    TraceBack := TraceBack.tb_next;
+  fCurrentFrame := TraceBack.tb_frame;
+
+  PyControl.DoStateChange(dsPostMortem);
+  DSAMessageDlg(dsaPostMortemInfo, 'PyScripter', SPostMortemInfo,
+     mtInformation, [mbOK], 0, dckActiveForm, 0, mbOK);
+end;
+
 procedure TPyInternalDebugger.Evaluate(const Expr : string; out ObjType, Value : string);
 Var
   SuppressOutput : IInterface;
@@ -400,7 +437,7 @@ Var
 begin
   ObjType := SNotAvailable;
   Value := SNotAvailable;
-  if PyControl.DebuggerState = dsPaused then begin
+  if PyControl.DebuggerState in [dsPaused, dsPostMortem] then begin
     SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
     try
       // evalcode knows we are in the debugger and uses current frame locals/globals
@@ -413,13 +450,27 @@ begin
   end;
 end;
 
+procedure TPyInternalDebugger.ExitPostMortem;
+begin
+  with PythonIIForm do begin
+    PS1 := fOldPS1;
+    PS2 := fOldPS2;
+    AppendText(sLineBreak+PS1);
+  end;
+  VarClear(fCurrentFrame);
+  MakeFrameActive(nil);
+  PyControl.DoStateChange(dsInactive);
+end;
+
 procedure TPyInternalDebugger.GetCallStack(CallStackList: TObjectList);
 Var
   Frame : Variant;
 begin
   CallStackList.Clear;
-  if PyControl.DebuggerState <> dsPaused then
+
+  if not (PyControl.DebuggerState in [dsPaused, dsPostMortem]) then
     Exit;
+
   Frame := CurrentFrame;
   if VarIsPython(Frame) then
     while not VarIsNone(Frame.f_back) and not VarIsNone(Frame.f_back.f_back) do begin
@@ -433,7 +484,7 @@ end;
 function TPyInternalDebugger.GetFrameGlobals(Frame: TBaseFrameInfo): TBaseNameSpaceItem;
 begin
   Result := nil;
-  if PyControl.DebuggerState <> dsPaused then
+  if not (PyControl.DebuggerState in [dsPaused, dsPostMortem]) then
     Exit;
   Result := TNameSpaceItem.Create('globals', (Frame as TFrameInfo).fPyFrame.f_globals);
 end;
@@ -441,9 +492,18 @@ end;
 function TPyInternalDebugger.GetFrameLocals(Frame: TBaseFrameInfo): TBaseNameSpaceItem;
 begin
   Result := nil;
-  if PyControl.DebuggerState <> dsPaused then
+  if not (PyControl.DebuggerState in [dsPaused, dsPostMortem]) then
     Exit;
   Result := TNameSpaceItem.Create('locals', (Frame as TFrameInfo).fPyFrame.f_locals);
+end;
+
+function TPyInternalDebugger.HaveTraceback: boolean;
+begin
+  try
+    Result := VarModuleHasObject(SysModule, 'last_traceback');
+  except
+    Result := False;
+  end;
 end;
 
 procedure TPyInternalDebugger.Pause;
@@ -459,12 +519,14 @@ end;
 
 procedure TPyInternalDebugger.Run(Editor : IEditor; InitStepIn : Boolean = False);
 var
-  OldPS1, OldPS2 : string;
   Code : Variant;
   Path, OldPath : string;
   PythonPathAdder : IInterface;
   ReturnFocusToEditor: Boolean;
+  CanDoPostMortem : Boolean;
 begin
+  CanDoPostMortem := False;
+
   // Repeat here to make sure it is set right
   MaskFPUExceptions(CommandsDataModule.PyIDEOptions.MaskFPUExceptions);
 
@@ -486,7 +548,7 @@ begin
       try
         ChDir(Path)
       except
-        MessageDlg('Could not set the current directory to the script path', mtWarning, [mbOK], 0);
+        Dialogs.MessageDlg('Could not set the current directory to the script path', mtWarning, [mbOK], 0);
       end;
     end;
 
@@ -501,12 +563,14 @@ begin
       Application.ProcessMessages;
     end else
       PyIDEMainForm.actNavInterpreterExecute(nil);
+    if CommandsDataModule.PyIDEOptions.ClearOutputBeforeRun then
+      PythonIIForm.actClearContentsExecute(nil);
 
     try
       with PythonIIForm do begin
-        OldPS1 := PS1;
+        fOldPS1 := PS1;
         PS1 := '[Dbg]' + PS1;
-        OldPS2 := PS2;
+        fOldPS2 := PS2;
         PS2 := '[Dbg]' + PS2;
         AppendPrompt;
       end;
@@ -535,16 +599,19 @@ begin
         // CheckError already called by VarPyth
         on E: EPythonError do begin
           InternalInterpreter.HandlePyException(E, 2);
-          MessageDlg(E.Message, mtError, [mbOK], 0);
+          ReturnFocusToEditor := False;
+          Dialogs.MessageDlg(E.Message, mtError, [mbOK], 0);
+          CanDoPostMortem := True;
           SysUtils.Abort;
         end;
       end;
 
     finally
       VarClear(fCurrentFrame);
+      MakeFrameActive(nil);
       with PythonIIForm do begin
-        PS1 := OldPS1;
-        PS2 := OldPS2;
+        PS1 := fOldPS1;
+        PS2 := fOldPS2;
         AppendText(sLineBreak+PS1);
       end;
 
@@ -560,6 +627,8 @@ begin
       PyControl.DoStateChange(dsInactive);
       if ReturnFocusToEditor then
         Editor.Activate;
+      if CanDoPostMortem and CommandsDataModule.PyIDEOptions.PostMortemOnException then
+        EnterPostMortem;
     end;
   end;
 end;
@@ -628,7 +697,10 @@ end;
 
 procedure TPyInternalDebugger.Abort;
 begin
-  fDebuggerCommand := dcAbort;
+  if PyControl.DebuggerState = dsPostMortem then
+    ExitPostMortem
+  else
+    fDebuggerCommand := dcAbort;
 end;
 
 procedure TPyInternalDebugger.UserCall(Sender: TObject; PSelf, Args: PPyObject;
@@ -764,6 +836,14 @@ begin
       end;
 end;
 
+procedure TPyInternalDebugger.MakeFrameActive(Frame: TBaseFrameInfo);
+begin
+  if Assigned(Frame) then
+    InternalInterpreter.Debugger.currentframe := (Frame as TFrameInfo).fPyFrame
+  else
+    InternalInterpreter.Debugger.currentframe := None;
+end;
+
 function TPyInternalDebugger.NameSpaceFromExpression(
   const Expr: string): TBaseNameSpaceItem;
 //  The internal interpreter knows whether we are debugging and
@@ -811,7 +891,8 @@ begin
 
     PyDocString := Import('inspect').getdoc(LookupObj);
     if not VarIsNone(PyDocString) then
-      DocString := GetNthLine(PyDocString, 1)
+      //DocString := GetNthLine(PyDocString, 1)
+      DocString := PyDocString
     else
       DocString := '';
   except
@@ -824,7 +905,7 @@ Var
   FName, Source : string;
 begin
   if PyControl.DebuggerState <> dsInactive then begin
-    MessageDlg('You cannot compile, import or run modules while debugging or running programs',
+    Dialogs.MessageDlg('You cannot compile, import or run modules while debugging or running programs',
       mtError, [mbAbort], 0);
     SysUtils.Abort;
   end;
@@ -859,12 +940,12 @@ begin
             PyControl.ErrorPos.IsSyntax := True;
             PyControl.DoErrorPosChanged;
           end;
-          MessageDlg(E.Message, mtError, [mbOK], 0);
+          Dialogs.MessageDlg(E.Message, mtError, [mbOK], 0);
           SysUtils.Abort;
         end;
         on E: EPythonError do begin  //may raise OverflowError or ValueError
           HandlePyException(E);
-          MessageDlg(E.Message, mtError, [mbOK], 0);
+          Dialogs.MessageDlg(E.Message, mtError, [mbOK], 0);
           SysUtils.Abort;
         end;
       end;
@@ -932,7 +1013,7 @@ begin
       end;
     end;
     if VarIsNone(Result) then begin
-      MessageDlg('Error in importing module', mtError, [mbOK], 0);
+      Dialogs.MessageDlg('Error in importing module', mtError, [mbOK], 0);
       SysUtils.Abort;
     end else if AddToNameSpace then
       // add Module name to the locals() of the interpreter
@@ -1038,7 +1119,10 @@ Var
   Path, OldPath : string;
   PythonPathAdder : IInterface;
   ReturnFocusToEditor : Boolean;
+  CanDoPostMortem : Boolean;
 begin
+  CanDoPostMortem := False;
+
   // Repeat here to make sure it is set right
   MaskFPUExceptions(CommandsDataModule.PyIDEOptions.MaskFPUExceptions);
 
@@ -1063,7 +1147,7 @@ begin
     try
       ChDir(Path)
     except
-      MessageDlg('Could not set the current directory to the script path', mtWarning, [mbOK], 0);
+      Dialogs.MessageDlg('Could not set the current directory to the script path', mtWarning, [mbOK], 0);
     end;
   end;
 
@@ -1072,6 +1156,8 @@ begin
 
   ReturnFocusToEditor := Editor = GI_ActiveEditor;
   PyIDEMainForm.actNavInterpreterExecute(nil);
+  if CommandsDataModule.PyIDEOptions.ClearOutputBeforeRun then
+    PythonIIForm.actClearContentsExecute(nil);
 
   try
     // Set Multimedia Timer
@@ -1083,13 +1169,16 @@ begin
       mmResult := TimeSetEvent(CommandsDataModule.PyIDEOptions.TimeOut, resolution,
         @TimeCallBack, DWORD(@mmResult), TIME_PERIODIC or 256);
     end;
+
     try
       fII.run_nodebug(Code);
     except
       // CheckError already called by VarPyth
       on E: EPythonError do begin
         HandlePyException(E);
-        MessageDlg(E.Message, mtError, [mbOK], 0);
+        ReturnFocusToEditor := False;
+        Dialogs.MessageDlg(E.Message, mtError, [mbOK], 0);
+        CanDoPostMortem := True;
         SysUtils.Abort;
       end;
     end;
@@ -1109,6 +1198,8 @@ begin
     PyControl.DoStateChange(dsInactive);
     if ReturnFocusToEditor then
       Editor.Activate;
+    if CanDoPostMortem and CommandsDataModule.PyIDEOptions.PostMortemOnException then
+      PyControl.ActiveDebugger.EnterPostMortem;
   end;
 end;
 
@@ -1216,7 +1307,7 @@ begin
             PyControl.ErrorPos.Char := E.EOffset;
             PyControl.ErrorPos.IsSyntax := True;
             PyControl.DoErrorPosChanged;
-            if Not Quiet then MessageDlg(E.Message, mtError, [mbOK], 0);
+            if Not Quiet then Dialogs.MessageDlg(E.Message, mtError, [mbOK], 0);
           end;
         end;
       end;
@@ -1226,7 +1317,7 @@ end;
 
 function TPyInternalInterpreter.SysPathAdd(const Path: WideString): boolean;
 begin
-  if SysModule.path.contains(Path) then
+  if SysModule.path.__contains__(Path) then
     Result := false
   else begin
     SysModule.path.insert(0, Path);
@@ -1236,7 +1327,7 @@ end;
 
 function TPyInternalInterpreter.SysPathRemove(const Path: WideString): boolean;
 begin
-  if SysModule.path.contains(Path) then begin
+  if SysModule.path.__contains__(Path) then begin
     Result := True;
     SysModule.path.remove(Path);
   end else

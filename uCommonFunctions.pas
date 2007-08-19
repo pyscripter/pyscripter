@@ -10,7 +10,8 @@ unit uCommonFunctions;
 
 interface
 Uses
-  Windows, Classes, SysUtils, Graphics, TBX, TBXThemes;
+  Windows, Classes, SysUtils, Graphics, TBX, TBXThemes, SynEditTypes,
+  SynUnicode;
 
 const
   UTF8BOMString : string = Char($EF) + Char($BB) + Char($BF);
@@ -18,6 +19,7 @@ const
   WideLineBreak : WideString = WideString(sLineBreak);
   SFileExpr = '(([a-zA-Z]:)?[^\*\?="<>|:,;\+\^]+)'; // fwd slash (/) is allowed
   STracebackFilePosExpr =  '"\<?' + SFileExpr + '\>?", line (\d+)(, in ([\<\>\?\w]+))?';
+  SWarningFilePosExpr = SFileExpr + ':(\d+):';
 
 
 type
@@ -147,10 +149,16 @@ procedure SetDefaultFonts(const AFont: TFont);
 procedure SetDesktopIconFonts(const AFont: TFont);
 procedure SetVistaContentFonts(const AFont: TFont);
 
-  implementation
+(* Get the text between two Synedit Block coordinates *)
+function GetBlockText(Strings : TWideStrings; BlockBegin, BlockEnd : TBufferCoord) : WideString;
+
+(* Extract Error information from a VarPyth variant containing the Python error *)
+procedure ExtractPyErrorInfo(E: Variant; var FileName: string; var LineNo: Integer; var Offset: Integer);
+
+implementation
 Uses
   Controls, Forms, StdCtrls, ShellApi, JclFileUtils, Math, VarPyth,
-  JclStrings, JclBase, SynRegExpr, Consts, TntDialogs, TntSysUtils;
+  JclStrings, JclBase, SynRegExpr, Consts, TntDialogs, TntSysUtils, StrUtils;
 
 function GetIconIndexFromFile(const AFileName: string;
   const ASmall: boolean): integer;
@@ -466,7 +474,7 @@ var
   InetIsOffline : function(dwFlags: DWORD): BOOL; stdcall;
 begin
   Result := False;
-  hURLDLL := LoadLibrary(URLDLL);
+  hURLDLL := SafeLoadLibrary(URLDLL);
   if hURLDLL > 0 then
   begin
     @InetIsOffline := GetProcAddress(hURLDLL,'InetIsOffline');
@@ -481,7 +489,7 @@ begin
 
   // Double checking
   if Result then begin
-    hWininetDLL := LoadLibrary(WininetDLL);
+    hWininetDLL := SafeLoadLibrary(WininetDLL);
     if hWininetDLL > 0 then
     begin
       @fn_InternetGetConnectedState := GetProcAddress(hWininetDLL,'InternetGetConnectedState');
@@ -1086,6 +1094,48 @@ begin
   begin
     AFont.Size := AFont.Size + 1;
     AFont.Name := VistaContentFont;
+  end;
+end;
+
+function GetBlockText(Strings : TWideStrings; BlockBegin, BlockEnd : TBufferCoord) : WideString;
+Var
+  Line :  integer;
+begin
+  // preconditions start
+  Assert(BlockBegin.Line <= Strings.Count);
+  Assert(BlockEnd.Line <= Strings.Count);
+  Assert(BlockBegin.Line <= BlockEnd.Line);
+  if BlockBegin.Line <= 0 then Exit;
+  if BlockEnd.Line <= 0 then Exit;
+  // preconditions end
+
+  // work backwards
+  Line := BlockEnd.Line;
+  Result := StrUtils.LeftStr(Strings[Line-1], BlockEnd.Char - 1);
+  While (Line > BlockBegin.Line) and (Line > 1) do begin
+    Dec(Line);
+    Result := Strings[Line-1] + WideCRLF + Result;
+  end;
+  if Line = BlockBegin.Line then
+    Delete(Result, 1, BlockBegin.Char -1);
+end;
+
+procedure ExtractPyErrorInfo(E: Variant; var FileName: string; var LineNo: Integer; var Offset: Integer);
+begin
+  try
+    FileName := E.filename;
+  except
+    FileName := '';
+  end;
+  try
+    LineNo := E.lineno;
+  except
+    LineNo := 0;
+  end;
+  try
+    Offset := E.offset;
+  except
+    Offset := 0;
   end;
 end;
 

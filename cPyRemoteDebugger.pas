@@ -36,8 +36,6 @@ type
     fDebugger : Variant;
     fServerType : TServerType;
     fSocketPort: integer;
-    fOldCleanUpMainDict : boolean;
-    fOldCleanUpSysModules : Boolean;
   public
     constructor Create(AServerType : TServerType = stStandard);
     destructor Destroy; override;
@@ -113,6 +111,7 @@ type
     fDebuggerCommand : TDebuggerCommand;
     fCurrentFrame : Variant;
     fLineCache : Variant;
+    fOldPS1, fOldPS2 : string;
     procedure HandleUserLine;
   protected
     procedure SetCommandLine(const ScriptName : string); override;
@@ -150,6 +149,11 @@ type
     function GetFrameGlobals(Frame : TBaseFrameInfo) : TBaseNameSpaceItem; override;
     function GetFrameLocals(Frame : TBaseFrameInfo) : TBaseNameSpaceItem; override;
     function NameSpaceFromExpression(const Expr : string) : TBaseNameSpaceItem; override;
+    procedure MakeFrameActive(Frame : TBaseFrameInfo); override;
+    // post mortem stuff
+    function HaveTraceback : boolean; override;
+    procedure EnterPostMortem; override;
+    procedure ExitPostMortem; override;
   end;
 
 implementation
@@ -157,7 +161,7 @@ implementation
 uses
   VarPyth, StringResources, frmPythonII, Dialogs, JclSysUtils, dmCommands,
   cParameters, uCommonFunctions, frmMessages, frmPyIDEMain, JclFileUtils,
-  JvDockControlForm, frmVariables, frmCallStack, frmUnitTests, JclStrings;
+  JvDockControlForm, frmVariables, frmCallStack, frmUnitTests, JclStrings, JvDSADialogs;
 
 { TRemNameSpaceItem }
 constructor TRemNameSpaceItem.Create(aName : string; aPyObject : Variant;
@@ -260,7 +264,7 @@ begin
       end;
     except
       fChildCount := 0;
-      MessageDlg(Format('Error in getting the namespace of %s', [fName]), mtError, [mbAbort], 0);
+      Dialogs.MessageDlg(Format('Error in getting the namespace of %s', [fName]), mtError, [mbAbort], 0);
       SysUtils.Abort;
     end;
   end;
@@ -415,7 +419,8 @@ begin
 
     PyDocString := RPI.inspect.getdoc(LookupObj);
     if not VarIsNone(PyDocString) then
-      DocString := GetNthLine(PyDocString, 1)
+      //DocString := GetNthLine(PyDocString, 1)
+      DocString := PyDocString
     else
       DocString := '';
   except
@@ -425,7 +430,7 @@ end;
 procedure TPyRemoteInterpreter.CheckConnected;
 begin
   if not (fIsAvailable and fIsConnected and (ServerProcess.State = psWaiting)) then begin
-    MessageDlg('Remote Server is not connected.  Please reinitialize or disconnect the remote  interpreter.',
+    Dialogs.MessageDlg('Remote Server is not connected.  Please reinitialize or disconnect the remote  interpreter.',
       mtError, [mbAbort], 0);
     fIsConnected := False;
     VariablesWindow.VariablesTree.Enabled := False;
@@ -438,10 +443,12 @@ function TPyRemoteInterpreter.Compile(Editor: IEditor): Variant;
 Var
   FName, Source : string;
   ExcInfo, Error : Variant;
+  FileName : string;
+  LineNo, Offset : integer;
 begin
   CheckConnected;
   if PyControl.DebuggerState <> dsInactive then begin
-    MessageDlg('You cannot compile, import or run modules while debugging or running programs',
+    Dialogs.MessageDlg('You cannot compile, import or run modules while debugging or running programs',
       mtError, [mbAbort], 0);
     SysUtils.Abort;
   end;
@@ -468,18 +475,19 @@ begin
         // SyntaxError
         MessagesWindow.ShowPythonSyntaxError(ExcInfo.getitem(0), Error);
 
-        if PyIDEMainForm.ShowFilePosition(Error.filename, Error.lineno, Error.offset) and
+        ExtractPyErrorInfo(Error, FileName, LineNo, Offset);
+        if PyIDEMainForm.ShowFilePosition(FileName, LineNo, Offset) and
           Assigned(GI_ActiveEditor)
         then begin
           PyControl.ErrorPos.Editor := GI_ActiveEditor;
-          PyControl.ErrorPos.Line := Error.lineno;
-          PyControl.ErrorPos.Char := Error.offset;
+          PyControl.ErrorPos.Line := LineNo;
+          PyControl.ErrorPos.Char := Offset;
           PyControl.ErrorPos.IsSyntax := True;
           PyControl.DoErrorPosChanged;
         end;
       end else
         HandleRemoteException(ExcInfo);
-      MessageDlg(Format('%s: %s',[ExcInfo.getitem(0), RPI._some_str(Error)]),
+      Dialogs.MessageDlg(Format('%s: %s',[ExcInfo.getitem(0), RPI._some_str(Error)]),
         mtError, [mbOK], 0);
       SysUtils.Abort;
     end;
@@ -490,7 +498,7 @@ begin
       VarClear(Result);
 
       HandlePyException(E);
-      MessageDlg(E.Message, mtError, [mbOK], 0);
+      Dialogs.MessageDlg(E.Message, mtError, [mbOK], 0);
       SysUtils.Abort;
     end;
     else begin
@@ -510,14 +518,6 @@ begin
   fInterpreterCapabilities := [icReInitialize];
   fServerType := AServerType;
   fSocketPort := 18888;
-
-  if fServerType in [stTkinter, stWxPython] then begin
-    fOldCleanUpMainDict := CommandsDataModule.PyIDEOptions.CleanupMainDict;
-    fOldCleanUpSysModules := CommandsDataModule.PyIDEOptions.CleanupSysModules;
-    CommandsDataModule.PyIDEOptions.CleanupMainDict := False;
-    CommandsDataModule.PyIDEOptions.CleanupSysModules := False;
-  end;
-
 
   ServerProcess := TJvCreateProcess.Create(nil);
   with ServerProcess do
@@ -540,13 +540,13 @@ begin
     if VarModuleHasObject(Rpyc, '__version__') and
         ((Rpyc.__version__[0] <> 2) or (Rpyc.__version__[1] <> 60)) then
     begin
-      MessageDlg('Wrong Rpyc version.  To use the remote Python Engine '+
+      Dialogs.MessageDlg('Wrong Rpyc version.  To use the remote Python Engine '+
         'download version 2.6 Rpyc from http://Rpyc.sf.net and install it.',
         mtError, [mbAbort], 0);
       fIsAvailable := False;
     end;
   except
-    MessageDlg('The Rpyc module is not available.  To use the remote Python Engine '+
+    Dialogs.MessageDlg('The Rpyc module is not available.  To use the remote Python Engine '+
     'download Rpyc from http://Rpyc.sf.net and install it.', mtError, [mbAbort], 0);
     fIsAvailable := False;
   end;
@@ -562,7 +562,7 @@ begin
     try
       StringToFile(ServerFile, ServerSource);
     except
-      MessageDlg('Could not write file "' + ServerFile +
+      Dialogs.MessageDlg('Could not write file "' + ServerFile +
         '" and cannot use a remote Python engine', mtError, [mbAbort], 0);
       fIsAvailable := False;
     end;
@@ -577,7 +577,7 @@ begin
 //       '"$[PythonExe-Path]Lib\site-packages\Rpyc\Servers\simple_server_wx.py"';
     fIsAvailable := fIsAvailable and CreateAndConnectToServer;
     if not (fIsAvailable and fIsConnected) then
-      MessageDlg('Could not connect to the remote Python engine server. '+
+      Dialogs.MessageDlg('Could not connect to the remote Python engine server. '+
         'The remote interpreter and debugger is not available.',
         mtError, [mbAbort], 0)
   end;
@@ -598,10 +598,6 @@ begin
   ServerProcess.Free;
   RemoteServer.Free;
 
-  if fServerType in [stTkinter, stWxPython] then begin
-    CommandsDataModule.PyIDEOptions.CleanupMainDict := fOldCleanUpMainDict;
-    CommandsDataModule.PyIDEOptions.CleanupSysModules := fOldCleanUpSysModules;
-  end;
   inherited;
 end;
 
@@ -739,7 +735,7 @@ begin
       if not VarIsNone(RPI.exc_info) then begin
         Result := None;
         HandleRemoteException(ExcInfo);
-        MessageDlg(Format('%s: %s',[ExcInfo.getitem(0), RPI._some_str(ExcInfo.getitem(1))]),
+        Dialogs.MessageDlg(Format('%s: %s',[ExcInfo.getitem(0), RPI._some_str(ExcInfo.getitem(1))]),
           mtError, [mbOK], 0);
         SysUtils.Abort;
       end;
@@ -750,7 +746,7 @@ begin
       end;
     end;
     if VarIsNone(Result) then begin
-      MessageDlg('Error in importing module', mtError, [mbOK], 0);
+      Dialogs.MessageDlg('Error in importing module', mtError, [mbOK], 0);
       SysUtils.Abort;
     end else if AddToNameSpace then
       RPI.locals.__setitem__(VarPythonCreate(NameOfModule), Result);
@@ -789,35 +785,42 @@ procedure TPyRemoteInterpreter.ReInitialize;
 Var
   SuppressOutput : IInterface;
 begin
-  if PyControl.DebuggerState in [dsRunning, dsRunningNoDebug, dsPaused] then begin
-    fThreadExecInterrupted := True;
-    SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
-    try
-      // This will cause the running thread to exit
-      Conn.close();
-    except
-      // shallow exceptions
-    end;
-    GetPythonEngine.PyErr_Clear;
-  end else begin
-    ShutDownServer;
-    if ServerProcess.State = psReady then begin
-      fIsAvailable := fIsAvailable and CreateAndConnectToServer;
-      if not (fIsAvailable and fIsConnected) then
-        MessageDlg('Could not connect to the remote Python engine server. '+
-          'The remote interpreter and debugger is not available.',
-          mtError, [mbAbort], 0)
-      else begin
-        PythonIIForm.AppendText(WideLineBreak + '*** Remote Interpreter Reinitialized  ***');
-        PythonIIForm.AppendPrompt;
-        // Recreate the Active debugger
-        PyControl.ActiveDebugger := TPyRemDebugger.Create(Self);
-        PyControl.DoStateChange(dsInactive);
+  case PyControl.DebuggerState of
+    dsRunning, dsRunningNoDebug:
+      begin
+        fThreadExecInterrupted := True;
+        SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
+        try
+          // This will cause the running thread to exit
+          Conn.close();
+        except
+          // swalow exceptions
+        end;
+        GetPythonEngine.PyErr_Clear;
       end;
-    end else
-      MessageDlg('Could not shut down the remote Python engine server. '+
-        'Please shut down and restart Pyscripter.',
-        mtError, [mbAbort], 0);
+    dsInactive:
+      begin
+        ShutDownServer;
+        if ServerProcess.State = psReady then begin
+          fIsAvailable := fIsAvailable and CreateAndConnectToServer;
+          if not (fIsAvailable and fIsConnected) then
+            Dialogs.MessageDlg('Could not connect to the remote Python engine server. '+
+              'The remote interpreter and debugger is not available.',
+              mtError, [mbAbort], 0)
+          else begin
+            PythonIIForm.AppendText(WideLineBreak + '*** Remote Interpreter Reinitialized  ***');
+            PythonIIForm.AppendPrompt;
+            // Recreate the Active debugger
+            PyControl.ActiveDebugger := TPyRemDebugger.Create(Self);
+            PyControl.DoStateChange(dsInactive);
+          end;
+        end else
+          Dialogs.MessageDlg('Could not shut down the remote Python engine server. '+
+            'Please shut down and restart Pyscripter.',
+            mtError, [mbAbort], 0);
+      end;
+    {else
+      Exit; }
   end;
 end;
 
@@ -838,8 +841,10 @@ Var
   PythonPathAdder : IInterface;
   ExcInfo : Variant;
   ReturnFocusToEditor: Boolean;
+  CanDoPostMortem : Boolean;
 begin
   CheckConnected;
+  CanDoPostMortem := False;
   //Compile
   Code := Compile(Editor);
 
@@ -858,7 +863,7 @@ begin
     try
       RPI.rem_chdir(Path)
     except
-      MessageDlg('Could not set the current directory to the script path', mtWarning, [mbOK], 0);
+      Dialogs.MessageDlg('Could not set the current directory to the script path', mtWarning, [mbOK], 0);
     end;
   end;
 
@@ -867,6 +872,8 @@ begin
 
   ReturnFocusToEditor := Editor = GI_ActiveEditor;
   PyIDEMainForm.actNavInterpreterExecute(nil);
+  if CommandsDataModule.PyIDEOptions.ClearOutputBeforeRun then
+    PythonIIForm.actClearContentsExecute(nil);
 
   try
     try
@@ -876,8 +883,10 @@ begin
         ExcInfo := RPI.exc_info;
         if not VarIsNone(ExcInfo) then begin
           HandleRemoteException(ExcInfo);
-          MessageDlg(Format('%s: %s',[ExcInfo.getitem(0), RPI._some_str(ExcInfo.getitem(1))]),
+          ReturnFocusToEditor := False;
+          Dialogs.MessageDlg(Format('%s: %s',[ExcInfo.getitem(0), RPI._some_str(ExcInfo.getitem(1))]),
             mtError, [mbOK], 0);
+          CanDoPostMortem := True;
           SysUtils.Abort;
         end;
       end;
@@ -886,7 +895,7 @@ begin
         // should not happen
         if not fThreadExecInterrupted then begin
           HandlePyException(E);
-          MessageDlg(E.Message, mtError, [mbOK], 0);
+          Dialogs.MessageDlg(E.Message, mtError, [mbOK], 0);
         end;
         SysUtils.Abort;
       end;
@@ -909,7 +918,8 @@ begin
       PythonPathAdder := nil;
       PythonIIForm.ClearPendingMessages;
       ReInitialize;
-    end;
+    end else if CanDoPostMortem and CommandsDataModule.PyIDEOptions.PostMortemOnException then
+      PyControl.ActiveDebugger.EnterPostMortem;
   end;
 end;
 
@@ -1051,7 +1061,7 @@ var
   i : integer;
 begin
   if PyControl.DebuggerState <> dsInactive then begin
-    if MessageDlg('The Python interpreter is busy.  Are you sure you want to terminate it?',
+    if Dialogs.MessageDlg('The Python interpreter is busy.  Are you sure you want to terminate it?',
       mtWarning, [mbYes, mbNo], 0) = idNo then Exit;
   end;
 
@@ -1110,7 +1120,7 @@ end;
 function TPyRemoteInterpreter.SysPathAdd(const Path: WideString): boolean;
 begin
   CheckConnected;
-  if Conn.modules.sys.path.contains(Path) then
+  if Conn.modules.sys.path.__contains__(Path) then
     Result := false
   else begin
     Conn.modules.sys.path.insert(0, Path);
@@ -1125,7 +1135,7 @@ begin
     Exit;
   end;
   CheckConnected;
-  if Conn.modules.sys.path.contains(Path) then begin
+  if Conn.modules.sys.path.__contains__(Path) then begin
     Result := True;
     Conn.modules.sys.path.remove(Path);
   end else
@@ -1148,7 +1158,10 @@ end;
 
 procedure TPyRemDebugger.Abort;
 begin
-  fDebuggerCommand := dcAbort;
+  if PyControl.DebuggerState = dsPostMortem then
+    ExitPostMortem
+  else
+    fDebuggerCommand := dcAbort;
 end;
 
 constructor TPyRemDebugger.Create(RemotePython: TPyRemoteInterpreter);
@@ -1173,6 +1186,31 @@ begin
   inherited;
 end;
 
+procedure TPyRemDebugger.EnterPostMortem;
+Var
+  TraceBack : Variant;
+begin
+  if not (HaveTraceback and (PyControl.DebuggerState = dsInactive)) then
+    Exit;
+  with PythonIIForm do begin
+    fOldPS1 := PS1;
+    PS1 := '[PM]' + PS1;
+    fOldPS2 := PS2;
+    PS2 := '[PM]' + PS2;
+    AppendPrompt;
+  end;
+
+  TraceBack := fRemotePython.Conn.modules.sys.last_traceback;
+  fRemotePython.Debugger.botframe := TraceBack.tb_frame;
+  while not VarIsNone(TraceBack.tb_next) do
+    TraceBack := TraceBack.tb_next;
+  fCurrentFrame := TraceBack.tb_frame;
+
+  PyControl.DoStateChange(dsPostMortem);
+  DSAMessageDlg(dsaPostMortemInfo, 'PyScripter', SPostMortemInfo,
+     mtInformation, [mbOK], 0, dckActiveForm, 0, mbOK);
+end;
+
 procedure TPyRemDebugger.Evaluate(const Expr: string; out ObjType,
   Value: string);
 Var
@@ -1181,7 +1219,7 @@ Var
 begin
   ObjType := SNotAvailable;
   Value := SNotAvailable;
-  if PyControl.DebuggerState = dsPaused then begin
+  if PyControl.DebuggerState in [dsPaused, dsPostMortem] then begin
     SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
     try
       // evalcode knows we are in the debugger and uses current frame locals/globals
@@ -1194,13 +1232,26 @@ begin
   end;
 end;
 
+procedure TPyRemDebugger.ExitPostMortem;
+begin
+  with PythonIIForm do begin
+    PS1 := fOldPS1;
+    PS2 := fOldPS2;
+    AppendText(sLineBreak+PS1);
+  end;
+  VarClear(fCurrentFrame);
+  MakeFrameActive(nil);
+  PyControl.DoStateChange(dsInactive);
+end;
+
 procedure TPyRemDebugger.GetCallStack(CallStackList: TObjectList);
 Var
   Frame : Variant;
 begin
   CallStackList.Clear;
-  if PyControl.DebuggerState <> dsPaused then
+  if not (PyControl.DebuggerState in [dsPaused, dsPostMortem]) then
     Exit;
+
   Frame := CurrentFrame;
   if VarIsPython(Frame) then
     while not VarIsNone(Frame.f_back) and not VarIsNone(Frame.f_back.f_back) do begin
@@ -1214,7 +1265,7 @@ end;
 function TPyRemDebugger.GetFrameGlobals(Frame: TBaseFrameInfo): TBaseNameSpaceItem;
 begin
   Result := nil;
-  if PyControl.DebuggerState <> dsPaused then
+  if not (PyControl.DebuggerState in [dsPaused, dsPostMortem]) then
     Exit;
   Result := TRemNameSpaceItem.Create('globals',
     (Frame as TFrameInfo).PyFrame.f_globals, fRemotePython);
@@ -1223,7 +1274,7 @@ end;
 function TPyRemDebugger.GetFrameLocals(Frame: TBaseFrameInfo): TBaseNameSpaceItem;
 begin
   Result := nil;
-  if PyControl.DebuggerState <> dsPaused then
+  if not (PyControl.DebuggerState in [dsPaused, dsPostMortem]) then
     Exit;
   Result := TRemNameSpaceItem.Create('locals',
     (Frame as TFrameInfo).PyFrame.f_locals, fRemotePython);
@@ -1279,6 +1330,18 @@ begin
    VarClear(fCurrentFrame);
 end;
 
+function TPyRemDebugger.HaveTraceback: boolean;
+begin
+  Result := False;
+  with fRemotePython do
+    if not (IsAvailable and IsConnected and (ServerProcess.State = psWaiting)) then
+      Exit;
+  try
+    Result := fRemotePython.Conn.execute('hasattr(__import__("sys"), "last_traceback")', 'eval');
+  except
+  end;
+end;
+
 procedure TPyRemDebugger.LoadLineCache;
 Var
   i : integer;
@@ -1295,6 +1358,14 @@ begin
         fLineCache.cache.__setitem__(VarPythonCreate(FName),
           VarPythonCreate([0, None, Source, FName], stTuple));
       end;
+end;
+
+procedure TPyRemDebugger.MakeFrameActive(Frame: TBaseFrameInfo);
+begin
+  if Assigned(Frame) then
+    fRemotePython.Debugger.currentframe := (Frame as TFrameInfo).PyFrame
+  else
+    fRemotePython.Debugger.currentframe := None;
 end;
 
 function TPyRemDebugger.NameSpaceFromExpression(const Expr: string): TBaseNameSpaceItem;
@@ -1316,14 +1387,15 @@ end;
 
 procedure TPyRemDebugger.Run(Editor: IEditor; InitStepIn: Boolean);
 var
-  OldPS1, OldPS2 : string;
   Code : Variant;
   Path, OldPath : string;
   PythonPathAdder : IInterface;
   ExcInfo : Variant;
   ReturnFocusToEditor: Boolean;
+  CanDoPostMortem : Boolean;
 begin
   fRemotePython.CheckConnected;
+  CanDoPostMortem := False;
   fDebuggerCommand := dcRun;
   if (PyControl.DebuggerState <> dsInactive) then exit; // pass control to user_line
 
@@ -1342,7 +1414,7 @@ begin
       try
         fRemotePython.RPI.rem_chdir(Path)
       except
-        MessageDlg('Could not set the current directory to the script path', mtWarning, [mbOK], 0);
+        Dialogs.MessageDlg('Could not set the current directory to the script path', mtWarning, [mbOK], 0);
       end;
     end;
 
@@ -1355,14 +1427,16 @@ begin
       PyIDEMainForm.SaveLayout('Current');
       PyIDEMainForm.LoadLayout('Debug');
       Application.ProcessMessages;
-    end else 
+    end else
       PyIDEMainForm.actNavInterpreterExecute(nil);
+    if CommandsDataModule.PyIDEOptions.ClearOutputBeforeRun then
+      PythonIIForm.actClearContentsExecute(nil);
 
     try
       with PythonIIForm do begin
-        OldPS1 := PS1;
+        fOldPS1 := PS1;
         PS1 := '[Dbg]' + PS1;
-        OldPS2 := PS2;
+        fOldPS2 := PS2;
         PS2 := '[Dbg]' + PS2;
         AppendPrompt;
       end;
@@ -1392,8 +1466,10 @@ begin
           ExcInfo := fRemotePython.Debugger.exc_info;
           if not VarIsNone(ExcInfo) then begin
             fRemotePython.HandleRemoteException(ExcInfo, 2);
-            MessageDlg(Format('%s: %s',[ExcInfo.getitem(0),
+            ReturnFocusToEditor := False;
+            Dialogs.MessageDlg(Format('%s: %s',[ExcInfo.getitem(0),
               fRemotePython.RPI._some_str(ExcInfo.getitem(1))]), mtError, [mbOK], 0);
+            CanDoPostMortem := True;
             SysUtils.Abort;
           end;
         end;
@@ -1407,7 +1483,7 @@ begin
           // should not happen
           if not fRemotePython.fThreadExecInterrupted then begin
             fRemotePython.HandlePyException(E);
-            MessageDlg(E.Message, mtError, [mbOK], 0);
+            Dialogs.MessageDlg(E.Message, mtError, [mbOK], 0);
           end;
           SysUtils.Abort;
         end;
@@ -1415,9 +1491,10 @@ begin
 
     finally
       VarClear(fCurrentFrame);
+      MakeFrameActive(nil);
       with PythonIIForm do begin
-        PS1 := OldPS1;
-        PS2 := OldPS2;
+        PS1 := fOldPS1;
+        PS2 := fOldPS2;
         AppendText(sLineBreak+PS1);
       end;
 
@@ -1441,7 +1518,8 @@ begin
         PythonPathAdder := nil;
         PythonIIForm.ClearPendingMessages;
         fRemotePython.ReInitialize;
-      end;
+      end else if CanDoPostMortem and CommandsDataModule.PyIDEOptions.PostMortemOnException then
+        PyControl.ActiveDebugger.EnterPostMortem;
     end;
   end;
 end;
