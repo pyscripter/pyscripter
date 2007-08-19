@@ -20,8 +20,6 @@ uses
   frmEditor in 'frmEditor.pas' {EditorForm},
   dmCommands in 'dmCommands.pas' {CommandsDataModule: TDataModule},
   uHighlighterProcs in 'uHighlighterProcs.pas',
-  dlgSearchText in 'dlgSearchText.pas' {TextSearchDialog},
-  dlgReplaceText in 'dlgReplaceText.pas' {TextReplaceDialog},
   dlgConfirmReplace in 'dlgConfirmReplace.pas' {ConfirmReplaceDialog},
   frmPythonII in 'frmPythonII.pas' {PythonIIForm},
   frmMessages in 'frmMessages.pas' {MessagesWindow},
@@ -88,13 +86,16 @@ uses
   TBXOffice2003Theme in 'TBXOffice2003Theme.pas',
   TBXOffice2007Theme in 'TBXOffice2007Theme.pas',
   TBXUtils in 'TBXUtils.pas',
-  JvThreadDialog in 'JvThreadDialog.pas',
   JvDockVSNetStyle in 'JvDockVSNetStyle.pas',
   JvDockControlForm in 'JvDockControlForm.pas',
   JvDockSupportControl in 'JvDockSupportControl.pas',
-  JvDockTree in 'JvDockTree.pas',
   JvDockInfo in 'JvDockInfo.pas',
-  JvDockVIDStyle in 'JvDockVIDStyle.pas';
+  JvDockVIDStyle in 'JvDockVIDStyle.pas',
+  JvDSAAppStorage in 'JvDSAAppStorage.pas',
+  SpTBXControls in 'SpTBXControls.pas',
+  uSearchHighlighter in 'uSearchHighlighter.pas',
+  JvTabBar in 'JvTabBar.pas',
+  SynEditSearch in 'SynEditSearch.pas';
 
 {$R *.RES}
 {$R WebCopyAvi.RES}

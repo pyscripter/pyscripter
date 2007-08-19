@@ -175,9 +175,9 @@ type
 {$IFDEF UNITVERSIONING}
 const
   UnitVersioning: TUnitVersionInfo = (
-    RCSfile: '$URL: https://jvcl.svn.sourceforge.net:443/svnroot/jvcl/trunk/jvcl/run/JvDockInfo.pas $';
+    RCSfile: '$URL: https://jvcl.svn.sourceforge.net/svnroot/jvcl/tags/JVCL3_32/run/JvDockInfo.pas $';
     Revision: '$Revision: 11252 $';
-    Date: '$Date: 2007-04-05 15:12:55 -0700 (Thu, 05 Apr 2007) $';
+    Date: '$Date: 2007-04-06 00:12:55 +0200 (ven., 06 avr. 2007) $';
     LogPath: 'JVCL\run'
   );
 {$ENDIF UNITVERSIONING}
@@ -409,6 +409,7 @@ var
   S: string;
   I: Integer;
   OldPath: string;
+  OldDefaultIfValueNotExists : Boolean;
 
   procedure CreateZoneAndAddInfo(Index: Integer);
   var
@@ -472,6 +473,8 @@ begin
     { Normally, we wouldn't find duplicate names, but if so ignore them otherwise havoc }
     FormList.Duplicates := dupIgnore;
     OldPath := FAppStorage.Path;
+    OldDefaultIfValueNotExists := FAppStorage.StorageOptions.DefaultIfValueNotExists;
+    FAppStorage.StorageOptions.DefaultIfValueNotExists := True;
     try
       FAppStorage.Path := FAppStorage.ConcatPaths([FAppStorage.Path, AppStoragePath, 'Forms']);
       if FAppStorage.ValueStored('FormNames') then
@@ -497,6 +500,7 @@ begin
       end;
     finally
       FAppStorage.Path := OldPath;
+      FAppStorage.StorageOptions.DefaultIfValueNotExists := OldDefaultIfValueNotExists;
     end;
   finally
     FormList.Free;
@@ -1189,9 +1193,9 @@ begin
       TWinControl(Control).EnableAlign;
     end;
   end;
-  //  KV to avoid flickering in Vista
-  //if not ((Control is TForm) and (ParentName <> '')) and Assigned(FindDockClient(Control)) then
-    Control.Visible := Visible;
+//  //  KV to avoid flickering in Vista
+//  if not ((Control is TForm) and (ParentName <> '')) then
+  Control.Visible := Visible;
   Control.LRDockWidth := LRDockWidth;
   Control.TBDockHeight := TBDockHeight;
   Control.UnDockHeight := UnDockHeight;

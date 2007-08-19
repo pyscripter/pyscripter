@@ -53,21 +53,6 @@ inherited UnitTestWindow: TUnitTestWindow
     ExplicitTop = 7
     ExplicitWidth = 242
     ExplicitHeight = 433
-    object Splitter: TJvNetscapeSplitter
-      Left = 0
-      Top = 262
-      Width = 242
-      Height = 10
-      Cursor = crVSplit
-      Align = alBottom
-      MinSize = 1
-      ResizeStyle = rsUpdate
-      Maximized = False
-      Minimized = False
-      ButtonCursor = crDefault
-      ButtonHighlightColor = 15195862
-      AutoHighlightColor = True
-    end
     object ExplorerDock: TTBXDock
       Left = 0
       Top = 0
@@ -123,14 +108,14 @@ inherited UnitTestWindow: TUnitTestWindow
       Left = 0
       Top = 26
       Width = 242
-      Height = 236
+      Height = 241
       Align = alClient
       TabOrder = 1
       object UnitTests: TVirtualStringTree
         Left = 1
         Top = 1
         Width = 240
-        Height = 234
+        Height = 239
         Align = alClient
         BorderStyle = bsNone
         CheckImageKind = ckXP
@@ -148,7 +133,7 @@ inherited UnitTestWindow: TUnitTestWindow
         ParentShowHint = False
         ShowHint = True
         TabOrder = 0
-        TreeOptions.MiscOptions = [toCheckSupport, toFullRepaintOnResize, toInitOnSave, toWheelPanning, toVariableNodeHeight]
+        TreeOptions.MiscOptions = [toCheckSupport, toFullRepaintOnResize, toInitOnSave, toWheelPanning]
         TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowDropmark, toShowRoot, toShowTreeLines, toShowVertGridLines, toThemeAware, toUseBlendedImages, toUseBlendedSelection]
         TreeOptions.StringOptions = [toAutoAcceptEditChange]
         OnChange = UnitTestsChange
@@ -233,6 +218,16 @@ inherited UnitTestWindow: TUnitTestWindow
         ReadOnly = True
         TabOrder = 0
       end
+    end
+    object SpTBXSplitter1: TSpTBXSplitter
+      Left = 0
+      Top = 267
+      Width = 242
+      Height = 5
+      Cursor = crSizeNS
+      Caption = 'SpTBXSplitter1'
+      Align = alBottom
+      MinSize = 1
     end
   end
   inherited DockClient: TJvDockClient

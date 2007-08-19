@@ -13,17 +13,18 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ComCtrls, StdCtrls, ExtCtrls, ImgList,
-  JvDockControlForm, JvComponent, Menus, VTHeaderPopup,
-  VirtualTrees, frmIDEDockWin, TBX, TBXThemes, JvExExtCtrls, JvNetscapeSplitter,
-  JvExControls, JvLinkLabel, TBXDkPanels, JvComponentBase, cPyBaseDebugger;
+  JvDockControlForm, JvComponent, Menus, VTHeaderPopup, JvAppStorage,
+  VirtualTrees, frmIDEDockWin, TBX, TBXThemes,
+  JvExControls, JvLinkLabel, TBXDkPanels, JvComponentBase, cPyBaseDebugger,
+  SpTBXControls;
 
 type
-  TVariablesWindow = class(TIDEDockWindow)
+  TVariablesWindow = class(TIDEDockWindow, IJvAppStorageHandler)
     VTHeaderPopupMenu: TVTHeaderPopupMenu;
     VariablesTree: TVirtualStringTree;
-    Splitter: TJvNetscapeSplitter;
-    TBXPageScroller: TTBXPageScroller;
+    DocPanel: TTBXPageScroller;
     HTMLLabel: TJvLinkLabel;
+    SpTBXSplitter: TSpTBXSplitter;
     procedure VariablesTreeChange(Sender: TBaseVirtualTree; Node: PVirtualNode);
     procedure FormCreate(Sender: TObject);
     procedure VariablesTreeInitNode(Sender: TBaseVirtualTree; ParentNode,
@@ -46,6 +47,9 @@ type
     GlobalsNameSpace, LocalsNameSpace : TBaseNameSpaceItem;
   protected
     procedure TBMThemeChange(var Message: TMessage); message TBM_THEMECHANGE;
+    // IJvAppStorageHandler implementation
+    procedure ReadFromAppStorage(AppStorage: TJvCustomAppStorage; const BasePath: string);
+    procedure WriteToAppStorage(AppStorage: TJvCustomAppStorage; const BasePath: string);
   public
     { Public declarations }
     procedure ClearAll;
@@ -59,7 +63,7 @@ implementation
 
 uses frmPyIDEMain, frmCallStack, PythonEngine, VarPyth,
   dmCommands, uCommonFunctions, JclFileUtils, StringResources, frmPythonII,
-  JvDockGlobals, cPyDebugger, JvJVCLUtils;
+  JvDockGlobals, cPyDebugger, JvJVCLUtils, Math;
 
 {$R *.dfm}
 Type
@@ -78,7 +82,7 @@ begin
   VariablesTree.OnHeaderDrawQueryElements :=
     CommandsDataModule.VirtualStringTreeDrawQueryElements;
   HTMLLabel.Color := clWindow;
-  TBXPageScroller.Color := clWindow;
+  DocPanel.Color := clWindow;
 end;
 
 procedure TVariablesWindow.VariablesTreeInitNode(Sender: TBaseVirtualTree;
@@ -130,6 +134,21 @@ begin
       TargetCanvas.Font.Color := clRed
     else if nsaNew in Data.NameSpaceItem.Attributes then
       TargetCanvas.Font.Color := clBlue;
+end;
+
+procedure TVariablesWindow.ReadFromAppStorage(AppStorage: TJvCustomAppStorage;
+  const BasePath: string);
+Var
+  TempWidth : integer;
+begin
+  TempWidth := AppStorage.ReadInteger(BasePath+'\DocPanelWidth', DocPanel.Width);
+  DocPanel.Width := Min(Max(TempWidth, 3), Max(Width-100, 3));
+end;
+
+procedure TVariablesWindow.WriteToAppStorage(AppStorage: TJvCustomAppStorage;
+  const BasePath: string);
+begin
+  AppStorage.WriteInteger(BasePath+'\DocPanelWidth', DocPanel.Width);
 end;
 
 procedure TVariablesWindow.VariablesTreeGetImageIndex(
@@ -358,10 +377,6 @@ begin
     VariablesTree.Colors.HeaderHotColor :=
       CurrentTheme.GetItemTextColor(GetItemInfo('active'));
     FGPanel.Color := CurrentTheme.GetItemColor(GetItemInfo('inactive'));
-    Splitter.ButtonColor :=
-      CurrentTheme.GetItemColor(GetItemInfo('inactive'));
-    Splitter.ButtonHighlightColor :=
-      CurrentTheme.GetItemColor(GetItemInfo('active'));
   end;
 end;
 

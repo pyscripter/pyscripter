@@ -14,8 +14,9 @@ object IDEDockWindow: TIDEDockWindow
   Font.Height = -11
   Font.Name = 'MS Shell Dlg 2'
   Font.Style = []
-  FormStyle = fsStayOnTop
   OldCreateOrder = False
+  PopupMode = pmExplicit
+  Position = poDesigned
   ShowHint = True
   OnActivate = FormActivate
   OnCreate = FormCreate

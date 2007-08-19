@@ -3507,7 +3507,7 @@ begin
   if not IsHandleValid then
   begin
     FDllName := aDllName;
-    FDLLHandle := LoadLibrary(
+    FDLLHandle := SafeLoadLibrary(
       {$IFDEF FPC}
         PChar(AnsiString(GetDllPath+DllName))
       {$ELSE}
@@ -5046,7 +5046,7 @@ begin
   if UseLastKnownVersion then
     for i:= Integer(COMPILED_FOR_PYTHON_VERSION_INDEX) to High(PYTHON_KNOWN_VERSIONS) do
     begin
-      FDLLHandle := LoadLibrary(PChar(GetDllPath+PYTHON_KNOWN_VERSIONS[i].DllName));
+      FDLLHandle := SafeLoadLibrary(PChar(GetDllPath+PYTHON_KNOWN_VERSIONS[i].DllName));
       if IsHandleValid then
       begin
         DllName := PYTHON_KNOWN_VERSIONS[i].DllName;

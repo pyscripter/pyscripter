@@ -2,6 +2,7 @@ object ToolProperties: TToolProperties
   Left = 334
   Top = 153
   HelpContext = 710
+  ActiveControl = hkShortCut
   BorderStyle = bsDialog
   Caption = 'External Tool Properties'
   ClientHeight = 469
@@ -503,6 +504,10 @@ object ToolProperties: TToolProperties
       object tsEnvironment: TTabSheet
         Caption = '&Environment'
         ImageIndex = 1
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object lvItems: TListView
           Left = 0
           Top = 0

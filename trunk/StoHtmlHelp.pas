@@ -183,7 +183,7 @@ begin
   FViewerName := 'StoHtmlHelp';
   FHtmlExt := '.htm';
   // load dll
-  FHHCtrlHandle := LoadLibrary('HHCtrl.ocx');
+  FHHCtrlHandle := SafeLoadLibrary('HHCtrl.ocx');
   if (FHHCtrlHandle <> 0) then
     FHtmlHelpFunction := GetProcAddress(FHHCtrlHandle, 'HtmlHelpA');
 end;

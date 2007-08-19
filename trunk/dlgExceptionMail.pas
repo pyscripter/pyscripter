@@ -1,28 +1,27 @@
-{**************************************************************************************************}
-{                                                                                                  }
-{ Project JEDI Code Library (JCL)                                                                  }
-{                                                                                                  }
-{ The contents of this file are subject to the Mozilla Public License Version 1.1 (the "License"); }
-{ you may not use this file except in compliance with the License. You may obtain a copy of the    }
-{ License at http://www.mozilla.org/MPL/                                                           }
-{                                                                                                  }
-{ Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF   }
-{ ANY KIND, either express or implied. See the License for the specific language governing rights  }
-{ and limitations under the License.                                                               }
-{                                                                                                  }
-{ The Original Code is ExceptDlg.pas.                                                              }
-{                                                                                                  }
-{ The Initial Developer of the Original Code is Petr Vones.                                        }
-{ Portions created by Petr Vones are Copyright (C) of Petr Vones.                                  }
-{                                                                                                  }
-{**************************************************************************************************}
-{                                                                                                  }
-{ Sample Application exception dialog replacement with sending report by the default mail client   }
-{ functionality                                                                                    }
-{                                                                                                  }
-{ Last modified: $Date: 2006-09-12 23:39:02 +0200 (mar., 12 sept. 2006) $                                                      }
-{                                                                                                  }
-{**************************************************************************************************}
+{****************************************************************************}
+{                                                                            }
+{ Project JEDI Code Library (JCL)                                            }
+{                                                                            }
+{ The contents of this file are subject to the Mozilla Public License        }
+{ Version 1.1 (the "License"); you may not use this file except in           }
+{ compliance with the License. You may obtain a copy of the License at       }
+{ http://www.mozilla.org/MPL/                                                }
+{                                                                            }
+{ Software distributed under the License is distributed on an "AS IS" basis, }
+{ WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License   }
+{ for the specific language governing rights and limitations under the       }
+{ License.                                                                   }
+{                                                                            }
+{ The Original Code is ExceptDlg.pas.                                        }
+{                                                                            }
+{ The Initial Developer of the Original Code is Petr Vones.                  }
+{ Portions created by Petr Vones are Copyright (C) of Petr Vones.            }
+{                                                                            }
+{****************************************************************************}
+{                                                                            }
+{ Last modified: $Date: 2007-05-23 11:32:18 +0200 (mer., 23 mai 2007) $      }
+{                                                                            }
+{****************************************************************************}
 
 unit dlgExceptionMail;
 
@@ -30,45 +29,20 @@ interface
 
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ExtCtrls, JclMapi, JclDebug, TBXDkPanels, SpTBXControls;
+  Dialogs, StdCtrls, ExtCtrls, AppEvnts,
+  JclSysUtils, JclMapi, JclDebug, TBXDkPanels, SpTBXControls;
 
 const
   UM_CREATEDETAILS = WM_USER + $100;
 
-  ReportToLogEnabled   = $00000001; // TExceptionDialog.Tag property
-  DisableTextScrollbar = $00000002; // TExceptionDialog.Tag property
-
 type
-  TSimpleExceptionLog = class (TObject)
-  private
-    FLogFileHandle: THandle;
-    FLogFileName: string;
-    FLogWasEmpty: Boolean;
-    function GetLogOpen: Boolean;
-  protected
-    function CreateDefaultFileName: string;
-  public
-    constructor Create(const ALogFileName: string = '');
-    destructor Destroy; override;
-    procedure CloseLog;
-    procedure OpenLog;
-    procedure Write(const Text: string; Indent: Integer = 0); overload;
-    procedure Write(Strings: TStrings; Indent: Integer = 0); overload;
-    procedure WriteStamp(SeparatorLen: Integer = 0);
-    property LogFileName: string read FLogFileName;
-    property LogOpen: Boolean read GetLogOpen;
-  end;
-
-  TExcDialogSystemInfo = (siStackList, siOsInfo, siModuleList, siActiveControls);
-  TExcDialogSystemInfos = set of TExcDialogSystemInfo;
-
   TExceptionDialogMail = class(TForm)
-    TextLabel: TMemo;
-    Bevel1: TBevel;
-    DetailsMemo: TMemo;
     SendBtn: TSpTBXButton;
+    TextLabel: TMemo;
     OkBtn: TSpTBXButton;
     DetailsBtn: TSpTBXButton;
+    Bevel1: TBevel;
+    DetailsMemo: TMemo;
     procedure SendBtnClick(Sender: TObject);
     procedure FormPaint(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -80,21 +54,20 @@ type
   private
     private
     FDetailsVisible: Boolean;
-    FIsMainThead: Boolean;
+    FThreadID: DWORD;
     FLastActiveControl: TWinControl;
     FNonDetailsHeight: Integer;
     FFullHeight: Integer;
-    FSimpleLog: TSimpleExceptionLog;
-    procedure CreateDetails;
+    FSimpleLog: TJclSimpleLog;
+    //procedure ReportToLog;
     function GetReportAsText: string;
-    procedure ReportToLog;
     procedure SetDetailsVisible(const Value: Boolean);
     procedure UMCreateDetails(var Message: TMessage); message UM_CREATEDETAILS;
   protected
     procedure AfterCreateDetails; dynamic;
     procedure BeforeCreateDetails; dynamic;
-    procedure CreateDetailInfo; dynamic;
-    procedure CreateReport(const SystemInfo: TExcDialogSystemInfos);
+    procedure CreateDetails; dynamic;
+    procedure CreateReport;
     function ReportMaxColumns: Integer; virtual;
     function ReportNewBlockDelimiterChar: Char; virtual;
     procedure NextDetailBlock;
@@ -103,10 +76,11 @@ type
     procedure CopyReportToClipboard;
     class procedure ExceptionHandler(Sender: TObject; E: Exception);
     class procedure ExceptionThreadHandler(Thread: TJclDebugThread);
-    class procedure ShowException(E: Exception; Thread: TJclDebugThread);
-    property DetailsVisible: Boolean read FDetailsVisible write SetDetailsVisible;
+    class procedure ShowException(E: TObject; Thread: TJclDebugThread);
+    property DetailsVisible: Boolean read FDetailsVisible
+      write SetDetailsVisible;
     property ReportAsText: string read GetReportAsText;
-    property SimpleLog: TSimpleExceptionLog read FSimpleLog;
+    property SimpleLog: TJclSimpleLog read FSimpleLog;
   end;
 
   TExceptionDialogMailClass = class of TExceptionDialogMail;
@@ -120,17 +94,19 @@ implementation
 
 uses
   ClipBrd, Math,
-  JclBase, JclFileUtils, JclHookExcept, JclPeImage, JclStrings, JclSysInfo, JclSysUtils,
+  JclBase, JclFileUtils, JclHookExcept, JclPeImage, JclStrings, JclSysInfo, JclWin32, 
   uCommonFunctions, PythonEngine, dmCommands, TypInfo, cPyBaseDebugger;
 
 resourcestring
   RsAppError = '%s - application error';
   RsExceptionClass = 'Exception class: %s';
+  RsExceptionMessage = 'Exception message: %s';
   RsExceptionAddr = 'Exception address: %p';
   RsStackList = 'Stack list, generated %s';
   RsModulesList = 'List of loaded modules:';
   RsOSVersion = 'System   : %s %s, Version: %d.%d, Build: %x, "%s"';
-  RsProcessor = 'Processor: %s, %s, %d MHz %s%s';
+  RsProcessor = 'Processor: %s, %s, %d MHz';
+  RsMemory = 'Memory: %d; free %d';
   RsScreenRes = 'Display  : %dx%d pixels, %d bpp';
   RsActiveControl = 'Active Controls hierarchy:';
   RsThread = 'Thread: %s';
@@ -142,29 +118,30 @@ resourcestring
 var
   ExceptionDialogMail: TExceptionDialogMail;
 
-//==================================================================================================
+//============================================================================
 // Helper routines
-//==================================================================================================
+//============================================================================
 
-function GetBPP: Integer;
+// SortModulesListByAddressCompare
+// sorts module by address
+function SortModulesListByAddressCompare(List: TStringList;
+  Index1, Index2: Integer): Integer;
 var
-  DC: HDC;
+  Addr1, Addr2: Cardinal;
 begin
-  DC := GetDC(0);
-  Result := GetDeviceCaps(DC, BITSPIXEL) * GetDeviceCaps(DC, PLANES);
-  ReleaseDC(0, DC);
+  Addr1 := Cardinal(List.Objects[Index1]);
+  Addr2 := Cardinal(List.Objects[Index2]);
+  if Addr1 > Addr2 then
+    Result := 1
+  else if Addr1 < Addr2 then
+    Result := -1
+  else
+    Result := 0;
 end;
 
-//--------------------------------------------------------------------------------------------------
-
-function SortModulesListByAddressCompare(List: TStringList; Index1, Index2: Integer): Integer;
-begin
-  Result := Integer(List.Objects[Index1]) - Integer(List.Objects[Index2]);
-end;
-
-//==================================================================================================
+//============================================================================
 // TApplication.HandleException method code hooking for exceptions from DLLs
-//==================================================================================================
+//============================================================================
 
 // We need to catch the last line of TApplication.HandleException method:
 // [...]
@@ -174,13 +151,14 @@ end;
 
 procedure HookShowException(ExceptObject: TObject; ExceptAddr: Pointer);
 begin
-  if JclValidateModuleAddress(ExceptAddr) and (ExceptObject.InstanceSize >= Exception.InstanceSize) then
+  if JclValidateModuleAddress(ExceptAddr)
+    and (ExceptObject.InstanceSize >= Exception.InstanceSize) then
     TExceptionDialogMail.ExceptionHandler(nil, Exception(ExceptObject))
   else
     SysUtils.ShowException(ExceptObject, ExceptAddr);
 end;
 
-//--------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------
 
 function HookTApplicationHandleException: Boolean;
 const
@@ -196,7 +174,7 @@ var
   TApplicationHandleExceptionAddr, SysUtilsShowExceptionAddr: Pointer;
   CALLInstruction: TCALLInstruction;
   CallAddress: Pointer;
-  OldProtect, Dummy: DWORD;
+  WrittenBytes: Cardinal;
 
   function CheckAddressForOffset(Offset: Cardinal): Boolean;
   begin
@@ -213,162 +191,54 @@ var
       end;
     except
       Result := False;
-    end;    
+    end;
   end;
 
 begin
   TApplicationHandleExceptionAddr := PeMapImgResolvePackageThunk(@TApplication.HandleException);
   SysUtilsShowExceptionAddr := PeMapImgResolvePackageThunk(@SysUtils.ShowException);
-  Result := CheckAddressForOffset(CallOffset) or CheckAddressForOffset(CallOffsetDebug);
-  if Result then
+  if Assigned(TApplicationHandleExceptionAddr) and Assigned(SysUtilsShowExceptionAddr) then
   begin
-    Result := VirtualProtect(CallAddress, sizeof(CallInstruction), PAGE_EXECUTE_READWRITE, OldProtect);
+    Result := CheckAddressForOffset(CallOffset) or CheckAddressForOffset(CallOffsetDebug);
     if Result then
-    try
+    begin
       CALLInstruction.Address := Integer(@HookShowException) - Integer(CallAddress) - SizeOf(CALLInstruction);
-      PCALLInstruction(CallAddress)^ := CALLInstruction;
-      if Result then
-        FlushInstructionCache(GetCurrentProcess, CallAddress, SizeOf(CALLInstruction));
-    finally
-      VirtualProtect(CallAddress, sizeof(CallInstruction), OldProtect, Dummy);
+      Result := WriteProtectedMemory(CallAddress, @CallInstruction, SizeOf(CallInstruction), WrittenBytes);
     end;
-  end;
-end;
-
-//==================================================================================================
-// TSimpleExceptionLog
-//==================================================================================================
-
-procedure TSimpleExceptionLog.CloseLog;
-begin
-  if LogOpen then
-  begin
-    CloseHandle(FLogFileHandle);
-    FLogFileHandle := INVALID_HANDLE_VALUE;
-    FLogWasEmpty := False;
-  end;
-end;
-
-//--------------------------------------------------------------------------------------------------
-
-constructor TSimpleExceptionLog.Create(const ALogFileName: string);
-begin
-  if ALogFileName = '' then
-    FLogFileName := CreateDefaultFileName
-  else
-    FLogFileName := ALogFileName;
-  FLogFileHandle := INVALID_HANDLE_VALUE;
-end;
-
-//--------------------------------------------------------------------------------------------------
-
-function TSimpleExceptionLog.CreateDefaultFileName: string;
-begin
-  Result := PathExtractFileDirFixed(ParamStr(0)) + PathExtractFileNameNoExt(ParamStr(0)) + '_Err.log';
-end;
-
-//--------------------------------------------------------------------------------------------------
-
-destructor TSimpleExceptionLog.Destroy;
-begin
-  CloseLog;
-  inherited;
-end;
-
-//--------------------------------------------------------------------------------------------------
-
-function TSimpleExceptionLog.GetLogOpen: Boolean;
-begin
-  Result := FLogFileHandle <> INVALID_HANDLE_VALUE;
-end;
-
-//--------------------------------------------------------------------------------------------------
-
-procedure TSimpleExceptionLog.OpenLog;
-begin
-  if not LogOpen then
-  begin
-    FLogFileHandle := CreateFile(PChar(FLogFileName), GENERIC_WRITE, FILE_SHARE_READ, nil,
-      OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0);
-    if LogOpen then
-      FLogWasEmpty := SetFilePointer(FLogFileHandle, 0, nil, FILE_END) = 0;
   end
   else
-    FLogWasEmpty := False;
+    Result := False;
 end;
 
-//--------------------------------------------------------------------------------------------------
-
-procedure TSimpleExceptionLog.Write(const Text: string; Indent: Integer);
-var
-  S: string;
-  SL: TStringList;
-  I: Integer;
-begin
-  if LogOpen then
-  begin
-    SL := TStringList.Create;
-    try
-      SL.Text := Text;
-      for I := 0 to SL.Count - 1 do
-      begin
-        S := StringOfChar(' ', Indent) + StrEnsureSuffix(AnsiCrLf, TrimRight(SL[I]));
-        FileWrite(Integer(FLogFileHandle), Pointer(S)^, Length(S));
-      end;
-    finally
-      SL.Free;
-    end;
-  end;
-end;
-
-//--------------------------------------------------------------------------------------------------
-
-procedure TSimpleExceptionLog.Write(Strings: TStrings; Indent: Integer);
-var
-  I: Integer;
-begin
-  for I := 0 to Strings.Count - 1 do
-    Write(Strings[I], Indent);
-end;
-
-//--------------------------------------------------------------------------------------------------
-
-procedure TSimpleExceptionLog.WriteStamp(SeparatorLen: Integer);
-begin
-  if SeparatorLen = 0 then
-    SeparatorLen := 100;
-  SeparatorLen := Max(SeparatorLen, 20);  
-  OpenLog;
-  if not FLogWasEmpty then
-    Write(AnsiCrLf);
-  Write(StrRepeat('=', SeparatorLen));
-  Write(Format('= %-*s =', [SeparatorLen - 4, DateTimeToStr(Now)]));
-  Write(StrRepeat('=', SeparatorLen));
-end;
-
-//==================================================================================================
+//============================================================================
 // Exception dialog with Send
-//==================================================================================================
+//============================================================================
 
 var
   ExceptionShowing: Boolean;
 
-{ TExceptionDialogMail }
+//=== { TExceptionDialogMail } ===============================================
 
 procedure TExceptionDialogMail.AfterCreateDetails;
 begin
   SendBtn.Enabled := True;
 end;
 
+//----------------------------------------------------------------------------
+
 procedure TExceptionDialogMail.BeforeCreateDetails;
 begin
   SendBtn.Enabled := False;
 end;
 
+//----------------------------------------------------------------------------
+
 function TExceptionDialogMail.ReportMaxColumns: Integer;
 begin
   Result := 78;
 end;
+
+//----------------------------------------------------------------------------
 
 procedure TExceptionDialogMail.SendBtnClick(Sender: TObject);
 begin
@@ -383,33 +253,28 @@ begin
       Send(True);
     finally
       RestoreTaskWindows;
-    end;    
+    end;
   finally
     Free;
   end;
 end;
+
+//----------------------------------------------------------------------------
 
 procedure TExceptionDialogMail.CopyReportToClipboard;
 begin
   ClipBoard.AsText := ReportAsText;
 end;
 
-//--------------------------------------------------------------------------------------------------
-
-procedure TExceptionDialogMail.CreateDetailInfo;
-begin
-  CreateReport([siStackList, siOsInfo, siModuleList, siActiveControls]);
-end;
-
-//--------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------
 
 procedure TExceptionDialogMail.CreateDetails;
 begin
   Screen.Cursor := crHourGlass;
   DetailsMemo.Lines.BeginUpdate;
   try
-    CreateDetailInfo;
-    ReportToLog;
+    CreateReport;
+    //ReportToLog;  No Logging
     DetailsMemo.SelStart := 0;
     SendMessage(DetailsMemo.Handle, EM_SCROLLCARET, 0, 0);
     AfterCreateDetails;
@@ -422,22 +287,23 @@ begin
   end;
 end;
 
-//--------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------
 
-procedure TExceptionDialogMail.CreateReport(const SystemInfo: TExcDialogSystemInfos);
-const
-  MMXText: array[Boolean] of PChar = ('', 'MMX');
-  FDIVText: array[Boolean] of PChar = (' [FDIV Bug]', '');
+procedure TExceptionDialogMail.CreateReport;
 var
   SL: TStringList;
   I: Integer;
   ModuleName: TFileName;
-  CpuInfo: TCpuInfo;
-  C: TWinControl;
-  NtHeaders: PImageNtHeaders;
+  NtHeaders32: PImageNtHeaders32;
+  NtHeaders64: PImageNtHeaders64;
   ModuleBase: Cardinal;
   ImageBaseStr: string;
+  C: TWinControl;
+  CpuInfo: TCpuInfo;
+  ProcessorDetails: string;
   StackList: TJclStackInfoList;
+ 
+  PETarget: TJclPeTarget;
 begin
   SL := TStringList.Create;
   try
@@ -449,31 +315,50 @@ begin
       ord(CommandsDataModule.PyIDEOptions.PythonEngineType))]));
     NextDetailBlock;
     // Stack list
-    if siStackList in SystemInfo then
+    StackList := JclGetExceptStackList(FThreadID);
+    if Assigned(StackList) then
     begin
-      StackList := JclLastExceptStackList;
-      if Assigned(StackList) then
-      begin
-        DetailsMemo.Lines.Add(Format(RsStackList, [DateTimeToStr(StackList.TimeStamp)]));
-        StackList.AddToStrings(DetailsMemo.Lines, False, True, True);
-        NextDetailBlock;
-      end;
-    end;
-    // System and OS information
-    if siOsInfo in SystemInfo then
-    begin
-      DetailsMemo.Lines.Add(Format(RsOSVersion, [GetWindowsVersionString, NtProductTypeString,
-        Win32MajorVersion, Win32MinorVersion, Win32BuildNumber, Win32CSDVersion]));
-      GetCpuInfo(CpuInfo);
-      with CpuInfo do
-        DetailsMemo.Lines.Add(Format(RsProcessor, [Manufacturer, CpuName,
-          RoundFrequency(FrequencyInfo.NormFreq),
-          MMXText[MMX], FDIVText[IsFDIVOK]]));
-      DetailsMemo.Lines.Add(Format(RsScreenRes, [Screen.Width, Screen.Height, GetBPP]));
+      DetailsMemo.Lines.Add(Format(RsStackList, [DateTimeToStr(StackList.TimeStamp)]));
+      StackList.AddToStrings(DetailsMemo.Lines, True, True, True, True);
       NextDetailBlock;
     end;
+
+
+
+    // System and OS information
+    DetailsMemo.Lines.Add(Format(RsOSVersion, [GetWindowsVersionString, NtProductTypeString,
+      Win32MajorVersion, Win32MinorVersion, Win32BuildNumber, Win32CSDVersion]));
+    GetCpuInfo(CpuInfo);
+    with CpuInfo do
+    begin
+      ProcessorDetails := Format(RsProcessor, [Manufacturer, CpuName,
+        RoundFrequency(FrequencyInfo.NormFreq)]);
+      if not IsFDIVOK then
+        ProcessorDetails := ProcessorDetails + ' [FDIV Bug]';
+      if ExMMX then
+        ProcessorDetails := ProcessorDetails + ' MMXex'
+      else if MMX then
+        ProcessorDetails := ProcessorDetails + ' MMX';
+      if SSE > 0 then
+        ProcessorDetails := Format('%s SSE%d', [ProcessorDetails, SSE]);
+      if Ex3DNow then
+        ProcessorDetails := ProcessorDetails + ' 3DNow!ex'
+      else if _3DNow then
+        ProcessorDetails := ProcessorDetails + ' 3DNow!';
+      if Is64Bits then
+        ProcessorDetails := ProcessorDetails + ' 64 bits';
+      if DEPCapable then
+        ProcessorDetails := ProcessorDetails + ' DEP';
+    end;
+    DetailsMemo.Lines.Add(ProcessorDetails);
+    DetailsMemo.Lines.Add(Format(RsMemory, [GetTotalPhysicalMemory div 1024 div 1024,
+      GetFreePhysicalMemory div 1024 div 1024]));
+    DetailsMemo.Lines.Add(Format(RsScreenRes, [Screen.Width, Screen.Height, GetBPP]));
+    NextDetailBlock;
+
+
     // Modules list
-    if (siModuleList in SystemInfo) and LoadedModulesList(SL, GetCurrentProcessId) then
+    if LoadedModulesList(SL, GetCurrentProcessId) then
     begin
       DetailsMemo.Lines.Add(RsModulesList);
       SL.CustomSort(SortModulesListByAddressCompare);
@@ -482,9 +367,19 @@ begin
         ModuleName := SL[I];
         ModuleBase := Cardinal(SL.Objects[I]);
         DetailsMemo.Lines.Add(Format('[%.8x] %s', [ModuleBase, ModuleName]));
-        NtHeaders := PeMapImgNtHeaders(Pointer(ModuleBase));
-        if (NtHeaders <> nil) and (NtHeaders^.OptionalHeader.ImageBase <> ModuleBase) then
-          ImageBaseStr := Format('<%.8x> ', [NtHeaders^.OptionalHeader.ImageBase])
+        PETarget := PeMapImgTarget(Pointer(ModuleBase));
+        NtHeaders32 := nil;
+        NtHeaders64 := nil;
+        if PETarget = taWin32 then
+          NtHeaders32 := PeMapImgNtHeaders32(Pointer(ModuleBase))
+        else
+        if PETarget = taWin64 then
+          NtHeaders64 := PeMapImgNtHeaders64(Pointer(ModuleBase));
+        if (NtHeaders32 <> nil) and (NtHeaders32^.OptionalHeader.ImageBase <> ModuleBase) then
+          ImageBaseStr := Format('<%.8x> ', [NtHeaders32^.OptionalHeader.ImageBase])
+        else
+        if (NtHeaders64 <> nil) and (NtHeaders64^.OptionalHeader.ImageBase <> ModuleBase) then
+          ImageBaseStr := Format('<%.8x> ', [NtHeaders64^.OptionalHeader.ImageBase])
         else
           ImageBaseStr := StrRepeat(' ', 11);
         if VersionResourceAvailable(ModuleName) then
@@ -501,8 +396,10 @@ begin
       end;
       NextDetailBlock;
     end;
+
+
     // Active controls
-    if (siActiveControls in SystemInfo) and (FLastActiveControl <> nil) then
+    if (FLastActiveControl <> nil) then
     begin
       DetailsMemo.Lines.Add(RsActiveControl);
       C := FLastActiveControl;
@@ -513,6 +410,7 @@ begin
       end;
       NextDetailBlock;
     end;
+
   finally
     SL.Free;
   end;
@@ -530,8 +428,8 @@ end;
 class procedure TExceptionDialogMail.ExceptionHandler(Sender: TObject; E: Exception);
 begin
   if ExceptionShowing then
-    Application.ShowException(E)
-  else
+    Application.ShowException(Exception(E))
+  else if Assigned(E) and not IsIgnoredException(E.ClassType) then
   begin
     ExceptionShowing := True;
     try
@@ -547,7 +445,10 @@ end;
 class procedure TExceptionDialogMail.ExceptionThreadHandler(Thread: TJclDebugThread);
 begin
   if ExceptionShowing then
-    Application.ShowException(Thread.SyncException)
+  begin
+    if Thread.SyncException is EXception then
+      Application.ShowException(Exception(Thread.SyncException));
+  end
   else
   begin
     ExceptionShowing := True;
@@ -563,7 +464,7 @@ end;
 
 procedure TExceptionDialogMail.FormCreate(Sender: TObject);
 begin
-  FSimpleLog := TSimpleExceptionLog.Create;
+  FSimpleLog := TJclSimpleLog.Create;
   FFullHeight := ClientHeight;
   DetailsVisible := False;
   Caption := Format(RsAppError, [Application.Title]);
@@ -608,10 +509,10 @@ procedure TExceptionDialogMail.FormShow(Sender: TObject);
 begin
   BeforeCreateDetails;
   MessageBeep(MB_ICONERROR);
-  if FIsMainThead and (GetWindowThreadProcessId(Handle, nil) = MainThreadID) then
+  if (GetCurrentThreadId = MainThreadID) and (GetWindowThreadProcessId(Handle, nil) = MainThreadID) then
     PostMessage(Handle, UM_CREATEDETAILS, 0, 0)
   else
-    CreateDetails;
+    CreateReport;
 end;
 
 //--------------------------------------------------------------------------------------------------
@@ -637,18 +538,15 @@ end;
 
 //--------------------------------------------------------------------------------------------------
 
-procedure TExceptionDialogMail.ReportToLog;
-begin
-  if Tag and ReportToLogEnabled <> 0 then
-  begin
-    FSimpleLog.WriteStamp(ReportMaxColumns);
-    try
-      FSimpleLog.Write(ReportAsText);
-    finally
-      FSimpleLog.CloseLog;
-    end;
-  end;
-end;
+//procedure TExceptionDialogMail.ReportToLog;
+//begin
+//  FSimpleLog.WriteStamp(ReportMaxColumns);
+//  try
+//    FSimpleLog.Write(ReportAsText);
+//  finally
+//    FSimpleLog.CloseLog;
+//  end;
+//end;
 
 //--------------------------------------------------------------------------------------------------
 
@@ -686,18 +584,26 @@ end;
 
 //--------------------------------------------------------------------------------------------------
 
-class procedure TExceptionDialogMail.ShowException(E: Exception; Thread: TJclDebugThread);
+class procedure TExceptionDialogMail.ShowException(E: TObject; Thread: TJclDebugThread);
 begin
   if ExceptionDialogMail = nil then
     ExceptionDialogMail := TExceptionDialogMailClass.Create(Application);
   try
     with ExceptionDialogMail do
     begin
-      FIsMainThead := (GetCurrentThreadId = MainThreadID);
+      if Assigned(Thread) then
+        FThreadID := Thread.ThreadID
+      else
+        FThreadID := MainThreadID;
       FLastActiveControl := Screen.ActiveControl;
-      TextLabel.Text := AdjustLineBreaks(StrEnsureSuffix('.', E.Message));
+      if E is Exception then
+        TextLabel.Text := AdjustLineBreaks(StrEnsureSuffix('.', Exception(E).Message))
+      else
+        TextLabel.Text := AdjustLineBreaks(StrEnsureSuffix('.', E.ClassName));
       UpdateTextLabelScrollbars;
       DetailsMemo.Lines.Add(Format(RsExceptionClass, [E.ClassName]));
+      if E is Exception then
+        DetailsMemo.Lines.Add(Format(RsExceptionMessage, [StrEnsureSuffix('.', Exception(E).Message)]));
       if Thread = nil then
         DetailsMemo.Lines.Add(Format(RsExceptionAddr, [ExceptAddr]))
       else
@@ -722,43 +628,50 @@ end;
 
 procedure TExceptionDialogMail.UpdateTextLabelScrollbars;
 begin
-  if Tag and DisableTextScrollbar = 0 then
-  begin
-    Canvas.Font := TextLabel.Font;
-    if TextLabel.Lines.Count * Canvas.TextHeight('Wg') > TextLabel.ClientHeight then
-      TextLabel.ScrollBars := ssVertical
-    else
-      TextLabel.ScrollBars := ssNone;
-   end;   
+  Canvas.Font := TextLabel.Font;
+  if TextLabel.Lines.Count * Canvas.TextHeight('Wg') > TextLabel.ClientHeight then
+    TextLabel.ScrollBars := ssVertical
+  else
+    TextLabel.ScrollBars := ssNone;   
 end;
 
 //==================================================================================================
 // Exception handler initialization code
 //==================================================================================================
 
+var
+  AppEvents: TApplicationEvents = nil;
+
 procedure InitializeHandler;
 begin
-  JclStackTrackingOptions := JclStackTrackingOptions + [stRawMode];
-  {$IFNDEF HOOK_DLL_EXCEPTIONS}
-  JclStackTrackingOptions := JclStackTrackingOptions + [stStaticModuleList];
-  {$ENDIF HOOK_DLL_EXCEPTIONS}
-  JclDebugThreadList.OnSyncException := TExceptionDialogMail.ExceptionThreadHandler;
-  JclStartExceptionTracking;
-  {$IFDEF HOOK_DLL_EXCEPTIONS}
-  if HookTApplicationHandleException then
-    JclTrackExceptionsFromLibraries;
-  {$ENDIF HOOK_DLL_EXCEPTIONS}
-  Application.OnException := TExceptionDialogMail.ExceptionHandler;
+  if AppEvents = nil then
+  begin
+    AppEvents := TApplicationEvents.Create(nil);
+    AppEvents.OnException := TExceptionDialogMail.ExceptionHandler;
+
+
+
+    JclStackTrackingOptions := JclStackTrackingOptions + [stRawMode];
+    JclStackTrackingOptions := JclStackTrackingOptions + [stStaticModuleList];
+    JclStackTrackingOptions := JclStackTrackingOptions + [stDelayedTrace];
+    JclDebugThreadList.OnSyncException := TExceptionDialogMail.ExceptionThreadHandler;
+    JclStartExceptionTracking;
+    if HookTApplicationHandleException then
+      JclTrackExceptionsFromLibraries;
+  end;
 end;
 
 //--------------------------------------------------------------------------------------------------
 
 procedure UnInitializeHandler;
 begin
-  Application.OnException := nil;
-  JclDebugThreadList.OnSyncException := nil;
-  JclUnhookExceptions;
-  JclStopExceptionTracking;
+  if AppEvents <> nil then
+  begin
+    FreeAndNil(AppEvents);
+    JclDebugThreadList.OnSyncException := nil;
+    JclUnhookExceptions;
+    JclStopExceptionTracking;
+  end;
 end;
 
 //--------------------------------------------------------------------------------------------------

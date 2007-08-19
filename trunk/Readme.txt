@@ -3,13 +3,13 @@ To compile the PythonIDE.dpr, you first need to install the following components
    - Python for Delphi (www.mmm-experts.com)
      In the Definitions.inc file activate the conditional define PREFER_UNICODE
 
-   - JVCL version 3.31 (jvcl.sf.net) and JCL version 1.99 (jcl.sf.net)
+   - JVCL version 3.32 (jvcl.sf.net) and JCL version 1.1 (jcl.sf.net)
 
    - Toolbar2000 version 2.1.8 (www.jrsoftware.org/tb2k.php)
    - TBX version 2.1b (from www.g32.org/tbx)
    - Download from http://club.telepolis.com/silverpointdev and apply the TB2k v2.1.8 - TBX v2.1 patch before installing Toolbar 2000 and TBX
    - Tntware Delphi Unicode Controls 
-   - SpTBXLibe
+   - SpTBXLib
      Note that you can download the patch.exe tool from http://unxutils.sourceforge.net/
      Note also that If you want a painless TB2k+TBX+TNT Unicode+SpTBXLibe installation for Delphi you can download the Multiinstaller from 
      http://club.telepolis.com/silverpointdev/multiinstaller/index.htm and follow the instructions provided in that page.          

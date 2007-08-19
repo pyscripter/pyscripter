@@ -12,9 +12,11 @@ object AboutBox: TAboutBox
   Font.Height = -11
   Font.Name = 'MS Sans Serif'
   Font.Style = []
+  KeyPreview = True
   OldCreateOrder = True
   Position = poScreenCenter
   OnCreate = FormCreate
+  OnKeyPress = FormKeyPress
   PixelsPerInch = 96
   TextHeight = 13
   object Panel2: TPanel
@@ -1493,7 +1495,6 @@ object AboutBox: TAboutBox
           Top = 0
           Width = 348
           Height = 199
-          VertScrollBar.Position = 103
           VertScrollBar.Smooth = True
           VertScrollBar.Style = ssHotTrack
           VertScrollBar.Tracking = True
@@ -1503,7 +1504,7 @@ object AboutBox: TAboutBox
           TabOrder = 0
           object JvLinkLabel: TJvLinkLabel
             Left = 0
-            Top = -103
+            Top = 0
             Width = 327
             Height = 298
             Caption = 
@@ -1559,7 +1560,55 @@ object AboutBox: TAboutBox
             Font.Name = 'Arial'
             Font.Style = []
             ParentFont = False
-            ExplicitTop = -75
+            ExplicitLeft = -1
+            ExplicitTop = -104
+          end
+        end
+      end
+      object TabSheet1: TTabSheet
+        Caption = 'Links'
+        ImageIndex = 2
+        object ScrollBox1: TScrollBox
+          Left = 0
+          Top = 0
+          Width = 348
+          Height = 199
+          VertScrollBar.Smooth = True
+          VertScrollBar.Style = ssHotTrack
+          VertScrollBar.Tracking = True
+          Align = alClient
+          BevelKind = bkSoft
+          BorderStyle = bsNone
+          TabOrder = 0
+          object JvLinkLabel1: TJvLinkLabel
+            Left = 0
+            Top = 0
+            Width = 344
+            Height = 182
+            Caption = 
+              '<b>Links:</b><br><br>'#13#10'-  Official releases of PyScripter are di' +
+              'stributed by mmm-experts (<link>www.mmm-experts.com </link>)<br>' +
+              #13#10'-  Unofficial updates (recommended) are available from the PyS' +
+              'cripter development site at <link>pyscripter.googlepages.com </l' +
+              'ink> )<br>'#13#10'- The Issue Tracker and source code repository are h' +
+              'osted at Google Code (<link>code.google.com/p/pyscripter</link>)' +
+              '<br>'#13#10'- Internet group support is avalable at <link>groups.googl' +
+              'e.com/group/PyScripter</link>)<br>'#13#10'<br>'#13#10'Please submit bug repo' +
+              'rts and questions about PyScripter to pyscripter@gmail.com.'
+            Text.Strings = (
+              
+                '<b>Links:</b><br><br>'#13#10'-  Official releases of PyScripter are di' +
+                'stributed by mmm-experts (<link>www.mmm-experts.com </link>)<br>' +
+                #13#10'-  Unofficial updates (recommended) are available from the PyS' +
+                'cripter development site at <link>pyscripter.googlepages.com </l' +
+                'ink> )<br>'#13#10'- The Issue Tracker and source code repository are h' +
+                'osted at Google Code (<link>code.google.com/p/pyscripter</link>)' +
+                '<br>'#13#10'- Internet group support is avalable at <link>groups.googl' +
+                'e.com/group/PyScripter</link>)<br>'#13#10'<br>'#13#10'Please submit bug repo' +
+                'rts and questions about PyScripter to pyscripter@gmail.com.')
+            HotLinks = True
+            OnLinkClick = JvLinkLabelLinkClick
+            Align = alTop
           end
         end
       end

@@ -120,11 +120,6 @@ inherited ToDoWindow: TToDoWindow
         object TBXItem4: TTBXItem
           Action = actOptionsConfigure
         end
-        object TBXSeparatorItem4: TTBXSeparatorItem
-        end
-        object TBXItem5: TTBXItem
-          Action = actViewStayOnTop
-        end
         object TBXSeparatorItem5: TTBXSeparatorItem
         end
         object TBXItem6: TTBXItem
@@ -156,7 +151,7 @@ inherited ToDoWindow: TToDoWindow
       TabOrder = 1
       TreeOptions.AnimationOptions = [toAnimatedToggle]
       TreeOptions.AutoOptions = [toAutoDropExpand, toAutoScrollOnExpand, toAutoSort, toAutoTristateTracking, toAutoDeleteMovedNodes]
-      TreeOptions.MiscOptions = [toFullRepaintOnResize, toInitOnSave, toReportMode, toToggleOnDblClick, toWheelPanning, toVariableNodeHeight]
+      TreeOptions.MiscOptions = [toFullRepaintOnResize, toInitOnSave, toReportMode, toToggleOnDblClick, toWheelPanning]
       TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowDropmark, toShowHorzGridLines, toShowVertGridLines, toUseBlendedImages, toUseBlendedSelection]
       TreeOptions.SelectionOptions = [toExtendedFocus, toFullRowSelect, toRightClickSelect]
       TreeOptions.StringOptions = [toAutoAcceptEditChange]
@@ -663,14 +658,6 @@ inherited ToDoWindow: TToDoWindow
       ImageIndex = 12
       ShortCut = 16451
       OnExecute = actEditCopyExecute
-    end
-    object actViewStayOnTop: TAction
-      Category = 'View'
-      Caption = 'Stay on Top'
-      Hint = 'Stay on top'
-      ImageIndex = 41
-      OnExecute = actViewStayOnTopExecute
-      OnUpdate = actViewStayOnTopUpdate
     end
   end
   object JvSearchFiles: TJvSearchFiles

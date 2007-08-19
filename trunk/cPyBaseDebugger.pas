@@ -13,7 +13,7 @@ uses
 
 type
   TPythonEngineType = (peInternal, peRemote, peRemoteTk, peRemoteWx);
-  TDebuggerState = (dsInactive, dsRunning, dsPaused, dsRunningNoDebug);
+  TDebuggerState = (dsInactive, dsRunning, dsPaused, dsRunningNoDebug, dsPostMortem);
   TDebuggerCommand = (dcNone, dcRun, dcStepInto, dcStepOver, dcStepOut,
                       dcRunToCursor, dcPause, dcAbort);
 
@@ -149,6 +149,11 @@ type
     function GetFrameGlobals(Frame : TBaseFrameInfo) : TBaseNameSpaceItem; virtual; abstract;
     function GetFrameLocals(Frame : TBaseFrameInfo) : TBaseNameSpaceItem; virtual; abstract;
     function NameSpaceFromExpression(const Expr : string) : TBaseNameSpaceItem; virtual; abstract;
+    procedure MakeFrameActive(Frame : TBaseFrameInfo); virtual; abstract;
+    // post mortem stuff
+    function HaveTraceback : boolean; virtual; abstract;
+    procedure EnterPostMortem; virtual; abstract;
+    procedure ExitPostMortem; virtual; abstract;
   end;
 
   TPythonControl = class(Tobject)

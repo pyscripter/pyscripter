@@ -45,12 +45,8 @@ uses
 type
 {$IFDEF DELPHI6_UP}
   TJvAlphaBlendedForm = class(TForm)
-  private
-    { Private declarations }
   protected
     procedure CreateParams(var Params: TCreateParams); override;
-  public
-    { Public declarations }
   end;
 {$ENDIF DELPHI6_UP}
 
@@ -84,8 +80,8 @@ type
 {$ENDIF DELPHI6_UP}
     procedure DefaultDockImage(Erase: Boolean); virtual;
     procedure DrawDragRect(DoErase: Boolean); virtual;
-    procedure GetBrush_PenSize_DrawRect(
-      var ABrush: TBrush; var PenSize: Integer; var DrawRect: TRect; Erase: Boolean); virtual;
+    procedure GetBrush_PenSize_DrawRect(var ABrush: TBrush; var PenSize: Integer;
+      var DrawRect: TRect; Erase: Boolean); virtual;
     function GetFrameWidth: Integer; virtual;
     procedure SetFrameWidth(const Value: Integer); virtual;
     procedure MouseMsg(var Msg: TMessage); virtual;
@@ -548,9 +544,9 @@ type
 {$IFDEF UNITVERSIONING}
 const
   UnitVersioning: TUnitVersionInfo = (
-    RCSfile: '$URL: https://jvcl.svn.sourceforge.net:443/svnroot/jvcl/trunk/jvcl/run/JvDockSupportControl.pas $';
+    RCSfile: '$URL: https://jvcl.svn.sourceforge.net/svnroot/jvcl/tags/JVCL3_32/run/JvDockSupportControl.pas $';
     Revision: '$Revision: 10836 $';
-    Date: '$Date: 2006-07-23 10:46:20 -0700 (Sun, 23 Jul 2006) $';
+    Date: '$Date: 2006-07-23 19:46:20 +0200 (dim., 23 juil. 2006) $';
     LogPath: 'JVCL\run'
   );
 {$ENDIF UNITVERSIONING}
@@ -1737,7 +1733,7 @@ end;
 
 procedure TJvAlphaBlendedForm.CreateParams(var Params: TCreateParams);
 begin
-  inherited;
+  inherited CreateParams(Params);
   Params.ExStyle := Params.ExStyle or WS_EX_TRANSPARENT;
 end;
 {$ENDIF DELPHI6}

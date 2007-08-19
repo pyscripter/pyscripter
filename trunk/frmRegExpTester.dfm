@@ -244,7 +244,6 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
           TreeOptions.PaintOptions = [toShowButtons, toShowDropmark, toShowHorzGridLines, toShowVertGridLines, toUseBlendedImages, toUseBlendedSelection]
           TreeOptions.StringOptions = [toAutoAcceptEditChange]
           OnGetText = GroupsViewGetText
-          ExplicitTop = 21
           Columns = <
             item
               Alignment = taRightJustify
@@ -310,7 +309,6 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
           AutoURLDetect = False
           PlainText = True
           TabOrder = 1
-          ExplicitHeight = 53
         end
       end
       object TBXDockablePanel1: TTBXDockablePanel
@@ -355,7 +353,6 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
           PlainText = True
           TabOrder = 1
           OnChange = RegExpTextChange
-          ExplicitHeight = 33
         end
       end
       object TBXDockablePanel2: TTBXDockablePanel
@@ -400,7 +397,6 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
           PlainText = True
           TabOrder = 1
           OnChange = RegExpTextChange
-          ExplicitHeight = 54
         end
       end
     end

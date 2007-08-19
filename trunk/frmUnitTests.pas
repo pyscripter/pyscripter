@@ -6,9 +6,8 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, frmIDEDockWin, JvComponentBase, JvDockControlForm, ExtCtrls, ImgList,
   JvExControls, JvComponent, JvLinkLabel, TBXDkPanels, VirtualTrees,
-  JvExExtCtrls, JvNetscapeSplitter, TBXStatusBars, TB2Item, TBXExtItems,
-  TB2Dock, TB2Toolbar, TBX, StdCtrls, JvExStdCtrls, JvRichEdit, mbTBXJvRichEdit,
-  ActnList, TBXThemes;
+  TBXStatusBars, TB2Item, TBXExtItems, TB2Dock, TB2Toolbar, TBX, StdCtrls,
+  JvExStdCtrls, JvRichEdit, mbTBXJvRichEdit, ActnList, TBXThemes, SpTBXControls;
 
 type
   TUnitTestWindowStatus = (utwEmpty, utwLoaded, utwRunning, utwRun);
@@ -38,7 +37,6 @@ type
     ErrorText: TmbTBXJvRichEdit;
     Label2: TLabel;
     ModuleName: TLabel;
-    Splitter: TJvNetscapeSplitter;
     actExpandAll: TAction;
     actCollapseAll: TAction;
     TBXItem10: TTBXItem;
@@ -50,6 +48,7 @@ type
     lblRunTests: TLabel;
     lblFailures: TLabel;
     Bevel1: TBevel;
+    SpTBXSplitter1: TSpTBXSplitter;
     procedure UnitTestsDblClick(Sender: TObject);
     procedure actStopExecute(Sender: TObject);
     procedure actClearAllExecute(Sender: TObject);
@@ -131,10 +130,6 @@ begin
   inherited;
   if Message.WParam = TSC_VIEWCHANGE then begin
     FGPanel.Color := CurrentTheme.GetItemColor(GetItemInfo('inactive'));
-    Splitter.ButtonColor :=
-      CurrentTheme.GetItemColor(GetItemInfo('inactive'));
-    Splitter.ButtonHighlightColor :=
-      CurrentTheme.GetItemColor(GetItemInfo('active'));
   end;
 end;
 

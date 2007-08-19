@@ -455,7 +455,7 @@ begin
             if Assigned(fEditor) then
               with fEditor.SynEdit do begin
                 fBlockBegin := BufferCoord(1, CaretXY.Line);
-                fBlockEnd := BufferCoord(Length(LineText), CaretXY.Line);
+                fBlockEnd := BufferCoord(Length(LineText)+1, CaretXY.Line);
               end
             else
               fTool.ProcessOutput := poNone;

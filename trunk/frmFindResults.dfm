@@ -125,6 +125,7 @@ inherited FindResultsWindow: TFindResultsWindow
           Left = 0
           Top = 0
           Caption = 'ToolBar'
+          DockPos = 0
           FullSize = True
           Images = CommandsDataModule.Images
           TabOrder = 0
@@ -175,11 +176,6 @@ inherited FindResultsWindow: TFindResultsWindow
           end
           object TBXItem13: TTBXItem
             Action = actViewOptions
-          end
-          object TBXSeparatorItem7: TTBXSeparatorItem
-          end
-          object TBXItem12: TTBXItem
-            Action = actViewStayOnTop
           end
           object TBXSeparatorItem8: TTBXSeparatorItem
           end
@@ -255,13 +251,6 @@ inherited FindResultsWindow: TFindResultsWindow
       ImageIndex = 8
       ShortCut = 16464
       OnExecute = actFilePrintExecute
-    end
-    object actViewStayOnTop: TAction
-      Category = 'View'
-      Caption = 'Stay on Top'
-      Hint = 'Stay on top'
-      ImageIndex = 41
-      OnExecute = actViewStayOnTopExecute
     end
     object actListGotoSelected: TAction
       Category = 'List'
@@ -394,7 +383,9 @@ inherited FindResultsWindow: TFindResultsWindow
     object N4: TTBXSeparatorItem
     end
     object mitViewStayOnTop1: TTBXItem
-      Action = actViewStayOnTop
+      Caption = 'Stay on Top'
+      Hint = 'Stay on top'
+      ImageIndex = 41
     end
     object TBXSeparatorItem9: TTBXSeparatorItem
     end

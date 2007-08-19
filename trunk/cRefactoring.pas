@@ -480,6 +480,7 @@ var
   Editor : IEditor;
   FoundSource : boolean;
   SuppressOutput : IInterface;
+  InSysModules : Boolean;
 begin
   DottedModuleName := ModuleName;
   fSpecialPackages.CommaText := CommandsDataModule.PyIDEOptions.SpecialPackages;
@@ -487,7 +488,10 @@ begin
   if SpecialPackagesIndex >= 0 then
     try
       SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
-      Import(ModuleName);
+      // only import if it is noat available
+      if SysModule.modules.has_key(DottedModuleName) then
+      else
+        Import(ModuleName);
     except
       SpecialPackagesIndex := -1;
     end;
@@ -525,18 +529,21 @@ begin
       Result := ParsedModule;
     end else
       Result := fParsedModules.Objects[Index] as TParsedModule;
-  end else if SysModule.modules.has_key(DottedModuleName) then begin
-    // If the source file does not exist look at sys.modules to see whether it
-    // is available in the interpreter.  If yes then create a proxy module
-    Index := fProxyModules.IndexOf(DottedModuleName);
-    if Index < 0 then begin
-      Index := fProxyModules.AddObject(DottedModuleName,
-        TModuleProxy.CreateFromModule(SysModule.modules.GetItem(DottedModuleName)));
-      Result := fProxyModules.Objects[Index] as TParsedModule;
+  end else begin
+    InSysModules := SysModule.modules.has_key(DottedModuleName);
+    if InSysModules and VarIsPythonModule(SysModule.modules.GetItem(DottedModuleName)) then begin
+      // If the source file does not exist look at sys.modules to see whether it
+      // is available in the interpreter.  If yes then create a proxy module
+      Index := fProxyModules.IndexOf(DottedModuleName);
+      if Index < 0 then begin
+        Index := fProxyModules.AddObject(DottedModuleName,
+          TModuleProxy.CreateFromModule(SysModule.modules.GetItem(DottedModuleName)));
+        Result := fProxyModules.Objects[Index] as TParsedModule;
+      end else
+        Result := fProxyModules.Objects[Index] as TParsedModule;
     end else
-      Result := fProxyModules.Objects[Index] as TParsedModule;
-  end else
-    Result := nil;  // no source and not in sys.modules
+      Result := nil;  // no source and not in sys.modules
+  end;
 end;
 
 function TPyScripterRefactor.GetSource(const FName: string;
@@ -1065,10 +1072,13 @@ begin
 
   if not ModuleIsImported then Exit; // no need to process further
 
+  // if Module is TModuleProxy then MaskedSource will be '' and Cadeblock.StartLine will be 0
+  // so no searching will take place.
+
   SL := TStringList.Create;
   SL.Text := Module.MaskedSource;
   try
-    for i := CodeBlock.StartLine-1 to Min(SL.Count, CodeBlock.EndLine) - 1 do begin
+    for i := Max(1 ,CodeBlock.StartLine)-1 to Min(SL.Count, CodeBlock.EndLine) - 1 do begin
       Line := SL[i];
       EndPos := 0;
       Repeat
@@ -1127,20 +1137,23 @@ begin
   ItemKeys := ItemsDict.keys();
   ItemKeys.sort();
   for i := 0 to len(ItemKeys) - 1 do begin
-    S := ItemKeys.GetItem(i);
-    ItemValue := ItemsDict.GetItem(S);
-    if InspectModule.isroutine(ItemValue) then
-      AddChild(TFunctionProxy.CreateFromFunction(S, ItemValue))
-    else if InspectModule.isclass(ItemValue) then
-      AddChild(TClassProxy.CreateFromClass(S, ItemValue))
-//   the following would risk infinite recursion and fails in e.g. os.path
-//   path is a variable pointing to the module ntpath
-//    else if InspectModule.ismodule(ItemValue) then
-//      AddChild(TModuleProxy.CreateFromModule(ItemValue))
-    else begin
-      VariableProxy := TVariableProxy.CreateFromPyObject(S, ItemValue);
-      VariableProxy.Parent := self;
-      Globals.Add(VariableProxy);
+    try
+      S := ItemKeys.GetItem(i);
+      ItemValue := ItemsDict.GetItem(S);
+      if InspectModule.isroutine(ItemValue) then
+        AddChild(TFunctionProxy.CreateFromFunction(S, ItemValue))
+      else if InspectModule.isclass(ItemValue) then
+        AddChild(TClassProxy.CreateFromClass(S, ItemValue))
+  //   the following would risk infinite recursion and fails in e.g. os.path
+  //   path is a variable pointing to the module ntpath
+  //    else if InspectModule.ismodule(ItemValue) then
+  //      AddChild(TModuleProxy.CreateFromModule(ItemValue))
+      else begin
+        VariableProxy := TVariableProxy.CreateFromPyObject(S, ItemValue);
+        VariableProxy.Parent := self;
+        Globals.Add(VariableProxy);
+      end;
+    except
     end;
   end;
   fIsExpanded := True;
@@ -1214,16 +1227,19 @@ begin
   ItemKeys := ItemsDict.keys();
   ItemKeys.sort();
   for i := 0 to len(ItemKeys) - 1 do begin
-    S := ItemKeys.GetItem(i);
-    ItemValue := ItemsDict.GetItem(S);
-    if InspectModule.isroutine(ItemValue) then
-      AddChild(TFunctionProxy.CreateFromFunction(S, ItemValue))
-    else if InspectModule.isclass(ItemValue) then
-      AddChild(TClassProxy.CreateFromClass(S, ItemValue))
-    else begin
-      VariableProxy := TVariableProxy.CreateFromPyObject(S, ItemValue);
-      VariableProxy.Parent := self;
-      Attributes.Add(VariableProxy);
+    try
+      S := ItemKeys.GetItem(i);
+      ItemValue := ItemsDict.GetItem(S);
+      if InspectModule.isroutine(ItemValue) then
+        AddChild(TFunctionProxy.CreateFromFunction(S, ItemValue))
+      else if InspectModule.isclass(ItemValue) then
+        AddChild(TClassProxy.CreateFromClass(S, ItemValue))
+      else begin
+        VariableProxy := TVariableProxy.CreateFromPyObject(S, ItemValue);
+        VariableProxy.Parent := self;
+        Attributes.Add(VariableProxy);
+      end;
+    except
     end;
   end;
   // setup base classes
@@ -1312,16 +1328,19 @@ begin
   ItemKeys := ItemsDict.keys();
   ItemKeys.sort();
   for i := 0 to len(ItemKeys) - 1 do begin
-    S := ItemKeys.GetItem(i);
-    ItemValue := ItemsDict.GetItem(S);
-    if InspectModule.isroutine(ItemValue) then
-      AddChild(TFunctionProxy.CreateFromFunction(S, ItemValue))
-    else if InspectModule.isclass(ItemValue) then
-      AddChild(TClassProxy.CreateFromClass(S, ItemValue))
-    else begin
-      VariableProxy := TVariableProxy.CreateFromPyObject(S, ItemValue);
-      VariableProxy.Parent := self;
-      Locals.Add(VariableProxy);
+    try
+      S := ItemKeys.GetItem(i);
+      ItemValue := ItemsDict.GetItem(S);
+      if InspectModule.isroutine(ItemValue) then
+        AddChild(TFunctionProxy.CreateFromFunction(S, ItemValue))
+      else if InspectModule.isclass(ItemValue) then
+        AddChild(TClassProxy.CreateFromClass(S, ItemValue))
+      else begin
+        VariableProxy := TVariableProxy.CreateFromPyObject(S, ItemValue);
+        VariableProxy.Parent := self;
+        Locals.Add(VariableProxy);
+      end;
+    except
     end;
   end;
   fIsExpanded := True;
@@ -1387,16 +1406,19 @@ begin
   ItemKeys := ItemsDict.keys();
   ItemKeys.sort();
   for i := 0 to len(ItemKeys) - 1 do begin
-    S := ItemKeys.GetItem(i);
-    ItemValue := ItemsDict.GetItem(S);
-    if InspectModule.isroutine(ItemValue) then
-      AddChild(TFunctionProxy.CreateFromFunction(S, ItemValue))
-    else if InspectModule.isclass(ItemValue) then
-      AddChild(TClassProxy.CreateFromClass(S, ItemValue))
-    else if InspectModule.ismodule(ItemValue) then
-      AddChild(TModuleProxy.CreateFromModule(ItemValue))
-    else begin
-      AddChild(TVariableProxy.CreateFromPyObject(S, ItemValue))
+    try
+      S := ItemKeys.GetItem(i);
+      ItemValue := ItemsDict.GetItem(S);
+      if InspectModule.isroutine(ItemValue) then
+        AddChild(TFunctionProxy.CreateFromFunction(S, ItemValue))
+      else if InspectModule.isclass(ItemValue) then
+        AddChild(TClassProxy.CreateFromClass(S, ItemValue))
+      else if InspectModule.ismodule(ItemValue) then
+        AddChild(TModuleProxy.CreateFromModule(ItemValue))
+      else begin
+        AddChild(TVariableProxy.CreateFromPyObject(S, ItemValue))
+      end;
+    except
     end;
   end;
   fIsExpanded := True;

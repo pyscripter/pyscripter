@@ -21,7 +21,7 @@ located at http://jvcl.sourceforge.net
 
 Known Issues:
 -----------------------------------------------------------------------------}
-// $Id: JvAppInst.pas,v 1.26 2005/03/18 19:04:10 ahuser Exp $
+// $Id: JvAppInst.pas 10914 2006-08-24 11:48:26Z obones $
 
 unit JvAppInst;
 
@@ -106,9 +106,9 @@ type
 {$IFDEF UNITVERSIONING}
 const
   UnitVersioning: TUnitVersionInfo = (
-    RCSfile: '$RCSfile: JvAppInst.pas,v $';
-    Revision: '$Revision: 1.26 $';
-    Date: '$Date: 2005/03/18 19:04:10 $';
+    RCSfile: '$URL: https://jvcl.svn.sourceforge.net/svnroot/jvcl/tags/JVCL3_32/run/JvAppInst.pas $';
+    Revision: '$Revision: 10914 $';
+    Date: '$Date: 2006-08-24 13:48:26 +0200 (jeu., 24 août 2006) $';
     LogPath: 'JVCL\run'
   );
 {$ENDIF UNITVERSIONING}
@@ -185,7 +185,9 @@ begin
           if SendCmdLine then
             AppInstances.SendCmdLineParams(sAppInstancesWindowClassName, Handle);
 
-          AppInstances.Free;  // Calls protected method RemoveInstance
+          // As ExitProcess will prevent ANY finalization to occur, we free the
+          // AppInstances object so that it can cleanup the process information  
+          AppInstances.Free;
           TerminateProcess(GetCurrentProcess, 0);
         end;
       end;

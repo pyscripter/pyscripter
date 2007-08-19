@@ -67,7 +67,7 @@ inherited CodeExplorerWindow: TCodeExplorerWindow
         IncrementalSearch = isAll
         PopupMenu = TreePopupMenu
         TabOrder = 0
-        TreeOptions.MiscOptions = [toFullRepaintOnResize, toInitOnSave, toWheelPanning, toVariableNodeHeight]
+        TreeOptions.MiscOptions = [toFullRepaintOnResize, toInitOnSave, toWheelPanning]
         TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowDropmark, toShowRoot, toShowTreeLines, toShowVertGridLines, toThemeAware, toUseBlendedImages, toUseBlendedSelection]
         TreeOptions.StringOptions = [toAutoAcceptEditChange]
         OnDblClick = ExplorerTreeDblClick
@@ -76,6 +76,7 @@ inherited CodeExplorerWindow: TCodeExplorerWindow
         OnGetHint = ExplorerTreeGetHint
         OnInitChildren = ExplorerTreeInitChildren
         OnInitNode = ExplorerTreeInitNode
+        OnKeyPress = ExplorerTreeKeyPress
         Columns = <>
       end
     end

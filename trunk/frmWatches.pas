@@ -100,7 +100,7 @@ begin
   for i := 0 to fWatchesList.Count - 1 do
     TWatchInfo(fWatchesList[i]).Value := SNotAvailable;
   // Exit if Debugger is not in Stopped state
-  if DebuggerState = dsPaused then
+  if DebuggerState in [dsPaused, dsPostMortem] then
     for i := 0 to fWatchesList.Count - 1 do begin
       PyControl.ActiveDebugger.Evaluate(TWatchInfo(fWatchesList[i]).Watch,
         S, TWatchInfo(fWatchesList[i]).Value);

@@ -70,8 +70,6 @@ type
       Args: PPyObject; var Result: PPyObject);
     procedure Get8087CWExecute(Sender: TObject; PSelf, Args: PPyObject;
       var Result: PPyObject);
-    procedure SynEditReplaceText(Sender: TObject; const ASearch,
-      AReplace: WideString; Line, Column: Integer; var Action: TSynReplaceAction);
     procedure SynEditPaintTransient(Sender: TObject; Canvas: TCanvas;
       TransientType: TTransientType);
     procedure FormCreate(Sender: TObject);
@@ -109,6 +107,9 @@ type
     procedure awakeGUIExecute(Sender: TObject; PSelf, Args: PPyObject;
       var Result: PPyObject);
     procedure actClearContentsExecute(Sender: TObject);
+    procedure SynEditMouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure SynCodeCompletionClose(Sender: TObject);
   private
     { Private declarations }
     fCommandHistory : TWideStringList;
@@ -165,7 +166,8 @@ Uses
   SynEditTypes, Math, frmPyIDEMain, dmCommands, VarPyth, Registry,
   frmMessages, uCommonFunctions, JclStrings, frmVariables, StringResources,
   dlgConfirmReplace, frmUnitTests, JvDockGlobals, SynRegExpr, 
-  cPyDebugger, cPyRemoteDebugger, JvJVCLUtils, frmCallStack, uCmdLine;
+  cPyDebugger, cPyRemoteDebugger, JvJVCLUtils, frmCallStack, uCmdLine,
+  JclFileUtils;
 
 {$R *.dfm}
 
@@ -408,6 +410,7 @@ begin
   inherited;
   SynEdit.ControlStyle := SynEdit.ControlStyle + [csOpaque];
 
+  SynEdit.OnReplaceText := CommandsDataModule.SynEditReplaceText;
   SynEdit.Highlighter := TSynPythonInterpreterSyn.Create(Self);
   SynEdit.Highlighter.Assign(CommandsDataModule.SynPythonSyn);
 
@@ -560,6 +563,8 @@ Var
   NewCommand : TSynEditorCommand;
   WChar : WideChar;
 begin
+  if (Command <> ecLostFocus) and (Command <> ecGotFocus) then
+    EditorSearchOptions.InitSearch;
   case Command of
     ecLineBreak :
       begin
@@ -605,7 +610,7 @@ begin
               dsInactive :
                 NeedIndent :=
                   PyControl.ActiveInterpreter.RunSource(EncodedSource, '<interactive input>');
-              dsPaused :
+              dsPaused, dsPostMortem :
                 NeedIndent :=
                   PyControl.ActiveDebugger.RunSource(EncodedSource, '<interactive input>');
               else //dsRunning, dsRunningNoDebug
@@ -681,7 +686,9 @@ begin
       begin
         LineN := SynEdit.CaretY - 1;  // Caret is 1 based
         GetBlockBoundary(LineN, StartLineN, EndLineN, IsCode);
-        if IsCode and (EndLineN = SynEdit.Lines.Count - 1) then begin
+        if IsCode and (EndLineN = SynEdit.Lines.Count - 1) and
+          (SynEdit.CaretX = Length(SynEdit.Lines[SynEdit.Lines.Count - 1])+1) then
+        begin
           if Command = ecUp then
             NewCommand := ecRecallCommandPrev
           else
@@ -761,11 +768,26 @@ begin
       FileName := RegExpr.Match[1];
       //FileName := GetLongFileName(ExpandFileName(RegExpr.Match[1]));
       PyIDEMainForm.ShowFilePosition(FileName, ErrLineNo, 1);
+    end else begin
+      RegExpr.Expression := SWarningFilePosExpr;
+      if RegExpr.Exec(Synedit.LineText) then begin
+        ErrLineNo := StrToIntDef(RegExpr.Match[3], 0);
+        FileName := RegExpr.Match[1];
+        PyIDEMainForm.ShowFilePosition(FileName, ErrLineNo, 1);
+      end;
     end;
   finally
     RegExpr.Free;
   end;
 
+end;
+
+procedure TPythonIIForm.SynEditMouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+  EditorSearchOptions.InitSearch;
+  if SynParamCompletion.Form.Visible then
+    SynParamCompletion.CancelCompletion;
 end;
 
 procedure TPythonIIForm.SynEditProcessUserCommand(Sender: TObject;
@@ -907,6 +929,12 @@ begin
   end;
 end;
 
+procedure TPythonIIForm.SynCodeCompletionClose(Sender: TObject);
+begin
+  CommandsDataModule.PyIDEOptions.CodeCompletionListSize :=
+    SynCodeCompletion.NbLinesInWindow;
+end;
+
 procedure TPythonIIForm.SynCodeCompletionExecute(Kind: SynCompletionType;
   Sender: TObject; var CurrentInput: WideString; var x, y: Integer;
   var CanExecute: Boolean);
@@ -920,7 +948,8 @@ var locline, lookup: String;
     DisplayText, InsertText: string;
     NameSpaceDict, NameSpaceItem : TBaseNameSpaceItem;
 begin
-  if PyControl.IsRunning then
+  if PyControl.IsRunning or not CommandsDataModule.PyIDEOptions.InterpreterCodeCompletion
+  then
     // No code completion while Python is running
     Exit;
   with TSynCompletionProposal(Sender).Editor do
@@ -986,6 +1015,8 @@ begin
     TSynCompletionProposal(Sender).Form.CurrentIndex := TmpLocation;
     TSynCompletionProposal(Sender).ItemList.Text := DisplayText;
     TSynCompletionProposal(Sender).InsertList.Text := InsertText;
+    TSynCompletionProposal(Sender).NbLinesInWindow :=
+      CommandsDataModule.PyIDEOptions.CodeCompletionListSize;
   end else begin
     TSynCompletionProposal(Sender).ItemList.Clear;
     TSynCompletionProposal(Sender).InsertList.Clear;
@@ -1003,7 +1034,9 @@ var locline, lookup: String;
     DisplayText, DocString : string;
     p : TPoint;
 begin
-  if PyControl.IsRunning then Exit;  // just in case
+  if PyControl.IsRunning or not CommandsDataModule.PyIDEOptions.InterpreterCodeCompletion
+  then
+    Exit;
   with TSynCompletionProposal(Sender).Editor do
   begin
     locLine := LineText;
@@ -1275,9 +1308,7 @@ end;
 
 procedure TPythonIIForm.InterpreterPopUpPopup(Sender: TObject);
 begin
-  actCleanUpNameSpace.Checked := CommandsDataModule.PyIDEOptions.CleanupMainDict;
-  actCleanUpSysModules.Checked := CommandsDataModule.PyIDEOptions.CleanupSysModules;
-  if CommandsDataModule.PyIDEOptions.PythonEngineType in [peRemoteTk, peRemoteWx] then begin
+  if CommandsDataModule.PyIDEOptions.PythonEngineType <> peInternal then begin
     // CleanupNamespace and CleanUpSysModules are set to false by these engines and should stay so
     actCleanUpNameSpace.Enabled := False;
     actCleanUpSysModules.Enabled := False;
@@ -1285,6 +1316,10 @@ begin
     actCleanUpNameSpace.Enabled := True;
     actCleanUpSysModules.Enabled := True;
   end;
+  actCleanUpNameSpace.Checked :=
+    actCleanUpNameSpace.Enabled and CommandsDataModule.PyIDEOptions.CleanupMainDict;
+  actCleanUpSysModules.Checked :=
+    actCleanUpSysModules.Enabled and CommandsDataModule.PyIDEOptions.CleanupSysModules;
 end;
 
 procedure TPythonIIForm.WMAPPENDTEXT(var Message: TMessage);
@@ -1311,7 +1346,7 @@ end;
 function TPythonIIForm.CanFindNext: boolean;
 begin
   Result := not IsEmpty and
-    (CommandsDataModule.EditorSearchOptions.SearchText <> '');
+    (EditorSearchOptions.SearchText <> '');
 end;
 
 function TPythonIIForm.CanReplace: boolean;
@@ -1390,6 +1425,7 @@ var
   versionIdx : Integer;
   expectedVersion : string;
   expectedVersionIdx : Integer;
+  UseDebugVersion : Boolean;
 begin
   // first find an optional parameter specifying the expected Python version in the form of -PYTHONXY
   expectedVersion := '';
@@ -1410,17 +1446,14 @@ begin
 //      Break;
 //    end;
 //  end;
-  try
-    if CmdLineReader.readFlag('PYTHON23') then
-      expectedVersion := '2.3'
-    else if CmdLineReader.readFlag('PYTHON24') then
-      expectedVersion := '2.4'
-    else if CmdLineReader.readFlag('PYTHON25') then
-      expectedVersion := '2.5';
-    PythonEngine.DllPath := CmdLineReader.readString('PYTHONDLLPATH');
-  except
-    on ECommandLineParseException do;
-  end;
+  if CmdLineReader.readFlag('PYTHON23') then
+    expectedVersion := '2.3'
+  else if CmdLineReader.readFlag('PYTHON24') then
+    expectedVersion := '2.4'
+  else if CmdLineReader.readFlag('PYTHON25') then
+    expectedVersion := '2.5';
+  PythonEngine.DllPath := CmdLineReader.readString('PYTHONDLLPATH');
+  UseDebugVersion := CmdLineReader.readFlag('DEBUG');
 
   if expectedVersion <> '' then begin
     idx := IndexOfKnownVersion(expectedVersion);
@@ -1462,6 +1495,8 @@ begin
   for i := versionIdx downto COMPILED_FOR_PYTHON_VERSION_INDEX do
   begin
     PythonEngine.DllName := PYTHON_KNOWN_VERSIONS[i].DllName;
+    If UseDebugVersion then
+      PythonEngine.DllName := PathRemoveExtension(PythonEngine.DllName) + '_d.dll';
     PythonEngine.APIVersion := PYTHON_KNOWN_VERSIONS[i].APIVersion;
     PythonEngine.RegVersion := PYTHON_KNOWN_VERSIONS[i].RegVersion;
     if i = COMPILED_FOR_PYTHON_VERSION_INDEX then
@@ -1470,7 +1505,11 @@ begin
       PythonEngine.FatalMsgDlg := True;
       PythonEngine.FatalAbort := True;
     end;
-    PythonEngine.LoadDll;
+    try
+      PythonEngine.LoadDll;
+    except on E: EPyImportError do
+      MessageDlg(SPythonInitError, mtError, [mbOK], 0);
+    end;
     if PythonEngine.IsHandleValid then
       // we found a valid version
       Break;
@@ -1498,36 +1537,7 @@ begin
 end;
 
 
-procedure TPythonIIForm.SynEditReplaceText(Sender: TObject; const ASearch,
-  AReplace: WideString; Line, Column: Integer; var Action: TSynReplaceAction);
-var
-  APos: TPoint;
-  EditRect: TRect;
-begin
-  if ASearch = AReplace then
-    Action := raSkip
-  else begin
-    APos := SynEdit.ClientToScreen(
-      SynEdit.RowColumnToPixels(
-      SynEdit.BufferToDisplayPos(
-      BufferCoord(Column, Line) ) ) );
-    EditRect := ClientRect;
-    EditRect.TopLeft := ClientToScreen(EditRect.TopLeft);
-    EditRect.BottomRight := ClientToScreen(EditRect.BottomRight);
-
-    if ConfirmReplaceDialog = nil then
-      ConfirmReplaceDialog := TConfirmReplaceDialog.Create(Application);
-    ConfirmReplaceDialog.PrepareShow(EditRect, APos.X, APos.Y,
-      APos.Y + SynEdit.LineHeight, ASearch);
-    case ConfirmReplaceDialog.ShowModal of
-      mrYes: Action := raReplace;
-      mrYesToAll: Action := raReplaceAll;
-      mrNo: Action := raSkip;
-      else Action := raCancel;
-    end;
-  end;
-end;
-
 end.
+
 
 

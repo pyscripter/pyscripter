@@ -658,6 +658,7 @@ begin
   FGrepMiddle := True;
   FGrepRegEx := False;
   FindResultsWindow := TFindResultsWindow.Create(PyIDEMainForm);
+  FindResultsWindow.PopupParent := PyIDEMainForm;
   FindResultsWindow.FindInFilesExpert := Self;
 
   MaskList.Add('*.py');
