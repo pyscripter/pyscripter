@@ -107,28 +107,30 @@ inherited BreakPointsWindow: TBreakPointsWindow
     Left = 12
     Top = 18
   end
-  object TBXPopupMenu: TTBXPopupMenu
+  object TBXPopupMenu: TSpTBXPopupMenu
     Images = CommandsDataModule.Images
     OnPopup = TBXPopupMenuPopup
     Left = 13
     Top = 50
-    object mnSetCondition: TTBXItem
+    object mnSetCondition: TSpTBXItem
       Caption = 'Set &Condition...'
       OnClick = mnSetConditionClick
     end
-    object TBXSeparatorItem1: TTBXSeparatorItem
+    object TBXSeparatorItem1: TSpTBXSeparatorItem
     end
-    object mnClear: TTBXItem
+    object mnClear: TSpTBXItem
       Caption = 'C&lear'
       Hint = 'Clear|Clear selected breakpoint'
       OnClick = mnClearClick
     end
-    object Breakpoints1: TTBXItem
+    object Breakpoints1: TSpTBXItem
+      Caption = '&Clear All Breakpoints'
+      Hint = 'Clear all breakpoints'
       Action = PyIDEMainForm.actClearAllBreakpoints
     end
-    object TBXSeparatorItem2: TTBXSeparatorItem
+    object TBXSeparatorItem2: TSpTBXSeparatorItem
     end
-    object mnCopyToClipboard: TTBXItem
+    object mnCopyToClipboard: TSpTBXItem
       Caption = 'Co&py to Clipboard'
       Hint = 'Copy to clipboard'
       ImageIndex = 12

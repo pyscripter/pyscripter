@@ -11,7 +11,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, Buttons, ExtCtrls, CheckLst, Menus, TBXDkPanels;
+  Dialogs, StdCtrls, Buttons, ExtCtrls, CheckLst, Menus, TBXDkPanels, SpTBXControls;
 
 type
   TPickListDialog = class(TForm)
@@ -22,8 +22,8 @@ type
     PickListPopUp: TPopupMenu;
     mnSelectAll: TMenuItem;
     mnDeselectAll: TMenuItem;
-    TBXButton1: TTBXButton;
-    TBXButton2: TTBXButton;
+    TBXButton1: TSpTBXButton;
+    TBXButton2: TSpTBXButton;
     Bevel1: TBevel;
     imgIcon: TImage;
     lbMessage: TLabel;

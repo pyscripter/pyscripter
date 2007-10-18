@@ -15,7 +15,7 @@ uses
   Dialogs, ComCtrls, ExtCtrls, JvComponent, JvDockControlForm, VirtualTrees,
   MPShellUtilities, VirtualExplorerTree, Menus, frmIDEDockWin,
   ActnList, VirtualShellHistory,  TBX, TB2Item, TB2Dock,
-  TB2Toolbar, JvComponentBase;
+  TB2Toolbar, JvComponentBase, VirtualShellNotifier, SpTBXItem;
                                                       
 const
   WM_EXPLOREHERE = WM_USER + 1000;
@@ -30,59 +30,59 @@ type
     actGoUp: TAction;
     actRefresh: TAction;
     actEnableFilter: TAction;
-    ExplorerDock: TTBXDock;
-    ExplorerToolbar: TTBXToolbar;
-    TBXItem3: TTBXItem;
-    TBXItem5: TTBXItem;
-    TBXSubmenuItem1: TTBXSubmenuItem;
-    TBXItem6: TTBXItem;
-    TBXItemBack: TTBXSubmenuItem;
-    TBXItemForward: TTBXSubmenuItem;
-    TBXSeparatorItem1: TTBXSeparatorItem;
-    ExplorerPopUp: TTBXPopupMenu;
-    Back1: TTBXItem;
-    About1: TTBXItem;
-    Up1: TTBXItem;
-    N1: TTBXSeparatorItem;
-    BrowsePath: TTBXSubmenuItem;
-    Desktop: TTBXItem;
-    MyComputer: TTBXItem;
-    MyDocuments: TTBXItem;
-    CurrentDirectory: TTBXItem;
-    PythonPath1: TTBXItem;
-    N2: TTBXSeparatorItem;
-    EnableFilter: TTBXItem;
-    ChangeFilter: TTBXItem;
-    N3: TTBXSeparatorItem;
-    Refresh1: TTBXItem;
-    TBXPythonPath: TTBXSubmenuItem;
+    ExplorerDock: TSpTBXDock;
+    ExplorerToolbar: TSpTBXToolbar;
+    TBXItem3: TSpTBXItem;
+    TBXItem5: TSpTBXItem;
+    TBXSubmenuItem1: TSpTBXSubmenuItem;
+    TBXItem6: TSpTBXItem;
+    TBXItemBack: TSpTBXSubmenuItem;
+    TBXItemForward: TSpTBXSubmenuItem;
+    TBXSeparatorItem1: TSpTBXSeparatorItem;
+    ExplorerPopUp: TSpTBXPopupMenu;
+    Back1: TSpTBXItem;
+    About1: TSpTBXItem;
+    Up1: TSpTBXItem;
+    N1: TSpTBXSeparatorItem;
+    BrowsePath: TSpTBXSubmenuItem;
+    Desktop: TSpTBXItem;
+    MyComputer: TSpTBXItem;
+    MyDocuments: TSpTBXItem;
+    CurrentDirectory: TSpTBXItem;
+    PythonPath1: TSpTBXItem;
+    N2: TSpTBXSeparatorItem;
+    EnableFilter: TSpTBXItem;
+    ChangeFilter: TSpTBXItem;
+    N3: TSpTBXSeparatorItem;
+    Refresh1: TSpTBXItem;
+    TBXPythonPath: TSpTBXSubmenuItem;
     ShellContextPopUp: TPopupMenu;
-    TBSubmenuItem1: TTBXSubmenuItem;
+    TBSubmenuItem1: TSpTBXSubmenuItem;
     ExploreHere: TMenuItem;
     actSearchPath: TAction;
     SearchPath1: TMenuItem;
-    TBXSeparatorItem2: TTBXSeparatorItem;
-    TBXItem1: TTBXItem;
-    ActiveScript: TTBXItem;
+    TBXSeparatorItem2: TSpTBXSeparatorItem;
+    TBXItem1: TSpTBXItem;
+    ActiveScript: TSpTBXItem;
     actExploreHere: TAction;
     actManageFavourites: TAction;
     actAddToFavourites: TAction;
-    TBXSeparatorItem3: TTBXSeparatorItem;
-    mnFavourites: TTBXSubmenuItem;
-    TBXItem2: TTBXItem;
-    TBXItem7: TTBXItem;
-    TBXSeparatorItem5: TTBXSeparatorItem;
+    TBXSeparatorItem3: TSpTBXSeparatorItem;
+    mnFavourites: TSpTBXSubmenuItem;
+    TBXItem2: TSpTBXItem;
+    TBXItem7: TSpTBXItem;
+    TBXSeparatorItem5: TSpTBXSeparatorItem;
     N4: TMenuItem;
     AddToFavourites1: TMenuItem;
-    TBXSeparatorItem6: TTBXSeparatorItem;
-    TBXSubmenuItem2: TTBXSubmenuItem;
-    TBXSubmenuItem3: TTBXSubmenuItem;
+    TBXSeparatorItem6: TSpTBXSeparatorItem;
+    TBXSubmenuItem2: TSpTBXSubmenuItem;
+    TBXSubmenuItem3: TSpTBXSubmenuItem;
     actNewFolder: TAction;
-    TBXSeparatorItem4: TTBXSeparatorItem;
-    TBXItem8: TTBXItem;
+    TBXSeparatorItem4: TSpTBXSeparatorItem;
+    TBXItem8: TSpTBXItem;
     N5: TMenuItem;
     CreateNewFolder1: TMenuItem;
-    TBXItem10: TTBXItem;
+    TBXItem10: TSpTBXItem;
     procedure VirtualShellHistoryChange(Sender: TBaseVirtualShellPersistent;
       ItemIndex: Integer; ChangeType: TVSHChangeType);
     procedure FileExplorerTreeKeyPress(Sender: TObject; var Key: Char);
@@ -137,8 +137,9 @@ var
 implementation
 
 uses frmPyIDEMain, uEditAppIntfs, dmCommands, VarPyth, SHlObj,
-  cFindInFiles, frmFindResults, JvDockGlobals, MpCommonUtilities,
-  MPCommonObjects, dlgDirectoryList, StringResources, cPyBaseDebugger;
+  frmFindResults, JvDockGlobals, MpCommonUtilities,
+  MPCommonObjects, dlgDirectoryList, StringResources, cPyBaseDebugger,
+  cFindInFiles;
 
 {$R *.dfm}
 
@@ -238,15 +239,15 @@ procedure TFileExplorerWindow.actSearchPathExecute(Sender: TObject);
 Var
   NameSpaceArray : TNameSpaceArray;
 begin
+  if not Assigned(FindResultsWindow) then Exit;
   NameSpaceArray := FileExplorerTree.SelectedToNamespaceArray;
   if (Length(NameSpaceArray) > 0) and
     NameSpaceArray[Low(NameSpaceArray)].Folder
   then begin
     AddMRUString(NameSpaceArray[Low(NameSpaceArray)].NameForParsing,
-       FindInFilesExpert.DirList, True);
-    FindInFilesExpert.GrepSearch := 2;  //Directory
-    if Assigned(FindResultsWindow) then
-      FindResultsWindow.Execute(False)
+       FindResultsWindow.FindInFilesExpert.DirList, True);
+    FindResultsWindow.FindInFilesExpert.GrepSearch := 2;  //Directory
+    FindResultsWindow.Execute(False)
   end;
 end;
 
@@ -274,17 +275,17 @@ procedure TFileExplorerWindow.mnFavouritesPopup(Sender: TTBCustomItem;
   FromLink: Boolean);
 var
   i : integer;
-  Item : TTBXItem;
+  Item : TSpTBXItem;
 begin
   while mnFavourites.Count > 3 do
     mnFavourites.Items[0].Free;
   if fFavourites.Count = 0 then begin
-    Item := TTBXItem.Create(mnFavourites);
+    Item := TSpTBXItem.Create(mnFavourites);
     Item.Caption := SEmptyList;
     mnFavourites.Insert(0, Item);
   end else
     for i := 0 to fFavourites.Count - 1  do begin
-      Item := TTBXItem.Create(mnFavourites);
+      Item := TSpTBXItem.Create(mnFavourites);
       Item.Caption := fFavourites[i];
       Item.OnClick := PathItemClick;
       mnFavourites.Insert(0, Item);
@@ -421,20 +422,20 @@ end;
 procedure TFileExplorerWindow.TBXItemBackPopup(Sender: TTBCustomItem;
   FromLink: Boolean);
 begin
-  VirtualShellHistory.FillPopupMenu_TB2000(TBXItemBack, TTBXItem, fpdNewestToOldest);
+  VirtualShellHistory.FillPopupMenu_TB2000(TBXItemBack, TSpTBXItem, fpdNewestToOldest);
 end;
 
 procedure TFileExplorerWindow.TBXItemForwardPopup(Sender: TTBCustomItem;
   FromLink: Boolean);
 begin
-  VirtualShellHistory.FillPopupMenu_TB2000(TBXItemForward, TTBXItem, fpdOldestToNewest);
+  VirtualShellHistory.FillPopupMenu_TB2000(TBXItemForward, TSpTBXItem, fpdOldestToNewest);
 end;
 
 procedure TFileExplorerWindow.BrowsePathPopup(Sender: TTBCustomItem;
   FromLink: Boolean);
 var
   i : integer;
-  Item : TTBXItem;
+  Item : TSpTBXItem;
   Paths : TStringList;
 begin
   Paths := TStringList.Create;
@@ -442,7 +443,7 @@ begin
     PyControl.ActiveInterpreter.SysPathToStrings(Paths);
     TBXPythonPath.Clear;
     for i := 0 to Paths.Count - 1  do begin
-      Item := TTBXItem.Create(TBXPythonPath);
+      Item := TSpTBXItem.Create(TBXPythonPath);
       Item.Caption := Paths[i];
       Item.OnClick := PathItemClick;
       TBXPythonPath.Add(Item);

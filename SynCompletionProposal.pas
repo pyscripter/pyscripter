@@ -66,7 +66,7 @@ uses
   QSynEditHighlighter,
   QSynEditKbdHandler,
   QSynEdit,
-  QSynUnicode,  
+  QSynUnicode,
 {$ELSE}
   Windows,
   Messages,
@@ -82,6 +82,9 @@ uses
   SynEditHighlighter,
   SynEditKbdHandler,
   SynEdit,
+{$IFDEF SYN_COMPILER_10_UP}
+  WideStrings,
+{$ENDIF}
   SynUnicode,
 {$ENDIF}
   SysUtils,
@@ -1201,11 +1204,22 @@ end;
 function FormatParamList(const S: WideString; CurrentIndex: Integer): WideString;
 var
   i: Integer;
+{$IFDEF SYN_COMPILER_10_UP}
+  List: WideStrings.TWideStrings;
+{$ELSE}
   List: TWideStrings;
+{$ENDIF}
 begin
   Result := '';
+{$IFDEF SYN_COMPILER_10_UP}
+  List := WideStrings.TWideStringList.Create;
+{$ELSE}
   List := TWideStringList.Create;
+{$ENDIF}
   try
+{$IFDEF SYN_COMPILER_10_UP}
+    List.StrictDelimiter := True;
+{$ENDIF}
     List.CommaText := S;
     for i := 0 to List.Count - 1 do
     begin

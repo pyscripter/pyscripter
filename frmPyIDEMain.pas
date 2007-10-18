@@ -219,7 +219,7 @@ Limitations: Python scripts are executed in the main thread
             Unit Testing broken (regression)
             Gap in the default tool bar (Issue #3)
 
- History:   v 1.9.1
+ History:   v 1.9.3
           New Features
             Remote interpreter and debugger
             New debugger command: Pause
@@ -274,6 +274,11 @@ Limitations: Python scripts are executed in the main thread
             New IDE option "Post mortem on exception"
             Auto-resizing the fields of list views by double clicking on column separators
             Advanced search and replace external tool added (uses re.sub)
+            Enhanced Execute Selection command (Issue 73)
+            Two new IDE options added (Dock Animation Interval and Dock Animation Move Width - Issue 134)
+            Toolbar customization
+            Two new IDE options added ("Interpreter History Size" and "Save Command History") (Issue 131)
+            Cut and copy without selection now cut and copy the current line (as in Visual Studio, Issue 64)
           Bug fixes
             Shell Integration - Error when opening multiple files
             Configure External Run - ParseTraceback not saved properly
@@ -304,9 +309,14 @@ Limitations: Python scripts are executed in the main thread
             Handling of string exceptions
             Disabling a breakpoint had no effect
             Tab order not preserved when restarting PyScripter
-            Issues 28, 39, 40, 41, 46, 47, 48, 49, 52, 55, 56, 57, 65, 66, 67, 70,
+            Disassembly and Documentation views not working with remote engines
+            PyScripter "freezes" when displaying modal dialogs when running GUI scripts with remote engines
+            More robust "Reinitialize" of remote Python engines (Issue 143)
+            Shift-Tab does not work well with the Trim Trailing Spaces editor option
+            Issues 28, (32), 39, 40, 41, 46, 47, 48, 49, 52, 55, 56, 57, 65, 66, 67, 70,
                    71, 72, 74, 75, 76, 81, 82, 83, 86, 88, 90, 91, 92, 94, 96, 98,
-                   100, 102, 105, 106, 107, 109, 113, 117, 119, 120, 122, 123, 125 fixed
+                   100, 102, 105, 106, 107, 109, 113, 117, 119, 120, 
+                   122, 123, 125, 132, 134, 135, 136, 137, 138, 139, 140, 141 fixed
 
   Vista Compatibility issues (all resolved)
   -  Flip3D and Form preview (solved with LX)
@@ -318,6 +328,7 @@ Limitations: Python scripts are executed in the main thread
   -  VISTA compatible manifest
 
 -----------------------------------------------------------------------------}
+
 // TODO: Customize Pyscripter with Setup python script run at startup
 
 // TODO: Project Manager
@@ -353,8 +364,7 @@ uses
   TBXNexosXTheme, TBXOfficeXPTheme, TBXAluminumTheme, TBXWhidbeyTheme,
   TBXOffice2003Theme, TBXOffice2007Theme, TBXLists, TB2ExtItems, JvDockTree,
   JvComponentBase, JvAppInst, uHighlighterProcs, cFileTemplates, TntLXForms,
-  JvFormPlacement, SpTBXItem, SpTBXEditors, StdCtrls, JvDSADialogs, Dialogs,
-  JvDSAAppStorage;
+  SpTBXItem, SpTBXEditors, StdCtrls, JvDSADialogs, Dialogs, SpTBXCustomizer;
 
 const
   WM_FINDDEFINITION  = WM_USER + 100;
@@ -401,251 +411,251 @@ type
     actExternalRun: TAction;
     actExternalRunConfigure: TAction;
     TBXSwitcher: TTBXSwitcher;
-    TBXDockTop: TTBXDock;
-    MainMenu: TTBXToolbar;
-    FileMenu: TTBXSubmenuItem;
-    New1: TTBXItem;
-    Open1: TTBXItem;
-    N14: TTBXSeparatorItem;
-    Close1: TTBXItem;
-    CloseAll2: TTBXItem;
-    N1: TTBXSeparatorItem;
-    Save1: TTBXItem;
-    SaveAs1: TTBXItem;
-    SaveAll1: TTBXItem;
-    N2: TTBXSeparatorItem;
-    PageSetup1: TTBXItem;
-    PrinterSetup1: TTBXItem;
-    PrintPreview1: TTBXItem;
-    Print1: TTBXItem;
-    N4: TTBXSeparatorItem;
-    N3: TTBXItem;
-    EditMenu: TTBXSubmenuItem;
-    Undo1: TTBXItem;
-    Redo1: TTBXItem;
-    N5: TTBXSeparatorItem;
-    Cut1: TTBXItem;
-    Copy1: TTBXItem;
-    IDEOptions1: TTBXItem;
-    Delete1: TTBXItem;
-    SelectAll1: TTBXItem;
-    N6: TTBXSeparatorItem;
-    Parameters1: TTBXSubmenuItem;
-    PageSetup2: TTBXItem;
-    Insertmodifier1: TTBXItem;
-    N16: TTBXSeparatorItem;
-    Replaceparameter1: TTBXItem;
-    CodeTemplate1: TTBXItem;
-    SourceCode1: TTBXSubmenuItem;
-    IndentBlock1: TTBXItem;
-    DedentBlock1: TTBXItem;
-    Commentout1: TTBXItem;
-    abify1: TTBXItem;
-    Untabify1: TTBXItem;
-    SearchMenu: TTBXSubmenuItem;
-    Find1: TTBXItem;
-    FindNext1: TTBXItem;
-    FindPrevious1: TTBXItem;
-    Replace1: TTBXItem;
-    N15: TTBXSeparatorItem;
-    FindinFiles1: TTBXItem;
-    N7: TTBXSeparatorItem;
-    Replace2: TTBXItem;
-    FindinFiles2: TTBXItem;
-    N23: TTBXSeparatorItem;
-    MatchingBrace1: TTBXItem;
-    RunMenu: TTBXSubmenuItem;
-    SyntaxCheck1: TTBXItem;
-    ImportModule1: TTBXItem;
-    N21: TTBXSeparatorItem;
-    Run2: TTBXItem;
-    N22: TTBXSeparatorItem;
-    ExternalRun1: TTBXItem;
-    ConfigureExternalRun1: TTBXItem;
-    N8: TTBXSeparatorItem;
-    Debug1: TTBXItem;
-    RunToCursor1: TTBXItem;
-    StepInto1: TTBXItem;
-    StepOver1: TTBXItem;
-    StepOut1: TTBXItem;
-    AbortDebugging1: TTBXItem;
-    N9: TTBXSeparatorItem;
-    ogglebreakpoint1: TTBXItem;
-    ClearAllBreakpoints1: TTBXItem;
-    ToolsMenu: TTBXSubmenuItem;
-    PythonPath1: TTBXItem;
-    N13: TTBXSeparatorItem;
-    ConfigureTools1: TTBXItem;
-    N20: TTBXSeparatorItem;
-    Options1: TTBXSubmenuItem;
-    IDEOptions2: TTBXItem;
-    EditorOptions1: TTBXItem;
-    CustomizeParameters1: TTBXItem;
-    CodeTemplates1: TTBXItem;
-    ViewMenu: TTBXSubmenuItem;
-    NextEditor1: TTBXItem;
-    PreviousEditor1: TTBXItem;
-    N10: TTBXSeparatorItem;
-    oolbars1: TTBXSubmenuItem;
-    StatusBar1: TTBXItem;
-    InteractiveInterpreter1: TTBXItem;
-    FileExplorer1: TTBXItem;
-    CodeExplorer1: TTBXItem;
-    actViewToDoList1: TTBXItem;
-    FindinFilesResults1: TTBXItem;
-    actViewOutput1: TTBXItem;
-    DebugWindows1: TTBXSubmenuItem;
-    CallStack1: TTBXItem;
-    Variables1: TTBXItem;
-    Breakpoints1: TTBXItem;
-    Watches1: TTBXItem;
-    Messages1: TTBXItem;
-    HelpMenu: TTBXSubmenuItem;
-    PythonPath2: TTBXItem;
-    N18: TTBXSeparatorItem;
-    PyScripter1: TTBXSubmenuItem;
-    CustomParameters1: TTBXItem;
-    ExternalTools1: TTBXItem;
-    N17: TTBXSeparatorItem;
-    About1: TTBXItem;
-    MainToolBar: TTBXToolbar;
-    TBXItem1: TTBXItem;
-    TBXItem2: TTBXItem;
-    TBXItem3: TTBXItem;
-    TBXItem4: TTBXItem;
-    TBXSeparatorItem1: TTBXSeparatorItem;
-    TBXItem5: TTBXItem;
-    TBXSeparatorItem2: TTBXSeparatorItem;
-    TBXItem6: TTBXItem;
-    TBXItem7: TTBXItem;
-    TBXItem8: TTBXItem;
-    TBXSeparatorItem3: TTBXSeparatorItem;
-    TBXItem9: TTBXItem;
-    TBXItem10: TTBXItem;
-    TBXSeparatorItem4: TTBXSeparatorItem;
-    TBXItem11: TTBXItem;
-    TBXItem12: TTBXItem;
-    TBXItem13: TTBXItem;
-    TBXItem14: TTBXItem;
-    TBXSeparatorItem5: TTBXSeparatorItem;
-    TBXItem15: TTBXItem;
-    DebugToolbar: TTBXToolbar;
-    TBXItem16: TTBXItem;
-    TBXSeparatorItem6: TTBXSeparatorItem;
-    TBXItem22: TTBXItem;
-    TBXItem21: TTBXItem;
-    TBXItem20: TTBXItem;
-    TBXItem18: TTBXItem;
-    TBXItem19: TTBXItem;
-    TBXItem17: TTBXItem;
-    TBXSeparatorItem7: TTBXSeparatorItem;
-    TBXItem24: TTBXItem;
-    TBXItem23: TTBXItem;
+    TBXDockTop: TSpTBXDock;
+    MainMenu: TSpTBXToolbar;
+    FileMenu: TSpTBXSubmenuItem;
+    New1: TSpTBXItem;
+    Open1: TSpTBXItem;
+    N14: TSpTBXSeparatorItem;
+    Close1: TSpTBXItem;
+    CloseAll2: TSpTBXItem;
+    N1: TSpTBXSeparatorItem;
+    Save1: TSpTBXItem;
+    SaveAs1: TSpTBXItem;
+    SaveAll1: TSpTBXItem;
+    N2: TSpTBXSeparatorItem;
+    PageSetup1: TSpTBXItem;
+    PrinterSetup1: TSpTBXItem;
+    PrintPreview1: TSpTBXItem;
+    Print1: TSpTBXItem;
+    N4: TSpTBXSeparatorItem;
+    N3: TSpTBXItem;
+    EditMenu: TSpTBXSubmenuItem;
+    Undo1: TSpTBXItem;
+    Redo1: TSpTBXItem;
+    N5: TSpTBXSeparatorItem;
+    Cut1: TSpTBXItem;
+    Copy1: TSpTBXItem;
+    IDEOptions1: TSpTBXItem;
+    Delete1: TSpTBXItem;
+    SelectAll1: TSpTBXItem;
+    N6: TSpTBXSeparatorItem;
+    Parameters1: TSpTBXSubmenuItem;
+    PageSetup2: TSpTBXItem;
+    Insertmodifier1: TSpTBXItem;
+    N16: TSpTBXSeparatorItem;
+    Replaceparameter1: TSpTBXItem;
+    CodeTemplate1: TSpTBXItem;
+    SourceCode1: TSpTBXSubmenuItem;
+    IndentBlock1: TSpTBXItem;
+    DedentBlock1: TSpTBXItem;
+    Commentout1: TSpTBXItem;
+    abify1: TSpTBXItem;
+    Untabify1: TSpTBXItem;
+    SearchMenu: TSpTBXSubmenuItem;
+    Find1: TSpTBXItem;
+    FindNext1: TSpTBXItem;
+    FindPrevious1: TSpTBXItem;
+    Replace1: TSpTBXItem;
+    N15: TSpTBXSeparatorItem;
+    FindinFiles1: TSpTBXItem;
+    N7: TSpTBXSeparatorItem;
+    Replace2: TSpTBXItem;
+    FindinFiles2: TSpTBXItem;
+    N23: TSpTBXSeparatorItem;
+    MatchingBrace1: TSpTBXItem;
+    RunMenu: TSpTBXSubmenuItem;
+    SyntaxCheck1: TSpTBXItem;
+    ImportModule1: TSpTBXItem;
+    N21: TSpTBXSeparatorItem;
+    Run2: TSpTBXItem;
+    N22: TSpTBXSeparatorItem;
+    ExternalRun1: TSpTBXItem;
+    ConfigureExternalRun1: TSpTBXItem;
+    N8: TSpTBXSeparatorItem;
+    Debug1: TSpTBXItem;
+    RunToCursor1: TSpTBXItem;
+    StepInto1: TSpTBXItem;
+    StepOver1: TSpTBXItem;
+    StepOut1: TSpTBXItem;
+    AbortDebugging1: TSpTBXItem;
+    N9: TSpTBXSeparatorItem;
+    ogglebreakpoint1: TSpTBXItem;
+    ClearAllBreakpoints1: TSpTBXItem;
+    ToolsMenu: TSpTBXSubmenuItem;
+    PythonPath1: TSpTBXItem;
+    N13: TSpTBXSeparatorItem;
+    ConfigureTools1: TSpTBXItem;
+    N20: TSpTBXSeparatorItem;
+    Options1: TSpTBXSubmenuItem;
+    IDEOptions2: TSpTBXItem;
+    EditorOptions1: TSpTBXItem;
+    CustomizeParameters1: TSpTBXItem;
+    CodeTemplates1: TSpTBXItem;
+    ViewMenu: TSpTBXSubmenuItem;
+    NextEditor1: TSpTBXItem;
+    PreviousEditor1: TSpTBXItem;
+    N10: TSpTBXSeparatorItem;
+    mnuToolbars: TSpTBXSubmenuItem;
+    StatusBar1: TSpTBXItem;
+    InteractiveInterpreter1: TSpTBXItem;
+    FileExplorer1: TSpTBXItem;
+    CodeExplorer1: TSpTBXItem;
+    actViewToDoList1: TSpTBXItem;
+    FindinFilesResults1: TSpTBXItem;
+    actViewOutput1: TSpTBXItem;
+    DebugWindows1: TSpTBXSubmenuItem;
+    CallStack1: TSpTBXItem;
+    Variables1: TSpTBXItem;
+    Breakpoints1: TSpTBXItem;
+    Watches1: TSpTBXItem;
+    Messages1: TSpTBXItem;
+    HelpMenu: TSpTBXSubmenuItem;
+    PythonPath2: TSpTBXItem;
+    N18: TSpTBXSeparatorItem;
+    PyScripter1: TSpTBXSubmenuItem;
+    CustomParameters1: TSpTBXItem;
+    ExternalTools1: TSpTBXItem;
+    N17: TSpTBXSeparatorItem;
+    About1: TSpTBXItem;
+    MainToolBar: TSpTBXToolbar;
+    tbiFileNewModule: TSpTBXItem;
+    tbiFileOpen: TSpTBXItem;
+    tbiFileSave: TSpTBXItem;
+    tbiFileSaveAll: TSpTBXItem;
+    TBXSeparatorItem1: TSpTBXSeparatorItem;
+    tbiFilePrint: TSpTBXItem;
+    TBXSeparatorItem2: TSpTBXSeparatorItem;
+    tbiEditCut: TSpTBXItem;
+    tbiEditCopy: TSpTBXItem;
+    tbiEditPaste: TSpTBXItem;
+    TBXSeparatorItem3: TSpTBXSeparatorItem;
+    tbiEditUndo: TSpTBXItem;
+    tbiEditRedo: TSpTBXItem;
+    TBXSeparatorItem4: TSpTBXSeparatorItem;
+    tbiSearchFind: TSpTBXItem;
+    tbiSearchFindNext: TSpTBXItem;
+    tbiSearchReplace: TSpTBXItem;
+    tbiFindInFiles: TSpTBXItem;
+    TBXSeparatorItem5: TSpTBXSeparatorItem;
+    tbiAbout: TSpTBXItem;
+    DebugToolbar: TSpTBXToolbar;
+    tbiRunRun: TSpTBXItem;
+    TBXSeparatorItem6: TSpTBXSeparatorItem;
+    tbiRunDebug: TSpTBXItem;
+    tbiRunRunToCursor: TSpTBXItem;
+    tbiRunStepInto: TSpTBXItem;
+    tbiRunStepOver: TSpTBXItem;
+    tbiRunStepOut: TSpTBXItem;
+    tbiRunAbort: TSpTBXItem;
+    TBXSeparatorItem7: TSpTBXSeparatorItem;
+    tbiRunToggleBreakpoint: TSpTBXItem;
+    tbiRunClearAllBreakpoints: TSpTBXItem;
     JvmbTBXTabBarPainter: TJvmbTBXTabBarPainter;
-    ViewToolbar: TTBXToolbar;
-    TBXSubmenuItem2: TTBXSubmenuItem;
-    TBXDockLeft: TTBXDock;
+    ViewToolbar: TSpTBXToolbar;
+    tbiViewThemes: TSpTBXSubmenuItem;
+    TBXDockLeft: TSpTBXDock;
     StatusBar: TTBXStatusBar;
     StatusLED: TJvLED;
     ExternalToolsLED: TJvLED;
-    TBXDockRight: TTBXDock;
-    TBXDockBottom: TTBXDock;
+    TBXDockRight: TSpTBXDock;
+    TBXDockBottom: TSpTBXDock;
     JvDockVSNetStyleTBX: TJvDockVSNetStyleTBX;
-    mnTools: TTBXSubmenuItem;
-    TabBarPopupMenu: TTBXPopupMenu;
-    New2: TTBXItem;
-    NewModule2: TTBXItem;
-    CloseAll1: TTBXItem;
-    N12: TTBXSeparatorItem;
-    EditorOptions2: TTBXItem;
+    mnTools: TSpTBXSubmenuItem;
+    TabBarPopupMenu: TSpTBXPopupMenu;
+    New2: TSpTBXItem;
+    NewModule2: TSpTBXItem;
+    CloseAll1: TSpTBXItem;
+    N12: TSpTBXSeparatorItem;
+    EditorOptions2: TSpTBXItem;
     TBXMRUList: TTBXMRUList;
     TBXMRUListItem: TTBXMRUListItem;
-    RecentSubmenu: TTBXSubmenuItem;
-    EditorViewsMenu: TTBXSubmenuItem;
+    RecentSubmenu: TSpTBXSubmenuItem;
+    EditorViewsMenu: TSpTBXSubmenuItem;
     EditorsPageList: TJvPageList;
-    TBXSeparatorItem8: TTBXSeparatorItem;
-    mnThemes: TTBXSubmenuItem;
+    TBXSeparatorItem8: TSpTBXSeparatorItem;
+    mnThemes: TSpTBXSubmenuItem;
     ViewToolbarVisibilityToggle: TTBXVisibilityToggleItem;
-    EditorToolbar: TTBXToolbar;
-    TBXItem27: TTBXItem;
-    TBXItem28: TTBXItem;
-    TBXSeparatorItem10: TTBXSeparatorItem;
-    TBXItem30: TTBXItem;
-    TBXSeparatorItem11: TTBXSeparatorItem;
-    TBXItem31: TTBXItem;
-    TBXItem32: TTBXItem;
+    EditorToolbar: TSpTBXToolbar;
+    tbiEditDedent: TSpTBXItem;
+    tbiEditIndent: TSpTBXItem;
+    TBXSeparatorItem10: TSpTBXSeparatorItem;
+    tbiEditToggleComment: TSpTBXItem;
+    TBXSeparatorItem11: TSpTBXSeparatorItem;
+    tbiEditSpecialCharacters: TSpTBXItem;
+    tbiEditLineNumbers: TSpTBXItem;
     EditorToolbarVisibilityToggle: TTBXVisibilityToggleItem;
-    TBXItem25: TTBXItem;
-    TBXItem26: TTBXItem;
+    TBXItem25: TSpTBXItem;
+    TBXItem26: TSpTBXItem;
     actFindDefinition: TAction;
-    TBXItem33: TTBXItem;
-    TBXSeparatorItem9: TTBXSeparatorItem;
-    TBXSubmenuItem3: TTBXSubmenuItem;
-    TBXItem34: TTBXItem;
-    TBXItem35: TTBXItem;
-    TBXItem36: TTBXItem;
-    TBXSeparatorItem12: TTBXSeparatorItem;
-    TBXItem37: TTBXItem;
-    TBXSeparatorItem13: TTBXSeparatorItem;
+    TBXItem33: TSpTBXItem;
+    TBXSeparatorItem9: TSpTBXSeparatorItem;
+    TBXSubmenuItem3: TSpTBXSubmenuItem;
+    TBXItem34: TSpTBXItem;
+    TBXItem35: TSpTBXItem;
+    TBXItem36: TSpTBXItem;
+    TBXSeparatorItem12: TSpTBXSeparatorItem;
+    TBXItem37: TSpTBXItem;
+    TBXSeparatorItem13: TSpTBXSeparatorItem;
     actFindReferences: TAction;
-    TBXItem38: TTBXItem;
-    btnNext: TTBXSubmenuItem;
-    btnPrevious: TTBXSubmenuItem;
-    TBXSeparatorItem14: TTBXSeparatorItem;
+    TBXItem38: TSpTBXItem;
+    tbiBrowseNext: TSpTBXSubmenuItem;
+    tbiBrowsePrevious: TSpTBXSubmenuItem;
+    TBXSeparatorItem14: TSpTBXSeparatorItem;
     PreviousList: TTBXStringList;
     NextList: TTBXStringList;
     actBrowseBack: TAction;
     actBrowseForward: TAction;
-    TBXItem39: TTBXItem;
-    TBXItem40: TTBXItem;
-    TBXSeparatorItem15: TTBXSeparatorItem;
-    TBXItem41: TTBXItem;
+    TBXItem39: TSpTBXItem;
+    TBXItem40: TSpTBXItem;
+    TBXSeparatorItem15: TSpTBXSeparatorItem;
+    TBXItem41: TSpTBXItem;
     actViewRegExpTester: TAction;
-    TBXItem42: TTBXItem;
+    TBXItem42: TSpTBXItem;
     actCommandLine: TAction;
-    TBXItem43: TTBXItem;
-    TBXItem44: TTBXItem;
-    TBXItem45: TTBXItem;
+    TBXItem43: TSpTBXItem;
+    TBXItem44: TSpTBXItem;
+    TBXItem45: TSpTBXItem;
     actViewUnitTests: TAction;
-    TBXItem46: TTBXItem;
-    TBXSeparatorItem16: TTBXSeparatorItem;
-    mnLayouts: TTBXSubmenuItem;
-    mnLayOutSeparator: TTBXSeparatorItem;
-    TBXSubmenuItem1: TTBXSubmenuItem;
+    TBXItem46: TSpTBXItem;
+    TBXSeparatorItem16: TSpTBXSeparatorItem;
+    mnLayouts: TSpTBXSubmenuItem;
+    mnLayOutSeparator: TSpTBXSeparatorItem;
+    tbiViewLayouts: TSpTBXSubmenuItem;
     actLayoutSave: TAction;
     actLayoutsDelete: TAction;
     actLayoutDebug: TAction;
-    TBXItem47: TTBXItem;
-    TBXItem48: TTBXItem;
-    TBXItem49: TTBXItem;
-    mnMaximizeEditor: TTBXItem;
-    TBXSeparatorItem17: TTBXSeparatorItem;
+    TBXItem47: TSpTBXItem;
+    TBXItem48: TSpTBXItem;
+    TBXItem49: TSpTBXItem;
+    mnMaximizeEditor: TSpTBXItem;
+    TBXSeparatorItem17: TSpTBXSeparatorItem;
     actMaximizeEditor: TAction;
-    TBXSeparatorItem18: TTBXSeparatorItem;
-    TBXSubmenuItem4: TTBXSubmenuItem;
-    TBXSeparatorItem19: TTBXSeparatorItem;
-    mnNoSyntax: TTBXItem;
+    TBXSeparatorItem18: TSpTBXSeparatorItem;
+    TBXSubmenuItem4: TSpTBXSubmenuItem;
+    TBXSeparatorItem19: TSpTBXSeparatorItem;
+    mnNoSyntax: TSpTBXItem;
     actEditorZoomIn: TAction;
     actEditorZoomOut: TAction;
-    TBXSeparatorItem20: TTBXSeparatorItem;
-    TBXSeparatorItem21: TTBXSeparatorItem;
-    mnSyntax: TTBXSubmenuItem;
-    TBXItem50: TTBXItem;
-    TBXItem51: TTBXItem;
-    TBXSeparatorItem22: TTBXSeparatorItem;
-    mnFiles: TTBXSubmenuItem;
+    TBXSeparatorItem20: TSpTBXSeparatorItem;
+    TBXSeparatorItem21: TSpTBXSeparatorItem;
+    mnSyntax: TSpTBXSubmenuItem;
+    TBXItem50: TSpTBXItem;
+    TBXItem51: TSpTBXItem;
+    TBXSeparatorItem22: TSpTBXSeparatorItem;
+    mnFiles: TSpTBXSubmenuItem;
     actAddWatchAtCursor: TAction;
-    TBXItem52: TTBXItem;
-    RunningProcessesPopUpMenu: TTBXPopupMenu;
-    TBXItem29: TTBXItem;
-    TBXSubmenuItem5: TTBXSubmenuItem;
-    TBXSeparatorItem23: TTBXSeparatorItem;
+    TBXItem52: TSpTBXItem;
+    RunningProcessesPopUpMenu: TSpTBXPopupMenu;
+    TBXItem29: TSpTBXItem;
+    TBXSubmenuItem5: TSpTBXSubmenuItem;
+    TBXSeparatorItem23: TSpTBXSeparatorItem;
     actNewFile: TAction;
-    TBXItem53: TTBXItem;
+    TBXItem53: TSpTBXItem;
     JvAppInstances: TJvAppInstances;
-    TBXItem54: TTBXItem;
-    TBXItem55: TTBXItem;
-    TBXItem56: TTBXItem;
+    TBXItem54: TSpTBXItem;
+    TBXItem55: TSpTBXItem;
+    mnuFindInFilesResults: TSpTBXItem;
     actNavWatches: TAction;
     actNavBreakpoints: TAction;
     actNavInterpreter: TAction;
@@ -658,68 +668,67 @@ type
     actNavUnitTests: TAction;
     actNavOutput: TAction;
     actNavEditor: TAction;
-    TBXSubmenuItem6: TTBXSubmenuItem;
-    TBXItem57: TTBXItem;
-    TBXSeparatorItem24: TTBXSeparatorItem;
-    TBXItem58: TTBXItem;
-    TBXItem59: TTBXItem;
-    TBXItem60: TTBXItem;
-    TBXItem62: TTBXItem;
-    TBXItem63: TTBXItem;
-    TBXSeparatorItem25: TTBXSeparatorItem;
-    TBXItem64: TTBXItem;
-    TBXItem65: TTBXItem;
-    TBXItem66: TTBXItem;
-    TBXItem67: TTBXItem;
-    TBXItem68: TTBXItem;
-    TBXItem69: TTBXItem;
+    TBXSubmenuItem6: TSpTBXSubmenuItem;
+    TBXItem57: TSpTBXItem;
+    TBXSeparatorItem24: TSpTBXSeparatorItem;
+    TBXItem58: TSpTBXItem;
+    TBXItem59: TSpTBXItem;
+    TBXItem60: TSpTBXItem;
+    TBXItem62: TSpTBXItem;
+    TBXItem63: TSpTBXItem;
+    TBXSeparatorItem25: TSpTBXSeparatorItem;
+    TBXItem64: TSpTBXItem;
+    TBXItem65: TSpTBXItem;
+    TBXItem66: TSpTBXItem;
+    TBXItem67: TSpTBXItem;
+    TBXItem68: TSpTBXItem;
+    TBXItem69: TSpTBXItem;
     actDebugPause: TAction;
-    TBXItem61: TTBXItem;
-    TBXItem70: TTBXItem;
-    mnPythonEngines: TTBXSubmenuItem;
+    tbiRunPause: TSpTBXItem;
+    TBXItem70: TSpTBXItem;
+    mnPythonEngines: TSpTBXSubmenuItem;
     actPythonReinitialize: TAction;
     actPythonInternal: TAction;
     actPythonRemote: TAction;
     actPythonRemoteTk: TAction;
     actPythonRemoteWx: TAction;
-    TBXItem71: TTBXItem;
-    TBXItem72: TTBXItem;
-    TBXItem73: TTBXItem;
-    TBXItem74: TTBXItem;
-    TBXItem75: TTBXItem;
-    TBXSeparatorItem26: TTBXSeparatorItem;
+    TBXItem71: TSpTBXItem;
+    TBXItem72: TSpTBXItem;
+    TBXItem73: TSpTBXItem;
+    TBXItem74: TSpTBXItem;
+    TBXItem75: TSpTBXItem;
+    TBXSeparatorItem26: TSpTBXSeparatorItem;
     actExecSelection: TAction;
-    TBXSeparatorItem27: TTBXSeparatorItem;
-    TBXItem76: TTBXItem;
+    TBXSeparatorItem27: TSpTBXSeparatorItem;
+    TBXItem76: TSpTBXItem;
     actRestoreEditor: TAction;
-    TBXItem77: TTBXItem;
-    TBXSeparatorItem28: TTBXSeparatorItem;
-    TBXItem78: TTBXItem;
-    TBXItem79: TTBXItem;
-    TBXItem80: TTBXItem;
-    TBXSeparatorItem29: TTBXSeparatorItem;
-    TBXSubmenuItem7: TTBXSubmenuItem;
-    TBXItem81: TTBXItem;
-    TBXItem82: TTBXItem;
-    TBXSeparatorItem30: TTBXSeparatorItem;
-    TBXItem83: TTBXItem;
-    TBXItem84: TTBXItem;
+    TBXItem77: TSpTBXItem;
+    TBXSeparatorItem28: TSpTBXSeparatorItem;
+    TBXItem78: TSpTBXItem;
+    TBXItem79: TSpTBXItem;
+    TBXItem80: TSpTBXItem;
+    TBXSeparatorItem29: TSpTBXSeparatorItem;
+    TBXSubmenuItem7: TSpTBXSubmenuItem;
+    TBXItem81: TSpTBXItem;
+    TBXItem82: TSpTBXItem;
+    TBXSeparatorItem30: TSpTBXSeparatorItem;
+    TBXItem83: TSpTBXItem;
+    TBXItem84: TSpTBXItem;
     DebugtoolbarVisibilityToggle: TTBXVisibilityToggleItem;
     TBXVisibilityToggleItem1: TTBXVisibilityToggleItem;
     actViewMainMenu: TAction;
-    TBXItem85: TTBXItem;
+    TBXItem85: TSpTBXItem;
     actlImmutable: TActionList;
     actViewNextEditor: TAction;
     actViewPreviousEditor: TAction;
-    JvFormStorage: TJvFormStorage;
-    FindToolbar: TTBXToolbar;
-    SpTBXLabelItem1: TSpTBXLabelItem;
+    FindToolbar: TSpTBXToolbar;
+    tbiFindLabel: TSpTBXLabelItem;
     tbiFindNext: TSpTBXItem;
     tbiFindPrevious: TSpTBXItem;
-    tbiReplaceSeparator: TTBXSeparatorItem;
+    tbiReplaceSeparator: TSpTBXSeparatorItem;
     tbiReplaceLabel: TSpTBXLabelItem;
-    TBXSeparatorItem32: TTBXSeparatorItem;
-    tbiSearchOptions: TTBXSubmenuItem;
+    TBXSeparatorItem32: TSpTBXSeparatorItem;
+    tbiSearchOptions: TSpTBXSubmenuItem;
     tbiWholeWords: TSpTBXItem;
     tbiSearchInSelection: TSpTBXItem;
     tbiRegExp: TSpTBXItem;
@@ -732,21 +741,28 @@ type
     tbiSearchFromCaret: TSpTBXItem;
     tbiReplaceText: TSpTBXComboBoxItem;
     tbiSearchText: TSpTBXComboBoxItem;
-    TBXSeparatorItem31: TTBXSeparatorItem;
-    TBXItem86: TTBXItem;
-    TBXItem87: TTBXItem;
-    TBXItem88: TTBXItem;
-    TBXItem89: TTBXItem;
+    TBXSeparatorItem31: TSpTBXSeparatorItem;
+    TBXItem86: TSpTBXItem;
+    TBXItem87: TSpTBXItem;
+    tbiEditWordWrap: TSpTBXItem;
+    TBXItem89: TSpTBXItem;
     actViewSplitEditorHor: TAction;
     actViewSplitEditorVer: TAction;
-    TBXSubmenuItem8: TTBXSubmenuItem;
-    TBXItem90: TTBXItem;
-    TBXItem91: TTBXItem;
+    TBXSubmenuItem8: TSpTBXSubmenuItem;
+    TBXItem90: TSpTBXItem;
+    TBXItem91: TSpTBXItem;
     actViewHideSecondEditor: TAction;
-    TBXItem92: TTBXItem;
+    TBXItem92: TSpTBXItem;
     actPostMortem: TAction;
-    TBXSeparatorItem33: TTBXSeparatorItem;
-    TBXItem93: TTBXItem;
+    TBXSeparatorItem33: TSpTBXSeparatorItem;
+    TBXItem93: TSpTBXItem;
+    SpTBXCustomizer: TSpTBXCustomizer;
+    actViewCustomizeToolbars: TAction;
+    ToolbarPopupMenu: TSpTBXPopupMenu;
+    SpTBXSeparatorItem3: TSpTBXSeparatorItem;
+    SpTBXItem1: TSpTBXItem;
+    UserToolbar: TSpTBXToolbar;
+    mnuUserToolbarVisibilityToggle: TTBXVisibilityToggleItem;
     procedure mnFilesClick(Sender: TObject);
     procedure actEditorZoomInExecute(Sender: TObject);
     procedure actEditorZoomOutExecute(Sender: TObject);
@@ -806,9 +822,9 @@ type
     procedure actFindDefinitionExecute(Sender: TObject);
     procedure actFindReferencesExecute(Sender: TObject);
     procedure PreviousListClick(Sender: TObject);
-    procedure btnPreviousClick(Sender: TObject);
+    procedure tbiBrowsePreviousClick(Sender: TObject);
     procedure NextListClick(Sender: TObject);
-    procedure btnNextClick(Sender: TObject);
+    procedure tbiBrowseNextClick(Sender: TObject);
     function ApplicationHelp(Command: Word; Data: Integer;
       var CallHelp: Boolean): Boolean;
     procedure FormShow(Sender: TObject);
@@ -858,8 +874,11 @@ type
     procedure actViewHideSecondEditorExecute(Sender: TObject);
     procedure actPostMortemExecute(Sender: TObject);
     procedure FindToolbarVisibleChanged(Sender: TObject);
+    procedure actViewCustomizeToolbarsExecute(Sender: TObject);
+    procedure SpTBXCustomizerGetCustomizeForm(Sender: TObject;
+      var CustomizeFormClass: TSpTBXCustomizeFormClass);
   private
-    DSAAppStorage: TJvDSAAppStorage;
+    DSAAppStorage: TDSAAppStorage;
     function FindAction(var Key: Word; Shift: TShiftState) : TCustomAction;
   protected
     fCurrentLine : integer;
@@ -942,14 +961,15 @@ uses
   frmPythonII, frmMessages, PythonEngine, frmEditor,
   frmCallStack, frmBreakPoints, frmVariables, frmWatches,
   frmCodeExplorer, frmFileExplorer, JclFileUtils, frmToDo,
-  frmFindResults, cFindInFiles, uParams, cTools, cParameters,
+  frmFindResults, uParams, cTools, cParameters,
   frmCommandOutput, JvCreateProcess, dlgToolProperties, uCommonFunctions,
   TBXThemes, SynHighlighterPython, SynEditHighlighter, VarPyth, SynRegExpr,
   JvJVCLUtils, DateUtils, cPythonSourceScanner, frmRegExpTester,
   StringResources, dlgCommandLine, frmUnitTests, cFilePersist, frmIDEDockWin,
   dlgPickList, VirtualTrees, VirtualExplorerTree, JvDockGlobals, Math,
   cCodeHint, dlgNewFile, SynEditTextBuffer, JclSysInfo, cPyRemoteDebugger,
-  uCmdLine, SynUnicode, uSearchHighlighter;
+  uCmdLine, SynUnicode, uSearchHighlighter, frmModSpTBXCustomize, IniFiles,
+  JclStrings;
 
 {$R *.DFM}
 
@@ -999,10 +1019,21 @@ begin
   end;
 end;
 
+type
+  TTBCustomItemAccess = class(TTBCustomItem);
+
 procedure TPyIDEMainForm.FormCreate(Sender: TObject);
 Var
   TabHost : TJvDockTabHostForm;
   OptionsFileName: string;
+  ItemsList: TList;
+  I, J, K : Integer;
+  C: TComponent;
+  ParentItem: TTBCustomItem;
+  Action: TBasicAction;
+  Item: TTBCustomItem;
+  ItemStyle: TTBItemStyle;
+  ActionList : TActionList;
 begin
   // App Instances
   if not CmdLineReader.readFlag('NEWINSTANCE') then begin
@@ -1055,7 +1086,7 @@ begin
   AppStorage.StorageOptions.StoreDefaultValues := False;
 
   // DSA stuff
-  DSAAppStorage := TJvDSAAppStorage.Create(AppStorage, 'DSA');
+  DSAAppStorage := TDSAAppStorage.Create(AppStorage, 'DSA');
   RegisterDSACheckMarkText(ctkRemember, 'Remember answer and do not show again');
   RegisterDSA(dsaSearchFromStart, 'SearchFromStart', 'Search from start question', DSAAppStorage, ctkRemember);
   RegisterDSA(dsaReplaceFromStart, 'ReplaceFromStart', 'Replace srom start question', DSAAppStorage, ctkRemember);
@@ -1088,8 +1119,8 @@ begin
   RegExpTesterWindow.PopupParent := Self;
   UnitTestWindow := TUnitTestWindow.Create(Self);
   UnitTestWindow.PopupParent := Self;
-  // FindInFilesExpert creates FindResultsWindow
-  FindInFilesExpert := TFindInFilesExpert.Create;
+  FindResultsWindow := TFindResultsWindow.Create(PyIDEMainForm);
+  FindResultsWindow.PopupParent := PyIDEMainForm;
 
   // Assign Debugger Events
   with PyControl do begin
@@ -1106,14 +1137,51 @@ begin
   ActionListArray[1] := CommandsDataModule.actlMain;
   ActionListArray[2] := PythonIIForm.InterpreterActionList;
 
+  // Setup Customizer
+  ItemsList := TList.Create;
+  try
+    for I := 0 to ComponentCount - 1 do begin
+      ParentItem := nil;
+      C := Components[I];
+      if C is TSpTBXToolbar and TSpTBXToolbar(C).Customizable then
+         ParentItem := TSpTBXToolbar(C).Items;
+      if Assigned(ParentItem) then begin
+        for J := 0 to ParentItem.Count - 1 do begin
+          Item := ParentItem[j];
+          ItemStyle := TTBCustomItemAccess(Item).ItemStyle;
+          // Exclude the submenus, separators, labels, groups and edit items
+          if (ItemStyle * [tbisSubMenu, tbisSeparator, tbisEmbeddedGroup, tbisClicksTransparent] = []) and
+            not (Item is TTBEditItem) then
+            ItemsList.Add(Item);
+        end;
+      end;
+    end;
+    for I := Low(ActionListArray) to High(ActionListArray) do begin
+      ActionList := ActionListArray[I];
+      for J := 0 to ActionList.ActionCount - 1 do begin
+        Action := ActionList.Actions[J];
+        for K := 0 to ItemsList.Count - 1 do
+          if (TObject(ItemsList[K]) as TTBCustomItem).Action = Action then begin
+            Action := nil;
+            break;
+          end;
+        if Assigned(Action) then begin
+          Item := TSpTBXItem.Create(Self);
+          Item.Action := Action;
+          Item.Name := 'tb' + Action.Name;
+          SpTBXCustomizer.Items.Add(Item);
+        end;
+      end;
+    end;
+  finally
+    ItemsList.Free;
+  end;
+
   // Read Settings from PyScripter.ini
   if FileExists(AppStorage.IniFile.FileName) then begin
     RestoreApplicationData;
-    JvFormStorage.RestoreFormPlacement;
   end;
 
-  // Note that the following will trigger the AppStorage to RestoreFormPlacement etc.
-  // Otherwise this would have happened after exiting FormCreate when the Form is shown.
   AppStorage.ReadStringList('Layouts', Layouts, True);
 
   if AppStorage.PathExists('Layouts\Current\Forms') then begin
@@ -1206,8 +1274,10 @@ begin
         CloseTimer.Enabled := True;
         Exit;
       end else begin
+        CanClose := False;
         PyControl.ActiveInterpreter.ReInitialize;
-        CanClose := True
+        CloseTimer.Enabled := True;
+        Exit;
       end;
     end else begin  // idNo
        CanClose := False;
@@ -1232,8 +1302,7 @@ begin
     CodeExplorerWindow.ShutDownWorkerThread;
 
     // Disconnect ChangeNotify
-    CommandsDataModule.JvChangeNotify.OnChangeNotify := nil;
-    CommandsDataModule.StopFileNotification;
+    FileExplorerWindow.FileExplorerTree.OnAfterShellNotify := nil;
 
     // Close FileExplorer ChangeNotify Thread
     FileExplorerWindow.FileExplorerTree.TreeOptions.VETMiscOptions :=
@@ -1637,13 +1706,19 @@ begin
   actToggleBreakPoint.Enabled := PyFileActive;
   actClearAllBreakPoints.Enabled := PyFileActive;
   actAddWatchAtCursor.Enabled := PyFileActive;
-  actExecSelection.Enabled := not PyControl.IsRunning
-    and PyFileActive and Editor.ActiveSynEdit.SelAvail;
+  actExecSelection.Enabled := not PyControl.IsRunning and PyFileActive;
   actPythonReinitialize.Enabled := Assigned(PyControl.ActiveInterpreter) and
     (icReInitialize in PyControl.ActiveInterpreter.InterpreterCapabilities) and
     not (PyControl.DebuggerState in [dsPaused, dsPostMortem]);
-  actPostMortem.Enabled := PyControl.ActiveDebugger.HaveTraceback and
-    (PyControl.DebuggerState = dsInactive);
+  actPostMortem.Enabled := (PyControl.DebuggerState = dsInactive) and
+    Assigned(PyControl.ActiveDebugger) and PyControl.ActiveDebugger.HaveTraceback;
+  if DebuggerState = dsPaused then begin
+    actDebug.Caption := 'Resume';
+    actDebug.Hint := 'Resume|Resume the running script';
+  end else begin
+    actDebug.Caption := 'Debug';
+    actDebug.Hint := 'Debug|Debug active script';
+  end;
 end;
 
 procedure TPyIDEMainForm.SetCurrentPos(Editor : IEditor; ALine: integer);
@@ -1721,7 +1796,8 @@ begin
     dsRunning,
     dsRunningNoDebug: begin
                         s := 'Running';
-                        Screen.Cursor := crHourGlass;
+                        if CommandsDataModule.PyIDEOptions.PythonEngineType = peInternal then
+                          Screen.Cursor := crHourGlass;
                         StatusLED.ColorOn := clRed;
                       end;
     dsPaused: begin
@@ -1849,6 +1925,12 @@ begin
   end;
 end;
 
+procedure TPyIDEMainForm.SpTBXCustomizerGetCustomizeForm(Sender: TObject;
+  var CustomizeFormClass: TSpTBXCustomizeFormClass);
+begin
+  CustomizeFormClass := TSpTBXCustomizeFormMod;
+end;
+
 procedure TPyIDEMainForm.actViewSplitEditorHorExecute(Sender: TObject);
 Var
   Editor : IEditor;
@@ -1894,6 +1976,11 @@ begin
     ShowDockForm(CodeExplorerWindow)
   else
     HideDockForm(CodeExplorerWindow);
+end;
+
+procedure TPyIDEMainForm.actViewCustomizeToolbarsExecute(Sender: TObject);
+begin
+  SpTBXCustomizer.Show;
 end;
 
 procedure TPyIDEMainForm.actViewFileExplorerExecute(Sender: TObject);
@@ -2056,7 +2143,6 @@ end;
 
 procedure TPyIDEMainForm.FormDestroy(Sender: TObject);
 begin
-  FreeAndNil(FindInFilesExpert);
   FreeAndNil(fRefactoring);
   FreeAndNil(Layouts);
   FreeAndNil(zOrder);
@@ -2137,8 +2223,16 @@ begin
     CommandsDataModule.PyIDEOptions.XMLFileFilter;
   CommandsDataModule.SynCssSyn.DefaultFilter :=
     CommandsDataModule.PyIDEOptions.CSSFileFilter;
+  //  Dock animation parameters
+  JvDockVSNetStyleTBX.SetAnimationInterval(CommandsDataModule.PyIDEOptions.DockAnimationInterval);
+  JvDockVSNetStyleTBX.SetAnimationMoveWidth(CommandsDataModule.PyIDEOptions.DockAnimationMoveWidth);
 
+  // Set Python engine
   PythonIIForm.SetPythonEngineType(CommandsDataModule.PyIDEOptions.PythonEngineType);
+
+  // Command History Size
+  PythonIIForm.CommandHistorySize := CommandsDataModule.PyIDEOptions.InterpreterHistorySize;
+
 
   TabBar.CloseButton := CommandsDataModule.PyIDEOptions.ShowTabCloseButton;
   case CommandsDataModule.PyIDEOptions.EditorTabPosition of
@@ -2175,6 +2269,7 @@ Var
   ActionProxyCollection : TActionProxyCollection;
   i : integer;
   TempCursor : IInterface;
+  MemIni: TMemIniFile;
 begin
   TempCursor := WaitCursor;
   TempStringList := TStringList.Create;
@@ -2213,7 +2308,7 @@ begin
       AppStorage.StorageOptions.PreserveLeadingTrailingBlanks := False;
     end;
     AppStorage.WritePersistent('ToDo Options', ToDoExpert);
-    AppStorage.WritePersistent('Find in Files Options', FindInFilesExpert);
+    AppStorage.WritePersistent('Find in Files Options', FindResultsWindow.FindInFilesExpert);
     AppStorage.WritePersistent('Find in Files Results Options', FindResultsWindow);
     AppStorage.WritePersistent('Variables Window Options', VariablesWindow);
     AppStorage.WritePersistent('RegExp Tester Options', RegExpTesterWindow);
@@ -2228,8 +2323,10 @@ begin
     AppStorage.WriteInteger('Output Window\Color', Integer(OutputWindow.lsbConsole.Color));
     AppStorage.WritePersistent('Watches', WatchesWindow);
     AppStorage.WriteStringList('Layouts', Layouts);
+    AppStorage.WriteBoolean('Status Bar', StatusBar.Visible);
     // Save Theme Name
     AppStorage.WriteString('Theme Name', TBXSwitcher.Theme);
+
     // Save IDE Shortcuts
     AppStorage.DeleteSubTree('IDE Shortcuts');
     ActionProxyCollection := TActionProxyCollection.Create(ActionListArray);
@@ -2238,21 +2335,37 @@ begin
     finally
       ActionProxyCollection.Free;
     end;
+
+    // Save Toolbar Items
+    AppStorage.DeleteSubTree('Toolbar Items');
+    MemIni := TMemIniFile.Create('');
+    try
+      SpSaveItems(Self, MemIni);
+      TempStringList.Clear;
+      MemIni.GetStrings(TempStringList);
+      AppStorage.WriteStringList('Toolbar Items', TempStringList);
+    finally
+      MemIni.Free;
+    end;
+
+    // Save Interpreter History
+    TempStringList.Clear;
+    for I := 0 to PythonIIForm.CommandHistory.Count - 1 do
+      TempStringList.Add(StrStringToEscaped(UTF8Encode(PythonIIForm.CommandHistory[i])));
+    AppStorage.StorageOptions.PreserveLeadingTrailingBlanks := True;
+    AppStorage.WriteStringList('Command Histrory', TempStringList);
+    AppStorage.StorageOptions.PreserveLeadingTrailingBlanks := False;
+
   finally
     AppStorage.EndUpdate;
     TempStringList.Free;
   end;
+
+  AppStorage.Flush;
+
   // Save MRU Lists
   TBXMRUList.SaveToIni(AppStorage.IniFile, 'MRU File List');
   CommandsDataModule.CommandLineMRU.SaveToIni(AppStorage.IniFile, 'CommandLine MRU');
-
-  // Form Placement
-  JvFormStorage.SaveFormPlacement;
-
-  // Store Toolbar positions
-  AppStorage.Flush;
-  TBIniSavePositions(Self, AppStorage.IniFile.FileName, 'Toolbars');
-  AppStorage.WriteBoolean('Status Bar', StatusBar.Visible);
 end;
 
 procedure TPyIDEMainForm.RestoreApplicationData;
@@ -2263,6 +2376,7 @@ Var
   ActionProxyCollection : TActionProxyCollection;
   TempStringList : TStringList;
   i : integer;
+  MemIni: TMemIniFile;
 begin
   if AppStorage.IniFile.SectionExists('IDE Options') then begin
     AppStorage.ReadPersistent('IDE Options', CommandsDataModule.PyIDEOptions);
@@ -2311,7 +2425,7 @@ begin
     end;
   if AppStorage.IniFile.SectionExists('ToDo Options') then
     AppStorage.ReadPersistent('ToDo Options', ToDoExpert);
-  AppStorage.ReadPersistent('Find in Files Options', FindInFilesExpert);
+  AppStorage.ReadPersistent('Find in Files Options', FindResultsWindow.FindInFilesExpert);
   AppStorage.ReadPersistent('Find in Files Results Options', FindResultsWindow);
   AppStorage.ReadPersistent('Variables Window Options', VariablesWindow);
   AppStorage.ReadPersistent('RegExp Tester Options', RegExpTesterWindow);
@@ -2327,12 +2441,10 @@ begin
   OutputWindow.lsbConsole.Color := TColor(AppStorage.ReadInteger('Output Window\Color', Integer(clWindow)));
   OutputWindow.FontOrColorUpdated;
   AppStorage.ReadPersistent('Watches', WatchesWindow);
+  StatusBar.Visible := AppStorage.ReadBoolean('Status Bar');
   // Load Theme Name
   TBXSwitcher.Theme := AppStorage.ReadString('Theme Name', 'Office2003');
-  // Load MRU Lists
-  TBXMRUList.LoadFromIni(AppStorage.IniFile, 'MRU File List');
-  CommandsDataModule.CommandLineMRU.LoadFromIni(AppStorage.IniFile, 'CommandLine MRU');
-
+  // Load IDE Shortcuts
   ActionProxyCollection := TActionProxyCollection.Create(ActionListArray);
   try
     AppStorage.ReadCollection('IDE Shortcuts', ActionProxyCollection, True, 'Action');
@@ -2340,9 +2452,39 @@ begin
   finally
     ActionProxyCollection.Free;
   end;
-  // Restore Toolbar positions
-  TBIniLoadPositions(Self, AppStorage.IniFile.FileName, 'Toolbars');
-  StatusBar.Visible := AppStorage.ReadBoolean('Status Bar');
+
+  // Load Toolbar Items
+  MemIni := TMemIniFile.Create('');
+  TempStringList := TStringList.Create;
+  try
+    AppStorage.ReadStringList('Toolbar Items', TempStringList);
+    MemIni.SetStrings(TempStringList);
+    SpLoadItems(Self, MemIni);
+  finally
+    MemIni.Free;
+    TempStringList.Free;
+  end;
+
+  // Restore Interpreter History
+  TempStringList := TStringList.Create;
+  try
+    AppStorage.StorageOptions.PreserveLeadingTrailingBlanks := True;
+    AppStorage.ReadStringList('Command Histrory', TempStringList);
+    AppStorage.StorageOptions.PreserveLeadingTrailingBlanks := False;
+    PythonIIForm.CommandHistory.Clear;
+
+    for I := 0 to TempStringList.Count - 1 do
+      PythonIIForm.CommandHistory.Add(UTF8Decode(StrEscapedToString(TempStringList[i])));
+    PythonIIForm.CommandHistoryPointer := TempStringList.Count;  // one after the last one
+  finally
+    TempStringList.Free;
+  end;
+
+
+  // Load MRU Lists
+  TBXMRUList.LoadFromIni(AppStorage.IniFile, 'MRU File List');
+  CommandsDataModule.CommandLineMRU.LoadFromIni(AppStorage.IniFile, 'CommandLine MRU');
+
 end;
 
 procedure TPyIDEMainForm.TabBarTabSelected(Sender: TObject;
@@ -2360,7 +2502,7 @@ begin
     begin
       EditorForm := EditorsPageList.ActivePage.Controls[0] as TEditorForm;
       WinControl := EditorForm.EditorViews.ActivePage.Controls[0] as TWinControl;
-      if Visible and WinControl.CanFocus then
+      if WinControl.Visible and WinControl.CanFocus then
         ActiveControl := WinControl;
       // Code hint stuff
       EditorForm.SetUpCodeHints;
@@ -2491,7 +2633,7 @@ end;
 procedure TPyIDEMainForm.SetupToolsMenu;
 Var
   i : integer;
-  MenuItem : TTBXItem;
+  MenuItem : TSpTBXItem;
   Action : TAction;
   Tool : TExternalTool;
 begin
@@ -2506,7 +2648,7 @@ begin
   for i := 0 to ToolsCollection.Count - 1 do begin
     Tool := (ToolsCollection.Items[i] as TToolItem).ExternalTool;
     if Tool.Caption <> '' then begin
-      MenuItem := TTBXItem.Create(Self);
+      MenuItem := TSpTBXItem.Create(Self);
       Action := TExternalToolAction.CreateExtToolAction(Self, Tool);
       Action.ActionList := actlStandard;
       mnTools.Add(MenuItem);
@@ -2518,14 +2660,14 @@ end;
 procedure TPyIDEMainForm.SetupLayoutsMenu;
 Var
   i : integer;
-  MenuItem : TTBXItem;
+  MenuItem : TSpTBXItem;
 begin
   // delete previous Layouts
   while mnLayouts.Items[0] <> mnLayOutSeparator do
     mnLayouts.Items[0].Free;
 
   for i := Layouts.Count - 1 downto 0 do begin
-    MenuItem := TTBXItem.Create(Self);
+    MenuItem := TSpTBXItem.Create(Self);
     mnLayouts.Insert(0, MenuItem);
     MenuItem.Caption := Layouts[i];
     MenuItem.GroupIndex := 2;
@@ -2593,10 +2735,10 @@ end;
 procedure TPyIDEMainForm.SetupSyntaxMenu;
 Var
   i : integer;
-  MenuItem : TTBXItem;
+  MenuItem : TSpTBXItem;
 begin
   for i := CommandsDataModule.Highlighters.Count - 1 downto 0 do begin
-    MenuItem := TTBXItem.Create(Self);
+    MenuItem := TSpTBXItem.Create(Self);
     mnSyntax.Insert(0, MenuItem);
     MenuItem.Caption := CommandsDataModule.Highlighters[i];
     MenuItem.GroupIndex := 3;
@@ -2611,6 +2753,7 @@ Var
   i : integer;
   SaveActiveControl : TWinControl;
   TempCursor : IInterface;
+  ToolbarLayout: TStringList;
 begin
   Path := 'Layouts\'+ Layout;
   if AppStorage.PathExists(Path + '\Forms') then begin
@@ -2645,18 +2788,40 @@ begin
       except
       end;
   end;
+
+  // Now Restore the toolbars
+  if AppStorage.PathExists(Path + '\Toolbars') then begin
+    ToolbarLayout := TStringList.Create;
+    try
+      AppStorage.ReadStringList(Path + '\Toolbars', ToolbarLayout);
+      SpTBXCustomizer.LoadLayout(ToolbarLayout, Layout);
+    finally
+      ToolbarLayout.Free;
+    end;
+  end;
+
 end;
 
 procedure TPyIDEMainForm.SaveLayout(Layout: string);
+Var
+  ToolbarLayout : TStringList;
 begin
   Appstorage.DeleteSubTree('Layouts\'+Layout);
   SaveDockTreeToAppStorage(AppStorage, 'Layouts\'+ Layout);
+
+  ToolbarLayout := TStringList.Create;
+  try
+    SpTBXCustomizer.SaveLayout(ToolbarLayout, Layout);
+    AppStorage.WriteStringList('Layouts\'+ Layout + '\Toolbars', ToolbarLayout);
+  finally
+    ToolbarLayout.Free;
+  end;
 end;
 
 procedure TPyIDEMainForm.LayoutClick(Sender: TObject);
 begin
-  LoadLayout(TTBXItem(Sender).Caption);
-  TTBXItem(Sender).Checked := True;
+  LoadLayout(TSpTBXItem(Sender).Caption);
+  TSpTBXItem(Sender).Checked := True;
 end;
 
 procedure TPyIDEMainForm.actLayoutSaveExecute(Sender: TObject);
@@ -3046,7 +3211,7 @@ begin
   end;
 end;
 
-procedure TPyIDEMainForm.btnPreviousClick(Sender: TObject);
+procedure TPyIDEMainForm.tbiBrowsePreviousClick(Sender: TObject);
 begin
   if PreviousList.Strings.Count > 0 then begin
     PreviousList.ItemIndex := 0;
@@ -3088,7 +3253,7 @@ begin
   end;
 end;
 
-procedure TPyIDEMainForm.btnNextClick(Sender: TObject);
+procedure TPyIDEMainForm.tbiBrowseNextClick(Sender: TObject);
 begin
   if NextList.Strings.Count > 0 then begin
     NextList.ItemIndex := 0;
@@ -3153,6 +3318,8 @@ begin
     TreeOptions.VETMiscOptions :=
       TreeOptions.VETMiscOptions + [toChangeNotifierThread];
     Active := True;
+    // Connect ChangeNotify
+    OnAfterShellNotify := CommandsDataModule.FileExplorerTreeAfterShellNotify;
   end;
 end;
 
@@ -3174,8 +3341,8 @@ end;
 
 procedure TPyIDEMainForm.TBXThemeMenuOnClick(Sender: TObject);
 begin
-  TBXSetTheme(TTBXItem(Sender).Caption);
-  TTBXItem(Sender).Checked := True;
+  TBXSetTheme(TSpTBXItem(Sender).Caption);
+  TSpTBXItem(Sender).Checked := True;
 end;
 
 procedure TPyIDEMainForm.FillTBXThemeMenu;
@@ -3184,7 +3351,7 @@ const
 var
   i: Integer;
   sl: TStringList;
-  x: TTBXItem;
+  x: TSpTBXItem;
 begin
   mnThemes.Clear;
   sl := TStringList.Create;
@@ -3193,7 +3360,7 @@ begin
     sl.Sorted := True;
     for i := 0 to Pred(sl.Count) do
     begin
-      x := TTBXItem.Create(Self);
+      x := TSpTBXItem.Create(Self);
       with x do
       begin
         Caption := sl[i];
@@ -3298,7 +3465,7 @@ Var
   Editor, ActiveEditor : IEditor;
   i : integer;
   List : TStringList;
-  MenuItem : TTBXItem;
+  MenuItem : TSpTBXItem;
 begin
   mnFiles.Clear;
   ActiveEditor := GetActiveEditor;
@@ -3311,7 +3478,7 @@ begin
         TObject(GI_EditorFactory.Editor[i].Form));
     for i:= 0 to List.Count - 1 do begin
       Editor := TEditorForm(List.Objects[i]).GetEditor;
-      MenuItem := TTBXItem.Create(Self);
+      MenuItem := TSpTBXItem.Create(Self);
       mnFiles.Add(MenuItem);
       MenuItem.Caption := List[i];
       MenuItem.GroupIndex := 3;

@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, SynEdit, StdCtrls, ExtCtrls, Buttons, TB2Item, TBX, TBXExtItems,
-  Menus, TBXDkPanels, SpTBXControls;
+  Menus, TBXDkPanels, SpTBXControls, SpTBXItem;
 
 type
   TCommandLineDlg = class(TForm)
@@ -16,10 +16,10 @@ type
     OKButton: TBitBtn;
     BitBtn2: TBitBtn;
     HelpButton: TBitBtn;
-    TBXButton1: TTBXButton;
-    TBXPopupHistory: TTBXPopupMenu;
+    TBXButton1: TSpTBXButton;
+    TBXPopupHistory: TSpTBXPopupMenu;
     PopupHistoryItem: TTBXMRUListItem;
-    EmptyHistoryPopupItem: TTBXItem;
+    EmptyHistoryPopupItem: TSpTBXItem;
     cbUseCommandLine: TSpTBXCheckBox;
     procedure btnHelpClick(Sender: TObject);
     procedure FormDestroy(Sender: TObject);

@@ -49,7 +49,8 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, frmIDEDockWin, JvComponent, JvDockControlForm, ExtCtrls, Menus,
   ActnList, ComCtrls, StdCtrls, cFindInFiles, JvAppStorage,
-  TB2Item, TBX, TBXThemes, TB2Dock, TB2Toolbar, TBXStatusBars, JvComponentBase;
+  TB2Item, TBX, TBXThemes, TB2Dock, TB2Toolbar, TBXStatusBars, JvComponentBase,
+  SpTBXItem;
 
 type
   TFindResultsWindow = class(TIDEDockWindow, IJvAppStorageHandler)
@@ -74,49 +75,49 @@ type
     actViewOptions: TAction;
     actReplaceAll: TAction;
     actViewStatusBar: TAction;
-    TBXDock1: TTBXDock;
-    ToolBar: TTBXToolbar;
-    TBXItem1: TTBXItem;
-    TBXItem2: TTBXItem;
-    TBXSeparatorItem1: TTBXSeparatorItem;
-    TBXItem3: TTBXItem;
-    TBXSeparatorItem2: TTBXSeparatorItem;
-    TBXItem4: TTBXItem;
-    TBXSeparatorItem3: TTBXSeparatorItem;
-    TBXItem5: TTBXItem;
-    TBXItem6: TTBXItem;
-    TBXItem7: TTBXItem;
-    TBXSeparatorItem4: TTBXSeparatorItem;
-    TBXItem8: TTBXItem;
-    TBXItem9: TTBXItem;
-    TBXSeparatorItem5: TTBXSeparatorItem;
-    TBXItem10: TTBXItem;
-    TBXItem11: TTBXItem;
-    TBXSeparatorItem6: TTBXSeparatorItem;
-    TBXItem13: TTBXItem;
-    TBXPopupMenu: TTBXPopupMenu;
-    mitFileSearch1: TTBXItem;
-    mitFileRefresh1: TTBXItem;
-    mitFileAbort1: TTBXItem;
-    N5: TTBXSeparatorItem;
-    mitFilePrint1: TTBXItem;
-    mitFileSave1: TTBXItem;
-    N2: TTBXSeparatorItem;
-    mitViewToolBar1: TTBXItem;
-    StatusBar1: TTBXItem;
-    miViewShowMatchContext1: TTBXItem;
-    N1: TTBXSeparatorItem;
-    mitReplaceReplaceAll1: TTBXItem;
-    mitReplaceSelected1: TTBXItem;
-    N3: TTBXSeparatorItem;
-    mitViewOptions1: TTBXItem;
-    N4: TTBXSeparatorItem;
-    mitViewStayOnTop1: TTBXItem;
+    TBXDock1: TSpTBXDock;
+    ToolBar: TSpTBXToolbar;
+    TBXItem1: TSpTBXItem;
+    TBXItem2: TSpTBXItem;
+    TBXSeparatorItem1: TSpTBXSeparatorItem;
+    TBXItem3: TSpTBXItem;
+    TBXSeparatorItem2: TSpTBXSeparatorItem;
+    TBXItem4: TSpTBXItem;
+    TBXSeparatorItem3: TSpTBXSeparatorItem;
+    TBXItem5: TSpTBXItem;
+    TBXItem6: TSpTBXItem;
+    TBXItem7: TSpTBXItem;
+    TBXSeparatorItem4: TSpTBXSeparatorItem;
+    TBXItem8: TSpTBXItem;
+    TBXItem9: TSpTBXItem;
+    TBXSeparatorItem5: TSpTBXSeparatorItem;
+    TBXItem10: TSpTBXItem;
+    TBXItem11: TSpTBXItem;
+    TBXSeparatorItem6: TSpTBXSeparatorItem;
+    TBXItem13: TSpTBXItem;
+    TBXPopupMenu: TSpTBXPopupMenu;
+    mitFileSearch1: TSpTBXItem;
+    mitFileRefresh1: TSpTBXItem;
+    mitFileAbort1: TSpTBXItem;
+    N5: TSpTBXSeparatorItem;
+    mitFilePrint1: TSpTBXItem;
+    mitFileSave1: TSpTBXItem;
+    N2: TSpTBXSeparatorItem;
+    mitViewToolBar1: TSpTBXItem;
+    StatusBar1: TSpTBXItem;
+    miViewShowMatchContext1: TSpTBXItem;
+    N1: TSpTBXSeparatorItem;
+    mitReplaceReplaceAll1: TSpTBXItem;
+    mitReplaceSelected1: TSpTBXItem;
+    N3: TSpTBXSeparatorItem;
+    mitViewOptions1: TSpTBXItem;
+    N4: TSpTBXSeparatorItem;
+    mitViewStayOnTop1: TSpTBXItem;
     StatusBar: TTBXStatusBar;
-    TBXSeparatorItem8: TTBXSeparatorItem;
-    TBXItem14: TTBXItem;
-    TBXSeparatorItem9: TTBXSeparatorItem;
-    TBXItem15: TTBXItem;
+    TBXSeparatorItem8: TSpTBXSeparatorItem;
+    TBXItem14: TSpTBXItem;
+    TBXSeparatorItem9: TSpTBXSeparatorItem;
+    TBXItem15: TSpTBXItem;
     procedure FormResize(Sender: TObject);
     procedure lbResultsMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
@@ -601,7 +602,8 @@ procedure TFindResultsWindow.ClearResultsListbox;
 var
   i: Integer;
 begin
-  lbResults.Clear;
+  if not (csDestroying in ComponentState) then  // Wierd crash on Exit
+    lbResults.Clear;
   for i := 0 to fSearchResults.Count - 1 do
     if fSearchResults.Objects[i] is TFileResult then
       fSearchResults.Objects[i].Free;
@@ -621,6 +623,7 @@ begin
   //lbResults.DoubleBuffered := True;
   ShowContext := True;
   ResizeListBox;
+  FindInFilesExpert := TFindInFilesExpert.Create;
 end;
 
 destructor TFindResultsWindow.Destroy;
@@ -633,6 +636,7 @@ begin
   inherited Destroy;
 
   FindResultsWindow := nil;
+  FreeAndNil(FindInFilesExpert);
 end;
 
 function TFindResultsWindow.DoingSearchOrReplace: Boolean;

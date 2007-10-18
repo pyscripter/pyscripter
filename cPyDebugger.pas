@@ -28,6 +28,16 @@ type
     property PyFrame : Variant read fPyFrame;
   end;
 
+  TPyObjectInfo = record
+    Initialized,
+    Has__dict__,
+    IsModule,
+    IsMethod,
+    IsFunction,
+    IsClass : Boolean;
+  end;
+
+
   TNameSpaceItem = class(TBaseNameSpaceItem)
   // Implementation of the Base class for the internal debugger
   protected
@@ -35,6 +45,8 @@ type
     fChildCount : integer;
     fChildNodes : TStringList;
     fName : string;
+    fObjectType : string; // for caching ObjectType
+    fObjectInfo : TPyObjectInfo;
   protected
     function GetName : string; override;
     function GetObjectType : string; override;
@@ -42,6 +54,9 @@ type
     function GetDocString : string; override;
     function GetChildCount : integer; override;
     function GetChildNode(Index: integer): TBaseNameSpaceItem; override;
+    function GetObjectInfo : TPyObjectInfo;
+    procedure ExtractObjectInfo(PyObjectInfo : Variant);
+    procedure FillObjectInfo; virtual;
   public
     constructor Create(aName : string; aPyObject : Variant);
     destructor Destroy; override;
@@ -53,6 +68,7 @@ type
     function Has__dict__ : Boolean; override;
     function IndexOfChild(AName : string): integer; override;
     procedure GetChildNodes; override;
+    property ObjectInfo : TPyObjectInfo read GetObjectInfo;
   end;
 
   TPyInternalInterpreter = class(TPyBaseInterpreter)
@@ -138,7 +154,7 @@ var
 
 implementation
 
-uses dmCommands, frmPythonII, VarPyth, frmMessages, frmPyIDEMain,
+uses dmCommands, frmPythonII, Variants, VarPyth, frmMessages, frmPyIDEMain,
   MMSystem, Math, JvDockControlForm, JclFileUtils, uCommonFunctions,
   cParameters, JclSysUtils, StringResources, Dialogs, JvDSADialogs;
 
@@ -172,6 +188,7 @@ begin
   fName := aName;
   fPyObject := aPyObject;
   fChildCount := -1;  // unknown
+  fObjectInfo.Initialized := False;
 end;
 
 destructor TNameSpaceItem.Destroy;
@@ -186,9 +203,28 @@ begin
   inherited;
 end;
 
+procedure TNameSpaceItem.ExtractObjectInfo(PyObjectInfo: Variant);
+begin
+  fObjectInfo.Initialized := True;
+  fObjectInfo.Has__dict__ := False;
+  fObjectInfo.IsModule := False;
+  fObjectInfo.IsMethod := False;
+  fObjectInfo.IsFunction := False;
+  fObjectInfo.IsClass := False;
+  if VarIsPython(PyObjectInfo) then begin
+    try
+      fObjectInfo.Has__dict__ := PyObjectInfo.GetItem(0);
+      fObjectInfo.IsModule := PyObjectInfo.GetItem(1);
+      fObjectInfo.IsMethod := PyObjectInfo.GetItem(2);
+      fObjectInfo.IsFunction := PyObjectInfo.GetItem(3);
+      fObjectInfo.IsClass := PyObjectInfo.GetItem(4);
+    except
+    end;
+  end;
+end;
+
 function TNameSpaceItem.GetChildCount: integer;
 var
-  i : integer;
   SuppressOutput : IInterface;
 begin
   if Assigned(fChildNodes) then
@@ -198,15 +234,7 @@ begin
   else begin
     SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
     try
-      if IsDict then
-        Result := len(fPyObject)
-      else if SortedIdentToInt(ObjectType, i, CommonTypes, True) then
-        Result := 0  // do not expand common types
-//      else if Has__dict__ then
-//        Result := len(fPyObject.__dict__)
-      else begin
-        Result := len(InternalInterpreter.PyInteractiveInterpreter.safegetmembers(fPyObject));
-      end;
+      Result := InternalInterpreter.PyInteractiveInterpreter.membercount(fPyObject);
     except
       Result := 0;
     end;
@@ -225,7 +253,7 @@ end;
 
 procedure TNameSpaceItem.GetChildNodes;
 Var
-  Dict, DictKeys, APyObject : Variant;
+  Dict, DictKeys, APyObject, PyFullInfo : Variant;
   i : integer;
   Name : string;
   NameSpaceItem : TNameSpaceItem;
@@ -236,12 +264,12 @@ begin
     SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
     try
       if IsDict then begin
-        Dict := fPyObject;
+        Dict := InternalInterpreter.PyInteractiveInterpreter.getitemsfullinfo(fPyObject);
         fChildCount := len(Dict);
       end else if SortedIdentToInt(ObjectType, i, CommonTypes, True) then
         fChildCount := 0  // do not expand common types
       else begin
-        Dict := InternalInterpreter.PyInteractiveInterpreter.safegetmembers(fPyObject);
+        Dict := InternalInterpreter.PyInteractiveInterpreter.safegetmembersfullinfo(fPyObject);
         fChildCount := len(Dict);
       end;
 
@@ -252,11 +280,20 @@ begin
         for i := 0 to fChildCount - 1 do begin
           Name :=  DictKeys.GetItem(i);
           try
-            APyObject := Dict.GetItem(DictKeys.GetItem(i));
+            PyFullInfo := Dict.GetItem(DictKeys.GetItem(i));
+            APyObject := PyFullInfo.GetItem(0);
           except
             APyObject := VarPythonCreate('Error in getting object');
+            VarClear(PyFullInfo);
           end;
           NameSpaceItem := TNameSpaceItem.Create(Name, APyObject);
+          if VarIsPython(PyFullInfo) then begin
+             NameSpaceItem.BufferedValue := PyFullInfo.GetItem(1);
+             NameSpaceItem.GotBufferedValue := True;
+             NameSpaceItem.fObjectType := PyFullInfo.GetItem(2);
+             NameSpaceItem.ExtractObjectInfo(PyFullInfo.GetItem(3));
+             NameSpaceItem.fChildCount := PyFullInfo.GetItem(4);
+          end;
           fChildNodes.AddObject(Name, NameSpaceItem);
         end;
         fChildNodes.CustomSort(ComparePythonIdents);
@@ -286,10 +323,28 @@ begin
   Result := fName;
 end;
 
+procedure TNameSpaceItem.FillObjectInfo;
+var
+  SuppressOutput : IInterface;
+  PyObjectInfo : Variant;
+begin
+  SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
+  try
+    PyObjectInfo := InternalInterpreter.PyInteractiveInterpreter.objectinfo(fPyObject);
+  except
+    PyObjectInfo := VarNull;
+  end;
+  ExtractObjectInfo(PyObjectInfo);
+end;
+
 function TNameSpaceItem.GetObjectType: string;
 Var
   SuppressOutput : IInterface;
 begin
+  if fObjectType <> '' then begin
+    Result := fObjectType;
+    Exit
+  end;
   SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
   try
     if GetPythonEngine.PyObject_HasAttrString(
@@ -299,8 +354,9 @@ begin
     else
       Result := _type(fPyObject).__name__;
   except
-    Result := '';
+    Result := 'Unknown type';
   end;
+  fObjectType := Result;
 end;
 
 function TNameSpaceItem.GetValue: string;
@@ -317,9 +373,7 @@ end;
 
 function TNameSpaceItem.Has__dict__: Boolean;
 begin
-  Result := (GetPythonEngine.PyObject_HasAttrString(
-        ExtractPythonObjectFrom(fPyObject), '__dict__') = 1) and
-        VarIsPythonDict(fPyObject.__dict__) // it can be None with extensions!;
+  Result := ObjectInfo.Has__dict__;
 end;
 
 function TNameSpaceItem.IndexOfChild(AName: string): integer;
@@ -359,7 +413,7 @@ end;
 
 function TNameSpaceItem.IsClass: Boolean;
 begin
-  Result := VarIsPythonClass(fPyObject);
+  Result := ObjectInfo.IsClass;
 end;
 
 function TNameSpaceItem.IsDict: Boolean;
@@ -369,17 +423,24 @@ end;
 
 function TNameSpaceItem.IsFunction: Boolean;
 begin
-  Result := VarIsPythonFunction(fPyObject);
+  Result := ObjectInfo.IsFunction;
 end;
 
 function TNameSpaceItem.IsMethod: Boolean;
 begin
-  Result := VarIsPythonMethod(fPyObject);
+  Result := ObjectInfo.IsMethod;
 end;
 
 function TNameSpaceItem.IsModule: Boolean;
 begin
-  Result := VarIsPythonModule(fPyObject);
+  Result := ObjectInfo.IsModule;
+end;
+
+function TNameSpaceItem.GetObjectInfo: TPyObjectInfo;
+begin
+  if not fObjectInfo.Initialized then
+    FillObjectInfo;
+  Result := fObjectInfo;
 end;
 
 { TPyDebugger }
@@ -1035,8 +1096,9 @@ begin
     if Expr <> '' then begin
       //Evaluate the lookup expression and get the hint text
       LookupObj := fII.evalcode(Expr);
-      ItemsDict := fII.safegetmembers(LookupObj);
-      Result := TNameSpaceItem.Create(Expr, ItemsDict);
+//      ItemsDict := fII.safegetmembers(LookupObj);
+//      Result := TNameSpaceItem.Create(Expr, ItemsDict);
+      Result := TNameSpaceItem.Create(Expr, LookupObj);
     end else begin
       ItemsDict := NewPythonDict;
       ItemsDict.update(BuiltinModule.__dict__);

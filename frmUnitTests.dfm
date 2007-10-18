@@ -53,13 +53,13 @@ inherited UnitTestWindow: TUnitTestWindow
     ExplicitTop = 7
     ExplicitWidth = 242
     ExplicitHeight = 433
-    object ExplorerDock: TTBXDock
+    object ExplorerDock: TSpTBXDock
       Left = 0
       Top = 0
       Width = 242
       Height = 26
       AllowDrag = False
-      object ExplorerToolbar: TTBXToolbar
+      object ExplorerToolbar: TSpTBXToolbar
         Left = 0
         Top = 0
         Align = alTop
@@ -69,37 +69,56 @@ inherited UnitTestWindow: TUnitTestWindow
         FullSize = True
         Images = CommandsDataModule.Images
         TabOrder = 0
-        object TBXItem1: TTBXItem
+        Customizable = False
+        object TBXItem1: TSpTBXItem
+          Caption = '&Refresh'
+          Hint = 'Refresh tests|Extract tests from active module'
           Action = actRefresh
         end
-        object TBXItem5: TTBXItem
+        object TBXItem5: TSpTBXItem
+          Caption = '&Clear All'
+          Hint = 'Clear all tests'
           Action = actClearAll
         end
-        object TBXSeparatorItem2: TTBXSeparatorItem
+        object TBXSeparatorItem2: TSpTBXSeparatorItem
         end
-        object TBXItem6: TTBXItem
+        object TBXItem6: TSpTBXItem
+          Caption = '&Run'
+          Hint = 'Run selected tests'
           Action = actRun
         end
-        object TBXItem7: TTBXItem
+        object TBXItem7: TSpTBXItem
+          Caption = '&Stop'
+          Hint = 'Stop Testing'
           Action = actStop
         end
-        object TBXSeparatorItem1: TTBXSeparatorItem
+        object TBXSeparatorItem1: TSpTBXSeparatorItem
         end
-        object TBXItem4: TTBXItem
+        object TBXItem4: TSpTBXItem
+          Caption = 'Select &All'
+          Hint = 'Select all tests'
           Action = actSelectAll
         end
-        object TBXItem3: TTBXItem
+        object TBXItem3: TSpTBXItem
+          Caption = '&Deselect All'
+          Hint = 'Deselect all tests'
           Action = actDeselectAll
         end
-        object TBXItem2: TTBXItem
+        object TBXItem2: TSpTBXItem
+          Caption = 'Select Fai&led'
+          Hint = 'Select all failed tests'
           Action = actSelectFailed
         end
-        object TBXSeparatorItem7: TTBXSeparatorItem
+        object TBXSeparatorItem7: TSpTBXSeparatorItem
         end
-        object TBXItem10: TTBXItem
+        object TBXItem10: TSpTBXItem
+          Caption = 'Ex&pand All'
+          Hint = 'Expand all test nodes'
           Action = actExpandAll
         end
-        object TBXItem8: TTBXItem
+        object TBXItem8: TSpTBXItem
+          Caption = '&Collapse All'
+          Hint = 'Collapse all test nodes'
           Action = actCollapseAll
         end
       end

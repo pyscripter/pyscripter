@@ -49,7 +49,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, frmIDEDockWin, JvComponent, JvDockControlForm, ExtCtrls, ActnList,
   Contnrs, ImgList, ComCtrls, Menus, JvAppStorage, JvSearchFiles, TB2Item,
-  TBX, TBXThemes, TB2Dock, TB2Toolbar, VirtualTrees, JvComponentBase;
+  TBX, TBXThemes, TB2Dock, TB2Toolbar, VirtualTrees, JvComponentBase, SpTBXItem;
 
 type
   TToDoPriority = (tpHigh, tpMed, tpLow, tpDone);
@@ -94,28 +94,28 @@ type
     actHelpHelp: TAction;
     actEditCopy: TAction;
     JvSearchFiles: TJvSearchFiles;
-    TBXDock1: TTBXDock;
-    Toolbar: TTBXToolbar;
-    TBXItem1: TTBXItem;
-    TBXItem2: TTBXItem;
-    TBXSeparatorItem1: TTBXSeparatorItem;
-    TBXSeparatorItem2: TTBXSeparatorItem;
-    TBXItem3: TTBXItem;
-    TBXSeparatorItem3: TTBXSeparatorItem;
-    TBXItem4: TTBXItem;
-    PopupMenu: TTBXPopupMenu;
-    Goto1: TTBXItem;
-    Refresh1: TTBXItem;
-    N1: TTBXSeparatorItem;
-    CopyAll1: TTBXItem;
-    N2: TTBXSeparatorItem;
-    Print1: TTBXItem;
-    Options1: TTBXItem;
+    TBXDock1: TSpTBXDock;
+    Toolbar: TSpTBXToolbar;
+    TBXItem1: TSpTBXItem;
+    TBXItem2: TSpTBXItem;
+    TBXSeparatorItem1: TSpTBXSeparatorItem;
+    TBXSeparatorItem2: TSpTBXSeparatorItem;
+    TBXItem3: TSpTBXItem;
+    TBXSeparatorItem3: TSpTBXSeparatorItem;
+    TBXItem4: TSpTBXItem;
+    PopupMenu: TSpTBXPopupMenu;
+    Goto1: TSpTBXItem;
+    Refresh1: TSpTBXItem;
+    N1: TSpTBXSeparatorItem;
+    CopyAll1: TSpTBXItem;
+    N2: TSpTBXSeparatorItem;
+    Print1: TSpTBXItem;
+    Options1: TSpTBXItem;
     ToDoView: TVirtualStringTree;
-    TBXSeparatorItem5: TTBXSeparatorItem;
-    TBXItem6: TTBXItem;
-    TBXSeparatorItem6: TTBXSeparatorItem;
-    TBXItem7: TTBXItem;
+    TBXSeparatorItem5: TSpTBXSeparatorItem;
+    TBXItem6: TSpTBXItem;
+    TBXSeparatorItem6: TSpTBXSeparatorItem;
+    TBXItem7: TSpTBXItem;
     procedure actEditCopyExecute(Sender: TObject);
     procedure actFilePrintExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);

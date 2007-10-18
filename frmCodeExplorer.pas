@@ -15,7 +15,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ComCtrls, StdCtrls, ExtCtrls, ImgList, Buttons, JvDockControlForm,
   JvComponent, Menus, Contnrs, VirtualTrees, frmIDEDockWin, TB2Item, TBX,
-  cPythonSourceScanner, JvComponentBase;
+  cPythonSourceScanner, JvComponentBase, SpTBXItem;
 
 type
   TAbstractCENode = class
@@ -166,9 +166,9 @@ type
   TCodeExplorerWindow = class(TIDEDockWindow)
     Panel1: TPanel;
     ExplorerTree: TVirtualStringTree;
-    TreePopupMenu: TTBXPopupMenu;
-    mnExpandAll: TTBXItem;
-    nCollapseAll: TTBXItem;
+    TreePopupMenu: TSpTBXPopupMenu;
+    mnExpandAll: TSpTBXItem;
+    nCollapseAll: TSpTBXItem;
     procedure ExplorerTreeGetHint(Sender: TBaseVirtualTree; Node: PVirtualNode;
       Column: TColumnIndex; var LineBreakStyle: TVTTooltipLineBreakStyle;
       var HintText: WideString);

@@ -27,7 +27,7 @@ object ExceptionDialogMail: TExceptionDialogMail
     255)
   PixelsPerInch = 96
   TextHeight = 13
-  object Bevel1: TBevel
+  object BevelDetails: TBevel
     Left = 3
     Top = 91
     Width = 422

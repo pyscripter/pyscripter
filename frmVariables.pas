@@ -179,7 +179,7 @@ begin
         else
           ImageIndex := 13;
       end else begin
-        if Assigned(Node.Parent) and
+        if Assigned(Node.Parent) and (Node.Parent <> VariablesTree.RootNode) and
           (PPyObjRec(VariablesTree.GetNodeData(Node.Parent)).NameSpaceItem.IsDict
             or PPyObjRec(VariablesTree.GetNodeData(Node.Parent)).NameSpaceItem.IsModule)
         then
@@ -323,11 +323,15 @@ begin
   end else begin
     CurrentFileName := '';
     CurrentFunctionName := '';
-    GlobalsNameSpace := PyControl.ActiveInterpreter.GetGlobals;
-    RootNodeCount := 1;
+    try
+      GlobalsNameSpace := PyControl.ActiveInterpreter.GetGlobals;
+      RootNodeCount := 1;
+    except
+      RootNodeCount := 0;
+    end;
   end;
 
-  if SameFrame and (RootNodeCount = VariablesTree.RootNodeCount) then begin
+  if (RootNodeCount > 0) and SameFrame and (RootNodeCount = VariablesTree.RootNodeCount) then begin
     Cursor := WaitCursor;
     if Assigned(GlobalsNameSpace) and Assigned(OldGlobalsNameSpace) then
       GlobalsNameSpace.CompareToOldItem(OldGlobalsNameSpace);

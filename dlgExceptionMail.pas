@@ -1,4 +1,4 @@
-{****************************************************************************}
+﻿{****************************************************************************}
 {                                                                            }
 { Project JEDI Code Library (JCL)                                            }
 {                                                                            }
@@ -19,7 +19,7 @@
 {                                                                            }
 {****************************************************************************}
 {                                                                            }
-{ Last modified: $Date: 2007-05-23 11:32:18 +0200 (mer., 23 mai 2007) $      }
+{ Last modified: $Date: 2007-08-07 19:59:10 +0200 (mar., 07 août 2007) $      }
 {                                                                            }
 {****************************************************************************}
 
@@ -41,7 +41,7 @@ type
     TextLabel: TMemo;
     OkBtn: TSpTBXButton;
     DetailsBtn: TSpTBXButton;
-    Bevel1: TBevel;
+    BevelDetails: TBevel;
     DetailsMemo: TMemo;
     procedure SendBtnClick(Sender: TObject);
     procedure FormPaint(Sender: TObject);
@@ -59,7 +59,7 @@ type
     FNonDetailsHeight: Integer;
     FFullHeight: Integer;
     FSimpleLog: TJclSimpleLog;
-    //procedure ReportToLog;
+    procedure ReportToLog;
     function GetReportAsText: string;
     procedure SetDetailsVisible(const Value: Boolean);
     procedure UMCreateDetails(var Message: TMessage); message UM_CREATEDETAILS;
@@ -274,7 +274,7 @@ begin
   DetailsMemo.Lines.BeginUpdate;
   try
     CreateReport;
-    //ReportToLog;  No Logging
+    ReportToLog;
     DetailsMemo.SelStart := 0;
     SendMessage(DetailsMemo.Handle, EM_SCROLLCARET, 0, 0);
     AfterCreateDetails;
@@ -427,44 +427,52 @@ end;
 
 class procedure TExceptionDialogMail.ExceptionHandler(Sender: TObject; E: Exception);
 begin
-  if ExceptionShowing then
-    Application.ShowException(Exception(E))
-  else if Assigned(E) and not IsIgnoredException(E.ClassType) then
-  begin
-    ExceptionShowing := True;
-    try
-      ShowException(E, nil);
-    finally
-      ExceptionShowing := False;
+  if Assigned(E) then
+    if ExceptionShowing then
+      Application.ShowException(E)
+    else
+    begin
+      ExceptionShowing := True;
+      try
+        if IsIgnoredException(E.ClassType) then
+          Application.ShowException(E)
+        else
+          ShowException(E, nil);
+      finally
+        ExceptionShowing := False;
+      end;
     end;
-  end;
 end;
 
 //--------------------------------------------------------------------------------------------------
 
 class procedure TExceptionDialogMail.ExceptionThreadHandler(Thread: TJclDebugThread);
+var
+  E: Exception;
 begin
-  if ExceptionShowing then
-  begin
-    if Thread.SyncException is EXception then
-      Application.ShowException(Exception(Thread.SyncException));
-  end
-  else
-  begin
-    ExceptionShowing := True;
-    try
-      ShowException(Thread.SyncException, Thread);
-    finally
-      ExceptionShowing := False;
+  E := Exception(Thread.SyncException);
+  if Assigned(E) then
+    if ExceptionShowing then
+      Application.ShowException(E)
+    else
+    begin
+      ExceptionShowing := True;
+      try
+        if IsIgnoredException(E.ClassType) then
+          Application.ShowException(E)
+        else
+          ShowException(E, Thread);
+      finally
+        ExceptionShowing := False;
+      end;
     end;
-  end;
 end;
 
 //--------------------------------------------------------------------------------------------------
 
 procedure TExceptionDialogMail.FormCreate(Sender: TObject);
 begin
-  FSimpleLog := TJclSimpleLog.Create;
+  FSimpleLog := TJclSimpleLog.Create('filename.log');
   FFullHeight := ClientHeight;
   DetailsVisible := False;
   Caption := Format(RsAppError, [Application.Title]);
@@ -538,15 +546,15 @@ end;
 
 //--------------------------------------------------------------------------------------------------
 
-//procedure TExceptionDialogMail.ReportToLog;
-//begin
-//  FSimpleLog.WriteStamp(ReportMaxColumns);
-//  try
-//    FSimpleLog.Write(ReportAsText);
-//  finally
-//    FSimpleLog.CloseLog;
-//  end;
-//end;
+procedure TExceptionDialogMail.ReportToLog;
+begin
+  FSimpleLog.WriteStamp(ReportMaxColumns);
+  try
+    FSimpleLog.Write(ReportAsText);
+  finally
+    FSimpleLog.CloseLog;
+  end;
+end;
 
 //--------------------------------------------------------------------------------------------------
 
@@ -570,7 +578,7 @@ begin
     DetailsCaption := DetailsCaption + ' >>';
     if FNonDetailsHeight = 0 then
     begin
-      ClientHeight := Bevel1.Top;
+      ClientHeight := BevelDetails.Top;
       FNonDetailsHeight := Height;
     end
     else
@@ -587,7 +595,7 @@ end;
 class procedure TExceptionDialogMail.ShowException(E: TObject; Thread: TJclDebugThread);
 begin
   if ExceptionDialogMail = nil then
-    ExceptionDialogMail := TExceptionDialogMailClass.Create(Application);
+    ExceptionDialogMail := ExceptionDialogMailClass.Create(Application);
   try
     with ExceptionDialogMail do
     begin

@@ -24,7 +24,8 @@ uses
   SynEditHighlighter, SynEdit,
   SynEditKeyCmds, SynCompletionProposal, JvComponent, JvDockControlForm,
   frmIDEDockWin, ExtCtrls, TBX, TBXThemes, PythonGUIInputOutput, JvComponentBase,
-  SynUnicode, TB2Item, ActnList, cPyBaseDebugger, WrapDelphi, WrapDelphiClasses;
+  SynUnicode, TB2Item, ActnList, cPyBaseDebugger, WrapDelphi, WrapDelphiClasses,
+  SpTBXItem;
 
 const
   WM_APPENDTEXT = WM_USER + 1020;
@@ -37,23 +38,27 @@ type
     SynCodeCompletion: TSynCompletionProposal;
     DebugIDE: TPythonModule;
     SynParamCompletion: TSynCompletionProposal;
-    InterpreterPopUp: TTBXPopupMenu;
+    InterpreterPopUp: TSpTBXPopupMenu;
     InterpreterActionList: TActionList;
     actCleanUpNameSpace: TAction;
     actCleanUpSysModules: TAction;
-    TBXItem1: TTBXItem;
-    TBXItem2: TTBXItem;
-    TBXSeparatorItem1: TTBXSeparatorItem;
-    TBXItem3: TTBXItem;
+    TBXItem1: TSpTBXItem;
+    TBXItem2: TSpTBXItem;
+    TBXSeparatorItem1: TSpTBXSeparatorItem;
+    TBXItem3: TSpTBXItem;
     actCopyHistory: TAction;
-    TBXSeparatorItem2: TTBXSeparatorItem;
-    TBXItem4: TTBXItem;
+    TBXSeparatorItem2: TSpTBXSeparatorItem;
+    TBXItem4: TSpTBXItem;
     actClearContents: TAction;
-    TBXItem7: TTBXItem;
-    TBXPythonEngines: TTBXSubmenuItem;
-    TBXSeparatorItem3: TTBXSeparatorItem;
+    TBXItem7: TSpTBXItem;
+    TBXPythonEngines: TSpTBXSubmenuItem;
+    TBXSeparatorItem3: TSpTBXSeparatorItem;
     PyDelphiWrapper: TPyDelphiWrapper;
     PyscripterModule: TPythonModule;
+    TBXSeparatorItem4: TSpTBXSeparatorItem;
+    TBXItem5: TSpTBXItem;
+    TBXItem6: TSpTBXItem;
+    TBXItem8: TSpTBXItem;
     procedure testResultAddError(Sender: TObject; PSelf, Args: PPyObject;
       var Result: PPyObject);
     procedure testResultAddFailure(Sender: TObject; PSelf, Args: PPyObject;
@@ -154,6 +159,8 @@ type
     procedure RegisterHistoryCommands;
     procedure SetPythonEngineType(PythonEngineType : TPythonEngineType);
     property ShowOutput : boolean read fShowOutput write fShowOutput;
+    property CommandHistory : TWideStringList read fCommandHistory;
+    property CommandHistoryPointer : integer read fCommandHistoryPointer write fCommandHistoryPointer;
     property CommandHistorySize : integer read fCommandHistorySize write SetCommandHistorySize;
   end;
 
@@ -712,6 +719,9 @@ Var
   Len, Position : Integer;
   CharRight: WideChar;
   CharLeft: WideChar;
+  Attr: TSynHighlighterAttributes;
+  DummyToken : WideString;
+  BC : TBufferCoord;
 begin
   if (Command = ecChar) and CommandsDataModule.PyIDEOptions.AutoCompleteBrackets then
   with SynEdit do begin
@@ -725,6 +735,12 @@ begin
     end else begin
       fCloseBracketChar := #0;
       OpenBracketPos := Pos(aChar, OpenBrackets);
+
+      BC := CaretXY;
+      Dec(BC.Char, 2);
+      if (BC.Char >= 1) and GetHighlighterAttriAtRowCol(BC, DummyToken, Attr) and
+        ((attr = Highlighter.StringAttribute) or (attr = Highlighter.CommentAttribute)) then
+          OpenBracketPos := 0;  // Do not auto complete brakets inside strings or comments
 
       if (OpenBracketPos > 0) then begin
         CharRight := WideNull;
@@ -947,6 +963,9 @@ var locline, lookup: String;
     FoundMatch     : Boolean;
     DisplayText, InsertText: string;
     NameSpaceDict, NameSpaceItem : TBaseNameSpaceItem;
+    Attr: TSynHighlighterAttributes;
+    DummyToken : WideString;
+    BC : TBufferCoord;
 begin
   if PyControl.IsRunning or not CommandsDataModule.PyIDEOptions.InterpreterCodeCompletion
   then
@@ -954,6 +973,18 @@ begin
     Exit;
   with TSynCompletionProposal(Sender).Editor do
   begin
+    BC := CaretXY;
+    Dec(BC.Char);
+    if GetHighlighterAttriAtRowCol(BC, DummyToken, Attr) and
+     ((attr = Highlighter.StringAttribute) or (attr = Highlighter.CommentAttribute) or
+      (attr = TSynPythonInterpreterSyn(Highlighter).CodeCommentAttri) or
+      (attr = TSynPythonInterpreterSyn(Highlighter).DocStringAttri)) then
+    begin
+      // Do not code complete inside strings or comments
+      CanExecute := False;
+      Exit;
+    end;
+
     locLine := LineText;
 
     //go back from the cursor and find the first open paren
@@ -1033,12 +1064,27 @@ var locline, lookup: String;
     FoundMatch : Boolean;
     DisplayText, DocString : string;
     p : TPoint;
+    Attr: TSynHighlighterAttributes;
+    DummyToken : WideString;
+    BC : TBufferCoord;
 begin
   if PyControl.IsRunning or not CommandsDataModule.PyIDEOptions.InterpreterCodeCompletion
   then
     Exit;
   with TSynCompletionProposal(Sender).Editor do
   begin
+    BC := CaretXY;
+    Dec(BC.Char);
+    if GetHighlighterAttriAtRowCol(BC, DummyToken, Attr) and
+     ((attr = Highlighter.StringAttribute) or (attr = Highlighter.CommentAttribute) or
+      (attr = TSynPythonInterpreterSyn(Highlighter).CodeCommentAttri) or
+      (attr = TSynPythonInterpreterSyn(Highlighter).DocStringAttri)) then
+    begin
+      // Do not code complete inside strings or comments
+      CanExecute := False;
+      Exit;
+    end;
+
     locLine := LineText;
 
     //go back from the cursor and find the first open paren

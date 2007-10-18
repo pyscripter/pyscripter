@@ -12,7 +12,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, Buttons, VirtualTrees, ExtCtrls,
-  frmCodeExplorer, cPythonSourceScanner;
+  frmCodeExplorer, cPythonSourceScanner, TB2Item, TBX, Menus, SpTBXItem;
 
 type
 
@@ -44,6 +44,9 @@ type
     Label1: TLabel;
     lbHeader: TLabel;
     Bevel1: TBevel;
+    PopupUnitTestWizard: TSpTBXPopupMenu;
+    mnSelectAll: TSpTBXItem;
+    mnDeselectAll: TSpTBXItem;
     procedure HelpButtonClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure ExplorerTreeInitNode(Sender: TBaseVirtualTree; ParentNode,
@@ -58,6 +61,8 @@ type
     procedure ExplorerTreeGetHint(Sender: TBaseVirtualTree; Node: PVirtualNode;
       Column: TColumnIndex; var LineBreakStyle: TVTTooltipLineBreakStyle;
       var HintText: WideString);
+    procedure mnSelectAllClick(Sender: TObject);
+    procedure mnDeselectAllClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -315,6 +320,28 @@ procedure TUnitTestWizard.HelpButtonClick(Sender: TObject);
 begin
   if HelpContext <> 0 then
     Application.HelpContext(HelpContext);
+end;
+
+procedure TUnitTestWizard.mnDeselectAllClick(Sender: TObject);
+Var
+  Node : PVirtualNode;
+begin
+   Node := ExplorerTree.RootNode^.FirstChild;
+   while Assigned(Node) do begin
+     ExplorerTree.CheckState[Node] := csUncheckedNormal;
+     Node := Node.NextSibling;
+   end;
+end;
+
+procedure TUnitTestWizard.mnSelectAllClick(Sender: TObject);
+Var
+  Node : PVirtualNode;
+begin
+   Node := ExplorerTree.RootNode^.FirstChild;
+   while Assigned(Node) do begin
+     ExplorerTree.CheckState[Node] := csCheckedNormal;
+     Node := Node.NextSibling;
+   end;
 end;
 
 end.

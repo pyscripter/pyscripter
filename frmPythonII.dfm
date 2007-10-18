@@ -7,16 +7,42 @@ inherited PythonIIForm: TPythonIIForm
   ClientWidth = 703
   FormStyle = fsStayOnTop
   Icon.Data = {
-    0000010001001010040000000000280100001600000028000000100000002000
-    0000010004000000000080000000000000000000000000000000000000000000
-    000000008000008000000080800080000000800080008080000080808000C0C0
-    C0000000FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00098F
-    F8733A3333808912228F2AA333070793AA20780A3330F709102A2780A333F223
-    3000A272AA332AAAAA200A22AA330A3333AA023223330333333A22AA03330333
-    333333AA0333F003333333323307F88000300330008F0FF7B33B3308FFF000F7
-    CC3CC30F000000F7B33B330F000000F80000337F0000000F807007F000008001
-    0000000000008000000000000000000000000000000000000000000000000000
-    0000000000000000000080010000C00F0000C00F0000C00F0000E01F0000}
+    0000010001001010000001002000680400001600000028000000100000002000
+    0000010020000000000000000000000000000000000000000000000000000000
+    000000000000000000000000000000000000000000060000001A000000210000
+    0021000000180000000500000000000000000000000000000000000000000000
+    0000000000000000000000000000E0E0E023F0F0F0C3FCFCFCF8FFFFFFFFFBFB
+    FBF8E2E2E2CD5B5B5B5000000006000000000000000000000000000000000000
+    0000000000000000000000000000FDFDFDB8B3F5FFFF5DE3FFFF48D9FFFF49D3
+    FFFFA0E6FFFFE2E2E2CF0000001C000000000000000000000000000000000000
+    0000000000000000000000000000FFFFFFF665EDFFFF5CE8FFFF51E0FFFFD5F6
+    FFFF3FD0FFFFFCFCFCF900000028000000000000000000000000000000000000
+    0000000000060000001900000021FFFFFFFF62EDFFFF61EDFFFF5AE7FFFF4FDE
+    FFFF44D6FFFFFFFFFFFF0000003B00000020000000170000000500000000DFDF
+    DF23F0F0F0C2FCFCFCF8FFFFFFFFFFFFFFFF62EDFFFF62EDFFFFBEF7FFFFFFFF
+    FFFFFFFFFFFFFFFFFFFFFFFFFFFFFBFBFBF8E2E2E2CD5A5A5A5000000006FDFD
+    FDB9CCBAA5FF886A46FF7D6445FFFFFFFFFF63EDFFFF62EDFFFF62EDFFFF60EB
+    FFFF56E3FFFF4BDBFFFF40D2FFFF39CBFFFF9DE4FFFFE2E2E2CF0000001DFFFF
+    FFF6A17A4BFF8F6C41FF846743FFF1EEEAFF9BF4FFFF63EDFFFF62EDFFFF62ED
+    FFFF5EEAFFFF54E2FFFF49D9FFFF3ED1FFFF40CCFFFFFCFCFCF900000029FFFF
+    FFFFA4763DFF99713FFF8D6B42FFA38E74FFF0EEEAFFFFFFFFFFFFFFFFFFFFFF
+    FFFFEDFDFFFF85EDFFFF52E0FFFF47D8FFFF3CCFFFFFFFFFFFFF0000002AFFFF
+    FFF5B28247FFA2753DFF966F40FF8B6A42FF806544FF7C6345FF7C6345FF7D64
+    46FFAC9C89FFEDFDFFFF5BE7FFFF4FDFFFFF50D9FFFFFBFBFBF800000021FFFF
+    FFB6DCC2A2FFAD7C3FFFA0743EFF946E40FF896942FF7E6445FF7C6345FF7C63
+    45FF7D6547FFFFFFFFFF61ECFFFF5CE6FFFFACEFFFFFEBEBEBC40000000B0000
+    0000FFFFFFB8FFFFFFF7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFC9BEB1FF7C63
+    45FF7C6345FFFFFFFFFFFFFFFFFFFEFEFEF5FAFAFAB8BFBFBF25000000000000
+    0000000000000000000000000000FFFFFFFF9B723FFF906C41FF856743FF7D63
+    45FF7C6345FFFFFFFFFF00000029000000000000000000000000000000000000
+    0000000000000000000000000000FFFFFFF5A67940FFE8DFD3FF8E6B41FF8266
+    44FF7F6649FFFBFBFBF800000021000000000000000000000000000000000000
+    0000000000000000000000000000FFFFFFB6D8C0A3FFA87D49FF977040FF9373
+    4DFFC4B7A8FFEBEBEBC40000000B000000000000000000000000000000000000
+    000000000000000000000000000000000000FFFFFFB8FFFFFFF7FFFFFFFFFEFE
+    FEF5FAFAFAB9BFBFBF250000000000000000000000000000000000000000F81F
+    9C41F00F9C41F00F9C41F00F9C4180019C4100009C4100009C4100009C410000
+    9C4100009C4100009C4180019C41F00F9C41F00F9C41F00F9C41F81F9C41}
   Position = poDefault
   OnHelp = FormHelp
   ExplicitWidth = 719
@@ -123,7 +149,7 @@ inherited PythonIIForm: TPythonIIForm
       '        def __call__(self):'
       '            import time'
       '            debugIDE = __import__("DebugIDE")'
-      '            while not self.__done:'
+      '            while not (self.__done or not self.__T.isAlive()):'
       '                debugIDE.awakeGUI()'
       '                time.sleep(0.001)'
       ''
@@ -141,7 +167,8 @@ inherited PythonIIForm: TPythonIIForm
       
         '            # Run the actual function, and let us housekeep arou' +
         'nd it'
-      '            import sys'
+      '            import sys, thread'
+      '            self.thread_id = thread.get_ident()'
       '            try:'
       '                self.__result = func(*args, **kwargs)'
       '            except:'
@@ -152,8 +179,11 @@ inherited PythonIIForm: TPythonIIForm
       '            self.__status=`self.__result`'
       ''
       '    def execInThread(self, func, args):'
+      '        import time'
       '        #keeps GUI alive'
       '        future = self.Future(func, *args)'
+      '        time.sleep(0.001)'
+      '        self.thread_id = future.thread_id'
       '        return future()'
       ''
       '    class IDEDebugger(__import__('#39'bdb'#39').Bdb):'
@@ -287,6 +317,37 @@ inherited PythonIIForm: TPythonIIForm
       '        pyrepr.maxother = 80'
       '        self._repr = pyrepr.repr'
       ''
+      '        self.commontypes = __import__("sets").ImmutableSet(['
+      '              '#39'NoneType'#39','
+      '              '#39'NotImplementedType'#39','
+      '              '#39'bool'#39','
+      '              '#39'buffer'#39','
+      '              '#39'builtin_function_or_method'#39','
+      '              '#39'code'#39','
+      '              '#39'complex'#39','
+      '              '#39'dict'#39','
+      '              '#39'dictproxy'#39','
+      '              '#39'ellipsis'#39','
+      '              '#39'file'#39','
+      '              '#39'float'#39','
+      '              '#39'frame'#39','
+      '              '#39'function'#39','
+      '              '#39'generator'#39','
+      '              '#39'getset_descriptor'#39','
+      '              '#39'instancemethod'#39','
+      '              '#39'int'#39','
+      '              '#39'list'#39','
+      '              '#39'long'#39','
+      '              '#39'member_descriptor'#39','
+      '              '#39'method-wrapper'#39','
+      '              '#39'object'#39','
+      '              '#39'slice'#39','
+      '              '#39'str'#39','
+      '              '#39'traceback'#39','
+      '              '#39'tuple'#39','
+      '              '#39'unicode'#39','
+      '              '#39'xrange'#39'])'
+      ''
       '    def run_nodebug(self, cmd, globals=None, locals=None):'
       '        import types'
       '        import sys'
@@ -333,11 +394,42 @@ inherited PythonIIForm: TPythonIIForm
       '        except:'
       '            return "Unknown type"'
       ''
+      '    def objectinfo(self, ob):'
+      '        res = [False, False, False, False, False]'
+      '        try:'
+      '            import inspect'
+      
+        '            if hasattr(ob, "__dict__") and isinstance(ob.__dict_' +
+        '_, dict):'
+      '                res[0] = True'
+      '            if inspect.ismodule(ob):'
+      '                res[1] = True'
+      '            elif inspect.ismethod(ob):'
+      '                res[2] = True'
+      '            elif inspect.isfunction(ob):'
+      '                res[3] = True'
+      '            elif inspect.isclass(ob):'
+      '                res[4] = True'
+      '            return tuple(res)'
+      '        except:'
+      '            return tuple(res)'
+      ''
       '    def saferepr(self, x):'
       '        try:'
       '            return self._repr(x)'
       '        except:'
       '            return '#39'<unprintable %s object>'#39' % type(x).__name__'
+      ''
+      '    def membercount(self, x):'
+      '        try:'
+      '            if type(x) is dict:'
+      '                return len(x)'
+      '            elif type(x).__name__ in self.commontypes:'
+      '                return 0'
+      '            else:'
+      '                return len(dir(x))'
+      '        except:'
+      '            return 0'
       ''
       '    def _getmembers(self, ob):'
       '        result = {}'
@@ -351,6 +443,30 @@ inherited PythonIIForm: TPythonIIForm
       '    def safegetmembers(self, x):'
       '        try:'
       '            return self._getmembers(x)'
+      '        except:'
+      '            return {}'
+      ''
+      '    def safegetmembersfullinfo(self, x):'
+      '        try:'
+      '            d = self._getmembers(x)'
+      '            for (i,j) in d.items():'
+      
+        '                d[i] = (j, self.saferepr(j), self.objecttype(j),' +
+        ' self.objectinfo(j), self.membercount(j))'
+      '            return d'
+      '        except:'
+      '            return {}'
+      ''
+      '    def getitemsfullinfo(self, x):'
+      '        try:'
+      '            assert type(x) == dict'
+      '            members = x.items()'
+      '            d = {}'
+      '            for (i,j) in members:'
+      
+        '                d[i] = (j, self.saferepr(j), self.objecttype(j),' +
+        ' self.objectinfo(j), self.membercount(j))'
+      '            return d'
       '        except:'
       '            return {}'
       ''
@@ -776,34 +892,61 @@ inherited PythonIIForm: TPythonIIForm
     EndOfTokenChrW = '()[]. ='
     TriggerCharsW = '('
   end
-  object InterpreterPopUp: TTBXPopupMenu
+  object InterpreterPopUp: TSpTBXPopupMenu
     Images = CommandsDataModule.Images
     OnPopup = InterpreterPopUpPopup
     Left = 45
     Top = 12
-    object TBXPythonEngines: TTBXSubmenuItem
+    object TBXPythonEngines: TSpTBXSubmenuItem
       Caption = 'Python Engine'
       LinkSubitems = PyIDEMainForm.mnPythonEngines
     end
-    object TBXSeparatorItem3: TTBXSeparatorItem
+    object TBXSeparatorItem3: TSpTBXSeparatorItem
     end
-    object TBXItem1: TTBXItem
+    object TBXItem1: TSpTBXItem
+      Caption = 'Clean up &Namespace'
+      Hint = 'Clean up the globals namespace after run'
       Action = actCleanUpNameSpace
     end
-    object TBXItem2: TTBXItem
+    object TBXItem2: TSpTBXItem
+      Caption = 'Clean up &sys.modules'
+      Hint = 'Clean up the globals namespace after run'
       Action = actCleanUpSysModules
     end
-    object TBXSeparatorItem1: TTBXSeparatorItem
+    object TBXSeparatorItem4: TSpTBXSeparatorItem
     end
-    object TBXItem4: TTBXItem
+    object TBXItem8: TSpTBXItem
+      Caption = 'Cu&t'
+      Hint = 'Cut|Cuts the selection and puts it on the Clipboard'
+      Action = CommandsDataModule.actEditCut
+    end
+    object TBXItem6: TSpTBXItem
+      Caption = '&Copy'
+      Hint = 'Copy|Copies the selection and puts it on the Clipboard'
+      Action = CommandsDataModule.actEditCopy
+    end
+    object TBXItem5: TSpTBXItem
+      Caption = '&Paste'
+      Hint = 'Paste|Inserts Clipboard contents'
+      Action = CommandsDataModule.actEditPaste
+    end
+    object TBXSeparatorItem1: TSpTBXSeparatorItem
+    end
+    object TBXItem4: TSpTBXItem
+      Caption = 'Copy &History'
+      Hint = 'Copy history to Clipboard'
       Action = actCopyHistory
     end
-    object TBXItem7: TTBXItem
+    object TBXItem7: TSpTBXItem
+      Caption = 'Clear &All'
+      Hint = 'Clear all interpreter output'
       Action = actClearContents
     end
-    object TBXSeparatorItem2: TTBXSeparatorItem
+    object TBXSeparatorItem2: TSpTBXSeparatorItem
     end
-    object TBXItem3: TTBXItem
+    object TBXItem3: TSpTBXItem
+      Caption = '&Interpreter Editor Options...'
+      Hint = 'Set Interpreter Editor Options'
       Action = CommandsDataModule.actInterpreterEditorOptions
     end
   end

@@ -89,40 +89,51 @@ inherited ToDoWindow: TToDoWindow
     ExplicitTop = 6
     ExplicitWidth = 478
     ExplicitHeight = 271
-    object TBXDock1: TTBXDock
+    object TBXDock1: TSpTBXDock
       Left = 0
       Top = 0
       Width = 478
       Height = 26
       AllowDrag = False
-      object Toolbar: TTBXToolbar
+      object Toolbar: TSpTBXToolbar
         Left = 0
         Top = 0
         DockPos = 2
         FullSize = True
         Images = CommandsDataModule.Images
         TabOrder = 0
-        object TBXItem2: TTBXItem
+        Customizable = False
+        object TBXItem2: TSpTBXItem
+          Caption = '&Refresh'
+          Hint = 'Refresh to do items'
           Action = actFileRefresh
         end
-        object TBXSeparatorItem1: TTBXSeparatorItem
+        object TBXSeparatorItem1: TSpTBXSeparatorItem
         end
-        object TBXItem1: TTBXItem
+        object TBXItem1: TSpTBXItem
+          Caption = '&Goto'
+          Hint = 'Goto source line'
           Action = actEditGoto
         end
-        object TBXSeparatorItem2: TTBXSeparatorItem
+        object TBXSeparatorItem2: TSpTBXSeparatorItem
         end
-        object TBXItem3: TTBXItem
+        object TBXItem3: TSpTBXItem
+          Caption = '&Print'
+          Hint = 'Print to do items'
           Action = actFilePrint
         end
-        object TBXSeparatorItem3: TTBXSeparatorItem
+        object TBXSeparatorItem3: TSpTBXSeparatorItem
         end
-        object TBXItem4: TTBXItem
+        object TBXItem4: TSpTBXItem
+          Caption = '&Options...'
+          Hint = 'Options...'
           Action = actOptionsConfigure
         end
-        object TBXSeparatorItem5: TTBXSeparatorItem
+        object TBXSeparatorItem5: TSpTBXSeparatorItem
         end
-        object TBXItem6: TTBXItem
+        object TBXItem6: TSpTBXItem
+          Caption = '&Help'
+          Hint = 'Help'
           Action = actHelpHelp
         end
       end
@@ -665,32 +676,44 @@ inherited ToDoWindow: TToDoWindow
     Left = 27
     Top = 159
   end
-  object PopupMenu: TTBXPopupMenu
+  object PopupMenu: TSpTBXPopupMenu
     Images = CommandsDataModule.Images
     Left = 28
     Top = 125
-    object Goto1: TTBXItem
+    object Goto1: TSpTBXItem
+      Caption = '&Goto'
+      Hint = 'Goto source line'
       Action = actEditGoto
     end
-    object Refresh1: TTBXItem
+    object Refresh1: TSpTBXItem
+      Caption = '&Refresh'
+      Hint = 'Refresh to do items'
       Action = actFileRefresh
     end
-    object N1: TTBXSeparatorItem
+    object N1: TSpTBXSeparatorItem
     end
-    object CopyAll1: TTBXItem
+    object CopyAll1: TSpTBXItem
+      Caption = '&Copy All'
+      Hint = 'Copy all'
       Action = actEditCopy
     end
-    object N2: TTBXSeparatorItem
+    object N2: TSpTBXSeparatorItem
     end
-    object Print1: TTBXItem
+    object Print1: TSpTBXItem
+      Caption = '&Print'
+      Hint = 'Print to do items'
       Action = actFilePrint
     end
-    object Options1: TTBXItem
+    object Options1: TSpTBXItem
+      Caption = '&Options...'
+      Hint = 'Options...'
       Action = actOptionsConfigure
     end
-    object TBXSeparatorItem6: TTBXSeparatorItem
+    object TBXSeparatorItem6: TSpTBXSeparatorItem
     end
-    object TBXItem7: TTBXItem
+    object TBXItem7: TSpTBXItem
+      Caption = '&Help'
+      Hint = 'Help'
       Action = actHelpHelp
     end
   end

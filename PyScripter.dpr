@@ -9,12 +9,14 @@
 
 program PyScripter;
 {%ToDo 'PyScripter.todo'}
+{%TogetherDiagram 'ModelSupport_PyScripter\default.txaPackage'}
 
 uses
   uCmdLine in 'uCmdLine.pas',
   uDpiAware in 'uDpiAware.pas',
   Windows,
   Forms,
+  RtlVclOptimize in 'RtlVclOptimize.pas',
   frmPyIDEMain in 'frmPyIDEMain.pas' {PyIDEMainForm},
   uEditAppIntfs in 'uEditAppIntfs.pas',
   frmEditor in 'frmEditor.pas' {EditorForm},
@@ -88,14 +90,11 @@ uses
   TBXUtils in 'TBXUtils.pas',
   JvDockVSNetStyle in 'JvDockVSNetStyle.pas',
   JvDockControlForm in 'JvDockControlForm.pas',
-  JvDockSupportControl in 'JvDockSupportControl.pas',
-  JvDockInfo in 'JvDockInfo.pas',
   JvDockVIDStyle in 'JvDockVIDStyle.pas',
-  JvDSAAppStorage in 'JvDSAAppStorage.pas',
   SpTBXControls in 'SpTBXControls.pas',
   uSearchHighlighter in 'uSearchHighlighter.pas',
-  JvTabBar in 'JvTabBar.pas',
-  SynEditSearch in 'SynEditSearch.pas';
+  SynEditSearch in 'SynEditSearch.pas',
+  frmModSpTBXCustomize in 'frmModSpTBXCustomize.pas';
 
 {$R *.RES}
 {$R WebCopyAvi.RES}

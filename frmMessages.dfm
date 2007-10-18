@@ -119,47 +119,53 @@ inherited MessagesWindow: TMessagesWindow
       object TBControlItem6: TTBControlItem
         Control = BtnNextMsgs
       end
-      object BtnPreviousMsgs: TTBXButton
+      object BtnPreviousMsgs: TSpTBXButton
         Left = 0
         Top = 0
         Width = 20
         Height = 17
         Hint = 'Show previous messages'
-        Anchors = [akTop, akRight]
-        BorderSize = 0
         Caption = '3'
+        Anchors = [akTop, akRight]
         Enabled = False
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
         Font.Height = -11
         Font.Name = 'Webdings'
         Font.Style = []
-        GlyphSpacing = 0
-        Layout = blGlyphBottom
         ParentFont = False
         TabOrder = 0
         OnClick = actPreviousMsgsExecute
+        LinkFont.Charset = DEFAULT_CHARSET
+        LinkFont.Color = clBlue
+        LinkFont.Height = -11
+        LinkFont.Name = 'Tahoma'
+        LinkFont.Style = [fsUnderline]
+        ThemeType = thtTBX
       end
-      object BtnNextMsgs: TTBXButton
+      object BtnNextMsgs: TSpTBXButton
         Left = 20
         Top = 0
         Width = 19
         Height = 17
         Hint = 'Show next messages'
-        Anchors = [akTop, akRight]
-        BorderSize = 0
         Caption = '4'
+        Anchors = [akTop, akRight]
         Enabled = False
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
         Font.Height = -11
         Font.Name = 'Webdings'
         Font.Style = []
-        GlyphSpacing = 0
-        Layout = blGlyphBottom
         ParentFont = False
         TabOrder = 1
         OnClick = actNextMsgsExecute
+        LinkFont.Charset = DEFAULT_CHARSET
+        LinkFont.Color = clBlue
+        LinkFont.Height = -11
+        LinkFont.Name = 'Tahoma'
+        LinkFont.Style = [fsUnderline]
+        ThemeType = thtTBX
       end
     end
   end
@@ -167,25 +173,33 @@ inherited MessagesWindow: TMessagesWindow
     Left = 6
     Top = 12
   end
-  object TBXPopupMenu: TTBXPopupMenu
+  object TBXPopupMenu: TSpTBXPopupMenu
     Images = CommandsDataModule.Images
     OnPopup = TBXPopupMenuPopup
     Left = 10
     Top = 82
-    object TBXItem1: TTBXItem
+    object TBXItem1: TSpTBXItem
+      Caption = '&Previous Messages'
+      Hint = 'Show previous messages'
       Action = actPreviousMsgs
     end
-    object TBXItem2: TTBXItem
+    object TBXItem2: TSpTBXItem
+      Caption = '&Next Messages'
+      Hint = 'Show next messages'
       Action = actNextMsgs
     end
-    object TBXSeparatorItem1: TTBXSeparatorItem
+    object TBXSeparatorItem1: TSpTBXSeparatorItem
     end
-    object mnClearall: TTBXItem
+    object mnClearall: TSpTBXItem
+      Caption = '&Clear all'
+      Hint = 'Clear all messages'
       Action = actClearAll
     end
-    object TBXSeparatorItem2: TTBXSeparatorItem
+    object TBXSeparatorItem2: TSpTBXSeparatorItem
     end
-    object TBXItem3: TTBXItem
+    object TBXItem3: TSpTBXItem
+      Caption = 'Co&py to Clipboard'
+      Hint = 'Copy contents to Clipboard'
       Action = actCopyToClipboard
     end
   end

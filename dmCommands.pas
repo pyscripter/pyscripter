@@ -16,13 +16,13 @@ uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
   ActnList, SynEdit, SynEditHighlighter, SynHighlighterPython, SynRegExpr,
   ImgList, dlgSynEditOptions, SynEditPrint, StdActns,
-  JvComponent, JvChangeNotify, SynCompletionProposal, TB2Item,
+  SynCompletionProposal, TB2Item,
   SynEditRegexSearch, SynEditMiscClasses, SynEditSearch, VirtualTrees,
   SynEditTextBuffer, SynEditKeyCmds, JvComponentBase, SynHighlighterXML,
   SynHighlighterCSS, SynHighlighterHtml, JvProgramVersionCheck, JvPropertyStore,
   SynHighlighterIni, TB2MRU, TBXExtItems, JvAppInst, uEditAppIntfs, SynUnicode,
   JvTabBar, JvStringHolder, cPyBaseDebugger, TntDialogs, TntLXDialogs,
-  SynEditTypes;
+  SynEditTypes, VirtualExplorerTree, VirtualShellNotifier;
 
 type
   TPythonIDEOptions = class(TPersistent)
@@ -72,6 +72,10 @@ type
     fInterpreterCodeCompletion : Boolean;
     fShowTabCloseButton : Boolean;
     fPostMortemOnException : Boolean;
+    fDockAnimationInterval : integer;
+    fDockAnimationMoveWidth : integer;
+    fInterpreterHistorySize : integer;
+    fSaveInterpreterHistory : Boolean;
   public
     constructor Create;
     procedure Assign(Source: TPersistent); override;
@@ -156,6 +160,14 @@ type
       write fShowTabCloseButton;
     property PostMortemOnException : Boolean read fPostMortemOnException
       write fPostMortemOnException;
+    property DockAnimationInterval : integer read fDockAnimationInterval
+      write fDockAnimationInterval;
+    property DockAnimationMoveWidth : integer read fDockAnimationMoveWidth
+      write fDockAnimationMoveWidth;
+    property InterpreterHistorySize : integer read fInterpreterHistorySize
+      write fInterpreterHistorySize;
+    property SaveInterpreterHistory : Boolean read fSaveInterpreterHistory
+      write fSaveInterpreterHistory;
   end;
 
   TEditorSearchOptions = class(TPersistent)
@@ -244,7 +256,6 @@ type
     actPythonPath: TAction;
     actPythonManuals: THelpContents;
     actSearchGoToLine: TAction;
-    JvChangeNotify: TJvChangeNotify;
     actHelpContents: THelpContents;
     actAbout: TAction;
     actFindInFiles: TAction;
@@ -349,8 +360,6 @@ type
     procedure actPythonManualsExecute(Sender: TObject);
     procedure UpdateMainActions;
     procedure actSearchGoToLineExecute(Sender: TObject);
-    procedure JvChangeNotifyChangeNotify(Sender: TObject; Dir: String;
-      Actions: TJvChangeActions);
     procedure actFindInFilesExecute(Sender: TObject);
     procedure actHelpContentsExecute(Sender: TObject);
     procedure ParameterCompletionCodeCompletion(Sender: TObject;
@@ -391,8 +400,6 @@ type
   private
     fHighlighters: TStrings;
     fUntitledNumbers: TBits;
-    fUpdatingChangeNotify : Boolean;
-    fChangeNotifyDisabled : Boolean;
     fConfirmReplaceDialogRect: TRect;
   public
     BlockOpenerRE : TRegExpr;
@@ -403,7 +410,6 @@ type
     EditorOptions : TSynEditorOptionsContainer;
     InterpreterEditorOptions : TSynEditorOptionsContainer;
     PyIDEOptions : TPythonIDEOptions;
-    ExcludedFileNotificationdDrives : TStringList;
     UserDataDir : string;
     function IsBlockOpener(S : string) : Boolean;
     function IsBlockCloser(S : string) : Boolean;
@@ -422,7 +428,6 @@ type
     procedure PaintMatchingBrackets(Canvas : TCanvas; SynEdit : TSynEdit;
       TransientType: TTransientType);
     function ShowPythonKeywordHelp(KeyWord : string) : Boolean;
-    procedure UpdateChangeNotify;
     procedure PrepareParameterCompletion;
     procedure PrepareModifierCompletion;
     procedure VirtualStringTreeAdvancedHeaderDraw(Sender: TVTHeader;
@@ -439,7 +444,8 @@ type
       AReplace: WideString; Line, Column: Integer; var Action: TSynReplaceAction);
     procedure IncrementalSearch;
     procedure ApplyEditorOptions;
-    function StopFileNotification : Boolean;
+    procedure FileExplorerTreeAfterShellNotify(
+      Sender: TCustomVirtualExplorerTree; ShellEvent: TVirtualShellEvent);
     property Highlighters : TStrings read fHighlighters;
   end;
 
@@ -473,7 +479,7 @@ uses
   dlgUnitTestWizard, WinInet, Math, Registry, ShlObj, ShellAPI,
   dlgFileTemplates, JclSysInfo, JclSysUtils, dlgPickList, JvAppIniStorage,
   cFilePersist, JvAppStorage, SpTBXEditors, JvDSADialogs, uSearchHighlighter,
-  TntSysUtils;
+  TntSysUtils, MPShellUtilities;
 
 { TPythonIDEOptions }
 
@@ -526,6 +532,10 @@ begin
       Self.fCodeCompletionListSize := CodeCompletionListSize;
       Self.fShowTabCloseButton := ShowTabCloseButton;
       Self.fPostMortemOnException := PostMortemOnException;
+      Self.fDockAnimationInterval := DockAnimationInterval;
+      Self.fDockAnimationMoveWidth := DockAnimationMoveWidth;
+      Self.fInterpreterHistorySize := InterpreterHistorySize;
+      Self.fSaveInterpreterHistory := SaveInterpreterHistory;
     end
   else
     inherited;
@@ -575,6 +585,10 @@ begin
   fCodeCompletionListSize := 8;
   fShowTabCloseButton := True;
   fPostMortemOnException := False;
+  fDockAnimationInterval := 20;
+  fDockAnimationMoveWidth := 20;
+  fInterpreterHistorySize := 50;
+  fSaveInterpreterHistory := True;
 end;
 
 { TEditorSearchOptions }
@@ -657,6 +671,7 @@ begin
       Include(SearchOptions, ssoMatchCase);
     if EditorSearchOptions.SearchWholeWords then
       Include(SearchOptions, ssoWholeWord);
+    SynEdit.SearchEngine.Options := SearchOptions;
     SynEdit.SearchEngine.Pattern := SearchText;
     CanWrapSearch := SynEdit.SearchEngine.FindAll(TextLeft) > 0;
   end;
@@ -706,7 +721,6 @@ begin
   PyIDEOptions := TPythonIDEOptions.Create;
   MaskFPUExceptions(PyIDEOptions.fMaskFPUExceptions);
   dlgFileOpen.Filter := PyIDEOptions.PythonFileFilter;
-  ExcludedFileNotificationdDrives := TStringList.Create;
 
   BlockOpenerRE := TRegExpr.Create;
   BlockOpenerRE.Expression := ':\s*(#.*)?$';
@@ -800,7 +814,6 @@ begin
   NonExecutableLineRE.Free;
   CommentLineRE.Free;
   PyIDEOptions.Free;
-  ExcludedFileNotificationdDrives.Free;
   imlShellIcon.Handle := 0;
 end;
 
@@ -907,7 +920,7 @@ var
 begin
   for i := 0 to GI_EditorFactory.Count -1 do begin
     FileCommands := GI_EditorFactory[i] as IFileCommands;
-    if Assigned(FileCommands) then
+    if Assigned(FileCommands) and FileCommands.CanSave then
       FileCommands.ExecSave;
   end;
 end;
@@ -1155,19 +1168,6 @@ begin
   PythonIIForm.SynEdit.Keystrokes.Assign(EditorOptions.Keystrokes);
   PythonIIForm.RegisterHistoryCommands;
   PythonIIForm.SynEdit.Highlighter.Assign(CommandsDataModule.SynPythonSyn);
-end;
-
-function TCommandsDataModule.StopFileNotification : Boolean;
-begin
-  Result := not fChangeNotifyDisabled;
-  if not Result then Exit;
-  try
-    JvChangeNotify.Active := False;
-  except
-    fChangeNotifyDisabled := true;
-    Dialogs.MessageDlg(SFileChangeNotificationProblem, mtWarning, [mbOK], 0);
-    Result := False;
-  end;
 end;
 
 procedure TCommandsDataModule.actEditorOptionsExecute(Sender: TObject);
@@ -1664,72 +1664,8 @@ begin
   Canvas.Brush.Style := bsSolid;
 end;
 
-
-procedure TCommandsDataModule.UpdateChangeNotify;
-Var
-  i, j : integer;
-  Editor : IEditor;
-  SR: TSearchRec;
-  DirIsMonitored : Boolean;
-  FileDrive : string;
-begin
-  if not Assigned(JvChangeNotify.OnChangeNotify) or fUpdatingChangeNotify or
-    fChangeNotifyDisabled
-  then
-    Exit;
-
-  if not StopFileNotification then Exit;
-
-  JvChangeNotify.Notifications.BeginUpdate;
-  try
-    JvChangeNotify.Notifications.Clear;
-    for i := 0 to GI_EditorFactory.Count - 1 do begin
-      Editor := GI_EditorFactory[i];
-      if (Editor.FileName <> '') and
-        (ExcludedFileNotificationdDrives.IndexOf(ExtractFileDrive(Editor.FileName)) < 0) then
-      begin
-        if FindFirst(Editor.FileName, faAnyFile, SR) = 0 then begin
-          DirIsMonitored := False;
-          for j := 0 to JvChangeNotify.Notifications.Count - 1 do
-            if JvChangeNotify.Notifications[j].Directory = ExtractFileDir(Editor.FileName) then begin
-              DirIsMonitored := True;
-              break;
-            end;
-          if not DirIsMonitored then with JvChangeNotify.Notifications.Add do begin
-            Directory := ExtractFileDir(Editor.FileName);
-            Actions := [caChangeFileName, caChangeDirName, caChangeLastWrite];
-            //Actions := [caChangeDirName, caChangeFileName];
-            IncludeSubTrees := False;
-          end;
-        end;
-        FindClose(SR);
-      end;
-    end;
-  finally
-    JvChangeNotify.Notifications.EndUpdate;
-  end;
-  try
-    JvChangeNotify.Active := JvChangeNotify.Notifications.Count > 0;
-  except
-    on E: EJVCLChangeNotifyException do begin
-      FileDrive := ExtractFileDrive(E.ErrorDirectory);
-      if ExcludedFileNotificationdDrives.IndexOf(FileDrive) < 0 then begin
-        Dialogs.MessageDlg('File change notification not available for drive ' + FileDrive,
-          mtWarning, [mbOK], 0);
-        ExcludedFileNotificationdDrives.Add(FileDrive);
-        // try again - recursive call
-        UpdateChangeNotify;
-      end;
-    end;
-    on E: EThread do begin
-      fChangeNotifyDisabled := true;
-      Dialogs.MessageDlg(SFileChangeNotificationProblem, mtWarning, [mbOK], 0);
-    end;
-  end;
-end;
-
-procedure TCommandsDataModule.JvChangeNotifyChangeNotify(Sender: TObject;
-  Dir: String; Actions: TJvChangeActions);
+procedure TCommandsDataModule.FileExplorerTreeAfterShellNotify(
+  Sender: TCustomVirtualExplorerTree; ShellEvent: TVirtualShellEvent);
 
   function AreFileTimesEqual(FT1, FT2 : TFileTime) : Boolean;
   begin
@@ -1746,11 +1682,27 @@ Var
   Editor : IEditor;
   ChangedFiles : TStringList;
   SafeGuard: ISafeGuard;
+  NS: TNamespace;
+  Dir : string;
 begin
+  // Only bother with UpdateDir and UpdateItem notifications
+  if not (ShellEvent.ShellNotifyEvent in [vsneUpdateDir, vsneUpdateItem]) then Exit;
+
   ChangedFiles := TStringList.Create;
   Guard(ChangedFiles, SafeGuard);
-  if not Assigned(JvChangeNotify.OnChangeNotify) then
-    Exit;  // JvChangeNotify was disconnected
+
+  Dir := '';
+  NS := TNamespace.Create(ShellEvent.PIDL1, nil);
+  try
+    NS.FreePIDLOnDestroy := False;
+    Dir := NS.NameForParsing;
+    if not NS.Folder then // UpdateItem notifications
+      Dir := ExtractFileDir(Dir);
+  finally
+    NS.Free;
+  end;
+
+  if Dir = '' then Exit;
 
   for i := 0 to GI_EditorFactory.Count -1 do begin
     Editor := GI_EditorFactory.Editor[i];
@@ -1798,20 +1750,14 @@ begin
       CheckListBox.Items.Assign(ChangedFiles);
       SetScrollWidth;
       mnSelectAllClick(nil);
-      if ShowModal = IdOK then begin
-        fUpdatingChangeNotify := True;
-        try
-          for i := CheckListBox.Count - 1 downto 0 do begin
-            if CheckListBox.Checked[i] then begin
-              Editor := TEditorForm(CheckListBox.Items.Objects[i]).GetEditor;
-              (Editor as IFileCommands).ExecReload(True);
-            end;
+      if ShowModal = IdOK then 
+        for i := CheckListBox.Count - 1 downto 0 do begin
+          if CheckListBox.Checked[i] then begin
+            Editor := TEditorForm(CheckListBox.Items.Objects[i]).GetEditor;
+            (Editor as IFileCommands).ExecReload(True);
           end;
-        finally
-          fUpdatingChangeNotify := False;
         end;
-      end;
-      Free;
+      Release;
     end;
 end;
 
@@ -1859,7 +1805,7 @@ begin
   SetLength(Categories, 7);
   with Categories[0] do begin
     DisplayName := 'IDE';
-    SetLength(Options, 7);
+    SetLength(Options, 9);
     Options[0].PropertyName := 'AutoCheckForUpdates';
     Options[0].DisplayName := 'Check for updates automatically';
     Options[1].PropertyName := 'DaysBetweenChecks';
@@ -1874,10 +1820,14 @@ begin
     Options[5].DisplayName := 'Smart Next Previous Page';
     Options[6].PropertyName := 'ShowTabCloseButton';
     Options[6].DisplayName := 'Show tab close button';
+    Options[7].PropertyName := 'DockAnimationInterval';
+    Options[7].DisplayName := 'Dock animation interval (ms)';
+    Options[8].PropertyName := 'DockAnimationMoveWidth';
+    Options[8].DisplayName := 'Dock animation move width (pixels)';
   end;
   with Categories[1] do begin
     DisplayName := 'Python Interpreter';
-    SetLength(Options, 10);
+    SetLength(Options, 12);
     Options[0].PropertyName := 'SaveFilesBeforeRun';
     Options[0].DisplayName := 'Save files before run';
     Options[1].PropertyName := 'SaveEnvironmentBeforeRun';
@@ -1898,6 +1848,10 @@ begin
     Options[8].DisplayName := 'Clear output before run';
     Options[9].PropertyName := 'PostMortemOnException';
     Options[9].DisplayName := 'Post-mortem on exception';
+    Options[10].PropertyName := 'InterpreterHistorySize';
+    Options[10].DisplayName := 'Interpreter history size';
+    Options[11].PropertyName := 'SaveInterpreterHistory';
+    Options[11].DisplayName := 'Save interpreter history';
   end;
   with Categories[2] do begin
     DisplayName := 'Code Explorer';

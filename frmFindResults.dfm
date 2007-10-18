@@ -115,13 +115,13 @@ inherited FindResultsWindow: TFindResultsWindow
         TabOrder = 1
         WordWrap = False
       end
-      object TBXDock1: TTBXDock
+      object TBXDock1: TSpTBXDock
         Left = 0
         Top = 0
         Width = 595
         Height = 26
         AllowDrag = False
-        object ToolBar: TTBXToolbar
+        object ToolBar: TSpTBXToolbar
           Left = 0
           Top = 0
           Caption = 'ToolBar'
@@ -129,57 +129,84 @@ inherited FindResultsWindow: TFindResultsWindow
           FullSize = True
           Images = CommandsDataModule.Images
           TabOrder = 0
-          object TBXItem2: TTBXItem
+          Customizable = False
+          object TBXItem2: TSpTBXItem
+            Caption = '&Search...'
+            Hint = 'New search...'
             Action = actFileSearch
           end
-          object TBXItem1: TTBXItem
+          object TBXItem1: TSpTBXItem
+            Caption = '&Refresh'
+            Hint = 'Refresh search'
             Action = actFileRefresh
           end
-          object TBXSeparatorItem1: TTBXSeparatorItem
+          object TBXSeparatorItem1: TSpTBXSeparatorItem
           end
-          object TBXItem3: TTBXItem
+          object TBXItem3: TSpTBXItem
+            Caption = '&Abort'
+            Hint = 'Abort search'
             Action = actFileAbort
           end
-          object TBXSeparatorItem2: TTBXSeparatorItem
+          object TBXSeparatorItem2: TSpTBXSeparatorItem
           end
-          object TBXItem4: TTBXItem
+          object TBXItem4: TSpTBXItem
+            Caption = 'Goto Selected'
+            Hint = 'Goto match'
             Action = actListGotoSelected
           end
-          object TBXSeparatorItem3: TTBXSeparatorItem
+          object TBXSeparatorItem3: TSpTBXSeparatorItem
           end
-          object TBXItem7: TTBXItem
+          object TBXItem7: TSpTBXItem
+            Caption = '&Print...'
+            Hint = 'Print results...'
             Action = actFilePrint
           end
-          object TBXItem6: TTBXItem
+          object TBXItem6: TSpTBXItem
+            Caption = '&Copy'
+            Hint = 'Copy results to clipboard'
             Action = actFileCopy
           end
-          object TBXItem5: TTBXItem
+          object TBXItem5: TSpTBXItem
+            Caption = '&Save...'
+            Hint = 'Save results to file...'
             Action = actFileSave
           end
-          object TBXSeparatorItem4: TTBXSeparatorItem
+          object TBXSeparatorItem4: TSpTBXSeparatorItem
           end
-          object TBXItem9: TTBXItem
+          object TBXItem9: TSpTBXItem
+            Caption = '&Expand'
+            Hint = 'Expand all'
             Action = actListExpand
           end
-          object TBXItem8: TTBXItem
+          object TBXItem8: TSpTBXItem
+            Caption = '&Contract'
+            Hint = 'Contract all'
             Action = actListContract
           end
-          object TBXSeparatorItem5: TTBXSeparatorItem
+          object TBXSeparatorItem5: TSpTBXSeparatorItem
           end
-          object TBXItem11: TTBXItem
+          object TBXItem11: TSpTBXItem
+            Caption = 'Replace Selected Item...'
+            Hint = 'Replace selected item...'
             Action = actReplaceSelected
           end
-          object TBXItem10: TTBXItem
+          object TBXItem10: TSpTBXItem
+            Caption = 'Replace All Items...'
+            Hint = 'Replace all items...'
             Action = actReplaceAll
           end
-          object TBXSeparatorItem6: TTBXSeparatorItem
+          object TBXSeparatorItem6: TSpTBXSeparatorItem
           end
-          object TBXItem13: TTBXItem
+          object TBXItem13: TSpTBXItem
+            Caption = 'Options...'
+            Hint = 'Configure Find in Files'
             Action = actViewOptions
           end
-          object TBXSeparatorItem8: TTBXSeparatorItem
+          object TBXSeparatorItem8: TSpTBXSeparatorItem
           end
-          object TBXItem14: TTBXItem
+          object TBXItem14: TSpTBXItem
+            Caption = '&Help'
+            Hint = 'Help'
             Action = actHelpHelp
           end
         end
@@ -335,61 +362,85 @@ inherited FindResultsWindow: TFindResultsWindow
       OnExecute = actReplaceAllExecute
     end
   end
-  object TBXPopupMenu: TTBXPopupMenu
+  object TBXPopupMenu: TSpTBXPopupMenu
     Images = CommandsDataModule.Images
     Left = 26
     Top = 118
-    object mitFileSearch1: TTBXItem
+    object mitFileSearch1: TSpTBXItem
+      Caption = '&Search...'
+      Hint = 'New search...'
       Action = actFileSearch
     end
-    object mitFileRefresh1: TTBXItem
+    object mitFileRefresh1: TSpTBXItem
+      Caption = '&Refresh'
+      Hint = 'Refresh search'
       Action = actFileRefresh
     end
-    object mitFileAbort1: TTBXItem
+    object mitFileAbort1: TSpTBXItem
+      Caption = '&Abort'
+      Hint = 'Abort search'
       Action = actFileAbort
     end
-    object N5: TTBXSeparatorItem
+    object N5: TSpTBXSeparatorItem
     end
-    object mitFilePrint1: TTBXItem
+    object mitFilePrint1: TSpTBXItem
+      Caption = '&Print...'
+      Hint = 'Print results...'
       Action = actFilePrint
     end
-    object mitFileSave1: TTBXItem
+    object mitFileSave1: TSpTBXItem
+      Caption = '&Save...'
+      Hint = 'Save results to file...'
       Action = actFileSave
     end
-    object N2: TTBXSeparatorItem
+    object N2: TSpTBXSeparatorItem
     end
-    object mitViewToolBar1: TTBXItem
+    object mitViewToolBar1: TSpTBXItem
+      Caption = 'Toolbar'
+      Hint = 'View/Hide Toolbar'
       Action = actViewToolBar
     end
-    object StatusBar1: TTBXItem
+    object StatusBar1: TSpTBXItem
+      Caption = 'StatusBar'
+      Hint = 'View/Hide StatusBar'
       Action = actViewStatusBar
     end
-    object miViewShowMatchContext1: TTBXItem
+    object miViewShowMatchContext1: TSpTBXItem
+      Caption = 'Show Match Context'
+      Hint = 'View/Hide Context of found text'
       Action = actViewShowContext
     end
-    object N1: TTBXSeparatorItem
+    object N1: TSpTBXSeparatorItem
     end
-    object mitReplaceReplaceAll1: TTBXItem
+    object mitReplaceReplaceAll1: TSpTBXItem
+      Caption = 'Replace All Items...'
+      Hint = 'Replace all items...'
       Action = actReplaceAll
     end
-    object mitReplaceSelected1: TTBXItem
+    object mitReplaceSelected1: TSpTBXItem
+      Caption = 'Replace Selected Item...'
+      Hint = 'Replace selected item...'
       Action = actReplaceSelected
     end
-    object N3: TTBXSeparatorItem
+    object N3: TSpTBXSeparatorItem
     end
-    object mitViewOptions1: TTBXItem
+    object mitViewOptions1: TSpTBXItem
+      Caption = 'Options...'
+      Hint = 'Configure Find in Files'
       Action = actViewOptions
     end
-    object N4: TTBXSeparatorItem
+    object N4: TSpTBXSeparatorItem
     end
-    object mitViewStayOnTop1: TTBXItem
+    object mitViewStayOnTop1: TSpTBXItem
       Caption = 'Stay on Top'
       Hint = 'Stay on top'
       ImageIndex = 41
     end
-    object TBXSeparatorItem9: TTBXSeparatorItem
+    object TBXSeparatorItem9: TSpTBXSeparatorItem
     end
-    object TBXItem15: TTBXItem
+    object TBXItem15: TSpTBXItem
+      Caption = '&Help'
+      Hint = 'Help'
       Action = actHelpHelp
     end
   end

@@ -48,6 +48,7 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
     0000E00F00008003000000010000000100000001000000010000000100000003
     00000007000080030000E0010000FF800000FFC00000FFE00000FFF00000}
   ExplicitWidth = 249
+  ExplicitHeight = 444
   PixelsPerInch = 96
   TextHeight = 13
   inherited FGPanel: TPanel
@@ -70,13 +71,13 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
       SizeGrip = False
       UseSystemFont = False
     end
-    object TBXDock: TTBXDock
+    object TBXDock: TSpTBXDock
       Left = 0
       Top = 0
       Width = 227
       Height = 26
       AllowDrag = False
-      object RegExpTesterToolbar: TTBXToolbar
+      object RegExpTesterToolbar: TSpTBXToolbar
         Left = 0
         Top = 0
         Align = alTop
@@ -86,95 +87,96 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
         FullSize = True
         Images = CommandsDataModule.Images
         TabOrder = 0
-        object TiClear: TTBXItem
+        Customizable = False
+        object TiClear: TSpTBXItem
           Caption = 'Clear'
           Hint = 'Clear all fields'
           ImageIndex = 14
           OnClick = TiClearClick
         end
-        object TBXSubmenuItem2: TTBXSubmenuItem
+        object TBXSubmenuItem2: TSpTBXSubmenuItem
           Caption = 'Options'
           ImageIndex = 22
-          object CI_DOTALL: TTBXItem
-            AutoCheck = True
+          object CI_DOTALL: TSpTBXItem
             Caption = 'DOTALL'
-            Checked = True
             Hint = 'Sets the DOTALL re flag'
+            AutoCheck = True
+            Checked = True
             Options = [tboShowHint]
           end
-          object CI_IGNORECASE: TTBXItem
-            AutoCheck = True
+          object CI_IGNORECASE: TSpTBXItem
             Caption = 'IGNORECASE'
-            Checked = True
             Hint = 'Sets the IGNORECASE re flag'
+            AutoCheck = True
+            Checked = True
             Options = [tboShowHint]
           end
-          object CI_LOCALE: TTBXItem
-            AutoCheck = True
+          object CI_LOCALE: TSpTBXItem
             Caption = 'LOCALE'
-            Checked = True
             Hint = 'Sets the LOCALE re flag'
+            AutoCheck = True
+            Checked = True
             Options = [tboShowHint]
           end
-          object CI_MULTILINE: TTBXItem
-            AutoCheck = True
+          object CI_MULTILINE: TSpTBXItem
             Caption = 'MULTILINE'
-            Checked = True
             Hint = 'Sets the MULTILINE re flag'
+            AutoCheck = True
+            Checked = True
             Options = [tboShowHint]
           end
-          object CI_UNICODE: TTBXItem
-            AutoCheck = True
+          object CI_UNICODE: TSpTBXItem
             Caption = 'UNICODE'
-            Checked = True
             Hint = 'Sets the UNICODE re flag'
+            AutoCheck = True
+            Checked = True
             Options = [tboShowHint]
           end
-          object CI_VERBOSE: TTBXItem
-            AutoCheck = True
+          object CI_VERBOSE: TSpTBXItem
             Caption = 'VERBOSE'
-            Checked = True
             Hint = 'Sets the VERBOSE re flag'
+            AutoCheck = True
+            Checked = True
             Options = [tboShowHint]
           end
-          object TBXSeparatorItem2: TTBXSeparatorItem
+          object TBXSeparatorItem2: TSpTBXSeparatorItem
           end
-          object RI_Match: TTBXItem
-            AutoCheck = True
+          object RI_Match: TSpTBXItem
             Caption = 'Match'
-            GroupIndex = 1
             Hint = 'Performs re.match'
+            AutoCheck = True
+            GroupIndex = 1
             Options = [tboShowHint]
             RadioItem = True
           end
-          object RI_Search: TTBXItem
-            AutoCheck = True
+          object RI_Search: TSpTBXItem
             Caption = 'Search'
+            Hint = 'Performs re.search'
+            AutoCheck = True
             Checked = True
             GroupIndex = 1
-            Hint = 'Performs re.search'
             Options = [tboShowHint]
             RadioItem = True
           end
-          object TBXSeparatorItem4: TTBXSeparatorItem
+          object TBXSeparatorItem4: TSpTBXSeparatorItem
           end
-          object CI_AutoExecute: TTBXItem
-            AutoCheck = True
+          object CI_AutoExecute: TSpTBXItem
             Caption = 'Auto Execute'
+            AutoCheck = True
             Checked = True
           end
         end
-        object TBXSeparatorItem1: TTBXSeparatorItem
+        object TBXSeparatorItem1: TSpTBXSeparatorItem
         end
-        object TIExecute: TTBXItem
+        object TIExecute: TSpTBXItem
           Caption = 'Execute'
           Hint = 'Execute search or martch'
           ImageIndex = 19
           OnClick = TIExecuteClick
         end
-        object TBXSeparatorItem3: TTBXSeparatorItem
+        object TBXSeparatorItem3: TSpTBXSeparatorItem
         end
-        object tiHelp: TTBXItem
+        object tiHelp: TSpTBXItem
           Caption = 'Help'
           Hint = 'Show Python Help on the re module'
           ImageIndex = 33

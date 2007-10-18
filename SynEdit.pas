@@ -4090,7 +4090,7 @@ begin
   Result := (vCaretRowCol.Column >= LeftChar)
     and (vCaretRowCol.Column <= LeftChar + CharsInWindow)
     and (vCaretRowCol.Row >= TopLine)
-    and (vCaretRowCol.Column <= TopLine + LinesInWindow);
+    and (vCaretRowCol.Row <= TopLine + LinesInWindow);
 end;
 
 procedure TCustomSynEdit.SetActiveLineColor(Value: TColor);
@@ -4509,6 +4509,13 @@ var
           fCaretX := 1 + Length(Str);
         end
         else begin
+          //--------- KV from SynEditStudio
+          if (CaretY = Lines.Count) or InsertMode then
+          begin
+            Lines.Insert(CaretY -1, '');
+            Inc(Result);
+          end;
+          //---------
           ProperSetLine(CaretY - 1, Str);
           Inc(fCaretY);
           Include(fStatusChanges, scCaretY);
@@ -9104,6 +9111,7 @@ var
   PrevLine, OldSelText: WideString;
   p: PWideChar;
   OldCaretXY: TBufferCoord;
+  ChangeScroll: Boolean;
 begin
   // Provide Visual Studio like block indenting
   if (eoTabIndent in Options) and ((SelTabBlock) or (SelTabLine)) then
@@ -9177,7 +9185,15 @@ begin
     fUndoList.AddChange(crSilentDelete, BufferCoord(NewX, CaretY),
       OldCaretXY, OldSelText, smNormal);
 
-    InternalCaretX := NewX;
+    // KV
+    ChangeScroll := not(eoScrollPastEol in fOptions);
+    try
+      Include(fOptions, eoScrollPastEol);
+      InternalCaretX := NewX;
+    finally
+      if ChangeScroll then
+        Exclude(fOptions, eoScrollPastEol);
+    end;
   end;
 end;
 

@@ -34,8 +34,8 @@ inherited FileExplorerWindow: TFileExplorerWindow
     000000000000000000000000000000000000000000000000000000000000FBC1
     0000FD410000FBC10000FFFF0000FBC10000FD410000FBC10000FFFF0000001F
     0000001F0000001F0000001F0000001F0000001F0000003F00000FFF0000}
-  ExplicitWidth = 237
-  ExplicitHeight = 465
+  ExplicitWidth = 245
+  ExplicitHeight = 473
   PixelsPerInch = 96
   TextHeight = 13
   inherited FGPanel: TPanel
@@ -98,13 +98,13 @@ inherited FileExplorerWindow: TFileExplorerWindow
       OnKeyPress = FileExplorerTreeKeyPress
       Columns = <>
     end
-    object ExplorerDock: TTBXDock
+    object ExplorerDock: TSpTBXDock
       Left = 0
       Top = 0
       Width = 229
       Height = 26
       AllowDrag = False
-      object ExplorerToolbar: TTBXToolbar
+      object ExplorerToolbar: TSpTBXToolbar
         Left = 0
         Top = 0
         Align = alTop
@@ -114,62 +114,80 @@ inherited FileExplorerWindow: TFileExplorerWindow
         FullSize = True
         Images = CommandsDataModule.Images
         TabOrder = 0
-        object TBXItemBack: TTBXSubmenuItem
+        Customizable = False
+        object TBXItemBack: TSpTBXSubmenuItem
+          Caption = '&Back'
+          Hint = 'Go Back'
           Action = actGoBack
           DropdownCombo = True
           OnPopup = TBXItemBackPopup
         end
-        object TBXItemForward: TTBXSubmenuItem
+        object TBXItemForward: TSpTBXSubmenuItem
+          Caption = '&Forward'
+          Hint = 'Go Forward'
           Action = actGoForward
           DropdownCombo = True
           OnPopup = TBXItemForwardPopup
         end
-        object TBXItem3: TTBXItem
+        object TBXItem3: TSpTBXItem
+          Caption = '&Up'
+          Hint = 'Up|Show the parent folder'
           Action = actGoUp
         end
-        object TBXSeparatorItem1: TTBXSeparatorItem
+        object TBXSeparatorItem1: TSpTBXSeparatorItem
         end
-        object TBXSubmenuItem1: TTBXSubmenuItem
+        object TBXSubmenuItem1: TSpTBXSubmenuItem
           ImageIndex = 84
           Options = [tboDropdownArrow]
-          object TBSubmenuItem1: TTBXSubmenuItem
+          object TBSubmenuItem1: TSpTBXSubmenuItem
             Caption = 'Browse Path'
             LinkSubitems = BrowsePath
           end
-          object mnFavourites: TTBXSubmenuItem
+          object mnFavourites: TSpTBXSubmenuItem
             Caption = '&Favourites'
             ImageIndex = 114
             OnPopup = mnFavouritesPopup
-            object TBXSeparatorItem5: TTBXSeparatorItem
+            object TBXSeparatorItem5: TSpTBXSeparatorItem
             end
-            object TBXItem7: TTBXItem
+            object TBXItem7: TSpTBXItem
+              Caption = 'Add to &Favourites'
+              Hint = 'Add current path to Favourites'
               Action = actAddToFavourites
             end
-            object TBXItem2: TTBXItem
+            object TBXItem2: TSpTBXItem
+              Caption = '&Manage Favourites...'
+              Hint = 'Manage favourite paths'
               Action = actManageFavourites
             end
           end
-          object TBXSubmenuItem3: TTBXSubmenuItem
+          object TBXSubmenuItem3: TSpTBXSubmenuItem
             Caption = 'Python Path'
             LinkSubitems = TBXPythonPath
             OnPopup = BrowsePathPopup
           end
-          object TBXSeparatorItem3: TTBXSeparatorItem
+          object TBXSeparatorItem3: TSpTBXSeparatorItem
           end
-          object TBXItem6: TTBXItem
-            Action = CommandsDataModule.actPythonPath
+          object TBXItem6: TSpTBXItem
             Caption = 'Manage Python &Path...'
+            Hint = 'Python Path|View or edit the Python path'
+            Action = CommandsDataModule.actPythonPath
           end
-          object TBXSeparatorItem2: TTBXSeparatorItem
+          object TBXSeparatorItem2: TSpTBXSeparatorItem
           end
-          object TBXItem1: TTBXItem
+          object TBXItem1: TSpTBXItem
+            Caption = '&Search Path...'
+            Hint = 'Search selected path'
             Action = actSearchPath
           end
         end
-        object TBXItem5: TTBXItem
+        object TBXItem5: TSpTBXItem
+          Caption = 'Enable &Filter'
+          Hint = 'Enable Filter|Select to show only Python files'
           Action = actEnableFilter
         end
-        object TBXItem10: TTBXItem
+        object TBXItem10: TSpTBXItem
+          Caption = 'Create &New Folder'
+          Hint = 'Create new folder'
           Action = actNewFolder
         end
       end
@@ -272,77 +290,90 @@ inherited FileExplorerWindow: TFileExplorerWindow
       OnExecute = actNewFolderExecute
     end
   end
-  object ExplorerPopUp: TTBXPopupMenu
+  object ExplorerPopUp: TSpTBXPopupMenu
     Images = CommandsDataModule.Images
     Left = 186
     Top = 239
-    object Back1: TTBXItem
+    object Back1: TSpTBXItem
+      Caption = '&Back'
+      Hint = 'Go Back'
       Action = actGoBack
     end
-    object About1: TTBXItem
+    object About1: TSpTBXItem
+      Caption = '&Forward'
+      Hint = 'Go Forward'
       Action = actGoForward
     end
-    object Up1: TTBXItem
+    object Up1: TSpTBXItem
+      Caption = '&Up'
+      Hint = 'Up|Show the parent folder'
       Action = actGoUp
     end
-    object N1: TTBXSeparatorItem
+    object N1: TSpTBXSeparatorItem
     end
-    object BrowsePath: TTBXSubmenuItem
+    object BrowsePath: TSpTBXSubmenuItem
       Caption = 'Browse Path'
-      object Desktop: TTBXItem
+      object Desktop: TSpTBXItem
         Caption = 'Desktop'
         OnClick = DesktopClick
       end
-      object MyComputer: TTBXItem
+      object MyComputer: TSpTBXItem
         Caption = 'My &Computer'
         OnClick = MyComputerClick
       end
-      object MyDocuments: TTBXItem
+      object MyDocuments: TSpTBXItem
         Caption = 'My &Documents'
         OnClick = MyDocumentsClick
       end
-      object CurrentDirectory: TTBXItem
+      object CurrentDirectory: TSpTBXItem
         Caption = 'Current Directory'
         OnClick = CurrentDirectoryClick
       end
-      object ActiveScript: TTBXItem
+      object ActiveScript: TSpTBXItem
         Caption = 'Active Script'
         OnClick = ActiveScriptClick
       end
     end
-    object TBXSubmenuItem2: TTBXSubmenuItem
+    object TBXSubmenuItem2: TSpTBXSubmenuItem
       Caption = 'Favourites'
       ImageIndex = 114
       LinkSubitems = mnFavourites
       OnPopup = mnFavouritesPopup
     end
-    object TBXPythonPath: TTBXSubmenuItem
+    object TBXPythonPath: TSpTBXSubmenuItem
       Caption = 'Python Path'
       OnPopup = BrowsePathPopup
     end
-    object N2: TTBXSeparatorItem
+    object N2: TSpTBXSeparatorItem
     end
-    object PythonPath1: TTBXItem
-      Action = CommandsDataModule.actPythonPath
+    object PythonPath1: TSpTBXItem
       Caption = 'Manage Python &Path...'
+      Hint = 'Python Path|View or edit the Python path'
+      Action = CommandsDataModule.actPythonPath
     end
-    object TBXSeparatorItem6: TTBXSeparatorItem
+    object TBXSeparatorItem6: TSpTBXSeparatorItem
     end
-    object EnableFilter: TTBXItem
+    object EnableFilter: TSpTBXItem
+      Caption = 'Enable &Filter'
+      Hint = 'Enable Filter|Select to show only Python files'
       Action = actEnableFilter
     end
-    object ChangeFilter: TTBXItem
+    object ChangeFilter: TSpTBXItem
       Caption = '&Change Filter...'
       OnClick = ChangeFilterClick
     end
-    object N3: TTBXSeparatorItem
+    object N3: TSpTBXSeparatorItem
     end
-    object TBXItem8: TTBXItem
+    object TBXItem8: TSpTBXItem
+      Caption = 'Create &New Folder'
+      Hint = 'Create new folder'
       Action = actNewFolder
     end
-    object TBXSeparatorItem4: TTBXSeparatorItem
+    object TBXSeparatorItem4: TSpTBXSeparatorItem
     end
-    object Refresh1: TTBXItem
+    object Refresh1: TSpTBXItem
+      Caption = '&Refresh'
+      Hint = 'Refresh|Refresh File Explorer'
       Action = actRefresh
     end
   end

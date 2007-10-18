@@ -12,18 +12,19 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, JvDockControlForm, JvComponent, frmIDEDockWin, ExtCtrls,
-  Contnrs, TB2Item, Menus, TBX, TBXThemes, VirtualTrees, JvComponentBase;
+  Contnrs, TB2Item, Menus, TBX, TBXThemes, VirtualTrees, JvComponentBase,
+  SpTBXItem;
 
 type
   TBreakPointsWindow = class(TIDEDockWindow)
-    TBXPopupMenu: TTBXPopupMenu;
-    mnClear: TTBXItem;
-    Breakpoints1: TTBXItem;
+    TBXPopupMenu: TSpTBXPopupMenu;
+    mnClear: TSpTBXItem;
+    Breakpoints1: TSpTBXItem;
     BreakPointsView: TVirtualStringTree;
-    mnSetCondition: TTBXItem;
-    TBXSeparatorItem1: TTBXSeparatorItem;
-    TBXSeparatorItem2: TTBXSeparatorItem;
-    mnCopyToClipboard: TTBXItem;
+    mnSetCondition: TSpTBXItem;
+    TBXSeparatorItem1: TSpTBXSeparatorItem;
+    TBXSeparatorItem2: TSpTBXSeparatorItem;
+    mnCopyToClipboard: TSpTBXItem;
     procedure TBXPopupMenuPopup(Sender: TObject);
     procedure mnCopyToClipboardClick(Sender: TObject);
     procedure mnSetConditionClick(Sender: TObject);

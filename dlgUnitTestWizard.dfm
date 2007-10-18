@@ -79,6 +79,7 @@ object UnitTestWizard: TUnitTestWizard
       Images = CommandsDataModule.CodeImages
       IncrementalSearch = isAll
       ParentShowHint = False
+      PopupMenu = PopupUnitTestWizard
       ShowHint = True
       TabOrder = 0
       TreeOptions.MiscOptions = [toCheckSupport, toFullRepaintOnResize, toInitOnSave, toWheelPanning]
@@ -118,6 +119,23 @@ object UnitTestWizard: TUnitTestWizard
       TabOrder = 3
       OnClick = HelpButtonClick
       Kind = bkHelp
+    end
+  end
+  object PopupUnitTestWizard: TSpTBXPopupMenu
+    Images = CommandsDataModule.Images
+    Left = 152
+    Top = 112
+    object mnSelectAll: TSpTBXItem
+      Caption = 'Select All'
+      Hint = 'Select all nodes'
+      ImageIndex = 104
+      OnClick = mnSelectAllClick
+    end
+    object mnDeselectAll: TSpTBXItem
+      Caption = 'Deselect All'
+      Hint = 'Deselect all nodes'
+      ImageIndex = 105
+      OnClick = mnDeselectAllClick
     end
   end
 end

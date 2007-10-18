@@ -3,10 +3,9 @@ object CommandLineDlg: TCommandLineDlg
   Top = 0
   HelpContext = 910
   ActiveControl = SynParameters
-  BorderStyle = bsDialog
   Caption = 'Command Line Parameters'
-  ClientHeight = 151
-  ClientWidth = 458
+  ClientHeight = 150
+  ClientWidth = 446
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -22,16 +21,18 @@ object CommandLineDlg: TCommandLineDlg
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 458
-    Height = 151
+    Width = 446
+    Height = 150
     Align = alClient
     TabOrder = 0
+    ExplicitWidth = 458
+    ExplicitHeight = 151
     DesignSize = (
-      458
-      151)
+      446
+      150)
     object Label1: TLabel
       Left = 8
-      Top = 28
+      Top = 27
       Width = 345
       Height = 26
       Anchors = [akLeft, akBottom]
@@ -39,10 +40,11 @@ object CommandLineDlg: TCommandLineDlg
         'Please enter parameters to be appended to the command line:'#13#10'Not' +
         'e that the scipt name is automatically inserted as the first arg' +
         'ument.'
+      ExplicitTop = 28
     end
     object Label3: TLabel
       Left = 8
-      Top = 88
+      Top = 87
       Width = 252
       Height = 13
       Anchors = [akLeft, akBottom]
@@ -53,13 +55,14 @@ object CommandLineDlg: TCommandLineDlg
       Font.Name = 'MS Shell Dlg 2'
       Font.Style = []
       ParentFont = False
+      ExplicitTop = 88
     end
     object SynParameters: TSynEdit
       Left = 8
-      Top = 67
-      Width = 415
+      Top = 63
+      Width = 405
       Height = 18
-      Anchors = [akLeft, akBottom]
+      Anchors = [akLeft, akRight, akBottom]
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -12
@@ -76,47 +79,62 @@ object CommandLineDlg: TCommandLineDlg
       Options = [eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoShowScrollHint, eoSmartTabDelete, eoSmartTabs, eoTabsToSpaces]
       ScrollBars = ssNone
       WantReturns = False
+      ExplicitTop = 64
+      ExplicitWidth = 408
     end
     object OKButton: TBitBtn
-      Left = 112
-      Top = 116
+      Left = 100
+      Top = 115
       Width = 75
       Height = 25
       Anchors = [akRight, akBottom]
       TabOrder = 1
       OnClick = OKButtonClick
       Kind = bkOK
+      ExplicitLeft = 112
+      ExplicitTop = 116
     end
     object BitBtn2: TBitBtn
-      Left = 206
-      Top = 116
+      Left = 194
+      Top = 115
       Width = 75
       Height = 25
       Anchors = [akRight, akBottom]
       TabOrder = 2
       Kind = bkCancel
+      ExplicitLeft = 206
+      ExplicitTop = 116
     end
     object HelpButton: TBitBtn
-      Left = 301
-      Top = 116
+      Left = 289
+      Top = 115
       Width = 75
       Height = 25
       Anchors = [akRight, akBottom]
       TabOrder = 3
       OnClick = btnHelpClick
       Kind = bkHelp
+      ExplicitLeft = 301
+      ExplicitTop = 116
     end
-    object TBXButton1: TTBXButton
-      Left = 429
-      Top = 67
-      Width = 16
-      Height = 16
+    object TBXButton1: TSpTBXButton
+      Left = 419
+      Top = 61
+      Width = 17
+      Height = 19
       Hint = 'History'
-      DropDownMenu = TBXPopupHistory
-      ImageIndex = -1
+      Anchors = [akRight, akBottom]
       ParentShowHint = False
       ShowHint = True
       TabOrder = 5
+      DropDownMenu = TBXPopupHistory
+      LinkFont.Charset = DEFAULT_CHARSET
+      LinkFont.Color = clBlue
+      LinkFont.Height = -11
+      LinkFont.Name = 'Tahoma'
+      LinkFont.Style = [fsUnderline]
+      ExplicitLeft = 422
+      ExplicitTop = 64
     end
     object cbUseCommandLine: TSpTBXCheckBox
       Left = 8
@@ -128,11 +146,11 @@ object CommandLineDlg: TCommandLineDlg
       TabOrder = 4
     end
   end
-  object TBXPopupHistory: TTBXPopupMenu
+  object TBXPopupHistory: TSpTBXPopupMenu
     OnPopup = TBXPopupHistoryPopup
     Left = 424
     Top = 96
-    object EmptyHistoryPopupItem: TTBXItem
+    object EmptyHistoryPopupItem: TSpTBXItem
       Caption = '(Empty History)'
     end
     object PopupHistoryItem: TTBXMRUListItem

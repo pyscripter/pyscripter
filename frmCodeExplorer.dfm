@@ -81,17 +81,17 @@ inherited CodeExplorerWindow: TCodeExplorerWindow
       end
     end
   end
-  object TreePopupMenu: TTBXPopupMenu
+  object TreePopupMenu: TSpTBXPopupMenu
     Images = CommandsDataModule.Images
     Left = 8
     Top = 49
-    object mnExpandAll: TTBXItem
+    object mnExpandAll: TSpTBXItem
       Caption = '&Expand All'
       Hint = 'Expand all nodes'
       ImageIndex = 28
       OnClick = mnExpandAllClick
     end
-    object nCollapseAll: TTBXItem
+    object nCollapseAll: TSpTBXItem
       Caption = '&Collapse All'
       Hint = 'Collapse all nodes'
       ImageIndex = 29

@@ -14,20 +14,20 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ComCtrls, Menus, frmIDEDockWin, JvDockControlForm, JvComponent,
   Contnrs, cPyBaseDebugger, ExtCtrls, TB2Item, TBX, TBXThemes, VirtualTrees,
-  JvComponentBase, JvAppStorage;
+  JvComponentBase, JvAppStorage, SpTBXItem;
 
 type
   TWatchesWindow = class(TIDEDockWindow, IJvAppStorageHandler)
-    TBXPopupMenu: TTBXPopupMenu;
-    mnAddWatch: TTBXItem;
-    mnRemoveWatch: TTBXItem;
-    mnEditWatch: TTBXItem;
-    mnClearall: TTBXItem;
+    TBXPopupMenu: TSpTBXPopupMenu;
+    mnAddWatch: TSpTBXItem;
+    mnRemoveWatch: TSpTBXItem;
+    mnEditWatch: TSpTBXItem;
+    mnClearall: TSpTBXItem;
     WatchesView: TVirtualStringTree;
-    TBXSeparatorItem1: TTBXSeparatorItem;
-    TBXSeparatorItem2: TTBXSeparatorItem;
-    mnCopyToClipboard: TTBXItem;
-    TBXItem1: TTBXItem;
+    TBXSeparatorItem1: TSpTBXSeparatorItem;
+    TBXSeparatorItem2: TSpTBXSeparatorItem;
+    mnCopyToClipboard: TSpTBXItem;
+    TBXItem1: TSpTBXItem;
     procedure mnCopyToClipboardClick(Sender: TObject);
     procedure mnAddWatchClick(Sender: TObject);
     procedure mnEditWatchClick(Sender: TObject);

@@ -21,7 +21,7 @@ located at http://jvcl.sourceforge.net
 
 Known Issues:
 -----------------------------------------------------------------------------}
-// $Id: JvDockVIDStyle.pas 11274 2007-04-24 19:09:06Z remkobonte $
+// $Id: JvDockVIDStyle.pas 11382 2007-06-24 12:09:45Z ahuser $
 
 unit JvDockVIDStyle;
 
@@ -568,9 +568,6 @@ type
     procedure SetOldState(const Value: TDragState);
     procedure SetCurrState(const Value: TDragState);
   protected
-{$IFDEF DELPHI6_UP}
-    AlphaBlendedTab : TJvAlphaBlendedForm;
-{$ENDIF DELPHI6_UP}
     procedure GetBrush_PenSize_DrawRect(var ABrush: TBrush; var PenSize: Integer;
       var DrawRect: TRect; Erase: Boolean); override;
     procedure MouseMsg(var Msg: TMessage); override;
@@ -594,9 +591,9 @@ procedure PaintGradientBackground(Canvas: TCanvas; ARect: TRect; StartColor, End
 {$IFDEF UNITVERSIONING}
 const
   UnitVersioning: TUnitVersionInfo = (
-    RCSfile: '$URL: https://jvcl.svn.sourceforge.net/svnroot/jvcl/tags/JVCL3_32/run/JvDockVIDStyle.pas $';
-    Revision: '$Revision: 11274 $';
-    Date: '$Date: 2007-04-24 21:09:06 +0200 (mar., 24 avr. 2007) $';
+    RCSfile: '$URL: https://jvcl.svn.sourceforge.net/svnroot/jvcl/branches/JVCL3_33_PREPARATION/run/JvDockVIDStyle.pas $';
+    Revision: '$Revision: 11382 $';
+    Date: '$Date: 2007-06-24 14:09:45 +0200 (dim., 24 juin 2007) $';
     LogPath: 'JVCL\run'
   );
 {$ENDIF UNITVERSIONING}
@@ -3918,28 +3915,12 @@ begin
   FIsTabDockOver := False;
   CurrState := dsDragEnter;
   OldState := CurrState;
-{$IFDEF DELPHI6_UP}
-  AlphaBlendedTab := TJvAlphaBlendedForm.CreateNew(nil);
-  with AlphaBlendedTab do begin
-    Visible := False;
-    Color := clHighlight;
-    AlphaBlend := True;
-    AlphaBlendValue := 140;
-    BorderIcons := [];
-    BorderStyle := bsNone;
-    FormStyle := fsStayOnTop;
-    BoundsRect := Rect(0, 0, 0, 0);
-  end;
-{$ENDIF DELPHI6_UP}
 end;
 
 destructor TJvDockVIDDragDockObject.Destroy;
 begin
   FDropTabControl := nil;
   FSourceDockClientList.Free;
-{$IFDEF DELPHI6_UP}
-  AlphaBlendedTab.Free;
-{$ENDIF DELPHI6_UP}
   inherited Destroy;
 end;
 
