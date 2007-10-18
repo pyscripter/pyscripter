@@ -95,40 +95,42 @@ inherited WatchesWindow: TWatchesWindow
         end>
     end
   end
-  object TBXPopupMenu: TTBXPopupMenu
+  object TBXPopupMenu: TSpTBXPopupMenu
     Images = CommandsDataModule.Images
     OnPopup = TBXPopupMenuPopup
     Left = 8
     Top = 45
-    object mnAddWatch: TTBXItem
+    object mnAddWatch: TSpTBXItem
       Caption = '&Add Watch'
       ImageIndex = 49
       OnClick = mnAddWatchClick
     end
-    object TBXItem1: TTBXItem
+    object TBXItem1: TSpTBXItem
+      Caption = 'Add &Watch At Cursor'
+      Hint = 'Add the expression at the editor current position as a watch'
       Action = PyIDEMainForm.actAddWatchAtCursor
     end
-    object mnRemoveWatch: TTBXItem
+    object mnRemoveWatch: TSpTBXItem
       Caption = '&Remove Watch'
       ImageIndex = 50
       OnClick = mnRemoveWatchClick
     end
-    object mnEditWatch: TTBXItem
+    object mnEditWatch: TSpTBXItem
       Caption = '&Edit Watch'
       ImageIndex = 92
       OnClick = mnEditWatchClick
     end
-    object TBXSeparatorItem1: TTBXSeparatorItem
+    object TBXSeparatorItem1: TSpTBXSeparatorItem
     end
-    object mnClearall: TTBXItem
+    object mnClearall: TSpTBXItem
       Caption = '&Clear all'
       Hint = 'Clear all watches'
       ImageIndex = 14
       OnClick = mnClearAllClick
     end
-    object TBXSeparatorItem2: TTBXSeparatorItem
+    object TBXSeparatorItem2: TSpTBXSeparatorItem
     end
-    object mnCopyToClipboard: TTBXItem
+    object mnCopyToClipboard: TSpTBXItem
       Caption = 'Co&py to Clipboard'
       Hint = 'Copy to clipboard'
       ImageIndex = 12

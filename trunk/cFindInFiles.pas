@@ -232,10 +232,6 @@ type
   end;
 
 procedure AddMRUString(Text: string; List: TStrings; DeleteTrailingDelimiter: Boolean);
-procedure DeleteStringFromList(List: TStrings; const Item: string);
-
-Var
-  FindInFilesExpert : TFindInFilesExpert;
 
 implementation
 
@@ -574,6 +570,17 @@ begin
 end;
 
 procedure AddMRUString(Text: string; List: TStrings; DeleteTrailingDelimiter: Boolean);
+
+  procedure DeleteStringFromList(List: TStrings; const Item: string);
+  var
+    Index: Integer;
+  begin
+    Assert(Assigned(List));
+    Index := List.IndexOf(Item);
+    if Index >= 0 then
+      List.Delete(Index);
+  end;
+
 begin
   if Trim(Text) = '' then Exit;
   if Length(Text) > 300 then Exit;
@@ -590,16 +597,6 @@ begin
 
   if List.Count > 20 then
     List.Delete(List.Count - 1);
-end;
-
-procedure DeleteStringFromList(List: TStrings; const Item: string);
-var
-  Index: Integer;
-begin
-  Assert(Assigned(List));
-  Index := List.IndexOf(Item);
-  if Index >= 0 then
-    List.Delete(Index);
 end;
 
 { TFindInFilesExpert }
@@ -657,9 +654,6 @@ begin
   FGrepWholeWord := False;
   FGrepMiddle := True;
   FGrepRegEx := False;
-  FindResultsWindow := TFindResultsWindow.Create(PyIDEMainForm);
-  FindResultsWindow.PopupParent := PyIDEMainForm;
-  FindResultsWindow.FindInFilesExpert := Self;
 
   MaskList.Add('*.py');
   DirList.Add(SysModule.prefix+'\Lib');

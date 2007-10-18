@@ -211,6 +211,7 @@ uses uCommonFunctions, JclStrings, JclFileUtils, cRefactoring, VarPyth,
 Const
   IdentRE = '[A-Za-z_][A-Za-z0-9_]*';
   DottedIdentRE = '[A-Za-z_][A-Za-z0-9_.]*';
+  MaskChar = #163;
 
   NoOfImplicitContinuationBraces = 3;
   ImplicitContinuationBraces : array[0..NoOfImplicitContinuationBraces-1] of
@@ -422,7 +423,7 @@ constructor TPythonScanner.Create;
 begin
   inherited;
   fCodeRE := CompiledRegExpr('^([ \t]*)(class|def)[ \t]+(\w+)[ \t]*(\(.*\))?');
-  fBlankLineRE := CompiledRegExpr('^[ \t]*($|#)');
+  fBlankLineRE := CompiledRegExpr('^[ \t]*(\$|\#|\"\"\"|''''''|' + MaskChar +')');
   fEscapedQuotesRE := CompiledRegExpr('(\\\\|\\\"|\\\'')');
   fStringsAndCommentsRE :=
     CompiledRegExpr('(?sm)(\"\"\".*?\"\"\"|''''''.*?''''''|\"[^\"]*\"|\''[^\'']*\''|#.*?\n)');
@@ -598,14 +599,14 @@ Var
              psInTripleSingleQuote,
              psInSingleString,
              psInComment :
-               pRes^ := '*';
+               pRes^ := MaskChar;
              psInTripleDoubleQuote :
                if StrIsLeft(psource + 1, '""') then begin
                  ParseState := psNormal;
                  Inc(pRes,2);
                  Inc(pSource, 2);
                end else
-                 pRes^ := '*';
+                 pRes^ := MaskChar;
              psInDoubleString :
                ParseState := psNormal;
            end;
@@ -621,14 +622,14 @@ Var
              psInTripleDoubleQuote,
              psInDoubleString,
              psInComment :
-               pRes^ := '*';
+               pRes^ := MaskChar;
              psInTripleSingleQuote :
                if StrIsLeft(psource + 1, '''''') then begin
                  ParseState := psNormal;
                  Inc(pRes, 2);
                  Inc(pSource, 2);
                end else
-                 pRes^ := '*';
+                 pRes^ := MaskChar;
              psInSingleString :
                ParseState := psNormal;
            end;
@@ -636,7 +637,7 @@ Var
           if ParseState = psNormal then
             ParseState := psInComment
           else
-            pRes^ := '*';
+            pRes^ := MaskChar;
         #10, #13:
           begin
             if ParseState in [psInSingleString, psInDoubleString, psInComment] then
@@ -646,7 +647,7 @@ Var
         #9 : {do nothing};
       else
         if ParseState <> psNormal then
-          pRes^ := '*';
+          pRes^ := MaskChar;
       end;
       inc(pSource);
       inc(pRes);
@@ -657,7 +658,7 @@ var
   P : PChar;
   LineNo, Indent, Index, CharOffset, CharOffset2, LastLength : integer;
   CodeStart : integer;
-  Line, Token, AsgnTargetList, S : string;
+  Line, Token, AsgnTargetList, S, SourceLine : string;
   Stop : Boolean;
   CodeElement, LastCodeElement, Parent : TCodeElement;
   ModuleImport : TModuleImport;
@@ -730,7 +731,7 @@ begin
             Index := CharPos(Token, '=');
             if Index > 0 then begin
               Variable.Name := Trim(Copy(Token, 1, Index - 1));
-              Variable.DefaultValue := Trim(Copy(Token, Index + 1, Length(Token) - Index));
+              Variable.DefaultValue := Copy(Token, Index + 1, Length(Token) - Index);
               Include(Variable.Attributes, vaArgumentWithDefault);
             end else begin
               Variable.Name := Token;
@@ -738,6 +739,16 @@ begin
             end;
           end;
           CharOffsetToCodePos(CharOffset + CharOffset2, CodeStart, LineStarts, Variable.fCodePos);
+          // Deal with string arguments (Issue 32)
+          if  (Variable.DefaultValue <> '') then begin
+            if CharPos(Variable.DefaultValue, MaskChar) > 0 then begin
+              SourceLine := GetNthLine(Source, Variable.fCodePos.LineNo);
+              Variable.DefaultValue :=
+                Copy(SourceLine, Variable.CodePos.CharOffset + Index, Length(Variable.DefaultValue));
+            end;
+            Variable.DefaultValue := Trim(Variable.DefaultValue);
+          end;
+
           TParsedFunction(CodeElement).fArguments.Add(Variable);
 
           Inc(CharOffset,  LastLength - Length(S));

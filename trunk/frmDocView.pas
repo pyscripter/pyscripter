@@ -13,24 +13,24 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ComCtrls, OleCtrls, ActiveX, SHDocVw,
-  ImgList, uEditAppIntfs, TB2Item, TBX, TB2Dock, TB2Toolbar;
+  ImgList, uEditAppIntfs, TB2Item, TBX, TB2Dock, TB2Toolbar, SpTBXItem;
                                                                  
 type
   TDocForm = class(TForm, IEditorView)
     WebBrowser: TWebBrowser;
     Images: TImageList;
-    TBXDock1: TTBXDock;
-    TBXToolbar1: TTBXToolbar;
-    ToolButtonForward: TTBXItem;
-    ToolButtonBack: TTBXItem;
-    TBXSeparatorItem1: TTBXSeparatorItem;
-    TBXItem3: TTBXItem;
-    TBXItem4: TTBXItem;
-    TBXSeparatorItem2: TTBXSeparatorItem;
-    TBXItem5: TTBXItem;
-    TBXItem6: TTBXItem;
-    TBXSeparatorItem4: TTBXSeparatorItem;
-    TBXItem7: TTBXItem;
+    TBXDock1: TSpTBXDock;
+    TBXToolbar1: TSpTBXToolbar;
+    ToolButtonForward: TSpTBXItem;
+    ToolButtonBack: TSpTBXItem;
+    TBXSeparatorItem1: TSpTBXSeparatorItem;
+    TBXItem3: TSpTBXItem;
+    TBXItem4: TSpTBXItem;
+    TBXSeparatorItem2: TSpTBXSeparatorItem;
+    TBXItem5: TSpTBXItem;
+    TBXItem6: TSpTBXItem;
+    TBXSeparatorItem4: TSpTBXSeparatorItem;
+    TBXItem7: TSpTBXItem;
     procedure ToolButtonBackClick(Sender: TObject);
     procedure ToolButtonForwardClick(Sender: TObject);
     procedure ToolButtonStopClick(Sender: TObject);
@@ -133,7 +133,7 @@ begin
 
   module := PyControl.ActiveInterpreter.ImportModule(Editor);
 
-  pydoc := Import('pydoc');
+  pydoc := PyControl.ActiveInterpreter.EvalCode('__import__("pydoc")');
   HTMLDoc := pydoc.html;
   HTML := HTMLDoc.page(pydoc.describe(module), HTMLDoc.document(module));
 

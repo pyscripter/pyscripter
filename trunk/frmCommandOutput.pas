@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, frmIDEDockWin, JvComponent, JvDockControlForm, ExtCtrls,
   StdCtrls, JvCreateProcess, Menus, ActnList, uEditAppIntfs, cTools,
-  SynEditTypes, JvTimer, SynRegExpr, TB2Item, TBX, JvComponentBase;
+  SynEditTypes, JvTimer, SynRegExpr, TB2Item, TBX, JvComponentBase, SpTBXItem;
 
 type
   TOutputWindow = class(TIDEDockWindow)
@@ -22,19 +22,19 @@ type
     actToolQuit: TAction;
     actToolStopWaiting: TAction;
     TimeoutTimer: TTimer;
-    OutputPopup: TTBXPopupMenu;
-    RunningProcess: TTBXSubmenuItem;
-    mnClose: TTBXItem;
-    mnQuit: TTBXItem;
-    mnTerminate: TTBXItem;
-    N3: TTBXSeparatorItem;
-    mnStopWaiting: TTBXItem;
-    N1: TTBXSeparatorItem;
-    Copy1: TTBXItem;
-    Clear1: TTBXItem;
-    N2: TTBXSeparatorItem;
-    Font1: TTBXItem;
-    BackgroundColor1: TTBXItem;
+    OutputPopup: TSpTBXPopupMenu;
+    RunningProcess: TSpTBXSubmenuItem;
+    mnClose: TSpTBXItem;
+    mnQuit: TSpTBXItem;
+    mnTerminate: TSpTBXItem;
+    N3: TSpTBXSeparatorItem;
+    mnStopWaiting: TSpTBXItem;
+    N1: TSpTBXSeparatorItem;
+    Copy1: TSpTBXItem;
+    Clear1: TSpTBXItem;
+    N2: TSpTBXSeparatorItem;
+    Font1: TSpTBXItem;
+    BackgroundColor1: TSpTBXItem;
     procedure actSelectColorExecute(Sender: TObject);
     procedure actOutputFontExecute(Sender: TObject);
     procedure actClearOutputExecute(Sender: TObject);

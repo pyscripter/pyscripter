@@ -45,7 +45,7 @@ type
     function ExecuteInThread(Callable, Arguments: Variant) : Variant;
     procedure HandleRemoteException(ExcInfo : Variant; SkipFrames : integer = 1);
     procedure ReInitialize; override;
-    procedure CheckConnected;
+    procedure CheckConnected(Quiet : Boolean = False);
     procedure ServeConnection;
     // Python Path
     function SysPathAdd(const Path : WideString) : boolean; override;
@@ -80,11 +80,8 @@ type
   private
     fRemotePython : TPyRemoteInterpreter;
     fIsProxy : Boolean;
-    fObjectType : string; // for caching ObjectType
-    fObjectInfo : Variant;
-    function ObjectInfoAtIndex(Index: Integer) : Boolean;
   protected
-    procedure GetObjectInfo;
+    procedure FillObjectInfo; override;
     function GetObjectType : string; override;
     function GetValue : string; override;
     function GetDocString : string; override;
@@ -92,12 +89,7 @@ type
   public
     constructor Create(aName : string; aPyObject : Variant;
       RemotePython : TPyRemoteInterpreter);
-    function IsClass : Boolean; override;
     function IsDict : Boolean; override;
-    function IsModule : Boolean; override;
-    function IsFunction : Boolean; override;
-    function IsMethod : Boolean; override;
-    function Has__dict__ : Boolean; override;
     procedure GetChildNodes; override;
     property IsProxy : Boolean read fIsProxy;
   end;
@@ -198,7 +190,7 @@ end;
 
 procedure TRemNameSpaceItem.GetChildNodes;
 Var
-  Dict, DictKeys, APyObject, PyFullInfo : Variant;
+  Dict, DictKeys, APyObject, PyFullInfo, Temp : Variant;
   i : integer;
   Name : string;
   NameSpaceItem : TRemNameSpaceItem;
@@ -240,7 +232,8 @@ begin
         for i := 0 to fChildCount - 1 do begin
           Name :=  DictKeys.GetItem(i);
           try
-            APyObject := Dict.GetItem(DictKeys.GetItem(i));
+            Temp :=DictKeys.GetItem(i);
+            APyObject := Dict.GetItem(Temp);
             if FullInfo then begin
                PyFullInfo := APyObject;
                APyObject := PyFullInfo.GetItem(0);
@@ -255,7 +248,7 @@ begin
              NameSpaceItem.BufferedValue := PyFullInfo.GetItem(1);
              NameSpaceItem.GotBufferedValue := True;
              NameSpaceItem.fObjectType := PyFullInfo.GetItem(2);
-             NameSpaceItem.fObjectInfo := PyFullInfo.GetItem(3);
+             NameSpaceItem.ExtractObjectInfo(PyFullInfo.GetItem(3));
              NameSpaceItem.fChildCount := PyFullInfo.GetItem(4);
           end;
           fChildNodes.AddObject(Name, NameSpaceItem);
@@ -268,16 +261,6 @@ begin
       SysUtils.Abort;
     end;
   end;
-end;
-
-function TRemNameSpaceItem.ObjectInfoAtIndex(Index: Integer) : Boolean;
-begin
-  if VarIsEmpty(fObjectInfo) then
-    GetObjectInfo;
-  if VarIsNull(fObjectInfo) then
-    Result := False
-  else
-    Result := fObjectInfo.GetItem(Index);
 end;
 
 function TRemNameSpaceItem.GetDocString: string;
@@ -296,18 +279,23 @@ begin
     end;
 end;
 
-procedure TRemNameSpaceItem.GetObjectInfo;
+procedure TRemNameSpaceItem.FillObjectInfo;
 var
   SuppressOutput : IInterface;
+  PyObjectInfo : Variant;
 begin
-  fRemotePython.CheckConnected;
-  Assert(fIsProxy);
-  SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
-  try
-    fObjectInfo := fRemotePython.RPI.rem_objectinfo(fPyObject);
-  except
-    fObjectInfo := VarNull;
+  if not IsProxy then
+    inherited
+  else begin
+    fRemotePython.CheckConnected;
+    SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
+    try
+      PyObjectInfo := fRemotePython.RPI.rem_objectinfo(fPyObject);
+    except
+      PyObjectInfo := VarNull;
+    end;
   end;
+  ExtractObjectInfo(PyObjectInfo);
 end;
 
 function TRemNameSpaceItem.GetObjectType: string;
@@ -347,52 +335,12 @@ begin
     end;
 end;
 
-function TRemNameSpaceItem.Has__dict__: Boolean;
-begin
-  if not IsProxy and VarIsEmpty(fObjectInfo) then
-    Result := inherited Has__dict__
-  else
-    Result := ObjectInfoAtIndex(0);
-end;
-
-function TRemNameSpaceItem.IsClass: Boolean;
-begin
-  if not IsProxy and VarIsEmpty(fObjectInfo) then
-    Result := inherited IsClass
-  else
-    Result := ObjectInfoAtIndex(4);
-end;
-
 function TRemNameSpaceItem.IsDict: Boolean;
 begin
   if not IsProxy then
     Result := inherited IsDict
   else
     Result := ObjectType = 'dict';
-end;
-
-function TRemNameSpaceItem.IsFunction: Boolean;
-begin
-  if not IsProxy and VarIsEmpty(fObjectInfo) then
-    Result := inherited IsFunction
-  else
-    Result := ObjectInfoAtIndex(3);
-end;
-
-function TRemNameSpaceItem.IsMethod: Boolean;
-begin
-  if not IsProxy and VarIsEmpty(fObjectInfo) then
-    Result := inherited IsMethod
-  else
-    Result := ObjectInfoAtIndex(2);
-end;
-
-function TRemNameSpaceItem.IsModule: Boolean;
-begin
-  if not IsProxy and VarIsEmpty(fObjectInfo) then
-    Result := inherited IsModule
-  else
-    Result := ObjectInfoAtIndex(1);
 end;
 
 
@@ -427,11 +375,12 @@ begin
   end;
 end;
 
-procedure TPyRemoteInterpreter.CheckConnected;
+procedure TPyRemoteInterpreter.CheckConnected(Quiet : Boolean = False);
 begin
   if not (fIsAvailable and fIsConnected and (ServerProcess.State = psWaiting)) then begin
-    Dialogs.MessageDlg('Remote Server is not connected.  Please reinitialize or disconnect the remote  interpreter.',
-      mtError, [mbAbort], 0);
+    if not Quiet then
+      Dialogs.MessageDlg('Remote Server is not connected.  Please reinitialize or disconnect the remote  interpreter.',
+        mtError, [mbAbort], 0);
     fIsConnected := False;
     VariablesWindow.VariablesTree.Enabled := False;
     fThreadExecInterrupted := True;
@@ -575,7 +524,14 @@ begin
     RemoteServer.Parameters := Format('"%s" %d', [ServerFile, fSocketPort]);
 //       '$[PythonExe-Short-Path]Lib\site-packages\Rpyc\Servers\threaded_server.py';
 //       '"$[PythonExe-Path]Lib\site-packages\Rpyc\Servers\simple_server_wx.py"';
-    fIsAvailable := fIsAvailable and CreateAndConnectToServer;
+    try
+      fIsAvailable := fIsAvailable and CreateAndConnectToServer;
+    except
+      on E: Exception do begin
+        fIsAvailable := False;
+        ShowMessage('Error in creating the remote intepreter: ' + E.Message);
+      end;
+    end;
     if not (fIsAvailable and fIsConnected) then
       Dialogs.MessageDlg('Could not connect to the remote Python engine server. '+
         'The remote interpreter and debugger is not available.',
@@ -657,7 +613,7 @@ end;
 
 function TPyRemoteInterpreter.GetGlobals: TBaseNameSpaceItem;
 begin
-  CheckConnected;
+  CheckConnected(True);
   Result := TRemNameSpaceItem.Create('globals',
     Evalcode('globals()'), Self);
 end;
@@ -766,8 +722,9 @@ begin
     if Expr <> '' then begin
       //Evaluate the lookup expression
       LookupObj := RPI.evalcode(Expr);
-      ItemsDict := RPI.safegetmembers(LookUpObj);
-      Result := TRemNameSpaceItem.Create(Expr, ItemsDict, Self);
+//      ItemsDict := RPI.safegetmembers(LookUpObj);
+//      Result := TRemNameSpaceItem.Create(Expr, ItemsDict, Self);
+      Result := TRemNameSpaceItem.Create(Expr, LookupObj, Self);
     end else begin
 //      BuiltinDict := RPI.ImmDict(Conn.modules.__builtin__.__dict__);
 //      BuiltinDict.update(RPI.ImmDict(RPI.evalcode('vars()')));
@@ -791,7 +748,21 @@ begin
         fThreadExecInterrupted := True;
         SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
         try
+          // raise an asynchronous exception in the running thread
+          with GetPythonEngine do begin
+            if PyThreadState_SetAsyncExc(InternalInterpreter.PyInteractiveInterpreter.thread_id,
+              PyExc_SystemExit^) > 1
+            then  // call again with exception set to nil
+              PyThreadState_SetAsyncExc(InternalInterpreter.PyInteractiveInterpreter.thread_id,
+                nil);
+          end;
           // This will cause the running thread to exit
+          CallStackWindow.ClearAll;
+          VariablesWindow.ClearAll;
+          fIsConnected := False;
+          if VarIsPython(OutputRedirector) then
+            OutputRedirector.redirected:= False;
+          VarClear(OutputRedirector);
           Conn.close();
         except
           // swalow exceptions
@@ -956,6 +927,10 @@ begin
   AppName := AddQuotesUnless(PrepareCommandLine(RemoteServer.ApplicationName));
   Arguments := PrepareCommandLine(RemoteServer.Parameters);
   ServerProcess.WaitForTerminate := RemoteServer.WaitForTerminate;
+
+  // Repeat here to make sure it is set right
+  MaskFPUExceptions(CommandsDataModule.PyIDEOptions.MaskFPUExceptions);
+
   // Check whether a process is still running
   Assert(ServerProcess.State = psReady, Format(SInternalError, ['StartServer']));
   with ServerProcess do
@@ -982,6 +957,7 @@ begin
         Conn := Rpyc.SocketConnection('localhost', fSocketPort);
         Result := True;
         fIsConnected := True;
+        fThreadExecInterrupted := False;
         break;
       except
         // wait and try again

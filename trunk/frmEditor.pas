@@ -18,7 +18,7 @@ uses
   SynEditHighlighter, SynEditMiscClasses, SynEditSearch, SynEditRegexSearch,
   SynEditKeyCmds, ImgList, Dialogs, ExtCtrls, JvExExtCtrls, JvComponent, JvPanel,
   JvPageList, JvExControls, JvTabBar, TBX, TB2Item, uCommonFunctions,
-  SynCompletionProposal, cPyBaseDebugger, SynUnicode, SpTBXControls;
+  SynCompletionProposal, cPyBaseDebugger, SynUnicode, SpTBXControls, SpTBXItem;
 
 type
   TEditor = class;
@@ -36,9 +36,9 @@ type
 
   TEditorForm = class(TForm)
     imglGutterGlyphs: TImageList;
-    pmnuEditor: TTBXPopupMenu;
-    pmnuPageList: TTBXPopupMenu;
-    CloseTab: TTBXItem;
+    pmnuEditor: TSpTBXPopupMenu;
+    pmnuPageList: TSpTBXPopupMenu;
+    CloseTab: TSpTBXItem;
     FGPanel: TPanel;
     ViewsTabBar: TJvTabBar;
     EditorViews: TJvPageList;
@@ -434,7 +434,6 @@ begin
     PyIDEMainForm.zOrder.Remove(TabBarItem);
     FreeAndNil(TabBarItem);
     CodeExplorerWindow.UpdateWindow;
-    CommandsDataModule.UpdateChangeNotify;
   end;
 end;
 
@@ -694,7 +693,6 @@ begin
   if fForm <> nil then begin
     if (AFileName <> '') and FileExists(AFileName) then begin
       if LoadFileIntoWideStrings(AFileName, fForm.SynEdit.Lines, fFileEncoding) then begin
-        CommandsDataModule.UpdateChangeNotify;
         fForm.FileTime := GetFileLastWrite(AFileName);
       end else
         Abort;
@@ -730,12 +728,12 @@ end;
 
 function TEditor.CanCopy: boolean;
 begin
-  Result := (fForm <> nil) and fHasSelection;
+  Result := (fForm <> nil);
 end;
 
 function TEditor.CanCut: boolean;
 begin
-  Result := (fForm <> nil) and fHasSelection and not fIsReadOnly;
+  Result := (fForm <> nil) and not fIsReadOnly;
 end;
 
 function TEditor.CanPaste: boolean;
@@ -823,25 +821,50 @@ end;
 procedure TEditor.ExecuteSelection;
 var
   EncodedSource: string;
+  ExecType : string;
+  Source : WideString;
+  Editor : TSynEdit;
 begin
-  if not (HasPythonFile and fHasSelection) then Exit;
-  EncodedSource := UTF8BOMString + CleanEOLs(Utf8Encode(GetActiveSynEdit.SelText))+#10;
+  if not HasPythonFile or PyControl.IsRunning then begin
+   // it is dangerous to execute code while running scripts
+   // so just beep and do nothing
+    Beep;
+    Exit;
+  end;
+
+  Editor := GetActiveSynEdit;
+
+  ExecType := 'exec';
+
+  // If nothing is selected then try to eval the word at cursor
+  if not fHasSelection then begin
+    Source := Editor.WordAtCursor;
+    if Source <> '' then
+      ExecType := 'single'
+    else
+      Exit;
+  end else begin
+    Source := Editor.SelText;
+    // if a single line or part of a line is selected then eval the selection
+    if Editor.BlockBegin.Line = Editor.BlockEnd.Line then
+      ExecType := 'single';
+  end;
 
   ShowDockForm(PythonIIForm);
   PythonIIForm.SynEdit.ExecuteCommand(ecEditorBottom, ' ', nil);
   PythonIIForm.AppendText(WideLineBreak);
+  EncodedSource := UTF8BOMString + CleanEOLs(Utf8Encode(Source));
 
+  if ExecType = 'exec' then 
+    EncodedSource := EncodedSource + #10;
   // RunSource
   case PyControl.DebuggerState of
     dsInactive :
-      PyControl.ActiveInterpreter.RunSource(EncodedSource, '<editor selection>', 'exec');
+      PyControl.ActiveInterpreter.RunSource(EncodedSource, '<editor selection>', ExecType);
     dsPaused, dsPostMortem :
-      PyControl.ActiveDebugger.RunSource(EncodedSource, '<editor selection>', 'exec');
-    else //dsRunning, dsRunningNoDebug
-      // it is dangerous to execute code while running scripts
-      // so just beep and do nothing
-      Beep();
+      PyControl.ActiveDebugger.RunSource(EncodedSource, '<editor selection>', ExecType);
   end;
+
   PythonIIForm.WritePendingMessages;
   PythonIIForm.AppendPrompt;
 end;
@@ -1155,7 +1178,7 @@ Var
 begin
   Editor := GI_ActiveEditor;
   if not assigned(Editor) then Exit;
-  Index := (Sender as TTBXItem).Tag;
+  Index := (Sender as TSpTBXItem).Tag;
   if (Index >= 0) and (Index < fEditorViewFactories.Count) then begin
     ViewFactory := fEditorViewFactories[Index] as IEditorViewFactory;
     EditorView := Editor.ActivateView(ViewFactory);
@@ -1166,7 +1189,7 @@ end;
 
 procedure TEditorFactory.SetupEditorViewMenu;
 Var
-  MenuItem : TTBXItem;
+  MenuItem : TSpTBXItem;
   i : integer;
   ViewFactory: IEditorViewFactory;
 begin
@@ -1177,7 +1200,7 @@ begin
       ViewFactory := fEditorViewFactories[i] as IEditorViewFactory;
 
       // Add MenuItem
-      MenuItem := TTBXItem.Create(PyIDEMainForm);
+      MenuItem := TSpTBXItem.Create(PyIDEMainForm);
       MenuItem.Hint := ViewFactory.Hint;
       MenuItem.ImageIndex := ViewFactory.ImageIndex;
       MenuItem.Caption := ViewFactory.MenuCaption;
@@ -1422,7 +1445,6 @@ Var
 begin
   Assert(fEditor <> nil);
   try
-    CommandsDataModule.StopFileNotification;
     // Create Backup
     if CommandsDataModule.PyIDEOptions.CreateBackupFiles and
       FileExists(fEditor.fFileName) then
@@ -1456,7 +1478,6 @@ begin
       end;
 
       FileTime := GetFileLastWrite(fEditor.fFileName);
-      CommandsDataModule.UpdateChangeNotify;
       if not CommandsDataModule.PyIDEOptions.UndoAfterSave then
         SynEdit.ClearUndo;
       SynEdit.Modified := False;
@@ -1579,6 +1600,7 @@ procedure TEditorForm.doProcessCommandHandler(Sender: TObject;
   var Command: TSynEditorCommand; var AChar: WideChar; Data,
   HandlerData: pointer);
 var
+  ASynEdit : TSynEdit;
   iPrevLine, Indent: string;
   Position, Len: integer;
   OldOptions : TSynEditorOptions;
@@ -1586,11 +1608,48 @@ var
   OpenBracketPos : integer;
   Line : WideString;
   CharRight, CharLeft : WideChar;
+  Attr: TSynHighlighterAttributes;
+  DummyToken : WideString;
+  BC : TBufferCoord;
 begin
+  ASynEdit := Sender as TSynEdit;
   if (Command <> ecLostFocus) and (Command <> ecGotFocus) then
     EditorSearchOptions.InitSearch;
-  if (Command = ecCodeCompletion) and not AfterProcessing and
-     (SynEdit.Highlighter = CommandsDataModule.SynPythonSyn) then
+
+  if (Command = ecCut) and not AfterProcessing then begin
+    if not ASynEdit.SelAvail then with ASynEdit do begin
+      // Cut the current line to the Clipboard
+      BeginUpdate;
+      try
+        ExecuteCommand(ecLineStart, AChar, Data);
+        ExecuteCommand(ecSelLineEnd, AChar, Data);
+        ActiveSelectionMode := smLine;
+        ExecuteCommand(ecCut, AChar, Data);
+        ActiveSelectionMode := SelectionMode;
+      finally
+        EndUpdate;
+      end;
+      Handled := True;
+    end;
+  end else if (Command = ecCopy) and not AfterProcessing then begin
+    if not ASynEdit.SelAvail then with ASynEdit do begin
+      // Copy the current line to the Clipboard
+      BC := ASynEdit.CaretXY;
+      BeginUpdate;
+      try
+        ExecuteCommand(ecLineStart, AChar, Data);
+        ExecuteCommand(ecSelLineEnd, AChar, Data);
+        ActiveSelectionMode := smLine;
+        ExecuteCommand(ecCopy, AChar, Data);
+        SetCaretAndSelection(BC, BC, BC);
+        ActiveSelectionMode := SelectionMode;
+      finally
+        EndUpdate;
+      end;
+      Handled := True;
+    end;
+  end else if (Command = ecCodeCompletion) and not AfterProcessing and
+     (ASynEdit.Highlighter = CommandsDataModule.SynPythonSyn) then
   begin
     if SynCodeCompletion.Form.Visible then
       SynCodeCompletion.CancelCompletion;
@@ -1598,20 +1657,20 @@ begin
     SynCodeCompletion.ActivateCompletion;
     Command := ecNone;
   end else if (Command = ecParamCompletion) and not AfterProcessing and
-              (SynEdit.Highlighter = CommandsDataModule.SynPythonSyn) then
+              (ASynEdit.Highlighter = CommandsDataModule.SynPythonSyn) then
   begin
     if SynParamCompletion.Form.Visible then
       SynParamCompletion.CancelCompletion;
     //SynCodeCompletion.DefaultType := ctParams;
     SynParamCompletion.ActivateCompletion;
     Command := ecNone;
-  end else if (Command = ecLineBreak) and AfterProcessing and SynEdit.InsertMode and
-    (SynEdit.Highlighter = CommandsDataModule.SynPythonSyn) and not fAutoCompleteActive
+  end else if (Command = ecLineBreak) and AfterProcessing and ASynEdit.InsertMode and
+    (ASynEdit.Highlighter = CommandsDataModule.SynPythonSyn) and not fAutoCompleteActive
   then begin
     { CaretY should never be lesser than 2 right after ecLineBreak, so there's
     no need for a check }
 
-    iPrevLine := TrimRight( SynEdit.Lines[ SynEdit.CaretY -2 ] );
+    iPrevLine := TrimRight( ASynEdit.Lines[ ASynEdit.CaretY -2 ] );
 
     Position := 1;
     Indent := '';
@@ -1621,54 +1680,54 @@ begin
       Inc(Position);
     end;
 
-    if (eoTrimTrailingSpaces in Synedit.Options) and (IPrevLine = '') then
-      SynEdit.Lines[ SynEdit.CaretY -2 ] := '';
+    if (eoTrimTrailingSpaces in ASynEdit.Options) and (IPrevLine = '') then
+      ASynEdit.Lines[ ASynEdit.CaretY -2 ] := '';
 
     if CommandsDataModule.IsBlockOpener(iPrevLine) or (Indent <> '') then
     begin
-      SynEdit.UndoList.BeginBlock;
-      OldOptions := SynEdit.Options;
-      SynEdit.Options := SynEdit.Options - [eoTrimTrailingSpaces];
+      ASynEdit.UndoList.BeginBlock;
+      OldOptions := ASynEdit.Options;
+      ASynEdit.Options := ASynEdit.Options - [eoTrimTrailingSpaces];
       try
-        if (eoAutoIndent in SynEdit.Options) and (iPrevLine <> '') then begin
+        if (eoAutoIndent in ASynEdit.Options) and (iPrevLine <> '') then begin
           // undo the effect of autoindent
-          Position := SynEdit.CaretX;
-          SynEdit.BlockBegin := BufferCoord(1, SynEdit.CaretY);
-          SynEdit.BlockEnd :=  BufferCoord(Position, SynEdit.CaretY);
-          SynEdit.SelText := '';
+          Position := ASynEdit.CaretX;
+          ASynEdit.BlockBegin := BufferCoord(1, ASynEdit.CaretY);
+          ASynEdit.BlockEnd :=  BufferCoord(Position, ASynEdit.CaretY);
+          ASynEdit.SelText := '';
         end;
 
         if CommandsDataModule.IsBlockOpener(iPrevLine) then begin
-          if eoTabsToSpaces in SynEdit.Options then
-            Indent := Indent + StringOfChar(' ', SynEdit.TabWidth)
+          if eoTabsToSpaces in ASynEdit.Options then
+            Indent := Indent + StringOfChar(' ', ASynEdit.TabWidth)
           else
             Indent := indent + #9;
         end else if CommandsDataModule.IsBlockCloser(iPrevLine) then begin
-          if (eoTabsToSpaces in SynEdit.Options) and (Length(Indent) > 0) and
+          if (eoTabsToSpaces in ASynEdit.Options) and (Length(Indent) > 0) and
             (Indent[Length(Indent)] <> #9)
           then
-            Delete(Indent, Length(Indent) - SynEdit.TabWidth + 1, SynEdit.TabWidth)
+            Delete(Indent, Length(Indent) - ASynEdit.TabWidth + 1, ASynEdit.TabWidth)
           else
             Delete(Indent, Length(Indent), 1);
         end;
         // use ReplaceSel to ensure it goes at the cursor rather than end of buffer
         if Trim(iPrevLine) <> '' then
-          SynEdit.SelText := Indent;
+          ASynEdit.SelText := Indent;
       finally
-        SynEdit.UndoList.EndBlock;
-        SynEdit.Options := OldOptions;
+        ASynEdit.UndoList.EndBlock;
+        ASynEdit.Options := OldOptions;
       end;
     end;
-    SynEdit.InvalidateGutterLine(SynEdit.CaretY - 1);
+    ASynEdit.InvalidateGutterLine(ASynEdit.CaretY - 1);
   end  else if (Command = ecChar) and AfterProcessing and not fAutoCompleteActive
     and CommandsDataModule.PyIDEOptions.AutoCompleteBrackets then
-  with SynEdit do begin
-    if SynEdit.Highlighter = CommandsDataModule.SynPythonSyn then begin
+  with ASynEdit do begin
+    if ASynEdit.Highlighter = CommandsDataModule.SynPythonSyn then begin
       OpenBrackets := '([{"''';
       CloseBrackets := ')]}"''';
-    end else if (SynEdit.Highlighter = CommandsDataModule.SynHTMLSyn) or
-       (SynEdit.Highlighter = CommandsDataModule.SynXMLSyn) or
-       (SynEdit.Highlighter = CommandsDataModule.SynCssSyn) then
+    end else if (ASynEdit.Highlighter = CommandsDataModule.SynHTMLSyn) or
+       (ASynEdit.Highlighter = CommandsDataModule.SynXMLSyn) or
+       (ASynEdit.Highlighter = CommandsDataModule.SynCssSyn) then
     begin
       OpenBrackets := '<"''';
       CloseBrackets := '>"''';
@@ -1685,6 +1744,12 @@ begin
     end else begin
       fCloseBracketChar := #0;
       OpenBracketPos := Pos(aChar, OpenBrackets);
+
+      BC := CaretXY;
+      Dec(BC.Char, 2);
+      if (BC.Char >= 1) and GetHighlighterAttriAtRowCol(BC, DummyToken, Attr) and
+        ((attr = Highlighter.StringAttribute) or (attr = Highlighter.CommentAttribute)) then
+          OpenBracketPos := 0;  // Do not auto complete brakets inside strings or comments
 
       if (OpenBracketPos > 0) then begin
         CharRight := WideNull;
@@ -2088,8 +2153,13 @@ end;
 
 procedure TEditorForm.ViewsTabBarTabSelected(Sender: TObject;
   Item: TJvTabBarItem);
+var
+  WinControl: TWinControl;
 begin
   EditorViews.ActivePage := TJvStandardPage(ViewsTabbar.SelectedTab.Data);
+  WinControl := EditorViews.ActivePage.Controls[0] as TWinControl;
+  if WinControl.Visible and WinControl.CanFocus then
+    PyIDEMainForm.ActiveControl := WinControl;
 end;
 
 procedure TEditorForm.AddWatchAtCursor;
@@ -2181,6 +2251,9 @@ Var
   Def, CE : TBaseCodeElement;
   ParsedModule, ParsedBuiltInModule : TParsedModule;
   PythonPathAdder : IInterface;
+  Attr: TSynHighlighterAttributes;
+  DummyToken : WideString;
+  BC : TBufferCoord;
 begin
   if not fEditor.HasPythonFile or PyControl.IsRunning or
     not CommandsDataModule.PyIDEOptions.EditorCodeCompletion then
@@ -2191,6 +2264,18 @@ begin
 
   with TSynCompletionProposal(Sender).Editor do
   begin
+    BC := CaretXY;
+    Dec(BC.Char);
+    if GetHighlighterAttriAtRowCol(BC, DummyToken, Attr) and
+     ((attr = Highlighter.StringAttribute) or (attr = Highlighter.CommentAttribute) or
+      (attr = CommandsDataModule.SynPythonSyn.CodeCommentAttri) or
+      (attr = CommandsDataModule.SynPythonSyn.DocStringAttri)) then
+    begin
+      // Do not code complete inside strings or comments
+      CanExecute := False;
+      Exit;
+    end;
+
     locLine := LineText;
 
     //go back from the cursor and find the first open paren
@@ -2318,6 +2403,9 @@ Var
   Token: WideString;
   Attri: TSynHighlighterAttributes;
   AlreadyActive : Boolean;
+  Attr: TSynHighlighterAttributes;
+  DummyToken : WideString;
+  BC : TBufferCoord;
 begin
   if not fEditor.HasPythonFile or PyControl.IsRunning or
     not CommandsDataModule.PyIDEOptions.EditorCodeCompletion then
@@ -2328,6 +2416,18 @@ begin
 
   with TSynCompletionProposal(Sender).Editor do
   begin
+    BC := CaretXY;
+    Dec(BC.Char);
+    if GetHighlighterAttriAtRowCol(BC, DummyToken, Attr) and
+     ((attr = Highlighter.StringAttribute) or (attr = Highlighter.CommentAttribute) or
+      (attr = CommandsDataModule.SynPythonSyn.CodeCommentAttri) or
+      (attr = CommandsDataModule.SynPythonSyn.DocStringAttri)) then
+    begin
+      // Do not code complete inside strings or comments
+      CanExecute := False;
+      Exit;
+    end;
+
     AlreadyActive := TSynCompletionProposal(Sender).Form.Visible;
 
     locLine := LineText;

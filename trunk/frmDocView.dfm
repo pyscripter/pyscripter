@@ -31,13 +31,13 @@ object DocForm: TDocForm
       8000000000000000000000000000000000000000000000000000000000000000
       00000000000000000100000000000000000000000000000000000000}
   end
-  object TBXDock1: TTBXDock
+  object TBXDock1: TSpTBXDock
     Left = 0
     Top = 0
     Width = 463
     Height = 26
     AllowDrag = False
-    object TBXToolbar1: TTBXToolbar
+    object TBXToolbar1: TSpTBXToolbar
       Left = 0
       Top = 0
       Caption = 'TBXToolbar1'
@@ -45,43 +45,44 @@ object DocForm: TDocForm
       FullSize = True
       Images = Images
       TabOrder = 0
-      object ToolButtonBack: TTBXItem
+      Customizable = False
+      object ToolButtonBack: TSpTBXItem
         Hint = 'Go Back'
         ImageIndex = 1
         OnClick = ToolButtonBackClick
       end
-      object ToolButtonForward: TTBXItem
+      object ToolButtonForward: TSpTBXItem
         Hint = 'Go Forward'
         ImageIndex = 2
         OnClick = ToolButtonForwardClick
       end
-      object TBXSeparatorItem1: TTBXSeparatorItem
+      object TBXSeparatorItem1: TSpTBXSeparatorItem
       end
-      object TBXItem3: TTBXItem
+      object TBXItem3: TSpTBXItem
         Hint = 'Stop'
         ImageIndex = 3
         OnClick = ToolButtonStopClick
       end
-      object TBXSeparatorItem2: TTBXSeparatorItem
+      object TBXSeparatorItem2: TSpTBXSeparatorItem
       end
-      object TBXItem4: TTBXItem
+      object TBXItem4: TSpTBXItem
         Hint = 'Page Setup'
         ImageIndex = 4
         OnClick = ToolButtonPageSetupClick
       end
-      object TBXItem6: TTBXItem
+      object TBXItem6: TSpTBXItem
         Hint = 'Print Preview'
         ImageIndex = 5
         OnClick = ToolButtonPrintPreviewClick
       end
-      object TBXItem5: TTBXItem
+      object TBXItem5: TSpTBXItem
         Hint = 'Print'
         ImageIndex = 6
         OnClick = ToolButtonPrintClick
       end
-      object TBXSeparatorItem4: TTBXSeparatorItem
+      object TBXSeparatorItem4: TSpTBXSeparatorItem
       end
-      object TBXItem7: TTBXItem
+      object TBXItem7: TSpTBXItem
         Hint = 'Save'
         ImageIndex = 7
         OnClick = ToolButtonSaveClick

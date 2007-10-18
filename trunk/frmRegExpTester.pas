@@ -15,20 +15,20 @@ uses
   Dialogs, frmIDEDockWin, JvComponent, JvDockControlForm, ExtCtrls, StdCtrls,
   JvExStdCtrls, JvRichEdit, mbTBXJvRichEdit, VirtualTrees, TBXDkPanels, TB2Item,
   TBX, TBXThemes, TB2Dock, TB2Toolbar, TBXStatusBars, JvAppStorage,
-  JvComponentBase;
+  JvComponentBase, SpTBXItem;
 
 type
   TRegExpTesterWindow = class(TIDEDockWindow, IJvAppStorageHandler)
     StatusBar: TTBXStatusBar;
-    TBXDock: TTBXDock;
-    RegExpTesterToolbar: TTBXToolbar;
-    TBXSubmenuItem2: TTBXSubmenuItem;
-    CI_DOTALL: TTBXItem;
-    CI_IGNORECASE: TTBXItem;
-    CI_LOCALE: TTBXItem;
-    CI_MULTILINE: TTBXItem;
-    TBXSeparatorItem1: TTBXSeparatorItem;
-    TIExecute: TTBXItem;
+    TBXDock: TSpTBXDock;
+    RegExpTesterToolbar: TSpTBXToolbar;
+    TBXSubmenuItem2: TSpTBXSubmenuItem;
+    CI_DOTALL: TSpTBXItem;
+    CI_IGNORECASE: TSpTBXItem;
+    CI_LOCALE: TSpTBXItem;
+    CI_MULTILINE: TSpTBXItem;
+    TBXSeparatorItem1: TSpTBXSeparatorItem;
+    TIExecute: TSpTBXItem;
     TBXMultiDock: TTBXMultiDock;
     TBXDockablePanel4: TTBXDockablePanel;
     TBXLabel1: TTBXLabel;
@@ -42,16 +42,16 @@ type
     TBXDockablePanel2: TTBXDockablePanel;
     TBXLabel4: TTBXLabel;
     SearchText: TmbTBXJvRichEdit;
-    TBXSeparatorItem2: TTBXSeparatorItem;
-    CI_UNICODE: TTBXItem;
-    CI_VERBOSE: TTBXItem;
-    RI_Match: TTBXItem;
-    RI_Search: TTBXItem;
-    tiHelp: TTBXItem;
-    TBXSeparatorItem3: TTBXSeparatorItem;
-    TiClear: TTBXItem;
-    TBXSeparatorItem4: TTBXSeparatorItem;
-    CI_AutoExecute: TTBXItem;
+    TBXSeparatorItem2: TSpTBXSeparatorItem;
+    CI_UNICODE: TSpTBXItem;
+    CI_VERBOSE: TSpTBXItem;
+    RI_Match: TSpTBXItem;
+    RI_Search: TSpTBXItem;
+    tiHelp: TSpTBXItem;
+    TBXSeparatorItem3: TSpTBXSeparatorItem;
+    TiClear: TSpTBXItem;
+    TBXSeparatorItem4: TSpTBXSeparatorItem;
+    CI_AutoExecute: TSpTBXItem;
     procedure TiClearClick(Sender: TObject);
     procedure GroupsViewGetText(Sender: TBaseVirtualTree; Node: PVirtualNode;
       Column: TColumnIndex; TextType: TVSTTextType; var CellText: WideString);

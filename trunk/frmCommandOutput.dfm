@@ -143,41 +143,57 @@ inherited OutputWindow: TOutputWindow
     Left = 19
     Top = 168
   end
-  object OutputPopup: TTBXPopupMenu
+  object OutputPopup: TSpTBXPopupMenu
     Images = CommandsDataModule.Images
     Left = 17
     Top = 88
-    object RunningProcess: TTBXSubmenuItem
+    object RunningProcess: TSpTBXSubmenuItem
       Caption = 'Running Process'
-      object mnClose: TTBXItem
+      object mnClose: TSpTBXItem
+        Caption = '&Close'
+        Hint = 'Close running tool'
         Action = actToolClose
       end
-      object mnQuit: TTBXItem
+      object mnQuit: TSpTBXItem
+        Caption = '&Quit'
+        Hint = 'Post quit message to running tool'
         Action = actToolQuit
       end
-      object mnTerminate: TTBXItem
+      object mnTerminate: TSpTBXItem
+        Caption = '&Terminate'
+        Hint = 'Terminate running tool (unsafe)'
         Action = actToolTerminate
       end
-      object N3: TTBXSeparatorItem
+      object N3: TSpTBXSeparatorItem
       end
-      object mnStopWaiting: TTBXItem
+      object mnStopWaiting: TSpTBXItem
+        Caption = 'Stop &Waiting'
+        Hint = 'Stop waiting for running tool'
         Action = actToolStopWaiting
       end
     end
-    object N1: TTBXSeparatorItem
+    object N1: TSpTBXSeparatorItem
     end
-    object Copy1: TTBXItem
+    object Copy1: TSpTBXItem
+      Caption = 'Co&py'
+      Hint = 'Copy contents to Clipboard'
       Action = actCopy
     end
-    object Clear1: TTBXItem
+    object Clear1: TSpTBXItem
+      Caption = 'Clear'
+      Hint = 'Clear output'
       Action = actClearOutput
     end
-    object N2: TTBXSeparatorItem
+    object N2: TSpTBXSeparatorItem
     end
-    object Font1: TTBXItem
+    object Font1: TSpTBXItem
+      Caption = 'Font...'
+      Hint = 'Select font'
       Action = actOutputFont
     end
-    object BackgroundColor1: TTBXItem
+    object BackgroundColor1: TSpTBXItem
+      Caption = 'Background Color...'
+      Hint = 'Select background color'
       Action = actSelectColor
     end
   end

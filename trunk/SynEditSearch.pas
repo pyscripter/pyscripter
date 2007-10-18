@@ -72,6 +72,7 @@ type
     fWhole: Boolean;
     fResults: TList;
     fShiftInitialized: Boolean;
+    fTextToSearch : WideString; //KV
     function GetFinished: Boolean;
     procedure InitShiftTable;
     procedure SetCaseSensitive(const Value: Boolean);
@@ -158,7 +159,7 @@ begin
   for I := 1 to PatLen do Shift[Pat[I]] := PatLenSucc - I;
   while Look_at < PatLen do
   begin
-    if Pat[PatLen] = Pat[PatLen - Look_at] then exit;
+    if Pat[PatLen] = Pat[PatLen - Look_at] then break; //KV was exit
     inc(Look_at);
   end;
   fShiftInitialized := True;
@@ -285,10 +286,16 @@ begin
   fTextLen := Length(NewText);
   if fTextLen >= PatLen then
   begin
+//  KV  
+//    if CaseSensitive then
+//      Origin := PWideChar(NewText)
+//    else
+//      Origin := PWideChar(SynWideLowerCase(NewText));
     if CaseSensitive then
-      Origin := PWideChar(NewText)
+      fTextToSearch := NewText
     else
-      Origin := PWideChar(SynWideLowerCase(NewText));
+      fTextToSearch := SynWideLowerCase(NewText);
+    Origin := PWideChar(fTextToSearch);
     TheEnd := Origin + fTextLen;
     Run := (Origin - 1);
     Result := Next;

@@ -40,7 +40,7 @@ type
 implementation
 
 uses VarPyth, PythonEngine, dmCommands, uCommonFunctions,
-  JvJVCLUtils, cPyBaseDebugger;
+  JvJVCLUtils, cPyBaseDebugger, cPyDebugger;
 
 {$R *.dfm}
 
@@ -74,9 +74,9 @@ begin
   Application.ProcessMessages;
 
   module := PyControl.ActiveInterpreter.ImportModule(Editor);
-  GetPythonEngine.ExecString(Code);
+  PyControl.ActiveInterpreter.RunSource(Code, '<Getdis>', 'exec');
+  getdis := PyControl.ActiveInterpreter.EvalCode('GetDis');
 
-  getdis := VarPythonEval('GetDis');
   DisSynEdit.Text := Format(Header,[Editor.FileTitle]) + getdis.__call__(module);
 end;
 

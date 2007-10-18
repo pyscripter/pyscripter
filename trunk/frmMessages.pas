@@ -13,28 +13,28 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ComCtrls, Menus, JvDockControlForm, JvComponent, PythonEngine,
   Contnrs, frmIDEDockWin, ExtCtrls, TB2Item, TBX, TBXThemes, TBXDkPanels, VirtualTrees,
-  TB2Dock, TB2Toolbar, ActnList, JvComponentBase;
+  TB2Dock, TB2Toolbar, ActnList, JvComponentBase, SpTBXItem, SpTBXControls;
 
 type
   TMessagesWindow = class(TIDEDockWindow)
-    TBXPopupMenu: TTBXPopupMenu;
-    mnClearall: TTBXItem;
+    TBXPopupMenu: TSpTBXPopupMenu;
+    mnClearall: TSpTBXItem;
     MessagesView: TVirtualStringTree;
     TBToolbar1: TTBToolbar;
     TBControlItem5: TTBControlItem;
     TBControlItem6: TTBControlItem;
-    BtnPreviousMsgs: TTBXButton;
-    BtnNextMsgs: TTBXButton;
+    BtnPreviousMsgs: TSpTBXButton;
+    BtnNextMsgs: TSpTBXButton;
     MsgsActionList: TActionList;
     actClearAll: TAction;
     actPreviousMsgs: TAction;
     actNextMsgs: TAction;
-    TBXItem1: TTBXItem;
-    TBXItem2: TTBXItem;
-    TBXSeparatorItem1: TTBXSeparatorItem;
+    TBXItem1: TSpTBXItem;
+    TBXItem2: TSpTBXItem;
+    TBXSeparatorItem1: TSpTBXSeparatorItem;
     actCopyToClipboard: TAction;
-    TBXSeparatorItem2: TTBXSeparatorItem;
-    TBXItem3: TTBXItem;
+    TBXSeparatorItem2: TSpTBXSeparatorItem;
+    TBXItem3: TSpTBXItem;
     procedure TBXPopupMenuPopup(Sender: TObject);
     procedure actCopyToClipboardExecute(Sender: TObject);
     procedure ClearAllExecute(Sender: TObject);

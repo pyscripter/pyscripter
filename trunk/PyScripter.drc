@@ -8,931 +8,924 @@
   resources were bound to the produced executable.
 */
 
-#define dlgExceptionMail_RsExceptionMessage 64496
-#define dlgExceptionMail_RsExceptionAddr 64497
-#define dlgExceptionMail_RsStackList 64498
-#define dlgExceptionMail_RsModulesList 64499
-#define dlgExceptionMail_RsOSVersion 64500
-#define dlgExceptionMail_RsProcessor 64501
-#define dlgExceptionMail_RsMemory 64502
-#define dlgExceptionMail_RsScreenRes 64503
-#define dlgExceptionMail_RsActiveControl 64504
-#define dlgExceptionMail_RsThread 64505
-#define dlgExceptionMail_RsMissingVersionInfo 64506
-#define dlgExceptionMail_RsSendBugReportAddress 64507
-#define dlgExceptionMail_RsSendBugReportSubject 64508
-#define frmToDo_SDoneTodoDesignation 64512
-#define frmEditor_SInsert 64513
-#define frmEditor_SOverwrite 64514
-#define frmEditor_SReadOnly 64515
-#define frmEditor_SNonameFileTitle 64516
-#define frmEditor_SNonamePythonFileTitle 64517
-#define frmEditor_SAskSaveChanges 64518
-#define WinHelpViewer_hNoKeyword 64519
-#define frmFunctionList_SAllString 64520
-#define frmFunctionList_SNoneString 64521
-#define frmFunctionList_SParseStatistics 64522
-#define frmFunctionList_SInvalidIndex 64523
-#define dmCommands_S_ERROR_NO_ERROR_STRING 64524
-#define frmPyIDEMain_SModified 64525
-#define dlgExceptionMail_RsAppError 64526
-#define dlgExceptionMail_RsExceptionClass 64527
-#define frmFindResults_SMatches 64528
-#define frmFindResults_SMatchContextNotAvail 64529
-#define frmFindResults_SAllAlphaNumericChars 64530
-#define frmFindResults_SProcessing 64531
-#define frmFindResults_SFileChangedAbort 64532
-#define frmFindResults_SFileSkipped 64533
-#define frmFindResults_SCouldNotBackup 64534
-#define cFindInFiles_SNoFileOpen 64535
-#define cFindInFiles_SSpecifiedDirectoryDoesNotExist 64536
-#define dlgToDoOptions_SLeadingDollarNotAllowed 64537
-#define dlgToDoOptions_SEmptyTokenTextError 64538
-#define frmToDo_SHigh 64539
-#define frmToDo_SNormal 64540
-#define frmToDo_SLow 64541
-#define frmToDo_SDone 64542
-#define frmToDo_STodoItems 64543
-#define frmCommandOutput_SPrintWorkingDir 64544
-#define frmCommandOutput_SPrintTimeOut 64545
-#define ObjAuto_sTypeMisMatch 64546
-#define ObjAuto_sInvalidDispID 64547
-#define ObjAuto_sParamRequired 64548
-#define ObjAuto_sMethodOver 64549
-#define ObjAuto_sTooManyParams 64550
-#define dlgConfirmReplace_SAskReplaceText 64551
-#define cFileSearch_SLineLengthError 64552
-#define dlgReplaceInFiles_SGrepResultsNotActive 64553
-#define dlgFindInFiles_SSpecifiedDirectoryDoesNotExist 64554
-#define frmFindResults_SGrepReplaceStats 64555
-#define frmFindResults_SItemMatch 64556
-#define frmFindResults_SReplaceLine 64557
-#define frmFindResults_SGrepActive 64558
-#define frmFindResults_SGrepSearchStats 64559
-#define SynHighlighterPython_SYNS_FriendlyFunctionName 64560
-#define SynHighlighterPython_SYNS_FriendlyClassName 64561
-#define SynHighlighterPython_SYNS_AttrBanner 64562
-#define SynHighlighterPython_SYNS_FriendlyAttrBanner 64563
-#define SynHighlighterPython_SYNS_AttrOutput 64564
-#define SynHighlighterPython_SYNS_FriendlyAttrOutput 64565
-#define SynHighlighterPython_SYNS_AttrTraceback 64566
-#define SynHighlighterPython_SYNS_FriendlyAttrTraceback 64567
-#define SynHighlighterPython_SYNS_AttrPrompt 64568
-#define SynHighlighterPython_SYNS_FriendlyAttrPrompt 64569
-#define SynHighlighterPython_SYNS_LangPythonInterpreter 64570
-#define SynHighlighterPython_SYNS_FriendlyLangPythonInterpreter 64571
-#define frmCommandOutput_sProcessTerminated 64572
-#define frmCommandOutput_SDirNotFound 64573
-#define frmCommandOutput_SProcessRunning 64574
-#define frmCommandOutput_SPrintCommandLine 64575
-#define VirtualTrees_SWrongStreamFormat 64576
-#define VirtualTrees_SWrongStreamVersion 64577
-#define VirtualTrees_SStreamTooSmall 64578
-#define VirtualTrees_SCorruptStream1 64579
-#define VirtualTrees_SCorruptStream2 64580
-#define VirtualTrees_SClipboardFailed 64581
-#define VirtualTrees_SCannotSetUserData 64582
-#define DBConsts_SBcdOverflow 64583
-#define DBConsts_SInvalidBcdValue 64584
-#define DBConsts_SCouldNotParseTimeStamp 64585
-#define DBConsts_SInvalidSqlTimeStamp 64586
-#define TntLXUtils_SFileOpAborted 64587
-#define SynHighlighterPython_SYNS_CommentedCode 64588
-#define SynHighlighterPython_SYNS_FunctionName 64589
-#define SynHighlighterPython_SYNS_ClassName 64590
-#define SynHighlighterPython_SYNS_FriendlyCommentedCode 64591
-#define StringResources_SEngineActive 64592
-#define StringResources_SPythonInitError 64593
-#define StringResources_SPostMortemInfo 64594
-#define StringResources_SFileChangeNotificationProblem 64595
-#define cParameters_SEnterParameterCaption 64596
-#define cParameters_SEnterParameterText 64597
-#define cParameters_SParamCircularReference 64598
-#define cParameters_SParameterNotFound 64599
-#define cParameters_SModifierNotFound 64600
-#define cParameters_SObjectNotFound 64601
-#define cParameters_SPropertyNotFound 64602
-#define cParameters_SInvalidParameterFormat 64603
-#define cParameters_SInvalidConditionFormat 64604
-#define cParameters_SDuplicateModifier 64605
-#define VirtualTrees_SEditLinkIsNil 64606
-#define VirtualTrees_SWrongMoveError 64607
-#define StringResources_SFunctionParameterCodeHint 64608
-#define StringResources_SLocalVariableCodeHint 64609
-#define StringResources_SGlobalVariableCodeHint 64610
-#define StringResources_SClassVariableCodeHint 64611
-#define StringResources_SInstanceVariableCodeHint 64612
-#define StringResources_SImportedVariableCodeHint 64613
-#define StringResources_SVariableTypeCodeHint 64614
-#define StringResources_SParsedModuleCodeHint 64615
-#define StringResources_SParsedPackageCodeHint 64616
-#define StringResources_SModuleProxyCodeHint 64617
-#define StringResources_SPackageProxyCodeHint 64618
-#define StringResources_SModuleImportCodeHint 64619
-#define StringResources_SRegError 64620
-#define StringResources_SEmptyList 64621
-#define StringResources_SNewFolder 64622
-#define StringResources_SCommandLineMsg 64623
-#define StringResources_SNotFound 64624
-#define StringResources_SItemsReplaced 64625
-#define StringResources_SNotAvailable 64626
-#define StringResources_SNotImplented 64627
-#define StringResources_SFilterAllFiles 64628
-#define StringResources_SVariablesDocNotSelected 64629
-#define StringResources_SVariablesDocSelected 64630
-#define StringResources_SDebuggerHintFormat 64631
-#define StringResources_SNoParameters 64632
-#define StringResources_SNamespaceFormat 64633
-#define StringResources_SFilePosInfoCodeHint 64634
-#define StringResources_SDefinedInModuleCodeHint 64635
-#define StringResources_SParsedClassCodeHint 64636
-#define StringResources_SInheritsFromCodeHint 64637
-#define StringResources_SParsedFunctionCodeHint 64638
-#define StringResources_SParsedMethodCodeHint 64639
-#define JvDockGlobals_RsDockJvDockInfoSplitter 64640
-#define JvDockGlobals_RsDockJvDockTreeCloseBtnHint 64641
-#define JvDockGlobals_RsDockVSNETDockTreeAutoHideBtnHint 64642
-#define JvDockGlobals_RsEDockControlCannotIsNil 64643
-#define JvDockGlobals_RsEDockCannotGetValueWithNoOrient 64644
-#define JvDockGlobals_RsEDockCannotSetValueWithNoOrient 64645
-#define JvDockGlobals_RsEDockCannotLayAnother 64646
-#define JvDockGlobals_RsEDockCannotSetTabPosition 64647
-#define JvDockGlobals_RsDockCannotFindWindow 64648
-#define VarPyth_SMultiDimensionalPropsNotSupported 64649
-#define VarPyth_SCantConvertArg 64650
-#define VarPyth_SCantConvertKeyToPythonObject 64651
-#define VarPyth_SCantConvertValueToPythonObject 64652
-#define VarPyth_SCantCreateNewSequenceObject 64653
-#define VarPyth_SExpectedPythonVariant 64654
-#define StringResources_SInternalError 64655
-#define SynEditStrConst_SYNS_PreviewScrollInfoFmt 64656
-#define SynEditStrConst_SYNS_EDuplicateShortcut 64657
-#define SynEditStrConst_SYNS_FilterHTML 64658
-#define SynEditStrConst_SYNS_FilterPython 64659
-#define SynEditStrConst_SYNS_FilterINI 64660
-#define SynEditStrConst_SYNS_FilterCSS 64661
-#define SynEditStrConst_SYNS_FilterXML 64662
-#define SynEditStrConst_SYNS_FriendlyLangHTML 64663
-#define SynEditStrConst_SYNS_FriendlyLangPython 64664
-#define SynEditStrConst_SYNS_FriendlyLangINI 64665
-#define SynEditStrConst_SYNS_FriendlyLangCSS 64666
-#define SynEditStrConst_SYNS_FriendlyLangXML 64667
-#define SynEditStrConst_SYNS_FriendlyLangUnknown 64668
-#define SynEditTextBuffer_SListIndexOutOfBounds 64669
-#define SynEditTextBuffer_SInvalidCapacity 64670
-#define JvDockGlobals_RsDockStringSplitter 64671
-#define SynEditStrConst_SYNS_FriendlyAttrProcessingInstr 64672
-#define SynEditStrConst_SYNS_FriendlyAttrProperty 64673
-#define SynEditStrConst_SYNS_FriendlyAttrReservedWord 64674
-#define SynEditStrConst_SYNS_FriendlyAttrSection 64675
-#define SynEditStrConst_SYNS_FriendlyAttrSpace 64676
-#define SynEditStrConst_SYNS_FriendlyAttrString 64677
-#define SynEditStrConst_SYNS_FriendlyAttrSymbol 64678
-#define SynEditStrConst_SYNS_FriendlyAttrSyntaxError 64679
-#define SynEditStrConst_SYNS_FriendlyAttrSystem 64680
-#define SynEditStrConst_SYNS_FriendlyAttrText 64681
-#define SynEditStrConst_SYNS_FriendlyAttrUndefinedProperty 64682
-#define SynEditStrConst_SYNS_FriendlyAttrUnknownWord 64683
-#define SynEditStrConst_SYNS_FriendlyAttrValue 64684
-#define SynEditStrConst_SYNS_FriendlyAttrWhitespace 64685
-#define SynEditStrConst_SYNS_ScrollInfoFmt 64686
-#define SynEditStrConst_SYNS_ScrollInfoFmtTop 64687
-#define SynEditStrConst_SYNS_FriendlyAttrColor 64688
-#define SynEditStrConst_SYNS_FriendlyAttrComment 64689
-#define SynEditStrConst_SYNS_FriendlyAttrDOCTYPESection 64690
-#define SynEditStrConst_SYNS_FriendlyAttrDocumentation 64691
-#define SynEditStrConst_SYNS_FriendlyAttrElementName 64692
-#define SynEditStrConst_SYNS_FriendlyAttrEntityReference 64693
-#define SynEditStrConst_SYNS_FriendlyAttrEscapeAmpersand 64694
-#define SynEditStrConst_SYNS_FriendlyAttrFloat 64695
-#define SynEditStrConst_SYNS_FriendlyAttrHexadecimal 64696
-#define SynEditStrConst_SYNS_FriendlyAttrIdentifier 64697
-#define SynEditStrConst_SYNS_FriendlyAttrKey 64698
-#define SynEditStrConst_SYNS_FriendlyAttrNamespaceAttrName 64699
-#define SynEditStrConst_SYNS_FriendlyAttrNamespaceAttrValue 64700
-#define SynEditStrConst_SYNS_FriendlyAttrNonReservedKeyword 64701
-#define SynEditStrConst_SYNS_FriendlyAttrNumber 64702
-#define SynEditStrConst_SYNS_FriendlyAttrOctal 64703
-#define TB2Consts_STBMRUListItemDefCaption 64704
-#define TB2Consts_STBDockParentNotAllowed 64705
-#define TB2Consts_STBDockCannotChangePosition 64706
-#define TB2Consts_STBToolwinDockedToNameNotSet 64707
-#define OleConst_SCannotActivate 64708
-#define OleConst_SNoWindowHandle 64709
-#define OleConst_SLinkProperties 64710
-#define OleConst_SInvalidLinkSource 64711
-#define OleConst_SCannotBreakLink 64712
-#define OleConst_SPropDlgCaption 64713
-#define OleConst_SInvalidLicense 64714
-#define OleConst_SNotLicensed 64715
-#define OleConst_sNoRunningObject 64716
-#define SynEditStrConst_SYNS_FriendlyAttrAttributeName 64717
-#define SynEditStrConst_SYNS_FriendlyAttrAttributeValue 64718
-#define SynEditStrConst_SYNS_FriendlyAttrCDATASection 64719
-#define JclResources_RsProductTypeWorkStation 64720
-#define JclResources_RsProductTypeServer 64721
-#define JclResources_RsProductTypeAdvancedServer 64722
-#define JclResources_RsProductTypePersonal 64723
-#define JclResources_RsProductTypeProfessional 64724
-#define JclResources_RsProductTypeDatacenterServer 64725
-#define JclResources_RsProductTypeEnterprise 64726
-#define JclResources_RsProductTypeWebEdition 64727
-#define JclResources_RsCannotWriteRefStream 64728
-#define JclResources_RsHasNotTD32Info 64729
-#define JclResources_RsELibraryNotFound 64730
-#define JclResources_RsEFunctionNotFound 64731
-#define TB2Consts_STBToolbarIndexOutOfBounds 64732
-#define TB2Consts_STBToolbarItemReinserted 64733
-#define TB2Consts_STBViewerNotFound 64734
-#define TB2Consts_STBChevronItemMoreButtonsHint 64735
-#define JclResources_RsIntelCacheDescrF1 64736
-#define JclResources_RsUnknownAMDModel 64737
-#define JclResources_RsOSVersionWin95 64738
-#define JclResources_RsOSVersionWin95OSR2 64739
-#define JclResources_RsOSVersionWin98 64740
-#define JclResources_RsOSVersionWin98SE 64741
-#define JclResources_RsOSVersionWinME 64742
-#define JclResources_RsOSVersionWinNT3 64743
-#define JclResources_RsOSVersionWinNT4 64744
-#define JclResources_RsOSVersionWin2000 64745
-#define JclResources_RsOSVersionWinXP 64746
-#define JclResources_RsOSVersionWin2003 64747
-#define JclResources_RsOSVersionWin2003R2 64748
-#define JclResources_RsOSVersionWinXP64 64749
-#define JclResources_RsOSVersionWinVista 64750
-#define JclResources_RsOSVersionWinServer2008 64751
-#define JclResources_RsIntelCacheDescr79 64752
-#define JclResources_RsIntelCacheDescr7A 64753
-#define JclResources_RsIntelCacheDescr7B 64754
-#define JclResources_RsIntelCacheDescr7C 64755
-#define JclResources_RsIntelCacheDescr7D 64756
-#define JclResources_RsIntelCacheDescr7F 64757
-#define JclResources_RsIntelCacheDescr82 64758
-#define JclResources_RsIntelCacheDescr83 64759
-#define JclResources_RsIntelCacheDescr84 64760
-#define JclResources_RsIntelCacheDescr85 64761
-#define JclResources_RsIntelCacheDescr86 64762
-#define JclResources_RsIntelCacheDescr87 64763
-#define JclResources_RsIntelCacheDescrB0 64764
-#define JclResources_RsIntelCacheDescrB3 64765
-#define JclResources_RsIntelCacheDescrB4 64766
-#define JclResources_RsIntelCacheDescrF0 64767
-#define JclResources_RsIntelCacheDescr50 64768
-#define JclResources_RsIntelCacheDescr51 64769
-#define JclResources_RsIntelCacheDescr52 64770
-#define JclResources_RsIntelCacheDescr56 64771
-#define JclResources_RsIntelCacheDescr57 64772
-#define JclResources_RsIntelCacheDescr5B 64773
-#define JclResources_RsIntelCacheDescr5C 64774
-#define JclResources_RsIntelCacheDescr5D 64775
-#define JclResources_RsIntelCacheDescr60 64776
-#define JclResources_RsIntelCacheDescr66 64777
-#define JclResources_RsIntelCacheDescr67 64778
-#define JclResources_RsIntelCacheDescr68 64779
-#define JclResources_RsIntelCacheDescr70 64780
-#define JclResources_RsIntelCacheDescr71 64781
-#define JclResources_RsIntelCacheDescr72 64782
-#define JclResources_RsIntelCacheDescr78 64783
-#define JclResources_RsIntelCacheDescr0C 64784
-#define JclResources_RsIntelCacheDescr22 64785
-#define JclResources_RsIntelCacheDescr23 64786
-#define JclResources_RsIntelCacheDescr25 64787
-#define JclResources_RsIntelCacheDescr29 64788
-#define JclResources_RsIntelCacheDescr2C 64789
-#define JclResources_RsIntelCacheDescr30 64790
-#define JclResources_RsIntelCacheDescr40 64791
-#define JclResources_RsIntelCacheDescr41 64792
-#define JclResources_RsIntelCacheDescr42 64793
-#define JclResources_RsIntelCacheDescr43 64794
-#define JclResources_RsIntelCacheDescr44 64795
-#define JclResources_RsIntelCacheDescr45 64796
-#define JclResources_RsIntelCacheDescr46 64797
-#define JclResources_RsIntelCacheDescr47 64798
-#define JclResources_RsIntelCacheDescr49 64799
-#define JclResources_RsDeclarationFormat 64800
-#define JclResources_RsBlankSearchString 64801
-#define JclResources_RsInvalidEmptyStringItem 64802
-#define JclResources_RsArgumentOutOfRange 64803
-#define JclResources_RsSynchCreateEvent 64804
-#define JclResources_RsSynchCreateMutex 64805
-#define JclResources_RsIntelCacheDescr00 64806
-#define JclResources_RsIntelCacheDescr01 64807
-#define JclResources_RsIntelCacheDescr02 64808
-#define JclResources_RsIntelCacheDescr03 64809
-#define JclResources_RsIntelCacheDescr04 64810
-#define JclResources_RsIntelCacheDescr05 64811
-#define JclResources_RsIntelCacheDescr06 64812
-#define JclResources_RsIntelCacheDescr08 64813
-#define JclResources_RsIntelCacheDescr0A 64814
-#define JclResources_RsIntelCacheDescr0B 64815
-#define JclResources_RsRTTIMaxValue 64816
-#define JclResources_RsRTTINameList 64817
-#define JclResources_RsRTTIClassName 64818
-#define JclResources_RsRTTIParent 64819
-#define JclResources_RsRTTIPropCount 64820
-#define JclResources_RsRTTIUnitName 64821
-#define JclResources_RsRTTIBasedOn 64822
-#define JclResources_RsRTTIFloatType 64823
-#define JclResources_RsRTTIMethodKind 64824
-#define JclResources_RsRTTIParamCount 64825
-#define JclResources_RsRTTIReturnType 64826
-#define JclResources_RsRTTIMaxLen 64827
-#define JclResources_RsRTTIElSize 64828
-#define JclResources_RsRTTIElType 64829
-#define JclResources_RsRTTIElNeedCleanup 64830
-#define JclResources_RsRTTIVarType 64831
-#define JclResources_RsRTTITypeInfoAt 64832
-#define JclResources_RsRTTIPropRead 64833
-#define JclResources_RsRTTIPropWrite 64834
-#define JclResources_RsRTTIPropStored 64835
-#define JclResources_RsRTTIField 64836
-#define JclResources_RsRTTIStaticMethod 64837
-#define JclResources_RsRTTIVirtualMethod 64838
-#define JclResources_RsRTTIIndex 64839
-#define JclResources_RsRTTIDefault 64840
-#define JclResources_RsRTTIName 64841
-#define JclResources_RsRTTIType 64842
-#define JclResources_RsRTTIFlags 64843
-#define JclResources_RsRTTIGUID 64844
-#define JclResources_RsRTTITypeKind 64845
-#define JclResources_RsRTTIOrdinalType 64846
-#define JclResources_RsRTTIMinValue 64847
-#define JclResources_RsHKCUShort 64848
-#define JclResources_RsHKLMShort 64849
-#define JclResources_RsHKUSShort 64850
-#define JclResources_RsHKPDShort 64851
-#define JclResources_RsHKCCShort 64852
-#define JclResources_RsHKDDShort 64853
-#define JclResources_RsRTTIValueOutOfRange 64854
-#define JclResources_RsRTTIUnknownIdentifier 64855
-#define JclResources_RsRTTIVar 64856
-#define JclResources_RsRTTIConst 64857
-#define JclResources_RsRTTIArrayOf 64858
-#define JclResources_RsRTTIOut 64859
-#define JclResources_RsRTTIOrdinal 64860
-#define JclResources_RsRTTITrue 64861
-#define JclResources_RsRTTIFalse 64862
-#define JclResources_RsRTTITypeError 64863
-#define JclResources_RsPeNotPE 64864
-#define JclResources_RsPeUnknownTarget 64865
-#define JclResources_RsPeNotResDir 64866
-#define JclResources_RsPeSectionNotFound 64867
-#define JclResources_RsUnableToOpenKeyRead 64868
-#define JclResources_RsUnableToAccessValue 64869
-#define JclResources_RsWrongDataType 64870
-#define JclResources_RsInconsistentPath 64871
-#define JclResources_RsHKCRLong 64872
-#define JclResources_RsHKCULong 64873
-#define JclResources_RsHKLMLong 64874
-#define JclResources_RsHKUSLong 64875
-#define JclResources_RsHKPDLong 64876
-#define JclResources_RsHKCCLong 64877
-#define JclResources_RsHKDDLong 64878
-#define JclResources_RsHKCRShort 64879
-#define JclResources_RsMapiErrINVALID_MESSAGE 64880
-#define JclResources_RsMapiErrTEXT_TOO_LARGE 64881
-#define JclResources_RsMapiErrINVALID_SESSION 64882
-#define JclResources_RsMapiErrTYPE_NOT_SUPPORTED 64883
-#define JclResources_RsMapiErrAMBIGUOUS_RECIPIENT 64884
-#define JclResources_RsMapiErrMESSAGE_IN_USE 64885
-#define JclResources_RsMapiErrNETWORK_FAILURE 64886
-#define JclResources_RsMapiErrINVALID_EDITFIELDS 64887
-#define JclResources_RsMapiErrINVALID_RECIPS 64888
-#define JclResources_RsMapiErrNOT_SUPPORTED 64889
-#define JclResources_RsMapiMailORIG 64890
-#define JclResources_RsMapiMailTO 64891
-#define JclResources_RsMapiMailCC 64892
-#define JclResources_RsMapiMailBCC 64893
-#define JclResources_RsPeReadOnlyStream 64894
-#define JclResources_RsPeCantOpen 64895
-#define JclResources_RsMapiMailNoClient 64896
-#define JclResources_RsMapiErrUSER_ABORT 64897
-#define JclResources_RsMapiErrFAILURE 64898
-#define JclResources_RsMapiErrLOGIN_FAILURE 64899
-#define JclResources_RsMapiErrDISK_FULL 64900
-#define JclResources_RsMapiErrINSUFFICIENT_MEMORY 64901
-#define JclResources_RsMapiErrACCESS_DENIED 64902
-#define JclResources_RsMapiErrTOO_MANY_SESSIONS 64903
-#define JclResources_RsMapiErrTOO_MANY_FILES 64904
-#define JclResources_RsMapiErrTOO_MANY_RECIPIENTS 64905
-#define JclResources_RsMapiErrATTACHMENT_NOT_FOUND 64906
-#define JclResources_RsMapiErrATTACHMENT_OPEN_FAILURE 64907
-#define JclResources_RsMapiErrATTACHMENT_WRITE_FAILURE 64908
-#define JclResources_RsMapiErrUNKNOWN_RECIPIENT 64909
-#define JclResources_RsMapiErrBAD_RECIPTYPE 64910
-#define JclResources_RsMapiErrNO_MESSAGES 64911
-#define JvResources_RsMenuHighlight 64912
-#define JvResources_RsFileNotFoundFmt 64913
-#define JvResources_RsEGrabberNotStopped 64914
-#define JvResources_RsJediAgent 64915
-#define JvResources_RsDefaultOutputFileName 64916
-#define JclResources_RsWin32Prefix 64917
-#define JclResources_RsUnknownFunctionAt 64918
-#define JclResources_RsCannotCreateDir 64919
-#define JclResources_RsFileUtilsNoVersionInfo 64920
-#define JclResources_RsCreateFileMapping 64921
-#define JclResources_RsCreateFileMappingView 64922
-#define JclResources_RsViewNeedsMapping 64923
-#define JclResources_RsFailedToObtainSize 64924
-#define JclResources_RsDefaultFileTypeName 64925
-#define JclResources_RsMapiError 64926
-#define JclResources_RsMapiMissingExport 64927
-#define JvResources_RsClHighlight 64928
-#define JvResources_RsClHighlightText 64929
-#define JvResources_RsClBtnFace 64930
-#define JvResources_RsClBtnShadow 64931
-#define JvResources_RsClGrayText 64932
-#define JvResources_RsClBtnText 64933
-#define JvResources_RsClInactiveCaptionText 64934
-#define JvResources_RsClBtnHighlight 64935
-#define JvResources_RsCl3DDkShadow 64936
-#define JvResources_RsCl3DLight 64937
-#define JvResources_RsClInfoText 64938
-#define JvResources_RsClInfoBk 64939
-#define JvResources_RsGradientActiveCaption 64940
-#define JvResources_RsGradientInactiveCaption 64941
-#define JvResources_RsHotLight 64942
-#define JvResources_RsMenuBar 64943
-#define JvResources_RsClLightTurquoise 64944
-#define JvResources_RsClPaleBlue 64945
-#define JvResources_RsClLavender 64946
-#define JvResources_RsClScrollBar 64947
-#define JvResources_RsClBackground 64948
-#define JvResources_RsClActiveCaption 64949
-#define JvResources_RsClInactiveCaption 64950
-#define JvResources_RsClMenu 64951
-#define JvResources_RsClWindow 64952
-#define JvResources_RsClWindowFrame 64953
-#define JvResources_RsClMenuText 64954
-#define JvResources_RsClWindowText 64955
-#define JvResources_RsClCaptionText 64956
-#define JvResources_RsClActiveBorder 64957
-#define JvResources_RsClInactiveBorder 64958
-#define JvResources_RsClAppWorkSpace 64959
-#define JvResources_RsClGray50 64960
-#define JvResources_RsClLightOrange 64961
-#define JvResources_RsClSeaGreen 64962
-#define JvResources_RsClLightBlue 64963
-#define JvResources_RsClViolet 64964
-#define JvResources_RsClGray40 64965
-#define JvResources_RsClPink 64966
-#define JvResources_RsClGold 64967
-#define JvResources_RsClBrightGreen 64968
-#define JvResources_RsClTurquoise 64969
-#define JvResources_RsClPlum 64970
-#define JvResources_RsClGray25 64971
-#define JvResources_RsClRose 64972
-#define JvResources_RsClTan 64973
-#define JvResources_RsClLightYellow 64974
-#define JvResources_RsClLightGreen 64975
-#define JvResources_RsClWhite 64976
-#define JvResources_RsClMoneyGreen 64977
-#define JvResources_RsClSkyBlue 64978
-#define JvResources_RsClCream 64979
-#define JvResources_RsClMedGray 64980
-#define JvResources_RsClBrown 64981
-#define JvResources_RsClOliveGreen 64982
-#define JvResources_RsClDarkGreen 64983
-#define JvResources_RsClDarkTeal 64984
-#define JvResources_RsClDarkBlue 64985
-#define JvResources_RsClIndigo 64986
-#define JvResources_RsClGray80 64987
-#define JvResources_RsClDarkRed 64988
-#define JvResources_RsClOrange 64989
-#define JvResources_RsClDarkYellow 64990
-#define JvResources_RsClBlueGray 64991
-#define JvResources_RsENotATJvThread 64992
-#define JvResources_RsClBlack 64993
-#define JvResources_RsClMaroon 64994
-#define JvResources_RsClGreen 64995
-#define JvResources_RsClOlive 64996
-#define JvResources_RsClNavy 64997
-#define JvResources_RsClPurple 64998
-#define JvResources_RsClTeal 64999
-#define JvResources_RsClGray 65000
-#define JvResources_RsClSilver 65001
-#define JvResources_RsClRed 65002
-#define JvResources_RsClLime 65003
-#define JvResources_RsClYellow 65004
-#define JvResources_RsClBlue 65005
-#define JvResources_RsClFuchsia 65006
-#define JvResources_RsClAqua 65007
-#define JvResources_RsPVCOperationDownloadOnly 65008
-#define JvResources_RsPVCOperationDownloadInstall 65009
-#define JvResources_RsPVCWhatNewInS 65010
-#define JvResources_RsPVCChangesBetween 65011
-#define JvResources_RsPVCFileDownloadNotSuccessful 65012
-#define JvResources_RsPVCDownloadSuccessfulInstallManually 65013
-#define JvResources_RsPVCErrorStartingSetup 65014
-#define JvResources_RsPVCDownloadSuccessfullInstallNow 65015
-#define JvResources_RsPVInfoButtonCaption 65016
-#define JvResources_RsJvPropertyStoreMutexStorePropertiesProcedureName 65017
-#define JvResources_RsJvPropertyStoreMutexLoadPropertiesProcedureName 65018
-#define JvResources_RsJvPropertyStoreEnterMutexTimeout 65019
-#define JvResources_RsRTFFilter 65020
-#define JvResources_RsTextFilter 65021
-#define JvResources_RsEOutOfRangeFloat 65022
-#define JvResources_RsENoItemFoundWithName 65023
-#define JvResources_RsPVDefaultVersioninfoFileName 65024
-#define JvResources_RsPVTempFileNameExtension 65025
-#define JvResources_RsPVSiceB 65026
-#define JvResources_RsPVSiceKB 65027
-#define JvResources_RsPVSiceMB 65028
-#define JvResources_RsPVSiceGB 65029
-#define JvResources_RsPVCReleaseTypeAlpha 65030
-#define JvResources_RsPVCReleaseTypeBeta 65031
-#define JvResources_RsPVCReleaseTypeProduction 65032
-#define JvResources_RsPVCDownloading 65033
-#define JvResources_RsPVCDialogCaption 65034
-#define JvResources_RsPVCDialogExecuteButton 65035
-#define JvResources_RsPVCNewVersionAvailable 65036
-#define JvResources_RsPVCChooseWhichVersion 65037
-#define JvResources_RsPVCChooseOperation 65038
-#define JvResources_RsPVCOperationIgnore 65039
-#define JvResources_RsENoMoreRecordsToReturn 65040
-#define JvResources_RsEWordInfoIndexOutOfBounds 65041
-#define JvResources_RsErrParameterMustBeEntered 65042
-#define JvResources_RsHistorySelectPath 65043
-#define JvResources_RsDialogCaption 65044
-#define JvResources_RsCancelButton 65045
-#define JvResources_RsHistoryLoadButton 65046
-#define JvResources_RsHistorySaveButton 65047
-#define JvResources_RsHistoryClearButton 65048
-#define JvResources_RsHistoryLoadCaption 65049
-#define JvResources_RsHistorySaveCaption 65050
-#define JvResources_RsHistoryClearCaption 65051
-#define JvResources_RsENoParametersDefined 65052
-#define JvResources_RsEAddObjectWrongObjectType 65053
-#define JvResources_RsEAddObjectSearchNameNotDefined 65054
-#define JvResources_RsEAddObjectDuplicateSearchNamesNotAllowed 65055
-#define JvResources_RsEMethodAlreadyExists 65056
-#define JvResources_RsENameAlreadyExistsForMethod 65057
-#define JvResources_RsEJvAssertSetTopIndex 65058
-#define JvResources_RsEJvAssertInspectorPainter 65059
-#define JvResources_RsEJvAssertDataParent 65060
-#define JvResources_RsEJvAssertParent 65061
-#define JvResources_RsEJvAssertPropInfo 65062
-#define JvResources_RsEJvAssertClassInfo 65063
-#define JvResources_RsEOwnerLinkError 65064
-#define JvResources_RsENoMoreElementsToReturn 65065
-#define JvResources_RsEUnsupportedState 65066
-#define JvResources_RsENoMoreWords 65067
-#define JvResources_RsEUnsupported 65068
-#define JvResources_RsECannotBeInstantiated 65069
-#define JvResources_RsETNodeGetNodeTypeUnknownClass 65070
-#define JvResources_RsENoMoreNodesToReturn 65071
-#define JvResources_RsEInspectorInternalError 65072
-#define JvResources_RsESpecifierBeforeSeparator 65073
-#define JvResources_RsEDOrDDOnlyOnce 65074
-#define JvResources_RsEMOrMMOnlyOnce 65075
-#define JvResources_RsEYYOrYYYYOnlyOnce 65076
-#define JvResources_RsEOnlyDOrDDAllowed 65077
-#define JvResources_RsEOnlyMOrMMAllowed 65078
-#define JvResources_RsEOnlyYYOrYYYYAllowed 65079
-#define JvResources_RsEOnlyTwoSeparators 65080
-#define JvResources_RsEOnlyDMYSAllowed 65081
-#define JvResources_RsEDOrDDRequired 65082
-#define JvResources_RsEMOrMMRequired 65083
-#define JvResources_RsEYYOrYYYYRequired 65084
-#define JvResources_RsEInstanceAlreadyExists 65085
-#define JvResources_RsENameAlreadyExistsForInstance 65086
-#define JvResources_RsEInstanceNonexistent 65087
-#define JvResources_RsStringListEditorCaption 65088
-#define JvResources_RsXLinesCaption 65089
-#define JvResources_RsOneLineCaption 65090
-#define JvResources_RsEJvInspItemHasParent 65091
-#define JvResources_RsEJvInspItemNotAChild 65092
-#define JvResources_RsEJvInspItemColNotFound 65093
-#define JvResources_RsEJvInspItemItemIsNotCol 65094
-#define JvResources_RsEJvInspItemInvalidPropValue 65095
-#define JvResources_RsEJvInspDataNoAccessAs 65096
-#define JvResources_RsEJvInspDataNotInit 65097
-#define JvResources_RsEJvInspDataNotAssigned 65098
-#define JvResources_RsEJvInspDataNoValue 65099
-#define JvResources_RsEJvInspDataStrTooLong 65100
-#define JvResources_RsEJvInspNoGenReg 65101
-#define JvResources_RsEJvInspPaintNotActive 65102
-#define JvResources_RsEJvInspPaintOnlyUsedOnce 65103
-#define JvResources_RsEDSADuplicateName 65104
-#define JvResources_RsEDSADialogIDNotFound 65105
-#define JvResources_RsEDSADuplicateCTK_ID 65106
-#define JvResources_RsEDSAAccessBool 65107
-#define JvResources_RsEDSAAccessFloat 65108
-#define JvResources_RsEDSAAccessInt64 65109
-#define JvResources_RsEDSAAccessInt 65110
-#define JvResources_RsEDSAAccessString 65111
-#define JvResources_RsEIntfCastError 65112
-#define JvResources_RsEUnsupportedControlClass 65113
-#define JvResources_RsENoRegisteredControlClass 65114
-#define JvResources_RsENoFocusControl 65115
-#define JvResources_RsJvInspItemValueException 65116
-#define JvResources_RsJvInspItemUnInitialized 65117
-#define JvResources_RsJvInspItemUnassigned 65118
-#define JvResources_RsJvInspItemNoValue 65119
-#define JvResources_RsENotifyErrorFmt 65120
-#define JvResources_RsEProcessIsRunning 65121
-#define JvResources_RsEProcessNotRunning 65122
-#define JvResources_RsDSActkShowText 65123
-#define JvResources_RsDSActkAskText 65124
-#define JvResources_RsDSActkWarnText 65125
-#define JvResources_RsCntdownText 65126
-#define JvResources_RsCntdownMinText 65127
-#define JvResources_RsCntdownMinsText 65128
-#define JvResources_RsCntdownSecText 65129
-#define JvResources_RsCntdownSecsText 65130
-#define JvResources_RsECannotEndCustomReadIfNotInCustomRea 65131
-#define JvResources_RsECannotEndCustomWriteIfNotInCustomWr 65132
-#define JvResources_RsECannotEndReadIfNotInReadMode 65133
-#define JvResources_RsECannotEndWriteIfNotInWriteMode 65134
-#define JvResources_RsEDSADuplicateID 65135
-#define JvResources_RsLoadCaption 65136
-#define JvResources_RsSaveCaption 65137
-#define JvResources_RsDeleteCaption 65138
-#define JvResources_RsEDynControlEngineNotDefined 65139
-#define JvResources_RsEDynAppStorageNotDefined 65140
-#define JvResources_RsEShellNotCompatible 65141
-#define JvResources_RsFileNameChange 65142
-#define JvResources_RsDirectoryNameChange 65143
-#define JvResources_RsAttributesChange 65144
-#define JvResources_RsSizeChange 65145
-#define JvResources_RsWriteChange 65146
-#define JvResources_RsSecurityChange 65147
-#define JvResources_RsEFmtCannotChangeName 65148
-#define JvResources_RsEFmtInvalidPath 65149
-#define JvResources_RsEFmtMaxCountExceeded 65150
-#define JvResources_RsEFmtInvalidPathAtIndex 65151
-#define JvResources_RsPasteItem 65152
-#define JvResources_RsDeleteItem 65153
-#define JvResources_RsSelectAllItem 65154
-#define JvResources_RsNoName 65155
-#define JvResources_RsEReadValueFailed 65156
-#define JvResources_RsRootValueReplaceFmt 65157
-#define JvResources_RsEInvalidType 65158
-#define JvResources_RsEUnknownBaseType 65159
-#define JvResources_RsEInvalidPath 65160
-#define JvResources_RsENotAUniqueRootPath 65161
-#define JvResources_RsECircularReferenceOfStorages 65162
-#define JvResources_RsJvAppStorageSynchronizeTimeout 65163
-#define JvResources_RsJvAppStorageSynchronizeProcedureName 65164
-#define JvResources_RsLoadSettings 65165
-#define JvResources_RsSaveSettings 65166
-#define JvResources_RsDeleteSettings 65167
-#define ComStrs_sRichEditLoadFail 65168
-#define ComStrs_sRichEditSaveFail 65169
-#define ComStrs_sPageIndexError 65170
-#define ComStrs_sInvalidComCtl32 65171
-#define ComStrs_sDateTimeMax 65172
-#define ComStrs_sDateTimeMin 65173
-#define ComStrs_sNeedAllowNone 65174
-#define ComStrs_sFailSetCalDateTime 65175
-#define ComStrs_sFailSetCalMaxSelRange 65176
-#define ComStrs_sFailSetCalMinMaxRange 65177
-#define ComStrs_sFailsetCalSelRange 65178
-#define JvResources_RsButtonOKCaption 65179
-#define JvResources_RsButtonCancelCaption 65180
-#define JvResources_RsUndoItem 65181
-#define JvResources_RsCutItem 65182
-#define JvResources_RsCopyItem 65183
-#define ComConst_SOleError 65184
-#define ComConst_SNoMethod 65185
-#define ComConst_SVarNotObject 65186
-#define ComConst_STooManyParams 65187
-#define ComConst_SDCOMNotInstalled 65188
-#define ComStrs_sTabFailClear 65189
-#define ComStrs_sTabFailDelete 65190
-#define ComStrs_sTabFailRetrieve 65191
-#define ComStrs_sTabFailGetObject 65192
-#define ComStrs_sTabFailSet 65193
-#define ComStrs_sTabFailSetObject 65194
-#define ComStrs_sTabMustBeMultiLine 65195
-#define ComStrs_sInvalidIndex 65196
-#define ComStrs_sInsertError 65197
-#define ComStrs_sInvalidOwner 65198
-#define ComStrs_sRichEditInsertError 65199
-#define ExtCtrls_clNameInactiveCaptionText 65200
-#define ExtCtrls_clNameInfoBk 65201
-#define ExtCtrls_clNameInfoText 65202
-#define ExtCtrls_clNameMenu 65203
-#define ExtCtrls_clNameMenuBar 65204
-#define ExtCtrls_clNameMenuHighlight 65205
-#define ExtCtrls_clNameMenuText 65206
-#define ExtCtrls_clNameNone 65207
-#define ExtCtrls_clNameScrollBar 65208
-#define ExtCtrls_clName3DDkShadow 65209
-#define ExtCtrls_clName3DLight 65210
-#define ExtCtrls_clNameWindow 65211
-#define ExtCtrls_clNameWindowFrame 65212
-#define ExtCtrls_clNameWindowText 65213
-#define TntSystem_SBufferOverflow 65214
-#define TntSystem_SInvalidUTF7 65215
-#define ExtCtrls_clNameAppWorkSpace 65216
-#define ExtCtrls_clNameBackground 65217
-#define ExtCtrls_clNameBtnFace 65218
-#define ExtCtrls_clNameBtnHighlight 65219
-#define ExtCtrls_clNameBtnShadow 65220
-#define ExtCtrls_clNameBtnText 65221
-#define ExtCtrls_clNameCaptionText 65222
-#define ExtCtrls_clNameDefault 65223
-#define ExtCtrls_clNameGradientActiveCaption 65224
-#define ExtCtrls_clNameGradientInactiveCaption 65225
-#define ExtCtrls_clNameGrayText 65226
-#define ExtCtrls_clNameHighlight 65227
-#define ExtCtrls_clNameHighlightText 65228
-#define ExtCtrls_clNameHotLight 65229
-#define ExtCtrls_clNameInactiveBorder 65230
-#define ExtCtrls_clNameInactiveCaption 65231
-#define ExtCtrls_clNameTeal 65232
-#define ExtCtrls_clNameGray 65233
-#define ExtCtrls_clNameSilver 65234
-#define ExtCtrls_clNameRed 65235
-#define ExtCtrls_clNameLime 65236
-#define ExtCtrls_clNameYellow 65237
-#define ExtCtrls_clNameBlue 65238
-#define ExtCtrls_clNameFuchsia 65239
-#define ExtCtrls_clNameAqua 65240
-#define ExtCtrls_clNameWhite 65241
-#define ExtCtrls_clNameMoneyGreen 65242
-#define ExtCtrls_clNameSkyBlue 65243
-#define ExtCtrls_clNameCream 65244
-#define ExtCtrls_clNameMedGray 65245
-#define ExtCtrls_clNameActiveBorder 65246
-#define ExtCtrls_clNameActiveCaption 65247
-#define Consts_SErrorSettingCount 65248
-#define Consts_SListBoxMustBeVirtual 65249
-#define Consts_SNoGetItemEventHandler 65250
-#define Consts_SANSIEncoding 65251
-#define Consts_SASCIIEncoding 65252
-#define Consts_SUnicodeEncoding 65253
-#define Consts_SBigEndianEncoding 65254
-#define Consts_SUTF8Encoding 65255
-#define Consts_SUTF7Encoding 65256
-#define Consts_SPageControlNotSet 65257
-#define ExtCtrls_clNameBlack 65258
-#define ExtCtrls_clNameMaroon 65259
-#define ExtCtrls_clNameGreen 65260
-#define ExtCtrls_clNameOlive 65261
-#define ExtCtrls_clNameNavy 65262
-#define ExtCtrls_clNamePurple 65263
-#define Consts_SInvalidPrinterOp 65264
-#define Consts_SNoDefaultPrinter 65265
-#define Consts_SDuplicateMenus 65266
-#define Consts_SPictureLabel 65267
-#define Consts_SPictureDesc 65268
-#define Consts_SPreviewLabel 65269
-#define Consts_SCannotOpenAVI 65270
-#define Consts_SDockedCtlNeedsName 65271
-#define Consts_SDockTreeRemoveError 65272
-#define Consts_SDockZoneNotFound 65273
-#define Consts_SDockZoneHasNoCtl 65274
-#define Consts_SDockZoneVersionConflict 65275
-#define Consts_STextNotFound 65276
-#define Consts_SColorBoxCustomCaption 65277
-#define Consts_SMultiSelectRequired 65278
-#define Consts_SSeparator 65279
-#define Consts_SmkcAlt 65280
-#define Consts_srNone 65281
-#define Consts_SOutOfRange 65282
-#define Consts_sAllFilter 65283
-#define Consts_SInsertLineError 65284
-#define Consts_SConfirmCreateDir 65285
-#define Consts_SSelectDirCap 65286
-#define Consts_SDirNameCap 65287
-#define Consts_SDrivesCap 65288
-#define Consts_SDirsCap 65289
-#define Consts_SFilesCap 65290
-#define Consts_SNetworkCap 65291
-#define Consts_SInvalidClipFmt 65292
-#define Consts_SIconToClipboard 65293
-#define Consts_SCannotOpenClipboard 65294
-#define Consts_SInvalidMemoSize 65295
-#define Consts_SmkcTab 65296
-#define Consts_SmkcEsc 65297
-#define Consts_SmkcEnter 65298
-#define Consts_SmkcSpace 65299
-#define Consts_SmkcPgUp 65300
-#define Consts_SmkcPgDn 65301
-#define Consts_SmkcEnd 65302
-#define Consts_SmkcHome 65303
-#define Consts_SmkcLeft 65304
-#define Consts_SmkcUp 65305
-#define Consts_SmkcRight 65306
-#define Consts_SmkcDown 65307
-#define Consts_SmkcIns 65308
-#define Consts_SmkcDel 65309
-#define Consts_SmkcShift 65310
-#define Consts_SmkcCtrl 65311
-#define Consts_SMsgDlgWarning 65312
-#define Consts_SMsgDlgError 65313
-#define Consts_SMsgDlgInformation 65314
-#define Consts_SMsgDlgConfirm 65315
-#define Consts_SMsgDlgYes 65316
-#define Consts_SMsgDlgNo 65317
-#define Consts_SMsgDlgOK 65318
-#define Consts_SMsgDlgCancel 65319
-#define Consts_SMsgDlgHelp 65320
-#define Consts_SMsgDlgAbort 65321
-#define Consts_SMsgDlgRetry 65322
-#define Consts_SMsgDlgIgnore 65323
-#define Consts_SMsgDlgAll 65324
-#define Consts_SMsgDlgNoToAll 65325
-#define Consts_SMsgDlgYesToAll 65326
-#define Consts_SmkcBkSp 65327
-#define Consts_SCancelButton 65328
-#define Consts_SYesButton 65329
-#define Consts_SNoButton 65330
-#define Consts_SHelpButton 65331
-#define Consts_SCloseButton 65332
-#define Consts_SIgnoreButton 65333
-#define Consts_SRetryButton 65334
-#define Consts_SAbortButton 65335
-#define Consts_SAllButton 65336
-#define Consts_SCannotDragForm 65337
-#define Consts_SVMetafiles 65338
-#define Consts_SVEnhMetafiles 65339
-#define Consts_SVIcons 65340
-#define Consts_SVBitmaps 65341
-#define Consts_SMaskErr 65342
-#define Consts_SMaskEditErr 65343
-#define Consts_SVisibleChanged 65344
-#define Consts_SCannotShowModal 65345
-#define Consts_SScrollBarRange 65346
-#define Consts_SPropertyOutOfRange 65347
-#define Consts_SMenuIndexError 65348
-#define Consts_SMenuReinserted 65349
-#define Consts_SMenuNotFound 65350
-#define Consts_SNoTimers 65351
-#define Consts_SNotPrinting 65352
-#define Consts_SPrinting 65353
-#define Consts_SInvalidPrinter 65354
-#define Consts_SDeviceOnPort 65355
-#define Consts_SGroupIndexTooLow 65356
-#define Consts_SNoMDIForm 65357
-#define Consts_SControlParentSetToSelf 65358
-#define Consts_SOKButton 65359
-#define Consts_SUnknownExtension 65360
-#define Consts_SUnknownClipboardFormat 65361
-#define Consts_SOutOfResources 65362
-#define Consts_SNoCanvasHandle 65363
-#define Consts_SInvalidImageSize 65364
-#define Consts_SInvalidImageList 65365
-#define Consts_SReplaceImage 65366
-#define Consts_SImageIndexError 65367
-#define Consts_SImageReadFail 65368
-#define Consts_SImageWriteFail 65369
-#define Consts_SWindowDCError 65370
-#define Consts_SWindowClass 65371
-#define Consts_SCannotFocus 65372
-#define Consts_SParentRequired 65373
-#define Consts_SParentGivenNotAParent 65374
-#define Consts_SMDIChildNotVisible 65375
-#define HelpIntfs_hNoTableOfContents 65376
-#define HelpIntfs_hNothingFound 65377
-#define HelpIntfs_hNoContext 65378
-#define HelpIntfs_hNoContextFound 65379
-#define HelpIntfs_hNoTopics 65380
-#define Consts_SCantWriteResourceStreamError 65381
-#define Consts_SInvalidTabPosition 65382
-#define Consts_SInvalidTabStyle 65383
-#define Consts_SInvalidBitmap 65384
-#define Consts_SInvalidIcon 65385
-#define Consts_SInvalidMetafile 65386
-#define Consts_SInvalidPixelFormat 65387
-#define Consts_SInvalidImage 65388
-#define Consts_SScanLine 65389
-#define Consts_SChangeIconSize 65390
-#define Consts_SOleGraphic 65391
-#define RTLConsts_SListCountError 65392
-#define RTLConsts_SListIndexError 65393
-#define RTLConsts_SMemoryStreamError 65394
-#define RTLConsts_SPropertyException 65395
-#define RTLConsts_SReadError 65396
-#define RTLConsts_SReadOnlyProperty 65397
-#define RTLConsts_SRegGetDataFailed 65398
-#define RTLConsts_SRegSetDataFailed 65399
-#define RTLConsts_SResNotFound 65400
-#define RTLConsts_SSeekNotImplemented 65401
-#define RTLConsts_SSortedListError 65402
-#define RTLConsts_SUnknownGroup 65403
-#define RTLConsts_SUnknownProperty 65404
-#define RTLConsts_SWriteError 65405
-#define RTLConsts_SThreadCreateError 65406
-#define RTLConsts_SThreadError 65407
+#define dlgExceptionMail_RsScreenRes 64496
+#define dlgExceptionMail_RsActiveControl 64497
+#define dlgExceptionMail_RsThread 64498
+#define dlgExceptionMail_RsMissingVersionInfo 64499
+#define dlgExceptionMail_RsSendBugReportAddress 64500
+#define dlgExceptionMail_RsSendBugReportSubject 64501
+#define WinHelpViewer_hNoKeyword 64512
+#define frmFunctionList_SAllString 64513
+#define frmFunctionList_SNoneString 64514
+#define frmFunctionList_SParseStatistics 64515
+#define frmFunctionList_SInvalidIndex 64516
+#define dmCommands_S_ERROR_NO_ERROR_STRING 64517
+#define frmPyIDEMain_SModified 64518
+#define dlgExceptionMail_RsAppError 64519
+#define dlgExceptionMail_RsExceptionClass 64520
+#define dlgExceptionMail_RsExceptionMessage 64521
+#define dlgExceptionMail_RsExceptionAddr 64522
+#define dlgExceptionMail_RsStackList 64523
+#define dlgExceptionMail_RsModulesList 64524
+#define dlgExceptionMail_RsOSVersion 64525
+#define dlgExceptionMail_RsProcessor 64526
+#define dlgExceptionMail_RsMemory 64527
+#define frmFindResults_SFileSkipped 64528
+#define frmFindResults_SCouldNotBackup 64529
+#define dlgToDoOptions_SLeadingDollarNotAllowed 64530
+#define dlgToDoOptions_SEmptyTokenTextError 64531
+#define frmToDo_SHigh 64532
+#define frmToDo_SNormal 64533
+#define frmToDo_SLow 64534
+#define frmToDo_SDone 64535
+#define frmToDo_STodoItems 64536
+#define frmToDo_SDoneTodoDesignation 64537
+#define frmEditor_SInsert 64538
+#define frmEditor_SOverwrite 64539
+#define frmEditor_SReadOnly 64540
+#define frmEditor_SNonameFileTitle 64541
+#define frmEditor_SNonamePythonFileTitle 64542
+#define frmEditor_SAskSaveChanges 64543
+#define dlgConfirmReplace_SAskReplaceText 64544
+#define cFileSearch_SLineLengthError 64545
+#define dlgReplaceInFiles_SGrepResultsNotActive 64546
+#define dlgFindInFiles_SSpecifiedDirectoryDoesNotExist 64547
+#define cFindInFiles_SNoFileOpen 64548
+#define cFindInFiles_SSpecifiedDirectoryDoesNotExist 64549
+#define frmFindResults_SGrepReplaceStats 64550
+#define frmFindResults_SItemMatch 64551
+#define frmFindResults_SReplaceLine 64552
+#define frmFindResults_SGrepActive 64553
+#define frmFindResults_SGrepSearchStats 64554
+#define frmFindResults_SMatches 64555
+#define frmFindResults_SMatchContextNotAvail 64556
+#define frmFindResults_SAllAlphaNumericChars 64557
+#define frmFindResults_SProcessing 64558
+#define frmFindResults_SFileChangedAbort 64559
+#define SynHighlighterPython_SYNS_FriendlyAttrTraceback 64560
+#define SynHighlighterPython_SYNS_AttrPrompt 64561
+#define SynHighlighterPython_SYNS_FriendlyAttrPrompt 64562
+#define SynHighlighterPython_SYNS_LangPythonInterpreter 64563
+#define SynHighlighterPython_SYNS_FriendlyLangPythonInterpreter 64564
+#define frmCommandOutput_sProcessTerminated 64565
+#define frmCommandOutput_SDirNotFound 64566
+#define frmCommandOutput_SProcessRunning 64567
+#define frmCommandOutput_SPrintCommandLine 64568
+#define frmCommandOutput_SPrintWorkingDir 64569
+#define frmCommandOutput_SPrintTimeOut 64570
+#define ObjAuto_sTypeMisMatch 64571
+#define ObjAuto_sInvalidDispID 64572
+#define ObjAuto_sParamRequired 64573
+#define ObjAuto_sMethodOver 64574
+#define ObjAuto_sTooManyParams 64575
+#define DBConsts_SBcdOverflow 64576
+#define DBConsts_SInvalidBcdValue 64577
+#define DBConsts_SCouldNotParseTimeStamp 64578
+#define DBConsts_SInvalidSqlTimeStamp 64579
+#define TntLXUtils_SFileOpAborted 64580
+#define SynHighlighterPython_SYNS_CommentedCode 64581
+#define SynHighlighterPython_SYNS_FunctionName 64582
+#define SynHighlighterPython_SYNS_ClassName 64583
+#define SynHighlighterPython_SYNS_FriendlyCommentedCode 64584
+#define SynHighlighterPython_SYNS_FriendlyFunctionName 64585
+#define SynHighlighterPython_SYNS_FriendlyClassName 64586
+#define SynHighlighterPython_SYNS_AttrBanner 64587
+#define SynHighlighterPython_SYNS_FriendlyAttrBanner 64588
+#define SynHighlighterPython_SYNS_AttrOutput 64589
+#define SynHighlighterPython_SYNS_FriendlyAttrOutput 64590
+#define SynHighlighterPython_SYNS_AttrTraceback 64591
+#define cParameters_SParameterNotFound 64592
+#define cParameters_SModifierNotFound 64593
+#define cParameters_SObjectNotFound 64594
+#define cParameters_SPropertyNotFound 64595
+#define cParameters_SInvalidParameterFormat 64596
+#define cParameters_SInvalidConditionFormat 64597
+#define cParameters_SDuplicateModifier 64598
+#define VirtualTrees_SEditLinkIsNil 64599
+#define VirtualTrees_SWrongMoveError 64600
+#define VirtualTrees_SWrongStreamFormat 64601
+#define VirtualTrees_SWrongStreamVersion 64602
+#define VirtualTrees_SStreamTooSmall 64603
+#define VirtualTrees_SCorruptStream1 64604
+#define VirtualTrees_SCorruptStream2 64605
+#define VirtualTrees_SClipboardFailed 64606
+#define VirtualTrees_SCannotSetUserData 64607
+#define StringResources_SVariableTypeCodeHint 64608
+#define StringResources_SParsedModuleCodeHint 64609
+#define StringResources_SParsedPackageCodeHint 64610
+#define StringResources_SModuleProxyCodeHint 64611
+#define StringResources_SPackageProxyCodeHint 64612
+#define StringResources_SModuleImportCodeHint 64613
+#define StringResources_SRegError 64614
+#define StringResources_SEmptyList 64615
+#define StringResources_SNewFolder 64616
+#define StringResources_SCommandLineMsg 64617
+#define StringResources_SEngineActive 64618
+#define StringResources_SPythonInitError 64619
+#define StringResources_SPostMortemInfo 64620
+#define cParameters_SEnterParameterCaption 64621
+#define cParameters_SEnterParameterText 64622
+#define cParameters_SParamCircularReference 64623
+#define StringResources_SVariablesDocSelected 64624
+#define StringResources_SDebuggerHintFormat 64625
+#define StringResources_SNoParameters 64626
+#define StringResources_SNamespaceFormat 64627
+#define StringResources_SFilePosInfoCodeHint 64628
+#define StringResources_SDefinedInModuleCodeHint 64629
+#define StringResources_SParsedClassCodeHint 64630
+#define StringResources_SInheritsFromCodeHint 64631
+#define StringResources_SParsedFunctionCodeHint 64632
+#define StringResources_SParsedMethodCodeHint 64633
+#define StringResources_SFunctionParameterCodeHint 64634
+#define StringResources_SLocalVariableCodeHint 64635
+#define StringResources_SGlobalVariableCodeHint 64636
+#define StringResources_SClassVariableCodeHint 64637
+#define StringResources_SInstanceVariableCodeHint 64638
+#define StringResources_SImportedVariableCodeHint 64639
+#define JvDockGlobals_RsEDockCannotLayAnother 64640
+#define JvDockGlobals_RsEDockCannotSetTabPosition 64641
+#define JvDockGlobals_RsDockCannotFindWindow 64642
+#define VarPyth_SMultiDimensionalPropsNotSupported 64643
+#define VarPyth_SCantConvertArg 64644
+#define VarPyth_SCantConvertKeyToPythonObject 64645
+#define VarPyth_SCantConvertValueToPythonObject 64646
+#define VarPyth_SCantCreateNewSequenceObject 64647
+#define VarPyth_SExpectedPythonVariant 64648
+#define StringResources_SInternalError 64649
+#define StringResources_SNotFound 64650
+#define StringResources_SItemsReplaced 64651
+#define StringResources_SNotAvailable 64652
+#define StringResources_SNotImplented 64653
+#define StringResources_SFilterAllFiles 64654
+#define StringResources_SVariablesDocNotSelected 64655
+#define SynEditStrConst_SYNS_FilterXML 64656
+#define SynEditStrConst_SYNS_FriendlyLangHTML 64657
+#define SynEditStrConst_SYNS_FriendlyLangPython 64658
+#define SynEditStrConst_SYNS_FriendlyLangINI 64659
+#define SynEditStrConst_SYNS_FriendlyLangCSS 64660
+#define SynEditStrConst_SYNS_FriendlyLangXML 64661
+#define SynEditStrConst_SYNS_FriendlyLangUnknown 64662
+#define SynEditTextBuffer_SListIndexOutOfBounds 64663
+#define SynEditTextBuffer_SInvalidCapacity 64664
+#define JvDockGlobals_RsDockStringSplitter 64665
+#define JvDockGlobals_RsDockJvDockInfoSplitter 64666
+#define JvDockGlobals_RsDockJvDockTreeCloseBtnHint 64667
+#define JvDockGlobals_RsDockVSNETDockTreeAutoHideBtnHint 64668
+#define JvDockGlobals_RsEDockControlCannotIsNil 64669
+#define JvDockGlobals_RsEDockCannotGetValueWithNoOrient 64670
+#define JvDockGlobals_RsEDockCannotSetValueWithNoOrient 64671
+#define SynEditStrConst_SYNS_FriendlyAttrSymbol 64672
+#define SynEditStrConst_SYNS_FriendlyAttrSyntaxError 64673
+#define SynEditStrConst_SYNS_FriendlyAttrSystem 64674
+#define SynEditStrConst_SYNS_FriendlyAttrText 64675
+#define SynEditStrConst_SYNS_FriendlyAttrUndefinedProperty 64676
+#define SynEditStrConst_SYNS_FriendlyAttrUnknownWord 64677
+#define SynEditStrConst_SYNS_FriendlyAttrValue 64678
+#define SynEditStrConst_SYNS_FriendlyAttrWhitespace 64679
+#define SynEditStrConst_SYNS_ScrollInfoFmt 64680
+#define SynEditStrConst_SYNS_ScrollInfoFmtTop 64681
+#define SynEditStrConst_SYNS_PreviewScrollInfoFmt 64682
+#define SynEditStrConst_SYNS_EDuplicateShortcut 64683
+#define SynEditStrConst_SYNS_FilterHTML 64684
+#define SynEditStrConst_SYNS_FilterPython 64685
+#define SynEditStrConst_SYNS_FilterINI 64686
+#define SynEditStrConst_SYNS_FilterCSS 64687
+#define SynEditStrConst_SYNS_FriendlyAttrEscapeAmpersand 64688
+#define SynEditStrConst_SYNS_FriendlyAttrFloat 64689
+#define SynEditStrConst_SYNS_FriendlyAttrHexadecimal 64690
+#define SynEditStrConst_SYNS_FriendlyAttrIdentifier 64691
+#define SynEditStrConst_SYNS_FriendlyAttrKey 64692
+#define SynEditStrConst_SYNS_FriendlyAttrNamespaceAttrName 64693
+#define SynEditStrConst_SYNS_FriendlyAttrNamespaceAttrValue 64694
+#define SynEditStrConst_SYNS_FriendlyAttrNonReservedKeyword 64695
+#define SynEditStrConst_SYNS_FriendlyAttrNumber 64696
+#define SynEditStrConst_SYNS_FriendlyAttrOctal 64697
+#define SynEditStrConst_SYNS_FriendlyAttrProcessingInstr 64698
+#define SynEditStrConst_SYNS_FriendlyAttrProperty 64699
+#define SynEditStrConst_SYNS_FriendlyAttrReservedWord 64700
+#define SynEditStrConst_SYNS_FriendlyAttrSection 64701
+#define SynEditStrConst_SYNS_FriendlyAttrSpace 64702
+#define SynEditStrConst_SYNS_FriendlyAttrString 64703
+#define OleConst_SLinkProperties 64704
+#define OleConst_SInvalidLinkSource 64705
+#define OleConst_SCannotBreakLink 64706
+#define OleConst_SPropDlgCaption 64707
+#define OleConst_SInvalidLicense 64708
+#define OleConst_SNotLicensed 64709
+#define OleConst_sNoRunningObject 64710
+#define SynEditStrConst_SYNS_FriendlyAttrAttributeName 64711
+#define SynEditStrConst_SYNS_FriendlyAttrAttributeValue 64712
+#define SynEditStrConst_SYNS_FriendlyAttrCDATASection 64713
+#define SynEditStrConst_SYNS_FriendlyAttrColor 64714
+#define SynEditStrConst_SYNS_FriendlyAttrComment 64715
+#define SynEditStrConst_SYNS_FriendlyAttrDOCTYPESection 64716
+#define SynEditStrConst_SYNS_FriendlyAttrDocumentation 64717
+#define SynEditStrConst_SYNS_FriendlyAttrElementName 64718
+#define SynEditStrConst_SYNS_FriendlyAttrEntityReference 64719
+#define JclResources_RsProductTypeServer 64720
+#define JclResources_RsProductTypeAdvancedServer 64721
+#define JclResources_RsProductTypePersonal 64722
+#define JclResources_RsProductTypeProfessional 64723
+#define JclResources_RsProductTypeDatacenterServer 64724
+#define JclResources_RsProductTypeEnterprise 64725
+#define JclResources_RsProductTypeWebEdition 64726
+#define JclResources_RsCannotWriteRefStream 64727
+#define JclResources_RsHasNotTD32Info 64728
+#define JclResources_RsELibraryNotFound 64729
+#define JclResources_RsEFunctionNotFound 64730
+#define JConsts_sChangeJPGSize 64731
+#define JConsts_sJPEGError 64732
+#define JConsts_sJPEGImageFile 64733
+#define OleConst_SCannotActivate 64734
+#define OleConst_SNoWindowHandle 64735
+#define JclResources_RsUnknownAMDModel 64736
+#define JclResources_RsOSVersionWin95 64737
+#define JclResources_RsOSVersionWin95OSR2 64738
+#define JclResources_RsOSVersionWin98 64739
+#define JclResources_RsOSVersionWin98SE 64740
+#define JclResources_RsOSVersionWinME 64741
+#define JclResources_RsOSVersionWinNT3 64742
+#define JclResources_RsOSVersionWinNT4 64743
+#define JclResources_RsOSVersionWin2000 64744
+#define JclResources_RsOSVersionWinXP 64745
+#define JclResources_RsOSVersionWin2003 64746
+#define JclResources_RsOSVersionWin2003R2 64747
+#define JclResources_RsOSVersionWinXP64 64748
+#define JclResources_RsOSVersionWinVista 64749
+#define JclResources_RsOSVersionWinServer2008 64750
+#define JclResources_RsProductTypeWorkStation 64751
+#define JclResources_RsIntelCacheDescr7A 64752
+#define JclResources_RsIntelCacheDescr7B 64753
+#define JclResources_RsIntelCacheDescr7C 64754
+#define JclResources_RsIntelCacheDescr7D 64755
+#define JclResources_RsIntelCacheDescr7F 64756
+#define JclResources_RsIntelCacheDescr82 64757
+#define JclResources_RsIntelCacheDescr83 64758
+#define JclResources_RsIntelCacheDescr84 64759
+#define JclResources_RsIntelCacheDescr85 64760
+#define JclResources_RsIntelCacheDescr86 64761
+#define JclResources_RsIntelCacheDescr87 64762
+#define JclResources_RsIntelCacheDescrB0 64763
+#define JclResources_RsIntelCacheDescrB3 64764
+#define JclResources_RsIntelCacheDescrB4 64765
+#define JclResources_RsIntelCacheDescrF0 64766
+#define JclResources_RsIntelCacheDescrF1 64767
+#define JclResources_RsIntelCacheDescr51 64768
+#define JclResources_RsIntelCacheDescr52 64769
+#define JclResources_RsIntelCacheDescr56 64770
+#define JclResources_RsIntelCacheDescr57 64771
+#define JclResources_RsIntelCacheDescr5B 64772
+#define JclResources_RsIntelCacheDescr5C 64773
+#define JclResources_RsIntelCacheDescr5D 64774
+#define JclResources_RsIntelCacheDescr60 64775
+#define JclResources_RsIntelCacheDescr66 64776
+#define JclResources_RsIntelCacheDescr67 64777
+#define JclResources_RsIntelCacheDescr68 64778
+#define JclResources_RsIntelCacheDescr70 64779
+#define JclResources_RsIntelCacheDescr71 64780
+#define JclResources_RsIntelCacheDescr72 64781
+#define JclResources_RsIntelCacheDescr78 64782
+#define JclResources_RsIntelCacheDescr79 64783
+#define JclResources_RsIntelCacheDescr22 64784
+#define JclResources_RsIntelCacheDescr23 64785
+#define JclResources_RsIntelCacheDescr25 64786
+#define JclResources_RsIntelCacheDescr29 64787
+#define JclResources_RsIntelCacheDescr2C 64788
+#define JclResources_RsIntelCacheDescr30 64789
+#define JclResources_RsIntelCacheDescr40 64790
+#define JclResources_RsIntelCacheDescr41 64791
+#define JclResources_RsIntelCacheDescr42 64792
+#define JclResources_RsIntelCacheDescr43 64793
+#define JclResources_RsIntelCacheDescr44 64794
+#define JclResources_RsIntelCacheDescr45 64795
+#define JclResources_RsIntelCacheDescr46 64796
+#define JclResources_RsIntelCacheDescr47 64797
+#define JclResources_RsIntelCacheDescr49 64798
+#define JclResources_RsIntelCacheDescr50 64799
+#define JclResources_RsInvalidEmptyStringItem 64800
+#define JclResources_RsNumericConstantTooLarge 64801
+#define JclResources_RsArgumentOutOfRange 64802
+#define JclResources_RsSynchCreateEvent 64803
+#define JclResources_RsSynchCreateMutex 64804
+#define JclResources_RsIntelCacheDescr00 64805
+#define JclResources_RsIntelCacheDescr01 64806
+#define JclResources_RsIntelCacheDescr02 64807
+#define JclResources_RsIntelCacheDescr03 64808
+#define JclResources_RsIntelCacheDescr04 64809
+#define JclResources_RsIntelCacheDescr05 64810
+#define JclResources_RsIntelCacheDescr06 64811
+#define JclResources_RsIntelCacheDescr08 64812
+#define JclResources_RsIntelCacheDescr0A 64813
+#define JclResources_RsIntelCacheDescr0B 64814
+#define JclResources_RsIntelCacheDescr0C 64815
+#define JclResources_RsRTTIClassName 64816
+#define JclResources_RsRTTIParent 64817
+#define JclResources_RsRTTIPropCount 64818
+#define JclResources_RsRTTIUnitName 64819
+#define JclResources_RsRTTIBasedOn 64820
+#define JclResources_RsRTTIFloatType 64821
+#define JclResources_RsRTTIMethodKind 64822
+#define JclResources_RsRTTIParamCount 64823
+#define JclResources_RsRTTIReturnType 64824
+#define JclResources_RsRTTIMaxLen 64825
+#define JclResources_RsRTTIElSize 64826
+#define JclResources_RsRTTIElType 64827
+#define JclResources_RsRTTIElNeedCleanup 64828
+#define JclResources_RsRTTIVarType 64829
+#define JclResources_RsDeclarationFormat 64830
+#define JclResources_RsBlankSearchString 64831
+#define JclResources_RsRTTIPropWrite 64832
+#define JclResources_RsRTTIPropStored 64833
+#define JclResources_RsRTTIField 64834
+#define JclResources_RsRTTIStaticMethod 64835
+#define JclResources_RsRTTIVirtualMethod 64836
+#define JclResources_RsRTTIIndex 64837
+#define JclResources_RsRTTIDefault 64838
+#define JclResources_RsRTTIName 64839
+#define JclResources_RsRTTIType 64840
+#define JclResources_RsRTTIFlags 64841
+#define JclResources_RsRTTIGUID 64842
+#define JclResources_RsRTTITypeKind 64843
+#define JclResources_RsRTTIOrdinalType 64844
+#define JclResources_RsRTTIMinValue 64845
+#define JclResources_RsRTTIMaxValue 64846
+#define JclResources_RsRTTINameList 64847
+#define JclResources_RsHKUSShort 64848
+#define JclResources_RsHKPDShort 64849
+#define JclResources_RsHKCCShort 64850
+#define JclResources_RsHKDDShort 64851
+#define JclResources_RsRTTIValueOutOfRange 64852
+#define JclResources_RsRTTIUnknownIdentifier 64853
+#define JclResources_RsRTTIVar 64854
+#define JclResources_RsRTTIConst 64855
+#define JclResources_RsRTTIArrayOf 64856
+#define JclResources_RsRTTIOut 64857
+#define JclResources_RsRTTIOrdinal 64858
+#define JclResources_RsRTTITrue 64859
+#define JclResources_RsRTTIFalse 64860
+#define JclResources_RsRTTITypeError 64861
+#define JclResources_RsRTTITypeInfoAt 64862
+#define JclResources_RsRTTIPropRead 64863
+#define JclResources_RsPeNotResDir 64864
+#define JclResources_RsPeSectionNotFound 64865
+#define JclResources_RsUnableToOpenKeyRead 64866
+#define JclResources_RsUnableToAccessValue 64867
+#define JclResources_RsWrongDataType 64868
+#define JclResources_RsInconsistentPath 64869
+#define JclResources_RsHKCRLong 64870
+#define JclResources_RsHKCULong 64871
+#define JclResources_RsHKLMLong 64872
+#define JclResources_RsHKUSLong 64873
+#define JclResources_RsHKPDLong 64874
+#define JclResources_RsHKCCLong 64875
+#define JclResources_RsHKDDLong 64876
+#define JclResources_RsHKCRShort 64877
+#define JclResources_RsHKCUShort 64878
+#define JclResources_RsHKLMShort 64879
+#define JclResources_RsMapiErrINVALID_SESSION 64880
+#define JclResources_RsMapiErrTYPE_NOT_SUPPORTED 64881
+#define JclResources_RsMapiErrAMBIGUOUS_RECIPIENT 64882
+#define JclResources_RsMapiErrMESSAGE_IN_USE 64883
+#define JclResources_RsMapiErrNETWORK_FAILURE 64884
+#define JclResources_RsMapiErrINVALID_EDITFIELDS 64885
+#define JclResources_RsMapiErrINVALID_RECIPS 64886
+#define JclResources_RsMapiErrNOT_SUPPORTED 64887
+#define JclResources_RsMapiMailORIG 64888
+#define JclResources_RsMapiMailTO 64889
+#define JclResources_RsMapiMailCC 64890
+#define JclResources_RsMapiMailBCC 64891
+#define JclResources_RsPeReadOnlyStream 64892
+#define JclResources_RsPeCantOpen 64893
+#define JclResources_RsPeNotPE 64894
+#define JclResources_RsPeUnknownTarget 64895
+#define JclResources_RsMapiErrFAILURE 64896
+#define JclResources_RsMapiErrLOGIN_FAILURE 64897
+#define JclResources_RsMapiErrDISK_FULL 64898
+#define JclResources_RsMapiErrINSUFFICIENT_MEMORY 64899
+#define JclResources_RsMapiErrACCESS_DENIED 64900
+#define JclResources_RsMapiErrTOO_MANY_SESSIONS 64901
+#define JclResources_RsMapiErrTOO_MANY_FILES 64902
+#define JclResources_RsMapiErrTOO_MANY_RECIPIENTS 64903
+#define JclResources_RsMapiErrATTACHMENT_NOT_FOUND 64904
+#define JclResources_RsMapiErrATTACHMENT_OPEN_FAILURE 64905
+#define JclResources_RsMapiErrATTACHMENT_WRITE_FAILURE 64906
+#define JclResources_RsMapiErrUNKNOWN_RECIPIENT 64907
+#define JclResources_RsMapiErrBAD_RECIPTYPE 64908
+#define JclResources_RsMapiErrNO_MESSAGES 64909
+#define JclResources_RsMapiErrINVALID_MESSAGE 64910
+#define JclResources_RsMapiErrTEXT_TOO_LARGE 64911
+#define JvResources_RsEGrabberNotStopped 64912
+#define JvResources_RsJediAgent 64913
+#define JvResources_RsDefaultOutputFileName 64914
+#define JclResources_RsWin32Prefix 64915
+#define JclResources_RsUnknownFunctionAt 64916
+#define JclResources_RsCannotCreateDir 64917
+#define JclResources_RsFileUtilsNoVersionInfo 64918
+#define JclResources_RsCreateFileMapping 64919
+#define JclResources_RsCreateFileMappingView 64920
+#define JclResources_RsViewNeedsMapping 64921
+#define JclResources_RsFailedToObtainSize 64922
+#define JclResources_RsDefaultFileTypeName 64923
+#define JclResources_RsMapiError 64924
+#define JclResources_RsMapiMissingExport 64925
+#define JclResources_RsMapiMailNoClient 64926
+#define JclResources_RsMapiErrUSER_ABORT 64927
+#define JvResources_RsClBtnFace 64928
+#define JvResources_RsClBtnShadow 64929
+#define JvResources_RsClGrayText 64930
+#define JvResources_RsClBtnText 64931
+#define JvResources_RsClInactiveCaptionText 64932
+#define JvResources_RsClBtnHighlight 64933
+#define JvResources_RsCl3DDkShadow 64934
+#define JvResources_RsCl3DLight 64935
+#define JvResources_RsClInfoText 64936
+#define JvResources_RsClInfoBk 64937
+#define JvResources_RsGradientActiveCaption 64938
+#define JvResources_RsGradientInactiveCaption 64939
+#define JvResources_RsHotLight 64940
+#define JvResources_RsMenuBar 64941
+#define JvResources_RsMenuHighlight 64942
+#define JvResources_RsFileNotFoundFmt 64943
+#define JvResources_RsClLavender 64944
+#define JvResources_RsClScrollBar 64945
+#define JvResources_RsClBackground 64946
+#define JvResources_RsClActiveCaption 64947
+#define JvResources_RsClInactiveCaption 64948
+#define JvResources_RsClMenu 64949
+#define JvResources_RsClWindow 64950
+#define JvResources_RsClWindowFrame 64951
+#define JvResources_RsClMenuText 64952
+#define JvResources_RsClWindowText 64953
+#define JvResources_RsClCaptionText 64954
+#define JvResources_RsClActiveBorder 64955
+#define JvResources_RsClInactiveBorder 64956
+#define JvResources_RsClAppWorkSpace 64957
+#define JvResources_RsClHighlight 64958
+#define JvResources_RsClHighlightText 64959
+#define JvResources_RsClSeaGreen 64960
+#define JvResources_RsClLightBlue 64961
+#define JvResources_RsClViolet 64962
+#define JvResources_RsClGray40 64963
+#define JvResources_RsClPink 64964
+#define JvResources_RsClGold 64965
+#define JvResources_RsClBrightGreen 64966
+#define JvResources_RsClTurquoise 64967
+#define JvResources_RsClPlum 64968
+#define JvResources_RsClGray25 64969
+#define JvResources_RsClRose 64970
+#define JvResources_RsClTan 64971
+#define JvResources_RsClLightYellow 64972
+#define JvResources_RsClLightGreen 64973
+#define JvResources_RsClLightTurquoise 64974
+#define JvResources_RsClPaleBlue 64975
+#define JvResources_RsClSkyBlue 64976
+#define JvResources_RsClCream 64977
+#define JvResources_RsClMedGray 64978
+#define JvResources_RsClBrown 64979
+#define JvResources_RsClOliveGreen 64980
+#define JvResources_RsClDarkGreen 64981
+#define JvResources_RsClDarkTeal 64982
+#define JvResources_RsClDarkBlue 64983
+#define JvResources_RsClIndigo 64984
+#define JvResources_RsClGray80 64985
+#define JvResources_RsClDarkRed 64986
+#define JvResources_RsClOrange 64987
+#define JvResources_RsClDarkYellow 64988
+#define JvResources_RsClBlueGray 64989
+#define JvResources_RsClGray50 64990
+#define JvResources_RsClLightOrange 64991
+#define JvResources_RsClMaroon 64992
+#define JvResources_RsClGreen 64993
+#define JvResources_RsClOlive 64994
+#define JvResources_RsClNavy 64995
+#define JvResources_RsClPurple 64996
+#define JvResources_RsClTeal 64997
+#define JvResources_RsClGray 64998
+#define JvResources_RsClSilver 64999
+#define JvResources_RsClRed 65000
+#define JvResources_RsClLime 65001
+#define JvResources_RsClYellow 65002
+#define JvResources_RsClBlue 65003
+#define JvResources_RsClFuchsia 65004
+#define JvResources_RsClAqua 65005
+#define JvResources_RsClWhite 65006
+#define JvResources_RsClMoneyGreen 65007
+#define JvResources_RsPVCWhatNewInS 65008
+#define JvResources_RsPVCChangesBetween 65009
+#define JvResources_RsPVCFileDownloadNotSuccessful 65010
+#define JvResources_RsPVCDownloadSuccessfulInstallManually 65011
+#define JvResources_RsPVCErrorStartingSetup 65012
+#define JvResources_RsPVCDownloadSuccessfullInstallNow 65013
+#define JvResources_RsPVInfoButtonCaption 65014
+#define JvResources_RsJvPropertyStoreMutexStorePropertiesProcedureName 65015
+#define JvResources_RsJvPropertyStoreMutexLoadPropertiesProcedureName 65016
+#define JvResources_RsJvPropertyStoreEnterMutexTimeout 65017
+#define JvResources_RsRTFFilter 65018
+#define JvResources_RsTextFilter 65019
+#define JvResources_RsEOutOfRangeFloat 65020
+#define JvResources_RsENoItemFoundWithName 65021
+#define JvResources_RsENotATJvThread 65022
+#define JvResources_RsClBlack 65023
+#define JvResources_RsPVSiceB 65024
+#define JvResources_RsPVSiceKB 65025
+#define JvResources_RsPVSiceMB 65026
+#define JvResources_RsPVSiceGB 65027
+#define JvResources_RsPVCReleaseTypeAlpha 65028
+#define JvResources_RsPVCReleaseTypeBeta 65029
+#define JvResources_RsPVCReleaseTypeProduction 65030
+#define JvResources_RsPVCDownloading 65031
+#define JvResources_RsPVCDialogCaption 65032
+#define JvResources_RsPVCDialogExecuteButton 65033
+#define JvResources_RsPVCNewVersionAvailable 65034
+#define JvResources_RsPVCChooseWhichVersion 65035
+#define JvResources_RsPVCChooseOperation 65036
+#define JvResources_RsPVCOperationIgnore 65037
+#define JvResources_RsPVCOperationDownloadOnly 65038
+#define JvResources_RsPVCOperationDownloadInstall 65039
+#define JvResources_RsErrParameterMustBeEntered 65040
+#define JvResources_RsHistorySelectPath 65041
+#define JvResources_RsDialogCaption 65042
+#define JvResources_RsCancelButton 65043
+#define JvResources_RsHistoryLoadButton 65044
+#define JvResources_RsHistorySaveButton 65045
+#define JvResources_RsHistoryClearButton 65046
+#define JvResources_RsHistoryLoadCaption 65047
+#define JvResources_RsHistorySaveCaption 65048
+#define JvResources_RsHistoryClearCaption 65049
+#define JvResources_RsENoParametersDefined 65050
+#define JvResources_RsEAddObjectWrongObjectType 65051
+#define JvResources_RsEAddObjectSearchNameNotDefined 65052
+#define JvResources_RsEAddObjectDuplicateSearchNamesNotAllowed 65053
+#define JvResources_RsPVDefaultVersioninfoFileName 65054
+#define JvResources_RsPVTempFileNameExtension 65055
+#define JvResources_RsEJvAssertSetTopIndex 65056
+#define JvResources_RsEJvAssertInspectorPainter 65057
+#define JvResources_RsEJvAssertDataParent 65058
+#define JvResources_RsEJvAssertParent 65059
+#define JvResources_RsEJvAssertPropInfo 65060
+#define JvResources_RsEJvAssertClassInfo 65061
+#define JvResources_RsEOwnerLinkError 65062
+#define JvResources_RsENoMoreElementsToReturn 65063
+#define JvResources_RsEUnsupportedState 65064
+#define JvResources_RsENoMoreWords 65065
+#define JvResources_RsEUnsupported 65066
+#define JvResources_RsECannotBeInstantiated 65067
+#define JvResources_RsETNodeGetNodeTypeUnknownClass 65068
+#define JvResources_RsENoMoreNodesToReturn 65069
+#define JvResources_RsENoMoreRecordsToReturn 65070
+#define JvResources_RsEWordInfoIndexOutOfBounds 65071
+#define JvResources_RsEDOrDDOnlyOnce 65072
+#define JvResources_RsEMOrMMOnlyOnce 65073
+#define JvResources_RsEYYOrYYYYOnlyOnce 65074
+#define JvResources_RsEOnlyDOrDDAllowed 65075
+#define JvResources_RsEOnlyMOrMMAllowed 65076
+#define JvResources_RsEOnlyYYOrYYYYAllowed 65077
+#define JvResources_RsEOnlyTwoSeparators 65078
+#define JvResources_RsEOnlyDMYSAllowed 65079
+#define JvResources_RsEDOrDDRequired 65080
+#define JvResources_RsEMOrMMRequired 65081
+#define JvResources_RsEYYOrYYYYRequired 65082
+#define JvResources_RsEInstanceAlreadyExists 65083
+#define JvResources_RsENameAlreadyExistsForInstance 65084
+#define JvResources_RsEInstanceNonexistent 65085
+#define JvResources_RsEMethodAlreadyExists 65086
+#define JvResources_RsENameAlreadyExistsForMethod 65087
+#define JvResources_RsOneLineCaption 65088
+#define JvResources_RsEJvInspItemHasParent 65089
+#define JvResources_RsEJvInspItemNotAChild 65090
+#define JvResources_RsEJvInspItemColNotFound 65091
+#define JvResources_RsEJvInspItemItemIsNotCol 65092
+#define JvResources_RsEJvInspItemInvalidPropValue 65093
+#define JvResources_RsEJvInspDataNoAccessAs 65094
+#define JvResources_RsEJvInspDataNotInit 65095
+#define JvResources_RsEJvInspDataNotAssigned 65096
+#define JvResources_RsEJvInspDataNoValue 65097
+#define JvResources_RsEJvInspDataStrTooLong 65098
+#define JvResources_RsEJvInspNoGenReg 65099
+#define JvResources_RsEJvInspPaintNotActive 65100
+#define JvResources_RsEJvInspPaintOnlyUsedOnce 65101
+#define JvResources_RsEInspectorInternalError 65102
+#define JvResources_RsESpecifierBeforeSeparator 65103
+#define JvResources_RsEDSADuplicateCTK_ID 65104
+#define JvResources_RsEDSAAccessBool 65105
+#define JvResources_RsEDSAAccessFloat 65106
+#define JvResources_RsEDSAAccessInt64 65107
+#define JvResources_RsEDSAAccessInt 65108
+#define JvResources_RsEDSAAccessString 65109
+#define JvResources_RsEIntfCastError 65110
+#define JvResources_RsEUnsupportedControlClass 65111
+#define JvResources_RsENoRegisteredControlClass 65112
+#define JvResources_RsENoFocusControl 65113
+#define JvResources_RsJvInspItemValueException 65114
+#define JvResources_RsJvInspItemUnInitialized 65115
+#define JvResources_RsJvInspItemUnassigned 65116
+#define JvResources_RsJvInspItemNoValue 65117
+#define JvResources_RsStringListEditorCaption 65118
+#define JvResources_RsXLinesCaption 65119
+#define JvResources_RsEProcessNotRunning 65120
+#define JvResources_RsDSActkShowText 65121
+#define JvResources_RsDSActkAskText 65122
+#define JvResources_RsDSActkWarnText 65123
+#define JvResources_RsCntdownText 65124
+#define JvResources_RsCntdownMinText 65125
+#define JvResources_RsCntdownMinsText 65126
+#define JvResources_RsCntdownSecText 65127
+#define JvResources_RsCntdownSecsText 65128
+#define JvResources_RsECannotEndCustomReadIfNotInCustomRea 65129
+#define JvResources_RsECannotEndCustomWriteIfNotInCustomWr 65130
+#define JvResources_RsECannotEndReadIfNotInReadMode 65131
+#define JvResources_RsECannotEndWriteIfNotInWriteMode 65132
+#define JvResources_RsEDSADuplicateID 65133
+#define JvResources_RsEDSADuplicateName 65134
+#define JvResources_RsEDSADialogIDNotFound 65135
+#define JvResources_RsEUnknownBaseType 65136
+#define JvResources_RsEInvalidPath 65137
+#define JvResources_RsENotAUniqueRootPath 65138
+#define JvResources_RsECircularReferenceOfStorages 65139
+#define JvResources_RsJvAppStorageSynchronizeTimeout 65140
+#define JvResources_RsJvAppStorageSynchronizeProcedureName 65141
+#define JvResources_RsLoadSettings 65142
+#define JvResources_RsSaveSettings 65143
+#define JvResources_RsDeleteSettings 65144
+#define JvResources_RsLoadCaption 65145
+#define JvResources_RsSaveCaption 65146
+#define JvResources_RsDeleteCaption 65147
+#define JvResources_RsEDynControlEngineNotDefined 65148
+#define JvResources_RsEDynAppStorageNotDefined 65149
+#define JvResources_RsEShellNotCompatible 65150
+#define JvResources_RsEProcessIsRunning 65151
+#define TB2Consts_STBDockCannotChangePosition 65152
+#define TB2Consts_STBToolwinDockedToNameNotSet 65153
+#define SpTBXCustomizerForm_SSpTBXCustomizerFormChangeShortcut 65154
+#define SpTBXCustomizerForm_SSpTBXCustomizerFormChangeShortcutTitle 65155
+#define JvResources_RsButtonOKCaption 65156
+#define JvResources_RsButtonCancelCaption 65157
+#define JvResources_RsUndoItem 65158
+#define JvResources_RsCutItem 65159
+#define JvResources_RsCopyItem 65160
+#define JvResources_RsPasteItem 65161
+#define JvResources_RsDeleteItem 65162
+#define JvResources_RsSelectAllItem 65163
+#define JvResources_RsNoName 65164
+#define JvResources_RsEReadValueFailed 65165
+#define JvResources_RsRootValueReplaceFmt 65166
+#define JvResources_RsEInvalidType 65167
+#define ComStrs_sRichEditSaveFail 65168
+#define ComStrs_sPageIndexError 65169
+#define ComStrs_sInvalidComCtl32 65170
+#define ComStrs_sDateTimeMax 65171
+#define ComStrs_sDateTimeMin 65172
+#define ComStrs_sNeedAllowNone 65173
+#define ComStrs_sFailSetCalDateTime 65174
+#define ComStrs_sFailSetCalMaxSelRange 65175
+#define ComStrs_sFailSetCalMinMaxRange 65176
+#define ComStrs_sFailsetCalSelRange 65177
+#define TB2Consts_STBToolbarIndexOutOfBounds 65178
+#define TB2Consts_STBToolbarItemReinserted 65179
+#define TB2Consts_STBViewerNotFound 65180
+#define TB2Consts_STBChevronItemMoreButtonsHint 65181
+#define TB2Consts_STBMRUListItemDefCaption 65182
+#define TB2Consts_STBDockParentNotAllowed 65183
+#define ComConst_SNoMethod 65184
+#define ComConst_SVarNotObject 65185
+#define ComConst_STooManyParams 65186
+#define ComConst_SDCOMNotInstalled 65187
+#define ComStrs_sTabFailClear 65188
+#define ComStrs_sTabFailDelete 65189
+#define ComStrs_sTabFailRetrieve 65190
+#define ComStrs_sTabFailGetObject 65191
+#define ComStrs_sTabFailSet 65192
+#define ComStrs_sTabFailSetObject 65193
+#define ComStrs_sTabMustBeMultiLine 65194
+#define ComStrs_sInvalidIndex 65195
+#define ComStrs_sInsertError 65196
+#define ComStrs_sInvalidOwner 65197
+#define ComStrs_sRichEditInsertError 65198
+#define ComStrs_sRichEditLoadFail 65199
+#define ExtCtrls_clNameInfoBk 65200
+#define ExtCtrls_clNameInfoText 65201
+#define ExtCtrls_clNameMenu 65202
+#define ExtCtrls_clNameMenuBar 65203
+#define ExtCtrls_clNameMenuHighlight 65204
+#define ExtCtrls_clNameMenuText 65205
+#define ExtCtrls_clNameNone 65206
+#define ExtCtrls_clNameScrollBar 65207
+#define ExtCtrls_clName3DDkShadow 65208
+#define ExtCtrls_clName3DLight 65209
+#define ExtCtrls_clNameWindow 65210
+#define ExtCtrls_clNameWindowFrame 65211
+#define ExtCtrls_clNameWindowText 65212
+#define TntSystem_SBufferOverflow 65213
+#define TntSystem_SInvalidUTF7 65214
+#define ComConst_SOleError 65215
+#define ExtCtrls_clNameBackground 65216
+#define ExtCtrls_clNameBtnFace 65217
+#define ExtCtrls_clNameBtnHighlight 65218
+#define ExtCtrls_clNameBtnShadow 65219
+#define ExtCtrls_clNameBtnText 65220
+#define ExtCtrls_clNameCaptionText 65221
+#define ExtCtrls_clNameDefault 65222
+#define ExtCtrls_clNameGradientActiveCaption 65223
+#define ExtCtrls_clNameGradientInactiveCaption 65224
+#define ExtCtrls_clNameGrayText 65225
+#define ExtCtrls_clNameHighlight 65226
+#define ExtCtrls_clNameHighlightText 65227
+#define ExtCtrls_clNameHotLight 65228
+#define ExtCtrls_clNameInactiveBorder 65229
+#define ExtCtrls_clNameInactiveCaption 65230
+#define ExtCtrls_clNameInactiveCaptionText 65231
+#define ExtCtrls_clNameGray 65232
+#define ExtCtrls_clNameSilver 65233
+#define ExtCtrls_clNameRed 65234
+#define ExtCtrls_clNameLime 65235
+#define ExtCtrls_clNameYellow 65236
+#define ExtCtrls_clNameBlue 65237
+#define ExtCtrls_clNameFuchsia 65238
+#define ExtCtrls_clNameAqua 65239
+#define ExtCtrls_clNameWhite 65240
+#define ExtCtrls_clNameMoneyGreen 65241
+#define ExtCtrls_clNameSkyBlue 65242
+#define ExtCtrls_clNameCream 65243
+#define ExtCtrls_clNameMedGray 65244
+#define ExtCtrls_clNameActiveBorder 65245
+#define ExtCtrls_clNameActiveCaption 65246
+#define ExtCtrls_clNameAppWorkSpace 65247
+#define Consts_SListBoxMustBeVirtual 65248
+#define Consts_SNoGetItemEventHandler 65249
+#define Consts_SANSIEncoding 65250
+#define Consts_SASCIIEncoding 65251
+#define Consts_SUnicodeEncoding 65252
+#define Consts_SBigEndianEncoding 65253
+#define Consts_SUTF8Encoding 65254
+#define Consts_SUTF7Encoding 65255
+#define Consts_SPageControlNotSet 65256
+#define ExtCtrls_clNameBlack 65257
+#define ExtCtrls_clNameMaroon 65258
+#define ExtCtrls_clNameGreen 65259
+#define ExtCtrls_clNameOlive 65260
+#define ExtCtrls_clNameNavy 65261
+#define ExtCtrls_clNamePurple 65262
+#define ExtCtrls_clNameTeal 65263
+#define Consts_SNoDefaultPrinter 65264
+#define Consts_SDuplicateMenus 65265
+#define Consts_SPictureLabel 65266
+#define Consts_SPictureDesc 65267
+#define Consts_SPreviewLabel 65268
+#define Consts_SCannotOpenAVI 65269
+#define Consts_SDockedCtlNeedsName 65270
+#define Consts_SDockTreeRemoveError 65271
+#define Consts_SDockZoneNotFound 65272
+#define Consts_SDockZoneHasNoCtl 65273
+#define Consts_SDockZoneVersionConflict 65274
+#define Consts_STextNotFound 65275
+#define Consts_SColorBoxCustomCaption 65276
+#define Consts_SMultiSelectRequired 65277
+#define Consts_SSeparator 65278
+#define Consts_SErrorSettingCount 65279
+#define Consts_srNone 65280
+#define Consts_SOutOfRange 65281
+#define Consts_sAllFilter 65282
+#define Consts_SInsertLineError 65283
+#define Consts_SConfirmCreateDir 65284
+#define Consts_SSelectDirCap 65285
+#define Consts_SDirNameCap 65286
+#define Consts_SDrivesCap 65287
+#define Consts_SDirsCap 65288
+#define Consts_SFilesCap 65289
+#define Consts_SNetworkCap 65290
+#define Consts_SInvalidClipFmt 65291
+#define Consts_SIconToClipboard 65292
+#define Consts_SCannotOpenClipboard 65293
+#define Consts_SInvalidMemoSize 65294
+#define Consts_SInvalidPrinterOp 65295
+#define Consts_SmkcEsc 65296
+#define Consts_SmkcEnter 65297
+#define Consts_SmkcSpace 65298
+#define Consts_SmkcPgUp 65299
+#define Consts_SmkcPgDn 65300
+#define Consts_SmkcEnd 65301
+#define Consts_SmkcHome 65302
+#define Consts_SmkcLeft 65303
+#define Consts_SmkcUp 65304
+#define Consts_SmkcRight 65305
+#define Consts_SmkcDown 65306
+#define Consts_SmkcIns 65307
+#define Consts_SmkcDel 65308
+#define Consts_SmkcShift 65309
+#define Consts_SmkcCtrl 65310
+#define Consts_SmkcAlt 65311
+#define Consts_SMsgDlgError 65312
+#define Consts_SMsgDlgInformation 65313
+#define Consts_SMsgDlgConfirm 65314
+#define Consts_SMsgDlgYes 65315
+#define Consts_SMsgDlgNo 65316
+#define Consts_SMsgDlgOK 65317
+#define Consts_SMsgDlgCancel 65318
+#define Consts_SMsgDlgHelp 65319
+#define Consts_SMsgDlgAbort 65320
+#define Consts_SMsgDlgRetry 65321
+#define Consts_SMsgDlgIgnore 65322
+#define Consts_SMsgDlgAll 65323
+#define Consts_SMsgDlgNoToAll 65324
+#define Consts_SMsgDlgYesToAll 65325
+#define Consts_SmkcBkSp 65326
+#define Consts_SmkcTab 65327
+#define Consts_SYesButton 65328
+#define Consts_SNoButton 65329
+#define Consts_SHelpButton 65330
+#define Consts_SCloseButton 65331
+#define Consts_SIgnoreButton 65332
+#define Consts_SRetryButton 65333
+#define Consts_SAbortButton 65334
+#define Consts_SAllButton 65335
+#define Consts_SCannotDragForm 65336
+#define Consts_SVMetafiles 65337
+#define Consts_SVEnhMetafiles 65338
+#define Consts_SVIcons 65339
+#define Consts_SVBitmaps 65340
+#define Consts_SMaskErr 65341
+#define Consts_SMaskEditErr 65342
+#define Consts_SMsgDlgWarning 65343
+#define Consts_SCannotShowModal 65344
+#define Consts_SScrollBarRange 65345
+#define Consts_SPropertyOutOfRange 65346
+#define Consts_SMenuIndexError 65347
+#define Consts_SMenuReinserted 65348
+#define Consts_SMenuNotFound 65349
+#define Consts_SNoTimers 65350
+#define Consts_SNotPrinting 65351
+#define Consts_SPrinting 65352
+#define Consts_SInvalidPrinter 65353
+#define Consts_SDeviceOnPort 65354
+#define Consts_SGroupIndexTooLow 65355
+#define Consts_SNoMDIForm 65356
+#define Consts_SControlParentSetToSelf 65357
+#define Consts_SOKButton 65358
+#define Consts_SCancelButton 65359
+#define Consts_SUnknownClipboardFormat 65360
+#define Consts_SOutOfResources 65361
+#define Consts_SNoCanvasHandle 65362
+#define Consts_SInvalidImageSize 65363
+#define Consts_SInvalidImageList 65364
+#define Consts_SReplaceImage 65365
+#define Consts_SImageIndexError 65366
+#define Consts_SImageReadFail 65367
+#define Consts_SImageWriteFail 65368
+#define Consts_SWindowDCError 65369
+#define Consts_SWindowClass 65370
+#define Consts_SCannotFocus 65371
+#define Consts_SParentRequired 65372
+#define Consts_SParentGivenNotAParent 65373
+#define Consts_SMDIChildNotVisible 65374
+#define Consts_SVisibleChanged 65375
+#define HelpIntfs_hNothingFound 65376
+#define HelpIntfs_hNoContext 65377
+#define HelpIntfs_hNoContextFound 65378
+#define HelpIntfs_hNoTopics 65379
+#define Consts_SCantWriteResourceStreamError 65380
+#define Consts_SInvalidTabPosition 65381
+#define Consts_SInvalidTabStyle 65382
+#define Consts_SInvalidBitmap 65383
+#define Consts_SInvalidIcon 65384
+#define Consts_SInvalidMetafile 65385
+#define Consts_SInvalidPixelFormat 65386
+#define Consts_SInvalidImage 65387
+#define Consts_SScanLine 65388
+#define Consts_SChangeIconSize 65389
+#define Consts_SOleGraphic 65390
+#define Consts_SUnknownExtension 65391
+#define RTLConsts_SListIndexError 65392
+#define RTLConsts_SMemoryStreamError 65393
+#define RTLConsts_SPropertyException 65394
+#define RTLConsts_SReadError 65395
+#define RTLConsts_SReadOnlyProperty 65396
+#define RTLConsts_SRegGetDataFailed 65397
+#define RTLConsts_SRegSetDataFailed 65398
+#define RTLConsts_SResNotFound 65399
+#define RTLConsts_SSeekNotImplemented 65400
+#define RTLConsts_SSortedListError 65401
+#define RTLConsts_SUnknownGroup 65402
+#define RTLConsts_SUnknownProperty 65403
+#define RTLConsts_SWriteError 65404
+#define RTLConsts_SThreadCreateError 65405
+#define RTLConsts_SThreadError 65406
+#define HelpIntfs_hNoTableOfContents 65407
 #define RTLConsts_SDuplicateItem 65408
 #define RTLConsts_SDuplicateName 65409
 #define RTLConsts_SDuplicateString 65410
 #define RTLConsts_SFCreateErrorEx 65411
 #define RTLConsts_SFOpenErrorEx 65412
-#define RTLConsts_SIniFileWriteError 65413
-#define RTLConsts_SInvalidFileName 65414
-#define RTLConsts_SInvalidImage 65415
-#define RTLConsts_SInvalidName 65416
-#define RTLConsts_SInvalidProperty 65417
-#define RTLConsts_SInvalidPropertyElement 65418
-#define RTLConsts_SInvalidPropertyPath 65419
-#define RTLConsts_SInvalidPropertyType 65420
-#define RTLConsts_SInvalidPropertyValue 65421
-#define RTLConsts_SInvalidRegType 65422
-#define RTLConsts_SListCapacityError 65423
+#define RTLConsts_SInvalidFileName 65413
+#define RTLConsts_SInvalidImage 65414
+#define RTLConsts_SInvalidName 65415
+#define RTLConsts_SInvalidProperty 65416
+#define RTLConsts_SInvalidPropertyElement 65417
+#define RTLConsts_SInvalidPropertyPath 65418
+#define RTLConsts_SInvalidPropertyType 65419
+#define RTLConsts_SInvalidPropertyValue 65420
+#define RTLConsts_SInvalidRegType 65421
+#define RTLConsts_SListCapacityError 65422
+#define RTLConsts_SListCountError 65423
 #define SysConst_SShortDayNameSat 65424
 #define SysConst_SLongDayNameSun 65425
 #define SysConst_SLongDayNameMon 65426
@@ -1047,26 +1040,12 @@
 #define SysConst_SInvalidInput 65535
 STRINGTABLE
 BEGIN
-	dlgExceptionMail_RsExceptionMessage,	"Exception message: %s"
-	dlgExceptionMail_RsExceptionAddr,	"Exception address: %p"
-	dlgExceptionMail_RsStackList,	"Stack list, generated %s"
-	dlgExceptionMail_RsModulesList,	"List of loaded modules:"
-	dlgExceptionMail_RsOSVersion,	"System   : %s %s, Version: %d.%d, Build: %x, \"%s\""
-	dlgExceptionMail_RsProcessor,	"Processor: %s, %s, %d MHz"
-	dlgExceptionMail_RsMemory,	"Memory: %d; free %d"
 	dlgExceptionMail_RsScreenRes,	"Display  : %dx%d pixels, %d bpp"
 	dlgExceptionMail_RsActiveControl,	"Active Controls hierarchy:"
 	dlgExceptionMail_RsThread,	"Thread: %s"
 	dlgExceptionMail_RsMissingVersionInfo,	"(no version info)"
 	dlgExceptionMail_RsSendBugReportAddress,	"pyscripter@gmail.com"
 	dlgExceptionMail_RsSendBugReportSubject,	"PyScripter Bug Report"
-	frmToDo_SDoneTodoDesignation,	"Done"
-	frmEditor_SInsert,	"Insert"
-	frmEditor_SOverwrite,	"Overwrite"
-	frmEditor_SReadOnly,	"Read Only"
-	frmEditor_SNonameFileTitle,	"Untitled"
-	frmEditor_SNonamePythonFileTitle,	"module"
-	frmEditor_SAskSaveChanges,	"The text in the \"%s\" file has changed.\r\n\r\nDo you want to save the modifications?"
 	WinHelpViewer_hNoKeyword,	"No help keyword specified."
 	frmFunctionList_SAllString,	"<All>"
 	frmFunctionList_SNoneString,	"<None>"
@@ -1076,15 +1055,15 @@ BEGIN
 	frmPyIDEMain_SModified,	"Modified"
 	dlgExceptionMail_RsAppError,	"%s - application error"
 	dlgExceptionMail_RsExceptionClass,	"Exception class: %s"
-	frmFindResults_SMatches,	"%d matches"
-	frmFindResults_SMatchContextNotAvail,	"Unable to load match context lines"
-	frmFindResults_SAllAlphaNumericChars,	"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"
-	frmFindResults_SProcessing,	"Processing %s"
-	frmFindResults_SFileChangedAbort,	"%s\r\nhas changed since it was searched.  Replacement aborted.\r\nExpected: %s\r\nFound: %s"
+	dlgExceptionMail_RsExceptionMessage,	"Exception message: %s"
+	dlgExceptionMail_RsExceptionAddr,	"Exception address: %p"
+	dlgExceptionMail_RsStackList,	"Stack list, generated %s"
+	dlgExceptionMail_RsModulesList,	"List of loaded modules:"
+	dlgExceptionMail_RsOSVersion,	"System   : %s %s, Version: %d.%d, Build: %x, \"%s\""
+	dlgExceptionMail_RsProcessor,	"Processor: %s, %s, %d MHz"
+	dlgExceptionMail_RsMemory,	"Memory: %d; free %d"
 	frmFindResults_SFileSkipped,	"The following file will be skipped: "
 	frmFindResults_SCouldNotBackup,	"Could not backup file \"%s\" and will skip it"
-	cFindInFiles_SNoFileOpen,	"No editor is currently active"
-	cFindInFiles_SSpecifiedDirectoryDoesNotExist,	"The search directory %s does not exist"
 	dlgToDoOptions_SLeadingDollarNotAllowed,	"A leading \"$\" character is not allowed in tokens, as this can conflict with Object Pascal compiler options.\r\n\r\nPlease choose a different token."
 	dlgToDoOptions_SEmptyTokenTextError,	"You cannot insert a token that only consists of white space."
 	frmToDo_SHigh,	"High"
@@ -1092,29 +1071,29 @@ BEGIN
 	frmToDo_SLow,	"Low"
 	frmToDo_SDone,	"Done"
 	frmToDo_STodoItems,	"To Do Items"
-	frmCommandOutput_SPrintWorkingDir,	"Workingdirectory: "
-	frmCommandOutput_SPrintTimeOut,	"Timeout: %d ms"
-	ObjAuto_sTypeMisMatch,	"Type mismatch in parameter %d for method %s"
-	ObjAuto_sInvalidDispID,	"Invalid DispID for parameter %d in method %s"
-	ObjAuto_sParamRequired,	"Parameter %d required for method %s"
-	ObjAuto_sMethodOver,	"Method definition for %s has over %d parameters"
-	ObjAuto_sTooManyParams,	"Too many parameters for method %s"
+	frmToDo_SDoneTodoDesignation,	"Done"
+	frmEditor_SInsert,	"Insert"
+	frmEditor_SOverwrite,	"Overwrite"
+	frmEditor_SReadOnly,	"Read Only"
+	frmEditor_SNonameFileTitle,	"Untitled"
+	frmEditor_SNonamePythonFileTitle,	"module"
+	frmEditor_SAskSaveChanges,	"The text in the \"%s\" file has changed.\r\n\r\nDo you want to save the modifications?"
 	dlgConfirmReplace_SAskReplaceText,	"Replace this occurence of \"%s\"?"
 	cFileSearch_SLineLengthError,	"File Search detected a line longer than %d characters in:\r\n%s.\r\nLikely, this is an unsupported binary file type."
 	dlgReplaceInFiles_SGrepResultsNotActive,	"The Find in Files Results window is not active"
 	dlgFindInFiles_SSpecifiedDirectoryDoesNotExist,	"The search directory %s does not exist"
+	cFindInFiles_SNoFileOpen,	"No editor is currently active"
+	cFindInFiles_SSpecifiedDirectoryDoesNotExist,	"The search directory %s does not exist"
 	frmFindResults_SGrepReplaceStats,	"Replaced %d occurrence(s) in %.2f seconds"
 	frmFindResults_SItemMatch,	"%5d matches"
 	frmFindResults_SReplaceLine,	"\r\nOn line: "
 	frmFindResults_SGrepActive,	"A Grep search is currently active; either abort it or wait until it is finished."
 	frmFindResults_SGrepSearchStats,	"Searched %d files in %.2f seconds"
-	SynHighlighterPython_SYNS_FriendlyFunctionName,	"Function Name"
-	SynHighlighterPython_SYNS_FriendlyClassName,	"Class Name"
-	SynHighlighterPython_SYNS_AttrBanner,	"Banner"
-	SynHighlighterPython_SYNS_FriendlyAttrBanner,	"Banner"
-	SynHighlighterPython_SYNS_AttrOutput,	"Output"
-	SynHighlighterPython_SYNS_FriendlyAttrOutput,	"Output"
-	SynHighlighterPython_SYNS_AttrTraceback,	"Traceback"
+	frmFindResults_SMatches,	"%d matches"
+	frmFindResults_SMatchContextNotAvail,	"Unable to load match context lines"
+	frmFindResults_SAllAlphaNumericChars,	"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"
+	frmFindResults_SProcessing,	"Processing %s"
+	frmFindResults_SFileChangedAbort,	"%s\r\nhas changed since it was searched.  Replacement aborted.\r\nExpected: %s\r\nFound: %s"
 	SynHighlighterPython_SYNS_FriendlyAttrTraceback,	"Traceback"
 	SynHighlighterPython_SYNS_AttrPrompt,	"Prompt"
 	SynHighlighterPython_SYNS_FriendlyAttrPrompt,	"Prompt"
@@ -1124,13 +1103,13 @@ BEGIN
 	frmCommandOutput_SDirNotFound,	"Directory \"%s\" does not exists"
 	frmCommandOutput_SProcessRunning,	"One Process is still running, stop it first."
 	frmCommandOutput_SPrintCommandLine,	"Commandline: %s"
-	VirtualTrees_SWrongStreamFormat,	"Unable to load tree structure, the format is wrong."
-	VirtualTrees_SWrongStreamVersion,	"Unable to load tree structure, the version is unknown."
-	VirtualTrees_SStreamTooSmall,	"Unable to load tree structure, not enough data available."
-	VirtualTrees_SCorruptStream1,	"Stream data corrupt. A node's anchor chunk is missing."
-	VirtualTrees_SCorruptStream2,	"Stream data corrupt. Unexpected data after node's end position."
-	VirtualTrees_SClipboardFailed,	"Clipboard operation failed."
-	VirtualTrees_SCannotSetUserData,	"Cannot set initial user data because there is not enough user data space allocated."
+	frmCommandOutput_SPrintWorkingDir,	"Workingdirectory: "
+	frmCommandOutput_SPrintTimeOut,	"Timeout: %d ms"
+	ObjAuto_sTypeMisMatch,	"Type mismatch in parameter %d for method %s"
+	ObjAuto_sInvalidDispID,	"Invalid DispID for parameter %d in method %s"
+	ObjAuto_sParamRequired,	"Parameter %d required for method %s"
+	ObjAuto_sMethodOver,	"Method definition for %s has over %d parameters"
+	ObjAuto_sTooManyParams,	"Too many parameters for method %s"
 	DBConsts_SBcdOverflow,	"BCD overflow"
 	DBConsts_SInvalidBcdValue,	"%s is not a valid BCD value"
 	DBConsts_SCouldNotParseTimeStamp,	"Could not parse SQL TimeStamp string"
@@ -1140,13 +1119,13 @@ BEGIN
 	SynHighlighterPython_SYNS_FunctionName,	"Function Name"
 	SynHighlighterPython_SYNS_ClassName,	"Class Name"
 	SynHighlighterPython_SYNS_FriendlyCommentedCode,	"Commented Code"
-	StringResources_SEngineActive,	"*** %s Python engine%s is active ***"
-	StringResources_SPythonInitError,	"PyScripter cannot find the standard Python library modules.\r\nThis sounds like a Python installation error.  Please check the Windows Registry key \r\n    HKEY_LOCAL_MACHINE\\SOFTWARE\\Python\\PythonCore\\2.x  or \r\n    HKEY_CURRENT_USER\\SOFTWARE\\Python\\PythonCore\\2.x\r\nfor a single user installation of Python.  (\"x\" stands for the minor version of Python).\r\nIn a proper installation the key should exist and the \"InstallPath\" and \"PythonPath\" variables defined.\r\nAlso check the PYTHONHOME and PYTHONPATH environment variables to see whether they conflict with the Python version used."
-	StringResources_SPostMortemInfo,	"You are now in post-mortem analysis mode.  You can examine the Call Stack, Variables and Watches windows, evaluate expressions etc.\r\nTo exit the post-mortem analysis select the Abort Debugging command."
-	StringResources_SFileChangeNotificationProblem,	"File change notification is now disabled, due to a problem in the monitoring process."
-	cParameters_SEnterParameterCaption,	"Parameter replacement"
-	cParameters_SEnterParameterText,	"Enter parameter value"
-	cParameters_SParamCircularReference,	"Parameter \"%s\" is referenced circulary"
+	SynHighlighterPython_SYNS_FriendlyFunctionName,	"Function Name"
+	SynHighlighterPython_SYNS_FriendlyClassName,	"Class Name"
+	SynHighlighterPython_SYNS_AttrBanner,	"Banner"
+	SynHighlighterPython_SYNS_FriendlyAttrBanner,	"Banner"
+	SynHighlighterPython_SYNS_AttrOutput,	"Output"
+	SynHighlighterPython_SYNS_FriendlyAttrOutput,	"Output"
+	SynHighlighterPython_SYNS_AttrTraceback,	"Traceback"
 	cParameters_SParameterNotFound,	"Parameter with name \"%s\" is not found"
 	cParameters_SModifierNotFound,	"Modifier with name \"%s\" is not found"
 	cParameters_SObjectNotFound,	"Object with name \"%s\" is not found"
@@ -1156,12 +1135,13 @@ BEGIN
 	cParameters_SDuplicateModifier,	"Duplicate Modifier \"%s\""
 	VirtualTrees_SEditLinkIsNil,	"Edit link must not be nil."
 	VirtualTrees_SWrongMoveError,	"Target node cannot be a child node of the node to be moved."
-	StringResources_SFunctionParameterCodeHint,	"<b>Function Parameter <font color=\"clBlue\">%s</font></b> of function <font color=\"clBlue\">%s</font>%s"
-	StringResources_SLocalVariableCodeHint,	"<b>Local variable <font color=\"clBlue\">%s</font></b> of function <font color=\"clBlue\">%s</font>%s"
-	StringResources_SGlobalVariableCodeHint,	"<b>Global variable <font color=\"clBlue\">%s</font></b> of module <font color=\"clBlue\">%s</font>%s"
-	StringResources_SClassVariableCodeHint,	"<b>Class variable <font color=\"clBlue\">%s</font></b> of class <font color=\"clBlue\">%s</font>%s"
-	StringResources_SInstanceVariableCodeHint,	"<b>Instance variable <font color=\"clBlue\">%s</font></b> of class <font color=\"clBlue\">%s</font>%s"
-	StringResources_SImportedVariableCodeHint,	"<b>Imported variable <b><font color=\"clBlue\">%s</font></b> from module <font color=\"clBlue\">%s</font>%s"
+	VirtualTrees_SWrongStreamFormat,	"Unable to load tree structure, the format is wrong."
+	VirtualTrees_SWrongStreamVersion,	"Unable to load tree structure, the version is unknown."
+	VirtualTrees_SStreamTooSmall,	"Unable to load tree structure, not enough data available."
+	VirtualTrees_SCorruptStream1,	"Stream data corrupt. A node's anchor chunk is missing."
+	VirtualTrees_SCorruptStream2,	"Stream data corrupt. Unexpected data after node's end position."
+	VirtualTrees_SClipboardFailed,	"Clipboard operation failed."
+	VirtualTrees_SCannotSetUserData,	"Cannot set initial user data because there is not enough user data space allocated."
 	StringResources_SVariableTypeCodeHint,	"<br><b>Type:</b> <font color=\"clBlue\">%s</font>"
 	StringResources_SParsedModuleCodeHint,	"<b>Module <a href=\"%s (1:1)\"><u>%s</u></a></b>"
 	StringResources_SParsedPackageCodeHint,	"<b>Package <a href=\"%s (1:1)\"><u>%s</u></a></b>"
@@ -1172,12 +1152,12 @@ BEGIN
 	StringResources_SEmptyList,	"(Empty List)"
 	StringResources_SNewFolder,	"New Folder"
 	StringResources_SCommandLineMsg,	"Command Line : %s\r\n"
-	StringResources_SNotFound,	"\"%s\" not found"
-	StringResources_SItemsReplaced,	"\"%d\" items replaced"
-	StringResources_SNotAvailable,	"n/a"
-	StringResources_SNotImplented,	"Not implemented"
-	StringResources_SFilterAllFiles,	"All files|*.*|"
-	StringResources_SVariablesDocNotSelected,	"<b>Namespace: </b> <color=clBlue>%s</color>"
+	StringResources_SEngineActive,	"*** %s Python engine%s is active ***"
+	StringResources_SPythonInitError,	"PyScripter cannot find the standard Python library modules.\r\nThis sounds like a Python installation error.  Please check the Windows Registry key \r\n    HKEY_LOCAL_MACHINE\\SOFTWARE\\Python\\PythonCore\\2.x  or \r\n    HKEY_CURRENT_USER\\SOFTWARE\\Python\\PythonCore\\2.x\r\nfor a single user installation of Python.  (\"x\" stands for the minor version of Python).\r\nIn a proper installation the key should exist and the \"InstallPath\" and \"PythonPath\" variables defined.\r\nAlso check the PYTHONHOME and PYTHONPATH environment variables to see whether they conflict with the Python version used."
+	StringResources_SPostMortemInfo,	"You are now in post-mortem analysis mode.  You can examine the Call Stack, Variables and Watches windows, evaluate expressions etc.\r\nTo exit the post-mortem analysis select the Abort Debugging command."
+	cParameters_SEnterParameterCaption,	"Parameter replacement"
+	cParameters_SEnterParameterText,	"Enter parameter value"
+	cParameters_SParamCircularReference,	"Parameter \"%s\" is referenced circulary"
 	StringResources_SVariablesDocSelected,	"<b>Namespace: </b> <color=clBlue>%s</color><br><b>Name: </b> <color=clBlue>%s</color><br><b>Type: </b> %s<br><b>Value:</b><br>%s<br><b>Docstring:</b><br>%s"
 	StringResources_SDebuggerHintFormat,	"<b>Name: </b> <font color=\"clBlue\">%s</font><br><b>Type: </b> <font color=\"clBlue\">%s</font><br><b>Value:</b><br>%s<br>"
 	StringResources_SNoParameters,	"** No/Unknown parameters **"
@@ -1188,12 +1168,12 @@ BEGIN
 	StringResources_SInheritsFromCodeHint,	"<br>Inherits from: <font color=\"clBlue\">%s</font>"
 	StringResources_SParsedFunctionCodeHint,	"<b>function <font color=\"clBlue\">%s</font>(%s)</b>%s"
 	StringResources_SParsedMethodCodeHint,	"<b>Method <font color=\"clBlue\">%s.%s(%s)</font></b>%s"
-	JvDockGlobals_RsDockJvDockInfoSplitter,	"@"
-	JvDockGlobals_RsDockJvDockTreeCloseBtnHint,	"Close"
-	JvDockGlobals_RsDockVSNETDockTreeAutoHideBtnHint,	"Auto Hide"
-	JvDockGlobals_RsEDockControlCannotIsNil,	"Control can not be nil"
-	JvDockGlobals_RsEDockCannotGetValueWithNoOrient,	"Cannot get data of control that has no dock orientation"
-	JvDockGlobals_RsEDockCannotSetValueWithNoOrient,	"Cannot set data of control that has no dock orientation"
+	StringResources_SFunctionParameterCodeHint,	"<b>Function Parameter <font color=\"clBlue\">%s</font></b> of function <font color=\"clBlue\">%s</font>%s"
+	StringResources_SLocalVariableCodeHint,	"<b>Local variable <font color=\"clBlue\">%s</font></b> of function <font color=\"clBlue\">%s</font>%s"
+	StringResources_SGlobalVariableCodeHint,	"<b>Global variable <font color=\"clBlue\">%s</font></b> of module <font color=\"clBlue\">%s</font>%s"
+	StringResources_SClassVariableCodeHint,	"<b>Class variable <font color=\"clBlue\">%s</font></b> of class <font color=\"clBlue\">%s</font>%s"
+	StringResources_SInstanceVariableCodeHint,	"<b>Instance variable <font color=\"clBlue\">%s</font></b> of class <font color=\"clBlue\">%s</font>%s"
+	StringResources_SImportedVariableCodeHint,	"<b>Imported variable <b><font color=\"clBlue\">%s</font></b> from module <font color=\"clBlue\">%s</font>%s"
 	JvDockGlobals_RsEDockCannotLayAnother,	"Only one %s allowed on each form. Cannot add another %s"
 	JvDockGlobals_RsEDockCannotSetTabPosition,	"Cannot set TabPosition property to tpLeft or tpRight"
 	JvDockGlobals_RsDockCannotFindWindow,	"Cannot find window"
@@ -1204,12 +1184,12 @@ BEGIN
 	VarPyth_SCantCreateNewSequenceObject,	"Can't create a new sequence object"
 	VarPyth_SExpectedPythonVariant,	"Expected a Python variant"
 	StringResources_SInternalError,	"Internal Error in %s"
-	SynEditStrConst_SYNS_PreviewScrollInfoFmt,	"Page: %d"
-	SynEditStrConst_SYNS_EDuplicateShortcut,	"Shortcut already exists"
-	SynEditStrConst_SYNS_FilterHTML,	"HTML Documents (*.htm;*.html)|*.htm;*.html"
-	SynEditStrConst_SYNS_FilterPython,	"Python Files (*.py)|*.py"
-	SynEditStrConst_SYNS_FilterINI,	"INI Files (*.ini)|*.ini"
-	SynEditStrConst_SYNS_FilterCSS,	"Cascading Stylesheets (*.css)|*.css"
+	StringResources_SNotFound,	"\"%s\" not found"
+	StringResources_SItemsReplaced,	"\"%d\" items replaced"
+	StringResources_SNotAvailable,	"n/a"
+	StringResources_SNotImplented,	"Not implemented"
+	StringResources_SFilterAllFiles,	"All files|*.*|"
+	StringResources_SVariablesDocNotSelected,	"<b>Namespace: </b> <color=clBlue>%s</color>"
 	SynEditStrConst_SYNS_FilterXML,	"XML Files (*.xml;*.xsd;*.xsl;*.xslt;*.dtd)|*.xml;*.xsd;*.xsl;*.xslt;*.dtd"
 	SynEditStrConst_SYNS_FriendlyLangHTML,	"HTML"
 	SynEditStrConst_SYNS_FriendlyLangPython,	"Python"
@@ -1220,12 +1200,12 @@ BEGIN
 	SynEditTextBuffer_SListIndexOutOfBounds,	"Invalid stringlist index %d"
 	SynEditTextBuffer_SInvalidCapacity,	"Stringlist capacity cannot be smaller than count"
 	JvDockGlobals_RsDockStringSplitter,	" "
-	SynEditStrConst_SYNS_FriendlyAttrProcessingInstr,	"Processing Instruction"
-	SynEditStrConst_SYNS_FriendlyAttrProperty,	"Property"
-	SynEditStrConst_SYNS_FriendlyAttrReservedWord,	"Reserved Word"
-	SynEditStrConst_SYNS_FriendlyAttrSection,	"Section"
-	SynEditStrConst_SYNS_FriendlyAttrSpace,	"Space"
-	SynEditStrConst_SYNS_FriendlyAttrString,	"String"
+	JvDockGlobals_RsDockJvDockInfoSplitter,	"@"
+	JvDockGlobals_RsDockJvDockTreeCloseBtnHint,	"Close"
+	JvDockGlobals_RsDockVSNETDockTreeAutoHideBtnHint,	"Auto Hide"
+	JvDockGlobals_RsEDockControlCannotIsNil,	"Control can not be nil"
+	JvDockGlobals_RsEDockCannotGetValueWithNoOrient,	"Cannot get data of control that has no dock orientation"
+	JvDockGlobals_RsEDockCannotSetValueWithNoOrient,	"Cannot set data of control that has no dock orientation"
 	SynEditStrConst_SYNS_FriendlyAttrSymbol,	"Symbol"
 	SynEditStrConst_SYNS_FriendlyAttrSyntaxError,	"Syntax Error"
 	SynEditStrConst_SYNS_FriendlyAttrSystem,	"System Functions and Variables"
@@ -1236,12 +1216,12 @@ BEGIN
 	SynEditStrConst_SYNS_FriendlyAttrWhitespace,	"Whitespace"
 	SynEditStrConst_SYNS_ScrollInfoFmt,	"%d - %d"
 	SynEditStrConst_SYNS_ScrollInfoFmtTop,	"Top Line: %d"
-	SynEditStrConst_SYNS_FriendlyAttrColor,	"Color Value"
-	SynEditStrConst_SYNS_FriendlyAttrComment,	"Comment"
-	SynEditStrConst_SYNS_FriendlyAttrDOCTYPESection,	"DOCTYPE Section"
-	SynEditStrConst_SYNS_FriendlyAttrDocumentation,	"Documentation"
-	SynEditStrConst_SYNS_FriendlyAttrElementName,	"Element Name"
-	SynEditStrConst_SYNS_FriendlyAttrEntityReference,	"Entity Reference"
+	SynEditStrConst_SYNS_PreviewScrollInfoFmt,	"Page: %d"
+	SynEditStrConst_SYNS_EDuplicateShortcut,	"Shortcut already exists"
+	SynEditStrConst_SYNS_FilterHTML,	"HTML Documents (*.htm;*.html)|*.htm;*.html"
+	SynEditStrConst_SYNS_FilterPython,	"Python Files (*.py)|*.py"
+	SynEditStrConst_SYNS_FilterINI,	"INI Files (*.ini)|*.ini"
+	SynEditStrConst_SYNS_FilterCSS,	"Cascading Stylesheets (*.css)|*.css"
 	SynEditStrConst_SYNS_FriendlyAttrEscapeAmpersand,	"Escape Ampersand"
 	SynEditStrConst_SYNS_FriendlyAttrFloat,	"Float"
 	SynEditStrConst_SYNS_FriendlyAttrHexadecimal,	"Hexadecimal"
@@ -1252,12 +1232,12 @@ BEGIN
 	SynEditStrConst_SYNS_FriendlyAttrNonReservedKeyword,	"Non-reserved Keyword"
 	SynEditStrConst_SYNS_FriendlyAttrNumber,	"Number"
 	SynEditStrConst_SYNS_FriendlyAttrOctal,	"Octal"
-	TB2Consts_STBMRUListItemDefCaption,	"(MRU List)"
-	TB2Consts_STBDockParentNotAllowed,	"A TTBDock control cannot be placed inside a tool window or another TTBDock"
-	TB2Consts_STBDockCannotChangePosition,	"Cannot change Position of a TTBDock if it already contains controls"
-	TB2Consts_STBToolwinDockedToNameNotSet,	"Cannot save dockable window's position because DockedTo's Name property not set"
-	OleConst_SCannotActivate,	"OLE control activation failed"
-	OleConst_SNoWindowHandle,	"Could not obtain OLE control window handle"
+	SynEditStrConst_SYNS_FriendlyAttrProcessingInstr,	"Processing Instruction"
+	SynEditStrConst_SYNS_FriendlyAttrProperty,	"Property"
+	SynEditStrConst_SYNS_FriendlyAttrReservedWord,	"Reserved Word"
+	SynEditStrConst_SYNS_FriendlyAttrSection,	"Section"
+	SynEditStrConst_SYNS_FriendlyAttrSpace,	"Space"
+	SynEditStrConst_SYNS_FriendlyAttrString,	"String"
 	OleConst_SLinkProperties,	"Link Properties"
 	OleConst_SInvalidLinkSource,	"Cannot link to an invalid source."
 	OleConst_SCannotBreakLink,	"Break link operation is not supported."
@@ -1268,7 +1248,12 @@ BEGIN
 	SynEditStrConst_SYNS_FriendlyAttrAttributeName,	"Attribute Name"
 	SynEditStrConst_SYNS_FriendlyAttrAttributeValue,	"Attribute Value"
 	SynEditStrConst_SYNS_FriendlyAttrCDATASection,	"CDATA Section"
-	JclResources_RsProductTypeWorkStation,	"Workstation"
+	SynEditStrConst_SYNS_FriendlyAttrColor,	"Color Value"
+	SynEditStrConst_SYNS_FriendlyAttrComment,	"Comment"
+	SynEditStrConst_SYNS_FriendlyAttrDOCTYPESection,	"DOCTYPE Section"
+	SynEditStrConst_SYNS_FriendlyAttrDocumentation,	"Documentation"
+	SynEditStrConst_SYNS_FriendlyAttrElementName,	"Element Name"
+	SynEditStrConst_SYNS_FriendlyAttrEntityReference,	"Entity Reference"
 	JclResources_RsProductTypeServer,	"Server"
 	JclResources_RsProductTypeAdvancedServer,	"Advanced Server"
 	JclResources_RsProductTypePersonal,	"Home Edition"
@@ -1280,11 +1265,11 @@ BEGIN
 	JclResources_RsHasNotTD32Info,	"File [%s] has not TD32 debug information!"
 	JclResources_RsELibraryNotFound,	"Library not found: %s"
 	JclResources_RsEFunctionNotFound,	"Function not found: %s.%s"
-	TB2Consts_STBToolbarIndexOutOfBounds,	"Toolbar item index out of range"
-	TB2Consts_STBToolbarItemReinserted,	"Toolbar item already inserted"
-	TB2Consts_STBViewerNotFound,	"An item viewer associated the specified item could not be found"
-	TB2Consts_STBChevronItemMoreButtonsHint,	"More Buttons|"
-	JclResources_RsIntelCacheDescrF1,	"128-Byte Prefetching"
+	JConsts_sChangeJPGSize,	"Cannot change the size of a JPEG image"
+	JConsts_sJPEGError,	"JPEG error #%d"
+	JConsts_sJPEGImageFile,	"JPEG Image File"
+	OleConst_SCannotActivate,	"OLE control activation failed"
+	OleConst_SNoWindowHandle,	"Could not obtain OLE control window handle"
 	JclResources_RsUnknownAMDModel,	"Unknown AMD (Model %d)"
 	JclResources_RsOSVersionWin95,	"Windows 95"
 	JclResources_RsOSVersionWin95OSR2,	"Windows 95 OSR2"
@@ -1300,7 +1285,7 @@ BEGIN
 	JclResources_RsOSVersionWinXP64,	"Windows XP x64"
 	JclResources_RsOSVersionWinVista,	"Windows Vista"
 	JclResources_RsOSVersionWinServer2008,	"Windows Server 2008"
-	JclResources_RsIntelCacheDescr79,	"2nd-level cache: 128 KBytes, 8-way set associative, 64 bytes line size, 2 lines per sector"
+	JclResources_RsProductTypeWorkStation,	"Workstation"
 	JclResources_RsIntelCacheDescr7A,	"2nd-level cache: 256 KBytes, 8-way set associative, 64 bytes line size, 2 lines per sector"
 	JclResources_RsIntelCacheDescr7B,	"2nd-level cache: 512 KBytes, 8-way set associative, 64 bytes line size, 2 lines per sector"
 	JclResources_RsIntelCacheDescr7C,	"2nd-level cache: 1 MBytes, 8-way set associative, 64 bytes line size, 2 lines per sector"
@@ -1316,7 +1301,7 @@ BEGIN
 	JclResources_RsIntelCacheDescrB3,	"Data TLB: 4 KByte pages, 4-way set associative, 128 entries"
 	JclResources_RsIntelCacheDescrB4,	"Data TLB1: 4 KByte pages, 4-way set associative, 256 entries"
 	JclResources_RsIntelCacheDescrF0,	"64-Byte Prefetching"
-	JclResources_RsIntelCacheDescr50,	"Instruction TLB: 4 KByte and 2 MByte or 4 MByte pages, 64 Entries"
+	JclResources_RsIntelCacheDescrF1,	"128-Byte Prefetching"
 	JclResources_RsIntelCacheDescr51,	"Instruction TLB: 4 KByte and 2 MByte or 4 MByte pages, 128 Entries"
 	JclResources_RsIntelCacheDescr52,	"Instruction TLB: 4 KByte and 2 MByte or 4 MByte pages, 256 Entries"
 	JclResources_RsIntelCacheDescr56,	"Data TLB0: 4 MByte pages, 4-way set associative, 16 entries"
@@ -1332,7 +1317,7 @@ BEGIN
 	JclResources_RsIntelCacheDescr71,	"Trace cache: 16 K-Ops, 8-way set associative"
 	JclResources_RsIntelCacheDescr72,	"Trace cache: 32 K-Ops, 8-way set associative"
 	JclResources_RsIntelCacheDescr78,	"2nd-level cache: 1 MBytes, 4-way set associative, 64 bytes line size"
-	JclResources_RsIntelCacheDescr0C,	"1st level data cache: 16 KBytes, 4-way set associative, 32 byte line size"
+	JclResources_RsIntelCacheDescr79,	"2nd-level cache: 128 KBytes, 8-way set associative, 64 bytes line size, 2 lines per sector"
 	JclResources_RsIntelCacheDescr22,	"3rd level cache: 512 KBytes, 4-way set associative, 64 byte line size, 2 lines per sector"
 	JclResources_RsIntelCacheDescr23,	"3rd level cache: 1 MBytes, 8-way set associative, 64 byte line size, 2 lines per sector"
 	JclResources_RsIntelCacheDescr25,	"3rd level cache: 2 MBytes, 8-way set associative, 64 byte line size, 2 lines per sector"
@@ -1348,9 +1333,9 @@ BEGIN
 	JclResources_RsIntelCacheDescr46,	"3rd-level cache: 4 MBytes, 4-way set associative, 64 byte line size"
 	JclResources_RsIntelCacheDescr47,	"3rd-level cache: 8 MBytes, 4-way set associative, 64 byte line size"
 	JclResources_RsIntelCacheDescr49,	"2nd-level cache: 4 MBytes, 16-way set associative, 64 byte line size"
-	JclResources_RsDeclarationFormat,	"// Declaration for '%s' not supported."
-	JclResources_RsBlankSearchString,	"Search string cannot be blank"
+	JclResources_RsIntelCacheDescr50,	"Instruction TLB: 4 KByte and 2 MByte or 4 MByte pages, 64 Entries"
 	JclResources_RsInvalidEmptyStringItem,	"String list passed to StringsToMultiSz cannot contain empty strings."
+	JclResources_RsNumericConstantTooLarge,	"Numeric constant too large."
 	JclResources_RsArgumentOutOfRange,	"Argument out of range"
 	JclResources_RsSynchCreateEvent,	"Failed to create event"
 	JclResources_RsSynchCreateMutex,	"Failed to create mutex"
@@ -1364,8 +1349,7 @@ BEGIN
 	JclResources_RsIntelCacheDescr08,	"1st level instruction cache: 16 KBytes, 4-way set associative, 32 byte line size"
 	JclResources_RsIntelCacheDescr0A,	"1st level data cache: 8 KBytes, 2-way set associative, 32 byte line size"
 	JclResources_RsIntelCacheDescr0B,	"Instruction TLB: 4 MByte pages, 4-way set associative, 4 entries"
-	JclResources_RsRTTIMaxValue,	"Max value: "
-	JclResources_RsRTTINameList,	"Names: "
+	JclResources_RsIntelCacheDescr0C,	"1st level data cache: 16 KBytes, 4-way set associative, 32 byte line size"
 	JclResources_RsRTTIClassName,	"Class name: "
 	JclResources_RsRTTIParent,	"Parent: "
 	JclResources_RsRTTIPropCount,	"Property count: "
@@ -1380,8 +1364,8 @@ BEGIN
 	JclResources_RsRTTIElType,	"Element type: "
 	JclResources_RsRTTIElNeedCleanup,	"Elements need clean up: "
 	JclResources_RsRTTIVarType,	"Variant type: "
-	JclResources_RsRTTITypeInfoAt,	"Type info: %p"
-	JclResources_RsRTTIPropRead,	"read"
+	JclResources_RsDeclarationFormat,	"// Declaration for '%s' not supported."
+	JclResources_RsBlankSearchString,	"Search string cannot be blank"
 	JclResources_RsRTTIPropWrite,	"write"
 	JclResources_RsRTTIPropStored,	"stored"
 	JclResources_RsRTTIField,	"field"
@@ -1396,8 +1380,8 @@ BEGIN
 	JclResources_RsRTTITypeKind,	"Type kind: "
 	JclResources_RsRTTIOrdinalType,	"Ordinal type: "
 	JclResources_RsRTTIMinValue,	"Min value: "
-	JclResources_RsHKCUShort,	"HKCU"
-	JclResources_RsHKLMShort,	"HKLM"
+	JclResources_RsRTTIMaxValue,	"Max value: "
+	JclResources_RsRTTINameList,	"Names: "
 	JclResources_RsHKUSShort,	"HKUS"
 	JclResources_RsHKPDShort,	"HKPD"
 	JclResources_RsHKCCShort,	"HKCC"
@@ -1412,8 +1396,8 @@ BEGIN
 	JclResources_RsRTTITrue,	"True"
 	JclResources_RsRTTIFalse,	"False"
 	JclResources_RsRTTITypeError,	"???"
-	JclResources_RsPeNotPE,	"This is not a PE format"
-	JclResources_RsPeUnknownTarget,	"Unknown PE target"
+	JclResources_RsRTTITypeInfoAt,	"Type info: %p"
+	JclResources_RsRTTIPropRead,	"read"
 	JclResources_RsPeNotResDir,	"Not a resource directory"
 	JclResources_RsPeSectionNotFound,	"Section \"%s\" not found"
 	JclResources_RsUnableToOpenKeyRead,	"Unable to open key \"%s\\%s\" for read"
@@ -1428,8 +1412,8 @@ BEGIN
 	JclResources_RsHKCCLong,	"HKEY_CURRENT_CONFIG"
 	JclResources_RsHKDDLong,	"HKEY_DYN_DATA"
 	JclResources_RsHKCRShort,	"HKCR"
-	JclResources_RsMapiErrINVALID_MESSAGE,	"Invalid message"
-	JclResources_RsMapiErrTEXT_TOO_LARGE,	"Text too large"
+	JclResources_RsHKCUShort,	"HKCU"
+	JclResources_RsHKLMShort,	"HKLM"
 	JclResources_RsMapiErrINVALID_SESSION,	"Invalid session"
 	JclResources_RsMapiErrTYPE_NOT_SUPPORTED,	"Type not supported"
 	JclResources_RsMapiErrAMBIGUOUS_RECIPIENT,	"A recipient was specified ambiguously"
@@ -1444,8 +1428,8 @@ BEGIN
 	JclResources_RsMapiMailBCC,	"Bcc"
 	JclResources_RsPeReadOnlyStream,	"Stream is read-only"
 	JclResources_RsPeCantOpen,	"Cannot open file \"%s\""
-	JclResources_RsMapiMailNoClient,	"No Simple MAPI client installed, cannot send the message"
-	JclResources_RsMapiErrUSER_ABORT,	"User abort"
+	JclResources_RsPeNotPE,	"This is not a PE format"
+	JclResources_RsPeUnknownTarget,	"Unknown PE target"
 	JclResources_RsMapiErrFAILURE,	"General MAPI failure"
 	JclResources_RsMapiErrLOGIN_FAILURE,	"MAPI login failure"
 	JclResources_RsMapiErrDISK_FULL,	"Disk full"
@@ -1460,8 +1444,8 @@ BEGIN
 	JclResources_RsMapiErrUNKNOWN_RECIPIENT,	"Unknown recipient"
 	JclResources_RsMapiErrBAD_RECIPTYPE,	"Bad recipient type"
 	JclResources_RsMapiErrNO_MESSAGES,	"No messages"
-	JvResources_RsMenuHighlight,	"Menu Highlight"
-	JvResources_RsFileNotFoundFmt,	"File \"%s\" not found"
+	JclResources_RsMapiErrINVALID_MESSAGE,	"Invalid message"
+	JclResources_RsMapiErrTEXT_TOO_LARGE,	"Text too large"
 	JvResources_RsEGrabberNotStopped,	"The grabber is not stopped, you cannot change its URL."
 	JvResources_RsJediAgent,	"JEDI-VCL"
 	JvResources_RsDefaultOutputFileName,	"output.txt"
@@ -1476,8 +1460,8 @@ BEGIN
 	JclResources_RsDefaultFileTypeName,	" File"
 	JclResources_RsMapiError,	"MAPI Error: (%d) \"%s\""
 	JclResources_RsMapiMissingExport,	"Function \"%s\" is not exported by client"
-	JvResources_RsClHighlight,	"Selection background"
-	JvResources_RsClHighlightText,	"Selection text"
+	JclResources_RsMapiMailNoClient,	"No Simple MAPI client installed, cannot send the message"
+	JclResources_RsMapiErrUSER_ABORT,	"User abort"
 	JvResources_RsClBtnFace,	"Button face"
 	JvResources_RsClBtnShadow,	"Button shadow"
 	JvResources_RsClGrayText,	"Dimmed text"
@@ -1492,8 +1476,8 @@ BEGIN
 	JvResources_RsGradientInactiveCaption,	"Gradient Inactive Caption"
 	JvResources_RsHotLight,	"Hot Light"
 	JvResources_RsMenuBar,	"Menu Bar"
-	JvResources_RsClLightTurquoise,	"Light Turquoise"
-	JvResources_RsClPaleBlue,	"Pale Blue"
+	JvResources_RsMenuHighlight,	"Menu Highlight"
+	JvResources_RsFileNotFoundFmt,	"File \"%s\" not found"
 	JvResources_RsClLavender,	"Lavender"
 	JvResources_RsClScrollBar,	"Scrollbar"
 	JvResources_RsClBackground,	"Desktop background"
@@ -1508,8 +1492,8 @@ BEGIN
 	JvResources_RsClActiveBorder,	"Active window border"
 	JvResources_RsClInactiveBorder,	"Inactive window border"
 	JvResources_RsClAppWorkSpace,	"Application workspace"
-	JvResources_RsClGray50,	"Gray 50%"
-	JvResources_RsClLightOrange,	"Light Orange"
+	JvResources_RsClHighlight,	"Selection background"
+	JvResources_RsClHighlightText,	"Selection text"
 	JvResources_RsClSeaGreen,	"Sea Green"
 	JvResources_RsClLightBlue,	"Light Blue"
 	JvResources_RsClViolet,	"Violet"
@@ -1524,8 +1508,8 @@ BEGIN
 	JvResources_RsClTan,	"Tan"
 	JvResources_RsClLightYellow,	"Light Yellow"
 	JvResources_RsClLightGreen,	"Light Green"
-	JvResources_RsClWhite,	"White"
-	JvResources_RsClMoneyGreen,	"Money green"
+	JvResources_RsClLightTurquoise,	"Light Turquoise"
+	JvResources_RsClPaleBlue,	"Pale Blue"
 	JvResources_RsClSkyBlue,	"Sky blue"
 	JvResources_RsClCream,	"Cream"
 	JvResources_RsClMedGray,	"Medium gray"
@@ -1540,8 +1524,8 @@ BEGIN
 	JvResources_RsClOrange,	"Orange"
 	JvResources_RsClDarkYellow,	"Dark Yellow"
 	JvResources_RsClBlueGray,	"Blue Gray"
-	JvResources_RsENotATJvThread,	"TJvCustomThreadDialogForm.SetConnectedThread: A thread must be a TJvThread-Component"
-	JvResources_RsClBlack,	"Black"
+	JvResources_RsClGray50,	"Gray 50%"
+	JvResources_RsClLightOrange,	"Light Orange"
 	JvResources_RsClMaroon,	"Maroon"
 	JvResources_RsClGreen,	"Green"
 	JvResources_RsClOlive,	"Olive green"
@@ -1556,8 +1540,8 @@ BEGIN
 	JvResources_RsClBlue,	"Blue"
 	JvResources_RsClFuchsia,	"Fuchsia"
 	JvResources_RsClAqua,	"Aqua"
-	JvResources_RsPVCOperationDownloadOnly,	"Download/Copy &Only"
-	JvResources_RsPVCOperationDownloadInstall,	"Download/Copy and &Install"
+	JvResources_RsClWhite,	"White"
+	JvResources_RsClMoneyGreen,	"Money green"
 	JvResources_RsPVCWhatNewInS,	"What's new in %s"
 	JvResources_RsPVCChangesBetween,	"Changes between %0:s and %1:s"
 	JvResources_RsPVCFileDownloadNotSuccessful,	"The file download was not successful!\r\nPlease try again manually."
@@ -1572,8 +1556,8 @@ BEGIN
 	JvResources_RsTextFilter,	"Plain text (*.txt)|*.txt"
 	JvResources_RsEOutOfRangeFloat,	"Value must be between %0:g and %1:g"
 	JvResources_RsENoItemFoundWithName,	"No item found with name \"%s\""
-	JvResources_RsPVDefaultVersioninfoFileName,	"versioninfo.ini"
-	JvResources_RsPVTempFileNameExtension,	".temp"
+	JvResources_RsENotATJvThread,	"TJvCustomThreadDialogForm.SetConnectedThread: A thread must be a TJvThread-Component"
+	JvResources_RsClBlack,	"Black"
 	JvResources_RsPVSiceB,	"%6f B"
 	JvResources_RsPVSiceKB,	"%6.2f KB"
 	JvResources_RsPVSiceMB,	"%6.2f MB"
@@ -1588,8 +1572,8 @@ BEGIN
 	JvResources_RsPVCChooseWhichVersion,	"Which &version do you want to install?"
 	JvResources_RsPVCChooseOperation,	"&Choose Operation"
 	JvResources_RsPVCOperationIgnore,	"I&gnore"
-	JvResources_RsENoMoreRecordsToReturn,	"No more records to return"
-	JvResources_RsEWordInfoIndexOutOfBounds,	"TStringNode.GetWordInfo: Index out of bounds"
+	JvResources_RsPVCOperationDownloadOnly,	"Download/Copy &Only"
+	JvResources_RsPVCOperationDownloadInstall,	"Download/Copy and &Install"
 	JvResources_RsErrParameterMustBeEntered,	"Parameter \"%s\" must be entered!"
 	JvResources_RsHistorySelectPath,	"History"
 	JvResources_RsDialogCaption,	""
@@ -1604,8 +1588,8 @@ BEGIN
 	JvResources_RsEAddObjectWrongObjectType,	"TJvParameterList.AddObject: Wrong object type"
 	JvResources_RsEAddObjectSearchNameNotDefined,	"TJvParameterList.AddObject: SearchName not defined"
 	JvResources_RsEAddObjectDuplicateSearchNamesNotAllowed,	"TJvParameterList.AddObject: Duplicate SearchNames (\"%s\") not allowed"
-	JvResources_RsEMethodAlreadyExists,	"Method already exists with another name"
-	JvResources_RsENameAlreadyExistsForMethod,	"Name already exists for another method"
+	JvResources_RsPVDefaultVersioninfoFileName,	"versioninfo.ini"
+	JvResources_RsPVTempFileNameExtension,	".temp"
 	JvResources_RsEJvAssertSetTopIndex,	"TJvCustomInspector.SetTopIndex: unexpected MaxIdx <= -1"
 	JvResources_RsEJvAssertInspectorPainter,	"TJvInspectorCustomCompoundItem.DivideRect: unexpected Inspector.Painter = nil"
 	JvResources_RsEJvAssertDataParent,	"TJvInspectorSetMemberData.New: unexpected ADataParent = nil"
@@ -1620,8 +1604,8 @@ BEGIN
 	JvResources_RsECannotBeInstantiated,	"This class cannot be instantiated"
 	JvResources_RsETNodeGetNodeTypeUnknownClass,	"TNode.GetNodeType: Unknown class"
 	JvResources_RsENoMoreNodesToReturn,	"No more nodes to return"
-	JvResources_RsEInspectorInternalError,	"Internal error: two data instances pointing to the same data are registered"
-	JvResources_RsESpecifierBeforeSeparator,	"A specifier should be placed before and after a separator"
+	JvResources_RsENoMoreRecordsToReturn,	"No more records to return"
+	JvResources_RsEWordInfoIndexOutOfBounds,	"TStringNode.GetWordInfo: Index out of bounds"
 	JvResources_RsEDOrDDOnlyOnce,	"'d' or 'dd' should appear only once"
 	JvResources_RsEMOrMMOnlyOnce,	"'m' or 'mm' should appear only once"
 	JvResources_RsEYYOrYYYYOnlyOnce,	"'yy' or 'yyyy' should appear only once"
@@ -1636,8 +1620,8 @@ BEGIN
 	JvResources_RsEInstanceAlreadyExists,	"Instance already exists with another name"
 	JvResources_RsENameAlreadyExistsForInstance,	"Name already exists for another instance"
 	JvResources_RsEInstanceNonexistent,	"Instance does not exist"
-	JvResources_RsStringListEditorCaption,	"String list editor"
-	JvResources_RsXLinesCaption,	" lines"
+	JvResources_RsEMethodAlreadyExists,	"Method already exists with another name"
+	JvResources_RsENameAlreadyExistsForMethod,	"Name already exists for another method"
 	JvResources_RsOneLineCaption,	"1 line"
 	JvResources_RsEJvInspItemHasParent,	"Item already assigned to another parent"
 	JvResources_RsEJvInspItemNotAChild,	"Specified Item is not a child of this item"
@@ -1652,8 +1636,8 @@ BEGIN
 	JvResources_RsEJvInspNoGenReg,	"Unable to create generic item registration list"
 	JvResources_RsEJvInspPaintNotActive,	"Painter is not the active painter of the specified inspector"
 	JvResources_RsEJvInspPaintOnlyUsedOnce,	"Inspector painter can only be linked to one inspector"
-	JvResources_RsEDSADuplicateName,	"DSA dialog named '%s' is already assigned to another dialog ID"
-	JvResources_RsEDSADialogIDNotFound,	"DSA dialog %d does not exist"
+	JvResources_RsEInspectorInternalError,	"Internal error: two data instances pointing to the same data are registered"
+	JvResources_RsESpecifierBeforeSeparator,	"A specifier should be placed before and after a separator"
 	JvResources_RsEDSADuplicateCTK_ID,	"CheckMarkText ID %d already registered"
 	JvResources_RsEDSAAccessBool,	"Boolean"
 	JvResources_RsEDSAAccessFloat,	"Float"
@@ -1668,8 +1652,8 @@ BEGIN
 	JvResources_RsJvInspItemUnInitialized,	"(uninitialized)"
 	JvResources_RsJvInspItemUnassigned,	"(unassigned)"
 	JvResources_RsJvInspItemNoValue,	"(no value)"
-	JvResources_RsENotifyErrorFmt,	"%0:s:\r\n%1:s"
-	JvResources_RsEProcessIsRunning,	"Cannot perform this operation when process is running"
+	JvResources_RsStringListEditorCaption,	"String list editor"
+	JvResources_RsXLinesCaption,	" lines"
 	JvResources_RsEProcessNotRunning,	"Process is not running"
 	JvResources_RsDSActkShowText,	"Do not show this dialog again"
 	JvResources_RsDSActkAskText,	"Do not ask me again"
@@ -1684,29 +1668,8 @@ BEGIN
 	JvResources_RsECannotEndReadIfNotInReadMode,	"Cannot end read if not in read mode"
 	JvResources_RsECannotEndWriteIfNotInWriteMode,	"Cannot end write if not in write mode"
 	JvResources_RsEDSADuplicateID,	"DSA dialog with ID '%d' is already assigned to another dialog name"
-	JvResources_RsLoadCaption,	"&Load"
-	JvResources_RsSaveCaption,	"&Save"
-	JvResources_RsDeleteCaption,	"&Delete"
-	JvResources_RsEDynControlEngineNotDefined,	"TJvAppStorageSelectList.CreateDialog: DynControlEngine not defined!"
-	JvResources_RsEDynAppStorageNotDefined,	"TJvAppStorageSelectList.GetSelectListPath: No AppStorage assigned"
-	JvResources_RsEShellNotCompatible,	"Shell not compatible with BrowseForFolder"
-	JvResources_RsFileNameChange,	"Filename Change"
-	JvResources_RsDirectoryNameChange,	"Directory Name Change"
-	JvResources_RsAttributesChange,	"Attributes Change"
-	JvResources_RsSizeChange,	"Size Change"
-	JvResources_RsWriteChange,	"Write Change"
-	JvResources_RsSecurityChange,	"Security Change"
-	JvResources_RsEFmtCannotChangeName,	"Cannot change %s when active"
-	JvResources_RsEFmtInvalidPath,	"Invalid or empty path (%s)"
-	JvResources_RsEFmtMaxCountExceeded,	"Maximum of %d items exceeded"
-	JvResources_RsEFmtInvalidPathAtIndex,	"Invalid or empty path (\"%0:s\") at index %1:d"
-	JvResources_RsPasteItem,	"&Paste"
-	JvResources_RsDeleteItem,	"&Delete"
-	JvResources_RsSelectAllItem,	"Select &All"
-	JvResources_RsNoName,	"(unnamed)"
-	JvResources_RsEReadValueFailed,	"TJvAppIniFileStorage.ReadValue: Section undefined"
-	JvResources_RsRootValueReplaceFmt,	"The Default Root Value \"%0:s\" has been replaced with \"%1:s\".\r\nPlease change the value in the FileVersionInfo Project Properties."
-	JvResources_RsEInvalidType,	"Invalid type"
+	JvResources_RsEDSADuplicateName,	"DSA dialog named '%s' is already assigned to another dialog ID"
+	JvResources_RsEDSADialogIDNotFound,	"DSA dialog %d does not exist"
 	JvResources_RsEUnknownBaseType,	"Unknown base type for given set"
 	JvResources_RsEInvalidPath,	"Invalid path"
 	JvResources_RsENotAUniqueRootPath,	"'%s' is not a unique root path"
@@ -1716,7 +1679,29 @@ BEGIN
 	JvResources_RsLoadSettings,	"Load Settings"
 	JvResources_RsSaveSettings,	"Save Settings"
 	JvResources_RsDeleteSettings,	"Delete Settings"
-	ComStrs_sRichEditLoadFail,	"Failed to Load Stream"
+	JvResources_RsLoadCaption,	"&Load"
+	JvResources_RsSaveCaption,	"&Save"
+	JvResources_RsDeleteCaption,	"&Delete"
+	JvResources_RsEDynControlEngineNotDefined,	"TJvAppStorageSelectList.CreateDialog: DynControlEngine not defined!"
+	JvResources_RsEDynAppStorageNotDefined,	"TJvAppStorageSelectList.GetSelectListPath: No AppStorage assigned"
+	JvResources_RsEShellNotCompatible,	"Shell not compatible with BrowseForFolder"
+	JvResources_RsEProcessIsRunning,	"Cannot perform this operation when process is running"
+	TB2Consts_STBDockCannotChangePosition,	"Cannot change Position of a TTBDock if it already contains controls"
+	TB2Consts_STBToolwinDockedToNameNotSet,	"Cannot save dockable window's position because DockedTo's Name property not set"
+	SpTBXCustomizerForm_SSpTBXCustomizerFormChangeShortcut,	"The shortcut is already being used by the \"%s\" command. Do you want to reassign it to the \"%s\" command?"
+	SpTBXCustomizerForm_SSpTBXCustomizerFormChangeShortcutTitle,	"Change Shortcut"
+	JvResources_RsButtonOKCaption,	"&OK"
+	JvResources_RsButtonCancelCaption,	"Cancel"
+	JvResources_RsUndoItem,	"&Undo"
+	JvResources_RsCutItem,	"Cu&t"
+	JvResources_RsCopyItem,	"&Copy"
+	JvResources_RsPasteItem,	"&Paste"
+	JvResources_RsDeleteItem,	"&Delete"
+	JvResources_RsSelectAllItem,	"Select &All"
+	JvResources_RsNoName,	"(unnamed)"
+	JvResources_RsEReadValueFailed,	"TJvAppIniFileStorage.ReadValue: Section undefined"
+	JvResources_RsRootValueReplaceFmt,	"The Default Root Value \"%0:s\" has been replaced with \"%1:s\".\r\nPlease change the value in the FileVersionInfo Project Properties."
+	JvResources_RsEInvalidType,	"Invalid type"
 	ComStrs_sRichEditSaveFail,	"Failed to Save Stream"
 	ComStrs_sPageIndexError,	"%d is an invalid PageIndex value.  PageIndex must be between 0 and %d"
 	ComStrs_sInvalidComCtl32,	"This control requires version 4.70 or greater of COMCTL32.DLL"
@@ -1727,12 +1712,12 @@ BEGIN
 	ComStrs_sFailSetCalMaxSelRange,	"Failed to set maximum selection range"
 	ComStrs_sFailSetCalMinMaxRange,	"Failed to set calendar min/max range"
 	ComStrs_sFailsetCalSelRange,	"Failed to set calendar selected range"
-	JvResources_RsButtonOKCaption,	"&OK"
-	JvResources_RsButtonCancelCaption,	"Cancel"
-	JvResources_RsUndoItem,	"&Undo"
-	JvResources_RsCutItem,	"Cu&t"
-	JvResources_RsCopyItem,	"&Copy"
-	ComConst_SOleError,	"OLE error %.8x"
+	TB2Consts_STBToolbarIndexOutOfBounds,	"Toolbar item index out of range"
+	TB2Consts_STBToolbarItemReinserted,	"Toolbar item already inserted"
+	TB2Consts_STBViewerNotFound,	"An item viewer associated the specified item could not be found"
+	TB2Consts_STBChevronItemMoreButtonsHint,	"More Buttons|"
+	TB2Consts_STBMRUListItemDefCaption,	"(MRU List)"
+	TB2Consts_STBDockParentNotAllowed,	"A TTBDock control cannot be placed inside a tool window or another TTBDock"
 	ComConst_SNoMethod,	"Method '%s' not supported by automation object"
 	ComConst_SVarNotObject,	"Variant does not reference an automation object"
 	ComConst_STooManyParams,	"Dispatch methods do not support more than 64 parameters"
@@ -1748,7 +1733,7 @@ BEGIN
 	ComStrs_sInsertError,	"Unable to insert an item"
 	ComStrs_sInvalidOwner,	"Invalid owner"
 	ComStrs_sRichEditInsertError,	"RichEdit line insertion error"
-	ExtCtrls_clNameInactiveCaptionText,	"Inactive Caption Text"
+	ComStrs_sRichEditLoadFail,	"Failed to Load Stream"
 	ExtCtrls_clNameInfoBk,	"Info Background"
 	ExtCtrls_clNameInfoText,	"Info Text"
 	ExtCtrls_clNameMenu,	"Menu Background"
@@ -1764,7 +1749,7 @@ BEGIN
 	ExtCtrls_clNameWindowText,	"Window Text"
 	TntSystem_SBufferOverflow,	"Buffer overflow"
 	TntSystem_SInvalidUTF7,	"Invalid UTF7"
-	ExtCtrls_clNameAppWorkSpace,	"Application Workspace"
+	ComConst_SOleError,	"OLE error %.8x"
 	ExtCtrls_clNameBackground,	"Background"
 	ExtCtrls_clNameBtnFace,	"Button Face"
 	ExtCtrls_clNameBtnHighlight,	"Button Highlight"
@@ -1780,7 +1765,7 @@ BEGIN
 	ExtCtrls_clNameHotLight,	"Hot Light"
 	ExtCtrls_clNameInactiveBorder,	"Inactive Border"
 	ExtCtrls_clNameInactiveCaption,	"Inactive Caption"
-	ExtCtrls_clNameTeal,	"Teal"
+	ExtCtrls_clNameInactiveCaptionText,	"Inactive Caption Text"
 	ExtCtrls_clNameGray,	"Gray"
 	ExtCtrls_clNameSilver,	"Silver"
 	ExtCtrls_clNameRed,	"Red"
@@ -1796,7 +1781,7 @@ BEGIN
 	ExtCtrls_clNameMedGray,	"Medium Gray"
 	ExtCtrls_clNameActiveBorder,	"Active Border"
 	ExtCtrls_clNameActiveCaption,	"Active Caption"
-	Consts_SErrorSettingCount,	"Error setting %s.Count"
+	ExtCtrls_clNameAppWorkSpace,	"Application Workspace"
 	Consts_SListBoxMustBeVirtual,	"Listbox (%s) style must be virtual in order to set Count"
 	Consts_SNoGetItemEventHandler,	"No OnGetItem event handler assigned"
 	Consts_SANSIEncoding,	"ANSI"
@@ -1812,7 +1797,7 @@ BEGIN
 	ExtCtrls_clNameOlive,	"Olive"
 	ExtCtrls_clNameNavy,	"Navy"
 	ExtCtrls_clNamePurple,	"Purple"
-	Consts_SInvalidPrinterOp,	"Operation not supported on selected printer"
+	ExtCtrls_clNameTeal,	"Teal"
 	Consts_SNoDefaultPrinter,	"There is no default printer currently selected"
 	Consts_SDuplicateMenus,	"Menu '%s' is already being used by another form"
 	Consts_SPictureLabel,	"Picture:"
@@ -1828,7 +1813,7 @@ BEGIN
 	Consts_SColorBoxCustomCaption,	"Custom..."
 	Consts_SMultiSelectRequired,	"Multiselect mode must be on for this feature"
 	Consts_SSeparator,	"Separator"
-	Consts_SmkcAlt,	"Alt+"
+	Consts_SErrorSettingCount,	"Error setting %s.Count"
 	Consts_srNone,	"(None)"
 	Consts_SOutOfRange,	"Value must be between %d and %d"
 	Consts_sAllFilter,	"All"
@@ -1844,7 +1829,7 @@ BEGIN
 	Consts_SIconToClipboard,	"Clipboard does not support Icons"
 	Consts_SCannotOpenClipboard,	"Cannot open clipboard"
 	Consts_SInvalidMemoSize,	"Text exceeds memo capacity"
-	Consts_SmkcTab,	"Tab"
+	Consts_SInvalidPrinterOp,	"Operation not supported on selected printer"
 	Consts_SmkcEsc,	"Esc"
 	Consts_SmkcEnter,	"Enter"
 	Consts_SmkcSpace,	"Space"
@@ -1860,7 +1845,7 @@ BEGIN
 	Consts_SmkcDel,	"Del"
 	Consts_SmkcShift,	"Shift+"
 	Consts_SmkcCtrl,	"Ctrl+"
-	Consts_SMsgDlgWarning,	"Warning"
+	Consts_SmkcAlt,	"Alt+"
 	Consts_SMsgDlgError,	"Error"
 	Consts_SMsgDlgInformation,	"Information"
 	Consts_SMsgDlgConfirm,	"Confirm"
@@ -1876,7 +1861,7 @@ BEGIN
 	Consts_SMsgDlgNoToAll,	"N&o to All"
 	Consts_SMsgDlgYesToAll,	"Yes to &All"
 	Consts_SmkcBkSp,	"BkSp"
-	Consts_SCancelButton,	"Cancel"
+	Consts_SmkcTab,	"Tab"
 	Consts_SYesButton,	"&Yes"
 	Consts_SNoButton,	"&No"
 	Consts_SHelpButton,	"&Help"
@@ -1892,7 +1877,7 @@ BEGIN
 	Consts_SVBitmaps,	"Bitmaps"
 	Consts_SMaskErr,	"Invalid input value"
 	Consts_SMaskEditErr,	"Invalid input value.  Use escape key to abandon changes"
-	Consts_SVisibleChanged,	"Cannot change Visible in OnShow or OnHide"
+	Consts_SMsgDlgWarning,	"Warning"
 	Consts_SCannotShowModal,	"Cannot make a visible window modal"
 	Consts_SScrollBarRange,	"Scrollbar property out of range"
 	Consts_SPropertyOutOfRange,	"%s property out of range"
@@ -1908,7 +1893,7 @@ BEGIN
 	Consts_SNoMDIForm,	"Cannot create form. No MDI forms are currently active"
 	Consts_SControlParentSetToSelf,	"A control cannot have itself as its parent"
 	Consts_SOKButton,	"OK"
-	Consts_SUnknownExtension,	"Unknown picture file extension (.%s)"
+	Consts_SCancelButton,	"Cancel"
 	Consts_SUnknownClipboardFormat,	"Unsupported clipboard format"
 	Consts_SOutOfResources,	"Out of system resources"
 	Consts_SNoCanvasHandle,	"Canvas does not allow drawing"
@@ -1924,7 +1909,7 @@ BEGIN
 	Consts_SParentRequired,	"Control '%s' has no parent window"
 	Consts_SParentGivenNotAParent,	"Parent given is not a parent of '%s'"
 	Consts_SMDIChildNotVisible,	"Cannot hide an MDI Child Form"
-	HelpIntfs_hNoTableOfContents,	"Unable to find a Table of Contents"
+	Consts_SVisibleChanged,	"Cannot change Visible in OnShow or OnHide"
 	HelpIntfs_hNothingFound,	"No help found for %s"
 	HelpIntfs_hNoContext,	"No context-sensitive help installed"
 	HelpIntfs_hNoContextFound,	"No help found for context"
@@ -1940,7 +1925,7 @@ BEGIN
 	Consts_SScanLine,	"Scan line index out of range"
 	Consts_SChangeIconSize,	"Cannot change the size of an icon"
 	Consts_SOleGraphic,	"Invalid operation on TOleGraphic"
-	RTLConsts_SListCountError,	"List count out of bounds (%d)"
+	Consts_SUnknownExtension,	"Unknown picture file extension (.%s)"
 	RTLConsts_SListIndexError,	"List index out of bounds (%d)"
 	RTLConsts_SMemoryStreamError,	"Out of memory while expanding memory stream"
 	RTLConsts_SPropertyException,	"Error reading %s%s%s: %s"
@@ -1956,12 +1941,12 @@ BEGIN
 	RTLConsts_SWriteError,	"Stream write error"
 	RTLConsts_SThreadCreateError,	"Thread creation error: %s"
 	RTLConsts_SThreadError,	"Thread Error: %s (%d)"
+	HelpIntfs_hNoTableOfContents,	"Unable to find a Table of Contents"
 	RTLConsts_SDuplicateItem,	"List does not allow duplicates ($0%x)"
 	RTLConsts_SDuplicateName,	"A component named %s already exists"
 	RTLConsts_SDuplicateString,	"String list does not allow duplicates"
 	RTLConsts_SFCreateErrorEx,	"Cannot create file \"%s\". %s"
 	RTLConsts_SFOpenErrorEx,	"Cannot open file \"%s\". %s"
-	RTLConsts_SIniFileWriteError,	"Unable to write to %s"
 	RTLConsts_SInvalidFileName,	"Invalid file name - %s"
 	RTLConsts_SInvalidImage,	"Invalid stream format"
 	RTLConsts_SInvalidName,	"''%s'' is not a valid component name"
@@ -1972,6 +1957,7 @@ BEGIN
 	RTLConsts_SInvalidPropertyValue,	"Invalid property value"
 	RTLConsts_SInvalidRegType,	"Invalid data type for '%s'"
 	RTLConsts_SListCapacityError,	"List capacity out of bounds (%d)"
+	RTLConsts_SListCountError,	"List count out of bounds (%d)"
 	SysConst_SShortDayNameSat,	"Sat"
 	SysConst_SLongDayNameSun,	"Sunday"
 	SysConst_SLongDayNameMon,	"Monday"

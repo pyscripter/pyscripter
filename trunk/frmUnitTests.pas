@@ -7,14 +7,14 @@ uses
   Dialogs, frmIDEDockWin, JvComponentBase, JvDockControlForm, ExtCtrls, ImgList,
   JvExControls, JvComponent, JvLinkLabel, TBXDkPanels, VirtualTrees,
   TBXStatusBars, TB2Item, TBXExtItems, TB2Dock, TB2Toolbar, TBX, StdCtrls,
-  JvExStdCtrls, JvRichEdit, mbTBXJvRichEdit, ActnList, TBXThemes, SpTBXControls;
+  JvExStdCtrls, JvRichEdit, mbTBXJvRichEdit, ActnList, TBXThemes, SpTBXControls, SpTBXItem;
 
 type
   TUnitTestWindowStatus = (utwEmpty, utwLoaded, utwRunning, utwRun);
 
   TUnitTestWindow = class(TIDEDockWindow)
-    ExplorerDock: TTBXDock;
-    ExplorerToolbar: TTBXToolbar;
+    ExplorerDock: TSpTBXDock;
+    ExplorerToolbar: TSpTBXToolbar;
     Panel1: TPanel;
     RunImages: TImageList;
     UnitTests: TVirtualStringTree;
@@ -25,25 +25,25 @@ type
     actDeselectAll: TAction;
     actSelectFailed: TAction;
     actRefresh: TAction;
-    TBXItem1: TTBXItem;
-    TBXSeparatorItem1: TTBXSeparatorItem;
-    TBXItem2: TTBXItem;
-    TBXItem3: TTBXItem;
-    TBXItem4: TTBXItem;
-    TBXSeparatorItem2: TTBXSeparatorItem;
-    TBXItem6: TTBXItem;
-    TBXItem7: TTBXItem;
+    TBXItem1: TSpTBXItem;
+    TBXSeparatorItem1: TSpTBXSeparatorItem;
+    TBXItem2: TSpTBXItem;
+    TBXItem3: TSpTBXItem;
+    TBXItem4: TSpTBXItem;
+    TBXSeparatorItem2: TSpTBXSeparatorItem;
+    TBXItem6: TSpTBXItem;
+    TBXItem7: TSpTBXItem;
     Panel2: TPanel;
     ErrorText: TmbTBXJvRichEdit;
     Label2: TLabel;
     ModuleName: TLabel;
     actExpandAll: TAction;
     actCollapseAll: TAction;
-    TBXItem10: TTBXItem;
-    TBXItem8: TTBXItem;
-    TBXSeparatorItem7: TTBXSeparatorItem;
+    TBXItem10: TSpTBXItem;
+    TBXItem8: TSpTBXItem;
+    TBXSeparatorItem7: TSpTBXSeparatorItem;
     actClearAll: TAction;
-    TBXItem5: TTBXItem;
+    TBXItem5: TSpTBXItem;
     lbFoundTests: TLabel;
     lblRunTests: TLabel;
     lblFailures: TLabel;

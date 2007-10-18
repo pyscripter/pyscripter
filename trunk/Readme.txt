@@ -3,7 +3,7 @@ To compile the PythonIDE.dpr, you first need to install the following components
    - Python for Delphi (www.mmm-experts.com)
      In the Definitions.inc file activate the conditional define PREFER_UNICODE
 
-   - JVCL version 3.32 (jvcl.sf.net) and JCL version 1.1 (jcl.sf.net)
+   - JVCL version 3.33 (jvcl.sf.net) and JCL version 1.1 (jcl.sf.net)
 
    - Toolbar2000 version 2.1.8 (www.jrsoftware.org/tb2k.php)
    - TBX version 2.1b (from www.g32.org/tbx)
@@ -24,8 +24,8 @@ To compile the PythonIDE.dpr, you first need to install the following components
    - Tntware Delphi LX Controls from http://www.tntware.com/delphicontrols/lx/
 
    - Unicode version of SynEdit (synedit.sf.net) at http://mh-nexus.de/unisynedit.htm
-   - VirtualTreeView (www.delphi-gems.com) at http://www.delphi-gems.com/VirtualTreeview/
-   - VirtualShellTools EasyListView and the "Mustangpeak Common Library" (www.mustangpeak.net)
-     In the file VSToolsAddins.inc in the "Include" directory enable the USE_TOOLBAR_TB2K flag and follow the instructions for recompiling the packages
+   
+   - Download the VirtualShellTools pack from www.mustangpeak.net and install  VirtualTreeView, Common Library, EasyListView and VirtualShellTools
+     In the file Addins.inc in the "Include" directory of VirtualShellTools, enable the USE_TOOLBAR_TB2K flag and follow the instructions for recompiling the packages
 
 If you have managed to do all the above then you should be able to compile PyScripter! :) 

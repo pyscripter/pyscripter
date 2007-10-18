@@ -78,29 +78,37 @@ object PickListDialog: TPickListDialog
       TabOrder = 1
       Kind = bkCancel
     end
-    object TBXButton1: TTBXButton
+    object TBXButton1: TSpTBXButton
       Left = 92
       Top = 6
       Width = 88
       Height = 24
-      ButtonStyle = bsFlat
       Caption = '&Select All'
-      ImageIndex = 104
-      Images = CommandsDataModule.Images
       TabOrder = 2
       OnClick = mnSelectAllClick
+      Images = CommandsDataModule.Images
+      ImageIndex = 104
+      LinkFont.Charset = DEFAULT_CHARSET
+      LinkFont.Color = clBlue
+      LinkFont.Height = -11
+      LinkFont.Name = 'Tahoma'
+      LinkFont.Style = [fsUnderline]
     end
-    object TBXButton2: TTBXButton
+    object TBXButton2: TSpTBXButton
       Left = 186
       Top = 6
       Width = 88
       Height = 24
-      ButtonStyle = bsFlat
       Caption = '&Deselect All'
-      ImageIndex = 105
-      Images = CommandsDataModule.Images
       TabOrder = 3
       OnClick = mnDeselectAllClick
+      Images = CommandsDataModule.Images
+      ImageIndex = 105
+      LinkFont.Charset = DEFAULT_CHARSET
+      LinkFont.Color = clBlue
+      LinkFont.Height = -11
+      LinkFont.Name = 'Tahoma'
+      LinkFont.Style = [fsUnderline]
     end
   end
   object PickListPopUp: TPopupMenu
