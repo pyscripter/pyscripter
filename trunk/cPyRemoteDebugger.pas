@@ -756,14 +756,15 @@ begin
               PyThreadState_SetAsyncExc(InternalInterpreter.PyInteractiveInterpreter.thread_id,
                 nil);
           end;
-          // This will cause the running thread to exit
-          CallStackWindow.ClearAll;
-          VariablesWindow.ClearAll;
-          fIsConnected := False;
-          if VarIsPython(OutputRedirector) then
-            OutputRedirector.redirected:= False;
-          VarClear(OutputRedirector);
-          Conn.close();
+//          // This will cause the running thread to exit
+//          CallStackWindow.ClearAll;
+//          VariablesWindow.ClearAll;
+//          fIsConnected := False;
+//          if VarIsPython(OutputRedirector) then
+//            OutputRedirector.redirected:= False;
+//          VarClear(OutputRedirector);
+//          Conn.close();
+          ShutDownServer;
         except
           // swalow exceptions
         end;
@@ -1036,10 +1037,10 @@ procedure TPyRemoteInterpreter.ShutDownServer;
 var
   i : integer;
 begin
-  if PyControl.DebuggerState <> dsInactive then begin
-    if Dialogs.MessageDlg('The Python interpreter is busy.  Are you sure you want to terminate it?',
-      mtWarning, [mbYes, mbNo], 0) = idNo then Exit;
-  end;
+//  if PyControl.DebuggerState <> dsInactive then begin
+//    if Dialogs.MessageDlg('The Python interpreter is busy.  Are you sure you want to terminate it?',
+//      mtWarning, [mbYes, mbNo], 0) = idNo then Exit;
+//  end;
 
   if not (csDestroying in PyIDEMainForm.ComponentState) then begin
     VariablesWindow.ClearAll;

@@ -219,7 +219,7 @@ Limitations: Python scripts are executed in the main thread
             Unit Testing broken (regression)
             Gap in the default tool bar (Issue #3)
 
- History:   v 1.9.3
+ History:   v 1.9.4
           New Features
             Remote interpreter and debugger
             New debugger command: Pause
@@ -311,12 +311,12 @@ Limitations: Python scripts are executed in the main thread
             Tab order not preserved when restarting PyScripter
             Disassembly and Documentation views not working with remote engines
             PyScripter "freezes" when displaying modal dialogs when running GUI scripts with remote engines
-            More robust "Reinitialize" of remote Python engines (Issue 143)
+            More robust "Reinitialize" of remote Python engines (Issues 143, 145)
             Shift-Tab does not work well with the Trim Trailing Spaces editor option
             Issues 28, (32), 39, 40, 41, 46, 47, 48, 49, 52, 55, 56, 57, 65, 66, 67, 70,
                    71, 72, 74, 75, 76, 81, 82, 83, 86, 88, 90, 91, 92, 94, 96, 98,
-                   100, 102, 105, 106, 107, 109, 113, 117, 119, 120, 
-                   122, 123, 125, 132, 134, 135, 136, 137, 138, 139, 140, 141 fixed
+                   100, 102, 105, 106, 107, 109, 113, 117, 119, 120,
+                   122, 123, 125, 132, 134, 135, 136, 137, 138, (139), 140, 141 fixed
 
   Vista Compatibility issues (all resolved)
   -  Flip3D and Form preview (solved with LX)
@@ -364,7 +364,8 @@ uses
   TBXNexosXTheme, TBXOfficeXPTheme, TBXAluminumTheme, TBXWhidbeyTheme,
   TBXOffice2003Theme, TBXOffice2007Theme, TBXLists, TB2ExtItems, JvDockTree,
   JvComponentBase, JvAppInst, uHighlighterProcs, cFileTemplates, TntLXForms,
-  SpTBXItem, SpTBXEditors, StdCtrls, JvDSADialogs, Dialogs, SpTBXCustomizer;
+  SpTBXItem, SpTBXEditors, StdCtrls, JvDSADialogs, Dialogs, SpTBXCustomizer,
+  JvFormPlacement;
 
 const
   WM_FINDDEFINITION  = WM_USER + 100;
@@ -763,6 +764,7 @@ type
     SpTBXItem1: TSpTBXItem;
     UserToolbar: TSpTBXToolbar;
     mnuUserToolbarVisibilityToggle: TTBXVisibilityToggleItem;
+    JvFormStorage: TJvFormStorage;
     procedure mnFilesClick(Sender: TObject);
     procedure actEditorZoomInExecute(Sender: TObject);
     procedure actEditorZoomOutExecute(Sender: TObject);
@@ -1180,6 +1182,7 @@ begin
   // Read Settings from PyScripter.ini
   if FileExists(AppStorage.IniFile.FileName) then begin
     RestoreApplicationData;
+    JvFormStorage.RestoreFormPlacement;
   end;
 
   AppStorage.ReadStringList('Layouts', Layouts, True);
@@ -2355,6 +2358,9 @@ begin
     AppStorage.StorageOptions.PreserveLeadingTrailingBlanks := True;
     AppStorage.WriteStringList('Command Histrory', TempStringList);
     AppStorage.StorageOptions.PreserveLeadingTrailingBlanks := False;
+
+    // Form Placement
+    JvFormStorage.SaveFormPlacement;
 
   finally
     AppStorage.EndUpdate;
