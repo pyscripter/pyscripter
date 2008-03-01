@@ -56,7 +56,7 @@ object CodeTemplates: TCodeTemplates
       OnChange = lvItemsChange
       OnDeletion = lvItemsDeletion
     end
-    object JvGroupBox: TJvGroupBox
+    object GroupBox: TGroupBox
       Left = 10
       Top = 148
       Width = 415
@@ -98,7 +98,7 @@ object CodeTemplates: TCodeTemplates
         Height = 13
         Caption = 'Press Shift+Ctrl+M for Modifier completion'
         Font.Charset = DEFAULT_CHARSET
-        Font.Color = clGradientActiveCaption
+        Font.Color = clGrayText
         Font.Height = -11
         Font.Name = 'MS Shell Dlg 2'
         Font.Style = []
@@ -111,14 +111,14 @@ object CodeTemplates: TCodeTemplates
         Height = 13
         Caption = 'Press Shift+Ctrl+P for Parameter completion'
         Font.Charset = DEFAULT_CHARSET
-        Font.Color = clGradientActiveCaption
+        Font.Color = clGrayText
         Font.Height = -11
         Font.Name = 'MS Shell Dlg 2'
         Font.Style = []
         ParentFont = False
       end
       object SynTemplate: TSynEdit
-        Left = 3
+        Left = 4
         Top = 80
         Width = 400
         Height = 117

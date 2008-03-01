@@ -148,16 +148,16 @@ object fmToDoOptions: TfmToDoOptions
     TabOrder = 2
     object meDirectories: TMemo
       Left = 9
-      Top = 53
+      Top = 72
       Width = 208
-      Height = 83
+      Height = 64
       ScrollBars = ssBoth
       TabOrder = 4
       WordWrap = False
     end
     object btnBrowse: TSpTBXButton
-      Left = 222
-      Top = 53
+      Left = 223
+      Top = 72
       Width = 20
       Height = 20
       Hint = 'Select Directory'
@@ -185,9 +185,9 @@ object fmToDoOptions: TfmToDoOptions
     object radScanOpen: TSpTBXRadioButton
       Left = 6
       Top = 17
-      Width = 126
+      Width = 91
       Height = 15
-      Caption = 'Scan &open project files'
+      Caption = 'Scan &open files'
       ParentColor = True
       TabOrder = 0
       TabStop = True
@@ -196,12 +196,24 @@ object fmToDoOptions: TfmToDoOptions
     end
     object radScanDir: TSpTBXRadioButton
       Left = 6
-      Top = 35
+      Top = 51
       Width = 94
       Height = 15
       Caption = 'Scan &directories'
       ParentColor = True
       TabOrder = 1
+      TabStop = True
+      OnClick = radScanDirClick
+      ThemeType = thtWindows
+    end
+    object radScanProject: TSpTBXRadioButton
+      Left = 6
+      Top = 34
+      Width = 99
+      Height = 15
+      Caption = 'Scan &project files'
+      ParentColor = True
+      TabOrder = 5
       TabStop = True
       OnClick = radScanDirClick
       ThemeType = thtWindows

@@ -15,8 +15,6 @@ uses
 
 type
 
-  TServerType = (stStandard, stTkinter, stWxPython);
-
   TPyRemoteInterpreter = class(TPyBaseInterpreter)
   {
     Rpyc based remote Python Interpreter
@@ -34,18 +32,17 @@ type
     fOldsysmodules : Variant;
     fThreadExecInterrupted: Boolean;
     fDebugger : Variant;
-    fServerType : TServerType;
     fSocketPort: integer;
   public
-    constructor Create(AServerType : TServerType = stStandard);
+    constructor Create(AEngineType : TPythonEngineType = peRemote);
     destructor Destroy; override;
     function CreateAndConnectToServer : Boolean;
     procedure ShutDownServer;
-    function Compile(Editor : IEditor) : Variant;
+    function Compile(ARunConfig : TRunConfiguration) : Variant; 
     function ExecuteInThread(Callable, Arguments: Variant) : Variant;
     procedure HandleRemoteException(ExcInfo : Variant; SkipFrames : integer = 1);
     procedure ReInitialize; override;
-    procedure CheckConnected(Quiet : Boolean = False);
+    procedure CheckConnected(Quiet : Boolean = False; Abort : Boolean = True);
     procedure ServeConnection;
     // Python Path
     function SysPathAdd(const Path : WideString) : boolean; override;
@@ -58,18 +55,18 @@ type
     function CallTipFromExpression(const Expr : string;
       var DisplayString, DocString : string) : Boolean; override;
     // Service routines
-    procedure SetCommandLine(const ScriptName : string); override;
+    procedure SetCommandLine(ARunConfig : TRunConfiguration); override;
     procedure RestoreCommandLine; override;
     // Main interface
     function ImportModule(Editor : IEditor; AddToNameSpace : Boolean = False) : Variant; override;
-    procedure RunNoDebug(Editor : IEditor); override;
-    function RunSource(Const Source, FileName : string; symbol : string = 'single') : boolean; override;
+    procedure RunNoDebug(ARunConfig : TRunConfiguration); override;
+    function RunSource(Const Source, FileName : Variant; symbol : WideString = 'single') : boolean; override;
     function EvalCode(const Expr : string) : Variant; override;
+    function GetObjectType(Ob : Variant) : string; override;
 
     property IsAvailable : Boolean read fIsAvailable;
     property IsConnected : Boolean read fIsConnected;
     property Debugger : Variant read fDebugger;
-    property ServerType : TServerType read fServerType;
   end;
 
 
@@ -106,7 +103,7 @@ type
     fOldPS1, fOldPS2 : string;
     procedure HandleUserLine;
   protected
-    procedure SetCommandLine(const ScriptName : string); override;
+    procedure SetCommandLine(ARunConfig : TRunConfiguration); override;
     procedure RestoreCommandLine; override;
     procedure SetDebuggerBreakpoints; override;
     procedure LoadLineCache;
@@ -124,17 +121,19 @@ type
     function SysPathAdd(const Path : WideString) : boolean; override;
     function SysPathRemove(const Path : WideString) : boolean; override;
     // Debugging
-    procedure Run(Editor : IEditor; InitStepIn : Boolean = False); override;
+    procedure Run(ARunConfig : TRunConfiguration; InitStepIn : Boolean = False;
+      RunToCursorLine : integer = -1); override;
     procedure RunToCursor(Editor : IEditor; ALine: integer); override;
-    procedure StepInto(Editor : IEditor); override;
+    procedure StepInto; override;
     procedure StepOver; override;
     procedure StepOut; override;
+    procedure Resume; override;
     procedure Pause; override;
     procedure Abort; override;
     // Evaluate expression in the current frame
     procedure Evaluate(const Expr : string; out ObjType, Value : string); override;
     // Like the InteractiveInterpreter runsource but for the debugger frame
-    function RunSource(Const Source, FileName : string; symbol : string = 'single') : boolean; override;
+    function RunSource(Const Source, FileName : Variant; symbol : WideString = 'single') : boolean; override;
     // Fills in CallStackList with TBaseFrameInfo objects
     procedure GetCallStack(CallStackList : TObjectList); override;
     // functions to get TBaseNamespaceItems corresponding to a frame's gloabals and locals
@@ -153,7 +152,8 @@ implementation
 uses
   VarPyth, StringResources, frmPythonII, Dialogs, JclSysUtils, dmCommands,
   cParameters, uCommonFunctions, frmMessages, frmPyIDEMain, JclFileUtils,
-  JvDockControlForm, frmVariables, frmCallStack, frmUnitTests, JclStrings, JvDSADialogs;
+  JvDockControlForm, frmVariables, frmCallStack, frmUnitTests, JclStrings, JvDSADialogs,
+  SynUnicode;
 
 { TRemNameSpaceItem }
 constructor TRemNameSpaceItem.Create(aName : string; aPyObject : Variant;
@@ -229,14 +229,16 @@ begin
         fChildNodes := TStringList.Create;
         fChildNodes.CaseSensitive := True;
         DictKeys := Dict.keys();
+        if GetPythonEngine.IsPython3000 then
+          DictKeys := BuiltinModule.list(DictKeys);
         for i := 0 to fChildCount - 1 do begin
-          Name :=  DictKeys.GetItem(i);
+          Name :=  DictKeys.__getitem__(i);
           try
-            Temp :=DictKeys.GetItem(i);
-            APyObject := Dict.GetItem(Temp);
+            Temp :=DictKeys.__getitem__(i);
+            APyObject := Dict.__getitem__(Temp);
             if FullInfo then begin
                PyFullInfo := APyObject;
-               APyObject := PyFullInfo.GetItem(0);
+               APyObject := PyFullInfo.__getitem__(0);
             end;
           except
             APyObject := VarPythonCreate('Error in getting object');
@@ -245,11 +247,11 @@ begin
           NameSpaceItem := TRemNameSpaceItem.Create(Name,
             APyObject, fRemotePython);
           if FullInfo and VarIsPython(PyFullInfo) then begin
-             NameSpaceItem.BufferedValue := PyFullInfo.GetItem(1);
+             NameSpaceItem.BufferedValue := PyFullInfo.__getitem__(1);
              NameSpaceItem.GotBufferedValue := True;
-             NameSpaceItem.fObjectType := PyFullInfo.GetItem(2);
-             NameSpaceItem.ExtractObjectInfo(PyFullInfo.GetItem(3));
-             NameSpaceItem.fChildCount := PyFullInfo.GetItem(4);
+             NameSpaceItem.fObjectType := PyFullInfo.__getitem__(2);
+             NameSpaceItem.ExtractObjectInfo(PyFullInfo.__getitem__(3));
+             NameSpaceItem.fChildCount := PyFullInfo.__getitem__(4);
           end;
           fChildNodes.AddObject(Name, NameSpaceItem);
         end;
@@ -299,24 +301,13 @@ begin
 end;
 
 function TRemNameSpaceItem.GetObjectType: string;
-Var
-  SuppressOutput : IInterface;
 begin
-  if fObjectType <> '' then begin
-    Result := fObjectType;
-    Exit
+  if fObjectType <> '' then
+    Result := fObjectType
+  else begin
+    Result := fRemotePython.GetObjectType(fPyObject);
+    fObjectType := Result;
   end;
-  fRemotePython.CheckConnected;
-  SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
-  if not IsProxy then
-    Result := inherited GetObjectType
-  else
-    try
-      Result := fRemotePython.RPI.objecttype(fPyObject);
-    except
-      Result := 'Unknown type';
-    end;
-  fObjectType := Result;
 end;
 
 function TRemNameSpaceItem.GetValue: string;
@@ -366,34 +357,40 @@ begin
     Result := True;
 
     PyDocString := RPI.inspect.getdoc(LookupObj);
-    if not VarIsNone(PyDocString) then
+    if not VarIsNone(PyDocString) then begin
       //DocString := GetNthLine(PyDocString, 1)
-      DocString := PyDocString
-    else
+      DocString := PyDocString;
+      DocString := GetLineRange(DocString, 1, 40);  // first 40 lines
+    end else
       DocString := '';
   except
   end;
 end;
 
-procedure TPyRemoteInterpreter.CheckConnected(Quiet : Boolean = False);
+procedure TPyRemoteInterpreter.CheckConnected(Quiet : Boolean = False; Abort : Boolean = True);
 begin
   if not (fIsAvailable and fIsConnected and (ServerProcess.State = psWaiting)) then begin
+    fIsConnected := False;
     if not Quiet then
       Dialogs.MessageDlg('Remote Server is not connected.  Please reinitialize or disconnect the remote  interpreter.',
         mtError, [mbAbort], 0);
-    fIsConnected := False;
     VariablesWindow.VariablesTree.Enabled := False;
     fThreadExecInterrupted := True;
-    SysUtils.Abort;
+    if Abort then
+      SysUtils.Abort;
   end;
 end;
 
-function TPyRemoteInterpreter.Compile(Editor: IEditor): Variant;
+function TPyRemoteInterpreter.Compile(ARunConfig: TRunConfiguration): Variant;
 Var
-  FName, Source : string;
+  FName : string;
+  Source : Variant;
   ExcInfo, Error : Variant;
   FileName : string;
   LineNo, Offset : integer;
+  Editor : IEditor;
+  WideStrings : TWideStrings;
+  Encoding : TFileSaveFormat;
 begin
   CheckConnected;
   if PyControl.DebuggerState <> dsInactive then begin
@@ -408,21 +405,49 @@ begin
 
   MessagesWindow.ClearMessages;
 
-  FName := Editor.FileName;
-  if FName = '' then FName := '<'+Editor.FileTitle+'>';
-  Source := CleanEOLs(Editor.EncodedText)+#10;
+  Editor := GI_EditorFactory.GetEditorByNameOrTitle(ARunConfig.ScriptName);
+
+  if Assigned(Editor) then begin
+    FName := Editor.FileName;
+    if FName = '' then FName := '<'+Editor.FileTitle+'>';
+    if GetPythonEngine.IsPython3000 then
+      Source := CleanEOLs(Editor.SynEdit.Text) + WideLineFeed
+    else
+      Source := CleanEOLs(Editor.EncodedText)+#10;
+  end else begin
+    try
+      FName := ARunConfig.ScriptName;
+      if GetPythonEngine.IsPython3000 then begin
+        WideStrings := TWideStringList.Create;
+        try
+          LoadFileIntoWideStrings(FName, WideStrings, Encoding);
+          Source := CleanEOLs(WideStrings.Text)+WideLineFeed;
+        finally
+          WideStrings.Free;
+        end;
+      end else
+        Source := CleanEOLs(FileToString(FName));
+    except
+      on E: Exception do begin
+        MessageBox(Application.Handle, PChar(E.Message), PChar(Format('Error in opening file: "%s"',
+          [FName])), MB_ICONERROR or MB_OK);
+        SysUtils.Abort;
+      end;
+    end;
+  end;
 
   try
+    // if IsPython3000 then Source is a WideStrings else it is an encoded string
     Result := RPI.rem_compile(VarPythonCreate(Source), VarPythonCreate(FName));
 
     GetPythonEngine.CheckError;
     ExcInfo := RPI.exc_info;
     if not VarIsNone(RPI.exc_info) then begin
       VarClear(Result);
-      Error := ExcInfo.getitem(1);
-      if ExcInfo.getitem(3) then begin
+      Error := ExcInfo.__getitem__(1);
+      if ExcInfo.__getitem__(3) then begin
         // SyntaxError
-        MessagesWindow.ShowPythonSyntaxError(ExcInfo.getitem(0), Error);
+        MessagesWindow.ShowPythonSyntaxError(ExcInfo.__getitem__(0), Error);
 
         ExtractPyErrorInfo(Error, FileName, LineNo, Offset);
         if PyIDEMainForm.ShowFilePosition(FileName, LineNo, Offset) and
@@ -436,7 +461,7 @@ begin
         end;
       end else
         HandleRemoteException(ExcInfo);
-      Dialogs.MessageDlg(Format('%s: %s',[ExcInfo.getitem(0), RPI._some_str(Error)]),
+      Dialogs.MessageDlg(Format('%s: %s',[ExcInfo.__getitem__(0), RPI._some_str(Error)]),
         mtError, [mbOK], 0);
       SysUtils.Abort;
     end;
@@ -457,7 +482,7 @@ begin
   end;
 end;
 
-constructor TPyRemoteInterpreter.Create(AServerType : TServerType = stStandard);
+constructor TPyRemoteInterpreter.Create(AEngineType : TPythonEngineType = peRemote);
 Var
   SuppressOutput : IInterface;
   ServerFile: string;
@@ -465,7 +490,7 @@ Var
   ServerName: string;
 begin
   fInterpreterCapabilities := [icReInitialize];
-  fServerType := AServerType;
+  fEngineType := AEngineType;
   fSocketPort := 18888;
 
   ServerProcess := TJvCreateProcess.Create(nil);
@@ -502,10 +527,12 @@ begin
 
   if fIsAvailable then begin
     ServerFile := CommandsDataModule.UserDataDir + 'remserver.py';
-    case fServerType of
-      stStandard: ServerName := 'SimpleServer';
-      stTkinter: ServerName := 'TkServer';
-      stWxPython: ServerName := 'WxServer';
+    case fEngineType of
+      peRemote: ServerName := 'SimpleServer';
+      peRemoteTk: ServerName := 'TkServer';
+      peRemoteWx: ServerName := 'WxServer';
+    else
+      raise Exception.Create('Invalid Engine type in TPyRemoteInterpreter constructor');
     end;
     ServerSource := CommandsDataModule.JvMultiStringHolder.StringsByName[ServerName].Text;
     try
@@ -529,7 +556,8 @@ begin
     except
       on E: Exception do begin
         fIsAvailable := False;
-        ShowMessage('Error in creating the remote intepreter: ' + E.Message);
+        Dialogs.MessageDlg('Error in creating the remote intepreter: ' + E.Message,
+          mtError, [mbAbort], 0);
       end;
     end;
     if not (fIsAvailable and fIsConnected) then
@@ -618,6 +646,22 @@ begin
     Evalcode('globals()'), Self);
 end;
 
+function TPyRemoteInterpreter.GetObjectType(Ob: Variant): string;
+Var
+  SuppressOutput : IInterface;
+begin
+  CheckConnected;
+  SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
+  try
+    if Rpyc.isproxy(ob) then
+      Result := RPI.objecttype(ob)
+    else
+      Result := InternalInterpreter.GetObjectType(ob);
+  except
+    Result := 'Unknown type';
+  end;
+end;
+
 procedure TPyRemoteInterpreter.HandleRemoteException(ExcInfo: Variant; SkipFrames : integer = 1);
 Var
   LineNo : integer;
@@ -627,10 +671,10 @@ begin
   CheckConnected;
   if not VarIsPython(ExcInfo) or VarIsNone(ExcInfo) then Exit;
 
-  Traceback := ExcInfo.getitem(2);
+  Traceback := ExcInfo.__getitem__(2);
   MessagesWindow.ShowTraceback(Traceback, SkipFrames);
-  MessagesWindow.AddMessage(Format('%s: %s',[ExcInfo.getitem(0),
-    RPI._some_str(ExcInfo.getitem(1))]));
+  MessagesWindow.AddMessage(Format('%s: %s',[ExcInfo.__getitem__(0),
+    RPI._some_str(ExcInfo.__getitem__(1))]));
 
   if VarIsPython(Traceback) and not VarIsNone(Traceback) then begin
     while not VarIsNone(Traceback.tb_next) do
@@ -663,11 +707,19 @@ Var
   Path, NameOfModule : string;
   PythonPathAdder : IInterface;
   ExcInfo : Variant;
+  RunConfiguration : TRunConfiguration;
 begin
+  Assert(Assigned(Editor));
   CheckConnected;
   VarClear(Result);
   //Compile
-  Code := Compile(Editor);
+  RunConfiguration := TRunConfiguration.Create;
+  try
+    RunConfiguration.ScriptName := Editor.GetFileNameOrTitle;
+    Code := Compile(RunConfiguration);
+  finally
+    RunConfiguration.Free;
+  end;
 
   Assert(VarIsPython(Code));  // an exception should have been raised if failed
 
@@ -691,7 +743,7 @@ begin
       if not VarIsNone(RPI.exc_info) then begin
         Result := None;
         HandleRemoteException(ExcInfo);
-        Dialogs.MessageDlg(Format('%s: %s',[ExcInfo.getitem(0), RPI._some_str(ExcInfo.getitem(1))]),
+        Dialogs.MessageDlg(Format('%s: %s',[ExcInfo.__getitem__(0), RPI._some_str(ExcInfo.__getitem__(1))]),
           mtError, [mbOK], 0);
         SysUtils.Abort;
       end;
@@ -713,24 +765,27 @@ end;
 
 function TPyRemoteInterpreter.NameSpaceFromExpression(const Expr: string): TBaseNameSpaceItem;
 var
-  LookupObj, ItemsDict, BuiltinDict: Variant;
+  LookupObj, ItemsDict: Variant;
   SuppressOutput : IInterface;
 begin
+
   CheckConnected;
   SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
   try
     if Expr <> '' then begin
       //Evaluate the lookup expression
       LookupObj := RPI.evalcode(Expr);
-//      ItemsDict := RPI.safegetmembers(LookUpObj);
-//      Result := TRemNameSpaceItem.Create(Expr, ItemsDict, Self);
-      Result := TRemNameSpaceItem.Create(Expr, LookupObj, Self);
+      //Result := TRemNameSpaceItem.Create(Expr, LookupObj, Self);
+      ItemsDict := RPI.safegetmembers(LookUpObj);
+      Result := TRemNameSpaceItem.Create(Expr, ItemsDict, Self);
     end else begin
 //      BuiltinDict := RPI.ImmDict(Conn.modules.__builtin__.__dict__);
 //      BuiltinDict.update(RPI.ImmDict(RPI.evalcode('vars()')));
-      BuiltinDict := Conn.modules.__builtin__.__dict__;
-      BuiltinDict.update(RPI.evalcode('vars()'));
-      Result := TRemNameSpaceItem.Create(Expr, BuiltinDict, Self);
+      ItemsDict := RPI.evalcode('dict()');
+//      ItemsDict.update(Conn.modules.__builtin__.__dict__);
+      ItemsDict.update(Conn.modules.__getitem__(GetPythonEngine.BuiltInModuleName).__dict__);
+      ItemsDict.update(RPI.evalcode('vars()'));
+      Result := TRemNameSpaceItem.Create(Expr, ItemsDict, Self);
     end;
   except
     ItemsDict := NewPythonDict;
@@ -802,7 +857,7 @@ begin
   Conn.modules.sys.argv := fOldargv;
 end;
 
-procedure TPyRemoteInterpreter.RunNoDebug(Editor: IEditor);
+procedure TPyRemoteInterpreter.RunNoDebug(ARunConfig: TRunConfiguration);
 Var
   Code : Variant;
 //  AsyncRunNoDebug : Variant;
@@ -814,18 +869,22 @@ Var
   ExcInfo : Variant;
   ReturnFocusToEditor: Boolean;
   CanDoPostMortem : Boolean;
+  Editor : IEditor;
 begin
   CheckConnected;
   CanDoPostMortem := False;
   //Compile
-  Code := Compile(Editor);
+  Code := Compile(ARunConfig);
 
   PyControl.DoStateChange(dsRunningNoDebug);
 
   // New Line for output
   PythonIIForm.AppendText(sLineBreak);
 
-  Path := ExtractFileDir(Editor.FileName);
+  if ARunConfig.WorkingDir <> '' then
+    Path := Parameters.ReplaceInText(ARunConfig.WorkingDir)
+  else
+    Path := ExtractFileDir(ARunConfig.ScriptName);
   OldPath := RPI.rem_getcwdu();
   if Length(Path) > 1 then begin
     // Add the path of the executed file to the Python path - Will be automatically removed
@@ -840,12 +899,11 @@ begin
   end;
 
   // Set the command line parameters
-  SetCommandLine(Editor.GetFileNameOrTitle);
+  SetCommandLine(ARunConfig);
 
-  ReturnFocusToEditor := Editor = GI_ActiveEditor;
+  Editor := GI_ActiveEditor;
+  ReturnFocusToEditor := Assigned(Editor);
   PyIDEMainForm.actNavInterpreterExecute(nil);
-  if CommandsDataModule.PyIDEOptions.ClearOutputBeforeRun then
-    PythonIIForm.actClearContentsExecute(nil);
 
   try
     try
@@ -856,7 +914,7 @@ begin
         if not VarIsNone(ExcInfo) then begin
           HandleRemoteException(ExcInfo);
           ReturnFocusToEditor := False;
-          Dialogs.MessageDlg(Format('%s: %s',[ExcInfo.getitem(0), RPI._some_str(ExcInfo.getitem(1))]),
+          Dialogs.MessageDlg(Format('%s: %s',[ExcInfo.__getitem__(0), RPI._some_str(ExcInfo.__getitem__(1))]),
             mtError, [mbOK], 0);
           CanDoPostMortem := True;
           SysUtils.Abort;
@@ -874,6 +932,7 @@ begin
     end;
   finally
     PythonIIForm.AppendPrompt;
+    CheckConnected(True, False);
     if not fThreadExecInterrupted then begin
       // happpens when the remote server was shutdown
 
@@ -895,8 +954,7 @@ begin
   end;
 end;
 
-function TPyRemoteInterpreter.RunSource(const Source,
-  FileName: string; symbol : string = 'single'): boolean;
+function TPyRemoteInterpreter.RunSource(Const Source, FileName : Variant; symbol : WideString = 'single') : boolean;
 //  works asynchronously
 Var
   OldDebuggerState : TDebuggerState;
@@ -919,6 +977,7 @@ var
   SuppressOutput : IInterface;
   I: Integer;
   Source : string;
+  InitScriptName : string;
 begin
   Result := False;
 
@@ -972,16 +1031,21 @@ begin
     OutputRedirector.redirect();
     Conn.namespace.__name__ := '__main__';
     // Create the remote interpreter
+    with GetPythonEngine do begin
+      if IsPython3000 then
+        InitScriptName := 'Rpyc_Init3000'
+      else
+        InitScriptName := 'Rpyc_Init';
+    end;
+
     Source := CleanEOLs(
-      CommandsDataModule.JvMultiStringHolder.StringsByName['Rpyc_Init'].Text)+#10;
+      CommandsDataModule.JvMultiStringHolder.StringsByName[InitScriptName].Text)+#10;
     Conn.execute(VarPythonCreate(Source));
     RPI := Conn.namespace._RPI;
     //  pass a reference to the P4D module DebugIDE
     Conn.execute('del _RPI.locals["_RPI"]');
     Rpyc.getattr(RPI, '__class__').debugIDE :=
       InternalInterpreter.PyInteractiveInterpreter.debugIDE;
-    // input and raw_input
-    Conn.modules.__builtin__.raw_input := InternalInterpreter.PyInteractiveInterpreter.Win32RawInput;
 
     // make sys.stdout etc asynchronous when writing
     RPI.asyncIO();
@@ -1007,7 +1071,7 @@ begin
   end;
 end;
 
-procedure TPyRemoteInterpreter.SetCommandLine(const ScriptName: string);
+procedure TPyRemoteInterpreter.SetCommandLine(ARunConfig : TRunConfiguration);
 var
   ArgV : Variant;
   S, Param : string;
@@ -1019,9 +1083,8 @@ begin
   Argv := Conn.modules.sys.argv;
   // Workaround due to PREFER_UNICODE flag to make sure
   // no conversion to Unicode and back will take place
-  Argv.append(VarPythonCreate(ScriptName));
-  S := iff(CommandsDataModule.PyIDEOptions.UseCommandLine,
-     CommandsDataModule.PyIDEOptions.CommandLine, '');
+  Argv.append(VarPythonCreate(ARunConfig.ScriptName));
+  S := ARunConfig.Parameters;
   if S <> '' then begin
     S := Parameters.ReplaceInText(S);
     P := GetParamStr(PChar(S), Param);
@@ -1047,8 +1110,8 @@ begin
     CallStackWindow.ClearAll;
     UnitTestWindow.ClearAll;
   end;
-  // Destroy Remote Debugger
-  PyControl.ActiveDebugger := nil;
+  // Do not destroy Remote Debugger
+  // PyControl.ActiveDebugger := nil;
 
   VarClear(fOldArgv);
   VarClear(fDebugger);
@@ -1127,7 +1190,7 @@ begin
   CheckConnected;
   RemPath := Rpyc.obtain(Conn.modules.sys.path);
   for i := 0 to Len(RemPath) - 1  do
-    Strings.Add(RemPath.GetItem(i));
+    Strings.Add(RemPath.__getitem__(i));
 end;
 
 
@@ -1322,7 +1385,7 @@ end;
 procedure TPyRemDebugger.LoadLineCache;
 Var
   i : integer;
-  FName, Source : string;
+  FName, Source, LineList : Variant;
 begin
   // inject unsaved code into LineCache
   fLineCache.cache.clear();
@@ -1330,10 +1393,15 @@ begin
     with GI_EditorFactory.Editor[i] do
       if HasPythonfile and (FileName = '') then
       begin
-        Source := CleanEOLs(EncodedText)+#10;
+        if GetPythonEngine.IsPython3000 then
+          Source := CleanEOLs(SynEdit.Text)+WideLineFeed
+        else
+          Source := CleanEOLs(EncodedText)+#10;
+        LineList := VarPythonCreate(Source);
+        LineList := fRemotePython.Rpyc.deliver(LineList.splitlines(True), fRemotePython.Conn);
         FName := '<'+FileTitle+'>';
         fLineCache.cache.__setitem__(VarPythonCreate(FName),
-          VarPythonCreate([0, None, Source, FName], stTuple));
+          VarPythonCreate([0, None, LineList, FName], stTuple));
       end;
 end;
 
@@ -1362,7 +1430,13 @@ begin
   fRemotePython.RestoreCommandLine;
 end;
 
-procedure TPyRemDebugger.Run(Editor: IEditor; InitStepIn: Boolean);
+procedure TPyRemDebugger.Resume;
+begin
+  fDebuggerCommand := dcRun;
+end;
+
+procedure TPyRemDebugger.Run(ARunConfig: TRunConfiguration;
+  InitStepIn: Boolean = False; RunToCursorLine : integer = -1);
 var
   Code : Variant;
   Path, OldPath : string;
@@ -1370,17 +1444,21 @@ var
   ExcInfo : Variant;
   ReturnFocusToEditor: Boolean;
   CanDoPostMortem : Boolean;
+  Editor : IEditor;
 begin
   fRemotePython.CheckConnected;
   CanDoPostMortem := False;
   fDebuggerCommand := dcRun;
-  if (PyControl.DebuggerState <> dsInactive) then exit; // pass control to user_line
+  Assert(PyControl.DebuggerState = dsInactive);
 
   //Compile
-  Code := fRemotePython.Compile(Editor);
+  Code := fRemotePython.Compile(ARunConfig);
 
   if VarIsPython(Code) then begin
-    Path := ExtractFilePath(Editor.FileName);
+    if ARunConfig.WorkingDir <> '' then
+      Path := Parameters.ReplaceInText(ARunConfig.WorkingDir)
+    else
+      Path := ExtractFileDir(ARunConfig.ScriptName);
     OldPath := fRemotePython.RPI.rem_getcwdu();
     if Length(Path) > 1 then begin
       Path := PathRemoveSeparator(Path);
@@ -1398,7 +1476,8 @@ begin
     PyControl.DoStateChange(dsRunning);
 
     MessagesWindow.ClearMessages;
-    ReturnFocusToEditor := Editor = GI_ActiveEditor;
+    Editor := GI_ActiveEditor;
+    ReturnFocusToEditor := Assigned(Editor);
     // Set the layout to the Debug layout is it exists
     if PyIDEMainForm.Layouts.IndexOf('Debug') >= 0 then begin
       PyIDEMainForm.SaveLayout('Current');
@@ -1406,8 +1485,6 @@ begin
       Application.ProcessMessages;
     end else
       PyIDEMainForm.actNavInterpreterExecute(nil);
-    if CommandsDataModule.PyIDEOptions.ClearOutputBeforeRun then
-      PythonIIForm.actClearContentsExecute(nil);
 
     try
       with PythonIIForm do begin
@@ -1428,12 +1505,14 @@ begin
 
       //set breakpoints
       SetDebuggerBreakPoints;
+      if RunToCursorLine >= 0 then  // add temp breakpoint
+        fRemotePython.Debugger.set_break(Code.co_filename, RunToCursorLine, 1);
 
       // New Line for output
       PythonIIForm.AppendText(sLineBreak);
 
       // Set the command line parameters
-      SetCommandLine(Editor.GetFileNameOrTitle);
+      SetCommandLine(ARunConfig);
 
       fRemotePython.Debugger.InitStepIn := InitStepIn;
       try
@@ -1444,15 +1523,11 @@ begin
           if not VarIsNone(ExcInfo) then begin
             fRemotePython.HandleRemoteException(ExcInfo, 2);
             ReturnFocusToEditor := False;
-            Dialogs.MessageDlg(Format('%s: %s',[ExcInfo.getitem(0),
-              fRemotePython.RPI._some_str(ExcInfo.getitem(1))]), mtError, [mbOK], 0);
+            Dialogs.MessageDlg(Format('%s: %s',[ExcInfo.__getitem__(0),
+              fRemotePython.RPI._some_str(ExcInfo.__getitem__(1))]), mtError, [mbOK], 0);
             CanDoPostMortem := True;
             SysUtils.Abort;
           end;
-        end;
-        if fRemotePython.Debugger.interrupted then begin
-          MessagesWindow.AddMessage('Remote Debugging Aborted');
-          MessagesWindow.ShowWindow;
         end;
       except
         // CheckError already called by VarPyth
@@ -1468,15 +1543,16 @@ begin
 
     finally
       VarClear(fCurrentFrame);
-      MakeFrameActive(nil);
       with PythonIIForm do begin
         PS1 := fOldPS1;
         PS2 := fOldPS2;
         AppendText(sLineBreak+PS1);
       end;
 
+      fRemotePython.CheckConnected(True, False);
       if not fRemotePython.fThreadExecInterrupted then begin
         // happpens when the remote server was shutdown
+        MakeFrameActive(nil);
 
         // Restore the command line parameters
         RestoreCommandLine;
@@ -1494,14 +1570,17 @@ begin
       if fRemotePython.fThreadExecInterrupted then begin
         PythonPathAdder := nil;
         PythonIIForm.ClearPendingMessages;
-        fRemotePython.ReInitialize;
+        //fRemotePython.ReInitialize;
+        // Reinitialize destroys the debugger which executes this method!
+        // So handle with a PostMessage
+        PostMessage(PythonIIForm.Handle, WM_REINITINTERPRETER, 0, 0);
       end else if CanDoPostMortem and CommandsDataModule.PyIDEOptions.PostMortemOnException then
         PyControl.ActiveDebugger.EnterPostMortem;
     end;
   end;
 end;
 
-function TPyRemDebugger.RunSource(const Source, FileName: string; symbol : string = 'single'): boolean;
+function TPyRemDebugger.RunSource(Const Source, FileName : Variant; symbol : WideString = 'single') : boolean;
 // The internal interpreter RunSource calls II.runsource which differs
 // according to whether we debugging or not
 Var
@@ -1522,6 +1601,7 @@ procedure TPyRemDebugger.RunToCursor(Editor: IEditor; ALine: integer);
 Var
   FName : string;
 begin
+  Assert(PyControl.DebuggerState = dsPaused);
   // Set Temporary breakpoint
   SetDebuggerBreakPoints;  // So that this one is not cleared
   FName := Editor.FileName;
@@ -1529,15 +1609,12 @@ begin
     FName := '<'+Editor.FileTitle+'>';
   fRemotePython.Debugger.set_break(VarPythonCreate(FName), ALine, 1);
 
-  if PyControl.DebuggerState = dsInactive then
-    Run(Editor)
-  else
-    fDebuggerCommand := dcRunToCursor;
+  fDebuggerCommand := dcRunToCursor;
 end;
 
-procedure TPyRemDebugger.SetCommandLine(const ScriptName: string);
+procedure TPyRemDebugger.SetCommandLine(ARunConfig : TRunConfiguration);
 begin
-  fRemotePython.SetCommandLine(ScriptName);
+  fRemotePython.SetCommandLine(ARunConfig);
 end;
 
 procedure TPyRemDebugger.SetDebuggerBreakpoints;
@@ -1558,7 +1635,7 @@ begin
           if TBreakPoint(BreakPoints[j]).Condition <> '' then begin
             fRemotePython.Debugger.set_break(VarPythonCreate(FName),
               TBreakPoint(BreakPoints[j]).LineNo,
-              0, TBreakPoint(BreakPoints[j]).Condition);
+              0, VarPythonCreate(TBreakPoint(BreakPoints[j]).Condition));
           end else
             fRemotePython.Debugger.set_break(VarPythonCreate(FName),
               TBreakPoint(BreakPoints[j]).LineNo);
@@ -1568,12 +1645,9 @@ begin
   PyControl.BreakPointsChanged := False;
 end;
 
-procedure TPyRemDebugger.StepInto(Editor: IEditor);
+procedure TPyRemDebugger.StepInto;
 begin
-  if PyControl.DebuggerState = dsInactive then
-    Run(Editor, True)
-  else
-    fDebuggerCommand := dcStepInto;
+  fDebuggerCommand := dcStepInto;
 end;
 
 procedure TPyRemDebugger.StepOut;
@@ -1616,7 +1690,7 @@ Var
   SaveThreadState: PPyThreadState;
   NotInMainThread : Boolean;
 begin
-  fCurrentFrame := VarPythonCreate(Args).GetItem(0);
+  fCurrentFrame := VarPythonCreate(Args).__getitem__(0);
   NotInMainThread := GetCurrentThreadId <> MainThreadID;
   with GetPythonEngine do begin
     Result := ReturnNone;

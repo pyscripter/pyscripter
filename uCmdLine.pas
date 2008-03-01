@@ -159,7 +159,7 @@ begin
                 result:=result+' or -'+propertyArray[i].abbreviation;
       else result:=result+'=';
     end;
-    result:=result+#9+propertyArray[i].desc+#13#10;
+    result:=result+#9+#9+propertyArray[i].desc+#13#10;
   end;
 end;
 
@@ -462,10 +462,16 @@ begin
   SetLength(result,p);
 end;
 
+Const
+  sSyntax = 'PyScripter command line syntax:';
+  sOptions = 'Command line options:';
+  sPyScripterCommandLine = 'pyscritper [options] [filename1, [filename2, ...]]';
+
 initialization
   CmdLineReader := TCommandLineReader.Create;
   CmdLineReader.allowDOSStyle:=true;
   CmdLineReader.automaticalShowError := True;
+  CmdLineReader.declareFlag('HELP','Show PyScripter command line options', 'h',False);
   CmdLineReader.declareFlag('NEWINSTANCE','Start a new instance of PyScripter', 'N',False);
   CmdLineReader.declareFlag('DPIAWARE','Make PyScripter DPI aware in VISTA', 'D',False);
   CmdLineReader.declareFlag('DEBUG','Use debug version of Python', 'B',False);
@@ -473,10 +479,22 @@ initialization
   CmdLineReader.declareFlag('PYTHON23','Use Python version 2.3',False);
   CmdLineReader.declareFlag('PYTHON24','Use Python version 2.4',False);
   CmdLineReader.declareFlag('PYTHON25','Use Python version 2.5',False);
+  CmdLineReader.declareFlag('PYTHON30','Use Python version 2.5',False);
   CmdLineReader.declareFile('PYTHONDLLPATH','Use a specific Pythonxx.dll');
 
   try
       CmdLineReader.parse;
+      if CmdLineReader.readFlag('HELP') then begin
+        if system.IsConsole then begin
+          writeln(sSyntax);
+          writeln(sPyScripterCommandLine);
+          writeln(sOptions);
+          writeln(CmdLineReader.avaibleOptions);
+         end else
+          MessageBox(0, PChar(sPyScripterCommandLine + sLineBreak + sOptions + sLineBreak + CmdLineReader.avaibleOptions),
+            sSyntax, MB_ICONINFORMATION or MB_OK);
+        Halt(0);
+      end;
   except
     on E: ECommandLineParseException do Halt(1);
   end;

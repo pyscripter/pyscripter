@@ -424,7 +424,7 @@ begin
     InitializeQuery;
 
     // Add the file path to the Python path - Will be automatically removed
-    PythonPathAdder := InternalInterpreter.AddPathToPythonPath(ExtractFilePath(FileName));
+    PythonPathAdder := InternalInterpreter.AddPathToPythonPath(ExtractFileDir(FileName));
   end;
 
   // GetParsedModule
@@ -489,7 +489,7 @@ begin
     try
       SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
       // only import if it is noat available
-      if SysModule.modules.has_key(DottedModuleName) then
+      if SysModule.modules.__contains__(DottedModuleName) then
       else
         Import(ModuleName);
     except
@@ -530,14 +530,14 @@ begin
     end else
       Result := fParsedModules.Objects[Index] as TParsedModule;
   end else begin
-    InSysModules := SysModule.modules.has_key(DottedModuleName);
-    if InSysModules and VarIsPythonModule(SysModule.modules.GetItem(DottedModuleName)) then begin
+    InSysModules := SysModule.modules.__contains__(DottedModuleName);
+    if InSysModules and VarIsPythonModule(SysModule.modules.__getitem__(DottedModuleName)) then begin
       // If the source file does not exist look at sys.modules to see whether it
       // is available in the interpreter.  If yes then create a proxy module
       Index := fProxyModules.IndexOf(DottedModuleName);
       if Index < 0 then begin
         Index := fProxyModules.AddObject(DottedModuleName,
-          TModuleProxy.CreateFromModule(SysModule.modules.GetItem(DottedModuleName)));
+          TModuleProxy.CreateFromModule(SysModule.modules.__getitem__(DottedModuleName)));
         Result := fProxyModules.Objects[Index] as TParsedModule;
       end else
         Result := fProxyModules.Objects[Index] as TParsedModule;
@@ -601,6 +601,13 @@ Var
 begin
   Result := nil;
   Suffix := DottedIdent;
+  //  Deal with relative imports
+  while (Suffix <> '') and (Suffix[1] = '.') do
+    Delete(Suffix, 1, 1);
+
+  if Suffix = '' then Exit;
+
+
   Prefix := StrToken(Suffix, '.');
   Def := FindUnDottedDefinition(Prefix, ParsedModule, Scope, ErrMsg);
 
@@ -663,7 +670,7 @@ begin
     // then check the builtin module
     NameSpace.Clear;
     if not Assigned(Result) then begin
-      ParsedBuiltInModule := GetParsedModule('__builtin__', None);
+      ParsedBuiltInModule := GetParsedModule(GetPythonEngine.BuiltInModuleName, None);
       if not Assigned(ParsedBuiltInModule) then
         raise ERefactoringException.Create(
           'Internal Error in FindUnDottedDefinition: Could not get the Builtin module');
@@ -696,14 +703,37 @@ end;
 function TPyScripterRefactor.ResolveModuleImport(ModuleImport: TModuleImport) : TParsedModule;
 var
   ParentModule : TParsedModule;
+  ModulePath : string;
+  PythonPath : Variant;
   RealName : string;
+  i : integer;
 begin
+  ParentModule := ModuleImport.GetModule;
   RealName := ModuleImport.RealName;
-  Result := GetParsedModule(RealName, None);
+  PythonPath := None;
+  // Deal with relative imports
+  if ModuleImport.PrefixDotCount > 1 then begin
+    if Assigned(ParentModule) then
+      ModulePath := ExtractFileDir(ParentModule.FileName);
+    i := 1;
+    while (ModulePath <> '') and (DirectoryExists(ModulePath)) and
+      (i < ModuleImport.PrefixDotCount) do
+    begin
+      Inc(i);
+      ModulePath := ExtractFileDir(ModulePath);
+    end;
+    if (i = ModuleImport.PrefixDotCount) and (ModulePath <> '') and
+       (DirectoryExists(ModulePath)) then
+    begin
+      PythonPath := NewPythonList();
+      PythonPath.append(ModulePath);
+    end;
+  end;
+
+  Result := GetParsedModule(RealName, PythonPath);
   if not Assigned(Result) then begin
     // try a relative import
-    ParentModule := ModuleImport.GetModule;
-    if ParentModule.IsPackage then
+    if Assigned(ParentModule) and ParentModule.IsPackage then
       Result := GetParsedModule(ParentModule.Name + '.' + RealName, None);
     { Should we check whether ParentModule belongs to a package?}
   end;
@@ -718,12 +748,40 @@ Var
   ImportedModule : TParsedModule;
   NameSpace : TStringList;
   Index : integer;
+  ParentModule : TParsedModule;
+  ModulePath : string;
+  PythonPath : Variant;
+  i : integer;
 begin
   Result := nil;
   S := ModuleImport.Name + '.' + Ident;
   if fImportResolverCache.IndexOf(S) >= 0 then
     ErrMsg := 'Cyclic imports encountered!'
-  else begin
+  else if (ModuleImport.RealName = '') then begin
+    //  from .. import modulename
+    if ModuleImport.PrefixDotCount > 0 then begin
+      ParentModule := ModuleImport.GetModule;
+      if Assigned(ParentModule) then begin
+        ModulePath := ExtractFileDir(ParentModule.FileName);
+        i := 1;
+        while (ModulePath <> '') and (DirectoryExists(ModulePath)) and
+          (i < ModuleImport.PrefixDotCount) do
+        begin
+          Inc(i);
+          ModulePath := ExtractFileDir(ModulePath);
+        end;
+        if (i = ModuleImport.PrefixDotCount) and (ModulePath <> '') and
+           (DirectoryExists(ModulePath)) then
+        begin
+          PythonPath := NewPythonList();
+          PythonPath.append(ModulePath);
+          Result := GetParsedModule(Ident, PythonPath);
+        end;
+      end;
+    end;
+    if not Assigned(Result) then
+      ErrMsg := Format('Could not find module: "%s"', [Ident]);
+  end else begin
     ImportedModule := ResolveModuleImport(ModuleImport);
     if not Assigned(ImportedModule) then
       ErrMsg := Format('Could not analyse module: "%s"', [ModuleImport.Name])
@@ -802,7 +860,7 @@ begin
     try
       // check standard types
       if vaBuiltIn in AVar.Attributes then begin
-        ParsedBuiltInModule := GetParsedModule('__builtin__', None);
+        ParsedBuiltInModule := GetParsedModule(GetPythonEngine.BuiltInModuleName, None);
         (ParsedBuiltInModule as TModuleProxy).Expand;
         Result := ParsedBuiltInModule.GetChildByName(AVar.ObjType)
       end else if (AVar.ObjType <> '') and Assigned(AVar.Parent) and
@@ -895,7 +953,7 @@ begin
   InitializeQuery;
 
   // Add the file path to the Python path - Will be automatically removed
-  PythonPathAdder := InternalInterpreter.AddPathToPythonPath(ExtractFilePath(FileName));
+  PythonPathAdder := InternalInterpreter.AddPathToPythonPath(ExtractFileDir(FileName));
 
   // GetParsedModule
   ParsedModule := GetParsedModule(FileNameToModuleName(FileName), None);
@@ -1135,11 +1193,13 @@ begin
   InspectModule := Import('inspect');
   ItemsDict := fPyModule.__dict__;
   ItemKeys := ItemsDict.keys();
+  if GetPythonEngine.IsPython3000 then
+    ItemKeys := BuiltinModule.list(ItemKeys);
   ItemKeys.sort();
   for i := 0 to len(ItemKeys) - 1 do begin
     try
-      S := ItemKeys.GetItem(i);
-      ItemValue := ItemsDict.GetItem(S);
+      S := ItemKeys.__getitem__(i);
+      ItemValue := ItemsDict.__getitem__(S);
       if InspectModule.isroutine(ItemValue) then
         AddChild(TFunctionProxy.CreateFromFunction(S, ItemValue))
       else if InspectModule.isclass(ItemValue) then
@@ -1225,11 +1285,13 @@ begin
   InspectModule := Import('inspect');
   ItemsDict := InternalInterpreter.PyInteractiveInterpreter.safegetmembers(fPyClass);
   ItemKeys := ItemsDict.keys();
+  if GetPythonEngine.IsPython3000 then
+    ItemKeys := BuiltinModule.list(ItemKeys);
   ItemKeys.sort();
   for i := 0 to len(ItemKeys) - 1 do begin
     try
-      S := ItemKeys.GetItem(i);
-      ItemValue := ItemsDict.GetItem(S);
+      S := ItemKeys.__getitem__(i);
+      ItemValue := ItemsDict.__getitem__(S);
       if InspectModule.isroutine(ItemValue) then
         AddChild(TFunctionProxy.CreateFromFunction(S, ItemValue))
       else if InspectModule.isclass(ItemValue) then
@@ -1326,11 +1388,13 @@ begin
   InspectModule := Import('inspect');
   ItemsDict := InternalInterpreter.PyInteractiveInterpreter.safegetmembers(fPyFunction);
   ItemKeys := ItemsDict.keys();
+  if GetPythonEngine.IsPython3000 then
+    ItemKeys := BuiltinModule.list(ItemKeys);
   ItemKeys.sort();
   for i := 0 to len(ItemKeys) - 1 do begin
     try
-      S := ItemKeys.GetItem(i);
-      ItemValue := ItemsDict.GetItem(S);
+      S := ItemKeys.__getitem__(i);
+      ItemValue := ItemsDict.__getitem__(S);
       if InspectModule.isroutine(ItemValue) then
         AddChild(TFunctionProxy.CreateFromFunction(S, ItemValue))
       else if InspectModule.isclass(ItemValue) then
@@ -1351,6 +1415,18 @@ begin
     for i := 0 to len(fPyFunction.func_code.co_varnames) - 1 do begin
       Variable := TVariable.Create;
       Variable.Name := fPyFunction.func_code.co_varnames[i];
+      Variable.Parent := Self;
+      if i < NoOfArgs then begin
+        Variable.Attributes := [vaArgument];
+        Arguments.Add(Variable);
+      end else
+        Locals.Add(Variable);
+    end;
+  end else if BuiltinModule.hasattr(fPyFunction, '__code__') then begin  //Python 3000
+    NoOfArgs := fPyFunction.__code__.co_argcount;
+    for i := 0 to len(fPyFunction.__code__.co_varnames) - 1 do begin
+      Variable := TVariable.Create;
+      Variable.Name := fPyFunction.__code__.co_varnames[i];
       Variable.Parent := Self;
       if i < NoOfArgs then begin
         Variable.Attributes := [vaArgument];
@@ -1404,11 +1480,13 @@ begin
   InspectModule := Import('inspect');
   ItemsDict := InternalInterpreter.PyInteractiveInterpreter.safegetmembers(fPyObject);
   ItemKeys := ItemsDict.keys();
+  if GetPythonEngine.IsPython3000 then
+    ItemKeys := BuiltinModule.list(ItemKeys);
   ItemKeys.sort();
   for i := 0 to len(ItemKeys) - 1 do begin
     try
-      S := ItemKeys.GetItem(i);
-      ItemValue := ItemsDict.GetItem(S);
+      S := ItemKeys.__getitem__(i);
+      ItemValue := ItemsDict.__getitem__(S);
       if InspectModule.isroutine(ItemValue) then
         AddChild(TFunctionProxy.CreateFromFunction(S, ItemValue))
       else if InspectModule.isclass(ItemValue) then

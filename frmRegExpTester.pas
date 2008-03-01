@@ -79,7 +79,8 @@ var
 
 implementation
 
-uses dmCommands, uCommonFunctions, frmPyIDEMain, VarPyth, frmPythonII;
+uses dmCommands, uCommonFunctions, frmPyIDEMain, VarPyth, frmPythonII,
+  PythonEngine;
 
 {$R *.dfm}
 
@@ -249,10 +250,13 @@ begin
     1:  begin
           CellText := '';
           GroupDict := RegExp.groupindex;
-          Keys := Groupdict.keys();
+          Keys := Groupdict.keys(); 
+          if GetPythonEngine.IsPython3000 then
+            Keys := BuiltinModule.list(Keys);
+
           for i := 0 to len(Keys) - 1 do
-            if Groupdict.getitem(Keys.getitem(i)) = Node.Index + 1 then begin
-              CellText := Keys.getitem(i);
+            if Groupdict.__getitem__(Keys.__getitem__(i)) = Node.Index + 1 then begin
+              CellText := Keys.__getitem__(i);
               break;
             end;
         end;

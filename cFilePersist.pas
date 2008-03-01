@@ -37,8 +37,8 @@ Type
     EditorOptions2 : TSynEditorOptionsContainer;
   protected
     // IJvAppStorageHandler implementation
-    procedure ReadFromAppStorage(AppStorage: TJvCustomAppStorage; const BasePath: string);
-    procedure WriteToAppStorage(AppStorage: TJvCustomAppStorage; const BasePath: string);
+    procedure ReadFromAppStorage(AppStorage: TJvCustomAppStorage; const BasePath: string); virtual;
+    procedure WriteToAppStorage(AppStorage: TJvCustomAppStorage; const BasePath: string); virtual;
     function CreateListItem(Sender: TJvCustomAppStorage; const Path: string;
       Index: Integer): TPersistent;
   public
@@ -228,9 +228,11 @@ begin
         for j := 0 to FilePersistInfo.BookMarks.Count - 1 do
           with TBookMarkInfo(FilePersistInfo.BookMarks[j]) do
             Editor.SynEdit.SetBookMark(BookMarkNumber, Char, Line);
-        if FilePersistInfo.Highlighter <> '' then
+        if FilePersistInfo.Highlighter <> '' then begin
           Editor.SynEdit.Highlighter := GetHighlighterFromLanguageName(
             FilePersistInfo.Highlighter, CommandsDataModule.Highlighters);
+          Editor.SynEdit2.Highlighter := Editor.SynEdit.Highlighter;
+        end;
         Editor.SynEdit.Assign(FilePersistInfo.EditorOptions);
         if FilePersistInfo.SecondEditorVisible then begin
           Editor.SynEdit2.Assign(FilePersistInfo.EditorOptions2);

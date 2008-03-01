@@ -54,11 +54,11 @@ type
   TGetParameterProc = function : string;
 
   (* function, that will be replaced in texts with its value *)
-  TParameterFunction = function (const AParameters: string): string; far;
+  TParameterFunction = function (const AParameters: string): string;
 
   (* function, that will return property value for given oobject *)
   TObjectPropertyFunction = function (AObject: TObject;const AObjectName,
-                                      APropertyName: string): string; far;
+                                      APropertyName: string): string;
 
   (* function, that will be called if parameter or modifier value is not found *)
   TUnknownParameterFunction = function (Sender: TObject; const AName: string;
@@ -154,10 +154,10 @@ type
 
 (* returns string value for given property *)
 function GetPropertyValue(AObject: TObject;
-                          const AObjectName, APropertyName: string): string; far;
+                          const AObjectName, APropertyName: string): string;
 
 (* adds markers for finding replaced text later *)
-function SetMarkers(const AParameters: string): string; far;
+function SetMarkers(const AParameters: string): string; 
 
 (* returns positions of the markers in the text *)
 function FindMarkers(var AText: string; out Start, Stop: Integer): Boolean;
@@ -203,7 +203,7 @@ begin
   else Result:= AValue;
 end;
 
-function SetMarkers(const AParameters: string): string; far;
+function SetMarkers(const AParameters: string): string;
 (* adds markers for finding replaced text later *)
 begin
   Result:= Concat('$[>]', AParameters, '$[<]');

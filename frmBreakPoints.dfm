@@ -52,6 +52,8 @@ inherited BreakPointsWindow: TBreakPointsWindow
   inherited FGPanel: TPanel
     Width = 370
     Height = 230
+    ExplicitLeft = -1
+    ExplicitTop = -1
     ExplicitWidth = 370
     ExplicitHeight = 230
     object BreakPointsView: TVirtualStringTree
@@ -65,13 +67,13 @@ inherited BreakPointsWindow: TBreakPointsWindow
       BevelOuter = bvNone
       BorderStyle = bsNone
       CheckImageKind = ckXP
-      Header.AutoSizeIndex = -1
+      Header.AutoSizeIndex = 2
       Header.Font.Charset = DEFAULT_CHARSET
       Header.Font.Color = clWindowText
       Header.Font.Height = -11
       Header.Font.Name = 'MS Shell Dlg 2'
       Header.Font.Style = []
-      Header.Options = [hoColumnResize, hoDblClickResize, hoDrag, hoHotTrack, hoOwnerDraw, hoVisible]
+      Header.Options = [hoAutoResize, hoColumnResize, hoDblClickResize, hoDrag, hoHotTrack, hoOwnerDraw, hoVisible]
       Header.ParentFont = True
       HintMode = hmTooltip
       PopupMenu = TBXPopupMenu
@@ -88,7 +90,7 @@ inherited BreakPointsWindow: TBreakPointsWindow
       Columns = <
         item
           Position = 0
-          Width = 300
+          Width = 200
           WideText = 'File Name'
         end
         item
@@ -98,7 +100,7 @@ inherited BreakPointsWindow: TBreakPointsWindow
         end
         item
           Position = 2
-          Width = 200
+          Width = 120
           WideText = 'Condition'
         end>
     end

@@ -51,7 +51,7 @@ uses
   JvAppStorage;
 
 type
-  TFindInFilesAction = (gaCurrentOnlyGrep, gaOpenFilesGrep, gaDirGrep);
+  TFindInFilesAction = (gaCurrentOnlyGrep, gaOpenFilesGrep, gaProjectGrep, gaDirGrep);
 
   // Saved grep settings (used for refresh)
   TGrepSettings = packed record
@@ -167,6 +167,7 @@ type
       SPos, EPos: Integer); virtual;
     procedure GrepCurrentSourceEditor;
     procedure GrepOpenFiles;
+    procedure GrepProjectFiles;
     procedure GrepDirectory(Dir, Mask: string);
     procedure GrepDirectories(const Dir, Mask: string);
   public
@@ -238,7 +239,7 @@ implementation
 uses
   SysUtils, Forms, JclStrings, uEditAppIntfs, Dialogs, JvSearchFiles,
   JclFileUtils, VarPyth, frmFindResults, frmPyIDEMain,
-  dlgFindResultsOptions, Controls, uCommonFunctions;
+  dlgFindResultsOptions, Controls, uCommonFunctions, cProjectClasses;
 
 { TLineMatches }
 
@@ -394,10 +395,26 @@ Var
   FileName: string;
 begin
   for i := 0 to GI_EditorFactory.Count -1 do begin
+    if FAbortSignalled then break;
+
     Editor := GI_EditorFactory.Editor[i];
     FileName := Editor.GetFileNameOrTitle;
     GrepFile(FileName);
   end;
+end;
+
+function GrepProjectFile(Node: TAbstractProjectNode; Data : Pointer):boolean;
+begin
+   Result := TGrepSearchRunner(Data).FAbortSignalled;
+   if not Result and (Node is TProjectFileNode) and
+     (TProjectFileNode(Node).FileName <> '')
+   then
+     TGrepSearchRunner(Data).GrepFile(TProjectFileNode(Node).FileName);
+end;
+
+procedure TGrepSearchRunner.GrepProjectFiles;
+begin
+  ActiveProject.FirstThat(GrepProjectFile, Self);
 end;
 
 procedure TGrepSearchRunner.GrepDirectories(const Dir, Mask: string);
@@ -485,6 +502,8 @@ begin
         GrepCurrentSourceEditor;
       gaOpenFilesGrep:
         GrepOpenFiles;
+      gaProjectGrep:
+        GrepProjectFiles;
       gaDirGrep:
         begin
           if Length(Trim(FGrepSettings.Mask)) = 0 then

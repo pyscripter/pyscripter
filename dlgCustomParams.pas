@@ -4,14 +4,14 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ComCtrls, ExtCtrls, JvExStdCtrls, JvEdit,
-  SynEdit, JvGroupBox, ActnList, TBXDkPanels, SpTBXControls;
+  Dialogs, StdCtrls, ComCtrls, ExtCtrls, JvEdit,
+  SynEdit, ActnList, TBXDkPanels, SpTBXControls;
 
 type                                   
   TCustomizeParams = class(TForm)
     Panel: TPanel;
     lvItems: TListView;
-    JvGroupBox1: TJvGroupBox;
+    GroupBox1: TGroupBox;
     Label1: TLabel;
     Label2: TLabel;
     SynValue: TSynEdit;

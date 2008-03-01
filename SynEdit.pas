@@ -4088,9 +4088,9 @@ var
 begin
   vCaretRowCol := DisplayXY;
   Result := (vCaretRowCol.Column >= LeftChar)
-    and (vCaretRowCol.Column <= LeftChar + CharsInWindow)
+    and (vCaretRowCol.Column < LeftChar + CharsInWindow)
     and (vCaretRowCol.Row >= TopLine)
-    and (vCaretRowCol.Row <= TopLine + LinesInWindow);
+    and (vCaretRowCol.Row < TopLine + LinesInWindow);
 end;
 
 procedure TCustomSynEdit.SetActiveLineColor(Value: TColor);
@@ -8251,6 +8251,7 @@ end;
 
 function TCustomSynEdit.SearchReplace(const ASearch, AReplace: WideString;
   AOptions: TSynSearchOptions): Integer;
+// if Replacing the result is the number of replacements and not the number of found items
 var
   ptStart, ptEnd: TBufferCoord; // start and end of the search range
   ptCurrent: TBufferCoord; // current search position
@@ -8356,7 +8357,7 @@ begin
         Dec(nInLine);
         // Is the search result entirely in the search range?
         if not InValidSearchRange(nFound, nFound + nSearchLen) then continue;
-        Inc(Result);
+        if not (bReplace or bReplaceAll) then Inc(Result);  // otherwise increment on replace
         // Select the text, so the user can see it in the OnReplaceText event
         // handler or as the search result.
 
@@ -8398,6 +8399,7 @@ begin
           end;
           // Allow advanced substition in the search engine
           SelText := fSearchEngine.Replace(SelText, AReplace);
+          Inc(Result);
           nReplaceLen := CaretX - nFound;
         end;
         // fix the caret position and the remaining results

@@ -43,11 +43,11 @@ resourcestring
   SModuleProxyCodeHint = '<b>Module <font color="clBlue">%s</font></b>';
   SPackageProxyCodeHint = '<b>Package <font color="clBlue">%s</font></b>';
   SModuleImportCodeHint = '<b>Imported module <font color="clBlue">%s</font></b>';
-  SRegError = 'Regular Expression Error:';
+  SInvalidRegularExpression = 'Invalid Regular Expression: %s';
   SEmptyList = '(Empty List)';
   SNewFolder = 'New Folder';
   SCommandLineMsg  = 'Command Line : %s' + sLineBreak;
-  SEngineActive = '*** %s Python engine%s is active ***';
+  SEngineActive = '*** %s Python engine %sis active ***';
   SPythonInitError =
   'PyScripter cannot find the standard Python library modules.' + SLineBreak +
   'This sounds like a Python installation error.  Please check the Windows Registry key ' + SLineBreak +

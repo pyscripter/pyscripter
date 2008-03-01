@@ -44,6 +44,9 @@ inherited OutputWindow: TOutputWindow
     0000000000000000000000000000000000000000000000000000FFFF0000}
   ExplicitWidth = 568
   ExplicitHeight = 365
+  DesignSize = (
+    552
+    331)
   PixelsPerInch = 96
   TextHeight = 13
   inherited FGPanel: TPanel
@@ -68,9 +71,9 @@ inherited OutputWindow: TOutputWindow
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -12
-      Font.Name = 'Lucida Console'
+      Font.Name = 'Courier New'
       Font.Style = []
-      ItemHeight = 12
+      ItemHeight = 15
       ParentCtl3D = False
       ParentFont = False
       PopupMenu = OutputPopup

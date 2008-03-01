@@ -48,13 +48,14 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
     0000E00F00008003000000010000000100000001000000010000000100000003
     00000007000080030000E0010000FF800000FFC00000FFE00000FFF00000}
   ExplicitWidth = 249
-  ExplicitHeight = 444
+  ExplicitHeight = 442
   PixelsPerInch = 96
   TextHeight = 13
   inherited FGPanel: TPanel
     Left = 2
     Height = 406
     ExplicitLeft = 2
+    ExplicitTop = -1
     ExplicitHeight = 406
     object StatusBar: TTBXStatusBar
       Left = 0

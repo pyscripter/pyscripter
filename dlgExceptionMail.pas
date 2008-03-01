@@ -274,7 +274,7 @@ begin
   DetailsMemo.Lines.BeginUpdate;
   try
     CreateReport;
-    ReportToLog;
+    if False then ReportToLog;    // no file logging kv
     DetailsMemo.SelStart := 0;
     SendMessage(DetailsMemo.Handle, EM_SCROLLCARET, 0, 0);
     AfterCreateDetails;

@@ -12,10 +12,11 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ComCtrls, JvDockControlForm, JvComponent, cPyBaseDebugger, frmIDEDockWin,
-  Contnrs, ExtCtrls, TBX, TBXThemes, VirtualTrees, JvComponentBase;
+  Contnrs, ExtCtrls, TBX, TBXThemes, VirtualTrees, JvComponentBase,
+  JvAppStorage;
 
 type
-  TCallStackWindow = class(TIDEDockWindow)
+  TCallStackWindow = class(TIDEDockWindow, IJvAppStorageHandler)
     CallStackView: TVirtualStringTree;
     procedure CallStackViewDblClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -33,6 +34,8 @@ type
     SelectedNode: PVirtualNode;
     fCallStackList : TObjectList;
   protected
+    procedure ReadFromAppStorage(AppStorage: TJvCustomAppStorage; const BasePath: string);
+    procedure WriteToAppStorage(AppStorage: TJvCustomAppStorage; const BasePath: string);
     procedure TBMThemeChange(var Message: TMessage); message TBM_THEMECHANGE;
   public
     { Public declarations }
@@ -93,6 +96,13 @@ begin
         if Assigned(WatchesWindow) then WatchesWindow.UpdateWindow(DebuggerState);
       end;
   end;
+end;
+
+procedure TCallStackWindow.WriteToAppStorage(AppStorage: TJvCustomAppStorage;
+  const BasePath: string);
+begin
+  AppStorage.WriteInteger('Function Width', CallStackView.Header.Columns[0].Width);
+  AppStorage.WriteInteger('Line Width', CallStackView.Header.Columns[2].Width);
 end;
 
 procedure TCallStackWindow.ClearAll;
@@ -196,6 +206,13 @@ begin
   if Assigned(SelectedNode) then
     Result :=
       PCallStackRec(CallStackView.GetNodeData(SelectedNode))^.FrameInfo;
+end;
+
+procedure TCallStackWindow.ReadFromAppStorage(AppStorage: TJvCustomAppStorage;
+  const BasePath: string);
+begin
+  CallStackView.Header.Columns[0].Width := AppStorage.ReadInteger('Function Width', 100);
+  CallStackView.Header.Columns[2].Width := AppStorage.ReadInteger('Line Width', 50);
 end;
 
 end.

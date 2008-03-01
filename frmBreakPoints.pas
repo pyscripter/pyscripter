@@ -13,10 +13,10 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, JvDockControlForm, JvComponent, frmIDEDockWin, ExtCtrls,
   Contnrs, TB2Item, Menus, TBX, TBXThemes, VirtualTrees, JvComponentBase,
-  SpTBXItem;
+  SpTBXItem, JvAppStorage;
 
 type
-  TBreakPointsWindow = class(TIDEDockWindow)
+  TBreakPointsWindow = class(TIDEDockWindow, IJvAppStorageHandler)
     TBXPopupMenu: TSpTBXPopupMenu;
     mnClear: TSpTBXItem;
     Breakpoints1: TSpTBXItem;
@@ -45,6 +45,9 @@ type
     fBreakPointsList : TObjectList;
   protected
     procedure TBMThemeChange(var Message: TMessage); message TBM_THEMECHANGE;
+    // IJvAppStorageHandler implementation
+    procedure ReadFromAppStorage(AppStorage: TJvCustomAppStorage; const BasePath: string);
+    procedure WriteToAppStorage(AppStorage: TJvCustomAppStorage; const BasePath: string);
   public
     { Public declarations }
     procedure UpdateWindow;
@@ -95,6 +98,13 @@ begin
   BreakPointsView.RootNodeCount := fBreakPointsList.Count;
 end;
 
+procedure TBreakPointsWindow.WriteToAppStorage(AppStorage: TJvCustomAppStorage;
+  const BasePath: string);
+begin
+  AppStorage.WriteInteger('FileName Width', BreakPointsView.Header.Columns[0].Width);
+  AppStorage.WriteInteger('Line Width', BreakPointsView.Header.Columns[1].Width);
+end;
+
 procedure TBreakPointsWindow.BreakPointLVDblClick(Sender: TObject);
 Var
   Node : PVirtualNode;
@@ -141,6 +151,13 @@ begin
           PyControl.SetBreakPoint(FileName, Line, Disabled, Condition);
       end;
     end;
+end;
+
+procedure TBreakPointsWindow.ReadFromAppStorage(AppStorage: TJvCustomAppStorage;
+  const BasePath: string);
+begin
+  BreakPointsView.Header.Columns[0].Width := AppStorage.ReadInteger('FileName Width', 200);
+  BreakPointsView.Header.Columns[1].Width := AppStorage.ReadInteger('Line Width', 50);
 end;
 
 procedure TBreakPointsWindow.mnCopyToClipboardClick(Sender: TObject);

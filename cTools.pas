@@ -305,8 +305,8 @@ begin
       AppFile := PrepareCommandLine(fExternalTool.ApplicationName);
       if FileExists(AppFile) then begin
         Index := GetIconIndexFromFile(AppFile, True);
-        CommandsDataModule.Images.AddImage(CommandsDataModule.imlShellIcon, Index);
-        ImageIndex := CommandsDataModule.Images.Count - 1;
+        ImageIndex :=
+          CommandsDataModule.Images.AddImage(CommandsDataModule.imlShellIcon, Index);
       end;
     end;
   end;

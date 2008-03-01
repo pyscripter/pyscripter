@@ -29,6 +29,7 @@ uses
 
 const
   WM_APPENDTEXT = WM_USER + 1020;
+  WM_REINITINTERPRETER = WM_USER + 1030;
 
 type
   TPythonIIForm = class(TIDEDockWindow)
@@ -40,10 +41,6 @@ type
     SynParamCompletion: TSynCompletionProposal;
     InterpreterPopUp: TSpTBXPopupMenu;
     InterpreterActionList: TActionList;
-    actCleanUpNameSpace: TAction;
-    actCleanUpSysModules: TAction;
-    TBXItem1: TSpTBXItem;
-    TBXItem2: TSpTBXItem;
     TBXSeparatorItem1: TSpTBXSeparatorItem;
     TBXItem3: TSpTBXItem;
     actCopyHistory: TAction;
@@ -55,7 +52,6 @@ type
     TBXSeparatorItem3: TSpTBXSeparatorItem;
     PyDelphiWrapper: TPyDelphiWrapper;
     PyscripterModule: TPythonModule;
-    TBXSeparatorItem4: TSpTBXSeparatorItem;
     TBXItem5: TSpTBXItem;
     TBXItem6: TSpTBXItem;
     TBXItem8: TSpTBXItem;
@@ -100,21 +96,15 @@ type
       var CanExecute: Boolean);
     procedure SynEditCommandProcessed(Sender: TObject;
       var Command: TSynEditorCommand; var AChar: WideChar; Data: Pointer);
-    procedure actCleanUpNameSpaceExecute(Sender: TObject);
-    procedure InterpreterPopUpPopup(Sender: TObject);
-    procedure actCleanUpSysModulesExecute(Sender: TObject);
     procedure actCopyHistoryExecute(Sender: TObject);
     procedure SynEditDblClick(Sender: TObject);
-    procedure CleanUpMainDictExecute(Sender: TObject; PSelf, Args: PPyObject;
-      var Result: PPyObject);
-    procedure CleanUpSysModulesExecute(Sender: TObject; PSelf, Args: PPyObject;
-      var Result: PPyObject);
     procedure awakeGUIExecute(Sender: TObject; PSelf, Args: PPyObject;
       var Result: PPyObject);
     procedure actClearContentsExecute(Sender: TObject);
     procedure SynEditMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure SynCodeCompletionClose(Sender: TObject);
+    procedure PythonEngineAfterInit(Sender: TObject);
   private
     { Private declarations }
     fCommandHistory : TWideStringList;
@@ -125,6 +115,7 @@ type
     FCriticalSection : TCriticalSection;
     fOutputStream : TMemoryStream;
     fCloseBracketChar: WideChar;
+    fOutputMirror : TFileStream;
     procedure GetBlockBoundary(LineN: integer; var StartLineN,
               EndLineN: integer; var IsCode: Boolean);
     function GetPromptPrefix(line: string): string;
@@ -138,6 +129,7 @@ type
     procedure PythonIOReceiveData(Sender: TObject; var Data: WideString);
     procedure TBMThemeChange(var Message: TMessage); message TBM_THEMECHANGE;
     procedure WMAPPENDTEXT(var Message: TMessage); message WM_APPENDTEXT;
+    procedure WMREINITINTERPRETER(var Message: TMessage); message WM_REINITINTERPRETER;
   public
     { Public declarations }
     PS1, PS2 : WideString;
@@ -158,6 +150,8 @@ type
     procedure ExecReplace;
     procedure RegisterHistoryCommands;
     procedure SetPythonEngineType(PythonEngineType : TPythonEngineType);
+    procedure StartOutputMirror(AFileName : WideString; Append : Boolean);
+    procedure StopFileMirror;
     property ShowOutput : boolean read fShowOutput write fShowOutput;
     property CommandHistory : TWideStringList read fCommandHistory;
     property CommandHistoryPointer : integer read fCommandHistoryPointer write fCommandHistoryPointer;
@@ -221,6 +215,32 @@ begin
   CommandsDataModule.PaintMatchingBrackets(Canvas, SynEdit, TransientType);
 end;
 
+procedure TPythonIIForm.PythonEngineAfterInit(Sender: TObject);
+Var
+  Keywords, Builtins : Variant;
+  i : integer;
+begin
+  // Execute initialization script
+  with GetPythonEngine do begin
+    if IsPython3000 then
+      ExecStrings(CommandsDataModule.JvMultiStringHolder.StringsByName['InitScript3000'])
+    else
+      ExecStrings(CommandsDataModule.JvMultiStringHolder.StringsByName['InitScript'])
+  end;
+
+  // Setup Highlighter keywords
+  Assert(Assigned(PythonGlobalKeywords));
+  PythonGlobalKeywords.Clear;
+  Keywords := Import('keyword').kwlist;
+  for i := 0 to Len(Keywords) - 1 do
+    PythonGlobalKeywords.AddObject(Keywords.__getitem__(i), Pointer(Ord(tkKey)));
+  Builtins := BuiltinModule.dir(BuiltinModule);
+  for i := 0 to Len(Builtins) - 1 do
+    PythonGlobalKeywords.AddObject(Builtins.__getitem__(i), Pointer(Ord(tkNonKeyword)));
+  CommandsDataModule.SynPythonSyn.Keywords.Assign(PythonGlobalKeywords);
+  (SynEdit.Highlighter as TSynPythonInterpreterSyn).Keywords.Assign(PythonGlobalKeywords);
+end;
+
 procedure TPythonIIForm.PythonIOReceiveData(Sender: TObject;
   var Data: WideString);
 Var
@@ -243,12 +263,19 @@ begin
 end;
 
 procedure TPythonIIForm.PythonIOSendData(Sender: TObject; const Data: WideString);
+Var
+  S : string;
 begin
   if fShowOutput then begin
     fCriticalSection.Acquire;
     try
       fOutputStream.Write(Data[1], Length (Data) * 2);
       //fOutputStream.Write(WideLineBreak[1], Length (WideLineBreak) * 2);  RawOutput
+      if Assigned(fOutputMirror) then begin
+        S := Utf8Encode(Data);
+        fOutputMirror.Write(S[1], Length(S));
+      end;
+
       if GetCurrentThreadId = MainThreadId then
         WritePendingMessages
       else
@@ -257,16 +284,6 @@ begin
       fCriticalSection.Release;
     end;
   end;
-end;
-
-procedure TPythonIIForm.actCleanUpNameSpaceExecute(Sender: TObject);
-begin
-  CommandsDataModule.PyIDEOptions.CleanupMainDict := (Sender as TAction).Checked;
-end;
-
-procedure TPythonIIForm.actCleanUpSysModulesExecute(Sender: TObject);
-begin
-  CommandsDataModule.PyIDEOptions.CleanupSysModules := (Sender as TAction).Checked;
 end;
 
 procedure TPythonIIForm.actClearContentsExecute(Sender: TObject);
@@ -285,8 +302,11 @@ Var
   Cursor : IInterface;
   RemoteInterpreter : TPyRemoteInterpreter;
   Connected : Boolean;
-  ServerType : TServerType;
+  Msg : string;
 begin
+//  if PythonEngineType = CommandsDataModule.PyIDEOptions.PythonEngineType then
+//    Exit;
+
   if PyControl.DebuggerState <> dsInactive then begin
     MessageDlg('Cannot change the Python engine while it is active.',
       mtError, [mbAbort], 0);
@@ -306,12 +326,12 @@ begin
     peRemote, peRemoteTk, peRemoteWx:
       begin
         Application.ProcessMessages;
-        ServerType := TServerType(Ord(PythonEngineType) -1);
         Cursor := WaitCursor;
         // Destroy any active remote interpeter
+        PyControl.ActiveDebugger := nil;
         PyControl.ActiveInterpreter := nil;
         try
-          RemoteInterpreter := TPyRemoteInterpreter.Create(ServerType);
+          RemoteInterpreter := TPyRemoteInterpreter.Create(PythonEngineType);
           Connected := RemoteInterpreter.IsConnected;
         except
           Connected := False;
@@ -329,6 +349,17 @@ begin
         end;
       end;
   end;
+  case CommandsDataModule.PyIDEOptions.PythonEngineType of
+    peInternal :  Msg := Format(SEngineActive, ['Internal','']);
+    peRemote : Msg := Format(SEngineActive, ['Remote','']);
+    peRemoteTk : Msg := Format(SEngineActive, ['Remote','(Tkinter) ']);
+    peRemoteWx : Msg := Format(SEngineActive, ['Remote','(wxPython) ']);
+  end;
+  if SynEdit.Lines[SynEdit.Lines.Count-1] = PS1 then
+    SynEdit.Lines.Delete(SynEdit.Lines.Count -1);
+  AppendText(WideLineBreak + Msg);
+  AppendPrompt;
+
   PyControl.DoStateChange(dsInactive);
 end;
 
@@ -497,6 +528,7 @@ begin
   FreeAndNil(fCommandHistory);
   FreeAndNil(FCriticalSection);
   FreeAndNil(fOutputStream);
+  FreeAndNil(fOutputMirror);
   inherited;
 end;
 
@@ -615,15 +647,23 @@ begin
             NeedIndent := False;  // True denotes an incomplete statement
             case PyControl.DebuggerState of
               dsInactive :
-                NeedIndent :=
-                  PyControl.ActiveInterpreter.RunSource(EncodedSource, '<interactive input>');
+                if GetPythonEngine.IsPython3000 then
+                  NeedIndent :=
+                    PyControl.ActiveInterpreter.RunSource(Source, '<interactive input>')
+                else
+                  NeedIndent :=
+                    PyControl.ActiveInterpreter.RunSource(EncodedSource, '<interactive input>');
               dsPaused, dsPostMortem :
-                NeedIndent :=
-                  PyControl.ActiveDebugger.RunSource(EncodedSource, '<interactive input>');
+                if GetPythonEngine.IsPython3000 then
+                  NeedIndent :=
+                    PyControl.ActiveDebugger.RunSource(Source, '<interactive input>')
+                else
+                  NeedIndent :=
+                    PyControl.ActiveDebugger.RunSource(EncodedSource, '<interactive input>');
               else //dsRunning, dsRunningNoDebug
                 // it is dangerous to execute code while running scripts
                 // so just beep and do nothing
-                Beep();
+                MessageBeep(MB_ICONERROR);
             end;
 
             if not NeedIndent then begin
@@ -1209,6 +1249,33 @@ begin
       Result := nil;
 end;
 
+procedure TPythonIIForm.StartOutputMirror(AFileName: WideString;
+  Append: Boolean);
+Var
+  Mode : integer;
+begin
+  fCriticalSection.Acquire;
+  try
+    FreeAndNil(fOutputMirror);
+    try
+      if Append and FileExists(AFileName) then
+        Mode := fmOpenReadWrite
+      else
+        Mode := fmCreate;
+      fOutputMirror := TFileStream.Create(AFileName, Mode or fmShareDenyWrite);
+
+      if Append and (fOutputMirror.Size > 0) then
+        fOutputMirror.Seek(0, soFromEnd)
+      else
+        fOutputMirror.Write(UTF8BOMString[1], Length(UTF8BomString));  // save in utf8 encoding
+    except
+      MessageDlg(Format('Could not open/create %s', [AFileName]), mtWarning, [mbOK], 0);
+    end;
+  finally
+    fCriticalSection.Release;
+  end;
+end;
+
 procedure TPythonIIForm.StatusWriteExecute(Sender: TObject; PSelf,
   Args: PPyObject; var Result: PPyObject);
 // statusWrite
@@ -1222,6 +1289,16 @@ begin
       Result := ReturnNone;
     end else
       Result := nil;
+end;
+
+procedure TPythonIIForm.StopFileMirror;
+begin
+  fCriticalSection.Acquire;
+  try
+    FreeAndNil(fOutputMirror);
+  finally
+    fCriticalSection.Release;
+  end;
 end;
 
 procedure TPythonIIForm.MessageWriteExecute(Sender: TObject; PSelf,
@@ -1254,11 +1331,21 @@ begin
   Result := GetPythonEngine.PyLong_FromUnsignedLong(Get8087CW);
 end;
 
+Var
+  AwakeCount : integer;  //static variable
 procedure TPythonIIForm.awakeGUIExecute(Sender: TObject; PSelf, Args: PPyObject;
   var Result: PPyObject);
 begin
-  PyControl.DoYield(False);
-  //PostMessage(Application.Handle, WM_NULL, 0, 0);
+  //  This routine is called 100 times a second
+  //  Do the Idle handling only twice per second to avoid slow down.
+  if AwakeCount > 50 then begin
+    AwakeCount := 0;
+    PyControl.DoYield(True);
+  end else begin
+    Inc(AwakeCount);
+    PyControl.DoYield(False);
+  end;
+//  PostMessage(Application.Handle, WM_NULL, 0, 0);
   Result := GetPythonEngine.ReturnNone;
 end;
 
@@ -1281,57 +1368,37 @@ end;
 procedure TPythonIIForm.testResultStartTestExecute(Sender: TObject; PSelf,
   Args: PPyObject; var Result: PPyObject);
 begin
-  UnitTestWindow.StartTest(VarPythonCreate(Args).GetItem(0));
+  UnitTestWindow.StartTest(VarPythonCreate(Args).__getitem__(0));
   Result := GetPythonEngine.ReturnNone;
 end;
 
 procedure TPythonIIForm.testResultStopTestExecute(Sender: TObject; PSelf,
   Args: PPyObject; var Result: PPyObject);
 begin
-  UnitTestWindow.StopTest(VarPythonCreate(Args).GetItem(0));
+  UnitTestWindow.StopTest(VarPythonCreate(Args).__getitem__(0));
   Result := GetPythonEngine.ReturnNone;
-end;
-
-procedure TPythonIIForm.CleanUpMainDictExecute(Sender: TObject; PSelf,
-  Args: PPyObject; var Result: PPyObject);
-begin
-  if CommandsDataModule.PyIDEOptions.CleanupMainDict then
-    Result := PPyObject(GetPythonEngine.Py_True)
-  else
-    Result := PPyObject(GetPythonEngine.Py_False);
-  GetPythonEngine.Py_INCREF( Result );
-end;
-
-procedure TPythonIIForm.CleanUpSysModulesExecute(Sender: TObject; PSelf,
-  Args: PPyObject; var Result: PPyObject);
-begin
-  if CommandsDataModule.PyIDEOptions.CleanupSysModules then
-    Result := PPyObject(GetPythonEngine.Py_True)
-  else
-    Result := PPyObject(GetPythonEngine.Py_False);
-  GetPythonEngine.Py_INCREF( Result );
 end;
 
 procedure TPythonIIForm.testResultAddSuccess(Sender: TObject; PSelf,
   Args: PPyObject; var Result: PPyObject);
 begin
-  UnitTestWindow.AddSuccess(VarPythonCreate(Args).GetItem(0));
+  UnitTestWindow.AddSuccess(VarPythonCreate(Args).__getitem__(0));
   Result := GetPythonEngine.ReturnNone;
 end;
 
 procedure TPythonIIForm.testResultAddFailure(Sender: TObject; PSelf,
   Args: PPyObject; var Result: PPyObject);
 begin
-  UnitTestWindow.AddFailure(VarPythonCreate(Args).GetItem(0),
-    VarPythonCreate(Args).GetItem(1));
+  UnitTestWindow.AddFailure(VarPythonCreate(Args).__getitem__(0),
+    VarPythonCreate(Args).__getitem__(1));
   Result := GetPythonEngine.ReturnNone;
 end;
 
 procedure TPythonIIForm.testResultAddError(Sender: TObject; PSelf,
   Args: PPyObject; var Result: PPyObject);
 begin
-  UnitTestWindow.AddError(VarPythonCreate(Args).GetItem(0),
-    VarPythonCreate(Args).GetItem(1));
+  UnitTestWindow.AddError(VarPythonCreate(Args).__getitem__(0),
+    VarPythonCreate(Args).__getitem__(1));
   Result := GetPythonEngine.ReturnNone;
 end;
 
@@ -1352,22 +1419,6 @@ begin
   end;
 end;
 
-procedure TPythonIIForm.InterpreterPopUpPopup(Sender: TObject);
-begin
-  if CommandsDataModule.PyIDEOptions.PythonEngineType <> peInternal then begin
-    // CleanupNamespace and CleanUpSysModules are set to false by these engines and should stay so
-    actCleanUpNameSpace.Enabled := False;
-    actCleanUpSysModules.Enabled := False;
-  end else begin
-    actCleanUpNameSpace.Enabled := True;
-    actCleanUpSysModules.Enabled := True;
-  end;
-  actCleanUpNameSpace.Checked :=
-    actCleanUpNameSpace.Enabled and CommandsDataModule.PyIDEOptions.CleanupMainDict;
-  actCleanUpSysModules.Checked :=
-    actCleanUpSysModules.Enabled and CommandsDataModule.PyIDEOptions.CleanupSysModules;
-end;
-
 procedure TPythonIIForm.WMAPPENDTEXT(var Message: TMessage);
 Var
   Msg : TMsg;
@@ -1376,6 +1427,12 @@ begin
   while PeekMessage(Msg, 0, WM_APPENDTEXT, WM_APPENDTEXT, PM_REMOVE) do
     ; // do nothing
   WritePendingMessages;
+end;
+
+procedure TPythonIIForm.WMREINITINTERPRETER(var Message: TMessage);
+begin
+  if Assigned(PyControl.ActiveInterpreter) then
+    PyControl.ActiveInterpreter.ReInitialize;
 end;
 
 function TPythonIIForm.IsEmpty : Boolean;
@@ -1497,7 +1554,9 @@ begin
   else if CmdLineReader.readFlag('PYTHON24') then
     expectedVersion := '2.4'
   else if CmdLineReader.readFlag('PYTHON25') then
-    expectedVersion := '2.5';
+    expectedVersion := '2.5'
+  else if CmdLineReader.readFlag('PYTHON30') then
+    expectedVersion := '3.0';
   PythonEngine.DllPath := CmdLineReader.readString('PYTHONDLLPATH');
   UseDebugVersion := CmdLineReader.readFlag('DEBUG');
 

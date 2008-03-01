@@ -55,5 +55,12 @@
     <Transaction>2007/09/21 05:14:39.316.pas,C:\Sandbox\P4D\PythonForDelphi\PythonIDE\JvDSAAppStorage.pas=</Transaction>
     <Transaction>2007/09/21 05:46:59.985.pas,C:\Sandbox\P4D\PythonForDelphi\PythonIDE\JvTabBar.pas=</Transaction>
     <Transaction>2007/09/21 05:48:55.433.pas,C:\Sandbox\P4D\PythonForDelphi\PythonIDE\JvDockSupportControl.pas=</Transaction>
+    <Transaction>2007/11/30 23:49:55.665.pas,C:\Sandbox\P4D\PythonForDelphi\PythonIDE\Unit1.pas=C:\Sandbox\P4D\PythonForDelphi\PythonIDE\cProjectClasses.pas</Transaction>
+    <Transaction>2007/12/01 22:45:48.603.pas,C:\Sandbox\P4D\PythonForDelphi\PythonIDE\Unit1.pas=C:\Sandbox\P4D\PythonForDelphi\PythonIDE\frmProjectExplorer.pas</Transaction>
+    <Transaction>2007/12/01 22:45:48.603.dfm,C:\Sandbox\P4D\PythonForDelphi\PythonIDE\Unit1.dfm=C:\Sandbox\P4D\PythonForDelphi\PythonIDE\frmProjectExplorer.dfm</Transaction>
+    <Transaction>2007/12/12 04:05:30.431.pas,C:\Sandbox\P4D\PythonForDelphi\PythonIDE\Unit1.pas=C:\Sandbox\P4D\PythonForDelphi\PythonIDE\dlgImportDirectory.pas</Transaction>
+    <Transaction>2007/12/12 04:05:30.431.dfm,C:\Sandbox\P4D\PythonForDelphi\PythonIDE\Unit1.dfm=C:\Sandbox\P4D\PythonForDelphi\PythonIDE\dlgImportDirectory.dfm</Transaction>
+    <Transaction>2007/12/15 22:40:22.403.pas,C:\Sandbox\P4D\PythonForDelphi\PythonIDE\Unit1.pas=C:\Sandbox\P4D\PythonForDelphi\PythonIDE\dlgRunConfiguration.pas</Transaction>
+    <Transaction>2007/12/15 22:40:22.423.dfm,C:\Sandbox\P4D\PythonForDelphi\PythonIDE\Unit1.dfm=C:\Sandbox\P4D\PythonForDelphi\PythonIDE\dlgRunConfiguration.dfm</Transaction>
   </Transactions>
 </BorlandProject>

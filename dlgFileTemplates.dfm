@@ -55,7 +55,7 @@ object FileTemplatesDialog: TFileTemplatesDialog
       ViewStyle = vsReport
       OnChange = lvItemsChange
     end
-    object JvGroupBox: TJvGroupBox
+    object GroupBox: TGroupBox
       Left = 10
       Top = 150
       Width = 511
@@ -87,13 +87,13 @@ object FileTemplatesDialog: TFileTemplatesDialog
         FocusControl = edCategory
       end
       object Label4: TLabel
-        Left = 8
+        Left = 7
         Top = 242
         Width = 204
         Height = 13
         Caption = 'Press Shift+Ctrl+M for Modifier completion'
         Font.Charset = DEFAULT_CHARSET
-        Font.Color = clGradientActiveCaption
+        Font.Color = clGrayText
         Font.Height = -11
         Font.Name = 'MS Shell Dlg 2'
         Font.Style = []
@@ -106,7 +106,7 @@ object FileTemplatesDialog: TFileTemplatesDialog
         Height = 13
         Caption = 'Press Shift+Ctrl+P for Parameter completion'
         Font.Charset = DEFAULT_CHARSET
-        Font.Color = clGradientActiveCaption
+        Font.Color = clGrayText
         Font.Height = -11
         Font.Name = 'MS Shell Dlg 2'
         Font.Style = []

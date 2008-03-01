@@ -12,14 +12,14 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ComCtrls, ExtCtrls, JvExStdCtrls, JvEdit,
-  SynEdit,  JvGroupBox, ActnList, TBXDkPanels, SpTBXControls;
+  Dialogs, StdCtrls, ComCtrls, ExtCtrls, JvEdit,
+  SynEdit,  ActnList, TBXDkPanels, SpTBXControls;
 
 type
   TCodeTemplates = class(TForm)
     Panel: TPanel;
     lvItems: TListView;
-    JvGroupBox: TJvGroupBox;
+    GroupBox: TGroupBox;
     Label1: TLabel;
     Label2: TLabel;
     SynTemplate: TSynEdit;

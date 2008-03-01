@@ -70,6 +70,7 @@ type
     chkInclude: TSpTBXCheckBox;
     radScanOpen: TSpTBXRadioButton;
     radScanDir: TSpTBXRadioButton;
+    radScanProject: TSpTBXRadioButton;
     procedure btnInsertClick(Sender: TObject);
     procedure btnRemoveClick(Sender: TObject);
     procedure btnApplyClick(Sender: TObject);

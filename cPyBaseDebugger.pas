@@ -9,7 +9,7 @@ unit cPyBaseDebugger;
 
 interface
 uses
-  Windows, SysUtils, Classes, uEditAppIntfs, PythonEngine, Forms, Contnrs;
+  Windows, SysUtils, Classes, uEditAppIntfs, PythonEngine, Forms, Contnrs, cTools;
 
 type
   TPythonEngineType = (peInternal, peRemote, peRemoteTk, peRemoteWx);
@@ -34,6 +34,38 @@ type
   TDebuggerStateChangeEvent = procedure(Sender: TObject;
     OldState, NewState: TDebuggerState) of object;
   TDebuggerYieldEvent = procedure(Sender: TObject; DoIdle : Boolean) of object;
+
+  TRunConfiguration = class(TPersistent)
+  private
+    fScriptName: WideString;
+    fEngineType: TPythonEngineType;
+    fWorkingDir: WideString;
+    fParameters: WideString;
+    fReinitializeBeforeRun: Boolean;
+    fOutputFileName: WideString;
+    fWriteOutputToFile: Boolean;
+    fAppendToFile: Boolean;
+    fExternalRun: TExternalRun;
+    fDescription: WideString;
+    procedure SetExternalRun(const Value: TExternalRun);
+  public
+    constructor Create;
+    destructor Destroy; override;
+    procedure Assign(Source: TPersistent); override;
+  published
+    property ScriptName : WideString read fScriptName write fScriptName;
+    property Description : WideString read fDescription write fDescription;
+    property EngineType : TPythonEngineType read fEngineType write fEngineType;
+    property ReinitializeBeforeRun : Boolean read fReinitializeBeforeRun
+      write fReinitializeBeforeRun;
+    property Parameters : WideString read fParameters write fParameters;
+    property WorkingDir : WideString read fWorkingDir write fWorkingDir;
+    property WriteOutputToFile : Boolean read fWriteOutputToFile
+      write fWriteOutputToFile;
+    property OutputFileName : WideString read fOutputFileName write fOutputFileName;
+    property AppendToFile : Boolean read fAppendToFile write fAppendToFile;
+    property ExternalRun : TExternalRun read fExternalRun write SetExternalRun;
+  end;
 
   TEditorPos = class(TPersistent)
   public
@@ -95,6 +127,7 @@ type
   //  Base (abstract) class for implementing Python Interpreters
   protected
     fInterpreterCapabilities : TInterpreterCapabilities;
+    fEngineType : TPythonEngineType;
   public
     // Python Path
     function SysPathAdd(const Path : WideString) : boolean; virtual; abstract;
@@ -109,21 +142,23 @@ type
       var DisplayString, DocString : string) : Boolean; virtual; abstract;
     // Service routines
     procedure HandlePyException(E : EPythonError; SkipFrames : integer = 1); virtual;
-    procedure SetCommandLine(const ScriptName : string); virtual; abstract;
+    procedure SetCommandLine(ARunConfig : TRunConfiguration); virtual; abstract;
     procedure RestoreCommandLine; virtual; abstract;
     procedure ReInitialize; virtual;
     // Main interface
     function ImportModule(Editor : IEditor; AddToNameSpace : Boolean = False) : Variant; virtual; abstract;
-    procedure RunNoDebug(Editor : IEditor); virtual; abstract;
-    function RunSource(Const Source, FileName : string; symbol : string = 'single') : boolean; virtual; abstract;
+    procedure RunNoDebug(ARunConfig : TRunConfiguration); virtual; abstract;
+    function RunSource(Const Source, FileName : Variant; symbol : WideString = 'single') : boolean; virtual; abstract;
     function EvalCode(const Expr : string) : Variant; virtual; abstract;
+    function GetObjectType(Ob : Variant) : string; virtual; abstract;
+    property EngineType : TPythonEngineType read fEngineType;
     property InterpreterCapabilities : TInterpreterCapabilities read fInterpreterCapabilities;
   end;
 
   TPyBaseDebugger = class(TObject)
   {  Base (abstract) class for implementing Python Debuggers }
   protected
-    procedure SetCommandLine(const ScriptName : string); virtual; abstract;
+    procedure SetCommandLine(ARunConfig : TRunConfiguration); virtual; abstract;
     procedure RestoreCommandLine; virtual; abstract;
     procedure SetDebuggerBreakpoints; virtual; abstract;
   public
@@ -132,17 +167,19 @@ type
     function SysPathRemove(const Path : WideString) : boolean; virtual; abstract;
     function AddPathToPythonPath(const Path : string; AutoRemove : Boolean = True) : IInterface;
     // Debugging
-    procedure Run(Editor : IEditor; InitStepIn : Boolean = False); virtual; abstract;
+    procedure Run(ARunConfig : TRunConfiguration; InitStepIn : Boolean = False;
+            RunToCursorLine : integer = -1); virtual; abstract;
     procedure RunToCursor(Editor : IEditor; ALine: integer); virtual; abstract;
-    procedure StepInto(Editor : IEditor); virtual; abstract;
+    procedure StepInto; virtual; abstract;
     procedure StepOver; virtual; abstract;
     procedure StepOut; virtual; abstract;
+    procedure Resume; virtual; abstract;
     procedure Pause; virtual; abstract;
     procedure Abort; virtual; abstract;
     // Evaluate expression in the current frame
     procedure Evaluate(const Expr : string; out ObjType, Value : string); virtual; abstract;
     // Like the InteractiveInterpreter runsource but for the debugger frame
-    function RunSource(Const Source, FileName : string; symbol : string = 'single') : boolean; virtual; abstract;
+    function RunSource(Const Source, FileName : Variant; symbol : WideString = 'single') : boolean; virtual; abstract;
     // Fills in CallStackList with TBaseFrameInfo objects
     procedure GetCallStack(CallStackList : TObjectList); virtual; abstract;
     // functions to get TBaseNamespaceItems corresponding to a frame's gloabals and locals
@@ -173,9 +210,14 @@ type
     fOnYield: TDebuggerYieldEvent;
     fActiveInterpreter : TPyBaseInterpreter;
     fActiveDebugger : TPyBaseDebugger ;
+    fRunConfig : TRunConfiguration;
     procedure DoOnBreakpointChanged(Editor : IEditor; ALine: integer);
     procedure SetActiveDebugger(const Value: TPyBaseDebugger);
     procedure SetActiveInterpreter(const Value: TPyBaseInterpreter);
+    function GetPythonEngineType: TPythonEngineType;
+    procedure SetPythonEngineType(const Value: TPythonEngineType);
+    procedure SetRunConfig(ARunConfig: TRunConfiguration);
+    procedure PrepareRun;
   public
     // ActiveInterpreter and ActiveDebugger are created
     // and destroyed in frmPythonII
@@ -200,7 +242,14 @@ type
     procedure DoYield(DoIdle : Boolean);
     // Other
     function IsRunning: boolean;
+    // Running Python Scripts
+    procedure Run(ARunConfig : TRunConfiguration);
+    procedure Debug(ARunConfig : TRunConfiguration;  InitStepIn : Boolean = False;
+      RunToCursorLine : integer = -1);
+    procedure ExternalRun(ARunConfig : TRunConfiguration);
     // properties and events
+    property PythonEngineType : TPythonEngineType read GetPythonEngineType
+      write SetPythonEngineType;
     property ActiveInterpreter : TPyBaseInterpreter read fActiveInterpreter
       write SetActiveInterpreter;
     property ActiveDebugger : TPyBaseDebugger read fActiveDebugger
@@ -210,6 +259,7 @@ type
     property DebuggerState : TDebuggerState read fDebuggerState;
     property ErrorPos: TEditorPos read fErrorPos;
     property CurrentPos: TEditorPos read fCurrentPos;
+    property RunConfig : TRunConfiguration read fRunConfig;
     property OnBreakpointChange: TBreakpointChangeEvent read fOnBreakpointChange
       write fOnBreakpointChange;
     property OnCurrentPosChange: TNotifyEvent read fOnCurrentPosChange
@@ -261,7 +311,8 @@ implementation
 
 uses dmCommands, frmPythonII, VarPyth, frmMessages, frmPyIDEMain,
   MMSystem, Math, JvDockControlForm, JclFileUtils, Dialogs, uCommonFunctions,
-  cParameters, JclSysUtils, StringResources, SynUnicode, cPyDebugger;
+  cParameters, JclSysUtils, StringResources, SynUnicode, cPyDebugger,
+  frmCommandOutput;
 
 { TEditorPos }
 
@@ -410,12 +461,34 @@ begin
   fCurrentPos.Clear;
   fErrorPos := TEditorPos.Create;
   fErrorPos.Clear;
+  fRunConfig := TRunConfiguration.Create;
+end;
+
+procedure TPythonControl.Debug(ARunConfig: TRunConfiguration; InitStepIn : Boolean = False;
+      RunToCursorLine : integer = -1);
+begin
+  SetRunConfig(ARunConfig);
+
+  if not Assigned(ActiveDebugger) then Exit;
+
+  PrepareRun;
+
+  if fRunConfig.WriteOutputToFile then
+    PythonIIForm.StartOutputMirror(Parameters.ReplaceInText(fRunConfig.OutputFileName),
+      fRunConfig.AppendToFile);
+  try
+    ActiveDebugger.Run(fRunConfig, InitStepIn, RunToCursorLine);
+  finally
+    if fRunConfig.WriteOutputToFile then
+      PythonIIForm.StopFileMirror;
+  end;
 end;
 
 destructor TPythonControl.Destroy;
 begin
   fCurrentPos.Free;
   fErrorPos.Free;
+  fRunConfig.Free;
   inherited;
 end;
 
@@ -438,6 +511,14 @@ begin
       else
         Include(Result, dlBreakpointLine);
   end;
+end;
+
+function TPythonControl.GetPythonEngineType: TPythonEngineType;
+begin
+  if Assigned(ActiveInterpreter) then
+    Result := ActiveInterpreter.EngineType
+  else
+    Result := peInternal;
 end;
 
 function TPythonControl.IsBreakpointLine(Editor: IEditor; ALine: integer;
@@ -555,6 +636,12 @@ begin
   end;
 end;
 
+procedure TPythonControl.SetPythonEngineType(const Value: TPythonEngineType);
+begin
+  if Value <> PythonEngineType then
+    PythonIIForm.SetPythonEngineType(Value);
+end;
+
 procedure TPythonControl.ClearAllBreakpoints;
 Var
   i : integer;
@@ -608,9 +695,63 @@ begin
     fOnYield(Self, DoIdle);
 end;
 
+procedure TPythonControl.ExternalRun(ARunConfig: TRunConfiguration);
+begin
+  SetRunConfig(ARunConfig);
+  OutputWindow.ExecuteTool(fRunConfig.ExternalRun);
+end;
+
+procedure TPythonControl.PrepareRun;
+begin
+  if CommandsDataModule.PyIDEOptions.SaveFilesBeforeRun then
+    PyIDEMainForm.SaveFileModules;
+  if CommandsDataModule.PyIDEOptions.SaveEnvironmentBeforeRun then
+    PyIDEMainForm.SaveEnvironment;
+  if CommandsDataModule.PyIDEOptions.ClearOutputBeforeRun then
+    PythonIIForm.actClearContentsExecute(nil);
+
+  if fRunConfig.EngineType <> PythonEngineType then
+    PythonEngineType := fRunConfig.EngineType
+  else if (icReInitialize in ActiveInterpreter.InterpreterCapabilities) and
+    fRunConfig.ReinitializeBeforeRun
+  then
+    ActiveInterpreter.ReInitialize;
+end;
+
+procedure TPythonControl.SetRunConfig(ARunConfig: TRunConfiguration);
+begin
+  if ARunConfig <> fRunConfig then
+  begin
+    fRunConfig.Assign(ARunConfig);
+    // Expand Parameters in filename
+    fRunConfig.fScriptName := '';  // to avoid circular substitution
+    fRunConfig.fScriptName := Parameters.ReplaceInText(ARunConfig.fScriptName);
+    PyIDEMainForm.SetRunLastScriptHints(fRunConfig.fScriptName);
+  end;
+end;
+
 function TPythonControl.IsRunning: boolean;
 begin
   Result := fDebuggerState in [dsRunning, dsRunningNoDebug];
+end;
+
+procedure TPythonControl.Run(ARunConfig: TRunConfiguration);
+begin
+  SetRunConfig(ARunConfig);
+
+  if not Assigned(ActiveInterpreter) then Exit;
+
+  PrepareRun;
+
+  if fRunConfig.WriteOutputToFile then
+    PythonIIForm.StartOutputMirror(Parameters.ReplaceInText(fRunConfig.OutputFileName),
+      fRunConfig.AppendToFile);
+  try
+    ActiveInterpreter.RunNoDebug(fRunConfig);
+  finally
+    if fRunConfig.WriteOutputToFile then
+      PythonIIForm.StopFileMirror;
+  end;
 end;
 
 { TPyBaseDebugger }
@@ -619,6 +760,50 @@ function TPyBaseDebugger.AddPathToPythonPath(const Path: string;
   AutoRemove: Boolean): IInterface;
 begin
   Result := TPythonPathAdder.Create(SysPathAdd, SysPathRemove, Path, AutoRemove);
+end;
+
+{ TRunConfiguration }
+
+procedure TRunConfiguration.Assign(Source: TPersistent);
+begin
+  if Source is TRunConfiguration then with TRunConfiguration(Source) do begin
+    Self.fScriptName := ScriptName;
+    Self.fDescription := Description;
+    Self.fEngineType := EngineType;
+    Self.fWorkingDir := WorkingDir;
+    Self.fParameters := fParameters;
+    Self.fReinitializeBeforeRun := ReinitializeBeforeRun;
+    Self.fWriteOutputToFile := WriteOutputToFile;
+    Self.fOutputFileName := OutputFileName;
+    Self.fAppendToFile := AppendToFile;
+    Self.fExternalRun.Assign(fExternalRun);
+  end else
+    inherited;
+end;
+
+constructor TRunConfiguration.Create;
+begin
+  inherited;
+  fEngineType := peRemote;
+  fOutputFileName := '$[ActiveScript-NoExt].log';
+  fWorkingDir := '$[ActiveScript-Dir]';
+  fExternalRun := TExternalRun.Create;
+  fExternalRun.Assign(ExternalPython);
+  fExternalRun.Caption := 'External Run';
+  fExternalRun.Description := 'Run script using an external Python Interpreter';
+  fExternalRun.Parameters := '$[ActiveScript-Short]';
+  fExternalRun.WorkingDirectory := '$[ActiveScript-Dir]';
+end;
+
+destructor TRunConfiguration.Destroy;
+begin
+  fExternalRun.Free;
+  inherited;
+end;
+
+procedure TRunConfiguration.SetExternalRun(const Value: TExternalRun);
+begin
+  fExternalRun.Assign(Value);
 end;
 
 initialization
