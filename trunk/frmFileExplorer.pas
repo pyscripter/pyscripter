@@ -212,41 +212,35 @@ end;
 procedure TFileExplorerWindow.FileExplorerTreeDblClick(Sender: TObject);
 Var
   NameSpace : TNameSpace;
-  NameSpaceArray : TNameSpaceArray;
 begin
-  NameSpaceArray := FileExplorerTree.SelectedToNamespaceArray;
-  if Length(NameSpaceArray) > 0 then begin
-    NameSpace := NameSpaceArray[Low(NameSpaceArray)];
-    if not NameSpace.Folder and NameSpace.FileSystem  then
+  if FileExplorerTree.ValidateNamespace(FileExplorerTree.GetFirstSelected, NameSpace) and
+      not NameSpace.Folder and NameSpace.FileSystem
+  then
       PyIDEMainForm.DoOpenFile(NameSpace.NameForParsing);
-  end;
 end;
 
 procedure TFileExplorerWindow.ExploreHereClick(Sender: TObject);
 Var
-  NameSpaceArray : TNameSpaceArray;
+  NameSpace : TNameSpace;
 begin
-  NameSpaceArray := FileExplorerTree.SelectedToNamespaceArray;
-  if (Length(NameSpaceArray) > 0) and
-    NameSpaceArray[Low(NameSpaceArray)].Folder
+  if FileExplorerTree.ValidateNamespace(FileExplorerTree.GetFirstSelected, NameSpace) and
+    NameSpace.Folder
   then begin
-    PostMessage(Handle, WM_EXPLOREHERE, 0,
-      Integer(NameSpaceArray[Low(NameSpaceArray)].AbsolutePIDL));
+    PostMessage(Handle, WM_EXPLOREHERE, 0, Integer(NameSpace.AbsolutePIDL));
   end;
 end;
 
 procedure TFileExplorerWindow.actSearchPathExecute(Sender: TObject);
 Var
-  NameSpaceArray : TNameSpaceArray;
+  NameSpace : TNameSpace;
 begin
   if not Assigned(FindResultsWindow) then Exit;
-  NameSpaceArray := FileExplorerTree.SelectedToNamespaceArray;
-  if (Length(NameSpaceArray) > 0) and
-    NameSpaceArray[Low(NameSpaceArray)].Folder
+  if FileExplorerTree.ValidateNamespace(FileExplorerTree.GetFirstSelected, NameSpace) and
+    NameSpace.Folder
   then begin
-    AddMRUString(NameSpaceArray[Low(NameSpaceArray)].NameForParsing,
+    AddMRUString(NameSpace.NameForParsing,
        FindResultsWindow.FindInFilesExpert.DirList, True);
-    FindResultsWindow.FindInFilesExpert.GrepSearch := 2;  //Directory
+    FindResultsWindow.FindInFilesExpert.GrepSearch := 3;  //Directory
     FindResultsWindow.Execute(False)
   end;
 end;
@@ -264,11 +258,11 @@ end;
 
 function TFileExplorerWindow.GetExplorerPath: string;
 begin
-  With FileExplorerTree.RootFolderNamespace do
-  if IsDesktop or IsMyComputer or not FileSystem then
-    Result := ''
-  else
-    Result := NameForParsing;
+  Result := '';
+  if Assigned (FileExplorerTree.RootFolderNamespace) then
+    with FileExplorerTree.RootFolderNamespace do
+      if not (IsDesktop or IsMyComputer or not FileSystem) then
+        Result := NameForParsing;
 end;
 
 procedure TFileExplorerWindow.mnFavouritesPopup(Sender: TTBCustomItem;
@@ -316,7 +310,8 @@ procedure TFileExplorerWindow.actGoUpExecute(Sender: TObject);
 Var
   PIDL: PItemIDList;
 begin
-  if FileExplorerTree.RootFolderNamespace.IsDesktop then Exit;  // No parent!
+  if not Assigned(FileExplorerTree.RootFolderNamespace) or
+    FileExplorerTree.RootFolderNamespace.IsDesktop then Exit;  // No parent!
 
   PIDL := PIDLMgr.CopyPIDL(FileExplorerTree.RootFolderNamespace.AbsolutePIDL);
   try
@@ -329,14 +324,13 @@ end;
 
 procedure TFileExplorerWindow.actAddToFavouritesExecute(Sender: TObject);
 Var
-  NameSpaceArray : TNameSpaceArray;
+  NameSpace : TNameSpace;
   Path : string;
 begin
-  NameSpaceArray := FileExplorerTree.SelectedToNamespaceArray;
-  if (Length(NameSpaceArray) > 0) and
-    NameSpaceArray[Low(NameSpaceArray)].Folder
+  if FileExplorerTree.ValidateNamespace(FileExplorerTree.GetFirstSelected, NameSpace) and
+    NameSpace.Folder
   then begin
-    Path := NameSpaceArray[Low(NameSpaceArray)].NameForParsing;
+    Path := NameSpace.NameForParsing;
     if fFavourites.IndexOf(Path) < 0 then
       fFavourites.Add(Path);
   end;
@@ -354,20 +348,21 @@ end;
 
 procedure TFileExplorerWindow.actNewFolderExecute(Sender: TObject);
 Var
-  NameSpaceArray : TNameSpaceArray;
-  Node : PVirtualNode;
+  NameSpace : TNameSpace;
+  SelectedNode, Node : PVirtualNode;
   TargetPath : string;
 begin
-  NameSpaceArray := FileExplorerTree.SelectedToNamespaceArray;
-  if (Length(NameSpaceArray) > 0) and
-    NameSpaceArray[Low(NameSpaceArray)].Folder
+  SelectedNode := FileExplorerTree.GetFirstSelected;
+  if FileExplorerTree.ValidateNamespace(SelectedNode, NameSpace) and
+    NameSpace.Folder
   then begin
-    TargetPath := NameSpaceArray[Low(NameSpaceArray)].NameForParsing +
-      PathDelim + SNewFolder;
+    TargetPath := NameSpace.NameForParsing + PathDelim + SNewFolder;
     TargetPath := UniqueDirName(TargetPath);
     CreateDirectory(PChar(TargetPath), nil);
     SHChangeNotify(SHCNE_MKDIR, SHCNF_PATH, PChar(TargetPath), nil);
-    FileExplorerTree.RefreshNode(FileExplorerTree.GetFirstSelected);
+    FileExplorerTree.RefreshNode(SelectedNode);
+    if not (vsExpanded in SelectedNode.States) then
+      FileExplorerTree.ToggleNode(SelectedNode);
     Node := FileExplorerTree.FindNode(TargetPath);
     if Assigned(Node) then begin
       FileExplorerTree.ClearSelection;
@@ -385,11 +380,11 @@ end;
 procedure TFileExplorerWindow.FileExplorerActionsUpdate(
   Action: TBasicAction; var Handled: Boolean);
 Var
-  NameSpaceArray : TNameSpaceArray;
+  NameSpace : TNameSpace;
 begin
-  NameSpaceArray := FileExplorerTree.SelectedToNamespaceArray;
-  actSearchPath.Enabled :=  (Length(NameSpaceArray) > 0) and
-    NameSpaceArray[Low(NameSpaceArray)].Folder;
+  actSearchPath.Enabled :=
+    FileExplorerTree.ValidateNamespace(FileExplorerTree.GetFirstSelected, NameSpace) and
+    NameSpace.Folder;
   actAddToFavourites.Enabled := actSearchPath.Enabled;
   actNewFolder.Enabled := actSearchPath.Enabled;
   actExploreHere.Enabled := actSearchPath.Enabled;
@@ -417,6 +412,7 @@ procedure TFileExplorerWindow.FormDestroy(Sender: TObject);
 begin
   inherited;
   fFavourites.Free;
+  FileExplorerWindow := nil;
 end;
 
 procedure TFileExplorerWindow.TBXItemBackPopup(Sender: TTBCustomItem;

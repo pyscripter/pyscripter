@@ -1297,10 +1297,14 @@ procedure TfmEditorOptionsDialog.EnableColorItems(aEnable : Boolean);
 begin
   cbElementForeground.Enabled := aenable;
   cbElementBackground.Enabled := aenable;
-  cbxElementBold.enabled := aenable;
-  cbxElementItalic.enabled := aenable;
-  cbxElementUnderline.enabled := aenable;
-  cbxElementStrikeout.enabled := aenable;
+  cbxElementBold.Enabled := aenable;
+  cbxElementItalic.Enabled := aenable;
+  cbxElementUnderline.Enabled := aenable;
+  cbxElementStrikeout.Enabled := aenable;
+  if aEnable then begin
+    cbElementForeground.HandleNeeded;
+    cbElementBackground.HandleNeeded;
+  end;
 end;
 
 procedure TfmEditorOptionsDialog.cbElementForegroundChange(

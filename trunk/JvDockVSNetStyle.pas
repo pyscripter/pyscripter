@@ -1392,7 +1392,7 @@ var
   Pane: TJvDockVSPane;
 begin
   Pane := FindPane(Control);
-  if Assigned(Pane) then
+  if Assigned(Pane) then 
     HidePopupPanel(Pane);
 end;
 
@@ -2611,9 +2611,63 @@ begin
 end;
 
 procedure TJvDockVSNetStyle.Timer(Sender: TObject);
+
+  function IsPopupWindow(Handle : HWND) : Boolean;
+  Var
+    OwningProcess: DWORD;
+    LStyle : Cardinal;
+  begin
+    Result := False;
+    if (Handle <> 0) and (GetWindowThreadProcessID(Handle, OwningProcess) <> 0) and
+       (OwningProcess = GetCurrentProcessId) then
+    begin
+      LStyle := GetWindowLong(Handle, GWL_STYLE);
+      if WS_POPUP and LSTYLE <> 0 then
+        Result := True;
+    end;
+  end;
+
+  Const
+    GW_ENABLEDPOPUP = 6;
+
+  function PointIsOnPopup(P : TPoint; GlobalCheck : Boolean) : Boolean;
+  Var
+    Control: TWinControl;
+    Handle : HWND;
+    Rect : TRect;
+    ActivePopupWindow : Boolean;
+  begin
+    Control := FindVCLWindow(P);
+    Result := ControlIsOnPopup(Control);
+    if not Result then begin
+      // Check whether a popup window is currently displayed (hint, popup menu)
+      Handle := WindowFromPoint(P);
+      ActivePopupWindow :=  IsPopUpWindow(Handle);
+      if not ActivePopupWindow and GlobalCheck then begin
+        Handle := GetWindow(Application.Handle, GW_ENABLEDPOPUP);
+        ActivePopupWindow :=  IsPopUpWindow(Handle);
+        if not ActivePopupWindow then begin
+          Handle := GetTopWindow(GetDesktopWindow);
+          ActivePopupWindow :=  IsPopUpWindow(Handle);
+        end;
+      end;
+
+      if ActivePopupWindow then begin
+        GetWindowRect(Handle, Rect);
+        // Search for a control one pixel to the left;
+        Dec(Rect.Left);
+        Result := PointIsOnPopup(Rect.TopLeft, False);
+        if not Result then begin
+          // Search for a control one pixel to the Right;
+          Inc(Rect.Right);
+          Result := PointIsOnPopup(Point(Rect.Right, Rect.Top), False);
+        end;
+      end;
+    end;
+  end;
+
 var
   P: TPoint;
-  Control: TWinControl;
   I: Integer;
   ADockServer: TJvDockServer;
 begin
@@ -2625,8 +2679,8 @@ begin
   if (GetAsyncKeyState(VK_LBUTTON) and $8000) <> 0 then
     Exit;
   GetCursorPos(P);
-  Control := FindVCLWindow(P);
-  if ControlIsOnPopup(Control) then
+
+  if PointIsOnPopup(P, True) then
   begin
     { Reset timer }
     FCurrentTimer := ChannelOption.HideHoldTime;

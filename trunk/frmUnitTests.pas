@@ -166,9 +166,9 @@ begin
         TestCase := InnerTestSuite._tests[j];
         //  set the TestStatus
         TestCase.testStatus := Ord(tsNotRun);
-        TestCase.errMsg := '';
+        TestCase.errMsg := WideString('');
         TestCase.enabled := True;
-        ClassName := TestCase.__class__.__name__;
+        ClassName := PyControl.ActiveInterpreter.GetObjectType(TestCase);
         Index := TestClasses.IndexOf(ClassName);
         if Index < 0 then begin
           SL := TStringList.Create;
@@ -433,7 +433,7 @@ begin
         PPyObject(TStringList(TestClasses.Objects[TestCaseNode.Parent.Index]).Objects[TestCaseNode.Index]);
       TestCase := VarPythonCreate(PyTestCase);
       TestCase.testStatus := Ord(tsNotRun);
-      TestCase.errMsg := '';
+      TestCase.errMsg := WideString('');
       if TestCase.enabled then
         TempTestSuite._tests.append(TestCase);
       TestCaseNode := TestCaseNode.NextSibling;
@@ -667,13 +667,21 @@ begin
       if InspectModule.ismethod(PythonObject) then begin
         FileName := InspectModule.getsourcefile(PythonObject);
         if FileName = 'None' then begin
-          FileName := PythonObject.im_func.func_code.co_filename;
-          if ExtractFileExt(FileName) <> '' then
-            Exit;
-          // otherwise it should be an unsaved file
-          LineNo := PythonObject.im_func.func_code.co_firstlineno-1;
+          if GetPythonEngine.IsPython3000 then begin
+            FileName := PythonObject.__func__.__code__.co_filename;
+            if ExtractFileExt(FileName) <> '' then
+              Exit;
+            // otherwise it should be an unsaved file
+            LineNo := PythonObject.__func__.__code__.co_firstlineno-1;
+          end else begin
+            FileName := PythonObject.im_func.func_code.co_filename;
+            if ExtractFileExt(FileName) <> '' then
+              Exit;
+            // otherwise it should be an unsaved file
+            LineNo := PythonObject.im_func.func_code.co_firstlineno-1;
+          end;
         end else
-          LineNo := InspectModule.findsource(PythonObject).GetItem(1);
+          LineNo := InspectModule.findsource(PythonObject).__getitem__(1);
         PyIDEMainForm.ShowFilePosition(FileName, Succ(LineNo), 1);
       end;
     end;

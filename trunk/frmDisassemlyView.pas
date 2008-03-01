@@ -55,9 +55,12 @@ Const
   'def GetDis(m):'#10 +
 	     #9'import dis'#10 +
 	     #9'import sys'#10 +
-	     #9'import StringIO'#10 +
+       #9'if sys.version_info[0]==3:'#10 +
+            #9#9'StringIO = __import__("io").StringIO'#10 +
+       #9'else:'#10 +
+            #9#9'StringIO = __import__("StringIO").StringIO'#10 +
 	     #9'oldstdout = sys.stdout'#10 +
-	     #9'sys.stdout = StringIO.StringIO()'#10 +
+	     #9'sys.stdout = StringIO()'#10 +
 	     #9'try:'#10 +
 		        #9#9'dis.dis(m)'#10 +
             #9#9'result = sys.stdout.getvalue()'#10 +

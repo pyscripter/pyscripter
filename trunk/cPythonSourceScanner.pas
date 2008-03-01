@@ -51,6 +51,7 @@ Type
   TModuleImport = class(TBaseCodeElement)
   private
     fRealName : String; // used if name is an alias
+    fPrefixDotCount : integer; // for relative package imports
     function GetRealName: string;
   protected
     function GetCodeHint : string; override;
@@ -59,6 +60,7 @@ Type
     ImportAll : Boolean;
     ImportedNames : TObjectList;
     property RealName : string read GetRealName;
+    property PrefixDotCount : integer read fPrefixDotCount;
     constructor Create(AName : string; CB : TCodeBlock);
     destructor Destroy; override;
   end;
@@ -211,7 +213,7 @@ uses uCommonFunctions, JclStrings, JclFileUtils, cRefactoring, VarPyth,
 Const
   IdentRE = '[A-Za-z_][A-Za-z0-9_]*';
   DottedIdentRE = '[A-Za-z_][A-Za-z0-9_.]*';
-  MaskChar = #163;
+  MaskChar = #96;
 
   NoOfImplicitContinuationBraces = 3;
   ImplicitContinuationBraces : array[0..NoOfImplicitContinuationBraces-1] of
@@ -430,7 +432,7 @@ begin
   fLineContinueRE := CompiledRegExpr('\\[ \t]*(#.*)?$');
   fImportRE := CompiledRegExpr('^[ \t]*import[ \t]+([^#;]+)');
   fFromImportRE :=
-    CompiledRegExpr(Format('^[ \t]*from[ \t]+(%s)[ \t]+import[ \t]+([^#;]+)', [DottedIdentRE]));
+    CompiledRegExpr(Format('^[ \t]*from[ \t]+(\.*)(%s)?[ \t]+import[ \t]+([^#;]+)', [DottedIdentRE]));
   fAssignmentRE :=
     CompiledRegExpr(Format('^([ \t]*(self.)?%s[ \t]*(,[ \t]*(self.)?%s[ \t]*)*(=))+[ \t]*((%s)(\(?))?',
       [IdentRE, IdentRE, DottedIdentRE]));
@@ -825,16 +827,17 @@ begin
         CodeStart := LineNo;
         if ProcessLineContinuation(P, Line, LineNo, LineStarts) then
           fFromImportRE.Exec(Line);  // reparse
-        ModuleImport := TModuleImport.Create(fFromImportRE.Match[1],
+        ModuleImport := TModuleImport.Create(fFromImportRE.Match[2],
           CodeBlock(CodeStart, LineNo));
+        ModuleImport.fPrefixDotCount := Length(fFromImportRE.Match[1]);
         ModuleImport.fCodePos.LineNo := CodeStart;
-        ModuleImport.fCodePos.CharOffset := fFromImportRE.MatchPos[1];
-        S := fFromImportRE.Match[2];
+        ModuleImport.fCodePos.CharOffset := fFromImportRE.MatchPos[2];
+        S := fFromImportRE.Match[3];
         if Trim(S) = '*' then
           ModuleImport.ImportAll := True
         else begin
           ModuleImport.ImportedNames := TObjectList.Create(True);
-          CharOffset := fFromImportRE.MatchPos[2];
+          CharOffset := fFromImportRE.MatchPos[3];
           if Pos('(', S) > 0 then begin
             Inc(CharOffset);
             S := StrRemoveChars(S, ['(',')']); //from module import (a,b,c) form
@@ -1313,8 +1316,10 @@ begin
     try
       for i := 0 to ChildCount - 1 do begin
         CE := Children[i];
-        if (CE.Name = '__init__') and (CE is TParsedFunction) then
+        if (CE.Name = '__init__') and (CE is TParsedFunction) then begin
           Result := TParsedFunction(CE);
+          break;
+        end;
       end;
 
       if not Assigned(Result) then begin
@@ -1324,7 +1329,7 @@ begin
             Module, self.Parent as TCodeElement, ErrMsg);
           if not (Assigned(BaseClass) and (BaseClass is TParsedClass)) then continue;
           // we have found BaseClass
-          Result := TParsedClass(BaseClass).GetConstructor;
+          Result := TParsedClass(BaseClass).GetConstructorImpl(BaseClassResolver);
           if Assigned(Result) then break;
         end;
       end;

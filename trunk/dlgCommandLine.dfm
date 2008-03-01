@@ -25,8 +25,6 @@ object CommandLineDlg: TCommandLineDlg
     Height = 150
     Align = alClient
     TabOrder = 0
-    ExplicitWidth = 458
-    ExplicitHeight = 151
     DesignSize = (
       446
       150)
@@ -50,7 +48,7 @@ object CommandLineDlg: TCommandLineDlg
       Anchors = [akLeft, akBottom]
       Caption = 'Parameters : Shift+Ctrl+P, Modifiers : Shift+Ctrl+M '
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clGradientActiveCaption
+      Font.Color = clGrayText
       Font.Height = -11
       Font.Name = 'MS Shell Dlg 2'
       Font.Style = []
@@ -65,8 +63,8 @@ object CommandLineDlg: TCommandLineDlg
       Anchors = [akLeft, akRight, akBottom]
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
-      Font.Height = -12
-      Font.Name = 'Lucida Console'
+      Font.Height = -11
+      Font.Name = 'Courier New'
       Font.Style = []
       TabOrder = 0
       OnEnter = SynParametersEnter
@@ -76,11 +74,10 @@ object CommandLineDlg: TCommandLineDlg
       Gutter.Font.Name = 'Courier New'
       Gutter.Font.Style = []
       Gutter.Width = 0
+      HideSelection = True
       Options = [eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoShowScrollHint, eoSmartTabDelete, eoSmartTabs, eoTabsToSpaces]
       ScrollBars = ssNone
       WantReturns = False
-      ExplicitTop = 64
-      ExplicitWidth = 408
     end
     object OKButton: TBitBtn
       Left = 100
@@ -91,8 +88,6 @@ object CommandLineDlg: TCommandLineDlg
       TabOrder = 1
       OnClick = OKButtonClick
       Kind = bkOK
-      ExplicitLeft = 112
-      ExplicitTop = 116
     end
     object BitBtn2: TBitBtn
       Left = 194
@@ -102,8 +97,6 @@ object CommandLineDlg: TCommandLineDlg
       Anchors = [akRight, akBottom]
       TabOrder = 2
       Kind = bkCancel
-      ExplicitLeft = 206
-      ExplicitTop = 116
     end
     object HelpButton: TBitBtn
       Left = 289
@@ -114,8 +107,6 @@ object CommandLineDlg: TCommandLineDlg
       TabOrder = 3
       OnClick = btnHelpClick
       Kind = bkHelp
-      ExplicitLeft = 301
-      ExplicitTop = 116
     end
     object TBXButton1: TSpTBXButton
       Left = 419
@@ -133,8 +124,6 @@ object CommandLineDlg: TCommandLineDlg
       LinkFont.Height = -11
       LinkFont.Name = 'Tahoma'
       LinkFont.Style = [fsUnderline]
-      ExplicitLeft = 422
-      ExplicitTop = 64
     end
     object cbUseCommandLine: TSpTBXCheckBox
       Left = 8

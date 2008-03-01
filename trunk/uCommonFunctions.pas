@@ -133,7 +133,8 @@ function ParsePySourceEncoding(Textline : string): string;
 function SyncWideInputQuery(const ACaption, APrompt: WideString; var Value: WideString): Boolean;
 
 (* Covert all line breaks to #10 *)
-function CleanEOLs(S: string): string;
+function CleanEOLs(S: string): string; overload;
+function CleanEOLs(S: WideString): WideString; overload;
 
 (* Similar to Delphi's IdentToInt but operating on sorted IdentMapEntries *)
 function SortedIdentToInt(const Ident: string; var Int: Longint;
@@ -158,7 +159,8 @@ procedure ExtractPyErrorInfo(E: Variant; var FileName: string; var LineNo: Integ
 implementation
 Uses
   Controls, Forms, StdCtrls, ShellApi, JclFileUtils, Math, VarPyth,
-  JclStrings, JclBase, SynRegExpr, Consts, TntDialogs, TntSysUtils, StrUtils;
+  JclStrings, JclBase, SynRegExpr, Consts, TntDialogs, TntSysUtils, StrUtils,
+  WideStrUtils;
 
 function GetIconIndexFromFile(const AFileName: string;
   const ASmall: boolean): integer;
@@ -1019,6 +1021,11 @@ end;
 function CleanEOLs(S: string): string;
 begin
   Result := AdjustLineBreaks(S, System.tlbsLF)
+end;
+
+function CleanEOLs(S: WideString): WideString;
+begin
+  Result := WideAdjustLineBreaks(S, System.tlbsLF)
 end;
 
 function SortedIdentToInt(const Ident: string; var Int: Longint;

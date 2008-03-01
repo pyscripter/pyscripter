@@ -43,7 +43,6 @@ Known Issues:
 @lastmod(2003-02-13)
 The SynHighlighterPython implements a highlighter for Python for the SynEdit projects.
 }
-
 {$IFNDEF QSYNHIGHLIGHTERPYTHON}
 unit SynHighlighterPython;
 {$ENDIF}
@@ -57,12 +56,13 @@ uses
   QGraphics,
   QSynEditHighlighter,
   QSynEditTypes,
-  QSynUnicode,  
+  QSynUnicode,
 {$ELSE}
   Graphics,
   SynEditHighlighter,
   SynEditTypes,
-  SynUnicode, {$IFDEF USE_JCL_UNICODE_SUPPORT} JclUnicode, {$ENDIF}
+  //SynUnicode, {$IFDEF USE_JCL_UNICODE_SUPPORT} JclUnicode, {$ENDIF}
+  WideStrings,  //Use Delphi's one which provide a case sensitive property
 {$ENDIF}
   SysUtils,
   Classes, SynRegExpr;
@@ -127,10 +127,10 @@ type
     function GetSampleSource: WideString; override;
     function IsFilterStored: Boolean; override;
     function GetKeywordIdentifiers: TWideStringList;
-    property Keywords: TWideStringList read FKeywords;
     property TokenID: TtkTokenKind read FTokenID;
     procedure DispatchProc; virtual;
   public
+    property Keywords: TWideStringList read FKeywords;
     class function GetLanguageName: string; override;
     class function GetFriendlyLanguageName: WideString; override;
   public
@@ -201,6 +201,7 @@ type
     procedure PromptProc(Len : integer);
   protected
     procedure DispatchProc; override;
+    function GetSampleSource: WideString; override;
   public
     class function GetLanguageName: string; override;
     class function GetFriendlyLanguageName: WideString; override;
@@ -223,6 +224,9 @@ type
     property PM : string read fPM write fPM;
   end;
 
+var
+  PythonGlobalKeywords: TWideStringList;
+
 implementation
 
 uses
@@ -240,9 +244,6 @@ resourcestring
   SYNS_FriendlyCommentedCode = 'Commented Code';
   SYNS_FriendlyFunctionName = 'Function Name';
   SYNS_FriendlyClassName = 'Class Name';
-
-var
-  GlobalKeywords: TWideStringList;
 
 function TSynPythonSyn.GetKeyWords(TokenKind: Integer): WideString;
 begin
@@ -435,17 +436,17 @@ const
 var
   f: Integer;
 begin
-  if not Assigned (GlobalKeywords) then
+  if not Assigned (PythonGlobalKeywords) then
   begin
     // Create the string list of keywords - only once
-    GlobalKeywords := TWideStringList.Create;
+    PythonGlobalKeywords := TWideStringList.Create;
 
     for f := 1 to KEYWORDCOUNT do
-      GlobalKeywords.AddObject(KEYWORDS[f], Pointer(Ord(tkKey)));
+      PythonGlobalKeywords.AddObject(KEYWORDS[f], Pointer(Ord(tkKey)));
     for f := 1 to NONKEYWORDCOUNT do
-      GlobalKeywords.AddObject(NONKEYWORDS[f], Pointer(Ord(tkNonKeyword)));
+      PythonGlobalKeywords.AddObject(NONKEYWORDS[f], Pointer(Ord(tkNonKeyword)));
   end; // if
-  Result := GlobalKeywords;
+  Result := PythonGlobalKeywords;
 end;
 
 function TSynPythonSyn.IdentKind(MayBe: PWideChar): TtkTokenKind;
@@ -468,9 +469,9 @@ begin
   if ((Run <= 0) or (FLine[Run-1]<> '.')) and (fLastIdentifier <> 'class') and
     (fLastIdentifier <> 'def') and FKeywords.Find(s, i) then
   begin
-    // TWideStringList is not case sensitive!
-    if s <> FKeywords[i] then
-      i := -1;
+//    // TWideStringList is not case sensitive!  KV Not now using Delphi's WideStringList
+//    if s <> FKeywords[i] then
+//      i := -1;
   end
   else
     i := -1;
@@ -507,8 +508,9 @@ begin
   fCaseSensitive := True;
 
   FKeywords := TWideStringList.Create;
+  FKeywords.CaseSensitive := True;
+  FKeywords.Duplicates := dupIgnore;
   FKeywords.Sorted := True;
-  FKeywords.Duplicates := dupError;
   FKeywords.Assign (GetKeywordIdentifiers);
 
   fRange := rsUnknown;
@@ -1415,7 +1417,7 @@ begin
   fTracebackStartRE := TRegExpr.Create;
   fTracebackStartRE.Expression := '^Traceback \(|File ".*line';
   fTracebackEndRE := TRegExpr.Create;
-  fTracebackEndRE.Expression := '^\w*(Error|Exception|Warning|KeyboardInterrupt):'
+  fTracebackEndRE.Expression := '^\w*(Error|Exception|Warning|KeyboardInterrupt):';
 end;
 
 procedure TSynPythonInterpreterSyn.DispatchProc;
@@ -1467,6 +1469,25 @@ begin
   Result := SYNS_LangPythonInterpreter;
 end;
 
+function TSynPythonInterpreterSyn.GetSampleSource: WideString;
+begin
+  Result :=
+    '*** Python 2.5.1 (r251:54863, Apr 18 2007, 08:51:08) [MSC v.1310 32 bit (Intel)] on win32. ***'#13#10 +
+    '>>> print [1, 2, 3]'#13#10 +
+    '[1, 2, 3]'#13#10 +
+    '>>> print 1/0'#13#10 +
+    'Traceback (most recent call last):'#13#10 +
+    '  File "<interactive input>", line 1, in <module>'#13#10 +
+    'ZeroDivisionError: integer division or modulo by zero'#13#10 +
+    '>>> import string, sys'#13#10 +
+    '>>> class Conversions:'#13#10 +
+    '... """A collection of conversion functions"""'#13#10 +
+    '...    if len(sys.argv) < 1:'#13#10 +
+    '...        print ''Usage: number[, number, ...]'''#13#10 +
+    '...        sys.exit(2)'#13#10 +
+    '...        assert 0x00 == 00    #well, it better';
+end;
+
 function TSynPythonInterpreterSyn.GetTokenAttribute: TSynHighlighterAttributes;
 begin
   case fTokenID of
@@ -1515,5 +1536,5 @@ initialization
   RegisterPlaceableHighlighter(TSynPythonSyn);
 {$ENDIF}
 finalization
-  GlobalKeywords.Free;
+  PythonGlobalKeywords.Free;
 end.

@@ -118,7 +118,7 @@ type
 implementation
 
 uses
-  Windows, uEditAppIntfs, JclStrings, Dialogs;
+  Windows, uEditAppIntfs, JclStrings, Dialogs, StringResources;
 
 const
   SearchLineSize = 1024;
@@ -405,7 +405,7 @@ begin
       fRegExpr.Compile;
     except
       on E: ERegExpr do
-        raise Exception.Create('Invalid Regular expression: ' + E.Message);
+        raise Exception.CreateResFmt(@SInvalidRegularExpression, [E.Message]);
     end;
   end;
 end;

@@ -59,7 +59,7 @@ uses
   Windows, SysUtils, Dialogs, Clipbrd, ComCtrls, jclFileUtils, jclDateTime,
   jclStrings, JclSysInfo, cParameters, Registry,  uEditAppIntfs,
   JvBrowseFolder, dmCommands, VarPyth, SynRegExpr, uCommonFunctions,
-  frmPyIDEMain, StringResources;
+  frmPyIDEMain, StringResources, cPyBaseDebugger, cProjectClasses;
 
 function GetActiveDoc: string;
 Var
@@ -69,6 +69,16 @@ begin
   Editor := PyIDEMainForm.GetActiveEditor;
   if Assigned(Editor) then
     Result:= Editor.GetFileNameOrTitle;
+end;
+
+function GetActiveScript: string;
+begin
+  Result:= PyControl.RunConfig.ScriptName;
+end;
+
+function GetProjectFile: string;
+begin
+  Result:= ActiveProject.FileName;
 end;
 
 function GetModFiles: string;
@@ -442,9 +452,11 @@ begin
     RegisterParameter('Python23Dir', GetPythonDir('2.3'), nil);
     RegisterParameter('Python24Dir', GetPythonDir('2.4'), nil);
     RegisterParameter('Python25Dir', GetPythonDir('2.5'), nil);
+    RegisterParameter('Python30Dir', GetPythonDir('3.0'), nil);
     RegisterParameter('Python23Exe', '$[PYTHON23DIR]python.exe', nil);
     RegisterParameter('Python24Exe', '$[PYTHON24DIR]python.exe', nil);
     RegisterParameter('Python25Exe', '$[PYTHON25DIR]python.exe', nil);
+    RegisterParameter('Python30Exe', '$[PYTHON30DIR]python.exe', nil);
     RegisterParameter('PythonDir', 'Directory of active python version', GetActivePythonDir);
     RegisterParameter('PythonExe', '$[PYTHONDIR]python.exe', nil);
     RegisterParameter('PythonVersion', 'Version of active Python', GetPythonVersion);
@@ -505,9 +517,11 @@ begin
     RegisterModifier('DateAccess', 'Last access date of a file', GetFileDateAccess);
     RegisterModifier('DateFormat', 'Formatted date', GetDateFormated);
 
-    (* parameters, that change often in one syn session *)
+    (* parameters, that change often in one PyScripter session *)
     (* editor related *)
-    RegisterParameter('ActiveDoc', 'Active Document Name', GetActiveDoc);
+    RegisterParameter('ActiveDoc', 'Active document name', GetActiveDoc);
+    RegisterParameter('ActiveScript', 'The running or last run script', GetActiveScript);
+    RegisterParameter('Project', 'Project File Name', GetProjectFile);
     RegisterParameter('ModFiles', 'Modified Files', GetModFiles);
     RegisterParameter('OpenFiles', 'Open Files', GetOpenFiles);
     RegisterParameter('CurWord', '$[-CurWord]', nil);
@@ -527,10 +541,14 @@ begin
   with Parameters do begin
    (* parameters, valid for current Windows configuration *)
     // Python Paths etc.
-    UnRegisterParameter('Python24Dir');
     UnRegisterParameter('Python23Dir');
-    UnRegisterParameter('Python24Exe');
+    UnRegisterParameter('Python24Dir');
+    UnRegisterParameter('Python25Dir');
+    UnRegisterParameter('Python30Dir');
     UnRegisterParameter('Python23Exe');
+    UnRegisterParameter('Python24Exe');
+    UnRegisterParameter('Python25Exe');
+    UnRegisterParameter('Python30Exe');
     UnRegisterParameter('PythonDir');
     UnRegisterParameter('PythonExe');
     UnRegisterParameter('PythonVersion');
@@ -594,6 +612,8 @@ begin
     (* parameters, that change often in one syn session *)
     (* editor related *)
     UnRegisterParameter('ActiveDoc');
+    UnRegisterParameter('ActiveScript');
+    UnRegisterParameter('Project');
     UnRegisterParameter('ModFiles');
     UnRegisterParameter('OpenFiles');
     UnRegisterParameter('CurWord');

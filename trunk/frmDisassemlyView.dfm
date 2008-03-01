@@ -23,7 +23,7 @@ object DisForm: TDisForm
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -13
-    Font.Name = 'Lucida Console'
+    Font.Name = 'Courier New'
     Font.Style = []
     TabOrder = 0
     Gutter.Font.Charset = DEFAULT_CHARSET

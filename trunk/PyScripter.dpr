@@ -1,5 +1,5 @@
 {-----------------------------------------------------------------------------
- Program:   PyScrtiper
+ Program:   PyScripter
  Author:    Kiriakos Vlahos
  Date:      19-Oct-2005
  Purpose:   Python IDE written with Python for Delphi
@@ -12,11 +12,14 @@ program PyScripter;
 {%TogetherDiagram 'ModelSupport_PyScripter\default.txaPackage'}
 
 uses
+//  FastMM4,
+  Windows,
+  RtlVclOptimize in 'RtlVclOptimize.pas',
+  Forms,
+  Dialogs,
   uCmdLine in 'uCmdLine.pas',
   uDpiAware in 'uDpiAware.pas',
-  Windows,
-  Forms,
-  RtlVclOptimize in 'RtlVclOptimize.pas',
+  dlgExceptionMail in 'dlgExceptionMail.pas' {ExceptionDialogMail},
   frmPyIDEMain in 'frmPyIDEMain.pas' {PyIDEMainForm},
   uEditAppIntfs in 'uEditAppIntfs.pas',
   frmEditor in 'frmEditor.pas' {EditorForm},
@@ -67,7 +70,6 @@ uses
   SynCompletionProposal in 'SynCompletionProposal.pas',
   frmRegExpTester in 'frmRegExpTester.pas' {RegExpTesterWindow},
   cCodeHint in 'cCodeHint.pas',
-  dlgExceptionMail in 'dlgExceptionMail.pas' {ExceptionDialogMail},
   dlgCommandLine in 'dlgCommandLine.pas' {CommandLineDlg},
   dlgCustomShortcuts in 'dlgCustomShortcuts.pas' {frmCustomKeyboard},
   dlgUnitTestWizard in 'dlgUnitTestWizard.pas' {UnitTestWizard},
@@ -94,7 +96,17 @@ uses
   SpTBXControls in 'SpTBXControls.pas',
   uSearchHighlighter in 'uSearchHighlighter.pas',
   SynEditSearch in 'SynEditSearch.pas',
-  frmModSpTBXCustomize in 'frmModSpTBXCustomize.pas';
+  frmModSpTBXCustomize in 'frmModSpTBXCustomize.pas',
+  VarPyth in 'VarPyth.pas',
+  WrapDelphi in 'WrapDelphi.pas',
+  WrapDelphiClasses in 'WrapDelphiClasses.pas',
+  cProjectClasses in 'cProjectClasses.pas',
+  frmProjectExplorer in 'frmProjectExplorer.pas' {ProjectExplorerWindow},
+  dlgImportDirectory in 'dlgImportDirectory.pas' {ImportDirectoryForm},
+  dlgRunConfiguration in 'dlgRunConfiguration.pas' {RunConfigurationForm},
+  SpTBXCustomizer in 'SpTBXCustomizer.pas',
+  SynUnicode in 'SynUnicode.pas',
+  MPCommonObjects in 'MPCommonObjects.pas';
 
 {$R *.RES}
 {$R WebCopyAvi.RES}

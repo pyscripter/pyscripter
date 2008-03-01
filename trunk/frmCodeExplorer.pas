@@ -502,27 +502,41 @@ end;
 procedure TCodeExplorerWindow.NavigateToNodeElement(Node: PVirtualNode);
 var
   Data: PNodeDataRec;
-  LineNo: Integer;
-  CharOffset: Integer;
+  CodePos : TCodePos;
+  L : integer;
 begin
+  CodePos.LineNo := - 1;
+  L := 0;
+
   if Assigned(Node) then
   begin
     Data := ExplorerTree.GetNodeData(Node);
     if Assigned(Data.CENode.CodeElement) then
     begin
-      LineNo := Data.CENode.CodeElement.CodePos.LineNo;
-      CharOffset := Data.CENode.CodeElement.CodePos.CharOffset;
+      CodePos := Data.CENode.CodeElement.CodePos;
+      L := Length(Data.CENode.Caption);
+    end else if Data.CENode is TImportsCENode then begin
+      if Data.CENode.ChildCount > 0 then begin
+        //  first import
+        CodePos :=
+          TBaseCodeElement(TImportsCENode(Data.CENode).fModule.ImportedModules[0]).CodePos;
+        CodePos.CharOffset := 1;
+      end;
+    end;
+
+    if CodePos.LineNo >= 0  then begin
       with PyIDEMainForm.GetActiveEditor.SynEdit do
       begin
-        CaretXY := BufferCoord(1, LineNo);
+        CaretXY := BufferCoord(1, CodePos.LineNo);
         EnsureCursorPosVisibleEx(True);
-        if CharOffset > 0 then
+        if CodePos.CharOffset > 0 then
         begin
-          SelStart := RowColToCharIndex(CaretXY) + CharOffset - 1;
-          SelEnd := SelStart + Length(Data.CENode.Caption);
+          SelStart := RowColToCharIndex(CaretXY) + CodePos.CharOffset - 1;
+          SelEnd := SelStart + L;
         end;
       end;
     end;
+    
   end;
 end;
 

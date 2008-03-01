@@ -60,6 +60,11 @@ Set the default options for FastMM here.
 
 {-----------------------------Debugging Options-------------------------------}
 
+{Enable this option to suppress the generation of debug info for the
+ FastMM4.pas unit. This will prevent the integrated debugger from stepping into
+ the memory manager code.}
+{$define NoDebugInfo}
+
 {Enable this option to suppress the display of all message dialogs. This is
  useful in service applications that should not be interrupted.}
 {.$define NoMessageBoxes}
@@ -78,7 +83,8 @@ Set the default options for FastMM here.
  program overwriting the bounds of allocated memory). These checks are
  expensive, and this option should thus only be used for debugging purposes.
  If this option is set then the ASMVersion option is automatically disabled.}
-{.$define CheckHeapForCorruption}
+{changed}
+{$define CheckHeapForCorruption}
 
 {Enable this option to catch attempts to perform MM operations after FastMM has
  been uninstalled. With this option set when FastMM is uninstalled it will not
@@ -97,7 +103,8 @@ Set the default options for FastMM here.
  Very important: If you enable this option your application will require the
  FastMM_FullDebugMode.dll library. If this library is not available you will
  get an error on startup.}
-{.$define FullDebugMode}
+{changed}
+{$define FullDebugMode}
 
   {Set this option to perform "raw" stack traces, i.e. check all entries on the
    stack for valid return addresses. Note that this is significantly slower
@@ -127,13 +134,15 @@ Set the default options for FastMM here.
 
   {Deletes the error log file on startup. No effect if LogErrorsToFile is not
    also set.}
-  {$define ClearLogFileOnStartup}
+  {changed}
+ {$define ClearLogFileOnStartup}
 
   {Loads the FASTMM_FullDebugMode.dll dynamically. If the DLL cannot be found
    then stack traces will not be available. Note that this may cause problems
    due to a changed DLL unload order when sharing the memory manager. Use with
    care.}
-  {.$define LoadDebugDLLDynamically}
+  {changed}
+  {$define LoadDebugDLLDynamically}
 
 {---------------------------Memory Leak Reporting-----------------------------}
 
@@ -156,7 +165,7 @@ Set the default options for FastMM here.
   {Set this option to require the program to be run inside the IDE debugger to
    report memory leaks. This option has no effect if the option
    "EnableMemoryLeakReporting" is not also set.}
-  {.$define RequireDebuggerPresenceForLeakReporting}
+  {$define RequireDebuggerPresenceForLeakReporting}
 
   {Set this option to require the presence of debug info ($D+ option) in the
    compiled unit to perform memory leak checking. This option has no effect if

@@ -1419,11 +1419,11 @@ object AboutBox: TAboutBox
             IsControl = True
           end
           object Copyright: TLabel
-            Left = 130
-            Top = 70
+            Left = 129
+            Top = 68
             Width = 181
             Height = 16
-            Caption = '(C) Kiriakos Vlahos 2005, 2006'
+            Caption = '(C) Kiriakos Vlahos  2005-2008'
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clNavy
             Font.Height = -13
@@ -1470,8 +1470,8 @@ object AboutBox: TAboutBox
             OnClick = Panel1Click
           end
           object ProductName: TLabel
-            Left = 128
-            Top = 16
+            Left = 129
+            Top = 14
             Width = 169
             Height = 24
             AutoSize = False
@@ -1506,7 +1506,7 @@ object AboutBox: TAboutBox
             Left = 0
             Top = 0
             Width = 327
-            Height = 298
+            Height = 312
             Caption = 
               '<b>Credits</b><br>'#13#10'Special thanks to the many great developers ' +
               'who,'#13#10'with their amazing work, have made PyScripter '#13#10'possible. ' +
@@ -1526,7 +1526,8 @@ object AboutBox: TAboutBox
               '>mxs.bergsoft.net</link>)'#13#10'<br>'#13#10'- <i>SpTBXLib</i>(<link>club.te' +
               'lepolis.com/silverpointdev</link>)'#13#10'<br>'#13#10'- <i>TntWare Unicode C' +
               'ontrols</i>(<link>www.tntware.com</link>)'#13#10'<br>'#13#10'- <i>TCommandLi' +
-              'neReader</i>(<link>www.benibela.de</link>)'
+              'neReader</i>(<link>www.benibela.de</link>)'#13#10'<br>'#13#10'- <i>Silk icon' +
+              's</i>(<link>www.famfamfam.com</link>)'
             Text.Strings = (
               
                 '<b>Credits</b><br>'#13#10'Special thanks to the many great developers ' +
@@ -1547,7 +1548,8 @@ object AboutBox: TAboutBox
                 '>mxs.bergsoft.net</link>)'#13#10'<br>'#13#10'- <i>SpTBXLib</i>(<link>club.te' +
                 'lepolis.com/silverpointdev</link>)'#13#10'<br>'#13#10'- <i>TntWare Unicode C' +
                 'ontrols</i>(<link>www.tntware.com</link>)'#13#10'<br>'#13#10'- <i>TCommandLi' +
-                'neReader</i>(<link>www.benibela.de</link>)')
+                'neReader</i>(<link>www.benibela.de</link>)'#13#10'<br>'#13#10'- <i>Silk icon' +
+                's</i>(<link>www.famfamfam.com</link>)')
             Transparent = True
             HotLinks = True
             MarginWidth = 2
@@ -1560,8 +1562,6 @@ object AboutBox: TAboutBox
             Font.Name = 'Arial'
             Font.Style = []
             ParentFont = False
-            ExplicitLeft = -1
-            ExplicitTop = -104
           end
         end
       end

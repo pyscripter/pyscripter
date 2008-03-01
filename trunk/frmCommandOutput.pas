@@ -327,8 +327,8 @@ begin
         fRegExpr.Expression := RE+'(.*)';
         fRegExpr.Compile;
       except
-        on E: Exception do begin
-          Application.MessageBox(PChar((SRegError) + sLineBreak + E.Message),
+        on E: ERegExpr do begin
+          Application.MessageBox(PChar(Format(SInvalidRegularExpression, [E.Message])),
             PChar(Application.Title), MB_ICONSTOP + MB_OK);
           Exit;
         end;

@@ -143,12 +143,21 @@ Var
 begin
   TempWidth := AppStorage.ReadInteger(BasePath+'\DocPanelWidth', DocPanel.Width);
   DocPanel.Width := Min(Max(TempWidth, 3), Max(Width-100, 3));
+  if AppStorage.ReadBoolean('Types Visible') then
+    VariablesTree.Header.Columns[1].Options := VariablesTree.Header.Columns[1].Options + [coVisible]
+  else
+    VariablesTree.Header.Columns[1].Options := VariablesTree.Header.Columns[1].Options - [coVisible];
+  VariablesTree.Header.Columns[0].Width := AppStorage.ReadInteger('Names Width', 160);
+  VariablesTree.Header.Columns[1].Width := AppStorage.ReadInteger('Types Width', 100);
 end;
 
 procedure TVariablesWindow.WriteToAppStorage(AppStorage: TJvCustomAppStorage;
   const BasePath: string);
 begin
   AppStorage.WriteInteger(BasePath+'\DocPanelWidth', DocPanel.Width);
+  AppStorage.WriteBoolean('Types Visible', coVisible in VariablesTree.Header.Columns[1].Options);
+  AppStorage.WriteInteger('Names Width', VariablesTree.Header.Columns[0].Width);
+  AppStorage.WriteInteger('Types Width', VariablesTree.Header.Columns[1].Width);
 end;
 
 procedure TVariablesWindow.VariablesTreeGetImageIndex(

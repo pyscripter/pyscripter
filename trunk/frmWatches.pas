@@ -267,6 +267,7 @@ procedure TWatchesWindow.WriteToAppStorage(AppStorage: TJvCustomAppStorage;
   const BasePath: string);
 begin
   AppStorage.WriteObjectList(BasePath, fWatchesList, 'Watch');
+  AppStorage.WriteInteger('WatchesWidth', WatchesView.Header.Columns[0].Width);
 end;
 
 procedure TWatchesWindow.ReadFromAppStorage(AppStorage: TJvCustomAppStorage;
@@ -274,6 +275,7 @@ procedure TWatchesWindow.ReadFromAppStorage(AppStorage: TJvCustomAppStorage;
 begin
   mnClearAllClick(Self);
   AppStorage.ReadObjectList(BasePath, fWatchesList, CreateWatch, True, 'Watch');
+  WatchesView.Header.Columns[0].Width := AppStorage.ReadInteger('WatchesWidth', 200);
   UpdateWindow(PyControl.DebuggerState);
 end;
 

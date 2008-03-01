@@ -103,18 +103,18 @@ object FindInFilesDialog: TFindInFilesDialog
       Caption = '&Open files'
       ParentColor = True
       TabOrder = 1
-      OnClick = rbDirectoriesClick
+      OnClick = rbProjectClick
       ThemeType = thtWindows
     end
-    object rbDirectories: TSpTBXRadioButton
+    object rbProject: TSpTBXRadioButton
       Left = 8
-      Top = 57
-      Width = 114
+      Top = 58
+      Width = 72
       Height = 15
-      Caption = 'Search in &directories'
+      Caption = '&Project files'
       ParentColor = True
       TabOrder = 2
-      OnClick = rbDirectoriesClick
+      OnClick = rbProjectClick
       ThemeType = thtWindows
     end
     object rbCurrentOnly: TSpTBXRadioButton
@@ -125,7 +125,18 @@ object FindInFilesDialog: TFindInFilesDialog
       Caption = 'Current &file only'
       ParentColor = True
       TabOrder = 0
-      OnClick = rbDirectoriesClick
+      OnClick = rbProjectClick
+      ThemeType = thtWindows
+    end
+    object rbDirectories: TSpTBXRadioButton
+      Left = 8
+      Top = 79
+      Width = 114
+      Height = 15
+      Caption = 'Search in &directories'
+      ParentColor = True
+      TabOrder = 3
+      OnClick = rbProjectClick
       ThemeType = thtWindows
     end
   end

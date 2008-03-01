@@ -53,8 +53,6 @@ type
     fCommandLine : string;
     fUseCommandLine : Boolean;
     fMarkExecutableLines : Boolean;
-    fCleanupMainDict : Boolean;
-    fCleanupSysModules : Boolean;
     fCheckSyntaxAsYouType : Boolean;
     fFileExplorerContextMenu : Boolean;
     fNewFileLineBreaks : TSynEditFileFormat;
@@ -127,8 +125,6 @@ type
     property UseCommandLine : Boolean read fUseCommandLine write fUseCommandLine;
     property MarkExecutableLines : Boolean read fMarkExecutableLines
       write fMarkExecutableLines;
-    property CleanupMainDict : Boolean read fCleanupMainDict write fCleanupMainDict;
-    property CleanupSysModules : Boolean read fCleanupSysModules write fCleanupSysModules;
     property CheckSyntaxAsYouType : Boolean read fCheckSyntaxAsYouType
       write fCheckSyntaxAsYouType;
     property FileExplorerContextMenu : Boolean read fFileExplorerContextMenu
@@ -319,6 +315,11 @@ type
     actSearchHighlight: TAction;
     actEditWordWrap: TAction;
     actSearchGoToDebugLine: TAction;
+    actHelpOfficialWebSite: TAction;
+    actHelpDevelopmentWebsite: TAction;
+    actHelpWebProjectHome: TAction;
+    actHelpWebGroupSupport: TAction;
+    actFileCloseAllOther: TAction;
     function ProgramVersionHTTPLocationLoadFileFromRemote(
       AProgramVersionLocation: TJvProgramVersionHTTPLocation; const ARemotePath,
       ARemoteFileName, ALocalPath, ALocalFileName: string): string;
@@ -397,6 +398,11 @@ type
     procedure actSearchHighlightExecute(Sender: TObject);
     procedure actEditWordWrapExecute(Sender: TObject);
     procedure actSearchGoToDebugLineExecute(Sender: TObject);
+    procedure actHelpOfficialWebSiteExecute(Sender: TObject);
+    procedure actHelpDevelopmentWebsiteExecute(Sender: TObject);
+    procedure actHelpWebProjectHomeExecute(Sender: TObject);
+    procedure actHelpWebGroupSupportExecute(Sender: TObject);
+    procedure actFileCloseAllOtherExecute(Sender: TObject);
   private
     fHighlighters: TStrings;
     fUntitledNumbers: TBits;
@@ -421,6 +427,12 @@ type
                 Index: Integer; var SynHighlighter: TSynCustomHighlighter);
     procedure SynEditOptionsDialogSetHighlighter(Sender: TObject;
                 Index: Integer; SynHighlighter: TSynCustomHighlighter);
+    procedure SynInterpreterOptionsDialogGetHighlighterCount(Sender: TObject;
+                var Count: Integer);
+    procedure SynInterpreterOptionsDialogGetHighlighter(Sender: TObject;
+                Index: Integer; var SynHighlighter: TSynCustomHighlighter);
+    procedure SynInterpreterOptionsDialogSetHighlighter(Sender: TObject;
+                Index: Integer; SynHighlighter: TSynCustomHighlighter);
     function GetSaveFileName(var ANewName: string;
       AHighlighter: TSynCustomHighlighter; DefaultExtension : string): boolean;
     function GetUntitledNumber: integer;
@@ -444,8 +456,8 @@ type
       AReplace: WideString; Line, Column: Integer; var Action: TSynReplaceAction);
     procedure IncrementalSearch;
     procedure ApplyEditorOptions;
-    procedure FileExplorerTreeAfterShellNotify(
-      Sender: TCustomVirtualExplorerTree; ShellEvent: TVirtualShellEvent);
+    procedure ProcessShellNotify(Sender: TCustomVirtualExplorerTree; ShellEvent: TVirtualShellEvent);
+    function FileIsPythonSource(FileName : WideString): Boolean;
     property Highlighters : TStrings read fHighlighters;
   end;
 
@@ -468,11 +480,11 @@ implementation
 {$R *.DFM}
 
 uses
-  dlgSynPageSetup, uHighlighterProcs,
+  PythonEngine, dlgSynPageSetup, uHighlighterProcs,
   dlgOptionsEditor, frmPythonII, dlgDirectoryList, VarPyth,
   dlgAboutPyScripter, frmPyIDEMain, JclFileUtils, SHDocVw, Variants,
   JclStrings, frmEditor, frmFindResults, cParameters, dlgCustomParams,
-  uParams, dlgCodeTemplates, dlgConfigureTools, cTools, 
+  uParams, dlgCodeTemplates, dlgConfigureTools, cTools,
   frmFunctionList, StringResources, TBXThemes, TBX, uCommonFunctions,
   StoHtmlHelp, {uMMMXP_MainService, }JvJCLUtils, Menus, SynEditStrConst,
   dlgConfirmReplace, dlgCustomShortcuts,
@@ -513,8 +525,6 @@ begin
       Self.fUseCommandLine := UseCommandLine;
       Self.fCommandLine := CommandLine;
       Self.fMarkExecutableLines := MarkExecutableLines;
-      Self.fCleanupMainDict := CleanupMainDict;
-      Self.fCleanupSysModules := CleanupSysModules;
       Self.fCheckSyntaxAsYouType := CheckSyntaxAsYouType;
       Self.fFileExplorerContextMenu := FileExplorerContextMenu;
       Self.fNewFileLineBreaks := NewFileLineBreaks;
@@ -566,8 +576,6 @@ begin
   fShowDebuggerHints := True;
   fAutoCompleteBrackets := True;
   fMarkExecutableLines := True;
-  fCleanupMainDict := False;
-  fCleanupSysModules := False;
   fCheckSyntaxAsYouType := True;
   fFileExplorerContextMenu := True;
   fNewFileLineBreaks := sffDos;
@@ -672,8 +680,14 @@ begin
     if EditorSearchOptions.SearchWholeWords then
       Include(SearchOptions, ssoWholeWord);
     SynEdit.SearchEngine.Options := SearchOptions;
-    SynEdit.SearchEngine.Pattern := SearchText;
-    CanWrapSearch := SynEdit.SearchEngine.FindAll(TextLeft) > 0;
+    try
+      SynEdit.SearchEngine.Pattern := SearchText;
+      CanWrapSearch := SynEdit.SearchEngine.FindAll(TextLeft) > 0;
+    except
+      on E: ERegExpr do begin
+        CanWrapSearch := False;
+      end;
+    end;  
   end;
 end;
 
@@ -756,7 +770,7 @@ begin
     WantTabs := True;
     TabWidth := 4;
 
-    SelectedColor.Background := SelectionBackgroundColor;
+    //SelectedColor.Background := SelectionBackgroundColor;
     Keystrokes.Delete(Keystrokes.FindCommand(ecMatchBracket));
     // Register the CodeCompletion Command
     with Keystrokes.Add do begin
@@ -831,7 +845,7 @@ end;
 procedure TCommandsDataModule.SynEditOptionsDialogGetHighlighterCount(Sender: TObject;
   var Count: Integer);
 begin
-   count := fHighlighters.Count;
+   Count := fHighlighters.Count;
 end;
 
 procedure TCommandsDataModule.SynEditOptionsDialogGetHighlighter(Sender: TObject;
@@ -848,6 +862,27 @@ procedure TCommandsDataModule.SynEditOptionsDialogSetHighlighter(Sender: TObject
 begin
    if (Index >= 0) and (Index < fHighlighters.Count) then
      (fHighlighters.Objects[Index] as TSynCustomHighlighter).Assign(SynHighlighter);
+end;
+
+procedure TCommandsDataModule.SynInterpreterOptionsDialogGetHighlighter(
+  Sender: TObject; Index: Integer; var SynHighlighter: TSynCustomHighlighter);
+begin
+  if Index = 1 then
+    SynHighlighter := PythonIIForm.SynEdit.Highlighter
+  else
+    SynHighlighter := nil;
+end;
+
+procedure TCommandsDataModule.SynInterpreterOptionsDialogGetHighlighterCount(
+  Sender: TObject; var Count: Integer);
+begin
+  Count := 1;
+end;
+
+procedure TCommandsDataModule.SynInterpreterOptionsDialogSetHighlighter(
+  Sender: TObject; Index: Integer; SynHighlighter: TSynCustomHighlighter);
+begin
+  PythonIIForm.SynEdit.Highlighter.Assign(SynHighlighter);
 end;
 
 function TCommandsDataModule.GetSaveFileName(var ANewName: string;
@@ -958,6 +993,21 @@ begin
   end;
 end;
 
+procedure TCommandsDataModule.actFileCloseAllOtherExecute(Sender: TObject);
+Var
+  Editor : IEditor;
+  i : integer;
+begin
+  Editor := PyIDEMainForm.GetActiveEditor;
+  if not Assigned(Editor) then Exit;
+
+  for i := GI_EditorFactory.Count -1 downto 0 do
+    if GI_EditorFactory.Editor[i] <> Editor then
+      GI_EditorFactory.Editor[i].Close;
+
+  Editor.Activate;
+end;
+
 procedure TCommandsDataModule.actFileCloseExecute(Sender: TObject);
 begin
   if GI_FileCmds <> nil then
@@ -1019,7 +1069,7 @@ begin
   if GI_SearchCmds <> nil then
     GI_SearchCmds.ExecFindNext
   else if PythonIIForm.HasFocus then
-    PythonIIForm.ExecFindNext;
+    PythonIIForm.ExecFindNext;     
 end;
 
 procedure TCommandsDataModule.actSearchFindPrevExecute(Sender: TObject);
@@ -1222,10 +1272,11 @@ begin
       Form.cbApplyToAll.Enabled := False;
       Form.Caption := 'Interpreter Editor Options';
       OnGetHighlighterCount := SynEditOptionsDialogGetHighlighterCount;
-      OnGetHighlighter := SynEditOptionsDialogGetHighlighter;
-      OnSetHighlighter := SynEditOptionsDialogSetHighlighter;
-      VisiblePages := [soDisplay, soOptions];
+      OnGetHighlighter := SynInterpreterOptionsDialogGetHighlighter;
+      OnSetHighlighter := SynInterpreterOptionsDialogSetHighlighter;
+      VisiblePages := [soDisplay, soOptions, soColor];
       if Execute(TempEditorOptions) then begin
+        UpdateHighlighters;
         InterpreterEditorOptions.Assign(TempEditorOptions);
         InterpreterEditorOptions.Options := InterpreterEditorOptions.Options -
           [eoTrimTrailingSpaces, eoTabsToSpaces];
@@ -1398,6 +1449,8 @@ begin
         for i := 0 to Highlighters.Count - 1 do
           AppStorage.WritePersistent('Highlighters\'+Highlighters[i],
             TPersistent(Highlighters.Objects[i]));
+          AppStorage.WritePersistent('Highlighters\Intepreter',
+            PythonIIForm.SynEdit.Highlighter);
       finally
         AppStorage.Free;
       end;
@@ -1450,12 +1503,16 @@ begin
     if Execute then begin
       AppStorage := TJvAppIniFileStorage.Create(nil);
       try
+        AppStorage.FlushOnDestroy := False;
         AppStorage.Location := flCustom;
         AppStorage.FileName := FileName;
         for i := 0 to Highlighters.Count - 1 do
           AppStorage.ReadPersistent('Highlighters\'+Highlighters[i],
             TPersistent(Highlighters.Objects[i]));
         PythonIIForm.SynEdit.Highlighter.Assign(CommandsDataModule.SynPythonSyn);
+        if AppStorage.IniFile.SectionExists('Highlighters\Intepreter') then
+          AppStorage.ReadPersistent('Highlighters\Intepreter',
+            PythonIIForm.SynEdit.Highlighter);
       finally
         AppStorage.Free;
       end;
@@ -1583,6 +1640,7 @@ var
   P, PM: TBufferCoord;
   PD, PMD : TDisplayCoord;
   Pix: TPoint;
+  R : TRect;
   BracketCh, MatchCh : Char;
   IsBracket, HasMatchingBracket : Boolean;
   Attri: TSynHighlighterAttributes;
@@ -1627,7 +1685,6 @@ begin
         Canvas.Font.Color:= clBlue
       else
         Canvas.Font.Color:= clRed;
-
       Canvas.Font.Style := Canvas.Font.Style + [fsBold];
     end
     else begin
@@ -1639,7 +1696,10 @@ begin
       (PD.Column < SynEdit.LeftChar + SynEdit.CharsInWindow) and
       (PD.Row > 0)and (PD.Row >= SynEdit.TopLine) and
       (PD.Row < SynEdit.TopLine + SynEdit.LinesInWindow) then
-    Canvas.TextOut(Pix.X, Pix.Y, BracketCh);
+    begin
+      R := Rect(Pix.X, Pix.Y, Pix.X + SynEdit.CharWidth, Pix.Y + SynEdit.LineHeight);
+      Canvas.TextRect(R, Pix.X, Pix.Y, BracketCh);
+    end;
 
     if HasMatchingBracket and (PMD.Column >= SynEdit.LeftChar) and
       (PMD.Column < SynEdit.LeftChar + SynEdit.CharsInWindow) and
@@ -1657,15 +1717,17 @@ begin
       else
         Canvas.Brush.Color := Synedit.Color;
       Pix := SynEdit.RowColumnToPixels(PMD);
-      Canvas.TextOut(Pix.X, Pix.Y, MatchCh);
+
+      R := Rect(Pix.X, Pix.Y, Pix.X + SynEdit.CharWidth, Pix.Y + SynEdit.LineHeight);
+      Canvas.TextRect(R, Pix.X, Pix.Y, MatchCh);
     end;
   end;
 
   Canvas.Brush.Style := bsSolid;
 end;
 
-procedure TCommandsDataModule.FileExplorerTreeAfterShellNotify(
-  Sender: TCustomVirtualExplorerTree; ShellEvent: TVirtualShellEvent);
+procedure TCommandsDataModule.ProcessShellNotify(Sender: TCustomVirtualExplorerTree;
+  ShellEvent: TVirtualShellEvent);
 
   function AreFileTimesEqual(FT1, FT2 : TFileTime) : Boolean;
   begin
@@ -1685,11 +1747,8 @@ Var
   NS: TNamespace;
   Dir : string;
 begin
-  // Only bother with UpdateDir and UpdateItem notifications
-  if not (ShellEvent.ShellNotifyEvent in [vsneUpdateDir, vsneUpdateItem]) then Exit;
-
-  ChangedFiles := TStringList.Create;
-  Guard(ChangedFiles, SafeGuard);
+//  if not (ShellEvent.ShellNotifyEvent in [vsneUpdateDir, vsneUpdateItem]) then Exit;
+  if not (ShellEvent.ShellNotifyEvent = vsneUpdateDir) then Exit;
 
   Dir := '';
   NS := TNamespace.Create(ShellEvent.PIDL1, nil);
@@ -1704,17 +1763,20 @@ begin
 
   if Dir = '' then Exit;
 
+  ChangedFiles := TStringList.Create;
+  Guard(ChangedFiles, SafeGuard);
+
   for i := 0 to GI_EditorFactory.Count -1 do begin
     Editor := GI_EditorFactory.Editor[i];
     if (Editor.FileName <> '') and (ExtractFileDir(Editor.FileName) = Dir) then begin
       if FindFirst(Editor.FileName, faAnyFile, SR) <> 0 then begin
         // File or directory has been moved or deleted
         if not AreFileTimesEqual(TEditorForm(Editor.Form).FileTime, ZeroFileTime) then begin
-          Dialogs.MessageDlg(Editor.FileName + ' has been renamed or deleted.', mtWarning, [mbOK], 0);
           // Mark as modified so that we try to save it
           Editor.SynEdit.Modified := True;
           // Set FileTime to zero to prevent further notifications
           TEditorForm(Editor.Form).FileTime := ZeroFileTime;
+          Dialogs.MessageDlg(Editor.FileName + ' has been renamed or deleted.', mtWarning, [mbOK], 0);
         end;
       end else if not AreFileTimesEqual(TEditorForm(Editor.Form).FileTime, SR.FindData.ftLastWriteTime) then begin
         ChangedFiles.AddObject(Editor.GetFileNameOrTitle, Editor.Form);
@@ -1723,7 +1785,7 @@ begin
       end;
       FindClose(SR);
     end;
-  end;
+  end;               
 
   ModifiedCount := 0;
   for I := 0 to ChangedFiles.Count - 1 do begin
@@ -1759,7 +1821,7 @@ begin
         end;
       Release;
     end;
-end;
+end;           
 
 procedure TCommandsDataModule.PrepareParameterCompletion;
 var
@@ -1776,7 +1838,7 @@ begin
       InsertList.Add(ParamName);
     end;
   end;
-end;
+end; 
 
 procedure TCommandsDataModule.PrepareModifierCompletion;
 var
@@ -1827,7 +1889,7 @@ begin
   end;
   with Categories[1] do begin
     DisplayName := 'Python Interpreter';
-    SetLength(Options, 12);
+    SetLength(Options, 10);
     Options[0].PropertyName := 'SaveFilesBeforeRun';
     Options[0].DisplayName := 'Save files before run';
     Options[1].PropertyName := 'SaveEnvironmentBeforeRun';
@@ -1836,22 +1898,18 @@ begin
     Options[2].DisplayName := 'Timeout for running scripts in ms';
     Options[3].PropertyName := 'UTF8inInterpreter';
     Options[3].DisplayName := 'UTF8 in interactive interpreter';
-    Options[4].PropertyName := 'CleanupMainDict';
-    Options[4].DisplayName := 'Clean up namespace after run';
-    Options[5].PropertyName := 'CleanupSysModules';
-    Options[5].DisplayName := 'Clean up sys.modules after run';
-    Options[6].PropertyName := 'PythonEngineType';
-    Options[6].DisplayName := 'Python engine type';
-    Options[7].PropertyName := 'PrettyPrintOutput';
-    Options[7].DisplayName := 'Pretty print output';
-    Options[8].PropertyName := 'ClearOutputBeforeRun';
-    Options[8].DisplayName := 'Clear output before run';
-    Options[9].PropertyName := 'PostMortemOnException';
-    Options[9].DisplayName := 'Post-mortem on exception';
-    Options[10].PropertyName := 'InterpreterHistorySize';
-    Options[10].DisplayName := 'Interpreter history size';
-    Options[11].PropertyName := 'SaveInterpreterHistory';
-    Options[11].DisplayName := 'Save interpreter history';
+    Options[4].PropertyName := 'PythonEngineType';
+    Options[4].DisplayName := 'Python engine type';
+    Options[5].PropertyName := 'PrettyPrintOutput';
+    Options[5].DisplayName := 'Pretty print output';
+    Options[6].PropertyName := 'ClearOutputBeforeRun';
+    Options[6].DisplayName := 'Clear output before run';
+    Options[7].PropertyName := 'PostMortemOnException';
+    Options[7].DisplayName := 'Post-mortem on exception';
+    Options[8].PropertyName := 'InterpreterHistorySize';
+    Options[8].DisplayName := 'Interpreter history size';
+    Options[9].PropertyName := 'SaveInterpreterHistory';
+    Options[9].DisplayName := 'Save interpreter history';
   end;
   with Categories[2] do begin
     DisplayName := 'Code Explorer';
@@ -2159,6 +2217,11 @@ begin
   PyIDEMainForm.MenuHelpRequested := False;
 end;
 
+procedure TCommandsDataModule.actHelpDevelopmentWebsiteExecute(Sender: TObject);
+begin
+  OpenObject('http://pyscripter.googlepages.com');
+end;
+
 procedure TCommandsDataModule.ParameterCompletionCodeCompletion(
   Sender: TObject; var Value: WideString; Shift: TShiftState; Index: Integer;
   EndToken: WideChar);
@@ -2267,11 +2330,26 @@ begin
   PyIDEMainForm.MenuHelpRequested := False;
 end;
 
+procedure TCommandsDataModule.actHelpWebGroupSupportExecute(Sender: TObject);
+begin
+  OpenObject('http://groups.google.com/group/PyScripter');
+end;
+
+procedure TCommandsDataModule.actHelpWebProjectHomeExecute(Sender: TObject);
+begin
+  OpenObject('http://pyscripter.googlecode.com');
+end;
+
 procedure TCommandsDataModule.actHelpExternalToolsExecute(Sender: TObject);
 begin
   PyIDEMainForm.MenuHelpRequested := True;
   Application.HelpJump('externaltools');
   PyIDEMainForm.MenuHelpRequested := False;
+end;
+
+procedure TCommandsDataModule.actHelpOfficialWebSiteExecute(Sender: TObject);
+begin
+  OpenObject('http://mmm-experts.com/Products.aspx?ProductID=4');
 end;
 
 procedure TCommandsDataModule.actHelpEditorShortcutsExecute(
@@ -2601,8 +2679,12 @@ begin
     try
         Result := SynEdit.SearchReplace(EditorSearchOptions.SearchText,
          EditorSearchOptions.ReplaceText, Options);
-    except on E: ERegExpr do
-      Result := 0;
+    except
+      on E: ERegExpr do begin
+        Result := 0;
+        PyIDEMainForm.WriteStatusMsg(Format(SInvalidRegularExpression, [E.Message]));
+        Exit;
+      end;
     end;
 
   if (Result = 0) or (ssoReplace in Options) then with EditorSearchOptions do begin
@@ -2622,7 +2704,7 @@ begin
       InitSearch;
     end else begin
       MsgText := EndReached(ABackwards, TempSelectionOnly);
-      if Result = 0 then
+      if (Result = 0) and not (ssoReplace in Options) then
         PyIDEMainForm.WriteStatusMsg(Format(SNotFound, [SearchText]))
       else
         PyIDEMainForm.WriteStatusMsg(MsgText);
@@ -2640,7 +2722,7 @@ begin
         end;
       end else begin
         MsgText := 'Starting point of the search was reached';
-        if Result = 0 then
+        if (Result = 0) and not (ssoReplace in Options) then
           PyIDEMainForm.WriteStatusMsg(Format(SNotFound, [SearchText]))
         else
           PyIDEMainForm.WriteStatusMsg(MsgText);
@@ -2658,6 +2740,11 @@ begin
 
   if ConfirmReplaceDialog <> nil then
     ConfirmReplaceDialog.Free;
+end;
+
+function TCommandsDataModule.FileIsPythonSource(FileName: WideString): Boolean;
+begin
+  Result :=  GetHighlighterForFile(FileName) = SynPythonSyn;
 end;
 
 procedure TCommandsDataModule.ShowSearchReplaceDialog(SynEdit : TSynEdit; AReplace: boolean);
@@ -2739,7 +2826,6 @@ begin
     end;
   end;
 end;
-
 
 resourcestring
   S_ERROR_NO_ERROR_STRING = 'Unspecified WinInet error';
@@ -2856,7 +2942,7 @@ begin
     then
       FileDelete(LocalFileName)
     else
-      Result := LocalFileName;
+      Result := LocalFileName;                        
 end;
 
 function LoadFileIntoWideStrings(const AFileName: string;
@@ -2865,14 +2951,13 @@ Var
   FileStream : TFileStream;
   FileText, S, PyEncoding : string;
   Len : integer;
-  V : Variant;
   IsPythonFile : boolean;
   FileEncoding : TSynEncoding;
+  PyWstr : PPyObject;
 begin
   Result := True;
   if (AFileName <> '') and FileExists(AFileName) then begin
-    IsPythonFile :=  CommandsDataModule.GetHighlighterForFile(AFileName) =
-                      CommandsDataModule.SynPythonSyn;
+    IsPythonFile :=  CommandsDataModule.FileIsPythonSource(AFileName);
     try
       FileStream := TFileStream.Create(AFileName, fmOpenRead or fmShareDenyWrite);
       try
@@ -2921,9 +3006,18 @@ begin
               if PyEncoding <> '' then begin
                 if PyEncoding = 'utf-8' then
                   Encoding := sf_UTF8_NoBOM;
-                V := VarPythonCreate(FileText);
+                PyWstr := nil;
                 try
-                  WideStrings.Text := V.decode(PyEncoding, 'replace');
+                  with GetPythonEngine do begin
+                    try
+                        PyWstr := GetPythonEngine.PyUnicode_Decode(PChar(FileText), Length(FileText),
+                          PChar(PyEncoding), 'replace');
+                        CheckError;
+                        WideStrings.Text := PyUnicode_AsWideString(PyWstr);
+                    finally
+                      Py_XDECREF(PyWstr);
+                    end;
+                  end;
                 except
                   Dialogs.MessageDlg(Format('Error in decoding file "%s" from "%s" encoding',
                      [AFileName, PyEncoding]), mtWarning, [mbOK], 0);

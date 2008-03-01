@@ -68,7 +68,7 @@ inherited WatchesWindow: TWatchesWindow
       Header.Font.Name = 'MS Shell Dlg 2'
       Header.Font.Style = []
       Header.MainColumn = 1
-      Header.Options = [hoColumnResize, hoDblClickResize, hoDrag, hoHotTrack, hoOwnerDraw, hoVisible]
+      Header.Options = [hoAutoResize, hoColumnResize, hoDblClickResize, hoDrag, hoHotTrack, hoOwnerDraw, hoVisible]
       Header.ParentFont = True
       HintMode = hmTooltip
       PopupMenu = TBXPopupMenu
@@ -90,7 +90,7 @@ inherited WatchesWindow: TWatchesWindow
         end
         item
           Position = 1
-          Width = 200
+          Width = 239
           WideText = 'Value'
         end>
     end

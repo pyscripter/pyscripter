@@ -18,7 +18,8 @@ uses
   SynEditHighlighter, SynEditMiscClasses, SynEditSearch, SynEditRegexSearch,
   SynEditKeyCmds, ImgList, Dialogs, ExtCtrls, JvExExtCtrls, JvComponent, JvPanel,
   JvPageList, JvExControls, JvTabBar, TBX, TB2Item, uCommonFunctions,
-  SynCompletionProposal, cPyBaseDebugger, SynUnicode, SpTBXControls, SpTBXItem;
+  SynCompletionProposal, cPyBaseDebugger, SynUnicode, SpTBXControls, SpTBXItem,
+  VirtualResources;
 
 type
   TEditor = class;
@@ -108,6 +109,9 @@ type
     procedure DoUpdateHighlighter(HighlighterName : string = '');
     procedure AutoCompleteBeforeExecute(Sender: TObject);
     procedure AutoCompleteAfterExecute(Sender: TObject);
+    procedure WMShellNotify(var Msg: TMessage); message WM_SHELLNOTIFY;
+  class var
+    fOldEditorForm : TEditorForm;
   protected
     procedure TBMThemeChange(var Message: TMessage); message TBM_THEMECHANGE;
     procedure EditorZoom(theZoom: Integer);
@@ -227,7 +231,7 @@ uses
   cPythonSourceScanner, cCodeHint, frmPythonII, dlgConfirmReplace, Math,
   JvTypes, frmWatches, JclSysUtils, PythonEngine, frmMessages,
   SynEditTextBuffer, cPyDebugger, dlgPickList, JvDockControlForm,
-  uSearchHighlighter;
+  uSearchHighlighter, frmFileExplorer, VirtualShellNotifier;
 
 const
   WM_DELETETHIS  =  WM_USER + 42;
@@ -445,6 +449,11 @@ begin
       CommandsDataModule.ReleaseUntitledNumber(fUntitledNumber);
       fUntitledNumber := -1;
     end;
+    //  Kernel change notification
+    if (fFileName <> '') and FileExists(fFileName) then
+      ChangeNotifier.NotifyWatchFolder(fForm, ExtractFileDir(fFileName))
+    else
+      ChangeNotifier.NotifyWatchFolder(fForm, '');
   end;
 end;
 
@@ -501,7 +510,7 @@ function TEditor.GetEncodedTextEx(var EncodedText: string;
   InformationLossWarning: Boolean) : Boolean;
 var
   PyEncoding : string;
-  UniPy, EncodeMethod, Args, EncodedString : PPyObject;
+  UniPy, EncodedString : PPyObject;
   wStr, LineBreak : WideString;
   SuppressOutput : IInterface;
 begin
@@ -534,29 +543,21 @@ begin
         if (PyEncoding = '') and (fForm.SynEdit.Lines.Count > 1) then
           PyEncoding := ParsePySourceEncoding(fForm.SynEdit.Lines[1]);
 
-//        if PyEncoding = 'utf-8' then
-//          EncodedText := UTF8BOMString + UTF8Encode(wStr)
-//        else with GetPythonEngine do begin
         with GetPythonEngine do begin
           if PyEncoding = '' then
             PyEncoding := SysModule.getdefaultencoding();
           SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
           UniPy := nil;
-          EncodeMethod := nil;
-          Args := nil;
           EncodedString := nil;
           try
             try
               UniPy := PyUnicode_FromWideChar(PWideChar(wStr), Length(wStr));
               CheckError;
-              EncodeMethod := PyObject_GetAttrString(UniPy, 'encode');
-              CheckError;
               if InformationLossWarning then begin
                 try
-                  Args := ArrayToPyTuple([PyEncoding, 'strict']);
-                  EncodedString := PyEval_CallObject(EncodeMethod, Args);
+                  EncodedString := PyUnicode_AsEncodedString(UniPy, PChar(PyEncoding), 'strict');
                   CheckError;
-                  EncodedText := PyString_AsString(EncodedString);
+                  EncodedText := PyString_AsDelphiString(EncodedString);
                   CheckError;
                 except
                   on UnicodeEncodeError do begin
@@ -565,29 +566,27 @@ begin
                         'result in information loss.  Do you want to proceed?',
                         [GetFileNameOrTitle, PyEncoding]), mtWarning, [mbYes, mbCancel], 0)= mrYes;
                     if Result then begin
-                      Py_XDECREF(Args);
-                      Py_XDECREF(EncodedString);
-                      Args := nil;
-                      EncodedString := nil;
-                      Args := ArrayToPyTuple([PyEncoding, 'replace']);
-                      EncodedString := PyEval_CallObject(EncodeMethod, Args);
+                      EncodedString := PyUnicode_AsEncodedString(UniPy, PChar(PyEncoding), 'replace');
                       CheckError;
-                      EncodedText := PyString_AsString(EncodedString);
+                      EncodedText := PyString_AsDelphiString(EncodedString);
                       CheckError;
                     end;
                   end;
                 end;
               end else begin
-                Args := ArrayToPyTuple([PyEncoding, 'replace']);
-                EncodedString := PyEval_CallObject(EncodeMethod, Args);
-                CheckError;
-                EncodedText := PyString_AsString(EncodedString);
-                CheckError;
+//                Args := ArrayToPyTuple([PyEncoding, 'replace']);
+//                EncodedString := PyEval_CallObject(EncodeMethod, Args);
+//                CheckError;
+//                EncodedText := PyString_AsDelphiString(EncodedString);
+                  EncodedString := PyUnicode_AsEncodedString(UniPy, PChar(PyEncoding), 'replace');
+                  CheckError;
+                  EncodedText := PyString_AsDelphiString(EncodedString);
+                  CheckError;
               end;
             finally
               Py_XDECREF(UniPy);
-              Py_XDECREF(EncodeMethod);
-              Py_XDECREF(Args);
+//              Py_XDECREF(EncodeMethod);
+//              Py_XDECREF(Args);
               Py_XDECREF(EncodedString);
             end;
           except
@@ -711,6 +710,9 @@ begin
     fForm.SynEdit.Modified := False;
     fForm.DoUpdateHighlighter(HighlighterName);
     fForm.DoUpdateCaption;
+    // Code Explorer
+    CodeExplorerWindow.UpdateWindow;
+    fForm.fOldEditorForm := fForm;
   end;
 end;
 
@@ -828,7 +830,7 @@ begin
   if not HasPythonFile or PyControl.IsRunning then begin
    // it is dangerous to execute code while running scripts
    // so just beep and do nothing
-    Beep;
+    MessageBeep(MB_ICONERROR);
     Exit;
   end;
 
@@ -853,16 +855,23 @@ begin
   ShowDockForm(PythonIIForm);
   PythonIIForm.SynEdit.ExecuteCommand(ecEditorBottom, ' ', nil);
   PythonIIForm.AppendText(WideLineBreak);
-  EncodedSource := UTF8BOMString + CleanEOLs(Utf8Encode(Source));
+  Source := CleanEOLs(Source);
+  EncodedSource := UTF8BOMString + Utf8Encode(Source);
 
-  if ExecType = 'exec' then 
+  if ExecType = 'exec' then
     EncodedSource := EncodedSource + #10;
   // RunSource
   case PyControl.DebuggerState of
     dsInactive :
-      PyControl.ActiveInterpreter.RunSource(EncodedSource, '<editor selection>', ExecType);
+      if GetPythonEngine.IsPython3000 then
+        PyControl.ActiveInterpreter.RunSource(Source, '<editor selection>', ExecType)
+      else
+        PyControl.ActiveInterpreter.RunSource(EncodedSource, '<editor selection>', ExecType);
     dsPaused, dsPostMortem :
-      PyControl.ActiveDebugger.RunSource(EncodedSource, '<editor selection>', ExecType);
+      if GetPythonEngine.IsPython3000 then
+        PyControl.ActiveDebugger.RunSource(Source, '<editor selection>', ExecType)
+      else
+        PyControl.ActiveDebugger.RunSource(EncodedSource, '<editor selection>', ExecType);
   end;
 
   PythonIIForm.WritePendingMessages;
@@ -1247,6 +1256,9 @@ begin
   FoundSearchItems.Free;
   fSyntaxErrorPos.Free;
 
+  // Unregister kernel notification
+  ChangeNotifier.UnRegisterKernelChangeNotify(Self);
+
   RemoveThemeNotification(Self);
 end;
 
@@ -1264,9 +1276,6 @@ begin
   InvalidateHighlightedTerms(SynEdit2, FoundSearchItems);
   FoundSearchItems.Clear;
 end;
-
-Var
-  fOldEditorForm : TEditorForm = nil;
 
 procedure TEditorForm.SynEditEnter(Sender: TObject);
 Var
@@ -1306,8 +1315,10 @@ begin
     fEditor.fHasSelection := ASynEdit.SelAvail;
   if Changes * [scAll, scSelection] <> [] then
     fEditor.fIsReadOnly := ASynEdit.ReadOnly;
-  if Changes * [scAll, scModified] <> [] then
+  if scModified  in Changes then begin
     fEditor.fModified := ASynEdit.Modified;
+    PyIDEMainForm.UpdateCaption;
+  end;
 end;
 
 procedure TEditorForm.DoActivate;
@@ -1442,6 +1453,7 @@ function TEditorForm.DoSaveFile: boolean;
 Var
   FileStream : TFileStream;
   S : string;
+  i: Integer;
 begin
   Assert(fEditor <> nil);
   try
@@ -1458,9 +1470,16 @@ begin
     end;
 
     Result := True;
-    // Trim the last lin
-    if (eoTrimTrailingSpaces in Synedit.Options) and (SynEdit.Lines.Count > 0) then
-      SynEdit.Lines[SynEdit.Lines.Count -1] := TrimRight(SynEdit.Lines[SynEdit.Lines.Count -1]);
+    // Trim all lines just in case (Issue 196)
+    if (eoTrimTrailingSpaces in Synedit.Options) and (SynEdit.Lines.Count > 0) then begin
+      SynEdit.BeginUpdate;
+      try
+        for i := 0 to SynEdit.Lines.Count - 1 do
+          SynEdit.Lines[i] := TrimRight(SynEdit.LineS[i]);
+      finally
+        SynEdit.EndUpdate;
+      end;
+    end;
 
     if fEditor.fFileEncoding = sf_Ansi then
       Result := fEditor.GetEncodedTextEx(S, True);
@@ -1513,8 +1532,9 @@ begin
     end;
     fEditor.DoSetFileName(NewName);
     DoUpdateHighlighter;
-    DoUpdateCaption;
+    DoUpdateCaption;  // Do it twice in case the following statement fails
     Result := DoSaveFile;
+    DoUpdateCaption;
   end else
     Result := FALSE;
 end;
@@ -1526,6 +1546,7 @@ begin
     Caption := fEditor.GetFileTitle;
     Hint := fEditor.GetFileName;
   end;
+  PyIDEMainForm.UpdateCaption;
 end;
 
 procedure TEditorForm.DoUpdateHighlighter(HighlighterName : string = '');
@@ -1669,56 +1690,64 @@ begin
   then begin
     { CaretY should never be lesser than 2 right after ecLineBreak, so there's
     no need for a check }
-
     iPrevLine := TrimRight( ASynEdit.Lines[ ASynEdit.CaretY -2 ] );
+    BC := BufferCoord(Length(IPrevLine), ASynEdit.CaretY -1);
 
-    Position := 1;
-    Indent := '';
-    while (Length(iPrevLine)>=Position) and
-         (iPrevLine[Position] in [#09, #32]) do begin
-      Indent := Indent + iPrevLine[Position];
-      Inc(Position);
-    end;
-
-    if (eoTrimTrailingSpaces in ASynEdit.Options) and (IPrevLine = '') then
-      ASynEdit.Lines[ ASynEdit.CaretY -2 ] := '';
-
-    if CommandsDataModule.IsBlockOpener(iPrevLine) or (Indent <> '') then
+    if ASynEdit.GetHighlighterAttriAtRowCol(BC, DummyToken, Attr) and not
+     ((attr = ASynEdit.Highlighter.StringAttribute) or
+      (attr = ASynEdit.Highlighter.CommentAttribute) or
+      (attr = CommandsDataModule.SynPythonSyn.CodeCommentAttri) or
+      (attr = CommandsDataModule.SynPythonSyn.DocStringAttri)) then
     begin
-      ASynEdit.UndoList.BeginBlock;
-      OldOptions := ASynEdit.Options;
-      ASynEdit.Options := ASynEdit.Options - [eoTrimTrailingSpaces];
-      try
-        if (eoAutoIndent in ASynEdit.Options) and (iPrevLine <> '') then begin
-          // undo the effect of autoindent
-          Position := ASynEdit.CaretX;
-          ASynEdit.BlockBegin := BufferCoord(1, ASynEdit.CaretY);
-          ASynEdit.BlockEnd :=  BufferCoord(Position, ASynEdit.CaretY);
-          ASynEdit.SelText := '';
-        end;
 
-        if CommandsDataModule.IsBlockOpener(iPrevLine) then begin
-          if eoTabsToSpaces in ASynEdit.Options then
-            Indent := Indent + StringOfChar(' ', ASynEdit.TabWidth)
-          else
-            Indent := indent + #9;
-        end else if CommandsDataModule.IsBlockCloser(iPrevLine) then begin
-          if (eoTabsToSpaces in ASynEdit.Options) and (Length(Indent) > 0) and
-            (Indent[Length(Indent)] <> #9)
-          then
-            Delete(Indent, Length(Indent) - ASynEdit.TabWidth + 1, ASynEdit.TabWidth)
-          else
-            Delete(Indent, Length(Indent), 1);
-        end;
-        // use ReplaceSel to ensure it goes at the cursor rather than end of buffer
-        if Trim(iPrevLine) <> '' then
-          ASynEdit.SelText := Indent;
-      finally
-        ASynEdit.UndoList.EndBlock;
-        ASynEdit.Options := OldOptions;
+      Position := 1;
+      Indent := '';
+      while (Length(iPrevLine)>=Position) and
+           (iPrevLine[Position] in [#09, #32]) do begin
+        Indent := Indent + iPrevLine[Position];
+        Inc(Position);
       end;
+
+      if (eoTrimTrailingSpaces in ASynEdit.Options) and (IPrevLine = '') then
+        ASynEdit.Lines[ ASynEdit.CaretY -2 ] := '';
+
+      if CommandsDataModule.IsBlockOpener(iPrevLine) or (Indent <> '') then
+      begin
+        ASynEdit.UndoList.BeginBlock;
+        OldOptions := ASynEdit.Options;
+        ASynEdit.Options := ASynEdit.Options - [eoTrimTrailingSpaces];
+        try
+          if (eoAutoIndent in ASynEdit.Options) and (iPrevLine <> '') then begin
+            // undo the effect of autoindent
+            Position := ASynEdit.CaretX;
+            ASynEdit.BlockBegin := BufferCoord(1, ASynEdit.CaretY);
+            ASynEdit.BlockEnd :=  BufferCoord(Position, ASynEdit.CaretY);
+            ASynEdit.SelText := '';
+          end;
+
+          if CommandsDataModule.IsBlockOpener(iPrevLine) then begin
+            if eoTabsToSpaces in ASynEdit.Options then
+              Indent := Indent + StringOfChar(' ', ASynEdit.TabWidth)
+            else
+              Indent := indent + #9;
+          end else if CommandsDataModule.IsBlockCloser(iPrevLine) then begin
+            if (eoTabsToSpaces in ASynEdit.Options) and (Length(Indent) > 0) and
+              (Indent[Length(Indent)] <> #9)
+            then
+              Delete(Indent, Length(Indent) - ASynEdit.TabWidth + 1, ASynEdit.TabWidth)
+            else
+              Delete(Indent, Length(Indent), 1);
+          end;
+          // use ReplaceSel to ensure it goes at the cursor rather than end of buffer
+          if Trim(iPrevLine) <> '' then
+            ASynEdit.SelText := Indent;
+        finally
+          ASynEdit.UndoList.EndBlock;
+          ASynEdit.Options := OldOptions;
+        end;
+      end;
+      ASynEdit.InvalidateGutterLine(ASynEdit.CaretY - 1);
     end;
-    ASynEdit.InvalidateGutterLine(ASynEdit.CaretY - 1);
   end  else if (Command = ecChar) and AfterProcessing and not fAutoCompleteActive
     and CommandsDataModule.PyIDEOptions.AutoCompleteBrackets then
   with ASynEdit do begin
@@ -1748,8 +1777,12 @@ begin
       BC := CaretXY;
       Dec(BC.Char, 2);
       if (BC.Char >= 1) and GetHighlighterAttriAtRowCol(BC, DummyToken, Attr) and
-        ((attr = Highlighter.StringAttribute) or (attr = Highlighter.CommentAttribute)) then
-          OpenBracketPos := 0;  // Do not auto complete brakets inside strings or comments
+        ((attr = Highlighter.StringAttribute) or
+         (attr = Highlighter.CommentAttribute) or
+         (attr = CommandsDataModule.SynPythonSyn.CodeCommentAttri) or
+         (attr = CommandsDataModule.SynPythonSyn.DocStringAttri))
+      then
+        OpenBracketPos := 0;  // Do not auto complete brakets inside strings or comments
 
       if (OpenBracketPos > 0) then begin
         CharRight := WideNull;
@@ -1866,6 +1899,10 @@ begin
   BreakPoints := TObjectList.Create(True);
   TDebugSupportPlugin.Create(Self); // No need to free
 
+  // Register Kernel Notification
+  ChangeNotifier.RegisterKernelChangeNotify(Self, [vkneFileName, vkneDirName,
+    vkneLastWrite, vkneCreation]);
+
   AddThemeNotification(Self);
 
   PyIDEMainForm.ThemeEditorGutter(SynEdit.Gutter);
@@ -1873,12 +1910,14 @@ end;
 
 procedure TEditorForm.SynEditGutterClick(Sender: TObject;
   Button: TMouseButton; X, Y, Line: Integer; Mark: TSynEditMark);
+Var
+  ASynEdit : TSynEdit;
 begin
-  if (SynEdit.Highlighter = CommandsDataModule.SynPythonSyn) and
-    (PyControl.ActiveDebugger <> nil) and not (sfGutterDragging in SynEdit.StateFlags)
+  ASynEdit := Sender as TSynEdit;
+  if (ASynEdit.Highlighter = CommandsDataModule.SynPythonSyn) and
+    (PyControl.ActiveDebugger <> nil) and not (sfGutterDragging in ASynEdit.StateFlags)
   then
-    PyControl.ToggleBreakpoint(fEditor, SynEdit.RowToLine(Line),
-      GetKeyState(VK_CONTROL)<0);
+    PyControl.ToggleBreakpoint(fEditor, Line, GetKeyState(VK_CONTROL)<0);
 end;
 
 procedure TEditorForm.SynEditSpecialLineColors(Sender: TObject;
@@ -2162,6 +2201,40 @@ begin
     PyIDEMainForm.ActiveControl := WinControl;
 end;
 
+procedure TEditorForm.WMShellNotify(var Msg: TMessage);
+{
+   Does nothing except for releasing the ShellEventList
+   All the processing takes place from the FileExplorer's
+   OnAfterShellNotify Event
+   Note the File Explorer receives the Kernel notifications
+   registered by the editors
+}
+var
+  ShellEventList: TVirtualShellEventList;
+//  ShellEvent : TVirtualShellEvent;
+//  List: TList;
+//  Count: integer;
+//  i : integer;
+begin
+//  if csDestroying in ComponentState then Exit;
+//
+  ShellEventList := TVirtualShellEventList(Msg.wParam);
+//  List := ShellEventList.LockList;
+//  try
+//    begin
+//      Count := List.Count;
+//      for i := 0 to Count - 1 do
+//      begin
+//          ShellEvent := TVirtualShellEvent(List.Items[i]);
+//          CommandsDataModule.ProcessShellNotify(ShellEvent);
+//      end;
+//    end;
+//  finally
+//    ShellEventList.UnlockList;
+    ShellEventList.Release;
+//  end;
+end;
+
 procedure TEditorForm.AddWatchAtCursor;
 var
   TokenType, Start: Integer;
@@ -2290,7 +2363,7 @@ begin
 
     FName := GetEditor.GetFileNameOrTitle;
     // Add the file path to the Python path - Will be automatically removed
-    PythonPathAdder := InternalInterpreter.AddPathToPythonPath(ExtractFilePath(FName));
+    PythonPathAdder := InternalInterpreter.AddPathToPythonPath(ExtractFileDir(FName));
 
     PyScripterRefactor.InitializeQuery;
     // GetParsedModule
@@ -2321,7 +2394,7 @@ begin
           end;
 
           //  builtins (could add keywords as well)
-          ParsedBuiltInModule := PyScripterRefactor.GetParsedModule('__builtin__', None);
+          ParsedBuiltInModule := PyScripterRefactor.GetParsedModule(GetPythonEngine.BuiltInModuleName, None);
           ParsedBuiltInModule.GetNameSpace(NameSpace);
         end;
 
@@ -2482,7 +2555,7 @@ begin
             end else begin
               FName := GetEditor.GetFileNameOrTitle;
               // Add the file path to the Python path - Will be automatically removed
-              PythonPathAdder := InternalInterpreter.AddPathToPythonPath(ExtractFilePath(FName));
+              PythonPathAdder := InternalInterpreter.AddPathToPythonPath(ExtractFileDir(FName));
 
               PyScripterRefactor.InitializeQuery;
               // GetParsedModule
@@ -2542,8 +2615,10 @@ begin
       end else begin
         FormatParams := True;
       end;
-      if (Doc <> '') then
+      if (Doc <> '') then begin
         DisplayText := DisplayText + sLineBreak;
+        Doc := GetLineRange(Doc, 1, 40) // 40 lines max
+      end;
 
       Form.CurrentIndex := TmpLocation;
       ItemList.Text := DisplayText + Doc;
@@ -2629,6 +2704,7 @@ initialization
 finalization
   GI_EditorFactory := nil;
 end.
+
 
 
 

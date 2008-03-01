@@ -1271,13 +1271,13 @@ begin
   Visible := False;
 
   FTitleFont := TFont.Create;
-  FTitleFont.Name := 'MS Sans Serif';
+  FTitleFont.Name := 'MS Shell Dlg 2';
   FTitleFont.Size := 8;
   FTitleFont.Style := [fsBold];
   FTitleFont.Color := clBtnText;
 
   FFont := TFont.Create;
-  FFont.Name := 'MS Sans Serif';
+  FFont.Name := 'MS Shell Dlg 2';
   FFont.Size := 8;
 
   ClSelect := clHighlight;

@@ -37,20 +37,20 @@ object CustomizeParams: TCustomizeParams
       Height = 13
       Caption = 'Press Shift+Ctrl+P for Parameter completion'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clGradientActiveCaption
+      Font.Color = clGrayText
       Font.Height = -11
       Font.Name = 'MS Shell Dlg 2'
       Font.Style = []
       ParentFont = False
     end
     object Label4: TLabel
-      Left = 13
+      Left = 12
       Top = 319
       Width = 204
       Height = 13
       Caption = 'Press Shift+Ctrl+M for Modifier completion'
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clGradientActiveCaption
+      Font.Color = clGrayText
       Font.Height = -11
       Font.Name = 'MS Shell Dlg 2'
       Font.Style = []
@@ -80,7 +80,7 @@ object CustomizeParams: TCustomizeParams
       ViewStyle = vsReport
       OnChange = lvItemsChange
     end
-    object JvGroupBox1: TJvGroupBox
+    object GroupBox1: TGroupBox
       Left = 10
       Top = 215
       Width = 414
@@ -110,8 +110,8 @@ object CustomizeParams: TCustomizeParams
         Height = 20
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
-        Font.Height = -12
-        Font.Name = 'Lucida Console'
+        Font.Height = -11
+        Font.Name = 'Courier New'
         Font.Style = []
         TabOrder = 1
         Gutter.Font.Charset = DEFAULT_CHARSET
@@ -120,6 +120,7 @@ object CustomizeParams: TCustomizeParams
         Gutter.Font.Name = 'Courier New'
         Gutter.Font.Style = []
         Gutter.Width = 0
+        HideSelection = True
         Options = [eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoShowScrollHint, eoSmartTabDelete, eoSmartTabs, eoTabsToSpaces]
         ScrollBars = ssNone
         WantReturns = False
@@ -128,11 +129,11 @@ object CustomizeParams: TCustomizeParams
         Left = 61
         Top = 23
         Width = 121
-        Height = 20
+        Height = 22
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
-        Font.Height = -12
-        Font.Name = 'Lucida Console'
+        Font.Height = -11
+        Font.Name = 'Courier New'
         Font.Style = []
         ParentFont = False
         TabOrder = 0

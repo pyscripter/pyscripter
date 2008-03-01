@@ -42,8 +42,8 @@ inherited VariablesWindow: TVariablesWindow
     000000000000000000000000000000000000000000000000000000000000F00F
     0000F00F0000F0030000F0030000F0000000D0000000F0000000D0000000FC00
     0000DC000000FF0000008F00000007FF0000055F000007FF00008FFF0000}
-  ExplicitWidth = 587
-  ExplicitHeight = 273
+  ExplicitWidth = 595
+  ExplicitHeight = 281
   PixelsPerInch = 96
   TextHeight = 13
   inherited FGPanel: TPanel
@@ -95,14 +95,13 @@ inherited VariablesWindow: TVariablesWindow
           WideText = 'Name'
         end
         item
-          Options = [coAllowClick, coDraggable, coEnabled, coParentBidiMode, coParentColor, coResizable, coShowDropMark]
           Position = 1
           Width = 100
           WideText = 'Type'
         end
         item
           Position = 2
-          Width = 29
+          Width = 10
           WideText = 'Value'
         end>
     end

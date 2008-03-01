@@ -3,7 +3,7 @@
 (* Module:  Unit 'PythonEngine'     Copyright (c) 1997                    *)
 (*                                                                        *)
 (* Version: 3.0                     Dr. Dietmar Budelsky                  *)
-(* Sub-Version: 0.32                dbudelsky@web.de                      *)
+(* Sub-Version: 0.33                dbudelsky@web.de                      *)
 (*                                  Germany                               *)
 (*                                                                        *)
 (*                                  Morgan Martinet                       *)
@@ -32,6 +32,7 @@
 (*      Stefan Hoffmeister (Stefan.Hoffmeister@Econos.de)                 *)
 (*      Michiel du Toit (micdutoit@hsbfn.com) - Lazarus Port              *)
 (*      Chris Nicolai (nicolaitanes@gmail.com)                            *)
+(*      Kiriakos Vlahos (kvlahos@london.edu)                              *)
 (**************************************************************************)
 (* This source code is distributed with no WARRANTY, for no reason or use.*)
 (* Everyone is allowed to use and change this code free for his own tasks *)
@@ -56,6 +57,12 @@ unit PythonEngine;
 { TODO -oMMM : implement Attribute descriptor and subclassing stuff }
 
 {$I Definition.Inc}
+
+{$IFDEF PYTHON30_OR_HIGHER}
+  {$IFNDEF UNICODE_SUPPORT}
+    Error! Python 3.0 only supports UNICODE!
+  {$ENDIF}
+{$ENDIF}
 
 interface
 
@@ -101,7 +108,7 @@ type
   end;
 const
 {$IFDEF MSWINDOWS}
-  PYTHON_KNOWN_VERSIONS: array[1..9] of TPythonVersionProp =
+  PYTHON_KNOWN_VERSIONS: array[1..10] of TPythonVersionProp =
   ( (DllName: 'python14.dll'; RegVersion: '1.4'; APIVersion: 1006; CanUseLatest: False),
     (DllName: 'python15.dll'; RegVersion: '1.5'; APIVersion: 1007; CanUseLatest: False),
     (DllName: 'python16.dll'; RegVersion: '1.6'; APIVersion: 1008; CanUseLatest: False),
@@ -110,10 +117,11 @@ const
     (DllName: 'python22.dll'; RegVersion: '2.2'; APIVersion: 1011; CanUseLatest: True),
     (DllName: 'python23.dll'; RegVersion: '2.3'; APIVersion: 1012; CanUseLatest: True),
     (DllName: 'python24.dll'; RegVersion: '2.4'; APIVersion: 1012; CanUseLatest: True),
-    (DllName: 'python25.dll'; RegVersion: '2.5'; APIVersion: 1013; CanUseLatest: True) );
+    (DllName: 'python25.dll'; RegVersion: '2.5'; APIVersion: 1013; CanUseLatest: True),
+    (DllName: 'python30.dll'; RegVersion: '3.0'; APIVersion: 1013; CanUseLatest: True) );
 {$ENDIF}
 {$IFDEF LINUX}
-  PYTHON_KNOWN_VERSIONS: array[1..9] of TPythonVersionProp =
+  PYTHON_KNOWN_VERSIONS: array[1..10] of TPythonVersionProp =
   ( (DllName: 'libpython1.4.so'; RegVersion: '1.4'; APIVersion: 1006; CanUseLatest: False),
     (DllName: 'libpython1.5.so'; RegVersion: '1.5'; APIVersion: 1007; CanUseLatest: False),
     (DllName: 'libpython1.6.so'; RegVersion: '1.6'; APIVersion: 1008; CanUseLatest: False),
@@ -122,7 +130,8 @@ const
     (DllName: 'libpython2.2.so'; RegVersion: '2.2'; APIVersion: 1011; CanUseLatest: True),
     (DllName: 'libpython2.3.so'; RegVersion: '2.3'; APIVersion: 1012; CanUseLatest: True),
     (DllName: 'libpython2.4.so'; RegVersion: '2.4'; APIVersion: 1012; CanUseLatest: True),
-    (DllName: 'libpython2.5.so'; RegVersion: '2.5'; APIVersion: 1013; CanUseLatest: True) );
+    (DllName: 'libpython2.5.so'; RegVersion: '2.5'; APIVersion: 1013; CanUseLatest: True),
+    (DllName: 'libpython3.0.so'; RegVersion: '3.0'; APIVersion: 1013; CanUseLatest: True) );
 {$ENDIF}
 {$IFDEF PYTHON14}
   COMPILED_FOR_PYTHON_VERSION_INDEX = 1;
@@ -150,6 +159,9 @@ const
 {$ENDIF}
 {$IFDEF PYTHON25}
   COMPILED_FOR_PYTHON_VERSION_INDEX = 9;
+{$ENDIF}
+{$IFDEF PYTHON30}
+  COMPILED_FOR_PYTHON_VERSION_INDEX = 10;
 {$ENDIF}
 
   PYT_METHOD_BUFFER_INCREASE = 10;
@@ -1499,8 +1511,10 @@ type
     FMaxLineLength   : Integer;
     FOnSendData      : TSendDataEvent;
     FOnReceiveData   : TReceiveDataEvent;
+{$IFDEF UNICODE_SUPPORT}
     FOnSendUniData   : TSendUniDataEvent;
     FOnReceiveUniData: TReceiveUniDataEvent;
+{$ENDIF}
     FUnicodeIO       : Boolean;
     FRawOutput       : Boolean;
 
@@ -1632,9 +1646,14 @@ type
     DLL_PyImport_ExecCodeModule:
                      function ( const name : String; codeobject : PPyObject) : PPyObject; cdecl;
 
+    DLL_PyString_FromString:  function( str: PChar): PPyObject; cdecl;
+    DLL_Py_FlushLine:procedure; cdecl;
+
   protected
     FInitialized:    Boolean;
     FFinalizing:     Boolean;
+    FIsPython3000:   Boolean;
+    FBuiltInModuleName: String;
     function GetInitialized: Boolean;
 
     procedure AfterLoad; override;
@@ -1844,7 +1863,6 @@ type
                                     locals: PPyObject): PPyObject; cdecl;
     PyRun_SimpleString:   function( str: PChar): Integer; cdecl;
     PyString_AsString:    function( ob: PPyObject): PChar; cdecl;
-    PyString_FromString:  function( str: PChar): PPyObject; cdecl;
     PySys_SetArgv:        procedure( argc: Integer; argv: PPChar); cdecl;
 
 {+ means, Grzegorz or me has tested his non object version of this function}
@@ -1949,7 +1967,9 @@ type
 {-} PyOS_InterruptOccurred:function :integer; cdecl;
 {+} PyObject_CallObject:function (ob,args:PPyObject):PPyObject; cdecl;
     PyObject_CallMethodStr: function ( obj : PPyObject; method, format, value : PChar ) : PPyObject; cdecl;
-{-} PyObject_Compare:function (ob1,ob2:PPyObject):integer; cdecl;
+    PyObject_Compare: function (ob1,ob2:PPyObject):integer; cdecl;
+    PyObject_RichCompare:function (ob1,ob2:PPyObject;opid:integer):PPyObject; cdecl;
+    PyObject_RichCompareBool:function (ob1,ob2:PPyObject;opid:integer):Integer; cdecl;
 {-} PyObject_GetAttr:function (ob1,ob2:PPyObject):PPyObject; cdecl;
 {+} PyObject_GetAttrString:function (ob:PPyObject;c:PChar):PPyObject; cdecl;
 {-} PyObject_GetItem:function (ob,key:PPyObject):PPyObject; cdecl;
@@ -2045,6 +2065,8 @@ type
 {$IFDEF UNICODE_SUPPORT}
 {+} PyUnicode_FromWideChar:function (const w:PWideChar; size:integer):PPyObject; cdecl;
 {+} PyUnicode_AsWideChar:function (unicode: PPyObject; w:PWideChar; size:integer):integer; cdecl;
+    PyUnicode_Decode:function (const s:PChar; size: integer; const encoding : PChar; const errors: PChar):PPyObject; cdecl;
+    PyUnicode_AsEncodedString:function (unicode:PPyObject; const encoding:PChar; const errors:PChar):PPyObject; cdecl;
 {$IFDEF PYTHON23_OR_HIGHER}
 {-} PyUnicode_FromOrdinal:function (ordinal:integer):PPyObject; cdecl;
 {$ENDIF}
@@ -2065,7 +2087,6 @@ type
 {-} Py_FatalError:procedure(s:PChar); cdecl;
 {-} Py_FindMethod:function (md:PPyMethodDef;ob:PPyObject;key:PChar):PPyObject; cdecl;
 {-} Py_FindMethodInChain:function (mc:PPyMethodChain;ob:PPyObject;key:PChar):PPyObject; cdecl;
-{-} Py_FlushLine:procedure; cdecl;
 {-} _PyObject_New:function (obt:PPyTypeObject;ob:PPyObject):PPyObject; cdecl;
 {-} _PyString_Resize:function (var ob:PPyObject;i:integer):integer; cdecl;
 {+} Py_Finalize                     : procedure; cdecl;
@@ -2236,6 +2257,9 @@ type
 {$ENDIF}
   function PyObject_TypeCheck(obj:PPyObject; t:PPyTypeObject) : Boolean;
   function Py_InitModule( const AName : PChar; md : PPyMethodDef) : PPyObject;
+  function PyString_FromString( str: PChar): PPyObject; virtual; abstract;
+  function PyString_AsDelphiString( ob: PPyObject): string;  virtual; abstract;
+  procedure Py_FlushLine; cdecl;
 
   // Constructors & Destructors
   constructor Create(AOwner: TComponent); override;
@@ -2246,6 +2270,9 @@ type
   // Public properties
   property Initialized : Boolean read GetInitialized;
   property Finalizing : Boolean read FFinalizing;
+  property IsPython3000 : Boolean read FIsPython3000;
+  property BuiltInModuleName: String read FBuiltInModuleName write FBuiltInModuleName;
+
 end;
 
 //--------------------------------------------------------
@@ -2438,6 +2465,8 @@ type
     function   PyDateTime_TIME_GET_SECOND( obj : PPyObject ) : Integer;
     function   PyDateTime_TIME_GET_MICROSECOND( obj : PPyObject ) : Integer;
     { end date/time functions }
+    function   PyString_FromString( str: PChar): PPyObject; override;
+    function PyString_AsDelphiString( ob: PPyObject): string; override;
 
     // Public Properties
     property ClientCount : Integer read GetClientCount;
@@ -3400,10 +3429,12 @@ begin
   Lock;
   try
     FLine_Buffer := GetCurrentThreadLine;
+{$IFDEF UNICODE_SUPPORT}
     if FRawOutput then begin
       FLine_Buffer := FLine_Buffer  + str;
       DropLine;
     end else begin
+{$ENDIF}
       for i := 1 to length(str) do
         begin
           c := str[i];
@@ -3416,7 +3447,9 @@ begin
                 DropLine;
             end;
         end;
+{$IFDEF UNICODE_SUPPORT}
     end;
+{$ENDIF}
     UpdateCurrentThreadLine;
   finally
     Unlock;
@@ -3749,6 +3782,12 @@ end;
 procedure TPythonInterface.AfterLoad;
 begin
   inherited;
+  FIsPython3000 := Pos('PYTHON3', UpperCase(DLLName)) = 1;
+  if FIsPython3000 then
+    FBuiltInModuleName := 'builtins'
+  else
+    FBuiltInModuleName := '__builtin__';
+
   try
     MapDll;
   except
@@ -3803,7 +3842,8 @@ begin
   Py_FrozenFlag              := Import('Py_FrozenFlag');
   Py_TabcheckFlag            := Import('Py_TabcheckFlag');
 {$IFDEF PYTHON20_OR_HIGHER}
-  Py_UnicodeFlag             := Import('Py_UnicodeFlag');
+  if not IsPython3000 then
+    Py_UnicodeFlag             := Import('Py_UnicodeFlag');
 {$ENDIF}
 {$IFDEF PYTHON22_OR_HIGHER}
   Py_IgnoreEnvironmentFlag   := Import('Py_IgnoreEnvironmentFlag');
@@ -3815,7 +3855,10 @@ begin
 
   Py_None                    := Import('_Py_NoneStruct');
   Py_Ellipsis                := Import('_Py_EllipsisObject');
-  Py_False                   := Import('_Py_ZeroStruct');
+  if IsPython3000 then
+    Py_False                   := Import('_Py_FalseStruct')
+  else
+    Py_False                   := Import('_Py_ZeroStruct');
   Py_True                    := Import('_Py_TrueStruct');
 {$IFDEF PYTHON21_OR_HIGHER}
   Py_NotImplemented          := Import('_Py_NotImplementedStruct');
@@ -3844,7 +3887,8 @@ begin
   PyExc_Exception            := Import('PyExc_Exception');
   PyExc_FloatingPointError   := Import('PyExc_FloatingPointError');
   PyExc_LookupError          := Import('PyExc_LookupError');
-  PyExc_StandardError        := Import('PyExc_StandardError');
+  if not IsPython3000 then
+    PyExc_StandardError        := Import('PyExc_StandardError');
 {$IFDEF PYTHON20_OR_HIGHER}
   PyExc_AssertionError       := Import('PyExc_AssertionError');
   PyExc_EnvironmentError     := Import('PyExc_EnvironmentError');
@@ -3880,16 +3924,20 @@ begin
   PyType_Type                := Import('PyType_Type');
   PyCFunction_Type           := Import('PyCFunction_Type');
   PyCObject_Type             := Import('PyCObject_Type');
-  PyClass_Type               := Import('PyClass_Type');
+  if not IsPython3000 then
+    PyClass_Type               := Import('PyClass_Type');
   PyCode_Type                := Import('PyCode_Type');
   PyComplex_Type             := Import('PyComplex_Type');
   PyDict_Type                := Import('PyDict_Type');
-  PyFile_Type                := Import('PyFile_Type');
+  if not IsPython3000 then
+    PyFile_Type                := Import('PyFile_Type');
   PyFloat_Type               := Import('PyFloat_Type');
   PyFrame_Type               := Import('PyFrame_Type');
   PyFunction_Type            := Import('PyFunction_Type');
-  PyInstance_Type            := Import('PyInstance_Type');
-  PyInt_Type                 := Import('PyInt_Type');
+  if not IsPython3000 then
+    PyInstance_Type            := Import('PyInstance_Type');
+  if not IsPython3000 then
+    PyInt_Type                 := Import('PyInt_Type');
   PyList_Type                := Import('PyList_Type');
   PyLong_Type                := Import('PyLong_Type');
   PyMethod_Type              := Import('PyMethod_Type');
@@ -3904,7 +3952,8 @@ begin
 {$ENDIF}
 {$IFDEF PYTHON22_OR_HIGHER}
   PyBaseObject_Type          := Import('PyBaseObject_Type');
-  PyBuffer_Type              := Import('PyBuffer_Type');
+  if not IsPython3000 then
+    PyBuffer_Type              := Import('PyBuffer_Type');
   PyCallIter_Type            := Import('PyCallIter_Type');
   PyCell_Type                := Import('PyCell_Type');
   PyClassMethod_Type         := Import('PyClassMethod_Type');
@@ -3922,7 +3971,8 @@ begin
   _PyWeakref_CallableProxyType:=Import('_PyWeakref_CallableProxyType');
 {$ENDIF}
 {$IFDEF PYTHON23_OR_HIGHER}
-  PyBaseString_Type          := Import('PyBaseString_Type');
+  if not IsPython3000 then
+    PyBaseString_Type          := Import('PyBaseString_Type');
   PyBool_Type                := Import('PyBool_Type');
   PyEnum_Type                := Import('PyEnum_Type');
 {$ENDIF}
@@ -3945,8 +3995,10 @@ begin
   @PyCallable_Check          := Import('PyCallable_Check');
   @PyCObject_FromVoidPtr     := Import('PyCObject_FromVoidPtr');
   @PyCObject_AsVoidPtr       := Import('PyCObject_AsVoidPtr');
-  @PyClass_New               := Import('PyClass_New');
-  @PyClass_IsSubclass        := Import('PyClass_IsSubclass');
+  if not IsPython3000 then
+    @PyClass_New               := Import('PyClass_New');
+  if not IsPython3000 then
+    @PyClass_IsSubclass        := Import('PyClass_IsSubclass');
   @PyDict_GetItem            := Import('PyDict_GetItem');
   @PyDict_SetItem            := Import('PyDict_SetItem');
   @PyDict_DelItem            := Import('PyDict_DelItem');
@@ -3977,7 +4029,10 @@ begin
   @PyErr_SetString           := Import('PyErr_SetString');
   @PyEval_GetBuiltins        := Import('PyEval_GetBuiltins');
   @PyImport_GetModuleDict    := Import('PyImport_GetModuleDict');
-  @PyInt_FromLong            := Import('PyInt_FromLong');
+  if IsPython3000 then
+    @PyInt_FromLong            := Import('PyLong_FromLong')
+  else
+    @PyInt_FromLong            := Import('PyInt_FromLong');
   @DLL_PyArg_ParseTuple      := Import('PyArg_ParseTuple');
   @DLL_PyArg_Parse           := Import('PyArg_Parse');
   @DLL_Py_BuildValue         := Import('Py_BuildValue');
@@ -3990,7 +4045,8 @@ begin
   @PyRun_SimpleString        := Import('PyRun_SimpleString');
   @PyDict_GetItemString      := Import('PyDict_GetItemString');
   @PyString_AsString         := Import('PyString_AsString');
-  @PyString_FromString       := Import('PyString_FromString');
+  if not IsPython3000 then
+    @DLL_PyString_FromString   := Import('PyString_FromString');
   @PySys_SetArgv             := Import('PySys_SetArgv');
   @Py_Exit                   := Import('Py_Exit');
 
@@ -4001,15 +4057,20 @@ begin
   @PyEval_GetGlobals         :=Import('PyEval_GetGlobals');
   @PyEval_GetLocals          :=Import('PyEval_GetLocals');
   //@PyEval_GetOwner           :=Import('PyEval_GetOwner');
-  @PyEval_GetRestricted      :=Import('PyEval_GetRestricted');
+  if not IsPython3000 then
+    @PyEval_GetRestricted      :=Import('PyEval_GetRestricted');
   @PyEval_InitThreads        :=Import('PyEval_InitThreads');
   @PyEval_RestoreThread      :=Import('PyEval_RestoreThread');
   @PyEval_SaveThread         :=Import('PyEval_SaveThread');
-  @PyFile_FromString         :=Import('PyFile_FromString');
+  if not IsPython3000 then
+    @PyFile_FromString         :=Import('PyFile_FromString');
   @PyFile_GetLine            :=Import('PyFile_GetLine');
-  @PyFile_Name               :=Import('PyFile_Name');
-  @PyFile_SetBufSize         :=Import('PyFile_SetBufSize');
-  @PyFile_SoftSpace          :=Import('PyFile_SoftSpace');
+  if not IsPython3000 then
+    @PyFile_Name               :=Import('PyFile_Name');
+  if not IsPython3000 then
+    @PyFile_SetBufSize         :=Import('PyFile_SetBufSize');
+  if not IsPython3000 then
+    @PyFile_SoftSpace          :=Import('PyFile_SoftSpace');
   @PyFile_WriteObject        :=Import('PyFile_WriteObject');
   @PyFile_WriteString        :=Import('PyFile_WriteString');
   @PyFloat_AsDouble          :=Import('PyFloat_AsDouble');
@@ -4025,8 +4086,12 @@ begin
   @PyImport_Import           :=Import('PyImport_Import');
   //@PyImport_Init             :=Import('PyImport_Init');
   @PyImport_ReloadModule     :=Import('PyImport_ReloadModule');
-  @PyInstance_New            :=Import('PyInstance_New');
-  @PyInt_AsLong              :=Import('PyInt_AsLong');
+  if not IsPython3000 then
+    @PyInstance_New            :=Import('PyInstance_New');
+  if IsPython3000 then
+    @PyInt_AsLong              :=Import('PyLong_AsLong')
+  else
+    @PyInt_AsLong              :=Import('PyInt_AsLong');
   @PyList_Append             :=Import('PyList_Append');
   @PyList_AsTuple            :=Import('PyList_AsTuple');
   @PyList_GetItem            :=Import('PyList_GetItem');
@@ -4059,7 +4124,8 @@ begin
   @PyMapping_HasKeyString    :=Import('PyMapping_HasKeyString');
   @PyMapping_Length          :=Import('PyMapping_Length');
   @PyMapping_SetItemString   :=Import('PyMapping_SetItemString');
-  @PyMethod_Class            :=Import('PyMethod_Class');
+  if not IsPython3000 then
+    @PyMethod_Class            :=Import('PyMethod_Class');
   @PyMethod_Function         :=Import('PyMethod_Function');
   @PyMethod_New              :=Import('PyMethod_New');
   @PyMethod_Self             :=Import('PyMethod_Self');
@@ -4069,15 +4135,20 @@ begin
   @PyNumber_Add              :=Import('PyNumber_Add');
   @PyNumber_And              :=Import('PyNumber_And');
   @PyNumber_Check            :=Import('PyNumber_Check');
-  @PyNumber_Coerce           :=Import('PyNumber_Coerce');
-  @PyNumber_Divide           :=Import('PyNumber_Divide');
+  if not IsPython3000 then
+    @PyNumber_Coerce           :=Import('PyNumber_Coerce');
+  if IsPython3000 then
+    @PyNumber_Divide           :=Import('PyNumber_TrueDivide')
+  else
+    @PyNumber_Divide           :=Import('PyNumber_Divide');
 {$IFDEF PYTHON22_OR_HIGHER}
   @PyNumber_FloorDivide      :=Import('PyNumber_FloorDivide');
   @PyNumber_TrueDivide       :=Import('PyNumber_TrueDivide');
 {$ENDIF}
   @PyNumber_Divmod           :=Import('PyNumber_Divmod');
   @PyNumber_Float            :=Import('PyNumber_Float');
-  @PyNumber_Int              :=Import('PyNumber_Int');
+  if not IsPython3000 then
+    @PyNumber_Int              :=Import('PyNumber_Int');
   @PyNumber_Invert           :=Import('PyNumber_Invert');
   @PyNumber_Long             :=Import('PyNumber_Long');
   @PyNumber_Lshift           :=Import('PyNumber_Lshift');
@@ -4095,6 +4166,10 @@ begin
   @PyObject_CallObject       :=Import('PyObject_CallObject');
   @PyObject_CallMethodStr    :=Import('PyObject_CallMethod');
   @PyObject_Compare          :=Import('PyObject_Compare');
+{$IFDEF PYTHON21_OR_HIGHER}
+  @PyObject_RichCompare      :=Import('PyObject_RichCompare');
+  @PyObject_RichCompareBool  :=Import('PyObject_RichCompareBool');
+{$ENDIF}
   @PyObject_GetAttr          :=Import('PyObject_GetAttr');
   @PyObject_GetAttrString    :=Import('PyObject_GetAttrString');
   @PyObject_GetItem          :=Import('PyObject_GetItem');
@@ -4161,7 +4236,8 @@ begin
   @PySlice_New               :=Import('PySlice_New');
   @PyString_Concat           :=Import('PyString_Concat');
   @PyString_ConcatAndDel     :=Import('PyString_ConcatAndDel');
-  @PyString_Format           :=Import('PyString_Format');
+  if not IsPython3000 then
+    @PyString_Format           :=Import('PyString_Format');
   @PyString_FromStringAndSize:=Import('PyString_FromStringAndSize');
   @PyString_Size             :=Import('PyString_Size');
 {$IFDEF PYTHON23_OR_HIGHER}
@@ -4190,6 +4266,8 @@ begin
 {$IFDEF UNICODE_SUPPORT}
   @PyUnicode_FromWideChar    :=Import(Format('PyUnicode%s_FromWideChar',[GetUnicodeTypeSuffix]));
   @PyUnicode_AsWideChar      :=Import(Format('PyUnicode%s_AsWideChar',[GetUnicodeTypeSuffix]));
+  @PyUnicode_Decode          :=Import(Format('PyUnicode%s_Decode',[GetUnicodeTypeSuffix]));
+  @PyUnicode_AsEncodedString :=Import(Format('PyUnicode%s_AsEncodedString',[GetUnicodeTypeSuffix]));
 {$IFDEF PYTHON23_OR_HIGHER}
   @PyUnicode_FromOrdinal     :=Import(Format('PyUnicode%s_FromOrdinal',[GetUnicodeTypeSuffix]));
 {$ENDIF}
@@ -4210,7 +4288,8 @@ begin
   @Py_FatalError             :=Import('Py_FatalError');
   @Py_FindMethod             :=Import('Py_FindMethod');
   @Py_FindMethodInChain      :=Import('Py_FindMethodInChain');
-  @Py_FlushLine              :=Import('Py_FlushLine');
+  if not IsPython3000 then
+    @DLL_Py_FlushLine        :=Import('Py_FlushLine');
   @_PyObject_New             :=Import('_PyObject_New');
   @_PyString_Resize          :=Import('_PyString_Resize');
   @Py_Finalize                :=Import('Py_Finalize');
@@ -4218,7 +4297,7 @@ begin
     @DLL_PyCode_Addr2Line     := Import('PyCode_Addr2Line');
   if getProcAddress( FDLLHandle, 'PyImport_ExecCodeModule' ) <> nil then
     @DLL_PyImport_ExecCodeModule := Import('PyImport_ExecCodeModule');
-  @PyClass_IsSubclass         :=Import('PyClass_IsSubclass');
+  //@PyClass_IsSubclass         :=Import('PyClass_IsSubclass');
   @PyErr_ExceptionMatches     :=Import('PyErr_ExceptionMatches');
   @PyErr_GivenExceptionMatches:=Import('PyErr_GivenExceptionMatches');
   @PyEval_EvalCode            :=Import('PyEval_EvalCode');
@@ -4587,12 +4666,18 @@ end;
 
 function TPythonInterface.PyInt_Check( obj : PPyObject ) : Boolean;
 begin
-  Result := PyObject_TypeCheck(obj, PyInt_Type);
+  if IsPython3000 then
+    Result := PyObject_TypeCheck(obj, PyLong_Type)
+  else
+    Result := PyObject_TypeCheck(obj, PyInt_Type);
 end;
 
 function TPythonInterface.PyInt_CheckExact(obj: PPyObject): Boolean;
 begin
-  Result := Assigned( obj ) and (obj^.ob_type = PPyTypeObject(PyInt_Type));
+  if IsPython3000 then
+    Result := Assigned( obj ) and (obj^.ob_type = PPyTypeObject(PyLong_Type))
+  else
+    Result := Assigned( obj ) and (obj^.ob_type = PPyTypeObject(PyInt_Type));
 end;
 
 function TPythonInterface.PyLong_Check( obj : PPyObject ) : Boolean;
@@ -4617,12 +4702,12 @@ end;
 
 function TPythonInterface.PyInstance_Check( obj : PPyObject ) : Boolean;
 begin
-  Result := Assigned( obj ) and (obj^.ob_type = PPyTypeObject(PyInstance_Type));
+  Result := Assigned( obj ) and (not IsPython3000) and (obj^.ob_type = PPyTypeObject(PyInstance_Type));
 end;
 
 function TPythonInterface.PyClass_Check( obj : PPyObject ) : Boolean;
 begin
-  Result := Assigned( obj ) and (obj^.ob_type = PPyTypeObject(PyClass_Type));
+  Result := Assigned( obj ) and not IsPython3000 and (obj^.ob_type = PPyTypeObject(PyClass_Type));
 end;
 
 function TPythonInterface.PyType_CheckExact( obj : PPyObject ) : Boolean;
@@ -4681,7 +4766,8 @@ function TPythonInterface.PyIter_Check( obj : PPyObject ) : Boolean;
 begin
 {$IFDEF PYTHON20_OR_HIGHER}
   Result := Assigned( obj ) and
-            (PyType_HasFeature(obj^.ob_type, Py_TPFLAGS_HAVE_ITER) and Assigned(obj^.ob_type^.tp_iternext));
+            (IsPython3000 or (PyType_HasFeature(obj^.ob_type, Py_TPFLAGS_HAVE_ITER))
+              and Assigned(obj^.ob_type^.tp_iternext));
 {$ELSE}
   Result := False;
 {$ENDIF}
@@ -4739,7 +4825,10 @@ end;
 
 function TPythonInterface.PyBaseString_Check( obj : PPyObject ) : Boolean;
 begin
-  Result := PyObject_TypeCheck(obj, PyBaseString_Type);
+  if IsPython3000 then
+    Result:= PyObject_TypeCheck(obj, PyUnicode_Type)
+  else
+    Result := PyObject_TypeCheck(obj, PyBaseString_Type);
 end;
 
 function TPythonInterface.PyEnum_Check( obj : PPyObject ) : Boolean;
@@ -4761,6 +4850,12 @@ function TPythonInterface.Py_InitModule( const AName : PChar; md : PPyMethodDef)
 begin
   CheckPython;
   result := Py_InitModule4( AName, md, nil, nil, APIVersion );
+end;
+
+procedure TPythonInterface.Py_FlushLine; cdecl;
+begin
+  if Assigned(DLL_Py_FlushLine) then
+    DLL_Py_FlushLine;
 end;
 
 (*******************************************************)
@@ -5081,7 +5176,8 @@ begin
   SetFlag(Py_FrozenFlag,      pfFrozenFlag in FPyFlags);
   SetFlag(Py_TabcheckFlag,    pfTabcheck in FPyFlags);
 {$IFDEF PYTHON20_OR_HIGHER}
-  SetFlag(Py_UnicodeFlag,     pfUnicode in FPyFlags);
+  if not IsPython3000 then
+    SetFlag(Py_UnicodeFlag,     pfUnicode in FPyFlags);
 {$ENDIF}
 {$IFDEF PYTHON22_OR_HIGHER}
   SetFlag(Py_IgnoreEnvironmentFlag, pfIgnoreEnvironmentFlag in FPyFlags);
@@ -5668,13 +5764,13 @@ procedure TPythonEngine.RaiseError;
     // Sometimes there's a tuple instead of instance...
     if PyTuple_Check( err_value )  and (PyTuple_Size( err_value) >= 2) then
     begin
-      s_value := PyString_AsString(PyTuple_GetItem( err_value, 0));
+      s_value := PyString_AsDelphiString(PyTuple_GetItem( err_value, 0));
       err_value := PyTuple_GetItem( err_value, 1);
       if PyTuple_Check( err_value )  and (PyTuple_Size( err_value) >= 4) then
       begin
         i_line_number := PyInt_AsLong(PyTuple_GetItem( err_value, 1));
         i_offset      := PyInt_AsLong(PyTuple_GetItem( err_value, 2));
-        s_line := Trim(PyString_AsString(PyTuple_GetItem( err_value, 3)));
+        s_line := Trim(PyString_AsDelphiString(PyTuple_GetItem( err_value, 3)));
       end;
     end else
     // Is it an instance of the SyntaxError class ?
@@ -5685,7 +5781,7 @@ procedure TPythonEngine.RaiseError;
         tmp := PyObject_GetAttrString(err_value, 'filename');
         if tmp <> nil then begin
           if PyString_Check(tmp) then
-            s_filename := PyString_AsString(tmp)
+            s_filename := PyString_AsDelphiString(tmp)
           else if tmp = Py_None then
             s_filename := '???';
           Py_XDECREF(tmp);
@@ -5693,7 +5789,7 @@ procedure TPythonEngine.RaiseError;
         // Get the text containing the error, cut of carriage return
         tmp := PyObject_GetAttrString(err_value, 'text');
         if Assigned(tmp) and PyString_Check(tmp) then
-          s_line := Trim(PyString_AsString(tmp));
+          s_line := Trim(PyString_AsDelphiString(tmp));
         Py_XDECREF(tmp);
         // Get the offset where the error should appear
         tmp := PyObject_GetAttrString(err_value, 'offset' );
@@ -5708,7 +5804,7 @@ procedure TPythonEngine.RaiseError;
         // Get the message of the error
         tmp := PyObject_GetAttrString(err_value, 'msg' );
         if Assigned(tmp) and PyString_Check(tmp) then
-          s_value := PyString_AsString(tmp);
+          s_value := PyString_AsDelphiString(tmp);
         Py_XDECREF(tmp);
       end;
     // If all is ok
@@ -5733,7 +5829,7 @@ procedure TPythonEngine.RaiseError;
   begin 
     if PyClass_Check( obj ) then
       with PPyClassObject(obj)^ do
-        Result := StrPas( PyString_AsString(cl_name) )
+        Result := PyString_AsDelphiString(cl_name)
     else if PyType_CheckExact( obj ) then
         Result := PPyTypeObject(obj).tp_name
     else
@@ -5846,7 +5942,7 @@ begin
         raise Define( EPySystemError.Create(''), s_type, s_value )
       else if (PyErr_GivenExceptionMatches(err_type, PyExc_MemoryError^) <> 0) then
         raise Define( EPyMemoryError.Create(''), s_type, s_value )
-      else if (PyErr_GivenExceptionMatches(err_type, PyExc_StandardError^) <> 0) then
+      else if (not IsPython3000) and (PyErr_GivenExceptionMatches(err_type, PyExc_StandardError^) <> 0) then
         raise Define( EPyStandardError.Create(''), s_type, s_value )
 {$IFDEF PYTHON21_OR_HIGHER}
       else if (PyErr_GivenExceptionMatches(err_type, PyExc_UserWarning^) <> 0) then
@@ -5881,9 +5977,11 @@ end;
 function TPythonEngine.PyObjectAsString( obj : PPyObject ) : String;
 var
   s : PPyObject;
-  i : Integer;
-  tmp : PChar;
+//  i : Integer;
+//  tmp : PChar;
+{$IFDEF UNICODE_SUPPORT}
   w : WideString;
+{$ENDIF}
 begin
   CheckPython;
   Result := '';
@@ -5901,11 +5999,12 @@ begin
   s := PyObject_Str( obj );
   if Assigned(s) and PyString_Check(s) then
     begin
-      tmp := PyString_AsString(s);
-      SetLength( Result, PyString_Size(s)+1 );
-      Result := '';
-      for i := 0 to PyString_Size(s) - 1 do
-        Insert( tmp[i], Result, i+1 );
+      Result := PyString_AsDelphiString(s);
+//      tmp := PyString_AsString(s);
+//      SetLength( Result, PyString_Size(s)+1 );
+//      Result := '';
+//      for i := 0 to PyString_Size(s) - 1 do
+//        Insert( tmp[i], Result, i+1 );
     end;
   Py_XDECREF(s);
 end;
@@ -6029,16 +6128,18 @@ begin
 end;
 
 function TPythonEngine.VariantAsPyObject( const V : Variant ) : PPyObject;
+Var
+  DeRefV : Variant;
 
   function ArrayVarDim1 : PPyObject;
   var
     i, cpt : Integer;
   begin
-    Result := PyList_New( VarArrayHighBound( V, 1 ) - VarArrayLowBound( V, 1 ) + 1 );
+    Result := PyList_New( VarArrayHighBound( DeRefV, 1 ) - VarArrayLowBound( DeRefV, 1 ) + 1 );
     cpt := 0;
-    for i := VarArrayLowBound( V, 1 ) to VarArrayHighBound( V, 1 ) do
+    for i := VarArrayLowBound( DeRefV, 1 ) to VarArrayHighBound( DeRefV, 1 ) do
       begin
-        PyList_SetItem( Result, cpt, VariantAsPyObject(V[i]) );
+        PyList_SetItem( Result, cpt, VariantAsPyObject(DeRefV[i]) );
         Inc(cpt);
       end;
   end;
@@ -6048,16 +6149,16 @@ function TPythonEngine.VariantAsPyObject( const V : Variant ) : PPyObject;
     i, j, cpt, cpt2 : Integer;
     L : PPyObject;
   begin
-    Result := PyList_New( VarArrayHighBound( V, 1 ) - VarArrayLowBound( V, 1 ) + 1 );
+    Result := PyList_New( VarArrayHighBound( DeRefV, 1 ) - VarArrayLowBound( DeRefV, 1 ) + 1 );
     cpt := 0;
-    for i := VarArrayLowBound( V, 1 ) to VarArrayHighBound( V, 1 ) do
+    for i := VarArrayLowBound( DeRefV, 1 ) to VarArrayHighBound( DeRefV, 1 ) do
       begin
-        L := PyList_New( VarArrayHighBound( V, 2 ) - VarArrayLowBound( V, 2 ) + 1 );
+        L := PyList_New( VarArrayHighBound( DeRefV, 2 ) - VarArrayLowBound( DeRefV, 2 ) + 1 );
         PyList_SetItem( Result, cpt, L );
         cpt2 := 0;
-        for j := VarArrayLowBound( V, 2 ) to VarArrayHighBound( V, 2 ) do
+        for j := VarArrayLowBound( DeRefV, 2 ) to VarArrayHighBound( DeRefV, 2 ) do
           begin
-            PyList_SetItem( L, cpt2, VariantAsPyObject(V[i, j]) );
+            PyList_SetItem( L, cpt2, VariantAsPyObject(DeRefV[i, j]) );
             Inc(cpt2);
           end;
         Inc(cpt);
@@ -6069,21 +6170,21 @@ function TPythonEngine.VariantAsPyObject( const V : Variant ) : PPyObject;
     i, j, k, cpt, cpt2, cpt3 : Integer;
     L, L2 : PPyObject;
   begin
-    Result := PyList_New( VarArrayHighBound( V, 1 ) - VarArrayLowBound( V, 1 ) + 1 );
+    Result := PyList_New( VarArrayHighBound( DeRefV, 1 ) - VarArrayLowBound( DeRefV, 1 ) + 1 );
     cpt := 0;
-    for i := VarArrayLowBound( V, 1 ) to VarArrayHighBound( V, 1 ) do
+    for i := VarArrayLowBound( DeRefV, 1 ) to VarArrayHighBound( DeRefV, 1 ) do
       begin
-        L := PyList_New( VarArrayHighBound( V, 2 ) - VarArrayLowBound( V, 2 ) + 1 );
+        L := PyList_New( VarArrayHighBound( DeRefV, 2 ) - VarArrayLowBound( DeRefV, 2 ) + 1 );
         PyList_SetItem( Result, cpt, L );
         cpt2 := 0;
-        for j := VarArrayLowBound( V, 2 ) to VarArrayHighBound( V, 2 ) do
+        for j := VarArrayLowBound( DeRefV, 2 ) to VarArrayHighBound( DeRefV, 2 ) do
           begin
-            L2 := PyList_New( VarArrayHighBound( V, 3 ) - VarArrayLowBound( V, 3 ) + 1 );
+            L2 := PyList_New( VarArrayHighBound( DeRefV, 3 ) - VarArrayLowBound( DeRefV, 3 ) + 1 );
             PyList_SetItem( Result, cpt2, L );
             cpt3 := 0;
-            for k := VarArrayLowBound( V, 3 ) to VarArrayHighBound( V, 3 ) do
+            for k := VarArrayLowBound( DeRefV, 3 ) to VarArrayHighBound( DeRefV, 3 ) do
               begin
-                PyList_SetItem( L2, cpt3, VariantAsPyObject(V[i, j, k]) );
+                PyList_SetItem( L2, cpt3, VariantAsPyObject(DeRefV[i, j, k]) );
                 Inc(cpt3);
               end;
             Inc(cpt2);
@@ -6106,9 +6207,14 @@ var
   args : PPyObject;
 begin
   Disp := nil;
-  case VarType(V) and VarTypeMask of
+  //Dereference Variant
+  DerefV := V;
+  while VarType(DeRefV) = varByRef or varVariant do
+    DeRefV := Variant(PVarData(TVarData(DeRefV).VPointer)^);
+
+  case VarType(DeRefV) and VarTypeMask of
     varBoolean: begin
-      if V = true then
+      if DeRefV = true then
         Result := PPyObject(Py_True)
       else
         Result := PPyObject(Py_False);
@@ -6121,16 +6227,16 @@ begin
     varWord,
     varLongWord,
 {$ENDIF}
-    varInteger:  Result := PyInt_FromLong( V );
+    varInteger:  Result := PyInt_FromLong( DeRefV );
 {$IFDEF DELPHI6_OR_HIGHER}
-    varInt64:    Result := PyLong_FromLongLong( V );
+    varInt64:    Result := PyLong_FromLongLong( DeRefV );
 {$ENDIF}
     varSingle,
     varDouble,
-    varCurrency: Result := PyFloat_FromDouble( V );
+    varCurrency: Result := PyFloat_FromDouble( DeRefV );
     varDate:
       begin
-        dt := V;
+        dt := DeRefV;
         DecodeDate( dt, y, m, d );
         DecodeTime( dt, h, mi, sec, ms );
         if (DatetimeConversionMode = dcmToTuple) then
@@ -6157,10 +6263,10 @@ begin
       end;
     varOleStr:
       begin
-        if (TVarData(V).VOleStr = nil) or (TVarData(V).VOleStr^ = #0) then
+        if (TVarData(DeRefV).VOleStr = nil) or (TVarData(DeRefV).VOleStr^ = #0) then
           wStr := ''
         else
-          wStr := V;
+          wStr := DeRefV;
       {$IFDEF PREFER_UNICODE}
         Result := PyUnicode_FromWideChar( PWideChar(wStr), Length(wStr) );
       {$ELSE}
@@ -6170,13 +6276,13 @@ begin
       end;
     varString:
       begin
-        s := V;
+        s := DeRefV;
         Result := PyString_FromString( PChar(s) );
       end;
   else
-    if VarType(V) and varArray <> 0 then
+    if VarType(DeRefV) and varArray <> 0 then
       begin
-        case VarArrayDimCount(V) of
+        case VarArrayDimCount(DeRefV) of
         1: Result := ArrayVarDim1;
         2: Result := ArrayVarDim2;
         3: Result := ArrayVarDim3;
@@ -6184,16 +6290,16 @@ begin
           raise Exception.Create('Can''t convert a variant array of more than 3 dimensions to a Python sequence');
         end;
       end
-    else if VarIsNull(V) or VarIsEmpty(V) then
+    else if VarIsNull(DeRefV) or VarIsEmpty(DeRefV) then
       begin
         Result := ReturnNone;
       end
     else
       try
 {$IFDEF DELPHI4_OR_HIGHER}
-        Disp := V;
+        Disp := DeRefV;
 {$ELSE}
-        Disp := IUnknown(V) as IDispatch;
+        Disp := IUnknown(DeRefV) as IDispatch;
 
 {$ENDIF}
         wStr := '__asPPyObject__';
@@ -6201,9 +6307,9 @@ begin
         if Disp.GetIDsOfNames(GUID_NULL, @wStr, 1, 0, @DispID) = S_OK then
         begin
           {$IFDEF FPC} {./Uncertain}
-            myInt := Integer(V);  //Returns the address to PPyObject as integer. (See impl. in PythonAtom.pas)
+            myInt := Integer(DeRefV);  //Returns the address to PPyObject as integer. (See impl. in PythonAtom.pas)
           {$ELSE}
-          myInt := V.__asPPyObject__;  //Returns the address to PPyObject as integer. (See impl. in PythonAtom.pas)
+          myInt := DeRefV.__asPPyObject__;  //Returns the address to PPyObject as integer. (See impl. in PythonAtom.pas)
           {$ENDIF}
           Result := PPyObject(myInt);
           Py_XIncRef(Result);
@@ -6349,12 +6455,13 @@ begin
   else if PyBool_Check(obj) then // we must check Bool before Int, as Boolean type inherits from Int.
     Result := PyObject_IsTrue(obj) = 1
 {$ENDIF}
-  else if PyInt_Check(obj) then
-    Result := PyInt_AsLong(obj)
 {$IFDEF DELPHI6_OR_HIGHER}
   else if PyLong_Check(obj) then
     Result := PyLong_AsLongLong(obj)
 {$ENDIF}
+  // changed the order of Long and int check (KV)
+  else if PyInt_Check(obj) then
+    Result := PyInt_AsLong(obj)
 {$IFDEF UNICODE_SUPPORT}
   else if PyUnicode_Check(obj) then
     Result := PyUnicode_AsWideString(obj)
@@ -6903,6 +7010,28 @@ procedure TPythonEngine.SetVersion(const Value: String);
 begin
   // do nothing
 end;
+
+function TPythonEngine.PyString_AsDelphiString(ob: PPyObject): string;
+begin
+  if PyUnicode_Check(ob) then
+    Result := PyUnicode_AsWideString(ob)
+  else
+    Result := PyString_AsString(ob);
+end;
+
+function TPythonEngine.PyString_FromString( str: PChar): PPyObject;
+var
+  _text : WideString;
+begin
+  if IsPython3000 then
+  begin
+    _text := str;
+    Result := PyUnicode_FromWideString(_text);
+  end
+  else
+    Result := DLL_PyString_FromString(str);
+end;
+
 
 
 (*******************************************************)
@@ -9913,7 +10042,7 @@ begin
                 Result := nil
               else
               // KV!!!!!!
-              Result := PyString_FromString(PChar(txt));
+                Result := PyString_FromString(PChar(txt));
             end
           else
             Result := PyString_FromString(PChar(txt));

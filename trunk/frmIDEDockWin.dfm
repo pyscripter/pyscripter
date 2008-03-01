@@ -3,8 +3,8 @@ object IDEDockWindow: TIDEDockWindow
   Top = 263
   BorderStyle = bsSizeToolWin
   Caption = 'IDE Dock Window'
-  ClientHeight = 410
-  ClientWidth = 229
+  ClientHeight = 408
+  ClientWidth = 227
   Color = clBtnFace
   DockSite = True
   DragKind = dkDock
@@ -24,13 +24,13 @@ object IDEDockWindow: TIDEDockWindow
   OnDeactivate = FormDeactivate
   OnResize = FormResize
   DesignSize = (
-    229
-    410)
+    227
+    408)
   PixelsPerInch = 96
   TextHeight = 13
   object FGPanel: TPanel
-    Left = 0
-    Top = 0
+    Left = -1
+    Top = -1
     Width = 227
     Height = 396
     Anchors = []
@@ -38,6 +38,8 @@ object IDEDockWindow: TIDEDockWindow
     FullRepaint = False
     ParentBackground = False
     TabOrder = 0
+    ExplicitLeft = 0
+    ExplicitTop = 0
   end
   object DockClient: TJvDockClient
     LRDockWidth = 220

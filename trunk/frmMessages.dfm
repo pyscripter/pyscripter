@@ -67,7 +67,7 @@ inherited MessagesWindow: TMessagesWindow
       Header.Font.Height = -11
       Header.Font.Name = 'MS Shell Dlg 2'
       Header.Font.Style = []
-      Header.Options = [hoColumnResize, hoDblClickResize, hoDrag, hoHotTrack, hoOwnerDraw, hoVisible]
+      Header.Options = [hoAutoResize, hoColumnResize, hoDblClickResize, hoDrag, hoHotTrack, hoOwnerDraw, hoVisible]
       Header.ParentFont = True
       HintMode = hmTooltip
       PopupMenu = TBXPopupMenu
@@ -83,12 +83,12 @@ inherited MessagesWindow: TMessagesWindow
       Columns = <
         item
           Position = 0
-          Width = 300
+          Width = 326
           WideText = 'Message'
         end
         item
           Position = 1
-          Width = 150
+          Width = 200
           WideText = 'File Name'
         end
         item
@@ -99,7 +99,12 @@ inherited MessagesWindow: TMessagesWindow
         item
           Alignment = taRightJustify
           Position = 3
+          Width = 60
           WideText = 'Position'
+        end
+        item
+          Position = 4
+          Width = 40
         end>
     end
     object TBToolbar1: TTBToolbar

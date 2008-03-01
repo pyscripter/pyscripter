@@ -2,7 +2,7 @@ object ToolProperties: TToolProperties
   Left = 334
   Top = 153
   HelpContext = 710
-  ActiveControl = hkShortCut
+  ActiveControl = seTimeout
   BorderStyle = bsDialog
   Caption = 'External Tool Properties'
   ClientHeight = 469
@@ -39,10 +39,10 @@ object ToolProperties: TToolProperties
       Height = 427
       ActivePage = tsProperties
       Align = alTop
-      TabOrder = 2
+      TabOrder = 0
       object tsProperties: TTabSheet
         Caption = '&Properties'
-        object JvGroupBox1: TJvGroupBox
+        object GroupBox1: TGroupBox
           Left = 4
           Top = 5
           Width = 385
@@ -65,14 +65,14 @@ object ToolProperties: TToolProperties
             Caption = 'Desc&ription:'
             FocusControl = edDescription
           end
-          object Label14: TLabel
+          object Label17: TLabel
             Left = 200
-            Top = 16
+            Top = 17
             Width = 48
             Height = 13
             Caption = '(required)'
             Font.Charset = DEFAULT_CHARSET
-            Font.Color = clGradientActiveCaption
+            Font.Color = clGrayText
             Font.Height = -11
             Font.Name = 'MS Shell Dlg 2'
             Font.Style = []
@@ -93,7 +93,7 @@ object ToolProperties: TToolProperties
             TabOrder = 0
           end
         end
-        object JvGroupBox2: TJvGroupBox
+        object GroupBox2: TGroupBox
           Left = 4
           Top = 73
           Width = 385
@@ -125,13 +125,13 @@ object ToolProperties: TToolProperties
             FocusControl = SynWorkDir
           end
           object Label3: TLabel
-            Left = 9
+            Left = 6
             Top = 90
             Width = 252
             Height = 13
             Caption = 'Parameters : Shift+Ctrl+P, Modifiers : Shift+Ctrl+M '
             Font.Charset = DEFAULT_CHARSET
-            Font.Color = clGradientActiveCaption
+            Font.Color = clGrayText
             Font.Height = -11
             Font.Name = 'MS Shell Dlg 2'
             Font.Style = []
@@ -144,8 +144,8 @@ object ToolProperties: TToolProperties
             Height = 18
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clWindowText
-            Font.Height = -12
-            Font.Name = 'Lucida Console'
+            Font.Height = -11
+            Font.Name = 'Courier New'
             Font.Style = []
             TabOrder = 0
             OnEnter = SynApplicationEnter
@@ -155,6 +155,7 @@ object ToolProperties: TToolProperties
             Gutter.Font.Name = 'Courier New'
             Gutter.Font.Style = []
             Gutter.Width = 0
+            HideSelection = True
             Options = [eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoShowScrollHint, eoSmartTabDelete, eoSmartTabs, eoTabsToSpaces]
             ScrollBars = ssNone
             WantReturns = False
@@ -166,10 +167,10 @@ object ToolProperties: TToolProperties
             Height = 18
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clWindowText
-            Font.Height = -12
-            Font.Name = 'Lucida Console'
+            Font.Height = -11
+            Font.Name = 'Courier New'
             Font.Style = []
-            TabOrder = 1
+            TabOrder = 2
             OnEnter = SynParametersEnter
             Gutter.Font.Charset = DEFAULT_CHARSET
             Gutter.Font.Color = clWindowText
@@ -177,6 +178,7 @@ object ToolProperties: TToolProperties
             Gutter.Font.Name = 'Courier New'
             Gutter.Font.Style = []
             Gutter.Width = 0
+            HideSelection = True
             Options = [eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoShowScrollHint, eoSmartTabDelete, eoSmartTabs, eoTabsToSpaces]
             ScrollBars = ssNone
             WantReturns = False
@@ -188,10 +190,10 @@ object ToolProperties: TToolProperties
             Height = 18
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clWindowText
-            Font.Height = -12
-            Font.Name = 'Lucida Console'
+            Font.Height = -11
+            Font.Name = 'Courier New'
             Font.Style = []
-            TabOrder = 2
+            TabOrder = 3
             OnEnter = SynWorkDirEnter
             Gutter.Font.Charset = DEFAULT_CHARSET
             Gutter.Font.Color = clWindowText
@@ -199,6 +201,7 @@ object ToolProperties: TToolProperties
             Gutter.Font.Name = 'Courier New'
             Gutter.Font.Style = []
             Gutter.Width = 0
+            HideSelection = True
             Options = [eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoShowScrollHint, eoSmartTabDelete, eoSmartTabs, eoTabsToSpaces]
             ScrollBars = ssNone
             WantReturns = False
@@ -209,7 +212,7 @@ object ToolProperties: TToolProperties
             Width = 19
             Height = 20
             Caption = '...'
-            TabOrder = 3
+            TabOrder = 1
             OnClick = btnAppDirClick
             LinkFont.Charset = DEFAULT_CHARSET
             LinkFont.Color = clBlue
@@ -232,27 +235,28 @@ object ToolProperties: TToolProperties
             LinkFont.Style = [fsUnderline]
           end
         end
-        object JvGroupBox4: TJvGroupBox
+        object GroupBox4: TGroupBox
           Left = 6
           Top = 187
           Width = 385
           Height = 64
           Caption = 'Shortcut and Context'
           TabOrder = 2
-          object Label4: TLabel
-            Left = 15
+          object lbShortcut: TLabel
+            Left = 11
             Top = 18
             Width = 45
             Height = 13
             Caption = '&Shortcut:'
             FocusControl = hkShortCut
           end
-          object Label8: TLabel
-            Left = 15
-            Top = 42
+          object lbContext: TLabel
+            Left = 13
+            Top = 40
             Width = 43
             Height = 13
             Caption = 'Conte&xt:'
+            FocusControl = cbContext
           end
           object Label13: TLabel
             Left = 191
@@ -260,6 +264,7 @@ object ToolProperties: TToolProperties
             Width = 50
             Height = 13
             Caption = 'Sa&ve files:'
+            FocusControl = cbSaveFiles
           end
           object hkShortCut: TJvHotKey
             Left = 61
@@ -304,7 +309,7 @@ object ToolProperties: TToolProperties
               'All files')
           end
         end
-        object JvGroupBox3: TJvGroupBox
+        object GroupBox3: TGroupBox
           Left = 5
           Top = 258
           Width = 385
@@ -317,6 +322,7 @@ object ToolProperties: TToolProperties
             Width = 53
             Height = 13
             Caption = 'Std. &Input:'
+            FocusControl = cbStandardInput
           end
           object Label11: TLabel
             Left = 6
@@ -324,6 +330,7 @@ object ToolProperties: TToolProperties
             Width = 61
             Height = 13
             Caption = 'Std. &Output:'
+            FocusControl = cbStandardOutput
           end
           object Label12: TLabel
             Left = 6
@@ -332,6 +339,13 @@ object ToolProperties: TToolProperties
             Height = 13
             Caption = 'Messages &Format:'
             FocusControl = edMessagesFormat
+          end
+          object Label14: TLabel
+            Left = 160
+            Top = 40
+            Width = 37
+            Height = 13
+            Caption = 'Label14'
           end
           object edMessagesFormat: TEdit
             Left = 98
@@ -343,7 +357,7 @@ object ToolProperties: TToolProperties
               'he right to insert '#13#10'predefined grep expressions.'
             AutoSelect = False
             AutoSize = False
-            TabOrder = 4
+            TabOrder = 5
           end
           object cbStandardInput: TComboBox
             Left = 68
@@ -392,7 +406,7 @@ object ToolProperties: TToolProperties
             Width = 19
             Height = 20
             Caption = '<'
-            TabOrder = 5
+            TabOrder = 6
             OnClick = btnStdFormatsClick
             LinkFont.Charset = DEFAULT_CHARSET
             LinkFont.Color = clBlue
@@ -401,7 +415,7 @@ object ToolProperties: TToolProperties
             LinkFont.Style = [fsUnderline]
           end
           object cbCaptureOutput: TSpTBXCheckBox
-            Left = 232
+            Left = 233
             Top = 13
             Width = 94
             Height = 15
@@ -413,7 +427,7 @@ object ToolProperties: TToolProperties
             ThemeType = thtWindows
           end
           object cbParseMessages: TSpTBXCheckBox
-            Left = 232
+            Left = 233
             Top = 30
             Width = 95
             Height = 15
@@ -438,13 +452,13 @@ object ToolProperties: TToolProperties
               ' and shown in the messages window.'
             Caption = 'Parse &Traceback'
             ParentColor = True
-            TabOrder = 6
+            TabOrder = 4
             Checked = True
             State = cbChecked
             ThemeType = thtWindows
           end
         end
-        object JvGroupBox5: TJvGroupBox
+        object GroupBox5: TGroupBox
           Left = 4
           Top = 353
           Width = 385
@@ -504,10 +518,6 @@ object ToolProperties: TToolProperties
       object tsEnvironment: TTabSheet
         Caption = '&Environment'
         ImageIndex = 1
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object lvItems: TListView
           Left = 0
           Top = 0
@@ -532,7 +542,7 @@ object ToolProperties: TToolProperties
           ViewStyle = vsReport
           OnChange = lvItemsChange
         end
-        object JvGroupBox6: TJvGroupBox
+        object GroupBox6: TGroupBox
           Left = 3
           Top = 275
           Width = 389
@@ -663,9 +673,9 @@ object ToolProperties: TToolProperties
       Top = 436
       Width = 75
       Height = 25
-      Caption = 'OK'
+      Caption = '&OK'
       Anchors = [akRight, akBottom]
-      TabOrder = 0
+      TabOrder = 1
       Default = True
       LinkFont.Charset = DEFAULT_CHARSET
       LinkFont.Color = clBlue
@@ -679,9 +689,9 @@ object ToolProperties: TToolProperties
       Top = 436
       Width = 75
       Height = 25
-      Caption = 'Cancel'
+      Caption = '&Cancel'
       Anchors = [akRight, akBottom]
-      TabOrder = 1
+      TabOrder = 2
       Cancel = True
       LinkFont.Charset = DEFAULT_CHARSET
       LinkFont.Color = clBlue

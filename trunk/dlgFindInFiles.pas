@@ -69,10 +69,11 @@ type
     cbRegEx: TSpTBXCheckBox;
     cbInclude: TSpTBXCheckBox;
     rbOpenFiles: TSpTBXRadioButton;
-    rbDirectories: TSpTBXRadioButton;
+    rbProject: TSpTBXRadioButton;
     rbCurrentOnly: TSpTBXRadioButton;
+    rbDirectories: TSpTBXRadioButton;
     procedure btnBrowseClick(Sender: TObject);
-    procedure rbDirectoriesClick(Sender: TObject);
+    procedure rbProjectClick(Sender: TObject);
     procedure btnHelpClick(Sender: TObject);
     procedure cbDirectoryDropDown(Sender: TObject);
     procedure btnOKClick(Sender: TObject);
@@ -130,7 +131,7 @@ begin
   end
 end;
 
-procedure TFindInFilesDialog.rbDirectoriesClick(Sender: TObject);
+procedure TFindInFilesDialog.rbProjectClick(Sender: TObject);
 begin
   EnableDirectoryControls(rbDirectories.Checked);
 end;
@@ -225,8 +226,10 @@ begin
     FFindInFilesExpert.GrepSearch := 0
   else if rbOpenFiles.Checked then
     FFindInFilesExpert.GrepSearch := 1
+  else if rbProject.Checked then
+    FFindInFilesExpert.GrepSearch := 2
   else if rbDirectories.Checked then
-    FFindInFilesExpert.GrepSearch := 2;
+    FFindInFilesExpert.GrepSearch := 3;
 end;
 
 procedure TFindInFilesDialog.LoadFormSettings;
@@ -290,7 +293,8 @@ begin
     case FFindInFilesExpert.GrepSearch of
       0: rbCurrentOnly.Checked := True;
       1: rbOpenFiles.Checked := True;
-      2: rbDirectories.Checked := True;
+      2: rbProject.Checked := True;
+      3: rbDirectories.Checked := True;
     end;
 
     if cbText.Items.Count > 0 then
@@ -324,6 +328,8 @@ begin
     Value.FindInFilesAction := gaCurrentOnlyGrep
   else if rbOpenFiles.Checked then
     Value.FindInFilesAction := gaOpenFilesGrep
+  else if rbProject.Checked then
+    Value.FindInFilesAction := gaProjectGrep
   else
   begin
     Value.FindInFilesAction := gaDirGrep;

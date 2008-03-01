@@ -13,8 +13,9 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, cTools, ExtCtrls, StdCtrls, SynEdit,
-  JvGroupBox, ComCtrls, JvExComCtrls, JvHotKey, Mask, JvExMask,
-  JvSpin, Menus, ActnList, TBXDkPanels, SpTBXControls, JvExStdCtrls;
+  ComCtrls, JvHotKey, Mask, JvExMask,
+  JvSpin, Menus, ActnList, TBXDkPanels, SpTBXControls, JvExStdCtrls,
+  JvExComCtrls;
 
 type
   TToolProperties = class(TForm)
@@ -26,13 +27,12 @@ type
     PageControl: TPageControl;
     tsProperties: TTabSheet;
     tsEnvironment: TTabSheet;
-    JvGroupBox1: TJvGroupBox;
+    GroupBox1: TGroupBox;
     Label1: TLabel;
     Label5: TLabel;
-    Label14: TLabel;
     edDescription: TEdit;
     edName: TEdit;
-    JvGroupBox2: TJvGroupBox;
+    GroupBox2: TGroupBox;
     Label2: TLabel;
     Label6: TLabel;
     Label7: TLabel;
@@ -40,21 +40,21 @@ type
     SynApplication: TSynEdit;
     SynParameters: TSynEdit;
     SynWorkDir: TSynEdit;
-    JvGroupBox4: TJvGroupBox;
-    Label4: TLabel;
-    Label8: TLabel;
+    GroupBox4: TGroupBox;
+    lbShortcut: TLabel;
+    lbContext: TLabel;
     Label13: TLabel;
     hkShortCut: TJvHotKey;
-    JvGroupBox3: TJvGroupBox;
+    GroupBox3: TGroupBox;
     Label10: TLabel;
     Label11: TLabel;
     Label12: TLabel;
     edMessagesFormat: TEdit;
-    JvGroupBox5: TJvGroupBox;
+    GroupBox5: TGroupBox;
     Label9: TLabel;
     seTimeout: TJvSpinEdit;
     lvItems: TListView;
-    JvGroupBox6: TJvGroupBox;
+    GroupBox6: TGroupBox;
     Label15: TLabel;
     Label16: TLabel;
     edEnvName: TEdit;
@@ -86,6 +86,8 @@ type
     TBXButton4: TSpTBXButton;
     TBXButton5: TSpTBXButton;
     TBXButton2: TSpTBXButton;
+    Label14: TLabel;
+    Label17: TLabel;
     procedure FormShow(Sender: TObject);
     procedure btnStdFormatsClick(Sender: TObject);
     procedure Filename1Click(Sender: TObject);
@@ -113,7 +115,7 @@ type
     { Public declarations }
   end;
 
-  function EditTool(Tool : TExternalTool) : Boolean;
+  function EditTool(Tool : TExternalTool; IsExternalRun : Boolean = False) : Boolean;
 
 implementation
 
@@ -121,7 +123,7 @@ uses dmCommands, JvBrowseFolder, JclSysInfo;
 
 {$R *.dfm}
 
-function EditTool(Tool : TExternalTool) : Boolean;
+function EditTool(Tool : TExternalTool; IsExternalRun : Boolean = False) : Boolean;
 Var
   i : integer;
 begin
@@ -152,6 +154,13 @@ begin
         fEnvStrings.Assign(Environment)
       else
         GetEnvironmentVars(fEnvStrings);
+    end;
+    if IsExternalRun then begin
+      Caption := 'External Run Properties';
+      hkShortCut.Enabled := False;
+      lbShortcut.Enabled := False;
+      cbContext.Enabled := False;
+      lbContext.Enabled := False;
     end;
     Result := (ShowModal = mrOK) and (edName.Text <> '');
     if Result then with Tool do begin
@@ -238,6 +247,7 @@ var
 begin
   S := '';
   if BrowseDirectory(S, 'Select working directory:', 0) then begin
+    SynWorkDir.SelectAll;
     SynWorkDir.SelText := S;
     SynWorkDir.SetFocus;
   end;
@@ -256,6 +266,7 @@ begin
     Filter := 'Executable Files (*.exe;*.bat;*.cmd)|*.exe;*.bat;*.cmd|All files|*.*|';
     FileName := '';
     if Execute then begin
+      SynApplication.SelectAll;
       SynApplication.SelText := FileName;
       SynApplication.SetFocus;
     end;

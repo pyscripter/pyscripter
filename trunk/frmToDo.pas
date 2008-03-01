@@ -53,7 +53,7 @@ uses
 
 type
   TToDoPriority = (tpHigh, tpMed, tpLow, tpDone);
-  TToDoScanType = (tstOpenFiles, tstDirectory);
+  TToDoScanType = (tstOpenFiles, tstProjectFiles, tstDirectory);
 
   TTokenInfo = class(TObject)
   private
@@ -149,6 +149,7 @@ type
     procedure ClearDataListAndListView;
     procedure EnumerateFilesByDirectory;
     procedure EnumerateOpenFiles;
+    procedure EnumerateProjectFiles;
     procedure LoadFile(const FileName: string);
     function ParseComment(const FileName: string; const SComment, EComment,
      TokenString: WideString; LineNumber: Integer): TToDoInfo;
@@ -183,7 +184,7 @@ var
 implementation
 
 uses dmCommands, Clipbrd, uEditAppIntfs, Math, frmPyIDEMain, dlgToDoOptions,
-  uCommonFunctions, JvJVCLUtils, JvDockGlobals, SynUnicode;
+  uCommonFunctions, JvJVCLUtils, JvDockGlobals, SynUnicode, cProjectClasses;
 
 {$R *.dfm}
 
@@ -388,6 +389,8 @@ begin
     case FScanType of
       tstOpenFiles:
         Dlg.radScanOpen.Checked := True;
+      tstProjectFiles:
+        Dlg.radScanProject.Checked := True;
       tstDirectory:
         Dlg.radScanDir.Checked := True;
     end;
@@ -408,6 +411,8 @@ begin
 
       if Dlg.radScanOpen.Checked then
         FScanType := tstOpenFiles
+      else if Dlg.radScanProject.Checked then
+        FScanType := tstProjectFiles
       else if Dlg.radScanDir.Checked then
         FScanType := tstDirectory;
 
@@ -723,6 +728,8 @@ begin
     case ToDoExpert.FScanType of
       tstOpenFiles:
         EnumerateOpenFiles;
+      tstProjectFiles:
+        EnumerateProjectFiles;
       tstDirectory:
         begin
           if Trim(ToDoExpert.FDirsToScan) <> '' then
@@ -782,6 +789,20 @@ begin
     FileName := Editor.GetFileNameOrTitle;
     LoadFile(FileName);
   end;
+end;
+
+function ProcessProjectFile(Node: TAbstractProjectNode; Data : Pointer):boolean;
+begin
+   Result := False;
+   if (Node is TProjectFileNode) and (TProjectFileNode(Node).FileName <> '') and
+     CommandsDataModule.FileIsPythonSource(TProjectFileNode(Node).FileName)
+   then
+     TToDoWindow(Data).LoadFile(TProjectFileNode(Node).FileName);
+end;
+
+procedure TToDoWindow.EnumerateProjectFiles;
+begin
+  ActiveProject.ForEach(ProcessProjectFile, Self);
 end;
 
 procedure TToDoWindow.FormActivate(Sender: TObject);

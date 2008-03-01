@@ -66,14 +66,14 @@ inherited CallStackWindow: TCallStackWindow
       BevelInner = bvNone
       BevelOuter = bvNone
       BorderStyle = bsNone
-      Header.AutoSizeIndex = -1
+      Header.AutoSizeIndex = 1
       Header.Font.Charset = DEFAULT_CHARSET
       Header.Font.Color = clWindowText
       Header.Font.Height = -11
       Header.Font.Name = 'MS Shell Dlg 2'
       Header.Font.Style = []
       Header.MainColumn = 1
-      Header.Options = [hoColumnResize, hoDblClickResize, hoDrag, hoHotTrack, hoOwnerDraw, hoVisible]
+      Header.Options = [hoAutoResize, hoColumnResize, hoDblClickResize, hoDrag, hoHotTrack, hoOwnerDraw, hoVisible]
       Header.ParentFont = True
       HintMode = hmTooltip
       TabOrder = 0
@@ -94,7 +94,7 @@ inherited CallStackWindow: TCallStackWindow
         end
         item
           Position = 1
-          Width = 200
+          Width = 227
           WideText = 'File Name'
         end
         item
