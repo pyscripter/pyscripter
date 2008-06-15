@@ -6,7 +6,7 @@ To compile the PythonIDE.dpr, you first need to install the following components
    - JVCL version 3.33 (jvcl.sf.net) and JCL version 1.1 (jcl.sf.net)
 
    - Toolbar2000 version 2.1.8 (www.jrsoftware.org/tb2k.php)
-   - TBX version 2.1b (from www.g32.org/tbx)
+   - TBX version 2.1b (from www.g32.org/tbx, if this is down try http://www.indasoftware.com/fordev/office2003/download.php)
    - Download from http://club.telepolis.com/silverpointdev and apply the TB2k v2.1.8 - TBX v2.1 patch before installing Toolbar 2000 and TBX
    - Tntware Delphi Unicode Controls 
    - SpTBXLib version 1.8.3
