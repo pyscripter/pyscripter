@@ -473,7 +473,7 @@ end;
 
 procedure TCodeExplorerWindow.UpdateWindow;
 begin
-  if Visible and Assigned(WorkerThread) then
+  if Visible and Assigned(WorkerThread) then  // Issue 219
     TScanCodeThread(WorkerThread).SetModified;
 end;
 
@@ -486,12 +486,14 @@ end;
 procedure TCodeExplorerWindow.FormDestroy(Sender: TObject);
 begin
   inherited;
-  ClearAll;
-  ShutDownWorkerThread;
+  ShutDownWorkerThread;  // Calls ClearAll;
 end;
 
 procedure TCodeExplorerWindow.ShutDownWorkerThread;
 begin
+  //  Important to Clear here since the destruction of the Worker thread
+  //  destroys fOldModule to which ModuleCENode has pointers.
+  ClearAll;
   if WorkerThread <> nil then begin
     TScanCodeThread(WorkerThread).Shutdown;
     TScanCodeThread(WorkerThread).WaitFor;

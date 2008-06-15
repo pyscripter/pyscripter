@@ -44,23 +44,20 @@ inherited BreakPointsWindow: TBreakPointsWindow
     000088030000F8030000F8030000F8070000F80F0000FC1F0000FE7F0000}
   ExplicitWidth = 395
   ExplicitHeight = 278
-  DesignSize = (
-    379
-    244)
   PixelsPerInch = 96
   TextHeight = 13
   inherited FGPanel: TPanel
-    Width = 370
-    Height = 230
-    ExplicitLeft = -1
-    ExplicitTop = -1
-    ExplicitWidth = 370
-    ExplicitHeight = 230
+    Width = 373
+    Height = 238
+    ExplicitLeft = 3
+    ExplicitTop = 3
+    ExplicitWidth = 373
+    ExplicitHeight = 238
     object BreakPointsView: TVirtualStringTree
       Left = 0
       Top = 0
-      Width = 370
-      Height = 230
+      Width = 373
+      Height = 238
       Align = alClient
       Alignment = taRightJustify
       BevelInner = bvNone
@@ -100,7 +97,7 @@ inherited BreakPointsWindow: TBreakPointsWindow
         end
         item
           Position = 2
-          Width = 120
+          Width = 123
           WideText = 'Condition'
         end>
     end

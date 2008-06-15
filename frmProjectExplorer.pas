@@ -5,7 +5,6 @@
  Purpose:   PyScripter project explorer
  History:
 -----------------------------------------------------------------------------}
-
 unit frmProjectExplorer;
 
 interface
@@ -14,77 +13,86 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, frmIDEDockWin, JvComponentBase, JvDockControlForm, ExtCtrls,
   cProjectClasses, VirtualTrees, ImgList, Menus, TB2Item, TBX, SpTBXItem,
-  ActnList, TB2Dock, TB2Toolbar, JvDragDrop;
+  ActnList, TB2Dock, TB2Toolbar, ActiveX, TntActnList, WideStrings;
 
 type
   TProjectExplorerWindow = class(TIDEDockWindow)
     Panel1: TPanel;
     ExplorerTree: TVirtualStringTree;
-    ImmutableProjectActionList: TActionList;
     ProjectMainPopUpMenu: TSpTBXPopupMenu;
     ProjectImageList: TImageList;
     ProjectFolderPopupMenu: TSpTBXPopupMenu;
-    actProjectNew: TAction;
-    actProjectSave: TAction;
-    actProjectOpen: TAction;
-    actProjectSaveAs: TAction;
-    actProjectAddFiles: TAction;
-    actProjectRemove: TAction;
-    actProjectRename: TAction;
-    actProjectAddFolder: TAction;
-    SpTBXItem1: TSpTBXItem;
-    SpTBXItem2: TSpTBXItem;
-    SpTBXItem3: TSpTBXItem;
-    SpTBXItem4: TSpTBXItem;
-    SpTBXItem5: TSpTBXItem;
+    mnProjectNew: TSpTBXItem;
+    mnProjectOpen: TSpTBXItem;
+    mnProjectSave: TSpTBXItem;
+    mnProjectSaveAs: TSpTBXItem;
+    mnAddFiles: TSpTBXItem;
     SpTBXItem6: TSpTBXItem;
-    SpTBXItem7: TSpTBXItem;
-    SpTBXItem8: TSpTBXItem;
+    mnRename: TSpTBXItem;
+    mnRemove: TSpTBXItem;
     SpTBXSeparatorItem1: TSpTBXSeparatorItem;
     SpTBXSeparatorItem2: TSpTBXSeparatorItem;
     ProjectFilePopupMenu: TSpTBXPopupMenu;
-    SpTBXItem9: TSpTBXItem;
-    actProjectFileEdit: TAction;
+    mnFileRemove: TSpTBXItem;
     SpTBXSeparatorItem3: TSpTBXSeparatorItem;
-    SpTBXItem10: TSpTBXItem;
-    actProjectAddActiveFile: TAction;
-    SpTBXItem11: TSpTBXItem;
-    actProjectImportDirectory: TAction;
-    SpTBXItem12: TSpTBXItem;
+    mnFileEdit: TSpTBXItem;
+    mnAddActiveFile: TSpTBXItem;
+    mnImportDir: TSpTBXItem;
     ProjectRunSettingsPopupMenu: TSpTBXPopupMenu;
     ProjectRunConfigPopupMenu: TSpTBXPopupMenu;
-    actProjectAddRunConfig: TAction;
-    SpTBXItem13: TSpTBXItem;
-    SpTBXItem14: TSpTBXItem;
+    mnAddRunConfig: TSpTBXItem;
+    mnRemoveRunConfig: TSpTBXItem;
     SpTBXSeparatorItem4: TSpTBXSeparatorItem;
-    SpTBXItem15: TSpTBXItem;
-    actProjectEditRunConfig: TAction;
+    mnRenameRunConfig: TSpTBXItem;
     SpTBXSeparatorItem5: TSpTBXSeparatorItem;
-    SpTBXItem16: TSpTBXItem;
-    actProjectFileProperties: TAction;
-    SpTBXItem17: TSpTBXItem;
+    mnEditRunConfig: TSpTBXItem;
+    mnFileProperties: TSpTBXItem;
     SpTBXSeparatorItem6: TSpTBXSeparatorItem;
-    actProjectExternalRun: TAction;
     SpTBXSeparatorItem7: TSpTBXSeparatorItem;
-    SpTBXItem18: TSpTBXItem;
+    mnExternalRun: TSpTBXItem;
     SpTBXDock1: TSpTBXDock;
     SpTBXToolbar1: TSpTBXToolbar;
-    SpTBXItem19: TSpTBXItem;
-    SpTBXItem20: TSpTBXItem;
-    SpTBXItem21: TSpTBXItem;
+    tbiProjectNew: TSpTBXItem;
+    tbiProjectOpen: TSpTBXItem;
+    tbiProjectSave: TSpTBXItem;
     SpTBXSeparatorItem8: TSpTBXSeparatorItem;
-    SpTBXItem24: TSpTBXItem;
-    SpTBXItem23: TSpTBXItem;
-    SpTBXItem22: TSpTBXItem;
-    actProjectRun: TAction;
-    SpTBXItem25: TSpTBXItem;
-    actProjectDebug: TAction;
-    SpTBXItem26: TSpTBXItem;
-    actProjectRelativePaths: TAction;
+    tbiRunLast: TSpTBXItem;
+    tbiDebugLast: TSpTBXItem;
+    tbiRunLastExternal: TSpTBXItem;
+    mnRun: TSpTBXItem;
+    mnDebug: TSpTBXItem;
     SpTBXSeparatorItem9: TSpTBXSeparatorItem;
-    SpTBXItem27: TSpTBXItem;
-    ProjectActionList: TActionList;
-    JvDropTarget: TJvDropTarget;
+    mnStoreRelativePaths: TSpTBXItem;
+    SpTBXSeparatorItem10: TSpTBXSeparatorItem;
+    mnCollapseAll: TSpTBXItem;
+    mnExpandAll: TSpTBXItem;
+    SpTBXSeparatorItem11: TSpTBXSeparatorItem;
+    tbiCollapseAll: TSpTBXItem;
+    tbiExpandAll: TSpTBXItem;
+    mnShowFileExt: TSpTBXItem;
+    ImmutableProjectActionList: TTntActionList;
+    ProjectActionList: TTntActionList;
+    actProjectDebug: TTntAction;
+    actProjectExternalRun: TTntAction;
+    actProjectRun: TTntAction;
+    actProjectFileProperties: TTntAction;
+    actProjectEditRunConfig: TTntAction;
+    actProjectAddRunConfig: TTntAction;
+    actProjectImportDirectory: TTntAction;
+    actProjectAddActiveFile: TTntAction;
+    actProjectFileEdit: TTntAction;
+    actProjectRename: TTntAction;
+    actProjectRemove: TTntAction;
+    actProjectAddFolder: TTntAction;
+    actProjectAddFiles: TTntAction;
+    actProjectCollapseAll: TTntAction;
+    actProjectExpandAll: TTntAction;
+    actProjectShowFileExtensions: TTntAction;
+    actProjectRelativePaths: TTntAction;
+    actProjectSaveAs: TTntAction;
+    actProjectSave: TTntAction;
+    actProjectOpen: TTntAction;
+    actProjectNew: TTntAction;
     procedure FormCreate(Sender: TObject);
     procedure ExplorerTreeGetText(Sender: TBaseVirtualTree; Node: PVirtualNode;
       Column: TColumnIndex; TextType: TVSTTextType; var CellText: WideString);
@@ -112,7 +120,6 @@ type
     procedure actProjectNewExecute(Sender: TObject);
     procedure actProjectOpenExecute(Sender: TObject);
     procedure actProjectRemoveExecute(Sender: TObject);
-    procedure ExplorerTreeChange(Sender: TBaseVirtualTree; Node: PVirtualNode);
     procedure actProjectFileEditExecute(Sender: TObject);
     procedure ExplorerTreeDblClick(Sender: TObject);
     procedure ExplorerTreeKeyPress(Sender: TObject; var Key: Char);
@@ -126,19 +133,26 @@ type
     procedure actProjectEditRunConfigExecute(Sender: TObject);
     procedure actProjectExternalRunExecute(Sender: TObject);
     procedure actProjectRunExecute(Sender: TObject);
-    procedure ProjectRunConfigPopupMenuPopup(Sender: TObject);
     procedure actProjectDebugExecute(Sender: TObject);
     procedure actProjectRelativePathsExecute(Sender: TObject);
     procedure ProjectMainPopUpMenuPopup(Sender: TObject);
-    procedure JvDropTargetDragOver(Sender: TJvDropTarget;
-      var Effect: TJvDropEffect);
-    procedure JvDropTargetDragDrop(Sender: TJvDropTarget;
-      var Effect: TJvDropEffect; Shift: TShiftState; X, Y: Integer);
+    procedure ExplorerTreeDragAllowed(Sender: TBaseVirtualTree;
+      Node: PVirtualNode; Column: TColumnIndex; var Allowed: Boolean);
+    procedure ExplorerTreeDragOver(Sender: TBaseVirtualTree; Source: TObject;
+      Shift: TShiftState; State: TDragState; Pt: TPoint; Mode: TDropMode;
+      var Effect: Integer; var Accept: Boolean);
+    procedure ExplorerTreeDragDrop(Sender: TBaseVirtualTree; Source: TObject;
+      DataObject: IDataObject; Formats: TFormatArray; Shift: TShiftState;
+      Pt: TPoint; var Effect: Integer; Mode: TDropMode);
+    procedure actProjectExpandAllExecute(Sender: TObject);
+    procedure actProjectCollapseAllExecute(Sender: TObject);
+    procedure actProjectShowFileExtensionsExecute(Sender: TObject);
   private
     procedure ProjectFileNodeEdit(Node: PVirtualNode);
+    procedure UpdatePopupActions(Node : PVirtualNode);
   public
     { Public declarations }
-    FileImageList: TStringList;
+    FileImageList: TWideStringList;
     procedure DoOpenProjectFile(FileName : WideString);
     function DoSave: boolean;
     function DoSaveFile: boolean;
@@ -154,10 +168,11 @@ var
 
 implementation
 
-uses dmCommands, uHighlighterProcs, StringResources, uEditAppIntfs,
+uses dmCommands, StringResources, uEditAppIntfs,
   frmPyIDEMain, uCommonFunctions, JvAppIniStorage, JvAppStorage, JclFileUtils,
   dlgImportDirectory, JclShell, dlgRunConfiguration, cPyBaseDebugger,
-  cParameters;
+  cParameters, MPDataObject, WideStrUtils, ShlObj, JvJVCLUtils, TntDialogs,
+  TntSysUtils, gnugettext, uHighlighterProcs;
 
 {$R *.dfm}
 
@@ -207,9 +222,9 @@ begin
     begin
       Application.ProcessMessages;  // to update the display until the dialog appears
       with CommandsDataModule.dlgFileOpen do begin
-        Title := 'Add File(s) to Project';
+        Title := _(SAddFilesToProject);
         FileName := '';
-        Filter := GetHighlightersFilter(CommandsDataModule.Highlighters) + SFilterAllFiles;
+        Filter := GetHighlightersFilter(CommandsDataModule.Highlighters) + _(SFilterAllFiles);
         Editor := PyIDEMainForm.GetActiveEditor;
         if Assigned(Editor) and (Editor.FileName <> '') and
           (ExtractFileDir(Editor.FileName) <> '')
@@ -291,6 +306,17 @@ begin
   end;
 end;
 
+procedure TProjectExplorerWindow.actProjectCollapseAllExecute(Sender: TObject);
+Var
+  Node : PVirtualNode;
+begin
+  Node := ExplorerTree.RootNode.FirstChild;
+  if Assigned(Node) then
+    Node := Node.FirstChild;  // Files Node
+  if Assigned(Node) then
+    ExplorerTree.FullCollapse(Node);
+end;
+
 procedure TProjectExplorerWindow.actProjectDebugExecute(Sender: TObject);
 var
   Data : PNodeDataRec;
@@ -318,6 +344,11 @@ begin
   end;
 end;
 
+procedure TProjectExplorerWindow.actProjectExpandAllExecute(Sender: TObject);
+begin
+  ExplorerTree.FullExpand();
+end;
+
 procedure TProjectExplorerWindow.actProjectExternalRunExecute(Sender: TObject);
 var
   Data : PNodeDataRec;
@@ -334,9 +365,14 @@ end;
 procedure TProjectExplorerWindow.actProjectFileEditExecute(Sender: TObject);
 var
   Node: PVirtualNode;
+  i : integer;
+  SelectedNodes : TNodeArray;
 begin
-  Node := ExplorerTree.GetFirstSelected;
-  ProjectFileNodeEdit(Node);
+  SelectedNodes := ExplorerTree.GetSortedSelection(False);
+  for i := Low(SelectedNodes) to High(SelectedNodes) do begin
+    Node := SelectedNodes[i];
+    ProjectFileNodeEdit(Node);
+  end;
 end;
 
 procedure TProjectExplorerWindow.actProjectFilePropertiesExecute(
@@ -368,7 +404,7 @@ begin
     if Data.ProjectNode is TProjectFilesNode then begin
       with TImportDirectoryForm do
         if Execute and (Directory<>'') then begin
-          TProjectFilesNode(Data.ProjectNode).ImportDirectory(Directory, FileMask, Recursive);
+          TProjectFilesNode(Data.ProjectNode).ImportDirectory(Directory, FileMasks, Recursive);
           ExplorerTree.ReinitNode(Node, True);
         end;
     end;
@@ -391,7 +427,7 @@ var
 begin
   if CanClose then begin
     with CommandsDataModule.dlgFileOpen do begin
-      Title := 'Open Project';
+      Title := _(SOpenProject);
       FileName := '';
       Filter := Format(ProjectFilter, [ProjectDefaultExtension]);
       Editor := PyIDEMainForm.GetActiveEditor;
@@ -415,24 +451,46 @@ end;
 
 procedure TProjectExplorerWindow.actProjectRemoveExecute(Sender: TObject);
 var
+  Node, ParentNode: PVirtualNode;
   Data : PNodeDataRec;
-  Node: PVirtualNode;
+  SelectedNodes : TNodeArray;
+  i : integer;
+  CanDelete : Boolean;
 begin
-  Node := ExplorerTree.GetFirstSelected;
-  if Assigned(Node) then begin
-    Data := ExplorerTree.GetNodeData(Node);
-    if (Data.ProjectNode is TProjectFolderNode) or
-       (Data.ProjectNode is TProjectFileNode) or
-       (Data.ProjectNode is TProjectRunConfiguationNode)
-    then begin
-      ExplorerTree.BeginUpdate;
-      try
-        Data.ProjectNode.Free;
-        ExplorerTree.ReinitNode(Node.Parent,True);
-      finally
-        ExplorerTree.EndUpdate;
+  SelectedNodes := ExplorerTree.GetSortedSelection(False);
+  ExplorerTree.BeginUpdate;
+  try
+    // Check the all have the same parent (they should given the selection constraint)
+    ParentNode := nil;
+    CanDelete := True;
+    for i := Low(SelectedNodes) to High(SelectedNodes) do begin
+      Node := SelectedNodes[i];
+      if not Assigned(ParentNode) then
+        ParentNode := Node.Parent
+      else if ParentNode <> Node.Parent then begin
+        CanDelete := False;
+        Break;
       end;
     end;
+    CanDelete := CanDelete and Assigned(ParentNode);
+
+    if CanDelete then begin
+      for i := Low(SelectedNodes) to High(SelectedNodes) do begin
+        Node := SelectedNodes[i];
+        Data := ExplorerTree.GetNodeData(Node);
+        if (Data.ProjectNode is TProjectFolderNode) or
+           (Data.ProjectNode is TProjectFileNode) or
+           (Data.ProjectNode is TProjectRunConfiguationNode)
+        then begin
+          Data.ProjectNode.Free;
+        end;
+      end;
+      ExplorerTree.ReinitNode(ParentNode,True);
+      ExplorerTree.ClearSelection;
+      ExplorerTree.Selected[ParentNode] := True;
+    end;
+  finally
+    ExplorerTree.EndUpdate;
   end;
 end;
 
@@ -473,15 +531,22 @@ begin
   DoSave;
 end;
 
+procedure TProjectExplorerWindow.actProjectShowFileExtensionsExecute(
+  Sender: TObject);
+begin
+  ActiveProject.ShowFileExtensions := actProjectShowFileExtensions.Checked;
+  ActiveProject.Modified := True;
+  ExplorerTree.Invalidate;
+end;
+
 function TProjectExplorerWindow.CanClose: boolean;
 begin
   Result := not ActiveProject.Modified;
   if not Result then begin
-    case MessageDlg('''The active project has not been saved.  Do you want to save the changes?''',
-      mtConfirmation, [mbYes, mbNo, mbCancel], 0) of
-      idYes : Result := DoSave;
-      idNo  : Result := True;
-      idCancel :  Result := False;
+    case WideMessageDlg(_(SAskSaveProject), mtConfirmation, [mbYes, mbNo, mbCancel], 0) of
+      mrYes : Result := DoSave;
+      mrNo  : Result := True;
+      mrCancel :  Result := False;
     end;
   end;
 end;
@@ -503,14 +568,7 @@ end;
 procedure TProjectExplorerWindow.ProjectMainPopUpMenuPopup(Sender: TObject);
 begin
   actProjectRelativePaths.Checked := ActiveProject.StoreRelativePaths;
-end;
-
-procedure TProjectExplorerWindow.ProjectRunConfigPopupMenuPopup(
-  Sender: TObject);
-begin
-   actProjectRun.Enabled := PyControl.DebuggerState = dsInactive;
-   actProjectDebug.Enabled := actProjectRun.Enabled;
-   actProjectExternalRun.Enabled := actProjectRun.Enabled;
+  actProjectRelativePaths.Checked := ActiveProject.StoreRelativePaths;
 end;
 
 procedure TProjectExplorerWindow.DoOpenProjectFile(FileName : WideString);
@@ -544,24 +602,24 @@ end;
 
 function TProjectExplorerWindow.DoSaveAs: boolean;
 var
-  NewName: string;
+  NewName: WideString;
 begin
   NewName := ActiveProject.FileName;
   if NewName = '' then
     NewName := ActiveProject.Name;
 
-  if  ExtractFileExt(NewName) = '' then
+  if  WideExtractFileExt(NewName) = '' then
     NewName := NewName + '.' + ProjectDefaultExtension;
 
   with CommandsDataModule.dlgFileSave do begin
     if NewName <> '' then begin
-      InitialDir := ExtractFileDir(NewName);
-      FileName := ExtractFileName(NewName);
-      Title := Format('Save Project "%s" As', [FileName]);
+      InitialDir := WideExtractFileDir(NewName);
+      FileName := WideExtractFileName(NewName);
+      Title := WideFormat(_(SSaveProjectFileAs), [FileName]);
     end else begin
       InitialDir := '';
       FileName := '';
-      Title := 'Save Project As';
+      Title := _(SSaveProjectAs);
     end;
     Filter := Format(ProjectFilter, [ProjectDefaultExtension]);
     DefaultExt := ProjectDefaultExtension;
@@ -585,12 +643,12 @@ Var
 begin
   // Create Backup
   if CommandsDataModule.PyIDEOptions.CreateBackupFiles and
-    FileExists(ActiveProject.FileName) then
+    WideFileExists(ActiveProject.FileName) then
   begin
     try
       FileBackup(ActiveProject.FileName);
     except
-      MessageDlg(Format('Failed to backup project "%s"', [ActiveProject.FileName]),
+      WideMessageDlg(WideFormat(_(SFailedToBackupProject), [ActiveProject.FileName]),
         mtWarning, [mbOK], 0);
     end;
   end;
@@ -613,37 +671,41 @@ begin
     ExplorerTree.ReinitNode(ExplorerTree.RootNode, False);
   except
     on E: Exception do begin
-      MessageBox(0, PChar(E.Message), PChar(Format('Error in saving project: "%s"', [ActiveProject.FileName])),
-        MB_ICONERROR or MB_OK);
+      WideMessageDlg(WideFormat(_(SErrorInSavingProject) + sLineBreak +
+          'Error: %s', [ActiveProject.FileName, E.Message]), mtError, [mbOK], 0);
       Result := False;
     end;
   end;
 end;
 
-procedure TProjectExplorerWindow.ExplorerTreeChange(Sender: TBaseVirtualTree;
-  Node: PVirtualNode);
+procedure TProjectExplorerWindow.UpdatePopupActions(Node : PVirtualNode);
 Var
-  TreeNode: PVirtualNode;
   Data : PNodeDataRec;
+  SingleNodeSelected : Boolean;
 begin
    // We update project actions here based on selection
-   TreeNode := ExplorerTree.GetFirstSelected;
-   if Assigned(TreeNode) then begin
+   SingleNodeSelected := Assigned(Node) and
+     (Length(ExplorerTree.GetSortedSelection(False)) = 1);
+   if Assigned(Node) then begin
      Data := ExplorerTree.GetNodeData(Node);
      Assert(Assigned(Data.ProjectNode));
-     actProjectAddFiles.Enabled := Data.ProjectNode is TProjectFilesNode;
-     actProjectAddActiveFile.Enabled := Data.ProjectNode is TProjectFilesNode;
+     actProjectAddFiles.Enabled := (Data.ProjectNode is TProjectFilesNode) and SingleNodeSelected;
+     actProjectAddActiveFile.Enabled := Data.ProjectNode is TProjectFilesNode and SingleNodeSelected;
      actProjectRemove.Enabled := (Data.ProjectNode is TProjectFolderNode) or
        (Data.ProjectNode is TProjectFileNode) or
        (Data.ProjectNode is TProjectRunConfiguationNode);
-     actProjectRename.Enabled := (Data.ProjectNode is TProjectFolderNode) or
-       (Data.ProjectNode is TProjectRunConfiguationNode);
-     actProjectAddFolder.Enabled := Data.ProjectNode is TProjectFilesNode;
-     actProjectImportDirectory.Enabled := Data.ProjectNode is TProjectFilesNode;
+     actProjectRename.Enabled := ((Data.ProjectNode is TProjectFolderNode) or
+       (Data.ProjectNode is TProjectRunConfiguationNode)) and SingleNodeSelected;
+     actProjectAddFolder.Enabled := (Data.ProjectNode is TProjectFilesNode) and SingleNodeSelected;;
+     actProjectImportDirectory.Enabled := (Data.ProjectNode is TProjectFilesNode) and SingleNodeSelected;
      actProjectFileEdit.Enabled := Data.ProjectNode is TProjectFileNode;
-     actProjectFileProperties.Enabled := Data.ProjectNode is TProjectFileNode;
-     actProjectAddRunConfig.Enabled := Data.ProjectNode is TProjectRunConfiguationsNode;
-     actProjectEditRunConfig.Enabled := Data.ProjectNode is TProjectRunConfiguationNode;
+     actProjectFileProperties.Enabled := (Data.ProjectNode is TProjectFileNode) and SingleNodeSelected;
+     actProjectAddRunConfig.Enabled := (Data.ProjectNode is TProjectRunConfiguationsNode) and SingleNodeSelected;
+     actProjectEditRunConfig.Enabled := (Data.ProjectNode is TProjectRunConfiguationNode) and SingleNodeSelected;
+     actProjectRun.Enabled := (PyControl.DebuggerState = dsInactive) and
+       (Data.ProjectNode is TProjectRunConfiguationNode) and SingleNodeSelected;
+     actProjectExternalRun.Enabled := actProjectRun.Enabled;
+     actProjectDebug.Enabled := actProjectRun.Enabled;
    end else begin
      actProjectAddFiles.Enabled := False;
      actProjectAddActiveFile.Enabled := False;
@@ -655,6 +717,9 @@ begin
      actProjectFileProperties.Enabled := False;
      actProjectAddRunConfig.Enabled := False;
      actProjectEditRunConfig.Enabled := False;
+     actProjectRun.Enabled := False;
+     actProjectExternalRun.Enabled := False;
+     actProjectDebug.Enabled := False;
    end;
 end;
 
@@ -676,6 +741,8 @@ begin
     Node := HitInfo.HitNode;
     if not ([hiOnItemLabel, hiOnNormalIcon] * HitInfo.HitPositions <> []) then
       Node := nil;
+    if Assigned(Node) and not (vsSelected in Node.States) then
+      Node := nil;
   end;
   if Assigned(Node) then begin
     Data := ExplorerTree.GetNodeData(Node);
@@ -696,6 +763,7 @@ begin
     PopUpMenu := ProjectMainPopUpMenu;
   end;
   if Assigned(PopUpMenu) then begin
+    UpdatePopupActions(Node);
     Pos := ExplorerTree.ClientToScreen(MousePos);
     PopUpMenu.Popup(Pos.X, Pos.Y);
   end;
@@ -714,6 +782,143 @@ begin
       ProjectFileNodeEdit(ExplorerTree.HotNode)
     else if Data.ProjectNode is TProjectRunConfiguationNode then
       actProjectEditRunConfigExecute(Sender);
+  end;
+end;
+
+procedure TProjectExplorerWindow.ExplorerTreeDragAllowed(
+  Sender: TBaseVirtualTree; Node: PVirtualNode; Column: TColumnIndex;
+  var Allowed: Boolean);
+var
+  Data: PNodeDataRec;
+begin
+  Allowed := False;
+  if Assigned(Node) then
+  begin
+    Data := ExplorerTree.GetNodeData(Node);
+    if (Data.ProjectNode is TProjectFileNode) or (Data.ProjectNode is TProjectFolderNode) then
+      Allowed := True;
+  end;
+end;
+
+procedure TProjectExplorerWindow.ExplorerTreeDragDrop(Sender: TBaseVirtualTree;
+  Source: TObject; DataObject: IDataObject; Formats: TFormatArray;
+  Shift: TShiftState; Pt: TPoint; var Effect: Integer; Mode: TDropMode);
+Var
+  HitInfo : THitInfo;
+  Node, ParentNode: PVirtualNode;
+  Data, SelectedData : PNodeDataRec;
+  FileNode : TProjectFileNode;
+  i: Integer;
+  CommonHDrop : TCommonHDrop;
+  FileName : WideString;
+  SelectedNodes : TNodeArray;
+  SelectedNode : TAbstractProjectNode;
+  CanMove : Boolean;
+  TempCursor : IInterface;
+begin
+  ExplorerTree.GetHitTestInfoAt(Pt.X, Pt.Y, True, HitInfo);
+  Node := HitInfo.HitNode;
+  if not ([hiOnItemLabel, hiOnNormalIcon] * HitInfo.HitPositions <> []) then
+    Node := nil;
+  if Assigned(Node) then begin
+    Data := ExplorerTree.GetNodeData(Node);
+    if Data.ProjectNode is TProjectFilesNode then begin
+      TempCursor := WaitCursor;
+      if Sender = Source then begin
+        // Internal Drop
+        SelectedNodes := ExplorerTree.GetSortedSelection(False);
+        if Length(SelectedNodes) > 0 then begin
+          ParentNode := nil;
+          // Check the all have the same parent (they should given the selection constraint)
+          CanMove := True;
+          for i := Low(SelectedNodes) to High(SelectedNodes) do begin
+            SelectedData := ExplorerTree.GetNodeData(SelectedNodes[i]);
+            SelectedNode := SelectedData.ProjectNode;
+            if not Assigned(ParentNode) then
+              ParentNode := SelectedNodes[i].Parent
+            else if ParentNode <> SelectedNodes[i].Parent then begin
+              CanMove := False;
+              Break;
+            end;
+            if not ((SelectedNode is TProjectFolderNode) or (SelectedNode is TProjectFileNode)) then begin
+              CanMove := False;
+              Break;
+            end;
+          end;
+          CanMove := CanMove and Assigned(ParentNode) and (ParentNode <> Node);
+          if CanMove then begin
+            ExplorerTree.BeginUpdate;
+            try
+              for i := Low(SelectedNodes) to High(SelectedNodes) do begin
+                SelectedData := ExplorerTree.GetNodeData(SelectedNodes[i]);
+                SelectedNode := SelectedData.ProjectNode;
+                SelectedNode.Parent := Data.ProjectNode;
+              end;
+              ExplorerTree.ReinitNode(Node, True);
+              ExplorerTree.ReinitNode(ParentNode, True);
+              ExplorerTree.ClearSelection;
+              ExplorerTree.Selected[Node]:= True;
+            finally
+              ExplorerTree.EndUpdate;
+            end;
+          end;
+        end;
+      end else if Assigned(DataObject) then begin
+        // OLE drag drop
+        CommonHDrop := TCommonHDrop.Create;
+        ExplorerTree.BeginUpdate;
+        try
+          if CommonHDrop.LoadFromDataObject(DataObject) then begin
+            for i := 0 to CommonHDrop.FileCount - 1 do begin
+              FileName := CommonHDrop.FileName(i);
+              with TProjectFilesNode(Data.ProjectNode) do
+                if DirectoryExists(FileName) then
+                  ImportDirectory(FileName,
+                    CommandsDataModule.PyIDEOptions.PythonFileExtensions,
+                    True)
+                else if WideFileExists(FileName) then begin
+                  if not Assigned(FileChild[FileName]) then begin
+                    FileNode := TProjectFileNode.Create;
+                    FileNode.FileName := FileName;
+                    AddChild(FileNode);
+                  end;
+                end;
+            end;
+            ExplorerTree.ReinitNode(Node, True);
+            ExplorerTree.ClearSelection;
+            ExplorerTree.Selected[Node]:= True;
+          end;
+        finally
+          CommonHDrop.Free;
+          ExplorerTree.EndUpdate;
+        end;
+      end;
+    end;
+  end;
+end;
+
+procedure TProjectExplorerWindow.ExplorerTreeDragOver(Sender: TBaseVirtualTree;
+  Source: TObject; Shift: TShiftState; State: TDragState; Pt: TPoint;
+  Mode: TDropMode; var Effect: Integer; var Accept: Boolean);
+Var
+  HitInfo: THitInfo;
+  Node: PVirtualNode;
+  Data: PNodeDataRec;
+begin
+  Accept := False;
+  Sender.GetHitTestInfoAt(Pt.X, Pt.Y, True, HitInfo);
+  Node := HitInfo.HitNode;
+  if not ([hiOnItemLabel, hiOnNormalIcon] * HitInfo.HitPositions <> []) then
+    Node := nil;
+  if Assigned(Node) then begin
+    Data := ExplorerTree.GetNodeData(Node);
+    if Data.ProjectNode is TProjectFilesNode then begin
+        Accept := True;
+      if Assigned(Source) and (Sender = Source) then
+        Effect := DROPEFFECT_MOVE
+      else
+        Effect := DROPEFFECT_COPY;
+    end;
   end;
 end;
 
@@ -755,7 +960,7 @@ procedure TProjectExplorerWindow.ExplorerTreeGetImageIndex(
   Column: TColumnIndex; var Ghosted: Boolean; var ImageIndex: Integer);
 var
   Data : PNodeDataRec;
-  Extension : string;
+  Extension : WideString;
   Index, ImgIndex : Integer;
   FileName : WideString;
 begin
@@ -772,10 +977,10 @@ begin
     ImageIndex := 3
   else if Data.ProjectNode is TProjectFileNode then begin
     FileName := TProjectFileNode(Data.ProjectNode).FileName;
-    Extension := ExtractFileExt(FileName);
+    Extension := WideExtractFileExt(FileName);
     Index := FileImageList.IndexOf(Extension);
     if Index < 0 then begin
-      if (Extension <> '') and FileExists(FileName) then begin
+      if (Extension <> '') and WideFileExists(FileName) then begin
         ImgIndex := GetIconIndexFromFile(FileName, True);
         if ImgIndex >= 0 then begin
           ImageIndex :=
@@ -876,7 +1081,7 @@ begin
   inherited;
   // Let the tree know how much data space we need.
   ExplorerTree.NodeDataSize := SizeOf(TNodeDataRec);
-  FileImageList := TStringList.Create;
+  FileImageList := TWideStringList.Create;
   FileImageList.Sorted := True;
   FileImageList.Duplicates := dupError;
 end;
@@ -891,72 +1096,7 @@ end;
 procedure TProjectExplorerWindow.FormShow(Sender: TObject);
 begin
   inherited;
-  JvDropTarget.Control := ExplorerTree;
   ExplorerTree.RootNodeCount := 1;
-end;
-
-procedure TProjectExplorerWindow.JvDropTargetDragDrop(Sender: TJvDropTarget;
-  var Effect: TJvDropEffect; Shift: TShiftState; X, Y: Integer);
-Var
-  HitInfo : THitInfo;
-  Node: PVirtualNode;
-  Data : PNodeDataRec;
-  List: TStringList;
-  FileNode : TProjectFileNode;
-  Pt : TPoint;
-  i: Integer;
-begin
-  Pt := ExplorerTree.ScreenToClient(Point(X, Y));
-  ExplorerTree.GetHitTestInfoAt(Pt.X, Pt.Y, True, HitInfo);
-  Node := HitInfo.HitNode;
-  if not ([hiOnItemLabel, hiOnNormalIcon] * HitInfo.HitPositions <> []) then
-    Node := nil;
-  if Assigned(Node) then begin
-    Data := ExplorerTree.GetNodeData(Node);
-    if Data.ProjectNode is TProjectFilesNode then begin
-      List := TStringList.Create;
-      try
-        Sender.GetFilenames(List);
-        for i := 0 to List.Count - 1 do
-          with TProjectFilesNode(Data.ProjectNode) do begin
-            if DirectoryExists(List[i]) then
-              ImportDirectory(List[i], '*.py', True)
-            else if FileExists(List[i]) then begin
-              if not Assigned(FileChild[List[i]]) then begin
-                FileNode := TProjectFileNode.Create;
-                FileNode.FileName := List[i];
-                AddChild(FileNode);
-              end;
-            end;
-          end;
-      finally
-        List.Free;
-      end;
-      ExplorerTree.ReinitNode(Node, True);
-    end;
-  end;
-end;
-
-procedure TProjectExplorerWindow.JvDropTargetDragOver(Sender: TJvDropTarget;
-  var Effect: TJvDropEffect);
-Var
-  HitInfo : THitInfo;
-  Node: PVirtualNode;
-  Data : PNodeDataRec;
-begin
-  with ExplorerTree.ScreenToClient(Mouse.CursorPos) do
-    ExplorerTree.GetHitTestInfoAt(X, Y, True, HitInfo);
-  Node := HitInfo.HitNode;
-  if not ([hiOnItemLabel, hiOnNormalIcon] * HitInfo.HitPositions <> []) then
-    Node := nil;
-  if Assigned(Node) then begin
-    Data := ExplorerTree.GetNodeData(Node);
-    if Data.ProjectNode is TProjectFilesNode then
-      Effect := deCopy
-    else
-      Effect := deNone;
-  end else
-    Effect := deNone;
 end;
 
 end.

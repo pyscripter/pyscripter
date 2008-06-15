@@ -14,7 +14,7 @@ interface
 uses SysUtils,
      Classes,
      Contnrs,
-     SynRegExpr;
+     SynRegExpr, WideStrings;
 
 Type
   TParsedModule = class;
@@ -31,16 +31,16 @@ Type
   protected
     fIsProxy : boolean;
     fCodePos : TCodePos;
-    function GetCodeHint : string; virtual; abstract;
+    function GetCodeHint : WideString; virtual; abstract;
   public
-    Name : string;
+    Name : WideString;
     function GetRoot : TBaseCodeElement;
     function GetModule : TParsedModule;
     function GetModuleSource : string;
     property CodePos : TCodePos read fCodePos;
     property Parent : TBaseCodeElement read fParent write fParent;
     property IsProxy : boolean read fIsProxy;  // true if derived from live Python object
-    property CodeHint : string read GetCodeHint;
+    property CodeHint : WideString read GetCodeHint;
   end;
 
   TCodeBlock = record
@@ -50,18 +50,18 @@ Type
 
   TModuleImport = class(TBaseCodeElement)
   private
-    fRealName : String; // used if name is an alias
+    fRealName : WideString; // used if name is an alias
     fPrefixDotCount : integer; // for relative package imports
-    function GetRealName: string;
+    function GetRealName: WideString;
   protected
-    function GetCodeHint : string; override;
+    function GetCodeHint : WideString; override;
   public
     CodeBlock : TCodeBlock;
     ImportAll : Boolean;
     ImportedNames : TObjectList;
-    property RealName : string read GetRealName;
+    property RealName : WideString read GetRealName;
     property PrefixDotCount : integer read fPrefixDotCount;
-    constructor Create(AName : string; CB : TCodeBlock);
+    constructor Create(AName : WideString; CB : TCodeBlock);
     destructor Destroy; override;
   end;
 
@@ -74,21 +74,21 @@ Type
     // The parent can be TParsedModule, TParsedClass, TParsedFunction or TModuleImport
   private
     // only used if Parent is TModuleImport and Name is an alias
-    fRealName : String;
-    function GetRealName: string;
+    fRealName : WideString;
+    function GetRealName: WideString;
   protected
-    function GetCodeHint : string; override;
+    function GetCodeHint : WideString; override;
   public
-    ObjType : string;
-    DefaultValue : string;
+    ObjType : WideString;
+    DefaultValue : WideString;
     Attributes : TVariableAttributes;
-    property RealName : string read GetRealName;
+    property RealName : WideString read GetRealName;
   end;
 
   TCodeElement = class(TBaseCodeElement)
   private
     fCodeBlock : TCodeBlock;
-    fDocString : string;
+    fDocString : WideString;
     fIndent : integer;
     fChildren : TObjectList;
     fDocStringExtracted : boolean;
@@ -96,50 +96,50 @@ Type
     function GetChildren(i : integer): TCodeElement;
     procedure ExtractDocString;
   protected
-    function GetDocString: string; virtual;
+    function GetDocString: WideString; virtual;
   public
     constructor Create;
     destructor Destroy; override;
     procedure AddChild(CE : TCodeElement);
     procedure GetSortedClasses(SortedClasses : TObjectList);
     procedure GetSortedFunctions(SortedFunctions : TObjectList);
-    procedure GetNameSpace(SList : TStringList); virtual;
+    procedure GetNameSpace(SList : TWideStringList); virtual;
     function GetScopeForLine(LineNo : integer) : TCodeElement;
-    function GetChildByName(ChildName : string): TCodeElement;
+    function GetChildByName(ChildName : WideString): TCodeElement;
     property CodeBlock : TCodeBlock read fCodeBlock;
     property Indent : integer read fIndent;
     property ChildCount : integer read GetChildCount;
     property Children[i : integer] : TCodeElement read GetChildren;
-    property DocString : string read GetDocString;
+    property DocString : WideString read GetDocString;
   end;
 
   TParsedModule = class(TCodeElement)
   private
     fImportedModules : TObjectList;
     fGlobals : TObjectList;
-    fSource : string;
-    fFileName : string;
-    fMaskedSource : string;
-    fAllExportsVar : string;
+    fSource : WideString;
+    fFileName : WideString;
+    fMaskedSource : WideString;
+    fAllExportsVar : WideString;
     function GetIsPackage: boolean;
   protected
-    function GetAllExportsVar: string; virtual;
-    function GetCodeHint : string; override;
-    procedure GetNameSpaceInternal(SList, ImportedModuleCache : TStringList);
+    function GetAllExportsVar: WideString; virtual;
+    function GetCodeHint : WideString; override;
+    procedure GetNameSpaceInternal(SList, ImportedModuleCache : TWideStringList);
 public
     constructor Create;
     destructor Destroy; override;
     procedure Clear;
-    procedure GetNameSpace(SList : TStringList); override;
+    procedure GetNameSpace(SList : TWideStringList); override;
     procedure GetSortedImports(ImportsList : TObjectList);
     procedure GetUniqueSortedGlobals(GlobalsList : TObjectList);
     property ImportedModules : TObjectList read fImportedModules;
     property Globals : TObjectList read fGlobals;
-    property Source : string read fSource;
-    property FileName : string read fFileName write fFileName;
-    property MaskedSource : string read fMaskedSource;
+    property Source : WideString read fSource;
+    property FileName : WideString read fFileName write fFileName;
+    property MaskedSource : WideString read fMaskedSource;
     property IsPackage : boolean read GetIsPackage;
-    property AllExportsVar : string read GetAllExportsVar;
+    property AllExportsVar : WideString read GetAllExportsVar;
   end;
 
   TParsedFunction = class(TCodeElement)
@@ -147,12 +147,12 @@ public
     fArguments : TObjectList;
     fLocals : TObjectList;
   protected
-    function GetCodeHint : string; override;
+    function GetCodeHint : WideString; override;
   public
     constructor Create;
     destructor Destroy; override;
-    function ArgumentsString : string; virtual;
-    procedure GetNameSpace(SList : TStringList); override;
+    function ArgumentsString : WideString; virtual;
+    procedure GetNameSpace(SList : TWideStringList); override;
     property Arguments : TObjectList read fArguments;
     property Locals : TObjectList read fLocals;
   end;
@@ -161,14 +161,14 @@ public
   private
     fSuperClasses : TStringList;
     fAttributes : TObjectList;
-    procedure GetNameSpaceImpl(SList: TStringList; BaseClassResolver : TStringList);
+    procedure GetNameSpaceImpl(SList: TWideStringList; BaseClassResolver : TWideStringList);
     function GetConstructorImpl(BaseClassResolver : TStringList) : TParsedFunction;
   protected
-    function GetCodeHint : string; override;
+    function GetCodeHint : WideString; override;
   public
     constructor Create;
     destructor Destroy; override;
-    procedure GetNameSpace(SList : TStringList); override;
+    procedure GetNameSpace(SList : TWideStringList); override;
     procedure GetUniqueSortedAttibutes(AttributesList: TObjectList);
     function GetConstructor : TParsedFunction; virtual;
     property SuperClasses : TStringList read fSuperClasses;
@@ -207,17 +207,17 @@ public
 
 implementation
 
-uses uCommonFunctions, JclStrings, JclFileUtils, cRefactoring, VarPyth,
-  StringResources, JclSysUtils, Math, cPyDebugger;
+uses uCommonFunctions, JclFileUtils, cRefactoring, VarPyth,
+  StringResources, JclSysUtils, Math, cPyDebugger, gnugettext, WideStrUtils;
 
 Const
   IdentRE = '[A-Za-z_][A-Za-z0-9_]*';
   DottedIdentRE = '[A-Za-z_][A-Za-z0-9_.]*';
-  MaskChar = #96;
+  MaskChar = WideChar(#96);
 
   NoOfImplicitContinuationBraces = 3;
   ImplicitContinuationBraces : array[0..NoOfImplicitContinuationBraces-1] of
-    array [0..1] of Char = (('(', ')'), ('[', ']'), ('{', '}'));
+    array [0..1] of WideChar = (('(', ')'), ('[', ']'), ('{', '}'));
 
 Type
   ImplicitContinuationBracesCount = array [0..NoOfImplicitContinuationBraces-1] of integer;
@@ -226,7 +226,7 @@ Var
   DocStringRE : TRegExpr;
 
 
-procedure HangingBraces(S : string; OpenBrace, CloseBrace : Char; var Count : integer);
+procedure HangingBraces(S : WideString; OpenBrace, CloseBrace : WideChar; var Count : integer);
 var
   I: Integer;
 begin
@@ -237,7 +237,7 @@ begin
       Dec(Count);
 end;
 
-function HaveImplicitContinuation(S : string;
+function HaveImplicitContinuation(S : WideString;
   var CountArray : ImplicitContinuationBracesCount; InitCount : boolean = false) : boolean;
 Var
   i : integer;
@@ -298,7 +298,7 @@ begin
     Result := nil;
 end;
 
-function TCodeElement.GetChildByName(ChildName: string): TCodeElement;
+function TCodeElement.GetChildByName(ChildName: WideString): TCodeElement;
 var
   i : integer;
   CE : TCodeElement;
@@ -341,7 +341,7 @@ begin
   SortedFunctions.Sort(CompareCodeElements);
 end;
 
-procedure TCodeElement.GetNameSpace(SList: TStringList);
+procedure TCodeElement.GetNameSpace(SList: TWideStringList);
 Var
   i : integer;
 begin
@@ -406,7 +406,7 @@ begin
   end;
 end;
 
-function TCodeElement.GetDocString: string;
+function TCodeElement.GetDocString: WideString;
 begin
   if not fDocStringExtracted then
     ExtractDocString;
@@ -467,23 +467,23 @@ end;
 
 function TPythonScanner.ScanModule(Source: string; Module : TParsedModule): boolean;
 // Parses the Python Source code and adds code elements as children of Module
-
+{ TODO 2 : Optimize out calls to GetNthLine }
 Var
   UseModifiedSource : boolean;
 
-  procedure GetLine(var P : PChar; var Line : string; var LineNo : integer);
+  procedure GetLine(var P : PWideChar; var Line : WideString; var LineNo : integer);
   Var
-    Start : PChar;
+    Start : PWideChar;
   begin
     Inc(LineNo);
     Start := P;
-    while not (P^ in [#0, #10, #13]) do Inc(P);
+    while not ((P^ <= #$FF) and (Char(P^) in [#0, #10, #13])) do Inc(P);  // inlined InOpSet
     if UseModifiedSource then
       SetString(Line, Start, P - Start)
     else
       Line := GetNthLine(Source, LineNo);
-    if P^ = #13 then Inc(P);
-    if P^ = #10 then Inc(P);
+    if P^ = WideChar(#13) then Inc(P);
+    if P^ = WideChar(#10) then Inc(P);
   end;
 
   procedure CharOffsetToCodePos(CharOffset, FirstLine : integer; LineStarts : TList;
@@ -502,38 +502,43 @@ Var
     end;
   end;
 
-  procedure RemoveComment(var S : string);
+  procedure RemoveComment(var S : WideString);
   var
     Index : Integer;
   begin
     // Remove comment
-    Index := CharPos(S, '#');
+    Index := WideCharPos(S, WideChar('#'));
     if Index > 0 then
       S := Copy(S, 1, Index -1);
   end;
 
-  function ProcessLineContinuation(var P : PChar; var Line : string;
+  function ProcessLineContinuation(var P : PWideChar; var Line : WideString;
     var LineNo: integer; LineStarts : TList): boolean;
   // Process continuation lines
   var
     ExplicitContinuation, ImplicitContinuation : boolean;
     CountArray : ImplicitContinuationBracesCount;
-    NewLine : string;
+    NewLine : WideString;
+    TrimmedLine : WideString;
   begin
     LineStarts.Clear;
     RemoveComment(Line);
     ExplicitContinuation := fLineContinueRE.Exec(Line);
     ImplicitContinuation := HaveImplicitContinuation(Line, CountArray, True);
     Result := ExplicitContinuation or ImplicitContinuation;
-    while (ExplicitContinuation or ImplicitContinuation) and (P^ <> #0) do begin
+    while (ExplicitContinuation or ImplicitContinuation) and (P^ <> WideChar(#0)) do begin
       if ExplicitContinuation then
         // Drop the continuation char
         Line := Copy(Line, 1, fLineContinueRE.MatchPos[0] - 1);
       LineStarts.Add(Pointer(Length(Line)+2));
       GetLine(P, NewLine, LineNo);
       RemoveComment(NewLine);
-      if ExplicitContinuation and (Trim(NewLine)='') then break;
-      Line := Line + ' ' + NewLine;
+      TrimmedLine := Trim(NewLine);
+      if ExplicitContinuation and (TrimmedLine='') then break;
+      // issue 212
+      if WideStrIsLeft(PWideChar(TrimmedLine), 'class ') or WideStrIsLeft(PWideChar(TrimmedLine), 'def ') then break;
+
+      Line := Line + WideChar(' ') + NewLine;
       ExplicitContinuation := fLineContinueRE.Exec(Line);
       ImplicitContinuation := not ExplicitContinuation  and
         HaveImplicitContinuation(Line, CountArray, True);
@@ -547,23 +552,22 @@ Var
     Result := TParsedClass(CodeElement);
   end;
 
-  function ReplaceQuotedChars(const Source : string): string;
+  function ReplaceQuotedChars(const Source : WideString): Widestring;
   //  replace quoted \ ' " with **
   Var
-    pRes, pSource : PChar;
+    pRes, pSource : PWideChar;
   begin
     Result := Source;
     if Length(Source) = 0 then Exit;
-    UniqueString(Result);
-    pRes := PChar(Result);
-    pSource := PChar(Source);
-    while pSource^ <> #0 do begin
-      if (pSource^ = '\') then begin
+    pRes := PWideChar(Result);
+    pSource := PWideChar(Source);
+    while pSource^ <> WideChar(#0) do begin
+      if (pSource^ = WideChar('\')) then begin
         Inc(pSource);
-        if pSource^ in ['\', '''', '"'] then begin
-          pRes^ := '*';
+        if (pSource^ <= #$FF) and (Char(pSource^) in ['\', '''', '"']) then begin  // inlined InOpSet
+          pRes^ := WideChar('*');
           Inc(pRes);
-          pRes^ := '*';
+          pRes^ := WideChar('*');
         end else
           Inc(pRes);
       end;
@@ -572,27 +576,26 @@ Var
     end;
   end;
 
-  function MaskStringsAndComments(const Source : string): string;
+  function MaskStringsAndComments(const Source : WideString): WideString;
   // Replace all chars in strings and comments with *
   Type
     TParseState = (psNormal, psInTripleSingleQuote, psInTripleDoubleQuote,
     psInSingleString, psInDoubleString, psInComment);
   Var
-    pRes, pSource : PChar;
+    pRes, pSource : PWideChar;
     ParseState : TParseState;
   begin
     Result := Source;
     if Length(Source) = 0 then Exit;
-    UniqueString(Result);
-    pRes := PChar(Result);
-    pSource := PChar(Source);
+    pRes := PWideChar(Result);
+    pSource := PWideChar(Source);
     ParseState := psNormal;
     while pSource^ <> #0 do begin
       case pSource^ of
-        '"' :
+        WideChar('"') :
            case ParseState of
              psNormal :
-               if StrIsLeft(psource + 1, '""') then begin
+               if WideStrIsLeft(psource + 1, '""') then begin
                  ParseState := psInTripleDoubleQuote;
                  Inc(pRes,2);
                  Inc(pSource, 2);
@@ -603,7 +606,7 @@ Var
              psInComment :
                pRes^ := MaskChar;
              psInTripleDoubleQuote :
-               if StrIsLeft(psource + 1, '""') then begin
+               if WideStrIsLeft(psource + 1, '""') then begin
                  ParseState := psNormal;
                  Inc(pRes,2);
                  Inc(pSource, 2);
@@ -612,10 +615,10 @@ Var
              psInDoubleString :
                ParseState := psNormal;
            end;
-        '''':
+        WideChar(''''):
            case ParseState of
              psNormal :
-               if StrIsLeft(psource + 1, '''''') then begin
+               if WideStrIsLeft(psource + 1, '''''') then begin
                  ParseState := psInTripleSingleQuote;
                  Inc(pRes, 2);
                  Inc(pSource, 2);
@@ -626,7 +629,7 @@ Var
              psInComment :
                pRes^ := MaskChar;
              psInTripleSingleQuote :
-               if StrIsLeft(psource + 1, '''''') then begin
+               if WideStrIsLeft(psource + 1, '''''') then begin
                  ParseState := psNormal;
                  Inc(pRes, 2);
                  Inc(pSource, 2);
@@ -635,18 +638,18 @@ Var
              psInSingleString :
                ParseState := psNormal;
            end;
-        '#' :
+        WideChar('#') :
           if ParseState = psNormal then
             ParseState := psInComment
           else
             pRes^ := MaskChar;
-        #10, #13:
+        WideChar(#10), WideChar(#13):
           begin
             if ParseState in [psInSingleString, psInDoubleString, psInComment] then
               ParseState := psNormal;
           end;
-        ' ',
-        #9 : {do nothing};
+        WideChar(' '),
+        WideChar(#9) : {do nothing};
       else
         if ParseState <> psNormal then
           pRes^ := MaskChar;
@@ -657,10 +660,10 @@ Var
   end;
 
 var
-  P : PChar;
+  P : PWideChar;
   LineNo, Indent, Index, CharOffset, CharOffset2, LastLength : integer;
   CodeStart : integer;
-  Line, Token, AsgnTargetList, S, SourceLine : string;
+  Line, Token, AsgnTargetList, S, SourceLine : WideString;
   Stop : Boolean;
   CodeElement, LastCodeElement, Parent : TCodeElement;
   ModuleImport : TModuleImport;
@@ -691,7 +694,7 @@ begin
 //    StringAndCommentsReplaceFunc);
   Module.fMaskedSource := MaskStringsAndComments(Module.fMaskedSource);
 
-  P := PChar(Module.fMaskedSource);
+  P := PWideChar(Module.fMaskedSource);
   LineNo := 0;
   Stop := False;
 
@@ -707,7 +710,7 @@ begin
       if ProcessLineContinuation(P, Line, LineNo, LineStarts) then
         fCodeRE.Exec(Line);  // reparse
 
-      S := StrReplaceChars(fCodeRE.Match[4], ['(', ')'], ' ');
+      S := WideStrReplaceChars(fCodeRE.Match[4], ['(', ')'], ' ');
       if fCodeRE.Match[2] = 'class' then begin
         // class definition
         CodeElement := TParsedClass.Create;
@@ -717,20 +720,21 @@ begin
         CodeElement := TParsedFunction.Create;
         CharOffset := fCodeRE.MatchPos[4];
         LastLength := Length(S);
-        Token := StrToken(S, ',');
+        Token := WideStrToken(S, WideChar(','));
         CharOffset2 := CalcIndent(Token);
         Token := Trim(Token);
+        Index := 0;  
         While Token <> '' do begin
           Variable := TVariable.Create;
           Variable.Parent := CodeElement;
-          if StrIsLeft(PChar(Token), '**') then begin
+          if WideStrIsLeft(PWideChar(Token), '**') then begin
             Variable.Name := Copy(Token, 3, Length(Token) -2);
             Include(Variable.Attributes, vaStarStarArgument);
           end else if Token[1] = '*' then begin
             Variable.Name := Copy(Token, 2, Length(Token) - 1);
             Include(Variable.Attributes, vaStarArgument);
           end else begin
-            Index := CharPos(Token, '=');
+            Index := WideCharPos(Token, WideChar('='));
             if Index > 0 then begin
               Variable.Name := Trim(Copy(Token, 1, Index - 1));
               Variable.DefaultValue := Copy(Token, Index + 1, Length(Token) - Index);
@@ -743,7 +747,7 @@ begin
           CharOffsetToCodePos(CharOffset + CharOffset2, CodeStart, LineStarts, Variable.fCodePos);
           // Deal with string arguments (Issue 32)
           if  (Variable.DefaultValue <> '') then begin
-            if CharPos(Variable.DefaultValue, MaskChar) > 0 then begin
+            if WideCharPos(Variable.DefaultValue, MaskChar) > 0 then begin
               SourceLine := GetNthLine(Source, Variable.fCodePos.LineNo);
               Variable.DefaultValue :=
                 Copy(SourceLine, Variable.CodePos.CharOffset + Index, Length(Variable.DefaultValue));
@@ -755,7 +759,7 @@ begin
 
           Inc(CharOffset,  LastLength - Length(S));
           LastLength := Length(S);
-          Token := StrToken(S, ',');
+          Token := WideStrToken(S, ',');
           CharOffset2 := CalcIndent(Token);
           Token := Trim(Token);
         end;
@@ -801,7 +805,7 @@ begin
         S := fImportRE.Match[1];
         CharOffset := fImportRE.MatchPos[1];
         LastLength := Length(S);
-        Token := StrToken(S, ',');
+        Token := WideStrToken(S, ',');
         While Token <> '' do begin
           if fAliasRE.Exec(Token) then begin
             if fAliasRE.Match[3] <> '' then begin
@@ -820,7 +824,7 @@ begin
           end;
           Inc(CharOffset,  LastLength - Length(S));
           LastLength := Length(S);
-          Token := StrToken(S, ',');
+          Token := WideStrToken(S, ',');
         end;
       end else if fFromImportRE.Exec(Line) then begin
         // From Import statement
@@ -840,10 +844,10 @@ begin
           CharOffset := fFromImportRE.MatchPos[3];
           if Pos('(', S) > 0 then begin
             Inc(CharOffset);
-            S := StrRemoveChars(S, ['(',')']); //from module import (a,b,c) form
+            S := WideStrRemoveChars(S, ['(',')']); //from module import (a,b,c) form
           end;
           LastLength := Length(S);
-          Token := StrToken(S, ',');
+          Token := WideStrToken(S, ',');
           While Token <> '' do begin
             if fAliasRE.Exec(Token) then begin
               if fAliasRE.Match[3] <> '' then begin
@@ -864,25 +868,25 @@ begin
             end;
             Inc(CharOffset,  LastLength - Length(S));
             LastLength := Length(S);
-            Token := StrToken(S, ',');
+            Token := WideStrToken(S, ',');
           end;
         end;
         ModuleImport.Parent := Module;
         Module.fImportedModules.Add(ModuleImport);
       end else if fAssignmentRE.Exec(Line) then begin
         S := Copy(Line, 1, fAssignmentRE.MatchPos[5]-1);
-        AsgnTargetList := StrToken(S, '=');
+        AsgnTargetList := WideStrToken(S, '=');
         CharOffset2 := 1; // Keeps track of the end of the identifier
         while AsgnTargetList <> '' do begin
           AsgnTargetCount := 0;
           Variable := nil;
-          Token := StrToken(AsgnTargetList, ',');
+          Token := WideStrToken(AsgnTargetList, ',');
           while Token <> '' do begin
             CharOffset := CharOffset2;  // Keeps track of the start of the identifier
             Inc(CharOffset, CalcIndent(Token, 1)); // do not expand tabs
             Inc(CharOffset2, Succ(Length(Token))); // account for ,
             Token := Trim(Token);
-            if StrIsLeft(PChar(Token), 'self.') then begin
+            if WideStrIsLeft(PWideChar(Token), 'self.') then begin
               // class variable
               Token := Copy(Token, 6, Length(Token) - 5);
               Inc(CharOffset, 5);  // Length of "self."
@@ -922,7 +926,7 @@ begin
               end;
               Inc(AsgnTargetCount);
             end;
-            Token := StrToken(AsgnTargetList, ',');
+            Token := WideStrToken(AsgnTargetList, ',');
           end;
           // Variable Type if the assignment has a single target
           if AsgnTargetCount = 1 then begin
@@ -939,16 +943,16 @@ begin
                 Variable.ObjType := '';  // not a dotted name so we can't do much with it
             end;
           end;
-          AsgnTargetList := StrToken(S, '=');
+          AsgnTargetList := WideStrToken(S, '=');
         end;
       end;
     end;
-    DoScannerProgress(P - PChar(Module.fMaskedSource), Length(Module.fMaskedSource), Stop);
+    DoScannerProgress(P - PWideChar(Module.fMaskedSource), Length(Module.fMaskedSource), Stop);
   end;
   // Account for blank line in the end;
   if Length(Module.fMaskedSource) > 0 then begin
     Dec(P);
-    if P^ in [#10, #13] then
+    if InOpSet(P^, [#10, #13]) then
       Inc(LineNo);
   end;
   while Assigned(LastCodeElement) do begin
@@ -965,7 +969,7 @@ end;
 //  i : integer;
 //begin
 //  Result := ARegExpr.Match[0];
-//  if StrIsLeft(PChar(Result), '"""') or StrIsLeft(PChar(Result), '''''''') then begin
+//  if WideStrIsLeft(PWideChar(Result), '"""') or WideStrIsLeft(PWideChar(Result), '''''''') then begin
 //    for i := 4 to Length(Result) - 3 do
 //      if not (Result[i] in [#9, #10, #13, #32]) then
 //        Result[i] := '*';
@@ -1041,14 +1045,14 @@ begin
   ImportsList.Sort(CompareImports);
 end;
 
-procedure TParsedModule.GetNameSpace(SList: TStringList);
+procedure TParsedModule.GetNameSpace(SList: TWideStringList);
 {
    GetNameSpaceInternal takes care of cyclic imports
 }
 var
-  ImportedModuleCache : TStringList;
+  ImportedModuleCache : TWideStringList;
 begin
-  ImportedModuleCache := TStringList.Create;
+  ImportedModuleCache := TWideStringList.Create;
   try
     GetNameSpaceInternal(SList, ImportedModuleCache);
   finally
@@ -1056,7 +1060,7 @@ begin
   end;
 end;
 
-procedure TParsedModule.GetNameSpaceInternal(SList, ImportedModuleCache : TStringList);
+procedure TParsedModule.GetNameSpaceInternal(SList, ImportedModuleCache : TWideStringList);
 var
   CurrentCount: Integer;
   j: Integer;
@@ -1102,7 +1106,7 @@ begin
       if not (ParsedModule is TModuleProxy) then
         for j := Slist.Count - 1 downto CurrentCount do
         begin
-          if (StrIsLeft(PChar(SList[j]), '__') and not StrIsRight(Pchar(SList[j]), '__')) or ((ParsedModule.AllExportsVar <> '') and (Pos(SList[j], ParsedModule.AllExportsVar) = 0)) then
+          if (WideStrIsLeft(PWideChar(SList[j]), '__') and not WideStrIsRight(PWidechar(SList[j]), '__')) or ((ParsedModule.AllExportsVar <> '') and (Pos(SList[j], ParsedModule.AllExportsVar) = 0)) then
             SList.Delete(j);
         end;
     end
@@ -1110,7 +1114,7 @@ begin
       for j := 0 to ModuleImport.ImportedNames.Count - 1 do
         SList.AddObject(TVariable(ModuleImport.ImportedNames[j]).Name, ModuleImport.ImportedNames[j]);
     // imported modules
-    Index := CharPos(ModuleImport.Name, '.');
+    Index := WideCharPos(ModuleImport.Name, '.');
     if Index = 0 then
       SList.AddObject(ModuleImport.Name, ModuleImport)
     else if Index > 0 then
@@ -1133,22 +1137,22 @@ begin
   Result := PathRemoveExtension(ExtractFileName(fFileName)) = '__init__';
 end;
 
-function TParsedModule.GetAllExportsVar: string;
+function TParsedModule.GetAllExportsVar: WideString;
 begin
   Result := fAllExportsVar;
 end;
 
-function TParsedModule.GetCodeHint: string;
+function TParsedModule.GetCodeHint: WideString;
 begin
   if IsPackage then
-    Result := Format(SParsedPackageCodeHint, [FileName, Name])
+    Result := WideFormat(_(SParsedPackageCodeHint), [FileName, Name])
   else
-    Result := Format(SParsedModuleCodeHint, [FileName, Name]);
+    Result := WideFormat(_(SParsedModuleCodeHint), [FileName, Name]);
 end;
 
 { TModuleImport }
 
-constructor TModuleImport.Create(AName : string; CB : TCodeBlock);
+constructor TModuleImport.Create(AName : WideString; CB : TCodeBlock);
 begin
   inherited Create;
   Name := AName;
@@ -1163,12 +1167,12 @@ begin
   inherited;
 end;
 
-function TModuleImport.GetCodeHint: string;
+function TModuleImport.GetCodeHint: WideString;
 begin
-  Result := Format(SModuleImportCodeHint, [RealName]);
+  Result := WideFormat(_(SModuleImportCodeHint), [RealName]);
 end;
 
-function TModuleImport.GetRealName: string;
+function TModuleImport.GetRealName: WideString;
 begin
   if fRealName <> '' then
     Result := fRealName
@@ -1178,15 +1182,15 @@ end;
 
 { TParsedFunction }
 
-function TParsedFunction.ArgumentsString: string;
-  function FormatArgument(Variable : TVariable) : string;
+function TParsedFunction.ArgumentsString: WideString;
+  function FormatArgument(Variable : TVariable) : WideString;
   begin
     if vaStarArgument in Variable.Attributes then
       Result := '*' + Variable.Name
     else if vaStarStarArgument in Variable.Attributes then
       Result := '**' + Variable.Name
     else if vaArgumentWithDefault in Variable.Attributes then
-      Result := Format('%s=%s', [Variable.Name, Variable.DefaultValue])
+      Result := WideFormat('%s=%s', [Variable.Name, Variable.DefaultValue])
     else
       Result := Variable.Name;
   end;
@@ -1216,28 +1220,28 @@ begin
   inherited;
 end;
 
-function TParsedFunction.GetCodeHint: string;
+function TParsedFunction.GetCodeHint: WideString;
 Var
   Module : TParsedModule;
   DefinedIn : string;
 begin
   Module := GetModule;
   if Module is TModuleProxy then
-    DefinedIn := Format(SDefinedInModuleCodeHint, [Module.Name])
+    DefinedIn := WideFormat(_(SDefinedInModuleCodeHint), [Module.Name])
   else
-    DefinedIn := Format(SFilePosInfoCodeHint,
+    DefinedIn := WideFormat(_(SFilePosInfoCodeHint),
       [Module.FileName, fCodePos.LineNo, fCodePos.CharOffset,
        Module.Name, fCodePos.LineNo]);
 
   if Parent is TParsedClass then
-    Result := Format(SParsedMethodCodeHint,
+    Result := WideFormat(_(SParsedMethodCodeHint),
       [Parent.Name, Name, ArgumentsString, DefinedIn])
   else
-    Result := Format(SParsedFunctionCodeHint,
+    Result := WideFormat(_(SParsedFunctionCodeHint),
       [Name, ArgumentsString, DefinedIn])
 end;
 
-procedure TParsedFunction.GetNameSpace(SList: TStringList);
+procedure TParsedFunction.GetNameSpace(SList: TWideStringList);
 Var
   i : integer;
 begin
@@ -1267,23 +1271,23 @@ begin
   inherited;
 end;
 
-function TParsedClass.GetCodeHint: string;
+function TParsedClass.GetCodeHint: WideString;
 Var
   Module : TParsedModule;
   DefinedIn : string;
 begin
   Module := GetModule;
   if Module is TModuleProxy then
-    DefinedIn := Format(SDefinedInModuleCodeHint, [Module.Name])
+    DefinedIn := WideFormat(_(SDefinedInModuleCodeHint), [Module.Name])
   else
-    DefinedIn := Format(SFilePosInfoCodeHint,
+    DefinedIn := WideFormat(_(SFilePosInfoCodeHint),
       [Module.FileName, fCodePos.LineNo, fCodePos.CharOffset,
        Module.Name, fCodePos.LineNo]);
 
-  Result := Format(SParsedClassCodeHint,
+  Result := WideFormat(_(SParsedClassCodeHint),
     [Name, DefinedIn]);
   if fSuperClasses.Count > 0 then
-    Result := Result + Format(SInheritsFromCodeHint, [fSuperClasses.CommaText]);
+    Result := Result + WideFormat(_(SInheritsFromCodeHint), [fSuperClasses.CommaText]);
 end;
 
 function TParsedClass.GetConstructor: TParsedFunction;
@@ -1303,7 +1307,8 @@ function TParsedClass.GetConstructorImpl(
   BaseClassResolver: TStringList): TParsedFunction;
 var
   Module : TParsedModule;
-  S, ErrMsg: string;
+  S: string;
+  ErrMsg : WideString;
   CE : TCodeElement;
   i : integer;
   BaseClass : TBaseCodeElement;
@@ -1339,11 +1344,11 @@ begin
   end;
 end;
 
-procedure TParsedClass.GetNameSpace(SList: TStringList);
+procedure TParsedClass.GetNameSpace(SList: TWideStringList);
 var
-  BaseClassResolver : TStringList;
+  BaseClassResolver : TWideStringList;
 begin
-  BaseClassResolver := TStringList.Create;
+  BaseClassResolver := TWideStringList.Create;
   BaseClassResolver.CaseSensitive := True;
   try
     GetNameSpaceImpl(SList, BaseClassResolver);
@@ -1352,12 +1357,12 @@ begin
   end;
 end;
 
-procedure TParsedClass.GetNameSpaceImpl(SList: TStringList;
-      BaseClassResolver : TStringList);
+procedure TParsedClass.GetNameSpaceImpl(SList: TWideStringList;
+      BaseClassResolver : TWideStringList);
 Var
   i : integer;
   Module : TParsedModule;
-  ErrMsg: string;
+  ErrMsg: WideString;
   BaseClass : TBaseCodeElement;
   S : string;
 begin
@@ -1435,7 +1440,7 @@ begin
       '{' : Result := 'dict';
       '[': Result := 'list';
     else
-      if (Expr[1] = '(') and (CharPos(Expr, ',') <> 0) then
+      if (Expr[1] = '(') and (WideCharPos(Expr, ',') <> 0) then
         Result := 'tuple'  // speculative
       else begin
         IsBuiltIn := False;
@@ -1473,17 +1478,18 @@ end;
 
 { TVariable }
 
-function TVariable.GetCodeHint: string;
+function TVariable.GetCodeHint: WideString;
 Var
   Module : TParsedModule;
-  Fmt, ErrMsg, DefinedIn : string;
+  Fmt, DefinedIn : WideString;
+  ErrMsg : WideString;
   CE : TCodeElement;
 begin
   Module := GetModule;
   if Module is TModuleProxy then
-    DefinedIn := Format(SDefinedInModuleCodeHint, [Module.Name])
+    DefinedIn := WideFormat(_(SDefinedInModuleCodeHint), [Module.Name])
   else
-    DefinedIn := Format(SFilePosInfoCodeHint,
+    DefinedIn := WideFormat(_(SFilePosInfoCodeHint),
       [Module.FileName, fCodePos.LineNo, fCodePos.CharOffset,
        Module.Name, fCodePos.LineNo]);
 
@@ -1491,29 +1497,29 @@ begin
     if [vaArgument, vaStarArgument, vaStarStarArgument, vaArgumentWithDefault] *
       Attributes <> []
     then
-      Fmt := SFunctionParameterCodeHint
+      Fmt := _(SFunctionParameterCodeHint)
     else
-      Fmt := SLocalVariableCodeHint;
+      Fmt := _(SLocalVariableCodeHint);
   end else if Parent is TParsedClass then begin
     if vaClassAttribute in Attributes then
-      Fmt := SClassVariableCodeHint
+      Fmt := _(SClassVariableCodeHint)
     else
-      Fmt := SInstanceVariableCodeHint;
+      Fmt := _(SInstanceVariableCodeHint);
   end else if Parent is TParsedModule then begin
-    Fmt := SGlobalVariableCodeHint;
+    Fmt := _(SGlobalVariableCodeHint);
   end else if Parent is TModuleImport then begin
-    Fmt := SImportedVariableCodeHint;
+    Fmt := _(SImportedVariableCodeHint);
   end else
     Fmt := '';
-  Result := Format(Fmt,
+  Result := WideFormat(Fmt,
     [Name, Parent.Name, DefinedIn]);
 
   CE := PyScripterRefactor.GetType(Self, ErrMsg);
   if Assigned(CE) then
-    Result := Result + Format(SVariableTypeCodeHint, [CE.Name]);
+    Result := Result + WideFormat(_(SVariableTypeCodeHint), [CE.Name]);
 end;
 
-function TVariable.GetRealName: string;
+function TVariable.GetRealName: WideString;
 begin
   if fRealName <> '' then
     Result := fRealName
@@ -1528,4 +1534,6 @@ initialization
 finalization
   FreeAndNil(DocStringRE);
 end.
+
+
 

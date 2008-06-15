@@ -13,31 +13,18 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ComCtrls, ExtCtrls, JvEdit,
-  SynEdit, ActnList, TBXDkPanels, cFileTemplates, SpTBXControls;
+  SynEdit, ActnList, TBXDkPanels, cFileTemplates, SpTBXControls, TntActnList,
+  TntComCtrls, dlgPyIDEBase, TntStdCtrls, SpTBXEditors;
 
 type
-  TFileTemplatesDialog = class(TForm)
-    Panel: TPanel;
-    lvItems: TListView;
-    GroupBox: TGroupBox;
-    Label1: TLabel;
-    Label2: TLabel;
+  TFileTemplatesDialog = class(TPyIDEDlgBase)
+    Panel: TSpTBXPanel;
+    GroupBox: TSpTBXGroupBox;
     SynTemplate: TSynEdit;
-    edName: TEdit;
-    ActionList: TActionList;
-    actAddItem: TAction;
-    actDeleteItem: TAction;
-    actMoveUp: TAction;
-    actMoveDown: TAction;
-    actUpdateItem: TAction;
-    Label5: TLabel;
-    edCategory: TEdit;
-    Label4: TLabel;
-    Label3: TLabel;
-    edExtension: TEdit;
-    Label6: TLabel;
-    Label7: TLabel;
-    CBHighlighters: TComboBox;
+    edName: TSpTBXEdit;
+    edCategory: TSpTBXEdit;
+    edExtension: TSpTBXEdit;
+    CBHighlighters: TSpTBXComboBox;
     TBXButton1: TSpTBXButton;
     TBXButton3: TSpTBXButton;
     TBXButton4: TSpTBXButton;
@@ -46,6 +33,20 @@ type
     btnCancel: TSpTBXButton;
     btnOK: TSpTBXButton;
     btnHelp: TSpTBXButton;
+    ActionList: TTntActionList;
+    actUpdateItem: TTntAction;
+    actMoveDown: TTntAction;
+    actMoveUp: TTntAction;
+    actDeleteItem: TTntAction;
+    actAddItem: TTntAction;
+    Label1: TSpTBXLabel;
+    Label2: TSpTBXLabel;
+    Label5: TSpTBXLabel;
+    Label4: TSpTBXLabel;
+    Label3: TSpTBXLabel;
+    Label6: TSpTBXLabel;
+    Label7: TSpTBXLabel;
+    lvItems: TTntListView;
     procedure FormDestroy(Sender: TObject);
     procedure edNameKeyPress(Sender: TObject; var Key: Char);
     procedure ActionListUpdate(Action: TBasicAction; var Handled: Boolean);
@@ -71,7 +72,7 @@ type
 
 implementation
 
-uses dmCommands, SynEditHighlighter;
+uses dmCommands, SynEditHighlighter, gnugettext, StringResources, TntDialogs;
 
 {$R *.dfm}
 
@@ -79,6 +80,7 @@ procedure TFileTemplatesDialog.FormCreate(Sender: TObject);
 var
   i : integer;
 begin
+  inherited;
   TempFileTemplates := TFileTemplates.Create;
   for i := 0 to CommandsDataModule.Highlighters.Count - 1 do
     cbHighlighters.Items.AddObject(CommandsDataModule.Highlighters[i],
@@ -193,7 +195,7 @@ begin
          (CompareText(lvItems.Items[i].SubItems[0], edCategory.Text) = 0) and
          (i <> lvItems.ItemIndex) then
       begin
-        MessageDlg('Another item has the same name', mtError, [mbOK], 0);
+        WideMessageDlg(_(SSameName), mtError, [mbOK], 0);
         Exit;
       end;
     with lvItems.Items[lvItems.ItemIndex] do begin
@@ -242,7 +244,7 @@ end;
 
 procedure TFileTemplatesDialog.actMoveUpExecute(Sender: TObject);
 Var
-  Name, Value : string;
+  Name, Value : WideString;
   P : Pointer;
   Index : integer;
 begin
@@ -265,7 +267,7 @@ end;
 
 procedure TFileTemplatesDialog.actMoveDownExecute(Sender: TObject);
 Var
-  Name, Value : string;
+  Name, Value : WideString;
   P : Pointer;
   Index : integer;
 begin

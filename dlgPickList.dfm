@@ -1,19 +1,11 @@
-object PickListDialog: TPickListDialog
-  Left = 0
-  Top = 0
-  BorderStyle = bsDialog
+inherited PickListDialog: TPickListDialog
   Caption = 'PickListDialog'
   ClientHeight = 333
   ClientWidth = 369
-  Color = clBtnFace
-  Font.Charset = DEFAULT_CHARSET
-  Font.Color = clWindowText
-  Font.Height = -11
   Font.Name = 'MS Shell Dlg 2'
-  Font.Style = []
-  OldCreateOrder = False
   Position = poMainFormCenter
-  OnCreate = FormCreate
+  ExplicitWidth = 375
+  ExplicitHeight = 359
   DesignSize = (
     369
     333)
@@ -25,27 +17,6 @@ object PickListDialog: TPickListDialog
     Width = 32
     Height = 32
     Transparent = True
-  end
-  object lbMessage: TLabel
-    Left = 56
-    Top = 8
-    Width = 305
-    Height = 55
-    Anchors = [akLeft, akTop, akRight]
-    AutoSize = False
-    WordWrap = True
-    ExplicitWidth = 304
-  end
-  object CheckListBox: TCheckListBox
-    Left = 0
-    Top = 69
-    Width = 369
-    Height = 180
-    Align = alBottom
-    BevelKind = bkSoft
-    ItemHeight = 13
-    PopupMenu = PickListPopUp
-    TabOrder = 0
   end
   object Panel2: TPanel
     Left = 0
@@ -62,54 +33,94 @@ object PickListDialog: TPickListDialog
       Height = 2
       Shape = bsTopLine
     end
-    object OKButton: TBitBtn
-      Left = 92
-      Top = 52
-      Width = 75
-      Height = 25
-      TabOrder = 0
-      Kind = bkOK
-    end
-    object BitBtn2: TBitBtn
-      Left = 199
-      Top = 52
-      Width = 75
-      Height = 25
-      TabOrder = 1
-      Kind = bkCancel
-    end
-    object TBXButton1: TSpTBXButton
-      Left = 92
+    object btnSelectAll: TSpTBXButton
+      Left = 66
       Top = 6
-      Width = 88
+      Width = 114
       Height = 24
       Caption = '&Select All'
-      TabOrder = 2
+      TabOrder = 0
       OnClick = mnSelectAllClick
       Images = CommandsDataModule.Images
       ImageIndex = 104
       LinkFont.Charset = DEFAULT_CHARSET
       LinkFont.Color = clBlue
       LinkFont.Height = -11
-      LinkFont.Name = 'Tahoma'
+      LinkFont.Name = 'MS Shell Dlg 2'
       LinkFont.Style = [fsUnderline]
     end
-    object TBXButton2: TSpTBXButton
+    object btnDeselectAll: TSpTBXButton
       Left = 186
       Top = 6
-      Width = 88
+      Width = 114
       Height = 24
       Caption = '&Deselect All'
-      TabOrder = 3
+      TabOrder = 1
       OnClick = mnDeselectAllClick
       Images = CommandsDataModule.Images
       ImageIndex = 105
       LinkFont.Charset = DEFAULT_CHARSET
       LinkFont.Color = clBlue
       LinkFont.Height = -11
-      LinkFont.Name = 'Tahoma'
+      LinkFont.Name = 'MS Shell Dlg 2'
       LinkFont.Style = [fsUnderline]
     end
+    object btnOk: TSpTBXButton
+      Left = 92
+      Top = 52
+      Width = 75
+      Height = 25
+      Caption = '&OK'
+      TabOrder = 2
+      Default = True
+      LinkFont.Charset = DEFAULT_CHARSET
+      LinkFont.Color = clBlue
+      LinkFont.Height = -11
+      LinkFont.Name = 'Tahoma'
+      LinkFont.Style = [fsUnderline]
+      ModalResult = 1
+    end
+    object btnCancel: TSpTBXButton
+      Left = 199
+      Top = 52
+      Width = 75
+      Height = 25
+      Caption = '&Cancel'
+      TabOrder = 3
+      Cancel = True
+      LinkFont.Charset = DEFAULT_CHARSET
+      LinkFont.Color = clBlue
+      LinkFont.Height = -11
+      LinkFont.Name = 'Tahoma'
+      LinkFont.Style = [fsUnderline]
+      ModalResult = 2
+    end
+  end
+  object lbMessage: TSpTBXLabel
+    Left = 56
+    Top = 8
+    Width = 305
+    Height = 0
+    Anchors = [akLeft, akTop, akRight]
+    ParentColor = True
+    Wrapping = twWrap
+    LinkFont.Charset = DEFAULT_CHARSET
+    LinkFont.Color = clBlue
+    LinkFont.Height = -11
+    LinkFont.Name = 'MS Shell Dlg 2'
+    LinkFont.Style = [fsUnderline]
+  end
+  object CheckListBox: TSpTBXCheckListBox
+    Left = 0
+    Top = 69
+    Width = 369
+    Height = 180
+    Align = alBottom
+    BevelKind = bkSoft
+    ItemHeight = 13
+    PopupMenu = PickListPopUp
+    Style = lbStandard
+    TabOrder = 0
   end
   object PickListPopUp: TPopupMenu
     Images = CommandsDataModule.Images

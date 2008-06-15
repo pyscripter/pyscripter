@@ -67,7 +67,7 @@ var
 implementation
 
 uses frmPyIDEMain, PythonEngine, frmPythonII, dmCommands, uCommonFunctions,
-  Clipbrd, JvDockGlobals, StringResources;
+  Clipbrd, JvDockGlobals, StringResources, gnugettext;
 
 
 {$R *.dfm}
@@ -75,11 +75,11 @@ uses frmPyIDEMain, PythonEngine, frmPythonII, dmCommands, uCommonFunctions,
 Type
   TWatchInfo = class(TPersistent)
   private
-    fWatch : string;
+    fWatch : WideString;
   public
-    Value : string;
+    Value : WideString;
   published
-    property Watch : string read fWatch write fWatch;
+    property Watch : WideString read fWatch write fWatch;
   end;
 
   PWatchRec = ^TWatchRec;
@@ -91,14 +91,14 @@ Type
 
 procedure TWatchesWindow.UpdateWindow(DebuggerState : TDebuggerState);
 Var
-  S : string;
+  S : WideString;
   i : integer;
 begin
   // Exit if there are no wathces
   if fWatchesList.Count <= 0 then Exit;
   // Clear values
   for i := 0 to fWatchesList.Count - 1 do
-    TWatchInfo(fWatchesList[i]).Value := SNotAvailable;
+    TWatchInfo(fWatchesList[i]).Value := _(SNotAvailable);
   // Exit if Debugger is not in Stopped state
   if DebuggerState in [dsPaused, dsPostMortem] then
     for i := 0 to fWatchesList.Count - 1 do begin
@@ -267,7 +267,7 @@ procedure TWatchesWindow.WriteToAppStorage(AppStorage: TJvCustomAppStorage;
   const BasePath: string);
 begin
   AppStorage.WriteObjectList(BasePath, fWatchesList, 'Watch');
-  AppStorage.WriteInteger('WatchesWidth', WatchesView.Header.Columns[0].Width);
+  AppStorage.WriteInteger(BasePath+'\WatchesWidth', WatchesView.Header.Columns[0].Width);
 end;
 
 procedure TWatchesWindow.ReadFromAppStorage(AppStorage: TJvCustomAppStorage;
@@ -275,7 +275,7 @@ procedure TWatchesWindow.ReadFromAppStorage(AppStorage: TJvCustomAppStorage;
 begin
   mnClearAllClick(Self);
   AppStorage.ReadObjectList(BasePath, fWatchesList, CreateWatch, True, 'Watch');
-  WatchesView.Header.Columns[0].Width := AppStorage.ReadInteger('WatchesWidth', 200);
+  WatchesView.Header.Columns[0].Width := AppStorage.ReadInteger(BasePath+'\WatchesWidth', 200);
   UpdateWindow(PyControl.DebuggerState);
 end;
 

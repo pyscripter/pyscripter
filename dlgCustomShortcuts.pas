@@ -12,26 +12,26 @@ interface
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
   StdCtrls, Menus, ActnList, IniFiles, ComCtrls, SpTBXControls, TBXDkPanels,
-  Buttons;
+  Buttons, TntStdCtrls, SpTBXEditors, dlgPyIDEBase, WideStrings, ExtCtrls;
 
 type
   TActionProxyItem = class(TCollectionItem)
   private
     fSecondaryShortCuts: TShortCutList;
     FShortCut: TShortCut;
-    fActionListName: string;
-    fActionName: string;
+    fActionListName: WideString;
+    fActionName: WideString;
     function IsSecondaryShortCutsStored: Boolean;
     procedure SetSecondaryShortCuts(const Value: TShortCutList);
     function GetSecondaryShortCuts: TShortCutList;
   public
-    Category : string;
-    Caption : string;
-    Hint : string; 
+    Category : WideString;
+    Caption : WideString;
+    Hint : WideString; 
     destructor Destroy; override;
   published
-    property ActionListName : string read fActionListName write fActionListName;
-    property ActionName : string read fActionName write fActionName;
+    property ActionListName : WideString read fActionListName write fActionListName;
+    property ActionName : WideString read fActionName write fActionName;
     property ShortCut: TShortCut read FShortCut write FShortCut default 0;
     property SecondaryShortCuts: TShortCutList read GetSecondaryShortCuts
       write SetSecondaryShortCuts stored IsSecondaryShortCutsStored;
@@ -44,24 +44,25 @@ type
     procedure ApplyShortCuts(ActionListArray : TActionListArray);
   end;
 
-  TfrmCustomKeyboard = class(TForm)
-    lblNewShortcutKey: TLabel;
-    gbDescription: TGroupBox;
-    lbCategories: TListBox;
-    lbCommands: TListBox;
-    lblCategories: TLabel;
-    lblCommands: TLabel;
-    lbCurrentKeys: TListBox;
-    lblCurrent: TLabel;
-    lblAssignedTo: TLabel;
-    lblCurrentKeys: TLabel;
-    lblDescription: TLabel;
+  TfrmCustomKeyboard = class(TPyIDEDlgBase)
+    gbDescription: TSpTBXGroupBox;
     edNewShortcut: THotKey;
-    OKButton: TBitBtn;
-    BitBtn2: TBitBtn;
-    HelpButton: TBitBtn;
+    btnOK: TSpTBXButton;
+    btnCancel: TSpTBXButton;
+    btnHelp: TSpTBXButton;
     btnAssign: TSpTBXButton;
     btnRemove: TSpTBXButton;
+    lblNewShortcutKey: TSpTBXLabel;
+    lblCategories: TSpTBXLabel;
+    lblCommands: TSpTBXLabel;
+    lblCurrent: TSpTBXLabel;
+    lblAssignedTo: TSpTBXLabel;
+    lblCurrentKeys: TSpTBXLabel;
+    lblDescription: TSpTBXLabel;
+    lbCategories: TSpTBXListBox;
+    lbCommands: TSpTBXListBox;
+    lbCurrentKeys: TSpTBXListBox;
+    Bevel1: TBevel;
     procedure HelpButtonClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure lbCategoriesClick(Sender: TObject);
@@ -82,8 +83,8 @@ type
   public
     GotKey       : Boolean;
     Categories   : TStringList;
-    FunctionList : TStringList;
-    KeyList      : TStringList;
+    FunctionList : TWideStringList;
+    KeyList      : TWideStringList;
     ActionProxyCollection   : TActionProxyCollection;
 
     procedure PrepActions(ActionListArray : TActionListArray);
@@ -120,14 +121,15 @@ end;
 
 procedure TfrmCustomKeyboard.FormCreate(Sender: TObject);
 begin
+  inherited;
   btnAssign.Enabled := False;
   btnRemove.Enabled := False;
 
-  FunctionList            := TStringList.Create;
+  FunctionList            := TWideStringList.Create;
   FunctionList.Sorted     := True;
   FunctionList.Duplicates := dupIgnore;
 
-  KeyList                 := TStringList.Create;
+  KeyList                 := TWideStringList.Create;
   KeyList.Sorted          := True;
   KeyList.Duplicates      := dupIgnore;
 end;
@@ -163,7 +165,7 @@ var
   i : Integer;
 begin
   for i := Pred(FunctionList.Count) downto 0 do begin
-    (FunctionList.Objects[i] as TStringList).Free;
+    (FunctionList.Objects[i] as TWideStringList).Free;
     FunctionList.Delete(i);
   end;
 end;
@@ -180,7 +182,7 @@ begin
   lbCurrentkeys.Items.Clear;
   lbCommands.Items.Clear;
   lblDescription.Caption := '';
-  lbCommands.Items.AddStrings(FunctionList.Objects[Idx] as TStrings);
+  lbCommands.Items.AddStrings(FunctionList.Objects[Idx] as TWideStrings);
   btnRemove.Enabled := False;
 end;
 
@@ -249,10 +251,10 @@ end;
 function TfrmCustomKeyboard.GetCurrentAction: TActionProxyItem;
 var
   CatIdx, CmdIdx : Integer;
-  SL : TStringList;
+  SL : TWideStringList;
 begin
   CatIdx := FunctionList.IndexOf(lbCategories.Items[lbCategories.ItemIndex]);
-  SL     := FunctionList.Objects[CatIdx] as TStringList;
+  SL     := FunctionList.Objects[CatIdx] as TWideStringList;
   CmdIdx := SL.IndexOf(lbCommands.Items[lbCommands.ItemIndex]);
   Result := (SL.Objects[CmdIdx] as TActionProxyItem);
 end;
@@ -277,10 +279,10 @@ begin
 
     { if category doesn't already exist, add it }
     if Idx < 0 then
-      Idx := FunctionList.AddObject(A.Category, TStringList.Create);
+      Idx := FunctionList.AddObject(A.Category, TWideStringList.Create);
 
     { add keyboard function to list }
-    (FunctionList.Objects[Idx] as TStringList).AddObject(A.ActionName, A);
+    (FunctionList.Objects[Idx] as TWideStringList).AddObject(A.ActionName, A);
 
     { shortcut value already assigned }
     if A.ShortCut <> 0 then begin
@@ -404,7 +406,7 @@ begin
   end;
 end;
 
-function FindActionListByName(Name : string;
+function FindActionListByName(Name : WideString;
   ActionListArray: TActionListArray) : TActionList;
 var
   i : integer;
@@ -417,7 +419,7 @@ begin
     end;
 end;
 
-function FindActionByName(Name : string; ActionList : TActionList): TCustomAction;
+function FindActionByName(Name : WideString; ActionList : TActionList): TCustomAction;
 var
   i : integer;
 begin

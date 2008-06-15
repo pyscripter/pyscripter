@@ -44,81 +44,27 @@ uses
   Windows, SysUtils, Classes, Graphics, Forms, Controls, StdCtrls,
   Buttons, ExtCtrls, ComCtrls, ToolWin, ImgList, ActnList, Dialogs,
   SynEditPrintTypes, SynEditPrint, SynEditPrintMargins,
-  SynEditPrintHeaderFooter, SpTBXControls, TBXDkPanels;
+  SynEditPrintHeaderFooter, SpTBXControls, TBXDkPanels, TntActnList, TB2Item,
+  TBX, SpTBXItem, TB2Dock, TB2Toolbar, TntStdCtrls, SpTBXEditors, 
+  TntComCtrls, dlgPyIDEBase;
 
 type
-  TPageSetupDlg = class(TForm)
+  TPageSetupDlg = class(TPyIDEDlgBase)
     PageControl: TPageControl;
     Margins: TTabSheet;
     HeaderFooter: TTabSheet;
     Image1: TImage;
-    Label1: TLabel;
-    Label2: TLabel;
-    Label3: TLabel;
-    Label4: TLabel;
-    Label5: TLabel;
-    Label6: TLabel;
-    Label7: TLabel;
-    Label8: TLabel;
-    Label9: TLabel;
-    Label10: TLabel;
-    Label11: TLabel;
-    EditLeft: TEdit;
-    EditRight: TEdit;
-    EditTop: TEdit;
-    EditBottom: TEdit;
-    EditGutter: TEdit;
-    EditHeader: TEdit;
-    EditFooter: TEdit;
-    EditHFInternalMargin: TEdit;
-    EditLeftHFTextIndent: TEdit;
-    EditRightHFTextIndent: TEdit;
-    CBUnits: TComboBox;
     GroupBox1: TGroupBox;
-    REHeaderLeft: TRichEdit;
-    REHeaderCenter: TRichEdit;
-    REHeaderRight: TRichEdit;
-    Label12: TLabel;
-    Label13: TLabel;
-    Label14: TLabel;
     GroupBox2: TGroupBox;
     PBHeaderLine: TPaintBox;
     PBHeaderShadow: TPaintBox;
     GroupBox3: TGroupBox;
-    Label15: TLabel;
-    Label16: TLabel;
-    Label17: TLabel;
-    REFooterLeft: TRichEdit;
-    REFooterCenter: TRichEdit;
-    REFooterRight: TRichEdit;
     GroupBox4: TGroupBox;
     PBFooterLine: TPaintBox;
     PBFooterShadow: TPaintBox;
-    ImageList1: TImageList;
-    ActionList1: TActionList;
-    PageNumCmd: TAction;
-    PagesCmd: TAction;
-    TimeCmd: TAction;
-    DateCmd: TAction;
-    FontCmd: TAction;
-    BoldCmd: TAction;
-    ItalicCmd: TAction;
-    UnderlineCmd: TAction;
+    ImageList: TImageList;
     FontDialog: TFontDialog;
     ColorDialog: TColorDialog;
-    TitleCmd: TAction;
-    ToolBar1: TToolBar;
-    ToolButton1: TToolButton;
-    ToolButton2: TToolButton;
-    ToolButton3: TToolButton;
-    ToolButton4: TToolButton;
-    ToolButton11: TToolButton;
-    ToolButton12: TToolButton;
-    ToolButton6: TToolButton;
-    ToolButton10: TToolButton;
-    ToolButton7: TToolButton;
-    ToolButton8: TToolButton;
-    ToolButton9: TToolButton;
     HeaderLineColorBtn: TSpTBXButton;
     HeaderShadowColorBtn: TSpTBXButton;
     FooterLineColorBtn: TSpTBXButton;
@@ -139,6 +85,63 @@ type
     CBFooterLine: TSpTBXCheckBox;
     CBFooterBox: TSpTBXCheckBox;
     CBFooterShadow: TSpTBXCheckBox;
+    ActionList1: TTntActionList;
+    UnderlineCmd: TTntAction;
+    ItalicCmd: TTntAction;
+    BoldCmd: TTntAction;
+    FontCmd: TTntAction;
+    TitleCmd: TTntAction;
+    DateCmd: TTntAction;
+    TimeCmd: TTntAction;
+    PagesCmd: TTntAction;
+    PageNumCmd: TTntAction;
+    Label1: TSpTBXLabel;
+    Label2: TSpTBXLabel;
+    Label3: TSpTBXLabel;
+    Label4: TSpTBXLabel;
+    Label5: TSpTBXLabel;
+    Label6: TSpTBXLabel;
+    Label7: TSpTBXLabel;
+    Label8: TSpTBXLabel;
+    Label9: TSpTBXLabel;
+    Label10: TSpTBXLabel;
+    Label11: TSpTBXLabel;
+    Label12: TSpTBXLabel;
+    Label13: TSpTBXLabel;
+    Label14: TSpTBXLabel;
+    Label15: TSpTBXLabel;
+    Label16: TSpTBXLabel;
+    Label17: TSpTBXLabel;
+    ToolbarDock: TSpTBXDock;
+    Toolbar: TSpTBXToolbar;
+    tbiUdnerline: TSpTBXItem;
+    tbiItalic: TSpTBXItem;
+    tbiBold: TSpTBXItem;
+    SpTBXSeparatorItem1: TSpTBXSeparatorItem;
+    tbiTitle: TSpTBXItem;
+    SpTBXSeparatorItem2: TSpTBXSeparatorItem;
+    tbiFont: TSpTBXItem;
+    tbiDate: TSpTBXItem;
+    tbiTime: TSpTBXItem;
+    tbiPgNumber: TSpTBXItem;
+    tbiPages: TSpTBXItem;
+    EditLeft: TSpTBXEdit;
+    EditRight: TSpTBXEdit;
+    EditTop: TSpTBXEdit;
+    EditBottom: TSpTBXEdit;
+    EditGutter: TSpTBXEdit;
+    EditHeader: TSpTBXEdit;
+    EditFooter: TSpTBXEdit;
+    EditHFInternalMargin: TSpTBXEdit;
+    EditLeftHFTextIndent: TSpTBXEdit;
+    EditRightHFTextIndent: TSpTBXEdit;
+    CBUnits: TSpTBXComboBox;
+    REHeaderLeft: TTntRichEdit;
+    REHeaderCenter: TTntRichEdit;
+    REHeaderRight: TTntRichEdit;
+    REFooterLeft: TTntRichEdit;
+    REFooterCenter: TTntRichEdit;
+    REFooterRight: TTntRichEdit;
     procedure PageNumCmdExecute(Sender: TObject);
     procedure PagesCmdExecute(Sender: TObject);
     procedure TimeCmdExecute(Sender: TObject);
@@ -163,7 +166,7 @@ type
     procedure TitleCmdExecute(Sender: TObject);
   private
     { Private declarations }
-    Editor: TRichEdit;
+    Editor: TCustomRichEdit;
     CharPos: TPoint;
     OldStart: Integer;
     FMargins: TSynEditPrintMargins;
@@ -174,7 +177,7 @@ type
     function CurrText: TTextAttributes;
     procedure SetMargins(SynEditMargins: TSynEditPrintMargins);
     procedure GetMargins(SynEditMargins: TSynEditPrintMargins);
-    procedure AddLines(HeadFoot: THeaderFooter; AEdit: TRichEdit;
+    procedure AddLines(HeadFoot: THeaderFooter; AEdit: TCustomRichEdit;
       Al: TALignment);
     procedure SelectNone;
   public
@@ -189,12 +192,13 @@ var
 implementation
 
 uses
-  RichEdit, ShellAPI, Messages;
+  RichEdit, ShellAPI, Messages, TntDialogs, gnugettext, StringResources;
 
 {$R *.DFM}
 
 procedure TPageSetupDlg.FormCreate(Sender: TObject);
 begin
+  inherited;
   FMargins := TSynEditPrintMargins.Create;
   FInternalCall := False;
 end;
@@ -227,7 +231,7 @@ end;
 
 procedure TPageSetupDlg.REHeaderLeftEnter(Sender: TObject);
 begin
-  Editor := Sender as TRichEdit;
+  Editor := Sender as TCustomRichEdit;
   SetOptions;
 end;
 
@@ -398,7 +402,7 @@ begin
       RightHFTextIndent := StringToFloat(EditRightHFTextIndent);
       HFInternalMargin := StringToFloat(EditHFInternalMargin);
     except
-      MessageDlg('Invalid number!', mtError, [mbOk], 0);
+      WideMessageDlg(_(SInvalidNumber), mtError, [mbOk], 0);
       CurEdit.SetFocus;
     end;
     MirrorMargins := CBMirrorMargins.Checked;
@@ -432,7 +436,7 @@ begin
   SetMargins(FMargins);
 end;
 
-procedure TPageSetupDlg.AddLines(HeadFoot: THeaderFooter; AEdit: TRichEdit;
+procedure TPageSetupDlg.AddLines(HeadFoot: THeaderFooter; AEdit: TCustomRichEdit;
   Al: TALignment);
 var
   i: Integer;

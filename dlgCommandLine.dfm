@@ -1,60 +1,27 @@
-object CommandLineDlg: TCommandLineDlg
-  Left = 0
-  Top = 0
+inherited CommandLineDlg: TCommandLineDlg
   HelpContext = 910
   ActiveControl = SynParameters
   Caption = 'Command Line Parameters'
   ClientHeight = 150
   ClientWidth = 446
-  Color = clBtnFace
-  Font.Charset = DEFAULT_CHARSET
-  Font.Color = clWindowText
-  Font.Height = -11
   Font.Name = 'MS Shell Dlg 2'
-  Font.Style = []
-  OldCreateOrder = False
   Position = poMainFormCenter
-  OnCreate = FormCreate
   OnDestroy = FormDestroy
+  ExplicitWidth = 452
+  ExplicitHeight = 176
   PixelsPerInch = 96
   TextHeight = 13
-  object Panel1: TPanel
+  object Panel: TSpTBXPanel
     Left = 0
     Top = 0
     Width = 446
     Height = 150
+    ThemeType = thtWindows
     Align = alClient
     TabOrder = 0
     DesignSize = (
       446
       150)
-    object Label1: TLabel
-      Left = 8
-      Top = 27
-      Width = 345
-      Height = 26
-      Anchors = [akLeft, akBottom]
-      Caption = 
-        'Please enter parameters to be appended to the command line:'#13#10'Not' +
-        'e that the scipt name is automatically inserted as the first arg' +
-        'ument.'
-      ExplicitTop = 28
-    end
-    object Label3: TLabel
-      Left = 8
-      Top = 87
-      Width = 252
-      Height = 13
-      Anchors = [akLeft, akBottom]
-      Caption = 'Parameters : Shift+Ctrl+P, Modifiers : Shift+Ctrl+M '
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clGrayText
-      Font.Height = -11
-      Font.Name = 'MS Shell Dlg 2'
-      Font.Style = []
-      ParentFont = False
-      ExplicitTop = 88
-    end
     object SynParameters: TSynEdit
       Left = 8
       Top = 63
@@ -79,34 +46,53 @@ object CommandLineDlg: TCommandLineDlg
       ScrollBars = ssNone
       WantReturns = False
     end
-    object OKButton: TBitBtn
+    object OKButton: TSpTBXButton
       Left = 100
       Top = 115
       Width = 75
       Height = 25
+      Caption = '&OK'
       Anchors = [akRight, akBottom]
       TabOrder = 1
       OnClick = OKButtonClick
-      Kind = bkOK
+      Default = True
+      LinkFont.Charset = DEFAULT_CHARSET
+      LinkFont.Color = clBlue
+      LinkFont.Height = -11
+      LinkFont.Name = 'MS Shell Dlg 2'
+      LinkFont.Style = [fsUnderline]
+      ModalResult = 1
     end
-    object BitBtn2: TBitBtn
+    object BitBtn2: TSpTBXButton
       Left = 194
       Top = 115
       Width = 75
       Height = 25
+      Caption = '&Cancel'
       Anchors = [akRight, akBottom]
       TabOrder = 2
-      Kind = bkCancel
+      Cancel = True
+      LinkFont.Charset = DEFAULT_CHARSET
+      LinkFont.Color = clBlue
+      LinkFont.Height = -11
+      LinkFont.Name = 'MS Shell Dlg 2'
+      LinkFont.Style = [fsUnderline]
+      ModalResult = 2
     end
-    object HelpButton: TBitBtn
+    object HelpButton: TSpTBXButton
       Left = 289
       Top = 115
       Width = 75
       Height = 25
+      Caption = '&Help'
       Anchors = [akRight, akBottom]
       TabOrder = 3
       OnClick = btnHelpClick
-      Kind = bkHelp
+      LinkFont.Charset = DEFAULT_CHARSET
+      LinkFont.Color = clBlue
+      LinkFont.Height = -11
+      LinkFont.Name = 'MS Shell Dlg 2'
+      LinkFont.Style = [fsUnderline]
     end
     object TBXButton1: TSpTBXButton
       Left = 419
@@ -122,7 +108,7 @@ object CommandLineDlg: TCommandLineDlg
       LinkFont.Charset = DEFAULT_CHARSET
       LinkFont.Color = clBlue
       LinkFont.Height = -11
-      LinkFont.Name = 'Tahoma'
+      LinkFont.Name = 'MS Shell Dlg 2'
       LinkFont.Style = [fsUnderline]
     end
     object cbUseCommandLine: TSpTBXCheckBox
@@ -133,6 +119,45 @@ object CommandLineDlg: TCommandLineDlg
       Caption = 'Use Command Line Parameters?'
       ParentColor = True
       TabOrder = 4
+    end
+    object Label1: TSpTBXLabel
+      Left = 8
+      Top = 27
+      Width = 421
+      Height = 28
+      Caption = 
+        'Please enter parameters to be appended to the command line:'#13#10'Not' +
+        'e that the scipt name is automatically inserted as the first arg' +
+        'ument.'
+      Anchors = [akLeft, akBottom]
+      AutoSize = False
+      ParentColor = True
+      Wrapping = twWrap
+      LinkFont.Charset = DEFAULT_CHARSET
+      LinkFont.Color = clBlue
+      LinkFont.Height = -11
+      LinkFont.Name = 'MS Shell Dlg 2'
+      LinkFont.Style = [fsUnderline]
+    end
+    object Label3: TSpTBXLabel
+      Left = 8
+      Top = 87
+      Width = 252
+      Height = 13
+      Caption = 'Parameters : Shift+Ctrl+P, Modifiers : Shift+Ctrl+M '
+      Anchors = [akLeft, akBottom]
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clGrayText
+      Font.Height = -11
+      Font.Name = 'MS Shell Dlg 2'
+      Font.Style = []
+      ParentColor = True
+      ParentFont = False
+      LinkFont.Charset = DEFAULT_CHARSET
+      LinkFont.Color = clBlue
+      LinkFont.Height = -11
+      LinkFont.Name = 'MS Shell Dlg 2'
+      LinkFont.Style = [fsUnderline]
     end
   end
   object TBXPopupHistory: TSpTBXPopupMenu

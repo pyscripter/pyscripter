@@ -11,25 +11,26 @@ unit dlgAboutPyScripter;
 interface
 
 uses Windows, SysUtils, Classes, Graphics, Forms, Controls, StdCtrls,
-  Buttons, ComCtrls,  JvLinkLabel, JvExControls, JvComponent, ExtCtrls;
+  Buttons, ComCtrls,  JvLinkLabel, JvExControls, JvComponent, ExtCtrls,
+  dlgPyIDEBase, TBXDkPanels, SpTBXControls;
 
 type
-  TAboutBox = class(TForm)
+  TAboutBox = class(TPyIDEDlgBase)
     Panel2: TPanel;                  
     PageControl: TPageControl;
     AboutTab: TTabSheet;
-    Panel1: TPanel;
     CreditsTab: TTabSheet;
     ScrollBox: TScrollBox;
     JvLinkLabel: TJvLinkLabel;
-    ProgramIcon: TImage;
-    Copyright: TLabel;
-    Comments: TLabel;
-    Version: TLabel;
-    ProductName: TLabel;
     TabSheet1: TTabSheet;
     ScrollBox1: TScrollBox;
     JvLinkLabel1: TJvLinkLabel;
+    Panel1: TSpTBXPanel;
+    ProgramIcon: TImage;
+    Copyright: TSpTBXLabel;
+    Comments: TSpTBXLabel;
+    Version: TSpTBXLabel;
+    ProductName: TSpTBXLabel;
     procedure Panel1Click(Sender: TObject);
     procedure JvLinkLabelLinkClick(Sender: TObject; LinkNumber: Integer;
       LinkText, LinkParam: String);
@@ -47,7 +48,7 @@ var
 implementation
 
 uses
-  uCommonFunctions, JvJCLUtils;
+  uCommonFunctions, JvJCLUtils, gnugettext;
 
 {$R *.dfm}
 
@@ -70,8 +71,14 @@ end;
 
 procedure TAboutBox.FormCreate(Sender: TObject);
 begin
+  inherited;
   Version.Caption := 'Version ' + ApplicationVersion;
 end;
 
+initialization
+  TP_GlobalIgnoreClass (TJvLinkLabel);
+  TP_GlobalIgnoreClassProperty(TAboutBox, 'Copyright');
+  TP_GlobalIgnoreClassProperty(TAboutBox, 'Version');
+  TP_GlobalIgnoreClassProperty(TAboutBox, 'ProductName');
 end.
 

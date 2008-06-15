@@ -45,18 +45,16 @@ inherited UnitTestWindow: TUnitTestWindow
   PixelsPerInch = 96
   TextHeight = 13
   inherited FGPanel: TPanel
-    Left = 8
-    Top = 7
-    Width = 242
-    Height = 433
-    ExplicitLeft = 8
-    ExplicitTop = 7
-    ExplicitWidth = 242
-    ExplicitHeight = 433
+    Width = 256
+    Height = 445
+    ExplicitLeft = 3
+    ExplicitTop = 3
+    ExplicitWidth = 256
+    ExplicitHeight = 445
     object ExplorerDock: TSpTBXDock
       Left = 0
       Top = 0
-      Width = 242
+      Width = 256
       Height = 26
       AllowDrag = False
       object ExplorerToolbar: TSpTBXToolbar
@@ -70,71 +68,71 @@ inherited UnitTestWindow: TUnitTestWindow
         Images = CommandsDataModule.Images
         TabOrder = 0
         Customizable = False
-        object TBXItem1: TSpTBXItem
+        object tbiRefresh: TSpTBXItem
           Caption = '&Refresh'
           Hint = 'Refresh tests|Extract tests from active module'
           Action = actRefresh
         end
-        object TBXItem5: TSpTBXItem
+        object tbiClearAll: TSpTBXItem
           Caption = '&Clear All'
           Hint = 'Clear all tests'
           Action = actClearAll
         end
         object TBXSeparatorItem2: TSpTBXSeparatorItem
         end
-        object TBXItem6: TSpTBXItem
+        object tbiRun: TSpTBXItem
           Caption = '&Run'
           Hint = 'Run selected tests'
           Action = actRun
         end
-        object TBXItem7: TSpTBXItem
+        object tbiStop: TSpTBXItem
           Caption = '&Stop'
           Hint = 'Stop Testing'
           Action = actStop
         end
         object TBXSeparatorItem1: TSpTBXSeparatorItem
         end
-        object TBXItem4: TSpTBXItem
+        object tbiSelectAll: TSpTBXItem
           Caption = 'Select &All'
           Hint = 'Select all tests'
           Action = actSelectAll
         end
-        object TBXItem3: TSpTBXItem
+        object tbiDeselectAll: TSpTBXItem
           Caption = '&Deselect All'
           Hint = 'Deselect all tests'
           Action = actDeselectAll
         end
-        object TBXItem2: TSpTBXItem
+        object tbiSelectFailed: TSpTBXItem
           Caption = 'Select Fai&led'
           Hint = 'Select all failed tests'
           Action = actSelectFailed
         end
         object TBXSeparatorItem7: TSpTBXSeparatorItem
         end
-        object TBXItem10: TSpTBXItem
-          Caption = 'Ex&pand All'
-          Hint = 'Expand all test nodes'
-          Action = actExpandAll
-        end
-        object TBXItem8: TSpTBXItem
+        object tbiCollapseAll: TSpTBXItem
           Caption = '&Collapse All'
           Hint = 'Collapse all test nodes'
           Action = actCollapseAll
+        end
+        object tbiExpandAll: TSpTBXItem
+          Caption = 'Ex&pand All'
+          Hint = 'Expand all test nodes'
+          Action = actExpandAll
         end
       end
     end
     object Panel1: TPanel
       Left = 0
       Top = 26
-      Width = 242
-      Height = 241
+      Width = 256
+      Height = 253
       Align = alClient
       TabOrder = 1
       object UnitTests: TVirtualStringTree
         Left = 1
         Top = 1
-        Width = 240
-        Height = 239
+        Width = 254
+        Height = 251
         Align = alClient
         BorderStyle = bsNone
         CheckImageKind = ckXP
@@ -142,7 +140,7 @@ inherited UnitTestWindow: TUnitTestWindow
         Header.Font.Charset = DEFAULT_CHARSET
         Header.Font.Color = clWindowText
         Header.Font.Height = -11
-        Header.Font.Name = 'MS Sans Serif'
+        Header.Font.Name = 'MS Shell Dlg 2'
         Header.Font.Style = []
         Header.MainColumn = -1
         Header.Options = [hoColumnResize, hoDrag]
@@ -168,80 +166,120 @@ inherited UnitTestWindow: TUnitTestWindow
     end
     object Panel2: TPanel
       Left = 0
-      Top = 272
-      Width = 242
+      Top = 284
+      Width = 256
       Height = 161
       Align = alBottom
       ParentColor = True
       TabOrder = 2
       DesignSize = (
-        242
+        256
         161)
-      object Label2: TLabel
+      object Bevel1: TBevel
+        Left = 8
+        Top = 48
+        Width = 240
+        Height = 1
+        Anchors = [akLeft, akTop, akRight]
+        Shape = bsTopLine
+        ExplicitWidth = 226
+      end
+      object SpTBXPanel1: TSpTBXPanel
+        Left = 1
+        Top = 68
+        Width = 254
+        Height = 92
+        Caption = 'SpTBXPanel1'
+        Align = alBottom
+        Anchors = [akLeft, akTop, akRight, akBottom]
+        TabOrder = 0
+        HotTrack = True
+        object ErrorText: TTntRichEdit
+          Left = 2
+          Top = 2
+          Width = 250
+          Height = 88
+          Align = alClient
+          BorderStyle = bsNone
+          Constraints.MinHeight = 10
+          PlainText = True
+          ReadOnly = True
+          ScrollBars = ssBoth
+          TabOrder = 0
+        end
+      end
+      object Label2: TSpTBXLabel
         Left = 1
         Top = 52
         Width = 73
         Height = 13
         Caption = 'Error Message:'
+        ParentColor = True
+        LinkFont.Charset = DEFAULT_CHARSET
+        LinkFont.Color = clBlue
+        LinkFont.Height = -11
+        LinkFont.Name = 'MS Shell Dlg 2'
+        LinkFont.Style = [fsUnderline]
       end
-      object ModuleName: TLabel
+      object ModuleName: TSpTBXLabel
         Left = 7
         Top = 1
         Width = 88
         Height = 13
         Caption = 'No Module Loaded'
+        ParentColor = True
+        LinkFont.Charset = DEFAULT_CHARSET
+        LinkFont.Color = clBlue
+        LinkFont.Height = -11
+        LinkFont.Name = 'MS Shell Dlg 2'
+        LinkFont.Style = [fsUnderline]
       end
-      object lbFoundTests: TLabel
-        Left = 170
+      object lbFoundTests: TSpTBXLabel
+        Left = 184
         Top = 1
         Width = 66
         Height = 13
-        Alignment = taRightJustify
-        Anchors = [akTop, akRight]
         Caption = 'Found 0 tests'
+        Anchors = [akTop, akRight]
+        ParentColor = True
+        Alignment = taRightJustify
+        LinkFont.Charset = DEFAULT_CHARSET
+        LinkFont.Color = clBlue
+        LinkFont.Height = -11
+        LinkFont.Name = 'MS Shell Dlg 2'
+        LinkFont.Style = [fsUnderline]
       end
-      object lblRunTests: TLabel
+      object lblRunTests: TSpTBXLabel
         Left = 7
         Top = 15
         Width = 55
         Height = 13
         Caption = 'Run 0 tests'
+        ParentColor = True
+        LinkFont.Charset = DEFAULT_CHARSET
+        LinkFont.Color = clBlue
+        LinkFont.Height = -11
+        LinkFont.Name = 'MS Shell Dlg 2'
+        LinkFont.Style = [fsUnderline]
       end
-      object lblFailures: TLabel
+      object lblFailures: TSpTBXLabel
         Left = 7
         Top = 30
         Width = 96
         Height = 13
         Caption = 'Failures/Errors : 0/0'
-      end
-      object Bevel1: TBevel
-        Left = 8
-        Top = 48
-        Width = 226
-        Height = 1
-        Anchors = [akLeft, akTop, akRight]
-        Shape = bsTopLine
-      end
-      object ErrorText: TmbTBXJvRichEdit
-        Left = 1
-        Top = 67
-        Width = 240
-        Height = 93
-        Align = alBottom
-        AutoSize = False
-        AutoURLDetect = False
-        Anchors = [akLeft, akTop, akRight, akBottom]
-        BorderStyle = bsNone
-        Constraints.MinHeight = 10
-        PlainText = True
-        ReadOnly = True
-        TabOrder = 0
+        ParentColor = True
+        LinkFont.Charset = DEFAULT_CHARSET
+        LinkFont.Color = clBlue
+        LinkFont.Height = -11
+        LinkFont.Name = 'MS Shell Dlg 2'
+        LinkFont.Style = [fsUnderline]
       end
     end
     object SpTBXSplitter1: TSpTBXSplitter
       Left = 0
-      Top = 267
-      Width = 242
+      Top = 279
+      Width = 256
       Height = 5
       Cursor = crSizeNS
       Caption = 'SpTBXSplitter1'
@@ -663,67 +701,67 @@ inherited UnitTestWindow: TUnitTestWindow
       FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF00000000000000000000000000000000
       000000000000}
   end
-  object DialogActions: TActionList
+  object DialogActions: TTntActionList
     Images = CommandsDataModule.Images
     Left = 128
     Top = 48
-    object actRefresh: TAction
+    object actRefresh: TTntAction
       Category = 'Commands'
       Caption = '&Refresh'
       Hint = 'Refresh tests|Extract tests from active module'
       ImageIndex = 39
       OnExecute = actRefreshExecute
     end
-    object actRun: TAction
+    object actRun: TTntAction
       Category = 'Commands'
       Caption = '&Run'
       Hint = 'Run selected tests'
       ImageIndex = 51
       OnExecute = actRunExecute
     end
-    object actStop: TAction
+    object actStop: TTntAction
       Category = 'Commands'
       Caption = '&Stop'
       Hint = 'Stop Testing'
       ImageIndex = 40
       OnExecute = actStopExecute
     end
-    object actSelectAll: TAction
+    object actSelectAll: TTntAction
       Category = 'TestTree'
       Caption = 'Select &All'
       Hint = 'Select all tests'
       ImageIndex = 104
       OnExecute = actSelectAllExecute
     end
-    object actDeselectAll: TAction
+    object actDeselectAll: TTntAction
       Category = 'TestTree'
       Caption = '&Deselect All'
       Hint = 'Deselect all tests'
       ImageIndex = 105
       OnExecute = actDeselectAllExecute
     end
-    object actSelectFailed: TAction
+    object actSelectFailed: TTntAction
       Category = 'TestTree'
       Caption = 'Select Fai&led'
       Hint = 'Select all failed tests'
       ImageIndex = 106
       OnExecute = actSelectFailedExecute
     end
-    object actExpandAll: TAction
+    object actExpandAll: TTntAction
       Category = 'TestTree'
       Caption = 'Ex&pand All'
       Hint = 'Expand all test nodes'
       ImageIndex = 28
       OnExecute = actExpandAllExecute
     end
-    object actCollapseAll: TAction
+    object actCollapseAll: TTntAction
       Category = 'TestTree'
       Caption = '&Collapse All'
       Hint = 'Collapse all test nodes'
       ImageIndex = 29
       OnExecute = actCollapseAllExecute
     end
-    object actClearAll: TAction
+    object actClearAll: TTntAction
       Category = 'Commands'
       Caption = '&Clear All'
       Hint = 'Clear all tests'

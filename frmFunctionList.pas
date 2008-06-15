@@ -47,7 +47,9 @@ interface
 
 uses
   Messages, Classes, Forms, Dialogs, StdCtrls, ComCtrls, ExtCtrls, ActnList,
-  ToolWin, Controls;
+  ToolWin, Controls, TntActnList, TBXDkPanels, SpTBXControls, TntStdCtrls,
+  SpTBXEditors, TB2Dock, TB2Toolbar, TBX, SpTBXItem, TB2Item, 
+  dlgPyIDEBase, TntComCtrls;
 
 const
   UM_RESIZECOLS = WM_USER + 523;
@@ -72,36 +74,41 @@ type
 
 
 type
-  TFunctionListWindow = class(TForm)
-    pnHolder: TPanel;
-    lvProcs: TListView;
-    StatusBar: TStatusBar;
-    pnlHeader: TPanel;
+  TFunctionListWindow = class(TPyIDEDlgBase)
+    pnHolder: TSpTBXPanel;
+    pnlHeader: TSpTBXPanel;
     dlgProcFont: TFontDialog;
-    pnlHeaderLeft: TPanel;
-    lblMethods: TLabel;
-    edtMethods: TEdit;
-    pnlHeaderRight: TPanel;
-    cbxObjects: TComboBox;
-    lblObjects: TLabel;
-    Actions: TActionList;
-    ToolBar: TToolBar;
-    tbnCopy: TToolButton;
-    tbnSep1: TToolButton;
-    tbnFont: TToolButton;
-    tbnSep2: TToolButton;
-    tbnStart: TToolButton;
-    tbnAny: TToolButton;
-    tbnSep3: TToolButton;
-    tbnGoto: TToolButton;
-    tbnSep4: TToolButton;
-    actEditCopy: TAction;
-    actOptionsFont: TAction;
-    actViewStart: TAction;
-    actViewAny: TAction;
-    actViewGoto: TAction;
-    actHelpHelp: TAction;
-    ToolButton1: TToolButton;
+    pnlHeaderLeft: TSpTBXPanel;
+    pnlHeaderRight: TSpTBXPanel;
+    Actions: TTntActionList;
+    actHelpHelp: TTntAction;
+    actViewGoto: TTntAction;
+    actViewAny: TTntAction;
+    actViewStart: TTntAction;
+    actOptionsFont: TTntAction;
+    actEditCopy: TTntAction;
+    lblMethods: TSpTBXLabel;
+    lblObjects: TSpTBXLabel;
+    edtMethods: TSpTBXEdit;
+    cbxObjects: TSpTBXComboBox;
+    ToolBarDock: TSpTBXDock;
+    Toolbar: TSpTBXToolbar;
+    tbiHelp: TSpTBXItem;
+    SpTBXSeparatorItem1: TSpTBXSeparatorItem;
+    tbiViewGoto: TSpTBXItem;
+    SpTBXSeparatorItem2: TSpTBXSeparatorItem;
+    tbiViewAny: TSpTBXItem;
+    tbiViewStart: TSpTBXItem;
+    SpTBXSeparatorItem3: TSpTBXSeparatorItem;
+    tbiFont: TSpTBXItem;
+    SpTBXSeparatorItem4: TSpTBXSeparatorItem;
+    tbiCopy: TSpTBXItem;
+    StatusBar: TSpTBXStatusBar;
+    LeftStatusLabel: TSpTBXLabelItem;
+    SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem;
+    SpTBXSeparatorItem5: TSpTBXSeparatorItem;
+    RightStatusLabel: TSpTBXLabelItem;
+    lvProcs: TTntListView;
     procedure lvProcsChange(Sender: TObject; Item: TListItem; Change: TItemChange);
     procedure FormResize(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -169,7 +176,7 @@ begin
   LoadTime := GetTickCount;
   InitializeForm;
   LoadTime := GetTickCount - LoadTime;
-  StatusBar.Panels[0].Text := Format(SParseStatistics, [LoadTime / 1000]);
+  RightStatusLabel.Caption := Format(SParseStatistics, [LoadTime / 1000]);
 end;
 
 procedure TFunctionListWindow.LoadProcs;
@@ -227,7 +234,7 @@ begin
       LoadObjectCombobox;
     end;
     QuickSort(0, FProcList.Count - 1);
-    StatusBar.Panels[1].Text := Trim(IntToStr(lvProcs.Items.Count));
+    RightStatusLabel.Caption := Trim(IntToStr(lvProcs.Items.Count));
   finally
     PythonScanner.Free;
     Module.Free;
@@ -256,8 +263,8 @@ begin
     ProcInfo := lvProcs.Selected.Data;
   if ProcInfo <> nil then
   begin
-    StatusBar.Panels[0].Text := ProcInfo.DisplayName + '(' + ProcInfo.ProcArgs + ')';
-    StatusBar.Panels[1].Text := Format('%d/%d', [lvProcs.Selected.Index + 1, lvProcs.Items.Count]);
+    LeftStatusLabel.Caption := ProcInfo.DisplayName + '(' + ProcInfo.ProcArgs + ')';
+    RightStatusLabel.Caption := Format('%d/%d', [lvProcs.Selected.Index + 1, lvProcs.Items.Count]);
     actViewGoto.Enabled := (lvProcs.Selected <> nil);
   end;
 end;
@@ -337,20 +344,12 @@ begin
   finally
     lvProcs.Items.EndUpdate;
   end;
-  ResizeCols;
+  ResizeCols;    
 end;
 
 procedure TFunctionListWindow.FormResize(Sender: TObject);
 begin
-  with StatusBar do
-  begin
-    if Width > 80 then
-    begin
-      Panels[1].Width := 80;
-      Panels[0].Width := Width - 80;
-    end;
-  end;
-
+  LeftStatusLabel.CustomWidth := StatusBar.Width - 90;
   ResizeCols;
 end;
 

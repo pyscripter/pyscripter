@@ -22,24 +22,23 @@ object IDEDockWindow: TIDEDockWindow
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnDeactivate = FormDeactivate
-  OnResize = FormResize
-  DesignSize = (
-    227
-    408)
   PixelsPerInch = 96
   TextHeight = 13
   object FGPanel: TPanel
-    Left = -1
-    Top = -1
-    Width = 227
-    Height = 396
-    Anchors = []
+    AlignWithMargins = True
+    Left = 3
+    Top = 3
+    Width = 221
+    Height = 402
+    Align = alClient
     BevelOuter = bvNone
     FullRepaint = False
     ParentBackground = False
     TabOrder = 0
-    ExplicitLeft = 0
-    ExplicitTop = 0
+    ExplicitLeft = -1
+    ExplicitTop = -1
+    ExplicitWidth = 227
+    ExplicitHeight = 396
   end
   object DockClient: TJvDockClient
     LRDockWidth = 220

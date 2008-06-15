@@ -47,15 +47,20 @@ inherited MessagesWindow: TMessagesWindow
   PixelsPerInch = 96
   TextHeight = 13
   inherited FGPanel: TPanel
-    Width = 676
-    Height = 170
-    ExplicitWidth = 676
-    ExplicitHeight = 170
+    Width = 687
+    Height = 180
+    ExplicitLeft = 3
+    ExplicitTop = 3
+    ExplicitWidth = 687
+    ExplicitHeight = 180
+    DesignSize = (
+      687
+      180)
     object MessagesView: TVirtualStringTree
       Left = 0
       Top = 0
-      Width = 676
-      Height = 170
+      Width = 687
+      Height = 180
       Align = alClient
       Alignment = taRightJustify
       BevelInner = bvNone
@@ -83,7 +88,7 @@ inherited MessagesWindow: TMessagesWindow
       Columns = <
         item
           Position = 0
-          Width = 326
+          Width = 337
           WideText = 'Message'
         end
         item
@@ -144,7 +149,7 @@ inherited MessagesWindow: TMessagesWindow
         LinkFont.Charset = DEFAULT_CHARSET
         LinkFont.Color = clBlue
         LinkFont.Height = -11
-        LinkFont.Name = 'Tahoma'
+        LinkFont.Name = 'MS Shell Dlg 2'
         LinkFont.Style = [fsUnderline]
         ThemeType = thtTBX
       end
@@ -168,7 +173,7 @@ inherited MessagesWindow: TMessagesWindow
         LinkFont.Charset = DEFAULT_CHARSET
         LinkFont.Color = clBlue
         LinkFont.Height = -11
-        LinkFont.Name = 'Tahoma'
+        LinkFont.Name = 'MS Shell Dlg 2'
         LinkFont.Style = [fsUnderline]
         ThemeType = thtTBX
       end
@@ -183,12 +188,12 @@ inherited MessagesWindow: TMessagesWindow
     OnPopup = TBXPopupMenuPopup
     Left = 10
     Top = 82
-    object TBXItem1: TSpTBXItem
+    object mnPreviousMessage: TSpTBXItem
       Caption = '&Previous Messages'
       Hint = 'Show previous messages'
       Action = actPreviousMsgs
     end
-    object TBXItem2: TSpTBXItem
+    object mnNextMessage: TSpTBXItem
       Caption = '&Next Messages'
       Hint = 'Show next messages'
       Action = actNextMsgs
@@ -202,35 +207,35 @@ inherited MessagesWindow: TMessagesWindow
     end
     object TBXSeparatorItem2: TSpTBXSeparatorItem
     end
-    object TBXItem3: TSpTBXItem
+    object mnCopy: TSpTBXItem
       Caption = 'Co&py to Clipboard'
       Hint = 'Copy contents to Clipboard'
       Action = actCopyToClipboard
     end
   end
-  object MsgsActionList: TActionList
+  object MsgsActionList: TTntActionList
     Images = CommandsDataModule.Images
     Left = 9
     Top = 47
-    object actClearAll: TAction
+    object actClearAll: TTntAction
       Caption = '&Clear all'
       Hint = 'Clear all messages'
       ImageIndex = 14
       OnExecute = ClearAllExecute
     end
-    object actPreviousMsgs: TAction
+    object actPreviousMsgs: TTntAction
       Caption = '&Previous Messages'
       Hint = 'Show previous messages'
       ImageIndex = 96
       OnExecute = actPreviousMsgsExecute
     end
-    object actNextMsgs: TAction
+    object actNextMsgs: TTntAction
       Caption = '&Next Messages'
       Hint = 'Show next messages'
       ImageIndex = 97
       OnExecute = actNextMsgsExecute
     end
-    object actCopyToClipboard: TAction
+    object actCopyToClipboard: TTntAction
       Caption = 'Co&py to Clipboard'
       Hint = 'Copy contents to Clipboard'
       ImageIndex = 12

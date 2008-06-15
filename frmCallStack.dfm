@@ -47,20 +47,17 @@ inherited CallStackWindow: TCallStackWindow
   PixelsPerInch = 96
   TextHeight = 13
   inherited FGPanel: TPanel
-    Left = 1
-    Top = -2
-    Width = 377
-    Height = 160
-    Caption = 'object WatchesView: TVirtualStringTree'
-    ExplicitLeft = 1
-    ExplicitTop = -2
-    ExplicitWidth = 377
-    ExplicitHeight = 160
+    Width = 375
+    Height = 162
+    ExplicitLeft = 3
+    ExplicitTop = 3
+    ExplicitWidth = 375
+    ExplicitHeight = 162
     object CallStackView: TVirtualStringTree
       Left = 0
       Top = 0
-      Width = 377
-      Height = 160
+      Width = 375
+      Height = 162
       Align = alClient
       Alignment = taRightJustify
       BevelInner = bvNone
@@ -94,7 +91,7 @@ inherited CallStackWindow: TCallStackWindow
         end
         item
           Position = 1
-          Width = 227
+          Width = 225
           WideText = 'File Name'
         end
         item

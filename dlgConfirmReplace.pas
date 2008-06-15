@@ -42,16 +42,16 @@ interface
 
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  StdCtrls, ExtCtrls, TBXDkPanels, SpTBXControls;
+  StdCtrls, ExtCtrls, TBXDkPanels, SpTBXControls, dlgPyIDEBase;
 
 type
-  TConfirmReplaceDialog = class(TForm)
-    lblConfirmation: TLabel;
+  TConfirmReplaceDialog = class(TPyIDEDlgBase)
     Image1: TImage;
     btnReplace: TSpTBXButton;
     btnSkip: TSpTBXButton;
     btnCancel: TSpTBXButton;
     btnReplaceAll: TSpTBXButton;
+    lblConfirmation: TSpTBXLabel;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
   public
@@ -73,6 +73,7 @@ resourcestring
 
 procedure TConfirmReplaceDialog.FormCreate(Sender: TObject);
 begin
+  inherited;
   Image1.Picture.Icon.Handle := LoadIcon(0, IDI_QUESTION);
 end;
 

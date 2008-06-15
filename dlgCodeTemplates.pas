@@ -12,36 +12,36 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ComCtrls, ExtCtrls, JvEdit,
-  SynEdit,  ActnList, TBXDkPanels, SpTBXControls;
+  Dialogs, StdCtrls, ComCtrls, ExtCtrls, JvEdit, SynEdit,  ActnList, TBXDkPanels, SpTBXControls, 
+  TntActnList, dlgPyIDEBase, SpTBXEditors, TntComCtrls;
 
 type
-  TCodeTemplates = class(TForm)
-    Panel: TPanel;
-    lvItems: TListView;
-    GroupBox: TGroupBox;
-    Label1: TLabel;
-    Label2: TLabel;
-    SynTemplate: TSynEdit;
-    edShortcut: TEdit;
-    ActionList: TActionList;
-    actAddItem: TAction;
-    actDeleteItem: TAction;
-    actMoveUp: TAction;
-    actMoveDown: TAction;
-    actUpdateItem: TAction;
-    Label5: TLabel;
-    edDescription: TEdit;
-    Label4: TLabel;
-    Label3: TLabel;
-    TBXButton1: TSpTBXButton;
-    TBXButton3: TSpTBXButton;
-    TBXButton4: TSpTBXButton;
-    TBXButton5: TSpTBXButton;
-    TBXButton2: TSpTBXButton;
+  TCodeTemplates = class(TPyIDEDlgBase)
+    ActionList: TTntActionList;
+    actUpdateItem: TTntAction;
+    actMoveDown: TTntAction;
+    actMoveUp: TTntAction;
+    actDeleteItem: TTntAction;
+    actAddItem: TTntAction;
+    Panel: TSpTBXPanel;
+    btnAdd: TSpTBXButton;
+    btnDelete: TSpTBXButton;
+    btnMoveup: TSpTBXButton;
+    btnMoveDown: TSpTBXButton;
+    btnUpdate: TSpTBXButton;
     btnCancel: TSpTBXButton;
     btnOK: TSpTBXButton;
     btnHelp: TSpTBXButton;
+    GroupBox: TSpTBXGroupBox;
+    SynTemplate: TSynEdit;
+    Label1: TSpTBXLabel;
+    Label2: TSpTBXLabel;
+    Label5: TSpTBXLabel;
+    Label4: TSpTBXLabel;
+    Label3: TSpTBXLabel;
+    edDescription: TSpTBXEdit;
+    edShortcut: TSpTBXEdit;
+    lvItems: TTntListView;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -60,14 +60,15 @@ type
     { Private declarations }
   public
     { Public declarations }
-    CodeTemplateText : String;
+    CodeTemplateText : WideString;
     procedure SetItems;
     procedure GetItems;
   end;
 
 implementation
 
-uses dmCommands;
+uses dmCommands, WideStrings, WideStrUtils, TntDialogs, gnugettext,
+  StringResources;
 
 {$R *.dfm}
 
@@ -102,29 +103,29 @@ begin
     CodeTemplateText := CodeTemplateText + lvItems.Items[i].Caption + sLineBreak;
     if lvItems.Items[i].SubItems[0] <> '' then
       CodeTemplateText := CodeTemplateText +'|' + lvItems.Items[i].SubItems[0] + sLineBreak;
-    for j := 0 to TStringList(lvItems.Items[i].Data).Count - 1 do
+    for j := 0 to TWideStringList(lvItems.Items[i].Data).Count - 1 do
       CodeTemplateText := CodeTemplateText + '=' +
-        TStringList(lvItems.Items[i].Data)[j] + sLineBreak;
+        TWideStringList(lvItems.Items[i].Data)[j] + sLineBreak;
   end;
 end;
 
 procedure TCodeTemplates.SetItems;
 Var
  i, Count : integer;
- List : TStringList;
+ List : TWideStringList;
 begin
   lvItems.Clear;
   i := 0;
   Count := 0;
-  List := TStringList.Create;
+  List := TWideStringList.Create;
   try
     List.Text := CodeTemplateText;
     while i < List.Count do begin
-      if not (List[i][1] in ['|', '=']) then begin
+      if not inOpSet(List[i][1], ['|', '=']) then begin
         Inc(Count);
         with lvItems.Items.Add() do begin
           Caption := List[i];
-          Data := TStringList.Create;
+          Data := TWideStringList.Create;
           Inc(i);
           if List[i][1] = '|' then begin
             SubItems.Add(Copy(List[i], 2, MaxInt));
@@ -134,7 +135,7 @@ begin
         end;
       end else begin
         if (Count > 0) and (List[i][1] = '=') then
-          TStringList(lvItems.Items[Count-1].Data).Add(Copy(List[i], 2, MaxInt));
+          TWideStringList(lvItems.Items[Count-1].Data).Add(Copy(List[i], 2, MaxInt));
         Inc(i);
       end;
     end;
@@ -167,7 +168,7 @@ begin
         Item := lvItems.Items[i];
         Item.Caption := edShortCut.Text;
         Item.SubItems[0] := edDescription.Text;
-        TStringList(Item.Data).Assign(SynTemplate.Lines);
+        TWideStringList(Item.Data).Assign(SynTemplate.Lines);
         Item.Selected := True;
         Exit;
       end;
@@ -175,8 +176,8 @@ begin
     with lvItems.Items.Add() do begin
       Caption := edShortCut.Text;
       SubItems.Add(edDescription.Text);
-      Data := Pointer(TStringList.Create);
-      TStringList(Data).Assign(SynTemplate.Lines);
+      Data := Pointer(TWideStringList.Create);
+      TWideStringList(Data).Assign(SynTemplate.Lines);
     end;
   end;
 end;
@@ -196,13 +197,13 @@ begin
       if (CompareText(lvItems.Items[i].Caption, edShortCut.Text) = 0) and
          (i <> lvItems.ItemIndex) then
       begin
-        MessageDlg('Another item has the same name', mtError, [mbOK], 0);
+        WideMessageDlg(_(SSameName), mtError, [mbOK], 0);
         Exit;
       end;
     with lvItems.Items[lvItems.ItemIndex] do begin
       Caption := edShortCut.Text;
       SubItems[0] := edDescription.Text;
-      TStringList(Data).Assign(SynTemplate.Lines);
+      TWideStringList(Data).Assign(SynTemplate.Lines);
       SynTemplate.Modified := False;
     end;
   end;
@@ -219,14 +220,14 @@ begin
   if Item.Selected then begin
     edShortCut.Text := Item.Caption;
     edDescription.Text := Item.SubItems[0];
-    SynTemplate.Lines.Assign(TStringList(Item.Data));
+    SynTemplate.Lines.Assign(TWideStringList(Item.Data));
     SynTemplate.Modified := False;
   end;
 end;
 
 procedure TCodeTemplates.actMoveUpExecute(Sender: TObject);
 Var
-  Name, Value : string;
+  Name, Value : WideString;
   P : Pointer;
   Index : integer;
 begin
@@ -249,7 +250,7 @@ end;
 
 procedure TCodeTemplates.actMoveDownExecute(Sender: TObject);
 Var
-  Name, Value : string;
+  Name, Value : WideString;
   P : Pointer;
   Index : integer;
 begin
@@ -273,14 +274,14 @@ end;
 procedure TCodeTemplates.lvItemsDeletion(Sender: TObject; Item: TListItem);
 begin
   if Assigned(Item.Data) then
-    TStringList(Item.Data).Free;
+    TWideStringList(Item.Data).Free;
 end;
 
 procedure TCodeTemplates.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   if (edShortcut.Text <> '') and SynTemplate.Modified then begin
-    if (MessageDlg('The template has been modified.  Do you want to update it with the new definition?',
-      mtConfirmation, [mbYes, mbNo], 0) = idYes)
+    if (WideMessageDlg(_(SCodeTemplateModified),
+      mtConfirmation, [mbYes, mbNo], 0) = mrYes)
     then
       actUpdateItemExecute(Sender);
   end;

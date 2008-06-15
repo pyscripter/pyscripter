@@ -1,4 +1,4 @@
-{-------------------------------------------------------------------------------
+ï»¿{-------------------------------------------------------------------------------
 The contents of this file are subject to the Mozilla Public License
 Version 1.1 (the "License"); you may not use this file except in compliance
 with the License. You may obtain a copy of the License at
@@ -8,7 +8,7 @@ Software distributed under the License is distributed on an "AS IS" basis,
 WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License for
 the specific language governing rights and limitations under the License.
 
-The Original Code is SynUnicode.pas by Maël Hörz, released 2004-05-30.
+The Original Code is SynUnicode.pas by MaÎ»l HÏ†rz, released 2004-05-30.
 All Rights Reserved.
 TWideStrings/TWideStringList-code (originally written by Mike Lischke) is based
 on JclUnicode.pas which is part of the JCL (www.delphi-jedi.org).
@@ -26,7 +26,7 @@ replace them with the notice and other provisions required by the GPL.
 If you do not delete the provisions above, a recipient may use your version
 of this file under either the MPL or the GPL.
 
-$Id: SynUnicode.pas,v 1.1.2.32 2007/01/23 08:20:44 etrusco Exp $
+$Id: SynUnicode.pas,v 1.1.2.37 2008/03/01 18:32:02 maelh Exp $
 
 You may retrieve the latest version of this file at the SynEdit home page,
 located at http://SynEdit.SourceForge.net
@@ -69,6 +69,9 @@ uses
   {$ENDIF}
   Classes,
   SysUtils,
+  {$IFDEF SYN_COMPILER_10_UP}
+  WideStrings,
+  {$ENDIF}
   TypInfo;
 
 const
@@ -81,7 +84,7 @@ const
   // constants describing range of the Unicode Private Use Area (Unicode 3.2)
   PrivateUseLow = WideChar($E000);
   PrivateUseHigh = WideChar($F8FF);
-  // filler char: helper for painting wide glyphs 
+  // filler char: helper for painting wide glyphs
   FillerChar = PrivateUseLow;
 
 const
@@ -126,25 +129,40 @@ type
   // after the callback returns.
   TConfirmConversionEvent = procedure (Sender: TWideStrings; var Allowed: Boolean) of object;
 
+  TSynEditFileFormat = (sffDos, sffUnix, sffMac, sffUnicode); // DOS: CRLF, UNIX: LF, Mac: CR, Unicode: LINE SEPARATOR
+
+  {$IFDEF SYN_COMPILER_10_UP}
+  TWideStrings = class(WideStrings.TWideStrings)
+  {$ELSE}
   TWideStrings = class(TPersistent)
+  {$ENDIF}
   private
-    FUpdateCount: Integer;
     FSaved,                 // set in SaveToStream, True in case saving was successfull otherwise False
     FSaveUnicode: Boolean;  // flag set on loading to keep track in which format to save
                             // (can be set explicitely, but expect losses if there's true Unicode content
                             // and this flag is set to False)
+    FUpdateCount: Integer;
+    FFileFormat: TSynEditFileFormat;
+    FStreaming: Boolean;
     FOnConfirmConversion: TConfirmConversionEvent;
+    procedure ReadData(Reader: TReader);
+    procedure WriteData(Writer: TWriter);
+    {$IFNDEF SYN_COMPILER_10_UP}
     function GetCommaText: WideString;
     function GetName(Index: Integer): WideString;
     function GetValue(const Name: WideString): WideString;
-    procedure ReadData(Reader: TReader);
     procedure SetCommaText(const Value: WideString);
     procedure SetValue(const Name, Value: WideString);
-    procedure WriteData(Writer: TWriter);
+    {$ENDIF}
   protected
-    procedure DefineProperties(Filer: TFiler); override;
     procedure DoConfirmConversion(var Allowed: Boolean); virtual;
+    procedure DefineProperties(Filer: TFiler); override;
+    function GetTextStr: WideString; override;
+    {$IFDEF SYN_COMPILER_10_UP}
+    procedure SetTextStr(const Value: WideString); override;
+    {$ELSE}
     procedure Error(const Msg: string; Data: Integer);
+    procedure AssignTo(Dest: TPersistent); override;
     function Get(Index: Integer): WideString; virtual; abstract;
     function GetCapacity: Integer; virtual;
     function GetCount: Integer; virtual; abstract;
@@ -153,36 +171,40 @@ type
     procedure Put(Index: Integer; const S: WideString); virtual; abstract;
     procedure PutObject(Index: Integer; AObject: TObject); virtual; abstract;
     procedure SetCapacity(NewCapacity: Integer); virtual;
+    procedure SetTextStr(const Value: WideString); virtual;
     procedure SetUpdateState(Updating: Boolean); virtual;
+    {$ENDIF}
   public
     constructor Create;
-
+    function GetSeparatedText(Separators: WideString): WideString; virtual;
+    {$IFDEF SYN_COMPILER_10_UP}
+    procedure SaveToStream(Stream: TStream; WithBOM: Boolean = True);reintroduce; virtual;
+    procedure LoadFromStream(Stream: TStream); override;
+    procedure AddStrings(Strings: TStrings); override;
+    {$ELSE}
     function Add(const S: WideString): Integer; virtual;
     function AddObject(const S: WideString; AObject: TObject): Integer; virtual;
     procedure Append(const S: WideString);
     procedure AddStrings(Strings: TStrings); overload; virtual;
     procedure AddStrings(Strings: TWideStrings); overload; virtual;
     procedure Assign(Source: TPersistent); override;
-    procedure AssignTo(Dest: TPersistent); override;
     procedure BeginUpdate;
     procedure Clear; virtual; abstract;
     procedure Delete(Index: Integer); virtual; abstract;
     procedure EndUpdate;
     function Equals(Strings: TWideStrings): Boolean;
     procedure Exchange(Index1, Index2: Integer); virtual;
-    function GetSeparatedText(Separators: WideString): WideString; virtual;
     function GetText: PWideChar; virtual;
     function IndexOf(const S: WideString): Integer; virtual;
     function IndexOfName(const Name: WideString): Integer;
     function IndexOfObject(AObject: TObject): Integer;
     procedure Insert(Index: Integer; const S: WideString); virtual; abstract;
     procedure InsertObject(Index: Integer; const S: WideString; AObject: TObject);
-    procedure LoadFromFile(const FileName: string); virtual;
+    procedure LoadFromFile(const FileName: WideString); virtual;
     procedure LoadFromStream(Stream: TStream); virtual;
     procedure Move(CurIndex, NewIndex: Integer); virtual;
-    procedure SaveToFile(const FileName: string); virtual;
+    procedure SaveToFile(const FileName: WideString); virtual;
     procedure SaveToStream(Stream: TStream; WithBOM: Boolean = True); virtual;
-    procedure SetText(const Value: WideString); virtual;
 
     property Capacity: Integer read GetCapacity write SetCapacity;
     property CommaText: WideString read GetCommaText write SetCommaText;
@@ -190,17 +212,18 @@ type
     property Names[Index: Integer]: WideString read GetName;
     property Objects[Index: Integer]: TObject read GetObject write PutObject;
     property Values[const Name: WideString]: WideString read GetValue write SetValue;
+    property Strings[Index: Integer]: WideString read Get write Put; default;
+    property Text: WideString read GetTextStr write SetTextStr;
+    {$ENDIF}
+    property FileFormat: TSynEditFileFormat read fFileFormat write fFileFormat;
     property Saved: Boolean read FSaved;
     property SaveUnicode: Boolean read FSaveUnicode write FSaveUnicode default True;
-    property Strings[Index: Integer]: WideString read Get write Put; default;
-    property Text: WideString read GetTextStr write SetText;
-
     property OnConfirmConversion: TConfirmConversionEvent read FOnConfirmConversion write FOnConfirmConversion;
   end;
 
 
 { TWideStringList }
-  
+
   //----- TWideStringList class
   TDynWideCharArray = array of WideChar;
   TWideStringItem = record
@@ -214,7 +237,7 @@ type
 
   TWideStringItemList = array of TWideStringItem;
 
-  TWideStringList = class(TWideStrings)
+  TWideStringList = class(SynUnicode.TWideStrings)
   private
     FList: TWideStringItemList;
     FCount: Integer;
@@ -355,26 +378,26 @@ function WideFileCreate(const FileName: WideString): Integer; overload;
 function WideFileCreate(const FileName: WideString; Rights: Integer): Integer; overload;
 
 function IsAnsiOnly(const WS: WideString): Boolean;
-function IsUTF8(Stream: TStream): Boolean; overload;
-function IsUTF8(const FileName: WideString): Boolean; overload;
-function GetEncoding(const FileName: WideString): TSynEncoding; overload;
-function GetEncoding(Stream: TStream): TSynEncoding; overload;
+function IsUTF8(Stream: TStream; out WithBOM: Boolean): Boolean; overload;
+function IsUTF8(const FileName: WideString; out WithBOM: Boolean): Boolean; overload;
+function GetEncoding(const FileName: WideString; out WithBOM: Boolean): TSynEncoding; overload;
+function GetEncoding(Stream: TStream; out WithBOM: Boolean): TSynEncoding; overload;
 procedure SaveToFile(const WS: WideString; const FileName: WideString;
   Encoding: TSynEncoding; WithBom: Boolean = True); overload;
 procedure SaveToFile(WideStrings: TWideStrings; const FileName: WideString;
   Encoding: TSynEncoding; WithBom: Boolean = True); overload;
-function LoadFromFile(WideStrings: TWideStrings; const FileName: WideString):
-  TSynEncoding; overload;
 function LoadFromFile(WideStrings: TWideStrings; const FileName: WideString;
-  Encoding: TSynEncoding): TSynEncoding; overload;
+  out WithBOM: Boolean): TSynEncoding; overload;
+function LoadFromFile(WideStrings: TWideStrings; const FileName: WideString;
+  Encoding: TSynEncoding; out WithBOM: Boolean): TSynEncoding; overload;
 procedure SaveToStream(const WS: WideString; Stream: TStream;
   Encoding: TSynEncoding; WithBom: Boolean  = True); overload;
 procedure SaveToStream(WideStrings: TWideStrings; Stream: TStream;
   Encoding: TSynEncoding; WithBom: Boolean  = True); overload;
-function LoadFromStream(WideStrings: TWideStrings; Stream: TStream):
-  TSynEncoding; overload;
 function LoadFromStream(WideStrings: TWideStrings; Stream: TStream;
-  Encoding: TSynEncoding): TSynEncoding; overload;
+  out WithBOM: Boolean): TSynEncoding; overload;
+function LoadFromStream(WideStrings: TWideStrings; Stream: TStream;
+  Encoding: TSynEncoding; out WithBOM: Boolean): TSynEncoding; overload;
 
 function ClipboardProvidesText: Boolean;
 function GetClipboardText: WideString;
@@ -403,6 +426,7 @@ uses
   QSynEditTextBuffer,
   {$ELSE}
   SynEditTextBuffer,
+  SynUsp10,
   {$ENDIF}
   Math,
   {$IFDEF SYN_LINUX}
@@ -427,24 +451,8 @@ uses
 constructor TWideStrings.Create;
 begin
   inherited;
+  FileFormat := sffDos;
   FSaveUnicode := True;
-end;
-
-function TWideStrings.Add(const S: WideString): Integer;
-begin
-  Result := GetCount;
-  Insert(Result, S);
-end;
-
-function TWideStrings.AddObject(const S: WideString; AObject: TObject): Integer;
-begin
-  Result := Add(S);
-  PutObject(Result, AObject);
-end;
-
-procedure TWideStrings.Append(const S: WideString);
-begin
-  Add(S);
 end;
 
 procedure TWideStrings.AddStrings(Strings: TStrings);
@@ -471,6 +479,284 @@ begin
   finally
     EndUpdate;
   end;
+end;
+
+procedure TWideStrings.DoConfirmConversion(var Allowed: Boolean);
+begin
+  if Assigned(FOnConfirmConversion) then
+    FOnConfirmConversion(Self, Allowed);
+end;
+
+function TWideStrings.GetSeparatedText(Separators: WideString): WideString;
+// Same as GetText but with customizable separator characters.
+var
+  I, L,
+  Size,
+  Count,
+  SepSize: Integer;
+  P: PWideChar;
+  S: WideString;
+begin
+  Count := GetCount;
+  SepSize := Length(Separators);
+  Size := 0;
+  for I := 0 to Count - 1 do
+    Inc(Size, Length(Get(I)) + SepSize);
+
+  // set one separator less, the last line does not need a trailing separator
+  SetLength(Result, Size - SepSize);
+  if Size > 0 then
+  begin
+    P := Pointer(Result);
+    I := 0;
+    while True do
+    begin
+      S := Get(I);
+      L := Length(S);
+      if L <> 0 then
+      begin
+        // add current string
+        System.Move(Pointer(S)^, P^, 2 * L);
+        Inc(P, L);
+      end;
+      Inc(I);
+      if I = Count then
+        Break;
+
+      // add separators
+      System.Move(Pointer(Separators)^, P^, SizeOf(WideChar) * SepSize);
+      Inc(P, SepSize);
+    end;
+  end;
+end;
+
+function TWideStrings.GetTextStr: WideString;
+var
+  SLineBreak: WideString;
+begin
+  if not FStreaming then
+    Result := GetSeparatedText(WideCRLF)
+  else
+  begin
+    case FileFormat of
+      sffDos:
+        SLineBreak := WideCRLF;
+      sffUnix:
+        SLineBreak := WideLF;
+      sffMac:
+        SLineBreak := WideCR;
+      sffUnicode:
+        if not SaveUnicode then
+          // Ansi-file cannot contain Unicode LINE SEPARATOR,
+          // so default to platform-specific Ansi-compatible SLineBreak
+          SLineBreak := SynUnicode.SLineBreak
+        else
+          SLineBreak := WideLineSeparator;
+    end;
+    Result := GetSeparatedText(SLineBreak);
+  end;
+end;
+
+procedure TWideStrings.LoadFromStream(Stream: TStream);
+// usual loader routine, but enhanced to handle byte order marks in stream
+var
+  Size,
+  BytesRead: Integer;
+  Order: WideChar;
+  SW: WideString;
+  SA: string;
+begin
+  FStreaming := True;
+  BeginUpdate;
+  try
+    Size := Stream.Size - Stream.Position;
+    BytesRead := Stream.Read(Order, 2);
+    if (Order = BOM_LSB_FIRST) or (Order = BOM_MSB_FIRST) then
+    begin
+      FSaveUnicode := True;
+      SetLength(SW, (Size - 2) div 2);
+      Stream.Read(PWideChar(SW)^, Size - 2);
+      if Order = BOM_MSB_FIRST then
+        StrSwapByteOrder(PWideChar(SW));
+      SetTextStr(SW);
+    end
+    else
+    begin
+      // without byte order mark it is assumed that we are loading ANSI text
+      FSaveUnicode := False;
+      Stream.Seek(-BytesRead, soFromCurrent);
+      SetLength(SA, Size);
+      Stream.Read(PAnsiChar(SA)^, Size);
+      SetTextStr(SA);
+    end;
+  finally
+    EndUpdate;
+    FStreaming := False;
+  end;
+end;
+
+procedure TWideStrings.SaveToStream(Stream: TStream; WithBOM: Boolean = True);
+// Saves the currently loaded text into the given stream. WithBOM determines whether to write a
+// byte order mark or not. Note: when saved as ANSI text there will never be a BOM.
+var
+  SW, BOM: WideString;
+  SA: string;
+  Allowed: Boolean;
+  Run: PWideChar;
+begin
+  // The application can decide in which format to save the content.
+  // If FSaveUnicode is False then all strings are saved in standard ANSI format
+  // which is also loadable by TStrings but you should be aware that all Unicode
+  // strings are then converted to ANSI based on the current system locale.
+  // An extra event is supplied to ask the user about the potential loss of
+  // information when converting Unicode to ANSI strings.
+  SW := GetTextStr;
+  Allowed := True;
+  FSaved := False; // be pessimistic
+  // A check for potential information loss makes only sense if the application has
+  // set an event to be used as call back to ask about the conversion.
+  if not FSaveUnicode and Assigned(FOnConfirmConversion) then
+  begin
+    // application requests to save only ANSI characters, so check the text and
+    // call back in case information could be lost
+    Run := PWideChar(SW);
+    // only ask if there's at least one Unicode character in the text
+    while Run^ in [WideChar(#1)..WideChar(#255)] do
+      Inc(Run);
+    // Note: The application can still set FSaveUnicode to True in the callback.
+    if Run^ <> WideNull then
+      DoConfirmConversion(Allowed);
+  end;
+
+  if Allowed then
+  begin
+    FStreaming := True;
+    // only save if allowed
+    if FSaveUnicode then
+    begin
+      BOM := BOM_LSB_FIRST;
+      Stream.WriteBuffer(PWideChar(BOM)^, 2);
+      // SW has already been filled
+      Stream.WriteBuffer(PWideChar(SW)^, 2 * Length(SW));
+    end
+    else
+    begin
+      SA := WideCharToString(PWideChar(SW));
+      if Allowed then
+        Stream.WriteBuffer(PAnsiChar(SA)^, Length(SA));
+    end;
+    FSaved := True;
+    FStreaming := False;
+  end;
+end;
+
+procedure TWideStrings.SetTextStr(const Value: WideString);
+var
+  Head,
+  Tail: PWideChar;
+  S: WideString;
+  fCR, fLF, fLINESEPARATOR: Boolean;
+begin
+  fLINESEPARATOR := False;
+  fCR := False;
+  fLF := False;
+  BeginUpdate;
+  try
+    Clear;
+    Head := PWideChar(Value);
+    while Head^ <> WideNull do
+    begin
+      Tail := Head;
+      while not (Tail^ in [WideNull, WideLineFeed, WideCarriageReturn, WideVerticalTab, WideFormFeed]) and
+        (Tail^ <> WideLineSeparator) and (Tail^ <> WideParagraphSeparator) do
+        Inc(Tail);
+      SetString(S, Head, Tail - Head);
+      Add(S);
+      Head := Tail;
+      if Head^ <> WideNull then
+      begin
+        if Head^ = WideCarriageReturn then begin
+          fCR := True;
+          Inc(Tail);
+          if (Tail^ = WideLineFeed) then begin
+            Inc(Head);
+            fLF := True
+          end;
+        end else if Head^ = WideLineFeed then
+          fLF := True
+        else if Head^ = WideLineSeparator then
+          fLINESEPARATOR := True;
+        Inc(Head);
+      end;
+    end;
+  finally
+    EndUpdate;
+  end;
+  if fLINESEPARATOR then
+    FileFormat := sffUnicode
+  else if fCR and not fLF then
+    FileFormat := sffMac
+  else if fLF and not fCR then
+    FileFormat := sffUnix
+  else
+    FileFormat := sffDos;
+end;
+
+procedure TWideStrings.DefineProperties(Filer: TFiler);
+// Defines a private property for the content of the list.
+// There's a bug in the handling of text DFMs in Classes.pas which prevents
+// WideStrings from loading under some circumstances. Zbysek Hlinka
+// (zhlinka@login.cz) brought this to my attention and supplied also a solution.
+// See ReadData and WriteData methods for implementation details.
+
+  function DoWrite: Boolean;
+  begin
+    if Filer.Ancestor <> nil then
+    begin
+      Result := True;
+      if Filer.Ancestor is TWideStrings then
+        Result := not Equals(TWideStrings(Filer.Ancestor))
+    end
+    else
+      Result := Count > 0;
+  end;
+
+begin
+  Filer.DefineProperty('WideStrings', ReadData, WriteData, DoWrite);
+end;
+
+procedure TWideStrings.ReadData(Reader: TReader);
+begin
+  case Reader.NextValue of
+    vaLString, vaString:
+      SetTextStr(Reader.ReadString);
+  else
+    SetTextStr(Reader.ReadWideString);
+  end;
+end;
+
+procedure TWideStrings.WriteData(Writer: TWriter);
+begin
+  Writer.WriteWideString(GetTextStr);
+end;
+
+{$IFNDEF SYN_COMPILER_10_UP}
+
+function TWideStrings.Add(const S: WideString): Integer;
+begin
+  Result := GetCount;
+  Insert(Result, S);
+end;
+
+function TWideStrings.AddObject(const S: WideString; AObject: TObject): Integer;
+begin
+  Result := Add(S);
+  PutObject(Result, AObject);
+end;
+
+procedure TWideStrings.Append(const S: WideString);
+begin
+  Add(S);
 end;
 
 procedure TWideStrings.AddStrings(Strings: TWideStrings);
@@ -515,7 +801,7 @@ begin
     end
     else
       inherited Assign(Source);
-  end; 
+  end;
 end;
 
 procedure TWideStrings.AssignTo(Dest: TPersistent);
@@ -563,35 +849,6 @@ begin
   if FUpdateCount = 0 then
     SetUpdateState(True);
   Inc(FUpdateCount);
-end;
-
-procedure TWideStrings.DefineProperties(Filer: TFiler);
-// Defines a private property for the content of the list.
-// There's a bug in the handling of text DFMs in Classes.pas which prevents
-// WideStrings from loading under some circumstances. Zbysek Hlinka
-// (zhlinka@login.cz) brought this to my attention and supplied also a solution.
-// See ReadData and WriteData methods for implementation details.
-
-  function DoWrite: Boolean;
-  begin
-    if Filer.Ancestor <> nil then
-    begin
-      Result := True;
-      if Filer.Ancestor is TWideStrings then
-        Result := not Equals(TWideStrings(Filer.Ancestor))
-    end
-    else
-      Result := Count > 0;
-  end;
-
-begin
-  Filer.DefineProperty('WideStrings', ReadData, WriteData, DoWrite);
-end;
-
-procedure TWideStrings.DoConfirmConversion(var Allowed: Boolean);
-begin
-  if Assigned(FOnConfirmConversion) then
-    FOnConfirmConversion(Self, Allowed);
 end;
 
 procedure TWideStrings.EndUpdate;
@@ -695,54 +952,6 @@ begin
   Result := nil;
 end;
 
-function TWideStrings.GetSeparatedText(Separators: WideString): WideString;
-// Same as GetText but with customizable separator characters.
-var
-  I, L,
-  Size,
-  Count,
-  SepSize: Integer;
-  P: PWideChar;
-  S: WideString;
-begin
-  Count := GetCount;
-  SepSize := Length(Separators);
-  Size := 0;
-  for I := 0 to Count - 1 do
-    Inc(Size, Length(Get(I)) + SepSize);
-    
-  // set one separator less, the last line does not need a trailing separator
-  SetLength(Result, Size - SepSize);
-  if Size > 0 then
-  begin
-    P := Pointer(Result);
-    I := 0;
-    while True do
-    begin
-      S := Get(I);
-      L := Length(S);
-      if L <> 0 then
-      begin
-        // add current string
-        System.Move(Pointer(S)^, P^, 2 * L);
-        Inc(P, L);
-      end;
-      Inc(I);
-      if I = Count then
-        Break;
-        
-      // add separators
-      System.Move(Pointer(Separators)^, P^, SizeOf(WideChar) * SepSize);
-      Inc(P, SepSize);
-    end;
-  end;
-end;
-
-function TWideStrings.GetTextStr: WideString;
-begin
-  Result := GetSeparatedText(WideCRLF);
-end;
-
 function TWideStrings.GetText: PWideChar;
 begin
   Result := StrNewW(PWideChar(GetTextStr));
@@ -796,7 +1005,7 @@ begin
   PutObject(Index, AObject);
 end;
 
-procedure TWideStrings.LoadFromFile(const FileName: string);
+procedure TWideStrings.LoadFromFile(const FileName: WideString);
 var
   Stream: TStream;
 begin
@@ -805,42 +1014,6 @@ begin
     LoadFromStream(Stream);
   finally
     Stream.Free;
-  end;
-end;
-
-procedure TWideStrings.LoadFromStream(Stream: TStream);
-// usual loader routine, but enhanced to handle byte order marks in stream
-var
-  Size,
-  BytesRead: Integer;
-  Order: WideChar;
-  SW: WideString;
-  SA: string;
-begin
-  BeginUpdate;
-  try
-    Size := Stream.Size - Stream.Position;
-    BytesRead := Stream.Read(Order, 2);
-    if (Order = BOM_LSB_FIRST) or (Order = BOM_MSB_FIRST) then
-    begin
-      FSaveUnicode := True;
-      SetLength(SW, (Size - 2) div 2);
-      Stream.Read(PWideChar(SW)^, Size - 2);
-      if Order = BOM_MSB_FIRST then
-        StrSwapByteOrder(PWideChar(SW));
-      SetText(SW);
-    end
-    else
-    begin
-      // without byte order mark it is assumed that we are loading ANSI text
-      FSaveUnicode := False;
-      Stream.Seek(-BytesRead, soFromCurrent);
-      SetLength(SA, Size);
-      Stream.Read(PAnsiChar(SA)^, Size);
-      SetText(SA);
-    end;
-  finally
-    EndUpdate;
   end;
 end;
 
@@ -863,17 +1036,7 @@ begin
   end;
 end;
 
-procedure TWideStrings.ReadData(Reader: TReader);
-begin
-  case Reader.NextValue of
-    vaLString, vaString:
-      SetText(Reader.ReadString);
-  else
-    SetText(Reader.ReadWideString);
-  end;
-end;
-
-procedure TWideStrings.SaveToFile(const FileName: string);
+procedure TWideStrings.SaveToFile(const FileName: WideString);
 var
   Stream: TStream;
 begin
@@ -882,59 +1045,6 @@ begin
     SaveToStream(Stream);
   finally
     Stream.Free;
-  end;
-end;
-
-procedure TWideStrings.SaveToStream(Stream: TStream; WithBOM: Boolean = True);
-// Saves the currently loaded text into the given stream. WithBOM determines whether to write a
-// byte order mark or not. Note: when saved as ANSI text there will never be a BOM.
-var
-  SW, BOM: WideString;
-  SA: string;
-  Allowed: Boolean;
-  Run: PWideChar;
-begin
-  // The application can decide in which format to save the content.
-  // If FSaveUnicode is False then all strings are saved in standard ANSI format
-  // which is also loadable by TStrings but you should be aware that all Unicode
-  // strings are then converted to ANSI based on the current system locale.
-  // An extra event is supplied to ask the user about the potential loss of
-  // information when converting Unicode to ANSI strings.
-  SW := GetTextStr;
-  Allowed := True;
-  FSaved := False; // be pessimistic
-  // A check for potential information loss makes only sense if the application has
-  // set an event to be used as call back to ask about the conversion.
-  if not FSaveUnicode and Assigned(FOnConfirmConversion) then
-  begin
-    // application requests to save only ANSI characters, so check the text and
-    // call back in case information could be lost
-    Run := PWideChar(SW);
-    // only ask if there's at least one Unicode character in the text
-    while Run^ in [WideChar(#1)..WideChar(#255)] do
-      Inc(Run);
-    // Note: The application can still set FSaveUnicode to True in the callback.
-    if Run^ <> WideNull then
-      DoConfirmConversion(Allowed);
-  end;
-
-  if Allowed then
-  begin
-    // only save if allowed
-    if FSaveUnicode then
-    begin
-      BOM := BOM_LSB_FIRST;
-      Stream.WriteBuffer(PWideChar(BOM)^, 2);
-      // SW has already been filled
-      Stream.WriteBuffer(PWideChar(SW)^, 2 * Length(SW));
-    end
-    else
-    begin
-      SA := WideCharToString(PWideChar(SW));
-      if Allowed then
-        Stream.WriteBuffer(PAnsiChar(SA)^, Length(SA));
-    end;
-    FSaved := True;
   end;
 end;
 
@@ -981,37 +1091,6 @@ begin
   end;
 end;
 
-procedure TWideStrings.SetText(const Value: WideString);
-var
-  Head,
-  Tail: PWideChar;
-  S: WideString;
-begin
-  BeginUpdate;
-  try
-    Clear;
-    Head := PWideChar(Value);
-    while Head^ <> WideNull do
-    begin
-      Tail := Head;
-      while not (Tail^ in [WideNull, WideLineFeed, WideCarriageReturn, WideVerticalTab, WideFormFeed]) and
-        (Tail^ <> WideLineSeparator) and (Tail^ <> WideParagraphSeparator) do
-        Inc(Tail);
-      SetString(S, Head, Tail - Head);
-      Add(S);
-      Head := Tail;
-      if Head^ <> WideNull then
-      begin
-        Inc(Head);
-        if (Tail^ = WideCarriageReturn) and (Head^ = WideLineFeed) then
-          Inc(Head);
-      end;
-    end;
-  finally
-    EndUpdate;
-  end;
-end;
-
 procedure TWideStrings.SetUpdateState(Updating: Boolean);
 begin
 end;
@@ -1033,11 +1112,7 @@ begin
       Delete(I);
   end;
 end;
-
-procedure TWideStrings.WriteData(Writer: TWriter);
-begin
-  Writer.WriteWideString(GetTextStr);
-end;
+{$ENDIF}
 
 
 { TWideStringList }
@@ -2270,19 +2345,53 @@ end;
 {$ENDIF}
 
 function GetTextSize(DC: HDC; Str: PWideChar; Count: Integer): TSize;
+const
+  SSAnalyseFlags = SSA_GLYPHS or SSA_FALLBACK or SSA_LINK;
 var
   tm: TTextMetricA;
+  GlyphBufferSize: Integer;
+  saa: TScriptStringAnalysis;
+  lpSize: PSize;
 begin
   Result.cx := 0;
   Result.cy := 0;
-  GetTextExtentPoint32W(DC, Str, Count, Result);
-  if not Win32PlatformIsUnicode then
+
+  if Usp10IsInstalled then
   begin
-    GetTextMetricsA(DC, tm);
-    if tm.tmPitchAndFamily and TMPF_TRUETYPE <> 0 then
-      Result.cx := Result.cx - tm.tmOverhang
-    else
-      Result.cx := tm.tmAveCharWidth * Count;
+    if Count <= 0 then Exit;
+
+    // According to the MS Windows SDK (1.5 * Count + 16) is the recommended
+    // value for GlyphBufferSize (see documentation of cGlyphs parameter of
+    // ScriptStringAnalyse function)
+    GlyphBufferSize := (3 * Count) div 2 + 16;
+    
+    if Succeeded(ScriptStringAnalyse(DC, Str, Count, GlyphBufferSize, -1,
+      SSAnalyseFlags, 0, nil, nil, nil, nil, nil, @saa)) then
+    begin
+      lpSize := ScriptString_pSize(saa);
+      if lpSize <> nil then
+      begin
+        Result := lpSize^;
+        if Result.cx = 0 then
+        begin
+          GetTextMetricsA(DC, tm);
+          Result.cx := tm.tmAveCharWidth;
+        end;
+      end;
+      ScriptStringFree(@saa);
+    end;
+  end
+  else
+  begin
+    GetTextExtentPoint32W(DC, Str, Count, Result);
+    if not Win32PlatformIsUnicode then
+    begin
+      GetTextMetricsA(DC, tm);
+      if tm.tmPitchAndFamily and TMPF_TRUETYPE <> 0 then
+        Result.cx := Result.cx - tm.tmOverhang
+      else
+        Result.cx := tm.tmAveCharWidth * Count;
+    end;
   end;
 end;
 
@@ -2557,13 +2666,13 @@ begin
 end;
 {$ENDIF}
 
-function IsUTF8(const FileName: WideString): Boolean;
+function IsUTF8(const FileName: WideString; out WithBOM: Boolean): Boolean;
 var
   Stream: TStream;
 begin
   Stream := TWideFileStream.Create(FileName, fmOpenRead or fmShareDenyWrite);
   try
-    Result := IsUTF8(Stream);
+    Result := IsUTF8(Stream, WithBOM);
   finally
     Stream.Free;
   end;
@@ -2571,7 +2680,7 @@ end;
 
 // checks for a BOM in UTF-8 format or searches the first 4096 bytes for
 // typical UTF-8 octet sequences
-function IsUTF8(Stream: TStream): Boolean;
+function IsUTF8(Stream: TStream; out WithBOM: Boolean): Boolean;
 const
   MinimumCountOfUTF8Strings = 1;
   MaxBufferSize = $4000;
@@ -2604,6 +2713,7 @@ begin
 
   // if no special characteristics are found it is not UTF-8
   Result := False;
+  WithBOM := False;
 
   if BufferSize > 0 then
   begin
@@ -2615,6 +2725,7 @@ begin
 
     if (BufferSize >= Length(UTF8BOM)) and CompareMem(@Buffer[0], @UTF8BOM[0], Length(UTF8BOM)) then
     begin
+      WithBOM := True;
       Result := True;
       Exit;
     end;
@@ -2636,11 +2747,9 @@ begin
         $00..$7F: // skip US-ASCII characters as they could belong to various charsets
           ;
         $C2..$DF:
-          if CountOfTrailingBytes = 1 then begin
-            inc(FoundUTF8Strings);
-            dec(FoundUTF8Strings);
-            inc(FoundUTF8Strings);
-          end else
+          if CountOfTrailingBytes = 1 then
+            inc(FoundUTF8Strings)
+          else
             Break;
         $E0:
           begin
@@ -2690,29 +2799,31 @@ begin
                    // any occurence of "orphaned" trailing bytes is invalid UTF-8
           Break;
       end;
+
       if FoundUTF8Strings = MinimumCountOfUTF8Strings then
       begin
         Result := True;
         Break;
       end;
+
       inc(i);
     end;
   end;
 end;
 
-function GetEncoding(const FileName: WideString): TSynEncoding;
+function GetEncoding(const FileName: WideString; out WithBOM: Boolean): TSynEncoding;
 var
   Stream: TStream;
 begin
   Stream := TWideFileStream.Create(FileName, fmOpenRead or fmShareDenyWrite);
   try
-    Result := GetEncoding(Stream);
+    Result := GetEncoding(Stream, WithBOM);
   finally
     Stream.Free;
   end;
 end;
 
-function GetEncoding(Stream: TStream): TSynEncoding;
+function GetEncoding(Stream: TStream; out WithBOM: Boolean): TSynEncoding;
 var
   BOM: WideChar;
   Size: Integer;
@@ -2726,7 +2837,7 @@ begin
   // if no special characteristics are found it is probably ANSI
   Result := seAnsi;
 
-  if IsUTF8(Stream) then
+  if IsUTF8(Stream, WithBOM) then
   begin
     Result := seUTF8;
     Exit;
@@ -2741,11 +2852,13 @@ begin
     if BOM = WideChar(UTF16BOMLE) then
     begin
       Result := seUTF16LE;
+      WithBOM := True;
       Exit;
     end
     else if BOM = WideChar(UTF16BOMBE) then
     begin
       Result := seUTF16BE;
+      WithBOM := True;
       Exit;
     end
   end;
@@ -2777,26 +2890,27 @@ begin
   end;
 end;
 
-function LoadFromFile(WideStrings: TWideStrings; const FileName: WideString): TSynEncoding;
+function LoadFromFile(WideStrings: TWideStrings; const FileName: WideString;
+  out WithBOM: Boolean): TSynEncoding;
 var
   Stream: TStream;
 begin
   Stream := TWideFileStream.Create(FileName, fmOpenRead or fmShareDenyWrite);
   try
-    Result := LoadFromStream(WideStrings, Stream);
+    Result := LoadFromStream(WideStrings, Stream, WithBOM);
   finally
     Stream.Free;
   end;
 end;
 
 function LoadFromFile(WideStrings: TWideStrings; const FileName: WideString;
-  Encoding: TSynEncoding): TSynEncoding;
+  Encoding: TSynEncoding; out WithBOM: Boolean): TSynEncoding;
 var
   Stream: TStream;
 begin
   Stream := TWideFileStream.Create(FileName, fmOpenRead or fmShareDenyWrite);
   try
-    Result := LoadFromStream(WideStrings, Stream, Encoding);
+    Result := LoadFromStream(WideStrings, Stream, Encoding, WithBOM);
   finally
     Stream.Free;
   end;
@@ -2854,74 +2968,80 @@ var
 begin
   // if WideStrings or Stream is nil, let Delphi raise the exception to flag the error
 
-  if WideStrings is TSynEditStringList then
-    with TSynEditStringList(WideStrings) do
-    begin
-      case FileFormat of
-        sffDos:
-          SLineBreak := WideCRLF;
-        sffUnix:
-          SLineBreak := WideLF;
-        sffMac:
-          SLineBreak := WideCR;
-        sffUnicode:
-          if Encoding = seAnsi then
-            // Ansi-file cannot contain Unicode LINE SEPARATOR,
-            // so default to platform-specific Ansi-compatible SLineBreak
-            SLineBreak := SynUnicode.SLineBreak
-          else
-            SLineBreak := WideLineSeparator;
-      end;
-      SText := GetSeparatedText(SLineBreak);
-      if AppendNewLineAtEOF then
-        SText := SText + SLineBreak;
-    end
-  else
-    SText := WideStrings.Text;
+  case WideStrings.FFileFormat of
+    sffDos:
+      SLineBreak := WideCRLF;
+    sffUnix:
+      SLineBreak := WideLF;
+    sffMac:
+      SLineBreak := WideCR;
+    sffUnicode:
+      if Encoding = seAnsi then
+        // Ansi-file cannot contain Unicode LINE SEPARATOR,
+        // so default to platform-specific Ansi-compatible SLineBreak
+        SLineBreak := SynUnicode.SLineBreak
+      else
+        SLineBreak := WideLineSeparator;
+  end;
+  SText := WideStrings.GetSeparatedText(SLineBreak);
   SaveToStream(SText, Stream, Encoding, WithBom);
 end;
 
-function LoadFromStream(WideStrings: TWideStrings; Stream: TStream): TSynEncoding;
+function LoadFromStream(WideStrings: TWideStrings; Stream: TStream;
+  out WithBOM: Boolean): TSynEncoding;
+var
+  Dummy: Boolean;
 begin
-  Result := LoadFromStream(WideStrings, Stream, GetEncoding(Stream));
+  Result := LoadFromStream(WideStrings, Stream, GetEncoding(Stream, WithBOM),
+    Dummy);
 end;
 
 function LoadFromStream(WideStrings: TWideStrings; Stream: TStream;
-  Encoding: TSynEncoding): TSynEncoding;
+  Encoding: TSynEncoding; out WithBOM: Boolean): TSynEncoding;
 var
   WideStr: WideString;
   UTF8Str: UTF8String;
   AnsiStr: AnsiString;
   Size: Integer;
 
-  procedure SkipBOM;
+  function SkipBOM: Boolean;
   var
     BOM: array of Byte;
   begin
+    Result := False;
     case Encoding of
       seUTF8:
         begin
           SetLength(BOM, Min(Length(UTF8BOM), Size));
           Stream.ReadBuffer(BOM[0], Length(BOM));
           if (Length(BOM) <> Length(UTF8BOM)) or
-          not CompareMem(@BOM[0], @UTF8BOM[0], Length(UTF8BOM)) then
-            Stream.Seek(-Length(BOM), soFromCurrent);
+            not CompareMem(@BOM[0], @UTF8BOM[0], Length(UTF8BOM))
+          then
+            Stream.Seek(-Length(BOM), soFromCurrent)
+          else
+            Result := True;
         end;
       seUTF16LE:
         begin
           SetLength(BOM, Min(Length(UTF16BOMLE), Size));
           Stream.ReadBuffer(BOM[0], Length(BOM));
           if (Length(BOM) <> Length(UTF16BOMLE)) or
-          not CompareMem(@BOM[0], @UTF16BOMLE[0], Length(UTF16BOMLE)) then
-            Stream.Seek(-Length(BOM), soFromCurrent);
+            not CompareMem(@BOM[0], @UTF16BOMLE[0], Length(UTF16BOMLE))
+          then
+            Stream.Seek(-Length(BOM), soFromCurrent)
+          else
+            Result := True;
         end;
       seUTF16BE:
         begin
           SetLength(BOM, Min(Length(UTF16BOMBE), Size));
           Stream.ReadBuffer(BOM[0], Length(BOM));
           if (Length(BOM) <> Length(UTF16BOMBE)) or
-          not CompareMem(@BOM[0], @UTF16BOMBE[0], Length(UTF16BOMBE)) then
-            Stream.Seek(-Length(BOM), soFromCurrent);
+            not CompareMem(@BOM[0], @UTF16BOMBE[0], Length(UTF16BOMBE))
+          then
+            Stream.Seek(-Length(BOM), soFromCurrent)
+          else
+            Result := True;
         end;
     end;
     Size := Stream.Size - Stream.Position;
@@ -2937,7 +3057,7 @@ begin
     Size := Stream.Size - Stream.Position;
 
     // skip BOM, if it exists
-    SkipBOM;
+    WithBOM := SkipBOM;
 
     case Result of
       seUTF8:
@@ -3475,3 +3595,4 @@ initialization
 {$ENDIF}
 
 end.
+

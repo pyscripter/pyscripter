@@ -13,7 +13,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, Buttons, JvComponent, JvInspector, JvExControls,
-  ExtCtrls, JvComponentBase;
+  ExtCtrls, JvComponentBase, TBXDkPanels, SpTBXControls, dlgPyIDEBase;
 
 type
 
@@ -27,14 +27,13 @@ type
     Options : array of TOption;
   end;
 
-  TOptionsInspector = class(TForm)
-    Panel1: TPanel;
+  TOptionsInspector = class(TPyIDEDlgBase)
+    Panel1: TSpTBXPanel;
     Inspector: TJvInspector;
-    JvInspectorDotNETPainter1: TJvInspectorDotNETPainter;
-    Panel2: TPanel;
-    OKButton: TBitBtn;
-    BitBtn2: TBitBtn;
-    HelpButton: TBitBtn;
+    Panel2: TSpTBXPanel;
+    OKButton: TSpTBXButton;
+    BitBtn2: TSpTBXButton;
+    HelpButton: TSpTBXButton;
     procedure OKButtonClick(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure HelpButtonClick(Sender: TObject);

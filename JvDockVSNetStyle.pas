@@ -1392,7 +1392,7 @@ var
   Pane: TJvDockVSPane;
 begin
   Pane := FindPane(Control);
-  if Assigned(Pane) then 
+  if Assigned(Pane) then
     HidePopupPanel(Pane);
 end;
 

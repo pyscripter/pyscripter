@@ -85,7 +85,8 @@ uses
   SynEditKeyCmds,
 {$ENDIF}
   Classes,
-  SysUtils, SpTBXControls, TBXDkPanels;
+  SysUtils, SpTBXControls, TBXDkPanels, TntStdCtrls, 
+  SpTBXEditors, TntComCtrls, dlgPyIDEBase;
 
 type
 {$IFNDEF SYN_DELPHI_4_UP}
@@ -108,57 +109,31 @@ type
 
   TSynEditorOptionsContainer = class;
 
-  TfmEditorOptionsDialog = class(TForm)
+  TfmEditorOptionsDialog = class(TPyIDEDlgBase)
     PageControl1: TPageControl;
     Display: TTabSheet;
     Options: TTabSheet;
     Keystrokes: TTabSheet;
-    gbBookmarks: TGroupBox;
-    gbLineSpacing: TGroupBox;
-    eLineSpacing: TEdit;
-    gbGutter: TGroupBox;
-    Label1: TLabel;
-    gbRightEdge: TGroupBox;
-    Label3: TLabel;
-    eRightEdge: TEdit;
-    gbEditorFont: TGroupBox;
-    gbOptions: TGroupBox;
-    gbCaret: TGroupBox;
-    cInsertCaret: TComboBox;
-    Label2: TLabel;
-    Label4: TLabel;
-    cOverwriteCaret: TComboBox;
-    Panel3: TPanel;
-    labFont: TLabel;
+    gbBookmarks: TSpTBXGroupBox;
+    gbLineSpacing: TSpTBXGroupBox;
+    gbGutter: TSpTBXGroupBox;
+    gbRightEdge: TSpTBXGroupBox;
+    gbEditorFont: TSpTBXGroupBox;
+    gbOptions: TSpTBXGroupBox;
+    gbCaret: TSpTBXGroupBox;
+    Panel3: TSpTBXPanel;
     FontDialog: TFontDialog;
-    gbKeyStrokes: TGroupBox;
-    Label5: TLabel;
-    Label6: TLabel;
-    Label7: TLabel;
-    cKeyCommand: TComboBox;
-    eTabWidth: TEdit;
-    Label8: TLabel;
-    Label9: TLabel;
-    Label10: TLabel;
-    pnlGutterFontDisplay: TPanel;
-    lblGutterFont: TLabel;
-    pnlCommands: TPanel;
-    KeyList: TListView;
+    gbKeyStrokes: TSpTBXGroupBox;
+    pnlGutterFontDisplay: TSpTBXPanel;
+    pnlCommands: TSpTBXPanel;
     Color: TTabSheet;
-    Label11: TLabel;
-    lbElements: TListBox;
-    Label12: TLabel;
     cbElementForeground: TColorBox;
-    Label13: TLabel;
     cbElementBackground: TColorBox;
-    GroupBox1: TGroupBox;
+    GroupBox1: TSpTBXGroupBox;
     SynEdit1: TSynEdit;
-    Label14: TLabel;
-    Label15: TLabel;
-    cbHighlighters: TComboBox;
     cbRightEdgeColor: TColorBox;
     cbGutterColor: TColorBox;
-    GroupBox2: TGroupBox;
+    GroupBox2: TSpTBXGroupBox;
     cbActiveLineColor: TColorBox;
     btnGutterFont: TSpTBXButton;
     btnFont: TSpTBXButton;
@@ -206,6 +181,32 @@ type
     cbxElementUnderline: TSpTBXCheckBox;
     cbxElementStrikeout: TSpTBXCheckBox;
     cbApplyToAll: TSpTBXCheckBox;
+    Label3: TSpTBXLabel;
+    Label10: TSpTBXLabel;
+    Label1: TSpTBXLabel;
+    lblGutterFont: TSpTBXLabel;
+    labFont: TSpTBXLabel;
+    Label8: TSpTBXLabel;
+    Label9: TSpTBXLabel;
+    Label2: TSpTBXLabel;
+    Label4: TSpTBXLabel;
+    Label5: TSpTBXLabel;
+    Label6: TSpTBXLabel;
+    Label7: TSpTBXLabel;
+    Label11: TSpTBXLabel;
+    Label12: TSpTBXLabel;
+    Label13: TSpTBXLabel;
+    Label14: TSpTBXLabel;
+    Label15: TSpTBXLabel;
+    cInsertCaret: TSpTBXComboBox;
+    cOverwriteCaret: TSpTBXComboBox;
+    cKeyCommand: TSpTBXComboBox;
+    cbHighlighters: TSpTBXComboBox;
+    eRightEdge: TSpTBXEdit;
+    eLineSpacing: TSpTBXEdit;
+    eTabWidth: TSpTBXEdit;
+    lbElements: TSpTBXListBox;
+    KeyList: TTntListView;
     procedure SynEdit1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnFontClick(Sender: TObject);
@@ -383,7 +384,7 @@ uses
 {$IFDEF SYN_CLX}
   QSynEditKeyConst;
 {$ELSE}
-  SynEditKeyConst, uCommonFunctions;
+  SynEditKeyConst, uCommonFunctions, gnugettext, StringResources;
 {$ENDIF}
 
 function SortByColumn(Item1, Item2: TListItem; Data: integer): integer; stdcall;
@@ -461,7 +462,7 @@ begin
                  wInternalSynH := wSynHClass.Create(nil);
                  wInternalSynH.assign(wHighlighter);
                  fHighlighters.add(wInternalSynH);
-                 FForm.cbHighlighters.Items.AddObject(wInternalSynH.LanguageName, wInternalSynH);
+                 FForm.cbHighlighters.Items.AddObject(wInternalSynH.FriendlyLanguageName, wInternalSynH);
               end;
            end;
         end;
@@ -865,6 +866,7 @@ end;
 
 procedure TfmEditorOptionsDialog.FormCreate(Sender: TObject);
 begin
+  inherited;
   FHandleChanges := True;  //Normally true, can prevent unwanted execution of event handlers
 
   {$IFDEF SYN_COMPILER_4_UP}
@@ -881,7 +883,7 @@ begin
   with eKeyShort1 do
   begin
     Parent := gbKeystrokes;
-    Left := 120;
+    Left := 154;
     Top := 55;
     Width := 185;
     Height := 21;
@@ -895,7 +897,7 @@ begin
   with eKeyShort2 do
   begin
     Parent := gbKeystrokes;
-    Left := 120;
+    Left := 154;
     Top := 87;
     Width := 185;
     Height := 21;
@@ -954,6 +956,7 @@ var
   OldShortcut  : TShortcut;
   OldShortcut2 : TShortcut;
   Key : TSynEditKeyStroke;
+  S : string;
 begin
 //  if (KeyList.Selected = nil) and (Sender <> btnAddKey) then
 //  begin
@@ -971,9 +974,10 @@ begin
     UpdateKey(Key);
   except
      on E: ESynKeyError do begin
+       S := _(SDuplicateKey);
        Key.ShortCut := OldShortcut;
        Key.ShortCut2 := OldShortcut2;
-       MessageBox(0, PChar(E.Message), 'Duplicate Key', MB_ICONERROR or MB_OK);
+       MessageBox(0, PChar(E.Message), PChar(S), MB_ICONERROR or MB_OK);
      end;
   end;
 //  Cmd := Integer(cKeyCommand.Items.Objects[cKeyCommand.ItemIndex]);
@@ -990,7 +994,9 @@ begin
 end;
 
 procedure TfmEditorOptionsDialog.btnAddKeyClick(Sender: TObject);
-var Item : TListItem;
+var
+  Item : TListItem;
+  S : String;
 begin
   Item:= KeyList.Items.Add;
   try
@@ -1000,7 +1006,8 @@ begin
     Item.Selected:= True;
   except
      on E: ESynKeyError do begin
-       MessageBox(0, PChar(E.Message), 'Duplicate Key', MB_ICONERROR or MB_OK);
+       S := _(SDuplicateKey);
+       MessageBox(0, PChar(E.Message), PChar(S), MB_ICONERROR or MB_OK);
        TSynEditKeyStroke(Item.Data).Free;
        Item.Delete;
      end;

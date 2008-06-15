@@ -21,7 +21,7 @@ located at http://jvcl.sourceforge.net
 
 Known Issues:
 -----------------------------------------------------------------------------}
-// $Id: JvDockVIDStyle.pas 11382 2007-06-24 12:09:45Z ahuser $
+// $Id$
 
 unit JvDockVIDStyle;
 
@@ -591,9 +591,9 @@ procedure PaintGradientBackground(Canvas: TCanvas; ARect: TRect; StartColor, End
 {$IFDEF UNITVERSIONING}
 const
   UnitVersioning: TUnitVersionInfo = (
-    RCSfile: '$URL: https://jvcl.svn.sourceforge.net/svnroot/jvcl/branches/JVCL3_33_PREPARATION/run/JvDockVIDStyle.pas $';
-    Revision: '$Revision: 11382 $';
-    Date: '$Date: 2007-06-24 14:09:45 +0200 (dim., 24 juin 2007) $';
+    RCSfile: '$URL$';
+    Revision: '$Revision$';
+    Date: '$Date$';
     LogPath: 'JVCL\run'
   );
 {$ENDIF UNITVERSIONING}
@@ -1045,13 +1045,12 @@ begin
                 else
                   Source.Control.ManualDock(TJvDockTabHostForm(Host).PageControl, nil, alClient);
               end;
-              Host.Visible := True;
-              //KV
               if not JvGlobalDockIsLoading and
                 (TJvDockTabHostForm(Host).GetActiveDockForm <> nil) and
                 GetParentForm(Host).Visible and
                 TJvDockTabHostForm(Host).GetActiveDockForm.CanFocus then
                    TJvDockTabHostForm(Host).GetActiveDockForm.SetFocus;
+              Host.Visible := True;
             end;
           end;
         end
@@ -1143,8 +1142,8 @@ begin
     {$ENDIF !COMPILER9_UP}
     if (Source.Control is TWinControl) and TWinControl(Source.Control).CanFocus then
       TWinControl(Source.Control).SetFocus;
-    //KV
-    if (ControlCount > 0) and Assigned(Controls[0]) and (Controls[0] is TJvDockTabHostForm) then begin
+    if (ControlCount > 0) and Assigned(Controls[0]) and (Controls[0] is TJvDockTabHostForm) then 
+    begin
       with TJvDockTabHostForm(Controls[0]) do
         if (GetActiveDockForm <> nil) and GetActiveDockForm.CanFocus then
           GetActiveDockForm.SetFocus;
@@ -2607,13 +2606,13 @@ begin
     end;
   end;
   FPanel.SelectSheet := nil;
-  ParentForm.Caption := ActivePage.Caption;
-  //KV
   with ActivePage do
-    if not JvGlobalDockIsLoading and (ControlCount > 0) and Assigned(Controls[0]) then begin
+    if not JvGlobalDockIsLoading and (ControlCount > 0) and Assigned(Controls[0]) then 
+    begin
       if Visible and (Controls[0] <> nil) and (Controls[0] as TWinControl).CanFocus then
           (Controls[0] as TWinControl).SetFocus;
     end;
+  ParentForm.Caption := ActivePage.Caption;
 end;
 
 procedure TJvDockVIDTabPageControl.CustomDockOver(Source: TJvDockDragDockObject;
@@ -3298,7 +3297,8 @@ begin
     if Assigned(Page.ActivePage) and Page.ActivePage.CanFocus then
     begin
       AParentForm := GetParentForm(Page);
-      if Assigned(AParentForm) then begin
+      if Assigned(AParentForm) then 
+      begin
         Page.SelectFirst;
         AParentForm.SetFocus;
       end;

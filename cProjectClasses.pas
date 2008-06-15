@@ -10,7 +10,8 @@ unit cProjectClasses;
 interface
 
 uses
-  SysUtils, Classes, Contnrs, JvAppStorage, cPyBaseDebugger;
+  SysUtils, Classes, Contnrs, JvAppStorage, cPyBaseDebugger, VirtualFileSearch, WideStrings,
+  MPCommonObjects;
 
 type
   TAbstractProjectNode = class;
@@ -56,18 +57,20 @@ type
 
   TProjectRootNode = class(TAbstractProjectNode)
   private
-    fFileName: string;
+    fFileName: WideString;
     fStoreRelativePaths : Boolean;
+    fShowFileExtensions : Boolean;
     function GetName: WideString;
   protected
     function GetCaption: WideString; override;
   public
     constructor Create; override;
-    function HasFile(FileName : WideString) : Boolean;
+    function HasFile(const FileName : WideString) : Boolean;
     property Name : WideString read GetName;
-    property FileName : string read fFileName write fFileName;
+    property FileName : WideString read fFileName write fFileName;
   published
     property StoreRelativePaths : Boolean read fStoreRelativePaths write fStoreRelativePaths;
+    property ShowFileExtensions : Boolean read fShowFileExtensions write fShowFileExtensions;
   end;
 
   TProjectFileNode = class;
@@ -82,7 +85,7 @@ type
     function GetCaption: WideString; override;
   public
     procedure SortChildren; override;
-    procedure ImportDirectory(Directory, Mask : string; Recursive : Boolean);
+    procedure ImportDirectory(const Directory, Masks : WideString; Recursive : Boolean);
     property  FileChild[FileName : WideString] : TProjectFileNode read GetFileChild;
     property  FolderChild[FolderName : WideString] : TProjectFolderNode read GetFolderChild;
   end;
@@ -137,7 +140,7 @@ Var
 implementation
 
 uses
-  JclFileUtils, cParameters;
+  cParameters, Forms, TntSysUtils, MPCommonUtilities, uCommonFunctions;
 
 { TAbstractProjectNode }
 
@@ -321,7 +324,7 @@ end;
 function TProjectRootNode.GetName: WideString;
 begin
   if fFileName <> '' then
-    Result := PathRemoveExtension(ExtractFileName(fFileName))
+    Result := WideStripExt(WideExtractFileName(fFileName))
   else
     Result := 'Untitled';
 end;
@@ -335,7 +338,7 @@ begin
     Result := True;
 end;
 
-function TProjectRootNode.HasFile(FileName: WideString): Boolean;
+function TProjectRootNode.HasFile(const FileName: WideString): Boolean;
 begin
   Result := FirstThat(NodeHasFile, PWideChar(FileName)) <> nil;
 end;
@@ -403,49 +406,60 @@ begin
   end;
 end;
 
-procedure TProjectFilesNode.ImportDirectory(Directory, Mask: string;
+procedure TProjectFilesNode.ImportDirectory(const Directory, Masks: WideString;
   Recursive: Boolean);
 Var
-  FileList: TStringList;
+  FileList: TWideStringList;
   i : integer;
   FileNode : TProjectFileNode;
   FolderNode : TProjectFolderNode;
   FolderName : WideString;
+  FileName : WideString;
 begin
-  FileList := TStringList.Create;
+  FolderName := ExtractFileName(Directory);
+  if (FolderName = '.') or (FolderName = '..') then
+    Exit;
+
+  FolderNode := FolderChild[FolderName];
+  if not Assigned(FolderNode) then begin
+    FolderNode := TProjectFolderNode.Create;
+    FolderNode.fName := FolderName;
+    AddChild(FolderNode);
+  end;
+
+  FileList := TWideStringList.Create;
   try
-    AdvBuildFileList(PathAddSeparator(Directory)+Mask, faReadOnly or faArchive,
-      FileList, amSuperSetOf, [flFullNames]);
+    BuildFileList(Directory, Masks, FileList, False,
+    [vsaArchive, vsaCompressed, vsaEncrypted, vsaNormal, vsaOffline, vsaReadOnly],
+    [vsaDirectory, vsaHidden, vsaSystem, vsaTemporary]);
     for i := 0 to FileList.Count - 1 do begin
-      if not Assigned(FileChild[FileList[i]]) then begin
+      FileName := FileList[i];
+      if not Assigned(FileChild[FileName]) then begin
         FileNode := TProjectFileNode.Create;
-        FileNode.fFileName := FileList[i];
-        AddChild(FileNode);
+        FileNode.fFileName := FileName;
+        FolderNode.AddChild(FileNode);
       end;
     end;
 
     if Recursive then begin
       FileList.Clear;
-      AdvBuildFileList(PathAddSeparator(Directory)+'*.*', faDirectory,
-        FileList, amSubSetOf, [flFullNames]);
+      BuildFileList(Directory, '*.*', FileList, False,
+      [vsaDirectory],
+      [vsaHidden, vsaSystem, vsaTemporary]);
       for i := 0 to FileList.Count - 1 do begin
-        FolderName := ExtractFileName(FileList[i]);
+        FolderName := FileList[i];
         if (FolderName = '.') or (FolderName = '..') then
           continue;
-        FolderNode := FolderChild[FolderName];
-        if not Assigned(FolderNode) then begin
-          FolderNode := TProjectFolderNode.Create;
-          FolderNode.fName := FolderName;
-          AddChild(FolderNode);
-        end;
-        FolderNode.ImportDirectory(FileList[i], Mask, Recursive);
-        if FolderNode.Children.Count = 0 then
-          FolderNode.Free;  //Delete empty nodes
+        FolderNode.ImportDirectory(FolderName, Masks, Recursive);
       end;
     end;
+
   finally
     FileList.Free;
   end;
+
+  if FolderNode.Children.Count = 0 then
+    FolderNode.Free;  //Delete empty nodes
 end;
 
 procedure TProjectFilesNode.SortChildren;
@@ -469,9 +483,11 @@ end;
 
 function TProjectFileNode.GetName: WideString;
 begin
-  if fFileName <> '' then
-    Result := PathRemoveExtension(ExtractFileName(Parameters.ReplaceInText(fFileName)))
-  else
+  if fFileName <> '' then  begin
+    Result := WideExtractFileName(Parameters.ReplaceInText(fFileName));
+    if not ActiveProject.ShowFileExtensions then
+      Result := WideStripExt(Result);
+  end else
     Result := 'Untitled';
 end;
 

@@ -2,7 +2,7 @@
  Unit Name: frmRegExpTester
  Author:    Kiriakos Vlahos
  Date:      08-Dec-2005
- Purpose:   Integrated regular expression development and testing 
+ Purpose:   Integrated regular expression development and testing
  History:
 -----------------------------------------------------------------------------}
 
@@ -13,13 +13,13 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, frmIDEDockWin, JvComponent, JvDockControlForm, ExtCtrls, StdCtrls,
-  JvExStdCtrls, JvRichEdit, mbTBXJvRichEdit, VirtualTrees, TBXDkPanels, TB2Item,
-  TBX, TBXThemes, TB2Dock, TB2Toolbar, TBXStatusBars, JvAppStorage,
-  JvComponentBase, SpTBXItem;
+  VirtualTrees, TBXDkPanels, TB2Item,
+  TBX, TBXThemes, TB2Dock, TB2Toolbar, JvAppStorage,
+  JvComponentBase, SpTBXItem, SpTBXDkPanels, ComCtrls, TntComCtrls,
+  SpTBXControls;
 
 type
   TRegExpTesterWindow = class(TIDEDockWindow, IJvAppStorageHandler)
-    StatusBar: TTBXStatusBar;
     TBXDock: TSpTBXDock;
     RegExpTesterToolbar: TSpTBXToolbar;
     TBXSubmenuItem2: TSpTBXSubmenuItem;
@@ -29,19 +29,7 @@ type
     CI_MULTILINE: TSpTBXItem;
     TBXSeparatorItem1: TSpTBXSeparatorItem;
     TIExecute: TSpTBXItem;
-    TBXMultiDock: TTBXMultiDock;
-    TBXDockablePanel4: TTBXDockablePanel;
-    TBXLabel1: TTBXLabel;
-    GroupsView: TVirtualStringTree;
-    TBXDockablePanel3: TTBXDockablePanel;
-    TBXLabel2: TTBXLabel;
-    MatchText: TmbTBXJvRichEdit;
-    TBXDockablePanel1: TTBXDockablePanel;
-    TBXLabel3: TTBXLabel;
-    RegExpText: TmbTBXJvRichEdit;
-    TBXDockablePanel2: TTBXDockablePanel;
-    TBXLabel4: TTBXLabel;
-    SearchText: TmbTBXJvRichEdit;
+    TBXMultiDock: TSpTBXMultiDock;
     TBXSeparatorItem2: TSpTBXSeparatorItem;
     CI_UNICODE: TSpTBXItem;
     CI_VERBOSE: TSpTBXItem;
@@ -52,6 +40,23 @@ type
     TiClear: TSpTBXItem;
     TBXSeparatorItem4: TSpTBXSeparatorItem;
     CI_AutoExecute: TSpTBXItem;
+    StatusBar: TSpTBXStatusBar;
+    lbStatusBar: TSpTBXLabelItem;
+    TBXDockablePanel1: TSpTBXDockablePanel;
+    TBXLabel3: TTBXLabel;
+    TBXDockablePanel4: TSpTBXDockablePanel;
+    TBXLabel1: TTBXLabel;
+    GroupsView: TVirtualStringTree;
+    TBXDockablePanel3: TSpTBXDockablePanel;
+    TBXLabel2: TTBXLabel;
+    TBXDockablePanel2: TSpTBXDockablePanel;
+    TBXLabel4: TTBXLabel;
+    SpTBXPanel1: TSpTBXPanel;
+    RegExpText: TTntRichEdit;
+    SpTBXPanel2: TSpTBXPanel;
+    SearchText: TTntRichEdit;
+    SpTBXPanel3: TSpTBXPanel;
+    MatchText: TTntRichEdit;
     procedure TiClearClick(Sender: TObject);
     procedure GroupsViewGetText(Sender: TBaseVirtualTree; Node: PVirtualNode;
       Column: TColumnIndex; TextType: TVSTTextType; var CellText: WideString);
@@ -192,7 +197,7 @@ begin
     RegExp := re.compile(RegExpText.Text, Flags);
   except
     on E: Exception do begin
-      with StatusBar.Panels[0] do begin
+      with lbStatusBar do begin
         ImageIndex := 21;
         Caption := E.Message;
       end;
@@ -209,7 +214,7 @@ begin
       MatchObject := RegExp.match(SearchText.Text);
   except
     on E: Exception do begin
-      with StatusBar.Panels[0] do begin
+      with lbStatusBar do begin
         ImageIndex := 21;
         Caption := E.Message;
       end;
@@ -219,12 +224,12 @@ begin
   end;
 
   if (not VarIsPython(MatchObject)) or VarIsNone(MatchObject) then begin
-    with StatusBar.Panels[0] do begin
+    with lbStatusBar do begin
       ImageIndex := 21;
       Caption := 'Search text did not match';
     end;
   end else begin
-    with StatusBar.Panels[0] do begin
+    with lbStatusBar do begin
       ImageIndex := 20;
       Caption := 'Search text matched';
     end;
@@ -275,7 +280,7 @@ begin
   GroupsView.Clear;
   VarClear(RegExp);
   VarClear(MatchObject);
-  with StatusBar.Panels[0] do begin
+  with lbStatusBar do begin
     ImageIndex := 21;
     Caption := 'Not executed';
   end;

@@ -4,25 +4,25 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, Mask, JvExMask, JvToolEdit, ExtCtrls;
+  Dialogs, StdCtrls, Mask, JvExMask, JvToolEdit, ExtCtrls, TBXDkPanels,
+  SpTBXControls, dlgPyIDEBase;
 
 type
-  TImportDirectoryForm = class(TForm)
-    Panel1: TPanel;
-    Label1: TLabel;
+  TImportDirectoryForm = class(TPyIDEDlgBase)
+    Panel1: TSpTBXPanel;
     DirectoryEdit: TJvDirectoryEdit;
-    Label2: TLabel;
     ebMask: TEdit;
-    Button1: TButton;
-    Button2: TButton;
     cbRecursive: TCheckBox;
-    procedure FormCreate(Sender: TObject);
+    Label1: TSpTBXLabel;
+    Label2: TSpTBXLabel;
+    Button1: TSpTBXButton;
+    Button2: TSpTBXButton;
   private
     { Private declarations }
   public
     { Public declarations }
     class var
-      FileMask : string;
+      FileMasks : string;
       Directory : string;
       Recursive : Boolean;
     class function Execute: Boolean;
@@ -31,7 +31,7 @@ type
 
 implementation
 
-uses uCommonFunctions;
+uses uCommonFunctions, dmCommands, uHighlighterProcs;
 
 {$R *.dfm}
 
@@ -49,23 +49,18 @@ begin
     Result := False;
     DirectoryEdit.InitialDir := Directory;
     DirectoryEdit.Text := Directory;
-    ebMask.Text := FileMask;
+    ebMask.Text := FileMasks;
     cbRecursive.Checked := Recursive;
     if ShowModal = mrOK then begin
       Result := True;
-      FileMask := ebMask.Text;
+      FileMasks := ebMask.Text;
       Directory := DirectoryEdit.Text;
       Recursive := cbRecursive.Checked;
     end;
   end;
 end;
 
-procedure TImportDirectoryForm.FormCreate(Sender: TObject);
-begin
-  SetDesktopIconFonts(Font);
-end;
-
 initialization
-  TImportDirectoryForm.FileMask := '*.py';
+  TImportDirectoryForm.FileMasks := '*.py;*.pyw';
   TImportDirectoryForm.Recursive := True;
 end.

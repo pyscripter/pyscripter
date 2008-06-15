@@ -1,83 +1,28 @@
-object fmToDoOptions: TfmToDoOptions
+inherited fmToDoOptions: TfmToDoOptions
   Left = 347
   Top = 241
   HelpContext = 465
-  ActiveControl = lstTokens
-  BorderStyle = bsDialog
   Caption = 'To Do Options'
   ClientHeight = 270
   ClientWidth = 512
-  Color = clBtnFace
-  Font.Charset = DEFAULT_CHARSET
-  Font.Color = clWindowText
-  Font.Height = -11
-  Font.Name = 'MS Sans Serif'
-  Font.Style = []
+  Font.Name = 'MS Shell Dlg 2'
   OldCreateOrder = True
   Position = poScreenCenter
   Scaled = False
-  OnCreate = FormCreate
   OnShow = FormShow
   DesignSize = (
     512
     270)
   PixelsPerInch = 96
   TextHeight = 13
-  object gbxTokens: TGroupBox
+  object gbxTokens: TSpTBXGroupBox
     Left = 8
     Top = 6
     Width = 233
     Height = 256
     Caption = 'To Do Tokens'
+    ThemeType = thtWindows
     TabOrder = 0
-    object lblPriority: TLabel
-      Left = 131
-      Top = 185
-      Width = 31
-      Height = 13
-      Caption = '&Priority'
-      FocusControl = cboPriority
-    end
-    object lblToken: TLabel
-      Left = 131
-      Top = 139
-      Width = 31
-      Height = 13
-      Caption = 'To&ken'
-      FocusControl = edToken
-    end
-    object lstTokens: TListBox
-      Left = 8
-      Top = 19
-      Width = 118
-      Height = 228
-      ItemHeight = 13
-      Sorted = True
-      TabOrder = 0
-      OnClick = lstTokensClick
-    end
-    object edToken: TEdit
-      Left = 131
-      Top = 155
-      Width = 96
-      Height = 21
-      TabOrder = 4
-      OnChange = edTokenChange
-    end
-    object cboPriority: TComboBox
-      Left = 131
-      Top = 203
-      Width = 96
-      Height = 21
-      Style = csDropDownList
-      ItemHeight = 13
-      TabOrder = 5
-      OnChange = cboPriorityChange
-      Items.Strings = (
-        'High'
-        'Normal'
-        'Low')
-    end
     object btnInsert: TSpTBXButton
       Left = 140
       Top = 30
@@ -89,7 +34,7 @@ object fmToDoOptions: TfmToDoOptions
       LinkFont.Charset = DEFAULT_CHARSET
       LinkFont.Color = clBlue
       LinkFont.Height = -11
-      LinkFont.Name = 'Tahoma'
+      LinkFont.Name = 'MS Shell Dlg 2'
       LinkFont.Style = [fsUnderline]
     end
     object btnApply: TSpTBXButton
@@ -103,7 +48,7 @@ object fmToDoOptions: TfmToDoOptions
       LinkFont.Charset = DEFAULT_CHARSET
       LinkFont.Color = clBlue
       LinkFont.Height = -11
-      LinkFont.Name = 'Tahoma'
+      LinkFont.Name = 'MS Shell Dlg 2'
       LinkFont.Style = [fsUnderline]
     end
     object btnRemove: TSpTBXButton
@@ -117,16 +62,81 @@ object fmToDoOptions: TfmToDoOptions
       LinkFont.Charset = DEFAULT_CHARSET
       LinkFont.Color = clBlue
       LinkFont.Height = -11
-      LinkFont.Name = 'Tahoma'
+      LinkFont.Name = 'MS Shell Dlg 2'
+      LinkFont.Style = [fsUnderline]
+    end
+    object lstTokens: TSpTBXListBox
+      Left = 7
+      Top = 20
+      Width = 118
+      Height = 228
+      Style = lbStandard
+      ItemHeight = 13
+      Sorted = True
+      TabOrder = 0
+      OnClick = lstTokensClick
+      ThemeType = thtWindows
+    end
+    object edToken: TSpTBXEdit
+      Left = 131
+      Top = 155
+      Width = 96
+      Height = 21
+      TabOrder = 4
+      OnChange = edTokenChange
+      ThemeType = thtWindows
+    end
+    object cboPriority: TSpTBXComboBox
+      Left = 131
+      Top = 203
+      Width = 96
+      Height = 21
+      Style = csDropDownList
+      ItemHeight = 13
+      TabOrder = 5
+      OnChange = cboPriorityChange
+      Items.Strings = (
+        'High'
+        'Normal'
+        'Low')
+      ThemeType = thtWindows
+    end
+    object lblPriority: TSpTBXLabel
+      Left = 131
+      Top = 185
+      Width = 34
+      Height = 13
+      Caption = '&Priority'
+      ParentColor = True
+      FocusControl = cboPriority
+      LinkFont.Charset = DEFAULT_CHARSET
+      LinkFont.Color = clBlue
+      LinkFont.Height = -11
+      LinkFont.Name = 'MS Shell Dlg 2'
+      LinkFont.Style = [fsUnderline]
+    end
+    object lblToken: TSpTBXLabel
+      Left = 131
+      Top = 139
+      Width = 29
+      Height = 13
+      Caption = 'To&ken'
+      ParentColor = True
+      FocusControl = edToken
+      LinkFont.Charset = DEFAULT_CHARSET
+      LinkFont.Color = clBlue
+      LinkFont.Height = -11
+      LinkFont.Name = 'MS Shell Dlg 2'
       LinkFont.Style = [fsUnderline]
     end
   end
-  object gbxOptions: TGroupBox
+  object gbxOptions: TSpTBXGroupBox
     Left = 251
     Top = 7
     Width = 253
     Height = 48
     Caption = 'Options'
+    ThemeType = thtWindows
     TabOrder = 1
     object cbShowTokens: TSpTBXCheckBox
       Left = 8
@@ -139,22 +149,14 @@ object fmToDoOptions: TfmToDoOptions
       ThemeType = thtWindows
     end
   end
-  object gbxSearchFiles: TGroupBox
+  object gbxSearchFiles: TSpTBXGroupBox
     Left = 251
     Top = 62
     Width = 253
-    Height = 168
+    Height = 171
     Caption = 'Search for To Do Tokens'
+    ThemeType = thtWindows
     TabOrder = 2
-    object meDirectories: TMemo
-      Left = 9
-      Top = 72
-      Width = 208
-      Height = 64
-      ScrollBars = ssBoth
-      TabOrder = 4
-      WordWrap = False
-    end
     object btnBrowse: TSpTBXButton
       Left = 223
       Top = 72
@@ -169,13 +171,13 @@ object fmToDoOptions: TfmToDoOptions
       LinkFont.Charset = DEFAULT_CHARSET
       LinkFont.Color = clBlue
       LinkFont.Height = -11
-      LinkFont.Name = 'Tahoma'
+      LinkFont.Name = 'MS Shell Dlg 2'
       LinkFont.Style = [fsUnderline]
     end
     object chkInclude: TSpTBXCheckBox
       Left = 8
-      Top = 142
-      Width = 121
+      Top = 150
+      Width = 123
       Height = 15
       Caption = 'Include su&bdirectories'
       ParentColor = True
@@ -185,7 +187,7 @@ object fmToDoOptions: TfmToDoOptions
     object radScanOpen: TSpTBXRadioButton
       Left = 6
       Top = 17
-      Width = 91
+      Width = 90
       Height = 15
       Caption = 'Scan &open files'
       ParentColor = True
@@ -209,7 +211,7 @@ object fmToDoOptions: TfmToDoOptions
     object radScanProject: TSpTBXRadioButton
       Left = 6
       Top = 34
-      Width = 99
+      Width = 100
       Height = 15
       Caption = 'Scan &project files'
       ParentColor = True
@@ -218,19 +220,29 @@ object fmToDoOptions: TfmToDoOptions
       OnClick = radScanDirClick
       ThemeType = thtWindows
     end
+    object meDirectories: TTntRichEdit
+      Left = 9
+      Top = 72
+      Width = 208
+      Height = 72
+      PlainText = True
+      ScrollBars = ssBoth
+      TabOrder = 4
+      WordWrap = False
+    end
   end
   object btnOK: TSpTBXButton
     Left = 254
     Top = 238
     Width = 80
     Height = 26
-    Caption = 'OK'
+    Caption = '&OK'
     TabOrder = 3
     Default = True
     LinkFont.Charset = DEFAULT_CHARSET
     LinkFont.Color = clBlue
     LinkFont.Height = -11
-    LinkFont.Name = 'Tahoma'
+    LinkFont.Name = 'MS Shell Dlg 2'
     LinkFont.Style = [fsUnderline]
     ModalResult = 1
   end
@@ -239,13 +251,13 @@ object fmToDoOptions: TfmToDoOptions
     Top = 238
     Width = 80
     Height = 26
-    Caption = 'Cancel'
+    Caption = '&Cancel'
     TabOrder = 4
     Cancel = True
     LinkFont.Charset = DEFAULT_CHARSET
     LinkFont.Color = clBlue
     LinkFont.Height = -11
-    LinkFont.Name = 'Tahoma'
+    LinkFont.Name = 'MS Shell Dlg 2'
     LinkFont.Style = [fsUnderline]
     ModalResult = 2
   end
@@ -261,7 +273,7 @@ object fmToDoOptions: TfmToDoOptions
     LinkFont.Charset = DEFAULT_CHARSET
     LinkFont.Color = clBlue
     LinkFont.Height = -11
-    LinkFont.Name = 'Tahoma'
+    LinkFont.Name = 'MS Shell Dlg 2'
     LinkFont.Style = [fsUnderline]
   end
 end

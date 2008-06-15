@@ -30,18 +30,19 @@ interface
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, AppEvnts,
-  JclSysUtils, JclMapi, JclDebug, TBXDkPanels, SpTBXControls;
+  JclSysUtils, JclMapi, JclDebug, TBXDkPanels, SpTBXControls, TntStdCtrls, 
+  dlgPyIDEBase;
 
 const
   UM_CREATEDETAILS = WM_USER + $100;
 
 type
-  TExceptionDialogMail = class(TForm)
+  TExceptionDialogMail = class(TPyIDEDlgBase)
     SendBtn: TSpTBXButton;
-    TextLabel: TMemo;
     OkBtn: TSpTBXButton;
     DetailsBtn: TSpTBXButton;
     BevelDetails: TBevel;
+    TextLabel: TTntMemo;
     DetailsMemo: TMemo;
     procedure SendBtnClick(Sender: TObject);
     procedure FormPaint(Sender: TObject);
@@ -472,6 +473,7 @@ end;
 
 procedure TExceptionDialogMail.FormCreate(Sender: TObject);
 begin
+  inherited;
   FSimpleLog := TJclSimpleLog.Create('filename.log');
   FFullHeight := ClientHeight;
   DetailsVisible := False;

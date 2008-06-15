@@ -40,7 +40,7 @@ type
 implementation
 
 uses VarPyth, PythonEngine, dmCommands, uCommonFunctions,
-  JvJVCLUtils, cPyBaseDebugger, cPyDebugger;
+  JvJVCLUtils, cPyBaseDebugger, cPyDebugger, gnugettext, StringResources;
 
 {$R *.dfm}
 
@@ -93,7 +93,7 @@ end;
 
 function TDisView.GetHint: string;
 begin
-  Result := 'Disassembly|Disassembly View';
+  Result := _(SDisassemblyHint);
 end;
 
 function TDisView.GetImageIndex: integer;
@@ -103,7 +103,7 @@ end;
 
 function TDisView.GetMenuCaption: string;
 begin
-  Result := 'Dis&assembly'
+  Result := _(SDisassembly);
 end;
 
 function TDisView.GetName: string;
@@ -118,7 +118,7 @@ end;
 
 function TDisView.GetTabCaption: string;
 begin
-  Result := 'Disassembly'
+  Result := _(SDisassemblyTab);
 end;
 
 initialization

@@ -1,4 +1,4 @@
-{-------------------------------------------------------------------------------
+ï»¿{-------------------------------------------------------------------------------
 The contents of this file are subject to the Mozilla Public License
 Version 1.1 (the "License"); you may not use this file except in compliance
 with the License. You may obtain a copy of the License at
@@ -13,7 +13,7 @@ The Original Code is based on the odPySyn.pas file from the
 mwEdit component suite by Martin Waldenburg and other developers, the Initial
 Author of this file is Olivier Deckmyn.
 Portions created by M.Utku Karatas and Dennis Chuah.
-Unicode translation by Maël Hörz.
+Unicode translation by MaÎ»l HÏ†rz.
 All Rights Reserved.
 
 Contributors to the SynEdit and mwEdit projects are listed in the
@@ -106,6 +106,7 @@ type
     fIdentifierAttri: TSynHighlighterAttributes;
     fSpaceAttri: TSynHighlighterAttributes;
     fErrorAttri: TSynHighlighterAttributes;
+    fTempSpaceAttri: TSynHighlighterAttributes;
     function IdentKind(MayBe: PWideChar): TtkTokenKind;
     procedure SymbolProc;
     procedure CRProc;
@@ -479,13 +480,6 @@ begin
   if i <> -1 then
     Result := TtkTokenKind(FKeywords.Objects[i])
 
-  // Check if it is a system identifier (__*__)
-  else if (fStringLen >= 5) and
-     (MayBe[0] = '_') and (MayBe[1] = '_') and (MayBe[2] <> '_') and
-     (MayBe[fStringLen - 1] = '_') and (MayBe[fStringLen - 2] = '_') and
-     (MayBe[fStringLen - 3] <> '_') then
-    Result := tkSystemDefined
-
   // Check if it is a class name
   else if fLastIdentifier = 'class' then
     Result := tkClassName
@@ -493,6 +487,13 @@ begin
   // Check if it is a function name
   else if fLastIdentifier = 'def' then
     Result := tkFunctionName
+
+  // Check if it is a system identifier (__*__)
+  else if (fStringLen >= 5) and
+     (MayBe[0] = '_') and (MayBe[1] = '_') and (MayBe[2] <> '_') and
+     (MayBe[fStringLen - 1] = '_') and (MayBe[fStringLen - 2] = '_') and
+     (MayBe[fStringLen - 3] <> '_') then
+    Result := tkSystemDefined
 
   // Else, hey, it is an ordinary run-of-the-mill identifier!
   else
@@ -569,11 +570,14 @@ begin
   AddAttribute(fErrorAttri);
   SetAttributesOnChange(DefHighlightChange);
   fDefaultFilter := SYNS_FilterPython;
+  // for coloring doc comment background
+  fTempSpaceAttri := TSynHighlighterAttributes.Create(SYNS_AttrSpace, SYNS_FriendlyAttrSpace);
 end; { Create }
 
 destructor TSynPythonSyn.Destroy;
 begin
   FKeywords.Free;
+  fTempSpaceAttri.Free;
   inherited;
 end;
 
@@ -1280,9 +1284,15 @@ begin
   case Index of
     SYN_ATTR_COMMENT: Result := fCommentAttri;
     SYN_ATTR_KEYWORD: Result := fKeyAttri;
-    SYN_ATTR_WHITESPACE: Result := fSpaceAttri;
+    SYN_ATTR_WHITESPACE:
+      begin
+        fTempSpaceAttri.Assign(fSpaceAttri);
+        if fRange in [rsMultilineString, rsMultilineString2] then
+          fTempSpaceAttri.Background := fDocStringAttri.Background;
+        Result := fTempSpaceAttri;
+      end;
     SYN_ATTR_SYMBOL: Result := fSymbolAttri;
-    SYN_ATTR_STRING: Result := fStringAttri;
+    SYN_ATTR_STRING: Result := fStringAttri;  // To allow background coloring of doc strings
     SYN_ATTR_IDENTIFIER: Result := fIdentifierAttri;
   else
     Result := nil;
@@ -1538,3 +1548,4 @@ initialization
 finalization
   PythonGlobalKeywords.Free;
 end.
+

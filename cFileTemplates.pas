@@ -45,6 +45,8 @@ var
 
 implementation
 
+uses StringResources, gnugettext;
+
 { TFileTemplate }
 
 procedure TFileTemplate.Assign(Source: TPersistent);
@@ -103,14 +105,11 @@ Var
   FileTemplate : TFileTemplate;
 begin
   FileTemplate := TFileTemplate.Create;
-  FileTemplate.Name := 'Cascading Style Sheet';
+  FileTemplate.Name := _(SCSSFileTemplateName);
   FileTemplate.Extension := 'css';
-  FileTemplate.Category := 'Internet';
-  FileTemplate.Highlighter := 'Cascading Style Sheet';
-  FileTemplate.Template :=
-    'BODY {' + sLineBreak +
-    '' + sLineBreak +
-    '}';
+  FileTemplate.Category := _(SFileTemplateCategoryInternet);
+  FileTemplate.Highlighter := 'CSS';
+  FileTemplate.Template := SCSSFileTemplate;
   Add(FileTemplate);
 end;
 
@@ -119,23 +118,11 @@ Var
   FileTemplate : TFileTemplate;
 begin
   FileTemplate := TFileTemplate.Create;
-  FileTemplate.Name := 'HTML Document';
+  FileTemplate.Name := _(SHTMLFileTemplateName);
   FileTemplate.Extension := 'htm';
-  FileTemplate.Category := 'Internet';
+  FileTemplate.Category := _(SFileTemplateCategoryInternet);
   FileTemplate.Highlighter := 'HTML';
-  FileTemplate.Template :=
-    '<!-- Created: $[DateTime-''DD/MM/YYYY''-DateFormat] by $[UserName] -->' + sLineBreak +
-    '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional/EN">' + sLineBreak +
-    '<html>' + sLineBreak +
-    '  <head>' + sLineBreak +
-    '    <title>Untitled</title>' + sLineBreak +
-    '    <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">' + sLineBreak +
-    '    <meta name="generator" content="PyScripter">' + sLineBreak +
-    '  </head>' + sLineBreak +
-    '  <body>' + sLineBreak +
-    '' + sLineBreak +
-    '  </body>' + sLineBreak +
-    '</html>';
+  FileTemplate.Template := SHTMLFileTemplate;
   Add(FileTemplate);
 end;
 
@@ -144,9 +131,9 @@ Var
   FileTemplate : TFileTemplate;
 begin
   FileTemplate := TFileTemplate.Create;
-  FileTemplate.Name := 'Text File';
+  FileTemplate.Name := _(STextFileTemplateName);
   FileTemplate.Extension := 'txt';
-  FileTemplate.Category := 'Other';
+  FileTemplate.Category := _(SFileTemplateCategoryOther);
   FileTemplate.Highlighter := '';
   FileTemplate.Template := '';
   Add(FileTemplate);
@@ -157,29 +144,11 @@ Var
   FileTemplate : TFileTemplate;
 begin
   FileTemplate := TFileTemplate.Create;
-  FileTemplate.Name := 'Python Script';
+  FileTemplate.Name := _(SPythonTemplateName);
   FileTemplate.Extension := 'py';
   FileTemplate.Category := 'Python';
   FileTemplate.Highlighter := 'Python';
-  FileTemplate.Template :=
-    '#-------------------------------------------------------------------------------' + sLineBreak +
-    '# Name:        $[ActiveDoc-Name]' + sLineBreak +
-    '# Purpose:     ' + sLineBreak +
-    '#' + sLineBreak +
-    '# Author:      $[UserName]' + sLineBreak +
-    '#' + sLineBreak +
-    '# Created:     $[DateTime-''DD/MM/YYYY''-DateFormat]' + sLineBreak +
-    '# Copyright:   (c) $[UserName] $[DateTime-''YYYY''-DateFormat]' + sLineBreak +
-    '# Licence:     <your licence>' + sLineBreak +
-    '#-------------------------------------------------------------------------------' + sLineBreak +
-    '#!/usr/bin/env python' + sLineBreak +
-    '' + sLineBreak +
-    'def main():' + sLineBreak +
-    '    pass' + sLineBreak +
-    '' + sLineBreak +
-    'if __name__ == ''__main__'':' + sLineBreak +
-    '    main()';
-
+  FileTemplate.Template := _(SPythonFileTemplate);
   Add(FileTemplate);
 end;
 
@@ -188,12 +157,11 @@ Var
   FileTemplate : TFileTemplate;
 begin
   FileTemplate := TFileTemplate.Create;
-  FileTemplate.Name := 'XML Document';
+  FileTemplate.Name := _(SXMLTemplateName);
   FileTemplate.Extension := 'xml';
-  FileTemplate.Category := 'Internet';
+  FileTemplate.Category := _(SFileTemplateCategoryInternet);
   FileTemplate.Highlighter := 'XML';
-  FileTemplate.Template :=
-    '<?xml version="1.0" encoding="UTF-8"?>' + sLineBreak;
+  FileTemplate.Template := SXMLFileTemplate;
   Add(FileTemplate);
 end;
 

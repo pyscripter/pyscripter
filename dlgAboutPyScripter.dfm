@@ -1,36 +1,32 @@
-object AboutBox: TAboutBox
+inherited AboutBox: TAboutBox
   Left = 365
   Top = 155
   BorderIcons = [biSystemMenu]
-  BorderStyle = bsDialog
   Caption = 'About PyScripter'
-  ClientHeight = 228
+  ClientHeight = 245
   ClientWidth = 358
-  Color = clBtnFace
-  Font.Charset = DEFAULT_CHARSET
-  Font.Color = clWindowText
-  Font.Height = -11
-  Font.Name = 'MS Sans Serif'
-  Font.Style = []
+  Font.Name = 'MS Shell Dlg 2'
   KeyPreview = True
   OldCreateOrder = True
   Position = poScreenCenter
-  OnCreate = FormCreate
   OnKeyPress = FormKeyPress
+  ExplicitWidth = 364
+  ExplicitHeight = 271
   PixelsPerInch = 96
   TextHeight = 13
   object Panel2: TPanel
     Left = 0
     Top = 0
     Width = 358
-    Height = 228
+    Height = 245
     Align = alClient
     TabOrder = 0
+    ExplicitHeight = 228
     object PageControl: TPageControl
       Left = 1
       Top = 1
       Width = 356
-      Height = 226
+      Height = 243
       ActivePage = AboutTab
       Align = alClient
       Font.Charset = DEFAULT_CHARSET
@@ -41,17 +37,18 @@ object AboutBox: TAboutBox
       ParentFont = False
       TabOrder = 0
       TabPosition = tpBottom
+      ExplicitHeight = 226
       object AboutTab: TTabSheet
         Caption = 'About'
         ImageIndex = 1
-        object Panel1: TPanel
+        ExplicitHeight = 199
+        object Panel1: TSpTBXPanel
           Left = 9
           Top = 8
           Width = 328
-          Height = 180
-          BevelInner = bvRaised
-          BevelOuter = bvLowered
-          ParentColor = True
+          Height = 197
+          ThemeType = thtWindows
+          UseDockManager = True
           TabOrder = 0
           OnClick = Panel1Click
           object ProgramIcon: TImage
@@ -1416,12 +1413,11 @@ object AboutBox: TAboutBox
             Stretch = True
             Transparent = True
             OnClick = Panel1Click
-            IsControl = True
           end
-          object Copyright: TLabel
+          object Copyright: TSpTBXLabel
             Left = 129
             Top = 68
-            Width = 181
+            Width = 184
             Height = 16
             Caption = '(C) Kiriakos Vlahos  2005-2008'
             Font.Charset = DEFAULT_CHARSET
@@ -1429,35 +1425,45 @@ object AboutBox: TAboutBox
             Font.Height = -13
             Font.Name = 'Arial'
             Font.Style = [fsItalic]
+            ParentColor = True
             ParentFont = False
-            Transparent = True
             OnClick = Panel1Click
+            LinkFont.Charset = DEFAULT_CHARSET
+            LinkFont.Color = clBlue
+            LinkFont.Height = -11
+            LinkFont.Name = 'MS Shell Dlg 2'
+            LinkFont.Style = [fsUnderline]
           end
-          object Comments: TLabel
+          object Comments: TSpTBXLabel
             Left = 8
             Top = 115
             Width = 305
-            Height = 54
-            AutoSize = False
+            Height = 76
             Caption = 
               'A freeware, open source Python scripting integrated development ' +
               'environment created with the ambition to bring to the Python com' +
               'munity the quality and functionality available in commercial IDE' +
               's available for other languages.'
+            AutoSize = False
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clNavy
             Font.Height = -11
             Font.Name = 'Arial'
             Font.Style = []
+            ParentColor = True
             ParentFont = False
-            Transparent = True
-            WordWrap = True
+            Wrapping = twWrap
             OnClick = Panel1Click
+            LinkFont.Charset = DEFAULT_CHARSET
+            LinkFont.Color = clBlue
+            LinkFont.Height = -11
+            LinkFont.Name = 'MS Shell Dlg 2'
+            LinkFont.Style = [fsUnderline]
           end
-          object Version: TLabel
+          object Version: TSpTBXLabel
             Left = 129
             Top = 44
-            Width = 85
+            Width = 88
             Height = 18
             Caption = 'Version 1.3'
             Font.Charset = DEFAULT_CHARSET
@@ -1465,36 +1471,46 @@ object AboutBox: TAboutBox
             Font.Height = -16
             Font.Name = 'Arial'
             Font.Style = [fsBold, fsItalic]
+            ParentColor = True
             ParentFont = False
-            Transparent = True
             OnClick = Panel1Click
+            LinkFont.Charset = DEFAULT_CHARSET
+            LinkFont.Color = clBlue
+            LinkFont.Height = -11
+            LinkFont.Name = 'MS Shell Dlg 2'
+            LinkFont.Style = [fsUnderline]
           end
-          object ProductName: TLabel
+          object ProductName: TSpTBXLabel
             Left = 129
             Top = 14
-            Width = 169
+            Width = 163
             Height = 24
-            AutoSize = False
             Caption = 'Python Scripter'
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clNavy
             Font.Height = -21
             Font.Name = 'Arial'
             Font.Style = [fsBold, fsItalic]
+            ParentColor = True
             ParentFont = False
-            Transparent = True
             OnClick = Panel1Click
+            LinkFont.Charset = DEFAULT_CHARSET
+            LinkFont.Color = clBlue
+            LinkFont.Height = -11
+            LinkFont.Name = 'MS Shell Dlg 2'
+            LinkFont.Style = [fsUnderline]
           end
         end
       end
       object CreditsTab: TTabSheet
         Caption = 'Credits'
         ImageIndex = 1
+        ExplicitHeight = 199
         object ScrollBox: TScrollBox
           Left = 0
           Top = 0
           Width = 348
-          Height = 199
+          Height = 216
           VertScrollBar.Smooth = True
           VertScrollBar.Style = ssHotTrack
           VertScrollBar.Tracking = True
@@ -1502,11 +1518,12 @@ object AboutBox: TAboutBox
           BevelKind = bkSoft
           BorderStyle = bsNone
           TabOrder = 0
+          ExplicitHeight = 199
           object JvLinkLabel: TJvLinkLabel
             Left = 0
             Top = 0
             Width = 327
-            Height = 312
+            Height = 326
             Caption = 
               '<b>Credits</b><br>'#13#10'Special thanks to the many great developers ' +
               'who,'#13#10'with their amazing work, have made PyScripter '#13#10'possible. ' +
@@ -1519,15 +1536,16 @@ object AboutBox: TAboutBox
               'ols</i> (<link>www.mustangpeak.net</link>)'#13#10'<br>'#13#10'- <i>StoHtmlHe' +
               'lp</i> (<link>www.martinstoeckli.ch/delphi</link>)'#13#10'<br>'#13#10'- <i>G' +
               'Experts</i> (<link>www.gexperts.org</link>)'#13#10'<br>'#13#10'- <i>Syn Edit' +
-              'or</i> (<link>syn.sf.net</link>)'#13#10'<br>'#13#10'- <i>Toolbar2000</i> (<l' +
-              'ink>www.jrsoftware.org/tb2k.php</link>)'#13#10'<br>'#13#10'- <i>TBX </i>(<li' +
-              'nk>www.g32.org/tbx</link>)'#13#10'<br>'#13#10'- <i>Additional TBX Themes</i>' +
-              ' (<link>www.rmklever.com</link>)'#13#10'<br>'#13#10'- <i>JvTBXLib </i>(<link' +
-              '>mxs.bergsoft.net</link>)'#13#10'<br>'#13#10'- <i>SpTBXLib</i>(<link>club.te' +
-              'lepolis.com/silverpointdev</link>)'#13#10'<br>'#13#10'- <i>TntWare Unicode C' +
-              'ontrols</i>(<link>www.tntware.com</link>)'#13#10'<br>'#13#10'- <i>TCommandLi' +
-              'neReader</i>(<link>www.benibela.de</link>)'#13#10'<br>'#13#10'- <i>Silk icon' +
-              's</i>(<link>www.famfamfam.com</link>)'
+              'or</i> (<link>syn.sf.net</link>)'#13#10'<br>'#13#10'- <i>Syn Web highlighter' +
+              's</i> (<link>flatdev.ovh.org/</link>)'#13#10'<br>'#13#10'- <i>Toolbar2000</i' +
+              '> (<link>www.jrsoftware.org/tb2k.php</link>)'#13#10'<br>'#13#10'- <i>TBX </i' +
+              '>(<link>www.g32.org/tbx</link>)'#13#10'<br>'#13#10'- <i>Additional TBX Theme' +
+              's</i> (<link>www.rmklever.com</link>)'#13#10'<br>'#13#10'- <i>JvTBXLib </i>(' +
+              '<link>mxs.bergsoft.net</link>)'#13#10'<br>'#13#10'- <i>SpTBXLib</i>(<link>cl' +
+              'ub.telepolis.com/silverpointdev</link>)'#13#10'<br>'#13#10'- <i>TntWare Unic' +
+              'ode Controls</i>(<link>www.tntware.com</link>)'#13#10'<br>'#13#10'- <i>TComm' +
+              'andLineReader</i>(<link>www.benibela.de</link>)'#13#10'<br>'#13#10'- <i>Silk' +
+              ' icons</i>(<link>www.famfamfam.com</link>)'
             Text.Strings = (
               
                 '<b>Credits</b><br>'#13#10'Special thanks to the many great developers ' +
@@ -1541,15 +1559,16 @@ object AboutBox: TAboutBox
                 'ols</i> (<link>www.mustangpeak.net</link>)'#13#10'<br>'#13#10'- <i>StoHtmlHe' +
                 'lp</i> (<link>www.martinstoeckli.ch/delphi</link>)'#13#10'<br>'#13#10'- <i>G' +
                 'Experts</i> (<link>www.gexperts.org</link>)'#13#10'<br>'#13#10'- <i>Syn Edit' +
-                'or</i> (<link>syn.sf.net</link>)'#13#10'<br>'#13#10'- <i>Toolbar2000</i> (<l' +
-                'ink>www.jrsoftware.org/tb2k.php</link>)'#13#10'<br>'#13#10'- <i>TBX </i>(<li' +
-                'nk>www.g32.org/tbx</link>)'#13#10'<br>'#13#10'- <i>Additional TBX Themes</i>' +
-                ' (<link>www.rmklever.com</link>)'#13#10'<br>'#13#10'- <i>JvTBXLib </i>(<link' +
-                '>mxs.bergsoft.net</link>)'#13#10'<br>'#13#10'- <i>SpTBXLib</i>(<link>club.te' +
-                'lepolis.com/silverpointdev</link>)'#13#10'<br>'#13#10'- <i>TntWare Unicode C' +
-                'ontrols</i>(<link>www.tntware.com</link>)'#13#10'<br>'#13#10'- <i>TCommandLi' +
-                'neReader</i>(<link>www.benibela.de</link>)'#13#10'<br>'#13#10'- <i>Silk icon' +
-                's</i>(<link>www.famfamfam.com</link>)')
+                'or</i> (<link>syn.sf.net</link>)'#13#10'<br>'#13#10'- <i>Syn Web highlighter' +
+                's</i> (<link>flatdev.ovh.org/</link>)'#13#10'<br>'#13#10'- <i>Toolbar2000</i' +
+                '> (<link>www.jrsoftware.org/tb2k.php</link>)'#13#10'<br>'#13#10'- <i>TBX </i' +
+                '>(<link>www.g32.org/tbx</link>)'#13#10'<br>'#13#10'- <i>Additional TBX Theme' +
+                's</i> (<link>www.rmklever.com</link>)'#13#10'<br>'#13#10'- <i>JvTBXLib </i>(' +
+                '<link>mxs.bergsoft.net</link>)'#13#10'<br>'#13#10'- <i>SpTBXLib</i>(<link>cl' +
+                'ub.telepolis.com/silverpointdev</link>)'#13#10'<br>'#13#10'- <i>TntWare Unic' +
+                'ode Controls</i>(<link>www.tntware.com</link>)'#13#10'<br>'#13#10'- <i>TComm' +
+                'andLineReader</i>(<link>www.benibela.de</link>)'#13#10'<br>'#13#10'- <i>Silk' +
+                ' icons</i>(<link>www.famfamfam.com</link>)')
             Transparent = True
             HotLinks = True
             MarginWidth = 2
@@ -1568,11 +1587,12 @@ object AboutBox: TAboutBox
       object TabSheet1: TTabSheet
         Caption = 'Links'
         ImageIndex = 2
+        ExplicitHeight = 199
         object ScrollBox1: TScrollBox
           Left = 0
           Top = 0
           Width = 348
-          Height = 199
+          Height = 216
           VertScrollBar.Smooth = True
           VertScrollBar.Style = ssHotTrack
           VertScrollBar.Tracking = True
@@ -1580,6 +1600,7 @@ object AboutBox: TAboutBox
           BevelKind = bkSoft
           BorderStyle = bsNone
           TabOrder = 0
+          ExplicitHeight = 199
           object JvLinkLabel1: TJvLinkLabel
             Left = 0
             Top = 0

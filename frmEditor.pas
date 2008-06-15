@@ -18,7 +18,7 @@ uses
   SynEditHighlighter, SynEditMiscClasses, SynEditSearch, SynEditRegexSearch,
   SynEditKeyCmds, ImgList, Dialogs, ExtCtrls, JvExExtCtrls, JvComponent, JvPanel,
   JvPageList, JvExControls, JvTabBar, TBX, TB2Item, uCommonFunctions,
-  SynCompletionProposal, cPyBaseDebugger, SynUnicode, SpTBXControls, SpTBXItem,
+  SynCompletionProposal, cPyBaseDebugger, SpTBXControls, SpTBXItem,
   VirtualResources;
 
 type
@@ -28,10 +28,10 @@ type
     SynEdit : TSynEdit;
     HaveHotIdent : boolean;
     IdentArea : TRect;
-    Ident : string;
-    DottedIdent : string;
+    Ident : WideString;
+    DottedIdent : WideString;
     StartCoord : TBufferCoord;
-    SynToken: string;
+    SynToken: WideString;
     SynAttri: TSynHighlighterAttributes;
   end;
 
@@ -39,7 +39,7 @@ type
     imglGutterGlyphs: TImageList;
     pmnuEditor: TSpTBXPopupMenu;
     pmnuPageList: TSpTBXPopupMenu;
-    CloseTab: TSpTBXItem;
+    mnCloseTab: TSpTBXItem;
     FGPanel: TPanel;
     ViewsTabBar: TJvTabBar;
     EditorViews: TJvPageList;
@@ -49,6 +49,8 @@ type
     SynParamCompletion: TSynCompletionProposal;
     SynEdit2: TSynEdit;
     EditorSplitter: TSpTBXSplitter;
+    SynWebCompletion: TSynCompletionProposal;
+    mnUpdateView: TSpTBXItem;
     procedure SynEditMouseMove(Sender: TObject; Shift: TShiftState; X,
       Y: Integer);
     procedure SynParamCompletionExecute(Kind: SynCompletionType;
@@ -76,8 +78,7 @@ type
       Shift: TShiftState; X, Y: Integer);
     procedure FGPanelEnter(Sender: TObject);
     procedure FGPanelExit(Sender: TObject);
-    procedure FormResize(Sender: TObject);
-    procedure CloseTabClick(Sender: TObject);
+    procedure mnCloseTabClick(Sender: TObject);
     procedure ViewsTabBarTabSelected(Sender: TObject; Item: TJvTabBarItem);
     procedure SynEditMouseCursor(Sender: TObject;
       const aLineCharPos: TBufferCoord; var aCursor: TCursor);
@@ -92,6 +93,12 @@ type
       MousePos: TPoint; var Handled: Boolean);
     procedure EditorViewsChange(Sender: TObject);
     procedure SynCodeCompletionClose(Sender: TObject);
+    procedure SynWebCompletionExecute(Kind: SynCompletionType; Sender: TObject;
+      var CurrentInput: WideString; var x, y: Integer; var CanExecute: Boolean);
+    procedure SynWebCompletionAfterCodeCompletion(Sender: TObject;
+      const Value: WideString; Shift: TShiftState; Index: Integer;
+      EndToken: WideChar);
+    procedure mnUpdateViewClick(Sender: TObject);
   private
     fEditor: TEditor;
     fAutoCompleteActive : Boolean;
@@ -113,6 +120,7 @@ type
   class var
     fOldEditorForm : TEditorForm;
   protected
+    procedure Retranslate;
     procedure TBMThemeChange(var Message: TMessage); message TBM_THEMECHANGE;
     procedure EditorZoom(theZoom: Integer);
     procedure EditorMouseWheel(theDirection: Integer; Shift: TShiftState );
@@ -153,19 +161,20 @@ type
     function GetSynEdit2 : TSynEdit;
     function GetActiveSynEdit : TSynEdit;
     function GetBreakPoints : TObjectList;
-    function GetEditorState: string;
-    function GetFileName: string;
-    function GetFileTitle: string;
-    function GetFileNameOrTitle: string;
+    function GetEditorState: WideString;
+    function GetFileName: WideString;
+    function GetFileTitle: WideString;
+    function GetFileNameOrTitle: WideString;
     function GetModified: boolean;
     function GetFileEncoding : TFileSaveFormat;
     procedure SetFileEncoding(FileEncoding : TFileSaveFormat);
     function GetEncodedText : string;
-    procedure OpenFile(const AFileName: string; HighlighterName : string = '');
+    procedure OpenFile(const AFileName: WideString; HighlighterName : WideString = '');
     function HasPythonFile : Boolean;
     procedure ExecuteSelection;
     procedure SplitEditorHorizontally;
     procedure SplitEditorVertrically;
+    procedure Retranslate;
     function GetForm : TForm;
     // IEditCommands implementation
     function CanCopy: boolean;
@@ -204,7 +213,7 @@ type
     procedure ExecFindPrev;
     procedure ExecReplace;
   private
-    fFileName: string;
+    fFileName: WideString;
     fForm: TEditorForm;
     fHasSelection: boolean;
     fIsReadOnly: boolean;
@@ -214,7 +223,7 @@ type
     fFileEncoding : TFileSaveFormat;
     function IsEmpty : Boolean;
     constructor Create(AForm: TEditorForm);
-    procedure DoSetFileName(AFileName: string);
+    procedure DoSetFileName(AFileName: WideString);
     function GetEncodedTextEx(var EncodedText: string;
       InformationLossWarning: Boolean) : Boolean;
   end;
@@ -227,24 +236,16 @@ implementation
 uses
   frmPyIDEMain, dlgSynPrintPreview, frmCodeExplorer,
   frmBreakPoints, Variants, dmCommands, JclFileUtils,
-  TBXThemes, StringResources, JclStrings, VarPyth, cRefactoring,
+  TBXThemes, StringResources, VarPyth, cRefactoring,
   cPythonSourceScanner, cCodeHint, frmPythonII, dlgConfirmReplace, Math,
   JvTypes, frmWatches, JclSysUtils, PythonEngine, frmMessages,
   SynEditTextBuffer, cPyDebugger, dlgPickList, JvDockControlForm,
-  uSearchHighlighter, frmFileExplorer, VirtualShellNotifier;
+  uSearchHighlighter, frmFileExplorer, VirtualShellNotifier,
+  SynHighlighterWebMisc, SynHighlighterWeb, TntSysUtils, gnugettext, TntDialogs,
+  SynUnicode, WideStrings, WideStrUtils;
 
 const
   WM_DELETETHIS  =  WM_USER + 42;
-
-resourcestring
-  SInsert = 'Insert';
-  SOverwrite = 'Overwrite';
-  SReadOnly = 'Read Only';
-  SNonameFileTitle = 'Untitled';
-  SNonamePythonFileTitle = 'module';
-
-  SAskSaveChanges = 'The text in the "%s" file has changed.'#13#10#13#10 +
-                    'Do you want to save the modifications?';
 
 { TGutterMarkDrawPlugin }
 
@@ -441,7 +442,7 @@ begin
   end;
 end;
 
-procedure TEditor.DoSetFileName(AFileName: string);
+procedure TEditor.DoSetFileName(AFileName: WideString);
 begin
   if AFileName <> fFileName then begin
     fFileName := AFileName;
@@ -450,8 +451,8 @@ begin
       fUntitledNumber := -1;
     end;
     //  Kernel change notification
-    if (fFileName <> '') and FileExists(fFileName) then
-      ChangeNotifier.NotifyWatchFolder(fForm, ExtractFileDir(fFileName))
+    if (fFileName <> '') and WideFileExists(fFileName) then
+      ChangeNotifier.NotifyWatchFolder(fForm, WideExtractFileDir(fFileName))
     else
       ChangeNotifier.NotifyWatchFolder(fForm, '');
   end;
@@ -488,15 +489,15 @@ begin
     Result := Point(-1, -1);
 end;
 
-function TEditor.GetEditorState: string;
+function TEditor.GetEditorState: WideString;
 begin
   if fForm <> nil then begin
     if fForm.SynEdit.ReadOnly then
-      Result := SReadOnly
+      Result := _(SReadOnly)
     else if fForm.SynEdit.InsertMode then
-      Result := SInsert
+      Result := _(SInsert)
     else
-      Result := SOverwrite;
+      Result := _(SOverwrite);
   end else
     Result := '';
 end;
@@ -508,132 +509,31 @@ end;
 
 function TEditor.GetEncodedTextEx(var EncodedText: string;
   InformationLossWarning: Boolean) : Boolean;
-var
-  PyEncoding : string;
-  UniPy, EncodedString : PPyObject;
-  wStr, LineBreak : WideString;
-  SuppressOutput : IInterface;
 begin
-  Result := True;
-
-  case (fForm.SynEdit.Lines as TSynEditStringList).FileFormat of
-    sffDos:
-      LineBreak := WideCRLF;
-    sffUnix:
-      LineBreak := WideLF;
-    sffMac:
-      LineBreak := WideCR;
-    sffUnicode:
-      if fFileEncoding = sf_Ansi then
-        // Ansi-file cannot contain Unicode LINE SEPARATOR,
-        // so default to platform-specific Ansi-compatible LineBreak
-        LineBreak := SynUnicode.SLineBreak
-      else
-        LineBreak := WideLineSeparator;
-  end;
-
-  wStr := fForm.SynEdit.Lines.GetSeparatedText(LineBreak);
-
-  case fFileEncoding of
-    sf_Ansi :
-      if HasPythonFile then begin
-        PyEncoding := '';
-        if fForm.SynEdit.Lines.Count > 0 then
-          PyEncoding := ParsePySourceEncoding(fForm.SynEdit.Lines[0]);
-        if (PyEncoding = '') and (fForm.SynEdit.Lines.Count > 1) then
-          PyEncoding := ParsePySourceEncoding(fForm.SynEdit.Lines[1]);
-
-        with GetPythonEngine do begin
-          if PyEncoding = '' then
-            PyEncoding := SysModule.getdefaultencoding();
-          SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
-          UniPy := nil;
-          EncodedString := nil;
-          try
-            try
-              UniPy := PyUnicode_FromWideChar(PWideChar(wStr), Length(wStr));
-              CheckError;
-              if InformationLossWarning then begin
-                try
-                  EncodedString := PyUnicode_AsEncodedString(UniPy, PChar(PyEncoding), 'strict');
-                  CheckError;
-                  EncodedText := PyString_AsDelphiString(EncodedString);
-                  CheckError;
-                except
-                  on UnicodeEncodeError do begin
-                    Result :=
-                      MessageDlg(Format('Saving file "%s" using "%s" encoding will ' +
-                        'result in information loss.  Do you want to proceed?',
-                        [GetFileNameOrTitle, PyEncoding]), mtWarning, [mbYes, mbCancel], 0)= mrYes;
-                    if Result then begin
-                      EncodedString := PyUnicode_AsEncodedString(UniPy, PChar(PyEncoding), 'replace');
-                      CheckError;
-                      EncodedText := PyString_AsDelphiString(EncodedString);
-                      CheckError;
-                    end;
-                  end;
-                end;
-              end else begin
-//                Args := ArrayToPyTuple([PyEncoding, 'replace']);
-//                EncodedString := PyEval_CallObject(EncodeMethod, Args);
-//                CheckError;
-//                EncodedText := PyString_AsDelphiString(EncodedString);
-                  EncodedString := PyUnicode_AsEncodedString(UniPy, PChar(PyEncoding), 'replace');
-                  CheckError;
-                  EncodedText := PyString_AsDelphiString(EncodedString);
-                  CheckError;
-              end;
-            finally
-              Py_XDECREF(UniPy);
-//              Py_XDECREF(EncodeMethod);
-//              Py_XDECREF(Args);
-              Py_XDECREF(EncodedString);
-            end;
-          except
-            PyErr_Clear;
-            EncodedText := wStr;
-            if InformationLossWarning then
-              Result :=
-                MessageDlg(Format('An error occurred while encoding file "%s" ' +
-                 'using "%s" encoding. The default system encoding has been used instead. ' +
-                 'Do you want to proceed?',
-                  [GetFileNameOrTitle, PyEncoding]), mtWarning, [mbYes, mbCancel], 0)= mrYes ;
-          end;
-        end;
-      end else begin
-        EncodedText := wStr;
-        if InformationLossWarning and not IsAnsiOnly(wStr) then begin
-          Result :=
-            MessageDlg(Format('Saving file "%s" using ANSI encoding will result ' +
-            'in information loss.  Do you want to proceed?',
-            [GetFileNameOrTitle]), mtWarning, [mbYes, mbCancel], 0)= mrYes ;
-        end;
-      end;
-    sf_UTF8 : EncodedText := UTF8BOMString + UTF8Encode(wStr);
-    sf_UTF8_NoBOM : EncodedText := UTF8Encode(wStr);
-  end;
+  Result := WideStringsToEncodedText(GetFileNameOrTitle, fForm.SynEdit.Lines,
+    fFileEncoding, EncodedText, InformationLossWarning);
 end;
 
-function TEditor.GetFileName: string;
+function TEditor.GetFileName: WideString;
 begin
   Result := fFileName;
 end;
 
-function TEditor.GetFileTitle: string;
+function TEditor.GetFileTitle: WideString;
 begin
   if fFileName <> '' then
-    Result := ExtractFileName(fFileName)
+    Result := WideExtractFileName(fFileName)
   else begin
     if fUntitledNumber = -1 then
       fUntitledNumber := CommandsDataModule.GetUntitledNumber;
     if fForm.SynEdit.Highlighter = CommandsDataModule.SynPythonSyn then
-      Result := SNonamePythonFileTitle + IntToStr(fUntitledNumber)
+      Result := _(SNonamePythonFileTitle) + IntToStr(fUntitledNumber)
     else
-      Result := SNonameFileTitle + IntToStr(fUntitledNumber);
+      Result := _(SNonameFileTitle) + IntToStr(fUntitledNumber);
   end;
 end;
 
-function TEditor.GetFileNameOrTitle: string;
+function TEditor.GetFileNameOrTitle: WideString;
 begin
   if fFileName <> '' then
     Result := fFileName
@@ -685,14 +585,14 @@ begin
   end;
 end;
 
-procedure TEditor.OpenFile(const AFileName: string; HighlighterName : string = '');
+procedure TEditor.OpenFile(const AFileName: WideString; HighlighterName : WideString = '');
 begin
   DoSetFileName(AFileName);
 
   if fForm <> nil then begin
-    if (AFileName <> '') and FileExists(AFileName) then begin
+    if (AFileName <> '') and WideFileExists(AFileName) then begin
       if LoadFileIntoWideStrings(AFileName, fForm.SynEdit.Lines, fFileEncoding) then begin
-        fForm.FileTime := GetFileLastWrite(AFileName);
+        FileTimeLastWriteRaw(AFileName, fForm.FileTime)
       end else
         Abort;
     end else begin
@@ -714,6 +614,11 @@ begin
     CodeExplorerWindow.UpdateWindow;
     fForm.fOldEditorForm := fForm;
   end;
+end;
+
+procedure TEditor.Retranslate;
+begin
+  fForm.Retranslate;
 end;
 
 function TEditor.HasPythonFile: Boolean;
@@ -798,8 +703,7 @@ Var
   P : TBufferCoord;
 begin
   if Quiet or not GetModified or
-    (MessageDlg('Reloading the file will result in the loss of all changes.  Do you want to proceed?',
-       mtWarning, [mbYes, mbNo], 0) = mrYes)
+    (WideMessageDlg(_(SFileReloadingWarning), mtWarning, [mbYes, mbNo], 0) = mrYes)
   then begin
     P := GetSynedit.CaretXY;
     OpenFile(GetFileName);
@@ -1006,12 +910,14 @@ type
     procedure CloseAll;
     function CreateTabSheet(AOwner: TJvPageList): IEditor;
     function GetEditorCount: integer;
-    function GetEditorByName(Name : string): IEditor;
-    function GetEditorByNameOrTitle(Name : string): IEditor;
+    function GetEditorByName(const Name : WideString): IEditor;
+    function GetEditorByNameOrTitle(const Name : WideString): IEditor;
     function GetEditor(Index: integer): IEditor;
     procedure RemoveEditor(AEditor: IEditor);
     procedure RegisterViewFactory(ViewFactory : IEditorViewFactory);
     procedure SetupEditorViewMenu;
+    function GetViewFactoryCount: integer;
+    function GetViewFactory(Index: integer): IEditorViewFactory;
   private
     fEditors: TInterfaceList;
     fEditorViewFactories : TInterfaceList;
@@ -1040,10 +946,8 @@ var
 begin
   Result := False;
   with TPickListDialog.Create(Application.MainForm) do begin
-    Caption := 'Save modified files';
-    lbMessage.Caption := 'The following files have been modified.'+
-    ' Please select the files that you wish to save and press the OK button. '+
-    ' Press Cancel to go back to PyScripter';
+    Caption := _(SSaveModifiedFiles);
+    lbMessage.Caption := _(SSelectModifiedFiles);
     for i := 0 to fEditors.Count - 1 do
       if IEditor(fEditors[i]).Modified then
         CheckListBox.Items.AddObject(IEditor(fEditors[i]).GetFileNameOrTitle,
@@ -1131,21 +1035,36 @@ begin
   Result := fEditors.Count;
 end;
 
-function TEditorFactory.GetEditorByName(Name: string): IEditor;
+function TEditorFactory.GetViewFactory(Index: integer): IEditorViewFactory;
+begin
+  fEditorViewFactories.Lock;
+  try
+    Result := fEditorViewFactories[Index] as IEditorViewFactory;
+  finally
+    fEditorViewFactories.UnLock;
+  end;
+end;
+
+function TEditorFactory.GetViewFactoryCount: integer;
+begin
+  Result := fEditorViewFactories.Count;
+end;
+
+function TEditorFactory.GetEditorByName(const Name: WideString): IEditor;
 Var
   i : integer;
 begin
   Result := nil;
   for i := 0 to fEditors.Count - 1 do
-    if AnsiCompareText(IEditor(fEditors[i]).GetFileName,
-      GetLongFileName(ExpandFileName(Name))) = 0 then
+    if WideCompareText(IEditor(fEditors[i]).GetFileName,
+      GetLongFileName(WideExpandFileName(Name))) = 0 then
     begin
       Result := IEditor(fEditors[i]);
       break;
     end;
 end;
 
-function TEditorFactory.GetEditorByNameOrTitle(Name: string): IEditor;
+function TEditorFactory.GetEditorByNameOrTitle(const Name: WideString): IEditor;
 Var
   i : integer;
 begin
@@ -1153,7 +1072,7 @@ begin
   if not Assigned(Result) then
     for i := 0 to fEditors.Count - 1 do
       if (IEditor(fEditors[i]).GetFileName = '') and
-         (CompareText(IEditor(fEditors[i]).GetFileTitle, Name) = 0) then begin
+         (WideCompareText(IEditor(fEditors[i]).GetFileTitle, Name) = 0) then begin
         Result := IEditor(fEditors[i]);
         break;
       end;
@@ -1202,6 +1121,7 @@ Var
   i : integer;
   ViewFactory: IEditorViewFactory;
 begin
+  PyIdeMainForm.EditorViewsMenu.Clear;
   fEditorViewFactories.Lock;
   try
     PyIdeMainForm.EditorViewsMenu.Enabled := fEditorViewFactories.Count > 0;
@@ -1289,6 +1209,15 @@ begin
   CommandsDataModule.CodeTemplatesCompletion.OnBeforeExecute := AutoCompleteBeforeExecute;
   CommandsDataModule.CodeTemplatesCompletion.OnAfterExecute := AutoCompleteAfterExecute;
   fEditor.TabBarItem.Selected := True;
+
+  if ASynEdit.Highlighter is TSynWebBase then begin
+    SynCodeCompletion.Editor := nil;
+    SynWebCompletion.Editor := ASynEdit;
+  end else begin
+    SynCodeCompletion.Editor := ASynEdit;
+    SynWebCompletion.Editor := nil;
+  end;
+
 
   if fOldEditorForm <> Self then
     CodeExplorerWindow.UpdateWindow;
@@ -1400,22 +1329,21 @@ begin
 end;
 
 function TEditorForm.DoAskSaveChanges: boolean;
-const
-  MBType = MB_YESNOCANCEL or MB_ICONQUESTION;
 var
-  s: string;
+  S: WideString;
 begin
   // this is necessary to prevent second confirmation when closing MDI childs
   if SynEdit.Modified then begin
     DoActivateEditor;
     MessageBeep(MB_ICONQUESTION);
     Assert(fEditor <> nil);
-    s := Format(SAskSaveChanges, [ExtractFileName(fEditor.GetFileTitle)]);
-    case Application.MessageBox(PChar(s), PChar(Application.Title), MBType) of
-      IDYes: Result := DoSave;
-      IDNo: Result := TRUE;
+    S := WideFormat(_(SAskSaveChanges), [ExtractFileName(fEditor.GetFileTitle)]);
+
+    case WideMessageDlg(S, mtConfirmation, [mbYes, mbNo, mbCancel], 0, mbYes) of
+      mrYes: Result := DoSave;
+      mrNo: Result := True;
     else
-      Result := FALSE;
+      Result := False;
     end;
   end else
     Result := TRUE;
@@ -1450,63 +1378,25 @@ begin
 end;
 
 function TEditorForm.DoSaveFile: boolean;
-Var
-  FileStream : TFileStream;
-  S : string;
+var
   i: Integer;
 begin
-  Assert(fEditor <> nil);
-  try
-    // Create Backup
-    if CommandsDataModule.PyIDEOptions.CreateBackupFiles and
-      FileExists(fEditor.fFileName) then
-    begin
-      try
-        FileBackup(fEditor.fFileName);
-      except
-        MessageDlg(Format('Failed to backup file "%s"', [fEditor.fFileName]),
-          mtWarning, [mbOK], 0);
-      end;
+  // Trim all lines just in case (Issue 196)
+  if (eoTrimTrailingSpaces in Synedit.Options) and (SynEdit.Lines.Count > 0) then begin
+    SynEdit.BeginUpdate;
+    try
+      for i := 0 to SynEdit.Lines.Count - 1 do
+        SynEdit.Lines[i] := TrimRight(SynEdit.LineS[i]);
+    finally
+      SynEdit.EndUpdate;
     end;
-
-    Result := True;
-    // Trim all lines just in case (Issue 196)
-    if (eoTrimTrailingSpaces in Synedit.Options) and (SynEdit.Lines.Count > 0) then begin
-      SynEdit.BeginUpdate;
-      try
-        for i := 0 to SynEdit.Lines.Count - 1 do
-          SynEdit.Lines[i] := TrimRight(SynEdit.LineS[i]);
-      finally
-        SynEdit.EndUpdate;
-      end;
-    end;
-
-    if fEditor.fFileEncoding = sf_Ansi then
-      Result := fEditor.GetEncodedTextEx(S, True);
-
-    if Result then begin
-      FileStream := TFileStream.Create(fEditor.fFileName, fmCreate);
-      try
-        case fEditor.fFileEncoding of
-          sf_Ansi : FileStream.WriteBuffer(S[1], Length(S));
-          sf_UTF8 : SaveToStream(SynEdit.Lines, FileStream, seUTF8, True);
-          sf_UTF8_NoBOM : SaveToStream(SynEdit.Lines, FileStream, seUTF8, False);
-        end;
-      finally
-        FileStream.Free;
-      end;
-
-      FileTime := GetFileLastWrite(fEditor.fFileName);
-      if not CommandsDataModule.PyIDEOptions.UndoAfterSave then
-        SynEdit.ClearUndo;
-      SynEdit.Modified := False;
-    end;
-  except
-    on E: Exception do begin
-      MessageBox(0, PChar(E.Message), PChar(Format('Error in saving file: "%s"', [fEditor.fFileName])),
-        MB_ICONERROR or MB_OK);
-      Result := False;
-    end;
+  end;
+  Result := SaveWideStringsToFile(fEditor.fFileName, SynEdit.Lines, fEditor.fFileEncoding);
+  if Result then begin
+    FileTimeLastWriteRaw(fEditor.fFileName, FileTime);
+    if not CommandsDataModule.PyIDEOptions.UndoAfterSave then
+      SynEdit.ClearUndo;
+    SynEdit.Modified := False;
   end;
 end;
 
@@ -1525,8 +1415,7 @@ begin
   begin
     Edit := GI_EditorFactory.GetEditorByName(NewName);
     if Assigned(Edit) and (Edit <> Self.fEditor as IEditor) then begin
-      MessageDlg('Another editor with the same file is open. '+
-        ' You can not have two editors with the same file.', mtError, [mbAbort], 0);
+      WideMessageDlg(_(SFileAlreadyOpen), mtError, [mbAbort], 0);
       Result := False;
       Exit;
     end;
@@ -1754,9 +1643,9 @@ begin
     if ASynEdit.Highlighter = CommandsDataModule.SynPythonSyn then begin
       OpenBrackets := '([{"''';
       CloseBrackets := ')]}"''';
-    end else if (ASynEdit.Highlighter = CommandsDataModule.SynHTMLSyn) or
-       (ASynEdit.Highlighter = CommandsDataModule.SynXMLSyn) or
-       (ASynEdit.Highlighter = CommandsDataModule.SynCssSyn) then
+    end else if (ASynEdit.Highlighter = CommandsDataModule.SynWebHTMLSyn) or
+       (ASynEdit.Highlighter = CommandsDataModule.SynWebXMLSyn) or
+       (ASynEdit.Highlighter = CommandsDataModule.SynWebCssSyn) then
     begin
       OpenBrackets := '<"''';
       CloseBrackets := '>"''';
@@ -1859,9 +1748,14 @@ begin
   end;
 end;
 
+procedure TEditorForm.Retranslate;
+begin
+  Assert(ViewsTabBar.Tabs.Count > 0);
+  ViewsTabBar.Tabs[0].Caption := _(SSourceTabCaption);
+end;
+
 procedure TEditorForm.FormCreate(Sender: TObject);
 begin
-  FormResize(Self);
   FGPanelExit(Self);
 
   SynEdit.ControlStyle := Synedit.ControlStyle + [csOpaque];
@@ -1906,6 +1800,8 @@ begin
   AddThemeNotification(Self);
 
   PyIDEMainForm.ThemeEditorGutter(SynEdit.Gutter);
+
+  Retranslate;
 end;
 
 procedure TEditorForm.SynEditGutterClick(Sender: TObject;
@@ -2163,23 +2059,7 @@ begin
   Color := GetBorderColor('inactive');
 end;
 
-procedure TEditorForm.FormResize(Sender: TObject);
-begin
-  with FGPanel do begin
-    if (Top <> 3) or (Left <> 3) or (Width <> Self.ClientWidth - 6)
-      or (Height <> Self.ClientHeight - 6)
-    then begin
-      Anchors :=[];
-      Top := 3;
-      Left := 3;
-      Width := Self.ClientWidth - 6;
-      Height := Self.ClientHeight - 6;
-      Anchors :=[akLeft, akRight, akTop, akBottom];
-    end;
-  end;
-end;
-
-procedure TEditorForm.CloseTabClick(Sender: TObject);
+procedure TEditorForm.mnCloseTabClick(Sender: TObject);
 begin
   if ViewsTabBar.SelectedTab.Data <> SourcePage then begin
     TJvStandardPage(ViewsTabbar.SelectedTab.Data).Free;
@@ -2275,6 +2155,30 @@ begin
   end;
 end;
 
+procedure TEditorForm.mnUpdateViewClick(Sender: TObject);
+var
+  TabCaption: string;
+  i: Integer;
+  ViewFactory : IEditorViewFactory;
+  EditorView : IEditorView;
+begin
+  if ViewsTabBar.SelectedTab.Data <> SourcePage then begin
+    TabCaption := TJvStandardPage(ViewsTabbar.SelectedTab.Data).Caption;
+    ViewFactory := nil;
+    for i := 0 to GI_EditorFactory.ViewFactoryCount - 1 do begin
+      if GI_EditorFactory.ViewFactory[i].TabCaption = TabCaption then begin
+        ViewFactory := GI_EditorFactory.ViewFactory[i];
+        break;
+      end;
+    end;
+    if Assigned(ViewFactory) then begin
+      EditorView := fEditor.ActivateView(ViewFactory);
+      if Assigned(EditorView) then
+        EditorView.UpdateView(fEditor);
+    end;
+  end;
+end;
+
 procedure TEditorForm.AutoCompleteAfterExecute(Sender: TObject);
 begin
   fAutoCompleteActive := False;
@@ -2314,12 +2218,12 @@ procedure TEditorForm.SynCodeCompletionExecute(Kind: SynCompletionType;
   Sender: TObject; var CurrentInput: WideString; var x, y: Integer;
   var CanExecute: Boolean);
 Var
-  locline, lookup: string;
+  locline, lookup: WideString;
   TmpX, Index, ImageIndex, i,
   TmpLocation    : Integer;
   FoundMatch     : Boolean;
-  DisplayText, InsertText, FName, ErrMsg, S : string;
-  NameSpace, SortedNameSpace : TStringList;
+  DisplayText, InsertText, FName, ErrMsg, S : WideString;
+  NameSpace, SortedNameSpace : WideStrings.TWideStringList;
   Scope: TCodeElement;
   Def, CE : TBaseCodeElement;
   ParsedModule, ParsedBuiltInModule : TParsedModule;
@@ -2359,11 +2263,11 @@ begin
     TmpLocation := 0;
 
     lookup := GetWordAtPos(LocLine, TmpX, IdentChars+['.'], True, False);
-    Index := CharLastPos(lookup, '.');
+    Index := WideCharLastPos(lookup, WideChar('.'));
 
     FName := GetEditor.GetFileNameOrTitle;
     // Add the file path to the Python path - Will be automatically removed
-    PythonPathAdder := InternalInterpreter.AddPathToPythonPath(ExtractFileDir(FName));
+    PythonPathAdder := InternalInterpreter.AddPathToPythonPath(WideExtractFileDir(FName));
 
     PyScripterRefactor.InitializeQuery;
     // GetParsedModule
@@ -2373,8 +2277,8 @@ begin
     if Assigned(ParsedModule) then
       Scope := ParsedModule.GetScopeForLine(CaretY);
     if Assigned(ParsedModule) and Assigned(Scope) then begin
-      NameSpace := TStringList.Create;
-      SortedNameSpace := TStringList.Create;
+      NameSpace := WideStrings.TWideStringList.Create;
+      SortedNameSpace := WideStrings.TWideStringList.Create;
 
       try
         DisplayText := '';
@@ -2461,12 +2365,12 @@ procedure TEditorForm.SynParamCompletionExecute(Kind: SynCompletionType;
   Sender: TObject; var CurrentInput: WideString; var x, y: Integer;
   var CanExecute: Boolean);
 Var
-  locline, lookup: String;
+  locline, lookup: WideString;
   TmpX, StartX,
   ParenCounter,
   TmpLocation : Integer;
   FoundMatch : Boolean;
-  FName, DisplayText, ErrMsg, Doc : string;
+  FName, DisplayText, ErrMsg, Doc : WideString;
   p : TPoint;
   Scope: TCodeElement;
   Def: TBaseCodeElement;
@@ -2535,7 +2439,7 @@ begin
       begin
         //we have a valid open paren, lets see what the word before it is
         StartX := TmpX;
-        while (TmpX > 0) and not(locLine[TmpX] in IdentChars+['.']) do  // added [.]
+        while (TmpX > 0) and not InOpSet(locLine[TmpX], IdentChars+['.']) do  // added [.]
           Dec(TmpX);
         if TmpX > 0 then
         begin
@@ -2555,7 +2459,7 @@ begin
             end else begin
               FName := GetEditor.GetFileNameOrTitle;
               // Add the file path to the Python path - Will be automatically removed
-              PythonPathAdder := InternalInterpreter.AddPathToPythonPath(ExtractFileDir(FName));
+              PythonPathAdder := InternalInterpreter.AddPathToPythonPath(WideExtractFileDir(FName));
 
               PyScripterRefactor.InitializeQuery;
               // GetParsedModule
@@ -2574,13 +2478,11 @@ begin
                 if Assigned(Def) and (Def is TParsedFunction) then begin
                   DisplayText := TParsedFunction(Def).ArgumentsString;
                   // Remove self arguments from methods
-                  if StrIsLeft(PChar(DisplayText), 'self') then
+                  if WideStrIsLeft(PWideChar(DisplayText), 'self') then
                     Delete(DisplayText, 1, 4);
-                  if StrIsLeft(PChar(DisplayText), ', ') then
+                  if WideStrIsLeft(PWideChar(DisplayText), ', ') then
                     Delete(DisplayText, 1, 2);
                   Doc := TParsedFunction(Def).DocString;
-//                  if Doc <> '' then
-//                    Doc := GetNthLine(Doc, 1);
 
                   OldParamCompetionData.lookup := lookup;
                   OldParamCompetionData.DisplayText := DisplayText;
@@ -2611,7 +2513,7 @@ begin
     with TSynCompletionProposal(Sender) do begin
       if DisplayText = '' then begin
         FormatParams := False;
-        DisplayText :=  '\style{~B}' + SNoParameters + '\style{~B}';
+        DisplayText :=  '\style{~B}' + _(SNoParameters) + '\style{~B}';
       end else begin
         FormatParams := True;
       end;
@@ -2636,10 +2538,42 @@ begin
   end;
 end;
 
+procedure TEditorForm.SynWebCompletionAfterCodeCompletion(Sender: TObject;
+  const Value: WideString; Shift: TShiftState; Index: Integer;
+  EndToken: WideChar);
+
+  function CaretBetween(AStr: String): Boolean;
+  var
+    i: Integer;
+    SynEdit : TCustomSynEdit;
+  begin
+    SynEdit := TSynCompletionProposal(Sender).Editor;
+    i := Pos(AStr, Value);
+    Result := i > 0;
+    if Result then
+      SynEdit.CaretX := SynEdit.CaretX - (Length(Value) - i);
+  end;
+
+begin
+  CaretBetween('()') or CaretBetween('><') or CaretBetween('""') or CaretBetween(' ;');
+end;
+
+procedure TEditorForm.SynWebCompletionExecute(Kind: SynCompletionType;
+  Sender: TObject; var CurrentInput: WideString; var x, y: Integer;
+  var CanExecute: Boolean);
+Var
+  SynEdit : TCustomSynEdit;
+begin
+  SynEdit := TSynCompletionProposal(Sender).Editor;
+  SynWebFillCompletionProposal(SynEdit, CommandsDataModule.SynWebHtmlSyn,
+    SynWebCompletion, CurrentInput);
+end;
+
 procedure TEditorForm.CodeHintEventHandler(Sender: TObject; AArea: TRect;
   var CodeHint: string);
 Var
-  ObjectValue, ObjectType, ErrMsg : string;
+  ObjectValue, ObjectType : WideString;
+  ErrMsg : WideString;
   CE : TBaseCodeElement;
 begin
   if CompareMem(@fHintIdentInfo.IdentArea, @AArea, SizeOf(TRect)) then begin
@@ -2652,10 +2586,10 @@ begin
     begin
       // Debugger hints
       PyControl.ActiveDebugger.Evaluate(fHintIdentInfo.DottedIdent, ObjectType, ObjectValue);
-      if ObjectValue <> SNotAvailable then begin
+      if ObjectValue <> _(SNotAvailable) then begin
         ObjectValue := HTMLSafe(ObjectValue);
         ObjectType := HTMLSafe(ObjectType);
-        CodeHint := Format(SDebuggerHintFormat,
+        CodeHint := WideFormat(_(SDebuggerHintFormat),
           [fHintIdentInfo.DottedIdent, ObjectType, ObjectValue]);
       end else
         CodeHint := '';

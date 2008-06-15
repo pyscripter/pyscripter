@@ -28,7 +28,7 @@ Type
     Line, Char, TopLine : integer;
     BreakPoints : TObjectList;
     BookMarks : TObjectList;
-    FileName : string;
+    FileName : WideString;
     Highlighter : string;
     EditorOptions : TSynEditorOptionsContainer;
     SecondEditorVisible : Boolean;
@@ -66,7 +66,7 @@ Type
 
 uses
   cPyBaseDebugger, frmPyIDEMain, SynEditTypes, dmCommands, uHighlighterProcs,
-  SynEdit;
+  SynEdit, TntSysUtils;
 
 { TFilePersistInfo }
 
@@ -84,7 +84,7 @@ procedure TFilePersistInfo.WriteToAppStorage(AppStorage: TJvCustomAppStorage;
 var
   IgnoreProperties : TStringList;
 begin
-   AppStorage.WriteString(BasePath+'\FileName', FileName);
+   AppStorage.WriteWideString(BasePath+'\FileName', FileName);
    AppStorage.WriteInteger(BasePath+'\Line', Line);
    AppStorage.WriteInteger(BasePath+'\Char', Char);
    AppStorage.WriteInteger(BasePath+'\TopLine', TopLine);
@@ -162,7 +162,7 @@ begin
   Line := Editor.SynEdit.CaretY;
   TopLine := Editor.Synedit.TopLine;
   if Assigned(Editor.SynEdit.Highlighter) then
-    Highlighter := Editor.SynEdit.Highlighter.GetLanguageName;
+    Highlighter := Editor.SynEdit.Highlighter.FriendlyLanguageName;
   if Assigned(Editor.SynEdit.Marks) then
     for i := 0 to Editor.SynEdit.Marks.Count - 1 do
       if Editor.SynEdit.Marks[i].IsBookmark then with Editor.SynEdit.Marks[i] do
@@ -216,7 +216,7 @@ begin
       PersistFileInfo.CreateListItem,  True, 'File');
     for i := 0 to PersistFileInfo.fFileInfoList.Count - 1 do begin
       FilePersistInfo := TFilePersistInfo(PersistFileInfo.fFileInfoList[i]);
-      if FileExists(FilePersistInfo.FileName) then
+      if WideFileExists(FilePersistInfo.FileName) then
         Editor := PyIDEMainForm.DoOpenFile(FilePersistInfo.FileName);
       if Assigned(Editor) then begin
         Editor.SynEdit.TopLine := FilePersistInfo.TopLine;

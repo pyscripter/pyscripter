@@ -47,6 +47,7 @@ function GetHighlighterFromFileExt(AHighlighters: TStrings;
   Extension: string): TSynCustomHighlighter;
 function GetHighlighterFromLanguageName(LanguageName : String;
   AHighlighters: TStrings) : TSynCustomHighlighter;
+function FileMaskFromFileFilter(Filter : string) : string;
 
 implementation
 
@@ -67,8 +68,8 @@ begin
         continue;
       Highlighter := AOwner.Components[i] as TSynCustomHighlighter;
       // only one highlighter for each language
-      if AHighlighters.IndexOf(Highlighter.GetLanguageName) = -1 then
-        AHighlighters.AddObject(Highlighter.GetLanguageName, Highlighter);
+      if AHighlighters.IndexOf(Highlighter.FriendlyLanguageName) = -1 then
+        AHighlighters.AddObject(Highlighter.FriendlyLanguageName, Highlighter);
     end;
   end;
 end;
@@ -135,4 +136,17 @@ begin
     Result := AHighlighters.Objects[Index] as TSynCustomHighlighter
 end;
 
+function FileMaskFromFileFilter(Filter : string) : string;
+Var
+  j : integer;
+begin
+  Result := '';
+  j := Pos('|', Filter);
+  if j > 0 then begin
+    Result := Filter;
+    Delete(Result, 1, j);
+  end;
+end;
+
 end.
+

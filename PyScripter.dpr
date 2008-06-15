@@ -12,9 +12,9 @@ program PyScripter;
 {%TogetherDiagram 'ModelSupport_PyScripter\default.txaPackage'}
 
 uses
-//  FastMM4,
-  Windows,
+  ControlResizeBugFix in 'ControlResizeBugFix.pas',
   RtlVclOptimize in 'RtlVclOptimize.pas',
+  Windows,
   Forms,
   Dialogs,
   uCmdLine in 'uCmdLine.pas',
@@ -37,11 +37,12 @@ uses
   frmVariables in 'frmVariables.pas' {VariablesWindow},
   frmCodeExplorer in 'frmCodeExplorer.pas' {CodeExplorerWindow},
   dlgOptionsEditor in 'dlgOptionsEditor.pas' {OptionsInspector},
-  dlgDirectoryList in 'dlgDirectoryList.pas' {JvDirectoryListDialog},
+  dlgDirectoryList in 'dlgDirectoryList.pas' {DirectoryListDialog},
   frmFileExplorer in 'frmFileExplorer.pas' {FileExplorerWindow},
   frmIDEDockWin in 'frmIDEDockWin.pas' {IDEDockWindow},
-  frmDocView in 'frmDocView.pas' {DocForm},
   frmDisassemlyView in 'frmDisassemlyView.pas' {DisForm},
+  frmDocView in 'frmDocView.pas' {DocForm},
+  frmWebPreview in 'frmWebPreview.pas' {WebPreviewForm},
   dlgSynEditOptions in 'dlgSynEditOptions.pas' {fmEditorOptionsDialog},
   SynHighlighterPython in 'SynHighlighterPython.pas',
   frmToDo in 'frmToDo.pas' {ToDoWindow},
@@ -85,7 +86,6 @@ uses
   dlgNewFile in 'dlgNewFile.pas' {NewFileDialog},
   SynEdit in 'SynEdit.pas',
   JvAppInst in 'JvAppInst.pas',
-  SynEditKeyCmds in 'SynEditKeyCmds.pas',
   PythonEngine in 'PythonEngine.pas',
   TBXOffice2003Theme in 'TBXOffice2003Theme.pas',
   TBXOffice2007Theme in 'TBXOffice2007Theme.pas',
@@ -105,8 +105,17 @@ uses
   dlgImportDirectory in 'dlgImportDirectory.pas' {ImportDirectoryForm},
   dlgRunConfiguration in 'dlgRunConfiguration.pas' {RunConfigurationForm},
   SpTBXCustomizer in 'SpTBXCustomizer.pas',
+  MPCommonObjects in 'MPCommonObjects.pas',
+  VirtualFileSearch in 'VirtualFileSearch.pas',
+  SynHighlighterWeb in 'SynHighlighterWeb.pas',
+  JvAppStorage in 'JvAppStorage.pas',
+  SynEditTextBuffer in 'SynEditTextBuffer.pas',
   SynUnicode in 'SynUnicode.pas',
-  MPCommonObjects in 'MPCommonObjects.pas';
+  SynTextDrawer in 'SynTextDrawer.pas',
+  gnugettext in 'gnugettext.pas',
+  dlgPyIDEBase in 'dlgPyIDEBase.pas' {PyIDEDlgBase},
+  JvDockInfo in 'JvDockInfo.pas',
+  JvCreateProcessW in 'JvCreateProcessW.pas';
 
 {$R *.RES}
 {$R WebCopyAvi.RES}

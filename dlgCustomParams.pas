@@ -5,25 +5,12 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ComCtrls, ExtCtrls, JvEdit,
-  SynEdit, ActnList, TBXDkPanels, SpTBXControls;
+  SynEdit, ActnList, TBXDkPanels, SpTBXControls, TntActnList, dlgPyIDEBase,
+  TntComCtrls, SpTBXEditors, WideStrings;
 
-type                                   
-  TCustomizeParams = class(TForm)
-    Panel: TPanel;
-    lvItems: TListView;
-    GroupBox1: TGroupBox;
-    Label1: TLabel;
-    Label2: TLabel;
-    SynValue: TSynEdit;
-    edName: TEdit;
-    ActionList: TActionList;
-    actAddItem: TAction;
-    actDeleteItem: TAction;
-    actMoveUp: TAction;
-    actMoveDown: TAction;
-    actUpdateItem: TAction;
-    Label3: TLabel;
-    Label4: TLabel;
+type
+  TCustomizeParams = class(TPyIDEDlgBase)
+    Panel: TSpTBXPanel;
     TBXButton1: TSpTBXButton;
     TBXButton3: TSpTBXButton;
     TBXButton4: TSpTBXButton;
@@ -31,6 +18,20 @@ type
     TBXButton2: TSpTBXButton;
     btnOK: TSpTBXButton;
     btnCancel: TSpTBXButton;
+    ActionList: TTntActionList;
+    actUpdateItem: TTntAction;
+    actMoveDown: TTntAction;
+    actMoveUp: TTntAction;
+    actDeleteItem: TTntAction;
+    actAddItem: TTntAction;
+    Label3: TSpTBXLabel;
+    Label4: TSpTBXLabel;
+    GroupBox1: TSpTBXGroupBox;
+    SynValue: TSynEdit;
+    Label1: TSpTBXLabel;
+    Label2: TSpTBXLabel;
+    edName: TSpTBXEdit;
+    lvItems: TTntListView;
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure edNameKeyPress(Sender: TObject; var Key: Char);
@@ -46,13 +47,13 @@ type
     { Private declarations }
   public
     { Public declarations }
-    procedure SetItems(List : TStrings);
-    procedure GetItems(List : TStrings);
+    procedure SetItems(List : TWideStrings);
+    procedure GetItems(List : TWideStrings);
   end;
 
 implementation
 
-uses dmCommands;
+uses dmCommands, gnugettext, StringResources, TntDialogs;
 
 {$R *.dfm}
 
@@ -75,7 +76,7 @@ begin
   inherited;
 end;
 
-procedure TCustomizeParams.GetItems(List: TStrings);
+procedure TCustomizeParams.GetItems(List: TWideStrings);
 Var
  i : integer;
 begin
@@ -89,7 +90,7 @@ begin
   end;
 end;
 
-procedure TCustomizeParams.SetItems(List: TStrings);
+procedure TCustomizeParams.SetItems(List: TWideStrings);
 Var
  i : integer;
 begin
@@ -150,7 +151,7 @@ begin
       if (CompareText(lvItems.Items[i].Caption, edName.Text) = 0) and
          (i <> lvItems.ItemIndex) then
       begin
-        MessageDlg('Another item has the same name', mtError, [mbOK], 0);
+        WideMessageDlg(_(SSameName), mtError, [mbOK], 0);
         Exit;
       end;
     with lvItems.Items[lvItems.ItemIndex] do begin
@@ -193,7 +194,9 @@ Var
   Name, Value : string;
   Index : integer;
 begin
-  if lvItems.ItemIndex < lvItems.Items.Count - 1 then begin
+  if (lvItems.ItemIndex >= 0) and
+    (lvItems.ItemIndex < lvItems.Items.Count - 1) then
+  begin
     Index := lvItems.ItemIndex;
     Name := lvItems.Items[Index].Caption;
     Value := lvItems.Items[Index].SubItems[0];

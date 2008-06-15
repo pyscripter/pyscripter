@@ -46,34 +46,35 @@ interface
 
 uses
   Classes, Controls, StdCtrls, Forms,
-  cFindInFiles, SpTBXControls, TBXDkPanels;
+  cFindInFiles, SpTBXControls, TBXDkPanels, TntStdCtrls, SpTBXEditors,
+  dlgPyIDEBase;
 
 type
-  TReplaceInFilesDialog = class(TForm)
-    lblWith: TLabel;
-    cbReplace: TComboBox;
-    lblIn: TLabel;
-    lblInString: TLabel;
-    lblReplace: TLabel;
-    lblReplaceString: TLabel;
+  TReplaceInFilesDialog = class(TPyIDEDlgBase)
     btnOK: TSpTBXButton;
     btnCancel: TSpTBXButton;
     btnHelp: TSpTBXButton;
     cbBackup: TSpTBXCheckBox;
+    cbReplace: TSpTBXComboBox;
+    lblInString: TSpTBXLabel;
+    lblReplaceString: TSpTBXLabel;
+    lblWith: TSpTBXLabel;
+    lblIn: TSpTBXLabel;
+    lblReplace: TSpTBXLabel;
     procedure btnHelpClick(Sender: TObject);
   private
     FFindInFilesExpert : TFindInFilesExpert;
     procedure LoadFormSettings;
     procedure SaveFormSettings;
-    procedure SetSearchString(const Value: string);
-    procedure SetReplaceInString(const Value: string);
+    procedure SetSearchString(const Value: WideString);
+    procedure SetReplaceInString(const Value: WideString);
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
     procedure RetrieveSettings(var Value: TGrepSettings);
     property FindInFilesExpert: TFindInFilesExpert read FFindInFilesExpert;
-    property SearchString: string write SetSearchString;
-    property ReplaceInString: string write SetReplaceInString;
+    property SearchString: WideString write SetSearchString;
+    property ReplaceInString: WideString write SetReplaceInString;
   end;
 
 implementation
@@ -131,12 +132,12 @@ begin
   Application.HelpContext(HelpContext);
 end;
 
-procedure TReplaceInFilesDialog.SetSearchString(const Value: string);
+procedure TReplaceInFilesDialog.SetSearchString(const Value: WideString);
 begin
   lblReplaceString.Caption := Value;
 end;
 
-procedure TReplaceInFilesDialog.SetReplaceInString(const Value: string);
+procedure TReplaceInFilesDialog.SetReplaceInString(const Value: WideString);
 begin
   lblInString.Caption := Value;
 end;

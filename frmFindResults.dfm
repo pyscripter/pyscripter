@@ -5,7 +5,6 @@ inherited FindResultsWindow: TFindResultsWindow
   Caption = 'Find in Files Results'
   ClientHeight = 339
   ClientWidth = 603
-  Font.Name = 'Tahoma'
   Icon.Data = {
     0000010001001010000000000000680500001600000028000000100000002000
     0000010008000000000040010000000000000000000000010000000000000000
@@ -58,19 +57,17 @@ inherited FindResultsWindow: TFindResultsWindow
   PixelsPerInch = 96
   TextHeight = 13
   inherited FGPanel: TPanel
-    Left = 4
-    Top = 6
-    Width = 595
-    Height = 320
-    ExplicitLeft = 4
-    ExplicitTop = 6
-    ExplicitWidth = 595
-    ExplicitHeight = 320
+    Width = 597
+    Height = 333
+    ExplicitLeft = 3
+    ExplicitTop = 3
+    ExplicitWidth = 597
+    ExplicitHeight = 333
     object pnlMain: TPanel
       Left = 0
       Top = 0
-      Width = 595
-      Height = 298
+      Width = 597
+      Height = 309
       Align = alClient
       BevelOuter = bvNone
       FullRepaint = False
@@ -78,8 +75,8 @@ inherited FindResultsWindow: TFindResultsWindow
       TabOrder = 0
       object Splitter: TSplitter
         Left = 0
-        Top = 202
-        Width = 595
+        Top = 213
+        Width = 597
         Height = 8
         Cursor = crVSplit
         Align = alBottom
@@ -87,13 +84,109 @@ inherited FindResultsWindow: TFindResultsWindow
         Beveled = True
         MinSize = 20
         ResizeStyle = rsUpdate
+        ExplicitTop = 202
+        ExplicitWidth = 595
       end
-      object lbResults: TListBox
+      object TBXDock1: TSpTBXDock
+        Left = 0
+        Top = 0
+        Width = 597
+        Height = 26
+        AllowDrag = False
+        object ToolBar: TSpTBXToolbar
+          Left = 0
+          Top = 0
+          DockPos = 0
+          FullSize = True
+          Images = CommandsDataModule.Images
+          TabOrder = 0
+          Customizable = False
+          object tbiSearch: TSpTBXItem
+            Caption = '&Search...'
+            Hint = 'New search...'
+            Action = actFileSearch
+          end
+          object tbiRefresh: TSpTBXItem
+            Caption = '&Refresh'
+            Hint = 'Refresh search'
+            Action = actFileRefresh
+          end
+          object TBXSeparatorItem1: TSpTBXSeparatorItem
+          end
+          object tbiAbort: TSpTBXItem
+            Caption = '&Abort'
+            Hint = 'Abort search'
+            Action = actFileAbort
+          end
+          object TBXSeparatorItem2: TSpTBXSeparatorItem
+          end
+          object tbiGoToSelected: TSpTBXItem
+            Caption = 'Goto Selected'
+            Hint = 'Goto match'
+            Action = actListGotoSelected
+          end
+          object TBXSeparatorItem3: TSpTBXSeparatorItem
+          end
+          object tbiPrint: TSpTBXItem
+            Caption = '&Print...'
+            Hint = 'Print results...'
+            Action = actFilePrint
+          end
+          object tbiCopy: TSpTBXItem
+            Caption = '&Copy'
+            Hint = 'Copy results to clipboard'
+            Action = actFileCopy
+          end
+          object tbiSave: TSpTBXItem
+            Caption = '&Save...'
+            Hint = 'Save results to file...'
+            Action = actFileSave
+          end
+          object TBXSeparatorItem4: TSpTBXSeparatorItem
+          end
+          object tbiExpand: TSpTBXItem
+            Caption = '&Expand'
+            Hint = 'Expand all'
+            Action = actListExpand
+          end
+          object tbiContract: TSpTBXItem
+            Caption = '&Contract'
+            Hint = 'Contract all'
+            Action = actListContract
+          end
+          object TBXSeparatorItem5: TSpTBXSeparatorItem
+          end
+          object tbiReplaceSelected: TSpTBXItem
+            Caption = 'Replace Selected Item...'
+            Hint = 'Replace selected item...'
+            Action = actReplaceSelected
+          end
+          object tbiReplaceAll: TSpTBXItem
+            Caption = 'Replace All Items...'
+            Hint = 'Replace all items...'
+            Action = actReplaceAll
+          end
+          object TBXSeparatorItem6: TSpTBXSeparatorItem
+          end
+          object tbiOptions: TSpTBXItem
+            Caption = 'Options...'
+            Hint = 'Configure Find in Files'
+            Action = actViewOptions
+          end
+          object TBXSeparatorItem8: TSpTBXSeparatorItem
+          end
+          object tbiHelp: TSpTBXItem
+            Caption = '&Help'
+            Hint = 'Help'
+            Action = actHelpHelp
+          end
+        end
+      end
+      object lbResults: TSpTBXListBox
         Left = 0
         Top = 26
-        Width = 595
-        Height = 176
-        Style = lbOwnerDrawFixed
+        Width = 597
+        Height = 187
         Align = alClient
         Constraints.MinHeight = 120
         ItemHeight = 17
@@ -103,11 +196,12 @@ inherited FindResultsWindow: TFindResultsWindow
         OnDrawItem = lbResultsDrawItem
         OnKeyPress = lbResultsKeyPress
         OnMouseUp = lbResultsMouseUp
+        HotTrack = False
       end
-      object reContext: TRichEdit
+      object reContext: TTntRichEdit
         Left = 0
-        Top = 210
-        Width = 595
+        Top = 221
+        Width = 597
         Height = 88
         Align = alBottom
         ReadOnly = True
@@ -115,252 +209,27 @@ inherited FindResultsWindow: TFindResultsWindow
         TabOrder = 1
         WordWrap = False
       end
-      object TBXDock1: TSpTBXDock
-        Left = 0
-        Top = 0
-        Width = 595
-        Height = 26
-        AllowDrag = False
-        object ToolBar: TSpTBXToolbar
-          Left = 0
-          Top = 0
-          Caption = 'ToolBar'
-          DockPos = 0
-          FullSize = True
-          Images = CommandsDataModule.Images
-          TabOrder = 0
-          Customizable = False
-          object TBXItem2: TSpTBXItem
-            Caption = '&Search...'
-            Hint = 'New search...'
-            Action = actFileSearch
-          end
-          object TBXItem1: TSpTBXItem
-            Caption = '&Refresh'
-            Hint = 'Refresh search'
-            Action = actFileRefresh
-          end
-          object TBXSeparatorItem1: TSpTBXSeparatorItem
-          end
-          object TBXItem3: TSpTBXItem
-            Caption = '&Abort'
-            Hint = 'Abort search'
-            Action = actFileAbort
-          end
-          object TBXSeparatorItem2: TSpTBXSeparatorItem
-          end
-          object TBXItem4: TSpTBXItem
-            Caption = 'Goto Selected'
-            Hint = 'Goto match'
-            Action = actListGotoSelected
-          end
-          object TBXSeparatorItem3: TSpTBXSeparatorItem
-          end
-          object TBXItem7: TSpTBXItem
-            Caption = '&Print...'
-            Hint = 'Print results...'
-            Action = actFilePrint
-          end
-          object TBXItem6: TSpTBXItem
-            Caption = '&Copy'
-            Hint = 'Copy results to clipboard'
-            Action = actFileCopy
-          end
-          object TBXItem5: TSpTBXItem
-            Caption = '&Save...'
-            Hint = 'Save results to file...'
-            Action = actFileSave
-          end
-          object TBXSeparatorItem4: TSpTBXSeparatorItem
-          end
-          object TBXItem9: TSpTBXItem
-            Caption = '&Expand'
-            Hint = 'Expand all'
-            Action = actListExpand
-          end
-          object TBXItem8: TSpTBXItem
-            Caption = '&Contract'
-            Hint = 'Contract all'
-            Action = actListContract
-          end
-          object TBXSeparatorItem5: TSpTBXSeparatorItem
-          end
-          object TBXItem11: TSpTBXItem
-            Caption = 'Replace Selected Item...'
-            Hint = 'Replace selected item...'
-            Action = actReplaceSelected
-          end
-          object TBXItem10: TSpTBXItem
-            Caption = 'Replace All Items...'
-            Hint = 'Replace all items...'
-            Action = actReplaceAll
-          end
-          object TBXSeparatorItem6: TSpTBXSeparatorItem
-          end
-          object TBXItem13: TSpTBXItem
-            Caption = 'Options...'
-            Hint = 'Configure Find in Files'
-            Action = actViewOptions
-          end
-          object TBXSeparatorItem8: TSpTBXSeparatorItem
-          end
-          object TBXItem14: TSpTBXItem
-            Caption = '&Help'
-            Hint = 'Help'
-            Action = actHelpHelp
-          end
-        end
-      end
     end
-    object StatusBar: TTBXStatusBar
+    object StatusBar: TSpTBXStatusBar
       Left = 0
-      Top = 298
-      Width = 595
-      Panels = <
-        item
-          ViewPriority = 80
-          StretchPriority = 100
-          Tag = 0
-          TextTruncation = twEndEllipsis
-        end
-        item
-          Size = 70
-          Tag = 0
-        end>
-      UseSystemFont = False
+      Top = 309
+      Width = 597
+      Height = 24
+      object StatusLeftLabel: TSpTBXLabelItem
+        Wrapping = twEndEllipsis
+        MinHeight = 20
+      end
+      object SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem
+        CustomWidth = 568
+      end
+      object StatusRightLabel: TSpTBXLabelItem
+        Alignment = taRightJustify
+      end
     end
   end
   inherited DockClient: TJvDockClient
     Left = 22
     Top = 44
-  end
-  object Actions: TActionList
-    Images = CommandsDataModule.Images
-    OnUpdate = ActionsUpdate
-    Left = 24
-    Top = 80
-    object actReplaceSelected: TAction
-      Category = 'Replace'
-      Caption = 'Replace Selected Item...'
-      Hint = 'Replace selected item...'
-      ImageIndex = 17
-      ShortCut = 24659
-      OnExecute = actReplaceSelectedExecute
-    end
-    object actFileSearch: TAction
-      Category = 'File'
-      Caption = '&Search...'
-      Hint = 'New search...'
-      ImageIndex = 15
-      ShortCut = 24646
-      OnExecute = actFileSearchExecute
-    end
-    object actFileRefresh: TAction
-      Category = 'File'
-      Caption = '&Refresh'
-      Hint = 'Refresh search'
-      ImageIndex = 42
-      ShortCut = 116
-      OnExecute = actFileRefreshExecute
-    end
-    object actFileAbort: TAction
-      Category = 'File'
-      Caption = '&Abort'
-      Hint = 'Abort search'
-      ImageIndex = 40
-      ShortCut = 16449
-      OnExecute = actFileAbortExecute
-    end
-    object actFilePrint: TAction
-      Category = 'File'
-      Caption = '&Print...'
-      Hint = 'Print results...'
-      ImageIndex = 8
-      ShortCut = 16464
-      OnExecute = actFilePrintExecute
-    end
-    object actListGotoSelected: TAction
-      Category = 'List'
-      Caption = 'Goto Selected'
-      Hint = 'Goto match'
-      ImageIndex = 32
-      OnExecute = actListGotoSelectedExecute
-    end
-    object actListContract: TAction
-      Category = 'List'
-      Caption = '&Contract'
-      Hint = 'Contract all'
-      ImageIndex = 29
-      ShortCut = 16462
-      OnExecute = actListContractExecute
-    end
-    object actListExpand: TAction
-      Category = 'List'
-      Caption = '&Expand'
-      Hint = 'Expand all'
-      ImageIndex = 28
-      ShortCut = 16453
-      OnExecute = actListExpandExecute
-    end
-    object actHelpHelp: TAction
-      Category = 'Help'
-      Caption = '&Help'
-      Hint = 'Help'
-      ImageIndex = 33
-      OnExecute = actHelpHelpExecute
-    end
-    object actViewShowContext: TAction
-      Category = 'View'
-      Caption = 'Show Match Context'
-      Checked = True
-      Hint = 'View/Hide Context of found text'
-      OnExecute = actViewShowContextExecute
-    end
-    object actFileSave: TAction
-      Category = 'File'
-      Caption = '&Save...'
-      Hint = 'Save results to file...'
-      ImageIndex = 4
-      ShortCut = 49235
-      OnExecute = actFileSaveExecute
-    end
-    object actFileCopy: TAction
-      Category = 'File'
-      Caption = '&Copy'
-      Hint = 'Copy results to clipboard'
-      ImageIndex = 12
-      ShortCut = 16451
-      OnExecute = actFileCopyExecute
-    end
-    object actViewToolBar: TAction
-      Category = 'View'
-      Caption = 'Toolbar'
-      Checked = True
-      Hint = 'View/Hide Toolbar'
-      OnExecute = actViewToolBarExecute
-    end
-    object actViewStatusBar: TAction
-      Category = 'View'
-      Caption = 'StatusBar'
-      Checked = True
-      Hint = 'View/Hide StatusBar'
-      OnExecute = actViewStatusBarExecute
-    end
-    object actViewOptions: TAction
-      Category = 'View'
-      Caption = 'Options...'
-      Hint = 'Configure Find in Files'
-      ImageIndex = 24
-      OnExecute = actViewOptionsExecute
-    end
-    object actReplaceAll: TAction
-      Category = 'Replace'
-      Caption = 'Replace All Items...'
-      Hint = 'Replace all items...'
-      ImageIndex = 18
-      ShortCut = 24641
-      OnExecute = actReplaceAllExecute
-    end
   end
   object TBXPopupMenu: TSpTBXPopupMenu
     Images = CommandsDataModule.Images
@@ -431,17 +300,138 @@ inherited FindResultsWindow: TFindResultsWindow
     end
     object N4: TSpTBXSeparatorItem
     end
-    object mitViewStayOnTop1: TSpTBXItem
-      Caption = 'Stay on Top'
-      Hint = 'Stay on top'
-      ImageIndex = 41
-    end
-    object TBXSeparatorItem9: TSpTBXSeparatorItem
-    end
-    object TBXItem15: TSpTBXItem
+    object mitHelp: TSpTBXItem
       Caption = '&Help'
       Hint = 'Help'
       Action = actHelpHelp
+    end
+  end
+  object Actions: TTntActionList
+    Images = CommandsDataModule.Images
+    OnUpdate = ActionsUpdate
+    Left = 24
+    Top = 80
+    object actReplaceSelected: TTntAction
+      Category = 'Replace'
+      Caption = 'Replace Selected Item...'
+      Hint = 'Replace selected item...'
+      ImageIndex = 17
+      ShortCut = 24659
+      OnExecute = actReplaceSelectedExecute
+    end
+    object actFileSearch: TTntAction
+      Category = 'File'
+      Caption = '&Search...'
+      Hint = 'New search...'
+      ImageIndex = 15
+      ShortCut = 24646
+      OnExecute = actFileSearchExecute
+    end
+    object actFileRefresh: TTntAction
+      Category = 'File'
+      Caption = '&Refresh'
+      Hint = 'Refresh search'
+      ImageIndex = 42
+      ShortCut = 116
+      OnExecute = actFileRefreshExecute
+    end
+    object actFileAbort: TTntAction
+      Category = 'File'
+      Caption = '&Abort'
+      Hint = 'Abort search'
+      ImageIndex = 40
+      ShortCut = 16449
+      OnExecute = actFileAbortExecute
+    end
+    object actFilePrint: TTntAction
+      Category = 'File'
+      Caption = '&Print...'
+      Hint = 'Print results...'
+      ImageIndex = 8
+      ShortCut = 16464
+      OnExecute = actFilePrintExecute
+    end
+    object actListGotoSelected: TTntAction
+      Category = 'List'
+      Caption = 'Goto Selected'
+      Hint = 'Goto match'
+      ImageIndex = 32
+      OnExecute = actListGotoSelectedExecute
+    end
+    object actListContract: TTntAction
+      Category = 'List'
+      Caption = '&Contract'
+      Hint = 'Contract all'
+      ImageIndex = 29
+      ShortCut = 16462
+      OnExecute = actListContractExecute
+    end
+    object actListExpand: TTntAction
+      Category = 'List'
+      Caption = '&Expand'
+      Hint = 'Expand all'
+      ImageIndex = 28
+      ShortCut = 16453
+      OnExecute = actListExpandExecute
+    end
+    object actHelpHelp: TTntAction
+      Category = 'Help'
+      Caption = '&Help'
+      Hint = 'Help'
+      ImageIndex = 33
+      OnExecute = actHelpHelpExecute
+    end
+    object actViewShowContext: TTntAction
+      Category = 'View'
+      Caption = 'Show Match Context'
+      Checked = True
+      Hint = 'View/Hide Context of found text'
+      OnExecute = actViewShowContextExecute
+    end
+    object actFileSave: TTntAction
+      Category = 'File'
+      Caption = '&Save...'
+      Hint = 'Save results to file...'
+      ImageIndex = 4
+      ShortCut = 49235
+      OnExecute = actFileSaveExecute
+    end
+    object actFileCopy: TTntAction
+      Category = 'File'
+      Caption = '&Copy'
+      Hint = 'Copy results to clipboard'
+      ImageIndex = 12
+      ShortCut = 16451
+      OnExecute = actFileCopyExecute
+    end
+    object actViewToolBar: TTntAction
+      Category = 'View'
+      Caption = 'Toolbar'
+      Checked = True
+      Hint = 'View/Hide Toolbar'
+      OnExecute = actViewToolBarExecute
+    end
+    object actViewStatusBar: TTntAction
+      Category = 'View'
+      Caption = 'StatusBar'
+      Checked = True
+      Hint = 'View/Hide StatusBar'
+      OnExecute = actViewStatusBarExecute
+    end
+    object actViewOptions: TTntAction
+      Category = 'View'
+      Caption = 'Options...'
+      Hint = 'Configure Find in Files'
+      ImageIndex = 24
+      OnExecute = actViewOptionsExecute
+    end
+    object actReplaceAll: TTntAction
+      Category = 'Replace'
+      Caption = 'Replace All Items...'
+      Hint = 'Replace all items...'
+      ImageIndex = 18
+      ShortCut = 24641
+      OnExecute = actReplaceAllExecute
     end
   end
 end

@@ -46,25 +46,25 @@ interface
 
 uses
   StdCtrls, Dialogs, Controls, ExtCtrls, Classes, Forms, Mask, JvExMask,
-  JvSpin, SpTBXControls, TBXDkPanels;
+  JvSpin, SpTBXControls, TBXDkPanels, SpTBXEditors, dlgPyIDEBase;
 
 type
-  TFindResultsOptionsDialog = class(TForm)
-    gbxMatchList: TGroupBox;
-    pnlListFont: TPanel;
-    gbxMatchContext: TGroupBox;
-    pnlContextFont: TPanel;
-    lblContextLines: TLabel;
+  TFindResultsOptionsDialog = class(TPyIDEDlgBase)
+    gbxMatchList: TSpTBXGroupBox;
+    gbxMatchContext: TSpTBXGroupBox;
     dlgGrepListFont: TFontDialog;
     dlgGrepContextFont: TFontDialog;
-    pnlMatchLineColor: TPanel;
     dlgContextFontColor: TColorDialog;
-    spnContextLines: TJvSpinEdit;
     chkGrepMiddle: TSpTBXCheckBox;
     chkGrepExpandAll: TSpTBXCheckBox;
     btnOK: TSpTBXButton;
     btnCancel: TSpTBXButton;
     btnHelp: TSpTBXButton;
+    lblContextLines: TSpTBXLabel;
+    spnContextLines: TSpTBXSpinEdit;
+    pnlListFont: TPanel;
+    pnlContextFont: TPanel;
+    pnlMatchLineColor: TPanel;
     procedure pnlContextFontClick(Sender: TObject);
     procedure pnlMatchLineColorClick(Sender: TObject);
     procedure pnlListFontClick(Sender: TObject);

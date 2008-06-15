@@ -47,19 +47,17 @@ inherited VariablesWindow: TVariablesWindow
   PixelsPerInch = 96
   TextHeight = 13
   inherited FGPanel: TPanel
-    Left = 5
-    Top = 11
-    Width = 569
-    Height = 213
-    ExplicitLeft = 5
-    ExplicitTop = 11
-    ExplicitWidth = 569
-    ExplicitHeight = 213
+    Width = 573
+    Height = 241
+    ExplicitLeft = 3
+    ExplicitTop = 3
+    ExplicitWidth = 573
+    ExplicitHeight = 241
     object VariablesTree: TVirtualStringTree
       Left = 0
       Top = 0
-      Width = 189
-      Height = 213
+      Width = 193
+      Height = 241
       Align = alClient
       Alignment = taRightJustify
       Anchors = [akLeft, akTop, akBottom]
@@ -106,10 +104,10 @@ inherited VariablesWindow: TVariablesWindow
         end>
     end
     object DocPanel: TTBXPageScroller
-      Left = 194
+      Left = 198
       Top = 0
       Width = 375
-      Height = 213
+      Height = 241
       Align = alRight
       AutoRange = True
       Color = clBtnFace
@@ -131,11 +129,10 @@ inherited VariablesWindow: TVariablesWindow
       end
     end
     object SpTBXSplitter: TSpTBXSplitter
-      Left = 189
+      Left = 193
       Top = 0
-      Height = 213
+      Height = 241
       Cursor = crSizeWE
-      Caption = 'SpTBXSplitter'
       Align = alRight
       MinSize = 3
     end

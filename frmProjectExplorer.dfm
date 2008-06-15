@@ -44,21 +44,23 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
   PixelsPerInch = 96
   TextHeight = 13
   inherited FGPanel: TPanel
-    ExplicitLeft = -1
-    ExplicitTop = -1
+    ExplicitLeft = 3
+    ExplicitTop = 3
+    ExplicitWidth = 221
+    ExplicitHeight = 402
     object Panel1: TPanel
       Left = 0
       Top = 0
-      Width = 227
-      Height = 396
+      Width = 221
+      Height = 402
       Align = alClient
       BevelOuter = bvNone
       TabOrder = 0
       object ExplorerTree: TVirtualStringTree
         Left = 0
         Top = 26
-        Width = 227
-        Height = 370
+        Width = 221
+        Height = 376
         Align = alClient
         BorderStyle = bsNone
         Header.AutoSizeIndex = -1
@@ -73,13 +75,16 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
         Images = ProjectImageList
         IncrementalSearch = isAll
         TabOrder = 0
-        TreeOptions.MiscOptions = [toEditable, toFullRepaintOnResize, toInitOnSave, toWheelPanning]
+        TreeOptions.AutoOptions = [toAutoDropExpand, toAutoScroll, toAutoScrollOnExpand, toAutoTristateTracking, toAutoDeleteMovedNodes]
+        TreeOptions.MiscOptions = [toAcceptOLEDrop, toEditable, toFullRepaintOnResize, toInitOnSave, toWheelPanning]
         TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowDropmark, toShowTreeLines, toShowVertGridLines, toThemeAware, toUseBlendedImages, toUseBlendedSelection]
-        TreeOptions.SelectionOptions = [toRightClickSelect]
+        TreeOptions.SelectionOptions = [toMultiSelect, toRightClickSelect, toSiblingSelectConstraint]
         TreeOptions.StringOptions = [toAutoAcceptEditChange]
-        OnChange = ExplorerTreeChange
         OnContextPopup = ExplorerTreeContextPopup
         OnDblClick = ExplorerTreeDblClick
+        OnDragAllowed = ExplorerTreeDragAllowed
+        OnDragOver = ExplorerTreeDragOver
+        OnDragDrop = ExplorerTreeDragDrop
         OnEditing = ExplorerTreeEditing
         OnGetText = ExplorerTreeGetText
         OnGetImageIndex = ExplorerTreeGetImageIndex
@@ -88,13 +93,12 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
         OnInitNode = ExplorerTreeInitNode
         OnKeyPress = ExplorerTreeKeyPress
         OnNewText = ExplorerTreeNewText
-        ExplicitTop = 32
         Columns = <>
       end
       object SpTBXDock1: TSpTBXDock
         Left = 0
         Top = 0
-        Width = 227
+        Width = 221
         Height = 26
         AllowDrag = False
         object SpTBXToolbar1: TSpTBXToolbar
@@ -102,43 +106,55 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
           Top = 0
           Align = alTop
           AutoResize = False
-          Caption = 'ProjectExplorerToolbar'
+          Caption = 'Project Explorer Toolbar'
           DockMode = dmCannotFloat
           FullSize = True
           Images = CommandsDataModule.Images
           TabOrder = 0
           Customizable = False
-          object SpTBXItem19: TSpTBXItem
+          object tbiProjectNew: TSpTBXItem
             Caption = '&New Project'
             Hint = 'Start a new project'
             Action = actProjectNew
           end
-          object SpTBXItem20: TSpTBXItem
+          object tbiProjectOpen: TSpTBXItem
             Caption = '&Open Project...'
             Hint = 'Open a project file'
             Action = actProjectOpen
           end
-          object SpTBXItem21: TSpTBXItem
+          object tbiProjectSave: TSpTBXItem
             Caption = '&Save Project'
             Hint = 'Save the project'
             Action = actProjectSave
           end
           object SpTBXSeparatorItem8: TSpTBXSeparatorItem
           end
-          object SpTBXItem24: TSpTBXItem
+          object tbiRunLast: TSpTBXItem
             Caption = 'Run Last Script'
-            Hint = 'Run last script again'
+            Hint = 'Run last script'
             Action = PyIDEMainForm.actRunLastScript
           end
-          object SpTBXItem23: TSpTBXItem
+          object tbiDebugLast: TSpTBXItem
             Caption = 'Debug Last Script'
-            Hint = 'Debug last script again'
+            Hint = 'Debug last script'
             Action = PyIDEMainForm.actRunDebugLastScript
           end
-          object SpTBXItem22: TSpTBXItem
+          object tbiRunLastExternal: TSpTBXItem
             Caption = 'Run Last Script Externally'
             Hint = 'Run last script externally'
             Action = PyIDEMainForm.actRunLastScriptExternal
+          end
+          object SpTBXSeparatorItem11: TSpTBXSeparatorItem
+          end
+          object tbiExpandAll: TSpTBXItem
+            Caption = '&Expand All'
+            Hint = 'Expand all project nodes'
+            Action = actProjectExpandAll
+          end
+          object tbiCollapseAll: TSpTBXItem
+            Caption = '&Collapse All'
+            Hint = 'Collapse all project nodes'
+            Action = actProjectCollapseAll
           end
         end
       end
@@ -147,162 +163,51 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
   inherited DockClient: TJvDockClient
     Top = 46
   end
-  object ImmutableProjectActionList: TActionList
-    Images = CommandsDataModule.Images
-    Left = 8
-    Top = 76
-    object actProjectAddFiles: TAction
-      Category = 'Project'
-      Caption = '&Add File(s)...'
-      HelpContext = 435
-      HelpType = htContext
-      Hint = 'Add file(s) to a project folder'
-      ImageIndex = 135
-      OnExecute = actProjectAddFilesExecute
-    end
-    object actProjectAddFolder: TAction
-      Category = 'Project'
-      Caption = 'Add &Subfolder'
-      HelpContext = 435
-      HelpType = htContext
-      Hint = 'Add a new subfolder'
-      ImageIndex = 137
-      OnExecute = actProjectAddFolderExecute
-    end
-    object actProjectRemove: TAction
-      Category = 'Project'
-      Caption = '&Remove'
-      HelpContext = 435
-      HelpType = htContext
-      Hint = 'Remove a file,  folder or run configuration from the project'
-      ImageIndex = 136
-      OnExecute = actProjectRemoveExecute
-    end
-    object actProjectRename: TAction
-      Category = 'Project'
-      Caption = 'Re&name'
-      HelpContext = 435
-      HelpType = htContext
-      Hint = 'Rename the selected folder or RunConfiguration'
-      OnExecute = actProjectRenameExecute
-    end
-    object actProjectFileEdit: TAction
-      Category = 'Project'
-      Caption = '&Edit'
-      HelpContext = 435
-      HelpType = htContext
-      Hint = 'Open the selected file in the editor'
-      ImageIndex = 139
-      OnExecute = actProjectFileEditExecute
-    end
-    object actProjectAddActiveFile: TAction
-      Category = 'Project'
-      Caption = 'Add Active File'
-      HelpContext = 435
-      HelpType = htContext
-      Hint = 'Add the active editor file to the folder'
-      OnExecute = actProjectAddActiveFileExecute
-    end
-    object actProjectImportDirectory: TAction
-      Category = 'Project'
-      Caption = '&Import Directory...'
-      HelpContext = 435
-      HelpType = htContext
-      Hint = 'Import a directory into the selected folder'
-      OnExecute = actProjectImportDirectoryExecute
-    end
-    object actProjectAddRunConfig: TAction
-      Category = 'Project'
-      Caption = 'Add Run Configuration'
-      HelpContext = 435
-      HelpType = htContext
-      Hint = 'Add run configuration'
-      ImageIndex = 141
-      OnExecute = actProjectAddRunConfigExecute
-    end
-    object actProjectEditRunConfig: TAction
-      Category = 'Project'
-      Caption = '&Edit Run Configuration'
-      HelpContext = 435
-      HelpType = htContext
-      Hint = 'Edit run configuration'
-      ImageIndex = 142
-      OnExecute = actProjectEditRunConfigExecute
-    end
-    object actProjectFileProperties: TAction
-      Category = 'Project'
-      Caption = '&Properties'
-      HelpContext = 435
-      HelpType = htContext
-      Hint = 'Show file properties'
-      ImageIndex = 143
-      OnExecute = actProjectFilePropertiesExecute
-    end
-    object actProjectRun: TAction
-      Category = 'Project'
-      Caption = '&Run'
-      HelpContext = 435
-      HelpType = htContext
-      Hint = 'Run the selected configuration'
-      ImageIndex = 51
-      OnExecute = actProjectRunExecute
-    end
-    object actProjectExternalRun: TAction
-      Category = 'Project'
-      Caption = 'E&xternal Run'
-      HelpContext = 435
-      HelpType = htContext
-      Hint = 'Run configuration using an external Python interpreter'
-      ImageIndex = 27
-      OnExecute = actProjectExternalRunExecute
-    end
-    object actProjectDebug: TAction
-      Category = 'Project'
-      Caption = '&Debug'
-      HelpContext = 435
-      HelpType = htContext
-      Hint = 'Debug the selected configuration'
-      ImageIndex = 53
-      OnExecute = actProjectDebugExecute
-    end
-    object actProjectRelativePaths: TAction
-      Category = 'Project'
-      AutoCheck = True
-      Caption = 'Store &Relative Paths'
-      HelpContext = 435
-      HelpType = htContext
-      Hint = 'Store file paths relative to the project directory'
-      OnExecute = actProjectRelativePathsExecute
-    end
-  end
   object ProjectMainPopUpMenu: TSpTBXPopupMenu
     Images = CommandsDataModule.Images
     OnPopup = ProjectMainPopUpMenuPopup
     Left = 8
     Top = 108
-    object SpTBXItem1: TSpTBXItem
+    object mnProjectNew: TSpTBXItem
       Caption = '&New Project'
       Hint = 'Start a new project'
       Action = actProjectNew
     end
-    object SpTBXItem2: TSpTBXItem
+    object mnProjectOpen: TSpTBXItem
       Caption = '&Open Project...'
       Hint = 'Open a project file'
       Action = actProjectOpen
     end
-    object SpTBXItem3: TSpTBXItem
+    object mnProjectSave: TSpTBXItem
       Caption = '&Save Project'
       Hint = 'Save the project'
       Action = actProjectSave
     end
-    object SpTBXItem4: TSpTBXItem
+    object mnProjectSaveAs: TSpTBXItem
       Caption = 'Save Project &As...'
       Hint = 'Save project with under a different name'
       Action = actProjectSaveAs
     end
+    object SpTBXSeparatorItem10: TSpTBXSeparatorItem
+    end
+    object mnExpandAll: TSpTBXItem
+      Caption = '&Expand All'
+      Hint = 'Expand all project nodes'
+      Action = actProjectExpandAll
+    end
+    object mnCollapseAll: TSpTBXItem
+      Caption = '&Collapse All'
+      Hint = 'Collapse all project nodes'
+      Action = actProjectCollapseAll
+    end
     object SpTBXSeparatorItem9: TSpTBXSeparatorItem
     end
-    object SpTBXItem27: TSpTBXItem
+    object mnShowFileExt: TSpTBXItem
+      Caption = 'Show File &Extensions'
+      Hint = 'Display file extensions'
+      Action = actProjectShowFileExtensions
+    end
+    object mnStoreRelativePaths: TSpTBXItem
       Caption = 'Store &Relative Paths'
       Hint = 'Store file paths relative to the project directory'
       Action = actProjectRelativePaths
@@ -719,12 +624,12 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
     Images = CommandsDataModule.Images
     Left = 40
     Top = 109
-    object SpTBXItem5: TSpTBXItem
+    object mnAddFiles: TSpTBXItem
       Caption = '&Add File(s)...'
       Hint = 'Add file(s) to a project folder'
       Action = actProjectAddFiles
     end
-    object SpTBXItem11: TSpTBXItem
+    object mnAddActiveFile: TSpTBXItem
       Caption = 'Add Active File'
       Hint = 'Add the active editor file to the folder'
       Action = actProjectAddActiveFile
@@ -734,21 +639,21 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
       Hint = 'Add a new subfolder'
       Action = actProjectAddFolder
     end
-    object SpTBXItem12: TSpTBXItem
+    object mnImportDir: TSpTBXItem
       Caption = '&Import Directory...'
       Hint = 'Import a directory into the selected folder'
       Action = actProjectImportDirectory
     end
     object SpTBXSeparatorItem1: TSpTBXSeparatorItem
     end
-    object SpTBXItem7: TSpTBXItem
+    object mnRename: TSpTBXItem
       Caption = 'Re&name'
       Hint = 'Rename the selected folder or RunConfiguration'
       Action = actProjectRename
     end
     object SpTBXSeparatorItem2: TSpTBXSeparatorItem
     end
-    object SpTBXItem8: TSpTBXItem
+    object mnRemove: TSpTBXItem
       Caption = '&Remove'
       Hint = 'Remove a file,  folder or run configuration from the project'
       Action = actProjectRemove
@@ -758,21 +663,21 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
     Images = CommandsDataModule.Images
     Left = 72
     Top = 108
-    object SpTBXItem10: TSpTBXItem
+    object mnFileEdit: TSpTBXItem
       Caption = '&Edit'
       Hint = 'Open the selected file in the editor'
       Action = actProjectFileEdit
     end
     object SpTBXSeparatorItem3: TSpTBXSeparatorItem
     end
-    object SpTBXItem9: TSpTBXItem
+    object mnFileRemove: TSpTBXItem
       Caption = '&Remove'
       Hint = 'Remove a file,  folder or run configuration from the project'
       Action = actProjectRemove
     end
     object SpTBXSeparatorItem6: TSpTBXSeparatorItem
     end
-    object SpTBXItem17: TSpTBXItem
+    object mnFileProperties: TSpTBXItem
       Caption = '&Properties'
       Hint = 'Show file properties'
       Action = actProjectFileProperties
@@ -782,7 +687,7 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
     Images = CommandsDataModule.Images
     Left = 104
     Top = 109
-    object SpTBXItem13: TSpTBXItem
+    object mnAddRunConfig: TSpTBXItem
       Caption = 'Add Run Configuration'
       Hint = 'Add run configuration'
       Action = actProjectAddRunConfig
@@ -790,90 +695,215 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
   end
   object ProjectRunConfigPopupMenu: TSpTBXPopupMenu
     Images = CommandsDataModule.Images
-    OnPopup = ProjectRunConfigPopupMenuPopup
     Left = 135
     Top = 109
-    object SpTBXItem25: TSpTBXItem
+    object mnRun: TSpTBXItem
       Caption = '&Run'
       Hint = 'Run the selected configuration'
       Action = actProjectRun
     end
-    object SpTBXItem26: TSpTBXItem
+    object mnDebug: TSpTBXItem
       Caption = '&Debug'
       Hint = 'Debug the selected configuration'
       Action = actProjectDebug
     end
-    object SpTBXItem18: TSpTBXItem
+    object mnExternalRun: TSpTBXItem
       Caption = 'E&xternal Run'
       Hint = 'Run configuration using an external Python interpreter'
       Action = actProjectExternalRun
     end
     object SpTBXSeparatorItem7: TSpTBXSeparatorItem
     end
-    object SpTBXItem16: TSpTBXItem
+    object mnEditRunConfig: TSpTBXItem
       Caption = '&Edit Run Configuration'
       Hint = 'Edit run configuration'
       Action = actProjectEditRunConfig
     end
     object SpTBXSeparatorItem5: TSpTBXSeparatorItem
     end
-    object SpTBXItem15: TSpTBXItem
+    object mnRenameRunConfig: TSpTBXItem
       Caption = 'Re&name'
       Hint = 'Rename the selected folder or RunConfiguration'
       Action = actProjectRename
     end
     object SpTBXSeparatorItem4: TSpTBXSeparatorItem
     end
-    object SpTBXItem14: TSpTBXItem
+    object mnRemoveRunConfig: TSpTBXItem
       Caption = '&Remove'
       Hint = 'Remove a file,  folder or run configuration from the project'
       Action = actProjectRemove
     end
   end
-  object ProjectActionList: TActionList
+  object ImmutableProjectActionList: TTntActionList
+    Images = CommandsDataModule.Images
+    Left = 8
+    Top = 76
+    object actProjectAddFiles: TTntAction
+      Category = 'Project'
+      Caption = '&Add File(s)...'
+      HelpContext = 435
+      Hint = 'Add file(s) to a project folder'
+      ImageIndex = 135
+      OnExecute = actProjectAddFilesExecute
+    end
+    object actProjectAddFolder: TTntAction
+      Category = 'Project'
+      Caption = 'Add &Subfolder'
+      HelpContext = 435
+      Hint = 'Add a new subfolder'
+      ImageIndex = 137
+      OnExecute = actProjectAddFolderExecute
+    end
+    object actProjectRemove: TTntAction
+      Category = 'Project'
+      Caption = '&Remove'
+      HelpContext = 435
+      Hint = 'Remove a file,  folder or run configuration from the project'
+      ImageIndex = 136
+      OnExecute = actProjectRemoveExecute
+    end
+    object actProjectRename: TTntAction
+      Category = 'Project'
+      Caption = 'Re&name'
+      HelpContext = 435
+      Hint = 'Rename the selected folder or RunConfiguration'
+      OnExecute = actProjectRenameExecute
+    end
+    object actProjectFileEdit: TTntAction
+      Category = 'Project'
+      Caption = '&Edit'
+      HelpContext = 435
+      Hint = 'Open the selected file in the editor'
+      ImageIndex = 139
+      OnExecute = actProjectFileEditExecute
+    end
+    object actProjectAddActiveFile: TTntAction
+      Category = 'Project'
+      Caption = 'Add Active File'
+      HelpContext = 435
+      Hint = 'Add the active editor file to the folder'
+      OnExecute = actProjectAddActiveFileExecute
+    end
+    object actProjectImportDirectory: TTntAction
+      Category = 'Project'
+      Caption = '&Import Directory...'
+      HelpContext = 435
+      Hint = 'Import a directory into the selected folder'
+      OnExecute = actProjectImportDirectoryExecute
+    end
+    object actProjectAddRunConfig: TTntAction
+      Category = 'Project'
+      Caption = 'Add Run Configuration'
+      HelpContext = 435
+      Hint = 'Add run configuration'
+      ImageIndex = 141
+      OnExecute = actProjectAddRunConfigExecute
+    end
+    object actProjectEditRunConfig: TTntAction
+      Category = 'Project'
+      Caption = '&Edit Run Configuration'
+      HelpContext = 435
+      Hint = 'Edit run configuration'
+      ImageIndex = 142
+      OnExecute = actProjectEditRunConfigExecute
+    end
+    object actProjectFileProperties: TTntAction
+      Category = 'Project'
+      Caption = '&Properties'
+      HelpContext = 435
+      Hint = 'Show file properties'
+      ImageIndex = 143
+      OnExecute = actProjectFilePropertiesExecute
+    end
+    object actProjectRun: TTntAction
+      Category = 'Project'
+      Caption = '&Run'
+      HelpContext = 435
+      Hint = 'Run the selected configuration'
+      ImageIndex = 51
+      OnExecute = actProjectRunExecute
+    end
+    object actProjectExternalRun: TTntAction
+      Category = 'Project'
+      Caption = 'E&xternal Run'
+      HelpContext = 435
+      Hint = 'Run configuration using an external Python interpreter'
+      ImageIndex = 27
+      OnExecute = actProjectExternalRunExecute
+    end
+    object actProjectDebug: TTntAction
+      Category = 'Project'
+      Caption = '&Debug'
+      HelpContext = 435
+      Hint = 'Debug the selected configuration'
+      ImageIndex = 53
+      OnExecute = actProjectDebugExecute
+    end
+  end
+  object ProjectActionList: TTntActionList
     Images = CommandsDataModule.Images
     Left = 41
     Top = 76
-    object actProjectNew: TAction
+    object actProjectNew: TTntAction
       Category = 'Project'
       Caption = '&New Project'
       HelpContext = 435
-      HelpType = htContext
       Hint = 'Start a new project'
       ImageIndex = 133
       OnExecute = actProjectNewExecute
     end
-    object actProjectOpen: TAction
+    object actProjectOpen: TTntAction
       Category = 'Project'
       Caption = '&Open Project...'
       HelpContext = 435
-      HelpType = htContext
       Hint = 'Open a project file'
       ImageIndex = 134
       OnExecute = actProjectOpenExecute
     end
-    object actProjectSave: TAction
+    object actProjectSave: TTntAction
       Category = 'Project'
       Caption = '&Save Project'
       HelpContext = 435
-      HelpType = htContext
       Hint = 'Save the project'
       ImageIndex = 140
       OnExecute = actProjectSaveExecute
     end
-    object actProjectSaveAs: TAction
+    object actProjectSaveAs: TTntAction
       Category = 'Project'
       Caption = 'Save Project &As...'
       HelpContext = 435
-      HelpType = htContext
       Hint = 'Save project with under a different name'
       OnExecute = actProjectSaveAsExecute
     end
-  end
-  object JvDropTarget: TJvDropTarget
-    OnDragDrop = JvDropTargetDragDrop
-    OnDragOver = JvDropTargetDragOver
-    Left = 38
-    Top = 139
+    object actProjectRelativePaths: TTntAction
+      Category = 'Project'
+      Caption = 'Store &Relative Paths'
+      HelpContext = 435
+      Hint = 'Store file paths relative to the project directory'
+      OnExecute = actProjectRelativePathsExecute
+    end
+    object actProjectShowFileExtensions: TTntAction
+      Category = 'Project'
+      Caption = 'Show File &Extensions'
+      HelpContext = 435
+      Hint = 'Display file extensions'
+      OnExecute = actProjectShowFileExtensionsExecute
+    end
+    object actProjectExpandAll: TTntAction
+      Category = 'Project'
+      Caption = '&Expand All'
+      HelpContext = 435
+      Hint = 'Expand all project nodes'
+      ImageIndex = 28
+      OnExecute = actProjectExpandAllExecute
+    end
+    object actProjectCollapseAll: TTntAction
+      Category = 'Project'
+      Caption = '&Collapse All'
+      HelpContext = 435
+      Hint = 'Collapse all project nodes'
+      ImageIndex = 29
+      OnExecute = actProjectCollapseAllExecute
+    end
   end
 end

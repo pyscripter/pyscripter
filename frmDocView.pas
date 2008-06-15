@@ -66,7 +66,7 @@ implementation
 
 uses
   VarPyth, JclFileUtils, JclStrings, frmEditor, dmCommands,
-  uCommonFunctions, JvJVCLUtils, cPyBaseDebugger;
+  uCommonFunctions, JvJVCLUtils, cPyBaseDebugger, gnugettext, StringResources;
 
 {$R *.dfm}
 
@@ -163,12 +163,12 @@ end;
 
 function TDocView.GetHint: string;
 begin
-  Result := 'Documentation|Generate HTML documentation';
+  Result := _(SDocumentationHint);
 end;
 
 function TDocView.GetMenuCaption: string;
 begin
-  Result := '&Documentation'
+  Result := _(SDocumentation)
 end;
 
 function TDocView.GetName: string;
@@ -178,7 +178,7 @@ end;
 
 function TDocView.GetTabCaption: string;
 begin
-  Result := 'Doc'
+  Result := _(SDocTab);
 end;
 
 function TDocView.GetShortCut: TShortCut;

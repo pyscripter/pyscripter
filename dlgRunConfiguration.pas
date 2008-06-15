@@ -5,40 +5,40 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, cPyBaseDebugger, StdCtrls, SpTBXControls, SynEdit, TBXDkPanels,
-  ExtCtrls;
+  ExtCtrls, TntStdCtrls, SpTBXEditors, dlgPyIDEBase;
 
 type
-  TRunConfigurationForm = class(TForm)
-    Panel1: TPanel;
+  TRunConfigurationForm = class(TPyIDEDlgBase)
+    Panel1: TSpTBXPanel;
     Bevel1: TBevel;
     btnOK: TSpTBXButton;
     btnCancel: TSpTBXButton;
     btnHelp: TSpTBXButton;
-    GroupBox1: TGroupBox;
-    Label5: TLabel;
-    edDescription: TEdit;
-    GroupBox2: TGroupBox;
-    Label2: TLabel;
-    Label6: TLabel;
-    Label7: TLabel;
-    Label3: TLabel;
+    GroupBox1: TSpTBXGroupBox;
+    GroupBox2: TSpTBXGroupBox;
     SynFileName: TSynEdit;
     SynParameters: TSynEdit;
     SynWorkDir: TSynEdit;
     btnFileName: TSpTBXButton;
     btnWorkDir: TSpTBXButton;
-    gbRemoteEngine: TGroupBox;
-    Label1: TLabel;
-    cbEngineType: TComboBox;
+    gbRemoteEngine: TSpTBXGroupBox;
     cbReinitializeBeforeRun: TSpTBXCheckBox;
-    GroupBox3: TGroupBox;
+    GroupBox3: TSpTBXGroupBox;
     btnExternalRun: TSpTBXButton;
-    gbSaveOutput: TGroupBox;
+    gbSaveOutput: TSpTBXGroupBox;
     cbAppendToFile: TSpTBXCheckBox;
-    Label4: TLabel;
     SynOutputFileName: TSynEdit;
     btnOutputFileName: TSpTBXButton;
     cbSaveOutput: TSpTBXCheckBox;
+    Label5: TSpTBXLabel;
+    Label2: TSpTBXLabel;
+    Label6: TSpTBXLabel;
+    Label7: TSpTBXLabel;
+    Label3: TSpTBXLabel;
+    Label1: TSpTBXLabel;
+    Label4: TSpTBXLabel;
+    cbEngineType: TSpTBXComboBox;
+    edDescription: TSpTBXEdit;
     procedure btnExternalRunClick(Sender: TObject);
     procedure SynEditEnter(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -62,7 +62,7 @@ implementation
 
 uses
   Math, dlgToolProperties, dmCommands, uHighlighterProcs, cProjectClasses,
-  StringResources, JvBrowseFolder;
+  StringResources, JvBrowseFolder, gnugettext;
 
 {$R *.dfm}
 
@@ -116,8 +116,8 @@ end;
 procedure TRunConfigurationForm.btnFileNameClick(Sender: TObject);
 begin
   with CommandsDataModule.dlgFileOpen do begin
-    Title := 'Select Python script to run';
-    Filter := GetHighlightersFilter(CommandsDataModule.Highlighters) + SFilterAllFiles;
+    Title := _(SSelectPythonScript);
+    Filter := GetHighlightersFilter(CommandsDataModule.Highlighters) + _(SFilterAllFiles);
     FileName := '';
     if ActiveProject.FileName <> '' then
       InitialDir := ExtractFileDir(ActiveProject.FileName);
@@ -139,8 +139,8 @@ Var
   OldOpenOptions : TOpenOptions;
 begin
   with CommandsDataModule.dlgFileOpen do begin
-    Title := 'Select Python script to run';
-    Filter := SFilterAllFiles;
+    Title := _(SSelectOutputFile);
+    Filter := _(SFilterAllFiles);
     FileName := 'output.log';
     if ActiveProject.FileName <> '' then
       InitialDir := ExtractFileDir(ActiveProject.FileName);
@@ -185,6 +185,7 @@ end;
 
 procedure TRunConfigurationForm.FormCreate(Sender: TObject);
 begin
+  inherited;
   fRunConfig := TRunConfiguration.Create;
 end;
 

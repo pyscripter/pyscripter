@@ -12,14 +12,13 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, cTools, ExtCtrls, StdCtrls, SynEdit,
-  ComCtrls, JvHotKey, Mask, JvExMask,
-  JvSpin, Menus, ActnList, TBXDkPanels, SpTBXControls, JvExStdCtrls,
-  JvExComCtrls;
+  Dialogs, cTools, ExtCtrls, StdCtrls, SynEdit, ComCtrls, Mask, Menus,
+  ActnList, TBXDkPanels, SpTBXControls, SpTBXEditors, TntActnList, TntStdCtrls,
+  TntComCtrls, dlgPyIDEBase;
 
 type
-  TToolProperties = class(TForm)
-    Panel1: TPanel;
+  TToolProperties = class(TPyIDEDlgBase)
+    Panel1: TSpTBXPanel;
     FormatsPopup: TPopupMenu;
     Filename1: TMenuItem;
     Linenumber1: TMenuItem;
@@ -27,48 +26,15 @@ type
     PageControl: TPageControl;
     tsProperties: TTabSheet;
     tsEnvironment: TTabSheet;
-    GroupBox1: TGroupBox;
-    Label1: TLabel;
-    Label5: TLabel;
-    edDescription: TEdit;
-    edName: TEdit;
-    GroupBox2: TGroupBox;
-    Label2: TLabel;
-    Label6: TLabel;
-    Label7: TLabel;
-    Label3: TLabel;
+    GroupBox1: TSpTBXGroupBox;
+    GroupBox2: TSpTBXGroupBox;
     SynApplication: TSynEdit;
     SynParameters: TSynEdit;
     SynWorkDir: TSynEdit;
-    GroupBox4: TGroupBox;
-    lbShortcut: TLabel;
-    lbContext: TLabel;
-    Label13: TLabel;
-    hkShortCut: TJvHotKey;
-    GroupBox3: TGroupBox;
-    Label10: TLabel;
-    Label11: TLabel;
-    Label12: TLabel;
-    edMessagesFormat: TEdit;
-    GroupBox5: TGroupBox;
-    Label9: TLabel;
-    seTimeout: TJvSpinEdit;
-    lvItems: TListView;
-    GroupBox6: TGroupBox;
-    Label15: TLabel;
-    Label16: TLabel;
-    edEnvName: TEdit;
-    ActionList: TActionList;
-    actAddItem: TAction;
-    actDeleteItem: TAction;
-    actMoveUp: TAction;
-    actMoveDown: TAction;
-    actUpdateItem: TAction;
-    edEnvValue: TEdit;
-    cbStandardInput: TComboBox;
-    cbStandardOutput: TComboBox;
-    cbContext: TComboBox;
-    cbSaveFiles: TComboBox;
+    GroupBox4: TSpTBXGroupBox;
+    GroupBox3: TSpTBXGroupBox;
+    GroupBox5: TSpTBXGroupBox;
+    GroupBox6: TSpTBXGroupBox;
     btnOK: TSpTBXButton;
     btnCancel: TSpTBXButton;
     btnAppDir: TSpTBXButton;
@@ -81,15 +47,46 @@ type
     cbHideConsole: TSpTBXCheckBox;
     cbWaitForTermination: TSpTBXCheckBox;
     cbUseCustomEnv: TSpTBXCheckBox;
-    TBXButton1: TSpTBXButton;
-    TBXButton3: TSpTBXButton;
-    TBXButton4: TSpTBXButton;
-    TBXButton5: TSpTBXButton;
-    TBXButton2: TSpTBXButton;
-    Label14: TLabel;
-    Label17: TLabel;
+    btnAdd: TSpTBXButton;
+    btnDelete: TSpTBXButton;
+    btnMoveUp: TSpTBXButton;
+    btnMoveDown: TSpTBXButton;
+    btnUpdate: TSpTBXButton;
+    ActionList: TTntActionList;
+    actUpdateItem: TTntAction;
+    actMoveDown: TTntAction;
+    actMoveUp: TTntAction;
+    actDeleteItem: TTntAction;
+    actAddItem: TTntAction;
+    Label1: TSpTBXLabel;
+    Label5: TSpTBXLabel;
+    Label17: TSpTBXLabel;
+    Label2: TSpTBXLabel;
+    Label6: TSpTBXLabel;
+    Label7: TSpTBXLabel;
+    Label3: TSpTBXLabel;
+    lbShortcut: TSpTBXLabel;
+    lbContext: TSpTBXLabel;
+    Label13: TSpTBXLabel;
+    Label10: TSpTBXLabel;
+    Label11: TSpTBXLabel;
+    Label12: TSpTBXLabel;
+    Label9: TSpTBXLabel;
+    Label15: TSpTBXLabel;
+    Label16: TSpTBXLabel;
+    hkShortCut: THotKey;
+    seTimeout: TSpTBXSpinEdit;
+    edName: TSpTBXEdit;
+    edDescription: TSpTBXEdit;
+    edMessagesFormat: TSpTBXEdit;
+    edEnvName: TSpTBXEdit;
+    edEnvValue: TSpTBXEdit;
+    cbContext: TSpTBXComboBox;
+    cbSaveFiles: TSpTBXComboBox;
+    cbStandardInput: TSpTBXComboBox;
+    cbStandardOutput: TSpTBXComboBox;
+    lvItems: TTntListView;
     procedure FormShow(Sender: TObject);
-    procedure btnStdFormatsClick(Sender: TObject);
     procedure Filename1Click(Sender: TObject);
     procedure SynApplicationEnter(Sender: TObject);
     procedure SynParametersEnter(Sender: TObject);
@@ -119,7 +116,8 @@ type
 
 implementation
 
-uses dmCommands, JvBrowseFolder, JclSysInfo;
+uses dmCommands, JvBrowseFolder, JclSysInfo, gnugettext, StringResources,
+  TntDialogs;
 
 {$R *.dfm}
 
@@ -193,14 +191,6 @@ begin
   end;
 end;
 
-procedure TToolProperties.btnStdFormatsClick(Sender: TObject);
-var
-  p: TPoint;
-begin
-  p:= btnStdFormats.ClientToScreen(Point(btnStdFormats.Width, 0));
-  FormatsPopup.Popup(p.x, p.y);
-end;
-
 procedure TToolProperties.Filename1Click(Sender: TObject);  
 begin
   case (Sender as TMenuItem).Tag of
@@ -231,6 +221,7 @@ end;
 
 procedure TToolProperties.FormCreate(Sender: TObject);
 begin
+  inherited;
   fEnvStrings := TStringList.Create;
 end;
 
@@ -262,7 +253,7 @@ end;
 procedure TToolProperties.btnAppDirClick(Sender: TObject);
 begin
   with CommandsDataModule.dlgFileOpen do begin
-    Title := 'Select application or file to execute';
+    Title := _(SSelectApplication);
     Filter := 'Executable Files (*.exe;*.bat;*.cmd)|*.exe;*.bat;*.cmd|All files|*.*|';
     FileName := '';
     if Execute then begin
@@ -347,7 +338,7 @@ begin
       if (CompareText(lvItems.Items[i].Caption, edEnvName.Text) = 0) and
          (i <> lvItems.ItemIndex) then
       begin
-        MessageDlg('Another item has the same name', mtError, [mbOK], 0);
+        WideMessageDlg(_(SSameName), mtError, [mbOK], 0);
         Exit;
       end;
     with lvItems.Items[lvItems.ItemIndex] do begin

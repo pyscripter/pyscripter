@@ -11,12 +11,38 @@ the specific language governing rights and limitations under the License.
 The Original Code is: RtlVclOptimize.pas, released on 2007-05-08
 
 The Initial Developer of the Original Code is Andreas Hausladen
-Portions created by Andreas Hausladen are Copyright (C) 2006, 2007 Andreas Hausladen.
+Portions created by Andreas Hausladen are Copyright (C) 2006-2008 Andreas Hausladen.
 All Rights Reserved.
 
 Contributor(s): -
 
-Version 2.7 (2007-10-01)
+History:
+  Version 2.77 (2008-05-08)
+    - Fixed: LoadResString thread-safty caused memory leaks due to strings in threadvars
+
+  Version 2.76 (2008-05-07)
+    - Fixed: LoadResString supports switching resource DLLs
+    - Fixed: LoadResString is thread safe (each thread has its own cache)
+    - Added: TActionList memory overwrite fix
+
+  Version 2.75 (2008-04-19):
+    - Updated: Windows Vista doesn't need the WideString optimization anymore
+    - Fixed: Memory leak in WideString cache
+
+  Version 2.73 (2008-02-29):
+    - Fixed: Faster StrScan returned nil when doing a search for #0
+    - Updated: FastFileExists code updated to newest DelphiSpeedUp code
+    - Added: LStrAsg, LStrLAsg speed optimization (QC 50564)
+
+  Version 2.71 (2007-11-13):
+    - Improved: Better cache algorithm for LoadResString
+    - Added: WStrSet speed optimization (QC 50564)
+    - Added: Faster Trim function (QC 53744)
+    - Added: Faster WideStrUtils.InOpSet (QC 43080)
+    - Added: SysFreeString delaying and reusage of released WideStrings.
+
+  Version 2.7 (2007-10-01):
+    - official release
 
 Known Issues:
 -----------------------------------------------------------------------------}
@@ -24,12 +50,15 @@ Known Issues:
 
 unit RtlVclOptimize;
 
-{.$DEFINE WMPAINT_HOOK}
+{.$DEFINE RTLDEBUG}
+  { If RTLDEBUG is defined the unit is compiled with debug information. }
+
+{$DEFINE WMPAINT_HOOK}
   { If WMPAINT_HOOK is defined the TWinControl.WMPaint message handler for
     Delphi 6, 7, 2005 and 2006 is overwritten by a version that takes less
     time and which is also used in the Delphi 2007 VCL by default. }
 
-{.$DEFINE STREQUAL_INJECTION}
+{$DEFINE STREQUAL_INJECTION}
   { If STREQUAL_INJECTION is defined the _LStrCmp/_WStrCmp call is replaced
     by a call to _LStrEqual/_WStrEqual when the next opcode is a
     JZ/JNZ/SETZ/SETNZ. So every "if Str1 = Str2 then" and "if Str <> Str2 then"
@@ -39,8 +68,11 @@ unit RtlVclOptimize;
   { If NOLEADBYTES_HOOK is defined and SysLocal.LeadBytes is [], some ANSI
     functions are replaced by faster functions that ignore the LeadBytes. }
 
-{.$DEFINE RTLDEBUG}
-  { If RTLDEBUG is defined the unit is compiled with debug information. }
+{.$DEFINE CACHE_WIDESTRINGS}
+  { If CACHE_WIDESTRINGS is defined all calls to SysFreeString are intercepted
+    and the WideString is stored in a cache that can be used for a new WideString
+    allocation of the same length. Every now and then a kind of Garbage Collector
+    in a different thread will clear the cache. }
 
 interface
 
@@ -60,6 +92,7 @@ interface
  {$IFEND}
  {$IF CompilerVersion >= 18.5}
   {$DEFINE DELPHI2007_UP}
+  {$DEFINE COMPILER11_UP}
  {$IFEND}
 {$ELSE} // Delphi 5 or below
  {$IFDEF VER130}
@@ -84,7 +117,8 @@ implementation
 
 uses
   Windows, Messages, SysUtils, Classes, Contnrs, TypInfo,
-  {$IFDEF COMPILER6_UP} RtlConsts {$ELSE} Consts {$ENDIF},
+  {$IFDEF COMPILER6_UP} RtlConsts, ActnList {$ELSE} Consts {$ENDIF},
+  {$IFDEF COMPILER10_UP} WideStrings, WideStrUtils, {$ENDIF}
   Controls;
 
 {$IFDEF NOLEADBYTES_HOOK}
@@ -94,6 +128,36 @@ var
 
 const
   CurProcess = Cardinal(-1); // GetCurrentProcess returns EAX = DWORD(-1)
+
+type
+  {$IFDEF COMPILER11_UP}
+    {$IF SizeOf(Integer) = SizeOf(Pointer)}
+  IntPtr = Integer;
+    {$ELSEIF SizeOf(Longint) = SizeOf(Pointer)}
+  IntPtr = Longint;
+    {$ELSEIF SizeOf(Int64) = SizeOf(Pointer)}
+  IntPtr = Int64;
+    {$IFEND}
+  {$ELSE}
+  IntPtr = Integer;
+  {$ENDIF COMPILER11_UP}
+
+  {$IFDEF COMPILER5}
+  PPointerArray = ^TPointerArray;
+  TPointerArray = array[0..MaxInt div SizeOf(Pointer) - 1] of Pointer;
+  {$ENDIF COMPILER5}
+
+{$IFDEF COMPILER5}
+const
+  RaiseLastOSError: procedure = RaiseLastWin32Error;
+{$ENDIF COMPILER5}
+
+{$IFNDEF COMPILER11_UP}
+type
+  INT_PTR = Integer;
+  DWORD_PTR = DWORD;
+{$ENDIF COMPILER11_UP}
+
 
 {------------------------------------------------------------------------------}
 { Memory manipulation functions                                                }
@@ -166,6 +230,7 @@ begin
     TInjectRec(Proc^).Jump := $E9;
     TInjectRec(Proc^).Offset := Integer(NewProc) - (Integer(Proc) + SizeOf(TInjectRec));
     VirtualProtectEx(GetCurrentProcess, Proc, SizeOf(TInjectRec), OldProtect, @OldProtect);
+    FlushInstructionCache(GetCurrentProcess, Proc, SizeOf(TInjectRec));
   end;
 end;
 
@@ -187,9 +252,101 @@ end;
 {------------------------------------------------------------------------------}
 { Long/Wide-String optimization                                                }
 {------------------------------------------------------------------------------}
+type
+  PStrRec = ^StrRec;
+  StrRec = packed record
+    refCnt: Longint;
+    length: Longint;
+  end;
+
+const
+  skew = SizeOf(StrRec);
+  rOff = SizeOf(StrRec); { refCnt offset }
+  overHead = SizeOf(StrRec) + 1;
+
 var
   OrgLStrCmp: Pointer;
   OrgWStrCmp: Pointer;
+
+procedure _LStrAsg(var dest; const source);
+asm
+        { ->    EAX pointer to dest   str      }
+        { ->    EDX pointer to source str      }
+
+                TEST    EDX,EDX                           { have a source? }
+                JE      @@2                               { no -> jump     }
+
+                MOV     ECX,[EDX-skew].StrRec.refCnt
+                INC     ECX
+                JG      @@1                               { literal string -> jump not taken }
+
+                PUSH    EAX
+                PUSH    EDX
+                MOV     EAX,[EDX-skew].StrRec.length
+                CALL    System.@NewAnsiString
+                MOV     EDX,EAX
+                POP     EAX
+                PUSH    EDX
+                MOV     ECX,[EAX-skew].StrRec.length
+                CALL    Move
+                POP     EDX
+                POP     EAX
+                JMP     @@2
+
+@@1:
+           LOCK INC     [EDX-skew].StrRec.refCnt
+
+@@2:
+                //XCHG    EDX,[EAX]
+                MOV     ECX,[EAX]
+                MOV     [EAX],EDX
+                MOV     EDX,ECX
+
+                TEST    EDX,EDX
+                JE      @@3
+                MOV     ECX,[EDX-skew].StrRec.refCnt
+                DEC     ECX
+                JL      @@3
+           LOCK DEC     [EDX-skew].StrRec.refCnt
+                JNE     @@3
+                LEA     EAX,[EDX-skew].StrRec.refCnt
+                CALL    System.@FreeMem
+@@3:
+end;
+
+procedure _LStrLAsg(var dest; const source);
+asm
+{ ->    EAX     pointer to dest }
+{       EDX     source          }
+
+                TEST    EDX,EDX
+                JE      @@sourceDone
+
+                { bump up the ref count of the source }
+
+                MOV     ECX,[EDX-skew].StrRec.refCnt
+                INC     ECX
+                JLE     @@sourceDone                    { literal assignment -> jump taken }
+           LOCK INC     [EDX-skew].StrRec.refCnt
+@@sourceDone:
+
+                { we need to release whatever the dest is pointing to   }
+                //XCHG    EDX,[EAX]                       { fetch str                    }
+                MOV     ECX,[EAX]
+                MOV     [EAX],EDX
+                MOV     EDX,ECX
+
+                TEST    EDX,EDX                         { if nil, nothing to do        }
+                JE      @@done
+                MOV     ECX,[EDX-skew].StrRec.refCnt    { fetch refCnt                 }
+                DEC     ECX                             { if < 0: literal str          }
+                JL      @@done
+           LOCK DEC     [EDX-skew].StrRec.refCnt        { threadsafe dec refCount      }
+                JNE     @@done
+                LEA     EAX,[EDX-skew].StrRec.refCnt    { if refCnt now zero, deallocate}
+                CALL    System.@FreeMem
+@@done:
+end;
 
 procedure _LStrCmp_LStrEqual{left: AnsiString; right: AnsiString}; forward;
 procedure _WStrCmp_WStrEqual{left: WideString; right: WideString}; forward;
@@ -241,6 +398,20 @@ asm
   jne @CompareDoneNoPop
   {Save ebx}
   push ebx
+
+{---}
+  { make the unaligned compare first }
+{  test ecx,$3
+  jz @Compare4
+  mov ebx, [edx + ecx - 4]
+  cmp ebx, [eax + ecx - 4]
+  jne @CompareDonePop
+  and ecx,$FFFFFFFC // align
+  jz @Match
+
+@Compare4:}
+{---}
+
   {Get pointers to the 4th last bytes in the strings}
   lea edx, [edx + ecx - 4]
   lea ebx, [eax + ecx - 4]
@@ -854,7 +1025,7 @@ end;
 
 {------------------------------------------------------------------------------}
 
-function FastStrScan(Str: PChar; Chr: Char): PChar;
+function FastAnsiStrScan(const Str: PAnsiChar; Chr: AnsiChar): PAnsiChar;
 begin
   Result := Str;
   if Result <> nil then
@@ -865,20 +1036,27 @@ begin
         Exit;
       Inc(Result);
     end;
-    if Result^ = Chr then
+    if Chr = #0 then
       Exit;
   end;
   Result := nil;
 end;
 
+function FastStrScan(const Str: PAnsiChar; Chr: AnsiChar): PAnsiChar;
+begin
+  Result := Str;
+  while Result^ <> #0 do
+  begin
+    if Result^ = Chr then
+      Exit;
+    Inc(Result);
+  end;
+  if Chr <> #0 then
+    Result := nil;
+end;
+
 { Less CALLs by inlining the functions. }
 function FastAnsiCompareText(const S1, S2: string): Integer;
-type
-  PStrRec = ^StrRec;
-  StrRec = packed record
-    refCnt: Longint;
-    length: Longint;
-  end;
 
   function InternCompare(const S1, S2: string): Integer;
   var
@@ -957,7 +1135,546 @@ begin
 end;
 
 {------------------------------------------------------------------------------}
+(* ***** BEGIN LICENSE BLOCK *****
+* Version: MPL 1.1
+*
+* The implementation of function Trim is subject to the
+* Mozilla Public License Version 1.1 (the "License"); you may
+* not use this file except in compliance with the License.
+* You may obtain a copy of the License at http://www.mozilla.org/MPL/
+*
+* Software distributed under the License is distributed on an "AS IS" basis,
+* WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+* for the specific language governing rights and limitations under the
+* License.
+*
+* The Original Code is Fastcode
+*
+* The Initial Developer of the Original Code is Fastcode
+*
+* Portions created by the Initial Developer are Copyright (C) 2002-2004
+* the Initial Developer. All Rights Reserved.
+*
+* Contributor(s): Davy Landman
+*
+* ***** END LICENSE BLOCK ***** *)
+function FastTrim(const AString: string): string; { Trim_DLA_IA32_8_a }
+asm
+    push ebx
+    push esi
+    mov esi,edx         { Result }
+    test eax, eax       { Nil pointer? }
+    jz @NoResult
+    mov ebx, eax        { p }
+    mov eax, [ebx - 4]  { sLen }
+    test eax,eax        { sLen = 0 ? }
+    jz @NoResult
+    lea edx,[ebx + eax] { pBack }
+    mov ecx, edx
+    mov eax, ebx
+    dec eax
+@FrontLoop:
+    inc eax
+    cmp eax, edx
+    jnb @NoResult
+    cmp byte ptr [eax],$20
+    jbe @FrontLoop
+    // found
+@BackLoop:
+    dec edx
+    cmp byte ptr [edx],$20
+    jbe @BackLoop
+    inc edx
+@CopyResult:
+    mov ebx, eax
+    sub edx, ebx
+    mov eax,esi
+    call System.@LStrSetLength
+    mov edx,[esi]
+    mov eax,ebx
+    mov ecx,[edx - 4]
+    call Move
+    jmp @Exit
+@NoResult:
+    mov eax,esi
+    call System.@LStrClr
+@Exit:
+    pop esi
+    pop ebx
+    ret
+end;
 
+{------------------------------------------------------------------------------}
+
+{$IFDEF COMPILER10_UP}
+function FastInOpSet(W: WideChar; const Sets: TSysCharSet): Boolean;
+begin
+  if W <= #$FF then
+    Result := Char(W) in Sets
+  else
+    Result := False;
+end;
+{$ENDIF COMPILER10_UP}
+
+{$IFDEF CACHE_WIDESTRINGS}
+const
+  MaxCachedWideStringSize = 1024;
+  ReleaseFreeWideStringsTimeout = 30000; {milliseconds}
+
+type
+  PFreeWideString = ^TFreeWideString;
+  TFreeWideString = record
+    P: PWideChar;
+    Next: PFreeWideString;
+  end;
+
+  PNodeBufferItem = ^TNodeBufferItem;
+  TNodeBufferItem = record
+    NextFree: PNodeBufferItem; // overlappes "P: PWideChar"
+    Next: PFreeWideString;
+  end;
+
+var
+  CriticalSection: TRTLCriticalSection;
+  NodeCriticalSection: TRTLCriticalSection;
+  WideStringCacheActive: Boolean;
+  FreeWideStringsSized: array[1..MaxCachedWideStringSize] of PFreeWideString;
+  NodeBuffer: array[0..1024] of TNodeBufferItem;
+  FreeNodeBuffer: PNodeBufferItem;
+  FreeWideStringCount: Integer;
+
+  CollectorThread: THandle;
+  CollectorThreadId: LongWord;
+  CollectorThreadEvent: THandle;
+
+const
+  oleaut = 'oleaut32.dll';
+
+type
+  POleStr = PWideChar;
+  PBStr = ^TBStr;
+  TBStr = POleStr;
+
+function SysAllocStringLen(psz: POleStr; len: Integer): TBStr; stdcall;
+  external oleaut name 'SysAllocStringLen';
+{function SysReAllocStringLen(var bstr: TBStr; psz: POleStr; len: Integer): Integer; stdcall;
+  external oleaut name 'SysReAllocStringLen';}
+procedure SysFreeString(bstr: TBStr); stdcall;
+  external oleaut name 'SysFreeString';
+
+procedure NewNode(var N: PFreeWideString);
+var
+  Node: PNodeBufferItem;
+begin
+  if FreeNodeBuffer <> nil then
+  begin
+    EnterCriticalSection(NodeCriticalSection);
+    Node := FreeNodeBuffer;
+    FreeNodeBuffer := Node.NextFree;
+    LeaveCriticalSection(NodeCriticalSection);
+    N := PFreeWideString(Node);
+  end
+  else
+    New(N);
+end;
+
+procedure DisposeNode(N: PFreeWideString);
+var
+  Node: PNodeBufferItem;
+begin
+  if (Cardinal(N) >= Cardinal(@NodeBuffer[0])) and
+     (Cardinal(N) <= Cardinal(@NodeBuffer[High(NodeBuffer)])) then
+  begin
+    if WideStringCacheActive then
+    begin
+      Node := PNodeBufferItem(N);
+      EnterCriticalSection(NodeCriticalSection);
+      Node.NextFree := FreeNodeBuffer;
+      FreeNodeBuffer := Node;
+      LeaveCriticalSection(NodeCriticalSection);
+    end;
+  end
+  else
+    Dispose(N);
+end;
+
+function CachedSysAllocStringLen(P: PWideChar; Len: Integer): PWideChar;
+var
+  N: PFreeWideString;
+begin
+  if (Len > 0) and (Len < MaxCachedWideStringSize) and WideStringCacheActive then
+  begin
+    if FreeWideStringsSized[Len] <> nil then
+    begin
+      Result := nil;
+      EnterCriticalSection(CriticalSection);
+      //try
+        N := FreeWideStringsSized[Len];
+        if N <> nil then
+        begin
+          FreeWideStringsSized[Len] := N.Next;
+          Result := N.P;
+          DisposeNode(N);
+          Dec(FreeWideStringCount);
+        end;
+      //finally
+        LeaveCriticalSection(CriticalSection);
+      //end;
+
+      if Result <> nil then
+      begin
+        if P <> nil then
+          Move(P^, Result^, Len * SizeOf(WideChar));
+        Exit;
+      end;
+    end;
+  end;
+  Result := SysAllocStringLen(P, Len);
+end;
+
+procedure CachedSysFreeString(S: PWideChar);
+var
+  Len: Cardinal;
+  N: PFreeWideString;
+begin
+  if S <> nil then
+  begin
+    Len := PInteger(DWORD_PTR(S) - 4)^ div 2;
+    if (Len > 0) and (Len <= MaxCachedWideStringSize) and WideStringCacheActive then
+    begin
+      NewNode(N);
+      N.P := S;
+      EnterCriticalSection(CriticalSection);
+      //try
+        N.Next := FreeWideStringsSized[Len];
+        FreeWideStringsSized[Len] := N;
+        Inc(FreeWideStringCount);
+      //finally
+        LeaveCriticalSection(CriticalSection);
+      //end;
+      if FreeWideStringCount > 128 then
+        SetEvent(CollectorThreadEvent);
+    end
+    else
+      SysFreeString(S);
+  end;
+end;
+
+{function CachedSysReAllocStringLen(var S: PWideChar; P: PWideChar; Len: Integer): LongBool;
+begin
+  Result := LongBool(SysReAllocStringLen(S, P, Len));
+end;}
+
+function ReleaseFreeWideStrings(Parameter: Pointer): Integer;
+var
+  I: Integer;
+  N, Next: PFreeWideString;
+begin
+  while WideStringCacheActive do
+  begin
+    WaitForSingleObject(CollectorThreadEvent, ReleaseFreeWideStringsTimeout);
+    if not WideStringCacheActive then
+      Break;
+
+    for I := Low(FreeWideStringsSized) to High(FreeWideStringsSized) do
+    begin
+      if FreeWideStringsSized[I] <> nil then
+      begin
+        { Remove the FreeWideString-List from the Len-Item }
+        EnterCriticalSection(CriticalSection);
+        //try
+          N := FreeWideStringsSized[I];
+          if N <> nil then
+            FreeWideStringsSized[I] := nil;
+        //finally
+          LeaveCriticalSection(CriticalSection);
+        //end;
+
+        { Release strings }
+        while N <> nil do
+        begin
+          Next := N.Next;
+          SysFreeString(N.P);
+          DisposeNode(N);
+          Dec(FreeWideStringCount);
+          N := Next;
+        end;
+
+        if not WideStringCacheActive then
+          Break; { the Fini function will release the remaining strings }
+      end;
+    end;
+  end;
+  Result := 0;
+end;
+
+{-----------------------------------------------------------}
+
+{$IFDEF COMPILER6_UP}
+procedure WStrError;
+asm
+        MOV     AL,reOutOfMemory
+        JMP     System.Error
+end;
+{$ELSE}
+procedure WStrError;
+begin
+  RunError(203);
+end;
+{$ENDIF COMPILER6_UP}
+
+function _NewWideString(CharLength: Longint): Pointer;
+asm
+        TEST    EAX,EAX
+        JE      @@1
+        //PUSH    EAX
+        //PUSH    0
+        MOV     EDX,EAX
+        XOR     EAX,EAX
+        CALL    CachedSysAllocStringLen
+        TEST    EAX,EAX
+        JE      WStrError
+@@1:
+end;
+
+procedure _WStrClr(var S);
+asm
+        { ->    EAX     Pointer to WideString  }
+
+        MOV     EDX,[EAX]
+        TEST    EDX,EDX
+        JE      @@1
+        MOV     DWORD PTR [EAX],0
+        PUSH    EAX
+        //PUSH    EDX
+        MOV     EAX,EDX
+        CALL    CachedSysFreeString
+        POP     EAX
+@@1:
+end;
+
+(*procedure _WStrAsg(var Dest: WideString; const Source: WideString);
+asm
+        { ->    EAX     Pointer to WideString }
+        {       EDX     Pointer to data       }
+        CMP     [EAX],EDX
+        JE      @@1
+        TEST    EDX,EDX
+        JE      _WStrClr
+        MOV     ECX,[EDX-4]
+        SHR     ECX,1
+        JE      _WStrClr
+        //PUSH    ECX
+        //PUSH    EDX
+        //PUSH    EAX
+        CALL    CachedSysReAllocStringLen
+        TEST    EAX,EAX
+        JE      WStrError
+@@1:
+end;*)
+
+procedure _WStrFromPWCharLen(var Dest: WideString; Source: PWideChar; CharLength: Integer);
+asm
+        { ->    EAX     Pointer to WideString (dest)      }
+        {       EDX     Pointer to characters (source)    }
+        {       ECX     number of characters  (not bytes) }
+        TEST    ECX,ECX
+        JE      _WStrClr
+
+        PUSH    EAX
+
+        //PUSH    ECX
+        //PUSH    EDX
+        MOV     EAX,EDX
+        MOV     EDX,ECX
+        CALL    CachedSysAllocStringLen
+        TEST    EAX,EAX
+        JE      WStrError
+
+        POP     EDX
+        MOV     ECX,[EDX].PWideChar
+        MOV     [EDX],EAX
+        MOV     EAX,ECX
+
+        CALL    CachedSysFreeString
+end;
+
+function _WStrAddRef(var str: WideString): Pointer;
+asm
+        MOV     EDX,[EAX]
+        TEST    EDX,EDX
+        JE      @@1
+        PUSH    EAX
+        MOV     ECX,[EDX-4]
+        SHR     ECX,1
+        //PUSH    ECX
+        //PUSH    EDX
+        MOV     EAX,EDX
+        MOV     EDX,ECX
+        CALL    CachedSysAllocStringLen
+        POP     EDX
+        TEST    EAX,EAX
+        JE      WStrError
+        MOV     [EDX],EAX
+@@1:
+end;
+
+procedure WStrSet(var S: WideString; P: PWideChar);
+asm
+    // WideStrings are not reference counted under Windows
+        MOV     ECX,[EAX]
+        MOV     [EAX],EDX
+        TEST    ECX,ECX
+        JZ      @@1
+        //PUSH    EDX
+        MOV     EAX,ECX
+        CALL    CachedSysFreeString
+@@1:
+end;
+
+procedure _WStrArrayClr(var StrArray; Count: Integer);
+asm
+        PUSH    EBX
+        PUSH    ESI
+        MOV     EBX,EAX
+        MOV     ESI,EDX
+@@1:    MOV     EAX,[EBX]
+        TEST    EAX,EAX
+        JE      @@2
+        MOV     DWORD PTR [EBX],0
+        //PUSH    EAX
+        CALL    CachedSysFreeString
+@@2:    ADD     EBX,4
+        DEC     ESI
+        JNE     @@1
+        POP     ESI
+        POP     EBX
+end;
+
+function GetNewWideStringPtr: Pointer; asm mov eax, OFFSET System.@NewWideString end;
+function GetWStrClrPtr: Pointer; asm mov eax, OFFSET System.@WStrClr end;
+//function GetWStrAsgPtr: Pointer; asm mov eax, OFFSET System.@WStrAsg end;
+function GetWStrFromPWCharLenPtr: Pointer; asm mov eax, OFFSET System.@WStrFromPWCharLen end;
+function GetWStrAddRefPtr: Pointer; asm mov eax, OFFSET System.@WStrAddRef end;
+function GetWStrArrayClrPtr: Pointer; asm mov eax, OFFSET System.@WStrArrayClr end;
+
+{$IFDEF COMPILER6_UP}
+function GetWStrSetPtr: Pointer; asm mov eax, OFFSET System.WStrSet end;
+{$ELSE]
+{------------------------------------------------------------------------------}
+{
+E8xxxxxxxx       call WStrSet
+5F               pop edi
+5E               pop esi
+5B               pop ebx
+C3               ret
+}
+function GetWStrSetLength: Pointer; asm mov eax, OFFSET System.@WStrSetLength; end;
+
+function GetWStrSetPtr: Pointer;
+type
+  PLocation = ^TLocation;
+  TLocation = packed record
+    Call: Byte;
+    Offset: Longint;
+    PopRet: LongWord;
+  end;
+
+var
+  P: PLocation;
+  Count: Integer;
+begin
+  Count := $100;
+  P := GetActualAddr(GetWStrSetLength);
+  Inc(PByte(P), 16);
+  while (Count > 0) and not IsBadReadPtr(P, SizeOf(TLocation)) do // safe because we are in a CODE segment
+  begin
+    if (P.Call = $E8) and (P.PopRet = $C35B5E5F) then
+    begin
+      Result := Pointer(INT_PTR(@P.PopRet) + INT_PTR(P.Offset));
+      if IsBadReadPtr(Result, 2) or (PWord(Result)^ <> $1087 {xchg [eax],edx}) then
+        Result := nil;
+      Exit;
+    end;
+    Inc(PByte(P));
+    Dec(Count);
+  end;
+  Result := nil;
+end;
+{$ENDIF COMPILER6_UP}
+
+procedure InitWideStringOptimize;
+var
+  I: Integer;
+begin
+  InitializeCriticalSection(CriticalSection);
+  InitializeCriticalSection(NodeCriticalSection);
+
+  FreeNodeBuffer := nil;
+  for I := 0 to High(NodeBuffer) do
+  begin
+    NodeBuffer[I].NextFree := FreeNodeBuffer;
+    FreeNodeBuffer := @NodeBuffer[I];
+  end;
+
+  CodeRedirect(GetNewWideStringPtr, @_NewWideString);
+  CodeRedirect(GetWStrClrPtr, @_WStrClr);
+  //CodeRedirect(GetWStrAsgPtr, @_WStrAsg);
+  CodeRedirect(GetWStrFromPWCharLenPtr, @_WStrFromPWCharLen);
+  CodeRedirect(GetWStrAddRefPtr, @_WStrAddRef);
+  CodeRedirect(GetWStrSetPtr, @WStrSet);
+  CodeRedirect(GetWStrArrayClrPtr, @_WStrArrayClr);
+
+  CollectorThreadEvent := CreateEvent(nil, False, False, nil);
+  if CollectorThreadEvent <> 0 then
+    CollectorThread := BeginThread(nil, 0, ReleaseFreeWideStrings, nil, CREATE_SUSPENDED, CollectorThreadId);
+  if CollectorThread <> 0 then
+  begin
+    SetThreadPriority(CollectorThread, THREAD_PRIORITY_LOWEST);
+    WideStringCacheActive := True;
+    ResumeThread(CollectorThread);
+  end;
+end;
+
+procedure FiniWideStringOptimize;
+var
+  I: Integer;
+  N, Next: PFreeWideString;
+begin
+  WideStringCacheActive := False;
+  if CollectorThread <> 0 then
+  begin
+    SetThreadPriority(CollectorThread, THREAD_PRIORITY_NORMAL);
+    ResumeThread(CollectorThread);
+    SetEvent(CollectorThreadEvent);
+    WaitForSingleObject(CollectorThread, INFINITE);
+  end;
+
+  for I := Low(FreeWideStringsSized) to High(FreeWideStringsSized) do
+  begin
+    N := FreeWideStringsSized[I];
+    if N <> nil then
+    begin
+      FreeWideStringsSized[I] := nil;
+      { Release strings }
+      while N <> nil do
+      begin
+        Next := N.Next;
+        SysFreeString(N.P);
+        DisposeNode(N);
+        N := Next;
+      end;
+    end;
+  end;
+  DeleteCriticalSection(CriticalSection);
+  DeleteCriticalSection(NodeCriticalSection);
+end;
+{$ENDIF CACHE_WIDESTRINGS}
+
+{------------------------------------------------------------------------------}
+
+function GetLStrAsg: Pointer; asm mov eax, OFFSET System.@LStrAsg; end;
+function GetLStrLAsg: Pointer; asm mov eax, OFFSET System.@LStrLAsg; end;
 function GetLStrCmp: Pointer; asm mov eax, OFFSET System.@LStrCmp; end;
 function GetWStrCmp: Pointer; asm mov eax, OFFSET System.@WStrCmp; end;
 {$IFNDEF COMPILER9}
@@ -1357,12 +2074,12 @@ begin
   List := FList; // remove one (object) memory access
   Item1 := @List^[Index1];
   Item2 := @List^[Index2];
-  Temp := Integer(Item1^.FString);
-  Integer(Item1^.FString) := Integer(Item2^.FString);
-  Integer(Item2^.FString) := Temp;
-  Temp := Integer(Item1^.FObject);
-  Integer(Item1^.FObject) := Integer(Item2^.FObject);
-  Integer(Item2^.FObject) := Temp;
+  Temp := INT_PTR(Item1^.FString);
+  INT_PTR(Item1^.FString) := INT_PTR(Item2^.FString);
+  INT_PTR(Item2^.FString) := Temp;
+  Temp := INT_PTR(Item1^.FObject);
+  INT_PTR(Item1^.FObject) := INT_PTR(Item2^.FObject);
+  INT_PTR(Item2^.FObject) := Temp;
 end;
 
 procedure TFastStringList.QuickSort(L, R: Integer; SCompare: TStringListSortCompare);
@@ -1845,11 +2562,20 @@ begin
     Comps := TPrivateComponent(Self).FComponents;
     if Comps <> nil then
     begin
-      if PMetaClass(Comps).ClassType <> TNameHashList then
-        Comps := ReplaceComponentList;
+      if Comps.Count > 1 then
+      begin
+        if PMetaClass(Comps).ClassType <> TNameHashList then
+          Comps := ReplaceComponentList;
 
-      if Comps.NameFind(AName, Result) then
-        Exit;
+        if Comps.NameFind(AName, Result) then
+          Exit;
+      end
+      else
+      begin
+        Result := Comps[0];
+        if SameText(Result.Name, AName) then
+          Exit;
+      end;
     end;
   end;
   Result := nil;
@@ -1899,14 +2625,45 @@ end;
 {------------------------------------------------------------------------------}
 { File optimization                                                            }
 {------------------------------------------------------------------------------}
-{$IFNDEF COMPILER10_UP}
+{.$IFNDEF COMPILER10_UP}
 { GetFileAttributes() is a lot faster than the FindFirstFile call in the original
-  FileExists function that calls FileAge. BDS 2006 fixes this. }
+  FileExists function that calls FileAge. BDS 2006 fixes this this but cannot
+  find opened SHARE_EXCLUSIVE files. }
 function FastFileExists(const Filename: string): Boolean;
+
+  function FailSafe(const Filename: string): Boolean;
+  var
+    FindData: TWin32FindData;
+    h: THandle;
+  begin
+    { Either the file is locked/share_exclusive or we got an access denied }
+    h := FindFirstFile(PChar(Filename), FindData);
+    if h <> INVALID_HANDLE_VALUE then
+    begin
+      Windows.FindClose(h);
+      Result := FindData.dwFileAttributes and FILE_ATTRIBUTE_DIRECTORY = 0;
+    end
+    else
+      Result := False;
+  end;
+
+var
+  Attr: Integer;
+  LastError: Cardinal;
 begin
-  Result := (Filename <> '') and (GetFileAttributes(Pointer(Filename)) and FILE_ATTRIBUTE_DIRECTORY = 0);
+  Attr := Integer(GetFileAttributes(Pointer(FileName)));
+  if Attr <> -1 then
+    Result := Attr and FILE_ATTRIBUTE_DIRECTORY = 0
+  else
+  begin
+    LastError := GetLastError();
+    Result := (LastError <> ERROR_FILE_NOT_FOUND) and
+              (LastError <> ERROR_PATH_NOT_FOUND) and
+              (LastError <> ERROR_INVALID_NAME) and
+              ((LastError = ERROR_SHARING_VIOLATION) or FailSafe(Filename));
+  end;
 end;
-{$ENDIF ~COMPILER10_UP}
+{.$ENDIF ~COMPILER10_UP}
 
 {------------------------------------------------------------------------------}
 {$IFDEF COMPILER5}
@@ -2032,18 +2789,6 @@ function GetCallDynaClassAddr: Pointer; asm mov eax, OFFSET System.@CallDynaClas
 function GetFindDynaInstAddr: Pointer; asm mov eax, OFFSET System.@FindDynaInst; end;
 function GetFindDynaClassAddr: Pointer; asm mov eax, OFFSET System.@FindDynaClass; end;
 
-type
-  IntPtr = Integer;
-  {$IFDEF COMPILER5}
-  PPointerArray = ^TPointerArray;
-  TPointerArray = array[0..MaxInt div SizeOf(Pointer) - 1] of Pointer;
-  {$ENDIF COMPILER5}
-
-{$IFDEF COMPILER5}
-const
-  RaiseLastOSError: procedure = RaiseLastWin32Error;
-{$ENDIF COMPILER5}
-
 procedure SortDMT(IndexList: PWordArray; L, R: Integer; AddrList: PPointerArray);
 var
   I, J: Integer;
@@ -2100,7 +2845,7 @@ var
 begin
   Count := DmtP^.Count;
   Size := 2 + Count * (SizeOf(Word) + SizeOf(Pointer));
-  P := GlobalAllocPtr(GMEM_FIXED, 2 + Size + 4);
+  P := HeapAlloc(GetProcessHeap(), 0, 2 + Size + 4); // this memory block can't be released anymore, Windows will clean up 
   if P <> nil then
   begin
     P^ := $FACE;
@@ -2160,7 +2905,7 @@ asm
    cmp ax,[edx+ecx*2]
    jz @@Found
 //  if IndexList[Result] < Index then
-   cmp ax,[edx+ecx*2] // looks like this optimizes the CPU cache
+   //cmp ax,[edx+ecx*2] // looks like this optimizes the CPU cache
    jbe @@Greater
 //  L := Result + 1
    lea esi,[ecx+$01]
@@ -2374,7 +3119,7 @@ begin
   begin
     if (P[0] = $E8) and (P[2] = $FF) and (P[3] = $FF) and (P[4] = $FF) then
     begin
-      Result := Pointer(Integer(@P[5]) + PInteger(@P[1])^);
+      Result := Pointer(INT_PTR(@P[5]) + PInteger(@P[1])^);
       Exit;
     end;
     Inc(PByte(P));
@@ -2394,10 +3139,10 @@ begin
   begin
     if (P[0] = $E8) then
     begin
-      if Pointer(Integer(@P[5]) + PInteger(@P[1])^) = OrgProc then
+      if Pointer(INT_PTR(@P[5]) + PInteger(@P[1])^) = OrgProc then
       begin
         VirtualProtect(@P[1], 4, PAGE_EXECUTE_READWRITE, OldProtect);
-        PInteger(@P[1])^ := Integer(NewProc) - Integer(@P[5]);
+        PInteger(@P[1])^ := INT_PTR(NewProc) - INT_PTR(@P[5]);
         VirtualProtect(@P[1], 4, OldProtect, OldProtect);
         FlushInstructionCache(GetCurrentProcess, @P[1], 4);
         Exit;
@@ -2584,93 +3329,131 @@ begin
   end;
 end;
 
-
 type
   TResStringRecCache = record
     Res: PResStringRec;
+    Time: Cardinal;
+    Identifier: Integer;
+    ResInst: HINST;
     S: string;
-    RefCount: Longint;
   end;
 
+  PResStringRecCacheArray = ^TResStringRecCacheArray;
+  TResStringRecCacheArray = array[0..64 - 1] of TResStringRecCache;
+
 var
-  LastResStringRecs: array[0..64 - 1] of TResStringRecCache;
-  LastResStringModule: LongWord;
-  LastResModule: LongWord;
+  LastResStringRecs: TResStringRecCacheArray;
+  LastResStringModule: HMODULE;
+  LastResModuleInst: HINST;
+  LoadResStringCacheCritSect: TRTLCriticalSection;
+
+function FindResourceModuleHInstance(Instance: HMODULE): HINST;
+var
+  CurModule: PLibModule;
+begin
+  CurModule := LibModuleList;
+  while CurModule <> nil do
+  begin
+    if (Instance = HMODULE(CurModule.Instance)) or
+       (Instance = HMODULE(CurModule.CodeInstance)) or
+       (Instance = HMODULE(CurModule.DataInstance)) then
+    begin
+      Result := HINST(CurModule.ResInstance);
+      Exit;
+    end;
+    CurModule := CurModule.Next;
+  end;
+  Result := Instance;
+end;
 
 function LoadResString(ResStringRec: PResStringRec): string;
 var
-  Buffer: array [0..4095] of char;
-  Inst: LongWord;
-  MinValue: Longint;
-  I, MinIndex: Integer;
-  P: PResStringRec;
+  Buffer: array[0..4096 - 1] of Char;
+  Inst: HMODULE;
+  I, NewIndex: Integer;
+  OldestTimeDiff, t, TimeDiff: Cardinal;
 begin
   if ResStringRec = nil then
     Exit;
   if ResStringRec.Identifier < 64*1024 then
   begin
-    { Find a cached item and obtain the index of the item that has the lowest reference count } 
-    MinValue := 32;
-    MinIndex := 0;
-    for I := 0 to High(LastResStringRecs) do
+    NewIndex := -1;
+
+{*} EnterCriticalSection(LoadResStringCacheCritSect);
+
+    { Find a cached item; small tight loop without inner jumping }
+    for I := Length(LastResStringRecs) downto 1 do // downto 1 is faster because the code can test or zero
+      if ResStringRec = LastResStringRecs[I - 1].Res then
+        Break;
+    if I > 0 then
     begin
-      P := LastResStringRecs[I].Res;
-      if ResStringRec = P then
+      Dec(I); // make it zero based
+      Inst := FindResourceModuleHInstance(HMODULE(ResStringRec.Module^));
+      if (Inst <> LastResStringRecs[I].ResInst) or { The resource module was exchanged }
+         (ResStringRec.Identifier <> LastResStringRecs[I].Identifier) then { Another module was loaded at the exact same address }
       begin
-        with P^ do
+        LastResStringModule := HMODULE(ResStringRec.Module^);
+        LastResModuleInst := Inst;
+        LastResStringRecs[I].Res := nil;
+        LastResStringRecs[I].Time := 0;
+        NewIndex := I;
+      end
+      else
+      begin
+        LastResStringRecs[I].Time := GetTickCount;
+        Result := LastResStringRecs[I].S;
+{*}     LeaveCriticalSection(LoadResStringCacheCritSect);
+        Exit;
+      end;
+    end;
+
+    { Find the item that wasn't used for a long time }
+    t := GetTickCount;
+    if NewIndex = -1 then
+    begin
+      NewIndex := 0;
+      {$IFOPT R+}{$DEFINE OPT_R}{$ENDIF}
+      {$R-}
+      OldestTimeDiff := Cardinal(t - LastResStringRecs[High(LastResStringRecs)].Time);
+      for I := Length(LastResStringRecs) downto 1 do
+      begin
+        if LastResStringRecs[I - 1].Res = nil then
         begin
-          if (ResStringRec^.Module = Module) and (ResStringRec^.Identifier = Identifier) then // is it still valid
-          begin
-            with LastResStringRecs[I] do
-            begin
-              Inc(RefCount);
-              if RefCount >= 32 then // make place for new items
-                RefCount := 0;
-              Result := S;
-            end;
-            Exit;
-          end
-          else
-          begin
-            with LastResStringRecs[I] do
-            begin
-              Res := nil;
-              RefCount := 0;
-              S := '';
-            end;
-          end;
+          NewIndex := I - 1;
+          Break;
+        end;
+        TimeDiff := Cardinal(t - LastResStringRecs[I - 1].Time);
+        if TimeDiff > OldestTimeDiff then
+        begin
+          NewIndex := I - 1;
+          OldestTimeDiff := TimeDiff;
         end;
       end;
-
-      { Find lowest reference count }
-      with LastResStringRecs[I] do
-        if RefCount < MinValue then
-        begin
-          MinValue := RefCount;
-          MinIndex := I;
-        end;
+      {$IFDEF OPT_R}{$R+}{$ENDIF}
     end;
 
-    with LastResStringRecs[MinIndex] do
-    begin
-      Res := ResStringRec;
-      Inc(RefCount);
-    end;
+    LastResStringRecs[NewIndex].Res := ResStringRec;
+    LastResStringRecs[NewIndex].Time := t;
+    LastResStringRecs[NewIndex].Identifier := ResStringRec.Identifier;
+
+{*} LeaveCriticalSection(LoadResStringCacheCritSect);
 
     { Single item cache for the resource module handle }
-    if ResStringRec.Module^ = LastResStringModule then
-      Inst := LastResModule
+    if HMODULE(ResStringRec.Module^) = LastResStringModule then
+      Inst := LastResModuleInst
     else
     begin
       LastResStringModule := ResStringRec.Module^;
-      Inst := FindResourceHInstance(LastResStringModule);
-      LastResModule := Inst;
+      Inst := FindResourceHInstance(ResStringRec.Module^);
+      LastResModuleInst := Inst;
     end;
+    LastResStringRecs[NewIndex].ResInst := Inst;
 
     SetString(Result, Buffer,
       LoadString(Inst, ResStringRec.Identifier, Buffer, SizeOf(Buffer)));
-      
-    LastResStringRecs[MinIndex].S := Result;
+
+    { "Time" is already set => item isn't modified }
+    LastResStringRecs[NewIndex].S := Result;
   end
   else
     Result := PChar(ResStringRec.Identifier);
@@ -2730,6 +3513,87 @@ end;
 {$ENDIF WMPAINT_HOOK}
 {$ENDIF ~DELPHI2007_UP}
 
+// VCL Bugfix
+{$IFDEF COMPILER6_UP} // Delphi 5 is also affected but RemoveAction() is private and can't be accessed
+type
+  TCustomActionListFix = class(TCustomActionList)
+  protected
+    procedure Notification(AComponent: TComponent; Operation: TOperation); override;
+  end;
+
+  TOpenCustomActionList = class(TCustomActionList);
+  //TOpenComponent = class(TComponent);
+
+procedure TCustomActionListFix.Notification(AComponent: TComponent; Operation: TOperation);
+var
+  P: procedure(Instance: TComponent; AComponent: TComponent; Operation: TOperation);
+begin
+  { inherited: }
+  P := @TOpenComponent.Notification;
+  P(Self, AComponent, Operation);
+
+  if Operation = opRemove then
+  begin
+    if AComponent = Images then
+      Images := nil
+    else if {<*}not (csDestroying in ComponentState) and{*>} (AComponent is TContainedAction) then
+      RemoveAction(TContainedAction(AComponent));
+  end;
+end;
+{$ENDIF COMPILER6_UP}
+
+{------------------------------------------------------------------------------}
+{ SysUtils optimizations                                                       }
+{------------------------------------------------------------------------------}
+
+(* ***** BEGIN LICENSE BLOCK *****
+* Version: MPL 1.1
+*
+* The implementation of function IsLeapYear is subject to the
+* Mozilla Public License Version 1.1 (the "License"); you may
+* not use this file except in compliance with the License.
+* You may obtain a copy of the License at http://www.mozilla.org/MPL/
+*
+* Software distributed under the License is distributed on an "AS IS" basis,
+* WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+* for the specific language governing rights and limitations under the
+* License.
+*
+* The Initial Developer of the Original Code is
+* John O'Harrow
+*
+* Portions created by the Initial Developer are Copyright (C) 2002-2007
+* the Initial Developer. All Rights Reserved.
+*
+* Contributor(s): John O'Harrow
+*
+* ***** END LICENSE BLOCK ***** *)
+
+function IsLeapYear(Year: Word): Boolean;
+asm {37 Bytes}
+  test  al, 3
+  jz    @@CheckCentury
+  xor   eax,eax        {Return False}
+  ret
+@@CheckCentury:
+  movzx eax, ax
+  mov   edx, $028F5C29 {((2^32)+100-1)/100}
+  mov   ecx, eax
+  mul   edx            {EDX = Year DIV 100}
+  mov   eax, edx
+  imul  edx, 100       {EDX = (Year DIV 100) * 100}
+  cmp   ecx, edx
+  je    @@Century      {Year is Divisible by 100}
+  mov   al, true       {Return True}
+  ret
+@@Century:
+  test  al, 3          {Check if Divisible by 400}
+  setz  al             {Set Result}
+end;
+
+procedure IsLeapYear_END; asm int 3; int 3; int 3; end;
+
+{------------------------------------------------------------------------------}
 var
   GetDynaMethodAddr: Pointer;
 
@@ -2746,6 +3610,8 @@ initialization
 
   CodeRedirect(OrgLStrCmp, @_LStrCmp_LStrEqual);
   CodeRedirect(OrgWStrCmp, @_WStrCmp_WStrEqual);
+  //CodeRedirect(GetLStrAsg, @_LStrAsg);
+  //CodeRedirect(GetLStrLAsg, @_LStrLAsg);
 
   CodeRedirect(@SysUtils.AnsiCompareText, @FastAnsiCompareText);
   {$IFDEF COMPILER9_UP}
@@ -2755,17 +3621,28 @@ initialization
   CodeRedirect(@WideSameStr, @FastWideSameStr);
   {$ENDIF ~COMPILER5}
 
+  CodeRedirect(@SysUtils.Trim, @FastTrim);
+  {$IFDEF COMPILER10_UP}
+  CodeRedirect(@InOpSet, @FastInOpSet);
+  {$ENDIF COMPILER10_UP}
+
   {$IFDEF NOLEADBYTES_HOOK}
   if NoLeadBytes then
   begin
     {$IFNDEF COMPILER9}
     CodeRedirect(@SysUtils.AnsiPos, GetLStrPos);
     {$ENDIF ~COMPILER9}
-    CodeRedirect(@SysUtils.AnsiStrScan, @FastStrScan);
+    CodeRedirect(@SysUtils.AnsiStrScan, @FastAnsiStrScan);
     InjectCode(@SysUtils.ByteType, @FastAnsiByteType, 6);
     InjectCode(@SysUtils.StrByteType, @FastAnsiStrByteType, 6);
   end;
   {$ENDIF NOLEADBYTES_HOOK}
+  CodeRedirect(@SysUtils.StrScan, @FastStrScan);
+
+  {$IFDEF CACHE_WIDESTRINGS}
+  if Win32MajorVersion <= 5 then
+    InitWideStringOptimize;
+  {$ENDIF CACHE_WIDESTRINGS}
 
 {------------------------------------------------------------------------------}
 { List optimization                                                            }
@@ -2777,7 +3654,7 @@ initialization
   CodeRedirect(@TOpenList.Last, @TFastList.Last);
   CodeRedirect(@TOpenList.Exchange, @TFastList.Exchange);
   CodeRedirect(@TOpenList.Sort, @TFastList.Sort);
-  InjectCode(@TOpenObjectList.Notify, @TObjectList_Notify, Cardinal(@TObjectList_NotifyEND) - Cardinal(@TObjectList_Notify));
+  InjectCode(@TOpenObjectList.Notify, @TObjectList_Notify, DWORD_PTR(@TObjectList_NotifyEND) - DWORD_PTR(@TObjectList_Notify));
   CodeRedirect(@TStringList.CustomSort, @TFastStringList.CustomSort);
 
   {$IFDEF COMPILER7_UP}
@@ -2799,9 +3676,9 @@ initialization
 {------------------------------------------------------------------------------}
 { File optimization                                                            }
 {------------------------------------------------------------------------------}
-  {$IFNDEF COMPILER10_UP}
+  {.$IFNDEF COMPILER10_UP}
   CodeRedirect(@SysUtils.FileExists, @FastFileExists);
-  {$ENDIF ~COMPILER10_UP}
+  {.$ENDIF ~COMPILER10_UP}
 
   {$IFNDEF DELPHI2007_UP}
   CodeRedirect(@SysUtils.FileSearch, @FastFileSearch);
@@ -2829,6 +3706,12 @@ initialization
   CodeRedirect(GetActualAddr(GetSetEqAddr), @_SetEq);
   CodeRedirect(GetActualAddr(@System.LoadResourceModule), @LoadResourceModule);
   CodeRedirect(GetActualAddr(@System.LoadResString), @LoadResString);
+  InitializeCriticalSection(LoadResStringCacheCritSect);
+
+{------------------------------------------------------------------------------}
+{ SysUtils optimizations                                                       }
+{------------------------------------------------------------------------------}
+  InjectCode(@SysUtils.IsLeapYear, @IsLeapYear, DWORD_PTR(@IsLeapYear_END) + 3 - DWORD_PTR(@IsLeapYear));
 
 {------------------------------------------------------------------------------}
 { VCL optimization                                                             }
@@ -2838,6 +3721,16 @@ initialization
   CodeRedirect(GetDynamicMethod(TWinControl, WM_PAINT), @WinControlWMPaint);
   {$ENDIF ~COMPILER10_UP}
   {$ENDIF WMPAINT_HOOK}
+  {$IFDEF COMPILER6_UP} // Delphi 5 is also affected but RemoveAction() is private and can't be accessed
+  CodeRedirect(@TOpenCustomActionList.Notification, @TCustomActionListFix.Notification);
+  {$ENDIF COMPILER6_UP}
+
+finalization
+  DeleteCriticalSection(LoadResStringCacheCritSect);
+  {$IFDEF CACHE_WIDESTRINGS}
+  if Win32MajorVersion <= 5 then
+    FiniWideStringOptimize;
+  {$ENDIF CACHE_WIDESTRINGS}
 
 end.
 

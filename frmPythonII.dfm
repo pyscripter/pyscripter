@@ -47,26 +47,21 @@ inherited PythonIIForm: TPythonIIForm
   OnHelp = FormHelp
   ExplicitWidth = 717
   ExplicitHeight = 485
-  DesignSize = (
-    701
-    451)
   PixelsPerInch = 96
   TextHeight = 13
   inherited FGPanel: TPanel
-    Left = -5
-    Top = -6
-    Width = 700
-    Height = 444
+    Width = 695
+    Height = 445
     Color = clInactiveBorder
-    ExplicitLeft = -5
-    ExplicitTop = -6
-    ExplicitWidth = 700
-    ExplicitHeight = 444
+    ExplicitLeft = 3
+    ExplicitTop = 3
+    ExplicitWidth = 695
+    ExplicitHeight = 445
     object SynEdit: TSynEdit
       Left = 0
       Top = 0
-      Width = 700
-      Height = 444
+      Width = 695
+      Height = 445
       HelpContext = 410
       Align = alClient
       Font.Charset = DEFAULT_CHARSET
@@ -86,6 +81,7 @@ inherited PythonIIForm: TPythonIIForm
       Gutter.Font.Name = 'Courier New'
       Gutter.Font.Style = []
       Gutter.Visible = False
+      Gutter.Width = 0
       Gutter.Gradient = True
       Options = [eoDragDropEditing, eoEnhanceHomeKey, eoGroupUndo, eoHideShowScrollbars, eoKeepCaretX, eoShowScrollHint, eoTabIndent, eoTabsToSpaces]
       RightEdge = 0
@@ -254,62 +250,51 @@ inherited PythonIIForm: TPythonIIForm
     end
     object TBXSeparatorItem3: TSpTBXSeparatorItem
     end
-    object TBXItem8: TSpTBXItem
+    object mnEditCut: TSpTBXItem
       Caption = 'Cu&t'
       Hint = 'Cut|Cuts the selection and puts it on the Clipboard'
       Action = CommandsDataModule.actEditCut
     end
-    object TBXItem6: TSpTBXItem
+    object mnEditCopy: TSpTBXItem
       Caption = '&Copy'
       Hint = 'Copy|Copies the selection and puts it on the Clipboard'
       Action = CommandsDataModule.actEditCopy
     end
-    object TBXItem5: TSpTBXItem
-      Caption = '&Paste'
-      Hint = 'Paste|Inserts Clipboard contents'
-      Action = CommandsDataModule.actEditPaste
+    object mnEditPaste: TSpTBXItem
+      Caption = '&Copy'
+      Hint = 'Copy|Copies the selection and puts it on the Clipboard'
+      Action = CommandsDataModule.actEditCopy
     end
     object TBXSeparatorItem1: TSpTBXSeparatorItem
     end
-    object TBXItem4: TSpTBXItem
+    object mnCopyNoPrompts: TSpTBXItem
+      Caption = 'Copy (&No Prompts)'
+      Hint = 'Copy selected text without the interpreter prompts'
+      Action = actCopyWithoutPrompts
+    end
+    object mnPasteWithPrompts: TSpTBXItem
+      Caption = 'Paste (&With Prompts)'
+      Hint = 'Paste clipboard text with added interpreter prompts'
+      Action = actPasteWithPrompt
+    end
+    object mnCopyHistory: TSpTBXItem
       Caption = 'Copy &History'
       Hint = 'Copy history to Clipboard'
       Action = actCopyHistory
     end
-    object TBXItem7: TSpTBXItem
+    object SpTBXSeparatorItem1: TSpTBXSeparatorItem
+    end
+    object mnClearAll: TSpTBXItem
       Caption = 'Clear &All'
       Hint = 'Clear all interpreter output'
       Action = actClearContents
     end
     object TBXSeparatorItem2: TSpTBXSeparatorItem
     end
-    object TBXItem3: TSpTBXItem
+    object mnInterpreterEditorOptions: TSpTBXItem
       Caption = '&Interpreter Editor Options...'
       Hint = 'Set Interpreter Editor Options'
       Action = CommandsDataModule.actInterpreterEditorOptions
-    end
-  end
-  object InterpreterActionList: TActionList
-    Images = CommandsDataModule.Images
-    Left = 8
-    Top = 45
-    object actCopyHistory: TAction
-      Category = 'Interpreter'
-      Caption = 'Copy &History'
-      HelpContext = 410
-      HelpType = htContext
-      Hint = 'Copy history to Clipboard'
-      ImageIndex = 12
-      OnExecute = actCopyHistoryExecute
-    end
-    object actClearContents: TAction
-      Category = 'Interpreter'
-      Caption = 'Clear &All'
-      HelpContext = 410
-      HelpType = htContext
-      Hint = 'Clear all interpreter output'
-      ImageIndex = 14
-      OnExecute = actClearContentsExecute
     end
   end
   object PyDelphiWrapper: TPyDelphiWrapper
@@ -324,5 +309,44 @@ inherited PythonIIForm: TPythonIIForm
     Errors = <>
     Left = 584
     Top = 87
+  end
+  object InterpreterActionList: TTntActionList
+    Images = CommandsDataModule.Images
+    Left = 8
+    Top = 45
+    object actCopyHistory: TTntAction
+      Category = 'Interpreter'
+      Caption = 'Copy &History'
+      HelpContext = 410
+      Hint = 'Copy history to Clipboard'
+      ImageIndex = 12
+      OnExecute = actCopyHistoryExecute
+    end
+    object actClearContents: TTntAction
+      Category = 'Interpreter'
+      Caption = 'Clear &All'
+      HelpContext = 410
+      Hint = 'Clear all interpreter output'
+      ImageIndex = 14
+      OnExecute = actClearContentsExecute
+    end
+    object actCopyWithoutPrompts: TTntAction
+      Category = 'Interpreter'
+      Caption = 'Copy (&No Prompts)'
+      HelpContext = 410
+      Hint = 'Copy selected text without the interpreter prompts'
+      ImageIndex = 12
+      ShortCut = 24643
+      OnExecute = actCopyWithoutPromptsExecute
+    end
+    object actPasteWithPrompt: TTntAction
+      Category = 'Interpreter'
+      Caption = 'Paste (&With Prompts)'
+      HelpContext = 410
+      Hint = 'Paste clipboard text with added interpreter prompts'
+      ImageIndex = 13
+      ShortCut = 24662
+      OnExecute = actPasteWithPromptExecute
+    end
   end
 end

@@ -42,42 +42,47 @@ interface
 
 uses
   Windows, SysUtils, Classes, Graphics, Forms, Controls, StdCtrls,
-  Buttons, ExtCtrls, ComCtrls, ToolWin, ActnList, ImgList, Dialogs,
-  SynEditPrintPreview, Menus, {AppEvnts,} Printers;
+  Buttons, ActnList, ImgList, Dialogs,
+  SynEditPrintPreview, Printers, TntActnList, SpTBXItem,
+  TB2Item, TBX, TB2Dock, TB2Toolbar, Menus, dlgPyIDEBase;
 
 type
-  TPrintPreviewDlg = class(TForm)
+  TPrintPreviewDlg = class(TPyIDEDlgBase)
     ImageList: TImageList;
-    ActionList: TActionList;
-    FirstCmd: TAction;
-    PrevCmd: TAction;
-    NextCmd: TAction;
-    LastCmd: TAction;
-    ZoomCmd: TAction;
-    PrintCmd: TAction;
-    CloseCmd: TAction;
-    ToolBar1: TToolBar;
-    FirstBtn: TToolButton;
-    PrevBtn: TToolButton;
-    NextBtn: TToolButton;
-    LastBtn: TToolButton;
-    ToolButton1: TToolButton;
-    ToolButton3: TToolButton;
-    ToolButton5: TToolButton;
-    PrintBtn: TToolButton;
-    ToolButton4: TToolButton;
-    CloseBtn: TToolButton;
-    StatusBar: TStatusBar;
-    PopupMenu1: TPopupMenu;
-    Fitto1: TMenuItem;
-    Pagewidth1: TMenuItem;
-    N1: TMenuItem;
-    N251: TMenuItem;
-    N501: TMenuItem;
-    N1001: TMenuItem;
-    N2001: TMenuItem;
-    N4001: TMenuItem;
     SynEditPrintPreview: TSynEditPrintPreview;
+    ActionList: TTntActionList;
+    CloseCmd: TTntAction;
+    PrintCmd: TTntAction;
+    ZoomCmd: TTntAction;
+    LastCmd: TTntAction;
+    NextCmd: TTntAction;
+    PrevCmd: TTntAction;
+    FirstCmd: TTntAction;
+    ToolbarDock: TSpTBXDock;
+    SpTBXToolbar1: TSpTBXToolbar;
+    tbiClose: TSpTBXItem;
+    SpTBXSeparatorItem1: TSpTBXSeparatorItem;
+    tbiPrint: TSpTBXItem;
+    SpTBXSeparatorItem2: TSpTBXSeparatorItem;
+    SpTBXSeparatorItem3: TSpTBXSeparatorItem;
+    tbiLast: TSpTBXItem;
+    tbiNext: TSpTBXItem;
+    tbiPrev: TSpTBXItem;
+    tbiFirst: TSpTBXItem;
+    tbiZoom: TSpTBXSubmenuItem;
+    tbiWholePage: TSpTBXItem;
+    tbiPageWidth: TSpTBXItem;
+    SpTBXSeparatorItem4: TSpTBXSeparatorItem;
+    tbi25: TSpTBXItem;
+    tbi50: TSpTBXItem;
+    tbi100: TSpTBXItem;
+    tbi200: TSpTBXItem;
+    tbi400: TSpTBXItem;
+    StatusBar: TSpTBXStatusBar;
+    RightStatusLabel: TSpTBXLabelItem;
+    SpTBXSeparatorItem5: TSpTBXSeparatorItem;
+    LeftStatusLabel: TSpTBXLabelItem;
+    SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem;
 
     procedure FirstCmdExecute(Sender: TObject);
     procedure PrevCmdExecute(Sender: TObject);
@@ -88,11 +93,11 @@ type
     procedure CloseCmdExecute(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure Fitto1Click(Sender: TObject);
-    procedure ApplicationEvents1Hint(Sender: TObject);
     procedure SynEditPrintPreviewMouseDown(Sender: TObject;
       Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure SynEditPrintPreviewPreviewPage(Sender: TObject;
       PageNumber: Integer);
+    procedure ProcessHint(var HintStr: string; var CanShow: Boolean);
   private
     { Private declarations }
   public
@@ -145,6 +150,13 @@ begin
   SynEditPrintPreview.Print;
 end;
 
+procedure TPrintPreviewDlg.ProcessHint(var HintStr: string;
+  var CanShow: Boolean);
+begin
+  LeftStatusLabel.Caption := '  ' + HintStr;
+  CanShow := True;
+end;
+
 procedure TPrintPreviewDlg.CloseCmdExecute(Sender: TObject);
 begin
   Close;
@@ -152,17 +164,12 @@ end;
 
 procedure TPrintPreviewDlg.Fitto1Click(Sender: TObject);
 begin
-  case (Sender as TMenuItem).Tag of
+  case (Sender as TSpTBXItem).Tag of
     -1: SynEditPrintPreview.ScaleMode := pscWholePage;
     -2: SynEditPrintPreview.ScaleMode := pscPageWidth;
   else
-    SynEditPrintPreview.ScalePercent := (Sender as TMenuItem).Tag;
+    SynEditPrintPreview.ScalePercent := (Sender as TSpTBXItem).Tag;
   end;
-end;
-
-procedure TPrintPreviewDlg.ApplicationEvents1Hint(Sender: TObject);
-begin
-  StatusBar.Panels[0].Text := '  ' + Application.Hint;
 end;
 
 procedure TPrintPreviewDlg.SynEditPrintPreviewMouseDown(
@@ -193,7 +200,7 @@ end;
 procedure TPrintPreviewDlg.SynEditPrintPreviewPreviewPage(
   Sender: TObject; PageNumber: Integer);
 begin
-  StatusBar.Panels[1].Text := ' Page: ' + IntToStr(SynEditPrintPreview.PageNumber);
+  RightStatusLabel.Caption := ' Page: ' + IntToStr(SynEditPrintPreview.PageNumber);
 end;
 
 end.

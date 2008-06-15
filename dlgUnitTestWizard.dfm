@@ -1,67 +1,41 @@
-object UnitTestWizard: TUnitTestWizard
-  Left = 0
-  Top = 0
+inherited UnitTestWizard: TUnitTestWizard
   HelpContext = 930
-  BorderStyle = bsDialog
   Caption = 'Unit Test Wizard'
-  ClientHeight = 449
-  ClientWidth = 400
-  Color = clBtnFace
-  Font.Charset = DEFAULT_CHARSET
-  Font.Color = clWindowText
-  Font.Height = -11
+  ClientHeight = 488
+  ClientWidth = 436
   Font.Name = 'MS Shell Dlg 2'
-  Font.Style = []
-  OldCreateOrder = False
   Position = poMainFormCenter
-  OnCreate = FormCreate
+  ExplicitWidth = 442
+  ExplicitHeight = 514
   PixelsPerInch = 96
   TextHeight = 13
-  object Panel1: TPanel
+  object Panel1: TSpTBXPanel
     Left = 0
     Top = 0
-    Width = 400
-    Height = 449
+    Width = 436
+    Height = 488
+    ThemeType = thtWindows
     Align = alClient
     TabOrder = 0
+    ExplicitLeft = 2
+    ExplicitTop = 4
+    ExplicitWidth = 431
     DesignSize = (
-      400
-      449)
+      436
+      488)
     object Bevel1: TBevel
-      Left = 3
+      Left = 12
       Top = 8
-      Width = 393
-      Height = 49
+      Width = 413
+      Height = 73
       Shape = bsFrame
       Style = bsRaised
     end
-    object Label1: TLabel
-      Left = 4
-      Top = 65
-      Width = 323
-      Height = 13
-      Caption = 
-        'Select the functions and methods for which tests will be generat' +
-        'ed:'
-    end
-    object lbHeader: TLabel
-      Left = 16
-      Top = 17
-      Width = 325
-      Height = 13
-      Caption = 'This wizard will generate unit tests for the Python module'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -11
-      Font.Name = 'MS Shell Dlg 2'
-      Font.Style = [fsBold]
-      ParentFont = False
-    end
     object ExplorerTree: TVirtualStringTree
       Left = 2
-      Top = 83
-      Width = 395
-      Height = 319
+      Top = 106
+      Width = 431
+      Height = 335
       Anchors = [akLeft, akTop, akRight, akBottom]
       BevelKind = bkSoft
       BorderStyle = bsNone
@@ -71,7 +45,7 @@ object UnitTestWizard: TUnitTestWizard
       Header.Font.Charset = DEFAULT_CHARSET
       Header.Font.Color = clWindowText
       Header.Font.Height = -11
-      Header.Font.Name = 'MS Sans Serif'
+      Header.Font.Name = 'MS Shell Dlg 2'
       Header.Font.Style = []
       Header.MainColumn = -1
       Header.Options = [hoColumnResize, hoDrag]
@@ -90,35 +64,97 @@ object UnitTestWizard: TUnitTestWizard
       OnGetHint = ExplorerTreeGetHint
       OnInitChildren = ExplorerTreeInitChildren
       OnInitNode = ExplorerTreeInitNode
+      ExplicitWidth = 395
       Columns = <>
     end
-    object OKButton: TBitBtn
-      Left = 63
-      Top = 413
+    object Label1: TSpTBXLabel
+      Left = 7
+      Top = 87
+      Width = 323
+      Height = 13
+      Caption = 
+        'Select the functions and methods for which tests will be generat' +
+        'ed:'
+      ParentColor = True
+      LinkFont.Charset = DEFAULT_CHARSET
+      LinkFont.Color = clBlue
+      LinkFont.Height = -11
+      LinkFont.Name = 'MS Shell Dlg 2'
+      LinkFont.Style = [fsUnderline]
+    end
+    object lbHeader: TSpTBXLabel
+      Left = 18
+      Top = 15
+      Width = 403
+      Height = 60
+      Caption = 'This wizard will generate unit tests for the Python module'
+      AutoSize = False
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Shell Dlg 2'
+      Font.Style = [fsBold]
+      ParentColor = True
+      ParentFont = False
+      Wrapping = twWrap
+      LinkFont.Charset = DEFAULT_CHARSET
+      LinkFont.Color = clBlue
+      LinkFont.Height = -11
+      LinkFont.Name = 'MS Shell Dlg 2'
+      LinkFont.Style = [fsUnderline]
+    end
+    object OKButton: TSpTBXButton
+      Left = 99
+      Top = 452
       Width = 75
       Height = 25
+      Caption = '&OK'
       Anchors = [akRight, akBottom]
       TabOrder = 1
-      Kind = bkOK
+      Default = True
+      LinkFont.Charset = DEFAULT_CHARSET
+      LinkFont.Color = clBlue
+      LinkFont.Height = -11
+      LinkFont.Name = 'Tahoma'
+      LinkFont.Style = [fsUnderline]
+      ModalResult = 1
+      ExplicitLeft = 63
+      ExplicitTop = 413
     end
-    object BitBtn2: TBitBtn
-      Left = 159
-      Top = 413
+    object BitBtn2: TSpTBXButton
+      Left = 195
+      Top = 452
       Width = 75
       Height = 25
+      Caption = '&Cancel'
       Anchors = [akRight, akBottom]
       TabOrder = 2
-      Kind = bkCancel
+      Cancel = True
+      LinkFont.Charset = DEFAULT_CHARSET
+      LinkFont.Color = clBlue
+      LinkFont.Height = -11
+      LinkFont.Name = 'Tahoma'
+      LinkFont.Style = [fsUnderline]
+      ModalResult = 2
+      ExplicitLeft = 159
+      ExplicitTop = 413
     end
-    object HelpButton: TBitBtn
-      Left = 255
-      Top = 413
+    object HelpButton: TSpTBXButton
+      Left = 291
+      Top = 452
       Width = 75
       Height = 25
+      Caption = '&Help'
       Anchors = [akRight, akBottom]
       TabOrder = 3
       OnClick = HelpButtonClick
-      Kind = bkHelp
+      LinkFont.Charset = DEFAULT_CHARSET
+      LinkFont.Color = clBlue
+      LinkFont.Height = -11
+      LinkFont.Name = 'Tahoma'
+      LinkFont.Style = [fsUnderline]
+      ExplicitLeft = 255
+      ExplicitTop = 413
     end
   end
   object PopupUnitTestWizard: TSpTBXPopupMenu

@@ -35,30 +35,30 @@ inherited CodeExplorerWindow: TCodeExplorerWindow
   PixelsPerInch = 96
   TextHeight = 13
   inherited FGPanel: TPanel
-    Width = 240
-    Height = 290
-    ExplicitWidth = 240
-    ExplicitHeight = 290
+    Width = 243
+    Height = 300
+    ExplicitWidth = 243
+    ExplicitHeight = 300
     object Panel1: TPanel
       Left = 0
       Top = 0
-      Width = 240
-      Height = 290
+      Width = 243
+      Height = 300
       Align = alClient
       BevelOuter = bvNone
       TabOrder = 0
       object ExplorerTree: TVirtualStringTree
         Left = 0
         Top = 0
-        Width = 240
-        Height = 290
+        Width = 243
+        Height = 300
         Align = alClient
         BorderStyle = bsNone
         Header.AutoSizeIndex = -1
         Header.Font.Charset = DEFAULT_CHARSET
         Header.Font.Color = clWindowText
         Header.Font.Height = -11
-        Header.Font.Name = 'MS Sans Serif'
+        Header.Font.Name = 'MS Shell Dlg 2'
         Header.Font.Style = []
         Header.MainColumn = -1
         Header.Options = [hoColumnResize, hoDrag]

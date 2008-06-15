@@ -1,0 +1,779 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: LanguageCodes\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2007-02-08 22:56+0100\n"
+"Last-Translator: trident_job <trident_job@hotmail.com>\n"
+"Language-Team: TridenT <trident_job@hotmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: English\n"
+
+#. Row 1
+msgid "aa"
+msgstr "Afar"
+
+#  Row 2
+msgid "ab"
+msgstr "Abkhazian"
+
+#. Row 3
+msgid "ae"
+msgstr "Avestan"
+
+#. Row 4
+msgid "af"
+msgstr "Afrikaans"
+
+#. Row 5
+msgid "ak"
+msgstr "Akan"
+
+#. Row 6
+msgid "am"
+msgstr "Amharic"
+
+#. Row 7
+msgid "an"
+msgstr "Aragonese"
+
+#. Row 8
+msgid "ar"
+msgstr "Arabic"
+
+#. Row 9
+msgid "as"
+msgstr "Assamese"
+
+#. Row 10
+msgid "av"
+msgstr "Avaric"
+
+#. Row 11
+msgid "ay"
+msgstr "Aymara"
+
+#. Row 12
+msgid "az"
+msgstr "Azerbaijani"
+
+#. Row 13
+msgid "ba"
+msgstr "Bashkir"
+
+#. Row 14
+msgid "be"
+msgstr "Belarusian"
+
+#. Row 15
+msgid "bg"
+msgstr "Bulgarian"
+
+#. Row 16
+msgid "bh"
+msgstr "Bihari"
+
+#. Row 17
+msgid "bi"
+msgstr "Bislama"
+
+#. Row 18
+msgid "bm"
+msgstr "Bambara"
+
+#. Row 19
+msgid "bn"
+msgstr "Bengali"
+
+#. Row 20
+msgid "bo"
+msgstr "Tibetan"
+
+#. Row 21
+msgid "br"
+msgstr "Breton"
+
+#. Row 22
+msgid "bs"
+msgstr "Bosnian"
+
+#. Row 23
+msgid "ca"
+msgstr "Catalan"
+
+#. Row 24
+msgid "ce"
+msgstr "Chechen"
+
+#. Row 25
+msgid "ch"
+msgstr "Chamorro"
+
+#. Row 26
+msgid "co"
+msgstr "Corsican"
+
+#. Row 27
+msgid "cr"
+msgstr "Cree"
+
+#. Row 28
+msgid "cs"
+msgstr "Czech"
+
+#. Row 29
+msgid "cv"
+msgstr "Chuvash"
+
+#. Row 30
+msgid "cy"
+msgstr "Welsh"
+
+#. Row 31
+msgid "da"
+msgstr "Danish"
+
+#. Row 32
+msgid "de"
+msgstr "German"
+
+#. Row 33
+msgid "dv"
+msgstr "Divehi"
+
+#. Row 34
+msgid "dz"
+msgstr "Dzongkha"
+
+#. Row 35
+msgid "ee"
+msgstr "Ewe"
+
+#. Row 36
+msgid "el"
+msgstr "Greek"
+
+#. Row 37
+msgid "en"
+msgstr "English"
+
+#. Row 40
+msgid "en_AU"
+msgstr "Australian English"
+
+#. Row 39
+msgid "en_GB"
+msgstr "British English"
+
+#. Row 38
+msgid "en_US"
+msgstr "American English"
+
+#. Row 41
+msgid "eo"
+msgstr "Esperanto"
+
+#. Row 42
+msgid "es"
+msgstr "Spanish"
+
+#. Row 43
+msgid "et"
+msgstr "Estonian"
+
+#. Row 44
+msgid "eu"
+msgstr "Basque"
+
+#. Row 45
+msgid "fa"
+msgstr "Persian"
+
+#. Row 46
+msgid "ff"
+msgstr "Fulah"
+
+#. Row 47
+msgid "fi"
+msgstr "Finnish"
+
+#. Row 48
+msgid "fj"
+msgstr "Fijian"
+
+#. Row 49
+msgid "fo"
+msgstr "Faroese"
+
+#. Row 50
+msgid "fr"
+msgstr "French"
+
+#. Row 51
+msgid "fr_BE"
+msgstr "Walloon"
+
+#. Row 52
+msgid "fy"
+msgstr "Frisian"
+
+#. Row 53
+msgid "ga"
+msgstr "Irish"
+
+#. Row 54
+msgid "gd"
+msgstr "Gaelic"
+
+#. Row 55
+msgid "gl"
+msgstr "Gallegan"
+
+#. Row 56
+msgid "gn"
+msgstr "Guarani"
+
+#. Row 57
+msgid "gu"
+msgstr "Gujarati"
+
+#. Row 58
+msgid "gv"
+msgstr "Manx"
+
+#. Row 59
+msgid "ha"
+msgstr "Hausa"
+
+#. Row 60
+msgid "he"
+msgstr "Hebrew"
+
+#. Row 61
+msgid "hi"
+msgstr "Hindi"
+
+#. Row 62
+msgid "ho"
+msgstr "Hiri Motu"
+
+#. Row 63
+msgid "hr"
+msgstr "Croatian"
+
+#. Row 64
+msgid "ht"
+msgstr "Haitian"
+
+#. Row 65
+msgid "hu"
+msgstr "Hungarian"
+
+#. Row 66
+msgid "hy"
+msgstr "Armenian"
+
+#. Row 67
+msgid "hz"
+msgstr "Herero"
+
+#. Row 68
+msgid "ia"
+msgstr "Interlingua"
+
+#. Row 69
+msgid "id"
+msgstr "Indonesian"
+
+#. Row 70
+msgid "ie"
+msgstr "Interlingue"
+
+#. Row 71
+msgid "ig"
+msgstr "Igbo"
+
+#. Row 72
+msgid "ii"
+msgstr "Sichuan Yi"
+
+#. Row 73
+msgid "ik"
+msgstr "Inupiaq"
+
+#. Row 74
+msgid "io"
+msgstr "Ido"
+
+#. Row 75
+msgid "is"
+msgstr "Icelandic"
+
+#. Row 76
+msgid "it"
+msgstr "Italian"
+
+#. Row 77
+msgid "iu"
+msgstr "Inuktitut"
+
+#. Row 78
+msgid "ja"
+msgstr "Japanese"
+
+#. Row 79
+msgid "jv"
+msgstr "Javanese"
+
+#. Row 80
+msgid "ka"
+msgstr "Georgian"
+
+#. Row 81
+msgid "kg"
+msgstr "Kongo"
+
+#. Row 82
+msgid "ki"
+msgstr "Kikuyu"
+
+#. Row 83
+msgid "kj"
+msgstr "Kuanyama"
+
+#. Row 84
+msgid "kk"
+msgstr "Kazakh"
+
+#. Row 85
+msgid "kl"
+msgstr "Greenlandic"
+
+#. Row 86
+msgid "km"
+msgstr "Khmer"
+
+#. Row 87
+msgid "kn"
+msgstr "Kannada"
+
+#. Row 88
+msgid "ko"
+msgstr "Korean"
+
+#. Row 89
+msgid "kr"
+msgstr "Kanuri"
+
+#. Row 90
+msgid "ks"
+msgstr "Kashmiri"
+
+#. Row 91
+msgid "ku"
+msgstr "Kurdish"
+
+#. Row 93
+msgid "kv"
+msgstr "Komi"
+
+#. Row 92
+msgid "kw"
+msgstr "Cornish"
+
+#. Row 94
+msgid "ky"
+msgstr "Kirghiz"
+
+#. Row 95
+msgid "la"
+msgstr "Latin"
+
+#. Row 96
+msgid "lb"
+msgstr "Luxembourgish"
+
+#. Row 97
+msgid "lg"
+msgstr "Ganda"
+
+#. Row 98
+msgid "li"
+msgstr "Limburgan"
+
+#. Row 99
+msgid "ln"
+msgstr "Lingala"
+
+#. Row 100
+msgid "lo"
+msgstr "Lao"
+
+#. Row 101
+msgid "lt"
+msgstr "Lithuanian"
+
+#. Row 102
+msgid "lu"
+msgstr "Luba-Katanga"
+
+#. Row 103
+msgid "lv"
+msgstr "Latvian"
+
+#. Row 104
+msgid "mg"
+msgstr "Malagasy"
+
+#. Row 105
+msgid "mh"
+msgstr "Marshallese"
+
+#. Row 106
+msgid "mi"
+msgstr "Maori"
+
+#. Row 107
+msgid "mk"
+msgstr "Macedonian"
+
+#. Row 108
+msgid "ml"
+msgstr "Malayalam"
+
+#. Row 109
+msgid "mn"
+msgstr "Mongolian"
+
+#. Row 110
+msgid "mo"
+msgstr "Moldavian"
+
+#. Row 111
+msgid "mr"
+msgstr "Marathi"
+
+#. Row 112
+msgid "ms"
+msgstr "Malay"
+
+#. Row 113
+msgid "mt"
+msgstr "Maltese"
+
+#. Row 114
+msgid "my"
+msgstr "Burmese"
+
+#. Row 115
+msgid "na"
+msgstr "Nauru"
+
+#. Row 116
+msgid "nb"
+msgstr "Norwegian Bokmaal"
+
+#. Row 117
+msgid "nd"
+msgstr "Ndebele, North"
+
+#. Row 118
+msgid "ne"
+msgstr "Nepali"
+
+#. Row 119
+msgid "ng"
+msgstr "Ndonga"
+
+#. Row 120
+msgid "nl"
+msgstr "Dutch"
+
+#. Row 121
+msgid "nl_BE"
+msgstr "Flemish"
+
+#. Row 122
+msgid "nn"
+msgstr "Norwegian Nynorsk"
+
+#. Row 123
+msgid "no"
+msgstr "Norwegian"
+
+#. Row 124
+msgid "nr"
+msgstr "Ndebele, South"
+
+#. Row 125
+msgid "nv"
+msgstr "Navajo"
+
+#. Row 126
+msgid "ny"
+msgstr "Chichewa"
+
+#. Row 127
+msgid "oc"
+msgstr "Occitan"
+
+#. Row 128
+msgid "oj"
+msgstr "Ojibwa"
+
+#. Row 129
+msgid "om"
+msgstr "Oromo"
+
+#. Row 130
+msgid "or"
+msgstr "Oriya"
+
+#. Row 131
+msgid "os"
+msgstr "Ossetian"
+
+#. Row 132
+msgid "pa"
+msgstr "Panjabi"
+
+#. Row 133
+msgid "pi"
+msgstr "Pali"
+
+#. Row 134
+msgid "pl"
+msgstr "Polish"
+
+#. Row 135
+msgid "ps"
+msgstr "Pushto"
+
+#. Row 136
+msgid "pt"
+msgstr "Portuguese"
+
+#. Row 137
+msgid "qu"
+msgstr "Quechua"
+
+#. Row 138
+msgid "rm"
+msgstr "Raeto-Romance"
+
+#. Row 139
+msgid "rn"
+msgstr "Rundi"
+
+#. Row 140
+msgid "ro"
+msgstr "Romanian"
+
+#. Row 141
+msgid "ru"
+msgstr "Russian"
+
+#. Row 142
+msgid "rw"
+msgstr "Kinyarwanda"
+
+#. Row 143
+msgid "sa"
+msgstr "Sanskrit"
+
+#. Row 144
+msgid "sc"
+msgstr "Sardinian"
+
+#. Row 145
+msgid "sd"
+msgstr "Sindhi"
+
+#. Row 146
+msgid "se"
+msgstr "Northern Sami"
+
+#. Row 147
+msgid "sg"
+msgstr "Sango"
+
+#. Row 148
+msgid "si"
+msgstr "Sinhalese"
+
+#. Row 149
+msgid "sk"
+msgstr "Slovak"
+
+#. Row 150
+msgid "sl"
+msgstr "Slovenian"
+
+#. Row 151
+msgid "sm"
+msgstr "Samoan"
+
+#. Row 152
+msgid "sn"
+msgstr "Shona"
+
+#. Row 153
+msgid "so"
+msgstr "Somali"
+
+#. Row 154
+msgid "sq"
+msgstr "Albanian"
+
+#. Row 155
+msgid "sr"
+msgstr "Serbian"
+
+#. Row 156
+msgid "ss"
+msgstr "Swati"
+
+#. Row 157
+msgid "st"
+msgstr "Sotho, Southern"
+
+#. Row 158
+msgid "su"
+msgstr "Sundanese"
+
+#. Row 159
+msgid "sv"
+msgstr "Swedish"
+
+#. Row 160
+msgid "sw"
+msgstr "Swahili"
+
+#. Row 161
+msgid "ta"
+msgstr "Tamil"
+
+#. Row 162
+msgid "te"
+msgstr "Telugu"
+
+#. Row 163
+msgid "tg"
+msgstr "Tajik"
+
+#. Row 164
+msgid "th"
+msgstr "Thai"
+
+#. Row 165
+msgid "ti"
+msgstr "Tigrinya"
+
+#. Row 166
+msgid "tk"
+msgstr "Turkmen"
+
+#. Row 167
+msgid "tl"
+msgstr "Tagalog"
+
+#. Row 168
+msgid "tn"
+msgstr "Tswana"
+
+#. Row 169
+msgid "to"
+msgstr "Tonga"
+
+#. Row 170
+msgid "tr"
+msgstr "Turkish"
+
+#. Row 171
+msgid "ts"
+msgstr "Tsonga"
+
+#. Row 172
+msgid "tt"
+msgstr "Tatar"
+
+#. Row 173
+msgid "tw"
+msgstr "Twi"
+
+#. Row 174
+msgid "ty"
+msgstr "Tahitian"
+
+#. Row 175
+msgid "ug"
+msgstr "Uighur"
+
+#. Row 176
+msgid "uk"
+msgstr "Ukrainian"
+
+#. Row 177
+msgid "ur"
+msgstr "Urdu"
+
+#. Row 178
+msgid "uz"
+msgstr "Uzbek"
+
+#. Row 179
+msgid "ve"
+msgstr "Venda"
+
+#. Row 180
+msgid "vi"
+msgstr "Vietnamese"
+
+#. Row 181
+msgid "vo"
+msgstr "Volapuk"
+
+#. Row 182
+msgid "wa"
+msgstr "Walloon"
+
+#. Row 183
+msgid "wo"
+msgstr "Wolof"
+
+#. Row 184
+msgid "xh"
+msgstr "Xhosa"
+
+#. Row 185
+msgid "yi"
+msgstr "Yiddish"
+
+#. Row 186
+msgid "yo"
+msgstr "Yoruba"
+
+#. Row 187
+msgid "za"
+msgstr "Zhuang"
+
+#. Row 188
+msgid "zh"
+msgstr "Chinese"
+
+#. Row 189
+msgid "zu"
+msgstr "Zulu"
+
+#. Row 190
+msgid "zh_cn"
+msgstr "Simplified Chinese"
+
+#. Row 191
+msgid "zh_tw"
+msgstr "Traditional Chinese"
+
+#. Row 192
+msgid "pt_br"
+msgstr "Brazillian Portuguese"

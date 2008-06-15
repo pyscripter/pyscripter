@@ -1,26 +1,10 @@
 {-----------------------------------------------------------------------------
-The contents of this file are subject to the Mozilla Public License
-Version 1.1 (the "License"); you may not use this file except in compliance
-with the License. You may obtain a copy of the License at
-http://www.mozilla.org/MPL/MPL-1.1.html
-
-Software distributed under the License is distributed on an "AS IS" basis,
-WITHOUT WARRANTY OF ANY KIND, either expressed or implied. See the License for
-the specific language governing rights and limitations under the License.
-
-The Original Code is: JvDirFrm.PAS, released on 2002-07-04.
-
-The Initial Developers of the Original Code are: Fedor Koshevnikov, Igor Pavluk and Serge Korolev
-Copyright (c) 1997, 1998 Fedor Koshevnikov, Igor Pavluk and Serge Korolev
-Copyright (c) 2001,2002 SGB Software
-All Rights Reserved.
-
-You may retrieve the latest version of this file at the Project JEDI's JVCL home page,
-located at http://jvcl.sourceforge.net
-
-Known Issues:
+ Unit Name: dlgDirectoryList
+ Author:    Kiriakos Vlahos
+ Date:      03-Απρ-2008
+ Purpose:   Dialog for editing a list of paths
+ History:
 -----------------------------------------------------------------------------}
-// $Id: JvDirectoryListForm.pas,v 1.16 2004/08/24 13:33:08 asnepvangers Exp $
 
 unit dlgDirectoryList;
 
@@ -28,58 +12,80 @@ interface
 
 uses
   SysUtils, Classes, Windows, Controls, Forms, StdCtrls, TBXDkPanels,
-  SpTBXControls;
+  SpTBXControls, WideStrings, TntStdCtrls, SpTBXEditors, TntFileCtrl,  dlgPyIDEBase;
 
 type
-  TJvDirectoryListDialog = class(TForm)
-    DirectoryList: TListBox;
-    AddBtn: TSpTBXButton;
-    RemoveBtn: TSpTBXButton;
-    ModifyBtn: TSpTBXButton;
+  TDirectoryListDialog = class(TPyIDEDlgBase)
+    SpTBXPanel1: TSpTBXPanel;
+    DirectoryList: TSpTBXListBox;
+    SpTBXPanel2: TSpTBXPanel;
+    SpTBXPanel3: TSpTBXPanel;
     OKBtn: TSpTBXButton;
     CancelBtn: TSpTBXButton;
-    procedure AddBtnClick(Sender: TObject);
-    procedure ModifyBtnClick(Sender: TObject);
-    procedure RemoveBtnClick(Sender: TObject);
+    btnAdd: TSpTBXButton;
+    btnReplace: TSpTBXButton;
+    btnMoveUp: TSpTBXButton;
+    btnMoveDown: TSpTBXButton;
+    SpTBXLabel1: TSpTBXLabel;
+    edPath: TSpTBXButtonEdit;
+    btnDelete: TSpTBXButton;
+    procedure btnAddClick(Sender: TObject);
+    procedure BtnPathClick(Sender: TObject);
+    procedure btnReplaceClick(Sender: TObject);
     procedure DirectoryListClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure DirectoryListDragDrop(Sender, Source: TObject; X, Y: Integer);
     procedure DirectoryListDragOver(Sender, Source: TObject; X, Y: Integer;
       State: TDragState; var Accept: Boolean);
+    procedure btnMoveUpClick(Sender: TObject);
+    procedure btnMoveDownClick(Sender: TObject);
+    procedure btnDeleteClick(Sender: TObject);
   private
     procedure CheckButtons;
   end;
 
 function EditFolderList(Folders: TStrings; FormCaption : string = 'Directory List';
-  HelpCntxt : integer = 0): Boolean;
+  HelpCntxt : integer = 0): Boolean; overload;
+function EditFolderList(Folders: TWideStrings; FormCaption : WideString = 'Directory List';
+  HelpCntxt : integer = 0): Boolean; overload;
 
 implementation
 
 uses
-  JvJVCLUtils, JvJCLUtils, JvBrowseFolder, JvConsts, JVBoxProcs,
-  dmCommands;
+  JvJVCLUtils, JvJCLUtils, JvConsts, JVBoxProcs,
+  dmCommands, Math;
 
 {$R *.dfm}
 
 function EditFolderList(Folders: TStrings; FormCaption : string = 'Directory List';
-  HelpCntxt : integer = 0): Boolean;
-var
-  I: Integer;
+  HelpCntxt : integer = 0): Boolean; overload;
 begin
-  with TJvDirectoryListDialog.Create(Application) do
+  Assert(Assigned(Folders));
+  with TDirectoryListDialog.Create(Application) do
   try
     Caption := FormCaption;
     HelpContext := HelpCntxt;
-    if Assigned(Folders) then
-      for I := 0 to Folders.Count - 1 do
-        DirectoryList.Items.Add(Folders[I]);
+    DirectoryList.Items.Assign(Folders);
     Result := ShowModal = mrOK;
-    if Result and Assigned(Folders) then
-    begin
-      Folders.Clear;
-      for I := 0 to DirectoryList.Items.Count - 1 do
-        Folders.Add(DirectoryList.Items[I]);
-    end;
+    if Result then
+      Folders.Assign(DirectoryList.Items);
+  finally
+    Free;
+  end;
+end;
+
+function EditFolderList(Folders: TWideStrings; FormCaption : WideString = 'Directory List';
+  HelpCntxt : integer = 0): Boolean; overload;
+begin
+  Assert(Assigned(Folders));
+  with TDirectoryListDialog.Create(Application) do
+  try
+    Caption := FormCaption;
+    HelpContext := HelpCntxt;
+    DirectoryList.Items.Assign(Folders);
+    Result := ShowModal = mrOK;
+    if Result then
+      Folders.Assign(DirectoryList.Items);
   finally
     Free;
   end;
@@ -87,42 +93,43 @@ end;
 
 //=== { TJvDirectoryListDialog } =============================================
 
-procedure TJvDirectoryListDialog.CheckButtons;
+procedure TDirectoryListDialog.CheckButtons;
+Var
+  ItemSelected : Boolean;
 begin
-  ModifyBtn.Enabled := (DirectoryList.Items.Count > 0) and
-    (DirectoryList.ItemIndex >= 0);
-  RemoveBtn.Enabled := ModifyBtn.Enabled;
+  btnAdd.Enabled := edPath.Text <> '';
+
+  ItemSelected := DirectoryList.ItemIndex >= 0;
+  btnAdd.Enabled := edPath.Text <> '';
+  btnReplace.Enabled := ItemSelected and (edPath.Text <> '');
+  btnDelete.Enabled := ItemSelected;
+  btnMoveDown.Enabled := ItemSelected and
+    (DirectoryList.ItemIndex < DirectoryList.Items.Count - 1);
+  btnMoveUp.Enabled := DirectoryList.ItemIndex >= 1;
 end;
 
-procedure TJvDirectoryListDialog.AddBtnClick(Sender: TObject);
-var
-  S: string;
+procedure TDirectoryListDialog.btnAddClick(Sender: TObject);
 begin
-  S := '';
-  if BrowseDirectory(S, 'Select Directory to Add:', 0) then
-  begin
-    if DirectoryList.Items.IndexOf(S) < 0 then begin
-      DirectoryList.AddItem(S, nil);
-      DirectoryList.ItemIndex := DirectoryList.Count -1
+  if edPath.Text <> '' then begin
+    if DirectoryList.Items.IndexOf(edPath.Text) < 0 then begin
+      DirectoryList.Items.Add(edPath.Text);
+      DirectoryList.ItemIndex := DirectoryList.Count -1;
+      CheckButtons;
     end;
-    CheckButtons;
   end;
 end;
 
-procedure TJvDirectoryListDialog.ModifyBtnClick(Sender: TObject);
+procedure TDirectoryListDialog.BtnPathClick(Sender: TObject);
 var
-  I: Integer;
-  S: string;
+  NewDir: WideString;
 begin
-  if DirectoryList.ItemIndex < 0 then
-    Exit;
-  I := DirectoryList.ItemIndex;
-  S := DirectoryList.Items[I];
-  if BrowseDirectory(S, 'Select Directory:', 0) then
-    DirectoryList.Items[I] := S;
+  NewDir := edPath.Text;
+  WideSelectDirectory('Select Directory:', '', NewDir);
+  if (NewDir <> '') then
+    edPath.Text := NewDir;
 end;
 
-procedure TJvDirectoryListDialog.RemoveBtnClick(Sender: TObject);
+procedure TDirectoryListDialog.btnDeleteClick(Sender: TObject);
 var
   I: Integer;
 begin
@@ -130,28 +137,70 @@ begin
     Exit;
   I := DirectoryList.ItemIndex;
   DirectoryList.Items.Delete(I);
+  DirectoryList.ItemIndex := Max(0, I -1);
   CheckButtons;
 end;
 
-procedure TJvDirectoryListDialog.DirectoryListClick(Sender: TObject);
+procedure TDirectoryListDialog.btnMoveDownClick(Sender: TObject);
+Var
+  Index : integer;
 begin
+  Index := DirectoryList.ItemIndex;
+  if (Index >= 0) and (Index < DirectoryList.Items.Count - 1) then begin
+    DirectoryList.Items.Move(Index, Index + 1);
+    DirectoryList.ItemIndex := Index + 1;
+    CheckButtons;
+  end;
+end;
+
+procedure TDirectoryListDialog.btnMoveUpClick(Sender: TObject);
+Var
+  Index : integer;
+begin
+  Index := DirectoryList.ItemIndex;
+  if Index > 0 then begin
+    DirectoryList.Items.Move(Index, Index - 1);
+    DirectoryList.ItemIndex := Index - 1;
+    CheckButtons;
+  end;
+end;
+
+procedure TDirectoryListDialog.btnReplaceClick(Sender: TObject);
+var
+  I: Integer;
+begin
+  I := DirectoryList.ItemIndex;
+  if (I < 0) or (edPath.Text = '') or
+    (DirectoryList.Items.IndexOf(edPath.Text) >= 0)
+  then
+    Exit;
+
+  DirectoryList.Items[I] := edPath.Text;
   CheckButtons;
 end;
 
-procedure TJvDirectoryListDialog.FormShow(Sender: TObject);
+procedure TDirectoryListDialog.DirectoryListClick(Sender: TObject);
+begin
+  if DirectoryList.ItemIndex >=0 then
+    edPath.Text := DirectoryList.Items[DirectoryList.ItemIndex];
+
+  CheckButtons;
+end;
+
+procedure TDirectoryListDialog.FormShow(Sender: TObject);
 begin
   CheckButtons;
   CommandsDataModule.Images.GetIcon(84, Icon)
 end;
 
-procedure TJvDirectoryListDialog.DirectoryListDragDrop(Sender, Source: TObject;
+procedure TDirectoryListDialog.DirectoryListDragDrop(Sender, Source: TObject;
   X, Y: Integer);
 begin
   BoxMoveFocusedItem(DirectoryList, DirectoryList.ItemAtPos(Point(X, Y), True));
   CheckButtons;
 end;
 
-procedure TJvDirectoryListDialog.DirectoryListDragOver(Sender, Source: TObject;
+procedure TDirectoryListDialog.DirectoryListDragOver(Sender, Source: TObject;
   X, Y: Integer; State: TDragState; var Accept: Boolean);
 begin
   BoxDragOver(DirectoryList, Source, X, Y, State, Accept, DirectoryList.Sorted);

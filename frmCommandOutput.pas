@@ -1,3 +1,11 @@
+{-----------------------------------------------------------------------------
+ Unit Name: frmCommandOutput
+ Author:    Kiriakos Vlahos
+ Date:      24-Apr-2008
+ Purpose:
+ History:
+-----------------------------------------------------------------------------}
+
 unit frmCommandOutput;
 
 interface
@@ -5,22 +13,13 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, frmIDEDockWin, JvComponent, JvDockControlForm, ExtCtrls,
-  StdCtrls, JvCreateProcess, Menus, ActnList, uEditAppIntfs, cTools,
-  SynEditTypes, JvTimer, SynRegExpr, TB2Item, TBX, JvComponentBase, SpTBXItem;
+  StdCtrls, JvCreateProcessW, Menus, ActnList, uEditAppIntfs, cTools,
+  SynEditTypes, JvTimer, SynRegExpr, TB2Item, TBX, JvComponentBase, SpTBXItem,
+  TntActnList;
 
 type
   TOutputWindow = class(TIDEDockWindow)
     lsbConsole: TListBox;
-    JvCreateProcess: TJvCreateProcess;
-    OutputActions: TActionList;
-    actOutputFont: TAction;
-    actSelectColor: TAction;
-    actClearOutput: TAction;
-    actCopy: TAction;
-    actToolTerminate: TAction;
-    actToolClose: TAction;
-    actToolQuit: TAction;
-    actToolStopWaiting: TAction;
     TimeoutTimer: TTimer;
     OutputPopup: TSpTBXPopupMenu;
     RunningProcess: TSpTBXSubmenuItem;
@@ -30,11 +29,20 @@ type
     N3: TSpTBXSeparatorItem;
     mnStopWaiting: TSpTBXItem;
     N1: TSpTBXSeparatorItem;
-    Copy1: TSpTBXItem;
-    Clear1: TSpTBXItem;
+    mnCopy: TSpTBXItem;
+    mnClear: TSpTBXItem;
     N2: TSpTBXSeparatorItem;
-    Font1: TSpTBXItem;
-    BackgroundColor1: TSpTBXItem;
+    mnFont: TSpTBXItem;
+    mnBackgroundColor: TSpTBXItem;
+    OutputActions: TTntActionList;
+    actToolStopWaiting: TTntAction;
+    actToolQuit: TTntAction;
+    actToolClose: TTntAction;
+    actToolTerminate: TTntAction;
+    actClearOutput: TTntAction;
+    actSelectColor: TTntAction;
+    actOutputFont: TTntAction;
+    actCopy: TTntAction;
     procedure actSelectColorExecute(Sender: TObject);
     procedure actOutputFontExecute(Sender: TObject);
     procedure actClearOutputExecute(Sender: TObject);
@@ -63,6 +71,7 @@ type
     fItemMaxWidth : integer;  // Calculating max width to show hor scrollbar
   public
     { Public declarations }
+    JvCreateProcess: TJvCreateProcessW;
     procedure AddNewLine(const S: string);
     procedure ChangeLastLine(const S: string);
     procedure ClearScreen;
@@ -77,17 +86,10 @@ implementation
 
 uses dmCommands, cParameters, ShellAPI, Clipbrd,
   SynEdit, frmPyIDEMain, frmMessages, JclFileUtils, JclStrings,
-  uCommonFunctions, JvDockGlobals, Math, StringResources;
+  uCommonFunctions, JvDockGlobals, Math, StringResources, gnugettext,
+  TntDialogs, TntSysUtils, MPCommonUtilities;
 
 {$R *.dfm}
-
-resourcestring
-  sProcessTerminated = 'Process "%s" terminated, ExitCode: %.8x';
-  SDirNotFound                 = 'Directory "%s" does not exists';
-  SProcessRunning              = 'One Process is still running, stop it first.';
-  SPrintCommandLine            = 'Commandline: %s';
-  SPrintWorkingDir             = 'Workingdirectory: ';
-  SPrintTimeOut                = 'Timeout: %d ms';
 
 procedure TOutputWindow.AddNewLine(const S: string);
 begin
@@ -230,7 +232,7 @@ begin
   TimeoutTimer.Enabled := False;
   Assert(Assigned(fTool));
 
-  ErrorMsg := Format(sProcessTerminated, [StrRemoveChars(fTool.Caption, ['&']), ExitCode]);
+  ErrorMsg := WideFormat(_(sProcessTerminated), [StrRemoveChars(fTool.Caption, ['&']), ExitCode]);
   AddNewLine(ErrorMsg);
   PyIDEMainForm.WriteStatusMsg(ErrorMsg);
 
@@ -301,7 +303,7 @@ begin
           if fRegExpr.Exec(Strings[LineNo]) then begin
             ErrLineNo := StrToIntDef(fRegExpr.Match[3], 0);
             // add Syntax error info (error message, filename, linenumber)
-            MessagesWindow.AddMessage('Syntax Error');
+            MessagesWindow.AddMessage(_(SSyntaxError));
             MessagesWindow.AddMessage(ErrorMsg + fRegExpr.Match[5],
               GetLongFileName(ExpandFileName(fRegExpr.Match[1])), ErrLineNo, ColNo);
           end;
@@ -328,8 +330,7 @@ begin
         fRegExpr.Compile;
       except
         on E: ERegExpr do begin
-          Application.MessageBox(PChar(Format(SInvalidRegularExpression, [E.Message])),
-            PChar(Application.Title), MB_ICONSTOP + MB_OK);
+          WideMessageDlg(WideFormat(_(SInvalidRegularExpression), [E.Message]), mtError, [mbOK], 0);
           Exit;
         end;
       end;
@@ -367,8 +368,8 @@ begin
   Arguments := PrepareCommandLine(Tool.Parameters);
   WorkDir := PrepareCommandLine(Tool.WorkingDirectory);
 
-  if (Workdir <> '') and not DirectoryExists(WorkDir) then begin
-    MessageDlg(Format(SDirNotFound, [WorkDir]), mtError, [mbOK], 0);
+  if (Workdir <> '') and not WideDirectoryExists(WorkDir) then begin
+    WideMessageDlg(WideFormat(_(SDirNotFound), [WorkDir]), mtError, [mbOK], 0);
     Exit;
   end;
 
@@ -381,7 +382,7 @@ begin
 
     // Check whether a process is still running
     if jvCreateProcess.State <> psReady then begin
-      MessageDlg(SProcessRunning, mtError, [mbOK], 0);
+      WideMessageDlg(_(SProcessRunning), mtError, [mbOK], 0);
       Exit;
     end;
 
@@ -397,9 +398,9 @@ begin
     Application.ProcessMessages;
 
     // Print Command line info
-    AddNewLine(Format(SPrintCommandLine, [AppName + ' ' + Arguments]));
-    AddNewLine(SPrintWorkingDir + WorkDir);
-    AddNewLine(Format(SPrintTimeOut, [Tool.TimeOut]));
+    AddNewLine(WideFormat(_(SPrintCommandLine), [AppName + ' ' + Arguments]));
+    AddNewLine(_(SPrintWorkingDir) + WorkDir);
+    AddNewLine(WideFormat(_(SPrintTimeOut), [Tool.TimeOut]));
     AddNewLine('');
 
 
@@ -531,8 +532,8 @@ begin
     end;
   end
   else begin
-    ShellExecute(0, 'open', PChar(AppName), PChar(Arguments),
-      PChar(WorkDir), SwCmds[Tool.ConsoleHidden])
+    WideShellExecute(0, 'open', AppName, Arguments,
+      WorkDir, SwCmds[Tool.ConsoleHidden])
   end;
 end;
 
@@ -598,6 +599,16 @@ begin
   inherited;
   fTool := TExternalTool.Create;
   fRegExpr := TRegExpr.Create;
+
+  JvCreateProcess := TJvCreateProcessW.Create(Self);
+  with JvCreateProcess do
+  begin
+    Name := 'ExternalToolProcess';
+    ConsoleOptions := [];
+    CreationFlags := [];
+    OnTerminate := JvCreateProcessTerminate;
+    OnRead := JvCreateProcessRead;
+  end;
 end;
 
 procedure TOutputWindow.FormDestroy(Sender: TObject);
@@ -611,7 +622,7 @@ procedure TOutputWindow.TimeoutTimerTimer(Sender: TObject);
 begin
   if (JvCreateProcess.State <> psReady) and Assigned(fTool) then begin
     TimeoutTimer.Enabled := False;
-    if MessageDlg(Format('The External Tool "%s" is still running  Do you want to terminate it?',
+    if WideMessageDlg(WideFormat(_(SExternalToolStillRunning),
       [fTool.Caption]), mtConfirmation, [mbYes, mbNo], 0) = mrYes
     then
       actToolTerminateExecute(Sender)
