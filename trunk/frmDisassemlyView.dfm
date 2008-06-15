@@ -32,6 +32,7 @@ object DisForm: TDisForm
     Gutter.Font.Name = 'Courier New'
     Gutter.Font.Style = []
     Gutter.Visible = False
+    Gutter.Width = 0
     Highlighter = SynPythonSyn
   end
   object SynPythonSyn: TSynPythonSyn

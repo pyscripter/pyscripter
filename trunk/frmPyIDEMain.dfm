@@ -412,7 +412,7 @@ object PyIDEMainForm: TPyIDEMainForm
     Left = 9
     Top = 78
     Width = 762
-    Height = 429
+    Height = 426
     Align = alClient
     BevelOuter = bvNone
     FullRepaint = False
@@ -420,7 +420,7 @@ object PyIDEMainForm: TPyIDEMainForm
     TabOrder = 0
     object TabBar: TJvTabBar
       Left = 0
-      Top = 406
+      Top = 403
       Width = 762
       Align = alBottom
       PopupMenu = TabBarPopupMenu
@@ -440,7 +440,7 @@ object PyIDEMainForm: TPyIDEMainForm
       Left = 0
       Top = 0
       Width = 762
-      Height = 406
+      Height = 403
       PropagateEnable = False
       Align = alClient
       ParentBackground = True
@@ -455,7 +455,6 @@ object PyIDEMainForm: TPyIDEMainForm
     object MainMenu: TSpTBXToolbar
       Left = 0
       Top = 0
-      Caption = 'MainMenu'
       CloseButton = False
       DockMode = dmCannotFloatOrChangeDocks
       DockPos = 0
@@ -470,20 +469,20 @@ object PyIDEMainForm: TPyIDEMainForm
         Caption = '&File'
         object TBXSubmenuItem5: TSpTBXSubmenuItem
           Caption = 'New'
-          object New1: TSpTBXItem
-            Caption = '&Python module'
+          object mnNewModule: TSpTBXItem
+            Caption = '&New Python module'
             Hint = 'New Python module'
             Action = actFileNewModule
           end
           object TBXSeparatorItem23: TSpTBXSeparatorItem
           end
-          object TBXItem53: TSpTBXItem
-            Caption = 'File...'
+          object mnNewFile: TSpTBXItem
+            Caption = 'New File...'
             Hint = 'New file from template'
             Action = actNewFile
           end
         end
-        object Open1: TSpTBXItem
+        object mnFileOpen: TSpTBXItem
           Caption = '&Open...'
           Hint = 'Select a file to open'
           Action = actFileOpen
@@ -496,34 +495,34 @@ object PyIDEMainForm: TPyIDEMainForm
         end
         object N14: TSpTBXSeparatorItem
         end
-        object Save1: TSpTBXItem
+        object mnFileSave: TSpTBXItem
           Caption = '&Save'
           Hint = 'Save|Save active file'
           Action = CommandsDataModule.actFileSave
         end
-        object SaveAs1: TSpTBXItem
+        object mnFileSaveAs: TSpTBXItem
           Caption = 'Save &As...'
           Hint = 'Save As|Save active file under different name'
           Action = CommandsDataModule.actFileSaveAs
         end
-        object TBXItem80: TSpTBXItem
+        object mnFileReload: TSpTBXItem
           Caption = '&Reload'
           Hint = 'Reload|Reload active file'
           Action = CommandsDataModule.actFileReload
         end
-        object Close1: TSpTBXItem
+        object mnFileClose: TSpTBXItem
           Caption = '&Close'
           Hint = 'Close|Close active file'
           Action = CommandsDataModule.actFileClose
         end
         object N1: TSpTBXSeparatorItem
         end
-        object SaveAll1: TSpTBXItem
+        object mnFileSaveAll: TSpTBXItem
           Caption = 'Save &All'
           Hint = 'Save all|Save project and all open files'
           Action = CommandsDataModule.actFileSaveAll
         end
-        object CloseAll2: TSpTBXItem
+        object mnFileCloseAll: TSpTBXItem
           Caption = 'Close A&ll'
           Hint = 'Close all files'
           Action = actFileCloseAll
@@ -531,18 +530,18 @@ object PyIDEMainForm: TPyIDEMainForm
         object N2: TSpTBXSeparatorItem
         end
         object PageSetup1: TSpTBXItem
-          Caption = 'Page Setup'
-          Hint = 'Page Setup'
+          Caption = 'Pa&ge Setup...'
+          Hint = 'Page setup'
           Action = CommandsDataModule.actPageSetup
         end
         object PrinterSetup1: TSpTBXItem
-          Caption = 'Printer &Setup'
+          Caption = 'Printer &Setup...'
           Hint = 'Printer setup'
           Action = CommandsDataModule.actPrinterSetup
         end
         object PrintPreview1: TSpTBXItem
           Caption = 'Print Pre&view'
-          Hint = 'Print Preview'
+          Hint = 'Print preview'
           Action = CommandsDataModule.actPrintPreview
         end
         object Print1: TSpTBXItem
@@ -560,39 +559,39 @@ object PyIDEMainForm: TPyIDEMainForm
       end
       object EditMenu: TSpTBXSubmenuItem
         Caption = '&Edit'
-        object Undo1: TSpTBXItem
+        object mnEditUndo: TSpTBXItem
           Caption = '&Undo'
           Hint = 'Undo|Reverts the last action'
           Action = CommandsDataModule.actEditUndo
         end
-        object Redo1: TSpTBXItem
+        object mnEditRedo: TSpTBXItem
           Caption = '&Redo'
           Hint = 'Redo| Redo last action'
           Action = CommandsDataModule.actEditRedo
         end
         object N5: TSpTBXSeparatorItem
         end
-        object Cut1: TSpTBXItem
+        object mnEditCut: TSpTBXItem
           Caption = 'Cu&t'
           Hint = 'Cut|Cuts the selection and puts it on the Clipboard'
           Action = CommandsDataModule.actEditCut
         end
-        object Copy1: TSpTBXItem
+        object mnEditCopy: TSpTBXItem
           Caption = '&Copy'
           Hint = 'Copy|Copies the selection and puts it on the Clipboard'
           Action = CommandsDataModule.actEditCopy
         end
-        object IDEOptions1: TSpTBXItem
+        object mnEditPaste: TSpTBXItem
           Caption = '&Paste'
           Hint = 'Paste|Inserts Clipboard contents'
           Action = CommandsDataModule.actEditPaste
         end
-        object Delete1: TSpTBXItem
+        object mnEditDelete: TSpTBXItem
           Caption = 'De&lete'
           Hint = 'Delete|Delete selection'
           Action = CommandsDataModule.actEditDelete
         end
-        object SelectAll1: TSpTBXItem
+        object mnEditSelectAll: TSpTBXItem
           Caption = 'Select &All'
           Hint = 'Select All|Selects the entire document'
           Action = CommandsDataModule.actEditSelectAll
@@ -601,34 +600,34 @@ object PyIDEMainForm: TPyIDEMainForm
         end
         object SourceCode1: TSpTBXSubmenuItem
           Caption = '&Source Code'
-          object IndentBlock1: TSpTBXItem
+          object mnIndentBlock: TSpTBXItem
             Caption = '&Indent Block'
             Hint = 'Indent block|Indent selected block of code'
             Action = CommandsDataModule.actEditIndent
           end
-          object DedentBlock1: TSpTBXItem
+          object mnDedentBlock: TSpTBXItem
             Caption = '&Dedent Block'
             Hint = 'Dedent|Dedent selected block of code'
             Action = CommandsDataModule.actEditDedent
           end
-          object Commentout1: TSpTBXItem
+          object mnToggleComment: TSpTBXItem
             Caption = 'Toggle &Comment'
             Hint = 'Toggle Comment| Comment/Uncomment block of code'
             Action = CommandsDataModule.actEditToggleComment
           end
-          object abify1: TSpTBXItem
+          object mnTabify: TSpTBXItem
             Caption = '&Tabify'
             Hint = 'Tabify|Convert spaces to tabs'
             Action = CommandsDataModule.actEditTabify
           end
-          object Untabify1: TSpTBXItem
+          object mnUnTabify: TSpTBXItem
             Caption = 'U&ntabify'
             Hint = 'Untabify|Convert tabs to spaces'
             Action = CommandsDataModule.actEditUntabify
           end
           object TBXSeparatorItem27: TSpTBXSeparatorItem
           end
-          object TBXItem76: TSpTBXItem
+          object mnExecSelection: TSpTBXItem
             Caption = 'E&xecute selection'
             Hint = 'Execute the editor selection'
             Action = actExecSelection
@@ -638,25 +637,25 @@ object PyIDEMainForm: TPyIDEMainForm
         end
         object Parameters1: TSpTBXSubmenuItem
           Caption = 'Parameters'
-          object PageSetup2: TSpTBXItem
+          object mnInsertParameter: TSpTBXItem
             Caption = 'Insert &parameter'
             Hint = 'Insert parameter to the edited file'
             Action = CommandsDataModule.actParameterCompletion
           end
-          object Insertmodifier1: TSpTBXItem
+          object mnInsertModifier: TSpTBXItem
             Caption = 'Insert &modifier'
             Hint = 'Insert parameter to the edited file'
             Action = CommandsDataModule.actModifierCompletion
           end
           object N16: TSpTBXSeparatorItem
           end
-          object Replaceparameter1: TSpTBXItem
+          object mnReplaceParameter: TSpTBXItem
             Caption = '&Replace parameters'
             Hint = 'Replace parameters with their values'
             Action = CommandsDataModule.actReplaceParameters
           end
         end
-        object CodeTemplate1: TSpTBXItem
+        object mnIsertCodeTemplate: TSpTBXItem
           Caption = 'Insert &Template'
           Hint = 'Insert a Code Template'
           Action = CommandsDataModule.actInsertTemplate
@@ -665,39 +664,49 @@ object PyIDEMainForm: TPyIDEMainForm
         end
         object TBXSubmenuItem3: TSpTBXSubmenuItem
           Caption = 'File Format'
-          object TBXItem54: TSpTBXItem
+          object mnEditAnsi: TSpTBXItem
             Caption = 'Ansi'
             Hint = 'Use Ansi encoding'
             Action = CommandsDataModule.actEditAnsi
             RadioItem = True
           end
-          object TBXItem37: TSpTBXItem
+          object mnEditUtf8: TSpTBXItem
             Caption = 'UTF-8'
             Hint = 'Use UTF-8 encoding when saving the file'
             Action = CommandsDataModule.actEditUTF8
             RadioItem = True
           end
-          object TBXItem55: TSpTBXItem
+          object mnEditUtf8NoBom: TSpTBXItem
             Caption = 'UTF-8 (No BOM)'
-            Hint = 'Use UTF8 enconding without BOM'
+            Hint = 'Use UTF-8 enconding without BOM'
             Action = CommandsDataModule.actEditUTF8NoBOM
             RadioItem = True
           end
+          object mnEditUtf16LE: TSpTBXItem
+            Caption = 'UTF-16LE'
+            Hint = 'Use UTF-16LE enconding'
+            Action = CommandsDataModule.actEditUTF16LE
+          end
+          object mnEditUtf16BE: TSpTBXItem
+            Caption = 'UTF-16BE'
+            Hint = 'Use UTF-16BE enconding'
+            Action = CommandsDataModule.actEditUTF16BE
+          end
           object TBXSeparatorItem12: TSpTBXSeparatorItem
           end
-          object TBXItem36: TSpTBXItem
+          object mnEditLBDos: TSpTBXItem
             Caption = '&DOS/Windows'
             Hint = 'DOS/Windows|Convert to DOS Linebreak'
             Action = CommandsDataModule.actEditLBDos
             RadioItem = True
           end
-          object TBXItem35: TSpTBXItem
+          object mnEditLBUnix: TSpTBXItem
             Caption = '&UNIX'
             Hint = 'UNIX|Convert to UNIX Linebreak'
             Action = CommandsDataModule.actEditLBUnix
             RadioItem = True
           end
-          object TBXItem34: TSpTBXItem
+          object mnEditLBMac: TSpTBXItem
             Caption = '&Mac'
             Hint = 'Mac|Convert to Mac Linebreak'
             Action = CommandsDataModule.actEditLBMac
@@ -707,85 +716,85 @@ object PyIDEMainForm: TPyIDEMainForm
       end
       object SearchMenu: TSpTBXSubmenuItem
         Caption = '&Search'
-        object Find1: TSpTBXItem
+        object mnSearchFind: TSpTBXItem
           Caption = '&Find...'
           Hint = 'Search|Search for a string'
           Action = CommandsDataModule.actSearchFind
         end
-        object FindNext1: TSpTBXItem
+        object mnSearchFindNext: TSpTBXItem
           Caption = 'Find &Next'
           Hint = 'Find next|Find next match'
           Action = CommandsDataModule.actSearchFindNext
         end
-        object FindPrevious1: TSpTBXItem
+        object mnSearchFindPrevious: TSpTBXItem
           Caption = 'Find &Previous'
           Hint = 'Find previous|Find Previous match'
           Action = CommandsDataModule.actSearchFindPrev
         end
-        object Replace1: TSpTBXItem
+        object mnSearchReplace: TSpTBXItem
           Caption = '&Replace...'
           Hint = 'Replace|Search  & Replace'
           Action = CommandsDataModule.actSearchReplace
         end
-        object TBXItem87: TSpTBXItem
+        object mnSearchHighlight: TSpTBXItem
           Caption = '&Highlight Search Text'
           Hint = 'Highlight the search text in the current editor'
           Action = CommandsDataModule.actSearchHighlight
         end
         object N15: TSpTBXSeparatorItem
         end
-        object FindinFiles1: TSpTBXItem
+        object mnFindinFiles: TSpTBXItem
           Caption = '&Find in Files...'
           Hint = 'Search in Files|Search for a string in Files'
           Action = CommandsDataModule.actFindInFiles
         end
         object N7: TSpTBXSeparatorItem
         end
-        object Replace2: TSpTBXItem
+        object mnGoToLine: TSpTBXItem
           Caption = 'Go To &Line...'
           Hint = 'Go to line number'
           Action = CommandsDataModule.actSearchGoToLine
         end
-        object TBXItem86: TSpTBXItem
+        object mnGotoSyntaxError: TSpTBXItem
           Caption = 'Go To Syntax &Error'
           Hint = 'Jump to the position of the first syntax error'
           Action = CommandsDataModule.actSearchGoToSyntaxError
         end
-        object TBXItem89: TSpTBXItem
+        object mnGoToDebugLine: TSpTBXItem
           Caption = 'Go To &Debugger Position'
           Hint = 'Go to the curent position of the debugger'
           Action = CommandsDataModule.actSearchGoToDebugLine
         end
         object TBXSeparatorItem31: TSpTBXSeparatorItem
         end
-        object FindinFiles2: TSpTBXItem
+        object mnFindFunction: TSpTBXItem
           Caption = 'Find F&unction...'
           Hint = 'Find Function|Find function from function list'
           Action = CommandsDataModule.actFindFunction
         end
-        object TBXItem26: TSpTBXItem
+        object mnFindNextReference: TSpTBXItem
           Caption = 'Find Next Reference'
           Hint = 'Find next identifier reference'
           Action = CommandsDataModule.actFindNextReference
         end
-        object TBXItem25: TSpTBXItem
+        object mnFindPreviousReference: TSpTBXItem
           Caption = 'Find Previous Reference'
           Hint = 'Find previous identifier reference'
           Action = CommandsDataModule.actFindPreviousReference
         end
-        object MatchingBrace1: TSpTBXItem
+        object mnMatchingBrace: TSpTBXItem
           Caption = '&Matching Brace'
           Hint = 'Find Matching Brace'
           Action = CommandsDataModule.actSearchMatchingBrace
         end
         object N23: TSpTBXSeparatorItem
         end
-        object TBXItem33: TSpTBXItem
+        object mnFindDefinition: TSpTBXItem
           Caption = 'Find &Definition'
           Hint = 'Find definition of an Identifier'
           Action = actFindDefinition
         end
-        object TBXItem38: TSpTBXItem
+        object mnFindReferences: TSpTBXItem
           Caption = 'Find &References'
           Hint = 'Find references of an Identifier'
           Action = actFindReferences
@@ -793,29 +802,29 @@ object PyIDEMainForm: TPyIDEMainForm
       end
       object ViewMenu: TSpTBXSubmenuItem
         Caption = '&View'
-        object NextEditor1: TSpTBXItem
+        object mnNextEditor: TSpTBXItem
           Caption = '&Next Editor'
           Hint = 'Next Editor|Move to the next editor'
           Action = actViewNextEditor
         end
-        object PreviousEditor1: TSpTBXItem
+        object mnPreviousEditor: TSpTBXItem
           Caption = '&Previous Editor'
           Hint = 'Previous editor|Move to the previous editor'
           Action = actViewPreviousEditor
         end
         object TBXSubmenuItem8: TSpTBXSubmenuItem
           Caption = 'Split Editor'
-          object TBXItem90: TSpTBXItem
+          object mnSplitEditorVer: TSpTBXItem
             Caption = 'Split Editor Vertically'
             Hint = 'Split the editor Windows vertically'
             Action = actViewSplitEditorVer
           end
-          object TBXItem91: TSpTBXItem
+          object mnSplitEditorHor: TSpTBXItem
             Caption = 'Split Editor Horizontally'
             Hint = 'Split the editor Windows horizontally'
             Action = actViewSplitEditorHor
           end
-          object TBXItem92: TSpTBXItem
+          object mnHideSecondEditor: TSpTBXItem
             Caption = 'Hide Second Editor'
             Hint = 'Clear the editor'
             Action = actViewHideSecondEditor
@@ -823,12 +832,12 @@ object PyIDEMainForm: TPyIDEMainForm
         end
         object TBXSeparatorItem20: TSpTBXSeparatorItem
         end
-        object TBXItem51: TSpTBXItem
+        object mnZoomIn: TSpTBXItem
           Caption = 'Zoom &In'
           Hint = 'Increase the font size of the editor'
           Action = actEditorZoomIn
         end
-        object TBXItem50: TSpTBXItem
+        object mnZoomOut: TSpTBXItem
           Caption = 'Zoom &Out'
           Hint = 'Decrease the font size of the editor'
           Action = actEditorZoomOut
@@ -837,97 +846,99 @@ object PyIDEMainForm: TPyIDEMainForm
         end
         object mnuToolbars: TSpTBXSubmenuItem
           Caption = '&Toolbars'
-          object TBXItem85: TSpTBXItem
+          object mnViewMainMenu: TSpTBXItem
             Caption = 'Main Men&u'
             Hint = 'View/Hide main menu'
             Action = actViewMainMenu
           end
-          object TBXVisibilityToggleItem1: TTBXVisibilityToggleItem
+          object mnMainToolbarVisibilityToggle: TSpTBXItem
             Caption = '&Main Toolbar'
+            Hint = 'Main toolbar|Show/Hide the Main toolbar'
+            HelpContext = 360
             Control = MainToolBar
-            HelpContext = 360
-            Hint = 'Main toolbar|Show/Hide the main toolbar'
           end
-          object DebugtoolbarVisibilityToggle: TTBXVisibilityToggleItem
+          object mnDebugtoolbarVisibilityToggle: TSpTBXItem
             Caption = '&Debug Toolbar'
+            Hint = 'Debug toolbar|Show/Hide the Debug toolbar'
+            HelpContext = 360
             Control = DebugToolbar
-            HelpContext = 360
-            Hint = 'Debug toolbar|Show/Hide the debug toolbar'
           end
-          object EditorToolbarVisibilityToggle: TTBXVisibilityToggleItem
+          object mnEditorToolbarVisibilityToggle: TSpTBXItem
             Caption = '&Editor Toolbar'
+            Hint = 'Editor toolbar|Show/Hide the Editor toolbar'
+            HelpContext = 360
             Control = EditorToolbar
-            HelpContext = 360
-            Hint = 'Editor toolbar|Show/Hide the editor toolbar'
           end
-          object ViewToolbarVisibilityToggle: TTBXVisibilityToggleItem
+          object mnViewToolbarVisibilityToggle: TSpTBXItem
             Caption = '&View Toolbar'
-            Control = ViewToolbar
-            HelpContext = 360
             Hint = 'View toolbar|Show/Hide the View toolbar'
+            HelpContext = 360
+            Control = ViewToolbar
           end
-          object mnuUserToolbarVisibilityToggle: TTBXVisibilityToggleItem
+          object mnuUserToolbarVisibilityToggle: TSpTBXItem
             Caption = 'Use&r Toolbar'
+            Hint = 'User toolbar|Show/Hide the User toolbar'
+            HelpContext = 360
             Control = UserToolbar
           end
           object SpTBXSeparatorItem3: TSpTBXSeparatorItem
           end
-          object SpTBXItem1: TSpTBXItem
+          object mnViewCustomizeToolbars: TSpTBXItem
             Caption = 'Customize...'
             Hint = 'Customize the toolbars'
             Action = actViewCustomizeToolbars
           end
         end
-        object StatusBar1: TSpTBXItem
+        object mnViewStatusBar: TSpTBXItem
           Caption = '&Status Bar'
-          Hint = 'Status bar|Show/Hide the status bar'
+          Hint = 'View/Hide status bar'
           Action = actViewStatusBar
         end
         object TBXSeparatorItem18: TSpTBXSeparatorItem
         end
         object TBXSubmenuItem4: TSpTBXSubmenuItem
           Caption = '&IDE Windows'
-          object InteractiveInterpreter1: TSpTBXItem
+          object mnViewII: TSpTBXItem
             Caption = '&Interactive Interpreter'
             Hint = 'View/Hide Interactive Interpreter'
             Action = actViewII
           end
-          object SpTBXItem3: TSpTBXItem
+          object mnViewProjectExplorer: TSpTBXItem
             Caption = '&Project Explorer'
             Hint = 'View/Hide Project Explorer'
             Action = actViewProjectExplorer
           end
-          object FileExplorer1: TSpTBXItem
+          object mnViewFileExplorer: TSpTBXItem
             Caption = '&File Explorer'
             Hint = 'View/Hide File Explorer'
             Action = actViewFileExplorer
           end
-          object CodeExplorer1: TSpTBXItem
+          object mnViewCodeExplorer: TSpTBXItem
             Caption = '&Code Explorer'
             Hint = 'View/Hide Code Explorer'
             Action = actViewCodeExplorer
           end
-          object actViewToDoList1: TSpTBXItem
+          object mnViewToDoList: TSpTBXItem
             Caption = '&To-Do List'
             Hint = 'View/Hide To Do List'
             Action = actViewToDoList
           end
-          object TBXItem42: TSpTBXItem
+          object mnViewRegExpTester: TSpTBXItem
             Caption = '&Regular Expression Tester'
             Hint = 'View/Hide Regular Expression Tester'
             Action = actViewRegExpTester
           end
-          object FindinFilesResults1: TSpTBXItem
+          object mnViewFindResults: TSpTBXItem
             Caption = '&Find in Files Results'
             Hint = 'View/Hide Find in Files Results'
             Action = actViewFindResults
           end
-          object actViewOutput1: TSpTBXItem
+          object mnViewOutput: TSpTBXItem
             Caption = '&Output Window'
             Hint = 'View/Hide Output Window'
             Action = actViewOutput
           end
-          object TBXItem46: TSpTBXItem
+          object mnViewUnitTests: TSpTBXItem
             Caption = '&Unit Tests'
             Hint = 'View/Hide Unit Tests Window'
             Action = actViewUnitTests
@@ -935,27 +946,27 @@ object PyIDEMainForm: TPyIDEMainForm
         end
         object DebugWindows1: TSpTBXSubmenuItem
           Caption = '&Debug Windows'
-          object Breakpoints1: TSpTBXItem
+          object mnViewBreakpoints: TSpTBXItem
             Caption = '&Breakpoints'
             Hint = 'Show/Hide Breakpoints window'
             Action = actBreakPointsWin
           end
-          object CallStack1: TSpTBXItem
+          object mnViewCallStack: TSpTBXItem
             Caption = '&Call Stack'
             Hint = 'Show/Hide Call Stack window'
             Action = actCallStackWin
           end
-          object Messages1: TSpTBXItem
+          object mnViewMessages: TSpTBXItem
             Caption = '&Messages'
             Hint = 'Show/Hide Messages window'
             Action = actMessagesWin
           end
-          object Variables1: TSpTBXItem
+          object mnViewVariables: TSpTBXItem
             Caption = '&Variables'
             Hint = 'Show/Hide Variables window'
             Action = actVariablesWin
           end
-          object Watches1: TSpTBXItem
+          object mnViewWatches: TSpTBXItem
             Caption = '&Watches'
             Hint = 'Show/Hide Watches window'
             Action = actWatchesWin
@@ -963,71 +974,71 @@ object PyIDEMainForm: TPyIDEMainForm
         end
         object TBXSubmenuItem6: TSpTBXSubmenuItem
           Caption = '&Navigate'
-          object TBXItem57: TSpTBXItem
+          object mnNavEditor: TSpTBXItem
             Caption = '&Editor'
             Hint = 'Activate the Editor'
             Action = actNavEditor
           end
-          object TBXItem69: TSpTBXItem
+          object mnNavInterpreter: TSpTBXItem
             Caption = '&Interpreter'
             Hint = 'Activate the Interpreter window'
             Action = actNavInterpreter
           end
           object TBXSeparatorItem24: TSpTBXSeparatorItem
           end
-          object TBXItem58: TSpTBXItem
+          object mnNavCodeExplorer: TSpTBXItem
             Caption = '&Code Explorer'
             Hint = 'Activate the Code Explorer window'
             Action = actNavCodeExplorer
           end
-          object TBXItem59: TSpTBXItem
+          object mnNavFileExplorer: TSpTBXItem
             Caption = 'File E&xplorer'
             Hint = 'Activate the File Explorer window'
             Action = actNavFileExplorer
           end
-          object SpTBXItem2: TSpTBXItem
+          object mnNavProjectExplorer: TSpTBXItem
             Caption = '&Project Explorer'
             Hint = 'Activate the Project Explorer window'
             Action = actNavProjectExplorer
           end
-          object TBXItem60: TSpTBXItem
+          object mnNavUnitTests: TSpTBXItem
             Caption = '&Unit Tests'
             Hint = 'Activate the Todo List window'
             Action = actNavUnitTests
           end
-          object TBXItem62: TSpTBXItem
+          object mnNavOutput: TSpTBXItem
             Caption = 'Command &Output'
             Hint = 'Activate the Command Output window'
             Action = actNavOutput
           end
-          object TBXItem63: TSpTBXItem
+          object mnNavTodo: TSpTBXItem
             Caption = '&Todo List'
             Hint = 'Activate the Todo List window'
             Action = actNavTodo
           end
           object TBXSeparatorItem25: TSpTBXSeparatorItem
           end
-          object TBXItem65: TSpTBXItem
+          object mnNavBreakpoints: TSpTBXItem
             Caption = '&BreakPoints'
             Hint = 'Activate the Breakpoints window'
             Action = actNavBreakpoints
           end
-          object TBXItem68: TSpTBXItem
+          object mnNavCallStack: TSpTBXItem
             Caption = '&Call Stack'
             Hint = 'Activate the Call Stack window'
             Action = actNavCallStack
           end
-          object TBXItem64: TSpTBXItem
+          object mnNavMessages: TSpTBXItem
             Caption = '&Messages '
             Hint = 'Activate the Messages window'
             Action = actNavMessages
           end
-          object TBXItem67: TSpTBXItem
+          object mnNavVariables: TSpTBXItem
             Caption = '&Variables'
             Hint = 'Activate the Variables window'
             Action = actNavVariables
           end
-          object TBXItem66: TSpTBXItem
+          object mnNavWatches: TSpTBXItem
             Caption = '&Watches'
             Hint = 'Activate the Watches window'
             Action = actNavWatches
@@ -1048,6 +1059,9 @@ object PyIDEMainForm: TPyIDEMainForm
         end
         object TBXSeparatorItem21: TSpTBXSeparatorItem
         end
+        object mnLanguage: TSpTBXSubmenuItem
+          Caption = 'Language'
+        end
         object mnLayouts: TSpTBXSubmenuItem
           Caption = 'Layouts'
           ImageIndex = 108
@@ -1056,29 +1070,35 @@ object PyIDEMainForm: TPyIDEMainForm
           object TBXItem47: TSpTBXItem
             Caption = 'Save Layout...'
             Hint = 'Save Current Layout'
-            Action = actLayoutSave
+            OnClick = actLayoutSaveExecute
           end
           object TBXItem48: TSpTBXItem
             Caption = 'Delete Layouts...'
             Hint = 'Delete a layout'
-            Action = actLayoutsDelete
+            OnClick = actLayoutsDeleteExecute
           end
           object TBXItem49: TSpTBXItem
             Caption = 'Set Debug Layout'
             Hint = 'Set the current layout as the debug layout'
-            Action = actLayoutDebug
+            OnClick = actLayoutDebugExecute
           end
           object TBXSeparatorItem17: TSpTBXSeparatorItem
           end
           object mnMaximizeEditor: TSpTBXItem
             Caption = '&Maximize Editor'
             Hint = 'Maximize editor window'
-            Action = actMaximizeEditor
+            HelpContext = 270
+            ImageIndex = 118
+            ShortCut = 32858
+            OnClick = actMaximizeEditorExecute
           end
           object TBXItem77: TSpTBXItem
             Caption = '&Restore Editor'
             Hint = 'Restore editor window'
-            Action = actRestoreEditor
+            HelpContext = 270
+            ImageIndex = 119
+            ShortCut = 41050
+            OnClick = actRestoreEditorExecute
           end
         end
         object mnThemes: TSpTBXSubmenuItem
@@ -1086,31 +1106,31 @@ object PyIDEMainForm: TPyIDEMainForm
           ImageIndex = 107
         end
       end
-      object SpTBXSubmenuItem1: TSpTBXSubmenuItem
+      object ProjectMenu: TSpTBXSubmenuItem
         Caption = '&Project'
-        object SpTBXItem7: TSpTBXItem
+        object mnProjectNew: TSpTBXItem
           Caption = '&New Project'
           Hint = 'Start a new project'
           Action = ProjectExplorerWindow.actProjectNew
         end
-        object SpTBXItem6: TSpTBXItem
+        object mnProjectOpen: TSpTBXItem
           Caption = '&Open Project...'
           Hint = 'Open a project file'
           Action = ProjectExplorerWindow.actProjectOpen
         end
-        object SpTBXItem5: TSpTBXItem
+        object mnProjectSave: TSpTBXItem
           Caption = '&Save Project'
           Hint = 'Save the project'
           Action = ProjectExplorerWindow.actProjectSave
         end
-        object SpTBXItem4: TSpTBXItem
+        object mnProjectSaveAs: TSpTBXItem
           Caption = 'Save Project &As...'
           Hint = 'Save project with under a different name'
           Action = ProjectExplorerWindow.actProjectSaveAs
         end
         object SpTBXSeparatorItem4: TSpTBXSeparatorItem
         end
-        object SpTBXItem8: TSpTBXItem
+        object mnNavProjectExplorer2: TSpTBXItem
           Caption = '&Project Explorer'
           Hint = 'Activate the Project Explorer window'
           Action = actNavProjectExplorer
@@ -1118,24 +1138,24 @@ object PyIDEMainForm: TPyIDEMainForm
       end
       object RunMenu: TSpTBXSubmenuItem
         Caption = '&Run'
-        object SyntaxCheck1: TSpTBXItem
+        object mnSyntaxCheck: TSpTBXItem
           Caption = '&Syntax Check'
           Hint = 'Syntax Check|Perform syntax check and load scripts'
           Action = actSyntaxCheck
         end
-        object ImportModule1: TSpTBXItem
+        object mnImportModule: TSpTBXItem
           Caption = '&Import Module'
           Hint = 'Import module'
           Action = actImportModule
         end
         object N21: TSpTBXSeparatorItem
         end
-        object Run2: TSpTBXItem
+        object mnRun: TSpTBXItem
           Caption = '&Run'
           Hint = 'Run|Run active module'
           Action = actRun
         end
-        object TBXItem43: TSpTBXItem
+        object mnCommandLineParams: TSpTBXItem
           Caption = 'Command Line &Parameters...'
           Hint = 'Set command line parameters'
           Action = actCommandLine
@@ -1143,102 +1163,102 @@ object PyIDEMainForm: TPyIDEMainForm
         object mnPythonEngines: TSpTBXSubmenuItem
           Caption = 'Python Engine'
           OnPopup = mnPythonEnginesPopup
-          object TBXItem74: TSpTBXItem
+          object mnEngineInternal: TSpTBXItem
             Caption = '&Internal'
             Hint = 'Use internal Python Engine'
             Action = actPythonInternal
           end
-          object TBXItem73: TSpTBXItem
+          object mnEngineRemote: TSpTBXItem
             Caption = '&Remote'
             Hint = 'Use a remote Python engine'
             Action = actPythonRemote
           end
-          object TBXItem72: TSpTBXItem
+          object mnEngineRemoteTk: TSpTBXItem
             Caption = 'Remote (&Tk)'
             Hint = 'Use a remote Python engine for Tkinter applications'
             Action = actPythonRemoteTk
           end
-          object TBXItem71: TSpTBXItem
+          object mnEngineRemoteWx: TSpTBXItem
             Caption = 'Remote (&Wx)'
             Hint = 'Use a remote Python engine for wxPython applications'
             Action = actPythonRemoteWx
           end
           object TBXSeparatorItem26: TSpTBXSeparatorItem
           end
-          object TBXItem75: TSpTBXItem
+          object mnReinitEngine: TSpTBXItem
             Caption = 'Reinitiali&ze Python engine'
             Action = actPythonReinitialize
           end
         end
         object N22: TSpTBXSeparatorItem
         end
-        object ExternalRun1: TSpTBXItem
+        object mnExternalRun: TSpTBXItem
           Caption = 'E&xternal Run'
           Hint = 'External Run|Run active module in external Python interpreter'
           Action = actExternalRun
         end
-        object ConfigureExternalRun1: TSpTBXItem
+        object mnConfigureExternalRun: TSpTBXItem
           Caption = '&Configure External Run...'
           Hint = 'Configure External Run'
           Action = actExternalRunConfigure
         end
         object N8: TSpTBXSeparatorItem
         end
-        object Debug1: TSpTBXItem
+        object mnDebug: TSpTBXItem
           Caption = '&Debug'
           Hint = 'Debug|Debug active script'
           Action = actDebug
         end
-        object RunToCursor1: TSpTBXItem
+        object mnRunToCursor: TSpTBXItem
           Caption = 'Run To &Cursor'
           Hint = 'Run to cursor'
           Action = actRunToCursor
         end
-        object StepInto1: TSpTBXItem
+        object mnStepInto: TSpTBXItem
           Caption = 'Step &Into'
           Hint = 'Step into subroutine '
           Action = actStepInto
         end
-        object StepOver1: TSpTBXItem
+        object mnStepOver: TSpTBXItem
           Caption = 'Step &Over'
           Hint = 'Step over next function call'
           Action = actStepOver
         end
-        object StepOut1: TSpTBXItem
-          Caption = 'StepO&ut'
-          Hint = 'Step out of the current subroutin'
+        object mnStepOut: TSpTBXItem
+          Caption = 'Step O&ut'
+          Hint = 'Step out of the current subroutine'
           Action = actStepOut
         end
-        object TBXItem70: TSpTBXItem
+        object mnPause: TSpTBXItem
           Caption = '&Pause'
-          Hint = 'Pause runnig program'
+          Hint = 'Pause running program'
           Action = actDebugPause
         end
-        object AbortDebugging1: TSpTBXItem
+        object mnAbortDebugging: TSpTBXItem
           Caption = '&Abort Debugging'
           Hint = 'Abort debugging'
           Action = actDebugAbort
         end
         object TBXSeparatorItem33: TSpTBXSeparatorItem
         end
-        object TBXItem93: TSpTBXItem
+        object mnPostMortem: TSpTBXItem
           Caption = '&Post Mortem'
           Hint = 'Enter post mortem analysis'
           Action = actPostMortem
         end
         object N9: TSpTBXSeparatorItem
         end
-        object ogglebreakpoint1: TSpTBXItem
+        object mnTogglebreakpoint: TSpTBXItem
           Caption = 'Toggle &breakpoint'
           Hint = 'Toggle breakpoint'
           Action = actToggleBreakPoint
         end
-        object ClearAllBreakpoints1: TSpTBXItem
+        object mnClearAllBreakpoints: TSpTBXItem
           Caption = '&Clear All Breakpoints'
           Hint = 'Clear all breakpoints'
           Action = actClearAllBreakpoints
         end
-        object TBXItem52: TSpTBXItem
+        object mnAddWatchAtCursor: TSpTBXItem
           Caption = 'Add &Watch At Cursor'
           Hint = 'Add the expression at the editor current position as a watch'
           Action = actAddWatchAtCursor
@@ -1246,12 +1266,12 @@ object PyIDEMainForm: TPyIDEMainForm
       end
       object ToolsMenu: TSpTBXSubmenuItem
         Caption = '&Tools'
-        object PythonPath1: TSpTBXItem
+        object mnPythonPath: TSpTBXItem
           Caption = 'Python &Path...'
           Hint = 'Python Path|View or edit the Python path'
           Action = CommandsDataModule.actPythonPath
         end
-        object TBXItem45: TSpTBXItem
+        object mnUnitTestWizard: TSpTBXItem
           Caption = '&Unit Test Wizard...'
           Hint = 'unitest wizard|Create unitests for active module'
           Action = CommandsDataModule.actUnitTestWizard
@@ -1266,26 +1286,26 @@ object PyIDEMainForm: TPyIDEMainForm
           Hint = 'External Tools'
           ImageIndex = 82
         end
-        object ConfigureTools1: TSpTBXItem
+        object mnConfigureTools: TSpTBXItem
           Caption = 'Configure &Tools...'
           Hint = 'Configure Tools|Add/remove/edit command-line tools'
           Action = CommandsDataModule.actConfigureTools
         end
         object N20: TSpTBXSeparatorItem
         end
-        object Options1: TSpTBXSubmenuItem
+        object OptionsMenu: TSpTBXSubmenuItem
           Caption = '&Options'
-          object IDEOptions2: TSpTBXItem
+          object mnIDEOptions: TSpTBXItem
             Caption = '&IDE Options...'
             Hint = 'Set IDE Options'
             Action = CommandsDataModule.actIDEOptions
           end
-          object TBXItem44: TSpTBXItem
+          object mnIDEShortCuts: TSpTBXItem
             Caption = 'IDE &Shortcuts...'
             Hint = 'Customize IDE shortcuts'
             Action = CommandsDataModule.actIDEShortcuts
           end
-          object EditorOptions1: TSpTBXItem
+          object mnEditorOptions: TSpTBXItem
             Caption = '&Editor Options...'
             Hint = 'Set Editor Options'
             Action = CommandsDataModule.actEditorOptions
@@ -1294,24 +1314,24 @@ object PyIDEMainForm: TPyIDEMainForm
           end
           object TBXSubmenuItem7: TSpTBXSubmenuItem
             Caption = 'Import/Export'
-            object TBXItem82: TSpTBXItem
+            object mnExportShortcuts: TSpTBXItem
               Caption = 'Export Shortcuts'
               Hint = 'Export Shortcuts'
               Action = CommandsDataModule.actExportShortCuts
             end
-            object TBXItem81: TSpTBXItem
+            object mnImportShortcuts: TSpTBXItem
               Caption = 'Import Shortcuts'
               Hint = 'Import Shortcuts'
               Action = CommandsDataModule.actImportShortcuts
             end
             object TBXSeparatorItem30: TSpTBXSeparatorItem
             end
-            object TBXItem84: TSpTBXItem
+            object mnExportHighlighters: TSpTBXItem
               Caption = 'Export Highlighters'
               Hint = 'Export Syntax Highlighters'
               Action = CommandsDataModule.actExportHighlighters
             end
-            object TBXItem83: TSpTBXItem
+            object mnImportHighlighters: TSpTBXItem
               Caption = 'Import Highlighters'
               Hint = 'Import Syntax Highlighters'
               Action = CommandsDataModule.actImportHighlighters
@@ -1319,17 +1339,17 @@ object PyIDEMainForm: TPyIDEMainForm
           end
           object TBXSeparatorItem8: TSpTBXSeparatorItem
           end
-          object CustomizeParameters1: TSpTBXItem
+          object mnCustomizeParameters: TSpTBXItem
             Caption = 'Custom &Parameters...'
             Hint = 'Add/Remove custom parameters'
             Action = CommandsDataModule.actCustomizeParameters
           end
-          object CodeTemplates1: TSpTBXItem
+          object mnCodeTemplates: TSpTBXItem
             Caption = '&Code Templates...'
             Hint = 'Add/Remove code templates'
             Action = CommandsDataModule.actCodeTemplates
           end
-          object TBXItem29: TSpTBXItem
+          object mnFileTemplates: TSpTBXItem
             Caption = '&File Templates...'
             Hint = 'Add/Remove file templates'
             Action = CommandsDataModule.actFileTemplates
@@ -1337,7 +1357,7 @@ object PyIDEMainForm: TPyIDEMainForm
         end
         object TBXSeparatorItem15: TSpTBXSeparatorItem
         end
-        object TBXItem41: TSpTBXItem
+        object mnCheckForUpdates: TSpTBXItem
           Caption = 'Check For &Updates'
           Hint = 'Check whether a newer version of PyScripter is available'
           Action = CommandsDataModule.actCheckForUpdates
@@ -1345,8 +1365,8 @@ object PyIDEMainForm: TPyIDEMainForm
       end
       object HelpMenu: TSpTBXSubmenuItem
         Caption = '&Help'
-        object PythonPath2: TSpTBXItem
-          Caption = '&Python &Manuals'
+        object mnHelpPythonManuals: TSpTBXItem
+          Caption = '&Python Manuals'
           Hint = 'Show Python Manuals'
           Action = CommandsDataModule.actPythonManuals
         end
@@ -1354,22 +1374,22 @@ object PyIDEMainForm: TPyIDEMainForm
         end
         object PyScripter1: TSpTBXSubmenuItem
           Caption = 'PyScripter'
-          object TBXItem39: TSpTBXItem
+          object mnHelpContents: TSpTBXItem
             Caption = '&Contents'
             Hint = 'Help Contents'
             Action = CommandsDataModule.actHelpContents
           end
-          object TBXItem40: TSpTBXItem
+          object mnHelpEditorShortcuts: TSpTBXItem
             Caption = 'Editor &Shortcuts'
             Hint = 'Help on editor shortcuts'
             Action = CommandsDataModule.actHelpEditorShortcuts
           end
-          object ExternalTools1: TSpTBXItem
+          object mnHelpExternalTools: TSpTBXItem
             Caption = 'External &Tools'
             Hint = 'Help on External Tools'
             Action = CommandsDataModule.actHelpExternalTools
           end
-          object CustomParameters1: TSpTBXItem
+          object mnHelpParameters: TSpTBXItem
             Caption = '&Parameters'
             Hint = 'Help on custom parameters'
             Action = CommandsDataModule.actHelpParameters
@@ -1377,22 +1397,22 @@ object PyIDEMainForm: TPyIDEMainForm
         end
         object SpTBXSubmenuItem2: TSpTBXSubmenuItem
           Caption = 'Web Support'
-          object SpTBXItem11: TSpTBXItem
+          object mnHelpOfficialWebSite: TSpTBXItem
             Caption = '&Official Web Site'
             Hint = 'Go to the official web site'
             Action = CommandsDataModule.actHelpOfficialWebSite
           end
-          object SpTBXItem10: TSpTBXItem
+          object mnHelpDevelopmentWebSite: TSpTBXItem
             Caption = '&Development Web Site'
             Hint = 'Go To the developement web site'
             Action = CommandsDataModule.actHelpDevelopmentWebsite
           end
-          object SpTBXItem9: TSpTBXItem
+          object mnHelpProjectHome: TSpTBXItem
             Caption = '&Project Home'
             Hint = 'Go to the project home page'
             Action = CommandsDataModule.actHelpWebProjectHome
           end
-          object SpTBXItem12: TSpTBXItem
+          object mnHelpWebSupport: TSpTBXItem
             Caption = '&Group Support'
             Hint = 'Go to the PyScripter Internet group'
             Action = CommandsDataModule.actHelpWebGroupSupport
@@ -1400,7 +1420,7 @@ object PyIDEMainForm: TPyIDEMainForm
         end
         object N17: TSpTBXSeparatorItem
         end
-        object About1: TSpTBXItem
+        object mnHelpAbout: TSpTBXItem
           Caption = 'About...'
           Hint = 'About|Info about the application'
           Action = CommandsDataModule.actAbout
@@ -1542,13 +1562,13 @@ object PyIDEMainForm: TPyIDEMainForm
         Action = actStepOver
       end
       object tbiRunStepOut: TSpTBXItem
-        Caption = 'StepO&ut'
-        Hint = 'Step out of the current subroutin'
+        Caption = 'Step O&ut'
+        Hint = 'Step out of the current subroutine'
         Action = actStepOut
       end
       object tbiRunPause: TSpTBXItem
         Caption = '&Pause'
-        Hint = 'Pause runnig program'
+        Hint = 'Pause running program'
         Action = actDebugPause
       end
       object tbiRunAbort: TSpTBXItem
@@ -1602,8 +1622,11 @@ object PyIDEMainForm: TPyIDEMainForm
       object tbiBrowsePrevious: TSpTBXSubmenuItem
         Caption = 'Browse &Back'
         Hint = 'Browse back'
-        Action = actBrowseBack
+        HelpContext = 830
+        ImageIndex = 96
         Options = [tboDropdownArrow]
+        ShortCut = 32805
+        OnClick = tbiBrowsePreviousClick
         DropdownCombo = True
         object PreviousList: TTBXStringList
           OnClick = PreviousListClick
@@ -1612,8 +1635,11 @@ object PyIDEMainForm: TPyIDEMainForm
       object tbiBrowseNext: TSpTBXSubmenuItem
         Caption = 'Browse &Forward'
         Hint = 'Browse forward'
-        Action = actBrowseForward
+        HelpContext = 830
+        ImageIndex = 97
         Options = [tboDropdownArrow]
+        ShortCut = 32807
+        OnClick = tbiBrowseNextClick
         DropdownCombo = True
         object NextList: TTBXStringList
           OnClick = NextListClick
@@ -1697,6 +1723,7 @@ object PyIDEMainForm: TPyIDEMainForm
         RadioItem = True
       end
       object tbiReplaceSeparator: TSpTBXSeparatorItem
+        Visible = False
       end
       object tbiReplaceLabel: TSpTBXLabelItem
         Caption = 'Replace with:'
@@ -1759,10 +1786,10 @@ object PyIDEMainForm: TPyIDEMainForm
       end
     end
     object UserToolbar: TSpTBXToolbar
-      Left = 340
+      Left = 334
       Top = 51
       Caption = 'User Toolbar'
-      DockPos = 338
+      DockPos = 310
       DockRow = 2
       Images = CommandsDataModule.Images
       TabOrder = 6
@@ -1773,804 +1800,95 @@ object PyIDEMainForm: TPyIDEMainForm
     Left = 0
     Top = 78
     Width = 9
-    Height = 429
+    Height = 426
     FixAlign = True
     PopupMenu = ToolbarPopupMenu
     Position = dpLeft
-  end
-  object StatusBar: TTBXStatusBar
-    Left = 0
-    Top = 516
-    Width = 780
-    Panels = <
-      item
-        Size = 450
-        Tag = 0
-      end
-      item
-        Size = 84
-        Tag = 0
-      end
-      item
-        Size = 72
-        Tag = 0
-      end
-      item
-        Size = 84
-        Tag = 0
-      end
-      item
-        Size = 40
-        Tag = 0
-      end
-      item
-        Control = StatusLED
-        Size = 27
-        Tag = 0
-      end
-      item
-        Control = ExternalToolsLED
-        Size = 27
-        Tag = 0
-      end>
-    UseSystemFont = False
-    object StatusLED: TJvLED
-      Left = 730
-      Top = 2
-      Width = 26
-      Height = 19
-      Hint = 'Ready'
-    end
-    object ExternalToolsLED: TJvLED
-      Left = 757
-      Top = 2
-      Width = 26
-      Height = 19
-      Hint = 'External Tool Running'
-      ColorOn = clRed
-      PopupMenu = RunningProcessesPopUpMenu
-      Visible = False
-    end
   end
   object TBXDockRight: TSpTBXDock
     Left = 771
     Top = 78
     Width = 9
-    Height = 429
+    Height = 426
     FixAlign = True
     PopupMenu = ToolbarPopupMenu
     Position = dpRight
   end
   object TBXDockBottom: TSpTBXDock
     Left = 0
-    Top = 507
+    Top = 504
     Width = 780
     Height = 9
     FixAlign = True
     PopupMenu = ToolbarPopupMenu
     Position = dpBottom
   end
-  object actlStandard: TActionList
-    Images = CommandsDataModule.Images
-    Left = 38
-    Top = 96
-    object actViewMainMenu: TAction
-      Category = 'View'
-      Caption = 'Main Men&u'
-      HelpContext = 360
-      HelpType = htContext
-      Hint = 'View/Hide main menu'
-      ShortCut = 16505
-      OnExecute = actViewMainMenuExecute
-    end
-    object actCallStackWin: TAction
-      Category = 'Debug Windows'
-      AutoCheck = True
-      Caption = '&Call Stack'
-      Checked = True
-      HelpContext = 360
-      HelpType = htContext
-      Hint = 'Show/Hide Call Stack window'
-      ImageIndex = 63
-      OnExecute = actCallStackWinExecute
-    end
-    object actVariablesWin: TAction
-      Category = 'Debug Windows'
-      AutoCheck = True
-      Caption = '&Variables'
-      Checked = True
-      HelpContext = 360
-      HelpType = htContext
-      Hint = 'Show/Hide Variables window'
-      ImageIndex = 65
-      OnExecute = actVariablesWinExecute
-    end
-    object actSyntaxCheck: TAction
-      Category = 'Run'
-      Caption = '&Syntax Check'
-      HelpContext = 340
-      HelpType = htContext
-      Hint = 'Syntax Check|Perform syntax check and load scripts'
-      ImageIndex = 20
-      OnExecute = actSyntaxCheckExecute
-    end
-    object actRun: TAction
-      Category = 'Run'
-      Caption = '&Run'
-      HelpContext = 340
-      HelpType = htContext
-      Hint = 'Run|Run active module'
-      ImageIndex = 51
-      ShortCut = 16504
-      OnExecute = actRunExecute
-    end
-    object actCommandLine: TAction
-      Category = 'Run'
-      Caption = 'Command Line &Parameters...'
-      HelpContext = 340
-      HelpType = htContext
-      Hint = 'Set command line parameters'
-      ImageIndex = 23
-      OnExecute = actCommandLineExecute
-    end
-    object actImportModule: TAction
-      Category = 'Run'
-      Caption = '&Import Module'
-      HelpContext = 340
-      HelpType = htContext
-      Hint = 'Import module'
-      ImageIndex = 34
-      OnExecute = actImportModuleExecute
-    end
-    object actFileNewModule: TAction
-      Category = 'File'
-      Caption = '&New Python module'
-      HelpContext = 310
-      HelpType = htContext
-      Hint = 'New Python module'
-      ImageIndex = 0
-      ShortCut = 16462
-      OnExecute = actFileNewModuleExecute
-    end
-    object actFileOpen: TAction
-      Category = 'File'
-      Caption = '&Open...'
-      HelpContext = 310
-      HelpType = htContext
-      Hint = 'Select a file to open'
-      ImageIndex = 1
-      ShortCut = 16463
-      OnExecute = actFileOpenExecute
-    end
-    object actFileCloseAll: TAction
-      Category = 'File'
-      Caption = 'Close A&ll'
-      Enabled = False
-      HelpContext = 310
-      HelpType = htContext
-      Hint = 'Close all files'
-      ImageIndex = 3
-      ShortCut = 24691
-      OnExecute = actFileCloseAllExecute
-    end
-    object actFileExit: TAction
-      Category = 'File'
-      Caption = 'E&xit'
-      HelpContext = 310
-      HelpType = htContext
-      Hint = 'Exit'
-      ImageIndex = 44
-      ShortCut = 32883
-      OnExecute = actFileExitExecute
-    end
-    object actViewStatusBar: TAction
-      Category = 'View'
-      Caption = '&Status Bar'
-      HelpContext = 360
-      HelpType = htContext
-      Hint = 'View/Hide status bar'
-      OnExecute = actViewStatusBarExecute
-    end
-    object actExternalRun: TAction
-      Category = 'Run'
-      Caption = 'E&xternal Run'
-      HelpContext = 340
-      HelpType = htContext
-      Hint = 'External Run|Run active module in external Python interpreter'
-      ImageIndex = 27
-      ShortCut = 32888
-      OnExecute = actExternalRunExecute
-    end
-    object actExternalRunConfigure: TAction
-      Category = 'Run'
-      Caption = '&Configure External Run...'
-      HelpContext = 340
-      HelpType = htContext
-      Hint = 'Configure External Run'
-      ImageIndex = 88
-      OnExecute = actExternalRunConfigureExecute
-    end
-    object actRunDebugLastScript: TAction
-      Category = 'Run'
-      Caption = 'Debug Last Script'
-      Hint = 'Debug last script'
-      ImageIndex = 145
-      ShortCut = 8312
-      OnExecute = actRunDebugLastScriptExecute
-    end
-    object actDebug: TAction
-      Category = 'Run'
-      Caption = '&Debug'
-      HelpContext = 340
-      HelpType = htContext
-      Hint = 'Debug|Debug active script'
-      ImageIndex = 53
-      ShortCut = 8312
-      OnExecute = actDebugExecute
-    end
-    object actRestoreEditor: TAction
-      Category = 'View'
-      Caption = '&Restore Editor'
-      HelpContext = 270
-      HelpType = htContext
-      Hint = 'Restore editor window'
-      ImageIndex = 119
-      ShortCut = 41050
-      OnExecute = actRestoreEditorExecute
-    end
-    object actRunToCursor: TAction
-      Category = 'Run'
-      Caption = 'Run To &Cursor'
-      HelpContext = 340
-      HelpType = htContext
-      Hint = 'Run to cursor'
-      ImageIndex = 54
-      ShortCut = 115
-      OnExecute = actRunToCursorExecute
-    end
-    object actStepInto: TAction
-      Category = 'Run'
-      Caption = 'Step &Into'
-      HelpContext = 340
-      HelpType = htContext
-      Hint = 'Step into subroutine '
-      ImageIndex = 56
-      ShortCut = 118
-      OnExecute = actStepIntoExecute
-    end
-    object actStepOver: TAction
-      Category = 'Run'
-      Caption = 'Step &Over'
-      HelpContext = 340
-      HelpType = htContext
-      Hint = 'Step over next function call'
-      ImageIndex = 57
-      ShortCut = 119
-      OnExecute = actStepOverExecute
-    end
-    object actStepOut: TAction
-      Category = 'Run'
-      Caption = 'StepO&ut'
-      HelpContext = 340
-      HelpType = htContext
-      Hint = 'Step out of the current subroutin'
-      ImageIndex = 58
-      ShortCut = 8311
-      OnExecute = actStepOutExecute
-    end
-    object actDebugPause: TAction
-      Category = 'Run'
-      Caption = '&Pause'
-      HelpContext = 340
-      HelpType = htContext
-      Hint = 'Pause runnig program'
-      ImageIndex = 116
-      OnExecute = actDebugPauseExecute
-    end
-    object actDebugAbort: TAction
-      Category = 'Run'
-      Caption = '&Abort Debugging'
-      HelpContext = 340
-      HelpType = htContext
-      Hint = 'Abort debugging'
-      ImageIndex = 59
-      ShortCut = 49272
-      OnExecute = actDebugAbortExecute
-    end
-    object actRunLastScriptExternal: TAction
-      Category = 'Run'
-      Caption = 'Run Last Script Externally'
-      Hint = 'Run last script externally'
-      ImageIndex = 146
-      ShortCut = 41080
-      OnExecute = actRunLastScriptExternalExecute
-    end
-    object actRunLastScript: TAction
-      Category = 'Run'
-      Caption = 'Run Last Script'
-      Hint = 'Run last script'
-      ImageIndex = 144
-      ShortCut = 24696
-      OnExecute = actRunLastScriptExecute
-    end
-    object actToggleBreakPoint: TAction
-      Category = 'Run'
-      Caption = 'Toggle &breakpoint'
-      HelpContext = 340
-      HelpType = htContext
-      Hint = 'Toggle breakpoint'
-      ImageIndex = 60
-      ShortCut = 116
-      OnExecute = actToggleBreakPointExecute
-    end
-    object actClearAllBreakpoints: TAction
-      Category = 'Run'
-      Caption = '&Clear All Breakpoints'
-      HelpContext = 340
-      HelpType = htContext
-      Hint = 'Clear all breakpoints'
-      ImageIndex = 61
-      OnExecute = actClearAllBreakpointsExecute
-    end
-    object actBreakPointsWin: TAction
-      Category = 'Debug Windows'
-      AutoCheck = True
-      Caption = '&Breakpoints'
-      Checked = True
-      HelpContext = 360
-      HelpType = htContext
-      Hint = 'Show/Hide Breakpoints window'
-      ImageIndex = 60
-      OnExecute = actBreakPointsWinExecute
-    end
-    object actWatchesWin: TAction
-      Category = 'Debug Windows'
-      Caption = '&Watches'
-      Checked = True
-      HelpContext = 360
-      HelpType = htContext
-      Hint = 'Show/Hide Watches window'
-      ImageIndex = 66
-      OnExecute = actWatchesWinExecute
-    end
-    object actMessagesWin: TAction
-      Category = 'Debug Windows'
-      AutoCheck = True
-      Caption = '&Messages'
-      Checked = True
-      HelpContext = 360
-      HelpType = htContext
-      Hint = 'Show/Hide Messages window'
-      ImageIndex = 75
-      OnExecute = actMessagesWinExecute
-    end
-    object actViewII: TAction
-      Category = 'View'
-      Caption = '&Interactive Interpreter'
-      Checked = True
-      HelpContext = 360
-      HelpType = htContext
-      Hint = 'View/Hide Interactive Interpreter'
-      ImageIndex = 128
-      OnExecute = actViewIIExecute
-    end
-    object actViewCodeExplorer: TAction
-      Category = 'View'
-      Caption = '&Code Explorer'
-      Checked = True
-      HelpContext = 360
-      HelpType = htContext
-      Hint = 'View/Hide Code Explorer'
-      ImageIndex = 76
-      OnExecute = actViewCodeExplorerExecute
-    end
-    object actViewFileExplorer: TAction
-      Category = 'View'
-      Caption = '&File Explorer'
-      Checked = True
-      HelpContext = 360
-      HelpType = htContext
-      Hint = 'View/Hide File Explorer'
-      ImageIndex = 84
-      OnExecute = actViewFileExplorerExecute
-    end
-    object actViewToDoList: TAction
-      Category = 'View'
-      Caption = '&To-Do List'
-      HelpContext = 360
-      HelpType = htContext
-      Hint = 'View/Hide To Do List'
-      ImageIndex = 85
-      OnExecute = actViewToDoListExecute
-    end
-    object actViewFindResults: TAction
-      Category = 'View'
-      Caption = '&Find in Files Results'
-      HelpContext = 360
-      HelpType = htContext
-      Hint = 'View/Hide Find in Files Results'
-      ImageIndex = 87
-      ShortCut = 49222
-      OnExecute = actViewFindResultsExecute
-    end
-    object actViewOutput: TAction
-      Category = 'View'
-      Caption = '&Output Window'
-      HelpContext = 360
-      HelpType = htContext
-      Hint = 'View/Hide Output Window'
-      ImageIndex = 89
-      OnExecute = actViewOutputExecute
-    end
-    object actViewUnitTests: TAction
-      Category = 'View'
-      Caption = '&Unit Tests'
-      HelpKeyword = '360'
-      HelpType = htContext
-      Hint = 'View/Hide Unit Tests Window'
-      ImageIndex = 103
-      OnExecute = actViewUnitTestsExecute
-    end
-    object actFindDefinition: TAction
-      Category = 'Refactoring'
-      Caption = 'Find &Definition'
-      HelpContext = 830
-      HelpType = htContext
-      Hint = 'Find definition of an Identifier'
-      ShortCut = 32836
-      OnExecute = actFindDefinitionExecute
-    end
-    object actFindReferences: TAction
-      Category = 'Refactoring'
-      Caption = 'Find &References'
-      HelpContext = 840
-      HelpType = htContext
-      Hint = 'Find references of an Identifier'
-      OnExecute = actFindReferencesExecute
-    end
-    object actBrowseBack: TAction
-      Category = 'Refactoring'
-      Caption = 'Browse &Back'
-      HelpContext = 830
-      HelpType = htContext
-      Hint = 'Browse back'
-      ImageIndex = 96
-      ShortCut = 32805
-      OnExecute = tbiBrowsePreviousClick
-    end
-    object actBrowseForward: TAction
-      Category = 'Refactoring'
-      Caption = 'Browse &Forward'
-      HelpContext = 830
-      HelpType = htContext
-      Hint = 'Browse forward'
-      ImageIndex = 97
-      ShortCut = 32807
-      OnExecute = tbiBrowseNextClick
-    end
-    object actViewRegExpTester: TAction
-      Category = 'View'
-      Caption = '&Regular Expression Tester'
-      HelpContext = 360
-      HelpType = htContext
-      Hint = 'View/Hide Regular Expression Tester'
-      ImageIndex = 101
-      OnExecute = actViewRegExpTesterExecute
-    end
-    object actLayoutSave: TAction
-      Category = 'View'
-      Caption = 'Save Layout...'
-      HelpKeyword = '270'
-      HelpType = htContext
-      Hint = 'Save Current Layout'
-      OnExecute = actLayoutSaveExecute
-    end
-    object actLayoutsDelete: TAction
-      Category = 'View'
-      Caption = 'Delete Layouts...'
-      HelpKeyword = '270'
-      HelpType = htContext
-      Hint = 'Delete a layout'
-      OnExecute = actLayoutsDeleteExecute
-    end
-    object actLayoutDebug: TAction
-      Category = 'View'
-      Caption = 'Set Debug Layout'
-      HelpKeyword = '270'
-      HelpType = htContext
-      Hint = 'Set the current layout as the debug layout'
-      OnExecute = actLayoutDebugExecute
-    end
-    object actMaximizeEditor: TAction
-      Category = 'View'
-      Caption = '&Maximize Editor'
-      HelpContext = 270
-      HelpType = htContext
-      Hint = 'Maximize editor window'
-      ImageIndex = 118
-      ShortCut = 32858
-      OnExecute = actMaximizeEditorExecute
-    end
-    object actEditorZoomIn: TAction
-      Category = 'View'
-      Caption = 'Zoom &In'
-      HelpKeyword = '270'
-      HelpType = htContext
-      Hint = 'Increase the font size of the editor'
-      ImageIndex = 112
-      ShortCut = 32875
-      OnExecute = actEditorZoomInExecute
-    end
-    object actEditorZoomOut: TAction
-      Category = 'View'
-      Caption = 'Zoom &Out'
-      HelpKeyword = '270'
-      HelpType = htContext
-      Hint = 'Decrease the font size of the editor'
-      ImageIndex = 113
-      ShortCut = 32877
-      OnExecute = actEditorZoomOutExecute
-    end
-    object actViewSplitEditorVer: TAction
-      Category = 'View'
-      Caption = 'Split Editor Vertically'
-      HelpContext = 270
-      HelpType = htContext
-      Hint = 'Split the editor Windows vertically'
-      ImageIndex = 125
-      OnExecute = actViewSplitEditorVerExecute
-    end
-    object actAddWatchAtCursor: TAction
-      Category = 'Run'
-      Caption = 'Add &Watch At Cursor'
-      HelpContext = 340
-      HelpType = htContext
-      Hint = 'Add the expression at the editor current position as a watch'
-      ImageIndex = 66
-      ShortCut = 32855
-      OnExecute = actAddWatchAtCursorExecute
-    end
-    object actPythonReinitialize: TAction
-      Category = 'Run'
-      Caption = 'Reinitiali&ze Python engine'
-      HelpContext = 340
-      HelpType = htContext
-      ShortCut = 16497
-      OnExecute = actPythonReinitializeExecute
-    end
-    object actPythonInternal: TAction
-      Category = 'Run'
-      AutoCheck = True
-      Caption = '&Internal'
-      Checked = True
-      GroupIndex = 1
-      HelpContext = 340
-      HelpType = htContext
-      Hint = 'Use internal Python Engine'
-      OnExecute = actPythonEngineExecute
-    end
-    object actPythonRemote: TAction
-      Tag = 1
-      Category = 'Run'
-      AutoCheck = True
-      Caption = '&Remote'
-      GroupIndex = 1
-      HelpContext = 340
-      HelpType = htContext
-      Hint = 'Use a remote Python engine'
-      OnExecute = actPythonEngineExecute
-    end
-    object actPythonRemoteTk: TAction
-      Tag = 2
-      Category = 'Run'
-      AutoCheck = True
-      Caption = 'Remote (&Tk)'
-      GroupIndex = 1
-      HelpContext = 340
-      HelpType = htContext
-      Hint = 'Use a remote Python engine for Tkinter applications'
-      OnExecute = actPythonEngineExecute
-    end
-    object actPythonRemoteWx: TAction
-      Tag = 3
-      Category = 'Run'
-      AutoCheck = True
-      Caption = 'Remote (&Wx)'
-      GroupIndex = 1
-      HelpContext = 340
-      HelpType = htContext
-      Hint = 'Use a remote Python engine for wxPython applications'
-      OnExecute = actPythonEngineExecute
-    end
-    object actNewFile: TAction
-      Category = 'File'
-      Caption = 'New File...'
-      HelpType = htContext
-      Hint = 'New file from template'
-      OnExecute = actNewFileExecute
-    end
-    object actNavWatches: TAction
-      Category = 'IDE Navigation'
-      Caption = '&Watches'
-      HelpKeyword = '360'
-      HelpType = htContext
-      Hint = 'Activate the Watches window'
-      ImageIndex = 66
-      ShortCut = 49239
-      OnExecute = actNavWatchesExecute
-    end
-    object actNavBreakpoints: TAction
-      Category = 'IDE Navigation'
-      Caption = '&BreakPoints'
-      HelpKeyword = '360'
-      HelpType = htContext
-      Hint = 'Activate the Breakpoints window'
-      ImageIndex = 60
-      ShortCut = 49218
-      OnExecute = actNavBreakpointsExecute
-    end
-    object actNavInterpreter: TAction
-      Category = 'IDE Navigation'
-      Caption = '&Interpreter'
-      HelpKeyword = '360'
-      HelpType = htContext
-      Hint = 'Activate the Interpreter window'
-      ImageIndex = 128
-      ShortCut = 49225
-      OnExecute = actNavInterpreterExecute
-    end
-    object actNavVariables: TAction
-      Category = 'IDE Navigation'
-      Caption = '&Variables'
-      HelpKeyword = '360'
-      HelpType = htContext
-      Hint = 'Activate the Variables window'
-      ImageIndex = 65
-      ShortCut = 49238
-      OnExecute = actNavVariablesExecute
-    end
-    object actNavCallStack: TAction
-      Category = 'IDE Navigation'
-      Caption = '&Call Stack'
-      HelpKeyword = '360'
-      HelpType = htContext
-      Hint = 'Activate the Call Stack window'
-      ImageIndex = 63
-      ShortCut = 49235
-      OnExecute = actNavCallStackExecute
-    end
-    object actNavMessages: TAction
-      Category = 'IDE Navigation'
-      Caption = '&Messages '
-      HelpKeyword = '360'
-      HelpType = htContext
-      Hint = 'Activate the Messages window'
-      ImageIndex = 75
-      ShortCut = 49229
-      OnExecute = actNavMessagesExecute
-    end
-    object actNavFileExplorer: TAction
-      Category = 'IDE Navigation'
-      Caption = 'File E&xplorer'
-      HelpKeyword = '360'
-      HelpType = htContext
-      Hint = 'Activate the File Explorer window'
-      ImageIndex = 84
-      ShortCut = 49240
-      OnExecute = actNavFileExplorerExecute
-    end
-    object actNavCodeExplorer: TAction
-      Category = 'IDE Navigation'
-      Caption = '&Code Explorer'
-      HelpKeyword = '360'
-      HelpType = htContext
-      Hint = 'Activate the Code Explorer window'
-      ImageIndex = 76
-      ShortCut = 49219
-      OnExecute = actNavCodeExplorerExecute
-    end
-    object actNavTodo: TAction
-      Category = 'IDE Navigation'
-      Caption = '&Todo List'
-      HelpKeyword = '360'
-      HelpType = htContext
-      Hint = 'Activate the Todo List window'
-      ImageIndex = 85
-      ShortCut = 49236
-      OnExecute = actNavTodoExecute
-    end
-    object actNavUnitTests: TAction
-      Category = 'IDE Navigation'
-      Caption = '&Unit Tests'
-      HelpKeyword = '360'
-      HelpType = htContext
-      Hint = 'Activate the Todo List window'
-      ImageIndex = 103
-      ShortCut = 49237
-      OnExecute = actNavUnitTestsExecute
-    end
-    object actNavOutput: TAction
-      Category = 'IDE Navigation'
-      Caption = 'Command &Output'
-      HelpKeyword = '360'
-      HelpType = htContext
-      Hint = 'Activate the Command Output window'
-      ImageIndex = 89
-      ShortCut = 49231
-      OnExecute = actNavOutputExecute
-    end
-    object actNavEditor: TAction
-      Category = 'IDE Navigation'
-      Caption = '&Editor'
-      HelpKeyword = '360'
-      HelpType = htContext
-      Hint = 'Activate the Editor'
-      ImageIndex = 117
-      ShortCut = 123
-      OnExecute = actNavEditorExecute
-    end
-    object actExecSelection: TAction
-      Category = 'Run'
-      Caption = 'E&xecute selection'
-      HelpContext = 320
-      HelpType = htContext
-      Hint = 'Execute the editor selection'
-      ImageIndex = 19
-      ShortCut = 16502
-      OnExecute = actExecSelectionExecute
-    end
-    object actViewSplitEditorHor: TAction
-      Category = 'View'
-      Caption = 'Split Editor Horizontally'
-      HelpContext = 270
-      HelpType = htContext
-      Hint = 'Split the editor Windows horizontally'
-      ImageIndex = 126
-      OnExecute = actViewSplitEditorHorExecute
-    end
-    object actViewHideSecondEditor: TAction
-      Category = 'View'
-      Caption = 'Hide Second Editor'
-      HelpContext = 270
-      HelpType = htContext
-      Hint = 'Clear the editor'
-      OnExecute = actViewHideSecondEditorExecute
-    end
-    object actPostMortem: TAction
-      Category = 'Run'
-      Caption = '&Post Mortem'
-      HelpContext = 340
-      HelpType = htContext
-      Hint = 'Enter post mortem analysis'
-      ImageIndex = 127
-      OnExecute = actPostMortemExecute
-    end
-    object actViewCustomizeToolbars: TAction
-      Category = 'View'
-      Caption = 'Customize...'
-      HelpContext = 360
-      HelpType = htContext
-      Hint = 'Customize the toolbars'
-      OnExecute = actViewCustomizeToolbarsExecute
-    end
-    object actViewProjectExplorer: TAction
-      Category = 'View'
-      Caption = '&Project Explorer'
-      HelpContext = 360
-      HelpType = htContext
-      Hint = 'View/Hide Project Explorer'
-      ImageIndex = 131
-      OnExecute = actViewProjectExplorerExecute
-    end
-    object actNavProjectExplorer: TAction
-      Category = 'IDE Navigation'
-      Caption = '&Project Explorer'
-      HelpContext = 360
-      HelpType = htContext
-      Hint = 'Activate the Project Explorer window'
-      ImageIndex = 131
-      ShortCut = 49232
-      OnExecute = actNavProjectExplorerExecute
+  object StatusBar: TSpTBXStatusBar
+    Left = 0
+    Top = 513
+    Width = 780
+    Height = 25
+    object lbStatusMessage: TSpTBXLabelItem
+      Wrapping = twNone
+      CustomHeight = 21
+    end
+    object SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem
+      CustomWidth = 407
+    end
+    object SpTBXSeparatorItem5: TSpTBXSeparatorItem
+    end
+    object lbStatusCaret: TSpTBXLabelItem
+      Wrapping = twNone
+      Options = [tboNoAutoHint]
+      Alignment = taCenter
+      CustomWidth = 84
+    end
+    object SpTBXSeparatorItem6: TSpTBXSeparatorItem
+    end
+    object lbStatusModified: TSpTBXLabelItem
+      Wrapping = twNone
+      Options = [tboNoAutoHint]
+      Alignment = taCenter
+      CustomWidth = 72
+    end
+    object SpTBXSeparatorItem7: TSpTBXSeparatorItem
+    end
+    object lbStatusOverwrite: TSpTBXLabelItem
+      Wrapping = twNone
+      Options = [tboNoAutoHint]
+      Alignment = taCenter
+      CustomWidth = 84
+    end
+    object SpTBXSeparatorItem8: TSpTBXSeparatorItem
+    end
+    object lbStatusCaps: TSpTBXLabelItem
+      Wrapping = twNone
+      Options = [tboNoAutoHint]
+      Alignment = taCenter
+      CustomWidth = 40
+    end
+    object SpTBXSeparatorItem9: TSpTBXSeparatorItem
+    end
+    object TBControlItem3: TTBControlItem
+      Control = StatusLED
+    end
+    object SpTBXSeparatorItem10: TSpTBXSeparatorItem
+    end
+    object TBControlItem1: TTBControlItem
+      Control = ExternalToolsLED
+    end
+    object StatusLED: TJvLED
+      Left = 723
+      Top = 2
+      Hint = 'Ready'
+    end
+    object ExternalToolsLED: TJvLED
+      Left = 746
+      Top = 2
+      Hint = 'External Tool Running'
+      PopupMenu = RunningProcessesPopUpMenu
+      Status = False
+      Visible = False
     end
   end
   object DockServer: TJvDockServer
@@ -2609,16 +1927,10 @@ object PyIDEMainForm: TPyIDEMainForm
     Left = 39
     Top = 211
   end
-  object JvDropTarget: TJvDropTarget
-    Control = EditorsPageList
-    OnDragDrop = JvDropTargetDragDrop
-    Left = 69
-    Top = 211
-  end
   object TBXSwitcher: TTBXSwitcher
     Theme = 'Default'
     FlatMenuStyle = fmsDisable
-    Left = 106
+    Left = 70
     Top = 211
   end
   object JvmbTBXTabBarPainter: TJvmbTBXTabBarPainter
@@ -2677,41 +1989,41 @@ object PyIDEMainForm: TPyIDEMainForm
     Images = CommandsDataModule.Images
     Left = 100
     Top = 98
-    object New2: TSpTBXItem
+    object mnNewModule2: TSpTBXItem
       Caption = '&New Python module'
       Hint = 'New Python module'
       Action = actFileNewModule
     end
-    object NewModule2: TSpTBXItem
+    object mnFileClose2: TSpTBXItem
       Caption = '&Close'
       Hint = 'Close|Close active file'
       Action = CommandsDataModule.actFileClose
     end
-    object CloseAll1: TSpTBXItem
+    object mnFileCloseAll2: TSpTBXItem
       Caption = 'Close A&ll'
       Hint = 'Close all files'
       Action = actFileCloseAll
     end
-    object SpTBXItem13: TSpTBXItem
+    object mnFileCloseAllOther: TSpTBXItem
       Caption = 'Close All &Other'
       Hint = 'Close all files except the active one'
       Action = CommandsDataModule.actFileCloseAllOther
     end
     object TBXSeparatorItem28: TSpTBXSeparatorItem
     end
-    object TBXItem79: TSpTBXItem
+    object mnMaximizeEditor2: TSpTBXItem
       Caption = '&Maximize Editor'
       Hint = 'Maximize editor window'
       Action = actMaximizeEditor
     end
-    object TBXItem78: TSpTBXItem
+    object mnRestoreEditor2: TSpTBXItem
       Caption = '&Restore Editor'
       Hint = 'Restore editor window'
       Action = actRestoreEditor
     end
     object N12: TSpTBXSeparatorItem
     end
-    object EditorOptions2: TSpTBXItem
+    object mnEditorOptions2: TSpTBXItem
       Caption = '&Editor Options...'
       Hint = 'Set Editor Options'
       Action = CommandsDataModule.actEditorOptions
@@ -2733,6 +2045,7 @@ object PyIDEMainForm: TPyIDEMainForm
     Top = 173
   end
   object RunningProcessesPopUpMenu: TSpTBXPopupMenu
+    LinkSubitems = OutputWindow.RunningProcess
     Left = 72
     Top = 248
   end
@@ -2741,31 +2054,6 @@ object PyIDEMainForm: TPyIDEMainForm
     OnCmdLineReceived = JvAppInstancesCmdLineReceived
     Left = 139
     Top = 173
-  end
-  object actlImmutable: TActionList
-    Images = CommandsDataModule.Images
-    Left = 68
-    Top = 96
-    object actViewNextEditor: TAction
-      Category = 'View'
-      Caption = '&Next Editor'
-      HelpContext = 360
-      HelpType = htContext
-      Hint = 'Next Editor|Move to the next editor'
-      ImageIndex = 79
-      ShortCut = 16393
-      OnExecute = actNextEditorExecute
-    end
-    object actViewPreviousEditor: TAction
-      Category = 'View'
-      Caption = '&Previous Editor'
-      HelpContext = 360
-      HelpType = htContext
-      Hint = 'Previous editor|Move to the previous editor'
-      ImageIndex = 80
-      ShortCut = 24585
-      OnExecute = actPreviousEditorExecute
-    end
   end
   object SpTBXCustomizer: TSpTBXCustomizer
     Images = CommandsDataModule.Images
@@ -2787,5 +2075,728 @@ object PyIDEMainForm: TPyIDEMainForm
     StoredValues = <>
     Left = 105
     Top = 173
+  end
+  object actlImmutable: TTntActionList
+    Images = CommandsDataModule.Images
+    Left = 68
+    Top = 96
+    object actViewNextEditor: TTntAction
+      Category = 'View'
+      Caption = '&Next Editor'
+      HelpContext = 360
+      Hint = 'Next Editor|Move to the next editor'
+      ImageIndex = 79
+      ShortCut = 16393
+      OnExecute = actNextEditorExecute
+    end
+    object actViewPreviousEditor: TTntAction
+      Category = 'View'
+      Caption = '&Previous Editor'
+      HelpContext = 360
+      Hint = 'Previous editor|Move to the previous editor'
+      ImageIndex = 80
+      ShortCut = 24585
+      OnExecute = actPreviousEditorExecute
+    end
+  end
+  object actlStandard: TTntActionList
+    Images = CommandsDataModule.Images
+    Left = 38
+    Top = 96
+    object actViewMainMenu: TTntAction
+      Category = 'View'
+      Caption = 'Main Men&u'
+      HelpContext = 360
+      HelpType = htContext
+      Hint = 'View/Hide main menu'
+      ShortCut = 16505
+      OnExecute = actViewMainMenuExecute
+    end
+    object actCallStackWin: TTntAction
+      Category = 'Debug Windows'
+      Caption = '&Call Stack'
+      Checked = True
+      HelpContext = 360
+      HelpType = htContext
+      Hint = 'Show/Hide Call Stack window'
+      ImageIndex = 63
+      OnExecute = actCallStackWinExecute
+    end
+    object actVariablesWin: TTntAction
+      Category = 'Debug Windows'
+      Caption = '&Variables'
+      Checked = True
+      HelpContext = 360
+      HelpType = htContext
+      Hint = 'Show/Hide Variables window'
+      ImageIndex = 65
+      OnExecute = actVariablesWinExecute
+    end
+    object actSyntaxCheck: TTntAction
+      Category = 'Run'
+      Caption = '&Syntax Check'
+      HelpContext = 340
+      HelpType = htContext
+      Hint = 'Syntax Check|Perform syntax check and load scripts'
+      ImageIndex = 20
+      OnExecute = actSyntaxCheckExecute
+    end
+    object actRun: TTntAction
+      Category = 'Run'
+      Caption = '&Run'
+      HelpContext = 340
+      HelpType = htContext
+      Hint = 'Run|Run active module'
+      ImageIndex = 51
+      ShortCut = 16504
+      OnExecute = actRunExecute
+    end
+    object actCommandLine: TTntAction
+      Category = 'Run'
+      Caption = 'Command Line &Parameters...'
+      HelpContext = 340
+      HelpType = htContext
+      Hint = 'Set command line parameters'
+      ImageIndex = 23
+      OnExecute = actCommandLineExecute
+    end
+    object actImportModule: TTntAction
+      Category = 'Run'
+      Caption = '&Import Module'
+      HelpContext = 340
+      HelpType = htContext
+      Hint = 'Import module'
+      ImageIndex = 34
+      OnExecute = actImportModuleExecute
+    end
+    object actFileNewModule: TTntAction
+      Category = 'File'
+      Caption = '&New Python module'
+      HelpContext = 310
+      HelpType = htContext
+      Hint = 'New Python module'
+      ImageIndex = 0
+      ShortCut = 16462
+      OnExecute = actFileNewModuleExecute
+    end
+    object actFileOpen: TTntAction
+      Category = 'File'
+      Caption = '&Open...'
+      HelpContext = 310
+      HelpType = htContext
+      Hint = 'Select a file to open'
+      ImageIndex = 1
+      ShortCut = 16463
+      OnExecute = actFileOpenExecute
+    end
+    object actFileCloseAll: TTntAction
+      Category = 'File'
+      Caption = 'Close A&ll'
+      Enabled = False
+      HelpContext = 310
+      HelpType = htContext
+      Hint = 'Close all files'
+      ImageIndex = 3
+      ShortCut = 24691
+      OnExecute = actFileCloseAllExecute
+    end
+    object actFileExit: TTntAction
+      Category = 'File'
+      Caption = 'E&xit'
+      HelpContext = 310
+      HelpType = htContext
+      Hint = 'Exit'
+      ImageIndex = 44
+      ShortCut = 32883
+      OnExecute = actFileExitExecute
+    end
+    object actViewStatusBar: TTntAction
+      Category = 'View'
+      Caption = '&Status Bar'
+      HelpContext = 360
+      HelpType = htContext
+      Hint = 'View/Hide status bar'
+      OnExecute = actViewStatusBarExecute
+    end
+    object actExternalRun: TTntAction
+      Category = 'Run'
+      Caption = 'E&xternal Run'
+      HelpContext = 340
+      HelpType = htContext
+      Hint = 'External Run|Run active module in external Python interpreter'
+      ImageIndex = 27
+      ShortCut = 32888
+      OnExecute = actExternalRunExecute
+    end
+    object actExternalRunConfigure: TTntAction
+      Category = 'Run'
+      Caption = '&Configure External Run...'
+      HelpContext = 340
+      HelpType = htContext
+      Hint = 'Configure External Run'
+      ImageIndex = 88
+      OnExecute = actExternalRunConfigureExecute
+    end
+    object actRunDebugLastScript: TTntAction
+      Category = 'Run'
+      Caption = 'Debug Last Script'
+      HelpType = htContext
+      Hint = 'Debug last script'
+      ImageIndex = 145
+      ShortCut = 8312
+      OnExecute = actRunDebugLastScriptExecute
+    end
+    object actDebug: TTntAction
+      Category = 'Run'
+      Caption = '&Debug'
+      HelpContext = 340
+      HelpType = htContext
+      Hint = 'Debug|Debug active script'
+      ImageIndex = 53
+      ShortCut = 8312
+      OnExecute = actDebugExecute
+    end
+    object actRestoreEditor: TTntAction
+      Category = 'View'
+      Caption = '&Restore Editor'
+      HelpContext = 270
+      HelpType = htContext
+      Hint = 'Restore editor window'
+      ImageIndex = 119
+      ShortCut = 41050
+      OnExecute = actRestoreEditorExecute
+    end
+    object actRunToCursor: TTntAction
+      Category = 'Run'
+      Caption = 'Run To &Cursor'
+      HelpContext = 340
+      HelpType = htContext
+      Hint = 'Run to cursor'
+      ImageIndex = 54
+      ShortCut = 115
+      OnExecute = actRunToCursorExecute
+    end
+    object actStepInto: TTntAction
+      Category = 'Run'
+      Caption = 'Step &Into'
+      HelpContext = 340
+      HelpType = htContext
+      Hint = 'Step into subroutine '
+      ImageIndex = 56
+      ShortCut = 118
+      OnExecute = actStepIntoExecute
+    end
+    object actStepOver: TTntAction
+      Category = 'Run'
+      Caption = 'Step &Over'
+      HelpContext = 340
+      HelpType = htContext
+      Hint = 'Step over next function call'
+      ImageIndex = 57
+      ShortCut = 119
+      OnExecute = actStepOverExecute
+    end
+    object actStepOut: TTntAction
+      Category = 'Run'
+      Caption = 'Step O&ut'
+      HelpContext = 340
+      HelpType = htContext
+      Hint = 'Step out of the current subroutine'
+      ImageIndex = 58
+      ShortCut = 8311
+      OnExecute = actStepOutExecute
+    end
+    object actDebugPause: TTntAction
+      Category = 'Run'
+      Caption = '&Pause'
+      HelpContext = 340
+      HelpType = htContext
+      Hint = 'Pause running program'
+      ImageIndex = 116
+      OnExecute = actDebugPauseExecute
+    end
+    object actDebugAbort: TTntAction
+      Category = 'Run'
+      Caption = '&Abort Debugging'
+      HelpContext = 340
+      HelpType = htContext
+      Hint = 'Abort debugging'
+      ImageIndex = 59
+      ShortCut = 49272
+      OnExecute = actDebugAbortExecute
+    end
+    object actRunLastScriptExternal: TTntAction
+      Category = 'Run'
+      Caption = 'Run Last Script Externally'
+      HelpType = htContext
+      Hint = 'Run last script externally'
+      ImageIndex = 146
+      ShortCut = 41080
+      OnExecute = actRunLastScriptExternalExecute
+    end
+    object actRunLastScript: TTntAction
+      Category = 'Run'
+      Caption = 'Run Last Script'
+      HelpType = htContext
+      Hint = 'Run last script'
+      ImageIndex = 144
+      ShortCut = 24696
+      OnExecute = actRunLastScriptExecute
+    end
+    object actToggleBreakPoint: TTntAction
+      Category = 'Run'
+      Caption = 'Toggle &breakpoint'
+      HelpContext = 340
+      HelpType = htContext
+      Hint = 'Toggle breakpoint'
+      ImageIndex = 60
+      ShortCut = 116
+      OnExecute = actToggleBreakPointExecute
+    end
+    object actClearAllBreakpoints: TTntAction
+      Category = 'Run'
+      Caption = '&Clear All Breakpoints'
+      HelpContext = 340
+      HelpType = htContext
+      Hint = 'Clear all breakpoints'
+      ImageIndex = 61
+      OnExecute = actClearAllBreakpointsExecute
+    end
+    object actBreakPointsWin: TTntAction
+      Category = 'Debug Windows'
+      Caption = '&Breakpoints'
+      Checked = True
+      HelpContext = 360
+      HelpType = htContext
+      Hint = 'Show/Hide Breakpoints window'
+      ImageIndex = 60
+      OnExecute = actBreakPointsWinExecute
+    end
+    object actWatchesWin: TTntAction
+      Category = 'Debug Windows'
+      Caption = '&Watches'
+      Checked = True
+      HelpContext = 360
+      HelpType = htContext
+      Hint = 'Show/Hide Watches window'
+      ImageIndex = 66
+      OnExecute = actWatchesWinExecute
+    end
+    object actMessagesWin: TTntAction
+      Category = 'Debug Windows'
+      Caption = '&Messages'
+      Checked = True
+      HelpContext = 360
+      HelpType = htContext
+      Hint = 'Show/Hide Messages window'
+      ImageIndex = 75
+      OnExecute = actMessagesWinExecute
+    end
+    object actViewII: TTntAction
+      Category = 'View'
+      Caption = '&Interactive Interpreter'
+      Checked = True
+      HelpContext = 360
+      HelpType = htContext
+      Hint = 'View/Hide Interactive Interpreter'
+      ImageIndex = 128
+      OnExecute = actViewIIExecute
+    end
+    object actViewCodeExplorer: TTntAction
+      Category = 'View'
+      Caption = '&Code Explorer'
+      Checked = True
+      HelpContext = 360
+      HelpType = htContext
+      Hint = 'View/Hide Code Explorer'
+      ImageIndex = 76
+      OnExecute = actViewCodeExplorerExecute
+    end
+    object actViewFileExplorer: TTntAction
+      Category = 'View'
+      Caption = '&File Explorer'
+      Checked = True
+      HelpContext = 360
+      HelpType = htContext
+      Hint = 'View/Hide File Explorer'
+      ImageIndex = 84
+      OnExecute = actViewFileExplorerExecute
+    end
+    object actViewToDoList: TTntAction
+      Category = 'View'
+      Caption = '&To-Do List'
+      HelpContext = 360
+      HelpType = htContext
+      Hint = 'View/Hide To Do List'
+      ImageIndex = 85
+      OnExecute = actViewToDoListExecute
+    end
+    object actViewFindResults: TTntAction
+      Category = 'View'
+      Caption = '&Find in Files Results'
+      HelpContext = 360
+      HelpType = htContext
+      Hint = 'View/Hide Find in Files Results'
+      ImageIndex = 87
+      ShortCut = 49222
+      OnExecute = actViewFindResultsExecute
+    end
+    object actViewOutput: TTntAction
+      Category = 'View'
+      Caption = '&Output Window'
+      HelpContext = 360
+      HelpType = htContext
+      Hint = 'View/Hide Output Window'
+      ImageIndex = 89
+      OnExecute = actViewOutputExecute
+    end
+    object actViewUnitTests: TTntAction
+      Category = 'View'
+      Caption = '&Unit Tests'
+      HelpType = htContext
+      Hint = 'View/Hide Unit Tests Window'
+      ImageIndex = 103
+      OnExecute = actViewUnitTestsExecute
+    end
+    object actFindDefinition: TTntAction
+      Category = 'Refactoring'
+      Caption = 'Find &Definition'
+      HelpContext = 830
+      HelpType = htContext
+      Hint = 'Find definition of an Identifier'
+      ShortCut = 32836
+      OnExecute = actFindDefinitionExecute
+    end
+    object actFindReferences: TTntAction
+      Category = 'Refactoring'
+      Caption = 'Find &References'
+      HelpContext = 840
+      HelpType = htContext
+      Hint = 'Find references of an Identifier'
+      OnExecute = actFindReferencesExecute
+    end
+    object actBrowseBack: TTntAction
+      Category = 'Refactoring'
+      Caption = 'Browse &Back'
+      HelpContext = 830
+      HelpType = htContext
+      Hint = 'Browse back'
+      ImageIndex = 96
+      ShortCut = 32805
+      OnExecute = tbiBrowsePreviousClick
+    end
+    object actBrowseForward: TTntAction
+      Category = 'Refactoring'
+      Caption = 'Browse &Forward'
+      HelpContext = 830
+      HelpType = htContext
+      Hint = 'Browse forward'
+      ImageIndex = 97
+      ShortCut = 32807
+      OnExecute = tbiBrowseNextClick
+    end
+    object actViewRegExpTester: TTntAction
+      Category = 'View'
+      Caption = '&Regular Expression Tester'
+      HelpContext = 360
+      HelpType = htContext
+      Hint = 'View/Hide Regular Expression Tester'
+      ImageIndex = 101
+      OnExecute = actViewRegExpTesterExecute
+    end
+    object actLayoutSave: TTntAction
+      Category = 'View'
+      Caption = 'Save Layout...'
+      HelpType = htContext
+      Hint = 'Save Current Layout'
+      OnExecute = actLayoutSaveExecute
+    end
+    object actLayoutsDelete: TTntAction
+      Category = 'View'
+      Caption = 'Delete Layouts...'
+      HelpType = htContext
+      Hint = 'Delete a layout'
+      OnExecute = actLayoutsDeleteExecute
+    end
+    object actLayoutDebug: TTntAction
+      Category = 'View'
+      Caption = 'Set Debug Layout'
+      HelpType = htContext
+      Hint = 'Set the current layout as the debug layout'
+      OnExecute = actLayoutDebugExecute
+    end
+    object actMaximizeEditor: TTntAction
+      Category = 'View'
+      Caption = '&Maximize Editor'
+      HelpContext = 270
+      HelpType = htContext
+      Hint = 'Maximize editor window'
+      ImageIndex = 118
+      ShortCut = 32858
+      OnExecute = actMaximizeEditorExecute
+    end
+    object actEditorZoomIn: TTntAction
+      Category = 'View'
+      Caption = 'Zoom &In'
+      HelpType = htContext
+      Hint = 'Increase the font size of the editor'
+      ImageIndex = 112
+      ShortCut = 32875
+      OnExecute = actEditorZoomInExecute
+    end
+    object actEditorZoomOut: TTntAction
+      Category = 'View'
+      Caption = 'Zoom &Out'
+      HelpType = htContext
+      Hint = 'Decrease the font size of the editor'
+      ImageIndex = 113
+      ShortCut = 32877
+      OnExecute = actEditorZoomOutExecute
+    end
+    object actViewSplitEditorVer: TTntAction
+      Category = 'View'
+      Caption = 'Split Editor Vertically'
+      HelpContext = 270
+      HelpType = htContext
+      Hint = 'Split the editor Windows vertically'
+      ImageIndex = 125
+      OnExecute = actViewSplitEditorVerExecute
+    end
+    object actAddWatchAtCursor: TTntAction
+      Category = 'Run'
+      Caption = 'Add &Watch At Cursor'
+      HelpContext = 340
+      HelpType = htContext
+      Hint = 'Add the expression at the editor current position as a watch'
+      ImageIndex = 66
+      ShortCut = 32855
+      OnExecute = actAddWatchAtCursorExecute
+    end
+    object actPythonReinitialize: TTntAction
+      Category = 'Run'
+      Caption = 'Reinitiali&ze Python engine'
+      HelpContext = 340
+      HelpType = htContext
+      ShortCut = 16497
+      OnExecute = actPythonReinitializeExecute
+    end
+    object actPythonInternal: TTntAction
+      Category = 'Run'
+      Caption = '&Internal'
+      Checked = True
+      GroupIndex = 1
+      HelpContext = 340
+      HelpType = htContext
+      Hint = 'Use internal Python Engine'
+      OnExecute = actPythonEngineExecute
+    end
+    object actPythonRemote: TTntAction
+      Tag = 1
+      Category = 'Run'
+      Caption = '&Remote'
+      GroupIndex = 1
+      HelpContext = 340
+      HelpType = htContext
+      Hint = 'Use a remote Python engine'
+      OnExecute = actPythonEngineExecute
+    end
+    object actPythonRemoteTk: TTntAction
+      Tag = 2
+      Category = 'Run'
+      Caption = 'Remote (&Tk)'
+      GroupIndex = 1
+      HelpContext = 340
+      HelpType = htContext
+      Hint = 'Use a remote Python engine for Tkinter applications'
+      OnExecute = actPythonEngineExecute
+    end
+    object actPythonRemoteWx: TTntAction
+      Tag = 3
+      Category = 'Run'
+      Caption = 'Remote (&Wx)'
+      GroupIndex = 1
+      HelpContext = 340
+      HelpType = htContext
+      Hint = 'Use a remote Python engine for wxPython applications'
+      OnExecute = actPythonEngineExecute
+    end
+    object actNewFile: TTntAction
+      Category = 'File'
+      Caption = 'New File...'
+      HelpType = htContext
+      Hint = 'New file from template'
+      OnExecute = actNewFileExecute
+    end
+    object actNavWatches: TTntAction
+      Category = 'IDE Navigation'
+      Caption = '&Watches'
+      HelpType = htContext
+      Hint = 'Activate the Watches window'
+      ImageIndex = 66
+      ShortCut = 49239
+      OnExecute = actNavWatchesExecute
+    end
+    object actNavBreakpoints: TTntAction
+      Category = 'IDE Navigation'
+      Caption = '&BreakPoints'
+      HelpType = htContext
+      Hint = 'Activate the Breakpoints window'
+      ImageIndex = 60
+      ShortCut = 49218
+      OnExecute = actNavBreakpointsExecute
+    end
+    object actNavInterpreter: TTntAction
+      Category = 'IDE Navigation'
+      Caption = '&Interpreter'
+      HelpType = htContext
+      Hint = 'Activate the Interpreter window'
+      ImageIndex = 128
+      ShortCut = 49225
+      OnExecute = actNavInterpreterExecute
+    end
+    object actNavVariables: TTntAction
+      Category = 'IDE Navigation'
+      Caption = '&Variables'
+      HelpType = htContext
+      Hint = 'Activate the Variables window'
+      ImageIndex = 65
+      ShortCut = 49238
+      OnExecute = actNavVariablesExecute
+    end
+    object actNavCallStack: TTntAction
+      Category = 'IDE Navigation'
+      Caption = '&Call Stack'
+      HelpType = htContext
+      Hint = 'Activate the Call Stack window'
+      ImageIndex = 63
+      ShortCut = 49235
+      OnExecute = actNavCallStackExecute
+    end
+    object actNavMessages: TTntAction
+      Category = 'IDE Navigation'
+      Caption = '&Messages '
+      HelpType = htContext
+      Hint = 'Activate the Messages window'
+      ImageIndex = 75
+      ShortCut = 49229
+      OnExecute = actNavMessagesExecute
+    end
+    object actNavFileExplorer: TTntAction
+      Category = 'IDE Navigation'
+      Caption = 'File E&xplorer'
+      HelpType = htContext
+      Hint = 'Activate the File Explorer window'
+      ImageIndex = 84
+      ShortCut = 49240
+      OnExecute = actNavFileExplorerExecute
+    end
+    object actNavCodeExplorer: TTntAction
+      Category = 'IDE Navigation'
+      Caption = '&Code Explorer'
+      HelpType = htContext
+      Hint = 'Activate the Code Explorer window'
+      ImageIndex = 76
+      ShortCut = 49219
+      OnExecute = actNavCodeExplorerExecute
+    end
+    object actNavTodo: TTntAction
+      Category = 'IDE Navigation'
+      Caption = '&Todo List'
+      HelpType = htContext
+      Hint = 'Activate the Todo List window'
+      ImageIndex = 85
+      ShortCut = 49236
+      OnExecute = actNavTodoExecute
+    end
+    object actNavUnitTests: TTntAction
+      Category = 'IDE Navigation'
+      Caption = '&Unit Tests'
+      HelpType = htContext
+      Hint = 'Activate the Todo List window'
+      ImageIndex = 103
+      ShortCut = 49237
+      OnExecute = actNavUnitTestsExecute
+    end
+    object actNavOutput: TTntAction
+      Category = 'IDE Navigation'
+      Caption = 'Command &Output'
+      HelpType = htContext
+      Hint = 'Activate the Command Output window'
+      ImageIndex = 89
+      ShortCut = 49231
+      OnExecute = actNavOutputExecute
+    end
+    object actNavEditor: TTntAction
+      Category = 'IDE Navigation'
+      Caption = '&Editor'
+      HelpType = htContext
+      Hint = 'Activate the Editor'
+      ImageIndex = 117
+      ShortCut = 123
+      OnExecute = actNavEditorExecute
+    end
+    object actExecSelection: TTntAction
+      Category = 'Run'
+      Caption = 'E&xecute selection'
+      HelpContext = 320
+      HelpType = htContext
+      Hint = 'Execute the editor selection'
+      ImageIndex = 19
+      ShortCut = 16502
+      OnExecute = actExecSelectionExecute
+    end
+    object actViewSplitEditorHor: TTntAction
+      Category = 'View'
+      Caption = 'Split Editor Horizontally'
+      HelpContext = 270
+      HelpType = htContext
+      Hint = 'Split the editor Windows horizontally'
+      ImageIndex = 126
+      OnExecute = actViewSplitEditorHorExecute
+    end
+    object actViewHideSecondEditor: TTntAction
+      Category = 'View'
+      Caption = 'Hide Second Editor'
+      HelpContext = 270
+      HelpType = htContext
+      Hint = 'Clear the editor'
+      OnExecute = actViewHideSecondEditorExecute
+    end
+    object actPostMortem: TTntAction
+      Category = 'Run'
+      Caption = '&Post Mortem'
+      HelpContext = 340
+      HelpType = htContext
+      Hint = 'Enter post mortem analysis'
+      ImageIndex = 127
+      OnExecute = actPostMortemExecute
+    end
+    object actViewCustomizeToolbars: TTntAction
+      Category = 'View'
+      Caption = 'Customize...'
+      HelpContext = 360
+      HelpType = htContext
+      Hint = 'Customize the toolbars'
+      OnExecute = actViewCustomizeToolbarsExecute
+    end
+    object actViewProjectExplorer: TTntAction
+      Category = 'View'
+      Caption = '&Project Explorer'
+      HelpContext = 360
+      HelpType = htContext
+      Hint = 'View/Hide Project Explorer'
+      ImageIndex = 131
+      OnExecute = actViewProjectExplorerExecute
+    end
+    object actNavProjectExplorer: TTntAction
+      Category = 'IDE Navigation'
+      Caption = '&Project Explorer'
+      HelpContext = 360
+      HelpType = htContext
+      Hint = 'Activate the Project Explorer window'
+      ImageIndex = 131
+      ShortCut = 49232
+      OnExecute = actNavProjectExplorerExecute
+    end
   end
 end

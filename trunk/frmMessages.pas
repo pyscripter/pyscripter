@@ -14,7 +14,7 @@ uses
   Dialogs, StdCtrls, ComCtrls, Menus, JvDockControlForm, JvComponent, PythonEngine,
   Contnrs, frmIDEDockWin, ExtCtrls, TB2Item, TBX, TBXThemes, TBXDkPanels, VirtualTrees,
   TB2Dock, TB2Toolbar, ActnList, JvComponentBase, SpTBXItem, SpTBXControls,
-  JvAppStorage;
+  JvAppStorage, TntActnList;
 
 type
   TMessagesWindow = class(TIDEDockWindow, IJvAppStorageHandler)
@@ -26,16 +26,16 @@ type
     TBControlItem6: TTBControlItem;
     BtnPreviousMsgs: TSpTBXButton;
     BtnNextMsgs: TSpTBXButton;
-    MsgsActionList: TActionList;
-    actClearAll: TAction;
-    actPreviousMsgs: TAction;
-    actNextMsgs: TAction;
-    TBXItem1: TSpTBXItem;
-    TBXItem2: TSpTBXItem;
+    mnPreviousMessage: TSpTBXItem;
+    mnNextMessage: TSpTBXItem;
     TBXSeparatorItem1: TSpTBXSeparatorItem;
-    actCopyToClipboard: TAction;
     TBXSeparatorItem2: TSpTBXSeparatorItem;
-    TBXItem3: TSpTBXItem;
+    mnCopy: TSpTBXItem;
+    MsgsActionList: TTntActionList;
+    actCopyToClipboard: TTntAction;
+    actNextMsgs: TTntAction;
+    actPreviousMsgs: TTntAction;
+    actClearAll: TTntAction;
     procedure TBXPopupMenuPopup(Sender: TObject);
     procedure actCopyToClipboardExecute(Sender: TObject);
     procedure ClearAllExecute(Sender: TObject);
@@ -65,7 +65,7 @@ type
   public
     { Public declarations }
     procedure ShowWindow;
-    procedure AddMessage(Msg: string; FileName : string = '';
+    procedure AddMessage(Msg: WideString; FileName : WideString = '';
                          Line : integer = 0; Offset : integer = 0);
     procedure ClearMessages;
     procedure ShowPythonTraceback(SkipFrames : integer = 1);
@@ -84,13 +84,13 @@ implementation
 
 uses
   frmPyIDEMain, uEditAppIntfs, SynEditTypes, dmCommands, uCommonFunctions,
-  Clipbrd, JvDockGlobals, VarPyth;
+  Clipbrd, JvDockGlobals, VarPyth, gnugettext, StringResources;
 
 {$R *.dfm}
 Type
   TMsg = class
-    Msg: string;
-    FileName : string;
+    Msg: WideString;
+    FileName : WideString;
     Line : integer;
     Offset : integer;
   end;
@@ -109,7 +109,7 @@ Type
 
 { TMessagesWindow }
 
-procedure TMessagesWindow.AddMessage(Msg, FileName: string; Line, Offset : integer);
+procedure TMessagesWindow.AddMessage(Msg, FileName: WideString; Line, Offset : integer);
 Var
   NewMsg : TMsg;
 begin
@@ -217,7 +217,7 @@ end;
 
 procedure TMessagesWindow.ShowPythonSyntaxError(E: EPySyntaxError);
 begin
-  AddMessage('Syntax Error');
+  AddMessage(_(SSyntaxError));
   with E do begin
     AddMessage('    ' + EValue, EFileName, ELineNumber, EOffset);
     ShowDockForm(Self);
@@ -226,7 +226,7 @@ end;
 
 procedure TMessagesWindow.ShowPythonSyntaxError(ErrorClass : string; E: Variant);
 Var
-  Msg, FileName : string;
+  Msg, FileName : WideString;
   LineNo, Offset : integer;
 begin
   try
@@ -310,9 +310,9 @@ end;
 procedure TMessagesWindow.ReadFromAppStorage(AppStorage: TJvCustomAppStorage;
   const BasePath: string);
 begin
-  MessagesView.Header.Columns[1].Width := AppStorage.ReadInteger('FileName Width', 200);
-  MessagesView.Header.Columns[2].Width := AppStorage.ReadInteger('Line Width', 50);
-  MessagesView.Header.Columns[3].Width := AppStorage.ReadInteger('Position Width', 60);
+  MessagesView.Header.Columns[1].Width := AppStorage.ReadInteger(BasePath+'\FileName Width', 200);
+  MessagesView.Header.Columns[2].Width := AppStorage.ReadInteger(BasePath+'\Line Width', 50);
+  MessagesView.Header.Columns[3].Width := AppStorage.ReadInteger(BasePath+'\Position Width', 60);
 end;
 
 procedure TMessagesWindow.RestoreTopNodeIndex;
@@ -406,9 +406,9 @@ end;
 procedure TMessagesWindow.WriteToAppStorage(AppStorage: TJvCustomAppStorage;
   const BasePath: string);
 begin
-  AppStorage.WriteInteger('FileName Width', MessagesView.Header.Columns[1].Width);
-  AppStorage.WriteInteger('Line Width', MessagesView.Header.Columns[2].Width);
-  AppStorage.WriteInteger('Position Width', MessagesView.Header.Columns[3].Width);
+  AppStorage.WriteInteger(BasePath+'\FileName Width', MessagesView.Header.Columns[1].Width);
+  AppStorage.WriteInteger(BasePath+'\Line Width', MessagesView.Header.Columns[2].Width);
+  AppStorage.WriteInteger(BasePath+'\Position Width', MessagesView.Header.Columns[3].Width);
 end;
 
 procedure TMessagesWindow.TBXPopupMenuPopup(Sender: TObject);

@@ -12,7 +12,8 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, Buttons, VirtualTrees, ExtCtrls,
-  frmCodeExplorer, cPythonSourceScanner, TB2Item, TBX, Menus, SpTBXItem;
+  frmCodeExplorer, cPythonSourceScanner, TB2Item, TBX, Menus, SpTBXItem,
+  TBXDkPanels, SpTBXControls, dlgPyIDEBase;
 
 type
 
@@ -35,18 +36,18 @@ type
     function GetImageIndex : integer; override;
   end;
 
-  TUnitTestWizard = class(TForm)
-    Panel1: TPanel;
+  TUnitTestWizard = class(TPyIDEDlgBase)
+    Panel1: TSpTBXPanel;
     ExplorerTree: TVirtualStringTree;
-    OKButton: TBitBtn;
-    BitBtn2: TBitBtn;
-    HelpButton: TBitBtn;
-    Label1: TLabel;
-    lbHeader: TLabel;
     Bevel1: TBevel;
     PopupUnitTestWizard: TSpTBXPopupMenu;
     mnSelectAll: TSpTBXItem;
     mnDeselectAll: TSpTBXItem;
+    Label1: TSpTBXLabel;
+    lbHeader: TSpTBXLabel;
+    OKButton: TSpTBXButton;
+    BitBtn2: TSpTBXButton;
+    HelpButton: TSpTBXButton;
     procedure HelpButtonClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure ExplorerTreeInitNode(Sender: TBaseVirtualTree; ParentNode,
@@ -313,6 +314,7 @@ end;
 
 procedure TUnitTestWizard.FormCreate(Sender: TObject);
 begin
+  inherited;
   ExplorerTree.NodeDataSize := SizeOf(TNodeDataRec);
 end;
 

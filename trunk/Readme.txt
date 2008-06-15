@@ -9,7 +9,7 @@ To compile the PythonIDE.dpr, you first need to install the following components
    - TBX version 2.1b (from www.g32.org/tbx)
    - Download from http://club.telepolis.com/silverpointdev and apply the TB2k v2.1.8 - TBX v2.1 patch before installing Toolbar 2000 and TBX
    - Tntware Delphi Unicode Controls 
-   - SpTBXLib
+   - SpTBXLib version 1.8.3
      Note that you can download the patch.exe tool from http://unxutils.sourceforge.net/
      Note also that If you want a painless TB2k+TBX+TNT Unicode+SpTBXLibe installation for Delphi you can download the Multiinstaller from 
      http://club.telepolis.com/silverpointdev/multiinstaller/index.htm and follow the instructions provided in that page.          
@@ -23,7 +23,8 @@ To compile the PythonIDE.dpr, you first need to install the following components
 
    - Tntware Delphi LX Controls from http://www.tntware.com/delphicontrols/lx/
 
-   - Unicode version of SynEdit (synedit.sf.net) at http://mh-nexus.de/unisynedit.htm
+   - Unicode version of SynEdit (synedit.sf.net) at http://mh-nexus.de/unisynedit.htm (latest version needed)
+   - SynWeb Highlighters at http://flatdev.ovh.org/
    
    - Download the VirtualShellTools pack from www.mustangpeak.net and install  VirtualTreeView, Common Library, EasyListView and VirtualShellTools
      In the file Addins.inc in the "Include" directory of VirtualShellTools, enable the USE_TOOLBAR_TB2K flag and follow the instructions for recompiling the packages

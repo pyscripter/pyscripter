@@ -45,7 +45,7 @@ inherited SpTBXCustomizeFormMod: TSpTBXCustomizeFormMod
         LinkFont.Charset = DEFAULT_CHARSET
         LinkFont.Color = clBlue
         LinkFont.Height = -11
-        LinkFont.Name = 'Tahoma'
+        LinkFont.Name = 'MS Shell Dlg 2'
         LinkFont.Style = [fsUnderline]
       end
       object SpTBXLabel5: TSpTBXLabel
@@ -63,7 +63,7 @@ inherited SpTBXCustomizeFormMod: TSpTBXCustomizeFormMod
         LinkFont.Charset = DEFAULT_CHARSET
         LinkFont.Color = clBlue
         LinkFont.Height = -11
-        LinkFont.Name = 'Tahoma'
+        LinkFont.Name = 'MS Shell Dlg 2'
         LinkFont.Style = [fsUnderline]
       end
       object lbCategories: TSpTBXListBox

@@ -5,22 +5,22 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ComCtrls, VirtualTrees, StdCtrls, ExtCtrls, cFileTemplates,
-  TBXDkPanels, SpTBXControls;
+  TBXDkPanels, SpTBXControls, TntComCtrls, WideStrings, dlgPyIDEBase;
 
 type
-  TNewFileDialog = class(TForm)
-    Panel1: TPanel;
-    Panel2: TPanel;
-    Panel3: TPanel;
-    Splitter1: TSplitter;
-    Label1: TLabel;
+  TNewFileDialog = class(TPyIDEDlgBase)
+    Panel1: TSpTBXPanel;
+    Panel2: TSpTBXPanel;
+    Panel3: TSpTBXPanel;
     tvCategories: TVirtualStringTree;
-    Panel4: TPanel;
-    Label2: TLabel;
-    lvTemplates: TListView;
+    Label1: TSpTBXLabel;
+    Panel4: TSpTBXPanel;
+    Label2: TSpTBXLabel;
+    lvTemplates: TTntListView;
     btnCancel: TSpTBXButton;
     btnCreate: TSpTBXButton;
     btnManageTemplates: TSpTBXButton;
+    Splitter1: TSpTBXSplitter;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure tvCategoriesGetText(Sender: TBaseVirtualTree; Node: PVirtualNode;
@@ -36,7 +36,7 @@ type
     { Private declarations }
   public
     { Public declarations }
-    Categories : TStringList;
+    Categories : TWideStringList;
     SelectedTemplate : TFileTemplate;
     procedure SetUp;
   end;
@@ -64,7 +64,8 @@ end;
 
 procedure TNewFileDialog.FormCreate(Sender: TObject);
 begin
-  Categories := TStringList.Create;
+  inherited;
+  Categories := TWideStringList.Create;
   Categories.CaseSensitive := False;
   lvTemplates.LargeImages := LargeSysImages;
 end;
@@ -138,7 +139,6 @@ begin
         end;
       end;
     end;
-      
   end;
 end;
 

@@ -1,19 +1,14 @@
-object FunctionListWindow: TFunctionListWindow
+inherited FunctionListWindow: TFunctionListWindow
   Left = 284
   Top = 176
-  Width = 525
-  Height = 351
   HelpContext = 820
   ActiveControl = edtMethods
   Anchors = [akLeft, akTop, akRight]
   BorderIcons = [biSystemMenu]
   Caption = 'Function List'
-  Color = clBtnFace
-  Font.Charset = DEFAULT_CHARSET
-  Font.Color = clWindowText
-  Font.Height = -11
-  Font.Name = 'MS Sans Serif'
-  Font.Style = []
+  ClientHeight = 315
+  ClientWidth = 529
+  Font.Name = 'MS Shell Dlg 2'
   Icon.Data = {
     0000010001001010000001002000680400001600000028000000100000002000
     0000010020000000000040040000000000000000000000000000000000000000
@@ -58,33 +53,33 @@ object FunctionListWindow: TFunctionListWindow
   OnClose = FormClose
   OnKeyPress = edtMethodsKeyPress
   OnResize = FormResize
+  ExplicitWidth = 535
+  ExplicitHeight = 341
   PixelsPerInch = 96
   TextHeight = 13
-  object pnHolder: TPanel
+  object pnHolder: TSpTBXPanel
     Left = 0
-    Top = 58
-    Width = 517
-    Height = 240
+    Top = 62
+    Width = 529
+    Height = 228
+    ThemeType = thtWindows
     Align = alClient
-    BevelOuter = bvNone
-    FullRepaint = False
     TabOrder = 0
-    object lvProcs: TListView
-      Left = 0
-      Top = 0
-      Width = 517
-      Height = 240
+    object lvProcs: TTntListView
+      Left = 2
+      Top = 2
+      Width = 525
+      Height = 224
       Align = alClient
       Columns = <
         item
           Width = 20
         end
         item
-          Caption = 'Procedure'
+          Caption = 'Function'
           Width = 313
         end
         item
-          Alignment = taRightJustify
           Caption = 'Line'
           Width = 68
         end>
@@ -99,55 +94,44 @@ object FunctionListWindow: TFunctionListWindow
       OnDblClick = actViewGotoExecute
     end
   end
-  object StatusBar: TStatusBar
+  object pnlHeader: TSpTBXPanel
     Left = 0
-    Top = 298
-    Width = 517
-    Height = 19
-    Panels = <
-      item
-        Width = 420
-      end
-      item
-        Text = '999/999'
-        Width = 50
-      end>
-  end
-  object pnlHeader: TPanel
-    Left = 0
-    Top = 22
-    Width = 517
+    Top = 26
+    Width = 529
     Height = 36
+    ThemeType = thtWindows
     Align = alTop
-    BevelOuter = bvNone
-    FullRepaint = False
-    ParentColor = True
     ParentShowHint = False
     ShowHint = True
-    TabOrder = 2
+    TabOrder = 1
     OnResize = pnlHeaderResize
-    object pnlHeaderLeft: TPanel
-      Left = 0
-      Top = 0
+    object pnlHeaderLeft: TSpTBXPanel
+      Left = 2
+      Top = 2
       Width = 260
-      Height = 36
+      Height = 32
+      ThemeType = thtWindows
       Align = alLeft
-      BevelOuter = bvNone
-      FullRepaint = False
       TabOrder = 0
-      object lblMethods: TLabel
+      object lblMethods: TSpTBXLabel
         Left = 14
         Top = 10
-        Width = 34
+        Width = 33
         Height = 13
-        Alignment = taRightJustify
         Caption = '&Search'
+        ParentColor = True
+        Alignment = taRightJustify
         FocusControl = edtMethods
+        LinkFont.Charset = DEFAULT_CHARSET
+        LinkFont.Color = clBlue
+        LinkFont.Height = -11
+        LinkFont.Name = 'MS Shell Dlg 2'
+        LinkFont.Style = [fsUnderline]
       end
-      object edtMethods: TEdit
-        Left = 53
+      object edtMethods: TSpTBXEdit
+        Left = 74
         Top = 6
-        Width = 200
+        Width = 179
         Height = 21
         TabOrder = 0
         OnChange = edtMethodsChange
@@ -155,28 +139,33 @@ object FunctionListWindow: TFunctionListWindow
         OnKeyPress = edtMethodsKeyPress
       end
     end
-    object pnlHeaderRight: TPanel
-      Left = 260
-      Top = 0
-      Width = 257
-      Height = 36
+    object pnlHeaderRight: TSpTBXPanel
+      Left = 262
+      Top = 2
+      Width = 265
+      Height = 32
+      ThemeType = thtWindows
       Align = alClient
-      BevelOuter = bvNone
-      FullRepaint = False
       TabOrder = 1
-      object lblObjects: TLabel
+      object lblObjects: TSpTBXLabel
         Left = 16
         Top = 8
-        Width = 36
+        Width = 37
         Height = 13
-        Alignment = taRightJustify
         Caption = '&Objects'
+        ParentColor = True
+        Alignment = taRightJustify
         FocusControl = cbxObjects
+        LinkFont.Charset = DEFAULT_CHARSET
+        LinkFont.Color = clBlue
+        LinkFont.Height = -11
+        LinkFont.Name = 'MS Shell Dlg 2'
+        LinkFont.Style = [fsUnderline]
       end
-      object cbxObjects: TComboBox
-        Left = 56
+      object cbxObjects: TSpTBXComboBox
+        Left = 78
         Top = 4
-        Width = 196
+        Width = 174
         Height = 21
         Style = csDropDownList
         DropDownCount = 16
@@ -188,98 +177,99 @@ object FunctionListWindow: TFunctionListWindow
       end
     end
   end
-  object ToolBar: TToolBar
+  object ToolBarDock: TSpTBXDock
     Left = 0
     Top = 0
-    Width = 517
-    Height = 22
-    AutoSize = True
-    DisabledImages = CommandsDataModule.DisabledImages
-    EdgeBorders = []
-    Flat = True
-    Images = CommandsDataModule.Images
-    ParentShowHint = False
-    ShowHint = True
-    TabOrder = 3
-    Wrapable = False
-    object tbnCopy: TToolButton
+    Width = 529
+    Height = 26
+    AllowDrag = False
+    LimitToOneRow = True
+    object Toolbar: TSpTBXToolbar
       Left = 0
       Top = 0
-      Action = actEditCopy
+      DockMode = dmCannotFloatOrChangeDocks
+      FullSize = True
+      Images = CommandsDataModule.Images
+      TabOrder = 0
+      Customizable = False
+      object tbiCopy: TSpTBXItem
+        Caption = '&Edit'
+        Hint = 'Copy procedures to clipboard'
+        Action = actEditCopy
+      end
+      object SpTBXSeparatorItem4: TSpTBXSeparatorItem
+      end
+      object tbiFont: TSpTBXItem
+        Caption = '&Font..'
+        Hint = 'Configure font'
+        Action = actOptionsFont
+      end
+      object SpTBXSeparatorItem3: TSpTBXSeparatorItem
+      end
+      object tbiViewStart: TSpTBXItem
+        Caption = 'S&tart'
+        Hint = 'Match only from the start'
+        Action = actViewStart
+      end
+      object tbiViewAny: TSpTBXItem
+        Caption = '&Any'
+        Hint = 'Match anywhere'
+        Action = actViewAny
+      end
+      object SpTBXSeparatorItem2: TSpTBXSeparatorItem
+      end
+      object tbiViewGoto: TSpTBXItem
+        Caption = '&Goto'
+        Hint = 'Goto implementation'
+        Action = actViewGoto
+      end
+      object SpTBXSeparatorItem1: TSpTBXSeparatorItem
+      end
+      object tbiHelp: TSpTBXItem
+        Caption = '&Help'
+        Hint = 'Help'
+        Action = actHelpHelp
+      end
     end
-    object tbnSep1: TToolButton
-      Left = 23
-      Top = 0
-      Width = 8
-      ImageIndex = 1
-      Style = tbsSeparator
+  end
+  object StatusBar: TSpTBXStatusBar
+    Left = 0
+    Top = 290
+    Width = 529
+    Height = 25
+    ParentShowHint = False
+    ShowHint = True
+    object LeftStatusLabel: TSpTBXLabelItem
+      Wrapping = twEndEllipsis
+      Options = [tboShowHint]
+      CustomHeight = 21
     end
-    object tbnFont: TToolButton
-      Left = 31
-      Top = 0
-      Action = actOptionsFont
+    object SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem
+      CustomWidth = 433
     end
-    object tbnSep2: TToolButton
-      Left = 54
-      Top = 0
-      Width = 8
-      ImageIndex = 2
-      Style = tbsSeparator
+    object SpTBXSeparatorItem5: TSpTBXSeparatorItem
     end
-    object tbnStart: TToolButton
-      Left = 62
-      Top = 0
-      Action = actViewStart
-      Grouped = True
-      Style = tbsCheck
-    end
-    object tbnAny: TToolButton
-      Left = 85
-      Top = 0
-      Action = actViewAny
-      Grouped = True
-      Style = tbsCheck
-    end
-    object tbnSep3: TToolButton
-      Left = 108
-      Top = 0
-      Width = 8
-      ImageIndex = 4
-      Style = tbsSeparator
-    end
-    object tbnGoto: TToolButton
-      Left = 116
-      Top = 0
-      Action = actViewGoto
-    end
-    object tbnSep4: TToolButton
-      Left = 139
-      Top = 0
-      Width = 8
-      ImageIndex = 5
-      Style = tbsSeparator
-    end
-    object ToolButton1: TToolButton
-      Left = 147
-      Top = 0
-      Action = actHelpHelp
+    object RightStatusLabel: TSpTBXLabelItem
+      Wrapping = twNone
+      Alignment = taCenter
+      CustomWidth = 80
     end
   end
   object dlgProcFont: TFontDialog
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -11
-    Font.Name = 'MS Sans Serif'
+    Font.Name = 'MS Shell Dlg 2'
     Font.Style = []
     Left = 32
     Top = 88
   end
-  object Actions: TActionList
+  object Actions: TTntActionList
     Images = CommandsDataModule.Images
     OnUpdate = ActionsUpdate
     Left = 32
     Top = 136
-    object actEditCopy: TAction
+    object actEditCopy: TTntAction
       Category = 'Edit'
       Caption = '&Edit'
       Hint = 'Copy procedures to clipboard'
@@ -287,35 +277,35 @@ object FunctionListWindow: TFunctionListWindow
       ShortCut = 16451
       OnExecute = actEditCopyExecute
     end
-    object actOptionsFont: TAction
+    object actOptionsFont: TTntAction
       Category = 'Options'
       Caption = '&Font..'
       Hint = 'Configure font'
       ImageIndex = 91
       OnExecute = actOptionsFontExecute
     end
-    object actViewStart: TAction
+    object actViewStart: TTntAction
       Category = 'View'
       Caption = 'S&tart'
       Hint = 'Match only from the start'
       ImageIndex = 94
       OnExecute = actViewStartExecute
     end
-    object actViewAny: TAction
+    object actViewAny: TTntAction
       Category = 'View'
       Caption = '&Any'
       Hint = 'Match anywhere'
       ImageIndex = 93
       OnExecute = actViewAnyExecute
     end
-    object actViewGoto: TAction
+    object actViewGoto: TTntAction
       Category = 'View'
       Caption = '&Goto'
       Hint = 'Goto implementation'
       ImageIndex = 32
       OnExecute = actViewGotoExecute
     end
-    object actHelpHelp: TAction
+    object actHelpHelp: TTntAction
       Category = 'Help'
       Caption = '&Help'
       Hint = 'Help'

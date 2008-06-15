@@ -63,7 +63,7 @@ implementation
 
 uses frmPyIDEMain, frmCallStack, PythonEngine, VarPyth,
   dmCommands, uCommonFunctions, JclFileUtils, StringResources, frmPythonII,
-  JvDockGlobals, cPyDebugger, JvJVCLUtils, Math;
+  JvDockGlobals, cPyDebugger, JvJVCLUtils, Math, gnugettext;
 
 {$R *.dfm}
 Type
@@ -143,21 +143,21 @@ Var
 begin
   TempWidth := AppStorage.ReadInteger(BasePath+'\DocPanelWidth', DocPanel.Width);
   DocPanel.Width := Min(Max(TempWidth, 3), Max(Width-100, 3));
-  if AppStorage.ReadBoolean('Types Visible') then
+  if AppStorage.ReadBoolean(BasePath+'\Types Visible') then
     VariablesTree.Header.Columns[1].Options := VariablesTree.Header.Columns[1].Options + [coVisible]
   else
     VariablesTree.Header.Columns[1].Options := VariablesTree.Header.Columns[1].Options - [coVisible];
-  VariablesTree.Header.Columns[0].Width := AppStorage.ReadInteger('Names Width', 160);
-  VariablesTree.Header.Columns[1].Width := AppStorage.ReadInteger('Types Width', 100);
+  VariablesTree.Header.Columns[0].Width := AppStorage.ReadInteger(BasePath+'\Names Width', 160);
+  VariablesTree.Header.Columns[1].Width := AppStorage.ReadInteger(BasePath+'\Types Width', 100);
 end;
 
 procedure TVariablesWindow.WriteToAppStorage(AppStorage: TJvCustomAppStorage;
   const BasePath: string);
 begin
   AppStorage.WriteInteger(BasePath+'\DocPanelWidth', DocPanel.Width);
-  AppStorage.WriteBoolean('Types Visible', coVisible in VariablesTree.Header.Columns[1].Options);
-  AppStorage.WriteInteger('Names Width', VariablesTree.Header.Columns[0].Width);
-  AppStorage.WriteInteger('Types Width', VariablesTree.Header.Columns[1].Width);
+  AppStorage.WriteBoolean(BasePath+'\Types Visible', coVisible in VariablesTree.Header.Columns[1].Options);
+  AppStorage.WriteInteger(BasePath+'\Names Width', VariablesTree.Header.Columns[0].Width);
+  AppStorage.WriteInteger(BasePath+'\Types Width', VariablesTree.Header.Columns[1].Width);
 end;
 
 procedure TVariablesWindow.VariablesTreeGetImageIndex(
@@ -418,7 +418,7 @@ begin
     FunctionName := CurrentFrame.FunctionName;
     ModuleName := PathRemoveExtension(ExtractFileName(CurrentFrame.FileName));
     LineNo := CurrentFrame.Line;
-    NameSpace := Format(SNamespaceFormat, [FunctionName, ModuleName, LineNo]);
+    NameSpace := WideFormat(_(SNamespaceFormat), [FunctionName, ModuleName, LineNo]);
   end else
     NameSpace := 'Interpreter globals';
 
@@ -429,10 +429,10 @@ begin
     ObjectValue := HTMLSafe(Data.NameSpaceItem.Value);
     DocString :=  HTMLSafe(Data.NameSpaceItem.DocString);
 
-    HTMLLabel.Caption := Format(SVariablesDocSelected,
+    HTMLLabel.Caption := WideFormat(_(SVariablesDocSelected),
       [NameSpace, ObjectName, ObjectType, ObjectValue, Docstring]);
   end else
-    HTMLLabel.Caption := Format(SVariablesDocNotSelected, [NameSpace]);
+    HTMLLabel.Caption := WideFormat(_(SVariablesDocNotSelected), [NameSpace]);
 end;
 
 end.

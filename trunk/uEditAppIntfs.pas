@@ -50,19 +50,18 @@ unit uEditAppIntfs;
 interface
 
 uses
-  Windows, Classes, Forms, SynEdit, JvPageList, uCommonFunctions, Contnrs,
-  SynUnicode;
+  Windows, Classes, Forms, SynEdit, JvPageList, Contnrs;
 
 type
   TBreakPoint = class(TPersistent)
   private
     fLineNo : integer;
     fDisabled : Boolean;
-    fCondition : string;
+    fCondition : WideString;
   published
     property LineNo : integer read fLineNo write fLineNo;
     property Disabled : Boolean read fDisabled write fDisabled;
-    property Condition : string read fCondition write fCondition;
+    property Condition : WideString read fCondition write fCondition;
   end;
 
   IEditor = interface;
@@ -89,7 +88,7 @@ type
     procedure UpdateView(Editor : IEditor);
   end;
 
-  TFileSaveFormat = (sf_Ansi, sf_UTF8, sf_UTF8_NoBOM);
+  TFileSaveFormat = (sf_Ansi, sf_UTF8, sf_UTF8_NoBOM, sf_UTF16LE, sf_UTF16BE);
 
   IEditor = interface
   ['{15E8BD28-6E18-4D49-8499-1DB594AB88F7}']
@@ -103,22 +102,23 @@ type
     function GetActiveSynEdit : TSynEdit;
     function GetBreakPoints : TObjectList;
     function GetCaretPos: TPoint;
-    function GetEditorState: string;
-    function GetFileName: string;
-    function GetFileTitle: string;
-    function GetFileNameOrTitle: string;
+    function GetEditorState: WideString;
+    function GetFileName: WideString;
+    function GetFileTitle: WideString;
+    function GetFileNameOrTitle: WideString;
     function GetModified: boolean;
     function GetFileEncoding : TFileSaveFormat;
     function GetForm : TForm;
     function GetEncodedText : string;
     procedure SetFileEncoding(FileEncoding : TFileSaveFormat);
-    procedure OpenFile(const AFileName: string; HighlighterName : string = '');
+    procedure OpenFile(const AFileName: WideString; HighlighterName : WideString = '');
     function HasPythonFile : Boolean;
     procedure ExecuteSelection;
     procedure SplitEditorHorizontally;
     procedure SplitEditorVertrically;
-    property FileName : string read GetFileName;
-    property FileTitle : string read GetFileTitle;
+    procedure Retranslate;
+    property FileName : WideString read GetFileName;
+    property FileTitle : WideString read GetFileTitle;
     property Modified : boolean read GetModified;
     property SynEdit : TSynEdit read GetSynEdit;
     property SynEdit2 : TSynEdit read GetSynEdit2;
@@ -136,14 +136,18 @@ type
     function CreateTabSheet(AOwner: TJvPageList): IEditor;
     function GetEditorCount: integer;
     function GetEditor(Index: integer): IEditor;
-    function GetEditorByName(Name : string): IEditor;
-    function GetEditorByNameOrTitle(Name : string): IEditor;
+    function GetEditorByName(const Name : WideString): IEditor;
+    function GetEditorByNameOrTitle(const Name : WideString): IEditor;
     procedure RemoveEditor(AEditor: IEditor);
-    property Editor[Index: integer]: IEditor read GetEditor;  default;
-    property Count : integer read GetEditorCount;
     procedure RegisterViewFactory(ViewFactory : IEditorViewFactory);
+    function GetViewFactoryCount: integer;
+    function GetViewFactory(Index: integer): IEditorViewFactory;
     procedure SetupEditorViewMenu;
     //procedure GetRegisteredViewFactory(ViewName : string):IEditorViewFactory;
+    property Count : integer read GetEditorCount;
+    property Editor[Index: integer]: IEditor read GetEditor;  default;
+    property ViewFactoryCount : integer read GetViewFactoryCount;
+    property ViewFactory[Index: integer]: IEditorViewFactory read GetViewFactory;
   end;
 
   IEditCommands = interface

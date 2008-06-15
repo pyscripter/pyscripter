@@ -46,19 +46,14 @@ interface
 
 
 uses
-  Classes, Controls, StdCtrls, Forms, SpTBXControls, TBXDkPanels;
+  Classes, Controls, StdCtrls, Forms, SpTBXControls, TBXDkPanels, TntStdCtrls,
+  SpTBXEditors, ComCtrls, TntComCtrls, dlgPyIDEBase;
 
 type
-  TfmToDoOptions = class(TForm)
-    gbxTokens: TGroupBox;
-    gbxOptions: TGroupBox;
-    lblPriority: TLabel;
-    lblToken: TLabel;
-    lstTokens: TListBox;
-    edToken: TEdit;
-    cboPriority: TComboBox;
-    gbxSearchFiles: TGroupBox;
-    meDirectories: TMemo;
+  TfmToDoOptions = class(TPyIDEDlgBase)
+    gbxTokens: TSpTBXGroupBox;
+    gbxOptions: TSpTBXGroupBox;
+    gbxSearchFiles: TSpTBXGroupBox;
     btnInsert: TSpTBXButton;
     btnApply: TSpTBXButton;
     btnRemove: TSpTBXButton;
@@ -71,6 +66,12 @@ type
     radScanOpen: TSpTBXRadioButton;
     radScanDir: TSpTBXRadioButton;
     radScanProject: TSpTBXRadioButton;
+    lstTokens: TSpTBXListBox;
+    edToken: TSpTBXEdit;
+    cboPriority: TSpTBXComboBox;
+    meDirectories: TTntRichEdit;
+    lblPriority: TSpTBXLabel;
+    lblToken: TSpTBXLabel;
     procedure btnInsertClick(Sender: TObject);
     procedure btnRemoveClick(Sender: TObject);
     procedure btnApplyClick(Sender: TObject);
@@ -92,7 +93,8 @@ implementation
 {$R *.dfm}
 
 uses
-  Dialogs, Graphics, SysUtils, frmToDo, dlgDirectoryList;
+  Dialogs, Graphics, SysUtils, frmToDo, dlgDirectoryList, gnugettext,
+  TntDialogs, StringResources;
 
 procedure TfmToDoOptions.UpdateButtonState;
 var
@@ -137,35 +139,22 @@ begin
 end;
 
 procedure TfmToDoOptions.btnInsertClick(Sender: TObject);
-resourcestring
-  SLeadingDollarNotAllowed = 'A leading "$" character is not allowed in tokens, '+
-                             'as this can conflict with Object Pascal compiler options.' + sLineBreak +
-                             sLineBreak +
-                             'Please choose a different token.';
-
-  SEmptyTokenTextError = 'You cannot insert a token that only consists of white space.';
 var
   TokenInfo: TTokenInfo;
-  TokenString: string;
+  TokenString: WideString;
 begin
   TokenString := Trim(edToken.Text);
   if TokenString <> '' then
   begin
-    if TokenString[1] = '$' then
-    begin
-      MessageDlg(SLeadingDollarNotAllowed, mtError, [mbOk], 0);
-      Exit;
-    end;
-
     TokenInfo := TTokenInfo.Create;
-    TokenInfo.Token := TokenString;
+    TokenInfo.Token := WideUpperCase(TokenString);
     TokenInfo.Priority := TTodoPriority(cboPriority.ItemIndex);
     lstTokens.Items.AddObject(TokenInfo.Token, TokenInfo);
   end
   else
   begin
     // Warning message that an empty token is inserted
-    MessageDlg(SEmptyTokenTextError, mtError, [mbOK], 0);
+    WideMessageDlg(_(SEmptyTokenTextError), mtError, [mbOK], 0);
   end;
   UpdateButtonState;
 end;
@@ -183,7 +172,7 @@ end;
 
 procedure TfmToDoOptions.btnApplyClick(Sender: TObject);
 var
-  TokenText: string;
+  TokenText: WideString;
 begin
   with lstTokens do
   begin
@@ -195,7 +184,7 @@ begin
       Items[ItemIndex] := TokenText;
       with TTokeninfo(Items.Objects[ItemIndex]) do
       begin
-        Token := TokenText;
+        Token := WideUpperCase(TokenText);
         Priority := TToDoPriority(cboPriority.ItemIndex);
       end;
     end;
@@ -234,6 +223,7 @@ end;
 
 procedure TfmToDoOptions.FormCreate(Sender: TObject);
 begin
+  inherited;
   DirEnable(radScanDir.Checked);
 end;
 

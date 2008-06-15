@@ -44,25 +44,20 @@ inherited OutputWindow: TOutputWindow
     0000000000000000000000000000000000000000000000000000FFFF0000}
   ExplicitWidth = 568
   ExplicitHeight = 365
-  DesignSize = (
-    552
-    331)
   PixelsPerInch = 96
   TextHeight = 13
   inherited FGPanel: TPanel
-    Left = 8
-    Top = -2
-    Width = 537
-    Height = 321
-    ExplicitLeft = 8
-    ExplicitTop = -2
-    ExplicitWidth = 537
-    ExplicitHeight = 321
+    Width = 546
+    Height = 325
+    ExplicitLeft = 3
+    ExplicitTop = 3
+    ExplicitWidth = 546
+    ExplicitHeight = 325
     object lsbConsole: TListBox
       Left = 0
       Top = 0
-      Width = 537
-      Height = 321
+      Width = 546
+      Height = 325
       TabStop = False
       Align = alClient
       BevelInner = bvNone
@@ -78,66 +73,6 @@ inherited OutputWindow: TOutputWindow
       ParentFont = False
       PopupMenu = OutputPopup
       TabOrder = 0
-    end
-  end
-  object JvCreateProcess: TJvCreateProcess
-    ConsoleOptions = []
-    OnTerminate = JvCreateProcessTerminate
-    OnRead = JvCreateProcessRead
-    Left = 16
-    Top = 52
-  end
-  object OutputActions: TActionList
-    Images = CommandsDataModule.Images
-    OnUpdate = OutputActionsUpdate
-    Left = 16
-    Top = 131
-    object actCopy: TAction
-      Caption = 'Co&py'
-      Hint = 'Copy contents to Clipboard'
-      ImageIndex = 0
-      OnExecute = actCopyExecute
-    end
-    object actOutputFont: TAction
-      Caption = 'Font...'
-      Hint = 'Select font'
-      ImageIndex = 91
-      OnExecute = actOutputFontExecute
-    end
-    object actSelectColor: TAction
-      Caption = 'Background Color...'
-      Hint = 'Select background color'
-      ImageIndex = 90
-      OnExecute = actSelectColorExecute
-    end
-    object actClearOutput: TAction
-      Caption = 'Clear'
-      Hint = 'Clear output'
-      ImageIndex = 14
-      OnExecute = actClearOutputExecute
-    end
-    object actToolTerminate: TAction
-      Caption = '&Terminate'
-      Hint = 'Terminate running tool (unsafe)'
-      ImageIndex = 21
-      OnExecute = actToolTerminateExecute
-    end
-    object actToolClose: TAction
-      Caption = '&Close'
-      Hint = 'Close running tool'
-      ImageIndex = 44
-      OnExecute = actToolCloseExecute
-    end
-    object actToolQuit: TAction
-      Caption = '&Quit'
-      Hint = 'Post quit message to running tool'
-      ImageIndex = 52
-      OnExecute = actToolQuitExecute
-    end
-    object actToolStopWaiting: TAction
-      Caption = 'Stop &Waiting'
-      Hint = 'Stop waiting for running tool'
-      OnExecute = actToolStopWaitingExecute
     end
   end
   object TimeoutTimer: TTimer
@@ -177,27 +112,80 @@ inherited OutputWindow: TOutputWindow
     end
     object N1: TSpTBXSeparatorItem
     end
-    object Copy1: TSpTBXItem
+    object mnCopy: TSpTBXItem
       Caption = 'Co&py'
       Hint = 'Copy contents to Clipboard'
       Action = actCopy
     end
-    object Clear1: TSpTBXItem
+    object mnClear: TSpTBXItem
       Caption = 'Clear'
       Hint = 'Clear output'
       Action = actClearOutput
     end
     object N2: TSpTBXSeparatorItem
     end
-    object Font1: TSpTBXItem
+    object mnFont: TSpTBXItem
       Caption = 'Font...'
       Hint = 'Select font'
       Action = actOutputFont
     end
-    object BackgroundColor1: TSpTBXItem
+    object mnBackgroundColor: TSpTBXItem
       Caption = 'Background Color...'
       Hint = 'Select background color'
       Action = actSelectColor
+    end
+  end
+  object OutputActions: TTntActionList
+    Images = CommandsDataModule.Images
+    OnUpdate = OutputActionsUpdate
+    Left = 16
+    Top = 131
+    object actCopy: TTntAction
+      Caption = 'Co&py'
+      Hint = 'Copy contents to Clipboard'
+      ImageIndex = 0
+      OnExecute = actCopyExecute
+    end
+    object actOutputFont: TTntAction
+      Caption = 'Font...'
+      Hint = 'Select font'
+      ImageIndex = 91
+      OnExecute = actOutputFontExecute
+    end
+    object actSelectColor: TTntAction
+      Caption = 'Background Color...'
+      Hint = 'Select background color'
+      ImageIndex = 90
+      OnExecute = actSelectColorExecute
+    end
+    object actClearOutput: TTntAction
+      Caption = 'Clear'
+      Hint = 'Clear output'
+      ImageIndex = 14
+      OnExecute = actClearOutputExecute
+    end
+    object actToolTerminate: TTntAction
+      Caption = '&Terminate'
+      Hint = 'Terminate running tool (unsafe)'
+      ImageIndex = 21
+      OnExecute = actToolTerminateExecute
+    end
+    object actToolClose: TTntAction
+      Caption = '&Close'
+      Hint = 'Close running tool'
+      ImageIndex = 44
+      OnExecute = actToolCloseExecute
+    end
+    object actToolQuit: TTntAction
+      Caption = '&Quit'
+      Hint = 'Post quit message to running tool'
+      ImageIndex = 52
+      OnExecute = actToolQuitExecute
+    end
+    object actToolStopWaiting: TTntAction
+      Caption = 'Stop &Waiting'
+      Hint = 'Stop waiting for running tool'
+      OnExecute = actToolStopWaitingExecute
     end
   end
 end

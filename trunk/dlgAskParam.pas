@@ -41,23 +41,23 @@ interface
 
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  StdCtrls, SpTBXControls, TBXDkPanels;
+  StdCtrls, SpTBXControls, TBXDkPanels, dlgPyIDEBase, SpTBXEditors;
 
 type
   (* asks for parameter value and optionally stores parameter to file *)
-  TAskParamForm = class(TForm)
-    Label1: TLabel;
-    txtParamValue: TEdit;
+  TAskParamForm = class(TPyIDEDlgBase)
     btnOK: TSpTBXButton;
     btnCancel: TSpTBXButton;
     chkSaveToFile: TSpTBXCheckBox;
+    txtParamValue: TSpTBXEdit;
+    Label1: TSpTBXLabel;
   private
-    FParamName: string;
-    procedure SetParamName(const Value: string);
+    FParamName: WideString;
+    procedure SetParamName(const Value: WideString);
   public
-    class function AskForParameter(Sender: TObject; const AName: string;
-      var AValue: string): Boolean;
-    property ParamName: string read FParamName write SetParamName;
+    class function AskForParameter(Sender: TObject; const AName: WideString;
+      var AValue: WideString): Boolean;
+    property ParamName: WideString read FParamName write SetParamName;
   end;
 
 var
@@ -71,8 +71,8 @@ uses
 
 {$R *.DFM}
 
-class function TAskParamForm.AskForParameter(Sender: TObject; const AName: string;
-                                             var AValue: string): Boolean;
+class function TAskParamForm.AskForParameter(Sender: TObject; const AName: WideString;
+                                             var AValue: WideString): Boolean;
 (* ask for parameter value and optionally stores parameter to file *)
 begin
   with TAskParamForm.Create(Application) do try
@@ -99,7 +99,7 @@ end;
 
 { TAskParamForm }
 
-procedure TAskParamForm.SetParamName(const Value: string);
+procedure TAskParamForm.SetParamName(const Value: WideString);
 begin
   FParamName := Value;
   Label1.Caption:= Label1.Caption + Value;

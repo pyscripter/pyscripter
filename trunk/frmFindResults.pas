@@ -49,52 +49,34 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, frmIDEDockWin, JvComponent, JvDockControlForm, ExtCtrls, Menus,
   ActnList, ComCtrls, StdCtrls, cFindInFiles, JvAppStorage,
-  TB2Item, TBX, TBXThemes, TB2Dock, TB2Toolbar, TBXStatusBars, JvComponentBase,
-  SpTBXItem;
+  TB2Item, TBX, TBXThemes, TB2Dock, TB2Toolbar, JvComponentBase,
+  SpTBXItem, WideStrings, SynUnicode, TntStdCtrls, SpTBXEditors, TntComCtrls,
+  TntActnList;
 
 type
   TFindResultsWindow = class(TIDEDockWindow, IJvAppStorageHandler)
     pnlMain: TPanel;
     Splitter: TSplitter;
-    lbResults: TListBox;
-    reContext: TRichEdit;
-    Actions: TActionList;
-    actReplaceSelected: TAction;
-    actFileSearch: TAction;
-    actFileRefresh: TAction;
-    actFileAbort: TAction;
-    actFilePrint: TAction;
-    actListGotoSelected: TAction;
-    actListContract: TAction;
-    actListExpand: TAction;
-    actHelpHelp: TAction;
-    actViewShowContext: TAction;
-    actFileSave: TAction;
-    actFileCopy: TAction;
-    actViewToolBar: TAction;
-    actViewOptions: TAction;
-    actReplaceAll: TAction;
-    actViewStatusBar: TAction;
     TBXDock1: TSpTBXDock;
     ToolBar: TSpTBXToolbar;
-    TBXItem1: TSpTBXItem;
-    TBXItem2: TSpTBXItem;
+    tbiRefresh: TSpTBXItem;
+    tbiSearch: TSpTBXItem;
     TBXSeparatorItem1: TSpTBXSeparatorItem;
-    TBXItem3: TSpTBXItem;
+    tbiAbort: TSpTBXItem;
     TBXSeparatorItem2: TSpTBXSeparatorItem;
-    TBXItem4: TSpTBXItem;
+    tbiGoToSelected: TSpTBXItem;
     TBXSeparatorItem3: TSpTBXSeparatorItem;
-    TBXItem5: TSpTBXItem;
-    TBXItem6: TSpTBXItem;
-    TBXItem7: TSpTBXItem;
+    tbiSave: TSpTBXItem;
+    tbiCopy: TSpTBXItem;
+    tbiPrint: TSpTBXItem;
     TBXSeparatorItem4: TSpTBXSeparatorItem;
-    TBXItem8: TSpTBXItem;
-    TBXItem9: TSpTBXItem;
+    tbiContract: TSpTBXItem;
+    tbiExpand: TSpTBXItem;
     TBXSeparatorItem5: TSpTBXSeparatorItem;
-    TBXItem10: TSpTBXItem;
-    TBXItem11: TSpTBXItem;
+    tbiReplaceAll: TSpTBXItem;
+    tbiReplaceSelected: TSpTBXItem;
     TBXSeparatorItem6: TSpTBXSeparatorItem;
-    TBXItem13: TSpTBXItem;
+    tbiOptions: TSpTBXItem;
     TBXPopupMenu: TSpTBXPopupMenu;
     mitFileSearch1: TSpTBXItem;
     mitFileRefresh1: TSpTBXItem;
@@ -112,12 +94,32 @@ type
     N3: TSpTBXSeparatorItem;
     mitViewOptions1: TSpTBXItem;
     N4: TSpTBXSeparatorItem;
-    mitViewStayOnTop1: TSpTBXItem;
-    StatusBar: TTBXStatusBar;
     TBXSeparatorItem8: TSpTBXSeparatorItem;
-    TBXItem14: TSpTBXItem;
-    TBXSeparatorItem9: TSpTBXSeparatorItem;
-    TBXItem15: TSpTBXItem;
+    tbiHelp: TSpTBXItem;
+    mitHelp: TSpTBXItem;
+    StatusBar: TSpTBXStatusBar;
+    StatusLeftLabel: TSpTBXLabelItem;
+    SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem;
+    StatusRightLabel: TSpTBXLabelItem;
+    lbResults: TSpTBXListBox;
+    reContext: TTntRichEdit;
+    Actions: TTntActionList;
+    actReplaceAll: TTntAction;
+    actViewOptions: TTntAction;
+    actViewStatusBar: TTntAction;
+    actViewToolBar: TTntAction;
+    actFileCopy: TTntAction;
+    actFileSave: TTntAction;
+    actViewShowContext: TTntAction;
+    actHelpHelp: TTntAction;
+    actListExpand: TTntAction;
+    actListContract: TTntAction;
+    actListGotoSelected: TTntAction;
+    actFilePrint: TTntAction;
+    actFileAbort: TTntAction;
+    actFileRefresh: TTntAction;
+    actFileSearch: TTntAction;
+    actReplaceSelected: TTntAction;
     procedure FormResize(Sender: TObject);
     procedure lbResultsMouseUp(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
@@ -152,11 +154,11 @@ type
     FSearcher: TGrepSearchRunner;
     FShowContext: Boolean;
     FDoSearchReplace: Boolean;
-    fSearchResults : TStrings;
+    fSearchResults : TWideStrings;
     procedure RefreshContextLines;
     procedure SetShowContext(Value: Boolean);
     procedure HighlightMemo(FileMatches: TFileResult; StartLine, MatchLineNo: Integer);
-    procedure StartFileSearch(Sender: TObject; const FileName: string);
+    procedure StartFileSearch(Sender: TObject; const FileName: WideString);
     procedure ToggleFileResultExpanded(ListBoxIndex: Integer);
     procedure ExpandList;
     procedure ContractList;
@@ -164,11 +166,10 @@ type
     procedure GotoHighlightedListEntry;
     procedure ClearResultsListbox;
     function QueryUserForGrepOptions: Boolean;
-    function QueryUserForReplaceOptions(const ReplaceInString: string): Boolean;
+    function QueryUserForReplaceOptions(const ReplaceInString: WideString): Boolean;
     procedure Abort;
-    procedure SetStatusString(const StatusStr: string);
-    procedure SetMatchString(const MatchStr: string);
-    function DoingSearchOrReplace: Boolean;
+    procedure SetStatusString(const StatusStr: WideString);
+    procedure SetMatchString(const MatchStr: WideString);
     procedure ExpandOrContractList(Expand: Boolean);
   protected
     procedure TBMThemeChange(var Message: TMessage); message TBM_THEMECHANGE;
@@ -181,12 +182,13 @@ type
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
     procedure Execute(DoRefresh: Boolean);
+    function DoingSearchOrReplace: Boolean;
     property ShowContext: Boolean read FShowContext write SetShowContext;
     property DoSearchReplace: Boolean read FDoSearchReplace write FDoSearchReplace;
   end;
 
 // Replace all matches in all files
-function ReplaceAll(ResultList: TStrings; GrepSettings: TGrepSettings): Integer;
+function ReplaceAll(ResultList: WideStrings.TWideStrings; GrepSettings: TGrepSettings): Integer;
 // Replace all matches in a single file
 function ReplaceAllInFiles(FileResult: TFileResult; GrepSettings: TGrepSettings): Integer;
 // Replace all matches on a single line
@@ -195,7 +197,8 @@ function ReplaceLine(LineResult: TLineResult; GrepSettings: TGrepSettings): Inte
 type
   TGrepOutputMode = (grPrint, grCopy, grFile);
 
-procedure PrintGrepResults(Owner: TWinControl; Results: TStrings; Where: TGrepOutputMode);
+procedure PrintGrepResults(Owner: TWinControl; Results: WideStrings.TWideStrings;
+  Where: TGrepOutputMode);
 
 var
   FindResultsWindow: TFindResultsWindow  = nil;
@@ -204,16 +207,14 @@ implementation
 
 uses dmCommands, dlgFindInFiles, Math, frmPyIDEMain, uEditAppIntfs,
   dlgReplaceInFiles, SynEdit, SynEditTypes, JclFileUtils, uCommonFunctions,
-  JvJVCLUtils, JvDockGlobals;
+  JvJVCLUtils, JvDockGlobals, TntGraphics, TntClasses, JclSysUtils, TntDialogs,
+  gnugettext, StringResources;
 
 {$R *.dfm}
 
-resourcestring
-  SGrepReplaceStats = 'Replaced %d occurrence(s) in %.2f seconds';
-
 procedure GoToMatchLine(MatchLine: TLineResult; SourceEditorInMiddle: Boolean);
 var
-  MatchFileName: string;
+  MatchFileName: WideString;
 begin
   MatchFileName := TFileResult(MatchLine.Collection).FileName;
   PyIDEMainForm.ShowFilePosition(MatchFileName, MatchLine.LineNo,
@@ -274,10 +275,10 @@ begin
       Self.Abort;
 end;
 
-function LeftTrimChars(var Value: string; const TrimChars: TSysCharSet = [#9, #32]): Integer;
+function LeftTrimChars(var Value: WideString; const TrimChars: TSysCharSet = [#9, #32]): Integer;
 begin
   Result := 0;
-  while (Length(Value) > Result) and (Value[Result+1] in TrimChars) do
+  while (Length(Value) > Result) and (Char(Value[Result+1]) in TrimChars) do
     Inc(Result);
 
   Delete(Value, 1, Result);
@@ -292,7 +293,7 @@ var
   c: Integer;
   p: Integer;
   i: Integer;
-  TempString, S: string;
+  TempString, S: WideString;
   sb: TColor;
   sf: TColor;
   nb: TColor;
@@ -300,11 +301,8 @@ var
   MIndx: Integer; // Matches Index number
   AMatchResult: TMatchResult;
   ALineResult: TLineResult;
-  FileString: string;
+  FileString: WideString;
   FileResult: TFileResult;
-resourcestring
-  //SItemMatch = '%5d matches on %5d lines';
-  SItemMatch = '%5d matches';
 begin
   ResultsCanvas := lbResults.Canvas;
   TopColor := clBtnHighlight;
@@ -332,7 +330,7 @@ begin
     ResultsCanvas.Brush.Style := bsClear;
     i := ResultsCanvas.TextWidth('+');
     FileString := FileResult.RelativeFileName;
-    ResultsCanvas.TextOut(Rect.Left + i + 8, Rect.Top, FileString);
+    WideCanvasTextOut(ResultsCanvas, Rect.Left + i + 8, Rect.Top, FileString);
     //c:=Rect.Top+((Rect.Bottom-Rect.Top) div 2);
 
     if FileResult.Expanded then
@@ -340,11 +338,11 @@ begin
     else
       ResultsCanvas.TextOut(Rect.Left + 3, Rect.Top, '+');
 
-    TempString := Format(SItemMatch, [FileResult.TotalMatches]);
+    TempString := WideFormat(_(SItemMatch), [FileResult.TotalMatches]);
 
-    p := ResultsCanvas.TextWidth(TempString) + 10;
-    if (ResultsCanvas.TextWidth(FileString) + i + 10) <= Rect.Right - p then
-      ResultsCanvas.TextOut(lbResults.ClientWidth - p, Rect.Top, TempString);
+    p := WideCanvasTextWidth(ResultsCanvas, TempString) + 10;
+    if (WideCanvasTextWidth(ResultsCanvas, FileString) + i + 10) <= Rect.Right - p then
+      WideCanvasTextOut(ResultsCanvas, lbResults.ClientWidth - p, Rect.Top, TempString);
   end
   else
   begin
@@ -381,13 +379,13 @@ begin
       ResultsCanvas.Font.Color := nf;
       ResultsCanvas.Brush.Color := nb;
       S := Copy(TempString, i, AMatchResult.SPos - c - i);
-      ResultsCanvas.TextOut(p, Rect.Top + 1, S);
+      WideCanvasTextOut(ResultsCanvas, p, Rect.Top + 1, S);
       p := ResultsCanvas.PenPos.X;
 
       ResultsCanvas.Font.Color := sf;
       ResultsCanvas.Brush.Color := sb;
       S := Copy(TempString, AMatchResult.SPos - c, AMatchResult.EPos - AMatchResult.SPos + 1);
-      ResultsCanvas.TextOut(p, Rect.Top + 1, S);
+      WideCanvasTextOut(ResultsCanvas, p, Rect.Top + 1, S);
       p := ResultsCanvas.PenPos.X;
 
       i := AMatchResult.EPos - c + 1;
@@ -395,7 +393,7 @@ begin
     ResultsCanvas.Font.Color := nf;
     ResultsCanvas.Brush.Color := nb;
     S := Copy(TempString, i, Length(TempString) -  i + 1);
-    ResultsCanvas.TextOut(p, Rect.Top + 1, S);
+    WideCanvasTextOut(ResultsCanvas, p, Rect.Top + 1, S);
   end;
 end;
 
@@ -509,8 +507,6 @@ begin
 end;
 
 procedure TFindResultsWindow.actReplaceAllExecute(Sender: TObject);
-resourcestring
-  SReplaceAllQuery = 'Replace "%s" with "%s" in all files?';
 var
   TimeStart: TDateTime;
   MatchesFound: Integer;
@@ -518,7 +514,7 @@ var
 begin
   Assert(not DoingSearchOrReplace);
 
-  if not QueryUserForReplaceOptions('All matched files') then
+  if not QueryUserForReplaceOptions(_(SAllMatchedFiles)) then
     Exit;
 
   FReplaceInProgress := True;
@@ -527,7 +523,7 @@ begin
     TimeStart := Now;
     SetStatusString('');
     MatchesFound := ReplaceAll(lbResults.Items, FGrepSettings);
-    SetStatusString(Format(SGrepReplaceStats, [MatchesFound, (Now - TimeStart) * 24*60*60]));
+    SetStatusString(WideFormat(_(SGrepReplaceStats), [MatchesFound, (Now - TimeStart) * 24*60*60]));
   finally
     FReplaceInProgress := False;
   end;
@@ -535,15 +531,13 @@ begin
 end;
 
 procedure TFindResultsWindow.actReplaceSelectedExecute(Sender: TObject);
-resourcestring
-  SReplaceLine = sLineBreak + 'On line: ';
 var
   TimeStart: TDateTime;
   MatchesFound: Integer;
   CurrentLine: TLineResult;
   ResultIndex: Integer;
   FileResult: TFileResult;
-  MatchFile: string;
+  MatchFile: WideString;
   ResultObject: TObject;
   Cursor: IInterface;
 begin
@@ -555,6 +549,8 @@ begin
 
   ResultObject := lbResults.Items.Objects[ResultIndex];
   FReplaceInProgress := True;
+  Application.DoApplicationIdle;  // To update related actions
+  Application.ProcessMessages;
   try
     SetStatusString('');
     if ResultObject is TFileResult then
@@ -570,7 +566,7 @@ begin
     begin
       CurrentLine := ResultObject as TLineResult;
       MatchFile := TFileResult(CurrentLine.Collection).FileName;
-      if not QueryUserForReplaceOptions(MatchFile + SReplaceLine + IntToStr(CurrentLine.LineNo)) then
+      if not QueryUserForReplaceOptions(MatchFile + sLineBreak + _(SOnLine) + IntToStr(CurrentLine.LineNo)) then
         Exit;
       Cursor := WaitCursor;
       TimeStart := Now;
@@ -578,7 +574,7 @@ begin
     end
     else
       raise Exception.Create('Internal Error: Unknown result type');
-    SetStatusString(Format(SGrepReplaceStats, [MatchesFound, (Now - TimeStart) * 24*60*60]));
+    SetStatusString(WideFormat(_(SGrepReplaceStats), [MatchesFound, (Now - TimeStart) * 24*60*60]));
   finally
     FReplaceInProgress := False;
   end;
@@ -618,7 +614,7 @@ end;
 constructor TFindResultsWindow.Create(AOwner: TComponent);
 begin
   inherited;
-  fSearchResults := TStringList.Create;
+  fSearchResults := TWideStringList.Create;
   FSearchInProgress := False;
   //lbResults.DoubleBuffered := True;
   ShowContext := True;
@@ -645,10 +641,6 @@ begin
 end;
 
 procedure TFindResultsWindow.Execute(DoRefresh: Boolean);
-resourcestring
-  SGrepActive = 'A Grep search is currently active; either abort it or wait until it is finished.';
-  SGrepSearchStats = 'Searched %d files in %.2f seconds';
-  SMatches = '%d matches';
 var
   TimeStart: TDateTime;
   FilesSearched: Cardinal;
@@ -676,6 +668,8 @@ begin
   try
     FSearcher.OnSearchFile := StartFileSearch;
     FSearchInProgress := True;
+    Application.DoApplicationIdle;  // To update related actions
+    Application.ProcessMessages;
     FSearcher.Execute;
     FilesSearched := FSearcher.FileSearchCount;
     MatchesFound := FSearcher.MatchCount;
@@ -685,7 +679,7 @@ begin
     FSearchResults.Assign(lbResults.Items);
   end;
 
-  SetStatusString(Format(SGrepSearchStats, [FilesSearched, (Now - TimeStart) * 24*60*60]));
+  SetStatusString(WideFormat(_(SGrepSearchStats), [FilesSearched, (Now - TimeStart) * 24*60*60]));
 
   lbResults.Sorted := True;  // There is no Sort method
   lbResults.Sorted := False;
@@ -696,7 +690,7 @@ begin
   end;
 
   lbResults.Refresh;
-  SetMatchString(Format(SMatches, [MatchesFound]));
+  SetMatchString(WideFormat(_(SMatches), [MatchesFound]));
 end;
 
 procedure TFindResultsWindow.ExpandList;
@@ -791,7 +785,7 @@ begin
   reContext.SelAttributes.Style := [];
 
   // Highlight the matched line
-  reContext.SelStart := reContext.Perform(EM_LINEINDEX, MatchLineNo, 0);
+  reContext.SelStart := reContext.Perform(EM_LINEINDEX, MatchLineNo, 0) + MatchLineNo;  // adjusted for TntRichEdit wierdness
   reContext.SelLength := Length(reContext.Lines[MatchLineNo]);
   reContext.SelAttributes.Color := FindInFilesExpert.ContextMatchColor;
 
@@ -802,7 +796,8 @@ begin
     begin
       if Matches[j].ShowBold then
       begin
-        reContext.SelStart := reContext.Perform(EM_LINEINDEX, i - StartLine - 1, 0) + Matches[j].SPos - 1;
+        reContext.SelStart := reContext.Perform(EM_LINEINDEX, i - StartLine - 1, 0) + Matches[j].SPos - 1
+          + (i - StartLine - 1); // adjusted for TntRichEdit wierdness
         reContext.SelLength := Matches[j].EPos - Matches[j].SPos + 1;
         reContext.SelAttributes.Style := [fsBold];
       end;
@@ -830,7 +825,7 @@ begin
 end;
 
 function TFindResultsWindow.QueryUserForReplaceOptions(
-  const ReplaceInString: string): Boolean;
+  const ReplaceInString: WideString): Boolean;
 var
   Dlg: TReplaceInFilesDialog;
 begin
@@ -849,7 +844,8 @@ begin
   end;
 end;
 
-function GetFileAsText(const FileName: string; Lines: TStrings): Boolean;
+function GetFileAsText(const FileName: WideString; Lines: TWideStrings;
+                       var Encoding : TFileSaveFormat): Boolean;
 Var
   Editor : IEditor;
 begin
@@ -858,23 +854,17 @@ begin
     Lines.Assign(Editor.SynEdit.Lines);
     Result := True;
   end else
-    try
-      Lines.LoadFromFile(FileName);
-      Result := True;
-    except
-      Result := False;
-    end;
+    Result := LoadFileIntoWideStrings(FileName, Lines, Encoding);
 end;
 
 procedure TFindResultsWindow.RefreshContextLines;
-resourcestring
-  SMatchContextNotAvail = 'Unable to load match context lines';
 var
   CurrentLine: TLineResult;
   MatchLineNo, BeginLineNo, EndLineNo, REMatchLineNo: Integer;
-  FileLines: TStringList;
-  FileName: string;
+  FileLines: TWideStringList;
+  FileName: WideString;
   i: Integer;
+  Encoding : TFileSaveFormat;
 begin
   if not ShowContext then
     Exit;
@@ -892,11 +882,11 @@ begin
         FileName := TFileResult(CurrentLine.Collection).FileName;
         MatchLineNo := CurrentLine.LineNo - 1;
 
-        FileLines := TStringList.Create;
+        FileLines := TWideStringList.Create;
         try
-          if not GetFileAsText(FileName, FileLines) then
+          if not GetFileAsText(FileName, FileLines, Encoding) then
           begin
-            reContext.Lines.Text := SMatchContextNotAvail;
+            reContext.Lines.Text := _(SMatchContextNotAvail);
             Exit;
           end;
 
@@ -906,10 +896,11 @@ begin
           EndLineNo := Min(EndLineNo, FileLines.Count - 1);
 
           REMatchLineNo := 0;
-          reContext.SelStart := reContext.GetTextLen;
+          //reContext.SelStart := reContext.GetTextLen;
+          reContext.Lines.Clear;
           for i := BeginLineNo to EndLineNo do
           begin
-            reContext.SelText := FileLines[i] + sLineBreak;
+            reContext.Lines.Add(FileLines[i]);
             if i = MatchLineNo then
               REMatchLineNo := reContext.Lines.Count - 1;
           end;
@@ -925,7 +916,7 @@ begin
 end;
 
 procedure TFindResultsWindow.ResizeListBox;
-resourcestring
+Const
   SAllAlphaNumericChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890';
 begin
   lbResults.Canvas.Font.Assign(lbResults.Font);
@@ -933,9 +924,9 @@ begin
   lbResults.Refresh;
 end;
 
-procedure TFindResultsWindow.SetMatchString(const MatchStr: string);
+procedure TFindResultsWindow.SetMatchString(const MatchStr: WideString);
 begin
-  StatusBar.Panels.Items[1].Caption := MatchStr;
+  StatusRightLabel.Caption := MatchStr;
 end;
 
 procedure TFindResultsWindow.SetShowContext(Value: Boolean);
@@ -946,19 +937,17 @@ begin
   RefreshContextLines;
 end;
 
-procedure TFindResultsWindow.SetStatusString(const StatusStr: string);
+procedure TFindResultsWindow.SetStatusString(const StatusStr: WideString);
 begin
-  StatusBar.Panels.Items[0].Caption := StatusStr;
+  StatusLeftLabel.Caption := StatusStr;
 end;
 
 procedure TFindResultsWindow.StartFileSearch(Sender: TObject;
-  const FileName: string);
-resourcestring
-  SProcessing = 'Processing %s';
+  const FileName: WideString);
 var
   Dummy: Boolean;
 begin
-  SetStatusString(Format(SProcessing, [FileName]));
+  SetStatusString(WideFormat(_(SProcessing), [FileName]));
   ActionsUpdate(nil, Dummy);
   Application.ProcessMessages;
 end;
@@ -1005,16 +994,8 @@ end;
 type
   ESkipFileReplaceException = class(Exception);
 
-resourcestring
-  SFileChangedAbort = '%s' + sLineBreak + 'has changed since it was searched.  Replacement aborted.'
-    + sLineBreak + 'Expected: %s' + sLineBreak + 'Found: %s';
-  SUnableToOpen  = 'Unable to open ';
-  SNoOpenForms   = 'Replacing strings in open forms is not possible.  Please close the form first.';
-  SFileSkipped   = 'The following file will be skipped: ';
-  SCouldNotBackup= 'Could not backup file "%s" and will skip it';
-
 // Replaces the string between SPos and EPos with the replace string from TGrepSettings
-function ReplacePatternInString(CurrentLine: TLineResult; GrepSettings: TGrepSettings): string;
+function ReplacePatternInString(CurrentLine: TLineResult; GrepSettings: TGrepSettings): WideString;
 var
   i: Integer;
   FindPos: Integer;
@@ -1033,7 +1014,7 @@ begin
   end;
 end;
 
-function ReplaceAll(ResultList: TStrings; GrepSettings: TGrepSettings): Integer;
+function ReplaceAll(ResultList: WideStrings.TWideStrings; GrepSettings: TGrepSettings): Integer;
 var
   i: Integer;
   Replaced: Integer;
@@ -1051,23 +1032,27 @@ end;
 
 function InternalReplace(LineMode: Boolean; ALineResult: TLineResult; AFileResult: TFileResult; GrepSettings: TGrepSettings): Integer;
 var
-  TempString: string;
-  MatchFile: string;
-  TempFile: TStrings;
+  TempString: WideString;
+  MatchFile: WideString;
+  TempFile: TWideStrings;
   LineResult : TLineResult;
+  Encoding : TFileSaveFormat;
 
   procedure DoReplacement;
   var
     i: Integer;
-    FileLine: string;
+    FileLine: WideString;
   begin
     if LineMode then
     begin
       i := ALineResult.LineNo;
         Assert(TempFile.Count >= (LineResult.LineNo - 1));
-      FileLine := TempFile.Strings[LineResult.LineNo - 1];
-      if LineResult.Line <> FileLine then
-        raise Exception.CreateResFmt(@SFileChangedAbort, [MatchFile, LineResult.Line, FileLine]);
+      FileLine := TempFile[LineResult.LineNo - 1];
+      if LineResult.Line <> FileLine then begin
+        WideMessageDlg(WideFormat(_(SFileChangedAbort), [MatchFile, LineResult.Line, FileLine]),
+          mtError, [mbAbort], 0);
+        Abort;
+      end;
 
       TempString := ReplacePatternInString(LineResult, GrepSettings);
       TempFile.Strings[i -1] := TempString;
@@ -1080,9 +1065,12 @@ var
         LineResult := AFileResult.Items[i];
         Inc(Result, LineResult.Matches.Count);
         Assert(TempFile.Count >= (LineResult.LineNo - 1));
-        FileLine := TempFile.Strings[LineResult.LineNo - 1];
-        if LineResult.Line <> FileLine then
-          raise Exception.CreateFmt(SFileChangedAbort, [MatchFile, LineResult.Line, FileLine]);
+        FileLine := TempFile[LineResult.LineNo - 1];
+        if LineResult.Line <> FileLine then begin
+          WideMessageDlg(WideFormat(_(SFileChangedAbort), [MatchFile, LineResult.Line, FileLine]),
+            mtError, [mbAbort], 0);
+          Abort;
+        end;
 
         TempString := ReplacePatternInString(LineResult, GrepSettings);
         TempFile.Strings[LineResult.LineNo - 1] := TempString;
@@ -1107,12 +1095,12 @@ var
         try
           FileBackup(MatchFile);
         except
-          if MessageDlg(Format(SCouldNotBackup, [MatchFile]), mtWarning, [mbOK, mbCancel], 0) = mrCancel then
+          if WideMessageDlg(WideFormat(_(SCouldNotBackup), [MatchFile]), mtWarning, [mbOK, mbCancel], 0) = mrCancel then
             Abort
           else
             Exit;
         end;
-      TempFile.SaveToFile(MatchFile);
+      SaveWideStringsToFile(MatchFile, TempFile, Encoding, False);
     end;
   end;
 
@@ -1126,10 +1114,10 @@ begin
   else
     MatchFile := AFileResult.FileName;
 
-  TempFile := TStringList.Create;
+  TempFile := TWideStringList.Create;
   try
-    if not GetFileAsText(MatchFile, TempFile) then begin
-      if MessageDlg(SFileSkipped + MatchFile, mtWarning, [mbOK, mbCancel], 0) = mrCancel then
+    if not GetFileAsText(MatchFile, TempFile, Encoding) then begin
+      if WideMessageDlg(_(SFileSkipped) + MatchFile, mtWarning, [mbOK, mbCancel], 0) = mrCancel then
         Abort
       else
         Exit;
@@ -1151,7 +1139,7 @@ begin
   Result := InternalReplace(True, LineResult, nil, GrepSettings);
 end;
 
-procedure SaveResults(RichEdit: TRichEdit);
+procedure SaveResults(RichEdit: TTntRichEdit);
 var
   SaveDlg: TSaveDialog;
 begin
@@ -1168,17 +1156,17 @@ begin
   end;
 end;
 
-procedure PrintGrepResults(Owner: TWinControl; Results: TStrings; Where: TGrepOutputMode);
+procedure PrintGrepResults(Owner: TWinControl; Results: WideStrings.TWideStrings; Where: TGrepOutputMode);
 var
-  RichEdit: TRichEdit;
+  RichEdit: TTntRichEdit;
   FileResult: TFileResult;
-  Line: string;
+  Line: WideString;
   i, j, c: Integer;
   LinePos: Integer;
   AMatchResult: TMatchResult;
   MIndx: Integer;
 begin
-  RichEdit := TRichEdit.Create(Owner);
+  RichEdit := TTntRichEdit.Create(Owner);
   try
     RichEdit.Visible := False;
     RichEdit.Parent := Owner;
@@ -1206,7 +1194,7 @@ begin
             c := LeftTrimChars(Line);
             with RichEdit do
             begin
-              Lines.Add(Format('  %5d'#9, [FileResult.Items[j].LineNo]) + Line);
+              Lines.Add(WideFormat('  %5d'#9, [FileResult.Items[j].LineNo]) + Line);
               // Now make the found Text bold
               for MIndx := 0 to  FileResult.Items[j].Matches.Count-1 do
               begin
@@ -1271,4 +1259,5 @@ begin
 end;
 
 end.
+
 

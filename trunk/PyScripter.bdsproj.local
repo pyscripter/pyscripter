@@ -62,5 +62,12 @@
     <Transaction>2007/12/12 04:05:30.431.dfm,C:\Sandbox\P4D\PythonForDelphi\PythonIDE\Unit1.dfm=C:\Sandbox\P4D\PythonForDelphi\PythonIDE\dlgImportDirectory.dfm</Transaction>
     <Transaction>2007/12/15 22:40:22.403.pas,C:\Sandbox\P4D\PythonForDelphi\PythonIDE\Unit1.pas=C:\Sandbox\P4D\PythonForDelphi\PythonIDE\dlgRunConfiguration.pas</Transaction>
     <Transaction>2007/12/15 22:40:22.423.dfm,C:\Sandbox\P4D\PythonForDelphi\PythonIDE\Unit1.dfm=C:\Sandbox\P4D\PythonForDelphi\PythonIDE\dlgRunConfiguration.dfm</Transaction>
+    <Transaction>2008/03/04 17:59:03.241.pas,C:\Sandbox\P4D\PythonForDelphi\PythonIDE\SynEditKeyCmds.pas=</Transaction>
+    <Transaction>2008/03/05 00:13:28.750.pas,C:\Sandbox\P4D\PythonForDelphi\PythonIDE\SynUnicode.pas=</Transaction>
+    <Transaction>2008/03/06 06:18:52.130.pas,C:\Sandbox\P4D\PythonForDelphi\PythonIDE\frmDocView.pas=C:\Sandbox\P4D\PythonForDelphi\PythonIDE\frmWebPreview.pas</Transaction>
+    <Transaction>2008/03/06 06:18:52.137.dfm,C:\Sandbox\P4D\PythonForDelphi\PythonIDE\frmDocView.dfm=C:\Sandbox\P4D\PythonForDelphi\PythonIDE\frmWebPreview.dfm</Transaction>
+    <Transaction>2008/04/02 19:19:18.214.pas,C:\Sandbox\P4D\PythonForDelphi\PythonIDE\Unit1.pas=C:\Sandbox\P4D\PythonForDelphi\PythonIDE\dlgPyIDEBase.pas</Transaction>
+    <Transaction>2008/04/02 19:19:18.244.dfm,C:\Sandbox\P4D\PythonForDelphi\PythonIDE\Unit1.dfm=C:\Sandbox\P4D\PythonForDelphi\PythonIDE\dlgPyIDEBase.dfm</Transaction>
+    <Transaction>2008/06/16 00:59:53.175.pas,C:\Sandbox\P4D\PythonForDelphi\PythonIDE\SynHighlighterYAML.pas=</Transaction>
   </Transactions>
 </BorlandProject>

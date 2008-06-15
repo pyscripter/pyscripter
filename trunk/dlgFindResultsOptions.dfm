@@ -1,49 +1,35 @@
-object FindResultsOptionsDialog: TFindResultsOptionsDialog
+inherited FindResultsOptionsDialog: TFindResultsOptionsDialog
   Left = 322
   Top = 238
   HelpContext = 460
   BorderIcons = [biSystemMenu, biMinimize]
-  BorderStyle = bsDialog
   Caption = 'Find in Files Options'
-  ClientHeight = 279
-  ClientWidth = 267
-  Color = clBtnFace
-  Font.Charset = DEFAULT_CHARSET
-  Font.Color = clWindowText
-  Font.Height = -11
-  Font.Name = 'MS Sans Serif'
-  Font.Style = []
-  OldCreateOrder = False
+  ClientHeight = 307
+  ClientWidth = 307
+  Font.Name = 'MS Shell Dlg 2'
   Position = poScreenCenter
   Scaled = False
+  ExplicitWidth = 313
+  ExplicitHeight = 333
   DesignSize = (
-    267
-    279)
+    307
+    307)
   PixelsPerInch = 96
   TextHeight = 13
-  object gbxMatchList: TGroupBox
-    Left = 4
-    Top = 4
-    Width = 257
+  object gbxMatchList: TSpTBXGroupBox
+    Left = 2
+    Top = 8
+    Width = 301
     Height = 103
-    Anchors = [akLeft, akTop, akRight]
     Caption = 'Match Results List'
+    ThemeType = thtWindows
+    Anchors = [akLeft, akTop, akRight]
     TabOrder = 0
-    object pnlListFont: TPanel
-      Left = 28
-      Top = 60
-      Width = 197
-      Height = 33
-      BevelWidth = 2
-      Caption = 'Match List Font...'
-      Color = clWindow
-      TabOrder = 0
-      OnClick = pnlListFontClick
-    end
+    ExplicitWidth = 305
     object chkGrepMiddle: TSpTBXCheckBox
       Left = 12
       Top = 36
-      Width = 219
+      Width = 225
       Height = 15
       Caption = 'Jump to matches in the &middle of the editor'
       ParentColor = True
@@ -53,94 +39,132 @@ object FindResultsOptionsDialog: TFindResultsOptionsDialog
     object chkGrepExpandAll: TSpTBXCheckBox
       Left = 12
       Top = 16
-      Width = 183
+      Width = 186
       Height = 15
       Caption = '&Expand all matches after searching'
       ParentColor = True
       TabOrder = 1
       ThemeType = thtWindows
     end
+    object pnlListFont: TPanel
+      Left = 28
+      Top = 57
+      Width = 243
+      Height = 33
+      Caption = 'Match List Font...'
+      Color = clWindow
+      UseDockManager = False
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'MS Shell Dlg 2'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 0
+      OnClick = pnlListFontClick
+    end
   end
-  object gbxMatchContext: TGroupBox
-    Left = 4
-    Top = 112
-    Width = 257
-    Height = 129
-    Anchors = [akLeft, akTop, akRight]
+  object gbxMatchContext: TSpTBXGroupBox
+    Left = 2
+    Top = 117
+    Width = 301
+    Height = 153
     Caption = 'Match Context Display'
+    ThemeType = thtWindows
+    Anchors = [akLeft, akTop, akRight]
     TabOrder = 1
-    object lblContextLines: TLabel
+    ExplicitWidth = 305
+    object lblContextLines: TSpTBXLabel
       Left = 28
       Top = 101
-      Width = 111
+      Width = 114
       Height = 13
       Caption = 'Number of context lines'
+      ParentColor = True
+      LinkFont.Charset = DEFAULT_CHARSET
+      LinkFont.Color = clBlue
+      LinkFont.Height = -11
+      LinkFont.Name = 'MS Shell Dlg 2'
+      LinkFont.Style = [fsUnderline]
+    end
+    object spnContextLines: TSpTBXSpinEdit
+      Left = 28
+      Top = 118
+      Width = 54
+      Height = 21
+      TabOrder = 2
+      Alignment = taLeftJustify
+      ThemeType = thtWindows
+      SpinButton.Left = 35
+      SpinButton.Top = 0
+      SpinButton.Width = 15
+      SpinButton.Height = 17
+      SpinButton.Align = alRight
+      SpinButton.LinkFont.Charset = DEFAULT_CHARSET
+      SpinButton.LinkFont.Color = clBlue
+      SpinButton.LinkFont.Height = -11
+      SpinButton.LinkFont.Name = 'Tahoma'
+      SpinButton.LinkFont.Style = [fsUnderline]
+      SpinButton.ThemeType = thtWindows
     end
     object pnlContextFont: TPanel
       Left = 28
-      Top = 18
-      Width = 197
+      Top = 19
+      Width = 243
       Height = 33
-      BevelWidth = 2
       Caption = 'Context Font...'
       Color = clWindow
+      UseDockManager = False
       TabOrder = 0
       OnClick = pnlContextFontClick
     end
     object pnlMatchLineColor: TPanel
       Left = 28
       Top = 58
-      Width = 197
+      Width = 243
       Height = 33
-      BevelWidth = 2
       Caption = 'Match Font Color...'
       Color = clWindow
+      UseDockManager = False
       TabOrder = 1
       OnClick = pnlMatchLineColorClick
     end
-    object spnContextLines: TJvSpinEdit
-      Left = 149
-      Top = 99
-      Width = 54
-      Height = 21
-      TabOrder = 2
-    end
   end
   object btnOK: TSpTBXButton
-    Left = 15
-    Top = 248
+    Left = 30
+    Top = 274
     Width = 75
     Height = 25
-    Caption = 'OK'
+    Caption = '&OK'
     Anchors = [akRight, akBottom]
     TabOrder = 2
     Default = True
     LinkFont.Charset = DEFAULT_CHARSET
     LinkFont.Color = clBlue
     LinkFont.Height = -11
-    LinkFont.Name = 'Tahoma'
+    LinkFont.Name = 'MS Shell Dlg 2'
     LinkFont.Style = [fsUnderline]
     ModalResult = 1
   end
   object btnCancel: TSpTBXButton
-    Left = 99
-    Top = 248
+    Left = 114
+    Top = 274
     Width = 75
     Height = 25
-    Caption = 'Cancel'
+    Caption = '&Cancel'
     Anchors = [akRight, akBottom]
     TabOrder = 3
     Cancel = True
     LinkFont.Charset = DEFAULT_CHARSET
     LinkFont.Color = clBlue
     LinkFont.Height = -11
-    LinkFont.Name = 'Tahoma'
+    LinkFont.Name = 'MS Shell Dlg 2'
     LinkFont.Style = [fsUnderline]
     ModalResult = 2
   end
   object btnHelp: TSpTBXButton
-    Left = 183
-    Top = 248
+    Left = 198
+    Top = 274
     Width = 75
     Height = 25
     Caption = '&Help'
@@ -150,14 +174,14 @@ object FindResultsOptionsDialog: TFindResultsOptionsDialog
     LinkFont.Charset = DEFAULT_CHARSET
     LinkFont.Color = clBlue
     LinkFont.Height = -11
-    LinkFont.Name = 'Tahoma'
+    LinkFont.Name = 'MS Shell Dlg 2'
     LinkFont.Style = [fsUnderline]
   end
   object dlgGrepListFont: TFontDialog
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -11
-    Font.Name = 'MS Sans Serif'
+    Font.Name = 'MS Shell Dlg 2'
     Font.Style = []
     Left = 184
     Top = 66
@@ -166,7 +190,7 @@ object FindResultsOptionsDialog: TFindResultsOptionsDialog
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -11
-    Font.Name = 'MS Sans Serif'
+    Font.Name = 'MS Shell Dlg 2'
     Font.Style = []
     Left = 184
     Top = 132

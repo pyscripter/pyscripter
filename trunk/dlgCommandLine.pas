@@ -5,22 +5,22 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, SynEdit, StdCtrls, ExtCtrls, Buttons, TB2Item, TBX, TBXExtItems,
-  Menus, TBXDkPanels, SpTBXControls, SpTBXItem;
+  Menus, TBXDkPanels, SpTBXControls, SpTBXItem, dlgPyIDEBase;
 
 type
-  TCommandLineDlg = class(TForm)
-    Panel1: TPanel;
-    Label1: TLabel;
+  TCommandLineDlg = class(TPyIDEDlgBase)
+    Panel: TSpTBXPanel;
     SynParameters: TSynEdit;
-    Label3: TLabel;
-    OKButton: TBitBtn;
-    BitBtn2: TBitBtn;
-    HelpButton: TBitBtn;
+    OKButton: TSpTBXButton;
+    BitBtn2: TSpTBXButton;
+    HelpButton: TSpTBXButton;
     TBXButton1: TSpTBXButton;
     TBXPopupHistory: TSpTBXPopupMenu;
     PopupHistoryItem: TTBXMRUListItem;
     EmptyHistoryPopupItem: TSpTBXItem;
     cbUseCommandLine: TSpTBXCheckBox;
+    Label1: TSpTBXLabel;
+    Label3: TSpTBXLabel;
     procedure btnHelpClick(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure SynParametersEnter(Sender: TObject);
@@ -54,6 +54,7 @@ end;
 
 procedure TCommandLineDlg.FormCreate(Sender: TObject);
 begin
+  inherited;
   PopupHistoryItem.MRUList.OnClick := CommandLineMRUClick;
 end;
 

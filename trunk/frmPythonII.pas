@@ -24,8 +24,8 @@ uses
   SynEditHighlighter, SynEdit,
   SynEditKeyCmds, SynCompletionProposal, JvComponent, JvDockControlForm,
   frmIDEDockWin, ExtCtrls, TBX, TBXThemes, PythonGUIInputOutput, JvComponentBase,
-  SynUnicode, TB2Item, ActnList, cPyBaseDebugger, WrapDelphi, WrapDelphiClasses,
-  SpTBXItem;
+  WideStrings, TB2Item, ActnList, cPyBaseDebugger, WrapDelphi, WrapDelphiClasses,
+  SpTBXItem, TntActnList;
 
 const
   WM_APPENDTEXT = WM_USER + 1020;
@@ -40,21 +40,26 @@ type
     DebugIDE: TPythonModule;
     SynParamCompletion: TSynCompletionProposal;
     InterpreterPopUp: TSpTBXPopupMenu;
-    InterpreterActionList: TActionList;
     TBXSeparatorItem1: TSpTBXSeparatorItem;
-    TBXItem3: TSpTBXItem;
-    actCopyHistory: TAction;
+    mnInterpreterEditorOptions: TSpTBXItem;
     TBXSeparatorItem2: TSpTBXSeparatorItem;
-    TBXItem4: TSpTBXItem;
-    actClearContents: TAction;
-    TBXItem7: TSpTBXItem;
+    mnCopyHistory: TSpTBXItem;
+    mnClearAll: TSpTBXItem;
     TBXPythonEngines: TSpTBXSubmenuItem;
     TBXSeparatorItem3: TSpTBXSeparatorItem;
     PyDelphiWrapper: TPyDelphiWrapper;
     PyscripterModule: TPythonModule;
-    TBXItem5: TSpTBXItem;
-    TBXItem6: TSpTBXItem;
-    TBXItem8: TSpTBXItem;
+    mnEditPaste: TSpTBXItem;
+    mnEditCopy: TSpTBXItem;
+    mnEditCut: TSpTBXItem;
+    mnCopyNoPrompts: TSpTBXItem;
+    SpTBXSeparatorItem1: TSpTBXSeparatorItem;
+    mnPasteWithPrompts: TSpTBXItem;
+    InterpreterActionList: TTntActionList;
+    actPasteWithPrompt: TTntAction;
+    actCopyWithoutPrompts: TTntAction;
+    actClearContents: TTntAction;
+    actCopyHistory: TTntAction;
     procedure testResultAddError(Sender: TObject; PSelf, Args: PPyObject;
       var Result: PPyObject);
     procedure testResultAddFailure(Sender: TObject; PSelf, Args: PPyObject;
@@ -105,6 +110,8 @@ type
       Shift: TShiftState; X, Y: Integer);
     procedure SynCodeCompletionClose(Sender: TObject);
     procedure PythonEngineAfterInit(Sender: TObject);
+    procedure actCopyWithoutPromptsExecute(Sender: TObject);
+    procedure actPasteWithPromptExecute(Sender: TObject);
   private
     { Private declarations }
     fCommandHistory : TWideStringList;
@@ -132,7 +139,7 @@ type
     procedure WMREINITINTERPRETER(var Message: TMessage); message WM_REINITINTERPRETER;
   public
     { Public declarations }
-    PS1, PS2 : WideString;
+    PS1, PS2, DebugPrefix, PMPrefix : WideString;
     PythonHelpFile : string;
     function OutputSuppressor : IInterface;
     procedure WritePendingMessages;
@@ -152,6 +159,7 @@ type
     procedure SetPythonEngineType(PythonEngineType : TPythonEngineType);
     procedure StartOutputMirror(AFileName : WideString; Append : Boolean);
     procedure StopFileMirror;
+    procedure UpdateInterpreterActions;
     property ShowOutput : boolean read fShowOutput write fShowOutput;
     property CommandHistory : TWideStringList read fCommandHistory;
     property CommandHistoryPointer : integer read fCommandHistoryPointer write fCommandHistoryPointer;
@@ -168,7 +176,7 @@ Uses
   frmMessages, uCommonFunctions, JclStrings, frmVariables, StringResources,
   dlgConfirmReplace, frmUnitTests, JvDockGlobals, SynRegExpr, 
   cPyDebugger, cPyRemoteDebugger, JvJVCLUtils, frmCallStack, uCmdLine,
-  JclFileUtils;
+  JclFileUtils, gnugettext, TntDialogs, WideStrUtils;
 
 {$R *.dfm}
 
@@ -237,6 +245,9 @@ begin
   Builtins := BuiltinModule.dir(BuiltinModule);
   for i := 0 to Len(Builtins) - 1 do
     PythonGlobalKeywords.AddObject(Builtins.__getitem__(i), Pointer(Ord(tkNonKeyword)));
+  // add pseudo keyword self
+  PythonGlobalKeywords.AddObject('self', Pointer(Ord(tkNonKeyword)));
+
   CommandsDataModule.SynPythonSyn.Keywords.Assign(PythonGlobalKeywords);
   (SynEdit.Highlighter as TSynPythonInterpreterSyn).Keywords.Assign(PythonGlobalKeywords);
 end;
@@ -294,7 +305,56 @@ end;
 
 procedure TPythonIIForm.actCopyHistoryExecute(Sender: TObject);
 begin
-  SetClipboardText(fCommandHistory.Text);
+  SetClipboardWideText(fCommandHistory.Text);
+end;
+
+procedure TPythonIIForm.actCopyWithoutPromptsExecute(Sender: TObject);
+Var
+  SelText : WideString;
+  RegExpr : TRegExpr;
+begin
+  SelText := SynEdit.SelText;
+  if SelText = '' then Exit;
+
+  RegExpr := TRegExpr.Create;
+  try
+    RegExpr.ModifierM := True;
+    RegExpr.Expression := '^((\[(Dbg|PM)\])?(>>>\ |\.\.\.\ ))';
+    SelText := RegExpr.Replace(SelText, '')
+  finally
+    RegExpr.Free;
+  end;
+
+  SetClipboardWideText(SelText);
+end;
+
+procedure TPythonIIForm.actPasteWithPromptExecute(Sender: TObject);
+Var
+  Buffer : array of WideString;
+  Text : WideString;
+  SL : TWideStringList;
+  i: Integer;
+begin
+  Text := GetClipboardWideText;
+  if Text = '' then Exit;
+
+  // Untabify
+  Text :=  WideStringReplace(Text, #9,
+     StringOfChar(' ', SynEdit.TabWidth), [rfReplaceAll]);
+
+  SL := TWideStringList.Create;
+  try
+    SL.Text := Text;
+    SetLength(Buffer, SL.Count);
+    if SL.Count > 0 then
+    Buffer[0] := SL[0];
+    for i := 1 to SL.Count - 1 do
+      Buffer[i] := SL[i];
+  finally
+    SL.Free;
+  end;
+
+  AppendToPrompt(Buffer);
 end;
 
 procedure TPythonIIForm.SetPythonEngineType(PythonEngineType: TPythonEngineType);
@@ -302,14 +362,13 @@ Var
   Cursor : IInterface;
   RemoteInterpreter : TPyRemoteInterpreter;
   Connected : Boolean;
-  Msg : string;
+  Msg : WideString;
 begin
 //  if PythonEngineType = CommandsDataModule.PyIDEOptions.PythonEngineType then
 //    Exit;
 
   if PyControl.DebuggerState <> dsInactive then begin
-    MessageDlg('Cannot change the Python engine while it is active.',
-      mtError, [mbAbort], 0);
+    WideMessageDlg(_(SCannotChangeEngine), mtError, [mbAbort], 0);
     Exit;
   end;
 
@@ -350,10 +409,10 @@ begin
       end;
   end;
   case CommandsDataModule.PyIDEOptions.PythonEngineType of
-    peInternal :  Msg := Format(SEngineActive, ['Internal','']);
-    peRemote : Msg := Format(SEngineActive, ['Remote','']);
-    peRemoteTk : Msg := Format(SEngineActive, ['Remote','(Tkinter) ']);
-    peRemoteWx : Msg := Format(SEngineActive, ['Remote','(wxPython) ']);
+    peInternal :  Msg := WideFormat(_(SEngineActive), ['Internal','']);
+    peRemote : Msg := WideFormat(_(SEngineActive), ['Remote','']);
+    peRemoteTk : Msg := WideFormat(_(SEngineActive), ['Remote','(Tkinter) ']);
+    peRemoteWx : Msg := WideFormat(_(SEngineActive), ['Remote','(wxPython) ']);
   end;
   if SynEdit.Lines[SynEdit.Lines.Count-1] = PS1 then
     SynEdit.Lines.Delete(SynEdit.Lines.Count -1);
@@ -475,11 +534,13 @@ begin
 
   PS1 := SysModule.ps1;
   PS2 := SysModule.ps2;
+  DebugPrefix := '[Dbg]';
+  PMPrefix := '[PM]';
 
   PrintInterpreterBanner;
 
   // Python Help File
-  Registry := TRegistry.Create(KEY_READ);
+  Registry := TRegistry.Create(KEY_READ and not KEY_NOTIFY);
   try
     Registry.RootKey := HKEY_LOCAL_MACHINE;
     // False because we do not want to create it if it doesn't exist
@@ -608,6 +669,9 @@ begin
     ecLineBreak :
       begin
         Command := ecNone;  // do not processed it further
+
+        fCommandHistoryPrefix := '';
+
         if SynParamCompletion.Form.Visible then
           SynParamCompletion.CancelCompletion;
 
@@ -632,9 +696,9 @@ begin
             SynEdit.ExecuteCommand(ecEditorBottom, ' ', nil);
             AppendText(WideLineBreak);
 
-            //remove trailing tabs
+            //remove trailing whitespace
             for i := Length(Source) downto 1 do
-              if Source[i] = #9 then Delete(Source, i, 1)
+              if (Source[i] = #9) or (Source[i] = #32) then Delete(Source, i, 1)
             else
               break;
 
@@ -692,10 +756,19 @@ begin
                 Inc(Position);
               end;
 
-              if CommandsDataModule.IsBlockOpener(CurLine) then
-                Indent := Indent + #9
-              else if CommandsDataModule.IsBlockCloser(CurLine) then
-                Delete(Indent, Length(Indent), 1);
+              if CommandsDataModule.IsBlockOpener(CurLine) then begin
+                if eoTabsToSpaces in SynEdit.Options then
+                  Indent := Indent + StringOfChar(' ', SynEdit.TabWidth)
+                else
+                  Indent := indent + #9;
+              end else if CommandsDataModule.IsBlockCloser(CurLine) then begin
+                if (eoTabsToSpaces in SynEdit.Options) and (Length(Indent) > 0) and
+                  (Indent[Length(Indent)] <> #9)
+                then
+                  Delete(Indent, Length(Indent) - SynEdit.TabWidth + 1, SynEdit.TabWidth)
+                else
+                  Delete(Indent, Length(Indent), 1);
+              end;
               // use ReplaceSel to ensure it goes at the cursor rather than end of buffer.
               SynEdit.SelText := PS2 + Indent;
             end;
@@ -942,7 +1015,7 @@ begin
         i := 0;
         P1 := PWideChar(Source);
         while P1 <> nil do begin
-          P1 := StrScanW(P1, WideLF);
+          P1 := WStrScan(P1, WideLF);
           if Assigned(P1) then Inc(P1);
           Inc(i);
         end;
@@ -951,7 +1024,7 @@ begin
         i := 0;
         P1 := PWideChar(Source);
         while P1 <> nil do begin
-          P2 := StrScanW(P1, WideLF);
+          P2 := WStrScan(P1, WideLF);
           if P2 = nil then
             Buffer[i] := Copy(Source, P1 - PWideChar(Source) + 1,
               Length(Source) - (P1 - PWideChar(Source)))
@@ -997,7 +1070,7 @@ procedure TPythonIIForm.SynCodeCompletionExecute(Kind: SynCompletionType;
 {-----------------------------------------------------------------------------
   Based on code from Syendit Demo
 -----------------------------------------------------------------------------}
-var locline, lookup: String;
+var locline, lookup: WideString;
     TmpX, Index, ImageIndex, i,
     TmpLocation    : Integer;
     FoundMatch     : Boolean;
@@ -1097,12 +1170,12 @@ end;
 procedure TPythonIIForm.SynParamCompletionExecute(Kind: SynCompletionType;
   Sender: TObject; var CurrentInput: WideString; var x, y: Integer;
   var CanExecute: Boolean);
-var locline, lookup: String;
+var locline, lookup: WideString;
     TmpX, StartX,
     ParenCounter,
     TmpLocation : Integer;
     FoundMatch : Boolean;
-    DisplayText, DocString : string;
+    DisplayText, DocString : WideString;
     p : TPoint;
     Attr: TSynHighlighterAttributes;
     DummyToken : WideString;
@@ -1157,7 +1230,7 @@ begin
       begin
         //we have a valid open paren, lets see what the word before it is
         StartX := TmpX;
-        while (TmpX > 0) and not(locLine[TmpX] in IdentChars+['.']) do  // added [.]
+        while (TmpX > 0) and not InOpSet(locLine[TmpX], IdentChars+['.']) do  // added [.]
           Dec(TmpX);
         if TmpX > 0 then
         begin
@@ -1181,7 +1254,7 @@ begin
     with TSynCompletionProposal(Sender) do begin
       FormatParams := not (DisplayText = '');
       if not FormatParams then
-        DisplayText :=  '\style{~B}' + SNoParameters + '\style{~B}';
+        DisplayText :=  '\style{~B}' + _(SNoParameters) + '\style{~B}';
 
       if (DocString <> '') then
         DisplayText := DisplayText + sLineBreak;
@@ -1269,7 +1342,7 @@ begin
       else
         fOutputMirror.Write(UTF8BOMString[1], Length(UTF8BomString));  // save in utf8 encoding
     except
-      MessageDlg(Format('Could not open/create %s', [AFileName]), mtWarning, [mbOK], 0);
+      WideMessageDlg(WideFormat(_(SCouldNotOpenOutputFile), [AFileName]), mtWarning, [mbOK], 0);
     end;
   finally
     fCriticalSection.Release;
@@ -1335,17 +1408,18 @@ Var
   AwakeCount : integer;  //static variable
 procedure TPythonIIForm.awakeGUIExecute(Sender: TObject; PSelf, Args: PPyObject;
   var Result: PPyObject);
+var
+  Done: Boolean;
 begin
   //  This routine is called 100 times a second
   //  Do the Idle handling only twice per second to avoid slow down.
+  PyControl.DoYield(False);
   if AwakeCount > 50 then begin
     AwakeCount := 0;
-    PyControl.DoYield(True);
-  end else begin
+    PyIDEMainForm.ApplicationOnIdle(Application, Done);
+  end else
     Inc(AwakeCount);
-    PyControl.DoYield(False);
-  end;
-//  PostMessage(Application.Handle, WM_NULL, 0, 0);
+  //PostMessage(Application.Handle, WM_NULL, 0, 0);
   Result := GetPythonEngine.ReturnNone;
 end;
 
@@ -1355,6 +1429,12 @@ begin
   MaskFPUExceptions(False);
   CommandsDataModule.PyIDEOptions.MaskFPUExceptions := False;
   Result := GetPythonEngine.ReturnNone;
+end;
+
+procedure TPythonIIForm.UpdateInterpreterActions;
+begin
+  actCopyWithoutPrompts.Enabled := SynEdit.SelAvail;
+  actPasteWithPrompt.Enabled := ClipboardProvidesWideText;
 end;
 
 procedure TPythonIIForm.MaskFPUExceptionsExecute(Sender: TObject; PSelf,
@@ -1555,6 +1635,8 @@ begin
     expectedVersion := '2.4'
   else if CmdLineReader.readFlag('PYTHON25') then
     expectedVersion := '2.5'
+  else if CmdLineReader.readFlag('PYTHON26') then
+    expectedVersion := '2.6'
   else if CmdLineReader.readFlag('PYTHON30') then
     expectedVersion := '3.0';
   PythonEngine.DllPath := CmdLineReader.readString('PYTHONDLLPATH');
@@ -1566,10 +1648,10 @@ begin
       expectedVersionIdx := idx;
     if expectedVersionIdx = -1 then
       if idx = -1 then
-        MessageDlg(Format('PyScripter can''t use command line parameter PYTHON%s because it doesn''t know this version of Python.',
+        WideMessageDlg(WideFormat(_(SUnknownPythonVersion),
           [StringReplace(expectedVersion, '.', '', [])]), mtWarning, [mbOK], 0)
       else
-        MessageDlg(Format('PyScripter can''t use command line parameter PYTHON%s because it was compiled for Python %s or later.',
+        WideMessageDlg(WideFormat(_(SUnsupportedPythonVersion),
           [StringReplace(expectedVersion, '.', '', []),
            PYTHON_KNOWN_VERSIONS[COMPILED_FOR_PYTHON_VERSION_INDEX].RegVersion]),
            mtWarning, [mbOK], 0);
@@ -1613,7 +1695,7 @@ begin
     try
       PythonEngine.LoadDll;
     except on E: EPyImportError do
-      MessageDlg(SPythonInitError, mtError, [mbOK], 0);
+      WideMessageDlg(_(SPythonInitError), mtError, [mbOK], 0);
     end;
     if PythonEngine.IsHandleValid then
       // we found a valid version

@@ -101,8 +101,8 @@ end;
 procedure TCallStackWindow.WriteToAppStorage(AppStorage: TJvCustomAppStorage;
   const BasePath: string);
 begin
-  AppStorage.WriteInteger('Function Width', CallStackView.Header.Columns[0].Width);
-  AppStorage.WriteInteger('Line Width', CallStackView.Header.Columns[2].Width);
+  AppStorage.WriteInteger(BasePath+'\Function Width', CallStackView.Header.Columns[0].Width);
+  AppStorage.WriteInteger(BasePath+'\Line Width', CallStackView.Header.Columns[2].Width);
 end;
 
 procedure TCallStackWindow.ClearAll;
@@ -211,8 +211,8 @@ end;
 procedure TCallStackWindow.ReadFromAppStorage(AppStorage: TJvCustomAppStorage;
   const BasePath: string);
 begin
-  CallStackView.Header.Columns[0].Width := AppStorage.ReadInteger('Function Width', 100);
-  CallStackView.Header.Columns[2].Width := AppStorage.ReadInteger('Line Width', 50);
+  CallStackView.Header.Columns[0].Width := AppStorage.ReadInteger(BasePath+'\Function Width', 100);
+  CallStackView.Header.Columns[2].Width := AppStorage.ReadInteger(BasePath+'\Line Width', 50);
 end;
 
 end.

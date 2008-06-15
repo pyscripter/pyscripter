@@ -59,16 +59,17 @@ var
 implementation
 
 uses frmPyIDEMain, uEditAppIntfs, dmCommands, uCommonFunctions, Clipbrd,
-  JvDockGlobals, cPyDebugger, cPyBaseDebugger;
+  JvDockGlobals, cPyDebugger, cPyBaseDebugger, TntDialogs, gnugettext,
+  StringResources;
 
 {$R *.dfm}
 
 Type
   TBreakPointInfo = class
-    FileName : string;
+    FileName : WideString;
     Line : integer;
     Disabled : Boolean;
-    Condition : string;
+    Condition : WideString;
   end;
 
   PBreakPointRec = ^TBreakPointRec;
@@ -101,8 +102,8 @@ end;
 procedure TBreakPointsWindow.WriteToAppStorage(AppStorage: TJvCustomAppStorage;
   const BasePath: string);
 begin
-  AppStorage.WriteInteger('FileName Width', BreakPointsView.Header.Columns[0].Width);
-  AppStorage.WriteInteger('Line Width', BreakPointsView.Header.Columns[1].Width);
+  AppStorage.WriteInteger(BasePath+'\FileName Width', BreakPointsView.Header.Columns[0].Width);
+  AppStorage.WriteInteger(BasePath+'\Line Width', BreakPointsView.Header.Columns[1].Width);
 end;
 
 procedure TBreakPointsWindow.BreakPointLVDblClick(Sender: TObject);
@@ -145,8 +146,7 @@ begin
       if FileName = '' then Exit; // No FileName or LineNumber
       Editor := GI_EditorFactory.GetEditorByNameOrTitle(FileName);
       if Assigned(Editor) then begin
-        if InputQuery('Edit Breakpoint Condition',
-          'Enter Python expression:', Condition)
+        if WideInputQuery(_(SEditBreakpointCond), _(SEnterPythonExpression), Condition)
         then
           PyControl.SetBreakPoint(FileName, Line, Disabled, Condition);
       end;
@@ -156,8 +156,8 @@ end;
 procedure TBreakPointsWindow.ReadFromAppStorage(AppStorage: TJvCustomAppStorage;
   const BasePath: string);
 begin
-  BreakPointsView.Header.Columns[0].Width := AppStorage.ReadInteger('FileName Width', 200);
-  BreakPointsView.Header.Columns[1].Width := AppStorage.ReadInteger('Line Width', 50);
+  BreakPointsView.Header.Columns[0].Width := AppStorage.ReadInteger(BasePath+'\FileName Width', 200);
+  BreakPointsView.Header.Columns[1].Width := AppStorage.ReadInteger(BasePath+'\Line Width', 50);
 end;
 
 procedure TBreakPointsWindow.mnCopyToClipboardClick(Sender: TObject);

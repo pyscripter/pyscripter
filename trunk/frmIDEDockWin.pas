@@ -19,7 +19,6 @@ type
   TIDEDockWindow = class(TForm)
     DockClient: TJvDockClient;
     FGPanel: TPanel;
-    procedure FormResize(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure DockClientTabHostFormCreated(DockClient: TJvDockClient;
@@ -43,22 +42,6 @@ implementation
 uses frmPyIDEMain, uCommonFunctions, JvDockGlobals;
 
 {$R *.dfm}
-
-procedure TIDEDockWindow.FormResize(Sender: TObject);
-begin
-  with FGPanel do begin
-    if (Top <> 3) or (Left <> 3) or (Width <> Self.ClientWidth - 6)
-      or (Height <> Self.ClientHeight - 6)
-    then begin
-      Anchors :=[];
-      Top := 3;
-      Left := 3;
-      Width := Self.ClientWidth - 6;
-      Height := Self.ClientHeight - 6;
-      Anchors :=[akLeft, akRight, akTop, akBottom];
-    end;
-  end;
-end;
 
 procedure TIDEDockWindow.TBMThemeChange(var Message: TMessage);
 begin
@@ -85,7 +68,6 @@ begin
   SetVistaContentFonts(FGPanel.Font);
   FGPanel.ControlStyle := FGPanel.ControlStyle + [csOpaque];
 
-  FormResize(Self);
   //FGPanelExit(Self);
 
   AddThemeNotification(Self);
@@ -96,6 +78,9 @@ begin
   HasFocus := False;
   //Color := CurrentTheme.GetItemColor(GetItemInfo('inactive'));
   Color := GetBorderColor('inactive');
+  // Set the MouseleaveHide option
+  // It may have been reset when a dock form is shown via the keyboard or menu
+  PyIDEMainForm.JvDockVSNetStyleTBX.ChannelOption.MouseleaveHide := True;
 end;
 
 procedure TIDEDockWindow.FormDestroy(Sender: TObject);
@@ -108,6 +93,8 @@ procedure TIDEDockWindow.DockClientTabHostFormCreated(
 begin
   TabHost.TBDockHeight := DockClient.TBDockHeight;
   TabHost.LRDockWidth := DockClient.LRDockWidth;
+  TabHost.PopupMode := pmExplicit;
+  TabHost.PopupParent := PyIDEMainForm;
 end;
 
 end.

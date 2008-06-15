@@ -6,8 +6,9 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, frmIDEDockWin, JvComponentBase, JvDockControlForm, ExtCtrls, ImgList,
   JvExControls, JvComponent, JvLinkLabel, TBXDkPanels, VirtualTrees,
-  TBXStatusBars, TB2Item, TBXExtItems, TB2Dock, TB2Toolbar, TBX, StdCtrls,
-  JvExStdCtrls, JvRichEdit, mbTBXJvRichEdit, ActnList, TBXThemes, SpTBXControls, SpTBXItem;
+  TB2Item, TBXExtItems, TB2Dock, TB2Toolbar, TBX, StdCtrls,
+  ActnList, TBXThemes, SpTBXControls, SpTBXItem, ComCtrls, TntComCtrls,
+  TntActnList;
 
 type
   TUnitTestWindowStatus = (utwEmpty, utwLoaded, utwRunning, utwRun);
@@ -18,37 +19,38 @@ type
     Panel1: TPanel;
     RunImages: TImageList;
     UnitTests: TVirtualStringTree;
-    DialogActions: TActionList;
-    actRun: TAction;
-    actStop: TAction;
-    actSelectAll: TAction;
-    actDeselectAll: TAction;
-    actSelectFailed: TAction;
-    actRefresh: TAction;
-    TBXItem1: TSpTBXItem;
+    tbiRefresh: TSpTBXItem;
     TBXSeparatorItem1: TSpTBXSeparatorItem;
-    TBXItem2: TSpTBXItem;
-    TBXItem3: TSpTBXItem;
-    TBXItem4: TSpTBXItem;
+    tbiSelectFailed: TSpTBXItem;
+    tbiDeselectAll: TSpTBXItem;
+    tbiSelectAll: TSpTBXItem;
     TBXSeparatorItem2: TSpTBXSeparatorItem;
-    TBXItem6: TSpTBXItem;
-    TBXItem7: TSpTBXItem;
+    tbiRun: TSpTBXItem;
+    tbiStop: TSpTBXItem;
     Panel2: TPanel;
-    ErrorText: TmbTBXJvRichEdit;
-    Label2: TLabel;
-    ModuleName: TLabel;
-    actExpandAll: TAction;
-    actCollapseAll: TAction;
-    TBXItem10: TSpTBXItem;
-    TBXItem8: TSpTBXItem;
+    tbiCollapseAll: TSpTBXItem;
+    tbiExpandAll: TSpTBXItem;
     TBXSeparatorItem7: TSpTBXSeparatorItem;
-    actClearAll: TAction;
-    TBXItem5: TSpTBXItem;
-    lbFoundTests: TLabel;
-    lblRunTests: TLabel;
-    lblFailures: TLabel;
+    tbiClearAll: TSpTBXItem;
     Bevel1: TBevel;
     SpTBXSplitter1: TSpTBXSplitter;
+    SpTBXPanel1: TSpTBXPanel;
+    ErrorText: TTntRichEdit;
+    DialogActions: TTntActionList;
+    actClearAll: TTntAction;
+    actCollapseAll: TTntAction;
+    actExpandAll: TTntAction;
+    actSelectFailed: TTntAction;
+    actDeselectAll: TTntAction;
+    actSelectAll: TTntAction;
+    actStop: TTntAction;
+    actRun: TTntAction;
+    actRefresh: TTntAction;
+    Label2: TSpTBXLabel;
+    ModuleName: TSpTBXLabel;
+    lbFoundTests: TSpTBXLabel;
+    lblRunTests: TSpTBXLabel;
+    lblFailures: TSpTBXLabel;
     procedure UnitTestsDblClick(Sender: TObject);
     procedure actStopExecute(Sender: TObject);
     procedure actClearAllExecute(Sender: TObject);
@@ -105,7 +107,7 @@ implementation
 
 uses uCommonFunctions, uHighlighterProcs, frmPyIDEMain, VarPyth, JvJVCLUtils,
   uEditAppIntfs, PythonEngine, frmPythonII, dmCommands, cPyBaseDebugger, JclSysUtils,
-  cPyDebugger;
+  cPyDebugger, StringResources, TntDialogs, gnugettext;
 
 {$R *.dfm}
 
@@ -191,7 +193,7 @@ begin
     end;
 
     if TestCount = 0 then begin
-      MessageDlg('No tests found!', mtWarning, [mbOK], 0);
+      WideMessageDlg(_(SNoTestsFound), mtWarning, [mbOK], 0);
       ClearAll;
     end else begin
       UnitTests.RootNodeCount := TestClasses.Count;

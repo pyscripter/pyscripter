@@ -9,7 +9,8 @@ unit cPyBaseDebugger;
 
 interface
 uses
-  Windows, SysUtils, Classes, uEditAppIntfs, PythonEngine, Forms, Contnrs, cTools;
+  Windows, SysUtils, Classes, uEditAppIntfs, PythonEngine, Forms, Contnrs, cTools,
+  WideStrings;
 
 type
   TPythonEngineType = (peInternal, peRemote, peRemoteTk, peRemoteWx);
@@ -73,7 +74,7 @@ type
     Line : integer;
     Char : integer;
     IsSyntax : Boolean;
-    ErrorMsg : string;
+    ErrorMsg : WideString;
     procedure Clear;
     procedure Assign(Source: TPersistent); override;
   end;
@@ -81,26 +82,26 @@ type
   TBaseFrameInfo = class(TObject)
   // Base (abstract) class for Call Stack frame information
   protected
-    function GetFunctionName : string; virtual; abstract;
-    function GetFileName : string; virtual; abstract;
+    function GetFunctionName : WideString; virtual; abstract;
+    function GetFileName : WideString; virtual; abstract;
     function GetLine : integer; virtual; abstract;
   public
-    property FunctionName : string read GetFunctionName;
-    property FileName : string read GetFileName;
+    property FunctionName : WideString read GetFunctionName;
+    property FileName : WideString read GetFileName;
     property Line : integer read GetLine;
   end;
 
- TBaseNameSpaceItem = class(TObject)
+  TBaseNameSpaceItem = class(TObject)
   // Base (abstract) class for Namespace item information
   protected
     GotChildNodes : Boolean;
     GotBufferedValue : Boolean;
-    BufferedValue : string;
-    function GetOrCalculateValue : String;
-    function GetName : string; virtual; abstract;
-    function GetObjectType : string; virtual; abstract;
-    function GetValue : string; virtual; abstract;
-    function GetDocString : string; virtual; abstract;
+    BufferedValue : WideString;
+    function GetOrCalculateValue : WideString;
+    function GetName : WideString; virtual; abstract;
+    function GetObjectType : WideString; virtual; abstract;
+    function GetValue : WideString; virtual; abstract;
+    function GetDocString : WideString; virtual; abstract;
     function GetChildCount : integer; virtual; abstract;
     function GetChildNode(Index: integer): TBaseNameSpaceItem; virtual; abstract;
   public
@@ -111,13 +112,13 @@ type
     function IsFunction : Boolean; virtual; abstract;
     function IsMethod : Boolean; virtual; abstract;
     function Has__dict__ : Boolean; virtual; abstract;
-    function IndexOfChild(AName : string): integer; virtual; abstract;
+    function IndexOfChild(AName : WideString): integer; virtual; abstract;
     procedure GetChildNodes; virtual; abstract;
     procedure CompareToOldItem(OldItem : TBaseNameSpaceItem); virtual;
-    property Name : string read GetName;
-    property ObjectType : string read GetObjectType;
-    property Value : string read GetOrCalculateValue;
-    property DocString : string read GetDocString;
+    property Name : WideString read GetName;
+    property ObjectType : WideString read GetObjectType;
+    property Value : WideString read GetOrCalculateValue;
+    property DocString : WideString read GetDocString;
     property ChildCount : integer read GetChildCount;
     property ChildNode[Index : integer] : TBaseNameSpaceItem
       read GetChildNode;
@@ -132,14 +133,14 @@ type
     // Python Path
     function SysPathAdd(const Path : WideString) : boolean; virtual; abstract;
     function SysPathRemove(const Path : WideString) : boolean; virtual; abstract;
-    function AddPathToPythonPath(const Path : string; AutoRemove : Boolean = True) : IInterface;
-    procedure SysPathToStrings(Strings : TStrings); virtual; abstract;
-    procedure StringsToSysPath(Strings : TStrings); virtual; abstract;
+    function AddPathToPythonPath(const Path : WideString; AutoRemove : Boolean = True) : IInterface;
+    procedure SysPathToStrings(Strings : TWideStrings); virtual; abstract;
+    procedure StringsToSysPath(Strings : TWideStrings); virtual; abstract;
     // NameSpace
     function GetGlobals : TBaseNameSpaceItem; virtual; abstract;
-    function NameSpaceFromExpression(const Expr : string) : TBaseNameSpaceItem; virtual; abstract;
-    function CallTipFromExpression(const Expr : string;
-      var DisplayString, DocString : string) : Boolean; virtual; abstract;
+    function NameSpaceFromExpression(const Expr : WideString) : TBaseNameSpaceItem; virtual; abstract;
+    function CallTipFromExpression(const Expr : WideString;
+      var DisplayString, DocString : WideString) : Boolean; virtual; abstract;
     // Service routines
     procedure HandlePyException(E : EPythonError; SkipFrames : integer = 1); virtual;
     procedure SetCommandLine(ARunConfig : TRunConfiguration); virtual; abstract;
@@ -149,8 +150,8 @@ type
     function ImportModule(Editor : IEditor; AddToNameSpace : Boolean = False) : Variant; virtual; abstract;
     procedure RunNoDebug(ARunConfig : TRunConfiguration); virtual; abstract;
     function RunSource(Const Source, FileName : Variant; symbol : WideString = 'single') : boolean; virtual; abstract;
-    function EvalCode(const Expr : string) : Variant; virtual; abstract;
-    function GetObjectType(Ob : Variant) : string; virtual; abstract;
+    function EvalCode(const Expr : WideString) : Variant; virtual; abstract;
+    function GetObjectType(Ob : Variant) : WideString; virtual; abstract;
     property EngineType : TPythonEngineType read fEngineType;
     property InterpreterCapabilities : TInterpreterCapabilities read fInterpreterCapabilities;
   end;
@@ -165,7 +166,7 @@ type
     // Python Path
     function SysPathAdd(const Path : WideString) : boolean; virtual; abstract;
     function SysPathRemove(const Path : WideString) : boolean; virtual; abstract;
-    function AddPathToPythonPath(const Path : string; AutoRemove : Boolean = True) : IInterface;
+    function AddPathToPythonPath(const Path : WideString; AutoRemove : Boolean = True) : IInterface;
     // Debugging
     procedure Run(ARunConfig : TRunConfiguration; InitStepIn : Boolean = False;
             RunToCursorLine : integer = -1); virtual; abstract;
@@ -177,7 +178,7 @@ type
     procedure Pause; virtual; abstract;
     procedure Abort; virtual; abstract;
     // Evaluate expression in the current frame
-    procedure Evaluate(const Expr : string; out ObjType, Value : string); virtual; abstract;
+    procedure Evaluate(const Expr : WideString; out ObjType, Value : WideString); virtual; abstract;
     // Like the InteractiveInterpreter runsource but for the debugger frame
     function RunSource(Const Source, FileName : Variant; symbol : WideString = 'single') : boolean; virtual; abstract;
     // Fills in CallStackList with TBaseFrameInfo objects
@@ -185,7 +186,7 @@ type
     // functions to get TBaseNamespaceItems corresponding to a frame's gloabals and locals
     function GetFrameGlobals(Frame : TBaseFrameInfo) : TBaseNameSpaceItem; virtual; abstract;
     function GetFrameLocals(Frame : TBaseFrameInfo) : TBaseNameSpaceItem; virtual; abstract;
-    function NameSpaceFromExpression(const Expr : string) : TBaseNameSpaceItem; virtual; abstract;
+    function NameSpaceFromExpression(const Expr : WideString) : TBaseNameSpaceItem; virtual; abstract;
     procedure MakeFrameActive(Frame : TBaseFrameInfo); virtual; abstract;
     // post mortem stuff
     function HaveTraceback : boolean; virtual; abstract;
@@ -227,8 +228,8 @@ type
     // Breakpoint related
     procedure ToggleBreakpoint(Editor : IEditor; ALine: integer;
       CtrlPressed : Boolean = False);
-    procedure SetBreakPoint(FileName : string; ALine : integer;
-      Disabled : Boolean; Condition : string);
+    procedure SetBreakPoint(FileName : WideString; ALine : integer;
+      Disabled : Boolean; Condition : WideString);
     procedure ClearAllBreakpoints;
     // Editor related
     function GetLineInfos(Editor : IEditor; ALine: integer): TDebuggerLineInfos;
@@ -311,8 +312,8 @@ implementation
 
 uses dmCommands, frmPythonII, VarPyth, frmMessages, frmPyIDEMain,
   MMSystem, Math, JvDockControlForm, JclFileUtils, Dialogs, uCommonFunctions,
-  cParameters, JclSysUtils, StringResources, SynUnicode, cPyDebugger,
-  frmCommandOutput;
+  cParameters, JclSysUtils, StringResources, cPyDebugger,
+  frmCommandOutput, gnugettext, TntSysUtils;
 
 { TEditorPos }
 
@@ -351,25 +352,25 @@ type
     fSysPathRemove : TSysPathFunction;
   public
     constructor Create(SysPathAdd, SysPathRemove : TSysPathFunction;
-      const Path : string; AutoRemove : Boolean = True);
+      const Path : WideString; AutoRemove : Boolean = True);
     destructor Destroy; override;
   end;
 
 constructor TPythonPathAdder.Create(SysPathAdd, SysPathRemove : TSysPathFunction;
-  const Path: string; AutoRemove : Boolean = True);
+  const Path: WideString; AutoRemove : Boolean = True);
 var
-  S : string;
+  S : WideString;
 begin
   inherited Create;
-  fPath := PathRemoveSeparator(Path);
+  fPath := WideExcludeTrailingPathDelimiter(Path);
   fAutoRemove := AutoRemove;
   fSysPathRemove := SysPathRemove;
-  if (fPath <> '') and DirectoryExists(fPath) then begin
+  if (fPath <> '') and WideDirectoryExists(fPath) then begin
     // Add parent directory of the root of the package first
     if IsDirPythonPackage(fPath) then begin
-      S := ExtractFileDir(GetPackageRootDir(fPath));
+      S := WideExtractFileDir(GetPackageRootDir(fPath));
       if S <> fPath then
-        PackageRootAdder := 
+        PackageRootAdder :=
           TPythonPathAdder.Create(SysPathAdd, SysPathRemove, S, AutoRemove);
     end;
     fPathAdded := SysPathAdd(fPath);
@@ -386,7 +387,7 @@ end;
 
 { TPyBaseInterpreter }
 
-function TPyBaseInterpreter.AddPathToPythonPath(const Path: string;
+function TPyBaseInterpreter.AddPathToPythonPath(const Path: WideString;
   AutoRemove: Boolean): IInterface;
 begin
   Result := TPythonPathAdder.Create(SysPathAdd, SysPathRemove, Path, AutoRemove);
@@ -414,7 +415,7 @@ end;
 
 procedure TPyBaseInterpreter.ReInitialize;
 begin
-  raise Exception.CreateRes(@SNotImplented);
+  raise Exception.Create(_(SNotImplented));
 end;
 
 { TBaseNameSpaceItem }
@@ -441,7 +442,7 @@ begin
   end;
 end;
 
-function TBaseNameSpaceItem.GetOrCalculateValue: String;
+function TBaseNameSpaceItem.GetOrCalculateValue: WideString;
 begin
   if GotBufferedValue then
     Result := BufferedValue
@@ -603,8 +604,8 @@ begin
   end;
 end;
 
-procedure TPythonControl.SetBreakPoint(FileName: string; ALine: integer;
-  Disabled : Boolean; Condition: string);
+procedure TPythonControl.SetBreakPoint(FileName: WideString; ALine: integer;
+  Disabled : Boolean; Condition: WideString);
 var
   Editor : IEditor;
   i: integer;
@@ -703,8 +704,13 @@ end;
 
 procedure TPythonControl.PrepareRun;
 begin
-  if CommandsDataModule.PyIDEOptions.SaveFilesBeforeRun then
+  if CommandsDataModule.PyIDEOptions.SaveFilesBeforeRun then begin
     PyIDEMainForm.SaveFileModules;
+    Application.ProcessMessages;
+    Application.DoApplicationIdle;
+    Application.ProcessMessages;
+    //PyIDEMainForm.Refresh;        // To update save flags
+  end;
   if CommandsDataModule.PyIDEOptions.SaveEnvironmentBeforeRun then
     PyIDEMainForm.SaveEnvironment;
   if CommandsDataModule.PyIDEOptions.ClearOutputBeforeRun then
@@ -756,7 +762,7 @@ end;
 
 { TPyBaseDebugger }
 
-function TPyBaseDebugger.AddPathToPythonPath(const Path: string;
+function TPyBaseDebugger.AddPathToPythonPath(const Path: WideString;
   AutoRemove: Boolean): IInterface;
 begin
   Result := TPythonPathAdder.Create(SysPathAdd, SysPathRemove, Path, AutoRemove);
@@ -811,5 +817,6 @@ initialization
 finalization
   FreeAndNil(PyControl);
 end.
+
 
 

@@ -1,71 +1,53 @@
-object NewFileDialog: TNewFileDialog
-  Left = 0
-  Top = 0
+inherited NewFileDialog: TNewFileDialog
   HelpContext = 640
-  BorderStyle = bsDialog
   Caption = 'New File'
   ClientHeight = 297
   ClientWidth = 466
-  Color = clBtnFace
-  Font.Charset = DEFAULT_CHARSET
-  Font.Color = clWindowText
-  Font.Height = -11
   Font.Name = 'MS Shell Dlg 2'
-  Font.Style = []
-  OldCreateOrder = False
   Position = poMainFormCenter
-  OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
-  object Panel1: TPanel
+  object Panel1: TSpTBXPanel
     Left = 0
     Top = 0
     Width = 466
     Height = 297
+    ThemeType = thtWindows
     Align = alClient
+    Color = clBtnFace
+    UseDockManager = True
+    ParentColor = False
     TabOrder = 0
-    object Panel2: TPanel
-      Left = 1
-      Top = 1
-      Width = 464
+    object Panel2: TSpTBXPanel
+      Left = 2
+      Top = 2
+      Width = 462
       Height = 255
+      ThemeType = thtWindows
       Align = alTop
-      BevelOuter = bvNone
+      Color = clBtnFace
+      UseDockManager = True
+      ParentColor = False
       TabOrder = 0
-      object Splitter1: TSplitter
-        Left = 185
-        Top = 0
-        Height = 255
-        ResizeStyle = rsUpdate
-        ExplicitLeft = 234
-        ExplicitTop = 25
-        ExplicitHeight = 100
-      end
-      object Panel3: TPanel
-        Left = 0
-        Top = 0
+      object Panel3: TSpTBXPanel
+        Left = 2
+        Top = 2
         Width = 185
-        Height = 255
+        Height = 251
+        ThemeType = thtWindows
         Align = alLeft
-        BevelOuter = bvNone
+        Color = clBtnFace
+        UseDockManager = True
+        ParentColor = False
         TabOrder = 0
-        object Label1: TLabel
-          Left = 0
-          Top = 0
-          Width = 185
-          Height = 13
-          Align = alTop
-          Caption = 'Categories:'
-          ExplicitWidth = 56
-        end
         object tvCategories: TVirtualStringTree
-          Left = 0
-          Top = 13
-          Width = 185
-          Height = 242
-          Align = alClient
+          Left = 2
+          Top = 26
+          Width = 181
+          Height = 223
+          Align = alBottom
           Header.AutoSizeIndex = 0
           Header.Font.Charset = DEFAULT_CHARSET
           Header.Font.Color = clWindowText
@@ -80,29 +62,50 @@ object NewFileDialog: TNewFileDialog
           OnGetText = tvCategoriesGetText
           Columns = <>
         end
-      end
-      object Panel4: TPanel
-        Left = 188
-        Top = 0
-        Width = 276
-        Height = 255
-        Align = alClient
-        TabOrder = 1
-        object Label2: TLabel
-          Left = 1
-          Top = 1
-          Width = 274
+        object Label1: TSpTBXLabel
+          Left = 9
+          Top = 7
+          Width = 56
           Height = 13
-          Align = alTop
-          Caption = 'Templates:'
-          ExplicitWidth = 53
+          Caption = 'Categories:'
+          ParentColor = True
+          LinkFont.Charset = DEFAULT_CHARSET
+          LinkFont.Color = clBlue
+          LinkFont.Height = -11
+          LinkFont.Name = 'MS Shell Dlg 2'
+          LinkFont.Style = [fsUnderline]
         end
-        object lvTemplates: TListView
-          Left = 1
-          Top = 14
-          Width = 274
-          Height = 240
-          Align = alClient
+      end
+      object Panel4: TSpTBXPanel
+        Left = 190
+        Top = 2
+        Width = 270
+        Height = 251
+        ThemeType = thtWindows
+        Align = alClient
+        Color = clBtnFace
+        UseDockManager = True
+        ParentColor = False
+        TabOrder = 1
+        object Label2: TSpTBXLabel
+          Left = 6
+          Top = 7
+          Width = 53
+          Height = 13
+          Caption = 'Templates:'
+          ParentColor = True
+          LinkFont.Charset = DEFAULT_CHARSET
+          LinkFont.Color = clBlue
+          LinkFont.Height = -11
+          LinkFont.Name = 'MS Shell Dlg 2'
+          LinkFont.Style = [fsUnderline]
+        end
+        object lvTemplates: TTntListView
+          Left = 2
+          Top = 26
+          Width = 266
+          Height = 223
+          Align = alBottom
           Columns = <>
           FlatScrollBars = True
           ReadOnly = True
@@ -111,19 +114,28 @@ object NewFileDialog: TNewFileDialog
           OnSelectItem = lvTemplatesSelectItem
         end
       end
+      object Splitter1: TSpTBXSplitter
+        Left = 187
+        Top = 2
+        Width = 3
+        Height = 251
+        Cursor = crSizeWE
+        ThemeType = thtWindows
+        MinSize = 30
+      end
     end
     object btnCancel: TSpTBXButton
       Left = 378
       Top = 264
       Width = 75
       Height = 25
-      Caption = 'Cancel'
+      Caption = '&Cancel'
       TabOrder = 1
       Cancel = True
       LinkFont.Charset = DEFAULT_CHARSET
       LinkFont.Color = clBlue
       LinkFont.Height = -11
-      LinkFont.Name = 'Tahoma'
+      LinkFont.Name = 'MS Shell Dlg 2'
       LinkFont.Style = [fsUnderline]
       ModalResult = 2
     end
@@ -139,13 +151,13 @@ object NewFileDialog: TNewFileDialog
       LinkFont.Charset = DEFAULT_CHARSET
       LinkFont.Color = clBlue
       LinkFont.Height = -11
-      LinkFont.Name = 'Tahoma'
+      LinkFont.Name = 'MS Shell Dlg 2'
       LinkFont.Style = [fsUnderline]
     end
     object btnManageTemplates: TSpTBXButton
-      Left = 11
-      Top = 264
-      Width = 144
+      Left = 13
+      Top = 263
+      Width = 166
       Height = 25
       Caption = 'Manage File Templates...'
       TabOrder = 3
@@ -153,7 +165,7 @@ object NewFileDialog: TNewFileDialog
       LinkFont.Charset = DEFAULT_CHARSET
       LinkFont.Color = clBlue
       LinkFont.Height = -11
-      LinkFont.Name = 'Tahoma'
+      LinkFont.Name = 'MS Shell Dlg 2'
       LinkFont.Style = [fsUnderline]
     end
   end

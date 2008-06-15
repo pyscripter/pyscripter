@@ -48,8 +48,9 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, frmIDEDockWin, JvComponent, JvDockControlForm, ExtCtrls, ActnList,
-  Contnrs, ImgList, ComCtrls, Menus, JvAppStorage, JvSearchFiles, TB2Item,
-  TBX, TBXThemes, TB2Dock, TB2Toolbar, VirtualTrees, JvComponentBase, SpTBXItem;
+  Contnrs, ImgList, ComCtrls, Menus, JvAppStorage, TB2Item,
+  TBX, TBXThemes, TB2Dock, TB2Toolbar, VirtualTrees, JvComponentBase, SpTBXItem,
+  SynUnicode, MPCommonObjects, TntActnList;
 
 type
   TToDoPriority = (tpHigh, tpMed, tpLow, tpDone);
@@ -57,10 +58,10 @@ type
 
   TTokenInfo = class(TObject)
   private
-    FToken: string;
+    FToken: WideString;
     FPriority: TToDoPriority;
-  public                                       
-    property Token: string read FToken write FToken;
+  public
+    property Token: WideString read FToken write FToken;
     property Priority: TToDoPriority read FPriority write FPriority;
   end;
 
@@ -73,49 +74,50 @@ type
     Priority: TToDoPriority;
     Raw: WideString;
     Display: WideString;
-    FileName: string;
+    FileName: WideString;
     LineNo: Integer;
   end;
 
-  TTokenList = class(TStringList)
+  TTokenList = class(TWideStringList)
   private
-    procedure AddToken(const Token: string; Priority: TToDoPriority);
+    procedure AddToken(const Token: WideString; Priority: TToDoPriority);
   public
     destructor Destroy; override;
   end;
 
   TToDoWindow = class(TIDEDockWindow)
     ilTodo: TImageList;
-    Actions: TActionList;
-    actFileRefresh: TAction;
-    actEditGoto: TAction;
-    actFilePrint: TAction;
-    actOptionsConfigure: TAction;
-    actHelpHelp: TAction;
-    actEditCopy: TAction;
-    JvSearchFiles: TJvSearchFiles;
     TBXDock1: TSpTBXDock;
     Toolbar: TSpTBXToolbar;
-    TBXItem1: TSpTBXItem;
-    TBXItem2: TSpTBXItem;
+    tbiGoTo: TSpTBXItem;
+    tbiRefresh: TSpTBXItem;
     TBXSeparatorItem1: TSpTBXSeparatorItem;
     TBXSeparatorItem2: TSpTBXSeparatorItem;
-    TBXItem3: TSpTBXItem;
+    tbiPrint: TSpTBXItem;
     TBXSeparatorItem3: TSpTBXSeparatorItem;
-    TBXItem4: TSpTBXItem;
+    tbiOptions: TSpTBXItem;
     PopupMenu: TSpTBXPopupMenu;
-    Goto1: TSpTBXItem;
-    Refresh1: TSpTBXItem;
+    mnGoto: TSpTBXItem;
+    mnRefresh: TSpTBXItem;
     N1: TSpTBXSeparatorItem;
-    CopyAll1: TSpTBXItem;
+    mnCopyAll: TSpTBXItem;
     N2: TSpTBXSeparatorItem;
-    Print1: TSpTBXItem;
-    Options1: TSpTBXItem;
+    mnPrint: TSpTBXItem;
+    mnOptions: TSpTBXItem;
     ToDoView: TVirtualStringTree;
     TBXSeparatorItem5: TSpTBXSeparatorItem;
-    TBXItem6: TSpTBXItem;
+    tbiHelp: TSpTBXItem;
     TBXSeparatorItem6: TSpTBXSeparatorItem;
-    TBXItem7: TSpTBXItem;
+    mnHelp: TSpTBXItem;
+    tbiAbort: TSpTBXItem;
+    Actions: TTntActionList;
+    actFileAbort: TTntAction;
+    actEditCopy: TTntAction;
+    actHelpHelp: TTntAction;
+    actOptionsConfigure: TTntAction;
+    actFilePrint: TTntAction;
+    actEditGoto: TTntAction;
+    actFileRefresh: TTntAction;
     procedure actEditCopyExecute(Sender: TObject);
     procedure actFilePrintExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -140,30 +142,37 @@ type
     procedure ToDoViewHeaderClick(Sender: TVTHeader; Column: TColumnIndex;
       Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure actHelpHelpExecute(Sender: TObject);
+    procedure actFileAbortExecute(Sender: TObject);
+    procedure ToDoViewShortenString(Sender: TBaseVirtualTree;
+      TargetCanvas: TCanvas; Node: PVirtualNode; Column: TColumnIndex;
+      const S: WideString; TextSpace: Integer; var Result: WideString;
+      var Done: Boolean);
   private
     { Private declarations }
     FIsFirstActivation: Boolean;
     FDataList: TObjectList;
-    FScannedFiles: TStringList;
+    FAbortSignalled: Boolean;
     function GetSelectedItem: TToDoInfo;
     procedure ClearDataListAndListView;
     procedure EnumerateFilesByDirectory;
     procedure EnumerateOpenFiles;
     procedure EnumerateProjectFiles;
-    procedure LoadFile(const FileName: string);
-    function ParseComment(const FileName: string; const SComment, EComment,
+    procedure LoadFile(const FileName: WideString);
+    function ParseComment(const FileName, SComment, EComment,
      TokenString: WideString; LineNumber: Integer): TToDoInfo;
   protected
     procedure TBMThemeChange(var Message: TMessage); message TBM_THEMECHANGE;
+    procedure VirtualFileSearchEnd(Sender: TObject; Results: TCommonPIDLList);
   public
     { Public declarations }
     procedure RefreshTodoList;
+    property AbortSignalled: Boolean read FAbortSignalled write FAbortSignalled;
   end;
 
   TToDoExpert = class(TInterfacedPersistent, IJvAppStorageHandler)
   private
     FScanType: TToDoScanType;
-    FDirsToScan: string;
+    FDirsToScan: WideString;
     FRecurseDirScan: Boolean;
     FTokenList: TTokenList;
     FShowTokens: Boolean;
@@ -184,7 +193,8 @@ var
 implementation
 
 uses dmCommands, Clipbrd, uEditAppIntfs, Math, frmPyIDEMain, dlgToDoOptions,
-  uCommonFunctions, JvJVCLUtils, JvDockGlobals, SynUnicode, cProjectClasses;
+  uCommonFunctions, JvJVCLUtils, JvDockGlobals, cProjectClasses, WideStrUtils,
+  VirtualFileSearch, MPCommonUtilities, TntWindows;
 
 {$R *.dfm}
 
@@ -216,7 +226,7 @@ begin
         ExtractFileName(FileName) + #9 +
         IntToStr(LineNo));
     end;
-    SetClipboardText(ClipText.Text);
+    SetClipboardWideText(ClipText.Text);
   finally
     FreeAndNil(ClipText);
   end;
@@ -261,6 +271,12 @@ resourcestring
 var
   PriorityText: array[Low(TToDoPriority)..High(TToDoPriority)] of string =
     (SHigh, SNormal, SLow, SDone);
+
+procedure TToDoWindow.actFileAbortExecute(Sender: TObject);
+begin
+  AbortSignalled := True;
+  actFileAbort.Enabled := False;
+end;
 
 procedure TToDoWindow.actFilePrintExecute(Sender: TObject);
 resourcestring
@@ -323,7 +339,6 @@ begin
   FIsFirstActivation := True;
 
   FDataList := TObjectList.Create(True); // Owned objects
-  FScannedFiles := TStringList.Create;
 
   // Let the tree know how much data space we need.
   ToDoView.NodeDataSize := SizeOf(TToDoRec);
@@ -338,7 +353,6 @@ begin
   ClearDataListAndListView;
 
   FreeAndNil(FDataList);
-  FreeAndNil(FScannedFiles);
 
   inherited;
 end;
@@ -351,13 +365,13 @@ end;
 
 { TTokenList }
 
-procedure TTokenList.AddToken(const Token: string;
+procedure TTokenList.AddToken(const Token: WideString;
   Priority: TToDoPriority);
 Var
   TokenInfo: TTokenInfo;
 begin
   TokenInfo := TTokenInfo.Create;
-  TokenInfo.Token := Token;
+  TokenInfo.Token := WideUpperCase(Token);
   TokenInfo.Priority := Priority;
 
   AddObject(Token, TokenInfo);
@@ -468,15 +482,15 @@ Var
   i : integer;
   NTokens : integer;
   Priority : TToDoPriority;
-  Token : string;
-  SL : TStringList;
+  Token : WideString;
+  SL : TWideStringList;
 begin
   with AppStorage do begin
     FShowTokens := ReadBoolean(BasePath+'\ShowTokens');
     ReadEnumeration(BasePath+'\ScanType', TypeInfo(TToDoScanType), FScanType, FScanType);
-    SL := TStringList.Create;
+    SL := TWideStringList.Create;
     try
-      ReadStringList(BasePath+'\DirsToScan', SL);
+      ReadWideStringList(BasePath+'\DirsToScan', SL);
       FDirsToScan := SL.Text;
     finally
       SL.Free;
@@ -487,13 +501,15 @@ begin
       FTokenList.Free;
       FTokenList := TTokenList.Create;
       for i := 0 to NTokens - 1 do begin
-        Token := ReadString(AppStorage.ConcatPaths([BasePath, 'Todo Tokens', 'Token'+IntToStr(i), 'Token']));
+        Token := ReadWideString(AppStorage.ConcatPaths([BasePath, 'Todo Tokens', 'Token'+IntToStr(i), 'Token']));
         Priority := tpMed;
         ReadEnumeration(AppStorage.ConcatPaths([BasePath, 'Todo Tokens', 'Token'+IntToStr(i), 'Priority']),
           TypeInfo(TToDoPriority), Priority, Priority);
         FTokenList.AddToken(Token, Priority);
       end;
     end;
+    ToDoWindow.ToDoView.Header.Columns[2].Width := AppStorage.ReadInteger(BasePath+'\FileName Width', 150);
+    ToDoWindow.ToDoView.Header.Columns[3].Width := AppStorage.ReadInteger(BasePath+'\Line Width', 50);
   end;
 end;
 
@@ -501,61 +517,58 @@ procedure TToDoExpert.WriteToAppStorage(AppStorage: TJvCustomAppStorage;
   const BasePath: string);
 Var
   i : integer;
-  SL : TStringList;
+  SL : TWideStringList;
 begin
   with AppStorage do begin
+    DeleteSubTree(BasePath);
     WriteBoolean(BasePath+'\ShowTokens', FShowTokens);
     WriteEnumeration(BasePath+'\ScanType', TypeInfo(TToDoScanType), FScanType);
-    SL := TStringList.Create;
+    SL := TWideStringList.Create;
     try
       SL.Text := FDirsToScan;
-      WriteStringList(BasePath+'\DirsToScan', SL);
+      WriteWideStringList(BasePath+'\DirsToScan', SL);
     finally
       SL.Free;
     end;
     WriteBoolean(BasePath+'\RecurseDirScan', FRecurseDirScan);
-    DeleteSubTree(ConcatPaths([BasePath, 'Todo Tokens']));
+
     WriteInteger(AppStorage.ConcatPaths([BasePath, 'Todo Tokens', 'Count']), FTokenList.Count);
     for i := 0 to FTokenList.Count - 1 do begin
-      WriteString(AppStorage.ConcatPaths([BasePath, 'Todo Tokens', 'Token'+IntToStr(i), 'Token']),
+      WriteWideString(AppStorage.ConcatPaths([BasePath, 'Todo Tokens', 'Token'+IntToStr(i), 'Token']),
         FTokenList[i]);
       WriteEnumeration(AppStorage.ConcatPaths([BasePath, 'Todo Tokens', 'Token'+IntToStr(i), 'Priority']),
         TypeInfo(TToDoPriority), TTokenInfo(FTokenList.Objects[i]).Priority);
     end;
+    AppStorage.WriteInteger(BasePath+'\FileName Width', TodoWindow.TodoView.Header.Columns[2].Width);
+    AppStorage.WriteInteger(BasePath+'\Line Width', TodoWindow.TodoView.Header.Columns[3].Width);
   end;
 end;
 
 resourcestring
   SDoneTodoDesignation = 'Done';
 
-function TToDoWindow.ParseComment(const FileName: string; const SComment, EComment,
+function TToDoWindow.ParseComment(const FileName, SComment, EComment,
   TokenString: WideString; LineNumber: Integer) : TToDoInfo;
 var
   i, j, k, n, m, TokenPos, NextCharPos: Integer;
   IsDoneTodoItem: Boolean;
   ParsingString: WideString;
   OptionChar: WideChar;
+  TokenStringUpped : WideString;
 begin
+  // Token string is alread trimmed and without SComment
   Result := nil;
+  TokenStringUpped := WideUpperCase(TokenString);
   for i := 0 to ToDoExpert.FTokenList.Count - 1 do
   begin
-    n := WideCaseInsensitivePos(ToDoExpert.FTokenList[i], TokenString);
-    if n > 1 then
+    if WideStrIsLeft(PWideChar(TokenStringUpped),
+      PWideChar(TTokenInfo(ToDoExpert.FTokenList.Objects[i]).Token)) then
     begin
-      // We found a token that looks like a TODO comment. Now
-      // verify that it *is* one: either a white-space or the
-      // comment token need to be right in front of the TODO item
-
+      // We found a token that looks like a TODO comment and is in the position 1.
+      n := 1;
       // Remove comment characters
       ParsingString := TokenString;
-      Delete(ParsingString, 1, Length(SComment));
-      // Remove white-space left and right
-      ParsingString := Trim(ParsingString);
-
-      // The TODO token should be at the beginning of the comment
-      TokenPos := WideCaseInsensitivePos(ToDoExpert.FTokenList[i], ParsingString);
-      if TokenPos <> 1 then
-        Continue;
+      TokenPos := 1;
 
       // The TODO token should be followed by a non-alphanumeric character
       NextCharPos := TokenPos + Length(ToDoExpert.FTokenList[i]);
@@ -667,14 +680,15 @@ begin
   end;
 end;
 
-procedure TToDoWindow.LoadFile(const FileName: string);
+procedure TToDoWindow.LoadFile(const FileName: WideString);
 Var
   SourceCode : TWideStringList;
   Editor : IEditor;
   i, Index : integer;
   TokenString : WideString;
   Encoding : TFileSaveFormat;
-  Info, Info2 : TToDoInfo;
+  Info, OldInfo : TToDoInfo;
+  PStart : PWideChar;
 begin
   SourceCode := TWideStringList.Create;
   try
@@ -688,26 +702,28 @@ begin
 
     // scan source code
     i := 0;
-    Info := nil;
+    OldInfo := nil;
     while i < SourceCode.Count do begin
-      TokenString := TrimLeft(SourceCode[i]);
-      if (Info <> nil) and (Length(TokenString) > 1) and (TokenString[1] = WideChar('#')) then begin
-        // Check for multiline comments
-        Info2 := ParseComment(FileName, '#', '', TokenString, i);
-        if Info2 = nil then
-          // Append new comment to Info.Display
-          Info.Display := Info.Display + ' ' +
-            Copy(TokenString, 2, Length(TokenString)-1)
-        else
-          Info := Info2;
-      end else begin
-        Info := nil;
-        Index := Pos(WideChar('#'), TokenString);
-        if Index > 0 then begin
-          TokenString := Copy(TokenString, Index, Length(TokenString) - Index + 1);
-          Info := ParseComment(FileName, '#', '', Tokenstring, i);
+      TokenString := SourceCode[i];
+      PStart := WStrScan(PWideChar(TokenString), '#');
+      if Assigned(PStart) then begin
+        if Assigned(OldInfo) then begin
+          if TrimLeft(TokenString)[1] <> WideChar('#') then
+            OldInfo := nil;  // it is not a multiline comments
         end;
-      end;
+
+        Index := PStart - PWideChar(TokenString) + 1;
+        TokenString := Copy(TokenString, Index + 1, MaxInt);  // We delete the #
+        TokenString := Trim(TokenString);
+
+        Info := ParseComment(FileName, '#', '', Tokenstring, i);
+        if Assigned(Info) then begin
+          OldInfo := Info;
+        end else if Assigned(OldInfo) then
+          // Append new comment to Info.Display
+          OldInfo.Display := OldInfo.Display + ' ' + TokenString;
+      end else
+        OldInfo := nil;
       Inc(i);
     end;
   finally
@@ -721,8 +737,9 @@ var
 begin
   Application.ProcessMessages;  // to repaint etc.
   Cursor := WaitCursor;
+  FAbortSignalled := False;
+  actFileAbort.Enabled := True;
   try
-    FScannedFiles.Clear;
     ClearDataListAndListView;
 
     case ToDoExpert.FScanType of
@@ -747,53 +764,89 @@ begin
     end
     else
       actEditGoto.Enabled := False;
+    fAbortSignalled := True;
+    actFileAbort.Enabled := False;
   end;
 end;
 
-procedure TToDoWindow.EnumerateFilesByDirectory;
+procedure TToDoWindow.VirtualFileSearchEnd(Sender: TObject;
+  Results: TCommonPIDLList);
 Var
-  Dirs: TStringList;
-  i, j : integer;
+  i : integer;
 begin
-  JvSearchFiles.FileParams.FileMaskSeperator := ';';
-  JvSearchFiles.FileParams.FileMask := CommandsDataModule.PyIDEOptions.FileExplorerFilter;
-  JvSearchFiles.FileParams.SearchTypes := [stFileMask];
+  for i := 0 to Results.Count - 1 do begin
+    if FAbortSignalled then
+        Exit;
+    LoadFile(PIDLToPath(Results[i]));
+    Application.ProcessMessages;
+  end;
+  Results.Clear;
+end;
 
-  Dirs := TStringList.Create;
-  Dirs.Text := ToDoExpert.FDirsToScan;
+procedure TToDoWindow.EnumerateFilesByDirectory;
+var
+  FileSearch : TVirtualFileSearch;
+begin
+  FileSearch := TVirtualFileSearch.Create(nil);
+  FileSearch.SearchAttribs := FileSearch.SearchAttribs- [vsaSystem, vsaHidden];
+  FileSearch.SearchExcludeAttribs := [vsaSystem, vsaHidden];
   try
-    for i := 0 to Dirs.Count - 1 do begin
-      jvSearchFiles.RootDirectory := Dirs[i];
-      if ToDoExpert.FRecurseDirScan then
-        JvSearchFiles.DirOption := doIncludeSubDirs
-      else
-        JvSearchFiles.DirOption := doExcludeSubDirs;
-      if JvSearchFiles.Search then begin
-        for j := 0 to JvSearchFiles.Files.Count - 1 do
-          LoadFile(JvSearchFiles.Files[j]);
+    FileSearch.SearchPaths.StrictDelimiter := True;
+    FileSearch.SearchPaths.Delimiter := ';';
+    FileSearch.SearchPaths.DelimitedText := ToDoExpert.FDirsToScan;
+
+    FileSearch.SearchCriteriaFilename.StrictDelimiter := True;
+    FileSearch.SearchCriteriaFilename.Delimiter := ';';
+    FileSearch.SearchCriteriaFilename.DelimitedText :=
+      CommandsDataModule.PyIDEOptions.PythonFileExtensions;
+
+    FileSearch.SubFolders := ToDoExpert.FRecurseDirScan;
+
+    FileSearch.UpdateRate := 200;
+
+    FileSearch.OnSearchEnd := VirtualFileSearchEnd;
+
+    FileSearch.Run;
+    while not FileSearch.Finished do begin
+      if FAbortSignalled then begin
+        FileSearch.Stop;
+        Exit;
+      end else begin
+        Application.ProcessMessages;
+        Sleep(20);
       end;
     end;
   finally
-    Dirs.Free;
+    FileSearch.Free;
   end;
 end;
 
 procedure TToDoWindow.EnumerateOpenFiles;
 var
   i : integer;
-  FileName : string;
+  FileName : WideString;
   Editor : IEditor;
 begin
   for i := 0 to GI_EditorFactory.Count - 1 do begin
     Editor := GI_EditorFactory.Editor[i];
     FileName := Editor.GetFileNameOrTitle;
+    if FAbortSignalled then
+      Exit
+    else
+      Application.ProcessMessages;
     LoadFile(FileName);
   end;
 end;
 
 function ProcessProjectFile(Node: TAbstractProjectNode; Data : Pointer):boolean;
 begin
-   Result := False;
+    if TToDoWindow(Data).FAbortSignalled then begin
+      Result := True;
+      Exit;
+    end else begin
+      Application.ProcessMessages;
+      Result := False;
+    end;
    if (Node is TProjectFileNode) and (TProjectFileNode(Node).FileName <> '') and
      CommandsDataModule.FileIsPythonSource(TProjectFileNode(Node).FileName)
    then
@@ -802,7 +855,7 @@ end;
 
 procedure TToDoWindow.EnumerateProjectFiles;
 begin
-  ActiveProject.ForEach(ProcessProjectFile, Self);
+  ActiveProject.FirstThat(ProcessProjectFile, Self);
 end;
 
 procedure TToDoWindow.FormActivate(Sender: TObject);
@@ -823,6 +876,18 @@ begin
   if key = #13 then begin
     actEditGotoExecute(Self);
     Key := #0;
+  end;
+end;
+
+procedure TToDoWindow.ToDoViewShortenString(Sender: TBaseVirtualTree;
+  TargetCanvas: TCanvas; Node: PVirtualNode; Column: TColumnIndex;
+  const S: WideString; TextSpace: Integer; var Result: WideString;
+  var Done: Boolean);
+begin
+  if Column = 2 then begin
+    Result := ShortenStringEx(TargetCanvas.Handle, S, TextSpace,
+      Application.UseRightToLeftReading, sseFilePathMiddle);
+    Done := True
   end;
 end;
 
@@ -855,7 +920,7 @@ begin
   with PToDoRec(ToDoView.GetNodeData(Node))^.ToDoInfo do
     case Column of
       1:  CellText := Display;
-      2:  CellText := ExtractFileName(FileName);
+      2:  CellText := FileName;
       3:  CellText := IntToStr(LineNo);
     end;
 end;

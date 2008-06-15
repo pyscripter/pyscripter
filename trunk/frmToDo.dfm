@@ -81,18 +81,16 @@ inherited ToDoWindow: TToDoWindow
   PixelsPerInch = 96
   TextHeight = 13
   inherited FGPanel: TPanel
-    Left = 7
-    Top = 6
-    Width = 478
-    Height = 271
-    ExplicitLeft = 7
-    ExplicitTop = 6
-    ExplicitWidth = 478
-    ExplicitHeight = 271
+    Width = 486
+    Height = 287
+    ExplicitLeft = 3
+    ExplicitTop = 3
+    ExplicitWidth = 486
+    ExplicitHeight = 287
     object TBXDock1: TSpTBXDock
       Left = 0
       Top = 0
-      Width = 478
+      Width = 486
       Height = 26
       AllowDrag = False
       object Toolbar: TSpTBXToolbar
@@ -103,35 +101,40 @@ inherited ToDoWindow: TToDoWindow
         Images = CommandsDataModule.Images
         TabOrder = 0
         Customizable = False
-        object TBXItem2: TSpTBXItem
+        object tbiRefresh: TSpTBXItem
           Caption = '&Refresh'
           Hint = 'Refresh to do items'
           Action = actFileRefresh
         end
+        object tbiAbort: TSpTBXItem
+          Caption = '&Abort'
+          Hint = 'Abort search for todo items'
+          Action = actFileAbort
+        end
         object TBXSeparatorItem1: TSpTBXSeparatorItem
         end
-        object TBXItem1: TSpTBXItem
+        object tbiGoTo: TSpTBXItem
           Caption = '&Goto'
           Hint = 'Goto source line'
           Action = actEditGoto
         end
         object TBXSeparatorItem2: TSpTBXSeparatorItem
         end
-        object TBXItem3: TSpTBXItem
+        object tbiPrint: TSpTBXItem
           Caption = '&Print'
           Hint = 'Print to do items'
           Action = actFilePrint
         end
         object TBXSeparatorItem3: TSpTBXSeparatorItem
         end
-        object TBXItem4: TSpTBXItem
+        object tbiOptions: TSpTBXItem
           Caption = '&Options...'
           Hint = 'Options...'
           Action = actOptionsConfigure
         end
         object TBXSeparatorItem5: TSpTBXSeparatorItem
         end
-        object TBXItem6: TSpTBXItem
+        object tbiHelp: TSpTBXItem
           Caption = '&Help'
           Hint = 'Help'
           Action = actHelpHelp
@@ -141,8 +144,8 @@ inherited ToDoWindow: TToDoWindow
     object ToDoView: TVirtualStringTree
       Left = 0
       Top = 26
-      Width = 478
-      Height = 245
+      Width = 486
+      Height = 261
       Align = alClient
       Alignment = taRightJustify
       BevelInner = bvNone
@@ -152,7 +155,7 @@ inherited ToDoWindow: TToDoWindow
       Header.Font.Charset = DEFAULT_CHARSET
       Header.Font.Color = clWindowText
       Header.Font.Height = -11
-      Header.Font.Name = 'Tahoma'
+      Header.Font.Name = 'MS Shell Dlg 2'
       Header.Font.Style = []
       Header.MainColumn = 1
       Header.Options = [hoAutoResize, hoColumnResize, hoDrag, hoHotTrack, hoOwnerDraw, hoShowSortGlyphs, hoVisible]
@@ -174,6 +177,7 @@ inherited ToDoWindow: TToDoWindow
       OnHeaderClick = ToDoViewHeaderClick
       OnInitNode = ToDoViewInitNode
       OnKeyPress = TodoViewKeyPress
+      OnShortenString = ToDoViewShortenString
       Columns = <
         item
           Alignment = taCenter
@@ -189,14 +193,14 @@ inherited ToDoWindow: TToDoWindow
           Layout = blGlyphRight
           MinWidth = 100
           Position = 1
-          Width = 243
+          Width = 201
           WideText = 'Description'
         end
         item
           Layout = blGlyphRight
           MinWidth = 50
           Position = 2
-          Width = 150
+          Width = 200
           WideText = 'File Name'
         end
         item
@@ -620,11 +624,52 @@ inherited ToDoWindow: TToDoWindow
       FFFFFFFFFFFFFFF8FFFFFFFFFFFFFFFF00000000000000000000000000000000
       000000000000}
   end
-  object Actions: TActionList
+  object PopupMenu: TSpTBXPopupMenu
+    Images = CommandsDataModule.Images
+    Left = 28
+    Top = 125
+    object mnGoto: TSpTBXItem
+      Caption = '&Goto'
+      Hint = 'Goto source line'
+      Action = actEditGoto
+    end
+    object mnRefresh: TSpTBXItem
+      Caption = '&Refresh'
+      Hint = 'Refresh to do items'
+      Action = actFileRefresh
+    end
+    object N1: TSpTBXSeparatorItem
+    end
+    object mnCopyAll: TSpTBXItem
+      Caption = '&Copy All'
+      Hint = 'Copy all'
+      Action = actEditCopy
+    end
+    object N2: TSpTBXSeparatorItem
+    end
+    object mnPrint: TSpTBXItem
+      Caption = '&Print'
+      Hint = 'Print to do items'
+      Action = actFilePrint
+    end
+    object mnOptions: TSpTBXItem
+      Caption = '&Options...'
+      Hint = 'Options...'
+      Action = actOptionsConfigure
+    end
+    object TBXSeparatorItem6: TSpTBXSeparatorItem
+    end
+    object mnHelp: TSpTBXItem
+      Caption = '&Help'
+      Hint = 'Help'
+      Action = actHelpHelp
+    end
+  end
+  object Actions: TTntActionList
     Images = CommandsDataModule.Images
     Left = 25
     Top = 91
-    object actFileRefresh: TAction
+    object actFileRefresh: TTntAction
       Category = 'File'
       Caption = '&Refresh'
       Hint = 'Refresh to do items'
@@ -632,14 +677,14 @@ inherited ToDoWindow: TToDoWindow
       ShortCut = 116
       OnExecute = actFileRefreshExecute
     end
-    object actEditGoto: TAction
+    object actEditGoto: TTntAction
       Category = 'Edit'
       Caption = '&Goto'
       Hint = 'Goto source line'
       ImageIndex = 32
       OnExecute = actEditGotoExecute
     end
-    object actFilePrint: TAction
+    object actFilePrint: TTntAction
       Category = 'File'
       Caption = '&Print'
       Hint = 'Print to do items'
@@ -648,21 +693,21 @@ inherited ToDoWindow: TToDoWindow
       OnExecute = actFilePrintExecute
       OnUpdate = actFilePrintUpdate
     end
-    object actOptionsConfigure: TAction
+    object actOptionsConfigure: TTntAction
       Category = 'Options'
       Caption = '&Options...'
       Hint = 'Options...'
       ImageIndex = 24
       OnExecute = actOptionsConfigureExecute
     end
-    object actHelpHelp: TAction
+    object actHelpHelp: TTntAction
       Category = 'Help'
       Caption = '&Help'
       Hint = 'Help'
       ImageIndex = 33
       OnExecute = actHelpHelpExecute
     end
-    object actEditCopy: TAction
+    object actEditCopy: TTntAction
       Category = 'Edit'
       Caption = '&Copy All'
       Hint = 'Copy all'
@@ -670,51 +715,14 @@ inherited ToDoWindow: TToDoWindow
       ShortCut = 16451
       OnExecute = actEditCopyExecute
     end
-  end
-  object JvSearchFiles: TJvSearchFiles
-    FileParams.SearchTypes = [stFileMask]
-    Left = 27
-    Top = 159
-  end
-  object PopupMenu: TSpTBXPopupMenu
-    Images = CommandsDataModule.Images
-    Left = 28
-    Top = 125
-    object Goto1: TSpTBXItem
-      Caption = '&Goto'
-      Hint = 'Goto source line'
-      Action = actEditGoto
-    end
-    object Refresh1: TSpTBXItem
-      Caption = '&Refresh'
-      Hint = 'Refresh to do items'
-      Action = actFileRefresh
-    end
-    object N1: TSpTBXSeparatorItem
-    end
-    object CopyAll1: TSpTBXItem
-      Caption = '&Copy All'
-      Hint = 'Copy all'
-      Action = actEditCopy
-    end
-    object N2: TSpTBXSeparatorItem
-    end
-    object Print1: TSpTBXItem
-      Caption = '&Print'
-      Hint = 'Print to do items'
-      Action = actFilePrint
-    end
-    object Options1: TSpTBXItem
-      Caption = '&Options...'
-      Hint = 'Options...'
-      Action = actOptionsConfigure
-    end
-    object TBXSeparatorItem6: TSpTBXSeparatorItem
-    end
-    object TBXItem7: TSpTBXItem
-      Caption = '&Help'
-      Hint = 'Help'
-      Action = actHelpHelp
+    object actFileAbort: TTntAction
+      Category = 'File'
+      Caption = '&Abort'
+      Enabled = False
+      Hint = 'Abort search for todo items'
+      ImageIndex = 40
+      ShortCut = 16449
+      OnExecute = actFileAbortExecute
     end
   end
 end

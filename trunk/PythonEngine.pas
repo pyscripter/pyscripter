@@ -108,7 +108,7 @@ type
   end;
 const
 {$IFDEF MSWINDOWS}
-  PYTHON_KNOWN_VERSIONS: array[1..10] of TPythonVersionProp =
+  PYTHON_KNOWN_VERSIONS: array[1..11] of TPythonVersionProp =
   ( (DllName: 'python14.dll'; RegVersion: '1.4'; APIVersion: 1006; CanUseLatest: False),
     (DllName: 'python15.dll'; RegVersion: '1.5'; APIVersion: 1007; CanUseLatest: False),
     (DllName: 'python16.dll'; RegVersion: '1.6'; APIVersion: 1008; CanUseLatest: False),
@@ -118,10 +118,11 @@ const
     (DllName: 'python23.dll'; RegVersion: '2.3'; APIVersion: 1012; CanUseLatest: True),
     (DllName: 'python24.dll'; RegVersion: '2.4'; APIVersion: 1012; CanUseLatest: True),
     (DllName: 'python25.dll'; RegVersion: '2.5'; APIVersion: 1013; CanUseLatest: True),
+    (DllName: 'python26.dll'; RegVersion: '2.6'; APIVersion: 1013; CanUseLatest: True),
     (DllName: 'python30.dll'; RegVersion: '3.0'; APIVersion: 1013; CanUseLatest: True) );
 {$ENDIF}
 {$IFDEF LINUX}
-  PYTHON_KNOWN_VERSIONS: array[1..10] of TPythonVersionProp =
+  PYTHON_KNOWN_VERSIONS: array[1..11] of TPythonVersionProp =
   ( (DllName: 'libpython1.4.so'; RegVersion: '1.4'; APIVersion: 1006; CanUseLatest: False),
     (DllName: 'libpython1.5.so'; RegVersion: '1.5'; APIVersion: 1007; CanUseLatest: False),
     (DllName: 'libpython1.6.so'; RegVersion: '1.6'; APIVersion: 1008; CanUseLatest: False),
@@ -131,6 +132,7 @@ const
     (DllName: 'libpython2.3.so'; RegVersion: '2.3'; APIVersion: 1012; CanUseLatest: True),
     (DllName: 'libpython2.4.so'; RegVersion: '2.4'; APIVersion: 1012; CanUseLatest: True),
     (DllName: 'libpython2.5.so'; RegVersion: '2.5'; APIVersion: 1013; CanUseLatest: True),
+    (DllName: 'libpython2.6.so'; RegVersion: '2.6'; APIVersion: 1013; CanUseLatest: True),
     (DllName: 'libpython3.0.so'; RegVersion: '3.0'; APIVersion: 1013; CanUseLatest: True) );
 {$ENDIF}
 {$IFDEF PYTHON14}
@@ -160,8 +162,11 @@ const
 {$IFDEF PYTHON25}
   COMPILED_FOR_PYTHON_VERSION_INDEX = 9;
 {$ENDIF}
-{$IFDEF PYTHON30}
+{$IFDEF PYTHON26}
   COMPILED_FOR_PYTHON_VERSION_INDEX = 10;
+{$ENDIF}
+{$IFDEF PYTHON30}
+  COMPILED_FOR_PYTHON_VERSION_INDEX = 11;
 {$ENDIF}
 
   PYT_METHOD_BUFFER_INCREASE = 10;
@@ -3573,7 +3578,7 @@ begin
     AllUserInstall := False;
     try
       key := Format('\Software\Python\PythonCore\%s\InstallPath', [RegVersion]);
-      with TRegistry.Create do
+      with TRegistry.Create(KEY_READ and not KEY_NOTIFY) do
         try
           RootKey := HKEY_LOCAL_MACHINE;
           if KeyExists( key ) then
@@ -3588,7 +3593,7 @@ begin
     // We do not seem to have an All User Python Installation.
     // Check whether we have a current user installation
     if not AllUserInstall then
-      with TRegistry.Create do
+      with TRegistry.Create(KEY_READ and not KEY_NOTIFY) do
         try
           RootKey := HKEY_CURRENT_USER;
           if OpenKey(Key, False) then
@@ -5380,7 +5385,7 @@ var
 begin
 {$IFDEF MSWINDOWS}
   try
-    with TRegistry.Create do
+    with TRegistry.Create(KEY_READ and not KEY_NOTIFY) do
       try
         //Access := KEY_READ; // works only with Delphi5 or greater
         RootKey := HKEY_LOCAL_MACHINE;

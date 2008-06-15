@@ -11,7 +11,7 @@ unit uCommonFunctions;
 interface
 Uses
   Windows, Classes, SysUtils, Graphics, TBX, TBXThemes, SynEditTypes,
-  SynUnicode;
+  WideStrings, SynUnicode, uEditAppIntfs, VirtualFileSearch;
 
 const
   UTF8BOMString : string = Char($EF) + Char($BB) + Char($BF);
@@ -20,25 +20,18 @@ const
   SFileExpr = '(([a-zA-Z]:)?[^\*\?="<>|:,;\+\^]+)'; // fwd slash (/) is allowed
   STracebackFilePosExpr =  '"\<?' + SFileExpr + '\>?", line (\d+)(, in ([\<\>\?\w]+))?';
   SWarningFilePosExpr = SFileExpr + ':(\d+):';
-
-
-type
-  (* function type for translation of strings to other language *)
-  TTranslateProc = function (const AText: string): string;
+  WideLF = WideChar(#10);
+  WideNull = WideChar(#0);
 
 (* returns the System ImageList index of the icon of a given file *)
-function GetIconIndexFromFile(const AFileName: string;
+function GetIconIndexFromFile(const AFileName: WideString;
   const ASmall: boolean): integer;
 
 (* returns long file name even for nonexisting files *)
-function GetLongFileName(const APath: string): string;
+function GetLongFileName(const APath: string): string; overload;
+function GetLongFileName(const APath: WideString): WideString; overload;
 
 (* from cStrings *)
-
-var
-  (* function for translation of strings to other language *)
-  Translate: TTranslateProc;
-
 (* checks if AText starts with ALeft *)
 function WideStrIsLeft(AText, ALeft: PWideChar): Boolean;
 
@@ -48,15 +41,15 @@ function StrIsLeft(AText, ALeft: PChar): Boolean;
 (* checks if AText ends with ARight *)
 function StrIsRight(AText, ARight: PChar): Boolean;
 
+(* checks if AText ends with ARight *)
+function WideStrIsRight(AText, ARight: PWideChar): Boolean;
+
 (* returns next token - based on Classes.ExtractStrings *)
-function StrGetToken(var Content: PChar;
-                     Separators, WhiteSpace, QuoteChars: TSysCharSet): string;
+function StrGetToken(var Content: PWideChar;
+                     Separators, WhiteSpace, QuoteChars: TSysCharSet): WideString;
 
 (* removes quotes to AText, if needed *)
-function StrUnQuote(const AText: string): string;
-
-(* allows reading of locked files *)
-function FileToStr(const FileName: String): String;
+function StrUnQuote(const AText: WideString): WideString;
 
 (* Get the current TBX theme border color for a given state *)
 function GetBorderColor(const State: string): TColor;
@@ -83,36 +76,37 @@ function  CompareVersion(const A, B : String) : Integer;
 function ConnectedToInternet : boolean;
 
 (* Extracts the nth line from a string *)
-function GetNthLine(const S : string; LineNo : integer) : string;
+function GetNthLine(const S : WideString; LineNo : integer) : WideString;
 
 (* Extracts a range of lines from a string *)
 function GetLineRange(const S : string; StartLine, EndLine : integer) : string;
 
 (* Extracts a word from a string *)
-function GetWordAtPos(const LineText : String; Start : Integer; WordChars : TSysCharSet;
+function GetWordAtPos(const LineText : WideString; Start : Integer; WordChars : TSysCharSet;
   ScanBackwards : boolean = True; ScanForward : boolean = True;
-  HandleBrackets : Boolean = False) : string;
+  HandleBrackets : Boolean = False) : WideString;
 
 (* Mask FPU Excptions - Useful for importing SciPy and other Python libs *)
 procedure MaskFPUExceptions(ExceptionsMasked : boolean);
 
 (* Format a doc string by removing left space and blank lines at start and bottom *)
-function FormatDocString(const DocString : string) : string;
+function FormatDocString(const DocString : WideString) : WideString;
 
 (* Calculate the indentation level of a line *)
-function CalcIndent(S : string; TabWidth : integer = 4): integer;
+function CalcIndent(S : WideString; TabWidth : integer = 4): integer;
 
 (* check if a directory is a Python Package *)
-function IsDirPythonPackage(Dir : string): boolean;
+function IsDirPythonPackage(Dir : WideString): boolean;
 
 (* Get Python Package Root directory *)
-function GetPackageRootDir(Dir : string): string;
+function GetPackageRootDir(Dir : WideString): WideString;
 
 (* Python FileName to possibly dotted ModuleName accounting for packages *)
-function FileNameToModuleName(const FileName : string): string;
+function FileNameToModuleName(const FileName : WideString): WideString;
 
 (* Convert <  > to &lt; &gt; *)
-function HTMLSafe(const S : string): string;
+function HTMLSafe(const S : string): string; overload;
+function HTMLSafe(const S : WideString): WideString; overload;
 
 (* Parses command line parameters *)
 // From Delphi's system.pas unit! Need to rewrite
@@ -124,7 +118,7 @@ function ReadLnFromStream(Stream : TStream; AMaxLineLength: Integer = -1;
   AExceptionIfEOF: Boolean = FALSE): String;
 
 (* Parse a line for a Python encoding spec *)
-function ParsePySourceEncoding(Textline : string): string;
+function ParsePySourceEncoding(Textline : WideString): string;
 
 (* Delphi's InputQuery supporting Wide strings - based on TnT library *)
 //function WideInputQuery(const ACaption, APrompt: WideString; var Value: WideString): Boolean;
@@ -142,8 +136,8 @@ function SortedIdentToInt(const Ident: string; var Int: Longint;
                           CaseSensitive : Boolean = False): Boolean;
 
 (* Used for sorting Python Identifiers *)
-function ComparePythonIdents(const S1, S2 : string): Integer; overload;
-function ComparePythonIdents(List: TStringList; Index1, Index2: Integer): Integer; overload;
+function ComparePythonIdents(const S1, S2 : WideString): Integer; overload;
+function ComparePythonIdents(List: WideStrings.TWideStringList; Index1, Index2: Integer): Integer; overload;
 
 (* Used to get Vista fonts *)
 procedure SetDefaultFonts(const AFont: TFont);
@@ -154,24 +148,155 @@ procedure SetVistaContentFonts(const AFont: TFont);
 function GetBlockText(Strings : TWideStrings; BlockBegin, BlockEnd : TBufferCoord) : WideString;
 
 (* Extract Error information from a VarPyth variant containing the Python error *)
-procedure ExtractPyErrorInfo(E: Variant; var FileName: string; var LineNo: Integer; var Offset: Integer);
+procedure ExtractPyErrorInfo(E: Variant; var FileName: WideString; var LineNo: Integer; var Offset: Integer);
+
+(* Get Encoded Ansi string from WideStrings ttaking into account Python file encodings *)
+function WideStringsToEncodedText(const AFileName: WideString;
+  Lines : TWideStrings; Encoding : TFileSaveFormat; var EncodedText: string;
+  InformationLossWarning: Boolean = False) : Boolean;
+
+(* Load file into WideStrings taking into account Python file encodings *)
+function LoadFileIntoWideStrings(const AFileName: WideString;
+  Lines : TWideStrings; var Encoding : TFileSaveFormat): boolean;
+
+(* Save WideStrings to file taking into account Python file encodings *)
+function SaveWideStringsToFile(const AFileName: WideString;
+  Lines : TWideStrings; Encoding : TFileSaveFormat;
+  DoBackup : Boolean = True) : boolean;
+
+(* Read File contents. Allows reading of locked files *)
+function FileToStr(const FileName: String): String;
+
+(* Read File contents into encoded string. Takes into account Python encodings *)
+function FileToEncodedStr(const AFileName : WideString) : string;
+
+(* Read File contents into Widestring. Takes into account Python encodings *)
+function FileToWideStr(const AFileName : WideString) : WideString;
+
+(*
+  Builds a list of files in FileList matching certain criteria.
+  Uses VirtualFileSearch that is found in the Mustangpeak VirtualFileExplorer package.
+  It is Unicode based.
+*)
+procedure BuildFileList(const Path, Masks: WideString;
+  FileList: WideStrings.TWideStrings; Recursive: Boolean; SearchAttribs,
+  SearchExcludeAttribs: TVirtualSearchAttribs);
+
+(* Get the raw FileTime of a File's last write operation *)
+function FileTimeLastWriteRaw(AFileName: WideString; var Time : TFileTime) : Boolean;
+
+(* Find the position of a WideChar in a WideString *)
+function WideCharPos(const S: WideString; const C: WideChar; const Index: Integer = 1): Integer;
+
+(* Check whether is S is likely to be a number *)
+function WideStrConsistsofNumberChars(const S: WideString): Boolean;
+
+(* Trim certain chars from left of string *)
+function WideStrTrimCharsLeft(const S: WideString; const Chars: TSysCharSet): WideString;
+
+(* Trim certain chars from right of string *)
+function WideStrTrimCharsRight(const S: Widestring; const Chars: TSysCharSet): WideString;
+
+(* Extracts a token and returns the remainder of a string *)
+function WideStrToken(var S: WideString; Separator: WideChar): WideString;
+
+(* Gets the Clipboard contents as Unicode string *)
+function GetClipboardWideText : WideString;
+
+(* Sets the Clipboard contents as Unicode string *)
+procedure SetClipboardWideText(AText : WideString);
+
+(* Check whether the Clipboard can provide Unicode string *)
+function ClipboardProvidesWideText : Boolean;
+
+(* Unicode vesion of PosEx *)
+function WidePosEx(const SubStr, S: WideString; Offset: Integer = 1): Integer;
+
+(* Unicode vesion of CharLastPos (in JclStrings) *)
+function WideCharLastPos(const S: WideString; const C: WideChar; const Index: Integer = 1): Integer;
+
+(* Unicode vesion of StrReplaceChars (in JclStrings) *)
+function WideStrReplaceChars(const S: WideString; const Chars: TSysCharSet; Replace: WideChar): WideString;
+
+(* Unicode vesion of StrRemoveChars (in JclStrings) *)
+function WideStrRemoveChars(const S: WideString; const Chars: TSysCharSet): WideString;
+
+(*  Returns the index of the last occurence of Substr in Str.
+   If IgnoreCase=True, the search is not case sensitive, assuming that Substr is
+   in lower case *)
+function WideLastPos(const Substr, Str: WideString; IgnoreCase: Boolean = False): Integer;
+
+
+Const
+  ZeroFileTime : TFileTime = (dwLowDateTime : 0; dwHighDateTime : 0);
 
 implementation
 Uses
   Controls, Forms, StdCtrls, ShellApi, JclFileUtils, Math, VarPyth,
-  JclStrings, JclBase, SynRegExpr, Consts, TntDialogs, TntSysUtils, StrUtils,
-  WideStrUtils;
+  JclStrings, JclBase, SynRegExpr, Consts, TntDialogs, TntClasses,
+  TntWindows, StrUtils, WideStrUtils, PythonEngine, dmCommands, Dialogs,
+  StringResources, TntSysUtils, frmPythonII, gnugettext, MPCommonUtilities,
+  MPCommonObjects, MPShellUtilities;
 
-function GetIconIndexFromFile(const AFileName: string;
+function GetIconIndexFromFile(const AFileName: WideString;
   const ASmall: boolean): integer;
-const
-  small: array[Boolean] of Integer = (SHGFI_LARGEICON, SHGFI_SMALLICON);
-var
-  SHFileInfo: TSHFileInfo;
+Var
+  NameSpace : TNameSpace;
+  IconSize : TIconSize;
 begin
-  SHGetFileInfo(PChar(AFileName), 0, SHFileInfo, SizeOf(SHFileInfo),
-    SHGFI_SYSICONINDEX or small[ASmall]);
-  Result := SHFileInfo.iIcon;
+  Result:= -1;
+  if WideFileExists(AFileName) then begin
+    if ASmall then
+      IconSize := icSmall
+    else
+      IconSize := icLarge;
+    NameSpace := TNameSpace.CreateFromFileName(AFileName);
+    try
+      Result := NameSpace.GetIconIndex(False, IconSize);
+    finally
+      NameSpace.Free;
+    end;
+  end;
+end;
+
+// Not defined in Windows.pas
+function GetLongPathNameW(lpszLongPath: PWideChar; lpszShortPath: PWideChar; cchBuffer: DWORD): DWORD; stdcall; external 'Kernel32.dll';
+
+function ShortPathToLongPath(const Path: WideString): WideString;
+
+// Converts the given path to its long form (if that exists). If Path is not an existing path or the long form
+// does not exist for any reason the Path itself is returned.
+
+var
+  Buffer: array[0..MAX_PATH] of WideChar;
+  Count: DWORD;
+
+begin
+  Count := GetLongPathNameW(PWideChar(Path), Buffer, SizeOf(Buffer));
+  SetString(Result, Buffer, Count);
+end;
+
+
+function GetLongFileName(const APath: WideString): WideString;
+(* returns long file name even for nonexisting files *)
+begin
+  if APath = '' then Result:= ''
+  else begin
+    Result:= ShortPathToLongPath(APath);
+    // if different - function is working
+    if (Result = '') or
+       ((Result = APath) and
+         not (WideFileExists(WideExcludeTrailingPathDelimiter(APath)) or
+              WideDirectoryExists(WideExcludeTrailingPathDelimiter(APath)))) then
+    begin
+      Result:= WideExtractFilePath(APath);
+      // we are up to top level
+      if (Result = '') or (Result[Length(Result)] = ':') then
+        Result:= APath
+      else Result:= GetLongFileName(WideExcludeTrailingPathDelimiter(Result)) +
+                           PathDelim + WideExtractFileName(APath);
+    end;
+  end;
 end;
 
 function GetLongFileName(const APath: string): string;
@@ -183,26 +308,20 @@ begin
     // if different - function is working
     if (Result = '') or
        ((Result = APath) and
-         not (FileExists(PathRemoveSeparator(APath)) or
-              DirectoryExists(PathRemoveSeparator(APath)))) then
+         not (FileExists(ExcludeTrailingPathDelimiter(APath)) or
+              DirectoryExists(ExcludeTrailingPathDelimiter(APath)))) then
     begin
       Result:= ExtractFilePath(APath);
       // we are up to top level
       if (Result = '') or (Result[Length(Result)] = ':') then
         Result:= APath
-      else Result:= Concat(GetLongFileName(PathRemoveSeparator(Result)),
+      else Result:= Concat(GetLongFileName(ExcludeTrailingPathDelimiter(Result)),
                            PathDelim, ExtractFileName(APath));
     end;
   end;
 end;
 
 (* from cStrings *)
-
-function NoTranslate(const AText: string): string;
-(* default is to return text as is *)
-begin
-  Result:= AText;
-end;
 
 function StrIsLeft(AText, ALeft: PChar): Boolean;
 (* checks if AText starts with ALeft *)
@@ -237,25 +356,38 @@ begin
   end;
 end;
 
-function StrGetToken(var Content: PChar;
-                     Separators, WhiteSpace, QuoteChars: TSysCharSet): string;
+function WideStrIsRight(AText, ARight: PWideChar): Boolean;
+(* checks if AText ends with ARight *)
+var
+  LenDiff: Integer;
+begin
+  Result:= ARight = nil;
+  LenDiff := WStrLen(AText) - WStrLen(ARight);
+  if not Result and (LenDiff >= 0) then begin
+    Inc(AText, LenDiff);
+    Result := WideStrIsLeft(AText, ARight);
+  end;
+end;
+
+function StrGetToken(var Content: PWideChar;
+                     Separators, WhiteSpace, QuoteChars: TSysCharSet): WideString;
 (* returns next token - based on Classes.ExtractStrings *)
 var
-  Head, Tail: PChar;
+  Head, Tail: PWideChar;
   InQuote: Boolean;
-  QuoteChar: Char;
+  QuoteChar: WideChar;
 begin
   Result:= '';
   if (Content = nil) or (Content^=#0) then Exit;
   Tail := Content;
   InQuote := False;
   QuoteChar := #0;
-  while Tail^ in WhiteSpace do Inc(Tail);
+  while inOpSet(Tail^, WhiteSpace) do Inc(Tail);
   Head := Tail;
   while True do begin
-    while (InQuote and not (Tail^ in QuoteChars + [#0])) or
-      not (Tail^ in Separators + WhiteSpace + QuoteChars + [#0]) do Inc(Tail);
-    if Tail^ in QuoteChars then begin
+    while (InQuote and not InOpSet(Tail^, QuoteChars + [#0])) or
+      not InOpSet(Tail^, Separators + WhiteSpace + QuoteChars + [#0]) do Inc(Tail);
+    if InOpSet(Tail^, QuoteChars) then begin
       if (QuoteChar <> #0) and (QuoteChar = Tail^) then
         QuoteChar := #0
       else QuoteChar := Tail^;
@@ -269,33 +401,16 @@ begin
   end;
 end;
 
-function StrUnQuote(const AText: string): string;
+function StrUnQuote(const AText: WideString): WideString;
 (* removes quotes to AText, if needed *)
 var
-  PText: PChar;
+  PText: PWideChar;
 begin
-  if PChar(AText)^ in ['"', ''''] then begin
-    PText:= PChar(AText);
-    Result:= AnsiExtractQuotedStr(PText, PText^);
+  if PWideChar(AText)^ in [WideChar('"'), WideChar('''')] then begin
+    PText:= PWideChar(AText);
+    Result:= WideExtractQuotedStr(PText, PText^);
   end
   else Result:= AText;
-end;
-
-function FileToStr(const FileName: String): String;
-(* allows reading of locked files *)
-var
-  fs: TFileStream;
-  len: Integer;
-begin
-  fs := TFileStream.Create(FileName, fmOpenRead or fmShareDenyNone);
-  try
-    len := fs.Size;
-    SetLength(Result, len);
-    if len > 0 then
-      fs.ReadBuffer(Result[1], len);
-  finally
-    fs.Free;
-  end;
 end;
 
 (* from cStrings end *)
@@ -507,11 +622,11 @@ begin
   end;
 end;
 
-function GetNthLine(const S : string; LineNo : integer) : string;
+function GetNthLine(const S : WideString; LineNo : integer) : WideString;
 var
-  SL : TStringList;
+  SL : TWideStringList;
 begin
-  SL := TStringList.Create;
+  SL := TWideStringList.Create;
   try
     SL.Text := S;
     if LineNo <= SL.Count then
@@ -543,33 +658,33 @@ begin
   end;
 end;
 
-function GetWordAtPos(const LineText : String; Start : Integer; WordChars : TSysCharSet;
+function GetWordAtPos(const LineText : WideString; Start : Integer; WordChars : TSysCharSet;
   ScanBackwards : boolean = True; ScanForward : boolean = True;
-  HandleBrackets : Boolean = False) : string;
+  HandleBrackets : Boolean = False) : Widestring;
 Var
   i, j : integer;
   L, WordStart, WordEnd, ParenCounter, NewStart : integer;
-  Bracket, MatchingBracket : Char;
+  Bracket, MatchingBracket : WideChar;
 Const
-  AllBrackets: array[0..3] of char = ('(', ')', '[', ']');
+  AllBrackets: array[0..3] of WideChar = ('(', ')', '[', ']');
   CloseBrackets = [')', ']'];
   OpenBrackets = ['(', '['];
 begin
   L := Length(LineText);
   WordStart := Start;
   WordEnd := Start;
-  if (Start <= 0) or (Start > L) or not (LineText[Start] in WordChars) then
+  if (Start <= 0) or (Start > L) or not InOpSet(LineText[Start], WordChars) then
     Result := ''
   else begin
     if ScanBackwards then begin
       i := Start;
-      while (i > 1) and (LineText[i-1] in WordChars) do
+      while (i > 1) and InOpSet(LineText[i-1], WordChars) do
         Dec(i);
       WordStart := i;
     end;
     if ScanForward then begin
       i := Start;
-      while (i < L) and (LineText[i+1] in WordChars) do
+      while (i < L) and InOpSet(LineText[i+1], WordChars) do
         Inc(i);
       WordEnd := i;
     end;
@@ -582,7 +697,7 @@ begin
     else
       NewStart := WordStart - 1;
 
-    if (NewStart > 0) and (LineText[NewStart] in  CloseBrackets) then begin
+    if (NewStart > 0) and InOpSet(LineText[NewStart], CloseBrackets) then begin
       //We found a close, go till it's opening paren
 
       Bracket := LineText[NewStart];
@@ -619,9 +734,9 @@ begin
     Set8087CW($1332);
 end;
 
-function FormatDocString(const DocString : string) : string;
+function FormatDocString(const DocString : WideString) : WideString;
 var
-  SL : TStringList;
+  SL : TWideStringList;
   i, Margin : integer;
 begin
   Result := DocString;
@@ -632,7 +747,7 @@ begin
 
   //Find minimum indentation of any non-blank lines after first line.
   Margin := MaxInt;
-  SL := TStringList.Create;
+  SL := TWideStringList.Create;
   try
     SL.Text := Result;
     // Trim First Line
@@ -650,20 +765,20 @@ begin
     end;
     Result := SL.Text;
     // Remove any trailing or leading blank lines.
-    Result := StrTrimCharsRight(Result, [#10, #13]);
-    Result := StrTrimCharsLeft(Result, [#10, #13]);
+    Result := WideStrTrimCharsRight(Result, [#10, #13]);
+    Result := WideStrTrimCharsLeft(Result, [#10, #13]);
   finally
     SL.Free;
   end;
 end;
 
-function CalcIndent(S : string; TabWidth : integer = 4): integer;
+function CalcIndent(S : WideString; TabWidth : integer = 4): integer;
 Var
   i : integer;
 begin
   Result := 0;
   for i := 1 to Length(S) do
-    if S[i] = #9 then
+    if S[i] = WideChar(#9) then
       Inc(Result, TabWidth)
     else if S[i] = ' ' then
       Inc(Result)
@@ -671,51 +786,60 @@ begin
       break;
 end;
 
-function IsDirPythonPackage(Dir : string): boolean;
+function IsDirPythonPackage(Dir : WideString): boolean;
 begin
-  Result := DirectoryExists(Dir) and
-    FileExists(PathAddSeparator(Dir) + '__init__.py');
+  Result := WideDirectoryExists(Dir) and
+    WideFileExists(WideIncludeTrailingPathDelimiter(Dir) + '__init__.py');
 end;
 
-function GetPackageRootDir(Dir : string): string;
+function GetPackageRootDir(Dir : WideString): WideString;
 Var
-  S : string;
+  S : WideString;
 begin
   if not IsDirPythonPackage(Dir) then
     raise Exception.CreateFmt('"%s" is not a Python package', [Dir]);
   S := Dir;
   Repeat
     Result := S;
-    S := ExtractFileDir(S);
+    S := WideExtractFileDir(S);
   Until (Result = S) or (not IsDirPythonPackage(S));
 end;
 
-function FileNameToModuleName(const FileName : string): string;
+function FileNameToModuleName(const FileName : WideString): WideString;
 Var
-  Path, Dir : string;
+  Path, Dir : WideString;
 begin
-  Result := PathRemoveExtension(ExtractFileName(FileName));
-  Path := ExtractFileDir(FileName);
-  Dir := ExtractFileName(Path);
+  Result := WideStripExt(WideExtractFileName(FileName));
+  Path := WideExtractFileDir(FileName);
+  Dir := WideExtractFileName(Path);
 
   if Path <> '' then begin
     while IsDirPythonPackage(Path) and (Dir <> '') do begin
       Result := Dir + '.' + Result;
-      Path := ExtractFileDir(Path);
-      Dir := ExtractFileName(Path);
+      Path := WideExtractFileDir(Path);
+      Dir := WideExtractFileName(Path);
     end;
-    if StrIsRight(PChar(Result), '.__init__') then
+    if WideStrIsRight(PWideChar(Result), '.__init__') then
       Delete(Result, Length(Result) - 8, 9);
   end;
 end;
 
-function HTMLSafe(const S : string): string;
+function HTMLSafe(const S : string): string; overload;
 begin
   Result := StringReplace(S, '<', '&lt;', [rfReplaceAll]);
   Result := StringReplace(Result, '>', '&gt;', [rfReplaceAll]);
   Result := StringReplace(Result, #13#10, '<br>', [rfReplaceAll]);
   Result := StringReplace(Result, #13, '<br>', [rfReplaceAll]);
   Result := StringReplace(Result, #10, '<br>', [rfReplaceAll]);
+end;
+
+function HTMLSafe(const S : WideString): WideString; overload;
+begin
+  Result := WideStringReplace(S, '<', '&lt;', [rfReplaceAll]);
+  Result := WideStringReplace(Result, '>', '&gt;', [rfReplaceAll]);
+  Result := WideStringReplace(Result, #13#10, '<br>', [rfReplaceAll]);
+  Result := WideStringReplace(Result, #13, '<br>', [rfReplaceAll]);
+  Result := WideStringReplace(Result, #10, '<br>', [rfReplaceAll]);
 end;
 
 function GetParamStr(P: PChar; var Param: string): PChar;
@@ -876,7 +1000,7 @@ begin
 End;//ReadLn
 
 
-function ParsePySourceEncoding(Textline : string): string;
+function ParsePySourceEncoding(Textline : WideString): string;
 var
   RegExpr : TRegExpr;
 begin
@@ -1054,19 +1178,19 @@ begin
   Result := false
 end;
 
-function ComparePythonIdents(const S1, S2 : string): Integer; overload;
+function ComparePythonIdents(const S1, S2 : WideString): Integer; overload;
 begin
-  if (S1[1] = '_') and (S2[1] = '_') then
-    Result := CompareStr(S1, S2)
+  if (S1[1] = WideChar('_')) and (S2[1] = WideChar('_')) then
+    Result := WideCompareStr(S1, S2)
   else if S1[1] = '_' then
     Result := 1
   else if S2[1] = '_' then
     Result := -1
   else
-    Result := CompareStr(S1, S2)
+    Result := WideCompareStr(S1, S2)
 end;
 
-function ComparePythonIdents(List: TStringList; Index1, Index2: Integer): Integer; overload;
+function ComparePythonIdents(List: WideStrings.TWideStringList; Index1, Index2: Integer): Integer; overload;
 Var
   S1, S2 : string;
 begin
@@ -1091,7 +1215,7 @@ begin
     SetDefaultFonts(AFont);
 end;
 
-procedure SetVistaContentFonts(const AFont: TFont);
+procedure SetVistaContentFonts(const AFont: TFont);      
 Const
   VistaContentFont = 'Calibri';
 begin
@@ -1127,7 +1251,7 @@ begin
     Delete(Result, 1, BlockBegin.Char -1);
 end;
 
-procedure ExtractPyErrorInfo(E: Variant; var FileName: string; var LineNo: Integer; var Offset: Integer);
+procedure ExtractPyErrorInfo(E: Variant; var FileName: WideString; var LineNo: Integer; var Offset: Integer);
 begin
   try
     FileName := E.filename;
@@ -1146,10 +1270,581 @@ begin
   end;
 end;
 
-initialization
-  (* default is to return text without translation *)
-  Translate:= NoTranslate;
+function WideStringsToEncodedText(const AFileName: WideString;
+  Lines : TWideStrings; Encoding : TFileSaveFormat; var EncodedText: string;
+  InformationLossWarning: Boolean = False) : Boolean;
+// AFileName is passed just for the warning
+var
+  PyEncoding : string;
+  UniPy, EncodedString : PPyObject;
+  wStr, LineBreak : WideString;
+  SuppressOutput : IInterface;
+begin
+  Result := True;
+
+  case Lines.FileFormat of
+    sffDos:
+      LineBreak := WideCRLF;
+    sffUnix:
+      LineBreak := WideLF;
+    sffMac:
+      LineBreak := WideCR;
+    sffUnicode:
+      if Encoding = sf_Ansi then
+        // Ansi-file cannot contain Unicode LINE SEPARATOR,
+        // so default to platform-specific Ansi-compatible LineBreak
+        LineBreak := SynUnicode.SLineBreak
+      else
+        LineBreak := WideLineSeparator;
+  end;
+
+  wStr := Lines.GetSeparatedText(LineBreak);
+
+  case Encoding of
+    sf_Ansi :
+      if CommandsDataModule.FileIsPythonSource(AFileName) then begin
+        PyEncoding := '';
+        if Lines.Count > 0 then
+          PyEncoding := ParsePySourceEncoding(Lines[0]);
+        if (PyEncoding = '') and (Lines.Count > 1) then
+          PyEncoding := ParsePySourceEncoding(Lines[1]);
+
+        with GetPythonEngine do begin
+          if PyEncoding = '' then
+            PyEncoding := SysModule.getdefaultencoding();
+          SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
+          UniPy := nil;
+          EncodedString := nil;
+          try
+            try
+              UniPy := PyUnicode_FromWideChar(PWideChar(wStr), Length(wStr));
+              CheckError;
+              if InformationLossWarning then begin
+                try
+                  EncodedString := PyUnicode_AsEncodedString(UniPy, PChar(PyEncoding), 'strict');
+                  CheckError;
+                  EncodedText := PyString_AsDelphiString(EncodedString);
+                  CheckError;
+                except
+                  on UnicodeEncodeError do begin
+                    Result :=
+                      WideMessageDlg(WideFormat(_(SFileEncodingWarning),
+                        [AFileName, PyEncoding]), mtWarning, [mbYes, mbCancel], 0)= mrYes;
+                    if Result then begin
+                      EncodedString := PyUnicode_AsEncodedString(UniPy, PChar(PyEncoding), 'replace');
+                      CheckError;
+                      EncodedText := PyString_AsDelphiString(EncodedString);
+                      CheckError;
+                    end;
+                  end;
+                end;
+              end else begin
+                  EncodedString := PyUnicode_AsEncodedString(UniPy, PChar(PyEncoding), 'replace');
+                  CheckError;
+                  EncodedText := PyString_AsDelphiString(EncodedString);
+                  CheckError;
+              end;
+            finally
+              Py_XDECREF(UniPy);
+              Py_XDECREF(EncodedString);
+            end;
+          except
+            PyErr_Clear;
+            EncodedText := wStr;
+            if InformationLossWarning then
+              Result :=
+                WideMessageDlg(WideFormat(_(SFileEncodingWarning),
+                  [AFileName, PyEncoding]), mtWarning, [mbYes, mbCancel], 0)= mrYes ;
+          end;
+        end;
+      end else begin
+        EncodedText := wStr;
+        if InformationLossWarning and not IsAnsiOnly(wStr) then begin
+          Result :=
+            WideMessageDlg(WideFormat(_(SFileEncodingWarning),
+            [AFileName, 'ANSI']), mtWarning, [mbYes, mbCancel], 0)= mrYes ;
+        end;
+      end;
+    sf_UTF8 : EncodedText := UTF8BOMString + UTF8Encode(wStr);
+    sf_UTF8_NoBOM : EncodedText := UTF8Encode(wStr);
+    sf_UTF16LE, sf_UTF16BE : EncodedText := wStr;
+  end;
+end;
+
+function LoadFileIntoWideStrings(const AFileName: WideString;
+  Lines : TWideStrings; var Encoding : TFileSaveFormat): boolean;
+Var
+  FileStream : TWideFileStream;
+  FileText, S, PyEncoding : string;
+  Len : integer;
+  IsPythonFile : boolean;
+  FileEncoding : TSynEncoding;
+  HasBOM : Boolean;
+  PyWstr : PPyObject;
+begin
+  Result := True;
+  if (AFileName <> '') and WideFileExists(AFileName) then begin
+    IsPythonFile :=  CommandsDataModule.FileIsPythonSource(AFileName);
+    try
+      FileStream := TWideFileStream.Create(AFileName, fmOpenRead or fmShareDenyNone);
+      try
+        // Read the file into FileText
+        Len := FileStream.Size;
+        SetLength(FileText, Len);
+        FileStream.ReadBuffer(FileText[1], Len);
+        FileStream.Seek(0, soFromBeginning);
+
+        // This routine detects UTF8 text even if there is no BOM
+        FileEncoding := GetEncoding(FileStream, HasBOM);
+        case FileEncoding of
+          seAnsi : Encoding := sf_Ansi;
+          seUTF8 :
+            begin
+              if not HasBOM then begin
+                if IsPythonFile then
+                  // Ignore detected UTF8 if it is Python and does not have BOM
+                  // File will still be read as UTF8 if it has an encoding comment
+                  Encoding := sf_Ansi
+                else begin
+                  if CommandsDataModule.PyIDEOptions.DetectUTF8Encoding then
+                    Encoding := sf_UTF8_NoBOM
+                  else
+                    Encoding := sf_Ansi;
+                end;
+              end else
+                Encoding := sf_UTF8;
+            end;
+          seUTF16LE : Encoding := sf_UTF16LE;
+          seUTF16BE : Encoding := sf_UTF16BE;
+        else
+          Raise Exception.Create(WideFormat(_(SInternalError), ['LoadFileIntoWideStrings']));
+        end;
+
+        case Encoding of
+          sf_Ansi :
+            // if it is a Pytyhon file detect an encoding spec
+            if IsPythonFile then begin
+              PyEncoding := '';
+              S := ReadLnFromStream(FileStream);
+              PyEncoding := ParsePySourceEncoding(S);
+              if PyEncoding = '' then begin
+                S := ReadLnFromStream(FileStream);
+                PyEncoding := ParsePySourceEncoding(S);
+              end;
+              FileStream.Seek(0, soFromBeginning);
+              if PyEncoding <> '' then begin
+                if PyEncoding = 'utf-8' then
+                  Encoding := sf_UTF8_NoBOM;
+                PyWstr := nil;
+                try
+                  with GetPythonEngine do begin
+                    try
+                        PyWstr := GetPythonEngine.PyUnicode_Decode(PChar(FileText), Length(FileText),
+                          PChar(PyEncoding), 'replace');
+                        CheckError;
+                        Lines.Text := PyUnicode_AsWideString(PyWstr);
+                    finally
+                      Py_XDECREF(PyWstr);
+                    end;
+                  end;
+                except
+                  WideMessageDlg(WideFormat(_(SDecodingError),
+                     [AFileName, PyEncoding]), mtWarning, [mbOK], 0);
+                  Lines.Text := FileText;
+                end;
+              end else
+                Lines.LoadFromStream(FileStream);
+            end else
+              Lines.LoadFromStream(FileStream);
+          sf_UTF8, sf_UTF8_NoBOM :
+            LoadFromStream(Lines, FileStream, seUTF8, HasBOM);
+          sf_UTF16LE:
+            LoadFromStream(Lines, FileStream, seUTF16LE, HasBOM);
+          sf_UTF16BE:
+            LoadFromStream(Lines, FileStream, seUTF16BE, HasBOM);
+        end;
+      finally
+        FileStream.Free;
+      end;
+    except
+      on E: Exception do begin
+        WideMessageDlg(WideFormat(_(SFileOpenError), [AFileName, E.Message]), mtError, [mbOK], 0);
+        Result := False;
+      end;
+    end;
+  end else
+    Result := False;
+end;
+
+(* Save WideStrings to file taking into account Python file encodings *)
+function SaveWideStringsToFile(const AFileName: WideString;
+  Lines : TWideStrings; Encoding : TFileSaveFormat;
+  DoBackup : Boolean = True) : boolean;
+Var
+  FileStream : TWideFileStream;
+  S : string;
+begin
+  try
+    // Create Backup
+    if DoBackup and
+      WideFileExists(AFileName) then
+    begin
+      try
+        FileBackup(AFileName);
+      except
+        WideMessageDlg(WideFormat(_(SFailedToBackupFile), [AFileName]),
+          mtWarning, [mbOK], 0);
+      end;
+    end;
+
+    Result := True;
+
+    if Encoding = sf_Ansi then
+      Result := WideStringsToEncodedText(AFileName, Lines, Encoding, S, True);
+
+    if Result then begin
+      FileStream := TWideFileStream.Create(AFileName, fmCreate);
+      try
+        case Encoding of
+          sf_Ansi : FileStream.WriteBuffer(S[1], Length(S));
+          sf_UTF8 : SaveToStream(Lines, FileStream, seUTF8, True);
+          sf_UTF8_NoBOM : SaveToStream(Lines, FileStream, seUTF8, False);
+          sf_UTF16LE: SaveToStream(Lines, FileStream, seUTF16LE, True);
+          sf_UTF16BE: SaveToStream(Lines, FileStream, seUTF16BE, True);
+        end;
+      finally
+        FileStream.Free;
+      end;
+
+    end;
+  except
+    on E: Exception do begin
+      WideMessageDlg(WideFormat(_(SFileSaveError), [AFileName, E.Message]), mtError, [mbOK], 0);
+      Result := False;
+    end;
+  end;
+end;
+
+function FileToStr(const FileName: String): String;
+(* allows reading of locked files *)
+var
+  fs: TFileStream;
+  len: Integer;
+begin
+  fs := TFileStream.Create(FileName, fmOpenRead or fmShareDenyNone);
+  try
+    len := fs.Size;
+    SetLength(Result, len);
+    if len > 0 then
+      fs.ReadBuffer(Result[1], len);
+  finally
+    fs.Free;
+  end;
+end;
+
+function FileToEncodedStr(const AFileName : WideString) : string;
+Var
+  SL : TWideStringList;
+  Encoding: TFileSaveFormat;
+begin
+  SL := TWideStringList.Create;
+  try
+    LoadFileIntoWideStrings(AFileName, SL, Encoding);
+    WideStringsToEncodedText(AFileName, SL, Encoding, Result, False);
+  finally
+    SL.Free;
+  end;
+end;
+
+
+function FileToWideStr(const AFileName : WideString) : WideString;
+Var
+  SL : TWideStringList;
+  Encoding: TFileSaveFormat;
+begin
+  SL := TWideStringList.Create;
+  try
+    LoadFileIntoWideStrings(AFileName, SL, Encoding);
+    Result := SL.Text;
+  finally
+    SL.Free;
+  end;
+end;
+
+function FileTimeLastWriteRaw(AFileName: WideString; var Time : TFileTime) : Boolean;
+Var
+  FindData: TWIN32FindDataW;
+  Handle: THandle;
+begin
+  Result := False;
+  Time := ZeroFileTime;
+  Handle := Tnt_FindFirstFileW(PWideChar(AFileName), FindData);
+  if Handle <> INVALID_HANDLE_VALUE then
+  begin
+    Windows.FindClose(Handle);
+    if (FindData.dwFileAttributes and FILE_ATTRIBUTE_DIRECTORY) = 0 then
+    begin
+      Result := True;
+      Time := FindData.ftLastWriteTime;
+    end;
+  end;
+end;
+
+
+// Support class for BuildFileList
+type
+TBuildFileList = class
+  private
+    fFileList : WideStrings.TWideStrings;
+    procedure VirtualFileSearchEnd(Sender: TObject;  Results: TCommonPIDLList);
+    procedure BuildFileList(const Path, Masks: WideString;
+      FileList: WideStrings.TWideStrings; Recursive: Boolean; SearchAttribs,
+      SearchExcludeAttribs: TVirtualSearchAttribs);
+end;
+
+{ TBuildFileList }
+
+procedure TBuildFileList.BuildFileList(const Path, Masks: WideString;
+  FileList: WideStrings.TWideStrings; Recursive: Boolean; SearchAttribs,
+  SearchExcludeAttribs: TVirtualSearchAttribs);
+var
+  FileSearch : TVirtualFileSearch;
+begin
+  fFileList := FileList;
+  FileSearch := TVirtualFileSearch.Create(nil);
+  try
+    FileSearch.SearchAttribs := SearchAttribs;
+    FileSearch.SearchExcludeAttribs := SearchExcludeAttribs;
+
+    FileSearch.SearchPaths.StrictDelimiter := True;
+    FileSearch.SearchPaths.Delimiter := ';';
+    FileSearch.SearchPaths.DelimitedText := Path;
+
+    FileSearch.SearchCriteriaFilename.StrictDelimiter := True;
+    FileSearch.SearchCriteriaFilename.Delimiter := ';';
+    FileSearch.SearchCriteriaFilename.DelimitedText := Masks;
+
+    FileSearch.SubFolders := Recursive;
+    FileSearch.UpdateRate := 100;
+    FileSearch.OnSearchEnd := VirtualFileSearchEnd;
+    FileSearch.RunAndWait;
+  finally
+    FileSearch.Free;
+  end;
+end;
+
+procedure TBuildFileList.VirtualFileSearchEnd(Sender: TObject;
+  Results: TCommonPIDLList);
+Var
+  i : integer;
+begin
+  for i := 0 to Results.Count - 1 do
+    fFileList.Add(PIDLToPath(Results[i]));
+  Results.Clear;
+end;
+
+procedure BuildFileList(const Path, Masks: WideString;
+  FileList: WideStrings.TWideStrings; Recursive: Boolean; SearchAttribs,
+  SearchExcludeAttribs: TVirtualSearchAttribs);
+Var
+  BFL : TBuildFileList;
+begin
+  BFL := TBuildFileList.Create;
+  try
+    BFL.BuildFileList(Path, Masks, FileList, Recursive, SearchAttribs,
+      SearchExcludeAttribs);
+  finally
+    BFL.Free;
+  end;
+end;
+
+function WideCharPos(const S: WideString; const C: WideChar; const Index: Integer): Integer;
+begin
+  if (Index > 0) and (Index <= Length(S)) then
+  begin
+    for Result := Index to Length(S) do
+      if S[Result] = C then
+        Exit;
+  end;
+  Result := 0;
+end;
+
+function WideCharIsNumberChar(const C: WideChar): Boolean;
+begin
+  Result := IsWideCharDigit(C) or InOpSet(C, ['-', '+', DecimalSeparator]);
+end;
+
+function WideStrConsistsofNumberChars(const S: WideString): Boolean;
+var
+  I: Integer;
+begin
+  Result := S <> '';
+  for I := 1 to Length(S) do
+  begin
+    if not WideCharIsNumberChar(S[I]) then
+    begin
+      Result := False;
+      Exit;
+    end;
+  end;
+end;
+
+function WideStrTrimCharsLeft(const S: WideString; const Chars: TSysCharSet): WideString;
+var
+  I, L: Integer;
+begin
+  I := 1;
+  L := Length(S);
+  while (I <= L) and InOpSet(S[I], Chars) do Inc(I);
+  Result := Copy(S, I, L - I + 1);
+end;
+
+function WideStrTrimCharsRight(const S: Widestring; const Chars: TSysCharSet): WideString;
+var
+  I: Integer;
+begin
+  I := Length(S);
+  while (I >= 1) and InOpSet(S[I], Chars) do Dec(I);
+  Result := Copy(S, 1, I);
+end;
+
+function WideStrToken(var S: WideString; Separator: WideChar): WideString;
+var
+  I: Integer;
+begin
+  I := WideCharPos(S, Separator);
+  if I <> 0 then
+  begin
+    Result := Copy(S, 1, I - 1);
+    Delete(S, 1, I);
+  end
+  else
+  begin
+    Result := S;
+    S := '';
+  end;
+end;
+
+function GetClipboardWideText : WideString;
+begin
+  Result := GetClipboardText;
+end;
+
+procedure SetClipboardWideText(AText : WideString);
+begin
+  SetClipboardText(AText);
+end;
+
+function ClipboardProvidesWideText : Boolean;
+begin
+  Result := ClipboardProvidesText;
+end;
+
+function WidePosEx(const SubStr, S: WideString; Offset: Integer = 1): Integer;
+var
+  I,X: Integer;
+  Len, LenSubStr: Integer;
+begin
+  if Offset = 1 then
+    Result := Pos(SubStr, S)
+  else
+  begin
+    if Offset < 0 then
+    begin
+      Result := 0;
+      exit;
+    end;
+    I := Offset;
+    LenSubStr := Length(SubStr);
+    Len := Length(S) - LenSubStr + 1;
+    while I <= Len do
+    begin
+      if S[I] = SubStr[1] then
+      begin
+        X := 1;
+        while (X < LenSubStr) and (S[I + X] = SubStr[X + 1]) do
+          Inc(X);
+        if (X = LenSubStr) then
+        begin
+          Result := I;
+          exit;
+        end;
+      end;
+      Inc(I);
+    end;
+    Result := 0;
+  end;
+end;
+
+function WideCharLastPos(const S: Widestring; const C: WideChar; const Index: Integer): Integer;
+begin
+  if (Index > 0) and (Index <= Length(S)) then
+  begin
+    for Result := Length(S) downto Index do
+      if S[Result] = C then
+        Exit;
+  end;
+  Result := 0;
+end;
+
+function WideStrReplaceChars(const S: WideString; const Chars: TSysCharSet; Replace: WideChar): WideString;
+var
+  I: Integer;
+begin
+  Result := S;
+  for I := 1 to Length(S) do
+    if InOpSet(Result[I], Chars) then
+      Result[I] := Replace;
+end;
+
+function WideStrRemoveChars(const S: WideString; const Chars: TSysCharSet): WideString;
+var
+  Source, Dest: PWideChar;
+  Len, Index: Integer;
+begin
+  Len := Length(S);
+  SetLength(Result, Len);
+  Source := PWideChar(S);
+  Dest := PWideChar(Result);
+  for Index := 0 to Len-1 do
+  begin
+    if not InOpSet(Source^, Chars) then
+    begin
+      Dest^ := Source^;
+      Inc(Dest);
+    end;
+    Inc(Source);
+  end;
+  SetLength(Result, Dest - PWideChar(Result));
+end;
+
+function WideLastPos(const Substr, Str: WideString; IgnoreCase: Boolean = False): Integer;
+var PSubstr, PStr, PStart: PWideChar;
+    Str2: WideString;
+begin
+  Result := 0;
+  if IgnoreCase then begin
+    Str2 := WideLowerCase(Str);
+    PStr := PWideChar(Str2);
+    end
+  else
+    PStr := PWideChar(Str);
+  PStart := PStr;
+  PSubStr := PWideChar(Substr);
+  repeat
+    PStr := WStrPos(PStr, PSubstr);
+    if PStr=nil then
+      exit;
+    Result := PStr-PStart+1;
+    inc(PStr);
+  until PStr^ = WideChar(#0);
+end;
+
 end.
+
+
+
+
 
 
 

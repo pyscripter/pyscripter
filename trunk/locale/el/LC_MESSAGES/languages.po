@@ -1,0 +1,50 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2003-05-05 12:39\n"
+"PO-Revision-Date: 2008-04-01 20:46+0200\n"
+"Last-Translator: Kiriakos Vlahos <pyscripter@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language-Team: \n"
+
+msgid "Chinese"
+msgstr "Κινέζικα"
+
+msgid "English"
+msgstr "Αγγλικά"
+
+#. Language of France
+msgid "French"
+msgstr "Γαλικά"
+
+#. Language of Germany, Austria and others
+msgid "German"
+msgstr "Γερμανικά"
+
+#. Language of Greece
+msgid "Greek"
+msgstr "Ελληνικά"
+
+#. Language of Italy, Europe
+msgid "Italian"
+msgstr "Ιταλικά"
+
+#. Language of Japan, Asia
+msgid "Japanese"
+msgstr "Ιαπωνικά"
+
+#. Language of Portugal, Europe
+msgid "Portuguese"
+msgstr "Πορτογαλικά"
+
+#. Language of Russia
+msgid "Russian"
+msgstr "Ρωσικά"
+

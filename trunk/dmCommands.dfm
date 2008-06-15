@@ -4,715 +4,6 @@ object CommandsDataModule: TCommandsDataModule
   OnDestroy = DataModuleDestroy
   Height = 335
   Width = 663
-  object actlMain: TActionList
-    Images = Images
-    Left = 21
-    Top = 123
-    object actFileSave: TAction
-      Category = 'File'
-      Caption = '&Save'
-      Enabled = False
-      HelpContext = 310
-      HelpType = htContext
-      Hint = 'Save|Save active file'
-      ImageIndex = 4
-      ShortCut = 16467
-      OnExecute = actFileSaveExecute
-    end
-    object actFileSaveAs: TAction
-      Category = 'File'
-      Caption = 'Save &As...'
-      Enabled = False
-      HelpContext = 310
-      HelpType = htContext
-      Hint = 'Save As|Save active file under different name'
-      OnExecute = actFileSaveAsExecute
-    end
-    object actFileClose: TAction
-      Category = 'File'
-      Caption = '&Close'
-      Enabled = False
-      HelpContext = 310
-      HelpType = htContext
-      Hint = 'Close|Close active file'
-      ImageIndex = 2
-      ShortCut = 16499
-      OnExecute = actFileCloseExecute
-    end
-    object actEditCut: TEditCut
-      Category = 'Edit'
-      Caption = 'Cu&t'
-      Enabled = False
-      HelpContext = 320
-      HelpType = htContext
-      Hint = 'Cut|Cuts the selection and puts it on the Clipboard'
-      ImageIndex = 11
-      ShortCut = 16472
-    end
-    object actEditCopy: TEditCopy
-      Category = 'Edit'
-      Caption = '&Copy'
-      Enabled = False
-      HelpContext = 320
-      HelpType = htContext
-      Hint = 'Copy|Copies the selection and puts it on the Clipboard'
-      ImageIndex = 12
-      ShortCut = 16451
-    end
-    object actEditPaste: TEditPaste
-      Category = 'Edit'
-      Caption = '&Paste'
-      HelpContext = 320
-      HelpType = htContext
-      Hint = 'Paste|Inserts Clipboard contents'
-      ImageIndex = 13
-      ShortCut = 16470
-    end
-    object actEditDelete: TEditDelete
-      Category = 'Edit'
-      Caption = 'De&lete'
-      Enabled = False
-      HelpContext = 320
-      HelpType = htContext
-      Hint = 'Delete|Delete selection'
-      ImageIndex = 14
-    end
-    object actEditUndo: TEditUndo
-      Category = 'Edit'
-      Caption = '&Undo'
-      HelpContext = 320
-      HelpType = htContext
-      Hint = 'Undo|Reverts the last action'
-      ImageIndex = 9
-      ShortCut = 16474
-    end
-    object actEditRedo: TAction
-      Category = 'Edit'
-      Caption = '&Redo'
-      Enabled = False
-      HelpContext = 320
-      HelpType = htContext
-      Hint = 'Redo| Redo last action'
-      ImageIndex = 10
-      ShortCut = 24666
-      OnExecute = actEditRedoExecute
-    end
-    object actEditSelectAll: TEditSelectAll
-      Category = 'Edit'
-      Caption = 'Select &All'
-      HelpContext = 320
-      HelpType = htContext
-      Hint = 'Select All|Selects the entire document'
-      ShortCut = 16449
-    end
-    object actSearchFind: TAction
-      Category = 'Search'
-      Caption = '&Find...'
-      Enabled = False
-      HelpContext = 330
-      HelpType = htContext
-      Hint = 'Search|Search for a string'
-      ImageIndex = 15
-      ShortCut = 16454
-      OnExecute = actSearchFindExecute
-    end
-    object actSearchFindNext: TAction
-      Category = 'Search'
-      Caption = 'Find &Next'
-      Enabled = False
-      HelpContext = 330
-      HelpType = htContext
-      Hint = 'Find next|Find next match'
-      ImageIndex = 16
-      ShortCut = 114
-      OnExecute = actSearchFindNextExecute
-    end
-    object actSearchFindPrev: TAction
-      Category = 'Search'
-      Caption = 'Find &Previous'
-      Enabled = False
-      HelpContext = 330
-      HelpType = htContext
-      Hint = 'Find previous|Find Previous match'
-      ImageIndex = 121
-      ShortCut = 8306
-      OnExecute = actSearchFindPrevExecute
-    end
-    object actSearchReplace: TAction
-      Category = 'Search'
-      Caption = '&Replace...'
-      Enabled = False
-      HelpContext = 330
-      HelpType = htContext
-      Hint = 'Replace|Search  & Replace'
-      ImageIndex = 17
-      ShortCut = 16456
-      OnExecute = actSearchReplaceExecute
-    end
-    object actFileSaveAll: TAction
-      Category = 'File'
-      Caption = 'Save &All'
-      HelpContext = 310
-      HelpType = htContext
-      Hint = 'Save all|Save project and all open files'
-      ImageIndex = 5
-      OnExecute = actFileSaveAllExecute
-    end
-    object actFilePrint: TAction
-      Category = 'File'
-      Caption = '&Print...'
-      Enabled = False
-      HelpContext = 310
-      HelpType = htContext
-      Hint = 'Print|Print active file'
-      ImageIndex = 8
-      ShortCut = 16464
-      OnExecute = actFilePrintExecute
-    end
-    object actPrinterSetup: TAction
-      Category = 'File'
-      Caption = 'Printer &Setup'
-      HelpContext = 310
-      HelpType = htContext
-      Hint = 'Printer setup'
-      ImageIndex = 6
-      OnExecute = actPrinterSetupExecute
-    end
-    object actPrintPreview: TAction
-      Category = 'File'
-      Caption = 'Print Pre&view'
-      HelpContext = 310
-      HelpType = htContext
-      Hint = 'Print Preview'
-      ImageIndex = 7
-      OnExecute = actPrintPreviewExecute
-    end
-    object actPageSetup: TAction
-      Category = 'File'
-      Caption = 'Page Setup'
-      HelpContext = 310
-      HelpType = htContext
-      Hint = 'Page Setup'
-      ImageIndex = 78
-      OnExecute = actPageSetupExecute
-    end
-    object actEditorOptions: TAction
-      Category = 'Options'
-      Caption = '&Editor Options...'
-      HelpContext = 620
-      HelpType = htContext
-      Hint = 'Set Editor Options'
-      ImageIndex = 22
-      OnExecute = actEditorOptionsExecute
-    end
-    object actIDEOptions: TAction
-      Category = 'Options'
-      Caption = '&IDE Options...'
-      HelpContext = 610
-      HelpType = htContext
-      Hint = 'Set IDE Options'
-      ImageIndex = 24
-      OnExecute = actIDEOptionsExecute
-    end
-    object actEditIndent: TAction
-      Category = 'Source Code'
-      Caption = '&Indent Block'
-      HelpContext = 320
-      HelpType = htContext
-      Hint = 'Indent block|Indent selected block of code'
-      ImageIndex = 69
-      ShortCut = 24649
-      OnExecute = actEditIndentExecute
-    end
-    object actEditDedent: TAction
-      Category = 'Source Code'
-      Caption = '&Dedent Block'
-      HelpContext = 320
-      HelpType = htContext
-      Hint = 'Dedent|Dedent selected block of code'
-      ImageIndex = 70
-      ShortCut = 24661
-      OnExecute = actEditDedentExecute
-    end
-    object actEditCommentOut: TAction
-      Category = 'Source Code'
-      Caption = '&Comment out'
-      HelpContext = 320
-      HelpType = htContext
-      Hint = 'Comment out| Comment out block of code'
-      ImageIndex = 73
-      ShortCut = 49342
-      OnExecute = actEditCommentOutExecute
-    end
-    object actEditUncomment: TAction
-      Category = 'Source Code'
-      Caption = '&Uncomment'
-      HelpContext = 320
-      HelpType = htContext
-      Hint = 'Uncomment| Uncomment block of code'
-      ImageIndex = 74
-      ShortCut = 49340
-      OnExecute = actEditUncommentExecute
-    end
-    object actSearchMatchingBrace: TAction
-      Category = 'Search'
-      Caption = '&Matching Brace'
-      HelpContext = 330
-      HelpType = htContext
-      Hint = 'Find Matching Brace'
-      ShortCut = 24642
-      OnExecute = actSearchMatchingBraceExecute
-    end
-    object actEditTabify: TAction
-      Category = 'Source Code'
-      Caption = '&Tabify'
-      HelpContext = 320
-      HelpType = htContext
-      Hint = 'Tabify|Convert spaces to tabs'
-      ShortCut = 32990
-      OnExecute = actEditTabifyExecute
-    end
-    object actEditUntabify: TAction
-      Category = 'Source Code'
-      Caption = 'U&ntabify'
-      HelpContext = 320
-      HelpType = htContext
-      Hint = 'Untabify|Convert tabs to spaces'
-      ShortCut = 41182
-      OnExecute = actEditUntabifyExecute
-    end
-    object actPythonPath: TAction
-      Category = 'Tools'
-      Caption = 'Python &Path...'
-      HelpContext = 870
-      HelpType = htContext
-      Hint = 'Python Path|View or edit the Python path'
-      ImageIndex = 25
-      OnExecute = actPythonPathExecute
-    end
-    object actHelpContents: THelpContents
-      Category = 'Help'
-      Caption = '&Contents'
-      Enabled = False
-      HelpContext = 370
-      HelpType = htContext
-      Hint = 'Help Contents'
-      ImageIndex = 71
-      OnExecute = actHelpContentsExecute
-    end
-    object actPythonManuals: THelpContents
-      Category = 'Help'
-      Caption = '&Python &Manuals'
-      HelpContext = 370
-      HelpType = htContext
-      Hint = 'Show Python Manuals'
-      ImageIndex = 77
-      OnExecute = actPythonManualsExecute
-    end
-    object actAbout: TAction
-      Category = 'Help'
-      Caption = 'About...'
-      HelpContext = 370
-      HelpType = htContext
-      Hint = 'About|Info about the application'
-      ImageIndex = 30
-      OnExecute = actAboutExecute
-    end
-    object actSearchGoToLine: TAction
-      Category = 'Search'
-      Caption = 'Go To &Line...'
-      HelpContext = 330
-      HelpType = htContext
-      Hint = 'Go to line number'
-      ImageIndex = 32
-      ShortCut = 32839
-      OnExecute = actSearchGoToLineExecute
-    end
-    object actSearchGoToSyntaxError: TAction
-      Category = 'Search'
-      Caption = 'Go To Syntax &Error'
-      HelpContext = 330
-      HelpType = htContext
-      Hint = 'Jump to the position of the first syntax error'
-      ImageIndex = 123
-      ShortCut = 24645
-      OnExecute = actSearchGoToSyntaxErrorExecute
-    end
-    object actFindInFiles: TAction
-      Category = 'Search'
-      Caption = '&Find in Files...'
-      HelpContext = 330
-      HelpType = htContext
-      Hint = 'Search in Files|Search for a string in Files'
-      ImageIndex = 86
-      ShortCut = 24646
-      OnExecute = actFindInFilesExecute
-    end
-    object actParameterCompletion: TAction
-      Category = 'Parameters'
-      Caption = 'Insert &parameter'
-      HelpContext = 720
-      HelpType = htContext
-      Hint = 'Insert parameter to the edited file'
-      ShortCut = 24656
-      OnExecute = actParameterCompletionExecute
-    end
-    object actModifierCompletion: TAction
-      Category = 'Parameters'
-      Caption = 'Insert &modifier'
-      HelpContext = 720
-      HelpType = htContext
-      Hint = 'Insert parameter to the edited file'
-      ShortCut = 24653
-      OnExecute = actModifierCompletionExecute
-    end
-    object actReplaceParameters: TAction
-      Category = 'Parameters'
-      Caption = '&Replace parameters'
-      HelpContext = 720
-      HelpType = htContext
-      Hint = 'Replace parameters with their values'
-      ShortCut = 24658
-      OnExecute = actReplaceParametersExecute
-    end
-    object actHelpParameters: TAction
-      Category = 'Help'
-      Caption = '&Parameters'
-      HelpContext = 370
-      HelpType = htContext
-      Hint = 'Help on custom parameters'
-      OnExecute = actHelpParametersExecute
-    end
-    object actInsertTemplate: TAction
-      Category = 'Edit'
-      Caption = 'Insert &Template'
-      HelpContext = 320
-      HelpType = htContext
-      Hint = 'Insert a Code Template'
-      ShortCut = 16458
-      OnExecute = actInsertTemplateExecute
-    end
-    object actCustomizeParameters: TAction
-      Category = 'Parameters'
-      Caption = 'Custom &Parameters...'
-      HelpContext = 720
-      HelpType = htContext
-      Hint = 'Add/Remove custom parameters'
-      OnExecute = actCustomizeParametersExecute
-    end
-    object actIDEShortcuts: TAction
-      Category = 'Options'
-      Caption = 'IDE &Shortcuts...'
-      HelpContext = 615
-      HelpType = htContext
-      Hint = 'Customize IDE shortcuts'
-      ImageIndex = 102
-      OnExecute = actIDEShortcutsExecute
-    end
-    object actCodeTemplates: TAction
-      Category = 'Options'
-      Caption = '&Code Templates...'
-      HelpContext = 540
-      HelpType = htContext
-      Hint = 'Add/Remove code templates'
-      OnExecute = actCodeTemplatesExecute
-    end
-    object actConfigureTools: TAction
-      Category = 'Tools'
-      Caption = 'Configure &Tools...'
-      HelpContext = 710
-      HelpType = htContext
-      Hint = 'Configure Tools|Add/remove/edit command-line tools'
-      ImageIndex = 83
-      OnExecute = actConfigureToolsExecute
-    end
-    object actHelpExternalTools: TAction
-      Category = 'Help'
-      Caption = 'External &Tools'
-      HelpContext = 370
-      HelpType = htContext
-      Hint = 'Help on External Tools'
-      OnExecute = actHelpExternalToolsExecute
-    end
-    object actFindFunction: TAction
-      Category = 'Search'
-      Caption = 'Find F&unction...'
-      HelpContext = 330
-      HelpType = htContext
-      Hint = 'Find Function|Find function from function list'
-      ImageIndex = 26
-      ShortCut = 16455
-      OnExecute = actFindFunctionExecute
-    end
-    object actEditLineNumbers: TAction
-      Category = 'Edit'
-      Caption = 'Line &Numbers'
-      HelpContext = 320
-      HelpType = htContext
-      Hint = 'Show/Hide line numbers'
-      ImageIndex = 43
-      OnExecute = actEditLineNumbersExecute
-    end
-    object actEditShowSpecialChars: TAction
-      Category = 'Edit'
-      Caption = 'Special &Characters'
-      HelpContext = 320
-      HelpType = htContext
-      Hint = 'Show/Hide special characters'
-      ImageIndex = 95
-      OnExecute = actEditShowSpecialCharsExecute
-    end
-    object actFindPreviousReference: TAction
-      Tag = 1
-      Category = 'Search'
-      Caption = 'Find Previous Reference'
-      HelpContext = 330
-      HelpType = htContext
-      Hint = 'Find previous identifier reference'
-      ShortCut = 49190
-      OnExecute = actFindNextReferenceExecute
-    end
-    object actFindNextReference: TAction
-      Category = 'Search'
-      Caption = 'Find Next Reference'
-      HelpContext = 330
-      HelpType = htContext
-      Hint = 'Find next identifier reference'
-      ShortCut = 49192
-      OnExecute = actFindNextReferenceExecute
-    end
-    object actEditLBDos: TAction
-      Category = 'Edit'
-      Caption = '&DOS/Windows'
-      Checked = True
-      GroupIndex = 2
-      HelpContext = 320
-      HelpType = htContext
-      Hint = 'DOS/Windows|Convert to DOS Linebreak'
-      ImageIndex = 98
-      OnExecute = actEditLBExecute
-    end
-    object actEditLBUnix: TAction
-      Tag = 1
-      Category = 'Edit'
-      Caption = '&UNIX'
-      GroupIndex = 2
-      HelpContext = 320
-      HelpType = htContext
-      Hint = 'UNIX|Convert to UNIX Linebreak'
-      ImageIndex = 99
-      OnExecute = actEditLBExecute
-    end
-    object actEditLBMac: TAction
-      Tag = 2
-      Category = 'Edit'
-      Caption = '&Mac'
-      GroupIndex = 2
-      HelpContext = 320
-      HelpType = htContext
-      Hint = 'Mac|Convert to Mac Linebreak'
-      ImageIndex = 100
-      OnExecute = actEditLBExecute
-    end
-    object actEditAnsi: TAction
-      Category = 'Edit'
-      Caption = 'Ansi'
-      Checked = True
-      GroupIndex = 1
-      HelpContext = 320
-      HelpType = htContext
-      Hint = 'Use Ansi encoding'
-      OnExecute = actEditFileEncodingExecute
-    end
-    object actHelpEditorShortcuts: TAction
-      Category = 'Help'
-      Caption = 'Editor &Shortcuts'
-      HelpContext = 370
-      HelpType = htContext
-      Hint = 'Help on editor shortcuts'
-      OnExecute = actHelpEditorShortcutsExecute
-    end
-    object actCheckForUpdates: TAction
-      Category = 'Tools'
-      Caption = 'Check For &Updates'
-      HelpContext = 350
-      HelpType = htContext
-      Hint = 'Check whether a newer version of PyScripter is available'
-      OnExecute = actCheckForUpdatesExecute
-    end
-    object actUnitTestWizard: TAction
-      Category = 'Tools'
-      Caption = '&Unit Test Wizard...'
-      HelpContext = 930
-      HelpType = htContext
-      Hint = 'unitest wizard|Create unitests for active module'
-      ImageIndex = 103
-      OnExecute = actUnitTestWizardExecute
-    end
-    object actInterpreterEditorOptions: TAction
-      Category = 'Options'
-      Caption = '&Interpreter Editor Options...'
-      HelpContext = 620
-      HelpType = htContext
-      Hint = 'Set Interpreter Editor Options'
-      ImageIndex = 22
-      OnExecute = actInterpreterEditorOptionsExecute
-    end
-    object actEditToggleComment: TAction
-      Category = 'Source Code'
-      Caption = 'Toggle &Comment'
-      HelpContext = 320
-      HelpType = htContext
-      Hint = 'Toggle Comment| Comment/Uncomment block of code'
-      ImageIndex = 73
-      ShortCut = 16606
-      OnExecute = actEditToggleCommentExecute
-    end
-    object actFileTemplates: TAction
-      Category = 'Options'
-      Caption = '&File Templates...'
-      HelpContext = 640
-      HelpType = htContext
-      Hint = 'Add/Remove file templates'
-      OnExecute = actFileTemplatesExecute
-    end
-    object actEditUTF8: TAction
-      Tag = 1
-      Category = 'Edit'
-      Caption = 'UTF-8'
-      GroupIndex = 1
-      HelpContext = 320
-      HelpType = htContext
-      Hint = 'Use UTF-8 encoding when saving the file'
-      OnExecute = actEditFileEncodingExecute
-    end
-    object actEditUTF8NoBOM: TAction
-      Tag = 2
-      Category = 'Edit'
-      Caption = 'UTF-8 (No BOM)'
-      GroupIndex = 1
-      HelpContext = 320
-      HelpType = htContext
-      Hint = 'Use UTF8 enconding without BOM'
-      OnExecute = actEditFileEncodingExecute
-    end
-    object actFileReload: TAction
-      Category = 'File'
-      Caption = '&Reload'
-      Enabled = False
-      HelpContext = 310
-      HelpType = htContext
-      Hint = 'Reload|Reload active file'
-      ImageIndex = 120
-      OnExecute = actFileReloadExecute
-    end
-    object actImportShortcuts: TAction
-      Category = 'Import/Export'
-      Caption = 'Import Shortcuts'
-      Hint = 'Import Shortcuts'
-      OnExecute = actImportShortcutsExecute
-    end
-    object actExportShortCuts: TAction
-      Category = 'Import/Export'
-      Caption = 'Export Shortcuts'
-      Hint = 'Export Shortcuts'
-      OnExecute = actExportShortCutsExecute
-    end
-    object actImportHighlighters: TAction
-      Category = 'Import/Export'
-      Caption = 'Import Highlighters'
-      Hint = 'Import Syntax Highlighters'
-      OnExecute = actImportHighlightersExecute
-    end
-    object actExportHighlighters: TAction
-      Category = 'Import/Export'
-      Caption = 'Export Highlighters'
-      Hint = 'Export Syntax Highlighters'
-      OnExecute = actExportHighlightersExecute
-    end
-    object actSearchReplaceNow: TAction
-      Category = 'Search'
-      Caption = 'Replace'
-      Enabled = False
-      HelpContext = 330
-      HelpType = htContext
-      Hint = 'Replace with existing  settings'
-      ImageIndex = 17
-      OnExecute = actSearchReplaceNowExecute
-    end
-    object actSearchHighlight: TAction
-      Category = 'Search'
-      AutoCheck = True
-      Caption = '&Highlight Search Text'
-      HelpContext = 330
-      HelpType = htContext
-      Hint = 'Highlight the search text in the current editor'
-      ImageIndex = 122
-      ShortCut = 24648
-      OnExecute = actSearchHighlightExecute
-    end
-    object actEditWordWrap: TAction
-      Category = 'Edit'
-      Caption = 'Word &Wrap'
-      HelpContext = 320
-      HelpType = htContext
-      Hint = 'Turn word wrap on/off'
-      ImageIndex = 124
-      OnExecute = actEditWordWrapExecute
-    end
-    object actSearchGoToDebugLine: TAction
-      Category = 'Search'
-      Caption = 'Go To &Debugger Position'
-      HelpContext = 330
-      HelpType = htContext
-      Hint = 'Go to the curent position of the debugger'
-      OnExecute = actSearchGoToDebugLineExecute
-    end
-    object actHelpOfficialWebSite: TAction
-      Category = 'Help'
-      Caption = '&Official Web Site'
-      HelpContext = 370
-      HelpType = htContext
-      Hint = 'Go to the official web site'
-      ImageIndex = 147
-      OnExecute = actHelpOfficialWebSiteExecute
-    end
-    object actHelpDevelopmentWebsite: TAction
-      Category = 'Help'
-      Caption = '&Development Web Site'
-      HelpContext = 370
-      HelpType = htContext
-      Hint = 'Go To the developement web site'
-      ImageIndex = 147
-      OnExecute = actHelpDevelopmentWebsiteExecute
-    end
-    object actHelpWebProjectHome: TAction
-      Category = 'Help'
-      Caption = '&Project Home'
-      HelpContext = 370
-      HelpType = htContext
-      Hint = 'Go to the project home page'
-      ImageIndex = 147
-      OnExecute = actHelpWebProjectHomeExecute
-    end
-    object actHelpWebGroupSupport: TAction
-      Category = 'Help'
-      Caption = '&Group Support'
-      HelpContext = 370
-      HelpType = htContext
-      Hint = 'Go to the PyScripter Internet group'
-      ImageIndex = 147
-      OnExecute = actHelpWebGroupSupportExecute
-    end
-    object actFileCloseAllOther: TAction
-      Category = 'File'
-      Caption = 'Close All &Other'
-      HelpContext = 310
-      HelpType = htContext
-      Hint = 'Close all files except the active one'
-      OnExecute = actFileCloseAllOtherExecute
-    end
-  end
   object SynPythonSyn: TSynPythonSyn
     DefaultFilter = 'Python Files (*.py;*.pyw)|*.py;*.pyw'
     CommentAttri.Foreground = clGreen
@@ -726,8 +17,8 @@ object CommandsDataModule: TCommandsDataModule
     StringAttri.Foreground = clOlive
     DocStringAttri.Foreground = clOlive
     SymbolAttri.Foreground = clMaroon
-    Left = 220
-    Top = 251
+    Left = 216
+    Top = 240
   end
   object SynEditPrint: TSynEditPrint
     Copies = 1
@@ -1657,7 +948,7 @@ object CommandsDataModule: TCommandsDataModule
       '  """'#13#10'='#9#9'class comment'#13#10'=    """'#13#10'='#13#10'=    def __init__(self):'#13#10 +
       '=        pass'
     EndOfTokenChr = '()[]. '
-    ShortCut = 16458
+    ShortCut = 0
     Options = [scoLimitToMatchedText, scoUseInsertList, scoCompleteWithTab, scoCompleteWithEnter]
     Left = 340
     Top = 108
@@ -1673,9 +964,11 @@ object CommandsDataModule: TCommandsDataModule
     Left = 30
     Top = 188
     Bitmap = {
-      494C010197009A00040010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010198009A00040010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000007002000001002000000000000070
       0200000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -1809,113 +1102,113 @@ object CommandsDataModule: TCommandsDataModule
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       000000000000000000000000000080800000C0C0C00000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000EADDCB009655
+      000000000000000000000000000000000000000000000000000000000000F9F9
+      F9FFFCFCFCFFFCFCFCFFFCFCFCFFFCFCFCFFFCFCFCFFFCFCFCFFFCFCFCFFFCFC
+      FCFFFCFCFCFFFCFCFCFFF9F9F9FF000000000000000000000000EADDCB009655
       0000FFFCF200FFFCF200FFFCF200FFFCF20096550000EADDCB0000000000C7A5
       9100C19E8A00BB948000B38A7500AE836E000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000AB773400FFF4
+      000000000000000000000000000000000000000000000000000000000000A0C7
+      AAFF71AA7FFF5A9D6BFF72AB80FFA1C8AAFFD6E6DAFFFCFCFCFFFCFCFCFFFCFC
+      FCFFFCFCFCFFFCFCFCFFFCFCFCFF000000000000000000000000AB773400FFF4
       D800FFFAEC00FFFAED00FFFAEC008F6F3400FFFCF400AB773400000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000808000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      000000000000000000000000000000000000000000000000000096550000FFF5
+      00000000000000000000000000000000000000000000000000006CA279FF73AA
+      7BFFA5B48AFFBAB58CFF90B991FF599D6BFF78AD84FFC0D9C7FFFBFBFBFFFBFB
+      FBFFFBFBFBFFFBFBFBFFFCFCFCFF00000000000000000000000096550000FFF5
       DD00FFFBF2008F6F340096550000FFFCF200FFFDF7009655000000000000C7A5
       9100C19E8A00BB948000B38A7500AE836E000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000848484000000
       0000000000000000000000000000000000000000000000000000000000000000
       000000000000000000000000000080800000C0C0C00000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000CCAC8300FFF9
+      0000000000000000000000000000000000000000000076AD84FF7EC299FFAECA
+      8DFFCEAD6DFFD9AB67FFA1A466FF6CB889FF69A67EFF77AC83FFD4E4D9FFFAFA
+      FAFFFAFAFAFFFAFAFAFFFCFCFCFF000000000000000000000000CCAC8300FFF9
       EB00FFFDF70096550000FFFDF700FFFDF700FFFEFA0096550000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       000000000000000000000000000000000000000000000000000000000000FF00
       0000FF0000000000000000000000000000000000000080800000808000008080
       0000000000000000000000000000C0C0C00080808000C0C0C000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000CBDCC60083B4
+      000000000000000000000000000000000000A2C8ACFF77B78CFF73C47BFFA9B4
+      69FFD5A457FFE1A855FFBB974CFF89A055FF7BB187FF5B9B6CFFA0C7AAFFFAFA
+      FAFFF8F8F8FFF8F8F8FFFCFCFCFF000000000000000000000000CBDCC60083B4
       740056953E00598A3A005B9844009CC19000F5F8F500AB77340000000000C7A5
       9100C19E8A00BB948000B38A7500AE836E000000000000000000000000000000
       000000000000000000000000000000000000000000008400000084000000FF00
       0000FF000000FF00000000000000000000000000000000000000000000000000
       00000000000000000000C0C0C000000000000000000080800000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      00000000000000000000000000000000000000000000ADCEA3005597430068A4
+      00000000000000000000000000000000000072AC81FF8CD1A0FFAFD582FFC8AD
+      62FFDBAA56FFD3A04FFFBF8844FFBF904EFF82A265FF7AB995FF72AB81FFF9F9
+      F9FFF9F9F9FFF8F8F8FFFCFCFCFF0000000000000000ADCEA3005597430068A4
       5D0063A45B005CA054005BA4550053994600599A4800EADDCB00000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000084000000840000008400
       0000FF000000FF000000FF000000000000000000000080800000808000008080
       0000000000000000000080800000C0C0C000C0C0C00080800000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      000000000000000000000000000000000000DBE6D9004E933C004C984800B7D2
+      0000000000000000000000000000000000005A9E6CFF8EDB9EFF94D978FFCAC5
+      81FFCDA558FFBFBB6FFFABCF6BFF9BB854FF63A451FF8EC8A8FF5A9D6BFFF9F9
+      F9FFF6F6F6FFF6F6F6FFFCFCFCFF00000000DBE6D9004E933C004C984800B7D2
       B800B9D3B8003D883A003B8C3700509E5000549C4B005B9B4A00F5F8F500C39F
       8C00BE998400B78F7B00B2887300AE836E000000000000000000000000000000
       0000000000000000000000000000000000000000000084000000840000008400
       000084000000FF000000FF000000000000000000000000000000000000000000
       00000000000000000000C0C0C0008080000080800000C0C0C000000000000000
-      0000808000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000007FB07200488D3C0049904400B1CE
+      00008080000000000000000000000000000073AC82FF93D7A2FFA0E78BFFD5EA
+      BCFFCCB369FFC4C876FF7CDB5AFF5EDA44FF60C25AFF87C19EFF72AA80FFF6F6
+      F6FFF3F3F3FFF2F2F2FFFCFCFCFF000000007FB07200488D3C0049904400B1CE
       B00000000000B8D2B6004C8D4500448F3E00569E4F00529241008EB880000000
       0000000000000000000000000000000000000000000000000000000000000000
       000000000000000000000000000000000000FF000000FF000000840000008400
       0000840000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
-      000080800000C0C0C00000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      00000000000000000000000000000000000044842D00357F2F00327D2A00ADCB
+      000080800000C0C0C0000000000000000000A1C8ACFF84C29AFFBAF1AAFFC9EC
+      B9FFD8D599FFD6BF79FFB6BB66FF92D670FF8ADF90FF6BAB7FFF9EC4A7FFF2F2
+      F2FFEFEFEFFFEDEDEDFFFCFCFCFF0000000044842D00357F2F00327D2A00ADCB
       AD000000000000000000B9D3B8003D843500387C2F005B9A51005B9443000000
       0000000000000000000000000000000000000000000000000000000000000000
       000000000000000000000000000000000000FF000000FF000000FF0000008400
       0000000000000000000000000000000000000000000080800000C0C0C0000000
       0000C0C0C0008080000000000000000000008080800000000000000000000000
-      0000C0C0C0008080000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      000000000000000000000000000000000000498432003E773A003A763600ADCA
+      0000C0C0C0008080000000000000000000000000000077AF86FFADE2C1FFCDF2
+      CFFFD4E4BDFFDBDBA2FFDAC283FFD1C28BFF99CAA1FF76AD84FFCDDDD2FFECEC
+      ECFFEAEAEAFFE6E6E6FFFCFCFCFF00000000498432003E773A003A763600ADCA
       AD00000000000000000000000000C5DCCB003B884A00639256005E9343000000
       0000000000000000000000000000000000000000000000000000000000000000
       00000000000000000000000000000000000000000000FF000000FF000000FF00
       00000000000000000000000000000000000000000000C0C0C00080800000C0C0
       C00080800000C0C0C00000000000000000008080000000000000000000000000
-      0000C0C0C00080800000C0C0C000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000004E8D410054925A004F8F5400B7D0
+      0000C0C0C00080800000C0C0C0000000000000000000000000006EA67DFF90C3
+      A2FFB8DABBFFD4DCB4FFB9CB9EFF83B281FF77AE85FFBAD4C1FFEBEBEBFFFCFC
+      FCFFFCFCFCFFFCFCFCFFFCFCFCFF000000004E8D410054925A004F8F5400B7D0
       B7000000000000000000F8FFFE0076DCAE0059A36C006DA46C005F974D000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000FF000000FF00
       0000000000000000000000000000000000000000000000000000C0C0C0008080
       0000C0C0C0000000000080808000808000008080000080800000808080000000
-      000080800000C0C0C00080800000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      00000000000000000000000000000000000070A76000589D5D005EA67200C2D5
+      000080800000C0C0C0008080000000000000000000000000000000000000A0C8
+      AAFF71AB80FF5A9E6CFF72AB80FF9EC4A8FFCFDFD3FFF0F0F0FFEAEAEAFFFCFC
+      FCFFF6F6F6FFF4F4F4FFC4C4C4FF0000000070A76000589D5D005EA67200C2D5
       C00000000000F6FFFB0060D59D0048A3650060A46F005FA36C007FB173000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000C0C0C0008080
       0000C0C0C000000000000000000000000000808000000000000000000000C0C0
-      C000808000000000000080800000C0C0C0000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      000000000000000000000000000000000000CBDAC60054934A006EB48700A6D8
+      C000808000000000000080800000C0C0C000000000000000000000000000FBFB
+      FBFFF4F4F4FFF5F5F5FFF5F5F5FFF5F5F5FFF1F1F1FFEFEFEFFFE9E9E9FFFCFC
+      FCFFE7E7E7FFC2C2C2FF0000000000000000CBDAC60054934A006EB48700A6D8
       BA00F0FEF9005FD59E0058B4810078B992006EB486005A984E00DAE4D7000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       00000000000000000000000000000000000000000000C0C0C00080800000C0C0
       C00080800000C0C0C00000000000000000008080800000000000000000008080
-      0000C0C0C00000000000C0C0C000808000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000095BD870056974D002ECE
+      0000C0C0C00000000000C0C0C00080800000000000000000000000000000F8F8
+      F8FFFBFBFBFFFCFCFCFFFCFCFCFFFCFCFCFFFCFCFCFFFCFCFCFFFCFCFCFFF8F8
+      F8FFC1C1C1FF0000000000000000000000000000000095BD870056974D002ECE
       850072DEAE006DBF980081BA960067A671005E985200B0CFA500000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -1925,8 +1218,6 @@ object CommandsDataModule: TCommandsDataModule
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000BCD2B3006CB6
       7400469344005D9149005D964D008DB88100C5DABE0000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -6673,11 +5964,11 @@ object CommandsDataModule: TCommandsDataModule
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
-      00000000000000000000000000000000E07FFFFFFE7F0000C020FFFFFFFF0000
-      C03F7FFFFEFF0000C020BFC7FE7F0000C03FDF838E3F0000C020EF01FDBF0000
-      803FF7008C3F00000000FB00FC370000081FFC01FFF300000C1FFE0793730000
-      0E1FFF07837100000C1FFF87C4110000081FFFCFC7640000001FFFEF83640000
-      803FFFF793EE0000C07FFFFFFFFF0000FE00FFFFFE00F801FE008C008000E000
+      00000000000000000000000000000000FFFFE07FFFFFFE7FE001C020FFFFFFFF
+      E001C03F7FFFFEFFC001C020BFC7FE7F8001C03FDF838E3F0001C020EF01FDBF
+      0001803FF7008C3F00010000FB00FC370001081FFC01FFF300010C1FFE079373
+      80010E1FFF078371C0010C1FFF87C411E001081FFFCFC764E003001FFFEF8364
+      E007803FFFF793EEFFFFC07FFFFFFFFFFE00FFFFFE00F801FE008C008000E000
       F80082008000C000F819800080018000F819800980018000F800800180000000
       F800800180000000F800800080000000F801E00080010000F80F900180010000
       F81FF00180010000F83FE02780018001F87F803F80018001F8FFF1BF8001C003
@@ -6833,9 +6124,11 @@ object CommandsDataModule: TCommandsDataModule
     Left = 100
     Top = 187
     Bitmap = {
-      494C010197009A00040010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010198009A00040010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000007002000001002000000000000070
       0200000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -6969,113 +6262,113 @@ object CommandsDataModule: TCommandsDataModule
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000C0C0C000C0C0C00000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000C1C1C2009C94
+      000000000000000000000000000000000000000000000000000000000000FAFA
+      FAFFFCFCFCFFFCFCFCFFFCFCFCFFFCFCFCFFFCFCFCFFFCFCFCFFFCFCFCFFFCFC
+      FCFFFCFCFCFFFCFCFCFFFAFAFAFF000000000000000000000000C1C1C2009C94
       8A00FCFBFA00FCFBFA00FCFBFA00FCFBFA009C948A00C1C1C20000000000C1C1
       C200C1C1C200C1C1C200C1C1C200C1C1C2000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000C1C1C200F6F4
+      000000000000000000000000000000000000000000000000000000000000C2C2
+      C2FFA1A1A1FF8F8F8FFFA1A1A1FFC2C2C2FFE6E6E6FFFCFCFCFFFCFCFCFFFCFC
+      FCFFFCFCFCFFFCFCFCFFFCFCFCFF000000000000000000000000C1C1C200F6F4
       F100FAF9F800FAF9F800FAF9F800A6A29B00FCFCFB00C1C1C200000000000000
       0000000000000000000000000000000000008484840000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000C0C0C000C0C0C00000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000C1C1C200F7F6
+      0000000000000000000000000000000000000000000000000000999999FFA3A3
+      A3FFB0B0B0FFB2B2B2FFB8B8B8FF8F8F8FFFA3A3A3FFD6D6D6FFFAFAFAFFFAFA
+      FAFFFAFAFAFFFAFAFAFFFCFCFCFF000000000000000000000000C1C1C200F7F6
       F300FCFBFA00A6A29B009C948A00FCFBFA00FDFDFC00C1C1C20000000000C1C1
       C200C1C1C200C1C1C200C1C1C200C1C1C2000000000084848400000000000000
       0000000000000000000000000000000000000000000000000000C6C6C6008484
       8400848484000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000C0C0C000C0C0C00000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000C1C1C200F4F3
+      00000000000000000000000000000000000000000000A3A3A3FFB0B0B0FFBABA
+      BAFFB2B2B2FFB5B5B5FF969696FFA3A3A3FF999999FFA3A3A3FFE3E3E3FFFAFA
+      FAFFFAFAFAFFFAFAFAFFFCFCFCFF000000000000000000000000C1C1C200F4F3
       F200FDFDFC009C948A00FDFDFC00FDFDFC00FEFEFD00C1C1C200000000000000
       0000000000000000000000000000000000000000000000000000848484000000
       0000000000000000000000000000000000000000000084848400848484000000
       00000000000084848400000000000000000000000000C0C0C000C0C0C000C0C0
       C000000000000000000000000000C0C0C000C0C0C000C0C0C000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000C1C1C200C1C1
+      000000000000000000000000000000000000C2C2C2FFA8A8A8FFADADADFFA3A3
+      A3FFADADADFFB5B5B5FF999999FF8F8F8FFFA6A6A6FF8F8F8FFFC2C2C2FFFAFA
+      FAFFF7F7F7FFF7F7F7FFFCFCFCFF000000000000000000000000C1C1C200C1C1
       C200C1C1C200C1C1C200C1C1C200C1C1C200FAFAFA00C1C1C20000000000C1C1
       C200C1C1C200C1C1C200C1C1C200C1C1C2000000000000000000000000008484
       84000000000000000000000000000000000084848400A5A5A500A5A5A5000000
       0000000000000000000084848400000000000000000000000000000000000000
       00000000000000000000C0C0C0000000000000000000C0C0C000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      00000000000000000000000000000000000000000000C1C1C200B0B5B000B1B8
+      000000000000000000000000000000000000A1A1A1FFBFBFBFFFBFBFBFFFA8A8
+      A8FFB0B0B0FFA8A8A8FF999999FF9C9C9CFF969696FFADADADFFA1A1A1FFFAFA
+      FAFFFAFAFAFFF7F7F7FFFCFCFCFF0000000000000000C1C1C200B0B5B000B1B8
       B000AFB7AE00ABB3AA00ACB5AB00A6AEA400C1C1C200C1C1C200000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       00008484840000000000000000000000000084848400A5A5A500A5A5A500A5A5
       A5000000000000000000000000008484840000000000C0C0C000C0C0C000C0C0
       C0000000000000000000C0C0C000C0C0C000C0C0C000C0C0C000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      000000000000000000000000000000000000C1C1C200AEB3AD00A5AEA400DADD
+      0000000000000000000000000000000000008F8F8FFFC4C4C4FFBABABAFFB8B8
+      B8FFA8A8A8FFABABABFFB0B0B0FF999999FF8C8C8CFFBABABAFF8F8F8FFFFAFA
+      FAFFF5F5F5FFF5F5F5FFFCFCFCFF00000000C1C1C200AEB3AD00A5AEA400DADD
       DA00DBDEDB009BA59B009BA59B00A8B2A800A7B0A600C1C1C20000000000C1C1
       C200C1C1C200C1C1C200C1C1C200C1C1C2000000000000000000000000000000
       00000000000084848400000000000000000084848400A5A5A500A5A5A500A5A5
       A500A5A5A5000000000000000000848484000000000000000000000000000000
       00000000000000000000C0C0C000C0C0C000C0C0C000C0C0C000000000000000
-      0000C0C0C0000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      000000000000000000000000000000000000C1C1C2009EA79D00A2AAA100D7DB
+      0000C0C0C000000000000000000000000000A1A1A1FFC4C4C4FFCCCCCCFFDEDE
+      DEFFADADADFFB0B0B0FFB2B2B2FFA8A8A8FFA3A3A3FFB5B5B5FFA1A1A1FFF5F5
+      F5FFF5F5F5FFF5F5F5FFFCFCFCFF00000000C1C1C2009EA79D00A2AAA100D7DB
       D70000000000DADDDA00A1A9A0009FA89E00A9B2A800A3ABA200C1C1C2000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000084848400848484000000000000000000A5A5A500A5A5
       A500A5A5A5008484840084848400000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
-      0000C0C0C000C0C0C00000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      000000000000000000000000000000000000BFC0C00098A09700949D9300D5D9
+      0000C0C0C000C0C0C0000000000000000000C2C2C2FFB5B5B5FFDEDEDEFFE0E0
+      E0FFC9C9C9FFBABABAFFA3A3A3FFB8B8B8FFC4C4C4FF9E9E9EFFC2C2C2FFF5F5
+      F5FFF2F2F2FFF0F0F0FFFCFCFCFF00000000BFC0C00098A09700949D9300D5D9
       D5000000000000000000DBDEDB0099A29800959D9400ACB3AB00BDBDBB000000
       0000000000000000000000000000000000000000000000000000000000000000
       000000000000000000000000000084848400000000000000000000000000A5A5
       A5008484840000000000000000000000000000000000C0C0C000C0C0C0000000
       0000C0C0C000C0C0C0000000000000000000C0C0C00000000000000000000000
-      0000C0C0C000C0C0C00000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      000000000000000000000000000000000000BFC0C000989F9900969D9500D5D8
+      0000C0C0C000C0C0C000000000000000000000000000A6A6A6FFD6D6D6FFE8E8
+      E8FFDBDBDBFFCCCCCCFFBFBFBFFFBFBFBFFFC2C2C2FFA3A3A3FFE0E0E0FFF0F0
+      F0FFEDEDEDFFEBEBEBFFFCFCFCFF00000000BFC0C000989F9900969D9500D5D8
       D500000000000000000000000000E1E4E2009BA59D00ACB1AB00BDBDBB000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000008484840000000000000000000000
       00008484840000000000000000000000000000000000C0C0C000C0C0C000C0C0
       C000C0C0C000C0C0C0000000000000000000C0C0C00000000000000000000000
-      0000C0C0C000C0C0C000C0C0C000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      000000000000000000000000000000000000C0C0C100A8B0A900A4ACA500DADD
+      0000C0C0C000C0C0C000C0C0C0000000000000000000000000009C9C9CFFB8B8
+      B8FFD4D4D4FFD4D4D4FFC4C4C4FFABABABFFA3A3A3FFD4D4D4FFEDEDEDFFFCFC
+      FCFFFCFCFCFFFCFCFCFFFCFCFCFF00000000C0C0C100A8B0A900A4ACA500DADD
       DA000000000000000000FCFDFD00C5D1CB00ADB6AF00B5BCB600BDBDBC000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000084848400000000000000
       0000848484000000000000000000000000000000000000000000C0C0C000C0C0
       C000C0C0C00000000000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C0000000
-      0000C0C0C000C0C0C000C0C0C000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      000000000000000000000000000000000000C1C1C200ABB3AC00AFB8B100DEE1
+      0000C0C0C000C0C0C000C0C0C00000000000000000000000000000000000C2C2
+      C2FFA1A1A1FF8F8F8FFFA1A1A1FFC2C2C2FFE0E0E0FFF2F2F2FFEDEDEDFFFCFC
+      FCFFF5F5F5FFF5F5F5FFCFCFCFFF00000000C1C1C200ABB3AC00AFB8B100DEE1
       DE0000000000FCFDFD00BCCAC300A7B2AB00B0B8B200B0B8B200C1C1C2000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000848484008484
       8400000000000000000000000000000000000000000000000000C0C0C000C0C0
       C000C0C0C000000000000000000000000000C0C0C0000000000000000000C0C0
-      C000C0C0C00000000000C0C0C000C0C0C0000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      000000000000000000000000000000000000C1C1C200ACB2AB00B8C1BB00D6DC
+      C000C0C0C00000000000C0C0C000C0C0C000000000000000000000000000FAFA
+      FAFFF5F5F5FFF5F5F5FFF5F5F5FFF5F5F5FFF5F5F5FFF2F2F2FFEBEBEBFFFCFC
+      FCFFEBEBEBFFCCCCCCFF0000000000000000C1C1C200ACB2AB00B8C1BB00D6DC
       D800F9FBFA00BBC9C200B1BCB600BDC5C000B8C1BB00B2B6B200C1C1C2000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000008484
       84000000000000000000000000000000000000000000C0C0C000C0C0C000C0C0
       C000C0C0C000C0C0C0000000000000000000C0C0C0000000000000000000C0C0
-      C000C0C0C00000000000C0C0C000C0C0C0000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      00000000000000000000000000000000000000000000C1C1C200AEB4AE00A9BB
+      C000C0C0C00000000000C0C0C000C0C0C000000000000000000000000000F7F7
+      F7FFFAFAFAFFFCFCFCFFFCFCFCFFFCFCFCFFFCFCFCFFFCFCFCFFFCFCFCFFF7F7
+      F7FFCCCCCCFF00000000000000000000000000000000C1C1C200AEB4AE00A9BB
       B300C4D0CB00BBC5C000C1C8C400B3BBB400B3B7B300C1C1C200000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -7085,8 +6378,6 @@ object CommandsDataModule: TCommandsDataModule
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000C1C1C200C1C1
       C200C0C0C100C0C0C100C0C0C100C1C1C200C1C1C20000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -11833,11 +11124,11 @@ object CommandsDataModule: TCommandsDataModule
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
-      00000000000000000000000000000000E07FFFFFFE7F0000C020FFFFFFFF0000
-      C03F7FFFFE7F0000C020BFC7FE7F0000C03FDF9B8E3F0000C020EF1DFDBF0000
-      803FF70E8C3F00000020FB06FC370000081FFCC1FFF300000C1FFEE793730000
-      0E1FFF77837100000C1FFFB7C4110000081FFFCFC7640000001FFFEF83640000
-      803FFFF793EE0000C07FFFFFFFFF0000FE00FFFFFE00F801FE008C008000E000
+      00000000000000000000000000000000FFFFE07FFFFFFE7FE001C020FFFFFFFF
+      E001C03F7FFFFE7FC001C020BFC7FE7F8001C03FDF9B8E3F0001C020EF1DFDBF
+      0001803FF70E8C3F00010020FB06FC370001081FFCC1FFF300010C1FFEE79373
+      80010E1FFF778371C0010C1FFFB7C411E001081FFFCFC764E003001FFFEF8364
+      E007803FFFF793EEFFFFC07FFFFFFFFFFE00FFFFFE00F801FE008C008000E000
       F80082008000C000F819800080018000F819800980018000F800800180000000
       F800800180000000F800800080000000F801E00080010000F80F900180010000
       F81FF00180010000F83FE02780018001F87F803F80018001F8FFF1BF8001C003
@@ -11996,19 +11287,6 @@ object CommandsDataModule: TCommandsDataModule
     Left = 105
     Top = 124
   end
-  object SynHTMLSyn: TSynHTMLSyn
-    Left = 300
-    Top = 250
-  end
-  object SynCssSyn: TSynCssSyn
-    Left = 428
-    Top = 250
-  end
-  object SynXMLSyn: TSynXMLSyn
-    WantBracesParsed = False
-    Left = 364
-    Top = 250
-  end
   object ProgramVersionCheck: TJvProgramVersionCheck
     AllowedReleaseType = prtAlpha
     AppStoragePath = 'Check for Updates'
@@ -12030,16 +11308,16 @@ object CommandsDataModule: TCommandsDataModule
     Top = 72
   end
   object SynIniSyn: TSynIniSyn
-    Left = 486
-    Top = 249
+    Left = 528
+    Top = 240
   end
   object CommandLineMRU: TTBXMRUList
     AddFullPath = False
     HidePathExtension = False
     MaxItems = 6
     Prefix = 'MRU'
-    Left = 564
-    Top = 250
+    Left = 500
+    Top = 130
   end
   object JvMultiStringHolder: TJvMultiStringHolder
     MultipleStrings = <
@@ -12286,6 +11564,19 @@ object CommandsDataModule: TCommandsDataModule
           '              '#39'unicode'#39','
           '              '#39'xrange'#39'])'
           ''
+          '    def _import(self, name, code):'
+          '        import imp'
+          '        import sys'
+          '        mod = imp.new_module(name)'
+          '        mod.__file__ = code.co_filename'
+          ''
+          '        try:'
+          '            exec code in mod.__dict__'
+          '            sys.modules[name] = mod'
+          '            return mod'
+          '        except SystemExit:'
+          '            pass'
+          ''
           '    def run_nodebug(self, cmd, globals=None, locals=None):'
           '        import types'
           '        import sys'
@@ -12330,7 +11621,7 @@ object CommandsDataModule: TCommandsDataModule
           '            return "Unknown type"'
           ''
           '    def objectinfo(self, ob):'
-          '        res = [False, False, False, False, False]'
+          '        res = [False, False, False, False, False, False]'
           '        try:'
           '            import inspect'
           
@@ -12345,6 +11636,7 @@ object CommandsDataModule: TCommandsDataModule
           '                res[3] = True'
           '            elif inspect.isclass(ob):'
           '                res[4] = True'
+          '            res[5] = isinstance(ob, dict)'
           '            return tuple(res)'
           '        except:'
           '            return tuple(res)'
@@ -12357,7 +11649,7 @@ object CommandsDataModule: TCommandsDataModule
           ''
           '    def membercount(self, x):'
           '        try:'
-          '            if type(x) is dict:'
+          '            if isinstance(x, dict):'
           '                return len(x)'
           '            elif type(x).__name__ in self.commontypes:'
           '                return 0'
@@ -12394,7 +11686,7 @@ object CommandsDataModule: TCommandsDataModule
           ''
           '    def getitemsfullinfo(self, x):'
           '        try:'
-          '            assert type(x) == dict'
+          '            assert isinstance(x, dict)'
           '            members = x.items()'
           '            d = {}'
           '            for (i,j) in members:'
@@ -12438,90 +11730,6 @@ object CommandsDataModule: TCommandsDataModule
           '                return os.path.join(filename, '#39'__init__.py'#39')'
           '            elif type in (imp.PY_SOURCE, imp.C_EXTENSION):'
           '                return filename'
-          ''
-          '    def setupRefactoring(self):'
-          '        class ProgressStatusLogger:'
-          
-            '            """ File like logger that uses the Editor statusbar ' +
-            'as output """'
-          '            debugIDE = __import__("DebugIDE")'
-          '            def __init__(self):'
-          '                self._buffer = '#39#39
-          ''
-          '            def write(self, txt):'
-          '                self._buffer += txt'
-          '                if txt.endswith('#39'\n'#39'):'
-          
-            '                    debugIDE.statusWrite('#39'BRM: '#39' + self._buffer.' +
-            'strip())'
-          '                    self._buffer = '#39#39
-          ''
-          '        class WarningsLogger:'
-          
-            '            """ File like logger that uses the Editor statusbar ' +
-            'as output """'
-          '            debugIDE = __import__("DebugIDE")'
-          '            def __init__(self):'
-          '                self._buffer = '#39#39
-          ''
-          '            def write(self, txt):'
-          '                self._buffer += txt'
-          '                if txt.endswith('#39'\n'#39'):'
-          
-            '                    debugIDE.messageWrite('#39'  '#39' + self._buffer.st' +
-            'rip())'
-          '                    self._buffer = '#39#39
-          ''
-          '        try:'
-          '            import bike'
-          '            import bike.parsing.load'
-          '            self.BRMContext = bike.init()'
-          '            self.BRMCache = bike.parsing.load.Cache'
-          
-            '            self.BRMContext.setProgressLogger(ProgressStatusLogg' +
-            'er())'
-          '            self.BRMContext.setWarningLogger(WarningsLogger())'
-          
-            '            bike.bikefacade.BRMContext_impl.normalizeFilename = ' +
-            'lambda self, fn : fn'
-          '        except:'
-          '            self.BRMContext = None'
-          ''
-          '    def loadFileToBRMCache(self, filename, src):'
-          '        if self.BRMContext is not None:'
-          '            import bike'
-          '            sourcenode = None'
-          ''
-          '            try:'
-          
-            '                sourcenode = self.BRMCache.instance.srcnodecache' +
-            '[filename]'
-          '            except KeyError:'
-          '                pass'
-          ''
-          '            if sourcenode is None:'
-          
-            '                from bike.parsing.newstuff import translateFname' +
-            'ToModuleName'
-          
-            '                sourcenode = bike.parsing.load.SourceFile.create' +
-            'FromString(filename,'
-          
-            '                                      translateFnameToModuleName' +
-            '(filename), src)'
-          '            if sourcenode is None:'
-          '                return False'
-          ''
-          '            sourcenode.filename = filename # important'
-          '            sourcenode.fastparseroot.filename = filename'
-          '            for node in sourcenode.fastparseroot.flattenedNodes:'
-          '                node.filename = filename'
-          
-            '            self.BRMCache.instance.srcnodecache[filename]=source' +
-            'node'
-          '            return True'
-          ''
-          '        return False'
           ''
           '    def runcode(self, code):'
           '        import sys'
@@ -12928,6 +12136,19 @@ object CommandsDataModule: TCommandsDataModule
           '              '#39'unicode'#39','
           '              '#39'xrange'#39'])'
           ''
+          '    def _import(self, name, code):'
+          '        import imp'
+          '        import sys'
+          '        mod = imp.new_module(name)'
+          '        mod.__file__ = code.co_filename'
+          ''
+          '        try:'
+          '            exec(code, mod.__dict__)'
+          '            sys.modules[name] = mod'
+          '            return mod'
+          '        except SystemExit:'
+          '            pass'
+          ''
           '    def run_nodebug(self, cmd, globals=None, locals=None):'
           '        import types'
           '        import sys'
@@ -12945,7 +12166,7 @@ object CommandsDataModule: TCommandsDataModule
           '            globals["__file__"] = cmd.co_filename'
           '        else:'
           '            cmd = cmd+'#39'\n'#39
-          '            '
+          ''
           '        try:'
           '            try:'
           '                exec(cmd, globals, locals)'
@@ -12972,7 +12193,7 @@ object CommandsDataModule: TCommandsDataModule
           '            return "Unknown type"'
           ''
           '    def objectinfo(self, ob):'
-          '        res = [False, False, False, False, False]'
+          '        res = [False, False, False, False, False, False]'
           '        try:'
           '            import inspect'
           
@@ -12987,6 +12208,7 @@ object CommandsDataModule: TCommandsDataModule
           '                res[3] = True'
           '            elif inspect.isclass(ob):'
           '                res[4] = True'
+          '            res[5] = isinstance(ob, dict)'
           '            return tuple(res)'
           '        except:'
           '            return tuple(res)'
@@ -12999,7 +12221,7 @@ object CommandsDataModule: TCommandsDataModule
           ''
           '    def membercount(self, x):'
           '        try:'
-          '            if type(x) is dict:'
+          '            if isinstance(x, dict):'
           '                return len(x)'
           '            elif type(x).__name__ in self.commontypes:'
           '                return 0'
@@ -13036,7 +12258,7 @@ object CommandsDataModule: TCommandsDataModule
           ''
           '    def getitemsfullinfo(self, x):'
           '        try:'
-          '            assert type(x) == dict'
+          '            assert isinstance(x, dict)'
           '            members = x.items()'
           '            d = {}'
           '            for (i,j) in members:'
@@ -13080,90 +12302,6 @@ object CommandsDataModule: TCommandsDataModule
           '                return os.path.join(filename, '#39'__init__.py'#39')'
           '            elif type in (imp.PY_SOURCE, imp.C_EXTENSION):'
           '                return filename'
-          ''
-          '    def setupRefactoring(self):'
-          '        class ProgressStatusLogger:'
-          
-            '            """ File like logger that uses the Editor statusbar ' +
-            'as output """'
-          '            debugIDE = __import__("DebugIDE")'
-          '            def __init__(self):'
-          '                self._buffer = '#39#39
-          ''
-          '            def write(self, txt):'
-          '                self._buffer += txt'
-          '                if txt.endswith('#39'\n'#39'):'
-          
-            '                    debugIDE.statusWrite('#39'BRM: '#39' + self._buffer.' +
-            'strip())'
-          '                    self._buffer = '#39#39
-          ''
-          '        class WarningsLogger:'
-          
-            '            """ File like logger that uses the Editor statusbar ' +
-            'as output """'
-          '            debugIDE = __import__("DebugIDE")'
-          '            def __init__(self):'
-          '                self._buffer = '#39#39
-          ''
-          '            def write(self, txt):'
-          '                self._buffer += txt'
-          '                if txt.endswith('#39'\n'#39'):'
-          
-            '                    debugIDE.messageWrite('#39'  '#39' + self._buffer.st' +
-            'rip())'
-          '                    self._buffer = '#39#39
-          ''
-          '        try:'
-          '            import bike'
-          '            import bike.parsing.load'
-          '            self.BRMContext = bike.init()'
-          '            self.BRMCache = bike.parsing.load.Cache'
-          
-            '            self.BRMContext.setProgressLogger(ProgressStatusLogg' +
-            'er())'
-          '            self.BRMContext.setWarningLogger(WarningsLogger())'
-          
-            '            bike.bikefacade.BRMContext_impl.normalizeFilename = ' +
-            'lambda self, fn : fn'
-          '        except:'
-          '            self.BRMContext = None'
-          ''
-          '    def loadFileToBRMCache(self, filename, src):'
-          '        if self.BRMContext is not None:'
-          '            import bike'
-          '            sourcenode = None'
-          ''
-          '            try:'
-          
-            '                sourcenode = self.BRMCache.instance.srcnodecache' +
-            '[filename]'
-          '            except KeyError:'
-          '                pass'
-          ''
-          '            if sourcenode is None:'
-          
-            '                from bike.parsing.newstuff import translateFname' +
-            'ToModuleName'
-          
-            '                sourcenode = bike.parsing.load.SourceFile.create' +
-            'FromString(filename,'
-          
-            '                                      translateFnameToModuleName' +
-            '(filename), src)'
-          '            if sourcenode is None:'
-          '                return False'
-          ''
-          '            sourcenode.filename = filename # important'
-          '            sourcenode.fastparseroot.filename = filename'
-          '            for node in sourcenode.fastparseroot.flattenedNodes:'
-          '                node.filename = filename'
-          
-            '            self.BRMCache.instance.srcnodecache[filename]=source' +
-            'node'
-          '            return True'
-          ''
-          '        return False'
           ''
           '    def runcode(self, code):'
           '        import sys'
@@ -13298,7 +12436,9 @@ object CommandsDataModule: TCommandsDataModule
           'del code'
           'del PythonInteractiveInterpreter'
           'del sys'
-          'del os')
+          'del os'
+          ''
+          '')
       end
       item
         Name = 'RpyC_Init'
@@ -13480,7 +12620,7 @@ object CommandsDataModule: TCommandsDataModule
           ''
           '    def membercount(self, x):'
           '        try:'
-          '            if type(x) is dict:'
+          '            if isinstance(x, dict):'
           '                return len(x)'
           '            elif type(x).__name__ in self.commontypes:'
           '                return 0'
@@ -13517,7 +12657,7 @@ object CommandsDataModule: TCommandsDataModule
           ''
           '    def rem_getitemsfullinfo(self, x):'
           '        try:'
-          '            assert type(x) == dict'
+          '            assert isinstance(x, dict)'
           '            members = x.items()'
           '            d = {}'
           '            for (i,j) in members:'
@@ -13771,7 +12911,7 @@ object CommandsDataModule: TCommandsDataModule
           '            return "Unknown type"'
           ''
           '    def rem_objectinfo(self, ob):'
-          '        res = [False, False, False, False, False]'
+          '        res = [False, False, False, False, False, False]'
           '        try:'
           '            inspect = self.inspect'
           
@@ -13786,6 +12926,7 @@ object CommandsDataModule: TCommandsDataModule
           '                res[3] = True'
           '            elif inspect.isclass(ob):'
           '                res[4] = True'
+          '            res[5] = isinstance(ob, dict)'
           '            return tuple(res)'
           '        except:'
           '            return tuple(res)'
@@ -13882,7 +13023,8 @@ object CommandsDataModule: TCommandsDataModule
           ''
           'del code'
           'del RemotePythonInterpreter'
-          'del sys')
+          'del sys'
+          '')
       end
       item
         Name = 'RpyC_Init3000'
@@ -14063,7 +13205,7 @@ object CommandsDataModule: TCommandsDataModule
           ''
           '    def membercount(self, x):'
           '        try:'
-          '            if type(x) is dict:'
+          '            if isinstance(x, dict):'
           '                return len(x)'
           '            elif type(x).__name__ in self.commontypes:'
           '                return 0'
@@ -14100,7 +13242,7 @@ object CommandsDataModule: TCommandsDataModule
           ''
           '    def rem_getitemsfullinfo(self, x):'
           '        try:'
-          '            assert type(x) == dict'
+          '            assert isinstance(x, dict)'
           '            members = list(x.items())'
           '            d = {}'
           '            for (i,j) in members:'
@@ -14337,7 +13479,7 @@ object CommandsDataModule: TCommandsDataModule
           '            return "Unknown type"'
           ''
           '    def rem_objectinfo(self, ob):'
-          '        res = [False, False, False, False, False]'
+          '        res = [False, False, False, False, False, False]'
           '        try:'
           '            inspect = self.inspect'
           
@@ -14352,6 +13494,7 @@ object CommandsDataModule: TCommandsDataModule
           '                res[3] = True'
           '            elif inspect.isclass(ob):'
           '                res[4] = True'
+          '            res[5] = isinstance(ob, dict)'
           '            return tuple(res)'
           '        except:'
           '            return tuple(res)'
@@ -14731,5 +13874,791 @@ object CommandsDataModule: TCommandsDataModule
     Options = [ofOverwritePrompt, ofHideReadOnly, ofPathMustExist, ofNoReadOnlyReturn, ofEnableSizing]
     Left = 20
     Top = 68
+  end
+  object SynWebHtmlSyn: TSynWebHtmlSyn
+    ActiveHighlighterSwitch = False
+    Engine = SynWebEngine
+    Options.HtmlVersion = shvHtml401Transitional
+    Options.CssVersion = scvCss21
+    Options.PhpVersion = spvPhp5
+    Options.PhpShortOpenTag = True
+    Options.PhpAspTags = False
+    Options.CssEmbeded = True
+    Options.PhpEmbeded = True
+    Options.EsEmbeded = True
+    Options.UseEngineOptions = False
+    Left = 296
+    Top = 240
+  end
+  object SynWebXmlSyn: TSynWebXmlSyn
+    ActiveHighlighterSwitch = False
+    Engine = SynWebEngine
+    Options.PhpVersion = spvPhp5
+    Options.PhpShortOpenTag = False
+    Options.PhpAspTags = False
+    Options.PhpEmbeded = True
+    Options.UseEngineOptions = False
+    Left = 376
+    Top = 240
+  end
+  object SynWebCssSyn: TSynWebCssSyn
+    ActiveHighlighterSwitch = False
+    Engine = SynWebEngine
+    Options.HtmlVersion = shvHtml401Transitional
+    Options.CssVersion = scvCss21
+    Options.PhpVersion = spvPhp5
+    Options.PhpShortOpenTag = True
+    Options.PhpAspTags = False
+    Options.PhpEmbeded = False
+    Options.UseEngineOptions = False
+    Left = 456
+    Top = 240
+  end
+  object SynCppSyn: TSynCppSyn
+    Left = 600
+    Top = 176
+  end
+  object SynWebEngine: TSynWebEngine
+    Options.HtmlVersion = shvHtml401Transitional
+    Options.WmlVersion = swvWml13
+    Options.CssVersion = scvCss21
+    Options.PhpVersion = spvPhp5
+    Options.PhpShortOpenTag = True
+    Options.PhpAspTags = False
+    Left = 596
+    Top = 240
+  end
+  object actlMain: TTntActionList
+    Images = Images
+    Left = 21
+    Top = 125
+    object actFileSave: TTntAction
+      Category = 'File'
+      Caption = '&Save'
+      Enabled = False
+      HelpContext = 310
+      HelpType = htContext
+      Hint = 'Save|Save active file'
+      ImageIndex = 4
+      ShortCut = 16467
+      OnExecute = actFileSaveExecute
+    end
+    object actFileSaveAs: TTntAction
+      Category = 'File'
+      Caption = 'Save &As...'
+      Enabled = False
+      HelpContext = 310
+      HelpType = htContext
+      Hint = 'Save As|Save active file under different name'
+      OnExecute = actFileSaveAsExecute
+    end
+    object actFileClose: TTntAction
+      Category = 'File'
+      Caption = '&Close'
+      Enabled = False
+      HelpContext = 310
+      HelpType = htContext
+      Hint = 'Close|Close active file'
+      ImageIndex = 2
+      ShortCut = 16499
+      OnExecute = actFileCloseExecute
+    end
+    object actEditCut: TTntEditCut
+      Category = 'Edit'
+      Caption = 'Cu&t'
+      Enabled = False
+      HelpContext = 320
+      HelpType = htContext
+      Hint = 'Cut|Cuts the selection and puts it on the Clipboard'
+      ImageIndex = 11
+      ShortCut = 16472
+    end
+    object actEditCopy: TTntEditCopy
+      Category = 'Edit'
+      Caption = '&Copy'
+      Enabled = False
+      HelpContext = 320
+      HelpType = htContext
+      Hint = 'Copy|Copies the selection and puts it on the Clipboard'
+      ImageIndex = 12
+      ShortCut = 16451
+    end
+    object actEditPaste: TTntEditPaste
+      Category = 'Edit'
+      Caption = '&Paste'
+      HelpContext = 320
+      HelpType = htContext
+      Hint = 'Paste|Inserts Clipboard contents'
+      ImageIndex = 13
+      ShortCut = 16470
+    end
+    object actEditDelete: TTntEditDelete
+      Category = 'Edit'
+      Caption = 'De&lete'
+      Enabled = False
+      HelpContext = 320
+      HelpType = htContext
+      Hint = 'Delete|Delete selection'
+      ImageIndex = 14
+    end
+    object actEditUndo: TTntEditUndo
+      Category = 'Edit'
+      Caption = '&Undo'
+      HelpContext = 320
+      HelpType = htContext
+      Hint = 'Undo|Reverts the last action'
+      ImageIndex = 9
+      ShortCut = 16474
+    end
+    object actEditRedo: TTntAction
+      Category = 'Edit'
+      Caption = '&Redo'
+      Enabled = False
+      HelpContext = 320
+      HelpType = htContext
+      Hint = 'Redo| Redo last action'
+      ImageIndex = 10
+      ShortCut = 24666
+      OnExecute = actEditRedoExecute
+    end
+    object actEditSelectAll: TTntEditSelectAll
+      Category = 'Edit'
+      Caption = 'Select &All'
+      HelpContext = 320
+      HelpType = htContext
+      Hint = 'Select All|Selects the entire document'
+      ShortCut = 16449
+    end
+    object actSearchFind: TTntAction
+      Category = 'Search'
+      Caption = '&Find...'
+      Enabled = False
+      HelpContext = 330
+      HelpType = htContext
+      Hint = 'Search|Search for a string'
+      ImageIndex = 15
+      ShortCut = 16454
+      OnExecute = actSearchFindExecute
+    end
+    object actSearchFindNext: TTntAction
+      Category = 'Search'
+      Caption = 'Find &Next'
+      Enabled = False
+      HelpContext = 330
+      HelpType = htContext
+      Hint = 'Find next|Find next match'
+      ImageIndex = 16
+      ShortCut = 114
+      OnExecute = actSearchFindNextExecute
+    end
+    object actSearchFindPrev: TTntAction
+      Category = 'Search'
+      Caption = 'Find &Previous'
+      Enabled = False
+      HelpContext = 330
+      HelpType = htContext
+      Hint = 'Find previous|Find Previous match'
+      ImageIndex = 121
+      ShortCut = 8306
+      OnExecute = actSearchFindPrevExecute
+    end
+    object actSearchReplace: TTntAction
+      Category = 'Search'
+      Caption = '&Replace...'
+      Enabled = False
+      HelpContext = 330
+      HelpType = htContext
+      Hint = 'Replace|Search  & Replace'
+      ImageIndex = 17
+      ShortCut = 16456
+      OnExecute = actSearchReplaceExecute
+    end
+    object actFileSaveAll: TTntAction
+      Category = 'File'
+      Caption = 'Save &All'
+      HelpContext = 310
+      HelpType = htContext
+      Hint = 'Save all|Save project and all open files'
+      ImageIndex = 5
+      OnExecute = actFileSaveAllExecute
+    end
+    object actFilePrint: TTntAction
+      Category = 'File'
+      Caption = '&Print...'
+      Enabled = False
+      HelpContext = 310
+      HelpType = htContext
+      Hint = 'Print|Print active file'
+      ImageIndex = 8
+      ShortCut = 16464
+      OnExecute = actFilePrintExecute
+    end
+    object actPrinterSetup: TTntAction
+      Category = 'File'
+      Caption = 'Printer &Setup...'
+      HelpContext = 310
+      HelpType = htContext
+      Hint = 'Printer setup'
+      ImageIndex = 6
+      OnExecute = actPrinterSetupExecute
+    end
+    object actPrintPreview: TTntAction
+      Category = 'File'
+      Caption = 'Print Pre&view'
+      HelpContext = 310
+      HelpType = htContext
+      Hint = 'Print preview'
+      ImageIndex = 7
+      OnExecute = actPrintPreviewExecute
+    end
+    object actPageSetup: TTntAction
+      Category = 'File'
+      Caption = 'Pa&ge Setup...'
+      HelpContext = 310
+      HelpType = htContext
+      Hint = 'Page setup'
+      ImageIndex = 78
+      OnExecute = actPageSetupExecute
+    end
+    object actEditorOptions: TTntAction
+      Category = 'Options'
+      Caption = '&Editor Options...'
+      HelpContext = 620
+      HelpType = htContext
+      Hint = 'Set Editor Options'
+      ImageIndex = 22
+      OnExecute = actEditorOptionsExecute
+    end
+    object actIDEOptions: TTntAction
+      Category = 'Options'
+      Caption = '&IDE Options...'
+      HelpContext = 610
+      HelpType = htContext
+      Hint = 'Set IDE Options'
+      ImageIndex = 24
+      OnExecute = actIDEOptionsExecute
+    end
+    object actEditIndent: TTntAction
+      Category = 'Source Code'
+      Caption = '&Indent Block'
+      HelpContext = 320
+      HelpType = htContext
+      Hint = 'Indent block|Indent selected block of code'
+      ImageIndex = 69
+      ShortCut = 24649
+      OnExecute = actEditIndentExecute
+    end
+    object actEditDedent: TTntAction
+      Category = 'Source Code'
+      Caption = '&Dedent Block'
+      HelpContext = 320
+      HelpType = htContext
+      Hint = 'Dedent|Dedent selected block of code'
+      ImageIndex = 70
+      ShortCut = 24661
+      OnExecute = actEditDedentExecute
+    end
+    object actEditCommentOut: TTntAction
+      Category = 'Source Code'
+      Caption = '&Comment out'
+      HelpContext = 320
+      HelpType = htContext
+      Hint = 'Comment out| Comment out block of code'
+      ImageIndex = 73
+      ShortCut = 49342
+      OnExecute = actEditCommentOutExecute
+    end
+    object actEditUncomment: TTntAction
+      Category = 'Source Code'
+      Caption = '&Uncomment'
+      HelpContext = 320
+      HelpType = htContext
+      Hint = 'Uncomment| Uncomment block of code'
+      ImageIndex = 74
+      ShortCut = 49340
+      OnExecute = actEditUncommentExecute
+    end
+    object actSearchMatchingBrace: TTntAction
+      Category = 'Search'
+      Caption = '&Matching Brace'
+      HelpContext = 330
+      HelpType = htContext
+      Hint = 'Find Matching Brace'
+      ShortCut = 24642
+      OnExecute = actSearchMatchingBraceExecute
+    end
+    object actEditTabify: TTntAction
+      Category = 'Source Code'
+      Caption = '&Tabify'
+      HelpContext = 320
+      HelpType = htContext
+      Hint = 'Tabify|Convert spaces to tabs'
+      ShortCut = 32990
+      OnExecute = actEditTabifyExecute
+    end
+    object actEditUntabify: TTntAction
+      Category = 'Source Code'
+      Caption = 'U&ntabify'
+      HelpContext = 320
+      HelpType = htContext
+      Hint = 'Untabify|Convert tabs to spaces'
+      ShortCut = 41182
+      OnExecute = actEditUntabifyExecute
+    end
+    object actPythonPath: TTntAction
+      Category = 'Tools'
+      Caption = 'Python &Path...'
+      HelpContext = 870
+      HelpType = htContext
+      Hint = 'Python Path|View or edit the Python path'
+      ImageIndex = 25
+      OnExecute = actPythonPathExecute
+    end
+    object actHelpContents: TTntHelpContents
+      Category = 'Help'
+      Caption = '&Contents'
+      Enabled = False
+      HelpContext = 370
+      HelpType = htContext
+      Hint = 'Help Contents'
+      ImageIndex = 71
+      OnExecute = actHelpContentsExecute
+    end
+    object actPythonManuals: TTntHelpContents
+      Category = 'Help'
+      Caption = '&Python Manuals'
+      HelpContext = 370
+      HelpType = htContext
+      Hint = 'Show Python Manuals'
+      ImageIndex = 77
+      OnExecute = actPythonManualsExecute
+    end
+    object actAbout: TTntAction
+      Category = 'Help'
+      Caption = 'About...'
+      HelpContext = 370
+      HelpType = htContext
+      Hint = 'About|Info about the application'
+      ImageIndex = 30
+      OnExecute = actAboutExecute
+    end
+    object actSearchGoToLine: TTntAction
+      Category = 'Search'
+      Caption = 'Go To &Line...'
+      HelpContext = 330
+      HelpType = htContext
+      Hint = 'Go to line number'
+      ImageIndex = 32
+      ShortCut = 32839
+      OnExecute = actSearchGoToLineExecute
+    end
+    object actSearchGoToSyntaxError: TTntAction
+      Category = 'Search'
+      Caption = 'Go To Syntax &Error'
+      HelpContext = 330
+      HelpType = htContext
+      Hint = 'Jump to the position of the first syntax error'
+      ImageIndex = 123
+      ShortCut = 24645
+      OnExecute = actSearchGoToSyntaxErrorExecute
+    end
+    object actFindInFiles: TTntAction
+      Category = 'Search'
+      Caption = '&Find in Files...'
+      HelpContext = 330
+      HelpType = htContext
+      Hint = 'Search in Files|Search for a string in Files'
+      ImageIndex = 86
+      ShortCut = 24646
+      OnExecute = actFindInFilesExecute
+    end
+    object actParameterCompletion: TTntAction
+      Category = 'Parameters'
+      Caption = 'Insert &parameter'
+      HelpContext = 720
+      HelpType = htContext
+      Hint = 'Insert parameter to the edited file'
+      ShortCut = 24656
+      OnExecute = actParameterCompletionExecute
+    end
+    object actModifierCompletion: TTntAction
+      Category = 'Parameters'
+      Caption = 'Insert &modifier'
+      HelpContext = 720
+      HelpType = htContext
+      Hint = 'Insert parameter to the edited file'
+      ShortCut = 24653
+      OnExecute = actModifierCompletionExecute
+    end
+    object actReplaceParameters: TTntAction
+      Category = 'Parameters'
+      Caption = '&Replace parameters'
+      HelpContext = 720
+      HelpType = htContext
+      Hint = 'Replace parameters with their values'
+      ShortCut = 24658
+      OnExecute = actReplaceParametersExecute
+    end
+    object actHelpParameters: TTntAction
+      Category = 'Help'
+      Caption = '&Parameters'
+      HelpContext = 370
+      HelpType = htContext
+      Hint = 'Help on custom parameters'
+      OnExecute = actHelpParametersExecute
+    end
+    object actInsertTemplate: TTntAction
+      Category = 'Edit'
+      Caption = 'Insert &Template'
+      HelpContext = 320
+      HelpType = htContext
+      Hint = 'Insert a Code Template'
+      ShortCut = 16458
+      OnExecute = actInsertTemplateExecute
+    end
+    object actCustomizeParameters: TTntAction
+      Category = 'Parameters'
+      Caption = 'Custom &Parameters...'
+      HelpContext = 720
+      HelpType = htContext
+      Hint = 'Add/Remove custom parameters'
+      OnExecute = actCustomizeParametersExecute
+    end
+    object actIDEShortcuts: TTntAction
+      Category = 'Options'
+      Caption = 'IDE &Shortcuts...'
+      HelpContext = 615
+      HelpType = htContext
+      Hint = 'Customize IDE shortcuts'
+      ImageIndex = 102
+      OnExecute = actIDEShortcutsExecute
+    end
+    object actCodeTemplates: TTntAction
+      Category = 'Options'
+      Caption = '&Code Templates...'
+      HelpContext = 540
+      HelpType = htContext
+      Hint = 'Add/Remove code templates'
+      OnExecute = actCodeTemplatesExecute
+    end
+    object actConfigureTools: TTntAction
+      Category = 'Tools'
+      Caption = 'Configure &Tools...'
+      HelpContext = 710
+      HelpType = htContext
+      Hint = 'Configure Tools|Add/remove/edit command-line tools'
+      ImageIndex = 83
+      OnExecute = actConfigureToolsExecute
+    end
+    object actHelpExternalTools: TTntAction
+      Category = 'Help'
+      Caption = 'External &Tools'
+      HelpContext = 370
+      HelpType = htContext
+      Hint = 'Help on External Tools'
+      OnExecute = actHelpExternalToolsExecute
+    end
+    object actFindFunction: TTntAction
+      Category = 'Search'
+      Caption = 'Find F&unction...'
+      HelpContext = 330
+      HelpType = htContext
+      Hint = 'Find Function|Find function from function list'
+      ImageIndex = 26
+      ShortCut = 16455
+      OnExecute = actFindFunctionExecute
+    end
+    object actEditLineNumbers: TTntAction
+      Category = 'Edit'
+      Caption = 'Line &Numbers'
+      HelpContext = 320
+      HelpType = htContext
+      Hint = 'Show/Hide line numbers'
+      ImageIndex = 43
+      OnExecute = actEditLineNumbersExecute
+    end
+    object actEditShowSpecialChars: TTntAction
+      Category = 'Edit'
+      Caption = 'Special &Characters'
+      HelpContext = 320
+      HelpType = htContext
+      Hint = 'Show/Hide special characters'
+      ImageIndex = 95
+      OnExecute = actEditShowSpecialCharsExecute
+    end
+    object actFindPreviousReference: TTntAction
+      Tag = 1
+      Category = 'Search'
+      Caption = 'Find Previous Reference'
+      HelpContext = 330
+      HelpType = htContext
+      Hint = 'Find previous identifier reference'
+      ShortCut = 49190
+      OnExecute = actFindNextReferenceExecute
+    end
+    object actFindNextReference: TTntAction
+      Category = 'Search'
+      Caption = 'Find Next Reference'
+      HelpContext = 330
+      HelpType = htContext
+      Hint = 'Find next identifier reference'
+      ShortCut = 49192
+      OnExecute = actFindNextReferenceExecute
+    end
+    object actEditLBDos: TTntAction
+      Category = 'Edit'
+      Caption = '&DOS/Windows'
+      Checked = True
+      GroupIndex = 2
+      HelpContext = 320
+      HelpType = htContext
+      Hint = 'DOS/Windows|Convert to DOS Linebreak'
+      ImageIndex = 98
+      OnExecute = actEditLBExecute
+    end
+    object actEditLBUnix: TTntAction
+      Tag = 1
+      Category = 'Edit'
+      Caption = '&UNIX'
+      GroupIndex = 2
+      HelpContext = 320
+      HelpType = htContext
+      Hint = 'UNIX|Convert to UNIX Linebreak'
+      ImageIndex = 99
+      OnExecute = actEditLBExecute
+    end
+    object actEditLBMac: TTntAction
+      Tag = 2
+      Category = 'Edit'
+      Caption = '&Mac'
+      GroupIndex = 2
+      HelpContext = 320
+      HelpType = htContext
+      Hint = 'Mac|Convert to Mac Linebreak'
+      ImageIndex = 100
+      OnExecute = actEditLBExecute
+    end
+    object actEditAnsi: TTntAction
+      Category = 'Edit'
+      Caption = 'Ansi'
+      Checked = True
+      GroupIndex = 1
+      HelpContext = 320
+      HelpType = htContext
+      Hint = 'Use Ansi encoding'
+      OnExecute = actEditFileEncodingExecute
+    end
+    object actHelpEditorShortcuts: TTntAction
+      Category = 'Help'
+      Caption = 'Editor &Shortcuts'
+      HelpContext = 370
+      HelpType = htContext
+      Hint = 'Help on editor shortcuts'
+      OnExecute = actHelpEditorShortcutsExecute
+    end
+    object actCheckForUpdates: TTntAction
+      Category = 'Tools'
+      Caption = 'Check For &Updates'
+      HelpContext = 350
+      HelpType = htContext
+      Hint = 'Check whether a newer version of PyScripter is available'
+      OnExecute = actCheckForUpdatesExecute
+    end
+    object actUnitTestWizard: TTntAction
+      Category = 'Tools'
+      Caption = '&Unit Test Wizard...'
+      HelpContext = 930
+      HelpType = htContext
+      Hint = 'unitest wizard|Create unitests for active module'
+      ImageIndex = 103
+      OnExecute = actUnitTestWizardExecute
+    end
+    object actInterpreterEditorOptions: TTntAction
+      Category = 'Options'
+      Caption = '&Interpreter Editor Options...'
+      HelpContext = 620
+      HelpType = htContext
+      Hint = 'Set Interpreter Editor Options'
+      ImageIndex = 22
+      OnExecute = actInterpreterEditorOptionsExecute
+    end
+    object actEditToggleComment: TTntAction
+      Category = 'Source Code'
+      Caption = 'Toggle &Comment'
+      HelpContext = 320
+      HelpType = htContext
+      Hint = 'Toggle Comment| Comment/Uncomment block of code'
+      ImageIndex = 73
+      ShortCut = 16606
+      OnExecute = actEditToggleCommentExecute
+    end
+    object actFileTemplates: TTntAction
+      Category = 'Options'
+      Caption = '&File Templates...'
+      HelpContext = 640
+      HelpType = htContext
+      Hint = 'Add/Remove file templates'
+      OnExecute = actFileTemplatesExecute
+    end
+    object actEditUTF8: TTntAction
+      Tag = 1
+      Category = 'Edit'
+      Caption = 'UTF-8'
+      GroupIndex = 1
+      HelpContext = 320
+      HelpType = htContext
+      Hint = 'Use UTF-8 encoding when saving the file'
+      OnExecute = actEditFileEncodingExecute
+    end
+    object actEditUTF8NoBOM: TTntAction
+      Tag = 2
+      Category = 'Edit'
+      Caption = 'UTF-8 (No BOM)'
+      GroupIndex = 1
+      HelpContext = 320
+      HelpType = htContext
+      Hint = 'Use UTF-8 enconding without BOM'
+      OnExecute = actEditFileEncodingExecute
+    end
+    object actEditUTF16LE: TTntAction
+      Tag = 3
+      Category = 'Edit'
+      Caption = 'UTF-16LE'
+      GroupIndex = 1
+      HelpContext = 320
+      HelpType = htContext
+      Hint = 'Use UTF-16LE enconding'
+      OnExecute = actEditFileEncodingExecute
+    end
+    object actEditUTF16BE: TTntAction
+      Tag = 4
+      Category = 'Edit'
+      Caption = 'UTF-16BE'
+      GroupIndex = 1
+      HelpContext = 320
+      HelpType = htContext
+      Hint = 'Use UTF-16BE enconding'
+      OnExecute = actEditFileEncodingExecute
+    end
+    object actFileReload: TTntAction
+      Category = 'File'
+      Caption = '&Reload'
+      Enabled = False
+      HelpContext = 310
+      HelpType = htContext
+      Hint = 'Reload|Reload active file'
+      ImageIndex = 120
+      OnExecute = actFileReloadExecute
+    end
+    object actImportShortcuts: TTntAction
+      Category = 'Import/Export'
+      Caption = 'Import Shortcuts'
+      HelpType = htContext
+      Hint = 'Import Shortcuts'
+      OnExecute = actImportShortcutsExecute
+    end
+    object actExportShortCuts: TTntAction
+      Category = 'Import/Export'
+      Caption = 'Export Shortcuts'
+      HelpType = htContext
+      Hint = 'Export Shortcuts'
+      OnExecute = actExportShortCutsExecute
+    end
+    object actImportHighlighters: TTntAction
+      Category = 'Import/Export'
+      Caption = 'Import Highlighters'
+      HelpType = htContext
+      Hint = 'Import Syntax Highlighters'
+      OnExecute = actImportHighlightersExecute
+    end
+    object actExportHighlighters: TTntAction
+      Category = 'Import/Export'
+      Caption = 'Export Highlighters'
+      HelpType = htContext
+      Hint = 'Export Syntax Highlighters'
+      OnExecute = actExportHighlightersExecute
+    end
+    object actSearchReplaceNow: TTntAction
+      Category = 'Search'
+      Caption = 'Replace'
+      Enabled = False
+      HelpContext = 330
+      HelpType = htContext
+      Hint = 'Replace with existing  settings'
+      ImageIndex = 17
+      OnExecute = actSearchReplaceNowExecute
+    end
+    object actSearchHighlight: TTntAction
+      Category = 'Search'
+      AutoCheck = True
+      Caption = '&Highlight Search Text'
+      HelpContext = 330
+      HelpType = htContext
+      Hint = 'Highlight the search text in the current editor'
+      ImageIndex = 122
+      ShortCut = 24648
+      OnExecute = actSearchHighlightExecute
+    end
+    object actEditWordWrap: TTntAction
+      Category = 'Edit'
+      Caption = 'Word &Wrap'
+      HelpContext = 320
+      HelpType = htContext
+      Hint = 'Turn word wrap on/off'
+      ImageIndex = 124
+      OnExecute = actEditWordWrapExecute
+    end
+    object actSearchGoToDebugLine: TTntAction
+      Category = 'Search'
+      Caption = 'Go To &Debugger Position'
+      HelpContext = 330
+      HelpType = htContext
+      Hint = 'Go to the curent position of the debugger'
+      OnExecute = actSearchGoToDebugLineExecute
+    end
+    object actHelpOfficialWebSite: TTntAction
+      Category = 'Help'
+      Caption = '&Official Web Site'
+      HelpContext = 370
+      HelpType = htContext
+      Hint = 'Go to the official web site'
+      ImageIndex = 147
+      OnExecute = actHelpOfficialWebSiteExecute
+    end
+    object actHelpDevelopmentWebsite: TTntAction
+      Category = 'Help'
+      Caption = '&Development Web Site'
+      HelpContext = 370
+      HelpType = htContext
+      Hint = 'Go To the developement web site'
+      ImageIndex = 147
+      OnExecute = actHelpDevelopmentWebsiteExecute
+    end
+    object actHelpWebProjectHome: TTntAction
+      Category = 'Help'
+      Caption = '&Project Home'
+      HelpContext = 370
+      HelpType = htContext
+      Hint = 'Go to the project home page'
+      ImageIndex = 147
+      OnExecute = actHelpWebProjectHomeExecute
+    end
+    object actHelpWebGroupSupport: TTntAction
+      Category = 'Help'
+      Caption = '&Group Support'
+      HelpContext = 370
+      HelpType = htContext
+      Hint = 'Go to the PyScripter Internet group'
+      ImageIndex = 147
+      OnExecute = actHelpWebGroupSupportExecute
+    end
+    object actFileCloseAllOther: TTntAction
+      Category = 'File'
+      Caption = 'Close All &Other'
+      HelpContext = 310
+      HelpType = htContext
+      Hint = 'Close all files except the active one'
+      OnExecute = actFileCloseAllOtherExecute
+    end
   end
 end

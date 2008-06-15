@@ -52,26 +52,10 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
   PixelsPerInch = 96
   TextHeight = 13
   inherited FGPanel: TPanel
-    Left = 2
-    Height = 406
-    ExplicitLeft = 2
-    ExplicitTop = -1
-    ExplicitHeight = 406
-    object StatusBar: TTBXStatusBar
-      Left = 0
-      Top = 384
-      Width = 227
-      Images = CommandsDataModule.Images
-      Panels = <
-        item
-          Caption = 'Not executed'
-          ImageIndex = 21
-          Size = 500
-          Tag = 0
-        end>
-      SizeGrip = False
-      UseSystemFont = False
-    end
+    Width = 227
+    ExplicitLeft = 3
+    ExplicitTop = 3
+    ExplicitHeight = 402
     object TBXDock: TSpTBXDock
       Left = 0
       Top = 0
@@ -83,7 +67,6 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
         Top = 0
         Align = alTop
         AutoResize = False
-        Caption = 'RegExpTesterToolbar'
         DockMode = dmCannotFloat
         FullSize = True
         Images = CommandsDataModule.Images
@@ -171,7 +154,7 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
         end
         object TIExecute: TSpTBXItem
           Caption = 'Execute'
-          Hint = 'Execute search or martch'
+          Hint = 'Execute search or match'
           ImageIndex = 19
           OnClick = TIExecuteClick
         end
@@ -185,38 +168,88 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
         end
       end
     end
-    object TBXMultiDock: TTBXMultiDock
+    object TBXMultiDock: TSpTBXMultiDock
       Left = 0
       Top = 26
       Width = 402
-      Height = 358
-      Position = dpLeft
-      object TBXDockablePanel4: TTBXDockablePanel
+      Height = 350
+      Position = dpxLeft
+      object TBXDockablePanel1: TSpTBXDockablePanel
         Left = 0
-        Top = 218
+        Top = 0
+        MinClientHeight = 32
+        MinClientWidth = 32
+        DockedWidth = 398
+        DockPos = 0
+        ShowCaption = False
+        ShowCaptionWhenDocked = False
+        SplitHeight = 76
+        TabOrder = 0
+        object TBXLabel3: TTBXLabel
+          Left = 0
+          Top = 0
+          Width = 398
+          Height = 14
+          Align = alTop
+          Caption = 'Regular Expression'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Shell Dlg 2'
+          Font.Style = [fsBold]
+          ParentFont = False
+          Underline = True
+          UnderlineColor = clBlue
+          Wrapping = twEndEllipsis
+        end
+        object SpTBXPanel1: TSpTBXPanel
+          Left = 0
+          Top = 14
+          Width = 398
+          Height = 56
+          Caption = 'SpTBXPanel1'
+          Align = alClient
+          TabOrder = 2
+          HotTrack = True
+          object RegExpText: TTntRichEdit
+            Left = 2
+            Top = 2
+            Width = 394
+            Height = 52
+            Align = alClient
+            BevelInner = bvNone
+            BevelOuter = bvNone
+            BorderStyle = bsNone
+            PlainText = True
+            ScrollBars = ssBoth
+            TabOrder = 0
+            OnChange = RegExpTextChange
+          end
+        end
+      end
+      object TBXDockablePanel4: TSpTBXDockablePanel
+        Left = 0
+        Top = 212
+        MinClientHeight = 32
+        MinClientWidth = 32
         Align = alBottom
         DockedWidth = 398
-        DockPos = 218
+        DockPos = 212
         ShowCaption = False
         ShowCaptionWhenDocked = False
         SplitHeight = 124
-        SupportedDocks = [dkStandardDock, dkMultiDock]
         TabOrder = 3
         object TBXLabel1: TTBXLabel
           Left = 0
           Top = 0
           Width = 398
-          Height = 22
-          Margins.Left = 4
-          Margins.Top = 4
-          Margins.Right = 4
-          Margins.Bottom = 4
+          Height = 14
           Align = alTop
           Caption = 'Groups:'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -11
-          Font.Name = 'Tahoma'
+          Font.Name = 'MS Shell Dlg 2'
           Font.Style = [fsBold]
           ParentFont = False
           Underline = True
@@ -225,9 +258,9 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
         end
         object GroupsView: TVirtualStringTree
           Left = 0
-          Top = 22
+          Top = 14
           Width = 398
-          Height = 98
+          Height = 104
           Align = alClient
           BevelEdges = []
           BevelInner = bvNone
@@ -271,136 +304,122 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
             end>
         end
       end
-      object TBXDockablePanel3: TTBXDockablePanel
+      object TBXDockablePanel3: TSpTBXDockablePanel
         Left = 0
-        Top = 155
+        Top = 151
+        MinClientHeight = 32
+        MinClientWidth = 32
         DockedWidth = 398
-        DockPos = 155
+        DockPos = 151
         ShowCaption = False
         ShowCaptionWhenDocked = False
         SplitHeight = 63
-        SupportedDocks = [dkStandardDock, dkMultiDock]
         TabOrder = 2
         object TBXLabel2: TTBXLabel
           Left = 0
           Top = 0
           Width = 398
-          Height = 22
-          Margins.Left = 4
-          Margins.Top = 4
-          Margins.Right = 4
-          Margins.Bottom = 4
+          Height = 14
           Align = alTop
           Caption = 'Match:'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -11
-          Font.Name = 'Tahoma'
+          Font.Name = 'MS Shell Dlg 2'
           Font.Style = [fsBold]
           ParentFont = False
           Underline = True
           UnderlineColor = clBlue
           Wrapping = twEndEllipsis
         end
-        object MatchText: TmbTBXJvRichEdit
+        object SpTBXPanel3: TSpTBXPanel
           Left = 0
-          Top = 22
+          Top = 14
           Width = 398
-          Height = 37
+          Height = 43
+          Caption = 'SpTBXPanel3'
           Align = alClient
-          AutoSize = False
-          AutoURLDetect = False
-          PlainText = True
-          TabOrder = 1
+          TabOrder = 2
+          HotTrack = True
+          object MatchText: TTntRichEdit
+            Left = 2
+            Top = 2
+            Width = 394
+            Height = 39
+            Align = alClient
+            BevelInner = bvNone
+            BevelOuter = bvNone
+            BorderStyle = bsNone
+            PlainText = True
+            ScrollBars = ssBoth
+            TabOrder = 0
+          end
         end
       end
-      object TBXDockablePanel1: TTBXDockablePanel
+      object TBXDockablePanel2: TSpTBXDockablePanel
         Left = 0
-        Top = 0
+        Top = 74
+        MinClientHeight = 32
+        MinClientWidth = 32
         DockedWidth = 398
-        DockPos = 0
-        ShowCaption = False
-        ShowCaptionWhenDocked = False
-        SplitHeight = 76
-        SupportedDocks = [dkStandardDock, dkMultiDock]
-        TabOrder = 0
-        object TBXLabel3: TTBXLabel
-          Left = 0
-          Top = 0
-          Width = 398
-          Height = 22
-          Margins.Left = 4
-          Margins.Top = 4
-          Margins.Right = 4
-          Margins.Bottom = 4
-          Align = alTop
-          Caption = 'Regular Expression'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'Tahoma'
-          Font.Style = [fsBold]
-          ParentFont = False
-          Underline = True
-          UnderlineColor = clBlue
-          Wrapping = twEndEllipsis
-        end
-        object RegExpText: TmbTBXJvRichEdit
-          Left = 0
-          Top = 22
-          Width = 398
-          Height = 50
-          Align = alClient
-          AutoSize = False
-          AutoURLDetect = False
-          PlainText = True
-          TabOrder = 1
-          OnChange = RegExpTextChange
-        end
-      end
-      object TBXDockablePanel2: TTBXDockablePanel
-        Left = 0
-        Top = 76
-        DockedWidth = 398
-        DockPos = 76
+        DockPos = 74
         ShowCaption = False
         ShowCaptionWhenDocked = False
         SplitHeight = 79
-        SupportedDocks = [dkStandardDock, dkMultiDock]
         TabOrder = 1
         object TBXLabel4: TTBXLabel
           Left = 0
           Top = 0
           Width = 398
-          Height = 22
-          Margins.Left = 4
-          Margins.Top = 4
-          Margins.Right = 4
-          Margins.Bottom = 4
+          Height = 14
           Align = alTop
           Caption = 'Search Text:'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -11
-          Font.Name = 'Tahoma'
+          Font.Name = 'MS Shell Dlg 2'
           Font.Style = [fsBold]
           ParentFont = False
           Underline = True
           UnderlineColor = clBlue
           Wrapping = twEndEllipsis
         end
-        object SearchText: TmbTBXJvRichEdit
+        object SpTBXPanel2: TSpTBXPanel
           Left = 0
-          Top = 22
+          Top = 14
           Width = 398
-          Height = 53
+          Height = 59
+          Caption = 'SpTBXPanel2'
           Align = alClient
-          AutoSize = False
-          AutoURLDetect = False
-          PlainText = True
-          TabOrder = 1
-          OnChange = RegExpTextChange
+          TabOrder = 2
+          HotTrack = True
+          object SearchText: TTntRichEdit
+            Left = 2
+            Top = 2
+            Width = 394
+            Height = 55
+            Align = alClient
+            BevelInner = bvNone
+            BevelOuter = bvNone
+            BorderStyle = bsNone
+            PlainText = True
+            ScrollBars = ssBoth
+            TabOrder = 0
+            OnChange = RegExpTextChange
+          end
         end
+      end
+    end
+    object StatusBar: TSpTBXStatusBar
+      Left = 0
+      Top = 376
+      Width = 227
+      Height = 26
+      Images = CommandsDataModule.Images
+      SizeGrip = False
+      object lbStatusBar: TSpTBXLabelItem
+        Caption = 'Not executed'
+        ImageIndex = 21
       end
     end
   end

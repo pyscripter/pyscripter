@@ -47,15 +47,17 @@ inherited WatchesWindow: TWatchesWindow
   PixelsPerInch = 96
   TextHeight = 13
   inherited FGPanel: TPanel
-    Width = 439
-    Height = 218
-    ExplicitWidth = 439
-    ExplicitHeight = 218
+    Width = 433
+    Height = 219
+    ExplicitLeft = 3
+    ExplicitTop = 3
+    ExplicitWidth = 433
+    ExplicitHeight = 219
     object WatchesView: TVirtualStringTree
       Left = 0
       Top = 0
-      Width = 439
-      Height = 218
+      Width = 433
+      Height = 219
       Align = alClient
       Alignment = taRightJustify
       BevelInner = bvNone
@@ -90,7 +92,7 @@ inherited WatchesWindow: TWatchesWindow
         end
         item
           Position = 1
-          Width = 239
+          Width = 233
           WideText = 'Value'
         end>
     end

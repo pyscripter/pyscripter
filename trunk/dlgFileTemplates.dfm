@@ -1,133 +1,39 @@
-object FileTemplatesDialog: TFileTemplatesDialog
+inherited FileTemplatesDialog: TFileTemplatesDialog
   Left = 340
   Top = 192
   HelpContext = 640
   ActiveControl = edExtension
   BorderIcons = []
-  BorderStyle = bsDialog
   Caption = 'File Templates'
   ClientHeight = 451
   ClientWidth = 528
-  Color = clBtnFace
-  Font.Charset = DEFAULT_CHARSET
-  Font.Color = clWindowText
-  Font.Height = -11
   Font.Name = 'MS Shell Dlg 2'
-  Font.Style = []
-  OldCreateOrder = False
   Position = poMainFormCenter
   ShowHint = True
-  OnCreate = FormCreate
   OnDestroy = FormDestroy
+  ExplicitWidth = 534
+  ExplicitHeight = 477
   PixelsPerInch = 96
   TextHeight = 13
-  object Panel: TPanel
+  object Panel: TSpTBXPanel
     Left = 0
     Top = 0
     Width = 528
     Height = 451
+    ThemeType = thtWindows
     Align = alClient
     TabOrder = 0
     DesignSize = (
       528
       451)
-    object lvItems: TListView
-      Left = 1
-      Top = 1
-      Width = 526
-      Height = 109
-      Align = alTop
-      Columns = <
-        item
-          Caption = 'Name'
-          Width = 200
-        end
-        item
-          Caption = 'Category'
-          Width = 280
-        end>
-      ColumnClick = False
-      GridLines = True
-      HideSelection = False
-      ReadOnly = True
-      RowSelect = True
-      TabOrder = 0
-      ViewStyle = vsReport
-      OnChange = lvItemsChange
-    end
-    object GroupBox: TGroupBox
-      Left = 10
-      Top = 150
+    object GroupBox: TSpTBXGroupBox
+      Left = 14
+      Top = 148
       Width = 511
       Height = 261
       Caption = 'File Template:'
+      ThemeType = thtWindows
       TabOrder = 3
-      object Label1: TLabel
-        Left = 8
-        Top = 24
-        Width = 31
-        Height = 13
-        Caption = '&Name:'
-        FocusControl = edName
-      end
-      object Label2: TLabel
-        Left = 8
-        Top = 70
-        Width = 48
-        Height = 13
-        Caption = '&Template:'
-        FocusControl = SynTemplate
-      end
-      object Label5: TLabel
-        Left = 281
-        Top = 21
-        Width = 49
-        Height = 13
-        Caption = '&Category:'
-        FocusControl = edCategory
-      end
-      object Label4: TLabel
-        Left = 7
-        Top = 242
-        Width = 204
-        Height = 13
-        Caption = 'Press Shift+Ctrl+M for Modifier completion'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clGrayText
-        Font.Height = -11
-        Font.Name = 'MS Shell Dlg 2'
-        Font.Style = []
-        ParentFont = False
-      end
-      object Label3: TLabel
-        Left = 7
-        Top = 228
-        Width = 214
-        Height = 13
-        Caption = 'Press Shift+Ctrl+P for Parameter completion'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clGrayText
-        Font.Height = -11
-        Font.Name = 'MS Shell Dlg 2'
-        Font.Style = []
-        ParentFont = False
-      end
-      object Label6: TLabel
-        Left = 8
-        Top = 47
-        Width = 89
-        Height = 13
-        Caption = '&Default Extension:'
-        FocusControl = edExtension
-      end
-      object Label7: TLabel
-        Left = 280
-        Top = 47
-        Width = 55
-        Height = 13
-        Caption = '&Highlighter:'
-        FocusControl = edCategory
-      end
       object SynTemplate: TSynEdit
         Left = 7
         Top = 87
@@ -148,10 +54,10 @@ object FileTemplatesDialog: TFileTemplatesDialog
         Options = [eoAutoIndent, eoAutoSizeMaxScrollWidth, eoDragDropEditing, eoEnhanceHomeKey, eoGroupUndo, eoHideShowScrollbars, eoKeepCaretX, eoShowScrollHint, eoTrimTrailingSpaces]
         TabWidth = 4
       end
-      object edName: TEdit
-        Left = 46
+      object edName: TSpTBXEdit
+        Left = 106
         Top = 20
-        Width = 185
+        Width = 127
         Height = 21
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
@@ -162,10 +68,10 @@ object FileTemplatesDialog: TFileTemplatesDialog
         TabOrder = 0
         OnKeyPress = edNameKeyPress
       end
-      object edCategory: TEdit
-        Left = 340
+      object edCategory: TSpTBXEdit
+        Left = 366
         Top = 17
-        Width = 157
+        Width = 131
         Height = 21
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
@@ -175,8 +81,8 @@ object FileTemplatesDialog: TFileTemplatesDialog
         ParentFont = False
         TabOrder = 2
       end
-      object edExtension: TEdit
-        Left = 102
+      object edExtension: TSpTBXEdit
+        Left = 195
         Top = 44
         Width = 38
         Height = 21
@@ -189,10 +95,10 @@ object FileTemplatesDialog: TFileTemplatesDialog
         TabOrder = 3
         OnKeyPress = edNameKeyPress
       end
-      object CBHighlighters: TComboBox
-        Left = 340
-        Top = 43
-        Width = 145
+      object CBHighlighters: TSpTBXComboBox
+        Left = 366
+        Top = 44
+        Width = 131
         Height = 21
         Style = csDropDownList
         Font.Charset = DEFAULT_CHARSET
@@ -204,6 +110,114 @@ object FileTemplatesDialog: TFileTemplatesDialog
         ParentFont = False
         TabOrder = 4
         OnChange = CBHighlightersChange
+      end
+      object Label1: TSpTBXLabel
+        Left = 8
+        Top = 24
+        Width = 31
+        Height = 13
+        Caption = '&Name:'
+        ParentColor = True
+        FocusControl = edName
+        LinkFont.Charset = DEFAULT_CHARSET
+        LinkFont.Color = clBlue
+        LinkFont.Height = -11
+        LinkFont.Name = 'MS Shell Dlg 2'
+        LinkFont.Style = [fsUnderline]
+      end
+      object Label2: TSpTBXLabel
+        Left = 8
+        Top = 70
+        Width = 48
+        Height = 13
+        Caption = '&Template:'
+        ParentColor = True
+        FocusControl = SynTemplate
+        LinkFont.Charset = DEFAULT_CHARSET
+        LinkFont.Color = clBlue
+        LinkFont.Height = -11
+        LinkFont.Name = 'MS Shell Dlg 2'
+        LinkFont.Style = [fsUnderline]
+      end
+      object Label5: TSpTBXLabel
+        Left = 271
+        Top = 21
+        Width = 49
+        Height = 13
+        Caption = '&Category:'
+        ParentColor = True
+        FocusControl = edCategory
+        LinkFont.Charset = DEFAULT_CHARSET
+        LinkFont.Color = clBlue
+        LinkFont.Height = -11
+        LinkFont.Name = 'MS Shell Dlg 2'
+        LinkFont.Style = [fsUnderline]
+      end
+      object Label4: TSpTBXLabel
+        Left = 7
+        Top = 242
+        Width = 204
+        Height = 13
+        Caption = 'Press Shift+Ctrl+M for Modifier completion'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clGrayText
+        Font.Height = -11
+        Font.Name = 'MS Shell Dlg 2'
+        Font.Style = []
+        ParentColor = True
+        ParentFont = False
+        LinkFont.Charset = DEFAULT_CHARSET
+        LinkFont.Color = clBlue
+        LinkFont.Height = -11
+        LinkFont.Name = 'MS Shell Dlg 2'
+        LinkFont.Style = [fsUnderline]
+      end
+      object Label3: TSpTBXLabel
+        Left = 7
+        Top = 228
+        Width = 214
+        Height = 13
+        Caption = 'Press Shift+Ctrl+P for Parameter completion'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clGrayText
+        Font.Height = -11
+        Font.Name = 'MS Shell Dlg 2'
+        Font.Style = []
+        ParentColor = True
+        ParentFont = False
+        LinkFont.Charset = DEFAULT_CHARSET
+        LinkFont.Color = clBlue
+        LinkFont.Height = -11
+        LinkFont.Name = 'MS Shell Dlg 2'
+        LinkFont.Style = [fsUnderline]
+      end
+      object Label6: TSpTBXLabel
+        Left = 8
+        Top = 47
+        Width = 89
+        Height = 13
+        Caption = '&Default Extension:'
+        ParentColor = True
+        FocusControl = edExtension
+        LinkFont.Charset = DEFAULT_CHARSET
+        LinkFont.Color = clBlue
+        LinkFont.Height = -11
+        LinkFont.Name = 'MS Shell Dlg 2'
+        LinkFont.Style = [fsUnderline]
+      end
+      object Label7: TSpTBXLabel
+        Left = 270
+        Top = 47
+        Width = 55
+        Height = 13
+        Caption = '&Highlighter:'
+        ParentColor = True
+        FocusControl = edCategory
+        LinkFont.Charset = DEFAULT_CHARSET
+        LinkFont.Color = clBlue
+        LinkFont.Height = -11
+        LinkFont.Name = 'MS Shell Dlg 2'
+        LinkFont.Style = [fsUnderline]
       end
     end
     object TBXButton1: TSpTBXButton
@@ -218,7 +232,7 @@ object FileTemplatesDialog: TFileTemplatesDialog
       LinkFont.Charset = DEFAULT_CHARSET
       LinkFont.Color = clBlue
       LinkFont.Height = -11
-      LinkFont.Name = 'Tahoma'
+      LinkFont.Name = 'MS Shell Dlg 2'
       LinkFont.Style = [fsUnderline]
     end
     object TBXButton3: TSpTBXButton
@@ -233,7 +247,7 @@ object FileTemplatesDialog: TFileTemplatesDialog
       LinkFont.Charset = DEFAULT_CHARSET
       LinkFont.Color = clBlue
       LinkFont.Height = -11
-      LinkFont.Name = 'Tahoma'
+      LinkFont.Name = 'MS Shell Dlg 2'
       LinkFont.Style = [fsUnderline]
     end
     object TBXButton4: TSpTBXButton
@@ -248,7 +262,7 @@ object FileTemplatesDialog: TFileTemplatesDialog
       LinkFont.Charset = DEFAULT_CHARSET
       LinkFont.Color = clBlue
       LinkFont.Height = -11
-      LinkFont.Name = 'Tahoma'
+      LinkFont.Name = 'MS Shell Dlg 2'
       LinkFont.Style = [fsUnderline]
     end
     object TBXButton5: TSpTBXButton
@@ -263,7 +277,7 @@ object FileTemplatesDialog: TFileTemplatesDialog
       LinkFont.Charset = DEFAULT_CHARSET
       LinkFont.Color = clBlue
       LinkFont.Height = -11
-      LinkFont.Name = 'Tahoma'
+      LinkFont.Name = 'MS Shell Dlg 2'
       LinkFont.Style = [fsUnderline]
     end
     object TBXButton2: TSpTBXButton
@@ -278,7 +292,7 @@ object FileTemplatesDialog: TFileTemplatesDialog
       LinkFont.Charset = DEFAULT_CHARSET
       LinkFont.Color = clBlue
       LinkFont.Height = -11
-      LinkFont.Name = 'Tahoma'
+      LinkFont.Name = 'MS Shell Dlg 2'
       LinkFont.Style = [fsUnderline]
     end
     object btnCancel: TSpTBXButton
@@ -286,14 +300,14 @@ object FileTemplatesDialog: TFileTemplatesDialog
       Top = 418
       Width = 75
       Height = 25
-      Caption = 'Cancel'
+      Caption = '&Cancel'
       Anchors = [akRight, akBottom]
       TabOrder = 1
       Cancel = True
       LinkFont.Charset = DEFAULT_CHARSET
       LinkFont.Color = clBlue
       LinkFont.Height = -11
-      LinkFont.Name = 'Tahoma'
+      LinkFont.Name = 'MS Shell Dlg 2'
       LinkFont.Style = [fsUnderline]
       ModalResult = 2
     end
@@ -302,14 +316,14 @@ object FileTemplatesDialog: TFileTemplatesDialog
       Top = 418
       Width = 75
       Height = 25
-      Caption = 'OK'
+      Caption = '&OK'
       Anchors = [akRight, akBottom]
       TabOrder = 2
       Default = True
       LinkFont.Charset = DEFAULT_CHARSET
       LinkFont.Color = clBlue
       LinkFont.Height = -11
-      LinkFont.Name = 'Tahoma'
+      LinkFont.Name = 'MS Shell Dlg 2'
       LinkFont.Style = [fsUnderline]
       ModalResult = 1
     end
@@ -325,40 +339,64 @@ object FileTemplatesDialog: TFileTemplatesDialog
       LinkFont.Charset = DEFAULT_CHARSET
       LinkFont.Color = clBlue
       LinkFont.Height = -11
-      LinkFont.Name = 'Tahoma'
+      LinkFont.Name = 'MS Shell Dlg 2'
       LinkFont.Style = [fsUnderline]
     end
+    object lvItems: TTntListView
+      Left = 2
+      Top = 2
+      Width = 524
+      Height = 109
+      Align = alTop
+      Columns = <
+        item
+          Caption = 'Name'
+          Width = 200
+        end
+        item
+          Caption = 'Category'
+          Width = 280
+        end>
+      ColumnClick = False
+      GridLines = True
+      HideSelection = False
+      ReadOnly = True
+      RowSelect = True
+      TabOrder = 0
+      ViewStyle = vsReport
+      OnChange = lvItemsChange
+    end
   end
-  object ActionList: TActionList
+  object ActionList: TTntActionList
     Images = CommandsDataModule.Images
     OnUpdate = ActionListUpdate
     Left = 379
     Top = 27
-    object actAddItem: TAction
+    object actAddItem: TTntAction
       Caption = '&Add'
       Hint = 'Add item'
       ImageIndex = 49
       OnExecute = actAddItemExecute
     end
-    object actDeleteItem: TAction
+    object actDeleteItem: TTntAction
       Caption = '&Delete'
       Hint = 'Delete item'
       ImageIndex = 14
       OnExecute = actDeleteItemExecute
     end
-    object actMoveUp: TAction
-      Caption = 'Move &Up'
+    object actMoveUp: TTntAction
+      Caption = '&Up'
       Hint = 'Move item up'
       ImageIndex = 47
       OnExecute = actMoveUpExecute
     end
-    object actMoveDown: TAction
-      Caption = 'Move &Down'
+    object actMoveDown: TTntAction
+      Caption = '&Down'
       Hint = 'Move item down'
       ImageIndex = 48
       OnExecute = actMoveDownExecute
     end
-    object actUpdateItem: TAction
+    object actUpdateItem: TTntAction
       Caption = '&Update'
       Hint = 'Update item'
       ImageIndex = 39

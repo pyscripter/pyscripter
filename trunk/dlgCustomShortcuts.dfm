@@ -1,159 +1,127 @@
-object frmCustomKeyboard: TfrmCustomKeyboard
+inherited frmCustomKeyboard: TfrmCustomKeyboard
   Left = 306
   Top = 259
   HelpContext = 615
-  BorderStyle = bsDialog
   Caption = 'Customize IDE Shortcuts'
-  ClientHeight = 295
-  ClientWidth = 423
-  Color = clBtnFace
-  Font.Charset = DEFAULT_CHARSET
-  Font.Color = clWindowText
-  Font.Height = -11
-  Font.Name = 'MS Sans Serif'
-  Font.Style = []
+  ClientHeight = 376
+  ClientWidth = 346
+  Font.Name = 'MS Shell Dlg 2'
   KeyPreview = True
-  OldCreateOrder = False
   Position = poOwnerFormCenter
-  OnCreate = FormCreate
   OnDestroy = FormDestroy
   OnShow = FormShow
+  ExplicitWidth = 352
+  ExplicitHeight = 402
   DesignSize = (
-    423
-    295)
+    346
+    376)
   PixelsPerInch = 96
   TextHeight = 13
-  object lblNewShortcutKey: TLabel
-    Left = 12
-    Top = 136
-    Width = 113
-    Height = 13
-    Caption = 'Press &new shortcut key:'
+  object Bevel1: TBevel
+    Left = 4
+    Top = 330
+    Width = 348
+    Height = 2
+    Anchors = [akLeft, akRight, akBottom]
+    Shape = bsTopLine
+    ExplicitTop = 338
+    ExplicitWidth = 337
   end
-  object lblCategories: TLabel
-    Left = 16
-    Top = 8
-    Width = 53
-    Height = 13
-    Caption = '&Categories:'
-    FocusControl = lbCategories
-  end
-  object lblCommands: TLabel
-    Left = 148
-    Top = 8
-    Width = 55
-    Height = 13
-    Caption = 'C&ommands:'
-    FocusControl = lbCommands
-  end
-  object lblCurrent: TLabel
-    Left = 12
-    Top = 184
-    Width = 101
-    Height = 13
-    Caption = 'Currently assigned to:'
-    Visible = False
-  end
-  object lblAssignedTo: TLabel
-    Left = 20
-    Top = 204
-    Width = 66
-    Height = 13
-    Caption = 'lblAssignedTo'
-    Visible = False
-  end
-  object lblCurrentKeys: TLabel
-    Left = 192
-    Top = 136
-    Width = 63
-    Height = 13
-    Caption = 'C&urrent Keys:'
-    FocusControl = lbCurrentKeys
-  end
-  object gbDescription: TGroupBox
+  object gbDescription: TSpTBXGroupBox
     Left = 8
-    Top = 224
-    Width = 317
+    Top = 131
+    Width = 328
     Height = 61
     Caption = ' Description '
+    ThemeType = thtWindows
+    Anchors = [akLeft, akTop, akRight]
     TabOrder = 1
-    object lblDescription: TLabel
-      Left = 16
-      Top = 18
-      Width = 289
+    ExplicitWidth = 317
+    DesignSize = (
+      328
+      61)
+    object lblDescription: TSpTBXLabel
+      Left = 8
+      Top = 17
+      Width = 312
       Height = 35
+      Anchors = [akLeft, akTop, akRight, akBottom]
       AutoSize = False
-      WordWrap = True
+      ParentColor = True
+      Wrapping = twWrap
+      LinkFont.Charset = DEFAULT_CHARSET
+      LinkFont.Color = clBlue
+      LinkFont.Height = -11
+      LinkFont.Name = 'MS Shell Dlg 2'
+      LinkFont.Style = [fsUnderline]
+      ExplicitWidth = 301
     end
   end
-  object lbCategories: TListBox
-    Left = 12
-    Top = 28
-    Width = 121
-    Height = 97
-    ItemHeight = 13
-    TabOrder = 2
-    OnClick = lbCategoriesClick
-  end
-  object lbCommands: TListBox
-    Left = 148
-    Top = 28
-    Width = 177
-    Height = 97
-    ItemHeight = 13
-    Sorted = True
-    TabOrder = 3
-    OnClick = lbCommandsClick
-  end
-  object lbCurrentKeys: TListBox
-    Left = 192
-    Top = 156
-    Width = 133
-    Height = 57
-    ItemHeight = 13
-    TabOrder = 6
-    OnClick = lbCurrentKeysClick
-  end
   object edNewShortcut: THotKey
-    Left = 10
-    Top = 156
-    Width = 167
+    Left = 8
+    Top = 224
+    Width = 169
     Height = 21
     HotKey = 32833
     TabOrder = 0
     OnChange = edNewShortcutChange
   end
-  object OKButton: TBitBtn
-    Left = 340
-    Top = 175
+  object btnOK: TSpTBXButton
+    Left = 95
+    Top = 343
     Width = 75
     Height = 25
+    Caption = '&OK'
     Anchors = [akRight, akBottom]
     TabOrder = 7
-    Kind = bkOK
+    Default = True
+    LinkFont.Charset = DEFAULT_CHARSET
+    LinkFont.Color = clBlue
+    LinkFont.Height = -11
+    LinkFont.Name = 'Tahoma'
+    LinkFont.Style = [fsUnderline]
+    ModalResult = 1
+    ExplicitLeft = 84
+    ExplicitTop = 354
   end
-  object BitBtn2: TBitBtn
-    Left = 340
-    Top = 215
+  object btnCancel: TSpTBXButton
+    Left = 179
+    Top = 343
     Width = 75
     Height = 25
+    Caption = '&Cancel'
     Anchors = [akRight, akBottom]
     TabOrder = 8
-    Kind = bkCancel
+    Cancel = True
+    LinkFont.Charset = DEFAULT_CHARSET
+    LinkFont.Color = clBlue
+    LinkFont.Height = -11
+    LinkFont.Name = 'Tahoma'
+    LinkFont.Style = [fsUnderline]
+    ModalResult = 2
+    ExplicitLeft = 168
+    ExplicitTop = 354
   end
-  object HelpButton: TBitBtn
-    Left = 340
-    Top = 255
+  object btnHelp: TSpTBXButton
+    Left = 263
+    Top = 343
     Width = 75
     Height = 25
+    Caption = '&Help'
     Anchors = [akRight, akBottom]
     TabOrder = 9
     OnClick = HelpButtonClick
-    Kind = bkHelp
+    LinkFont.Charset = DEFAULT_CHARSET
+    LinkFont.Color = clBlue
+    LinkFont.Height = -11
+    LinkFont.Name = 'Tahoma'
+    LinkFont.Style = [fsUnderline]
+    ExplicitLeft = 252
+    ExplicitTop = 354
   end
   object btnAssign: TSpTBXButton
-    Left = 340
-    Top = 28
+    Left = 8
+    Top = 293
     Width = 75
     Height = 25
     Caption = '&Assign'
@@ -163,12 +131,12 @@ object frmCustomKeyboard: TfrmCustomKeyboard
     LinkFont.Charset = DEFAULT_CHARSET
     LinkFont.Color = clBlue
     LinkFont.Height = -11
-    LinkFont.Name = 'Tahoma'
+    LinkFont.Name = 'MS Shell Dlg 2'
     LinkFont.Style = [fsUnderline]
   end
   object btnRemove: TSpTBXButton
-    Left = 340
-    Top = 64
+    Left = 192
+    Top = 293
     Width = 75
     Height = 25
     Caption = '&Remove'
@@ -177,7 +145,128 @@ object frmCustomKeyboard: TfrmCustomKeyboard
     LinkFont.Charset = DEFAULT_CHARSET
     LinkFont.Color = clBlue
     LinkFont.Height = -11
-    LinkFont.Name = 'Tahoma'
+    LinkFont.Name = 'MS Shell Dlg 2'
     LinkFont.Style = [fsUnderline]
+  end
+  object lblNewShortcutKey: TSpTBXLabel
+    Left = 8
+    Top = 205
+    Width = 116
+    Height = 13
+    Caption = 'Press &new shortcut key:'
+    ParentColor = True
+    LinkFont.Charset = DEFAULT_CHARSET
+    LinkFont.Color = clBlue
+    LinkFont.Height = -11
+    LinkFont.Name = 'MS Shell Dlg 2'
+    LinkFont.Style = [fsUnderline]
+  end
+  object lblCategories: TSpTBXLabel
+    Left = 16
+    Top = 8
+    Width = 56
+    Height = 13
+    Caption = '&Categories:'
+    ParentColor = True
+    FocusControl = lbCategories
+    LinkFont.Charset = DEFAULT_CHARSET
+    LinkFont.Color = clBlue
+    LinkFont.Height = -11
+    LinkFont.Name = 'MS Shell Dlg 2'
+    LinkFont.Style = [fsUnderline]
+  end
+  object lblCommands: TSpTBXLabel
+    Left = 148
+    Top = 8
+    Width = 56
+    Height = 13
+    Caption = 'C&ommands:'
+    ParentColor = True
+    FocusControl = lbCommands
+    LinkFont.Charset = DEFAULT_CHARSET
+    LinkFont.Color = clBlue
+    LinkFont.Height = -11
+    LinkFont.Name = 'MS Shell Dlg 2'
+    LinkFont.Style = [fsUnderline]
+  end
+  object lblCurrent: TSpTBXLabel
+    Left = 8
+    Top = 251
+    Width = 107
+    Height = 13
+    Caption = 'Currently assigned to:'
+    ParentColor = True
+    Visible = False
+    LinkFont.Charset = DEFAULT_CHARSET
+    LinkFont.Color = clBlue
+    LinkFont.Height = -11
+    LinkFont.Name = 'MS Shell Dlg 2'
+    LinkFont.Style = [fsUnderline]
+  end
+  object lblAssignedTo: TSpTBXLabel
+    Left = 8
+    Top = 270
+    Width = 65
+    Height = 13
+    Caption = 'lblAssignedTo'
+    ParentColor = True
+    Visible = False
+    LinkFont.Charset = DEFAULT_CHARSET
+    LinkFont.Color = clBlue
+    LinkFont.Height = -11
+    LinkFont.Name = 'MS Shell Dlg 2'
+    LinkFont.Style = [fsUnderline]
+  end
+  object lblCurrentKeys: TSpTBXLabel
+    Left = 192
+    Top = 205
+    Width = 67
+    Height = 13
+    Caption = 'C&urrent Keys:'
+    ParentColor = True
+    FocusControl = lbCurrentKeys
+    LinkFont.Charset = DEFAULT_CHARSET
+    LinkFont.Color = clBlue
+    LinkFont.Height = -11
+    LinkFont.Name = 'MS Shell Dlg 2'
+    LinkFont.Style = [fsUnderline]
+  end
+  object lbCategories: TSpTBXListBox
+    Left = 8
+    Top = 27
+    Width = 125
+    Height = 97
+    Style = lbStandard
+    ItemHeight = 13
+    TabOrder = 2
+    OnClick = lbCategoriesClick
+    ThemeType = thtWindows
+  end
+  object lbCommands: TSpTBXListBox
+    Left = 148
+    Top = 28
+    Width = 188
+    Height = 97
+    Style = lbStandard
+    Anchors = [akLeft, akTop, akRight]
+    ItemHeight = 13
+    Sorted = True
+    TabOrder = 3
+    OnClick = lbCommandsClick
+    ThemeType = thtWindows
+    ExplicitWidth = 177
+  end
+  object lbCurrentKeys: TSpTBXListBox
+    Left = 192
+    Top = 224
+    Width = 144
+    Height = 57
+    Style = lbStandard
+    Anchors = [akLeft, akTop, akRight]
+    ItemHeight = 13
+    TabOrder = 6
+    OnClick = lbCurrentKeysClick
+    ThemeType = thtWindows
+    ExplicitWidth = 133
   end
 end

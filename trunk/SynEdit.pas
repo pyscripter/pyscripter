@@ -28,7 +28,7 @@ replace them with the notice and other provisions required by the GPL.
 If you do not delete the provisions above, a recipient may use your version
 of this file under either the MPL or the GPL.
 
-$Id: SynEdit.pas,v 1.386.2.66 2007/06/20 22:12:22 maelh Exp $
+$Id: SynEdit.pas,v 1.386.2.73 2008/03/01 18:31:59 maelh Exp $
 
 You may retrieve the latest version of this file at the SynEdit home page,
 located at http://SynEdit.SourceForge.net
@@ -2667,7 +2667,7 @@ begin
           rcLine.Top := rcLine.Bottom;
           rcLine.Bottom := vLineTop;
           with rcLine do
-            fTextDrawer.ExtTextOut(Left, Top, ETO_OPAQUE, rcLine, '', 0);
+            fTextDrawer.ExtTextOut(Left, Top, [tooOpaque], rcLine, '', 0);
         end;
         // next line rect
         rcLine.Top := vLineTop;
@@ -2708,7 +2708,7 @@ begin
         rcLine.Top := rcLine.Bottom;
         rcLine.Bottom := AClip.Bottom;
         with rcLine do
-          fTextDrawer.ExtTextOut(Left, Top, ETO_OPAQUE, rcLine, '', 0);
+          fTextDrawer.ExtTextOut(Left, Top, [tooOpaque], rcLine, '', 0);
       end;
     finally
       fTextDrawer.EndDrawing;
@@ -3016,7 +3016,7 @@ var
     NonFillerPos: Integer;
     rcTab: TRect;
   const
-    ETOOptions = ETO_OPAQUE or ETO_CLIPPED;
+    ETOOptions = [tooOpaque, tooClipped];
   begin
     sTabbedToken := Token;
     DoTabPainting := False;
@@ -3084,7 +3084,7 @@ var
       end;
 
       fTextDrawer.ExtTextOut(nX, rcToken.Top, ETOOptions, rcToken,
-        Text, nCharsToPaint);
+        PWideChar(Text), nCharsToPaint);
 
       if DoTabPainting then
       begin
@@ -3111,7 +3111,7 @@ var
           rcTab.Right := nX + fTextDrawer.GetCharWidth;
 
           fTextDrawer.ExtTextOut(nX, rcTab.Top, ETOOptions, rcTab,
-            Text, 1);
+            PWideChar(Text), 1);
 
           for i := 0 to TabLen - 1 do           //wipe the text out so we don't
             sTabbedToken[TabStart + i] := #32;  //count it again
@@ -3394,7 +3394,7 @@ var
     nLine: Integer; // line index for the loop
     cRow: Integer;
     sLine: WideString; // the current line (tab expanded)
-    sLineExpandedAtWideGlyhs: WideString;
+    sLineExpandedAtWideGlyphs: WideString;
     sToken: WideString; // highlighter token info
     nTokenPos, nTokenLen: Integer;
     attr: TSynHighlighterAttributes;
@@ -3419,7 +3419,7 @@ var
     for nLine := vFirstLine to vLastLine do
     begin
       sLine := TSynEditStringList(Lines).ExpandedStrings[nLine - 1];
-      sLineExpandedAtWideGlyhs := ExpandAtWideGlyphs(sLine);
+      sLineExpandedAtWideGlyphs := ExpandAtWideGlyphs(sLine);
       // determine whether will be painted with ActiveLineColor
       bCurrentLine := CaretY = nLine;
       // Initialize the text and background colors, maybe the line should
@@ -3516,10 +3516,10 @@ var
         begin
           // Remove text already displayed (in previous rows)
           if (vFirstChar <> FirstCol) or (vLastChar <> LastCol) then
-            sToken := Copy(sLineExpandedAtWideGlyhs, vFirstChar, vLastChar - vFirstChar)
+            sToken := Copy(sLineExpandedAtWideGlyphs, vFirstChar, vLastChar - vFirstChar)
           else
-            sToken := Copy(sLineExpandedAtWideGlyhs, 1, vLastChar);
-          if fShowSpecChar and (Length(sLineExpandedAtWideGlyhs) < vLastChar) then
+            sToken := Copy(sLineExpandedAtWideGlyphs, 1, vLastChar);
+          if fShowSpecChar and (Length(sLineExpandedAtWideGlyphs) < vLastChar) then
             sToken := sToken + SynLineBreakGlyph;
           nTokenLen := Length(sToken);
           if bComplexLine then
@@ -3551,7 +3551,7 @@ var
             fHighlighter.ResetRange
           else
             fHighlighter.SetRange(TSynEditStringList(Lines).Ranges[nLine - 2]);
-          fHighlighter.SetLineExpandedAtWideGlyhs(sLine, sLineExpandedAtWideGlyhs,
+          fHighlighter.SetLineExpandedAtWideGlyphs(sLine, sLineExpandedAtWideGlyphs,
             nLine - 1);
           // Try to concatenate as many tokens as possible to minimize the count
           // of ExtTextOutW calls necessary. This depends on the selection state
@@ -3715,7 +3715,7 @@ begin
   try
 {$IFNDEF SYN_CLX}
     // Check for our special format and read PasteMode.
-    // The text is ignored as it is ANSI-only to keep compatible with programs
+    // The text is ignored as it is ANSI-only to stay compatible with programs
     // using the ANSI version of SynEdit.
     //
     // Instead we take the text stored in CF_UNICODETEXT or CF_TEXT.
@@ -4088,9 +4088,9 @@ var
 begin
   vCaretRowCol := DisplayXY;
   Result := (vCaretRowCol.Column >= LeftChar)
-    and (vCaretRowCol.Column < LeftChar + CharsInWindow)
+    and (vCaretRowCol.Column <= LeftChar + CharsInWindow)
     and (vCaretRowCol.Row >= TopLine)
-    and (vCaretRowCol.Row < TopLine + LinesInWindow);
+    and (vCaretRowCol.Row <= TopLine + LinesInWindow);
 end;
 
 procedure TCustomSynEdit.SetActiveLineColor(Value: TColor);
@@ -7206,11 +7206,24 @@ begin
                     end;
                     SpaceCount2 := 0;
                   end;
-                  ProperSetLine(CaretY - 1, Temp);
+                  //KV
                   fCaretX := fCaretX - (SpaceCount1 - SpaceCount2);
                   UpdateLastCaretX;
+                  // Stores the previous "expanded" CaretX if the line contains tabs.
+                  if (eoTrimTrailingSpaces in Options) and (Len <> Length(TabBuffer)) then
+                    vTabTrim := CharIndex2CaretPos(CaretX, TabWidth, Temp);
+                  //KV
+                  ProperSetLine(CaretY - 1, Temp);
                   fStateFlags := fStateFlags + [sfCaretChanged];
                   StatusChanged([scCaretX]);
+                  //KV
+                  // Calculates a delta to CaretX to compensate for trimmed tabs.
+                  if vTabTrim <> 0 then
+                    if Length(Temp) <> Length(LineText) then
+                      Dec(vTabTrim, CharIndex2CaretPos(CaretX, TabWidth, LineText))
+                    else
+                      vTabTrim := 0;
+                  //KV
                 end
                 else begin
                   // delete char
@@ -8251,7 +8264,6 @@ end;
 
 function TCustomSynEdit.SearchReplace(const ASearch, AReplace: WideString;
   AOptions: TSynSearchOptions): Integer;
-// if Replacing the result is the number of replacements and not the number of found items
 var
   ptStart, ptEnd: TBufferCoord; // start and end of the search range
   ptCurrent: TBufferCoord; // current search position
@@ -8357,7 +8369,7 @@ begin
         Dec(nInLine);
         // Is the search result entirely in the search range?
         if not InValidSearchRange(nFound, nFound + nSearchLen) then continue;
-        if not (bReplace or bReplaceAll) then Inc(Result);  // otherwise increment on replace
+        Inc(Result);
         // Select the text, so the user can see it in the OnReplaceText event
         // handler or as the search result.
 
@@ -8399,7 +8411,6 @@ begin
           end;
           // Allow advanced substition in the search engine
           SelText := fSearchEngine.Replace(SelText, AReplace);
-          Inc(Result);
           nReplaceLen := CaretX - nFound;
         end;
         // fix the caret position and the remaining results
@@ -8463,7 +8474,8 @@ procedure TCustomSynEdit.SetFocus;
 begin
   if (fFocusList.Count > 0) then
   begin
-    TWinControl (fFocusList.Last).SetFocus;
+    if TWinControl (fFocusList.Last).CanFocus then    // Pyscripter bug reports
+      TWinControl (fFocusList.Last).SetFocus;
     exit;
   end;
   inherited;
@@ -9620,21 +9632,23 @@ begin
         PasteFromClipboard
 {$IFDEF SYN_COMPILER_5_UP}
       else if Action is TEditDelete then
+      begin
         if SelAvail then
           ClearSelection
         else
           CommandProcessor(ecDeleteChar, ' ', nil)
+      end
 {$IFDEF SYN_CLX}
 {$ELSE}
-    else if Action is TEditUndo then
-      Undo
+      else if Action is TEditUndo then
+        Undo
 {$ENDIF}
-    else if Action is TEditSelectAll then
-      SelectAll;
+      else if Action is TEditSelectAll then
+        SelectAll;
 {$ENDIF}
-    end;
-{$IFDEF SYN_COMPILER_6_UP}
+    end
   end
+{$IFDEF SYN_COMPILER_6_UP}
   else if Action is TSearchAction then
   begin
     Result := Focused;
@@ -9645,12 +9659,12 @@ begin
     else if Action is TSearchReplace then
       DoSearchReplaceExecute(TSearchReplace(Action));
   end
-  else if Action is TSearchFindNext then                                        
-  begin                                                                         
+  else if Action is TSearchFindNext then
+  begin
     Result := Focused;
     DoSearchFindNextExecute(TSearchFindNext(Action))
-{$ENDIF}
   end
+{$ENDIF}
   else
     Result := inherited ExecuteAction(Action);
 end;
@@ -9692,9 +9706,9 @@ begin
         TSearchAction(Action).Enabled := (Text<>'') and assigned(fSearchEngine)
       else if Action is TSearchReplace then
         TSearchAction(Action).Enabled := (Text<>'') and assigned(fSearchEngine);
-    end;
-  end else if Action is TSearchFindNext then
-  begin
+    end;                                                                        
+  end else if Action is TSearchFindNext then                                    
+  begin                                                                         
     Result := Focused;
     if Result then
       TSearchAction(Action).Enabled := (Text<>'')

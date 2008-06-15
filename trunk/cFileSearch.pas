@@ -45,7 +45,7 @@ unit cFileSearch;
 interface
 
 uses
-  SysUtils, Classes, SynRegExpr;
+  SysUtils, Classes, SynRegExpr, SynUnicode;
 
 type
 
@@ -53,45 +53,35 @@ type
 
   TSearchOptions = set of TSearchOption;
 
-  TFoundEvent = procedure(Sender: TObject; LineNo: Integer; const Line: string; SPos, EPos: Integer) of object;
+  TFoundEvent = procedure(Sender: TObject; LineNo: Integer; const Line: WideString; SPos, EPos: Integer) of object;
 
-  ELineTooLong = class(Exception);
+//  ELineTooLong = class(Exception);
 
   // We separate the grep code from the file management code in TSearcher
   TBaseSearcher = class(TObject)
   private
-    procedure SetBufSize(New: Integer);
   protected
     FOnFound: TFoundEvent;
     FOnStartSearch: TNotifyEvent;
     procedure SignalStartSearch; virtual;
-    procedure SignalFoundMatch(LineNo: Integer; const Line: string; SPos, EPos: Integer); virtual;
+    procedure SignalFoundMatch(LineNo: Integer; const Line: WideString; SPos, EPos: Integer); virtual;
   protected
-    BLine: PChar; // The current search line,
+    BLine: WideString; // The current search line,
     FLineNo: Integer;
-    FEof: Boolean;
-    FSearchBuffer: PChar;
-    FBufSize: Integer;
-    FBufferSearchPos: Integer;
-    FBufferDataCount: Integer;
+    fSearchLines : TWideStrings;
     FNoComments: Boolean;
     FSearchOptions: TSearchOptions;
-    FCommentActive: Boolean;
-    FPattern: string;
-    FFileName: string;
+    FPattern: WideString;
+    FFileName: WideString;
     FRegExpr : TRegExpr;
     procedure DoSearch;
-    procedure FillBuffer;
     procedure PatternMatch;
-    procedure ReadIntoBuffer(AmountOfBytesToRead: Cardinal); virtual; abstract;
-    procedure Seek(Offset: Longint; Direction: Integer); virtual; abstract;
   public
     constructor Create;
     destructor Destroy; override;
-    procedure SetPattern(const Value: string);
-    property BufSize: Integer read FBufSize write SetBufSize;
+    procedure SetPattern(const Value: WideString);
     property NoComments: Boolean read FNoComments write FNoComments;
-    property Pattern: string read FPattern write SetPattern;
+    property Pattern: WideString read FPattern write SetPattern;
     property SearchOptions: TSearchOptions read FSearchOptions write FSearchOptions;
     property OnFound: TFoundEvent read FOnFound write FOnFound;
     property OnStartSearch: TNotifyEvent read FOnStartSearch write FOnStartSearch;
@@ -99,34 +89,29 @@ type
 
   TSearcher = class(TBaseSearcher)
   private
-    FSearchStream: TStream;
     procedure Reset;
   protected
-    procedure SetFileName(const Value: string);
-    procedure FreeObjects;
+    procedure SetFileName(const Value: WideString);
   protected
-    procedure ReadIntoBuffer(AmountOfBytesToRead: Cardinal); override;
-    procedure Seek(Offset: Longint; Direction: Integer); override;
   public
-    constructor Create(const SearchFileName: string);
-    destructor Destroy; override;
+    constructor Create(const SearchFileName: WideString);
     procedure Execute;
   published
-    property FileName: string read FFileName write SetFileName;
+    property FileName: WideString read FFileName write SetFileName;
   end;
 
 implementation
 
 uses
-  Windows, uEditAppIntfs, JclStrings, Dialogs, StringResources;
+  Windows, uEditAppIntfs, Dialogs, StringResources,
+  TntSysUtils, TntClasses, uCommonFunctions, WideStrUtils, gnugettext;
 
 const
   SearchLineSize = 1024;
-  DefaultBufferSize = 2048;
 
 { TSearcher }
 
-constructor TSearcher.Create(const SearchFileName: string);
+constructor TSearcher.Create(const SearchFileName: WideString);
 begin
   inherited Create;
 
@@ -134,35 +119,16 @@ begin
     SetFileName(SearchFileName);
 end;
 
-destructor TSearcher.Destroy;
-begin
-  FreeAndNil(FSearchStream);
-  inherited Destroy;
-end;
-
-procedure TSearcher.FreeObjects;
-begin
-  if FFileName <> '' then
-  begin
-    FreeAndNil(FSearchStream);
-  end;
-end;
-
-procedure TSearcher.SetFileName(const Value: string);
+procedure TSearcher.SetFileName(const Value: WideString);
 
   function GetFileInterface: Boolean;
+  var
+    Encoding : TFileSaveFormat;
   begin
     Result := False;
-    if not FileExists(FFileName) then
+    if not WideFileExists(FFileName) then
       Exit;
-
-    try
-      FSearchStream := TFileStream.Create(FFileName, fmOpenRead or fmShareDenyWrite);
-      Result := True;
-    except
-      // We cannot open the file for some reason
-      Result := False;
-    end;
+    Result := LoadFileIntoWideStrings(fFileName, fSearchLines, Encoding);
   end;
 
   function GetModuleInterface: Boolean;
@@ -172,13 +138,13 @@ procedure TSearcher.SetFileName(const Value: string);
     Result := False;
     Editor := GI_EditorFactory.GetEditorByNameOrTitle(FFileName);
     if Assigned(Editor) then begin
-      FSearchStream := TStringStream.Create(Editor.SynEdit.Text);
+      fSearchLines.Assign(Editor.SynEdit.Lines);
+    //      FSearchStream := TStringStream.Create(Editor.SynEdit.Text);
       Result := True;
     end;
   end;
 
 begin
-  FreeObjects;
   FFileName := Value;
 
   if not GetModuleInterface and not GetFileInterface then
@@ -188,18 +154,8 @@ begin
 end;
 
 procedure TSearcher.Reset;
-resourcestring
-  SSearcherReset = 'Reset exception:' + sLineBreak;
 begin
-  if FFileName = '' then
-    Exit;
-
-  FBufferSearchPos := 0;
-  FBufferDataCount := 0;
   FLineNo := 0;
-  FEof := False;
-  FSearchStream.Position := 0;
-  FCommentActive := False;
 end;
 
 procedure TSearcher.Execute;
@@ -208,205 +164,79 @@ begin
   DoSearch;
 end;
 
-procedure TSearcher.ReadIntoBuffer(AmountOfBytesToRead: Cardinal);
-begin
-  FBufferDataCount := FSearchStream.Read(FSearchBuffer^, AmountOfBytesToRead)
-end;
-
-procedure TSearcher.Seek(Offset, Direction: Integer);
-begin
-  FSearchStream.Seek(Offset, Direction);
-end;
 
 { TBaseSearcher }
 
 constructor TBaseSearcher.Create;
 begin
   inherited Create;
-
-  FBufSize := DefaultBufferSize;
-  BLine := StrAlloc(SearchLineSize);
+  FSearchLines := TWideStringList.Create;
   FRegExpr := nil;
 end;
 
 destructor TBaseSearcher.Destroy;
 begin
-  StrDispose(FSearchBuffer);
-  FSearchBuffer := nil;
-
-  StrDispose(BLine);
-  BLine := nil;
-
+  FreeAndNil(FSearchLines);
   FreeAndNil(FRegExpr);
 
   inherited Destroy;
 end;
 
-procedure TBaseSearcher.FillBuffer;
-resourcestring
-  SLineLengthError = 'File Search detected a line longer than %d characters in:'+sLineBreak+
-                     '%s.' +sLineBreak+
-                     'Likely, this is an unsupported binary file type.';
-var
-  AmountOfBytesToRead: Integer;
-  SkippedCharactersCount: Integer;
-  LineEndScanner: PChar;
-begin
-  if FSearchBuffer = nil then
-    FSearchBuffer := StrAlloc(FBufSize);
-  FSearchBuffer[0] := #0;
-
-  // Read at most (FBufSize - 1) bytes
-  AmountOfBytesToRead := FBufSize - 1;
-
-  ReadIntoBuffer(AmountOfBytesToRead);
-
-  FEof := (FBufferDataCount = 0);
-
-  // Reset buffer position to zero
-  FBufferSearchPos := 0;
-
-  // If we filled our buffer completely, there is a chance that
-  // the last line was read only partially.
-  // Since our search algorithm is line-based,
-  // skip back to the end of the last completely read line.
-  if FBufferDataCount = AmountOfBytesToRead then
-  begin
-    // Get pointer on last character of read data
-    LineEndScanner := FSearchBuffer + FBufferDataCount - 1;
-    // We have not skipped any characters yet
-    SkippedCharactersCount := 0;
-    // While we still have data in the buffer,
-    // do scan for a line break as characterised
-    // by a #13#10 or #10#13 or a single #10.
-    // Which sequence exactly we hit is not important,
-    // we just need to find and line terminating
-    // sequence.
-    while FBufferDataCount > 0 do
-    begin
-      if LineEndScanner^ = #10 then
-      begin
-        Seek(-SkippedCharactersCount, soFromCurrent);
-
-        // Finished with finding last complete line
-        Break;
-      end;
-
-      Inc(SkippedCharactersCount);
-      Dec(FBufferDataCount);
-      Dec(LineEndScanner);
-    end;
-
-    // With FBufferPos = 0 we have scanned back in our
-    // buffer and not found any line break; this means
-    // that we cannot employ our pattern matcher on a
-    // complete line -> Internal Error.
-    if FBufferDataCount = 0 then
-      raise ELineTooLong.CreateResFmt(@SLineLengthError, [FBufSize - 1, FFileName]);
-  end;
-
-  // Cut off everything beyond the line break
-  // Assert(FBufferDataCount >= 0);
-  FSearchBuffer[FBufferDataCount] := #0;
-end;
-
 procedure TBaseSearcher.DoSearch;
+//resourcestring
+//  SLineLengthError = 'File Search detected a line longer than %d characters in:'+sLineBreak+
+//                     '%s.' +sLineBreak+
+//                     'Likely, this is an unsupported binary file type.';
 var
   i: Integer;
   LPos: Integer;
-  UseChar : boolean;
+  PPos : PWideChar;
 begin
   SignalStartSearch;
+  for i := 0 to fSearchLines.Count - 1 do begin
+    BLine := fSearchLines[i];
 
-  LPos := 0;
-  while not FEof do
-  begin
-    // Read new data in
-    if (FBufferSearchPos >= FBufferDataCount) or (FBufferDataCount = 0) then
-    begin
-      try
-        FillBuffer;
-      except on E: ELineTooLong do
-        begin
-           // Just ingnore Issue 74
-          //MessageDlg(E.Message, mtWarning, [mbOK], 0);
-          Exit;
-        end;
+    if BLine = '' then continue;
+
+    if FNoComments then begin
+      PPos := WStrScan(PWideChar(BLine), '#');
+      if Assigned(PPos) then begin
+        LPos := PPos - PWideChar(BLine) + 1;
+        Delete(BLine, LPos, MaxInt);
       end;
-    end;
-    if FEof then Exit;
-    i := FBufferSearchPos;
-    while i < FBufferDataCount do
-    begin
-      UseChar := False;
-      case FSearchBuffer[i] of
-        #0:
-          begin
-            FBufferSearchPos := FBufferDataCount + 1;
-            Break;
-          end;
-        #10:
-          begin
-            FBufferSearchPos := i + 1;
-            FCommentActive := False;
-            Break;
-          end;
-        #13:
-          begin
-            FBufferSearchPos := i + 1;
-            if FSearchBuffer[FBufferSearchPos] = #10 then Inc(FBufferSearchPos);
-            FCommentActive := False;
-            Break;
-          end;
-      else
-        if FNoComments then begin
-          if not FCommentActive then begin
-            if FSearchBuffer[i] = '#' then
-              FCommentActive := True
-            else
-              UseChar := True;
-          end;
-        end else
-          UseChar := True;
-      end;
-      if UseChar then
+      if BLine = '' then continue;
+      if Length(BLine) > SearchLineSize then
       begin
-        //if not (soCaseSensitive in SearchOptions) then
-        BLine[LPos] := FSearchBuffer[i];
-        Inc(LPos);
-        if LPos >= SearchLineSize-1 then // Enforce maximum line length constraint
-          Exit; // Binary, not text file
+        // Likely to be a binary file
+         // Just ingnore Issue 74
+        //MessageDlg(E.Message, mtWarning, [mbOK], 0);
+        Exit;
       end;
-      Inc(i);
+
     end;
-    if FSearchBuffer[i] <> #0 then Inc(FLineNo);
-    BLine[LPos] := #0;
-    if BLine[0] <> #0 then PatternMatch;
-    LPos := 0;
-    if FBufferSearchPos < i then FBufferSearchPos := i;
+    FLineNo := Succ(i);
+    PatternMatch;
   end;
 end;
 
-procedure TBaseSearcher.SetBufSize(New: Integer);
-begin
-  if (FSearchBuffer = nil) and (New <> FBufSize) then
-    FBufSize := New;
-end;
-
-procedure TBaseSearcher.SetPattern(const Value: string);
+procedure TBaseSearcher.SetPattern(const Value: WideString);
 begin
   fPattern := Value;
   if soRegEx in SearchOptions then begin
     if not Assigned(fRegExpr) then
       fRegExpr := TRegExpr.Create();
     fRegExpr.ModifierI := soCaseSensitive in SearchOptions;
+    fRegExpr.ModifierI := True;
     try
       fRegExpr.Expression := Value;
       fRegExpr.Compile;
     except
       on E: ERegExpr do
-        raise Exception.CreateResFmt(@SInvalidRegularExpression, [E.Message]);
+        raise Exception.CreateFmt(_(SInvalidRegularExpression), [E.Message]);
     end;
+  end else begin
+    if not(soCaseSensitive in SearchOptions) then
+      fPattern := WideUpperCase(Value);
   end;
 end;
 
@@ -420,30 +250,32 @@ var
   LinePos: Integer;
   Found : Boolean;
   EndPos : integer;
+  FoundPos : PWideChar;
+  Len : integer;
 
   procedure IsFound;
   //  Deals with soWholeWord Search option
   var
     Start: Integer;
-    TestChar: Char;
+    TestChar: WideChar;
   begin
     if soWholeWord in SearchOptions then
     begin
-      Start := LinePos - 2; // Point to previous character (-2 since PChars are zero based)
+      Start := LinePos - 1; // Point to previous character 
       if (Start >= 0) then
       begin
         TestChar := BLine[Start];
-        if IsCharAlphaNumeric(TestChar) or (TestChar = '_') then
+        if SynIsCharAlphaNumeric(TestChar) or (TestChar = '_') then
           Exit;
       end;
-      TestChar := BLine[EndPos];  // Next Character
+      TestChar := BLine[EndPos+1];  // Next Character
       if TestChar <> #0 then
       begin
-        if IsCharAlphaNumeric(TestChar) or (TestChar = '_') then
+        if SynIsCharAlphaNumeric(TestChar) or (TestChar = '_') then
           Exit;
       end;
     end;
-    SignalFoundMatch(FLineNo, BLine, LinePos, EndPos)
+    SignalFoundMatch(FLineNo, FSearchLines[FLineNo-1], LinePos, EndPos)
   end;
 
 begin
@@ -456,15 +288,18 @@ begin
       Found := fRegExpr.ExecNext;
     end;
   end else begin
+    if not (soCaseSensitive in SearchOptions) then
+      BLine := WideUpperCase(BLine);
+    Len := Length(Pattern);
     EndPos := 0;
+    FoundPos := PWideChar(BLine);
     Repeat
-      if soCaseSensitive in SearchOptions then
-        LinePos := StrSearch(fPattern, BLine, EndPos + 1)
-      else
-        LinePos := StrFind(fPattern, BLine, EndPos + 1);
-      Found := LinePos > 0;
+      FoundPos := WStrPos(FoundPos, PWideChar(fPattern));
+      Found := Assigned(FoundPos);
       if Found then begin
-        EndPos := LinePos + Length(fPattern) - 1;
+        LinePos := FoundPos - PWideChar(BLine) + 1;
+        EndPos := LinePos + Len - 1;
+        Inc(FoundPos,  Len);
         IsFound;
       end;
     Until not Found;
@@ -477,7 +312,7 @@ begin
     FOnStartSearch(Self);
 end;
 
-procedure TBaseSearcher.SignalFoundMatch(LineNo: Integer; const Line: string;
+procedure TBaseSearcher.SignalFoundMatch(LineNo: Integer; const Line: WideString;
   SPos, EPos: Integer);
 begin
   if Assigned(FOnFound) then
@@ -485,5 +320,6 @@ begin
 end;
 
 end.
+
 
 
