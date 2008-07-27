@@ -115,7 +115,8 @@ uses
   gnugettext in 'gnugettext.pas',
   dlgPyIDEBase in 'dlgPyIDEBase.pas' {PyIDEDlgBase},
   JvDockInfo in 'JvDockInfo.pas',
-  JvCreateProcessW in 'JvCreateProcessW.pas';
+  JvCreateProcessW in 'JvCreateProcessW.pas',
+  SynHighlighterYAML in 'SynHighlighterYAML.pas';
 
 {$R *.RES}
 {$R WebCopyAvi.RES}

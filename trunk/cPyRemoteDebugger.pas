@@ -1047,6 +1047,8 @@ begin
     // sys.displayhook
     RPI.setupdisplayhook();
     GetPythonEngine.CheckError;
+
+    Initialize;
   end;
 end;
 

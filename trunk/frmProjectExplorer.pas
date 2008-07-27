@@ -4,6 +4,9 @@
  Date:      02-Dec-2007
  Purpose:   PyScripter project explorer
  History:
+
+ 16-Jun-2008 Roman Krivoruchko
+ - Project 'Extra Python path' editing and appliyng upon project opening
 -----------------------------------------------------------------------------}
 unit frmProjectExplorer;
 
@@ -93,6 +96,9 @@ type
     actProjectSave: TTntAction;
     actProjectOpen: TTntAction;
     actProjectNew: TTntAction;
+    actProjectExtraPythonPath: TTntAction;
+    SpTBXSeparatorItem12: TSpTBXSeparatorItem;
+    mnExtraPythonPath: TSpTBXItem;
     procedure FormCreate(Sender: TObject);
     procedure ExplorerTreeGetText(Sender: TBaseVirtualTree; Node: PVirtualNode;
       Column: TColumnIndex; TextType: TVSTTextType; var CellText: WideString);
@@ -147,6 +153,7 @@ type
     procedure actProjectExpandAllExecute(Sender: TObject);
     procedure actProjectCollapseAllExecute(Sender: TObject);
     procedure actProjectShowFileExtensionsExecute(Sender: TObject);
+    procedure actProjectExtraPythonPathExecute(Sender: TObject);
   private
     procedure ProjectFileNodeEdit(Node: PVirtualNode);
     procedure UpdatePopupActions(Node : PVirtualNode);
@@ -172,7 +179,7 @@ uses dmCommands, StringResources, uEditAppIntfs,
   frmPyIDEMain, uCommonFunctions, JvAppIniStorage, JvAppStorage, JclFileUtils,
   dlgImportDirectory, JclShell, dlgRunConfiguration, cPyBaseDebugger,
   cParameters, MPDataObject, WideStrUtils, ShlObj, JvJVCLUtils, TntDialogs,
-  TntSysUtils, gnugettext, uHighlighterProcs;
+  TntSysUtils, gnugettext, uHighlighterProcs, dlgDirectoryList;
 
 {$R *.dfm}
 
@@ -359,6 +366,25 @@ begin
     Data := ExplorerTree.GetNodeData(Node);
     if Data.ProjectNode is TProjectRunConfiguationNode then
       PyControl.ExternalRun(TProjectRunConfiguationNode(Data.ProjectNode).RunConfig);
+  end;
+end;
+
+procedure TProjectExplorerWindow.actProjectExtraPythonPathExecute(
+  Sender: TObject);
+var
+  Paths: TWideStrings;
+begin
+  Paths := TWideStringList.Create;
+  Paths.Assign(ActiveProject.ExtraPythonPath);
+  try
+    if EditFolderList(Paths, _(SProjectPythonPath), 0) then begin
+      ActiveProject.RemoveExtraPaths;
+      ActiveProject.ExtraPythonPath.Assign(Paths);
+      ActiveProject.AppendExtraPaths;
+      ActiveProject.Modified := True;
+    end;
+  finally
+    Paths.Free;
   end;
 end;
 
@@ -568,7 +594,7 @@ end;
 procedure TProjectExplorerWindow.ProjectMainPopUpMenuPopup(Sender: TObject);
 begin
   actProjectRelativePaths.Checked := ActiveProject.StoreRelativePaths;
-  actProjectRelativePaths.Checked := ActiveProject.StoreRelativePaths;
+  actProjectShowFileExtensions.Checked := ActiveProject.ShowFileExtensions;
 end;
 
 procedure TProjectExplorerWindow.DoOpenProjectFile(FileName : WideString);

@@ -286,6 +286,7 @@ Limitations: Python scripts are executed in the main thread
             C/C++ highlighting added
             Two new interpreter commands added: Copy without prompts, and Paste with prompts (Issue 183)
             Localization using gettext
+            YAML highlighter added
           Bug fixes
             Shell Integration - Error when opening multiple files
             Configure External Run - ParseTraceback not saved properly
@@ -325,7 +326,7 @@ Limitations: Python scripts are executed in the main thread
                    100, 102, 105, 106, 107, 109, 113, 117, 119, 120, 122, 123, 125,
                    132, 134, 135, 136, 137, 138, 139, 140, 141, 146, 147, 150, 153, 155,
                    160, 164, 165, 166, 167, 168, 169, 171, 174, 178, (182), 186,
-                   193, 195, 196, 197, (198), (201), (202), (204), (206), (208), (212), (219), (226) fixed
+                   193, 195, 196, 197, (198), (201), (202), (204), (206), (208), (212), (219), (226), (235) fixed
 
   Vista Compatibility issues (all resolved)
   -  Flip3D and Form preview (solved with LX)
@@ -2465,6 +2466,8 @@ begin
     CommandsDataModule.PyIDEOptions.CSSFileFilter;
   CommandsDataModule.SynCppSyn.DefaultFilter :=
     CommandsDataModule.PyIDEOptions.CPPFileFilter;
+  CommandsDataModule.SynYAMLSyn.DefaultFilter :=
+    CommandsDataModule.PyIDEOptions.YAMLFileFilter;
   //  Dock animation parameters
   JvDockVSNetStyleTBX.SetAnimationInterval(CommandsDataModule.PyIDEOptions.DockAnimationInterval);
   JvDockVSNetStyleTBX.SetAnimationMoveWidth(CommandsDataModule.PyIDEOptions.DockAnimationMoveWidth);

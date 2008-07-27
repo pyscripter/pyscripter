@@ -184,6 +184,7 @@ inherited DirectoryListDialog: TDirectoryListDialog
       Hint = 'Enter file path here'
       Anchors = [akLeft, akTop, akRight]
       TabOrder = 3
+      OnChange = edPathChange
       ThemeType = thtWindows
       EditButton.Left = 318
       EditButton.Top = 0

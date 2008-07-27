@@ -212,6 +212,12 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
       Hint = 'Store file paths relative to the project directory'
       Action = actProjectRelativePaths
     end
+    object SpTBXSeparatorItem12: TSpTBXSeparatorItem
+    end
+    object mnExtraPythonPath: TSpTBXItem
+      Caption = 'Extra Python &Path'
+      Action = actProjectExtraPythonPath
+    end
   end
   object ProjectImageList: TImageList
     Left = 8
@@ -877,6 +883,7 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
     end
     object actProjectRelativePaths: TTntAction
       Category = 'Project'
+      AutoCheck = True
       Caption = 'Store &Relative Paths'
       HelpContext = 435
       Hint = 'Store file paths relative to the project directory'
@@ -884,10 +891,17 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
     end
     object actProjectShowFileExtensions: TTntAction
       Category = 'Project'
+      AutoCheck = True
       Caption = 'Show File &Extensions'
       HelpContext = 435
       Hint = 'Display file extensions'
       OnExecute = actProjectShowFileExtensionsExecute
+    end
+    object actProjectExtraPythonPath: TTntAction
+      Category = 'Project'
+      Caption = 'Extra Python &Path'
+      ImageIndex = 25
+      OnExecute = actProjectExtraPythonPathExecute
     end
     object actProjectExpandAll: TTntAction
       Category = 'Project'

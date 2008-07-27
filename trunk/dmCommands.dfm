@@ -946,7 +946,8 @@ object CommandsDataModule: TCommandsDataModule
       'n application'#13#10'=def main():'#13#10'=    |pass'#13#10'='#13#10'=if __name__ == '#39'__m' +
       'ain__'#39':'#13#10'=    main()'#13#10'cls'#13#10'|Python class'#13#10'=class |(object):'#13#10'=  ' +
       '  """'#13#10'='#9#9'class comment'#13#10'=    """'#13#10'='#13#10'=    def __init__(self):'#13#10 +
-      '=        pass'
+      '=        pass'#13#10'fec'#13#10'|File encoding comment'#13#10'=# -*- coding: UTF-8' +
+      ' -*-'#13#10'=|'
     EndOfTokenChr = '()[]. '
     ShortCut = 0
     Options = [scoLimitToMatchedText, scoUseInsertList, scoCompleteWithTab, scoCompleteWithEnter]
@@ -11925,7 +11926,7 @@ object CommandsDataModule: TCommandsDataModule
           
             '            self.__T = threading.Thread(target=self.Wrapper, arg' +
             's=(func, args, kwargs))'
-          '            self.__T.setName("FutureThread")'
+          '            self.__T.set_name("FutureThread")'
           '            self.__T.start()'
           ''
           '        def __repr__(self):'
@@ -11969,7 +11970,7 @@ object CommandsDataModule: TCommandsDataModule
           '        import time'
           '        #keeps GUI alive'
           '        future = self.Future(func, *args)'
-          '        time.sleep(0.001)'
+          '        time.sleep(0.01)'
           '        self.thread_id = future.thread_id'
           '        return future()'
           ''
@@ -12099,8 +12100,10 @@ object CommandsDataModule: TCommandsDataModule
           '        self.debugger.currentframe = None'
           '        self.debugger.locals = self.locals'
           ''
-          '        import repr'
-          '        pyrepr = repr.Repr()'
+          '        try:'
+          '            pyrepr = __import__('#39'repr'#39').Repr()'
+          '        except:'
+          '            pyrepr = __import__('#39'reprlib'#39').Repr()'
           '        pyrepr.maxstring = 80'
           '        pyrepr.maxother = 80'
           '        self._repr = pyrepr.repr'
@@ -13156,8 +13159,10 @@ object CommandsDataModule: TCommandsDataModule
           '        self.debugger.showtraceback = self.showtraceback'
           '        self.debugger.tracecount = 0'
           ''
-          '        import repr'
-          '        pyrepr = repr.Repr()'
+          '        try:'
+          '            pyrepr = __import__('#39'repr'#39').Repr()'
+          '        except:'
+          '            pyrepr = __import__('#39'reprlib'#39').Repr()'
           '        pyrepr.maxstring = 80'
           '        pyrepr.maxother = 80'
           '        self._repr = pyrepr.repr'
@@ -13862,8 +13867,8 @@ object CommandsDataModule: TCommandsDataModule
           'if __name__ == "__main__":'
           '    main()')
       end>
-    Left = 333
-    Top = 166
+    Left = 341
+    Top = 168
   end
   object dlgFileOpen: TTntOpenDialogLX
     Options = [ofHideReadOnly, ofPathMustExist, ofFileMustExist, ofEnableSizing]

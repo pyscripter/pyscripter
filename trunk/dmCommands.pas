@@ -23,7 +23,7 @@ uses
   SynHighlighterIni, TB2MRU, TBXExtItems, JvAppInst, uEditAppIntfs, SynUnicode,
   JvTabBar, JvStringHolder, cPyBaseDebugger, TntDialogs, TntLXDialogs,
   SynEditTypes, VirtualExplorerTree, VirtualShellNotifier, SynHighlighterWeb,
-  SynHighlighterCpp, TntStdActns, TntActnList;        
+  SynHighlighterCpp, TntStdActns, TntActnList, SynHighlighterYAML;        
 
 type
   TPythonIDEOptions = class(TPersistent)
@@ -41,6 +41,7 @@ type
     fXMLFileFilter : string;
     fCSSFileFilter : string;
     fCPPFileFilter : string;
+    fYAMLFileFilter : string;
     fFileExplorerFilter : string;
     fDateLastCheckedForUpdates : TDateTime;
     fAutoCheckForUpdates : boolean;
@@ -106,6 +107,8 @@ type
       write fCSSFileFilter;
     property CPPFileFilter : string read fCPPFileFilter
       write fCPPFileFilter;
+    property YAMLFileFilter : string read fYAMLFileFilter
+      write fYAMLFileFilter;
     property FileExplorerFilter : string read fFileExplorerFilter
       write fFileExplorerFilter;
     property DateLastCheckedForUpdates : TDateTime read fDateLastCheckedForUpdates
@@ -417,6 +420,7 @@ type
     fUntitledNumbers: TBits;
     fConfirmReplaceDialogRect: TRect;
   public
+    SynYAMLSyn: TSynYAMLSyn;
     BlockOpenerRE : TRegExpr;
     BlockCloserRE : TRegExpr;
     CommentLineRE : TRegExpr;
@@ -425,7 +429,7 @@ type
     EditorOptions : TSynEditorOptionsContainer;
     InterpreterEditorOptions : TSynEditorOptionsContainer;
     PyIDEOptions : TPythonIDEOptions;
-    UserDataDir : string;
+    UserDataDir : WideString;
     function IsBlockOpener(S : string) : Boolean;
     function IsBlockCloser(S : string) : Boolean;
     function IsExecutableLine(Line : string) : Boolean;
@@ -518,6 +522,7 @@ begin
       Self.fXMLFileFilter := XMLFileFilter;
       Self.fCSSFileFilter := CSSFileFilter;
       Self.fCPPFileFilter := CPPFileFilter;
+      Self.fYAMLFileFilter := YAMLFileFilter;
       Self.fFileExplorerFilter := FileExplorerFilter;
       Self.fDateLastCheckedForUpdates := DateLastCheckedForUpdates;
       Self.fAutoCheckForUpdates := AutoCheckForUpdates;
@@ -570,6 +575,7 @@ begin
   fXMLFileFilter := SYNS_FilterXML;
   fCSSFileFilter := SYNS_FilterCSS;
   fCPPFileFilter := SYNS_FilterCPP;
+  fYAMLFileFilter := SYNS_FilterYAML;
   fFileExplorerFilter := '*.py;*.pyw';
   fSearchTextAtCaret := True;
   fRestoreOpenFiles := True;
@@ -718,11 +724,12 @@ var
   Index : integer;
 begin
   // User Data directory for storing the ini file etc.
-  UserDataDir := IncludeTrailingPathDelimiter(GetAppdataFolder) + 'PyScripter\';
-  if not ForceDirectories(UserDataDir) then
+  UserDataDir := WideIncludeTrailingPathDelimiter(UserDocumentsFolder.NameForParsing) + 'PyScripter\';
+  if not WideForceDirectories(UserDataDir) then
     WideMessageDlg(WideFormat(SAccessAppDataDir, [UserDataDir]), mtWarning, [mbOK], 0);
 
   // Setup Highlighters
+  SynYAMLSyn := TSynYAMLSyn.Create(Self);
   fHighlighters := TStringList.Create;
   TStringList(fHighlighters).CaseSensitive := False;
   GetHighlighters(Self, fHighlighters, False);
@@ -1941,7 +1948,7 @@ begin
   end;
   with Categories[3] do begin
     DisplayName := 'File Filters';
-    SetLength(Options, 6);
+    SetLength(Options, 7);
     Options[0].PropertyName := 'PythonFileFilter';
     Options[0].DisplayName := 'Open dialog Python filter';
     Options[1].PropertyName := 'HTMLFileFilter';
@@ -1952,8 +1959,10 @@ begin
     Options[3].DisplayName := 'Open dialog CSS filter';
     Options[4].PropertyName := 'CPPFileFilter';
     Options[4].DisplayName := 'Open dialog CPP filter';
-    Options[5].PropertyName := 'FileExplorerFilter';
-    Options[5].DisplayName := 'File explorer filter';
+    Options[5].PropertyName := 'YAMLFileFilter';
+    Options[5].DisplayName := 'Open dialog YAML filter';
+    Options[6].PropertyName := 'FileExplorerFilter';
+    Options[6].DisplayName := 'File explorer filter';
   end;
   with Categories[4] do begin
     DisplayName := 'Editor';

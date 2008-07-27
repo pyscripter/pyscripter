@@ -1917,7 +1917,7 @@ object PyIDEMainForm: TPyIDEMainForm
     Location = flCustom
     DefaultSection = 'Other Settings'
     SubStorages = <>
-    Left = 72
+    Left = 74
     Top = 173
   end
   object CloseTimer: TTimer

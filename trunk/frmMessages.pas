@@ -348,6 +348,8 @@ begin
             CellText := IntToStr(Offset)
           else
             CellText := '';
+      else
+        CellText := '';
     end;
 end;
 

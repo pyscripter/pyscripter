@@ -4,6 +4,9 @@
  Date:      30-Nov-2007
  Purpose:   Data structures for PyScripter projects
  History:
+
+ 16-Jun-2008 Roman Krivoruchko
+    Project property ExtraPythonPath added with persistence
 -----------------------------------------------------------------------------}
 unit cProjectClasses;
 
@@ -60,17 +63,26 @@ type
     fFileName: WideString;
     fStoreRelativePaths : Boolean;
     fShowFileExtensions : Boolean;
+    fExtraPythonPath: TWideStrings;
     function GetName: WideString;
   protected
     function GetCaption: WideString; override;
+    procedure ReadFromAppStorage(AppStorage: TJvCustomAppStorage;
+      const BasePath: string); override;
+    procedure WriteToAppStorage(AppStorage: TJvCustomAppStorage;
+      const BasePath: string); override;
   public
     constructor Create; override;
+    destructor Destroy; override;
     function HasFile(const FileName : WideString) : Boolean;
+    procedure AppendExtraPaths;
+    procedure RemoveExtraPaths;
     property Name : WideString read GetName;
     property FileName : WideString read fFileName write fFileName;
   published
     property StoreRelativePaths : Boolean read fStoreRelativePaths write fStoreRelativePaths;
     property ShowFileExtensions : Boolean read fShowFileExtensions write fShowFileExtensions;
+    property ExtraPythonPath: TWideStrings read fExtraPythonPath;
   end;
 
   TProjectFileNode = class;
@@ -308,12 +320,31 @@ end;
 
 { TProjectRootNode }
 
+procedure TProjectRootNode.AppendExtraPaths;
+var
+  i: Integer;
+begin
+  if not (Assigned(PyControl) and Assigned(PyControl.ActiveInterpreter)) then Exit;
+
+  for i := 0 to fExtraPythonPath.Count-1 do
+    fExtraPythonPath.Objects[i] :=
+      TObject(PyControl.ActiveInterpreter.SysPathAdd(fExtraPythonPath[i]));
+end;
+
 constructor TProjectRootNode.Create;
 begin
   inherited;
   AddChild(TProjectFilesNode.Create);
   AddChild(TProjectRunConfiguationsNode.Create);
   Modified := False;
+  fExtraPythonPath := TWideStringList.Create;
+end;
+
+destructor TProjectRootNode.Destroy;
+begin
+  RemoveExtraPaths;
+  FreeAndNil(fExtraPythonPath);
+  inherited;
 end;
 
 function TProjectRootNode.GetCaption: WideString;
@@ -341,6 +372,34 @@ end;
 function TProjectRootNode.HasFile(const FileName: WideString): Boolean;
 begin
   Result := FirstThat(NodeHasFile, PWideChar(FileName)) <> nil;
+end;
+
+procedure TProjectRootNode.ReadFromAppStorage(AppStorage: TJvCustomAppStorage;
+  const BasePath: string);
+begin
+  inherited;
+  RemoveExtraPaths;
+  fExtraPythonPath.Clear;
+  AppStorage.ReadWideStringList(BasePath+'\ExtraPythonPath', fExtraPythonPath);
+  AppendExtraPaths;
+end;
+
+procedure TProjectRootNode.RemoveExtraPaths;
+var
+  i: Integer;
+begin
+  if not (Assigned(PyControl) and Assigned(PyControl.ActiveInterpreter)) then Exit;
+
+  for i := 0 to fExtraPythonPath.Count-1 do
+    if Boolean(fExtraPythonPath.Objects[i]) then
+      PyControl.ActiveInterpreter.SysPathRemove(fExtraPythonPath[i]);
+end;
+
+procedure TProjectRootNode.WriteToAppStorage(AppStorage: TJvCustomAppStorage;
+  const BasePath: string);
+begin
+  inherited;
+  AppStorage.WriteWideStringList(BasePath+'\ExtraPythonPath', fExtraPythonPath);
 end;
 
 { TProjectFolderNode }

@@ -8,358 +8,354 @@
   resources were bound to the produced executable.
 */
 
-#define dlgExceptionMail_RsMissingVersionInfo 64576
-#define dlgExceptionMail_RsSendBugReportAddress 64577
-#define dlgExceptionMail_RsSendBugReportSubject 64578
-#define SynHighlighterYAML_SYNS_FilterYAML 64579
-#define SynHighlighterYAML_SYNS_LangYAML 64580
-#define SynHighlighterYAML_SYNS_FriendlyLangYAML 64581
-#define SynHighlighterYAML_SYNS_AttrDocumentDelimiter 64582
-#define SynHighlighterYAML_SYNS_FriendlyAttrDocumentDelimiter 64583
-#define SynHighlighterYAML_SYNS_AttrKeyword 64584
-#define SynHighlighterYAML_SYNS_FriendlyAttrKeyword 64585
-#define SynHighlighterYAML_SYNS_AttrNumericValue 64586
-#define SynHighlighterYAML_SYNS_FriendlyAttrNumericValue 64587
-#define SynHighlighterYAML_SYNS_AttrTextBlockMarker 64588
-#define SynHighlighterYAML_SYNS_FriendlyAttrTextBlockMarker 64589
-#define SynHighlighterYAML_SYNS_AttrTextValue 64590
-#define SynHighlighterYAML_SYNS_FriendlyAttrTextValue 64591
-#define frmFunctionList_SNoneString 64592
-#define frmFunctionList_SParseStatistics 64593
-#define frmFunctionList_SInvalidIndex 64594
-#define dmCommands_S_ERROR_NO_ERROR_STRING 64595
-#define dlgExceptionMail_RsAppError 64596
-#define dlgExceptionMail_RsExceptionClass 64597
-#define dlgExceptionMail_RsExceptionMessage 64598
-#define dlgExceptionMail_RsExceptionAddr 64599
-#define dlgExceptionMail_RsStackList 64600
-#define dlgExceptionMail_RsModulesList 64601
-#define dlgExceptionMail_RsOSVersion 64602
-#define dlgExceptionMail_RsProcessor 64603
-#define dlgExceptionMail_RsMemory 64604
-#define dlgExceptionMail_RsScreenRes 64605
-#define dlgExceptionMail_RsActiveControl 64606
-#define dlgExceptionMail_RsThread 64607
-#define SynHighlighterPython_SYNS_FriendlyAttrTraceback 64608
-#define SynHighlighterPython_SYNS_AttrPrompt 64609
-#define SynHighlighterPython_SYNS_FriendlyAttrPrompt 64610
-#define SynHighlighterPython_SYNS_LangPythonInterpreter 64611
-#define SynHighlighterPython_SYNS_FriendlyLangPythonInterpreter 64612
-#define dlgConfirmReplace_SAskReplaceText 64613
-#define dlgReplaceInFiles_SGrepResultsNotActive 64614
-#define frmToDo_SHigh 64615
-#define frmToDo_SNormal 64616
-#define frmToDo_SLow 64617
-#define frmToDo_SDone 64618
-#define frmToDo_STodoItems 64619
-#define frmToDo_SDoneTodoDesignation 64620
-#define cFindInFiles_SNoFileOpen 64621
-#define WinHelpViewer_hNoKeyword 64622
-#define frmFunctionList_SAllString 64623
-#define VarPyth_SCantConvertArg 64624
-#define VarPyth_SCantConvertKeyToPythonObject 64625
-#define VarPyth_SCantConvertValueToPythonObject 64626
-#define VarPyth_SCantCreateNewSequenceObject 64627
-#define VarPyth_SExpectedPythonVariant 64628
-#define SynHighlighterPython_SYNS_CommentedCode 64629
-#define SynHighlighterPython_SYNS_FunctionName 64630
-#define SynHighlighterPython_SYNS_ClassName 64631
-#define SynHighlighterPython_SYNS_FriendlyCommentedCode 64632
-#define SynHighlighterPython_SYNS_FriendlyFunctionName 64633
-#define SynHighlighterPython_SYNS_FriendlyClassName 64634
-#define SynHighlighterPython_SYNS_AttrBanner 64635
-#define SynHighlighterPython_SYNS_FriendlyAttrBanner 64636
-#define SynHighlighterPython_SYNS_AttrOutput 64637
-#define SynHighlighterPython_SYNS_FriendlyAttrOutput 64638
-#define SynHighlighterPython_SYNS_AttrTraceback 64639
-#define JvDockGlobals_RsDockJvDockTreeCloseBtnHint 64640
-#define JvDockGlobals_RsDockVSNETDockTreeAutoHideBtnHint 64641
-#define JvDockGlobals_RsEDockControlCannotIsNil 64642
-#define JvDockGlobals_RsEDockCannotGetValueWithNoOrient 64643
-#define JvDockGlobals_RsEDockCannotSetValueWithNoOrient 64644
-#define JvDockGlobals_RsEDockCannotLayAnother 64645
-#define JvDockGlobals_RsEDockCannotSetTabPosition 64646
-#define JvDockGlobals_RsDockCannotFindWindow 64647
-#define SpTBXCustomizerForm_SSpTBXCustomizerFormChangeShortcut 64648
-#define SpTBXCustomizerForm_SSpTBXCustomizerFormChangeShortcutTitle 64649
-#define OleConst_SCannotActivate 64650
-#define OleConst_SNoWindowHandle 64651
-#define OleConst_SInvalidLicense 64652
-#define OleConst_SNotLicensed 64653
-#define OleConst_sNoRunningObject 64654
-#define VarPyth_SMultiDimensionalPropsNotSupported 64655
-#define JclResources_RsProductTypeServer 64656
-#define JclResources_RsProductTypeAdvancedServer 64657
-#define JclResources_RsProductTypePersonal 64658
-#define JclResources_RsProductTypeProfessional 64659
-#define JclResources_RsProductTypeDatacenterServer 64660
-#define JclResources_RsProductTypeEnterprise 64661
-#define JclResources_RsProductTypeWebEdition 64662
-#define JclResources_RsCannotWriteRefStream 64663
-#define JclResources_RsHasNotTD32Info 64664
-#define JclResources_RsELibraryNotFound 64665
-#define JclResources_RsEFunctionNotFound 64666
-#define JConsts_sChangeJPGSize 64667
-#define JConsts_sJPEGError 64668
-#define JConsts_sJPEGImageFile 64669
-#define JvDockGlobals_RsDockStringSplitter 64670
-#define JvDockGlobals_RsDockJvDockInfoSplitter 64671
-#define JclResources_RsUnknownAMDModel 64672
-#define JclResources_RsOSVersionWin95 64673
-#define JclResources_RsOSVersionWin95OSR2 64674
-#define JclResources_RsOSVersionWin98 64675
-#define JclResources_RsOSVersionWin98SE 64676
-#define JclResources_RsOSVersionWinME 64677
-#define JclResources_RsOSVersionWinNT3 64678
-#define JclResources_RsOSVersionWinNT4 64679
-#define JclResources_RsOSVersionWin2000 64680
-#define JclResources_RsOSVersionWinXP 64681
-#define JclResources_RsOSVersionWin2003 64682
-#define JclResources_RsOSVersionWin2003R2 64683
-#define JclResources_RsOSVersionWinXP64 64684
-#define JclResources_RsOSVersionWinVista 64685
-#define JclResources_RsOSVersionWinServer2008 64686
-#define JclResources_RsProductTypeWorkStation 64687
-#define JclResources_RsIntelCacheDescr7A 64688
-#define JclResources_RsIntelCacheDescr7B 64689
-#define JclResources_RsIntelCacheDescr7C 64690
-#define JclResources_RsIntelCacheDescr7D 64691
-#define JclResources_RsIntelCacheDescr7F 64692
-#define JclResources_RsIntelCacheDescr82 64693
-#define JclResources_RsIntelCacheDescr83 64694
-#define JclResources_RsIntelCacheDescr84 64695
-#define JclResources_RsIntelCacheDescr85 64696
-#define JclResources_RsIntelCacheDescr86 64697
-#define JclResources_RsIntelCacheDescr87 64698
-#define JclResources_RsIntelCacheDescrB0 64699
-#define JclResources_RsIntelCacheDescrB3 64700
-#define JclResources_RsIntelCacheDescrB4 64701
-#define JclResources_RsIntelCacheDescrF0 64702
-#define JclResources_RsIntelCacheDescrF1 64703
-#define JclResources_RsIntelCacheDescr51 64704
-#define JclResources_RsIntelCacheDescr52 64705
-#define JclResources_RsIntelCacheDescr56 64706
-#define JclResources_RsIntelCacheDescr57 64707
-#define JclResources_RsIntelCacheDescr5B 64708
-#define JclResources_RsIntelCacheDescr5C 64709
-#define JclResources_RsIntelCacheDescr5D 64710
-#define JclResources_RsIntelCacheDescr60 64711
-#define JclResources_RsIntelCacheDescr66 64712
-#define JclResources_RsIntelCacheDescr67 64713
-#define JclResources_RsIntelCacheDescr68 64714
-#define JclResources_RsIntelCacheDescr70 64715
-#define JclResources_RsIntelCacheDescr71 64716
-#define JclResources_RsIntelCacheDescr72 64717
-#define JclResources_RsIntelCacheDescr78 64718
-#define JclResources_RsIntelCacheDescr79 64719
-#define JclResources_RsIntelCacheDescr22 64720
-#define JclResources_RsIntelCacheDescr23 64721
-#define JclResources_RsIntelCacheDescr25 64722
-#define JclResources_RsIntelCacheDescr29 64723
-#define JclResources_RsIntelCacheDescr2C 64724
-#define JclResources_RsIntelCacheDescr30 64725
-#define JclResources_RsIntelCacheDescr40 64726
-#define JclResources_RsIntelCacheDescr41 64727
-#define JclResources_RsIntelCacheDescr42 64728
-#define JclResources_RsIntelCacheDescr43 64729
-#define JclResources_RsIntelCacheDescr44 64730
-#define JclResources_RsIntelCacheDescr45 64731
-#define JclResources_RsIntelCacheDescr46 64732
-#define JclResources_RsIntelCacheDescr47 64733
-#define JclResources_RsIntelCacheDescr49 64734
-#define JclResources_RsIntelCacheDescr50 64735
-#define JclResources_RsBlankSearchString 64736
-#define JclResources_RsInvalidEmptyStringItem 64737
-#define JclResources_RsNumericConstantTooLarge 64738
-#define JclResources_RsSynchCreateEvent 64739
-#define JclResources_RsSynchCreateMutex 64740
-#define JclResources_RsIntelCacheDescr00 64741
-#define JclResources_RsIntelCacheDescr01 64742
-#define JclResources_RsIntelCacheDescr02 64743
-#define JclResources_RsIntelCacheDescr03 64744
-#define JclResources_RsIntelCacheDescr04 64745
-#define JclResources_RsIntelCacheDescr05 64746
-#define JclResources_RsIntelCacheDescr06 64747
-#define JclResources_RsIntelCacheDescr08 64748
-#define JclResources_RsIntelCacheDescr0A 64749
-#define JclResources_RsIntelCacheDescr0B 64750
-#define JclResources_RsIntelCacheDescr0C 64751
-#define JclResources_RsRTTINameList 64752
-#define JclResources_RsRTTIClassName 64753
-#define JclResources_RsRTTIParent 64754
-#define JclResources_RsRTTIPropCount 64755
-#define JclResources_RsRTTIUnitName 64756
-#define JclResources_RsRTTIBasedOn 64757
-#define JclResources_RsRTTIFloatType 64758
-#define JclResources_RsRTTIMethodKind 64759
-#define JclResources_RsRTTIParamCount 64760
-#define JclResources_RsRTTIReturnType 64761
-#define JclResources_RsRTTIMaxLen 64762
-#define JclResources_RsRTTIElSize 64763
-#define JclResources_RsRTTIElType 64764
-#define JclResources_RsRTTIElNeedCleanup 64765
-#define JclResources_RsRTTIVarType 64766
-#define JclResources_RsDeclarationFormat 64767
-#define JclResources_RsRTTIPropRead 64768
-#define JclResources_RsRTTIPropWrite 64769
-#define JclResources_RsRTTIPropStored 64770
-#define JclResources_RsRTTIField 64771
-#define JclResources_RsRTTIStaticMethod 64772
-#define JclResources_RsRTTIVirtualMethod 64773
-#define JclResources_RsRTTIIndex 64774
-#define JclResources_RsRTTIDefault 64775
-#define JclResources_RsRTTIName 64776
-#define JclResources_RsRTTIType 64777
-#define JclResources_RsRTTIFlags 64778
-#define JclResources_RsRTTIGUID 64779
-#define JclResources_RsRTTITypeKind 64780
-#define JclResources_RsRTTIOrdinalType 64781
-#define JclResources_RsRTTIMinValue 64782
-#define JclResources_RsRTTIMaxValue 64783
-#define JclResources_RsHKLMShort 64784
-#define JclResources_RsHKUSShort 64785
-#define JclResources_RsHKPDShort 64786
-#define JclResources_RsHKCCShort 64787
-#define JclResources_RsHKDDShort 64788
-#define JclResources_RsRTTIValueOutOfRange 64789
-#define JclResources_RsRTTIUnknownIdentifier 64790
-#define JclResources_RsRTTIVar 64791
-#define JclResources_RsRTTIConst 64792
-#define JclResources_RsRTTIArrayOf 64793
-#define JclResources_RsRTTIOut 64794
-#define JclResources_RsRTTIOrdinal 64795
-#define JclResources_RsRTTITrue 64796
-#define JclResources_RsRTTIFalse 64797
-#define JclResources_RsRTTITypeError 64798
-#define JclResources_RsRTTITypeInfoAt 64799
-#define JclResources_RsPeUnknownTarget 64800
-#define JclResources_RsPeNotResDir 64801
-#define JclResources_RsPeSectionNotFound 64802
-#define JclResources_RsUnableToOpenKeyRead 64803
-#define JclResources_RsUnableToAccessValue 64804
-#define JclResources_RsWrongDataType 64805
-#define JclResources_RsInconsistentPath 64806
-#define JclResources_RsHKCRLong 64807
-#define JclResources_RsHKCULong 64808
-#define JclResources_RsHKLMLong 64809
-#define JclResources_RsHKUSLong 64810
-#define JclResources_RsHKPDLong 64811
-#define JclResources_RsHKCCLong 64812
-#define JclResources_RsHKDDLong 64813
-#define JclResources_RsHKCRShort 64814
-#define JclResources_RsHKCUShort 64815
-#define JclResources_RsMapiErrTEXT_TOO_LARGE 64816
-#define JclResources_RsMapiErrINVALID_SESSION 64817
-#define JclResources_RsMapiErrTYPE_NOT_SUPPORTED 64818
-#define JclResources_RsMapiErrAMBIGUOUS_RECIPIENT 64819
-#define JclResources_RsMapiErrMESSAGE_IN_USE 64820
-#define JclResources_RsMapiErrNETWORK_FAILURE 64821
-#define JclResources_RsMapiErrINVALID_EDITFIELDS 64822
-#define JclResources_RsMapiErrINVALID_RECIPS 64823
-#define JclResources_RsMapiErrNOT_SUPPORTED 64824
-#define JclResources_RsMapiMailORIG 64825
-#define JclResources_RsMapiMailTO 64826
-#define JclResources_RsMapiMailCC 64827
-#define JclResources_RsMapiMailBCC 64828
-#define JclResources_RsPeReadOnlyStream 64829
-#define JclResources_RsPeCantOpen 64830
-#define JclResources_RsPeNotPE 64831
-#define JclResources_RsMapiErrUSER_ABORT 64832
-#define JclResources_RsMapiErrFAILURE 64833
-#define JclResources_RsMapiErrLOGIN_FAILURE 64834
-#define JclResources_RsMapiErrDISK_FULL 64835
-#define JclResources_RsMapiErrINSUFFICIENT_MEMORY 64836
-#define JclResources_RsMapiErrACCESS_DENIED 64837
-#define JclResources_RsMapiErrTOO_MANY_SESSIONS 64838
-#define JclResources_RsMapiErrTOO_MANY_FILES 64839
-#define JclResources_RsMapiErrTOO_MANY_RECIPIENTS 64840
-#define JclResources_RsMapiErrATTACHMENT_NOT_FOUND 64841
-#define JclResources_RsMapiErrATTACHMENT_OPEN_FAILURE 64842
-#define JclResources_RsMapiErrATTACHMENT_WRITE_FAILURE 64843
-#define JclResources_RsMapiErrUNKNOWN_RECIPIENT 64844
-#define JclResources_RsMapiErrBAD_RECIPTYPE 64845
-#define JclResources_RsMapiErrNO_MESSAGES 64846
-#define JclResources_RsMapiErrINVALID_MESSAGE 64847
-#define DBConsts_SBcdOverflow 64848
-#define DBConsts_SInvalidBcdValue 64849
-#define DBConsts_SCouldNotParseTimeStamp 64850
-#define DBConsts_SInvalidSqlTimeStamp 64851
-#define TntLXUtils_SFileOpAborted 64852
-#define JclResources_RsWin32Prefix 64853
-#define JclResources_RsUnknownFunctionAt 64854
-#define JclResources_RsCannotCreateDir 64855
-#define JclResources_RsFileUtilsNoVersionInfo 64856
-#define JclResources_RsCreateFileMapping 64857
-#define JclResources_RsCreateFileMappingView 64858
-#define JclResources_RsViewNeedsMapping 64859
-#define JclResources_RsFailedToObtainSize 64860
-#define JclResources_RsMapiError 64861
-#define JclResources_RsMapiMissingExport 64862
-#define JclResources_RsMapiMailNoClient 64863
-#define SynEditStrConst_SYNS_FriendlyLangUnknown 64864
-#define SynEditTextBuffer_SListIndexOutOfBounds 64865
-#define SynEditTextBuffer_SInvalidCapacity 64866
-#define TB2Consts_STBToolbarIndexOutOfBounds 64867
-#define TB2Consts_STBToolbarItemReinserted 64868
-#define TB2Consts_STBViewerNotFound 64869
-#define TB2Consts_STBChevronItemMoreButtonsHint 64870
-#define TB2Consts_STBMRUListItemDefCaption 64871
-#define TB2Consts_STBDockParentNotAllowed 64872
-#define TB2Consts_STBDockCannotChangePosition 64873
-#define TB2Consts_STBToolwinDockedToNameNotSet 64874
-#define ObjAuto_sTypeMisMatch 64875
-#define ObjAuto_sInvalidDispID 64876
-#define ObjAuto_sParamRequired 64877
-#define ObjAuto_sMethodOver 64878
-#define ObjAuto_sTooManyParams 64879
-#define SynEditStrConst_SYNS_ScrollInfoFmt 64880
-#define SynEditStrConst_SYNS_ScrollInfoFmtTop 64881
-#define SynEditStrConst_SYNS_PreviewScrollInfoFmt 64882
-#define SynEditStrConst_SYNS_EDuplicateShortcut 64883
-#define SynEditStrConst_SYNS_FilterCPP 64884
-#define SynEditStrConst_SYNS_FilterHTML 64885
-#define SynEditStrConst_SYNS_FilterPython 64886
-#define SynEditStrConst_SYNS_FilterINI 64887
-#define SynEditStrConst_SYNS_FilterCSS 64888
-#define SynEditStrConst_SYNS_FilterXML 64889
-#define SynEditStrConst_SYNS_FriendlyLangCPP 64890
-#define SynEditStrConst_SYNS_FriendlyLangHTML 64891
-#define SynEditStrConst_SYNS_FriendlyLangPython 64892
-#define SynEditStrConst_SYNS_FriendlyLangINI 64893
-#define SynEditStrConst_SYNS_FriendlyLangCSS 64894
-#define SynEditStrConst_SYNS_FriendlyLangXML 64895
-#define SynEditStrConst_SYNS_FriendlyAttrOctal 64896
-#define SynEditStrConst_SYNS_FriendlyAttrPreprocessor 64897
-#define SynEditStrConst_SYNS_FriendlyAttrProcessingInstr 64898
-#define SynEditStrConst_SYNS_FriendlyAttrProperty 64899
-#define SynEditStrConst_SYNS_FriendlyAttrReservedWord 64900
-#define SynEditStrConst_SYNS_FriendlyAttrSection 64901
-#define SynEditStrConst_SYNS_FriendlyAttrSpace 64902
-#define SynEditStrConst_SYNS_FriendlyAttrString 64903
-#define SynEditStrConst_SYNS_FriendlyAttrSymbol 64904
-#define SynEditStrConst_SYNS_FriendlyAttrSyntaxError 64905
-#define SynEditStrConst_SYNS_FriendlyAttrSystem 64906
-#define SynEditStrConst_SYNS_FriendlyAttrText 64907
-#define SynEditStrConst_SYNS_FriendlyAttrUndefinedProperty 64908
-#define SynEditStrConst_SYNS_FriendlyAttrUnknownWord 64909
-#define SynEditStrConst_SYNS_FriendlyAttrValue 64910
-#define SynEditStrConst_SYNS_FriendlyAttrWhitespace 64911
+#define dlgExceptionMail_RsExceptionAddr 64576
+#define dlgExceptionMail_RsStackList 64577
+#define dlgExceptionMail_RsModulesList 64578
+#define dlgExceptionMail_RsOSVersion 64579
+#define dlgExceptionMail_RsProcessor 64580
+#define dlgExceptionMail_RsMemory 64581
+#define dlgExceptionMail_RsScreenRes 64582
+#define dlgExceptionMail_RsActiveControl 64583
+#define dlgExceptionMail_RsThread 64584
+#define dlgExceptionMail_RsMissingVersionInfo 64585
+#define dlgExceptionMail_RsSendBugReportAddress 64586
+#define dlgExceptionMail_RsSendBugReportSubject 64587
+#define frmToDo_SHigh 64592
+#define frmToDo_SNormal 64593
+#define frmToDo_SLow 64594
+#define frmToDo_SDone 64595
+#define frmToDo_STodoItems 64596
+#define frmToDo_SDoneTodoDesignation 64597
+#define cFindInFiles_SNoFileOpen 64598
+#define WinHelpViewer_hNoKeyword 64599
+#define frmFunctionList_SAllString 64600
+#define frmFunctionList_SNoneString 64601
+#define frmFunctionList_SParseStatistics 64602
+#define frmFunctionList_SInvalidIndex 64603
+#define dmCommands_S_ERROR_NO_ERROR_STRING 64604
+#define dlgExceptionMail_RsAppError 64605
+#define dlgExceptionMail_RsExceptionClass 64606
+#define dlgExceptionMail_RsExceptionMessage 64607
+#define SynHighlighterPython_SYNS_ClassName 64608
+#define SynHighlighterPython_SYNS_FriendlyCommentedCode 64609
+#define SynHighlighterPython_SYNS_FriendlyFunctionName 64610
+#define SynHighlighterPython_SYNS_FriendlyClassName 64611
+#define SynHighlighterPython_SYNS_AttrBanner 64612
+#define SynHighlighterPython_SYNS_FriendlyAttrBanner 64613
+#define SynHighlighterPython_SYNS_AttrOutput 64614
+#define SynHighlighterPython_SYNS_FriendlyAttrOutput 64615
+#define SynHighlighterPython_SYNS_AttrTraceback 64616
+#define SynHighlighterPython_SYNS_FriendlyAttrTraceback 64617
+#define SynHighlighterPython_SYNS_AttrPrompt 64618
+#define SynHighlighterPython_SYNS_FriendlyAttrPrompt 64619
+#define SynHighlighterPython_SYNS_LangPythonInterpreter 64620
+#define SynHighlighterPython_SYNS_FriendlyLangPythonInterpreter 64621
+#define dlgConfirmReplace_SAskReplaceText 64622
+#define dlgReplaceInFiles_SGrepResultsNotActive 64623
+#define JvDockGlobals_RsDockCannotFindWindow 64624
+#define SpTBXCustomizerForm_SSpTBXCustomizerFormChangeShortcut 64625
+#define SpTBXCustomizerForm_SSpTBXCustomizerFormChangeShortcutTitle 64626
+#define OleConst_SCannotActivate 64627
+#define OleConst_SNoWindowHandle 64628
+#define OleConst_SInvalidLicense 64629
+#define OleConst_SNotLicensed 64630
+#define OleConst_sNoRunningObject 64631
+#define VarPyth_SMultiDimensionalPropsNotSupported 64632
+#define VarPyth_SCantConvertArg 64633
+#define VarPyth_SCantConvertKeyToPythonObject 64634
+#define VarPyth_SCantConvertValueToPythonObject 64635
+#define VarPyth_SCantCreateNewSequenceObject 64636
+#define VarPyth_SExpectedPythonVariant 64637
+#define SynHighlighterPython_SYNS_CommentedCode 64638
+#define SynHighlighterPython_SYNS_FunctionName 64639
+#define JclResources_RsCannotWriteRefStream 64640
+#define JclResources_RsHasNotTD32Info 64641
+#define JclResources_RsELibraryNotFound 64642
+#define JclResources_RsEFunctionNotFound 64643
+#define JConsts_sChangeJPGSize 64644
+#define JConsts_sJPEGError 64645
+#define JConsts_sJPEGImageFile 64646
+#define JvDockGlobals_RsDockStringSplitter 64647
+#define JvDockGlobals_RsDockJvDockInfoSplitter 64648
+#define JvDockGlobals_RsDockJvDockTreeCloseBtnHint 64649
+#define JvDockGlobals_RsDockVSNETDockTreeAutoHideBtnHint 64650
+#define JvDockGlobals_RsEDockControlCannotIsNil 64651
+#define JvDockGlobals_RsEDockCannotGetValueWithNoOrient 64652
+#define JvDockGlobals_RsEDockCannotSetValueWithNoOrient 64653
+#define JvDockGlobals_RsEDockCannotLayAnother 64654
+#define JvDockGlobals_RsEDockCannotSetTabPosition 64655
+#define JclResources_RsOSVersionWinNT4 64656
+#define JclResources_RsOSVersionWin2000 64657
+#define JclResources_RsOSVersionWinXP 64658
+#define JclResources_RsOSVersionWin2003 64659
+#define JclResources_RsOSVersionWin2003R2 64660
+#define JclResources_RsOSVersionWinXP64 64661
+#define JclResources_RsOSVersionWinVista 64662
+#define JclResources_RsOSVersionWinServer2008 64663
+#define JclResources_RsProductTypeWorkStation 64664
+#define JclResources_RsProductTypeServer 64665
+#define JclResources_RsProductTypeAdvancedServer 64666
+#define JclResources_RsProductTypePersonal 64667
+#define JclResources_RsProductTypeProfessional 64668
+#define JclResources_RsProductTypeDatacenterServer 64669
+#define JclResources_RsProductTypeEnterprise 64670
+#define JclResources_RsProductTypeWebEdition 64671
+#define JclResources_RsIntelCacheDescr84 64672
+#define JclResources_RsIntelCacheDescr85 64673
+#define JclResources_RsIntelCacheDescr86 64674
+#define JclResources_RsIntelCacheDescr87 64675
+#define JclResources_RsIntelCacheDescrB0 64676
+#define JclResources_RsIntelCacheDescrB3 64677
+#define JclResources_RsIntelCacheDescrB4 64678
+#define JclResources_RsIntelCacheDescrF0 64679
+#define JclResources_RsIntelCacheDescrF1 64680
+#define JclResources_RsUnknownAMDModel 64681
+#define JclResources_RsOSVersionWin95 64682
+#define JclResources_RsOSVersionWin95OSR2 64683
+#define JclResources_RsOSVersionWin98 64684
+#define JclResources_RsOSVersionWin98SE 64685
+#define JclResources_RsOSVersionWinME 64686
+#define JclResources_RsOSVersionWinNT3 64687
+#define JclResources_RsIntelCacheDescr60 64688
+#define JclResources_RsIntelCacheDescr66 64689
+#define JclResources_RsIntelCacheDescr67 64690
+#define JclResources_RsIntelCacheDescr68 64691
+#define JclResources_RsIntelCacheDescr70 64692
+#define JclResources_RsIntelCacheDescr71 64693
+#define JclResources_RsIntelCacheDescr72 64694
+#define JclResources_RsIntelCacheDescr78 64695
+#define JclResources_RsIntelCacheDescr79 64696
+#define JclResources_RsIntelCacheDescr7A 64697
+#define JclResources_RsIntelCacheDescr7B 64698
+#define JclResources_RsIntelCacheDescr7C 64699
+#define JclResources_RsIntelCacheDescr7D 64700
+#define JclResources_RsIntelCacheDescr7F 64701
+#define JclResources_RsIntelCacheDescr82 64702
+#define JclResources_RsIntelCacheDescr83 64703
+#define JclResources_RsIntelCacheDescr41 64704
+#define JclResources_RsIntelCacheDescr42 64705
+#define JclResources_RsIntelCacheDescr43 64706
+#define JclResources_RsIntelCacheDescr44 64707
+#define JclResources_RsIntelCacheDescr45 64708
+#define JclResources_RsIntelCacheDescr46 64709
+#define JclResources_RsIntelCacheDescr47 64710
+#define JclResources_RsIntelCacheDescr49 64711
+#define JclResources_RsIntelCacheDescr50 64712
+#define JclResources_RsIntelCacheDescr51 64713
+#define JclResources_RsIntelCacheDescr52 64714
+#define JclResources_RsIntelCacheDescr56 64715
+#define JclResources_RsIntelCacheDescr57 64716
+#define JclResources_RsIntelCacheDescr5B 64717
+#define JclResources_RsIntelCacheDescr5C 64718
+#define JclResources_RsIntelCacheDescr5D 64719
+#define JclResources_RsIntelCacheDescr02 64720
+#define JclResources_RsIntelCacheDescr03 64721
+#define JclResources_RsIntelCacheDescr04 64722
+#define JclResources_RsIntelCacheDescr05 64723
+#define JclResources_RsIntelCacheDescr06 64724
+#define JclResources_RsIntelCacheDescr08 64725
+#define JclResources_RsIntelCacheDescr0A 64726
+#define JclResources_RsIntelCacheDescr0B 64727
+#define JclResources_RsIntelCacheDescr0C 64728
+#define JclResources_RsIntelCacheDescr22 64729
+#define JclResources_RsIntelCacheDescr23 64730
+#define JclResources_RsIntelCacheDescr25 64731
+#define JclResources_RsIntelCacheDescr29 64732
+#define JclResources_RsIntelCacheDescr2C 64733
+#define JclResources_RsIntelCacheDescr30 64734
+#define JclResources_RsIntelCacheDescr40 64735
+#define JclResources_RsRTTIMethodKind 64736
+#define JclResources_RsRTTIParamCount 64737
+#define JclResources_RsRTTIReturnType 64738
+#define JclResources_RsRTTIMaxLen 64739
+#define JclResources_RsRTTIElSize 64740
+#define JclResources_RsRTTIElType 64741
+#define JclResources_RsRTTIElNeedCleanup 64742
+#define JclResources_RsRTTIVarType 64743
+#define JclResources_RsDeclarationFormat 64744
+#define JclResources_RsBlankSearchString 64745
+#define JclResources_RsInvalidEmptyStringItem 64746
+#define JclResources_RsNumericConstantTooLarge 64747
+#define JclResources_RsSynchCreateEvent 64748
+#define JclResources_RsSynchCreateMutex 64749
+#define JclResources_RsIntelCacheDescr00 64750
+#define JclResources_RsIntelCacheDescr01 64751
+#define JclResources_RsRTTIDefault 64752
+#define JclResources_RsRTTIName 64753
+#define JclResources_RsRTTIType 64754
+#define JclResources_RsRTTIFlags 64755
+#define JclResources_RsRTTIGUID 64756
+#define JclResources_RsRTTITypeKind 64757
+#define JclResources_RsRTTIOrdinalType 64758
+#define JclResources_RsRTTIMinValue 64759
+#define JclResources_RsRTTIMaxValue 64760
+#define JclResources_RsRTTINameList 64761
+#define JclResources_RsRTTIClassName 64762
+#define JclResources_RsRTTIParent 64763
+#define JclResources_RsRTTIPropCount 64764
+#define JclResources_RsRTTIUnitName 64765
+#define JclResources_RsRTTIBasedOn 64766
+#define JclResources_RsRTTIFloatType 64767
+#define JclResources_RsRTTIVar 64768
+#define JclResources_RsRTTIConst 64769
+#define JclResources_RsRTTIArrayOf 64770
+#define JclResources_RsRTTIOut 64771
+#define JclResources_RsRTTIOrdinal 64772
+#define JclResources_RsRTTITrue 64773
+#define JclResources_RsRTTIFalse 64774
+#define JclResources_RsRTTITypeError 64775
+#define JclResources_RsRTTITypeInfoAt 64776
+#define JclResources_RsRTTIPropRead 64777
+#define JclResources_RsRTTIPropWrite 64778
+#define JclResources_RsRTTIPropStored 64779
+#define JclResources_RsRTTIField 64780
+#define JclResources_RsRTTIStaticMethod 64781
+#define JclResources_RsRTTIVirtualMethod 64782
+#define JclResources_RsRTTIIndex 64783
+#define JclResources_RsHKCRLong 64784
+#define JclResources_RsHKCULong 64785
+#define JclResources_RsHKLMLong 64786
+#define JclResources_RsHKUSLong 64787
+#define JclResources_RsHKPDLong 64788
+#define JclResources_RsHKCCLong 64789
+#define JclResources_RsHKDDLong 64790
+#define JclResources_RsHKCRShort 64791
+#define JclResources_RsHKCUShort 64792
+#define JclResources_RsHKLMShort 64793
+#define JclResources_RsHKUSShort 64794
+#define JclResources_RsHKPDShort 64795
+#define JclResources_RsHKCCShort 64796
+#define JclResources_RsHKDDShort 64797
+#define JclResources_RsRTTIValueOutOfRange 64798
+#define JclResources_RsRTTIUnknownIdentifier 64799
+#define JclResources_RsMapiErrINVALID_RECIPS 64800
+#define JclResources_RsMapiErrNOT_SUPPORTED 64801
+#define JclResources_RsMapiMailORIG 64802
+#define JclResources_RsMapiMailTO 64803
+#define JclResources_RsMapiMailCC 64804
+#define JclResources_RsMapiMailBCC 64805
+#define JclResources_RsPeReadOnlyStream 64806
+#define JclResources_RsPeCantOpen 64807
+#define JclResources_RsPeNotPE 64808
+#define JclResources_RsPeUnknownTarget 64809
+#define JclResources_RsPeNotResDir 64810
+#define JclResources_RsPeSectionNotFound 64811
+#define JclResources_RsUnableToOpenKeyRead 64812
+#define JclResources_RsUnableToAccessValue 64813
+#define JclResources_RsWrongDataType 64814
+#define JclResources_RsInconsistentPath 64815
+#define JclResources_RsMapiErrTOO_MANY_FILES 64816
+#define JclResources_RsMapiErrTOO_MANY_RECIPIENTS 64817
+#define JclResources_RsMapiErrATTACHMENT_NOT_FOUND 64818
+#define JclResources_RsMapiErrATTACHMENT_OPEN_FAILURE 64819
+#define JclResources_RsMapiErrATTACHMENT_WRITE_FAILURE 64820
+#define JclResources_RsMapiErrUNKNOWN_RECIPIENT 64821
+#define JclResources_RsMapiErrBAD_RECIPTYPE 64822
+#define JclResources_RsMapiErrNO_MESSAGES 64823
+#define JclResources_RsMapiErrINVALID_MESSAGE 64824
+#define JclResources_RsMapiErrTEXT_TOO_LARGE 64825
+#define JclResources_RsMapiErrINVALID_SESSION 64826
+#define JclResources_RsMapiErrTYPE_NOT_SUPPORTED 64827
+#define JclResources_RsMapiErrAMBIGUOUS_RECIPIENT 64828
+#define JclResources_RsMapiErrMESSAGE_IN_USE 64829
+#define JclResources_RsMapiErrNETWORK_FAILURE 64830
+#define JclResources_RsMapiErrINVALID_EDITFIELDS 64831
+#define JclResources_RsCannotCreateDir 64832
+#define JclResources_RsFileUtilsNoVersionInfo 64833
+#define JclResources_RsCreateFileMapping 64834
+#define JclResources_RsCreateFileMappingView 64835
+#define JclResources_RsViewNeedsMapping 64836
+#define JclResources_RsFailedToObtainSize 64837
+#define JclResources_RsMapiError 64838
+#define JclResources_RsMapiMissingExport 64839
+#define JclResources_RsMapiMailNoClient 64840
+#define JclResources_RsMapiErrUSER_ABORT 64841
+#define JclResources_RsMapiErrFAILURE 64842
+#define JclResources_RsMapiErrLOGIN_FAILURE 64843
+#define JclResources_RsMapiErrDISK_FULL 64844
+#define JclResources_RsMapiErrINSUFFICIENT_MEMORY 64845
+#define JclResources_RsMapiErrACCESS_DENIED 64846
+#define JclResources_RsMapiErrTOO_MANY_SESSIONS 64847
+#define ObjAuto_sTooManyParams 64848
+#define SynHighlighterYAML_SYNS_FilterYAML 64849
+#define SynHighlighterYAML_SYNS_FriendlyLangYAML 64850
+#define SynHighlighterYAML_SYNS_FriendlyAttrDocumentDelimiter 64851
+#define SynHighlighterYAML_SYNS_FriendlyAttrKey 64852
+#define SynHighlighterYAML_SYNS_FriendlyAttrNumericValue 64853
+#define SynHighlighterYAML_SYNS_FriendlyAttrTextValue 64854
+#define SynHighlighterYAML_SYNS_FriendlyAttrTag 64855
+#define SynHighlighterYAML_SYNS_FriendlyAttrAnchor 64856
+#define DBConsts_SBcdOverflow 64857
+#define DBConsts_SInvalidBcdValue 64858
+#define DBConsts_SCouldNotParseTimeStamp 64859
+#define DBConsts_SInvalidSqlTimeStamp 64860
+#define TntLXUtils_SFileOpAborted 64861
+#define JclResources_RsWin32Prefix 64862
+#define JclResources_RsUnknownFunctionAt 64863
+#define SynEditStrConst_SYNS_FriendlyLangXML 64864
+#define SynEditStrConst_SYNS_FriendlyLangUnknown 64865
+#define SynEditTextBuffer_SListIndexOutOfBounds 64866
+#define SynEditTextBuffer_SInvalidCapacity 64867
+#define TB2Consts_STBToolbarIndexOutOfBounds 64868
+#define TB2Consts_STBToolbarItemReinserted 64869
+#define TB2Consts_STBViewerNotFound 64870
+#define TB2Consts_STBChevronItemMoreButtonsHint 64871
+#define TB2Consts_STBMRUListItemDefCaption 64872
+#define TB2Consts_STBDockParentNotAllowed 64873
+#define TB2Consts_STBDockCannotChangePosition 64874
+#define TB2Consts_STBToolwinDockedToNameNotSet 64875
+#define ObjAuto_sTypeMisMatch 64876
+#define ObjAuto_sInvalidDispID 64877
+#define ObjAuto_sParamRequired 64878
+#define ObjAuto_sMethodOver 64879
+#define SynEditStrConst_SYNS_FriendlyAttrWhitespace 64880
+#define SynEditStrConst_SYNS_ScrollInfoFmt 64881
+#define SynEditStrConst_SYNS_ScrollInfoFmtTop 64882
+#define SynEditStrConst_SYNS_PreviewScrollInfoFmt 64883
+#define SynEditStrConst_SYNS_EDuplicateShortcut 64884
+#define SynEditStrConst_SYNS_FilterCPP 64885
+#define SynEditStrConst_SYNS_FilterHTML 64886
+#define SynEditStrConst_SYNS_FilterPython 64887
+#define SynEditStrConst_SYNS_FilterINI 64888
+#define SynEditStrConst_SYNS_FilterCSS 64889
+#define SynEditStrConst_SYNS_FilterXML 64890
+#define SynEditStrConst_SYNS_FriendlyLangCPP 64891
+#define SynEditStrConst_SYNS_FriendlyLangHTML 64892
+#define SynEditStrConst_SYNS_FriendlyLangPython 64893
+#define SynEditStrConst_SYNS_FriendlyLangINI 64894
+#define SynEditStrConst_SYNS_FriendlyLangCSS 64895
+#define SynEditStrConst_SYNS_FriendlyAttrNumber 64896
+#define SynEditStrConst_SYNS_FriendlyAttrOctal 64897
+#define SynEditStrConst_SYNS_FriendlyAttrPreprocessor 64898
+#define SynEditStrConst_SYNS_FriendlyAttrProcessingInstr 64899
+#define SynEditStrConst_SYNS_FriendlyAttrProperty 64900
+#define SynEditStrConst_SYNS_FriendlyAttrReservedWord 64901
+#define SynEditStrConst_SYNS_FriendlyAttrSection 64902
+#define SynEditStrConst_SYNS_FriendlyAttrSpace 64903
+#define SynEditStrConst_SYNS_FriendlyAttrString 64904
+#define SynEditStrConst_SYNS_FriendlyAttrSymbol 64905
+#define SynEditStrConst_SYNS_FriendlyAttrSyntaxError 64906
+#define SynEditStrConst_SYNS_FriendlyAttrSystem 64907
+#define SynEditStrConst_SYNS_FriendlyAttrText 64908
+#define SynEditStrConst_SYNS_FriendlyAttrUndefinedProperty 64909
+#define SynEditStrConst_SYNS_FriendlyAttrUnknownWord 64910
+#define SynEditStrConst_SYNS_FriendlyAttrValue 64911
 #define SynEditStrConst_SYNS_FriendlyAttrColor 64912
 #define SynEditStrConst_SYNS_FriendlyAttrComment 64913
-#define SynEditStrConst_SYNS_FriendlyAttrDOCTYPESection 64914
-#define SynEditStrConst_SYNS_FriendlyAttrDocumentation 64915
-#define SynEditStrConst_SYNS_FriendlyAttrElementName 64916
-#define SynEditStrConst_SYNS_FriendlyAttrEntityReference 64917
-#define SynEditStrConst_SYNS_FriendlyAttrEscapeAmpersand 64918
-#define SynEditStrConst_SYNS_FriendlyAttrFloat 64919
-#define SynEditStrConst_SYNS_FriendlyAttrHexadecimal 64920
-#define SynEditStrConst_SYNS_FriendlyAttrIdentifier 64921
-#define SynEditStrConst_SYNS_FriendlyAttrIllegalChar 64922
-#define SynEditStrConst_SYNS_FriendlyAttrKey 64923
-#define SynEditStrConst_SYNS_FriendlyAttrNamespaceAttrName 64924
-#define SynEditStrConst_SYNS_FriendlyAttrNamespaceAttrValue 64925
-#define SynEditStrConst_SYNS_FriendlyAttrNonReservedKeyword 64926
-#define SynEditStrConst_SYNS_FriendlyAttrNumber 64927
+#define SynEditStrConst_SYNS_FriendlyAttrDirective 64914
+#define SynEditStrConst_SYNS_FriendlyAttrDOCTYPESection 64915
+#define SynEditStrConst_SYNS_FriendlyAttrDocumentation 64916
+#define SynEditStrConst_SYNS_FriendlyAttrElementName 64917
+#define SynEditStrConst_SYNS_FriendlyAttrEntityReference 64918
+#define SynEditStrConst_SYNS_FriendlyAttrEscapeAmpersand 64919
+#define SynEditStrConst_SYNS_FriendlyAttrFloat 64920
+#define SynEditStrConst_SYNS_FriendlyAttrHexadecimal 64921
+#define SynEditStrConst_SYNS_FriendlyAttrIdentifier 64922
+#define SynEditStrConst_SYNS_FriendlyAttrIllegalChar 64923
+#define SynEditStrConst_SYNS_FriendlyAttrKey 64924
+#define SynEditStrConst_SYNS_FriendlyAttrNamespaceAttrName 64925
+#define SynEditStrConst_SYNS_FriendlyAttrNamespaceAttrValue 64926
+#define SynEditStrConst_SYNS_FriendlyAttrNonReservedKeyword 64927
 #define JvResources_RsClInfoText 64928
 #define JvResources_RsClInfoBk 64929
 #define JvResources_RsGradientActiveCaption 64930
@@ -970,29 +966,6 @@
 #define SysConst_SInvalidInput 65535
 STRINGTABLE
 BEGIN
-	dlgExceptionMail_RsMissingVersionInfo,	"(no version info)"
-	dlgExceptionMail_RsSendBugReportAddress,	"pyscripter@gmail.com"
-	dlgExceptionMail_RsSendBugReportSubject,	"PyScripter Bug Report"
-	SynHighlighterYAML_SYNS_FilterYAML,	"All files (*.yaml)|*.yaml"
-	SynHighlighterYAML_SYNS_LangYAML,	"YAML"
-	SynHighlighterYAML_SYNS_FriendlyLangYAML,	"YAML"
-	SynHighlighterYAML_SYNS_AttrDocumentDelimiter,	"DocumentDelimiter"
-	SynHighlighterYAML_SYNS_FriendlyAttrDocumentDelimiter,	"DocumentDelimiter"
-	SynHighlighterYAML_SYNS_AttrKeyword,	"Keyword"
-	SynHighlighterYAML_SYNS_FriendlyAttrKeyword,	"Keyword"
-	SynHighlighterYAML_SYNS_AttrNumericValue,	"NumericValue"
-	SynHighlighterYAML_SYNS_FriendlyAttrNumericValue,	"NumericValue"
-	SynHighlighterYAML_SYNS_AttrTextBlockMarker,	"TextBlockMarker"
-	SynHighlighterYAML_SYNS_FriendlyAttrTextBlockMarker,	"TextBlockMarker"
-	SynHighlighterYAML_SYNS_AttrTextValue,	"TextValue"
-	SynHighlighterYAML_SYNS_FriendlyAttrTextValue,	"TextValue"
-	frmFunctionList_SNoneString,	"<None>"
-	frmFunctionList_SParseStatistics,	"Module processed in %g seconds"
-	frmFunctionList_SInvalidIndex,	"Invalid index number"
-	dmCommands_S_ERROR_NO_ERROR_STRING,	"Unspecified WinInet error"
-	dlgExceptionMail_RsAppError,	"%s - application error"
-	dlgExceptionMail_RsExceptionClass,	"Exception class: %s"
-	dlgExceptionMail_RsExceptionMessage,	"Exception message: %s"
 	dlgExceptionMail_RsExceptionAddr,	"Exception address: %p"
 	dlgExceptionMail_RsStackList,	"Stack list, generated %s"
 	dlgExceptionMail_RsModulesList,	"List of loaded modules:"
@@ -1002,13 +975,9 @@ BEGIN
 	dlgExceptionMail_RsScreenRes,	"Display  : %dx%d pixels, %d bpp"
 	dlgExceptionMail_RsActiveControl,	"Active Controls hierarchy:"
 	dlgExceptionMail_RsThread,	"Thread: %s"
-	SynHighlighterPython_SYNS_FriendlyAttrTraceback,	"Traceback"
-	SynHighlighterPython_SYNS_AttrPrompt,	"Prompt"
-	SynHighlighterPython_SYNS_FriendlyAttrPrompt,	"Prompt"
-	SynHighlighterPython_SYNS_LangPythonInterpreter,	"Python Interpreter"
-	SynHighlighterPython_SYNS_FriendlyLangPythonInterpreter,	"Python Interpreter"
-	dlgConfirmReplace_SAskReplaceText,	"Replace this occurence of \"%s\"?"
-	dlgReplaceInFiles_SGrepResultsNotActive,	"The Find in Files Results window is not active"
+	dlgExceptionMail_RsMissingVersionInfo,	"(no version info)"
+	dlgExceptionMail_RsSendBugReportAddress,	"pyscripter@gmail.com"
+	dlgExceptionMail_RsSendBugReportSubject,	"PyScripter Bug Report"
 	frmToDo_SHigh,	"High"
 	frmToDo_SNormal,	"Normal"
 	frmToDo_SLow,	"Low"
@@ -1018,13 +987,13 @@ BEGIN
 	cFindInFiles_SNoFileOpen,	"No editor is currently active"
 	WinHelpViewer_hNoKeyword,	"No help keyword specified."
 	frmFunctionList_SAllString,	"<All>"
-	VarPyth_SCantConvertArg,	"Can't convert argument #%d of %s into a Python object"
-	VarPyth_SCantConvertKeyToPythonObject,	"Can't convert Key into a Python object"
-	VarPyth_SCantConvertValueToPythonObject,	"Can't convert Value into a Python object"
-	VarPyth_SCantCreateNewSequenceObject,	"Can't create a new sequence object"
-	VarPyth_SExpectedPythonVariant,	"Expected a Python variant"
-	SynHighlighterPython_SYNS_CommentedCode,	"Commented Code"
-	SynHighlighterPython_SYNS_FunctionName,	"Function Name"
+	frmFunctionList_SNoneString,	"<None>"
+	frmFunctionList_SParseStatistics,	"Module processed in %g seconds"
+	frmFunctionList_SInvalidIndex,	"Invalid index number"
+	dmCommands_S_ERROR_NO_ERROR_STRING,	"Unspecified WinInet error"
+	dlgExceptionMail_RsAppError,	"%s - application error"
+	dlgExceptionMail_RsExceptionClass,	"Exception class: %s"
+	dlgExceptionMail_RsExceptionMessage,	"Exception message: %s"
 	SynHighlighterPython_SYNS_ClassName,	"Class Name"
 	SynHighlighterPython_SYNS_FriendlyCommentedCode,	"Commented Code"
 	SynHighlighterPython_SYNS_FriendlyFunctionName,	"Function Name"
@@ -1034,13 +1003,13 @@ BEGIN
 	SynHighlighterPython_SYNS_AttrOutput,	"Output"
 	SynHighlighterPython_SYNS_FriendlyAttrOutput,	"Output"
 	SynHighlighterPython_SYNS_AttrTraceback,	"Traceback"
-	JvDockGlobals_RsDockJvDockTreeCloseBtnHint,	"Close"
-	JvDockGlobals_RsDockVSNETDockTreeAutoHideBtnHint,	"Auto Hide"
-	JvDockGlobals_RsEDockControlCannotIsNil,	"Control can not be nil"
-	JvDockGlobals_RsEDockCannotGetValueWithNoOrient,	"Cannot get data of control that has no dock orientation"
-	JvDockGlobals_RsEDockCannotSetValueWithNoOrient,	"Cannot set data of control that has no dock orientation"
-	JvDockGlobals_RsEDockCannotLayAnother,	"Only one %s allowed on each form. Cannot add another %s"
-	JvDockGlobals_RsEDockCannotSetTabPosition,	"Cannot set TabPosition property to tpLeft or tpRight"
+	SynHighlighterPython_SYNS_FriendlyAttrTraceback,	"Traceback"
+	SynHighlighterPython_SYNS_AttrPrompt,	"Prompt"
+	SynHighlighterPython_SYNS_FriendlyAttrPrompt,	"Prompt"
+	SynHighlighterPython_SYNS_LangPythonInterpreter,	"Python Interpreter"
+	SynHighlighterPython_SYNS_FriendlyLangPythonInterpreter,	"Python Interpreter"
+	dlgConfirmReplace_SAskReplaceText,	"Replace this occurence of \"%s\"?"
+	dlgReplaceInFiles_SGrepResultsNotActive,	"The Find in Files Results window is not active"
 	JvDockGlobals_RsDockCannotFindWindow,	"Cannot find window"
 	SpTBXCustomizerForm_SSpTBXCustomizerFormChangeShortcut,	"The shortcut is already being used by the \"%s\" command. Do you want to reassign it to the \"%s\" command?"
 	SpTBXCustomizerForm_SSpTBXCustomizerFormChangeShortcutTitle,	"Change Shortcut"
@@ -1050,13 +1019,13 @@ BEGIN
 	OleConst_SNotLicensed,	"License information for %s not found. You cannot use this control in design mode"
 	OleConst_sNoRunningObject,	"Unable to retrieve a pointer to a running object registered with OLE for %s/%s"
 	VarPyth_SMultiDimensionalPropsNotSupported,	"Multi-dimensional sequences or mappings are not supported in Python"
-	JclResources_RsProductTypeServer,	"Server"
-	JclResources_RsProductTypeAdvancedServer,	"Advanced Server"
-	JclResources_RsProductTypePersonal,	"Home Edition"
-	JclResources_RsProductTypeProfessional,	"Professional"
-	JclResources_RsProductTypeDatacenterServer,	"Datacenter Server"
-	JclResources_RsProductTypeEnterprise,	"Enterprise"
-	JclResources_RsProductTypeWebEdition,	"Web Edition"
+	VarPyth_SCantConvertArg,	"Can't convert argument #%d of %s into a Python object"
+	VarPyth_SCantConvertKeyToPythonObject,	"Can't convert Key into a Python object"
+	VarPyth_SCantConvertValueToPythonObject,	"Can't convert Value into a Python object"
+	VarPyth_SCantCreateNewSequenceObject,	"Can't create a new sequence object"
+	VarPyth_SExpectedPythonVariant,	"Expected a Python variant"
+	SynHighlighterPython_SYNS_CommentedCode,	"Commented Code"
+	SynHighlighterPython_SYNS_FunctionName,	"Function Name"
 	JclResources_RsCannotWriteRefStream,	"Can not write to a read-only memory stream"
 	JclResources_RsHasNotTD32Info,	"File [%s] has not TD32 debug information!"
 	JclResources_RsELibraryNotFound,	"Library not found: %s"
@@ -1066,13 +1035,13 @@ BEGIN
 	JConsts_sJPEGImageFile,	"JPEG Image File"
 	JvDockGlobals_RsDockStringSplitter,	" "
 	JvDockGlobals_RsDockJvDockInfoSplitter,	"@"
-	JclResources_RsUnknownAMDModel,	"Unknown AMD (Model %d)"
-	JclResources_RsOSVersionWin95,	"Windows 95"
-	JclResources_RsOSVersionWin95OSR2,	"Windows 95 OSR2"
-	JclResources_RsOSVersionWin98,	"Windows 98"
-	JclResources_RsOSVersionWin98SE,	"Windows 98 SE"
-	JclResources_RsOSVersionWinME,	"Windows ME"
-	JclResources_RsOSVersionWinNT3,	"Windows NT 3.%u"
+	JvDockGlobals_RsDockJvDockTreeCloseBtnHint,	"Close"
+	JvDockGlobals_RsDockVSNETDockTreeAutoHideBtnHint,	"Auto Hide"
+	JvDockGlobals_RsEDockControlCannotIsNil,	"Control can not be nil"
+	JvDockGlobals_RsEDockCannotGetValueWithNoOrient,	"Cannot get data of control that has no dock orientation"
+	JvDockGlobals_RsEDockCannotSetValueWithNoOrient,	"Cannot set data of control that has no dock orientation"
+	JvDockGlobals_RsEDockCannotLayAnother,	"Only one %s allowed on each form. Cannot add another %s"
+	JvDockGlobals_RsEDockCannotSetTabPosition,	"Cannot set TabPosition property to tpLeft or tpRight"
 	JclResources_RsOSVersionWinNT4,	"Windows NT 4.%u"
 	JclResources_RsOSVersionWin2000,	"Windows 2000"
 	JclResources_RsOSVersionWinXP,	"Windows XP"
@@ -1082,13 +1051,13 @@ BEGIN
 	JclResources_RsOSVersionWinVista,	"Windows Vista"
 	JclResources_RsOSVersionWinServer2008,	"Windows Server 2008"
 	JclResources_RsProductTypeWorkStation,	"Workstation"
-	JclResources_RsIntelCacheDescr7A,	"2nd-level cache: 256 KBytes, 8-way set associative, 64 bytes line size, 2 lines per sector"
-	JclResources_RsIntelCacheDescr7B,	"2nd-level cache: 512 KBytes, 8-way set associative, 64 bytes line size, 2 lines per sector"
-	JclResources_RsIntelCacheDescr7C,	"2nd-level cache: 1 MBytes, 8-way set associative, 64 bytes line size, 2 lines per sector"
-	JclResources_RsIntelCacheDescr7D,	"2nd-level cache: 2 MBytes, 8-way set associative, 64 byte line size"
-	JclResources_RsIntelCacheDescr7F,	"2nd-level cache: 512 KBytes, 2-way set associative, 64 byte line size"
-	JclResources_RsIntelCacheDescr82,	"2nd-level cache: 256 KBytes, 8-way associative, 32 byte line size"
-	JclResources_RsIntelCacheDescr83,	"2nd-level cache: 512 KBytes, 8-way associative, 32 byte line size"
+	JclResources_RsProductTypeServer,	"Server"
+	JclResources_RsProductTypeAdvancedServer,	"Advanced Server"
+	JclResources_RsProductTypePersonal,	"Home Edition"
+	JclResources_RsProductTypeProfessional,	"Professional"
+	JclResources_RsProductTypeDatacenterServer,	"Datacenter Server"
+	JclResources_RsProductTypeEnterprise,	"Enterprise"
+	JclResources_RsProductTypeWebEdition,	"Web Edition"
 	JclResources_RsIntelCacheDescr84,	"2nd-level cache: 1 MBytes, 8-way associative, 32 byte line size"
 	JclResources_RsIntelCacheDescr85,	"2nd-level cache: 2 MBytes, 8-way associative, 32 byte line size"
 	JclResources_RsIntelCacheDescr86,	"2nd-level cache: 512 KByte, 4-way set associative, 64 byte line size"
@@ -1098,13 +1067,13 @@ BEGIN
 	JclResources_RsIntelCacheDescrB4,	"Data TLB1: 4 KByte pages, 4-way set associative, 256 entries"
 	JclResources_RsIntelCacheDescrF0,	"64-Byte Prefetching"
 	JclResources_RsIntelCacheDescrF1,	"128-Byte Prefetching"
-	JclResources_RsIntelCacheDescr51,	"Instruction TLB: 4 KByte and 2 MByte or 4 MByte pages, 128 Entries"
-	JclResources_RsIntelCacheDescr52,	"Instruction TLB: 4 KByte and 2 MByte or 4 MByte pages, 256 Entries"
-	JclResources_RsIntelCacheDescr56,	"Data TLB0: 4 MByte pages, 4-way set associative, 16 entries"
-	JclResources_RsIntelCacheDescr57,	"Data TLB0: 4 KByte pages, 4-way associative, 16 entries"
-	JclResources_RsIntelCacheDescr5B,	"Data TLB: 4 KByte and 4 MByte pages, 64 Entries"
-	JclResources_RsIntelCacheDescr5C,	"Data TLB: 4 KByte and 4 MByte pages, 128 Entries"
-	JclResources_RsIntelCacheDescr5D,	"Data TLB: 4 KByte and 4 MByte pages, 256 Entries"
+	JclResources_RsUnknownAMDModel,	"Unknown AMD (Model %d)"
+	JclResources_RsOSVersionWin95,	"Windows 95"
+	JclResources_RsOSVersionWin95OSR2,	"Windows 95 OSR2"
+	JclResources_RsOSVersionWin98,	"Windows 98"
+	JclResources_RsOSVersionWin98SE,	"Windows 98 SE"
+	JclResources_RsOSVersionWinME,	"Windows ME"
+	JclResources_RsOSVersionWinNT3,	"Windows NT 3.%u"
 	JclResources_RsIntelCacheDescr60,	"1st-level data cache: 16 KByte, 8-way set associative, 64 byte line size"
 	JclResources_RsIntelCacheDescr66,	"1st-level data cache: 8 KBytes, 4-way set associative, 64 byte line size"
 	JclResources_RsIntelCacheDescr67,	"1st-level data cache: 16 KBytes, 4-way set associative, 64 byte line size"
@@ -1114,13 +1083,13 @@ BEGIN
 	JclResources_RsIntelCacheDescr72,	"Trace cache: 32 K-Ops, 8-way set associative"
 	JclResources_RsIntelCacheDescr78,	"2nd-level cache: 1 MBytes, 4-way set associative, 64 bytes line size"
 	JclResources_RsIntelCacheDescr79,	"2nd-level cache: 128 KBytes, 8-way set associative, 64 bytes line size, 2 lines per sector"
-	JclResources_RsIntelCacheDescr22,	"3rd level cache: 512 KBytes, 4-way set associative, 64 byte line size, 2 lines per sector"
-	JclResources_RsIntelCacheDescr23,	"3rd level cache: 1 MBytes, 8-way set associative, 64 byte line size, 2 lines per sector"
-	JclResources_RsIntelCacheDescr25,	"3rd level cache: 2 MBytes, 8-way set associative, 64 byte line size, 2 lines per sector"
-	JclResources_RsIntelCacheDescr29,	"3rd level cache: 4 MBytes, 8-way set associative, 64 byte line size, 2 lines per sector"
-	JclResources_RsIntelCacheDescr2C,	"1st level data cache: 32 KBytes, 8-way set associative, 64 byte line size"
-	JclResources_RsIntelCacheDescr30,	"1st level instruction cache: 32 KBytes, 8-way set associative, 64 byte line size"
-	JclResources_RsIntelCacheDescr40,	"No 2nd-level cache or, if processor contains a valid 2nd-level cache, no 3rd-level cache"
+	JclResources_RsIntelCacheDescr7A,	"2nd-level cache: 256 KBytes, 8-way set associative, 64 bytes line size, 2 lines per sector"
+	JclResources_RsIntelCacheDescr7B,	"2nd-level cache: 512 KBytes, 8-way set associative, 64 bytes line size, 2 lines per sector"
+	JclResources_RsIntelCacheDescr7C,	"2nd-level cache: 1 MBytes, 8-way set associative, 64 bytes line size, 2 lines per sector"
+	JclResources_RsIntelCacheDescr7D,	"2nd-level cache: 2 MBytes, 8-way set associative, 64 byte line size"
+	JclResources_RsIntelCacheDescr7F,	"2nd-level cache: 512 KBytes, 2-way set associative, 64 byte line size"
+	JclResources_RsIntelCacheDescr82,	"2nd-level cache: 256 KBytes, 8-way associative, 32 byte line size"
+	JclResources_RsIntelCacheDescr83,	"2nd-level cache: 512 KBytes, 8-way associative, 32 byte line size"
 	JclResources_RsIntelCacheDescr41,	"2nd-level cache: 128 KBytes, 4-way set associative, 32 byte line size"
 	JclResources_RsIntelCacheDescr42,	"2nd-level cache: 256 KBytes, 4-way set associative, 32 byte line size"
 	JclResources_RsIntelCacheDescr43,	"2nd-level cache: 512 KBytes, 4-way set associative, 32 byte line size"
@@ -1130,13 +1099,13 @@ BEGIN
 	JclResources_RsIntelCacheDescr47,	"3rd-level cache: 8 MBytes, 4-way set associative, 64 byte line size"
 	JclResources_RsIntelCacheDescr49,	"2nd-level cache: 4 MBytes, 16-way set associative, 64 byte line size"
 	JclResources_RsIntelCacheDescr50,	"Instruction TLB: 4 KByte and 2 MByte or 4 MByte pages, 64 Entries"
-	JclResources_RsBlankSearchString,	"Search string cannot be blank"
-	JclResources_RsInvalidEmptyStringItem,	"String list passed to StringsToMultiSz cannot contain empty strings."
-	JclResources_RsNumericConstantTooLarge,	"Numeric constant too large."
-	JclResources_RsSynchCreateEvent,	"Failed to create event"
-	JclResources_RsSynchCreateMutex,	"Failed to create mutex"
-	JclResources_RsIntelCacheDescr00,	"Null descriptor"
-	JclResources_RsIntelCacheDescr01,	"Instruction TLB: 4 KByte pages, 4-way set associative, 32 entries"
+	JclResources_RsIntelCacheDescr51,	"Instruction TLB: 4 KByte and 2 MByte or 4 MByte pages, 128 Entries"
+	JclResources_RsIntelCacheDescr52,	"Instruction TLB: 4 KByte and 2 MByte or 4 MByte pages, 256 Entries"
+	JclResources_RsIntelCacheDescr56,	"Data TLB0: 4 MByte pages, 4-way set associative, 16 entries"
+	JclResources_RsIntelCacheDescr57,	"Data TLB0: 4 KByte pages, 4-way associative, 16 entries"
+	JclResources_RsIntelCacheDescr5B,	"Data TLB: 4 KByte and 4 MByte pages, 64 Entries"
+	JclResources_RsIntelCacheDescr5C,	"Data TLB: 4 KByte and 4 MByte pages, 128 Entries"
+	JclResources_RsIntelCacheDescr5D,	"Data TLB: 4 KByte and 4 MByte pages, 256 Entries"
 	JclResources_RsIntelCacheDescr02,	"Instruction TLB: 4 MByte pages, 4-way set associative, 2 entries"
 	JclResources_RsIntelCacheDescr03,	"Data TLB: 4 KByte pages, 4-way set associative, 64 entries"
 	JclResources_RsIntelCacheDescr04,	"Data TLB: 4 MByte pages, 4-way set associative, 8 entries"
@@ -1146,13 +1115,13 @@ BEGIN
 	JclResources_RsIntelCacheDescr0A,	"1st level data cache: 8 KBytes, 2-way set associative, 32 byte line size"
 	JclResources_RsIntelCacheDescr0B,	"Instruction TLB: 4 MByte pages, 4-way set associative, 4 entries"
 	JclResources_RsIntelCacheDescr0C,	"1st level data cache: 16 KBytes, 4-way set associative, 32 byte line size"
-	JclResources_RsRTTINameList,	"Names: "
-	JclResources_RsRTTIClassName,	"Class name: "
-	JclResources_RsRTTIParent,	"Parent: "
-	JclResources_RsRTTIPropCount,	"Property count: "
-	JclResources_RsRTTIUnitName,	"Unit name: "
-	JclResources_RsRTTIBasedOn,	"Based on: "
-	JclResources_RsRTTIFloatType,	"Float type: "
+	JclResources_RsIntelCacheDescr22,	"3rd level cache: 512 KBytes, 4-way set associative, 64 byte line size, 2 lines per sector"
+	JclResources_RsIntelCacheDescr23,	"3rd level cache: 1 MBytes, 8-way set associative, 64 byte line size, 2 lines per sector"
+	JclResources_RsIntelCacheDescr25,	"3rd level cache: 2 MBytes, 8-way set associative, 64 byte line size, 2 lines per sector"
+	JclResources_RsIntelCacheDescr29,	"3rd level cache: 4 MBytes, 8-way set associative, 64 byte line size, 2 lines per sector"
+	JclResources_RsIntelCacheDescr2C,	"1st level data cache: 32 KBytes, 8-way set associative, 64 byte line size"
+	JclResources_RsIntelCacheDescr30,	"1st level instruction cache: 32 KBytes, 8-way set associative, 64 byte line size"
+	JclResources_RsIntelCacheDescr40,	"No 2nd-level cache or, if processor contains a valid 2nd-level cache, no 3rd-level cache"
 	JclResources_RsRTTIMethodKind,	"Method kind: "
 	JclResources_RsRTTIParamCount,	"Parameter count: "
 	JclResources_RsRTTIReturnType,	"Return type: "
@@ -1162,13 +1131,13 @@ BEGIN
 	JclResources_RsRTTIElNeedCleanup,	"Elements need clean up: "
 	JclResources_RsRTTIVarType,	"Variant type: "
 	JclResources_RsDeclarationFormat,	"// Declaration for '%s' not supported."
-	JclResources_RsRTTIPropRead,	"read"
-	JclResources_RsRTTIPropWrite,	"write"
-	JclResources_RsRTTIPropStored,	"stored"
-	JclResources_RsRTTIField,	"field"
-	JclResources_RsRTTIStaticMethod,	"static method"
-	JclResources_RsRTTIVirtualMethod,	"virtual method"
-	JclResources_RsRTTIIndex,	"index"
+	JclResources_RsBlankSearchString,	"Search string cannot be blank"
+	JclResources_RsInvalidEmptyStringItem,	"String list passed to StringsToMultiSz cannot contain empty strings."
+	JclResources_RsNumericConstantTooLarge,	"Numeric constant too large."
+	JclResources_RsSynchCreateEvent,	"Failed to create event"
+	JclResources_RsSynchCreateMutex,	"Failed to create mutex"
+	JclResources_RsIntelCacheDescr00,	"Null descriptor"
+	JclResources_RsIntelCacheDescr01,	"Instruction TLB: 4 KByte pages, 4-way set associative, 32 entries"
 	JclResources_RsRTTIDefault,	"default"
 	JclResources_RsRTTIName,	"Name: "
 	JclResources_RsRTTIType,	"Type: "
@@ -1178,13 +1147,13 @@ BEGIN
 	JclResources_RsRTTIOrdinalType,	"Ordinal type: "
 	JclResources_RsRTTIMinValue,	"Min value: "
 	JclResources_RsRTTIMaxValue,	"Max value: "
-	JclResources_RsHKLMShort,	"HKLM"
-	JclResources_RsHKUSShort,	"HKUS"
-	JclResources_RsHKPDShort,	"HKPD"
-	JclResources_RsHKCCShort,	"HKCC"
-	JclResources_RsHKDDShort,	"HKDD"
-	JclResources_RsRTTIValueOutOfRange,	"Value out of range (%s)."
-	JclResources_RsRTTIUnknownIdentifier,	"Unknown identifier '%s'."
+	JclResources_RsRTTINameList,	"Names: "
+	JclResources_RsRTTIClassName,	"Class name: "
+	JclResources_RsRTTIParent,	"Parent: "
+	JclResources_RsRTTIPropCount,	"Property count: "
+	JclResources_RsRTTIUnitName,	"Unit name: "
+	JclResources_RsRTTIBasedOn,	"Based on: "
+	JclResources_RsRTTIFloatType,	"Float type: "
 	JclResources_RsRTTIVar,	"var "
 	JclResources_RsRTTIConst,	"const "
 	JclResources_RsRTTIArrayOf,	"array of "
@@ -1194,13 +1163,13 @@ BEGIN
 	JclResources_RsRTTIFalse,	"False"
 	JclResources_RsRTTITypeError,	"???"
 	JclResources_RsRTTITypeInfoAt,	"Type info: %p"
-	JclResources_RsPeUnknownTarget,	"Unknown PE target"
-	JclResources_RsPeNotResDir,	"Not a resource directory"
-	JclResources_RsPeSectionNotFound,	"Section \"%s\" not found"
-	JclResources_RsUnableToOpenKeyRead,	"Unable to open key \"%s\\%s\" for read"
-	JclResources_RsUnableToAccessValue,	"Unable to open key \"%s\\%s\" and access value \"%s\""
-	JclResources_RsWrongDataType,	"\"%s\\%s\\%s\" is of wrong kind or size"
-	JclResources_RsInconsistentPath,	"\"%s\" does not match RootKey"
+	JclResources_RsRTTIPropRead,	"read"
+	JclResources_RsRTTIPropWrite,	"write"
+	JclResources_RsRTTIPropStored,	"stored"
+	JclResources_RsRTTIField,	"field"
+	JclResources_RsRTTIStaticMethod,	"static method"
+	JclResources_RsRTTIVirtualMethod,	"virtual method"
+	JclResources_RsRTTIIndex,	"index"
 	JclResources_RsHKCRLong,	"HKEY_CLASSES_ROOT"
 	JclResources_RsHKCULong,	"HKEY_CURRENT_USER"
 	JclResources_RsHKLMLong,	"HKEY_LOCAL_MACHINE"
@@ -1210,13 +1179,13 @@ BEGIN
 	JclResources_RsHKDDLong,	"HKEY_DYN_DATA"
 	JclResources_RsHKCRShort,	"HKCR"
 	JclResources_RsHKCUShort,	"HKCU"
-	JclResources_RsMapiErrTEXT_TOO_LARGE,	"Text too large"
-	JclResources_RsMapiErrINVALID_SESSION,	"Invalid session"
-	JclResources_RsMapiErrTYPE_NOT_SUPPORTED,	"Type not supported"
-	JclResources_RsMapiErrAMBIGUOUS_RECIPIENT,	"A recipient was specified ambiguously"
-	JclResources_RsMapiErrMESSAGE_IN_USE,	"Message in use"
-	JclResources_RsMapiErrNETWORK_FAILURE,	"Network failure"
-	JclResources_RsMapiErrINVALID_EDITFIELDS,	"Invalid edit fields"
+	JclResources_RsHKLMShort,	"HKLM"
+	JclResources_RsHKUSShort,	"HKUS"
+	JclResources_RsHKPDShort,	"HKPD"
+	JclResources_RsHKCCShort,	"HKCC"
+	JclResources_RsHKDDShort,	"HKDD"
+	JclResources_RsRTTIValueOutOfRange,	"Value out of range (%s)."
+	JclResources_RsRTTIUnknownIdentifier,	"Unknown identifier '%s'."
 	JclResources_RsMapiErrINVALID_RECIPS,	"Invalid recipients"
 	JclResources_RsMapiErrNOT_SUPPORTED,	"Not supported"
 	JclResources_RsMapiMailORIG,	"From"
@@ -1226,13 +1195,13 @@ BEGIN
 	JclResources_RsPeReadOnlyStream,	"Stream is read-only"
 	JclResources_RsPeCantOpen,	"Cannot open file \"%s\""
 	JclResources_RsPeNotPE,	"This is not a PE format"
-	JclResources_RsMapiErrUSER_ABORT,	"User abort"
-	JclResources_RsMapiErrFAILURE,	"General MAPI failure"
-	JclResources_RsMapiErrLOGIN_FAILURE,	"MAPI login failure"
-	JclResources_RsMapiErrDISK_FULL,	"Disk full"
-	JclResources_RsMapiErrINSUFFICIENT_MEMORY,	"Insufficient memory"
-	JclResources_RsMapiErrACCESS_DENIED,	"Access denied"
-	JclResources_RsMapiErrTOO_MANY_SESSIONS,	"Too many sessions"
+	JclResources_RsPeUnknownTarget,	"Unknown PE target"
+	JclResources_RsPeNotResDir,	"Not a resource directory"
+	JclResources_RsPeSectionNotFound,	"Section \"%s\" not found"
+	JclResources_RsUnableToOpenKeyRead,	"Unable to open key \"%s\\%s\" for read"
+	JclResources_RsUnableToAccessValue,	"Unable to open key \"%s\\%s\" and access value \"%s\""
+	JclResources_RsWrongDataType,	"\"%s\\%s\\%s\" is of wrong kind or size"
+	JclResources_RsInconsistentPath,	"\"%s\" does not match RootKey"
 	JclResources_RsMapiErrTOO_MANY_FILES,	"Too many files were specified"
 	JclResources_RsMapiErrTOO_MANY_RECIPIENTS,	"Too many recipients were specified"
 	JclResources_RsMapiErrATTACHMENT_NOT_FOUND,	"A specified attachment was not found"
@@ -1242,13 +1211,13 @@ BEGIN
 	JclResources_RsMapiErrBAD_RECIPTYPE,	"Bad recipient type"
 	JclResources_RsMapiErrNO_MESSAGES,	"No messages"
 	JclResources_RsMapiErrINVALID_MESSAGE,	"Invalid message"
-	DBConsts_SBcdOverflow,	"BCD overflow"
-	DBConsts_SInvalidBcdValue,	"%s is not a valid BCD value"
-	DBConsts_SCouldNotParseTimeStamp,	"Could not parse SQL TimeStamp string"
-	DBConsts_SInvalidSqlTimeStamp,	"Invalid SQL date/time values"
-	TntLXUtils_SFileOpAborted,	"The file operation was aborted."
-	JclResources_RsWin32Prefix,	"Win32: %s (%u)"
-	JclResources_RsUnknownFunctionAt,	"Unknown function at %s"
+	JclResources_RsMapiErrTEXT_TOO_LARGE,	"Text too large"
+	JclResources_RsMapiErrINVALID_SESSION,	"Invalid session"
+	JclResources_RsMapiErrTYPE_NOT_SUPPORTED,	"Type not supported"
+	JclResources_RsMapiErrAMBIGUOUS_RECIPIENT,	"A recipient was specified ambiguously"
+	JclResources_RsMapiErrMESSAGE_IN_USE,	"Message in use"
+	JclResources_RsMapiErrNETWORK_FAILURE,	"Network failure"
+	JclResources_RsMapiErrINVALID_EDITFIELDS,	"Invalid edit fields"
 	JclResources_RsCannotCreateDir,	"Unable to create directory"
 	JclResources_RsFileUtilsNoVersionInfo,	"File contains no version information"
 	JclResources_RsCreateFileMapping,	"Failed to create FileMapping"
@@ -1258,6 +1227,30 @@ BEGIN
 	JclResources_RsMapiError,	"MAPI Error: (%d) \"%s\""
 	JclResources_RsMapiMissingExport,	"Function \"%s\" is not exported by client"
 	JclResources_RsMapiMailNoClient,	"No Simple MAPI client installed, cannot send the message"
+	JclResources_RsMapiErrUSER_ABORT,	"User abort"
+	JclResources_RsMapiErrFAILURE,	"General MAPI failure"
+	JclResources_RsMapiErrLOGIN_FAILURE,	"MAPI login failure"
+	JclResources_RsMapiErrDISK_FULL,	"Disk full"
+	JclResources_RsMapiErrINSUFFICIENT_MEMORY,	"Insufficient memory"
+	JclResources_RsMapiErrACCESS_DENIED,	"Access denied"
+	JclResources_RsMapiErrTOO_MANY_SESSIONS,	"Too many sessions"
+	ObjAuto_sTooManyParams,	"Too many parameters for method %s"
+	SynHighlighterYAML_SYNS_FilterYAML,	"YAML files (*.yaml)|*.yaml"
+	SynHighlighterYAML_SYNS_FriendlyLangYAML,	"YAML"
+	SynHighlighterYAML_SYNS_FriendlyAttrDocumentDelimiter,	"Document Delimiter"
+	SynHighlighterYAML_SYNS_FriendlyAttrKey,	"Key"
+	SynHighlighterYAML_SYNS_FriendlyAttrNumericValue,	"Numeric Value"
+	SynHighlighterYAML_SYNS_FriendlyAttrTextValue,	"Text Value"
+	SynHighlighterYAML_SYNS_FriendlyAttrTag,	"Tag"
+	SynHighlighterYAML_SYNS_FriendlyAttrAnchor,	"Anchor"
+	DBConsts_SBcdOverflow,	"BCD overflow"
+	DBConsts_SInvalidBcdValue,	"%s is not a valid BCD value"
+	DBConsts_SCouldNotParseTimeStamp,	"Could not parse SQL TimeStamp string"
+	DBConsts_SInvalidSqlTimeStamp,	"Invalid SQL date/time values"
+	TntLXUtils_SFileOpAborted,	"The file operation was aborted."
+	JclResources_RsWin32Prefix,	"Win32: %s (%u)"
+	JclResources_RsUnknownFunctionAt,	"Unknown function at %s"
+	SynEditStrConst_SYNS_FriendlyLangXML,	"XML"
 	SynEditStrConst_SYNS_FriendlyLangUnknown,	"<Unknown>"
 	SynEditTextBuffer_SListIndexOutOfBounds,	"Invalid stringlist index %d"
 	SynEditTextBuffer_SInvalidCapacity,	"Stringlist capacity cannot be smaller than count"
@@ -1273,7 +1266,7 @@ BEGIN
 	ObjAuto_sInvalidDispID,	"Invalid DispID for parameter %d in method %s"
 	ObjAuto_sParamRequired,	"Parameter %d required for method %s"
 	ObjAuto_sMethodOver,	"Method definition for %s has over %d parameters"
-	ObjAuto_sTooManyParams,	"Too many parameters for method %s"
+	SynEditStrConst_SYNS_FriendlyAttrWhitespace,	"Whitespace"
 	SynEditStrConst_SYNS_ScrollInfoFmt,	"%d - %d"
 	SynEditStrConst_SYNS_ScrollInfoFmtTop,	"Top Line: %d"
 	SynEditStrConst_SYNS_PreviewScrollInfoFmt,	"Page: %d"
@@ -1289,7 +1282,7 @@ BEGIN
 	SynEditStrConst_SYNS_FriendlyLangPython,	"Python"
 	SynEditStrConst_SYNS_FriendlyLangINI,	"INI"
 	SynEditStrConst_SYNS_FriendlyLangCSS,	"Cascading Style Sheet"
-	SynEditStrConst_SYNS_FriendlyLangXML,	"XML"
+	SynEditStrConst_SYNS_FriendlyAttrNumber,	"Number"
 	SynEditStrConst_SYNS_FriendlyAttrOctal,	"Octal"
 	SynEditStrConst_SYNS_FriendlyAttrPreprocessor,	"Preprocessor"
 	SynEditStrConst_SYNS_FriendlyAttrProcessingInstr,	"Processing Instruction"
@@ -1305,9 +1298,9 @@ BEGIN
 	SynEditStrConst_SYNS_FriendlyAttrUndefinedProperty,	"Undefined Property"
 	SynEditStrConst_SYNS_FriendlyAttrUnknownWord,	"Unknown Word"
 	SynEditStrConst_SYNS_FriendlyAttrValue,	"Value"
-	SynEditStrConst_SYNS_FriendlyAttrWhitespace,	"Whitespace"
 	SynEditStrConst_SYNS_FriendlyAttrColor,	"Color Value"
 	SynEditStrConst_SYNS_FriendlyAttrComment,	"Comment"
+	SynEditStrConst_SYNS_FriendlyAttrDirective,	"Directive"
 	SynEditStrConst_SYNS_FriendlyAttrDOCTYPESection,	"DOCTYPE Section"
 	SynEditStrConst_SYNS_FriendlyAttrDocumentation,	"Documentation"
 	SynEditStrConst_SYNS_FriendlyAttrElementName,	"Element Name"
@@ -1321,7 +1314,6 @@ BEGIN
 	SynEditStrConst_SYNS_FriendlyAttrNamespaceAttrName,	"Namespace Attribute Name"
 	SynEditStrConst_SYNS_FriendlyAttrNamespaceAttrValue,	"Namespace Attribute Value"
 	SynEditStrConst_SYNS_FriendlyAttrNonReservedKeyword,	"Non-reserved Keyword"
-	SynEditStrConst_SYNS_FriendlyAttrNumber,	"Number"
 	JvResources_RsClInfoText,	"Tooltip text"
 	JvResources_RsClInfoBk,	"Tooltip background"
 	JvResources_RsGradientActiveCaption,	"Gradient Active Caption"
