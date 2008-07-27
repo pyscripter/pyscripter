@@ -765,6 +765,7 @@ begin
   ckRightMouseMoves.Checked := eoRightMouseMovesCursor in FSynEdit.Options;
   ckEnhanceHomeKey.Checked := eoEnhanceHomeKey in FSynEdit.Options;
   ckEnhanceEndKey.Checked := eoEnhanceEndKey in FSynEdit.Options;
+  ckScrollHintFollows.Checked := eoScrollHintFollows in FSynEdit.Options;
   ckGroupUndo.Checked := eoGroupUndo in FSynEdit.Options;
   ckDisableScrollArrows.Checked := eoDisableScrollArrows in FSynEdit.Options;
   ckHideShowScrollbars.Checked := eoHideShowScrollbars in FSynEdit.Options;
@@ -849,6 +850,7 @@ begin
   SetFlag(eoEnhanceHomeKey, ckEnhanceHomeKey.Checked);
   SetFlag(eoEnhanceEndKey, ckEnhanceEndKey.Checked);
   SetFlag(eoGroupUndo, ckGroupUndo.Checked);
+  SetFlag(eoScrollHintFollows, ckScrollHintFollows.Checked);
   SetFlag(eoDisableScrollArrows, ckDisableScrollArrows.Checked);
   SetFlag(eoHideShowScrollbars, ckHideShowScrollbars.Checked);
   SetFlag(eoShowSpecialChars, ckShowSpecialChars.Checked);
@@ -1243,7 +1245,7 @@ begin
     begin
       wSynH := SelectedHighlighter;
       for loop := 0 to wSynH.AttrCount - 1 do
-        lbElements.Items.Add(wSynH.Attribute[loop].Name);
+        lbElements.Items.Add(wSynH.Attribute[loop].FriendlyName);
       synedit1.Highlighter := wSynH;
       SynEdit1.Lines.text := wSynH.SampleSource;
     end;

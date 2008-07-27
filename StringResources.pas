@@ -139,6 +139,7 @@ Const
   SErrorInSavingProject = 'Error in saving project: "%s".';
   SSaveProjectAs = 'Save Project As';
   SSaveProjectFileAs = 'Save Project "%s" As';
+  SProjectPythonPath = 'Project Python Path';
 
   // Search and Replace
   SStartReached = 'The starting point of the search was reached';

@@ -130,6 +130,7 @@ type
     fInterpreterCapabilities : TInterpreterCapabilities;
     fEngineType : TPythonEngineType;
   public
+    procedure Initialize; virtual;
     // Python Path
     function SysPathAdd(const Path : WideString) : boolean; virtual; abstract;
     function SysPathRemove(const Path : WideString) : boolean; virtual; abstract;
@@ -308,12 +309,16 @@ Const
 var
   PyControl : TPythonControl = nil;
 
+const
+   EngineInitFile = 'python_init.py';
+   PyScripterInitFile = 'pyscripter_init.py';
+
 implementation
 
 uses dmCommands, frmPythonII, VarPyth, frmMessages, frmPyIDEMain,
   MMSystem, Math, JvDockControlForm, JclFileUtils, Dialogs, uCommonFunctions,
   cParameters, JclSysUtils, StringResources, cPyDebugger,
-  frmCommandOutput, gnugettext, TntSysUtils;
+  frmCommandOutput, gnugettext, TntSysUtils, cProjectClasses;
 
 { TEditorPos }
 
@@ -411,6 +416,21 @@ begin
       end;
     end;
   end;
+end;
+
+procedure TPyBaseInterpreter.Initialize;
+Var
+  Source, FileName : WideString;
+begin
+  // Execute pyscripterEngineSetup.py
+  FileName := CommandsDataModule.UserDataDir + EngineInitFile;
+  if WideFileExists(FileName) then begin
+    Source := CleanEOLs(FileToWideStr(FileName))+#10;
+    RunSource(Source, FileName, 'exec');
+  end;
+  // Add extra project paths
+  if Assigned(ActiveProject) then
+    ActiveProject.AppendExtraPaths;
 end;
 
 procedure TPyBaseInterpreter.ReInitialize;

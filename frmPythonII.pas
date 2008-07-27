@@ -176,7 +176,7 @@ Uses
   frmMessages, uCommonFunctions, JclStrings, frmVariables, StringResources,
   dlgConfirmReplace, frmUnitTests, JvDockGlobals, SynRegExpr, 
   cPyDebugger, cPyRemoteDebugger, JvJVCLUtils, frmCallStack, uCmdLine,
-  JclFileUtils, gnugettext, TntDialogs, WideStrUtils;
+  JclFileUtils, gnugettext, TntDialogs, WideStrUtils, cProjectClasses;
 
 {$R *.dfm}
 
@@ -578,6 +578,7 @@ begin
   InternalInterpreter := TPyInternalInterpreter.Create(II);
   PyControl.ActiveInterpreter := InternalInterpreter;
   PyControl.ActiveDebugger := TPyInternalDebugger.Create;
+  InternalInterpreter.Initialize;
 end;
 
 procedure TPythonIIForm.FormDestroy(Sender: TObject);

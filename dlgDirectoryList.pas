@@ -40,6 +40,7 @@ type
     procedure btnMoveUpClick(Sender: TObject);
     procedure btnMoveDownClick(Sender: TObject);
     procedure btnDeleteClick(Sender: TObject);
+    procedure edPathChange(Sender: TObject);
   private
     procedure CheckButtons;
   end;
@@ -204,6 +205,11 @@ procedure TDirectoryListDialog.DirectoryListDragOver(Sender, Source: TObject;
   X, Y: Integer; State: TDragState; var Accept: Boolean);
 begin
   BoxDragOver(DirectoryList, Source, X, Y, State, Accept, DirectoryList.Sorted);
+  CheckButtons;
+end;
+
+procedure TDirectoryListDialog.edPathChange(Sender: TObject);
+begin
   CheckButtons;
 end;
 

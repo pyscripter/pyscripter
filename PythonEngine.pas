@@ -477,14 +477,16 @@ const
 //#######################################################
 
 type
-   TPChar  = array[0..16000] of PChar;
-   PPChar  = ^TPChar;
-   PInt	   = ^Integer;
-   PDouble = ^Double;
-   PFloat  = ^Real;
-   PLong   = ^LongInt;
-   PShort  = ^ShortInt;
-   PString = ^PChar;
+   TPChar     = array[0..16000] of PChar;
+   TPWideChar = array[0..16000] of PWideChar;
+   PPChar     = ^TPChar;
+   PPWideChar = ^TPWideChar;
+   PInt	      = ^Integer;
+   PDouble    = ^Double;
+   PFloat     = ^Real;
+   PLong      = ^LongInt;
+   PShort     = ^ShortInt;
+   PString    = ^PChar;
 
 
 //#######################################################
@@ -785,6 +787,30 @@ type
     // End of PyDescr_COMMON
     d_base : pwrapperbase;
     d_wrapped : Pointer; // This can be any function pointer
+  end;
+
+  PPyModuleDef_Base = ^PyModuleDef_Base;
+  PyModuleDef_Base = packed record
+    // Start of the Head of an object
+    ob_refcnt  : Integer;
+    ob_type    : PPyTypeObject;
+    // End of the Head of an object
+    m_init     : function( ) : PPyObject; cdecl;
+    m_index     : Integer;
+    m_copy : PPyObject;
+  end;
+
+  PPyModuleDef = ^PyModuleDef;
+  PyModuleDef = packed record
+    m_base : PyModuleDef_Base;
+    m_name : PChar;
+    m_doc : PChar;
+    m_size : Integer;
+    m_methods : PPyMethodDef;
+    m_reload : inquiry;
+    m_traverse : traverseproc;
+    m_clear : inquiry;
+    m_free : inquiry;
   end;
 
 {$ENDIF}
@@ -1826,6 +1852,7 @@ type
 
     Py_InitModule4: function( name: PChar; methods: PPyMethodDef; doc: PChar;
                               passthrough: PPyObject; Api_Version: Integer):PPyObject; cdecl;
+    PyModule_Create2:   function(moduledef: PPyModuleDef; Api_Version: Integer):PPyObject; cdecl;
     PyErr_BadArgument:  function: integer; cdecl;
     PyErr_BadInternalCall: procedure; cdecl;
     PyErr_CheckSignals: function: integer; cdecl;
@@ -1869,6 +1896,7 @@ type
     PyRun_SimpleString:   function( str: PChar): Integer; cdecl;
     PyString_AsString:    function( ob: PPyObject): PChar; cdecl;
     PySys_SetArgv:        procedure( argc: Integer; argv: PPChar); cdecl;
+    PySys_SetArgv3000:    procedure( argc: Integer; argv: PPWideChar); cdecl;
 
 {+ means, Grzegorz or me has tested his non object version of this function}
 {+} PyCFunction_New: function(md:PPyMethodDef;ob:PPyObject):PPyObject; cdecl;
@@ -2114,6 +2142,7 @@ type
 
 {New exported Objects in Python 1.5}
     Py_SetProgramName               : procedure( name: PChar); cdecl;
+    Py_SetProgramName3000           : procedure( name: PWideChar); cdecl;
     Py_IsInitialized                : function : integer; cdecl;
     Py_GetProgramFullPath           : function : PChar; cdecl;
     Py_NewInterpreter               : function : PPyThreadState; cdecl;
@@ -2335,6 +2364,7 @@ type
     FExecModule:                 String;
     FAutoFinalize:               Boolean;
     FProgramName:                String;
+    FProgramNameW:               WideString;
     FInitThreads:                Boolean;
     FOnPathInitialization:       TPathInitializationEvent;
     FOnSysPathInit:              TSysPathInitEvent;
@@ -3845,10 +3875,11 @@ begin
   Py_NoSiteFlag              := Import('Py_NoSiteFlag');
   Py_UseClassExceptionsFlag  := Import('Py_UseClassExceptionsFlag');
   Py_FrozenFlag              := Import('Py_FrozenFlag');
-  Py_TabcheckFlag            := Import('Py_TabcheckFlag');
 {$IFDEF PYTHON20_OR_HIGHER}
-  if not IsPython3000 then
+  if not IsPython3000 then begin
+    Py_TabcheckFlag            := Import('Py_TabcheckFlag');
     Py_UnicodeFlag             := Import('Py_UnicodeFlag');
+  end;
 {$ENDIF}
 {$IFDEF PYTHON22_OR_HIGHER}
   Py_IgnoreEnvironmentFlag   := Import('Py_IgnoreEnvironmentFlag');
@@ -3950,7 +3981,10 @@ begin
   PyObject_Type              := Import('PyObject_Type');
   PyRange_Type               := Import('PyRange_Type');
   PySlice_Type               := Import('PySlice_Type');
-  PyString_Type              := Import('PyString_Type');
+  if not IsPython3000 then
+    PyString_Type              := Import('PyString_Type')
+  else
+    PyString_Type              := Import('PyBytes_Type');
   PyTuple_Type               := Import('PyTuple_Type');
 {$IFDEF UNICODE_SUPPORT}
   PyUnicode_Type             := Import('PyUnicode_Type');
@@ -4018,7 +4052,10 @@ begin
   @PyDict_Copy               := Import('PyDict_Copy');
   @PyDictProxy_New           := Import('PyDictProxy_New');
 {$ENDIF}
-  @Py_InitModule4            := Import('Py_InitModule4');
+  if not IsPython3000 then
+    @Py_InitModule4            := Import('Py_InitModule4')
+  else
+    @PyModule_Create2           := Import('PyModule_Create2');
   @PyErr_Print               := Import('PyErr_Print');
   @PyErr_SetNone             := Import('PyErr_SetNone');
   @PyErr_SetObject           := Import('PyErr_SetObject');
@@ -4049,10 +4086,16 @@ begin
   @PyRun_String              := Import('PyRun_String');
   @PyRun_SimpleString        := Import('PyRun_SimpleString');
   @PyDict_GetItemString      := Import('PyDict_GetItemString');
-  @PyString_AsString         := Import('PyString_AsString');
+  if not IsPython3000 then
+    @PyString_AsString         := Import('PyString_AsString')
+  else
+    @PyString_AsString         := Import('PyBytes_AsString');
   if not IsPython3000 then
     @DLL_PyString_FromString   := Import('PyString_FromString');
-  @PySys_SetArgv             := Import('PySys_SetArgv');
+  if not IsPython3000 then
+    @PySys_SetArgv             := Import('PySys_SetArgv')
+  else
+    @PySys_SetArgv3000         := Import('PySys_SetArgv');
   @Py_Exit                   := Import('Py_Exit');
 
   @PyCFunction_New           :=Import('PyCFunction_New');
@@ -4239,16 +4282,24 @@ begin
   @PySlice_GetIndicesEx      :=Import('PySlice_GetIndicesEx');
 {$ENDIF}
   @PySlice_New               :=Import('PySlice_New');
-  @PyString_Concat           :=Import('PyString_Concat');
-  @PyString_ConcatAndDel     :=Import('PyString_ConcatAndDel');
-  if not IsPython3000 then
+  if not IsPython3000 then begin
+    @PyString_Concat           :=Import('PyString_Concat');
+    @PyString_ConcatAndDel     :=Import('PyString_ConcatAndDel');
     @PyString_Format           :=Import('PyString_Format');
-  @PyString_FromStringAndSize:=Import('PyString_FromStringAndSize');
-  @PyString_Size             :=Import('PyString_Size');
-{$IFDEF PYTHON23_OR_HIGHER}
-  @PyString_DecodeEscape     :=Import('PyString_DecodeEscape');
-  @PyString_Repr             :=Import('PyString_Repr');
-{$ENDIF}
+    @PyString_FromStringAndSize:=Import('PyString_FromStringAndSize');
+    @PyString_Size             :=Import('PyString_Size');
+    {$IFDEF PYTHON23_OR_HIGHER}
+      @PyString_DecodeEscape     :=Import('PyString_DecodeEscape');
+      @PyString_Repr             :=Import('PyString_Repr');
+    {$ENDIF}
+  end else begin
+    @PyString_Concat           :=Import('PyBytes_Concat');
+    @PyString_ConcatAndDel     :=Import('PyBytes_ConcatAndDel');
+    @PyString_FromStringAndSize:=Import('PyBytes_FromStringAndSize');
+    @PyString_Size             :=Import('PyBytes_Size');
+    @PyString_DecodeEscape     :=Import('PyBytes_DecodeEscape');
+    @PyString_Repr             :=Import('PyBytes_Repr');
+  end;
   @PySys_GetObject           :=Import('PySys_GetObject');
   //@PySys_Init                :=Import('PySys_Init');
   @PySys_SetObject           :=Import('PySys_SetObject');
@@ -4291,12 +4342,16 @@ begin
   //@Py_Cleanup                :=Import('Py_Cleanup');
   @Py_CompileString          :=Import('Py_CompileString');
   @Py_FatalError             :=Import('Py_FatalError');
-  @Py_FindMethod             :=Import('Py_FindMethod');
-  @Py_FindMethodInChain      :=Import('Py_FindMethodInChain');
-  if not IsPython3000 then
+  if not IsPython3000 then begin
+    @Py_FindMethod             :=Import('Py_FindMethod');
+    @Py_FindMethodInChain      :=Import('Py_FindMethodInChain');
     @DLL_Py_FlushLine        :=Import('Py_FlushLine');
+  end;
   @_PyObject_New             :=Import('_PyObject_New');
-  @_PyString_Resize          :=Import('_PyString_Resize');
+  if not IsPython3000 then
+    @_PyString_Resize          :=Import('_PyString_Resize')
+  else
+    @_PyString_Resize          :=Import('_PyBytes_Resize');
   @Py_Finalize                :=Import('Py_Finalize');
   if getProcAddress( FDLLHandle, 'PyCode_Addr2Line' ) <> nil then
     @DLL_PyCode_Addr2Line     := Import('PyCode_Addr2Line');
@@ -4334,6 +4389,7 @@ begin
      (DllName = PYTHON_KNOWN_VERSIONS[1].DllName) then
   begin
     @Py_SetProgramName         := nil;
+    @Py_SetProgramName3000     := nil;
     @Py_IsInitialized          := nil;
     @Py_GetProgramFullPath     := nil;
     @DLL_Py_GetBuildInfo       := nil;
@@ -4354,7 +4410,10 @@ begin
     @PyErr_SetInterrupt        := nil; 
   end else
   begin
-    @Py_SetProgramName        := Import('Py_SetProgramName');
+    if not IsPython3000 then
+      @Py_SetProgramName        := Import('Py_SetProgramName')
+    else
+      @Py_SetProgramName3000    := Import('Py_SetProgramName');
     @Py_IsInitialized         := Import('Py_IsInitialized');
     @Py_GetProgramFullPath    := Import('Py_GetProgramFullPath');
     if getProcAddress( FDLLHandle, 'Py_GetBuildInfo' ) <> nil then
@@ -4852,9 +4911,26 @@ begin
 end;
 
 function TPythonInterface.Py_InitModule( const AName : PChar; md : PPyMethodDef) : PPyObject;
+Var
+  moduledef : PyModuleDef;
+  modules  : PPyObject;
 begin
   CheckPython;
-  result := Py_InitModule4( AName, md, nil, nil, APIVersion );
+  if IsPython3000 then begin
+    FillChar(moduledef, SizeOf(moduledef), 0);
+    moduledef.m_base.ob_refcnt := 1;
+    moduledef.m_name := AName;
+    moduledef.m_methods := md;
+    moduledef.m_size := -1;
+    Result:= PyModule_Create2(@moduledef, APIVersion);
+    if not Assigned(Result) then
+      GetPythonEngine.CheckError;
+    // To emulate Py_InitModule4 we need to add the module to sys.modules
+    modules := PyImport_GetModuleDict;
+    if PyDict_SetItemString(modules, AName, Result) <> 0 then
+      GetPythonEngine.CheckError;
+  end else
+    Result := Py_InitModule4( AName, md, nil, nil, APIVersion );
 end;
 
 procedure TPythonInterface.Py_FlushLine; cdecl;
@@ -5179,10 +5255,11 @@ begin
   SetFlag(Py_NoSiteFlag,      pfNoSite in FPyFlags);
   SetFlag(Py_UseClassExceptionsFlag, pfUseClassExceptionsFlag in FPyFlags);
   SetFlag(Py_FrozenFlag,      pfFrozenFlag in FPyFlags);
-  SetFlag(Py_TabcheckFlag,    pfTabcheck in FPyFlags);
 {$IFDEF PYTHON20_OR_HIGHER}
-  if not IsPython3000 then
+  if not IsPython3000 then begin
     SetFlag(Py_UnicodeFlag,     pfUnicode in FPyFlags);
+    SetFlag(Py_TabcheckFlag,    pfTabcheck in FPyFlags);
+  end;
 {$ENDIF}
 {$IFDEF PYTHON22_OR_HIGHER}
   SetFlag(Py_IgnoreEnvironmentFlag, pfIgnoreEnvironmentFlag in FPyFlags);
@@ -5283,10 +5360,18 @@ begin
 
   gPythonEngine := Self;
   CheckRegistry;
-  if Assigned(Py_SetProgramName) then
-  begin
-    FProgramName := ParamStr(0);
-    Py_SetProgramName(PChar(FProgramName));
+  if IsPython3000 then begin
+    if Assigned(Py_SetProgramName3000) then
+    begin
+      FProgramNameW := ParamStr(0);
+      Py_SetProgramName3000(PWideChar(FProgramNameW));
+    end
+  end else begin
+    if Assigned(Py_SetProgramName) then
+    begin
+      FProgramName := ParamStr(0);
+      Py_SetProgramName(PChar(FProgramName));
+    end
   end;
   AssignPyFlags;
   Py_Initialize;
@@ -5425,26 +5510,46 @@ var
   buff : PChar;
   argv : PPChar;
   i, argc : Integer;
-  L : TStringList;
+  L : array of String;
+  wbuff : PWideChar;
+  wargv : PPWideChar;
+  WL : array of WideString;
 begin
   // we build a string list of the arguments, because ParamStr returns a volatile string
   // and we want to build an array of PChar, pointing to valid strings.
-  L := TStringList.Create;
   argc := ParamCount;
-  GetMem( buff, sizeof(PChar)*(argc+1) );
-  try
-    // get the strings
-    for i := 0 to argc do
-      L.Add( ParamStr(i) );
-    // build the PChar array
-    argv := PPChar(buff);
-    for i := 0 to L.Count-1 do
-      argv^[i] := PChar(L.Strings[i]);
-    // set the argv list of the sys module with the application arguments
-    PySys_SetArgv( L.Count, argv );
-  finally
-    FreeMem( buff );
-    L.Free;
+  if not IsPython3000 then begin
+    SetLength(L, argc+1);
+    GetMem( buff, sizeof(PChar)*(argc+1) );
+    try
+      argv := PPChar(buff);
+      // get the strings
+      // build the PChar array
+      for i := 0 to argc do begin
+        L[i] := ParamStr(i);
+        argv^[i] := PChar(L[i]);
+      end;
+      // set the argv list of the sys module with the application arguments
+      PySys_SetArgv( argc+1, argv );
+    finally
+      FreeMem( buff );
+    end;
+  end else begin
+    SetLength(WL, argc+1);
+    GetMem( wbuff, sizeof(PWideChar)*(argc+1) );
+    try
+      wargv := PPWideChar(wbuff);
+      // get the strings
+      // build the PChar array
+      for i := 0 to argc do begin
+        WL[i] := ParamStr(i);
+        wargv^[i] := PWideChar(WL[i]);
+      end;
+      // set the argv list of the sys module with the application arguments
+      PySys_SetArgv3000( argc + 1, wargv );
+    finally
+      FreeMem( wbuff );
+    end;
   end;
 end;
 
@@ -8238,7 +8343,11 @@ begin
   with GetPythonEngine do
     begin
       // check for a method
-      Result := Py_FindMethod( PythonType.MethodsData, GetSelf, key);
+      if IsPython3000 then
+        // I think Python 3000 from beta 2 gets the methods from the tp_methods field
+        Result := nil
+      else
+        Result := Py_FindMethod( PythonType.MethodsData, GetSelf, key);
       if not Assigned(Result) then
         PyErr_SetString (PyExc_AttributeError^, PChar(Format('Unknown attribute "%s"',[key])));
     end;

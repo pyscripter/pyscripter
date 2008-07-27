@@ -2,8 +2,9 @@ inherited ExceptionDialogMail: TExceptionDialogMail
   Left = 310
   Top = 255
   BorderIcons = [biSystemMenu]
-  ClientHeight = 255
-  ClientWidth = 432
+  BorderStyle = bsSizeable
+  ClientHeight = 245
+  ClientWidth = 422
   Constraints.MinWidth = 200
   Font.Name = 'MS Shell Dlg 2'
   KeyPreview = True
@@ -17,20 +18,21 @@ inherited ExceptionDialogMail: TExceptionDialogMail
   ExplicitWidth = 438
   ExplicitHeight = 281
   DesignSize = (
-    432
-    255)
+    422
+    245)
   PixelsPerInch = 96
   TextHeight = 13
   object BevelDetails: TBevel
     Left = 3
     Top = 91
-    Width = 422
+    Width = 412
     Height = 9
     Anchors = [akLeft, akTop, akRight]
     Shape = bsTopLine
+    ExplicitWidth = 422
   end
   object SendBtn: TSpTBXButton
-    Left = 351
+    Left = 341
     Top = 32
     Width = 75
     Height = 25
@@ -44,9 +46,10 @@ inherited ExceptionDialogMail: TExceptionDialogMail
     LinkFont.Height = -11
     LinkFont.Name = 'MS Shell Dlg 2'
     LinkFont.Style = [fsUnderline]
+    ExplicitLeft = 351
   end
   object OkBtn: TSpTBXButton
-    Left = 352
+    Left = 342
     Top = 4
     Width = 75
     Height = 25
@@ -60,9 +63,10 @@ inherited ExceptionDialogMail: TExceptionDialogMail
     LinkFont.Name = 'MS Shell Dlg 2'
     LinkFont.Style = [fsUnderline]
     ModalResult = 1
+    ExplicitLeft = 352
   end
   object DetailsBtn: TSpTBXButton
-    Left = 352
+    Left = 342
     Top = 60
     Width = 75
     Height = 25
@@ -77,11 +81,12 @@ inherited ExceptionDialogMail: TExceptionDialogMail
     LinkFont.Height = -11
     LinkFont.Name = 'MS Shell Dlg 2'
     LinkFont.Style = [fsUnderline]
+    ExplicitLeft = 352
   end
   object TextLabel: TTntMemo
     Left = 56
     Top = 8
-    Width = 281
+    Width = 271
     Height = 75
     Hint = 'Use Ctrl+C to copy the report to the clipboard'
     Anchors = [akLeft, akTop, akRight]
@@ -92,12 +97,13 @@ inherited ExceptionDialogMail: TExceptionDialogMail
     ReadOnly = True
     TabOrder = 1
     WantReturns = False
+    ExplicitWidth = 281
   end
   object DetailsMemo: TMemo
     Left = 4
     Top = 101
-    Width = 421
-    Height = 147
+    Width = 411
+    Height = 137
     Anchors = [akLeft, akTop, akRight, akBottom]
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -111,5 +117,7 @@ inherited ExceptionDialogMail: TExceptionDialogMail
     TabOrder = 4
     WantReturns = False
     WordWrap = False
+    ExplicitWidth = 421
+    ExplicitHeight = 147
   end
 end

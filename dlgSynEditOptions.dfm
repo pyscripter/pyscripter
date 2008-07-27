@@ -19,20 +19,17 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
   PixelsPerInch = 96
   TextHeight = 13
   object PageControl1: TPageControl
-    Left = 7
+    Left = 8
     Top = 8
     Width = 444
     Height = 349
-    ActivePage = Display
+    ActivePage = Options
     Anchors = [akLeft, akRight, akBottom]
     ParentShowHint = False
     ShowHint = True
     TabOrder = 0
-    ExplicitWidth = 425
     object Display: TTabSheet
       Caption = 'Display'
-      ExplicitLeft = 0
-      ExplicitTop = 20
       DesignSize = (
         436
         321)
@@ -409,8 +406,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
     end
     object Options: TTabSheet
       Caption = 'Options'
-      ExplicitWidth = 407
-      ExplicitHeight = 317
       DesignSize = (
         436
         321)
@@ -425,7 +420,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
         ParentShowHint = False
         ShowHint = True
         TabOrder = 0
-        ExplicitWidth = 401
         object ckAutoIndent: TSpTBXCheckBox
           Left = 23
           Top = 15
@@ -787,7 +781,9 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
     object Keystrokes: TTabSheet
       Caption = 'Keystrokes'
       ExplicitLeft = 0
-      ExplicitWidth = 417
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object gbKeyStrokes: TSpTBXGroupBox
         Left = 10
         Top = 191
@@ -840,7 +836,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Top = 23
           Width = 186
           Height = 21
-          ItemHeight = 13
+          ItemHeight = 0
           TabOrder = 0
           OnExit = cKeyCommandExit
           OnKeyPress = cKeyCommandKeyPress
@@ -879,7 +875,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           ViewStyle = vsReport
           OnChanging = KeyListChanging
           OnColumnClick = KeyListColumnClick
-          ExplicitWidth = 386
         end
       end
       object btnAddKey: TSpTBXButton
@@ -928,8 +923,10 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
     object Color: TTabSheet
       Caption = 'Syntax Colors'
       ImageIndex = 3
-      ExplicitWidth = 407
-      ExplicitHeight = 317
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       DesignSize = (
         436
         321)
@@ -1104,17 +1101,16 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
         LinkFont.Style = [fsUnderline]
       end
       object cbHighlighters: TSpTBXComboBox
-        Left = 2
+        Left = 3
         Top = 18
         Width = 427
         Height = 21
         Style = csDropDownList
         Anchors = [akLeft, akTop, akRight]
-        ItemHeight = 13
+        ItemHeight = 0
         TabOrder = 5
         OnChange = cbHighlightersChange
         ThemeType = thtWindows
-        ExplicitWidth = 398
       end
       object lbElements: TSpTBXListBox
         Left = 2
@@ -1145,8 +1141,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
     LinkFont.Name = 'MS Shell Dlg 2'
     LinkFont.Style = [fsUnderline]
     ModalResult = 1
-    ExplicitLeft = 183
-    ExplicitTop = 361
   end
   object btnCancel: TSpTBXButton
     Left = 297
@@ -1163,8 +1157,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
     LinkFont.Name = 'MS Shell Dlg 2'
     LinkFont.Style = [fsUnderline]
     ModalResult = 2
-    ExplicitLeft = 264
-    ExplicitTop = 361
   end
   object btnHelp: TSpTBXButton
     Left = 376
@@ -1180,8 +1172,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
     LinkFont.Height = -11
     LinkFont.Name = 'MS Shell Dlg 2'
     LinkFont.Style = [fsUnderline]
-    ExplicitLeft = 345
-    ExplicitTop = 361
   end
   object cbApplyToAll: TSpTBXCheckBox
     Left = 19

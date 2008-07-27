@@ -194,7 +194,7 @@ implementation
 
 uses dmCommands, Clipbrd, uEditAppIntfs, Math, frmPyIDEMain, dlgToDoOptions,
   uCommonFunctions, JvJVCLUtils, JvDockGlobals, cProjectClasses, WideStrUtils,
-  VirtualFileSearch, MPCommonUtilities, TntWindows;
+  VirtualFileSearch, MPCommonUtilities, TntWindows, cParameters;
 
 {$R *.dfm}
 
@@ -839,18 +839,22 @@ begin
 end;
 
 function ProcessProjectFile(Node: TAbstractProjectNode; Data : Pointer):boolean;
+var
+  FileName : WideString;
 begin
-    if TToDoWindow(Data).FAbortSignalled then begin
-      Result := True;
-      Exit;
-    end else begin
-      Application.ProcessMessages;
-      Result := False;
-    end;
-   if (Node is TProjectFileNode) and (TProjectFileNode(Node).FileName <> '') and
-     CommandsDataModule.FileIsPythonSource(TProjectFileNode(Node).FileName)
-   then
-     TToDoWindow(Data).LoadFile(TProjectFileNode(Node).FileName);
+   if TToDoWindow(Data).FAbortSignalled then begin
+     Result := True;
+     Exit;
+   end else begin
+     Application.ProcessMessages;
+     Result := False;
+   end;
+   if (Node is TProjectFileNode) and (TProjectFileNode(Node).FileName <> '') then begin
+     FileName := Parameters.ReplaceInText(TProjectFileNode(Node).FileName);
+     if CommandsDataModule.FileIsPythonSource(FileName)
+     then
+       TToDoWindow(Data).LoadFile(FileName);
+   end;
 end;
 
 procedure TToDoWindow.EnumerateProjectFiles;

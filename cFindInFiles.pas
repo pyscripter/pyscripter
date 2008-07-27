@@ -242,7 +242,7 @@ uses
   JclFileUtils, VarPyth, frmFindResults, frmPyIDEMain,
   dlgFindResultsOptions, Controls, uCommonFunctions, cProjectClasses,
   TntSysUtils, VirtualFileSearch, ShlObj, MPCommonUtilities, 
-  dmCommands;
+  dmCommands, cParameters;
 
 { TLineMatches }
 
@@ -407,12 +407,16 @@ begin
 end;
 
 function GrepProjectFile(Node: TAbstractProjectNode; Data : Pointer):boolean;
+var
+  FileName : WideString;
 begin
    Result := TGrepSearchRunner(Data).FAbortSignalled;
    if not Result and (Node is TProjectFileNode) and
      (TProjectFileNode(Node).FileName <> '')
-   then
-     TGrepSearchRunner(Data).GrepFile(TProjectFileNode(Node).FileName);
+   then begin
+     FileName := Parameters.ReplaceInText(TProjectFileNode(Node).FileName);
+     TGrepSearchRunner(Data).GrepFile(FileName);
+   end;
 end;
 
 procedure TGrepSearchRunner.GrepProjectFiles;
