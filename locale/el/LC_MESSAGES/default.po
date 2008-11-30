@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Pyscripter\n"
-"POT-Creation-Date: 2008-06-09 15:11\n"
-"PO-Revision-Date: 2008-06-09 15:19+0200\n"
+"POT-Creation-Date: 2008-08-10 01:15\n"
+"PO-Revision-Date: 2008-08-10 01:27+0200\n"
 "Last-Translator: Kiriakos Vlahos <pyscripter@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -72,7 +72,7 @@ msgstr "Άγνωστη παράμετρος"
 #: dlgCustomParams.dfm:109
 #: dlgCustomShortcuts.dfm:74
 #: dlgDirectoryList.dfm:121
-#: dlgExceptionMail.dfm:53
+#: dlgExceptionMail.dfm:56
 #: dlgFileTemplates.dfm:319
 #: dlgFindInFiles.dfm:224
 #: dlgFindResultsOptions.dfm:138
@@ -81,7 +81,7 @@ msgstr "Άγνωστη παράμετρος"
 #: dlgPickList.dfm:73
 #: dlgReplaceInFiles.dfm:23
 #: dlgRunConfiguration.dfm:77
-#: dlgSynEditOptions.dfm:1137
+#: dlgSynEditOptions.dfm:1133
 #: dlgSynPageSetup.dfm:1781
 #: dlgToDoOptions.dfm:239
 #: dlgToolProperties.dfm:779
@@ -126,7 +126,7 @@ msgstr "&Εντάξει"
 #: dlgPickList.dfm:88
 #: dlgReplaceInFiles.dfm:40
 #: dlgRunConfiguration.dfm:95
-#: dlgSynEditOptions.dfm:1156
+#: dlgSynEditOptions.dfm:1150
 #: dlgSynPageSetup.dfm:1796
 #: dlgToDoOptions.dfm:254
 #: dlgToolProperties.dfm:795
@@ -178,7 +178,7 @@ msgstr "Πρότυπα κώδικα"
 #: dlgOptionsEditor.dfm:91
 #: dlgReplaceInFiles.dfm:57
 #: dlgRunConfiguration.dfm:113
-#: dlgSynEditOptions.dfm:1174
+#: dlgSynEditOptions.dfm:1166
 #: dlgToDoOptions.dfm:269
 #: dlgToolProperties.dfm:811
 #: dlgUnitTestWizard.dfm:147
@@ -260,7 +260,7 @@ msgstr "Περιγραφή"
 #. fmEditorOptionsDialog..PageControl1..Keystrokes..btnAddKey..Caption
 #. ToolProperties..ActionList..actAddItem..Caption
 #: dlgCodeTemplates.dfm:324
-#: dlgSynEditOptions.dfm:890
+#: dlgSynEditOptions.dfm:885
 #: dlgToolProperties.dfm:849
 msgid "&Add"
 msgstr "&Προσθήκη"
@@ -348,7 +348,7 @@ msgstr "Μετακίνηση αντικειμένου κάνω"
 #. fmEditorOptionsDialog..PageControl1..Keystrokes..btnUpdateKey..Caption
 #. ToolProperties..ActionList..actUpdateItem..Caption
 #: dlgCodeTemplates.dfm:348
-#: dlgSynEditOptions.dfm:918
+#: dlgSynEditOptions.dfm:913
 #: dlgToolProperties.dfm:873
 msgid "&Update"
 msgstr "Ενημέρωση"
@@ -381,7 +381,7 @@ msgstr "Να χρησιμοποιηθούν οι παράμετροι της γ�
 #: dlgCommandLine.dfm:131
 msgid ""
 "Please enter parameters to be appended to the command line:\n"
-"Note that the scipt name is automatically inserted as the first argument."
+"Note that the script name is automatically inserted as the first argument."
 msgstr "Εισάγετε τις παραμέτρους που θα προστεθούν στη γραμμή εντολών.Σημειώστε ότι το όνομα του αρχείου κώδικα θα προστεθεί αυτόματα ως το πρώτο όρισμα."
 
 #. CommandLineDlg..Panel..Label3..Caption
@@ -417,12 +417,12 @@ msgstr "&Προσθήκη..."
 #. ProjectExplorerWindow..ProjectRunConfigPopupMenu..mnRemoveRunConfig..Caption
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectRemove..Caption
 #: dlgConfigureTools.dfm:41
-#: dlgSynEditOptions.dfm:904
+#: dlgSynEditOptions.dfm:899
 #: dlgToDoOptions.dfm:59
-#: frmProjectExplorer.dfm:657
-#: frmProjectExplorer.dfm:674
-#: frmProjectExplorer.dfm:732
-#: frmProjectExplorer.dfm:759
+#: frmProjectExplorer.dfm:663
+#: frmProjectExplorer.dfm:680
+#: frmProjectExplorer.dfm:738
+#: frmProjectExplorer.dfm:765
 msgid "&Remove"
 msgstr "&Διαγραφή"
 
@@ -560,37 +560,37 @@ msgid "Enter file path here"
 msgstr "Εισάγετε όνομα φακέλου εδώ"
 
 #. DirectoryListDialog..SpTBXPanel2..edPath..EditButton.Hint
-#: dlgDirectoryList.dfm:192
+#: dlgDirectoryList.dfm:193
 msgid "Select file path"
 msgstr "Επιλογή καταλόγου αρχείων"
 
 #. DirectoryListDialog..SpTBXPanel2..btnDelete..Hint
-#: dlgDirectoryList.dfm:209
+#: dlgDirectoryList.dfm:210
 msgid "Delete the selected file path"
 msgstr "Διαγραφή επιλεγμένου καταλόγου"
 
 #. ExceptionDialogMail..SendBtn..Hint
-#: dlgExceptionMail.dfm:37
+#: dlgExceptionMail.dfm:39
 msgid "Send bug report using default mail client"
 msgstr "Αποστολή αναφορά σφάλματος με ηλεκτρονικό ταχυδρομείο"
 
 #. ExceptionDialogMail..SendBtn..Caption
-#: dlgExceptionMail.dfm:38
+#: dlgExceptionMail.dfm:40
 msgid "&Send"
 msgstr "&Αποστολή"
 
 #. ExceptionDialogMail..DetailsBtn..Hint
-#: dlgExceptionMail.dfm:69
+#: dlgExceptionMail.dfm:73
 msgid "Show or hide additional information|"
 msgstr "Εμφάνιση ή απόκρυψη επιπλέον πληροφοριών."
 
 #. ExceptionDialogMail..DetailsBtn..Caption
-#: dlgExceptionMail.dfm:70
+#: dlgExceptionMail.dfm:74
 msgid "&Details"
 msgstr "&Λεπτομέρειες"
 
 #. ExceptionDialogMail..TextLabel..Hint
-#: dlgExceptionMail.dfm:86
+#: dlgExceptionMail.dfm:91
 msgid "Use Ctrl+C to copy the report to the clipboard"
 msgstr "Πιέστε Ctrl+C για αντιγραφή της αναφοράς"
 
@@ -645,12 +645,12 @@ msgstr "Αναζήτηση σε Αρχεία"
 #. ToDoWindow..Actions..actOptionsConfigure..Category
 #: dlgFindInFiles.dfm:24
 #: dlgToDoOptions.dfm:138
-#: dmCommands.dfm:14100
-#: dmCommands.dfm:14108
-#: dmCommands.dfm:14282
-#: dmCommands.dfm:14290
-#: dmCommands.dfm:14415
-#: dmCommands.dfm:14432
+#: dmCommands.dfm:14142
+#: dmCommands.dfm:14151
+#: dmCommands.dfm:14346
+#: dmCommands.dfm:14355
+#: dmCommands.dfm:14495
+#: dmCommands.dfm:14514
 #: frmFunctionList.dfm:281
 #: frmPyIDEMain.dfm:1749
 #: frmRegExpTester.dfm:82
@@ -1001,28 +1001,28 @@ msgid "Editor Options"
 msgstr "Επιλογές Κειμενογράφου"
 
 #. fmEditorOptionsDialog..PageControl1..Display..Caption
-#: dlgSynEditOptions.dfm:33
+#: dlgSynEditOptions.dfm:32
 msgid "Display"
 msgstr "Εμφάνιση"
 
 #. fmEditorOptionsDialog..PageControl1..Display..gbRightEdge..Caption
-#: dlgSynEditOptions.dfm:44
+#: dlgSynEditOptions.dfm:41
 msgid "Right Edge"
 msgstr "Δεξιά Ακμή"
 
 #. fmEditorOptionsDialog..PageControl1..Display..gbRightEdge..Label3..Caption
-#: dlgSynEditOptions.dfm:66
+#: dlgSynEditOptions.dfm:63
 msgid "Edge color:"
 msgstr "Χρώμα ακμής:"
 
 #. fmEditorOptionsDialog..PageControl1..Display..gbRightEdge..Label10..Caption
-#: dlgSynEditOptions.dfm:79
+#: dlgSynEditOptions.dfm:76
 msgid "Edge Column:"
 msgstr "Στήλη ακμής:"
 
 #. fmEditorOptionsDialog..PageControl1..Display..gbGutter..Caption
 #. PageSetupDlg..PageControl..Margins..Label11..Caption
-#: dlgSynEditOptions.dfm:102
+#: dlgSynEditOptions.dfm:99
 msgid "Gutter"
 msgstr "Περιθώριο"
 
@@ -1032,7 +1032,7 @@ msgstr "Περιθώριο"
 #. PageSetupDlg..PageControl..HeaderFooter..ToolbarDock..Toolbar..tbiFont..Hint
 #. PageSetupDlg..ActionList1..FontCmd..Caption
 #. PageSetupDlg..ActionList1..FontCmd..Hint
-#: dlgSynEditOptions.dfm:154
+#: dlgSynEditOptions.dfm:151
 #: dlgSynPageSetup.dfm:1751
 #: dlgSynPageSetup.dfm:1752
 #: dlgSynPageSetup.dfm:2393
@@ -1041,458 +1041,458 @@ msgid "Font"
 msgstr "Γραμματοσειρά:"
 
 #. fmEditorOptionsDialog..PageControl1..Display..gbGutter..ckGutterAutosize..Caption
-#: dlgSynEditOptions.dfm:168
+#: dlgSynEditOptions.dfm:165
 msgid "Autosize"
 msgstr "Αυτόματο μέγεθος"
 
 #. fmEditorOptionsDialog..PageControl1..Display..gbGutter..ckGutterShowLineNumbers..Caption
-#: dlgSynEditOptions.dfm:178
+#: dlgSynEditOptions.dfm:175
 msgid "Show line numbers"
 msgstr "Προβολή αριθμών &γραμμής"
 
 #. fmEditorOptionsDialog..PageControl1..Display..gbGutter..ckGutterShowLeaderZeros..Caption
-#: dlgSynEditOptions.dfm:188
+#: dlgSynEditOptions.dfm:185
 msgid "Show leading zeros"
 msgstr "Αρχικά μηδενικά"
 
 #. fmEditorOptionsDialog..PageControl1..Display..gbGutter..ckGutterVisible..Caption
-#: dlgSynEditOptions.dfm:198
+#: dlgSynEditOptions.dfm:195
 msgid "Visible"
 msgstr "Ορατό"
 
 #. fmEditorOptionsDialog..PageControl1..Display..gbGutter..cbGutterFont..Caption
-#: dlgSynEditOptions.dfm:210
+#: dlgSynEditOptions.dfm:207
 msgid "Use Gutter Font"
 msgstr "Χρήση Γραμματοσειράς "
 
 #. fmEditorOptionsDialog..PageControl1..Display..gbGutter..ckGutterStartAtZero..Caption
-#: dlgSynEditOptions.dfm:221
+#: dlgSynEditOptions.dfm:218
 msgid "Start at zero"
 msgstr "Εκκίνηση από το μηδέν"
 
 #. fmEditorOptionsDialog..PageControl1..Display..gbGutter..ckGutterGradient..Hint
-#: dlgSynEditOptions.dfm:231
+#: dlgSynEditOptions.dfm:228
 msgid "Gutter gradient visible"
 msgstr "Ορατή διαβάθμιση περιθωρίου"
 
 #. fmEditorOptionsDialog..PageControl1..Display..gbGutter..ckGutterGradient..Caption
-#: dlgSynEditOptions.dfm:232
+#: dlgSynEditOptions.dfm:229
 msgid "Gutter Gradient"
 msgstr "Διαβάθμιση Περιθωρίου"
 
 #. fmEditorOptionsDialog..PageControl1..Display..gbGutter..Label1..Caption
-#: dlgSynEditOptions.dfm:242
+#: dlgSynEditOptions.dfm:239
 msgid "Gutter color:"
 msgstr "Χρώμα Περιθωρίου:"
 
 #. fmEditorOptionsDialog..PageControl1..Display..gbBookmarks..Caption
-#: dlgSynEditOptions.dfm:256
+#: dlgSynEditOptions.dfm:253
 msgid "Bookmarks"
 msgstr "Σελιδοδείκτες"
 
 #. fmEditorOptionsDialog..PageControl1..Display..gbBookmarks..ckBookmarkKeys..Caption
-#: dlgSynEditOptions.dfm:265
+#: dlgSynEditOptions.dfm:262
 msgid "Bookmark keys"
 msgstr "Πλήκτρα σελιδοδεικτών"
 
 #. fmEditorOptionsDialog..PageControl1..Display..gbBookmarks..ckBookmarkVisible..Caption
-#: dlgSynEditOptions.dfm:275
+#: dlgSynEditOptions.dfm:272
 msgid "Bookmarks visible"
 msgstr "Ορατοί σελιδοδείκτες"
 
 #. fmEditorOptionsDialog..PageControl1..Display..gbEditorFont..Caption
-#: dlgSynEditOptions.dfm:286
+#: dlgSynEditOptions.dfm:283
 msgid "Editor Font"
 msgstr "Γραμματοσειρά Κειμενογράφου:"
 
 #. fmEditorOptionsDialog..PageControl1..Display..gbLineSpacing..Caption
-#: dlgSynEditOptions.dfm:339
+#: dlgSynEditOptions.dfm:336
 msgid "Line spacing / Tab spacing"
 msgstr "Αραίωση / Στηλοθεσία"
 
 #. fmEditorOptionsDialog..PageControl1..Display..gbLineSpacing..Label8..Caption
-#: dlgSynEditOptions.dfm:347
+#: dlgSynEditOptions.dfm:344
 msgid "Extra Lines:"
 msgstr "Επιπλέον Γραμμές:"
 
 #. fmEditorOptionsDialog..PageControl1..Display..gbLineSpacing..Label9..Caption
-#: dlgSynEditOptions.dfm:360
+#: dlgSynEditOptions.dfm:357
 msgid "Tab Width:"
 msgstr "Πλάτος στηλοθέτη:"
 
 #. fmEditorOptionsDialog..PageControl1..Display..GroupBox2..Caption
-#: dlgSynEditOptions.dfm:392
+#: dlgSynEditOptions.dfm:389
 msgid "Active Line Color"
 msgstr "Χρώμα ενεργούς γραμμής"
 
 #. fmEditorOptionsDialog..PageControl1..Options..gbOptions..ckAutoIndent....Hint
-#: dlgSynEditOptions.dfm:436
+#: dlgSynEditOptions.dfm:430
 msgid "Will indent the caret on new lines with the same amount of leading white space as the preceding line"
 msgstr "Οι νέες γραμμές έχουν εσοχή παρόμοια με την προηγούμενη γραμμή"
 
 #. fmEditorOptionsDialog..PageControl1..Options..gbOptions..ckAutoIndent..Caption
-#: dlgSynEditOptions.dfm:437
+#: dlgSynEditOptions.dfm:431
 msgid "Auto indent"
 msgstr "Αυτόματη Στοίχηση"
 
 #. fmEditorOptionsDialog..PageControl1..Options..gbOptions..ckDragAndDropEditing....Hint
-#: dlgSynEditOptions.dfm:449
+#: dlgSynEditOptions.dfm:443
 msgid "Allows you to select a block of text and drag it within the document to another location"
 msgstr "Επιτρέπεται σύρσιμο και εναπόθεση επιλεγμένου κειμένου"
 
 #. fmEditorOptionsDialog..PageControl1..Options..gbOptions..ckDragAndDropEditing..Caption
-#: dlgSynEditOptions.dfm:450
+#: dlgSynEditOptions.dfm:444
 msgid "Drag and drop editing"
 msgstr "Σύρσιμο-και-εναπόθεση"
 
 #. fmEditorOptionsDialog..PageControl1..Options..gbOptions..ckWordWrap..Hint
-#: dlgSynEditOptions.dfm:460
+#: dlgSynEditOptions.dfm:454
 msgid "Allows the editor accept OLE file drops"
 msgstr "Επιτρέπει τον κειμενογράφο να δέχεται εναπόθεση αρχείων με OLE"
 
 #. fmEditorOptionsDialog..PageControl1..Options..gbOptions..ckWordWrap..Caption
-#: dlgSynEditOptions.dfm:461
+#: dlgSynEditOptions.dfm:455
 msgid "Word wrap"
 msgstr "Αναδίπλωση γραμμών"
 
 #. fmEditorOptionsDialog..PageControl1..Options..gbOptions..ckHalfPageScroll....Hint
-#: dlgSynEditOptions.dfm:473
+#: dlgSynEditOptions.dfm:467
 msgid "When scrolling with page-up and page-down commands, only scroll a half page at a time"
 msgstr "Οι εντολές Σελιδα Πανω/Κάτω επιφέρουν κύλιση κατά μισή σελίδα τη φορά"
 
 #. fmEditorOptionsDialog..PageControl1..Options..gbOptions..ckHalfPageScroll..Caption
-#: dlgSynEditOptions.dfm:474
+#: dlgSynEditOptions.dfm:468
 msgid "Half page scroll"
 msgstr "Κύλιση μισής σελίδας"
 
 #. fmEditorOptionsDialog..PageControl1..Options..gbOptions..ckThemeSelection..Hint
-#: dlgSynEditOptions.dfm:484
+#: dlgSynEditOptions.dfm:478
 msgid "Themes the selection color"
 msgstr "Χρώμα επιλογής κειμένου σύμφωνο με το Θέμα"
 
 #. fmEditorOptionsDialog..PageControl1..Options..gbOptions..ckThemeSelection..Caption
-#: dlgSynEditOptions.dfm:485
+#: dlgSynEditOptions.dfm:479
 msgid "Theme selection"
 msgstr "Θεματικό χρώμα επιλογής"
 
 #. fmEditorOptionsDialog..PageControl1..Options..gbOptions..ckScrollByOneLess..Hint
-#: dlgSynEditOptions.dfm:495
+#: dlgSynEditOptions.dfm:489
 msgid "Forces scrolling to be one less"
 msgstr "Κύλιση με μια γραμμή λιγότερο"
 
 #. fmEditorOptionsDialog..PageControl1..Options..gbOptions..ckScrollByOneLess..Caption
-#: dlgSynEditOptions.dfm:496
+#: dlgSynEditOptions.dfm:490
 msgid "Scroll by one less"
 msgstr "Κύλιση με μια λιγότερο"
 
 #. fmEditorOptionsDialog..PageControl1..Options..gbOptions..ckScrollPastEOF..Hint
-#: dlgSynEditOptions.dfm:506
+#: dlgSynEditOptions.dfm:500
 msgid "Allows the cursor to go past the end of file marker"
 msgstr "Ο δρομέας μπορεί να τεθεί μετά το τέλος του αρχείου"
 
 #. fmEditorOptionsDialog..PageControl1..Options..gbOptions..ckScrollPastEOF..Caption
-#: dlgSynEditOptions.dfm:507
+#: dlgSynEditOptions.dfm:501
 msgid "Scroll past end of file"
 msgstr "Κύλιση μετά το τέλος αρχείου"
 
 #. fmEditorOptionsDialog..PageControl1..Options..gbOptions..ckScrollPastEOL....Hint
-#: dlgSynEditOptions.dfm:519
+#: dlgSynEditOptions.dfm:513
 msgid "Allows the cursor to go past the last character into the white space at the end of a line"
 msgstr "Ο δρομέας μπορεί να τεθεί μετά το τέλος της γραμμής"
 
 #. fmEditorOptionsDialog..PageControl1..Options..gbOptions..ckScrollPastEOL..Caption
-#: dlgSynEditOptions.dfm:520
+#: dlgSynEditOptions.dfm:514
 msgid "Scroll past end of line"
 msgstr "Κύλιση μετά το τέλος γραμμής"
 
 #. fmEditorOptionsDialog..PageControl1..Options..gbOptions..ckShowScrollHint....Hint
-#: dlgSynEditOptions.dfm:532
+#: dlgSynEditOptions.dfm:526
 msgid "Shows a hint of the visible line numbers when scrolling vertically"
 msgstr "Εμφάνιση υπόδειξης κατά την κάθετη κύλιση"
 
 #. fmEditorOptionsDialog..PageControl1..Options..gbOptions..ckShowScrollHint..Caption
-#: dlgSynEditOptions.dfm:533
+#: dlgSynEditOptions.dfm:527
 msgid "Show scroll hint"
 msgstr "Εμφάνιση υπόδειξης κύλισης"
 
 #. fmEditorOptionsDialog..PageControl1..Options..gbOptions..ckSmartTabs....Hint
-#: dlgSynEditOptions.dfm:545
+#: dlgSynEditOptions.dfm:539
 msgid "When tabbing, the cursor will go to the next non-white space character of the previous line"
 msgstr "Ο στηλοθέτης τοποθετεί τον δρομέα στην στήλη του πρώτου αλφαριθμητικού χαρακτήρα της προηγούμενης γραμμής"
 
 #. fmEditorOptionsDialog..PageControl1..Options..gbOptions..ckSmartTabs..Caption
-#: dlgSynEditOptions.dfm:546
+#: dlgSynEditOptions.dfm:540
 msgid "Smart tabs"
 msgstr "Έξυπνοι στηλοθέτες"
 
 #. fmEditorOptionsDialog..PageControl1..Options..gbOptions..ckTabsToSpaces..Hint
-#: dlgSynEditOptions.dfm:556
+#: dlgSynEditOptions.dfm:550
 msgid "Converts a tab character to the number of spaces in Tab Width"
 msgstr "Μετατροπή χαρακτήρων tab σε αριθμό χαρακτήρων διαστήματος που ορίζεται από το πλάτος στηλοθεσίας"
 
 #. fmEditorOptionsDialog..PageControl1..Options..gbOptions..ckTabsToSpaces..Caption
-#: dlgSynEditOptions.dfm:557
+#: dlgSynEditOptions.dfm:551
 msgid "Tabs to spaces"
 msgstr "Μετατροπή TAB σε διαστήματα"
 
 #. fmEditorOptionsDialog..PageControl1..Options..gbOptions..ckTrimTrailingSpaces..Hint
-#: dlgSynEditOptions.dfm:567
+#: dlgSynEditOptions.dfm:561
 msgid "Spaces at the end of lines will be trimmed and not saved"
 msgstr "Χαρακτήρες διαστήματος στο τέλος των γραμμών θα διαγράφονται και δεν θα αποθηκεύονται"
 
 #. fmEditorOptionsDialog..PageControl1..Options..gbOptions..ckTrimTrailingSpaces..Caption
-#: dlgSynEditOptions.dfm:568
+#: dlgSynEditOptions.dfm:562
 msgid "Trim trailing spaces"
 msgstr "Ψαλίδισμα τελικών χαρακτήρων κενού"
 
 #. fmEditorOptionsDialog..PageControl1..Options..gbOptions..ckTabIndent..Hint
-#: dlgSynEditOptions.dfm:578
+#: dlgSynEditOptions.dfm:572
 msgid "Tab indents and Shft-Tab unindents"
 msgstr "Το Tab μετακινεί δεξιά και το Shift-Tab αριστερά"
 
 #. fmEditorOptionsDialog..PageControl1..Options..gbOptions..ckTabIndent..Caption
-#: dlgSynEditOptions.dfm:579
+#: dlgSynEditOptions.dfm:573
 msgid "Tab Indent"
 msgstr "Εσοχές με το πλήκτρο Tab"
 
 #. fmEditorOptionsDialog..PageControl1..Options..gbOptions..ckAltSetsColumnMode....Hint
-#: dlgSynEditOptions.dfm:591
+#: dlgSynEditOptions.dfm:585
 msgid "Holding down the Alt Key will put the selection mode into columnar format"
 msgstr "Eπιλογής κειμένου τύπου στήλης όταν το πλήκτρο ALT είναι πατημένο"
 
 #. fmEditorOptionsDialog..PageControl1..Options..gbOptions..ckAltSetsColumnMode..Caption
-#: dlgSynEditOptions.dfm:592
+#: dlgSynEditOptions.dfm:586
 msgid "Alt sets column mode"
 msgstr "Επιλογή κειμένου στήλης με το ALT"
 
 #. fmEditorOptionsDialog..PageControl1..Options..gbOptions..ckKeepCaretX....Hint
-#: dlgSynEditOptions.dfm:604
+#: dlgSynEditOptions.dfm:598
 msgid "When moving through lines the X position will always stay the same"
 msgstr "Οταν μετακινείται ο κέρσορας σε διαφορετικές γραμμέσ η  στήλη του δρομέα διατηρείται"
 
 #. fmEditorOptionsDialog..PageControl1..Options..gbOptions..ckKeepCaretX..Caption
-#: dlgSynEditOptions.dfm:605
+#: dlgSynEditOptions.dfm:599
 msgid "Maintain caret column"
 msgstr "Διατήρηση στήλης δρομέα"
 
 #. fmEditorOptionsDialog..PageControl1..Options..gbOptions..ckScrollHintFollows..Hint
-#: dlgSynEditOptions.dfm:615
+#: dlgSynEditOptions.dfm:609
 msgid "The scroll hint follows the mouse when scrolling vertically"
 msgstr "Η υπόδειξη κύλισης ακολουθεί το ποντίκι οταν το κείμενο κυλίεται κάθετα"
 
 #. fmEditorOptionsDialog..PageControl1..Options..gbOptions..ckScrollHintFollows..Caption
-#: dlgSynEditOptions.dfm:616
+#: dlgSynEditOptions.dfm:610
 msgid "Scroll hint follows mouse"
 msgstr "Η υπόδειξη ακολουθεί το ποντίκι"
 
 #. fmEditorOptionsDialog..PageControl1..Options..gbOptions..ckGroupUndo....Hint
-#: dlgSynEditOptions.dfm:629
+#: dlgSynEditOptions.dfm:623
 msgid "When undoing/redoing actions, handle all continous changes of the same kind in one call instead undoing/redoing each command separately"
 msgstr "Όταν αναιρείτε/επανεκτελείτε δράσεις, δράσεις ίδιου τύπου ομαδοποιούνται αντί να αναιρούνται/επανεκτελούνται η κάθε μία χωριστά"
 
 #. fmEditorOptionsDialog..PageControl1..Options..gbOptions..ckGroupUndo..Caption
-#: dlgSynEditOptions.dfm:630
+#: dlgSynEditOptions.dfm:624
 msgid "Group undo"
 msgstr "Ομαδική αναίρεση"
 
 #. fmEditorOptionsDialog..PageControl1..Options..gbOptions..ckSmartTabDelete..Hint
-#: dlgSynEditOptions.dfm:640
+#: dlgSynEditOptions.dfm:634
 msgid "similar to Smart Tabs, but when you delete characters"
 msgstr "Παρόμοιο με τους \"Έξυπνους στηλοθέτες\" αλλά για διαγαφή κειμένου"
 
 #. fmEditorOptionsDialog..PageControl1..Options..gbOptions..ckSmartTabDelete..Caption
-#: dlgSynEditOptions.dfm:641
+#: dlgSynEditOptions.dfm:635
 msgid "Smart tab delete"
 msgstr "Έξυπνη διαγραφή στηλοθέτη"
 
 #. fmEditorOptionsDialog..PageControl1..Options..gbOptions..ckRightMouseMoves....Hint
-#: dlgSynEditOptions.dfm:653
+#: dlgSynEditOptions.dfm:647
 msgid "When clicking with the right mouse for a popup menu, move the cursor to that location"
 msgstr "Όταν πατάτε το δεξί κουμπί του ποντικιού για να εμφανίσετε το αναδυόμενο παράθυρο του κειμενογράφου ο δρομέας μετακινείται στη θέση του ποντικιού"
 
 #. fmEditorOptionsDialog..PageControl1..Options..gbOptions..ckRightMouseMoves..Caption
-#: dlgSynEditOptions.dfm:654
+#: dlgSynEditOptions.dfm:648
 msgid "Right mouse moves cursor"
 msgstr "Δεξί πλήκτρο μετακινεί δρομέα"
 
 #. fmEditorOptionsDialog..PageControl1..Options..gbOptions..ckEnhanceHomeKey..Hint
-#: dlgSynEditOptions.dfm:664
+#: dlgSynEditOptions.dfm:658
 msgid "enhances home key positioning, similar to visual studio"
 msgstr "Βελτιώνει την μετακίνηση του δρομέα με το πλήκτρο Home óπως το Visual Studio"
 
 #. fmEditorOptionsDialog..PageControl1..Options..gbOptions..ckEnhanceHomeKey..Caption
-#: dlgSynEditOptions.dfm:665
+#: dlgSynEditOptions.dfm:659
 msgid "Enhance Home Key"
 msgstr "Βελτίωση πλήκτρου HOME"
 
 #. fmEditorOptionsDialog..PageControl1..Options..gbOptions..ckHideShowScrollbars....Hint
-#: dlgSynEditOptions.dfm:678
+#: dlgSynEditOptions.dfm:672
 msgid "if enabled, then the scrollbars will only show when necessary.  If you have ScrollPastEOL, then it the horizontal bar will always be there (it uses MaxLength instead)"
 msgstr "Οταν η επιλογή αυτή ενεργοποιηθεί, οι γραμμές κύλισης εμφανίζονται μόνον όταν χρειάζεται.  Εάν η επιλογή \"Κύλιση μετά το τέλος γραμμής\" είναι ενεργοποιημένη τότε η οριζόντια γραμμή κύλισης εμφανίζεται πάντα."
 
 #. fmEditorOptionsDialog..PageControl1..Options..gbOptions..ckHideShowScrollbars..Caption
-#: dlgSynEditOptions.dfm:679
+#: dlgSynEditOptions.dfm:673
 msgid "Hide scrollbars as necessary"
 msgstr "Απόκρυψη γραμμών κύλισης"
 
 #. fmEditorOptionsDialog..PageControl1..Options..gbOptions..ckDisableScrollArrows....Hint
-#: dlgSynEditOptions.dfm:691
+#: dlgSynEditOptions.dfm:685
 msgid "Disables the scroll bar arrow buttons when you can't scroll in that direction any more"
 msgstr "Απενεργοποίηση βελών γραμμών κύλισης όταν δεν είναι δυνατή η κύλιση στην κατεύθυνση των βελών."
 
 #. fmEditorOptionsDialog..PageControl1..Options..gbOptions..ckDisableScrollArrows..Caption
-#: dlgSynEditOptions.dfm:692
+#: dlgSynEditOptions.dfm:686
 msgid "Disable scroll arrows"
 msgstr "Απενεργοποίηση βελών γραμμών κύλισης"
 
 #. fmEditorOptionsDialog..PageControl1..Options..gbOptions..ckShowSpecialChars..Hint
-#: dlgSynEditOptions.dfm:702
+#: dlgSynEditOptions.dfm:696
 msgid "Shows linebreaks, spaces and tabs using special symbols"
 msgstr "Εμφάνιση χαρακτήρων διαστήματος, στηλοθέτησης και αλλαγής γραμμής με ειδικά σύμβολα"
 
 #. fmEditorOptionsDialog..PageControl1..Options..gbOptions..ckShowSpecialChars..Caption
-#: dlgSynEditOptions.dfm:703
+#: dlgSynEditOptions.dfm:697
 msgid "Show special chars"
 msgstr "Εμφάνιση ειδικών χαρακτήρων"
 
 #. fmEditorOptionsDialog..PageControl1..Options..gbOptions..ckEnhanceEndKey..Hint
-#: dlgSynEditOptions.dfm:713
+#: dlgSynEditOptions.dfm:707
 msgid "Enhances end key similar to JDeveloper"
 msgstr "Βελτιώνει τη χρήση του πλήκτρου End óπως το JDeveloper"
 
 #. fmEditorOptionsDialog..PageControl1..Options..gbOptions..ckEnhanceEndKey..Caption
-#: dlgSynEditOptions.dfm:714
+#: dlgSynEditOptions.dfm:708
 msgid "Enhance End Key"
 msgstr "Βελτίωση πλήκτρου END"
 
 #. fmEditorOptionsDialog..PageControl1..Options..gbCaret..Caption
-#: dlgSynEditOptions.dfm:725
+#: dlgSynEditOptions.dfm:719
 msgid "Caret"
 msgstr "Δρομέας"
 
 #. fmEditorOptionsDialog..PageControl1..Options..gbCaret..Label2..Caption
-#: dlgSynEditOptions.dfm:734
+#: dlgSynEditOptions.dfm:728
 msgid "Insert caret:"
 msgstr "Επιλογή δρομέα:"
 
 #. fmEditorOptionsDialog..PageControl1..Options..gbCaret..Label4..Caption
-#: dlgSynEditOptions.dfm:747
+#: dlgSynEditOptions.dfm:741
 msgid "Overwrite caret:"
 msgstr "Δρομέας επικάλυψης:"
 
 #. fmEditorOptionsDialog..PageControl1..Options..gbCaret..cInsertCaret....Items.Strings
 #. fmEditorOptionsDialog..PageControl1..Options..gbCaret..cOverwriteCaret....Items.Strings
-#: dlgSynEditOptions.dfm:764
+#: dlgSynEditOptions.dfm:758
 msgid "Vertical Line"
 msgstr "Κάθετη Γραμμή"
 
 #. fmEditorOptionsDialog..PageControl1..Options..gbCaret..cInsertCaret....Items.Strings
 #. fmEditorOptionsDialog..PageControl1..Options..gbCaret..cOverwriteCaret....Items.Strings
-#: dlgSynEditOptions.dfm:765
+#: dlgSynEditOptions.dfm:759
 msgid "Horizontal Line"
 msgstr "Οριζόντια Γραμμή"
 
 #. fmEditorOptionsDialog..PageControl1..Options..gbCaret..cInsertCaret....Items.Strings
 #. fmEditorOptionsDialog..PageControl1..Options..gbCaret..cOverwriteCaret....Items.Strings
-#: dlgSynEditOptions.dfm:766
+#: dlgSynEditOptions.dfm:760
 msgid "Half Block"
 msgstr "Μισό μπλοκ"
 
 #. fmEditorOptionsDialog..PageControl1..Options..gbCaret..cInsertCaret....Items.Strings
 #. fmEditorOptionsDialog..PageControl1..Options..gbCaret..cOverwriteCaret....Items.Strings
-#: dlgSynEditOptions.dfm:767
+#: dlgSynEditOptions.dfm:761
 msgid "Block"
 msgstr "Μπλόκ"
 
 #. fmEditorOptionsDialog..PageControl1..Keystrokes..Caption
-#: dlgSynEditOptions.dfm:788
+#: dlgSynEditOptions.dfm:782
 msgid "Keystrokes"
 msgstr "Πλήκτρα Συντόμευσης"
 
 #. fmEditorOptionsDialog..PageControl1..Keystrokes..gbKeyStrokes..Caption
-#: dlgSynEditOptions.dfm:796
+#: dlgSynEditOptions.dfm:792
 msgid "Keystroke Options"
 msgstr "Επιλογές Πλήκτρων Συντόμευσης"
 
 #. fmEditorOptionsDialog..PageControl1..Keystrokes..gbKeyStrokes..Label5..Caption
-#: dlgSynEditOptions.dfm:804
+#: dlgSynEditOptions.dfm:800
 msgid "Command:"
 msgstr "Εντολή:"
 
 #. fmEditorOptionsDialog..PageControl1..Keystrokes..gbKeyStrokes..Label6..Caption
 #. fmEditorOptionsDialog..PageControl1..Keystrokes..gbKeyStrokes..Label7..Caption
-#: dlgSynEditOptions.dfm:817
+#: dlgSynEditOptions.dfm:813
 msgid "Keystroke:"
 msgstr "Πλήκτρο:"
 
 #. fmEditorOptionsDialog..PageControl1..Keystrokes..pnlCommands..KeyList......Caption
 #. ToolProperties..Panel1..PageControl..tsProperties..GroupBox2..Caption
-#: dlgSynEditOptions.dfm:867
+#: dlgSynEditOptions.dfm:863
 msgid "Command"
 msgstr "Εντολή"
 
 #. fmEditorOptionsDialog..PageControl1..Keystrokes..pnlCommands..KeyList......Caption
-#: dlgSynEditOptions.dfm:871
+#: dlgSynEditOptions.dfm:867
 msgid "Keystroke"
 msgstr "Πλήκτρο"
 
 #. fmEditorOptionsDialog..PageControl1..Color..Caption
-#: dlgSynEditOptions.dfm:929
+#: dlgSynEditOptions.dfm:924
 msgid "Syntax Colors"
 msgstr "Χρώματα Τονισμού"
 
 #. fmEditorOptionsDialog..PageControl1..Color..GroupBox1..Caption
-#: dlgSynEditOptions.dfm:967
+#: dlgSynEditOptions.dfm:964
 msgid " Text attributes "
 msgstr "Ιδιότητες κειμένου"
 
 #. fmEditorOptionsDialog..PageControl1..Color..GroupBox1..cbxElementBold..Caption
-#: dlgSynEditOptions.dfm:975
+#: dlgSynEditOptions.dfm:972
 msgid "&Bold"
 msgstr "&Έντονο"
 
 #. fmEditorOptionsDialog..PageControl1..Color..GroupBox1..cbxElementItalic..Caption
-#: dlgSynEditOptions.dfm:987
+#: dlgSynEditOptions.dfm:984
 msgid "&Italic"
 msgstr "&Πλάγια"
 
 #. fmEditorOptionsDialog..PageControl1..Color..GroupBox1..cbxElementUnderline..Caption
-#: dlgSynEditOptions.dfm:999
+#: dlgSynEditOptions.dfm:996
 msgid "&Underline"
 msgstr "&Υπογράμμιση"
 
 #. fmEditorOptionsDialog..PageControl1..Color..GroupBox1..cbxElementStrikeout..Caption
-#: dlgSynEditOptions.dfm:1011
+#: dlgSynEditOptions.dfm:1008
 msgid "&Strike Out"
 msgstr "&Διαγραφή"
 
 #. fmEditorOptionsDialog..PageControl1..Color..Label11..Caption
-#: dlgSynEditOptions.dfm:1046
+#: dlgSynEditOptions.dfm:1043
 msgid "&Element:"
 msgstr "&Στοιχείο:"
 
 #. fmEditorOptionsDialog..PageControl1..Color..Label12..Caption
-#: dlgSynEditOptions.dfm:1059
+#: dlgSynEditOptions.dfm:1056
 msgid "&Foreground Color:"
 msgstr "Χρώμα &Κειμένου"
 
 #. fmEditorOptionsDialog..PageControl1..Color..Label13..Caption
-#: dlgSynEditOptions.dfm:1072
+#: dlgSynEditOptions.dfm:1069
 msgid "B&ackground Color:"
 msgstr "Χρώμα &Φόντου:"
 
 #. fmEditorOptionsDialog..PageControl1..Color..Label14..Caption
-#: dlgSynEditOptions.dfm:1085
+#: dlgSynEditOptions.dfm:1082
 msgid "Code Sample"
 msgstr "Δείγμα Πηγαίου Κώδικα:"
 
 #. fmEditorOptionsDialog..PageControl1..Color..Label15..Caption
-#: dlgSynEditOptions.dfm:1098
+#: dlgSynEditOptions.dfm:1095
 msgid "Editor Syntax Language"
 msgstr "Γλώσσα Τονισμού Σύνταξης"
 
 #. fmEditorOptionsDialog..cbApplyToAll..Caption
-#: dlgSynEditOptions.dfm:1191
+#: dlgSynEditOptions.dfm:1181
 msgid "Apply to all editors"
 msgstr "Εφαρμογή σε όλους τους κειμενογράφους"
 
@@ -1953,7 +1953,7 @@ msgstr "Ιδιότητες Εξωτερικών Εργαλείων"
 #. ProjectExplorerWindow..ProjectFilePopupMenu..mnFileProperties..Caption
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectFileProperties..Caption
 #: dlgToolProperties.dfm:38
-#: frmProjectExplorer.dfm:812
+#: frmProjectExplorer.dfm:818
 msgid "&Properties"
 msgstr "&Ιδιότητες"
 
@@ -2268,9 +2268,9 @@ msgstr "Αποεπιλογή όλων των κόμβων"
 #. CommandsDataModule..actlMain..actCustomizeParameters..Category
 #. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..Parameters1..Caption
 #: dmCommands.dfm:873
-#: dmCommands.dfm:14244
-#: dmCommands.dfm:14252
-#: dmCommands.dfm:14275
+#: dmCommands.dfm:14303
+#: dmCommands.dfm:14312
+#: dmCommands.dfm:14338
 #: frmPyIDEMain.dfm:639
 msgid "Parameters"
 msgstr "Παράμετροι"
@@ -2305,25 +2305,25 @@ msgstr "Μετατροπείς"
 #. ToDoWindow..Actions..actFileRefresh..Category
 #. ToDoWindow..Actions..actFilePrint..Category
 #. ToDoWindow..Actions..actFileAbort..Category
-#: dmCommands.dfm:13931
-#: dmCommands.dfm:14058
-#: dmCommands.dfm:14066
-#: dmCommands.dfm:14076
-#: dmCommands.dfm:14084
-#: dmCommands.dfm:14092
-#: dmCommands.dfm:14475
-#: dmCommands.dfm:14574
+#: dmCommands.dfm:13954
+#: dmCommands.dfm:14095
+#: dmCommands.dfm:14104
+#: dmCommands.dfm:14115
+#: dmCommands.dfm:14124
+#: dmCommands.dfm:14133
+#: dmCommands.dfm:14562
+#: dmCommands.dfm:14674
 #: frmFindResults.dfm:323
 #: frmFindResults.dfm:331
 #: frmFindResults.dfm:339
 #: frmFindResults.dfm:347
 #: frmFindResults.dfm:392
 #: frmFindResults.dfm:400
-#: frmPyIDEMain.dfm:2166
-#: frmPyIDEMain.dfm:2175
-#: frmPyIDEMain.dfm:2184
-#: frmPyIDEMain.dfm:2194
-#: frmPyIDEMain.dfm:2569
+#: frmPyIDEMain.dfm:2173
+#: frmPyIDEMain.dfm:2183
+#: frmPyIDEMain.dfm:2193
+#: frmPyIDEMain.dfm:2204
+#: frmPyIDEMain.dfm:2624
 #: frmToDo.dfm:673
 #: frmToDo.dfm:688
 #: frmToDo.dfm:719
@@ -2333,26 +2333,26 @@ msgstr "Αρχείο"
 #. CommandsDataModule..actlMain..actFileSave..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..FileMenu..mnFileSave..Caption
 #. PyIDEMainForm..TBXDockTop..MainToolBar..tbiFileSave..Caption
-#: dmCommands.dfm:13932
+#: dmCommands.dfm:13955
 msgid "&Save"
 msgstr "&Αποθήκευση"
 
 #. CommandsDataModule..actlMain..actFileSave..Hint
 #. PyIDEMainForm..TBXDockTop..MainMenu..FileMenu..mnFileSave..Hint
 #. PyIDEMainForm..TBXDockTop..MainToolBar..tbiFileSave..Hint
-#: dmCommands.dfm:13935
+#: dmCommands.dfm:13959
 msgid "Save|Save active file"
 msgstr "Αποθήκευση|Aποθήκευση του ενεργού αρχείου"
 
 #. CommandsDataModule..actlMain..actFileSaveAs..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..FileMenu..mnFileSaveAs..Caption
-#: dmCommands.dfm:13942
+#: dmCommands.dfm:13966
 msgid "Save &As..."
 msgstr "Αποθήκευση &ως..."
 
 #. CommandsDataModule..actlMain..actFileSaveAs..Hint
 #. PyIDEMainForm..TBXDockTop..MainMenu..FileMenu..mnFileSaveAs..Hint
-#: dmCommands.dfm:13945
+#: dmCommands.dfm:13970
 msgid "Save As|Save active file under different name"
 msgstr "Αποθήκευση ως|Αποθήκευση ενεργού αρχείου με διαφορετικό όνομα"
 
@@ -2361,7 +2361,7 @@ msgstr "Αποθήκευση ως|Αποθήκευση ενεργού αρχεί
 #. OutputWindow..OutputActions..actToolClose..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..FileMenu..mnFileClose..Caption
 #. PyIDEMainForm..TabBarPopupMenu..mnFileClose2..Caption
-#: dmCommands.dfm:13950
+#: dmCommands.dfm:13975
 #: frmPyIDEMain.dfm:514
 #: frmPyIDEMain.dfm:1998
 msgid "&Close"
@@ -2370,7 +2370,7 @@ msgstr "&Κλείσιμο"
 #. CommandsDataModule..actlMain..actFileClose..Hint
 #. PyIDEMainForm..TBXDockTop..MainMenu..FileMenu..mnFileClose..Hint
 #. PyIDEMainForm..TabBarPopupMenu..mnFileClose2..Hint
-#: dmCommands.dfm:13953
+#: dmCommands.dfm:13979
 msgid "Close|Close active file"
 msgstr "&Κλείσιμο|Κλείσιμο του ενεργού αρχείου"
 
@@ -2396,23 +2396,23 @@ msgstr "&Κλείσιμο|Κλείσιμο του ενεργού αρχείου"
 #. FunctionListWindow..Actions..actEditCopy..Category
 #. ToDoWindow..Actions..actEditGoto..Category
 #. ToDoWindow..Actions..actEditCopy..Category
-#: dmCommands.dfm:13959
 #: dmCommands.dfm:13985
-#: dmCommands.dfm:13993
-#: dmCommands.dfm:14001
-#: dmCommands.dfm:14011
-#: dmCommands.dfm:14267
-#: dmCommands.dfm:14321
+#: dmCommands.dfm:14014
+#: dmCommands.dfm:14023
+#: dmCommands.dfm:14032
+#: dmCommands.dfm:14043
 #: dmCommands.dfm:14329
-#: dmCommands.dfm:14354
-#: dmCommands.dfm:14365
-#: dmCommands.dfm:14375
-#: dmCommands.dfm:14384
-#: dmCommands.dfm:14440
-#: dmCommands.dfm:14449
-#: dmCommands.dfm:14458
-#: dmCommands.dfm:14467
-#: dmCommands.dfm:14527
+#: dmCommands.dfm:14390
+#: dmCommands.dfm:14399
+#: dmCommands.dfm:14427
+#: dmCommands.dfm:14439
+#: dmCommands.dfm:14450
+#: dmCommands.dfm:14460
+#: dmCommands.dfm:14523
+#: dmCommands.dfm:14533
+#: dmCommands.dfm:14543
+#: dmCommands.dfm:14553
+#: dmCommands.dfm:14621
 #: frmFunctionList.dfm:273
 #: frmToDo.dfm:681
 #: frmToDo.dfm:711
@@ -2423,7 +2423,7 @@ msgstr "Επεξεργασία"
 #. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..mnEditCut..Caption
 #. PyIDEMainForm..TBXDockTop..MainToolBar..tbiEditCut..Caption
 #. PythonIIForm..InterpreterPopUp..mnEditCut..Caption
-#: dmCommands.dfm:13960
+#: dmCommands.dfm:13986
 #: frmPythonII.dfm:254
 msgid "Cu&t"
 msgstr "Απο&κοπή"
@@ -2432,7 +2432,7 @@ msgstr "Απο&κοπή"
 #. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..mnEditCut..Hint
 #. PyIDEMainForm..TBXDockTop..MainToolBar..tbiEditCut..Hint
 #. PythonIIForm..InterpreterPopUp..mnEditCut..Hint
-#: dmCommands.dfm:13963
+#: dmCommands.dfm:13990
 #: frmPythonII.dfm:255
 msgid "Cut|Cuts the selection and puts it on the Clipboard"
 msgstr "Αποκοπή|Αποκοπή του επιλεγμένου κειμένου και τοποθέτηση στο Πρόχειρο"
@@ -2443,12 +2443,10 @@ msgstr "Αποκοπή|Αποκοπή του επιλεγμένου κειμέν
 #. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..mnEditCopy..Caption
 #. PyIDEMainForm..TBXDockTop..MainToolBar..tbiEditCopy..Caption
 #. PythonIIForm..InterpreterPopUp..mnEditCopy..Caption
-#. PythonIIForm..InterpreterPopUp..mnEditPaste..Caption
-#: dmCommands.dfm:13969
+#: dmCommands.dfm:13996
 #: frmPyIDEMain.dfm:580
 #: frmPyIDEMain.dfm:1473
 #: frmPythonII.dfm:259
-#: frmPythonII.dfm:264
 msgid "&Copy"
 msgstr "&Αντιγραφή"
 
@@ -2456,64 +2454,66 @@ msgstr "&Αντιγραφή"
 #. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..mnEditCopy..Hint
 #. PyIDEMainForm..TBXDockTop..MainToolBar..tbiEditCopy..Hint
 #. PythonIIForm..InterpreterPopUp..mnEditCopy..Hint
-#. PythonIIForm..InterpreterPopUp..mnEditPaste..Hint
-#: dmCommands.dfm:13972
+#: dmCommands.dfm:14000
 #: frmPythonII.dfm:260
-#: frmPythonII.dfm:265
 msgid "Copy|Copies the selection and puts it on the Clipboard"
 msgstr "Αντιγραφή|Αντιγραφή του επιλεγμένου κειμένου στο Πρόχειρο"
 
 #. CommandsDataModule..actlMain..actEditPaste..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..mnEditPaste..Caption
 #. PyIDEMainForm..TBXDockTop..MainToolBar..tbiEditPaste..Caption
-#: dmCommands.dfm:13978
+#. PythonIIForm..InterpreterPopUp..mnEditPaste..Caption
+#: dmCommands.dfm:14006
+#: frmPythonII.dfm:264
 msgid "&Paste"
 msgstr "&Επικόληση"
 
 #. CommandsDataModule..actlMain..actEditPaste..Hint
 #. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..mnEditPaste..Hint
 #. PyIDEMainForm..TBXDockTop..MainToolBar..tbiEditPaste..Hint
-#: dmCommands.dfm:13980
+#. PythonIIForm..InterpreterPopUp..mnEditPaste..Hint
+#: dmCommands.dfm:14009
+#: frmPythonII.dfm:265
 msgid "Paste|Inserts Clipboard contents"
 msgstr "Επικόλληση|Εισαγωγή του περιεχομένου του Προχείρου"
 
 #. CommandsDataModule..actlMain..actEditDelete..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..mnEditDelete..Caption
-#: dmCommands.dfm:13986
+#: dmCommands.dfm:14015
 msgid "De&lete"
 msgstr "Δια&γραφή"
 
 #. CommandsDataModule..actlMain..actEditDelete..Hint
 #. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..mnEditDelete..Hint
-#: dmCommands.dfm:13989
+#: dmCommands.dfm:14019
 msgid "Delete|Delete selection"
 msgstr "Διαγραφή|Διαγραφή επιλεγμένου κειμένου"
 
 #. CommandsDataModule..actlMain..actEditUndo..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..mnEditUndo..Caption
 #. PyIDEMainForm..TBXDockTop..MainToolBar..tbiEditUndo..Caption
-#: dmCommands.dfm:13994
+#: dmCommands.dfm:14024
 msgid "&Undo"
 msgstr "&Αναίρεση"
 
 #. CommandsDataModule..actlMain..actEditUndo..Hint
 #. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..mnEditUndo..Hint
 #. PyIDEMainForm..TBXDockTop..MainToolBar..tbiEditUndo..Hint
-#: dmCommands.dfm:13996
+#: dmCommands.dfm:14027
 msgid "Undo|Reverts the last action"
 msgstr "Αναίρεση|Αναίρεση της τελευταίας δράσης"
 
 #. CommandsDataModule..actlMain..actEditRedo..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..mnEditRedo..Caption
 #. PyIDEMainForm..TBXDockTop..MainToolBar..tbiEditRedo..Caption
-#: dmCommands.dfm:14002
+#: dmCommands.dfm:14033
 msgid "&Redo"
 msgstr "&Επανάληψη"
 
 #. CommandsDataModule..actlMain..actEditRedo..Hint
 #. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..mnEditRedo..Hint
 #. PyIDEMainForm..TBXDockTop..MainToolBar..tbiEditRedo..Hint
-#: dmCommands.dfm:14005
+#: dmCommands.dfm:14037
 msgid "Redo| Redo last action"
 msgstr "Επανεκτέλεση|Επανεκτέλεση της δράσης που αναιρέθηκε τελευταία"
 
@@ -2521,14 +2521,14 @@ msgstr "Επανεκτέλεση|Επανεκτέλεση της δράσης π
 #. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..mnEditSelectAll..Caption
 #. UnitTestWindow..FGPanel..ExplorerDock..ExplorerToolbar..tbiSelectAll..Caption
 #. UnitTestWindow..DialogActions..actSelectAll..Caption
-#: dmCommands.dfm:14012
+#: dmCommands.dfm:14044
 #: frmUnitTests.dfm:731
 msgid "Select &All"
 msgstr "Επιλογή &Ολων"
 
 #. CommandsDataModule..actlMain..actEditSelectAll..Hint
 #. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..mnEditSelectAll..Hint
-#: dmCommands.dfm:14014
+#: dmCommands.dfm:14047
 msgid "Select All|Selects the entire document"
 msgstr "Επιλογή όλων|Επιλογή όλου του κειμένου"
 
@@ -2547,18 +2547,18 @@ msgstr "Επιλογή όλων|Επιλογή όλου του κειμένου"
 #. CommandsDataModule..actlMain..actSearchHighlight..Category
 #. CommandsDataModule..actlMain..actSearchGoToDebugLine..Category
 #. RegExpTesterWindow..FGPanel..TBXDock..RegExpTesterToolbar..TBXSubmenuItem2..RI_Search..Caption
-#: dmCommands.dfm:14018
-#: dmCommands.dfm:14048
-#: dmCommands.dfm:14152
-#: dmCommands.dfm:14209
-#: dmCommands.dfm:14218
-#: dmCommands.dfm:14227
-#: dmCommands.dfm:14312
-#: dmCommands.dfm:14338
-#: dmCommands.dfm:14346
-#: dmCommands.dfm:14508
-#: dmCommands.dfm:14517
-#: dmCommands.dfm:14535
+#: dmCommands.dfm:14051
+#: dmCommands.dfm:14084
+#: dmCommands.dfm:14200
+#: dmCommands.dfm:14264
+#: dmCommands.dfm:14274
+#: dmCommands.dfm:14284
+#: dmCommands.dfm:14380
+#: dmCommands.dfm:14409
+#: dmCommands.dfm:14418
+#: dmCommands.dfm:14600
+#: dmCommands.dfm:14610
+#: dmCommands.dfm:14630
 #: frmRegExpTester.dfm:137
 msgid "Search"
 msgstr "Αναζήτηση"
@@ -2566,14 +2566,14 @@ msgstr "Αναζήτηση"
 #. CommandsDataModule..actlMain..actSearchFind..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..SearchMenu..mnSearchFind..Caption
 #. PyIDEMainForm..TBXDockTop..MainToolBar..tbiSearchFind..Caption
-#: dmCommands.dfm:14019
+#: dmCommands.dfm:14052
 msgid "&Find..."
 msgstr "&Εύρεση..."
 
 #. CommandsDataModule..actlMain..actSearchFind..Hint
 #. PyIDEMainForm..TBXDockTop..MainMenu..SearchMenu..mnSearchFind..Hint
 #. PyIDEMainForm..TBXDockTop..MainToolBar..tbiSearchFind..Hint
-#: dmCommands.dfm:14022
+#: dmCommands.dfm:14056
 msgid "Search|Search for a string"
 msgstr "Ανάζήτηση|Ανάζήτηση κειμένου"
 
@@ -2581,7 +2581,7 @@ msgstr "Ανάζήτηση|Ανάζήτηση κειμένου"
 #. PyIDEMainForm..TBXDockTop..MainMenu..SearchMenu..mnSearchFindNext..Caption
 #. PyIDEMainForm..TBXDockTop..MainToolBar..tbiSearchFindNext..Caption
 #. PyIDEMainForm..TBXDockTop..FindToolbar..tbiFindNext..Caption
-#: dmCommands.dfm:14029
+#: dmCommands.dfm:14063
 #: frmPyIDEMain.dfm:1710
 msgid "Find &Next"
 msgstr "Εύρεση &Επομένου"
@@ -2590,7 +2590,7 @@ msgstr "Εύρεση &Επομένου"
 #. PyIDEMainForm..TBXDockTop..MainMenu..SearchMenu..mnSearchFindNext..Hint
 #. PyIDEMainForm..TBXDockTop..MainToolBar..tbiSearchFindNext..Hint
 #. PyIDEMainForm..TBXDockTop..FindToolbar..tbiFindNext..Hint
-#: dmCommands.dfm:14032
+#: dmCommands.dfm:14067
 #: frmPyIDEMain.dfm:1711
 msgid "Find next|Find next match"
 msgstr "Εύρεση επομένου|Ανεύρεση επομένου αποτελέσματος αναζήτησης"
@@ -2598,42 +2598,42 @@ msgstr "Εύρεση επομένου|Ανεύρεση επομένου αποτ
 #. CommandsDataModule..actlMain..actSearchFindPrev..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..SearchMenu..mnSearchFindPrevious..Caption
 #. PyIDEMainForm..TBXDockTop..FindToolbar..tbiFindPrevious..Caption
-#: dmCommands.dfm:14039
+#: dmCommands.dfm:14074
 msgid "Find &Previous"
 msgstr "Εύρεση &Προηγουμένου"
 
 #. CommandsDataModule..actlMain..actSearchFindPrev..Hint
 #. PyIDEMainForm..TBXDockTop..MainMenu..SearchMenu..mnSearchFindPrevious..Hint
 #. PyIDEMainForm..TBXDockTop..FindToolbar..tbiFindPrevious..Hint
-#: dmCommands.dfm:14042
+#: dmCommands.dfm:14078
 msgid "Find previous|Find Previous match"
 msgstr "Εύρεση προηγουμένου|Ανεύρεση προηγουμένου αποτελέσματος αναζήτησης"
 
 #. CommandsDataModule..actlMain..actSearchReplace..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..SearchMenu..mnSearchReplace..Caption
 #. PyIDEMainForm..TBXDockTop..MainToolBar..tbiSearchReplace..Caption
-#: dmCommands.dfm:14049
+#: dmCommands.dfm:14085
 msgid "&Replace..."
 msgstr "&Αντικατάσταση..."
 
 #. CommandsDataModule..actlMain..actSearchReplace..Hint
 #. PyIDEMainForm..TBXDockTop..MainMenu..SearchMenu..mnSearchReplace..Hint
 #. PyIDEMainForm..TBXDockTop..MainToolBar..tbiSearchReplace..Hint
-#: dmCommands.dfm:14052
+#: dmCommands.dfm:14089
 msgid "Replace|Search  & Replace"
 msgstr "Αντικατάσταση|Αναζήτηση και αντικατάσταση"
 
 #. CommandsDataModule..actlMain..actFileSaveAll..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..FileMenu..mnFileSaveAll..Caption
 #. PyIDEMainForm..TBXDockTop..MainToolBar..tbiFileSaveAll..Caption
-#: dmCommands.dfm:14059
+#: dmCommands.dfm:14096
 msgid "Save &All"
 msgstr "Αποθήκευση &Όλων"
 
 #. CommandsDataModule..actlMain..actFileSaveAll..Hint
 #. PyIDEMainForm..TBXDockTop..MainMenu..FileMenu..mnFileSaveAll..Hint
 #. PyIDEMainForm..TBXDockTop..MainToolBar..tbiFileSaveAll..Hint
-#: dmCommands.dfm:14061
+#: dmCommands.dfm:14099
 msgid "Save all|Save project and all open files"
 msgstr "Αποθήκευση όλων|Αποθήκευση όλων των ανοικτών αρχείων"
 
@@ -2643,7 +2643,7 @@ msgstr "Αποθήκευση όλων|Αποθήκευση όλων των αν�
 #. FindResultsWindow..Actions..actFilePrint..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..FileMenu..Print1..Caption
 #. PyIDEMainForm..TBXDockTop..MainToolBar..tbiFilePrint..Caption
-#: dmCommands.dfm:14067
+#: dmCommands.dfm:14105
 #: frmFindResults.dfm:348
 #: frmPyIDEMain.dfm:548
 #: frmPyIDEMain.dfm:1461
@@ -2653,69 +2653,69 @@ msgstr "&Εκτύπωση..."
 #. CommandsDataModule..actlMain..actFilePrint..Hint
 #. PyIDEMainForm..TBXDockTop..MainMenu..FileMenu..Print1..Hint
 #. PyIDEMainForm..TBXDockTop..MainToolBar..tbiFilePrint..Hint
-#: dmCommands.dfm:14070
+#: dmCommands.dfm:14109
 msgid "Print|Print active file"
 msgstr "Εκτύπωση|Εκτύπωση επιλεγμένου αρχείου"
 
 #. CommandsDataModule..actlMain..actPrinterSetup..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..FileMenu..PrinterSetup1..Caption
-#: dmCommands.dfm:14077
+#: dmCommands.dfm:14116
 msgid "Printer &Setup..."
 msgstr "&Διαμόρφωση Εκτυπωτή..."
 
 #. CommandsDataModule..actlMain..actPrinterSetup..Hint
 #. PyIDEMainForm..TBXDockTop..MainMenu..FileMenu..PrinterSetup1..Hint
-#: dmCommands.dfm:14079
+#: dmCommands.dfm:14119
 msgid "Printer setup"
 msgstr "Διαμόρφωση Εκτυπωτή"
 
 #. CommandsDataModule..actlMain..actPrintPreview..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..FileMenu..PrintPreview1..Caption
-#: dmCommands.dfm:14085
+#: dmCommands.dfm:14125
 msgid "Print Pre&view"
 msgstr "&Προεπισκόπιση Εκτύπωσης"
 
 #. CommandsDataModule..actlMain..actPrintPreview..Hint
 #. PyIDEMainForm..TBXDockTop..MainMenu..FileMenu..PrintPreview1..Hint
-#: dmCommands.dfm:14087
+#: dmCommands.dfm:14128
 msgid "Print preview"
 msgstr "Προεπισκόπηση εκτύπωσης"
 
 #. CommandsDataModule..actlMain..actPageSetup..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..FileMenu..PageSetup1..Caption
-#: dmCommands.dfm:14093
+#: dmCommands.dfm:14134
 msgid "Pa&ge Setup..."
 msgstr "Ρύθμιση Σε&λίδας..."
 
 #. CommandsDataModule..actlMain..actPageSetup..Hint
 #. PyIDEMainForm..TBXDockTop..MainMenu..FileMenu..PageSetup1..Hint
-#: dmCommands.dfm:14095
+#: dmCommands.dfm:14137
 msgid "Page setup"
 msgstr "Ρύθμιση σελίδας"
 
 #. CommandsDataModule..actlMain..actEditorOptions..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..ToolsMenu..OptionsMenu..mnEditorOptions..Caption
 #. PyIDEMainForm..TabBarPopupMenu..mnEditorOptions2..Caption
-#: dmCommands.dfm:14101
+#: dmCommands.dfm:14143
 msgid "&Editor Options..."
 msgstr "Επιλογές &Κειμενογράφου..."
 
 #. CommandsDataModule..actlMain..actEditorOptions..Hint
 #. PyIDEMainForm..TBXDockTop..MainMenu..ToolsMenu..OptionsMenu..mnEditorOptions..Hint
 #. PyIDEMainForm..TabBarPopupMenu..mnEditorOptions2..Hint
-#: dmCommands.dfm:14103
+#: dmCommands.dfm:14146
 msgid "Set Editor Options"
 msgstr "Εμφάνιση του διαλόγου επιλογών κειμενογράφου"
 
 #. CommandsDataModule..actlMain..actIDEOptions..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..ToolsMenu..OptionsMenu..mnIDEOptions..Caption
-#: dmCommands.dfm:14109
+#: dmCommands.dfm:14152
 msgid "&IDE Options..."
 msgstr "Επιλογές &IDE..."
 
 #. CommandsDataModule..actlMain..actIDEOptions..Hint
 #. PyIDEMainForm..TBXDockTop..MainMenu..ToolsMenu..OptionsMenu..mnIDEOptions..Hint
-#: dmCommands.dfm:14111
+#: dmCommands.dfm:14155
 msgid "Set IDE Options"
 msgstr "Εμφάνιση του διαλόγου επιλογών IDE"
 
@@ -2726,95 +2726,95 @@ msgstr "Εμφάνιση του διαλόγου επιλογών IDE"
 #. CommandsDataModule..actlMain..actEditTabify..Category
 #. CommandsDataModule..actlMain..actEditUntabify..Category
 #. CommandsDataModule..actlMain..actEditToggleComment..Category
-#: dmCommands.dfm:14116
-#: dmCommands.dfm:14143
 #: dmCommands.dfm:14160
-#: dmCommands.dfm:14168
-#: dmCommands.dfm:14423
+#: dmCommands.dfm:14190
+#: dmCommands.dfm:14209
+#: dmCommands.dfm:14218
+#: dmCommands.dfm:14504
 msgid "Source Code"
 msgstr "Πηγαίοs Κώδικας"
 
 #. CommandsDataModule..actlMain..actEditIndent..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..SourceCode1..mnIndentBlock..Caption
 #. PyIDEMainForm..TBXDockTop..EditorToolbar..tbiEditIndent..Caption
-#: dmCommands.dfm:14117
+#: dmCommands.dfm:14161
 msgid "&Indent Block"
 msgstr "Αυξηση &Εσοχής"
 
 #. CommandsDataModule..actlMain..actEditIndent..Hint
 #. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..SourceCode1..mnIndentBlock..Hint
 #. PyIDEMainForm..TBXDockTop..EditorToolbar..tbiEditIndent..Hint
-#: dmCommands.dfm:14119
+#: dmCommands.dfm:14164
 msgid "Indent block|Indent selected block of code"
 msgstr "Αυξηση εσοχής|Αύξηση εσοχής του επιλεγμένου μπλόκ κώδικα"
 
 #. CommandsDataModule..actlMain..actEditDedent..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..SourceCode1..mnDedentBlock..Caption
 #. PyIDEMainForm..TBXDockTop..EditorToolbar..tbiEditDedent..Caption
-#: dmCommands.dfm:14126
+#: dmCommands.dfm:14171
 msgid "&Dedent Block"
 msgstr "&Μείωση Εσοχής"
 
 #. CommandsDataModule..actlMain..actEditDedent..Hint
 #. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..SourceCode1..mnDedentBlock..Hint
 #. PyIDEMainForm..TBXDockTop..EditorToolbar..tbiEditDedent..Hint
-#: dmCommands.dfm:14128
+#: dmCommands.dfm:14174
 msgid "Dedent|Dedent selected block of code"
 msgstr "Μείωση εσοχής|Μείωση εσοχής του επιλεγμένου μπλόκ κώδικα"
 
 #. CommandsDataModule..actlMain..actEditCommentOut..Caption
-#: dmCommands.dfm:14135
+#: dmCommands.dfm:14181
 msgid "&Comment out"
 msgstr "&Μετατροπή σε σχόλιο"
 
 #. CommandsDataModule..actlMain..actEditCommentOut..Hint
-#: dmCommands.dfm:14137
+#: dmCommands.dfm:14184
 msgid "Comment out| Comment out block of code"
 msgstr "Μετατροπή σε σχόλιο|Μετατρέψτε σε σχόλιο ένα μπλόκ κώδικα"
 
 #. CommandsDataModule..actlMain..actEditUncomment..Caption
-#: dmCommands.dfm:14144
+#: dmCommands.dfm:14191
 msgid "&Uncomment"
 msgstr "Σχόλια σε &Κώδικα"
 
 #. CommandsDataModule..actlMain..actEditUncomment..Hint
-#: dmCommands.dfm:14146
+#: dmCommands.dfm:14194
 msgid "Uncomment| Uncomment block of code"
 msgstr "Μετατροπή σχολίου σε κώδικα"
 
 #. CommandsDataModule..actlMain..actSearchMatchingBrace..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..SearchMenu..mnMatchingBrace..Caption
-#: dmCommands.dfm:14153
+#: dmCommands.dfm:14201
 msgid "&Matching Brace"
 msgstr "Ταίριασμα &Παρένθεσης"
 
 #. CommandsDataModule..actlMain..actSearchMatchingBrace..Hint
 #. PyIDEMainForm..TBXDockTop..MainMenu..SearchMenu..mnMatchingBrace..Hint
-#: dmCommands.dfm:14155
+#: dmCommands.dfm:14204
 msgid "Find Matching Brace"
 msgstr "Εύρεση Ταιριαστής Παρένθεσης"
 
 #. CommandsDataModule..actlMain..actEditTabify..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..SourceCode1..mnTabify..Caption
-#: dmCommands.dfm:14161
+#: dmCommands.dfm:14210
 msgid "&Tabify"
 msgstr "&Στηλοθέτηση"
 
 #. CommandsDataModule..actlMain..actEditTabify..Hint
 #. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..SourceCode1..mnTabify..Hint
-#: dmCommands.dfm:14163
+#: dmCommands.dfm:14213
 msgid "Tabify|Convert spaces to tabs"
 msgstr "Στηλοθέτηση|Αντικατάσταση χαρακτήρων διαστήματος με στηλοθέτες"
 
 #. CommandsDataModule..actlMain..actEditUntabify..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..SourceCode1..mnUnTabify..Caption
-#: dmCommands.dfm:14169
+#: dmCommands.dfm:14219
 msgid "U&ntabify"
 msgstr "Α&ποστηλοθέτηση"
 
 #. CommandsDataModule..actlMain..actEditUntabify..Hint
 #. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..SourceCode1..mnUnTabify..Hint
-#: dmCommands.dfm:14171
+#: dmCommands.dfm:14222
 msgid "Untabify|Convert tabs to spaces"
 msgstr "Αποστηλοθέτηση|Αντικατάσταση στηλοθετών με χαρακτήρες διαστήματος"
 
@@ -2823,15 +2823,15 @@ msgstr "Αποστηλοθέτηση|Αντικατάσταση στηλοθετ
 #. CommandsDataModule..actlMain..actCheckForUpdates..Category
 #. CommandsDataModule..actlMain..actUnitTestWizard..Category
 #. PyIDEMainForm..TBXDockTop..MainMenu..ToolsMenu..mnTools..Caption
-#: dmCommands.dfm:14176
-#: dmCommands.dfm:14407
+#: dmCommands.dfm:14227
+#: dmCommands.dfm:14486
 #: frmPyIDEMain.dfm:1285
 msgid "Tools"
 msgstr "Εργαλεία"
 
 #. CommandsDataModule..actlMain..actPythonPath..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..ToolsMenu..mnPythonPath..Caption
-#: dmCommands.dfm:14177
+#: dmCommands.dfm:14228
 msgid "Python &Path..."
 msgstr "&Κατάλογος  Python..."
 
@@ -2839,7 +2839,7 @@ msgstr "&Κατάλογος  Python..."
 #. FileExplorerWindow..FGPanel..ExplorerDock..ExplorerToolbar..TBXSubmenuItem1..tbiPythonPath..Hint
 #. FileExplorerWindow..ExplorerPopUp..mnManagePythonPath..Hint
 #. PyIDEMainForm..TBXDockTop..MainMenu..ToolsMenu..mnPythonPath..Hint
-#: dmCommands.dfm:14179
+#: dmCommands.dfm:14231
 #: frmPyIDEMain.dfm:1271
 msgid "Python Path|View or edit the Python path"
 msgstr "Κατάλογος Python|Προβολή και επεξεργασία του καταλόγου Python (Python path)"
@@ -2866,14 +2866,14 @@ msgstr "Κατάλογος Python|Προβολή και επεξεργασία �
 #. ToDoWindow..PopupMenu..mnHelp..Hint
 #. ToDoWindow..Actions..actHelpHelp..Category
 #. ToDoWindow..Actions..actHelpHelp..Hint
-#: dmCommands.dfm:14184
-#: dmCommands.dfm:14260
-#: dmCommands.dfm:14305
-#: dmCommands.dfm:14393
-#: dmCommands.dfm:14542
-#: dmCommands.dfm:14550
-#: dmCommands.dfm:14558
-#: dmCommands.dfm:14566
+#: dmCommands.dfm:14236
+#: dmCommands.dfm:14321
+#: dmCommands.dfm:14372
+#: dmCommands.dfm:14470
+#: dmCommands.dfm:14638
+#: dmCommands.dfm:14647
+#: dmCommands.dfm:14656
+#: dmCommands.dfm:14665
 #: frmFindResults.dfm:180
 #: frmFindResults.dfm:305
 #: frmFindResults.dfm:378
@@ -2891,84 +2891,84 @@ msgstr "Βοήθεια"
 
 #. CommandsDataModule..actlMain..actHelpContents..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..HelpMenu..PyScripter1..mnHelpContents..Caption
-#: dmCommands.dfm:14185
+#: dmCommands.dfm:14237
 msgid "&Contents"
 msgstr "&Περιεχόμενα"
 
 #. CommandsDataModule..actlMain..actHelpContents..Hint
 #. PyIDEMainForm..TBXDockTop..MainMenu..HelpMenu..PyScripter1..mnHelpContents..Hint
-#: dmCommands.dfm:14188
+#: dmCommands.dfm:14241
 msgid "Help Contents"
 msgstr "Ευρετήριο Βοηθείας"
 
 #. CommandsDataModule..actlMain..actPythonManuals..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..HelpMenu..mnHelpPythonManuals..Caption
-#: dmCommands.dfm:14194
+#: dmCommands.dfm:14247
 msgid "&Python Manuals"
 msgstr "Εγχειρίδια &Python"
 
 #. CommandsDataModule..actlMain..actPythonManuals..Hint
 #. PyIDEMainForm..TBXDockTop..MainMenu..HelpMenu..mnHelpPythonManuals..Hint
-#: dmCommands.dfm:14196
+#: dmCommands.dfm:14250
 msgid "Show Python Manuals"
 msgstr "Εμφάνιση Εγχειριδίου Python"
 
 #. CommandsDataModule..actlMain..actAbout..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..HelpMenu..mnHelpAbout..Caption
 #. PyIDEMainForm..TBXDockTop..MainToolBar..tbiAbout..Caption
-#: dmCommands.dfm:14202
+#: dmCommands.dfm:14256
 msgid "About..."
 msgstr "&Περί..."
 
 #. CommandsDataModule..actlMain..actAbout..Hint
 #. PyIDEMainForm..TBXDockTop..MainMenu..HelpMenu..mnHelpAbout..Hint
 #. PyIDEMainForm..TBXDockTop..MainToolBar..tbiAbout..Hint
-#: dmCommands.dfm:14204
+#: dmCommands.dfm:14259
 msgid "About|Info about the application"
 msgstr "Περί|Πληροφορίες για την Εφαρμογή"
 
 #. CommandsDataModule..actlMain..actSearchGoToLine..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..SearchMenu..mnGoToLine..Caption
-#: dmCommands.dfm:14210
+#: dmCommands.dfm:14265
 msgid "Go To &Line..."
 msgstr "Μετάβαση σε &Γραμμή..."
 
 #. CommandsDataModule..actlMain..actSearchGoToLine..Hint
 #. PyIDEMainForm..TBXDockTop..MainMenu..SearchMenu..mnGoToLine..Hint
 #. Programmer's name for it: SGoToLineNumber
-#: dmCommands.dfm:14212
+#: dmCommands.dfm:14268
 msgid "Go to line number"
 msgstr "Μετάβαση στον αριθμό γραμμής"
 
 #. CommandsDataModule..actlMain..actSearchGoToSyntaxError..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..SearchMenu..mnGotoSyntaxError..Caption
-#: dmCommands.dfm:14219
+#: dmCommands.dfm:14275
 msgid "Go To Syntax &Error"
 msgstr "Μετάβαση στο Λάθος &Σύνταξης"
 
 #. CommandsDataModule..actlMain..actSearchGoToSyntaxError..Hint
 #. PyIDEMainForm..TBXDockTop..MainMenu..SearchMenu..mnGotoSyntaxError..Hint
-#: dmCommands.dfm:14221
+#: dmCommands.dfm:14278
 msgid "Jump to the position of the first syntax error"
 msgstr "Μετάβαση στη θέση του πρώτου συντακτικού σφάλματος"
 
 #. CommandsDataModule..actlMain..actFindInFiles..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..SearchMenu..mnFindinFiles..Caption
 #. PyIDEMainForm..TBXDockTop..MainToolBar..tbiFindInFiles..Caption
-#: dmCommands.dfm:14228
+#: dmCommands.dfm:14285
 msgid "&Find in Files..."
 msgstr "&Εύρεση σε Αρχεία..."
 
 #. CommandsDataModule..actlMain..actFindInFiles..Hint
 #. PyIDEMainForm..TBXDockTop..MainMenu..SearchMenu..mnFindinFiles..Hint
 #. PyIDEMainForm..TBXDockTop..MainToolBar..tbiFindInFiles..Hint
-#: dmCommands.dfm:14230
+#: dmCommands.dfm:14288
 msgid "Search in Files|Search for a string in Files"
 msgstr "Αναζήτηση σε αρχεία|Αναζήτηση κειμένου σε αρχεία"
 
 #. CommandsDataModule..actlMain..actParameterCompletion..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..Parameters1..mnInsertParameter..Caption
-#: dmCommands.dfm:14237
+#: dmCommands.dfm:14295
 msgid "Insert &parameter"
 msgstr "Είσοδος παραμέτρου"
 
@@ -2976,304 +2976,304 @@ msgstr "Είσοδος παραμέτρου"
 #. CommandsDataModule..actlMain..actModifierCompletion..Hint
 #. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..Parameters1..mnInsertParameter..Hint
 #. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..Parameters1..mnInsertModifier..Hint
-#: dmCommands.dfm:14239
+#: dmCommands.dfm:14298
 #: frmPyIDEMain.dfm:647
 msgid "Insert parameter to the edited file"
 msgstr "Εισαγωγή παραμέτρου στο αρχείο του κειμενογράφου"
 
 #. CommandsDataModule..actlMain..actModifierCompletion..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..Parameters1..mnInsertModifier..Caption
-#: dmCommands.dfm:14245
+#: dmCommands.dfm:14304
 msgid "Insert &modifier"
 msgstr "Είσοδος &Μετατροπέα"
 
 #. CommandsDataModule..actlMain..actReplaceParameters..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..Parameters1..mnReplaceParameter..Caption
-#: dmCommands.dfm:14253
+#: dmCommands.dfm:14313
 msgid "&Replace parameters"
 msgstr "&Αντικατάσταση Παραμέτρων"
 
 #. CommandsDataModule..actlMain..actReplaceParameters..Hint
 #. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..Parameters1..mnReplaceParameter..Hint
-#: dmCommands.dfm:14255
+#: dmCommands.dfm:14316
 msgid "Replace parameters with their values"
 msgstr "Αντικατάσταση παραμέτρων με τις τιμές τους"
 
 #. CommandsDataModule..actlMain..actHelpParameters..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..HelpMenu..PyScripter1..mnHelpParameters..Caption
-#: dmCommands.dfm:14261
+#: dmCommands.dfm:14322
 msgid "&Parameters"
 msgstr "&Παράμετροι"
 
 #. CommandsDataModule..actlMain..actHelpParameters..Hint
 #. PyIDEMainForm..TBXDockTop..MainMenu..HelpMenu..PyScripter1..mnHelpParameters..Hint
-#: dmCommands.dfm:14263
+#: dmCommands.dfm:14325
 msgid "Help on custom parameters"
 msgstr "Βοήθεια για παραμέτρους"
 
 #. CommandsDataModule..actlMain..actInsertTemplate..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..mnIsertCodeTemplate..Caption
-#: dmCommands.dfm:14268
+#: dmCommands.dfm:14330
 msgid "Insert &Template"
 msgstr "Είσοδος &Προτύπου"
 
 #. CommandsDataModule..actlMain..actInsertTemplate..Hint
 #. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..mnIsertCodeTemplate..Hint
-#: dmCommands.dfm:14270
+#: dmCommands.dfm:14333
 msgid "Insert a Code Template"
 msgstr "Είσοδος προτύπου κώδικα"
 
 #. CommandsDataModule..actlMain..actCustomizeParameters..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..ToolsMenu..OptionsMenu..mnCustomizeParameters..Caption
-#: dmCommands.dfm:14276
+#: dmCommands.dfm:14339
 msgid "Custom &Parameters..."
 msgstr "Ειδικές &Παράμετροι..."
 
 #. CommandsDataModule..actlMain..actCustomizeParameters..Hint
 #. PyIDEMainForm..TBXDockTop..MainMenu..ToolsMenu..OptionsMenu..mnCustomizeParameters..Hint
-#: dmCommands.dfm:14278
+#: dmCommands.dfm:14342
 msgid "Add/Remove custom parameters"
 msgstr "Πρόσθεση/Αφαίρεση ειδικών παραμέτρων"
 
 #. CommandsDataModule..actlMain..actIDEShortcuts..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..ToolsMenu..OptionsMenu..mnIDEShortCuts..Caption
-#: dmCommands.dfm:14283
+#: dmCommands.dfm:14347
 msgid "IDE &Shortcuts..."
 msgstr "Πλήκτρα &Συντόμευσης IDE..."
 
 #. CommandsDataModule..actlMain..actIDEShortcuts..Hint
 #. PyIDEMainForm..TBXDockTop..MainMenu..ToolsMenu..OptionsMenu..mnIDEShortCuts..Hint
-#: dmCommands.dfm:14285
+#: dmCommands.dfm:14350
 msgid "Customize IDE shortcuts"
 msgstr "Προσαρμογή πλήκτων συντόμευσης του IDE"
 
 #. CommandsDataModule..actlMain..actCodeTemplates..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..ToolsMenu..OptionsMenu..mnCodeTemplates..Caption
-#: dmCommands.dfm:14291
+#: dmCommands.dfm:14356
 msgid "&Code Templates..."
 msgstr "Προτυπα &Κώδικα..."
 
 #. CommandsDataModule..actlMain..actCodeTemplates..Hint
 #. PyIDEMainForm..TBXDockTop..MainMenu..ToolsMenu..OptionsMenu..mnCodeTemplates..Hint
-#: dmCommands.dfm:14293
+#: dmCommands.dfm:14359
 msgid "Add/Remove code templates"
 msgstr "Πρόσθεση/Αφαίρεση προτύπων κώδικα"
 
 #. CommandsDataModule..actlMain..actConfigureTools..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..ToolsMenu..mnConfigureTools..Caption
-#: dmCommands.dfm:14298
+#: dmCommands.dfm:14364
 msgid "Configure &Tools..."
 msgstr "Ρύθμιση &Εργαλείων..."
 
 #. CommandsDataModule..actlMain..actConfigureTools..Hint
 #. PyIDEMainForm..TBXDockTop..MainMenu..ToolsMenu..mnConfigureTools..Hint
-#: dmCommands.dfm:14300
+#: dmCommands.dfm:14367
 msgid "Configure Tools|Add/remove/edit command-line tools"
 msgstr "Ρύθμιση &Εργαλείων|Πρόσθεση/αφαίρεση/αλλαγή εξωτερικών εργαλείων"
 
 #. CommandsDataModule..actlMain..actHelpExternalTools..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..HelpMenu..PyScripter1..mnHelpExternalTools..Caption
-#: dmCommands.dfm:14306
+#: dmCommands.dfm:14373
 msgid "External &Tools"
 msgstr "Εξωτερικά &Εργαλεία"
 
 #. CommandsDataModule..actlMain..actHelpExternalTools..Hint
 #. PyIDEMainForm..TBXDockTop..MainMenu..HelpMenu..PyScripter1..mnHelpExternalTools..Hint
-#: dmCommands.dfm:14308
+#: dmCommands.dfm:14376
 msgid "Help on External Tools"
 msgstr "Βοήθεια για Εξωτερικά Εργαλεία"
 
 #. CommandsDataModule..actlMain..actFindFunction..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..SearchMenu..mnFindFunction..Caption
-#: dmCommands.dfm:14313
+#: dmCommands.dfm:14381
 msgid "Find F&unction..."
 msgstr "Εύρεση &Συνάρτησης..."
 
 #. CommandsDataModule..actlMain..actFindFunction..Hint
 #. PyIDEMainForm..TBXDockTop..MainMenu..SearchMenu..mnFindFunction..Hint
-#: dmCommands.dfm:14315
+#: dmCommands.dfm:14384
 msgid "Find Function|Find function from function list"
 msgstr "Εύρεση Συνάρτησης|Βρήτε μια συνάρτηση επιλέγοντας από μια λίστα συναρτήσεων."
 
 #. CommandsDataModule..actlMain..actEditLineNumbers..Caption
 #. PyIDEMainForm..TBXDockTop..EditorToolbar..tbiEditLineNumbers..Caption
-#: dmCommands.dfm:14322
+#: dmCommands.dfm:14391
 msgid "Line &Numbers"
 msgstr "Προβολή Αριθμών &Γραμμής"
 
 #. CommandsDataModule..actlMain..actEditLineNumbers..Hint
 #. PyIDEMainForm..TBXDockTop..EditorToolbar..tbiEditLineNumbers..Hint
-#: dmCommands.dfm:14324
+#: dmCommands.dfm:14394
 msgid "Show/Hide line numbers"
 msgstr "Εμφάνιση/Κρύψιμο αριθμών γραμμής"
 
 #. CommandsDataModule..actlMain..actEditShowSpecialChars..Caption
 #. PyIDEMainForm..TBXDockTop..EditorToolbar..tbiEditSpecialCharacters..Caption
-#: dmCommands.dfm:14330
+#: dmCommands.dfm:14400
 msgid "Special &Characters"
 msgstr "Ειδικοί &Χαρακτήρες"
 
 #. CommandsDataModule..actlMain..actEditShowSpecialChars..Hint
 #. PyIDEMainForm..TBXDockTop..EditorToolbar..tbiEditSpecialCharacters..Hint
-#: dmCommands.dfm:14332
+#: dmCommands.dfm:14403
 msgid "Show/Hide special characters"
 msgstr "Εμφάνιση/Κρύψιμο ειδικών χαρακτήρων"
 
 #. CommandsDataModule..actlMain..actFindPreviousReference..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..SearchMenu..mnFindPreviousReference..Caption
-#: dmCommands.dfm:14339
+#: dmCommands.dfm:14410
 msgid "Find Previous Reference"
 msgstr "Εύρεση Προηγούμενης Αναφοράς"
 
 #. CommandsDataModule..actlMain..actFindPreviousReference..Hint
 #. PyIDEMainForm..TBXDockTop..MainMenu..SearchMenu..mnFindPreviousReference..Hint
-#: dmCommands.dfm:14341
+#: dmCommands.dfm:14413
 msgid "Find previous identifier reference"
 msgstr "Εύρεση προηγούμενης αναφοράς αναγνωριστικού"
 
 #. CommandsDataModule..actlMain..actFindNextReference..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..SearchMenu..mnFindNextReference..Caption
-#: dmCommands.dfm:14347
+#: dmCommands.dfm:14419
 msgid "Find Next Reference"
 msgstr "Εύρεση Επόμενης Αναφοράς"
 
 #. CommandsDataModule..actlMain..actFindNextReference..Hint
 #. PyIDEMainForm..TBXDockTop..MainMenu..SearchMenu..mnFindNextReference..Hint
-#: dmCommands.dfm:14349
+#: dmCommands.dfm:14422
 msgid "Find next identifier reference"
 msgstr "Εύρεση επόμενης αναφοράς αναγνωριστικού"
 
 #. CommandsDataModule..actlMain..actEditLBDos..Hint
 #. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..TBXSubmenuItem3..mnEditLBDos..Hint
-#: dmCommands.dfm:14359
+#: dmCommands.dfm:14433
 msgid "DOS/Windows|Convert to DOS Linebreak"
 msgstr "DOS/Windows|Μετατροπή αλλαγής γραμμής σε DOS"
 
 #. CommandsDataModule..actlMain..actEditLBUnix..Hint
 #. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..TBXSubmenuItem3..mnEditLBUnix..Hint
-#: dmCommands.dfm:14369
+#: dmCommands.dfm:14444
 msgid "UNIX|Convert to UNIX Linebreak"
 msgstr "UNIX|Μετατροπή αλλαγής γραμμής σε UNIX"
 
 #. CommandsDataModule..actlMain..actEditLBMac..Hint
 #. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..TBXSubmenuItem3..mnEditLBMac..Hint
-#: dmCommands.dfm:14379
+#: dmCommands.dfm:14455
 msgid "Mac|Convert to Mac Linebreak"
 msgstr "Mac|Μετατροπή αλλαγής γραμμής σε Mac"
 
 #. CommandsDataModule..actlMain..actEditAnsi..Hint
 #. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..TBXSubmenuItem3..mnEditAnsi..Hint
-#: dmCommands.dfm:14389
+#: dmCommands.dfm:14466
 msgid "Use Ansi encoding"
 msgstr "Χρήση κωδικοποίσης Ansi"
 
 #. CommandsDataModule..actlMain..actHelpEditorShortcuts..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..HelpMenu..PyScripter1..mnHelpEditorShortcuts..Caption
-#: dmCommands.dfm:14394
+#: dmCommands.dfm:14471
 msgid "Editor &Shortcuts"
 msgstr "Πλήκτρα Συντόμευσης &Κειμενογράφου"
 
 #. CommandsDataModule..actlMain..actHelpEditorShortcuts..Hint
 #. PyIDEMainForm..TBXDockTop..MainMenu..HelpMenu..PyScripter1..mnHelpEditorShortcuts..Hint
-#: dmCommands.dfm:14396
+#: dmCommands.dfm:14474
 msgid "Help on editor shortcuts"
 msgstr "Βοήθεια για τα πλήκτρα συντόμευσης του κειμενογράφου"
 
 #. CommandsDataModule..actlMain..actCheckForUpdates..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..ToolsMenu..mnCheckForUpdates..Caption
-#: dmCommands.dfm:14401
+#: dmCommands.dfm:14479
 msgid "Check For &Updates"
 msgstr "Έλεγχος &Ενημερώσεων"
 
 #. CommandsDataModule..actlMain..actCheckForUpdates..Hint
 #. PyIDEMainForm..TBXDockTop..MainMenu..ToolsMenu..mnCheckForUpdates..Hint
-#: dmCommands.dfm:14403
+#: dmCommands.dfm:14482
 msgid "Check whether a newer version of PyScripter is available"
 msgstr "Έλεγχος για νεώτερη έκδοση του PyScripter"
 
 #. CommandsDataModule..actlMain..actUnitTestWizard..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..ToolsMenu..mnUnitTestWizard..Caption
-#: dmCommands.dfm:14408
+#: dmCommands.dfm:14487
 msgid "&Unit Test Wizard..."
 msgstr "Αυτόματος Οδηγός &Μοναδιαίων Ελέγχων..."
 
 #. CommandsDataModule..actlMain..actUnitTestWizard..Hint
 #. PyIDEMainForm..TBXDockTop..MainMenu..ToolsMenu..mnUnitTestWizard..Hint
-#: dmCommands.dfm:14410
+#: dmCommands.dfm:14490
 msgid "unitest wizard|Create unitests for active module"
 msgstr "Αυτόματος οδηγός μοναδιαίων ελέγχων|Δημιουργία ελέγχων για το ενεργό αρχείο"
 
 #. CommandsDataModule..actlMain..actInterpreterEditorOptions..Caption
 #. PythonIIForm..InterpreterPopUp..mnInterpreterEditorOptions..Caption
-#: dmCommands.dfm:14416
+#: dmCommands.dfm:14496
 msgid "&Interpreter Editor Options..."
 msgstr "Επιλογές Κειμενογράφου &Διερμηνευτή..."
 
 #. CommandsDataModule..actlMain..actInterpreterEditorOptions..Hint
 #. PythonIIForm..InterpreterPopUp..mnInterpreterEditorOptions..Hint
-#: dmCommands.dfm:14418
+#: dmCommands.dfm:14499
 msgid "Set Interpreter Editor Options"
 msgstr "Ορισμός επιλογών κειμενογράφου διερμηνευτή"
 
 #. CommandsDataModule..actlMain..actEditToggleComment..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..SourceCode1..mnToggleComment..Caption
 #. PyIDEMainForm..TBXDockTop..EditorToolbar..tbiEditToggleComment..Caption
-#: dmCommands.dfm:14424
+#: dmCommands.dfm:14505
 msgid "Toggle &Comment"
 msgstr "Εναλλαγή &Σχολίου"
 
 #. CommandsDataModule..actlMain..actEditToggleComment..Hint
 #. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..SourceCode1..mnToggleComment..Hint
 #. PyIDEMainForm..TBXDockTop..EditorToolbar..tbiEditToggleComment..Hint
-#: dmCommands.dfm:14426
+#: dmCommands.dfm:14508
 msgid "Toggle Comment| Comment/Uncomment block of code"
 msgstr "Εναλλαγή Σχολίου|Μετατροπή μπλοκ κώδικα σε σχόλιο και το ανάποδο"
 
 #. CommandsDataModule..actlMain..actFileTemplates..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..ToolsMenu..OptionsMenu..mnFileTemplates..Caption
-#: dmCommands.dfm:14433
+#: dmCommands.dfm:14515
 msgid "&File Templates..."
 msgstr "Πρότυπα &Αρχείων..."
 
 #. CommandsDataModule..actlMain..actFileTemplates..Hint
 #. PyIDEMainForm..TBXDockTop..MainMenu..ToolsMenu..OptionsMenu..mnFileTemplates..Hint
-#: dmCommands.dfm:14435
+#: dmCommands.dfm:14518
 msgid "Add/Remove file templates"
 msgstr "Πρόσθεση/Αφαίρεση προτύπων αρχείων"
 
 #. CommandsDataModule..actlMain..actEditUTF8..Hint
 #. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..TBXSubmenuItem3..mnEditUtf8..Hint
-#: dmCommands.dfm:14444
+#: dmCommands.dfm:14528
 msgid "Use UTF-8 encoding when saving the file"
 msgstr "Χρήση UTF-8 κωδικοποίησης κατά την αποθήκευση του αρχείου"
 
 #. CommandsDataModule..actlMain..actEditUTF8NoBOM..Hint
 #. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..TBXSubmenuItem3..mnEditUtf8NoBom..Hint
-#: dmCommands.dfm:14453
+#: dmCommands.dfm:14538
 msgid "Use UTF-8 enconding without BOM"
 msgstr "Χρήση UTF-8 κωδικοποίησης χωρίς BOM"
 
 #. CommandsDataModule..actlMain..actEditUTF16LE..Hint
 #. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..TBXSubmenuItem3..mnEditUtf16LE..Hint
-#: dmCommands.dfm:14462
+#: dmCommands.dfm:14548
 msgid "Use UTF-16LE enconding"
 msgstr "Χρήση UTF-16LE  κωδικοποίησης κατά την αποθήκευση του αρχείου"
 
 #. CommandsDataModule..actlMain..actEditUTF16BE..Hint
 #. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..TBXSubmenuItem3..mnEditUtf16BE..Hint
-#: dmCommands.dfm:14471
+#: dmCommands.dfm:14558
 msgid "Use UTF-16BE enconding"
 msgstr "Χρήση UTF-16BE κωδικοποίησης κατά την αποθήκευση του αρχείου"
 
 #. CommandsDataModule..actlMain..actFileReload..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..FileMenu..mnFileReload..Caption
-#: dmCommands.dfm:14476
+#: dmCommands.dfm:14563
 msgid "&Reload"
 msgstr "&Επαναφόρτωση"
 
 #. CommandsDataModule..actlMain..actFileReload..Hint
 #. PyIDEMainForm..TBXDockTop..MainMenu..FileMenu..mnFileReload..Hint
-#: dmCommands.dfm:14479
+#: dmCommands.dfm:14567
 msgid "Reload|Reload active file"
 msgstr "Επαναφόρτωση|Επαναφόρτωση του ενεργού αρχείου"
 
@@ -3282,8 +3282,8 @@ msgstr "Επαναφόρτωση|Επαναφόρτωση του ενεργού 
 #. CommandsDataModule..actlMain..actImportHighlighters..Category
 #. CommandsDataModule..actlMain..actExportHighlighters..Category
 #. PyIDEMainForm..TBXDockTop..MainMenu..ToolsMenu..OptionsMenu..TBXSubmenuItem7..Caption
-#: dmCommands.dfm:14484
-#: dmCommands.dfm:14502
+#: dmCommands.dfm:14572
+#: dmCommands.dfm:14593
 #: frmPyIDEMain.dfm:1316
 msgid "Import/Export"
 msgstr "Εισαγωγή/Εξαγωγή"
@@ -3293,7 +3293,7 @@ msgstr "Εισαγωγή/Εξαγωγή"
 #. PyIDEMainForm..TBXDockTop..MainMenu..ToolsMenu..OptionsMenu..TBXSubmenuItem7..mnImportShortcuts..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..ToolsMenu..OptionsMenu..TBXSubmenuItem7..mnImportShortcuts..Hint
 #. Programmer's name for it: SImportShortcuts
-#: dmCommands.dfm:14485
+#: dmCommands.dfm:14573
 #: frmPyIDEMain.dfm:1324
 #: StringResources.pas:119
 msgid "Import Shortcuts"
@@ -3304,7 +3304,7 @@ msgstr "Εισαγωγή Πλήκτρων Συντόμευσης"
 #. PyIDEMainForm..TBXDockTop..MainMenu..ToolsMenu..OptionsMenu..TBXSubmenuItem7..mnExportShortcuts..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..ToolsMenu..OptionsMenu..TBXSubmenuItem7..mnExportShortcuts..Hint
 #. Programmer's name for it: SExportShortcuts
-#: dmCommands.dfm:14491
+#: dmCommands.dfm:14580
 #: frmPyIDEMain.dfm:1319
 #: StringResources.pas:123
 msgid "Export Shortcuts"
@@ -3313,130 +3313,130 @@ msgstr "Εξαγωγή Πλήκτρων Συντόμευσης"
 #. CommandsDataModule..actlMain..actImportHighlighters..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..ToolsMenu..OptionsMenu..TBXSubmenuItem7..mnImportHighlighters..Caption
 #. Programmer's name for it: SImportHighlighters
-#: dmCommands.dfm:14497
+#: dmCommands.dfm:14587
 msgid "Import Highlighters"
 msgstr "Εισαγωγή Τονιστών Σύνταξης"
 
 #. CommandsDataModule..actlMain..actImportHighlighters..Hint
 #. PyIDEMainForm..TBXDockTop..MainMenu..ToolsMenu..OptionsMenu..TBXSubmenuItem7..mnImportHighlighters..Hint
-#: dmCommands.dfm:14498
+#: dmCommands.dfm:14589
 msgid "Import Syntax Highlighters"
 msgstr "Εισαγωγή Τονιστών Σύνταξης "
 
 #. CommandsDataModule..actlMain..actExportHighlighters..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..ToolsMenu..OptionsMenu..TBXSubmenuItem7..mnExportHighlighters..Caption
 #. Programmer's name for it: SExportHighlighters
-#: dmCommands.dfm:14503
+#: dmCommands.dfm:14594
 msgid "Export Highlighters"
 msgstr "Εξαγωγή Τονιστών Σύνταξης"
 
 #. CommandsDataModule..actlMain..actExportHighlighters..Hint
 #. PyIDEMainForm..TBXDockTop..MainMenu..ToolsMenu..OptionsMenu..TBXSubmenuItem7..mnExportHighlighters..Hint
-#: dmCommands.dfm:14504
+#: dmCommands.dfm:14596
 msgid "Export Syntax Highlighters"
 msgstr "Εξαγωγή Τονιστών Σύνταξης"
 
 #. CommandsDataModule..actlMain..actSearchReplaceNow..Hint
 #. PyIDEMainForm..TBXDockTop..FindToolbar..tbiReplaceExecute..Hint
-#: dmCommands.dfm:14512
+#: dmCommands.dfm:14605
 msgid "Replace with existing  settings"
 msgstr "Αντικατάσταση σύμφωνα με τις επιλεγμένες ρυθμίσεις"
 
 #. CommandsDataModule..actlMain..actSearchHighlight..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..SearchMenu..mnSearchHighlight..Caption
 #. PyIDEMainForm..TBXDockTop..FindToolbar..tbiHighlight..Caption
-#: dmCommands.dfm:14519
+#: dmCommands.dfm:14612
 msgid "&Highlight Search Text"
 msgstr "&Τονισμός Ταιριασμάτων "
 
 #. CommandsDataModule..actlMain..actSearchHighlight..Hint
 #. PyIDEMainForm..TBXDockTop..MainMenu..SearchMenu..mnSearchHighlight..Hint
 #. PyIDEMainForm..TBXDockTop..FindToolbar..tbiHighlight..Hint
-#: dmCommands.dfm:14521
+#: dmCommands.dfm:14615
 msgid "Highlight the search text in the current editor"
 msgstr "Τονισμός των ταιριασμάτων στο ενεργό αρχείο"
 
 #. CommandsDataModule..actlMain..actEditWordWrap..Caption
 #. PyIDEMainForm..TBXDockTop..EditorToolbar..tbiEditWordWrap..Caption
-#: dmCommands.dfm:14528
+#: dmCommands.dfm:14622
 msgid "Word &Wrap"
 msgstr "Ανα&δίπλωση Γραμμών"
 
 #. CommandsDataModule..actlMain..actEditWordWrap..Hint
 #. PyIDEMainForm..TBXDockTop..EditorToolbar..tbiEditWordWrap..Hint
-#: dmCommands.dfm:14530
+#: dmCommands.dfm:14625
 msgid "Turn word wrap on/off"
 msgstr "(Απ)ενεργοποίηση αναδίπλωσης γραμμών"
 
 #. CommandsDataModule..actlMain..actSearchGoToDebugLine..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..SearchMenu..mnGoToDebugLine..Caption
-#: dmCommands.dfm:14536
+#: dmCommands.dfm:14631
 msgid "Go To &Debugger Position"
 msgstr "Μετάβαση στη Θέση &Αποσφαλμάτωσης"
 
 #. CommandsDataModule..actlMain..actSearchGoToDebugLine..Hint
 #. PyIDEMainForm..TBXDockTop..MainMenu..SearchMenu..mnGoToDebugLine..Hint
-#: dmCommands.dfm:14538
+#: dmCommands.dfm:14634
 msgid "Go to the curent position of the debugger"
 msgstr "Μετάβαση στην τρέχουσα θέση του αποσφαλματωτή"
 
 #. CommandsDataModule..actlMain..actHelpOfficialWebSite..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..HelpMenu..SpTBXSubmenuItem2..mnHelpOfficialWebSite..Caption
-#: dmCommands.dfm:14543
+#: dmCommands.dfm:14639
 msgid "&Official Web Site"
 msgstr "&Επίσημη Ιστιοσελίδα"
 
 #. CommandsDataModule..actlMain..actHelpOfficialWebSite..Hint
 #. PyIDEMainForm..TBXDockTop..MainMenu..HelpMenu..SpTBXSubmenuItem2..mnHelpOfficialWebSite..Hint
-#: dmCommands.dfm:14545
+#: dmCommands.dfm:14642
 msgid "Go to the official web site"
 msgstr "Μετάβαση στην επίσημη ιστοσελίδα"
 
 #. CommandsDataModule..actlMain..actHelpDevelopmentWebsite..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..HelpMenu..SpTBXSubmenuItem2..mnHelpDevelopmentWebSite..Caption
-#: dmCommands.dfm:14551
+#: dmCommands.dfm:14648
 msgid "&Development Web Site"
 msgstr "Ιστιοσελίδα Ανάπτυξης του PyScripter"
 
 #. CommandsDataModule..actlMain..actHelpDevelopmentWebsite..Hint
 #. PyIDEMainForm..TBXDockTop..MainMenu..HelpMenu..SpTBXSubmenuItem2..mnHelpDevelopmentWebSite..Hint
-#: dmCommands.dfm:14553
+#: dmCommands.dfm:14651
 msgid "Go To the developement web site"
 msgstr "Μετάβαση στη ιστοσελίδα ανάπτυξης του PyScripter"
 
 #. CommandsDataModule..actlMain..actHelpWebProjectHome..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..HelpMenu..SpTBXSubmenuItem2..mnHelpProjectHome..Caption
-#: dmCommands.dfm:14559
+#: dmCommands.dfm:14657
 msgid "&Project Home"
 msgstr "Ιστιοσελίδα του Έργου"
 
 #. CommandsDataModule..actlMain..actHelpWebProjectHome..Hint
 #. PyIDEMainForm..TBXDockTop..MainMenu..HelpMenu..SpTBXSubmenuItem2..mnHelpProjectHome..Hint
-#: dmCommands.dfm:14561
+#: dmCommands.dfm:14660
 msgid "Go to the project home page"
 msgstr "Μετάβαση στη βασική σελίδα έργου του PyScripter"
 
 #. CommandsDataModule..actlMain..actHelpWebGroupSupport..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..HelpMenu..SpTBXSubmenuItem2..mnHelpWebSupport..Caption
-#: dmCommands.dfm:14567
+#: dmCommands.dfm:14666
 msgid "&Group Support"
 msgstr "Υποστήριξη &Ομάδας"
 
 #. CommandsDataModule..actlMain..actHelpWebGroupSupport..Hint
 #. PyIDEMainForm..TBXDockTop..MainMenu..HelpMenu..SpTBXSubmenuItem2..mnHelpWebSupport..Hint
-#: dmCommands.dfm:14569
+#: dmCommands.dfm:14669
 msgid "Go to the PyScripter Internet group"
 msgstr "Μετάβαση στην ιστοσελίδα της Διαδικτυακής Ομάδας του PyScripter"
 
 #. CommandsDataModule..actlMain..actFileCloseAllOther..Caption
 #. PyIDEMainForm..TabBarPopupMenu..mnFileCloseAllOther..Caption
-#: dmCommands.dfm:14575
+#: dmCommands.dfm:14675
 msgid "Close All &Other"
 msgstr "Κλείσιμο Όλων των &Άλλων"
 
 #. CommandsDataModule..actlMain..actFileCloseAllOther..Hint
 #. PyIDEMainForm..TabBarPopupMenu..mnFileCloseAllOther..Hint
-#: dmCommands.dfm:14577
+#: dmCommands.dfm:14678
 msgid "Close all files except the active one"
 msgstr "Κλείσιμο όλων των αρχείων εκτός από το ενεργό"
 
@@ -3490,7 +3490,7 @@ msgstr "Καθαρισμός|Καθαρισμός επιλεγμένου σημ�
 #. PyIDEMainForm..TBXDockTop..DebugToolbar..tbiRunClearAllBreakpoints..Caption
 #. PyIDEMainForm..actlStandard..actClearAllBreakpoints..Caption
 #: frmBreakPoints.dfm:126
-#: frmPyIDEMain.dfm:2332
+#: frmPyIDEMain.dfm:2358
 msgid "&Clear All Breakpoints"
 msgstr "&Καθαρισμός όλων των Σημείων Διακοπής"
 
@@ -3499,7 +3499,7 @@ msgstr "&Καθαρισμός όλων των Σημείων Διακοπής"
 #. PyIDEMainForm..TBXDockTop..DebugToolbar..tbiRunClearAllBreakpoints..Hint
 #. PyIDEMainForm..actlStandard..actClearAllBreakpoints..Hint
 #: frmBreakPoints.dfm:127
-#: frmPyIDEMain.dfm:2334
+#: frmPyIDEMain.dfm:2361
 msgid "Clear all breakpoints"
 msgstr "Καθαρισμός όλων των σημείων διακοπής"
 
@@ -3526,7 +3526,7 @@ msgstr "Στοίβα κλήσεων"
 #. CallStackWindow..FGPanel..CallStackView......WideText
 #. Programmer's name for it: SYNS_FunctionName
 #. Programmer's name for it: SYNS_FriendlyFunctionName
-#: frmCallStack.dfm:92
+#: frmCallStack.dfm:90
 #: SynHighlighterPython.pas:246
 msgid "Function Name"
 msgstr "Όνομα Συνάρτησης"
@@ -3542,7 +3542,7 @@ msgstr "Εξερευνητής Κώδικα"
 #. ProjectExplorerWindow..ProjectActionList..actProjectExpandAll..Caption
 #: frmCodeExplorer.dfm:89
 #: frmProjectExplorer.dfm:194
-#: frmProjectExplorer.dfm:894
+#: frmProjectExplorer.dfm:908
 msgid "&Expand All"
 msgstr "&Ανάπτυξη Όλων"
 
@@ -3559,7 +3559,7 @@ msgstr "Ανάπτυξη όλων των κόμβων"
 #. UnitTestWindow..DialogActions..actCollapseAll..Caption
 #: frmCodeExplorer.dfm:95
 #: frmProjectExplorer.dfm:199
-#: frmProjectExplorer.dfm:902
+#: frmProjectExplorer.dfm:916
 #: frmUnitTests.dfm:113
 #: frmUnitTests.dfm:759
 msgid "&Collapse All"
@@ -3721,27 +3721,28 @@ msgstr "Επεξεργαστής κειμένου"
 
 #. EditorForm..FGPanel..ViewsTabBar......Caption
 #. EditorForm..FGPanel..EditorViews..SourcePage..Caption
-#: frmEditor.dfm:44
+#. Programmer's name for it: SSourceTabCaption
+#: frmEditor.dfm:41
 msgid "Source"
 msgstr "Κώδικας"
 
 #. EditorForm..pmnuPageList..mnUpdateView..Caption
-#: frmEditor.dfm:438
+#: frmEditor.dfm:429
 msgid "Update View"
 msgstr "Ανανέωση Προβολής"
 
 #. EditorForm..pmnuPageList..mnUpdateView..Hint
-#: frmEditor.dfm:439
+#: frmEditor.dfm:430
 msgid "Update View|Update the selected view"
 msgstr "Ανανέωση Προβολής|Ανανέωση επιλεγμένης προβολής"
 
 #. EditorForm..pmnuPageList..mnCloseTab..Caption
-#: frmEditor.dfm:444
+#: frmEditor.dfm:435
 msgid "Close Tab"
 msgstr "Κλείσιμο Καρτέλλας"
 
 #. EditorForm..pmnuPageList..mnCloseTab..Hint
-#: frmEditor.dfm:445
+#: frmEditor.dfm:436
 msgid "Close active tab"
 msgstr "Κλείσιμο ενεργούς καρτέλλας"
 
@@ -4189,27 +4190,27 @@ msgstr "Λίστα"
 #: frmPyIDEMain.dfm:2084
 #: frmPyIDEMain.dfm:2093
 #: frmPyIDEMain.dfm:2107
-#: frmPyIDEMain.dfm:2203
-#: frmPyIDEMain.dfm:2244
-#: frmPyIDEMain.dfm:2366
-#: frmPyIDEMain.dfm:2375
-#: frmPyIDEMain.dfm:2384
-#: frmPyIDEMain.dfm:2393
-#: frmPyIDEMain.dfm:2401
-#: frmPyIDEMain.dfm:2410
-#: frmPyIDEMain.dfm:2418
-#: frmPyIDEMain.dfm:2458
-#: frmPyIDEMain.dfm:2466
-#: frmPyIDEMain.dfm:2472
-#: frmPyIDEMain.dfm:2478
-#: frmPyIDEMain.dfm:2484
-#: frmPyIDEMain.dfm:2493
-#: frmPyIDEMain.dfm:2501
-#: frmPyIDEMain.dfm:2509
-#: frmPyIDEMain.dfm:2680
-#: frmPyIDEMain.dfm:2688
-#: frmPyIDEMain.dfm:2703
-#: frmPyIDEMain.dfm:2710
+#: frmPyIDEMain.dfm:2214
+#: frmPyIDEMain.dfm:2260
+#: frmPyIDEMain.dfm:2396
+#: frmPyIDEMain.dfm:2406
+#: frmPyIDEMain.dfm:2416
+#: frmPyIDEMain.dfm:2426
+#: frmPyIDEMain.dfm:2435
+#: frmPyIDEMain.dfm:2445
+#: frmPyIDEMain.dfm:2454
+#: frmPyIDEMain.dfm:2499
+#: frmPyIDEMain.dfm:2508
+#: frmPyIDEMain.dfm:2515
+#: frmPyIDEMain.dfm:2522
+#: frmPyIDEMain.dfm:2529
+#: frmPyIDEMain.dfm:2539
+#: frmPyIDEMain.dfm:2548
+#: frmPyIDEMain.dfm:2557
+#: frmPyIDEMain.dfm:2749
+#: frmPyIDEMain.dfm:2758
+#: frmPyIDEMain.dfm:2775
+#: frmPyIDEMain.dfm:2783
 msgid "View"
 msgstr "&Προβολή"
 
@@ -4240,8 +4241,8 @@ msgstr "&Αντικείμενα"
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectFileEdit..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..Caption
 #: frmFunctionList.dfm:196
-#: frmProjectExplorer.dfm:667
-#: frmProjectExplorer.dfm:774
+#: frmProjectExplorer.dfm:673
+#: frmProjectExplorer.dfm:780
 #: frmPyIDEMain.dfm:561
 msgid "&Edit"
 msgstr "&Επεξεργασία"
@@ -4379,7 +4380,7 @@ msgstr "Γραμμή Εργαλείων Εξευρενητή Έργου"
 #. ProjectExplorerWindow..ProjectActionList..actProjectNew..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..ProjectMenu..mnProjectNew..Caption
 #: frmProjectExplorer.dfm:116
-#: frmProjectExplorer.dfm:849
+#: frmProjectExplorer.dfm:855
 #: frmPyIDEMain.dfm:1112
 msgid "&New Project"
 msgstr "&Νέο Έργο"
@@ -4389,7 +4390,7 @@ msgstr "&Νέο Έργο"
 #. ProjectExplorerWindow..ProjectActionList..actProjectNew..Hint
 #. PyIDEMainForm..TBXDockTop..MainMenu..ProjectMenu..mnProjectNew..Hint
 #: frmProjectExplorer.dfm:117
-#: frmProjectExplorer.dfm:851
+#: frmProjectExplorer.dfm:857
 #: frmPyIDEMain.dfm:1113
 msgid "Start a new project"
 msgstr "Δημιουργία νέου Έργου"
@@ -4399,7 +4400,7 @@ msgstr "Δημιουργία νέου Έργου"
 #. ProjectExplorerWindow..ProjectActionList..actProjectOpen..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..ProjectMenu..mnProjectOpen..Caption
 #: frmProjectExplorer.dfm:121
-#: frmProjectExplorer.dfm:857
+#: frmProjectExplorer.dfm:863
 #: frmPyIDEMain.dfm:1117
 msgid "&Open Project..."
 msgstr "&Άνοιγμα Έργου"
@@ -4409,7 +4410,7 @@ msgstr "&Άνοιγμα Έργου"
 #. ProjectExplorerWindow..ProjectActionList..actProjectOpen..Hint
 #. PyIDEMainForm..TBXDockTop..MainMenu..ProjectMenu..mnProjectOpen..Hint
 #: frmProjectExplorer.dfm:122
-#: frmProjectExplorer.dfm:859
+#: frmProjectExplorer.dfm:865
 #: frmPyIDEMain.dfm:1118
 msgid "Open a project file"
 msgstr "Άνοιγμα αρχείου έργου"
@@ -4419,7 +4420,7 @@ msgstr "Άνοιγμα αρχείου έργου"
 #. ProjectExplorerWindow..ProjectActionList..actProjectSave..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..ProjectMenu..mnProjectSave..Caption
 #: frmProjectExplorer.dfm:126
-#: frmProjectExplorer.dfm:865
+#: frmProjectExplorer.dfm:871
 #: frmPyIDEMain.dfm:1122
 msgid "&Save Project"
 msgstr "&Αποθήκευση Έργου"
@@ -4429,7 +4430,7 @@ msgstr "&Αποθήκευση Έργου"
 #. ProjectExplorerWindow..ProjectActionList..actProjectSave..Hint
 #. PyIDEMainForm..TBXDockTop..MainMenu..ProjectMenu..mnProjectSave..Hint
 #: frmProjectExplorer.dfm:127
-#: frmProjectExplorer.dfm:867
+#: frmProjectExplorer.dfm:873
 #: frmPyIDEMain.dfm:1123
 msgid "Save the project"
 msgstr "Αποθήκευση Έργου"
@@ -4477,7 +4478,7 @@ msgstr "Εξωτερική εκτέλεση τελευταίου προγράμ�
 #. ProjectExplorerWindow..ProjectMainPopUpMenu..mnExpandAll..Hint
 #. ProjectExplorerWindow..ProjectActionList..actProjectExpandAll..Hint
 #: frmProjectExplorer.dfm:151
-#: frmProjectExplorer.dfm:896
+#: frmProjectExplorer.dfm:910
 msgid "Expand all project nodes"
 msgstr "Ανάπτυξη όλων των κόμβων έργου"
 
@@ -4485,7 +4486,7 @@ msgstr "Ανάπτυξη όλων των κόμβων έργου"
 #. ProjectExplorerWindow..ProjectMainPopUpMenu..mnCollapseAll..Hint
 #. ProjectExplorerWindow..ProjectActionList..actProjectCollapseAll..Hint
 #: frmProjectExplorer.dfm:156
-#: frmProjectExplorer.dfm:904
+#: frmProjectExplorer.dfm:918
 msgid "Collapse all project nodes"
 msgstr "Σύμπτυξη όλων των κόμβων έργου"
 
@@ -4529,67 +4530,73 @@ msgstr "Αποθήκευση &Σχετικών Καταλόγων"
 msgid "Store file paths relative to the project directory"
 msgstr "Αποθήκευση των καταλόγων αρχείων με ονόματα σχετικά με τον κατάλογο του αρχείου του έργου"
 
+#. ProjectExplorerWindow..ProjectMainPopUpMenu..mnExtraPythonPath..Caption
+#. ProjectExplorerWindow..ProjectActionList..actProjectExtraPythonPath..Caption
+#: frmProjectExplorer.dfm:218
+msgid "Extra Python &Path..."
+msgstr "Επιπλέον &Κατάλογοι Python..."
+
 #. ProjectExplorerWindow..ProjectFolderPopupMenu..mnAddFiles..Caption
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddFiles..Caption
-#: frmProjectExplorer.dfm:628
+#: frmProjectExplorer.dfm:634
 msgid "&Add File(s)..."
 msgstr "&Πρόσθεση Αρχείων..."
 
 #. ProjectExplorerWindow..ProjectFolderPopupMenu..mnAddFiles..Hint
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddFiles..Hint
-#: frmProjectExplorer.dfm:629
+#: frmProjectExplorer.dfm:635
 msgid "Add file(s) to a project folder"
 msgstr "Προσθήκη αρχείων σε κατάλογο έργου"
 
 #. ProjectExplorerWindow..ProjectFolderPopupMenu..mnAddActiveFile..Caption
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddActiveFile..Caption
-#: frmProjectExplorer.dfm:633
+#: frmProjectExplorer.dfm:639
 msgid "Add Active File"
 msgstr "Πρόσθεση Ενεργού Αρχείου"
 
 #. ProjectExplorerWindow..ProjectFolderPopupMenu..mnAddActiveFile..Hint
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddActiveFile..Hint
-#: frmProjectExplorer.dfm:634
+#: frmProjectExplorer.dfm:640
 msgid "Add the active editor file to the folder"
 msgstr "Προσθήκε ενεργού αρχείου στον επιλεγμένο κατάλογο"
 
 #. ProjectExplorerWindow..ProjectFolderPopupMenu..SpTBXItem6..Caption
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddFolder..Caption
-#: frmProjectExplorer.dfm:638
+#: frmProjectExplorer.dfm:644
 msgid "Add &Subfolder"
 msgstr "Πρόσθεση &Υποκαταλόγου"
 
 #. ProjectExplorerWindow..ProjectFolderPopupMenu..SpTBXItem6..Hint
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddFolder..Hint
-#: frmProjectExplorer.dfm:639
+#: frmProjectExplorer.dfm:645
 msgid "Add a new subfolder"
 msgstr "Πρόσθεση νέου υποκαταλόγου"
 
 #. ProjectExplorerWindow..ProjectFolderPopupMenu..mnImportDir..Caption
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectImportDirectory..Caption
-#: frmProjectExplorer.dfm:643
+#: frmProjectExplorer.dfm:649
 msgid "&Import Directory..."
 msgstr "&Εισαγωγή Καταλόγου..."
 
 #. ProjectExplorerWindow..ProjectFolderPopupMenu..mnImportDir..Hint
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectImportDirectory..Hint
-#: frmProjectExplorer.dfm:644
+#: frmProjectExplorer.dfm:650
 msgid "Import a directory into the selected folder"
 msgstr "Εισαγωγή καταλόγου αρχείων στον επιλεγμένο κατάλογο"
 
 #. ProjectExplorerWindow..ProjectFolderPopupMenu..mnRename..Caption
 #. ProjectExplorerWindow..ProjectRunConfigPopupMenu..mnRenameRunConfig..Caption
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectRename..Caption
-#: frmProjectExplorer.dfm:650
-#: frmProjectExplorer.dfm:767
+#: frmProjectExplorer.dfm:656
+#: frmProjectExplorer.dfm:773
 msgid "Re&name"
 msgstr "&Μετονομασία"
 
 #. ProjectExplorerWindow..ProjectFolderPopupMenu..mnRename..Hint
 #. ProjectExplorerWindow..ProjectRunConfigPopupMenu..mnRenameRunConfig..Hint
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectRename..Hint
-#: frmProjectExplorer.dfm:651
-#: frmProjectExplorer.dfm:769
+#: frmProjectExplorer.dfm:657
+#: frmProjectExplorer.dfm:775
 msgid "Rename the selected folder or RunConfiguration"
 msgstr "Μετονομασία του επιλεγμένου καταλόγου ή Ρύθμισης Εκτέλεσης"
 
@@ -4597,33 +4604,33 @@ msgstr "Μετονομασία του επιλεγμένου καταλόγου 
 #. ProjectExplorerWindow..ProjectFilePopupMenu..mnFileRemove..Hint
 #. ProjectExplorerWindow..ProjectRunConfigPopupMenu..mnRemoveRunConfig..Hint
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectRemove..Hint
-#: frmProjectExplorer.dfm:658
-#: frmProjectExplorer.dfm:733
-#: frmProjectExplorer.dfm:761
+#: frmProjectExplorer.dfm:664
+#: frmProjectExplorer.dfm:739
+#: frmProjectExplorer.dfm:767
 msgid "Remove a file,  folder or run configuration from the project"
 msgstr "Αφαίρεση αρχείου, καταλόγου ή ρύθμισης εκτέλεσης από το έργο"
 
 #. ProjectExplorerWindow..ProjectFilePopupMenu..mnFileEdit..Hint
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectFileEdit..Hint
-#: frmProjectExplorer.dfm:668
+#: frmProjectExplorer.dfm:674
 msgid "Open the selected file in the editor"
 msgstr "Άνοιγμα του επιλεγμένου αρχείου στον κειμενογράφο"
 
 #. ProjectExplorerWindow..ProjectFilePopupMenu..mnFileProperties..Hint
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectFileProperties..Hint
-#: frmProjectExplorer.dfm:682
+#: frmProjectExplorer.dfm:688
 msgid "Show file properties"
 msgstr "Εμφάνιση ιδιοτήτων αρχείου"
 
 #. ProjectExplorerWindow..ProjectRunSettingsPopupMenu..mnAddRunConfig..Caption
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddRunConfig..Caption
-#: frmProjectExplorer.dfm:691
+#: frmProjectExplorer.dfm:697
 msgid "Add Run Configuration"
 msgstr "Προσθήκη Ρύθμισης Εκτέλεσης"
 
 #. ProjectExplorerWindow..ProjectRunSettingsPopupMenu..mnAddRunConfig..Hint
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddRunConfig..Hint
-#: frmProjectExplorer.dfm:692
+#: frmProjectExplorer.dfm:698
 msgid "Add run configuration"
 msgstr "Προσθήκη ρύθμισης εκτέλεσης"
 
@@ -4635,11 +4642,11 @@ msgstr "Προσθήκη ρύθμισης εκτέλεσης"
 #. PyIDEMainForm..actlStandard..actRun..Caption
 #. UnitTestWindow..FGPanel..ExplorerDock..ExplorerToolbar..tbiRun..Caption
 #. UnitTestWindow..DialogActions..actRun..Caption
-#: frmProjectExplorer.dfm:701
+#: frmProjectExplorer.dfm:707
 #: frmPyIDEMain.dfm:1140
 #: frmPyIDEMain.dfm:1154
 #: frmPyIDEMain.dfm:1538
-#: frmPyIDEMain.dfm:2142
+#: frmPyIDEMain.dfm:2146
 #: frmUnitTests.dfm:84
 #: frmUnitTests.dfm:717
 msgid "&Run"
@@ -4647,7 +4654,7 @@ msgstr "&Εκτέλεση"
 
 #. ProjectExplorerWindow..ProjectRunConfigPopupMenu..mnRun..Hint
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectRun..Hint
-#: frmProjectExplorer.dfm:702
+#: frmProjectExplorer.dfm:708
 msgid "Run the selected configuration"
 msgstr "Εκτέλεση της επιλεγμένης Ρύθμισης Εκτέλεσης"
 
@@ -4656,16 +4663,16 @@ msgstr "Εκτέλεση της επιλεγμένης Ρύθμισης Εκτέ
 #. PyIDEMainForm..TBXDockTop..MainMenu..RunMenu..mnDebug..Caption
 #. PyIDEMainForm..TBXDockTop..DebugToolbar..tbiRunDebug..Caption
 #. PyIDEMainForm..actlStandard..actDebug..Caption
-#: frmProjectExplorer.dfm:706
+#: frmProjectExplorer.dfm:712
 #: frmPyIDEMain.dfm:1208
 #: frmPyIDEMain.dfm:1545
-#: frmPyIDEMain.dfm:2236
+#: frmPyIDEMain.dfm:2251
 msgid "&Debug"
 msgstr "&Αποσφαλμάτωση"
 
 #. ProjectExplorerWindow..ProjectRunConfigPopupMenu..mnDebug..Hint
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectDebug..Hint
-#: frmProjectExplorer.dfm:707
+#: frmProjectExplorer.dfm:713
 msgid "Debug the selected configuration"
 msgstr "Αποσφαλμάτωση της επιλεγμένης Ρύθμισης Εκτέλεσης"
 
@@ -4673,27 +4680,27 @@ msgstr "Αποσφαλμάτωση της επιλεγμένης Ρύθμιση�
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectExternalRun..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..RunMenu..mnExternalRun..Caption
 #. PyIDEMainForm..actlStandard..actExternalRun..Caption
-#: frmProjectExplorer.dfm:711
+#: frmProjectExplorer.dfm:717
 #: frmPyIDEMain.dfm:1196
-#: frmPyIDEMain.dfm:2211
+#: frmPyIDEMain.dfm:2223
 msgid "E&xternal Run"
 msgstr "Ε&ξωτερική Εκτέλεση"
 
 #. ProjectExplorerWindow..ProjectRunConfigPopupMenu..mnExternalRun..Hint
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectExternalRun..Hint
-#: frmProjectExplorer.dfm:712
+#: frmProjectExplorer.dfm:718
 msgid "Run configuration using an external Python interpreter"
 msgstr "Εκτέλεση ρύθμισης με εξωτερικό διερμηνευτή Python"
 
 #. ProjectExplorerWindow..ProjectRunConfigPopupMenu..mnEditRunConfig..Caption
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectEditRunConfig..Caption
-#: frmProjectExplorer.dfm:718
+#: frmProjectExplorer.dfm:724
 msgid "&Edit Run Configuration"
 msgstr "&Επεξεργασία Ρύθμισης Εκτέλεσης"
 
 #. ProjectExplorerWindow..ProjectRunConfigPopupMenu..mnEditRunConfig..Hint
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectEditRunConfig..Hint
-#: frmProjectExplorer.dfm:719
+#: frmProjectExplorer.dfm:725
 msgid "Edit run configuration"
 msgstr "&Επεξεργασία ρύθμισης εκτέλεσης"
 
@@ -4716,28 +4723,30 @@ msgstr "&Επεξεργασία ρύθμισης εκτέλεσης"
 #. ProjectExplorerWindow..ProjectActionList..actProjectSaveAs..Category
 #. ProjectExplorerWindow..ProjectActionList..actProjectRelativePaths..Category
 #. ProjectExplorerWindow..ProjectActionList..actProjectShowFileExtensions..Category
+#. ProjectExplorerWindow..ProjectActionList..actProjectExtraPythonPath..Category
 #. ProjectExplorerWindow..ProjectActionList..actProjectExpandAll..Category
 #. ProjectExplorerWindow..ProjectActionList..actProjectCollapseAll..Category
-#: frmProjectExplorer.dfm:742
-#: frmProjectExplorer.dfm:758
-#: frmProjectExplorer.dfm:766
-#: frmProjectExplorer.dfm:773
-#: frmProjectExplorer.dfm:781
-#: frmProjectExplorer.dfm:788
-#: frmProjectExplorer.dfm:795
-#: frmProjectExplorer.dfm:803
-#: frmProjectExplorer.dfm:811
-#: frmProjectExplorer.dfm:819
-#: frmProjectExplorer.dfm:827
-#: frmProjectExplorer.dfm:835
-#: frmProjectExplorer.dfm:848
-#: frmProjectExplorer.dfm:856
-#: frmProjectExplorer.dfm:864
-#: frmProjectExplorer.dfm:872
-#: frmProjectExplorer.dfm:879
-#: frmProjectExplorer.dfm:886
+#: frmProjectExplorer.dfm:748
+#: frmProjectExplorer.dfm:764
+#: frmProjectExplorer.dfm:772
+#: frmProjectExplorer.dfm:779
+#: frmProjectExplorer.dfm:787
+#: frmProjectExplorer.dfm:794
+#: frmProjectExplorer.dfm:801
+#: frmProjectExplorer.dfm:809
+#: frmProjectExplorer.dfm:817
+#: frmProjectExplorer.dfm:825
+#: frmProjectExplorer.dfm:833
+#: frmProjectExplorer.dfm:841
+#: frmProjectExplorer.dfm:854
+#: frmProjectExplorer.dfm:862
+#: frmProjectExplorer.dfm:870
+#: frmProjectExplorer.dfm:878
+#: frmProjectExplorer.dfm:885
 #: frmProjectExplorer.dfm:893
 #: frmProjectExplorer.dfm:901
+#: frmProjectExplorer.dfm:907
+#: frmProjectExplorer.dfm:915
 msgid "Project"
 msgstr "Έργο"
 
@@ -4756,7 +4765,7 @@ msgstr "Νέο"
 #. PyIDEMainForm..TabBarPopupMenu..mnNewModule2..Caption
 #. PyIDEMainForm..actlStandard..actFileNewModule..Caption
 #: frmPyIDEMain.dfm:473
-#: frmPyIDEMain.dfm:2167
+#: frmPyIDEMain.dfm:2174
 msgid "&New Python module"
 msgstr "&Νέο αρχείο κώδικα Python"
 
@@ -4765,7 +4774,7 @@ msgstr "&Νέο αρχείο κώδικα Python"
 #. PyIDEMainForm..TabBarPopupMenu..mnNewModule2..Hint
 #. PyIDEMainForm..actlStandard..actFileNewModule..Hint
 #: frmPyIDEMain.dfm:474
-#: frmPyIDEMain.dfm:2169
+#: frmPyIDEMain.dfm:2177
 msgid "New Python module"
 msgstr "Νέο αρχείο κώδικα Python"
 
@@ -5080,8 +5089,8 @@ msgstr "Εμφάνιση/Απόκρυψη Διαδραστικόυ Διερμη�
 #. PyIDEMainForm..actlStandard..actViewProjectExplorer..Caption
 #. PyIDEMainForm..actlStandard..actNavProjectExplorer..Caption
 #: frmPyIDEMain.dfm:907
-#: frmPyIDEMain.dfm:2711
-#: frmPyIDEMain.dfm:2719
+#: frmPyIDEMain.dfm:2784
+#: frmPyIDEMain.dfm:2793
 msgid "&Project Explorer"
 msgstr "Εξερευνητής &Έργου"
 
@@ -5108,7 +5117,7 @@ msgstr "Εμφάνιση/Απόκρυψη Εξερευνητή Αρχείων"
 #. PyIDEMainForm..actlStandard..actViewCodeExplorer..Caption
 #. PyIDEMainForm..actlStandard..actNavCodeExplorer..Caption
 #: frmPyIDEMain.dfm:917
-#: frmPyIDEMain.dfm:2632
+#: frmPyIDEMain.dfm:2695
 msgid "&Code Explorer"
 msgstr "Εξερευνητής &Κώδικα"
 
@@ -5173,7 +5182,7 @@ msgstr "Εμφάνιση/Απόκρυψη Παραθύρου Εξόδου"
 #. PyIDEMainForm..actlStandard..actViewUnitTests..Caption
 #. PyIDEMainForm..actlStandard..actNavUnitTests..Caption
 #: frmPyIDEMain.dfm:942
-#: frmPyIDEMain.dfm:2648
+#: frmPyIDEMain.dfm:2713
 msgid "&Unit Tests"
 msgstr "&Μοναδιαίοι Έλεγχοι"
 
@@ -5205,7 +5214,7 @@ msgstr "Εμφάνιση/Απόκρυψη αραθύρου σημείων δια
 #. PyIDEMainForm..actlStandard..actCallStackWin..Caption
 #. PyIDEMainForm..actlStandard..actNavCallStack..Caption
 #: frmPyIDEMain.dfm:955
-#: frmPyIDEMain.dfm:2608
+#: frmPyIDEMain.dfm:2668
 msgid "&Call Stack"
 msgstr "&Στοίβα Κλήσεων"
 
@@ -5232,7 +5241,7 @@ msgstr "Εμφάνιση/Απόκρυψη παραθύρου μηνυμάτων"
 #. PyIDEMainForm..actlStandard..actVariablesWin..Caption
 #. PyIDEMainForm..actlStandard..actNavVariables..Caption
 #: frmPyIDEMain.dfm:965
-#: frmPyIDEMain.dfm:2600
+#: frmPyIDEMain.dfm:2659
 msgid "&Variables"
 msgstr "&Μεταβλητές"
 
@@ -5247,7 +5256,7 @@ msgstr "Εμφάνιση/Απόκρυψη παραθύρου μεταβλητώ�
 #. PyIDEMainForm..actlStandard..actWatchesWin..Caption
 #. PyIDEMainForm..actlStandard..actNavWatches..Caption
 #: frmPyIDEMain.dfm:970
-#: frmPyIDEMain.dfm:2576
+#: frmPyIDEMain.dfm:2632
 msgid "&Watches"
 msgstr "&Παρατηρητές"
 
@@ -5316,7 +5325,7 @@ msgstr "Ενεργοποίηση του Εξερευνητή Έργου"
 #. PyIDEMainForm..actlStandard..actNavTodo..Hint
 #. PyIDEMainForm..actlStandard..actNavUnitTests..Hint
 #: frmPyIDEMain.dfm:1006
-#: frmPyIDEMain.dfm:2649
+#: frmPyIDEMain.dfm:2715
 msgid "Activate the Todo List window"
 msgstr "Ενεργοποίηση της Λίστας Εργασιών"
 
@@ -5884,9 +5893,9 @@ msgstr "Ανοικτά Αρχεία"
 #. PyIDEMainForm..actlStandard..actBreakPointsWin..Category
 #. PyIDEMainForm..actlStandard..actWatchesWin..Category
 #. PyIDEMainForm..actlStandard..actMessagesWin..Category
-#: frmPyIDEMain.dfm:2115
-#: frmPyIDEMain.dfm:2348
-#: frmPyIDEMain.dfm:2357
+#: frmPyIDEMain.dfm:2116
+#: frmPyIDEMain.dfm:2376
+#: frmPyIDEMain.dfm:2386
 msgid "Debug Windows"
 msgstr "Παράθυρα Εκσφαλμάτωσης"
 
@@ -5916,30 +5925,30 @@ msgstr "Παράθυρα Εκσφαλμάτωσης"
 #. PyIDEMainForm..actlStandard..actPythonRemoteWx..Category
 #. PyIDEMainForm..actlStandard..actExecSelection..Category
 #. PyIDEMainForm..actlStandard..actPostMortem..Category
-#: frmPyIDEMain.dfm:2133
-#: frmPyIDEMain.dfm:2158
-#: frmPyIDEMain.dfm:2210
-#: frmPyIDEMain.dfm:2219
-#: frmPyIDEMain.dfm:2227
-#: frmPyIDEMain.dfm:2235
-#: frmPyIDEMain.dfm:2253
-#: frmPyIDEMain.dfm:2262
-#: frmPyIDEMain.dfm:2271
+#: frmPyIDEMain.dfm:2136
+#: frmPyIDEMain.dfm:2164
+#: frmPyIDEMain.dfm:2222
+#: frmPyIDEMain.dfm:2232
+#: frmPyIDEMain.dfm:2241
+#: frmPyIDEMain.dfm:2250
+#: frmPyIDEMain.dfm:2270
 #: frmPyIDEMain.dfm:2280
-#: frmPyIDEMain.dfm:2289
-#: frmPyIDEMain.dfm:2297
-#: frmPyIDEMain.dfm:2306
-#: frmPyIDEMain.dfm:2314
-#: frmPyIDEMain.dfm:2322
-#: frmPyIDEMain.dfm:2331
-#: frmPyIDEMain.dfm:2517
-#: frmPyIDEMain.dfm:2526
-#: frmPyIDEMain.dfm:2533
-#: frmPyIDEMain.dfm:2543
-#: frmPyIDEMain.dfm:2552
-#: frmPyIDEMain.dfm:2561
-#: frmPyIDEMain.dfm:2671
-#: frmPyIDEMain.dfm:2695
+#: frmPyIDEMain.dfm:2290
+#: frmPyIDEMain.dfm:2300
+#: frmPyIDEMain.dfm:2310
+#: frmPyIDEMain.dfm:2319
+#: frmPyIDEMain.dfm:2329
+#: frmPyIDEMain.dfm:2338
+#: frmPyIDEMain.dfm:2347
+#: frmPyIDEMain.dfm:2357
+#: frmPyIDEMain.dfm:2566
+#: frmPyIDEMain.dfm:2576
+#: frmPyIDEMain.dfm:2584
+#: frmPyIDEMain.dfm:2595
+#: frmPyIDEMain.dfm:2605
+#: frmPyIDEMain.dfm:2615
+#: frmPyIDEMain.dfm:2739
+#: frmPyIDEMain.dfm:2766
 msgid "Run"
 msgstr "Εκτέλεση"
 
@@ -5947,8 +5956,8 @@ msgstr "Εκτέλεση"
 #. PyIDEMainForm..actlStandard..actFindReferences..Category
 #. PyIDEMainForm..actlStandard..actBrowseBack..Category
 #. PyIDEMainForm..actlStandard..actBrowseForward..Category
-#: frmPyIDEMain.dfm:2425
-#: frmPyIDEMain.dfm:2449
+#: frmPyIDEMain.dfm:2462
+#: frmPyIDEMain.dfm:2489
 msgid "Refactoring"
 msgstr "Αναμόρφωση Κώδικα"
 
@@ -5965,17 +5974,17 @@ msgstr "Αναμόρφωση Κώδικα"
 #. PyIDEMainForm..actlStandard..actNavOutput..Category
 #. PyIDEMainForm..actlStandard..actNavEditor..Category
 #. PyIDEMainForm..actlStandard..actNavProjectExplorer..Category
-#: frmPyIDEMain.dfm:2575
-#: frmPyIDEMain.dfm:2599
-#: frmPyIDEMain.dfm:2607
-#: frmPyIDEMain.dfm:2615
-#: frmPyIDEMain.dfm:2623
 #: frmPyIDEMain.dfm:2631
-#: frmPyIDEMain.dfm:2639
-#: frmPyIDEMain.dfm:2647
-#: frmPyIDEMain.dfm:2655
-#: frmPyIDEMain.dfm:2663
-#: frmPyIDEMain.dfm:2718
+#: frmPyIDEMain.dfm:2658
+#: frmPyIDEMain.dfm:2667
+#: frmPyIDEMain.dfm:2676
+#: frmPyIDEMain.dfm:2685
+#: frmPyIDEMain.dfm:2694
+#: frmPyIDEMain.dfm:2703
+#: frmPyIDEMain.dfm:2712
+#: frmPyIDEMain.dfm:2721
+#: frmPyIDEMain.dfm:2730
+#: frmPyIDEMain.dfm:2792
 msgid "IDE Navigation"
 msgstr "Πλοήγηση"
 
@@ -6381,7 +6390,7 @@ msgid "The Find in Files Results window is not active"
 msgstr "Το παράθυρο αποτελεσμάτων της Αναζήτησης σε Αρχεία δεν είναι ενεργό"
 
 #. Programmer's name for it: S_ERROR_NO_ERROR_STRING
-#: dmCommands.pas:2869
+#: dmCommands.pas:2886
 msgid "Unspecified WinInet error"
 msgstr "Απροσδιόριστο σφάλμα WinInet"
 
@@ -6405,7 +6414,7 @@ msgstr "Ανάλυση module σε %g δεύτερα"
 msgid "Invalid index number"
 msgstr "Λάθος αριθμός ευρετηρίου"
 
-#: frmPyIDEMain.pas:1931
+#: frmPyIDEMain.pas:1933
 msgid "Debug"
 msgstr "Αποσφαλμάτωση"
 
@@ -6945,134 +6954,139 @@ msgstr "Πρόγραμμα Πλοήγησης"
 
 #. Project Manager
 #. Programmer's name for it: SAskSaveProject
-#: StringResources.pas:136
+#: StringResources.pas:137
 msgid "The active project has not been saved.  Do you want to save the changes?"
 msgstr "Το Έργο δεν έχει αποθηκευτεί.  Θέλετε να αποθηκεύσετε τις αλλαγές;"
 
 #. Programmer's name for it: SFailedToBackupProject
-#: StringResources.pas:137
+#: StringResources.pas:138
 msgid "Failed to backup project \"%s\""
 msgstr "Αποτυχία δημιουργίας αντιγράφου ασφαλείας του έργου \"%s\""
 
 #. Programmer's name for it: SErrorInSavingProject
-#: StringResources.pas:138
+#: StringResources.pas:139
 msgid "Error in saving project: \"%s\"."
 msgstr "Σφάλμα κατά την αποθήκευση έργου: \"%s\"."
 
 #. Programmer's name for it: SSaveProjectAs
-#: StringResources.pas:139
+#: StringResources.pas:140
 msgid "Save Project As"
 msgstr "Αποθήκευση Έργου ως"
 
 #. Programmer's name for it: SSaveProjectFileAs
-#: StringResources.pas:140
+#: StringResources.pas:141
 msgid "Save Project \"%s\" As"
 msgstr "Αποθήκευση Έργου \"%s\" ως"
 
+#. Programmer's name for it: SProjectPythonPath
+#: StringResources.pas:142
+msgid "Project Python Path"
+msgstr "Κατάλογοi Python Έργου"
+
 #. Search and Replace
 #. Programmer's name for it: SStartReached
-#: StringResources.pas:143
+#: StringResources.pas:145
 msgid "The starting point of the search was reached"
 msgstr "Φθάσατε στο αρχικό σημείο της αναζήτησης"
 
 #. Programmer's name for it: SContinueSearch
-#: StringResources.pas:144
+#: StringResources.pas:146
 msgid "Do you want to continue %s %s?"
 msgstr "Επιθυμείτε να συνεχείσετε %s %s;"
 
 #. Programmer's name for it: STheSearchAndReplace
-#: StringResources.pas:145
+#: StringResources.pas:147
 msgid "the search and replace"
 msgstr "την ανεύρεση και αντικατάσταση"
 
 #. Programmer's name for it: STheSearch
-#: StringResources.pas:146
+#: StringResources.pas:148
 msgid "the search"
 msgstr "την ανεύρεση"
 
 #. Programmer's name for it: SFromTheEnd
-#: StringResources.pas:147
+#: StringResources.pas:149
 msgid "from the end"
 msgstr "από το τέλος"
 
 #. Programmer's name for it: SFromTheStart
-#: StringResources.pas:148
+#: StringResources.pas:150
 msgid "from the start"
 msgstr "από την αρχή"
 
 #. Programmer's name for it: SReachedTheStart
-#: StringResources.pas:149
+#: StringResources.pas:151
 msgid "You reached the start %s"
 msgstr "Φθάσατε στην αρχή %s"
 
 #. Programmer's name for it: SReachedTheEnd
-#: StringResources.pas:150
+#: StringResources.pas:152
 msgid "You reached the end %s"
 msgstr "Φθάσατε στο τέλος %s"
 
 #. Programmer's name for it: SOfTheSelection
-#: StringResources.pas:151
+#: StringResources.pas:153
 msgid "of the selection"
 msgstr "της επιλογής"
 
 #. Programmer's name for it: SOfTheDocument
-#: StringResources.pas:152
+#: StringResources.pas:154
 msgid "of the document"
 msgstr "του κειμένου"
 
 #. Programmer's name for it: SSearchDirectoryDoesNotExist
-#: StringResources.pas:153
+#: StringResources.pas:155
 msgid "The search directory %s does not exist"
 msgstr "Ο κατάλογος αναζήτησης '%s' δεν υπάρχει"
 
 #. Find in Files Results
 #. Programmer's name for it: SGrepReplaceStats
-#: StringResources.pas:156
+#: StringResources.pas:158
 msgid "Replaced %d occurrence(s) in %.2f seconds"
 msgstr "Αντικαταστάθηκαν %d εμφανίσεις σε %.2f δευτερόλεπτα"
 
 #. Programmer's name for it: SAllMatchedFiles
-#: StringResources.pas:157
+#: StringResources.pas:159
 msgid "All matched files"
 msgstr "Όλα τα αρχεία με ταιριάσματα"
 
 #. Programmer's name for it: SOnLine
-#: StringResources.pas:158
+#: StringResources.pas:160
 msgid "On line: "
 msgstr "Στη γραμμή: "
 
 #. Programmer's name for it: SItemMatch
-#: StringResources.pas:159
+#: StringResources.pas:161
 msgid "%5d matches"
 msgstr "%5d ταιριάσματα"
 
 #. Programmer's name for it: SGrepActive
-#: StringResources.pas:160
+#: StringResources.pas:162
 msgid "A Grep search is currently active; either abort it or wait until it is finished."
 msgstr "Μια άλλη αναζήτηση σε αρχεία είναι ενεργή.  Εγκαταλείψτε τη πρώτα ή αλλιώς περιμένετε να τελειώσει."
 
 #. Programmer's name for it: SGrepSearchStats
-#: StringResources.pas:161
+#: StringResources.pas:163
 msgid "Searched %d files in %.2f seconds"
 msgstr "Αναζήτηση σε %d αρχεία σε %.2f δευτερόλεπτα"
 
 #. Programmer's name for it: SMatches
-#: StringResources.pas:162
+#: StringResources.pas:164
 msgid "%d matches"
 msgstr "%d ταιριάσματα"
 
 #. Programmer's name for it: SMatchContextNotAvail
-#: StringResources.pas:163
+#: StringResources.pas:165
 msgid "Unable to load match context lines"
 msgstr "Αδυναμία φόρτωσης συμφραζομένων ταιριάσματος"
 
 #. Programmer's name for it: SProcessing
-#: StringResources.pas:164
+#: StringResources.pas:166
 msgid "Processing %s"
 msgstr "Επεξεργασία του %s"
 
 #. Programmer's name for it: SFileChangedAbort
-#: StringResources.pas:166
+#: StringResources.pas:168
 msgid ""
 "%s\n"
 "has changed since it was searched.  Replacement aborted.\n"
@@ -7085,100 +7099,100 @@ msgstr ""
 "Βρέθηκε: %s"
 
 #. Programmer's name for it: SFileSkipped
-#: StringResources.pas:167
+#: StringResources.pas:169
 msgid "The following file will be skipped: "
 msgstr "Το εξής αρχείο θα παραληφθεί:"
 
 #. Programmer's name for it: SCouldNotBackup
-#: StringResources.pas:168
+#: StringResources.pas:170
 msgid "Could not backup file \"%s\" and will skip it"
 msgstr "Δεν ήταν δυνατή η δημιουργία αντιγράφου ασφαλείας του αρχείου \"%s\" και θα παραλειφθεί"
 
 #. Command Line Options
 #. Programmer's name for it: SParseError
-#: StringResources.pas:171
+#: StringResources.pas:173
 msgid "Parse error at this position: "
 msgstr "Σφάλμα ανάλυσης στη θέση: "
 
 #. Programmer's name for it: SParseErrorOptions
-#: StringResources.pas:172
+#: StringResources.pas:174
 msgid "you are not allowed to use command line options starting with -"
 msgstr "δεν επιτρέπεται να χρησιμοποιήσετε τις παραμέτρους γραμμής εντολής που αρχίζουν από -"
 
 #. Programmer's name for it: SParseInvalidOptions
-#: StringResources.pas:173
+#: StringResources.pas:175
 msgid "The following command line options are valid: \n"
 msgstr "Ακολουθούν οι έγκυροι παράμετροι γραμμής εντολής: \n"
 
 #. Programmer's name for it: SCommandLineOptions
-#: StringResources.pas:174
+#: StringResources.pas:176
 msgid "PyScripter Command Line Options"
 msgstr "Παράμετροι Γραμμής Εντολής του Pyscripter"
 
 #. Command Window
 #. Programmer's name for it: SProcessTerminated
-#: StringResources.pas:177
+#: StringResources.pas:179
 msgid "Process \"%s\" terminated, ExitCode: %.8x"
 msgstr "Η διαδικασία \"%s\" τερματίστηκε, Κωδικός Εξοδου: %.8x"
 
 #. Programmer's name for it: SDirNotFound
-#: StringResources.pas:178
+#: StringResources.pas:180
 msgid "Directory \"%s\" does not exists"
 msgstr "Ο κατάλογος \"%s\" δεν υπάρχει"
 
 #. Programmer's name for it: SProcessRunning
-#: StringResources.pas:179
+#: StringResources.pas:181
 msgid "One process is still running, stop it first."
 msgstr "Εκτελείται ακόμα μια διαδικασία.  Πρώτα σταματήστε τη."
 
 #. Programmer's name for it: SPrintCommandLine
-#: StringResources.pas:180
+#: StringResources.pas:182
 msgid "Command line: %s"
 msgstr "Γραμμή εντολής: %s"
 
 #. Programmer's name for it: SPrintWorkingDir
-#: StringResources.pas:181
+#: StringResources.pas:183
 msgid "Working directory: "
 msgstr "Κατάλογος εργασίας:"
 
 #. Programmer's name for it: SPrintTimeOut
-#: StringResources.pas:182
+#: StringResources.pas:184
 msgid "Timeout: %d ms"
 msgstr "Χρόνος αναμονής: %d ms"
 
 #. Programmer's name for it: SExternalToolStillRunning
-#: StringResources.pas:183
+#: StringResources.pas:185
 msgid "The External Tool \"%s\" is still running  Do you want to terminate it?"
 msgstr "Το Εξωτερικό Εργαλείο \"%s\" είναι ενεργό. Θέλετε να το τερματίσετε;"
 
 #. Editor
 #. Programmer's name for it: SInsert
-#: StringResources.pas:186
+#: StringResources.pas:188
 msgid "Insert"
 msgstr "Εισαγωγή"
 
 #. Programmer's name for it: SOverwrite
-#: StringResources.pas:187
+#: StringResources.pas:189
 msgid "Overwrite"
 msgstr "Επικάλυψη"
 
 #. Programmer's name for it: SReadOnly
-#: StringResources.pas:188
+#: StringResources.pas:190
 msgid "Read Only"
 msgstr "Μόνο για Ανάγνωση"
 
 #. Programmer's name for it: SNonameFileTitle
-#: StringResources.pas:189
+#: StringResources.pas:191
 msgid "Untitled"
 msgstr "Ανώνυμο"
 
 #. Programmer's name for it: SNonamePythonFileTitle
-#: StringResources.pas:190
+#: StringResources.pas:192
 msgid "module"
 msgstr "module"
 
 #. Programmer's name for it: SAskSaveChanges
-#: StringResources.pas:191
+#: StringResources.pas:193
 msgid ""
 "The text in the \"%s\" file has changed.\n"
 "\n"
@@ -7189,152 +7203,157 @@ msgstr ""
 "Θέλετε να αποθηκεύσετε τις αλλαγές?"
 
 #. Programmer's name for it: SFileReloadingWarning
-#: StringResources.pas:192
+#: StringResources.pas:194
 msgid "Reloading the file will result in the loss of all changes.  Do you want to proceed?"
 msgstr "Η επαναφόρτωση του αρχείου θα οδηγήσει σε απώλεια όλων των αλλαγών.  Θέλετε να συνεχίσετε;"
 
 #. Programmer's name for it: SFileAlreadyOpen
-#: StringResources.pas:193
+#: StringResources.pas:195
 msgid "Another editor with the same file is open.  You can not have two editors with the same file."
 msgstr "Το ίδιο αρχείο είναι ήδη ανοικτό σε άλλο κειμενογράφο. Δεν μπορείτε να ανοίξετε το ίδιο αρχείο σε δύο κειμενογράφους."
 
 #. Parameters
 #. Programmer's name for it: SEnterParameterCaption
-#: StringResources.pas:196
+#: StringResources.pas:198
 msgid "Parameter replacement"
 msgstr "Αντικατάσταση παραμέτρων"
 
 #. Programmer's name for it: SEnterParameterText
-#: StringResources.pas:197
+#: StringResources.pas:199
 msgid "Enter parameter value"
 msgstr "Εισάγετε τιμή παραμέτρου"
 
 #. Programmer's name for it: SParamCircularReference
-#: StringResources.pas:198
+#: StringResources.pas:200
 msgid "Parameter \"%s\" is referenced circulary"
 msgstr "Ο τιμή της παραμέτρου \"%s\" εμπεριέχει αυτοαναφορά"
 
 #. Programmer's name for it: SParameterNotFound
-#: StringResources.pas:199
+#: StringResources.pas:201
 msgid "Parameter with name \"%s\" is not found"
 msgstr "Η παράμετρος με όνομα \"%s\" δεν βρέθηκε"
 
 #. Programmer's name for it: SModifierNotFound
-#: StringResources.pas:200
+#: StringResources.pas:202
 msgid "Modifier with name \"%s\" is not found"
 msgstr "Ο μετατροπέας με όνομα \"%s\" δεν βρέθηκε"
 
 #. Programmer's name for it: SObjectNotFound
-#: StringResources.pas:201
+#: StringResources.pas:203
 msgid "Object with name \"%s\" is not found"
 msgstr "Το αντικείμενο με όνομα \"%s\" δεν βρέθηκε"
 
 #. Programmer's name for it: SPropertyNotFound
-#: StringResources.pas:202
+#: StringResources.pas:204
 msgid "Object \"%s\" does not have registered property with name \"%s\""
 msgstr "Το αντικείμενο \"%s\" δέν έχει δηλωμένη ιδιότητα με όνομα \"%s\""
 
 #. Programmer's name for it: SInvalidObjectProperty
-#: StringResources.pas:203
+#: StringResources.pas:205
 msgid "Object \"%s\" does not have property with name \"%s\""
 msgstr "Το αντικείμενο \"%s\" δέν έχει ιδιότητα με όνομα \"%s\""
 
 #. Programmer's name for it: SInvalidParameterFormat
-#: StringResources.pas:204
+#: StringResources.pas:206
 msgid "\"%s\" is not valid parameter format"
 msgstr "Το \"%s\" δεν είναι έγκυρη μορφή παραμέτρου"
 
 #. Programmer's name for it: SInvalidConditionFormat
-#: StringResources.pas:205
+#: StringResources.pas:207
 msgid "Invalid condition format"
 msgstr "Άκυρη μορφή συνθήκης"
 
 #. Programmer's name for it: SDuplicateModifier
-#: StringResources.pas:206
+#: StringResources.pas:208
 msgid "Duplicate Modifier \"%s\""
 msgstr "Διπλότυπος Μετατροπέας \"%s\""
 
 #. Refactoring
 #. Programmer's name for it: SCouldNotLoadModule
-#: StringResources.pas:209
+#: StringResources.pas:211
 msgid "Could not load and parse module: \"%s\""
 msgstr "Δεν ήταν δυνατή η φόρτωση και ανάλυση του module: \"%s\""
 
 #. Programmer's name for it: SNoIdentifier
-#: StringResources.pas:210
+#: StringResources.pas:212
 msgid "No Identifier at the given line and column"
 msgstr "Δεν υπάρχει αναγνωριστικό στην γραμμή και στηλη που δόθηκε"
 
 #. Programmer's name for it: SCouldNotFindScope
-#: StringResources.pas:211
+#: StringResources.pas:213
 msgid "Could not find scope for the given line"
 msgstr "Δεν βρέθηκε το πλαίσιο κώδικα της δεδεμένης γραμμής"
 
 #. Programmer's name for it: STypeOfSIsUnknown
-#: StringResources.pas:212
+#: StringResources.pas:214
 msgid "Type of \"%s\" is unknown"
 msgstr "Ο τύπος του \"%s\" είναι άγνωστος"
 
 #. Programmer's name for it: SCyclicImports
-#: StringResources.pas:213
+#: StringResources.pas:215
 msgid "Cyclic imports encountered!"
 msgstr "Βρέθηκαν κυκλικές εισαγωγές modules!"
 
 #. Programmer's name for it: SCouldNotFindIdent
-#: StringResources.pas:214
+#: StringResources.pas:216
 msgid "Could not find identifier \"%s\" in module \"%s\""
 msgstr "Δεν βρέθηκε το αναγνωριστικό \"%s\" στο module \"%s\""
 
 #. Programmer's name for it: SCouldNotAnalyseModule
-#: StringResources.pas:215
+#: StringResources.pas:217
 msgid "Could not analyse module: \"%s\""
 msgstr "Αδυναμία ανάλυσης αρχείου: \"%s\""
 
 #. Programmer's name for it: SCouldNotFindModule
-#: StringResources.pas:216
+#: StringResources.pas:218
 msgid "Could not find module: \"%s\""
 msgstr "Αδυναμία ανεύρεσης αρχείου: \"%s\""
 
 #. Programmer's name for it: SSelfOutsideClassScope
-#: StringResources.pas:217
+#: StringResources.pas:219
 msgid "\"self\" used outside a class scope"
 msgstr "\"self\" χρησιμοποιείται εκτός του περιεχομένου κλάσης"
 
 #. Programmer's name for it: SCouldNotFindIdentInScope
-#: StringResources.pas:218
+#: StringResources.pas:220
 msgid "Could not find identifier \"%s\" in scope \"%s\""
 msgstr "Δεν βρέθηκε το αναγνωριστικό \"%s\" στο περιεχόμενο του \"%s\""
 
 #. File Templates
 #. Programmer's name for it: SFileTemplateCategoryInternet
-#: StringResources.pas:221
+#: StringResources.pas:223
 msgid "Internet"
 msgstr "Διαδίκτυο"
 
 #. Programmer's name for it: SFileTemplateCategoryOther
-#: StringResources.pas:222
+#: StringResources.pas:224
 msgid "Other"
 msgstr "Άλλα"
 
 #. Programmer's name for it: SCSSFileTemplateName
-#: StringResources.pas:224
+#: StringResources.pas:226
 msgid "Cascading Style Sheet"
 msgstr "Αρχείο CSS"
 
 #. Programmer's name for it: SHTMLFileTemplateName
-#: StringResources.pas:225
+#: StringResources.pas:227
 msgid "HTML Document"
 msgstr "Αρχείο HTML"
 
 #. Programmer's name for it: STextFileTemplateName
-#: StringResources.pas:226
+#: StringResources.pas:228
 msgid "Text File"
 msgstr "Αρχείο Κειμένου"
 
 #. Programmer's name for it: SXMLTemplateName
-#: StringResources.pas:227
+#: StringResources.pas:229
 msgid "XML Document"
 msgstr "Αρχείο XML"
+
+#. Programmer's name for it: SYNS_FilterYAML
+#: SynHighlighterYAML.pas:169
+msgid "YAML files (*.yaml)|*.yaml"
+msgstr "Αρχεία YAML (*.yaml)|*.yaml"
 
 #~ msgid "Printer &Setup"
 #~ msgstr "&Διαμόρφωση Εκτυπωτή"

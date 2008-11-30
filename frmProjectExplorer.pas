@@ -25,10 +25,6 @@ type
     ProjectMainPopUpMenu: TSpTBXPopupMenu;
     ProjectImageList: TImageList;
     ProjectFolderPopupMenu: TSpTBXPopupMenu;
-    mnProjectNew: TSpTBXItem;
-    mnProjectOpen: TSpTBXItem;
-    mnProjectSave: TSpTBXItem;
-    mnProjectSaveAs: TSpTBXItem;
     mnAddFiles: TSpTBXItem;
     SpTBXItem6: TSpTBXItem;
     mnRename: TSpTBXItem;
@@ -98,6 +94,10 @@ type
     actProjectNew: TTntAction;
     actProjectExtraPythonPath: TTntAction;
     SpTBXSeparatorItem12: TSpTBXSeparatorItem;
+    mnProjectNew: TSpTBXItem;
+    mnProjectOpen: TSpTBXItem;
+    mnProjectSave: TSpTBXItem;
+    mnProjectSaveAs: TSpTBXItem;
     mnExtraPythonPath: TSpTBXItem;
     procedure FormCreate(Sender: TObject);
     procedure ExplorerTreeGetText(Sender: TBaseVirtualTree; Node: PVirtualNode;
@@ -709,6 +709,7 @@ Var
   Data : PNodeDataRec;
   SingleNodeSelected : Boolean;
 begin
+   actProjectExtraPythonPath.Enabled := not PyControl.IsRunning;
    // We update project actions here based on selection
    SingleNodeSelected := Assigned(Node) and
      (Length(ExplorerTree.GetSortedSelection(False)) = 1);
@@ -1110,6 +1111,12 @@ begin
   FileImageList := TWideStringList.Create;
   FileImageList.Sorted := True;
   FileImageList.Duplicates := dupError;
+
+  // Wierd translation bug
+  TP_Ignore(self, 'mnProjectNew');
+  TP_Ignore(self, 'mnProjectOpen');
+  TP_Ignore(self, 'mnProjectSave');
+  TP_Ignore(self, 'mnProjectSaveAs');
 end;
 
 procedure TProjectExplorerWindow.FormDestroy(Sender: TObject);

@@ -151,6 +151,7 @@ type
     function ImportModule(Editor : IEditor; AddToNameSpace : Boolean = False) : Variant; virtual; abstract;
     procedure RunNoDebug(ARunConfig : TRunConfiguration); virtual; abstract;
     function RunSource(Const Source, FileName : Variant; symbol : WideString = 'single') : boolean; virtual; abstract;
+    procedure RunScript(FileName : WideString); virtual; 
     function EvalCode(const Expr : WideString) : Variant; virtual; abstract;
     function GetObjectType(Ob : Variant) : WideString; virtual; abstract;
     property EngineType : TPythonEngineType read fEngineType;
@@ -419,15 +420,10 @@ begin
 end;
 
 procedure TPyBaseInterpreter.Initialize;
-Var
-  Source, FileName : WideString;
 begin
-  // Execute pyscripterEngineSetup.py
-  FileName := CommandsDataModule.UserDataDir + EngineInitFile;
-  if WideFileExists(FileName) then begin
-    Source := CleanEOLs(FileToWideStr(FileName))+#10;
-    RunSource(Source, FileName, 'exec');
-  end;
+  // Execute python_init.py
+  RunScript(CommandsDataModule.UserDataDir + EngineInitFile);
+
   // Add extra project paths
   if Assigned(ActiveProject) then
     ActiveProject.AppendExtraPaths;
@@ -436,6 +432,23 @@ end;
 procedure TPyBaseInterpreter.ReInitialize;
 begin
   raise Exception.Create(_(SNotImplented));
+end;
+
+procedure TPyBaseInterpreter.RunScript(FileName: WideString);
+Var
+  Source : WideString;
+  AnsiSource : AnsiString;
+begin
+  // Execute pyscripterEngineSetup.py
+  if WideFileExists(FileName) then begin
+    if GetPythonEngine.IsPython3000 then begin
+      Source := CleanEOLs(FileToWideStr(FileName))+#10;
+      RunSource(Source, FileName, 'exec');
+    end else begin
+      AnsiSource := CleanEOLs(FileToEncodedStr(FileName))+#10;
+      RunSource(AnsiSource, FileName, 'exec');
+    end;
+  end;
 end;
 
 { TBaseNameSpaceItem }
@@ -837,6 +850,8 @@ initialization
 finalization
   FreeAndNil(PyControl);
 end.
+
+
 
 
 

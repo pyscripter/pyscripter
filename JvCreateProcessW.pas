@@ -24,7 +24,7 @@ located at http://jvcl.sourceforge.net
 
 Known Issues:
 -----------------------------------------------------------------------------}
-// $Id: JvCreateProcess.pas 11221 2007-03-19 11:02:51Z obones $
+// $Id: JvCreateProcess.pas 11754 2008-03-09 23:02:21Z ahuser $
 
 
 // Unicode version by Pyscripter
@@ -206,8 +206,8 @@ type
     procedure Run;
     procedure StopWaiting;
     procedure Terminate;
-    function Write(const S: string): Boolean;
-    function WriteLn(const S: string): Boolean;
+    function Write(const S: AnsiString): Boolean;
+    function WriteLn(const S: AnsiString): Boolean;
     property ProcessInfo: TProcessInformation read FProcessInfo;
     property State: TJvCPSState read FState;
     property ConsoleOutput: TStrings read GetConsoleOutput;
@@ -233,9 +233,9 @@ type
 {$IFDEF UNITVERSIONING}
 const
   UnitVersioning: TUnitVersionInfo = (
-    RCSfile: '$URL: https://jvcl.svn.sourceforge.net/svnroot/jvcl/branches/JVCL3_33_PREPARATION/run/JvCreateProcess.pas $';
-    Revision: '$Revision: 11221 $';
-    Date: '$Date: 2007-03-19 12:02:51 +0100 (lun., 19 mars 2007) $';
+    RCSfile: '$URL: https://jvcl.svn.sourceforge.net/svnroot/jvcl/branches/JVCL3_34_PREPARATION/run/JvCreateProcess.pas $';
+    Revision: '$Revision: 11754 $';
+    Date: '$Date: 2008-03-10 00:02:21 +0100 (lun., 10 mars 2008) $';
     LogPath: 'JVCL\run'
   );
 {$ENDIF UNITVERSIONING}
@@ -287,7 +287,7 @@ type
   public
     constructor Create(ProcessHandle: DWORD; AWriteHandle: THandle);
     destructor Destroy; override;
-    function Write(const S: string): Boolean;
+    function Write(const S: AnsiString): Boolean;
     procedure CloseWrite;
   end;
 
@@ -300,12 +300,12 @@ type
     FReadLock: TCriticalSection;
     // Handle to the TJvCreateProcess
     FDestHandle: THandle;
-    FPreBuffer: PChar;
-    FInputBuffer: PChar;
+    FPreBuffer: PAnsiChar;
+    FInputBuffer: PAnsiChar;
     FInputBufferSize: Cardinal;
     FInputBufferEnd: Cardinal;
   protected
-    procedure CopyToBuffer(Buffer: PChar; ASize: Cardinal);
+    procedure CopyToBuffer(Buffer: PAnsiChar; ASize: Cardinal);
     procedure Execute; override;
   public
     constructor Create(AOwner: TObject; AReadHandle, ADestHandle: THandle);
@@ -318,15 +318,15 @@ type
   TJvReader = class(TJvBaseReader)
   private
     FThread: TJvReadThread;
-    FCurrentLine: string; // Last output of the console with no #10 char.
+    FCurrentLine: AnsiString; // Last output of the console with no #10 char.
     FCursorPosition: Integer; // Position of the cursor on FCurrentLine
     FStartsOnNewLine: Boolean;
     FParseBuffer: TJvCPSBuffer;
     procedure ThreadTerminated(Sender: TObject);
   protected
     procedure DoReadEvent(const EndsWithNewLine: Boolean);
-    procedure DoRawReadEvent(Data: PChar; const ASize: Cardinal);
-    procedure ParseConsoleOutput(Data: PChar; ASize: Cardinal);
+    procedure DoRawReadEvent(Data: PAnsiChar; const ASize: Cardinal);
+    procedure ParseConsoleOutput(Data: PAnsiChar; ASize: Cardinal);
     procedure HandleReadEvent;
   public
     procedure CreateThread(const AReadHandle: THandle);
@@ -768,7 +768,7 @@ begin
   FInputBuffer := nil;
   FInputBufferSize := CCPS_BufferSize;
   FInputBufferEnd := 0;
-  ReallocMem(FInputBuffer, FInputBufferSize);
+  ReallocMem(FInputBuffer, FInputBufferSize * SizeOf(Char));
   GetMem(FPreBuffer, CCPS_BufferSize);
 end;
 
@@ -780,7 +780,7 @@ begin
     OnTerminate event and the following fields can be accessed in the handler,
     thus free them after the destroy.
   }
-  ReallocMem(FInputBuffer, 0);
+  FreeMem(FInputBuffer);
   FReadLock.Free;
   FreeMem(FPreBuffer);
 end;
@@ -795,7 +795,7 @@ begin
   end;
 end;
 
-procedure TJvReadThread.CopyToBuffer(Buffer: PChar; ASize: Cardinal);
+procedure TJvReadThread.CopyToBuffer(Buffer: PAnsiChar; ASize: Cardinal);
 // Copy data in Buffer (with size ASize) to FInputBuffer.
 begin
   FReadLock.Acquire;
@@ -860,13 +860,13 @@ begin
     ABufferSize := Min(FInputBufferEnd, CCPS_BufferSize);
 
     // Copy the data from FInputBuffer to ABuffer.
-    Move(FInputBuffer[0], ABuffer[0], ABufferSize);
+    Move(FInputBuffer[0], ABuffer[0], ABufferSize * SizeOf(Char));
 
     // If not all data in FInputBuffer is copied to ABuffer, then place
     // the data not copied at the begin of FInputBuffer.
     if FInputBufferEnd > ABufferSize then
       Move(FInputBuffer[ABufferSize], FInputBuffer[0],
-        FInputBufferEnd - ABufferSize);
+        (FInputBufferEnd - ABufferSize) * SizeOf(Char));
 
     Dec(FInputBufferEnd, ABufferSize);
   finally
@@ -1009,7 +1009,7 @@ begin
   end;
 end;
 
-function TJvConsoleThread.Write(const S: string): Boolean;
+function TJvConsoleThread.Write(const S: AnsiString): Boolean;
 // Add S to FOutputBuffer; actual writing is done in TryWrite.
 // This function is executed in the context of the main thread;
 // FWriteLock is for synchronization with the write thread.
@@ -1030,7 +1030,7 @@ begin
     if not Result then
       Exit;
 
-    Move(PChar(S)^, FOutputBuffer[FOutputBufferEnd], Length(S));
+    Move(PAnsiChar(S)^, FOutputBuffer[FOutputBufferEnd], Length(S));
     Inc(FOutputBufferEnd, Length(S));
 
     if FOutputBufferEnd > 0 then
@@ -1426,13 +1426,13 @@ begin
   end;
 end;
 
-function TJvCreateProcessW.Write(const S: string): Boolean;
+function TJvCreateProcessW.Write(const S: AnsiString): Boolean;
 begin
   Result := (FWaitThread is TJvConsoleThread) and
     TJvConsoleThread(FWaitThread).Write(S);
 end;
 
-function TJvCreateProcessW.WriteLn(const S: string): Boolean;
+function TJvCreateProcessW.WriteLn(const S: AnsiString): Boolean;
 begin
   Result := Write(S + sLineBreak);
 end;
@@ -1457,15 +1457,14 @@ begin
   FThread.Resume;
 end;
 
-procedure TJvReader.DoRawReadEvent(Data: PChar; const ASize: Cardinal);
+procedure TJvReader.DoRawReadEvent(Data: PAnsiChar; const ASize: Cardinal);
 var
-  S: string;
+  S: AnsiString;
 begin
   if Assigned(FOnRawRead) then
   begin
     // Do copy because of possible #0's etc.
-    SetLength(S, ASize);
-    Move(Data^, PChar(S)^, ASize);
+    SetString(S, Data, ASize);
     FOnRawRead(FCreateProcess, S);
   end;
 end;
@@ -1501,9 +1500,9 @@ begin
     ParseConsoleOutput(FParseBuffer, ASize);
 end;
 
-procedure TJvReader.ParseConsoleOutput(Data: PChar; ASize: Cardinal);
+procedure TJvReader.ParseConsoleOutput(Data: PAnsiChar; ASize: Cardinal);
 var
-  P, Q: PChar;
+  P, Q: PAnsiChar;
 
   procedure DoOutput;
     { Copy chunk [Q..P) to the current line & Update cursor position }
@@ -1520,7 +1519,7 @@ var
       SetLength(FCurrentLine, FCursorPosition + ChunkSize);
 
     // Move the chunk to the current line
-    Move(Q^, (PChar(FCurrentLine) + FCursorPosition)^, ChunkSize);
+    Move(Q^, (PAnsiChar(FCurrentLine) + FCursorPosition)^, ChunkSize);
 
     // Update the cursor
     Inc(FCursorPosition, ChunkSize);
@@ -1534,7 +1533,7 @@ var
       SetLength(FCurrentLine, FCursorPosition + 8);
 
     // Fill 8 spaces on the currentline at the cursor position
-    FillChar((PChar(FCurrentLine) + FCursorPosition)^, 8, #32);
+    FillChar((PAnsiChar(FCurrentLine) + FCursorPosition)^, 8, #32);
 
     // Update the cursor
     Inc(FCursorPosition, 8);

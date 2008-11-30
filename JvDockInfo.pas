@@ -21,7 +21,7 @@ located at http://jvcl.sourceforge.net
 
 Known Issues:
 -----------------------------------------------------------------------------}
-// $Id: JvDockInfo.pas 11384 2007-06-24 12:44:49Z ahuser $
+// $Id: JvDockInfo.pas 11620 2007-12-16 19:00:26Z ahuser $
 
 unit JvDockInfo;
 
@@ -175,9 +175,9 @@ type
 {$IFDEF UNITVERSIONING}
 const
   UnitVersioning: TUnitVersionInfo = (
-    RCSfile: '$URL: https://jvcl.svn.sourceforge.net/svnroot/jvcl/branches/JVCL3_33_PREPARATION/run/JvDockInfo.pas $';
-    Revision: '$Revision: 11384 $';
-    Date: '$Date: 2007-06-24 14:44:49 +0200 (dim., 24 juin 2007) $';
+    RCSfile: '$URL: https://jvcl.svn.sourceforge.net/svnroot/jvcl/branches/JVCL3_34_PREPARATION/run/JvDockInfo.pas $';
+    Revision: '$Revision: 11620 $';
+    Date: '$Date: 2007-12-16 20:00:26 +0100 (dim., 16 déc. 2007) $';
     LogPath: 'JVCL\run'
   );
 {$ENDIF UNITVERSIONING}
@@ -469,6 +469,8 @@ var
     end;
   end;
 
+var
+  FormName: string;
 begin
   FormList := TStringList.Create;
   FJvDockInfoStyle := isJVCLReadInfo; // set mode for Scan.
@@ -483,17 +485,26 @@ begin
       if FAppStorage.ValueStored('FormNames') then
       begin
         S := FAppStorage.ReadString('FormNames');
-        { UniqueString is used because we modify the contents of S after
-          casting S to a PChar. S might point to an actual string in a storage,
-          as is the case with TJvAppXMLFileStorage. Not using UniqueString would
-          change the value in the storage too. }
-        UniqueString(S);
         CP := PChar(S);
         CP1 := StrPos(CP, ';');
         while CP1 <> nil do
         begin
-          CP1^ := #0;
-          FormList.Add(string(CP));
+          SetString(FormName, CP, CP1 - CP);
+          // (Mantis #4293) Avoid restoration of not instantiated forms => DockFormStyle == dsNormal
+          if TJvDockFormStyle(FAppStorage.ReadInteger(
+                              FAppStorage.ConcatPaths([FormName, 'DockFormStyle']))) = dsNormal then
+          begin
+            for I := 0 to Screen.FormCount - 1 do
+            begin
+              if Screen.Forms[I].Name = FormName then
+              begin
+                FormList.Add(FormName);
+                Break;
+              end;
+            end;
+          end
+          else
+            FormList.Add(FormName);
           CP := CP1 + 1;
           CP1 := StrPos(CP, ';');
         end;

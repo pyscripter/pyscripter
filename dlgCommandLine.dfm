@@ -127,8 +127,8 @@ inherited CommandLineDlg: TCommandLineDlg
       Height = 28
       Caption = 
         'Please enter parameters to be appended to the command line:'#13#10'Not' +
-        'e that the scipt name is automatically inserted as the first arg' +
-        'ument.'
+        'e that the script name is automatically inserted as the first ar' +
+        'gument.'
       Anchors = [akLeft, akBottom]
       AutoSize = False
       ParentColor = True
