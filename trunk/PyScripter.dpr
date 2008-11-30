@@ -7,6 +7,8 @@
 -----------------------------------------------------------------------------}
 
 
+// JCL_DEBUG_EXPERT_GENERATEJDBG ON
+// JCL_DEBUG_EXPERT_INSERTJDBG ON
 program PyScripter;
 {%ToDo 'PyScripter.todo'}
 {%TogetherDiagram 'ModelSupport_PyScripter\default.txaPackage'}
@@ -85,14 +87,12 @@ uses
   dlgCodeTemplates in 'dlgCodeTemplates.pas' {CodeTemplates},
   dlgNewFile in 'dlgNewFile.pas' {NewFileDialog},
   SynEdit in 'SynEdit.pas',
-  JvAppInst in 'JvAppInst.pas',
   PythonEngine in 'PythonEngine.pas',
   TBXOffice2003Theme in 'TBXOffice2003Theme.pas',
   TBXOffice2007Theme in 'TBXOffice2007Theme.pas',
   TBXUtils in 'TBXUtils.pas',
   JvDockVSNetStyle in 'JvDockVSNetStyle.pas',
   JvDockControlForm in 'JvDockControlForm.pas',
-  JvDockVIDStyle in 'JvDockVIDStyle.pas',
   SpTBXControls in 'SpTBXControls.pas',
   uSearchHighlighter in 'uSearchHighlighter.pas',
   SynEditSearch in 'SynEditSearch.pas',
@@ -108,7 +108,6 @@ uses
   MPCommonObjects in 'MPCommonObjects.pas',
   VirtualFileSearch in 'VirtualFileSearch.pas',
   SynHighlighterWeb in 'SynHighlighterWeb.pas',
-  JvAppStorage in 'JvAppStorage.pas',
   SynEditTextBuffer in 'SynEditTextBuffer.pas',
   SynUnicode in 'SynUnicode.pas',
   SynTextDrawer in 'SynTextDrawer.pas',

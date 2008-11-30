@@ -21,7 +21,7 @@ located at http://jvcl.sourceforge.net
 
 Known Issues:
 -----------------------------------------------------------------------------}
-// $Id: JvDockVSNetStyle.pas 11252 2007-04-05 22:12:55Z remkobonte $
+// $Id: JvDockVSNetStyle.pas 11640 2007-12-24 12:44:14Z ahuser $
 
 unit JvDockVSNetStyle;
 
@@ -541,9 +541,9 @@ var
 {$IFDEF UNITVERSIONING}
 const
   UnitVersioning: TUnitVersionInfo = (
-    RCSfile: '$URL: https://jvcl.svn.sourceforge.net/svnroot/jvcl/tags/JVCL3_32/run/JvDockVSNetStyle.pas $';
-    Revision: '$Revision: 11252 $';
-    Date: '$Date: 2007-04-06 00:12:55 +0200 (ven., 06 avr. 2007) $';
+    RCSfile: '$URL: https://jvcl.svn.sourceforge.net/svnroot/jvcl/branches/JVCL3_34_PREPARATION/run/JvDockVSNetStyle.pas $';
+    Revision: '$Revision: 11640 $';
+    Date: '$Date: 2007-12-24 13:44:14 +0100 (lun., 24 déc. 2007) $';
     LogPath: 'JVCL\run'
   );
 {$ENDIF UNITVERSIONING}
@@ -560,6 +560,7 @@ type
 
   TCustomFormAccess = class(TCustomForm);
   TWinControlAccessProtected = class(TWinControl);
+  TCustomControlAccessProtected = class(TCustomControl);
 
   { Enumerates the channels of a dock server; Ensure MoveNext returns true
     before reading Current }
@@ -1055,20 +1056,33 @@ procedure TJvDockVSBlock.ResetActiveBlockWidth;
 var
   I: Integer;
   TextWidth: Integer;
+  Canvas: TCanvas;
 begin
   FActiveBlockWidth := 0;
 
-  for I := 0 to VSPaneCount - 1 do
+  if VSPaneCount > 0 then
   begin
-    { Dirty cast }
-    TextWidth := TCustomForm(VSChannel.Parent).Canvas.TextWidth(VSPane[I].FDockForm.Caption) + InactiveBlockWidth + 10;
-    if TextWidth >= VSChannel.ActivePaneSize then
-    begin
-      FActiveBlockWidth := VSChannel.ActivePaneSize;
-      Exit;
-    end;
+    if VSChannel.Parent is TCustomControl then
+      Canvas := TCustomControlAccessProtected(VSChannel.Parent).Canvas
+    else if VSChannel.Parent is TCustomForm then
+      Canvas := TForm(VSChannel.Parent).Canvas
+    else
+      Canvas := nil;
 
-    FActiveBlockWidth := Max(FActiveBlockWidth, TextWidth);
+    if Canvas <> nil then
+    begin
+      for I := 0 to VSPaneCount - 1 do
+      begin
+        TextWidth := Canvas.TextWidth(VSPane[I].FDockForm.Caption) + InactiveBlockWidth + 10;
+        if TextWidth >= VSChannel.ActivePaneSize then
+        begin
+          FActiveBlockWidth := VSChannel.ActivePaneSize;
+          Exit;
+        end;
+
+        FActiveBlockWidth := Max(FActiveBlockWidth, TextWidth);
+      end;
+    end;
   end;
 
   if FActiveBlockWidth = 0 then
@@ -2612,52 +2626,55 @@ end;
 
 procedure TJvDockVSNetStyle.Timer(Sender: TObject);
 
-  function IsPopupWindow(Handle : HWND) : Boolean;
-  Var
+  function IsPopupWindow(Handle: HWND): Boolean;
+  var
     OwningProcess: DWORD;
-    LStyle : Cardinal;
+    LStyle: Cardinal;
   begin
     Result := False;
-    if (Handle <> 0) and (GetWindowThreadProcessID(Handle, OwningProcess) <> 0) and
+    if (Handle <> 0) and (GetWindowThreadProcessID(Handle, @OwningProcess) <> 0) and
        (OwningProcess = GetCurrentProcessId) then
     begin
       LStyle := GetWindowLong(Handle, GWL_STYLE);
-      if WS_POPUP and LSTYLE <> 0 then
-        Result := True;
+      Result := WS_POPUP and LSTYLE <> 0;
     end;
   end;
 
-  Const
+  function PointIsOnPopup(P: TPoint; GlobalCheck: Boolean): Boolean;
+  const
     GW_ENABLEDPOPUP = 6;
-
-  function PointIsOnPopup(P : TPoint; GlobalCheck : Boolean) : Boolean;
-  Var
+  var
     Control: TWinControl;
-    Handle : HWND;
-    Rect : TRect;
-    ActivePopupWindow : Boolean;
+    Handle: HWND;
+    Rect: TRect;
+    ActivePopupWindow: Boolean;
   begin
     Control := FindVCLWindow(P);
     Result := ControlIsOnPopup(Control);
-    if not Result then begin
+    if not Result then
+    begin
       // Check whether a popup window is currently displayed (hint, popup menu)
       Handle := WindowFromPoint(P);
-      ActivePopupWindow :=  IsPopUpWindow(Handle);
-      if not ActivePopupWindow and GlobalCheck then begin
+      ActivePopupWindow := IsPopupWindow(Handle);
+      if not ActivePopupWindow and GlobalCheck then
+      begin
         Handle := GetWindow(Application.Handle, GW_ENABLEDPOPUP);
-        ActivePopupWindow :=  IsPopUpWindow(Handle);
-        if not ActivePopupWindow then begin
+        ActivePopupWindow := IsPopupWindow(Handle);
+        if not ActivePopupWindow then
+        begin
           Handle := GetTopWindow(GetDesktopWindow);
-          ActivePopupWindow :=  IsPopUpWindow(Handle);
+          ActivePopupWindow := IsPopupWindow(Handle);
         end;
       end;
 
-      if ActivePopupWindow then begin
+      if ActivePopupWindow then
+      begin
         GetWindowRect(Handle, Rect);
         // Search for a control one pixel to the left;
         Dec(Rect.Left);
         Result := PointIsOnPopup(Rect.TopLeft, False);
-        if not Result then begin
+        if not Result then
+        begin
           // Search for a control one pixel to the Right;
           Inc(Rect.Right);
           Result := PointIsOnPopup(Point(Rect.Right, Rect.Top), False);
@@ -2671,15 +2688,11 @@ var
   I: Integer;
   ADockServer: TJvDockServer;
 begin
-  if not ChannelOption.MouseleaveHide then
-    Exit;
-  if csDesigning in ComponentState then
+  if (csDesigning in ComponentState) or not ChannelOption.MouseleaveHide or
+     ((GetAsyncKeyState(VK_LBUTTON) and $8000) <> 0) then
     Exit;
 
-  if (GetAsyncKeyState(VK_LBUTTON) and $8000) <> 0 then
-    Exit;
   GetCursorPos(P);
-
   if PointIsOnPopup(P, True) then
   begin
     { Reset timer }
@@ -3048,6 +3061,7 @@ var
   ADockClient: TJvDockClient;
   AForm: TCustomForm;
   IsActive: Boolean;
+  OrgPenWidth: Integer;
 begin
   if Zone <> nil then
   begin
@@ -3105,10 +3119,18 @@ begin
       Canvas.Pen.Color := clWhite
     else
       Canvas.Pen.Color := clBlack;
-    Canvas.MoveTo(DrawRect.Left, DrawRect.Top);
-    Canvas.LineTo(DrawRect.Right, DrawRect.Bottom);
-    Canvas.MoveTo(DrawRect.Right - 1, DrawRect.Top);
-    Canvas.LineTo(DrawRect.Left - 1, DrawRect.Bottom);
+    OrgPenWidth := Canvas.Pen.Width;
+    try
+      Canvas.Pen.Width := 2;
+      Dec(DrawRect.Left);
+      Dec(DrawRect.Right);
+      Canvas.MoveTo(DrawRect.Left, DrawRect.Top);
+      Canvas.LineTo(DrawRect.Right, DrawRect.Bottom);
+      Canvas.MoveTo(DrawRect.Right, DrawRect.Top);
+      Canvas.LineTo(DrawRect.Left, DrawRect.Bottom);
+    finally
+      Canvas.Pen.Width := OrgPenWidth;
+    end;
   end;
 end;
 

@@ -2271,8 +2271,7 @@ begin
 
     PyScripterRefactor.InitializeQuery;
     // GetParsedModule
-    ParsedModule := PyScripterRefactor.GetParsedModule(
-      FileNameToModuleName(FName), None);
+    ParsedModule := PyScripterRefactor.GetParsedModule(FName, None);
     Scope := nil;
     if Assigned(ParsedModule) then
       Scope := ParsedModule.GetScopeForLine(CaretY);
@@ -2463,8 +2462,7 @@ begin
 
               PyScripterRefactor.InitializeQuery;
               // GetParsedModule
-              ParsedModule := PyScripterRefactor.GetParsedModule(
-                FileNameToModuleName(FName), None);
+              ParsedModule := PyScripterRefactor.GetParsedModule(FName, None);
               Scope := nil;
               if Assigned(ParsedModule) then
                 Scope := ParsedModule.GetScopeForLine(CaretY);

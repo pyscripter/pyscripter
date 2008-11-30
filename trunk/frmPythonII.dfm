@@ -261,9 +261,9 @@ inherited PythonIIForm: TPythonIIForm
       Action = CommandsDataModule.actEditCopy
     end
     object mnEditPaste: TSpTBXItem
-      Caption = '&Copy'
-      Hint = 'Copy|Copies the selection and puts it on the Clipboard'
-      Action = CommandsDataModule.actEditCopy
+      Caption = '&Paste'
+      Hint = 'Paste|Inserts Clipboard contents'
+      Action = CommandsDataModule.actEditPaste
     end
     object TBXSeparatorItem1: TSpTBXSeparatorItem
     end

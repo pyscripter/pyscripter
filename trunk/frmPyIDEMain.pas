@@ -287,6 +287,7 @@ Limitations: Python scripts are executed in the main thread
             Two new interpreter commands added: Copy without prompts, and Paste with prompts (Issue 183)
             Localization using gettext
             YAML highlighter added
+            Ability to run initialization scripts (see help file)
           Bug fixes
             Shell Integration - Error when opening multiple files
             Configure External Run - ParseTraceback not saved properly
@@ -326,7 +327,8 @@ Limitations: Python scripts are executed in the main thread
                    100, 102, 105, 106, 107, 109, 113, 117, 119, 120, 122, 123, 125,
                    132, 134, 135, 136, 137, 138, 139, 140, 141, 146, 147, 150, 153, 155,
                    160, 164, 165, 166, 167, 168, 169, 171, 174, 178, (182), 186,
-                   193, 195, 196, 197, (198), (201), (202), (204), (206), (208), (212), (219), (226), (235) fixed
+                   193, 195, 196, 197, (198), (201), (202), (204), (206), (208), (212), (219), (226),
+                   (228), (229), (234), (235), (237) fixed
 
   Vista Compatibility issues (all resolved)
   -  Flip3D and Form preview (solved with LX)
@@ -2478,30 +2480,30 @@ begin
   // Command History Size
   PythonIIForm.CommandHistorySize := CommandsDataModule.PyIDEOptions.InterpreterHistorySize;
 
-
   TabBar.CloseButton := CommandsDataModule.PyIDEOptions.ShowTabCloseButton;
-  case CommandsDataModule.PyIDEOptions.EditorTabPosition of
-    toTop:
-      begin
-        TabBar.Orientation := toTop;
-        TabBar.Align := alTop;
-        for i  := 0 to GI_EditorFactory.Count - 1 do
-          with TEditorForm(GI_EditorFactory.Editor[i].Form).ViewsTabBar do begin
-            Orientation := toBottom;
-            Align := alBottom;
-          end;
-      end;
-    toBottom:
-      begin
-        TabBar.Orientation := toBottom;
-        TabBar.Align := alBottom;
-        for i  := 0 to GI_EditorFactory.Count - 1 do
-          with TEditorForm(GI_EditorFactory.Editor[i].Form).ViewsTabBar do begin
-            Orientation := toTop;
-            Align := alTop;
-          end;
-      end;
-  end;
+  if TabBar.Orientation <> CommandsDataModule.PyIDEOptions.EditorTabPosition then
+    case CommandsDataModule.PyIDEOptions.EditorTabPosition of
+      toTop:
+        begin
+          TabBar.Orientation := toTop;
+          TabBar.Align := alTop;
+          for i  := 0 to GI_EditorFactory.Count - 1 do
+            with TEditorForm(GI_EditorFactory.Editor[i].Form).ViewsTabBar do begin
+              Orientation := toBottom;
+              Align := alBottom;
+            end;
+        end;
+      toBottom:
+        begin
+          TabBar.Orientation := toBottom;
+          TabBar.Align := alBottom;
+          for i  := 0 to GI_EditorFactory.Count - 1 do
+            with TEditorForm(GI_EditorFactory.Editor[i].Form).ViewsTabBar do begin
+              Orientation := toTop;
+              Align := alTop;
+            end;
+        end;
+    end;
 
   Editor := GetActiveEditor;
   if Assigned(Editor) then
@@ -3611,8 +3613,11 @@ begin
     // Connect ChangeNotify
     OnAfterShellNotify := CommandsDataModule.ProcessShellNotify;
     // Register drop target
-    RegisterDragDrop(EditorsPageList.Handle, Self);    
+    RegisterDragDrop(EditorsPageList.Handle, Self);
   end;
+
+  // Execute pyscripter_init.py
+  InternalInterpreter.RunScript(CommandsDataModule.UserDataDir + PyScripterInitFile);
 
   // This is needed to update the variables window
   PyControl.DoStateChange(dsInactive);

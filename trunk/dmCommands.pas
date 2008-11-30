@@ -23,9 +23,10 @@ uses
   SynHighlighterIni, TB2MRU, TBXExtItems, JvAppInst, uEditAppIntfs, SynUnicode,
   JvTabBar, JvStringHolder, cPyBaseDebugger, TntDialogs, TntLXDialogs,
   SynEditTypes, VirtualExplorerTree, VirtualShellNotifier, SynHighlighterWeb,
-  SynHighlighterCpp, TntStdActns, TntActnList, SynHighlighterYAML;        
+  SynHighlighterCpp, TntStdActns, TntActnList, SynHighlighterYAML;
 
 type
+{$METHODINFO ON}
   TPythonIDEOptions = class(TPersistent)
   private
     fTimeOut : integer;
@@ -82,6 +83,7 @@ type
     procedure Assign(Source: TPersistent); override;
     property PythonFileExtensions : string read GetPythonFileExtensions;
   published
+    procedure Changed;
     property TimeOut : integer read fTimeOut write fTimeOut;
     property UndoAfterSave : boolean read fUndoAfterSave
       write fUndoAfterSave;
@@ -171,6 +173,7 @@ type
     property SaveInterpreterHistory : Boolean read fSaveInterpreterHistory
       write fSaveInterpreterHistory;
   end;
+{$METHODINFO OFF}
 
   TEditorSearchOptions = class(TPersistent)
   private
@@ -560,6 +563,11 @@ begin
     end
   else
     inherited;
+end;
+
+procedure TPythonIDEOptions.Changed;
+begin
+  PyIDEMainForm.PyIDEOptionsChanged;
 end;
 
 constructor TPythonIDEOptions.Create;

@@ -187,7 +187,7 @@ begin
   end;
 
   // GetParsedModule
-  ParsedModule := GetParsedModule(FileNameToModuleName(FileName), None);
+  ParsedModule := GetParsedModule(FileName, None);
   if not Assigned(ParsedModule) then begin
     ErrMsg := WideFormat(_(SCouldNotLoadModule), [FileName]);
     Exit;
@@ -231,6 +231,13 @@ end;
 
 function TPyScripterRefactor.GetParsedModule(const ModuleName: WideString;
   PythonPath : Variant): TParsedModule;
+{
+   ModuleName can be either
+     - a fully qualified file name
+     - a possibly dotted module name existing in the Python path
+}
+{ TODO : Deal with relative imports here or maybe in the Source Scanner }
+{ TODO : Deal Source residing in zip file etc. }
 var
   Index, SpecialPackagesIndex : integer;
   FName : WideString;
@@ -243,16 +250,23 @@ var
   SuppressOutput : IInterface;
   InSysModules : Boolean;
 begin
-  DottedModuleName := ModuleName;
+  if WideFileExists(ModuleName) then begin
+    FName := ModuleName;
+    DottedModuleName := FileNameToModuleName(FName);
+  end else begin
+    FName := '';
+    DottedModuleName := ModuleName;
+  end;
+
   fSpecialPackages.CommaText := CommandsDataModule.PyIDEOptions.SpecialPackages;
-  SpecialPackagesIndex := fSpecialPackages.IndexOf(ModuleName);
+  SpecialPackagesIndex := fSpecialPackages.IndexOf(DottedModuleName);
   if SpecialPackagesIndex >= 0 then
     try
       SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
       // only import if it is not available
       if SysModule.modules.__contains__(DottedModuleName) then
       else
-        Import(ModuleName);
+        Import(DottedModuleName);
     except
       SpecialPackagesIndex := -1;
     end;
@@ -261,20 +275,21 @@ begin
 
   if SpecialPackagesIndex < 0 then begin
     // Check whether it is an unsaved file
-    Editor := GI_EditorFactory.GetEditorByNameOrTitle(ModuleName);
+    Editor := GI_EditorFactory.GetEditorByNameOrTitle(DottedModuleName);
     if Assigned(Editor) and (Editor.FileName = '') and Editor.HasPythonFile then
     begin
       ModuleSource := Editor.SynEdit.Text;
-      FName := ModuleName;
+      FName := DottedModuleName;
       FoundSource := True;
     end else begin
       // Find the source file
-      FNameVar := InternalInterpreter.PyInteractiveInterpreter.findModuleOrPackage(ModuleName, PythonPath);
-      if not VarIsNone(FNameVar) then begin
-         FName := FNameVar;
-         if (WideExtractFileExt(FName) = '.py') and GetSource(FName, ModuleSource) then
-           FoundSource := True;
+      if FName = '' then begin  // No filename was provided
+        FNameVar := InternalInterpreter.PyInteractiveInterpreter.findModuleOrPackage(DottedModuleName, PythonPath);
+        if not VarIsNone(FNameVar) then
+           FName := FNameVar;
       end;
+      if (FName <> '') and CommandsDataModule.FileIsPythonSource(FName) and GetSource(FName, ModuleSource) then
+         FoundSource := True;
     end;
   end;
 
@@ -717,7 +732,7 @@ begin
   PythonPathAdder := InternalInterpreter.AddPathToPythonPath(WideExtractFileDir(FileName));
 
   // GetParsedModule
-  ParsedModule := GetParsedModule(FileNameToModuleName(FileName), None);
+  ParsedModule := GetParsedModule(FileName, None);
   if not Assigned(ParsedModule) then begin
     ErrMsg := WideFormat(_(SCouldNotLoadModule), [FileName]);
     Exit;
@@ -820,7 +835,7 @@ begin
       if GetSource(FindRefFileList[i], ModuleSource) and
         (Pos(CEName, ModuleSource) > 0) then
       begin
-        ParsedModule := GetParsedModule(FileNameToModuleName(FindRefFileList[i]), None);
+        ParsedModule := GetParsedModule(FindRefFileList[i], None);
         if Assigned(ParsedModule) then
           FindReferencesInModule(CE, ParsedModule, ParsedModule.CodeBlock,
             ErrMsg, List);

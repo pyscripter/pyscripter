@@ -24,7 +24,7 @@ located at http://jvcl.sourceforge.net
 
 Known Issues:
 -----------------------------------------------------------------------------}
-// $Id: JvDockControlForm.pas 11276 2007-04-24 19:33:37Z remkobonte $
+// $Id: JvDockControlForm.pas 11800 2008-05-11 11:03:09Z jedi_mbe $
 
 { Changes:
 
@@ -53,7 +53,7 @@ uses
   Windows, Messages, Classes, Graphics, Controls, Forms, Menus,
   ExtCtrls, ComCtrls,
   {$IFDEF USEJVCL}
-  JvComponentBase, JvAppStorage,
+  JvComponentBase, JvAppStorage, JvConsts,
   {$ENDIF USEJVCL}
   JvDockTree, JvDockSupportClass, JvDockSupportControl, JvDockAdvTree;
 
@@ -63,10 +63,6 @@ const
   JvDockState_Unknown = 0;
   JvDockState_Docking = 1;
   JvDockState_Floating = 2;
-
-  {$IFNDEF COMPILER9_UP}
-  CM_INVALIDATEDOCKHOST = CM_BASE + 70;
-  {$ENDIF !COMPILER9_UP}
 
 type
   TJvDockSplitterSize = 0..32767;
@@ -882,9 +878,9 @@ procedure InvalidateDockHostSiteOfControl(Control: TControl; FocusLost: Boolean)
 {$IFDEF UNITVERSIONING}
 const
   UnitVersioning: TUnitVersionInfo = (
-    RCSfile: '$URL: https://jvcl.svn.sourceforge.net/svnroot/jvcl/tags/JVCL3_32/run/JvDockControlForm.pas $';
-    Revision: '$Revision: 11276 $';
-    Date: '$Date: 2007-04-24 21:33:37 +0200 (mar., 24 avr. 2007) $';
+    RCSfile: '$URL: https://jvcl.svn.sourceforge.net/svnroot/jvcl/branches/JVCL3_34_PREPARATION/run/JvDockControlForm.pas $';
+    Revision: '$Revision: 11800 $';
+    Date: '$Date: 2008-05-11 13:03:09 +0200 (dim., 11 mai 2008) $';
     LogPath: 'JVCL\run'
     );
 {$ENDIF UNITVERSIONING}
@@ -909,7 +905,7 @@ type
   TControlAccessProtected = class(TControl);
   TWinControlAccessProtected = class(TWinControl);
 
-  
+
 {$IFNDEF USEJVCL}
 const
   cDefaultFormName = '_JVFORM_';

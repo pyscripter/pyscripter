@@ -11297,6 +11297,19 @@ object CommandsDataModule: TCommandsDataModule
     LocationHTTP = ProgramVersionHTTPLocation
     LocationType = pvltHTTP
     UserOptions = [uoCheckFrequency, uoLocalDirectory, uoAllowedReleaseType, uoLocationHTTP]
+    VersionHistoryFileOptions.INIOptions.BooleanStringTrueValues = 'TRUE, YES, Y'
+    VersionHistoryFileOptions.INIOptions.BooleanStringFalseValues = 'FALSE, NO, N'
+    VersionHistoryFileOptions.INIOptions.SetAsString = True
+    VersionHistoryFileOptions.INIOptions.FloatAsString = True
+    VersionHistoryFileOptions.INIOptions.DefaultIfReadConvertError = True
+    VersionHistoryFileOptions.XMLOptions.BooleanStringTrueValues = 'TRUE, YES, Y'
+    VersionHistoryFileOptions.XMLOptions.BooleanStringFalseValues = 'FALSE, NO, N'
+    VersionHistoryFileOptions.XMLOptions.SetAsString = True
+    VersionHistoryFileOptions.XMLOptions.FloatAsString = True
+    VersionHistoryFileOptions.XMLOptions.DefaultIfReadConvertError = True
+    VersionHistoryFileOptions.XMLOptions.UseOldItemNameFormat = False
+    VersionHistoryFileOptions.XMLOptions.WhiteSpaceReplacement = '_'
+    VersionHistoryFileOptions.XMLOptions.InvalidCharReplacement = '_'
     Left = 491
     Top = 21
   end

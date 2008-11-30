@@ -160,6 +160,90 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
       end
     end
   end
+  object ProjectActionList: TTntActionList [1]
+    Images = CommandsDataModule.Images
+    Left = 41
+    Top = 76
+    object actProjectNew: TTntAction
+      Category = 'Project'
+      Caption = '&New Project'
+      HelpContext = 435
+      HelpType = htContext
+      Hint = 'Start a new project'
+      ImageIndex = 133
+      OnExecute = actProjectNewExecute
+    end
+    object actProjectOpen: TTntAction
+      Category = 'Project'
+      Caption = '&Open Project...'
+      HelpContext = 435
+      HelpType = htContext
+      Hint = 'Open a project file'
+      ImageIndex = 134
+      OnExecute = actProjectOpenExecute
+    end
+    object actProjectSave: TTntAction
+      Category = 'Project'
+      Caption = '&Save Project'
+      HelpContext = 435
+      HelpType = htContext
+      Hint = 'Save the project'
+      ImageIndex = 140
+      OnExecute = actProjectSaveExecute
+    end
+    object actProjectSaveAs: TTntAction
+      Category = 'Project'
+      Caption = 'Save Project &As...'
+      HelpContext = 435
+      HelpType = htContext
+      Hint = 'Save project with under a different name'
+      OnExecute = actProjectSaveAsExecute
+    end
+    object actProjectRelativePaths: TTntAction
+      Category = 'Project'
+      AutoCheck = True
+      Caption = 'Store &Relative Paths'
+      HelpContext = 435
+      HelpType = htContext
+      Hint = 'Store file paths relative to the project directory'
+      OnExecute = actProjectRelativePathsExecute
+    end
+    object actProjectShowFileExtensions: TTntAction
+      Category = 'Project'
+      AutoCheck = True
+      Caption = 'Show File &Extensions'
+      HelpContext = 435
+      HelpType = htContext
+      Hint = 'Display file extensions'
+      OnExecute = actProjectShowFileExtensionsExecute
+    end
+    object actProjectExtraPythonPath: TTntAction
+      Category = 'Project'
+      Caption = 'Extra Python &Path...'
+      HelpKeyword = '435'
+      HelpType = htContext
+      ImageIndex = 25
+      OnExecute = actProjectExtraPythonPathExecute
+    end
+    object actProjectExpandAll: TTntAction
+      Category = 'Project'
+      Caption = '&Expand All'
+      HelpContext = 435
+      HelpType = htContext
+      Hint = 'Expand all project nodes'
+      ImageIndex = 28
+      OnExecute = actProjectExpandAllExecute
+    end
+    object actProjectCollapseAll: TTntAction
+      Category = 'Project'
+      Caption = '&Collapse All'
+      HelpContext = 435
+      HelpType = htContext
+      Hint = 'Collapse all project nodes'
+      ImageIndex = 29
+      OnExecute = actProjectCollapseAllExecute
+    end
+  end
   inherited DockClient: TJvDockClient
     Top = 46
   end
@@ -215,7 +299,7 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
     object SpTBXSeparatorItem12: TSpTBXSeparatorItem
     end
     object mnExtraPythonPath: TSpTBXItem
-      Caption = 'Extra Python &Path'
+      Caption = 'Extra Python &Path...'
       Action = actProjectExtraPythonPath
     end
   end
@@ -844,80 +928,6 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
       Hint = 'Debug the selected configuration'
       ImageIndex = 53
       OnExecute = actProjectDebugExecute
-    end
-  end
-  object ProjectActionList: TTntActionList
-    Images = CommandsDataModule.Images
-    Left = 41
-    Top = 76
-    object actProjectNew: TTntAction
-      Category = 'Project'
-      Caption = '&New Project'
-      HelpContext = 435
-      Hint = 'Start a new project'
-      ImageIndex = 133
-      OnExecute = actProjectNewExecute
-    end
-    object actProjectOpen: TTntAction
-      Category = 'Project'
-      Caption = '&Open Project...'
-      HelpContext = 435
-      Hint = 'Open a project file'
-      ImageIndex = 134
-      OnExecute = actProjectOpenExecute
-    end
-    object actProjectSave: TTntAction
-      Category = 'Project'
-      Caption = '&Save Project'
-      HelpContext = 435
-      Hint = 'Save the project'
-      ImageIndex = 140
-      OnExecute = actProjectSaveExecute
-    end
-    object actProjectSaveAs: TTntAction
-      Category = 'Project'
-      Caption = 'Save Project &As...'
-      HelpContext = 435
-      Hint = 'Save project with under a different name'
-      OnExecute = actProjectSaveAsExecute
-    end
-    object actProjectRelativePaths: TTntAction
-      Category = 'Project'
-      AutoCheck = True
-      Caption = 'Store &Relative Paths'
-      HelpContext = 435
-      Hint = 'Store file paths relative to the project directory'
-      OnExecute = actProjectRelativePathsExecute
-    end
-    object actProjectShowFileExtensions: TTntAction
-      Category = 'Project'
-      AutoCheck = True
-      Caption = 'Show File &Extensions'
-      HelpContext = 435
-      Hint = 'Display file extensions'
-      OnExecute = actProjectShowFileExtensionsExecute
-    end
-    object actProjectExtraPythonPath: TTntAction
-      Category = 'Project'
-      Caption = 'Extra Python &Path'
-      ImageIndex = 25
-      OnExecute = actProjectExtraPythonPathExecute
-    end
-    object actProjectExpandAll: TTntAction
-      Category = 'Project'
-      Caption = '&Expand All'
-      HelpContext = 435
-      Hint = 'Expand all project nodes'
-      ImageIndex = 28
-      OnExecute = actProjectExpandAllExecute
-    end
-    object actProjectCollapseAll: TTntAction
-      Category = 'Project'
-      Caption = '&Collapse All'
-      HelpContext = 435
-      Hint = 'Collapse all project nodes'
-      ImageIndex = 29
-      OnExecute = actProjectCollapseAllExecute
     end
   end
 end

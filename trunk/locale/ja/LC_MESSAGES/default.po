@@ -414,7 +414,7 @@ msgstr "コマンドラインパラメータを使用しますか？"
 #: dlgCommandLine.dfm:131
 msgid ""
 "Please enter parameters to be appended to the command line:\n"
-"Note that the scipt name is automatically inserted as the first argument."
+"Note that the script name is automatically inserted as the first argument."
 msgstr ""
 "コマンドラインにパラメータを追加してください：\n"
 "スクリプト名が最初の引数として自動的に追加されることに注意してください。"
