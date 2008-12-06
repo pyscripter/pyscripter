@@ -1,0 +1,12 @@
+Versions later than 1.8 contain support for remote debugging.  Read 
+http://pyscripter.googlepages.com/remotepythonengines for details.  
+Please note that to use remote debugging you need to download and 
+install the Python package Rpyc version 2.6, available for download from
+http://sourceforge.net/projects/rpyc. (highly recommended).
+
+To install rpyc, unzip the downloaded file into the lib\site-packages 
+subdirectory of the Python distribution. Repeat this for each version 
+of Python you're interested in using.
+
+Please visit http:\\pyscripter.googlepages.com for information about
+remote debugging and other PyScripter related topics.

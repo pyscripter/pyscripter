@@ -1,0 +1,8 @@
+Before using PyScripter, you must ensure that there is a version of Python 
+greater or equal to 2.3 installed on your machine.
+If not, you can download one from http://www.python.org/
+
+You can also check if there is a newest version of PyScripter at
+http://pyscripter.googlepages.com/
+
+Thanks for your interest in PyScripter.
