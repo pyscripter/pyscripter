@@ -422,7 +422,7 @@ end;
 procedure TPyBaseInterpreter.Initialize;
 begin
   // Execute python_init.py
-  RunScript(CommandsDataModule.UserDataDir + EngineInitFile);
+  //RunScript(CommandsDataModule.UserDataDir + EngineInitFile);
 
   // Add extra project paths
   if Assigned(ActiveProject) then

@@ -2925,7 +2925,8 @@ begin
 //      ((F.CurrentEditor as TCustomSynEdit).Owner as TWinControl).SetFocus;
 //    end;
 
-    (F.CurrentEditor as TCustomSynEdit).SetFocus;
+    if (F.CurrentEditor as TCustomSynEdit).CanFocus then //KV added line
+      (F.CurrentEditor as TCustomSynEdit).SetFocus;
 
 {$IFDEF SYN_CLX}
     GetParentForm( F.CurrentEditor ).Show;
@@ -3007,7 +3008,8 @@ begin
           //sending a WM_MOUSEDOWN message. The problem with the mouse down is
           //that the editor would bounce back to the left margin, very irritating
           InternalCancelCompletion;
-          SetFocus;
+          if CanFocus then  // KV added
+            SetFocus;
 {$IFDEF SYN_CLX}
           GetParentForm( F.CurrentEditor ).Show;
 {$ENDIF}

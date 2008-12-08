@@ -535,7 +535,7 @@ object PyIDEMainForm: TPyIDEMainForm
           Action = CommandsDataModule.actPageSetup
         end
         object PrinterSetup1: TSpTBXItem
-          Caption = 'Printer &Setup...'
+          Caption = 'Printer Set&up...'
           Hint = 'Printer setup'
           Action = CommandsDataModule.actPrinterSetup
         end

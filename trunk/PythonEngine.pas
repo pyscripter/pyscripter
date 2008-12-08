@@ -6125,6 +6125,7 @@ const
          'class DebugOutput:'+LF+
          '  pyio = __import__("pyio")'+LF+
          '  softspace=0'+LF+
+         '  encoding=None'+LF+
          '  def write(self,message):'+LF+
          '     self.pyio.write(message)'+LF+
          '  def readline(self, size=None):'+LF+

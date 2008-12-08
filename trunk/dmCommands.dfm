@@ -14113,7 +14113,7 @@ object CommandsDataModule: TCommandsDataModule
     end
     object actPrinterSetup: TTntAction
       Category = 'File'
-      Caption = 'Printer &Setup...'
+      Caption = 'Printer Set&up...'
       HelpContext = 310
       HelpType = htContext
       Hint = 'Printer setup'
