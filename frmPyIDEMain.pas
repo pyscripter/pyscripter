@@ -328,7 +328,7 @@ Limitations: Python scripts are executed in the main thread
                    132, 134, 135, 136, 137, 138, 139, 140, 141, 146, 147, 150, 153, 155,
                    160, 164, 165, 166, 167, 168, 169, 171, 174, 178, (182), 186,
                    193, 195, 196, 197, (198), (201), (202), (204), (206), (208), (212), (219), (226),
-                   (228), (229), (234), (235), (237) fixed
+                   (228), (229), (234), (235), (237), (253) fixed
 
   Vista Compatibility issues (all resolved)
   -  Flip3D and Form preview (solved with LX)
@@ -3617,7 +3617,7 @@ begin
   end;
 
   // Execute pyscripter_init.py
-  InternalInterpreter.RunScript(CommandsDataModule.UserDataDir + PyScripterInitFile);
+  //InternalInterpreter.RunScript(CommandsDataModule.UserDataDir + PyScripterInitFile);
 
   // This is needed to update the variables window
   PyControl.DoStateChange(dsInactive);
