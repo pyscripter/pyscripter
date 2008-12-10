@@ -9509,10 +9509,7 @@ begin
   FPrefix := 'Create';
   FServices := TTypeServices.Create;
   FDocString := TStringList.Create;
-  if GetPythonEngine.IsPython3000 then
-    FTypeFlags := []  // Python 3000 removed old flags
-  else
-    FTypeFlags := TPFLAGS_DEFAULT;
+  FTypeFlags := TPFLAGS_DEFAULT;
   FGenerateCreateFunction := True;
 end;
 
