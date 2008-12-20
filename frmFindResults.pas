@@ -647,8 +647,10 @@ var
   MatchesFound: Cardinal;
   //Cursor: IInterface;
 begin
-  if FSearchInProgress then
-    raise Exception.Create(SGrepActive);
+  if DoingSearchOrReplace then begin
+    WideMessageDlg(_(SGrepActive), mtError, [mbOK], 0);
+    Exit;
+  end;
 
   if not (DoRefresh and FGrepSettings.CanRefresh) then
     if not QueryUserForGrepOptions then

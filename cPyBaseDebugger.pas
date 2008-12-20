@@ -214,6 +214,7 @@ type
     fActiveInterpreter : TPyBaseInterpreter;
     fActiveDebugger : TPyBaseDebugger ;
     fRunConfig : TRunConfiguration;
+    FPythonVersionIndex: integer;
     procedure DoOnBreakpointChanged(Editor : IEditor; ALine: integer);
     procedure SetActiveDebugger(const Value: TPyBaseDebugger);
     procedure SetActiveInterpreter(const Value: TPyBaseInterpreter);
@@ -251,6 +252,8 @@ type
       RunToCursorLine : integer = -1);
     procedure ExternalRun(ARunConfig : TRunConfiguration);
     // properties and events
+    // PythonVersionIndex is the Index of Python version in the PYTHON_KNOWN_VERSIONS array
+    property PythonVersionIndex : integer read FPythonVersionIndex write FPythonVersionIndex;
     property PythonEngineType : TPythonEngineType read GetPythonEngineType
       write SetPythonEngineType;
     property ActiveInterpreter : TPyBaseInterpreter read fActiveInterpreter
