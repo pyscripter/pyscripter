@@ -129,7 +129,7 @@ type
     procedure SetCommandHistorySize(const Value: integer);
     procedure GetBlockCode(var Source: WideString;
       var Buffer: array of WideString; EndLineN: Integer; StartLineN: Integer);
-    procedure LoadPythonEngine;
+    function LoadPythonEngine : integer;
     procedure PrintInterpreterBanner;
   protected
     procedure PythonIOSendData(Sender: TObject; const Data: WideString);
@@ -520,7 +520,7 @@ begin
   PythonIO.UnicodeIO := True;
   PythonIO.RawOutput := True;
 
-  LoadPythonEngine;
+  PyControl.PythonVersionIndex := LoadPythonEngine;
 
   fShowOutput := True;
   // For handling output from Python threads
@@ -1578,7 +1578,12 @@ begin
   end;
 end;
 
-procedure TPythonIIForm.LoadPythonEngine;
+function TPythonIIForm.LoadPythonEngine : integer;
+{-----------------------------------------------------------------------------
+  Result: Index of Python Version in PYTHON_KNOWN_VERSIONS
+-----------------------------------------------------------------------------}
+
+
 
 //  function IsPythonVersionParam(const AParam : String; out AVersion : String) : Boolean;
 //  begin
@@ -1611,6 +1616,7 @@ var
   expectedVersionIdx : Integer;
   UseDebugVersion : Boolean;
 begin
+  Result := 0;
   // first find an optional parameter specifying the expected Python version in the form of -PYTHONXY
   expectedVersion := '';
   expectedVersionIdx := -1;
@@ -1695,6 +1701,7 @@ begin
     end;
     try
       PythonEngine.LoadDll;
+      Result := i;
     except on E: EPyImportError do
       WideMessageDlg(_(SPythonInitError), mtError, [mbOK], 0);
     end;
