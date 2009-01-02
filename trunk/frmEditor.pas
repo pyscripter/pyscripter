@@ -1391,7 +1391,8 @@ begin
       SynEdit.EndUpdate;
     end;
   end;
-  Result := SaveWideStringsToFile(fEditor.fFileName, SynEdit.Lines, fEditor.fFileEncoding);
+  Result := SaveWideStringsToFile(fEditor.fFileName, SynEdit.Lines,
+    fEditor.fFileEncoding, CommandsDataModule.PyIDEOptions.CreateBackupFiles);
   if Result then begin
     FileTimeLastWriteRaw(fEditor.fFileName, FileTime);
     if not CommandsDataModule.PyIDEOptions.UndoAfterSave then
