@@ -175,7 +175,7 @@ type
 {$IFDEF UNITVERSIONING}
 const
   UnitVersioning: TUnitVersionInfo = (
-    RCSfile: '$URL: https://jvcl.svn.sourceforge.net/svnroot/jvcl/branches/JVCL3_34_PREPARATION/run/JvDockInfo.pas $';
+    RCSfile: '$URL: https://jvcl.svn.sourceforge.net/svnroot/jvcl/branches/JVCL3_36_PREPARATION/run/JvDockInfo.pas $';
     Revision: '$Revision: 11620 $';
     Date: '$Date: 2007-12-16 20:00:26 +0100 (dim., 16 déc. 2007) $';
     LogPath: 'JVCL\run'

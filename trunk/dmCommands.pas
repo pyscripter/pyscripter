@@ -500,7 +500,7 @@ uses
   uParams, dlgCodeTemplates, dlgConfigureTools, cTools,
   frmFunctionList, StringResources, TBXThemes, TBX, uCommonFunctions,
   StoHtmlHelp, {uMMMXP_MainService, }JvJCLUtils, Menus, SynEditStrConst,
-  dlgConfirmReplace, dlgCustomShortcuts, jclStrings,
+  dlgConfirmReplace, dlgCustomShortcuts,// jclStrings,
   dlgUnitTestWizard, WinInet, Math, Registry, ShlObj, ShellAPI,
   dlgFileTemplates, JclSysInfo, JclSysUtils, dlgPickList, JvAppIniStorage,
   cFilePersist, JvAppStorage, SpTBXEditors, JvDSADialogs, uSearchHighlighter,

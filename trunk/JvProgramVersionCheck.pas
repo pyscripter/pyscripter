@@ -19,7 +19,7 @@ located at http://jvcl.sourceforge.net
 
 Known Issues:
 -----------------------------------------------------------------------------}
-// $Id: JvProgramVersionCheck.pas 11743 2008-02-21 23:17:13Z jfudickar $
+// $Id: JvProgramVersionCheck.pas 11853 2008-08-08 19:20:02Z jfudickar $
 
 unit JvProgramVersionCheck;
 
@@ -559,9 +559,9 @@ type
 {$IFDEF UNITVERSIONING}
 const
   UnitVersioning: TUnitVersionInfo = (
-    RCSfile: '$URL: https://jvcl.svn.sourceforge.net/svnroot/jvcl/branches/JVCL3_34_PREPARATION/run/JvProgramVersionCheck.pas $';
-    Revision: '$Revision: 11743 $';
-    Date: '$Date: 2008-02-22 00:17:13 +0100 (ven., 22 févr. 2008) $';
+    RCSfile: '$URL: https://jvcl.svn.sourceforge.net/svnroot/jvcl/branches/JVCL3_36_PREPARATION/run/JvProgramVersionCheck.pas $';
+    Revision: '$Revision: 11853 $';
+    Date: '$Date: 2008-08-08 21:20:02 +0200 (ven., 08 aoΓ»t 2008) $';
     LogPath: 'JVCL\run'
     );
 {$ENDIF UNITVERSIONING}
@@ -966,8 +966,8 @@ begin
       if ProgramVersion[I].ProgramReleaseDate > 0 then
         Result := Result + ' - ' + DateTimeToStr(ProgramVersion[I].ProgramReleaseDate);
       if ProgramVersion[I].VersionDescription.Count > 0 then
-        Result := Result + AnsiLineBreak + ProgramVersion[I].VersionDescription.Text;
-      Result := Result + AnsiLineBreak + AnsiLineBreak;
+        Result := Result + NativeLineBreak + ProgramVersion[I].VersionDescription.Text;
+      Result := Result + NativeLineBreak + NativeLineBreak;
     end;
 end;
 
@@ -1364,7 +1364,7 @@ var
   ReleaseType: TJvProgramReleaseType;
 begin
   FExecuteVersionInfo := nil;
-  if Assigned(AppStorage) and not Appstorage.PathExists(AppStoragePath) then
+  if Assigned(Appstorage) and not Appstorage.PathExists(AppStoragePath) then
     StoreProperties;
   LoadProperties;
   if (LastCheck < Now - CheckFrequency) and (LocationTypesSupported <> []) then

@@ -17,9 +17,9 @@
 {                                                                                                  }
 {**************************************************************************************************}
 {                                                                                                  }
-{ Last modified: $Date:: 2007-11-13 14:17:59 +0100 (mar., 13 nov. 2007)                          $ }
-{ Revision:      $Rev:: 2213                                                                     $ }
-{ Author:        $Author:: outchy                                                                $ }
+{ Last modified: $Date:: 2008-11-01 23:11:22 +0100 (sam., 01 nov. 2008)                         $ }
+{ Revision:      $Rev:: 2548                                                                     $ }
+{ Author:        $Author:: ahuser                                                                $ }
 {                                                                                                  }
 {**************************************************************************************************}
 
@@ -111,7 +111,7 @@ resourcestring
   RsScreenRes = 'Display  : %dx%d pixels, %d bpp';
   RsActiveControl = 'Active Controls hierarchy:';
   RsThread = 'Thread: %s';
-  RsMissingVersionInfo = '(no version info)';
+  RsMissingVersionInfo = '(no module version info)';
 
   RsSendBugReportAddress = 'pyscripter@gmail.com';
   RsSendBugReportSubject = 'PyScripter Bug Report';
@@ -538,7 +538,7 @@ end;
 
 function TExceptionDialogMail.GetReportAsText: string;
 begin
-  Result := StrEnsureSuffix(AnsiCrLf, TextLabel.Text) + AnsiCrLf + DetailsMemo.Text;
+  Result := StrEnsureSuffix(NativeCrLf, TextLabel.Text) + NativeCrLf + DetailsMemo.Text;
 end;
 
 //--------------------------------------------------------------------------------------------------
@@ -570,11 +570,13 @@ end;
 //--------------------------------------------------------------------------------------------------
 
 procedure TExceptionDialogMail.SetDetailsVisible(const Value: Boolean);
+const
+  DirectionChars: array [0..1] of Char = ( '<', '>' );
 var
   DetailsCaption: string;
 begin
   FDetailsVisible := Value;
-  DetailsCaption := Trim(StrRemoveChars(DetailsBtn.Caption, ['<', '>']));
+  DetailsCaption := Trim(StrRemoveChars(DetailsBtn.Caption, DirectionChars));
   if Value then
   begin
     Constraints.MinHeight := FNonDetailsHeight + 100;
