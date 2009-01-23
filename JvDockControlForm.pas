@@ -878,7 +878,7 @@ procedure InvalidateDockHostSiteOfControl(Control: TControl; FocusLost: Boolean)
 {$IFDEF UNITVERSIONING}
 const
   UnitVersioning: TUnitVersionInfo = (
-    RCSfile: '$URL: https://jvcl.svn.sourceforge.net/svnroot/jvcl/branches/JVCL3_34_PREPARATION/run/JvDockControlForm.pas $';
+    RCSfile: '$URL: https://jvcl.svn.sourceforge.net/svnroot/jvcl/branches/JVCL3_36_PREPARATION/run/JvDockControlForm.pas $';
     Revision: '$Revision: 11800 $';
     Date: '$Date: 2008-05-11 13:03:09 +0200 (dim., 11 mai 2008) $';
     LogPath: 'JVCL\run'

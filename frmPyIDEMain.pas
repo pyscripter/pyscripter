@@ -3363,7 +3363,7 @@ var
   Attri: TSynHighlighterAttributes;
   TempCursor : IInterface;
   FoundReferences : Boolean;
-  ResultsList : TWideStringList;
+  ResultsList : WideStrings.TWideStringList;
   RegExpr : TRegExpr;
 begin
   Application.ProcessMessages;
@@ -3382,7 +3382,7 @@ begin
             MessagesWindow.ClearMessages;
             MessagesWindow.AddMessage(_(SReferencesOf) + Token + '"');
 
-            ResultsList := TWideStringList.Create;
+            ResultsList := WideStrings.TWideStringList.Create;
             try
               PyScripterRefactor.FindReferencesByCoordinates(FName,
                 CaretY, CaretX, ErrMsg, ResultsList);

@@ -22,6 +22,9 @@ const
   SWarningFilePosExpr = SFileExpr + ':(\d+):';
   WideLF = WideChar(#10);
   WideNull = WideChar(#0);
+  AnsiLineFeed       = Char(#10);
+  AnsiCarriageReturn = Char(#13);
+  AnsiCrLf           = string(#13#10);
 
 (* returns the System ImageList index of the icon of a given file *)
 function GetIconIndexFromFile(const AFileName: WideString;
@@ -233,7 +236,7 @@ Const
 implementation
 Uses
   Controls, Forms, StdCtrls, ShellApi, JclFileUtils, Math, VarPyth,
-  JclStrings, JclBase, SynRegExpr, Consts, TntDialogs, TntClasses,
+  JclBase, SynRegExpr, Consts, TntDialogs, TntClasses,
   TntWindows, StrUtils, WideStrUtils, PythonEngine, dmCommands, Dialogs,
   StringResources, TntSysUtils, frmPythonII, gnugettext, MPCommonUtilities,
   MPCommonObjects, MPShellUtilities;

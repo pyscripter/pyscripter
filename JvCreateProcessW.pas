@@ -59,32 +59,32 @@ type
   TJvConsoleOption = (coOwnerData, coRedirect, coSeparateError);
   TJvConsoleOptions = set of TJvConsoleOption;
 
-  TJvCPSRawReadEvent = procedure(Sender: TObject; const S: string) of object;
-  TJvCPSReadEvent = procedure(Sender: TObject; const S: string; const StartsOnNewLine: Boolean) of object;
+  TJvCPSRawReadEvent = procedure(Sender: TObject; const S: AnsiString) of object;
+  TJvCPSReadEvent = procedure(Sender: TObject; const S: AnsiString; const StartsOnNewLine: Boolean) of object;
   TJvCPSTerminateEvent = procedure(Sender: TObject; ExitCode: DWORD) of object;
 
   TJvProcessEntry = class(TObject)
   private
     FFileName: TFileName;
     FProcessID: DWORD;
-    FProcessName: string;
+    FProcessName: AnsiString;
     function GetSystemIconIndex(IconType: Integer): Integer;
     function GetPriority: TJvProcessPriority;
     procedure SetPriority(const Value: TJvProcessPriority);
   public
-    constructor Create(AProcessID: DWORD; const AFileName: TFileName; const AProcessName: string);
+    constructor Create(AProcessID: DWORD; const AFileName: TFileName; const AProcessName: AnsiString);
     function Close(UseQuit: Boolean = False): Boolean;
-    class function PriorityText(Priority: TJvProcessPriority): string;
+    class function PriorityText(Priority: TJvProcessPriority): AnsiString;
     function Terminate: Boolean;
     property FileName: TFileName read FFileName;
     property LargeIconIndex: Integer index SHGFI_LARGEICON read GetSystemIconIndex;
     property Priority: TJvProcessPriority read GetPriority write SetPriority;
     property ProcessID: DWORD read FProcessID;
-    property ProcessName: string read FProcessName;
+    property ProcessName: AnsiString read FProcessName;
     property SmallIconIndex: Integer index SHGFI_SMALLICON read GetSystemIconIndex;
   end;
 
-  TJvCPSBuffer = array [0..CCPS_BufferSize - 1] of Char;
+  TJvCPSBuffer = array [0..CCPS_BufferSize - 1] of AnsiChar;
   TJvCPSState = (psReady, psRunning, psWaiting);
   TJvCPSFlag = (cfDefaultErrorMode, cfNewConsole, cfNewProcGroup, cfSeparateWdm,
     cfSharedWdm, cfSuspended, cfUnicode, cfDetached);
@@ -552,7 +552,7 @@ end;
 //=== { TJvProcessEntry } ====================================================
 
 constructor TJvProcessEntry.Create(AProcessID: DWORD;
-  const AFileName: TFileName; const AProcessName: string);
+  const AFileName: TFileName; const AProcessName: AnsiString);
 begin
   inherited Create;
   FFileName := AFileName;
@@ -602,12 +602,12 @@ var
   FileInfo: TSHFileInfo;
 begin
   FillChar(FileInfo, SizeOf(FileInfo), #0);
-  SHGetFileInfo(PChar(FileName), 0, FileInfo, SizeOf(FileInfo),
+  SHGetFileInfo(PAnsiChar(FileName), 0, FileInfo, SizeOf(FileInfo),
     SHGFI_SYSICONINDEX or IconType);
   Result := FileInfo.iIcon;
 end;
 
-class function TJvProcessEntry.PriorityText(Priority: TJvProcessPriority): string;
+class function TJvProcessEntry.PriorityText(Priority: TJvProcessPriority): AnsiString;
 begin
   case Priority of
     ppIdle:
@@ -768,7 +768,7 @@ begin
   FInputBuffer := nil;
   FInputBufferSize := CCPS_BufferSize;
   FInputBufferEnd := 0;
-  ReallocMem(FInputBuffer, FInputBufferSize * SizeOf(Char));
+  ReallocMem(FInputBuffer, FInputBufferSize * SizeOf(Byte));
   GetMem(FPreBuffer, CCPS_BufferSize);
 end;
 
@@ -860,13 +860,13 @@ begin
     ABufferSize := Min(FInputBufferEnd, CCPS_BufferSize);
 
     // Copy the data from FInputBuffer to ABuffer.
-    Move(FInputBuffer[0], ABuffer[0], ABufferSize * SizeOf(Char));
+    Move(FInputBuffer[0], ABuffer[0], ABufferSize * SizeOf(Byte));
 
     // If not all data in FInputBuffer is copied to ABuffer, then place
     // the data not copied at the begin of FInputBuffer.
     if FInputBufferEnd > ABufferSize then
       Move(FInputBuffer[ABufferSize], FInputBuffer[0],
-        (FInputBufferEnd - ABufferSize) * SizeOf(Char));
+        (FInputBufferEnd - ABufferSize) * SizeOf(Byte));
 
     Dec(FInputBufferEnd, ABufferSize);
   finally
@@ -1203,7 +1203,7 @@ var
   Flags: DWORD;
   F: TJvCPSFlag;
   AppName, CurrDir, CommandLine: PWideChar;
-  EnvironmentData: PChar;
+  EnvironmentData: PAnsiChar;
 begin
   GotoReadyState;
 

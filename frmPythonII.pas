@@ -173,7 +173,7 @@ implementation
 
 Uses
   SynEditTypes, Math, frmPyIDEMain, dmCommands, VarPyth, Registry,
-  frmMessages, uCommonFunctions, JclStrings, frmVariables, StringResources,
+  frmMessages, uCommonFunctions, frmVariables, StringResources,
   dlgConfirmReplace, frmUnitTests, JvDockGlobals, SynRegExpr, 
   cPyDebugger, cPyRemoteDebugger, JvJVCLUtils, frmCallStack, uCmdLine,
   JclFileUtils, gnugettext, TntDialogs, WideStrUtils, cProjectClasses;
@@ -1109,7 +1109,7 @@ begin
     TmpLocation := 0;
 
     lookup := GetWordAtPos(LocLine, TmpX, IdentChars+['.'], True, False, True);
-    Index := CharLastPos(lookup, '.');
+    Index := WideCharLastPos(lookup, '.');
     NameSpaceDict := nil;
     if Index > 0 then
       lookup := Copy(lookup, 1, Index-1)

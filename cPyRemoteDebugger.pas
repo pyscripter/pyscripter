@@ -226,7 +226,7 @@ begin
       end;
 
       if fChildCount > 0 then begin
-        fChildNodes := TWideStringList.Create;
+        fChildNodes := WideStrings.TWideStringList.Create;
         fChildNodes.CaseSensitive := True;
         DictKeys := Dict.keys();
         if GetPythonEngine.IsPython3000 then
