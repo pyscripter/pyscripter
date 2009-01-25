@@ -933,7 +933,7 @@ object CommandsDataModule: TCommandsDataModule
     TitleW = 'Modifiers'
   end
   object CodeTemplatesCompletion: TSynAutoComplete
-    AutoCompleteList.WideStrings = 
+    AutoCompleteList.UnicodeStrings = 
       'hdr'#13#10'|Python Module header'#13#10'=#----------------------------------' +
       '---------------------------------------------'#13#10'=# Name:        $' +
       '[ActiveDoc-Name]'#13#10'=# Purpose:     |'#13#10'=#'#13#10'=# Author:      $[UserN' +
