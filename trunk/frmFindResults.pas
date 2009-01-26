@@ -154,7 +154,7 @@ type
     FSearcher: TGrepSearchRunner;
     FShowContext: Boolean;
     FDoSearchReplace: Boolean;
-    fSearchResults : TWideStrings;
+    fSearchResults : TUnicodeStrings;
     procedure RefreshContextLines;
     procedure SetShowContext(Value: Boolean);
     procedure HighlightMemo(FileMatches: TFileResult; StartLine, MatchLineNo: Integer);
@@ -188,7 +188,7 @@ type
   end;
 
 // Replace all matches in all files
-function ReplaceAll(ResultList: WideStrings.TWideStrings; GrepSettings: TGrepSettings): Integer;
+function ReplaceAll(ResultList: TWideStrings; GrepSettings: TGrepSettings): Integer;
 // Replace all matches in a single file
 function ReplaceAllInFiles(FileResult: TFileResult; GrepSettings: TGrepSettings): Integer;
 // Replace all matches on a single line
@@ -197,7 +197,7 @@ function ReplaceLine(LineResult: TLineResult; GrepSettings: TGrepSettings): Inte
 type
   TGrepOutputMode = (grPrint, grCopy, grFile);
 
-procedure PrintGrepResults(Owner: TWinControl; Results: WideStrings.TWideStrings;
+procedure PrintGrepResults(Owner: TWinControl; Results: TWideStrings;
   Where: TGrepOutputMode);
 
 var
@@ -614,7 +614,7 @@ end;
 constructor TFindResultsWindow.Create(AOwner: TComponent);
 begin
   inherited;
-  fSearchResults := TWideStringList.Create;
+  fSearchResults := TUnicodeStringList.Create;
   FSearchInProgress := False;
   //lbResults.DoubleBuffered := True;
   ShowContext := True;
@@ -846,7 +846,7 @@ begin
   end;
 end;
 
-function GetFileAsText(const FileName: WideString; Lines: TWideStrings;
+function GetFileAsText(const FileName: WideString; Lines: TUnicodeStrings;
                        var Encoding : TFileSaveFormat): Boolean;
 Var
   Editor : IEditor;
@@ -863,7 +863,7 @@ procedure TFindResultsWindow.RefreshContextLines;
 var
   CurrentLine: TLineResult;
   MatchLineNo, BeginLineNo, EndLineNo, REMatchLineNo: Integer;
-  FileLines: TWideStringList;
+  FileLines: TUnicodeStringList;
   FileName: WideString;
   i: Integer;
   Encoding : TFileSaveFormat;
@@ -884,7 +884,7 @@ begin
         FileName := TFileResult(CurrentLine.Collection).FileName;
         MatchLineNo := CurrentLine.LineNo - 1;
 
-        FileLines := TWideStringList.Create;
+        FileLines := TUnicodeStringList.Create;
         try
           if not GetFileAsText(FileName, FileLines, Encoding) then
           begin
@@ -1016,7 +1016,7 @@ begin
   end;
 end;
 
-function ReplaceAll(ResultList: WideStrings.TWideStrings; GrepSettings: TGrepSettings): Integer;
+function ReplaceAll(ResultList: TWideStrings; GrepSettings: TGrepSettings): Integer;
 var
   i: Integer;
   Replaced: Integer;
@@ -1036,7 +1036,7 @@ function InternalReplace(LineMode: Boolean; ALineResult: TLineResult; AFileResul
 var
   TempString: WideString;
   MatchFile: WideString;
-  TempFile: TWideStrings;
+  TempFile: TUnicodeStrings;
   LineResult : TLineResult;
   Encoding : TFileSaveFormat;
 
@@ -1116,7 +1116,7 @@ begin
   else
     MatchFile := AFileResult.FileName;
 
-  TempFile := TWideStringList.Create;
+  TempFile := TUnicodeStringList.Create;
   try
     if not GetFileAsText(MatchFile, TempFile, Encoding) then begin
       if WideMessageDlg(_(SFileSkipped) + MatchFile, mtWarning, [mbOK, mbCancel], 0) = mrCancel then
@@ -1158,7 +1158,7 @@ begin
   end;
 end;
 
-procedure PrintGrepResults(Owner: TWinControl; Results: WideStrings.TWideStrings; Where: TGrepOutputMode);
+procedure PrintGrepResults(Owner: TWinControl; Results: TWideStrings; Where: TGrepOutputMode);
 var
   RichEdit: TTntRichEdit;
   FileResult: TFileResult;

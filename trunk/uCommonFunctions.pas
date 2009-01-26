@@ -140,7 +140,7 @@ function SortedIdentToInt(const Ident: string; var Int: Longint;
 
 (* Used for sorting Python Identifiers *)
 function ComparePythonIdents(const S1, S2 : WideString): Integer; overload;
-function ComparePythonIdents(List: WideStrings.TWideStringList; Index1, Index2: Integer): Integer; overload;
+function ComparePythonIdents(List: TWideStringList; Index1, Index2: Integer): Integer; overload;
 
 (* Used to get Vista fonts *)
 procedure SetDefaultFonts(const AFont: TFont);
@@ -148,23 +148,23 @@ procedure SetDesktopIconFonts(const AFont: TFont);
 procedure SetVistaContentFonts(const AFont: TFont);
 
 (* Get the text between two Synedit Block coordinates *)
-function GetBlockText(Strings : TWideStrings; BlockBegin, BlockEnd : TBufferCoord) : WideString;
+function GetBlockText(Strings : TUnicodeStrings; BlockBegin, BlockEnd : TBufferCoord) : WideString;
 
 (* Extract Error information from a VarPyth variant containing the Python error *)
 procedure ExtractPyErrorInfo(E: Variant; var FileName: WideString; var LineNo: Integer; var Offset: Integer);
 
 (* Get Encoded Ansi string from WideStrings ttaking into account Python file encodings *)
 function WideStringsToEncodedText(const AFileName: WideString;
-  Lines : TWideStrings; Encoding : TFileSaveFormat; var EncodedText: string;
+  Lines : TUnicodeStrings; Encoding : TFileSaveFormat; var EncodedText: string;
   InformationLossWarning: Boolean = False) : Boolean;
 
 (* Load file into WideStrings taking into account Python file encodings *)
 function LoadFileIntoWideStrings(const AFileName: WideString;
-  Lines : TWideStrings; var Encoding : TFileSaveFormat): boolean;
+  Lines : TUnicodeStrings; var Encoding : TFileSaveFormat): boolean;
 
 (* Save WideStrings to file taking into account Python file encodings *)
 function SaveWideStringsToFile(const AFileName: WideString;
-  Lines : TWideStrings; Encoding : TFileSaveFormat;
+  Lines : TUnicodeStrings; Encoding : TFileSaveFormat;
   DoBackup : Boolean = True) : boolean;
 
 (* Read File contents. Allows reading of locked files *)
@@ -182,7 +182,7 @@ function FileToWideStr(const AFileName : WideString) : WideString;
   It is Unicode based.
 *)
 procedure BuildFileList(const Path, Masks: WideString;
-  FileList: WideStrings.TWideStrings; Recursive: Boolean; SearchAttribs,
+  FileList: TWideStrings; Recursive: Boolean; SearchAttribs,
   SearchExcludeAttribs: TVirtualSearchAttribs);
 
 (* Get the raw FileTime of a File's last write operation *)
@@ -1193,7 +1193,7 @@ begin
     Result := WideCompareStr(S1, S2)
 end;
 
-function ComparePythonIdents(List: WideStrings.TWideStringList; Index1, Index2: Integer): Integer; overload;
+function ComparePythonIdents(List: TWideStringList; Index1, Index2: Integer): Integer; overload;
 Var
   S1, S2 : string;
 begin
@@ -1231,7 +1231,7 @@ begin
   end;
 end;
 
-function GetBlockText(Strings : TWideStrings; BlockBegin, BlockEnd : TBufferCoord) : WideString;
+function GetBlockText(Strings : TUnicodeStrings; BlockBegin, BlockEnd : TBufferCoord) : WideString;
 Var
   Line :  integer;
 begin
@@ -1274,7 +1274,7 @@ begin
 end;
 
 function WideStringsToEncodedText(const AFileName: WideString;
-  Lines : TWideStrings; Encoding : TFileSaveFormat; var EncodedText: string;
+  Lines : TUnicodeStrings; Encoding : TFileSaveFormat; var EncodedText: string;
   InformationLossWarning: Boolean = False) : Boolean;
 // AFileName is passed just for the warning
 var
@@ -1375,7 +1375,7 @@ begin
 end;
 
 function LoadFileIntoWideStrings(const AFileName: WideString;
-  Lines : TWideStrings; var Encoding : TFileSaveFormat): boolean;
+  Lines : TUnicodeStrings; var Encoding : TFileSaveFormat): boolean;
 Var
   FileStream : TWideFileStream;
   FileText, S, PyEncoding : string;
@@ -1481,7 +1481,7 @@ end;
 
 (* Save WideStrings to file taking into account Python file encodings *)
 function SaveWideStringsToFile(const AFileName: WideString;
-  Lines : TWideStrings; Encoding : TFileSaveFormat;
+  Lines : TUnicodeStrings; Encoding : TFileSaveFormat;
   DoBackup : Boolean = True) : boolean;
 Var
   FileStream : TWideFileStream;
@@ -1547,10 +1547,10 @@ end;
 
 function FileToEncodedStr(const AFileName : WideString) : string;
 Var
-  SL : TWideStringList;
+  SL : TUnicodeStrings;
   Encoding: TFileSaveFormat;
 begin
-  SL := TWideStringList.Create;
+  SL := TUnicodeStringList.Create;
   try
     LoadFileIntoWideStrings(AFileName, SL, Encoding);
     WideStringsToEncodedText(AFileName, SL, Encoding, Result, False);
@@ -1562,10 +1562,10 @@ end;
 
 function FileToWideStr(const AFileName : WideString) : WideString;
 Var
-  SL : TWideStringList;
+  SL : TUnicodeStrings;
   Encoding: TFileSaveFormat;
 begin
-  SL := TWideStringList.Create;
+  SL := TUnicodeStringList.Create;
   try
     LoadFileIntoWideStrings(AFileName, SL, Encoding);
     Result := SL.Text;
@@ -1598,17 +1598,17 @@ end;
 type
 TBuildFileList = class
   private
-    fFileList : WideStrings.TWideStrings;
+    fFileList : TWideStrings;
     procedure VirtualFileSearchEnd(Sender: TObject;  Results: TCommonPIDLList);
     procedure BuildFileList(const Path, Masks: WideString;
-      FileList: WideStrings.TWideStrings; Recursive: Boolean; SearchAttribs,
+      FileList: TWideStrings; Recursive: Boolean; SearchAttribs,
       SearchExcludeAttribs: TVirtualSearchAttribs);
 end;
 
 { TBuildFileList }
 
 procedure TBuildFileList.BuildFileList(const Path, Masks: WideString;
-  FileList: WideStrings.TWideStrings; Recursive: Boolean; SearchAttribs,
+  FileList: TWideStrings; Recursive: Boolean; SearchAttribs,
   SearchExcludeAttribs: TVirtualSearchAttribs);
 var
   FileSearch : TVirtualFileSearch;
@@ -1647,7 +1647,7 @@ begin
 end;
 
 procedure BuildFileList(const Path, Masks: WideString;
-  FileList: WideStrings.TWideStrings; Recursive: Boolean; SearchAttribs,
+  FileList: TWideStrings; Recursive: Boolean; SearchAttribs,
   SearchExcludeAttribs: TVirtualSearchAttribs);
 Var
   BFL : TBuildFileList;

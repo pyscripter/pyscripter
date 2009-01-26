@@ -78,7 +78,7 @@ type
     LineNo: Integer;
   end;
 
-  TTokenList = class(TWideStringList)
+  TTokenList = class(TUnicodeStringList)
   private
     procedure AddToken(const Token: WideString; Priority: TToDoPriority);
   public
@@ -212,12 +212,12 @@ end;
 
 procedure TToDoWindow.actEditCopyExecute(Sender: TObject);
 var
-  ClipText: TWideStrings;
+  ClipText: TUnicodeStrings;
   i: Integer;
 begin
   inherited;
 
-  ClipText := TWideStringList.Create;
+  ClipText := TUnicodeStringList.Create;
   try
     for i := 0 to fDataList.Count - 1 do
     with TToDoInfo(fDataList[i]) do begin
@@ -483,12 +483,12 @@ Var
   NTokens : integer;
   Priority : TToDoPriority;
   Token : WideString;
-  SL : TWideStringList;
+  SL : TUnicodeStringList;
 begin
   with AppStorage do begin
     FShowTokens := ReadBoolean(BasePath+'\ShowTokens');
     ReadEnumeration(BasePath+'\ScanType', TypeInfo(TToDoScanType), FScanType, FScanType);
-    SL := TWideStringList.Create;
+    SL := TUnicodeStringList.Create;
     try
       ReadWideStringList(BasePath+'\DirsToScan', SL);
       FDirsToScan := SL.Text;
@@ -517,13 +517,13 @@ procedure TToDoExpert.WriteToAppStorage(AppStorage: TJvCustomAppStorage;
   const BasePath: string);
 Var
   i : integer;
-  SL : TWideStringList;
+  SL : TUnicodeStringList;
 begin
   with AppStorage do begin
     DeleteSubTree(BasePath);
     WriteBoolean(BasePath+'\ShowTokens', FShowTokens);
     WriteEnumeration(BasePath+'\ScanType', TypeInfo(TToDoScanType), FScanType);
-    SL := TWideStringList.Create;
+    SL := TUnicodeStringList.Create;
     try
       SL.Text := FDirsToScan;
       WriteWideStringList(BasePath+'\DirsToScan', SL);
@@ -682,7 +682,7 @@ end;
 
 procedure TToDoWindow.LoadFile(const FileName: WideString);
 Var
-  SourceCode : TWideStringList;
+  SourceCode : TUnicodeStringList;
   Editor : IEditor;
   i, Index : integer;
   TokenString : WideString;
@@ -690,7 +690,7 @@ Var
   Info, OldInfo : TToDoInfo;
   PStart : PWideChar;
 begin
-  SourceCode := TWideStringList.Create;
+  SourceCode := TUnicodeStringList.Create;
   try
     //  Read file into SourceCode
     Editor := GI_EditorFactory.GetEditorByNameOrTitle(FileName);

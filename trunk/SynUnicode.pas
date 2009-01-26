@@ -848,7 +848,7 @@ end;
 
 function TUnicodeStrings.GetTextStr: UnicodeString;
 var
-  SLineBreak: WideString;
+  SLineBreak: UnicodeString;
 begin
   if not FStreaming then
     Result := GetSeparatedText(WideCRLF)
@@ -3266,7 +3266,7 @@ begin
           UnicodeStrings.Text := UTF8ToUnicodeString(UTF8Str);
 {$ELSE}
           UnicodeStrings.Text := UTF8Decode(UTF8Str);
-          UnicodeStrings.SaveUnicode := True;
+          UnicodeStrings.SaveFormat := sfUTF8;
 {$ENDIF}
         end;
       seUTF16LE:
@@ -3275,7 +3275,7 @@ begin
           Stream.ReadBuffer(WideStr[1], Size);
           UnicodeStrings.Text := WideStr;
 {$IFNDEF UNICODE}
-          UnicodeStrings.SaveUnicode := True;
+          UnicodeStrings.SaveFormat := sfUTF16LSB;
 {$ENDIF}
         end;
       seUTF16BE:
@@ -3285,7 +3285,7 @@ begin
           StrSwapByteOrder(PWideChar(WideStr));
           UnicodeStrings.Text := WideStr;
 {$IFNDEF UNICODE}
-          UnicodeStrings.SaveUnicode := True;
+          UnicodeStrings.SaveFormat := sfUTF16MSB;
 {$ENDIF}
         end;
       seAnsi:
@@ -3294,7 +3294,7 @@ begin
           Stream.ReadBuffer(AnsiStr[1], Size);
           UnicodeStrings.Text := UnicodeString(AnsiStr);
 {$IFNDEF UNICODE}
-          UnicodeStrings.SaveUnicode := False;
+           UnicodeStrings.SaveFormat := sfAnsi;
 {$ENDIF}
         end;
     end;
