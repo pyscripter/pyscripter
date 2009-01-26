@@ -1401,7 +1401,7 @@ begin
           Offset:=1;
         S:=Copy(S, 1, Length(S)-Offset);
       end;
-      S := WideStringReplace(S, #10, #10'##', [rfReplaceAll]);
+      S := UnicodeStringReplace(S, #10, #10'##', [rfReplaceAll]);
       if Offset=1 then
         S:=S+#10
       else if Offset=2 then
@@ -1454,7 +1454,7 @@ begin
   if Assigned(GI_ActiveEditor) then with GI_ActiveEditor.ActiveSynEdit do begin
     if SelAvail then
     begin
-       SelText :=  WideStringReplace(SelText,
+       SelText :=  UnicodeStringReplace(SelText,
          StringOfChar(' ',GI_ActiveEditor.SynEdit.TabWidth), #9, [rfReplaceAll]);
        UpdateCaret;
     end;
@@ -1466,7 +1466,7 @@ begin
   if Assigned(GI_ActiveEditor) then with GI_ActiveEditor.ActiveSynEdit do begin
     if SelAvail then
     begin
-       SelText :=  WideStringReplace(SelText, #9,
+       SelText :=  UnicodeStringReplace(SelText, #9,
          StringOfChar(' ',GI_ActiveEditor.SynEdit.TabWidth), [rfReplaceAll]);
        UpdateCaret;
     end;
@@ -2074,9 +2074,9 @@ end;
 
 procedure TCommandsDataModule.actPythonPathExecute(Sender: TObject);
 Var
-  Paths : TWideStringList;
+  Paths : TUnicodeStringList;
 begin
-  Paths := TWideStringList.Create;
+  Paths := TUnicodeStringList.Create;
   try
     PyControl.ActiveInterpreter.SysPathToStrings(Paths);
     if EditFolderList(Paths, 'Python Path', 870) then 

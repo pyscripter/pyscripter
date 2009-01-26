@@ -14,7 +14,7 @@ program PyScripter;
 {%TogetherDiagram 'ModelSupport_PyScripter\default.txaPackage'}
 
 uses
-  ControlResizeBugFix in 'ControlResizeBugFix.pas',
+  VCLFixPack in 'VCLFixPack.pas',
   RtlVclOptimize in 'RtlVclOptimize.pas',
   Windows,
   Forms,
@@ -110,7 +110,6 @@ uses
   SynHighlighterWeb in 'SynHighlighterWeb.pas',
   SynEditTextBuffer in 'SynEditTextBuffer.pas',
   SynUnicode in 'SynUnicode.pas',
-  SynTextDrawer in 'SynTextDrawer.pas',
   gnugettext in 'gnugettext.pas',
   dlgPyIDEBase in 'dlgPyIDEBase.pas' {PyIDEDlgBase},
   JvDockInfo in 'JvDockInfo.pas',
