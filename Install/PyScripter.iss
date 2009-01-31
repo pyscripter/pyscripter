@@ -3,8 +3,8 @@
 
 [Setup]
 AppName=PyScripter
-AppVersion=1.9.9.3
-AppVerName=PyScripter 1.9.9.3
+AppVersion=1.9.9.4
+AppVerName=PyScripter 1.9.9.4
 AppPublisher=MMM-Experts, Inc.
 AppPublisherURL=http://mmm-experts.com
 AppSupportURL=http://mmm-experts.com
@@ -14,7 +14,7 @@ DefaultGroupName=PyScripter
 InfoBeforeFile=BeforeInstallPyScripter.txt
 InfoAfterFile=AfterInstallPyScripter.txt
 OutputDir=Output
-OutputBaseFilename=PyScripter-v1.9.9.3-Setup
+OutputBaseFilename=PyScripter-v1.9.9.4-Setup
 Compression=lzma
 SolidCompression=true
 ChangesAssociations=true
@@ -47,6 +47,10 @@ Source: ..\..\PythonIDE\locale\ja\LC_MESSAGES\default.mo; DestDir: {app}\locale\
 Source: ..\..\PythonIDE\locale\ja\LC_MESSAGES\default.po; DestDir: {app}\locale\ja\LC_MESSAGES\
 Source: ..\..\PythonIDE\locale\ja\LC_MESSAGES\languages.mo; DestDir: {app}\locale\ja\LC_MESSAGES\
 Source: ..\..\PythonIDE\locale\ja\LC_MESSAGES\languages.po; DestDir: {app}\locale\ja\LC_MESSAGES\
+Source: ..\..\PythonIDE\locale\zh\LC_MESSAGES\default.mo; DestDir: {app}\locale\zh\LC_MESSAGES\
+Source: ..\..\PythonIDE\locale\zh\LC_MESSAGES\default.po; DestDir: {app}\locale\zh\LC_MESSAGES\
+Source: ..\..\PythonIDE\locale\zh\LC_MESSAGES\languages.mo; DestDir: {app}\locale\zh\LC_MESSAGES\
+Source: ..\..\PythonIDE\locale\zh\LC_MESSAGES\languages.po; DestDir: {app}\locale\zh\LC_MESSAGES\
 ;Source: ..\..\PythonIDE\Scripts\pyscripter_init.py; DestDir: {userappdata}\PyScripter; Flags: uninsneveruninstall onlyifdoesntexist
 ;Source: ..\..\PythonIDE\Scripts\python_init.py; DestDir: {userappdata}\PyScripter; Flags: uninsneveruninstall onlyifdoesntexist
 
