@@ -150,7 +150,7 @@
 			<VersionInfo Name="MajorVer">1</VersionInfo>
 			<VersionInfo Name="MinorVer">9</VersionInfo>
 			<VersionInfo Name="Release">9</VersionInfo>
-			<VersionInfo Name="Build">3</VersionInfo>
+			<VersionInfo Name="Build">4</VersionInfo>
 			<VersionInfo Name="Debug">False</VersionInfo>
 			<VersionInfo Name="PreRelease">False</VersionInfo>
 			<VersionInfo Name="Special">False</VersionInfo>
@@ -162,12 +162,12 @@
 		<VersionInfoKeys>
 			<VersionInfoKeys Name="CompanyName"></VersionInfoKeys>
 			<VersionInfoKeys Name="FileDescription"></VersionInfoKeys>
-			<VersionInfoKeys Name="FileVersion">1.9.9.3</VersionInfoKeys>
+			<VersionInfoKeys Name="FileVersion">1.9.9.4</VersionInfoKeys>
 			<VersionInfoKeys Name="InternalName"></VersionInfoKeys>
 			<VersionInfoKeys Name="LegalCopyright"></VersionInfoKeys>
 			<VersionInfoKeys Name="LegalTrademarks"></VersionInfoKeys>
 			<VersionInfoKeys Name="OriginalFilename"></VersionInfoKeys>
-			<VersionInfoKeys Name="ProductName"></VersionInfoKeys>
+			<VersionInfoKeys Name="ProductName">PyScripter</VersionInfoKeys>
 			<VersionInfoKeys Name="ProductVersion">1.0.0.0</VersionInfoKeys>
 			<VersionInfoKeys Name="Comments"></VersionInfoKeys>
 		</VersionInfoKeys>
@@ -175,9 +175,7 @@
 			<Language Name="ActiveLang"></Language>
 			<Language Name="ProjectLang">$00000000</Language>
 			<Language Name="RootDir"></Language>
-		</Language>  
-    
-    <Excluded_Packages>
+		</Language>  <Excluded_Packages>
       <Excluded_Packages Name="c:\program files\borland\bds\4.0\Bin\bcbie100.bpl">Borland C++Builder Internet Explorer 5 Components Package</Excluded_Packages>
     </Excluded_Packages>
   </Delphi.Personality>

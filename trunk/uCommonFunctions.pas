@@ -1195,7 +1195,7 @@ end;
 
 function ComparePythonIdents(List: TWideStringList; Index1, Index2: Integer): Integer; overload;
 Var
-  S1, S2 : string;
+  S1, S2 : WideString;
 begin
   S1 := List[Index1];
   S2 := List[Index2];
