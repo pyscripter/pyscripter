@@ -59,6 +59,7 @@ type
     function GetHint : string;
     function GetImageIndex : integer;
     function GetShortCut : TShortCut;
+    procedure GetContextHighlighters(List : TList);
   end;
 
 
@@ -151,6 +152,7 @@ end;
 
 { TDocView }
 
+
 function TDocView.CreateForm(Editor: IEditor; AOwner : TComponent): TCustomForm;
 begin
   Result := TDocForm.Create(AOwner);
@@ -159,6 +161,11 @@ end;
 function TDocView.GetImageIndex: Integer;
 begin
   Result := 31;
+end;
+
+procedure TDocView.GetContextHighlighters(List: TList);
+begin
+  List.Add(CommandsDataModule.SynPythonSyn);
 end;
 
 function TDocView.GetHint: string;

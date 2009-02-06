@@ -23,7 +23,7 @@ type
     procedure UpdateView(Editor : IEditor);
   public
     { Public declarations }
-  end;                           
+  end;
 
   TDisView = class(TInterfacedObject, IEditorViewFactory)
   private
@@ -34,6 +34,7 @@ type
     function GetHint : string;
     function GetImageIndex : integer;
     function GetShortCut : TShortCut;
+    procedure GetContextHighlighters(List : TList);
   end;
 
 
@@ -89,6 +90,11 @@ function TDisView.CreateForm(Editor: IEditor;
   AOwner: TComponent): TCustomForm;
 begin
   Result := TDisForm.Create(AOwner);
+end;
+
+procedure TDisView.GetContextHighlighters(List: TList);
+begin
+  List.Add(CommandsDataModule.SynPythonSyn);
 end;
 
 function TDisView.GetHint: string;

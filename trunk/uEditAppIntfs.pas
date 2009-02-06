@@ -50,7 +50,7 @@ unit uEditAppIntfs;
 interface
 
 uses
-  Windows, Classes, Forms, SynEdit, JvPageList, Contnrs;
+  Windows, Classes, Forms, SynEdit, JvPageList, Contnrs, SynEditHighlighter;
 
 type
   TBreakPoint = class(TPersistent)
@@ -75,6 +75,7 @@ type
     function GetHint : string;
     function GetImageIndex : integer;
     function GetShortCut : TShortCut;
+    procedure GetContextHighlighters(List : TList);
     property Name : string read GetName;
     property TabCaption : string read GetTabCaption;
     property MenuCaption : string read GetMenuCaption;
@@ -143,6 +144,7 @@ type
     function GetViewFactoryCount: integer;
     function GetViewFactory(Index: integer): IEditorViewFactory;
     procedure SetupEditorViewMenu;
+    procedure UpdateEditorViewMenu;
     //procedure GetRegisteredViewFactory(ViewName : string):IEditorViewFactory;
     property Count : integer read GetEditorCount;
     property Editor[Index: integer]: IEditor read GetEditor;  default;

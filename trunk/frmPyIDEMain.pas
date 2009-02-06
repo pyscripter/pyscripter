@@ -938,6 +938,7 @@ type
     procedure actRunLastScriptExternalExecute(Sender: TObject);
     procedure actRunLastScriptExecute(Sender: TObject);
     procedure actRunDebugLastScriptExecute(Sender: TObject);
+    procedure EditorViewsMenuClick(Sender: TObject);
   private
     DSAAppStorage: TDSAAppStorage;
     function FindAction(var Key: Word; Shift: TShiftState) : TCustomAction;
@@ -1116,6 +1117,11 @@ function TPyIDEMainForm.DropTargetDragOver(grfKeyState: Integer; pt: TPoint;
 begin
   dwEffect := DROPEFFECT_COPY;
   Result := S_OK;
+end;
+
+procedure TPyIDEMainForm.EditorViewsMenuClick(Sender: TObject);
+begin
+  GI_EditorFactory.UpdateEditorViewMenu;
 end;
 
 function TPyIDEMainForm.Drop(const dataObj: IDataObject; grfKeyState: Integer;
@@ -2094,8 +2100,6 @@ begin
     if i < TabBar.Tabs.Count then
       TabBar.Tabs[i].Modified :=
         TEditorForm(TJvStandardPage(TabBar.Tabs[i].Data).Components[0]).GetEditor.Modified;
-  for i := 0 to EditorViewsMenu.Count - 1 do
-    EditorViewsMenu.Items[i].Enabled := Assigned(GI_ActiveEditor);
   if Assigned(GI_ActiveEditor) then
     TEditorForm(GI_ActiveEditor.Form).DoOnIdle;
 

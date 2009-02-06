@@ -248,17 +248,21 @@ Var
   IconSize : TIconSize;
 begin
   Result:= -1;
-  if WideFileExists(AFileName) then begin
-    if ASmall then
-      IconSize := icSmall
-    else
-      IconSize := icLarge;
-    NameSpace := TNameSpace.CreateFromFileName(AFileName);
-    try
-      Result := NameSpace.GetIconIndex(False, IconSize);
-    finally
-      NameSpace.Free;
+  // swallow any exceptions (bug report by Colin Williams)
+  try
+    if WideFileExists(AFileName) then begin
+      if ASmall then
+        IconSize := icSmall
+      else
+        IconSize := icLarge;
+      NameSpace := TNameSpace.CreateFromFileName(AFileName);
+      try
+        Result := NameSpace.GetIconIndex(False, IconSize);
+      finally
+        NameSpace.Free;
+      end;
     end;
+  except
   end;
 end;
 
