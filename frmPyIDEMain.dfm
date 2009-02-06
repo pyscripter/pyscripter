@@ -1278,6 +1278,7 @@ object PyIDEMainForm: TPyIDEMainForm
         end
         object EditorViewsMenu: TSpTBXSubmenuItem
           Caption = 'Source Code Views'
+          OnClick = EditorViewsMenuClick
         end
         object N13: TSpTBXSeparatorItem
         end

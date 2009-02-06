@@ -916,6 +916,7 @@ type
     procedure RemoveEditor(AEditor: IEditor);
     procedure RegisterViewFactory(ViewFactory : IEditorViewFactory);
     procedure SetupEditorViewMenu;
+    procedure UpdateEditorViewMenu;
     function GetViewFactoryCount: integer;
     function GetViewFactory(Index: integer): IEditorViewFactory;
   private
@@ -1143,6 +1144,40 @@ begin
     fEditorViewFactories.UnLock;
   end;
 end;
+
+procedure TEditorFactory.UpdateEditorViewMenu;
+Var
+  MenuItem : TSpTBXItem;
+  i, j : integer;
+  ViewFactory: IEditorViewFactory;
+  List : TList;
+  Enabled : Boolean;
+begin
+  fEditorViewFactories.Lock;
+  List := TList.Create;
+  try
+    for i := 0 to fEditorViewFactories.Count - 1 do begin
+      Enabled := Assigned(GI_ActiveEditor);
+      if Enabled then begin
+        ViewFactory := fEditorViewFactories[i] as IEditorViewFactory;
+        ViewFactory.GetContextHighlighters(List);
+        if List.Count > 0 then begin
+          Enabled := False;
+          for j := 0 to List.Count - 1 do begin
+            if List[j] = GI_ActiveEditor.SynEdit.Highlighter then begin
+              Enabled := True;
+              break;
+            end;
+          end;
+        end;
+        List.Clear;
+      end;
+      PyIDEMainForm.EditorViewsMenu.Items[i].Enabled := Enabled;
+    end;
+  finally
+    List.Free;
+    fEditorViewFactories.UnLock;
+  end;end;
 
 { TEditorForm }
 

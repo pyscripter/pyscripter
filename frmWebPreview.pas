@@ -58,6 +58,7 @@ type
     function GetHint : string;
     function GetImageIndex : integer;
     function GetShortCut : TShortCut;
+    procedure GetContextHighlighters(List : TList);
   end;
 
 
@@ -147,6 +148,14 @@ end;
 function TWebPreviewView.GetImageIndex: Integer;
 begin
   Result := 148;
+end;
+
+
+procedure TWebPreviewView.GetContextHighlighters(List: TList);
+begin
+  List.Add(CommandsDataModule.SynWebHtmlSyn);
+  List.Add(CommandsDataModule.SynWebXmlSyn);
+  List.Add(CommandsDataModule.SynWebCssSyn);
 end;
 
 function TWebPreviewView.GetHint: string;
