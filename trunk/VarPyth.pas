@@ -1006,11 +1006,14 @@ var
         end
         else
         begin
-          //BStr := StringToOleStr(PString(ParamPtr)^);
+          //BStr := StringToOleStr(PString(LParamPtr)^);
           BStr := System.Copy(PString(LParamPtr)^, 1, MaxInt);
           PStr := nil;
           LArguments[I].VType := varOleStr;
-          LArguments[I].VOleStr := PWideChar(BStr);
+          if BStr = '' then
+            LArguments[I].VOleStr := nil
+          else
+            LArguments[I].VOleStr := PWideChar(BStr);
         end;
       Inc(LStrCount);
     end
@@ -1032,7 +1035,7 @@ var
       begin
         with LStrings[LStrCount] do
         begin
-          //BStr := StringToOleStr(string(PVarData(ParamPtr)^.VString));
+          //BStr := StringToOleStr(string(PVarData(LParamPtr)^.VString));
           BStr := System.Copy(string(PVarData(LParamPtr)^.VString), 1, MaxInt);
           PStr := nil;
           LArguments[I].VType := varOleStr;
