@@ -219,7 +219,7 @@ Limitations: Python scripts are executed in the main thread
             Unit Testing broken (regression)
             Gap in the default tool bar (Issue #3)
 
- History:   v 1.9.9.3
+ History:   v 1.9.9.5
           New Features
             Remote interpreter and debugger
             Python 2.6 and 3.0 support
@@ -327,8 +327,8 @@ Limitations: Python scripts are executed in the main thread
                    100, 102, 105, 106, 107, 109, 113, 117, 119, 120, 122, 123, 125,
                    132, 134, 135, 136, 137, 138, 139, 140, 141, 146, 147, 150, 153, 155,
                    160, 164, 165, 166, 167, 168, 169, 171, 174, 178, (182), 186,
-                   193, 195, 196, 197, (198), (201), (202), (204), (206), (208), (212), (219), (226),
-                   (228), (229), (234), (235), (237), (253) fixed
+                   193, 195, 196, 197, 198, 201, 202, 204, 206, 208, 212, 219, 226,
+                   228, 229, 234, 235, 237, 253, (261) fixed
 
   Vista Compatibility issues (all resolved)
   -  Flip3D and Form preview (solved with LX)

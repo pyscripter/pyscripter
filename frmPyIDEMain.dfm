@@ -1913,6 +1913,7 @@ object PyIDEMainForm: TPyIDEMainForm
   object AppStorage: TJvAppIniFileStorage
     StorageOptions.BooleanStringTrueValues = 'TRUE, YES, Y'
     StorageOptions.BooleanStringFalseValues = 'FALSE, NO, N'
+    StorageOptions.DateTimeAsString = False
     StorageOptions.DefaultIfReadConvertError = True
     FlushOnDestroy = False
     Location = flCustom

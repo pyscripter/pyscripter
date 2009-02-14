@@ -12,6 +12,6 @@ You can read about remote debugging at http:\\pyscripter.googlepages.com\remotep
 If you upgrade from a version earlier than 1.8.5 you will need to change the PyScripter shortcuts, since now command line 
 arguments are prefixed by double dash ("--"), eg "PyScripter --PYTHON25".
 
-This version is compatible with Python v3.0a2 and later. For "all user" installations of the Python alphas 2.6 and 3.0 you 
-may have to manually copy the Python dll to the C:\Windows\System32 since this is not done by the installer.
 Please read http:\\pyscripter.googlepages.com\python3.0support if you plan to use PyScripter with Python 3.0.
+
+Also if you are using a 64bit version of Windows note that PyScripter will only work if a 32bit version of Python is installed.

@@ -1147,7 +1147,6 @@ end;
 
 procedure TEditorFactory.UpdateEditorViewMenu;
 Var
-  MenuItem : TSpTBXItem;
   i, j : integer;
   ViewFactory: IEditorViewFactory;
   List : TList;
