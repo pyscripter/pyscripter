@@ -14,7 +14,8 @@ To install rpyc, unzip the downloaded file into the lib\site-packages
 subdirectory of the Python distribution. Repeat this for each version 
 of Python you're interested in using.
 
-Please note that Python 3.0 support is not yet complete.
-
 Please visit http:\\pyscripter.googlepages.com for information about
 remote debugging and other PyScripter related topics.
+
+Also if you are using a 64bit version of Windows note that PyScripter will only
+work if a 32bit version of Python is installed.

@@ -2292,6 +2292,7 @@ type
 {$ENDIF}
   function PyObject_TypeCheck(obj:PPyObject; t:PPyTypeObject) : Boolean;
   function Py_InitModule( const AName : PChar; md : PPyMethodDef) : PPyObject;
+  function Py_InitModule3000( const md : PyModuleDef) : PPyObject;
   function PyString_FromString( str: PChar): PPyObject; virtual; abstract;
   function PyString_AsDelphiString( ob: PPyObject): string;  virtual; abstract;
   procedure Py_FlushLine; cdecl;
@@ -2634,6 +2635,7 @@ type
       FMethodCount : Integer;
       FAllocatedMethodCount : Integer;
       FMethods : PPyMethodDef;
+      FModuleDef : PyModuleDef;  // for Python 3000
       FEventDefs: TEventDefs;
 
       procedure AllocMethods;
@@ -2671,6 +2673,7 @@ type
       property MethodCount : Integer read FMethodCount;
       property Methods[ idx : Integer ] : PPyMethodDef read GetMethods;
       property MethodsData : PPyMethodDef read FMethods;
+      property ModuleDef : PyModuleDef read FModuleDef;
 
     published
       property Events: TEventDefs read fEventDefs write fEventDefs stored StoreEventDefs;
@@ -4912,26 +4915,23 @@ begin
 end;
 
 function TPythonInterface.Py_InitModule( const AName : PChar; md : PPyMethodDef) : PPyObject;
+begin
+  CheckPython;
+  Result := Py_InitModule4( AName, md, nil, nil, APIVersion );
+end;
+
+function TPythonInterface.Py_InitModule3000(const md: PyModuleDef): PPyObject;
 Var
-  moduledef : PyModuleDef;
   modules  : PPyObject;
 begin
   CheckPython;
-  if IsPython3000 then begin
-    FillChar(moduledef, SizeOf(moduledef), 0);
-    moduledef.m_base.ob_refcnt := 1;
-    moduledef.m_name := AName;
-    moduledef.m_methods := md;
-    moduledef.m_size := -1;
-    Result:= PyModule_Create2(@moduledef, APIVersion);
-    if not Assigned(Result) then
-      GetPythonEngine.CheckError;
-    // To emulate Py_InitModule4 we need to add the module to sys.modules
-    modules := PyImport_GetModuleDict;
-    if PyDict_SetItemString(modules, AName, Result) <> 0 then
-      GetPythonEngine.CheckError;
-  end else
-    Result := Py_InitModule4( AName, md, nil, nil, APIVersion );
+  Result:= PyModule_Create2(@md, APIVersion);
+  if not Assigned(Result) then
+    GetPythonEngine.CheckError;
+  // To emulate Py_InitModule4 we need to add the module to sys.modules
+  modules := PyImport_GetModuleDict;
+  if PyDict_SetItemString(modules, md.m_name, Result) <> 0 then
+    GetPythonEngine.CheckError;
 end;
 
 procedure TPythonInterface.Py_FlushLine; cdecl;
@@ -8063,7 +8063,15 @@ begin
     Exit;
   with Engine do
     begin
-      FModule := Py_InitModule( PChar(ModuleName), MethodsData );
+      if IsPython3000 then begin
+        FillChar(FModuleDef, SizeOf(FModuleDef), 0);
+        FModuleDef.m_base.ob_refcnt := 1;
+        FModuleDef.m_name := PChar(ModuleName);
+        FModuleDef.m_methods := MethodsData;
+        FModuleDef.m_size := -1;
+        FModule := Py_InitModule3000( ModuleDef );
+      end else
+        FModule := Py_InitModule( PChar(ModuleName), MethodsData );
       DefineDocString;
     end;
 end;

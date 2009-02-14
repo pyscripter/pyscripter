@@ -1,7 +1,6 @@
 inherited FileExplorerWindow: TFileExplorerWindow
   Left = 398
   Top = 201
-  HelpType = htKeyword
   HelpContext = 420
   Caption = 'File Explorer'
   ClientHeight = 439
@@ -82,7 +81,6 @@ inherited FileExplorerWindow: TFileExplorerWindow
       TabOrder = 0
       TabStop = True
       TreeOptions.AnimationOptions = [toAnimatedToggle]
-      TreeOptions.AutoOptions = [toAutoScrollOnExpand, toAutoTristateTracking, toAutoDeleteMovedNodes]
       TreeOptions.MiscOptions = [toAcceptOLEDrop, toEditable, toFullRepaintOnResize, toInitOnSave, toToggleOnDblClick, toWheelPanning]
       TreeOptions.PaintOptions = [toShowButtons, toShowTreeLines, toUseBlendedImages, toGhostedIfUnfocused, toUseBlendedSelection]
       TreeOptions.SelectionOptions = [toRightClickSelect]
@@ -94,6 +92,7 @@ inherited FileExplorerWindow: TFileExplorerWindow
       OnDblClick = FileExplorerTreeDblClick
       OnEnumFolder = FileExplorerTreeEnumFolder
       OnKeyPress = FileExplorerTreeKeyPress
+      ExplicitTop = 28
       Columns = <>
     end
     object ExplorerDock: TSpTBXDock

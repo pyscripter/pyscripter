@@ -11300,6 +11300,7 @@ object CommandsDataModule: TCommandsDataModule
     VersionHistoryFileOptions.INIOptions.BooleanStringTrueValues = 'TRUE, YES, Y'
     VersionHistoryFileOptions.INIOptions.BooleanStringFalseValues = 'FALSE, NO, N'
     VersionHistoryFileOptions.INIOptions.SetAsString = True
+    VersionHistoryFileOptions.INIOptions.DateTimeAsString = False
     VersionHistoryFileOptions.INIOptions.FloatAsString = True
     VersionHistoryFileOptions.INIOptions.DefaultIfReadConvertError = True
     VersionHistoryFileOptions.XMLOptions.BooleanStringTrueValues = 'TRUE, YES, Y'
@@ -11311,7 +11312,7 @@ object CommandsDataModule: TCommandsDataModule
     VersionHistoryFileOptions.XMLOptions.WhiteSpaceReplacement = '_'
     VersionHistoryFileOptions.XMLOptions.InvalidCharReplacement = '_'
     Left = 491
-    Top = 21
+    Top = 23
   end
   object ProgramVersionHTTPLocation: TJvProgramVersionHTTPLocation
     OnLoadFileFromRemote = ProgramVersionHTTPLocationLoadFileFromRemote
@@ -11939,7 +11940,7 @@ object CommandsDataModule: TCommandsDataModule
           
             '            self.__T = threading.Thread(target=self.Wrapper, arg' +
             's=(func, args, kwargs))'
-          '            self.__T.set_name("FutureThread")'
+          '            self.__T.setName("FutureThread")'
           '            self.__T.start()'
           ''
           '        def __repr__(self):'
@@ -11968,8 +11969,8 @@ object CommandsDataModule: TCommandsDataModule
           
             '            # Run the actual function, and let us housekeep arou' +
             'nd it'
-          '            import sys, thread'
-          '            self.thread_id = thread.get_ident()'
+          '            import sys, _thread'
+          '            self.thread_id = _thread.get_ident()'
           '            try:'
           '                self.__result = func(*args, **kwargs)'
           '            except:'
@@ -11983,7 +11984,7 @@ object CommandsDataModule: TCommandsDataModule
           '        import time'
           '        #keeps GUI alive'
           '        future = self.Future(func, *args)'
-          '        time.sleep(0.01)'
+          '        time.sleep(0.001)'
           '        self.thread_id = future.thread_id'
           '        return future()'
           ''
@@ -13722,7 +13723,7 @@ object CommandsDataModule: TCommandsDataModule
           '    """'
           '    def misc_mainloop(self, n=0):'
           '        pass'
-          '    def tkinter_mainloop(n=0):'
+          '    def Tkinter_mainloop(n=0):'
           '        pass'
           '    def dummy_exit(arg=0):'
           '        pass'
@@ -13735,7 +13736,7 @@ object CommandsDataModule: TCommandsDataModule
           '    Tkinter.oldmainloop = Tkinter.mainloop'
           '    Tkinter.Misc.oldmainloop = Tkinter.Misc.mainloop'
           '    Tkinter.Misc.mainloop = misc_mainloop'
-          '    Tkinter.mainloop = tkinter_mainloop'
+          '    Tkinter.mainloop = Tkinter_mainloop'
           '    Tkinter.Misc.oldquit = Tkinter.Misc.quit'
           '    Tkinter.Misc.quit = dummy_quit'
           '    import sys'
@@ -13881,7 +13882,7 @@ object CommandsDataModule: TCommandsDataModule
           '    main()')
       end>
     Left = 341
-    Top = 168
+    Top = 172
   end
   object dlgFileOpen: TTntOpenDialogLX
     Options = [ofHideReadOnly, ofPathMustExist, ofFileMustExist, ofEnableSizing]

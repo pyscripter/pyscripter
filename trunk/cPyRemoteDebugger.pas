@@ -523,6 +523,9 @@ begin
       raise Exception.Create('Invalid Engine type in TPyRemoteInterpreter constructor');
     end;
     ServerSource := CommandsDataModule.JvMultiStringHolder.StringsByName[ServerName].Text;
+    //  Python 3000 fix
+    if (FEngineType = peRemoteTk) and GetPythonEngine.IsPython3000 then
+      ServerSource :=	 StringReplace(ServerSource, 'Tkinter', 'tkinter', [rfReplaceAll]);
     try
       StringToFile(ServerFile, ServerSource);
     except
