@@ -598,6 +598,7 @@ Type
     destructor Destroy; override;
 
     function  Compare( obj: PPyObject) : Integer; override;
+    function  RichCompare( obj : PPyObject; Op : TRichComparisonOpcode) : PPyObject; override;
     function  Repr : PPyObject; override;
 
     class procedure RegisterGetSets( PythonType : TPythonType ); override;
@@ -2419,7 +2420,16 @@ begin
       _value := Py_None
     else
       _value := Self.Value;
-    Result := PyObject_Compare(_value, obj);
+    if IsPython3000 then begin
+      if PyObject_RichCompareBool(_value, obj, PY_LT) = 1 then
+        Result := -1
+      else if PyObject_RichCompareBool(_value, obj, PY_EQ) = 1 then
+        Result := 0
+      else
+        Result := 1;
+      PyErr_Clear;
+    end else
+      Result := PyObject_Compare(_value, obj);
   end;
 end;
 
@@ -2463,6 +2473,21 @@ begin
     Result := GetPythonEngine.PyString_FromString(PChar(Format('<VarParameter containing: %s>', [GetPythonEngine.PyObjectAsString(_value)])));
   finally
     GetPythonEngine.Py_DECREF(_value);
+  end;
+end;
+
+function TPyDelphiVarParameter.RichCompare(obj: PPyObject;
+  Op: TRichComparisonOpcode): PPyObject;
+var
+  _value : PPyObject;
+begin
+  with GetPythonEngine do
+  begin
+    if Self.Value = nil then
+      _value := Py_None
+    else
+      _value := Self.Value;
+    Result := PyObject_RichCompare(_value, obj, Ord(Op));
   end;
 end;
 
