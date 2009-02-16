@@ -1779,8 +1779,19 @@ function TPythonData.Compare(const Right: TPythonData): Integer;
 begin
   with GetPythonEngine do
   begin
-    Result := PyObject_Compare(PyObject, Right.PyObject);
-    CheckError;
+    if IsPython3000 then begin
+      // not used but anyway
+      if Self.LessThan(Right) then
+        Result := -1
+      else if Self.Equal(Right) then
+        Result := 0
+      else
+        Result := 1;
+      PyErr_Clear;
+    end else begin
+      Result := PyObject_Compare(PyObject, Right.PyObject);
+      CheckError;
+    end;
   end; // of with
 end;
 

@@ -4217,7 +4217,8 @@ begin
   @PyOS_InterruptOccurred    :=Import('PyOS_InterruptOccurred');
   @PyObject_CallObject       :=Import('PyObject_CallObject');
   @PyObject_CallMethodStr    :=Import('PyObject_CallMethod');
-  @PyObject_Compare          :=Import('PyObject_Compare');
+  if not IsPython3000 then
+    @PyObject_Compare          :=Import('PyObject_Compare');
 {$IFDEF PYTHON21_OR_HIGHER}
   @PyObject_RichCompare      :=Import('PyObject_RichCompare');
   @PyObject_RichCompareBool  :=Import('PyObject_RichCompareBool');
