@@ -150,7 +150,7 @@
 			<VersionInfo Name="MajorVer">1</VersionInfo>
 			<VersionInfo Name="MinorVer">9</VersionInfo>
 			<VersionInfo Name="Release">9</VersionInfo>
-			<VersionInfo Name="Build">5</VersionInfo>
+			<VersionInfo Name="Build">6</VersionInfo>
 			<VersionInfo Name="Debug">False</VersionInfo>
 			<VersionInfo Name="PreRelease">False</VersionInfo>
 			<VersionInfo Name="Special">False</VersionInfo>
@@ -162,7 +162,7 @@
 		<VersionInfoKeys>
 			<VersionInfoKeys Name="CompanyName"></VersionInfoKeys>
 			<VersionInfoKeys Name="FileDescription"></VersionInfoKeys>
-			<VersionInfoKeys Name="FileVersion">1.9.9.5</VersionInfoKeys>
+			<VersionInfoKeys Name="FileVersion">1.9.9.6</VersionInfoKeys>
 			<VersionInfoKeys Name="InternalName"></VersionInfoKeys>
 			<VersionInfoKeys Name="LegalCopyright"></VersionInfoKeys>
 			<VersionInfoKeys Name="LegalTrademarks"></VersionInfoKeys>
@@ -176,6 +176,7 @@
 			<Language Name="ProjectLang">$00000000</Language>
 			<Language Name="RootDir"></Language>
 		</Language>  
+    
     <Excluded_Packages>
       <Excluded_Packages Name="c:\program files\borland\bds\4.0\Bin\bcbie100.bpl">Borland C++Builder Internet Explorer 5 Components Package</Excluded_Packages>
     </Excluded_Packages>
