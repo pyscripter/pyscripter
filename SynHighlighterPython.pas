@@ -119,7 +119,7 @@ type
     procedure NumberProc;
     procedure SpaceProc;
     procedure PreStringProc;
-    procedure UnicodeStringProc;
+    procedure BUStringProc;
     procedure StringProc;
     procedure String2Proc;
     procedure StringEndProc(EndChar: WideChar);
@@ -1071,9 +1071,9 @@ begin
   end; // if
 end;
 
-procedure TSynPythonSyn.UnicodeStringProc;
+procedure TSynPythonSyn.BUStringProc;
 begin
-  // Handle python raw and unicode strings
+  // Handle python raw, bytes, and unicode strings
   // Valid syntax: u"", or ur""
   if (FLine[Run + 1] in [WideChar('r'), WideChar('R')]) and
     (FLine[Run + 2] in [WideChar(''''), WideChar('"')]) then
@@ -1257,14 +1257,15 @@ begin
         #13: CRProc;
         '#': CommentProc;
         '>': GreaterProc;
-        'A'..'Q', 'S', 'T', 'V'..'Z', 'a'..'q', 's', 't', 'v'..'z', '_': IdentProc;
+        'A', 'C'..'Q', 'S', 'T', 'V'..'Z', 'a', 'c'..'q', 's', 't', 'v'..'z', '_': IdentProc;
         #10: LFProc;
         '<': LowerProc;
         #0: NullProc;
         '.', '0'..'9': NumberProc;
         #1..#9, #11, #12, #14..#32: SpaceProc;
         'r', 'R': PreStringProc;
-        'u', 'U': UnicodeStringProc;
+        'u', 'U': BUStringProc;
+        'b', 'B': BUStringProc;
         '''': StringProc;
         '"': String2Proc;
         else UnknownProc;

@@ -444,6 +444,7 @@ object PyIDEMainForm: TPyIDEMainForm
       PropagateEnable = False
       Align = alClient
       ParentBackground = True
+      ExplicitTop = 6
     end
   end
   object TBXDockTop: TSpTBXDock
@@ -2040,7 +2041,7 @@ object PyIDEMainForm: TPyIDEMainForm
   end
   object TBXMRUList: TTBXMRUList
     HidePathExtension = False
-    MaxItems = 5
+    MaxItems = 6
     OnClick = TBXMRUListClick
     Prefix = 'MRU'
     Left = 39
