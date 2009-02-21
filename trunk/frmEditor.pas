@@ -1206,6 +1206,8 @@ begin
   fEditor.fForm := nil;
   Assert(GI_EditorFactory <> nil);
   GI_EditorFactory.RemoveEditor(LEditor);
+  if GI_EditorFactory.Count = 0 then
+    PyIDEMainForm.UpdateCaption;
   Breakpoints.Free;
   FoundSearchItems.Free;
   fSyntaxErrorPos.Free;
