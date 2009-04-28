@@ -44,8 +44,8 @@ uses
   Windows, SysUtils, Classes, Graphics, Forms, Controls, StdCtrls,
   Buttons, ExtCtrls, ComCtrls, ToolWin, ImgList, ActnList, Dialogs,
   SynEditPrintTypes, SynEditPrint, SynEditPrintMargins,
-  SynEditPrintHeaderFooter, SpTBXControls, TBXDkPanels, TntActnList, TB2Item,
-  TBX, SpTBXItem, TB2Dock, TB2Toolbar, TntStdCtrls, SpTBXEditors, 
+  SynEditPrintHeaderFooter, SpTBXControls, SpTBXDkPanels, TntActnList, TB2Item,
+  SpTBXItem, TB2Dock, TB2Toolbar, TntStdCtrls, SpTBXEditors, 
   TntComCtrls, dlgPyIDEBase;
 
 type

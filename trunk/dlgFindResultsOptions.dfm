@@ -22,7 +22,7 @@ inherited FindResultsOptionsDialog: TFindResultsOptionsDialog
     Width = 301
     Height = 103
     Caption = 'Match Results List'
-    ThemeType = thtWindows
+    SkinType = sknSkin
     Anchors = [akLeft, akTop, akRight]
     TabOrder = 0
     ExplicitWidth = 305
@@ -34,7 +34,7 @@ inherited FindResultsOptionsDialog: TFindResultsOptionsDialog
       Caption = 'Jump to matches in the &middle of the editor'
       ParentColor = True
       TabOrder = 2
-      ThemeType = thtWindows
+      SkinType = sknSkin
     end
     object chkGrepExpandAll: TSpTBXCheckBox
       Left = 12
@@ -44,7 +44,7 @@ inherited FindResultsOptionsDialog: TFindResultsOptionsDialog
       Caption = '&Expand all matches after searching'
       ParentColor = True
       TabOrder = 1
-      ThemeType = thtWindows
+      SkinType = sknSkin
     end
     object pnlListFont: TPanel
       Left = 28
@@ -70,7 +70,7 @@ inherited FindResultsOptionsDialog: TFindResultsOptionsDialog
     Width = 301
     Height = 153
     Caption = 'Match Context Display'
-    ThemeType = thtWindows
+    SkinType = sknSkin
     Anchors = [akLeft, akTop, akRight]
     TabOrder = 1
     ExplicitWidth = 305
@@ -81,11 +81,6 @@ inherited FindResultsOptionsDialog: TFindResultsOptionsDialog
       Height = 13
       Caption = 'Number of context lines'
       ParentColor = True
-      LinkFont.Charset = DEFAULT_CHARSET
-      LinkFont.Color = clBlue
-      LinkFont.Height = -11
-      LinkFont.Name = 'MS Shell Dlg 2'
-      LinkFont.Style = [fsUnderline]
     end
     object spnContextLines: TSpTBXSpinEdit
       Left = 28
@@ -94,18 +89,13 @@ inherited FindResultsOptionsDialog: TFindResultsOptionsDialog
       Height = 21
       TabOrder = 2
       Alignment = taLeftJustify
-      ThemeType = thtWindows
+      SkinType = sknSkin
       SpinButton.Left = 35
       SpinButton.Top = 0
       SpinButton.Width = 15
       SpinButton.Height = 17
       SpinButton.Align = alRight
-      SpinButton.LinkFont.Charset = DEFAULT_CHARSET
-      SpinButton.LinkFont.Color = clBlue
-      SpinButton.LinkFont.Height = -11
-      SpinButton.LinkFont.Name = 'Tahoma'
-      SpinButton.LinkFont.Style = [fsUnderline]
-      SpinButton.ThemeType = thtWindows
+      SpinButton.SkinType = sknSkin
     end
     object pnlContextFont: TPanel
       Left = 28
@@ -139,11 +129,6 @@ inherited FindResultsOptionsDialog: TFindResultsOptionsDialog
     Anchors = [akRight, akBottom]
     TabOrder = 2
     Default = True
-    LinkFont.Charset = DEFAULT_CHARSET
-    LinkFont.Color = clBlue
-    LinkFont.Height = -11
-    LinkFont.Name = 'MS Shell Dlg 2'
-    LinkFont.Style = [fsUnderline]
     ModalResult = 1
   end
   object btnCancel: TSpTBXButton
@@ -155,11 +140,6 @@ inherited FindResultsOptionsDialog: TFindResultsOptionsDialog
     Anchors = [akRight, akBottom]
     TabOrder = 3
     Cancel = True
-    LinkFont.Charset = DEFAULT_CHARSET
-    LinkFont.Color = clBlue
-    LinkFont.Height = -11
-    LinkFont.Name = 'MS Shell Dlg 2'
-    LinkFont.Style = [fsUnderline]
     ModalResult = 2
   end
   object btnHelp: TSpTBXButton
@@ -171,11 +151,6 @@ inherited FindResultsOptionsDialog: TFindResultsOptionsDialog
     Anchors = [akRight, akBottom]
     TabOrder = 4
     OnClick = btnHelpClick
-    LinkFont.Charset = DEFAULT_CHARSET
-    LinkFont.Color = clBlue
-    LinkFont.Height = -11
-    LinkFont.Name = 'MS Shell Dlg 2'
-    LinkFont.Style = [fsUnderline]
   end
   object dlgGrepListFont: TFontDialog
     Font.Charset = DEFAULT_CHARSET

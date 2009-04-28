@@ -46,7 +46,7 @@ interface
 
 uses
   StdCtrls, Dialogs, Controls, ExtCtrls, Classes, Forms, Mask, JvExMask,
-  JvSpin, SpTBXControls, TBXDkPanels, SpTBXEditors, dlgPyIDEBase;
+  JvSpin, SpTBXControls, SpTBXDkPanels, SpTBXEditors, dlgPyIDEBase;
 
 type
   TFindResultsOptionsDialog = class(TPyIDEDlgBase)

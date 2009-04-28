@@ -13,8 +13,8 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ComCtrls, Menus, frmIDEDockWin, JvDockControlForm, JvComponent,
-  Contnrs, cPyBaseDebugger, ExtCtrls, TB2Item, TBX, TBXThemes, VirtualTrees,
-  JvComponentBase, JvAppStorage, SpTBXItem;
+  Contnrs, cPyBaseDebugger, ExtCtrls, TB2Item, VirtualTrees,
+  JvComponentBase, JvAppStorage, SpTBXSkins, SpTBXItem;
 
 type
   TWatchesWindow = class(TIDEDockWindow, IJvAppStorageHandler)
@@ -49,7 +49,7 @@ type
     { Private declarations }
     fWatchesList : TObjectList;
   protected
-    procedure TBMThemeChange(var Message: TMessage); message TBM_THEMECHANGE;
+    procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
     // IJvAppStorageHandler implementation
     procedure ReadFromAppStorage(AppStorage: TJvCustomAppStorage; const BasePath: string);
     procedure WriteToAppStorage(AppStorage: TJvCustomAppStorage; const BasePath: string);
@@ -194,14 +194,15 @@ begin
   //PostMessage(WatchesView.Handle, WM_SETFOCUS, 0, 0);
 end;
 
-procedure TWatchesWindow.TBMThemeChange(var Message: TMessage);
+procedure TWatchesWindow.WMSpSkinChange(var Message: TMessage);
 begin
   inherited;
-  if Message.WParam = TSC_VIEWCHANGE then begin
-    WatchesView.Header.Invalidate(nil, True);
-    WatchesView.Colors.HeaderHotColor :=
-      CurrentTheme.GetItemTextColor(GetItemInfo('active'));
-  end;
+  WatchesView.Header.Invalidate(nil, True);
+  WatchesView.Invalidate;
+  if SkinManager.IsDefaultSkin then
+    WatchesView.TreeOptions.PaintOptions := WatchesView.TreeOptions.PaintOptions - [toAlwaysHideSelection]
+  else
+    WatchesView.TreeOptions.PaintOptions := WatchesView.TreeOptions.PaintOptions + [toAlwaysHideSelection];
 end;
 
 procedure TWatchesWindow.FormCreate(Sender: TObject);
@@ -214,6 +215,10 @@ begin
     CommandsDataModule.VirtualStringTreeAdvancedHeaderDraw;
   WatchesView.OnHeaderDrawQueryElements :=
     CommandsDataModule.VirtualStringTreeDrawQueryElements;
+  WatchesView.OnBeforeCellPaint :=
+    CommandsDataModule.VirtualStringTreeBeforeCellPaint;
+  WatchesView.OnPaintText :=
+    CommandsDataModule.VirtualStringTreePaintText;
 end;
 
 procedure TWatchesWindow.FormDestroy(Sender: TObject);

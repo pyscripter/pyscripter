@@ -13,7 +13,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ComCtrls, ExtCtrls, JvEdit,
-  SynEdit, ActnList, TBXDkPanels, cFileTemplates, SpTBXControls, TntActnList,
+  SynEdit, ActnList, SpTBXDkPanels, cFileTemplates, SpTBXControls, TntActnList,
   TntComCtrls, dlgPyIDEBase, TntStdCtrls, SpTBXEditors;
 
 type

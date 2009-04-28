@@ -7,6 +7,8 @@ inherited NewFileDialog: TNewFileDialog
   Position = poMainFormCenter
   OnDestroy = FormDestroy
   OnShow = FormShow
+  ExplicitWidth = 472
+  ExplicitHeight = 323
   PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TSpTBXPanel
@@ -14,34 +16,31 @@ inherited NewFileDialog: TNewFileDialog
     Top = 0
     Width = 466
     Height = 297
-    ThemeType = thtWindows
-    Align = alClient
     Color = clBtnFace
+    Align = alClient
     UseDockManager = True
-    ParentColor = False
     TabOrder = 0
+    TBXStyleBackground = True
     object Panel2: TSpTBXPanel
       Left = 2
       Top = 2
       Width = 462
       Height = 255
-      ThemeType = thtWindows
-      Align = alTop
       Color = clBtnFace
+      Align = alTop
       UseDockManager = True
-      ParentColor = False
       TabOrder = 0
+      TBXStyleBackground = True
       object Panel3: TSpTBXPanel
         Left = 2
         Top = 2
         Width = 185
         Height = 251
-        ThemeType = thtWindows
-        Align = alLeft
         Color = clBtnFace
+        Align = alLeft
         UseDockManager = True
-        ParentColor = False
         TabOrder = 0
+        TBXStyleBackground = True
         object tvCategories: TVirtualStringTree
           Left = 2
           Top = 26
@@ -58,6 +57,7 @@ inherited NewFileDialog: TNewFileDialog
           Header.Options = [hoColumnResize, hoDrag]
           NodeDataSize = 0
           TabOrder = 0
+          TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowDropmark, toShowRoot, toShowTreeLines, toThemeAware, toUseBlendedImages, toUseBlendedSelection]
           OnChange = tvCategoriesChange
           OnGetText = tvCategoriesGetText
           Columns = <>
@@ -65,15 +65,9 @@ inherited NewFileDialog: TNewFileDialog
         object Label1: TSpTBXLabel
           Left = 9
           Top = 7
-          Width = 56
-          Height = 13
+          Width = 62
+          Height = 19
           Caption = 'Categories:'
-          ParentColor = True
-          LinkFont.Charset = DEFAULT_CHARSET
-          LinkFont.Color = clBlue
-          LinkFont.Height = -11
-          LinkFont.Name = 'MS Shell Dlg 2'
-          LinkFont.Style = [fsUnderline]
         end
       end
       object Panel4: TSpTBXPanel
@@ -81,24 +75,17 @@ inherited NewFileDialog: TNewFileDialog
         Top = 2
         Width = 270
         Height = 251
-        ThemeType = thtWindows
-        Align = alClient
         Color = clBtnFace
+        Align = alClient
         UseDockManager = True
-        ParentColor = False
         TabOrder = 1
+        TBXStyleBackground = True
         object Label2: TSpTBXLabel
           Left = 6
           Top = 7
-          Width = 53
-          Height = 13
+          Width = 59
+          Height = 19
           Caption = 'Templates:'
-          ParentColor = True
-          LinkFont.Charset = DEFAULT_CHARSET
-          LinkFont.Color = clBlue
-          LinkFont.Height = -11
-          LinkFont.Name = 'MS Shell Dlg 2'
-          LinkFont.Style = [fsUnderline]
         end
         object lvTemplates: TTntListView
           Left = 2
@@ -120,7 +107,6 @@ inherited NewFileDialog: TNewFileDialog
         Width = 3
         Height = 251
         Cursor = crSizeWE
-        ThemeType = thtWindows
         MinSize = 30
       end
     end
@@ -132,11 +118,6 @@ inherited NewFileDialog: TNewFileDialog
       Caption = '&Cancel'
       TabOrder = 1
       Cancel = True
-      LinkFont.Charset = DEFAULT_CHARSET
-      LinkFont.Color = clBlue
-      LinkFont.Height = -11
-      LinkFont.Name = 'MS Shell Dlg 2'
-      LinkFont.Style = [fsUnderline]
       ModalResult = 2
     end
     object btnCreate: TSpTBXButton
@@ -148,11 +129,6 @@ inherited NewFileDialog: TNewFileDialog
       Enabled = False
       TabOrder = 2
       OnClick = btnCreateClick
-      LinkFont.Charset = DEFAULT_CHARSET
-      LinkFont.Color = clBlue
-      LinkFont.Height = -11
-      LinkFont.Name = 'MS Shell Dlg 2'
-      LinkFont.Style = [fsUnderline]
     end
     object btnManageTemplates: TSpTBXButton
       Left = 13
@@ -162,11 +138,6 @@ inherited NewFileDialog: TNewFileDialog
       Caption = 'Manage File Templates...'
       TabOrder = 3
       OnClick = btnManageTemplatesClick
-      LinkFont.Charset = DEFAULT_CHARSET
-      LinkFont.Color = clBlue
-      LinkFont.Height = -11
-      LinkFont.Name = 'MS Shell Dlg 2'
-      LinkFont.Style = [fsUnderline]
     end
   end
 end

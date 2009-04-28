@@ -41,7 +41,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  StdCtrls, SpTBXControls, TBXDkPanels, dlgPyIDEBase, SpTBXEditors;
+  StdCtrls, SpTBXControls, SpTBXDkPanels, dlgPyIDEBase, SpTBXEditors;
 
 type
   (* asks for parameter value and optionally stores parameter to file *)

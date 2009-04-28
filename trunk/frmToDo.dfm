@@ -83,8 +83,6 @@ inherited ToDoWindow: TToDoWindow
   inherited FGPanel: TPanel
     Width = 486
     Height = 287
-    ExplicitLeft = 3
-    ExplicitTop = 3
     ExplicitWidth = 486
     ExplicitHeight = 287
     object TBXDock1: TSpTBXDock
@@ -102,41 +100,29 @@ inherited ToDoWindow: TToDoWindow
         TabOrder = 0
         Customizable = False
         object tbiRefresh: TSpTBXItem
-          Caption = '&Refresh'
-          Hint = 'Refresh to do items'
           Action = actFileRefresh
         end
         object tbiAbort: TSpTBXItem
-          Caption = '&Abort'
-          Hint = 'Abort search for todo items'
           Action = actFileAbort
         end
         object TBXSeparatorItem1: TSpTBXSeparatorItem
         end
         object tbiGoTo: TSpTBXItem
-          Caption = '&Goto'
-          Hint = 'Goto source line'
           Action = actEditGoto
         end
         object TBXSeparatorItem2: TSpTBXSeparatorItem
         end
         object tbiPrint: TSpTBXItem
-          Caption = '&Print'
-          Hint = 'Print to do items'
           Action = actFilePrint
         end
         object TBXSeparatorItem3: TSpTBXSeparatorItem
         end
         object tbiOptions: TSpTBXItem
-          Caption = '&Options...'
-          Hint = 'Options...'
           Action = actOptionsConfigure
         end
         object TBXSeparatorItem5: TSpTBXSeparatorItem
         end
         object tbiHelp: TSpTBXItem
-          Caption = '&Help'
-          Hint = 'Help'
           Action = actHelpHelp
         end
       end
@@ -166,7 +152,7 @@ inherited ToDoWindow: TToDoWindow
       TreeOptions.AnimationOptions = [toAnimatedToggle]
       TreeOptions.AutoOptions = [toAutoDropExpand, toAutoScrollOnExpand, toAutoSort, toAutoTristateTracking, toAutoDeleteMovedNodes]
       TreeOptions.MiscOptions = [toFullRepaintOnResize, toInitOnSave, toReportMode, toToggleOnDblClick, toWheelPanning]
-      TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowDropmark, toShowHorzGridLines, toShowVertGridLines, toUseBlendedImages, toUseBlendedSelection]
+      TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowDropmark, toShowHorzGridLines, toShowVertGridLines, toThemeAware, toUseBlendedImages, toUseBlendedSelection]
       TreeOptions.SelectionOptions = [toExtendedFocus, toFullRowSelect, toRightClickSelect]
       TreeOptions.StringOptions = [toAutoAcceptEditChange]
       OnChange = ToDoViewChange
@@ -629,39 +615,27 @@ inherited ToDoWindow: TToDoWindow
     Left = 28
     Top = 125
     object mnGoto: TSpTBXItem
-      Caption = '&Goto'
-      Hint = 'Goto source line'
       Action = actEditGoto
     end
     object mnRefresh: TSpTBXItem
-      Caption = '&Refresh'
-      Hint = 'Refresh to do items'
       Action = actFileRefresh
     end
     object N1: TSpTBXSeparatorItem
     end
     object mnCopyAll: TSpTBXItem
-      Caption = '&Copy All'
-      Hint = 'Copy all'
       Action = actEditCopy
     end
     object N2: TSpTBXSeparatorItem
     end
     object mnPrint: TSpTBXItem
-      Caption = '&Print'
-      Hint = 'Print to do items'
       Action = actFilePrint
     end
     object mnOptions: TSpTBXItem
-      Caption = '&Options...'
-      Hint = 'Options...'
       Action = actOptionsConfigure
     end
     object TBXSeparatorItem6: TSpTBXSeparatorItem
     end
     object mnHelp: TSpTBXItem
-      Caption = '&Help'
-      Hint = 'Help'
       Action = actHelpHelp
     end
   end

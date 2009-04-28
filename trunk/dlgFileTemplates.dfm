@@ -20,7 +20,7 @@ inherited FileTemplatesDialog: TFileTemplatesDialog
     Top = 0
     Width = 528
     Height = 451
-    ThemeType = thtWindows
+    SkinType = sknSkin
     Align = alClient
     TabOrder = 0
     DesignSize = (
@@ -32,7 +32,7 @@ inherited FileTemplatesDialog: TFileTemplatesDialog
       Width = 511
       Height = 261
       Caption = 'File Template:'
-      ThemeType = thtWindows
+      SkinType = sknSkin
       TabOrder = 3
       object SynTemplate: TSynEdit
         Left = 7
@@ -119,11 +119,6 @@ inherited FileTemplatesDialog: TFileTemplatesDialog
         Caption = '&Name:'
         ParentColor = True
         FocusControl = edName
-        LinkFont.Charset = DEFAULT_CHARSET
-        LinkFont.Color = clBlue
-        LinkFont.Height = -11
-        LinkFont.Name = 'MS Shell Dlg 2'
-        LinkFont.Style = [fsUnderline]
       end
       object Label2: TSpTBXLabel
         Left = 8
@@ -133,11 +128,6 @@ inherited FileTemplatesDialog: TFileTemplatesDialog
         Caption = '&Template:'
         ParentColor = True
         FocusControl = SynTemplate
-        LinkFont.Charset = DEFAULT_CHARSET
-        LinkFont.Color = clBlue
-        LinkFont.Height = -11
-        LinkFont.Name = 'MS Shell Dlg 2'
-        LinkFont.Style = [fsUnderline]
       end
       object Label5: TSpTBXLabel
         Left = 271
@@ -147,11 +137,6 @@ inherited FileTemplatesDialog: TFileTemplatesDialog
         Caption = '&Category:'
         ParentColor = True
         FocusControl = edCategory
-        LinkFont.Charset = DEFAULT_CHARSET
-        LinkFont.Color = clBlue
-        LinkFont.Height = -11
-        LinkFont.Name = 'MS Shell Dlg 2'
-        LinkFont.Style = [fsUnderline]
       end
       object Label4: TSpTBXLabel
         Left = 7
@@ -166,11 +151,6 @@ inherited FileTemplatesDialog: TFileTemplatesDialog
         Font.Style = []
         ParentColor = True
         ParentFont = False
-        LinkFont.Charset = DEFAULT_CHARSET
-        LinkFont.Color = clBlue
-        LinkFont.Height = -11
-        LinkFont.Name = 'MS Shell Dlg 2'
-        LinkFont.Style = [fsUnderline]
       end
       object Label3: TSpTBXLabel
         Left = 7
@@ -185,11 +165,6 @@ inherited FileTemplatesDialog: TFileTemplatesDialog
         Font.Style = []
         ParentColor = True
         ParentFont = False
-        LinkFont.Charset = DEFAULT_CHARSET
-        LinkFont.Color = clBlue
-        LinkFont.Height = -11
-        LinkFont.Name = 'MS Shell Dlg 2'
-        LinkFont.Style = [fsUnderline]
       end
       object Label6: TSpTBXLabel
         Left = 8
@@ -199,11 +174,6 @@ inherited FileTemplatesDialog: TFileTemplatesDialog
         Caption = '&Default Extension:'
         ParentColor = True
         FocusControl = edExtension
-        LinkFont.Charset = DEFAULT_CHARSET
-        LinkFont.Color = clBlue
-        LinkFont.Height = -11
-        LinkFont.Name = 'MS Shell Dlg 2'
-        LinkFont.Style = [fsUnderline]
       end
       object Label7: TSpTBXLabel
         Left = 270
@@ -213,11 +183,6 @@ inherited FileTemplatesDialog: TFileTemplatesDialog
         Caption = '&Highlighter:'
         ParentColor = True
         FocusControl = edCategory
-        LinkFont.Charset = DEFAULT_CHARSET
-        LinkFont.Color = clBlue
-        LinkFont.Height = -11
-        LinkFont.Name = 'MS Shell Dlg 2'
-        LinkFont.Style = [fsUnderline]
       end
     end
     object TBXButton1: TSpTBXButton
@@ -229,11 +194,6 @@ inherited FileTemplatesDialog: TFileTemplatesDialog
       TabOrder = 4
       Images = CommandsDataModule.Images
       ImageIndex = 49
-      LinkFont.Charset = DEFAULT_CHARSET
-      LinkFont.Color = clBlue
-      LinkFont.Height = -11
-      LinkFont.Name = 'MS Shell Dlg 2'
-      LinkFont.Style = [fsUnderline]
     end
     object TBXButton3: TSpTBXButton
       Left = 122
@@ -244,11 +204,6 @@ inherited FileTemplatesDialog: TFileTemplatesDialog
       TabOrder = 5
       Images = CommandsDataModule.Images
       ImageIndex = 14
-      LinkFont.Charset = DEFAULT_CHARSET
-      LinkFont.Color = clBlue
-      LinkFont.Height = -11
-      LinkFont.Name = 'MS Shell Dlg 2'
-      LinkFont.Style = [fsUnderline]
     end
     object TBXButton4: TSpTBXButton
       Left = 220
@@ -259,11 +214,6 @@ inherited FileTemplatesDialog: TFileTemplatesDialog
       TabOrder = 6
       Images = CommandsDataModule.Images
       ImageIndex = 47
-      LinkFont.Charset = DEFAULT_CHARSET
-      LinkFont.Color = clBlue
-      LinkFont.Height = -11
-      LinkFont.Name = 'MS Shell Dlg 2'
-      LinkFont.Style = [fsUnderline]
     end
     object TBXButton5: TSpTBXButton
       Left = 318
@@ -274,11 +224,6 @@ inherited FileTemplatesDialog: TFileTemplatesDialog
       TabOrder = 7
       Images = CommandsDataModule.Images
       ImageIndex = 48
-      LinkFont.Charset = DEFAULT_CHARSET
-      LinkFont.Color = clBlue
-      LinkFont.Height = -11
-      LinkFont.Name = 'MS Shell Dlg 2'
-      LinkFont.Style = [fsUnderline]
     end
     object TBXButton2: TSpTBXButton
       Left = 417
@@ -289,11 +234,6 @@ inherited FileTemplatesDialog: TFileTemplatesDialog
       TabOrder = 8
       Images = CommandsDataModule.Images
       ImageIndex = 39
-      LinkFont.Charset = DEFAULT_CHARSET
-      LinkFont.Color = clBlue
-      LinkFont.Height = -11
-      LinkFont.Name = 'MS Shell Dlg 2'
-      LinkFont.Style = [fsUnderline]
     end
     object btnCancel: TSpTBXButton
       Left = 356
@@ -304,11 +244,6 @@ inherited FileTemplatesDialog: TFileTemplatesDialog
       Anchors = [akRight, akBottom]
       TabOrder = 1
       Cancel = True
-      LinkFont.Charset = DEFAULT_CHARSET
-      LinkFont.Color = clBlue
-      LinkFont.Height = -11
-      LinkFont.Name = 'MS Shell Dlg 2'
-      LinkFont.Style = [fsUnderline]
       ModalResult = 2
     end
     object btnOK: TSpTBXButton
@@ -320,11 +255,6 @@ inherited FileTemplatesDialog: TFileTemplatesDialog
       Anchors = [akRight, akBottom]
       TabOrder = 2
       Default = True
-      LinkFont.Charset = DEFAULT_CHARSET
-      LinkFont.Color = clBlue
-      LinkFont.Height = -11
-      LinkFont.Name = 'MS Shell Dlg 2'
-      LinkFont.Style = [fsUnderline]
       ModalResult = 1
     end
     object btnHelp: TSpTBXButton
@@ -336,11 +266,6 @@ inherited FileTemplatesDialog: TFileTemplatesDialog
       Anchors = [akRight, akBottom]
       TabOrder = 9
       OnClick = btnHelpClick
-      LinkFont.Charset = DEFAULT_CHARSET
-      LinkFont.Color = clBlue
-      LinkFont.Height = -11
-      LinkFont.Name = 'MS Shell Dlg 2'
-      LinkFont.Style = [fsUnderline]
     end
     object lvItems: TTntListView
       Left = 2

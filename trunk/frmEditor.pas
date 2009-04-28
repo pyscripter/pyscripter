@@ -17,9 +17,9 @@ uses
   Menus, uEditAppIntfs, SynEdit, SynEditTypes, SynEditMiscProcs,
   SynEditHighlighter, SynEditMiscClasses, SynEditSearch, SynEditRegexSearch,
   SynEditKeyCmds, ImgList, Dialogs, ExtCtrls, JvExExtCtrls, JvComponent, JvPanel,
-  JvPageList, JvExControls, JvTabBar, TBX, TB2Item, uCommonFunctions,
+  JvPageList, JvExControls, JvTabBar, TB2Item, uCommonFunctions,
   SynCompletionProposal, cPyBaseDebugger, SpTBXControls, SpTBXItem,
-  VirtualResources;
+  VirtualResources, SpTBXSkins, SpTBXDkPanels;
 
 type
   TEditor = class;
@@ -121,7 +121,7 @@ type
     fOldEditorForm : TEditorForm;
   protected
     procedure Retranslate;
-    procedure TBMThemeChange(var Message: TMessage); message TBM_THEMECHANGE;
+    procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
     procedure EditorZoom(theZoom: Integer);
     procedure EditorMouseWheel(theDirection: Integer; Shift: TShiftState );
     procedure CodeHintEventHandler(Sender : TObject; AArea : TRect; var CodeHint : string);
@@ -236,7 +236,7 @@ implementation
 uses
   frmPyIDEMain, dlgSynPrintPreview, frmCodeExplorer,
   frmBreakPoints, Variants, dmCommands, JclFileUtils,
-  TBXThemes, StringResources, VarPyth, cRefactoring,
+  StringResources, VarPyth, cRefactoring,
   cPythonSourceScanner, cCodeHint, frmPythonII, dlgConfirmReplace, Math,
   JvTypes, frmWatches, JclSysUtils, PythonEngine, frmMessages,
   SynEditTextBuffer, cPyDebugger, dlgPickList, JvDockControlForm,
@@ -424,7 +424,7 @@ Var
 begin
   if (fForm <> nil) then begin
     if (fFileName <> '') and (CommandsDataModule <> nil) then
-      PyIDEMainForm.TBXMRUList.Add(fFileName);
+      PyIDEMainForm.tbiRecentFileList.MRUAdd(fFileName);
     if fUntitledNumber <> -1 then
       CommandsDataModule.ReleaseUntitledNumber(fUntitledNumber);
 
@@ -1215,7 +1215,7 @@ begin
   // Unregister kernel notification
   ChangeNotifier.UnRegisterKernelChangeNotify(Self);
 
-  RemoveThemeNotification(Self);
+  SkinManager.RemoveSkinNotification(Self);
 end;
 
 procedure TEditorForm.SynEditChange(Sender: TObject);
@@ -1834,7 +1834,7 @@ begin
   ChangeNotifier.RegisterKernelChangeNotify(Self, [vkneFileName, vkneDirName,
     vkneLastWrite, vkneCreation]);
 
-  AddThemeNotification(Self);
+  SkinManager.AddSkinNotification(Self);
 
   PyIDEMainForm.ThemeEditorGutter(SynEdit.Gutter);
 
@@ -2085,15 +2085,16 @@ end;
 procedure TEditorForm.FGPanelEnter(Sender: TObject);
 begin
   HasFocus := True;
-  Color := CurrentTheme.GetItemColor(GetItemInfo('hot'));
+  { TODO : Skin }
+  //Color := CurrentTheme.GetItemColor(GetItemInfo('hot'));
   //Color := GetBorderColor('active');
 end;
 
 procedure TEditorForm.FGPanelExit(Sender: TObject);
 begin
   HasFocus := False;
-//  Color := CurrentTheme.GetItemColor(GetItemInfo('inactive'));
-  Color := GetBorderColor('inactive');
+  { TODO : Skin }
+//  Color := GetBorderColor('inactive');
 end;
 
 procedure TEditorForm.mnCloseTabClick(Sender: TObject);
@@ -2227,22 +2228,21 @@ begin
   fAutoCompleteActive := True;
 end;
 
-procedure TEditorForm.TBMThemeChange(var Message: TMessage);
+procedure TEditorForm.WMSpSkinChange(var Message: TMessage);
 begin
-  if Message.WParam = TSC_VIEWCHANGE then begin
-    if HasFocus then
-      Color := CurrentTheme.GetItemColor(GetItemInfo('hot'))
-//      Color := GetBorderColor('active')
-    else
-//      Color := CurrentTheme.GetItemColor(GetItemInfo('inactive'));
-      Color := GetBorderColor('inactive');
+  if HasFocus then
+  { TODO : Skin }
+//    Color := CurrentTheme.GetItemColor(GetItemInfo('hot'))
+////      Color := GetBorderColor('active')
+//  else
+////      Color := CurrentTheme.GetItemColor(GetItemInfo('inactive'));
+//    Color := GetBorderColor('inactive');
 
-    PyIDEMainForm.ThemeEditorGutter(SynEdit.Gutter);
-    SynEdit.InvalidateGutter;
-    PyIDEMainForm.ThemeEditorGutter(SynEdit2.Gutter);
-    SynEdit2.InvalidateGutter;
-    Invalidate;
-  end;
+  PyIDEMainForm.ThemeEditorGutter(SynEdit.Gutter);
+  SynEdit.InvalidateGutter;
+  PyIDEMainForm.ThemeEditorGutter(SynEdit2.Gutter);
+  SynEdit2.InvalidateGutter;
+  Invalidate;
 end;
 
 procedure TEditorForm.SynCodeCompletionClose(Sender: TObject);
@@ -2673,6 +2673,11 @@ initialization
 finalization
   GI_EditorFactory := nil;
 end.
+
+
+
+
+
 
 
 

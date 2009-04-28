@@ -14,8 +14,8 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ComCtrls, StdCtrls, ExtCtrls, ImgList, Buttons, JvDockControlForm,
-  JvComponent, Menus, Contnrs, VirtualTrees, frmIDEDockWin, TB2Item, TBX,
-  cPythonSourceScanner, JvComponentBase, SpTBXItem;
+  JvComponent, Menus, Contnrs, VirtualTrees, frmIDEDockWin, TB2Item,
+  cPythonSourceScanner, JvComponentBase, SpTBXItem, SpTBXSkins;
 
 type
   TAbstractCENode = class
@@ -191,6 +191,7 @@ type
     procedure ExplorerTreeKeyPress(Sender: TObject; var Key: Char);
   private
     procedure NavigateToNodeElement(Node: PVirtualNode);
+    procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
   public
     { Public declarations }
     ModuleCENode : TModuleCENode;
@@ -392,6 +393,10 @@ begin
   ExplorerTree.NodeDataSize := SizeOf(TNodeDataRec);
   ModuleCENode := nil;
   WorkerThread := TScanCodeThread.Create;
+  ExplorerTree.OnBeforeCellPaint :=
+    CommandsDataModule.VirtualStringTreeBeforeCellPaint;
+  ExplorerTree.OnPaintText :=
+    CommandsDataModule.VirtualStringTreePaintText;
 end;
 
 procedure TCodeExplorerWindow.ExplorerTreeInitNode(Sender: TBaseVirtualTree;
@@ -475,6 +480,15 @@ procedure TCodeExplorerWindow.UpdateWindow;
 begin
   if Visible and Assigned(WorkerThread) then  // Issue 219
     TScanCodeThread(WorkerThread).SetModified;
+end;
+
+procedure TCodeExplorerWindow.WMSpSkinChange(var Message: TMessage);
+begin
+  ExplorerTree.Invalidate;
+  if SkinManager.IsDefaultSkin then
+    ExplorerTree.TreeOptions.PaintOptions := ExplorerTree.TreeOptions.PaintOptions - [toAlwaysHideSelection]
+  else
+    ExplorerTree.TreeOptions.PaintOptions := ExplorerTree.TreeOptions.PaintOptions + [toAlwaysHideSelection];
 end;
 
 procedure TCodeExplorerWindow.ClearAll;

@@ -30,7 +30,7 @@ interface
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, AppEvnts,
-  JclSysUtils, JclMapi, JclDebug, TBXDkPanels, SpTBXControls, TntStdCtrls, 
+  JclSysUtils, JclMapi, JclDebug, SpTBXDkPanels, SpTBXControls, TntStdCtrls, 
   dlgPyIDEBase;
 
 const

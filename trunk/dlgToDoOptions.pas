@@ -46,7 +46,7 @@ interface
 
 
 uses
-  Classes, Controls, StdCtrls, Forms, SpTBXControls, TBXDkPanels, TntStdCtrls,
+  Classes, Controls, StdCtrls, Forms, SpTBXControls, SpTBXDkPanels, TntStdCtrls,
   SpTBXEditors, ComCtrls, TntComCtrls, dlgPyIDEBase;
 
 type

@@ -1,9 +1,8 @@
-// JCL_DEBUG_EXPERT_GENERATEJDBG OFF
-// JCL_DEBUG_EXPERT_INSERTJDBG OFF
-package SpTBXJvLibD10D;
+package PyScripterCustom;
 
 {$R *.res}
 {$R 'JvDockVSNetStyleSpTBX.dcr'}
+{$R 'SpTBXPageScroller.dcr'}
 {$ALIGN 8}
 {$ASSERTIONS ON}
 {$BOOLEVAL OFF}
@@ -25,7 +24,7 @@ package SpTBXJvLibD10D;
 {$WRITEABLECONST OFF}
 {$MINENUMSIZE 1}
 {$IMAGEBASE $400000}
-{$DESCRIPTION 'Toolbar2000 -- SpTBX JVCL Lib'}
+{$DESCRIPTION 'PyScripter Custom Components'}
 {$IMPLICITBUILD ON}
 
 requires
@@ -39,9 +38,14 @@ requires
   JvCustomD10R,
   SpTBXLib_d10,
   tb2k_d10,
-  JvDockingD10R;
+  JvDockingD10R,
+  TntUnicodeVcl,
+  vclactnband,
+  vcldb,
+  dbrtl;
 
 contains
-  JvDockVSNetStyleSpTBX in 'JvDockVSNetStyleSpTBX.pas';
+  JvDockVSNetStyleSpTBX in 'JvDockVSNetStyleSpTBX.pas',
+  SpTBXPageScroller in 'SpTBXPageScroller.pas';
 
 end.

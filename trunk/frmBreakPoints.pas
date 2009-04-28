@@ -12,8 +12,8 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, JvDockControlForm, JvComponent, frmIDEDockWin, ExtCtrls,
-  Contnrs, TB2Item, Menus, TBX, TBXThemes, VirtualTrees, JvComponentBase,
-  SpTBXItem, JvAppStorage;
+  Contnrs, TB2Item, Menus, VirtualTrees, JvComponentBase,
+  SpTBXSkins, SpTBXItem, JvAppStorage;
 
 type
   TBreakPointsWindow = class(TIDEDockWindow, IJvAppStorageHandler)
@@ -43,8 +43,8 @@ type
   private
     { Private declarations }
     fBreakPointsList : TObjectList;
+    procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
   protected
-    procedure TBMThemeChange(var Message: TMessage); message TBM_THEMECHANGE;
     // IJvAppStorageHandler implementation
     procedure ReadFromAppStorage(AppStorage: TJvCustomAppStorage; const BasePath: string);
     procedure WriteToAppStorage(AppStorage: TJvCustomAppStorage; const BasePath: string);
@@ -182,6 +182,10 @@ begin
     CommandsDataModule.VirtualStringTreeAdvancedHeaderDraw;
   BreakPointsView.OnHeaderDrawQueryElements :=
     CommandsDataModule.VirtualStringTreeDrawQueryElements;
+  BreakPointsView.OnBeforeCellPaint :=
+    CommandsDataModule.VirtualStringTreeBeforeCellPaint;
+  BreakPointsView.OnPaintText :=
+    CommandsDataModule.VirtualStringTreePaintText;
 end;
 
 procedure TBreakPointsWindow.FormDestroy(Sender: TObject);
@@ -190,14 +194,15 @@ begin
   inherited;
 end;
 
-procedure TBreakPointsWindow.TBMThemeChange(var Message: TMessage);
+procedure TBreakPointsWindow.WMSpSkinChange(var Message: TMessage);
 begin
   inherited;
-  if Message.WParam = TSC_VIEWCHANGE then begin
-    BreakPointsView.Header.Invalidate(nil, True);
-    BreakPointsView.Colors.HeaderHotColor :=
-      CurrentTheme.GetItemTextColor(GetItemInfo('active'));
-  end;
+  BreakPointsView.Header.Invalidate(nil, True);
+  BreakPointsView.Invalidate;
+  if SkinManager.IsDefaultSkin then
+    BreakPointsView.TreeOptions.PaintOptions := BreakPointsView.TreeOptions.PaintOptions - [toAlwaysHideSelection]
+  else
+    BreakPointsView.TreeOptions.PaintOptions := BreakPointsView.TreeOptions.PaintOptions + [toAlwaysHideSelection];
 end;
 
 procedure TBreakPointsWindow.BreakPointsViewInitNode(

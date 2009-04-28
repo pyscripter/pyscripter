@@ -39,7 +39,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
         Width = 223
         Height = 75
         Caption = 'Right Edge'
-        ThemeType = thtWindows
+        SkinType = sknSkin
         Anchors = [akLeft, akTop, akRight]
         TabOrder = 1
         object cbRightEdgeColor: TColorBox
@@ -62,11 +62,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Height = 13
           Caption = 'Edge color:'
           ParentColor = True
-          LinkFont.Charset = DEFAULT_CHARSET
-          LinkFont.Color = clBlue
-          LinkFont.Height = -11
-          LinkFont.Name = 'MS Shell Dlg 2'
-          LinkFont.Style = [fsUnderline]
         end
         object Label10: TSpTBXLabel
           Left = 9
@@ -75,11 +70,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Height = 13
           Caption = 'Edge Column:'
           ParentColor = True
-          LinkFont.Charset = DEFAULT_CHARSET
-          LinkFont.Color = clBlue
-          LinkFont.Height = -11
-          LinkFont.Name = 'MS Shell Dlg 2'
-          LinkFont.Style = [fsUnderline]
         end
         object eRightEdge: TSpTBXEdit
           Left = 89
@@ -88,7 +78,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Height = 21
           TabOrder = 0
           Text = '0'
-          ThemeType = thtWindows
+          SkinType = sknSkin
         end
       end
       object gbGutter: TSpTBXGroupBox
@@ -97,7 +87,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
         Width = 430
         Height = 124
         Caption = 'Gutter'
-        ThemeType = thtWindows
+        SkinType = sknSkin
         Anchors = [akLeft, akTop, akRight]
         TabOrder = 0
         object pnlGutterFontDisplay: TSpTBXPanel
@@ -105,7 +95,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Top = 40
           Width = 183
           Height = 27
-          ThemeType = thtWindows
+          SkinType = sknSkin
           TabOrder = 6
           object lblGutterFont: TSpTBXLabel
             Left = 2
@@ -122,11 +112,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             ParentColor = True
             ParentFont = False
             Alignment = taCenter
-            LinkFont.Charset = DEFAULT_CHARSET
-            LinkFont.Color = clBlue
-            LinkFont.Height = -11
-            LinkFont.Name = 'MS Shell Dlg 2'
-            LinkFont.Style = [fsUnderline]
             ExplicitHeight = 12
           end
         end
@@ -151,11 +136,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Caption = 'Font'
           TabOrder = 5
           OnClick = btnGutterFontClick
-          LinkFont.Charset = DEFAULT_CHARSET
-          LinkFont.Color = clBlue
-          LinkFont.Height = -11
-          LinkFont.Name = 'MS Shell Dlg 2'
-          LinkFont.Style = [fsUnderline]
         end
         object ckGutterAutosize: TSpTBXCheckBox
           Left = 23
@@ -165,7 +145,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Caption = 'Autosize'
           ParentColor = True
           TabOrder = 1
-          ThemeType = thtWindows
+          SkinType = sknSkin
         end
         object ckGutterShowLineNumbers: TSpTBXCheckBox
           Left = 23
@@ -175,7 +155,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Caption = 'Show line numbers'
           ParentColor = True
           TabOrder = 2
-          ThemeType = thtWindows
+          SkinType = sknSkin
         end
         object ckGutterShowLeaderZeros: TSpTBXCheckBox
           Left = 23
@@ -185,7 +165,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Caption = 'Show leading zeros'
           ParentColor = True
           TabOrder = 3
-          ThemeType = thtWindows
+          SkinType = sknSkin
         end
         object ckGutterVisible: TSpTBXCheckBox
           Left = 23
@@ -197,7 +177,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           TabOrder = 0
           Checked = True
           State = cbChecked
-          ThemeType = thtWindows
+          SkinType = sknSkin
         end
         object cbGutterFont: TSpTBXCheckBox
           Left = 189
@@ -208,7 +188,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           ParentColor = True
           TabOrder = 4
           OnClick = cbGutterFontClick
-          ThemeType = thtWindows
+          SkinType = sknSkin
         end
         object ckGutterStartAtZero: TSpTBXCheckBox
           Left = 23
@@ -218,7 +198,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Caption = 'Start at zero'
           ParentColor = True
           TabOrder = 8
-          ThemeType = thtWindows
+          SkinType = sknSkin
         end
         object ckGutterGradient: TSpTBXCheckBox
           Left = 191
@@ -229,7 +209,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Caption = 'Gutter Gradient'
           ParentColor = True
           TabOrder = 9
-          ThemeType = thtWindows
+          SkinType = sknSkin
         end
         object Label1: TSpTBXLabel
           Left = 189
@@ -238,11 +218,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Height = 13
           Caption = 'Gutter color:'
           ParentColor = True
-          LinkFont.Charset = DEFAULT_CHARSET
-          LinkFont.Color = clBlue
-          LinkFont.Height = -11
-          LinkFont.Name = 'MS Shell Dlg 2'
-          LinkFont.Style = [fsUnderline]
         end
       end
       object gbBookmarks: TSpTBXGroupBox
@@ -251,7 +226,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
         Width = 223
         Height = 55
         Caption = 'Bookmarks'
-        ThemeType = thtWindows
+        SkinType = sknSkin
         Anchors = [akLeft, akTop, akRight]
         TabOrder = 3
         object ckBookmarkKeys: TSpTBXCheckBox
@@ -262,7 +237,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Caption = 'Bookmark keys'
           ParentColor = True
           TabOrder = 0
-          ThemeType = thtWindows
+          SkinType = sknSkin
         end
         object ckBookmarkVisible: TSpTBXCheckBox
           Left = 23
@@ -272,7 +247,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Caption = 'Bookmarks visible'
           ParentColor = True
           TabOrder = 1
-          ThemeType = thtWindows
+          SkinType = sknSkin
         end
       end
       object gbEditorFont: TSpTBXGroupBox
@@ -281,14 +256,14 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
         Width = 199
         Height = 84
         Caption = 'Editor Font'
-        ThemeType = thtWindows
+        SkinType = sknSkin
         TabOrder = 4
         object Panel3: TSpTBXPanel
           Left = 8
           Top = 17
           Width = 172
           Height = 30
-          ThemeType = thtWindows
+          SkinType = sknSkin
           TabOrder = 1
           object labFont: TSpTBXLabel
             Left = 2
@@ -305,11 +280,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             ParentColor = True
             ParentFont = False
             Alignment = taCenter
-            LinkFont.Charset = DEFAULT_CHARSET
-            LinkFont.Color = clBlue
-            LinkFont.Height = -11
-            LinkFont.Name = 'MS Shell Dlg 2'
-            LinkFont.Style = [fsUnderline]
             ExplicitHeight = 16
           end
         end
@@ -321,11 +291,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Caption = 'Font'
           TabOrder = 0
           OnClick = btnFontClick
-          LinkFont.Charset = DEFAULT_CHARSET
-          LinkFont.Color = clBlue
-          LinkFont.Height = -11
-          LinkFont.Name = 'MS Shell Dlg 2'
-          LinkFont.Style = [fsUnderline]
         end
       end
       object gbLineSpacing: TSpTBXGroupBox
@@ -334,7 +299,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
         Width = 198
         Height = 88
         Caption = 'Line spacing / Tab spacing'
-        ThemeType = thtWindows
+        SkinType = sknSkin
         TabOrder = 2
         object Label8: TSpTBXLabel
           Left = 23
@@ -343,11 +308,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Height = 13
           Caption = 'Extra Lines:'
           ParentColor = True
-          LinkFont.Charset = DEFAULT_CHARSET
-          LinkFont.Color = clBlue
-          LinkFont.Height = -11
-          LinkFont.Name = 'MS Shell Dlg 2'
-          LinkFont.Style = [fsUnderline]
         end
         object Label9: TSpTBXLabel
           Left = 23
@@ -356,11 +316,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Height = 13
           Caption = 'Tab Width:'
           ParentColor = True
-          LinkFont.Charset = DEFAULT_CHARSET
-          LinkFont.Color = clBlue
-          LinkFont.Height = -11
-          LinkFont.Name = 'MS Shell Dlg 2'
-          LinkFont.Style = [fsUnderline]
         end
         object eLineSpacing: TSpTBXEdit
           Left = 116
@@ -369,7 +324,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Height = 21
           TabOrder = 0
           Text = '0'
-          ThemeType = thtWindows
+          SkinType = sknSkin
         end
         object eTabWidth: TSpTBXEdit
           Left = 116
@@ -378,7 +333,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Height = 21
           TabOrder = 1
           Text = '8'
-          ThemeType = thtWindows
+          SkinType = sknSkin
         end
       end
       object GroupBox2: TSpTBXGroupBox
@@ -387,7 +342,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
         Width = 223
         Height = 43
         Caption = 'Active Line Color'
-        ThemeType = thtWindows
+        SkinType = sknSkin
         Anchors = [akLeft, akTop, akRight]
         TabOrder = 5
         object cbActiveLineColor: TColorBox
@@ -415,7 +370,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
         Width = 420
         Height = 247
         Caption = 'Options'
-        ThemeType = thtWindows
+        SkinType = sknSkin
         Anchors = [akLeft, akRight]
         ParentShowHint = False
         ShowHint = True
@@ -431,7 +386,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Caption = 'Auto indent'
           ParentColor = True
           TabOrder = 0
-          ThemeType = thtWindows
+          SkinType = sknSkin
         end
         object ckDragAndDropEditing: TSpTBXCheckBox
           Left = 23
@@ -444,7 +399,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Caption = 'Drag and drop editing'
           ParentColor = True
           TabOrder = 1
-          ThemeType = thtWindows
+          SkinType = sknSkin
         end
         object ckWordWrap: TSpTBXCheckBox
           Left = 23
@@ -455,7 +410,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Caption = 'Word wrap'
           ParentColor = True
           TabOrder = 2
-          ThemeType = thtWindows
+          SkinType = sknSkin
         end
         object ckHalfPageScroll: TSpTBXCheckBox
           Left = 215
@@ -468,7 +423,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Caption = 'Half page scroll'
           ParentColor = True
           TabOrder = 11
-          ThemeType = thtWindows
+          SkinType = sknSkin
         end
         object ckThemeSelection: TSpTBXCheckBox
           Left = 215
@@ -479,7 +434,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Caption = 'Theme selection'
           ParentColor = True
           TabOrder = 20
-          ThemeType = thtWindows
+          SkinType = sknSkin
         end
         object ckScrollByOneLess: TSpTBXCheckBox
           Left = 215
@@ -490,7 +445,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Caption = 'Scroll by one less'
           ParentColor = True
           TabOrder = 12
-          ThemeType = thtWindows
+          SkinType = sknSkin
         end
         object ckScrollPastEOF: TSpTBXCheckBox
           Left = 215
@@ -501,7 +456,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Caption = 'Scroll past end of file'
           ParentColor = True
           TabOrder = 13
-          ThemeType = thtWindows
+          SkinType = sknSkin
         end
         object ckScrollPastEOL: TSpTBXCheckBox
           Left = 215
@@ -514,7 +469,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Caption = 'Scroll past end of line'
           ParentColor = True
           TabOrder = 14
-          ThemeType = thtWindows
+          SkinType = sknSkin
         end
         object ckShowScrollHint: TSpTBXCheckBox
           Left = 215
@@ -527,7 +482,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Caption = 'Show scroll hint'
           ParentColor = True
           TabOrder = 15
-          ThemeType = thtWindows
+          SkinType = sknSkin
         end
         object ckSmartTabs: TSpTBXCheckBox
           Left = 23
@@ -540,7 +495,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Caption = 'Smart tabs'
           ParentColor = True
           TabOrder = 6
-          ThemeType = thtWindows
+          SkinType = sknSkin
         end
         object ckTabsToSpaces: TSpTBXCheckBox
           Left = 23
@@ -551,7 +506,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Caption = 'Tabs to spaces'
           ParentColor = True
           TabOrder = 17
-          ThemeType = thtWindows
+          SkinType = sknSkin
         end
         object ckTrimTrailingSpaces: TSpTBXCheckBox
           Left = 215
@@ -562,7 +517,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Caption = 'Trim trailing spaces'
           ParentColor = True
           TabOrder = 18
-          ThemeType = thtWindows
+          SkinType = sknSkin
         end
         object ckTabIndent: TSpTBXCheckBox
           Left = 23
@@ -573,7 +528,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Caption = 'Tab Indent'
           ParentColor = True
           TabOrder = 5
-          ThemeType = thtWindows
+          SkinType = sknSkin
         end
         object ckAltSetsColumnMode: TSpTBXCheckBox
           Left = 23
@@ -586,7 +541,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Caption = 'Alt sets column mode'
           ParentColor = True
           TabOrder = 3
-          ThemeType = thtWindows
+          SkinType = sknSkin
         end
         object ckKeepCaretX: TSpTBXCheckBox
           Left = 23
@@ -599,7 +554,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Caption = 'Maintain caret column'
           ParentColor = True
           TabOrder = 4
-          ThemeType = thtWindows
+          SkinType = sknSkin
         end
         object ckScrollHintFollows: TSpTBXCheckBox
           Left = 215
@@ -610,7 +565,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Caption = 'Scroll hint follows mouse'
           ParentColor = True
           TabOrder = 16
-          ThemeType = thtWindows
+          SkinType = sknSkin
         end
         object ckGroupUndo: TSpTBXCheckBox
           Left = 215
@@ -624,7 +579,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Caption = 'Group undo'
           ParentColor = True
           TabOrder = 19
-          ThemeType = thtWindows
+          SkinType = sknSkin
         end
         object ckSmartTabDelete: TSpTBXCheckBox
           Left = 23
@@ -635,7 +590,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Caption = 'Smart tab delete'
           ParentColor = True
           TabOrder = 7
-          ThemeType = thtWindows
+          SkinType = sknSkin
         end
         object ckRightMouseMoves: TSpTBXCheckBox
           Left = 23
@@ -648,7 +603,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Caption = 'Right mouse moves cursor'
           ParentColor = True
           TabOrder = 8
-          ThemeType = thtWindows
+          SkinType = sknSkin
         end
         object ckEnhanceHomeKey: TSpTBXCheckBox
           Left = 23
@@ -659,7 +614,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Caption = 'Enhance Home Key'
           ParentColor = True
           TabOrder = 9
-          ThemeType = thtWindows
+          SkinType = sknSkin
         end
         object ckHideShowScrollbars: TSpTBXCheckBox
           Left = 215
@@ -673,7 +628,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Caption = 'Hide scrollbars as necessary'
           ParentColor = True
           TabOrder = 10
-          ThemeType = thtWindows
+          SkinType = sknSkin
         end
         object ckDisableScrollArrows: TSpTBXCheckBox
           Left = 215
@@ -686,7 +641,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Caption = 'Disable scroll arrows'
           ParentColor = True
           TabOrder = 21
-          ThemeType = thtWindows
+          SkinType = sknSkin
         end
         object ckShowSpecialChars: TSpTBXCheckBox
           Left = 215
@@ -697,7 +652,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Caption = 'Show special chars'
           ParentColor = True
           TabOrder = 22
-          ThemeType = thtWindows
+          SkinType = sknSkin
         end
         object ckEnhanceEndKey: TSpTBXCheckBox
           Left = 23
@@ -708,7 +663,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Caption = 'Enhance End Key'
           ParentColor = True
           TabOrder = 23
-          ThemeType = thtWindows
+          SkinType = sknSkin
         end
       end
       object gbCaret: TSpTBXGroupBox
@@ -717,7 +672,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
         Width = 420
         Height = 69
         Caption = 'Caret'
-        ThemeType = thtWindows
+        SkinType = sknSkin
         Anchors = [akTop, akRight]
         TabOrder = 1
         object Label2: TSpTBXLabel
@@ -727,11 +682,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Height = 13
           Caption = 'Insert caret:'
           ParentColor = True
-          LinkFont.Charset = DEFAULT_CHARSET
-          LinkFont.Color = clBlue
-          LinkFont.Height = -11
-          LinkFont.Name = 'MS Shell Dlg 2'
-          LinkFont.Style = [fsUnderline]
         end
         object Label4: TSpTBXLabel
           Left = 60
@@ -740,11 +690,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Height = 13
           Caption = 'Overwrite caret:'
           ParentColor = True
-          LinkFont.Charset = DEFAULT_CHARSET
-          LinkFont.Color = clBlue
-          LinkFont.Height = -11
-          LinkFont.Name = 'MS Shell Dlg 2'
-          LinkFont.Style = [fsUnderline]
         end
         object cInsertCaret: TSpTBXComboBox
           Left = 183
@@ -759,7 +704,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             'Horizontal Line'
             'Half Block'
             'Block')
-          ThemeType = thtWindows
+          SkinType = sknSkin
         end
         object cOverwriteCaret: TSpTBXComboBox
           Left = 183
@@ -774,7 +719,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             'Horizontal Line'
             'Half Block'
             'Block')
-          ThemeType = thtWindows
+          SkinType = sknSkin
         end
       end
     end
@@ -790,7 +735,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
         Width = 415
         Height = 119
         Caption = 'Keystroke Options'
-        ThemeType = thtWindows
+        SkinType = sknSkin
         TabOrder = 4
         object Label5: TSpTBXLabel
           Left = 50
@@ -799,11 +744,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Height = 13
           Caption = 'Command:'
           ParentColor = True
-          LinkFont.Charset = DEFAULT_CHARSET
-          LinkFont.Color = clBlue
-          LinkFont.Height = -11
-          LinkFont.Name = 'MS Shell Dlg 2'
-          LinkFont.Style = [fsUnderline]
         end
         object Label6: TSpTBXLabel
           Left = 50
@@ -812,11 +752,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Height = 13
           Caption = 'Keystroke:'
           ParentColor = True
-          LinkFont.Charset = DEFAULT_CHARSET
-          LinkFont.Color = clBlue
-          LinkFont.Height = -11
-          LinkFont.Name = 'MS Shell Dlg 2'
-          LinkFont.Style = [fsUnderline]
         end
         object Label7: TSpTBXLabel
           Left = 50
@@ -825,11 +760,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Height = 13
           Caption = 'Keystroke:'
           ParentColor = True
-          LinkFont.Charset = DEFAULT_CHARSET
-          LinkFont.Color = clBlue
-          LinkFont.Height = -11
-          LinkFont.Name = 'MS Shell Dlg 2'
-          LinkFont.Style = [fsUnderline]
         end
         object cKeyCommand: TSpTBXComboBox
           Left = 154
@@ -841,7 +771,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           OnExit = cKeyCommandExit
           OnKeyPress = cKeyCommandKeyPress
           OnKeyUp = cKeyCommandKeyUp
-          ThemeType = thtWindows
+          SkinType = sknSkin
         end
       end
       object pnlCommands: TSpTBXPanel
@@ -849,7 +779,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
         Top = 9
         Width = 417
         Height = 136
-        ThemeType = thtWindows
+        SkinType = sknSkin
         TabOrder = 0
         object KeyList: TTntListView
           Left = 2
@@ -885,11 +815,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
         Caption = '&Add'
         TabOrder = 2
         OnClick = btnAddKeyClick
-        LinkFont.Charset = DEFAULT_CHARSET
-        LinkFont.Color = clBlue
-        LinkFont.Height = -11
-        LinkFont.Name = 'MS Shell Dlg 2'
-        LinkFont.Style = [fsUnderline]
       end
       object btnRemKey: TSpTBXButton
         Left = 246
@@ -899,11 +824,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
         Caption = '&Remove'
         TabOrder = 3
         OnClick = btnRemKeyClick
-        LinkFont.Charset = DEFAULT_CHARSET
-        LinkFont.Color = clBlue
-        LinkFont.Height = -11
-        LinkFont.Name = 'MS Shell Dlg 2'
-        LinkFont.Style = [fsUnderline]
       end
       object btnUpdateKey: TSpTBXButton
         Left = 86
@@ -913,11 +833,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
         Caption = '&Update'
         TabOrder = 1
         OnClick = btnUpdateKeyClick
-        LinkFont.Charset = DEFAULT_CHARSET
-        LinkFont.Color = clBlue
-        LinkFont.Height = -11
-        LinkFont.Name = 'MS Shell Dlg 2'
-        LinkFont.Style = [fsUnderline]
       end
     end
     object Color: TTabSheet
@@ -962,7 +877,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
         Width = 150
         Height = 62
         Caption = ' Text attributes '
-        ThemeType = thtWindows
+        SkinType = sknSkin
         TabOrder = 3
         object cbxElementBold: TSpTBXCheckBox
           Left = 9
@@ -974,7 +889,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           ParentColor = True
           TabOrder = 0
           OnClick = cbxElementBoldClick
-          ThemeType = thtWindows
+          SkinType = sknSkin
         end
         object cbxElementItalic: TSpTBXCheckBox
           Left = 9
@@ -986,7 +901,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           ParentColor = True
           TabOrder = 1
           OnClick = cbxElementBoldClick
-          ThemeType = thtWindows
+          SkinType = sknSkin
         end
         object cbxElementUnderline: TSpTBXCheckBox
           Left = 67
@@ -998,7 +913,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           ParentColor = True
           TabOrder = 2
           OnClick = cbxElementBoldClick
-          ThemeType = thtWindows
+          SkinType = sknSkin
         end
         object cbxElementStrikeout: TSpTBXCheckBox
           Left = 67
@@ -1010,7 +925,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           ParentColor = True
           TabOrder = 3
           OnClick = cbxElementBoldClick
-          ThemeType = thtWindows
+          SkinType = sknSkin
         end
       end
       object SynEdit1: TSynEdit
@@ -1042,11 +957,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
         Height = 13
         Caption = '&Element:'
         ParentColor = True
-        LinkFont.Charset = DEFAULT_CHARSET
-        LinkFont.Color = clBlue
-        LinkFont.Height = -11
-        LinkFont.Name = 'MS Shell Dlg 2'
-        LinkFont.Style = [fsUnderline]
       end
       object Label12: TSpTBXLabel
         Left = 5
@@ -1055,11 +965,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
         Height = 13
         Caption = '&Foreground Color:'
         ParentColor = True
-        LinkFont.Charset = DEFAULT_CHARSET
-        LinkFont.Color = clBlue
-        LinkFont.Height = -11
-        LinkFont.Name = 'MS Shell Dlg 2'
-        LinkFont.Style = [fsUnderline]
       end
       object Label13: TSpTBXLabel
         Left = 5
@@ -1068,11 +973,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
         Height = 13
         Caption = 'B&ackground Color:'
         ParentColor = True
-        LinkFont.Charset = DEFAULT_CHARSET
-        LinkFont.Color = clBlue
-        LinkFont.Height = -11
-        LinkFont.Name = 'MS Shell Dlg 2'
-        LinkFont.Style = [fsUnderline]
       end
       object Label14: TSpTBXLabel
         Left = 164
@@ -1081,11 +981,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
         Height = 13
         Caption = 'Code Sample'
         ParentColor = True
-        LinkFont.Charset = DEFAULT_CHARSET
-        LinkFont.Color = clBlue
-        LinkFont.Height = -11
-        LinkFont.Name = 'MS Shell Dlg 2'
-        LinkFont.Style = [fsUnderline]
       end
       object Label15: TSpTBXLabel
         Left = 5
@@ -1094,11 +989,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
         Height = 13
         Caption = 'Editor Syntax Language'
         ParentColor = True
-        LinkFont.Charset = DEFAULT_CHARSET
-        LinkFont.Color = clBlue
-        LinkFont.Height = -11
-        LinkFont.Name = 'MS Shell Dlg 2'
-        LinkFont.Style = [fsUnderline]
       end
       object cbHighlighters: TSpTBXComboBox
         Left = 3
@@ -1110,7 +1000,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
         ItemHeight = 0
         TabOrder = 5
         OnChange = cbHighlightersChange
-        ThemeType = thtWindows
+        SkinType = sknSkin
       end
       object lbElements: TSpTBXListBox
         Left = 2
@@ -1121,7 +1011,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
         ItemHeight = 13
         TabOrder = 0
         OnClick = lbElementsClick
-        ThemeType = thtWindows
+        SkinType = sknSkin
       end
     end
   end
@@ -1135,11 +1025,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
     TabOrder = 1
     OnClick = btnOkClick
     Default = True
-    LinkFont.Charset = DEFAULT_CHARSET
-    LinkFont.Color = clBlue
-    LinkFont.Height = -11
-    LinkFont.Name = 'MS Shell Dlg 2'
-    LinkFont.Style = [fsUnderline]
     ModalResult = 1
   end
   object btnCancel: TSpTBXButton
@@ -1151,11 +1036,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
     Anchors = [akRight, akBottom]
     TabOrder = 2
     Cancel = True
-    LinkFont.Charset = DEFAULT_CHARSET
-    LinkFont.Color = clBlue
-    LinkFont.Height = -11
-    LinkFont.Name = 'MS Shell Dlg 2'
-    LinkFont.Style = [fsUnderline]
     ModalResult = 2
   end
   object btnHelp: TSpTBXButton
@@ -1167,11 +1047,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
     Anchors = [akRight, akBottom]
     TabOrder = 4
     OnClick = btnHelpClick
-    LinkFont.Charset = DEFAULT_CHARSET
-    LinkFont.Color = clBlue
-    LinkFont.Height = -11
-    LinkFont.Name = 'MS Shell Dlg 2'
-    LinkFont.Style = [fsUnderline]
   end
   object cbApplyToAll: TSpTBXCheckBox
     Left = 19
@@ -1183,7 +1058,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
     TabOrder = 3
     Checked = True
     State = cbChecked
-    ThemeType = thtWindows
+    SkinType = sknSkin
   end
   object FontDialog: TFontDialog
     Font.Charset = DEFAULT_CHARSET

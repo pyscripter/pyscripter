@@ -410,9 +410,9 @@ object PyIDEMainForm: TPyIDEMainForm
   TextHeight = 13
   object BGPanel: TPanel
     Left = 9
-    Top = 78
+    Top = 77
     Width = 762
-    Height = 426
+    Height = 427
     Align = alClient
     BevelOuter = bvNone
     FullRepaint = False
@@ -420,7 +420,7 @@ object PyIDEMainForm: TPyIDEMainForm
     TabOrder = 0
     object TabBar: TJvTabBar
       Left = 0
-      Top = 403
+      Top = 404
       Width = 762
       Align = alBottom
       PopupMenu = TabBarPopupMenu
@@ -428,7 +428,6 @@ object PyIDEMainForm: TPyIDEMainForm
       HotTracking = True
       AutoFreeClosed = False
       AllowTabMoving = True
-      Painter = JvmbTBXTabBarPainter
       Images = CommandsDataModule.Images
       Tabs = <>
       OnTabClosed = TabBarTabClosed
@@ -440,18 +439,17 @@ object PyIDEMainForm: TPyIDEMainForm
       Left = 0
       Top = 0
       Width = 762
-      Height = 403
+      Height = 404
       PropagateEnable = False
       Align = alClient
       ParentBackground = True
-      ExplicitTop = 6
     end
   end
   object TBXDockTop: TSpTBXDock
     Left = 0
     Top = 0
     Width = 780
-    Height = 78
+    Height = 77
     PopupMenu = ToolbarPopupMenu
     object MainMenu: TSpTBXToolbar
       Left = 0
@@ -471,130 +469,90 @@ object PyIDEMainForm: TPyIDEMainForm
         object TBXSubmenuItem5: TSpTBXSubmenuItem
           Caption = 'New'
           object mnNewModule: TSpTBXItem
-            Caption = '&New Python module'
-            Hint = 'New Python module'
             Action = actFileNewModule
           end
           object TBXSeparatorItem23: TSpTBXSeparatorItem
           end
           object mnNewFile: TSpTBXItem
-            Caption = 'New File...'
-            Hint = 'New file from template'
             Action = actNewFile
           end
         end
         object mnFileOpen: TSpTBXItem
-          Caption = '&Open...'
-          Hint = 'Select a file to open'
           Action = actFileOpen
         end
         object RecentSubmenu: TSpTBXSubmenuItem
           Caption = '&Recent Files'
-          object TBXMRUListItem: TTBXMRUListItem
-            MRUList = TBXMRUList
+          object tbiRecentFileList: TSpTBXMRUListItem
+            HidePathExtension = False
+            MaxItems = 6
+            OnClick = tbiRecentFileListClick
           end
         end
         object N14: TSpTBXSeparatorItem
         end
         object mnFileSave: TSpTBXItem
-          Caption = '&Save'
-          Hint = 'Save|Save active file'
           Action = CommandsDataModule.actFileSave
         end
         object mnFileSaveAs: TSpTBXItem
-          Caption = 'Save &As...'
-          Hint = 'Save As|Save active file under different name'
           Action = CommandsDataModule.actFileSaveAs
         end
         object mnFileReload: TSpTBXItem
-          Caption = '&Reload'
-          Hint = 'Reload|Reload active file'
           Action = CommandsDataModule.actFileReload
         end
         object mnFileClose: TSpTBXItem
-          Caption = '&Close'
-          Hint = 'Close|Close active file'
           Action = CommandsDataModule.actFileClose
         end
         object N1: TSpTBXSeparatorItem
         end
         object mnFileSaveAll: TSpTBXItem
-          Caption = 'Save &All'
-          Hint = 'Save all|Save project and all open files'
           Action = CommandsDataModule.actFileSaveAll
         end
         object mnFileCloseAll: TSpTBXItem
-          Caption = 'Close A&ll'
-          Hint = 'Close all files'
           Action = actFileCloseAll
         end
         object N2: TSpTBXSeparatorItem
         end
         object PageSetup1: TSpTBXItem
-          Caption = 'Pa&ge Setup...'
-          Hint = 'Page setup'
           Action = CommandsDataModule.actPageSetup
         end
         object PrinterSetup1: TSpTBXItem
-          Caption = 'Printer Set&up...'
-          Hint = 'Printer setup'
           Action = CommandsDataModule.actPrinterSetup
         end
         object PrintPreview1: TSpTBXItem
-          Caption = 'Print Pre&view'
-          Hint = 'Print preview'
           Action = CommandsDataModule.actPrintPreview
         end
         object Print1: TSpTBXItem
-          Caption = '&Print...'
-          Hint = 'Print|Print active file'
           Action = CommandsDataModule.actFilePrint
         end
         object N4: TSpTBXSeparatorItem
         end
         object N3: TSpTBXItem
-          Caption = 'E&xit'
-          Hint = 'Exit'
           Action = actFileExit
         end
       end
       object EditMenu: TSpTBXSubmenuItem
         Caption = '&Edit'
         object mnEditUndo: TSpTBXItem
-          Caption = '&Undo'
-          Hint = 'Undo|Reverts the last action'
           Action = CommandsDataModule.actEditUndo
         end
         object mnEditRedo: TSpTBXItem
-          Caption = '&Redo'
-          Hint = 'Redo| Redo last action'
           Action = CommandsDataModule.actEditRedo
         end
         object N5: TSpTBXSeparatorItem
         end
         object mnEditCut: TSpTBXItem
-          Caption = 'Cu&t'
-          Hint = 'Cut|Cuts the selection and puts it on the Clipboard'
           Action = CommandsDataModule.actEditCut
         end
         object mnEditCopy: TSpTBXItem
-          Caption = '&Copy'
-          Hint = 'Copy|Copies the selection and puts it on the Clipboard'
           Action = CommandsDataModule.actEditCopy
         end
         object mnEditPaste: TSpTBXItem
-          Caption = '&Paste'
-          Hint = 'Paste|Inserts Clipboard contents'
           Action = CommandsDataModule.actEditPaste
         end
         object mnEditDelete: TSpTBXItem
-          Caption = 'De&lete'
-          Hint = 'Delete|Delete selection'
           Action = CommandsDataModule.actEditDelete
         end
         object mnEditSelectAll: TSpTBXItem
-          Caption = 'Select &All'
-          Hint = 'Select All|Selects the entire document'
           Action = CommandsDataModule.actEditSelectAll
         end
         object TBXSeparatorItem9: TSpTBXSeparatorItem
@@ -602,35 +560,23 @@ object PyIDEMainForm: TPyIDEMainForm
         object SourceCode1: TSpTBXSubmenuItem
           Caption = '&Source Code'
           object mnIndentBlock: TSpTBXItem
-            Caption = '&Indent Block'
-            Hint = 'Indent block|Indent selected block of code'
             Action = CommandsDataModule.actEditIndent
           end
           object mnDedentBlock: TSpTBXItem
-            Caption = '&Dedent Block'
-            Hint = 'Dedent|Dedent selected block of code'
             Action = CommandsDataModule.actEditDedent
           end
           object mnToggleComment: TSpTBXItem
-            Caption = 'Toggle &Comment'
-            Hint = 'Toggle Comment| Comment/Uncomment block of code'
             Action = CommandsDataModule.actEditToggleComment
           end
           object mnTabify: TSpTBXItem
-            Caption = '&Tabify'
-            Hint = 'Tabify|Convert spaces to tabs'
             Action = CommandsDataModule.actEditTabify
           end
           object mnUnTabify: TSpTBXItem
-            Caption = 'U&ntabify'
-            Hint = 'Untabify|Convert tabs to spaces'
             Action = CommandsDataModule.actEditUntabify
           end
           object TBXSeparatorItem27: TSpTBXSeparatorItem
           end
           object mnExecSelection: TSpTBXItem
-            Caption = 'E&xecute selection'
-            Hint = 'Execute the editor selection'
             Action = actExecSelection
           end
         end
@@ -639,26 +585,18 @@ object PyIDEMainForm: TPyIDEMainForm
         object Parameters1: TSpTBXSubmenuItem
           Caption = 'Parameters'
           object mnInsertParameter: TSpTBXItem
-            Caption = 'Insert &parameter'
-            Hint = 'Insert parameter to the edited file'
             Action = CommandsDataModule.actParameterCompletion
           end
           object mnInsertModifier: TSpTBXItem
-            Caption = 'Insert &modifier'
-            Hint = 'Insert parameter to the edited file'
             Action = CommandsDataModule.actModifierCompletion
           end
           object N16: TSpTBXSeparatorItem
           end
           object mnReplaceParameter: TSpTBXItem
-            Caption = '&Replace parameters'
-            Hint = 'Replace parameters with their values'
             Action = CommandsDataModule.actReplaceParameters
           end
         end
         object mnIsertCodeTemplate: TSpTBXItem
-          Caption = 'Insert &Template'
-          Hint = 'Insert a Code Template'
           Action = CommandsDataModule.actInsertTemplate
         end
         object N6: TSpTBXSeparatorItem
@@ -666,50 +604,34 @@ object PyIDEMainForm: TPyIDEMainForm
         object TBXSubmenuItem3: TSpTBXSubmenuItem
           Caption = 'File Format'
           object mnEditAnsi: TSpTBXItem
-            Caption = 'Ansi'
-            Hint = 'Use Ansi encoding'
             Action = CommandsDataModule.actEditAnsi
             RadioItem = True
           end
           object mnEditUtf8: TSpTBXItem
-            Caption = 'UTF-8'
-            Hint = 'Use UTF-8 encoding when saving the file'
             Action = CommandsDataModule.actEditUTF8
             RadioItem = True
           end
           object mnEditUtf8NoBom: TSpTBXItem
-            Caption = 'UTF-8 (No BOM)'
-            Hint = 'Use UTF-8 enconding without BOM'
             Action = CommandsDataModule.actEditUTF8NoBOM
             RadioItem = True
           end
           object mnEditUtf16LE: TSpTBXItem
-            Caption = 'UTF-16LE'
-            Hint = 'Use UTF-16LE enconding'
             Action = CommandsDataModule.actEditUTF16LE
           end
           object mnEditUtf16BE: TSpTBXItem
-            Caption = 'UTF-16BE'
-            Hint = 'Use UTF-16BE enconding'
             Action = CommandsDataModule.actEditUTF16BE
           end
           object TBXSeparatorItem12: TSpTBXSeparatorItem
           end
           object mnEditLBDos: TSpTBXItem
-            Caption = '&DOS/Windows'
-            Hint = 'DOS/Windows|Convert to DOS Linebreak'
             Action = CommandsDataModule.actEditLBDos
             RadioItem = True
           end
           object mnEditLBUnix: TSpTBXItem
-            Caption = '&UNIX'
-            Hint = 'UNIX|Convert to UNIX Linebreak'
             Action = CommandsDataModule.actEditLBUnix
             RadioItem = True
           end
           object mnEditLBMac: TSpTBXItem
-            Caption = '&Mac'
-            Hint = 'Mac|Convert to Mac Linebreak'
             Action = CommandsDataModule.actEditLBMac
             RadioItem = True
           end
@@ -718,129 +640,85 @@ object PyIDEMainForm: TPyIDEMainForm
       object SearchMenu: TSpTBXSubmenuItem
         Caption = '&Search'
         object mnSearchFind: TSpTBXItem
-          Caption = '&Find...'
-          Hint = 'Search|Search for a string'
           Action = CommandsDataModule.actSearchFind
         end
         object mnSearchFindNext: TSpTBXItem
-          Caption = 'Find &Next'
-          Hint = 'Find next|Find next match'
           Action = CommandsDataModule.actSearchFindNext
         end
         object mnSearchFindPrevious: TSpTBXItem
-          Caption = 'Find &Previous'
-          Hint = 'Find previous|Find Previous match'
           Action = CommandsDataModule.actSearchFindPrev
         end
         object mnSearchReplace: TSpTBXItem
-          Caption = '&Replace...'
-          Hint = 'Replace|Search  & Replace'
           Action = CommandsDataModule.actSearchReplace
         end
         object mnSearchHighlight: TSpTBXItem
-          Caption = '&Highlight Search Text'
-          Hint = 'Highlight the search text in the current editor'
           Action = CommandsDataModule.actSearchHighlight
         end
         object N15: TSpTBXSeparatorItem
         end
         object mnFindinFiles: TSpTBXItem
-          Caption = '&Find in Files...'
-          Hint = 'Search in Files|Search for a string in Files'
           Action = CommandsDataModule.actFindInFiles
         end
         object N7: TSpTBXSeparatorItem
         end
         object mnGoToLine: TSpTBXItem
-          Caption = 'Go To &Line...'
-          Hint = 'Go to line number'
           Action = CommandsDataModule.actSearchGoToLine
         end
         object mnGotoSyntaxError: TSpTBXItem
-          Caption = 'Go To Syntax &Error'
-          Hint = 'Jump to the position of the first syntax error'
           Action = CommandsDataModule.actSearchGoToSyntaxError
         end
         object mnGoToDebugLine: TSpTBXItem
-          Caption = 'Go To &Debugger Position'
-          Hint = 'Go to the curent position of the debugger'
           Action = CommandsDataModule.actSearchGoToDebugLine
         end
         object TBXSeparatorItem31: TSpTBXSeparatorItem
         end
         object mnFindFunction: TSpTBXItem
-          Caption = 'Find F&unction...'
-          Hint = 'Find Function|Find function from function list'
           Action = CommandsDataModule.actFindFunction
         end
         object mnFindNextReference: TSpTBXItem
-          Caption = 'Find Next Reference'
-          Hint = 'Find next identifier reference'
           Action = CommandsDataModule.actFindNextReference
         end
         object mnFindPreviousReference: TSpTBXItem
-          Caption = 'Find Previous Reference'
-          Hint = 'Find previous identifier reference'
           Action = CommandsDataModule.actFindPreviousReference
         end
         object mnMatchingBrace: TSpTBXItem
-          Caption = '&Matching Brace'
-          Hint = 'Find Matching Brace'
           Action = CommandsDataModule.actSearchMatchingBrace
         end
         object N23: TSpTBXSeparatorItem
         end
         object mnFindDefinition: TSpTBXItem
-          Caption = 'Find &Definition'
-          Hint = 'Find definition of an Identifier'
           Action = actFindDefinition
         end
         object mnFindReferences: TSpTBXItem
-          Caption = 'Find &References'
-          Hint = 'Find references of an Identifier'
           Action = actFindReferences
         end
       end
       object ViewMenu: TSpTBXSubmenuItem
         Caption = '&View'
         object mnNextEditor: TSpTBXItem
-          Caption = '&Next Editor'
-          Hint = 'Next Editor|Move to the next editor'
           Action = actViewNextEditor
         end
         object mnPreviousEditor: TSpTBXItem
-          Caption = '&Previous Editor'
-          Hint = 'Previous editor|Move to the previous editor'
           Action = actViewPreviousEditor
         end
         object TBXSubmenuItem8: TSpTBXSubmenuItem
           Caption = 'Split Editor'
           object mnSplitEditorVer: TSpTBXItem
-            Caption = 'Split Editor Vertically'
-            Hint = 'Split the editor Windows vertically'
             Action = actViewSplitEditorVer
           end
           object mnSplitEditorHor: TSpTBXItem
-            Caption = 'Split Editor Horizontally'
-            Hint = 'Split the editor Windows horizontally'
             Action = actViewSplitEditorHor
           end
           object mnHideSecondEditor: TSpTBXItem
-            Caption = 'Hide Second Editor'
-            Hint = 'Clear the editor'
             Action = actViewHideSecondEditor
           end
         end
         object TBXSeparatorItem20: TSpTBXSeparatorItem
         end
         object mnZoomIn: TSpTBXItem
-          Caption = 'Zoom &In'
-          Hint = 'Increase the font size of the editor'
           Action = actEditorZoomIn
         end
         object mnZoomOut: TSpTBXItem
-          Caption = 'Zoom &Out'
-          Hint = 'Decrease the font size of the editor'
           Action = actEditorZoomOut
         end
         object N10: TSpTBXSeparatorItem
@@ -848,8 +726,6 @@ object PyIDEMainForm: TPyIDEMainForm
         object mnuToolbars: TSpTBXSubmenuItem
           Caption = '&Toolbars'
           object mnViewMainMenu: TSpTBXItem
-            Caption = 'Main Men&u'
-            Hint = 'View/Hide main menu'
             Action = actViewMainMenu
           end
           object mnMainToolbarVisibilityToggle: TSpTBXItem
@@ -885,14 +761,10 @@ object PyIDEMainForm: TPyIDEMainForm
           object SpTBXSeparatorItem3: TSpTBXSeparatorItem
           end
           object mnViewCustomizeToolbars: TSpTBXItem
-            Caption = 'Customize...'
-            Hint = 'Customize the toolbars'
             Action = actViewCustomizeToolbars
           end
         end
         object mnViewStatusBar: TSpTBXItem
-          Caption = '&Status Bar'
-          Hint = 'View/Hide status bar'
           Action = actViewStatusBar
         end
         object TBXSeparatorItem18: TSpTBXSeparatorItem
@@ -900,148 +772,94 @@ object PyIDEMainForm: TPyIDEMainForm
         object TBXSubmenuItem4: TSpTBXSubmenuItem
           Caption = '&IDE Windows'
           object mnViewII: TSpTBXItem
-            Caption = '&Interactive Interpreter'
-            Hint = 'View/Hide Interactive Interpreter'
             Action = actViewII
           end
           object mnViewProjectExplorer: TSpTBXItem
-            Caption = '&Project Explorer'
-            Hint = 'View/Hide Project Explorer'
             Action = actViewProjectExplorer
           end
           object mnViewFileExplorer: TSpTBXItem
-            Caption = '&File Explorer'
-            Hint = 'View/Hide File Explorer'
             Action = actViewFileExplorer
           end
           object mnViewCodeExplorer: TSpTBXItem
-            Caption = '&Code Explorer'
-            Hint = 'View/Hide Code Explorer'
             Action = actViewCodeExplorer
           end
           object mnViewToDoList: TSpTBXItem
-            Caption = '&To-Do List'
-            Hint = 'View/Hide To Do List'
             Action = actViewToDoList
           end
           object mnViewRegExpTester: TSpTBXItem
-            Caption = '&Regular Expression Tester'
-            Hint = 'View/Hide Regular Expression Tester'
             Action = actViewRegExpTester
           end
           object mnViewFindResults: TSpTBXItem
-            Caption = '&Find in Files Results'
-            Hint = 'View/Hide Find in Files Results'
             Action = actViewFindResults
           end
           object mnViewOutput: TSpTBXItem
-            Caption = '&Output Window'
-            Hint = 'View/Hide Output Window'
             Action = actViewOutput
           end
           object mnViewUnitTests: TSpTBXItem
-            Caption = '&Unit Tests'
-            Hint = 'View/Hide Unit Tests Window'
             Action = actViewUnitTests
           end
         end
         object DebugWindows1: TSpTBXSubmenuItem
           Caption = '&Debug Windows'
           object mnViewBreakpoints: TSpTBXItem
-            Caption = '&Breakpoints'
-            Hint = 'Show/Hide Breakpoints window'
             Action = actBreakPointsWin
           end
           object mnViewCallStack: TSpTBXItem
-            Caption = '&Call Stack'
-            Hint = 'Show/Hide Call Stack window'
             Action = actCallStackWin
           end
           object mnViewMessages: TSpTBXItem
-            Caption = '&Messages'
-            Hint = 'Show/Hide Messages window'
             Action = actMessagesWin
           end
           object mnViewVariables: TSpTBXItem
-            Caption = '&Variables'
-            Hint = 'Show/Hide Variables window'
             Action = actVariablesWin
           end
           object mnViewWatches: TSpTBXItem
-            Caption = '&Watches'
-            Hint = 'Show/Hide Watches window'
             Action = actWatchesWin
           end
         end
         object TBXSubmenuItem6: TSpTBXSubmenuItem
           Caption = '&Navigate'
           object mnNavEditor: TSpTBXItem
-            Caption = '&Editor'
-            Hint = 'Activate the Editor'
             Action = actNavEditor
           end
           object mnNavInterpreter: TSpTBXItem
-            Caption = '&Interpreter'
-            Hint = 'Activate the Interpreter window'
             Action = actNavInterpreter
           end
           object TBXSeparatorItem24: TSpTBXSeparatorItem
           end
           object mnNavCodeExplorer: TSpTBXItem
-            Caption = '&Code Explorer'
-            Hint = 'Activate the Code Explorer window'
             Action = actNavCodeExplorer
           end
           object mnNavFileExplorer: TSpTBXItem
-            Caption = 'File E&xplorer'
-            Hint = 'Activate the File Explorer window'
             Action = actNavFileExplorer
           end
           object mnNavProjectExplorer: TSpTBXItem
-            Caption = '&Project Explorer'
-            Hint = 'Activate the Project Explorer window'
             Action = actNavProjectExplorer
           end
           object mnNavUnitTests: TSpTBXItem
-            Caption = '&Unit Tests'
-            Hint = 'Activate the Todo List window'
             Action = actNavUnitTests
           end
           object mnNavOutput: TSpTBXItem
-            Caption = 'Command &Output'
-            Hint = 'Activate the Command Output window'
             Action = actNavOutput
           end
           object mnNavTodo: TSpTBXItem
-            Caption = '&Todo List'
-            Hint = 'Activate the Todo List window'
             Action = actNavTodo
           end
           object TBXSeparatorItem25: TSpTBXSeparatorItem
           end
           object mnNavBreakpoints: TSpTBXItem
-            Caption = '&BreakPoints'
-            Hint = 'Activate the Breakpoints window'
             Action = actNavBreakpoints
           end
           object mnNavCallStack: TSpTBXItem
-            Caption = '&Call Stack'
-            Hint = 'Activate the Call Stack window'
             Action = actNavCallStack
           end
           object mnNavMessages: TSpTBXItem
-            Caption = '&Messages '
-            Hint = 'Activate the Messages window'
             Action = actNavMessages
           end
           object mnNavVariables: TSpTBXItem
-            Caption = '&Variables'
-            Hint = 'Activate the Variables window'
             Action = actNavVariables
           end
           object mnNavWatches: TSpTBXItem
-            Caption = '&Watches'
-            Hint = 'Activate the Watches window'
             Action = actNavWatches
           end
         end
@@ -1105,176 +923,122 @@ object PyIDEMainForm: TPyIDEMainForm
         object mnThemes: TSpTBXSubmenuItem
           Caption = 'Themes'
           ImageIndex = 107
+          object mnSkins: TSpTBXSkinGroupItem
+            OnSkinChange = mnSkinsSkinChange
+          end
         end
       end
       object ProjectMenu: TSpTBXSubmenuItem
         Caption = '&Project'
         object mnProjectNew: TSpTBXItem
-          Caption = '&New Project'
-          Hint = 'Start a new project'
           Action = ProjectExplorerWindow.actProjectNew
         end
         object mnProjectOpen: TSpTBXItem
-          Caption = '&Open Project...'
-          Hint = 'Open a project file'
           Action = ProjectExplorerWindow.actProjectOpen
         end
         object mnProjectSave: TSpTBXItem
-          Caption = '&Save Project'
-          Hint = 'Save the project'
           Action = ProjectExplorerWindow.actProjectSave
         end
         object mnProjectSaveAs: TSpTBXItem
-          Caption = 'Save Project &As...'
-          Hint = 'Save project with under a different name'
           Action = ProjectExplorerWindow.actProjectSaveAs
         end
         object SpTBXSeparatorItem4: TSpTBXSeparatorItem
         end
         object mnNavProjectExplorer2: TSpTBXItem
-          Caption = '&Project Explorer'
-          Hint = 'Activate the Project Explorer window'
           Action = actNavProjectExplorer
         end
       end
       object RunMenu: TSpTBXSubmenuItem
         Caption = '&Run'
         object mnSyntaxCheck: TSpTBXItem
-          Caption = '&Syntax Check'
-          Hint = 'Syntax Check|Perform syntax check and load scripts'
           Action = actSyntaxCheck
         end
         object mnImportModule: TSpTBXItem
-          Caption = '&Import Module'
-          Hint = 'Import module'
           Action = actImportModule
         end
         object N21: TSpTBXSeparatorItem
         end
         object mnRun: TSpTBXItem
-          Caption = '&Run'
-          Hint = 'Run|Run active module'
           Action = actRun
         end
         object mnCommandLineParams: TSpTBXItem
-          Caption = 'Command Line &Parameters...'
-          Hint = 'Set command line parameters'
           Action = actCommandLine
         end
         object mnPythonEngines: TSpTBXSubmenuItem
           Caption = 'Python Engine'
           OnPopup = mnPythonEnginesPopup
           object mnEngineInternal: TSpTBXItem
-            Caption = '&Internal'
-            Hint = 'Use internal Python Engine'
             Action = actPythonInternal
           end
           object mnEngineRemote: TSpTBXItem
-            Caption = '&Remote'
-            Hint = 'Use a remote Python engine'
             Action = actPythonRemote
           end
           object mnEngineRemoteTk: TSpTBXItem
-            Caption = 'Remote (&Tk)'
-            Hint = 'Use a remote Python engine for Tkinter applications'
             Action = actPythonRemoteTk
           end
           object mnEngineRemoteWx: TSpTBXItem
-            Caption = 'Remote (&Wx)'
-            Hint = 'Use a remote Python engine for wxPython applications'
             Action = actPythonRemoteWx
           end
           object TBXSeparatorItem26: TSpTBXSeparatorItem
           end
           object mnReinitEngine: TSpTBXItem
-            Caption = 'Reinitiali&ze Python engine'
             Action = actPythonReinitialize
           end
         end
         object N22: TSpTBXSeparatorItem
         end
         object mnExternalRun: TSpTBXItem
-          Caption = 'E&xternal Run'
-          Hint = 'External Run|Run active module in external Python interpreter'
           Action = actExternalRun
         end
         object mnConfigureExternalRun: TSpTBXItem
-          Caption = '&Configure External Run...'
-          Hint = 'Configure External Run'
           Action = actExternalRunConfigure
         end
         object N8: TSpTBXSeparatorItem
         end
         object mnDebug: TSpTBXItem
-          Caption = '&Debug'
-          Hint = 'Debug|Debug active script'
           Action = actDebug
         end
         object mnRunToCursor: TSpTBXItem
-          Caption = 'Run To &Cursor'
-          Hint = 'Run to cursor'
           Action = actRunToCursor
         end
         object mnStepInto: TSpTBXItem
-          Caption = 'Step &Into'
-          Hint = 'Step into subroutine '
           Action = actStepInto
         end
         object mnStepOver: TSpTBXItem
-          Caption = 'Step &Over'
-          Hint = 'Step over next function call'
           Action = actStepOver
         end
         object mnStepOut: TSpTBXItem
-          Caption = 'Step O&ut'
-          Hint = 'Step out of the current subroutine'
           Action = actStepOut
         end
         object mnPause: TSpTBXItem
-          Caption = '&Pause'
-          Hint = 'Pause running program'
           Action = actDebugPause
         end
         object mnAbortDebugging: TSpTBXItem
-          Caption = '&Abort Debugging'
-          Hint = 'Abort debugging'
           Action = actDebugAbort
         end
         object TBXSeparatorItem33: TSpTBXSeparatorItem
         end
         object mnPostMortem: TSpTBXItem
-          Caption = '&Post Mortem'
-          Hint = 'Enter post mortem analysis'
           Action = actPostMortem
         end
         object N9: TSpTBXSeparatorItem
         end
         object mnTogglebreakpoint: TSpTBXItem
-          Caption = 'Toggle &breakpoint'
-          Hint = 'Toggle breakpoint'
           Action = actToggleBreakPoint
         end
         object mnClearAllBreakpoints: TSpTBXItem
-          Caption = '&Clear All Breakpoints'
-          Hint = 'Clear all breakpoints'
           Action = actClearAllBreakpoints
         end
         object mnAddWatchAtCursor: TSpTBXItem
-          Caption = 'Add &Watch At Cursor'
-          Hint = 'Add the expression at the editor current position as a watch'
           Action = actAddWatchAtCursor
         end
       end
       object ToolsMenu: TSpTBXSubmenuItem
         Caption = '&Tools'
         object mnPythonPath: TSpTBXItem
-          Caption = 'Python &Path...'
-          Hint = 'Python Path|View or edit the Python path'
           Action = CommandsDataModule.actPythonPath
         end
         object mnUnitTestWizard: TSpTBXItem
-          Caption = '&Unit Test Wizard...'
-          Hint = 'unitest wizard|Create unitests for active module'
           Action = CommandsDataModule.actUnitTestWizard
         end
         object EditorViewsMenu: TSpTBXSubmenuItem
@@ -1289,8 +1053,6 @@ object PyIDEMainForm: TPyIDEMainForm
           ImageIndex = 82
         end
         object mnConfigureTools: TSpTBXItem
-          Caption = 'Configure &Tools...'
-          Hint = 'Configure Tools|Add/remove/edit command-line tools'
           Action = CommandsDataModule.actConfigureTools
         end
         object N20: TSpTBXSeparatorItem
@@ -1298,18 +1060,12 @@ object PyIDEMainForm: TPyIDEMainForm
         object OptionsMenu: TSpTBXSubmenuItem
           Caption = '&Options'
           object mnIDEOptions: TSpTBXItem
-            Caption = '&IDE Options...'
-            Hint = 'Set IDE Options'
             Action = CommandsDataModule.actIDEOptions
           end
           object mnIDEShortCuts: TSpTBXItem
-            Caption = 'IDE &Shortcuts...'
-            Hint = 'Customize IDE shortcuts'
             Action = CommandsDataModule.actIDEShortcuts
           end
           object mnEditorOptions: TSpTBXItem
-            Caption = '&Editor Options...'
-            Hint = 'Set Editor Options'
             Action = CommandsDataModule.actEditorOptions
           end
           object TBXSeparatorItem29: TSpTBXSeparatorItem
@@ -1317,59 +1073,41 @@ object PyIDEMainForm: TPyIDEMainForm
           object TBXSubmenuItem7: TSpTBXSubmenuItem
             Caption = 'Import/Export'
             object mnExportShortcuts: TSpTBXItem
-              Caption = 'Export Shortcuts'
-              Hint = 'Export Shortcuts'
               Action = CommandsDataModule.actExportShortCuts
             end
             object mnImportShortcuts: TSpTBXItem
-              Caption = 'Import Shortcuts'
-              Hint = 'Import Shortcuts'
               Action = CommandsDataModule.actImportShortcuts
             end
             object TBXSeparatorItem30: TSpTBXSeparatorItem
             end
             object mnExportHighlighters: TSpTBXItem
-              Caption = 'Export Highlighters'
-              Hint = 'Export Syntax Highlighters'
               Action = CommandsDataModule.actExportHighlighters
             end
             object mnImportHighlighters: TSpTBXItem
-              Caption = 'Import Highlighters'
-              Hint = 'Import Syntax Highlighters'
               Action = CommandsDataModule.actImportHighlighters
             end
           end
           object TBXSeparatorItem8: TSpTBXSeparatorItem
           end
           object mnCustomizeParameters: TSpTBXItem
-            Caption = 'Custom &Parameters...'
-            Hint = 'Add/Remove custom parameters'
             Action = CommandsDataModule.actCustomizeParameters
           end
           object mnCodeTemplates: TSpTBXItem
-            Caption = '&Code Templates...'
-            Hint = 'Add/Remove code templates'
             Action = CommandsDataModule.actCodeTemplates
           end
           object mnFileTemplates: TSpTBXItem
-            Caption = '&File Templates...'
-            Hint = 'Add/Remove file templates'
             Action = CommandsDataModule.actFileTemplates
           end
         end
         object TBXSeparatorItem15: TSpTBXSeparatorItem
         end
         object mnCheckForUpdates: TSpTBXItem
-          Caption = 'Check For &Updates'
-          Hint = 'Check whether a newer version of PyScripter is available'
           Action = CommandsDataModule.actCheckForUpdates
         end
       end
       object HelpMenu: TSpTBXSubmenuItem
         Caption = '&Help'
         object mnHelpPythonManuals: TSpTBXItem
-          Caption = '&Python Manuals'
-          Hint = 'Show Python Manuals'
           Action = CommandsDataModule.actPythonManuals
         end
         object N18: TSpTBXSeparatorItem
@@ -1377,54 +1115,36 @@ object PyIDEMainForm: TPyIDEMainForm
         object PyScripter1: TSpTBXSubmenuItem
           Caption = 'PyScripter'
           object mnHelpContents: TSpTBXItem
-            Caption = '&Contents'
-            Hint = 'Help Contents'
             Action = CommandsDataModule.actHelpContents
           end
           object mnHelpEditorShortcuts: TSpTBXItem
-            Caption = 'Editor &Shortcuts'
-            Hint = 'Help on editor shortcuts'
             Action = CommandsDataModule.actHelpEditorShortcuts
           end
           object mnHelpExternalTools: TSpTBXItem
-            Caption = 'External &Tools'
-            Hint = 'Help on External Tools'
             Action = CommandsDataModule.actHelpExternalTools
           end
           object mnHelpParameters: TSpTBXItem
-            Caption = '&Parameters'
-            Hint = 'Help on custom parameters'
             Action = CommandsDataModule.actHelpParameters
           end
         end
         object SpTBXSubmenuItem2: TSpTBXSubmenuItem
           Caption = 'Web Support'
           object mnHelpOfficialWebSite: TSpTBXItem
-            Caption = '&Official Web Site'
-            Hint = 'Go to the official web site'
             Action = CommandsDataModule.actHelpOfficialWebSite
           end
           object mnHelpDevelopmentWebSite: TSpTBXItem
-            Caption = '&Development Web Site'
-            Hint = 'Go To the developement web site'
             Action = CommandsDataModule.actHelpDevelopmentWebsite
           end
           object mnHelpProjectHome: TSpTBXItem
-            Caption = '&Project Home'
-            Hint = 'Go to the project home page'
             Action = CommandsDataModule.actHelpWebProjectHome
           end
           object mnHelpWebSupport: TSpTBXItem
-            Caption = '&Group Support'
-            Hint = 'Go to the PyScripter Internet group'
             Action = CommandsDataModule.actHelpWebGroupSupport
           end
         end
         object N17: TSpTBXSeparatorItem
         end
         object mnHelpAbout: TSpTBXItem
-          Caption = 'About...'
-          Hint = 'About|Info about the application'
           Action = CommandsDataModule.actAbout
         end
       end
@@ -1432,173 +1152,121 @@ object PyIDEMainForm: TPyIDEMainForm
     object MainToolBar: TSpTBXToolbar
       Left = 0
       Top = 25
-      Caption = 'Main ToolBar'
       DockPos = -6
       DockRow = 1
-      Images = CommandsDataModule.Images
+      Images = CommandsDataModule.ImageList1
       TabOrder = 1
+      Caption = 'Main ToolBar'
       object tbiFileNewModule: TSpTBXItem
-        Caption = '&New Python module'
-        Hint = 'New Python module'
         Action = actFileNewModule
       end
       object tbiFileOpen: TSpTBXItem
-        Caption = '&Open...'
-        Hint = 'Select a file to open'
         Action = actFileOpen
       end
       object tbiFileSave: TSpTBXItem
-        Caption = '&Save'
-        Hint = 'Save|Save active file'
         Action = CommandsDataModule.actFileSave
       end
       object tbiFileSaveAll: TSpTBXItem
-        Caption = 'Save &All'
-        Hint = 'Save all|Save project and all open files'
         Action = CommandsDataModule.actFileSaveAll
       end
       object TBXSeparatorItem1: TSpTBXSeparatorItem
       end
       object tbiFilePrint: TSpTBXItem
-        Caption = '&Print...'
-        Hint = 'Print|Print active file'
         Action = CommandsDataModule.actFilePrint
       end
       object TBXSeparatorItem2: TSpTBXSeparatorItem
       end
       object tbiEditCut: TSpTBXItem
-        Caption = 'Cu&t'
-        Hint = 'Cut|Cuts the selection and puts it on the Clipboard'
         Action = CommandsDataModule.actEditCut
       end
       object tbiEditCopy: TSpTBXItem
-        Caption = '&Copy'
-        Hint = 'Copy|Copies the selection and puts it on the Clipboard'
         Action = CommandsDataModule.actEditCopy
       end
       object tbiEditPaste: TSpTBXItem
-        Caption = '&Paste'
-        Hint = 'Paste|Inserts Clipboard contents'
         Action = CommandsDataModule.actEditPaste
       end
       object TBXSeparatorItem3: TSpTBXSeparatorItem
       end
       object tbiEditUndo: TSpTBXItem
-        Caption = '&Undo'
-        Hint = 'Undo|Reverts the last action'
         Action = CommandsDataModule.actEditUndo
       end
       object tbiEditRedo: TSpTBXItem
-        Caption = '&Redo'
-        Hint = 'Redo| Redo last action'
         Action = CommandsDataModule.actEditRedo
       end
       object TBXSeparatorItem4: TSpTBXSeparatorItem
       end
       object tbiSearchFind: TSpTBXItem
-        Caption = '&Find...'
-        Hint = 'Search|Search for a string'
         Action = CommandsDataModule.actSearchFind
       end
       object tbiSearchFindNext: TSpTBXItem
-        Caption = 'Find &Next'
-        Hint = 'Find next|Find next match'
         Action = CommandsDataModule.actSearchFindNext
       end
       object tbiSearchReplace: TSpTBXItem
-        Caption = '&Replace...'
-        Hint = 'Replace|Search  & Replace'
         Action = CommandsDataModule.actSearchReplace
       end
       object tbiFindInFiles: TSpTBXItem
-        Caption = '&Find in Files...'
-        Hint = 'Search in Files|Search for a string in Files'
         Action = CommandsDataModule.actFindInFiles
       end
       object mnuFindInFilesResults: TSpTBXItem
-        Caption = '&Find in Files Results'
-        Hint = 'View/Hide Find in Files Results'
         Action = actViewFindResults
       end
       object TBXSeparatorItem5: TSpTBXSeparatorItem
       end
       object tbiAbout: TSpTBXItem
-        Caption = 'About...'
-        Hint = 'About|Info about the application'
         Action = CommandsDataModule.actAbout
       end
     end
     object DebugToolbar: TSpTBXToolbar
       Left = 361
       Top = 25
-      Caption = 'Debug Toolbar'
       DockPos = 361
       DockRow = 1
-      Images = CommandsDataModule.Images
+      Images = CommandsDataModule.ImageList1
       TabOrder = 2
+      Caption = 'Debug Toolbar'
       object tbiRunRun: TSpTBXItem
-        Caption = '&Run'
-        Hint = 'Run|Run active module'
         Action = actRun
       end
       object TBXSeparatorItem6: TSpTBXSeparatorItem
       end
       object tbiRunDebug: TSpTBXItem
-        Caption = '&Debug'
-        Hint = 'Debug|Debug active script'
         Action = actDebug
       end
       object tbiRunRunToCursor: TSpTBXItem
-        Caption = 'Run To &Cursor'
-        Hint = 'Run to cursor'
         Action = actRunToCursor
       end
       object tbiRunStepInto: TSpTBXItem
-        Caption = 'Step &Into'
-        Hint = 'Step into subroutine '
         Action = actStepInto
       end
       object tbiRunStepOver: TSpTBXItem
-        Caption = 'Step &Over'
-        Hint = 'Step over next function call'
         Action = actStepOver
       end
       object tbiRunStepOut: TSpTBXItem
-        Caption = 'Step O&ut'
-        Hint = 'Step out of the current subroutine'
         Action = actStepOut
       end
       object tbiRunPause: TSpTBXItem
-        Caption = '&Pause'
-        Hint = 'Pause running program'
         Action = actDebugPause
       end
       object tbiRunAbort: TSpTBXItem
-        Caption = '&Abort Debugging'
-        Hint = 'Abort debugging'
         Action = actDebugAbort
       end
       object TBXSeparatorItem7: TSpTBXSeparatorItem
       end
       object tbiRunToggleBreakpoint: TSpTBXItem
-        Caption = 'Toggle &breakpoint'
-        Hint = 'Toggle breakpoint'
         Action = actToggleBreakPoint
       end
       object tbiRunClearAllBreakpoints: TSpTBXItem
-        Caption = '&Clear All Breakpoints'
-        Hint = 'Clear all breakpoints'
         Action = actClearAllBreakpoints
       end
     end
     object ViewToolbar: TSpTBXToolbar
       Left = 727
       Top = 25
-      Caption = 'View Toolbar'
       DockPos = 728
       DockRow = 1
       Images = CommandsDataModule.Images
       TabOrder = 3
+      Caption = 'View Toolbar'
       object tbiViewThemes: TSpTBXSubmenuItem
         Caption = 'Themes'
         ImageIndex = 107
@@ -1616,78 +1284,59 @@ object PyIDEMainForm: TPyIDEMainForm
     object EditorToolbar: TSpTBXToolbar
       Left = 574
       Top = 25
-      Caption = 'Editor Toolbar'
       DockPos = 574
       DockRow = 1
-      Images = CommandsDataModule.Images
+      Images = CommandsDataModule.ImageList1
       TabOrder = 4
+      Caption = 'Editor Toolbar'
       object tbiBrowsePrevious: TSpTBXSubmenuItem
-        Caption = 'Browse &Back'
-        Hint = 'Browse back'
-        HelpContext = 830
-        ImageIndex = 96
+        Action = actBrowseBack
         Options = [tboDropdownArrow]
-        ShortCut = 32805
-        OnClick = tbiBrowsePreviousClick
         DropdownCombo = True
-        object PreviousList: TTBXStringList
+        object mnPreviousList: TSpTBXMRUListItem
+          HidePathExtension = False
+          MaxItems = 15
           OnClick = PreviousListClick
         end
       end
       object tbiBrowseNext: TSpTBXSubmenuItem
-        Caption = 'Browse &Forward'
-        Hint = 'Browse forward'
-        HelpContext = 830
-        ImageIndex = 97
+        Action = actBrowseForward
         Options = [tboDropdownArrow]
-        ShortCut = 32807
-        OnClick = tbiBrowseNextClick
         DropdownCombo = True
-        object NextList: TTBXStringList
+        object mnNextList: TSpTBXMRUListItem
+          HidePathExtension = False
+          MaxItems = 15
           OnClick = NextListClick
         end
       end
       object TBXSeparatorItem14: TSpTBXSeparatorItem
       end
       object tbiEditDedent: TSpTBXItem
-        Caption = '&Dedent Block'
-        Hint = 'Dedent|Dedent selected block of code'
         Action = CommandsDataModule.actEditDedent
       end
       object tbiEditIndent: TSpTBXItem
-        Caption = '&Indent Block'
-        Hint = 'Indent block|Indent selected block of code'
         Action = CommandsDataModule.actEditIndent
       end
       object TBXSeparatorItem10: TSpTBXSeparatorItem
       end
       object tbiEditToggleComment: TSpTBXItem
-        Caption = 'Toggle &Comment'
-        Hint = 'Toggle Comment| Comment/Uncomment block of code'
         Action = CommandsDataModule.actEditToggleComment
       end
       object TBXSeparatorItem11: TSpTBXSeparatorItem
       end
       object tbiEditLineNumbers: TSpTBXItem
-        Caption = 'Line &Numbers'
-        Hint = 'Show/Hide line numbers'
         Action = CommandsDataModule.actEditLineNumbers
       end
       object tbiEditWordWrap: TSpTBXItem
-        Caption = 'Word &Wrap'
-        Hint = 'Turn word wrap on/off'
         Action = CommandsDataModule.actEditWordWrap
       end
       object tbiEditSpecialCharacters: TSpTBXItem
-        Caption = 'Special &Characters'
-        Hint = 'Show/Hide special characters'
         Action = CommandsDataModule.actEditShowSpecialChars
       end
     end
     object FindToolbar: TSpTBXToolbar
       Left = 1
       Top = 51
-      Caption = 'Find Toolbar'
       CloseButtonWhenDocked = True
       DockPos = 1
       DockRow = 2
@@ -1696,31 +1345,21 @@ object PyIDEMainForm: TPyIDEMainForm
       TabOrder = 5
       Visible = False
       OnVisibleChanged = FindToolbarVisibleChanged
+      Caption = 'Find Toolbar'
       Customizable = False
       object tbiFindLabel: TSpTBXLabelItem
         Caption = 'Find:'
       end
-      object tbiSearchText: TSpTBXComboBoxItem
-        Caption = 'Find Text'
-        EditWidth = 150
-        OnAcceptText = tbiSearchTextAcceptText
-        OnBeginEdit = tbiSearchReplaceTextBeginEdit
-        ExtendedAccept = True
-        OnChange = tbiSearchTextChange
+      object TBControlItem2: TTBControlItem
+        Control = tbiSearchText
       end
       object tbiFindNext: TSpTBXItem
-        Caption = 'Find &Next'
-        Hint = 'Find next|Find next match'
         Action = CommandsDataModule.actSearchFindNext
       end
       object tbiFindPrevious: TSpTBXItem
-        Caption = 'Find &Previous'
-        Hint = 'Find previous|Find Previous match'
         Action = CommandsDataModule.actSearchFindPrev
       end
       object tbiHighlight: TSpTBXItem
-        Caption = '&Highlight Search Text'
-        Hint = 'Highlight the search text in the current editor'
         Action = CommandsDataModule.actSearchHighlight
         RadioItem = True
       end
@@ -1731,18 +1370,10 @@ object PyIDEMainForm: TPyIDEMainForm
         Caption = 'Replace with:'
         Visible = False
       end
-      object tbiReplaceText: TSpTBXComboBoxItem
-        Caption = 'Replace Text'
-        EditWidth = 150
-        Visible = False
-        OnAcceptText = tbiReplaceTextAcceptText
-        OnBeginEdit = tbiSearchReplaceTextBeginEdit
-        ExtendedAccept = True
-        OnChange = tbiReplaceTextChange
+      object TBControlItem4: TTBControlItem
+        Control = tbiReplaceText
       end
       object tbiReplaceExecute: TSpTBXItem
-        Caption = 'Replace'
-        Hint = 'Replace with existing  settings'
         Action = CommandsDataModule.actSearchReplaceNow
       end
       object TBXSeparatorItem32: TSpTBXSeparatorItem
@@ -1786,32 +1417,53 @@ object PyIDEMainForm: TPyIDEMainForm
           OnClick = SearchOptionsChanged
         end
       end
+      object tbiSearchText: TSpTBXComboBox
+        Left = 36
+        Top = 0
+        Width = 145
+        Height = 21
+        ItemHeight = 13
+        TabOrder = 0
+        OnKeyDown = tbiSearchTextKeyDown
+        OnKeyPress = tbiSearchTextKeyPress
+        AutoDropDownWidth = True
+      end
+      object tbiReplaceText: TSpTBXComboBox
+        Left = 250
+        Top = 0
+        Width = 145
+        Height = 21
+        ItemHeight = 13
+        TabOrder = 1
+        OnKeyDown = tbiReplaceTextKeyDown
+        AutoDropDownWidth = True
+      end
     end
     object UserToolbar: TSpTBXToolbar
-      Left = 334
+      Left = 466
       Top = 51
-      Caption = 'User Toolbar'
       DockPos = 310
       DockRow = 2
       Images = CommandsDataModule.Images
       TabOrder = 6
       Visible = False
+      Caption = 'User Toolbar'
     end
   end
   object TBXDockLeft: TSpTBXDock
     Left = 0
-    Top = 78
+    Top = 77
     Width = 9
-    Height = 426
+    Height = 427
     FixAlign = True
     PopupMenu = ToolbarPopupMenu
     Position = dpLeft
   end
   object TBXDockRight: TSpTBXDock
     Left = 771
-    Top = 78
+    Top = 77
     Width = 9
-    Height = 426
+    Height = 427
     FixAlign = True
     PopupMenu = ToolbarPopupMenu
     Position = dpRight
@@ -1907,7 +1559,7 @@ object PyIDEMainForm: TPyIDEMainForm
     BottomSplitterStyle.ParentColor = False
     BottomSplitterStyle.ResizeStyle = rsUpdate
     BottomSplitterStyle.Size = 4
-    DockStyle = JvDockVSNetStyleTBX
+    DockStyle = JvDockVSNetStyleSpTBX
     Left = 37
     Top = 134
   end
@@ -1930,105 +1582,33 @@ object PyIDEMainForm: TPyIDEMainForm
     Left = 39
     Top = 211
   end
-  object TBXSwitcher: TTBXSwitcher
-    Theme = 'Default'
-    FlatMenuStyle = fmsDisable
-    Left = 70
-    Top = 211
-  end
-  object JvmbTBXTabBarPainter: TJvmbTBXTabBarPainter
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -11
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    DisabledFont.Charset = DEFAULT_CHARSET
-    DisabledFont.Color = clGrayText
-    DisabledFont.Height = -11
-    DisabledFont.Name = 'Tahoma'
-    DisabledFont.Style = []
-    SelectedFont.Charset = DEFAULT_CHARSET
-    SelectedFont.Color = clWindowText
-    SelectedFont.Height = -11
-    SelectedFont.Name = 'Tahoma'
-    SelectedFont.Style = []
-    Left = 11
-    Top = 464
-  end
-  object JvDockVSNetStyleTBX: TJvDockVSNetStyleTBX
-    AlwaysShowGrabber = False
-    ConjoinServerOption.GrabbersSize = 22
-    ConjoinServerOption.ActiveFont.Charset = DEFAULT_CHARSET
-    ConjoinServerOption.ActiveFont.Color = clWhite
-    ConjoinServerOption.ActiveFont.Height = -13
-    ConjoinServerOption.ActiveFont.Name = 'Trebuchet MS'
-    ConjoinServerOption.ActiveFont.Style = []
-    ConjoinServerOption.InactiveFont.Charset = DEFAULT_CHARSET
-    ConjoinServerOption.InactiveFont.Color = clBlack
-    ConjoinServerOption.InactiveFont.Height = -13
-    ConjoinServerOption.InactiveFont.Name = 'Trebuchet MS'
-    ConjoinServerOption.InactiveFont.Style = []
-    ConjoinServerOption.ActiveTitleStartColor = 14898176
-    ConjoinServerOption.ActiveTitleEndColor = 14898176
-    ConjoinServerOption.InactiveTitleStartColor = clBtnFace
-    ConjoinServerOption.InactiveTitleEndColor = clBtnFace
-    ConjoinServerOption.SystemInfo = False
-    TabServerOption.HotTrack = True
-    TabServerOption.ActiveFont.Charset = DEFAULT_CHARSET
-    TabServerOption.ActiveFont.Color = clWindowText
-    TabServerOption.ActiveFont.Height = -11
-    TabServerOption.ActiveFont.Name = 'MS Shell Dlg 2'
-    TabServerOption.ActiveFont.Style = []
-    TabServerOption.InactiveFont.Charset = DEFAULT_CHARSET
-    TabServerOption.InactiveFont.Color = 5395794
-    TabServerOption.InactiveFont.Height = -11
-    TabServerOption.InactiveFont.Name = 'MS Shell Dlg 2'
-    TabServerOption.InactiveFont.Style = []
-    TabServerOption.ShowCloseButtonOnTabs = False
-    Left = 68
-    Top = 134
-  end
   object TabBarPopupMenu: TSpTBXPopupMenu
     Images = CommandsDataModule.Images
     Left = 100
     Top = 98
     object mnNewModule2: TSpTBXItem
-      Caption = '&New Python module'
-      Hint = 'New Python module'
       Action = actFileNewModule
     end
     object mnFileClose2: TSpTBXItem
-      Caption = '&Close'
-      Hint = 'Close|Close active file'
       Action = CommandsDataModule.actFileClose
     end
     object mnFileCloseAll2: TSpTBXItem
-      Caption = 'Close A&ll'
-      Hint = 'Close all files'
       Action = actFileCloseAll
     end
     object mnFileCloseAllOther: TSpTBXItem
-      Caption = 'Close All &Other'
-      Hint = 'Close all files except the active one'
       Action = CommandsDataModule.actFileCloseAllOther
     end
     object TBXSeparatorItem28: TSpTBXSeparatorItem
     end
     object mnMaximizeEditor2: TSpTBXItem
-      Caption = '&Maximize Editor'
-      Hint = 'Maximize editor window'
       Action = actMaximizeEditor
     end
     object mnRestoreEditor2: TSpTBXItem
-      Caption = '&Restore Editor'
-      Hint = 'Restore editor window'
       Action = actRestoreEditor
     end
     object N12: TSpTBXSeparatorItem
     end
     object mnEditorOptions2: TSpTBXItem
-      Caption = '&Editor Options...'
-      Hint = 'Set Editor Options'
       Action = CommandsDataModule.actEditorOptions
     end
     object TBXSeparatorItem22: TSpTBXSeparatorItem
@@ -2038,14 +1618,6 @@ object PyIDEMainForm: TPyIDEMainForm
       Hint = 'Open Files'
       OnClick = mnFilesClick
     end
-  end
-  object TBXMRUList: TTBXMRUList
-    HidePathExtension = False
-    MaxItems = 6
-    OnClick = TBXMRUListClick
-    Prefix = 'MRU'
-    Left = 39
-    Top = 173
   end
   object RunningProcessesPopUpMenu: TSpTBXPopupMenu
     LinkSubitems = OutputWindow.RunningProcess
@@ -2801,5 +2373,21 @@ object PyIDEMainForm: TPyIDEMainForm
       ShortCut = 49232
       OnExecute = actNavProjectExplorerExecute
     end
+  end
+  object JvDockVSNetStyleSpTBX: TJvDockVSNetStyleSpTBX
+    AlwaysShowGrabber = False
+    TabServerOption.ActiveFont.Charset = DEFAULT_CHARSET
+    TabServerOption.ActiveFont.Color = clWindowText
+    TabServerOption.ActiveFont.Height = -11
+    TabServerOption.ActiveFont.Name = 'Tahoma'
+    TabServerOption.ActiveFont.Style = []
+    TabServerOption.InactiveFont.Charset = DEFAULT_CHARSET
+    TabServerOption.InactiveFont.Color = 5395794
+    TabServerOption.InactiveFont.Height = -11
+    TabServerOption.InactiveFont.Name = 'Tahoma'
+    TabServerOption.InactiveFont.Style = []
+    TabServerOption.ShowCloseButtonOnTabs = False
+    Left = 68
+    Top = 134
   end
 end

@@ -12,7 +12,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ComCtrls, JvDockControlForm, JvComponent, cPyBaseDebugger, frmIDEDockWin,
-  Contnrs, ExtCtrls, TBX, TBXThemes, VirtualTrees, JvComponentBase,
+  Contnrs, ExtCtrls, VirtualTrees, JvComponentBase,  SpTBXSkins,
   JvAppStorage;
 
 type
@@ -36,7 +36,7 @@ type
   protected
     procedure ReadFromAppStorage(AppStorage: TJvCustomAppStorage; const BasePath: string);
     procedure WriteToAppStorage(AppStorage: TJvCustomAppStorage; const BasePath: string);
-    procedure TBMThemeChange(var Message: TMessage); message TBM_THEMECHANGE;
+    procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
   public
     { Public declarations }
     procedure ClearAll;
@@ -137,14 +137,15 @@ begin
         PyIDEMainForm.ShowFilePosition(FileName, Line, 1);
 end;
 
-procedure TCallStackWindow.TBMThemeChange(var Message: TMessage);
+procedure TCallStackWindow.WMSpSkinChange(var Message: TMessage);
 begin
   inherited;
-  if Message.WParam = TSC_VIEWCHANGE then begin
-    CallStackView.Header.Invalidate(nil, True);
-    CallStackView.Colors.HeaderHotColor :=
-      CurrentTheme.GetItemTextColor(GetItemInfo('active'));
-  end;
+  CallStackView.Header.Invalidate(nil, True);
+  CallStackView.Invalidate;
+  if SkinManager.IsDefaultSkin then
+    CallStackView.TreeOptions.PaintOptions := CallStackView.TreeOptions.PaintOptions - [toAlwaysHideSelection]
+  else
+    CallStackView.TreeOptions.PaintOptions := CallStackView.TreeOptions.PaintOptions + [toAlwaysHideSelection];
 end;
 
 procedure TCallStackWindow.FormActivate(Sender: TObject);
@@ -164,6 +165,10 @@ begin
     CommandsDataModule.VirtualStringTreeAdvancedHeaderDraw;
   CallStackView.OnHeaderDrawQueryElements :=
     CommandsDataModule.VirtualStringTreeDrawQueryElements;
+  CallStackView.OnBeforeCellPaint :=
+    CommandsDataModule.VirtualStringTreeBeforeCellPaint;
+  CallStackView.OnPaintText :=
+    CommandsDataModule.VirtualStringTreePaintText;
 end;
 
 procedure TCallStackWindow.FormDestroy(Sender: TObject);

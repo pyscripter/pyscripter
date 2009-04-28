@@ -23,9 +23,9 @@ uses
   Dialogs , Menus, PythonEngine, SyncObjs, SynHighlighterPython,
   SynEditHighlighter, SynEdit,
   SynEditKeyCmds, SynCompletionProposal, JvComponent, JvDockControlForm,
-  frmIDEDockWin, ExtCtrls, TBX, TBXThemes, PythonGUIInputOutput, JvComponentBase,
+  frmIDEDockWin, ExtCtrls, PythonGUIInputOutput, JvComponentBase,
   WideStrings, TB2Item, ActnList, cPyBaseDebugger, WrapDelphi, WrapDelphiClasses,
-  SpTBXItem, TntActnList;
+  SpTBXItem, TntActnList, SpTBXSkins;
 
 const
   WM_APPENDTEXT = WM_USER + 1020;
@@ -134,7 +134,7 @@ type
   protected
     procedure PythonIOSendData(Sender: TObject; const Data: WideString);
     procedure PythonIOReceiveData(Sender: TObject; var Data: WideString);
-    procedure TBMThemeChange(var Message: TMessage); message TBM_THEMECHANGE;
+    procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
     procedure WMAPPENDTEXT(var Message: TMessage); message WM_APPENDTEXT;
     procedure WMREINITINTERPRETER(var Message: TMessage); message WM_REINITINTERPRETER;
   public
@@ -1490,14 +1490,12 @@ begin
     SynEdit.SetFocus;
 end;
 
-procedure TPythonIIForm.TBMThemeChange(var Message: TMessage);
+procedure TPythonIIForm.WMSpSkinChange(var Message: TMessage);
 begin
   inherited;
-  if Message.WParam = TSC_VIEWCHANGE then begin
-    // Update the gutter of the PythonII editor
-    PyIDEMainForm.ThemeEditorGutter(SynEdit.Gutter);
-    SynEdit.InvalidateGutter;
-  end;
+  // Update the gutter of the PythonII editor
+  PyIDEMainForm.ThemeEditorGutter(SynEdit.Gutter);
+  SynEdit.InvalidateGutter;
 end;
 
 procedure TPythonIIForm.WMAPPENDTEXT(var Message: TMessage);
@@ -1733,6 +1731,8 @@ end;
 
 
 end.
+
+
 
 
 

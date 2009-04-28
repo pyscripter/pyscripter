@@ -49,8 +49,6 @@ inherited VariablesWindow: TVariablesWindow
   inherited FGPanel: TPanel
     Width = 573
     Height = 241
-    ExplicitLeft = 3
-    ExplicitTop = 3
     ExplicitWidth = 573
     ExplicitHeight = 241
     object VariablesTree: TVirtualStringTree
@@ -79,7 +77,7 @@ inherited VariablesWindow: TVariablesWindow
       TabOrder = 0
       TreeOptions.AnimationOptions = [toAnimatedToggle]
       TreeOptions.MiscOptions = [toFullRepaintOnResize, toInitOnSave, toToggleOnDblClick, toWheelPanning]
-      TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowDropmark, toShowRoot, toShowTreeLines, toShowVertGridLines, toUseBlendedImages, toUseBlendedSelection]
+      TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowDropmark, toShowRoot, toShowTreeLines, toShowVertGridLines, toThemeAware, toUseBlendedImages, toUseBlendedSelection]
       TreeOptions.StringOptions = [toAutoAcceptEditChange]
       OnChange = VariablesTreeChange
       OnGetText = VariablesTreeGetText
@@ -103,7 +101,7 @@ inherited VariablesWindow: TVariablesWindow
           WideText = 'Value'
         end>
     end
-    object DocPanel: TTBXPageScroller
+    object DocPanel: TSpTBXPageScroller
       Left = 198
       Top = 0
       Width = 375

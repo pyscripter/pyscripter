@@ -4,8 +4,8 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, SynEdit, StdCtrls, ExtCtrls, Buttons, TB2Item, TBX, TBXExtItems,
-  Menus, TBXDkPanels, SpTBXControls, SpTBXItem, dlgPyIDEBase;
+  Dialogs, SynEdit, StdCtrls, ExtCtrls, Buttons, TB2Item, 
+  Menus, SpTBXDkPanels, SpTBXControls, SpTBXItem, dlgPyIDEBase, SpTBXMDIMRU;
 
 type
   TCommandLineDlg = class(TPyIDEDlgBase)
@@ -16,27 +16,26 @@ type
     HelpButton: TSpTBXButton;
     TBXButton1: TSpTBXButton;
     TBXPopupHistory: TSpTBXPopupMenu;
-    PopupHistoryItem: TTBXMRUListItem;
     EmptyHistoryPopupItem: TSpTBXItem;
     cbUseCommandLine: TSpTBXCheckBox;
     Label1: TSpTBXLabel;
     Label3: TSpTBXLabel;
+    mnCommandHistoryMRU: TSpTBXMRUListItem;
     procedure btnHelpClick(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure SynParametersEnter(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure OKButtonClick(Sender: TObject);
     procedure TBXPopupHistoryPopup(Sender: TObject);
-  private
-    { Private declarations }
-    procedure CommandLineMRUClick(Sender: TObject;  const Filename: string);
+    procedure mnCommandHistoryMRUClick(Sender: TObject;
+      const Filename: WideString);
   public
     { Public declarations }
   end;
 
 implementation
 
-uses dmCommands;
+uses dmCommands, uCommonFunctions;
 
 {$R *.dfm}
 
@@ -48,39 +47,39 @@ end;
 
 procedure TCommandLineDlg.TBXPopupHistoryPopup(Sender: TObject);
 begin
-  if PopupHistoryItem.MRUList.Items.Count > 0 then
+  if mnCommandHistoryMRU.Count > 0 then
     EmptyHistoryPopupItem.Visible := False;
 end;
 
 procedure TCommandLineDlg.FormCreate(Sender: TObject);
 begin
   inherited;
-  PopupHistoryItem.MRUList.OnClick := CommandLineMRUClick;
+  WideStringsToMRU(mnCommandHistoryMRU, CommandsDataModule.CommandLineMRU);
 end;
 
 procedure TCommandLineDlg.FormDestroy(Sender: TObject);
 begin
   CommandsDataModule.ParameterCompletion.Editor := nil;
   CommandsDataModule.ModifierCompletion.Editor := nil;
-  PopupHistoryItem.MRUList.OnClick := nil;
+  MRUToWideStrings(mnCommandHistoryMRU, CommandsDataModule.CommandLineMRU);
+end;
+
+procedure TCommandLineDlg.mnCommandHistoryMRUClick(Sender: TObject;
+  const Filename: WideString);
+begin
+  SynParameters.Text := Filename;
+  SynParameters.SetFocus;
 end;
 
 procedure TCommandLineDlg.OKButtonClick(Sender: TObject);
 begin
   if (SynParameters.Text <> '') and cbUseCommandLine.Checked then
-    CommandsDataModule.CommandLineMRU.Add(SynParameters.Text);
+    mnCommandHistoryMRU.MRUAdd(SynParameters.Text);
 end;
 
 procedure TCommandLineDlg.btnHelpClick(Sender: TObject);
 begin
   Application.HelpContext(HelpContext);
-end;
-
-procedure TCommandLineDlg.CommandLineMRUClick(Sender: TObject;
-  const Filename: string);
-begin
-  SynParameters.Text := Filename;
-  SynParameters.SetFocus;
 end;
 
 end.

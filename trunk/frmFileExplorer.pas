@@ -14,8 +14,9 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ComCtrls, ExtCtrls, JvComponent, JvDockControlForm, VirtualTrees,
   MPShellUtilities, VirtualExplorerTree, Menus, frmIDEDockWin,
-  ActnList, VirtualShellHistory,  TBX, TB2Item, TB2Dock,
-  TB2Toolbar, JvComponentBase, VirtualShellNotifier, SpTBXItem, TntActnList;
+  ActnList, VirtualShellHistory,  TB2Item, TB2Dock,
+  TB2Toolbar, JvComponentBase, VirtualShellNotifier, SpTBXItem, TntActnList,
+  SpTBXSkins;
                                                       
 const
   WM_EXPLOREHERE = WM_USER + 1000;
@@ -124,6 +125,7 @@ type
     procedure WMExploreHere(var Message: TMessage); message WM_EXPLOREHERE;
     function GetExplorerPath: string;
     procedure SetExplorerPath(const Value: string);
+    procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
   public
     { Public declarations }
     procedure UpdateWindow;
@@ -254,6 +256,15 @@ begin
     FileExplorerTree.RootFolderCustomPIDL := PIDL;
     //VirtualShellHistory.Clear;
   end;
+end;
+
+procedure TFileExplorerWindow.WMSpSkinChange(var Message: TMessage);
+begin
+  FileExplorerTree.Invalidate;
+  if SkinManager.IsDefaultSkin then
+    FileExplorerTree.TreeOptions.PaintOptions := FileExplorerTree.TreeOptions.PaintOptions - [toAlwaysHideSelection]
+  else
+    FileExplorerTree.TreeOptions.PaintOptions := FileExplorerTree.TreeOptions.PaintOptions + [toAlwaysHideSelection];
 end;
 
 function TFileExplorerWindow.GetExplorerPath: string;
@@ -389,6 +400,10 @@ begin
   fFavorites := TStringList.Create;
   fFavorites.Duplicates := dupIgnore;
   fFavorites.Sorted := True;
+  FileExplorerTree.OnBeforeCellPaint :=
+    CommandsDataModule.VirtualStringTreeBeforeCellPaint;
+  FileExplorerTree.OnPaintText :=
+    CommandsDataModule.VirtualStringTreePaintText;
 end;
 
 procedure TFileExplorerWindow.FormDestroy(Sender: TObject);

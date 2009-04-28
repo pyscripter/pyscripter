@@ -25,11 +25,6 @@ inherited ConfirmReplaceDialog: TConfirmReplaceDialog
     Caption = '&Yes'
     TabOrder = 0
     Default = True
-    LinkFont.Charset = DEFAULT_CHARSET
-    LinkFont.Color = clBlue
-    LinkFont.Height = -11
-    LinkFont.Name = 'MS Shell Dlg 2'
-    LinkFont.Style = [fsUnderline]
     ModalResult = 6
   end
   object btnSkip: TSpTBXButton
@@ -39,11 +34,6 @@ inherited ConfirmReplaceDialog: TConfirmReplaceDialog
     Height = 23
     Caption = '&No'
     TabOrder = 1
-    LinkFont.Charset = DEFAULT_CHARSET
-    LinkFont.Color = clBlue
-    LinkFont.Height = -11
-    LinkFont.Name = 'MS Shell Dlg 2'
-    LinkFont.Style = [fsUnderline]
     ModalResult = 7
   end
   object btnCancel: TSpTBXButton
@@ -54,11 +44,6 @@ inherited ConfirmReplaceDialog: TConfirmReplaceDialog
     Caption = '&Cancel'
     TabOrder = 2
     Cancel = True
-    LinkFont.Charset = DEFAULT_CHARSET
-    LinkFont.Color = clBlue
-    LinkFont.Height = -11
-    LinkFont.Name = 'MS Shell Dlg 2'
-    LinkFont.Style = [fsUnderline]
     ModalResult = 2
   end
   object btnReplaceAll: TSpTBXButton
@@ -68,11 +53,6 @@ inherited ConfirmReplaceDialog: TConfirmReplaceDialog
     Height = 23
     Caption = 'Yes to &all'
     TabOrder = 3
-    LinkFont.Charset = DEFAULT_CHARSET
-    LinkFont.Color = clBlue
-    LinkFont.Height = -11
-    LinkFont.Name = 'MS Shell Dlg 2'
-    LinkFont.Style = [fsUnderline]
     ModalResult = 10
   end
   object lblConfirmation: TSpTBXLabel
@@ -83,10 +63,5 @@ inherited ConfirmReplaceDialog: TConfirmReplaceDialog
     AutoSize = False
     ParentColor = True
     Wrapping = twWrap
-    LinkFont.Charset = DEFAULT_CHARSET
-    LinkFont.Color = clBlue
-    LinkFont.Height = -11
-    LinkFont.Name = 'MS Shell Dlg 2'
-    LinkFont.Style = [fsUnderline]
   end
 end

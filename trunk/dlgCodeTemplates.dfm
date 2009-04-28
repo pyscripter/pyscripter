@@ -21,7 +21,7 @@ inherited CodeTemplates: TCodeTemplates
     Top = 0
     Width = 430
     Height = 423
-    ThemeType = thtWindows
+    SkinType = sknSkin
     Align = alClient
     TabOrder = 0
     DesignSize = (
@@ -36,11 +36,6 @@ inherited CodeTemplates: TCodeTemplates
       TabOrder = 4
       Images = CommandsDataModule.Images
       ImageIndex = 49
-      LinkFont.Charset = DEFAULT_CHARSET
-      LinkFont.Color = clBlue
-      LinkFont.Height = -11
-      LinkFont.Name = 'MS Shell Dlg 2'
-      LinkFont.Style = [fsUnderline]
     end
     object btnDelete: TSpTBXButton
       Left = 89
@@ -51,11 +46,6 @@ inherited CodeTemplates: TCodeTemplates
       TabOrder = 5
       Images = CommandsDataModule.Images
       ImageIndex = 14
-      LinkFont.Charset = DEFAULT_CHARSET
-      LinkFont.Color = clBlue
-      LinkFont.Height = -11
-      LinkFont.Name = 'MS Shell Dlg 2'
-      LinkFont.Style = [fsUnderline]
     end
     object btnMoveup: TSpTBXButton
       Left = 173
@@ -66,11 +56,6 @@ inherited CodeTemplates: TCodeTemplates
       TabOrder = 6
       Images = CommandsDataModule.Images
       ImageIndex = 47
-      LinkFont.Charset = DEFAULT_CHARSET
-      LinkFont.Color = clBlue
-      LinkFont.Height = -11
-      LinkFont.Name = 'MS Shell Dlg 2'
-      LinkFont.Style = [fsUnderline]
     end
     object btnMoveDown: TSpTBXButton
       Left = 257
@@ -81,11 +66,6 @@ inherited CodeTemplates: TCodeTemplates
       TabOrder = 7
       Images = CommandsDataModule.Images
       ImageIndex = 48
-      LinkFont.Charset = DEFAULT_CHARSET
-      LinkFont.Color = clBlue
-      LinkFont.Height = -11
-      LinkFont.Name = 'MS Shell Dlg 2'
-      LinkFont.Style = [fsUnderline]
     end
     object btnUpdate: TSpTBXButton
       Left = 341
@@ -96,11 +76,6 @@ inherited CodeTemplates: TCodeTemplates
       TabOrder = 8
       Images = CommandsDataModule.Images
       ImageIndex = 39
-      LinkFont.Charset = DEFAULT_CHARSET
-      LinkFont.Color = clBlue
-      LinkFont.Height = -11
-      LinkFont.Name = 'MS Shell Dlg 2'
-      LinkFont.Style = [fsUnderline]
     end
     object btnCancel: TSpTBXButton
       Left = 263
@@ -111,11 +86,6 @@ inherited CodeTemplates: TCodeTemplates
       Anchors = [akRight, akBottom]
       TabOrder = 1
       Cancel = True
-      LinkFont.Charset = DEFAULT_CHARSET
-      LinkFont.Color = clBlue
-      LinkFont.Height = -11
-      LinkFont.Name = 'MS Shell Dlg 2'
-      LinkFont.Style = [fsUnderline]
       ModalResult = 2
     end
     object btnOK: TSpTBXButton
@@ -127,11 +97,6 @@ inherited CodeTemplates: TCodeTemplates
       Anchors = [akRight, akBottom]
       TabOrder = 2
       Default = True
-      LinkFont.Charset = DEFAULT_CHARSET
-      LinkFont.Color = clBlue
-      LinkFont.Height = -11
-      LinkFont.Name = 'MS Shell Dlg 2'
-      LinkFont.Style = [fsUnderline]
       ModalResult = 1
     end
     object btnHelp: TSpTBXButton
@@ -143,11 +108,6 @@ inherited CodeTemplates: TCodeTemplates
       Anchors = [akRight, akBottom]
       TabOrder = 9
       OnClick = btnHelpClick
-      LinkFont.Charset = DEFAULT_CHARSET
-      LinkFont.Color = clBlue
-      LinkFont.Height = -11
-      LinkFont.Name = 'MS Shell Dlg 2'
-      LinkFont.Style = [fsUnderline]
     end
     object GroupBox: TSpTBXGroupBox
       Left = 10
@@ -155,7 +115,7 @@ inherited CodeTemplates: TCodeTemplates
       Width = 415
       Height = 235
       Caption = 'Code Template:'
-      ThemeType = thtWindows
+      SkinType = sknSkin
       Anchors = [akLeft, akTop, akRight]
       TabOrder = 3
       DesignSize = (
@@ -190,11 +150,6 @@ inherited CodeTemplates: TCodeTemplates
         Height = 13
         Caption = '&Name:'
         ParentColor = True
-        LinkFont.Charset = DEFAULT_CHARSET
-        LinkFont.Color = clBlue
-        LinkFont.Height = -11
-        LinkFont.Name = 'MS Shell Dlg 2'
-        LinkFont.Style = [fsUnderline]
       end
       object Label2: TSpTBXLabel
         Left = 7
@@ -203,11 +158,6 @@ inherited CodeTemplates: TCodeTemplates
         Height = 13
         Caption = '&Template:'
         ParentColor = True
-        LinkFont.Charset = DEFAULT_CHARSET
-        LinkFont.Color = clBlue
-        LinkFont.Height = -11
-        LinkFont.Name = 'MS Shell Dlg 2'
-        LinkFont.Style = [fsUnderline]
       end
       object Label5: TSpTBXLabel
         Left = 7
@@ -216,11 +166,6 @@ inherited CodeTemplates: TCodeTemplates
         Height = 13
         Caption = '&Description:'
         ParentColor = True
-        LinkFont.Charset = DEFAULT_CHARSET
-        LinkFont.Color = clBlue
-        LinkFont.Height = -11
-        LinkFont.Name = 'MS Shell Dlg 2'
-        LinkFont.Style = [fsUnderline]
       end
       object Label4: TSpTBXLabel
         Left = 8
@@ -235,11 +180,6 @@ inherited CodeTemplates: TCodeTemplates
         Font.Style = []
         ParentColor = True
         ParentFont = False
-        LinkFont.Charset = DEFAULT_CHARSET
-        LinkFont.Color = clBlue
-        LinkFont.Height = -11
-        LinkFont.Name = 'MS Shell Dlg 2'
-        LinkFont.Style = [fsUnderline]
       end
       object Label3: TSpTBXLabel
         Left = 8
@@ -254,11 +194,6 @@ inherited CodeTemplates: TCodeTemplates
         Font.Style = []
         ParentColor = True
         ParentFont = False
-        LinkFont.Charset = DEFAULT_CHARSET
-        LinkFont.Color = clBlue
-        LinkFont.Height = -11
-        LinkFont.Name = 'MS Shell Dlg 2'
-        LinkFont.Style = [fsUnderline]
       end
       object edDescription: TSpTBXEdit
         Left = 74

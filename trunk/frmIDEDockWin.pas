@@ -12,7 +12,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, JvComponent, JvDockControlForm, ExtCtrls, TBX, TBXThemes,
+  Dialogs, JvComponent, JvDockControlForm, ExtCtrls, SpTBXSkins,
   JvComponentBase;
 
 type
@@ -28,7 +28,7 @@ type
   private
     { Private declarations }
   protected
-    procedure TBMThemeChange(var Message: TMessage); message TBM_THEMECHANGE;
+    procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
   public
     { Public declarations }
     HasFocus : Boolean;
@@ -43,23 +43,23 @@ uses frmPyIDEMain, uCommonFunctions, JvDockGlobals;
 
 {$R *.dfm}
 
-procedure TIDEDockWindow.TBMThemeChange(var Message: TMessage);
+procedure TIDEDockWindow.WMSpSkinChange(var Message: TMessage);
 begin
-  if Message.WParam = TSC_VIEWCHANGE then begin
-    if HasFocus then
-      Color := CurrentTheme.GetItemColor(GetItemInfo('hot'))
-        //Color := GetBorderColor('active')
-    else
-      Color := GetBorderColor('inactive');
-      //Color := CurrentTheme.GetItemColor(GetItemInfo('inactive'));
-    Invalidate;
-  end;
+{ TODO : Skin }
+//  if HasFocus then
+//    Color := CurrentTheme.GetItemColor(GetItemInfo('hot'))
+//      //Color := GetBorderColor('active')
+//  else
+//    Color := GetBorderColor('inactive');
+    //Color := CurrentTheme.GetItemColor(GetItemInfo('inactive'));
+  Invalidate;
 end;
 
 procedure TIDEDockWindow.FormActivate(Sender: TObject);
 begin
   HasFocus := True;
-  Color := CurrentTheme.GetItemColor(GetItemInfo('hot'));
+  { TODO : Skin }
+//  Color := CurrentTheme.GetItemColor(GetItemInfo('hot'));
 end;
 
 procedure TIDEDockWindow.FormCreate(Sender: TObject);
@@ -70,22 +70,23 @@ begin
 
   //FGPanelExit(Self);
 
-  AddThemeNotification(Self);
+  SkinManager.AddSkinNotification(Self);
 end;
 
 procedure TIDEDockWindow.FormDeactivate(Sender: TObject);
 begin
   HasFocus := False;
   //Color := CurrentTheme.GetItemColor(GetItemInfo('inactive'));
-  Color := GetBorderColor('inactive');
+  { TODO : Skin }
+  //  Color := GetBorderColor('inactive');
   // Set the MouseleaveHide option
   // It may have been reset when a dock form is shown via the keyboard or menu
-  PyIDEMainForm.JvDockVSNetStyleTBX.ChannelOption.MouseleaveHide := True;
+  PyIDEMainForm.JvDockVSNetStyleSpTBX.ChannelOption.MouseleaveHide := True;
 end;
 
 procedure TIDEDockWindow.FormDestroy(Sender: TObject);
 begin
-  RemoveThemeNotification(Self);
+  SkinManager.RemoveSkinNotification(Self);
 end;
 
 procedure TIDEDockWindow.DockClientTabHostFormCreated(
@@ -98,5 +99,10 @@ begin
 end;
 
 end.
+
+
+
+
+
 
 

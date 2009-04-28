@@ -85,7 +85,7 @@ uses
   SynEditKeyCmds,
 {$ENDIF}
   Classes,
-  SysUtils, SpTBXControls, TBXDkPanels, TntStdCtrls, 
+  SysUtils, SpTBXControls, SpTBXDkPanels, TntStdCtrls, 
   SpTBXEditors, TntComCtrls, dlgPyIDEBase;
 
 type
@@ -1401,4 +1401,5 @@ begin
 end;
 
 end.
+
 

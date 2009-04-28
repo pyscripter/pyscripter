@@ -49,8 +49,6 @@ inherited CallStackWindow: TCallStackWindow
   inherited FGPanel: TPanel
     Width = 375
     Height = 162
-    ExplicitLeft = 3
-    ExplicitTop = 3
     ExplicitWidth = 375
     ExplicitHeight = 162
     object CallStackView: TVirtualStringTree
@@ -76,7 +74,7 @@ inherited CallStackWindow: TCallStackWindow
       TabOrder = 0
       TreeOptions.AnimationOptions = [toAnimatedToggle]
       TreeOptions.MiscOptions = [toFullRepaintOnResize, toInitOnSave, toReportMode, toToggleOnDblClick, toWheelPanning]
-      TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowDropmark, toShowHorzGridLines, toShowVertGridLines, toUseBlendedImages, toUseBlendedSelection]
+      TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowDropmark, toShowHorzGridLines, toShowVertGridLines, toThemeAware, toUseBlendedImages, toUseBlendedSelection]
       TreeOptions.SelectionOptions = [toExtendedFocus, toFullRowSelect, toRightClickSelect]
       TreeOptions.StringOptions = [toAutoAcceptEditChange]
       OnChange = CallStackViewChange

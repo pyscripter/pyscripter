@@ -13,8 +13,8 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, cTools, ExtCtrls, StdCtrls, SynEdit, ComCtrls, Mask, Menus,
-  ActnList, TBXDkPanels, SpTBXControls, SpTBXEditors, TntActnList, TntStdCtrls,
-  TntComCtrls, dlgPyIDEBase;
+  ActnList, SpTBXDkPanels, SpTBXControls, SpTBXEditors, TntActnList, TntStdCtrls,
+  TntComCtrls, dlgPyIDEBase, SpTBXItem;
 
 type
   TToolProperties = class(TPyIDEDlgBase)

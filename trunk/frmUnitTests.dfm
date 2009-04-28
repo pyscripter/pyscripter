@@ -47,8 +47,6 @@ inherited UnitTestWindow: TUnitTestWindow
   inherited FGPanel: TPanel
     Width = 256
     Height = 445
-    ExplicitLeft = 3
-    ExplicitTop = 3
     ExplicitWidth = 256
     ExplicitHeight = 445
     object ExplorerDock: TSpTBXDock
@@ -62,77 +60,73 @@ inherited UnitTestWindow: TUnitTestWindow
         Top = 0
         Align = alTop
         AutoResize = False
-        Caption = 'ExplorerToolbar'
         DockMode = dmCannotFloat
         FullSize = True
         Images = CommandsDataModule.Images
         TabOrder = 0
+        Caption = 'ExplorerToolbar'
         Customizable = False
         object tbiRefresh: TSpTBXItem
-          Caption = '&Refresh'
-          Hint = 'Refresh tests|Extract tests from active module'
           Action = actRefresh
         end
         object tbiClearAll: TSpTBXItem
-          Caption = '&Clear All'
-          Hint = 'Clear all tests'
           Action = actClearAll
         end
         object TBXSeparatorItem2: TSpTBXSeparatorItem
         end
         object tbiRun: TSpTBXItem
-          Caption = '&Run'
-          Hint = 'Run selected tests'
           Action = actRun
         end
         object tbiStop: TSpTBXItem
-          Caption = '&Stop'
-          Hint = 'Stop Testing'
           Action = actStop
         end
         object TBXSeparatorItem1: TSpTBXSeparatorItem
         end
         object tbiSelectAll: TSpTBXItem
-          Caption = 'Select &All'
-          Hint = 'Select all tests'
           Action = actSelectAll
         end
         object tbiDeselectAll: TSpTBXItem
-          Caption = '&Deselect All'
-          Hint = 'Deselect all tests'
           Action = actDeselectAll
         end
         object tbiSelectFailed: TSpTBXItem
-          Caption = 'Select Fai&led'
-          Hint = 'Select all failed tests'
           Action = actSelectFailed
         end
         object TBXSeparatorItem7: TSpTBXSeparatorItem
         end
         object tbiCollapseAll: TSpTBXItem
-          Caption = '&Collapse All'
-          Hint = 'Collapse all test nodes'
           Action = actCollapseAll
         end
         object tbiExpandAll: TSpTBXItem
-          Caption = 'Ex&pand All'
-          Hint = 'Expand all test nodes'
           Action = actExpandAll
         end
       end
     end
-    object Panel1: TPanel
+    object SpTBXSplitter1: TSpTBXSplitter
+      Left = 0
+      Top = 267
+      Width = 256
+      Height = 5
+      Cursor = crSizeNS
+      Align = alBottom
+      MinSize = 1
+      ExplicitTop = 279
+    end
+    object Panel1: TSpTBXPanel
       Left = 0
       Top = 26
       Width = 256
-      Height = 253
+      Height = 241
+      Color = clBtnFace
       Align = alClient
+      UseDockManager = True
       TabOrder = 1
+      TBXStyleBackground = True
+      ExplicitHeight = 253
       object UnitTests: TVirtualStringTree
-        Left = 1
-        Top = 1
-        Width = 254
-        Height = 251
+        Left = 2
+        Top = 2
+        Width = 252
+        Height = 237
         Align = alClient
         BorderStyle = bsNone
         CheckImageKind = ckXP
@@ -161,44 +155,48 @@ inherited UnitTestWindow: TUnitTestWindow
         OnGetHint = UnitTestsGetHint
         OnInitChildren = UnitTestsInitChildren
         OnInitNode = UnitTestsInitNode
+        ExplicitHeight = 249
         Columns = <>
       end
     end
-    object Panel2: TPanel
+    object Panel2: TSpTBXPanel
       Left = 0
-      Top = 284
+      Top = 272
       Width = 256
-      Height = 161
+      Height = 173
       Align = alBottom
+      UseDockManager = True
       ParentColor = True
       TabOrder = 2
+      TBXStyleBackground = True
       DesignSize = (
         256
-        161)
+        173)
       object Bevel1: TBevel
         Left = 8
-        Top = 48
+        Top = 58
         Width = 240
-        Height = 1
+        Height = 5
         Anchors = [akLeft, akTop, akRight]
         Shape = bsTopLine
-        ExplicitWidth = 226
       end
       object SpTBXPanel1: TSpTBXPanel
-        Left = 1
-        Top = 68
-        Width = 254
-        Height = 92
+        Left = 2
+        Top = 82
+        Width = 252
+        Height = 89
         Caption = 'SpTBXPanel1'
         Align = alBottom
         Anchors = [akLeft, akTop, akRight, akBottom]
         TabOrder = 0
         HotTrack = True
+        TBXStyleBackground = True
+        ExplicitHeight = 109
         object ErrorText: TTntRichEdit
           Left = 2
           Top = 2
-          Width = 250
-          Height = 88
+          Width = 248
+          Height = 85
           Align = alClient
           BorderStyle = bsNone
           Constraints.MinHeight = 10
@@ -206,85 +204,48 @@ inherited UnitTestWindow: TUnitTestWindow
           ReadOnly = True
           ScrollBars = ssBoth
           TabOrder = 0
+          ExplicitLeft = 3
+          ExplicitTop = 1
+          ExplicitHeight = 101
         end
       end
       object Label2: TSpTBXLabel
         Left = 1
-        Top = 52
-        Width = 73
-        Height = 13
+        Top = 62
+        Width = 79
+        Height = 19
         Caption = 'Error Message:'
-        ParentColor = True
-        LinkFont.Charset = DEFAULT_CHARSET
-        LinkFont.Color = clBlue
-        LinkFont.Height = -11
-        LinkFont.Name = 'MS Shell Dlg 2'
-        LinkFont.Style = [fsUnderline]
       end
       object ModuleName: TSpTBXLabel
         Left = 7
         Top = 1
-        Width = 88
-        Height = 13
+        Width = 94
+        Height = 19
         Caption = 'No Module Loaded'
-        ParentColor = True
-        LinkFont.Charset = DEFAULT_CHARSET
-        LinkFont.Color = clBlue
-        LinkFont.Height = -11
-        LinkFont.Name = 'MS Shell Dlg 2'
-        LinkFont.Style = [fsUnderline]
       end
       object lbFoundTests: TSpTBXLabel
-        Left = 184
+        Left = 170
         Top = 1
-        Width = 66
-        Height = 13
+        Width = 72
+        Height = 19
         Caption = 'Found 0 tests'
         Anchors = [akTop, akRight]
-        ParentColor = True
         Alignment = taRightJustify
-        LinkFont.Charset = DEFAULT_CHARSET
-        LinkFont.Color = clBlue
-        LinkFont.Height = -11
-        LinkFont.Name = 'MS Shell Dlg 2'
-        LinkFont.Style = [fsUnderline]
       end
       object lblRunTests: TSpTBXLabel
         Left = 7
-        Top = 15
-        Width = 55
-        Height = 13
+        Top = 19
+        Width = 61
+        Height = 19
         Caption = 'Run 0 tests'
-        ParentColor = True
-        LinkFont.Charset = DEFAULT_CHARSET
-        LinkFont.Color = clBlue
-        LinkFont.Height = -11
-        LinkFont.Name = 'MS Shell Dlg 2'
-        LinkFont.Style = [fsUnderline]
       end
       object lblFailures: TSpTBXLabel
         Left = 7
-        Top = 30
-        Width = 96
-        Height = 13
+        Top = 37
+        Width = 102
+        Height = 19
         Caption = 'Failures/Errors : 0/0'
-        ParentColor = True
-        LinkFont.Charset = DEFAULT_CHARSET
-        LinkFont.Color = clBlue
-        LinkFont.Height = -11
-        LinkFont.Name = 'MS Shell Dlg 2'
-        LinkFont.Style = [fsUnderline]
       end
-    end
-    object SpTBXSplitter1: TSpTBXSplitter
-      Left = 0
-      Top = 279
-      Width = 256
-      Height = 5
-      Cursor = crSizeNS
-      Caption = 'SpTBXSplitter1'
-      Align = alBottom
-      MinSize = 1
     end
   end
   inherited DockClient: TJvDockClient

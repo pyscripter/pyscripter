@@ -23,11 +23,6 @@ inherited AskParamForm: TAskParamForm
     Anchors = [akRight, akBottom]
     TabOrder = 2
     Default = True
-    LinkFont.Charset = DEFAULT_CHARSET
-    LinkFont.Color = clBlue
-    LinkFont.Height = -11
-    LinkFont.Name = 'MS Shell Dlg 2'
-    LinkFont.Style = [fsUnderline]
     ModalResult = 1
   end
   object btnCancel: TSpTBXButton
@@ -39,11 +34,6 @@ inherited AskParamForm: TAskParamForm
     Anchors = [akRight, akBottom]
     TabOrder = 3
     Cancel = True
-    LinkFont.Charset = DEFAULT_CHARSET
-    LinkFont.Color = clBlue
-    LinkFont.Height = -11
-    LinkFont.Name = 'MS Shell Dlg 2'
-    LinkFont.Style = [fsUnderline]
     ModalResult = 2
   end
   object chkSaveToFile: TSpTBXCheckBox
@@ -54,7 +44,7 @@ inherited AskParamForm: TAskParamForm
     Caption = 'and save it as a custom parameter'
     ParentColor = True
     TabOrder = 1
-    ThemeType = thtWindows
+    SkinType = sknSkin
   end
   object txtParamValue: TSpTBXEdit
     Left = 8
@@ -63,7 +53,7 @@ inherited AskParamForm: TAskParamForm
     Height = 21
     Anchors = [akLeft, akTop, akRight]
     TabOrder = 0
-    ThemeType = thtWindows
+    SkinType = sknSkin
   end
   object Label1: TSpTBXLabel
     Left = 8
@@ -73,10 +63,5 @@ inherited AskParamForm: TAskParamForm
     Caption = 'Enter value for parameter '
     ParentColor = True
     FocusControl = txtParamValue
-    LinkFont.Charset = DEFAULT_CHARSET
-    LinkFont.Color = clBlue
-    LinkFont.Height = -11
-    LinkFont.Name = 'MS Shell Dlg 2'
-    LinkFont.Style = [fsUnderline]
   end
 end

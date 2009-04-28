@@ -1066,7 +1066,7 @@ inherited PageSetupDlg: TPageSetupDlg
         Caption = 'Mirror margins'
         ParentColor = True
         TabOrder = 0
-        ThemeType = thtWindows
+        SkinType = sknSkin
       end
       object CBLineNumbers: TSpTBXCheckBox
         Left = 10
@@ -1076,7 +1076,7 @@ inherited PageSetupDlg: TPageSetupDlg
         Caption = 'Line numbers'
         ParentColor = True
         TabOrder = 12
-        ThemeType = thtWindows
+        SkinType = sknSkin
       end
       object CBLineNumbersInMargin: TSpTBXCheckBox
         Left = 10
@@ -1086,7 +1086,7 @@ inherited PageSetupDlg: TPageSetupDlg
         Caption = 'Print line numbers in margin'
         ParentColor = True
         TabOrder = 13
-        ThemeType = thtWindows
+        SkinType = sknSkin
       end
       object CBHighlight: TSpTBXCheckBox
         Left = 185
@@ -1096,7 +1096,7 @@ inherited PageSetupDlg: TPageSetupDlg
         Caption = 'Syntax print'
         ParentColor = True
         TabOrder = 14
-        ThemeType = thtWindows
+        SkinType = sknSkin
       end
       object CBColors: TSpTBXCheckBox
         Left = 185
@@ -1106,7 +1106,7 @@ inherited PageSetupDlg: TPageSetupDlg
         Caption = 'Use colors'
         ParentColor = True
         TabOrder = 15
-        ThemeType = thtWindows
+        SkinType = sknSkin
       end
       object CBWrap: TSpTBXCheckBox
         Left = 185
@@ -1116,7 +1116,7 @@ inherited PageSetupDlg: TPageSetupDlg
         Caption = 'Wrap lines'
         ParentColor = True
         TabOrder = 16
-        ThemeType = thtWindows
+        SkinType = sknSkin
       end
       object Label1: TSpTBXLabel
         Left = 10
@@ -1125,11 +1125,6 @@ inherited PageSetupDlg: TPageSetupDlg
         Height = 13
         Caption = 'Left:'
         ParentColor = True
-        LinkFont.Charset = DEFAULT_CHARSET
-        LinkFont.Color = clBlue
-        LinkFont.Height = -11
-        LinkFont.Name = 'MS Shell Dlg 2'
-        LinkFont.Style = [fsUnderline]
       end
       object Label2: TSpTBXLabel
         Left = 10
@@ -1138,11 +1133,6 @@ inherited PageSetupDlg: TPageSetupDlg
         Height = 13
         Caption = 'Right:'
         ParentColor = True
-        LinkFont.Charset = DEFAULT_CHARSET
-        LinkFont.Color = clBlue
-        LinkFont.Height = -11
-        LinkFont.Name = 'MS Shell Dlg 2'
-        LinkFont.Style = [fsUnderline]
       end
       object Label3: TSpTBXLabel
         Left = 10
@@ -1151,11 +1141,6 @@ inherited PageSetupDlg: TPageSetupDlg
         Height = 13
         Caption = 'Top:'
         ParentColor = True
-        LinkFont.Charset = DEFAULT_CHARSET
-        LinkFont.Color = clBlue
-        LinkFont.Height = -11
-        LinkFont.Name = 'MS Shell Dlg 2'
-        LinkFont.Style = [fsUnderline]
       end
       object Label4: TSpTBXLabel
         Left = 10
@@ -1164,11 +1149,6 @@ inherited PageSetupDlg: TPageSetupDlg
         Height = 13
         Caption = 'Bottom:'
         ParentColor = True
-        LinkFont.Charset = DEFAULT_CHARSET
-        LinkFont.Color = clBlue
-        LinkFont.Height = -11
-        LinkFont.Name = 'MS Shell Dlg 2'
-        LinkFont.Style = [fsUnderline]
       end
       object Label5: TSpTBXLabel
         Left = 10
@@ -1177,11 +1157,6 @@ inherited PageSetupDlg: TPageSetupDlg
         Height = 13
         Caption = 'Units:'
         ParentColor = True
-        LinkFont.Charset = DEFAULT_CHARSET
-        LinkFont.Color = clBlue
-        LinkFont.Height = -11
-        LinkFont.Name = 'MS Shell Dlg 2'
-        LinkFont.Style = [fsUnderline]
       end
       object Label6: TSpTBXLabel
         Left = 10
@@ -1190,11 +1165,6 @@ inherited PageSetupDlg: TPageSetupDlg
         Height = 13
         Caption = 'Header:'
         ParentColor = True
-        LinkFont.Charset = DEFAULT_CHARSET
-        LinkFont.Color = clBlue
-        LinkFont.Height = -11
-        LinkFont.Name = 'MS Shell Dlg 2'
-        LinkFont.Style = [fsUnderline]
       end
       object Label7: TSpTBXLabel
         Left = 10
@@ -1203,11 +1173,6 @@ inherited PageSetupDlg: TPageSetupDlg
         Height = 13
         Caption = 'Footer:'
         ParentColor = True
-        LinkFont.Charset = DEFAULT_CHARSET
-        LinkFont.Color = clBlue
-        LinkFont.Height = -11
-        LinkFont.Name = 'MS Shell Dlg 2'
-        LinkFont.Style = [fsUnderline]
       end
       object Label8: TSpTBXLabel
         Left = 10
@@ -1216,11 +1181,6 @@ inherited PageSetupDlg: TPageSetupDlg
         Height = 13
         Caption = 'HFInternalMargin:'
         ParentColor = True
-        LinkFont.Charset = DEFAULT_CHARSET
-        LinkFont.Color = clBlue
-        LinkFont.Height = -11
-        LinkFont.Name = 'MS Shell Dlg 2'
-        LinkFont.Style = [fsUnderline]
       end
       object Label9: TSpTBXLabel
         Left = 10
@@ -1229,11 +1189,6 @@ inherited PageSetupDlg: TPageSetupDlg
         Height = 13
         Caption = 'LeftHFTextIndent:'
         ParentColor = True
-        LinkFont.Charset = DEFAULT_CHARSET
-        LinkFont.Color = clBlue
-        LinkFont.Height = -11
-        LinkFont.Name = 'MS Shell Dlg 2'
-        LinkFont.Style = [fsUnderline]
       end
       object Label10: TSpTBXLabel
         Left = 10
@@ -1242,11 +1197,6 @@ inherited PageSetupDlg: TPageSetupDlg
         Height = 13
         Caption = 'RightHFTextIndent:'
         ParentColor = True
-        LinkFont.Charset = DEFAULT_CHARSET
-        LinkFont.Color = clBlue
-        LinkFont.Height = -11
-        LinkFont.Name = 'MS Shell Dlg 2'
-        LinkFont.Style = [fsUnderline]
       end
       object Label11: TSpTBXLabel
         Left = 10
@@ -1255,11 +1205,6 @@ inherited PageSetupDlg: TPageSetupDlg
         Height = 13
         Caption = 'Gutter'
         ParentColor = True
-        LinkFont.Charset = DEFAULT_CHARSET
-        LinkFont.Color = clBlue
-        LinkFont.Height = -11
-        LinkFont.Name = 'MS Shell Dlg 2'
-        LinkFont.Style = [fsUnderline]
       end
       object EditLeft: TSpTBXEdit
         Left = 110
@@ -1267,7 +1212,7 @@ inherited PageSetupDlg: TPageSetupDlg
         Width = 151
         Height = 21
         TabOrder = 1
-        ThemeType = thtWindows
+        SkinType = sknSkin
       end
       object EditRight: TSpTBXEdit
         Left = 110
@@ -1275,7 +1220,7 @@ inherited PageSetupDlg: TPageSetupDlg
         Width = 151
         Height = 21
         TabOrder = 2
-        ThemeType = thtWindows
+        SkinType = sknSkin
       end
       object EditTop: TSpTBXEdit
         Left = 110
@@ -1283,7 +1228,7 @@ inherited PageSetupDlg: TPageSetupDlg
         Width = 151
         Height = 21
         TabOrder = 3
-        ThemeType = thtWindows
+        SkinType = sknSkin
       end
       object EditBottom: TSpTBXEdit
         Left = 110
@@ -1291,7 +1236,7 @@ inherited PageSetupDlg: TPageSetupDlg
         Width = 151
         Height = 21
         TabOrder = 4
-        ThemeType = thtWindows
+        SkinType = sknSkin
       end
       object EditGutter: TSpTBXEdit
         Left = 110
@@ -1299,7 +1244,7 @@ inherited PageSetupDlg: TPageSetupDlg
         Width = 151
         Height = 21
         TabOrder = 5
-        ThemeType = thtWindows
+        SkinType = sknSkin
       end
       object EditHeader: TSpTBXEdit
         Left = 110
@@ -1307,7 +1252,7 @@ inherited PageSetupDlg: TPageSetupDlg
         Width = 151
         Height = 21
         TabOrder = 6
-        ThemeType = thtWindows
+        SkinType = sknSkin
       end
       object EditFooter: TSpTBXEdit
         Left = 110
@@ -1315,7 +1260,7 @@ inherited PageSetupDlg: TPageSetupDlg
         Width = 151
         Height = 21
         TabOrder = 7
-        ThemeType = thtWindows
+        SkinType = sknSkin
       end
       object EditHFInternalMargin: TSpTBXEdit
         Left = 110
@@ -1323,7 +1268,7 @@ inherited PageSetupDlg: TPageSetupDlg
         Width = 151
         Height = 21
         TabOrder = 8
-        ThemeType = thtWindows
+        SkinType = sknSkin
       end
       object EditLeftHFTextIndent: TSpTBXEdit
         Left = 110
@@ -1331,7 +1276,7 @@ inherited PageSetupDlg: TPageSetupDlg
         Width = 151
         Height = 21
         TabOrder = 9
-        ThemeType = thtWindows
+        SkinType = sknSkin
       end
       object EditRightHFTextIndent: TSpTBXEdit
         Left = 110
@@ -1339,7 +1284,7 @@ inherited PageSetupDlg: TPageSetupDlg
         Width = 151
         Height = 21
         TabOrder = 10
-        ThemeType = thtWindows
+        SkinType = sknSkin
       end
       object CBUnits: TSpTBXComboBox
         Left = 110
@@ -1355,7 +1300,7 @@ inherited PageSetupDlg: TPageSetupDlg
           'cm'
           'Inches'
           'Thousandths Of Inches')
-        ThemeType = thtWindows
+        SkinType = sknSkin
       end
     end
     object HeaderFooter: TTabSheet
@@ -1397,11 +1342,6 @@ inherited PageSetupDlg: TPageSetupDlg
             Caption = 'Line color'
             TabOrder = 3
             OnClick = HeaderLineColorBtnClick
-            LinkFont.Charset = DEFAULT_CHARSET
-            LinkFont.Color = clBlue
-            LinkFont.Height = -11
-            LinkFont.Name = 'MS Shell Dlg 2'
-            LinkFont.Style = [fsUnderline]
           end
           object HeaderShadowColorBtn: TSpTBXButton
             Left = 281
@@ -1411,11 +1351,6 @@ inherited PageSetupDlg: TPageSetupDlg
             Caption = 'Shadow color'
             TabOrder = 4
             OnClick = HeaderShadowColorBtnClick
-            LinkFont.Charset = DEFAULT_CHARSET
-            LinkFont.Color = clBlue
-            LinkFont.Height = -11
-            LinkFont.Name = 'MS Shell Dlg 2'
-            LinkFont.Style = [fsUnderline]
           end
           object CBHeaderLine: TSpTBXCheckBox
             Left = 8
@@ -1425,7 +1360,7 @@ inherited PageSetupDlg: TPageSetupDlg
             Caption = 'Line under'
             ParentColor = True
             TabOrder = 0
-            ThemeType = thtWindows
+            SkinType = sknSkin
           end
           object CBHeaderBox: TSpTBXCheckBox
             Left = 8
@@ -1435,7 +1370,7 @@ inherited PageSetupDlg: TPageSetupDlg
             Caption = 'Box'
             ParentColor = True
             TabOrder = 1
-            ThemeType = thtWindows
+            SkinType = sknSkin
           end
           object CBHeaderShadow: TSpTBXCheckBox
             Left = 209
@@ -1445,7 +1380,7 @@ inherited PageSetupDlg: TPageSetupDlg
             Caption = 'Shadow'
             ParentColor = True
             TabOrder = 2
-            ThemeType = thtWindows
+            SkinType = sknSkin
           end
         end
         object CBHeaderMirror: TSpTBXCheckBox
@@ -1456,7 +1391,7 @@ inherited PageSetupDlg: TPageSetupDlg
           Caption = 'Mirror position'
           ParentColor = True
           TabOrder = 4
-          ThemeType = thtWindows
+          SkinType = sknSkin
         end
         object Label12: TSpTBXLabel
           Left = 10
@@ -1465,11 +1400,6 @@ inherited PageSetupDlg: TPageSetupDlg
           Height = 13
           Caption = 'Left'
           ParentColor = True
-          LinkFont.Charset = DEFAULT_CHARSET
-          LinkFont.Color = clBlue
-          LinkFont.Height = -11
-          LinkFont.Name = 'MS Shell Dlg 2'
-          LinkFont.Style = [fsUnderline]
         end
         object Label13: TSpTBXLabel
           Left = 210
@@ -1478,11 +1408,6 @@ inherited PageSetupDlg: TPageSetupDlg
           Height = 13
           Caption = 'Center'
           ParentColor = True
-          LinkFont.Charset = DEFAULT_CHARSET
-          LinkFont.Color = clBlue
-          LinkFont.Height = -11
-          LinkFont.Name = 'MS Shell Dlg 2'
-          LinkFont.Style = [fsUnderline]
         end
         object Label14: TSpTBXLabel
           Left = 410
@@ -1491,11 +1416,6 @@ inherited PageSetupDlg: TPageSetupDlg
           Height = 13
           Caption = 'Right'
           ParentColor = True
-          LinkFont.Charset = DEFAULT_CHARSET
-          LinkFont.Color = clBlue
-          LinkFont.Height = -11
-          LinkFont.Name = 'MS Shell Dlg 2'
-          LinkFont.Style = [fsUnderline]
         end
         object REHeaderLeft: TTntRichEdit
           Left = 10
@@ -1569,11 +1489,6 @@ inherited PageSetupDlg: TPageSetupDlg
             Caption = 'Line color'
             TabOrder = 3
             OnClick = FooterLineColorBtnClick
-            LinkFont.Charset = DEFAULT_CHARSET
-            LinkFont.Color = clBlue
-            LinkFont.Height = -11
-            LinkFont.Name = 'MS Shell Dlg 2'
-            LinkFont.Style = [fsUnderline]
           end
           object FooterShadowColorBtn: TSpTBXButton
             Left = 281
@@ -1583,11 +1498,6 @@ inherited PageSetupDlg: TPageSetupDlg
             Caption = 'Shadow color'
             TabOrder = 4
             OnClick = FooterShadowColorBtnClick
-            LinkFont.Charset = DEFAULT_CHARSET
-            LinkFont.Color = clBlue
-            LinkFont.Height = -11
-            LinkFont.Name = 'MS Shell Dlg 2'
-            LinkFont.Style = [fsUnderline]
           end
           object CBFooterLine: TSpTBXCheckBox
             Left = 8
@@ -1597,7 +1507,7 @@ inherited PageSetupDlg: TPageSetupDlg
             Caption = 'Line above'
             ParentColor = True
             TabOrder = 0
-            ThemeType = thtWindows
+            SkinType = sknSkin
           end
           object CBFooterBox: TSpTBXCheckBox
             Left = 8
@@ -1607,7 +1517,7 @@ inherited PageSetupDlg: TPageSetupDlg
             Caption = 'Box'
             ParentColor = True
             TabOrder = 1
-            ThemeType = thtWindows
+            SkinType = sknSkin
           end
           object CBFooterShadow: TSpTBXCheckBox
             Left = 209
@@ -1617,7 +1527,7 @@ inherited PageSetupDlg: TPageSetupDlg
             Caption = 'Shadow'
             ParentColor = True
             TabOrder = 2
-            ThemeType = thtWindows
+            SkinType = sknSkin
           end
         end
         object CBFooterMirror: TSpTBXCheckBox
@@ -1628,7 +1538,7 @@ inherited PageSetupDlg: TPageSetupDlg
           Caption = 'Mirror position'
           ParentColor = True
           TabOrder = 4
-          ThemeType = thtWindows
+          SkinType = sknSkin
         end
         object Label15: TSpTBXLabel
           Left = 10
@@ -1637,11 +1547,6 @@ inherited PageSetupDlg: TPageSetupDlg
           Height = 13
           Caption = 'Left'
           ParentColor = True
-          LinkFont.Charset = DEFAULT_CHARSET
-          LinkFont.Color = clBlue
-          LinkFont.Height = -11
-          LinkFont.Name = 'MS Shell Dlg 2'
-          LinkFont.Style = [fsUnderline]
         end
         object Label16: TSpTBXLabel
           Left = 210
@@ -1650,11 +1555,6 @@ inherited PageSetupDlg: TPageSetupDlg
           Height = 13
           Caption = 'Center'
           ParentColor = True
-          LinkFont.Charset = DEFAULT_CHARSET
-          LinkFont.Color = clBlue
-          LinkFont.Height = -11
-          LinkFont.Name = 'MS Shell Dlg 2'
-          LinkFont.Style = [fsUnderline]
         end
         object Label17: TSpTBXLabel
           Left = 410
@@ -1663,11 +1563,6 @@ inherited PageSetupDlg: TPageSetupDlg
           Height = 13
           Caption = 'Right'
           ParentColor = True
-          LinkFont.Charset = DEFAULT_CHARSET
-          LinkFont.Color = clBlue
-          LinkFont.Height = -11
-          LinkFont.Name = 'MS Shell Dlg 2'
-          LinkFont.Style = [fsUnderline]
         end
         object REFooterLeft: TTntRichEdit
           Left = 10
@@ -1781,11 +1676,6 @@ inherited PageSetupDlg: TPageSetupDlg
     Caption = '&OK'
     TabOrder = 0
     Default = True
-    LinkFont.Charset = DEFAULT_CHARSET
-    LinkFont.Color = clBlue
-    LinkFont.Height = -11
-    LinkFont.Name = 'MS Shell Dlg 2'
-    LinkFont.Style = [fsUnderline]
     ModalResult = 1
   end
   object CancelBtn: TSpTBXButton
@@ -1796,11 +1686,6 @@ inherited PageSetupDlg: TPageSetupDlg
     Caption = '&Cancel'
     TabOrder = 1
     Cancel = True
-    LinkFont.Charset = DEFAULT_CHARSET
-    LinkFont.Color = clBlue
-    LinkFont.Height = -11
-    LinkFont.Name = 'MS Shell Dlg 2'
-    LinkFont.Style = [fsUnderline]
     ModalResult = 2
   end
   object ImageList: TImageList

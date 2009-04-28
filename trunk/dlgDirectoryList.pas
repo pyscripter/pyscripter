@@ -11,7 +11,7 @@ unit dlgDirectoryList;
 interface
 
 uses
-  SysUtils, Classes, Windows, Controls, Forms, StdCtrls, TBXDkPanels,
+  SysUtils, Classes, Windows, Controls, Forms, StdCtrls, SpTBXDkPanels,
   SpTBXControls, WideStrings, TntStdCtrls, SpTBXEditors, TntFileCtrl,  dlgPyIDEBase;
 
 type

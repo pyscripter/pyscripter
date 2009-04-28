@@ -4,17 +4,19 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, SpTBXCustomizerForm, CheckLst, TntCheckLst, SpTBXEditors,
-  SpTBXControls, StdCtrls, TntStdCtrls, TBXDkPanels, ComCtrls, ExtCtrls,
-  SpTBXTabs, TB2Item, TBX, SpTBXItem, TntClasses;
+  Dialogs, SpTBXCustomizer, SpTBXCustomizerForm, CheckLst, TntCheckLst, SpTBXEditors,
+  SpTBXControls, StdCtrls, TntStdCtrls, SpTBXDkPanels, ComCtrls, ExtCtrls,
+  SpTBXTabs, TB2Item, SpTBXItem, TntClasses, SpTBXSkins;
 
 type
   TSpTBXCustomizeFormMod = class(TSpTBXCustomizeForm)
     SpTBXLabel2: TSpTBXLabel;
     SpTBXLabel5: TSpTBXLabel;
     lbCategories: TSpTBXListBox;
-    procedure lbCommandsDrawItem(Control: TWinControl; Index: Integer;
-      Rect: TRect; State: TOwnerDrawState);
+    procedure lbCommandsDrawItem(Sender: TObject;
+      ACanvas: TCanvas; var ARect: TRect; Index: Integer;
+      const State: TOwnerDrawState; const PaintStage: TSpTBXPaintStage;
+      var PaintDefault: Boolean);
     procedure lbCommandsDragDrop(Sender, Source: TObject; X, Y: Integer);
     procedure lbCommandsEndDrag(Sender, Target: TObject; X, Y: Integer);
     procedure lbCategoriesClick(Sender: TObject);
@@ -38,7 +40,7 @@ implementation
 {$R *.dfm}
 
 Uses
-  ActnList, TBXThemes, SpTBXCustomizer;
+  ActnList;
 
 { TSpTBXCustomizeFormMod }
 
@@ -132,25 +134,25 @@ begin
         Index := lbCategories.Items.Add(Category);
 
       lbCategories.ItemIndex := Index;
-      lbCategoriesClick(Self);
     end;
   end;
 end;
 
-procedure TSpTBXCustomizeFormMod.lbCommandsDrawItem(Control: TWinControl;
-  Index: Integer; Rect: TRect; State: TOwnerDrawState);
+procedure TSpTBXCustomizeFormMod.lbCommandsDrawItem(Sender: TObject;
+  ACanvas: TCanvas; var ARect: TRect; Index: Integer;
+  const State: TOwnerDrawState; const PaintStage: TSpTBXPaintStage;
+  var PaintDefault: Boolean);
 var
-  C: TCanvas;
-  ItemInfo: TTBXItemInfo;
+  ItemInfo: TSpTBXMenuItemInfo;
   R: TRect;
 begin
   if Index = 0 then begin
     // Draw the separator
-    C := TTntListBox(Control).Canvas;
-    SpFillItemInfo(True, False, False, False, ItemInfo);
-    R := Rect;
-    InflateRect(R, -20, -4);
-    CurrentTheme.PaintSeparator(C, R, ItemInfo, True, False);
+    { TODO : Skin }
+//    SpFillItemInfo(True, False, False, False, ItemInfo);
+//    R := ARect;
+//    InflateRect(R, -20, -4);
+//    CurrentSkin.PaintSeparator(ACanvas, R, ItemInfo, True, False);
   end
   else
     inherited;

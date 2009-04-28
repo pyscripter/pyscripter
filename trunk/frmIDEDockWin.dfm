@@ -35,16 +35,12 @@ object IDEDockWindow: TIDEDockWindow
     FullRepaint = False
     ParentBackground = False
     TabOrder = 0
-    ExplicitLeft = -1
-    ExplicitTop = -1
-    ExplicitWidth = 227
-    ExplicitHeight = 396
   end
   object DockClient: TJvDockClient
     LRDockWidth = 220
     TBDockHeight = 220
     DirectDrag = False
-    DockStyle = PyIDEMainForm.JvDockVSNetStyleTBX
+    DockStyle = PyIDEMainForm.JvDockVSNetStyleSpTBX
     OnTabHostFormCreated = DockClientTabHostFormCreated
     Left = 8
     Top = 10

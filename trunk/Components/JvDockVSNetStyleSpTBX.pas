@@ -53,6 +53,7 @@ Type
     FSelectHotIndex: Integer;
     procedure CMMouseLeave(var Msg: TMessage); message CM_MOUSELEAVE;
   protected
+    FontHeight : Integer;
     procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
     procedure MouseMove(Shift: TShiftState; X, Y: Integer); override;
     procedure Paint; override;
@@ -89,6 +90,7 @@ Type
 
   TJvDockVSChannelSpTBX = class(TJvDockVSChannel)
   protected
+    FontHeight : Integer;
     procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
     procedure Paint; override;
     procedure PopupPaneChanged; override;
@@ -133,7 +135,7 @@ Uses
 
 procedure Register;
 begin
-  RegisterComponents('SpTBX JVCL', [TJvDockVSNetStyleSpTBX]);
+  RegisterComponents('PyScripter Custom', [TJvDockVSNetStyleSpTBX]);
 end;
 
 const
@@ -468,14 +470,27 @@ begin
 end;
 
 procedure TJvDockVSNETTabPageControlSpTBX.CreatePanel;
+Var
+  TM: TTextMetric;
 begin
   inherited;
-  TJvDockVSNETTabPanelSpTBX(Panel).TabBottomOffset := 2; // changed from 3
-  TJvDockVSNETTabPanelSpTBX(Panel).TabTopOffset := 2;
-  TJvDockVSNETTabPanelSpTBX(Panel).TabHeight := 25;
-  TJvDockVSNETTabPanelSpTBX(Panel).TabLeftOffset := 2;
-  TJvDockVSNETTabPanelSpTBX(Panel).TabRightOffset := 2;
-  TJvDockVSNETTabPanelSpTBX(Panel).TabSplitterWidth := 0;
+  with Panel as TJvDockVSNETTabPanelSpTBX do begin
+    TabBottomOffset := 2; // changed from 3
+    TabTopOffset := 2;
+    TabLeftOffset := 2;
+    TabRightOffset := 2;
+    TabSplitterWidth := 0;
+
+    Canvas.Font.Assign(ToolbarFont);
+    if GetTextMetrics(Canvas.Handle, TM) then
+      FontHeight := TM.tmHeight
+    else begin
+      FontHeight := Abs(ToolbarFont.Height);
+      if ToolbarFont.Height < 0 then
+        Inc(FontHeight, 3); //tmInternalLeading
+    end;
+    TabHeight := Max(TJvDockVSNETTabPanelSpTBX(Panel).FontHeight + 10, 25);
+  end;
 end;
 
 destructor TJvDockVSNETTabPageControlSpTBX.Destroy;
@@ -551,7 +566,6 @@ var
   CurrTabWidth: Integer;
   I, CompleteWidth: Integer;
   ImageWidth: Integer;
-  FontHeight: Integer;
   CaptionString: string;
   Edge: TSpTBXTabEdge;
   Position: TSpTBXTabPosition;
@@ -559,7 +573,6 @@ var
   State : TSpTBXSkinStatesType;
   TextColor: TColor;
   Format : UINT;
-  TM: TTextMetric;
 begin
   if SkinManager.GetSkinType <> sknSkin then begin
     inherited;
@@ -600,14 +613,8 @@ begin
   CompleteWidth := TabLeftOffset;
 
   // Paint all the tabs
-  Edge := tedLeft;  // Only for the first visible tab
   Canvas.Font.Assign(ToolbarFont);
-  if GetTextMetrics(Canvas.Handle, TM) then
-    FontHeight := TM.tmHeight
-  else
-    FontHeight := Abs(ToolbarFont.Height);
-
-
+  Edge := tedLeft;  // Only for the first visible tab
 
   for I := 0 to Page.Count - 1 do
   begin
@@ -758,10 +765,17 @@ end;
 { TJvDockVSChannelSpTBX }
 
 constructor TJvDockVSChannelSpTBX.Create(AOwner: TComponent);
+var
+  NonClientMetrics: TNonClientMetrics;
 begin
   inherited;
   ControlStyle := ControlStyle + [csOpaque];
   SkinManager.AddSkinNotification(Self);
+  Canvas.Font.Assign(ToolbarFont);
+  NonClientMetrics.cbSize := SizeOf(NonClientMetrics);
+  if SystemParametersInfo(SPI_GETNONCLIENTMETRICS, 0, @NonClientMetrics, 0) then
+    PInteger(@(Self.ChannelWidth))^ :=
+      Max(Abs(NonClientMetrics.lfSmCaptionFont.lfHeight) + 10, 22);  // Access private property
 end;
 
 destructor TJvDockVSChannelSpTBX.Destroy;
@@ -777,39 +791,51 @@ var
 
   procedure DrawSingleBlock(Block: TJvDockVSBlock);
   var
-    DrawRect: TRect;
+    DrawRect, R: TRect;
     I: Integer;
     OldGraphicsMode: Integer;
     VisiblePaneCount: Integer;
     State : TSpTBXSkinStatesType;
     TextColor: TColor;
     IsChecked, IsHot: Boolean;
+    Flags : Integer;
 
     procedure AdjustImagePos;
     begin
-      if Align = alLeft then
-      begin
-        Inc(DrawRect.Left, 3);
-        Inc(DrawRect.Top, 4);
-      end
-      else
-      if Align = alTop then
-      begin
-        Inc(DrawRect.Left, 4);
-        Inc(DrawRect.Top, 2);
-      end
-      else
-      if Align = alRight then
-      begin
-        Inc(DrawRect.Left, 4);
-        Inc(DrawRect.Top, 4);
-      end
-      else
-      if Align = alBottom then
-      begin
-        Inc(DrawRect.Left, 4);
-        Inc(DrawRect.Top, 3);
+      R := DrawRect;
+      if Align in [alLeft, alRight] then begin
+        Inc(R.Top, 4);
+        R.Bottom := R.Top + Block.ImageList.Height;
+        R := SpCenterRectHoriz(R, Block.ImageList.Width);
+      end else begin
+        Inc(R.Left, 4);
+        R.Right := R.Left + Block.ImageList.Width;
+        R := SpCenterRectVert(R, Block.ImageList.Height);
       end;
+
+//      if Align = alLeft then
+//      begin
+//        Inc(DrawRect.Left, 3);
+//        Inc(DrawRect.Top, 4);
+//      end
+//      else
+//      if Align = alTop then
+//      begin
+//        Inc(DrawRect.Left, 4);
+//        Inc(DrawRect.Top, 2);
+//      end
+//      else
+//      if Align = alRight then
+//      begin
+//        Inc(DrawRect.Left, 4);
+//        Inc(DrawRect.Top, 4);
+//      end
+//      else
+//      if Align = alBottom then
+//      begin
+//        Inc(DrawRect.Left, 4);
+//        Inc(DrawRect.Top, 3);
+//      end;
     end;
 
   begin
@@ -824,33 +850,27 @@ var
       IsHot := TCrackJvDockVSBlock(Block).ActiveDockControl = Block.VSPane[I].DockForm;
       IsChecked := Block.VSPane[I].Active;
       State := CurrentSkin.GetState(True, False, IsHot, IsChecked);
-//      CurrentSkin.PaintBackground(Canvas, DrawRect, skncToolbarItem, State, True, True, IsVertical);
       SpDrawXPButton(Canvas, DrawRect, True, False, IsHot, IsChecked, False, False, sknSkin);
 
       AdjustImagePos;
-      SpDrawImageList(Canvas, Rect(DrawRect.Left, DrawRect.Top,
-        DrawRect.Left + Block.ImageList.Width, DrawRect.Top + Block.ImageList.Height),
-        Block.ImageList, I, True, False);
+      SpDrawImageList(Canvas, R, Block.ImageList, I, True, False);
 
       if IsHot then
       begin
+        Flags := DT_END_ELLIPSIS or DT_NOCLIP or DT_SINGLELINE;
         // draw the Caption
-        if Align in [alTop, alBottom] then
-          Inc(DrawRect.Left, TCrackJvDockVSBlock(Block).InactiveBlockWidth)
-        else
+        if Align in [alTop, alBottom] then begin
+          Inc(DrawRect.Left, 2 + TCrackJvDockVSBlock(Block).InactiveBlockWidth);
+          Dec(DrawRect.Right, 2);
+          Flags := Flags or DT_VCENTER;
+        end else
         if Align in [alLeft, alRight] then
         begin
-          Inc(DrawRect.Top, TCrackJvDockVSBlock(Block).InactiveBlockWidth);
-          if Align = alLeft then
-            DrawRect.Left := 15
-          else
-            DrawRect.Left := 20;
+          Inc(DrawRect.Top, 2 + TCrackJvDockVSBlock(Block).InactiveBlockWidth);
+          DrawRect.Left := DrawRect.Right + 1 - ((ChannelWidth - FontHeight) div 2);
+          Dec(DrawRect.Bottom, 2);
           DrawRect.Right := DrawRect.Left + (DrawRect.Bottom - DrawRect.Top);
         end;
-        //Canvas.Brush.Color := (DockServer.DockStyle as TJvDockVSNetStyleMod).ChannelOption.TabColor;
-        //Canvas.Pen.Color := clBlack;
-
-        Dec(DrawRect.Right, 3);
 
         OldGraphicsMode := SetGraphicsMode(Canvas.Handle, GM_ADVANCED);
         Canvas.Brush.Style := bsClear;
@@ -860,7 +880,8 @@ var
           TextColor := clBtnText;
         Canvas.Font.Color := TextColor;
 
-        DrawText(Canvas.Handle, PChar(Block.VSPane[I].DockForm.Caption), -1, DrawRect, DT_END_ELLIPSIS or DT_NOCLIP);
+        DrawText(Canvas.Handle, PChar(Block.VSPane[I].DockForm.Caption), -1,
+          DrawRect, Flags);
         SetGraphicsMode(Canvas.Handle, OldGraphicsMode);
       end;
       Inc(VisiblePaneCount);
@@ -890,7 +911,16 @@ begin
 end;
 
 procedure TJvDockVSChannelSpTBX.ResetFontAngle;
+Var
+  TM: TTextMetric;
 begin
+  if GetTextMetrics(Canvas.Handle, TM) then
+    FontHeight := TM.tmHeight
+  else begin
+    FontHeight := Abs(Canvas.Font.Height);
+    if Canvas.Font.Height < 0 then
+      Inc(FontHeight, 3); //tmInternalLeading
+  end;
   if Align in [alLeft, alRight] then
     Canvas.Font.Handle := SpCreateRotatedFont(Canvas.Handle);
 end;
@@ -1030,7 +1060,6 @@ constructor TJvDockVSNETSpTBXConjoinServerOption.Create(
   ADockStyle: TJvDockObservableStyle);
 begin
   inherited;
-  GrabbersSize := 18;
 end;
 
 procedure TJvDockVSNETSpTBXConjoinServerOption.UpdateDefaultSystemCaptionInfo;
@@ -1038,6 +1067,7 @@ var
   NonClientMetrics: TNonClientMetrics;
 begin
   inherited;
+  NonClientMetrics.cbSize := SizeOf(NonClientMetrics);
   if SystemParametersInfo(SPI_GETNONCLIENTMETRICS, 0, @NonClientMetrics, 0) then
     GrabbersSize := Max(Abs(NonClientMetrics.lfSmCaptionFont.lfHeight) + 6, 18);
 end;

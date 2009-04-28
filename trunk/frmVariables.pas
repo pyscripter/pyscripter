@@ -14,15 +14,15 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ComCtrls, StdCtrls, ExtCtrls, ImgList,
   JvDockControlForm, JvComponent, Menus, VTHeaderPopup, JvAppStorage,
-  VirtualTrees, frmIDEDockWin, TBX, TBXThemes,
-  JvExControls, JvLinkLabel, TBXDkPanels, JvComponentBase, cPyBaseDebugger,
-  SpTBXControls;
+  VirtualTrees, frmIDEDockWin, 
+  JvExControls, JvLinkLabel, SpTBXDkPanels, JvComponentBase, cPyBaseDebugger,
+  SpTBXSkins, SpTBXControls, SpTBXPageScroller;
 
 type
   TVariablesWindow = class(TIDEDockWindow, IJvAppStorageHandler)
     VTHeaderPopupMenu: TVTHeaderPopupMenu;
     VariablesTree: TVirtualStringTree;
-    DocPanel: TTBXPageScroller;
+    DocPanel: TSpTBXPageScroller;
     HTMLLabel: TJvLinkLabel;
     SpTBXSplitter: TSpTBXSplitter;
     procedure VariablesTreeChange(Sender: TBaseVirtualTree; Node: PVirtualNode);
@@ -46,7 +46,7 @@ type
     CurrentFileName, CurrentFunctionName : string;
     GlobalsNameSpace, LocalsNameSpace : TBaseNameSpaceItem;
   protected
-    procedure TBMThemeChange(var Message: TMessage); message TBM_THEMECHANGE;
+    procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
     // IJvAppStorageHandler implementation
     procedure ReadFromAppStorage(AppStorage: TJvCustomAppStorage; const BasePath: string);
     procedure WriteToAppStorage(AppStorage: TJvCustomAppStorage; const BasePath: string);
@@ -81,6 +81,10 @@ begin
     CommandsDataModule.VirtualStringTreeAdvancedHeaderDraw;
   VariablesTree.OnHeaderDrawQueryElements :=
     CommandsDataModule.VirtualStringTreeDrawQueryElements;
+  VariablesTree.OnBeforeCellPaint :=
+    CommandsDataModule.VirtualStringTreeBeforeCellPaint;
+  VariablesTree.OnPaintText :=
+    CommandsDataModule.VirtualStringTreePaintText;
   HTMLLabel.Color := clWindow;
   DocPanel.Color := clWindow;
 end;
@@ -382,15 +386,15 @@ begin
   //PostMessage(VariablesTree.Handle, WM_SETFOCUS, 0, 0);
 end;
 
-procedure TVariablesWindow.TBMThemeChange(var Message: TMessage);
+procedure TVariablesWindow.WMSpSkinChange(var Message: TMessage);
 begin
   inherited;
-  if Message.WParam = TSC_VIEWCHANGE then begin
-    VariablesTree.Header.Invalidate(nil, True);
-    VariablesTree.Colors.HeaderHotColor :=
-      CurrentTheme.GetItemTextColor(GetItemInfo('active'));
-    FGPanel.Color := CurrentTheme.GetItemColor(GetItemInfo('inactive'));
-  end;
+  VariablesTree.Header.Invalidate(nil, True);
+  VariablesTree.Invalidate;
+  if SkinManager.IsDefaultSkin then
+    VariablesTree.TreeOptions.PaintOptions := VariablesTree.TreeOptions.PaintOptions - [toAlwaysHideSelection]
+  else
+    VariablesTree.TreeOptions.PaintOptions := VariablesTree.TreeOptions.PaintOptions + [toAlwaysHideSelection];
 end;
 
 procedure TVariablesWindow.FormDestroy(Sender: TObject);

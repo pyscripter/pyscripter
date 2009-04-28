@@ -22,7 +22,7 @@ inherited FindInFilesDialog: TFindInFilesDialog
     Width = 167
     Height = 106
     Caption = 'Options'
-    ThemeType = thtWindows
+    SkinType = sknSkin
     Anchors = [akLeft, akBottom]
     TabOrder = 2
     object cbNoCase: TSpTBXCheckBox
@@ -33,7 +33,7 @@ inherited FindInFilesDialog: TFindInFilesDialog
       Caption = '&Case sensitive'
       ParentColor = True
       TabOrder = 0
-      ThemeType = thtWindows
+      SkinType = sknSkin
     end
     object cbNoComments: TSpTBXCheckBox
       Left = 8
@@ -43,7 +43,7 @@ inherited FindInFilesDialog: TFindInFilesDialog
       Caption = '&Ignore comments'
       ParentColor = True
       TabOrder = 3
-      ThemeType = thtWindows
+      SkinType = sknSkin
     end
     object cbWholeWord: TSpTBXCheckBox
       Left = 8
@@ -53,7 +53,7 @@ inherited FindInFilesDialog: TFindInFilesDialog
       Caption = '&Whole word'
       ParentColor = True
       TabOrder = 1
-      ThemeType = thtWindows
+      SkinType = sknSkin
     end
     object cbRegEx: TSpTBXCheckBox
       Left = 8
@@ -63,7 +63,7 @@ inherited FindInFilesDialog: TFindInFilesDialog
       Caption = 'Regular e&xpression'
       ParentColor = True
       TabOrder = 2
-      ThemeType = thtWindows
+      SkinType = sknSkin
     end
   end
   object gbxWhere: TSpTBXGroupBox
@@ -72,7 +72,7 @@ inherited FindInFilesDialog: TFindInFilesDialog
     Width = 183
     Height = 106
     Caption = 'Where'
-    ThemeType = thtWindows
+    SkinType = sknSkin
     Anchors = [akRight, akBottom]
     TabOrder = 3
     object rbOpenFiles: TSpTBXRadioButton
@@ -84,7 +84,7 @@ inherited FindInFilesDialog: TFindInFilesDialog
       ParentColor = True
       TabOrder = 1
       OnClick = rbProjectClick
-      ThemeType = thtWindows
+      SkinType = sknSkin
     end
     object rbProject: TSpTBXRadioButton
       Left = 8
@@ -95,7 +95,7 @@ inherited FindInFilesDialog: TFindInFilesDialog
       ParentColor = True
       TabOrder = 2
       OnClick = rbProjectClick
-      ThemeType = thtWindows
+      SkinType = sknSkin
     end
     object rbCurrentOnly: TSpTBXRadioButton
       Left = 8
@@ -106,7 +106,7 @@ inherited FindInFilesDialog: TFindInFilesDialog
       ParentColor = True
       TabOrder = 0
       OnClick = rbProjectClick
-      ThemeType = thtWindows
+      SkinType = sknSkin
     end
     object rbDirectories: TSpTBXRadioButton
       Left = 8
@@ -117,7 +117,7 @@ inherited FindInFilesDialog: TFindInFilesDialog
       ParentColor = True
       TabOrder = 3
       OnClick = rbProjectClick
-      ThemeType = thtWindows
+      SkinType = sknSkin
     end
   end
   object gbxDirectories: TSpTBXGroupBox
@@ -126,7 +126,7 @@ inherited FindInFilesDialog: TFindInFilesDialog
     Width = 360
     Height = 97
     Caption = 'Directory Search'
-    ThemeType = thtWindows
+    SkinType = sknSkin
     Anchors = [akLeft, akRight, akBottom]
     TabOrder = 1
     DesignSize = (
@@ -145,11 +145,6 @@ inherited FindInFilesDialog: TFindInFilesDialog
       TabOrder = 1
       TabStop = False
       OnClick = btnBrowseClick
-      LinkFont.Charset = DEFAULT_CHARSET
-      LinkFont.Color = clBlue
-      LinkFont.Height = -11
-      LinkFont.Name = 'MS Shell Dlg 2'
-      LinkFont.Style = [fsUnderline]
     end
     object cbInclude: TSpTBXCheckBox
       Left = 78
@@ -160,7 +155,7 @@ inherited FindInFilesDialog: TFindInFilesDialog
       Anchors = [akLeft, akTop, akRight]
       ParentColor = True
       TabOrder = 3
-      ThemeType = thtWindows
+      SkinType = sknSkin
     end
     object cbMasks: TSpTBXComboBox
       Left = 78
@@ -171,7 +166,7 @@ inherited FindInFilesDialog: TFindInFilesDialog
       DropDownCount = 15
       ItemHeight = 13
       TabOrder = 2
-      ThemeType = thtWindows
+      SkinType = sknSkin
     end
     object cbDirectory: TSpTBXComboBox
       Left = 78
@@ -183,7 +178,7 @@ inherited FindInFilesDialog: TFindInFilesDialog
       ItemHeight = 13
       TabOrder = 0
       OnDropDown = cbDirectoryDropDown
-      ThemeType = thtWindows
+      SkinType = sknSkin
     end
     object lblMasks: TSpTBXLabel
       Left = 15
@@ -194,11 +189,6 @@ inherited FindInFilesDialog: TFindInFilesDialog
       ParentColor = True
       Alignment = taRightJustify
       FocusControl = cbMasks
-      LinkFont.Charset = DEFAULT_CHARSET
-      LinkFont.Color = clBlue
-      LinkFont.Height = -11
-      LinkFont.Name = 'MS Shell Dlg 2'
-      LinkFont.Style = [fsUnderline]
     end
     object lblDirectory: TSpTBXLabel
       Left = 14
@@ -209,11 +199,6 @@ inherited FindInFilesDialog: TFindInFilesDialog
       ParentColor = True
       Alignment = taRightJustify
       FocusControl = cbDirectory
-      LinkFont.Charset = DEFAULT_CHARSET
-      LinkFont.Color = clBlue
-      LinkFont.Height = -11
-      LinkFont.Name = 'MS Shell Dlg 2'
-      LinkFont.Style = [fsUnderline]
     end
   end
   object btnOK: TSpTBXButton
@@ -226,11 +211,6 @@ inherited FindInFilesDialog: TFindInFilesDialog
     TabOrder = 4
     OnClick = btnOKClick
     Default = True
-    LinkFont.Charset = DEFAULT_CHARSET
-    LinkFont.Color = clBlue
-    LinkFont.Height = -11
-    LinkFont.Name = 'MS Shell Dlg 2'
-    LinkFont.Style = [fsUnderline]
     ModalResult = 1
   end
   object btnCancel: TSpTBXButton
@@ -242,11 +222,6 @@ inherited FindInFilesDialog: TFindInFilesDialog
     Anchors = [akRight, akBottom]
     TabOrder = 5
     Cancel = True
-    LinkFont.Charset = DEFAULT_CHARSET
-    LinkFont.Color = clBlue
-    LinkFont.Height = -11
-    LinkFont.Name = 'MS Shell Dlg 2'
-    LinkFont.Style = [fsUnderline]
     ModalResult = 2
   end
   object btnHelp: TSpTBXButton
@@ -258,11 +233,6 @@ inherited FindInFilesDialog: TFindInFilesDialog
     Anchors = [akRight, akBottom]
     TabOrder = 6
     OnClick = btnHelpClick
-    LinkFont.Charset = DEFAULT_CHARSET
-    LinkFont.Color = clBlue
-    LinkFont.Height = -11
-    LinkFont.Name = 'MS Shell Dlg 2'
-    LinkFont.Style = [fsUnderline]
   end
   object cbText: TSpTBXComboBox
     Left = 8
@@ -273,7 +243,7 @@ inherited FindInFilesDialog: TFindInFilesDialog
     DropDownCount = 15
     ItemHeight = 13
     TabOrder = 0
-    ThemeType = thtWindows
+    SkinType = sknSkin
   end
   object lblFind: TSpTBXLabel
     Left = 8
@@ -284,10 +254,5 @@ inherited FindInFilesDialog: TFindInFilesDialog
     ParentColor = True
     Alignment = taRightJustify
     FocusControl = cbText
-    LinkFont.Charset = DEFAULT_CHARSET
-    LinkFont.Color = clBlue
-    LinkFont.Height = -11
-    LinkFont.Name = 'MS Shell Dlg 2'
-    LinkFont.Style = [fsUnderline]
   end
 end
