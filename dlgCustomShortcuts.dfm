@@ -33,7 +33,7 @@ inherited frmCustomKeyboard: TfrmCustomKeyboard
     Width = 328
     Height = 61
     Caption = ' Description '
-    ThemeType = thtWindows
+    SkinType = sknSkin
     Anchors = [akLeft, akTop, akRight]
     TabOrder = 1
     ExplicitWidth = 317
@@ -49,11 +49,6 @@ inherited frmCustomKeyboard: TfrmCustomKeyboard
       AutoSize = False
       ParentColor = True
       Wrapping = twWrap
-      LinkFont.Charset = DEFAULT_CHARSET
-      LinkFont.Color = clBlue
-      LinkFont.Height = -11
-      LinkFont.Name = 'MS Shell Dlg 2'
-      LinkFont.Style = [fsUnderline]
       ExplicitWidth = 301
     end
   end
@@ -75,11 +70,6 @@ inherited frmCustomKeyboard: TfrmCustomKeyboard
     Anchors = [akRight, akBottom]
     TabOrder = 7
     Default = True
-    LinkFont.Charset = DEFAULT_CHARSET
-    LinkFont.Color = clBlue
-    LinkFont.Height = -11
-    LinkFont.Name = 'Tahoma'
-    LinkFont.Style = [fsUnderline]
     ModalResult = 1
     ExplicitLeft = 84
     ExplicitTop = 354
@@ -93,11 +83,6 @@ inherited frmCustomKeyboard: TfrmCustomKeyboard
     Anchors = [akRight, akBottom]
     TabOrder = 8
     Cancel = True
-    LinkFont.Charset = DEFAULT_CHARSET
-    LinkFont.Color = clBlue
-    LinkFont.Height = -11
-    LinkFont.Name = 'Tahoma'
-    LinkFont.Style = [fsUnderline]
     ModalResult = 2
     ExplicitLeft = 168
     ExplicitTop = 354
@@ -111,11 +96,6 @@ inherited frmCustomKeyboard: TfrmCustomKeyboard
     Anchors = [akRight, akBottom]
     TabOrder = 9
     OnClick = HelpButtonClick
-    LinkFont.Charset = DEFAULT_CHARSET
-    LinkFont.Color = clBlue
-    LinkFont.Height = -11
-    LinkFont.Name = 'Tahoma'
-    LinkFont.Style = [fsUnderline]
     ExplicitLeft = 252
     ExplicitTop = 354
   end
@@ -128,11 +108,6 @@ inherited frmCustomKeyboard: TfrmCustomKeyboard
     TabOrder = 4
     OnClick = btnAssignClick
     ImageIndex = 0
-    LinkFont.Charset = DEFAULT_CHARSET
-    LinkFont.Color = clBlue
-    LinkFont.Height = -11
-    LinkFont.Name = 'MS Shell Dlg 2'
-    LinkFont.Style = [fsUnderline]
   end
   object btnRemove: TSpTBXButton
     Left = 192
@@ -142,11 +117,6 @@ inherited frmCustomKeyboard: TfrmCustomKeyboard
     Caption = '&Remove'
     TabOrder = 5
     OnClick = btnRemoveClick
-    LinkFont.Charset = DEFAULT_CHARSET
-    LinkFont.Color = clBlue
-    LinkFont.Height = -11
-    LinkFont.Name = 'MS Shell Dlg 2'
-    LinkFont.Style = [fsUnderline]
   end
   object lblNewShortcutKey: TSpTBXLabel
     Left = 8
@@ -155,11 +125,6 @@ inherited frmCustomKeyboard: TfrmCustomKeyboard
     Height = 13
     Caption = 'Press &new shortcut key:'
     ParentColor = True
-    LinkFont.Charset = DEFAULT_CHARSET
-    LinkFont.Color = clBlue
-    LinkFont.Height = -11
-    LinkFont.Name = 'MS Shell Dlg 2'
-    LinkFont.Style = [fsUnderline]
   end
   object lblCategories: TSpTBXLabel
     Left = 16
@@ -169,11 +134,6 @@ inherited frmCustomKeyboard: TfrmCustomKeyboard
     Caption = '&Categories:'
     ParentColor = True
     FocusControl = lbCategories
-    LinkFont.Charset = DEFAULT_CHARSET
-    LinkFont.Color = clBlue
-    LinkFont.Height = -11
-    LinkFont.Name = 'MS Shell Dlg 2'
-    LinkFont.Style = [fsUnderline]
   end
   object lblCommands: TSpTBXLabel
     Left = 148
@@ -183,11 +143,6 @@ inherited frmCustomKeyboard: TfrmCustomKeyboard
     Caption = 'C&ommands:'
     ParentColor = True
     FocusControl = lbCommands
-    LinkFont.Charset = DEFAULT_CHARSET
-    LinkFont.Color = clBlue
-    LinkFont.Height = -11
-    LinkFont.Name = 'MS Shell Dlg 2'
-    LinkFont.Style = [fsUnderline]
   end
   object lblCurrent: TSpTBXLabel
     Left = 8
@@ -197,11 +152,6 @@ inherited frmCustomKeyboard: TfrmCustomKeyboard
     Caption = 'Currently assigned to:'
     ParentColor = True
     Visible = False
-    LinkFont.Charset = DEFAULT_CHARSET
-    LinkFont.Color = clBlue
-    LinkFont.Height = -11
-    LinkFont.Name = 'MS Shell Dlg 2'
-    LinkFont.Style = [fsUnderline]
   end
   object lblAssignedTo: TSpTBXLabel
     Left = 8
@@ -211,11 +161,6 @@ inherited frmCustomKeyboard: TfrmCustomKeyboard
     Caption = 'lblAssignedTo'
     ParentColor = True
     Visible = False
-    LinkFont.Charset = DEFAULT_CHARSET
-    LinkFont.Color = clBlue
-    LinkFont.Height = -11
-    LinkFont.Name = 'MS Shell Dlg 2'
-    LinkFont.Style = [fsUnderline]
   end
   object lblCurrentKeys: TSpTBXLabel
     Left = 192
@@ -225,11 +170,6 @@ inherited frmCustomKeyboard: TfrmCustomKeyboard
     Caption = 'C&urrent Keys:'
     ParentColor = True
     FocusControl = lbCurrentKeys
-    LinkFont.Charset = DEFAULT_CHARSET
-    LinkFont.Color = clBlue
-    LinkFont.Height = -11
-    LinkFont.Name = 'MS Shell Dlg 2'
-    LinkFont.Style = [fsUnderline]
   end
   object lbCategories: TSpTBXListBox
     Left = 8
@@ -240,7 +180,7 @@ inherited frmCustomKeyboard: TfrmCustomKeyboard
     ItemHeight = 13
     TabOrder = 2
     OnClick = lbCategoriesClick
-    ThemeType = thtWindows
+    SkinType = sknSkin
   end
   object lbCommands: TSpTBXListBox
     Left = 148
@@ -253,7 +193,7 @@ inherited frmCustomKeyboard: TfrmCustomKeyboard
     Sorted = True
     TabOrder = 3
     OnClick = lbCommandsClick
-    ThemeType = thtWindows
+    SkinType = sknSkin
     ExplicitWidth = 177
   end
   object lbCurrentKeys: TSpTBXListBox
@@ -266,7 +206,7 @@ inherited frmCustomKeyboard: TfrmCustomKeyboard
     ItemHeight = 13
     TabOrder = 6
     OnClick = lbCurrentKeysClick
-    ThemeType = thtWindows
+    SkinType = sknSkin
     ExplicitWidth = 133
   end
 end

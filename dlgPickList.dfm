@@ -43,11 +43,6 @@ inherited PickListDialog: TPickListDialog
       OnClick = mnSelectAllClick
       Images = CommandsDataModule.Images
       ImageIndex = 104
-      LinkFont.Charset = DEFAULT_CHARSET
-      LinkFont.Color = clBlue
-      LinkFont.Height = -11
-      LinkFont.Name = 'MS Shell Dlg 2'
-      LinkFont.Style = [fsUnderline]
     end
     object btnDeselectAll: TSpTBXButton
       Left = 186
@@ -59,11 +54,6 @@ inherited PickListDialog: TPickListDialog
       OnClick = mnDeselectAllClick
       Images = CommandsDataModule.Images
       ImageIndex = 105
-      LinkFont.Charset = DEFAULT_CHARSET
-      LinkFont.Color = clBlue
-      LinkFont.Height = -11
-      LinkFont.Name = 'MS Shell Dlg 2'
-      LinkFont.Style = [fsUnderline]
     end
     object btnOk: TSpTBXButton
       Left = 92
@@ -73,11 +63,6 @@ inherited PickListDialog: TPickListDialog
       Caption = '&OK'
       TabOrder = 2
       Default = True
-      LinkFont.Charset = DEFAULT_CHARSET
-      LinkFont.Color = clBlue
-      LinkFont.Height = -11
-      LinkFont.Name = 'Tahoma'
-      LinkFont.Style = [fsUnderline]
       ModalResult = 1
     end
     object btnCancel: TSpTBXButton
@@ -88,11 +73,6 @@ inherited PickListDialog: TPickListDialog
       Caption = '&Cancel'
       TabOrder = 3
       Cancel = True
-      LinkFont.Charset = DEFAULT_CHARSET
-      LinkFont.Color = clBlue
-      LinkFont.Height = -11
-      LinkFont.Name = 'Tahoma'
-      LinkFont.Style = [fsUnderline]
       ModalResult = 2
     end
   end
@@ -104,11 +84,6 @@ inherited PickListDialog: TPickListDialog
     Anchors = [akLeft, akTop, akRight]
     ParentColor = True
     Wrapping = twWrap
-    LinkFont.Charset = DEFAULT_CHARSET
-    LinkFont.Color = clBlue
-    LinkFont.Height = -11
-    LinkFont.Name = 'MS Shell Dlg 2'
-    LinkFont.Style = [fsUnderline]
   end
   object CheckListBox: TSpTBXCheckListBox
     Left = 0

@@ -14,7 +14,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, frmIDEDockWin, JvComponent, JvDockControlForm, ExtCtrls,
   StdCtrls, JvCreateProcessW, Menus, ActnList, uEditAppIntfs, cTools,
-  SynEditTypes, JvTimer, SynRegExpr, TB2Item, TBX, JvComponentBase, SpTBXItem,
+  SynEditTypes, JvTimer, SynRegExpr, TB2Item, JvComponentBase, SpTBXItem,
   TntActnList;
 
 type

@@ -21,7 +21,7 @@ inherited fmToDoOptions: TfmToDoOptions
     Width = 233
     Height = 256
     Caption = 'To Do Tokens'
-    ThemeType = thtWindows
+    SkinType = sknSkin
     TabOrder = 0
     object btnInsert: TSpTBXButton
       Left = 140
@@ -31,11 +31,6 @@ inherited fmToDoOptions: TfmToDoOptions
       Caption = '&Insert'
       TabOrder = 1
       OnClick = btnInsertClick
-      LinkFont.Charset = DEFAULT_CHARSET
-      LinkFont.Color = clBlue
-      LinkFont.Height = -11
-      LinkFont.Name = 'MS Shell Dlg 2'
-      LinkFont.Style = [fsUnderline]
     end
     object btnApply: TSpTBXButton
       Left = 140
@@ -45,11 +40,6 @@ inherited fmToDoOptions: TfmToDoOptions
       Caption = '&Apply'
       TabOrder = 2
       OnClick = btnApplyClick
-      LinkFont.Charset = DEFAULT_CHARSET
-      LinkFont.Color = clBlue
-      LinkFont.Height = -11
-      LinkFont.Name = 'MS Shell Dlg 2'
-      LinkFont.Style = [fsUnderline]
     end
     object btnRemove: TSpTBXButton
       Left = 140
@@ -59,11 +49,6 @@ inherited fmToDoOptions: TfmToDoOptions
       Caption = '&Remove'
       TabOrder = 3
       OnClick = btnRemoveClick
-      LinkFont.Charset = DEFAULT_CHARSET
-      LinkFont.Color = clBlue
-      LinkFont.Height = -11
-      LinkFont.Name = 'MS Shell Dlg 2'
-      LinkFont.Style = [fsUnderline]
     end
     object lstTokens: TSpTBXListBox
       Left = 7
@@ -75,7 +60,7 @@ inherited fmToDoOptions: TfmToDoOptions
       Sorted = True
       TabOrder = 0
       OnClick = lstTokensClick
-      ThemeType = thtWindows
+      SkinType = sknSkin
     end
     object edToken: TSpTBXEdit
       Left = 131
@@ -84,7 +69,7 @@ inherited fmToDoOptions: TfmToDoOptions
       Height = 21
       TabOrder = 4
       OnChange = edTokenChange
-      ThemeType = thtWindows
+      SkinType = sknSkin
     end
     object cboPriority: TSpTBXComboBox
       Left = 131
@@ -99,7 +84,7 @@ inherited fmToDoOptions: TfmToDoOptions
         'High'
         'Normal'
         'Low')
-      ThemeType = thtWindows
+      SkinType = sknSkin
     end
     object lblPriority: TSpTBXLabel
       Left = 131
@@ -109,11 +94,6 @@ inherited fmToDoOptions: TfmToDoOptions
       Caption = '&Priority'
       ParentColor = True
       FocusControl = cboPriority
-      LinkFont.Charset = DEFAULT_CHARSET
-      LinkFont.Color = clBlue
-      LinkFont.Height = -11
-      LinkFont.Name = 'MS Shell Dlg 2'
-      LinkFont.Style = [fsUnderline]
     end
     object lblToken: TSpTBXLabel
       Left = 131
@@ -123,11 +103,6 @@ inherited fmToDoOptions: TfmToDoOptions
       Caption = 'To&ken'
       ParentColor = True
       FocusControl = edToken
-      LinkFont.Charset = DEFAULT_CHARSET
-      LinkFont.Color = clBlue
-      LinkFont.Height = -11
-      LinkFont.Name = 'MS Shell Dlg 2'
-      LinkFont.Style = [fsUnderline]
     end
   end
   object gbxOptions: TSpTBXGroupBox
@@ -136,7 +111,7 @@ inherited fmToDoOptions: TfmToDoOptions
     Width = 253
     Height = 48
     Caption = 'Options'
-    ThemeType = thtWindows
+    SkinType = sknSkin
     TabOrder = 1
     object cbShowTokens: TSpTBXCheckBox
       Left = 8
@@ -146,7 +121,7 @@ inherited fmToDoOptions: TfmToDoOptions
       Caption = '&Show tokens in description'
       ParentColor = True
       TabOrder = 0
-      ThemeType = thtWindows
+      SkinType = sknSkin
     end
   end
   object gbxSearchFiles: TSpTBXGroupBox
@@ -155,7 +130,7 @@ inherited fmToDoOptions: TfmToDoOptions
     Width = 253
     Height = 171
     Caption = 'Search for To Do Tokens'
-    ThemeType = thtWindows
+    SkinType = sknSkin
     TabOrder = 2
     object btnBrowse: TSpTBXButton
       Left = 223
@@ -168,11 +143,6 @@ inherited fmToDoOptions: TfmToDoOptions
       ShowHint = True
       TabOrder = 2
       OnClick = btnBrowseClick
-      LinkFont.Charset = DEFAULT_CHARSET
-      LinkFont.Color = clBlue
-      LinkFont.Height = -11
-      LinkFont.Name = 'MS Shell Dlg 2'
-      LinkFont.Style = [fsUnderline]
     end
     object chkInclude: TSpTBXCheckBox
       Left = 8
@@ -182,7 +152,7 @@ inherited fmToDoOptions: TfmToDoOptions
       Caption = 'Include su&bdirectories'
       ParentColor = True
       TabOrder = 3
-      ThemeType = thtWindows
+      SkinType = sknSkin
     end
     object radScanOpen: TSpTBXRadioButton
       Left = 6
@@ -194,7 +164,7 @@ inherited fmToDoOptions: TfmToDoOptions
       TabOrder = 0
       TabStop = True
       OnClick = radScanDirClick
-      ThemeType = thtWindows
+      SkinType = sknSkin
     end
     object radScanDir: TSpTBXRadioButton
       Left = 6
@@ -206,7 +176,7 @@ inherited fmToDoOptions: TfmToDoOptions
       TabOrder = 1
       TabStop = True
       OnClick = radScanDirClick
-      ThemeType = thtWindows
+      SkinType = sknSkin
     end
     object radScanProject: TSpTBXRadioButton
       Left = 6
@@ -218,7 +188,7 @@ inherited fmToDoOptions: TfmToDoOptions
       TabOrder = 5
       TabStop = True
       OnClick = radScanDirClick
-      ThemeType = thtWindows
+      SkinType = sknSkin
     end
     object meDirectories: TTntRichEdit
       Left = 9
@@ -239,11 +209,6 @@ inherited fmToDoOptions: TfmToDoOptions
     Caption = '&OK'
     TabOrder = 3
     Default = True
-    LinkFont.Charset = DEFAULT_CHARSET
-    LinkFont.Color = clBlue
-    LinkFont.Height = -11
-    LinkFont.Name = 'MS Shell Dlg 2'
-    LinkFont.Style = [fsUnderline]
     ModalResult = 1
   end
   object btnCancel: TSpTBXButton
@@ -254,11 +219,6 @@ inherited fmToDoOptions: TfmToDoOptions
     Caption = '&Cancel'
     TabOrder = 4
     Cancel = True
-    LinkFont.Charset = DEFAULT_CHARSET
-    LinkFont.Color = clBlue
-    LinkFont.Height = -11
-    LinkFont.Name = 'MS Shell Dlg 2'
-    LinkFont.Style = [fsUnderline]
     ModalResult = 2
   end
   object btnHelp: TSpTBXButton
@@ -270,10 +230,5 @@ inherited fmToDoOptions: TfmToDoOptions
     Anchors = [akRight, akBottom]
     TabOrder = 5
     OnClick = btnHelpClick
-    LinkFont.Charset = DEFAULT_CHARSET
-    LinkFont.Color = clBlue
-    LinkFont.Height = -11
-    LinkFont.Name = 'MS Shell Dlg 2'
-    LinkFont.Style = [fsUnderline]
   end
 end

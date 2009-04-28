@@ -14,7 +14,7 @@ inherited OptionsInspector: TOptionsInspector
     Top = 0
     Width = 508
     Height = 312
-    ThemeType = thtWindows
+    SkinType = sknSkin
     Align = alClient
     Color = clBtnFace
     UseDockManager = True
@@ -40,7 +40,7 @@ inherited OptionsInspector: TOptionsInspector
     Top = 312
     Width = 508
     Height = 37
-    ThemeType = thtWindows
+    SkinType = sknSkin
     Align = alBottom
     Anchors = [akLeft, akBottom]
     Color = clBtnFace
@@ -60,11 +60,6 @@ inherited OptionsInspector: TOptionsInspector
       TabOrder = 0
       OnClick = OKButtonClick
       Default = True
-      LinkFont.Charset = DEFAULT_CHARSET
-      LinkFont.Color = clBlue
-      LinkFont.Height = -11
-      LinkFont.Name = 'Tahoma'
-      LinkFont.Style = [fsUnderline]
       ModalResult = 1
     end
     object BitBtn2: TSpTBXButton
@@ -76,11 +71,6 @@ inherited OptionsInspector: TOptionsInspector
       Anchors = [akRight, akBottom]
       TabOrder = 1
       Cancel = True
-      LinkFont.Charset = DEFAULT_CHARSET
-      LinkFont.Color = clBlue
-      LinkFont.Height = -11
-      LinkFont.Name = 'Tahoma'
-      LinkFont.Style = [fsUnderline]
       ModalResult = 2
     end
     object HelpButton: TSpTBXButton
@@ -92,11 +82,6 @@ inherited OptionsInspector: TOptionsInspector
       Anchors = [akRight, akBottom]
       TabOrder = 2
       OnClick = HelpButtonClick
-      LinkFont.Charset = DEFAULT_CHARSET
-      LinkFont.Color = clBlue
-      LinkFont.Height = -11
-      LinkFont.Name = 'Tahoma'
-      LinkFont.Style = [fsUnderline]
     end
   end
 end

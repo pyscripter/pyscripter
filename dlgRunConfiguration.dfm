@@ -15,11 +15,9 @@ inherited RunConfigurationForm: TRunConfigurationForm
     Top = 0
     Width = 399
     Height = 436
-    ThemeType = thtWindows
     Align = alClient
     TabOrder = 0
-    ExplicitLeft = 2
-    ExplicitWidth = 395
+    TBXStyleBackground = True
     DesignSize = (
       399
       436)
@@ -39,25 +37,19 @@ inherited RunConfigurationForm: TRunConfigurationForm
       Width = 385
       Height = 48
       Caption = 'General'
-      ThemeType = thtWindows
       TabOrder = 0
+      TBXStyleBackground = True
       DesignSize = (
         385
         48)
       object Label5: TSpTBXLabel
         Left = 8
         Top = 19
-        Width = 57
-        Height = 13
+        Width = 63
+        Height = 19
         Caption = 'Desc&ription:'
         Anchors = [akLeft, akBottom]
-        ParentColor = True
         FocusControl = edDescription
-        LinkFont.Charset = DEFAULT_CHARSET
-        LinkFont.Color = clBlue
-        LinkFont.Height = -11
-        LinkFont.Name = 'MS Shell Dlg 2'
-        LinkFont.Style = [fsUnderline]
       end
       object edDescription: TSpTBXEdit
         Left = 92
@@ -66,7 +58,6 @@ inherited RunConfigurationForm: TRunConfigurationForm
         Height = 21
         Anchors = [akLeft, akRight, akBottom]
         TabOrder = 0
-        ThemeType = thtWindows
       end
     end
     object btnOK: TSpTBXButton
@@ -78,14 +69,7 @@ inherited RunConfigurationForm: TRunConfigurationForm
       Anchors = [akRight, akBottom]
       TabOrder = 5
       Default = True
-      LinkFont.Charset = DEFAULT_CHARSET
-      LinkFont.Color = clBlue
-      LinkFont.Height = -11
-      LinkFont.Name = 'MS Shell Dlg 2'
-      LinkFont.Style = [fsUnderline]
       ModalResult = 1
-      ExplicitLeft = 135
-      ExplicitTop = 369
     end
     object btnCancel: TSpTBXButton
       Left = 223
@@ -96,14 +80,7 @@ inherited RunConfigurationForm: TRunConfigurationForm
       Anchors = [akRight, akBottom]
       TabOrder = 6
       Cancel = True
-      LinkFont.Charset = DEFAULT_CHARSET
-      LinkFont.Color = clBlue
-      LinkFont.Height = -11
-      LinkFont.Name = 'MS Shell Dlg 2'
-      LinkFont.Style = [fsUnderline]
       ModalResult = 2
-      ExplicitLeft = 219
-      ExplicitTop = 369
     end
     object btnHelp: TSpTBXButton
       Left = 307
@@ -114,13 +91,6 @@ inherited RunConfigurationForm: TRunConfigurationForm
       Anchors = [akRight, akBottom]
       TabOrder = 7
       OnClick = btnHelpClick
-      LinkFont.Charset = DEFAULT_CHARSET
-      LinkFont.Color = clBlue
-      LinkFont.Height = -11
-      LinkFont.Name = 'MS Shell Dlg 2'
-      LinkFont.Style = [fsUnderline]
-      ExplicitLeft = 303
-      ExplicitTop = 369
     end
     object GroupBox2: TSpTBXGroupBox
       Left = 7
@@ -128,8 +98,8 @@ inherited RunConfigurationForm: TRunConfigurationForm
       Width = 385
       Height = 106
       Caption = 'Python Script'
-      ThemeType = thtWindows
       TabOrder = 1
+      TBXStyleBackground = True
       object SynFileName: TSynEdit
         Left = 92
         Top = 16
@@ -207,11 +177,6 @@ inherited RunConfigurationForm: TRunConfigurationForm
         Caption = '...'
         TabOrder = 1
         OnClick = btnFileNameClick
-        LinkFont.Charset = DEFAULT_CHARSET
-        LinkFont.Color = clBlue
-        LinkFont.Height = -11
-        LinkFont.Name = 'MS Shell Dlg 2'
-        LinkFont.Style = [fsUnderline]
       end
       object btnWorkDir: TSpTBXButton
         Left = 357
@@ -221,72 +186,44 @@ inherited RunConfigurationForm: TRunConfigurationForm
         Caption = '...'
         TabOrder = 4
         OnClick = btnWorkDirClick
-        LinkFont.Charset = DEFAULT_CHARSET
-        LinkFont.Color = clBlue
-        LinkFont.Height = -11
-        LinkFont.Name = 'MS Shell Dlg 2'
-        LinkFont.Style = [fsUnderline]
       end
       object Label2: TSpTBXLabel
         Left = 8
         Top = 18
-        Width = 50
-        Height = 13
+        Width = 56
+        Height = 19
         Caption = '&File Name:'
-        ParentColor = True
         FocusControl = SynFileName
-        LinkFont.Charset = DEFAULT_CHARSET
-        LinkFont.Color = clBlue
-        LinkFont.Height = -11
-        LinkFont.Name = 'MS Shell Dlg 2'
-        LinkFont.Style = [fsUnderline]
       end
       object Label6: TSpTBXLabel
         Left = 8
         Top = 42
-        Width = 59
-        Height = 13
+        Width = 65
+        Height = 19
         Caption = '&Parameters:'
-        ParentColor = True
         FocusControl = SynParameters
-        LinkFont.Charset = DEFAULT_CHARSET
-        LinkFont.Color = clBlue
-        LinkFont.Height = -11
-        LinkFont.Name = 'MS Shell Dlg 2'
-        LinkFont.Style = [fsUnderline]
       end
       object Label7: TSpTBXLabel
         Left = 8
         Top = 66
-        Width = 89
-        Height = 13
+        Width = 95
+        Height = 19
         Caption = 'Working &directory:'
-        ParentColor = True
         FocusControl = SynWorkDir
-        LinkFont.Charset = DEFAULT_CHARSET
-        LinkFont.Color = clBlue
-        LinkFont.Height = -11
-        LinkFont.Name = 'MS Shell Dlg 2'
-        LinkFont.Style = [fsUnderline]
       end
       object Label3: TSpTBXLabel
         Left = 8
         Top = 85
-        Width = 252
-        Height = 13
+        Width = 258
+        Height = 19
         Caption = 'Parameters : Shift+Ctrl+P, Modifiers : Shift+Ctrl+M '
+        Enabled = False
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clGrayText
         Font.Height = -11
         Font.Name = 'MS Shell Dlg 2'
         Font.Style = []
-        ParentColor = True
         ParentFont = False
-        LinkFont.Charset = DEFAULT_CHARSET
-        LinkFont.Color = clBlue
-        LinkFont.Height = -11
-        LinkFont.Name = 'MS Shell Dlg 2'
-        LinkFont.Style = [fsUnderline]
       end
     end
     object gbRemoteEngine: TSpTBXGroupBox
@@ -295,34 +232,27 @@ inherited RunConfigurationForm: TRunConfigurationForm
       Width = 385
       Height = 68
       Caption = 'Python Engine'
-      ThemeType = thtWindows
       TabOrder = 2
+      TBXStyleBackground = True
       DesignSize = (
         385
         68)
       object cbReinitializeBeforeRun: TSpTBXCheckBox
         Left = 8
         Top = 44
-        Width = 125
-        Height = 15
+        Width = 131
+        Height = 21
         Caption = 'Reinitiali&ze Before Run'
         Anchors = [akTop, akRight]
         TabOrder = 0
-        ThemeType = thtWindows
       end
       object Label1: TSpTBXLabel
         Left = 8
         Top = 21
-        Width = 63
-        Height = 13
+        Width = 69
+        Height = 19
         Caption = 'Engine &Type:'
-        ParentColor = True
         FocusControl = cbEngineType
-        LinkFont.Charset = DEFAULT_CHARSET
-        LinkFont.Color = clBlue
-        LinkFont.Height = -11
-        LinkFont.Name = 'MS Shell Dlg 2'
-        LinkFont.Style = [fsUnderline]
       end
       object cbEngineType: TSpTBXComboBox
         Left = 103
@@ -354,8 +284,8 @@ inherited RunConfigurationForm: TRunConfigurationForm
       Width = 385
       Height = 47
       Caption = 'External Run'
-      ThemeType = thtWindows
       TabOrder = 3
+      TBXStyleBackground = True
       object btnExternalRun: TSpTBXButton
         Left = 52
         Top = 16
@@ -364,11 +294,6 @@ inherited RunConfigurationForm: TRunConfigurationForm
         Caption = '&Set Enternal Run properties'
         TabOrder = 0
         OnClick = btnExternalRunClick
-        LinkFont.Charset = DEFAULT_CHARSET
-        LinkFont.Color = clBlue
-        LinkFont.Height = -11
-        LinkFont.Name = 'MS Shell Dlg 2'
-        LinkFont.Style = [fsUnderline]
       end
     end
     object gbSaveOutput: TSpTBXGroupBox
@@ -377,16 +302,15 @@ inherited RunConfigurationForm: TRunConfigurationForm
       Width = 385
       Height = 88
       Caption = 'Output'
-      ThemeType = thtWindows
       TabOrder = 4
+      TBXStyleBackground = True
       object cbAppendToFile: TSpTBXCheckBox
         Left = 8
         Top = 64
-        Width = 85
-        Height = 15
+        Width = 91
+        Height = 21
         Caption = '&Append to file'
         TabOrder = 0
-        ThemeType = thtWindows
       end
       object SynOutputFileName: TSynEdit
         Left = 92
@@ -419,17 +343,12 @@ inherited RunConfigurationForm: TRunConfigurationForm
         Caption = '...'
         TabOrder = 2
         OnClick = btnOutputFileNameClick
-        LinkFont.Charset = DEFAULT_CHARSET
-        LinkFont.Color = clBlue
-        LinkFont.Height = -11
-        LinkFont.Name = 'MS Shell Dlg 2'
-        LinkFont.Style = [fsUnderline]
       end
       object cbSaveOutput: TSpTBXCheckBox
         Left = 8
         Top = 20
-        Width = 79
-        Height = 15
+        Width = 85
+        Height = 21
         Caption = 'Save Output'
         TabOrder = 3
         OnClick = cbSaveOutputClick
@@ -437,16 +356,10 @@ inherited RunConfigurationForm: TRunConfigurationForm
       object Label4: TSpTBXLabel
         Left = 8
         Top = 45
-        Width = 50
-        Height = 13
+        Width = 56
+        Height = 19
         Caption = 'File &Name:'
-        ParentColor = True
         FocusControl = SynOutputFileName
-        LinkFont.Charset = DEFAULT_CHARSET
-        LinkFont.Color = clBlue
-        LinkFont.Height = -11
-        LinkFont.Name = 'MS Shell Dlg 2'
-        LinkFont.Style = [fsUnderline]
       end
     end
   end

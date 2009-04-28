@@ -39,9 +39,6 @@ inherited FileExplorerWindow: TFileExplorerWindow
   TextHeight = 13
   inherited FGPanel: TPanel
     Height = 433
-    ExplicitLeft = 3
-    ExplicitTop = 3
-    ExplicitWidth = 221
     ExplicitHeight = 433
     object FileExplorerTree: TVirtualExplorerTree
       Left = 0
@@ -82,7 +79,7 @@ inherited FileExplorerWindow: TFileExplorerWindow
       TabStop = True
       TreeOptions.AnimationOptions = [toAnimatedToggle]
       TreeOptions.MiscOptions = [toAcceptOLEDrop, toEditable, toFullRepaintOnResize, toInitOnSave, toToggleOnDblClick, toWheelPanning]
-      TreeOptions.PaintOptions = [toShowButtons, toShowTreeLines, toUseBlendedImages, toGhostedIfUnfocused, toUseBlendedSelection]
+      TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowTreeLines, toThemeAware, toUseBlendedImages, toGhostedIfUnfocused, toUseBlendedSelection]
       TreeOptions.SelectionOptions = [toRightClickSelect]
       TreeOptions.VETFolderOptions = [toFoldersExpandable, toForceHideRecycleBin]
       TreeOptions.VETShellOptions = [toRightAlignSizeColumn, toContextMenus, toDragDrop, toShellHints]
@@ -92,7 +89,6 @@ inherited FileExplorerWindow: TFileExplorerWindow
       OnDblClick = FileExplorerTreeDblClick
       OnEnumFolder = FileExplorerTreeEnumFolder
       OnKeyPress = FileExplorerTreeKeyPress
-      ExplicitTop = 28
       Columns = <>
     end
     object ExplorerDock: TSpTBXDock
@@ -106,29 +102,23 @@ inherited FileExplorerWindow: TFileExplorerWindow
         Top = 0
         Align = alTop
         AutoResize = False
-        Caption = 'ExplorerToolbar'
         DockMode = dmCannotFloat
         FullSize = True
         Images = CommandsDataModule.Images
         TabOrder = 0
+        Caption = 'ExplorerToolbar'
         Customizable = False
         object tbiItemBack: TSpTBXSubmenuItem
-          Caption = '&Back'
-          Hint = 'Go Back'
           Action = actGoBack
           DropdownCombo = True
           OnPopup = tbiItemBackPopup
         end
         object tbiItemForward: TSpTBXSubmenuItem
-          Caption = '&Forward'
-          Hint = 'Go Forward'
           Action = actGoForward
           DropdownCombo = True
           OnPopup = tbiItemForwardPopup
         end
         object tbiGoUp: TSpTBXItem
-          Caption = '&Up'
-          Hint = 'Up|Show the parent folder'
           Action = actGoUp
         end
         object TBXSeparatorItem1: TSpTBXSeparatorItem
@@ -168,25 +158,18 @@ inherited FileExplorerWindow: TFileExplorerWindow
           end
           object tbiPythonPath: TSpTBXItem
             Caption = 'Manage Python &Path...'
-            Hint = 'Python Path|View or edit the Python path'
             Action = CommandsDataModule.actPythonPath
           end
           object TBXSeparatorItem2: TSpTBXSeparatorItem
           end
           object tbiSearchPath: TSpTBXItem
-            Caption = '&Search Path...'
-            Hint = 'Search selected path'
             Action = actSearchPath
           end
         end
         object tbiEnableFilter: TSpTBXItem
-          Caption = 'Enable &Filter'
-          Hint = 'Enable Filter|Select to show only Python files'
           Action = actEnableFilter
         end
         object tbiNewFolder: TSpTBXItem
-          Caption = 'Create &New Folder'
-          Hint = 'Create new folder'
           Action = actNewFolder
         end
       end
@@ -208,18 +191,12 @@ inherited FileExplorerWindow: TFileExplorerWindow
     Left = 186
     Top = 239
     object mnBack: TSpTBXItem
-      Caption = '&Back'
-      Hint = 'Go Back'
       Action = actGoBack
     end
     object mnForward: TSpTBXItem
-      Caption = '&Forward'
-      Hint = 'Go Forward'
       Action = actGoForward
     end
     object mnGoUp: TSpTBXItem
-      Caption = '&Up'
-      Hint = 'Up|Show the parent folder'
       Action = actGoUp
     end
     object N1: TSpTBXSeparatorItem
@@ -261,14 +238,11 @@ inherited FileExplorerWindow: TFileExplorerWindow
     end
     object mnManagePythonPath: TSpTBXItem
       Caption = 'Manage Python &Path...'
-      Hint = 'Python Path|View or edit the Python path'
       Action = CommandsDataModule.actPythonPath
     end
     object TBXSeparatorItem6: TSpTBXSeparatorItem
     end
     object mnEnableFilter: TSpTBXItem
-      Caption = 'Enable &Filter'
-      Hint = 'Enable Filter|Select to show only Python files'
       Action = actEnableFilter
     end
     object mnChangeFilter: TSpTBXItem
@@ -278,15 +252,11 @@ inherited FileExplorerWindow: TFileExplorerWindow
     object N3: TSpTBXSeparatorItem
     end
     object mnNewFolder: TSpTBXItem
-      Caption = 'Create &New Folder'
-      Hint = 'Create new folder'
       Action = actNewFolder
     end
     object TBXSeparatorItem4: TSpTBXSeparatorItem
     end
     object mnRefresh: TSpTBXItem
-      Caption = '&Refresh'
-      Hint = 'Refresh|Refresh File Explorer'
       Action = actRefresh
     end
   end

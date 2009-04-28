@@ -47,7 +47,7 @@ inherited AboutBox: TAboutBox
           Top = 8
           Width = 328
           Height = 197
-          ThemeType = thtWindows
+          SkinType = sknSkin
           UseDockManager = True
           TabOrder = 0
           OnClick = Panel1Click
@@ -1428,11 +1428,6 @@ inherited AboutBox: TAboutBox
             ParentColor = True
             ParentFont = False
             OnClick = Panel1Click
-            LinkFont.Charset = DEFAULT_CHARSET
-            LinkFont.Color = clBlue
-            LinkFont.Height = -11
-            LinkFont.Name = 'MS Shell Dlg 2'
-            LinkFont.Style = [fsUnderline]
           end
           object Comments: TSpTBXLabel
             Left = 8
@@ -1454,11 +1449,6 @@ inherited AboutBox: TAboutBox
             ParentFont = False
             Wrapping = twWrap
             OnClick = Panel1Click
-            LinkFont.Charset = DEFAULT_CHARSET
-            LinkFont.Color = clBlue
-            LinkFont.Height = -11
-            LinkFont.Name = 'MS Shell Dlg 2'
-            LinkFont.Style = [fsUnderline]
           end
           object Version: TSpTBXLabel
             Left = 129
@@ -1474,11 +1464,6 @@ inherited AboutBox: TAboutBox
             ParentColor = True
             ParentFont = False
             OnClick = Panel1Click
-            LinkFont.Charset = DEFAULT_CHARSET
-            LinkFont.Color = clBlue
-            LinkFont.Height = -11
-            LinkFont.Name = 'MS Shell Dlg 2'
-            LinkFont.Style = [fsUnderline]
           end
           object ProductName: TSpTBXLabel
             Left = 129
@@ -1494,11 +1479,6 @@ inherited AboutBox: TAboutBox
             ParentColor = True
             ParentFont = False
             OnClick = Panel1Click
-            LinkFont.Charset = DEFAULT_CHARSET
-            LinkFont.Color = clBlue
-            LinkFont.Height = -11
-            LinkFont.Name = 'MS Shell Dlg 2'
-            LinkFont.Style = [fsUnderline]
           end
         end
       end

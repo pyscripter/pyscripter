@@ -44,10 +44,6 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
   PixelsPerInch = 96
   TextHeight = 13
   inherited FGPanel: TPanel
-    ExplicitLeft = 3
-    ExplicitTop = 3
-    ExplicitWidth = 221
-    ExplicitHeight = 402
     object Panel1: TPanel
       Left = 0
       Top = 0
@@ -106,54 +102,38 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
           Top = 0
           Align = alTop
           AutoResize = False
-          Caption = 'Project Explorer Toolbar'
           DockMode = dmCannotFloat
           FullSize = True
           Images = CommandsDataModule.Images
           TabOrder = 0
+          Caption = 'Project Explorer Toolbar'
           Customizable = False
           object tbiProjectNew: TSpTBXItem
-            Caption = '&New Project'
-            Hint = 'Start a new project'
             Action = actProjectNew
           end
           object tbiProjectOpen: TSpTBXItem
-            Caption = '&Open Project...'
-            Hint = 'Open a project file'
             Action = actProjectOpen
           end
           object tbiProjectSave: TSpTBXItem
-            Caption = '&Save Project'
-            Hint = 'Save the project'
             Action = actProjectSave
           end
           object SpTBXSeparatorItem8: TSpTBXSeparatorItem
           end
           object tbiRunLast: TSpTBXItem
-            Caption = 'Run Last Script'
-            Hint = 'Run last script'
             Action = PyIDEMainForm.actRunLastScript
           end
           object tbiDebugLast: TSpTBXItem
-            Caption = 'Debug Last Script'
-            Hint = 'Debug last script'
             Action = PyIDEMainForm.actRunDebugLastScript
           end
           object tbiRunLastExternal: TSpTBXItem
-            Caption = 'Run Last Script Externally'
-            Hint = 'Run last script externally'
             Action = PyIDEMainForm.actRunLastScriptExternal
           end
           object SpTBXSeparatorItem11: TSpTBXSeparatorItem
           end
           object tbiExpandAll: TSpTBXItem
-            Caption = '&Expand All'
-            Hint = 'Expand all project nodes'
             Action = actProjectExpandAll
           end
           object tbiCollapseAll: TSpTBXItem
-            Caption = '&Collapse All'
-            Hint = 'Collapse all project nodes'
             Action = actProjectCollapseAll
           end
         end
@@ -253,53 +233,36 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
     Left = 8
     Top = 108
     object mnProjectNew: TSpTBXItem
-      Caption = '&New Project'
-      Hint = 'Start a new project'
       Action = actProjectNew
     end
     object mnProjectOpen: TSpTBXItem
-      Caption = '&Open Project...'
-      Hint = 'Open a project file'
       Action = actProjectOpen
     end
     object mnProjectSave: TSpTBXItem
-      Caption = '&Save Project'
-      Hint = 'Save the project'
       Action = actProjectSave
     end
     object mnProjectSaveAs: TSpTBXItem
-      Caption = 'Save Project &As...'
-      Hint = 'Save project with under a different name'
       Action = actProjectSaveAs
     end
     object SpTBXSeparatorItem10: TSpTBXSeparatorItem
     end
     object mnExpandAll: TSpTBXItem
-      Caption = '&Expand All'
-      Hint = 'Expand all project nodes'
       Action = actProjectExpandAll
     end
     object mnCollapseAll: TSpTBXItem
-      Caption = '&Collapse All'
-      Hint = 'Collapse all project nodes'
       Action = actProjectCollapseAll
     end
     object SpTBXSeparatorItem9: TSpTBXSeparatorItem
     end
     object mnShowFileExt: TSpTBXItem
-      Caption = 'Show File &Extensions'
-      Hint = 'Display file extensions'
       Action = actProjectShowFileExtensions
     end
     object mnStoreRelativePaths: TSpTBXItem
-      Caption = 'Store &Relative Paths'
-      Hint = 'Store file paths relative to the project directory'
       Action = actProjectRelativePaths
     end
     object SpTBXSeparatorItem12: TSpTBXSeparatorItem
     end
     object mnExtraPythonPath: TSpTBXItem
-      Caption = 'Extra Python &Path...'
       Action = actProjectExtraPythonPath
     end
   end
@@ -715,37 +678,25 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
     Left = 40
     Top = 109
     object mnAddFiles: TSpTBXItem
-      Caption = '&Add File(s)...'
-      Hint = 'Add file(s) to a project folder'
       Action = actProjectAddFiles
     end
     object mnAddActiveFile: TSpTBXItem
-      Caption = 'Add Active File'
-      Hint = 'Add the active editor file to the folder'
       Action = actProjectAddActiveFile
     end
     object SpTBXItem6: TSpTBXItem
-      Caption = 'Add &Subfolder'
-      Hint = 'Add a new subfolder'
       Action = actProjectAddFolder
     end
     object mnImportDir: TSpTBXItem
-      Caption = '&Import Directory...'
-      Hint = 'Import a directory into the selected folder'
       Action = actProjectImportDirectory
     end
     object SpTBXSeparatorItem1: TSpTBXSeparatorItem
     end
     object mnRename: TSpTBXItem
-      Caption = 'Re&name'
-      Hint = 'Rename the selected folder or RunConfiguration'
       Action = actProjectRename
     end
     object SpTBXSeparatorItem2: TSpTBXSeparatorItem
     end
     object mnRemove: TSpTBXItem
-      Caption = '&Remove'
-      Hint = 'Remove a file,  folder or run configuration from the project'
       Action = actProjectRemove
     end
   end
@@ -754,22 +705,16 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
     Left = 72
     Top = 108
     object mnFileEdit: TSpTBXItem
-      Caption = '&Edit'
-      Hint = 'Open the selected file in the editor'
       Action = actProjectFileEdit
     end
     object SpTBXSeparatorItem3: TSpTBXSeparatorItem
     end
     object mnFileRemove: TSpTBXItem
-      Caption = '&Remove'
-      Hint = 'Remove a file,  folder or run configuration from the project'
       Action = actProjectRemove
     end
     object SpTBXSeparatorItem6: TSpTBXSeparatorItem
     end
     object mnFileProperties: TSpTBXItem
-      Caption = '&Properties'
-      Hint = 'Show file properties'
       Action = actProjectFileProperties
     end
   end
@@ -778,8 +723,6 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
     Left = 104
     Top = 109
     object mnAddRunConfig: TSpTBXItem
-      Caption = 'Add Run Configuration'
-      Hint = 'Add run configuration'
       Action = actProjectAddRunConfig
     end
   end
@@ -788,39 +731,27 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
     Left = 135
     Top = 109
     object mnRun: TSpTBXItem
-      Caption = '&Run'
-      Hint = 'Run the selected configuration'
       Action = actProjectRun
     end
     object mnDebug: TSpTBXItem
-      Caption = '&Debug'
-      Hint = 'Debug the selected configuration'
       Action = actProjectDebug
     end
     object mnExternalRun: TSpTBXItem
-      Caption = 'E&xternal Run'
-      Hint = 'Run configuration using an external Python interpreter'
       Action = actProjectExternalRun
     end
     object SpTBXSeparatorItem7: TSpTBXSeparatorItem
     end
     object mnEditRunConfig: TSpTBXItem
-      Caption = '&Edit Run Configuration'
-      Hint = 'Edit run configuration'
       Action = actProjectEditRunConfig
     end
     object SpTBXSeparatorItem5: TSpTBXSeparatorItem
     end
     object mnRenameRunConfig: TSpTBXItem
-      Caption = 'Re&name'
-      Hint = 'Rename the selected folder or RunConfiguration'
       Action = actProjectRename
     end
     object SpTBXSeparatorItem4: TSpTBXSeparatorItem
     end
     object mnRemoveRunConfig: TSpTBXItem
-      Caption = '&Remove'
-      Hint = 'Remove a file,  folder or run configuration from the project'
       Action = actProjectRemove
     end
   end

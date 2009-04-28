@@ -5,10 +5,10 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, frmIDEDockWin, JvComponentBase, JvDockControlForm, ExtCtrls, ImgList,
-  JvExControls, JvComponent, JvLinkLabel, TBXDkPanels, VirtualTrees,
-  TB2Item, TBXExtItems, TB2Dock, TB2Toolbar, TBX, StdCtrls,
-  ActnList, TBXThemes, SpTBXControls, SpTBXItem, ComCtrls, TntComCtrls,
-  TntActnList;
+  JvExControls, JvComponent, JvLinkLabel, SpTBXDkPanels, VirtualTrees,
+  TB2Item, TB2Dock, TB2Toolbar, StdCtrls,
+  ActnList, SpTBXControls, SpTBXItem, ComCtrls, TntComCtrls,
+  TntActnList, SpTBXSkins;
 
 type
   TUnitTestWindowStatus = (utwEmpty, utwLoaded, utwRunning, utwRun);
@@ -16,9 +16,7 @@ type
   TUnitTestWindow = class(TIDEDockWindow)
     ExplorerDock: TSpTBXDock;
     ExplorerToolbar: TSpTBXToolbar;
-    Panel1: TPanel;
     RunImages: TImageList;
-    UnitTests: TVirtualStringTree;
     tbiRefresh: TSpTBXItem;
     TBXSeparatorItem1: TSpTBXSeparatorItem;
     tbiSelectFailed: TSpTBXItem;
@@ -27,15 +25,11 @@ type
     TBXSeparatorItem2: TSpTBXSeparatorItem;
     tbiRun: TSpTBXItem;
     tbiStop: TSpTBXItem;
-    Panel2: TPanel;
     tbiCollapseAll: TSpTBXItem;
     tbiExpandAll: TSpTBXItem;
     TBXSeparatorItem7: TSpTBXSeparatorItem;
     tbiClearAll: TSpTBXItem;
-    Bevel1: TBevel;
     SpTBXSplitter1: TSpTBXSplitter;
-    SpTBXPanel1: TSpTBXPanel;
-    ErrorText: TTntRichEdit;
     DialogActions: TTntActionList;
     actClearAll: TTntAction;
     actCollapseAll: TTntAction;
@@ -46,6 +40,12 @@ type
     actStop: TTntAction;
     actRun: TTntAction;
     actRefresh: TTntAction;
+    Panel1: TSpTBXPanel;
+    UnitTests: TVirtualStringTree;
+    Panel2: TSpTBXPanel;
+    Bevel1: TBevel;
+    SpTBXPanel1: TSpTBXPanel;
+    ErrorText: TTntRichEdit;
     Label2: TSpTBXLabel;
     ModuleName: TSpTBXLabel;
     lbFoundTests: TSpTBXLabel;
@@ -83,7 +83,7 @@ type
     TestClasses : TStringList;
     TestSuite, TestResult : Variant;
   protected
-    procedure TBMThemeChange(var Message: TMessage); message TBM_THEMECHANGE;
+    procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
     procedure UpdateActions; override;
   public
     { Public declarations }
@@ -127,12 +127,14 @@ Const
   FailuresLabel = 'Failures/Errors : %d/%d';
 { TUnitTestWindow }
 
-procedure TUnitTestWindow.TBMThemeChange(var Message: TMessage);
+procedure TUnitTestWindow.WMSpSkinChange(var Message: TMessage);
 begin
   inherited;
-  if Message.WParam = TSC_VIEWCHANGE then begin
-    FGPanel.Color := CurrentTheme.GetItemColor(GetItemInfo('inactive'));
-  end;
+  UnitTests.Invalidate;
+  if SkinManager.IsDefaultSkin then
+    UnitTests.TreeOptions.PaintOptions := UnitTests.TreeOptions.PaintOptions - [toAlwaysHideSelection]
+  else
+    UnitTests.TreeOptions.PaintOptions := UnitTests.TreeOptions.PaintOptions + [toAlwaysHideSelection];
 end;
 
 procedure TUnitTestWindow.actRefreshExecute(Sender: TObject);
@@ -222,6 +224,11 @@ begin
   TestClasses.Duplicates := dupError;
 
   Status := utwEmpty;
+
+  UnitTests.OnBeforeCellPaint :=
+    CommandsDataModule.VirtualStringTreeBeforeCellPaint;
+  UnitTests.OnPaintText :=
+    CommandsDataModule.VirtualStringTreePaintText;
 end;
 
 procedure TUnitTestWindow.FormDestroy(Sender: TObject);

@@ -62,7 +62,7 @@ inherited FunctionListWindow: TFunctionListWindow
     Top = 62
     Width = 529
     Height = 228
-    ThemeType = thtWindows
+    SkinType = sknSkin
     Align = alClient
     TabOrder = 0
     object lvProcs: TTntListView
@@ -99,7 +99,7 @@ inherited FunctionListWindow: TFunctionListWindow
     Top = 26
     Width = 529
     Height = 36
-    ThemeType = thtWindows
+    SkinType = sknSkin
     Align = alTop
     ParentShowHint = False
     ShowHint = True
@@ -110,7 +110,7 @@ inherited FunctionListWindow: TFunctionListWindow
       Top = 2
       Width = 260
       Height = 32
-      ThemeType = thtWindows
+      SkinType = sknSkin
       Align = alLeft
       TabOrder = 0
       object lblMethods: TSpTBXLabel
@@ -122,11 +122,6 @@ inherited FunctionListWindow: TFunctionListWindow
         ParentColor = True
         Alignment = taRightJustify
         FocusControl = edtMethods
-        LinkFont.Charset = DEFAULT_CHARSET
-        LinkFont.Color = clBlue
-        LinkFont.Height = -11
-        LinkFont.Name = 'MS Shell Dlg 2'
-        LinkFont.Style = [fsUnderline]
       end
       object edtMethods: TSpTBXEdit
         Left = 74
@@ -144,7 +139,7 @@ inherited FunctionListWindow: TFunctionListWindow
       Top = 2
       Width = 265
       Height = 32
-      ThemeType = thtWindows
+      SkinType = sknSkin
       Align = alClient
       TabOrder = 1
       object lblObjects: TSpTBXLabel
@@ -156,11 +151,6 @@ inherited FunctionListWindow: TFunctionListWindow
         ParentColor = True
         Alignment = taRightJustify
         FocusControl = cbxObjects
-        LinkFont.Charset = DEFAULT_CHARSET
-        LinkFont.Color = clBlue
-        LinkFont.Height = -11
-        LinkFont.Name = 'MS Shell Dlg 2'
-        LinkFont.Style = [fsUnderline]
       end
       object cbxObjects: TSpTBXComboBox
         Left = 78

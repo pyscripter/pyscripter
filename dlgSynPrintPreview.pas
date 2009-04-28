@@ -44,7 +44,7 @@ uses
   Windows, SysUtils, Classes, Graphics, Forms, Controls, StdCtrls,
   Buttons, ActnList, ImgList, Dialogs,
   SynEditPrintPreview, Printers, TntActnList, SpTBXItem,
-  TB2Item, TBX, TB2Dock, TB2Toolbar, Menus, dlgPyIDEBase;
+  TB2Item, TB2Dock, TB2Toolbar, Menus, dlgPyIDEBase;
 
 type
   TPrintPreviewDlg = class(TPyIDEDlgBase)

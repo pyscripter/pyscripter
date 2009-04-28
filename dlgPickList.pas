@@ -11,7 +11,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, Buttons, ExtCtrls, CheckLst, Menus, TBXDkPanels, SpTBXControls,
+  Dialogs, StdCtrls, Buttons, ExtCtrls, CheckLst, Menus, SpTBXDkPanels, SpTBXControls,
   TntCheckLst, SpTBXEditors, dlgPyIDEBase;
 
 type

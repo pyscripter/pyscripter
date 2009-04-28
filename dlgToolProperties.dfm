@@ -18,11 +18,12 @@ inherited ToolProperties: TToolProperties
     Top = 0
     Width = 406
     Height = 498
-    ThemeType = thtWindows
+    Color = clBtnFace
     Align = alClient
     ParentShowHint = False
     ShowHint = True
     TabOrder = 0
+    TBXStyleBackground = True
     DesignSize = (
       406
       498)
@@ -42,41 +43,30 @@ inherited ToolProperties: TToolProperties
           Width = 385
           Height = 65
           Caption = 'General'
-          ThemeType = thtWindows
           TabOrder = 0
           object Label1: TSpTBXLabel
             Left = 8
             Top = 16
-            Width = 31
-            Height = 13
+            Width = 37
+            Height = 19
             Caption = '&Name:'
             ParentColor = True
             FocusControl = edName
-            LinkFont.Charset = DEFAULT_CHARSET
-            LinkFont.Color = clBlue
-            LinkFont.Height = -11
-            LinkFont.Name = 'MS Shell Dlg 2'
-            LinkFont.Style = [fsUnderline]
           end
           object Label5: TSpTBXLabel
             Left = 8
             Top = 39
-            Width = 57
-            Height = 13
+            Width = 63
+            Height = 19
             Caption = 'Desc&ription:'
             ParentColor = True
             FocusControl = edDescription
-            LinkFont.Charset = DEFAULT_CHARSET
-            LinkFont.Color = clBlue
-            LinkFont.Height = -11
-            LinkFont.Name = 'MS Shell Dlg 2'
-            LinkFont.Style = [fsUnderline]
           end
           object Label17: TSpTBXLabel
             Left = 200
             Top = 17
-            Width = 48
-            Height = 13
+            Width = 54
+            Height = 19
             Caption = '(required)'
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clGrayText
@@ -85,11 +75,6 @@ inherited ToolProperties: TToolProperties
             Font.Style = []
             ParentColor = True
             ParentFont = False
-            LinkFont.Charset = DEFAULT_CHARSET
-            LinkFont.Color = clBlue
-            LinkFont.Height = -11
-            LinkFont.Name = 'MS Shell Dlg 2'
-            LinkFont.Style = [fsUnderline]
           end
           object edName: TSpTBXEdit
             Left = 71
@@ -97,7 +82,6 @@ inherited ToolProperties: TToolProperties
             Width = 118
             Height = 21
             TabOrder = 0
-            ThemeType = thtWindows
           end
           object edDescription: TSpTBXEdit
             Left = 71
@@ -113,7 +97,6 @@ inherited ToolProperties: TToolProperties
           Width = 385
           Height = 108
           Caption = 'Command'
-          ThemeType = thtWindows
           TabOrder = 1
           object SynApplication: TSynEdit
             Left = 71
@@ -192,11 +175,6 @@ inherited ToolProperties: TToolProperties
             Caption = '...'
             TabOrder = 1
             OnClick = btnAppDirClick
-            LinkFont.Charset = DEFAULT_CHARSET
-            LinkFont.Color = clBlue
-            LinkFont.Height = -11
-            LinkFont.Name = 'MS Shell Dlg 2'
-            LinkFont.Style = [fsUnderline]
           end
           object btnWorkDir: TSpTBXButton
             Left = 357
@@ -206,59 +184,39 @@ inherited ToolProperties: TToolProperties
             Caption = '...'
             TabOrder = 4
             OnClick = btnWorkDirClick
-            LinkFont.Charset = DEFAULT_CHARSET
-            LinkFont.Color = clBlue
-            LinkFont.Height = -11
-            LinkFont.Name = 'MS Shell Dlg 2'
-            LinkFont.Style = [fsUnderline]
           end
           object Label2: TSpTBXLabel
             Left = 6
             Top = 18
-            Width = 56
-            Height = 13
+            Width = 62
+            Height = 19
             Caption = '&Application:'
             ParentColor = True
             FocusControl = SynApplication
-            LinkFont.Charset = DEFAULT_CHARSET
-            LinkFont.Color = clBlue
-            LinkFont.Height = -11
-            LinkFont.Name = 'MS Shell Dlg 2'
-            LinkFont.Style = [fsUnderline]
           end
           object Label6: TSpTBXLabel
             Left = 6
             Top = 42
-            Width = 59
-            Height = 13
+            Width = 65
+            Height = 19
             Caption = '&Parameters:'
             ParentColor = True
             FocusControl = SynParameters
-            LinkFont.Charset = DEFAULT_CHARSET
-            LinkFont.Color = clBlue
-            LinkFont.Height = -11
-            LinkFont.Name = 'MS Shell Dlg 2'
-            LinkFont.Style = [fsUnderline]
           end
           object Label7: TSpTBXLabel
             Left = 6
             Top = 66
-            Width = 89
-            Height = 13
+            Width = 95
+            Height = 19
             Caption = 'Working &directory:'
             ParentColor = True
             FocusControl = SynWorkDir
-            LinkFont.Charset = DEFAULT_CHARSET
-            LinkFont.Color = clBlue
-            LinkFont.Height = -11
-            LinkFont.Name = 'MS Shell Dlg 2'
-            LinkFont.Style = [fsUnderline]
           end
           object Label3: TSpTBXLabel
             Left = 6
             Top = 90
-            Width = 252
-            Height = 13
+            Width = 258
+            Height = 19
             Caption = 'Parameters : Shift+Ctrl+P, Modifiers : Shift+Ctrl+M '
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clGrayText
@@ -267,11 +225,6 @@ inherited ToolProperties: TToolProperties
             Font.Style = []
             ParentColor = True
             ParentFont = False
-            LinkFont.Charset = DEFAULT_CHARSET
-            LinkFont.Color = clBlue
-            LinkFont.Height = -11
-            LinkFont.Name = 'MS Shell Dlg 2'
-            LinkFont.Style = [fsUnderline]
           end
         end
         object GroupBox4: TSpTBXGroupBox
@@ -280,49 +233,33 @@ inherited ToolProperties: TToolProperties
           Width = 385
           Height = 64
           Caption = 'Shortcut and Context'
-          ThemeType = thtWindows
           TabOrder = 2
           object lbShortcut: TSpTBXLabel
             Left = 11
             Top = 18
-            Width = 45
-            Height = 13
+            Width = 51
+            Height = 19
             Caption = '&Shortcut:'
             ParentColor = True
             FocusControl = hkShortCut
-            LinkFont.Charset = DEFAULT_CHARSET
-            LinkFont.Color = clBlue
-            LinkFont.Height = -11
-            LinkFont.Name = 'MS Shell Dlg 2'
-            LinkFont.Style = [fsUnderline]
           end
           object lbContext: TSpTBXLabel
             Left = 13
             Top = 40
-            Width = 43
-            Height = 13
+            Width = 49
+            Height = 19
             Caption = 'Conte&xt:'
             ParentColor = True
             FocusControl = cbContext
-            LinkFont.Charset = DEFAULT_CHARSET
-            LinkFont.Color = clBlue
-            LinkFont.Height = -11
-            LinkFont.Name = 'MS Shell Dlg 2'
-            LinkFont.Style = [fsUnderline]
           end
           object Label13: TSpTBXLabel
             Left = 232
             Top = 18
-            Width = 50
-            Height = 13
+            Width = 56
+            Height = 19
             Caption = 'Sa&ve files:'
             ParentColor = True
             FocusControl = cbSaveFiles
-            LinkFont.Charset = DEFAULT_CHARSET
-            LinkFont.Color = clBlue
-            LinkFont.Height = -11
-            LinkFont.Name = 'MS Shell Dlg 2'
-            LinkFont.Style = [fsUnderline]
           end
           object hkShortCut: THotKey
             Left = 86
@@ -349,7 +286,6 @@ inherited ToolProperties: TToolProperties
               'Active editor'
               'Active Python file'
               'Selection available')
-            ThemeType = thtWindows
           end
           object cbSaveFiles: TSpTBXComboBox
             Left = 233
@@ -363,7 +299,6 @@ inherited ToolProperties: TToolProperties
               'None'
               'Active only'
               'All files')
-            ThemeType = thtWindows
           end
         end
         object GroupBox3: TSpTBXGroupBox
@@ -372,7 +307,6 @@ inherited ToolProperties: TToolProperties
           Width = 385
           Height = 94
           Caption = 'Standard Input and Output'
-          ThemeType = thtWindows
           TabOrder = 3
           object btnStdFormats: TSpTBXButton
             Left = 357
@@ -383,29 +317,23 @@ inherited ToolProperties: TToolProperties
             TabOrder = 6
             DropDownArrow = False
             DropDownMenu = FormatsPopup
-            LinkFont.Charset = DEFAULT_CHARSET
-            LinkFont.Color = clBlue
-            LinkFont.Height = -11
-            LinkFont.Name = 'MS Shell Dlg 2'
-            LinkFont.Style = [fsUnderline]
           end
           object cbCaptureOutput: TSpTBXCheckBox
             Left = 233
             Top = 13
-            Width = 94
-            Height = 15
+            Width = 100
+            Height = 21
             Caption = '&Capture Output'
             ParentColor = True
             TabOrder = 2
             Checked = True
             State = cbChecked
-            ThemeType = thtWindows
           end
           object cbParseMessages: TSpTBXCheckBox
             Left = 233
             Top = 30
-            Width = 95
-            Height = 15
+            Width = 101
+            Height = 21
             Hint = 
               'If checked output lines that look like messages '#13#10'will be parsed' +
               ' and shown in the messages window.'
@@ -415,13 +343,12 @@ inherited ToolProperties: TToolProperties
             OnClick = cbParseMessagesClick
             Checked = True
             State = cbChecked
-            ThemeType = thtWindows
           end
           object cbParseTraceback: TSpTBXCheckBox
             Left = 233
             Top = 47
-            Width = 97
-            Height = 15
+            Width = 103
+            Height = 21
             Hint = 
               'If checked output lines that look like messages '#13#10'will be parsed' +
               ' and shown in the messages window.'
@@ -430,49 +357,33 @@ inherited ToolProperties: TToolProperties
             TabOrder = 4
             Checked = True
             State = cbChecked
-            ThemeType = thtWindows
           end
           object Label10: TSpTBXLabel
             Left = 6
             Top = 18
-            Width = 53
-            Height = 13
+            Width = 59
+            Height = 19
             Caption = 'Std. &Input:'
             ParentColor = True
             FocusControl = cbStandardInput
-            LinkFont.Charset = DEFAULT_CHARSET
-            LinkFont.Color = clBlue
-            LinkFont.Height = -11
-            LinkFont.Name = 'MS Shell Dlg 2'
-            LinkFont.Style = [fsUnderline]
           end
           object Label11: TSpTBXLabel
             Left = 6
             Top = 42
-            Width = 61
-            Height = 13
+            Width = 67
+            Height = 19
             Caption = 'Std. &Output:'
             ParentColor = True
             FocusControl = cbStandardOutput
-            LinkFont.Charset = DEFAULT_CHARSET
-            LinkFont.Color = clBlue
-            LinkFont.Height = -11
-            LinkFont.Name = 'MS Shell Dlg 2'
-            LinkFont.Style = [fsUnderline]
           end
           object Label12: TSpTBXLabel
             Left = 6
             Top = 70
-            Width = 88
-            Height = 13
+            Width = 94
+            Height = 19
             Caption = 'Messages &Format:'
             ParentColor = True
             FocusControl = edMessagesFormat
-            LinkFont.Charset = DEFAULT_CHARSET
-            LinkFont.Color = clBlue
-            LinkFont.Height = -11
-            LinkFont.Name = 'MS Shell Dlg 2'
-            LinkFont.Style = [fsUnderline]
           end
           object edMessagesFormat: TSpTBXEdit
             Left = 113
@@ -485,7 +396,6 @@ inherited ToolProperties: TToolProperties
             AutoSelect = False
             AutoSize = False
             TabOrder = 5
-            ThemeType = thtWindows
           end
           object cbStandardInput: TSpTBXComboBox
             Left = 86
@@ -504,7 +414,6 @@ inherited ToolProperties: TToolProperties
               'Current line'
               'Selection'
               'ActiveFile')
-            ThemeType = thtWindows
           end
           object cbStandardOutput: TSpTBXComboBox
             Left = 86
@@ -524,7 +433,6 @@ inherited ToolProperties: TToolProperties
               'Selection'
               'Active file'
               'New file')
-            ThemeType = thtWindows
           end
         end
         object GroupBox5: TSpTBXGroupBox
@@ -533,26 +441,26 @@ inherited ToolProperties: TToolProperties
           Width = 385
           Height = 64
           Caption = 'Console'
-          ThemeType = thtWindows
+          Color = clBtnFace
           TabOrder = 4
+          TBXStyleBackground = True
           object cbHideConsole: TSpTBXCheckBox
             Left = 8
             Top = 16
-            Width = 78
-            Height = 15
+            Width = 84
+            Height = 21
             Hint = 'Check to hide the console.'
             Caption = '&Hide console'
             ParentColor = True
             TabOrder = 0
             Checked = True
             State = cbChecked
-            ThemeType = thtWindows
           end
           object cbWaitForTermination: TSpTBXCheckBox
             Left = 8
             Top = 37
-            Width = 116
-            Height = 15
+            Width = 122
+            Height = 21
             Hint = 
               'If checked will monitor the process '#13#10'and notify you when is ter' +
               'minated.'
@@ -561,21 +469,15 @@ inherited ToolProperties: TToolProperties
             TabOrder = 1
             Checked = True
             State = cbChecked
-            ThemeType = thtWindows
           end
           object Label9: TSpTBXLabel
-            Left = 239
+            Left = 240
             Top = 18
-            Width = 66
-            Height = 13
+            Width = 72
+            Height = 19
             Caption = '&Timeout (ms):'
             ParentColor = True
             FocusControl = seTimeout
-            LinkFont.Charset = DEFAULT_CHARSET
-            LinkFont.Color = clBlue
-            LinkFont.Height = -11
-            LinkFont.Name = 'MS Shell Dlg 2'
-            LinkFont.Style = [fsUnderline]
           end
           object seTimeout: TSpTBXSpinEdit
             Left = 240
@@ -587,19 +489,12 @@ inherited ToolProperties: TToolProperties
               'program after the specified time.'
             TabOrder = 2
             Alignment = taLeftJustify
-            ThemeType = thtWindows
-            Increment = 100.000000000000000000
             SpinButton.Left = 60
             SpinButton.Top = 0
             SpinButton.Width = 15
             SpinButton.Height = 17
             SpinButton.Align = alRight
-            SpinButton.LinkFont.Charset = DEFAULT_CHARSET
-            SpinButton.LinkFont.Color = clBlue
-            SpinButton.LinkFont.Height = -11
-            SpinButton.LinkFont.Name = 'Tahoma'
-            SpinButton.LinkFont.Style = [fsUnderline]
-            SpinButton.ThemeType = thtWindows
+            SpinOptions.Increment = 100.000000000000000000
           end
         end
       end
@@ -612,34 +507,23 @@ inherited ToolProperties: TToolProperties
           Width = 389
           Height = 83
           Caption = 'Name-Value Pair'
-          ThemeType = thtWindows
           TabOrder = 1
           object Label15: TSpTBXLabel
             Left = 14
             Top = 28
-            Width = 31
-            Height = 13
+            Width = 37
+            Height = 19
             Caption = '&Name:'
             ParentColor = True
             FocusControl = edEnvName
-            LinkFont.Charset = DEFAULT_CHARSET
-            LinkFont.Color = clBlue
-            LinkFont.Height = -11
-            LinkFont.Name = 'MS Shell Dlg 2'
-            LinkFont.Style = [fsUnderline]
           end
           object Label16: TSpTBXLabel
             Left = 14
             Top = 50
-            Width = 30
-            Height = 13
+            Width = 36
+            Height = 19
             Caption = '&Value:'
             ParentColor = True
-            LinkFont.Charset = DEFAULT_CHARSET
-            LinkFont.Color = clBlue
-            LinkFont.Height = -11
-            LinkFont.Name = 'MS Shell Dlg 2'
-            LinkFont.Style = [fsUnderline]
           end
           object edEnvName: TSpTBXEdit
             Left = 61
@@ -647,7 +531,6 @@ inherited ToolProperties: TToolProperties
             Width = 121
             Height = 21
             TabOrder = 0
-            ThemeType = thtWindows
           end
           object edEnvValue: TSpTBXEdit
             Left = 62
@@ -657,18 +540,16 @@ inherited ToolProperties: TToolProperties
             Cursor = crIBeam
             HideSelection = False
             TabOrder = 1
-            ThemeType = thtWindows
           end
         end
         object cbUseCustomEnv: TSpTBXCheckBox
           Left = 123
           Top = 401
-          Width = 157
-          Height = 15
+          Width = 163
+          Height = 21
           Caption = 'Use Customized Environment'
           ParentColor = True
           TabOrder = 2
-          ThemeType = thtWindows
         end
         object btnAdd: TSpTBXButton
           Left = -1
@@ -679,11 +560,6 @@ inherited ToolProperties: TToolProperties
           TabOrder = 3
           Images = CommandsDataModule.Images
           ImageIndex = 49
-          LinkFont.Charset = DEFAULT_CHARSET
-          LinkFont.Color = clBlue
-          LinkFont.Height = -11
-          LinkFont.Name = 'MS Shell Dlg 2'
-          LinkFont.Style = [fsUnderline]
         end
         object btnDelete: TSpTBXButton
           Left = 77
@@ -694,11 +570,6 @@ inherited ToolProperties: TToolProperties
           TabOrder = 4
           Images = CommandsDataModule.Images
           ImageIndex = 14
-          LinkFont.Charset = DEFAULT_CHARSET
-          LinkFont.Color = clBlue
-          LinkFont.Height = -11
-          LinkFont.Name = 'MS Shell Dlg 2'
-          LinkFont.Style = [fsUnderline]
         end
         object btnMoveUp: TSpTBXButton
           Left = 156
@@ -709,11 +580,6 @@ inherited ToolProperties: TToolProperties
           TabOrder = 5
           Images = CommandsDataModule.Images
           ImageIndex = 47
-          LinkFont.Charset = DEFAULT_CHARSET
-          LinkFont.Color = clBlue
-          LinkFont.Height = -11
-          LinkFont.Name = 'MS Shell Dlg 2'
-          LinkFont.Style = [fsUnderline]
         end
         object btnMoveDown: TSpTBXButton
           Left = 235
@@ -724,11 +590,6 @@ inherited ToolProperties: TToolProperties
           TabOrder = 6
           Images = CommandsDataModule.Images
           ImageIndex = 48
-          LinkFont.Charset = DEFAULT_CHARSET
-          LinkFont.Color = clBlue
-          LinkFont.Height = -11
-          LinkFont.Name = 'MS Shell Dlg 2'
-          LinkFont.Style = [fsUnderline]
         end
         object btnUpdate: TSpTBXButton
           Left = 314
@@ -739,11 +600,6 @@ inherited ToolProperties: TToolProperties
           TabOrder = 7
           Images = CommandsDataModule.Images
           ImageIndex = 39
-          LinkFont.Charset = DEFAULT_CHARSET
-          LinkFont.Color = clBlue
-          LinkFont.Height = -11
-          LinkFont.Name = 'MS Shell Dlg 2'
-          LinkFont.Style = [fsUnderline]
         end
         object lvItems: TTntListView
           Left = 0
@@ -780,11 +636,6 @@ inherited ToolProperties: TToolProperties
       Anchors = [akRight, akBottom]
       TabOrder = 1
       Default = True
-      LinkFont.Charset = DEFAULT_CHARSET
-      LinkFont.Color = clBlue
-      LinkFont.Height = -11
-      LinkFont.Name = 'MS Shell Dlg 2'
-      LinkFont.Style = [fsUnderline]
       ModalResult = 1
     end
     object btnCancel: TSpTBXButton
@@ -796,11 +647,6 @@ inherited ToolProperties: TToolProperties
       Anchors = [akRight, akBottom]
       TabOrder = 2
       Cancel = True
-      LinkFont.Charset = DEFAULT_CHARSET
-      LinkFont.Color = clBlue
-      LinkFont.Height = -11
-      LinkFont.Name = 'MS Shell Dlg 2'
-      LinkFont.Style = [fsUnderline]
       ModalResult = 2
     end
     object btnHelp: TSpTBXButton
@@ -812,11 +658,6 @@ inherited ToolProperties: TToolProperties
       Anchors = [akRight, akBottom]
       TabOrder = 3
       OnClick = btnHelpClick
-      LinkFont.Charset = DEFAULT_CHARSET
-      LinkFont.Color = clBlue
-      LinkFont.Height = -11
-      LinkFont.Name = 'MS Shell Dlg 2'
-      LinkFont.Style = [fsUnderline]
     end
   end
   object FormatsPopup: TPopupMenu

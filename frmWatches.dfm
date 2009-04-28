@@ -49,8 +49,6 @@ inherited WatchesWindow: TWatchesWindow
   inherited FGPanel: TPanel
     Width = 433
     Height = 219
-    ExplicitLeft = 3
-    ExplicitTop = 3
     ExplicitWidth = 433
     ExplicitHeight = 219
     object WatchesView: TVirtualStringTree
@@ -77,7 +75,7 @@ inherited WatchesWindow: TWatchesWindow
       TabOrder = 0
       TreeOptions.AnimationOptions = [toAnimatedToggle]
       TreeOptions.MiscOptions = [toFullRepaintOnResize, toInitOnSave, toReportMode, toToggleOnDblClick, toWheelPanning]
-      TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowDropmark, toShowHorzGridLines, toShowVertGridLines, toUseBlendedImages, toUseBlendedSelection]
+      TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowDropmark, toShowHorzGridLines, toShowVertGridLines, toThemeAware, toUseBlendedImages, toUseBlendedSelection]
       TreeOptions.SelectionOptions = [toExtendedFocus, toFullRowSelect, toRightClickSelect]
       TreeOptions.StringOptions = [toAutoAcceptEditChange]
       OnDblClick = WatchesViewDblClick
@@ -108,8 +106,6 @@ inherited WatchesWindow: TWatchesWindow
       OnClick = mnAddWatchClick
     end
     object TBXItem1: TSpTBXItem
-      Caption = 'Add &Watch At Cursor'
-      Hint = 'Add the expression at the editor current position as a watch'
       Action = PyIDEMainForm.actAddWatchAtCursor
     end
     object mnRemoveWatch: TSpTBXItem

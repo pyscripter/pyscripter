@@ -12,8 +12,8 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, Buttons, VirtualTrees, ExtCtrls,
-  frmCodeExplorer, cPythonSourceScanner, TB2Item, TBX, Menus, SpTBXItem,
-  TBXDkPanels, SpTBXControls, dlgPyIDEBase;
+  frmCodeExplorer, cPythonSourceScanner, TB2Item, Menus, SpTBXItem,
+  SpTBXDkPanels, SpTBXControls, dlgPyIDEBase;
 
 type
 
@@ -74,7 +74,7 @@ type
 
 implementation
 
-uses dmCommands, JvJVCLUtils, JCLFileUtils;
+uses dmCommands, JvJVCLUtils, JCLFileUtils, SpTBXSkins;
 
 {$R *.dfm}
 
@@ -316,6 +316,14 @@ procedure TUnitTestWizard.FormCreate(Sender: TObject);
 begin
   inherited;
   ExplorerTree.NodeDataSize := SizeOf(TNodeDataRec);
+  ExplorerTree.OnBeforeCellPaint :=
+    CommandsDataModule.VirtualStringTreeBeforeCellPaint;
+  ExplorerTree.OnPaintText :=
+    CommandsDataModule.VirtualStringTreePaintText;
+  if SkinManager.IsDefaultSkin then
+    ExplorerTree.TreeOptions.PaintOptions := ExplorerTree.TreeOptions.PaintOptions - [toAlwaysHideSelection]
+  else
+    ExplorerTree.TreeOptions.PaintOptions := ExplorerTree.TreeOptions.PaintOptions + [toAlwaysHideSelection];
 end;
 
 procedure TUnitTestWizard.HelpButtonClick(Sender: TObject);

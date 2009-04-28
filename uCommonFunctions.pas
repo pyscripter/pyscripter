@@ -10,8 +10,8 @@ unit uCommonFunctions;
 
 interface
 Uses
-  Windows, Classes, SysUtils, Graphics, TBX, TBXThemes, SynEditTypes,
-  WideStrings, SynUnicode, uEditAppIntfs, VirtualFileSearch;
+  Windows, Classes, SysUtils, Graphics, SynEditTypes,
+  WideStrings, SynUnicode, uEditAppIntfs, VirtualFileSearch, SpTBXMDIMRU;
 
 const
   UTF8BOMString : string = Char($EF) + Char($BB) + Char($BF);
@@ -53,12 +53,6 @@ function StrGetToken(var Content: PWideChar;
 
 (* removes quotes to AText, if needed *)
 function StrUnQuote(const AText: WideString): WideString;
-
-(* Get the current TBX theme border color for a given state *)
-function GetBorderColor(const State: string): TColor;
-
-(* Get the current TBX theme item color for a given state *)
-function GetItemInfo(const State: string) : TTBXItemInfo;
 
 (* Lighten a given Color by a certain percentage *)
 function LightenColor(Color:TColor; Percentage:integer):TColor;
@@ -229,6 +223,11 @@ function WideStrRemoveChars(const S: WideString; const Chars: TSysCharSet): Wide
    in lower case *)
 function WideLastPos(const Substr, Str: WideString; IgnoreCase: Boolean = False): Integer;
 
+(* Extract MRU items to Wide Strings *)
+procedure MRUToWideStrings(MRU : TSpTBXMRUListItem; SL : TWideStrings);
+
+(* Load MRU items From WideStrings *)
+procedure WideStringsToMRU(MRU : TSpTBXMRUListItem; SL : TWideStrings);
 
 Const
   ZeroFileTime : TFileTime = (dwLowDateTime : 0; dwHighDateTime : 0);
@@ -421,51 +420,6 @@ begin
 end;
 
 (* from cStrings end *)
-
-function GetBorderColor(const state: string): TColor;
-var
- Bmp: TBitmap;
- i: TTBXItemInfo;
-begin
- Bmp:= TBitmap.Create;
- try
-  Bmp.PixelFormat := pf32Bit;
-  Bmp.Width := 19;
-  Bmp.Height := 19;
-
-  i := GetItemInfo(state);
-  CurrentTheme.PaintBackgnd(BMP.Canvas, BMP.Canvas.ClipRect, BMP.Canvas.ClipRect, BMP.Canvas.ClipRect, CurrentTheme.GetViewColor(TVT_NORMALTOOLBAR), false, TVT_NORMALTOOLBAR);
-  CurrentTheme.PaintButton(BMP.Canvas, BMP.Canvas.ClipRect, i);
-
-  Result := Bmp.Canvas.Pixels[10, 0];
- finally
-  Bmp.Free;
- end;
-end;
-
-function GetItemInfo(const State: string) : TTBXItemInfo;
-begin
-  FillChar(Result, SizeOf(TTBXItemInfo), 0);
-  Result.ViewType := TVT_NORMALTOOLBAR;
-  Result.ItemOptions := IO_TOOLBARSTYLE or IO_APPACTIVE;
-  Result.IsVertical := False;
-  Result.Enabled := true;
-
-  if State = 'inactive' then
-  begin
-   Result.Pushed := False;
-   Result.Selected := False;
-   Result.HoverKind := hkNone;
-  end else if State = 'active' then begin
-    Result.Pushed := False;
-    Result.Selected := True;
-    Result.HoverKind := hkMouseHover;
-  end else if State = 'hot' then begin
-    Result.Pushed := True;
-    Result.Selected := True;
-    Result.HoverKind := hkMouseHover;
-  end;
-end;
 
 function LightenColor(Color:TColor; Percentage:integer):TColor;
 var
@@ -1845,6 +1799,25 @@ begin
     Result := PStr-PStart+1;
     inc(PStr);
   until PStr^ = WideChar(#0);
+end;
+
+procedure MRUToWideStrings(MRU : TSpTBXMRUListItem; SL : TWideStrings);
+var
+  I: Integer;
+begin
+  SL.Clear;
+  for I := 0 to MRU.Count - 1 do
+    if MRU.Items[I] is TSpTBXMRUItem then
+      SL.Add(TSpTBXMRUItem(MRU.Items[I]).MRUString);
+end;
+
+procedure WideStringsToMRU(MRU : TSpTBXMRUListItem; SL : TWideStrings);
+var
+  I: Integer;
+begin
+  MRU.Clear;
+  for I := 0 to SL.Count - 1 do
+      MRU.MRUAdd(SL[I]);
 end;
 
 end.

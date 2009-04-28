@@ -12,8 +12,8 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ComCtrls, Menus, JvDockControlForm, JvComponent, PythonEngine,
-  Contnrs, frmIDEDockWin, ExtCtrls, TB2Item, TBX, TBXThemes, TBXDkPanels, VirtualTrees,
-  TB2Dock, TB2Toolbar, ActnList, JvComponentBase, SpTBXItem, SpTBXControls,
+  Contnrs, frmIDEDockWin, ExtCtrls, TB2Item, SpTBXDkPanels, VirtualTrees,
+  TB2Dock, TB2Toolbar, ActnList, JvComponentBase, SpTBXSkins, SpTBXItem, SpTBXControls,
   JvAppStorage, TntActnList;
 
 type
@@ -56,7 +56,7 @@ type
     fHistoryIndex : integer;
     fHistorySize : integer;
   protected
-    procedure TBMThemeChange(var Message: TMessage); message TBM_THEMECHANGE;
+    procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
     procedure StoreTopNodeIndex;
     procedure RestoreTopNodeIndex;
     // IJvAppStorageHandler implementation
@@ -290,6 +290,10 @@ begin
     CommandsDataModule.VirtualStringTreeAdvancedHeaderDraw;
   MessagesView.OnHeaderDrawQueryElements :=
     CommandsDataModule.VirtualStringTreeDrawQueryElements;
+  MessagesView.OnBeforeCellPaint :=
+    CommandsDataModule.VirtualStringTreeBeforeCellPaint;
+  MessagesView.OnPaintText :=
+    CommandsDataModule.VirtualStringTreePaintText;
 end;
 
 procedure TMessagesWindow.FormDestroy(Sender: TObject);
@@ -359,14 +363,15 @@ begin
     JumpToPosition(MessagesView.GetFirstSelected)
 end;
 
-procedure TMessagesWindow.TBMThemeChange(var Message: TMessage);
+procedure TMessagesWindow.WMSpSkinChange(var Message: TMessage);
 begin
   inherited;
-  if Message.WParam = TSC_VIEWCHANGE then begin
-    MessagesView.Header.Invalidate(nil, True);
-    MessagesView.Colors.HeaderHotColor :=
-      CurrentTheme.GetItemTextColor(GetItemInfo('active'));
-  end;
+  MessagesView.Header.Invalidate(nil, True);
+  MessagesView.Invalidate;
+  if SkinManager.IsDefaultSkin then
+    MessagesView.TreeOptions.PaintOptions := MessagesView.TreeOptions.PaintOptions - [toAlwaysHideSelection]
+  else
+    MessagesView.TreeOptions.PaintOptions := MessagesView.TreeOptions.PaintOptions + [toAlwaysHideSelection];
 end;
 
 procedure TMessagesWindow.actNextMsgsExecute(Sender: TObject);

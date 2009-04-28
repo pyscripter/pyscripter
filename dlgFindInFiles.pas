@@ -46,7 +46,7 @@ interface
 
 uses
   Classes, Controls, Graphics, Forms, StdCtrls,
-  cFindInFiles, JvAppStorage, SpTBXControls, TBXDkPanels, TntStdCtrls,
+  cFindInFiles, JvAppStorage, SpTBXControls, SpTBXDkPanels, TntStdCtrls,
   SpTBXEditors, dlgPyIDEBase;
 
 type

@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ComCtrls, ExtCtrls, JvEdit,
-  SynEdit, ActnList, TBXDkPanels, SpTBXControls, TntActnList, dlgPyIDEBase,
+  SynEdit, ActnList, SpTBXDkPanels, SpTBXControls, TntActnList, dlgPyIDEBase,
   TntComCtrls, SpTBXEditors, WideStrings;
 
 type

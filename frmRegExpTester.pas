@@ -13,10 +13,10 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, frmIDEDockWin, JvComponent, JvDockControlForm, ExtCtrls, StdCtrls,
-  VirtualTrees, TBXDkPanels, TB2Item,
-  TBX, TBXThemes, TB2Dock, TB2Toolbar, JvAppStorage,
-  JvComponentBase, SpTBXItem, SpTBXDkPanels, ComCtrls, TntComCtrls,
-  SpTBXControls;
+  VirtualTrees, SpTBXDkPanels, TB2Item,
+  TB2Dock, TB2Toolbar, JvAppStorage,
+  JvComponentBase, SpTBXItem, ComCtrls, TntComCtrls,
+  SpTBXControls, SpTBXSkins;
 
 type
   TRegExpTesterWindow = class(TIDEDockWindow, IJvAppStorageHandler)
@@ -43,14 +43,14 @@ type
     StatusBar: TSpTBXStatusBar;
     lbStatusBar: TSpTBXLabelItem;
     TBXDockablePanel1: TSpTBXDockablePanel;
-    TBXLabel3: TTBXLabel;
+    TBXLabel3: TSpTBXLabel;
     TBXDockablePanel4: TSpTBXDockablePanel;
-    TBXLabel1: TTBXLabel;
+    TBXLabel1: TSpTBXLabel;
     GroupsView: TVirtualStringTree;
     TBXDockablePanel3: TSpTBXDockablePanel;
-    TBXLabel2: TTBXLabel;
+    TBXLabel2: TSpTBXLabel;
     TBXDockablePanel2: TSpTBXDockablePanel;
-    TBXLabel4: TTBXLabel;
+    TBXLabel4: TSpTBXLabel;
     SpTBXPanel1: TSpTBXPanel;
     RegExpText: TTntRichEdit;
     SpTBXPanel2: TSpTBXPanel;
@@ -71,7 +71,7 @@ type
     RegExp : Variant;
     MatchObject : Variant;
   protected
-    procedure TBMThemeChange(var Message: TMessage); message TBM_THEMECHANGE;
+    procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
     // IJvAppStorageHandler implementation
     procedure ReadFromAppStorage(AppStorage: TJvCustomAppStorage; const BasePath: string);
     procedure WriteToAppStorage(AppStorage: TJvCustomAppStorage; const BasePath: string);
@@ -92,7 +92,8 @@ uses dmCommands, uCommonFunctions, frmPyIDEMain, VarPyth, frmPythonII,
 procedure TRegExpTesterWindow.FormResize(Sender: TObject);
 begin
   inherited;
-  TBXMultiDock.ResizeVisiblePanels(FGPanel.ClientWidth-4);
+  { TODO : Resize Multidock controls }
+//  TBXMultiDock.ResizeVisiblePanels(FGPanel.ClientWidth-4);
 end;
 
 procedure TRegExpTesterWindow.FormActivate(Sender: TObject);
@@ -111,16 +112,21 @@ begin
     CommandsDataModule.VirtualStringTreeAdvancedHeaderDraw;
   GroupsView.OnHeaderDrawQueryElements :=
     CommandsDataModule.VirtualStringTreeDrawQueryElements;
+  GroupsView.OnBeforeCellPaint :=
+    CommandsDataModule.VirtualStringTreeBeforeCellPaint;
+  GroupsView.OnPaintText :=
+    CommandsDataModule.VirtualStringTreePaintText;
 end;
 
-procedure TRegExpTesterWindow.TBMThemeChange(var Message: TMessage);
+procedure TRegExpTesterWindow.WMSpSkinChange(var Message: TMessage);
 begin
   inherited;
-  if Message.WParam = TSC_VIEWCHANGE then begin
-    GroupsView.Header.Invalidate(nil, True);
-    GroupsView.Colors.HeaderHotColor :=
-      CurrentTheme.GetItemTextColor(GetItemInfo('active'));
-  end;
+  GroupsView.Header.Invalidate(nil, True);
+  GroupsView.Invalidate;
+  if SkinManager.IsDefaultSkin then
+    GroupsView.TreeOptions.PaintOptions := GroupsView.TreeOptions.PaintOptions - [toAlwaysHideSelection]
+  else
+    GroupsView.TreeOptions.PaintOptions := GroupsView.TreeOptions.PaintOptions + [toAlwaysHideSelection];
 end;
 
 procedure TRegExpTesterWindow.WriteToAppStorage(AppStorage: TJvCustomAppStorage;

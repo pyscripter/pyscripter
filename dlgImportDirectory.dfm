@@ -14,7 +14,7 @@ inherited ImportDirectoryForm: TImportDirectoryForm
     Top = 0
     Width = 412
     Height = 160
-    ThemeType = thtWindows
+    SkinType = sknSkin
     Align = alClient
     Color = clBtnFace
     UseDockManager = True
@@ -64,11 +64,6 @@ inherited ImportDirectoryForm: TImportDirectoryForm
       Height = 13
       Caption = 'Directory to import:'
       ParentColor = True
-      LinkFont.Charset = DEFAULT_CHARSET
-      LinkFont.Color = clBlue
-      LinkFont.Height = -11
-      LinkFont.Name = 'MS Shell Dlg 2'
-      LinkFont.Style = [fsUnderline]
     end
     object Label2: TSpTBXLabel
       Left = 8
@@ -77,11 +72,6 @@ inherited ImportDirectoryForm: TImportDirectoryForm
       Height = 13
       Caption = 'File Masks (e.g. *.py;*.pyw):'
       ParentColor = True
-      LinkFont.Charset = DEFAULT_CHARSET
-      LinkFont.Color = clBlue
-      LinkFont.Height = -11
-      LinkFont.Name = 'MS Shell Dlg 2'
-      LinkFont.Style = [fsUnderline]
     end
     object Button1: TSpTBXButton
       Left = 111
@@ -92,11 +82,6 @@ inherited ImportDirectoryForm: TImportDirectoryForm
       Anchors = [akLeft, akBottom]
       TabOrder = 2
       Default = True
-      LinkFont.Charset = DEFAULT_CHARSET
-      LinkFont.Color = clBlue
-      LinkFont.Height = -11
-      LinkFont.Name = 'Tahoma'
-      LinkFont.Style = [fsUnderline]
       ModalResult = 1
       ExplicitTop = 107
     end
@@ -109,11 +94,6 @@ inherited ImportDirectoryForm: TImportDirectoryForm
       Anchors = [akLeft, akBottom]
       TabOrder = 3
       Cancel = True
-      LinkFont.Charset = DEFAULT_CHARSET
-      LinkFont.Color = clBlue
-      LinkFont.Height = -11
-      LinkFont.Name = 'Tahoma'
-      LinkFont.Style = [fsUnderline]
       ModalResult = 2
       ExplicitTop = 107
     end

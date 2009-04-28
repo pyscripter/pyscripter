@@ -5,7 +5,8 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ComCtrls, VirtualTrees, StdCtrls, ExtCtrls, cFileTemplates,
-  TBXDkPanels, SpTBXControls, TntComCtrls, WideStrings, dlgPyIDEBase;
+  SpTBXDkPanels, SpTBXControls, TntComCtrls, WideStrings, dlgPyIDEBase,
+  SpTBXItem, SpTBXSkins;
 
 type
   TNewFileDialog = class(TPyIDEDlgBase)
@@ -68,6 +69,14 @@ begin
   Categories := TWideStringList.Create;
   Categories.CaseSensitive := False;
   lvTemplates.LargeImages := LargeSysImages;
+  tvCategories.OnBeforeCellPaint :=
+    CommandsDataModule.VirtualStringTreeBeforeCellPaint;
+  tvCategories.OnPaintText :=
+    CommandsDataModule.VirtualStringTreePaintText;
+  if SkinManager.IsDefaultSkin then
+    tvCategories.TreeOptions.PaintOptions := tvCategories.TreeOptions.PaintOptions - [toAlwaysHideSelection]
+  else
+    tvCategories.TreeOptions.PaintOptions := tvCategories.TreeOptions.PaintOptions + [toAlwaysHideSelection];
 end;
 
 procedure TNewFileDialog.FormDestroy(Sender: TObject);

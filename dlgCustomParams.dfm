@@ -20,7 +20,7 @@ inherited CustomizeParams: TCustomizeParams
     Top = 0
     Width = 435
     Height = 343
-    ThemeType = thtWindows
+    SkinType = sknSkin
     Align = alClient
     TabOrder = 0
     DesignSize = (
@@ -35,11 +35,6 @@ inherited CustomizeParams: TCustomizeParams
       TabOrder = 4
       Images = CommandsDataModule.Images
       ImageIndex = 49
-      LinkFont.Charset = DEFAULT_CHARSET
-      LinkFont.Color = clBlue
-      LinkFont.Height = -11
-      LinkFont.Name = 'MS Shell Dlg 2'
-      LinkFont.Style = [fsUnderline]
     end
     object TBXButton3: TSpTBXButton
       Left = 89
@@ -50,11 +45,6 @@ inherited CustomizeParams: TCustomizeParams
       TabOrder = 5
       Images = CommandsDataModule.Images
       ImageIndex = 14
-      LinkFont.Charset = DEFAULT_CHARSET
-      LinkFont.Color = clBlue
-      LinkFont.Height = -11
-      LinkFont.Name = 'MS Shell Dlg 2'
-      LinkFont.Style = [fsUnderline]
     end
     object TBXButton4: TSpTBXButton
       Left = 174
@@ -65,11 +55,6 @@ inherited CustomizeParams: TCustomizeParams
       TabOrder = 6
       Images = CommandsDataModule.Images
       ImageIndex = 47
-      LinkFont.Charset = DEFAULT_CHARSET
-      LinkFont.Color = clBlue
-      LinkFont.Height = -11
-      LinkFont.Name = 'MS Shell Dlg 2'
-      LinkFont.Style = [fsUnderline]
     end
     object TBXButton5: TSpTBXButton
       Left = 258
@@ -80,11 +65,6 @@ inherited CustomizeParams: TCustomizeParams
       TabOrder = 7
       Images = CommandsDataModule.Images
       ImageIndex = 48
-      LinkFont.Charset = DEFAULT_CHARSET
-      LinkFont.Color = clBlue
-      LinkFont.Height = -11
-      LinkFont.Name = 'MS Shell Dlg 2'
-      LinkFont.Style = [fsUnderline]
     end
     object TBXButton2: TSpTBXButton
       Left = 343
@@ -95,11 +75,6 @@ inherited CustomizeParams: TCustomizeParams
       TabOrder = 8
       Images = CommandsDataModule.Images
       ImageIndex = 39
-      LinkFont.Charset = DEFAULT_CHARSET
-      LinkFont.Color = clBlue
-      LinkFont.Height = -11
-      LinkFont.Name = 'MS Shell Dlg 2'
-      LinkFont.Style = [fsUnderline]
     end
     object btnOK: TSpTBXButton
       Left = 260
@@ -110,11 +85,6 @@ inherited CustomizeParams: TCustomizeParams
       Anchors = [akRight, akBottom]
       TabOrder = 2
       Default = True
-      LinkFont.Charset = DEFAULT_CHARSET
-      LinkFont.Color = clBlue
-      LinkFont.Height = -11
-      LinkFont.Name = 'MS Shell Dlg 2'
-      LinkFont.Style = [fsUnderline]
       ModalResult = 1
     end
     object btnCancel: TSpTBXButton
@@ -126,11 +96,6 @@ inherited CustomizeParams: TCustomizeParams
       Anchors = [akRight, akBottom]
       TabOrder = 1
       Cancel = True
-      LinkFont.Charset = DEFAULT_CHARSET
-      LinkFont.Color = clBlue
-      LinkFont.Height = -11
-      LinkFont.Name = 'MS Shell Dlg 2'
-      LinkFont.Style = [fsUnderline]
       ModalResult = 2
     end
     object Label3: TSpTBXLabel
@@ -146,11 +111,6 @@ inherited CustomizeParams: TCustomizeParams
       Font.Style = []
       ParentColor = True
       ParentFont = False
-      LinkFont.Charset = DEFAULT_CHARSET
-      LinkFont.Color = clBlue
-      LinkFont.Height = -11
-      LinkFont.Name = 'MS Shell Dlg 2'
-      LinkFont.Style = [fsUnderline]
     end
     object Label4: TSpTBXLabel
       Left = 12
@@ -165,11 +125,6 @@ inherited CustomizeParams: TCustomizeParams
       Font.Style = []
       ParentColor = True
       ParentFont = False
-      LinkFont.Charset = DEFAULT_CHARSET
-      LinkFont.Color = clBlue
-      LinkFont.Height = -11
-      LinkFont.Name = 'MS Shell Dlg 2'
-      LinkFont.Style = [fsUnderline]
     end
     object GroupBox1: TSpTBXGroupBox
       Left = 10
@@ -177,7 +132,7 @@ inherited CustomizeParams: TCustomizeParams
       Width = 414
       Height = 83
       Caption = 'Name-Value Pair'
-      ThemeType = thtWindows
+      SkinType = sknSkin
       TabOrder = 3
       object SynValue: TSynEdit
         Left = 61
@@ -210,11 +165,6 @@ inherited CustomizeParams: TCustomizeParams
         Height = 13
         Caption = '&Name:'
         ParentColor = True
-        LinkFont.Charset = DEFAULT_CHARSET
-        LinkFont.Color = clBlue
-        LinkFont.Height = -11
-        LinkFont.Name = 'MS Shell Dlg 2'
-        LinkFont.Style = [fsUnderline]
       end
       object Label2: TSpTBXLabel
         Left = 14
@@ -223,11 +173,6 @@ inherited CustomizeParams: TCustomizeParams
         Height = 13
         Caption = '&Value:'
         ParentColor = True
-        LinkFont.Charset = DEFAULT_CHARSET
-        LinkFont.Color = clBlue
-        LinkFont.Height = -11
-        LinkFont.Name = 'MS Shell Dlg 2'
-        LinkFont.Style = [fsUnderline]
       end
       object edName: TSpTBXEdit
         Left = 61

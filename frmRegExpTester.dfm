@@ -53,9 +53,7 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
   TextHeight = 13
   inherited FGPanel: TPanel
     Width = 227
-    ExplicitLeft = 3
-    ExplicitTop = 3
-    ExplicitHeight = 402
+    ExplicitWidth = 227
     object TBXDock: TSpTBXDock
       Left = 0
       Top = 0
@@ -173,40 +171,37 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
       Top = 26
       Width = 402
       Height = 350
-      Position = dpxLeft
       object TBXDockablePanel1: TSpTBXDockablePanel
         Left = 0
         Top = 0
-        MinClientHeight = 32
-        MinClientWidth = 32
-        DockedWidth = 398
+        Width = 402
+        Height = 74
         DockPos = 0
+        TabOrder = 0
         ShowCaption = False
         ShowCaptionWhenDocked = False
-        SplitHeight = 76
-        TabOrder = 0
-        object TBXLabel3: TTBXLabel
+        object TBXLabel3: TSpTBXLabel
           Left = 0
           Top = 0
           Width = 398
-          Height = 14
-          Align = alTop
+          Height = 20
           Caption = 'Regular Expression'
+          Align = alTop
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -11
           Font.Name = 'MS Shell Dlg 2'
           Font.Style = [fsBold]
           ParentFont = False
+          Wrapping = twEndEllipsis
           Underline = True
           UnderlineColor = clBlue
-          Wrapping = twEndEllipsis
         end
         object SpTBXPanel1: TSpTBXPanel
           Left = 0
-          Top = 14
+          Top = 20
           Width = 398
-          Height = 56
+          Height = 50
           Caption = 'SpTBXPanel1'
           Align = alClient
           TabOrder = 2
@@ -215,7 +210,7 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
             Left = 2
             Top = 2
             Width = 394
-            Height = 52
+            Height = 46
             Align = alClient
             BevelInner = bvNone
             BevelOuter = bvNone
@@ -230,37 +225,35 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
       object TBXDockablePanel4: TSpTBXDockablePanel
         Left = 0
         Top = 212
-        MinClientHeight = 32
-        MinClientWidth = 32
+        Width = 402
+        Height = 138
         Align = alBottom
-        DockedWidth = 398
         DockPos = 212
+        TabOrder = 3
         ShowCaption = False
         ShowCaptionWhenDocked = False
-        SplitHeight = 124
-        TabOrder = 3
-        object TBXLabel1: TTBXLabel
+        object TBXLabel1: TSpTBXLabel
           Left = 0
           Top = 0
           Width = 398
-          Height = 14
-          Align = alTop
+          Height = 20
           Caption = 'Groups:'
+          Align = alTop
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -11
           Font.Name = 'MS Shell Dlg 2'
           Font.Style = [fsBold]
           ParentFont = False
+          Wrapping = twEndEllipsis
           Underline = True
           UnderlineColor = clBlue
-          Wrapping = twEndEllipsis
         end
         object GroupsView: TVirtualStringTree
           Left = 0
-          Top = 14
+          Top = 20
           Width = 398
-          Height = 104
+          Height = 114
           Align = alClient
           BevelEdges = []
           BevelInner = bvNone
@@ -277,7 +270,7 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
           HintMode = hmTooltip
           TabOrder = 1
           TreeOptions.MiscOptions = [toFullRepaintOnResize, toInitOnSave, toReportMode, toToggleOnDblClick, toWheelPanning]
-          TreeOptions.PaintOptions = [toShowButtons, toShowDropmark, toShowHorzGridLines, toShowVertGridLines, toUseBlendedImages, toUseBlendedSelection]
+          TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowDropmark, toShowHorzGridLines, toShowVertGridLines, toThemeAware, toUseBlendedImages, toUseBlendedSelection]
           TreeOptions.StringOptions = [toAutoAcceptEditChange]
           OnGetText = GroupsViewGetText
           Columns = <
@@ -307,36 +300,34 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
       object TBXDockablePanel3: TSpTBXDockablePanel
         Left = 0
         Top = 151
-        MinClientHeight = 32
-        MinClientWidth = 32
-        DockedWidth = 398
+        Width = 402
+        Height = 61
         DockPos = 151
+        TabOrder = 2
         ShowCaption = False
         ShowCaptionWhenDocked = False
-        SplitHeight = 63
-        TabOrder = 2
-        object TBXLabel2: TTBXLabel
+        object TBXLabel2: TSpTBXLabel
           Left = 0
           Top = 0
           Width = 398
-          Height = 14
-          Align = alTop
+          Height = 20
           Caption = 'Match:'
+          Align = alTop
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -11
           Font.Name = 'MS Shell Dlg 2'
           Font.Style = [fsBold]
           ParentFont = False
+          Wrapping = twEndEllipsis
           Underline = True
           UnderlineColor = clBlue
-          Wrapping = twEndEllipsis
         end
         object SpTBXPanel3: TSpTBXPanel
           Left = 0
-          Top = 14
+          Top = 20
           Width = 398
-          Height = 43
+          Height = 37
           Caption = 'SpTBXPanel3'
           Align = alClient
           TabOrder = 2
@@ -345,7 +336,7 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
             Left = 2
             Top = 2
             Width = 394
-            Height = 39
+            Height = 33
             Align = alClient
             BevelInner = bvNone
             BevelOuter = bvNone
@@ -359,36 +350,34 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
       object TBXDockablePanel2: TSpTBXDockablePanel
         Left = 0
         Top = 74
-        MinClientHeight = 32
-        MinClientWidth = 32
-        DockedWidth = 398
+        Width = 402
+        Height = 77
         DockPos = 74
+        TabOrder = 1
         ShowCaption = False
         ShowCaptionWhenDocked = False
-        SplitHeight = 79
-        TabOrder = 1
-        object TBXLabel4: TTBXLabel
+        object TBXLabel4: TSpTBXLabel
           Left = 0
           Top = 0
           Width = 398
-          Height = 14
-          Align = alTop
+          Height = 20
           Caption = 'Search Text:'
+          Align = alTop
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -11
           Font.Name = 'MS Shell Dlg 2'
           Font.Style = [fsBold]
           ParentFont = False
+          Wrapping = twEndEllipsis
           Underline = True
           UnderlineColor = clBlue
-          Wrapping = twEndEllipsis
         end
         object SpTBXPanel2: TSpTBXPanel
           Left = 0
-          Top = 14
+          Top = 20
           Width = 398
-          Height = 59
+          Height = 53
           Caption = 'SpTBXPanel2'
           Align = alClient
           TabOrder = 2
@@ -397,7 +386,7 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
             Left = 2
             Top = 2
             Width = 394
-            Height = 55
+            Height = 49
             Align = alClient
             BevelInner = bvNone
             BevelOuter = bvNone

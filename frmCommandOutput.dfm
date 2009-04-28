@@ -49,8 +49,6 @@ inherited OutputWindow: TOutputWindow
   inherited FGPanel: TPanel
     Width = 546
     Height = 325
-    ExplicitLeft = 3
-    ExplicitTop = 3
     ExplicitWidth = 546
     ExplicitHeight = 325
     object lsbConsole: TListBox
@@ -88,50 +86,34 @@ inherited OutputWindow: TOutputWindow
     object RunningProcess: TSpTBXSubmenuItem
       Caption = 'Running Process'
       object mnClose: TSpTBXItem
-        Caption = '&Close'
-        Hint = 'Close running tool'
         Action = actToolClose
       end
       object mnQuit: TSpTBXItem
-        Caption = '&Quit'
-        Hint = 'Post quit message to running tool'
         Action = actToolQuit
       end
       object mnTerminate: TSpTBXItem
-        Caption = '&Terminate'
-        Hint = 'Terminate running tool (unsafe)'
         Action = actToolTerminate
       end
       object N3: TSpTBXSeparatorItem
       end
       object mnStopWaiting: TSpTBXItem
-        Caption = 'Stop &Waiting'
-        Hint = 'Stop waiting for running tool'
         Action = actToolStopWaiting
       end
     end
     object N1: TSpTBXSeparatorItem
     end
     object mnCopy: TSpTBXItem
-      Caption = 'Co&py'
-      Hint = 'Copy contents to Clipboard'
       Action = actCopy
     end
     object mnClear: TSpTBXItem
-      Caption = 'Clear'
-      Hint = 'Clear output'
       Action = actClearOutput
     end
     object N2: TSpTBXSeparatorItem
     end
     object mnFont: TSpTBXItem
-      Caption = 'Font...'
-      Hint = 'Select font'
       Action = actOutputFont
     end
     object mnBackgroundColor: TSpTBXItem
-      Caption = 'Background Color...'
-      Hint = 'Select background color'
       Action = actSelectColor
     end
   end

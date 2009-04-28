@@ -16,7 +16,7 @@ inherited CommandLineDlg: TCommandLineDlg
     Top = 0
     Width = 446
     Height = 150
-    ThemeType = thtWindows
+    SkinType = sknSkin
     Align = alClient
     TabOrder = 0
     DesignSize = (
@@ -56,11 +56,6 @@ inherited CommandLineDlg: TCommandLineDlg
       TabOrder = 1
       OnClick = OKButtonClick
       Default = True
-      LinkFont.Charset = DEFAULT_CHARSET
-      LinkFont.Color = clBlue
-      LinkFont.Height = -11
-      LinkFont.Name = 'MS Shell Dlg 2'
-      LinkFont.Style = [fsUnderline]
       ModalResult = 1
     end
     object BitBtn2: TSpTBXButton
@@ -72,11 +67,6 @@ inherited CommandLineDlg: TCommandLineDlg
       Anchors = [akRight, akBottom]
       TabOrder = 2
       Cancel = True
-      LinkFont.Charset = DEFAULT_CHARSET
-      LinkFont.Color = clBlue
-      LinkFont.Height = -11
-      LinkFont.Name = 'MS Shell Dlg 2'
-      LinkFont.Style = [fsUnderline]
       ModalResult = 2
     end
     object HelpButton: TSpTBXButton
@@ -88,11 +78,6 @@ inherited CommandLineDlg: TCommandLineDlg
       Anchors = [akRight, akBottom]
       TabOrder = 3
       OnClick = btnHelpClick
-      LinkFont.Charset = DEFAULT_CHARSET
-      LinkFont.Color = clBlue
-      LinkFont.Height = -11
-      LinkFont.Name = 'MS Shell Dlg 2'
-      LinkFont.Style = [fsUnderline]
     end
     object TBXButton1: TSpTBXButton
       Left = 419
@@ -105,17 +90,12 @@ inherited CommandLineDlg: TCommandLineDlg
       ShowHint = True
       TabOrder = 5
       DropDownMenu = TBXPopupHistory
-      LinkFont.Charset = DEFAULT_CHARSET
-      LinkFont.Color = clBlue
-      LinkFont.Height = -11
-      LinkFont.Name = 'MS Shell Dlg 2'
-      LinkFont.Style = [fsUnderline]
     end
     object cbUseCommandLine: TSpTBXCheckBox
       Left = 8
       Top = 8
-      Width = 171
-      Height = 15
+      Width = 177
+      Height = 21
       Caption = 'Use Command Line Parameters?'
       ParentColor = True
       TabOrder = 4
@@ -133,17 +113,12 @@ inherited CommandLineDlg: TCommandLineDlg
       AutoSize = False
       ParentColor = True
       Wrapping = twWrap
-      LinkFont.Charset = DEFAULT_CHARSET
-      LinkFont.Color = clBlue
-      LinkFont.Height = -11
-      LinkFont.Name = 'MS Shell Dlg 2'
-      LinkFont.Style = [fsUnderline]
     end
     object Label3: TSpTBXLabel
       Left = 8
       Top = 87
-      Width = 252
-      Height = 13
+      Width = 258
+      Height = 19
       Caption = 'Parameters : Shift+Ctrl+P, Modifiers : Shift+Ctrl+M '
       Anchors = [akLeft, akBottom]
       Font.Charset = DEFAULT_CHARSET
@@ -153,11 +128,6 @@ inherited CommandLineDlg: TCommandLineDlg
       Font.Style = []
       ParentColor = True
       ParentFont = False
-      LinkFont.Charset = DEFAULT_CHARSET
-      LinkFont.Color = clBlue
-      LinkFont.Height = -11
-      LinkFont.Name = 'MS Shell Dlg 2'
-      LinkFont.Style = [fsUnderline]
     end
   end
   object TBXPopupHistory: TSpTBXPopupMenu
@@ -167,8 +137,10 @@ inherited CommandLineDlg: TCommandLineDlg
     object EmptyHistoryPopupItem: TSpTBXItem
       Caption = '(Empty History)'
     end
-    object PopupHistoryItem: TTBXMRUListItem
-      MRUList = CommandsDataModule.CommandLineMRU
+    object mnCommandHistoryMRU: TSpTBXMRUListItem
+      HidePathExtension = False
+      MaxItems = 6
+      OnClick = mnCommandHistoryMRUClick
     end
   end
 end

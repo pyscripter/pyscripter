@@ -59,8 +59,6 @@ inherited FindResultsWindow: TFindResultsWindow
   inherited FGPanel: TPanel
     Width = 597
     Height = 333
-    ExplicitLeft = 3
-    ExplicitTop = 3
     ExplicitWidth = 597
     ExplicitHeight = 333
     object pnlMain: TPanel
@@ -73,19 +71,14 @@ inherited FindResultsWindow: TFindResultsWindow
       FullRepaint = False
       PopupMenu = TBXPopupMenu
       TabOrder = 0
-      object Splitter: TSplitter
+      object Splitter: TSpTBXSplitter
         Left = 0
         Top = 213
         Width = 597
         Height = 8
-        Cursor = crVSplit
+        Cursor = crSizeNS
         Align = alBottom
-        AutoSnap = False
-        Beveled = True
         MinSize = 20
-        ResizeStyle = rsUpdate
-        ExplicitTop = 202
-        ExplicitWidth = 595
       end
       object TBXDock1: TSpTBXDock
         Left = 0
@@ -102,82 +95,56 @@ inherited FindResultsWindow: TFindResultsWindow
           TabOrder = 0
           Customizable = False
           object tbiSearch: TSpTBXItem
-            Caption = '&Search...'
-            Hint = 'New search...'
             Action = actFileSearch
           end
           object tbiRefresh: TSpTBXItem
-            Caption = '&Refresh'
-            Hint = 'Refresh search'
             Action = actFileRefresh
           end
           object TBXSeparatorItem1: TSpTBXSeparatorItem
           end
           object tbiAbort: TSpTBXItem
-            Caption = '&Abort'
-            Hint = 'Abort search'
             Action = actFileAbort
           end
           object TBXSeparatorItem2: TSpTBXSeparatorItem
           end
           object tbiGoToSelected: TSpTBXItem
-            Caption = 'Goto Selected'
-            Hint = 'Goto match'
             Action = actListGotoSelected
           end
           object TBXSeparatorItem3: TSpTBXSeparatorItem
           end
           object tbiPrint: TSpTBXItem
-            Caption = '&Print...'
-            Hint = 'Print results...'
             Action = actFilePrint
           end
           object tbiCopy: TSpTBXItem
-            Caption = '&Copy'
-            Hint = 'Copy results to clipboard'
             Action = actFileCopy
           end
           object tbiSave: TSpTBXItem
-            Caption = '&Save...'
-            Hint = 'Save results to file...'
             Action = actFileSave
           end
           object TBXSeparatorItem4: TSpTBXSeparatorItem
           end
           object tbiExpand: TSpTBXItem
-            Caption = '&Expand'
-            Hint = 'Expand all'
             Action = actListExpand
           end
           object tbiContract: TSpTBXItem
-            Caption = '&Contract'
-            Hint = 'Contract all'
             Action = actListContract
           end
           object TBXSeparatorItem5: TSpTBXSeparatorItem
           end
           object tbiReplaceSelected: TSpTBXItem
-            Caption = 'Replace Selected Item...'
-            Hint = 'Replace selected item...'
             Action = actReplaceSelected
           end
           object tbiReplaceAll: TSpTBXItem
-            Caption = 'Replace All Items...'
-            Hint = 'Replace all items...'
             Action = actReplaceAll
           end
           object TBXSeparatorItem6: TSpTBXSeparatorItem
           end
           object tbiOptions: TSpTBXItem
-            Caption = 'Options...'
-            Hint = 'Configure Find in Files'
             Action = actViewOptions
           end
           object TBXSeparatorItem8: TSpTBXSeparatorItem
           end
           object tbiHelp: TSpTBXItem
-            Caption = '&Help'
-            Hint = 'Help'
             Action = actHelpHelp
           end
         end
@@ -236,73 +203,49 @@ inherited FindResultsWindow: TFindResultsWindow
     Left = 26
     Top = 118
     object mitFileSearch1: TSpTBXItem
-      Caption = '&Search...'
-      Hint = 'New search...'
       Action = actFileSearch
     end
     object mitFileRefresh1: TSpTBXItem
-      Caption = '&Refresh'
-      Hint = 'Refresh search'
       Action = actFileRefresh
     end
     object mitFileAbort1: TSpTBXItem
-      Caption = '&Abort'
-      Hint = 'Abort search'
       Action = actFileAbort
     end
     object N5: TSpTBXSeparatorItem
     end
     object mitFilePrint1: TSpTBXItem
-      Caption = '&Print...'
-      Hint = 'Print results...'
       Action = actFilePrint
     end
     object mitFileSave1: TSpTBXItem
-      Caption = '&Save...'
-      Hint = 'Save results to file...'
       Action = actFileSave
     end
     object N2: TSpTBXSeparatorItem
     end
     object mitViewToolBar1: TSpTBXItem
-      Caption = 'Toolbar'
-      Hint = 'View/Hide Toolbar'
       Action = actViewToolBar
     end
     object StatusBar1: TSpTBXItem
-      Caption = 'StatusBar'
-      Hint = 'View/Hide StatusBar'
       Action = actViewStatusBar
     end
     object miViewShowMatchContext1: TSpTBXItem
-      Caption = 'Show Match Context'
-      Hint = 'View/Hide Context of found text'
       Action = actViewShowContext
     end
     object N1: TSpTBXSeparatorItem
     end
     object mitReplaceReplaceAll1: TSpTBXItem
-      Caption = 'Replace All Items...'
-      Hint = 'Replace all items...'
       Action = actReplaceAll
     end
     object mitReplaceSelected1: TSpTBXItem
-      Caption = 'Replace Selected Item...'
-      Hint = 'Replace selected item...'
       Action = actReplaceSelected
     end
     object N3: TSpTBXSeparatorItem
     end
     object mitViewOptions1: TSpTBXItem
-      Caption = 'Options...'
-      Hint = 'Configure Find in Files'
       Action = actViewOptions
     end
     object N4: TSpTBXSeparatorItem
     end
     object mitHelp: TSpTBXItem
-      Caption = '&Help'
-      Hint = 'Help'
       Action = actHelpHelp
     end
   end

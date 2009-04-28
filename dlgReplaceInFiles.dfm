@@ -24,11 +24,6 @@ inherited ReplaceInFilesDialog: TReplaceInFilesDialog
     Anchors = [akRight, akBottom]
     TabOrder = 1
     Default = True
-    LinkFont.Charset = DEFAULT_CHARSET
-    LinkFont.Color = clBlue
-    LinkFont.Height = -11
-    LinkFont.Name = 'MS Shell Dlg 2'
-    LinkFont.Style = [fsUnderline]
     ModalResult = 1
     ExplicitLeft = 127
   end
@@ -41,11 +36,6 @@ inherited ReplaceInFilesDialog: TReplaceInFilesDialog
     Anchors = [akRight, akBottom]
     TabOrder = 2
     Cancel = True
-    LinkFont.Charset = DEFAULT_CHARSET
-    LinkFont.Color = clBlue
-    LinkFont.Height = -11
-    LinkFont.Name = 'MS Shell Dlg 2'
-    LinkFont.Style = [fsUnderline]
     ModalResult = 2
     ExplicitLeft = 206
   end
@@ -58,11 +48,6 @@ inherited ReplaceInFilesDialog: TReplaceInFilesDialog
     Anchors = [akRight, akBottom]
     TabOrder = 3
     OnClick = btnHelpClick
-    LinkFont.Charset = DEFAULT_CHARSET
-    LinkFont.Color = clBlue
-    LinkFont.Height = -11
-    LinkFont.Name = 'MS Shell Dlg 2'
-    LinkFont.Style = [fsUnderline]
     ExplicitLeft = 285
   end
   object cbBackup: TSpTBXCheckBox
@@ -73,7 +58,7 @@ inherited ReplaceInFilesDialog: TReplaceInFilesDialog
     Caption = 'Backup Modified Files'
     ParentColor = True
     TabOrder = 4
-    ThemeType = thtWindows
+    SkinType = sknSkin
   end
   object cbReplace: TSpTBXComboBox
     Left = 92
@@ -83,7 +68,7 @@ inherited ReplaceInFilesDialog: TReplaceInFilesDialog
     Anchors = [akLeft, akTop, akRight]
     ItemHeight = 13
     TabOrder = 0
-    ThemeType = thtWindows
+    SkinType = sknSkin
   end
   object lblInString: TSpTBXLabel
     Left = 92
@@ -95,11 +80,6 @@ inherited ReplaceInFilesDialog: TReplaceInFilesDialog
     ParentColor = True
     ShowAccelChar = False
     Wrapping = twWrap
-    LinkFont.Charset = DEFAULT_CHARSET
-    LinkFont.Color = clBlue
-    LinkFont.Height = -11
-    LinkFont.Name = 'MS Shell Dlg 2'
-    LinkFont.Style = [fsUnderline]
   end
   object lblReplaceString: TSpTBXLabel
     Left = 92
@@ -109,11 +89,6 @@ inherited ReplaceInFilesDialog: TReplaceInFilesDialog
     Caption = 'TestString'
     ParentColor = True
     ShowAccelChar = False
-    LinkFont.Charset = DEFAULT_CHARSET
-    LinkFont.Color = clBlue
-    LinkFont.Height = -11
-    LinkFont.Name = 'MS Shell Dlg 2'
-    LinkFont.Style = [fsUnderline]
   end
   object lblWith: TSpTBXLabel
     Left = 10
@@ -123,11 +98,6 @@ inherited ReplaceInFilesDialog: TReplaceInFilesDialog
     Caption = '&With'
     ParentColor = True
     FocusControl = cbReplace
-    LinkFont.Charset = DEFAULT_CHARSET
-    LinkFont.Color = clBlue
-    LinkFont.Height = -11
-    LinkFont.Name = 'MS Shell Dlg 2'
-    LinkFont.Style = [fsUnderline]
   end
   object lblIn: TSpTBXLabel
     Left = 10
@@ -136,11 +106,6 @@ inherited ReplaceInFilesDialog: TReplaceInFilesDialog
     Height = 13
     Caption = 'In'
     ParentColor = True
-    LinkFont.Charset = DEFAULT_CHARSET
-    LinkFont.Color = clBlue
-    LinkFont.Height = -11
-    LinkFont.Name = 'MS Shell Dlg 2'
-    LinkFont.Style = [fsUnderline]
   end
   object lblReplace: TSpTBXLabel
     Left = 10
@@ -149,10 +114,5 @@ inherited ReplaceInFilesDialog: TReplaceInFilesDialog
     Height = 13
     Caption = 'Replace'
     ParentColor = True
-    LinkFont.Charset = DEFAULT_CHARSET
-    LinkFont.Color = clBlue
-    LinkFont.Height = -11
-    LinkFont.Name = 'MS Shell Dlg 2'
-    LinkFont.Style = [fsUnderline]
   end
 end

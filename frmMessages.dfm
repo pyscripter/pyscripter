@@ -49,8 +49,6 @@ inherited MessagesWindow: TMessagesWindow
   inherited FGPanel: TPanel
     Width = 687
     Height = 180
-    ExplicitLeft = 3
-    ExplicitTop = 3
     ExplicitWidth = 687
     ExplicitHeight = 180
     DesignSize = (
@@ -79,7 +77,7 @@ inherited MessagesWindow: TMessagesWindow
       TabOrder = 0
       TreeOptions.AnimationOptions = [toAnimatedToggle]
       TreeOptions.MiscOptions = [toFullRepaintOnResize, toInitOnSave, toReportMode, toToggleOnDblClick, toWheelPanning]
-      TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowDropmark, toShowHorzGridLines, toShowVertGridLines, toUseBlendedImages, toUseBlendedSelection]
+      TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowDropmark, toShowHorzGridLines, toShowVertGridLines, toThemeAware, toUseBlendedImages, toUseBlendedSelection]
       TreeOptions.SelectionOptions = [toExtendedFocus, toFullRowSelect, toRightClickSelect]
       TreeOptions.StringOptions = [toAutoAcceptEditChange]
       OnDblClick = MessagesViewDblClick
@@ -113,7 +111,7 @@ inherited MessagesWindow: TMessagesWindow
         end>
     end
     object TBToolbar1: TTBToolbar
-      Left = 635
+      Left = 648
       Top = 0
       Width = 39
       Height = 17
@@ -146,12 +144,6 @@ inherited MessagesWindow: TMessagesWindow
         ParentFont = False
         TabOrder = 0
         OnClick = actPreviousMsgsExecute
-        LinkFont.Charset = DEFAULT_CHARSET
-        LinkFont.Color = clBlue
-        LinkFont.Height = -11
-        LinkFont.Name = 'MS Shell Dlg 2'
-        LinkFont.Style = [fsUnderline]
-        ThemeType = thtTBX
       end
       object BtnNextMsgs: TSpTBXButton
         Left = 20
@@ -170,12 +162,6 @@ inherited MessagesWindow: TMessagesWindow
         ParentFont = False
         TabOrder = 1
         OnClick = actNextMsgsExecute
-        LinkFont.Charset = DEFAULT_CHARSET
-        LinkFont.Color = clBlue
-        LinkFont.Height = -11
-        LinkFont.Name = 'MS Shell Dlg 2'
-        LinkFont.Style = [fsUnderline]
-        ThemeType = thtTBX
       end
     end
   end
@@ -189,27 +175,19 @@ inherited MessagesWindow: TMessagesWindow
     Left = 10
     Top = 82
     object mnPreviousMessage: TSpTBXItem
-      Caption = '&Previous Messages'
-      Hint = 'Show previous messages'
       Action = actPreviousMsgs
     end
     object mnNextMessage: TSpTBXItem
-      Caption = '&Next Messages'
-      Hint = 'Show next messages'
       Action = actNextMsgs
     end
     object TBXSeparatorItem1: TSpTBXSeparatorItem
     end
     object mnClearall: TSpTBXItem
-      Caption = '&Clear all'
-      Hint = 'Clear all messages'
       Action = actClearAll
     end
     object TBXSeparatorItem2: TSpTBXSeparatorItem
     end
     object mnCopy: TSpTBXItem
-      Caption = 'Co&py to Clipboard'
-      Hint = 'Copy contents to Clipboard'
       Action = actCopyToClipboard
     end
   end

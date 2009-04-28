@@ -42,7 +42,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  StdCtrls, ExtCtrls, TBXDkPanels, SpTBXControls, dlgPyIDEBase;
+  StdCtrls, ExtCtrls, SpTBXDkPanels, SpTBXControls, dlgPyIDEBase;
 
 type
   TConfirmReplaceDialog = class(TPyIDEDlgBase)

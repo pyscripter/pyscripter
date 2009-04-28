@@ -35,7 +35,6 @@ object EditorForm: TEditorForm
       CloseButton = False
       HotTracking = True
       AutoFreeClosed = False
-      Painter = PyIDEMainForm.JvmbTBXTabBarPainter
       Tabs = <
         item
           Caption = 'Source'

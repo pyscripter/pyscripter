@@ -49,8 +49,8 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, frmIDEDockWin, JvComponent, JvDockControlForm, ExtCtrls, ActnList,
   Contnrs, ImgList, ComCtrls, Menus, JvAppStorage, TB2Item,
-  TBX, TBXThemes, TB2Dock, TB2Toolbar, VirtualTrees, JvComponentBase, SpTBXItem,
-  SynUnicode, MPCommonObjects, TntActnList;
+  TB2Dock, TB2Toolbar, VirtualTrees, JvComponentBase, SpTBXItem,
+  SynUnicode, MPCommonObjects, TntActnList, SpTBXSkins;
 
 type
   TToDoPriority = (tpHigh, tpMed, tpLow, tpDone);
@@ -161,7 +161,7 @@ type
     function ParseComment(const FileName, SComment, EComment,
      TokenString: WideString; LineNumber: Integer): TToDoInfo;
   protected
-    procedure TBMThemeChange(var Message: TMessage); message TBM_THEMECHANGE;
+    procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
     procedure VirtualFileSearchEnd(Sender: TObject; Results: TCommonPIDLList);
   public
     { Public declarations }
@@ -346,6 +346,10 @@ begin
     CommandsDataModule.VirtualStringTreeAdvancedHeaderDraw;
   ToDoView.OnHeaderDrawQueryElements :=
     CommandsDataModule.VirtualStringTreeDrawQueryElements;
+  ToDoView.OnBeforeCellPaint :=
+    CommandsDataModule.VirtualStringTreeBeforeCellPaint;
+  ToDoView.OnPaintText :=
+    CommandsDataModule.VirtualStringTreePaintText;
 end;
 
 procedure TToDoWindow.FormDestroy(Sender: TObject);
@@ -895,14 +899,15 @@ begin
   end;
 end;
 
-procedure TToDoWindow.TBMThemeChange(var Message: TMessage);
+procedure TToDoWindow.WMSpSkinChange(var Message: TMessage);
 begin
   inherited;
-  if Message.WParam = TSC_VIEWCHANGE then begin
-    ToDoView.Header.Invalidate(nil, True);
-    ToDoView.Colors.HeaderHotColor :=
-      CurrentTheme.GetItemTextColor(GetItemInfo('active'));
-  end;
+  ToDoView.Header.Invalidate(nil, True);
+  ToDoView.Invalidate;
+  if SkinManager.IsDefaultSkin then
+    ToDoView.TreeOptions.PaintOptions := ToDoView.TreeOptions.PaintOptions - [toAlwaysHideSelection]
+  else
+    ToDoView.TreeOptions.PaintOptions := ToDoView.TreeOptions.PaintOptions + [toAlwaysHideSelection];
 end;
 
 procedure TToDoWindow.ToDoViewInitNode(Sender: TBaseVirtualTree;

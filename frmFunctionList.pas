@@ -47,8 +47,8 @@ interface
 
 uses
   Messages, Classes, Forms, Dialogs, StdCtrls, ComCtrls, ExtCtrls, ActnList,
-  ToolWin, Controls, TntActnList, TBXDkPanels, SpTBXControls, TntStdCtrls,
-  SpTBXEditors, TB2Dock, TB2Toolbar, TBX, SpTBXItem, TB2Item, 
+  ToolWin, Controls, TntActnList, SpTBXDkPanels, SpTBXControls, TntStdCtrls,
+  SpTBXEditors, TB2Dock, TB2Toolbar, SpTBXItem, TB2Item, 
   dlgPyIDEBase, TntComCtrls;
 
 const

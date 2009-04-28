@@ -49,8 +49,6 @@ inherited BreakPointsWindow: TBreakPointsWindow
   inherited FGPanel: TPanel
     Width = 373
     Height = 238
-    ExplicitLeft = 3
-    ExplicitTop = 3
     ExplicitWidth = 373
     ExplicitHeight = 238
     object BreakPointsView: TVirtualStringTree
@@ -77,7 +75,7 @@ inherited BreakPointsWindow: TBreakPointsWindow
       TabOrder = 0
       TreeOptions.AnimationOptions = [toAnimatedToggle]
       TreeOptions.MiscOptions = [toCheckSupport, toFullRepaintOnResize, toInitOnSave, toReportMode, toToggleOnDblClick, toWheelPanning]
-      TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowDropmark, toShowHorzGridLines, toShowVertGridLines, toUseBlendedImages, toUseBlendedSelection]
+      TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowDropmark, toShowHorzGridLines, toShowVertGridLines, toThemeAware, toUseBlendedImages, toUseBlendedSelection]
       TreeOptions.SelectionOptions = [toExtendedFocus, toFullRowSelect, toRightClickSelect]
       TreeOptions.StringOptions = [toAutoAcceptEditChange]
       OnChecked = BreakPointsViewChecked
@@ -123,8 +121,6 @@ inherited BreakPointsWindow: TBreakPointsWindow
       OnClick = mnClearClick
     end
     object Breakpoints1: TSpTBXItem
-      Caption = '&Clear All Breakpoints'
-      Hint = 'Clear all breakpoints'
       Action = PyIDEMainForm.actClearAllBreakpoints
     end
     object TBXSeparatorItem2: TSpTBXSeparatorItem

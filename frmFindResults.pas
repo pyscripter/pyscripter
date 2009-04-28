@@ -49,14 +49,14 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, frmIDEDockWin, JvComponent, JvDockControlForm, ExtCtrls, Menus,
   ActnList, ComCtrls, StdCtrls, cFindInFiles, JvAppStorage,
-  TB2Item, TBX, TBXThemes, TB2Dock, TB2Toolbar, JvComponentBase,
+  TB2Item, TB2Dock, TB2Toolbar, JvComponentBase,  SpTBXSkins,
   SpTBXItem, WideStrings, SynUnicode, TntStdCtrls, SpTBXEditors, TntComCtrls,
-  TntActnList;
+  TntActnList, SpTBXDkPanels;
 
 type
   TFindResultsWindow = class(TIDEDockWindow, IJvAppStorageHandler)
     pnlMain: TPanel;
-    Splitter: TSplitter;
+    Splitter: TSpTBXSplitter;
     TBXDock1: TSpTBXDock;
     ToolBar: TSpTBXToolbar;
     tbiRefresh: TSpTBXItem;
@@ -125,8 +125,9 @@ type
       Shift: TShiftState; X, Y: Integer);
     procedure lbResultsKeyPress(Sender: TObject; var Key: Char);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
-    procedure lbResultsDrawItem(Control: TWinControl; Index: Integer;
-      Rect: TRect; State: TOwnerDrawState);
+    procedure lbResultsDrawItem(Sender: TObject; ACanvas: TCanvas;
+      var ARect: TRect; Index: Integer; const State: TOwnerDrawState;
+      const PaintStage: TSpTBXPaintStage; var PaintDefault: Boolean);
     procedure actFileSearchExecute(Sender: TObject);
     procedure actFileRefreshExecute(Sender: TObject);
     procedure actFileAbortExecute(Sender: TObject);
@@ -172,7 +173,7 @@ type
     procedure SetMatchString(const MatchStr: WideString);
     procedure ExpandOrContractList(Expand: Boolean);
   protected
-    procedure TBMThemeChange(var Message: TMessage); message TBM_THEMECHANGE;
+    procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
     procedure AssignSettingsToForm;
     // IJvAppStorageHandler implementation
     procedure ReadFromAppStorage(AppStorage: TJvCustomAppStorage; const BasePath: string);
@@ -284,8 +285,10 @@ begin
   Delete(Value, 1, Result);
 end;
 
-procedure TFindResultsWindow.lbResultsDrawItem(Control: TWinControl;
-  Index: Integer; Rect: TRect; State: TOwnerDrawState);
+procedure TFindResultsWindow.lbResultsDrawItem(Sender: TObject;
+  ACanvas: TCanvas; var ARect: TRect; Index: Integer;
+  const State: TOwnerDrawState; const PaintStage: TSpTBXPaintStage;
+  var PaintDefault: Boolean);
 var
   TopColor: TColor;
   BottomColor: TColor;
@@ -304,6 +307,10 @@ var
   FileString: WideString;
   FileResult: TFileResult;
 begin
+  { TODO : Skin }
+  if PaintStage <> pstPrePaint then Exit;
+  PaintDefault := False;
+
   ResultsCanvas := lbResults.Canvas;
   TopColor := clBtnHighlight;
   BottomColor := clBtnShadow;
@@ -313,36 +320,40 @@ begin
     FileResult := TFileResult(lbResults.Items.Objects[Index]);
     // Paint an expandable search file header (gray)
 
-    CurrentTheme.PaintBackgnd(ResultsCanvas, Rect, Rect, Rect,
-      CurrentTheme.GetViewColor(TVT_NORMALTOOLBAR), false, VT_TOOLBAR);
+    CurrentSkin.PaintBackground(ResultsCanvas, ARect, skncToolbar, sknsNormal, True, True);
 
-    Rect.Right := Rect.Right + 2;
+//    CurrentTheme.PaintBackgnd(ResultsCanvas, ARect, ARect, ARect,
+//      CurrentTheme.GetViewColor(TVT_NORMALTOOLBAR), false, VT_TOOLBAR);
+
+    ARect.Right := ARect.Right + 2;
     if odSelected in State then begin
-      ResultsCanvas.Font.Color := CurrentTheme.GetItemTextColor(GetItemInfo('active'));
-      CurrentTheme.PaintFrame(ResultsCanvas, Rect, GetItemInfo('active'))
-      //Frame3D(ResultsCanvas, Rect, BottomColor, TopColor, 1)
+//      ResultsCanvas.Font.Color := CurrentTheme.GetItemTextColor(GetItemInfo('active'));
+      CurrentSkin.PaintWindowFrame(ResultsCanvas, ARect, True, False);
+//      CurrentTheme.PaintFrame(ResultsCanvas, ARect, GetItemInfo('active'))
+      //Frame3D(ResultsCanvas, ARect, BottomColor, TopColor, 1)
     end else begin
-      ResultsCanvas.Font.Color := CurrentTheme.GetItemTextColor(GetItemInfo('inactive'));
-      CurrentTheme.PaintFrame(ResultsCanvas, Rect, GetItemInfo('inactive'));
-      Frame3D(ResultsCanvas, Rect, TopColor, BottomColor, 1);
+//      ResultsCanvas.Font.Color := CurrentTheme.GetItemTextColor(GetItemInfo('inactive'));
+      CurrentSkin.PaintWindowFrame(ResultsCanvas, ARect, False, False);
+      //CurrentTheme.PaintFrame(ResultsCanvas, ARect, GetItemInfo('inactive'));
+      Frame3D(ResultsCanvas, ARect, TopColor, BottomColor, 1);
     end;
 
     ResultsCanvas.Brush.Style := bsClear;
     i := ResultsCanvas.TextWidth('+');
     FileString := FileResult.RelativeFileName;
-    WideCanvasTextOut(ResultsCanvas, Rect.Left + i + 8, Rect.Top, FileString);
-    //c:=Rect.Top+((Rect.Bottom-Rect.Top) div 2);
+    WideCanvasTextOut(ResultsCanvas, ARect.Left + i + 8, ARect.Top, FileString);
+    //c:=ARect.Top+((ARect.Bottom-ARect.Top) div 2);
 
     if FileResult.Expanded then
-      ResultsCanvas.TextOut(Rect.Left + 3, Rect.Top, '-')
+      ResultsCanvas.TextOut(ARect.Left + 3, ARect.Top, '-')
     else
-      ResultsCanvas.TextOut(Rect.Left + 3, Rect.Top, '+');
+      ResultsCanvas.TextOut(ARect.Left + 3, ARect.Top, '+');
 
     TempString := WideFormat(_(SItemMatch), [FileResult.TotalMatches]);
 
     p := WideCanvasTextWidth(ResultsCanvas, TempString) + 10;
-    if (WideCanvasTextWidth(ResultsCanvas, FileString) + i + 10) <= Rect.Right - p then
-      WideCanvasTextOut(ResultsCanvas, lbResults.ClientWidth - p, Rect.Top, TempString);
+    if (WideCanvasTextWidth(ResultsCanvas, FileString) + i + 10) <= ARect.Right - p then
+      WideCanvasTextOut(ResultsCanvas, lbResults.ClientWidth - p, ARect.Top, TempString);
   end
   else
   begin
@@ -366,26 +377,26 @@ begin
 
     ResultsCanvas.Brush.Color := nb;
     ResultsCanvas.Font.Color := nf;
-    ResultsCanvas.FillRect(Rect);
-    ResultsCanvas.TextOut(Rect.Left + 10, Rect.Top + 1, IntToStr(ALineResult.LineNo));
+    ResultsCanvas.FillRect(ARect);
+    ResultsCanvas.TextOut(ARect.Left + 10, ARect.Top + 1, IntToStr(ALineResult.LineNo));
 
     TempString := lbResults.Items[Index];
     c := LeftTrimChars(TempString);
 
-    p := Rect.Left + 60;
+    p := ARect.Left + 60;
     i := 1;
     for MIndx := 0 to ALineResult.Matches.Count-1 do begin
       AMatchResult := ALineResult.Matches[MIndx];
       ResultsCanvas.Font.Color := nf;
       ResultsCanvas.Brush.Color := nb;
       S := Copy(TempString, i, AMatchResult.SPos - c - i);
-      WideCanvasTextOut(ResultsCanvas, p, Rect.Top + 1, S);
+      WideCanvasTextOut(ResultsCanvas, p, ARect.Top + 1, S);
       p := ResultsCanvas.PenPos.X;
 
       ResultsCanvas.Font.Color := sf;
       ResultsCanvas.Brush.Color := sb;
       S := Copy(TempString, AMatchResult.SPos - c, AMatchResult.EPos - AMatchResult.SPos + 1);
-      WideCanvasTextOut(ResultsCanvas, p, Rect.Top + 1, S);
+      WideCanvasTextOut(ResultsCanvas, p, ARect.Top + 1, S);
       p := ResultsCanvas.PenPos.X;
 
       i := AMatchResult.EPos - c + 1;
@@ -393,7 +404,7 @@ begin
     ResultsCanvas.Font.Color := nf;
     ResultsCanvas.Brush.Color := nb;
     S := Copy(TempString, i, Length(TempString) -  i + 1);
-    WideCanvasTextOut(ResultsCanvas, p, Rect.Top + 1, S);
+    WideCanvasTextOut(ResultsCanvas, p, ARect.Top + 1, S);
   end;
 end;
 
@@ -1246,13 +1257,10 @@ begin
   AppStorage.WriteBoolean(BasePath+'\ShowContext', ShowContext);
 end;
 
-procedure TFindResultsWindow.TBMThemeChange(var Message: TMessage);
+procedure TFindResultsWindow.WMSpSkinChange(var Message: TMessage);
 begin
   inherited;
-  if Message.WParam = TSC_VIEWCHANGE then begin
-    Splitter.Color := CurrentTheme.GetViewColor(TVT_NORMALTOOLBAR);
-    lbResults.Invalidate;
-  end;
+  lbResults.Invalidate;
 end;
 
 procedure TFindResultsWindow.actHelpHelpExecute(Sender: TObject);

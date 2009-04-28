@@ -12,7 +12,7 @@ interface
 
 uses Windows, SysUtils, Classes, Graphics, Forms, Controls, StdCtrls,
   Buttons, ComCtrls,  JvLinkLabel, JvExControls, JvComponent, ExtCtrls,
-  dlgPyIDEBase, TBXDkPanels, SpTBXControls;
+  dlgPyIDEBase, SpTBXDkPanels, SpTBXControls;
 
 type
   TAboutBox = class(TPyIDEDlgBase)

@@ -41,11 +41,6 @@ inherited ExceptionDialogMail: TExceptionDialogMail
     Anchors = [akTop, akRight]
     TabOrder = 0
     OnClick = SendBtnClick
-    LinkFont.Charset = DEFAULT_CHARSET
-    LinkFont.Color = clBlue
-    LinkFont.Height = -11
-    LinkFont.Name = 'MS Shell Dlg 2'
-    LinkFont.Style = [fsUnderline]
     ExplicitLeft = 351
   end
   object OkBtn: TSpTBXButton
@@ -57,11 +52,6 @@ inherited ExceptionDialogMail: TExceptionDialogMail
     Anchors = [akTop, akRight]
     TabOrder = 2
     Default = True
-    LinkFont.Charset = DEFAULT_CHARSET
-    LinkFont.Color = clBlue
-    LinkFont.Height = -11
-    LinkFont.Name = 'MS Shell Dlg 2'
-    LinkFont.Style = [fsUnderline]
     ModalResult = 1
     ExplicitLeft = 352
   end
@@ -76,11 +66,6 @@ inherited ExceptionDialogMail: TExceptionDialogMail
     Enabled = False
     TabOrder = 3
     OnClick = DetailsBtnClick
-    LinkFont.Charset = DEFAULT_CHARSET
-    LinkFont.Color = clBlue
-    LinkFont.Height = -11
-    LinkFont.Name = 'MS Shell Dlg 2'
-    LinkFont.Style = [fsUnderline]
     ExplicitLeft = 352
   end
   object TextLabel: TTntMemo

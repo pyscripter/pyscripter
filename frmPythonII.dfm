@@ -53,8 +53,6 @@ inherited PythonIIForm: TPythonIIForm
     Width = 695
     Height = 445
     Color = clInactiveBorder
-    ExplicitLeft = 3
-    ExplicitTop = 3
     ExplicitWidth = 695
     ExplicitHeight = 445
     object SynEdit: TSynEdit
@@ -251,49 +249,33 @@ inherited PythonIIForm: TPythonIIForm
     object TBXSeparatorItem3: TSpTBXSeparatorItem
     end
     object mnEditCut: TSpTBXItem
-      Caption = 'Cu&t'
-      Hint = 'Cut|Cuts the selection and puts it on the Clipboard'
       Action = CommandsDataModule.actEditCut
     end
     object mnEditCopy: TSpTBXItem
-      Caption = '&Copy'
-      Hint = 'Copy|Copies the selection and puts it on the Clipboard'
       Action = CommandsDataModule.actEditCopy
     end
     object mnEditPaste: TSpTBXItem
-      Caption = '&Paste'
-      Hint = 'Paste|Inserts Clipboard contents'
       Action = CommandsDataModule.actEditPaste
     end
     object TBXSeparatorItem1: TSpTBXSeparatorItem
     end
     object mnCopyNoPrompts: TSpTBXItem
-      Caption = 'Copy (&No Prompts)'
-      Hint = 'Copy selected text without the interpreter prompts'
       Action = actCopyWithoutPrompts
     end
     object mnPasteWithPrompts: TSpTBXItem
-      Caption = 'Paste (&With Prompts)'
-      Hint = 'Paste clipboard text with added interpreter prompts'
       Action = actPasteWithPrompt
     end
     object mnCopyHistory: TSpTBXItem
-      Caption = 'Copy &History'
-      Hint = 'Copy history to Clipboard'
       Action = actCopyHistory
     end
     object SpTBXSeparatorItem1: TSpTBXSeparatorItem
     end
     object mnClearAll: TSpTBXItem
-      Caption = 'Clear &All'
-      Hint = 'Clear all interpreter output'
       Action = actClearContents
     end
     object TBXSeparatorItem2: TSpTBXSeparatorItem
     end
     object mnInterpreterEditorOptions: TSpTBXItem
-      Caption = '&Interpreter Editor Options...'
-      Hint = 'Set Interpreter Editor Options'
       Action = CommandsDataModule.actInterpreterEditorOptions
     end
   end

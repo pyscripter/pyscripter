@@ -27,11 +27,6 @@ inherited ConfigureTools: TConfigureTools
     Anchors = [akTop, akRight]
     TabOrder = 0
     OnClick = AddBtnClick
-    LinkFont.Charset = DEFAULT_CHARSET
-    LinkFont.Color = clBlue
-    LinkFont.Height = -11
-    LinkFont.Name = 'MS Shell Dlg 2'
-    LinkFont.Style = [fsUnderline]
   end
   object RemoveBtn: TSpTBXButton
     Left = 200
@@ -42,11 +37,6 @@ inherited ConfigureTools: TConfigureTools
     Anchors = [akTop, akRight]
     TabOrder = 2
     OnClick = RemoveBtnClick
-    LinkFont.Charset = DEFAULT_CHARSET
-    LinkFont.Color = clBlue
-    LinkFont.Height = -11
-    LinkFont.Name = 'MS Shell Dlg 2'
-    LinkFont.Style = [fsUnderline]
   end
   object ModifyBtn: TSpTBXButton
     Left = 200
@@ -57,11 +47,6 @@ inherited ConfigureTools: TConfigureTools
     Anchors = [akTop, akRight]
     TabOrder = 1
     OnClick = ModifyBtnClick
-    LinkFont.Charset = DEFAULT_CHARSET
-    LinkFont.Color = clBlue
-    LinkFont.Height = -11
-    LinkFont.Name = 'MS Shell Dlg 2'
-    LinkFont.Style = [fsUnderline]
   end
   object OKBtn: TSpTBXButton
     Left = 200
@@ -72,11 +57,6 @@ inherited ConfigureTools: TConfigureTools
     Anchors = [akRight, akBottom]
     TabOrder = 3
     Default = True
-    LinkFont.Charset = DEFAULT_CHARSET
-    LinkFont.Color = clBlue
-    LinkFont.Height = -11
-    LinkFont.Name = 'MS Shell Dlg 2'
-    LinkFont.Style = [fsUnderline]
     ModalResult = 1
   end
   object CancelBtn: TSpTBXButton
@@ -88,11 +68,6 @@ inherited ConfigureTools: TConfigureTools
     Anchors = [akRight, akBottom]
     TabOrder = 4
     Cancel = True
-    LinkFont.Charset = DEFAULT_CHARSET
-    LinkFont.Color = clBlue
-    LinkFont.Height = -11
-    LinkFont.Name = 'MS Shell Dlg 2'
-    LinkFont.Style = [fsUnderline]
     ModalResult = 2
   end
   object MoveUpBtn: TSpTBXButton
@@ -104,11 +79,6 @@ inherited ConfigureTools: TConfigureTools
     Anchors = [akTop, akRight]
     TabOrder = 6
     OnClick = MoveUpBtnClick
-    LinkFont.Charset = DEFAULT_CHARSET
-    LinkFont.Color = clBlue
-    LinkFont.Height = -11
-    LinkFont.Name = 'MS Shell Dlg 2'
-    LinkFont.Style = [fsUnderline]
   end
   object MoveDownBtn: TSpTBXButton
     Left = 200
@@ -119,11 +89,6 @@ inherited ConfigureTools: TConfigureTools
     Anchors = [akTop, akRight]
     TabOrder = 7
     OnClick = MoveDownBtnClick
-    LinkFont.Charset = DEFAULT_CHARSET
-    LinkFont.Color = clBlue
-    LinkFont.Height = -11
-    LinkFont.Name = 'MS Shell Dlg 2'
-    LinkFont.Style = [fsUnderline]
   end
   object ToolsList: TSpTBXListBox
     Left = 8
@@ -139,6 +104,6 @@ inherited ConfigureTools: TConfigureTools
     OnDblClick = ModifyBtnClick
     OnDragDrop = ToolsListDragDrop
     OnDragOver = ToolsListDragOver
-    ThemeType = thtWindows
+    SkinType = sknSkin
   end
 end

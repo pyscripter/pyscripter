@@ -341,11 +341,13 @@ Limitations: Python scripts are executed in the main thread
 
   Move to new version of SpTBXLib
   -  Find Toolbar - Replace TSpTBXComboItem
-  -  Replace TTBXStringList (a couple)
-  -  Replace TTBXMRULists
+  -  Replace TTBXStringList (a couple) (DONE)
+  -  Replace TTBXMRULists (DONE)
   -  Theming of JvTabbar (Replace with SpTBXTabControl)
-  -  Theming of JvDocking
+  -  Theming of JvDocking  (DONE)
+  -  Theming of VirtualStringTrees (DONE)
   -  Theming of various windows
+  -  Customizer form
 
 
 -----------------------------------------------------------------------------}
@@ -377,15 +379,13 @@ uses
   JvDockControlForm, JvDockVIDStyle, JvDockVSNetStyle, JvComponent,
   SynEditTypes, SynEditMiscClasses, SynEditRegexSearch, cPyBaseDebugger,
   cPyDebugger, JvAppStorage,  JvAppIniStorage, JvLED, SynEdit, JvTabBar,
-  TB2Dock, TB2Toolbar, TBX, TBXSwitcher, TB2Item, ExtCtrls, JvExControls,
-  JvmbTBXTabBarPainter, JvDockVSNETStyleTBX,
-  TB2MRU, TBXExtItems,  JvPageList, cRefactoring, dlgCustomShortcuts,
-  // Themes
-  TBXNexosXTheme, TBXOfficeXPTheme, TBXAluminumTheme, TBXWhidbeyTheme,
-  TBXOffice2003Theme, TBXOffice2007Theme, TBXLists, TB2ExtItems, JvDockTree,
+  TB2Dock, TB2Toolbar, TB2Item, ExtCtrls, JvExControls,
+  JvPageList, cRefactoring, dlgCustomShortcuts,
+  TB2ExtItems, JvDockTree,
   JvComponentBase, JvAppInst, uHighlighterProcs, cFileTemplates, TntForms, TntLXForms,
-  SpTBXItem, SpTBXEditors, StdCtrls, JvDSADialogs, Dialogs, SpTBXCustomizer,
-  JvFormPlacement, TntStdCtrls, ActiveX, TntActnList;
+  JvDockVSNetStyleSpTBX, TntActnList, JvFormPlacement, SpTBXCustomizer,
+  SpTbxSkins, SpTBXItem, SpTBXEditors, StdCtrls, JvDSADialogs, Dialogs,
+  TntStdCtrls, ActiveX, SpTBXMDIMRU;
 
 const
   WM_FINDDEFINITION  = WM_USER + 100;
@@ -400,7 +400,6 @@ type
     BGPanel: TPanel;
     TabBar: TJvTabBar;
     CloseTimer: TTimer;
-    TBXSwitcher: TTBXSwitcher;
     TBXDockTop: TSpTBXDock;
     MainMenu: TSpTBXToolbar;
     FileMenu: TSpTBXSubmenuItem;
@@ -541,13 +540,11 @@ type
     TBXSeparatorItem7: TSpTBXSeparatorItem;
     tbiRunToggleBreakpoint: TSpTBXItem;
     tbiRunClearAllBreakpoints: TSpTBXItem;
-    JvmbTBXTabBarPainter: TJvmbTBXTabBarPainter;
     ViewToolbar: TSpTBXToolbar;
     tbiViewThemes: TSpTBXSubmenuItem;
     TBXDockLeft: TSpTBXDock;
     TBXDockRight: TSpTBXDock;
     TBXDockBottom: TSpTBXDock;
-    JvDockVSNetStyleTBX: TJvDockVSNetStyleTBX;
     mnTools: TSpTBXSubmenuItem;
     TabBarPopupMenu: TSpTBXPopupMenu;
     mnNewModule2: TSpTBXItem;
@@ -555,8 +552,6 @@ type
     mnFileCloseAll2: TSpTBXItem;
     N12: TSpTBXSeparatorItem;
     mnEditorOptions2: TSpTBXItem;
-    TBXMRUList: TTBXMRUList;
-    TBXMRUListItem: TTBXMRUListItem;
     RecentSubmenu: TSpTBXSubmenuItem;
     EditorViewsMenu: TSpTBXSubmenuItem;
     EditorsPageList: TJvPageList;
@@ -585,8 +580,6 @@ type
     tbiBrowseNext: TSpTBXSubmenuItem;
     tbiBrowsePrevious: TSpTBXSubmenuItem;
     TBXSeparatorItem14: TSpTBXSeparatorItem;
-    PreviousList: TTBXStringList;
-    NextList: TTBXStringList;
     mnHelpContents: TSpTBXItem;
     mnHelpEditorShortcuts: TSpTBXItem;
     TBXSeparatorItem15: TSpTBXSeparatorItem;
@@ -683,8 +676,6 @@ type
     tbiReplaceExecute: TSpTBXItem;
     SpTBXSeparatorItem2: TSpTBXSeparatorItem;
     tbiSearchFromCaret: TSpTBXItem;
-    tbiReplaceText: TSpTBXComboBoxItem;
-    tbiSearchText: TSpTBXComboBoxItem;
     TBXSeparatorItem31: TSpTBXSeparatorItem;
     mnGotoSyntaxError: TSpTBXItem;
     mnSearchHighlight: TSpTBXItem;
@@ -821,6 +812,15 @@ type
     actVariablesWin: TTntAction;
     actCallStackWin: TTntAction;
     actViewMainMenu: TTntAction;
+    JvDockVSNetStyleSpTBX: TJvDockVSNetStyleSpTBX;
+    tbiRecentFileList: TSpTBXMRUListItem;
+    mnPreviousList: TSpTBXMRUListItem;
+    mnNextList: TSpTBXMRUListItem;
+    mnSkins: TSpTBXSkinGroupItem;
+    tbiSearchText: TSpTBXComboBox;
+    TBControlItem2: TTBControlItem;
+    tbiReplaceText: TSpTBXComboBox;
+    TBControlItem4: TTBControlItem;
     procedure mnFilesClick(Sender: TObject);
     procedure actEditorZoomInExecute(Sender: TObject);
     procedure actEditorZoomOutExecute(Sender: TObject);
@@ -874,12 +874,11 @@ type
     procedure actViewOutputExecute(Sender: TObject);
     procedure actExternalRunExecute(Sender: TObject);
     procedure actExternalRunConfigureExecute(Sender: TObject);
-    procedure TBXMRUListClick(Sender: TObject; const Filename: String);
     procedure actFindDefinitionExecute(Sender: TObject);
     procedure actFindReferencesExecute(Sender: TObject);
-    procedure PreviousListClick(Sender: TObject);
+    procedure PreviousListClick(Sender: TObject; S : WideString);
     procedure tbiBrowsePreviousClick(Sender: TObject);
-    procedure NextListClick(Sender: TObject);
+    procedure NextListClick(Sender: TObject; S : WideString);
     procedure tbiBrowseNextClick(Sender: TObject);
     function ApplicationHelp(Command: Word; Data: Integer;
       var CallHelp: Boolean): Boolean;
@@ -915,8 +914,6 @@ type
     procedure tbiSearchTextChange(Sender: TObject; const Text: WideString);
     procedure tbiSearchTextAcceptText(Sender: TObject; var NewText: WideString;
       var Accept: Boolean);
-    procedure tbiSearchReplaceTextBeginEdit(Sender: TTBEditItem;
-      Viewer: TTBEditItemViewer; EditControl: TEdit);
     procedure tbiSearchTextKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure tbiSearchTextKeyPress(Sender: TObject; var Key: Char);
@@ -939,6 +936,9 @@ type
     procedure actRunLastScriptExecute(Sender: TObject);
     procedure actRunDebugLastScriptExecute(Sender: TObject);
     procedure EditorViewsMenuClick(Sender: TObject);
+    procedure tbiRecentFileListClick(Sender: TObject;
+      const Filename: WideString);
+    procedure mnSkinsSkinChange(Sender: TObject);
   private
     DSAAppStorage: TDSAAppStorage;
     function FindAction(var Key: Word; Shift: TShiftState) : TCustomAction;
@@ -962,11 +962,15 @@ type
     procedure WMUpdateBreakPoints(var Msg: TMessage); message WM_UPDATEBREAKPOINTS;
     procedure WMSearchReplaceAction(var Msg: TMessage); message WM_SEARCHREPLACEACTION;
     procedure WMCheckForUpdates(var Msg: TMessage); message WM_CHECKFORUPDATES;
-    procedure TBMThemeChange(var Message: TMessage); message TBM_THEMECHANGE;
-    procedure TBXThemeMenuOnClick(Sender: TObject);
+    procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
     procedure SyntaxClick(Sender : TObject);
     procedure SelectEditor(Sender : TObject);
     procedure mnLanguageClick(Sender: TObject);
+    // Browse MRU stuff
+    procedure PrevClickHandler(Sender: TObject);
+    procedure NextClickHandler(Sender: TObject);
+    procedure PrevMRUAdd(S : WideString);
+    procedure NextMRUAdd(S : WideString);
   protected
     // IDropTarget implementation
     function DragEnter(const dataObj: IDataObject; grfKeyState: Longint;
@@ -1018,7 +1022,7 @@ type
     procedure AdjustBrowserLists(FileName: string; Line: Integer; Col: Integer;
       FilePosInfo: string);
     procedure ThemeEditorGutter(Gutter : TSynGutter);
-    procedure FillTBXThemeMenu;
+//    procedure FillTBXThemeMenu;
     procedure UpdateCaption;
     procedure ChangeLanguage(LangCode : string);
   end;
@@ -1043,14 +1047,15 @@ uses
   frmCodeExplorer, frmFileExplorer, JclFileUtils, frmToDo,
   frmFindResults, uParams, cTools, cParameters,
   frmCommandOutput, JvCreateProcessW, dlgToolProperties, uCommonFunctions,
-  TBXThemes, SynHighlighterPython, SynEditHighlighter, VarPyth, SynRegExpr,
+  SynHighlighterPython, SynEditHighlighter, VarPyth, SynRegExpr,
   JvJVCLUtils, DateUtils, cPythonSourceScanner, frmRegExpTester,
   StringResources, dlgCommandLine, frmUnitTests, cFilePersist, frmIDEDockWin,
   dlgPickList, VirtualTrees, VirtualExplorerTree, JvDockGlobals, Math,
   cCodeHint, dlgNewFile, SynEditTextBuffer, JclSysInfo, cPyRemoteDebugger,
-  uCmdLine, WideStrings, uSearchHighlighter, frmModSpTBXCustomize, IniFiles,
+  uCmdLine, uSearchHighlighter, frmModSpTBXCustomize, IniFiles,
   JclStrings, JclSysUtils, frmProjectExplorer, cProjectClasses, TntSysUtils,
-  MPDataObject, gnugettext, TntDialogs, WideStrUtils;
+  MPDataObject, gnugettext, TntDialogs, WideStrUtils, WideStrings,
+  SpTBXDefaultSkins;
 
 {$R *.DFM}
 
@@ -1084,7 +1089,7 @@ begin
   if Result <> nil then begin
     try
       Result.OpenFile(AFileName, HighlighterName);
-      TBXMRUList.Remove(AFileName);
+      tbiRecentFileList.MRURemove(AFileName);
       Result.Activate;
     except
       Result.Close;
@@ -1184,16 +1189,9 @@ begin
   EditorsPageList.ControlStyle := EditorsPageList.ControlStyle - [csOpaque];
 
   SetDesktopIconFonts(Self.Font);  // For Vista
-  SetDesktopIconFonts(JvmbTBXTabBarPainter.Font);
-  SetDesktopIconFonts(JvmbTBXTabBarPainter.SelectedFont);
-  SetDesktopIconFonts(JvmbTBXTabBarPainter.DisabledFont);
-  JvmbTBXTabBarPainter.DisabledFont.Color := clGrayText;
-  SetDesktopIconFonts(TJvDockVSNETTabServerOption(JvDockVSNetStyleTBX.TabServerOption).ActiveFont);
-  SetDesktopIconFonts(TJvDockVSNETTabServerOption(JvDockVSNetStyleTBX.TabServerOption).InactiveFont);
-  TJvDockVSNETTabServerOption(JvDockVSNetStyleTBX.TabServerOption).InactiveFont.Color := 5395794;
   SetDesktopIconFonts(ToolbarFont);
 
-  AddThemeNotification(Self);
+  SkinManager.AddSkinNotification(Self);
 
   Layouts := TStringList.Create;
   Layouts.Sorted := True;
@@ -1258,7 +1256,6 @@ begin
   fLanguageList := TStringList.Create;
   SetUpLanguageMenu;
   TP_GlobalIgnoreClass(TJvFormStorage);
-  TP_GlobalIgnoreClass(TTBXSwitcher);
   // And now translate after all the docking forms have been created
   // They will be translated as well
   TranslateComponent(Self);
@@ -1332,7 +1329,7 @@ begin
     LoadLayout('Current');
     AppStorage.ReadPersistent('Variables Window Options', VariablesWindow);
   end else begin
-    TBXSwitcher.Theme := 'Office 2003';
+    SkinManager.SetSkin('Office 2003');
     TabHost := ManualTabDock(DockServer.LeftDockPanel, FileExplorerWindow, ProjectExplorerWindow);
     DockServer.LeftDockPanel.Width := 200;
     ManualTabDockAddPage(TabHost, CodeExplorerWindow);
@@ -1478,7 +1475,7 @@ begin
       GI_EditorFactory.CloseAll;
     SendMessage(EditorsPageList.Handle, WM_SETREDRAW, 1, 0);
 
-    RemoveThemeNotification(Self);
+    SkinManager.RemoveSkinNotification(Self);
   end;
 end;
 
@@ -1512,7 +1509,7 @@ begin
   ShowDockForm(CodeExplorerWindow);
   CodeExplorerWindow.FormActivate(Sender);
   // only when activated by the menu or the keyboard - Will be reset by frmIDEDockWin
-  PyIDEMainForm.JvDockVSNetStyleTBX.ChannelOption.MouseleaveHide := False;
+  PyIDEMainForm.JvDockVSNetStyleSpTBX.ChannelOption.MouseleaveHide := False;
 end;
 
 procedure TPyIDEMainForm.actNavEditorExecute(Sender: TObject);
@@ -1529,7 +1526,7 @@ begin
   ShowDockForm(FileExplorerWindow);
   FileExplorerWindow.FormActivate(Sender);
   // only when activated by the menu or the keyboard - Will be reset by frmIDEDockWin
-  PyIDEMainForm.JvDockVSNetStyleTBX.ChannelOption.MouseleaveHide := False;
+  PyIDEMainForm.JvDockVSNetStyleSpTBX.ChannelOption.MouseleaveHide := False;
 end;
 
 procedure TPyIDEMainForm.actNavInterpreterExecute(Sender: TObject);
@@ -1537,7 +1534,7 @@ begin
   ShowDockForm(PythonIIForm);
   PythonIIForm.FormActivate(Sender);
   // only when activated by the menu or the keyboard - Will be reset by frmIDEDockWin
-  PyIDEMainForm.JvDockVSNetStyleTBX.ChannelOption.MouseleaveHide := False;
+  PyIDEMainForm.JvDockVSNetStyleSpTBX.ChannelOption.MouseleaveHide := False;
 end;
 
 procedure TPyIDEMainForm.actNavMessagesExecute(Sender: TObject);
@@ -1545,7 +1542,7 @@ begin
   ShowDockForm(MessagesWindow);
   MessagesWindow.FormActivate(Sender);
   // only when activated by the menu or the keyboard - Will be reset by frmIDEDockWin
-  PyIDEMainForm.JvDockVSNetStyleTBX.ChannelOption.MouseleaveHide := False;
+  PyIDEMainForm.JvDockVSNetStyleSpTBX.ChannelOption.MouseleaveHide := False;
 end;
 
 procedure TPyIDEMainForm.actNavOutputExecute(Sender: TObject);
@@ -1553,7 +1550,7 @@ begin
   ShowDockForm(OutputWindow);
   OutputWindow.FormActivate(Sender);
   // only when activated by the menu or the keyboard - Will be reset by frmIDEDockWin
-  PyIDEMainForm.JvDockVSNetStyleTBX.ChannelOption.MouseleaveHide := False;
+  PyIDEMainForm.JvDockVSNetStyleSpTBX.ChannelOption.MouseleaveHide := False;
 end;
 
 procedure TPyIDEMainForm.actNavProjectExplorerExecute(Sender: TObject);
@@ -1561,7 +1558,7 @@ begin
   ShowDockForm(ProjectExplorerWindow);
   ProjectExplorerWindow.FormActivate(Sender);
   // only when activated by the menu or the keyboard - Will be reset by frmIDEDockWin
-  PyIDEMainForm.JvDockVSNetStyleTBX.ChannelOption.MouseleaveHide := False;
+  PyIDEMainForm.JvDockVSNetStyleSpTBX.ChannelOption.MouseleaveHide := False;
 end;
 
 procedure TPyIDEMainForm.actNavRETesterExecute(Sender: TObject);
@@ -1569,7 +1566,7 @@ begin
   ShowDockForm(RegExpTesterWindow);
   RegExpTesterWindow.FormActivate(Sender);
   // only when activated by the menu or the keyboard - Will be reset by frmIDEDockWin
-  PyIDEMainForm.JvDockVSNetStyleTBX.ChannelOption.MouseleaveHide := False;
+  PyIDEMainForm.JvDockVSNetStyleSpTBX.ChannelOption.MouseleaveHide := False;
 end;
 
 procedure TPyIDEMainForm.actNavTodoExecute(Sender: TObject);
@@ -1577,7 +1574,7 @@ begin
   ShowDockForm(ToDoWindow);
   ToDoWindow.FormActivate(Sender);
   // only when activated by the menu or the keyboard - Will be reset by frmIDEDockWin
-  PyIDEMainForm.JvDockVSNetStyleTBX.ChannelOption.MouseleaveHide := False;
+  PyIDEMainForm.JvDockVSNetStyleSpTBX.ChannelOption.MouseleaveHide := False;
 end;
 
 procedure TPyIDEMainForm.actNavUnitTestsExecute(Sender: TObject);
@@ -1585,7 +1582,7 @@ begin
   ShowDockForm(UnitTestWindow);
   UnitTestWindow.FormActivate(Sender);
   // only when activated by the menu or the keyboard - Will be reset by frmIDEDockWin
-  PyIDEMainForm.JvDockVSNetStyleTBX.ChannelOption.MouseleaveHide := False;
+  PyIDEMainForm.JvDockVSNetStyleSpTBX.ChannelOption.MouseleaveHide := False;
 end;
 
 procedure TPyIDEMainForm.actNavVariablesExecute(Sender: TObject);
@@ -1593,7 +1590,7 @@ begin
   ShowDockForm(VariablesWindow);
   VariablesWindow.FormActivate(Sender);
   // only when activated by the menu or the keyboard - Will be reset by frmIDEDockWin
-  PyIDEMainForm.JvDockVSNetStyleTBX.ChannelOption.MouseleaveHide := False;
+  PyIDEMainForm.JvDockVSNetStyleSpTBX.ChannelOption.MouseleaveHide := False;
 end;
 
 procedure TPyIDEMainForm.actNavWatchesExecute(Sender: TObject);
@@ -1601,7 +1598,7 @@ begin
   ShowDockForm(WatchesWindow);
   WatchesWindow.FormActivate(Sender);
   // only when activated by the menu or the keyboard - Will be reset by frmIDEDockWin
-  PyIDEMainForm.JvDockVSNetStyleTBX.ChannelOption.MouseleaveHide := False;
+  PyIDEMainForm.JvDockVSNetStyleSpTBX.ChannelOption.MouseleaveHide := False;
 end;
 
 procedure TPyIDEMainForm.actNewFileExecute(Sender: TObject);
@@ -2446,13 +2443,6 @@ begin
   end;
 end;
 
-procedure TPyIDEMainForm.TBXMRUListClick(Sender: TObject;
-  const Filename: String);
-begin
-  TBXMRUList.Remove(Filename);
-  DoOpenFile(Filename);
-end;
-
 procedure TPyIDEMainForm.PyIDEOptionsChanged;
 var
   Editor : IEditor;
@@ -2475,8 +2465,8 @@ begin
   CommandsDataModule.SynYAMLSyn.DefaultFilter :=
     CommandsDataModule.PyIDEOptions.YAMLFileFilter;
   //  Dock animation parameters
-  JvDockVSNetStyleTBX.SetAnimationInterval(CommandsDataModule.PyIDEOptions.DockAnimationInterval);
-  JvDockVSNetStyleTBX.SetAnimationMoveWidth(CommandsDataModule.PyIDEOptions.DockAnimationMoveWidth);
+  JvDockVSNetStyleSpTBX.SetAnimationInterval(CommandsDataModule.PyIDEOptions.DockAnimationInterval);
+  JvDockVSNetStyleSpTBX.SetAnimationMoveWidth(CommandsDataModule.PyIDEOptions.DockAnimationMoveWidth);
 
   // Set Python engine
   PyControl.PythonEngineType := CommandsDataModule.PyIDEOptions.PythonEngineType;
@@ -2517,6 +2507,7 @@ end;
 procedure TPyIDEMainForm.StoreApplicationData;
 Var
   TempStringList : TStringList;
+  TempSL : TWideStringList;
   ActionProxyCollection : TActionProxyCollection;
   i : integer;
   TempCursor : IInterface;
@@ -2524,6 +2515,7 @@ Var
 begin
   TempCursor := WaitCursor;
   TempStringList := TStringList.Create;
+  TempSL := TWideStringList.Create;
   AppStorage.BeginUpdate;
   try
     AppStorage.WriteString('PyScripter Version', ApplicationVersion);
@@ -2584,7 +2576,7 @@ begin
     AppStorage.WriteStringList('Layouts', Layouts);
     AppStorage.WriteBoolean('Status Bar', StatusBar.Visible);
     // Save Theme Name
-    AppStorage.WriteString('Theme Name', TBXSwitcher.Theme);
+    AppStorage.WriteString('Theme Name', SkinManager.CurrentSkinName);
 
     // Save IDE Shortcuts
     AppStorage.DeleteSubTree('IDE Shortcuts');
@@ -2612,7 +2604,7 @@ begin
     for I := 0 to PythonIIForm.CommandHistory.Count - 1 do
       TempStringList.Add(StrStringToEscaped(UTF8Encode(PythonIIForm.CommandHistory[i])));
     AppStorage.StorageOptions.PreserveLeadingTrailingBlanks := True;
-    AppStorage.WriteStringList('Command Histrory', TempStringList);
+    AppStorage.WriteStringList('Command History', TempStringList);
     AppStorage.StorageOptions.PreserveLeadingTrailingBlanks := False;
 
     // Form Placement
@@ -2622,14 +2614,16 @@ begin
     AppStorage.DeleteSubTree('Active Project');
     AppStorage.WriteWideString('Active Project', ActiveProject.FileName);
 
+    // MRU Items
+    MRUToWideStrings(tbiRecentFileList, TempSL);
+    AppStorage.WriteWideStringList('MRU File List', TempSL, 'MRU');
+    AppStorage.WriteWideStringList('CommandLine MRU', CommandsDataModule.CommandLineMRU, 'MRU');
+
   finally
     AppStorage.EndUpdate;
     TempStringList.Free;
+    TempSL.Free;
   end;
-
-  // Save MRU Lists
-  TBXMRUList.SaveToIni(AppStorage.IniFile, 'MRU File List');
-  CommandsDataModule.CommandLineMRU.SaveToIni(AppStorage.IniFile, 'CommandLine MRU');
 
   AppStorage.Flush;
 end;
@@ -2641,6 +2635,7 @@ Const
 Var
   ActionProxyCollection : TActionProxyCollection;
   TempStringList : TStringList;
+  TempSL : TWideStringList;
   i : integer;
   MemIni: TMemIniFile;
   FName : WideString;
@@ -2675,8 +2670,8 @@ begin
 
       if AppStorage.IniFile.SectionExists('Editor Search Options') then begin
         AppStorage.ReadPersistent('Editor Search Options', EditorSearchOptions);
-        tbiSearchText.Strings.CommaText := EditorSearchOptions.SearchTextHistory;
-        tbiReplaceText.Strings.CommaText := EditorSearchOptions.ReplaceTextHistory;
+        tbiSearchText.Items.CommaText := EditorSearchOptions.SearchTextHistory;
+        tbiReplaceText.Items.CommaText := EditorSearchOptions.ReplaceTextHistory;
       end;
 
       AppStorage.ReadPersistent('Print Options', SynEditPrint);
@@ -2721,7 +2716,7 @@ begin
   AppStorage.ReadPersistent('Watches', WatchesWindow);
   StatusBar.Visible := AppStorage.ReadBoolean('Status Bar');
   // Load Theme Name
-  TBXSwitcher.Theme := AppStorage.ReadString('Theme Name', 'Office2003');
+  SkinManager.SetSkin(AppStorage.ReadString('Theme Name', 'Office2003'));
   // Load IDE Shortcuts
   ActionProxyCollection := TActionProxyCollection.Create(ActionListArray);
   try
@@ -2767,8 +2762,14 @@ begin
   end;
 
   // Load MRU Lists
-  TBXMRUList.LoadFromIni(AppStorage.IniFile, 'MRU File List');
-  CommandsDataModule.CommandLineMRU.LoadFromIni(AppStorage.IniFile, 'CommandLine MRU');
+  TempSL := TWideStringList.Create;
+  try
+    AppStorage.ReadWideStringList('MRU File List', TempSL, True, 'MRU');
+    WideStringsToMRU(tbiRecentFileList, TempSL);
+  finally
+    TempSL.Free;
+  end;
+  AppStorage.ReadWideStringList('CommandLine MRU', CommandsDataModule.CommandLineMRU, True, 'MRU');
 
 end;
 
@@ -2885,8 +2886,8 @@ begin
   actFindDefinition.Enabled := Assigned(GI_ActiveEditor) and
     GI_ActiveEditor.HasPythonFile;
   actFindReferences.Enabled := actFindDefinition.Enabled;
-  actBrowseBack.Enabled := PreviousList.Strings.Count > 0;
-  actBrowseForward.Enabled := NextList.Strings.Count > 0;
+  actBrowseBack.Enabled := mnPreviousList.Count > 0;
+  actBrowseForward.Enabled := mnNextList.Count > 0;
 end;
 
 procedure TPyIDEMainForm.FormShortCut(var Msg: TWMKey;
@@ -2993,6 +2994,13 @@ begin
     MenuItem.OnClick := LayoutClick;
     MenuItem.Hint := WideFormat(_(SApplyLayout), [Layouts[i]]);
   end;
+end;
+
+procedure TPyIDEMainForm.mnSkinsSkinChange(Sender: TObject);
+begin
+  if (CurrentSkin  is TSpTBXOffice2003Skin) and
+    (TSpTBXOffice2003Skin(CurrentSkin).DefaultColorScheme = lusUnknown) then
+      TSpTBXOffice2003Skin(CurrentSkin).DefaultColorScheme := lusBlue;
 end;
 
 procedure TPyIDEMainForm.mnSyntaxPopup(Sender: TTBCustomItem;
@@ -3233,16 +3241,17 @@ begin
 end;
 
 procedure TPyIDEMainForm.ThemeEditorGutter(Gutter : TSynGutter);
-Var
-  GradColor : TColor;
+//Var
+//  GradColor : TColor;
 begin
-  GradColor := CurrentTheme.GetViewColor(VT_TOOLBAR);
-
-  with Gutter do begin
-    BorderStyle := gbsNone;
-    GradientStartColor := LightenColor(GradColor, 30);
-    GradientEndColor := DarkenColor(GradColor, 10);
-  end;
+    { TODO : Skin }
+//  GradColor := CurrentTheme.GetViewColor(VT_TOOLBAR);
+//
+//  with Gutter do begin
+//    BorderStyle := gbsNone;
+//    GradientStartColor := LightenColor(GradColor, 30);
+//    GradientEndColor := DarkenColor(GradColor, 10);
+//  end;
 end;
 
 procedure TPyIDEMainForm.TntFormLXKeyUp(Sender: TObject; var Key: Word;
@@ -3264,8 +3273,8 @@ begin
   if FilePosInfo <> '' then
   begin
     // Adjust previous/next menus
-    PreviousList.Strings.Insert(0, Format(FilePosInfoFormat, [FileName, Line, Col]));
-    NextList.Strings.Clear;
+    PrevMRUAdd(Format(FilePosInfoFormat, [FileName, Line, Col]));
+    mnNextList.Clear;
     fCurrentBrowseInfo := FilePosInfo;
   end;
 end;
@@ -3422,14 +3431,13 @@ begin
   end;
 end;
 
-procedure TPyIDEMainForm.TBMThemeChange(var Message: TMessage);
+procedure TPyIDEMainForm.WMSpSkinChange(var Message: TMessage);
 begin
-  if Message.WParam = TSC_VIEWCHANGE then begin
-    // Update EditorOptions
-    ThemeEditorGutter(CommandsDataModule.EditorOptions.Gutter);
-    BGPanel.Color := CurrentTheme.GetItemColor(GetItemInfo('inactive'));
-    Application.HintColor := CurrentTheme.GetViewColor(VT_DOCKPANEL);
-  end;
+  // Update EditorOptions
+  ThemeEditorGutter(CommandsDataModule.EditorOptions.Gutter);
+  { TODO : Skin }
+//  BGPanel.Color := CurrentTheme.GetItemColor(GetItemInfo('inactive'));
+//  Application.HintColor := CurrentTheme.GetViewColor(VT_DOCKPANEL);
 end;
 
 procedure TPyIDEMainForm.WMFindDefinition(var Msg: TMessage);
@@ -3456,16 +3464,17 @@ begin
     Action := TCustomAction(Msg.LParam);
     Action.Execute;
   end else begin
-    if Msg.WParam = 0 then begin
-      SpFocusEditItem(tbiReplaceText, FindToolbar.View);
-      tbiReplaceText.StartEditing(FindToolbar.View);
-    end else if Msg.WParam = 1 then begin
-      SpFocusEditItem(tbiSearchText, FindToolbar.View);
-      tbiSearchText.StartEditing(FindToolbar.View);
-    end else if Msg.WParam = 2 then begin
-      // incremental search
-      CommandsDataModule.IncrementalSearch;
-    end;
+  { TODO : Not sure if all these is needed }
+//    if Msg.WParam = 0 then begin
+//      SpFocusEditItem(tbiReplaceText, FindToolbar.View);
+//      tbiReplaceText.StartEditing(FindToolbar.View);
+//    end else if Msg.WParam = 1 then begin
+//      SpFocusEditItem(tbiSearchText, FindToolbar.View);
+//      tbiSearchText.StartEditing(FindToolbar.View);
+//    end else if Msg.WParam = 2 then begin
+//      // incremental search
+//      CommandsDataModule.IncrementalSearch;
+//    end;
   end;
 end;
 
@@ -3491,28 +3500,42 @@ begin
   end;
 end;
 
-procedure TPyIDEMainForm.PreviousListClick(Sender: TObject);
+procedure TPyIDEMainForm.PrevClickHandler(Sender: TObject);
+var
+  A: TSpTBXMRUItem;
+begin
+  if Sender is TSpTBXMRUItem then begin
+    A := TSpTBXMRUItem(Sender);
+    if Assigned(mnPreviousList.OnClick) then mnPreviousList.OnClick(mnPreviousList, A.MRUString);
+  end;
+end;
+
+procedure TPyIDEMainForm.PreviousListClick(Sender: TObject; S : WideString);
 Var
   i, Index : integer;
 begin
-  Index := PreviousList.ItemIndex;
-  if (Index >= 0) and (Index < PreviousList.Strings.Count) then begin
-    JumpToFilePosInfo(PreviousList.Strings[Index]);
-    NextList.Strings.Insert(0 , fCurrentBrowseInfo);
-    fCurrentBrowseInfo := PreviousList.Strings[Index];
+  Index := mnPreviousList.IndexOfMRU(S);
+  if (Index >= 0) and (Index < mnPreviousList.Count) then begin
+    JumpToFilePosInfo(S);
+    NextMRUAdd(fCurrentBrowseInfo);
+    fCurrentBrowseInfo := S;
     for i := 0 to Index - 1 do
-      NextList.Strings.Insert(0, PreviousList.Strings[i]);
-    for i := Index downto 0 do
-      PreviousList.Strings.Delete(i);
+      NextMRUAdd(TSpTBXMRUItem(mnPreviousList.Items[i]).MRUString);
+    for i := 0 to Index do
+      mnPreviousList.MRURemove(TSpTBXMRUItem(mnPreviousList.Items[0]).MRUString);
   end;
+end;
+
+procedure TPyIDEMainForm.PrevMRUAdd(S: WideString);
+begin
+  mnPreviousList.MRUAdd(S);
+  mnPreviousList.Items[0].OnClick := PrevClickHandler;
 end;
 
 procedure TPyIDEMainForm.tbiBrowsePreviousClick(Sender: TObject);
 begin
-  if PreviousList.Strings.Count > 0 then begin
-    PreviousList.ItemIndex := 0;
-    PreviousListClick(Sender);
-  end;
+  if mnPreviousList.Count > 0 then
+    PreviousListClick(Sender, TSpTBXMRUItem(mnPreviousList.Items[0]).MRUString);
 end;
 
 function TPyIDEMainForm.NewFileFromTemplate(
@@ -3534,26 +3557,42 @@ begin
   end;
 end;
 
-procedure TPyIDEMainForm.NextListClick(Sender: TObject);
+procedure TPyIDEMainForm.NextClickHandler(Sender: TObject);
+var
+  A: TSpTBXMRUItem;
+begin
+  if Sender is TSpTBXMRUItem then begin
+    A := TSpTBXMRUItem(Sender);
+    if Assigned(mnNextList.OnClick) then mnNextList.OnClick(mnNextList, A.MRUString);
+  end;
+end;
+
+procedure TPyIDEMainForm.NextListClick(Sender: TObject; S : WideString);
 Var
   i, Index : integer;
 begin
-  Index := NextList.ItemIndex;
-  if (Index >= 0) and (Index < NextList.Strings.Count) then begin
-    JumpToFilePosInfo(NextList.Strings[Index]);
-    PreviousList.Strings.Insert(0 , fCurrentBrowseInfo);    fCurrentBrowseInfo := NextList.Strings[Index];
+  Index := mnNextList.IndexOfMRU(S);
+  if (Index >= 0) and (Index < mnNextList.Count) then begin
+    JumpToFilePosInfo(S);
+    PrevMRUAdd(fCurrentBrowseInfo);
+    fCurrentBrowseInfo := S;
     for i := 0 to Index - 1 do
-      PreviousList.Strings.Insert(0, NextList.Strings[i]);
-    for i := Index downto 0 do
-      NextList.Strings.Delete(i);
+      PrevMRUAdd(TSpTBXMRUItem(mnNextList.Items[i]).MRUString);
+    for i := 0 to Index do
+      mnNextList.MRURemove(TSpTBXMRUItem(mnNextList.Items[0]).MRUString);
   end;
+end;
+
+procedure TPyIDEMainForm.NextMRUAdd(S: WideString);
+begin
+  mnNextList.MRUAdd(S);
+  mnNextList.Items[0].OnClick := NextClickHandler;
 end;
 
 procedure TPyIDEMainForm.tbiBrowseNextClick(Sender: TObject);
 begin
-  if NextList.Strings.Count > 0 then begin
-    NextList.ItemIndex := 0;
-    NextListClick(Sender);
+  if mnNextList.Count > 0 then begin
+    NextListClick(Sender, TSpTBXMRUItem(mnNextList.Items[0]).MRUString);
   end;
 end;
 
@@ -3589,7 +3628,7 @@ end;
 
 procedure TPyIDEMainForm.FormShow(Sender: TObject);
 begin
-  FillTBXThemeMenu;
+//  FillTBXThemeMenu;
   if CommandsDataModule.PyIDEOptions.AutoCheckForUpdates and
     (DaysBetween(Now, CommandsDataModule.PyIDEOptions.DateLastCheckedForUpdates) >=
       CommandsDataModule.PyIDEOptions.DaysBetweenChecks) and ConnectedToInternet
@@ -3643,41 +3682,35 @@ begin
   BreakPointsWindow.UpdateWindow;
 end;
 
-procedure TPyIDEMainForm.TBXThemeMenuOnClick(Sender: TObject);
-begin
-  TBXSetTheme(TSpTBXItem(Sender).Caption);
-  TSpTBXItem(Sender).Checked := True;
-end;
-
-procedure TPyIDEMainForm.FillTBXThemeMenu;
-var
-  i: Integer;
-  sl: TStringList;
-  x: TSpTBXItem;
-begin
-  mnThemes.Clear;
-  sl := TStringList.Create;
-  try
-    TBXThemes.GetAvailableTBXThemes(sl);
-    sl.Sorted := True;
-    for i := 0 to Pred(sl.Count) do
-    begin
-      x := TSpTBXItem.Create(Self);
-      with x do
-      begin
-        Caption := sl[i];
-        Hint := WideFormat(_(SThemeHint), [sl[i]]);
-        OnClick := TBXThemeMenuOnClick;
-        AutoCheck := True;
-        GroupIndex := 1;
-        Checked := TBXCurrentTheme = sl[i];
-      end;
-      mnThemes.Add(x);
-    end;
-  finally
-    sl.Free;
-  end;
-end;
+//procedure TPyIDEMainForm.FillTBXThemeMenu;
+//var
+//  i: Integer;
+//  sl: TStringList;
+//  x: TSpTBXItem;
+//begin
+//  mnThemes.Clear;
+//  sl := TStringList.Create;
+//  try
+//    TBXThemes.GetAvailableTBXThemes(sl);
+//    sl.Sorted := True;
+//    for i := 0 to Pred(sl.Count) do
+//    begin
+//      x := TSpTBXItem.Create(Self);
+//      with x do
+//      begin
+//        Caption := sl[i];
+//        Hint := WideFormat(_(SThemeHint), [sl[i]]);
+//        OnClick := TBXThemeMenuOnClick;
+//        AutoCheck := True;
+//        GroupIndex := 1;
+//        Checked := TBXCurrentTheme = sl[i];
+//      end;
+//      mnThemes.Add(x);
+//    end;
+//  finally
+//    sl.Free;
+//  end;
+//end;
 
 function TPyIDEMainForm.FindAction(var Key: Word; Shift: TShiftState) : TCustomAction;
 var
@@ -3821,33 +3854,23 @@ begin
   if NewText <> '' then begin
     // update Items
     S := NewText;
-    i := tbiSearchText.Strings.IndexOf(s);
+    i := tbiSearchText.Items.IndexOf(s);
     if i > -1 then begin
-      tbiSearchText.Strings.Delete(i);
-      tbiSearchText.Strings.Insert(0, S);
+      tbiSearchText.Items.Delete(i);
+      tbiSearchText.Items.Insert(0, S);
     end else
-      tbiSearchText.Strings.Insert(0, s);
+      tbiSearchText.Items.Insert(0, s);
     // Update History
     S := '';
-    for i := 0 to tbiSearchText.Strings.Count - 1 do begin
+    for i := 0 to tbiSearchText.Items.Count - 1 do begin
       if i >= 10 then
         break;
       if i > 0 then
         S :=  S + ',';
-      S := S + WideQuotedStr(tbiSearchText.Strings[i], '"');
+      S := S + WideQuotedStr(tbiSearchText.Items[i], '"');
     end;
     EditorSearchOptions.SearchTextHistory := S;
   end;
-end;
-
-procedure TPyIDEMainForm.tbiSearchReplaceTextBeginEdit(Sender: TTBEditItem;
-  Viewer: TTBEditItemViewer; EditControl: TEdit);
-begin
-  if Sender = tbiSearchText then begin
-    EditControl.OnKeyDown := tbiSearchTextKeyDown;
-    EditControl.OnKeyPress := tbiSearchTextKeyPress;
-  end else if Sender = tbiReplaceText then
-    EditControl.OnKeyDown := tbiReplaceTextKeyDown;
 end;
 
 procedure TPyIDEMainForm.tbiSearchTextKeyPress(Sender: TObject; var Key: Char);
@@ -3897,6 +3920,13 @@ begin
     CommandsDataModule.actSearchHighlightExecute(Sender);
 end;
 
+procedure TPyIDEMainForm.tbiRecentFileListClick(Sender: TObject;
+  const Filename: WideString);
+begin
+  tbiRecentFileList.MRURemove(Filename);
+  DoOpenFile(Filename);
+end;
+
 procedure TPyIDEMainForm.tbiReplaceTextAcceptText(Sender: TObject;
   var NewText: WideString; var Accept: Boolean);
 Var
@@ -3907,20 +3937,20 @@ begin
   if NewText <> '' then begin
     // update Items
     S := NewText;
-    i := tbiReplaceText.Strings.IndexOf(s);
+    i := tbiReplaceText.Items.IndexOf(s);
     if i > -1 then begin
-      tbiReplaceText.Strings.Delete(i);
-      tbiReplaceText.Strings.Insert(0, S);
+      tbiReplaceText.Items.Delete(i);
+      tbiReplaceText.Items.Insert(0, S);
     end else
-      tbiReplaceText.Strings.Insert(0, s);
+      tbiReplaceText.Items.Insert(0, s);
     // Update History
     S := '';
-    for i := 0 to tbiReplaceText.Strings.Count - 1 do begin
+    for i := 0 to tbiReplaceText.Items.Count - 1 do begin
       if i >= 10 then
         break;
       if i > 0 then
         S := S + ',';
-      S := S + WideQuotedStr(tbiReplaceText.Strings[i], '"');
+      S := S + WideQuotedStr(tbiReplaceText.Items[i], '"');
     end;
     EditorSearchOptions.ReplaceTextHistory := S;
   end;
@@ -3985,6 +4015,11 @@ begin
 end;
 
 end.
+
+
+
+
+
 
 
 

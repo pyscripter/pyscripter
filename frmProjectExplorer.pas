@@ -15,8 +15,8 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, frmIDEDockWin, JvComponentBase, JvDockControlForm, ExtCtrls,
-  cProjectClasses, VirtualTrees, ImgList, Menus, TB2Item, TBX, SpTBXItem,
-  ActnList, TB2Dock, TB2Toolbar, ActiveX, TntActnList, WideStrings;
+  cProjectClasses, VirtualTrees, ImgList, Menus, TB2Item, SpTBXItem,
+  ActnList, TB2Dock, TB2Toolbar, ActiveX, TntActnList, WideStrings, SpTBXSkins;
 
 type
   TProjectExplorerWindow = class(TIDEDockWindow)
@@ -157,6 +157,7 @@ type
   private
     procedure ProjectFileNodeEdit(Node: PVirtualNode);
     procedure UpdatePopupActions(Node : PVirtualNode);
+    procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
   public
     { Public declarations }
     FileImageList: TWideStringList;
@@ -750,6 +751,15 @@ begin
    end;
 end;
 
+procedure TProjectExplorerWindow.WMSpSkinChange(var Message: TMessage);
+begin
+  ExplorerTree.Invalidate;
+  if SkinManager.IsDefaultSkin then
+    ExplorerTree.TreeOptions.PaintOptions := ExplorerTree.TreeOptions.PaintOptions - [toAlwaysHideSelection]
+  else
+    ExplorerTree.TreeOptions.PaintOptions := ExplorerTree.TreeOptions.PaintOptions + [toAlwaysHideSelection];
+end;
+
 procedure TProjectExplorerWindow.ExplorerTreeContextPopup(Sender: TObject;
   MousePos: TPoint; var Handled: Boolean);
 var
@@ -1111,6 +1121,11 @@ begin
   FileImageList := TWideStringList.Create;
   FileImageList.Sorted := True;
   FileImageList.Duplicates := dupError;
+
+  ExplorerTree.OnBeforeCellPaint :=
+    CommandsDataModule.VirtualStringTreeBeforeCellPaint;
+  ExplorerTree.OnPaintText :=
+    CommandsDataModule.VirtualStringTreePaintText;
 
   // Wierd translation bug
   TP_Ignore(self, 'mnProjectNew');

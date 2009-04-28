@@ -20,10 +20,10 @@ uses
   SynEditRegexSearch, SynEditMiscClasses, SynEditSearch, VirtualTrees,
   SynEditTextBuffer, SynEditKeyCmds, JvComponentBase, SynHighlighterXML,
   SynHighlighterCSS, SynHighlighterHtml, JvProgramVersionCheck, JvPropertyStore,
-  SynHighlighterIni, TB2MRU, TBXExtItems, JvAppInst, uEditAppIntfs, SynUnicode,
+  SynHighlighterIni, TB2MRU, JvAppInst, uEditAppIntfs, SynUnicode,
   JvTabBar, JvStringHolder, cPyBaseDebugger, TntDialogs, TntLXDialogs,
   SynEditTypes, VirtualExplorerTree, VirtualShellNotifier, SynHighlighterWeb,
-  SynHighlighterCpp, TntStdActns, TntActnList, SynHighlighterYAML;
+  SynHighlighterCpp, TntStdActns, TntActnList, SynHighlighterYAML, WideStrings;
 
 type
 {$METHODINFO ON}
@@ -247,7 +247,6 @@ type
     ProgramVersionCheck: TJvProgramVersionCheck;
     ProgramVersionHTTPLocation: TJvProgramVersionHTTPLocation;
     SynIniSyn: TSynIniSyn;
-    CommandLineMRU: TTBXMRUList;
     JvMultiStringHolder: TJvMultiStringHolder;
     dlgFileOpen: TTntOpenDialogLX;
     dlgFileSave: TTntSaveDialogLX;
@@ -335,6 +334,7 @@ type
     actFileClose: TTntAction;
     actFileSaveAs: TTntAction;
     actFileSave: TTntAction;
+    ImageList1: TImageList;
     function ProgramVersionHTTPLocationLoadFileFromRemote(
       AProgramVersionLocation: TJvProgramVersionHTTPLocation; const ARemotePath,
       ARemoteFileName, ALocalPath, ALocalFileName: string): string;
@@ -433,6 +433,7 @@ type
     InterpreterEditorOptions : TSynEditorOptionsContainer;
     PyIDEOptions : TPythonIDEOptions;
     UserDataDir : WideString;
+    CommandLineMRU : TWideStrings;
     function IsBlockOpener(S : string) : Boolean;
     function IsBlockCloser(S : string) : Boolean;
     function IsExecutableLine(Line : string) : Boolean;
@@ -463,6 +464,12 @@ type
     procedure VirtualStringTreeDrawQueryElements(
       Sender: TVTHeader; var PaintInfo: THeaderPaintInfo;
       var Elements: THeaderPaintElements);
+    procedure VirtualStringTreeBeforeCellPaint(Sender: TBaseVirtualTree;
+      TargetCanvas: TCanvas; Node: PVirtualNode; Column: TColumnIndex;
+      CellPaintMode: TVTCellPaintMode; CellRect: TRect; var ContentRect: TRect);
+    procedure VirtualStringTreePaintText(Sender: TBaseVirtualTree;
+      const TargetCanvas: TCanvas; Node: PVirtualNode; Column: TColumnIndex;
+      TextType: TVSTTextType);
     procedure GetEditorUserCommand(AUserCommand: Integer; var ADescription: String);
     procedure GetEditorAllUserCommands(ACommands: TStrings);
     function DoSearchReplaceText(SynEdit : TSynEdit;
@@ -498,13 +505,13 @@ uses
   dlgAboutPyScripter, frmPyIDEMain, JclFileUtils, SHDocVw, Variants,
   frmEditor, frmFindResults, cParameters, dlgCustomParams,
   uParams, dlgCodeTemplates, dlgConfigureTools, cTools,
-  frmFunctionList, StringResources, TBXThemes, TBX, uCommonFunctions,
+  frmFunctionList, StringResources, uCommonFunctions,
   StoHtmlHelp, {uMMMXP_MainService, }JvJCLUtils, Menus, SynEditStrConst,
   dlgConfirmReplace, dlgCustomShortcuts,// jclStrings,
   dlgUnitTestWizard, WinInet, Math, Registry, ShlObj, ShellAPI,
   dlgFileTemplates, JclSysInfo, JclSysUtils, dlgPickList, JvAppIniStorage,
   cFilePersist, JvAppStorage, SpTBXEditors, JvDSADialogs, uSearchHighlighter,
-  TntSysUtils, MPShellUtilities, gnugettext;
+  TntSysUtils, MPShellUtilities, gnugettext, SpTBXSkins, SpTBXMDIMRU;
 
 { TPythonIDEOptions }
 
@@ -849,6 +856,9 @@ begin
   ProgramVersionCheck.ThreadDialog.DialogOptions.ResName := 'WebCopyAvi';
   ProgramVersionCheck.LocalDirectory := ExtractFilePath(Application.ExeName)+ 'Updates';
 
+  // Command Line MRU
+  CommandLineMRU := TWideStringList.Create;
+
   // Translate
   TranslateComponent(Self);
 end;
@@ -863,6 +873,7 @@ begin
   NonExecutableLineRE.Free;
   CommentLineRE.Free;
   PyIDEOptions.Free;
+  CommandLineMRU.Free;
   imlShellIcon.Handle := 0;
 end;
 
@@ -2509,71 +2520,125 @@ begin
   end;
 end;
 
-procedure TCommandsDataModule.VirtualStringTreeAdvancedHeaderDraw(Sender: TVTHeader;
-  var PaintInfo: THeaderPaintInfo; const Elements: THeaderPaintElements);
-
-  procedure PaintSeparator(Canvas: TCanvas; R: TRect; si: TTBXItemInfo);
-  var
-   Bmp: TBitmap;
-  begin
-   Bmp:= TBitmap.Create;
-   try
-    Bmp.PixelFormat := pf32Bit;
-    Bmp.Width := R.Right - R.Left;
-    Bmp.Height := R.Bottom - R.Top;
-
-    Bmp.Canvas.CopyRect(Bmp.Canvas.ClipRect, Canvas, R);
-
-    CurrentTheme.PaintSeparator(Bmp.Canvas, Bmp.Canvas.ClipRect, si, false, true);
-
-    Canvas.Draw(R.Left, R.Top, Bmp);
-   finally
-    Bmp.Free;
-   end;
+type
+  TCrackedCustomVirtualStingTree = class(TCustomVirtualStringTree)
+  end;
+  TCrackedCustomStringTreeOptions = class(TCustomStringTreeOptions)
   end;
 
+procedure TCommandsDataModule.VirtualStringTreePaintText(
+  Sender: TBaseVirtualTree; const TargetCanvas: TCanvas; Node: PVirtualNode;
+  Column: TColumnIndex; TextType: TVSTTextType);
+begin
+  if SkinManager.IsDefaultSkin then Exit;
+  with TCrackedCustomVirtualStingTree(Sender) do begin
+    if (Column = FocusedColumn) or (toFullRowSelect in TCrackedCustomStringTreeOptions(TreeOptions).SelectionOptions) then
+    begin
+      if vsSelected in Node.States then
+      begin
+        TargetCanvas.Font.Color :=
+          CurrentSkin.GetTextColor(skncListItem, CurrentSkin.GetState(True, Node = HotNode, True, False));
+      end;
+    end;
+  end;
+end;
+
+procedure TCommandsDataModule.VirtualStringTreeAdvancedHeaderDraw(Sender: TVTHeader;
+  var PaintInfo: THeaderPaintInfo; const Elements: THeaderPaintElements);
 Var
   R : TRect;
-  ii: TTBXItemInfo;
+  State: TSpTBXSkinStatesType;
+  DrawFormat: Cardinal;
+  Text : WideString;
+  TextSpace: Integer;
+  Size: TSize;
+  DC : HDC;
 begin
-  R := PaintInfo.PaintRectangle;
-  if (PaintInfo.Column = nil) and (hpeBackground in Elements) then begin
-    CurrentTheme.PaintBackgnd(PaintInfo.TargetCanvas, R, R, R,
-      CurrentTheme.GetViewColor(TVT_NORMALTOOLBAR), false, VT_TOOLBAR);
-    //CurrentTheme.PaintDock(PaintInfo.TargetCanvas, R, R, DP_TOP);
-  end else begin
-    with PaintInfo do begin
-      if hpeBackground in Elements then begin
-        if IsHoverIndex and IsDownIndex then  ii := GetItemInfo('hot')
-        else if IsHoverIndex then ii := GetItemInfo('active')
-        else ii := GetItemInfo('inactive');
+  with PaintInfo do begin
+    State := CurrentSkin.GetState(IsEnabled, IsDownIndex, IsHoverIndex, False);
+    if ShowSortGlyph and not(IsHoverIndex or IsDownIndex) then
+      State := sknsChecked;
+  end;
 
-        //CurrentTheme.PaintBackgnd(TargetCanvas, R, R, R,
-        //  CurrentTheme.GetViewColor(TVT_NORMALTOOLBAR), false, TVT_NORMALTOOLBAR);
-        //CurrentTheme.PaintFrame(TargetCanvas, R, ii);
-        if IsHoverIndex or IsDownIndex then begin
-          Inc(R.Left, 1);
-          Dec(R.Right,2);
-          if IsDownIndex then
-            CurrentTheme.PaintButton(TargetCanvas, R, ii);
-            //CurrentTheme.PaintFrame(TargetCanvas, R, ii);
-          TargetCanvas.Pen.Color := GetBorderColor('hot');
-          TargetCanvas.Pen.Width := 2;
-          TargetCanvas.MoveTo(R.Left, R.Bottom-2);
-          TargetCanvas.LineTo(R.Right - 1 - 1, R.Bottom-2);
-        end;// else
-        // CurrentTheme.PaintFrame(TargetCanvas, R, ii);
-        //CurrentTheme.PaintButton(TargetCanvas, R, ii);
+  if hpeBackground in Elements then begin
+    R := PaintInfo.PaintRectangle;
+    if (PaintInfo.Column = nil) then begin
+      SpDrawXPHeader(PaintInfo.TargetCanvas, R, False, False, SkinManager.GetSkinType);
+    end else with PaintInfo do begin
+      SpDrawXPHeader(PaintInfo.TargetCanvas, R, IsHoverIndex, IsDownIndex, SkinManager.GetSkinType );
+    end;
+  end;
+  if (hpeText in Elements) and Assigned(PaintInfo.Column) then begin
+    R := PaintInfo.TextRectangle;
+    DC := PaintInfo.TargetCanvas.Handle;
+    Text := PaintInfo.Column.Text;
+    GetTextExtentPoint32W(DC, PWideChar(Text), Length(Text), Size);
+    TextSpace := R.Right - R.Left;
+    if TextSpace < Size.cx then
+      Text := ShortenString(DC, Text, TextSpace);
+    SetTextColor(DC, ColorToRGB(CurrentSkin.GetTextColor(skncHeader, State)));
+    DrawFormat := DT_LEFT or DT_TOP or DT_NOPREFIX;
+    if Sender.TreeView.UseRightToLeftReading then
+      DrawFormat := DrawFormat + DT_RTLREADING;
+    SetBkMode(DC, TRANSPARENT);
+    Windows.DrawTextW(DC, PWideChar(Text), Length(Text), R, DrawFormat);
+  end;
+end;
 
+procedure TCommandsDataModule.VirtualStringTreeBeforeCellPaint(
+  Sender: TBaseVirtualTree; TargetCanvas: TCanvas; Node: PVirtualNode;
+  Column: TColumnIndex; CellPaintMode: TVTCellPaintMode; CellRect: TRect;
+  var ContentRect: TRect);
+Var
+  InnerRect, R: TRect;
+  NodeWidth : integer;
+  CurrentAlignment: TAlignment;
+  State: TSpTBXSkinStatesType;
+begin
+  if SkinManager.IsDefaultSkin then Exit;
+  if CellPaintMode <> cpmPaint then Exit;
 
-        if ShowRightBorder then begin
-          R := PaintInfo.PaintRectangle;
-          R.Left := R.Right - 2;
-          Inc(R.Right, 1);
-          Dec(R.Top, 1);
-          ii := GetItemInfo('inactive');
-          PaintSeparator(TargetCanvas, R, ii);
+  with TCrackedCustomVirtualStingTree(Sender), TargetCanvas do begin
+    if (Column = FocusedColumn) or (toFullRowSelect in TCrackedCustomStringTreeOptions(TreeOptions).SelectionOptions) then
+    begin
+      if vsSelected in Node.States then
+      begin
+        if (toGridExtensions in TCrackedCustomStringTreeOptions(TreeOptions).MiscOptions) or
+           (toFullRowSelect in TCrackedCustomStringTreeOptions(TreeOptions).SelectionOptions)
+        then
+          InnerRect := CellRect
+        else begin
+          InnerRect:= ContentRect;
+          R := GetDisplayRect(Node, Column, True);
+          NodeWidth := R.Right - R.Left;
+          if Column <= NoColumn then
+            CurrentAlignment := Alignment
+          else
+            CurrentAlignment := Header.Columns[Column].Alignment;
+          case CurrentAlignment of
+            taLeftJustify:
+              with InnerRect do
+                if Left + NodeWidth < Right then
+                  Right := Left + NodeWidth;
+            taCenter:
+              with InnerRect do
+                if (Right - Left) > NodeWidth then
+                begin
+                  Left := (Left + Right - NodeWidth) div 2;
+                  Right := Left + NodeWidth;
+                end;
+            taRightJustify:
+              with InnerRect do
+                if (Right - Left) > NodeWidth then
+                  Left := Right - NodeWidth;
+          end;
         end;
+        if not IsRectEmpty(InnerRect) then begin
+          TargetCanvas.FillRect(InnerRect);
+          State := CurrentSkin.GetState(True, Node = HotNode, True, False);
+          CurrentSkin.PaintBackground(TargetCanvas, InnerRect, skncListItem, State, True, False);
+        end;
+        //SpDrawXPListItemBackground(TargetCanvas, InnerRect, True, Node = HotNode, Focused, SkinManager.GetSkinType);
       end;
     end;
   end;
@@ -2583,7 +2648,10 @@ procedure TCommandsDataModule.VirtualStringTreeDrawQueryElements(
   Sender: TVTHeader; var PaintInfo: THeaderPaintInfo;
   var Elements: THeaderPaintElements);
 begin
-  Elements := [hpeBackground];
+  if SkinManager.IsDefaultSkin then
+    Elements := []
+  else
+    Elements := [hpeBackground, hpeText];
 end;
 
 procedure TCommandsDataModule.actCheckForUpdatesExecute(Sender: TObject);
@@ -2816,7 +2884,7 @@ begin
     tbiReplaceExecute.Visible := AReplace;
     if AReplace then begin
       tbiReplaceText.Text := EditorSearchOptions.ReplaceText;
-      tbiReplaceText.Strings.CommaText := EditorSearchOptions.ReplaceTextHistory;
+      tbiReplaceText.Items.CommaText := EditorSearchOptions.ReplaceTextHistory;
     end;
     FindToolbar.Visible := True;
     FindToolbar.View.CancelMode;
@@ -2834,9 +2902,12 @@ begin
           tbiSearchText.Text := S;
       end;
     end;
-    tbiSearchText.Strings.CommaText := EditorSearchOptions.SearchTextHistory;
-    SpFocusEditItem(tbiSearchText, FindToolbar.View);
-    tbiSearchText.StartEditing(FindToolbar.View);
+    tbiSearchText.Items.CommaText := EditorSearchOptions.SearchTextHistory;
+    if tbiSearchText.CanFocus  then
+       tbiSearchText.SetFocus;
+    
+//    SpFocusEditItem(tbiSearchText, FindToolbar.View);
+//    tbiSearchText.StartEditing(FindToolbar.View);
   end;
 end;
 
@@ -3010,7 +3081,7 @@ initialization
   // Things that cannot be translated
   TP_GlobalIgnoreClass(TJvMultiStringHolder);
   TP_GlobalIgnoreClass(TSynAutoComplete);
-  TP_GlobalIgnoreClass(TTBXMRUList);
+  TP_GlobalIgnoreClass(TSpTBXMRUListItem);
   TP_GlobalIgnoreClass(TSynCustomHighLighter);
   TP_GlobalIgnoreClass(TCommonDialog);
   TP_GlobalIgnoreClass(TJvProgramVersionCheck);

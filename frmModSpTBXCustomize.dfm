@@ -2,17 +2,17 @@ inherited SpTBXCustomizeFormMod: TSpTBXCustomizeFormMod
   PixelsPerInch = 96
   TextHeight = 13
   inherited SpTBXTabControl1: TSpTBXTabControl
-    ThemeType = tttWindows
+    SkinType = sknSkin
     HiddenItems = <>
     inherited tabToolbars: TSpTBXTabItem
-      ThemeType = tttWindows
+      SkinType = sknSkin
     end
     inherited tabCommands: TSpTBXTabItem
-      ThemeType = tttWindows
+      SkinType = sknSkin
     end
     inherited tabShortcuts: TSpTBXTabItem
       Visible = False
-      ThemeType = tttWindows
+      SkinType = sknSkin
     end
     inherited SpTBXTabSheet3: TSpTBXTabSheet
       TabVisible = False
@@ -42,11 +42,6 @@ inherited SpTBXCustomizeFormMod: TSpTBXCustomizeFormMod
         Font.Name = 'MS Shell Dlg 2'
         Font.Style = [fsBold]
         ParentFont = False
-        LinkFont.Charset = DEFAULT_CHARSET
-        LinkFont.Color = clBlue
-        LinkFont.Height = -11
-        LinkFont.Name = 'MS Shell Dlg 2'
-        LinkFont.Style = [fsUnderline]
       end
       object SpTBXLabel5: TSpTBXLabel
         Left = 10
@@ -60,11 +55,6 @@ inherited SpTBXCustomizeFormMod: TSpTBXCustomizeFormMod
         Font.Name = 'MS Shell Dlg 2'
         Font.Style = [fsBold]
         ParentFont = False
-        LinkFont.Charset = DEFAULT_CHARSET
-        LinkFont.Color = clBlue
-        LinkFont.Height = -11
-        LinkFont.Name = 'MS Shell Dlg 2'
-        LinkFont.Style = [fsUnderline]
       end
       object lbCategories: TSpTBXListBox
         Left = 7
