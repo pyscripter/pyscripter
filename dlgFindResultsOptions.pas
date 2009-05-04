@@ -45,8 +45,8 @@ unit dlgFindResultsOptions;
 interface
 
 uses
-  StdCtrls, Dialogs, Controls, ExtCtrls, Classes, Forms, Mask, JvExMask,
-  JvSpin, SpTBXControls, SpTBXDkPanels, SpTBXEditors, dlgPyIDEBase;
+  StdCtrls, Dialogs, Controls, ExtCtrls, Classes, Forms, JvExMask,
+  JvSpin, SpTBXControls, SpTBXEditors, dlgPyIDEBase, SpTBXItem;
 
 type
   TFindResultsOptionsDialog = class(TPyIDEDlgBase)
@@ -65,6 +65,7 @@ type
     pnlListFont: TPanel;
     pnlContextFont: TPanel;
     pnlMatchLineColor: TPanel;
+    SpTBXPanel1: TSpTBXPanel;
     procedure pnlContextFontClick(Sender: TObject);
     procedure pnlMatchLineColorClick(Sender: TObject);
     procedure pnlListFontClick(Sender: TObject);

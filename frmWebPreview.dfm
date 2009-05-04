@@ -39,11 +39,11 @@ object WebPreviewForm: TWebPreviewForm
     object TBXToolbar1: TSpTBXToolbar
       Left = 0
       Top = 0
-      Caption = 'TBXToolbar1'
       DockPos = 0
       FullSize = True
       Images = Images
       TabOrder = 0
+      Caption = 'TBXToolbar1'
       Customizable = False
       object ToolButtonBack: TSpTBXItem
         Hint = 'Go Back'

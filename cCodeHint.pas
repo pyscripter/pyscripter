@@ -100,7 +100,7 @@ var
 implementation
 
 uses
-  Math, JvResources;
+  JvResources;
 
 //=== { TCodeHint } ============================================================
 

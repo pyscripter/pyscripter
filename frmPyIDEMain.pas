@@ -340,14 +340,15 @@ Limitations: Python scripts are executed in the main thread
   -  VISTA compatible manifest
 
   Move to new version of SpTBXLib
-  -  Find Toolbar - Replace TSpTBXComboItem
   -  Replace TTBXStringList (a couple) (DONE)
   -  Replace TTBXMRULists (DONE)
-  -  Theming of JvTabbar (Replace with SpTBXTabControl)
   -  Theming of JvDocking  (DONE)
   -  Theming of VirtualStringTrees (DONE)
-  -  Theming of various windows
-  -  Customizer form
+  -  Customizer form (Done)
+  -  Theming of various windows (done)
+  -  Find Toolbar - Replace TSpTBXComboItem
+  -  Theming of JvTabbar (Replace with SpTBXTabControl)
+  -  Update SpTBXCode, MustangPeakCode, VirtualTreeView
 
 
 -----------------------------------------------------------------------------}
@@ -375,9 +376,9 @@ interface
 
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms,
-  Variants, dmCommands, ComCtrls, StdActns, ActnList, Menus, uEditAppIntfs,
-  JvDockControlForm, JvDockVIDStyle, JvDockVSNetStyle, JvComponent,
-  SynEditTypes, SynEditMiscClasses, SynEditRegexSearch, cPyBaseDebugger,
+  Variants, dmCommands, ActnList, Menus, uEditAppIntfs,
+  JvDockControlForm, JvDockVIDStyle, JvDockVSNetStyle, 
+  SynEditTypes, SynEditMiscClasses, cPyBaseDebugger,
   cPyDebugger, JvAppStorage,  JvAppIniStorage, JvLED, SynEdit, JvTabBar,
   TB2Dock, TB2Toolbar, TB2Item, ExtCtrls, JvExControls,
   JvPageList, cRefactoring, dlgCustomShortcuts,
@@ -1013,8 +1014,12 @@ type
     procedure SetupLayoutsMenu;
     procedure SetupSyntaxMenu;
     procedure LayoutClick(Sender : TObject);
-    procedure LoadLayout(Layout : string);
-    procedure SaveLayout(Layout : string);
+    procedure LoadLayout(const Layout : string);
+    procedure LoadToolbarLayout(const Layout: string);
+    procedure LoadToolbarItems(const Path : string);
+    procedure SaveLayout(const Layout : string);
+    procedure SaveToolbarLayout(const Layout: string);
+    procedure SaveToolbarItems(const Path : string);
     procedure WriteStatusMsg(S : WideString);
     function JumpToFilePosInfo(FilePosInfo : string) : boolean;
     procedure FindDefinition(Editor : IEditor; TextCoord : TBufferCoord;
@@ -1036,21 +1041,24 @@ Const
   dsaReplaceNumber = 3;
   dsaSearchStartReached = 4;
   dsaPostMortemInfo = 5;
+
+  FactoryToolbarItems = 'Factory Toolbar Items v1.0';
+
 var
   PyIDEMainForm: TPyIDEMainForm;
 
 implementation
 
 uses
-  frmPythonII, frmMessages, PythonEngine, frmEditor,
+  frmPythonII, frmMessages, frmEditor,
   frmCallStack, frmBreakPoints, frmVariables, frmWatches,
   frmCodeExplorer, frmFileExplorer, JclFileUtils, frmToDo,
   frmFindResults, uParams, cTools, cParameters,
   frmCommandOutput, JvCreateProcessW, dlgToolProperties, uCommonFunctions,
-  SynHighlighterPython, SynEditHighlighter, VarPyth, SynRegExpr,
+  SynHighlighterPython, SynEditHighlighter, SynRegExpr,
   JvJVCLUtils, DateUtils, cPythonSourceScanner, frmRegExpTester,
   StringResources, dlgCommandLine, frmUnitTests, cFilePersist, frmIDEDockWin,
-  dlgPickList, VirtualTrees, VirtualExplorerTree, JvDockGlobals, Math,
+  dlgPickList, VirtualTrees, VirtualExplorerTree, Math,
   cCodeHint, dlgNewFile, SynEditTextBuffer, JclSysInfo, cPyRemoteDebugger,
   uCmdLine, uSearchHighlighter, frmModSpTBXCustomize, IniFiles,
   JclStrings, JclSysUtils, frmProjectExplorer, cProjectClasses, TntSysUtils,
@@ -1189,7 +1197,7 @@ begin
   EditorsPageList.ControlStyle := EditorsPageList.ControlStyle - [csOpaque];
 
   SetDesktopIconFonts(Self.Font);  // For Vista
-  SetDesktopIconFonts(ToolbarFont);
+  //SetDesktopIconFonts(ToolbarFont);
 
   SkinManager.AddSkinNotification(Self);
 
@@ -1300,7 +1308,7 @@ begin
       for J := 0 to ActionList.ActionCount - 1 do begin
         Action := ActionList.Actions[J];
         for K := 0 to ItemsList.Count - 1 do
-          if (TObject(ItemsList[K]) as TTBCustomItem).Action = Action then begin
+          if TTBCustomItem(ItemsList[K]).Action = Action then begin
             Action := nil;
             break;
           end;
@@ -1316,6 +1324,10 @@ begin
     ItemsList.Free;
   end;
 
+  // Store Factory Settings
+  if not AppStorage.PathExists(FactoryToolbarItems) then
+    SaveToolbarItems(FactoryToolbarItems);
+
   // Read Settings from PyScripter.ini
   if FileExists(AppStorage.IniFile.FileName) then begin
     RestoreApplicationData;
@@ -1325,7 +1337,6 @@ begin
   AppStorage.ReadStringList('Layouts', Layouts, True);
 
   if AppStorage.PathExists('Layouts\Current\Forms') then begin
-    //LoadDockTreeFromAppStorage(AppStorage, 'Layouts\Current')
     LoadLayout('Current');
     AppStorage.ReadPersistent('Variables Window Options', VariablesWindow);
   end else begin
@@ -2508,10 +2519,9 @@ procedure TPyIDEMainForm.StoreApplicationData;
 Var
   TempStringList : TStringList;
   TempSL : TWideStringList;
-  ActionProxyCollection : TActionProxyCollection;
+//  ActionProxyCollection : TActionProxyCollection;
   i : integer;
   TempCursor : IInterface;
-  MemIni: TMemIniFile;
 begin
   TempCursor := WaitCursor;
   TempStringList := TStringList.Create;
@@ -2578,26 +2588,19 @@ begin
     // Save Theme Name
     AppStorage.WriteString('Theme Name', SkinManager.CurrentSkinName);
 
-    // Save IDE Shortcuts
-    AppStorage.DeleteSubTree('IDE Shortcuts');
-    ActionProxyCollection := TActionProxyCollection.Create(ActionListArray);
-    try
-      AppStorage.WriteCollection('IDE Shortcuts', ActionProxyCollection, 'Action');
-    finally
-      ActionProxyCollection.Free;
-    end;
+
+    //  No longer needed since save toolbar Items below achieves the same!
+//    // Save IDE Shortcuts
+//    AppStorage.DeleteSubTree('IDE Shortcuts');
+//    ActionProxyCollection := TActionProxyCollection.Create(ActionListArray);
+//    try
+//      AppStorage.WriteCollection('IDE Shortcuts', ActionProxyCollection, 'Action');
+//    finally
+//      ActionProxyCollection.Free;
+//    end;
 
     // Save Toolbar Items
-    AppStorage.DeleteSubTree('Toolbar Items');
-    MemIni := TMemIniFile.Create('');
-    try
-      SpSaveItems(Self, MemIni);
-      TempStringList.Clear;
-      MemIni.GetStrings(TempStringList);
-      AppStorage.WriteStringList('Toolbar Items', TempStringList);
-    finally
-      MemIni.Free;
-    end;
+    SaveToolbarItems('Toolbar Items');
 
     // Save Interpreter History
     TempStringList.Clear;
@@ -2633,21 +2636,20 @@ Const
   DefaultHeader='$TITLE$\.1\.0\.-13\.Arial\.0\.96\.10\.0\.1\.2';
   DefaultFooter='$PAGENUM$\\.$PAGECOUNT$\.1\.0\.-13\.Arial\.0\.96\.10\.0\.1\.2';
 Var
-  ActionProxyCollection : TActionProxyCollection;
+  //ActionProxyCollection : TActionProxyCollection;
   TempStringList : TStringList;
   TempSL : TWideStringList;
   i : integer;
-  MemIni: TMemIniFile;
   FName : WideString;
 begin
   // Change language
   ChangeLanguage(AppStorage.ReadString('Language', GetCurrentLanguage));
 
-  if AppStorage.IniFile.SectionExists('IDE Options') then begin
+  if AppStorage.PathExists('IDE Options') then begin
     AppStorage.ReadPersistent('IDE Options', CommandsDataModule.PyIDEOptions);
     PyIDEOptionsChanged;
   end;
-  if AppStorage.IniFile.SectionExists('Editor Options') then
+  if AppStorage.PathExists('Editor Options') then
     with CommandsDataModule do begin
       EditorOptions.Gutter.Gradient := False;  //default value
       AppStorage.ReadPersistent('Editor Options', EditorOptions);
@@ -2655,11 +2657,11 @@ begin
         AppStorage.ReadPersistent('Highlighters\'+Highlighters[i],
           TPersistent(Highlighters.Objects[i]));
       CommandsDataModule.ApplyEditorOptions;
-      if AppStorage.IniFile.SectionExists('Highlighters\Intepreter') then
+      if AppStorage.PathExists('Highlighters\Intepreter') then
         AppStorage.ReadPersistent('Highlighters\Intepreter',
           PythonIIForm.SynEdit.Highlighter);
 
-      if AppStorage.IniFile.SectionExists('Interpreter Editor Options') then begin
+      if AppStorage.PathExists('Interpreter Editor Options') then begin
         InterpreterEditorOptions.Gutter.Gradient := False;  //default value
         AppStorage.ReadPersistent('Interpreter Editor Options', InterpreterEditorOptions);
         InterpreterEditorOptions.Options := (InterpreterEditorOptions.Options -
@@ -2668,7 +2670,7 @@ begin
         PythonIIForm.RegisterHistoryCommands;
       end;
 
-      if AppStorage.IniFile.SectionExists('Editor Search Options') then begin
+      if AppStorage.PathExists('Editor Search Options') then begin
         AppStorage.ReadPersistent('Editor Search Options', EditorSearchOptions);
         tbiSearchText.Items.CommaText := EditorSearchOptions.SearchTextHistory;
         tbiReplaceText.Items.CommaText := EditorSearchOptions.ReplaceTextHistory;
@@ -2679,7 +2681,7 @@ begin
       SynEditPrint.Footer.AsString := AppStorage.ReadWideString('Print Options\FooterItems', DefaultFooter);
 
       AppStorage.StorageOptions.PreserveLeadingTrailingBlanks := True;
-      if AppStorage.IniFile.SectionExists('File Templates') then
+      if AppStorage.PathExists('File Templates') then
         AppStorage.ReadObjectList('File Templates', FileTemplates,
           FileTemplates.CreateListItem);
 
@@ -2693,7 +2695,7 @@ begin
       AppStorage.StorageOptions.PreserveLeadingTrailingBlanks := False;
 
     end;
-  if AppStorage.IniFile.SectionExists('ToDo Options') then
+  if AppStorage.PathExists('ToDo Options') then
     AppStorage.ReadPersistent('ToDo Options', ToDoExpert);
   AppStorage.ReadPersistent('Find in Files Options', FindResultsWindow.FindInFilesExpert);
   AppStorage.ReadPersistent('Find in Files Results Options', FindResultsWindow);
@@ -2717,26 +2719,19 @@ begin
   StatusBar.Visible := AppStorage.ReadBoolean('Status Bar');
   // Load Theme Name
   SkinManager.SetSkin(AppStorage.ReadString('Theme Name', 'Office2003'));
-  // Load IDE Shortcuts
-  ActionProxyCollection := TActionProxyCollection.Create(ActionListArray);
-  try
-    AppStorage.ReadCollection('IDE Shortcuts', ActionProxyCollection, True, 'Action');
-    ActionProxyCollection.ApplyShortCuts(ActionListArray);
-  finally
-    ActionProxyCollection.Free;
-  end;
+
+    //  No longer needed since save toolbar Items below achieves the same!
+//  // Load IDE Shortcuts
+//  ActionProxyCollection := TActionProxyCollection.Create(ActionListArray);
+//  try
+//    AppStorage.ReadCollection('IDE Shortcuts', ActionProxyCollection, True, 'Action');
+//    ActionProxyCollection.ApplyShortCuts(ActionListArray);
+//  finally
+//    ActionProxyCollection.Free;
+//  end;
 
   // Load Toolbar Items
-  MemIni := TMemIniFile.Create('');
-  TempStringList := TStringList.Create;
-  try
-    AppStorage.ReadStringList('Toolbar Items', TempStringList);
-    MemIni.SetStrings(TempStringList);
-    SpLoadItems(Self, MemIni);
-  finally
-    MemIni.Free;
-    TempStringList.Free;
-  end;
+  LoadToolbarItems('Toolbar Items');
 
   // Restore Interpreter History
   TempStringList := TStringList.Create;
@@ -2914,6 +2909,75 @@ begin
   end;
 end;
 
+procedure TPyIDEMainForm.LoadToolbarItems(const Path : string);
+var
+  MemIni: TMemIniFile;
+  SL: TStringList;
+begin
+  if AppStorage.PathExists(Path) then begin
+    MemIni := TMemIniFile.Create('');
+    SL := TStringList.Create;
+    try
+      AppStorage.ReadStringList(Path, SL);
+      MemIni.SetStrings(SL);
+      SpLoadItems(Self, MemIni);
+    finally
+      MemIni.Free;
+      SL.Free;
+    end;
+  end;
+end;
+
+procedure TPyIDEMainForm.SaveToolbarItems(const Path : string);
+var
+  MemIni: TMemIniFile;
+  SL : TStringList;
+begin
+  AppStorage.DeleteSubTree(Path);
+  MemIni := TMemIniFile.Create('');
+  SL := TStringList.Create;
+  try
+    SpSaveItems(Self, MemIni);
+    SL.Clear;
+    MemIni.GetStrings(SL);
+    AppStorage.WriteStringList(Path, SL);
+  finally
+    MemIni.Free;
+    SL.Free;
+  end;
+end;
+
+procedure TPyIDEMainForm.SaveToolbarLayout(const Layout: string);
+var
+  ToolbarLayout: TStringList;
+begin
+  ToolbarLayout := TStringList.Create;
+  try
+    SpTBXCustomizer.SaveLayout(ToolbarLayout, Layout);
+    AppStorage.WriteStringList('Layouts\' + Layout + '\Toolbars', ToolbarLayout);
+  finally
+    ToolbarLayout.Free;
+  end;
+end;
+
+procedure TPyIDEMainForm.LoadToolbarLayout(const Layout: string);
+var
+  ToolbarLayout: TStringList;
+  Path: string;
+begin
+  Path := 'Layouts\'+ Layout;
+  if AppStorage.PathExists(Path + '\Toolbars') then
+  begin
+    ToolbarLayout := TStringList.Create;
+    try
+      AppStorage.ReadStringList(Path + '\Toolbars', ToolbarLayout);
+      SpTBXCustomizer.LoadLayout(ToolbarLayout, Layout);
+    finally
+      ToolbarLayout.Free;
+    end;
+  end;
+end;
+
 procedure TPyIDEMainForm.CloseTimerTimer(Sender: TObject);
 begin
   PostMessage(Application.Handle, WM_CLOSE, 0, 0);
@@ -3000,7 +3064,10 @@ procedure TPyIDEMainForm.mnSkinsSkinChange(Sender: TObject);
 begin
   if (CurrentSkin  is TSpTBXOffice2003Skin) and
     (TSpTBXOffice2003Skin(CurrentSkin).DefaultColorScheme = lusUnknown) then
-      TSpTBXOffice2003Skin(CurrentSkin).DefaultColorScheme := lusBlue;
+      TSpTBXOffice2003Skin(CurrentSkin).DefaultColorScheme := lusBlue
+  else if (CurrentSkin  is TSpTBXAluminumSkin) and
+    (TSpTBXAluminumSkin(CurrentSkin).DefaultColorScheme = lusUnknown) then
+      TSpTBXAluminumSkin(CurrentSkin).DefaultColorScheme := lusBlue
 end;
 
 procedure TPyIDEMainForm.mnSyntaxPopup(Sender: TTBCustomItem;
@@ -3074,13 +3141,12 @@ begin
   end;
 end;
 
-procedure TPyIDEMainForm.LoadLayout(Layout: string);
+procedure TPyIDEMainForm.LoadLayout(const Layout: string);
 Var
   Path : string;
   i : integer;
   SaveActiveControl : TWinControl;
   TempCursor : IInterface;
-  ToolbarLayout: TStringList;
 begin
   Path := 'Layouts\'+ Layout;
   if AppStorage.PathExists(Path + '\Forms') then begin
@@ -3115,34 +3181,15 @@ begin
       except
       end;
   end;
-
   // Now Restore the toolbars
-  if AppStorage.PathExists(Path + '\Toolbars') then begin
-    ToolbarLayout := TStringList.Create;
-    try
-      AppStorage.ReadStringList(Path + '\Toolbars', ToolbarLayout);
-      SpTBXCustomizer.LoadLayout(ToolbarLayout, Layout);
-    finally
-      ToolbarLayout.Free;
-    end;
-  end;
-
+  LoadToolbarLayout(Layout);
 end;
 
-procedure TPyIDEMainForm.SaveLayout(Layout: string);
-Var
-  ToolbarLayout : TStringList;
+procedure TPyIDEMainForm.SaveLayout(const Layout: string);
 begin
   Appstorage.DeleteSubTree('Layouts\'+Layout);
   SaveDockTreeToAppStorage(AppStorage, 'Layouts\'+ Layout);
-
-  ToolbarLayout := TStringList.Create;
-  try
-    SpTBXCustomizer.SaveLayout(ToolbarLayout, Layout);
-    AppStorage.WriteStringList('Layouts\'+ Layout + '\Toolbars', ToolbarLayout);
-  finally
-    ToolbarLayout.Free;
-  end;
+  SaveToolbarLayout(Layout);
 end;
 
 procedure TPyIDEMainForm.LayoutClick(Sender: TObject);
@@ -3241,17 +3288,24 @@ begin
 end;
 
 procedure TPyIDEMainForm.ThemeEditorGutter(Gutter : TSynGutter);
-//Var
-//  GradColor : TColor;
+Var
+  GradColor : TColor;
 begin
-    { TODO : Skin }
-//  GradColor := CurrentTheme.GetViewColor(VT_TOOLBAR);
-//
-//  with Gutter do begin
-//    BorderStyle := gbsNone;
-//    GradientStartColor := LightenColor(GradColor, 30);
-//    GradientEndColor := DarkenColor(GradColor, 10);
-//  end;
+  if SkinManager.IsDefaultSkin then begin
+    Gutter.GradientStartColor := clWindow;
+    Gutter.GradientEndColor := clBtnFace;
+    Exit;
+  end;
+
+  GradColor := CurrentSkin.Options(skncToolbar, sknsNormal).Body.Color1;
+  if GradColor = clNone then
+    GradColor := CurrentSkin.Options(skncDock, sknsNormal).Body.Color1;
+
+  with Gutter do begin
+    BorderStyle := gbsNone;
+    GradientStartColor := LightenColor(GradColor, 30);
+    GradientEndColor := DarkenColor(GradColor, 10);
+  end;
 end;
 
 procedure TPyIDEMainForm.TntFormLXKeyUp(Sender: TObject; var Key: Word;
@@ -3435,7 +3489,6 @@ procedure TPyIDEMainForm.WMSpSkinChange(var Message: TMessage);
 begin
   // Update EditorOptions
   ThemeEditorGutter(CommandsDataModule.EditorOptions.Gutter);
-  { TODO : Skin }
 //  BGPanel.Color := CurrentTheme.GetItemColor(GetItemInfo('inactive'));
 //  Application.HintColor := CurrentTheme.GetViewColor(VT_DOCKPANEL);
 end;
@@ -3762,7 +3815,7 @@ begin
     if not (Panel is TJvDockVSNETPanel) then continue;
     while Panel.DockClientCount >0 do
       TJvDockVSNETPanel(Panel).DoAutoHideControl(
-          Panel.DockClients[Panel.DockClientCount-1]as TWinControl);
+          Panel.DockClients[Panel.DockClientCount-1] as TWinControl);
   end;
 end;
 

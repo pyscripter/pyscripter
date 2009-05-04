@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, SpTBXCustomizer, SpTBXCustomizerForm, CheckLst, TntCheckLst, SpTBXEditors,
-  SpTBXControls, StdCtrls, TntStdCtrls, SpTBXDkPanels, ComCtrls, ExtCtrls,
+  SpTBXControls, StdCtrls, TntStdCtrls, ComCtrls, ExtCtrls,
   SpTBXTabs, TB2Item, SpTBXItem, TntClasses, SpTBXSkins;
 
 type
@@ -20,6 +20,7 @@ type
     procedure lbCommandsDragDrop(Sender, Source: TObject; X, Y: Integer);
     procedure lbCommandsEndDrag(Sender, Target: TObject; X, Y: Integer);
     procedure lbCategoriesClick(Sender: TObject);
+    procedure ResetButtonClick(Sender: TObject);
   private
     { Private declarations }
   protected
@@ -40,7 +41,7 @@ implementation
 {$R *.dfm}
 
 Uses
-  ActnList;
+  ActnList, frmPyIDEMain, gnugettext, TntDialogs;
 
 { TSpTBXCustomizeFormMod }
 
@@ -143,16 +144,15 @@ procedure TSpTBXCustomizeFormMod.lbCommandsDrawItem(Sender: TObject;
   const State: TOwnerDrawState; const PaintStage: TSpTBXPaintStage;
   var PaintDefault: Boolean);
 var
-  ItemInfo: TSpTBXMenuItemInfo;
   R: TRect;
 begin
+  if PaintStage <> pstPrePaint then Exit;
   if Index = 0 then begin
     // Draw the separator
-    { TODO : Skin }
-//    SpFillItemInfo(True, False, False, False, ItemInfo);
-//    R := ARect;
-//    InflateRect(R, -20, -4);
-//    CurrentSkin.PaintSeparator(ACanvas, R, ItemInfo, True, False);
+    R := ARect;
+    InflateRect(R, -20, -4);
+    SpDrawXPMenuSeparator(ACanvas, R, False, False);
+    PaintDefault := False;
   end
   else
     inherited;
@@ -182,6 +182,14 @@ begin
         lbCategoriesClick(Self);
       end;
   end;
+end;
+
+procedure TSpTBXCustomizeFormMod.ResetButtonClick(Sender: TObject);
+begin
+  if WideMessageDlg(_('This option will reset IDE toolbars and shortcuts to the factory settings.'+#13+#10+'Do you want to proceed?'),
+    mtWarning, [mbOK, mbCancel], 0) = mrOk
+  then
+    PyIDEMainForm.LoadToolbarItems(FactoryToolbarItems);
 end;
 
 procedure TSpTBXCustomizeFormMod.SortCommands;

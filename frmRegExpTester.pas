@@ -12,7 +12,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, frmIDEDockWin, JvComponent, JvDockControlForm, ExtCtrls, StdCtrls,
+  Dialogs, frmIDEDockWin, JvDockControlForm, ExtCtrls, StdCtrls,
   VirtualTrees, SpTBXDkPanels, TB2Item,
   TB2Dock, TB2Toolbar, JvAppStorage,
   JvComponentBase, SpTBXItem, ComCtrls, TntComCtrls,
@@ -42,14 +42,14 @@ type
     CI_AutoExecute: TSpTBXItem;
     StatusBar: TSpTBXStatusBar;
     lbStatusBar: TSpTBXLabelItem;
-    TBXDockablePanel1: TSpTBXDockablePanel;
+    dpRegExpText: TSpTBXDockablePanel;
     TBXLabel3: TSpTBXLabel;
-    TBXDockablePanel4: TSpTBXDockablePanel;
+    dpGroupsView: TSpTBXDockablePanel;
     TBXLabel1: TSpTBXLabel;
     GroupsView: TVirtualStringTree;
-    TBXDockablePanel3: TSpTBXDockablePanel;
+    dpMatchText: TSpTBXDockablePanel;
     TBXLabel2: TSpTBXLabel;
-    TBXDockablePanel2: TSpTBXDockablePanel;
+    dpSearchText: TSpTBXDockablePanel;
     TBXLabel4: TSpTBXLabel;
     SpTBXPanel1: TSpTBXPanel;
     RegExpText: TTntRichEdit;
@@ -63,7 +63,6 @@ type
     procedure TIExecuteClick(Sender: TObject);
     procedure tiHelpClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-    procedure FormResize(Sender: TObject);
     procedure RegExpTextChange(Sender: TObject);
     procedure FormActivate(Sender: TObject);
   private
@@ -84,17 +83,10 @@ var
 
 implementation
 
-uses dmCommands, uCommonFunctions, frmPyIDEMain, VarPyth, frmPythonII,
+uses dmCommands, frmPyIDEMain, VarPyth, frmPythonII,
   PythonEngine;
 
 {$R *.dfm}
-
-procedure TRegExpTesterWindow.FormResize(Sender: TObject);
-begin
-  inherited;
-  { TODO : Resize Multidock controls }
-//  TBXMultiDock.ResizeVisiblePanels(FGPanel.ClientWidth-4);
-end;
 
 procedure TRegExpTesterWindow.FormActivate(Sender: TObject);
 begin
@@ -142,6 +134,9 @@ begin
   AppStorage.WriteBoolean(BasePath+'\VERBOSE', CI_VERBOSE.Checked);
   AppStorage.WriteBoolean(BasePath+'\Search', RI_Search.Checked);
   AppStorage.WriteBoolean(BasePath+'\AutoExec', CI_AutoExecute.Checked);
+  AppStorage.WriteInteger(BasePath+'\RegExpHeight', dpRegExpText.Height);
+  AppStorage.WriteInteger(BasePath+'\SearchHeight', dpSearchText.Height);
+  AppStorage.WriteInteger(BasePath+'\MatchHeight', dpMatchText.Height);
 end;
 
 procedure TRegExpTesterWindow.ReadFromAppStorage(
@@ -157,6 +152,9 @@ begin
   CI_VERBOSE.Checked := AppStorage.ReadBoolean(BasePath+'\VERBOSE', False);
   RI_Search.Checked := AppStorage.ReadBoolean(BasePath+'\Search', True);
   CI_AutoExecute.Checked := AppStorage.ReadBoolean(BasePath+'\AutoExec', True);
+  dpRegExpText.EffectiveHeight := AppStorage.ReadInteger(BasePath+'\RegExpHeight', dpRegExpText.EffectiveHeight);
+  dpSearchText.EffectiveHeight := AppStorage.ReadInteger(BasePath+'\SearchHeight', dpSearchText.EffectiveHeight);
+  dpMatchText.EffectiveHeight := AppStorage.ReadInteger(BasePath+'\MatchHeight', dpMatchText.EffectiveHeight);
 end;
 
 procedure TRegExpTesterWindow.RegExpTextChange(Sender: TObject);

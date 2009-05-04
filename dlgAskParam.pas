@@ -41,7 +41,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  StdCtrls, SpTBXControls, SpTBXDkPanels, dlgPyIDEBase, SpTBXEditors;
+  StdCtrls, SpTBXControls, dlgPyIDEBase, SpTBXEditors, SpTBXItem;
 
 type
   (* asks for parameter value and optionally stores parameter to file *)
@@ -51,6 +51,7 @@ type
     chkSaveToFile: TSpTBXCheckBox;
     txtParamValue: TSpTBXEdit;
     Label1: TSpTBXLabel;
+    SpTBXPanel1: TSpTBXPanel;
   private
     FParamName: WideString;
     procedure SetParamName(const Value: WideString);

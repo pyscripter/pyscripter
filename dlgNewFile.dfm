@@ -47,6 +47,9 @@ inherited NewFileDialog: TNewFileDialog
           Width = 181
           Height = 223
           Align = alBottom
+          BevelInner = bvNone
+          BevelOuter = bvNone
+          BevelKind = bkFlat
           Header.AutoSizeIndex = 0
           Header.Font.Charset = DEFAULT_CHARSET
           Header.Font.Color = clWindowText
@@ -87,18 +90,25 @@ inherited NewFileDialog: TNewFileDialog
           Height = 19
           Caption = 'Templates:'
         end
-        object lvTemplates: TTntListView
+        object lvTemplates: TEasyListview
           Left = 2
           Top = 26
           Width = 266
           Height = 223
           Align = alBottom
-          Columns = <>
-          FlatScrollBars = True
-          ReadOnly = True
-          TabOrder = 0
-          OnDblClick = lvTemplatesDblClick
-          OnSelectItem = lvTemplatesSelectItem
+          EditManager.Font.Charset = DEFAULT_CHARSET
+          EditManager.Font.Color = clWindowText
+          EditManager.Font.Height = -11
+          EditManager.Font.Name = 'MS Shell Dlg 2'
+          EditManager.Font.Style = []
+          Header.Columns.Items = {
+            0600000001000000110000005445617379436F6C756D6E53746F726564FFFECE
+            0006000000800800010100010000000000000161000000FFFFFF1F0001000000
+            00000000000000000000000000000000}
+          PaintInfoGroup.MarginBottom.CaptionIndent = 4
+          TabOrder = 1
+          OnItemDblClick = lvTemplatesItemDblClick
+          OnItemSelectionsChanged = lvTemplatesItemSelectionsChanged
         end
       end
       object Splitter1: TSpTBXSplitter

@@ -189,7 +189,7 @@ interface
 {$DEFINE MDIChildFocusFix} // Delphi 6+
 
 {$IF CompilerVersion >= 15} // Delphi 7+
-  {$DEFINE PageControlPaintingFix}
+  {.$DEFINE PageControlPaintingFix}
 {$IFEND}
 
 {$IF CompilerVersion >= 15} // Delphi 7+
@@ -234,8 +234,7 @@ uses
   {$IFDEF VCLFIXPACK_DB_SUPPORT}
   DBGrids,
   {$ENDIF VCLFIXPACK_DB_SUPPORT}
-  Graphics, Controls, Forms, Dialogs, StdCtrls, Grids, ComCtrls, Buttons,
-  CommCtrl;
+  Graphics, Controls, Forms, Dialogs, StdCtrls, Grids, ComCtrls;
 
 { ---------------------------------------------------------------------------- }
 { Helper functions, shared }

@@ -1154,7 +1154,7 @@ object PyIDEMainForm: TPyIDEMainForm
       Top = 25
       DockPos = -6
       DockRow = 1
-      Images = CommandsDataModule.ImageList1
+      Images = CommandsDataModule.Images
       TabOrder = 1
       Caption = 'Main ToolBar'
       object tbiFileNewModule: TSpTBXItem
@@ -1221,7 +1221,7 @@ object PyIDEMainForm: TPyIDEMainForm
       Top = 25
       DockPos = 361
       DockRow = 1
-      Images = CommandsDataModule.ImageList1
+      Images = CommandsDataModule.Images
       TabOrder = 2
       Caption = 'Debug Toolbar'
       object tbiRunRun: TSpTBXItem
@@ -1286,7 +1286,7 @@ object PyIDEMainForm: TPyIDEMainForm
       Top = 25
       DockPos = 574
       DockRow = 1
-      Images = CommandsDataModule.ImageList1
+      Images = CommandsDataModule.Images
       TabOrder = 4
       Caption = 'Editor Toolbar'
       object tbiBrowsePrevious: TSpTBXSubmenuItem
@@ -2376,6 +2376,7 @@ object PyIDEMainForm: TPyIDEMainForm
   end
   object JvDockVSNetStyleSpTBX: TJvDockVSNetStyleSpTBX
     AlwaysShowGrabber = False
+    TabServerOption.HotTrack = True
     TabServerOption.ActiveFont.Charset = DEFAULT_CHARSET
     TabServerOption.ActiveFont.Color = clWindowText
     TabServerOption.ActiveFont.Height = -11

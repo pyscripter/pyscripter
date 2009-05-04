@@ -12,17 +12,30 @@ inherited PageSetupDlg: TPageSetupDlg
   ExplicitHeight = 423
   PixelsPerInch = 96
   TextHeight = 13
-  object PageControl: TPageControl
+  object TabControl: TSpTBXTabControl
     Left = 0
     Top = 0
     Width = 632
     Height = 397
-    ActivePage = Margins
     Align = alClient
-    TabOrder = 2
-    OnChange = PageControlChange
-    object Margins: TTabSheet
+    ActiveTabIndex = 1
+    OnActiveTabChange = TabControlActiveTabChange
+    HiddenItems = <>
+    object SpTBXTabItem1: TSpTBXTabItem
       Caption = 'Margins && Options'
+    end
+    object SpTBXTabItem2: TSpTBXTabItem
+      Caption = 'Header && Footer'
+      Checked = True
+    end
+    object tbMargins: TSpTBXTabSheet
+      Left = 0
+      Top = 25
+      Width = 632
+      Height = 372
+      Caption = 'Margins && Options'
+      ImageIndex = -1
+      TabItem = 'SpTBXTabItem1'
       object Image1: TImage
         Left = 275
         Top = 10
@@ -1061,150 +1074,127 @@ inherited PageSetupDlg: TPageSetupDlg
       object CBMirrorMargins: TSpTBXCheckBox
         Left = 10
         Top = 300
-        Width = 86
-        Height = 15
+        Width = 92
+        Height = 21
         Caption = 'Mirror margins'
-        ParentColor = True
         TabOrder = 0
-        SkinType = sknSkin
       end
       object CBLineNumbers: TSpTBXCheckBox
         Left = 10
         Top = 320
-        Width = 81
-        Height = 15
+        Width = 87
+        Height = 21
         Caption = 'Line numbers'
-        ParentColor = True
         TabOrder = 12
-        SkinType = sknSkin
       end
       object CBLineNumbersInMargin: TSpTBXCheckBox
         Left = 10
         Top = 340
-        Width = 149
-        Height = 15
+        Width = 155
+        Height = 21
         Caption = 'Print line numbers in margin'
-        ParentColor = True
         TabOrder = 13
-        SkinType = sknSkin
       end
       object CBHighlight: TSpTBXCheckBox
         Left = 185
         Top = 300
-        Width = 77
-        Height = 15
+        Width = 83
+        Height = 21
         Caption = 'Syntax print'
-        ParentColor = True
         TabOrder = 14
-        SkinType = sknSkin
       end
       object CBColors: TSpTBXCheckBox
         Left = 185
         Top = 320
-        Width = 67
-        Height = 15
+        Width = 73
+        Height = 21
         Caption = 'Use colors'
-        ParentColor = True
         TabOrder = 15
-        SkinType = sknSkin
       end
       object CBWrap: TSpTBXCheckBox
         Left = 185
         Top = 339
-        Width = 68
-        Height = 15
+        Width = 74
+        Height = 21
         Caption = 'Wrap lines'
-        ParentColor = True
         TabOrder = 16
-        SkinType = sknSkin
       end
       object Label1: TSpTBXLabel
         Left = 10
         Top = 44
-        Width = 23
-        Height = 13
+        Width = 29
+        Height = 19
         Caption = 'Left:'
-        ParentColor = True
       end
       object Label2: TSpTBXLabel
         Left = 10
         Top = 69
-        Width = 29
-        Height = 13
+        Width = 35
+        Height = 19
         Caption = 'Right:'
-        ParentColor = True
       end
       object Label3: TSpTBXLabel
         Left = 10
         Top = 94
-        Width = 22
-        Height = 13
+        Width = 28
+        Height = 19
         Caption = 'Top:'
-        ParentColor = True
       end
       object Label4: TSpTBXLabel
         Left = 10
         Top = 119
-        Width = 38
-        Height = 13
+        Width = 44
+        Height = 19
         Caption = 'Bottom:'
-        ParentColor = True
       end
       object Label5: TSpTBXLabel
         Left = 10
         Top = 14
-        Width = 28
-        Height = 13
+        Width = 34
+        Height = 19
         Caption = 'Units:'
-        ParentColor = True
       end
       object Label6: TSpTBXLabel
         Left = 10
         Top = 174
-        Width = 39
-        Height = 13
+        Width = 45
+        Height = 19
         Caption = 'Header:'
-        ParentColor = True
       end
       object Label7: TSpTBXLabel
         Left = 10
         Top = 199
-        Width = 36
-        Height = 13
+        Width = 42
+        Height = 19
         Caption = 'Footer:'
-        ParentColor = True
       end
       object Label8: TSpTBXLabel
         Left = 10
         Top = 224
-        Width = 87
-        Height = 13
+        Width = 93
+        Height = 19
         Caption = 'HFInternalMargin:'
-        ParentColor = True
       end
       object Label9: TSpTBXLabel
         Left = 10
         Top = 249
-        Width = 90
-        Height = 13
+        Width = 96
+        Height = 19
         Caption = 'LeftHFTextIndent:'
-        ParentColor = True
       end
       object Label10: TSpTBXLabel
         Left = 10
         Top = 274
-        Width = 96
-        Height = 13
+        Width = 102
+        Height = 19
         Caption = 'RightHFTextIndent:'
-        ParentColor = True
       end
       object Label11: TSpTBXLabel
         Left = 10
         Top = 144
-        Width = 31
-        Height = 13
+        Width = 37
+        Height = 19
         Caption = 'Gutter'
-        ParentColor = True
       end
       object EditLeft: TSpTBXEdit
         Left = 110
@@ -1212,7 +1202,6 @@ inherited PageSetupDlg: TPageSetupDlg
         Width = 151
         Height = 21
         TabOrder = 1
-        SkinType = sknSkin
       end
       object EditRight: TSpTBXEdit
         Left = 110
@@ -1220,7 +1209,6 @@ inherited PageSetupDlg: TPageSetupDlg
         Width = 151
         Height = 21
         TabOrder = 2
-        SkinType = sknSkin
       end
       object EditTop: TSpTBXEdit
         Left = 110
@@ -1228,7 +1216,6 @@ inherited PageSetupDlg: TPageSetupDlg
         Width = 151
         Height = 21
         TabOrder = 3
-        SkinType = sknSkin
       end
       object EditBottom: TSpTBXEdit
         Left = 110
@@ -1236,7 +1223,6 @@ inherited PageSetupDlg: TPageSetupDlg
         Width = 151
         Height = 21
         TabOrder = 4
-        SkinType = sknSkin
       end
       object EditGutter: TSpTBXEdit
         Left = 110
@@ -1244,7 +1230,6 @@ inherited PageSetupDlg: TPageSetupDlg
         Width = 151
         Height = 21
         TabOrder = 5
-        SkinType = sknSkin
       end
       object EditHeader: TSpTBXEdit
         Left = 110
@@ -1252,7 +1237,6 @@ inherited PageSetupDlg: TPageSetupDlg
         Width = 151
         Height = 21
         TabOrder = 6
-        SkinType = sknSkin
       end
       object EditFooter: TSpTBXEdit
         Left = 110
@@ -1260,7 +1244,6 @@ inherited PageSetupDlg: TPageSetupDlg
         Width = 151
         Height = 21
         TabOrder = 7
-        SkinType = sknSkin
       end
       object EditHFInternalMargin: TSpTBXEdit
         Left = 110
@@ -1268,7 +1251,6 @@ inherited PageSetupDlg: TPageSetupDlg
         Width = 151
         Height = 21
         TabOrder = 8
-        SkinType = sknSkin
       end
       object EditLeftHFTextIndent: TSpTBXEdit
         Left = 110
@@ -1276,7 +1258,6 @@ inherited PageSetupDlg: TPageSetupDlg
         Width = 151
         Height = 21
         TabOrder = 9
-        SkinType = sknSkin
       end
       object EditRightHFTextIndent: TSpTBXEdit
         Left = 110
@@ -1284,7 +1265,6 @@ inherited PageSetupDlg: TPageSetupDlg
         Width = 151
         Height = 21
         TabOrder = 10
-        SkinType = sknSkin
       end
       object CBUnits: TSpTBXComboBox
         Left = 110
@@ -1300,26 +1280,81 @@ inherited PageSetupDlg: TPageSetupDlg
           'cm'
           'Inches'
           'Thousandths Of Inches')
-        SkinType = sknSkin
       end
     end
-    object HeaderFooter: TTabSheet
+    object tbHeaderFooter: TSpTBXTabSheet
+      Left = 0
+      Top = 25
+      Width = 632
+      Height = 372
       Caption = 'Header && Footer'
-      ImageIndex = 1
-      object GroupBox1: TGroupBox
+      ImageIndex = -1
+      TabItem = 'SpTBXTabItem2'
+      object ToolbarDock: TSpTBXDock
+        Left = 2
+        Top = 0
+        Width = 626
+        Height = 26
+        AllowDrag = False
+        LimitToOneRow = True
+        object Toolbar: TSpTBXToolbar
+          Left = 0
+          Top = 0
+          DockMode = dmCannotFloatOrChangeDocks
+          FullSize = True
+          Images = ImageList
+          TabOrder = 0
+          Customizable = False
+          object tbiPgNumber: TSpTBXItem
+            Action = PageNumCmd
+          end
+          object tbiPages: TSpTBXItem
+            Action = PagesCmd
+          end
+          object tbiTime: TSpTBXItem
+            Action = TimeCmd
+          end
+          object tbiDate: TSpTBXItem
+            Action = DateCmd
+          end
+          object tbiTitle: TSpTBXItem
+            Action = TitleCmd
+          end
+          object SpTBXSeparatorItem2: TSpTBXSeparatorItem
+          end
+          object tbiFont: TSpTBXItem
+            Action = FontCmd
+          end
+          object SpTBXSeparatorItem1: TSpTBXSeparatorItem
+          end
+          object tbiBold: TSpTBXItem
+            Action = BoldCmd
+          end
+          object tbiItalic: TSpTBXItem
+            Action = ItalicCmd
+          end
+          object tbiUdnerline: TSpTBXItem
+            Action = UnderlineCmd
+          end
+        end
+      end
+      object GroupBox1: TSpTBXGroupBox
         Left = 5
         Top = 30
         Width = 611
         Height = 161
         Caption = 'Header'
         TabOrder = 0
-        object GroupBox2: TGroupBox
+        TBXStyleBackground = True
+        object GroupBox2: TSpTBXGroupBox
           Left = 10
           Top = 90
           Width = 391
           Height = 61
           Caption = 'Appearance'
+          ParentColor = True
           TabOrder = 3
+          TBXStyleBackground = True
           object PBHeaderLine: TPaintBox
             Left = 96
             Top = 39
@@ -1355,67 +1390,56 @@ inherited PageSetupDlg: TPageSetupDlg
           object CBHeaderLine: TSpTBXCheckBox
             Left = 8
             Top = 19
-            Width = 68
-            Height = 15
+            Width = 74
+            Height = 21
             Caption = 'Line under'
-            ParentColor = True
             TabOrder = 0
-            SkinType = sknSkin
           end
           object CBHeaderBox: TSpTBXCheckBox
             Left = 8
             Top = 39
-            Width = 36
-            Height = 15
+            Width = 42
+            Height = 21
             Caption = 'Box'
-            ParentColor = True
             TabOrder = 1
-            SkinType = sknSkin
           end
           object CBHeaderShadow: TSpTBXCheckBox
             Left = 209
             Top = 27
-            Width = 56
-            Height = 15
+            Width = 62
+            Height = 21
             Caption = 'Shadow'
-            ParentColor = True
             TabOrder = 2
-            SkinType = sknSkin
           end
         end
         object CBHeaderMirror: TSpTBXCheckBox
           Left = 410
           Top = 95
-          Width = 86
-          Height = 15
+          Width = 92
+          Height = 21
           Caption = 'Mirror position'
-          ParentColor = True
           TabOrder = 4
-          SkinType = sknSkin
         end
         object Label12: TSpTBXLabel
           Left = 10
           Top = 15
-          Width = 19
-          Height = 13
+          Width = 25
+          Height = 19
           Caption = 'Left'
-          ParentColor = True
         end
         object Label13: TSpTBXLabel
           Left = 210
           Top = 15
-          Width = 33
-          Height = 13
+          Width = 39
+          Height = 19
           Caption = 'Center'
-          ParentColor = True
         end
         object Label14: TSpTBXLabel
           Left = 410
           Top = 15
-          Width = 25
-          Height = 13
+          Width = 31
+          Height = 19
           Caption = 'Right'
-          ParentColor = True
         end
         object REHeaderLeft: TTntRichEdit
           Left = 10
@@ -1453,20 +1477,23 @@ inherited PageSetupDlg: TPageSetupDlg
           OnSelectionChange = REHeaderLeftSelectionChange
         end
       end
-      object GroupBox3: TGroupBox
+      object GroupBox3: TSpTBXGroupBox
         Left = 5
         Top = 200
         Width = 611
         Height = 161
         Caption = 'Footer'
         TabOrder = 1
-        object GroupBox4: TGroupBox
+        TBXStyleBackground = True
+        object GroupBox4: TSpTBXGroupBox
           Left = 10
           Top = 92
           Width = 391
           Height = 61
           Caption = 'Appearance'
+          ParentColor = True
           TabOrder = 3
+          TBXStyleBackground = True
           object PBFooterLine: TPaintBox
             Left = 96
             Top = 38
@@ -1502,67 +1529,56 @@ inherited PageSetupDlg: TPageSetupDlg
           object CBFooterLine: TSpTBXCheckBox
             Left = 8
             Top = 19
-            Width = 70
-            Height = 15
+            Width = 76
+            Height = 21
             Caption = 'Line above'
-            ParentColor = True
             TabOrder = 0
-            SkinType = sknSkin
           end
           object CBFooterBox: TSpTBXCheckBox
             Left = 8
             Top = 39
-            Width = 36
-            Height = 15
+            Width = 42
+            Height = 21
             Caption = 'Box'
-            ParentColor = True
             TabOrder = 1
-            SkinType = sknSkin
           end
           object CBFooterShadow: TSpTBXCheckBox
             Left = 209
             Top = 24
-            Width = 56
-            Height = 15
+            Width = 62
+            Height = 21
             Caption = 'Shadow'
-            ParentColor = True
             TabOrder = 2
-            SkinType = sknSkin
           end
         end
         object CBFooterMirror: TSpTBXCheckBox
           Left = 410
           Top = 95
-          Width = 86
-          Height = 15
+          Width = 92
+          Height = 21
           Caption = 'Mirror position'
-          ParentColor = True
           TabOrder = 4
-          SkinType = sknSkin
         end
         object Label15: TSpTBXLabel
           Left = 10
           Top = 15
-          Width = 19
-          Height = 13
+          Width = 25
+          Height = 19
           Caption = 'Left'
-          ParentColor = True
         end
         object Label16: TSpTBXLabel
           Left = 210
           Top = 15
-          Width = 33
-          Height = 13
+          Width = 39
+          Height = 19
           Caption = 'Center'
-          ParentColor = True
         end
         object Label17: TSpTBXLabel
           Left = 410
           Top = 15
-          Width = 25
-          Height = 13
+          Width = 31
+          Height = 19
           Caption = 'Right'
-          ParentColor = True
         end
         object REFooterLeft: TTntRichEdit
           Left = 10
@@ -1598,72 +1614,6 @@ inherited PageSetupDlg: TPageSetupDlg
           WordWrap = False
           OnEnter = REHeaderLeftEnter
           OnSelectionChange = REHeaderLeftSelectionChange
-        end
-      end
-      object ToolbarDock: TSpTBXDock
-        Left = 0
-        Top = 0
-        Width = 624
-        Height = 26
-        AllowDrag = False
-        LimitToOneRow = True
-        object Toolbar: TSpTBXToolbar
-          Left = 0
-          Top = 0
-          DockMode = dmCannotFloatOrChangeDocks
-          FullSize = True
-          Images = ImageList
-          TabOrder = 0
-          Customizable = False
-          object tbiPgNumber: TSpTBXItem
-            Caption = 'Page number'
-            Hint = 'Page number'
-            Action = PageNumCmd
-          end
-          object tbiPages: TSpTBXItem
-            Caption = 'Num. pages'
-            Hint = 'Num. pages'
-            Action = PagesCmd
-          end
-          object tbiTime: TSpTBXItem
-            Caption = 'Time'
-            Hint = 'Time'
-            Action = TimeCmd
-          end
-          object tbiDate: TSpTBXItem
-            Caption = 'Date'
-            Hint = 'Date'
-            Action = DateCmd
-          end
-          object tbiTitle: TSpTBXItem
-            Caption = 'Title'
-            Hint = 'Title'
-            Action = TitleCmd
-          end
-          object SpTBXSeparatorItem2: TSpTBXSeparatorItem
-          end
-          object tbiFont: TSpTBXItem
-            Caption = 'Font'
-            Hint = 'Font'
-            Action = FontCmd
-          end
-          object SpTBXSeparatorItem1: TSpTBXSeparatorItem
-          end
-          object tbiBold: TSpTBXItem
-            Caption = 'Bold'
-            Hint = 'Bold'
-            Action = BoldCmd
-          end
-          object tbiItalic: TSpTBXItem
-            Caption = 'Italic'
-            Hint = 'Italic'
-            Action = ItalicCmd
-          end
-          object tbiUdnerline: TSpTBXItem
-            Caption = 'Underline'
-            Hint = 'Underline'
-            Action = UnderlineCmd
-          end
         end
       end
     end

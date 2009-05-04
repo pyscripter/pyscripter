@@ -11,8 +11,8 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ComCtrls, Menus, JvDockControlForm, JvComponent, PythonEngine,
-  Contnrs, frmIDEDockWin, ExtCtrls, TB2Item, SpTBXDkPanels, VirtualTrees,
+  Dialogs, Menus, JvDockControlForm, PythonEngine,
+  Contnrs, frmIDEDockWin, ExtCtrls, TB2Item, VirtualTrees,
   TB2Dock, TB2Toolbar, ActnList, JvComponentBase, SpTBXSkins, SpTBXItem, SpTBXControls,
   JvAppStorage, TntActnList;
 
@@ -83,8 +83,8 @@ var
 implementation
 
 uses
-  frmPyIDEMain, uEditAppIntfs, SynEditTypes, dmCommands, uCommonFunctions,
-  Clipbrd, JvDockGlobals, VarPyth, gnugettext, StringResources;
+  frmPyIDEMain, dmCommands, uCommonFunctions,
+  Clipbrd, VarPyth, gnugettext, StringResources;
 
 {$R *.dfm}
 Type

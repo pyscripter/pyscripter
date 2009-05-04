@@ -2,23 +2,11 @@ inherited SpTBXCustomizeFormMod: TSpTBXCustomizeFormMod
   PixelsPerInch = 96
   TextHeight = 13
   inherited SpTBXTabControl1: TSpTBXTabControl
-    SkinType = sknSkin
     HiddenItems = <>
-    inherited tabToolbars: TSpTBXTabItem
-      SkinType = sknSkin
-    end
-    inherited tabCommands: TSpTBXTabItem
-      SkinType = sknSkin
-    end
     inherited tabShortcuts: TSpTBXTabItem
       Visible = False
-      SkinType = sknSkin
     end
     inherited SpTBXTabSheet3: TSpTBXTabSheet
-      TabVisible = False
-      TabItem = 'tabShortcuts'
-    end
-    inherited SpTBXTabSheet1: TSpTBXTabSheet
       TabItem = 'tabCommands'
       inherited lbCommands: TSpTBXListBox
         Left = 161
@@ -33,8 +21,8 @@ inherited SpTBXCustomizeFormMod: TSpTBXCustomizeFormMod
       object SpTBXLabel2: TSpTBXLabel
         Left = 159
         Top = 6
-        Width = 66
-        Height = 13
+        Width = 72
+        Height = 19
         Caption = 'Commands:'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
@@ -46,8 +34,8 @@ inherited SpTBXCustomizeFormMod: TSpTBXCustomizeFormMod
       object SpTBXLabel5: TSpTBXLabel
         Left = 10
         Top = 5
-        Width = 64
-        Height = 13
+        Width = 70
+        Height = 19
         Caption = 'Categories:'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
@@ -67,8 +55,18 @@ inherited SpTBXCustomizeFormMod: TSpTBXCustomizeFormMod
         OnClick = lbCategoriesClick
       end
     end
-    inherited SpTBXTabSheet2: TSpTBXTabSheet
+    inherited SpTBXTabSheet1: TSpTBXTabSheet [4]
       TabItem = 'tabToolbars'
+    end
+    inherited SpTBXTabSheet2: TSpTBXTabSheet [5]
+      TabVisible = False
+      TabItem = 'tabShortcuts'
+    end
+  end
+  inherited ClosePanel: TSpTBXPanel
+    inherited ResetButton: TSpTBXButton
+      Top = 3
+      ExplicitTop = 3
     end
   end
 end

@@ -11,7 +11,8 @@ unit uCommonFunctions;
 interface
 Uses
   Windows, Classes, SysUtils, Graphics, SynEditTypes,
-  WideStrings, SynUnicode, uEditAppIntfs, VirtualFileSearch, SpTBXMDIMRU;
+  WideStrings, SynUnicode, uEditAppIntfs, VirtualFileSearch, SpTBXMDIMRU,
+  SpTBXSkins;
 
 const
   UTF8BOMString : string = Char($EF) + Char($BB) + Char($BF);
@@ -229,13 +230,19 @@ procedure MRUToWideStrings(MRU : TSpTBXMRUListItem; SL : TWideStrings);
 (* Load MRU items From WideStrings *)
 procedure WideStringsToMRU(MRU : TSpTBXMRUListItem; SL : TWideStrings);
 
+(* Get Hot Color from SpTBX Skin option entry *)
+function GetHotColor(OptionEntry : TSpTBXSkinOptionEntry) : TColor;
+
+(* Trim avoiding widestring copying in not needed *)
+procedure TrimIfNeeded(var S : WideString);
+
 Const
   ZeroFileTime : TFileTime = (dwLowDateTime : 0; dwHighDateTime : 0);
 
 implementation
 Uses
-  Controls, Forms, StdCtrls, ShellApi, JclFileUtils, Math, VarPyth,
-  JclBase, SynRegExpr, Consts, TntDialogs, TntClasses,
+  Controls, Forms, JclFileUtils, Math, VarPyth,
+  JclBase, SynRegExpr, TntDialogs, TntClasses,
   TntWindows, StrUtils, WideStrUtils, PythonEngine, dmCommands, Dialogs,
   StringResources, TntSysUtils, frmPythonII, gnugettext, MPCommonUtilities,
   MPCommonObjects, MPShellUtilities;
@@ -1820,11 +1827,35 @@ begin
       MRU.MRUAdd(SL[I]);
 end;
 
+function GetHotColor(OptionEntry : TSpTBXSkinOptionEntry) : TColor;
+begin
+  with OptionEntry do
+    case SkinType of
+      0 : Result := Color1;
+      1,2 : Result := Color2;
+    else
+      Result := Color4;
+    end;
+end;
+
+procedure TrimIfNeeded(var S : WideString);
+var
+  I, L, Len: Integer;
+begin
+  Len := Length(S);
+  L := Len;
+  I := 1;
+  while (I <= L) and (S[I] <= ' ') do Inc(I);
+  if I > L then
+    S := ''
+  else
+  begin
+    while S[L] <= ' ' do Dec(L);
+    if (I > 1) or (L < Len) then
+     S := Copy(S, I, L - I + 1);
+  end;
+end;
+
+
 end.
-
-
-
-
-
-
 

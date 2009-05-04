@@ -47,8 +47,8 @@ inherited WatchesWindow: TWatchesWindow
   PixelsPerInch = 96
   TextHeight = 13
   inherited FGPanel: TPanel
-    Width = 433
-    Height = 219
+    Width = 435
+    Height = 221
     ExplicitWidth = 433
     ExplicitHeight = 219
     object WatchesView: TVirtualStringTree

@@ -179,7 +179,7 @@ implementation
 uses dmCommands, StringResources, uEditAppIntfs,
   frmPyIDEMain, uCommonFunctions, JvAppIniStorage, JvAppStorage, JclFileUtils,
   dlgImportDirectory, JclShell, dlgRunConfiguration, cPyBaseDebugger,
-  cParameters, MPDataObject, WideStrUtils, ShlObj, JvJVCLUtils, TntDialogs,
+  cParameters, MPDataObject, JvJVCLUtils, TntDialogs,
   TntSysUtils, gnugettext, uHighlighterProcs, dlgDirectoryList;
 
 {$R *.dfm}
@@ -753,6 +753,7 @@ end;
 
 procedure TProjectExplorerWindow.WMSpSkinChange(var Message: TMessage);
 begin
+  inherited;
   ExplorerTree.Invalidate;
   if SkinManager.IsDefaultSkin then
     ExplorerTree.TreeOptions.PaintOptions := ExplorerTree.TreeOptions.PaintOptions - [toAlwaysHideSelection]

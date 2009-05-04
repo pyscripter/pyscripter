@@ -56,7 +56,7 @@ Var
 implementation
 
 uses
-  Windows, SysUtils, Dialogs, Clipbrd, ComCtrls, jclFileUtils, jclDateTime,
+  Windows, SysUtils, Dialogs, Clipbrd, jclFileUtils, jclDateTime,
   jclStrings, cParameters, Registry,  uEditAppIntfs,
   JvBrowseFolder, dmCommands, VarPyth, SynRegExpr, uCommonFunctions,
   frmPyIDEMain, StringResources, cPyBaseDebugger, cProjectClasses, gnugettext,

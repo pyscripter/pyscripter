@@ -159,8 +159,8 @@ var
 implementation
 
 uses dmCommands, frmPythonII, Variants, VarPyth, frmMessages, frmPyIDEMain,
-  MMSystem, Math, JvDockControlForm, JclFileUtils, uCommonFunctions,
-  cParameters, JclSysUtils, StringResources, Dialogs, JvDSADialogs, 
+  MMSystem, Math, JclFileUtils, uCommonFunctions,
+  cParameters, StringResources, Dialogs, JvDSADialogs, 
   gnugettext, TntDialogs, TntSysUtils;
 
 { TFrameInfo }

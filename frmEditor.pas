@@ -14,12 +14,12 @@ interface
 
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Contnrs, Forms,
-  Menus, uEditAppIntfs, SynEdit, SynEditTypes, SynEditMiscProcs,
-  SynEditHighlighter, SynEditMiscClasses, SynEditSearch, SynEditRegexSearch,
-  SynEditKeyCmds, ImgList, Dialogs, ExtCtrls, JvExExtCtrls, JvComponent, JvPanel,
-  JvPageList, JvExControls, JvTabBar, TB2Item, uCommonFunctions,
-  SynCompletionProposal, cPyBaseDebugger, SpTBXControls, SpTBXItem,
-  VirtualResources, SpTBXSkins, SpTBXDkPanels;
+  uEditAppIntfs, SynEdit, SynEditTypes, 
+  SynEditHighlighter, SynEditMiscClasses, 
+  SynEditKeyCmds, ImgList, Dialogs, ExtCtrls, 
+  JvPageList, JvTabBar, TB2Item, uCommonFunctions,
+  SynCompletionProposal, cPyBaseDebugger, SpTBXItem,
+  VirtualResources, SpTBXSkins, SpTBXDkPanels, Menus, JvExControls;
 
 type
   TEditor = class;
@@ -235,14 +235,14 @@ implementation
 
 uses
   frmPyIDEMain, dlgSynPrintPreview, frmCodeExplorer,
-  frmBreakPoints, Variants, dmCommands, JclFileUtils,
+  frmBreakPoints, Variants, dmCommands, 
   StringResources, VarPyth, cRefactoring,
-  cPythonSourceScanner, cCodeHint, frmPythonII, dlgConfirmReplace, Math,
-  JvTypes, frmWatches, JclSysUtils, PythonEngine, frmMessages,
+  cPythonSourceScanner, cCodeHint, frmPythonII, Math,
+  frmWatches, PythonEngine, 
   SynEditTextBuffer, cPyDebugger, dlgPickList, JvDockControlForm,
-  uSearchHighlighter, frmFileExplorer, VirtualShellNotifier,
+  uSearchHighlighter, VirtualShellNotifier,
   SynHighlighterWebMisc, SynHighlighterWeb, TntSysUtils, gnugettext, TntDialogs,
-  SynUnicode, WideStrings, WideStrUtils;
+  SynUnicode, WideStrings, WideStrUtils, frmIDEDockWin;
 
 const
   WM_DELETETHIS  =  WM_USER + 42;
@@ -2085,16 +2085,15 @@ end;
 procedure TEditorForm.FGPanelEnter(Sender: TObject);
 begin
   HasFocus := True;
-  { TODO : Skin }
-  //Color := CurrentTheme.GetItemColor(GetItemInfo('hot'));
-  //Color := GetBorderColor('active');
+  Color := frmIDEDockWin.BorderHighlight;
+  //FGPanel.Margins.SetBounds(2,2,2,2);
 end;
 
 procedure TEditorForm.FGPanelExit(Sender: TObject);
 begin
   HasFocus := False;
-  { TODO : Skin }
-//  Color := GetBorderColor('inactive');
+  Color := frmIDEDockWin.BorderNormal;
+  //FGPanel.Margins.SetBounds(0,0,0,0);
 end;
 
 procedure TEditorForm.mnCloseTabClick(Sender: TObject);
@@ -2230,13 +2229,13 @@ end;
 
 procedure TEditorForm.WMSpSkinChange(var Message: TMessage);
 begin
-  if HasFocus then
-  { TODO : Skin }
-//    Color := CurrentTheme.GetItemColor(GetItemInfo('hot'))
-////      Color := GetBorderColor('active')
-//  else
-////      Color := CurrentTheme.GetItemColor(GetItemInfo('inactive'));
-//    Color := GetBorderColor('inactive');
+  if HasFocus then begin
+    Color := frmIDEDockWin.BorderHighlight;
+    //FGPanel.Margins.SetBounds(2,2,2,2);
+  end else begin
+    Color := frmIDEDockWin.BorderNormal;
+    //FGPanel.Margins.SetBounds(0,0,0,0);
+  end;
 
   PyIDEMainForm.ThemeEditorGutter(SynEdit.Gutter);
   SynEdit.InvalidateGutter;
@@ -2673,6 +2672,8 @@ initialization
 finalization
   GI_EditorFactory := nil;
 end.
+
+
 
 
 

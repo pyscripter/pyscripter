@@ -11,23 +11,24 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, Buttons, ExtCtrls, CheckLst, Menus, SpTBXDkPanels, SpTBXControls,
-  TntCheckLst, SpTBXEditors, dlgPyIDEBase;
+  Dialogs, StdCtrls, Buttons, ExtCtrls, CheckLst, Menus, SpTBXControls,
+  TntCheckLst, SpTBXEditors, dlgPyIDEBase, SpTBXItem;
 
 type
   TPickListDialog = class(TPyIDEDlgBase)
-    Panel2: TPanel;
     PickListPopUp: TPopupMenu;
     mnSelectAll: TMenuItem;
     mnDeselectAll: TMenuItem;
-    btnSelectAll: TSpTBXButton;
-    btnDeselectAll: TSpTBXButton;
-    Bevel1: TBevel;
     imgIcon: TImage;
     lbMessage: TSpTBXLabel;
+    CheckListBox: TSpTBXCheckListBox;
+    Panel2: TSpTBXPanel;
+    Bevel1: TBevel;
+    btnSelectAll: TSpTBXButton;
+    btnDeselectAll: TSpTBXButton;
     btnOk: TSpTBXButton;
     btnCancel: TSpTBXButton;
-    CheckListBox: TSpTBXCheckListBox;
+    SpTBXPanel1: TSpTBXPanel;
     procedure mnDeselectAllClick(Sender: TObject);
     procedure mnSelectAllClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);

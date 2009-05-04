@@ -11,9 +11,9 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, Buttons, VirtualTrees, ExtCtrls,
+  Dialogs, Buttons, VirtualTrees, ExtCtrls,
   frmCodeExplorer, cPythonSourceScanner, TB2Item, Menus, SpTBXItem,
-  SpTBXDkPanels, SpTBXControls, dlgPyIDEBase;
+  SpTBXControls, dlgPyIDEBase;
 
 type
 
@@ -48,6 +48,7 @@ type
     OKButton: TSpTBXButton;
     BitBtn2: TSpTBXButton;
     HelpButton: TSpTBXButton;
+    lbFileName: TSpTBXLabel;
     procedure HelpButtonClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure ExplorerTreeInitNode(Sender: TBaseVirtualTree; ParentNode,
@@ -190,7 +191,7 @@ begin
     if PythonScanner.ScanModule(ModuleSource, ParsedModule) then begin
       with TUnitTestWizard.Create(Application) do begin
         ModuleUTWNode := TModuleUTWNode.CreateFromModule(ParsedModule);
-        lbHeader.Caption := lbHeader.Caption + #13#10 + ModuleFileName;
+        lbFileName.Caption := ModuleFileName;
         // Turn off Animation to speed things up
         ExplorerTree.TreeOptions.AnimationOptions :=
           ExplorerTree.TreeOptions.AnimationOptions - [toAnimatedToggle];

@@ -6,7 +6,6 @@ inherited ToolProperties: TToolProperties
   ClientHeight = 498
   ClientWidth = 406
   Font.Name = 'MS Shell Dlg 2'
-  Position = poOwnerFormCenter
   OnDestroy = FormDestroy
   OnShow = FormShow
   ExplicitWidth = 412
@@ -27,30 +26,214 @@ inherited ToolProperties: TToolProperties
     DesignSize = (
       406
       498)
-    object PageControl: TPageControl
+    object btnOK: TSpTBXButton
+      Left = 149
+      Top = 465
+      Width = 75
+      Height = 25
+      Caption = '&OK'
+      Anchors = [akRight, akBottom]
+      TabOrder = 0
+      Default = True
+      ModalResult = 1
+    end
+    object btnCancel: TSpTBXButton
+      Left = 233
+      Top = 465
+      Width = 75
+      Height = 25
+      Caption = '&Cancel'
+      Anchors = [akRight, akBottom]
+      TabOrder = 1
+      Cancel = True
+      ModalResult = 2
+    end
+    object btnHelp: TSpTBXButton
+      Left = 317
+      Top = 465
+      Width = 75
+      Height = 25
+      Caption = '&Help'
+      Anchors = [akRight, akBottom]
+      TabOrder = 2
+      OnClick = btnHelpClick
+    end
+    object TabControl: TSpTBXTabControl
       Left = 2
       Top = 2
       Width = 402
       Height = 453
-      ActivePage = tsProperties
       Align = alTop
-      TabOrder = 0
-      object tsProperties: TTabSheet
+      ActiveTabIndex = 0
+      HiddenItems = <>
+      object SpTBXTabItem1: TSpTBXTabItem
         Caption = '&Properties'
-        object GroupBox1: TSpTBXGroupBox
-          Left = 4
-          Top = 5
+        Checked = True
+      end
+      object SpTBXTabItem2: TSpTBXTabItem
+        Caption = '&Environment'
+      end
+      object tabEnvironment: TSpTBXTabSheet
+        Left = 0
+        Top = 25
+        Width = 402
+        Height = 428
+        Caption = '&Environment'
+        ImageIndex = -1
+        ExplicitHeight = 422
+        TabItem = 'SpTBXTabItem2'
+        object GroupBox6: TSpTBXGroupBox
+          Left = 7
+          Top = 307
           Width = 385
+          Height = 83
+          Caption = 'Name-Value Pair'
+          TabOrder = 1
+          TBXStyleBackground = True
+          object Label15: TSpTBXLabel
+            Left = 14
+            Top = 28
+            Width = 37
+            Height = 19
+            Caption = '&Name:'
+            FocusControl = edEnvName
+          end
+          object Label16: TSpTBXLabel
+            Left = 14
+            Top = 50
+            Width = 36
+            Height = 19
+            Caption = '&Value:'
+          end
+          object edEnvName: TSpTBXEdit
+            Left = 61
+            Top = 23
+            Width = 121
+            Height = 21
+            TabOrder = 0
+          end
+          object edEnvValue: TSpTBXEdit
+            Left = 62
+            Top = 48
+            Width = 308
+            Height = 21
+            Cursor = crIBeam
+            HideSelection = False
+            TabOrder = 1
+          end
+        end
+        object cbUseCustomEnv: TSpTBXCheckBox
+          Left = 123
+          Top = 401
+          Width = 163
+          Height = 21
+          Caption = 'Use Customized Environment'
+          TabOrder = 2
+        end
+        object btnAdd: TSpTBXButton
+          Left = 3
+          Top = 270
+          Width = 77
+          Height = 24
+          Action = actAddItem
+          TabOrder = 3
+          Images = CommandsDataModule.Images
+          ImageIndex = 49
+        end
+        object btnDelete: TSpTBXButton
+          Left = 81
+          Top = 270
+          Width = 77
+          Height = 24
+          Action = actDeleteItem
+          TabOrder = 4
+          Images = CommandsDataModule.Images
+          ImageIndex = 14
+        end
+        object btnMoveUp: TSpTBXButton
+          Left = 160
+          Top = 270
+          Width = 77
+          Height = 24
+          Action = actMoveUp
+          TabOrder = 5
+          Images = CommandsDataModule.Images
+          ImageIndex = 47
+        end
+        object btnMoveDown: TSpTBXButton
+          Left = 239
+          Top = 270
+          Width = 77
+          Height = 24
+          Action = actMoveDown
+          TabOrder = 6
+          Images = CommandsDataModule.Images
+          ImageIndex = 48
+        end
+        object btnUpdate: TSpTBXButton
+          Left = 318
+          Top = 270
+          Width = 77
+          Height = 24
+          Action = actUpdateItem
+          TabOrder = 7
+          Images = CommandsDataModule.Images
+          ImageIndex = 39
+        end
+        object lvItems: TEasyListview
+          AlignWithMargins = True
+          Left = 5
+          Top = 3
+          Width = 390
+          Height = 263
+          Align = alTop
+          BevelInner = bvRaised
+          EditManager.Font.Charset = DEFAULT_CHARSET
+          EditManager.Font.Color = clWindowText
+          EditManager.Font.Height = -11
+          EditManager.Font.Name = 'MS Shell Dlg 2'
+          EditManager.Font.Style = []
+          Header.Columns.Items = {
+            0600000002000000110000005445617379436F6C756D6E53746F726564FFFECE
+            0006000000800800010100010000000000000178000000FFFFFF1F0001000000
+            01000000040000004E0061006D00650000000000000000000000000011000000
+            5445617379436F6C756D6E53746F726564FFFECE000600000080080001010001
+            010000000000000E010000FFFFFF1F0001000000010000000500000056006100
+            6C0075006500000000000000000000000000}
+          Header.Draggable = False
+          Header.Visible = True
+          HotTrack.Enabled = True
+          PaintInfoGroup.MarginBottom.CaptionIndent = 4
+          PaintInfoItem.GridLines = True
+          TabOrder = 0
+          View = elsReport
+          OnColumnClick = lvItemsColumnClick
+          OnItemSelectionsChanged = lvItemsItemSelectionsChanged
+        end
+      end
+      object tabProperties: TSpTBXTabSheet
+        Left = 0
+        Top = 25
+        Width = 402
+        Height = 428
+        Caption = '&Properties'
+        ImageIndex = -1
+        ExplicitHeight = 422
+        TabItem = 'SpTBXTabItem1'
+        object GroupBox1: TSpTBXGroupBox
+          Left = 7
+          Top = 5
+          Width = 384
           Height = 65
           Caption = 'General'
           TabOrder = 0
+          TBXStyleBackground = True
           object Label1: TSpTBXLabel
             Left = 8
             Top = 16
             Width = 37
             Height = 19
             Caption = '&Name:'
-            ParentColor = True
             FocusControl = edName
           end
           object Label5: TSpTBXLabel
@@ -59,7 +242,6 @@ inherited ToolProperties: TToolProperties
             Width = 63
             Height = 19
             Caption = 'Desc&ription:'
-            ParentColor = True
             FocusControl = edDescription
           end
           object Label17: TSpTBXLabel
@@ -73,7 +255,6 @@ inherited ToolProperties: TToolProperties
             Font.Height = -11
             Font.Name = 'MS Shell Dlg 2'
             Font.Style = []
-            ParentColor = True
             ParentFont = False
           end
           object edName: TSpTBXEdit
@@ -92,12 +273,13 @@ inherited ToolProperties: TToolProperties
           end
         end
         object GroupBox2: TSpTBXGroupBox
-          Left = 4
+          Left = 7
           Top = 73
           Width = 385
           Height = 108
           Caption = 'Command'
           TabOrder = 1
+          TBXStyleBackground = True
           object SynApplication: TSynEdit
             Left = 71
             Top = 18
@@ -191,7 +373,6 @@ inherited ToolProperties: TToolProperties
             Width = 62
             Height = 19
             Caption = '&Application:'
-            ParentColor = True
             FocusControl = SynApplication
           end
           object Label6: TSpTBXLabel
@@ -200,7 +381,6 @@ inherited ToolProperties: TToolProperties
             Width = 65
             Height = 19
             Caption = '&Parameters:'
-            ParentColor = True
             FocusControl = SynParameters
           end
           object Label7: TSpTBXLabel
@@ -209,38 +389,31 @@ inherited ToolProperties: TToolProperties
             Width = 95
             Height = 19
             Caption = 'Working &directory:'
-            ParentColor = True
             FocusControl = SynWorkDir
           end
           object Label3: TSpTBXLabel
-            Left = 6
-            Top = 90
+            Left = 8
+            Top = 86
             Width = 258
             Height = 19
             Caption = 'Parameters : Shift+Ctrl+P, Modifiers : Shift+Ctrl+M '
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clGrayText
-            Font.Height = -11
-            Font.Name = 'MS Shell Dlg 2'
-            Font.Style = []
-            ParentColor = True
-            ParentFont = False
+            Enabled = False
           end
         end
         object GroupBox4: TSpTBXGroupBox
-          Left = 5
+          Left = 7
           Top = 187
           Width = 385
           Height = 64
           Caption = 'Shortcut and Context'
           TabOrder = 2
+          TBXStyleBackground = True
           object lbShortcut: TSpTBXLabel
             Left = 11
             Top = 18
             Width = 51
             Height = 19
             Caption = '&Shortcut:'
-            ParentColor = True
             FocusControl = hkShortCut
           end
           object lbContext: TSpTBXLabel
@@ -249,7 +422,6 @@ inherited ToolProperties: TToolProperties
             Width = 49
             Height = 19
             Caption = 'Conte&xt:'
-            ParentColor = True
             FocusControl = cbContext
           end
           object Label13: TSpTBXLabel
@@ -258,7 +430,6 @@ inherited ToolProperties: TToolProperties
             Width = 56
             Height = 19
             Caption = 'Sa&ve files:'
-            ParentColor = True
             FocusControl = cbSaveFiles
           end
           object hkShortCut: THotKey
@@ -302,12 +473,13 @@ inherited ToolProperties: TToolProperties
           end
         end
         object GroupBox3: TSpTBXGroupBox
-          Left = 5
+          Left = 7
           Top = 258
-          Width = 385
+          Width = 383
           Height = 94
           Caption = 'Standard Input and Output'
           TabOrder = 3
+          TBXStyleBackground = True
           object btnStdFormats: TSpTBXButton
             Left = 357
             Top = 66
@@ -364,7 +536,6 @@ inherited ToolProperties: TToolProperties
             Width = 59
             Height = 19
             Caption = 'Std. &Input:'
-            ParentColor = True
             FocusControl = cbStandardInput
           end
           object Label11: TSpTBXLabel
@@ -373,7 +544,6 @@ inherited ToolProperties: TToolProperties
             Width = 67
             Height = 19
             Caption = 'Std. &Output:'
-            ParentColor = True
             FocusControl = cbStandardOutput
           end
           object Label12: TSpTBXLabel
@@ -382,7 +552,6 @@ inherited ToolProperties: TToolProperties
             Width = 94
             Height = 19
             Caption = 'Messages &Format:'
-            ParentColor = True
             FocusControl = edMessagesFormat
           end
           object edMessagesFormat: TSpTBXEdit
@@ -436,12 +605,11 @@ inherited ToolProperties: TToolProperties
           end
         end
         object GroupBox5: TSpTBXGroupBox
-          Left = 6
-          Top = 352
-          Width = 385
-          Height = 64
+          Left = 7
+          Top = 357
+          Width = 384
+          Height = 65
           Caption = 'Console'
-          Color = clBtnFace
           TabOrder = 4
           TBXStyleBackground = True
           object cbHideConsole: TSpTBXCheckBox
@@ -476,7 +644,6 @@ inherited ToolProperties: TToolProperties
             Width = 72
             Height = 19
             Caption = '&Timeout (ms):'
-            ParentColor = True
             FocusControl = seTimeout
           end
           object seTimeout: TSpTBXSpinEdit
@@ -498,166 +665,6 @@ inherited ToolProperties: TToolProperties
           end
         end
       end
-      object tsEnvironment: TTabSheet
-        Caption = '&Environment'
-        ImageIndex = 1
-        object GroupBox6: TSpTBXGroupBox
-          Left = 3
-          Top = 307
-          Width = 389
-          Height = 83
-          Caption = 'Name-Value Pair'
-          TabOrder = 1
-          object Label15: TSpTBXLabel
-            Left = 14
-            Top = 28
-            Width = 37
-            Height = 19
-            Caption = '&Name:'
-            ParentColor = True
-            FocusControl = edEnvName
-          end
-          object Label16: TSpTBXLabel
-            Left = 14
-            Top = 50
-            Width = 36
-            Height = 19
-            Caption = '&Value:'
-            ParentColor = True
-          end
-          object edEnvName: TSpTBXEdit
-            Left = 61
-            Top = 23
-            Width = 121
-            Height = 21
-            TabOrder = 0
-          end
-          object edEnvValue: TSpTBXEdit
-            Left = 62
-            Top = 48
-            Width = 308
-            Height = 21
-            Cursor = crIBeam
-            HideSelection = False
-            TabOrder = 1
-          end
-        end
-        object cbUseCustomEnv: TSpTBXCheckBox
-          Left = 123
-          Top = 401
-          Width = 163
-          Height = 21
-          Caption = 'Use Customized Environment'
-          ParentColor = True
-          TabOrder = 2
-        end
-        object btnAdd: TSpTBXButton
-          Left = -1
-          Top = 273
-          Width = 77
-          Height = 24
-          Action = actAddItem
-          TabOrder = 3
-          Images = CommandsDataModule.Images
-          ImageIndex = 49
-        end
-        object btnDelete: TSpTBXButton
-          Left = 77
-          Top = 273
-          Width = 77
-          Height = 24
-          Action = actDeleteItem
-          TabOrder = 4
-          Images = CommandsDataModule.Images
-          ImageIndex = 14
-        end
-        object btnMoveUp: TSpTBXButton
-          Left = 156
-          Top = 273
-          Width = 77
-          Height = 24
-          Action = actMoveUp
-          TabOrder = 5
-          Images = CommandsDataModule.Images
-          ImageIndex = 47
-        end
-        object btnMoveDown: TSpTBXButton
-          Left = 235
-          Top = 273
-          Width = 77
-          Height = 24
-          Action = actMoveDown
-          TabOrder = 6
-          Images = CommandsDataModule.Images
-          ImageIndex = 48
-        end
-        object btnUpdate: TSpTBXButton
-          Left = 314
-          Top = 273
-          Width = 77
-          Height = 24
-          Action = actUpdateItem
-          TabOrder = 7
-          Images = CommandsDataModule.Images
-          ImageIndex = 39
-        end
-        object lvItems: TTntListView
-          Left = 0
-          Top = 0
-          Width = 394
-          Height = 263
-          Align = alTop
-          Columns = <
-            item
-              Caption = 'Name'
-              Width = 120
-            end
-            item
-              Caption = 'Value'
-              Width = 270
-            end>
-          ColumnClick = False
-          GridLines = True
-          HideSelection = False
-          ReadOnly = True
-          RowSelect = True
-          TabOrder = 0
-          ViewStyle = vsReport
-          OnChange = lvItemsChange
-        end
-      end
-    end
-    object btnOK: TSpTBXButton
-      Left = 149
-      Top = 465
-      Width = 75
-      Height = 25
-      Caption = '&OK'
-      Anchors = [akRight, akBottom]
-      TabOrder = 1
-      Default = True
-      ModalResult = 1
-    end
-    object btnCancel: TSpTBXButton
-      Left = 233
-      Top = 465
-      Width = 75
-      Height = 25
-      Caption = '&Cancel'
-      Anchors = [akRight, akBottom]
-      TabOrder = 2
-      Cancel = True
-      ModalResult = 2
-    end
-    object btnHelp: TSpTBXButton
-      Left = 317
-      Top = 465
-      Width = 75
-      Height = 25
-      Caption = '&Help'
-      Anchors = [akRight, akBottom]
-      TabOrder = 3
-      OnClick = btnHelpClick
     end
   end
   object FormatsPopup: TPopupMenu

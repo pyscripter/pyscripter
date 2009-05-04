@@ -1,38 +1,44 @@
 inherited UnitTestWizard: TUnitTestWizard
   HelpContext = 930
   Caption = 'Unit Test Wizard'
-  ClientHeight = 488
+  ClientHeight = 491
   ClientWidth = 436
   Font.Name = 'MS Shell Dlg 2'
   Position = poMainFormCenter
   ExplicitWidth = 442
-  ExplicitHeight = 514
+  ExplicitHeight = 517
   PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TSpTBXPanel
     Left = 0
     Top = 0
     Width = 436
-    Height = 488
+    Height = 491
     Align = alClient
     TabOrder = 0
     TBXStyleBackground = True
+    ExplicitHeight = 492
     DesignSize = (
       436
-      488)
+      491)
     object Bevel1: TBevel
-      Left = 12
-      Top = 8
-      Width = 413
-      Height = 73
+      AlignWithMargins = True
+      Left = 5
+      Top = 5
+      Width = 426
+      Height = 61
+      Align = alTop
       Shape = bsFrame
       Style = bsRaised
+      ExplicitLeft = 12
+      ExplicitTop = 8
+      ExplicitWidth = 413
     end
     object ExplorerTree: TVirtualStringTree
-      Left = 2
+      Left = 5
       Top = 106
-      Width = 431
-      Height = 335
+      Width = 426
+      Height = 338
       Anchors = [akLeft, akTop, akRight, akBottom]
       BevelKind = bkSoft
       BorderStyle = bsNone
@@ -61,11 +67,12 @@ inherited UnitTestWizard: TUnitTestWizard
       OnGetHint = ExplorerTreeGetHint
       OnInitChildren = ExplorerTreeInitChildren
       OnInitNode = ExplorerTreeInitNode
+      ExplicitHeight = 339
       Columns = <>
     end
     object Label1: TSpTBXLabel
-      Left = 7
-      Top = 87
+      Left = 5
+      Top = 81
       Width = 329
       Height = 19
       Caption = 
@@ -73,23 +80,15 @@ inherited UnitTestWizard: TUnitTestWizard
         'ed:'
     end
     object lbHeader: TSpTBXLabel
-      Left = 18
+      Left = 10
       Top = 15
-      Width = 403
-      Height = 60
+      Width = 281
+      Height = 19
       Caption = 'This wizard will generate unit tests for the Python module'
-      AutoSize = False
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -11
-      Font.Name = 'MS Shell Dlg 2'
-      Font.Style = [fsBold]
-      ParentFont = False
-      Wrapping = twWrap
     end
     object OKButton: TSpTBXButton
-      Left = 99
-      Top = 452
+      Left = 85
+      Top = 454
       Width = 75
       Height = 25
       Caption = '&OK'
@@ -99,8 +98,8 @@ inherited UnitTestWizard: TUnitTestWizard
       ModalResult = 1
     end
     object BitBtn2: TSpTBXButton
-      Left = 195
-      Top = 452
+      Left = 181
+      Top = 454
       Width = 75
       Height = 25
       Caption = '&Cancel'
@@ -110,14 +109,22 @@ inherited UnitTestWizard: TUnitTestWizard
       ModalResult = 2
     end
     object HelpButton: TSpTBXButton
-      Left = 291
-      Top = 452
+      Left = 277
+      Top = 454
       Width = 75
       Height = 25
       Caption = '&Help'
       Anchors = [akRight, akBottom]
       TabOrder = 3
       OnClick = HelpButtonClick
+    end
+    object lbFileName: TSpTBXLabel
+      Left = 10
+      Top = 36
+      Width = 417
+      Height = 19
+      AutoSize = False
+      Wrapping = twPathEllipsis
     end
   end
   object PopupUnitTestWizard: TSpTBXPopupMenu

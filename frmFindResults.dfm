@@ -57,15 +57,15 @@ inherited FindResultsWindow: TFindResultsWindow
   PixelsPerInch = 96
   TextHeight = 13
   inherited FGPanel: TPanel
-    Width = 597
-    Height = 333
-    ExplicitWidth = 597
-    ExplicitHeight = 333
+    Width = 599
+    Height = 335
+    ExplicitWidth = 599
+    ExplicitHeight = 335
     object pnlMain: TPanel
       Left = 0
       Top = 0
-      Width = 597
-      Height = 309
+      Width = 599
+      Height = 311
       Align = alClient
       BevelOuter = bvNone
       FullRepaint = False
@@ -73,8 +73,8 @@ inherited FindResultsWindow: TFindResultsWindow
       TabOrder = 0
       object Splitter: TSpTBXSplitter
         Left = 0
-        Top = 213
-        Width = 597
+        Top = 215
+        Width = 599
         Height = 8
         Cursor = crSizeNS
         Align = alBottom
@@ -83,7 +83,7 @@ inherited FindResultsWindow: TFindResultsWindow
       object TBXDock1: TSpTBXDock
         Left = 0
         Top = 0
-        Width = 597
+        Width = 599
         Height = 26
         AllowDrag = False
         object ToolBar: TSpTBXToolbar
@@ -152,8 +152,8 @@ inherited FindResultsWindow: TFindResultsWindow
       object lbResults: TSpTBXListBox
         Left = 0
         Top = 26
-        Width = 597
-        Height = 187
+        Width = 599
+        Height = 189
         Align = alClient
         Constraints.MinHeight = 120
         ItemHeight = 17
@@ -167,8 +167,8 @@ inherited FindResultsWindow: TFindResultsWindow
       end
       object reContext: TTntRichEdit
         Left = 0
-        Top = 221
-        Width = 597
+        Top = 223
+        Width = 599
         Height = 88
         Align = alBottom
         ReadOnly = True
@@ -179,15 +179,15 @@ inherited FindResultsWindow: TFindResultsWindow
     end
     object StatusBar: TSpTBXStatusBar
       Left = 0
-      Top = 309
-      Width = 597
+      Top = 311
+      Width = 599
       Height = 24
       object StatusLeftLabel: TSpTBXLabelItem
         Wrapping = twEndEllipsis
         MinHeight = 20
       end
       object SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem
-        CustomWidth = 568
+        CustomWidth = 570
       end
       object StatusRightLabel: TSpTBXLabelItem
         Alignment = taRightJustify

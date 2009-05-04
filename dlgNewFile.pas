@@ -3,10 +3,10 @@ unit dlgNewFile;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ComCtrls, VirtualTrees, StdCtrls, ExtCtrls, cFileTemplates,
-  SpTBXDkPanels, SpTBXControls, TntComCtrls, WideStrings, dlgPyIDEBase,
-  SpTBXItem, SpTBXSkins;
+  Windows, Messages, SysUtils, Classes, Controls, Forms,
+  Dialogs, VirtualTrees, cFileTemplates,
+  SpTBXDkPanels, SpTBXControls, WideStrings, dlgPyIDEBase,
+  SpTBXItem, SpTBXSkins, MPCommonObjects, MPCommonUtilities, EasyListview;
 
 type
   TNewFileDialog = class(TPyIDEDlgBase)
@@ -17,11 +17,11 @@ type
     Label1: TSpTBXLabel;
     Panel4: TSpTBXPanel;
     Label2: TSpTBXLabel;
-    lvTemplates: TTntListView;
     btnCancel: TSpTBXButton;
     btnCreate: TSpTBXButton;
     btnManageTemplates: TSpTBXButton;
     Splitter1: TSpTBXSplitter;
+    lvTemplates: TEasyListview;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure tvCategoriesGetText(Sender: TBaseVirtualTree; Node: PVirtualNode;
@@ -29,10 +29,10 @@ type
     procedure FormShow(Sender: TObject);
     procedure tvCategoriesChange(Sender: TBaseVirtualTree; Node: PVirtualNode);
     procedure btnManageTemplatesClick(Sender: TObject);
-    procedure lvTemplatesSelectItem(Sender: TObject; Item: TListItem;
-      Selected: Boolean);
-    procedure lvTemplatesDblClick(Sender: TObject);
     procedure btnCreateClick(Sender: TObject);
+    procedure lvTemplatesItemDblClick(Sender: TCustomEasyListview;
+      Button: TCommonMouseButton; MousePos: TPoint; HitInfo: TEasyHitInfoItem);
+    procedure lvTemplatesItemSelectionsChanged(Sender: TCustomEasyListview);
   private
     { Private declarations }
   public
@@ -45,14 +45,14 @@ type
 implementation
 
 uses
-  ShellAPI, dmCommands, MPCommonObjects;
+  ShellAPI, dmCommands;
 
 {$R *.dfm}
 
 procedure TNewFileDialog.btnCreateClick(Sender: TObject);
 begin
-  if Assigned(lvTemplates.Selected) then begin
-    SelectedTemplate := TFileTemplate(lvTemplates.Selected.Data);
+  if Assigned(lvTemplates.Selection.First()) then begin
+    SelectedTemplate := TFileTemplate(lvTemplates.Selection.First.Data);
     ModalResult := mrOK;
   end;
 end;
@@ -68,7 +68,7 @@ begin
   inherited;
   Categories := TWideStringList.Create;
   Categories.CaseSensitive := False;
-  lvTemplates.LargeImages := LargeSysImages;
+  lvTemplates.ImagesLarge := LargeSysImages;
   tvCategories.OnBeforeCellPaint :=
     CommandsDataModule.VirtualStringTreeBeforeCellPaint;
   tvCategories.OnPaintText :=
@@ -89,15 +89,16 @@ begin
   SetUp;
 end;
 
-procedure TNewFileDialog.lvTemplatesDblClick(Sender: TObject);
+procedure TNewFileDialog.lvTemplatesItemDblClick(Sender: TCustomEasyListview;
+  Button: TCommonMouseButton; MousePos: TPoint; HitInfo: TEasyHitInfoItem);
 begin
   btnCreateClick(Self);
 end;
 
-procedure TNewFileDialog.lvTemplatesSelectItem(Sender: TObject; Item: TListItem;
-  Selected: Boolean);
+procedure TNewFileDialog.lvTemplatesItemSelectionsChanged(
+  Sender: TCustomEasyListview);
 begin
-  btnCreate.Enabled := Assigned(Item) and Selected;
+  btnCreate.Enabled := Assigned(lvTemplates.Selection.First());
 end;
 
 procedure TNewFileDialog.SetUp;
@@ -106,7 +107,7 @@ var
 begin
   Categories.Clear;
   tvCategories.Clear;
-  lvTemplates.Clear;
+  lvTemplates.Items.Clear;
   for i  := 0 to FileTemplates.Count - 1 do
     if Categories.IndexOf(TFileTemplate(FileTemplates[i]).Category) < 0 then
       Categories.Add(TFileTemplate(FileTemplates[i]).Category);
@@ -124,7 +125,7 @@ Var
   FileInfo: TSHFileInfo;
 begin
   if Assigned(Node) and (vsSelected in Node.States) then begin
-    lvTemplates.Clear;
+    lvTemplates.Items.Clear;
     Index := Node.Index;
     for i := 0 to FileTemplates.Count - 1 do begin
       FileTemplate := FileTemplates[i] as TFileTemplate;

@@ -35,8 +35,8 @@ inherited CodeExplorerWindow: TCodeExplorerWindow
   PixelsPerInch = 96
   TextHeight = 13
   inherited FGPanel: TPanel
-    Width = 243
-    Height = 300
+    Width = 245
+    Height = 302
     ExplicitWidth = 243
     ExplicitHeight = 300
     object Panel1: TPanel

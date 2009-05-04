@@ -118,7 +118,7 @@ function iter(const AValue : Variant ) : Variant; // return an iterator for the 
 implementation
 
 uses
-  VarUtils, SysUtils, SysConst, TypInfo, Classes;
+  VarUtils, SysUtils, Classes;
 
 type
   TNamedParamDesc = record

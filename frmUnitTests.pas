@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, frmIDEDockWin, JvComponentBase, JvDockControlForm, ExtCtrls, ImgList,
-  JvExControls, JvComponent, JvLinkLabel, SpTBXDkPanels, VirtualTrees,
+  JvLinkLabel, SpTBXDkPanels, VirtualTrees,
   TB2Item, TB2Dock, TB2Toolbar, StdCtrls,
   ActnList, SpTBXControls, SpTBXItem, ComCtrls, TntComCtrls,
   TntActnList, SpTBXSkins;
@@ -105,8 +105,8 @@ var
 
 implementation
 
-uses uCommonFunctions, uHighlighterProcs, frmPyIDEMain, VarPyth, JvJVCLUtils,
-  uEditAppIntfs, PythonEngine, frmPythonII, dmCommands, cPyBaseDebugger, JclSysUtils,
+uses uCommonFunctions, frmPyIDEMain, VarPyth, JvJVCLUtils,
+  uEditAppIntfs, PythonEngine, dmCommands, cPyBaseDebugger, JclSysUtils,
   cPyDebugger, StringResources, TntDialogs, gnugettext, cPyRemoteDebugger;
 
 {$R *.dfm}

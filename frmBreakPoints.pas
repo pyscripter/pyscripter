@@ -11,7 +11,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, JvDockControlForm, JvComponent, frmIDEDockWin, ExtCtrls,
+  Dialogs, JvDockControlForm, frmIDEDockWin, ExtCtrls,
   Contnrs, TB2Item, Menus, VirtualTrees, JvComponentBase,
   SpTBXSkins, SpTBXItem, JvAppStorage;
 
@@ -58,8 +58,8 @@ var
 
 implementation
 
-uses frmPyIDEMain, uEditAppIntfs, dmCommands, uCommonFunctions, Clipbrd,
-  JvDockGlobals, cPyDebugger, cPyBaseDebugger, TntDialogs, gnugettext,
+uses frmPyIDEMain, uEditAppIntfs, dmCommands, Clipbrd,
+  JvDockGlobals, cPyBaseDebugger, TntDialogs, gnugettext,
   StringResources;
 
 {$R *.dfm}

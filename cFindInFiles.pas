@@ -239,9 +239,9 @@ implementation
 
 uses
   SysUtils, Forms, uEditAppIntfs, Dialogs,
-  JclFileUtils, VarPyth, frmFindResults, frmPyIDEMain,
+  JclFileUtils, VarPyth, frmPyIDEMain,
   dlgFindResultsOptions, Controls, uCommonFunctions, cProjectClasses,
-  TntSysUtils, VirtualFileSearch, ShlObj, MPCommonUtilities, 
+  TntSysUtils, VirtualFileSearch, MPCommonUtilities, 
   dmCommands, cParameters;
 
 { TLineMatches }

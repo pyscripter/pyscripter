@@ -41,8 +41,8 @@ unit dlgConfirmReplace;
 interface
 
 uses
-  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  StdCtrls, ExtCtrls, SpTBXDkPanels, SpTBXControls, dlgPyIDEBase;
+  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, 
+  ExtCtrls, SpTBXControls, dlgPyIDEBase, SpTBXItem;
 
 type
   TConfirmReplaceDialog = class(TPyIDEDlgBase)
@@ -52,6 +52,7 @@ type
     btnCancel: TSpTBXButton;
     btnReplaceAll: TSpTBXButton;
     lblConfirmation: TSpTBXLabel;
+    SpTBXPanel1: TSpTBXPanel;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
   public

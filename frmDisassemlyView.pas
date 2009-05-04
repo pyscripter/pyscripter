@@ -40,8 +40,8 @@ type
 
 implementation
 
-uses VarPyth, PythonEngine, dmCommands, uCommonFunctions,
-  JvJVCLUtils, cPyBaseDebugger, cPyDebugger, gnugettext, StringResources;
+uses VarPyth, dmCommands, 
+  JvJVCLUtils, cPyBaseDebugger, gnugettext, StringResources;
 
 {$R *.dfm}
 

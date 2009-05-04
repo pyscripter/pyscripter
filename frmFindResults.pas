@@ -47,7 +47,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, frmIDEDockWin, JvComponent, JvDockControlForm, ExtCtrls, Menus,
+  Dialogs, frmIDEDockWin, JvDockControlForm, ExtCtrls, Menus,
   ActnList, ComCtrls, StdCtrls, cFindInFiles, JvAppStorage,
   TB2Item, TB2Dock, TB2Toolbar, JvComponentBase,  SpTBXSkins,
   SpTBXItem, WideStrings, SynUnicode, TntStdCtrls, SpTBXEditors, TntComCtrls,
@@ -208,7 +208,7 @@ implementation
 
 uses dmCommands, dlgFindInFiles, Math, frmPyIDEMain, uEditAppIntfs,
   dlgReplaceInFiles, SynEdit, SynEditTypes, JclFileUtils, uCommonFunctions,
-  JvJVCLUtils, JvDockGlobals, TntGraphics, TntClasses, JclSysUtils, TntDialogs,
+  JvJVCLUtils, TntGraphics, TntClasses, TntDialogs,
   gnugettext, StringResources;
 
 {$R *.dfm}
@@ -307,7 +307,6 @@ var
   FileString: WideString;
   FileResult: TFileResult;
 begin
-  { TODO : Skin }
   if PaintStage <> pstPrePaint then Exit;
   PaintDefault := False;
 
@@ -318,23 +317,15 @@ begin
   if lbResults.Items.Objects[Index] is TFileResult then
   begin
     FileResult := TFileResult(lbResults.Items.Objects[Index]);
-    // Paint an expandable search file header (gray)
 
-    CurrentSkin.PaintBackground(ResultsCanvas, ARect, skncToolbar, sknsNormal, True, True);
-
-//    CurrentTheme.PaintBackgnd(ResultsCanvas, ARect, ARect, ARect,
-//      CurrentTheme.GetViewColor(TVT_NORMALTOOLBAR), false, VT_TOOLBAR);
-
-    ARect.Right := ARect.Right + 2;
+    // Paint an expandable search file header
+    //ARect.Right := ARect.Right + 2;
     if odSelected in State then begin
-//      ResultsCanvas.Font.Color := CurrentTheme.GetItemTextColor(GetItemInfo('active'));
-      CurrentSkin.PaintWindowFrame(ResultsCanvas, ARect, True, False);
-//      CurrentTheme.PaintFrame(ResultsCanvas, ARect, GetItemInfo('active'))
-      //Frame3D(ResultsCanvas, ARect, BottomColor, TopColor, 1)
+      CurrentSkin.PaintBackground(ResultsCanvas, ARect, skncListItem, sknsChecked, True, True);
+      ResultsCanvas.Font.Color := CurrentSkin.GetTextColor(skncListItem, sknsChecked, SkinManager.GetSkinType);
     end else begin
-//      ResultsCanvas.Font.Color := CurrentTheme.GetItemTextColor(GetItemInfo('inactive'));
-      CurrentSkin.PaintWindowFrame(ResultsCanvas, ARect, False, False);
-      //CurrentTheme.PaintFrame(ResultsCanvas, ARect, GetItemInfo('inactive'));
+      CurrentSkin.PaintWindowFrame(ResultsCanvas, ARect, False, True, 0);
+      ResultsCanvas.Font.Color := CurrentSkin.GetTextColor(skncListItem, sknsNormal, SkinManager.GetSkinType);
       Frame3D(ResultsCanvas, ARect, TopColor, BottomColor, 1);
     end;
 

@@ -1,5 +1,5 @@
 {-----------------------------------------------------------------------------
- Unit Name: dlgReplaceInFiles
+ Unit Name: dlgReplaceInFiles     
  Author:    Kiriakos Vlahos
  Date:      29-May-2005
  Purpose:
@@ -46,8 +46,8 @@ interface
 
 uses
   Classes, Controls, StdCtrls, Forms,
-  cFindInFiles, SpTBXControls, SpTBXDkPanels, TntStdCtrls, SpTBXEditors,
-  dlgPyIDEBase;
+  cFindInFiles, SpTBXControls, TntStdCtrls, SpTBXEditors,
+  dlgPyIDEBase, SpTBXItem;
 
 type
   TReplaceInFilesDialog = class(TPyIDEDlgBase)
@@ -61,6 +61,7 @@ type
     lblWith: TSpTBXLabel;
     lblIn: TSpTBXLabel;
     lblReplace: TSpTBXLabel;
+    SpTBXPanel1: TSpTBXPanel;
     procedure btnHelpClick(Sender: TObject);
   private
     FFindInFilesExpert : TFindInFilesExpert;

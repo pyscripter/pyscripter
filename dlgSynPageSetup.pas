@@ -42,33 +42,18 @@ interface
 
 uses
   Windows, SysUtils, Classes, Graphics, Forms, Controls, StdCtrls,
-  Buttons, ExtCtrls, ComCtrls, ToolWin, ImgList, ActnList, Dialogs,
+  Buttons, ExtCtrls, ComCtrls, ImgList, ActnList, Dialogs,
   SynEditPrintTypes, SynEditPrint, SynEditPrintMargins,
-  SynEditPrintHeaderFooter, SpTBXControls, SpTBXDkPanels, TntActnList, TB2Item,
+  SynEditPrintHeaderFooter, SpTBXControls, TntActnList, TB2Item,
   SpTBXItem, TB2Dock, TB2Toolbar, TntStdCtrls, SpTBXEditors, 
-  TntComCtrls, dlgPyIDEBase;
+  TntComCtrls, dlgPyIDEBase, SpTBXTabs;
 
 type
   TPageSetupDlg = class(TPyIDEDlgBase)
-    PageControl: TPageControl;
-    Margins: TTabSheet;
-    HeaderFooter: TTabSheet;
     Image1: TImage;
-    GroupBox1: TGroupBox;
-    GroupBox2: TGroupBox;
-    PBHeaderLine: TPaintBox;
-    PBHeaderShadow: TPaintBox;
-    GroupBox3: TGroupBox;
-    GroupBox4: TGroupBox;
-    PBFooterLine: TPaintBox;
-    PBFooterShadow: TPaintBox;
     ImageList: TImageList;
     FontDialog: TFontDialog;
     ColorDialog: TColorDialog;
-    HeaderLineColorBtn: TSpTBXButton;
-    HeaderShadowColorBtn: TSpTBXButton;
-    FooterLineColorBtn: TSpTBXButton;
-    FooterShadowColorBtn: TSpTBXButton;
     OKBtn: TSpTBXButton;
     CancelBtn: TSpTBXButton;
     CBMirrorMargins: TSpTBXCheckBox;
@@ -77,14 +62,6 @@ type
     CBHighlight: TSpTBXCheckBox;
     CBColors: TSpTBXCheckBox;
     CBWrap: TSpTBXCheckBox;
-    CBHeaderMirror: TSpTBXCheckBox;
-    CBHeaderLine: TSpTBXCheckBox;
-    CBHeaderBox: TSpTBXCheckBox;
-    CBHeaderShadow: TSpTBXCheckBox;
-    CBFooterMirror: TSpTBXCheckBox;
-    CBFooterLine: TSpTBXCheckBox;
-    CBFooterBox: TSpTBXCheckBox;
-    CBFooterShadow: TSpTBXCheckBox;
     ActionList1: TTntActionList;
     UnderlineCmd: TTntAction;
     ItalicCmd: TTntAction;
@@ -106,12 +83,6 @@ type
     Label9: TSpTBXLabel;
     Label10: TSpTBXLabel;
     Label11: TSpTBXLabel;
-    Label12: TSpTBXLabel;
-    Label13: TSpTBXLabel;
-    Label14: TSpTBXLabel;
-    Label15: TSpTBXLabel;
-    Label16: TSpTBXLabel;
-    Label17: TSpTBXLabel;
     ToolbarDock: TSpTBXDock;
     Toolbar: TSpTBXToolbar;
     tbiUdnerline: TSpTBXItem;
@@ -136,12 +107,43 @@ type
     EditLeftHFTextIndent: TSpTBXEdit;
     EditRightHFTextIndent: TSpTBXEdit;
     CBUnits: TSpTBXComboBox;
+    GroupBox1: TSpTBXGroupBox;
+    GroupBox2: TSpTBXGroupBox;
+    PBHeaderLine: TPaintBox;
+    PBHeaderShadow: TPaintBox;
+    HeaderLineColorBtn: TSpTBXButton;
+    HeaderShadowColorBtn: TSpTBXButton;
+    CBHeaderLine: TSpTBXCheckBox;
+    CBHeaderBox: TSpTBXCheckBox;
+    CBHeaderShadow: TSpTBXCheckBox;
+    CBHeaderMirror: TSpTBXCheckBox;
+    Label12: TSpTBXLabel;
+    Label13: TSpTBXLabel;
+    Label14: TSpTBXLabel;
     REHeaderLeft: TTntRichEdit;
     REHeaderCenter: TTntRichEdit;
     REHeaderRight: TTntRichEdit;
+    GroupBox3: TSpTBXGroupBox;
+    GroupBox4: TSpTBXGroupBox;
+    PBFooterLine: TPaintBox;
+    PBFooterShadow: TPaintBox;
+    FooterLineColorBtn: TSpTBXButton;
+    FooterShadowColorBtn: TSpTBXButton;
+    CBFooterLine: TSpTBXCheckBox;
+    CBFooterBox: TSpTBXCheckBox;
+    CBFooterShadow: TSpTBXCheckBox;
+    CBFooterMirror: TSpTBXCheckBox;
+    Label15: TSpTBXLabel;
+    Label16: TSpTBXLabel;
+    Label17: TSpTBXLabel;
     REFooterLeft: TTntRichEdit;
     REFooterCenter: TTntRichEdit;
     REFooterRight: TTntRichEdit;
+    TabControl: TSpTBXTabControl;
+    SpTBXTabItem1: TSpTBXTabItem;
+    tbMargins: TSpTBXTabSheet;
+    SpTBXTabItem2: TSpTBXTabItem;
+    tbHeaderFooter: TSpTBXTabSheet;
     procedure PageNumCmdExecute(Sender: TObject);
     procedure PagesCmdExecute(Sender: TObject);
     procedure TimeCmdExecute(Sender: TObject);
@@ -153,7 +155,6 @@ type
     procedure REHeaderLeftEnter(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure CBFooterLineEnter(Sender: TObject);
-    procedure PageControlChange(Sender: TObject);
     procedure HeaderLineColorBtnClick(Sender: TObject);
     procedure PBHeaderLinePaint(Sender: TObject);
     procedure HeaderShadowColorBtnClick(Sender: TObject);
@@ -164,6 +165,7 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure CBUnitsChange(Sender: TObject);
     procedure TitleCmdExecute(Sender: TObject);
+    procedure TabControlActiveTabChange(Sender: TObject; TabIndex: Integer);
   private
     { Private declarations }
     Editor: TCustomRichEdit;
@@ -192,7 +194,7 @@ var
 implementation
 
 uses
-  RichEdit, ShellAPI, Messages, TntDialogs, gnugettext, StringResources;
+  RichEdit, Messages, TntDialogs, gnugettext, StringResources;
 
 {$R *.DFM}
 
@@ -211,7 +213,7 @@ end;
 procedure TPageSetupDlg.FormShow(Sender: TObject);
 begin
   Editor := REHeaderLeft;
-  PageControl.ActivePage := Margins;
+  TabControl.ActivePage := tbMargins;
   SetOptions;
   UpdateCursorPos;
 end;
@@ -279,6 +281,13 @@ begin
   Editor.SelText := '$PAGECOUNT$';
 end;
 
+procedure TPageSetupDlg.TabControlActiveTabChange(Sender: TObject;
+  TabIndex: Integer);
+begin
+  if TabControl.ActivePage = tbHeaderFooter then
+    SetOptions;
+end;
+
 procedure TPageSetupDlg.TimeCmdExecute(Sender: TObject);
 begin
   Editor.SelText := '$TIME$';
@@ -331,12 +340,6 @@ begin
   else
     CurrText.Style := CurrText.Style + [fsUnderLine];
   SelectNone;
-end;
-
-procedure TPageSetupDlg.PageControlChange(Sender: TObject);
-begin
-  if PageControl.ActivePage = HeaderFooter then
-    SetOptions;
 end;
 
 procedure TPageSetupDlg.PBHeaderLinePaint(Sender: TObject);

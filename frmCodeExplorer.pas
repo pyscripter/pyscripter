@@ -13,9 +13,9 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ComCtrls, StdCtrls, ExtCtrls, ImgList, Buttons, JvDockControlForm,
-  JvComponent, Menus, Contnrs, VirtualTrees, frmIDEDockWin, TB2Item,
-  cPythonSourceScanner, JvComponentBase, SpTBXItem, SpTBXSkins;
+  Dialogs, ExtCtrls, JvDockControlForm,
+  Menus, Contnrs, VirtualTrees, frmIDEDockWin, TB2Item,
+  cPythonSourceScanner, SpTBXItem, SpTBXSkins, JvComponentBase;
 
 type
   TAbstractCENode = class
@@ -484,6 +484,7 @@ end;
 
 procedure TCodeExplorerWindow.WMSpSkinChange(var Message: TMessage);
 begin
+  inherited;
   ExplorerTree.Invalidate;
   if SkinManager.IsDefaultSkin then
     ExplorerTree.TreeOptions.PaintOptions := ExplorerTree.TreeOptions.PaintOptions - [toAlwaysHideSelection]

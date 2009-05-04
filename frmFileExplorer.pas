@@ -12,7 +12,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ComCtrls, ExtCtrls, JvComponent, JvDockControlForm, VirtualTrees,
+  Dialogs, ExtCtrls, JvDockControlForm, VirtualTrees,
   MPShellUtilities, VirtualExplorerTree, Menus, frmIDEDockWin,
   ActnList, VirtualShellHistory,  TB2Item, TB2Dock,
   TB2Toolbar, JvComponentBase, VirtualShellNotifier, SpTBXItem, TntActnList,
@@ -260,6 +260,7 @@ end;
 
 procedure TFileExplorerWindow.WMSpSkinChange(var Message: TMessage);
 begin
+  inherited;
   FileExplorerTree.Invalidate;
   if SkinManager.IsDefaultSkin then
     FileExplorerTree.TreeOptions.PaintOptions := FileExplorerTree.TreeOptions.PaintOptions - [toAlwaysHideSelection]

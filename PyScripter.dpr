@@ -45,7 +45,6 @@ uses
   frmDisassemlyView in 'frmDisassemlyView.pas' {DisForm},
   frmDocView in 'frmDocView.pas' {DocForm},
   frmWebPreview in 'frmWebPreview.pas' {WebPreviewForm},
-  dlgSynEditOptions in 'dlgSynEditOptions.pas' {fmEditorOptionsDialog},
   SynHighlighterPython in 'SynHighlighterPython.pas',
   frmToDo in 'frmToDo.pas' {ToDoWindow},
   dlgToDoOptions in 'dlgToDoOptions.pas' {fmToDoOptions},
@@ -100,7 +99,6 @@ uses
   frmProjectExplorer in 'frmProjectExplorer.pas' {ProjectExplorerWindow},
   dlgImportDirectory in 'dlgImportDirectory.pas' {ImportDirectoryForm},
   dlgRunConfiguration in 'dlgRunConfiguration.pas' {RunConfigurationForm},
-  MPCommonObjects in 'MPCommonObjects.pas',
   VirtualFileSearch in 'VirtualFileSearch.pas',
   SynHighlighterWeb in 'SynHighlighterWeb.pas',
   SynEditTextBuffer in 'SynEditTextBuffer.pas',
@@ -110,7 +108,9 @@ uses
   JvDockInfo in 'JvDockInfo.pas',
   JvCreateProcessW in 'JvCreateProcessW.pas',
   SynHighlighterYAML in 'SynHighlighterYAML.pas',
-  VirtualTrees in 'VirtualTrees.pas';
+  VirtualTrees in 'VirtualTrees.pas',
+  dlgSynEditOptions in 'dlgSynEditOptions.pas' {fmEditorOptionsDialog: TTntForm},
+  SynRegExpr in 'SynRegExpr.pas';
 
 {$R *.RES}
 {$R WebCopyAvi.RES}

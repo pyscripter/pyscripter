@@ -12,7 +12,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, frmIDEDockWin, JvComponent, JvDockControlForm, ExtCtrls,
+  Dialogs, frmIDEDockWin, JvDockControlForm, ExtCtrls,
   StdCtrls, JvCreateProcessW, Menus, ActnList, uEditAppIntfs, cTools,
   SynEditTypes, JvTimer, SynRegExpr, TB2Item, JvComponentBase, SpTBXItem,
   TntActnList;
@@ -84,7 +84,7 @@ var
 
 implementation
 
-uses dmCommands, cParameters, ShellAPI, Clipbrd,
+uses dmCommands, cParameters, Clipbrd,
   SynEdit, frmPyIDEMain, frmMessages, JclFileUtils, JclStrings,
   uCommonFunctions, JvDockGlobals, Math, StringResources, gnugettext,
   TntDialogs, TntSysUtils, MPCommonUtilities;

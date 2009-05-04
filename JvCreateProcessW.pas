@@ -245,7 +245,7 @@ implementation
 uses
   Math,
   JclStrings,
-  JvVCL5Utils, JvJCLUtils, JvJVCLUtils, JvConsts, JvResources;
+  JvJCLUtils, JvJVCLUtils, JvConsts, JvResources;
 
 const
   CM_READ = WM_USER + 1;

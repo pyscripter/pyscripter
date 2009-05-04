@@ -47,18 +47,18 @@ inherited MessagesWindow: TMessagesWindow
   PixelsPerInch = 96
   TextHeight = 13
   inherited FGPanel: TPanel
-    Width = 687
-    Height = 180
+    Width = 689
+    Height = 182
     ExplicitWidth = 687
     ExplicitHeight = 180
     DesignSize = (
-      687
-      180)
+      689
+      182)
     object MessagesView: TVirtualStringTree
       Left = 0
       Top = 0
-      Width = 687
-      Height = 180
+      Width = 689
+      Height = 182
       Align = alClient
       Alignment = taRightJustify
       BevelInner = bvNone
@@ -83,6 +83,8 @@ inherited MessagesWindow: TMessagesWindow
       OnDblClick = MessagesViewDblClick
       OnGetText = MessagesViewGetText
       OnInitNode = MessagesViewInitNode
+      ExplicitWidth = 687
+      ExplicitHeight = 180
       Columns = <
         item
           Position = 0

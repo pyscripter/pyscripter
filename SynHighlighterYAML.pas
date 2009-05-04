@@ -49,7 +49,7 @@ uses
   QSynEditHighlighter,
 {$ELSE}
   Graphics,
-  SynEditTypes,
+  
   SynEditHighlighter,
 {$ENDIF}
   SysUtils,

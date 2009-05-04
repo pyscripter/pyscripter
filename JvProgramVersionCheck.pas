@@ -38,8 +38,8 @@ uses
   {$IFDEF USE_3RDPARTY_ICS}
   HttpProt, FtpCli,
   {$ENDIF USE_3RDPARTY_ICS}
-  JvPropertyStore, JvAppStorage, JvAppIniStorage, JvAppXMLStorage, JvComponent,
-  JvParameterList, JvThread, JvUrlListGrabber, JvUrlGrabbers, JvThreadDialog;
+  JvPropertyStore, JvAppStorage, JvAppIniStorage, JvAppXMLStorage, 
+  JvParameterList, JvThread, JvThreadDialog;
 
 type
   { Type of release of a Program Version }

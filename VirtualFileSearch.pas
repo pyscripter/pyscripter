@@ -30,20 +30,20 @@ uses
   Graphics,
   Controls,
   Dialogs,
-  ActiveX,
+  
   ShlObj,
   MPCommonUtilities,
   MPThreadManager,
   {$IFDEF TNTSUPPORT}
   TntClasses,
   TntSysUtils,
-  TntWideStrUtils,
+  
   TntWindows,
   {$ENDIF}
   MPShellTypes,
   ExtCtrls,
   MPShellUtilities,
-  VirtualResources,
+  
   MPCommonObjects;
 
 type

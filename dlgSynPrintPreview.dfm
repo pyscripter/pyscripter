@@ -33,36 +33,26 @@ inherited PrintPreviewDlg: TPrintPreviewDlg
     object SpTBXToolbar1: TSpTBXToolbar
       Left = 0
       Top = 0
-      Caption = 'SpTBXToolbar1'
       DockMode = dmCannotFloatOrChangeDocks
       FullSize = True
       Images = ImageList
       TabOrder = 0
+      Caption = 'SpTBXToolbar1'
       object tbiFirst: TSpTBXItem
-        Caption = 'First'
-        Hint = 'First|Go to first page'
         Action = FirstCmd
       end
       object tbiPrev: TSpTBXItem
-        Caption = 'Previous'
-        Hint = 'Previous|Go to previous page'
         Action = PrevCmd
       end
       object tbiNext: TSpTBXItem
-        Caption = 'Next'
-        Hint = 'Next|Go to next page'
         Action = NextCmd
       end
       object tbiLast: TSpTBXItem
-        Caption = 'Last'
-        Hint = 'Last|Go to last page'
         Action = LastCmd
       end
       object SpTBXSeparatorItem3: TSpTBXSeparatorItem
       end
       object tbiZoom: TSpTBXSubmenuItem
-        Caption = 'Zoom'
-        Hint = 'Zoom|Zoom In/Out'
         Action = ZoomCmd
         DropdownCombo = True
         object tbiWholePage: TSpTBXItem
@@ -113,15 +103,11 @@ inherited PrintPreviewDlg: TPrintPreviewDlg
       object SpTBXSeparatorItem2: TSpTBXSeparatorItem
       end
       object tbiPrint: TSpTBXItem
-        Caption = 'Print'
-        Hint = 'Print|Print the document'
         Action = PrintCmd
       end
       object SpTBXSeparatorItem1: TSpTBXSeparatorItem
       end
       object tbiClose: TSpTBXItem
-        Caption = 'Close'
-        Hint = 'Close|Close Print Preview'
         Action = CloseCmd
       end
     end

@@ -7,6 +7,8 @@ inherited OptionsInspector: TOptionsInspector
   Font.Name = 'MS Shell Dlg 2'
   Position = poMainFormCenter
   OnDestroy = FormDestroy
+  ExplicitWidth = 514
+  ExplicitHeight = 375
   PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TSpTBXPanel
@@ -14,12 +16,11 @@ inherited OptionsInspector: TOptionsInspector
     Top = 0
     Width = 508
     Height = 312
-    SkinType = sknSkin
-    Align = alClient
     Color = clBtnFace
+    Align = alClient
     UseDockManager = True
-    ParentColor = False
     TabOrder = 0
+    TBXStyleBackground = True
     object Inspector: TJvInspector
       Left = 2
       Top = 2
@@ -31,8 +32,10 @@ inherited OptionsInspector: TOptionsInspector
       BevelInner = bvRaised
       BevelOuter = bvRaised
       RelativeDivider = True
-      Divider = 57
+      Divider = 55
       ItemHeight = 16
+      TabStop = True
+      TabOrder = 0
     end
   end
   object Panel2: TSpTBXPanel
@@ -40,13 +43,12 @@ inherited OptionsInspector: TOptionsInspector
     Top = 312
     Width = 508
     Height = 37
-    SkinType = sknSkin
+    Color = clBtnFace
     Align = alBottom
     Anchors = [akLeft, akBottom]
-    Color = clBtnFace
     UseDockManager = True
-    ParentColor = False
     TabOrder = 1
+    TBXStyleBackground = True
     DesignSize = (
       508
       37)

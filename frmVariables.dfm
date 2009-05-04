@@ -47,15 +47,15 @@ inherited VariablesWindow: TVariablesWindow
   PixelsPerInch = 96
   TextHeight = 13
   inherited FGPanel: TPanel
-    Width = 573
-    Height = 241
+    Width = 575
+    Height = 243
     ExplicitWidth = 573
     ExplicitHeight = 241
     object VariablesTree: TVirtualStringTree
       Left = 0
       Top = 0
-      Width = 193
-      Height = 241
+      Width = 195
+      Height = 243
       Align = alClient
       Alignment = taRightJustify
       Anchors = [akLeft, akTop, akBottom]
@@ -84,6 +84,8 @@ inherited VariablesWindow: TVariablesWindow
       OnPaintText = VariablesTreePaintText
       OnGetImageIndex = VariablesTreeGetImageIndex
       OnInitNode = VariablesTreeInitNode
+      ExplicitWidth = 193
+      ExplicitHeight = 241
       Columns = <
         item
           Position = 0
@@ -102,16 +104,18 @@ inherited VariablesWindow: TVariablesWindow
         end>
     end
     object DocPanel: TSpTBXPageScroller
-      Left = 198
+      Left = 200
       Top = 0
       Width = 375
-      Height = 241
+      Height = 243
       Align = alRight
       AutoRange = True
       Color = clBtnFace
       DoubleBuffered = False
       ParentColor = False
       TabOrder = 1
+      ExplicitLeft = 198
+      ExplicitHeight = 241
       object HTMLLabel: TJvLinkLabel
         Left = 0
         Top = 0
@@ -127,12 +131,14 @@ inherited VariablesWindow: TVariablesWindow
       end
     end
     object SpTBXSplitter: TSpTBXSplitter
-      Left = 193
+      Left = 195
       Top = 0
-      Height = 241
+      Height = 243
       Cursor = crSizeWE
       Align = alRight
       MinSize = 3
+      ExplicitLeft = 193
+      ExplicitHeight = 241
     end
   end
   inherited DockClient: TJvDockClient

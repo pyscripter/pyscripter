@@ -47,7 +47,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, frmIDEDockWin, JvComponent, JvDockControlForm, ExtCtrls, ActnList,
+  Dialogs, frmIDEDockWin, JvDockControlForm, ExtCtrls, ActnList,
   Contnrs, ImgList, ComCtrls, Menus, JvAppStorage, TB2Item,
   TB2Dock, TB2Toolbar, VirtualTrees, JvComponentBase, SpTBXItem,
   SynUnicode, MPCommonObjects, TntActnList, SpTBXSkins;
@@ -194,7 +194,7 @@ implementation
 
 uses dmCommands, Clipbrd, uEditAppIntfs, Math, frmPyIDEMain, dlgToDoOptions,
   uCommonFunctions, JvJVCLUtils, JvDockGlobals, cProjectClasses, WideStrUtils,
-  VirtualFileSearch, MPCommonUtilities, TntWindows, cParameters;
+  VirtualFileSearch, MPCommonUtilities, cParameters;
 
 {$R *.dfm}
 

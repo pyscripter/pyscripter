@@ -47,8 +47,8 @@ inherited CallStackWindow: TCallStackWindow
   PixelsPerInch = 96
   TextHeight = 13
   inherited FGPanel: TPanel
-    Width = 375
-    Height = 162
+    Width = 377
+    Height = 164
     ExplicitWidth = 375
     ExplicitHeight = 162
     object CallStackView: TVirtualStringTree

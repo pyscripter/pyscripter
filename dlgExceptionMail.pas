@@ -29,9 +29,9 @@ interface
 
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ExtCtrls, AppEvnts,
-  JclSysUtils, JclMapi, JclDebug, SpTBXDkPanels, SpTBXControls, TntStdCtrls, 
-  dlgPyIDEBase;
+  StdCtrls, ExtCtrls, AppEvnts,
+  JclSysUtils, JclMapi, JclDebug, SpTBXControls, TntStdCtrls, 
+  dlgPyIDEBase, SpTBXItem;
 
 const
   UM_CREATEDETAILS = WM_USER + $100;
@@ -94,8 +94,8 @@ implementation
 {$R *.dfm}
 
 uses
-  ClipBrd, Math,
-  JclBase, JclFileUtils, JclHookExcept, JclPeImage, JclStrings, JclSysInfo, JclWin32, 
+  ClipBrd, 
+  JclFileUtils, JclHookExcept, JclPeImage, JclStrings, JclSysInfo, JclWin32, 
   uCommonFunctions, PythonEngine, dmCommands, TypInfo, cPyBaseDebugger;
 
 resourcestring
