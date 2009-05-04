@@ -1,3 +1,11 @@
+{-----------------------------------------------------------------------------
+ Unit Name: SpTBXPageScroller
+ Author:    Kiriakos
+ Date:      04-May-2009
+ Purpose:   Port of TBXPageScroller to SpTBXLib
+ History:
+-----------------------------------------------------------------------------}
+
 unit SpTBXPageScroller;
 
 interface

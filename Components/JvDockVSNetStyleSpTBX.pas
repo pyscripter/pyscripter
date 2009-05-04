@@ -1,12 +1,10 @@
 {-----------------------------------------------------------------------------
  Unit Name: TJvDockVSNETTBX
  Author:    Kiriakos Vlahos
- Date:      01-Jul-2005
- Purpose:   TBX themed TJvDockVSNETTree docking style for JvDocking
-            Donated to JvTBXLib (mxs.bergsoft.net)
+ Date:      01-May-2009
+ Purpose:   SpTBX themed TJvDockVSNETTree docking style for JvDocking
  History:
 -----------------------------------------------------------------------------}
-
 unit JvDockVSNetStyleSpTBX;
 
 {$I jvcl.inc}
