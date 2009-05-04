@@ -77,7 +77,7 @@ uses
   QSynHighlighterWebData,
 {$ELSE}
   Graphics,
-  SynEditTypes,                 
+                  
   SynEditHighlighter, 
   SynHighlighterWebData,
 {$ENDIF}

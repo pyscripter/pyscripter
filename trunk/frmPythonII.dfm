@@ -50,16 +50,16 @@ inherited PythonIIForm: TPythonIIForm
   PixelsPerInch = 96
   TextHeight = 13
   inherited FGPanel: TPanel
-    Width = 695
-    Height = 445
+    Width = 697
+    Height = 447
     Color = clInactiveBorder
     ExplicitWidth = 695
     ExplicitHeight = 445
     object SynEdit: TSynEdit
       Left = 0
       Top = 0
-      Width = 695
-      Height = 445
+      Width = 697
+      Height = 447
       HelpContext = 410
       Align = alClient
       Font.Charset = DEFAULT_CHARSET
@@ -90,6 +90,8 @@ inherited PythonIIForm: TPythonIIForm
       OnProcessCommand = SynEditProcessCommand
       OnProcessUserCommand = SynEditProcessUserCommand
       OnPaintTransient = SynEditPaintTransient
+      ExplicitWidth = 695
+      ExplicitHeight = 445
     end
   end
   object PythonEngine: TPythonEngine

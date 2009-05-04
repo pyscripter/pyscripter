@@ -5,9 +5,10 @@ inherited FunctionListWindow: TFunctionListWindow
   ActiveControl = edtMethods
   Anchors = [akLeft, akTop, akRight]
   BorderIcons = [biSystemMenu]
+  BorderStyle = bsSizeable
   Caption = 'Function List'
-  ClientHeight = 315
-  ClientWidth = 529
+  ClientHeight = 312
+  ClientWidth = 525
   Font.Name = 'MS Shell Dlg 2'
   Icon.Data = {
     0000010001001010000001002000680400001600000028000000100000002000
@@ -52,74 +53,79 @@ inherited FunctionListWindow: TFunctionListWindow
   Scaled = False
   OnClose = FormClose
   OnKeyPress = edtMethodsKeyPress
-  OnResize = FormResize
-  ExplicitWidth = 535
-  ExplicitHeight = 341
+  ExplicitWidth = 541
+  ExplicitHeight = 348
   PixelsPerInch = 96
   TextHeight = 13
   object pnHolder: TSpTBXPanel
     Left = 0
-    Top = 62
-    Width = 529
-    Height = 228
-    SkinType = sknSkin
+    Top = 69
+    Width = 525
+    Height = 218
     Align = alClient
     TabOrder = 0
-    object lvProcs: TTntListView
-      Left = 2
-      Top = 2
-      Width = 525
-      Height = 224
+    TBXStyleBackground = True
+    object lvProcs: TEasyListview
+      AlignWithMargins = True
+      Left = 5
+      Top = 5
+      Width = 515
+      Height = 208
       Align = alClient
-      Columns = <
-        item
-          Width = 20
-        end
-        item
-          Caption = 'Function'
-          Width = 313
-        end
-        item
-          Caption = 'Line'
-          Width = 68
-        end>
-      HideSelection = False
-      ReadOnly = True
-      RowSelect = True
-      SmallImages = CommandsDataModule.CodeImages
+      BevelInner = bvRaised
+      EditManager.Font.Charset = DEFAULT_CHARSET
+      EditManager.Font.Color = clWindowText
+      EditManager.Font.Height = -11
+      EditManager.Font.Name = 'MS Shell Dlg 2'
+      EditManager.Font.Style = []
+      Header.Columns.Items = {
+        0600000003000000110000005445617379436F6C756D6E53746F726564FFFECE
+        0006000000800800010100010000000000000114000000FFFFFF1F0001000000
+        00000000000000000000000000000000110000005445617379436F6C756D6E53
+        746F726564FFFECE00060000008008000101010101000000000001A4010000FF
+        FFFF1F00010000000100000008000000460075006E006300740069006F006E00
+        000000000000000000000000110000005445617379436F6C756D6E53746F7265
+        64FFFECE0006000000800801010100010200000000000146000000FFFFFF1F00
+        0100000001000000040000004C0069006E006500000000000000000000000000}
+      Header.Visible = True
+      ImagesSmall = CommandsDataModule.CodeImages
+      PaintInfoGroup.MarginBottom.CaptionIndent = 4
+      Selection.FullRowSelect = True
+      Sort.AutoSort = True
       TabOrder = 0
-      ViewStyle = vsReport
-      OnChange = lvProcsChange
-      OnColumnClick = lvProcsColumnClick
-      OnDblClick = actViewGotoExecute
+      View = elsReport
+      OnItemCompare = lvProcsItemCompare
+      OnItemDblClick = lvProcsItemDblClick
+      OnItemSelectionsChanged = lvProcsItemSelectionsChanged
+      OnSortEnd = lvProcsSortEnd
     end
   end
   object pnlHeader: TSpTBXPanel
     Left = 0
     Top = 26
-    Width = 529
-    Height = 36
-    SkinType = sknSkin
+    Width = 525
+    Height = 43
     Align = alTop
     ParentShowHint = False
     ShowHint = True
     TabOrder = 1
     OnResize = pnlHeaderResize
+    TBXStyleBackground = True
     object pnlHeaderLeft: TSpTBXPanel
-      Left = 2
-      Top = 2
+      AlignWithMargins = True
+      Left = 5
+      Top = 5
       Width = 260
-      Height = 32
-      SkinType = sknSkin
+      Height = 33
       Align = alLeft
       TabOrder = 0
+      TBXStyleBackground = True
       object lblMethods: TSpTBXLabel
-        Left = 14
-        Top = 10
-        Width = 33
-        Height = 13
+        Left = 10
+        Top = 8
+        Width = 39
+        Height = 19
         Caption = '&Search'
-        ParentColor = True
         Alignment = taRightJustify
         FocusControl = edtMethods
       end
@@ -135,27 +141,27 @@ inherited FunctionListWindow: TFunctionListWindow
       end
     end
     object pnlHeaderRight: TSpTBXPanel
-      Left = 262
-      Top = 2
-      Width = 265
-      Height = 32
-      SkinType = sknSkin
+      AlignWithMargins = True
+      Left = 271
+      Top = 5
+      Width = 249
+      Height = 33
       Align = alClient
       TabOrder = 1
+      TBXStyleBackground = True
       object lblObjects: TSpTBXLabel
-        Left = 16
+        Left = 10
         Top = 8
-        Width = 37
-        Height = 13
+        Width = 43
+        Height = 19
         Caption = '&Objects'
-        ParentColor = True
         Alignment = taRightJustify
         FocusControl = cbxObjects
       end
       object cbxObjects: TSpTBXComboBox
-        Left = 78
-        Top = 4
-        Width = 174
+        Left = 82
+        Top = 6
+        Width = 170
         Height = 21
         Style = csDropDownList
         DropDownCount = 16
@@ -170,7 +176,7 @@ inherited FunctionListWindow: TFunctionListWindow
   object ToolBarDock: TSpTBXDock
     Left = 0
     Top = 0
-    Width = 529
+    Width = 525
     Height = 26
     AllowDrag = False
     LimitToOneRow = True
@@ -183,49 +189,37 @@ inherited FunctionListWindow: TFunctionListWindow
       TabOrder = 0
       Customizable = False
       object tbiCopy: TSpTBXItem
-        Caption = '&Edit'
-        Hint = 'Copy procedures to clipboard'
         Action = actEditCopy
       end
       object SpTBXSeparatorItem4: TSpTBXSeparatorItem
       end
       object tbiFont: TSpTBXItem
-        Caption = '&Font..'
-        Hint = 'Configure font'
         Action = actOptionsFont
       end
       object SpTBXSeparatorItem3: TSpTBXSeparatorItem
       end
       object tbiViewStart: TSpTBXItem
-        Caption = 'S&tart'
-        Hint = 'Match only from the start'
         Action = actViewStart
       end
       object tbiViewAny: TSpTBXItem
-        Caption = '&Any'
-        Hint = 'Match anywhere'
         Action = actViewAny
       end
       object SpTBXSeparatorItem2: TSpTBXSeparatorItem
       end
       object tbiViewGoto: TSpTBXItem
-        Caption = '&Goto'
-        Hint = 'Goto implementation'
         Action = actViewGoto
       end
       object SpTBXSeparatorItem1: TSpTBXSeparatorItem
       end
       object tbiHelp: TSpTBXItem
-        Caption = '&Help'
-        Hint = 'Help'
         Action = actHelpHelp
       end
     end
   end
   object StatusBar: TSpTBXStatusBar
     Left = 0
-    Top = 290
-    Width = 529
+    Top = 287
+    Width = 525
     Height = 25
     ParentShowHint = False
     ShowHint = True
@@ -235,14 +229,13 @@ inherited FunctionListWindow: TFunctionListWindow
       CustomHeight = 21
     end
     object SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem
-      CustomWidth = 433
+      CustomWidth = 490
     end
     object SpTBXSeparatorItem5: TSpTBXSeparatorItem
     end
     object RightStatusLabel: TSpTBXLabelItem
       Wrapping = twNone
       Alignment = taCenter
-      CustomWidth = 80
     end
   end
   object dlgProcFont: TFontDialog

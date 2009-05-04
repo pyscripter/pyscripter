@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, cPyBaseDebugger, StdCtrls, SpTBXControls, SynEdit, SpTBXDkPanels,
+  Dialogs, cPyBaseDebugger, StdCtrls, SpTBXControls, SynEdit, 
   ExtCtrls, TntStdCtrls, SpTBXEditors, dlgPyIDEBase, SpTBXItem;
 
 type

@@ -46,8 +46,8 @@ interface
 
 uses
   Classes, Controls, Graphics, Forms, StdCtrls,
-  cFindInFiles, JvAppStorage, SpTBXControls, SpTBXDkPanels, TntStdCtrls,
-  SpTBXEditors, dlgPyIDEBase;
+  cFindInFiles, SpTBXControls, TntStdCtrls,
+  SpTBXEditors, dlgPyIDEBase, SpTBXItem;
 
 type
   TFindInFilesDialog = class(TPyIDEDlgBase)
@@ -73,6 +73,7 @@ type
     lblFind: TSpTBXLabel;
     lblMasks: TSpTBXLabel;
     lblDirectory: TSpTBXLabel;
+    SpTBXPanel1: TSpTBXPanel;
     procedure btnBrowseClick(Sender: TObject);
     procedure rbProjectClick(Sender: TObject);
     procedure btnHelpClick(Sender: TObject);
@@ -111,8 +112,7 @@ var
   NewDir : WideString;
 begin
   NewDir := cbDirectory.Text;
-  WideSelectDirectory('Directory To Search', '', NewDir);
-  if (NewDir <> '') and (NewDir <> cbDirectory.Text) then
+  if WideSelectDirectory('Directory To Search', '', NewDir) then
     cbDirectory.Text := NewDir;
 end;
 

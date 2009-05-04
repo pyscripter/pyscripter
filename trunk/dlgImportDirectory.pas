@@ -3,20 +3,21 @@ unit dlgImportDirectory;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, Mask, JvExMask, JvToolEdit, ExtCtrls, SpTBXDkPanels,
-  SpTBXControls, dlgPyIDEBase;
+  Windows, Messages, SysUtils, Variants, Classes, Controls, Forms,
+  Dialogs, StdCtrls, 
+  SpTBXControls, dlgPyIDEBase, SpTBXItem, SpTBXEditors;
 
 type
   TImportDirectoryForm = class(TPyIDEDlgBase)
     Panel1: TSpTBXPanel;
-    DirectoryEdit: TJvDirectoryEdit;
     ebMask: TEdit;
     cbRecursive: TCheckBox;
     Label1: TSpTBXLabel;
     Label2: TSpTBXLabel;
     Button1: TSpTBXButton;
     Button2: TSpTBXButton;
+    DirectoryEdit: TSpTBXButtonEdit;
+    procedure DirectoryEditBtnClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -31,11 +32,20 @@ type
 
 implementation
 
-uses uCommonFunctions, dmCommands, uHighlighterProcs;
+uses TntFileCtrl;
 
 {$R *.dfm}
 
 { TImportDirectoryForm }
+
+procedure TImportDirectoryForm.DirectoryEditBtnClick(Sender: TObject);
+var
+  NewDir: WideString;
+begin
+  NewDir := DirectoryEdit.Text;
+  if WideSelectDirectory('Select Directory:', '', NewDir) then
+    DirectoryEdit.Text := NewDir;
+end;
 
 class function TImportDirectoryForm.Execute: Boolean;
 Var
@@ -47,7 +57,6 @@ begin
     Owner := Application.MainForm;
   with TImportDirectoryForm.Create(Owner) do begin
     Result := False;
-    DirectoryEdit.InitialDir := Directory;
     DirectoryEdit.Text := Directory;
     ebMask.Text := FileMasks;
     cbRecursive.Checked := Recursive;

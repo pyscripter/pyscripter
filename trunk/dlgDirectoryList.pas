@@ -11,8 +11,9 @@ unit dlgDirectoryList;
 interface
 
 uses
-  SysUtils, Classes, Windows, Controls, Forms, StdCtrls, SpTBXDkPanels,
-  SpTBXControls, WideStrings, TntStdCtrls, SpTBXEditors, TntFileCtrl,  dlgPyIDEBase;
+  SysUtils, Classes, Windows, Controls, Forms, StdCtrls, 
+  SpTBXControls, WideStrings, TntStdCtrls, SpTBXEditors, TntFileCtrl,  dlgPyIDEBase,
+  SpTBXItem;
 
 type
   TDirectoryListDialog = class(TPyIDEDlgBase)
@@ -53,7 +54,7 @@ function EditFolderList(Folders: TWideStrings; FormCaption : WideString = 'Direc
 implementation
 
 uses
-  JvJVCLUtils, JvJCLUtils, JvConsts, JVBoxProcs,
+  JvJCLUtils, JvConsts, JVBoxProcs,
   dmCommands, Math;
 
 {$R *.dfm}
@@ -125,8 +126,7 @@ var
   NewDir: WideString;
 begin
   NewDir := edPath.Text;
-  WideSelectDirectory('Select Directory:', '', NewDir);
-  if (NewDir <> '') then
+  if WideSelectDirectory('Select Directory:', '', NewDir) then
     edPath.Text := NewDir;
 end;
 

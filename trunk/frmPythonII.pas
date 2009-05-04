@@ -22,7 +22,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs , Menus, PythonEngine, SyncObjs, SynHighlighterPython,
   SynEditHighlighter, SynEdit,
-  SynEditKeyCmds, SynCompletionProposal, JvComponent, JvDockControlForm,
+  SynEditKeyCmds, SynCompletionProposal, JvDockControlForm,
   frmIDEDockWin, ExtCtrls, PythonGUIInputOutput, JvComponentBase,
   WideStrings, TB2Item, ActnList, cPyBaseDebugger, WrapDelphi, WrapDelphiClasses,
   SpTBXItem, TntActnList, SpTBXSkins;
@@ -174,9 +174,9 @@ implementation
 Uses
   SynEditTypes, Math, frmPyIDEMain, dmCommands, VarPyth, Registry,
   frmMessages, uCommonFunctions, frmVariables, StringResources,
-  dlgConfirmReplace, frmUnitTests, JvDockGlobals, SynRegExpr, 
-  cPyDebugger, cPyRemoteDebugger, JvJVCLUtils, frmCallStack, uCmdLine,
-  JclFileUtils, gnugettext, TntDialogs, WideStrUtils, cProjectClasses;
+  frmUnitTests, SynRegExpr, 
+  cPyDebugger, cPyRemoteDebugger, JvJVCLUtils, uCmdLine,
+  JclFileUtils, gnugettext, TntDialogs, WideStrUtils;
 
 {$R *.dfm}
 

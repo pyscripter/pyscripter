@@ -11,8 +11,9 @@ interface
 
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  StdCtrls, Menus, ActnList, IniFiles, ComCtrls, SpTBXControls, SpTBXDkPanels,
-  Buttons, TntStdCtrls, SpTBXEditors, dlgPyIDEBase, WideStrings, ExtCtrls;
+  StdCtrls, Menus, ActnList, ComCtrls, SpTBXControls, 
+  Buttons, TntStdCtrls, SpTBXEditors, dlgPyIDEBase, WideStrings, ExtCtrls,
+  SpTBXItem;
 
 type
   TActionProxyItem = class(TCollectionItem)
@@ -63,6 +64,7 @@ type
     lbCommands: TSpTBXListBox;
     lbCurrentKeys: TSpTBXListBox;
     Bevel1: TBevel;
+    SpTBXPanel1: TSpTBXPanel;
     procedure HelpButtonClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure lbCategoriesClick(Sender: TObject);

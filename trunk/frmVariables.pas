@@ -12,11 +12,11 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ComCtrls, StdCtrls, ExtCtrls, ImgList,
-  JvDockControlForm, JvComponent, Menus, VTHeaderPopup, JvAppStorage,
+  Dialogs, 
+  JvDockControlForm, Menus, VTHeaderPopup, JvAppStorage,
   VirtualTrees, frmIDEDockWin, 
-  JvExControls, JvLinkLabel, SpTBXDkPanels, JvComponentBase, cPyBaseDebugger,
-  SpTBXSkins, SpTBXControls, SpTBXPageScroller;
+  JvExControls, JvLinkLabel, SpTBXDkPanels, cPyBaseDebugger,
+  SpTBXSkins, SpTBXPageScroller, JvComponentBase, ExtCtrls;
 
 type
   TVariablesWindow = class(TIDEDockWindow, IJvAppStorageHandler)
@@ -62,8 +62,8 @@ var
 implementation
 
 uses frmPyIDEMain, frmCallStack, PythonEngine, VarPyth,
-  dmCommands, uCommonFunctions, JclFileUtils, StringResources, frmPythonII,
-  JvDockGlobals, cPyDebugger, JvJVCLUtils, Math, gnugettext;
+  dmCommands, uCommonFunctions, JclFileUtils, StringResources, 
+  JvDockGlobals, JvJVCLUtils, Math, gnugettext;
 
 {$R *.dfm}
 Type

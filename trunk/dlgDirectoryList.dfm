@@ -20,9 +20,9 @@ inherited DirectoryListDialog: TDirectoryListDialog
     Top = 0
     Width = 389
     Height = 242
-    SkinType = sknSkin
     Align = alClient
     TabOrder = 0
+    TBXStyleBackground = True
     DesignSize = (
       389
       242)
@@ -39,7 +39,6 @@ inherited DirectoryListDialog: TDirectoryListDialog
       OnClick = DirectoryListClick
       OnDragDrop = DirectoryListDragDrop
       OnDragOver = DirectoryListDragOver
-      SkinType = sknSkin
     end
     object btnMoveUp: TSpTBXButton
       Left = 354
@@ -68,8 +67,8 @@ inherited DirectoryListDialog: TDirectoryListDialog
     object SpTBXLabel1: TSpTBXLabel
       Left = 8
       Top = 15
-      Width = 120
-      Height = 13
+      Width = 126
+      Height = 19
       Caption = 'Ordered list of file paths:'
     end
   end
@@ -79,10 +78,10 @@ inherited DirectoryListDialog: TDirectoryListDialog
     Width = 389
     Height = 110
     Caption = 'SpTBXPanel2'
-    SkinType = sknSkin
     Align = alBottom
     TabOrder = 1
     BorderType = pbrFramed
+    TBXStyleBackground = True
     DesignSize = (
       389
       110)
@@ -92,9 +91,9 @@ inherited DirectoryListDialog: TDirectoryListDialog
       Width = 385
       Height = 42
       Caption = 'SpTBXPanel3'
-      SkinType = sknSkin
       Align = alBottom
       TabOrder = 0
+      TBXStyleBackground = True
       DesignSize = (
         385
         42)
@@ -150,7 +149,6 @@ inherited DirectoryListDialog: TDirectoryListDialog
       Anchors = [akLeft, akTop, akRight]
       TabOrder = 3
       OnChange = edPathChange
-      SkinType = sknSkin
       EditButton.Left = 318
       EditButton.Top = 0
       EditButton.Width = 20
@@ -159,8 +157,7 @@ inherited DirectoryListDialog: TDirectoryListDialog
       EditButton.Align = alRight
       EditButton.OnClick = BtnPathClick
       EditButton.Images = CommandsDataModule.Images
-      EditButton.ImageIndex = 3
-      EditButton.SkinType = sknSkin
+      EditButton.ImageIndex = 45
     end
     object btnDelete: TSpTBXButton
       Left = 228

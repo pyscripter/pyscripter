@@ -2,9 +2,8 @@ inherited CodeTemplates: TCodeTemplates
   Left = 340
   Top = 192
   HelpContext = 540
-  BorderIcons = []
   Caption = 'Code Templates'
-  ClientHeight = 423
+  ClientHeight = 426
   ClientWidth = 430
   Font.Name = 'MS Shell Dlg 2'
   Position = poMainFormCenter
@@ -13,27 +12,27 @@ inherited CodeTemplates: TCodeTemplates
   OnDestroy = FormDestroy
   OnShow = FormShow
   ExplicitWidth = 436
-  ExplicitHeight = 449
+  ExplicitHeight = 452
   PixelsPerInch = 96
   TextHeight = 13
   object Panel: TSpTBXPanel
     Left = 0
     Top = 0
     Width = 430
-    Height = 423
-    SkinType = sknSkin
+    Height = 426
     Align = alClient
     TabOrder = 0
+    TBXStyleBackground = True
     DesignSize = (
       430
-      423)
+      426)
     object btnAdd: TSpTBXButton
       Left = 6
       Top = 118
       Width = 84
       Height = 24
       Action = actAddItem
-      TabOrder = 4
+      TabOrder = 3
       Images = CommandsDataModule.Images
       ImageIndex = 49
     end
@@ -43,7 +42,7 @@ inherited CodeTemplates: TCodeTemplates
       Width = 84
       Height = 24
       Action = actDeleteItem
-      TabOrder = 5
+      TabOrder = 4
       Images = CommandsDataModule.Images
       ImageIndex = 14
     end
@@ -53,7 +52,7 @@ inherited CodeTemplates: TCodeTemplates
       Width = 84
       Height = 24
       Action = actMoveUp
-      TabOrder = 6
+      TabOrder = 5
       Images = CommandsDataModule.Images
       ImageIndex = 47
     end
@@ -63,7 +62,7 @@ inherited CodeTemplates: TCodeTemplates
       Width = 84
       Height = 24
       Action = actMoveDown
-      TabOrder = 7
+      TabOrder = 6
       Images = CommandsDataModule.Images
       ImageIndex = 48
     end
@@ -73,59 +72,60 @@ inherited CodeTemplates: TCodeTemplates
       Width = 84
       Height = 24
       Action = actUpdateItem
-      TabOrder = 8
+      TabOrder = 7
       Images = CommandsDataModule.Images
       ImageIndex = 39
     end
     object btnCancel: TSpTBXButton
       Left = 263
-      Top = 391
+      Top = 394
       Width = 75
       Height = 25
       Caption = '&Cancel'
       Anchors = [akRight, akBottom]
-      TabOrder = 1
+      TabOrder = 0
       Cancel = True
       ModalResult = 2
     end
     object btnOK: TSpTBXButton
       Left = 179
-      Top = 391
+      Top = 394
       Width = 75
       Height = 25
       Caption = '&OK'
       Anchors = [akRight, akBottom]
-      TabOrder = 2
+      TabOrder = 1
       Default = True
       ModalResult = 1
     end
     object btnHelp: TSpTBXButton
       Left = 347
-      Top = 391
+      Top = 394
       Width = 75
       Height = 25
       Caption = '&Help'
       Anchors = [akRight, akBottom]
-      TabOrder = 9
+      TabOrder = 8
       OnClick = btnHelpClick
     end
     object GroupBox: TSpTBXGroupBox
-      Left = 10
+      AlignWithMargins = True
+      Left = 6
       Top = 148
-      Width = 415
-      Height = 235
+      Width = 419
+      Height = 239
       Caption = 'Code Template:'
-      SkinType = sknSkin
       Anchors = [akLeft, akTop, akRight]
-      TabOrder = 3
+      TabOrder = 2
+      TBXStyleBackground = True
       DesignSize = (
-        415
-        235)
+        419
+        239)
       object SynTemplate: TSynEdit
         Left = 4
-        Top = 80
-        Width = 400
-        Height = 117
+        Top = 84
+        Width = 404
+        Height = 116
         Anchors = [akLeft, akTop, akRight]
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
@@ -146,59 +146,56 @@ inherited CodeTemplates: TCodeTemplates
       object Label1: TSpTBXLabel
         Left = 7
         Top = 24
-        Width = 31
-        Height = 13
+        Width = 37
+        Height = 19
         Caption = '&Name:'
-        ParentColor = True
       end
       object Label2: TSpTBXLabel
         Left = 7
         Top = 65
-        Width = 48
-        Height = 13
+        Width = 54
+        Height = 19
         Caption = '&Template:'
-        ParentColor = True
       end
       object Label5: TSpTBXLabel
         Left = 7
         Top = 46
-        Width = 57
-        Height = 13
+        Width = 63
+        Height = 19
         Caption = '&Description:'
-        ParentColor = True
       end
       object Label4: TSpTBXLabel
         Left = 8
-        Top = 203
-        Width = 204
-        Height = 13
+        Top = 200
+        Width = 210
+        Height = 19
         Caption = 'Press Shift+Ctrl+M for Modifier completion'
+        Enabled = False
         Font.Charset = DEFAULT_CHARSET
-        Font.Color = clGrayText
+        Font.Color = clWindowText
         Font.Height = -11
         Font.Name = 'MS Shell Dlg 2'
         Font.Style = []
-        ParentColor = True
         ParentFont = False
       end
       object Label3: TSpTBXLabel
         Left = 8
         Top = 215
-        Width = 214
-        Height = 13
+        Width = 220
+        Height = 19
         Caption = 'Press Shift+Ctrl+P for Parameter completion'
+        Enabled = False
         Font.Charset = DEFAULT_CHARSET
-        Font.Color = clGrayText
+        Font.Color = clWindowText
         Font.Height = -11
         Font.Name = 'MS Shell Dlg 2'
         Font.Style = []
-        ParentColor = True
         ParentFont = False
       end
       object edDescription: TSpTBXEdit
         Left = 74
         Top = 43
-        Width = 334
+        Width = 338
         Height = 21
         Anchors = [akLeft, akTop, akRight]
         Font.Charset = DEFAULT_CHARSET
@@ -224,30 +221,34 @@ inherited CodeTemplates: TCodeTemplates
         OnKeyPress = edShortcutKeyPress
       end
     end
-    object lvItems: TTntListView
-      Left = 2
-      Top = 2
-      Width = 426
-      Height = 109
+    object lvItems: TEasyListview
+      AlignWithMargins = True
+      Left = 5
+      Top = 5
+      Width = 420
+      Height = 112
       Align = alTop
-      Columns = <
-        item
-          Caption = 'Name'
-          Width = 120
-        end
-        item
-          Caption = 'Description'
-          Width = 280
-        end>
-      ColumnClick = False
-      GridLines = True
-      HideSelection = False
-      ReadOnly = True
-      RowSelect = True
-      TabOrder = 0
-      ViewStyle = vsReport
-      OnChange = lvItemsChange
-      OnDeletion = lvItemsDeletion
+      EditManager.Font.Charset = DEFAULT_CHARSET
+      EditManager.Font.Color = clWindowText
+      EditManager.Font.Height = -11
+      EditManager.Font.Name = 'MS Shell Dlg 2'
+      EditManager.Font.Style = []
+      Header.Columns.Items = {
+        0600000002000000110000005445617379436F6C756D6E53746F726564FFFECE
+        0006000000800800010100010000000000000078000000FFFFFF1F0001000000
+        01000000040000004E0061006D00650000000000000000000000000011000000
+        5445617379436F6C756D6E53746F726564FFFECE000600000080080001010001
+        0100000000000018010000FFFFFF1F0001000000010000000B00000044006500
+        73006300720069007000740069006F006E00000000000000000000000000}
+      Header.Draggable = False
+      Header.Visible = True
+      HotTrack.Enabled = True
+      PaintInfoGroup.MarginBottom.CaptionIndent = 4
+      Selection.FullRowSelect = True
+      TabOrder = 9
+      View = elsReport
+      OnItemFreeing = lvItemsItemFreeing
+      OnItemSelectionsChanged = lvItemsItemSelectionsChanged
     end
   end
   object ActionList: TTntActionList

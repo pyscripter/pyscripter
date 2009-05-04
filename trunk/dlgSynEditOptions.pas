@@ -70,14 +70,8 @@ uses
   Forms,
   Dialogs,
   StdCtrls,
-  ComCtrls,
-  CommCtrl,
-  Registry,
   ExtCtrls,
   Buttons,
-  {$IFDEF SYN_DELPHI_4_UP}
-  ImgList,
-  {$ENDIF}
   Menus,
   SynEdit,
   SynEditHighlighter,
@@ -85,15 +79,11 @@ uses
   SynEditKeyCmds,
 {$ENDIF}
   Classes,
-  SysUtils, SpTBXControls, SpTBXDkPanels, TntStdCtrls, 
-  SpTBXEditors, TntComCtrls, dlgPyIDEBase;
+  SysUtils, SpTBXControls, TntStdCtrls, 
+  SpTBXEditors, dlgPyIDEBase, SpTBXItem, SpTBXExtEditors,
+  MPCommonObjects, EasyListview, SpTBXTabs, TB2Item;
 
 type
-{$IFNDEF SYN_DELPHI_4_UP}
-  TLVSelectItemEvent = procedure(Sender: TObject; Item: TListItem;
-    Selected: Boolean) of object;
-{$ENDIF}
-
   TSynEditorOptionsUserCommand = procedure(AUserCommand: Integer;
                                            var ADescription: String) of object;
 
@@ -110,10 +100,6 @@ type
   TSynEditorOptionsContainer = class;
 
   TfmEditorOptionsDialog = class(TPyIDEDlgBase)
-    PageControl1: TPageControl;
-    Display: TTabSheet;
-    Options: TTabSheet;
-    Keystrokes: TTabSheet;
     gbBookmarks: TSpTBXGroupBox;
     gbLineSpacing: TSpTBXGroupBox;
     gbGutter: TSpTBXGroupBox;
@@ -125,16 +111,9 @@ type
     FontDialog: TFontDialog;
     gbKeyStrokes: TSpTBXGroupBox;
     pnlGutterFontDisplay: TSpTBXPanel;
-    pnlCommands: TSpTBXPanel;
-    Color: TTabSheet;
-    cbElementForeground: TColorBox;
-    cbElementBackground: TColorBox;
     GroupBox1: TSpTBXGroupBox;
     SynEdit1: TSynEdit;
-    cbRightEdgeColor: TColorBox;
-    cbGutterColor: TColorBox;
     GroupBox2: TSpTBXGroupBox;
-    cbActiveLineColor: TColorBox;
     btnGutterFont: TSpTBXButton;
     btnFont: TSpTBXButton;
     btnAddKey: TSpTBXButton;
@@ -206,18 +185,28 @@ type
     eLineSpacing: TSpTBXEdit;
     eTabWidth: TSpTBXEdit;
     lbElements: TSpTBXListBox;
-    KeyList: TTntListView;
+    cbRightEdgeColor: TSpTBXColorEdit;
+    cbGutterColor: TSpTBXColorEdit;
+    cbActiveLineColor: TSpTBXColorEdit;
+    cbElementForeground: TSpTBXColorEdit;
+    cbElementBackground: TSpTBXColorEdit;
+    TabControl: TSpTBXTabControl;
+    SpTBXTabItem1: TSpTBXTabItem;
+    Display: TSpTBXTabSheet;
+    SpTBXTabItem2: TSpTBXTabItem;
+    Options: TSpTBXTabSheet;
+    SpTBXTabItem3: TSpTBXTabItem;
+    KeyStrokes: TSpTBXTabSheet;
+    SpTBXTabItem4: TSpTBXTabItem;
+    Color: TSpTBXTabSheet;
+    KeyList: TEasyListview;
     procedure SynEdit1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnFontClick(Sender: TObject);
-    procedure KeyListSelectItem(Sender: TObject; Item: TListItem;
-      Selected: Boolean);
     procedure btnUpdateKeyClick(Sender: TObject);
     procedure btnAddKeyClick(Sender: TObject);
     procedure btnRemKeyClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
-    procedure KeyListEditing(Sender: TObject; Item: TListItem;
-      var AllowEdit: Boolean);
     procedure btnOkClick(Sender: TObject);
     procedure btnGutterFontClick(Sender: TObject);
     procedure cbGutterFontClick(Sender: TObject);
@@ -225,15 +214,13 @@ type
     procedure cKeyCommandKeyPress(Sender: TObject; var Key: Char);
     procedure cKeyCommandKeyUp(Sender: TObject; var Key: Word;
       Shift: TShiftState);
-    procedure KeyListChanging(Sender: TObject; Item: TListItem;
-      Change: TItemChange; var AllowChange: Boolean);
     procedure cbHighlightersChange(Sender: TObject);
     procedure lbElementsClick(Sender: TObject);
     procedure cbElementForegroundChange(Sender: TObject);
     procedure cbElementBackgroundChange(Sender: TObject);
     procedure cbxElementBoldClick(Sender: TObject);
     procedure btnHelpClick(Sender: TObject);
-    procedure KeyListColumnClick(Sender: TObject; Column: TListColumn);
+    procedure KeyListItemSelectionsChanged(Sender: TCustomEasyListview);
   private
     FHandleChanges : Boolean;  //Normally true, can prevent unwanted execution of event handlers
 
@@ -241,19 +228,13 @@ type
     FUserCommand: TSynEditorOptionsUserCommand;
     FAllUserCommands: TSynEditorOptionsAllUserCommands;
 
-//    OldSelected: TListItem;
-    InChanging: Boolean;
+//    OldSelected: TEasyItem;
     FExtended: Boolean;
-
-    {$IFNDEF SYN_COMPILER_4_UP}
-    FOldWndProc: TWndMethod;
-    procedure OverridingWndProc(var Message: TMessage);
-    {$ENDIF}
 
     procedure GetData;
     procedure PutData;
     procedure EditStrCallback(const S: string);
-    procedure FillInKeystrokeInfo(AKey: TSynEditKeystroke; AItem: TListItem);
+    procedure FillInKeystrokeInfo(AKey: TSynEditKeystroke; AItem: TEasyItem);
     procedure UpdateKey(AKey: TSynEditKeystroke);
     function SelectedHighlighter:TSynCustomHighlighter;
     procedure EnableColorItems(aEnable:boolean);
@@ -262,9 +243,6 @@ type
   public
     eKeyShort2: TSynHotKey;
     eKeyShort1: TSynHotKey;
-    {$IFNDEF SYN_DELPHI_4_UP}
-    FOnSelectItem: TLVSelectItemEvent;
-    {$ENDIF}
 
     function Execute(EditOptions : TSynEditorOptionsContainer) : Boolean;
     property GetUserCommandNames: TSynEditorOptionsUserCommand read FUserCommand
@@ -387,14 +365,14 @@ uses
   SynEditKeyConst, uCommonFunctions, gnugettext, StringResources;
 {$ENDIF}
 
-function SortByColumn(Item1, Item2: TListItem; Data: integer): integer; stdcall;
-begin
-  if Data = 0 then
-    Result := AnsiCompareText(Item1.Caption, Item2.Caption)
-  else
-    Result := AnsiCompareText(Item1.SubItems[Data-1],
-                              Item2.SubItems[Data-1]);
-end;
+//function SortByColumn(Item1, Item2: TEasyItem; Data: integer): integer; stdcall;
+//begin
+//  if Data = 0 then
+//    Result := AnsiCompareText(Item1.Caption, Item2.Caption)
+//  else
+//    Result := AnsiCompareText(Item1.SubItems[Data-1],
+//                              Item2.SubItems[Data-1]);
+//end;
 
 { TSynEditOptionsDialog }
 
@@ -717,7 +695,7 @@ end;
 
 procedure TfmEditorOptionsDialog.GetData;
 var I : Integer;
-    Item : TListItem;
+    Item : TEasyItem;
 begin
   ckWordWrap.Checked := FSynedit.WordWrap;
   //Gutter
@@ -727,15 +705,15 @@ begin
   ckGutterShowLeaderZeros.Checked:= FSynEdit.Gutter.LeadingZeros;
   ckGutterStartAtZero.Checked:= FSynEdit.Gutter.ZeroStart;
   cbGutterFont.Checked := FSynEdit.Gutter.UseFontStyle;
-  cbGutterColor.Selected := FSynEdit.Gutter.Color;
+  cbGutterColor.SelectedColor := FSynEdit.Gutter.Color;
   lblGutterFont.Font.Assign(FSynEdit.Gutter.Font);
   lblGutterFont.Caption:= lblGutterFont.Font.Name + ' ' + IntToStr(lblGutterFont.Font.Size) + 'pt';
   ckGutterGradient.Checked := FSynEdit.Gutter.Gradient;
   //Right Edge
   eRightEdge.Text:= IntToStr(FSynEdit.RightEdge);
-  cbRightEdgeColor.Selected:= FSynEdit.RightEdgeColor;
+  cbRightEdgeColor.SelectedColor:= FSynEdit.RightEdgeColor;
   //ActiveLineColor;
-  cbActiveLineColor.Selected := FSynEdit.ActiveLineColor;
+  cbActiveLineColor.SelectedColor := FSynEdit.ActiveLineColor;
   //Line Spacing
   eLineSpacing.Text:= IntToStr(FSynEdit.ExtraLineSpacing);
   eTabWidth.Text:= IntToStr(FSynEdit.TabWidth);
@@ -777,7 +755,7 @@ begin
   cOverwriteCaret.ItemIndex:= ord(FSynEdit.OverwriteCaret);
 
 
-  KeyList.Items.BeginUpdate;
+  KeyList.BeginUpdate;
   try
     KeyList.Items.Clear;
     for I:= 0 to FSynEdit.Keystrokes.Count-1 do
@@ -787,9 +765,9 @@ begin
       Item.Data:= FSynEdit.Keystrokes.Items[I];
     end;
   finally
-    KeyList.Items.EndUpdate;
+    KeyList.EndUpdate;
   end;
-
+  KeyList.Sort.AutoSort := True;
 end;
 
 procedure TfmEditorOptionsDialog.PutData;
@@ -811,15 +789,15 @@ begin
   FSynEdit.Gutter.ShowLineNumbers:= ckGutterShowLineNumbers.Checked;
   FSynEdit.Gutter.LeadingZeros:= ckGutterShowLeaderZeros.Checked;
   FSynEdit.Gutter.ZeroStart:= ckGutterStartAtZero.Checked;
-  FSynEdit.Gutter.Color:= cbGutterColor.Selected;
+  FSynEdit.Gutter.Color:= cbGutterColor.SelectedColor;
   FSynEdit.Gutter.UseFontStyle := cbGutterFont.Checked;
   FSynEdit.Gutter.Font.Assign(lblGutterFont.Font);
   FSynEdit.Gutter.Gradient := ckGutterGradient.Checked;
   //Right Edge
   FSynEdit.RightEdge:= StrToIntDef(eRightEdge.Text, 80);
-  FSynEdit.RightEdgeColor:= cbRightEdgeColor.Selected;
+  FSynEdit.RightEdgeColor:= cbRightEdgeColor.SelectedColor;
   //ActiveLineColor;
-  FSynEdit.ActiveLineColor := cbActiveLineColor.Selected;
+  FSynEdit.ActiveLineColor := cbActiveLineColor.SelectedColor;
   //Line Spacing
   FSynEdit.ExtraLineSpacing:= StrToIntDef(eLineSpacing.Text, 0);
   FSynEdit.TabWidth:= StrToIntDef(eTabWidth.Text, 8);
@@ -871,15 +849,7 @@ begin
   inherited;
   FHandleChanges := True;  //Normally true, can prevent unwanted execution of event handlers
 
-  {$IFDEF SYN_COMPILER_4_UP}
-  KeyList.OnSelectItem := KeyListSelectItem;
-  {$ELSE}
-  FOldWndProc := KeyList.WindowProc;
-  KeyList.WindowProc := OverridingWndProc;
-  FOnSelectItem := KeyListSelectItem;
-  {$ENDIF}
-
-  InChanging := False;
+  KeyList.OnItemSelectionsChanged := KeyListItemSelectionsChanged;
 
   eKeyShort1:= TSynHotKey.Create(Self);
   with eKeyShort1 do
@@ -922,17 +892,6 @@ begin
   end;
 end;
 
-procedure TfmEditorOptionsDialog.KeyListSelectItem(Sender: TObject;
-  Item: TListItem; Selected: Boolean);
-begin
-  if KeyList.Selected = nil then Exit;
-  cKeyCommand.Text      := KeyList.Selected.Caption;
-  cKeyCommand.ItemIndex := cKeyCommand.Items.IndexOf(KeyList.Selected.Caption);
-  eKeyShort1.HotKey     := TSynEditKeyStroke(KeyList.Selected.Data).ShortCut;
-  eKeyShort2.HotKey     := TSynEditKeyStroke(KeyList.Selected.Data).ShortCut2;
-//  OldSelected := Item;
-end;
-
 procedure TfmEditorOptionsDialog.UpdateKey(AKey: TSynEditKeystroke);
 var
   Cmd          : Integer;
@@ -960,16 +919,10 @@ var
   Key : TSynEditKeyStroke;
   S : string;
 begin
-//  if (KeyList.Selected = nil) and (Sender <> btnAddKey) then
-//  begin
-//    btnAddKey.Click;
-//    Exit;
-//  end;
-
-  if KeyList.Selected = nil then Exit;
+  if not Assigned(KeyList.Selection.First()) then Exit;
   if cKeyCommand.ItemIndex < 0 then Exit;
 
-  Key := TSynEditKeyStroke(KeyList.Selected.Data);
+  Key := TSynEditKeyStroke(KeyList.Selection.First.Data);
   OldShortcut  := Key.ShortCut;
   OldShortcut2 := Key.ShortCut2;
   try
@@ -982,22 +935,13 @@ begin
        MessageBox(0, PChar(E.Message), PChar(S), MB_ICONERROR or MB_OK);
      end;
   end;
-//  Cmd := Integer(cKeyCommand.Items.Objects[cKeyCommand.ItemIndex]);
-//
-//  TSynEditKeyStroke(OldSelected.Data).Command:= Cmd;
-//
-//  if eKeyShort1.HotKey <> 0 then
-//    TSynEditKeyStroke(OldSelected.Data).ShortCut := eKeyShort1.HotKey;
-//
-//  if eKeyShort2.HotKey <> 0 then
-//    TSynEditKeyStroke(OldSelected.Data).ShortCut2:= eKeyShort2.HotKey;
-//
-  FillInKeystrokeInfo(TSynEditKeyStroke(KeyList.Selected.Data), KeyList.Selected);
+  FillInKeystrokeInfo(TSynEditKeyStroke(KeyList.Selection.First.Data), KeyList.Selection.First);
+  KeyList.Sort.SortAll;
 end;
 
 procedure TfmEditorOptionsDialog.btnAddKeyClick(Sender: TObject);
 var
-  Item : TListItem;
+  Item : TEasyItem;
   S : String;
 begin
   Item:= KeyList.Items.Add;
@@ -1011,17 +955,21 @@ begin
        S := _(SDuplicateKey);
        MessageBox(0, PChar(E.Message), PChar(S), MB_ICONERROR or MB_OK);
        TSynEditKeyStroke(Item.Data).Free;
-       Item.Delete;
+       KeyList.Items.Delete(Item.Index);
      end;
   end;
-//  btnUpdateKeyClick(btnAddKey);
+  KeyList.Sort.SortAll;
+  Item.MakeVisible(emvAuto);
 end;
 
 procedure TfmEditorOptionsDialog.btnRemKeyClick(Sender: TObject);
+var
+  Item : TEasyItem;
 begin
-  if KeyList.Selected = nil then Exit;
-  TSynEditKeyStroke(KeyList.Selected.Data).Free;
-  KeyList.Selected.Delete;
+  Item := KeyList.Selection.First;
+  if not Assigned(Item) then Exit;
+  TSynEditKeyStroke(Item.Data).Free;
+  KeyList.Items.Delete(Item.Index);
 end;
 
 procedure TfmEditorOptionsDialog.EditStrCallback(const S: string);
@@ -1057,10 +1005,10 @@ begin
       Commands.Free;
     end;
   end;
-  KeyList.CustomSort(@SortByColumn, 0);
+//  KeyList.CustomSort(@SortByColumn, 0);
   if (KeyList.Items.Count > 0) then KeyList.Items[0].Selected:= True;
 
-  PageControl1.ActivePage := PageControl1.Pages[0];
+  TabControl.ActivePage := Display;
 
   //Added by KF 2005_JUL_15
   if Color.TabVisible then
@@ -1075,12 +1023,18 @@ begin
   end;
 end;
 
-procedure TfmEditorOptionsDialog.KeyListEditing(Sender: TObject;
-  Item: TListItem; var AllowEdit: Boolean);
+procedure TfmEditorOptionsDialog.KeyListItemSelectionsChanged(
+  Sender: TCustomEasyListview);
 begin
-  AllowEdit:= False;
+  if not Assigned(KeyList.Selection.First()) then Exit;
+  with KeyList.Selection.First do begin
+    cKeyCommand.Text      := Caption;
+    cKeyCommand.ItemIndex := cKeyCommand.Items.IndexOf(Caption);
+    eKeyShort1.HotKey     := TSynEditKeyStroke(Data).ShortCut;
+    eKeyShort2.HotKey     := TSynEditKeyStroke(Data).ShortCut2;
+  end;
+//  OldSelected := Item;
 end;
-
 
 procedure TfmEditorOptionsDialog.btnOkClick(Sender: TObject);
 begin
@@ -1106,7 +1060,7 @@ end;
 
 
 procedure TfmEditorOptionsDialog.FillInKeystrokeInfo(
-  AKey: TSynEditKeystroke; AItem: TListItem);
+  AKey: TSynEditKeystroke; AItem: TEasyItem);
 var TmpString: String;
 begin
   with AKey do
@@ -1123,7 +1077,7 @@ begin
     end;
 
     AItem.Caption:= TmpString;
-    AItem.SubItems.Clear;
+    AItem.Captions[1] := '';
 
     TmpString := '';
     if Shortcut <> 0 then
@@ -1132,10 +1086,8 @@ begin
     if (TmpString <> '') and (Shortcut2 <> 0) then
       TmpString := TmpString + ' ' + ShortCutToText(ShortCut2);
 
-    AItem.SubItems.Add(TmpString);
-
+    AItem.Captions[1] := TmpString;
   end;
-
 end;
 
 procedure TfmEditorOptionsDialog.cKeyCommandExit(Sender: TObject);
@@ -1178,57 +1130,6 @@ procedure TfmEditorOptionsDialog.cKeyCommandKeyUp(Sender: TObject;
 begin
   if Key = SYNEDIT_RETURN then btnUpdateKey.Click;
 end;
-
-procedure TfmEditorOptionsDialog.KeyListChanging(Sender: TObject;
-  Item: TListItem; Change: TItemChange; var AllowChange: Boolean);
-begin
-//make sure that it's saved.
-//  if InChanging then exit;
-//  InChanging := True;
-//  if Visible then
-//  begin
-//    if (Item = OldSelected) and
-//       ((Item.Caption <> cKeyCommand.Text) or
-//       (TSynEditKeystroke(Item.Data).ShortCut <> eKeyShort1.HotKey) or
-//       (TSynEditKeystroke(Item.Data).ShortCut2 <> eKeyShort2.HotKey)) then
-//    begin
-//      btnUpdateKeyClick(btnUpdateKey);
-//    end;
-//  end;
-//  InChanging := False;
-end;
-
-procedure TfmEditorOptionsDialog.KeyListColumnClick(Sender: TObject;
-  Column: TListColumn);
-begin
-  TListView(Sender).CustomSort(@SortByColumn, Column.Index);
-end;
-
-{$IFNDEF SYN_COMPILER_4_UP}
-procedure TfmEditorOptionsDialog.OverridingWndProc(var Message: TMessage);
-var
-  Item: TListItem;
-begin
-  FOldWndProc(Message);
-
-  if Message.Msg = CN_NOTIFY then
-    with TWMNotify(Message) do
-      if NMHdr.code = LVN_ITEMCHANGED then
-        with PNMListView(NMHdr)^ do
-        begin
-          Item := KeyList.Items[iItem];
-          if Assigned(FOnSelectItem) and (uChanged = LVIF_STATE) then
-          begin
-            if (uOldState and LVIS_SELECTED <> 0) and
-              (uNewState and LVIS_SELECTED = 0) then
-              FOnSelectItem(Self, Item, False)
-            else if (uOldState and LVIS_SELECTED = 0) and
-              (uNewState and LVIS_SELECTED <> 0) then
-              FOnSelectItem(Self, Item, True);
-          end;
-        end;
-end;
-{$ENDIF}
 
 procedure TfmEditorOptionsDialog.cbHighlightersChange(Sender : TObject);
 var
@@ -1284,8 +1185,8 @@ begin
       cbxElementItalic.Checked := (fsItalic in wSynAttr.Style);
       cbxElementUnderline.Checked := (fsUnderline in wSynAttr.Style);
       cbxElementStrikeout.Checked := (fsStrikeOut in wSynAttr.Style);
-      cbElementForeground.Selected := wSynAttr.Foreground;
-      cbElementBackground.Selected := wSynAttr.Background;
+      cbElementForeground.SelectedColor := wSynAttr.Foreground;
+      cbElementBackground.SelectedColor := wSynAttr.Background;
     finally
       FHandleChanges := True;
     end;
@@ -1324,7 +1225,7 @@ var
 begin
   wSynH := SelectedHighlighter;
   wSynAttr := wSynH.Attribute[lbElements.ItemIndex];
-  wSynAttr.Foreground := cbElementForeground.Selected;
+  wSynAttr.Foreground := cbElementForeground.SelectedColor;
 end;
 
 procedure TfmEditorOptionsDialog.cbElementBackgroundChange(
@@ -1335,7 +1236,7 @@ var
 begin
   wSynH := SelectedHighlighter;
   wSynAttr := wSynH.Attribute[lbElements.ItemIndex];
-  wSynAttr.Background := cbElementBackground.Selected;
+  wSynAttr.Background := cbElementBackground.SelectedColor;
 end;
 
 procedure TfmEditorOptionsDialog.UpdateColorFontStyle;

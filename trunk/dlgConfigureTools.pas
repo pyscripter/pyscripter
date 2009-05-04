@@ -10,8 +10,8 @@ unit dlgConfigureTools;
 interface
 
 uses
-  SysUtils, Classes, Windows, Controls, Forms, StdCtrls, SpTBXDkPanels,
-  SpTBXControls, TntStdCtrls, SpTBXEditors, dlgPyIDEBase;
+  SysUtils, Classes, Windows, Controls, Forms, StdCtrls, 
+  SpTBXControls, TntStdCtrls, SpTBXEditors, dlgPyIDEBase, SpTBXItem;
 
 type
   TConfigureTools = class(TPyIDEDlgBase)
@@ -23,6 +23,7 @@ type
     MoveUpBtn: TSpTBXButton;
     MoveDownBtn: TSpTBXButton;
     ToolsList: TSpTBXListBox;
+    SpTBXPanel1: TSpTBXPanel;
     procedure AddBtnClick(Sender: TObject);
     procedure ModifyBtnClick(Sender: TObject);
     procedure RemoveBtnClick(Sender: TObject);
@@ -46,7 +47,7 @@ function ConfigureTools(Tools : TCollection): Boolean;
 implementation
 
 uses
-  JvJVCLUtils, JvJCLUtils, JvConsts, JVBoxProcs, cTools, dlgToolProperties,
+  JvJCLUtils, JvConsts, JVBoxProcs, cTools, dlgToolProperties,
   Math;
 
 {$R *.dfm}

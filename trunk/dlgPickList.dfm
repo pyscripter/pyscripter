@@ -6,26 +6,19 @@ inherited PickListDialog: TPickListDialog
   Position = poMainFormCenter
   ExplicitWidth = 375
   ExplicitHeight = 359
-  DesignSize = (
-    369
-    333)
   PixelsPerInch = 96
   TextHeight = 13
-  object imgIcon: TImage
-    Left = 8
-    Top = 12
-    Width = 32
-    Height = 32
-    Transparent = True
-  end
-  object Panel2: TPanel
+  object Panel2: TSpTBXPanel
     Left = 0
     Top = 249
     Width = 369
     Height = 84
+    Color = clBtnFace
     Align = alBottom
     Anchors = [akLeft, akBottom]
+    UseDockManager = True
     TabOrder = 1
+    TBXStyleBackground = True
     object Bevel1: TBevel
       Left = 0
       Top = 36
@@ -76,26 +69,48 @@ inherited PickListDialog: TPickListDialog
       ModalResult = 2
     end
   end
-  object lbMessage: TSpTBXLabel
-    Left = 56
-    Top = 8
-    Width = 305
-    Height = 0
-    Anchors = [akLeft, akTop, akRight]
-    ParentColor = True
-    Wrapping = twWrap
-  end
-  object CheckListBox: TSpTBXCheckListBox
+  object SpTBXPanel1: TSpTBXPanel
     Left = 0
-    Top = 69
+    Top = 0
     Width = 369
-    Height = 180
-    Align = alBottom
-    BevelKind = bkSoft
-    ItemHeight = 13
-    PopupMenu = PickListPopUp
-    Style = lbStandard
+    Height = 249
+    Caption = 'SpTBXPanel1'
+    Align = alClient
     TabOrder = 0
+    TBXStyleBackground = True
+    DesignSize = (
+      369
+      249)
+    object imgIcon: TImage
+      Left = 8
+      Top = 12
+      Width = 32
+      Height = 32
+      Transparent = True
+    end
+    object lbMessage: TSpTBXLabel
+      Left = 56
+      Top = 8
+      Width = 305
+      Height = 6
+      Anchors = [akLeft, akTop, akRight]
+      Wrapping = twWrap
+    end
+    object CheckListBox: TSpTBXCheckListBox
+      AlignWithMargins = True
+      Left = 5
+      Top = 64
+      Width = 359
+      Height = 180
+      Align = alBottom
+      BevelInner = bvNone
+      BevelOuter = bvNone
+      BevelKind = bkSoft
+      ItemHeight = 13
+      PopupMenu = PickListPopUp
+      Style = lbStandard
+      TabOrder = 0
+    end
   end
   object PickListPopUp: TPopupMenu
     Images = CommandsDataModule.Images

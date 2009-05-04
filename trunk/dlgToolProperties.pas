@@ -11,10 +11,11 @@ unit dlgToolProperties;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, cTools, ExtCtrls, StdCtrls, SynEdit, ComCtrls, Mask, Menus,
-  ActnList, SpTBXDkPanels, SpTBXControls, SpTBXEditors, TntActnList, TntStdCtrls,
-  TntComCtrls, dlgPyIDEBase, SpTBXItem;
+  Windows, Messages, SysUtils, Variants, Classes, Controls, Forms,
+  Dialogs, cTools, StdCtrls, SynEdit, Menus,
+  ActnList, SpTBXControls, SpTBXEditors, TntActnList, TntStdCtrls,
+  dlgPyIDEBase, SpTBXItem, SpTBXTabs, TB2Item, MPCommonObjects,
+  EasyListview, MPCommonUtilities, ComCtrls;
 
 type
   TToolProperties = class(TPyIDEDlgBase)
@@ -23,9 +24,6 @@ type
     Filename1: TMenuItem;
     Linenumber1: TMenuItem;
     Columnnumber1: TMenuItem;
-    PageControl: TPageControl;
-    tsProperties: TTabSheet;
-    tsEnvironment: TTabSheet;
     GroupBox1: TSpTBXGroupBox;
     GroupBox2: TSpTBXGroupBox;
     SynApplication: TSynEdit;
@@ -85,7 +83,12 @@ type
     cbSaveFiles: TSpTBXComboBox;
     cbStandardInput: TSpTBXComboBox;
     cbStandardOutput: TSpTBXComboBox;
-    lvItems: TTntListView;
+    TabControl: TSpTBXTabControl;
+    SpTBXTabItem1: TSpTBXTabItem;
+    tabProperties: TSpTBXTabSheet;
+    SpTBXTabItem2: TSpTBXTabItem;
+    tabEnvironment: TSpTBXTabSheet;
+    lvItems: TEasyListview;
     procedure FormShow(Sender: TObject);
     procedure Filename1Click(Sender: TObject);
     procedure SynApplicationEnter(Sender: TObject);
@@ -100,11 +103,13 @@ type
     procedure actMoveUpExecute(Sender: TObject);
     procedure actMoveDownExecute(Sender: TObject);
     procedure actUpdateItemExecute(Sender: TObject);
-    procedure lvItemsChange(Sender: TObject; Item: TListItem;
-      Change: TItemChange);
     procedure ActionListUpdate(Action: TBasicAction; var Handled: Boolean);
     procedure btnHelpClick(Sender: TObject);
     procedure cbParseMessagesClick(Sender: TObject);
+    procedure lvItemsItemSelectionsChanged(Sender: TCustomEasyListview);
+    procedure lvItemsColumnClick(Sender: TCustomEasyListview;
+      Button: TCommonMouseButton; ShiftState: TShiftState;
+      const Column: TEasyColumn);
   private
     { Private declarations }
     fEnvStrings : TStrings;
@@ -183,7 +188,7 @@ begin
       Environment.Clear;
       if UseCustomEnvironment then begin
         for i := 0 to lvItems.Items.Count - 1 do
-          Environment.Add(lvItems.Items[i].Caption + '=' + lvItems.Items[i].SubItems[0]);
+          Environment.Add(lvItems.Items[i].Caption + '=' + lvItems.Items[i].Captions[1]);
       end;
     end;
   finally
@@ -266,7 +271,7 @@ end;
 
 procedure TToolProperties.actAddItemExecute(Sender: TObject);
 Var
-  Item : TListItem;
+  Item : TEasyItem;
   i : Integer;
 begin
   if edEnvName.Text <> '' then begin
@@ -274,21 +279,24 @@ begin
       if CompareText(lvItems.Items[i].Caption, EdEnvName.Text) = 0 then begin
         Item := lvItems.Items[i];
         Item.Caption := EdEnvName.Text;
-        Item.SubItems[0] := EdEnvValue.Text;
+        Item.Captions[1] := EdEnvValue.Text;
         Item.Selected := True;
+        Item.MakeVisible(emvAuto);
         Exit;
       end;
 
     with lvItems.Items.Add() do begin
       Caption := edEnvName.Text;
-      SubItems.Add(edEnvValue.Text);
+      Captions[1] := edEnvValue.Text;
+      Selected := True;
+      MakeVisible(emvAuto);
     end;
   end;end;
 
 procedure TToolProperties.actDeleteItemExecute(Sender: TObject);
 begin
-  if lvItems.ItemIndex >= 0 then
-    lvItems.Items.Delete(lvItems.ItemIndex);
+  if Assigned(lvItems.Selection.First()) then
+    lvItems.Items.Delete(lvItems.Selection.First.Index);
 end;
 
 procedure TToolProperties.actMoveUpExecute(Sender: TObject);
@@ -296,15 +304,17 @@ Var
   Name, Value : string;
   Index : integer;
 begin
-  if lvItems.ItemIndex > 0 then begin
-    Index := lvItems.ItemIndex;
+  if Assigned(lvItems.Selection.First()) and (lvItems.Selection.First.Index >= 1) then begin
+    lvItems.Header.Columns[0].SortDirection := esdNone;
+
+    Index := lvItems.Selection.First.Index;
     Name := lvItems.Items[Index].Caption;
-    Value := lvItems.Items[Index].SubItems[0];
+    Value := lvItems.Items[Index].Captions[1];
     lvItems.Items.Delete(Index);
 
     with lvItems.Items.Insert(Index - 1) do begin
       Caption := Name;
-      SubItems.Add(Value);
+      Captions[1] := Value;
       Selected := True;
     end;
   end;
@@ -315,15 +325,19 @@ Var
   Name, Value : string;
   Index : integer;
 begin
-  if lvItems.ItemIndex < lvItems.Items.Count - 1 then begin
-    Index := lvItems.ItemIndex;
+  if Assigned(lvItems.Selection.First()) and
+    (lvItems.Selection.First.Index < lvItems.Items.Count - 1) then
+  begin
+    lvItems.Header.Columns[0].SortDirection := esdNone;
+
+    Index := lvItems.Selection.First.Index;
     Name := lvItems.Items[Index].Caption;
-    Value := lvItems.Items[Index].SubItems[0];
+    Value := lvItems.Items[Index].Captions[1];
     lvItems.Items.Delete(Index);
 
     with lvItems.Items.Insert(Index + 1) do begin
       Caption := Name;
-      SubItems.Add(Value);
+      Captions[1] := Value;
       Selected := True;
     end;
   end;
@@ -333,39 +347,46 @@ procedure TToolProperties.actUpdateItemExecute(Sender: TObject);
 Var
   i : integer;
 begin
-  if (edEnvName.Text <> '') and (lvItems.ItemIndex >= 0) then begin
+  if (edEnvName.Text <> '') and Assigned(lvItems.Selection.First())  then begin
     for i := 0 to lvItems.Items.Count - 1 do
       if (CompareText(lvItems.Items[i].Caption, edEnvName.Text) = 0) and
-         (i <> lvItems.ItemIndex) then
+         (i <> lvItems.Selection.First.Index) then
       begin
         WideMessageDlg(_(SSameName), mtError, [mbOK], 0);
         Exit;
       end;
-    with lvItems.Items[lvItems.ItemIndex] do begin
+    with lvItems.Items[lvItems.Selection.First.Index] do begin
       Caption := EdEnvName.Text;
-      SubItems[0] := EdEnvValue.Text;
+      Captions[1] := EdEnvValue.Text;
     end;
   end;
 end;
 
-procedure TToolProperties.lvItemsChange(Sender: TObject; Item: TListItem;
-  Change: TItemChange);
+procedure TToolProperties.lvItemsColumnClick(Sender: TCustomEasyListview;
+  Button: TCommonMouseButton; ShiftState: TShiftState;
+  const Column: TEasyColumn);
 begin
- if Item.Selected then begin
-    edEnvName.Text := Item.Caption;
-    edEnvValue.Text := Item.SubItems[0];
+  if Column.Clickable then lvItems.Sort.SortAll;
+end;
+
+procedure TToolProperties.lvItemsItemSelectionsChanged(
+  Sender: TCustomEasyListview);
+begin
+ if Assigned(lvItems.Selection.First()) then begin
+    edEnvName.Text := lvItems.Selection.First.Caption;
+    edEnvValue.Text := lvItems.Selection.First.Captions[1];
   end;
 end;
 
 procedure TToolProperties.ActionListUpdate(Action: TBasicAction;
   var Handled: Boolean);
 begin
-  actDeleteItem.Enabled := lvItems.ItemIndex >= 0;
-  actMoveUp.Enabled := lvItems.ItemIndex >= 1;
-  actMoveDown.Enabled := (lvItems.ItemIndex >= 0) and
-                         (lvItems.ItemIndex < lvItems.Items.Count - 1);
+  actDeleteItem.Enabled := Assigned(lvItems.Selection.First());
+  actMoveUp.Enabled :=  Assigned(lvItems.Selection.First()) and  (lvItems.Selection.First.Index >= 1);
+  actMoveDown.Enabled := Assigned(lvItems.Selection.First()) and
+                         (lvItems.Selection.First.Index < lvItems.Items.Count - 1);
   actAddItem.Enabled := edName.Text <> '';
-  actUpdateItem.Enabled := (edName.Text <> '') and (lvItems.ItemIndex >= 0);
+  actUpdateItem.Enabled := (edName.Text <> '') and Assigned(lvItems.Selection.First());
   Handled := True;
 end;
 
@@ -378,13 +399,18 @@ procedure TToolProperties.FormShow(Sender: TObject);
 Var
   i : integer;
 begin
-  lvItems.Clear;
-  for i := 0 to fEnvStrings.Count - 1 do
-    if fEnvStrings.Names[i] <> '' then
-      with lvItems.Items.Add() do begin
-        Caption := fEnvStrings.Names[i];
-        SubItems.Add(fEnvStrings.Values[Caption]);
-      end;
+  lvItems.Items.Clear;
+  lvItems.BeginUpdate;
+  try
+    for i := 0 to fEnvStrings.Count - 1 do
+      if fEnvStrings.Names[i] <> '' then
+        with lvItems.Items.Add() do begin
+          Caption := fEnvStrings.Names[i];
+          Captions[1] := fEnvStrings.Values[Caption];
+        end;
+  finally
+    lvItems.EndUpdate;
+  end;
 end;
 
 end.

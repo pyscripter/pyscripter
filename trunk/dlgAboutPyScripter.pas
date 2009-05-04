@@ -10,19 +10,14 @@ unit dlgAboutPyScripter;
 
 interface
 
-uses Windows, SysUtils, Classes, Graphics, Forms, Controls, StdCtrls,
-  Buttons, ComCtrls,  JvLinkLabel, JvExControls, JvComponent, ExtCtrls,
-  dlgPyIDEBase, SpTBXDkPanels, SpTBXControls;
+uses Windows, SysUtils, Classes, Graphics, Forms, Controls, 
+  Buttons,  JvLinkLabel, JvExControls, ExtCtrls,
+  dlgPyIDEBase, SpTBXControls, SpTBXItem, SpTBXTabs, TB2Item;
 
 type
   TAboutBox = class(TPyIDEDlgBase)
-    Panel2: TPanel;                  
-    PageControl: TPageControl;
-    AboutTab: TTabSheet;
-    CreditsTab: TTabSheet;
     ScrollBox: TScrollBox;
     JvLinkLabel: TJvLinkLabel;
-    TabSheet1: TTabSheet;
     ScrollBox1: TScrollBox;
     JvLinkLabel1: TJvLinkLabel;
     Panel1: TSpTBXPanel;
@@ -31,6 +26,13 @@ type
     Comments: TSpTBXLabel;
     Version: TSpTBXLabel;
     ProductName: TSpTBXLabel;
+    SpTBXTabControl1: TSpTBXTabControl;
+    tbAbout: TSpTBXTabItem;
+    SpTBXTabSheet1: TSpTBXTabSheet;
+    tbCredits: TSpTBXTabItem;
+    SpTBXTabSheet2: TSpTBXTabSheet;
+    tbLinks: TSpTBXTabItem;
+    SpTBXTabSheet3: TSpTBXTabSheet;
     procedure Panel1Click(Sender: TObject);
     procedure JvLinkLabelLinkClick(Sender: TObject; LinkNumber: Integer;
       LinkText, LinkParam: String);

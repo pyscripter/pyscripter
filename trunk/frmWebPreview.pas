@@ -12,7 +12,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ComCtrls, OleCtrls, ActiveX, SHDocVw,
+  Dialogs, OleCtrls, ActiveX, SHDocVw,
   ImgList, uEditAppIntfs, TB2Item, TB2Dock, TB2Toolbar, SpTBXItem;
                                                                  
 type
@@ -66,7 +66,7 @@ implementation
 
 uses
   VarPyth, JclFileUtils, JclStrings, frmEditor, dmCommands,
-  uCommonFunctions, JvJVCLUtils, cPyBaseDebugger, MSHTML, gnugettext,
+  cPyBaseDebugger, MSHTML, gnugettext,
   StringResources;
 
 {$R *.dfm}

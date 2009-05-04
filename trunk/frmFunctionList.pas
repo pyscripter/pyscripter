@@ -40,19 +40,15 @@ The conditions and limitations are as follows:
       using GExperts or programs that use the GExperts source code.
 
 -----------------------------------------------------------------------------}
-
 unit frmFunctionList;
 
 interface
 
 uses
-  Messages, Classes, Forms, Dialogs, StdCtrls, ComCtrls, ExtCtrls, ActnList,
-  ToolWin, Controls, TntActnList, SpTBXDkPanels, SpTBXControls, TntStdCtrls,
-  SpTBXEditors, TB2Dock, TB2Toolbar, SpTBXItem, TB2Item, 
-  dlgPyIDEBase, TntComCtrls;
-
-const
-  UM_RESIZECOLS = WM_USER + 523;
+  Messages, Windows, Classes, Forms, Dialogs, StdCtrls, ActnList,
+  Controls, TntActnList, SpTBXControls, TntStdCtrls, Graphics,
+  SpTBXEditors, TB2Dock, TB2Toolbar, SpTBXItem, TB2Item,
+  dlgPyIDEBase, MPCommonObjects, EasyListview, MPCommonUtilities;
 
 type
   TProcInfo = class(TObject)
@@ -108,11 +104,8 @@ type
     SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem;
     SpTBXSeparatorItem5: TSpTBXSeparatorItem;
     RightStatusLabel: TSpTBXLabelItem;
-    lvProcs: TTntListView;
-    procedure lvProcsChange(Sender: TObject; Item: TListItem; Change: TItemChange);
-    procedure FormResize(Sender: TObject);
+    lvProcs: TEasyListview;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
-    procedure lvProcsColumnClick(Sender: TObject; Column: TListColumn);
     procedure edtMethodsChange(Sender: TObject);
     procedure edtMethodsKeyPress(Sender: TObject; var Key: Char);
     procedure edtMethodsKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
@@ -125,18 +118,22 @@ type
     procedure actViewAnyExecute(Sender: TObject);
     procedure actViewGotoExecute(Sender: TObject);
     procedure ActionsUpdate(Action: TBasicAction; var Handled: Boolean);
+    procedure lvProcsItemSelectionsChanged(Sender: TCustomEasyListview);
+    procedure lvProcsItemDblClick(Sender: TCustomEasyListview;
+      Button: TCommonMouseButton; MousePos: TPoint; HitInfo: TEasyHitInfoItem);
+    function lvProcsItemCompare(Sender: TCustomEasyListview;
+      Column: TEasyColumn; Group: TEasyGroup; Item1, Item2: TEasyItem;
+      var DoDefault: Boolean): Integer;
+    procedure lvProcsSortEnd(Sender: TCustomEasyListview);
   private
-    FSortOnColumn: Integer;
     FSearchAll: Boolean;
     FProcList: TStringList;
     FFileName: string;
     FObjectStrings: TStringList;
-    procedure QuickSort(L, R: Integer);
     procedure LoadProcs;
     procedure FillListBox;
     procedure ResizeCols;
     procedure GotoCurrentlySelectedProcedure;
-    procedure UMResizeCols(var Msg: TMessage); message UM_RESIZECOLS;
     procedure ClearObjectStrings;
     procedure LoadObjectCombobox;
     procedure InitializeForm;
@@ -155,9 +152,8 @@ implementation
 {$R *.dfm}
 
 uses
-  SysUtils, Menus, Windows, Clipbrd, frmPyIDEMain, StrUtils, Math,
-  dmCommands, uEditAppIntfs, cPythonSourceScanner, Contnrs,
-  uCommonFunctions, JvJVCLUtils;
+  SysUtils, Clipbrd, frmPyIDEMain, StrUtils, Math,
+  dmCommands, uEditAppIntfs, cPythonSourceScanner;
 
 resourcestring
   SAllString = '<All>';
@@ -177,6 +173,7 @@ begin
   InitializeForm;
   LoadTime := GetTickCount - LoadTime;
   RightStatusLabel.Caption := Format(SParseStatistics, [LoadTime / 1000]);
+  ResizeCols;
 end;
 
 procedure TFunctionListWindow.LoadProcs;
@@ -233,7 +230,6 @@ begin
       FProcList.EndUpdate;
       LoadObjectCombobox;
     end;
-    QuickSort(0, FProcList.Count - 1);
     RightStatusLabel.Caption := Trim(IntToStr(lvProcs.Items.Count));
   finally
     PythonScanner.Free;
@@ -253,22 +249,6 @@ begin
     FObjectStrings.Add(ProcedureInfo.ProcClass);
 end;
 
-procedure TFunctionListWindow.lvProcsChange(Sender: TObject; Item: TListItem;
-  Change: TItemChange);
-var
-  ProcInfo: TProcInfo;
-begin
-  ProcInfo := nil;
-  if lvProcs.Selected <> nil then
-    ProcInfo := lvProcs.Selected.Data;
-  if ProcInfo <> nil then
-  begin
-    LeftStatusLabel.Caption := ProcInfo.DisplayName + '(' + ProcInfo.ProcArgs + ')';
-    RightStatusLabel.Caption := Format('%d/%d', [lvProcs.Selected.Index + 1, lvProcs.Items.Count]);
-    actViewGoto.Enabled := (lvProcs.Selected <> nil);
-  end;
-end;
-
 procedure TFunctionListWindow.FillListBox;
 var
   i: Integer;
@@ -278,13 +258,13 @@ var
 
   procedure AddListItem(ProcInfo: TProcInfo);
   var
-    ListItem: TListItem;
+    ListItem: TEasyItem;
   begin
     ListItem := lvProcs.Items.Add;
     ListItem.Caption := '';
     ListItem.ImageIndex := ProcInfo.ProcIndex;
-    ListItem.SubItems.Add(ProcInfo.DisplayName);
-    ListItem.SubItems.Add(IntToStr(ProcInfo.LineNo));
+    ListItem.Captions[1] := ProcInfo.DisplayName;
+    ListItem.Captions[2] := IntToStr(ProcInfo.LineNo);
     ListItem.Data := ProcInfo;
   end;
 
@@ -292,79 +272,64 @@ var
   begin
     if lvProcs.Items.Count > 0 then
     begin
-      lvProcs.Selected := lvProcs.Items[0];
-      lvProcs.ItemFocused := lvProcs.Selected;
+      lvProcs.Items[0].Selected := True;
+      lvProcs.Items[0].Focused := True;
     end;
   end;
 
 begin
-  lvProcs.Items.BeginUpdate;
+  lvProcs.Sort.BeginUpdate;
+  lvProcs.BeginUpdate;
   try
     lvProcs.Items.Clear;
     if (Length(edtMethods.Text) = 0) and (cbxObjects.Text = SAllString) then
     begin
       for i := 0 to FProcList.Count - 1 do
         AddListItem(TProcInfo(FProcList.Objects[i]));
-      FocusAndSelectFirstItem;
-      Exit;
-    end;
-
-    for i := 0 to FProcList.Count - 1 do
-    begin
-      ProcInfo := TProcInfo(FProcList.Objects[i]);
-      IsObject := Length(ProcInfo.ProcClass) > 0;
-
-      // Is it the object we want?
-      if cbxObjects.Text <> SAllString then
+    end else begin
+      for i := 0 to FProcList.Count - 1 do
       begin
-        if cbxObjects.Text = SNoneString then
+        ProcInfo := TProcInfo(FProcList.Objects[i]);
+        IsObject := Length(ProcInfo.ProcClass) > 0;
+
+        // Is it the object we want?
+        if cbxObjects.Text <> SAllString then
         begin
-          if IsObject then // Does it have an object?
-            Continue;
-          if Length(edtMethods.Text) = 0 then // If no filter is active, add
+          if cbxObjects.Text = SNoneString then
           begin
-            AddListItem(ProcInfo);
+            if IsObject then // Does it have an object?
+              Continue;
+            if Length(edtMethods.Text) = 0 then // If no filter is active, add
+            begin
+              AddListItem(ProcInfo);
+              Continue;
+            end;
+          end // if/then
+          else if not SameText(cbxObjects.Text, ProcInfo.ProcClass) then
             Continue;
-          end;
-        end // if/then
-        else if not SameText(cbxObjects.Text, ProcInfo.ProcClass) then
-          Continue;
+        end;
+
+        ProcName := ProcInfo.ProcName;
+
+        if Length(edtMethods.Text) = 0 then
+          AddListItem(ProcInfo)
+        else if not FSearchAll and SameText(edtMethods.Text, Copy(ProcName, 1, Length(edtMethods.Text))) then
+          AddListItem(ProcInfo)
+        else if FSearchAll and AnsiContainsText(ProcName, edtMethods.Text) then
+          AddListItem(ProcInfo);
       end;
-
-      ProcName := ProcInfo.ProcName;
-
-      if Length(edtMethods.Text) = 0 then
-        AddListItem(ProcInfo)
-      else if not FSearchAll and SameText(edtMethods.Text, Copy(ProcName, 1, Length(edtMethods.Text))) then
-        AddListItem(ProcInfo)
-      else if FSearchAll and AnsiContainsText(ProcName, edtMethods.Text) then
-        AddListItem(ProcInfo);
     end;
-    FocusAndSelectFirstItem;
   finally
-    lvProcs.Items.EndUpdate;
+    lvProcs.EndUpdate;
+    lvProcs.Sort.EndUpdate;
   end;
-  ResizeCols;    
+  FocusAndSelectFirstItem;
 end;
 
-procedure TFunctionListWindow.FormResize(Sender: TObject);
-begin
-  LeftStatusLabel.CustomWidth := StatusBar.Width - 90;
-  ResizeCols;
-end;
-
-// This is just a nasty hack to be sure the scroll bar is set right
-// before playing with the column widths. We should fix this somehow.
 procedure TFunctionListWindow.ResizeCols;
 begin
-  PostMessage(Self.Handle, UM_RESIZECOLS, 0, 0);
-end;
-
-procedure TFunctionListWindow.UMResizeCols(var Msg: TMessage);
-begin
-  Application.ProcessMessages;
-  lvProcs.Columns[1].Width := Max(0, lvProcs.ClientWidth - lvProcs.Columns[2].Width
-    - lvProcs.Columns[0].Width);
+  lvProcs.Header.Columns[1].Width := Max(0, lvProcs.ClientWidth - lvProcs.Header.Columns[2].Width
+    - lvProcs.Header.Columns[0].Width- 30);
 end;
 
 procedure TFunctionListWindow.SaveSettings;
@@ -377,12 +342,14 @@ begin
     WriteInteger('Function List\Height', Height);
 
     WriteBoolean('Function List\SearchAll', FSearchAll);
-    WriteInteger('Function List\SortColumn', FSortOnColumn);
+    WriteInteger('Function List\SortColumn', lvProcs.Selection.FocusedColumn.Index);
     WritePersistent('Function List\Font', lvProcs.Font);
   end;
 end;
 
 procedure TFunctionListWindow.LoadSettings;
+Var
+    SortOnColumn: Integer;
 begin
   // Do not localize any of the following lines
   with PyIDEMainForm.AppStorage do begin
@@ -391,10 +358,11 @@ begin
     Width := ReadInteger('Function List\Width', Width);
     Height := ReadInteger('Function List\Height', Height);
 
-    FSortOnColumn := ReadInteger('Function List\SortColumn', FSortOnColumn);
+    SortOnColumn := ReadInteger('Function List\SortColumn', 1);
+    if SortOnColumn < 3 then
+      lvProcs.Header.ClickColumn(lvProcs.Header.Columns[SortOnColumn]);
     ReadPersistent('Function List\Font', lvProcs.Font);
     FSearchAll := ReadBoolean('Function List\SearchAll', True);
-    ResizeCols;
   end;
 end;
 
@@ -403,74 +371,61 @@ begin
   SaveSettings;
 end;
 
-procedure TFunctionListWindow.QuickSort(L, R: Integer);
-resourcestring
-  SInvalidIndex = 'Invalid index number';
-
-  function GetValue(idx: Integer): string;
-  var
-    i: Integer;
-    TabPos: Integer;
-  begin
-    if idx >= FProcList.Count then
-      raise Exception.Create(SInvalidIndex);
-    Result := FProcList.Strings[idx];
-    for i := 0 to FSortOnColumn - 1 do
-    begin
-      TabPos := Pos(#9, Result);
-      if TabPos > 0 then
-        Delete(Result, 1, TabPos)
-      else
-        Exit;
-    end;
-    if FSortOnColumn = 2 then
-    begin
-      for i := Length(Result) to 5 do
-        Result := ' ' + Result;
-    end;
-  end;
-
-var
-  i, j: Integer;
-  P: string;
+function TFunctionListWindow.lvProcsItemCompare(Sender: TCustomEasyListview;
+  Column: TEasyColumn; Group: TEasyGroup; Item1, Item2: TEasyItem;
+  var DoDefault: Boolean): Integer;
+Var
+  PI1, PI2: TProcInfo;
 begin
-  if FProcList.Count = 0 then
-    Exit;
-  repeat
-    i := L;
-    j := R;
-    P := GetValue((L + R) shr 1);
-    repeat
-      while AnsiCompareText(GetValue(i), P) < 0 do
-        Inc(i);
-      while AnsiCompareText(GetValue(j), P) > 0 do
-        Dec(j);
-      if i <= j then
-      begin
-        FProcList.Exchange(i, j);
-        Inc(i);
-        Dec(j);
-      end;
-    until i > j;
-    if L < j then
-      QuickSort(L, j);
-    L := i;
-  until i >= R;
+  Result := 0;
+  PI1 := TProcInfo(Item1.Data);
+  PI2 := TProcInfo(Item2.Data);
+  case Column.Index of
+    0:   Result := Sign(PI1.ProcIndex - PI2.ProcIndex);
+    1:   Result := StrIComp(PChar(PI1.DisplayName), PChar(PI2.DisplayName));
+    2:   //Result := Sign(PI1.LineNo - PI2.LineNo);
+      if PI1.LineNo > PI2.LineNo then
+        Result := 1
+      else if PI1.LineNo = PI2.LineNo then
+        Result := 0
+      else
+        Result := -1;
+  end;
+  if Assigned(Column) and (Column.SortDirection = esdDescending) then
+    Result := -Result;
+  DoDefault := False;
 end;
 
-procedure TFunctionListWindow.lvProcsColumnClick(Sender: TObject; Column: TListColumn);
-var
-  i: Integer;
-  Cursor: IInterface;
+procedure TFunctionListWindow.lvProcsItemDblClick(Sender: TCustomEasyListview;
+  Button: TCommonMouseButton; MousePos: TPoint; HitInfo: TEasyHitInfoItem);
 begin
-  i := Column.Index;
-  if i <> 0 then
+  GotoCurrentlySelectedProcedure;
+end;
+
+procedure TFunctionListWindow.lvProcsItemSelectionsChanged(
+  Sender: TCustomEasyListview);
+var
+  ProcInfo: TProcInfo;
+begin
+  ProcInfo := nil;
+  if Assigned(lvProcs.Selection.First()) then
+    ProcInfo := lvProcs.Selection.First.Data as TProcInfo;
+  actViewGoto.Enabled := Assigned(ProcInfo);
+
+  if ProcInfo <> nil then
   begin
-    Cursor := WaitCursor;
-    FSortOnColumn := i;
-    QuickSort(0, FProcList.Count - 1);
-    FillListBox;
+    LeftStatusLabel.Caption := ProcInfo.DisplayName + '(' + ProcInfo.ProcArgs + ')';
+    RightStatusLabel.Caption := Format('%d/%d', [lvProcs.Selection.First.Index + 1, lvProcs.Items.Count]);
   end;
+end;
+
+procedure TFunctionListWindow.lvProcsSortEnd(Sender: TCustomEasyListview);
+Var
+  Item : TEasyItem;
+begin
+  Item := lvProcs.Selection.First;
+  if Assigned(Item) then
+    Item.MakeVisible(emvAuto);
 end;
 
 procedure TFunctionListWindow.edtMethodsChange(Sender: TObject);
@@ -509,7 +464,6 @@ end;
 procedure TFunctionListWindow.cbxObjectsChange(Sender: TObject);
 begin
   FillListBox;
-  ResizeCols;
 end;
 
 procedure TFunctionListWindow.pnlHeaderResize(Sender: TObject);
@@ -587,9 +541,9 @@ procedure TFunctionListWindow.GotoCurrentlySelectedProcedure;
 var
   ProcInfo: TProcInfo;
 begin
-  if lvProcs.Selected <> nil then
+  if Assigned(lvProcs.Selection.First()) then
   begin
-    ProcInfo := lvProcs.Selected.Data;
+    ProcInfo := lvProcs.Selection.First.Data as TProcInfo;
     if ProcInfo <> nil then
     begin
       PyIDEMainForm.ShowFilePosition(fFileName, ProcInfo.LineNo, 1);
@@ -621,8 +575,6 @@ begin
   FObjectStrings.Duplicates := dupIgnore;
   ClearObjectStrings;
 
-  FSortOnColumn := 1;
-
   FProcList := TStringList.Create;
 
   LoadSettings;
@@ -633,7 +585,7 @@ end;
 
 procedure TFunctionListWindow.ActionsUpdate(Action: TBasicAction; var Handled: Boolean);
 begin
-  actViewGoto.Enabled := (lvProcs.Selected <> nil);
+  actViewGoto.Enabled := Assigned(lvProcs.Selection.First());
   actViewStart.Checked := not FSearchAll;
   actViewAny.Checked := FSearchAll;
 end;
@@ -657,5 +609,4 @@ begin
 end;
 
 end.
-
 

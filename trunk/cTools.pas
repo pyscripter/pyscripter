@@ -165,7 +165,7 @@ Var
 
 implementation
 
-uses dlgToolProperties, Windows, cParameters, Menus, frmCommandOutput,
+uses Windows, cParameters, Menus, frmCommandOutput,
   dmCommands, uCommonFunctions, uEditAppIntfs, WideStrUtils, TntSysUtils;
 
 

@@ -320,8 +320,8 @@ const
 implementation
 
 uses dmCommands, frmPythonII, VarPyth, frmMessages, frmPyIDEMain,
-  MMSystem, Math, JvDockControlForm, JclFileUtils, Dialogs, uCommonFunctions,
-  cParameters, JclSysUtils, StringResources, cPyDebugger,
+  JclFileUtils, Dialogs, uCommonFunctions,
+  cParameters, StringResources, cPyDebugger,
   frmCommandOutput, gnugettext, TntSysUtils, cProjectClasses;
 
 { TEditorPos }

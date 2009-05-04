@@ -2,7 +2,6 @@ inherited CustomizeParams: TCustomizeParams
   Left = 340
   Top = 192
   HelpContext = 720
-  BorderIcons = []
   Caption = 'Custom Parameters'
   ClientHeight = 343
   ClientWidth = 435
@@ -20,9 +19,9 @@ inherited CustomizeParams: TCustomizeParams
     Top = 0
     Width = 435
     Height = 343
-    SkinType = sknSkin
     Align = alClient
     TabOrder = 0
+    TBXStyleBackground = True
     DesignSize = (
       435
       343)
@@ -32,7 +31,7 @@ inherited CustomizeParams: TCustomizeParams
       Width = 84
       Height = 24
       Action = actAddItem
-      TabOrder = 4
+      TabOrder = 3
       Images = CommandsDataModule.Images
       ImageIndex = 49
     end
@@ -42,7 +41,7 @@ inherited CustomizeParams: TCustomizeParams
       Width = 84
       Height = 24
       Action = actDeleteItem
-      TabOrder = 5
+      TabOrder = 4
       Images = CommandsDataModule.Images
       ImageIndex = 14
     end
@@ -52,7 +51,7 @@ inherited CustomizeParams: TCustomizeParams
       Width = 84
       Height = 24
       Action = actMoveUp
-      TabOrder = 6
+      TabOrder = 5
       Images = CommandsDataModule.Images
       ImageIndex = 47
     end
@@ -62,7 +61,7 @@ inherited CustomizeParams: TCustomizeParams
       Width = 84
       Height = 24
       Action = actMoveDown
-      TabOrder = 7
+      TabOrder = 6
       Images = CommandsDataModule.Images
       ImageIndex = 48
     end
@@ -72,7 +71,7 @@ inherited CustomizeParams: TCustomizeParams
       Width = 84
       Height = 24
       Action = actUpdateItem
-      TabOrder = 8
+      TabOrder = 7
       Images = CommandsDataModule.Images
       ImageIndex = 39
     end
@@ -83,7 +82,7 @@ inherited CustomizeParams: TCustomizeParams
       Height = 25
       Caption = '&OK'
       Anchors = [akRight, akBottom]
-      TabOrder = 2
+      TabOrder = 1
       Default = True
       ModalResult = 1
     end
@@ -94,37 +93,25 @@ inherited CustomizeParams: TCustomizeParams
       Height = 25
       Caption = '&Cancel'
       Anchors = [akRight, akBottom]
-      TabOrder = 1
+      TabOrder = 0
       Cancel = True
       ModalResult = 2
     end
     object Label3: TSpTBXLabel
       Left = 12
       Top = 304
-      Width = 214
-      Height = 13
+      Width = 220
+      Height = 19
       Caption = 'Press Shift+Ctrl+P for Parameter completion'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clGrayText
-      Font.Height = -11
-      Font.Name = 'MS Shell Dlg 2'
-      Font.Style = []
-      ParentColor = True
-      ParentFont = False
+      Enabled = False
     end
     object Label4: TSpTBXLabel
       Left = 12
       Top = 319
-      Width = 204
-      Height = 13
+      Width = 210
+      Height = 19
       Caption = 'Press Shift+Ctrl+M for Modifier completion'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clGrayText
-      Font.Height = -11
-      Font.Name = 'MS Shell Dlg 2'
-      Font.Style = []
-      ParentColor = True
-      ParentFont = False
+      Enabled = False
     end
     object GroupBox1: TSpTBXGroupBox
       Left = 10
@@ -132,8 +119,8 @@ inherited CustomizeParams: TCustomizeParams
       Width = 414
       Height = 83
       Caption = 'Name-Value Pair'
-      SkinType = sknSkin
-      TabOrder = 3
+      TabOrder = 2
+      TBXStyleBackground = True
       object SynValue: TSynEdit
         Left = 61
         Top = 48
@@ -161,57 +148,56 @@ inherited CustomizeParams: TCustomizeParams
       object Label1: TSpTBXLabel
         Left = 14
         Top = 28
-        Width = 31
-        Height = 13
+        Width = 37
+        Height = 19
         Caption = '&Name:'
-        ParentColor = True
       end
       object Label2: TSpTBXLabel
         Left = 14
         Top = 50
-        Width = 30
-        Height = 13
+        Width = 36
+        Height = 19
         Caption = '&Value:'
-        ParentColor = True
       end
       object edName: TSpTBXEdit
         Left = 61
         Top = 23
         Width = 121
-        Height = 22
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -11
-        Font.Name = 'Courier New'
-        Font.Style = []
-        ParentFont = False
+        Height = 21
         TabOrder = 0
         OnKeyPress = edNameKeyPress
       end
     end
-    object lvItems: TTntListView
-      Left = 2
-      Top = 2
-      Width = 431
-      Height = 171
+    object lvItems: TEasyListview
+      AlignWithMargins = True
+      Left = 5
+      Top = 5
+      Width = 425
+      Height = 174
       Align = alTop
-      Columns = <
-        item
-          Caption = 'Name'
-          Width = 140
-        end
-        item
-          Caption = 'Value'
-          Width = 250
-        end>
-      ColumnClick = False
-      GridLines = True
-      HideSelection = False
-      ReadOnly = True
-      RowSelect = True
-      TabOrder = 0
-      ViewStyle = vsReport
-      OnChange = lvItemsChange
+      EditManager.Font.Charset = DEFAULT_CHARSET
+      EditManager.Font.Color = clWindowText
+      EditManager.Font.Height = -11
+      EditManager.Font.Name = 'MS Shell Dlg 2'
+      EditManager.Font.Style = []
+      Header.Columns.Items = {
+        0600000002000000110000005445617379436F6C756D6E53746F726564FFFECE
+        000600000080080001010001000000000000018C000000FFFFFF1F0001000000
+        01000000040000004E0061006D00650000000000000000000000000011000000
+        5445617379436F6C756D6E53746F726564FFFECE000600000080080001010001
+        01000000000000FA000000FFFFFF1F0001000000010000000500000056006100
+        6C0075006500000000000000000000000000}
+      Header.Draggable = False
+      Header.Visible = True
+      HotTrack.Enabled = True
+      PaintInfoGroup.MarginBottom.CaptionIndent = 4
+      Selection.FullRowSelect = True
+      TabOrder = 10
+      View = elsReport
+      OnColumnClick = lvItemsColumnClick
+      OnItemSelectionsChanged = lvItemsItemSelectionsChanged
+      ExplicitLeft = 7
+      ExplicitTop = 3
     end
   end
   object ActionList: TTntActionList

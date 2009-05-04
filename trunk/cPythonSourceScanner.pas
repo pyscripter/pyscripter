@@ -36,7 +36,7 @@ Type
     Name : WideString;
     function GetRoot : TBaseCodeElement;
     function GetModule : TParsedModule;
-    function GetModuleSource : string;
+    function GetModuleSource : WideString;
     property CodePos : TCodePos read fCodePos;
     property Parent : TBaseCodeElement read fParent write fParent;
     property IsProxy : boolean read fIsProxy;  // true if derived from live Python object
@@ -159,10 +159,10 @@ public
 
   TParsedClass = class(TCodeElement)
   private
-    fSuperClasses : TStringList;
+    fSuperClasses : TWideStringList;
     fAttributes : TObjectList;
     procedure GetNameSpaceImpl(SList: TWideStringList; BaseClassResolver : TWideStringList);
-    function GetConstructorImpl(BaseClassResolver : TStringList) : TParsedFunction;
+    function GetConstructorImpl(BaseClassResolver : TWideStringList) : TParsedFunction;
   protected
     function GetCodeHint : WideString; override;
   public
@@ -171,7 +171,7 @@ public
     procedure GetNameSpace(SList : TWideStringList); override;
     procedure GetUniqueSortedAttibutes(AttributesList: TObjectList);
     function GetConstructor : TParsedFunction; virtual;
-    property SuperClasses : TStringList read fSuperClasses;
+    property SuperClasses : TWideStringList read fSuperClasses;
     property Attributes : TObjectList read fAttributes;
   end;
 
@@ -190,7 +190,6 @@ public
     fAssignmentRE : TRegExpr;
     fAliasRE : TRegExpr;
     fListRE : TRegExpr;
-//    function StringAndCommentsReplaceFunc(ARegExpr : TRegExpr): string;
   protected
     procedure DoScannerProgress(CharNo, NoOfChars : integer; var Stop : Boolean);
   public
@@ -199,16 +198,17 @@ public
 
     constructor Create;
     destructor Destroy; override;
-    function ScanModule(Source : string; Module : TParsedModule) : boolean;
+    function ScanModule(Source : WideString; Module : TParsedModule) : boolean;
   end;
 
   function CodeBlock(StartLine, EndLine : integer) : TCodeBlock;
-  function GetExpressionType(Expr : string; Var IsBuiltIn : boolean) : string;
+  function GetExpressionType(Expr : WideString; Var IsBuiltIn : boolean) : WideString;
 
 implementation
 
 uses uCommonFunctions, JclFileUtils, cRefactoring, VarPyth,
-  StringResources, JclSysUtils, Math, cPyDebugger, gnugettext, WideStrUtils;
+  StringResources, JclSysUtils, Math, cPyDebugger, gnugettext, WideStrUtils,
+  TntSysUtils, Windows;
 
 Const
   IdentRE = '[A-Za-z_][A-Za-z0-9_]*';
@@ -378,7 +378,7 @@ end;
 
 procedure TCodeElement.ExtractDocString;
 var
-  ModuleSource, DocStringSource : string;
+  ModuleSource, DocStringSource : WideString;
   CB : TCodeBlock;
 begin
   fDocStringExtracted := True;
@@ -416,7 +416,7 @@ end;
 { TPythonScanner }
 
 constructor TPythonScanner.Create;
-  function CompiledRegExpr(Expr : string): TRegExpr;
+  function CompiledRegExpr(Expr : WideString): TRegExpr;
   begin
     Result := TRegExpr.Create;
     Result.Expression := Expr;
@@ -465,11 +465,27 @@ begin
     fOnScannerProgress(CharNo, NoOfChars, Stop);
 end;
 
-function TPythonScanner.ScanModule(Source: string; Module : TParsedModule): boolean;
+function TPythonScanner.ScanModule(Source: WideString; Module : TParsedModule): boolean;
 // Parses the Python Source code and adds code elements as children of Module
-{ TODO 2 : Optimize out calls to GetNthLine }
+{ TODO 2 : Optimize out calls to Trim }
 Var
   UseModifiedSource : boolean;
+  SourceLines : TWideStringList;
+  SourceLinesSafeGuard: ISafeGuard;
+
+  function GetNthSourceLine(LineNo : integer) : WideString;
+  begin
+    if not Assigned(SourceLines) then begin
+      SourceLines := TWideStringList(Guard(TWideStringList.Create, SourceLinesSafeGuard));
+      SourceLines.Text := Source;
+    end;
+
+    if LineNo <= SourceLines.Count then
+      Result := SourceLines[LineNo-1]
+    else
+      Result := '';
+  end;
+
 
   procedure GetLine(var P : PWideChar; var Line : WideString; var LineNo : integer);
   Var
@@ -481,7 +497,7 @@ Var
     if UseModifiedSource then
       SetString(Line, Start, P - Start)
     else
-      Line := GetNthLine(Source, LineNo);
+      Line := GetNthSourceLine(LineNo);
     if P^ = WideChar(#13) then Inc(P);
     if P^ = WideChar(#10) then Inc(P);
   end;
@@ -586,6 +602,7 @@ Var
     ParseState : TParseState;
   begin
     Result := Source;
+    SourceLines := nil;
     if Length(Source) = 0 then Exit;
     pRes := PWideChar(Result);
     pSource := PWideChar(Source);
@@ -690,8 +707,6 @@ begin
 // Replace all chars in strings and comments with *
 // This ensures that text searches don't mistake comments for keywords, and that all
 // matches are in the same line/comment as the original
-//  Module.fMaskedSource := fStringsAndCommentsRE.ReplaceEx(Module.fMaskedSource,
-//    StringAndCommentsReplaceFunc);
   Module.fMaskedSource := MaskStringsAndComments(Module.fMaskedSource);
 
   P := PWideChar(Module.fMaskedSource);
@@ -722,8 +737,9 @@ begin
         LastLength := Length(S);
         Token := WideStrToken(S, WideChar(','));
         CharOffset2 := CalcIndent(Token);
-        Token := Trim(Token);
-        Index := 0;  
+//        Token := Trim(Token);
+        TrimIfNeeded(Token);
+        Index := 0;
         While Token <> '' do begin
           Variable := TVariable.Create;
           Variable.Parent := CodeElement;
@@ -748,7 +764,7 @@ begin
           // Deal with string arguments (Issue 32)
           if  (Variable.DefaultValue <> '') then begin
             if WideCharPos(Variable.DefaultValue, MaskChar) > 0 then begin
-              SourceLine := GetNthLine(Source, Variable.fCodePos.LineNo);
+              SourceLine := GetNthSourceLine(Variable.fCodePos.LineNo);
               Variable.DefaultValue :=
                 Copy(SourceLine, Variable.CodePos.CharOffset + Index, Length(Variable.DefaultValue));
             end;
@@ -916,7 +932,7 @@ begin
               end else begin
                 Module.Globals.Add(Variable);
                 if Variable.Name = '__all__' then begin
-                  Line := GetNthLine(Source, LineNo);
+                  Line := GetNthSourceLine(LineNo);
                   UseModifiedSource := False;
                   ProcessLineContinuation(P, Line, LineNo, LineStarts);
                   if fListRE.Exec(Line) then
@@ -962,22 +978,6 @@ begin
 
   Result := not Stop;
 end;
-
-//function TPythonScanner.StringAndCommentsReplaceFunc(
-//  ARegExpr: TRegExpr): string;
-//Var
-//  i : integer;
-//begin
-//  Result := ARegExpr.Match[0];
-//  if WideStrIsLeft(PWideChar(Result), '"""') or WideStrIsLeft(PWideChar(Result), '''''''') then begin
-//    for i := 4 to Length(Result) - 3 do
-//      if not (Result[i] in [#9, #10, #13, #32]) then
-//        Result[i] := '*';
-//  end else if (Result[1] = '''') or (Result[1] = '"') then begin
-//    Result := Result[1] + StringOfChar('*', Length(Result)-2) + Result[1];
-//  end else if Result [1] = '#' then
-//    Result := sLineBreak;
-//end;
 
 { TParsedModule }
 
@@ -1065,8 +1065,8 @@ var
   CurrentCount: Integer;
   j: Integer;
   Index: Integer;
-  Path: string;
-  PackageRootName: string;
+  Path: WideString;
+  PackageRootName: WideString;
   i: Integer;
   PythonPathAdder: IInterface;
   ModuleImport: TModuleImport;
@@ -1083,7 +1083,7 @@ begin
   for i := 0 to fGlobals.Count - 1 do
     SList.AddObject(TVariable(fGlobals[i]).Name, fGlobals[i]);
   //  Add from imported modules
-  Path := ExtractFileDir(Self.fFileName);
+  Path := WideExtractFileDir(Self.fFileName);
   if Length(Path) > 1 then
   begin
     // Add the path of the executed file to the Python path
@@ -1223,7 +1223,7 @@ end;
 function TParsedFunction.GetCodeHint: WideString;
 Var
   Module : TParsedModule;
-  DefinedIn : string;
+  DefinedIn : WideString;
 begin
   Module := GetModule;
   if Module is TModuleProxy then
@@ -1259,7 +1259,7 @@ end;
 constructor TParsedClass.Create;
 begin
   inherited;
-  fSuperClasses := TStringList.Create;
+  fSuperClasses := TWideStringList.Create;
   fSuperClasses.CaseSensitive := True;
   fAttributes := TObjectList.Create(True);
 end;
@@ -1274,7 +1274,7 @@ end;
 function TParsedClass.GetCodeHint: WideString;
 Var
   Module : TParsedModule;
-  DefinedIn : string;
+  DefinedIn : WideString;
 begin
   Module := GetModule;
   if Module is TModuleProxy then
@@ -1292,9 +1292,9 @@ end;
 
 function TParsedClass.GetConstructor: TParsedFunction;
 var
-  BaseClassResolver : TStringList;
+  BaseClassResolver : TWideStringList;
 begin
-  BaseClassResolver := TStringList.Create;
+  BaseClassResolver := TWideStringList.Create;
   BaseClassResolver.CaseSensitive := True;
   try
     Result := GetConstructorImpl(BaseClassResolver);
@@ -1304,10 +1304,10 @@ begin
 end;
 
 function TParsedClass.GetConstructorImpl(
-  BaseClassResolver: TStringList): TParsedFunction;
+  BaseClassResolver: TWideStringList): TParsedFunction;
 var
   Module : TParsedModule;
-  S: string;
+  S: WideString;
   ErrMsg : WideString;
   CE : TCodeElement;
   i : integer;
@@ -1364,7 +1364,7 @@ Var
   Module : TParsedModule;
   ErrMsg: WideString;
   BaseClass : TBaseCodeElement;
-  S : string;
+  S : WideString;
 begin
   Module := GetModule;
   S  := Module.Name + '.' + Parent.Name + '.' + Name;
@@ -1414,13 +1414,13 @@ begin
   Result.EndLine := EndLine;
 end;
 
-function GetExpressionType(Expr : string; Var IsBuiltIn : boolean) : string;
+function GetExpressionType(Expr : Widestring; Var IsBuiltIn : boolean) : Widestring;
 Var
   i :  integer;
 begin
   Expr := Trim(Expr);
-  if Expr = '' then begin
-    Result := '';
+  if (Expr = '') or (Expr[1] > #$FF) then begin
+    Result := Expr;
     IsBuiltIn := False;
   end else begin
     IsBuiltIn := True;
@@ -1433,7 +1433,7 @@ begin
             if Expr[i] = '.' then begin
               Result := 'float';
               break;
-            end else if not (Expr[i] in ['0'..'9', '+', '-']) then
+            end else if not InOpSet(Expr[i], ['0'..'9', '+', '-']) then
               break;
           end;
         end;
@@ -1457,7 +1457,7 @@ begin
   Result := GetRoot as TParsedModule;
 end;
 
-function TBaseCodeElement.GetModuleSource: string;
+function TBaseCodeElement.GetModuleSource: WideString;
 var
   ParsedModule : TParsedModule;
 begin

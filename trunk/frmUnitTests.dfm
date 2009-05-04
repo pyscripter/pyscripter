@@ -45,14 +45,14 @@ inherited UnitTestWindow: TUnitTestWindow
   PixelsPerInch = 96
   TextHeight = 13
   inherited FGPanel: TPanel
-    Width = 256
-    Height = 445
-    ExplicitWidth = 256
-    ExplicitHeight = 445
+    Width = 258
+    Height = 447
+    ExplicitWidth = 258
+    ExplicitHeight = 447
     object ExplorerDock: TSpTBXDock
       Left = 0
       Top = 0
-      Width = 256
+      Width = 258
       Height = 26
       AllowDrag = False
       object ExplorerToolbar: TSpTBXToolbar
@@ -103,30 +103,28 @@ inherited UnitTestWindow: TUnitTestWindow
     end
     object SpTBXSplitter1: TSpTBXSplitter
       Left = 0
-      Top = 267
-      Width = 256
+      Top = 269
+      Width = 258
       Height = 5
       Cursor = crSizeNS
       Align = alBottom
       MinSize = 1
-      ExplicitTop = 279
     end
     object Panel1: TSpTBXPanel
       Left = 0
       Top = 26
-      Width = 256
-      Height = 241
+      Width = 258
+      Height = 243
       Color = clBtnFace
       Align = alClient
       UseDockManager = True
       TabOrder = 1
       TBXStyleBackground = True
-      ExplicitHeight = 253
       object UnitTests: TVirtualStringTree
         Left = 2
         Top = 2
-        Width = 252
-        Height = 237
+        Width = 254
+        Height = 239
         Align = alClient
         BorderStyle = bsNone
         CheckImageKind = ckXP
@@ -155,14 +153,13 @@ inherited UnitTestWindow: TUnitTestWindow
         OnGetHint = UnitTestsGetHint
         OnInitChildren = UnitTestsInitChildren
         OnInitNode = UnitTestsInitNode
-        ExplicitHeight = 249
         Columns = <>
       end
     end
     object Panel2: TSpTBXPanel
       Left = 0
-      Top = 272
-      Width = 256
+      Top = 274
+      Width = 258
       Height = 173
       Align = alBottom
       UseDockManager = True
@@ -170,33 +167,32 @@ inherited UnitTestWindow: TUnitTestWindow
       TabOrder = 2
       TBXStyleBackground = True
       DesignSize = (
-        256
+        258
         173)
       object Bevel1: TBevel
         Left = 8
         Top = 58
-        Width = 240
+        Width = 242
         Height = 5
         Anchors = [akLeft, akTop, akRight]
         Shape = bsTopLine
+        ExplicitWidth = 240
       end
       object SpTBXPanel1: TSpTBXPanel
         Left = 2
-        Top = 82
-        Width = 252
-        Height = 89
+        Top = 84
+        Width = 254
+        Height = 87
         Caption = 'SpTBXPanel1'
         Align = alBottom
         Anchors = [akLeft, akTop, akRight, akBottom]
         TabOrder = 0
         HotTrack = True
-        TBXStyleBackground = True
-        ExplicitHeight = 109
         object ErrorText: TTntRichEdit
           Left = 2
           Top = 2
-          Width = 248
-          Height = 85
+          Width = 250
+          Height = 83
           Align = alClient
           BorderStyle = bsNone
           Constraints.MinHeight = 10
@@ -204,13 +200,10 @@ inherited UnitTestWindow: TUnitTestWindow
           ReadOnly = True
           ScrollBars = ssBoth
           TabOrder = 0
-          ExplicitLeft = 3
-          ExplicitTop = 1
-          ExplicitHeight = 101
         end
       end
       object Label2: TSpTBXLabel
-        Left = 1
+        Left = 7
         Top = 62
         Width = 79
         Height = 19
@@ -224,7 +217,7 @@ inherited UnitTestWindow: TUnitTestWindow
         Caption = 'No Module Loaded'
       end
       object lbFoundTests: TSpTBXLabel
-        Left = 170
+        Left = 172
         Top = 1
         Width = 72
         Height = 19

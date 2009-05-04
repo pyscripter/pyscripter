@@ -35,6 +35,7 @@
 //{$DEFINE PYTHON25}
 //{$DEFINE PYTHON26}
 //{$DEFINE PYTHON30}
+//{$DEFINE PYTHON31}
 
 /////////////////////////////////////////////////////////////////////////////
 // Python for Delphi settings. Comment out the setting you want to enable.
@@ -151,19 +152,21 @@
 // Note that the installer will let the user specify its default Python version, and
 // thus will edit this file.
 
-{$IFNDEF PYTHON30}
-  {$IFNDEF PYTHON26}
-    {$IFNDEF PYTHON25}
-      {$IFNDEF PYTHON24}
-        {$IFNDEF PYTHON23}
-          {$IFNDEF PYTHON22}
-            {$IFNDEF PYTHON21}
-              {$IFNDEF PYTHON20}
-                 {$IFNDEF PYTHON15}
-  {---<START OF DEFAULT PYTHON VERSION>---}
-      {$DEFINE PYTHON25}
-  {---<END OF DEFAULT PYTHON VERSION>---}
-                 {$ENDIF}
+{$IFNDEF PYTHON31}
+  {$IFNDEF PYTHON30}
+    {$IFNDEF PYTHON26}
+      {$IFNDEF PYTHON25}
+        {$IFNDEF PYTHON24}
+          {$IFNDEF PYTHON23}
+            {$IFNDEF PYTHON22}
+              {$IFNDEF PYTHON21}
+                {$IFNDEF PYTHON20}
+                   {$IFNDEF PYTHON15}
+    {---<START OF DEFAULT PYTHON VERSION>---}
+        {$DEFINE PYTHON25}
+    {---<END OF DEFAULT PYTHON VERSION>---}
+                   {$ENDIF}
+                {$ENDIF}
               {$ENDIF}
             {$ENDIF}
           {$ENDIF}
@@ -224,6 +227,17 @@
   {$DEFINE PYTHON25_OR_HIGHER}
   {$DEFINE PYTHON26_OR_HIGHER}
   {$DEFINE PYTHON30_OR_HIGHER}
+{$ENDIF}
+{$IFDEF PYTHON31}
+  {$DEFINE PYTHON20_OR_HIGHER}
+  {$DEFINE PYTHON21_OR_HIGHER}
+  {$DEFINE PYTHON22_OR_HIGHER}
+  {$DEFINE PYTHON23_OR_HIGHER}
+  {$DEFINE PYTHON24_OR_HIGHER}
+  {$DEFINE PYTHON25_OR_HIGHER}
+  {$DEFINE PYTHON26_OR_HIGHER}
+  {$DEFINE PYTHON30_OR_HIGHER}
+  {$DEFINE PYTHON31_OR_HIGHER}
 {$ENDIF}
 
 /////////////////////////////////////////////////////////////////////////////

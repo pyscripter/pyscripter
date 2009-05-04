@@ -80,7 +80,7 @@ uses
   SynEditTypes,
   SynEditKeyCmds,
   SynEditHighlighter,
-  SynEditKbdHandler,
+  
   SynEdit,
   SynUnicode,
 {$ENDIF}

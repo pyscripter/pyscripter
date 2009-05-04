@@ -18,9 +18,9 @@ uses
   ImgList, dlgSynEditOptions, SynEditPrint, StdActns,
   SynCompletionProposal, TB2Item,
   SynEditRegexSearch, SynEditMiscClasses, SynEditSearch, VirtualTrees,
-  SynEditTextBuffer, SynEditKeyCmds, JvComponentBase, SynHighlighterXML,
-  SynHighlighterCSS, SynHighlighterHtml, JvProgramVersionCheck, JvPropertyStore,
-  SynHighlighterIni, TB2MRU, JvAppInst, uEditAppIntfs, SynUnicode,
+  SynEditTextBuffer, SynEditKeyCmds, JvComponentBase, 
+  JvProgramVersionCheck, JvPropertyStore,
+  SynHighlighterIni, JvAppInst, uEditAppIntfs, SynUnicode,
   JvTabBar, JvStringHolder, cPyBaseDebugger, TntDialogs, TntLXDialogs,
   SynEditTypes, VirtualExplorerTree, VirtualShellNotifier, SynHighlighterWeb,
   SynHighlighterCpp, TntStdActns, TntActnList, SynHighlighterYAML, WideStrings;
@@ -240,8 +240,6 @@ type
     ModifierCompletion: TSynCompletionProposal;
     CodeTemplatesCompletion: TSynAutoComplete;
     imlShellIcon: TImageList;
-    Images: TTBImageList;
-    DisabledImages: TImageList;
     SynEditSearch: TSynEditSearch;
     SynEditRegexSearch: TSynEditRegexSearch;
     ProgramVersionCheck: TJvProgramVersionCheck;
@@ -334,7 +332,7 @@ type
     actFileClose: TTntAction;
     actFileSaveAs: TTntAction;
     actFileSave: TTntAction;
-    ImageList1: TImageList;
+    Images: TImageList;
     function ProgramVersionHTTPLocationLoadFileFromRemote(
       AProgramVersionLocation: TJvProgramVersionHTTPLocation; const ARemotePath,
       ARemoteFileName, ALocalPath, ALocalFileName: string): string;
@@ -501,16 +499,16 @@ implementation
 
 uses
   PythonEngine, dlgSynPageSetup, uHighlighterProcs,
-  dlgOptionsEditor, frmPythonII, dlgDirectoryList, VarPyth,
-  dlgAboutPyScripter, frmPyIDEMain, JclFileUtils, SHDocVw, Variants,
+  dlgOptionsEditor, frmPythonII, dlgDirectoryList, 
+  dlgAboutPyScripter, frmPyIDEMain, JclFileUtils, Variants,
   frmEditor, frmFindResults, cParameters, dlgCustomParams,
   uParams, dlgCodeTemplates, dlgConfigureTools, cTools,
   frmFunctionList, StringResources, uCommonFunctions,
   StoHtmlHelp, {uMMMXP_MainService, }JvJCLUtils, Menus, SynEditStrConst,
   dlgConfirmReplace, dlgCustomShortcuts,// jclStrings,
-  dlgUnitTestWizard, WinInet, Math, Registry, ShlObj, ShellAPI,
-  dlgFileTemplates, JclSysInfo, JclSysUtils, dlgPickList, JvAppIniStorage,
-  cFilePersist, JvAppStorage, SpTBXEditors, JvDSADialogs, uSearchHighlighter,
+  dlgUnitTestWizard, WinInet, Registry, ShlObj, ShellAPI,
+  dlgFileTemplates, JclSysUtils, dlgPickList, JvAppIniStorage,
+  JvAppStorage, JvDSADialogs, uSearchHighlighter,
   TntSysUtils, MPShellUtilities, gnugettext, SpTBXSkins, SpTBXMDIMRU;
 
 { TPythonIDEOptions }
@@ -2537,7 +2535,7 @@ begin
       if vsSelected in Node.States then
       begin
         TargetCanvas.Font.Color :=
-          CurrentSkin.GetTextColor(skncListItem, CurrentSkin.GetState(True, Node = HotNode, True, False));
+          CurrentSkin.GetTextColor(skncListItem, CurrentSkin.GetState(True, False, Node = HotNode, True));
       end;
     end;
   end;
@@ -2635,7 +2633,7 @@ begin
         end;
         if not IsRectEmpty(InnerRect) then begin
           TargetCanvas.FillRect(InnerRect);
-          State := CurrentSkin.GetState(True, Node = HotNode, True, False);
+          State := CurrentSkin.GetState(True, False, Node = HotNode, True);
           CurrentSkin.PaintBackground(TargetCanvas, InnerRect, skncListItem, State, True, False);
         end;
         //SpDrawXPListItemBackground(TargetCanvas, InnerRect, True, Node = HotNode, Focused, SkinManager.GetSkinType);

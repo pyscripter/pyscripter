@@ -150,9 +150,9 @@ type
 implementation
 
 uses
-  VarPyth, StringResources, frmPythonII, Dialogs, JclSysUtils, dmCommands,
+  VarPyth, StringResources, frmPythonII, Dialogs, dmCommands,
   cParameters, uCommonFunctions, frmMessages, frmPyIDEMain, JclFileUtils,
-  JvDockControlForm, frmVariables, frmCallStack, frmUnitTests, JvDSADialogs,
+  frmVariables, frmCallStack, frmUnitTests, JvDSADialogs,
   gnugettext, TntDialogs, TntSysUtils, JclStrings;
 
 { TRemNameSpaceItem }

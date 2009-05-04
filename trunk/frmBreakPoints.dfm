@@ -47,8 +47,8 @@ inherited BreakPointsWindow: TBreakPointsWindow
   PixelsPerInch = 96
   TextHeight = 13
   inherited FGPanel: TPanel
-    Width = 373
-    Height = 238
+    Width = 375
+    Height = 240
     ExplicitWidth = 373
     ExplicitHeight = 238
     object BreakPointsView: TVirtualStringTree

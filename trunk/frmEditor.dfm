@@ -20,18 +20,26 @@ object EditorForm: TEditorForm
   TextHeight = 13
   object FGPanel: TPanel
     AlignWithMargins = True
-    Left = 3
-    Top = 3
-    Width = 560
-    Height = 377
+    Left = 2
+    Top = 2
+    Width = 562
+    Height = 379
+    Margins.Left = 2
+    Margins.Top = 2
+    Margins.Right = 2
+    Margins.Bottom = 2
     Align = alClient
     TabOrder = 0
     OnEnter = FGPanelEnter
     OnExit = FGPanelExit
+    ExplicitLeft = 3
+    ExplicitTop = 3
+    ExplicitWidth = 560
+    ExplicitHeight = 377
     object ViewsTabBar: TJvTabBar
       Left = 1
       Top = 1
-      Width = 558
+      Width = 560
       CloseButton = False
       HotTracking = True
       AutoFreeClosed = False
@@ -41,27 +49,32 @@ object EditorForm: TEditorForm
           Selected = True
         end>
       OnTabSelected = ViewsTabBarTabSelected
+      ExplicitWidth = 558
     end
     object EditorViews: TJvPageList
       Left = 1
       Top = 24
-      Width = 558
-      Height = 352
+      Width = 560
+      Height = 354
       ActivePage = SourcePage
       PropagateEnable = False
       Align = alClient
       OnChange = EditorViewsChange
+      ExplicitWidth = 558
+      ExplicitHeight = 352
       object SourcePage: TJvStandardPage
         Left = 0
         Top = 0
-        Width = 558
-        Height = 352
+        Width = 560
+        Height = 354
         Caption = 'Source'
+        ExplicitWidth = 558
+        ExplicitHeight = 352
         object SynEdit: TSynEdit
           Left = 0
           Top = 0
-          Width = 353
-          Height = 352
+          Width = 355
+          Height = 354
           HelpContext = 510
           Align = alClient
           Ctl3D = False
@@ -100,6 +113,8 @@ object EditorForm: TEditorForm
           OnSpecialLineColors = SynEditSpecialLineColors
           OnStatusChange = SynEditStatusChange
           OnPaintTransient = SynEditPaintTransient
+          ExplicitWidth = 353
+          ExplicitHeight = 352
           RemovedKeystrokes = <
             item
               Command = ecDeleteLastChar
@@ -116,10 +131,10 @@ object EditorForm: TEditorForm
           AddedKeystrokes = <>
         end
         object SynEdit2: TSynEdit
-          Left = 358
+          Left = 360
           Top = 0
           Width = 200
-          Height = 352
+          Height = 354
           Align = alRight
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
@@ -147,15 +162,19 @@ object EditorForm: TEditorForm
           OnSpecialLineColors = SynEditSpecialLineColors
           OnStatusChange = SynEditStatusChange
           OnPaintTransient = SynEditPaintTransient
+          ExplicitLeft = 358
+          ExplicitHeight = 352
         end
         object EditorSplitter: TSpTBXSplitter
-          Left = 353
+          Left = 355
           Top = 0
-          Height = 352
+          Height = 354
           Cursor = crSizeWE
           Align = alRight
           Visible = False
           GripSize = 80
+          ExplicitLeft = 353
+          ExplicitHeight = 352
         end
       end
     end

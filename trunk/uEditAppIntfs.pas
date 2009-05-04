@@ -50,7 +50,7 @@ unit uEditAppIntfs;
 interface
 
 uses
-  Windows, Classes, Forms, SynEdit, JvPageList, Contnrs, SynEditHighlighter;
+  Windows, Classes, Forms, SynEdit, JvPageList, Contnrs;
 
 type
   TBreakPoint = class(TPersistent)

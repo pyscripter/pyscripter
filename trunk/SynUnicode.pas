@@ -481,7 +481,7 @@ uses
   {$IFDEF USE_TNT_RUNTIME_SUPPORT}
   TntSysUtils, TntClasses,
   {$ENDIF}
-  SysConst,
+  
   {$IFDEF SYN_COMPILER_6_UP}
   RTLConsts;
   {$ELSE}

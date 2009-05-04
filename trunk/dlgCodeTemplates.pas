@@ -11,9 +11,10 @@ unit dlgCodeTemplates;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ComCtrls, ExtCtrls, JvEdit, SynEdit,  ActnList, SpTBXDkPanels, SpTBXControls, 
-  TntActnList, dlgPyIDEBase, SpTBXEditors, TntComCtrls;
+  Windows, Messages, SysUtils, Variants, Classes, Controls, Forms,
+  Dialogs, StdCtrls, SynEdit,  ActnList, SpTBXControls, 
+  TntActnList, dlgPyIDEBase, SpTBXEditors, SpTBXItem,
+  MPCommonObjects, EasyListview;
 
 type
   TCodeTemplates = class(TPyIDEDlgBase)
@@ -41,7 +42,7 @@ type
     Label3: TSpTBXLabel;
     edDescription: TSpTBXEdit;
     edShortcut: TSpTBXEdit;
-    lvItems: TTntListView;
+    lvItems: TEasyListview;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -50,12 +51,11 @@ type
     procedure actAddItemExecute(Sender: TObject);
     procedure actDeleteItemExecute(Sender: TObject);
     procedure actUpdateItemExecute(Sender: TObject);
-    procedure lvItemsChange(Sender: TObject; Item: TListItem;
-      Change: TItemChange);
     procedure actMoveUpExecute(Sender: TObject);
     procedure actMoveDownExecute(Sender: TObject);
-    procedure lvItemsDeletion(Sender: TObject; Item: TListItem);
     procedure btnHelpClick(Sender: TObject);
+    procedure lvItemsItemSelectionsChanged(Sender: TCustomEasyListview);
+    procedure lvItemsItemFreeing(Sender: TCustomEasyListview; Item: TEasyItem);
   private
     { Private declarations }
   public
@@ -101,8 +101,8 @@ begin
   CodeTemplateText := '';
   for i := 0 to lvItems.Items.Count - 1 do begin
     CodeTemplateText := CodeTemplateText + lvItems.Items[i].Caption + sLineBreak;
-    if lvItems.Items[i].SubItems[0] <> '' then
-      CodeTemplateText := CodeTemplateText +'|' + lvItems.Items[i].SubItems[0] + sLineBreak;
+    if lvItems.Items[i].Captions[1] <> '' then
+      CodeTemplateText := CodeTemplateText +'|' + lvItems.Items[i].Captions[1] + sLineBreak;
     for j := 0 to TWideStringList(lvItems.Items[i].Data).Count - 1 do
       CodeTemplateText := CodeTemplateText + '=' +
         TWideStringList(lvItems.Items[i].Data)[j] + sLineBreak;
@@ -114,7 +114,7 @@ Var
  i, Count : integer;
  List : TWideStringList;
 begin
-  lvItems.Clear;
+  lvItems.Items.Clear;
   i := 0;
   Count := 0;
   List := TWideStringList.Create;
@@ -128,10 +128,10 @@ begin
           Data := TWideStringList.Create;
           Inc(i);
           if List[i][1] = '|' then begin
-            SubItems.Add(Copy(List[i], 2, MaxInt));
+            Captions[1] := Copy(List[i], 2, MaxInt);
             Inc(i);
           end else
-            SubItems.Add('');
+            Captions[1] := '';
         end;
       end else begin
         if (Count > 0) and (List[i][1] = '=') then
@@ -147,18 +147,18 @@ end;
 procedure TCodeTemplates.ActionListUpdate(Action: TBasicAction;
   var Handled: Boolean);
 begin
-  actDeleteItem.Enabled := lvItems.ItemIndex >= 0;
-  actMoveUp.Enabled := lvItems.ItemIndex >= 1;
-  actMoveDown.Enabled := (lvItems.ItemIndex >= 0) and
-                         (lvItems.ItemIndex < lvItems.Items.Count - 1);
+  actDeleteItem.Enabled := Assigned(lvItems.Selection.First());
+  actMoveUp.Enabled :=  Assigned(lvItems.Selection.First()) and  (lvItems.Selection.First.Index >= 1);
+  actMoveDown.Enabled := Assigned(lvItems.Selection.First()) and
+                         (lvItems.Selection.First.Index < lvItems.Items.Count - 1);
   actAddItem.Enabled := edShortCut.Text <> '';
-  actUpdateItem.Enabled := (edShortCut.Text <> '') and (lvItems.ItemIndex >= 0);
+  actUpdateItem.Enabled := (edShortCut.Text <> '') and Assigned(lvItems.Selection.First());
   Handled := True;
 end;
 
 procedure TCodeTemplates.actAddItemExecute(Sender: TObject);
 Var
-  Item : TListItem;
+  Item : TEasyItem;
   i : Integer;
 begin
   if edShortCut.Text <> '' then begin
@@ -167,7 +167,7 @@ begin
       if CompareText(lvItems.Items[i].Caption, edShortCut.Text) = 0 then begin
         Item := lvItems.Items[i];
         Item.Caption := edShortCut.Text;
-        Item.SubItems[0] := edDescription.Text;
+        Item.Captions[1] := edDescription.Text;
         TWideStringList(Item.Data).Assign(SynTemplate.Lines);
         Item.Selected := True;
         Exit;
@@ -175,7 +175,7 @@ begin
 
     with lvItems.Items.Add() do begin
       Caption := edShortCut.Text;
-      SubItems.Add(edDescription.Text);
+      Captions[1] := edDescription.Text;
       Data := Pointer(TWideStringList.Create);
       TWideStringList(Data).Assign(SynTemplate.Lines);
     end;
@@ -184,25 +184,25 @@ end;
 
 procedure TCodeTemplates.actDeleteItemExecute(Sender: TObject);
 begin
-  if lvItems.ItemIndex >= 0 then
-    lvItems.Items.Delete(lvItems.ItemIndex);
+  if Assigned(lvItems.Selection.First()) then
+    lvItems.Items.Delete(lvItems.Selection.First.Index);
 end;
 
 procedure TCodeTemplates.actUpdateItemExecute(Sender: TObject);
 Var
   i : integer;
 begin
-  if (edShortCut.Text <> '') and (lvItems.ItemIndex >= 0) then begin
+  if (edShortCut.Text <> '') and Assigned(lvItems.Selection.First()) then begin
     for i := 0 to lvItems.Items.Count - 1 do
       if (CompareText(lvItems.Items[i].Caption, edShortCut.Text) = 0) and
-         (i <> lvItems.ItemIndex) then
+         (i <> lvItems.Selection.First.Index) then
       begin
         WideMessageDlg(_(SSameName), mtError, [mbOK], 0);
         Exit;
       end;
-    with lvItems.Items[lvItems.ItemIndex] do begin
+    with lvItems.Selection.First do begin
       Caption := edShortCut.Text;
-      SubItems[0] := edDescription.Text;
+      Captions[1] := edDescription.Text;
       TWideStringList(Data).Assign(SynTemplate.Lines);
       SynTemplate.Modified := False;
     end;
@@ -214,34 +214,23 @@ begin
   Application.HelpContext(HelpContext);
 end;
 
-procedure TCodeTemplates.lvItemsChange(Sender: TObject; Item: TListItem;
-  Change: TItemChange);
-begin
-  if Item.Selected then begin
-    edShortCut.Text := Item.Caption;
-    edDescription.Text := Item.SubItems[0];
-    SynTemplate.Lines.Assign(TWideStringList(Item.Data));
-    SynTemplate.Modified := False;
-  end;
-end;
-
 procedure TCodeTemplates.actMoveUpExecute(Sender: TObject);
 Var
   Name, Value : WideString;
   P : Pointer;
   Index : integer;
 begin
-  if lvItems.ItemIndex > 0 then begin
-    Index := lvItems.ItemIndex;
+  if Assigned(lvItems.Selection.First()) and  (lvItems.Selection.First.Index >= 1) then begin
+    Index := lvItems.Selection.First.Index;
     Name := lvItems.Items[Index].Caption;
-    Value := lvItems.Items[Index].SubItems[0];
+    Value := lvItems.Items[Index].Captions[1];
     P := lvItems.Items[Index].Data;
     lvItems.Items[Index].Data := nil;  // so that it does not get freed
     lvItems.Items.Delete(Index);
 
     with lvItems.Items.Insert(Index - 1) do begin
       Caption := Name;
-      SubItems.Add(Value);
+      Captions[1] := Value;
       Data := P;
       Selected := True;
     end;
@@ -254,32 +243,47 @@ Var
   P : Pointer;
   Index : integer;
 begin
-  if lvItems.ItemIndex < lvItems.Items.Count - 1 then begin
-    Index := lvItems.ItemIndex;
+  if Assigned(lvItems.Selection.First()) and (lvItems.Selection.First.Index < lvItems.Items.Count - 1) then
+  begin
+    Index := lvItems.Selection.First.Index;
     Name := lvItems.Items[Index].Caption;
-    Value := lvItems.Items[Index].SubItems[0];
+    Value := lvItems.Items[Index].Captions[1];
     P := lvItems.Items[Index].Data;
     lvItems.Items[Index].Data := nil;  // so that it does not get freed
     lvItems.Items.Delete(Index);
 
     with lvItems.Items.Insert(Index + 1) do begin
       Caption := Name;
-      SubItems.Add(Value);
+      Captions[1] := Value;
       Data := P;
       Selected := True;
     end;
   end;
 end;
 
-procedure TCodeTemplates.lvItemsDeletion(Sender: TObject; Item: TListItem);
+procedure TCodeTemplates.lvItemsItemFreeing(Sender: TCustomEasyListview;
+  Item: TEasyItem);
 begin
   if Assigned(Item.Data) then
     TWideStringList(Item.Data).Free;
 end;
 
+procedure TCodeTemplates.lvItemsItemSelectionsChanged(
+  Sender: TCustomEasyListview);
+begin
+  if Assigned(lvItems.Selection.First()) then with lvItems.Selection.First do begin
+    edShortCut.Text := Caption;
+    edDescription.Text := Captions[1];
+    SynTemplate.Lines.Assign(TWideStringList(lvItems.Selection.First.Data));
+    SynTemplate.Modified := False;
+  end;
+end;
+
 procedure TCodeTemplates.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-  if (edShortcut.Text <> '') and SynTemplate.Modified then begin
+  if (edShortcut.Text <> '') and SynTemplate.Modified and
+    Assigned(lvItems.Selection.First()) then
+  begin
     if (WideMessageDlg(_(SCodeTemplateModified),
       mtConfirmation, [mbYes, mbNo], 0) = mrYes)
     then

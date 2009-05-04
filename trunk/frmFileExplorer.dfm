@@ -33,12 +33,11 @@ inherited FileExplorerWindow: TFileExplorerWindow
     000000000000000000000000000000000000000000000000000000000000FBC1
     0000FD410000FBC10000FFFF0000FBC10000FD410000FBC10000FFFF0000001F
     0000001F0000001F0000001F0000001F0000001F0000003F00000FFF0000}
-  ExplicitWidth = 243
   ExplicitHeight = 473
   PixelsPerInch = 96
   TextHeight = 13
   inherited FGPanel: TPanel
-    Height = 433
+    Height = 435
     ExplicitHeight = 433
     object FileExplorerTree: TVirtualExplorerTree
       Left = 0
@@ -48,9 +47,8 @@ inherited FileExplorerWindow: TFileExplorerWindow
       Active = False
       Align = alClient
       AnimationDuration = 100
-      BevelInner = bvLowered
+      BevelInner = bvNone
       BevelOuter = bvNone
-      BevelKind = bkSoft
       BorderStyle = bsNone
       ColumnDetails = cdUser
       ColumnMenuItemCount = 8

@@ -46,8 +46,8 @@ interface
 
 
 uses
-  Classes, Controls, StdCtrls, Forms, SpTBXControls, SpTBXDkPanels, TntStdCtrls,
-  SpTBXEditors, ComCtrls, TntComCtrls, dlgPyIDEBase;
+  Classes, Controls, StdCtrls, Forms, SpTBXControls, TntStdCtrls,
+  SpTBXEditors, dlgPyIDEBase, SpTBXItem, ComCtrls, TntComCtrls;
 
 type
   TfmToDoOptions = class(TPyIDEDlgBase)
@@ -72,6 +72,7 @@ type
     meDirectories: TTntRichEdit;
     lblPriority: TSpTBXLabel;
     lblToken: TSpTBXLabel;
+    pnlBG: TSpTBXPanel;
     procedure btnInsertClick(Sender: TObject);
     procedure btnRemoveClick(Sender: TObject);
     procedure btnApplyClick(Sender: TObject);

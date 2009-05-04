@@ -81,8 +81,8 @@ inherited ToDoWindow: TToDoWindow
   PixelsPerInch = 96
   TextHeight = 13
   inherited FGPanel: TPanel
-    Width = 486
-    Height = 287
+    Width = 488
+    Height = 289
     ExplicitWidth = 486
     ExplicitHeight = 287
     object TBXDock1: TSpTBXDock

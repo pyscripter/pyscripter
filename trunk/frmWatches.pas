@@ -12,7 +12,7 @@ interface
        
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ComCtrls, Menus, frmIDEDockWin, JvDockControlForm, JvComponent,
+  Dialogs, Menus, frmIDEDockWin, JvDockControlForm, 
   Contnrs, cPyBaseDebugger, ExtCtrls, TB2Item, VirtualTrees,
   JvComponentBase, JvAppStorage, SpTBXSkins, SpTBXItem;
 
@@ -66,7 +66,7 @@ var
 
 implementation
 
-uses frmPyIDEMain, PythonEngine, frmPythonII, dmCommands, uCommonFunctions,
+uses frmPyIDEMain, PythonEngine, dmCommands, 
   Clipbrd, JvDockGlobals, StringResources, gnugettext;
 
 

@@ -26,10 +26,14 @@ object IDEDockWindow: TIDEDockWindow
   TextHeight = 13
   object FGPanel: TPanel
     AlignWithMargins = True
-    Left = 3
-    Top = 3
-    Width = 221
-    Height = 402
+    Left = 2
+    Top = 2
+    Width = 223
+    Height = 404
+    Margins.Left = 2
+    Margins.Top = 2
+    Margins.Right = 2
+    Margins.Bottom = 2
     Align = alClient
     BevelOuter = bvNone
     FullRepaint = False

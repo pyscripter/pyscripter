@@ -134,10 +134,10 @@ Const
 implementation
 
 uses
-  frmPyIDEMain, frmPythonII, PythonEngine, VarPyth, dmCommands,
-  uEditAppIntfs, frmMessages, JvDockControlForm, Dialogs, 
-  uCommonFunctions, SynEditTypes, Math, StringResources,
-  cPyDebugger, gnugettext, TntDialogs, TntSysUtils, VirtualFileSearch;
+  frmPythonII, PythonEngine, VarPyth, dmCommands,
+  uEditAppIntfs, Dialogs, 
+  uCommonFunctions, Math, StringResources,
+  cPyDebugger, gnugettext, TntSysUtils, VirtualFileSearch;
 
 { TPyScripterRefactor }
 

@@ -4,8 +4,8 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, SynEdit, StdCtrls, ExtCtrls, Buttons, TB2Item, 
-  Menus, SpTBXDkPanels, SpTBXControls, SpTBXItem, dlgPyIDEBase, SpTBXMDIMRU;
+  Dialogs, SynEdit, ExtCtrls, Buttons, TB2Item, 
+  Menus, SpTBXControls, SpTBXItem, dlgPyIDEBase, SpTBXMDIMRU;
 
 type
   TCommandLineDlg = class(TPyIDEDlgBase)

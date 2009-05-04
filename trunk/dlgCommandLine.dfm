@@ -16,9 +16,9 @@ inherited CommandLineDlg: TCommandLineDlg
     Top = 0
     Width = 446
     Height = 150
-    SkinType = sknSkin
     Align = alClient
     TabOrder = 0
+    TBXStyleBackground = True
     DesignSize = (
       446
       150)
@@ -93,7 +93,7 @@ inherited CommandLineDlg: TCommandLineDlg
     end
     object cbUseCommandLine: TSpTBXCheckBox
       Left = 8
-      Top = 8
+      Top = 5
       Width = 177
       Height = 21
       Caption = 'Use Command Line Parameters?'
@@ -111,7 +111,6 @@ inherited CommandLineDlg: TCommandLineDlg
         'gument.'
       Anchors = [akLeft, akBottom]
       AutoSize = False
-      ParentColor = True
       Wrapping = twWrap
     end
     object Label3: TSpTBXLabel
@@ -121,13 +120,7 @@ inherited CommandLineDlg: TCommandLineDlg
       Height = 19
       Caption = 'Parameters : Shift+Ctrl+P, Modifiers : Shift+Ctrl+M '
       Anchors = [akLeft, akBottom]
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clGrayText
-      Font.Height = -11
-      Font.Name = 'MS Shell Dlg 2'
-      Font.Style = []
-      ParentColor = True
-      ParentFont = False
+      Enabled = False
     end
   end
   object TBXPopupHistory: TSpTBXPopupMenu
