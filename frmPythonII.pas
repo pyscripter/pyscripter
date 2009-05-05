@@ -25,14 +25,14 @@ uses
   SynEditKeyCmds, SynCompletionProposal, JvDockControlForm,
   frmIDEDockWin, ExtCtrls, PythonGUIInputOutput, JvComponentBase,
   WideStrings, TB2Item, ActnList, cPyBaseDebugger, WrapDelphi, WrapDelphiClasses,
-  SpTBXItem, TntActnList, SpTBXSkins;
+  SpTBXItem, TntActnList, SpTBXSkins, uEditAppIntfs;
 
 const
   WM_APPENDTEXT = WM_USER + 1020;
   WM_REINITINTERPRETER = WM_USER + 1030;
 
 type
-  TPythonIIForm = class(TIDEDockWindow)
+  TPythonIIForm = class(TIDEDockWindow, ISearchCommands)
     SynEdit: TSynEdit;
     PythonEngine: TPythonEngine;
     PythonIO: TPythonInputOutput;
@@ -112,6 +112,8 @@ type
     procedure PythonEngineAfterInit(Sender: TObject);
     procedure actCopyWithoutPromptsExecute(Sender: TObject);
     procedure actPasteWithPromptExecute(Sender: TObject);
+    procedure SynEditEnter(Sender: TObject);
+    procedure SynEditExit(Sender: TObject);
   private
     { Private declarations }
     fCommandHistory : TWideStringList;
@@ -131,6 +133,16 @@ type
       var Buffer: array of WideString; EndLineN: Integer; StartLineN: Integer);
     function LoadPythonEngine : integer;
     procedure PrintInterpreterBanner;
+    // ISearchCommands implementation
+    function CanFind: boolean;
+    function CanFindNext: boolean;
+    function ISearchCommands.CanFindPrev = CanFindNext;
+    function CanReplace: boolean;
+    function GetSearchTarget : TSynEdit;
+    procedure ExecFind;
+    procedure ExecFindNext;
+    procedure ExecFindPrev;
+    procedure ExecReplace;
   protected
     procedure PythonIOSendData(Sender: TObject; const Data: WideString);
     procedure PythonIOReceiveData(Sender: TObject; var Data: WideString);
@@ -148,13 +160,6 @@ type
     procedure AppendToPrompt(const Buffer : array of WideString);
     procedure AppendPrompt;
     function IsEmpty : Boolean;
-    function CanFind: boolean;
-    function CanFindNext: boolean;
-    function CanReplace: boolean;
-    procedure ExecFind;
-    procedure ExecFindNext;
-    procedure ExecFindPrev;
-    procedure ExecReplace;
     procedure RegisterHistoryCommands;
     procedure SetPythonEngineType(PythonEngineType : TPythonEngineType);
     procedure StartOutputMirror(AFileName : WideString; Append : Boolean);
@@ -652,6 +657,11 @@ begin
     Result := '';
 end;
 
+function TPythonIIForm.GetSearchTarget: TSynEdit;
+begin
+  Result := SynEdit;
+end;
+
 procedure TPythonIIForm.SynEditProcessCommand(Sender: TObject;
   var Command: TSynEditorCommand; var AChar: WideChar; Data: Pointer);
 Var
@@ -910,6 +920,19 @@ begin
     RegExpr.Free;
   end;
 
+end;
+
+procedure TPythonIIForm.SynEditEnter(Sender: TObject);
+begin
+  inherited;
+  EditorSearchOptions.InterpreterIsSearchTarget := True;
+  GI_SearchCmds := Self;
+end;
+
+procedure TPythonIIForm.SynEditExit(Sender: TObject);
+begin
+  inherited;
+  GI_SearchCmds := nil;
 end;
 
 procedure TPythonIIForm.SynEditMouseDown(Sender: TObject; Button: TMouseButton;

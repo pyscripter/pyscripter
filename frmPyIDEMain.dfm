@@ -417,7 +417,7 @@ object PyIDEMainForm: TPyIDEMainForm
     BevelOuter = bvNone
     FullRepaint = False
     ParentBackground = False
-    TabOrder = 0
+    TabOrder = 2
     object TabBar: TJvTabBar
       Left = 0
       Top = 404
@@ -1265,7 +1265,7 @@ object PyIDEMainForm: TPyIDEMainForm
       DockPos = 728
       DockRow = 1
       Images = CommandsDataModule.Images
-      TabOrder = 3
+      TabOrder = 4
       Caption = 'View Toolbar'
       object tbiViewThemes: TSpTBXSubmenuItem
         Caption = 'Themes'
@@ -1287,7 +1287,7 @@ object PyIDEMainForm: TPyIDEMainForm
       DockPos = 574
       DockRow = 1
       Images = CommandsDataModule.Images
-      TabOrder = 4
+      TabOrder = 3
       Caption = 'Editor Toolbar'
       object tbiBrowsePrevious: TSpTBXSubmenuItem
         Action = actBrowseBack
@@ -1420,27 +1420,31 @@ object PyIDEMainForm: TPyIDEMainForm
       object tbiSearchText: TSpTBXComboBox
         Left = 36
         Top = 0
-        Width = 145
+        Width = 160
         Height = 21
+        AutoCloseUp = True
         ItemHeight = 13
         TabOrder = 0
-        OnKeyDown = tbiSearchTextKeyDown
+        OnChange = tbiSearchTextChange
+        OnExit = tbiSearchTextExit
         OnKeyPress = tbiSearchTextKeyPress
         AutoDropDownWidth = True
       end
       object tbiReplaceText: TSpTBXComboBox
-        Left = 250
+        Left = 265
         Top = 0
-        Width = 145
+        Width = 160
         Height = 21
         ItemHeight = 13
         TabOrder = 1
-        OnKeyDown = tbiReplaceTextKeyDown
+        Visible = False
+        OnChange = tbiReplaceTextChange
+        OnKeyPress = tbiReplaceTextKeyPress
         AutoDropDownWidth = True
       end
     end
     object UserToolbar: TSpTBXToolbar
-      Left = 466
+      Left = 496
       Top = 51
       DockPos = 310
       DockRow = 2

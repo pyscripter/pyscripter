@@ -191,10 +191,12 @@ type
     function CanFindNext: boolean;
     function CanFindPrev: boolean;
     function CanReplace: boolean;
+    function GetSearchTarget : TSynEdit;
     procedure ExecFind;
     procedure ExecFindNext;
     procedure ExecFindPrev;
     procedure ExecReplace;
+    property SearchTarget : TSynEdit read GetSearchTarget;
   end;
 
 var

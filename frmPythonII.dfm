@@ -53,8 +53,8 @@ inherited PythonIIForm: TPythonIIForm
     Width = 697
     Height = 447
     Color = clInactiveBorder
-    ExplicitWidth = 695
-    ExplicitHeight = 445
+    ExplicitWidth = 697
+    ExplicitHeight = 447
     object SynEdit: TSynEdit
       Left = 0
       Top = 0
@@ -70,6 +70,8 @@ inherited PythonIIForm: TPythonIIForm
       PopupMenu = InterpreterPopUp
       TabOrder = 0
       OnDblClick = SynEditDblClick
+      OnEnter = SynEditEnter
+      OnExit = SynEditExit
       OnMouseDown = SynEditMouseDown
       BorderStyle = bsNone
       Gutter.BorderStyle = gbsNone
@@ -90,8 +92,6 @@ inherited PythonIIForm: TPythonIIForm
       OnProcessCommand = SynEditProcessCommand
       OnProcessUserCommand = SynEditProcessUserCommand
       OnPaintTransient = SynEditPaintTransient
-      ExplicitWidth = 695
-      ExplicitHeight = 445
     end
   end
   object PythonEngine: TPythonEngine

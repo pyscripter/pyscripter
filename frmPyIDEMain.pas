@@ -344,10 +344,11 @@ Limitations: Python scripts are executed in the main thread
   -  Replace TTBXMRULists (DONE)
   -  Theming of JvDocking  (DONE)
   -  Theming of VirtualStringTrees (DONE)
-  -  Customizer form (Done)
-  -  Theming of various windows (done)
-  -  Find Toolbar - Replace TSpTBXComboItem
+  -  Customizer form (DONE)
+  -  Theming of various windows (DONE)
+  -  Find Toolbar - Replace TSpTBXComboItem (DONE)
   -  Theming of JvTabbar (Replace with SpTBXTabControl)
+  -  Painting of ListViewItems
   -  Update SpTBXCode, MustangPeakCode, VirtualTreeView
 
 
@@ -912,17 +913,9 @@ type
       Shift: TShiftState; X, Y: Integer);
     procedure SearchOptionsChanged(Sender: TObject);
     procedure tbiSearchOptionsPopup(Sender: TTBCustomItem; FromLink: Boolean);
-    procedure tbiSearchTextChange(Sender: TObject; const Text: WideString);
-    procedure tbiSearchTextAcceptText(Sender: TObject; var NewText: WideString;
-      var Accept: Boolean);
-    procedure tbiSearchTextKeyDown(Sender: TObject; var Key: Word;
-      Shift: TShiftState);
+    procedure tbiSearchTextChange(Sender: TObject);
     procedure tbiSearchTextKeyPress(Sender: TObject; var Key: Char);
-    procedure tbiReplaceTextKeyDown(Sender: TObject; var Key: Word;
-      Shift: TShiftState);
-    procedure tbiReplaceTextAcceptText(Sender: TObject; var NewText: WideString;
-      var Accept: Boolean);
-    procedure tbiReplaceTextChange(Sender: TObject; const Text: WideString);
+    procedure tbiReplaceTextChange(Sender: TObject);
     procedure actViewSplitEditorVerExecute(Sender: TObject);
     procedure actViewSplitEditorHorExecute(Sender: TObject);
     procedure actViewHideSecondEditorExecute(Sender: TObject);
@@ -940,12 +933,16 @@ type
     procedure tbiRecentFileListClick(Sender: TObject;
       const Filename: WideString);
     procedure mnSkinsSkinChange(Sender: TObject);
+    procedure tbiSearchTextExit(Sender: TObject);
+    procedure tbiReplaceTextKeyPress(Sender: TObject; var Key: Char);
   private
     DSAAppStorage: TDSAAppStorage;
     function FindAction(var Key: Word; Shift: TShiftState) : TCustomAction;
     procedure DebugActiveScript(ActiveEditor: IEditor;
       InitStepIn : Boolean = False; RunToCursorLine : integer = -1);
     procedure SetupRunConfiguration(var RunConfig: TRunConfiguration; ActiveEditor: IEditor);
+    procedure tbiSearchTextAcceptText(const NewText: WideString);
+    procedure tbiReplaceTextAcceptText(const NewText: WideString);
   protected
     fCurrentLine : integer;
     fErrorLine : integer;
@@ -3416,9 +3413,15 @@ begin
 end;
 
 procedure TPyIDEMainForm.FindToolbarVisibleChanged(Sender: TObject);
+Var
+  SearchCommands : ISearchCommands;
 begin
-  if not FindToolbar.Visible then
+  if not FindToolbar.Visible then begin
     ClearAllHighlightedTerms;
+    SearchCommands := CommandsDataModule.FindSearchTarget;
+    if Assigned(SearchCommands) and CanActuallyFocus(SearchCommands.SearchTarget) then
+      SearchCommands.SearchTarget.SetFocus;
+  end;
 end;
 
 procedure TPyIDEMainForm.actFindReferencesExecute(Sender: TObject);
@@ -3517,17 +3520,10 @@ begin
     Action := TCustomAction(Msg.LParam);
     Action.Execute;
   end else begin
-  { TODO : Not sure if all these is needed }
-//    if Msg.WParam = 0 then begin
-//      SpFocusEditItem(tbiReplaceText, FindToolbar.View);
-//      tbiReplaceText.StartEditing(FindToolbar.View);
-//    end else if Msg.WParam = 1 then begin
-//      SpFocusEditItem(tbiSearchText, FindToolbar.View);
-//      tbiSearchText.StartEditing(FindToolbar.View);
-//    end else if Msg.WParam = 2 then begin
-//      // incremental search
-//      CommandsDataModule.IncrementalSearch;
-//    end;
+    if Msg.WParam = 2 then begin
+      // incremental search
+      CommandsDataModule.IncrementalSearch;
+    end;
   end;
 end;
 
@@ -3897,22 +3893,20 @@ begin
   end;
 end;
 
-procedure TPyIDEMainForm.tbiSearchTextAcceptText(Sender: TObject;
-  var NewText: WideString; var Accept: Boolean);
+procedure TPyIDEMainForm.tbiSearchTextAcceptText(const NewText: WideString);
 Var
   S : WideString;
   i: integer;
 begin
-  Accept := True;
   if NewText <> '' then begin
     // update Items
-    S := NewText;
-    i := tbiSearchText.Items.IndexOf(s);
-    if i > -1 then begin
+    i := tbiSearchText.Items.IndexOf(NewText);
+    if i > -1 then
       tbiSearchText.Items.Delete(i);
-      tbiSearchText.Items.Insert(0, S);
-    end else
-      tbiSearchText.Items.Insert(0, s);
+    tbiSearchText.Items.Insert(0, NewText);
+    tbiSearchText.Text := NewText;
+    tbiSearchText.Perform(WM_KEYDOWN, VK_END, 0);
+
     // Update History
     S := '';
     for i := 0 to tbiSearchText.Items.Count - 1 do begin
@@ -3928,49 +3922,35 @@ end;
 
 procedure TPyIDEMainForm.tbiSearchTextKeyPress(Sender: TObject; var Key: Char);
 begin
-//  // Incremental Search
-  if EditorSearchOptions.IncrementalSearch then
+  if (Key = Char(VK_ESCAPE)) and not tbiSearchText.DroppedDown then begin
+    Key := #0;
+    FindToolbar.Visible := False;
+  end else if (Key = Char(VK_RETURN)) and not tbiSearchText.DroppedDown then begin
+    Key := #0;
+    tbiSearchTextAcceptText(tbiSearchText.Text);
+    CommandsDataModule.actSearchFindNext.Execute;
+  end else if ((Key = #8) or (key > #32)) and EditorSearchOptions.IncrementalSearch then
     PostMessage(Handle, WM_SEARCHREPLACEACTION, 2, 0);
 end;
 
-procedure TPyIDEMainForm.tbiSearchTextKeyDown(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
-Var
-  Action : TCustomAction;
+procedure TPyIDEMainForm.tbiSearchTextChange(Sender: TObject);
 begin
-  if Key = VK_ESCAPE then begin
-    SendMessage((Sender as TEdit).Handle, WM_KILLFOCUS, 0, 0);
-    Key := 0;
-    FindToolbar.Visible := False;
-  end else if Key = VK_RETURN then begin
-    Key := 0;
-    FindToolbar.View.CancelMode;
-    PostMessage(Handle, WM_SEARCHREPLACEACTION, 0,
-      Integer(CommandsDataModule.actSearchFindNext));
-  end else if (Key = VK_TAB) and (Shift = []) and tbiReplaceText.Visible then begin
-    PostMessage(Handle, WM_SEARCHREPLACEACTION, 0, 0);
-    Key := 0;
-  end else begin
-    Action := FindAction(Key, Shift);
-    if Assigned(Action) and not Action.HandlesTarget(Sender) then begin
-      FindToolbar.View.CancelMode;
-      Key := 0; // mark as handled
-      PostMessage(Handle, WM_SEARCHREPLACEACTION, 0, Integer(Action));
-    end;
+  if EditorSearchOptions.SearchText <> tbiSearchText.Text then begin
+    EditorSearchOptions.SearchText := tbiSearchText.Text;
+    EditorSearchOptions.InitSearch;
+    CommandsDataModule.UpdateMainActions;
+
+    ClearAllHighlightedTerms;
+    if CommandsDataModule.actSearchHighlight.Enabled and
+      CommandsDataModule.actSearchHighlight.Checked
+    then
+      CommandsDataModule.actSearchHighlightExecute(Sender);
   end;
 end;
 
-procedure TPyIDEMainForm.tbiSearchTextChange(Sender: TObject;
-  const Text: WideString);
+procedure TPyIDEMainForm.tbiSearchTextExit(Sender: TObject);
 begin
-  EditorSearchOptions.SearchText := Text;
-  EditorSearchOptions.InitSearch;
-  CommandsDataModule.UpdateMainActions;
-  ClearAllHighlightedTerms;
-  if CommandsDataModule.actSearchHighlight.Enabled and
-    CommandsDataModule.actSearchHighlight.Checked
-  then
-    CommandsDataModule.actSearchHighlightExecute(Sender);
+  tbiSearchTextAcceptText(tbiSearchText.Text);
 end;
 
 procedure TPyIDEMainForm.tbiRecentFileListClick(Sender: TObject;
@@ -3980,22 +3960,20 @@ begin
   DoOpenFile(Filename);
 end;
 
-procedure TPyIDEMainForm.tbiReplaceTextAcceptText(Sender: TObject;
-  var NewText: WideString; var Accept: Boolean);
+procedure TPyIDEMainForm.tbiReplaceTextAcceptText(const NewText: WideString);
 Var
   S : WideString;
   i: integer;
 begin
-  Accept := True;
   if NewText <> '' then begin
     // update Items
-    S := NewText;
-    i := tbiReplaceText.Items.IndexOf(s);
-    if i > -1 then begin
+    i := tbiReplaceText.Items.IndexOf(NewText);
+    if i > -1 then
       tbiReplaceText.Items.Delete(i);
-      tbiReplaceText.Items.Insert(0, S);
-    end else
-      tbiReplaceText.Items.Insert(0, s);
+    tbiReplaceText.Items.Insert(0, NewText);
+    tbiReplaceText.Text := NewText;
+    tbiReplaceText.Perform(WM_KEYDOWN, VK_END, 0);
+
     // Update History
     S := '';
     for i := 0 to tbiReplaceText.Items.Count - 1 do begin
@@ -4009,38 +3987,23 @@ begin
   end;
 end;
 
-procedure TPyIDEMainForm.tbiReplaceTextChange(Sender: TObject;
-  const Text: WideString);
+procedure TPyIDEMainForm.tbiReplaceTextChange(Sender: TObject);
 begin
-  EditorSearchOptions.ReplaceText := Text;
+  EditorSearchOptions.ReplaceText := tbiReplaceText.Text;
   EditorSearchOptions.InitSearch;
   CommandsDataModule.UpdateMainActions;
 end;
 
-procedure TPyIDEMainForm.tbiReplaceTextKeyDown(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
-Var
-  Action : TCustomAction;
+procedure TPyIDEMainForm.tbiReplaceTextKeyPress(Sender: TObject; var Key: Char);
 begin
-  if Key = VK_ESCAPE then begin
-    SendMessage((Sender as TEdit).Handle, WM_KILLFOCUS, 0, 0);
-    Key := 0;
+  if (Key = Char(VK_ESCAPE)) and not tbiReplaceText.DroppedDown then begin
+    Key := #0;
     FindToolbar.Visible := False;
-  end else if Key = VK_RETURN then begin
-    Key := 0;
-    FindToolbar.View.CancelMode;
-    PostMessage(Handle, WM_SEARCHREPLACEACTION, 0,
-      Integer(CommandsDataModule.actSearchReplaceNow));
-  end else if (Key = VK_TAB) and (Shift = [ssShift]) and tbiSearchText.Visible then begin
-    PostMessage(Handle, WM_SEARCHREPLACEACTION, 1, 0);
-    Key := 0;
-  end else begin
-    Action := FindAction(Key, Shift);
-    if Assigned(Action) and not Action.HandlesTarget(Sender) then begin
-      FindToolbar.View.CancelMode;
-      Key := 0; // mark as handled
-      PostMessage(Handle, WM_SEARCHREPLACEACTION, 0, Integer(Action));
-    end;
+  end else if (Key = Char(VK_RETURN)) and not tbiReplaceText.DroppedDown then begin
+    Key := #0;
+    tbiReplaceTextAcceptText(tbiReplaceText.Text);
+    CommandsDataModule.actSearchReplaceNow.Execute;
+//    PostMessage(Handle, WM_SEARCHREPLACEACTION, 0, Integer(Action));
   end;
 end;
 
@@ -4052,7 +4015,7 @@ begin
     SearchWholeWords := tbiWholeWords.Checked;
     UseRegExp := tbiRegExp.Checked;
     SearchCaseSensitive := tbiCaseSensitive.Checked;
-    IncrementalSearch := tbiIncrementalSearch.Checked;
+    IncrementalSearch := tbiIncrementalSearch.Checked and not SearchWholeWords;
     InitSearch;
   end;
   ClearAllHighlightedTerms;

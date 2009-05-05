@@ -207,6 +207,7 @@ type
     function CanFind: boolean;
     function CanFindNext: boolean;
     function ISearchCommands.CanFindPrev = CanFindNext;
+    function ISearchCommands.GetSearchTarget = GetActiveSynEdit;
     function CanReplace: boolean;
     procedure ExecFind;
     procedure ExecFindNext;
@@ -1258,6 +1259,9 @@ begin
   if fOldEditorForm <> Self then
     CodeExplorerWindow.UpdateWindow;
   fOldEditorForm := Self;
+
+  // Search and Replace Target
+  EditorSearchOptions.InterpreterIsSearchTarget := False;
 end;
 
 procedure TEditorForm.SynEditExit(Sender: TObject);
