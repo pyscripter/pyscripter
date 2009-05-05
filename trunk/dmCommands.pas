@@ -201,6 +201,7 @@ type
     fWrappedSearch : boolean;
     fCanWrapSearch : boolean;
     fBackwardSearch : boolean;
+    fInterpreterIsSearchTarget : Boolean;
   public
     procedure Assign(Source: TPersistent); override;
     procedure InitSearch;
@@ -218,6 +219,7 @@ type
     property InitBlockBegin : TBufferCoord read fInitBlockBegin write fInitBlockBegin;
     property InitBlockEnd : TBufferCoord read fInitBlockEnd write fInitBlockEnd;
     property InitCaretXY : TBufferCoord read fInitCaretXY write fInitCaretXY;
+    property InterpreterIsSearchTarget : Boolean read fInterpreterIsSearchTarget write fInterpreterIsSearchTarget;
   published
     property SearchTextHistory: WideString read fSearchTextHistory write fSearchTextHistory;
     property ReplaceTextHistory: WideString read fReplaceTextHistory write fReplaceTextHistory;
@@ -480,6 +482,7 @@ type
     procedure ProcessShellNotify(Sender: TCustomVirtualExplorerTree; ShellEvent: TVirtualShellEvent);
     function FileIsPythonSource(FileName : WideString): Boolean;
     property Highlighters : TStrings read fHighlighters;
+    function FindSearchTarget : ISearchCommands;
   end;
 
 Const
@@ -1101,65 +1104,62 @@ begin
 end;
 
 procedure TCommandsDataModule.actSearchFindExecute(Sender: TObject);
+Var
+  SearchCommands : ISearchCommands;
 begin
-  if GI_SearchCmds <> nil then
-    GI_SearchCmds.ExecFind
-  else if PythonIIForm.HasFocus then
-    PythonIIForm.ExecFind;
+  SearchCommands := FindSearchTarget;
+  if SearchCommands <> nil then
+    SearchCommands.ExecFind
 end;
 
 procedure TCommandsDataModule.actSearchFindNextExecute(Sender: TObject);
+Var
+  SearchCommands : ISearchCommands;
 begin
-  if GI_SearchCmds <> nil then
-    GI_SearchCmds.ExecFindNext
-  else if PythonIIForm.HasFocus then
-    PythonIIForm.ExecFindNext;
+  SearchCommands := FindSearchTarget;
+  if SearchCommands <> nil then
+    SearchCommands.ExecFindNext
 end;
 
 procedure TCommandsDataModule.actSearchFindPrevExecute(Sender: TObject);
+Var
+  SearchCommands : ISearchCommands;
 begin
-  if GI_SearchCmds <> nil then
-    GI_SearchCmds.ExecFindPrev
-  else if PythonIIForm.HasFocus then
-    PythonIIForm.ExecFindPrev;
+  SearchCommands := FindSearchTarget;
+  if SearchCommands <> nil then
+    SearchCommands.ExecFindPrev
 end;
 
 procedure TCommandsDataModule.actSearchReplaceExecute(Sender: TObject);
+Var
+  SearchCommands : ISearchCommands;
 begin
-  if GI_SearchCmds <> nil then
-    GI_SearchCmds.ExecReplace
-  else if PythonIIForm.HasFocus then
-    PythonIIForm.ExecReplace;
+  SearchCommands := FindSearchTarget;
+  if SearchCommands <> nil then
+    SearchCommands.ExecReplace
 end;
 
 procedure TCommandsDataModule.IncrementalSearch;
 Var
-  SynEdit : TSynEdit;
+  SearchCmds : ISearchCommands;
 begin
-  SynEdit := nil;
-  if GI_ActiveEditor <> nil then
-    SynEdit := GI_ActiveEditor.ActiveSynEdit
-  else if PythonIIForm.HasFocus then
-    SynEdit := PythonIIForm.SynEdit;
-  if Assigned(SynEdit) then begin
-    SynEdit.SetCaretAndSelection(SynEdit.BlockBegin, SynEdit.BlockBegin, SynEdit.BlockBegin);
+  SearchCmds := FindSearchTarget;
+  if Assigned(SearchCmds) then with SearchCmds do begin
+    SearchTarget.SetCaretAndSelection(SearchTarget.BlockBegin, SearchTarget.BlockBegin, SearchTarget.BlockBegin);
     EditorSearchOptions.InitSearch;
-    DoSearchReplaceText(SynEdit, False, False, True);
+    DoSearchReplaceText(SearchTarget, False, False, True);
   end;
 end;
 
 procedure TCommandsDataModule.actSearchReplaceNowExecute(Sender: TObject);
 Var
-  SynEdit : TSynEdit;
+  SearchCmds : ISearchCommands;
 begin
-  SynEdit := nil;
-  EditorSearchOptions.InitSearch;
-  if GI_ActiveEditor <> nil then
-    SynEdit := GI_ActiveEditor.SynEdit
-  else if PythonIIForm.HasFocus then
-    SynEdit := PythonIIForm.SynEdit;
-  if Assigned(SynEdit) then
-    DoSearchReplaceText(SynEdit, True, EditorSearchOptions.SearchBackwards);
+  SearchCmds := FindSearchTarget;
+  if Assigned(SearchCmds) then with SearchCmds do begin
+    EditorSearchOptions.InitSearch;
+    DoSearchReplaceText(SearchTarget, True, EditorSearchOptions.SearchBackwards);
+  end;
 end;
 
 procedure TCommandsDataModule.actSearchGoToDebugLineExecute(Sender: TObject);
@@ -2222,14 +2222,12 @@ begin
   actFileSaveAll.Enabled := SaveAll;
 
   // Search Actions
-  actSearchFind.Enabled := ((GI_SearchCmds <> nil) and GI_SearchCmds.CanFind) or
-    (PythonIIForm.HasFocus and PythonIIForm.CanFind);
-  actSearchFindNext.Enabled := ((GI_SearchCmds <> nil) and GI_SearchCmds.CanFindNext) or
-    (PythonIIForm.HasFocus  and PythonIIForm.CanFindNext);
+  SearchCommands := FindSearchTarget;
+  actSearchFind.Enabled := (SearchCommands <> nil) and SearchCommands.CanFind;
+  actSearchFindNext.Enabled := (SearchCommands <> nil) and SearchCommands.CanFindNext;
   actSearchFindPrev.Enabled := actSearchFindNext.Enabled;
-  actSearchReplace.Enabled := ((GI_SearchCmds <> nil) and GI_SearchCmds.CanReplace) or
-    (PythonIIForm.HasFocus  and PythonIIForm.CanReplace);
-  actSearchReplaceNow.Enabled := actSearchFindNext.Enabled and actSearchReplace.Enabled;
+  actSearchReplace.Enabled := (SearchCommands <> nil) and SearchCommands.CanReplace;
+  actSearchReplaceNow.Enabled := actSearchFindNext.Enabled and SearchCommands.CanReplace;
   Editor := PyIDEMainForm.GetActiveEditor;
   SearchCommands := nil;
   if Assigned(Editor) then
@@ -2731,8 +2729,9 @@ begin
   OldNoReplaceCount := 0;
 
   if EditorSearchOptions.SearchText = '' then Exit; //Nothing to Search
-  if PyIDEOptions.AutoHideFindToolbar and not IsIncremental then
+  if PyIDEOptions.AutoHideFindToolbar and not IsIncremental then begin
     PyIDEMainForm.FindToolbar.Visible := False;
+  end;
   if EditorSearchOptions.UseRegExp then
     SynEdit.SearchEngine := SynEditRegexSearch
   else
@@ -2870,6 +2869,22 @@ begin
   Result :=  GetHighlighterForFile(FileName) = SynPythonSyn;
 end;
 
+function TCommandsDataModule.FindSearchTarget: ISearchCommands;
+Var
+  Editor : IEditor;
+begin
+  Result := GI_SearchCmds;
+  if not Assigned(GI_SearchCmds) then begin
+    if EditorSearchOptions.InterpreterIsSearchTarget and CanActuallyFocus(PythonIIForm.SynEdit) then
+      Result := PythonIIForm
+    else begin
+      Editor := PyIDEMainForm.GetActiveEditor;
+      if Assigned(Editor) then
+        Result := Editor as ISearchCommands
+    end;
+  end;
+end;
+
 procedure TCommandsDataModule.ShowSearchReplaceDialog(SynEdit : TSynEdit; AReplace: boolean);
 Var
   S : WideString;
@@ -2883,6 +2898,7 @@ begin
     if AReplace then begin
       tbiReplaceText.Text := EditorSearchOptions.ReplaceText;
       tbiReplaceText.Items.CommaText := EditorSearchOptions.ReplaceTextHistory;
+      PyIDEMainForm.tbiReplaceTextChange(Self);
     end;
     FindToolbar.Visible := True;
     FindToolbar.View.CancelMode;
@@ -2901,11 +2917,10 @@ begin
       end;
     end;
     tbiSearchText.Items.CommaText := EditorSearchOptions.SearchTextHistory;
-    if tbiSearchText.CanFocus  then
+    PyIDEMainForm.tbiSearchTextChange(Self);
+
+    if CanActuallyFocus(tbiSearchText) then
        tbiSearchText.SetFocus;
-    
-//    SpFocusEditItem(tbiSearchText, FindToolbar.View);
-//    tbiSearchText.StartEditing(FindToolbar.View);
   end;
 end;
 

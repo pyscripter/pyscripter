@@ -12,7 +12,7 @@ interface
 Uses
   Windows, Classes, SysUtils, Graphics, SynEditTypes,
   WideStrings, SynUnicode, uEditAppIntfs, VirtualFileSearch, SpTBXMDIMRU,
-  SpTBXSkins;
+  SpTBXSkins, Controls;
 
 const
   UTF8BOMString : string = Char($EF) + Char($BB) + Char($BF);
@@ -236,12 +236,16 @@ function GetHotColor(OptionEntry : TSpTBXSkinOptionEntry) : TColor;
 (* Trim avoiding widestring copying in not needed *)
 procedure TrimIfNeeded(var S : WideString);
 
+(* Improved CanFocus *)
+function CanActuallyFocus(WinControl: TWinControl): Boolean;
+
+
 Const
   ZeroFileTime : TFileTime = (dwLowDateTime : 0; dwHighDateTime : 0);
 
 implementation
 Uses
-  Controls, Forms, JclFileUtils, Math, VarPyth,
+  Forms, JclFileUtils, Math, VarPyth,
   JclBase, SynRegExpr, TntDialogs, TntClasses,
   TntWindows, StrUtils, WideStrUtils, PythonEngine, dmCommands, Dialogs,
   StringResources, TntSysUtils, frmPythonII, gnugettext, MPCommonUtilities,
@@ -1856,6 +1860,17 @@ begin
   end;
 end;
 
+function CanActuallyFocus(WinControl: TWinControl): Boolean;
+var
+  Form: TCustomForm;
+begin
+  Result := False;
+  if Assigned(WinControl) and not WinControl.Focused then begin
+    Form := GetParentForm(WinControl);
+    if Assigned(Form) and Form.Enabled and Form.Visible then
+      Result := WinControl.CanFocus;
+  end;
+end;
 
 end.
 
