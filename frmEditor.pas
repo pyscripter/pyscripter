@@ -220,7 +220,6 @@ type
     fForm: TEditorForm;
     fHasSelection: boolean;
     fIsReadOnly: boolean;
-    fModified: boolean;
     fUntitledNumber: integer;
     fFileEncoding : TFileSaveFormat;
     function IsEmpty : Boolean;
@@ -793,7 +792,7 @@ end;
 
 function TEditor.CanSave: boolean;
 begin
-  Result := (fForm <> nil) and (fModified or (fFileName = ''));
+  Result := (fForm <> nil) and (GetModified or (fFileName = ''));
 end;
 
 function TEditor.CanSaveAs: boolean;
@@ -1282,20 +1281,14 @@ begin
   if Changes * [scAll, scSelection] <> [] then
     fEditor.fIsReadOnly := ASynEdit.ReadOnly;
   if scModified  in Changes then begin
-    fEditor.fModified := ASynEdit.Modified;
     PyIDEMainForm.UpdateCaption;
+    ParentTabItem.Invalidate;
   end;
 end;
 
 procedure TEditorForm.DoActivate;
 begin
-//  if not ParentTabItem.Checked then
     ParentTabItem.Checked := True
-//  else
-    //  make sure TabBarTabSelected is called so that the focus
-    //  goes to the form
-    // TODO Is this needed?
-//    PyIDEMainForm.TabBarTabSelected(Self, ParentTabItem);
 end;
 
 procedure TEditorForm.DoActivateEditor;

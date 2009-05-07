@@ -108,7 +108,7 @@ type
   end;
 const
 {$IFDEF MSWINDOWS}
-  PYTHON_KNOWN_VERSIONS: array[1..11] of TPythonVersionProp =
+  PYTHON_KNOWN_VERSIONS: array[1..12] of TPythonVersionProp =
   ( (DllName: 'python14.dll'; RegVersion: '1.4'; APIVersion: 1006; CanUseLatest: False),
     (DllName: 'python15.dll'; RegVersion: '1.5'; APIVersion: 1007; CanUseLatest: False),
     (DllName: 'python16.dll'; RegVersion: '1.6'; APIVersion: 1008; CanUseLatest: False),
@@ -119,10 +119,11 @@ const
     (DllName: 'python24.dll'; RegVersion: '2.4'; APIVersion: 1012; CanUseLatest: True),
     (DllName: 'python25.dll'; RegVersion: '2.5'; APIVersion: 1013; CanUseLatest: True),
     (DllName: 'python26.dll'; RegVersion: '2.6'; APIVersion: 1013; CanUseLatest: True),
-    (DllName: 'python30.dll'; RegVersion: '3.0'; APIVersion: 1013; CanUseLatest: True) );
+    (DllName: 'python30.dll'; RegVersion: '3.0'; APIVersion: 1013; CanUseLatest: True),
+    (DllName: 'python31.dll'; RegVersion: '3.1'; APIVersion: 1013; CanUseLatest: True) );
 {$ENDIF}
 {$IFDEF LINUX}
-  PYTHON_KNOWN_VERSIONS: array[1..11] of TPythonVersionProp =
+  PYTHON_KNOWN_VERSIONS: array[1..12] of TPythonVersionProp =
   ( (DllName: 'libpython1.4.so'; RegVersion: '1.4'; APIVersion: 1006; CanUseLatest: False),
     (DllName: 'libpython1.5.so'; RegVersion: '1.5'; APIVersion: 1007; CanUseLatest: False),
     (DllName: 'libpython1.6.so'; RegVersion: '1.6'; APIVersion: 1008; CanUseLatest: False),
@@ -133,7 +134,8 @@ const
     (DllName: 'libpython2.4.so'; RegVersion: '2.4'; APIVersion: 1012; CanUseLatest: True),
     (DllName: 'libpython2.5.so'; RegVersion: '2.5'; APIVersion: 1013; CanUseLatest: True),
     (DllName: 'libpython2.6.so'; RegVersion: '2.6'; APIVersion: 1013; CanUseLatest: True),
-    (DllName: 'libpython3.0.so'; RegVersion: '3.0'; APIVersion: 1013; CanUseLatest: True) );
+    (DllName: 'libpython3.0.so'; RegVersion: '3.0'; APIVersion: 1013; CanUseLatest: True),
+    (DllName: 'libpython3.1.so'; RegVersion: '3.1'; APIVersion: 1013; CanUseLatest: True) );
 {$ENDIF}
 {$IFDEF PYTHON14}
   COMPILED_FOR_PYTHON_VERSION_INDEX = 1;
@@ -167,6 +169,9 @@ const
 {$ENDIF}
 {$IFDEF PYTHON30}
   COMPILED_FOR_PYTHON_VERSION_INDEX = 11;
+{$ENDIF}
+{$IFDEF PYTHON31}
+  COMPILED_FOR_PYTHON_VERSION_INDEX = 12;
 {$ENDIF}
 
   PYT_METHOD_BUFFER_INCREASE = 10;

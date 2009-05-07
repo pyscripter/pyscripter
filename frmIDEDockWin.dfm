@@ -36,9 +36,11 @@ object IDEDockWindow: TIDEDockWindow
     Margins.Bottom = 2
     Align = alClient
     BevelOuter = bvNone
-    FullRepaint = False
-    ParentBackground = False
     TabOrder = 0
+    ExplicitLeft = 0
+    ExplicitTop = 0
+    ExplicitWidth = 227
+    ExplicitHeight = 408
   end
   object DockClient: TJvDockClient
     LRDockWidth = 220

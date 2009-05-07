@@ -222,7 +222,7 @@ Limitations: Python scripts are executed in the main thread
  History:   v 1.9.9.6
           New Features
             Remote interpreter and debugger
-            Python 2.6 and 3.0 support
+            Python 2.6, 3.0 and 3.1 support
             Project Explorer supporting multiple run configurations with advanced options
             New debugger command: Pause
             Execute selection command added (Ctrl-F7)
@@ -386,7 +386,7 @@ uses
   JvComponentBase, JvAppInst, uHighlighterProcs, cFileTemplates, TntForms, TntLXForms,
   JvDockVSNetStyleSpTBX, TntActnList, JvFormPlacement, SpTBXCustomizer,
   SpTbxSkins, SpTBXItem, SpTBXEditors, StdCtrls, JvDSADialogs, Dialogs,
-  TntStdCtrls, ActiveX, SpTBXMDIMRU, SpTBXTabs;
+  TntStdCtrls, ActiveX, SpTBXMDIMRU, SpTBXTabs, ImgList;
 
 const
   WM_FINDDEFINITION  = WM_USER + 100;
@@ -941,6 +941,10 @@ type
     procedure SetupRunConfiguration(var RunConfig: TRunConfiguration; ActiveEditor: IEditor);
     procedure tbiSearchTextAcceptText(const NewText: WideString);
     procedure tbiReplaceTextAcceptText(const NewText: WideString);
+    procedure DrawCloseButton(Sender: TObject; ACanvas: TCanvas;
+        State: TSpTBXSkinStatesType; const PaintStage: TSpTBXPaintStage;
+        var AImageList: TCustomImageList; var AImageIndex: Integer;
+        var ARect: TRect; var PaintDefault: Boolean);
   protected
     fCurrentLine : integer;
     fErrorLine : integer;
@@ -1070,6 +1074,7 @@ begin
     Result.SynEdit.Assign(CommandsDataModule.EditorOptions);
     Result.SynEdit2.Assign(CommandsDataModule.EditorOptions);
     TEditorForm(Result.Form).ParentTabItem.OnTabClosing := TabControlTabClosing;
+    TEditorForm(Result.Form).ParentTabItem.OnDrawTabCloseButton := DrawCloseButton;
   end else
     Result := nil;
 end;
@@ -3149,22 +3154,10 @@ begin
     TempCursor := WaitCursor;
     SaveActiveControl := ActiveControl;
 
-  //TODO Is that needed ????????
-//    SendMessage(EditorsPageList.Handle, WM_SETREDRAW, 0, 0);
     try
-//      for i := 0 to EditorsPageList.PageCount - 1 do
-//        TEditorForm(EditorsPageList.Pages[i].Components[0]).Visible := False;
-
       // Now Load the DockTree
       LoadDockTreeFromAppStorage(AppStorage, Path);
     finally
-//      SendMessage(EditorsPageList.Handle, WM_SETREDRAW, 1, 0);
-//      for i := 0 to EditorsPageList.PageCount - 1 do begin
-//        TEditorForm(EditorsPageList.Pages[i].Components[0]).Parent := nil;
-//        TEditorForm(EditorsPageList.Pages[i].Components[0]).Parent := EditorsPageList.Pages[i];
-//        TEditorForm(EditorsPageList.Pages[i].Components[0]).Visible := True;
-//      end;
-//      EditorsPageList.Invalidate;
       for i := 0 to Screen.FormCount - 1 do begin
         if Screen.Forms[i] is TIDEDockWindow then
           TIDEDockWindow(Screen.Forms[i]).FormDeactivate(Self);
@@ -3548,6 +3541,35 @@ begin
   end;
 end;
 
+procedure TPyIDEMainForm.DrawCloseButton(Sender: TObject; ACanvas: TCanvas;
+  State: TSpTBXSkinStatesType; const PaintStage: TSpTBXPaintStage;
+  var AImageList: TCustomImageList; var AImageIndex: Integer; var ARect: TRect;
+  var PaintDefault: Boolean);
+Const
+  ModClosePattern: array [0..15] of Byte    = ($C6, 0, $EE, 0, $6C, 0, 0, 0, $6C, 0, $EE, 0, $C6, 0, 0, 0);
+Var
+  Editor : IEditor;
+  PatternColor: TColor;
+  R : TRect;
+begin
+  Editor := EditorFromTab(TSpTBXTabItem(Sender));
+  if not Assigned(Editor) then Exit;
+
+  PaintDefault := False;
+  AImageIndex := -1;
+
+  if State = sknsHotTrack then begin
+    R := ARect;
+    InflateRect(R, -1, -1);
+    SpDrawXPButton(ACanvas, ARect, True, False, True, False, False, False, SkinManager.GetSkinType);
+  end;
+  PatternColor := CurrentSkin.GetTextColor(skncToolbarItem, State);
+  if Editor.Modified then
+    SpDrawGlyphPattern(ACanvas.Handle, ARect, 8, 8, ModClosePattern, PatternColor)
+  else
+    SpDrawGlyphPattern(ACanvas, ARect, 0, PatternColor);
+end;
+
 procedure TPyIDEMainForm.PrevClickHandler(Sender: TObject);
 var
   A: TSpTBXMRUItem;
@@ -3836,6 +3858,8 @@ begin
       MenuItem.GroupIndex := 3;
       MenuItem.Hint := Editor.GetFileNameOrTitle;
       MenuItem.Checked := Editor = ActiveEditor;
+      if Editor.Modified then
+        MenuItem.ImageIndex := 23;
       MenuItem.OnClick := SelectEditor;
     end;
   finally
