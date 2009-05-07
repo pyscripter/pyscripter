@@ -13,7 +13,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, JvDockControlForm, ExtCtrls, SpTBXSkins,
-  JvComponentBase;
+  JvComponentBase, SpTBXItem, SpTBXControls;
 
 type
   TIDEDockWindow = class(TForm)
