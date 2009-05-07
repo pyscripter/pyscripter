@@ -23,6 +23,7 @@ Type
     constructor Create(ADockStyle: TJvDockObservableStyle); override;
   published
     property GrabbersSize default 18;
+    property SplitterWidth default 5;
   end;
 
 
@@ -115,12 +116,14 @@ Type
   public
    constructor Create(AOwner: TComponent); override;
    destructor Destroy; override;
+  published
    property ResizeStyle default rsUpdate;
   end;
 
   TJvDockVSNetStyleSpTBX = class(TJvDockVSNetStyle)
   public
     constructor Create(AOwner: TComponent); override;
+    procedure SetDockBaseControl(IsCreate: Boolean; DockBaseControl: TJvDockBaseControl); override;
   end;
 
 procedure Register;
@@ -146,6 +149,7 @@ constructor TJvDockVSNETTreeSpTBX.Create(DockSite: TWinControl;
 begin
   inherited Create(DockSite, DockZoneClass, ADockStyle);;
   GrabberSize := 22;
+  SplitterWidth := 5;
   ButtonHeight := 14;
   ButtonWidth := 14; //15
   LeftOffset := 0; //0
@@ -438,6 +442,20 @@ begin
   ConjoinServerOptionClass := TJvDockVSNETSpTBXConjoinServerOption;
 end;
 
+
+procedure TJvDockVSNetStyleSpTBX.SetDockBaseControl(IsCreate: Boolean;
+  DockBaseControl: TJvDockBaseControl);
+Var
+  DP : TJvDockPosition;
+begin
+  inherited;
+  if DockBaseControl is TJvDockServer then begin
+    for DP := Low(TJvDockPosition) to High(TJvDockPosition) do begin
+      TJvDockServer(DockBaseControl).SplitterStyle[DP].Size := 5;
+      TJvDockServer(DockBaseControl).SplitterStyle[DP].ResizeStyle := rsUpdate;
+    end;
+  end;
+end;
 
 { TJvDockVSNETTabPageControlSpTBX }
 
@@ -749,8 +767,10 @@ end;
 procedure TJvDockVSNETPanelSpTBX.AddDockServer(ADockServer: TJvDockServer);
 begin
   inherited;
-  if Assigned(VSChannel) then
+  if Assigned(VSChannel) then begin
     VSChannel.VSPopupPanelSplitter.ResizeStyle := rsUpdate;
+    VSChannel.VSPopupPanelSplitter.SplitWidth := 5;
+  end;
 end;
 
 constructor TJvDockVSNETPanelSpTBX.Create(AOwner: TComponent);
@@ -934,6 +954,7 @@ constructor TJvDockVSNETSplitterSpTBX.Create(AOwner: TComponent);
 begin
   inherited;
   ResizeStyle := rsUpdate;
+  Width := 5;
   FMouseLoc := mlNone;
   FMouseOver := false;
   FMouseDown := false;
@@ -1058,6 +1079,8 @@ constructor TJvDockVSNETSpTBXConjoinServerOption.Create(
   ADockStyle: TJvDockObservableStyle);
 begin
   inherited;
+  GrabbersSize := 18;
+  SplitterWidth := 5;
 end;
 
 procedure TJvDockVSNETSpTBXConjoinServerOption.UpdateDefaultSystemCaptionInfo;
@@ -1065,6 +1088,7 @@ var
   NonClientMetrics: TNonClientMetrics;
 begin
   inherited;
+  SplitterWidth := 5;
   NonClientMetrics.cbSize := SizeOf(NonClientMetrics);
   if SystemParametersInfo(SPI_GETNONCLIENTMETRICS, 0, @NonClientMetrics, 0) then
     GrabbersSize := Max(Abs(NonClientMetrics.lfSmCaptionFont.lfHeight) + 6, 18);

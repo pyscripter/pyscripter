@@ -247,7 +247,7 @@ Limitations: Python scripts are executed in the main thread
             Watches Window: DblClick on empty space adds a watch, pressing Delete deletes (Issue 45)
             Wrapping in Search & Replace (Issue 38)
             New IDE Option "Save Environment Before Run"  (Issue 50)
-            New IDE command Restore Editor pair to Maximize Editor (both work by double clicking  the Tabbar)
+            New IDE command Restore Editor pair to Maximize Editor (both work by double clicking  the TabControl)
             New IDE Option "Smart Next Previous Tab" (z-Order) on by default (Issue 20)
             Word Wrap option exposed in Editor Options
             New File Reload command
@@ -257,7 +257,7 @@ Limitations: Python scripts are executed in the main thread
             New command line option --DPIAWARE (-D) to avoid scaling in VISTA high DPI displays (Issue 77)
             New command line option --NEWINSTANCE (-N) to start a new instance of PyScripter
             You can disable a breakpoint by Ctrl+Clicking in the gutter
-            Syntax Errors are indicated by icon in the tabbar (Issue 93)
+            Syntax Errors are indicated by icon in the TabControl (Issue 93)
             Command to jump to the first syntax error (Shift+Ctrl+E)
             New Firefox-like search/replace interface
             Incremental Search (Issue 100)
@@ -351,7 +351,6 @@ Limitations: Python scripts are executed in the main thread
   -  Painting of ListViewItems
   -  Update SpTBXCode, MustangPeakCode, VirtualTreeView
 
-
 -----------------------------------------------------------------------------}
 
 // TODO: Customize Pyscripter with Setup python script run at startup
@@ -380,14 +379,14 @@ uses
   Variants, dmCommands, ActnList, Menus, uEditAppIntfs,
   JvDockControlForm, JvDockVIDStyle, JvDockVSNetStyle, 
   SynEditTypes, SynEditMiscClasses, cPyBaseDebugger,
-  cPyDebugger, JvAppStorage,  JvAppIniStorage, JvLED, SynEdit, JvTabBar,
+  cPyDebugger, JvAppStorage,  JvAppIniStorage, JvLED, SynEdit, 
   TB2Dock, TB2Toolbar, TB2Item, ExtCtrls, JvExControls,
-  JvPageList, cRefactoring, dlgCustomShortcuts,
+  cRefactoring, dlgCustomShortcuts,
   TB2ExtItems, JvDockTree,
   JvComponentBase, JvAppInst, uHighlighterProcs, cFileTemplates, TntForms, TntLXForms,
   JvDockVSNetStyleSpTBX, TntActnList, JvFormPlacement, SpTBXCustomizer,
   SpTbxSkins, SpTBXItem, SpTBXEditors, StdCtrls, JvDSADialogs, Dialogs,
-  TntStdCtrls, ActiveX, SpTBXMDIMRU;
+  TntStdCtrls, ActiveX, SpTBXMDIMRU, SpTBXTabs;
 
 const
   WM_FINDDEFINITION  = WM_USER + 100;
@@ -400,7 +399,6 @@ type
     DockServer: TJvDockServer;
     AppStorage: TJvAppIniFileStorage;
     BGPanel: TPanel;
-    TabBar: TJvTabBar;
     CloseTimer: TTimer;
     TBXDockTop: TSpTBXDock;
     MainMenu: TSpTBXToolbar;
@@ -548,7 +546,7 @@ type
     TBXDockRight: TSpTBXDock;
     TBXDockBottom: TSpTBXDock;
     mnTools: TSpTBXSubmenuItem;
-    TabBarPopupMenu: TSpTBXPopupMenu;
+    TabControlPopupMenu: TSpTBXPopupMenu;
     mnNewModule2: TSpTBXItem;
     mnFileClose2: TSpTBXItem;
     mnFileCloseAll2: TSpTBXItem;
@@ -556,7 +554,6 @@ type
     mnEditorOptions2: TSpTBXItem;
     RecentSubmenu: TSpTBXSubmenuItem;
     EditorViewsMenu: TSpTBXSubmenuItem;
-    EditorsPageList: TJvPageList;
     TBXSeparatorItem8: TSpTBXSeparatorItem;
     mnThemes: TSpTBXSubmenuItem;
     EditorToolbar: TSpTBXToolbar;
@@ -823,6 +820,7 @@ type
     TBControlItem2: TTBControlItem;
     tbiReplaceText: TSpTBXComboBox;
     TBControlItem4: TTBControlItem;
+    TabControl: TSpTBXTabControl;
     procedure mnFilesClick(Sender: TObject);
     procedure actEditorZoomInExecute(Sender: TObject);
     procedure actEditorZoomOutExecute(Sender: TObject);
@@ -838,7 +836,7 @@ type
     procedure actViewRegExpTesterExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
-    procedure TabbarContextPopup(Sender: TObject; MousePos: TPoint;
+    procedure TabContolContextPopup(Sender: TObject; MousePos: TPoint;
       var Handled: Boolean);
     procedure actSyntaxCheckExecute(Sender: TObject);
     procedure actRunExecute(Sender: TObject);
@@ -866,8 +864,7 @@ type
     procedure actFileOpenExecute(Sender: TObject);
     procedure actFileCloseAllExecute(Sender: TObject);
     procedure actViewFileExplorerExecute(Sender: TObject);
-    procedure TabBarTabSelected(Sender: TObject; Item: TJvTabBarItem);
-    procedure TabBarTabClosed(Sender: TObject; Item: TJvTabBarItem);
+    procedure TabControlTabClosing(Sender: TObject; var Allow, CloseAndFree: Boolean);
     procedure FormShortCut(var Msg: TWMKey; var Handled: Boolean);
     procedure CloseTimerTimer(Sender: TObject);
     procedure actImportModuleExecute(Sender: TObject);
@@ -909,7 +906,7 @@ type
     procedure actViewMainMenuExecute(Sender: TObject);
     procedure TntFormLXKeyUp(Sender: TObject; var Key: Word;
       Shift: TShiftState);
-    procedure TabBarMouseDown(Sender: TObject; Button: TMouseButton;
+    procedure TabControlMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure SearchOptionsChanged(Sender: TObject);
     procedure tbiSearchOptionsPopup(Sender: TTBCustomItem; FromLink: Boolean);
@@ -935,9 +932,10 @@ type
     procedure mnSkinsSkinChange(Sender: TObject);
     procedure tbiSearchTextExit(Sender: TObject);
     procedure tbiReplaceTextKeyPress(Sender: TObject; var Key: Char);
+    procedure TabControlActiveTabChange(Sender: TObject; TabIndex: Integer);
   private
     DSAAppStorage: TDSAAppStorage;
-    function FindAction(var Key: Word; Shift: TShiftState) : TCustomAction;
+//    function FindAction(var Key: Word; Shift: TShiftState) : TCustomAction;
     procedure DebugActiveScript(ActiveEditor: IEditor;
       InitStepIn : Boolean = False; RunToCursorLine : integer = -1);
     procedure SetupRunConfiguration(var RunConfig: TRunConfiguration; ActiveEditor: IEditor);
@@ -1024,12 +1022,11 @@ type
     procedure AdjustBrowserLists(FileName: string; Line: Integer; Col: Integer;
       FilePosInfo: string);
     procedure ThemeEditorGutter(Gutter : TSynGutter);
-//    procedure FillTBXThemeMenu;
     procedure UpdateCaption;
     procedure ChangeLanguage(LangCode : string);
+    function EditorFromTab(Tab : TSpTBXTabItem) : IEditor;
   end;
 
-function EditorFromTab(Tab : TJvTabBarItem) : IEditor;
 
 Const
   ctkRemember : TDSACheckTextKind = 100;
@@ -1060,7 +1057,7 @@ uses
   uCmdLine, uSearchHighlighter, frmModSpTBXCustomize, IniFiles,
   JclStrings, JclSysUtils, frmProjectExplorer, cProjectClasses, TntSysUtils,
   MPDataObject, gnugettext, TntDialogs, WideStrUtils, WideStrings,
-  SpTBXDefaultSkins;
+  SpTBXDefaultSkins, SpTBXControls;
 
 {$R *.DFM}
 
@@ -1069,9 +1066,10 @@ uses
 function TPyIDEMainForm.DoCreateEditor: IEditor;
 begin
   if GI_EditorFactory <> nil then begin
-    Result := GI_EditorFactory.CreateTabSheet(EditorsPageList);
+    Result := GI_EditorFactory.CreateTabSheet(TabControl);
     Result.SynEdit.Assign(CommandsDataModule.EditorOptions);
     Result.SynEdit2.Assign(CommandsDataModule.EditorOptions);
+    TEditorForm(Result.Form).ParentTabItem.OnTabClosing := TabControlTabClosing;
   end else
     Result := nil;
 end;
@@ -1188,10 +1186,7 @@ begin
   DockServer.RightDockPanel.ControlStyle := DockServer.LeftDockPanel.ControlStyle + [csOpaque];
   DockServer.TopDockPanel.ControlStyle := DockServer.LeftDockPanel.ControlStyle + [csOpaque];
   DockServer.BottomDockPanel.ControlStyle := DockServer.LeftDockPanel.ControlStyle + [csOpaque];
-  TabBar.ControlStyle := TabBar.ControlStyle + [csOpaque];
   StatusBar.ControlStyle := StatusBar.ControlStyle + [csOpaque];
-  // so that it gets repainted when there are no open files and the theme changes
-  EditorsPageList.ControlStyle := EditorsPageList.ControlStyle - [csOpaque];
 
   SetDesktopIconFonts(Self.Font);  // For Vista
   //SetDesktopIconFonts(ToolbarFont);
@@ -1365,7 +1360,8 @@ begin
   GI_EditorFactory.SetupEditorViewMenu;
 
   Update;
-  SendMessage(EditorsPageList.Handle, WM_SETREDRAW, 0, 0);  // To avoid flicker
+  // ToDo Use BeginUpdate?  as in mail
+  SendMessage(TabControl.Handle, WM_SETREDRAW, 0, 0);  // To avoid flicker
   try
     // if there was no file on the command line try restoring open files
     if CommandsDataModule.PyIDEOptions.RestoreOpenFiles then
@@ -1378,10 +1374,8 @@ begin
     if GI_EditorFactory.GetEditorCount = 0 then
       DoOpenFile('', 'Python');
   finally
-    EditorsPageList.Visible := False;
-    EditorsPageList.Visible := True;
-    SendMessage(EditorsPageList.Handle, WM_SETREDRAW, 1, 0);
-    EditorsPageList.Invalidate;
+    SendMessage(TabControl.Handle, WM_SETREDRAW, 1, 0);
+    SpInvalidateSpTBXControl(TabControl, True, False);
     if Assigned(GetActiveEditor()) then
       GetActiveEditor.Activate;
     // Start the Python Code scanning thread
@@ -1392,6 +1386,7 @@ begin
   //  StatusBar.DoubleBuffered := True;
   //StatusBar.Top := Height - StatusBar.Height;  // make sure is shown at the bottom
 
+  TabControl.Toolbar.OnMouseDown := TabControlMouseDown;
   //Set the HelpFile
   Application.HelpFile := ExtractFilePath(Application.ExeName) + 'PyScripter.chm';
   Application.OnHelp := Self.ApplicationHelp;
@@ -1465,7 +1460,7 @@ begin
     end;
 
     // Stop DropTarget to make sure tis unregistered
-    RevokeDragDrop(EditorsPageList.Handle);
+    RevokeDragDrop(TabControl.Handle);
 
 
     VariablesWindow.ClearAll;
@@ -1478,24 +1473,24 @@ begin
     //  We need to do this here so that MRU and docking information are persisted
     SaveEnvironment;
 
-    SendMessage(EditorsPageList.Handle, WM_SETREDRAW, 0, 0);  // To avoid flicker
+    SendMessage(TabControl.Handle, WM_SETREDRAW, 0, 0);  // To avoid flicker
     if GI_EditorFactory <> nil then
       GI_EditorFactory.CloseAll;
-    SendMessage(EditorsPageList.Handle, WM_SETREDRAW, 1, 0);
+    SendMessage(TabControl.Handle, WM_SETREDRAW, 1, 0);
 
     SkinManager.RemoveSkinNotification(Self);
   end;
 end;
 
-procedure TPyIDEMainForm.TabbarContextPopup(Sender: TObject;
+procedure TPyIDEMainForm.TabContolContextPopup(Sender: TObject;
   MousePos: TPoint; var Handled: Boolean);
 Var
-  Tab : TJvTabBarItem;
+  IV: TTBItemViewer;
 begin
-  Tab := Tabbar.TabAt(MousePos.X, MousePos.Y);
-  if Assigned(Tab) then
-    Tab.Selected := True;
-  //To update File Close  
+  IV := TabControl.View.ViewerFromPoint(MousePos);
+  if Assigned(IV) and (IV.Item is TSpTBXTabItem) then
+    IV.Item.Checked := True;
+  //To update File Close
   CommandsDataModule.UpdateMainActions;
   Handled := False;
 end;
@@ -1621,37 +1616,37 @@ end;
 
 procedure TPyIDEMainForm.actNextEditorExecute(Sender: TObject);
 Var
-  TabBarItem : TJvTabBarItem;
+  TabItem : TSpTBXTabItem;
 begin
-  if TabBar.Tabs.Count <= 1 then Exit;
-  TabBarItem := nil;
+  if TabControl.PagesCount <= 1 then Exit;
+  TabItem := nil;
   if CommandsDataModule.PyIDEOptions.SmartNextPrevPage then begin
     Repeat
       Inc(zOrderPos);
       if zOrderPos >= zOrder.Count then
         ZOrderPos := 0;
       while zOrderPos < zOrder.Count  do begin
-        TabBarItem := zOrder[zOrderPos];
-        if TabBar.Tabs.IndexOf(TabBarItem) < 0 then begin
+        TabItem := zOrder[zOrderPos];
+        if TabControl.Items.IndexOf(TabItem) < 0 then begin
           zOrder.Delete(zOrderPos);
-          TabBarItem := nil;
+          TabItem := nil;
         end else
           break;
       end;
-    Until Assigned(TabBarItem) or (ZOrder.Count = 0);
+    Until Assigned(TabItem) or (ZOrder.Count = 0);
     KeyPreview := True;
     zOrderProcessing := True;
   end else begin
-    if Assigned(TabBar.SelectedTab) then
-      TabBarItem := TabBar.SelectedTab.GetNextVisible
+    if Assigned(TabControl.ActivePage) then
+      TabItem := TabControl.ActivePage.Item.GetNextTab(True, sivtNormal)
     else
-      TabBarItem := TabBar.Tabs.Items[0];
+      TabItem := TabControl.Pages[0].Item;
   end;
 
-  if not Assigned(TabBarItem) then
-    TabBarItem := TabBar.Tabs.Items[0];
-  if Assigned(TabBarItem) then
-    TabBarItem.Selected := True;
+  if not Assigned(TabItem) and (TabControl.PagesCount > 0) then
+    TabItem := TabControl.Pages[0].Item;
+  if Assigned(TabItem) then
+    TabItem.Checked := True;
 end;
 
 procedure TPyIDEMainForm.actPostMortemExecute(Sender: TObject);
@@ -1661,36 +1656,36 @@ end;
 
 procedure TPyIDEMainForm.actPreviousEditorExecute(Sender: TObject);
 Var
-  TabBarItem : TJvTabBarItem;
+  TabItem : TSpTBXTabItem;
 begin
-  if TabBar.Tabs.Count <= 1 then Exit;
-  TabBarItem := nil;
+  if TabControl.PagesCount <= 1 then Exit;
+  TabItem := nil;
   if CommandsDataModule.PyIDEOptions.SmartNextPrevPage then begin
     Repeat
       Dec(zOrderPos);
       if zOrderPos < 0 then
         zOrderPos := zOrder.Count - 1;
       while zOrderPos < zOrder.Count  do begin
-        TabBarItem := zOrder[zOrderPos];
-        if TabBar.Tabs.IndexOf(TabBarItem) < 0 then begin
+        TabItem := zOrder[zOrderPos];
+        if TabControl.Items.IndexOf(TabItem) < 0 then begin
           zOrder.Delete(zOrderPos);
-          TabBarItem := nil;
+          TabItem := nil;
         end else
           break;
       end;
-    Until Assigned(TabBarItem) or (ZOrder.Count = 0);
+    Until Assigned(TabItem) or (ZOrder.Count = 0);
     KeyPreview := True;
     zOrderProcessing := True;
   end else begin
-    if Assigned(TabBar.SelectedTab) then
-      TabBarItem := TabBar.SelectedTab.GetPreviousVisible
+    if Assigned(TabControl.ActivePage) then
+      TabItem := TabControl.ActivePage.Item.GetNextTab(False, sivtNormal)
     else
-      TabBarItem := TabBar.Tabs.Items[TabBar.Tabs.Count-1];
+      TabItem := TabControl.Pages[TabControl.PagesCount-1].Item;
   end;
-  if not Assigned(TabBarItem) then
-    TabBarItem := TabBar.Tabs.Items[TabBar.Tabs.Count-1];
-  if Assigned(TabBarItem) then
-    TabBarItem.Selected := True;
+  if not Assigned(TabItem) then
+    TabItem := TabControl.Pages[TabControl.PagesCount-1].Item;
+  if Assigned(TabItem) then
+    TabItem.Checked := True;
 end;
 
 procedure TPyIDEMainForm.actPythonEngineExecute(Sender: TObject);
@@ -2093,18 +2088,19 @@ begin
 end;
 
 procedure TPyIDEMainForm.ApplicationOnIdle(Sender: TObject; var Done: Boolean);
-Var
-  i : integer;
+//Var
+//  i : integer;
 begin
   UpdateStandardActions;
   CommandsDataModule.UpdateMainActions;
   PythonIIForm.UpdateInterpreterActions;
   UpdateStatusBarPanels;
   UpdateDebugCommands(PyControl.DebuggerState);
-  for i := 0 to EditorsPageList.PageCount - 1 do
-    if i < TabBar.Tabs.Count then
-      TabBar.Tabs[i].Modified :=
-        TEditorForm(TJvStandardPage(TabBar.Tabs[i].Data).Components[0]).GetEditor.Modified;
+  // TODO Modified stuff
+//  for i := 0 to TabControl.PagesCount - 1 do
+//    if i < TabControl.Tabs.Count then
+//      TabControl.Tabs[i].Modified :=
+//        TEditorForm(TJvStandardPage(TabControl.Tabs[i].Data).Components[0]).GetEditor.Modified;
   if Assigned(GI_ActiveEditor) then
     TEditorForm(GI_ActiveEditor.Form).DoOnIdle;
 
@@ -2344,9 +2340,9 @@ end;
 
 function TPyIDEMainForm.GetActiveEditor : IEditor;
 begin
-  if Assigned(EditorsPageList.ActivePage)  and
-    (EditorsPageList.ActivePage.Components[0] is TEditorForm) then
-    Result := TEditorForm(EditorsPageList.ActivePage.Components[0]).GetEditor
+  if Assigned(TabControl.ActivePage) and (TabControl.ActivePage.ComponentCount > 0) and
+    (TabControl.ActivePage.Components[0] is TEditorForm) then
+    Result := TEditorForm(TabControl.ActivePage.Components[0]).GetEditor
   else
     Result := nil;
 end;
@@ -2482,28 +2478,23 @@ begin
   // Command History Size
   PythonIIForm.CommandHistorySize := CommandsDataModule.PyIDEOptions.InterpreterHistorySize;
 
-  TabBar.CloseButton := CommandsDataModule.PyIDEOptions.ShowTabCloseButton;
-  if TabBar.Orientation <> CommandsDataModule.PyIDEOptions.EditorTabPosition then
-    case CommandsDataModule.PyIDEOptions.EditorTabPosition of
-      toTop:
+  if CommandsDataModule.PyIDEOptions.ShowTabCloseButton then
+    TabControl.TabCloseButton := tcbAll
+  else
+    TabControl.TabCloseButton := tcbNone;
+  if TabControl.TabPosition <> CommandsDataModule.PyIDEOptions.EditorsTabPosition then
+    case CommandsDataModule.PyIDEOptions.EditorsTabPosition of
+      ttpTop:
         begin
-          TabBar.Orientation := toTop;
-          TabBar.Align := alTop;
+          TabControl.TabPosition := ttpTop;
           for i  := 0 to GI_EditorFactory.Count - 1 do
-            with TEditorForm(GI_EditorFactory.Editor[i].Form).ViewsTabBar do begin
-              Orientation := toBottom;
-              Align := alBottom;
-            end;
+            TEditorForm(GI_EditorFactory.Editor[i].Form).ViewsTabControl.TabPosition := ttpBottom;
         end;
-      toBottom:
+      ttpBottom:
         begin
-          TabBar.Orientation := toBottom;
-          TabBar.Align := alBottom;
+          TabControl.TabPosition := ttpBottom;
           for i  := 0 to GI_EditorFactory.Count - 1 do
-            with TEditorForm(GI_EditorFactory.Editor[i].Form).ViewsTabBar do begin
-              Orientation := toTop;
-              Align := alTop;
-            end;
+            TEditorForm(GI_EditorFactory.Editor[i].Form).ViewsTabControl.TabPosition := ttpTop;
         end;
     end;
 
@@ -2765,81 +2756,86 @@ begin
 
 end;
 
-procedure TPyIDEMainForm.TabBarTabSelected(Sender: TObject;
-  Item: TJvTabBarItem);
+function TPyIDEMainForm.EditorFromTab(Tab : TSpTBXTabItem) : IEditor;
 Var
-  WinControl : TWinControl;
+  Sheet : TSpTBXTabSheet;
+begin
+  Result := nil;
+  if Assigned(Tab) then begin
+    Sheet := TabControl.GetPage(Tab);
+    if Assigned(Sheet) and (Sheet.ControlCount > 0) then
+      Result := (Sheet.Controls[0] as TEditorForm).GetEditor;
+  end;
+end;
+
+procedure TPyIDEMainForm.TabControlActiveTabChange(Sender: TObject;
+  TabIndex: Integer);
+Var
+//  WinControl : TWinControl;
   EditorForm : TEditorForm;
   Index : integer;
 begin
   EditorSearchOptions.InitSearch;
-  if Assigned(Item) and not (csDestroying in ComponentState) then begin
-    EditorsPageList.ActivePage := Item.Data as TJvStandardPage;
-    if Assigned(EditorsPageList.ActivePage)
-       and (EditorsPageList.ActivePage.ControlCount > 0) then
+  UpdateCaption;
+  if Assigned(TabControl.ActivePage) and not (csDestroying in ComponentState) then begin
+    if TabControl.ActivePage.ControlCount > 0 then
     begin
-      EditorForm := EditorsPageList.ActivePage.Controls[0] as TEditorForm;
-      WinControl := EditorForm.EditorViews.ActivePage.Controls[0] as TWinControl;
-      if WinControl.Visible and WinControl.CanFocus then
-        ActiveControl := WinControl;
+      EditorForm := TabControl.ActivePage.Controls[0] as TEditorForm;
+      //TODO: Consider removing the lines below
+//      WinControl := EditorForm.ViewsTabControl.ActivePage.Controls[0] as TWinControl;
+//      if WinControl.Visible and WinControl.CanFocus then
+//        ActiveControl := WinControl;
       // Code hint stuff
       EditorForm.SetUpCodeHints;
-      UpdateCaption;
     end;
     // zOrder
     if not zOrderProcessing then begin
-      Index := zOrder.IndexOf(Item);
+      Index := zOrder.IndexOf(TabControl.ActivePage.Item);
       if Index < 0 then
-        zOrder.Insert(0, Item)
+        zOrder.Insert(0, TabControl.ActivePage.Item)
       else
         zOrder.Move(Index, 0);
       zOrderPos := 0;
     end;
-  end else if not Assigned(Item) then begin
+  end else begin
     CodeHint.OnGetCodeHint := nil;
     CodeHint.OnHyperLinkClick := nil;
   end;
 end;
 
-function EditorFromTab(Tab : TJvTabBarItem) : IEditor;
-Var
-  Page : TJvStandardPage;
-begin
-  Result := nil;
-  if Assigned(Tab) then begin
-    Page := Tab.Data as TJvStandardPage;
-    if Assigned(Page) and (Page.ControlCount > 0) then
-      Result := (Page.Controls[0] as TEditorForm).GetEditor;
-  end;
-end;
-
-procedure TPyIDEMainForm.TabBarMouseDown(Sender: TObject; Button: TMouseButton;
+procedure TPyIDEMainForm.TabControlMouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 Var
   Editor : IEditor;
+  IV: TTBItemViewer;
+  TabItem : TSpTBXTabItem;
 begin
-  if Button = mbMiddle then begin
-    Editor := EditorFromTab(TabBar.TabAt(X, Y));
-    if Assigned(Editor) then begin
+  TabItem := nil;
+  IV := TabControl.View.ViewerFromPoint(Point(X,Y));
+  if Assigned(IV) and (IV.Item is TSpTBXTabItem) then
+    TabItem := TSpTBXTabItem(IV.Item);
+
+  if Assigned(TabItem) and (Button = mbMiddle) then begin
+    Editor := EditorFromTab(TabItem);
+    if Assigned(Editor) then
       (Editor as IFileCommands).ExecClose;
-      TabBarTabSelected(Sender, TabBar.SelectedTab);
-    end;
-  end else if not Assigned(TabBar.ClosingTab) and (Shift = [ssLeft, ssDouble]) then begin
+  end else if (not Assigned(TabItem) or (TSpTBXTabItemViewer(IV).TabCloseButtonState <> sknsHotTrack)) and (Shift = [ssLeft, ssDouble]) then begin
     if AppStorage.PathExists('Layouts\BeforeZoom\Forms') then
       actRestoreEditorExecute(Sender)
     else
       actMaximizeEditorExecute(Sender);
-    end;
+  end;
 end;
 
-procedure TPyIDEMainForm.TabBarTabClosed(Sender: TObject;
-  Item: TJvTabBarItem);
+procedure TPyIDEMainForm.TabControlTabClosing(Sender: TObject; var Allow, CloseAndFree: Boolean);
 Var
   Editor : IEditor;
 begin
-  Editor := EditorFromTab(Item);
-  if Assigned(Editor) then
+  Editor := EditorFromTab(Sender as TSpTBXTabItem);
+  if Assigned(Editor) then begin
+    Allow := False;
     (Editor as IFileCommands).ExecClose;
+  end;
 end;
 
 procedure TPyIDEMainForm.UpdateStandardActions;
@@ -3060,11 +3056,14 @@ end;
 procedure TPyIDEMainForm.mnSkinsSkinChange(Sender: TObject);
 begin
   if (CurrentSkin  is TSpTBXOffice2003Skin) and
-    (TSpTBXOffice2003Skin(CurrentSkin).DefaultColorScheme = lusUnknown) then
-      TSpTBXOffice2003Skin(CurrentSkin).DefaultColorScheme := lusBlue
-  else if (CurrentSkin  is TSpTBXAluminumSkin) and
-    (TSpTBXAluminumSkin(CurrentSkin).DefaultColorScheme = lusUnknown) then
-      TSpTBXAluminumSkin(CurrentSkin).DefaultColorScheme := lusBlue
+    (TSpTBXOffice2003Skin(CurrentSkin).DefaultColorScheme = lusUnknown) then begin
+      TSpTBXOffice2003Skin(CurrentSkin).DefaultColorScheme := lusBlue;
+    SkinManager.BroadcastSkinNotification;
+  end else if (CurrentSkin  is TSpTBXAluminumSkin) and
+    (TSpTBXAluminumSkin(CurrentSkin).DefaultColorScheme = lusUnknown) then begin
+      TSpTBXAluminumSkin(CurrentSkin).DefaultColorScheme := lusBlue;
+    SkinManager.BroadcastSkinNotification;
+  end;
 end;
 
 procedure TPyIDEMainForm.mnSyntaxPopup(Sender: TTBCustomItem;
@@ -3150,28 +3149,28 @@ begin
     TempCursor := WaitCursor;
     SaveActiveControl := ActiveControl;
 
-    SendMessage(EditorsPageList.Handle, WM_SETREDRAW, 0, 0);
+  //TODO Is that needed ????????
+//    SendMessage(EditorsPageList.Handle, WM_SETREDRAW, 0, 0);
     try
-      for i := 0 to EditorsPageList.PageCount - 1 do
-        TEditorForm(EditorsPageList.Pages[i].Components[0]).Visible := False;
+//      for i := 0 to EditorsPageList.PageCount - 1 do
+//        TEditorForm(EditorsPageList.Pages[i].Components[0]).Visible := False;
 
       // Now Load the DockTree
       LoadDockTreeFromAppStorage(AppStorage, Path);
     finally
-      SendMessage(EditorsPageList.Handle, WM_SETREDRAW, 1, 0);
-      for i := 0 to EditorsPageList.PageCount - 1 do begin
-        TEditorForm(EditorsPageList.Pages[i].Components[0]).Parent := nil;
-        TEditorForm(EditorsPageList.Pages[i].Components[0]).Parent := EditorsPageList.Pages[i];
-        TEditorForm(EditorsPageList.Pages[i].Components[0]).Visible := True;
-      end;
-      EditorsPageList.Invalidate;
+//      SendMessage(EditorsPageList.Handle, WM_SETREDRAW, 1, 0);
+//      for i := 0 to EditorsPageList.PageCount - 1 do begin
+//        TEditorForm(EditorsPageList.Pages[i].Components[0]).Parent := nil;
+//        TEditorForm(EditorsPageList.Pages[i].Components[0]).Parent := EditorsPageList.Pages[i];
+//        TEditorForm(EditorsPageList.Pages[i].Components[0]).Visible := True;
+//      end;
+//      EditorsPageList.Invalidate;
       for i := 0 to Screen.FormCount - 1 do begin
         if Screen.Forms[i] is TIDEDockWindow then
           TIDEDockWindow(Screen.Forms[i]).FormDeactivate(Self);
       end;
     end;
-    if Assigned(SaveActiveControl) and SaveActiveControl.Visible
-      and GetParentForm(SaveActiveControl).Visible and SaveActiveControl.CanFocus
+    if CanActuallyFocus(SaveActiveControl)
     then
       try
         SaveActiveControl.SetFocus;
@@ -3677,7 +3676,6 @@ end;
 
 procedure TPyIDEMainForm.FormShow(Sender: TObject);
 begin
-//  FillTBXThemeMenu;
   if CommandsDataModule.PyIDEOptions.AutoCheckForUpdates and
     (DaysBetween(Now, CommandsDataModule.PyIDEOptions.DateLastCheckedForUpdates) >=
       CommandsDataModule.PyIDEOptions.DaysBetweenChecks) and ConnectedToInternet
@@ -3705,7 +3703,7 @@ begin
     // Connect ChangeNotify
     OnAfterShellNotify := CommandsDataModule.ProcessShellNotify;
     // Register drop target
-    RegisterDragDrop(EditorsPageList.Handle, Self);
+    RegisterDragDrop(TabControl.Handle, Self);
   end;
 
   // Execute pyscripter_init.py
@@ -3731,63 +3729,33 @@ begin
   BreakPointsWindow.UpdateWindow;
 end;
 
-//procedure TPyIDEMainForm.FillTBXThemeMenu;
+//function TPyIDEMainForm.FindAction(var Key: Word; Shift: TShiftState) : TCustomAction;
 //var
-//  i: Integer;
-//  sl: TStringList;
-//  x: TSpTBXItem;
+//  ShortCut : TShortCut;
+//  i, j : Integer;
+//  Action : TContainedAction;
+//  ActionList : TActionList;
 //begin
-//  mnThemes.Clear;
-//  sl := TStringList.Create;
-//  try
-//    TBXThemes.GetAvailableTBXThemes(sl);
-//    sl.Sorted := True;
-//    for i := 0 to Pred(sl.Count) do
-//    begin
-//      x := TSpTBXItem.Create(Self);
-//      with x do
+//  Result := nil;
+//  ShortCut := Menus.ShortCut(Key, Shift);
+//  if ShortCut <> scNone then
+//    for j := 0 to Length(ActionListArray) do begin
+//      if j = Length(ActionListArray) then
+//        ActionList := actlImmutable
+//      else
+//        ActionList := ActionListArray[j];
+//      for i := 0 to ActionList.ActionCount - 1 do
 //      begin
-//        Caption := sl[i];
-//        Hint := WideFormat(_(SThemeHint), [sl[i]]);
-//        OnClick := TBXThemeMenuOnClick;
-//        AutoCheck := True;
-//        GroupIndex := 1;
-//        Checked := TBXCurrentTheme = sl[i];
+//        Action := ActionList[I];
+//        if (TCustomAction(Action).ShortCut = ShortCut) or
+//           (TCustomAction(Action).SecondaryShortCuts.IndexOfShortCut(ShortCut) <> -1) then
+//        begin
+//          Result := TCustomAction(Action);
+//          Exit;
+//        end;
 //      end;
-//      mnThemes.Add(x);
 //    end;
-//  finally
-//    sl.Free;
-//  end;
 //end;
-
-function TPyIDEMainForm.FindAction(var Key: Word; Shift: TShiftState) : TCustomAction;
-var
-  ShortCut : TShortCut;
-  i, j : Integer;
-  Action : TContainedAction;
-  ActionList : TActionList;
-begin
-  Result := nil;
-  ShortCut := Menus.ShortCut(Key, Shift);
-  if ShortCut <> scNone then
-    for j := 0 to Length(ActionListArray) do begin
-      if j = Length(ActionListArray) then
-        ActionList := actlImmutable
-      else
-        ActionList := ActionListArray[j];
-      for i := 0 to ActionList.ActionCount - 1 do
-      begin
-        Action := ActionList[I];
-        if (TCustomAction(Action).ShortCut = ShortCut) or
-           (TCustomAction(Action).SecondaryShortCuts.IndexOfShortCut(ShortCut) <> -1) then
-        begin
-          Result := TCustomAction(Action);
-          Exit;
-        end;
-      end;
-    end;
-end;
 
 procedure TPyIDEMainForm.SaveEnvironment;
 begin
@@ -3955,9 +3923,13 @@ end;
 
 procedure TPyIDEMainForm.tbiRecentFileListClick(Sender: TObject;
   const Filename: WideString);
+Var
+  S : WideString;
 begin
-  tbiRecentFileList.MRURemove(Filename);
-  DoOpenFile(Filename);
+  S := FileName;
+  DoOpenFile(S);
+  // A bit problematic since it Frees the MRU Item which calls this click handler
+  tbiRecentFileList.MRURemove(S);
 end;
 
 procedure TPyIDEMainForm.tbiReplaceTextAcceptText(const NewText: WideString);
@@ -4031,6 +4003,10 @@ begin
 end;
 
 end.
+
+
+
+
 
 
 

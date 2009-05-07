@@ -21,9 +21,10 @@ uses
   SynEditTextBuffer, SynEditKeyCmds, JvComponentBase, 
   JvProgramVersionCheck, JvPropertyStore,
   SynHighlighterIni, JvAppInst, uEditAppIntfs, SynUnicode,
-  JvTabBar, JvStringHolder, cPyBaseDebugger, TntDialogs, TntLXDialogs,
+  JvStringHolder, cPyBaseDebugger, TntDialogs, TntLXDialogs,
   SynEditTypes, VirtualExplorerTree, VirtualShellNotifier, SynHighlighterWeb,
-  SynHighlighterCpp, TntStdActns, TntActnList, SynHighlighterYAML, WideStrings;
+  SynHighlighterCpp, TntStdActns, TntActnList, SynHighlighterYAML, WideStrings,
+  SpTBXTabs;
 
 type
 {$METHODINFO ON}
@@ -61,7 +62,7 @@ type
     fNewFileLineBreaks : TSynEditFileFormat;
     fNewFileEncoding : TFileSaveFormat;
     fDetectUTF8Encoding: Boolean;
-    fEditorTabPosition : TJvTabBarOrientation;
+    fEditorsTabPosition : TSpTBXTabPosition;
     fPythonEngineType : TPythonEngineType;
     fPrettyPrintOutput : Boolean;
     fSmartNextPrevPage : Boolean;
@@ -142,8 +143,8 @@ type
     property NewFileEncoding : TFileSaveFormat read fNewFileEncoding write fNewFileEncoding;
     property DetectUTF8Encoding : Boolean read fDetectUTF8Encoding
       write fDetectUTF8Encoding;
-    property EditorTabPosition : TJvTabBarOrientation read fEditorTabPosition
-      write fEditorTabPosition;
+    property EditorsTabPosition : TSpTBXTabPosition read fEditorsTabPosition
+      write fEditorsTabPosition;
     property PythonEngineType : TPythonEngineType read fPythonEngineType
       write fPythonEngineType;
     property PrettyPrintOutput : Boolean read fPrettyPrintOutput write fPrettyPrintOutput;
@@ -501,13 +502,13 @@ implementation
 {$R *.DFM}
 
 uses
-  PythonEngine, dlgSynPageSetup, uHighlighterProcs,
+  dlgSynPageSetup, uHighlighterProcs,
   dlgOptionsEditor, frmPythonII, dlgDirectoryList, 
   dlgAboutPyScripter, frmPyIDEMain, JclFileUtils, Variants,
   frmEditor, frmFindResults, cParameters, dlgCustomParams,
   uParams, dlgCodeTemplates, dlgConfigureTools, cTools,
   frmFunctionList, StringResources, uCommonFunctions,
-  StoHtmlHelp, {uMMMXP_MainService, }JvJCLUtils, Menus, SynEditStrConst,
+  {uMMMXP_MainService, }JvJCLUtils, Menus, SynEditStrConst,
   dlgConfirmReplace, dlgCustomShortcuts,// jclStrings,
   dlgUnitTestWizard, WinInet, Registry, ShlObj, ShellAPI,
   dlgFileTemplates, JclSysUtils, dlgPickList, JvAppIniStorage,
@@ -552,7 +553,7 @@ begin
       Self.fNewFileLineBreaks := NewFileLineBreaks;
       Self.fNewFileEncoding := NewFileEncoding;
       Self.fDetectUTF8Encoding := DetectUTF8Encoding;
-      Self.fEditorTabPosition := EditorTabPosition;
+      Self.fEditorsTabPosition := EditorsTabPosition;
       Self.fPythonEngineType := PythonEngineType;
       Self.fPrettyPrintOutput := PrettyPrintOutput;
       Self.fSmartNextPrevPage := SmartNextPrevPage;
@@ -610,7 +611,7 @@ begin
   fNewFileLineBreaks := sffDos;
   fNewFileEncoding := sf_Ansi;
   fDetectUTF8Encoding := True;
-  fEditorTabPosition := toBottom;
+  fEditorsTabPosition := ttpBottom;
   fPythonEngineType := peInternal;
   fPrettyPrintOutput := True;
   fSmartNextPrevPage := True;
@@ -1906,6 +1907,7 @@ begin
 end;
 
 procedure TCommandsDataModule.actIDEOptionsExecute(Sender: TObject);
+//TODO Localize Display Names
 Var
   Categories : array of TOptionCategory;
   Reg : TRegistry;
@@ -1922,7 +1924,7 @@ begin
     Options[1].DisplayName := 'Days between update checks';
     Options[2].PropertyName := 'MaskFPUExceptions';
     Options[2].DisplayName := 'Mask FPU Exceptions';
-    Options[3].PropertyName := 'EditorTabPosition';
+    Options[3].PropertyName := 'EditorsTabPosition';
     Options[3].DisplayName := 'Editor tab position';
     Options[4].PropertyName := 'SmartNextPrevPage';
     Options[4].DisplayName := 'Smart Next Previous Page';
@@ -3107,6 +3109,7 @@ initialization
 finalization
   EditorSearchOptions.Free;
 end.
+
 
 
 

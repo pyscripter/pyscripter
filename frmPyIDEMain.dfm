@@ -418,31 +418,21 @@ object PyIDEMainForm: TPyIDEMainForm
     FullRepaint = False
     ParentBackground = False
     TabOrder = 2
-    object TabBar: TJvTabBar
-      Left = 0
-      Top = 404
-      Width = 762
-      Align = alBottom
-      PopupMenu = TabBarPopupMenu
-      Orientation = toBottom
-      HotTracking = True
-      AutoFreeClosed = False
-      AllowTabMoving = True
-      Images = CommandsDataModule.Images
-      Tabs = <>
-      OnTabClosed = TabBarTabClosed
-      OnTabSelected = TabBarTabSelected
-      OnMouseDown = TabBarMouseDown
-      OnContextPopup = TabbarContextPopup
-    end
-    object EditorsPageList: TJvPageList
+    object TabControl: TSpTBXTabControl
       Left = 0
       Top = 0
       Width = 762
-      Height = 404
-      PropagateEnable = False
+      Height = 427
       Align = alClient
-      ParentBackground = True
+      PopupMenu = TabControlPopupMenu
+      OnContextPopup = TabContolContextPopup
+      ActiveTabIndex = -1
+      Images = CommandsDataModule.Images
+      TabCloseButton = tcbAll
+      TabDragReorder = True
+      TabPosition = ttpBottom
+      OnActiveTabChange = TabControlActiveTabChange
+      HiddenItems = <>
     end
   end
   object TBXDockTop: TSpTBXDock
@@ -1562,7 +1552,6 @@ object PyIDEMainForm: TPyIDEMainForm
     BottomSplitterStyle.Cursor = crVSplit
     BottomSplitterStyle.ParentColor = False
     BottomSplitterStyle.ResizeStyle = rsUpdate
-    BottomSplitterStyle.Size = 4
     DockStyle = JvDockVSNetStyleSpTBX
     Left = 37
     Top = 134
@@ -1586,7 +1575,7 @@ object PyIDEMainForm: TPyIDEMainForm
     Left = 39
     Top = 211
   end
-  object TabBarPopupMenu: TSpTBXPopupMenu
+  object TabControlPopupMenu: TSpTBXPopupMenu
     Images = CommandsDataModule.Images
     Left = 100
     Top = 98

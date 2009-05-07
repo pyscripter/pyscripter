@@ -49,8 +49,8 @@ inherited MessagesWindow: TMessagesWindow
   inherited FGPanel: TPanel
     Width = 689
     Height = 182
-    ExplicitWidth = 687
-    ExplicitHeight = 180
+    ExplicitWidth = 689
+    ExplicitHeight = 182
     DesignSize = (
       689
       182)
@@ -70,7 +70,7 @@ inherited MessagesWindow: TMessagesWindow
       Header.Font.Height = -11
       Header.Font.Name = 'MS Shell Dlg 2'
       Header.Font.Style = []
-      Header.Options = [hoAutoResize, hoColumnResize, hoDblClickResize, hoDrag, hoHotTrack, hoOwnerDraw, hoVisible]
+      Header.Options = [hoAutoResize, hoColumnResize, hoDblClickResize, hoHotTrack, hoOwnerDraw, hoVisible]
       Header.ParentFont = True
       HintMode = hmTooltip
       PopupMenu = TBXPopupMenu
@@ -83,12 +83,10 @@ inherited MessagesWindow: TMessagesWindow
       OnDblClick = MessagesViewDblClick
       OnGetText = MessagesViewGetText
       OnInitNode = MessagesViewInitNode
-      ExplicitWidth = 687
-      ExplicitHeight = 180
       Columns = <
         item
           Position = 0
-          Width = 337
+          Width = 339
           WideText = 'Message'
         end
         item
