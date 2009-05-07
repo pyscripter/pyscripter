@@ -28,10 +28,10 @@ type
   TDisView = class(TInterfacedObject, IEditorViewFactory)
   private
     function CreateForm(Editor: IEditor; AOwner : TComponent): TCustomForm;
-    function GetName : string;
-    function GetTabCaption : string;
-    function GetMenuCaption : string;
-    function GetHint : string;
+    function GetName : WideString;
+    function GetTabCaption : WideString;
+    function GetMenuCaption : WideString;
+    function GetHint : WideString;
     function GetImageIndex : integer;
     function GetShortCut : TShortCut;
     procedure GetContextHighlighters(List : TList);
@@ -97,7 +97,7 @@ begin
   List.Add(CommandsDataModule.SynPythonSyn);
 end;
 
-function TDisView.GetHint: string;
+function TDisView.GetHint: WideString;
 begin
   Result := _(SDisassemblyHint);
 end;
@@ -107,12 +107,12 @@ begin
   Result := 110;
 end;
 
-function TDisView.GetMenuCaption: string;
+function TDisView.GetMenuCaption: WideString;
 begin
   Result := _(SDisassembly);
 end;
 
-function TDisView.GetName: string;
+function TDisView.GetName: WideString;
 begin
   Result := 'Disassembly'
 end;
@@ -122,7 +122,7 @@ begin
   Result := 0;
 end;
 
-function TDisView.GetTabCaption: string;
+function TDisView.GetTabCaption: WideString;
 begin
   Result := _(SDisassemblyTab);
 end;

@@ -49,13 +49,13 @@ inherited BreakPointsWindow: TBreakPointsWindow
   inherited FGPanel: TPanel
     Width = 375
     Height = 240
-    ExplicitWidth = 373
-    ExplicitHeight = 238
+    ExplicitWidth = 375
+    ExplicitHeight = 240
     object BreakPointsView: TVirtualStringTree
       Left = 0
       Top = 0
-      Width = 373
-      Height = 238
+      Width = 375
+      Height = 240
       Align = alClient
       Alignment = taRightJustify
       BevelInner = bvNone
@@ -68,7 +68,7 @@ inherited BreakPointsWindow: TBreakPointsWindow
       Header.Font.Height = -11
       Header.Font.Name = 'MS Shell Dlg 2'
       Header.Font.Style = []
-      Header.Options = [hoAutoResize, hoColumnResize, hoDblClickResize, hoDrag, hoHotTrack, hoOwnerDraw, hoVisible]
+      Header.Options = [hoAutoResize, hoColumnResize, hoDblClickResize, hoHotTrack, hoOwnerDraw, hoVisible]
       Header.ParentFont = True
       HintMode = hmTooltip
       PopupMenu = TBXPopupMenu
@@ -95,7 +95,7 @@ inherited BreakPointsWindow: TBreakPointsWindow
         end
         item
           Position = 2
-          Width = 123
+          Width = 125
           WideText = 'Condition'
         end>
     end

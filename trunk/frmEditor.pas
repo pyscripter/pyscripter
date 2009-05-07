@@ -16,10 +16,10 @@ uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Contnrs, Forms,
   uEditAppIntfs, SynEdit, SynEditTypes, 
   SynEditHighlighter, SynEditMiscClasses, 
-  SynEditKeyCmds, ImgList, Dialogs, ExtCtrls, 
-  JvPageList, JvTabBar, TB2Item, uCommonFunctions,
+  SynEditKeyCmds, ImgList, Dialogs, ExtCtrls,
+  TB2Item, uCommonFunctions,
   SynCompletionProposal, cPyBaseDebugger, SpTBXItem,
-  VirtualResources, SpTBXSkins, SpTBXDkPanels, Menus, JvExControls;
+  VirtualResources, SpTBXSkins, SpTBXDkPanels, Menus, SpTBXTabs;
 
 type
   TEditor = class;
@@ -38,12 +38,9 @@ type
   TEditorForm = class(TForm)
     imglGutterGlyphs: TImageList;
     pmnuEditor: TSpTBXPopupMenu;
-    pmnuPageList: TSpTBXPopupMenu;
+    pmnuViewsTab: TSpTBXPopupMenu;
     mnCloseTab: TSpTBXItem;
     FGPanel: TPanel;
-    ViewsTabBar: TJvTabBar;
-    EditorViews: TJvPageList;
-    SourcePage: TJvStandardPage;
     SynEdit: TSynEdit;
     SynCodeCompletion: TSynCompletionProposal;
     SynParamCompletion: TSynCompletionProposal;
@@ -51,6 +48,9 @@ type
     EditorSplitter: TSpTBXSplitter;
     SynWebCompletion: TSynCompletionProposal;
     mnUpdateView: TSpTBXItem;
+    ViewsTabControl: TSpTBXTabControl;
+    tabSource: TSpTBXTabItem;
+    tbshSource: TSpTBXTabSheet;
     procedure SynEditMouseMove(Sender: TObject; Shift: TShiftState; X,
       Y: Integer);
     procedure SynParamCompletionExecute(Kind: SynCompletionType;
@@ -79,7 +79,6 @@ type
     procedure FGPanelEnter(Sender: TObject);
     procedure FGPanelExit(Sender: TObject);
     procedure mnCloseTabClick(Sender: TObject);
-    procedure ViewsTabBarTabSelected(Sender: TObject; Item: TJvTabBarItem);
     procedure SynEditMouseCursor(Sender: TObject;
       const aLineCharPos: TBufferCoord; var aCursor: TCursor);
     procedure SynEditKeyUp(Sender: TObject; var Key: Word;
@@ -99,6 +98,8 @@ type
       const Value: WideString; Shift: TShiftState; Index: Integer;
       EndToken: WideChar);
     procedure mnUpdateViewClick(Sender: TObject);
+    procedure ViewsTabControlContextPopup(Sender: TObject; MousePos: TPoint;
+      var Handled: Boolean);
   private
     fEditor: TEditor;
     fAutoCompleteActive : Boolean;
@@ -132,6 +133,7 @@ type
     HasFocus : Boolean;
     FileTime : TFileTime;
     DefaultExtension : string;
+    ParentTabItem : TSpTBXTabItem;
     procedure DoActivate;
     procedure DoActivateEditor;
     function DoActivateView(ViewFactory : IEditorViewFactory) : IEditorView;
@@ -220,7 +222,6 @@ type
     fIsReadOnly: boolean;
     fModified: boolean;
     fUntitledNumber: integer;
-    TabBarItem : TJvTabBarItem;
     fFileEncoding : TFileSaveFormat;
     function IsEmpty : Boolean;
     constructor Create(AForm: TEditorForm);
@@ -421,7 +422,7 @@ end;
 procedure TEditor.Close;
 // Closes without asking
 Var
-  TabSheet : TJvStandardPage;
+  TabSheet : TSpTBXTabSheet;
 begin
   if (fForm <> nil) then begin
     if (fFileName <> '') and (CommandsDataModule <> nil) then
@@ -434,11 +435,11 @@ begin
       BreakPointsWindow.UpdateWindow;
     end;
 
-    TabSheet := (fForm.Parent as TJvStandardPage);
-    fForm.Close;
+    TabSheet := (fForm.Parent as TSpTBXTabSheet);
+    PyIDEMainForm.zOrder.Remove(TabSheet.Item);
+    fForm.DoAssignInterfacePointer(False);
+    //fForm.Close;
     TabSheet.Free;
-    PyIDEMainForm.zOrder.Remove(TabBarItem);
-    FreeAndNil(TabBarItem);
     CodeExplorerWindow.UpdateWindow;
   end;
 end;
@@ -909,7 +910,7 @@ type
     // IEditorFactory implementation
     function CanCloseAll: boolean;
     procedure CloseAll;
-    function CreateTabSheet(AOwner: TJvPageList): IEditor;
+    function CreateTabSheet(AOwner: TSpTBXTabControl): IEditor;
     function GetEditorCount: integer;
     function GetEditorByName(const Name : WideString): IEditor;
     function GetEditorByNameOrTitle(const Name : WideString): IEditor;
@@ -998,23 +999,20 @@ begin
   end;
 end;
 
-function TEditorFactory.CreateTabSheet(AOwner: TJvPageList): IEditor;
+function TEditorFactory.CreateTabSheet(AOwner: TSpTBXTabControl): IEditor;
 var
-  Sheet: TJvStandardPage;
+  Sheet: TSpTBXTabSheet;
   LForm: TEditorForm;
-  TabBarItem : TJvTabBarItem;
+  TabItem : TSpTBXTabItem;
 begin
-  Sheet := TJvStandardPage.Create(AOwner);
-  Sheet.ControlStyle :=  Sheet.ControlStyle  + [csOpaque];
-  TabBarItem := PyIDEMainForm.TabBar.AddTab('');
-  TabBarItem.Selected := True;
-  TabBarItem.Data := Sheet;
+  TabItem := AOwner.Add('');
+  TabItem.Checked := True;
+  Sheet := AOwner.GetPage(TabItem);
   try
-    Sheet.PageList := AOwner;
     LForm := TEditorForm.Create(Sheet);
     with LForm do begin
       fEditor := TEditor.Create(LForm);
-      fEditor.TabBarItem := TabBarItem;
+      ParentTabItem := TabItem;
       Result := fEditor;
       BorderStyle := bsNone;
       Parent := Sheet;
@@ -1245,7 +1243,6 @@ begin
   CommandsDataModule.CodeTemplatesCompletion.Editor := ASynEdit;
   CommandsDataModule.CodeTemplatesCompletion.OnBeforeExecute := AutoCompleteBeforeExecute;
   CommandsDataModule.CodeTemplatesCompletion.OnAfterExecute := AutoCompleteAfterExecute;
-  fEditor.TabBarItem.Selected := True;
 
   if ASynEdit.Highlighter is TSynWebBase then begin
     SynCodeCompletion.Editor := nil;
@@ -1291,30 +1288,20 @@ begin
 end;
 
 procedure TEditorForm.DoActivate;
-//var
-//  Sheet: TTabSheet;
-//  PCtrl: TPageList;
 begin
-  if FormStyle = fsMDIChild then
-    BringToFront
-  else if Parent is TJvStandardPage then begin
-//    Sheet := Parent as TJvStandardPage;
-//    PCtrl := Sheet.PageList;
-//    if PCtrl <> nil then
-//      PCtrl.ActivePage := Sheet;
-    if not fEditor.TabBarItem.Selected then
-      fEditor.TabBarItem.Selected := True
-    else
-      //  make sure TabBarTabSelected is called so that the focus
-      //  goes to the form
-      PyIDEMainForm.TabBarTabSelected(Self, fEditor.TabBarItem);
-  end;
+//  if not ParentTabItem.Checked then
+    ParentTabItem.Checked := True
+//  else
+    //  make sure TabBarTabSelected is called so that the focus
+    //  goes to the form
+    // TODO Is this needed?
+//    PyIDEMainForm.TabBarTabSelected(Self, ParentTabItem);
 end;
 
 procedure TEditorForm.DoActivateEditor;
 begin
   DoActivate;
-  ViewsTabBar.Tabs[0].Selected := True;
+  ViewsTabControl.ActiveTabIndex := 0;
   if SynEdit.CanFocus then
     SynEdit.SetFocus;
 end;
@@ -1322,50 +1309,44 @@ end;
 function TEditorForm.DoActivateView(ViewFactory : IEditorViewFactory) : IEditorView;
 var
   i : integer;
-  ViewTab : TJvStandardPage;
   Form : TCustomForm;
+  Tab: TSpTBXTabItem;
+  TabSheet : TSpTBXTabSheet;
 begin
   Result := nil;
   DoActivate;
   // Does the EditorView tab exist?
-  ViewTab := nil;
-  for i := 0 to ViewsTabBar.Tabs.Count - 1 do
-    if ViewsTabBar.Tabs[i].Caption = ViewFactory.TabCaption then begin
-      ViewTab := ViewsTabBar.Tabs[i].Data as TJvStandardPage;
-      ViewsTabBar.Tabs[i].Selected := True;
-      Result := ViewTab.Components[0] as IEditorView;
+  Result := nil;
+  for i := 0 to ViewsTabControl.PagesCount - 1 do
+    if ViewsTabControl.Pages[i].Caption = ViewFactory.TabCaption then begin
+      ViewsTabControl.ActiveTabIndex := i;
+      Result := ViewsTabControl.Pages[i].Components[0] as IEditorView;
       break;
     end;
-  if not Assigned(ViewTab) then begin
+  if not Assigned(Result) then begin
     //  Editor View does not exist - Create
-    ViewTab := TJvStandardPage.Create(EditorViews);
+    Tab := ViewsTabControl.Add(ViewFactory.TabCaption);
+    TabSheet := ViewsTabControl.GetPage(Tab);
     try
-      ViewTab.PageList := EditorViews;
-      ViewTab.Caption :=  ViewFactory.TabCaption;
-      Form := ViewFactory.CreateForm(fEditor, ViewTab);
+      Form := ViewFactory.CreateForm(fEditor, TabSheet);
       with Form do begin
         BorderStyle := bsNone;
-        Parent := ViewTab;
+        Parent := TabSheet;
         Align := alClient;
         Visible := True;
-        Form.SetFocus;
+//        Form.SetFocus;
         Result := Form as IEditorView;
       end;
       // fix for Delphi 4 (???)
       Form.Realign;
-      //  Add Tab to the ViewsTabbar
-      with ViewsTabbar.AddTab(ViewTab.Caption) do begin
-        Data := ViewTab;
-        Selected := True;
-        PopupMenu := pmnuPageList;
-      end;
+      Tab.Checked := True;
     except
-      ViewTab.Free;
+      Tab.Free;
       raise;
     end;
   end;
 
-  ViewsTabbar.Visible := True;
+  ViewsTabControl.TabVisible := True;
 end;
 
 function TEditorForm.DoAskSaveChanges: boolean;
@@ -1472,7 +1453,7 @@ end;
 procedure TEditorForm.DoUpdateCaption;
 begin
   Assert(fEditor <> nil);
-  with fEditor.TabBarItem do begin
+  with ParentTabItem do begin
     Caption := fEditor.GetFileTitle;
     Hint := fEditor.GetFileName;
   end;
@@ -1791,8 +1772,8 @@ end;
 
 procedure TEditorForm.Retranslate;
 begin
-  Assert(ViewsTabBar.Tabs.Count > 0);
-  ViewsTabBar.Tabs[0].Caption := _(SSourceTabCaption);
+  Assert(ViewsTabControl.PagesCount > 0);
+  ViewsTabControl.Pages[0].Caption := _(SSourceTabCaption);
 end;
 
 procedure TEditorForm.FormCreate(Sender: TObject);
@@ -1801,28 +1782,16 @@ begin
 
   SynEdit.ControlStyle := Synedit.ControlStyle + [csOpaque];
   SynEdit2.ControlStyle := Synedit.ControlStyle + [csOpaque];
-  ViewsTabBar.ControlStyle := ViewsTabBar.ControlStyle + [csOpaque];
   FGPanel.ControlStyle := FGPanel.ControlStyle + [csOpaque];
-  EditorViews.ControlStyle := EditorViews.ControlStyle + [csOpaque];
-  SourcePage.ControlStyle := SourcePage.ControlStyle  + [csOpaque];
   SynEdit.OnReplaceText := CommandsDataModule.SynEditReplaceText;
 
   fHotIdentInfo.HaveHotIdent := False;
   fSyntaxErrorPos := TEditorPos.Create;
 
-  ViewsTabBar.Visible := False;
-  ViewsTabBar.Tabs[0].Data := SourcePage;
-  case CommandsDataModule.PyIDEOptions.EditorTabPosition of
-    toTop:
-      begin
-        ViewsTabBar.Orientation := toBottom;
-        ViewsTabBar.Align := alBottom;
-      end;
-    toBottom:
-      begin
-        ViewsTabBar.Orientation := toTop;
-        ViewsTabBar.Align := alTop;
-      end;
+  ViewsTabControl.TabVisible := False;
+  case CommandsDataModule.PyIDEOptions.EditorsTabPosition of
+    ttpTop: ViewsTabControl.TabPosition := ttpBottom;
+    ttpBottom: ViewsTabControl.TabPosition := ttpTop;
   end;
 
   SynEdit2.SetLinesPointer(SynEdit);
@@ -2102,24 +2071,12 @@ end;
 
 procedure TEditorForm.mnCloseTabClick(Sender: TObject);
 begin
-  if ViewsTabBar.SelectedTab.Data <> SourcePage then begin
-    TJvStandardPage(ViewsTabbar.SelectedTab.Data).Free;
-    ViewsTabBar.SelectedTab.Free;
-    if ViewsTabBar.Tabs.Count = 1 then begin
-      ViewsTabBar.Visible := False;
+  if ViewsTabControl.ActivePage <> tbshSource then begin
+    ViewsTabControl.ActivePage.Free;
+    if ViewsTabControl.PagesCount = 1 then begin
+      ViewsTabControl.TabVisible := False;
     end;
   end;
-end;
-
-procedure TEditorForm.ViewsTabBarTabSelected(Sender: TObject;
-  Item: TJvTabBarItem);
-var
-  WinControl: TWinControl;
-begin
-  EditorViews.ActivePage := TJvStandardPage(ViewsTabbar.SelectedTab.Data);
-  WinControl := EditorViews.ActivePage.Controls[0] as TWinControl;
-  if WinControl.Visible and WinControl.CanFocus then
-    PyIDEMainForm.ActiveControl := WinControl;
 end;
 
 procedure TEditorForm.WMShellNotify(var Msg: TMessage);
@@ -2184,7 +2141,7 @@ end;
 
 procedure TEditorForm.SetUpCodeHints;
 begin
-  if (EditorViews.ActivePage = SourcePage) and fEditor.HasPythonFile then
+  if (ViewsTabControl.ActivePage = tbshSource) and fEditor.HasPythonFile then
   begin
     CodeHint.OnGetCodeHint := CodeHintEventHandler;
     CodeHint.OnHyperLinkClick := CodeHintLinkHandler;
@@ -2203,8 +2160,8 @@ var
   ViewFactory : IEditorViewFactory;
   EditorView : IEditorView;
 begin
-  if ViewsTabBar.SelectedTab.Data <> SourcePage then begin
-    TabCaption := TJvStandardPage(ViewsTabbar.SelectedTab.Data).Caption;
+  if ViewsTabControl.ActivePage <> tbshSource then begin
+    TabCaption := ViewsTabControl.ActivePage.Caption;
     ViewFactory := nil;
     for i := 0 to GI_EditorFactory.ViewFactoryCount - 1 do begin
       if GI_EditorFactory.ViewFactory[i].TabCaption = TabCaption then begin
@@ -2607,6 +2564,22 @@ begin
     SynWebCompletion, CurrentInput);
 end;
 
+procedure TEditorForm.ViewsTabControlContextPopup(Sender: TObject;
+  MousePos: TPoint; var Handled: Boolean);
+Var
+  IV: TTBItemViewer;
+  P : TPoint;
+begin
+  IV := ViewsTabControl.View.ViewerFromPoint(MousePos);
+  if Assigned(IV) and (IV.Item is TSpTBXTabItem) then begin
+    IV.Item.Checked := True;
+    P := ClientToScreen(MousePos);
+    mnCloseTab.Enabled := not (ViewsTabControl.GetPage(TSpTBXTabItem(IV.Item)) = tbshSource);
+    pmnuViewsTab.Popup(P.X, P.Y);
+  end;
+  Handled := True;
+end;
+
 procedure TEditorForm.CodeHintEventHandler(Sender: TObject; AArea: TRect;
   var CodeHint: string);
 Var
@@ -2665,9 +2638,9 @@ begin
     fNeedToCheckSyntax := False;
   end;
   if HasSyntaxError then
-    fEditor.TabBarItem.ImageIndex := 123
+    ParentTabItem.ImageIndex := 123
   else
-    fEditor.TabBarItem.ImageIndex:= -1;
+    ParentTabItem.ImageIndex:= -1;
 end;
 
 initialization
@@ -2676,6 +2649,10 @@ initialization
 finalization
   GI_EditorFactory := nil;
 end.
+
+
+
+
 
 
 

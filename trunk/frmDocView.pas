@@ -53,10 +53,10 @@ type
   TDocView = class(TInterfacedObject, IEditorViewFactory)
   private
     function CreateForm(Editor: IEditor; AOwner : TComponent): TCustomForm;
-    function GetName : string;
-    function GetTabCaption : string;
-    function GetMenuCaption : string;
-    function GetHint : string;
+    function GetName : WideString;
+    function GetTabCaption : WideString;
+    function GetMenuCaption : WideString;
+    function GetHint : WideString;
     function GetImageIndex : integer;
     function GetShortCut : TShortCut;
     procedure GetContextHighlighters(List : TList);
@@ -168,22 +168,22 @@ begin
   List.Add(CommandsDataModule.SynPythonSyn);
 end;
 
-function TDocView.GetHint: string;
+function TDocView.GetHint: WideString;
 begin
   Result := _(SDocumentationHint);
 end;
 
-function TDocView.GetMenuCaption: string;
+function TDocView.GetMenuCaption: WideString;
 begin
   Result := _(SDocumentation)
 end;
 
-function TDocView.GetName: string;
+function TDocView.GetName: WideString;
 begin
   Result := 'Documentation';
 end;
 
-function TDocView.GetTabCaption: string;
+function TDocView.GetTabCaption: WideString;
 begin
   Result := _(SDocTab);
 end;

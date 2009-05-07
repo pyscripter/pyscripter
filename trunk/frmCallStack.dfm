@@ -49,13 +49,13 @@ inherited CallStackWindow: TCallStackWindow
   inherited FGPanel: TPanel
     Width = 377
     Height = 164
-    ExplicitWidth = 375
-    ExplicitHeight = 162
+    ExplicitWidth = 377
+    ExplicitHeight = 164
     object CallStackView: TVirtualStringTree
       Left = 0
       Top = 0
-      Width = 375
-      Height = 162
+      Width = 377
+      Height = 164
       Align = alClient
       Alignment = taRightJustify
       BevelInner = bvNone
@@ -68,7 +68,7 @@ inherited CallStackWindow: TCallStackWindow
       Header.Font.Name = 'MS Shell Dlg 2'
       Header.Font.Style = []
       Header.MainColumn = 1
-      Header.Options = [hoAutoResize, hoColumnResize, hoDblClickResize, hoDrag, hoHotTrack, hoOwnerDraw, hoVisible]
+      Header.Options = [hoAutoResize, hoColumnResize, hoDblClickResize, hoHotTrack, hoOwnerDraw, hoVisible]
       Header.ParentFont = True
       HintMode = hmTooltip
       TabOrder = 0
@@ -89,7 +89,7 @@ inherited CallStackWindow: TCallStackWindow
         end
         item
           Position = 1
-          Width = 225
+          Width = 227
           WideText = 'File Name'
         end
         item

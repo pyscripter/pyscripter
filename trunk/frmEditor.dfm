@@ -29,43 +29,42 @@ object EditorForm: TEditorForm
     Margins.Right = 2
     Margins.Bottom = 2
     Align = alClient
+    BevelOuter = bvNone
     TabOrder = 0
     OnEnter = FGPanelEnter
     OnExit = FGPanelExit
-    object ViewsTabBar: TJvTabBar
-      Left = 1
-      Top = 1
-      Width = 560
-      CloseButton = False
-      HotTracking = True
-      AutoFreeClosed = False
-      Tabs = <
-        item
-          Caption = 'Source'
-          Selected = True
-        end>
-      OnTabSelected = ViewsTabBarTabSelected
-    end
-    object EditorViews: TJvPageList
-      Left = 1
-      Top = 24
-      Width = 560
-      Height = 354
-      ActivePage = SourcePage
-      PropagateEnable = False
+    object ViewsTabControl: TSpTBXTabControl
+      Left = 0
+      Top = 0
+      Width = 562
+      Height = 379
       Align = alClient
-      OnChange = EditorViewsChange
-      object SourcePage: TJvStandardPage
+      OnContextPopup = ViewsTabControlContextPopup
+      ActiveTabIndex = 0
+      ExplicitLeft = 1
+      ExplicitTop = 1
+      ExplicitWidth = 560
+      ExplicitHeight = 377
+      HiddenItems = <>
+      object tabSource: TSpTBXTabItem
+        Caption = 'Source'
+        Checked = True
+      end
+      object tbshSource: TSpTBXTabSheet
         Left = 0
-        Top = 0
-        Width = 560
+        Top = 25
+        Width = 562
         Height = 354
         Caption = 'Source'
+        ImageIndex = -1
+        ExplicitWidth = 560
+        ExplicitHeight = 352
+        TabItem = 'tabSource'
         object SynEdit: TSynEdit
-          Left = 0
+          Left = 2
           Top = 0
-          Width = 355
-          Height = 354
+          Width = 351
+          Height = 350
           HelpContext = 510
           Align = alClient
           Ctl3D = False
@@ -104,6 +103,10 @@ object EditorForm: TEditorForm
           OnSpecialLineColors = SynEditSpecialLineColors
           OnStatusChange = SynEditStatusChange
           OnPaintTransient = SynEditPaintTransient
+          ExplicitLeft = 1
+          ExplicitTop = 1
+          ExplicitWidth = 349
+          ExplicitHeight = 348
           RemovedKeystrokes = <
             item
               Command = ecDeleteLastChar
@@ -120,10 +123,10 @@ object EditorForm: TEditorForm
           AddedKeystrokes = <>
         end
         object SynEdit2: TSynEdit
-          Left = 360
+          Left = 358
           Top = 0
           Width = 200
-          Height = 354
+          Height = 350
           Align = alRight
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
@@ -151,15 +154,19 @@ object EditorForm: TEditorForm
           OnSpecialLineColors = SynEditSpecialLineColors
           OnStatusChange = SynEditStatusChange
           OnPaintTransient = SynEditPaintTransient
+          ExplicitLeft = 356
+          ExplicitHeight = 348
         end
         object EditorSplitter: TSpTBXSplitter
-          Left = 355
+          Left = 353
           Top = 0
-          Height = 354
+          Height = 350
           Cursor = crSizeWE
           Align = alRight
           Visible = False
           GripSize = 80
+          ExplicitLeft = 351
+          ExplicitHeight = 348
         end
       end
     end
@@ -424,10 +431,10 @@ object EditorForm: TEditorForm
     Left = 92
     Top = 29
   end
-  object pmnuPageList: TSpTBXPopupMenu
+  object pmnuViewsTab: TSpTBXPopupMenu
     Images = CommandsDataModule.Images
     Left = 94
-    Top = 170
+    Top = 172
     object mnUpdateView: TSpTBXItem
       Caption = 'Update View'
       Hint = 'Update View|Update the selected view'
@@ -437,6 +444,7 @@ object EditorForm: TEditorForm
     object mnCloseTab: TSpTBXItem
       Caption = 'Close Tab'
       Hint = 'Close active tab'
+      ImageIndex = 52
       OnClick = mnCloseTabClick
     end
   end

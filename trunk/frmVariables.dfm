@@ -49,8 +49,8 @@ inherited VariablesWindow: TVariablesWindow
   inherited FGPanel: TPanel
     Width = 575
     Height = 243
-    ExplicitWidth = 573
-    ExplicitHeight = 241
+    ExplicitWidth = 575
+    ExplicitHeight = 243
     object VariablesTree: TVirtualStringTree
       Left = 0
       Top = 0
@@ -68,7 +68,7 @@ inherited VariablesWindow: TVariablesWindow
       Header.Font.Height = -11
       Header.Font.Name = 'MS Shell Dlg 2'
       Header.Font.Style = []
-      Header.Options = [hoAutoResize, hoColumnResize, hoDblClickResize, hoDrag, hoHotTrack, hoOwnerDraw, hoVisible]
+      Header.Options = [hoAutoResize, hoColumnResize, hoDblClickResize, hoHotTrack, hoOwnerDraw, hoVisible]
       Header.ParentFont = True
       Header.PopupMenu = VTHeaderPopupMenu
       HintMode = hmTooltip
@@ -84,8 +84,6 @@ inherited VariablesWindow: TVariablesWindow
       OnPaintText = VariablesTreePaintText
       OnGetImageIndex = VariablesTreeGetImageIndex
       OnInitNode = VariablesTreeInitNode
-      ExplicitWidth = 193
-      ExplicitHeight = 241
       Columns = <
         item
           Position = 0
@@ -114,8 +112,6 @@ inherited VariablesWindow: TVariablesWindow
       DoubleBuffered = False
       ParentColor = False
       TabOrder = 1
-      ExplicitLeft = 198
-      ExplicitHeight = 241
       object HTMLLabel: TJvLinkLabel
         Left = 0
         Top = 0
@@ -137,8 +133,6 @@ inherited VariablesWindow: TVariablesWindow
       Cursor = crSizeWE
       Align = alRight
       MinSize = 3
-      ExplicitLeft = 193
-      ExplicitHeight = 241
     end
   end
   inherited DockClient: TJvDockClient

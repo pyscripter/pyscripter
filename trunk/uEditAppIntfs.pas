@@ -50,7 +50,7 @@ unit uEditAppIntfs;
 interface
 
 uses
-  Windows, Classes, Forms, SynEdit, JvPageList, Contnrs;
+  Windows, Classes, Forms, SynEdit, SpTBXTabs, Contnrs;
 
 type
   TBreakPoint = class(TPersistent)
@@ -69,17 +69,17 @@ type
   IEditorViewFactory = interface
   ['{680F6C4E-5EED-4684-A199-5A62E644D81B}']
     function CreateForm(Editor: IEditor; AOwner : TComponent): TCustomForm;
-    function GetName : string;
-    function GetTabCaption : string;
-    function GetMenuCaption : string;
-    function GetHint : string;
+    function GetName : WideString;
+    function GetTabCaption : WideString;
+    function GetMenuCaption : WideString;
+    function GetHint : WideString;
     function GetImageIndex : integer;
     function GetShortCut : TShortCut;
     procedure GetContextHighlighters(List : TList);
-    property Name : string read GetName;
-    property TabCaption : string read GetTabCaption;
-    property MenuCaption : string read GetMenuCaption;
-    property Hint : string read GetHint;
+    property Name : WideString read GetName;
+    property TabCaption : WideString read GetTabCaption;
+    property MenuCaption : WideString read GetMenuCaption;
+    property Hint : WideString read GetHint;
     property ImageIndex : integer read GetImageIndex;
     property ShortCut : TShortCut read GetShortCut;
   end;
@@ -134,7 +134,7 @@ type
   ['{FDAE7FBD-4B61-4D7C-BEE6-DB7740A225E8}']
     function CanCloseAll: boolean;
     procedure CloseAll;
-    function CreateTabSheet(AOwner: TJvPageList): IEditor;
+    function CreateTabSheet(AOwner: TSpTBXTabControl): IEditor;
     function GetEditorCount: integer;
     function GetEditor(Index: integer): IEditor;
     function GetEditorByName(const Name : WideString): IEditor;

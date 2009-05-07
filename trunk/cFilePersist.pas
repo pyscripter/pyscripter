@@ -297,9 +297,9 @@ var
   Editor : IEditor;
   FilePersistInfo : TFilePersistInfo;
 begin
-  // in the order of the tabbar
-  for i := 0 to PyIDEMainForm.TabBar.Tabs.Count - 1 do begin
-    Editor := EditorFromTab(PyIDEMainForm.TabBar.Tabs[i]);
+  // in the order of the TabControl
+  for i := 0 to PyIDEMainForm.TabControl.PagesCount - 1 do begin
+    Editor := PyIDEMainForm.EditorFromTab(PyIDEMainForm.TabControl.Pages[i].Item);
     if Assigned(Editor) and (Editor.FileName <> '') then begin
       FilePersistInfo := TFilePersistInfo.CreateFromEditor(Editor);
       fFileInfoList.Add(FilePersistInfo)
