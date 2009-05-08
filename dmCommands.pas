@@ -434,6 +434,7 @@ type
     InterpreterEditorOptions : TSynEditorOptionsContainer;
     PyIDEOptions : TPythonIDEOptions;
     UserDataDir : WideString;
+    SkinFilesDir : WideString;
     CommandLineMRU : TWideStrings;
     function IsBlockOpener(S : string) : Boolean;
     function IsBlockCloser(S : string) : Boolean;
@@ -744,6 +745,13 @@ begin
   UserDataDir := WideIncludeTrailingPathDelimiter(UserDocumentsFolder.NameForParsing) + 'PyScripter\';
   if not WideForceDirectories(UserDataDir) then
     WideMessageDlg(WideFormat(SAccessAppDataDir, [UserDataDir]), mtWarning, [mbOK], 0);
+  // Skins directory
+  SkinFilesDir := UserDataDir + 'Skins';
+  if not WideDirectoryExists(SkinFilesDir) then
+    try
+      WideCreateDir(SkinFilesDir);
+    except
+    end;
 
   // Setup Highlighters
   SynYAMLSyn := TSynYAMLSyn.Create(Self);

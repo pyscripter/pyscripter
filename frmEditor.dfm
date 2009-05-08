@@ -30,6 +30,8 @@ object EditorForm: TEditorForm
     Margins.Bottom = 2
     Align = alClient
     BevelOuter = bvNone
+    Ctl3D = False
+    ParentCtl3D = False
     TabOrder = 0
     OnEnter = FGPanelEnter
     OnExit = FGPanelExit
@@ -41,10 +43,6 @@ object EditorForm: TEditorForm
       Align = alClient
       OnContextPopup = ViewsTabControlContextPopup
       ActiveTabIndex = 0
-      ExplicitLeft = 1
-      ExplicitTop = 1
-      ExplicitWidth = 560
-      ExplicitHeight = 377
       HiddenItems = <>
       object tabSource: TSpTBXTabItem
         Caption = 'Source'
@@ -57,8 +55,6 @@ object EditorForm: TEditorForm
         Height = 354
         Caption = 'Source'
         ImageIndex = -1
-        ExplicitWidth = 560
-        ExplicitHeight = 352
         TabItem = 'tabSource'
         object SynEdit: TSynEdit
           Left = 2
@@ -103,10 +99,6 @@ object EditorForm: TEditorForm
           OnSpecialLineColors = SynEditSpecialLineColors
           OnStatusChange = SynEditStatusChange
           OnPaintTransient = SynEditPaintTransient
-          ExplicitLeft = 1
-          ExplicitTop = 1
-          ExplicitWidth = 349
-          ExplicitHeight = 348
           RemovedKeystrokes = <
             item
               Command = ecDeleteLastChar
@@ -154,8 +146,6 @@ object EditorForm: TEditorForm
           OnSpecialLineColors = SynEditSpecialLineColors
           OnStatusChange = SynEditStatusChange
           OnPaintTransient = SynEditPaintTransient
-          ExplicitLeft = 356
-          ExplicitHeight = 348
         end
         object EditorSplitter: TSpTBXSplitter
           Left = 353
@@ -165,8 +155,6 @@ object EditorForm: TEditorForm
           Align = alRight
           Visible = False
           GripSize = 80
-          ExplicitLeft = 351
-          ExplicitHeight = 348
         end
       end
     end
