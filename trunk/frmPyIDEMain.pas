@@ -347,9 +347,8 @@ Limitations: Python scripts are executed in the main thread
   -  Customizer form (DONE)
   -  Theming of various windows (DONE)
   -  Find Toolbar - Replace TSpTBXComboItem (DONE)
-  -  Theming of JvTabbar (Replace with SpTBXTabControl)
+  -  Theming of JvTabbar (Replace with SpTBXTabControl) (Done)
   -  Painting of ListViewItems
-  -  Update SpTBXCode, MustangPeakCode, VirtualTreeView
 
 -----------------------------------------------------------------------------}
 
@@ -821,6 +820,12 @@ type
     tbiReplaceText: TSpTBXComboBox;
     TBControlItem4: TTBControlItem;
     TabControl: TSpTBXTabControl;
+    tbiRightAlign: TSpTBXRightAlignSpacerItem;
+    tbiScrollLeft: TSpTBXItem;
+    tbiTabClose: TSpTBXItem;
+    tbiScrollRight: TSpTBXItem;
+    tbiTabFiles: TSpTBXSubmenuItem;
+    tbiTabSep: TSpTBXSeparatorItem;
     procedure mnFilesClick(Sender: TObject);
     procedure actEditorZoomInExecute(Sender: TObject);
     procedure actEditorZoomOutExecute(Sender: TObject);
@@ -933,6 +938,9 @@ type
     procedure tbiSearchTextExit(Sender: TObject);
     procedure tbiReplaceTextKeyPress(Sender: TObject; var Key: Char);
     procedure TabControlActiveTabChange(Sender: TObject; TabIndex: Integer);
+    procedure tbiTabFilesClick(Sender: TObject);
+    procedure tbiScrollLeftClick(Sender: TObject);
+    procedure tbiScrollRightClick(Sender: TObject);
   private
     DSAAppStorage: TDSAAppStorage;
 //    function FindAction(var Key: Word; Shift: TShiftState) : TCustomAction;
@@ -1029,6 +1037,7 @@ type
     procedure UpdateCaption;
     procedure ChangeLanguage(LangCode : string);
     function EditorFromTab(Tab : TSpTBXTabItem) : IEditor;
+    procedure LoadAdditionalThemes;
   end;
 
 
@@ -1061,7 +1070,7 @@ uses
   uCmdLine, uSearchHighlighter, frmModSpTBXCustomize, IniFiles,
   JclStrings, JclSysUtils, frmProjectExplorer, cProjectClasses, TntSysUtils,
   MPDataObject, gnugettext, TntDialogs, WideStrUtils, WideStrings,
-  SpTBXDefaultSkins, SpTBXControls;
+  SpTBXDefaultSkins, SpTBXControls, VirtualFileSearch;
 
 {$R *.DFM}
 
@@ -1325,6 +1334,9 @@ begin
   if not AppStorage.PathExists(FactoryToolbarItems) then
     SaveToolbarItems(FactoryToolbarItems);
 
+  // Load additional skins from skin folders
+  LoadAdditionalThemes;
+
   // Read Settings from PyScripter.ini
   if FileExists(AppStorage.IniFile.FileName) then begin
     RestoreApplicationData;
@@ -1365,7 +1377,6 @@ begin
   GI_EditorFactory.SetupEditorViewMenu;
 
   Update;
-  // ToDo Use BeginUpdate?  as in mail
   SendMessage(TabControl.Handle, WM_SETREDRAW, 0, 0);  // To avoid flicker
   try
     // if there was no file on the command line try restoring open files
@@ -2824,7 +2835,7 @@ begin
     Editor := EditorFromTab(TabItem);
     if Assigned(Editor) then
       (Editor as IFileCommands).ExecClose;
-  end else if (not Assigned(TabItem) or (TSpTBXTabItemViewer(IV).TabCloseButtonState <> sknsHotTrack)) and (Shift = [ssLeft, ssDouble]) then begin
+  end else if (not Assigned(IV) or (IV.Item is TSpTBXRightAlignSpacerItem)) and (Shift = [ssLeft, ssDouble]) then begin
     if AppStorage.PathExists('Layouts\BeforeZoom\Forms') then
       actRestoreEditorExecute(Sender)
     else
@@ -2844,6 +2855,8 @@ begin
 end;
 
 procedure TPyIDEMainForm.UpdateStandardActions;
+Var
+  L, R : Boolean;
 begin
   actBreakPointsWin.Checked := BreakPointsWindow.Visible;
   actCallStackWin.Checked := CallStackWindow.Visible;
@@ -2881,6 +2894,11 @@ begin
   actFindReferences.Enabled := actFindDefinition.Enabled;
   actBrowseBack.Enabled := mnPreviousList.Count > 0;
   actBrowseForward.Enabled := mnNextList.Count > 0;
+
+  // Scroll Buttons
+  TabControl.ScrollState(L, R);
+  tbiScrollLeft.Enabled := L;
+  tbiScrollRight.Enabled := R;
 end;
 
 procedure TPyIDEMainForm.FormShortCut(var Msg: TWMKey;
@@ -3139,6 +3157,26 @@ begin
     MenuItem.GroupIndex := 3;
     MenuItem.OnClick := SyntaxClick;
     MenuItem.Hint := WideFormat(_(SUseSyntax), [MenuItem.Caption]);
+  end;
+end;
+
+procedure TPyIDEMainForm.LoadAdditionalThemes;
+Var
+  SkinList : TWideStringList;
+  FileName : WideString;
+begin
+  if not WideDirectoryExists(CommandsDataModule.SkinFilesDir) then Exit;
+
+  SkinList := TWideStringList.Create;
+  try
+    BuildFileList(CommandsDataModule.SkinFilesDir, '*.skn',  SkinList, False,
+      [vsaArchive, vsaCompressed, vsaEncrypted, vsaNormal, vsaOffline, vsaReadOnly],
+      [vsaDirectory, vsaHidden, vsaSystem, vsaTemporary]);
+    for FileName in SkinList do
+      SkinManager.SkinsList.AddSkinFromFile(FileName);
+    mnSkins.Recreate;
+  finally
+    SkinList.Free;
   end;
 end;
 
@@ -3872,6 +3910,16 @@ begin
   ChangeLanguage(fLanguageList[(Sender as TSpTBXItem).Tag]); 
 end;
 
+procedure TPyIDEMainForm.tbiScrollLeftClick(Sender: TObject);
+begin
+  TabControl.ScrollLeft;
+end;
+
+procedure TPyIDEMainForm.tbiScrollRightClick(Sender: TObject);
+begin
+  TabControl.ScrollRight;
+end;
+
 procedure TPyIDEMainForm.tbiSearchOptionsPopup(Sender: TTBCustomItem;
   FromLink: Boolean);
 begin
@@ -3923,6 +3971,11 @@ begin
     CommandsDataModule.actSearchFindNext.Execute;
   end else if ((Key = #8) or (key > #32)) and EditorSearchOptions.IncrementalSearch then
     PostMessage(Handle, WM_SEARCHREPLACEACTION, 2, 0);
+end;
+
+procedure TPyIDEMainForm.tbiTabFilesClick(Sender: TObject);
+begin
+  TabControl.ScrollLeft;
 end;
 
 procedure TPyIDEMainForm.tbiSearchTextChange(Sender: TObject);

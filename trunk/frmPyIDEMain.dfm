@@ -428,11 +428,57 @@ object PyIDEMainForm: TPyIDEMainForm
       OnContextPopup = TabContolContextPopup
       ActiveTabIndex = -1
       Images = CommandsDataModule.Images
-      TabCloseButton = tcbAll
       TabDragReorder = True
       TabPosition = ttpBottom
       OnActiveTabChange = TabControlActiveTabChange
+      ExplicitTop = 1
       HiddenItems = <>
+      object tbiRightAlign: TSpTBXRightAlignSpacerItem
+        CustomWidth = 696
+      end
+      object tbiTabSep: TSpTBXSeparatorItem
+      end
+      object tbiTabFiles: TSpTBXSubmenuItem
+        Caption = '6'
+        DisplayMode = nbdmTextOnly
+        OnClick = tbiTabFilesClick
+        CustomWidth = 14
+        CustomHeight = 14
+        FontSettings.Name = 'Marlett'
+        LinkSubitems = mnFiles
+      end
+      object tbiScrollLeft: TSpTBXItem
+        Caption = '3'
+        Hint = 'Scroll left'
+        DisplayMode = nbdmTextOnly
+        Enabled = False
+        Options = [tboToolbarStyle]
+        OnClick = tbiScrollLeftClick
+        CustomWidth = 14
+        CustomHeight = 14
+        FontSettings.Name = 'Marlett'
+      end
+      object tbiScrollRight: TSpTBXItem
+        Caption = '4'
+        Hint = 'Scroll right'
+        DisplayMode = nbdmTextOnly
+        Enabled = False
+        ImageIndex = 2
+        Options = [tboToolbarStyle]
+        OnClick = tbiScrollRightClick
+        CustomWidth = 14
+        CustomHeight = 14
+        FontSettings.Name = 'Marlett'
+      end
+      object tbiTabClose: TSpTBXItem
+        Caption = 'r'
+        Action = CommandsDataModule.actFileClose
+        DisplayMode = nbdmTextOnly
+        Options = [tboToolbarStyle]
+        CustomWidth = 14
+        CustomHeight = 14
+        FontSettings.Name = 'Marlett'
+      end
     end
   end
   object TBXDockTop: TSpTBXDock

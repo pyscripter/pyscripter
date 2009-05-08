@@ -3657,7 +3657,6 @@ object CommandsDataModule: TCommandsDataModule
     object actEditCut: TTntEditCut
       Category = 'Edit'
       Caption = 'Cu&t'
-      Enabled = False
       HelpContext = 320
       HelpType = htContext
       Hint = 'Cut|Cuts the selection and puts it on the Clipboard'
@@ -3667,7 +3666,6 @@ object CommandsDataModule: TCommandsDataModule
     object actEditCopy: TTntEditCopy
       Category = 'Edit'
       Caption = '&Copy'
-      Enabled = False
       HelpContext = 320
       HelpType = htContext
       Hint = 'Copy|Copies the selection and puts it on the Clipboard'
@@ -4357,7 +4355,7 @@ object CommandsDataModule: TCommandsDataModule
     Left = 188
     Top = 186
     Bitmap = {
-      494C010198009A00040010001000FFFFFFFFFF00FFFFFFFFFFFFFFFF424D3600
+      494C010198009A00040010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000007002000001002000000000000070
       0200000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -9509,6 +9507,7 @@ object CommandsDataModule: TCommandsDataModule
       C001807F8007C001C001800F80018000C001800780010000C001800780010000
       C001800380010000C001800380010000C001800180010000C001800180011070
       C001800180010001C0018003800101F7C001800780014207C003C3C78001B9FF
-      C007FE0F8001C3FFC00FFFFFC1FFFFFF}
+      C007FE0F8001C3FFC00FFFFFC1FFFFFF00000000000000000000000000000000
+      000000000000}
   end
 end
