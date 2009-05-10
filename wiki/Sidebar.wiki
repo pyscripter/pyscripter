@@ -1,7 +1,7 @@
 #summary Sidebar for PyScripter wiki
 *Wiki contents*
  * [PyScripter Overview]
- * Features
+ * [Features Features]
  * [Screenshots Screen shots]
  * History
  * Support
