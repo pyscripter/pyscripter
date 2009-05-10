@@ -1,4 +1,4 @@
-#PyScripter Main Wiki Pages
+#summary PyScripter Main Wiki Pages
 
 = Overview =
 
