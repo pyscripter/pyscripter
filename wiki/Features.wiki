@@ -1,4 +1,4 @@
-#summary Features summary.
+<wiki:gadget url="http://pyscripter.googlecode.com/svn/wiki/adsense3.xml" border="0" width="468" height="60" />
 
 = Features =
 
@@ -35,23 +35,24 @@
  * *Editor Views*
    * Disassembly
    * HTML Documentation (pydoc)
- * Code Explorer 
  * *File Explorer*
    * Easy configuration and browsing of the Python Path
    * Integrated Version Control using Tortoise CVS or Tortoise SVN
  * Integrated Unit testing
    * Automatic generation of tests
    * Unit testing GUI
- * Access to Python manuals through the Help menu 
- * To Do List
- * Find and Replace in Files
- * Integrated regular expression testing
- * Choice of Python version to run via command line parameters
- * Run Python Script externally (highly configurable)
- * External Tools (External run and capture output)
+ * *External Tools* (External run and capture output)
    * Integration with Python tools such as PyLint, TabNanny, Profile etc.
    * Powerful parameter functionality for customized external tool integration
- * Find Definition/Find references
- * Find definition by clicking and browsing history
- * Modern GUI with docked forms and configurable look&feel (themes)
- * Persistent configurable IDE options
+  * *Other Features*
+ * Code Explorer 
+   * Access to Python manuals through the Help menu 
+   * To Do List
+   * Find and Replace in Files
+   * Integrated regular expression testing
+   * Choice of Python version to run via command line parameters
+   * Run Python Script externally (highly configurable)
+   * Find Definition/Find references
+   * Find definition by clicking and browsing history
+   * Modern GUI with docked forms and configurable look&feel (themes)
+   * Persistent configurable IDE options
