@@ -1,8 +1,6 @@
-#summary PyScripter Screen shots
-
 = Screen shots =
 
-Add your content here.
+|| [http://pyscripter.googlecode.com/svn/wiki/screenshot1.png http://pyscripter.googlecode.com/svn/wiki/screenshot-Thumb1.png] || [http://pyscripter.googlecode.com/svn/wiki/screenshot1.png http://pyscripter.googlecode.com/svn/wiki/screenshot-Thumb1.png] ||
 
 
 = Details =
