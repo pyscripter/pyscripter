@@ -1,3 +1,4 @@
+#labels Featured
 = PyScripter Overview =
 
 PyScripter originally started as a lightweight IDE designed to to serve the purpose of providing a strong scripting solution for 
