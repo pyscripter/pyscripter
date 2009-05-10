@@ -16,7 +16,7 @@ There are many Python Integrated Development Environments around.  And quite a f
 not to mention IDLE which is included in the standard Python distribution.  So it is reasonable to ask why bother to develop yet another Python IDE.  The short answer 
 is for the fun of it!  The long answer relates to the ambition to create a Python IDE that is competitive with commercial Windows-based IDEs available for other languages.
 
-== *Donations ==
+== Donations ==
 If you find PyScripter useful and make regular use, please consider making a donation. This will support further development of this project.
 
 [https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=pyscripter@gmail.com&currency_code=EUR http://pyscripter.googlecode.com/svn/wiki/donate.png]
