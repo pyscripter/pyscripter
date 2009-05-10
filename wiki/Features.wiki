@@ -44,8 +44,8 @@
  * *External Tools* (External run and capture output)
    * Integration with Python tools such as PyLint, TabNanny, Profile etc.
    * Powerful parameter functionality for customized external tool integration
-  * *Other Features*
- * Code Explorer 
+ * *Other Features*
+   * Code Explorer 
    * Access to Python manuals through the Help menu 
    * To Do List
    * Find and Replace in Files
