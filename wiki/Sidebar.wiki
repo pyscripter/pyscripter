@@ -3,5 +3,5 @@
  * [PyScripter Overview]
  * [Features Features]
  * [Screenshots Screen shots]
- * History
+ * [History History]
  * Support
