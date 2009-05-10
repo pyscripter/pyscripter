@@ -2,6 +2,5 @@
 
 <wiki:gadget url="http://pyscripter.googlecode.com/svn/wiki/adsense3.xml" border="0" width="468" height="60" />
 
-|| {{{<a target="blank" href="products/PyScripter/Pictures/screenshot1.png" title="Python Interactive Interpreter"><img src="products/PyScripter/Pictures/screenshot-Thumb1.png" width="205" height="145" border="0"></a>}}}
-|| {{{<a target="blank" href="products/PyScripter/Pictures/screenshot2.png" title="Python Interactive Interpreter"><img src="products/PyScripter/Pictures/screenshot-Thumb2.png" width="205" height="145" border="0"></a>}}}||
-
+{{{<a target="blank" href="http://pyscripter.googlecode.com/svn/wiki/screenshot1.png" title="Python Interactive Interpreter"><img src="http://pyscripter.googlecode.com/svn/wiki/screenshot-Thumb1.png" width="205" height="145" border="0"></a>}}}
+|| {{{<a target="blank" href="http://pyscripter.googlecode.com/svn/wiki/screenshot2.png" title="Python Interactive Interpreter"><img src="http://pyscripter.googlecode.com/svn/wiki/screenshot-Thumb2.png" width="205" height="145" border="0"></a>}}}||
