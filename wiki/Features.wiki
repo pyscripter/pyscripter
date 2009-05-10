@@ -38,7 +38,7 @@
  * *File Explorer*
    * Easy configuration and browsing of the Python Path
    * Integrated Version Control using Tortoise CVS or Tortoise SVN
- * Integrated Unit testing
+ * *Integrated Unit testing*
    * Automatic generation of tests
    * Unit testing GUI
  * *External Tools* (External run and capture output)
