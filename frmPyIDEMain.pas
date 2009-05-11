@@ -2522,14 +2522,12 @@ end;
 procedure TPyIDEMainForm.StoreApplicationData;
 Var
   TempStringList : TStringList;
-  TempSL : TWideStringList;
 //  ActionProxyCollection : TActionProxyCollection;
   i : integer;
   TempCursor : IInterface;
 begin
   TempCursor := WaitCursor;
   TempStringList := TStringList.Create;
-  TempSL := TWideStringList.Create;
   AppStorage.BeginUpdate;
   try
     AppStorage.WriteString('PyScripter Version', ApplicationVersion);
@@ -2621,16 +2619,13 @@ begin
     AppStorage.DeleteSubTree('Active Project');
     AppStorage.WriteWideString('Active Project', ActiveProject.FileName);
 
-    // MRU Items
-    MRUToWideStrings(tbiRecentFileList, TempSL);
-    AppStorage.WriteWideStringList('MRU File List', TempSL, 'MRU');
-    AppStorage.WriteWideStringList('CommandLine MRU', CommandsDataModule.CommandLineMRU, 'MRU');
-
   finally
     AppStorage.EndUpdate;
     TempStringList.Free;
-    TempSL.Free;
   end;
+
+  // Save MRU Lists
+  tbiRecentFileList.SaveToIni(AppStorage.IniFile, 'MRU File List');
 
   AppStorage.Flush;
 end;
@@ -2642,7 +2637,6 @@ Const
 Var
   //ActionProxyCollection : TActionProxyCollection;
   TempStringList : TStringList;
-  TempSL : TWideStringList;
   i : integer;
   FName : WideString;
 begin
@@ -2761,14 +2755,7 @@ begin
   end;
 
   // Load MRU Lists
-  TempSL := TWideStringList.Create;
-  try
-    AppStorage.ReadWideStringList('MRU File List', TempSL, True, 'MRU');
-    WideStringsToMRU(tbiRecentFileList, TempSL);
-  finally
-    TempSL.Free;
-  end;
-  AppStorage.ReadWideStringList('CommandLine MRU', CommandsDataModule.CommandLineMRU, True, 'MRU');
+  tbiRecentFileList.LoadFromIni(AppStorage.IniFile, 'MRU File List');
 
 end;
 
