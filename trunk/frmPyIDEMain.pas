@@ -3074,6 +3074,14 @@ begin
       TSpTBXAluminumSkin(CurrentSkin).DefaultColorScheme := lusBlue;
     SkinManager.BroadcastSkinNotification;
   end;
+  if CurrentSkin.Options(skncListItem, sknsHotTrack).IsEmpty and
+     CurrentSkin.Options(skncListItem, sknsPushed).IsEmpty and
+     CurrentSkin.Options(skncListItem, sknsChecked).IsEmpty and
+     CurrentSkin.Options(skncListItem, sknsCheckedAndHotTrack).IsEmpty
+  then begin
+    CurrentSkin.CopyOptions(skncToolbarItem, skncListItem);
+    SkinManager.BroadcastSkinNotification;
+  end;
 end;
 
 procedure TPyIDEMainForm.mnSyntaxPopup(Sender: TTBCustomItem;
