@@ -1527,7 +1527,7 @@ object PyIDEMainForm: TPyIDEMainForm
       CustomHeight = 21
     end
     object SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem
-      CustomWidth = 407
+      CustomWidth = 0
     end
     object SpTBXSeparatorItem5: TSpTBXSeparatorItem
     end
@@ -1589,15 +1589,19 @@ object PyIDEMainForm: TPyIDEMainForm
     LeftSplitterStyle.Cursor = crHSplit
     LeftSplitterStyle.ParentColor = False
     LeftSplitterStyle.ResizeStyle = rsUpdate
+    LeftSplitterStyle.Size = 5
     RightSplitterStyle.Cursor = crHSplit
     RightSplitterStyle.ParentColor = False
     RightSplitterStyle.ResizeStyle = rsUpdate
+    RightSplitterStyle.Size = 5
     TopSplitterStyle.Cursor = crVSplit
     TopSplitterStyle.ParentColor = False
     TopSplitterStyle.ResizeStyle = rsUpdate
+    TopSplitterStyle.Size = 5
     BottomSplitterStyle.Cursor = crVSplit
     BottomSplitterStyle.ParentColor = False
     BottomSplitterStyle.ResizeStyle = rsUpdate
+    BottomSplitterStyle.Size = 5
     DockStyle = JvDockVSNetStyleSpTBX
     Left = 37
     Top = 134
@@ -2415,6 +2419,21 @@ object PyIDEMainForm: TPyIDEMainForm
   end
   object JvDockVSNetStyleSpTBX: TJvDockVSNetStyleSpTBX
     AlwaysShowGrabber = False
+    ConjoinServerOption.ActiveFont.Charset = DEFAULT_CHARSET
+    ConjoinServerOption.ActiveFont.Color = clWhite
+    ConjoinServerOption.ActiveFont.Height = -12
+    ConjoinServerOption.ActiveFont.Name = 'Segoe UI'
+    ConjoinServerOption.ActiveFont.Style = []
+    ConjoinServerOption.InactiveFont.Charset = DEFAULT_CHARSET
+    ConjoinServerOption.InactiveFont.Color = clBlack
+    ConjoinServerOption.InactiveFont.Height = -12
+    ConjoinServerOption.InactiveFont.Name = 'Segoe UI'
+    ConjoinServerOption.InactiveFont.Style = []
+    ConjoinServerOption.ActiveTitleStartColor = 13743257
+    ConjoinServerOption.ActiveTitleEndColor = 13743257
+    ConjoinServerOption.InactiveTitleStartColor = clBtnFace
+    ConjoinServerOption.InactiveTitleEndColor = clBtnFace
+    ConjoinServerOption.SystemInfo = False
     TabServerOption.HotTrack = True
     TabServerOption.ActiveFont.Charset = DEFAULT_CHARSET
     TabServerOption.ActiveFont.Color = clWindowText

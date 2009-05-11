@@ -33,17 +33,18 @@ inherited FileExplorerWindow: TFileExplorerWindow
     000000000000000000000000000000000000000000000000000000000000FBC1
     0000FD410000FBC10000FFFF0000FBC10000FD410000FBC10000FFFF0000001F
     0000001F0000001F0000001F0000001F0000001F0000003F00000FFF0000}
+  ExplicitWidth = 243
   ExplicitHeight = 473
   PixelsPerInch = 96
   TextHeight = 13
   inherited FGPanel: TPanel
     Height = 435
-    ExplicitHeight = 433
+    ExplicitHeight = 435
     object FileExplorerTree: TVirtualExplorerTree
       Left = 0
       Top = 26
-      Width = 221
-      Height = 407
+      Width = 223
+      Height = 409
       Active = False
       Align = alClient
       AnimationDuration = 100
@@ -59,6 +60,7 @@ inherited FileExplorerWindow: TFileExplorerWindow
       FileSizeFormat = fsfExplorer
       FileSort = fsFileType
       Header.AutoSizeIndex = 0
+      Header.DefaultHeight = 17
       Header.Font.Charset = DEFAULT_CHARSET
       Header.Font.Color = clWindowText
       Header.Font.Height = -11
@@ -92,7 +94,7 @@ inherited FileExplorerWindow: TFileExplorerWindow
     object ExplorerDock: TSpTBXDock
       Left = 0
       Top = 0
-      Width = 221
+      Width = 223
       Height = 26
       AllowDrag = False
       object ExplorerToolbar: TSpTBXToolbar
