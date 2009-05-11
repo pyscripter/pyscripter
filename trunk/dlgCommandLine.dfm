@@ -5,7 +5,6 @@ inherited CommandLineDlg: TCommandLineDlg
   ClientHeight = 150
   ClientWidth = 446
   Font.Name = 'MS Shell Dlg 2'
-  Position = poMainFormCenter
   OnDestroy = FormDestroy
   ExplicitWidth = 452
   ExplicitHeight = 176

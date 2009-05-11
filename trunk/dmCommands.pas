@@ -20,7 +20,7 @@ uses
   SynEditRegexSearch, SynEditMiscClasses, SynEditSearch, VirtualTrees,
   SynEditTextBuffer, SynEditKeyCmds, JvComponentBase, 
   JvProgramVersionCheck, JvPropertyStore,
-  SynHighlighterIni, JvAppInst, uEditAppIntfs, SynUnicode,
+  SynHighlighterIni, uEditAppIntfs, SynUnicode,
   JvStringHolder, cPyBaseDebugger, TntDialogs, TntLXDialogs,
   SynEditTypes, VirtualExplorerTree, VirtualShellNotifier, SynHighlighterWeb,
   SynHighlighterCpp, TntStdActns, TntActnList, SynHighlighterYAML, WideStrings,
@@ -435,7 +435,6 @@ type
     PyIDEOptions : TPythonIDEOptions;
     UserDataDir : WideString;
     SkinFilesDir : WideString;
-    CommandLineMRU : TWideStrings;
     function IsBlockOpener(S : string) : Boolean;
     function IsBlockCloser(S : string) : Boolean;
     function IsExecutableLine(Line : string) : Boolean;
@@ -866,9 +865,6 @@ begin
   ProgramVersionCheck.ThreadDialog.DialogOptions.ResName := 'WebCopyAvi';
   ProgramVersionCheck.LocalDirectory := ExtractFilePath(Application.ExeName)+ 'Updates';
 
-  // Command Line MRU
-  CommandLineMRU := TWideStringList.Create;
-
   // Translate
   TranslateComponent(Self);
 end;
@@ -883,7 +879,6 @@ begin
   NonExecutableLineRE.Free;
   CommentLineRE.Free;
   PyIDEOptions.Free;
-  CommandLineMRU.Free;
   imlShellIcon.Handle := 0;
 end;
 
@@ -2540,10 +2535,10 @@ begin
   with TCrackedCustomVirtualStingTree(Sender) do begin
     if (Column = FocusedColumn) or (toFullRowSelect in TCrackedCustomStringTreeOptions(TreeOptions).SelectionOptions) then
     begin
-      if vsSelected in Node.States then
+      if (Node = HotNode) or (vsSelected in Node.States) then
       begin
         TargetCanvas.Font.Color :=
-          CurrentSkin.GetTextColor(skncListItem, CurrentSkin.GetState(True, False, Node = HotNode, True));
+          CurrentSkin.GetTextColor(skncListItem, CurrentSkin.GetState(True, False, Node = HotNode, vsSelected in Node.States));
       end;
     end;
   end;
@@ -2607,7 +2602,7 @@ begin
   with TCrackedCustomVirtualStingTree(Sender), TargetCanvas do begin
     if (Column = FocusedColumn) or (toFullRowSelect in TCrackedCustomStringTreeOptions(TreeOptions).SelectionOptions) then
     begin
-      if vsSelected in Node.States then
+      if (vsSelected in Node.States) or (Node = HotNode) then
       begin
         if (toGridExtensions in TCrackedCustomStringTreeOptions(TreeOptions).MiscOptions) or
            (toFullRowSelect in TCrackedCustomStringTreeOptions(TreeOptions).SelectionOptions)
@@ -2641,7 +2636,7 @@ begin
         end;
         if not IsRectEmpty(InnerRect) then begin
           TargetCanvas.FillRect(InnerRect);
-          State := CurrentSkin.GetState(True, False, Node = HotNode, True);
+          State := CurrentSkin.GetState(True, False, Node = HotNode, vsSelected in Node.States);
           CurrentSkin.PaintBackground(TargetCanvas, InnerRect, skncListItem, State, True, False);
         end;
         //SpDrawXPListItemBackground(TargetCanvas, InnerRect, True, Node = HotNode, Focused, SkinManager.GetSkinType);

@@ -11,7 +11,7 @@ unit uCommonFunctions;
 interface
 Uses
   Windows, Classes, SysUtils, Graphics, SynEditTypes,
-  WideStrings, SynUnicode, uEditAppIntfs, VirtualFileSearch, SpTBXMDIMRU,
+  WideStrings, SynUnicode, uEditAppIntfs, VirtualFileSearch, 
   SpTBXSkins, Controls;
 
 const
@@ -224,12 +224,6 @@ function WideStrRemoveChars(const S: WideString; const Chars: TSysCharSet): Wide
    in lower case *)
 function WideLastPos(const Substr, Str: WideString; IgnoreCase: Boolean = False): Integer;
 
-(* Extract MRU items to Wide Strings *)
-procedure MRUToWideStrings(MRU : TSpTBXMRUListItem; SL : TWideStrings);
-
-(* Load MRU items From WideStrings *)
-procedure WideStringsToMRU(MRU : TSpTBXMRUListItem; SL : TWideStrings);
-
 (* Get Hot Color from SpTBX Skin option entry *)
 function GetHotColor(OptionEntry : TSpTBXSkinOptionEntry) : TColor;
 
@@ -246,7 +240,7 @@ Const
 implementation
 Uses
   Forms, JclFileUtils, Math, VarPyth,
-  JclBase, SynRegExpr, TntDialogs, TntClasses,
+  JclBase, SynRegExpr, TntDialogs, 
   TntWindows, StrUtils, WideStrUtils, PythonEngine, dmCommands, Dialogs,
   StringResources, TntSysUtils, frmPythonII, gnugettext, MPCommonUtilities,
   MPCommonObjects, MPShellUtilities;
@@ -1810,25 +1804,6 @@ begin
     Result := PStr-PStart+1;
     inc(PStr);
   until PStr^ = WideChar(#0);
-end;
-
-procedure MRUToWideStrings(MRU : TSpTBXMRUListItem; SL : TWideStrings);
-var
-  I: Integer;
-begin
-  SL.Clear;
-  for I := 0 to MRU.Count - 1 do
-    if MRU.Items[I] is TSpTBXMRUItem then
-      SL.Add(TSpTBXMRUItem(MRU.Items[I]).MRUString);
-end;
-
-procedure WideStringsToMRU(MRU : TSpTBXMRUListItem; SL : TWideStrings);
-var
-  I: Integer;
-begin
-  MRU.Clear;
-  for I := 0 to SL.Count - 1 do
-      MRU.MRUAdd(SL[I]);
 end;
 
 function GetHotColor(OptionEntry : TSpTBXSkinOptionEntry) : TColor;

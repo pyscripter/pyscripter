@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, SynEdit, ExtCtrls, Buttons, TB2Item, 
+  Dialogs, SynEdit, Buttons, TB2Item, 
   Menus, SpTBXControls, SpTBXItem, dlgPyIDEBase, SpTBXMDIMRU;
 
 type
@@ -35,7 +35,7 @@ type
 
 implementation
 
-uses dmCommands, uCommonFunctions;
+uses dmCommands, frmPyIDEMain;
 
 {$R *.dfm}
 
@@ -54,14 +54,14 @@ end;
 procedure TCommandLineDlg.FormCreate(Sender: TObject);
 begin
   inherited;
-  WideStringsToMRU(mnCommandHistoryMRU, CommandsDataModule.CommandLineMRU);
+  mnCommandHistoryMRU.LoadFromIni(PyIDEMainForm.AppStorage.IniFile, 'CommandLine MRU');
 end;
 
 procedure TCommandLineDlg.FormDestroy(Sender: TObject);
 begin
   CommandsDataModule.ParameterCompletion.Editor := nil;
   CommandsDataModule.ModifierCompletion.Editor := nil;
-  MRUToWideStrings(mnCommandHistoryMRU, CommandsDataModule.CommandLineMRU);
+  mnCommandHistoryMRU.SaveToIni(PyIDEMainForm.AppStorage.IniFile, 'CommandLine MRU');
 end;
 
 procedure TCommandLineDlg.mnCommandHistoryMRUClick(Sender: TObject;
