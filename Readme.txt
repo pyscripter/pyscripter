@@ -1,32 +1,32 @@
+INSTRUCTIONS FOR COMPILIING PyScripter
+======================================
+
+I am using Borland Delphi 2006 to compile PyScripter but with few changes it could compile with other versions.
+
+
+
+Use TortoiseSVN to download the code from pyscripter.googlecode.com
+
 To compile the PythonIDE.dpr, you first need to install the following components:            
 
-   - Python for Delphi (www.mmm-experts.com)
-     In the Definitions.inc file activate the conditional define PREFER_UNICODE
+   - Python for Delphi (http://python4delphi.googlecode.com/ - use SVN)
 
-   - JVCL version 3.33 (jvcl.sf.net) and JCL version 1.1 (jcl.sf.net)
+   - JVCL version 3.36 (jvcl.sf.net) and JCL version 1.1104 (jvcl.sf.net)
 
-   - Toolbar2000 version 2.1.8 (www.jrsoftware.org/tb2k.php)
-   - TBX version 2.1b (from www.g32.org/tbx, if this is down try http://www.indasoftware.com/fordev/office2003/download.php)
-   - Download from http://club.telepolis.com/silverpointdev and apply the TB2k v2.1.8 - TBX v2.1 patch before installing Toolbar 2000 and TBX
+   - Toolbar2000 
    - Tntware Delphi Unicode Controls 
-   - SpTBXLib version 1.8.3
-     Note that you can download the patch.exe tool from http://unxutils.sourceforge.net/
-     Note also that If you want a painless TB2k+TBX+TNT Unicode+SpTBXLibe installation for Delphi you can download the Multiinstaller from 
-     http://club.telepolis.com/silverpointdev/multiinstaller/index.htm and follow the instructions provided in that page.          
+   - SpTBXLib version
+     Note also that if you want a painless TB2k+TNT Unicode+SpTBXLib installation for Delphi you can download the Multiinstaller 
+     and the above packages from http://www.silverpointdevelopment.com/multiinstaller/index.htm and follow the instructions provided 
+     in that page.          
      
-   - Download and install JvTBXLib.zip from mxs.bergsoft.net (no need to bother with the rest of TBXLib).
-
-   - Download from http://www.rmklever.com/delphitbx.html the themes by Roy Magne Klever
-     (Only two of these themes NexosX and Whidbey are currently used)
-   - From the same site download the Office2003 theme by Yury Plashenkov 
-   - Copy the above themes to the TBX folder.  No need to install them.
-
-   - Tntware Delphi LX Controls from http://www.tntware.com/delphicontrols/lx/
+   - Install the PyScripterCustom package and the Tntware Delphi LX Controls (can be found in the Components folder of PyScripter)
 
    - Unicode version of SynEdit (synedit.sf.net) at http://mh-nexus.de/unisynedit.htm (latest version needed)
    - SynWeb Highlighters at http://flatdev.ovh.org/
    
-   - Download the VirtualShellTools pack from www.mustangpeak.net and install  VirtualTreeView, Common Library, EasyListView and VirtualShellTools
-     In the file Addins.inc in the "Include" directory of VirtualShellTools, enable the USE_TOOLBAR_TB2K flag and follow the instructions for recompiling the packages
+   - Download the VirtualShellTools pack from www.mustangpeak.net and install  VirtualTreeView, Common Library, 
+     EasyListView and VirtualShellTools.  In all three packages you need to modify the files Addins.inc the 
+     "Include" directory and the Options.ini in the Source directory to enable TB2K and SpTBX
 
 If you have managed to do all the above then you should be able to compile PyScripter! :) 
