@@ -3074,12 +3074,12 @@ begin
       TSpTBXAluminumSkin(CurrentSkin).DefaultColorScheme := lusBlue;
     SkinManager.BroadcastSkinNotification;
   end;
-  if CurrentSkin.Options(skncListItem, sknsHotTrack).IsEmpty and
-     CurrentSkin.Options(skncListItem, sknsPushed).IsEmpty and
-     CurrentSkin.Options(skncListItem, sknsChecked).IsEmpty and
-     CurrentSkin.Options(skncListItem, sknsCheckedAndHotTrack).IsEmpty
+  if CurrentSkin.Options(skncListItem, sknsCheckedAndHotTrack).IsEmpty or CurrentSkin.Options(skncListItem, sknsChecked).IsEmpty
   then begin
-    CurrentSkin.CopyOptions(skncToolbarItem, skncListItem);
+    if CurrentSkin.Options(skncListItem, sknsCheckedAndHotTrack).IsEmpty then
+      CurrentSkin.Options(skncListItem, sknsCheckedAndHotTrack).Assign(CurrentSkin.Options(skncToolbarItem, sknsCheckedAndHotTrack));
+    if CurrentSkin.Options(skncListItem, sknsChecked).IsEmpty then
+      CurrentSkin.Options(skncListItem, sknsChecked).Assign(CurrentSkin.Options(skncToolbarItem, sknsChecked));
     SkinManager.BroadcastSkinNotification;
   end;
 end;

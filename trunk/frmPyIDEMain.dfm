@@ -431,7 +431,6 @@ object PyIDEMainForm: TPyIDEMainForm
       TabDragReorder = True
       TabPosition = ttpBottom
       OnActiveTabChange = TabControlActiveTabChange
-      ExplicitTop = 1
       HiddenItems = <>
       object tbiRightAlign: TSpTBXRightAlignSpacerItem
         CustomWidth = 696
@@ -1527,7 +1526,7 @@ object PyIDEMainForm: TPyIDEMainForm
       CustomHeight = 21
     end
     object SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem
-      CustomWidth = 0
+      CustomWidth = 407
     end
     object SpTBXSeparatorItem5: TSpTBXSeparatorItem
     end

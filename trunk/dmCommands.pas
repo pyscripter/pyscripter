@@ -2538,7 +2538,8 @@ begin
       if (Node = HotNode) or (vsSelected in Node.States) then
       begin
         TargetCanvas.Font.Color :=
-          CurrentSkin.GetTextColor(skncListItem, CurrentSkin.GetState(True, False, Node = HotNode, vsSelected in Node.States));
+//          CurrentSkin.GetTextColor(skncListItem, CurrentSkin.GetState(True, False, Node = HotNode, vsSelected in Node.States));
+          CurrentSkin.Options(skncListItem, CurrentSkin.GetState(True, False, Node = HotNode, vsSelected in Node.States)).TextColor;
       end;
     end;
   end;

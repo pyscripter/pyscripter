@@ -67,6 +67,7 @@ type
     procedure WMNCMouseMove(var Message: TWMNCMouseMove); message WM_NCMOUSEMOVE;
     procedure WMNCPaint(var Message: TMessage); message WM_NCPAINT;
     procedure WMSize(var Message: TWMSize); message WM_SIZE;
+    procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
   protected
     procedure AdjustClientRect(var Rect: TRect); override;
     procedure AlignControls(AControl: TControl; var ARect: TRect); override;
@@ -91,6 +92,7 @@ type
     property Range: Integer read FRange write SetRange stored IsRangeStored;
   public
     constructor Create(AOwner: TComponent); override;
+    destructor Destroy; override;
     procedure DisableAutoRange;
     procedure EnableAutoRange;
     procedure ScrollToCenter(ARect: TRect); overload;
@@ -435,12 +437,19 @@ begin
   FScrollTimer.OnTimer := ScrollTimerTimer;
   Width := 64;
   Height := 64;
+  SkinManager.AddSkinNotification(Self);
 end;
 
 procedure TSpTBXCustomPageScroller.CreateParams(var Params: TCreateParams);
 begin
   inherited CreateParams(Params);
   with Params.WindowClass do style := style and not (CS_HREDRAW or CS_VREDRAW);
+end;
+
+destructor TSpTBXCustomPageScroller.Destroy;
+begin
+  SkinManager.RemoveSkinNotification(Self);
+  inherited;
 end;
 
 procedure TSpTBXCustomPageScroller.DisableAutoRange;
@@ -883,5 +892,10 @@ begin
   Dec(FAutoRangeCount);
 end;
 
+
+procedure TSpTBXCustomPageScroller.WMSpSkinChange(var Message: TMessage);
+begin
+   RedrawWindow(Handle, nil, 0, RDW_ERASE or RDW_INVALIDATE or RDW_FRAME);
+end;
 
 end.
