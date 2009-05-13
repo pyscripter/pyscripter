@@ -1,11 +1,147 @@
+<wiki:gadget url="http://pyscripter.googlecode.com/svn/wiki/adsense3.xml" border="0" width="468" height="60" />
+
 = History =
 
-Add your content here.
+ _*Version 1.7.2 (Oct 26, 2006)*_ 
+ 
+  * *New features:*     
+    * Store toolbar positions   
+    * Improved bracket completion now also works with strings (Issue #4)
+  * *Bug fixes*     
+    * Bracket highlighting with non default background   
+    * Opening wrongly encoded UTF8 files results in empty module   
+    * File Format (Line End) choice not respected   
+    * Initial empty module was not syntax highlighted   
+    * Save As dialog had no default extension set   
+    * Unit Testing broken (regression)   
+    * Gap in the default tool bar (Issue #3)
 
+ _*Version 1.7.1 (Oct 15, 2006)*_ 
 
-= Details =
+  * *New features:*     
+    * Repeat scrolling of editor tabs   
+    * Massively improved start up time   
+    * Faster Python source file scanning*Bug fixes*     
+    * Infinite loop with cyclical Python imports
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+ _*Version 1.7 (Oct 14, 2006)*_
+  * *New features:*     
+    * Unicode based editor and interactive interpreter    
+    * Full support for Python source file encodings   
+    * Support for Python version 2.5 and Current User installations   
+    * Check syntax as you type and syntax hints (IDE option)   
+    * Tab indents and Shift-Tab unindents (Editor Options - Tab Indents)   
+    * Editor Zoom in/out with keyboard Alt+- and Ctrl+mouse wheel   
+    * Improved Debugger hints and completion in the interpreter       
+    * work with expressions e.g. sys.path[1].     
+    * for debugger expression hints place the cursor on ')' or ']'   
+    * Improved activation of code/debugger hints   
+    * IDE options to Clean up Interpreter namespace and sys.modules after run   
+    * File Open can open multiple files   * Syntax highlighting scheme selection from the menu   
+    * File filters for HTML, XML and CSS files can be customized   
+    * Option to disable gutter Gradient (Editor Options - Gutter Gradient)   
+    * Option to disable theming of text selection (Editor Options - theme selection)   
+    * Option to hide the executable line marks   
+    * Active Line Color Editor option added. Set to None to use default background   
+    * Files submenu in Tabs popup for easy open file selection   
+    * Add Watch at Cursor added to the Run menu and the Waches Window popup menu   
+    * Pop up menu added to the External Process indicator to allow easy termination of such processes   
+    * If the Ini file exists in PyScripter directory it is used in preference to the User Directory in order to allow USB storage installations   
+    * Editor options for each open file are persisted   
+    * Auto close brackets in the editor   
+    * Improved speed of painting the Interpreter window   
+    * Interactive Interpreter Pop up menu with separately persisted Editor Options   
+    * Toggle comment (Ctrl+^) in addition to comment/uncomment    
+    * File Explorer improvements (Favourites, Create New Folder)   
+    * File Templates   
+    * Windows Explorer file association (installation and IDE option)   
+    * Command line history   
+    * Color coding of new and changed variables in the Variables Window
+  * *Bug fixes*     
+    * Gutter glyphs painted when gutter is invisible   
+    * Sticky bracket highlighting in the interpreter window   
+    * Selecting lines by dragging mouse in the gutter sets breakpoint   
+    * Speed improvements and bugfixes related to layouts   
+    * Error in Variable Windows when showing dictionaries with non string keys   
+    * File notification error for Novel network disks   
+    * Wrong line number in External Run traceback message   
+    * No horizontal scroll in output window   
+    * Code completion Error with packages containing module with the same name   
+    * Problem with sys.stdin.readline() and partial line output (stdout) statements   
+    * Infinite loop when root of package is the top directory of a drive
+    
+ _*Version 1.5.1 (Mar 14, 2006)
+  * *New features:*     
+    * Unit test integration (Automatic generation of tests, and testing GUI)   
+    * Added highlighting of HTML, XML and CSS files   
+    * Command line parameters for scripts run internally or debugged   
+    * IDE shortcut customization   
+    * Conditional breakpoints   
+    * Persistence of breakpoints, watches, bookmarks and file positions   
+    * Save and restore IDE windows layouts   
+    * Generate stack information when untrapped exceptions occur and give users the option to mail the generated report   
+    * Running scripts does not polute the namespace of PyScripter   
+    * Names in variables window are now sorted   
+    * Allow only a single Instance of Pyscripter and open command line files of additional invocations at new tabs   
+    * Interpreter window is now searchable   
+    * Added option to File Explorer to browse the directory of the Active script   
+    * New distinctive application icon thanks to Frank Mersmann and and Tobias Hartwich   
+    * File Explorer autorefreshes   
+    * Improved bracket highlighting   
+    * User customization (PyScripter.ini) is now stored in the user's Application Data direcrory to support network installations(breaking change). To restore old settings copy the ini file to the new location.
+  * *Bug fixes*     
+    * Resolved problems with dropping files from File Explorer   
+    * Restore open files options not taken into account   
+    * Resolved problems with long Environment variables in Tools Configure   
+    * Resolved problems with help files   
+    * Reduced problems with running wxPython scripts   
+    * Changing the Python Open dialog filter did not affect syntax highlighting   
+    * CodeExplorer slow when InitiallyExpanded is set   
+    * Help related issues   
+    * Other fixes
+    
+ _*Version 1.3 (Dec 18, 2005)*_
+ 
+  * *New features:*     
+    * Code completion in the editor (Press Ctrl+Space while or before typing a name)   
+    * Parameter completion in the editor (Press Shift+Ctrl+Space)   
+    * Find definition and find references independent of BicycleRepairMan much faster and arguably better   
+    * Find definition by clicking works for imported modules and names   
+    * A new feature-rich Python code parser was developed for implementing the above   
+    * Improved the Variable Window (shows interpreter globals when not debugging and Doc strings)   
+    * Improved code and parameter completion in the interactive interpreter   
+    * Integrated regular expression tester   
+    * Code and debugger hints   
+    * Set the current directory to the path of the running script   
+    * Added IDE option MaskFUPExceptions for resolving problems in importing Scipy   
+    * Tested with FastMM4 for memory leaks etc. and fixed a couple of related bugs   
+    * Bug fixes and other improvements
+    
+ _*Version 1.2 (Aug 28, 2005)*_
+  * *New features:*     
+    * Extended code editor:        
+      * Context sensitive help on Python keywords     
+      * Parameterized Code Templates (Ctrl-J)     
+      * Accept files dropped from Explorer     
+      * File change notification     
+      * Detecting loading/saving UTF-8 encoded files      
+      * Converting line breaks (Windows, Unix, Mac)   
+    * Editor Views        
+      * Disassembly     
+      * HTML Documentation (pydoc)   
+      * To Do List   
+      * Find and Replace in Files   
+      * Parameterized Code Templates   
+      * Choice of Python version to run via command line parameters   
+      * Run Python Script externally (highly configurable)   
+      * External Tools (External run and capture output)        
+      * Integration with Python tools such as PyLint, TabNanny, Profile etc.     
+      * Powerful parameter functionality for external tool integration   
+      * Find Procedure   
+      * Find Definition/Find references using [http://bicyclerepair.sourceforge.net/ BicycleRepairMan]   
+      * Find definition by clicking and browsing history   
+      * Modern GUI with docked forms and configurable look&feel (themes)
+      
+ _*Version 1.7.2 1.0 (Apr 13, 2005)*_
+  * Initial release
+
