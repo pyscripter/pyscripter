@@ -2,7 +2,7 @@
 
 = History =
 
- _*Version 1.7.2 (Oct 26, 2006)*_ 
+===Version 1.7.2 (Oct 26, 2006)=== 
  
   * *New features:*     
     * Store toolbar positions   
@@ -16,15 +16,16 @@
     * Unit Testing broken (regression)   
     * Gap in the default tool bar (Issue #3)
 
- _*Version 1.7.1 (Oct 15, 2006)*_ 
+===Version 1.7.1 (Oct 15, 2006)=== 
 
   * *New features:*     
     * Repeat scrolling of editor tabs   
     * Massively improved start up time   
-    * Faster Python source file scanning*Bug fixes*     
+    * Faster Python source file scanning
+  * *Bug fixes*     
     * Infinite loop with cyclical Python imports
 
- _*Version 1.7 (Oct 14, 2006)*_
+===Version 1.7 (Oct 14, 2006)===
   * *New features:*     
     * Unicode based editor and interactive interpreter    
     * Full support for Python source file encodings   
@@ -70,7 +71,7 @@
     * Problem with sys.stdin.readline() and partial line output (stdout) statements   
     * Infinite loop when root of package is the top directory of a drive
     
- _*Version 1.5.1 (Mar 14, 2006)
+ ==Version 1.5.1 (Mar 14, 2006)
   * *New features:*     
     * Unit test integration (Automatic generation of tests, and testing GUI)   
     * Added highlighting of HTML, XML and CSS files   
@@ -100,7 +101,7 @@
     * Help related issues   
     * Other fixes
     
- _*Version 1.3 (Dec 18, 2005)*_
+===Version 1.3 (Dec 18, 2005)===
  
   * *New features:*     
     * Code completion in the editor (Press Ctrl+Space while or before typing a name)   
@@ -117,7 +118,7 @@
     * Tested with FastMM4 for memory leaks etc. and fixed a couple of related bugs   
     * Bug fixes and other improvements
     
- _*Version 1.2 (Aug 28, 2005)*_
+===Version 1.2 (Aug 28, 2005)===
   * *New features:*     
     * Extended code editor:        
       * Context sensitive help on Python keywords     
@@ -142,6 +143,6 @@
       * Find definition by clicking and browsing history   
       * Modern GUI with docked forms and configurable look&feel (themes)
       
- _*Version 1.7.2 1.0 (Apr 13, 2005)*_
+===Version 1.7.2 1.0 (Apr 13, 2005)===
   * Initial release
 
