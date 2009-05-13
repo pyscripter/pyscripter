@@ -38,7 +38,8 @@
     * for debugger expression hints place the cursor on ')' or ']'   
     * Improved activation of code/debugger hints   
     * IDE options to Clean up Interpreter namespace and sys.modules after run   
-    * File Open can open multiple files   * Syntax highlighting scheme selection from the menu   
+    * File Open can open multiple files   
+    * Syntax highlighting scheme selection from the menu   
     * File filters for HTML, XML and CSS files can be customized   
     * Option to disable gutter Gradient (Editor Options - Gutter Gradient)   
     * Option to disable theming of text selection (Editor Options - theme selection)   
@@ -71,7 +72,7 @@
     * Problem with sys.stdin.readline() and partial line output (stdout) statements   
     * Infinite loop when root of package is the top directory of a drive
     
- ==Version 1.5.1 (Mar 14, 2006)
+ ===Version 1.5.1 (Mar 14, 2006)===
   * *New features:*     
     * Unit test integration (Automatic generation of tests, and testing GUI)   
     * Added highlighting of HTML, XML and CSS files   
@@ -143,6 +144,6 @@
       * Find definition by clicking and browsing history   
       * Modern GUI with docked forms and configurable look&feel (themes)
       
-===Version 1.7.2 1.0 (Apr 13, 2005)===
+===Version 1.0 (Apr 13, 2005)===
   * Initial release
 
