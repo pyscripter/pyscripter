@@ -26,6 +26,7 @@
     * Infinite loop with cyclical Python imports
 
 ===Version 1.7 (Oct 14, 2006)===
+
   * *New features:*     
     * Unicode based editor and interactive interpreter    
     * Full support for Python source file encodings   
@@ -73,6 +74,7 @@
     * Infinite loop when root of package is the top directory of a drive
     
  ===Version 1.5.1 (Mar 14, 2006)===
+ 
   * *New features:*     
     * Unit test integration (Automatic generation of tests, and testing GUI)   
     * Added highlighting of HTML, XML and CSS files   
@@ -120,6 +122,7 @@
     * Bug fixes and other improvements
     
 ===Version 1.2 (Aug 28, 2005)===
+
   * *New features:*     
     * Extended code editor:        
       * Context sensitive help on Python keywords     
@@ -145,5 +148,6 @@
       * Modern GUI with docked forms and configurable look&feel (themes)
       
 ===Version 1.0 (Apr 13, 2005)===
+
   * Initial release
 
