@@ -101,7 +101,9 @@
     * Disassembly and Documentation views not working with remote engines
     * More robust "Reinitialize" of remote Python engines (Issues 143, 145)
     * Shift-Tab does not work well with the Trim Trailing Spaces editor option
-    * Issue #28, #32, 39, 40, 41, 46, 47, 48, 49, 52, 55, 56, 57, 65, 66, 67, 70, 71, 72, 74, 75, 76, 81, 82, 83, 86, 88, 90, 91, 92, 94, 96, 98, 99, 100, 102, 105, 106, 107, 109, 113, 117, 119, 120, 120, 122, 123, 125, 132, 134, 135, 136, 137, 138, 139, 140, 141, 146, 147, 150, 153, 155, 160, 164, 165, 166, 167, 168, 169, 171, 174, 178, 182, 186, 193, 195, 196, 197, 198, 201, 202, 204, 206, 208, 212, 219, 226, 228, 229, 234, 235, 237, 253, 261 fixed===Version 1.7.2 (Oct 26, 2006)=== 
+    * Issue #28, Issue ##32, Issue #39, Issue #40, Issue #41, Issue #46, Issue #47, Issue #48, Issue #49, Issue #52, Issue #55, Issue #56, Issue #57, Issue #65, Issue #66, Issue #67, Issue #70, Issue #71, Issue #72, Issue #74, Issue #75, Issue #76, Issue #81, Issue #82, Issue #83, Issue #86, Issue #88, Issue #90, Issue #91, Issue #92, Issue #94, Issue #96, Issue #98, Issue #99, Issue #100, Issue #102, Issue #105, Issue #106, Issue #107, Issue #109, Issue #113, Issue #117, Issue #119, Issue #120, Issue #120, Issue #122, Issue #123, Issue #125, Issue #132, Issue #134, Issue #135, Issue #136, Issue #137, Issue #138, Issue #139, Issue #140, Issue #141, Issue #146, Issue #147, Issue #150, Issue #153, Issue #155, Issue #160, Issue #164, Issue #165, Issue #166, Issue #167, Issue #168, Issue #169, Issue #171, Issue #174, Issue #178, Issue #182, Issue #186, Issue #193, Issue #195, Issue #196, Issue #197, Issue #198, Issue #201, Issue #202, Issue #204, Issue #206, Issue #208, Issue #212, Issue #219, Issue #226, Issue #228, Issue #229, Issue #234, Issue #235, Issue #237, Issue #253, Issue #261 fixed
+    
+    ===Version 1.7.2 (Oct 26, 2006)=== 
  
   * *New features:*     
     * Store toolbar positions   
