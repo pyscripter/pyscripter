@@ -2,7 +2,7 @@
 
 <wiki:gadget url="http://pyscripter.googlecode.com/svn/wiki/adsense3.xml" border="0" width="468" height="60" />
 
-|| [http://pyscripter.googlecode.com/svn/wiki/screenshot1.png http://pyscripter.googlecode.com/svn/wiki/screenshot-Thumb1.png] || [http://pyscripter.googlecode.com/svn/wiki/screenshot2.png http://pyscripter.googlecode.com/svn/wiki/screenshot-Thumb2.png] ||
+|| [Screenshot1 http://pyscripter.googlecode.com/svn/wiki/screenshot-Thumb1.png] || [http://pyscripter.googlecode.com/svn/wiki/screenshot2.png http://pyscripter.googlecode.com/svn/wiki/screenshot-Thumb2.png] ||
 || [http://pyscripter.googlecode.com/svn/wiki/screenshot3.png http://pyscripter.googlecode.com/svn/wiki/screenshot-Thumb3.png] || [http://pyscripter.googlecode.com/svn/wiki/screenshot4.png http://pyscripter.googlecode.com/svn/wiki/screenshot-Thumb4.png] ||
 || [http://pyscripter.googlecode.com/svn/wiki/screenshot5.png http://pyscripter.googlecode.com/svn/wiki/screenshot-Thumb5.png] || [http://pyscripter.googlecode.com/svn/wiki/screenshot6.png http://pyscripter.googlecode.com/svn/wiki/screenshot-Thumb6.png] ||
 || [http://pyscripter.googlecode.com/svn/wiki/screenshot7.png http://pyscripter.googlecode.com/svn/wiki/screenshot-Thumb8.png] || [http://pyscripter.googlecode.com/svn/wiki/screenshot8.png http://pyscripter.googlecode.com/svn/wiki/screenshot-Thumb8.png] ||
