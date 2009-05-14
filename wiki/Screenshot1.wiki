@@ -1,6 +1,5 @@
 #summary Main PyScripter window
 
-http://pyscripter.googlecode.com/svn/wiki/screenshot3.png
-
+http://pyscripter.googlecode.com/svn/wiki/screenshot1.png
 
 <wiki:gadget url="http://pyscripter.googlecode.com/svn/wiki/adsense3.xml" border="0" width="468" height="60" />
