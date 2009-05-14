@@ -4,5 +4,5 @@
 
 || [http://code.google.com/p/pyscripter/wiki/Screenshot1 http://pyscripter.googlecode.com/svn/wiki/screenshot-Thumb1.png]|| [http://code.google.com/p/pyscripter/wiki/Screenshot2 http://pyscripter.googlecode.com/svn/wiki/screenshot-Thumb2.png] ||
 || [http://code.google.com/p/pyscripter/wiki/Screenshot3 http://pyscripter.googlecode.com/svn/wiki/screenshot-Thumb3.png]|| [http://code.google.com/p/pyscripter/wiki/Screenshot4 http://pyscripter.googlecode.com/svn/wiki/screenshot-Thumb4.png] ||
-|| [http://code.google.com/p/pyscripter/wiki/Screenshot6 http://pyscripter.googlecode.com/svn/wiki/screenshot-Thumb5.png]|| [http://code.google.com/p/pyscripter/wiki/Screenshot6 http://pyscripter.googlecode.com/svn/wiki/screenshot-Thumb6.png] ||
+|| [http://code.google.com/p/pyscripter/wiki/Screenshot5 http://pyscripter.googlecode.com/svn/wiki/screenshot-Thumb5.png]|| [http://code.google.com/p/pyscripter/wiki/Screenshot6 http://pyscripter.googlecode.com/svn/wiki/screenshot-Thumb6.png] ||
 || [http://code.google.com/p/pyscripter/wiki/Screenshot7 http://pyscripter.googlecode.com/svn/wiki/screenshot-Thumb7.png]|| [http://code.google.com/p/pyscripter/wiki/Screenshot8 http://pyscripter.googlecode.com/svn/wiki/screenshot-Thumb8.png] ||

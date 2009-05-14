@@ -1,13 +1,5 @@
-#summary One-sentence summary of this page.
+#summary Documentation View
 
-= Introduction =
+http://pyscripter.googlecode.com/svn/wiki/screenshot3.png
 
-Add your content here.
-
-
-= Details =
-
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+<wiki:gadget url="http://pyscripter.googlecode.com/svn/wiki/adsense3.xml" border="0" width="468" height="60" />
