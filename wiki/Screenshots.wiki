@@ -3,8 +3,7 @@
 <wiki:gadget url="http://pyscripter.googlecode.com/svn/wiki/adsense3.xml" border="0" width="468" height="60" />
 
 <hr>
-<a hfef="Screenshot1">Screenshot1</a>
-<img scr=http://pyscripter.googlecode.com/svn/wiki/screenshot-Thumb1.png>
+<a href="http://pyscripter.googlecode.com/svn/wiki/screenshot1.png" target="_top">http://pyscripter.googlecode.com/svn/wiki/screenshot-Thumb1.png</a>
 <hr>
 
 || [Screenshot1 Main Window] || [Screenshot2, Dissassembl View] ||
