@@ -66,8 +66,8 @@ var
 
 implementation
 
-uses frmPyIDEMain, PythonEngine, dmCommands, 
-  Clipbrd, JvDockGlobals, StringResources, gnugettext;
+uses frmPyIDEMain, dmCommands, 
+  Clipbrd, JvDockGlobals, StringResources, gnugettext, uCommonFunctions;
 
 
 {$R *.dfm}
@@ -189,7 +189,7 @@ end;
 procedure TWatchesWindow.FormActivate(Sender: TObject);
 begin
   inherited;
-  if WatchesView.CanFocus then
+  if CanActuallyFocus(WatchesView) then
     WatchesView.SetFocus;
   //PostMessage(WatchesView.Handle, WM_SETFOCUS, 0, 0);
 end;

@@ -40,7 +40,7 @@ type
 
 implementation
 
-uses VarPyth, dmCommands, 
+uses dmCommands, 
   JvJVCLUtils, cPyBaseDebugger, gnugettext, StringResources;
 
 {$R *.dfm}

@@ -61,9 +61,9 @@ var
 
 implementation
 
-uses frmPyIDEMain, frmCallStack, PythonEngine, VarPyth,
+uses frmCallStack, PythonEngine, 
   dmCommands, uCommonFunctions, JclFileUtils, StringResources, 
-  JvDockGlobals, JvJVCLUtils, Math, gnugettext;
+  JvJVCLUtils, Math, gnugettext;
 
 {$R *.dfm}
 Type
@@ -381,7 +381,7 @@ end;
 procedure TVariablesWindow.FormActivate(Sender: TObject);
 begin
   inherited;
-  if VariablesTree.CanFocus then
+  if CanActuallyFocus(VariablesTree) then
     VariablesTree.SetFocus;
   //PostMessage(VariablesTree.Handle, WM_SETFOCUS, 0, 0);
 end;

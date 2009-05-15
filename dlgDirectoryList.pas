@@ -54,7 +54,7 @@ function EditFolderList(Folders: TWideStrings; FormCaption : WideString = 'Direc
 implementation
 
 uses
-  JvJCLUtils, JvConsts, JVBoxProcs,
+  JVBoxProcs,
   dmCommands, Math;
 
 {$R *.dfm}

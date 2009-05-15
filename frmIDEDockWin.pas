@@ -13,7 +13,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, JvDockControlForm, ExtCtrls, SpTBXSkins,
-  JvComponentBase, SpTBXItem, SpTBXControls;
+  JvComponentBase, SpTBXItem;
 
 type
   TIDEDockWindow = class(TForm)
@@ -41,7 +41,7 @@ var
 
 implementation
 
-uses frmPyIDEMain, uCommonFunctions, JvDockGlobals;
+uses frmPyIDEMain, uCommonFunctions;
 
 {$R *.dfm}
 

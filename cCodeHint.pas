@@ -99,8 +99,7 @@ var
 
 implementation
 
-uses
-  JvResources;
+
 
 //=== { TCodeHint } ============================================================
 

@@ -65,11 +65,7 @@ inherited MessagesWindow: TMessagesWindow
       BevelOuter = bvNone
       BorderStyle = bsNone
       Header.AutoSizeIndex = 0
-      Header.Font.Charset = DEFAULT_CHARSET
-      Header.Font.Color = clWindowText
-      Header.Font.Height = -11
-      Header.Font.Name = 'MS Shell Dlg 2'
-      Header.Font.Style = []
+      Header.DefaultHeight = 17
       Header.Options = [hoAutoResize, hoColumnResize, hoDblClickResize, hoHotTrack, hoOwnerDraw, hoVisible]
       Header.ParentFont = True
       HintMode = hmTooltip

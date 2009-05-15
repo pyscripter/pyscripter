@@ -55,15 +55,14 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
   inherited FGPanel: TPanel
     Width = 308
     Height = 486
-    ExplicitWidth = 532
-    ExplicitHeight = 455
+    ExplicitWidth = 308
+    ExplicitHeight = 486
     object TBXDock: TSpTBXDock
       Left = 0
       Top = 0
       Width = 308
       Height = 26
       AllowDrag = False
-      ExplicitWidth = 532
       object RegExpTesterToolbar: TSpTBXToolbar
         Left = 0
         Top = 0
@@ -176,8 +175,6 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
       Width = 308
       Height = 434
       Position = dpxClient
-      ExplicitWidth = 402
-      ExplicitHeight = 352
       object dpRegExpText: TSpTBXDockablePanel
         Left = 0
         Top = 0
@@ -205,8 +202,6 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
           Wrapping = twEndEllipsis
           Underline = True
           UnderlineColor = clBlue
-          ExplicitTop = 10
-          ExplicitWidth = 528
         end
         object SpTBXPanel1: TSpTBXPanel
           Left = 0
@@ -217,9 +212,6 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
           Align = alClient
           TabOrder = 2
           HotTrack = True
-          ExplicitTop = 30
-          ExplicitWidth = 528
-          ExplicitHeight = 40
           object RegExpText: TTntRichEdit
             Left = 2
             Top = 2
@@ -233,8 +225,6 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
             ScrollBars = ssBoth
             TabOrder = 0
             OnChange = RegExpTextChange
-            ExplicitWidth = 524
-            ExplicitHeight = 36
           end
         end
       end
@@ -248,7 +238,7 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
         TabOrder = 3
         object TBXLabel1: TSpTBXLabel
           Left = 0
-          Top = 19
+          Top = 10
           Width = 304
           Height = 20
           Caption = 'Groups:'
@@ -262,26 +252,20 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
           Wrapping = twEndEllipsis
           Underline = True
           UnderlineColor = clBlue
-          ExplicitTop = 10
-          ExplicitWidth = 536
         end
         object GroupsView: TVirtualStringTree
           Left = 0
-          Top = 39
+          Top = 30
           Width = 304
-          Height = 100
+          Height = 109
           Align = alClient
           BevelEdges = []
           BevelInner = bvNone
           BevelOuter = bvNone
           BorderStyle = bsNone
           Header.AutoSizeIndex = 2
-          Header.Font.Charset = DEFAULT_CHARSET
-          Header.Font.Color = clWindowText
-          Header.Font.Height = -11
-          Header.Font.Name = 'MS Shell Dlg 2'
-          Header.Font.Style = []
-          Header.Options = [hoAutoResize, hoColumnResize, hoDrag, hoOwnerDraw, hoVisible]
+          Header.DefaultHeight = 17
+          Header.Options = [hoAutoResize, hoColumnResize, hoOwnerDraw, hoVisible]
           Header.ParentFont = True
           HintMode = hmTooltip
           TabOrder = 1
@@ -289,9 +273,6 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
           TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowDropmark, toShowHorzGridLines, toShowVertGridLines, toThemeAware, toUseBlendedImages, toUseBlendedSelection]
           TreeOptions.StringOptions = [toAutoAcceptEditChange]
           OnGetText = GroupsViewGetText
-          ExplicitTop = 30
-          ExplicitWidth = 536
-          ExplicitHeight = 107
           Columns = <
             item
               Alignment = taRightJustify
@@ -342,8 +323,6 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
           Wrapping = twEndEllipsis
           Underline = True
           UnderlineColor = clBlue
-          ExplicitTop = 10
-          ExplicitWidth = 536
         end
         object SpTBXPanel3: TSpTBXPanel
           Left = 0
@@ -354,9 +333,6 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
           Align = alClient
           TabOrder = 2
           HotTrack = True
-          ExplicitTop = 30
-          ExplicitWidth = 536
-          ExplicitHeight = 77
           object MatchText: TTntRichEdit
             Left = 2
             Top = 2
@@ -369,8 +345,6 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
             PlainText = True
             ScrollBars = ssBoth
             TabOrder = 0
-            ExplicitWidth = 532
-            ExplicitHeight = 73
           end
         end
       end
@@ -400,8 +374,6 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
           Wrapping = twEndEllipsis
           Underline = True
           UnderlineColor = clBlue
-          ExplicitTop = 10
-          ExplicitWidth = 536
         end
         object SpTBXPanel2: TSpTBXPanel
           Left = 0
@@ -412,9 +384,6 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
           Align = alClient
           TabOrder = 2
           HotTrack = True
-          ExplicitTop = 30
-          ExplicitWidth = 536
-          ExplicitHeight = 43
           object SearchText: TTntRichEdit
             Left = 2
             Top = 2
@@ -428,8 +397,6 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
             ScrollBars = ssBoth
             TabOrder = 0
             OnChange = RegExpTextChange
-            ExplicitWidth = 532
-            ExplicitHeight = 39
           end
         end
       end
@@ -441,8 +408,6 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
       Height = 26
       Images = CommandsDataModule.Images
       SizeGrip = False
-      ExplicitTop = 429
-      ExplicitWidth = 532
       object lbStatusBar: TSpTBXLabelItem
         Caption = 'Not executed'
         ImageIndex = 21

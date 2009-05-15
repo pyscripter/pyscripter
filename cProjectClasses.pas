@@ -152,7 +152,7 @@ Var
 implementation
 
 uses
-  cParameters, Forms, TntSysUtils, MPCommonUtilities, uCommonFunctions;
+  cParameters, MPCommonUtilities, uCommonFunctions;
 
 { TAbstractProjectNode }
 

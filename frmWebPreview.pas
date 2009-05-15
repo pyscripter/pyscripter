@@ -65,8 +65,8 @@ type
 implementation
 
 uses
-  VarPyth, JclFileUtils, JclStrings, frmEditor, dmCommands,
-  cPyBaseDebugger, MSHTML, gnugettext,
+  dmCommands,
+  MSHTML, gnugettext,
   StringResources;
 
 {$R *.dfm}

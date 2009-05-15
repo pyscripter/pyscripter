@@ -2784,10 +2784,6 @@ begin
     if TabControl.ActivePage.ControlCount > 0 then
     begin
       EditorForm := TabControl.ActivePage.Controls[0] as TEditorForm;
-      //TODO: Consider removing the lines below
-//      WinControl := EditorForm.ViewsTabControl.ActivePage.Controls[0] as TWinControl;
-//      if WinControl.Visible and WinControl.CanFocus then
-//        ActiveControl := WinControl;
       // Code hint stuff
       EditorForm.SetUpCodeHints;
     end;
@@ -3075,11 +3071,18 @@ begin
     SkinManager.BroadcastSkinNotification;
   end;
   if CurrentSkin.Options(skncListItem, sknsCheckedAndHotTrack).IsEmpty or CurrentSkin.Options(skncListItem, sknsChecked).IsEmpty
-  then begin
-    if CurrentSkin.Options(skncListItem, sknsCheckedAndHotTrack).IsEmpty then
-      CurrentSkin.Options(skncListItem, sknsCheckedAndHotTrack).Assign(CurrentSkin.Options(skncToolbarItem, sknsCheckedAndHotTrack));
-    if CurrentSkin.Options(skncListItem, sknsChecked).IsEmpty then
-      CurrentSkin.Options(skncListItem, sknsChecked).Assign(CurrentSkin.Options(skncToolbarItem, sknsChecked));
+  then with CurrentSkin do begin
+    if CurrentSkin.Options(skncListItem, sknsCheckedAndHotTrack).IsEmpty then begin
+      Options(skncListItem, sknsCheckedAndHotTrack).Assign(Options(skncListItem, sknsHotTrack));
+      Options(skncListItem, sknsCheckedAndHotTrack).Body.Lighten(-20);
+      Options(skncListItem, sknsCheckedAndHotTrack).Borders.Lighten(-20);
+    end;
+    if CurrentSkin.Options(skncListItem, sknsChecked).IsEmpty then begin
+      CurrentSkin.Options(skncListItem, sknsChecked).Assign(CurrentSkin.Options(skncListItem, sknsHotTrack));
+    end;
+    Options(skncListItem, sknsHotTrack).Body.Lighten(20);
+    Options(skncListItem, sknsHotTrack).Borders.Lighten(20);
+
     SkinManager.BroadcastSkinNotification;
   end;
 end;

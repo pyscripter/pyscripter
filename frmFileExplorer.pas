@@ -15,7 +15,7 @@ uses
   Dialogs, ExtCtrls, JvDockControlForm, VirtualTrees,
   MPShellUtilities, VirtualExplorerTree, Menus, frmIDEDockWin,
   ActnList, VirtualShellHistory,  TB2Item, TB2Dock,
-  TB2Toolbar, JvComponentBase, VirtualShellNotifier, SpTBXItem, TntActnList,
+  TB2Toolbar, JvComponentBase, SpTBXItem, TntActnList,
   SpTBXSkins;
                                                       
 const
@@ -138,8 +138,8 @@ var
 
 implementation
 
-uses frmPyIDEMain, uEditAppIntfs, dmCommands, VarPyth, SHlObj,
-  frmFindResults, JvDockGlobals, MpCommonUtilities,
+uses frmPyIDEMain, uEditAppIntfs, dmCommands, SHlObj,
+  frmFindResults, 
   MPCommonObjects, dlgDirectoryList, StringResources, cPyBaseDebugger,
   cFindInFiles, gnugettext, WideStrings;
 

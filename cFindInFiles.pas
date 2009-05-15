@@ -238,8 +238,8 @@ procedure AddMRUString(Text: WideString; List: TWideStrings; DeleteTrailingDelim
 implementation
 
 uses
-  SysUtils, Forms, uEditAppIntfs, Dialogs,
-  JclFileUtils, VarPyth, frmPyIDEMain,
+  SysUtils, Forms, uEditAppIntfs, 
+  VarPyth, frmPyIDEMain,
   dlgFindResultsOptions, Controls, uCommonFunctions, cProjectClasses,
   TntSysUtils, VirtualFileSearch, MPCommonUtilities, 
   dmCommands, cParameters;

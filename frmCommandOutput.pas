@@ -84,10 +84,10 @@ var
 
 implementation
 
-uses dmCommands, cParameters, Clipbrd,
-  SynEdit, frmPyIDEMain, frmMessages, JclFileUtils, JclStrings,
-  uCommonFunctions, JvDockGlobals, Math, StringResources, gnugettext,
-  TntDialogs, TntSysUtils, MPCommonUtilities;
+uses dmCommands, Clipbrd,
+  SynEdit, frmPyIDEMain, frmMessages, JclStrings,
+  uCommonFunctions, Math, StringResources, gnugettext,
+  TntDialogs, MPCommonUtilities;
 
 {$R *.dfm}
 
@@ -363,6 +363,12 @@ const
   SwCmds: array[Boolean] of Integer = (SW_SHOWNORMAL, SW_HIDE);
 
 begin
+  // Check whether a process is still running
+  if jvCreateProcess.State <> psReady then begin
+    WideMessageDlg(_(SProcessRunning), mtError, [mbOK], 0);
+    Exit;
+  end;
+
   fTool.Assign(Tool);
   AppName := AddQuotesUnless(PrepareCommandLine(Tool.ApplicationName));
   Arguments := PrepareCommandLine(Tool.Parameters);
@@ -373,18 +379,12 @@ begin
     Exit;
   end;
 
- if Tool.CaptureOutput or Tool.WaitForTerminate or
-    (Tool.ProcessInput <> piNone) or (Tool.ProcessOutput <> poNone) or
-    Tool.ParseMessages or Tool.ParseTraceback
- then begin
+  if Tool.CaptureOutput or Tool.WaitForTerminate or
+     (Tool.ProcessInput <> piNone) or (Tool.ProcessOutput <> poNone) or
+     Tool.ParseMessages or Tool.ParseTraceback
+  then begin
     // In all the above case we need to wait for termination
     JvCreateProcess.WaitForTerminate := True;
-
-    // Check whether a process is still running
-    if jvCreateProcess.State <> psReady then begin
-      WideMessageDlg(_(SProcessRunning), mtError, [mbOK], 0);
-      Exit;
-    end;
 
     // Check / do Save all files.
     case Tool.SaveFiles of

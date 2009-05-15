@@ -5,7 +5,6 @@ inherited OptionsInspector: TOptionsInspector
   ClientHeight = 349
   ClientWidth = 508
   Font.Name = 'MS Shell Dlg 2'
-  Position = poMainFormCenter
   OnDestroy = FormDestroy
   ExplicitWidth = 514
   ExplicitHeight = 375
@@ -32,7 +31,7 @@ inherited OptionsInspector: TOptionsInspector
       BevelInner = bvRaised
       BevelOuter = bvRaised
       RelativeDivider = True
-      Divider = 55
+      Divider = 54
       ItemHeight = 16
       TabStop = True
       TabOrder = 0

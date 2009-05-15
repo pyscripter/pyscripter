@@ -9,7 +9,6 @@ inherited DirectoryListDialog: TDirectoryListDialog
   Constraints.MinWidth = 358
   Font.Name = 'MS Shell Dlg 2'
   OldCreateOrder = True
-  Position = poMainFormCenter
   OnShow = FormShow
   ExplicitWidth = 395
   ExplicitHeight = 378

@@ -40,7 +40,7 @@ unit dlgAskParam;
 interface
 
 uses
-  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, 
   StdCtrls, SpTBXControls, dlgPyIDEBase, SpTBXEditors, SpTBXItem;
 
 type

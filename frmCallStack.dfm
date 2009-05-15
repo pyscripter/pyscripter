@@ -62,11 +62,7 @@ inherited CallStackWindow: TCallStackWindow
       BevelOuter = bvNone
       BorderStyle = bsNone
       Header.AutoSizeIndex = 1
-      Header.Font.Charset = DEFAULT_CHARSET
-      Header.Font.Color = clWindowText
-      Header.Font.Height = -11
-      Header.Font.Name = 'MS Shell Dlg 2'
-      Header.Font.Style = []
+      Header.DefaultHeight = 17
       Header.MainColumn = 1
       Header.Options = [hoAutoResize, hoColumnResize, hoDblClickResize, hoHotTrack, hoOwnerDraw, hoVisible]
       Header.ParentFont = True
