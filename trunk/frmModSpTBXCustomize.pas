@@ -4,9 +4,9 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, SpTBXCustomizer, SpTBXCustomizerForm, CheckLst, TntCheckLst, SpTBXEditors,
-  SpTBXControls, StdCtrls, TntStdCtrls, ComCtrls, ExtCtrls,
-  SpTBXTabs, TB2Item, SpTBXItem, TntClasses, SpTBXSkins;
+  Dialogs, SpTBXCustomizer, SpTBXCustomizerForm, CheckLst, SpTBXEditors,
+  SpTBXControls, StdCtrls, ComCtrls, ExtCtrls,
+  TB2Item, SpTBXItem, TntClasses, SpTBXSkins;
 
 type
   TSpTBXCustomizeFormMod = class(TSpTBXCustomizeForm)

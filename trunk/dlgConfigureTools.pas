@@ -47,7 +47,7 @@ function ConfigureTools(Tools : TCollection): Boolean;
 implementation
 
 uses
-  JvJCLUtils, JvConsts, JVBoxProcs, cTools, dlgToolProperties,
+  JVBoxProcs, cTools, dlgToolProperties,
   Math;
 
 {$R *.dfm}

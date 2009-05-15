@@ -103,8 +103,8 @@ type
 implementation
 
 uses
-  Windows, uEditAppIntfs, Dialogs, StringResources,
-  TntSysUtils, TntClasses, uCommonFunctions, WideStrUtils, gnugettext;
+  Windows, uEditAppIntfs, StringResources,
+  TntSysUtils, uCommonFunctions, WideStrUtils, gnugettext;
 
 const
   SearchLineSize = 1024;

@@ -206,8 +206,8 @@ var
 
 implementation
 
-uses frmPyIDEMain, dmCommands, uEditAppIntfs, SynEdit, SynRegExpr,
-  SynEditTypes, JclFileUtils, JvDockGlobals;
+uses frmPyIDEMain, dmCommands, uEditAppIntfs, SynEdit, 
+  SynEditTypes, JclFileUtils;
 
 {$R *.dfm}
 

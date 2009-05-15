@@ -8,7 +8,6 @@ inherited ConfigureTools: TConfigureTools
   ClientWidth = 301
   Font.Name = 'MS Shell Dlg 2'
   OldCreateOrder = True
-  Position = poMainFormCenter
   OnDestroy = FormDestroy
   OnShow = FormShow
   ExplicitWidth = 307

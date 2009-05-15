@@ -20,7 +20,7 @@ var
 
 implementation
 
-uses gnugettext, uCommonFunctions;
+uses gnugettext;
 
 {$R *.dfm}
 

@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, SynEdit, Buttons, TB2Item, 
+  SynEdit, Buttons, TB2Item, 
   Menus, SpTBXControls, SpTBXItem, dlgPyIDEBase, SpTBXMDIMRU;
 
 type

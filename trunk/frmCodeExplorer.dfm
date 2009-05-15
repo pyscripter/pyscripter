@@ -55,6 +55,7 @@ inherited CodeExplorerWindow: TCodeExplorerWindow
         Align = alClient
         BorderStyle = bsNone
         Header.AutoSizeIndex = -1
+        Header.DefaultHeight = 17
         Header.Font.Charset = DEFAULT_CHARSET
         Header.Font.Color = clWindowText
         Header.Font.Height = -11

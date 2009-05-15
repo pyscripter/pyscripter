@@ -319,8 +319,8 @@ const
 
 implementation
 
-uses dmCommands, frmPythonII, VarPyth, frmMessages, frmPyIDEMain,
-  JclFileUtils, Dialogs, uCommonFunctions,
+uses dmCommands, frmPythonII, frmMessages, frmPyIDEMain,
+  uCommonFunctions,
   cParameters, StringResources, cPyDebugger,
   frmCommandOutput, gnugettext, TntSysUtils, cProjectClasses;
 

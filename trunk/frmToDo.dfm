@@ -83,12 +83,12 @@ inherited ToDoWindow: TToDoWindow
   inherited FGPanel: TPanel
     Width = 488
     Height = 289
-    ExplicitWidth = 486
-    ExplicitHeight = 287
+    ExplicitWidth = 488
+    ExplicitHeight = 289
     object TBXDock1: TSpTBXDock
       Left = 0
       Top = 0
-      Width = 486
+      Width = 488
       Height = 26
       AllowDrag = False
       object Toolbar: TSpTBXToolbar
@@ -130,21 +130,22 @@ inherited ToDoWindow: TToDoWindow
     object ToDoView: TVirtualStringTree
       Left = 0
       Top = 26
-      Width = 486
-      Height = 261
+      Width = 488
+      Height = 263
       Align = alClient
       Alignment = taRightJustify
       BevelInner = bvNone
       BevelOuter = bvNone
       BorderStyle = bsNone
       Header.AutoSizeIndex = 1
+      Header.DefaultHeight = 17
       Header.Font.Charset = DEFAULT_CHARSET
       Header.Font.Color = clWindowText
       Header.Font.Height = -11
       Header.Font.Name = 'MS Shell Dlg 2'
       Header.Font.Style = []
       Header.MainColumn = 1
-      Header.Options = [hoAutoResize, hoColumnResize, hoDrag, hoHotTrack, hoOwnerDraw, hoShowSortGlyphs, hoVisible]
+      Header.Options = [hoAutoResize, hoColumnResize, hoHotTrack, hoOwnerDraw, hoShowSortGlyphs, hoVisible]
       HintMode = hmTooltip
       Images = ilTodo
       PopupMenu = PopupMenu
@@ -179,7 +180,7 @@ inherited ToDoWindow: TToDoWindow
           Layout = blGlyphRight
           MinWidth = 100
           Position = 1
-          Width = 201
+          Width = 203
           WideText = 'Description'
         end
         item

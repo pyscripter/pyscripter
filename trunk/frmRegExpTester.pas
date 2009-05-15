@@ -83,7 +83,7 @@ var
 
 implementation
 
-uses dmCommands, frmPyIDEMain, VarPyth, frmPythonII,
+uses dmCommands, VarPyth, frmPythonII,
   PythonEngine;
 
 {$R *.dfm}

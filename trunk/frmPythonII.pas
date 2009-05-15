@@ -23,8 +23,8 @@ uses
   Dialogs , Menus, PythonEngine, SyncObjs, SynHighlighterPython,
   SynEditHighlighter, SynEdit,
   SynEditKeyCmds, SynCompletionProposal, JvDockControlForm,
-  frmIDEDockWin, ExtCtrls, PythonGUIInputOutput, JvComponentBase,
-  WideStrings, TB2Item, ActnList, cPyBaseDebugger, WrapDelphi, WrapDelphiClasses,
+  frmIDEDockWin, ExtCtrls, JvComponentBase,
+  WideStrings, TB2Item, ActnList, cPyBaseDebugger, WrapDelphi, 
   SpTBXItem, TntActnList, SpTBXSkins, uEditAppIntfs;
 
 const
@@ -1509,7 +1509,7 @@ end;
 procedure TPythonIIForm.FormActivate(Sender: TObject);
 begin
   inherited;
-  if Synedit.CanFocus then
+  if CanActuallyFocus(Synedit) then
     SynEdit.SetFocus;
 end;
 

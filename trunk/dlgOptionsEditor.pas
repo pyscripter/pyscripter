@@ -13,7 +13,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, Buttons, JvInspector, JvExControls,
-  ExtCtrls, JvComponentBase, SpTBXControls, dlgPyIDEBase, SpTBXItem;
+  SpTBXControls, dlgPyIDEBase, SpTBXItem;
 
 type
 

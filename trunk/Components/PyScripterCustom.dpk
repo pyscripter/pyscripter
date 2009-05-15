@@ -2,7 +2,6 @@ package PyScripterCustom;
 
 {$R *.res}
 {$R 'JvDockVSNetStyleSpTBX.dcr'}
-{$R 'SpTBXPageScroller.dcr'}
 {$ALIGN 8}
 {$ASSERTIONS ON}
 {$BOOLEVAL OFF}
@@ -45,7 +44,6 @@ requires
   dbrtl;
 
 contains
-  JvDockVSNetStyleSpTBX in 'JvDockVSNetStyleSpTBX.pas',
-  SpTBXPageScroller in 'SpTBXPageScroller.pas';
+  JvDockVSNetStyleSpTBX in 'JvDockVSNetStyleSpTBX.pas';
 
 end.

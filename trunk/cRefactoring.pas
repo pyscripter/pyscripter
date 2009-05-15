@@ -135,7 +135,7 @@ implementation
 
 uses
   frmPythonII, PythonEngine, VarPyth, dmCommands,
-  uEditAppIntfs, Dialogs, 
+  uEditAppIntfs, 
   uCommonFunctions, Math, StringResources,
   cPyDebugger, gnugettext, TntSysUtils, VirtualFileSearch;
 

@@ -272,7 +272,7 @@ end;
 procedure TMessagesWindow.FormActivate(Sender: TObject);
 begin
   inherited;
-  if MessagesView.CanFocus then
+  if CanActuallyFocus(MessagesView) then
     MessagesView.SetFocus;
 end;
 

@@ -49,8 +49,8 @@ var
 
 implementation
 
-uses frmPyIDEMain, VarPyth, frmVariables, PythonEngine, 
-  dmCommands, JvDockGlobals, frmWatches;
+uses frmPyIDEMain, frmVariables, 
+  dmCommands, frmWatches, uCommonFunctions;
 
 {$R *.dfm}
 
@@ -151,7 +151,7 @@ end;
 procedure TCallStackWindow.FormActivate(Sender: TObject);
 begin
   inherited;
-  if CallStackView.CanFocus then
+  if CanActuallyFocus(CallStackView) then
     CallStackView.SetFocus;
 end;
 

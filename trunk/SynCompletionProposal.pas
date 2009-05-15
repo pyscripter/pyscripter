@@ -76,10 +76,10 @@ uses
   StdCtrls,
   ExtCtrls,
   Menus,
-  Dialogs,
+  
   SynEditTypes,
   SynEditKeyCmds,
-  SynEditHighlighter,
+  
   
   SynEdit,
   SynUnicode,
@@ -2459,13 +2459,20 @@ begin
     exit;
   end;
 
-  Form.FormStyle := fsStayOnTop;
+  {$IFDEF SYN_COMPILER_10_UP}
+    Form.PopupMode := pmExplicit;
+  {$ELSE}
+    Form.FormStyle := fsStayOnTop;
+  {$ENDIF}
 
   if Assigned(Form.CurrentEditor) then
   begin
     TmpOffset := TextWidth((Form.CurrentEditor as TCustomSynEdit).Canvas, Copy(s, 1, DotOffset));
     if DotOffset > 1 then
-      TmpOffset := TmpOffset + (3 * (DotOffset -1))
+      TmpOffset := TmpOffset + (3 * (DotOffset -1));
+    {$IFDEF SYN_COMPILER_10_UP}
+    Form.PopupParent := GetParentForm(Form.CurrentEditor);
+    {$ENDIF}
   end else
     TmpOffset := 0;
   x := x - tmpOffset;
@@ -2923,11 +2930,11 @@ begin
 
     F.Hide;
 
-//    if ((F.CurrentEditor as TCustomSynEdit).Owner is TWinControl) and
-//       (((F.CurrentEditor as TCustomSynEdit).Owner as TWinControl).Visible) then
-//    begin
-//      ((F.CurrentEditor as TCustomSynEdit).Owner as TWinControl).SetFocus;
-//    end;
+    if ((F.CurrentEditor as TCustomSynEdit).Owner is TWinControl) and
+       (((F.CurrentEditor as TCustomSynEdit).Owner as TWinControl).Visible) then
+    begin
+      ((F.CurrentEditor as TCustomSynEdit).Owner as TWinControl).SetFocus;
+    end;
 
     if (F.CurrentEditor as TCustomSynEdit).CanFocus then //KV added line
       (F.CurrentEditor as TCustomSynEdit).SetFocus;
@@ -3238,7 +3245,12 @@ begin
   begin
     DoExecute(Form.CurrentEditor as TCustomSynEdit);
     FNoNextKey := False;
-  end else if Form.Visible then Form.Hide;
+  end else if Form.Visible then begin
+    Form.Hide;
+    {$IFDEF SYN_COMPILER_10_UP}
+    Form.PopupParent := nil;
+    {$ENDIF}
+  end;
 end;
 
 function TSynCompletionProposal.GetTimerInterval: Integer;
@@ -3379,6 +3391,9 @@ begin
   begin
     Deactivate;
     Form.Hide;
+    {$IFDEF SYN_COMPILER_10_UP}
+    Form.PopupParent := nil;
+    {$ENDIF}
   end;
 end;
 

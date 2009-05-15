@@ -192,8 +192,8 @@ var
 
 implementation
 
-uses dmCommands, Clipbrd, uEditAppIntfs, Math, frmPyIDEMain, dlgToDoOptions,
-  uCommonFunctions, JvJVCLUtils, JvDockGlobals, cProjectClasses, WideStrUtils,
+uses dmCommands, uEditAppIntfs, Math, frmPyIDEMain, dlgToDoOptions,
+  uCommonFunctions, JvJVCLUtils, cProjectClasses, WideStrUtils,
   VirtualFileSearch, MPCommonUtilities, cParameters;
 
 {$R *.dfm}
@@ -874,7 +874,7 @@ begin
     FIsFirstActivation := False;
     RefreshTodoList;
   end;
-  if ToDoView.CanFocus then
+  if CanActuallyFocus(ToDoView) then
     ToDoView.SetFocus;
   //PostMessage(ToDoView.Handle, WM_SETFOCUS, 0, 0);
 end;
@@ -997,6 +997,7 @@ initialization
 finalization
   ToDoExpert.Free;
 end.
+
 
 
 

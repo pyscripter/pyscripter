@@ -49,13 +49,13 @@ inherited OutputWindow: TOutputWindow
   inherited FGPanel: TPanel
     Width = 548
     Height = 327
-    ExplicitWidth = 546
-    ExplicitHeight = 325
+    ExplicitWidth = 548
+    ExplicitHeight = 327
     object lsbConsole: TListBox
       Left = 0
       Top = 0
-      Width = 546
-      Height = 325
+      Width = 548
+      Height = 327
       TabStop = False
       Align = alClient
       BevelInner = bvNone

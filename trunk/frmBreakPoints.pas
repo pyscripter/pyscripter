@@ -59,8 +59,8 @@ var
 implementation
 
 uses frmPyIDEMain, uEditAppIntfs, dmCommands, Clipbrd,
-  JvDockGlobals, cPyBaseDebugger, TntDialogs, gnugettext,
-  StringResources;
+  cPyBaseDebugger, TntDialogs, gnugettext,
+  StringResources, uCommonFunctions;
 
 {$R *.dfm}
 
@@ -168,7 +168,7 @@ end;
 procedure TBreakPointsWindow.FormActivate(Sender: TObject);
 begin
   inherited;
-  if BreakPointsView.CanFocus then
+  if CanActuallyFocus(BreakPointsView) then
     BreakPointsView.SetFocus;
 end;
 
@@ -258,5 +258,6 @@ begin
 end;
 
 end.
+
 
 

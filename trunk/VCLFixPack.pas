@@ -229,12 +229,12 @@ uses
   ObjAuto,
   {$ENDIF ObjAutoDEPFix}
   {$IF CompilerVersion >= 15.0}
-  Themes,
+  
   {$IFEND}
   {$IFDEF VCLFIXPACK_DB_SUPPORT}
   DBGrids,
   {$ENDIF VCLFIXPACK_DB_SUPPORT}
-  Graphics, Controls, Forms, Dialogs, StdCtrls, Grids, ComCtrls;
+  Graphics, Controls, Forms, Dialogs, StdCtrls, Grids;
 
 { ---------------------------------------------------------------------------- }
 { Helper functions, shared }

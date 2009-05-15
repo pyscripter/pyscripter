@@ -732,7 +732,8 @@ begin
   else if WideStrIsLeft(AText, PWideChar(StartMask)) then begin
     Inc(AText, Length(StartMask));
     Result:= ReadParameters(AText);
-    Inc(AText, Length(StopMask));
+    if WideStrIsLeft(AText, PWideChar(StopMask)) then
+      Inc(AText, Length(StopMask));
   end
   (* parameter value is simple value *)
   else Result:= StrGetToken(AText, ASeparators, WhiteSpaces, ['''']);

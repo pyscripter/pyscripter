@@ -97,8 +97,8 @@ implementation
 {$R *.dfm}
 
 uses
-  SysUtils, Windows, Messages, Menus, TntFileCtrl,
-  {GX_GrepResults, GX_GrepOptions,} Math, JclFileUtils,
+  SysUtils, Windows, Messages, TntFileCtrl,
+  {GX_GrepResults, GX_GrepOptions,} Math, 
   uEditAppIntfs, frmFindResults, dmCommands, TntSysUtils, WideStrings,
   Dialogs, TntDialogs, gnugettext, StringResources;
 
