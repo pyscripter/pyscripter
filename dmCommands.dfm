@@ -997,7 +997,7 @@ object CommandsDataModule: TCommandsDataModule
   object ProgramVersionHTTPLocation: TJvProgramVersionHTTPLocation
     OnLoadFileFromRemote = ProgramVersionHTTPLocationLoadFileFromRemote
     VersionInfoLocationPathList.Strings = (
-      'http://pyscripter.googlepages.com')
+      'http://pyscripter.googlecode.com/svn/trunk')
     VersionInfoFileName = 'PyScripterVersionInfo.ini'
     Left = 494
     Top = 72
@@ -3657,6 +3657,7 @@ object CommandsDataModule: TCommandsDataModule
     object actEditCut: TTntEditCut
       Category = 'Edit'
       Caption = 'Cu&t'
+      Enabled = False
       HelpContext = 320
       HelpType = htContext
       Hint = 'Cut|Cuts the selection and puts it on the Clipboard'
@@ -3666,6 +3667,7 @@ object CommandsDataModule: TCommandsDataModule
     object actEditCopy: TTntEditCopy
       Category = 'Edit'
       Caption = '&Copy'
+      Enabled = False
       HelpContext = 320
       HelpType = htContext
       Hint = 'Copy|Copies the selection and puts it on the Clipboard'
