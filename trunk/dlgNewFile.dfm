@@ -4,7 +4,6 @@ inherited NewFileDialog: TNewFileDialog
   ClientHeight = 297
   ClientWidth = 466
   Font.Name = 'MS Shell Dlg 2'
-  Position = poMainFormCenter
   OnDestroy = FormDestroy
   OnShow = FormShow
   ExplicitWidth = 472
@@ -51,6 +50,7 @@ inherited NewFileDialog: TNewFileDialog
           BevelOuter = bvNone
           BevelKind = bkFlat
           Header.AutoSizeIndex = 0
+          Header.DefaultHeight = 17
           Header.Font.Charset = DEFAULT_CHARSET
           Header.Font.Color = clWindowText
           Header.Font.Height = -11
@@ -105,6 +105,7 @@ inherited NewFileDialog: TNewFileDialog
             0600000001000000110000005445617379436F6C756D6E53746F726564FFFECE
             0006000000800800010100010000000000000161000000FFFFFF1F0001000000
             00000000000000000000000000000000}
+          HotTrack.Enabled = True
           PaintInfoGroup.MarginBottom.CaptionIndent = 4
           TabOrder = 1
           OnItemDblClick = lvTemplatesItemDblClick

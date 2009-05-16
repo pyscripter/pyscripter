@@ -2538,8 +2538,7 @@ begin
       if (Node = HotNode) or (vsSelected in Node.States) then
       begin
         TargetCanvas.Font.Color :=
-//          CurrentSkin.GetTextColor(skncListItem, CurrentSkin.GetState(True, False, Node = HotNode, vsSelected in Node.States));
-          CurrentSkin.Options(skncListItem, CurrentSkin.GetState(True, False, Node = HotNode, vsSelected in Node.States)).TextColor;
+          CurrentSkin.GetTextColor(skncListItem, CurrentSkin.GetState(True, False, Node = HotNode, vsSelected in Node.States));
       end;
     end;
   end;
@@ -2639,8 +2638,9 @@ begin
           TargetCanvas.FillRect(InnerRect);
           State := CurrentSkin.GetState(True, False, Node = HotNode, vsSelected in Node.States);
           CurrentSkin.PaintBackground(TargetCanvas, InnerRect, skncListItem, State, True, False);
+//          SpDrawXPListItemBackground(TargetCanvas, InnerRect, vsSelected in Node.States, Node = HotNode,
+//            False, SkinManager.GetSkinType, True);
         end;
-        //SpDrawXPListItemBackground(TargetCanvas, InnerRect, True, Node = HotNode, Focused, SkinManager.GetSkinType);
       end;
     end;
   end;
@@ -2657,24 +2657,6 @@ begin
 end;
 
 procedure TCommandsDataModule.actCheckForUpdatesExecute(Sender: TObject);
-//  If Sender is nil it is called from AutoCheck
-//  Provide no confirmation
-//var
-//  _service : MainServiceSoap;
-//  _result : ArrayOfString;
-//  CurrentVersion : string;
-//begin
-//  _service := GetMainServiceSoap;
-//  _result := _service.GetLatestVersionOf('PyScripter', CurrentVersion);
-//  CurrentVersion := ApplicationVersion;
-//  if CompareVersion(_result[0], CurrentVersion) > 0 then
-//  begin
-//    if Dialogs.MessageDlg('There is a newer version of PyScripter available at http://mmm-experts.com.'#13+
-//                  'Do you want to see the details?', mtWarning, [mbOK, mbCancel], 0) = mrOK then
-//      OpenObject(_result[1]);
-//  end
-//  else if Assigned(Sender) then
-//    Dialogs.MessageDlg('Current version is uptodate!', mtInformation, [mbOK], 0);
 begin
   try
     ProgramVersionCheck.LocalDirectory := UserDataDir + 'Updates';
