@@ -433,50 +433,35 @@ object PyIDEMainForm: TPyIDEMainForm
       OnActiveTabChange = TabControlActiveTabChange
       HiddenItems = <>
       object tbiRightAlign: TSpTBXRightAlignSpacerItem
-        CustomWidth = 696
+        CustomWidth = 652
       end
       object tbiTabSep: TSpTBXSeparatorItem
       end
       object tbiTabFiles: TSpTBXSubmenuItem
-        Caption = '6'
-        DisplayMode = nbdmTextOnly
+        Hint = 'Select File'
+        ImageIndex = 151
+        Options = [tboDropdownArrow]
         OnClick = tbiTabFilesClick
-        CustomWidth = 14
-        CustomHeight = 14
-        FontSettings.Name = 'Marlett'
         LinkSubitems = mnFiles
       end
       object tbiScrollLeft: TSpTBXItem
-        Caption = '3'
         Hint = 'Scroll left'
-        DisplayMode = nbdmTextOnly
         Enabled = False
+        ImageIndex = 80
         Options = [tboToolbarStyle]
         OnClick = tbiScrollLeftClick
-        CustomWidth = 14
-        CustomHeight = 14
-        FontSettings.Name = 'Marlett'
       end
       object tbiScrollRight: TSpTBXItem
-        Caption = '4'
         Hint = 'Scroll right'
-        DisplayMode = nbdmTextOnly
         Enabled = False
-        ImageIndex = 2
+        ImageIndex = 79
         Options = [tboToolbarStyle]
         OnClick = tbiScrollRightClick
-        CustomWidth = 14
-        CustomHeight = 14
         FontSettings.Name = 'Marlett'
       end
       object tbiTabClose: TSpTBXItem
-        Caption = 'r'
         Action = CommandsDataModule.actFileClose
-        DisplayMode = nbdmTextOnly
         Options = [tboToolbarStyle]
-        CustomWidth = 14
-        CustomHeight = 14
-        FontSettings.Name = 'Marlett'
       end
     end
   end
@@ -1526,7 +1511,7 @@ object PyIDEMainForm: TPyIDEMainForm
       CustomHeight = 21
     end
     object SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem
-      CustomWidth = 0
+      CustomWidth = 407
     end
     object SpTBXSeparatorItem5: TSpTBXSeparatorItem
     end
@@ -1813,7 +1798,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpContext = 310
       HelpType = htContext
       Hint = 'Close all files'
-      ImageIndex = 3
+      ImageIndex = 150
       ShortCut = 24691
       OnExecute = actFileCloseAllExecute
     end

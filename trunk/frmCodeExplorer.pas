@@ -521,6 +521,7 @@ var
   Data: PNodeDataRec;
   CodePos : TCodePos;
   L : integer;
+  Editor : IEditor;
 begin
   CodePos.LineNo := - 1;
   L := 0;
@@ -541,8 +542,9 @@ begin
       end;
     end;
 
-    if CodePos.LineNo >= 0  then begin
-      with PyIDEMainForm.GetActiveEditor.SynEdit do
+    Editor := PyIDEMainForm.GetActiveEditor;
+    if Assigned(Editor) and (CodePos.LineNo >= 0) then begin
+      with Editor.SynEdit do
       begin
         CaretXY := BufferCoord(1, CodePos.LineNo);
         EnsureCursorPosVisibleEx(True);
@@ -552,6 +554,7 @@ begin
           SelEnd := SelStart + L;
         end;
       end;
+      Editor.Activate;
     end;
     
   end;

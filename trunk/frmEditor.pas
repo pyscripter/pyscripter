@@ -754,7 +754,9 @@ begin
     Source := Editor.SelText;
     // if a single line or part of a line is selected then eval the selection
     if Editor.BlockBegin.Line = Editor.BlockEnd.Line then
-      ExecType := 'single';
+      ExecType := 'single'
+    else
+      Source := Source + WideLineBreak;  // issue 291
   end;
 
   ShowDockForm(PythonIIForm);
@@ -1005,23 +1007,21 @@ var
   TabItem : TSpTBXTabItem;
 begin
   TabItem := AOwner.Add('');
-  TabItem.Checked := True;
   Sheet := AOwner.GetPage(TabItem);
   try
     LForm := TEditorForm.Create(Sheet);
     with LForm do begin
+      Visible := False;
       fEditor := TEditor.Create(LForm);
       ParentTabItem := TabItem;
       Result := fEditor;
       BorderStyle := bsNone;
       Parent := Sheet;
       Align := alClient;
-      Visible := TRUE;
-      AOwner.ActivePage := Sheet;
-      LForm.SetFocus;
+      Visible := True;
     end;
     // fix for Delphi 4 (???)
-    LForm.Realign;
+    // LForm.Realign;
     if Result <> nil then
       fEditors.Add(Result);
   except
@@ -1331,7 +1331,7 @@ begin
         Result := Form as IEditorView;
       end;
       // fix for Delphi 4 (???)
-      Form.Realign;
+      // Form.Realign;
       Tab.Checked := True;
     except
       Tab.Free;
@@ -1773,9 +1773,10 @@ procedure TEditorForm.FormCreate(Sender: TObject);
 begin
   FGPanelExit(Self);
 
-  SynEdit.ControlStyle := Synedit.ControlStyle + [csOpaque];
-  SynEdit2.ControlStyle := Synedit.ControlStyle + [csOpaque];
-  FGPanel.ControlStyle := FGPanel.ControlStyle + [csOpaque];
+//  ControlStyle := ControlStyle + [csOpaque];
+//  SynEdit.ControlStyle := Synedit.ControlStyle + [csOpaque];
+//  SynEdit2.ControlStyle := Synedit.ControlStyle + [csOpaque];
+//  FGPanel.ControlStyle := FGPanel.ControlStyle + [csOpaque];
   SynEdit.OnReplaceText := CommandsDataModule.SynEditReplaceText;
 
   fHotIdentInfo.HaveHotIdent := False;

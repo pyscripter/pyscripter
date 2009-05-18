@@ -1,6 +1,6 @@
 unit VirtualFileSearch;
 
-// Version 2.2.1
+// Version 2.3.0
 //
 // The contents of this file are subject to the Mozilla Public License
 // Version 1.1 (the "License"); you may not use this file except in compliance
@@ -20,7 +20,14 @@ unit VirtualFileSearch;
 //----------------------------------------------------------------------------
 
 interface
-{$define TNTSUPPORT}
+
+{$include Compilers.inc}
+{$include ..\Include\AddIns.inc}
+
+{$ifdef COMPILER_12_UP}
+  {$WARN IMPLICIT_STRING_CAST       OFF}
+ {$WARN IMPLICIT_STRING_CAST_LOSS  OFF}
+{$endif COMPILER_12_UP}
 
 uses
   Windows,
@@ -30,20 +37,24 @@ uses
   Graphics,
   Controls,
   Dialogs,
-  
+  ActiveX,
   ShlObj,
   MPCommonUtilities,
   MPThreadManager,
   {$IFDEF TNTSUPPORT}
+    {$IFDEF COMPILER_9_UP}
+    WideStrUtils,
+    {$ELSE}
+    TntWideStrUtils,
+    {$ENDIF}
   TntClasses,
   TntSysUtils,
-  
   TntWindows,
   {$ENDIF}
   MPShellTypes,
   ExtCtrls,
   MPShellUtilities,
-  
+  VirtualResources,
   MPCommonObjects;
 
 type
@@ -92,7 +103,6 @@ type
     constructor Create(CreateSuspended: Boolean); override;
     destructor Destroy; override;
     procedure BuildFolderList(const Path: WideString; FolderList: {$IFDEF TNTSUPPORT}TTntStringList{$ELSE}TStringList{$ENDIF});
-    property Event;
     property CaseSensitive: Boolean read FCaseSensitive write FCaseSensitive;
     property FileMask: DWORD read FFileMask write FFileMask;
     property FileExcludeMask: DWORD read FFileExcludeMask write FFileExcludeMask;
@@ -165,12 +175,10 @@ type
     property SearchExcludeAttribs: TVirtualSearchAttribs read FSearchExcludeAttribs write FSearchExcludeAttribs default [vsaDirectory];
     property SubFolders: Boolean read FSubFolders write FSubFolders default False;
     property ThreadPriority: TThreadPriority read FThreadPriority write FThreadPriority default tpNormal;
-    property UpdateRate: Integer read FUpdateRate write FUpdateRate default 5000;
+    property UpdateRate: Integer read FUpdateRate write FUpdateRate default 500;
   end;
 
 implementation
-Uses
-  WideStrUtils;
 
 { TVirtualFileSearchThread }
 constructor TVirtualFileSearchThread.Create(CreateSuspended: Boolean);
@@ -245,7 +253,7 @@ begin
     Windows.FindClose(FindHandle);
   end
   {$ELSE}
-  FindHandle := FindFirstFileA(PChar(string( Path + '\*.*')), FindFileDataA);
+  FindHandle := FindFirstFileA(PAnsiChar(AnsiString( Path + '\*.*')), FindFileDataA);
   if FindHandle <> INVALID_HANDLE_VALUE then
   begin
     repeat
@@ -304,11 +312,12 @@ var
   FindFileDataA: TWIN32FindDataA;
   FolderList: {$IFDEF TNTSUPPORT}TTntStringList{$ELSE}TStringList{$ENDIF};
   FindHandle: THandle;
-  i: Integer;
+  i, j: Integer;
   UseFile, Done: Boolean;
   PIDL: PItemIDList;
   CurrentPath, CurrentPathSpec: WideString;
   IsDotPath, IsDotDotPath: Boolean;
+  PIDLList: TCommonPIDLList;
 begin
   i := 0;
   {$IFDEF TNTSUPPORT}
@@ -316,6 +325,7 @@ begin
   {$ELSE}
   FolderList := TStringList.Create;
   {$ENDIF}
+  PIDLList := TCommonPIDLList.Create;
   try
     while not Terminated and (i < Masks.Count) do
     begin
@@ -326,13 +336,13 @@ begin
       if IsUnicode then
         FindHandle := Tnt_FindFirstFileW(PWideChar( CurrentPathSpec), FindFileDataW)
       else begin
-        FindHandle := FindFirstFileA(PChar(String( CurrentPathSpec)), FindFileDataA);
+        FindHandle := FindFirstFileA(PAnsiChar(AnsiString( CurrentPathSpec)), FindFileDataA);
         CopyMemory(@FindFileDataW, @FindFileDataA, Integer(@FindFileDataW.cFileName) - Integer(@FindFileDataW));
         WStrPCopy(FindFileDataW.cFileName, FindFileDataA.cFileName);
         WStrPCopy(FindFileDataW.cAlternateFileName, FindFileDataA.cAlternateFileName);
       end;
     {$ELSE}
-      FindHandle := FindFirstFileA(PChar(String( CurrentPathSpec)), FindFileDataA);
+      FindHandle := FindFirstFileA(PAnsiChar(AnsiString( CurrentPathSpec)), FindFileDataA);
     {$ENDIF}
 
 
@@ -355,7 +365,7 @@ begin
             UseFile := FileMask and FindFileDataW.dwFileAttributes <> 0;
             UseFile := UseFile and (FileExcludeMask and FindFileDataW.dwFileAttributes = 0);
             if WidePathMatchSpecExists then
-              UseFile := UseFile and WidePathMatchSpec(CurrentPath, Masks[i]);
+              UseFile := UseFile and WidePathMatchSpec(FindFileDataW.cFileName, Masks[i]);
 
             // Let the program override us
             if UseFile then
@@ -365,10 +375,17 @@ begin
             if UseFile then
             begin
               PIDL := PathToPIDL(CurrentPath);
-              if Assigned(PIDL) then
+              PIDLList.Add(PIDL);
+
+              // Cut down on the number of thread locks we use, they are expensive
+              if PIDLList.Count > 100 then
               begin
                 LockThread;
-                SearchResults.Add(PIDL);
+                PIDLList.SharePIDLs := True;
+                for j := 0 to PIDLList.Count - 1 do
+                  SearchResults.Add(PIDLList[j]);
+                PIDLList.Clear;
+                PIDLList.SharePIDLs := False;
                 UnlockThread;
               end
             end;
@@ -404,7 +421,7 @@ begin
             UseFile := FileMask and FindFileDataA.dwFileAttributes <> 0;
             UseFile := UseFile and (FileExcludeMask and FindFileDataA.dwFileAttributes = 0);
             if WidePathMatchSpecExists then
-              UseFile := UseFile and WidePathMatchSpec(CurrentPath, Masks[i]);
+              UseFile := UseFile and WidePathMatchSpec(FindFileDataA.cFileName, Masks[i]);
 
             // Let the program override us
             if UseFile then
@@ -414,10 +431,17 @@ begin
             if UseFile then
             begin
               PIDL := PathToPIDL(CurrentPath);
-              if Assigned(PIDL) then
+              PIDLList.Add(PIDL);
+
+              // Cut down on the number of thread locks we use, they are expensive
+              if PIDLList.Count > 100 then
               begin
                 LockThread;
-                SearchResults.Add(PIDL);
+                PIDLList.SharePIDLs := True;
+                for j := 0 to PIDLList.Count - 1 do
+                  SearchResults.Add(PIDLList[j]);
+                PIDLList.Clear;
+                PIDLList.SharePIDLs := False;
                 UnlockThread;
               end
             end;
@@ -435,10 +459,18 @@ begin
 
         until Terminated or Done;
         Windows.FindClose(FindHandle);
+
+        // Clean out the PIDL List
+        LockThread;
+        PIDLList.SharePIDLs := True;
+        for j := 0 to PIDLList.Count - 1 do
+          SearchResults.Add(PIDLList[j]);
+        PIDLList.Clear;
+        PIDLList.SharePIDLs := False;
+        UnlockThread;
       end;
       Inc(i)
     end;
-
     // Recurse into sub folders if necessary
     if SubFolders then
     begin
@@ -446,7 +478,8 @@ begin
         ProcessFiles(FolderList[i], Masks)
     end   
   finally
-    FolderList.Free
+    FolderList.Free;
+    PIDLList.Free;
   end
 end;
 
@@ -465,7 +498,7 @@ begin
   SearchCriteriaFilename := TStringList.Create;
  // SearchCriteriaContent := TStringList.Create;
   {$ENDIF}
-  FUpdateRate := 5000;
+  FUpdateRate := 500;
   FThreadPriority := tpLower;
   SearchAttribs := [vsaArchive, vsaCompressed, vsaEncrypted, vsaHidden, vsaNormal, vsaOffline, vsaReadOnly, vsaSystem, vsaTemporary];
   SearchExcludeAttribs := [vsaDirectory];
@@ -576,13 +609,21 @@ begin
 end;
 
 procedure TVirtualFileSearch.Stop;
+var
+  SafetyNet: Integer;
 begin
+  SafetyNet := 0;
   if Assigned(FileFindThread) then
   begin
     Timer.Enabled := False;
     FileFindThread.Terminate;
-    while not FileFindThread.Finished do
-      Sleep(50);
+    while not FileFindThread.Finished and (SafetyNet < 50) do
+    begin
+      Sleep(100);
+      Inc(SafetyNet);
+    end;
+    if SafetyNet < 49 then
+      FileFindThread.ForceTerminate;
     FreeAndNil(FFileFindThread);
   end;
   FFinished := True;
@@ -605,12 +646,12 @@ begin
       if FileFindThread.Finished then
       begin
         Timer.Enabled := False;
-        DoSearchEnd(FileFindThread.SearchResults);
-        FileFindThread.SearchResults.Clear;
         FFinished := True;
+        DoSearchEnd(FileFindThread.SearchResults);
+        FileFindThread.SearchResults.Clear;   
       end;
       FileFindThread.UnlockThread;
-
+      
       if FileFindThread.Finished then
         FreeAndNil(FFileFindThread);
     end

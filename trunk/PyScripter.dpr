@@ -110,7 +110,8 @@ uses
   SynHighlighterYAML in 'SynHighlighterYAML.pas',
   VirtualTrees in 'VirtualTrees.pas',
   dlgSynEditOptions in 'dlgSynEditOptions.pas' {fmEditorOptionsDialog: TTntForm},
-  SynRegExpr in 'SynRegExpr.pas';
+  SynRegExpr in 'SynRegExpr.pas',
+  SynEditWordWrap in 'SynEditWordWrap.pas';
 
 {$R *.RES}
 {$R WebCopyAvi.RES}

@@ -23,6 +23,8 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure DockClientTabHostFormCreated(DockClient: TJvDockClient;
       TabHost: TJvDockTabHostForm);
+    procedure DockClientConjoinHostFormCreated(DockClient: TJvDockClient;
+      ConjoinHost: TJvDockConjoinHostForm);
     procedure FormDeactivate(Sender: TObject);
     procedure FormActivate(Sender: TObject);
   private
@@ -86,6 +88,8 @@ begin
   BorderNormal := clBtnFace;
 
   SkinManager.AddSkinNotification(Self);
+
+  DockClient.OnConjoinHostFormCreated := DockClientConjoinHostFormCreated;
 end;
 
 procedure TIDEDockWindow.FormDeactivate(Sender: TObject);
@@ -108,8 +112,17 @@ procedure TIDEDockWindow.DockClientTabHostFormCreated(
 begin
   TabHost.TBDockHeight := DockClient.TBDockHeight;
   TabHost.LRDockWidth := DockClient.LRDockWidth;
+  TabHost.FormStyle := fsNormal;
   TabHost.PopupMode := pmExplicit;
   TabHost.PopupParent := PyIDEMainForm;
+end;
+
+procedure TIDEDockWindow.DockClientConjoinHostFormCreated(
+  DockClient: TJvDockClient; ConjoinHost: TJvDockConjoinHostForm);
+begin
+  ConjoinHost.FormStyle := fsNormal;
+  ConjoinHost.PopupMode := pmExplicit;
+  ConjoinHost.PopupParent := PyIDEMainForm;
 end;
 
 end.

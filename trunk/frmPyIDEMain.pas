@@ -328,7 +328,7 @@ Limitations: Python scripts are executed in the main thread
                    132, 134, 135, 136, 137, 138, 139, 140, 141, 146, 147, 150, 153, 155,
                    160, 164, 165, 166, 167, 168, 169, 171, 174, 178, (182), 186,
                    193, 195, 196, 197, 198, 201, 202, 204, 206, 208, 212, 219, 226,
-                   228, 229, 234, 235, 237, 253, 261, (287) fixed
+                   228, 229, 234, 235, 237, 253, 261, (269), (273), (287), (291), (292) fixed
 
   Vista Compatibility issues (all resolved)
   -  Flip3D and Form preview (solved with LX)
@@ -1102,23 +1102,31 @@ begin
     end;
   end;
   // create a new editor, add it to the editor list, open the file
-  Result := DoCreateEditor;
-  if Result <> nil then begin
-    try
-      Result.OpenFile(AFileName, HighlighterName);
-      tbiRecentFileList.MRURemove(AFileName);
-      Result.Activate;
-    except
-      Result.Close;
-      raise
+  TabControl.Toolbar.BeginUpdate;
+  try
+    Result := DoCreateEditor;
+    if Result <> nil then begin
+      try
+        Result.OpenFile(AFileName, HighlighterName);
+        tbiRecentFileList.MRURemove(AFileName);
+        Result.Activate;
+      except
+        Result.Close;
+        raise
+      end;
+      if (AFileName <> '') and (GI_EditorFactory.Count = 2) and
+        (GI_EditorFactory.Editor[0].FileName = '') and
+        not GI_EditorFactory.Editor[0].Modified
+      then
+        GI_EditorFactory.Editor[0].Close;
+      if (AFileName = '') and (HighlighterName = 'Python') then
+        TEditorForm(Result.Form).DefaultExtension := 'py';
     end;
-    if (AFileName <> '') and (GI_EditorFactory.Count = 2) and
-      (GI_EditorFactory.Editor[0].FileName = '') and
-      not GI_EditorFactory.Editor[0].Modified
-    then
-      GI_EditorFactory.Editor[0].Close;
-    if (AFileName = '') and (HighlighterName = 'Python') then
-      TEditorForm(Result.Form).DefaultExtension := 'py';
+  finally
+    TabControl.Toolbar.EndUpdate;
+    if Assigned(TabControl.ActiveTab) then
+      TabControl.MakeVisible(TabControl.ActiveTab);
+    UpdateCaption;
   end;
 end;
 
@@ -1194,13 +1202,13 @@ begin
   end;
 
   // Trying to reduce flicker!
-  ControlStyle := ControlStyle + [csOpaque];
-  BGPanel.ControlStyle := BGPanel.ControlStyle + [csOpaque];
-  DockServer.LeftDockPanel.ControlStyle := DockServer.LeftDockPanel.ControlStyle + [csOpaque];
-  DockServer.RightDockPanel.ControlStyle := DockServer.LeftDockPanel.ControlStyle + [csOpaque];
-  DockServer.TopDockPanel.ControlStyle := DockServer.LeftDockPanel.ControlStyle + [csOpaque];
-  DockServer.BottomDockPanel.ControlStyle := DockServer.LeftDockPanel.ControlStyle + [csOpaque];
-  StatusBar.ControlStyle := StatusBar.ControlStyle + [csOpaque];
+//  ControlStyle := ControlStyle + [csOpaque];
+//  BGPanel.ControlStyle := BGPanel.ControlStyle + [csOpaque];
+//  DockServer.LeftDockPanel.ControlStyle := DockServer.LeftDockPanel.ControlStyle + [csOpaque];
+//  DockServer.RightDockPanel.ControlStyle := DockServer.LeftDockPanel.ControlStyle + [csOpaque];
+//  DockServer.TopDockPanel.ControlStyle := DockServer.LeftDockPanel.ControlStyle + [csOpaque];
+//  DockServer.BottomDockPanel.ControlStyle := DockServer.LeftDockPanel.ControlStyle + [csOpaque];
+//  StatusBar.ControlStyle := StatusBar.ControlStyle + [csOpaque];
 
   SetDesktopIconFonts(Self.Font);  // For Vista
   //SetDesktopIconFonts(ToolbarFont);
@@ -1377,7 +1385,8 @@ begin
   GI_EditorFactory.SetupEditorViewMenu;
 
   Update;
-  SendMessage(TabControl.Handle, WM_SETREDRAW, 0, 0);  // To avoid flicker
+
+  TabControl.Toolbar.BeginUpdate;
   try
     // if there was no file on the command line try restoring open files
     if CommandsDataModule.PyIDEOptions.RestoreOpenFiles then
@@ -1390,17 +1399,16 @@ begin
     if GI_EditorFactory.GetEditorCount = 0 then
       DoOpenFile('', 'Python');
   finally
-    SendMessage(TabControl.Handle, WM_SETREDRAW, 1, 0);
-    SpInvalidateSpTBXControl(TabControl, True, False);
+    TabControl.Toolbar.EndUpdate;
+    if Assigned(TabControl.ActiveTab) then
+      TabControl.MakeVisible(TabControl.ActiveTab);
+
     if Assigned(GetActiveEditor()) then
       GetActiveEditor.Activate;
+    UpdateCaption;
     // Start the Python Code scanning thread
     CodeExplorerWindow.WorkerThread.Resume;
   end;
-
-  // To get round the XP drawing bug with ExternalToolLED
-  //  StatusBar.DoubleBuffered := True;
-  //StatusBar.Top := Height - StatusBar.Height;  // make sure is shown at the bottom
 
   TabControl.Toolbar.OnMouseDown := TabControlMouseDown;
   //Set the HelpFile
@@ -1487,12 +1495,20 @@ begin
     Sleep(200);
 
     //  We need to do this here so that MRU and docking information are persisted
-    SaveEnvironment;
+    try
+      SaveEnvironment;
+    except
+      on E: EFileStreamError do
+        WideMessageDlg(WideFormat(_(SFileSaveError), [AppStorage.FullFileName, E.Message]), mtError, [mbOK], 0);
+    end;
 
-    SendMessage(TabControl.Handle, WM_SETREDRAW, 0, 0);  // To avoid flicker
-    if GI_EditorFactory <> nil then
-      GI_EditorFactory.CloseAll;
-    SendMessage(TabControl.Handle, WM_SETREDRAW, 1, 0);
+    TabControl.Toolbar.BeginUpdate;
+    try
+      if GI_EditorFactory <> nil then
+        GI_EditorFactory.CloseAll;
+    finally
+      TabControl.Toolbar.EndUpdate;
+    end;
 
     SkinManager.RemoveSkinNotification(Self);
   end;
@@ -1890,6 +1906,8 @@ procedure TPyIDEMainForm.UpdateCaption;
 Var
   Editor : IEditor;
 begin
+  if TabControl.Toolbar.IsUpdating then Exit;  
+
   Editor := GetActiveEditor;
   if Assigned(Editor) then
     Caption := Format('PyScripter - %s%s', [Editor.GetFileNameOrTitle,
@@ -2448,17 +2466,16 @@ begin
 end;
 
 procedure TPyIDEMainForm.actFileCloseAllExecute(Sender: TObject);
-var
-  i: integer;
 begin
   if GI_EditorFactory <> nil then begin
-    if not GI_EditorFactory.CanCloseAll then
-      exit;
-    i := GI_EditorFactory.GetEditorCount - 1;
-    // close all editor childs
-    while i >= 0 do begin
-      GI_EditorFactory.GetEditor(i).Close;
-      Dec(i);
+    if GI_EditorFactory.CanCloseAll then begin
+      TabControl.Toolbar.BeginUpdate;
+      try
+        GI_EditorFactory.CloseAll;
+      finally
+        TabControl.Toolbar.EndUpdate;
+        UpdateCaption;
+      end;
     end;
   end;
 end;
@@ -2735,7 +2752,7 @@ begin
   TempStringList := TStringList.Create;
   try
     AppStorage.StorageOptions.PreserveLeadingTrailingBlanks := True;
-    AppStorage.ReadStringList('Command Histrory', TempStringList);
+    AppStorage.ReadStringList('Command History', TempStringList);
     AppStorage.StorageOptions.PreserveLeadingTrailingBlanks := False;
     PythonIIForm.CommandHistory.Clear;
 
@@ -3070,15 +3087,17 @@ begin
       TSpTBXAluminumSkin(CurrentSkin).DefaultColorScheme := lusBlue;
     SkinManager.BroadcastSkinNotification;
   end;
-  if CurrentSkin.Options(skncListItem, sknsCheckedAndHotTrack).IsEmpty or CurrentSkin.Options(skncListItem, sknsChecked).IsEmpty
+  if (CurrentSkin.Options(skncListItem, sknsCheckedAndHotTrack).IsEmpty
+     or CurrentSkin.Options(skncListItem, sknsChecked).IsEmpty) and
+     not CurrentSkin.Options(skncListItem, sknsHotTrack).IsEmpty
   then with CurrentSkin do begin
-    if CurrentSkin.Options(skncListItem, sknsCheckedAndHotTrack).IsEmpty then begin
+    if Options(skncListItem, sknsCheckedAndHotTrack).IsEmpty then begin
       Options(skncListItem, sknsCheckedAndHotTrack).Assign(Options(skncListItem, sknsHotTrack));
       Options(skncListItem, sknsCheckedAndHotTrack).Body.Lighten(-20);
       Options(skncListItem, sknsCheckedAndHotTrack).Borders.Lighten(-20);
     end;
-    if CurrentSkin.Options(skncListItem, sknsChecked).IsEmpty then begin
-      CurrentSkin.Options(skncListItem, sknsChecked).Assign(CurrentSkin.Options(skncListItem, sknsHotTrack));
+    if Options(skncListItem, sknsChecked).IsEmpty then begin
+      Options(skncListItem, sknsChecked).Assign(Options(skncListItem, sknsHotTrack));
     end;
     Options(skncListItem, sknsHotTrack).Body.Lighten(20);
     Options(skncListItem, sknsHotTrack).Borders.Lighten(20);
@@ -3597,7 +3616,7 @@ begin
   if State = sknsHotTrack then begin
     R := ARect;
     InflateRect(R, -1, -1);
-    SpDrawXPButton(ACanvas, ARect, True, False, True, False, False, False, SkinManager.GetSkinType);
+    SpDrawXPButton(ACanvas, R, True, False, True, False, False, False, SkinManager.GetSkinType);
   end;
   PatternColor := CurrentSkin.GetTextColor(skncToolbarItem, State);
   if Editor.Modified then
