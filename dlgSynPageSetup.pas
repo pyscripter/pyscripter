@@ -154,7 +154,6 @@ type
     procedure UnderlineCmdExecute(Sender: TObject);
     procedure REHeaderLeftEnter(Sender: TObject);
     procedure FormShow(Sender: TObject);
-    procedure CBFooterLineEnter(Sender: TObject);
     procedure HeaderLineColorBtnClick(Sender: TObject);
     procedure PBHeaderLinePaint(Sender: TObject);
     procedure HeaderShadowColorBtnClick(Sender: TObject);
@@ -200,6 +199,7 @@ uses
 
 procedure TPageSetupDlg.FormCreate(Sender: TObject);
 begin
+  Editor := nil;
   inherited;
   FMargins := TSynEditPrintMargins.Create;
   FInternalCall := False;
@@ -220,25 +220,20 @@ end;
 
 procedure TPageSetupDlg.SetOptions;
 begin
-  PageNumCmd.Enabled := Editor.Focused;
-  PagesCmd.Enabled := Editor.Focused;
-  TimeCmd.Enabled := Editor.Focused;
-  DateCmd.Enabled := Editor.Focused;
-  TitleCmd.Enabled := Editor.Focused;
-  FontCmd.Enabled := Editor.Focused;
-  BoldCmd.Enabled := Editor.Focused;
-  ItalicCmd.Enabled := Editor.Focused;
-  UnderlineCmd.Enabled := Editor.Focused;
+  PageNumCmd.Enabled := Assigned(Editor) and Editor.Focused;
+  PagesCmd.Enabled := Assigned(Editor) and Editor.Focused;
+  TimeCmd.Enabled := Assigned(Editor) and Editor.Focused;
+  DateCmd.Enabled := Assigned(Editor) and Editor.Focused;
+  TitleCmd.Enabled := Assigned(Editor) and Editor.Focused;
+  FontCmd.Enabled := Assigned(Editor) and Editor.Focused;
+  BoldCmd.Enabled := Assigned(Editor) and Editor.Focused;
+  ItalicCmd.Enabled := Assigned(Editor) and Editor.Focused;
+  UnderlineCmd.Enabled := Assigned(Editor) and Editor.Focused;
 end;
 
 procedure TPageSetupDlg.REHeaderLeftEnter(Sender: TObject);
 begin
   Editor := Sender as TCustomRichEdit;
-  SetOptions;
-end;
-
-procedure TPageSetupDlg.CBFooterLineEnter(Sender: TObject);
-begin
   SetOptions;
 end;
 
@@ -249,36 +244,45 @@ end;
 
 procedure TPageSetupDlg.UpdateCursorPos;
 begin
-  CharPos.Y := SendMessage(Editor.Handle, EM_EXLINEFROMCHAR, 0, Editor.SelStart);
-  CharPos.X := (Editor.SelStart - SendMessage(Editor.Handle, EM_LINEINDEX, CharPos.Y, 0));
+  if Assigned(Editor) and Editor.HandleAllocated then begin
+    CharPos.Y := SendMessage(Editor.Handle, EM_EXLINEFROMCHAR, 0, Editor.SelStart);
+    CharPos.X := (Editor.SelStart - SendMessage(Editor.Handle, EM_LINEINDEX, CharPos.Y, 0));
+  end;
 end;
 
 procedure TPageSetupDlg.SelectLine(LineNum: Integer);
 begin
-  OldStart := Editor.SelStart;
-  Editor.SelStart := SendMessage(Editor.Handle, EM_LINEINDEX, LineNum, 0);
-  Editor.SelLength := Length(Editor.Lines[LineNum]);
+  if Assigned(Editor) then begin
+    OldStart := Editor.SelStart;
+    Editor.SelStart := SendMessage(Editor.Handle, EM_LINEINDEX, LineNum, 0);
+    Editor.SelLength := Length(Editor.Lines[LineNum]);
+  end;
 end;
 
 procedure TPageSetupDlg.SelectNone;
 begin
-  Editor.SelStart := OldStart;
-  Editor.SelLength := 0;
+  if Assigned(Editor) then begin
+    Editor.SelStart := OldStart;
+    Editor.SelLength := 0;
+  end;
 end;
 
 function TPageSetupDlg.CurrText: TTextAttributes;
 begin
+  Assert(Assigned(Editor));
   Result := Editor.SelAttributes;
 end;
 
 procedure TPageSetupDlg.PageNumCmdExecute(Sender: TObject);
 begin
-  Editor.SelText := '$PAGENUM$';
+  if Assigned(Editor) then
+    Editor.SelText := '$PAGENUM$';
 end;
 
 procedure TPageSetupDlg.PagesCmdExecute(Sender: TObject);
 begin
-  Editor.SelText := '$PAGECOUNT$';
+  if Assigned(Editor) then
+    Editor.SelText := '$PAGECOUNT$';
 end;
 
 procedure TPageSetupDlg.TabControlActiveTabChange(Sender: TObject;
@@ -290,21 +294,26 @@ end;
 
 procedure TPageSetupDlg.TimeCmdExecute(Sender: TObject);
 begin
-  Editor.SelText := '$TIME$';
+  if Assigned(Editor) then
+    Editor.SelText := '$TIME$';
 end;
 
 procedure TPageSetupDlg.DateCmdExecute(Sender: TObject);
 begin
-  Editor.SelText := '$DATE$';
+  if Assigned(Editor) then
+    Editor.SelText := '$DATE$';
 end;
 
 procedure TPageSetupDlg.TitleCmdExecute(Sender: TObject);
 begin
-  Editor.SelText := '$TITLE$';
+  if Assigned(Editor) then
+    Editor.SelText := '$TITLE$';
 end;
 
 procedure TPageSetupDlg.FontCmdExecute(Sender: TObject);
 begin
+  if not Assigned(Editor) then Exit;
+
   SelectLine(CharPos.y);
   FontDialog.Font.Assign(CurrText);
   if FontDialog.Execute then
@@ -314,6 +323,8 @@ end;
 
 procedure TPageSetupDlg.BoldCmdExecute(Sender: TObject);
 begin
+  if not Assigned(Editor) then Exit;
+
   SelectLine(CharPos.y);
   if fsBold in CurrText.Style then
     CurrText.Style := CurrText.Style - [fsBold]
@@ -324,6 +335,8 @@ end;
 
 procedure TPageSetupDlg.ItalicCmdExecute(Sender: TObject);
 begin
+  if not Assigned(Editor) then Exit;
+
   SelectLine(CharPos.y);
   if fsItalic in CurrText.Style then
     CurrText.Style := CurrText.Style - [fsItalic]
@@ -334,6 +347,8 @@ end;
 
 procedure TPageSetupDlg.UnderlineCmdExecute(Sender: TObject);
 begin
+  if not Assigned(Editor) then Exit;
+
   SelectLine(CharPos.y);
   if fsUnderLine in CurrText.Style then
     CurrText.Style := CurrText.Style - [fsUnderLine]

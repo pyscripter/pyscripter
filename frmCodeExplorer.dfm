@@ -37,21 +37,21 @@ inherited CodeExplorerWindow: TCodeExplorerWindow
   inherited FGPanel: TPanel
     Width = 245
     Height = 302
-    ExplicitWidth = 243
-    ExplicitHeight = 300
+    ExplicitWidth = 245
+    ExplicitHeight = 302
     object Panel1: TPanel
       Left = 0
       Top = 0
-      Width = 243
-      Height = 300
+      Width = 245
+      Height = 302
       Align = alClient
       BevelOuter = bvNone
       TabOrder = 0
       object ExplorerTree: TVirtualStringTree
         Left = 0
         Top = 0
-        Width = 243
-        Height = 300
+        Width = 245
+        Height = 302
         Align = alClient
         BorderStyle = bsNone
         Header.AutoSizeIndex = -1

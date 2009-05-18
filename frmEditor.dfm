@@ -4,7 +4,8 @@ object EditorForm: TEditorForm
   Caption = 'Editor'
   ClientHeight = 383
   ClientWidth = 566
-  Color = clBtnFace
+  Color = clWindow
+  Ctl3D = False
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11

@@ -499,7 +499,8 @@ begin
   else
     Result := tkIdentifier;
 
-  fLastIdentifier := s;
+  //fLastIdentifier := s;
+  SetString(fLastIdentifier, fToIdent, fStringLen);
 end;
 
 constructor TSynPythonSyn.Create(AOwner: TComponent);

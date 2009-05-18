@@ -1,4 +1,4 @@
-{-----------------------------------------------------------------------------
+﻿{-----------------------------------------------------------------------------
 The contents of this file are subject to the Mozilla Public License
 Version 1.1 (the "License"); you may not use this file except in compliance
 with the License. You may obtain a copy of the License at
@@ -281,6 +281,9 @@ begin
         Form := TJvDockConjoinHostForm.Create(Application);
         ADockClient := FindDockClient(TJvDockInfoZone(ATreeZone.ChildZone).DockControl);
         Result := ADockClient.CreateConjoinPanelClass(Form).Parent;
+        //TJvDockConjoinHostFormCreatedEvent:   Added by KV
+        if Assigned(ADockClient.OnConjoinHostFormCreated) then
+          ADockClient.OnConjoinHostFormCreated(ADockClient, TJvDockConjoinHostForm(Form));
       end;
     dsTab:
       if Assigned(TJvDockInfoZone(ATreeZone.ChildZone).DockControl) then

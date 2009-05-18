@@ -335,6 +335,8 @@ type
     DockServer: TJvDockServer; DockPanel: TJvDockPanel; var CanDock: Boolean) of object; {NEW!}
   TJvDockTabHostFormCreatedEvent = procedure(DockClient: TJvDockClient;
     TabHost: TJvDockTabHostForm) of object;
+  TJvDockConjoinHostFormCreatedEvent = procedure(DockClient: TJvDockClient;
+    TabHost: TJvDockConjoinHostForm) of object;
 
   TJvDockGetClientAlignSizeEvent = procedure(Align: TAlign; var Value: Integer) of object;
   TJvDockFinishSetDockPanelSizeEvent = procedure(DockPanel: TJvDockPanel) of object;
@@ -479,6 +481,7 @@ type
     FOnFormHide: TNotifyEvent;
     FOnCheckIsDockable: TJvDockCheckDockableEvent; {NEW!}
     FOnTabHostFormCreated: TJvDockTabHostFormCreatedEvent; {NEW!}
+    FOnConjoinHostFormCreated: TJvDockConjoinHostFormCreatedEvent; {NEW!}
     FCurrentDockSite: TWinControl;
     FLastDockSite: TWinControl;
     FUnDockLeft: Integer;
@@ -603,6 +606,8 @@ type
     property OnCheckIsDockable: TJvDockCheckDockableEvent read FOnCheckIsDockable write FOnCheckIsDockable; {NEW!}
     property OnTabHostFormCreated: TJvDockTabHostFormCreatedEvent read FOnTabHostFormCreated
       write FOnTabHostFormCreated; {NEW!}
+    property OnConjoinHostFormCreated: TJvDockConjoinHostFormCreatedEvent read FOnConjoinHostFormCreated
+      write FOnConjoinHostFormCreated; {NEW!}
     property OnNCButtonDown: TJvDockNCButtonDownEvent read FOnNCButtonDown write FOnNCButtonDown;
     property OnNCButtonUp: TJvDockNCButtonUpEvent read FOnNCButtonUp write FOnNCButtonUp;
     property OnNCMouseMove: TJvDockNCMouseMoveEvent read FOnNCMouseMove write FOnNCMouseMove;
@@ -3088,6 +3093,9 @@ begin
   Control2.TBDockHeight := OldDockHeight;
 
   SetDockSite(Result, False);
+  //TJvDockTabHostFormCreatedEvent:
+  if Assigned(FOnConjoinHostFormCreated) then
+    FOnConjoinHostFormCreated(Self, {ConjoinHost:TJvDockConjoinHostForm} Result);
 end;
 
 function TJvDockClient.CreateConjoinPanelClass(ConjoinHost: TForm): TJvDockConjoinPanel;
