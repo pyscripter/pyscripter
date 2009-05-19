@@ -25,7 +25,7 @@ To stop debugging, right-click on the interpreter window and select "Reinitializ
 
 [http://code.google.com/p/pyscripter/wiki/FAQ#Frequently_Asked_Questions Back to Top]
 
-=== How do I use PyScriper with Portable (Movable) Python?  ===
+=== How do I use PyScripter with Portable (Movable) Python?  ===
 
 You can very easily setup PyScripter so that it can work with unregistered versions of Python such as for example [http://www.portablepython.com/ Portable Python] and [http://www.voidspace.org.uk/python/movpy/ Movable Python] which are typically residing in a USB stick or a portable hard disk.
 
