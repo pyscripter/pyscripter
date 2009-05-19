@@ -1,6 +1,7 @@
 * Wiki contents *
 ----
 
+Other topics
  * [PyScripter Overview]
  * [Features Features]
  * [Screenshots Screen shots]
