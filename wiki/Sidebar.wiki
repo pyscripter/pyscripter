@@ -2,10 +2,10 @@
 ----
 
 Main topics
- [PyScripter Overview]
- [Features Features]
- [Screenshots Screen shots]
- [History History]
+ [PyScripter Overview]<br>
+ [Features Features]<br>
+ [Screenshots Screen shots]<br>
+ [History History]<br>
  [FAQ FAQ]
 
 Other topics
