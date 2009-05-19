@@ -1,7 +1,7 @@
 * Wiki contents *
 ----
 
-Other topics
+Main topics
  * [PyScripter Overview]
  * [Features Features]
  * [Screenshots Screen shots]
@@ -9,5 +9,5 @@ Other topics
  * [FAQ FAQ]
  
 Other topics
- * [RemoteEngines Remote Python Engines]
- * [ColorSchemes Shortcuts and Color Shemes]
+ [RemoteEngines Remote Python Engines]
+ [ColorSchemes Shortcuts and Color Shemes]
