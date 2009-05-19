@@ -1,18 +1,20 @@
+<wiki:gadget url="http://pyscripter.googlecode.com/svn/wiki/files/adsense3.xml" border="0" width="468" height="60" />
+
 = Shortcuts and Color Schemes =
 
 You can import and export shortcuts and syntax highlighting settings using the commands under Tools, Options, Import Export. This allows PyScripter users to share shortcuts and syntax highlighting settings. If you have customized these settings to match those of popular IDEs and editors such as Visual Studio and IDLE, you are encouraged to submit them to pyscripter@google.com. A repository of such submitted settings is available here.
 
 === Highlighter Schemes ===
 
-IDLE by Jose: [IDLEHighlighting.ini IdleHighlighting.ini]
+IDLE by Jose: [http://pyscripter.googlecode.com/svn/wiki/files/IDLEHighlighting.ini IdleHighlighting.ini]
 
-IDLEv2 by Ethan Shames: [IDLEHighlightingv2.ini IdleHighlightingv2.ini]
+IDLEv2 by Ethan Shames: [http://pyscripter.googlecode.com/svn/wiki/files/IDLEHighlightingv2.ini IdleHighlightingv2.ini]
 
-Komodo Dark Highlighter by Jason Tudisco: [DarkHighlight.ini DarkHighlight.ini]
+Komodo Dark Highlighter by Jason Tudisco: [http://pyscripter.googlecode.com/svn/wiki/files/DarkHighlight.ini DarkHighlight.ini]
 
-Default highlighting in case you want to go back to the original: [DefaultHighlighting.ini DefaultHighlighting,ini]
+Default highlighting in case you want to go back to the original: [http://pyscripter.googlecode.com/svn/wiki/files/DefaultHighlighting.ini DefaultHighlighting,ini]
 
 === Shortcuts ===
 
-Vim like shortcuts by Huy (see [http://groups.google.com/group/PyScripter/browse_thread/thread/d798d1052aaebc23?hl=en post to the Pyscripter group]): 
-[vim-like-shortcuts.ini vim-like-shortcuts.ini]
+Vim like shortcuts by Huy (see this [http://groups.google.com/group/PyScripter/browse_thread/thread/d798d1052aaebc23?hl=en post to the Pyscripter group]): 
+[http://pyscripter.googlecode.com/svn/wiki/files/vim-like-shortcuts.ini vim-like-shortcuts.ini]
