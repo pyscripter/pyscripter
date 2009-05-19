@@ -10,7 +10,7 @@ PyScripter supports Python versions 2.3, 2.4, 2.5, 2.6, 3.0 and 3.1.  You should
 
 [http://code.google.com/p/pyscripter/wiki/FAQ#Frequently_Asked_Questions Back to Top]
 
-=== How can I debug Django applications with {{{PyScripter}}}? ===
+=== How can I debug Django applications? ===
 
 Here is how you can debug [http://www.djangoproject.com/ Django] applications with Pyscripter in six simple steps:
 
@@ -63,20 +63,22 @@ See [RemoteEngines Remote Python Engines]
 
 [http://code.google.com/p/pyscripter/wiki/FAQ#Frequently_Asked_Questions Back to Top]
 
-=== How do I use Matplotlib with PyScripter ===
-Using [http://matplotlib.sourceforge.net/ matplotlib] with PyScripter
+=== How do I use Matplotlib? ===
 
-With the new Remote Python Engines you can now run matplotlib in interactive mode. Here is how:
+To work with [http://matplotlib.sourceforge.net/ matplotlib] within PyScripter you should use the [RemoteEngines Remote Python Engines]. 
 
-  * Choose the right Python engine (Run, Python Engine menu option) for the backend of your choice e.g. Remote engine Tk for the "TkAgg" backend or Remote Engine wx for the "WX" and "WxAggg" backends.
+You can also run matplotlib in interactive mode. Here is how:
+
+  * Choose the right Python engine (Run, Python Engine menu option) for the backend of your choice e.g. Remote engine Tk for the "TkAgg" backend or Remote Engine wx for the "WX" and "WxAgg" backends.
+
   * Assuming that you have selected the Remote Engine wx, issue the following commands in the interpreter:
   {{{
-  >>>import matplotlib
-  >>>matplotlib.interactive(True)
-  >>>matplotlib.use("WXAgg")
-  >>>from matplotlib.pylab import *
-  >>>plot([1,2,3])
-  >>>xlabel('time (s)') 
+  >>> import matplotlib
+  >>> matplotlib.interactive(True)
+  >>> matplotlib.use("WXAgg")
+  >>> from matplotlib.pylab import *
+  >>> plot([1,2,3])
+  >>> xlabel('time (s)') 
   }}}
   * You can set the backend and interactive mode in the matplotlibrc file. If this is done, the following is sufficient for the above example:
   {{{
