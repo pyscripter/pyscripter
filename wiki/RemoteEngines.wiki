@@ -9,7 +9,7 @@ This the default engine of PyScripter. It is faster than the other options howev
 
 ==== Remote ====
 
-This is the standard remote Python engine. It runs in a child process and communicates with PyScripter using Rpyc. It can be used to run and debug any kind of script including GUI scripts. However if you run or debug GUI scripts _you may have to reinitialize the engine after each run_.
+This is the standard remote Python engine and is the recommended engine for most Python development tasks. It runs in a child process and communicates with PyScripter using Rpyc. It can be used to run and debug any kind of script including GUI scripts. However if you run or debug GUI scripts _you may have to reinitialize the engine after each run_.
 
 ==== Remote Tk ====
 
@@ -38,7 +38,7 @@ To debug event code of Wx and Tkinter scripts use the standard remote engine. Yo
 
 The remote engines require the installation of [http://rpyc.sf.net Rpyc] version 2.6, which by the way is just brilliant. 
 
-Update: PyScripter does not work yet with the latest version of Rpyc 3.x. You can download version 2.6 from http://code.google.com/p/pyscripter/downloads/list.
+Update: PyScripter does not work yet with the latest version of Rpyc 3.x. You can download version 2.6 from the [http://code.google.com/p/pyscripter/downloads/list Downloads section].
 
 === Troubleshooting ===
 
