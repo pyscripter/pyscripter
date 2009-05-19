@@ -1,13 +1,10 @@
 * Wiki contents *
 ----
-
-Main topics
- [PyScripter Overview]<br>
- [Features Features]<br>
- [Screenshots Screen shots]<br>
- [History History]<br>
- [FAQ FAQ]
-
-Other topics
- [RemoteEngines Remote Python Engines]
- [ColorSchemes Shortcuts and Color Shemes]
+ * [PyScripter Overview]<br>
+ * [Features Features]<br>
+ * [Screenshots Screen shots]<br>
+ * [History History]<br>
+ * [FAQ FAQ]
+ * 
+ * [RemoteEngines Remote Python Engines]
+ * [ColorSchemes Shortcuts and Color Shemes]
