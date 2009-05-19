@@ -1,11 +1,14 @@
+<wiki:gadget url="http://pyscripter.googlecode.com/svn/wiki/files/adsense3.xml" border="0" width="468" height="60" />
+
 = Frequently Asked Questions =
 
 <wiki:toc/>
 
-
 === Which Python versions are supported ===
 
 PyScripter supports Python versions 2.3, 2.4, 2.5, 2.6, 3.0 and 3.1.  You should consider support for version 2.3 as deprecated and likely to be dropped soon.
+
+[http://code.google.com/p/pyscripter/wiki/FAQ#Frequently_Asked_Questions Back to Top]
 
 === How can I debug Django applications with PyScripter? ===
 
@@ -19,6 +22,8 @@ Here is how you can debug [http://www.djangoproject.com/ Django] applications wi
   # Start a web browser and test your application. Pyscripter should now stop at whatever breakpoints you have set and you can use the various debugging facilities (call stack, variables, interpreter prompt etc.)
 
 To stop debugging, right-click on the interpreter window and select "Reinitialize Interpreter", then go to the browser and reload the document.
+
+[http://code.google.com/p/pyscripter/wiki/FAQ#Frequently_Asked_Questions Back to Top]
 
 === How do I use PyScriper with Portable (Movable) Python?  ===
 
@@ -34,9 +39,13 @@ b) In the same directory create a batch or command file that will set the PYTHON
 
 c) Start PyScripter using the created batch file.
 
+[http://code.google.com/p/pyscripter/wiki/FAQ#Frequently_Asked_Questions Back to Top]
+
 === How do I use Pyscripter with an unregistered version of Python? ===
 
 See answer above
+
+[http://code.google.com/p/pyscripter/wiki/FAQ#Frequently_Asked_Questions Back to Top]
 
 === When should I use the remote interpreter/debugger? ===
 
@@ -49,6 +58,8 @@ When you run GUI scripts such wxPython, Tkinter etc. it is necessary to use the 
 === How do I use the remote interpreter/debugger? ===
 
 See [RemoteEngines Remote Python Engines]
+
+[http://code.google.com/p/pyscripter/wiki/FAQ#Frequently_Asked_Questions Back to Top]
 
 === How do I use Matplotlib with PyScripter ===
 Using [http://matplotlib.sourceforge.net/ matplotlib] with PyScripter
@@ -171,3 +182,5 @@ demoplot()
 #view the file:
    import win32api
    win32api.ShellExecute(0, "open", filename+'.png', None, "", 1)}}}
+   
+[http://code.google.com/p/pyscripter/wiki/FAQ#Frequently_Asked_Questions Back to Top]

@@ -1,4 +1,7 @@
+<wiki:gadget url="http://pyscripter.googlecode.com/svn/wiki/files/adsense3.xml" border="0" width="468" height="60" />
+
 = Remote Interpreter and Debugger =
+
 In addition to using the internal integrated Python engine, PyScripter offers you the option to use one of three remote Python engines. These remote engines run in a separate process, so, when using them, script errors should not affect the stability of PyScripter. You can select the python engine that will be active from the Python Engine submenu of the Run menu. Here is a brief explanation of the Python engine options:
 
 === Python Engines: ===
