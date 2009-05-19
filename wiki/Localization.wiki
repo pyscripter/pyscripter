@@ -1,3 +1,5 @@
+<wiki:gadget url="http://pyscripter.googlecode.com/svn/wiki/files/adsense3.xml" border="0" width="468" height="60" />
+
 = Localization =
 
 PyScripter uses [http://www.gnu.org/software/gettext/ gettext] for creating localizing the user interface. The files that contains the strings be translated is located in the directory:
