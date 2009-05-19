@@ -2,8 +2,172 @@
 
 <wiki:toc/>
 
-=== Q1 ===
 
-=== Q1 ===
+=== Which Python versions are supported ===
 
-=== Q1 ===
+PyScripter supports Python versions 2.3, 2.4, 2.5, 2.6, 3.0 and 3.1.  You should consider support for version 2.3 as deprecated and likely to be dropped soon.
+
+=== How can I debug Django applications with PyScripter? ===
+
+Here is how you can debug [http://www.djangoproject.com/ Django] applications with Pyscripter in six simple steps:
+
+  # In the File explorer locate the root directory of your Django application. You may want to right click on the directory name and select File Explorer, Explore here.
+  # Open the project files in Pyscripter (e.g., models,py, views.py etc.) and set whatever breakpoints you want.
+  # Select Run, Command Line Parameters... and set the command line to "runserver --noreload". Also check the "Use Command line" checkbox.
+  # Make sure the remote engine is selected (Run, Python Engine, Remote).
+  # Open the manage.py file and press the debug button (or press F9).
+  # Start a web browser and test your application. Pyscripter should now stop at whatever breakpoints you have set and you can use the various debugging facilities (call stack, variables, interpreter prompt etc.)
+
+To stop debugging, right-click on the interpreter window and select "Reinitialize Interpreter", then go to the browser and reload the document.
+
+=== How do I use PyScriper with Portable (Movable) Python?  ===
+
+You can very easily setup PyScripter so that it can work with unregistered versions of Python such as for example [http://www.portablepython.com/ Portable Python] and [http://www.voidspace.org.uk/python/movpy/ Movable Python] which are typically residing in a USB stick or a portable hard disk.
+
+Steps:
+
+a) From an existing PyScripter installation copy PyScripter.exe PyScripter.chm and PyScripter.ini (this last file is typically located in the %APPDATA%\PyScripter directory) to a directory of your choice in the portable drive.
+
+b) In the same directory create a batch or command file that will set the PYTHONHOME environment variable and start PyScripter with appropriate command-line options e.g.
+
+{{{SET PYTHONHOME=E:\PortablePython PyScripter --PYTHON25 --PYTHONDLLPATH "E:\PortablePython" %1 %2 %3 %4 %5}}}
+
+c) Start PyScripter using the created batch file.
+
+=== How do I use Pyscripter with an unregistered version of Python? ===
+
+See answer above
+
+=== When should I use the remote interpreter/debugger? ===
+
+The remote interpreter/debugger is strongly recommended for all uses of PyScripter.  
+It is more robust since it isolates the IDE from the Python engine that runs your scripts.
+It also allows you to start afresh by reinitializing the Python engine.
+
+When you run GUI scripts such wxPython, Tkinter etc. it is necessary to use the remote Python engine.
+
+=== How do I use the remote interpreter/debugger? ===
+
+See [RemoteEngines Remote Python Engines]
+
+=== How do I use Matplotlib with PyScripter ===
+Using [http://matplotlib.sourceforge.net/ matplotlib] with PyScripter
+
+With the new Remote Python Engines you can now run matplotlib in interactive mode. Here is how:
+
+  * Choose the right Python engine (Run, Python Engine menu option) for the backend of your choice e.g. Remote engine Tk for the "TkAgg" backend or Remote Engine wx for the "WX" and "WxAggg" backends.
+  * Assuming that you have selected the Remote Engine wx, issue the following commands in the interpreter:
+  >>>import matplotlib
+  >>>matplotlib.interactive(True)
+  >>>matplotlib.use("WXAgg")
+  >>>from matplotlib.pylab import *
+  >>>plot([1,2,3])
+  >>>xlabel('time (s)')
+  * You can set the backend and interactive mode in the matplotlibrc file. If this is done, the following is sufficient for the above example:
+  >>> from pylab import *
+  >>> plot([1,2,3])
+  >>> xlabel('time (s)')
+
+  * Issue more pylab commands, or close the pylab window and call plot again for a new plot, etc.
+
+
+*Sample script by heylam*
+{{{
+#Tested on: PyScripter 1.9.9.2, Matplotlib 0.91.2
+ #Assumed setup:
+ #In site-packages\matplotlib\mpl-data\matplotlibrc set backend to WXAgg.
+
+def demoplot():
+   '''This represents your work'''
+   close('all') #closes figures
+   t = c_[0:1:20j]
+   s = cos(2*pi*t)
+   for ampl in c_[0.1:1:10j]:
+     plot(t, ampl*s, 'o-', lw=2)
+   xlabel('time (s)')
+   ylabel('voltage (mV)')
+   title('demo', color='b')
+   grid(True)
+   draw() #update figure if already shown
+
+#Select a demonstration:
+ if 0: #Normal session
+   #Starts non-interactive.
+   #Figures have toolbar for zooming and panning.
+   #Disadvantage: You can't re-run your script with PyScripter Remote
+   # engine without first reinitializing the Remote interpreter.
+   #Best use Remote(Wx) engine. This also allows interactive mode using
+   # ion() and ioff(). For disadvantages: see the PyScripter help file.
+
+#from numpy import *
+   #from scipy import * #includes numpy
+   from pylab import *  #includes scipy
+
+demoplot()
+   show() #Open the figure, let figure GUI take over.
+     #This should be last line of script.
+     #You can also type this at command line after the script exits.
+
+if 0:
+     ion() #turns interactive mode on  (needs Remote(Wx) engine!)
+     ylabel('interactive modification')
+     plot( rand(200), rand(200), 'go' )
+     ioff() #turns interactive mode off
+
+elif 0: #Same but use WX instead
+   try:
+     type(matplotlib)
+   except NameError:
+     import matplotlib
+     matplotlib.use('WX')
+     from matplotlib.pylab import *
+
+demoplot()
+   show() #Open the figure, let figure GUI take over.
+     #This should be last line of script.
+     #You can also type this at command line after the script exits.
+
+elif 0: #Same but start as interactive session, needs Remote(Wx)engine.
+   try:
+     type(matplotlib)
+   except NameError:
+     import matplotlib
+     matplotlib.interactive(True)
+     from matplotlib.pylab import *
+
+demoplot()
+   show() #Open the figure, let figure GUI take over.
+     #This should be last line of script.
+     #You can also type this at command line after the script exits.
+
+elif 0:#pdf output, allows use of Remote engine without re-initialization.
+   #Disadvantage: no figure toolbar.
+   #WARNING: close the file in acrobat reader before the next run.
+   #(Maybe other pdf viewers don't block file overwrite)
+   try:
+     type(matplotlib)
+   except NameError:
+     import matplotlib
+     matplotlib.use('PDF')
+     from pylab import *
+
+demoplot()
+   filename='demo_plot'
+   savefig(filename)
+
+#view the file:
+   import win32api
+   win32api.ShellExecute(0, "open", filename+'.pdf', None, "", 1)
+
+elif 1:#png output, allows use of Remote engine without re-initialization.
+   #Disadvantage: no figure toolbar.
+   #Tip: make Irfanview your standard viewer.
+   from pylab import *
+
+demoplot()
+   filename='demo_plot'
+   savefig(filename)
+
+#view the file:
+   import win32api
+   win32api.ShellExecute(0, "open", filename+'.png', None, "", 1)}}}
