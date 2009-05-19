@@ -1,14 +1,13 @@
-#summary Sidebar for PyScripter wiki
-*Wiki contents*
+* Wiki contents *
 ----
  
-Main topics
+* Main topics
   * [PyScripter Overview]
   * [Features Features]
   * [Screenshots Screen shots]
   * [History History]
   * [FAQ FAQ]
  
-Other topics
+* Other topics
   * [RemoteEngines Remote Python Engines]
   * [ColorSchemes Shortcuts and Color Shemes]
