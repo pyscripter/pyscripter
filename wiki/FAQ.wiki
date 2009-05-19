@@ -4,13 +4,13 @@
 
 <wiki:toc/>
 
-=== Which Python versions are supported ===
+=== Which Python versions are supported? ===
 
 PyScripter supports Python versions 2.3, 2.4, 2.5, 2.6, 3.0 and 3.1.  You should consider support for version 2.3 as deprecated and likely to be dropped soon.
 
 [http://code.google.com/p/pyscripter/wiki/FAQ#Frequently_Asked_Questions Back to Top]
 
-=== How can I debug Django applications with PyScripter? ===
+=== How can I debug Django applications with [PyScripter]? ===
 
 Here is how you can debug [http://www.djangoproject.com/ Django] applications with Pyscripter in six simple steps:
 
