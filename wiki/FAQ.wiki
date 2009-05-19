@@ -54,6 +54,8 @@ It is more robust since it isolates the IDE from the Python engine that runs you
 It also allows you to start afresh by reinitializing the Python engine.
 
 When you run GUI scripts such wxPython, Tkinter etc. it is necessary to use the remote Python engine.
+   
+[http://code.google.com/p/pyscripter/wiki/FAQ#Frequently_Asked_Questions Back to Top]
 
 === How do I use the remote interpreter/debugger? ===
 
@@ -68,16 +70,20 @@ With the new Remote Python Engines you can now run matplotlib in interactive mod
 
   * Choose the right Python engine (Run, Python Engine menu option) for the backend of your choice e.g. Remote engine Tk for the "TkAgg" backend or Remote Engine wx for the "WX" and "WxAggg" backends.
   * Assuming that you have selected the Remote Engine wx, issue the following commands in the interpreter:
+  {{{
   >>>import matplotlib
   >>>matplotlib.interactive(True)
   >>>matplotlib.use("WXAgg")
   >>>from matplotlib.pylab import *
   >>>plot([1,2,3])
-  >>>xlabel('time (s)')
+  >>>xlabel('time (s)') 
+  }}}
   * You can set the backend and interactive mode in the matplotlibrc file. If this is done, the following is sufficient for the above example:
+  {{{
   >>> from pylab import *
   >>> plot([1,2,3])
   >>> xlabel('time (s)')
+  }}}
 
   * Issue more pylab commands, or close the pylab window and call plot again for a new plot, etc.
 
@@ -181,6 +187,7 @@ demoplot()
 
 #view the file:
    import win32api
-   win32api.ShellExecute(0, "open", filename+'.png', None, "", 1)}}}
+   win32api.ShellExecute(0, "open", filename+'.png', None, "", 1) 
+}}}
    
 [http://code.google.com/p/pyscripter/wiki/FAQ#Frequently_Asked_Questions Back to Top]
