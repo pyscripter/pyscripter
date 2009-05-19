@@ -5,6 +5,6 @@
  * [Screenshots Screen shots]<br>
  * [History History]<br>
  * [FAQ FAQ]
- * 
+ * ----
  * [RemoteEngines Remote Python Engines]
  * [ColorSchemes Shortcuts and Color Shemes]
