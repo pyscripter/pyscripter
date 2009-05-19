@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Module>
+  <ModulePrefs author_email="pyscripter@gmail.com" author="Kiriakos Vlahos" author_link="http://pyscripter.googlecode.com/" description="I love adsense" height="60" title="Adsense" title_url="http://pyscripter.googlecode.com/"/>
+  <Content type="html">
+  	<![CDATA[
+		<script type="text/javascript"><!--
+			google_ad_client = "pub-2352356855783269";
+			/* 468x60, created 12/29/07 */
+			google_ad_slot = "7711700228";
+			google_ad_width = 468;
+			google_ad_height = 60;
+		//-->
+		</script>
+		<script type="text/javascript"
+			src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+		</script>
+  	]]>
+  </Content>
+</Module>
