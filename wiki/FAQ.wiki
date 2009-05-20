@@ -31,9 +31,9 @@ You can very easily setup PyScripter so that it can work with unregistered versi
 
 Steps:
 
-a) From an existing !PyScripter installation copy PyScripter.exe PyScripter.chm and PyScripter.ini (this last file is typically located in the %APPDATA%\PyScripter directory) to a directory of your choice in the portable drive.
+a) From an existing !PyScripter installation copy !PyScripter.exe !PyScripter.chm and !PyScripter.ini (this last file is typically located in the %APPDATA%\!PyScripter directory) to a directory of your choice in the portable drive.
 
-b) In the same directory create a batch or command file that will set the PYTHONHOME environment variable and start PyScripter with appropriate command-line options e.g.
+b) In the same directory create a batch or command file that will set the PYTHONHOME environment variable and start !PyScripter with appropriate command-line options e.g.
 
 {{{SET PYTHONHOME=E:\PortablePython PyScripter --PYTHON25 --PYTHONDLLPATH "E:\PortablePython" %1 %2 %3 %4 %5}}}
 
@@ -203,7 +203,7 @@ When installed it affects PyScripter in two ways.
   *  It contains a custom python25.dll in its directory which is placed on the windows path
   *  It loads various python library dlls in the running space of !PyScripter through the !PyScripter File Explorer
       
-The above create problems that can be resolved as follows
+The above create problems that can be resolved as follows:
   * Solution 1
      Use !PyScripter with a python version different than 2.5 which comes with TortoiseHg.
      You can force !PyScripter to use a specific version of Python using the -PYTHONxx start up flags e.g.
