@@ -2,7 +2,7 @@
 
 == Themes ==
 
-In version 1.9.9.7, PyScripter introduced an updated theme(skin) engine that allows the loading of external themes.  You can download additional themes (skins) from [http://www.mytreedb.com/downloads/m-subcat/a-skins.html this site].  The downloaded skins contain files with the "skn" extension.  Place these skn files in the directory %APPDATA%\!PyScripter\Skins and the external skins will be automatically available in !PyScripter. (%APPDATA% is the directory pointed by the corresponding environment variable).
+In version 1.9.9.7, PyScripter introduced an updated theme (skin) engine that allows the loading of external themes.  You can download additional themes (skins) from [http://www.mytreedb.com/downloads/m-subcat/a-skins.html this site].  The downloaded skins contain files with the "skn" extension.  Place these skn files in the directory %APPDATA%\!PyScripter\Skins and the external skins will be automatically available in !PyScripter. (%APPDATA% is the directory pointed by the corresponding environment variable).
 
 You can also create your own skins by using the skin editor provided [http://www.mytreedb.com/downloads/m-cat/a-skinwamp.html here].
 
