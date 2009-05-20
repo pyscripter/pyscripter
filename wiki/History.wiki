@@ -2,6 +2,13 @@
 
 = History =
 
+===Version 1.9.9.7 (May 20, 2009)=== 
+
+  * *New features:*     
+    * Updated theme engine with [http://code.google.com/p/pyscripter/wiki/Customization customizable themes]
+    * Python 3.1 support
+  * *Bug fixes*     
+    * Issue #269, Issue #273, Issue #278, Issue #291, Issue #292
 
 ===Version 1.9.9.6 (Feb 16, 2009)=== 
 
