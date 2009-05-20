@@ -7,5 +7,5 @@
  * [FAQ FAQ]
  * ----
  * [RemoteEngines Remote Python Engines]
- * [ColorSchemes Shortcuts and Color Shemes] 
+ * [Customization] 
  * [Localization]
