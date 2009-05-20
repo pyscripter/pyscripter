@@ -51,6 +51,9 @@ type
     ViewsTabControl: TSpTBXTabControl;
     tabSource: TSpTBXTabItem;
     tbshSource: TSpTBXTabSheet;
+    SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem;
+    tbiUpdateView: TSpTBXItem;
+    tbiCloseTab: TSpTBXItem;
     procedure SynEditMouseMove(Sender: TObject; Shift: TShiftState; X,
       Y: Integer);
     procedure SynParamCompletionExecute(Kind: SynCompletionType;
@@ -100,6 +103,8 @@ type
     procedure mnUpdateViewClick(Sender: TObject);
     procedure ViewsTabControlContextPopup(Sender: TObject; MousePos: TPoint;
       var Handled: Boolean);
+    procedure ViewsTabControlActiveTabChange(Sender: TObject;
+      TabIndex: Integer);
   private
     fEditor: TEditor;
     fAutoCompleteActive : Boolean;
@@ -783,6 +788,7 @@ begin
 
   PythonIIForm.WritePendingMessages;
   PythonIIForm.AppendPrompt;
+  Activate;
 end;
 
 // IFileCommands implementation
@@ -2556,6 +2562,13 @@ begin
   SynEdit := TSynCompletionProposal(Sender).Editor;
   SynWebFillCompletionProposal(SynEdit, CommandsDataModule.SynWebHtmlSyn,
     SynWebCompletion, CurrentInput);
+end;
+
+procedure TEditorForm.ViewsTabControlActiveTabChange(Sender: TObject;
+  TabIndex: Integer);
+begin
+  tbiUpdateView.Enabled := ViewsTabControl.ActivePage <> tbshSource;
+  tbiCloseTab.Enabled := ViewsTabControl.ActivePage <> tbshSource;
 end;
 
 procedure TEditorForm.ViewsTabControlContextPopup(Sender: TObject;

@@ -2594,7 +2594,6 @@ Var
   InnerRect, R: TRect;
   NodeWidth : integer;
   CurrentAlignment: TAlignment;
-  State: TSpTBXSkinStatesType;
 begin
   if SkinManager.IsDefaultSkin then Exit;
   if CellPaintMode <> cpmPaint then Exit;
@@ -2636,10 +2635,8 @@ begin
         end;
         if not IsRectEmpty(InnerRect) then begin
           TargetCanvas.FillRect(InnerRect);
-          State := CurrentSkin.GetState(True, False, Node = HotNode, vsSelected in Node.States);
-          CurrentSkin.PaintBackground(TargetCanvas, InnerRect, skncListItem, State, True, False);
-//          SpDrawXPListItemBackground(TargetCanvas, InnerRect, vsSelected in Node.States, Node = HotNode,
-//            False, SkinManager.GetSkinType, True);
+          SpDrawXPListItemBackground(TargetCanvas, InnerRect, vsSelected in Node.States, Node = HotNode,
+            False, SkinManager.GetSkinType, True, False);
         end;
       end;
     end;

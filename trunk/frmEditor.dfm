@@ -44,24 +44,43 @@ object EditorForm: TEditorForm
       Align = alClient
       OnContextPopup = ViewsTabControlContextPopup
       ActiveTabIndex = 0
+      Images = CommandsDataModule.Images
+      OnActiveTabChange = ViewsTabControlActiveTabChange
       HiddenItems = <>
       object tabSource: TSpTBXTabItem
         Caption = 'Source'
         Checked = True
       end
+      object SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem
+        CustomWidth = 462
+      end
+      object tbiUpdateView: TSpTBXItem
+        Caption = 'Update View'
+        Hint = 'Update View|Update the selected view'
+        ImageIndex = 39
+        OnClick = mnUpdateViewClick
+      end
+      object tbiCloseTab: TSpTBXItem
+        Caption = 'Close Tab'
+        Hint = 'Close active tab'
+        ImageIndex = 52
+        OnClick = mnCloseTabClick
+      end
       object tbshSource: TSpTBXTabSheet
         Left = 0
-        Top = 25
+        Top = 26
         Width = 562
-        Height = 354
+        Height = 353
         Caption = 'Source'
         ImageIndex = -1
+        ExplicitTop = 25
+        ExplicitHeight = 354
         TabItem = 'tabSource'
         object SynEdit: TSynEdit
           Left = 2
           Top = 0
           Width = 351
-          Height = 350
+          Height = 349
           HelpContext = 510
           Align = alClient
           Ctl3D = False
@@ -100,6 +119,7 @@ object EditorForm: TEditorForm
           OnSpecialLineColors = SynEditSpecialLineColors
           OnStatusChange = SynEditStatusChange
           OnPaintTransient = SynEditPaintTransient
+          ExplicitHeight = 350
           RemovedKeystrokes = <
             item
               Command = ecDeleteLastChar
@@ -119,7 +139,7 @@ object EditorForm: TEditorForm
           Left = 358
           Top = 0
           Width = 200
-          Height = 350
+          Height = 349
           Align = alRight
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
@@ -147,15 +167,17 @@ object EditorForm: TEditorForm
           OnSpecialLineColors = SynEditSpecialLineColors
           OnStatusChange = SynEditStatusChange
           OnPaintTransient = SynEditPaintTransient
+          ExplicitHeight = 350
         end
         object EditorSplitter: TSpTBXSplitter
           Left = 353
           Top = 0
-          Height = 350
+          Height = 349
           Cursor = crSizeWE
           Align = alRight
           Visible = False
           GripSize = 80
+          ExplicitHeight = 350
         end
       end
     end
