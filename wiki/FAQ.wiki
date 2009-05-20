@@ -195,7 +195,7 @@ demoplot()
 [http://code.google.com/p/pyscripter/wiki/FAQ#Frequently_Asked_Questions Back to Top]
 
 
-=== How do I use Pyscripter with TortoiseHg installed  ===
+=== How do I use Pyscripter with !TortoiseHg installed  ===
 
 [http://bitbucket.org/tortoisehg/stable/wiki/Home TortoiseHg] is Windows Explorer extention 
 for the [http://www.selenic.com/mercurial/wiki/ Mercurial] distributed revision control system.
@@ -205,8 +205,8 @@ When installed it affects PyScripter in two ways.
       
 The above create problems that can be resolved as follows
   * Solution 1
-     Use Pyscripter with a python version different than 2.5 which comes with TortoiseHg
-     for example by the -PYTHONxx start up flags e.g.
+     Use Pyscripter with a python version different than 2.5 which comes with TortoiseHg.
+     You can force PyScripter to use a specific version of Python using the -PYTHONxx start up flags e.g.
      {{{ PyScripter --PYTHON26 }}}
   * Solution 2
      If you really need to use Python 2.5 then create a command file with the following
