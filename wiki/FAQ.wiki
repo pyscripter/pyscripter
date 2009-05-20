@@ -201,8 +201,7 @@ demoplot()
 for the [http://www.selenic.com/mercurial/wiki/ Mercurial] distributed revision control system.
 When installed it affects PyScripter in two ways.
   *  It contains a custom python25.dll in its directory which is placed on the windows path
-  *  It loads various pyhon library dlls in the running space of Pyscripter through the Pyscripter
-      File Explorer
+  *  It loads various python library dlls in the running space of Pyscripter through the Pyscripter File Explorer
       
 The above create problems that can be resolved as follows
   * Solution 1
@@ -217,7 +216,7 @@ The above create problems that can be resolved as follows
 	regsvr32 "C:\Program Files\TortoiseHg\tortoisehg.dll" 
      }}}
      Then run Pyscripter using this command file.  Note that the PYTHONDLLPATH should point
-     to the directory in which the originall python dll that came from the python installation program
+     to the directory in which the originall python25.dll that came from the python installation program
      resides.
      
 
