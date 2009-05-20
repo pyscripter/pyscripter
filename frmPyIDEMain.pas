@@ -328,7 +328,16 @@ Limitations: Python scripts are executed in the main thread
                    132, 134, 135, 136, 137, 138, 139, 140, 141, 146, 147, 150, 153, 155,
                    160, 164, 165, 166, 167, 168, 169, 171, 174, 178, (182), 186,
                    193, 195, 196, 197, 198, 201, 202, 204, 206, 208, 212, 219, 226,
-                   228, 229, 234, 235, 237, 253, 261, (269), (273), (287), (291), (292) fixed
+                   228, 229, 234, 235, 237, 253, 261 fixed
+
+ History:   v 1.9.9.7
+          New Features
+            Updated theme engine with customizable themes
+            Python 3.1 support
+          Bug fixes
+            Issues  269, 273, 287, 291, 292
+
+
 
   Vista Compatibility issues (all resolved)
   -  Flip3D and Form preview (solved with LX)
@@ -347,8 +356,8 @@ Limitations: Python scripts are executed in the main thread
   -  Customizer form (DONE)
   -  Theming of various windows (DONE)
   -  Find Toolbar - Replace TSpTBXComboItem (DONE)
-  -  Theming of JvTabbar (Replace with SpTBXTabControl) (Done)
-  -  Painting of ListViewItems
+  -  Theming of JvTabbar (Replace with SpTBXTabControl) (DONE)
+  -  Painting of ListViewItems (DONE)
 
 -----------------------------------------------------------------------------}
 
@@ -376,9 +385,9 @@ interface
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms,
   Variants, dmCommands, ActnList, Menus, uEditAppIntfs,
-  JvDockControlForm, JvDockVIDStyle, JvDockVSNetStyle, 
+  JvDockControlForm, JvDockVIDStyle, JvDockVSNetStyle,
   SynEditTypes, SynEditMiscClasses, cPyBaseDebugger,
-  cPyDebugger, JvAppStorage,  JvAppIniStorage, JvLED, SynEdit, 
+  cPyDebugger, JvAppStorage,  JvAppIniStorage, JvLED, SynEdit,
   TB2Dock, TB2Toolbar, TB2Item, ExtCtrls, JvExControls,
   cRefactoring, dlgCustomShortcuts,
   TB2ExtItems, JvDockTree,
