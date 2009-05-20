@@ -12,36 +12,36 @@ PyScripter supports Python versions 2.3, 2.4, 2.5, 2.6, 3.0 and 3.1.  You should
 
 === How can I debug Django applications? ===
 
-Here is how you can debug [http://www.djangoproject.com/ Django] applications with Pyscripter in six simple steps:
+Here is how you can debug [http://www.djangoproject.com/ Django] applications with PyScripter in six simple steps:
 
   # In the File explorer locate the root directory of your Django application. You may want to right click on the directory name and select File Explorer, Explore here.
-  # Open the project files in Pyscripter (e.g., models,py, views.py etc.) and set whatever breakpoints you want.
+  # Open the project files in !PyScripter (e.g., models,py, views.py etc.) and set whatever breakpoints you want.
   # Select Run, Command Line Parameters... and set the command line to "runserver --noreload". Also check the "Use Command line" checkbox.
   # Make sure the remote engine is selected (Run, Python Engine, Remote).
   # Open the manage.py file and press the debug button (or press F9).
-  # Start a web browser and test your application. Pyscripter should now stop at whatever breakpoints you have set and you can use the various debugging facilities (call stack, variables, interpreter prompt etc.)
+  # Start a web browser and test your application. !PyScripter should now stop at whatever breakpoints you have set and you can use the various debugging facilities (call stack, variables, interpreter prompt etc.)
 
 To stop debugging, right-click on the interpreter window and select "Reinitialize Interpreter", then go to the browser and reload the document.
 
 [http://code.google.com/p/pyscripter/wiki/FAQ#Frequently_Asked_Questions Back to Top]
 
-=== How do I use Pyscripter with Portable (Movable) Python?  ===
+=== How do I use !PyScripter with Portable (Movable) Python?  ===
 
 You can very easily setup PyScripter so that it can work with unregistered versions of Python such as for example [http://www.portablepython.com/ Portable Python] and [http://www.voidspace.org.uk/python/movpy/ Movable Python] which are typically residing in a USB stick or a portable hard disk.
 
 Steps:
 
-a) From an existing PyScripter installation copy PyScripter.exe PyScripter.chm and PyScripter.ini (this last file is typically located in the %APPDATA%\PyScripter directory) to a directory of your choice in the portable drive.
+a) From an existing !PyScripter installation copy PyScripter.exe PyScripter.chm and PyScripter.ini (this last file is typically located in the %APPDATA%\PyScripter directory) to a directory of your choice in the portable drive.
 
 b) In the same directory create a batch or command file that will set the PYTHONHOME environment variable and start PyScripter with appropriate command-line options e.g.
 
 {{{SET PYTHONHOME=E:\PortablePython PyScripter --PYTHON25 --PYTHONDLLPATH "E:\PortablePython" %1 %2 %3 %4 %5}}}
 
-c) Start PyScripter using the created batch file.
+c) Start !PyScripter using the created batch file.
 
 [http://code.google.com/p/pyscripter/wiki/FAQ#Frequently_Asked_Questions Back to Top]
 
-=== How do I use Pyscripter with an unregistered version of Python? ===
+=== How do I use !PyScripter with an unregistered version of Python? ===
 
 See answer above
 
@@ -49,7 +49,7 @@ See answer above
 
 === When should I use the remote interpreter/debugger? ===
 
-The remote interpreter/debugger is strongly recommended for all uses of PyScripter.  
+The remote interpreter/debugger is strongly recommended for all uses of !PyScripter.  
 It is more robust since it isolates the IDE from the Python engine that runs your scripts.
 It also allows you to start afresh by reinitializing the Python engine.
 
@@ -63,7 +63,7 @@ See [RemoteEngines Remote Python Engines]
 
 [http://code.google.com/p/pyscripter/wiki/FAQ#Frequently_Asked_Questions Back to Top]
 
-=== How do I use Matplotlib with Pyscripter? ===
+=== How do I use Matplotlib with !PyScripter? ===
 
 To work with [http://matplotlib.sourceforge.net/ matplotlib] within PyScripter you should use the [RemoteEngines Remote Python Engines]. 
 
@@ -195,27 +195,27 @@ demoplot()
 [http://code.google.com/p/pyscripter/wiki/FAQ#Frequently_Asked_Questions Back to Top]
 
 
-=== How do I use Pyscripter with !TortoiseHg installed  ===
+=== How do I use !PyScripter with !TortoiseHg installed  ===
 
 [http://bitbucket.org/tortoisehg/stable/wiki/Home TortoiseHg] is Windows Explorer extention 
 for the [http://www.selenic.com/mercurial/wiki/ Mercurial] distributed revision control system.
 When installed it affects PyScripter in two ways.
   *  It contains a custom python25.dll in its directory which is placed on the windows path
-  *  It loads various python library dlls in the running space of Pyscripter through the Pyscripter File Explorer
+  *  It loads various python library dlls in the running space of !PyScripter through the !PyScripter File Explorer
       
 The above create problems that can be resolved as follows
   * Solution 1
-     Use Pyscripter with a python version different than 2.5 which comes with TortoiseHg.
-     You can force PyScripter to use a specific version of Python using the -PYTHONxx start up flags e.g.
+     Use !PyScripter with a python version different than 2.5 which comes with TortoiseHg.
+     You can force !PyScripter to use a specific version of Python using the -PYTHONxx start up flags e.g.
      {{{ PyScripter --PYTHON26 }}}
   * Solution 2
      If you really need to use Python 2.5 then create a command file with the following
      {{{
         regsvr32 /u "C:\Program Files\TortoiseHg\tortoisehg.dll" 
-	Pyscripter --PYTHON25 --PYTHONDLLPATH=c:\windows\system32
+	PyScripter --PYTHON25 --PYTHONDLLPATH=c:\windows\system32
 	regsvr32 "C:\Program Files\TortoiseHg\tortoisehg.dll" 
      }}}
-     Then run Pyscripter using this command file.  Note that the PYTHONDLLPATH should point
+     Then run !PyScripter using this command file.  Note that the PYTHONDLLPATH should point
      to the directory in which the originall python25.dll that came from the python installation program
      resides.
      
