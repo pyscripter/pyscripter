@@ -193,3 +193,10 @@ demoplot()
 }}}
    
 [http://code.google.com/p/pyscripter/wiki/FAQ#Frequently_Asked_Questions Back to Top]
+
+
+=== How do I use Pyscripter with TortoiseHg installed  ===
+
+[http://bitbucket.org/tortoisehg/stable/wiki/Home TortoiseHg] is 
+
+[http://code.google.com/p/pyscripter/wiki/FAQ#Frequently_Asked_Questions Back to Top]
