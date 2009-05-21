@@ -711,8 +711,6 @@ type
     mnNavProjectExplorer2: TSpTBXItem;
     SpTBXSubmenuItem2: TSpTBXSubmenuItem;
     mnHelpProjectHome: TSpTBXItem;
-    mnHelpDevelopmentWebSite: TSpTBXItem;
-    mnHelpOfficialWebSite: TSpTBXItem;
     mnHelpWebSupport: TSpTBXItem;
     mnFileCloseAllOther: TSpTBXItem;
     mnEditUtf16BE: TSpTBXItem;
@@ -1528,7 +1526,7 @@ procedure TPyIDEMainForm.TabContolContextPopup(Sender: TObject;
 Var
   IV: TTBItemViewer;
 begin
-  IV := TabControl.View.ViewerFromPoint(MousePos);
+  IV := TabControl.View.ViewerFromPoint(TabControl.Toolbar.ScreenToClient(TabControl.ClientToScreen(MousePos)));
   if Assigned(IV) and (IV.Item is TSpTBXTabItem) then
     IV.Item.Checked := True;
   //To update File Close

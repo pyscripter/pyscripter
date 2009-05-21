@@ -2,9 +2,10 @@ inherited DirectoryListDialog: TDirectoryListDialog
   Left = 206
   Top = 99
   BorderIcons = [biSystemMenu]
+  BorderStyle = bsSizeable
   Caption = 'Directory list'
-  ClientHeight = 352
-  ClientWidth = 389
+  ClientHeight = 342
+  ClientWidth = 379
   Constraints.MinHeight = 208
   Constraints.MinWidth = 358
   Font.Name = 'MS Shell Dlg 2'
@@ -17,19 +18,21 @@ inherited DirectoryListDialog: TDirectoryListDialog
   object SpTBXPanel1: TSpTBXPanel
     Left = 0
     Top = 0
-    Width = 389
-    Height = 242
+    Width = 379
+    Height = 232
     Align = alClient
     TabOrder = 0
     TBXStyleBackground = True
+    ExplicitWidth = 389
+    ExplicitHeight = 242
     DesignSize = (
-      389
-      242)
+      379
+      232)
     object DirectoryList: TSpTBXListBox
       Left = 10
       Top = 34
-      Width = 342
-      Height = 199
+      Width = 332
+      Height = 189
       Style = lbStandard
       Anchors = [akLeft, akTop, akRight, akBottom]
       DragMode = dmAutomatic
@@ -38,9 +41,11 @@ inherited DirectoryListDialog: TDirectoryListDialog
       OnClick = DirectoryListClick
       OnDragDrop = DirectoryListDragDrop
       OnDragOver = DirectoryListDragOver
+      ExplicitWidth = 342
+      ExplicitHeight = 199
     end
     object btnMoveUp: TSpTBXButton
-      Left = 354
+      Left = 345
       Top = 96
       Width = 28
       Height = 24
@@ -50,9 +55,10 @@ inherited DirectoryListDialog: TDirectoryListDialog
       OnClick = btnMoveUpClick
       Images = CommandsDataModule.Images
       ImageIndex = 47
+      ExplicitLeft = 354
     end
     object btnMoveDown: TSpTBXButton
-      Left = 354
+      Left = 345
       Top = 134
       Width = 28
       Height = 24
@@ -62,6 +68,7 @@ inherited DirectoryListDialog: TDirectoryListDialog
       OnClick = btnMoveDownClick
       Images = CommandsDataModule.Images
       ImageIndex = 48
+      ExplicitLeft = 354
     end
     object SpTBXLabel1: TSpTBXLabel
       Left = 8
@@ -73,31 +80,34 @@ inherited DirectoryListDialog: TDirectoryListDialog
   end
   object SpTBXPanel2: TSpTBXPanel
     Left = 0
-    Top = 242
-    Width = 389
+    Top = 232
+    Width = 379
     Height = 110
     Caption = 'SpTBXPanel2'
     Align = alBottom
     TabOrder = 1
     BorderType = pbrFramed
     TBXStyleBackground = True
+    ExplicitTop = 242
+    ExplicitWidth = 389
     DesignSize = (
-      389
+      379
       110)
     object SpTBXPanel3: TSpTBXPanel
       Left = 2
       Top = 66
-      Width = 385
+      Width = 375
       Height = 42
       Caption = 'SpTBXPanel3'
       Align = alBottom
       TabOrder = 0
       TBXStyleBackground = True
+      ExplicitWidth = 385
       DesignSize = (
-        385
+        375
         42)
       object OKBtn: TSpTBXButton
-        Left = 210
+        Left = 200
         Top = 10
         Width = 75
         Height = 25
@@ -106,9 +116,10 @@ inherited DirectoryListDialog: TDirectoryListDialog
         TabOrder = 0
         Default = True
         ModalResult = 1
+        ExplicitLeft = 210
       end
       object CancelBtn: TSpTBXButton
-        Left = 298
+        Left = 288
         Top = 10
         Width = 75
         Height = 25
@@ -117,6 +128,7 @@ inherited DirectoryListDialog: TDirectoryListDialog
         TabOrder = 1
         Cancel = True
         ModalResult = 2
+        ExplicitLeft = 298
       end
     end
     object btnAdd: TSpTBXButton
@@ -142,13 +154,13 @@ inherited DirectoryListDialog: TDirectoryListDialog
     object edPath: TSpTBXButtonEdit
       Left = 10
       Top = 6
-      Width = 342
+      Width = 332
       Height = 21
       Hint = 'Enter file path here'
       Anchors = [akLeft, akTop, akRight]
       TabOrder = 3
       OnChange = edPathChange
-      EditButton.Left = 318
+      EditButton.Left = 308
       EditButton.Top = 0
       EditButton.Width = 20
       EditButton.Height = 17
@@ -157,6 +169,8 @@ inherited DirectoryListDialog: TDirectoryListDialog
       EditButton.OnClick = BtnPathClick
       EditButton.Images = CommandsDataModule.Images
       EditButton.ImageIndex = 45
+      EditButton.ExplicitLeft = 318
+      ExplicitWidth = 342
     end
     object btnDelete: TSpTBXButton
       Left = 228

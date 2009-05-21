@@ -200,6 +200,7 @@ type
     SpTBXTabItem4: TSpTBXTabItem;
     Color: TSpTBXTabSheet;
     KeyList: TEasyListview;
+    SpTBXPanel1: TSpTBXPanel;
     procedure SynEdit1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnFontClick(Sender: TObject);
