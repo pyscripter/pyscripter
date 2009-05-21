@@ -2669,6 +2669,10 @@ msgstr "&Διαμόρφωση Εκτυπωτή..."
 msgid "Printer setup"
 msgstr "Διαμόρφωση Εκτυπωτή"
 
+#. PyIDEMainForm..TBXDockTop..MainMenu..FileMenu..PrinterSetup1..Caption
+msgid "Printer Set&up..."
+msgstr "Διαμόρφωση Εκτυπωτή"
+
 #. CommandsDataModule..actlMain..actPrintPreview..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..FileMenu..PrintPreview1..Caption
 #: dmCommands.dfm:14125

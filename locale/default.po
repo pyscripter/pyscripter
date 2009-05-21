@@ -5631,6 +5631,11 @@ msgstr ""
 msgid "Printer setup"
 msgstr ""
 
+#. PyIDEMainForm..TBXDockTop..MainMenu..FileMenu..PrinterSetup1..Caption
+#: frmPyIDEMain.dfm:539
+msgid "Printer Set&up..."
+msgstr ""
+
 #. Command Window
 #. Programmer's name for it: SProcessTerminated
 #: StringResources.pas:179

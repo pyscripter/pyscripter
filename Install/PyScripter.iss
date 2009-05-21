@@ -3,8 +3,8 @@
 
 [Setup]
 AppName=PyScripter
-AppVersion=1.9.9.6
-AppVerName=PyScripter 1.9.9.6
+AppVersion=1.9.9.7
+AppVerName=PyScripter 1.9.9.7
 AppPublisher=PyScripter
 AppPublisherURL=http://pyscripter.googlepages.com
 AppSupportURL=http://groups.google.com/group/PyScripter
@@ -14,7 +14,7 @@ DefaultGroupName=PyScripter
 InfoBeforeFile=BeforeInstallPyScripter.txt
 InfoAfterFile=AfterInstallPyScripter.txt
 OutputDir=Output
-OutputBaseFilename=PyScripter-v1.9.9.6-Setup
+OutputBaseFilename=PyScripter-v1.9.9.7-Setup
 Compression=lzma
 SolidCompression=true
 ChangesAssociations=true
