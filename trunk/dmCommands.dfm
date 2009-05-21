@@ -4308,24 +4308,6 @@ object CommandsDataModule: TCommandsDataModule
       Hint = 'Go to the curent position of the debugger'
       OnExecute = actSearchGoToDebugLineExecute
     end
-    object actHelpOfficialWebSite: TTntAction
-      Category = 'Help'
-      Caption = '&Official Web Site'
-      HelpContext = 370
-      HelpType = htContext
-      Hint = 'Go to the official web site'
-      ImageIndex = 147
-      OnExecute = actHelpOfficialWebSiteExecute
-    end
-    object actHelpDevelopmentWebsite: TTntAction
-      Category = 'Help'
-      Caption = '&Development Web Site'
-      HelpContext = 370
-      HelpType = htContext
-      Hint = 'Go To the developement web site'
-      ImageIndex = 147
-      OnExecute = actHelpDevelopmentWebsiteExecute
-    end
     object actHelpWebProjectHome: TTntAction
       Category = 'Help'
       Caption = '&Project Home'

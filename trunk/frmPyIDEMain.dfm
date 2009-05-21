@@ -1149,12 +1149,6 @@ object PyIDEMainForm: TPyIDEMainForm
         end
         object SpTBXSubmenuItem2: TSpTBXSubmenuItem
           Caption = 'Web Support'
-          object mnHelpOfficialWebSite: TSpTBXItem
-            Action = CommandsDataModule.actHelpOfficialWebSite
-          end
-          object mnHelpDevelopmentWebSite: TSpTBXItem
-            Action = CommandsDataModule.actHelpDevelopmentWebsite
-          end
           object mnHelpProjectHome: TSpTBXItem
             Action = CommandsDataModule.actHelpWebProjectHome
           end
@@ -1511,7 +1505,7 @@ object PyIDEMainForm: TPyIDEMainForm
       CustomHeight = 21
     end
     object SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem
-      CustomWidth = 0
+      CustomWidth = 407
     end
     object SpTBXSeparatorItem5: TSpTBXSeparatorItem
     end

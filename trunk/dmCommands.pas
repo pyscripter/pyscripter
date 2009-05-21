@@ -260,8 +260,6 @@ type
     actFileCloseAllOther: TTntAction;
     actHelpWebGroupSupport: TTntAction;
     actHelpWebProjectHome: TTntAction;
-    actHelpDevelopmentWebsite: TTntAction;
-    actHelpOfficialWebSite: TTntAction;
     actSearchGoToDebugLine: TTntAction;
     actEditWordWrap: TTntAction;
     actSearchHighlight: TTntAction;
@@ -414,8 +412,6 @@ type
     procedure actSearchHighlightExecute(Sender: TObject);
     procedure actEditWordWrapExecute(Sender: TObject);
     procedure actSearchGoToDebugLineExecute(Sender: TObject);
-    procedure actHelpOfficialWebSiteExecute(Sender: TObject);
-    procedure actHelpDevelopmentWebsiteExecute(Sender: TObject);
     procedure actHelpWebProjectHomeExecute(Sender: TObject);
     procedure actHelpWebGroupSupportExecute(Sender: TObject);
     procedure actFileCloseAllOtherExecute(Sender: TObject);
@@ -2278,11 +2274,6 @@ begin
   PyIDEMainForm.MenuHelpRequested := False;
 end;
 
-procedure TCommandsDataModule.actHelpDevelopmentWebsiteExecute(Sender: TObject);
-begin
-  OpenObject('http://pyscripter.googlepages.com');
-end;
-
 procedure TCommandsDataModule.ParameterCompletionCodeCompletion(
   Sender: TObject; var Value: WideString; Shift: TShiftState; Index: Integer;
   EndToken: WideChar);
@@ -2406,11 +2397,6 @@ begin
   PyIDEMainForm.MenuHelpRequested := True;
   Application.HelpJump('externaltools');
   PyIDEMainForm.MenuHelpRequested := False;
-end;
-
-procedure TCommandsDataModule.actHelpOfficialWebSiteExecute(Sender: TObject);
-begin
-  OpenObject('http://mmm-experts.com/Products.aspx?ProductID=4');
 end;
 
 procedure TCommandsDataModule.actHelpEditorShortcutsExecute(

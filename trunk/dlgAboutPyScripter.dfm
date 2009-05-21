@@ -33,58 +33,6 @@ inherited AboutBox: TAboutBox
     object tbLinks: TSpTBXTabItem
       Caption = 'Links'
     end
-    object SpTBXTabSheet3: TSpTBXTabSheet
-      Left = 0
-      Top = 0
-      Width = 358
-      Height = 220
-      Caption = 'Links'
-      ImageIndex = -1
-      TabItem = 'tbLinks'
-      object ScrollBox1: TScrollBox
-        Left = 2
-        Top = 4
-        Width = 352
-        Height = 216
-        VertScrollBar.Smooth = True
-        VertScrollBar.Style = ssHotTrack
-        VertScrollBar.Tracking = True
-        Align = alClient
-        BevelKind = bkSoft
-        BorderStyle = bsNone
-        TabOrder = 0
-        object JvLinkLabel1: TJvLinkLabel
-          Left = 0
-          Top = 0
-          Width = 348
-          Height = 169
-          Caption = 
-            '<b>Links:</b><br><br>'#13#10'-  Official releases of PyScripter are di' +
-            'stributed by mmm-experts (<link>www.mmm-experts.com </link>)<br>' +
-            #13#10'-  Unofficial updates (recommended) are available from the PyS' +
-            'cripter development site at <link>pyscripter.googlepages.com </l' +
-            'ink> )<br>'#13#10'- The Issue Tracker and source code repository are h' +
-            'osted at Google Code (<link>code.google.com/p/pyscripter</link>)' +
-            '<br>'#13#10'- Internet group support is avalable at <link>groups.googl' +
-            'e.com/group/PyScripter</link>)<br>'#13#10'<br>'#13#10'Please submit bug repo' +
-            'rts and questions about PyScripter to pyscripter@gmail.com.'
-          Text.Strings = (
-            
-              '<b>Links:</b><br><br>'#13#10'-  Official releases of PyScripter are di' +
-              'stributed by mmm-experts (<link>www.mmm-experts.com </link>)<br>' +
-              #13#10'-  Unofficial updates (recommended) are available from the PyS' +
-              'cripter development site at <link>pyscripter.googlepages.com </l' +
-              'ink> )<br>'#13#10'- The Issue Tracker and source code repository are h' +
-              'osted at Google Code (<link>code.google.com/p/pyscripter</link>)' +
-              '<br>'#13#10'- Internet group support is avalable at <link>groups.googl' +
-              'e.com/group/PyScripter</link>)<br>'#13#10'<br>'#13#10'Please submit bug repo' +
-              'rts and questions about PyScripter to pyscripter@gmail.com.')
-          HotLinks = True
-          OnLinkClick = JvLinkLabelLinkClick
-          Align = alTop
-        end
-      end
-    end
     object SpTBXTabSheet2: TSpTBXTabSheet
       Left = 0
       Top = 0
@@ -161,6 +109,52 @@ inherited AboutBox: TAboutBox
           Font.Name = 'Arial'
           Font.Style = []
           ParentFont = False
+        end
+      end
+    end
+    object SpTBXTabSheet3: TSpTBXTabSheet
+      Left = 0
+      Top = 0
+      Width = 358
+      Height = 220
+      Caption = 'Links'
+      ImageIndex = -1
+      TabItem = 'tbLinks'
+      object ScrollBox1: TScrollBox
+        Left = 2
+        Top = 4
+        Width = 352
+        Height = 216
+        VertScrollBar.Smooth = True
+        VertScrollBar.Style = ssHotTrack
+        VertScrollBar.Tracking = True
+        Align = alClient
+        BevelKind = bkSoft
+        BorderStyle = bsNone
+        TabOrder = 0
+        object JvLinkLabel1: TJvLinkLabel
+          Left = 0
+          Top = 0
+          Width = 348
+          Height = 117
+          Caption = 
+            '<b>Links:</b><br><br>'#13#10'- The project home, Issue Tracker and sou' +
+            'rce code repository are hosted at Google Code (<link>pyscripter.' +
+            'googlecode.com</link>)<br>'#13#10'- Internet group support is avalable' +
+            ' at <link>groups.google.com/group/PyScripter</link>)<br>'#13#10'<br>'#13#10 +
+            'Please submit bug reports and questions about PyScripter to pysc' +
+            'ripter@gmail.com.'
+          Text.Strings = (
+            
+              '<b>Links:</b><br><br>'#13#10'- The project home, Issue Tracker and sou' +
+              'rce code repository are hosted at Google Code (<link>pyscripter.' +
+              'googlecode.com</link>)<br>'#13#10'- Internet group support is avalable' +
+              ' at <link>groups.google.com/group/PyScripter</link>)<br>'#13#10'<br>'#13#10 +
+              'Please submit bug reports and questions about PyScripter to pysc' +
+              'ripter@gmail.com.')
+          HotLinks = True
+          OnLinkClick = JvLinkLabelLinkClick
+          Align = alTop
         end
       end
     end
