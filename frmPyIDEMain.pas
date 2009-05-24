@@ -337,6 +337,10 @@ Limitations: Python scripts are executed in the main thread
           Bug fixes
             Issues  269, 273, 287, 291, 292
 
+ History:   v 1.9.9.8
+          New Features
+          Bug fixes
+            Issues  236
 
 
   Vista Compatibility issues (all resolved)

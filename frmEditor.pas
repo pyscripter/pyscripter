@@ -1604,10 +1604,10 @@ begin
     BC := BufferCoord(Length(IPrevLine), ASynEdit.CaretY -1);
 
     if ASynEdit.GetHighlighterAttriAtRowCol(BC, DummyToken, Attr) and not
-     ((attr = ASynEdit.Highlighter.StringAttribute) or
+     (//(attr = ASynEdit.Highlighter.StringAttribute) or
       (attr = ASynEdit.Highlighter.CommentAttribute) or
-      (attr = CommandsDataModule.SynPythonSyn.CodeCommentAttri) or
-      (attr = CommandsDataModule.SynPythonSyn.DocStringAttri)) then
+      (attr = CommandsDataModule.SynPythonSyn.CodeCommentAttri) {or
+      (attr = CommandsDataModule.SynPythonSyn.DocStringAttri)}) then
     begin
 
       Position := 1;

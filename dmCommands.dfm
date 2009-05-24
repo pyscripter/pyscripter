@@ -1571,6 +1571,7 @@ object CommandsDataModule: TCommandsDataModule
           '    sys.path.remove(os.path.dirname(sys.executable))'
           'except:'
           '    pass'
+          'sys.path.insert(0, "")'
           ''
           'del DebugOutput'
           'del code'
@@ -2120,6 +2121,7 @@ object CommandsDataModule: TCommandsDataModule
           '    sys.path.remove(os.path.dirname(sys.executable))'
           'except:'
           '    pass'
+          'sys.path.insert(0, "")'
           ''
           'del DebugOutput'
           'del code'
@@ -2710,10 +2712,17 @@ object CommandsDataModule: TCommandsDataModule
           'sys.modules['#39'__builtin__'#39'].raw_input = _RPI.Win32RawInput'
           'sys.modules['#39'__builtin__'#39'].input = _RPI.Win32Input'
           ''
+          'import os'
+          'try:'
+          '    sys.path.remove(os.path.dirname(sys.argv[0]))'
+          'except:'
+          '    pass'
+          'sys.path.insert(0, "")'
+          ''
           'del code'
           'del RemotePythonInterpreter'
           'del sys'
-          '')
+          'del os')
       end
       item
         Name = 'RpyC_Init3000'
@@ -3273,10 +3282,18 @@ object CommandsDataModule: TCommandsDataModule
           ''
           '_RPI = RemotePythonInterpreter(globals())'
           ''
+          'import os'
+          'try:'
+          '    sys.path.remove(os.path.dirname(sys.argv[0]))'
+          'except:'
+          '    pass'
+          'sys.path.insert(0, "")'
+          ''
           'sys.modules['#39'builtins'#39'].input=_RPI.Win32RawInput'
           'del code'
           'del RemotePythonInterpreter'
-          'del sys')
+          'del sys'
+          'del os')
       end
       item
         Name = 'SimpleServer'

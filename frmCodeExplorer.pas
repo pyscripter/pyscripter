@@ -458,7 +458,8 @@ var
   Data : PNodeDataRec;
 begin
   Data := ExplorerTree.GetNodeData(Node);
-  CellText := Data.CENode.Caption;
+  if Assigned(Data) then
+    CellText := Data.CENode.Caption;
 end;
 
 procedure TCodeExplorerWindow.ExplorerTreeGetHint(Sender: TBaseVirtualTree;
