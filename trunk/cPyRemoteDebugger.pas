@@ -714,6 +714,7 @@ begin
   if Length(Path) > 1 then begin
     // Add the path of the executed file to the Python path
     PythonPathAdder := AddPathToPythonPath(Path, False);
+    SysPathRemove('');
   end;
 
   if Editor.FileName <> '' then
@@ -746,6 +747,9 @@ begin
     end else if AddToNameSpace then
       RPI.locals.__setitem__(VarPythonCreate(NameOfModule), Result);
   finally
+    //  Add again the empty path
+    SysPathAdd('');
+
     PyControl.DoStateChange(dsInactive);
   end;
 end;
@@ -872,6 +876,7 @@ begin
   if Length(Path) > 1 then begin
     // Add the path of the executed file to the Python path - Will be automatically removed
     PythonPathAdder := AddPathToPythonPath(Path);
+    SysPathRemove('');
 
     // Change the current path
     try
@@ -921,6 +926,9 @@ begin
 
       // Restore the command line parameters
       RestoreCommandLine;
+
+      //  Add again the empty path
+      SysPathAdd('');
 
       // Change the back current path
       RPI.rem_chdir(OldPath);
@@ -1454,6 +1462,7 @@ begin
     if Length(Path) > 1 then begin
       // Add the path of the executed file to the Python path - Will be automatically removed
       PythonPathAdder := AddPathToPythonPath(Path);
+      SysPathRemove('');
 
       // Change the current path
       try
@@ -1546,6 +1555,9 @@ begin
 
         // Restore the command line parameters
         RestoreCommandLine;
+
+        //  Add again the empty path
+        SysPathAdd('');
 
         // Change the back current path
         fRemotePython.RPI.rem_chdir(OldPath);

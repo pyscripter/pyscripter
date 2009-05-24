@@ -274,7 +274,8 @@ var
   Data : PNodeDataRec;
 begin
   Data := ExplorerTree.GetNodeData(Node);
-  CellText := Data.UTWNode.Caption;
+  if Assigned(Data) then
+    CellText := Data.UTWNode.Caption;
 end;
 
 procedure TUnitTestWizard.ExplorerTreeInitChildren(Sender: TBaseVirtualTree;

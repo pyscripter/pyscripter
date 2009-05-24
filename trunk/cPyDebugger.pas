@@ -609,6 +609,7 @@ begin
     if Length(Path) > 1 then begin
       // Add the path of the executed file to the Python path - Will be automatically removed
       PythonPathAdder := AddPathToPythonPath(Path);
+      SysPathRemove('');
 
       // Change the current path
       try
@@ -685,6 +686,9 @@ begin
       // Restore the command line parameters
       RestoreCommandLine;
 
+      //  Add again the empty path
+      SysPathAdd('');
+
       // Change the back current path
       WideSetCurrentDir(OldPath);
 
@@ -700,7 +704,7 @@ begin
   end;
 end;
 
-function TPyInternalDebugger.RunSource(Const Source, FileName : Variant; symbol : WideString = 'single') : boolean; 
+function TPyInternalDebugger.RunSource(Const Source, FileName : Variant; symbol : WideString = 'single') : boolean;
 // The internal interpreter RunSource calls II.runsource which differs
 // according to whether we debugging or not
 Var
@@ -1092,6 +1096,7 @@ begin
   if Length(Path) > 1 then begin
     // Add the path of the executed file to the Python path
     PythonPathAdder := AddPathToPythonPath(Path, False);
+    SysPathRemove('');
   end;
 
   if Editor.FileName <> '' then
@@ -1117,6 +1122,9 @@ begin
       // add Module name to the locals() of the interpreter
       GetPythonEngine.ExecString('import ' + NameOfModule);
   finally
+    //  Add again the empty path
+    SysPathAdd('');
+
     PyControl.DoStateChange(dsInactive);
   end;
 end;
@@ -1244,6 +1252,7 @@ begin
   if Length(Path) > 1 then begin
     // Add the path of the executed file to the Python path - Will be automatically removed
     PythonPathAdder := AddPathToPythonPath(Path);
+    SysPathRemove('');
 
     // Change the current path
     try
@@ -1292,6 +1301,9 @@ begin
 
     // Restore the command line parameters
     RestoreCommandLine;
+
+    //  Add again the empty path
+    SysPathAdd('');
 
     // Change the back current path
     WideSetCurrentDir(OldPath);

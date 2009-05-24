@@ -1039,7 +1039,8 @@ var
   Data : PNodeDataRec;
 begin
   Data := ExplorerTree.GetNodeData(Node);
-  CellText := Data.ProjectNode.Caption;
+  if Assigned(Data) then
+    CellText := Data.ProjectNode.Caption;
 end;
 
 procedure TProjectExplorerWindow.ExplorerTreeInitChildren(

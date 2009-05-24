@@ -4,7 +4,6 @@ inherited UnitTestWizard: TUnitTestWizard
   ClientHeight = 491
   ClientWidth = 436
   Font.Name = 'MS Shell Dlg 2'
-  Position = poMainFormCenter
   ExplicitWidth = 442
   ExplicitHeight = 517
   PixelsPerInch = 96
@@ -17,7 +16,6 @@ inherited UnitTestWizard: TUnitTestWizard
     Align = alClient
     TabOrder = 0
     TBXStyleBackground = True
-    ExplicitHeight = 492
     DesignSize = (
       436
       491)
@@ -45,6 +43,7 @@ inherited UnitTestWizard: TUnitTestWizard
       BorderWidth = 2
       CheckImageKind = ckXP
       Header.AutoSizeIndex = -1
+      Header.DefaultHeight = 17
       Header.Font.Charset = DEFAULT_CHARSET
       Header.Font.Color = clWindowText
       Header.Font.Height = -11
@@ -67,7 +66,6 @@ inherited UnitTestWizard: TUnitTestWizard
       OnGetHint = ExplorerTreeGetHint
       OnInitChildren = ExplorerTreeInitChildren
       OnInitNode = ExplorerTreeInitNode
-      ExplicitHeight = 339
       Columns = <>
     end
     object Label1: TSpTBXLabel
