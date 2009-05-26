@@ -1489,10 +1489,10 @@ begin
     // Shut down help
     Application.OnHelp := nil;
     // QC25183
-    try
-      Application.HelpCommand(HELP_QUIT, 0);
-    except
-    end;
+//    try
+//      Application.HelpCommand(HELP_QUIT, 0);
+//    except
+//    end;
 
     // Stop DropTarget to make sure tis unregistered
     RevokeDragDrop(TabControl.Handle);
