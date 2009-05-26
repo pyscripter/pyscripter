@@ -123,7 +123,7 @@
 			<Directories Name="UnitOutputDir"></Directories>
 			<Directories Name="PackageDLLOutputDir"></Directories>
 			<Directories Name="PackageDCPOutputDir"></Directories>
-			<Directories Name="SearchPath">C:\Delphi\components\jvcl\run</Directories>
+			<Directories Name="SearchPath">C:\Program Files\Borland\BDS\4.0\lib\debug;C:\Delphi\COMPON~1\jcl\lib\d10\debug;C:\Delphi\components\jvcl\run</Directories>
 			<Directories Name="Packages">vcl;rtl;vcldb;dbrtl;vclx;xmlrtl;vclie;inetdbbde;inet;inetdbxpress;IndySystem;IndyCore;dclOfficeXP;VclSmp;soaprtl;dsnap;IndyProtocols;inetdb;bdertl;vcldbx;vclactnband;vclshlctrls;teeui;teedb;tee;DJcl;JvStdCtrlsD9R;JvAppFrmD9R;JvCoreD9R;JvBandsD9R;JvDlgsD9R;JvCmpD9R;JvCtrlsD9R;JvCustomD9R;JvDockingD9R;JvHMID9R;JvInspectorD9R;JvPageCompsD9R;JvPluginD9R;JvSystemD9R;JvValidatorsD9R;Python_bds3;SynEdit_R2005;tb2k_d9;tbx_d9;VirtualTreesD9;VirtualShellToolsD9;FreeComp9;DJclVcl;mbTBXJvLibD9D;JvRuntimeDesignD9R</Directories>
 			<Directories Name="Conditionals">PYTHON23</Directories>
 			<Directories Name="DebugSourceDirs"></Directories>
@@ -176,6 +176,7 @@
 			<Language Name="ProjectLang">$00000000</Language>
 			<Language Name="RootDir"></Language>
 		</Language>  
+    
     <Excluded_Packages>
       <Excluded_Packages Name="c:\program files\borland\bds\4.0\Bin\bcbie100.bpl">Borland C++Builder Internet Explorer 5 Components Package</Excluded_Packages>
     </Excluded_Packages>

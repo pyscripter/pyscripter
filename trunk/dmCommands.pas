@@ -1056,9 +1056,12 @@ begin
 end;
 
 procedure TCommandsDataModule.actFileCloseExecute(Sender: TObject);
+Var
+  Editor : IEditor;
 begin
-  if GI_FileCmds <> nil then
-    GI_FileCmds.ExecClose;
+  Editor := PyIDEMainForm.GetActiveEditor;
+  if Assigned(Editor) then
+    (Editor as IFileCommands).ExecClose;
 end;
 
 procedure TCommandsDataModule.actEditCutExecute(Sender: TObject);
@@ -2203,9 +2206,10 @@ begin
     actEditShowSpecialChars.Checked := False;
   end;
 
+  Editor := PyIDEMainForm.GetActiveEditor;
   // File Actions
   actFileReload.Enabled := (GI_FileCmds <> nil) and GI_FileCmds.CanReload;
-  actFileClose.Enabled := (GI_FileCmds <> nil) and GI_FileCmds.CanClose;
+  actFileClose.Enabled := Assigned(Editor) and Editor.CanClose;
   actFilePrint.Enabled := (GI_FileCmds <> nil) and GI_FileCmds.CanPrint;
   actPrintPreview.Enabled := actFilePrint.Enabled;
   actFileSave.Enabled := (GI_FileCmds <> nil) and GI_FileCmds.CanSave;
@@ -2229,7 +2233,7 @@ begin
   actSearchFindPrev.Enabled := actSearchFindNext.Enabled;
   actSearchReplace.Enabled := (SearchCommands <> nil) and SearchCommands.CanReplace;
   actSearchReplaceNow.Enabled := actSearchFindNext.Enabled and SearchCommands.CanReplace;
-  Editor := PyIDEMainForm.GetActiveEditor;
+
   SearchCommands := nil;
   if Assigned(Editor) then
     SearchCommands := Editor as ISearchCommands;
