@@ -438,10 +438,12 @@ begin
     PyControl.ActiveInterpreter.SysPathToStrings(Paths);
     mnPythonPath.Clear;
     for i := 0 to Paths.Count - 1  do begin
-      Item := TSpTBXItem.Create(mnPythonPath);
-      Item.Caption := Paths[i];
-      Item.OnClick := PathItemClick;
-      mnPythonPath.Add(Item);
+      if Paths[i] <> '' then begin
+        Item := TSpTBXItem.Create(mnPythonPath);
+        Item.Caption := Paths[i];
+        Item.OnClick := PathItemClick;
+        mnPythonPath.Add(Item);
+      end;
     end;
   finally
     Paths.Free;
