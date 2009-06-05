@@ -340,7 +340,7 @@ Limitations: Python scripts are executed in the main thread
  History:   v 1.9.9.8
           New Features
           Bug fixes
-            Issues  236
+            Issues  236, 304
 
 
   Vista Compatibility issues (all resolved)

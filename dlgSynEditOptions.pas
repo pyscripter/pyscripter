@@ -901,10 +901,10 @@ begin
 
   AKey.Command:= Cmd;
 
-  if eKeyShort1.HotKey <> 0 then
+  //if eKeyShort1.HotKey <> 0 then  Issue 304
     AKey.ShortCut := eKeyShort1.HotKey;
 
-  if eKeyShort2.HotKey <> 0 then
+  //if eKeyShort2.HotKey <> 0 then
     AKey.ShortCut2:= eKeyShort2.HotKey;
 
 end;
@@ -1062,8 +1062,7 @@ end;
 
 procedure TfmEditorOptionsDialog.FillInKeystrokeInfo(
   AKey: TSynEditKeystroke; AItem: TEasyItem);
-var TmpString: String;
-begin
+var TmpString: String;      begin
   with AKey do
   begin
     if Command >= ecUserFirst then

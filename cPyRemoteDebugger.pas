@@ -62,7 +62,7 @@ type
     procedure RunNoDebug(ARunConfig : TRunConfiguration); override;
     function RunSource(Const Source, FileName : Variant; symbol : WideString = 'single') : boolean; override;
     function EvalCode(const Expr : WideString) : Variant; override;
-    function GetObjectType(Ob : Variant) : WideString; override;
+//    function GetObjectType(Ob : Variant) : WideString; override;
 
     property IsAvailable : Boolean read fIsAvailable;
     property IsConnected : Boolean read fIsConnected;
@@ -161,7 +161,7 @@ constructor TRemNameSpaceItem.Create(aName : WideString; aPyObject : Variant;
 begin
   inherited Create(aName, aPyObject);
   fRemotePython := RemotePython;
-  fIsProxy := fRemotePython.Rpyc.isproxy(fPyObject);
+  fIsProxy := VarIsInstanceOf(fPyObject,  fRemotePython.Rpyc.BaseNetRef);
 end;
 
 function TRemNameSpaceItem.GetChildCount: integer;
@@ -498,16 +498,16 @@ begin
 
   fOldSysModules := SysModule.modules.copy();
   try
-    Rpyc := Import('Rpyc');
+    Rpyc := Import('rpyc');
     fIsAvailable := True;
 
-    // Check Rpyc version
-    if VarModuleHasObject(Rpyc, '__version__') and
-        ((Rpyc.__version__[0] <> 2) or (Rpyc.__version__[1] <> 60)) then
-    begin
-      WideMessageDlg(_(SWrongRpycVersion), mtError, [mbAbort], 0);
-      fIsAvailable := False;
-    end;
+//    // Check Rpyc version
+//    if VarModuleHasObject(Rpyc, '__version__') and
+//        ((Rpyc.__version__[0] <> 2) or (Rpyc.__version__[1] <> 60)) then
+//    begin
+//      WideMessageDlg(_(SWrongRpycVersion), mtError, [mbAbort], 0);
+//      fIsAvailable := False;
+//    end;
   except
     WideMessageDlg(_(SRpycNotAvailable), mtError, [mbAbort], 0);
     fIsAvailable := False;
@@ -633,21 +633,21 @@ begin
     Evalcode('globals()'), Self);
 end;
 
-function TPyRemoteInterpreter.GetObjectType(Ob: Variant): WideString;
-Var
-  SuppressOutput : IInterface;
-begin
-  CheckConnected;
-  SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
-  try
-    if Rpyc.isproxy(ob) then
-      Result := RPI.objecttype(ob)
-    else
-      Result := InternalInterpreter.GetObjectType(ob);
-  except
-    Result := 'Unknown type';
-  end;
-end;
+//function TPyRemoteInterpreter.GetObjectType(Ob: Variant): WideString;
+//Var
+//  SuppressOutput : IInterface;
+//begin
+//  CheckConnected;
+//  SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
+//  try
+//    if Rpyc.isproxy(ob) then
+//      Result := RPI.objecttype(ob)
+//    else
+//      Result := InternalInterpreter.GetObjectType(ob);
+//  except
+//    Result := 'Unknown type';
+//  end;
+//end;
 
 procedure TPyRemoteInterpreter.HandleRemoteException(ExcInfo: Variant; SkipFrames : integer = 1);
 Var
@@ -1005,7 +1005,7 @@ begin
   else
     for i := 1 to 10 do begin
       try
-        Conn := Rpyc.SocketConnection('localhost', fSocketPort);
+        Conn := Rpyc.classic.connect('localhost', fSocketPort);
         Result := True;
         fIsConnected := True;
         fThreadExecInterrupted := False;
@@ -1018,8 +1018,7 @@ begin
 
   if Result then begin
     // Redirect Output
-    OutputRedirector := Rpyc.RedirectedStd(Conn);
-    OutputRedirector.redirect();
+    OutputRedirector := Rpyc.classic.redirected_stdio(Conn);
 /////////////////////////////////////////////////////
     Conn.modules('sys').modules.__setitem__('__oldmain__', Conn.modules('sys').modules.__getitem__('__main__'));
     Conn.modules('sys').modules.__setitem__('__main__', Conn.modules('imp').new_module('__main__'));
