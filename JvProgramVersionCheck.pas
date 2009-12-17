@@ -15,11 +15,11 @@ Contributor : Ed Blanchard
 All Rights Reserved.
 
 You may retrieve the latest version of this file at the Project JEDI's JVCL home page,
-located at http://jvcl.sourceforge.net
+located at http://jvcl.delphi-jedi.org
 
 Known Issues:
 -----------------------------------------------------------------------------}
-// $Id: JvProgramVersionCheck.pas 11853 2008-08-08 19:20:02Z jfudickar $
+// $Id: JvProgramVersionCheck.pas 12461 2009-08-14 17:21:33Z obones $
 
 unit JvProgramVersionCheck;
 
@@ -38,8 +38,8 @@ uses
   {$IFDEF USE_3RDPARTY_ICS}
   HttpProt, FtpCli,
   {$ENDIF USE_3RDPARTY_ICS}
-  JvPropertyStore, JvAppStorage, JvAppIniStorage, JvAppXMLStorage, 
-  JvParameterList, JvThread, JvThreadDialog;
+  JvPropertyStore, JvAppStorage, JvAppIniStorage, JvAppXMLStorage, JvComponent,
+  JvParameterList, JvThread, JvUrlListGrabber, JvUrlGrabbers, JvThreadDialog;
 
 type
   { Type of release of a Program Version }
@@ -475,6 +475,10 @@ type
         TjvProgramVersionHistoryFileFormat): TJvCustomAppMemoryFileStorage;
     function GetDownloadError: string;
     function GetSelectedLocation: TJvCustomProgramVersionLocation;
+    procedure SetLocationDatabase(const Value: TJvProgramVersionDatabaseLocation);
+    procedure SetLocationFTP(const Value: TJvProgramVersionFTPLocation);
+    procedure SetLocationHTTP(const Value: TJvProgramVersionHTTPLocation);
+    procedure SetLocationNetwork(const Value: TJvProgramVersionNetworkLocation);
     procedure SetVersionHistoryFileOptions(const Value:
         TJvProgramVersionHistoryAppStorageOptions);
   protected
@@ -537,14 +541,13 @@ type
     property LocalVersionInfoFileName: string
       read FLocalVersionInfoFileName write FLocalVersionInfoFileName;
     { Database Location }
-    property LocationDatabase: TJvProgramVersionDatabaseLocation
-      read FLocationDatabase write FLocationDatabase;
+    property LocationDatabase: TJvProgramVersionDatabaseLocation read FLocationDatabase write SetLocationDatabase;
     { FTP Location }
-    property LocationFTP: TJvProgramVersionFTPLocation read FLocationFTP write FLocationFTP;
+    property LocationFTP: TJvProgramVersionFTPLocation read FLocationFTP write SetLocationFTP;
     { HTTP Location }
-    property LocationHTTP: TJvProgramVersionHTTPLocation read FLocationHTTP write FLocationHTTP;
+    property LocationHTTP: TJvProgramVersionHTTPLocation read FLocationHTTP write SetLocationHTTP;
     { Network Location }
-    property LocationNetwork: TJvProgramVersionNetworkLocation read FLocationNetwork write FLocationNetwork;
+    property LocationNetwork: TJvProgramVersionNetworkLocation read FLocationNetwork write SetLocationNetwork;
     { Defines location which is used for the version check,
     only assigned locations are supported }
     property LocationType: TJvProgramVersionLocationType read FLocationType write FLocationType;
@@ -559,9 +562,9 @@ type
 {$IFDEF UNITVERSIONING}
 const
   UnitVersioning: TUnitVersionInfo = (
-    RCSfile: '$URL: https://jvcl.svn.sourceforge.net/svnroot/jvcl/branches/JVCL3_36_PREPARATION/run/JvProgramVersionCheck.pas $';
-    Revision: '$Revision: 11853 $';
-    Date: '$Date: 2008-08-08 21:20:02 +0200 (ven., 08 aoΓ»t 2008) $';
+    RCSfile: '$URL: https://jvcl.svn.sourceforge.net/svnroot/jvcl/tags/JVCL3_39/run/JvProgramVersionCheck.pas $';
+    Revision: '$Revision: 12461 $';
+    Date: '$Date: 2009-08-14 19:21:33 +0200 (ven., 14 aoΓ»t 2009) $';
     LogPath: 'JVCL\run'
     );
 {$ENDIF UNITVERSIONING}
@@ -571,7 +574,7 @@ implementation
 uses
   SysUtils, Dialogs, Controls, ComCtrls, StdCtrls, Forms,
   JclBase, JclFileUtils, JclShell,
-  JvDSADialogs, JvParameterListParameter, JvResources, Windows, Messages;
+  JvDSADialogs, JvParameterListParameter, JvResources, Windows, Messages, JvJVCLUtils;
 
 const
   SParamNameVersionButtonInfo = 'VersionButtonInfo';
@@ -1698,6 +1701,26 @@ begin
   end;
 end;
 
+procedure TJvProgramVersionCheck.SetLocationDatabase(const Value: TJvProgramVersionDatabaseLocation);
+begin
+  ReplaceComponentReference (Self, Value, TComponent(FLocationDatabase));
+end;
+
+procedure TJvProgramVersionCheck.SetLocationFTP(const Value: TJvProgramVersionFTPLocation);
+begin
+  ReplaceComponentReference (Self, Value, TComponent(FLocationFTP));
+end;
+
+procedure TJvProgramVersionCheck.SetLocationHTTP(const Value: TJvProgramVersionHTTPLocation);
+begin
+  ReplaceComponentReference (Self, Value, TComponent(FLocationHTTP));
+end;
+
+procedure TJvProgramVersionCheck.SetLocationNetwork(const Value: TJvProgramVersionNetworkLocation);
+begin
+  ReplaceComponentReference (Self, Value, TComponent(FLocationNetwork));
+end;
+
 
 procedure TJvProgramVersionCheck.VersionInfoButtonClick(const ParameterList: TJvParameterList;
   const Parameter: TJvBaseParameter);
@@ -1745,6 +1768,7 @@ function TJvProgramVersionHTTPLocationIndy.LoadFileFromRemoteIndy(
 var
   ResultStream: TFileStream;
   ResultName: string;
+  RemoteURL: string;
 begin
   Result := '';
   if (DirectoryExists(ALocalPath) or (ALocalPath = '')) then
@@ -1755,10 +1779,20 @@ begin
   else
     Exit;
 
+  if (ARemotePath <> '') and (ARemotePath[Length(ARemotePath)] <> '/') then
+    RemoteURL := ARemotePath + '/' + ARemoteFileName
+  else
+    RemoteURL := ARemotePath + ARemoteFileName;
+
   ResultStream := TFileStream.Create(ResultName, fmCreate);
   try
     {$IFDEF USE_3RDPARTY_INDY10}
-    FIdHTTP.BoundPort := Port;
+    FIdHTTP.URL.URI := RemoteURL;
+    if (FIdHTTP.URL.Port = '') and (Port <> 0) then
+    begin
+      FIdHTTP.URL.Port := IntToStr(Port);
+      RemoteURL := FIdHTTP.URL.URI;
+    end;
     {$ELSE}
     FIdHTTP.Port := Port;
     {$ENDIF USE_3RDPARTY_INDY10}
@@ -1772,10 +1806,7 @@ begin
       FIdHTTP.Request.Password := Password;
     FIdHTTP.Request.BasicAuthentication := PasswordRequired;
     try
-      if Copy(ARemotePath, Length(ARemotePath), 1) <> '/' then
-        FIdHTTP.Get(ARemotePath + '/' + ARemoteFileName, ResultStream)
-      else
-        FIdHTTP.Get(ARemotePath + ARemoteFileName, ResultStream);
+      FIdHTTP.Get(RemoteURL, ResultStream)
     except
       on E: Exception do
         DownloadError := E.Message;
@@ -2112,4 +2143,3 @@ finalization
 {$ENDIF UNITVERSIONING}
 
 end.
-

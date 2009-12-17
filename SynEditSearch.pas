@@ -28,7 +28,7 @@ replace them with the notice and other provisions required by the GPL.
 If you do not delete the provisions above, a recipient may use your version
 of this file under either the MPL or the GPL.
 
-$Id: SynEditSearch.pas,v 1.12.2.4 2008/09/14 16:24:59 maelh Exp $
+$Id: SynEditSearch.pas,v 1.12.2.6 2009/09/29 00:16:46 maelh Exp $
 
 You may retrieve the latest version of this file at the SynEdit home page,
 located at http://SynEdit.SourceForge.net
@@ -72,7 +72,7 @@ type
     fWhole: Boolean;
     fResults: TList;
     fShiftInitialized: Boolean;
-    fTextToSearch : UnicodeString; //KV
+    FTextToSearch: UnicodeString;
     function GetFinished: Boolean;
     procedure InitShiftTable;
     procedure SetCaseSensitive(const Value: Boolean);
@@ -254,7 +254,7 @@ begin
       Pat := CasedPat
     else
       Pat := SynWideLowerCase(CasedPat);
-    fShiftInitialized := False;  //KV
+    fShiftInitialized := False;
   end;
 end;
 
@@ -286,16 +286,11 @@ begin
   fTextLen := Length(NewText);
   if fTextLen >= PatLen then
   begin
-//  KV  
-//    if CaseSensitive then
-//      Origin := PWideChar(NewText)
-//    else
-//      Origin := PWideChar(SynWideLowerCase(NewText));
     if CaseSensitive then
-      fTextToSearch := NewText
+      FTextToSearch := NewText
     else
-      fTextToSearch := SynWideLowerCase(NewText);
-    Origin := PWideChar(fTextToSearch);
+      FTextToSearch := SynWideLowerCase(NewText);
+    Origin := PWideChar(FTextToSearch);
     TheEnd := Origin + fTextLen;
     Run := (Origin - 1);
     Result := Next;
