@@ -17,11 +17,11 @@ All Rights Reserved.
 Contributor(s):
 
 You may retrieve the latest version of this file at the Project JEDI's JVCL home page,
-located at http://jvcl.sourceforge.net
+located at http://jvcl.delphi-jedi.org
 
 Known Issues:
 -----------------------------------------------------------------------------}
-// $Id: JvDockInfo.pas 11620 2007-12-16 19:00:26Z ahuser $
+// $Id: JvDockInfo.pas 12461 2009-08-14 17:21:33Z obones $
 
 unit JvDockInfo;
 
@@ -30,16 +30,11 @@ unit JvDockInfo;
 interface
 
 uses
-  {$IFDEF USEJVCL}
   {$IFDEF UNITVERSIONING}
   JclUnitVersioning,
   {$ENDIF UNITVERSIONING}
-  {$ENDIF USEJVCL}
   Windows, IniFiles, Registry, Classes, Controls, Forms,
-  {$IFDEF USEJVCL}
-  JvAppStorage,
-  {$ENDIF USEJVCL}
-  JvDockControlForm, JvDockSupportClass, JvDockSupportProc;
+  JvAppStorage, JvDockControlForm, JvDockSupportClass, JvDockSupportProc;
 
 type
   TJvDockInfoTree = class;
@@ -112,10 +107,9 @@ type
   //
   TJvDockInfoStyle =
     (isNone,  {  No mode set }
-     {$IFDEF USEJVCL}
      isJVCLReadInfo,  { Mode for this scan is JVCL App Storage Load }
      isJVCLWriteInfo, { Mode for this scan is JVCL App Storage Save }
-     {$ENDIF USEJVCL}
+
      isReadFileInfo,  { Mode for this scan is Text File Read.  Backwards compatible.  }
      isWriteFileInfo, { Mode for this scan is Text File Write. Backwards compatible.  }
 
@@ -129,10 +123,8 @@ type
     JvDocking. }
   TJvDockInfoTree = class(TJvDockBaseTree)
   private
-    {$IFDEF USEJVCL}
     FAppStorage: TJvCustomAppStorage;
     FAppStoragePath: string;
-    {$ENDIF USEJVCL}
     FDockInfoIni: TCustomIniFile;
     FDockInfoReg: TRegistry;
     FRegName: string;
@@ -142,9 +134,7 @@ type
     function CreateHostControl(ATreeZone: TJvDockInfoZone): TWinControl;
   protected
     procedure ScanTreeZone(TreeZone: TJvDockBaseZone); override;
-    {$IFDEF USEJVCL}
     procedure CreateZoneAndAddInfoFromAppStorage; virtual;
-    {$ENDIF USEJVCL}
     procedure CreateZoneAndAddInfoFromIni; virtual;
     procedure CreateZoneAndAddInfoFromReg; virtual;
     procedure SetDockControlInfo(ATreeZone: TJvDockInfoZone); virtual;
@@ -157,12 +147,10 @@ type
     // object.
     procedure CreateZoneAndAddInfoFromApp(Control: TControl); virtual;
 
-    {$IFDEF USEJVCL}
     procedure ReadInfoFromAppStorage;
     procedure WriteInfoToAppStorage;
     property AppStorage: TJvCustomAppStorage read FAppStorage write FAppStorage;
     property AppStoragePath: string read FAppStoragePath write FAppStoragePath;
-    {$ENDIF USEJVCL}
     procedure ReadInfoFromIni;
     procedure ReadInfoFromReg(const RegName: string);
     procedure WriteInfoToIni;
@@ -171,17 +159,15 @@ type
     property DockInfoReg: TRegistry read FDockInfoReg write FDockInfoReg;
   end;
 
-{$IFDEF USEJVCL}
 {$IFDEF UNITVERSIONING}
 const
   UnitVersioning: TUnitVersionInfo = (
-    RCSfile: '$URL: https://jvcl.svn.sourceforge.net/svnroot/jvcl/branches/JVCL3_36_PREPARATION/run/JvDockInfo.pas $';
-    Revision: '$Revision: 11620 $';
-    Date: '$Date: 2007-12-16 20:00:26 +0100 (dim., 16 déc. 2007) $';
+    RCSfile: '$URL: https://jvcl.svn.sourceforge.net/svnroot/jvcl/tags/JVCL3_39/run/JvDockInfo.pas $';
+    Revision: '$Revision: 12461 $';
+    Date: '$Date: 2009-08-14 19:21:33 +0200 (ven., 14 aoΓ»t 2009) $';
     LogPath: 'JVCL\run'
   );
 {$ENDIF UNITVERSIONING}
-{$ENDIF USEJVCL}
 
 implementation
 
@@ -249,10 +235,6 @@ end;
 constructor TJvDockInfoTree.Create(TreeZone: TJvDockTreeZoneClass);
 begin
   inherited Create(TreeZone);
-  {$IFNDEF USEJVCL}
-  FDockInfoIni := nil;
-  FDockInfoReg := nil;
-  {$ENDIF !USEJVCL}
   FJvDockInfoStyle := isNone;
   FDataStream := TMemoryStream.Create;
 end;
@@ -406,8 +388,6 @@ begin
   end;
 end;
 
-{$IFDEF USEJVCL}
-
 procedure TJvDockInfoTree.CreateZoneAndAddInfoFromAppStorage;
 var
   FormList: TStringList;
@@ -524,8 +504,6 @@ begin
     FJvDockInfoStyle := isNone;
   end;
 end;
-
-{$ENDIF USEJVCL}
 
 procedure TJvDockInfoTree.CreateZoneAndAddInfoFromIni;
 var
@@ -737,8 +715,6 @@ begin
     Result := JvDockFindDockFormWithName(FormName);
 end;
 
-{$IFDEF USEJVCL}
-
 procedure TJvDockInfoTree.ReadInfoFromAppStorage;
 begin
   AppStorage.BeginUpdate;
@@ -758,8 +734,6 @@ begin
   end;
 end;
 
-{$ENDIF USEJVCL}
-
 procedure TJvDockInfoTree.ReadInfoFromIni;
 begin
   CreateZoneAndAddInfoFromIni;
@@ -769,11 +743,7 @@ begin
   // (rom) this is disputable
   Application.ProcessMessages;
 
-  {$IFDEF USEJVCL}
   FJvDockInfoStyle := isJVCLReadInfo;
-  {$ELSE}
-  FJvDockInfoStyle := isReadFileInfo;
-  {$ENDIF USEJVCL}
   MiddleScanTree(TopTreeZone);
   FJvDockInfoStyle := isNone;
 end;
@@ -792,8 +762,6 @@ begin
   MiddleScanTree(TopTreeZone);
   FJvDockInfoStyle := isNone;
 end;
-
-{$IFDEF USEJVCL}
 
 procedure TJvDockInfoTree.ScanTreeZone(TreeZone: TJvDockBaseZone);
 var
@@ -866,97 +834,6 @@ begin
   inherited ScanTreeZone(TreeZone);
 end;
 
-{$ELSE}
-
-procedure TJvDockInfoTree.ScanTreeZone(TreeZone: TJvDockBaseZone);
-var
-  I: Integer;
-begin
-//  FJvDockInfoStyle := isReadFileInfo;
-  if (FJvDockInfoStyle = isReadFileInfo) or (FJvDockInfoStyle = isReadRegInfo) then
-  begin
-    for I := 0 to TreeZone.GetChildCount - 1 do
-      with TJvDockInfoZone(TreeZone.GetChildZone(I)) do
-        DockControl := FindDockForm(DockFormName);
-    SetDockControlInfo(TJvDockInfoZone(TreeZone));
-  end
-  else
-  if FJvDockInfoStyle = isWriteFileInfo then
-  begin
-    if TreeZone <> TopTreeZone then
-      with TJvDockInfoZone(TreeZone), DockInfoIni do
-      begin
-        WriteString(DockFormName, 'ParentName', ParentName);
-        WriteInteger(DockFormName, 'DockLeft', DockRect.Left);
-        WriteInteger(DockFormName, 'DockTop', DockRect.Top);
-        WriteInteger(DockFormName, 'DockRight', DockRect.Right);
-        WriteInteger(DockFormName, 'DockBottom', DockRect.Bottom);
-        WriteString(DockFormName, 'LastDockSiteName', LastDockSiteName);
-        WriteInteger(DockFormName, 'UnDockLeft', UnDockLeft);
-        WriteInteger(DockFormName, 'UnDockTop', UnDockTop);
-        WriteInteger(DockFormName, 'LRDockWidth', LRDockWidth);
-        WriteInteger(DockFormName, 'TBDockHeight', TBDockHeight);
-        WriteInteger(DockFormName, 'UnDockWidth', UnDockWidth);
-        WriteInteger(DockFormName, 'UnDockHeight', UnDockHeight);
-        WriteInteger(DockFormName, 'VSPaneWidth', VSPaneWidth);
-        WriteBool(DockFormName, 'Visible', Visible);
-        WriteInteger(DockFormName, 'BorderStyle', Integer(BorderStyle));
-        WriteInteger(DockFormName, 'WindowState', Integer(WindowState));
-        WriteInteger(DockFormName, 'FormStyle', Integer(FormStyle));
-        WriteInteger(DockFormName, 'DockFormStyle', Integer(DockFormStyle));
-        WriteBool(DockFormName, 'CanDocked', CanDocked);
-        WriteBool(DockFormName, 'EachOtherDocked', EachOtherDocked);
-        WriteBool(DockFormName, 'LeftDocked', LeftDocked);
-        WriteBool(DockFormName, 'TopDocked', TopDocked);
-        WriteBool(DockFormName, 'RightDocked', RightDocked);
-        WriteBool(DockFormName, 'BottomDocked', BottomDocked);
-        WriteBool(DockFormName, 'CustomDocked', CustomDocked); {NEW!}
-        WriteString(DockFormName, 'DockClientData', DockClientData);
-      end;
-  end
-  else
-  if FJvDockInfoStyle = isWriteRegInfo then
-  begin
-    if TreeZone <> TopTreeZone then
-      with TJvDockInfoZone(TreeZone), DockInfoReg do
-      begin
-        OpenKey(FRegName, True);
-        WriteString('FormNames', ReadString('FormNames') + DockFormName + '\');
-        OpenKey(FRegName + '\' + DockFormName, True);
-        WriteString('ParentName', ParentName);
-        WriteInteger('DockLeft', DockRect.Left);
-        WriteInteger('DockTop', DockRect.Top);
-        WriteInteger('DockRight', DockRect.Right);
-        WriteInteger('DockBottom', DockRect.Bottom);
-        WriteString('LastDockSiteName', LastDockSiteName);
-        WriteInteger('UnDockLeft', UnDockLeft);
-        WriteInteger('UnDockTop', UnDockTop);
-        WriteInteger('LRDockWidth', LRDockWidth);
-        WriteInteger('TBDockHeight', TBDockHeight);
-        WriteInteger('UnDockWidth', UnDockWidth);
-        WriteInteger('UnDockHeight', UnDockHeight);
-        WriteInteger('VSPaneWidth', VSPaneWidth);
-        WriteBool('Visible', Visible);
-        WriteInteger('BorderStyle', Integer(BorderStyle));
-        WriteInteger('FormStyle', Integer(FormStyle));
-        WriteInteger('WindowState', Integer(WindowState));
-        WriteInteger('DockFormStyle', Integer(DockFormStyle));
-        WriteBool('CanDocked', CanDocked);
-        WriteBool('EachOtherDocked', EachOtherDocked);
-        WriteBool('LeftDocked', LeftDocked);
-        WriteBool('TopDocked', TopDocked);
-        WriteBool('RightDocked', RightDocked);
-        WriteBool('BottomDocked', BottomDocked);
-        WriteBool('CustomDocked', CustomDocked); {NEW!}
-        WriteString('DockClientData', DockClientData);
-        CloseKey;
-      end;
-  end;
-  inherited ScanTreeZone(TreeZone);
-end;
-
-{$ENDIF USEJVCL}
-
 procedure TJvDockInfoTree.SetDockControlInfo(ATreeZone: TJvDockInfoZone);
 var
   DockBaseControl: TJvDockBaseControl;
@@ -1025,7 +902,6 @@ begin
   end;
 end;
 
-{$IFDEF USEJVCL}
 procedure TJvDockInfoTree.WriteInfoToAppStorage;
 begin
   AppStorage.BeginUpdate;
@@ -1041,7 +917,6 @@ begin
     AppStorage.EndUpdate;
   end;
 end;
-{$ENDIF USEJVCL}
 
 procedure TJvDockInfoTree.WriteInfoToIni;
 var
@@ -1057,11 +932,7 @@ begin
   finally
     Sections.Free;
   end;
-  {$IFDEF USEJVCL}
   FJvDockInfoStyle := isJVCLWriteInfo;
-  {$ELSE}
-  FJvDockInfoStyle := isWriteFileInfo;
-  {$ENDIF USEJVCL}
   MiddleScanTree(TopTreeZone);
   FJvDockInfoStyle := isNone;
 end;
@@ -1257,7 +1128,6 @@ begin
   DockControl.RightDock := RightDocked;
 end;
 
-{$IFDEF USEJVCL}
 {$IFDEF UNITVERSIONING}
 initialization
   RegisterUnitVersion(HInstance, UnitVersioning);
@@ -1265,7 +1135,5 @@ initialization
 finalization
   UnregisterUnitVersion(HInstance);
 {$ENDIF UNITVERSIONING}
-{$ENDIF USEJVCL}
 
 end.
-

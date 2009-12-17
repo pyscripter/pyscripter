@@ -17,9 +17,9 @@
 {                                                                                                  }
 {**************************************************************************************************}
 {                                                                                                  }
-{ Last modified: $Date:: 2008-11-01 23:11:22 +0100 (sam., 01 nov. 2008)                         $ }
-{ Revision:      $Rev:: 2548                                                                     $ }
-{ Author:        $Author:: ahuser                                                                $ }
+{ Last modified: $Date:: 2009-09-14 18:00:50 +0200 (lun., 14 sept. 2009)                        $ }
+{ Revision:      $Rev:: 3012                                                                     $ }
+{ Author:        $Author:: outchy                                                                $ }
 {                                                                                                  }
 {**************************************************************************************************}
 
@@ -29,9 +29,9 @@ interface
 
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms,
-  StdCtrls, ExtCtrls, AppEvnts,
-  JclSysUtils, JclMapi, JclDebug, SpTBXControls, TntStdCtrls, 
-  dlgPyIDEBase, SpTBXItem;
+  Dialogs, StdCtrls, ExtCtrls, AppEvnts,
+  JclSysUtils, JclMapi, JclUnitVersioning, JclUnitVersioningProviders, JclDebug,
+  SpTBXControls, TntStdCtrls, dlgPyIDEBase, SpTBXItem;
 
 const
   UM_CREATEDETAILS = WM_USER + $100;
@@ -94,8 +94,8 @@ implementation
 {$R *.dfm}
 
 uses
-  ClipBrd, 
-  JclFileUtils, JclHookExcept, JclPeImage, JclStrings, JclSysInfo, JclWin32, 
+  ClipBrd, Math, 
+  JclBase, JclFileUtils, JclHookExcept, JclPeImage, JclStrings, JclSysInfo, JclWin32, 
   uCommonFunctions, PythonEngine, dmCommands, TypInfo, cPyBaseDebugger;
 
 resourcestring
@@ -112,6 +112,8 @@ resourcestring
   RsActiveControl = 'Active Controls hierarchy:';
   RsThread = 'Thread: %s';
   RsMissingVersionInfo = '(no module version info)';
+
+  RsUnitVersioningIntro = 'Unit versioning information:';
 
   RsSendBugReportAddress = 'pyscripter@gmail.com';
   RsSendBugReportSubject = 'PyScripter Bug Report';
@@ -248,7 +250,7 @@ begin
     ParentWnd := Application.Handle;
     Recipients.Add(RsSendBugReportAddress);
     Subject := RsSendBugReportSubject;
-    Body := ReportAsText;
+    Body := AnsiString(ReportAsText);
     SaveTaskWindows;
     try
       Send(True);
@@ -305,6 +307,10 @@ var
   StackList: TJclStackInfoList;
  
   PETarget: TJclPeTarget;
+  UnitVersioning: TUnitVersioning;
+  UnitVersioningModule: TUnitVersioningModule;
+  UnitVersion: TUnitVersion;
+  ModuleIndex, UnitIndex: Integer;
 begin
   SL := TStringList.Create;
   try
@@ -319,7 +325,7 @@ begin
     StackList := JclGetExceptStackList(FThreadID);
     if Assigned(StackList) then
     begin
-      DetailsMemo.Lines.Add(Format(RsStackList, [DateTimeToStr(StackList.TimeStamp)]));
+      DetailsMemo.Lines.Add(Format(LoadResString(@RsStackList), [DateTimeToStr(StackList.TimeStamp)]));
       StackList.AddToStrings(DetailsMemo.Lines, True, True, True, True);
       NextDetailBlock;
     end;
@@ -370,6 +376,8 @@ begin
     // Modules list
     if LoadedModulesList(SL, GetCurrentProcessId) then
     begin
+      UnitVersioning := GetUnitVersioning;
+      UnitVersioning.RegisterProvider(TJclDefaultUnitVersioningProvider);
       DetailsMemo.Lines.Add(RsModulesList);
       SL.CustomSort(SortModulesListByAddressCompare);
       for I := 0 to SL.Count - 1 do
@@ -403,6 +411,20 @@ begin
           end
         else
           DetailsMemo.Lines.Add(ImageBaseStr + RsMissingVersionInfo);
+        for ModuleIndex := 0 to UnitVersioning.ModuleCount - 1 do
+        begin
+          UnitVersioningModule := UnitVersioning.Modules[ModuleIndex];
+          if UnitVersioningModule.Instance = ModuleBase then
+          begin
+            if UnitVersioningModule.Count > 0 then
+              DetailsMemo.Lines.Add(StrRepeat(' ', 11) + LoadResString(@RsUnitVersioningIntro));
+            for UnitIndex := 0 to UnitVersioningModule.Count - 1 do
+            begin
+              UnitVersion := UnitVersioningModule.Items[UnitIndex];
+              DetailsMemo.Lines.Add(Format('%s%s %s %s %s', [StrRepeat(' ', 13), UnitVersion.LogPath, UnitVersion.RCSfile, UnitVersion.Revision, UnitVersion.Date]));
+            end;
+          end;
+        end;
       end;
       NextDetailBlock;
     end;
