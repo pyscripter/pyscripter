@@ -1665,6 +1665,8 @@ begin
     expectedVersion := '2.5'
   else if CmdLineReader.readFlag('PYTHON26') then
     expectedVersion := '2.6'
+  else if CmdLineReader.readFlag('PYTHON27') then
+    expectedVersion := '2.7'
   else if CmdLineReader.readFlag('PYTHON30') then
     expectedVersion := '3.0'
   else if CmdLineReader.readFlag('PYTHON31') then
