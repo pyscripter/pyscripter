@@ -496,6 +496,7 @@ initialization
   CmdLineReader.declareFlag('PYTHON24','Use Python version 2.4',False);
   CmdLineReader.declareFlag('PYTHON25','Use Python version 2.5',False);
   CmdLineReader.declareFlag('PYTHON26','Use Python version 2.6',False);
+  CmdLineReader.declareFlag('PYTHON27','Use Python version 2.7',False);
   CmdLineReader.declareFlag('PYTHON30','Use Python version 3.0',False);
   CmdLineReader.declareFlag('PYTHON31','Use Python version 3.1',False);
   CmdLineReader.declareFile('PROJECT','Specify a project file to open');
