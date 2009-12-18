@@ -68,8 +68,8 @@ type
     fOnGetCodeHint: TGetCodeHintEvent;
     fScreenPos : TPoint;
     procedure SetOnGetCodeHint(const Value: TGetCodeHintEvent);
-    function GetHyperLinkClick: THyperLinkClick;
-    procedure SetHyperLinkClick(const Value: THyperLinkClick);
+    function GetHyperLinkClick: TJvHyperLinkClickEvent;
+    procedure SetHyperLinkClick(const Value: TJvHyperLinkClickEvent);
   protected
     R: TRect;
     Area: TRect;
@@ -89,7 +89,7 @@ type
     property AutoHide: Boolean read FAutoHide write FAutoHide default True;
     property OnGetCodeHint : TGetCodeHintEvent
       read fOnGetCodeHint write SetOnGetCodeHint;
-    property OnHyperLinkClick : THyperLinkClick
+    property OnHyperLinkClick : TJvHyperLinkClickEvent
       read GetHyperLinkClick write SetHyperLinkClick;
     property HintArea : TRect read Area;
   end;
@@ -238,12 +238,12 @@ begin
   fOnGetCodeHint := Value;
 end;
 
-function TCodeHint.GetHyperLinkClick: THyperLinkClick;
+function TCodeHint.GetHyperLinkClick: TJvHyperLinkClickEvent;
 begin
   Result := HintWindow.HtLabel.OnHyperLinkClick;
 end;
 
-procedure TCodeHint.SetHyperLinkClick(const Value: THyperLinkClick);
+procedure TCodeHint.SetHyperLinkClick(const Value: TJvHyperLinkClickEvent);
 begin
   HintWindow.HtLabel.OnHyperLinkClick := Value;
 end;
