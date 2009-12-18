@@ -86,7 +86,6 @@ uses
   dlgCodeTemplates in 'dlgCodeTemplates.pas' {CodeTemplates},
   dlgNewFile in 'dlgNewFile.pas' {NewFileDialog},
   SynEdit in 'SynEdit.pas',
-  PythonEngine in 'PythonEngine.pas',
   JvDockVSNetStyle in 'JvDockVSNetStyle.pas',
   JvDockControlForm in 'JvDockControlForm.pas',
   uSearchHighlighter in 'uSearchHighlighter.pas',
