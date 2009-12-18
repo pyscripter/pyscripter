@@ -2196,14 +2196,11 @@ begin
       Application.ProcessMessages;  // to deal with focus problems
       // sets the focus to the editor
       Editor.Activate;
-      if Line <= 0 then
-        Line := 1;
-      if Offset <= 0 then
-        Offset := 1;
-      with Editor.SynEdit do begin
-        CaretXY := BufferCoord(Offset,Line);
-        EnsureCursorPosVisibleEx(ForceToMiddle);
-      end;
+      if (Line > 0) and (Offset > 0) then
+        with Editor.SynEdit do begin
+          CaretXY := BufferCoord(Offset,Line);
+          EnsureCursorPosVisibleEx(ForceToMiddle);
+        end;
     end;
   end;
 end;
@@ -4104,7 +4101,7 @@ end;
 
 procedure TPyIDEMainForm.SelectEditor(Sender: TObject);
 begin
-    DoOpenFile((Sender as TTBCustomItem).Hint);
+    ShowFilePosition((Sender as TTBCustomItem).Hint, -1, -1);
 end;
 
 end.
