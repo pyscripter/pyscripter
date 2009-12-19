@@ -154,14 +154,13 @@ procedure TFileExplorerWindow.FileExplorerTreeEnumFolder(
   var AllowAsChild: Boolean);
 Var
   FileExt: WideString;
-Begin
-  FileExt := UpperCase(ExtractFileExt(Namespace.NameParseAddress));
-  if not Namespace.Folder  { Don't filter folders }
-    and actEnableFilter.Checked
-    and (Pos(FileExt, UpperCase(CommandsDataModule.PyIDEOptions.FileExplorerFilter)) = 0) then
-      AllowAsChild := False
-   else
-      AllowAsChild := True;
+begin
+  AllowAsChild := True;
+  if actEnableFilter.Checked and not Namespace.Folder  { Don't filter folders } then begin
+    FileExt := UpperCase(ExtractFileExt(Namespace.NameParseAddress));
+    if Pos(FileExt, UpperCase(CommandsDataModule.PyIDEOptions.FileExplorerFilter)) = 0 then
+      AllowAsChild := False;
+  end;
 end;
 
 procedure TFileExplorerWindow.DesktopClick(Sender: TObject);
