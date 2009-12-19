@@ -479,11 +479,11 @@ object PyIDEMainForm: TPyIDEMainForm
       DockPos = 0
       FullSize = True
       Images = CommandsDataModule.Images
-      MenuBar = True
       ProcessShortCuts = True
       ShrinkMode = tbsmWrap
       TabOrder = 0
       Customizable = False
+      MenuBar = True
       object FileMenu: TSpTBXSubmenuItem
         Caption = '&File'
         object TBXSubmenuItem5: TSpTBXSubmenuItem
