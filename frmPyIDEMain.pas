@@ -339,6 +339,8 @@ Limitations: Python scripts are executed in the main thread
 
  History:   v 1.9.9.8
           New Features
+            Support for Python 2.7
+            Moved to Rpyc v3.07, now bundled with PyScripter
           Bug fixes
             Issues  236, 304
 

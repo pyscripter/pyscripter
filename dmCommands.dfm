@@ -1220,7 +1220,7 @@ object CommandsDataModule: TCommandsDataModule
           '        pyrepr.maxother = 80'
           '        self._repr = pyrepr.repr'
           ''
-          '        self.commontypes = __import__("sets").ImmutableSet(['
+          '        self.commontypes = frozenset(['
           '              '#39'NoneType'#39','
           '              '#39'NotImplementedType'#39','
           '              '#39'bool'#39','
@@ -1298,11 +1298,9 @@ object CommandsDataModule: TCommandsDataModule
           ''
           '    def objecttype(self, ob):'
           '        try:'
-          '            if hasattr(ob, "__class__"):'
+          '            try:'
           '                return ob.__class__.__name__'
-          '            elif hasattr(ob, "__bases__"):'
-          '                return "classobj"'
-          '            else:'
+          '            except:'
           '                return type(ob).__name__'
           '        except:'
           '            return "Unknown type"'
@@ -1334,55 +1332,73 @@ object CommandsDataModule: TCommandsDataModule
           '        except:'
           '            return '#39'<unprintable %s object>'#39' % type(x).__name__'
           ''
-          '    def membercount(self, x):'
+          
+            '    def membercount(self, ob, dictitems = False, expandcommontyp' +
+            'es = True):'
+          
+            '        #  dictitems will be True when used in the Variables win' +
+            'dow'
+          
+            '        #  expandcommontypes will be False when used in the Vari' +
+            'ables window'
           '        try:'
-          '            if isinstance(x, dict):'
-          '                return len(x)'
-          '            elif type(x).__name__ in self.commontypes:'
+          '            if dictitems and isinstance(ob, dict):'
+          '                return len(ob)'
+          
+            '            elif not expandcommontypes and (self.objecttype(ob) ' +
+            'in self.commontypes):'
           '                return 0'
           '            else:'
-          '                return len(dir(x))'
+          '                return len(dir(ob))'
           '        except:'
           '            return 0'
           ''
-          '    def _getmembers(self, ob):'
-          '        result = {}'
-          '        for i in dir(ob):'
-          '            try:'
-          '                result[i] = getattr(ob, i)'
-          '            except:'
-          '                result[i] = None'
+          
+            '    def _getmembers(self, ob, dictitems = False, expandcommontyp' +
+            'es = True):'
+          '        if dictitems and isinstance(ob, dict):'
+          '            result = ob'
+          
+            '        elif not expandcommontypes and (self.objecttype(ob) in s' +
+            'elf.commontypes):'
+          '            result = {}'
+          '        else:'
+          '            result = {}'
+          '            for i in dir(ob):'
+          '                try :'
+          '                    result[i] = getattr(ob, i)'
+          '                except:'
+          '                    result[i] = None'
           '        return result'
           ''
-          '    def safegetmembers(self, x):'
-          '        try:'
-          '            return self._getmembers(x)'
-          '        except:'
-          '            return {}'
-          ''
-          '    def safegetmembersfullinfo(self, x):'
-          '        try:'
-          '            d = self._getmembers(x)'
-          '            for (i,j) in d.items():'
           
-            '                d[i] = (j, self.saferepr(j), self.objecttype(j),' +
-            ' self.objectinfo(j), self.membercount(j))'
-          '            return d'
+            '    def safegetmembers(self, ob, dictitems = False, expandcommon' +
+            'types = True):'
+          '        try:'
+          
+            '            return self._getmembers(ob, dictitems, expandcommont' +
+            'ypes)'
           '        except:'
           '            return {}'
           ''
-          '    def getitemsfullinfo(self, x):'
+          
+            '    def safegetmembersfullinfo(self, ob, dictitems = False, expa' +
+            'ndcommontypes = True):'
           '        try:'
-          '            assert isinstance(x, dict)'
-          '            members = x.items()'
+          
+            '            members = self._getmembers(ob, dictitems, expandcomm' +
+            'ontypes)'
           '            d = {}'
-          '            for (i,j) in members:'
+          '            for (i,j) in members.items():'
           
             '                d[i] = (j, self.saferepr(j), self.objecttype(j),' +
-            ' self.objectinfo(j), self.membercount(j))'
-          '            return d'
+            ' self.objectinfo(j),'
+          
+            '                            self.membercount(j, dictitems, expan' +
+            'dcommontypes))'
+          '            return tuple(d.items())'
           '        except:'
-          '            return {}'
+          '            return ()'
           ''
           '    def find_dotted_module(self, name, path=None):'
           '        import imp'
@@ -1665,7 +1681,6 @@ object CommandsDataModule: TCommandsDataModule
           '        debugIDE = __import__("DebugIDE")'
           ''
           '        def do_clear(self, arg):'
-          '            import string'
           '            numberlist = arg.split()'
           '            for i in numberlist:'
           '                self.clear_bpbynumber(i)'
@@ -1738,7 +1753,6 @@ object CommandsDataModule: TCommandsDataModule
           '                if '#39'__file__'#39' in globals:'
           '                    del globals['#39'__file__'#39']'
           '                __import__("gc").collect()'
-          ''
           ''
           '    class IDETestResult(__import__('#39'unittest'#39').TestResult):'
           '        debugIDE = __import__("DebugIDE")'
@@ -1873,11 +1887,9 @@ object CommandsDataModule: TCommandsDataModule
           ''
           '    def objecttype(self, ob):'
           '        try:'
-          '            if hasattr(ob, "__class__"):'
+          '            try:'
           '                return ob.__class__.__name__'
-          '            elif hasattr(ob, "__bases__"):'
-          '                return "classobj"'
-          '            else:'
+          '            except:'
           '                return type(ob).__name__'
           '        except:'
           '            return "Unknown type"'
@@ -1909,55 +1921,73 @@ object CommandsDataModule: TCommandsDataModule
           '        except:'
           '            return '#39'<unprintable %s object>'#39' % type(x).__name__'
           ''
-          '    def membercount(self, x):'
+          
+            '    def membercount(self, ob, dictitems = False, expandcommontyp' +
+            'es = True):'
+          
+            '        #  dictitems will be True when used in the Variables win' +
+            'dow'
+          
+            '        #  expandcommontypes will be False when used in the Vari' +
+            'ables window'
           '        try:'
-          '            if isinstance(x, dict):'
-          '                return len(x)'
-          '            elif type(x).__name__ in self.commontypes:'
+          '            if dictitems and isinstance(ob, dict):'
+          '                return len(ob)'
+          
+            '            elif not expandcommontypes and (self.objecttype(ob) ' +
+            'in self.commontypes):'
           '                return 0'
           '            else:'
-          '                return len(dir(x))'
+          '                return len(dir(ob))'
           '        except:'
           '            return 0'
           ''
-          '    def _getmembers(self, ob):'
-          '        result = {}'
-          '        for i in dir(ob):'
-          '            try:'
-          '                result[i] = getattr(ob, i)'
-          '            except:'
-          '                result[i] = None'
+          
+            '    def _getmembers(self, ob, dictitems = False, expandcommontyp' +
+            'es = True):'
+          '        if dictitems and isinstance(ob, dict):'
+          '            result = ob'
+          
+            '        elif not expandcommontypes and (self.objecttype(ob) in s' +
+            'elf.commontypes):'
+          '            result = {}'
+          '        else:'
+          '            result = {}'
+          '            for i in dir(ob):'
+          '                try :'
+          '                    result[i] = getattr(ob, i)'
+          '                except:'
+          '                    result[i] = None'
           '        return result'
           ''
-          '    def safegetmembers(self, x):'
-          '        try:'
-          '            return self._getmembers(x)'
-          '        except:'
-          '            return {}'
-          ''
-          '    def safegetmembersfullinfo(self, x):'
-          '        try:'
-          '            d = self._getmembers(x)'
-          '            for (i,j) in d.items():'
           
-            '                d[i] = (j, self.saferepr(j), self.objecttype(j),' +
-            ' self.objectinfo(j), self.membercount(j))'
-          '            return d'
+            '    def safegetmembers(self, ob, dictitems = False, expandcommon' +
+            'types = True):'
+          '        try:'
+          
+            '            return self._getmembers(ob, dictitems, expandcommont' +
+            'ypes)'
           '        except:'
           '            return {}'
           ''
-          '    def getitemsfullinfo(self, x):'
+          
+            '    def safegetmembersfullinfo(self, ob, dictitems = False, expa' +
+            'ndcommontypes = True):'
           '        try:'
-          '            assert isinstance(x, dict)'
-          '            members = x.items()'
+          
+            '            members = self._getmembers(ob, dictitems, expandcomm' +
+            'ontypes)'
           '            d = {}'
-          '            for (i,j) in members:'
+          '            for (i,j) in members.items():'
           
             '                d[i] = (j, self.saferepr(j), self.objecttype(j),' +
-            ' self.objectinfo(j), self.membercount(j))'
-          '            return d'
+            ' self.objectinfo(j),'
+          
+            '                            self.membercount(j, dictitems, expan' +
+            'dcommontypes))'
+          '            return tuple(d.items())'
           '        except:'
-          '            return {}'
+          '            return ()'
           ''
           '    def find_dotted_module(self, name, path=None):'
           '        import imp'
@@ -2127,9 +2157,7 @@ object CommandsDataModule: TCommandsDataModule
           'del code'
           'del PythonInteractiveInterpreter'
           'del sys'
-          'del os'
-          ''
-          '')
+          'del os')
       end
       item
         Name = 'RpyC_Init'
@@ -2138,14 +2166,16 @@ object CommandsDataModule: TCommandsDataModule
           'import code'
           ''
           '__import__('#39'bdb'#39').__traceable__ = 0'
-          '__import__('#39'Rpyc'#39').NetProxy.__traceable__ = 0'
-          '__import__('#39'Rpyc'#39').Connection.__traceable__ = 0'
-          '__import__('#39'Rpyc'#39').Stream.__traceable__ = 0'
-          '__import__('#39'Rpyc'#39').Boxing.__traceable__ = 0'
-          '__import__('#39'Rpyc'#39').Channel.__traceable__ = 0'
-          '__import__('#39'Rpyc'#39').Lib.__traceable__ = 0'
-          '__import__('#39'Rpyc'#39').Utils.Builtins.__traceable__ = 0'
-          '__import__('#39'Rpyc'#39').Utils.Serving.__traceable__ = 0'
+          '__import__('#39'rpyc'#39').core.netref.__traceable__ = 0'
+          '__import__('#39'rpyc'#39').core.protocol.__traceable__ = 0'
+          '__import__('#39'rpyc'#39').core.stream.__traceable__ = 0'
+          '__import__('#39'rpyc'#39').core.brine.__traceable__ = 0'
+          '__import__('#39'rpyc'#39').core.channel.__traceable__ = 0'
+          '__import__('#39'rpyc'#39').core.vinegar.__traceable__ = 0'
+          '__import__('#39'rpyc'#39').core.service.__traceable__ = 0'
+          '__import__('#39'rpyc'#39').utils.lib.__traceable__ = 0'
+          '__import__('#39'rpyc'#39').utils.classic.__traceable__ = 0'
+          '__import__('#39'rpyc'#39').utils.server.__traceable__ = 0'
           ''
           'class RemotePythonInterpreter(code.InteractiveInterpreter):'
           '    debugIDE = None #will be set to P4D module'
@@ -2268,10 +2298,7 @@ object CommandsDataModule: TCommandsDataModule
           '        pyrepr.maxother = 80'
           '        self._repr = pyrepr.repr'
           ''
-          '        from Rpyc.Lib import ImmDict'
-          '        self.ImmDict = ImmDict'
-          ''
-          '        self.commontypes = __import__("sets").ImmutableSet(['
+          '        self.commontypes = frozenset(['
           '              '#39'NoneType'#39','
           '              '#39'NotImplementedType'#39','
           '              '#39'bool'#39','
@@ -2303,61 +2330,79 @@ object CommandsDataModule: TCommandsDataModule
           '              '#39'xrange'#39'])'
           ''
           ''
-          '    def saferepr(self, x):'
+          '    def saferepr(self, ob):'
           '        try:'
-          '            return self._repr(x)'
+          '            return self._repr(ob)'
           '        except:'
-          '            return '#39'<unprintable %s object>'#39' % type(x).__name__'
+          '            return '#39'<unprintable %s object>'#39' % type(ob).__name__'
           ''
-          '    def membercount(self, x):'
+          
+            '    def membercount(self, ob, dictitems = False, expandcommontyp' +
+            'es = True):'
+          
+            '        #  dictitems will be True when used in the Variables win' +
+            'dow'
+          
+            '        #  expandcommontypes will be False when used in the Vari' +
+            'ables window'
           '        try:'
-          '            if isinstance(x, dict):'
-          '                return len(x)'
-          '            elif type(x).__name__ in self.commontypes:'
+          '            if dictitems and isinstance(ob, dict):'
+          '                return len(ob)'
+          
+            '            elif not expandcommontypes and (self.objecttype(ob) ' +
+            'in self.commontypes):'
           '                return 0'
           '            else:'
-          '                return len(__import__('#39'Rpyc'#39').dir(x))'
+          '                return len(dir(ob))'
           '        except:'
           '            return 0'
           ''
-          '    def _getmembers(self, ob):'
-          '        result = {}'
-          '        for i in __import__('#39'Rpyc'#39').dir(ob):'
-          '            try:'
-          '                result[i] = getattr(ob, i)'
-          '            except:'
-          '                result[i] = None'
+          
+            '    def _getmembers(self, ob, dictitems = False, expandcommontyp' +
+            'es = True):'
+          '        if dictitems and isinstance(ob, dict):'
+          '            result = ob'
+          
+            '        elif not expandcommontypes and (self.objecttype(ob) in s' +
+            'elf.commontypes):'
+          '            result = {}'
+          '        else:'
+          '            result = {}'
+          '            for i in dir(ob):'
+          '                try :'
+          '                    result[i] = getattr(ob, i)'
+          '                except:'
+          '                    result[i] = None'
           '        return result'
           ''
-          '    def safegetmembers(self, x):'
-          '        try:'
-          '            return self._getmembers(x)'
-          '        except:'
-          '            return self.ImmDict({})'
-          ''
-          '    def safegetmembersfullinfo(self, x):'
-          '        try:'
-          '            d = self._getmembers(x)'
-          '            for (i,j) in d.items():'
           
-            '                d[i] = (j, self.saferepr(j), self.objecttype(j),' +
-            ' self.rem_objectinfo(j), self.membercount(j))'
-          '            return self.ImmDict(d)'
-          '        except:'
-          '            return self.ImmDict({})'
-          ''
-          '    def rem_getitemsfullinfo(self, x):'
+            '    def safegetmembers(self, ob, dictitems = False, expandcommon' +
+            'types = True):'
           '        try:'
-          '            assert isinstance(x, dict)'
-          '            members = x.items()'
+          
+            '            return self._getmembers(ob, dictitems, expandcommont' +
+            'ypes)'
+          '        except:'
+          '            return {}'
+          ''
+          
+            '    def safegetmembersfullinfo(self, ob, dictitems = False, expa' +
+            'ndcommontypes = True):'
+          '        try:'
+          
+            '            members = self._getmembers(ob, dictitems, expandcomm' +
+            'ontypes)'
           '            d = {}'
-          '            for (i,j) in members:'
+          '            for (i,j) in members.items():'
           
             '                d[i] = (j, self.saferepr(j), self.objecttype(j),' +
-            ' self.rem_objectinfo(j), self.membercount(j))'
-          '            return self.ImmDict(d)'
+            ' self.objectinfo(j),'
+          
+            '                            self.membercount(j, dictitems, expan' +
+            'dcommontypes))'
+          '            return tuple(d.items())'
           '        except:'
-          '            return self.ImmDict({})'
+          '            return ()'
           ''
           '    def _some_str(self, value):'
           '        try:'
@@ -2592,16 +2637,14 @@ object CommandsDataModule: TCommandsDataModule
           ''
           '    def objecttype(self, ob):'
           '        try:'
-          '            if hasattr(ob, "__class__"):'
+          '            try:'
           '                return ob.__class__.__name__'
-          '            elif hasattr(ob, "__bases__"):'
-          '                return "classobj"'
-          '            else:'
+          '            except:'
           '                return type(ob).__name__'
           '        except:'
           '            return "Unknown type"'
           ''
-          '    def rem_objectinfo(self, ob):'
+          '    def objectinfo(self, ob):'
           '        res = [False, False, False, False, False, False]'
           '        try:'
           '            inspect = self.inspect'
@@ -2638,16 +2681,21 @@ object CommandsDataModule: TCommandsDataModule
           ''
           '    class AsyncStream(object):'
           '        def __init__(self, stream):'
-          '            import Rpyc'
-          '            from Rpyc.NetProxy import _get_conn'
-          '            assert Rpyc.isproxy(stream)'
+          '            import rpyc'
+          '            from rpyc.core.consts import HANDLE_CALL'
+          '            assert isinstance(stream, rpyc.BaseNetref)'
           '            self._stream = stream'
           '            self.origwrite = stream.write'
-          '            self.conn = _get_conn(self.origwrite)'
+          
+            '            self.conn = object.__getattribute__(self.origwrite, ' +
+            '"____conn__")'
+          
+            '            self.oid = object.__getattribute__(self.origwrite, "' +
+            '____oid__")'
+          '            self.HANDLE_CALL = HANDLE_CALL'
           ''
           '        def __getattr__(self, attr):'
-          '            import Rpyc'
-          '            return Rpyc.getattr(self._stream, attr)'
+          '            return getattr(self._stream, attr)'
           ''
           '        def readline(self, size=None):'
           '            try:'
@@ -2655,19 +2703,13 @@ object CommandsDataModule: TCommandsDataModule
           '            except KeyboardInterrupt:'
           '                raise KeyboardInterrupt, "Operation Cancelled"'
           ''
-          '        def _dummy_callback(self, *args, **kw):'
-          '            pass'
-          ''
           '        def write(self, message):'
-          '            import Rpyc'
-          '            from Rpyc.Lib import ImmDict'
-          '            from Rpyc.NetProxy import _get_oid'
-          '            self.conn.async_request(self._dummy_callback,'
+          '            conn = self.conn()'
           
-            '                "handle_call", _get_oid(self.origwrite), (messag' +
-            'e,), ImmDict({}))'
-          '            while len(self.conn.async_replies) > 1000 :'
-          '                self.conn.serve()'
+            '            conn._async_request(self.HANDLE_CALL, (self.oid, (me' +
+            'ssage,), ()))'
+          '            while len(conn._async_callbacks) > 100 :'
+          '                conn.poll_all()'
           ''
           '    def asyncIO(self):'
           '        import sys'
@@ -2731,14 +2773,16 @@ object CommandsDataModule: TCommandsDataModule
           'import code'
           ''
           '__import__('#39'bdb'#39').__traceable__ = 0'
-          '__import__('#39'Rpyc'#39').NetProxy.__traceable__ = 0'
-          '__import__('#39'Rpyc'#39').Connection.__traceable__ = 0'
-          '__import__('#39'Rpyc'#39').Stream.__traceable__ = 0'
-          '__import__('#39'Rpyc'#39').Boxing.__traceable__ = 0'
-          '__import__('#39'Rpyc'#39').Channel.__traceable__ = 0'
-          '__import__('#39'Rpyc'#39').Lib.__traceable__ = 0'
-          '__import__('#39'Rpyc'#39').Utils.Builtins.__traceable__ = 0'
-          '__import__('#39'Rpyc'#39').Utils.Serving.__traceable__ = 0'
+          '__import__('#39'rpyc'#39').core.netref.__traceable__ = 0'
+          '__import__('#39'rpyc'#39').core.protocol.__traceable__ = 0'
+          '__import__('#39'rpyc'#39').core.stream.__traceable__ = 0'
+          '__import__('#39'rpyc'#39').core.brine.__traceable__ = 0'
+          '__import__('#39'rpyc'#39').core.channel.__traceable__ = 0'
+          '__import__('#39'rpyc'#39').core.vinegar.__traceable__ = 0'
+          '__import__('#39'rpyc'#39').core.service.__traceable__ = 0'
+          '__import__('#39'rpyc'#39').utils.lib.__traceable__ = 0'
+          '__import__('#39'rpyc'#39').utils.classic.__traceable__ = 0'
+          '__import__('#39'rpyc'#39').utils.server.__traceable__ = 0'
           ''
           'class RemotePythonInterpreter(code.InteractiveInterpreter):'
           '    debugIDE = None #will be set to P4D module'
@@ -2841,6 +2885,7 @@ object CommandsDataModule: TCommandsDataModule
           '                    del globals['#39'__file__'#39']'
           '                __import__("gc").collect()'
           ''
+          ''
           '    def __init__(self, locals = None):'
           '        code.InteractiveInterpreter.__init__(self, locals)'
           '        self.locals["__name__"] = "__main__"'
@@ -2861,9 +2906,6 @@ object CommandsDataModule: TCommandsDataModule
           '        pyrepr.maxstring = 80'
           '        pyrepr.maxother = 80'
           '        self._repr = pyrepr.repr'
-          ''
-          '        from Rpyc.Lib import ImmDict'
-          '        self.ImmDict = ImmDict'
           ''
           '        self.commontypes = frozenset(['
           '              '#39'NoneType'#39','
@@ -2897,61 +2939,79 @@ object CommandsDataModule: TCommandsDataModule
           '              '#39'xrange'#39'])'
           ''
           ''
-          '    def saferepr(self, x):'
+          '    def saferepr(self, ob):'
           '        try:'
-          '            return self._repr(x)'
+          '            return self._repr(ob)'
           '        except:'
-          '            return '#39'<unprintable %s object>'#39' % type(x).__name__'
+          '            return '#39'<unprintable %s object>'#39' % type(ob).__name__'
           ''
-          '    def membercount(self, x):'
+          
+            '    def membercount(self, ob, dictitems = False, expandcommontyp' +
+            'es = True):'
+          
+            '        #  dictitems will be True when used in the Variables win' +
+            'dow'
+          
+            '        #  expandcommontypes will be False when used in the Vari' +
+            'ables window'
           '        try:'
-          '            if isinstance(x, dict):'
-          '                return len(x)'
-          '            elif type(x).__name__ in self.commontypes:'
+          '            if dictitems and isinstance(ob, dict):'
+          '                return len(ob)'
+          
+            '            elif not expandcommontypes and (self.objecttype(ob) ' +
+            'in self.commontypes):'
           '                return 0'
           '            else:'
-          '                return len(__import__('#39'Rpyc'#39').dir(x))'
+          '                return len(dir(ob))'
           '        except:'
           '            return 0'
           ''
-          '    def _getmembers(self, ob):'
-          '        result = {}'
-          '        for i in __import__('#39'Rpyc'#39').dir(ob):'
-          '            try:'
-          '                result[i] = getattr(ob, i)'
-          '            except:'
-          '                result[i] = None'
+          
+            '    def _getmembers(self, ob, dictitems = False, expandcommontyp' +
+            'es = True):'
+          '        if dictitems and isinstance(ob, dict):'
+          '            result = ob'
+          
+            '        elif not expandcommontypes and (self.objecttype(ob) in s' +
+            'elf.commontypes):'
+          '            result = {}'
+          '        else:'
+          '            result = {}'
+          '            for i in dir(ob):'
+          '                try :'
+          '                    result[i] = getattr(ob, i)'
+          '                except:'
+          '                    result[i] = None'
           '        return result'
           ''
-          '    def safegetmembers(self, x):'
-          '        try:'
-          '            return self._getmembers(x)'
-          '        except:'
-          '            return self.ImmDict({})'
-          ''
-          '    def safegetmembersfullinfo(self, x):'
-          '        try:'
-          '            d = self._getmembers(x)'
-          '            for (i,j) in list(d.items()):'
           
-            '                d[i] = (j, self.saferepr(j), self.objecttype(j),' +
-            ' self.rem_objectinfo(j), self.membercount(j))'
-          '            return self.ImmDict(d)'
-          '        except:'
-          '            return self.ImmDict({})'
-          ''
-          '    def rem_getitemsfullinfo(self, x):'
+            '    def safegetmembers(self, ob, dictitems = False, expandcommon' +
+            'types = True):'
           '        try:'
-          '            assert isinstance(x, dict)'
-          '            members = list(x.items())'
+          
+            '            return self._getmembers(ob, dictitems, expandcommont' +
+            'ypes)'
+          '        except:'
+          '            return {}'
+          ''
+          
+            '    def safegetmembersfullinfo(self, ob, dictitems = False, expa' +
+            'ndcommontypes = True):'
+          '        try:'
+          
+            '            members = self._getmembers(ob, dictitems, expandcomm' +
+            'ontypes)'
           '            d = {}'
-          '            for (i,j) in members:'
+          '            for (i,j) in members.items():'
           
             '                d[i] = (j, self.saferepr(j), self.objecttype(j),' +
-            ' self.rem_objectinfo(j), self.membercount(j))'
-          '            return self.ImmDict(d)'
+            ' self.objectinfo(j),'
+          
+            '                            self.membercount(j, dictitems, expan' +
+            'dcommontypes))'
+          '            return tuple(d.items())'
           '        except:'
-          '            return self.ImmDict({})'
+          '            return ()'
           ''
           '    def _some_str(self, value):'
           '        try:'
@@ -3169,16 +3229,14 @@ object CommandsDataModule: TCommandsDataModule
           ''
           '    def objecttype(self, ob):'
           '        try:'
-          '            if hasattr(ob, "__class__"):'
+          '            try:'
           '                return ob.__class__.__name__'
-          '            elif hasattr(ob, "__bases__"):'
-          '                return "classobj"'
-          '            else:'
+          '            except:'
           '                return type(ob).__name__'
           '        except:'
           '            return "Unknown type"'
           ''
-          '    def rem_objectinfo(self, ob):'
+          '    def objectinfo(self, ob):'
           '        res = [False, False, False, False, False, False]'
           '        try:'
           '            inspect = self.inspect'
@@ -3215,16 +3273,21 @@ object CommandsDataModule: TCommandsDataModule
           ''
           '    class AsyncStream(object):'
           '        def __init__(self, stream):'
-          '            import Rpyc'
-          '            from Rpyc.NetProxy import _get_conn'
-          '            assert Rpyc.isproxy(stream)'
+          '            import rpyc'
+          '            from rpyc.core.consts import HANDLE_CALL'
+          '            assert isinstance(stream, rpyc.BaseNetref)'
           '            self._stream = stream'
           '            self.origwrite = stream.write'
-          '            self.conn = _get_conn(self.origwrite)'
+          
+            '            self.conn = object.__getattribute__(self.origwrite, ' +
+            '"____conn__")'
+          
+            '            self.oid = object.__getattribute__(self.origwrite, "' +
+            '____oid__")'
+          '            self.HANDLE_CALL = HANDLE_CALL'
           ''
           '        def __getattr__(self, attr):'
-          '            import Rpyc'
-          '            return Rpyc.getattr(self._stream, attr)'
+          '            return getattr(self._stream, attr)'
           ''
           '        def readline(self, size=None):'
           '            try:'
@@ -3232,19 +3295,13 @@ object CommandsDataModule: TCommandsDataModule
           '            except KeyboardInterrupt:'
           '                raise KeyboardInterrupt("Operation Cancelled")'
           ''
-          '        def _dummy_callback(self, *args, **kw):'
-          '            pass'
-          ''
           '        def write(self, message):'
-          '            import Rpyc'
-          '            from Rpyc.Lib import ImmDict'
-          '            from Rpyc.NetProxy import _get_oid'
-          '            self.conn.async_request(self._dummy_callback,'
+          '            conn = self.conn()'
           
-            '                "handle_call", _get_oid(self.origwrite), (messag' +
-            'e,), ImmDict({}))'
-          '            while len(self.conn.async_replies) > 1000 :'
-          '                self.conn.serve()'
+            '            conn._async_request(self.HANDLE_CALL, (self.oid, (me' +
+            'ssage,), ()))'
+          '            while len(conn._async_callbacks) > 100 :'
+          '                conn.poll_all()'
           ''
           '    def asyncIO(self):'
           '        import sys'
@@ -3298,24 +3355,79 @@ object CommandsDataModule: TCommandsDataModule
       item
         Name = 'SimpleServer'
         Strings.Strings = (
-          
-            'from Rpyc.Utils.Serving import serve_socket, create_listener_soc' +
-            'ket, DEFAULT_PORT'
+          'import sys'
+          'if len(sys.argv) > 2:'
+          '    sys.path.insert(0, sys.argv[2])'
+          ''
+          'from rpyc.utils.server import Server'
+          'from rpyc.utils.classic import DEFAULT_SERVER_PORT'
+          'from rpyc.core import SlaveService'
+          'from rpyc.utils.logger import Logger'
           ''
           '__traceable__ = 0'
           ''
+          'class SimpleServer(Server):'
+          '    def _get_logger(self):'
+          
+            '        return Logger(self.service.get_service_name(), console =' +
+            ' None, quiet = True)'
+          ''
+          '    def _accept_method(self, sock):'
+          '        self._serve_client(sock, None)'
+          ''
+          'class ModSlaveService(SlaveService):'
+          '    __slots__ = []'
+          ''
+          '    def on_connect(self):'
+          '        import imp'
+          '        from rpyc.core.service import ModuleNamespace'
+          ''
+          '        sys.modules["__oldmain__"] = sys.modules["__main__"]'
+          '        sys.modules["__main__"] = imp.new_module("__main__")'
+          
+            '        self.exposed_namespace = sys.modules["__main__"].__dict_' +
+            '_'
+          ''
+          '        self._conn._config.update(dict('
+          '            allow_all_attrs = True,'
+          '            allow_pickle = True,'
+          '            allow_getattr = True,'
+          '            allow_setattr = True,'
+          '            allow_delattr = True,'
+          '            import_custom_exceptions = True,'
+          '            instantiate_custom_exceptions = True,'
+          '            instantiate_oldstyle_exceptions = True,'
+          '        ))'
+          '        # shortcuts'
+          
+            '        self._conn.modules = ModuleNamespace(self._conn.root.get' +
+            'module)'
+          '        self._conn.eval = self._conn.root.eval'
+          '        self._conn.execute = self._conn.root.execute'
+          '        self._conn.namespace = self._conn.root.namespace'
+          '        if sys.version_info[0] > 2:'
+          '            self._conn.builtin = self._conn.modules.builtins'
+          '        else:'
+          '            self._conn.builtin = self._conn.modules.__builtin__'
+          ''
           'def main():'
-          '    import sys'
+          '    import warnings'
+          '    warnings.simplefilter("ignore", DeprecationWarning)'
+          ''
           '    try:'
           '        port = int(sys.argv[1])'
           '    except:'
-          '        port = DEFAULT_PORT'
-          '    sock = create_listener_socket(port)'
-          '    newsock, name = sock.accept()'
-          '    serve_socket(newsock)'
+          '        port = DEFAULT_SERVER_PORT'
+          ''
+          
+            '    t = SimpleServer(ModSlaveService, port = port, auto_register' +
+            ' = False)'
+          '    t.start()'
           ''
           'if __name__ == "__main__":'
-          '    main()')
+          '    main()'
+          ''
+          '')
       end
       item
         Name = 'TkServer'
@@ -3570,7 +3682,7 @@ object CommandsDataModule: TCommandsDataModule
           'if __name__ == "__main__":'
           '    main()')
       end>
-    Left = 341
+    Left = 343
     Top = 172
   end
   object dlgFileOpen: TTntOpenDialogLX
@@ -3591,6 +3703,7 @@ object CommandsDataModule: TCommandsDataModule
     Options.PhpVersion = spvPhp5
     Options.PhpShortOpenTag = True
     Options.PhpAspTags = False
+    Options.AllowASPTags = True
     Options.CssEmbeded = True
     Options.PhpEmbeded = True
     Options.EsEmbeded = True
@@ -3629,6 +3742,7 @@ object CommandsDataModule: TCommandsDataModule
   object SynWebEngine: TSynWebEngine
     Options.HtmlVersion = shvHtml401Transitional
     Options.WmlVersion = swvWml13
+    Options.XsltVersion = swvXslt20
     Options.CssVersion = scvCss21
     Options.PhpVersion = spvPhp5
     Options.PhpShortOpenTag = True
