@@ -4,6 +4,9 @@
  Date:      23-April-2006
  Purpose:   Remote debugger using an Rpyc based server
  History:
+ ToDo :  Tk and wx servers
+         latest version of rpyc 3.0
+         Port to Python 3.x
 -----------------------------------------------------------------------------}
 unit cPyRemoteDebugger;
 
@@ -33,6 +36,7 @@ type
     fThreadExecInterrupted: Boolean;
     fDebugger : Variant;
     fSocketPort: integer;
+    fRpycPath : string;
   public
     constructor Create(AEngineType : TPythonEngineType = peRemote);
     destructor Destroy; override;
@@ -62,7 +66,7 @@ type
     procedure RunNoDebug(ARunConfig : TRunConfiguration); override;
     function RunSource(Const Source, FileName : Variant; symbol : WideString = 'single') : boolean; override;
     function EvalCode(const Expr : WideString) : Variant; override;
-//    function GetObjectType(Ob : Variant) : WideString; override;
+    function GetObjectType(Ob : Variant) : WideString; override;
 
     property IsAvailable : Boolean read fIsAvailable;
     property IsConnected : Boolean read fIsConnected;
@@ -153,7 +157,7 @@ uses
   VarPyth, StringResources, frmPythonII, Dialogs, dmCommands,
   cParameters, uCommonFunctions, frmMessages, frmPyIDEMain, JclFileUtils,
   frmVariables, frmCallStack, frmUnitTests, JvDSADialogs,
-  gnugettext, TntDialogs, TntSysUtils, JclStrings;
+  gnugettext, TntDialogs, TntSysUtils, JclStrings, JclSysUtils;
 
 { TRemNameSpaceItem }
 constructor TRemNameSpaceItem.Create(aName : WideString; aPyObject : Variant;
@@ -161,7 +165,7 @@ constructor TRemNameSpaceItem.Create(aName : WideString; aPyObject : Variant;
 begin
   inherited Create(aName, aPyObject);
   fRemotePython := RemotePython;
-  fIsProxy := VarIsInstanceOf(fPyObject,  fRemotePython.Rpyc.BaseNetRef);
+  fIsProxy := VarIsInstanceOf(fPyObject,  fRemotePython.Rpyc.BaseNetref);
 end;
 
 function TRemNameSpaceItem.GetChildCount: integer;
@@ -179,7 +183,7 @@ begin
       fRemotePython.CheckConnected;
       SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
       try
-        Result := fRemotePython.RPI.membercount(fPyObject);
+        Result := fRemotePython.RPI.membercount(fPyObject, True, False);
       except
         Result := 0;
       end;
@@ -190,71 +194,46 @@ end;
 
 procedure TRemNameSpaceItem.GetChildNodes;
 Var
-  Dict, DictKeys, APyObject, PyFullInfo, Temp : Variant;
+  FullInfoTuple, APyObject: Variant;
+  PyFullInfoTuple, PyMemberInfo, PyFullInfo: PPyObject;
   i : integer;
-  Name : string;
+  ObjName : WideString;
   NameSpaceItem : TRemNameSpaceItem;
   SuppressOutput : IInterface;
-  FullInfo : Boolean;
 begin
   if not (Assigned(fChildNodes) or GotChildNodes) then begin
     fRemotePython.CheckConnected;
     GotChildNodes := True;  //Do not try again
     SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
-    FullInfo := False;
     try
-      if IsDict then begin
-        if IsProxy then begin
-          Dict := fRemotePython.RPI.rem_getitemsfullinfo(fPyObject);
-          FullInfo := True;
-        end else
-          Dict := fPyObject;
-        fChildCount := len(Dict);
-      end else if SortedIdentToInt(ObjectType, i, CommonTypes, True) then
-        fChildCount := 0  // do not expand common types
-//      else if Has__dict__ then begin
-//        Dict := fPyObject.__dict__;
-//        fChildCount := len(Dict);
-      else begin
-        if IsProxy then begin
-          Dict := fRemotePython.RPI.safegetmembersfullinfo(fPyObject);
-          FullInfo := True;
-        end else begin
-          Dict := InternalInterpreter.PyInteractiveInterpreter.safegetmembers(fPyObject)
-        end;
-        fChildCount := len(Dict);
-      end;
+      if IsProxy then
+        FullInfoTuple := fRemotePython.RPI.safegetmembersfullinfo(fPyObject, True, False)
+      else
+        FullInfoTuple := InternalInterpreter.PyInteractiveInterpreter.safegetmembersfullinfo(fPyObject, True, False);
+      fChildCount := len(FullInfoTuple);
 
       if fChildCount > 0 then begin
         fChildNodes := WideStrings.TWideStringList.Create;
         fChildNodes.CaseSensitive := True;
-        DictKeys := Dict.keys();
-        if GetPythonEngine.IsPython3000 then
-          DictKeys := BuiltinModule.list(DictKeys);
-        for i := 0 to fChildCount - 1 do begin
-          Name :=  DictKeys.__getitem__(i);
-          try
-            Temp :=DictKeys.__getitem__(i);
-            APyObject := Dict.__getitem__(Temp);
-            if FullInfo then begin
-               PyFullInfo := APyObject;
-               APyObject := PyFullInfo.__getitem__(0);
-            end;
-          except
-            APyObject := VarPythonCreate('Error in getting object');
-            VarClear(PyFullInfo);
-          end;
-          NameSpaceItem := TRemNameSpaceItem.Create(Name,
-            APyObject, fRemotePython);
-          if FullInfo and VarIsPython(PyFullInfo) then begin
-             NameSpaceItem.BufferedValue := PyFullInfo.__getitem__(1);
-             NameSpaceItem.GotBufferedValue := True;
-             NameSpaceItem.fObjectType := PyFullInfo.__getitem__(2);
-             NameSpaceItem.ExtractObjectInfo(PyFullInfo.__getitem__(3));
-             NameSpaceItem.fChildCount := PyFullInfo.__getitem__(4);
-          end;
-          fChildNodes.AddObject(Name, NameSpaceItem);
+
+        PyFullInfoTuple := ExtractPythonObjectFrom(FullInfoTuple);
+        for i := 0 to fChildCount - 1 do with GetPythonEngine do begin
+          PyMemberInfo := PyTuple_GetItem(PyFullInfoTuple, i);
+          ObjName :=  PyString_AsWideString(PyTuple_GetItem(PyMemberInfo, 0));
+          PyFullInfo := PyTuple_GetItem(PyMemberInfo, 1);
+          APyObject := VarPythonCreate(PyTuple_GetItem(PyFullInfo, 0));
+
+          NameSpaceItem := TRemNameSpaceItem.Create(ObjName, APyObject, fRemotePython);
+
+          NameSpaceItem.BufferedValue := PyString_AsWideString(PyTuple_GetItem(PyFullInfo, 1));
+          NameSpaceItem.GotBufferedValue := True;
+          NameSpaceItem.fObjectType := PyString_AsWideString(PyTuple_GetItem(PyFullInfo, 2));
+          NameSpaceItem.ExtractObjectInfo(PyTuple_GetItem(PyFullInfo, 3));
+          NameSpaceItem.fChildCount := PyInt_AsLong(PyTuple_GetItem(PyFullInfo, 4));
+
+          fChildNodes.AddObject(ObjName, NameSpaceItem);
         end;
+        GetPythonEngine.CheckError;
         fChildNodes.CustomSort(ComparePythonIdents);
       end;
     except
@@ -284,7 +263,7 @@ end;
 procedure TRemNameSpaceItem.FillObjectInfo;
 var
   SuppressOutput : IInterface;
-  PyObjectInfo : Variant;
+  PyObjectInfo : PPyObject;
 begin
   if not IsProxy then
     inherited
@@ -292,12 +271,12 @@ begin
     fRemotePython.CheckConnected;
     SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
     try
-      PyObjectInfo := fRemotePython.RPI.rem_objectinfo(fPyObject);
+      PyObjectInfo := ExtractPythonObjectFrom(fRemotePython.RPI.objectinfo(fPyObject));
     except
-      PyObjectInfo := VarNull;
+      PyObjectInfo := nil;
     end;
+    ExtractObjectInfo(PyObjectInfo);
   end;
-  ExtractObjectInfo(PyObjectInfo);
 end;
 
 function TRemNameSpaceItem.GetObjectType: WideString;
@@ -498,6 +477,9 @@ begin
 
   fOldSysModules := SysModule.modules.copy();
   try
+    fRpycPath := Format('%sLib\rpyc-python%sx.zip',
+      [ExtractFilePath(Application.ExeName), iff(GetPythonEngine.IsPython3000, '3', '2')]);
+    InternalInterpreter.SysPathAdd(fRpycPath);
     Rpyc := Import('rpyc');
     fIsAvailable := True;
 
@@ -538,7 +520,7 @@ begin
     RemoteServer := TExternalTool.Create;
     RemoteServer.CaptureOutput := False;
     RemoteServer.ApplicationName := '$[PythonDir]\pythonw.exe';
-    RemoteServer.Parameters := Format('"%s" %d', [ServerFile, fSocketPort]);
+    RemoteServer.Parameters := Format('"%s" %d "%s"', [ServerFile, fSocketPort, fRpycPath]);
 //       '$[PythonExe-Short-Path]Lib\site-packages\Rpyc\Servers\threaded_server.py';
 //       '"$[PythonExe-Path]Lib\site-packages\Rpyc\Servers\simple_server_wx.py"';
     try
@@ -569,6 +551,7 @@ begin
   ServerProcess.Free;
   RemoteServer.Free;
 
+  InternalInterpreter.SysPathRemove(fRpycPath);
   inherited;
 end;
 
@@ -633,21 +616,10 @@ begin
     Evalcode('globals()'), Self);
 end;
 
-//function TPyRemoteInterpreter.GetObjectType(Ob: Variant): WideString;
-//Var
-//  SuppressOutput : IInterface;
-//begin
-//  CheckConnected;
-//  SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
-//  try
-//    if Rpyc.isproxy(ob) then
-//      Result := RPI.objecttype(ob)
-//    else
-//      Result := InternalInterpreter.GetObjectType(ob);
-//  except
-//    Result := 'Unknown type';
-//  end;
-//end;
+function TPyRemoteInterpreter.GetObjectType(Ob: Variant): WideString;
+begin
+  Result := InternalInterpreter.GetObjectType(ob);
+end;
 
 procedure TPyRemoteInterpreter.HandleRemoteException(ExcInfo: Variant; SkipFrames : integer = 1);
 Var
@@ -1020,12 +992,12 @@ begin
     // Redirect Output
     OutputRedirector := Rpyc.classic.redirected_stdio(Conn);
 /////////////////////////////////////////////////////
-    Conn.modules('sys').modules.__setitem__('__oldmain__', Conn.modules('sys').modules.__getitem__('__main__'));
-    Conn.modules('sys').modules.__setitem__('__main__', Conn.modules('imp').new_module('__main__'));
-    Conn.remote_conn._local_namespace := Conn.modules('sys').modules.__getitem__('__main__').__dict__;
-    Conn.namespace := Rpyc.Lib.AttrFrontend(Conn.remote_conn._local_namespace);
+//    Conn.modules('sys').modules.__setitem__('__oldmain__', Conn.modules('sys').modules.__getitem__('__main__'));
+//    Conn.modules('sys').modules.__setitem__('__main__', Conn.modules('imp').new_module('__main__'));
+//    Conn.remote_conn._local_namespace := Conn.modules('sys').modules.__getitem__('__main__').__dict__;
+//    Conn.namespace := Rpyc.Lib.AttrFrontend(Conn.remote_conn._local_namespace);
 /////////////////////////////////////////////////////
-    Conn.namespace.__name__ := '__main__';
+//    Conn.namespace.__name__ := '__main__';
     // Create the remote interpreter
     with GetPythonEngine do begin
       if IsPython3000 then
@@ -1037,22 +1009,25 @@ begin
     Source := CleanEOLs(
       CommandsDataModule.JvMultiStringHolder.StringsByName[InitScriptName].Text)+#10;
     Conn.execute(VarPythonCreate(Source));
-    RPI := Conn.namespace._RPI;
+    RPI := Conn.namespace.__getitem__('_RPI');
     //  pass a reference to the P4D module DebugIDE
-    Conn.execute('del _RPI.locals["_RPI"]');
-    Rpyc.getattr(RPI, '__class__').debugIDE :=
+    Conn.namespace.__delitem__('_RPI');
+//    Conn.execute('del _RPI.locals["_RPI"]');
+//    Rpyc.getattr(RPI, '__class__').debugIDE :=
+//      InternalInterpreter.PyInteractiveInterpreter.debugIDE;
+    RPI.__class__.debugIDE :=
       InternalInterpreter.PyInteractiveInterpreter.debugIDE;
 
     // make sys.stdout etc asynchronous when writing
     RPI.asyncIO();
     // debugger
     fDebugger := RPI.debugger;
-    Rpyc.getattr(fDebugger, '__class__').debugIDE :=
+    fDebugger.__class__.debugIDE :=
       InternalInterpreter.PyInteractiveInterpreter.debugIDE;
-    // Install Rpyc excepthook
-    SysModule.excepthook := Rpyc.rpyc_excepthook;
+//    // Install Rpyc excepthook gets automatically installed
+//    Rpyc.install_rpyc_excepthook;
     // Execute PyscripterSetup.py here
-    Conn.namespace.pyscripter := Import('pyscripter');
+    Conn.namespace.__setitem__('pyscripter', Import('pyscripter'));
 
     // sys.displayhook
     RPI.setupdisplayhook();
@@ -1147,8 +1122,7 @@ var
   PythonPath: Variant;
 begin
   CheckConnected;
-  // could have used Conn.deliver but this was not in version 2.55
-  // and would break Python 2.3 compatibility
+  // could have used Conn.deliver
   Conn.execute('__import__("sys").path = []');
   PythonPath := Conn.modules.sys.path;
   for i := 0 to Strings.Count - 1 do
@@ -1186,7 +1160,7 @@ var
   RemPath : Variant;
 begin
   CheckConnected;
-  RemPath := Rpyc.obtain(Conn.modules.sys.path);
+  RemPath := Rpyc.classic.obtain(Conn.modules.sys.path);
   for i := 0 to Len(RemPath) - 1  do
     Strings.Add(RemPath.__getitem__(i));
 end;
@@ -1375,7 +1349,7 @@ begin
     if not (IsAvailable and IsConnected and (ServerProcess.State = psWaiting)) then
       Exit;
   try
-    Result := fRemotePython.Conn.execute('hasattr(__import__("sys"), "last_traceback")', 'eval');
+    Result := fRemotePython.Conn.eval('hasattr(__import__("sys"), "last_traceback")');
   except
   end;
 end;
@@ -1396,7 +1370,7 @@ begin
         else
           Source := CleanEOLs(EncodedText)+#10;
         LineList := VarPythonCreate(Source);
-        LineList := fRemotePython.Rpyc.deliver(LineList.splitlines(True), fRemotePython.Conn);
+        LineList := fRemotePython.Rpyc.classic.deliver(fRemotePython.Conn, LineList.splitlines(True));
         FName := '<'+FileTitle+'>';
         fLineCache.cache.__setitem__(VarPythonCreate(FName),
           VarPythonCreate([0, None, LineList, FName], stTuple));

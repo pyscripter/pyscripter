@@ -56,7 +56,7 @@ type
     function GetChildCount : integer; override;
     function GetChildNode(Index: integer): TBaseNameSpaceItem; override;
     function GetObjectInfo : TPyObjectInfo;
-    procedure ExtractObjectInfo(PyObjectInfo : Variant);
+    procedure ExtractObjectInfo(PyObjectInfo : PPyObject);
     procedure FillObjectInfo; virtual;
   public
     constructor Create(aName : WideString; aPyObject : Variant);
@@ -208,7 +208,7 @@ begin
   inherited;
 end;
 
-procedure TNameSpaceItem.ExtractObjectInfo(PyObjectInfo: Variant);
+procedure TNameSpaceItem.ExtractObjectInfo(PyObjectInfo: PPyObject);
 begin
   fObjectInfo.Initialized := True;
   fObjectInfo.Has__dict__ := False;
@@ -216,16 +216,13 @@ begin
   fObjectInfo.IsMethod := False;
   fObjectInfo.IsFunction := False;
   fObjectInfo.IsClass := False;
-  if VarIsPython(PyObjectInfo) then begin
-    try
-      fObjectInfo.Has__dict__ := PyObjectInfo.__getitem__(0);
-      fObjectInfo.IsModule := PyObjectInfo.__getitem__(1);
-      fObjectInfo.IsMethod := PyObjectInfo.__getitem__(2);
-      fObjectInfo.IsFunction := PyObjectInfo.__getitem__(3);
-      fObjectInfo.IsClass := PyObjectInfo.__getitem__(4);
-      fObjectInfo.IsDict := PyObjectInfo.__getitem__(5);
-    except
-    end;
+  if Assigned(PyObjectInfo) then with GetPythonEngine do begin
+    fObjectInfo.Has__dict__ := PyObject_IsTrue(PyTuple_GetItem(PyObjectInfo, 0)) = 1;
+    fObjectInfo.IsModule := PyObject_IsTrue(PyTuple_GetItem(PyObjectInfo, 1)) = 1;
+    fObjectInfo.IsMethod := PyObject_IsTrue(PyTuple_GetItem(PyObjectInfo, 2)) = 1;
+    fObjectInfo.IsFunction := PyObject_IsTrue(PyTuple_GetItem(PyObjectInfo, 3)) = 1;
+    fObjectInfo.IsClass := PyObject_IsTrue(PyTuple_GetItem(PyObjectInfo, 4)) = 1;
+    fObjectInfo.IsDict := PyObject_IsTrue(PyTuple_GetItem(PyObjectInfo, 5)) = 1;
   end;
 end;
 
@@ -240,7 +237,7 @@ begin
   else begin
     SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
     try
-      Result := InternalInterpreter.PyInteractiveInterpreter.membercount(fPyObject);
+      Result := InternalInterpreter.PyInteractiveInterpreter.membercount(fPyObject, True, False);
     except
       Result := 0;
     end;
@@ -259,9 +256,10 @@ end;
 
 procedure TNameSpaceItem.GetChildNodes;
 Var
-  Dict, DictKeys, APyObject, PyFullInfo : Variant;
+  FullInfoTuple, APyObject: Variant;
+  PyFullInfoTuple, PyMemberInfo, PyFullInfo: PPyObject;
   i : integer;
-  Name : string;
+  ObjName : WideString;
   NameSpaceItem : TNameSpaceItem;
   SuppressOutput : IInterface;
 begin
@@ -269,41 +267,31 @@ begin
     GotChildNodes := True;
     SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
     try
-      if IsDict then begin
-        Dict := InternalInterpreter.PyInteractiveInterpreter.getitemsfullinfo(fPyObject);
-        fChildCount := len(Dict);
-      end else if SortedIdentToInt(ObjectType, i, CommonTypes, True) then
-        fChildCount := 0  // do not expand common types
-      else begin
-        Dict := InternalInterpreter.PyInteractiveInterpreter.safegetmembersfullinfo(fPyObject);
-        fChildCount := len(Dict);
-      end;
+      FullInfoTuple := InternalInterpreter.PyInteractiveInterpreter.safegetmembersfullinfo(fPyObject, True, False);
+      fChildCount := len(FullInfoTuple);
 
       if fChildCount > 0 then begin
         fChildNodes := WideStrings.TWideStringList.Create;
         fChildNodes.CaseSensitive := True;
-        DictKeys := Dict.keys();
-        if GetPythonEngine.IsPython3000 then
-          DictKeys := BuiltinModule.list(DictKeys);
-        for i := 0 to fChildCount - 1 do begin
-          Name :=  DictKeys.__getitem__(i);
-          try
-            PyFullInfo := Dict.__getitem__(DictKeys.__getitem__(i));
-            APyObject := PyFullInfo.__getitem__(0);
-          except
-            APyObject := VarPythonCreate('Error in getting object');
-            VarClear(PyFullInfo);
-          end;
-          NameSpaceItem := TNameSpaceItem.Create(Name, APyObject);
-          if VarIsPython(PyFullInfo) then begin
-             NameSpaceItem.BufferedValue := PyFullInfo.__getitem__(1);
-             NameSpaceItem.GotBufferedValue := True;
-             NameSpaceItem.fObjectType := PyFullInfo.__getitem__(2);
-             NameSpaceItem.ExtractObjectInfo(PyFullInfo.__getitem__(3));
-             NameSpaceItem.fChildCount := PyFullInfo.__getitem__(4);
-          end;
-          fChildNodes.AddObject(Name, NameSpaceItem);
+
+        PyFullInfoTuple := ExtractPythonObjectFrom(FullInfoTuple);
+        for i := 0 to fChildCount - 1 do with GetPythonEngine do begin
+          PyMemberInfo := PyTuple_GetItem(PyFullInfoTuple, i);
+          ObjName :=  PyString_AsWideString(PyTuple_GetItem(PyMemberInfo, 0));
+          PyFullInfo := PyTuple_GetItem(PyMemberInfo, 1);
+          APyObject := VarPythonCreate(PyTuple_GetItem(PyFullInfo, 0));
+
+          NameSpaceItem := TNameSpaceItem.Create(ObjName, APyObject);
+
+          NameSpaceItem.BufferedValue := PyString_AsWideString(PyTuple_GetItem(PyFullInfo, 1));
+          NameSpaceItem.GotBufferedValue := True;
+          NameSpaceItem.fObjectType := PyString_AsWideString(PyTuple_GetItem(PyFullInfo, 2));
+          NameSpaceItem.ExtractObjectInfo(PyTuple_GetItem(PyFullInfo, 3));
+          NameSpaceItem.fChildCount := PyInt_AsLong(PyTuple_GetItem(PyFullInfo, 4));
+
+          fChildNodes.AddObject(ObjName, NameSpaceItem);
         end;
+        GetPythonEngine.CheckError;
         fChildNodes.CustomSort(ComparePythonIdents);
       end;
     except
@@ -334,13 +322,13 @@ end;
 procedure TNameSpaceItem.FillObjectInfo;
 var
   SuppressOutput : IInterface;
-  PyObjectInfo : Variant;
+  PyObjectInfo : PPyObject;
 begin
   SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
   try
-    PyObjectInfo := InternalInterpreter.PyInteractiveInterpreter.objectinfo(fPyObject);
+    PyObjectInfo := ExtractPythonObjectFrom(InternalInterpreter.PyInteractiveInterpreter.objectinfo(fPyObject));
   except
-    PyObjectInfo := VarNull;
+    PyObjectInfo := nil;
   end;
   ExtractObjectInfo(PyObjectInfo);
 end;
@@ -1056,12 +1044,7 @@ Var
 begin
   SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
   try
-    if GetPythonEngine.PyObject_HasAttrString(
-      ExtractPythonObjectFrom(ob), '__class__') <> 0
-    then
-      Result := ob.__class__.__name__
-    else
-      Result := _type(ob).__name__;
+    Result := fII.objecttype(Ob);
   except
     Result := 'Unknown type';
   end;
