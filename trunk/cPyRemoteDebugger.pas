@@ -4,10 +4,7 @@
  Date:      23-April-2006
  Purpose:   Remote debugger using an Rpyc based server
  History:
- ToDo :  Tk and wx servers
-         latest version of rpyc 3.0
-         Port to Python 3.x
------------------------------------------------------------------------------}
+ -----------------------------------------------------------------------------}
 unit cPyRemoteDebugger;
 
 interface

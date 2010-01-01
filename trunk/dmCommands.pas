@@ -608,7 +608,7 @@ begin
   fNewFileEncoding := sf_Ansi;
   fDetectUTF8Encoding := True;
   fEditorsTabPosition := ttpBottom;
-  fPythonEngineType := peInternal;
+  fPythonEngineType := peRemote;
   fPrettyPrintOutput := True;
   fSmartNextPrevPage := True;
   fAutoReloadChangedFiles := True;

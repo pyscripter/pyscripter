@@ -6,8 +6,6 @@ http://www.microsoft.com/downloads/details.aspx?familyid=A5C84275-3B97-4AB7-A40D
 
 Copy the included files to the PyScripter installation folder overriding existing files. 
  
-Please note that to use remote debugging you need to install the Python package Rpyc v2.6 which is available at http://code.google.com/p/pyscripter/downloads/list.
-
 You can read about remote debugging at http://code.google.com/p/pyscripter/wiki/RemoteEngines
 
 If you upgrade from a version earlier than 1.8.5 you will need to change the PyScripter shortcuts, since now command line 

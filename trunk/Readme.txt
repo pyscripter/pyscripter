@@ -11,7 +11,7 @@ To compile the PythonIDE.dpr, you first need to install the following components
 
    - Python for Delphi (http://python4delphi.googlecode.com/ - use SVN)
 
-   - JVCL version 3.36 (jvcl.sf.net) and JCL version 1.1104 (jvcl.sf.net)
+   - JCL and JVCL (jvcl.sf.net)
 
    - Toolbar2000 (http://www.innosetup.com/tb2k.php)
    - Tntware Delphi Unicode Controls (http://www.silverpointdevelopment.com/sptbxlib/TntUnicodeControls.zip)

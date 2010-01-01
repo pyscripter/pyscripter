@@ -3,8 +3,8 @@
 
 [Setup]
 AppName=PyScripter
-AppVersion=1.9.9.7
-AppVerName=PyScripter 1.9.9.7
+AppVersion=1.9.9.8
+AppVerName=PyScripter 1.9.9.8
 AppPublisher=PyScripter
 AppPublisherURL=http://pyscripter.googlecode.com
 AppSupportURL=http://groups.google.com/group/PyScripter
@@ -14,7 +14,7 @@ DefaultGroupName=PyScripter
 InfoBeforeFile=BeforeInstallPyScripter.txt
 InfoAfterFile=AfterInstallPyScripter.txt
 OutputDir=Output
-OutputBaseFilename=PyScripter-v1.9.9.7-Setup
+OutputBaseFilename=PyScripter-v1.9.9.8-Setup
 Compression=lzma
 SolidCompression=true
 ChangesAssociations=true
@@ -53,6 +53,8 @@ Source: ..\..\PythonIDE\locale\zh\LC_MESSAGES\languages.mo; DestDir: {app}\local
 Source: ..\..\PythonIDE\locale\zh\LC_MESSAGES\languages.po; DestDir: {app}\locale\zh\LC_MESSAGES\
 ;Source: ..\..\PythonIDE\Scripts\pyscripter_init.py; DestDir: {userappdata}\PyScripter; Flags: uninsneveruninstall onlyifdoesntexist
 ;Source: ..\..\PythonIDE\Scripts\python_init.py; DestDir: {userappdata}\PyScripter; Flags: uninsneveruninstall onlyifdoesntexist
+Source: ..\Lib\rpyc-python2x.zip; DestDir: {app}\Lib
+Source: ..\Lib\rpyc-python3x.zip; DestDir: {app}\Lib
 
 [Icons]
 Name: {group}\PyScripter (Latest Python Version); Filename: {app}\PyScripter.exe
