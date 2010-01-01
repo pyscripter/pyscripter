@@ -1362,7 +1362,9 @@ begin
   if FileExists(AppStorage.IniFile.FileName) then begin
     RestoreApplicationData;
     JvFormStorage.RestoreFormPlacement;
-  end;
+  end else
+    // Set Python engine
+    PyControl.PythonEngineType := CommandsDataModule.PyIDEOptions.PythonEngineType;
 
   AppStorage.ReadStringList('Layouts', Layouts, True);
 
