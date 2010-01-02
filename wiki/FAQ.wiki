@@ -219,5 +219,9 @@ The above create problems that can be resolved as follows:
      to the directory in which the originall python25.dll that came from the python installation program
      resides.
      
+*_Update_*
+The incompatibility between PyScripter and the TortoiseHg Mercurial addon has finally been fixed with the release
+of TortoiseHg 0.8, which replaces the Python Windows shell extensions with C++ based ones.
+     
 [http://code.google.com/p/pyscripter/wiki/FAQ#Frequently_Asked_Questions Back to Top]
 
