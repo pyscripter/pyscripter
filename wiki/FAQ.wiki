@@ -220,8 +220,8 @@ The above create problems that can be resolved as follows:
      resides.
      
 *_Update_*
-The incompatibility between PyScripter and the TortoiseHg Mercurial addon has finally been fixed with the release
-of TortoiseHg 0.8, which replaces the Python Windows shell extensions with C++ based ones.
+The incompatibility between PyScripter and the !TortoiseHg Mercurial addon has finally been fixed with the release
+of !TortoiseHg 0.8, which replaces the Python Windows shell extensions with C++ based ones.
      
 [http://code.google.com/p/pyscripter/wiki/FAQ#Frequently_Asked_Questions Back to Top]
 
