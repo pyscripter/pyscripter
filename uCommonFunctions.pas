@@ -1145,12 +1145,16 @@ begin
 end;
 
 function ComparePythonIdents(const S1, S2 : WideString): Integer; overload;
+Var
+  L1, L2 : integer;
 begin
-  if (S1[1] = WideChar('_')) and (S2[1] = WideChar('_')) then
+  L1 := Length(S1);
+  L2 := Length(S2);
+  if (L1 > 0) and (S1[1] = WideChar('_')) and (L2>0) and (S2[1] = WideChar('_')) then
     Result := WideCompareStr(S1, S2)
-  else if S1[1] = '_' then
+  else if (L1 > 0) and (S1[1] = WideChar('_')) then
     Result := 1
-  else if S2[1] = '_' then
+  else if (L2>0) and (S2[1] = WideChar('_')) then
     Result := -1
   else
     Result := WideCompareStr(S1, S2)

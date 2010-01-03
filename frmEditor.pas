@@ -1453,7 +1453,7 @@ procedure TEditorForm.DoUpdateCaption;
 begin
   Assert(fEditor <> nil);
   with ParentTabItem do begin
-    Caption := fEditor.GetFileTitle;
+    Caption := Tnt_WideStringReplace(fEditor.GetFileTitle, '&', '&&', [rfReplaceAll]);
     Hint := fEditor.GetFileName;
   end;
   PyIDEMainForm.UpdateCaption;
