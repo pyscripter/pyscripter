@@ -342,7 +342,7 @@ Limitations: Python scripts are executed in the main thread
             Support for Python 2.7
             Moved to Rpyc v3.07, now bundled with PyScripter
           Bug fixes
-            Issues  236, 304
+            Issues  236, 304, 322, 334
 
 
   Vista Compatibility issues (all resolved)
