@@ -9,11 +9,11 @@ In addition to using the internal integrated Python engine, PyScripter offers yo
 
 ==== Internal ====
 
-This the default engine of PyScripter. It is faster than the other options however if there are problems with the scripts you are running or debugging they could affect the reliability of PyScripter and could cause crashes. Another limitation of this engine is that it cannot run or debug GUI scripts nor it can be reinitialized.
+This Python engine is faster than the other options however if there are problems with the scripts you are running or debugging they could affect the reliability of PyScripter and could cause crashes. Another limitation of this engine is that it cannot run or debug GUI scripts nor it can be reinitialized.
 
 ==== Remote ====
 
-This is the standard remote Python engine and is the recommended engine for most Python development tasks. It runs in a child process and communicates with PyScripter using Rpyc. It can be used to run and debug any kind of script including GUI scripts. However if you run or debug GUI scripts _you may have to reinitialize the engine after each run_.
+This the default Python engine of PyScripter and is the recommended engine for most Python development tasks. It runs in a child process and communicates with PyScripter using [http://rpyc.sf.net rpyc]. It can be used to run and debug any kind of script including GUI scripts. However if you run or debug GUI scripts _you may have to reinitialize the engine after each run_.
 
 ==== Remote Tk ====
 
@@ -40,9 +40,8 @@ To debug event code of Wx and Tkinter scripts use the standard remote engine. Yo
 
 === Requirements for the Remote Engines ===
 
-The remote engines require the installation of [http://rpyc.sf.net Rpyc] version 2.6, which by the way is just brilliant. 
+The remote engines are only available with Python 2.4 or later.  They make use of [http://rpyc.sf.net rpyc], which is bundled by PyScripter and so no separate installation is required. 
 
-Update: PyScripter does not work yet with the latest version of Rpyc 3.x. You can download version 2.6 from the [http://code.google.com/p/pyscripter/downloads/list Downloads section].
 
 === Troubleshooting ===
 
