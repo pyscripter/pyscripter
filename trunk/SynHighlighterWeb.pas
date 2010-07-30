@@ -107,6 +107,7 @@ type
   TSynWebOptions = record
     FMLVersion: TSynWebMLVersion;
     FHtmlVersion: TSynWebHtmlVersion;
+    FHtml5XmlMode: Boolean;
     FWmlVersion: TSynWebWmlVersion;
     FXsltVersion: TSynWebXSLTVersion;
     FCssVersion: TSynWebCssVersion;
@@ -114,6 +115,7 @@ type
     FPhpShortOpenTag: Boolean;
     FPhpAspTags: Boolean;
     FAllowASPTags: Boolean;
+    FXmlMode: Boolean;
 
     FPhpEmbeded: Boolean;
     FCssEmbeded: Boolean;
@@ -162,6 +164,9 @@ type
     FEngineOptions: PSynWebOptions;
     FUseEngineOptions: Boolean;
     FOnChange: TNotifyEvent;
+
+    function GetHtml5XmlMode: Boolean;
+    procedure SetHtml5XmlMode(const Value: Boolean);
     function GetHtmlVersion: TSynWebHtmlVersion;
     procedure SetHtmlVersion(const Value: TSynWebHtmlVersion);
     function GetWmlVersion: TSynWebWmlVersion;
@@ -193,24 +198,27 @@ type
   protected
     procedure AssignTo(Dest: TPersistent); override;
     procedure UpdateMLOption; virtual;
-    function CanUseEngineOptions: Boolean;
+    function UsingEngineOptions: Boolean;
 
-    property HtmlVersion: TSynWebHtmlVersion read GetHtmlVersion write SetHtmlVersion;
-    property WmlVersion: TSynWebWmlVersion read GetWmlVersion write SetWmlVersion;
-    property XsltVersion: TSynWebXSLTVersion read GetXsltVersion write SetXsltVersion;
-    property CssVersion: TSynWebCssVersion read GetCssVersion write SetCssVersion;
-    property PhpVersion: TSynWebPhpVersion read GetPhpVersion write SetPhpVersion;
-    property PhpShortOpenTag: Boolean read GetPhpShortOpenTag write SetPhpShortOpenTag;
-    property PhpAspTags: Boolean read GetPhpAspTags write SetPhpAspTags;
-    property AllowASPTags: Boolean read GetAllowASPTags write SetAllowASPTags;
+    property Html5XmlMode: Boolean read GetHtml5XmlMode write SetHtml5XmlMode default True;
+    property HtmlVersion: TSynWebHtmlVersion read GetHtmlVersion write SetHtmlVersion default shvXHtml10Transitional;
+    property WmlVersion: TSynWebWmlVersion read GetWmlVersion write SetWmlVersion default swvWml13;
+    property XsltVersion: TSynWebXSLTVersion read GetXsltVersion write SetXsltVersion default swvXslt20;
+    property CssVersion: TSynWebCssVersion read GetCssVersion write SetCssVersion default scvCss21;
+    property PhpVersion: TSynWebPhpVersion read GetPhpVersion write SetPhpVersion default spvPhp5;
+    property PhpShortOpenTag: Boolean read GetPhpShortOpenTag write SetPhpShortOpenTag default True;
+    property PhpAspTags: Boolean read GetPhpAspTags write SetPhpAspTags default False;
+    property AllowASPTags: Boolean read GetAllowASPTags write SetAllowASPTags default True;
 
-    property CssEmbeded: Boolean read GetCssEmbeded write SetCssEmbeded;
-    property PhpEmbeded: Boolean read GetPhpEmbeded write SetPhpEmbeded;
-    property EsEmbeded: Boolean read GetEsEmbeded write SetEsEmbeded;
+    property CssEmbeded: Boolean read GetCssEmbeded write SetCssEmbeded default False;
+    property PhpEmbeded: Boolean read GetPhpEmbeded write SetPhpEmbeded default False;
+    property EsEmbeded: Boolean read GetEsEmbeded write SetEsEmbeded default False;
 
-    property UseEngineOptions: Boolean read FUseEngineOptions write SetUseEngineOptions;
+    property UseEngineOptions: Boolean read FUseEngineOptions write SetUseEngineOptions default False;
   public
     constructor Create(AOptions: PSynWebOptions);
+
+    function IsXmlMode: Boolean;
     property OnChange: TNotifyEvent read FOnChange write FOnChange;
   end;
 
@@ -222,15 +230,16 @@ type
   public
     constructor Create(AOptions: PSynWebOptions);
   published
+    property Html5XmlMode;
     property HtmlVersion;
     property CssVersion;
     property PhpVersion;
     property PhpShortOpenTag;
     property PhpAspTags;
     property AllowASPTags;
-    property CssEmbeded;
-    property PhpEmbeded;
-    property EsEmbeded;
+    property CssEmbeded default True;
+    property PhpEmbeded default True;
+    property EsEmbeded default True;
     property UseEngineOptions;
   end;
 
@@ -250,11 +259,12 @@ type
   published
     property SmartyLDelim: String read GetSmartyLDelim write SetSmartyLDelim;
     property SmartyRDelim: String read GetSmartyRDelim write SetSmartyRDelim;
+    property Html5XmlMode;
     property HtmlVersion;
     property CssVersion;
     property PhpVersion;
-    property CssEmbeded;
-    property EsEmbeded;
+    property CssEmbeded default True;
+    property EsEmbeded default True;
     property UseEngineOptions;
   end;
 
@@ -271,7 +281,7 @@ type
     property PhpShortOpenTag;
     property PhpAspTags;
     property AllowASPTags;
-    property PhpEmbeded;
+    property PhpEmbeded default True;
     property UseEngineOptions;
   end;
 
@@ -288,7 +298,7 @@ type
     property PhpShortOpenTag;
     property PhpAspTags;
     property AllowASPTags;
-    property PhpEmbeded;
+    property PhpEmbeded default True;
     property UseEngineOptions;
   end;
 
@@ -301,9 +311,9 @@ type
     constructor Create(AOptions: PSynWebOptions);
   published
     property PhpVersion;
-    property PhpShortOpenTag;
+    property PhpShortOpenTag default False;
     property PhpAspTags;
-    property PhpEmbeded;
+    property PhpEmbeded default True;
     property UseEngineOptions;
   end;
 
@@ -311,6 +321,7 @@ type
 
   TSynWebCssOptions = class(TSynWebOptionsBase)
   published
+    property Html5XmlMode;
     property HtmlVersion;
     property CssVersion;
     property PhpVersion;
@@ -355,6 +366,7 @@ type
   public
     constructor Create(AOptions: PSynWebOptions);
   published
+    property Html5XmlMode;
     property HtmlVersion;
     property WmlVersion;
     property XsltVersion;
@@ -1183,6 +1195,8 @@ begin
   FUseEngineOptions := False;
 
   FOptions^.FHtmlVersion := shvXHtml10Transitional;
+  FOptions^.FHtml5XmlMode := True;
+  FOptions^.FXmlMode := True;
   FOptions^.FAllowASPTags := True;
   FOptions^.FWmlVersion := swvWml13;
   FOptions^.FXsltVersion := swvXslt20;
@@ -1196,6 +1210,20 @@ begin
   FOptions^.FEsEmbeded := False;
 end;
 
+function TSynWebOptionsBase.GetHtml5XmlMode: Boolean;
+begin
+  Result := FOptions^.FHtml5XmlMode;
+end;
+
+procedure TSynWebOptionsBase.SetHtml5XmlMode(const Value: Boolean);
+begin
+  if UsingEngineOptions then
+    Exit;
+  FOptions^.FHtml5XmlMode := Value;
+  UpdateMLOption;
+  DoOnChange;
+end;
+
 function TSynWebOptionsBase.GetHtmlVersion: TSynWebHtmlVersion;
 begin
   Result := FOptions^.FHtmlVersion;
@@ -1203,7 +1231,7 @@ end;
 
 procedure TSynWebOptionsBase.SetHtmlVersion(const Value: TSynWebHtmlVersion);
 begin
-  if CanUseEngineOptions then
+  if UsingEngineOptions then
     Exit;
   FOptions^.FHtmlVersion := Value;
   UpdateMLOption;
@@ -1217,7 +1245,7 @@ end;
 
 procedure TSynWebOptionsBase.SetWmlVersion(const Value: TSynWebWmlVersion);
 begin
-  if CanUseEngineOptions then
+  if UsingEngineOptions then
     Exit;
   FOptions^.FWmlVersion := Value;
   UpdateMLOption;
@@ -1231,7 +1259,7 @@ end;
 
 procedure TSynWebOptionsBase.SetXsltVersion(const Value: TSynWebXsltVersion);
 begin
-  if CanUseEngineOptions then
+  if UsingEngineOptions then
     Exit;
   FOptions^.FXsltVersion := Value;
   UpdateMLOption;
@@ -1245,7 +1273,7 @@ end;
 
 procedure TSynWebOptionsBase.SetCssVersion(const Value: TSynWebCssVersion);
 begin
-  if CanUseEngineOptions then
+  if UsingEngineOptions then
     Exit;
   FOptions^.FCssVersion := Value;
   DoOnChange;
@@ -1258,7 +1286,7 @@ end;
 
 procedure TSynWebOptionsBase.SetPhpVersion(const Value: TSynWebPhpVersion);
 begin
-  if CanUseEngineOptions then
+  if UsingEngineOptions then
     Exit;
   FOptions^.FPhpVersion := Value;
   DoOnChange;
@@ -1271,7 +1299,7 @@ end;
 
 procedure TSynWebOptionsBase.SetPhpAspTags(const Value: Boolean);
 begin
-  if CanUseEngineOptions then
+  if UsingEngineOptions then
     Exit;
   FOptions^.FPhpAspTags := Value;
   DoOnChange;
@@ -1284,7 +1312,7 @@ end;
 
 procedure TSynWebOptionsBase.SetAllowASPTags(const Value: Boolean);
 begin
-  if CanUseEngineOptions then
+  if UsingEngineOptions then
     Exit;
   FOptions^.FAllowASPTags := Value;
   DoOnChange;
@@ -1297,7 +1325,7 @@ end;
 
 procedure TSynWebOptionsBase.SetPhpShortOpenTag(const Value: Boolean);
 begin
-  if CanUseEngineOptions then
+  if UsingEngineOptions then
     Exit;
   FOptions^.FPhpShortOpenTag := Value;
   DoOnChange;
@@ -1350,7 +1378,7 @@ begin
   if AEngine = FEngineOptions then
     Exit;
   FEngineOptions := AEngine;
-  if CanUseEngineOptions then
+  if UsingEngineOptions then
   begin
     UpdateOptions;
     DoOnChange;
@@ -1365,9 +1393,10 @@ end;
 
 procedure TSynWebOptionsBase.UpdateOptions;
 begin
-  if CanUseEngineOptions then
+  if UsingEngineOptions then
   begin
     FOptions^.FHtmlVersion := FEngineOptions^.FHtmlVersion;
+    FOptions^.FHtml5XmlMode := FEngineOptions^.FHtml5XmlMode;
     FOptions^.FWmlVersion := FEngineOptions^.FWmlVersion;
     FOptions^.FXsltVersion := FEngineOptions^.FXsltVersion;
     UpdateMLOption;
@@ -1380,10 +1409,18 @@ end;
 
 procedure TSynWebOptionsBase.UpdateMLOption;
 begin
-  //
+  case FOptions^.FMLVersion of
+  smlhvHtml401Strict..smlhvHtml401Frameset:
+    FOptions^.FXmlMode := False;
+
+  smlhvHtml5:
+    FOptions^.FXmlMode := FOptions^.FHtml5XmlMode;
+  else
+    FOptions^.FXmlMode := True;
+  end;
 end;
 
-function TSynWebOptionsBase.CanUseEngineOptions: Boolean;
+function TSynWebOptionsBase.UsingEngineOptions: Boolean;
 begin
   Result := FUseEngineOptions and (FEngineOptions <> nil);
 end;
@@ -1407,6 +1444,11 @@ begin
     end;
 end;
 
+function TSynWebOptionsBase.IsXmlMode: Boolean;
+begin
+  Result := FOptions^.FXmlMode;
+end;
+
 { TSynWebHtmlOptions }
 
 constructor TSynWebHtmlOptions.Create(AOptions: PSynWebOptions);
@@ -1418,6 +1460,7 @@ end;
 procedure TSynWebHtmlOptions.UpdateMLOption;
 begin
   FOptions^.FMLVersion := TSynWebMLVersion(FOptions^.FHtmlVersion);
+  inherited UpdateMLOption;
 end;
 
 { TSynWebSmartyOptions }
@@ -1459,6 +1502,7 @@ end;
 procedure TSynWebSmartyOptions.UpdateMLOption;
 begin
   FOptions^.FMLVersion := TSynWebMLVersion(FOptions^.FHtmlVersion);
+  inherited UpdateMLOption;
 end;
 
 { TSynWebWmlOptions }
@@ -1472,6 +1516,7 @@ end;
 procedure TSynWebWmlOptions.UpdateMLOption;
 begin
   FOptions^.FMLVersion := TSynWebMLVersion(Integer(smlwvWml11) + Integer(FOptions^.FWmlVersion));
+  inherited UpdateMLOption;
 end;
 
 { TSynWebXsltOptions }
@@ -1485,6 +1530,7 @@ end;
 procedure TSynWebXsltOptions.UpdateMLOption;
 begin
   FOptions^.FMLVersion := TSynWebMLVersion(Integer(smlwvXslt10) + Integer(FOptions^.FXsltVersion));
+  inherited UpdateMLOption;
 end;
 
 { TSynWebXmlOptions }
@@ -1498,6 +1544,7 @@ end;
 procedure TSynWebXmlOptions.UpdateMLOption;
 begin
   FOptions^.FMLVersion := smlwvXML;
+  inherited UpdateMLOption;
 end;
 
 { TSynWebEngineOptions }
@@ -1592,7 +1639,7 @@ end;
 procedure TSynWebBase.DoDefHighlightChange;
 begin
   FOptions.UpdateOptions;
-  if FInstance.FOptions.FMLVersion >= smlhvXHtml10Strict then
+  if FInstance.FOptions.FXmlMode then
     FInstance.FHashTable := @TSynWebSensitiveHashTable
   else
     FInstance.FHashTable := @TSynWebInsensitiveHashTable;
@@ -2963,12 +3010,12 @@ end;
 
 function TSynWebEngine.MLGetTag: Integer;
 begin
-  Result := GetRangeInt(7, 0);
+  Result := GetRangeInt(8, 0);
 end;
 
 procedure TSynWebEngine.MLSetTag(const ATag: Integer);
 begin
-  SetRangeInt(7, 0, Longword(ATag));
+  SetRangeInt(8, 0, Longword(ATag));
 end;
 
 function TSynWebEngine.MLCheckNull(ADo: Boolean = True): Boolean;
@@ -3048,7 +3095,7 @@ begin
     end;
   '?':
     begin
-      if FInstance^.FOptions.FMLVersion >= smlhvXHtml10Strict then
+      if FInstance^.FOptions.FXmlMode then
         Inc(FInstance^.FRun);
       SetRangeBit(12, False);
     end;
@@ -3065,7 +3112,7 @@ begin
         else
           MLRangeCommentProc;
       end else
-        if (FInstance^.FOptions.FMLVersion >= smlhvXHtml10Strict) and
+        if (FInstance^.FOptions.FXmlMode) and
           (FInstance^.FLine[FInstance^.FRun] = '[') and
           (FInstance^.FLine[FInstance^.FRun + 1] = 'C') and
           (FInstance^.FLine[FInstance^.FRun + 2] = 'D') and
@@ -3078,25 +3125,25 @@ begin
           FInstance^.FTokenID := stkMLTag;
           MLSetRange(srsMLTagCDATA);
         end else
-          if (FInstance^.FHashTable[FInstance^.FLine[FInstance^.FRun]] =
-            FInstance^.FHashTable['D']) and
-            (FInstance^.FHashTable[FInstance^.FLine[FInstance^.FRun + 1]] =
-            FInstance^.FHashTable['O']) and
-            (FInstance^.FHashTable[FInstance^.FLine[FInstance^.FRun + 2]] =
-            FInstance^.FHashTable['C']) and
-            (FInstance^.FHashTable[FInstance^.FLine[FInstance^.FRun + 3]] =
-            FInstance^.FHashTable['T']) and
-            (FInstance^.FHashTable[FInstance^.FLine[FInstance^.FRun + 4]] =
-            FInstance^.FHashTable['Y']) and
-            (FInstance^.FHashTable[FInstance^.FLine[FInstance^.FRun + 5]] =
-            FInstance^.FHashTable['P']) and
-            (FInstance^.FHashTable[FInstance^.FLine[FInstance^.FRun + 6]] =
-            FInstance^.FHashTable['E']) and
+          if (TSynWebInsensitiveHashTable[FInstance^.FLine[FInstance^.FRun]] =
+            TSynWebInsensitiveHashTable['D']) and
+            (TSynWebInsensitiveHashTable[FInstance^.FLine[FInstance^.FRun + 1]] =
+            TSynWebInsensitiveHashTable['O']) and
+            (TSynWebInsensitiveHashTable[FInstance^.FLine[FInstance^.FRun + 2]] =
+            TSynWebInsensitiveHashTable['C']) and
+            (TSynWebInsensitiveHashTable[FInstance^.FLine[FInstance^.FRun + 3]] =
+            TSynWebInsensitiveHashTable['T']) and
+            (TSynWebInsensitiveHashTable[FInstance^.FLine[FInstance^.FRun + 4]] =
+            TSynWebInsensitiveHashTable['Y']) and
+            (TSynWebInsensitiveHashTable[FInstance^.FLine[FInstance^.FRun + 5]] =
+            TSynWebInsensitiveHashTable['P']) and
+            (TSynWebInsensitiveHashTable[FInstance^.FLine[FInstance^.FRun + 6]] =
+            TSynWebInsensitiveHashTable['E']) and
             // (not (FInstance^.FLine[FInstance^.FRun] in ['a'..'z', 'A'..'Z'])) then
             (TSynWebIdentTable[FInstance^.FLine[FInstance^.FRun + 7]] and (1 shl 0) = 0) then
           begin
             FInstance^.FTokenID := stkMLTag;
-            SetRangeInt(2, 7, 0);
+            SetRangeInt(2, 8, 0);
             MLSetRange(srsMLTagDOCTYPE);
           end else
             FInstance^.FTokenID := stkMLError;
@@ -3227,12 +3274,12 @@ end;
 
 procedure TSynWebEngine.MLRangeTagDOCTYPEProc;
 begin
-  case GetRangeInt(2, 7) of
+  case GetRangeInt(2, 8) of
   0:
     begin
       Inc(FInstance^.FRun, 7);
       FInstance^.FTokenID := stkMLTagName;
-      SetRangeInt(2, 7, 1);
+      SetRangeInt(2, 8, 1);
     end;
   1:
     if not MLCheckNull and not PhpCheckBegin then
@@ -3246,7 +3293,7 @@ begin
         begin
           Inc(FInstance^.FRun);
           FInstance^.FTokenID := stkMLTag;
-          SetRangeInt(2, 7, 0);
+          SetRangeInt(2, 8, 0);
           MLSetRange(srsMLText);
           Exit;
         end;
@@ -3257,7 +3304,7 @@ begin
             FInstance^.FTokenID := stkMLError
           else
           begin
-            SetRangeInt(2, 7, 2);
+            SetRangeInt(2, 8, 2);
             if PhpCheckBegin(False) then
               FInstance^.FTokenID := stkMLTagKeyValueQuoted
             else
@@ -3271,7 +3318,7 @@ begin
             FInstance^.FTokenID := stkMLError
           else
           begin
-            SetRangeInt(2, 7, 3);
+            SetRangeInt(2, 8, 3);
             if PhpCheckBegin(False) then
               FInstance^.FTokenID := stkMLTagKeyValueQuoted
             else
@@ -3323,7 +3370,7 @@ begin
               end;
             end;
           until False;
-      SetRangeInt(2, 7, 1);
+      SetRangeInt(2, 8, 1);
     end;
   3:
     begin
@@ -3356,7 +3403,7 @@ begin
               end;
             end;
           until False;
-      SetRangeInt(2, 7, 1);
+      SetRangeInt(2, 8, 1);
     end;
   end;
 end;
@@ -3553,7 +3600,7 @@ begin
       MLSpaceProc;
     '/':
       if not GetRangeBit(12) and (FInstance^.FLine[FInstance^.FRun + 1] = '>') and
-        (FInstance^.FOptions.FMLVersion >= smlhvXHtml10Strict) and
+        (FInstance^.FOptions.FXmlMode) and
         ((ID = -1) or (TSynWeb_TagsData[ID] and (1 shl 31) <> 0)) then
       begin
         Inc(FInstance^.FRun, 2);
@@ -3569,7 +3616,7 @@ begin
         Inc(FInstance^.FRun);
         FInstance^.FTokenID := stkMLTag;
         if (ID <> -1) and (TSynWeb_TagsData[ID] and (1 shl 31) <> 0) and
-          (FInstance^.FOptions.FMLVersion >= smlhvXHtml10Strict) then
+          (FInstance^.FOptions.FXmlMode) then
           FInstance^.FTokenID := stkMLError
         else
           if not GetRangeBit(12) and ((FInstance^.FRun < 2) or
@@ -3604,7 +3651,7 @@ begin
         until TSynWebIdentTable[FInstance^.FLine[FInstance^.FRun]] and (1 shl 7) = 0;
         // until not(FInstance^.FLine[FInstance^.FRun] in ['a'..'z', 'A'..'Z', '0'..'9', ':', '-', '_']);
         if ID = -1 then
-          FInstance^.FTokenID := stkMLTagKey{Undef} // Rethink?
+          FInstance^.FTokenID := stkMLTagKey{Undef} // TODO: Rethink?
         else
         begin
           FInstance^.FTokenID := MLAttrCheck;
@@ -3633,7 +3680,7 @@ begin
   else // case
     MLSetRange(srsMLTagKey);
     MLRangeTagKeyProc;
-    if FInstance^.FOptions.FMLVersion >= smlhvXHtml10Strict then
+    if FInstance^.FOptions.FXmlMode then
       FInstance^.FTokenID := stkMLError;
   end;
 end;
@@ -3681,7 +3728,7 @@ begin
     end;
   else // case
     if (FInstance^.FLine[FInstance^.FRun] = '>') or
-      ((FInstance^.FOptions.FMLVersion >= smlhvXHtml10Strict) and
+      ((FInstance^.FOptions.FXmlMode) and
       (FInstance^.FLine[FInstance^.FRun] = '/') and
       (FInstance^.FLine[FInstance^.FRun + 1] = '>')) then
     begin
@@ -3723,7 +3770,7 @@ begin
         case FInstance^.FLine[FInstance^.FRun] of
         '/':
           if (FInstance^.FLine[FInstance^.FRun + 1] = '>') and
-            (FInstance^.FOptions.FMLVersion >= smlhvXHtml10Strict) then
+            (FInstance^.FOptions.FXmlMode) then
             Break;
         '<', '{':
           if PhpCheckBegin(False) then
@@ -3734,7 +3781,7 @@ begin
           Break;
         end;
       until False;
-      if FInstance^.FOptions.FMLVersion >= smlhvXHtml10Strict then
+      if FInstance^.FOptions.FXmlMode then
         FInstance^.FTokenID := stkMLError
       else
         FInstance^.FTokenID := stkMLTagKeyValue;

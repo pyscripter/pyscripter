@@ -571,7 +571,7 @@ begin
   CheckConnected;
   // Starts the processing
   fThreadExecInterrupted := False;
-
+  InternalInterpreter.PyInteractiveInterpreter.thread_id := 0;
   PyExecInThread := ExtractPythonObjectFrom(
     InternalInterpreter.PyInteractiveInterpreter.execInThread);
 
@@ -604,6 +604,7 @@ begin
     PythonIIForm.WritePendingMessages;
     GetPythonEngine.CheckError;
   end;
+  InternalInterpreter.PyInteractiveInterpreter.thread_id := 0;
 end;
 
 function TPyRemoteInterpreter.GetGlobals: TBaseNameSpaceItem;
@@ -764,19 +765,20 @@ begin
         SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
         try
           // raise an asynchronous exception in the running thread
-          with GetPythonEngine do begin
-            if PyThreadState_SetAsyncExc(InternalInterpreter.PyInteractiveInterpreter.thread_id,
-              PyExc_SystemExit^) > 1
-            then  // call again with exception set to nil
-              PyThreadState_SetAsyncExc(InternalInterpreter.PyInteractiveInterpreter.thread_id,
-                nil);
-          end;
+          if InternalInterpreter.PyInteractiveInterpreter.thread_id <> 0 then
+            with GetPythonEngine do begin
+              if PyThreadState_SetAsyncExc(InternalInterpreter.PyInteractiveInterpreter.thread_id,
+                PyExc_SystemExit^) > 1
+              then  // call again with exception set to nil
+                PyThreadState_SetAsyncExc(InternalInterpreter.PyInteractiveInterpreter.thread_id,
+                  nil);
+            end;
 //          // This will cause the running thread to exit
 //          CallStackWindow.ClearAll;
 //          VariablesWindow.ClearAll;
 //          fIsConnected := False;
 //          if VarIsPython(OutputRedirector) then
-//            OutputRedirector.redirected:= False;
+//            OutputRedirector._restored := True;
 //          VarClear(OutputRedirector);
 //          Conn.close();
           ShutDownServer;
@@ -1087,7 +1089,7 @@ begin
   VarClear(fDebugger);
   VarClear(RPI);
   if VarIsPython(OutputRedirector) then
-    OutputRedirector.redirected:= False;
+    OutputRedirector._restored:= True;
   VarClear(OutputRedirector);
   if ServerProcess.State <> psReady then begin
     if fIsConnected then
@@ -1297,7 +1299,7 @@ begin
    if fRemotePython.fThreadExecInterrupted then
      Exit;
      
-   Assert(VarIsPython(fCurrentFrame));
+   Assert(VarIsPython(fCurrentFrame) and not VarisNone(fCurrentFrame));
    FName := fCurrentFrame.f_code.co_filename;
    if (FName[1] ='<') and (FName[Length(FName)] = '>') then
      FName :=  Copy(FName, 2, Length(FName)-2);
@@ -1408,6 +1410,7 @@ procedure TPyRemDebugger.Run(ARunConfig: TRunConfiguration;
   InitStepIn: Boolean = False; RunToCursorLine : integer = -1);
 var
   Code : Variant;
+//  AsyncRun, AsyncResult : Variant;
   Path, OldPath : WideString;
   PythonPathAdder : IInterface;
   ExcInfo : Variant;
@@ -1486,6 +1489,19 @@ begin
       fRemotePython.Debugger.InitStepIn := InitStepIn;
       try
         fRemotePython.ExecuteInThread(fRemotePython.Debugger.run, VarPythonCreate([Code], stTuple));
+//        AsyncRun := fRemotePython.Rpyc.async(fRemotePython.Debugger.run);
+//        AsyncResult := AsyncRun.__call__(Code);
+//        try
+//          While not (fRemotePython.fThreadExecInterrupted) do
+//            if  AsyncResult._is_ready then
+//              break
+//            else begin
+//              fRemotePython.Conn.poll(0);
+//              PyControl.DoYield(False);
+//            end;
+//        except
+//        end;
+
         GetPythonEngine.CheckError;
         if not fRemotePython.fThreadExecInterrupted then begin
           ExcInfo := fRemotePython.Debugger.exc_info;

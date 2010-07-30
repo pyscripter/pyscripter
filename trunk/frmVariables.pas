@@ -313,7 +313,7 @@ begin
   SameFrame := (not Assigned(CurrentFrame) and
                 (CurrentFileName = '') and
                 (CurrentFunctionName = '')) or
-               (Assigned(CurrentFrame) and
+                (Assigned(CurrentFrame) and
                 (CurrentFileName = CurrentFrame.FileName) and
                 (CurrentFunctionName = CurrentFrame.FunctionName));
 

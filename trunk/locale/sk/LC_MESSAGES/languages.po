@@ -1,0 +1,54 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Python Scripter 1.9.9.7\n"
+"POT-Creation-Date: 2003-05-05 12:39\n"
+"PO-Revision-Date: 2009-06-27 07:57+0100\n"
+"Last-Translator: Marián Déneš <mardenes@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language-Team: \n"
+
+msgid "Chinese"
+msgstr "Čínština"
+
+msgid "English"
+msgstr "Angličtina"
+
+#. Language of France
+msgid "French"
+msgstr "Francúzština"
+
+#. Language of Germany, Austria and others
+msgid "German"
+msgstr "Nemčina"
+
+#. Language of Greece
+msgid "Greek"
+msgstr "Gréčtina"
+
+#. Language of Italy, Europe
+msgid "Italian"
+msgstr "Taliančina"
+
+#. Language of Japan, Asia
+msgid "Japanese"
+msgstr "Japončina"
+
+#. Language of Portugal, Europe
+msgid "Portuguese"
+msgstr "Portugalčina"
+
+#. Language of Russia
+msgid "Russian"
+msgstr "Ruština"
+
+#. Language of Slovak
+msgid "Slovak"
+msgstr "Slovenčina"
+

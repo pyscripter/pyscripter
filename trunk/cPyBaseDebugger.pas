@@ -742,10 +742,10 @@ procedure TPythonControl.PrepareRun;
 begin
   if CommandsDataModule.PyIDEOptions.SaveFilesBeforeRun then begin
     PyIDEMainForm.SaveFileModules;
-    Application.ProcessMessages;
-    Application.DoApplicationIdle;
-    Application.ProcessMessages;
-    //PyIDEMainForm.Refresh;        // To update save flags
+//    Application.ProcessMessages;
+//    Application.DoApplicationIdle;
+//    Application.ProcessMessages;
+    PyIDEMainForm.Refresh;        // To update save flags
   end;
   if CommandsDataModule.PyIDEOptions.SaveEnvironmentBeforeRun then
     PyIDEMainForm.SaveEnvironment;
@@ -827,6 +827,7 @@ constructor TRunConfiguration.Create;
 begin
   inherited;
   fEngineType := peRemote;
+  fReinitializeBeforeRun := True;
   fOutputFileName := '$[ActiveScript-NoExt].log';
   fWorkingDir := '$[ActiveScript-Dir]';
   fExternalRun := TExternalRun.Create;

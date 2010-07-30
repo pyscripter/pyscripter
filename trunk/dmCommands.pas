@@ -78,6 +78,7 @@ type
     fDockAnimationMoveWidth : integer;
     fInterpreterHistorySize : integer;
     fSaveInterpreterHistory : Boolean;
+    fReinitializeBeforeRun: Boolean;
     function GetPythonFileExtensions: string;
   public
     constructor Create;
@@ -173,6 +174,8 @@ type
       write fInterpreterHistorySize;
     property SaveInterpreterHistory : Boolean read fSaveInterpreterHistory
       write fSaveInterpreterHistory;
+    property ReinitializeBeforeRun : Boolean read fReinitializeBeforeRun
+      write fReinitializeBeforeRun;
   end;
 {$METHODINFO OFF}
 
@@ -565,6 +568,7 @@ begin
       Self.fDockAnimationMoveWidth := DockAnimationMoveWidth;
       Self.fInterpreterHistorySize := InterpreterHistorySize;
       Self.fSaveInterpreterHistory := SaveInterpreterHistory;
+      Self.fReinitializeBeforeRun := ReinitializeBeforeRun;
     end
   else
     inherited;
@@ -623,6 +627,7 @@ begin
   fDockAnimationMoveWidth := 20;
   fInterpreterHistorySize := 50;
   fSaveInterpreterHistory := True;
+  fReinitializeBeforeRun := True;
 end;
 
 function TPythonIDEOptions.GetPythonFileExtensions: string;
@@ -1939,7 +1944,7 @@ begin
   end;
   with Categories[1] do begin
     DisplayName := 'Python Interpreter';
-    SetLength(Options, 10);
+    SetLength(Options, 11);
     Options[0].PropertyName := 'SaveFilesBeforeRun';
     Options[0].DisplayName := 'Save files before run';
     Options[1].PropertyName := 'SaveEnvironmentBeforeRun';
@@ -1960,6 +1965,8 @@ begin
     Options[8].DisplayName := 'Interpreter history size';
     Options[9].PropertyName := 'SaveInterpreterHistory';
     Options[9].DisplayName := 'Save interpreter history';
+    Options[10].PropertyName := 'ReinitializeBeforeRun';
+    Options[10].DisplayName := 'Reinitialize Before Run';
   end;
   with Categories[2] do begin
     DisplayName := 'Code Explorer';
