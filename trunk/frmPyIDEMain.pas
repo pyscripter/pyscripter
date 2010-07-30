@@ -343,6 +343,7 @@ Limitations: Python scripts are executed in the main thread
             Moved to Rpyc v3.07, now bundled with PyScripter
             IDE Option "Reinitialize before run" was added defaulting to True
             The default Python engine is now the remote engine
+            Spanish translation by Javier Pimás (incomplete) was added
           Bug fixes
             Issues  236, 304, 322, 333, 334
 
