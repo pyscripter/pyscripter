@@ -70,14 +70,20 @@ begin
   case DebuggerState of
     dsPaused, dsPostMortem:
       begin
+
+        CallStackView.BeginUpdate;
+        try
+          ClearAll;
+          PyControl.ActiveDebugger.GetCallStack(fCallStackList);
+          CallStackView.RootNodeCount := fCallStackList.Count;  // Fills the View
+          CallStackView.ValidateNode(nil, True);
+//          CallStackView.ReinitNode(CallStackView.RootNode, True);
+        finally
+          CallStackView.EndUpdate;
+        end;
         CallStackView.Enabled := True;
-        ClearAll;
-        PyControl.ActiveDebugger.GetCallStack(fCallStackList);
 
-        CallStackView.RootNodeCount := fCallStackList.Count;  // Fills the View
-        CallStackView.ReinitNode(CallStackView.RootNode, True);
-
-        //  The following statement updates the Variables and Watches Windows as well
+      //  The following statement updates the Variables and Watches Windows as well
         if Assigned(CallStackView.RootNode.FirstChild) then
           CallStackView.Selected[CallStackView.RootNode.FirstChild] := True;
       end;

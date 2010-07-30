@@ -9,6 +9,7 @@
 
 // JCL_DEBUG_EXPERT_GENERATEJDBG ON
 // JCL_DEBUG_EXPERT_INSERTJDBG ON
+// JCL_DEBUG_EXPERT_DELETEMAPFILE ON
 program PyScripter;
 {%ToDo 'PyScripter.todo'}
 {%TogetherDiagram 'ModelSupport_PyScripter\default.txaPackage'}
@@ -91,7 +92,6 @@ uses
   uSearchHighlighter in 'uSearchHighlighter.pas',
   SynEditSearch in 'SynEditSearch.pas',
   frmModSpTBXCustomize in 'frmModSpTBXCustomize.pas',
-  VarPyth in 'VarPyth.pas',
   WrapDelphi in 'WrapDelphi.pas',
   WrapDelphiClasses in 'WrapDelphiClasses.pas',
   cProjectClasses in 'cProjectClasses.pas',

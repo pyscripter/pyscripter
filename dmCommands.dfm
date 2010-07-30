@@ -1214,6 +1214,7 @@ object CommandsDataModule: TCommandsDataModule
           '        self.debugger.tracecount = 0'
           '        self.debugger.currentframe = None'
           '        self.debugger.locals = self.locals'
+          '        self.thread_id = 0'
           ''
           '        import repr'
           '        pyrepr = repr.Repr()'
@@ -1358,7 +1359,9 @@ object CommandsDataModule: TCommandsDataModule
             '    def _getmembers(self, ob, dictitems = False, expandcommontyp' +
             'es = True):'
           '        if dictitems and isinstance(ob, dict):'
-          '            result = ob'
+          '            result = {}'
+          '            for (i,j) in ob.items():'
+          '                result[str(i)] = j'
           
             '        elif not expandcommontypes and (self.objecttype(ob) in s' +
             'elf.commontypes):'
@@ -1367,9 +1370,9 @@ object CommandsDataModule: TCommandsDataModule
           '            result = {}'
           '            for i in dir(ob):'
           '                try :'
-          '                    result[i] = getattr(ob, i)'
+          '                    result[str(i)] = getattr(ob, i)'
           '                except:'
-          '                    result[i] = None'
+          '                    result[str(i)] = None'
           '        return result'
           ''
           
@@ -1801,6 +1804,7 @@ object CommandsDataModule: TCommandsDataModule
           '        self.debugger.tracecount = 0'
           '        self.debugger.currentframe = None'
           '        self.debugger.locals = self.locals'
+          '        self.thread_id = 0'
           ''
           '        try:'
           '            pyrepr = __import__('#39'repr'#39').Repr()'
@@ -1947,7 +1951,9 @@ object CommandsDataModule: TCommandsDataModule
             '    def _getmembers(self, ob, dictitems = False, expandcommontyp' +
             'es = True):'
           '        if dictitems and isinstance(ob, dict):'
-          '            result = ob'
+          '            result = {}'
+          '            for (i,j) in ob.items():'
+          '                result[str(i)] = j'
           
             '        elif not expandcommontypes and (self.objecttype(ob) in s' +
             'elf.commontypes):'
@@ -1956,9 +1962,9 @@ object CommandsDataModule: TCommandsDataModule
           '            result = {}'
           '            for i in dir(ob):'
           '                try :'
-          '                    result[i] = getattr(ob, i)'
+          '                    result[str(i)] = getattr(ob, i)'
           '                except:'
-          '                    result[i] = None'
+          '                    result[str(i)] = None'
           '        return result'
           ''
           
@@ -2203,15 +2209,16 @@ object CommandsDataModule: TCommandsDataModule
           '            self.debugIDE.user_line(frame)'
           ''
           '        def trace_dispatch(self, frame, event, arg):'
-          '            self.tracecount += 1'
+          '            if self.isTraceable(frame) <> 0:'
+          '                self.tracecount += 1'
           
-            '            if self.tracecount == 200:  #yield processing every ' +
-            '200 steps'
-          '                self.tracecount = 0'
-          '                self.debugIDE.user_yield()'
-          '                if self.quitting:'
-          '                    self.interrupted = True'
-          '                    raise __import__('#39'bdb'#39').BdbQuit'
+            '                if self.tracecount == 1000:  #yield processing e' +
+            'very 1000 steps'
+          '                    self.tracecount = 0'
+          '                    self.debugIDE.user_yield()'
+          '                    if self.quitting:'
+          '                        self.interrupted = True'
+          '                        raise __import__('#39'bdb'#39').BdbQuit'
           
             '            return __import__('#39'bdb'#39').Bdb.trace_dispatch(self, fr' +
             'ame, event, arg)'
@@ -2362,7 +2369,9 @@ object CommandsDataModule: TCommandsDataModule
             '    def _getmembers(self, ob, dictitems = False, expandcommontyp' +
             'es = True):'
           '        if dictitems and isinstance(ob, dict):'
-          '            result = ob'
+          '            result = {}'
+          '            for (i,j) in ob.items():'
+          '                result[str(i)] = j'
           
             '        elif not expandcommontypes and (self.objecttype(ob) in s' +
             'elf.commontypes):'
@@ -2371,9 +2380,9 @@ object CommandsDataModule: TCommandsDataModule
           '            result = {}'
           '            for i in dir(ob):'
           '                try :'
-          '                    result[i] = getattr(ob, i)'
+          '                    result[str(i)] = getattr(ob, i)'
           '                except:'
-          '                    result[i] = None'
+          '                    result[str(i)] = None'
           '        return result'
           ''
           
@@ -2690,6 +2699,7 @@ object CommandsDataModule: TCommandsDataModule
           
             '            self.conn = object.__getattribute__(self.origwrite, ' +
             '"____conn__")'
+          '            self.conn = self.conn()'
           
             '            self.oid = object.__getattribute__(self.origwrite, "' +
             '____oid__")'
@@ -2705,12 +2715,11 @@ object CommandsDataModule: TCommandsDataModule
           '                raise KeyboardInterrupt, "Operation Cancelled"'
           ''
           '        def write(self, message):'
-          '            conn = self.conn()'
           
-            '            conn._async_request(self.HANDLE_CALL, (self.oid, (me' +
-            'ssage,), ()))'
-          '            while len(conn._async_callbacks) > 100 :'
-          '                conn.poll_all()'
+            '            self.conn._async_request(self.HANDLE_CALL, (self.oid' +
+            ', (message,), ()))'
+          '            while len(self.conn._async_callbacks) > 100 :'
+          '                self.conn.poll_all(0.01)'
           ''
           '    def asyncIO(self):'
           '        import sys'
@@ -2810,15 +2819,16 @@ object CommandsDataModule: TCommandsDataModule
           '            self.debugIDE.user_line(frame)'
           ''
           '        def trace_dispatch(self, frame, event, arg):'
-          '            self.tracecount += 1'
+          '            if self.isTraceable(frame) != 0:'
+          '                self.tracecount += 1'
           
-            '            if self.tracecount == 200:  #yield processing every ' +
-            '200 steps'
-          '                self.tracecount = 0'
-          '                self.debugIDE.user_yield()'
-          '                if self.quitting:'
-          '                    self.interrupted = True'
-          '                    raise __import__('#39'bdb'#39').BdbQuit'
+            '                if self.tracecount == 1000:  #yield processing e' +
+            'very 1000 steps'
+          '                    self.tracecount = 0'
+          '                    self.debugIDE.user_yield()'
+          '                    if self.quitting:'
+          '                        self.interrupted = True'
+          '                        raise __import__('#39'bdb'#39').BdbQuit'
           
             '            return __import__('#39'bdb'#39').Bdb.trace_dispatch(self, fr' +
             'ame, event, arg)'
@@ -2971,7 +2981,9 @@ object CommandsDataModule: TCommandsDataModule
             '    def _getmembers(self, ob, dictitems = False, expandcommontyp' +
             'es = True):'
           '        if dictitems and isinstance(ob, dict):'
-          '            result = ob'
+          '            result = {}'
+          '            for (i,j) in ob.items():'
+          '                result[str(i)] = j'
           
             '        elif not expandcommontypes and (self.objecttype(ob) in s' +
             'elf.commontypes):'
@@ -2980,9 +2992,9 @@ object CommandsDataModule: TCommandsDataModule
           '            result = {}'
           '            for i in dir(ob):'
           '                try :'
-          '                    result[i] = getattr(ob, i)'
+          '                    result[str(i)] = getattr(ob, i)'
           '                except:'
-          '                    result[i] = None'
+          '                    result[str(i)] = None'
           '        return result'
           ''
           
@@ -3282,6 +3294,7 @@ object CommandsDataModule: TCommandsDataModule
           
             '            self.conn = object.__getattribute__(self.origwrite, ' +
             '"____conn__")'
+          '            self.conn = self.conn()'
           
             '            self.oid = object.__getattribute__(self.origwrite, "' +
             '____oid__")'
@@ -3297,12 +3310,11 @@ object CommandsDataModule: TCommandsDataModule
           '                raise KeyboardInterrupt("Operation Cancelled")'
           ''
           '        def write(self, message):'
-          '            conn = self.conn()'
           
-            '            conn._async_request(self.HANDLE_CALL, (self.oid, (me' +
-            'ssage,), ()))'
-          '            while len(conn._async_callbacks) > 100 :'
-          '                conn.poll_all()'
+            '            self.conn._async_request(self.HANDLE_CALL, (self.oid' +
+            ', (message,), ()))'
+          '            while len(self.conn._async_callbacks) > 100 :'
+          '                self.conn.poll_all(0.01)'
           ''
           '    def asyncIO(self):'
           '        import sys'
@@ -3364,6 +3376,7 @@ object CommandsDataModule: TCommandsDataModule
           'from rpyc.utils.classic import DEFAULT_SERVER_PORT'
           'from rpyc.core import SlaveService'
           'from rpyc.utils.logger import Logger'
+          'import threading'
           ''
           '__traceable__ = 0'
           ''
@@ -3816,26 +3829,12 @@ object CommandsDataModule: TCommandsDataModule
     ActiveHighlighterSwitch = False
     Engine = SynWebEngine
     Options.HtmlVersion = shvHtml401Transitional
-    Options.CssVersion = scvCss21
-    Options.PhpVersion = spvPhp5
-    Options.PhpShortOpenTag = True
-    Options.PhpAspTags = False
-    Options.AllowASPTags = True
-    Options.CssEmbeded = True
-    Options.PhpEmbeded = True
-    Options.EsEmbeded = True
-    Options.UseEngineOptions = False
     Left = 296
     Top = 240
   end
   object SynWebXmlSyn: TSynWebXmlSyn
     ActiveHighlighterSwitch = False
     Engine = SynWebEngine
-    Options.PhpVersion = spvPhp5
-    Options.PhpShortOpenTag = False
-    Options.PhpAspTags = False
-    Options.PhpEmbeded = True
-    Options.UseEngineOptions = False
     Left = 376
     Top = 240
   end
@@ -3843,12 +3842,6 @@ object CommandsDataModule: TCommandsDataModule
     ActiveHighlighterSwitch = False
     Engine = SynWebEngine
     Options.HtmlVersion = shvHtml401Transitional
-    Options.CssVersion = scvCss21
-    Options.PhpVersion = spvPhp5
-    Options.PhpShortOpenTag = True
-    Options.PhpAspTags = False
-    Options.PhpEmbeded = False
-    Options.UseEngineOptions = False
     Left = 456
     Top = 240
   end
@@ -3858,12 +3851,6 @@ object CommandsDataModule: TCommandsDataModule
   end
   object SynWebEngine: TSynWebEngine
     Options.HtmlVersion = shvHtml401Transitional
-    Options.WmlVersion = swvWml13
-    Options.XsltVersion = swvXslt20
-    Options.CssVersion = scvCss21
-    Options.PhpVersion = spvPhp5
-    Options.PhpShortOpenTag = True
-    Options.PhpAspTags = False
     Left = 596
     Top = 240
   end

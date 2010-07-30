@@ -103,7 +103,6 @@ inherited VariablesWindow: TVariablesWindow
       Width = 375
       Height = 243
       Align = alRight
-      AutoRange = True
       Color = clBtnFace
       DoubleBuffered = False
       ParentColor = False

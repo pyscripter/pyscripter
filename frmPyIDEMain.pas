@@ -337,12 +337,14 @@ Limitations: Python scripts are executed in the main thread
           Bug fixes
             Issues  269, 273, 287, 291, 292
 
- History:   v 1.9.9.8
+ History:   v 2.0
           New Features
             Support for Python 2.7
             Moved to Rpyc v3.07, now bundled with PyScripter
+            IDE Option "Reinitialize before run" was added defaulting to True
+            The default Python engine is now the remote engine
           Bug fixes
-            Issues  236, 304, 322, 334
+            Issues  236, 304, 322, 333, 334
 
 
   Vista Compatibility issues (all resolved)
@@ -1843,7 +1845,7 @@ procedure TPyIDEMainForm.actDebugExecute(Sender: TObject);
 var
   ActiveEditor : IEditor;
 begin
-  Application.ProcessMessages;
+  Assert(not PyControl.IsRunning);
   ActiveEditor := GetActiveEditor;
   if Assigned(ActiveEditor) then begin
     if PyControl.DebuggerState = dsInactive then
@@ -1862,7 +1864,7 @@ procedure TPyIDEMainForm.actStepIntoExecute(Sender: TObject);
 var
   ActiveEditor : IEditor;
 begin
-  Application.ProcessMessages;
+  Assert(not PyControl.IsRunning);
   ActiveEditor := GetActiveEditor;
   if Assigned(ActiveEditor) then begin
     if PyControl.DebuggerState = dsInactive then
@@ -1938,6 +1940,7 @@ begin
   RunConfig.Parameters := iff(CommandsDataModule.PyIDEOptions.UseCommandLine, CommandsDataModule.PyIDEOptions.CommandLine, '');
   RunConfig.ExternalRun.Assign(ExternalPython);
   RunConfig.ExternalRun.Parameters := Parameters.ReplaceInText(RunConfig.ExternalRun.Parameters);
+  RunConfig.ReinitializeBeforeRun := CommandsDataModule.PyIDEOptions.ReinitializeBeforeRun;
 end;
 
 procedure TPyIDEMainForm.DebugActiveScript(ActiveEditor: IEditor;
@@ -1945,6 +1948,7 @@ procedure TPyIDEMainForm.DebugActiveScript(ActiveEditor: IEditor;
 var
   RunConfig: TRunConfiguration;
 begin
+  Assert(PyControl.DebuggerState = dsInactive);
   RunConfig := TRunConfiguration.Create;
   try
     SetupRunConfiguration(RunConfig, ActiveEditor);
@@ -1993,6 +1997,8 @@ begin
   actRunLastScript.Enabled := (DebuggerState = dsInactive) and (PyControl.RunConfig.ScriptName <> '');
   actRunDebugLastScript.Enabled := actRunLastScript.Enabled;
   actRunLastScriptExternal.Enabled := actRunLastScript.Enabled;
+
+  Refresh;
 end;
 
 procedure TPyIDEMainForm.SetCurrentPos(Editor : IEditor; ALine: integer);
@@ -2200,7 +2206,7 @@ begin
       Application.ProcessMessages;  // to deal with focus problems
       // sets the focus to the editor
       Editor.Activate;
-      if (Line > 0) and (Offset > 0) then
+      if (Line > 0) then
         with Editor.SynEdit do begin
           CaretXY := BufferCoord(Offset,Line);
           EnsureCursorPosVisibleEx(ForceToMiddle);
@@ -2428,7 +2434,7 @@ begin
   Result := False;
   for i := Low(CmdLineReader.readNamelessString) to High(CmdLineReader.readNamelessString) do
     if WideFileExists(CmdLineReader.readNamelessString[i]) then
-      Result := Result or Assigned(DoOpenFile(CmdLineReader.readNamelessString[i]));
+      Result := Assigned(DoOpenFile(CmdLineReader.readNamelessString[i])) or Result;
 
   // Project Filename
   if CmdLineReader.readString('PROJECT') <> '' then
