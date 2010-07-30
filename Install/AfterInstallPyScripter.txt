@@ -1,6 +1,6 @@
-Note: For compatibility with Python 2.6 and Python 3.0, this PyScripter version 
+Note: For compatibility with Python 2.6, 2.7 and 3.x, this PyScripter version 
 requires the latest C++ Redistributable Package.  This is automatically installed 
-by Python 2.6 and Python 3.0.  If you do not have any of these versions installed, 
+by Python 2.6, 2.7 and 3.0.  If you do not have any of these versions installed, 
 then you need to download and install it manually from
 http://www.microsoft.com/downloads/details.aspx?familyid=A5C84275-3B97-4AB7-A40D-3802B2AF5FC2.
 

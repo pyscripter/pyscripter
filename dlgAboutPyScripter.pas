@@ -12,12 +12,10 @@ interface
 
 uses Windows, SysUtils, Classes, Graphics, Forms, Controls, 
   Buttons,  JvLinkLabel, JvExControls, ExtCtrls,
-  dlgPyIDEBase, SpTBXControls, SpTBXItem, SpTBXTabs, TB2Item;
+  dlgPyIDEBase, SpTBXControls, SpTBXItem, SpTBXTabs, TB2Item, SpTBXPageScroller;
 
 type
   TAboutBox = class(TPyIDEDlgBase)
-    ScrollBox: TScrollBox;
-    JvLinkLabel: TJvLinkLabel;
     ScrollBox1: TScrollBox;
     JvLinkLabel1: TJvLinkLabel;
     Panel1: TSpTBXPanel;
@@ -33,6 +31,8 @@ type
     SpTBXTabSheet2: TSpTBXTabSheet;
     tbLinks: TSpTBXTabItem;
     SpTBXTabSheet3: TSpTBXTabSheet;
+    ScrollBox: TSpTBXPageScroller;
+    JvLinkLabel: TJvLinkLabel;
     procedure Panel1Click(Sender: TObject);
     procedure JvLinkLabelLinkClick(Sender: TObject; LinkNumber: Integer;
       LinkText, LinkParam: String);
