@@ -71,6 +71,7 @@ Name: {group}\PyScripter for Python 2.3; Filename: {app}\PyScripter.exe; Paramet
 Name: {group}\PyScripter for Python 2.4; Filename: {app}\PyScripter.exe; Parameters: --PYTHON24
 Name: {group}\PyScripter for Python 2.5; Filename: {app}\PyScripter.exe; Parameters: --PYTHON25
 Name: {group}\PyScripter for Python 2.6; Filename: {app}\PyScripter.exe; Parameters: --PYTHON26
+Name: {group}\PyScripter for Python 2.7; Filename: {app}\PyScripter.exe; Parameters: --PYTHON27
 Name: {group}\PyScripter for Python 3.0; Filename: {app}\PyScripter.exe; Parameters: --PYTHON30
 Name: {group}\PyScripter for Python 3.1; Filename: {app}\PyScripter.exe; Parameters: --PYTHON31
 Name: {group}\{cm:UninstallProgram,PyScripter}; Filename: {uninstallexe}
