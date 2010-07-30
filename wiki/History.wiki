@@ -2,6 +2,17 @@
 
 = History =
 
+===Version 2.0 (July 30, 2010)=== 
+
+  * *New features:*     
+    * Support for Python 2.7
+    * Moved to Rpyc v3.07, now bundled with PyScripter
+    * IDE Option "Reinitialize before run" was added defaulting to True
+    * The default Python engine is now the remote engine
+    * Spanish translation by Javier Pimás (incomplete) was added
+  * *Bug fixes*     
+    * Issue #236, Issue #304, Issue #322, Issue #333, Issue #334
+
 ===Version 1.9.9.7 (May 20, 2009)=== 
 
   * *New features:*     
