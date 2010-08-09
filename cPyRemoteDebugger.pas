@@ -1057,12 +1057,12 @@ begin
   // no conversion to Unicode and back will take place
   Argv.append(VarPythonCreate(ARunConfig.ScriptName));
   S := ARunConfig.Parameters;
-  if S <> '' then begin
+  if Trim(S) <> '' then begin
     S := Parameters.ReplaceInText(S);
-    P := GetParamStr(PChar(S), Param);
-    while Param <> '' do begin
-      Argv.append(VarPythonCreate(Param));
+    P := PChar(S);
+    while P[0] <> #0 do begin
       P := GetParamStr(P, Param);
+      Argv.append(VarPythonCreate(Param));
     end;
     PythonIIForm.AppendText(WideFormat(_(SCommandLineMsg), [S]));
   end;

@@ -73,14 +73,12 @@ object EditorForm: TEditorForm
         Height = 353
         Caption = 'Source'
         ImageIndex = -1
-        ExplicitTop = 25
-        ExplicitHeight = 354
         TabItem = 'tabSource'
         object SynEdit: TSynEdit
           Left = 2
           Top = 0
-          Width = 351
-          Height = 349
+          Width = 353
+          Height = 351
           HelpContext = 510
           Align = alClient
           Ctl3D = False
@@ -119,7 +117,8 @@ object EditorForm: TEditorForm
           OnSpecialLineColors = SynEditSpecialLineColors
           OnStatusChange = SynEditStatusChange
           OnPaintTransient = SynEditPaintTransient
-          ExplicitHeight = 350
+          ExplicitWidth = 351
+          ExplicitHeight = 349
           RemovedKeystrokes = <
             item
               Command = ecDeleteLastChar
@@ -136,10 +135,10 @@ object EditorForm: TEditorForm
           AddedKeystrokes = <>
         end
         object SynEdit2: TSynEdit
-          Left = 358
+          Left = 360
           Top = 0
           Width = 200
-          Height = 349
+          Height = 351
           Align = alRight
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
@@ -167,17 +166,19 @@ object EditorForm: TEditorForm
           OnSpecialLineColors = SynEditSpecialLineColors
           OnStatusChange = SynEditStatusChange
           OnPaintTransient = SynEditPaintTransient
-          ExplicitHeight = 350
+          ExplicitLeft = 358
+          ExplicitHeight = 349
         end
         object EditorSplitter: TSpTBXSplitter
-          Left = 353
+          Left = 355
           Top = 0
-          Height = 349
+          Height = 351
           Cursor = crSizeWE
           Align = alRight
           Visible = False
           GripSize = 80
-          ExplicitHeight = 350
+          ExplicitLeft = 353
+          ExplicitHeight = 349
         end
       end
     end
