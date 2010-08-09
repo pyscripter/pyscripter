@@ -818,7 +818,7 @@ begin
   begin
     while (P[0] <> #0) and (P[0] <= ' ') do
       P := CharNext(P);
-    if (P[0] = '"') and (P[1] = '"') then Inc(P, 2) else Break;
+     {if (P[0] = '"') and (P[1] = '"') then Inc(P, 2) else} Break;    // Issue 371
   end;
   Len := 0;
   Start := P;
