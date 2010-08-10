@@ -346,10 +346,11 @@ Limitations: Python scripts are executed in the main thread
             Spanish translation by Javier Pimás (incomplete) was added
           Bug fixes
             Issues  236, 304, 322, 333, 334
- History:   v 2.0
+ History:   v 2.01
           New Features
+            Support for Python 3.2
           Bug fixes
-            Issues  371
+            Issues  371, 384
 
 
   Vista Compatibility issues (all resolved)

@@ -1670,7 +1670,9 @@ begin
   else if CmdLineReader.readFlag('PYTHON30') then
     expectedVersion := '3.0'
   else if CmdLineReader.readFlag('PYTHON31') then
-    expectedVersion := '3.1';
+    expectedVersion := '3.1'
+  else if CmdLineReader.readFlag('PYTHON32') then
+    expectedVersion := '3.2';
   PythonEngine.DllPath := CmdLineReader.readString('PYTHONDLLPATH');
   UseDebugVersion := CmdLineReader.readFlag('DEBUG');
 
