@@ -422,7 +422,7 @@ object PyIDEMainForm: TPyIDEMainForm
       Left = 0
       Top = 0
       Width = 762
-      Height = 429
+      Height = 427
       Align = alClient
       PopupMenu = TabControlPopupMenu
       OnContextPopup = TabContolContextPopup
@@ -431,7 +431,6 @@ object PyIDEMainForm: TPyIDEMainForm
       TabDragReorder = True
       TabPosition = ttpBottom
       OnActiveTabChange = TabControlActiveTabChange
-      ExplicitHeight = 427
       HiddenItems = <>
       object tbiRightAlign: TSpTBXRightAlignSpacerItem
         CustomWidth = 652
@@ -477,7 +476,7 @@ object PyIDEMainForm: TPyIDEMainForm
       Top = 0
       CloseButton = False
       DockMode = dmCannotFloatOrChangeDocks
-      DockPos = 0
+      DockPos = 1
       FullSize = True
       Images = CommandsDataModule.Images
       ProcessShortCuts = True

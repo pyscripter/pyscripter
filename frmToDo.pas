@@ -139,14 +139,13 @@ type
     procedure ToDoViewChange(Sender: TBaseVirtualTree; Node: PVirtualNode);
     procedure ToDoViewCompareNodes(Sender: TBaseVirtualTree; Node1,
       Node2: PVirtualNode; Column: TColumnIndex; var Result: Integer);
-    procedure ToDoViewHeaderClick(Sender: TVTHeader; Column: TColumnIndex;
-      Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure actHelpHelpExecute(Sender: TObject);
     procedure actFileAbortExecute(Sender: TObject);
     procedure ToDoViewShortenString(Sender: TBaseVirtualTree;
       TargetCanvas: TCanvas; Node: PVirtualNode; Column: TColumnIndex;
       const S: WideString; TextSpace: Integer; var Result: WideString;
       var Done: Boolean);
+    procedure ToDoViewHeaderClick(Sender: TVTHeader; HitInfo: TVTHeaderHitInfo);
   private
     { Private declarations }
     FIsFirstActivation: Boolean;
@@ -934,6 +933,23 @@ begin
     end;
 end;
 
+procedure TToDoWindow.ToDoViewHeaderClick(Sender: TVTHeader;
+  HitInfo: TVTHeaderHitInfo);
+begin
+  inherited;
+  if ToDoView.Header.SortColumn = HitInfo.Column then begin
+    if ToDoView.Header.SortDirection = sdAscending then
+      ToDoView.Header.SortDirection := sdDescending
+    else
+      ToDoView.Header.SortDirection := sdAscending;
+  end else
+    ToDoView.Header.SortColumn := HitInfo.Column;
+  if ToDoView.Header.SortColumn = 0 then
+    ToDoView.Header.Columns[0].Alignment := taLeftJustify  // to make it fit
+  else
+    ToDoView.Header.Columns[0].Alignment := taCenter;
+end;
+
 procedure TToDoWindow.ToDoViewGetImageIndex(Sender: TBaseVirtualTree;
   Node: PVirtualNode; Kind: TVTImageKind; Column: TColumnIndex;
   var Ghosted: Boolean; var ImageIndex: Integer);
@@ -968,23 +984,6 @@ begin
                     ExtractFileName(ToDoInfo2.FileName));
     3: Result := ToDoInfo1.LineNo - ToDoInfo2.LineNo;
   end;
-end;
-
-procedure TToDoWindow.ToDoViewHeaderClick(Sender: TVTHeader;
-  Column: TColumnIndex; Button: TMouseButton; Shift: TShiftState; X,
-  Y: Integer);
-begin
-  if ToDoView.Header.SortColumn = Column then begin
-    if ToDoView.Header.SortDirection = sdAscending then
-      ToDoView.Header.SortDirection := sdDescending
-    else
-      ToDoView.Header.SortDirection := sdAscending;
-  end else
-    ToDoView.Header.SortColumn := Column;
-  if ToDoView.Header.SortColumn = 0 then
-    ToDoView.Header.Columns[0].Alignment := taLeftJustify  // to make it fit
-  else
-    ToDoView.Header.Columns[0].Alignment := taCenter;
 end;
 
 procedure TToDoWindow.actHelpHelpExecute(Sender: TObject);

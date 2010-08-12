@@ -486,11 +486,11 @@ type
   end;
 
 Const
-  ecRecallCommandPrev : word = ecUserFirst + 100;
-  ecRecallCommandNext : word = ecUserFirst + 101;
-  ecRecallCommandEsc : word = ecUserFirst + 102;
-  ecCodeCompletion : word = ecUserFirst + 103;
-  ecParamCompletion : word = ecUserFirst + 104;
+  ecRecallCommandPrev = ecUserFirst + 100;
+  ecRecallCommandNext = ecUserFirst + 101;
+  ecRecallCommandEsc = ecUserFirst + 102;
+  ecCodeCompletion = ecUserFirst + 103;
+  ecParamCompletion = ecUserFirst + 104;
 
 var
   CommandsDataModule: TCommandsDataModule = nil;
@@ -512,7 +512,7 @@ uses
   dlgUnitTestWizard, WinInet, Registry, ShlObj, ShellAPI,
   dlgFileTemplates, JclSysUtils, dlgPickList, JvAppIniStorage,
   JvAppStorage, JvDSADialogs, uSearchHighlighter,
-  TntSysUtils, MPShellUtilities, gnugettext, SpTBXSkins, SpTBXMDIMRU;
+  TntSysUtils, MPShellUtilities, gnugettext, SpTBXSkins, SpTBXMDIMRU, StrUtils;
 
 { TPythonIDEOptions }
 
@@ -673,8 +673,38 @@ procedure TEditorSearchOptions.NewSearch(SynEdit : TSynEdit; ABackwards : Boolea
   begin
     Result := (BC1.Line > BC2.Line) or (BC1.Line = BC2.Line) and (BC1.Char > BC2.Char);
   end;
+
+  function FindTextInBlock(Strings : TUnicodeStrings; BlockBegin, BlockEnd : TBufferCoord) : Boolean;
+  Var
+    Line :  integer;
+    S : WideString;
+  begin
+    Result := False;
+    // preconditions start
+    Assert(BlockBegin.Line <= Strings.Count);
+    Assert(BlockEnd.Line <= Strings.Count);
+    Assert(BlockBegin.Line <= BlockEnd.Line);
+    if BlockBegin.Line <= 0 then Exit;
+    if BlockEnd.Line <= 0 then Exit;
+    // preconditions end
+
+    // work backwards
+    Line := BlockEnd.Line;
+    S := StrUtils.LeftStr(Strings[Line-1], BlockEnd.Char - 1);
+    Repeat
+      Result := SynEdit.SearchEngine.FindAll(S) > 0;
+      Dec(Line);
+      if Line >= BlockBegin.Line then
+        S := Strings[Line-1]
+      else
+        break;
+      if Line = BlockBegin.Line then
+        Delete(S, 1, BlockBegin.Char -1);
+    Until Result;
+  end;
+
 Var
-  TextLeft : WideString;
+  //TextLeft : WideString;
   SearchOptions : TSynSearchOptions;
 begin
   InitSearch;
@@ -706,10 +736,10 @@ begin
   CanWrapSearch := (ABackwards and BC_GT(InitBlockEnd, InitCaretXY) or
              (not ABackwards and BC_GT(InitCaretXY, InitBlockBegin)));
   if CanWrapSearch then begin
-    if ABackwards then
-      TextLeft := GetBlockText(SynEdit.Lines, InitCaretXY, InitBlockEnd)
-    else
-      TextLeft := GetBlockText(SynEdit.Lines, InitBlockBegin, InitCaretXY);
+//    if ABackwards then
+//      TextLeft := GetBlockText(SynEdit.Lines, InitCaretXY, InitBlockEnd)
+//    else
+//      TextLeft := GetBlockText(SynEdit.Lines, InitBlockBegin, InitCaretXY);
     SearchOptions := [];
     if EditorSearchOptions.SearchCaseSensitive then
       Include(SearchOptions, ssoMatchCase);
@@ -718,12 +748,15 @@ begin
     SynEdit.SearchEngine.Options := SearchOptions;
     try
       SynEdit.SearchEngine.Pattern := SearchText;
-      CanWrapSearch := SynEdit.SearchEngine.FindAll(TextLeft) > 0;
+      if ABackwards then
+        CanWrapSearch := FindTextInBlock(SynEdit.Lines, InitCaretXY, InitBlockEnd)
+      else
+        CanWrapSearch := FindTextInBlock(SynEdit.Lines, InitBlockBegin, InitCaretXY);
     except
       on E: ERegExpr do begin
         CanWrapSearch := False;
       end;
-    end;  
+    end;
   end;
 end;
 
