@@ -555,12 +555,12 @@ var
       end
       else Result:= '';
       HasQuestion:= P^ = '?';
-      Inc(P);
-      AQuestion:= P;
       (* search in parameters first for actual value *)
       ValueFound:= ((AName <> '') and FindValue(AName, Result)) or HasValue;
       (* if we have assigned question - query for parameter value *)
       if HasQuestion then begin
+        Inc(P);
+        AQuestion:= P;
         if AQuestion = '' then
           AQuestion:= _(SEnterParameterText)
         (* AQuestion can contain parameters *)

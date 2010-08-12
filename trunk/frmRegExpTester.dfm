@@ -1,8 +1,8 @@
 inherited RegExpTesterWindow: TRegExpTesterWindow
   HelpContext = 865
   Caption = 'Regular Expressions'
-  ClientHeight = 490
-  ClientWidth = 312
+  ClientHeight = 478
+  ClientWidth = 319
   Icon.Data = {
     0000010001001010000000000000680500001600000028000000100000002000
     0000010008000000000040010000000000000000000000010000000000000000
@@ -48,19 +48,19 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
     000000000000000000F77E7E1023000000000000000000000000F77D7E11FFFF
     0000E00F00008003000000010000000100000001000000010000000100000003
     00000007000080030000E0010000FF800000FFC00000FFE00000FFF00000}
-  ExplicitWidth = 328
-  ExplicitHeight = 524
+  ExplicitWidth = 335
+  ExplicitHeight = 512
   PixelsPerInch = 96
   TextHeight = 13
   inherited FGPanel: TPanel
-    Width = 308
-    Height = 486
-    ExplicitWidth = 308
-    ExplicitHeight = 486
+    Width = 315
+    Height = 474
+    ExplicitWidth = 315
+    ExplicitHeight = 474
     object TBXDock: TSpTBXDock
       Left = 0
       Top = 0
-      Width = 308
+      Width = 315
       Height = 26
       AllowDrag = False
       object RegExpTesterToolbar: TSpTBXToolbar
@@ -172,24 +172,25 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
     object TBXMultiDock: TSpTBXMultiDock
       Left = 0
       Top = 26
-      Width = 308
-      Height = 434
+      Width = 315
+      Height = 422
+      FixAlign = True
       Position = dpxClient
       object dpRegExpText: TSpTBXDockablePanel
         Left = 0
         Top = 0
-        Width = 308
-        Height = 89
+        Width = 315
+        Height = 72
         DockMode = dmCannotFloatOrChangeDocks
         DockPos = 0
         TabOrder = 0
-        Options.Minimize = True
+        DefaultDockedSize = 90
         ShowCaption = False
         ShowCaptionWhenDocked = False
         object TBXLabel3: TSpTBXLabel
           Left = 0
           Top = 0
-          Width = 304
+          Width = 311
           Height = 20
           Caption = 'Regular Expression'
           Align = alTop
@@ -206,17 +207,18 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
         object SpTBXPanel1: TSpTBXPanel
           Left = 0
           Top = 20
-          Width = 304
-          Height = 65
+          Width = 311
+          Height = 48
           Caption = 'SpTBXPanel1'
           Align = alClient
           TabOrder = 2
           HotTrack = True
+          ExplicitHeight = 74
           object RegExpText: TTntRichEdit
             Left = 2
             Top = 2
-            Width = 300
-            Height = 61
+            Width = 307
+            Height = 44
             Align = alClient
             BevelInner = bvNone
             BevelOuter = bvNone
@@ -225,21 +227,26 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
             ScrollBars = ssBoth
             TabOrder = 0
             OnChange = RegExpTextChange
+            ExplicitLeft = 1
+            ExplicitHeight = 135
           end
         end
       end
       object dpGroupsView: TSpTBXDockablePanel
         Left = 0
-        Top = 291
-        Width = 308
-        Height = 143
+        Top = 296
+        Width = 315
+        Height = 126
         DockMode = dmCannotFloatOrChangeDocks
-        DockPos = 291
+        DockPos = 296
         TabOrder = 3
+        DefaultDockedSize = 140
+        ShowCaption = False
+        ShowCaptionWhenDocked = False
         object TBXLabel1: TSpTBXLabel
           Left = 0
-          Top = 10
-          Width = 304
+          Top = 0
+          Width = 311
           Height = 20
           Caption = 'Groups:'
           Align = alTop
@@ -255,9 +262,9 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
         end
         object GroupsView: TVirtualStringTree
           Left = 0
-          Top = 30
-          Width = 304
-          Height = 109
+          Top = 20
+          Width = 311
+          Height = 102
           Align = alClient
           BevelEdges = []
           BevelInner = bvNone
@@ -273,6 +280,9 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
           TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowDropmark, toShowHorzGridLines, toShowVertGridLines, toThemeAware, toUseBlendedImages, toUseBlendedSelection]
           TreeOptions.StringOptions = [toAutoAcceptEditChange]
           OnGetText = GroupsViewGetText
+          ExplicitLeft = -1
+          ExplicitTop = 26
+          ExplicitHeight = 164
           Columns = <
             item
               Alignment = taRightJustify
@@ -292,25 +302,26 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
             item
               Options = [coEnabled, coParentBidiMode, coParentColor, coResizable, coShowDropMark, coVisible]
               Position = 2
-              Width = 224
+              Width = 231
               WideText = 'Value'
             end>
         end
       end
       object dpMatchText: TSpTBXDockablePanel
         Left = 0
-        Top = 207
-        Width = 308
-        Height = 84
+        Top = 176
+        Width = 315
+        Height = 120
         DockMode = dmCannotFloatOrChangeDocks
-        DockPos = 207
+        DockPos = 176
         TabOrder = 2
+        DefaultDockedSize = 90
         ShowCaption = False
         ShowCaptionWhenDocked = False
         object TBXLabel2: TSpTBXLabel
           Left = 0
           Top = 0
-          Width = 304
+          Width = 311
           Height = 20
           Caption = 'Match:'
           Align = alTop
@@ -323,21 +334,23 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
           Wrapping = twEndEllipsis
           Underline = True
           UnderlineColor = clBlue
+          ExplicitLeft = -1
         end
         object SpTBXPanel3: TSpTBXPanel
           Left = 0
           Top = 20
-          Width = 304
-          Height = 60
+          Width = 311
+          Height = 96
           Caption = 'SpTBXPanel3'
           Align = alClient
           TabOrder = 2
           HotTrack = True
+          ExplicitHeight = 58
           object MatchText: TTntRichEdit
             Left = 2
             Top = 2
-            Width = 300
-            Height = 56
+            Width = 307
+            Height = 92
             Align = alClient
             BevelInner = bvNone
             BevelOuter = bvNone
@@ -345,23 +358,25 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
             PlainText = True
             ScrollBars = ssBoth
             TabOrder = 0
+            ExplicitHeight = 76
           end
         end
       end
       object dpSearchText: TSpTBXDockablePanel
         Left = 0
-        Top = 89
-        Width = 308
-        Height = 118
+        Top = 72
+        Width = 315
+        Height = 104
         DockMode = dmCannotFloatOrChangeDocks
-        DockPos = 89
+        DockPos = 72
         TabOrder = 1
+        DefaultDockedSize = 90
         ShowCaption = False
         ShowCaptionWhenDocked = False
         object TBXLabel4: TSpTBXLabel
           Left = 0
           Top = 0
-          Width = 304
+          Width = 311
           Height = 20
           Caption = 'Search Text:'
           Align = alTop
@@ -378,17 +393,18 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
         object SpTBXPanel2: TSpTBXPanel
           Left = 0
           Top = 20
-          Width = 304
-          Height = 94
+          Width = 311
+          Height = 80
           Caption = 'SpTBXPanel2'
           Align = alClient
           TabOrder = 2
           HotTrack = True
+          ExplicitHeight = 52
           object SearchText: TTntRichEdit
             Left = 2
             Top = 2
-            Width = 300
-            Height = 90
+            Width = 307
+            Height = 76
             Align = alClient
             BevelInner = bvNone
             BevelOuter = bvNone
@@ -397,14 +413,15 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
             ScrollBars = ssBoth
             TabOrder = 0
             OnChange = RegExpTextChange
+            ExplicitHeight = 19
           end
         end
       end
     end
     object StatusBar: TSpTBXStatusBar
       Left = 0
-      Top = 460
-      Width = 308
+      Top = 448
+      Width = 315
       Height = 26
       Images = CommandsDataModule.Images
       SizeGrip = False

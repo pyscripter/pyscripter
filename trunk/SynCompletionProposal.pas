@@ -1391,13 +1391,13 @@ end;
 procedure TSynBaseCompletionProposalForm.Activate;
 begin
   Visible := True;
-  if DisplayType = ctCode then
+  if (DisplayType = ctCode) and Assigned(CurrentEditor) then  //KV
     (CurrentEditor as TCustomSynEdit).AddFocusControl(Self);
 end;
 
 procedure TSynBaseCompletionProposalForm.Deactivate;
 begin
-  if (DisplayType = ctCode) then
+  if (DisplayType = ctCode) and Assigned(CurrentEditor) then  //KV
     (CurrentEditor as TCustomSynEdit).RemoveFocusControl(Self);
   Visible := False;
 end;

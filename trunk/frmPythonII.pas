@@ -829,6 +829,16 @@ begin
           Command := ecNone;  // do not processed it further
         end;
       end;
+    ecLeft :  // Implement Visual Studio like behaviour when selection is available
+      if SynEdit.SelAvail then with SynEdit do begin
+        CaretXY := BlockBegin;
+        Command := ecNone;  // do not processed it further
+      end;
+    ecRight :  // Implement Visual Studio like behaviour when selection is available
+      if SynEdit.SelAvail then with SynEdit do begin
+        CaretXY := BlockEnd;
+        Command := ecNone;  // do not processed it further
+      end;
   end;
 end;
 

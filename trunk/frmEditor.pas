@@ -1547,177 +1547,199 @@ begin
   if (Command <> ecLostFocus) and (Command <> ecGotFocus) then
     EditorSearchOptions.InitSearch;
 
-  if (Command = ecCut) and not AfterProcessing then begin
-    if not ASynEdit.SelAvail then with ASynEdit do begin
-      // Cut the current line to the Clipboard
-      BeginUpdate;
-      try
-        ExecuteCommand(ecLineStart, AChar, Data);
-        ExecuteCommand(ecSelLineEnd, AChar, Data);
-        ActiveSelectionMode := smLine;
-        ExecuteCommand(ecCut, AChar, Data);
-        ActiveSelectionMode := SelectionMode;
-      finally
-        EndUpdate;
-      end;
-      Handled := True;
-    end;
-  end else if (Command = ecCopy) and not AfterProcessing then begin
-    if not ASynEdit.SelAvail then with ASynEdit do begin
-      // Copy the current line to the Clipboard
-      BC := ASynEdit.CaretXY;
-      BeginUpdate;
-      try
-        ExecuteCommand(ecLineStart, AChar, Data);
-        ExecuteCommand(ecSelLineEnd, AChar, Data);
-        ActiveSelectionMode := smLine;
-        ExecuteCommand(ecCopy, AChar, Data);
-        SetCaretAndSelection(BC, BC, BC);
-        ActiveSelectionMode := SelectionMode;
-      finally
-        EndUpdate;
-      end;
-      Handled := True;
-    end;
-  end else if (Command = ecCodeCompletion) and not AfterProcessing and
-     (ASynEdit.Highlighter = CommandsDataModule.SynPythonSyn) then
-  begin
-    if SynCodeCompletion.Form.Visible then
-      SynCodeCompletion.CancelCompletion;
-    //SynCodeCompletion.DefaultType := ctCode;
-    SynCodeCompletion.ActivateCompletion;
-    Command := ecNone;
-  end else if (Command = ecParamCompletion) and not AfterProcessing and
-              (ASynEdit.Highlighter = CommandsDataModule.SynPythonSyn) then
-  begin
-    if SynParamCompletion.Form.Visible then
-      SynParamCompletion.CancelCompletion;
-    //SynCodeCompletion.DefaultType := ctParams;
-    SynParamCompletion.ActivateCompletion;
-    Command := ecNone;
-  end else if (Command = ecLineBreak) and AfterProcessing and ASynEdit.InsertMode and
-    (ASynEdit.Highlighter = CommandsDataModule.SynPythonSyn) and not fAutoCompleteActive
-  then begin
-    { CaretY should never be lesser than 2 right after ecLineBreak, so there's
-    no need for a check }
-    iPrevLine := TrimRight( ASynEdit.Lines[ ASynEdit.CaretY -2 ] );
-    BC := BufferCoord(Length(IPrevLine), ASynEdit.CaretY -1);
-
-    if ASynEdit.GetHighlighterAttriAtRowCol(BC, DummyToken, Attr) and not
-     (//(attr = ASynEdit.Highlighter.StringAttribute) or
-      (attr = ASynEdit.Highlighter.CommentAttribute) or
-      (attr = CommandsDataModule.SynPythonSyn.CodeCommentAttri) {or
-      (attr = CommandsDataModule.SynPythonSyn.DocStringAttri)}) then
-    begin
-
-      Position := 1;
-      Indent := '';
-      while (Length(iPrevLine)>=Position) and
-           (iPrevLine[Position] in [#09, #32]) do begin
-        Indent := Indent + iPrevLine[Position];
-        Inc(Position);
-      end;
-
-      if (eoTrimTrailingSpaces in ASynEdit.Options) and (IPrevLine = '') then
-        ASynEdit.Lines[ ASynEdit.CaretY -2 ] := '';
-
-      if CommandsDataModule.IsBlockOpener(iPrevLine) or (Indent <> '') then
-      begin
-        ASynEdit.UndoList.BeginBlock;
-        OldOptions := ASynEdit.Options;
-        ASynEdit.Options := ASynEdit.Options - [eoTrimTrailingSpaces];
-        try
-          if (eoAutoIndent in ASynEdit.Options) and (iPrevLine <> '') then begin
-            // undo the effect of autoindent
-            Position := ASynEdit.CaretX;
-            ASynEdit.BlockBegin := BufferCoord(1, ASynEdit.CaretY);
-            ASynEdit.BlockEnd :=  BufferCoord(Position, ASynEdit.CaretY);
-            ASynEdit.SelText := '';
+  if not AfterProcessing then begin
+    case Command of
+      ecCut :
+        if not ASynEdit.SelAvail then with ASynEdit do begin
+          // Cut the current line to the Clipboard
+          BeginUpdate;
+          try
+            ExecuteCommand(ecLineStart, AChar, Data);
+            ExecuteCommand(ecSelLineEnd, AChar, Data);
+            ActiveSelectionMode := smLine;
+            ExecuteCommand(ecCut, AChar, Data);
+            ActiveSelectionMode := SelectionMode;
+          finally
+            EndUpdate;
           end;
-
-          if CommandsDataModule.IsBlockOpener(iPrevLine) then begin
-            if eoTabsToSpaces in ASynEdit.Options then
-              Indent := Indent + StringOfChar(' ', ASynEdit.TabWidth)
-            else
-              Indent := indent + #9;
-          end else if CommandsDataModule.IsBlockCloser(iPrevLine) then begin
-            if (eoTabsToSpaces in ASynEdit.Options) and (Length(Indent) > 0) and
-              (Indent[Length(Indent)] <> #9)
-            then
-              Delete(Indent, Length(Indent) - ASynEdit.TabWidth + 1, ASynEdit.TabWidth)
-            else
-              Delete(Indent, Length(Indent), 1);
-          end;
-          // use ReplaceSel to ensure it goes at the cursor rather than end of buffer
-          if Trim(iPrevLine) <> '' then
-            ASynEdit.SelText := Indent;
-        finally
-          ASynEdit.UndoList.EndBlock;
-          ASynEdit.Options := OldOptions;
+          Handled := True;
         end;
-      end;
-      ASynEdit.InvalidateGutterLine(ASynEdit.CaretY - 1);
-    end;
-  end  else if (Command = ecChar) and AfterProcessing and not fAutoCompleteActive
-    and CommandsDataModule.PyIDEOptions.AutoCompleteBrackets then
-  with ASynEdit do begin
-    if ASynEdit.Highlighter = CommandsDataModule.SynPythonSyn then begin
-      OpenBrackets := '([{"''';
-      CloseBrackets := ')]}"''';
-    end else if (ASynEdit.Highlighter = CommandsDataModule.SynWebHTMLSyn) or
-       (ASynEdit.Highlighter = CommandsDataModule.SynWebXMLSyn) or
-       (ASynEdit.Highlighter = CommandsDataModule.SynWebCssSyn) then
-    begin
-      OpenBrackets := '<"''';
-      CloseBrackets := '>"''';
-    end else
-      Exit;
-
-    Line := LineText;
-    Len := Length(LineText);
-
-    if aChar = fCloseBracketChar then begin
-      if InsertMode and (CaretX <= Len) and (Line[CaretX] = fCloseBracketChar) then
-        ExecuteCommand(ecDeleteChar, WideChar(#0), nil);
-      fCloseBracketChar := #0;
-    end else begin
-      fCloseBracketChar := #0;
-      OpenBracketPos := Pos(aChar, OpenBrackets);
-
-      BC := CaretXY;
-      Dec(BC.Char, 2);
-      if (BC.Char >= 1) and GetHighlighterAttriAtRowCol(BC, DummyToken, Attr) and
-        ((attr = Highlighter.StringAttribute) or
-         (attr = Highlighter.CommentAttribute) or
-         (attr = CommandsDataModule.SynPythonSyn.CodeCommentAttri) or
-         (attr = CommandsDataModule.SynPythonSyn.DocStringAttri))
-      then
-        OpenBracketPos := 0;  // Do not auto complete brakets inside strings or comments
-
-      if (OpenBracketPos > 0) then begin
-        CharRight := WideNull;
-        Position := CaretX;
-        while (Position <= Len) and Highlighter.IsWhiteChar(LineText[Position]) do
-          Inc(Position);
-        if Position <= Len then
-          CharRight := Line[Position];
-
-        CharLeft := WideNull;
-        Position := CaretX-2;
-        while (Position >= 1) and Highlighter.IsWhiteChar(LineText[Position]) do
-          Dec(Position);
-        if Position >= 1 then
-          CharLeft := Line[Position];
-
-        if (CharRight <> aChar) and not Highlighter.IsIdentChar(CharRight) and
-          not ((aChar in [WideChar('"'), WideChar('''')])
-          and (Highlighter.IsIdentChar(CharLeft) or (CharLeft= aChar))) then
+      ecCopy:
+        if not ASynEdit.SelAvail then with ASynEdit do begin
+          // Copy the current line to the Clipboard
+          BC := ASynEdit.CaretXY;
+          BeginUpdate;
+          try
+            ExecuteCommand(ecLineStart, AChar, Data);
+            ExecuteCommand(ecSelLineEnd, AChar, Data);
+            ActiveSelectionMode := smLine;
+            ExecuteCommand(ecCopy, AChar, Data);
+            SetCaretAndSelection(BC, BC, BC);
+            ActiveSelectionMode := SelectionMode;
+          finally
+            EndUpdate;
+          end;
+          Handled := True;
+        end;
+      ecCodeCompletion :
+        if ASynEdit.Highlighter = CommandsDataModule.SynPythonSyn then
         begin
-          SelText := CloseBrackets[OpenBracketPos];
-          CaretX := CaretX - 1;
-          fCloseBracketChar := CloseBrackets[OpenBracketPos];
+          if SynCodeCompletion.Form.Visible then
+            SynCodeCompletion.CancelCompletion;
+          //SynCodeCompletion.DefaultType := ctCode;
+          SynCodeCompletion.ActivateCompletion;
+          Handled := True;
         end;
-      end;
+      ecParamCompletion :
+        if ASynEdit.Highlighter = CommandsDataModule.SynPythonSyn then
+        begin
+          if SynParamCompletion.Form.Visible then
+            SynParamCompletion.CancelCompletion;
+          //SynCodeCompletion.DefaultType := ctParams;
+          SynParamCompletion.ActivateCompletion;
+          Handled := True;
+        end;
+      ecLeft :  // Implement Visual Studio like behaviour when selection is available
+        if ASynEdit.SelAvail then with ASynEdit do begin
+          CaretXY := BlockBegin;
+          Handled := True;
+        end;
+      ecRight :  // Implement Visual Studio like behaviour when selection is available
+        if ASynEdit.SelAvail then with ASynEdit do begin
+          CaretXY := BlockEnd;
+          Handled := True;
+        end;
+    end;
+  end else begin  // AfterProcessing
+    case Command of
+      ecLineBreak :  // Python Mode
+        if ASynEdit.InsertMode and (ASynEdit.Highlighter = CommandsDataModule.SynPythonSyn)
+          and not fAutoCompleteActive
+        then begin
+          { CaretY should never be lesser than 2 right after ecLineBreak, so there's
+          no need for a check }
+          iPrevLine := TrimRight( ASynEdit.Lines[ ASynEdit.CaretY -2 ] );
+          BC := BufferCoord(Length(IPrevLine), ASynEdit.CaretY -1);
+
+          if ASynEdit.GetHighlighterAttriAtRowCol(BC, DummyToken, Attr) and not
+           (//(attr = ASynEdit.Highlighter.StringAttribute) or
+            (attr = ASynEdit.Highlighter.CommentAttribute) or
+            (attr = CommandsDataModule.SynPythonSyn.CodeCommentAttri) {or
+            (attr = CommandsDataModule.SynPythonSyn.DocStringAttri)}) then
+          begin
+
+            Position := 1;
+            Indent := '';
+            while (Length(iPrevLine)>=Position) and
+                 (iPrevLine[Position] in [#09, #32]) do begin
+              Indent := Indent + iPrevLine[Position];
+              Inc(Position);
+            end;
+
+            if (eoTrimTrailingSpaces in ASynEdit.Options) and (IPrevLine = '') then
+              ASynEdit.Lines[ ASynEdit.CaretY -2 ] := '';
+
+            if CommandsDataModule.IsBlockOpener(iPrevLine) or (Indent <> '') then
+            begin
+              ASynEdit.UndoList.BeginBlock;
+              OldOptions := ASynEdit.Options;
+              ASynEdit.Options := ASynEdit.Options - [eoTrimTrailingSpaces];
+              try
+                if (eoAutoIndent in ASynEdit.Options) and (iPrevLine <> '') then begin
+                  // undo the effect of autoindent
+                  Position := ASynEdit.CaretX;
+                  ASynEdit.BlockBegin := BufferCoord(1, ASynEdit.CaretY);
+                  ASynEdit.BlockEnd :=  BufferCoord(Position, ASynEdit.CaretY);
+                  ASynEdit.SelText := '';
+                end;
+
+                if CommandsDataModule.IsBlockOpener(iPrevLine) then begin
+                  if eoTabsToSpaces in ASynEdit.Options then
+                    Indent := Indent + StringOfChar(' ', ASynEdit.TabWidth)
+                  else
+                    Indent := indent + #9;
+                end else if CommandsDataModule.IsBlockCloser(iPrevLine) then begin
+                  if (eoTabsToSpaces in ASynEdit.Options) and (Length(Indent) > 0) and
+                    (Indent[Length(Indent)] <> #9)
+                  then
+                    Delete(Indent, Length(Indent) - ASynEdit.TabWidth + 1, ASynEdit.TabWidth)
+                  else
+                    Delete(Indent, Length(Indent), 1);
+                end;
+                // use ReplaceSel to ensure it goes at the cursor rather than end of buffer
+                if Trim(iPrevLine) <> '' then
+                  ASynEdit.SelText := Indent;
+              finally
+                ASynEdit.UndoList.EndBlock;
+                ASynEdit.Options := OldOptions;
+              end;
+            end;
+            ASynEdit.InvalidateGutterLine(ASynEdit.CaretY - 1);
+          end;
+        end;
+      ecChar :  // Autocomplete brackets
+        if not fAutoCompleteActive
+          and CommandsDataModule.PyIDEOptions.AutoCompleteBrackets then
+        with ASynEdit do begin
+          if ASynEdit.Highlighter = CommandsDataModule.SynPythonSyn then begin
+            OpenBrackets := '([{"''';
+            CloseBrackets := ')]}"''';
+          end else if (ASynEdit.Highlighter = CommandsDataModule.SynWebHTMLSyn) or
+             (ASynEdit.Highlighter = CommandsDataModule.SynWebXMLSyn) or
+             (ASynEdit.Highlighter = CommandsDataModule.SynWebCssSyn) then
+          begin
+            OpenBrackets := '<"''';
+            CloseBrackets := '>"''';
+          end else
+            Exit;
+
+          Line := LineText;
+          Len := Length(LineText);
+
+          if aChar = fCloseBracketChar then begin
+            if InsertMode and (CaretX <= Len) and (Line[CaretX] = fCloseBracketChar) then
+              ExecuteCommand(ecDeleteChar, WideChar(#0), nil);
+            fCloseBracketChar := #0;
+          end else begin
+            fCloseBracketChar := #0;
+            OpenBracketPos := Pos(aChar, OpenBrackets);
+
+            BC := CaretXY;
+            Dec(BC.Char, 2);
+            if (BC.Char >= 1) and GetHighlighterAttriAtRowCol(BC, DummyToken, Attr) and
+              ((attr = Highlighter.StringAttribute) or
+               (attr = Highlighter.CommentAttribute) or
+               (attr = CommandsDataModule.SynPythonSyn.CodeCommentAttri) or
+               (attr = CommandsDataModule.SynPythonSyn.DocStringAttri))
+            then
+              OpenBracketPos := 0;  // Do not auto complete brakets inside strings or comments
+
+            if (OpenBracketPos > 0) then begin
+              CharRight := WideNull;
+              Position := CaretX;
+              while (Position <= Len) and Highlighter.IsWhiteChar(LineText[Position]) do
+                Inc(Position);
+              if Position <= Len then
+                CharRight := Line[Position];
+
+              CharLeft := WideNull;
+              Position := CaretX-2;
+              while (Position >= 1) and Highlighter.IsWhiteChar(LineText[Position]) do
+                Dec(Position);
+              if Position >= 1 then
+                CharLeft := Line[Position];
+
+              if (CharRight <> aChar) and not Highlighter.IsIdentChar(CharRight) and
+                not ((aChar in [WideChar('"'), WideChar('''')])
+                and (Highlighter.IsIdentChar(CharLeft) or (CharLeft= aChar))) then
+              begin
+                SelText := CloseBrackets[OpenBracketPos];
+                CaretX := CaretX - 1;
+                fCloseBracketChar := CloseBrackets[OpenBracketPos];
+              end;
+            end;
+          end;
+        end;
     end;
   end;
 end;

@@ -545,8 +545,8 @@ begin
     ModulesDict.update(fOldSysModules);
   end;
   VarClear(fOldSysModules);
-  ServerProcess.Free;
-  RemoteServer.Free;
+  FreeAndNil(ServerProcess);
+  FreeAndNil(RemoteServer);
 
   InternalInterpreter.SysPathRemove(fRpycPath);
   inherited;

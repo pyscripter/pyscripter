@@ -350,7 +350,7 @@ Limitations: Python scripts are executed in the main thread
           New Features
             Support for Python 3.2
           Bug fixes
-            Issues  371, 384
+            Issues  346, 358, 371, 375, 384
 
 
   Vista Compatibility issues (all resolved)
@@ -964,6 +964,7 @@ type
     procedure tbiScrollRightClick(Sender: TObject);
   private
     DSAAppStorage: TDSAAppStorage;
+    ShellExtensionFiles : TStringList;
 //    function FindAction(var Key: Word; Shift: TShiftState) : TCustomAction;
     procedure DebugActiveScript(ActiveEditor: IEditor;
       InitStepIn : Boolean = False; RunToCursorLine : integer = -1);
@@ -977,7 +978,7 @@ type
   protected
     fCurrentLine : integer;
     fErrorLine : integer;
-    fCurrentBrowseInfo : string;
+    fCurrentBrowseInfo : WideString;
     function DoCreateEditor: IEditor;
     function CmdLineOpenFiles(): boolean;
     procedure DebuggerBreakpointChange(Sender: TObject; Editor : IEditor; ALine: integer);
@@ -1049,11 +1050,11 @@ type
     procedure SaveToolbarLayout(const Layout: string);
     procedure SaveToolbarItems(const Path : string);
     procedure WriteStatusMsg(S : WideString);
-    function JumpToFilePosInfo(FilePosInfo : string) : boolean;
+    function JumpToFilePosInfo(FilePosInfo : WideString) : boolean;
     procedure FindDefinition(Editor : IEditor; TextCoord : TBufferCoord;
-      ShowMessages, Silent, JumpToFirstMatch : Boolean; var FilePosInfo : string);
-    procedure AdjustBrowserLists(FileName: string; Line: Integer; Col: Integer;
-      FilePosInfo: string);
+      ShowMessages, Silent, JumpToFirstMatch : Boolean; var FilePosInfo : WideString);
+    procedure AdjustBrowserLists(FileName: WideString; Line: Integer; Col: Integer;
+      FilePosInfo: WideString);
     procedure ThemeEditorGutter(Gutter : TSynGutter);
     procedure UpdateCaption;
     procedure ChangeLanguage(LangCode : string);
@@ -1217,12 +1218,13 @@ Var
   ActionList : TActionList;
 begin
   // App Instances
+  ShellExtensionFiles := TStringList.Create;
   if not CmdLineReader.readFlag('NEWINSTANCE') then begin
     JvAppInstances.Active := True;
     JvAppInstances.Check;
   end;
 
-  // Trying to reduce flicker!
+// Trying to reduce flicker!
 //  ControlStyle := ControlStyle + [csOpaque];
 //  BGPanel.ControlStyle := BGPanel.ControlStyle + [csOpaque];
 //  DockServer.LeftDockPanel.ControlStyle := DockServer.LeftDockPanel.ControlStyle + [csOpaque];
@@ -1411,12 +1413,10 @@ begin
 
   TabControl.Toolbar.BeginUpdate;
   try
-    // if there was no file on the command line try restoring open files
-    if CommandsDataModule.PyIDEOptions.RestoreOpenFiles then
-      TPersistFileInfo.ReadFromAppStorage(AppStorage, 'Open Files');
-
     // Open Files on the command line
-    CmdLineOpenFiles();
+    // if there was no file on the command line try restoring open files
+    if not CmdLineOpenFiles() and CommandsDataModule.PyIDEOptions.RestoreOpenFiles then
+      TPersistFileInfo.ReadFromAppStorage(AppStorage, 'Open Files');
 
     // If we still have no open file then open an empty file
     if GI_EditorFactory.GetEditorCount = 0 then
@@ -2149,8 +2149,8 @@ begin
 end;
 
 procedure TPyIDEMainForm.ApplicationOnIdle(Sender: TObject; var Done: Boolean);
-//Var
-//  i : integer;
+Var
+  i : integer;
 begin
   UpdateStandardActions;
   CommandsDataModule.UpdateMainActions;
@@ -2175,6 +2175,12 @@ begin
         // Ignore exceptions here
           ServeConnection;
     end;
+
+  if ShellExtensionFiles.Count > 0 then begin
+    for i := 0 to ShellExtensionFiles.Count - 1 do
+      DoOpenFile(ShellExtensionFiles[i]);
+    ShellExtensionFiles.Clear;
+  end;
   Done := True;
 end;
 
@@ -2453,6 +2459,7 @@ begin
   FreeAndNil(fLanguageList);
   FreeAndNil(zOrder);
   FreeAndNil(DSAAppStorage);
+  FreeAndNil(ShellExtensionFiles);
 end;
 
 procedure TPyIDEMainForm.actFileExitExecute(Sender: TObject);
@@ -3390,12 +3397,12 @@ begin
   end;
 end;
 
-procedure TPyIDEMainForm.AdjustBrowserLists(FileName: string; Line: Integer; Col: Integer; FilePosInfo: string);
+procedure TPyIDEMainForm.AdjustBrowserLists(FileName: WideString; Line: Integer; Col: Integer; FilePosInfo: WideString);
 begin
   if FilePosInfo <> '' then
   begin
     // Adjust previous/next menus
-    PrevMRUAdd(Format(FilePosInfoFormat, [FileName, Line, Col]));
+    PrevMRUAdd(WideFormat(FilePosInfoFormat, [FileName, Line, Col]));
     mnNextList.Clear;
     fCurrentBrowseInfo := FilePosInfo;
   end;
@@ -3403,16 +3410,21 @@ end;
 
 procedure TPyIDEMainForm.actFindDefinitionExecute(Sender: TObject);
 Var
-  FilePosInfo : string;
+  FilePosInfo : WideString;
+  FileName : WideString;
+  CaretXY : TBufferCoord;
 begin
   Application.ProcessMessages;
-  if Assigned(GI_ActiveEditor) then
-    FindDefinition(GI_ActiveEditor, GI_ActiveEditor.ActiveSynEdit.CaretXY, True,
-      False, True, FilePosInfo);
+  if Assigned(GI_ActiveEditor) then begin
+    FileName := GI_ActiveEditor.GetFileNameOrTitle;
+    CaretXY := GI_ActiveEditor.ActiveSynEdit.CaretXY;
+    FindDefinition(GI_ActiveEditor, CaretXY, True, False, True, FilePosInfo);
+    AdjustBrowserLists(FileName, CaretXY.Line, CaretXY.Char, FilePosInfo);
+  end;
 end;
 
 procedure TPyIDEMainForm.FindDefinition(Editor : IEditor; TextCoord: TBufferCoord;
-  ShowMessages, Silent, JumpToFirstMatch: Boolean; var FilePosInfo : string);
+  ShowMessages, Silent, JumpToFirstMatch: Boolean; var FilePosInfo : WideString);
 var
   Defs : Variant;
   Token : WideString;
@@ -3466,7 +3478,7 @@ begin
             if ShowMessages then
               ShowDockForm(MessagesWindow);
             if FileName  <> '' then begin
-              FilePosInfo := Format(FilePosInfoFormat, [Filename, Line, Col]);
+              FilePosInfo := WideFormat(FilePosInfoFormat, [Filename, Line, Col]);
               if JumpToFirstMatch then
                 ShowFilePosition(Filename, Line, Col);
             end else begin
@@ -3569,8 +3581,8 @@ end;
 
 procedure TPyIDEMainForm.WMFindDefinition(var Msg: TMessage);
 Var
-  FilePosInfo : string;
-  FileName : string;
+  FilePosInfo : WideString;
+  FileName : WideString;
   Line, Col : integer;
 begin
   if Assigned(GI_ActiveEditor) then begin
@@ -3598,7 +3610,7 @@ begin
   end;
 end;
 
-function TPyIDEMainForm.JumpToFilePosInfo(FilePosInfo: string): boolean;
+function TPyIDEMainForm.JumpToFilePosInfo(FilePosInfo: WideString): boolean;
 Var
   FileName : string;
   Line, Col : integer;
@@ -3822,7 +3834,8 @@ begin
   if JvAppInstances.AppInstances.InstanceIndex[GetCurrentProcessID] <> 0 then Exit;
   for i := 0 to CmdLine.Count - 1 do
     if (CmdLine[i][1] <> '-') and FileExists(CmdLine[i]) then
-      DoOpenFile(CmdLine[i]);
+      //DoOpenFile(CmdLine[i]);
+      ShellExtensionFiles.Add(CmdLine[i])
 end;
 
 procedure TPyIDEMainForm.WMUpdateBreakPoints(var Msg: TMessage);
