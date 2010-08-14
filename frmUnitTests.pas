@@ -204,7 +204,7 @@ begin
       Status := utwLoaded;
     end;
   end;
-end;
+end;         
 
 procedure TUnitTestWindow.FormActivate(Sender: TObject);
 begin
