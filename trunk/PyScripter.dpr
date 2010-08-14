@@ -110,7 +110,8 @@ uses
   VirtualTrees in 'VirtualTrees.pas',
   dlgSynEditOptions in 'dlgSynEditOptions.pas' {fmEditorOptionsDialog: TTntForm},
   SynRegExpr in 'SynRegExpr.pas',
-  SynEditWordWrap in 'SynEditWordWrap.pas';
+  SynEditWordWrap in 'SynEditWordWrap.pas',
+  JvDockSupportControl in 'JvDockSupportControl.pas';
 
 {$R *.RES}
 {$R WebCopyAvi.RES}
