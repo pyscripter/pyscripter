@@ -29,7 +29,6 @@ type
     CI_MULTILINE: TSpTBXItem;
     TBXSeparatorItem1: TSpTBXSeparatorItem;
     TIExecute: TSpTBXItem;
-    TBXMultiDock: TSpTBXMultiDock;
     TBXSeparatorItem2: TSpTBXSeparatorItem;
     CI_UNICODE: TSpTBXItem;
     CI_VERBOSE: TSpTBXItem;
@@ -42,21 +41,26 @@ type
     CI_AutoExecute: TSpTBXItem;
     StatusBar: TSpTBXStatusBar;
     lbStatusBar: TSpTBXLabelItem;
-    dpRegExpText: TSpTBXDockablePanel;
-    TBXLabel3: TSpTBXLabel;
-    dpGroupsView: TSpTBXDockablePanel;
+    dpGroupsView: TSpTBXPanel;
     TBXLabel1: TSpTBXLabel;
     GroupsView: TVirtualStringTree;
-    dpMatchText: TSpTBXDockablePanel;
+    dpMatchText: TSpTBXPanel;
     TBXLabel2: TSpTBXLabel;
-    dpSearchText: TSpTBXDockablePanel;
-    TBXLabel4: TSpTBXLabel;
-    SpTBXPanel1: TSpTBXPanel;
-    RegExpText: TTntRichEdit;
-    SpTBXPanel2: TSpTBXPanel;
-    SearchText: TTntRichEdit;
     SpTBXPanel3: TSpTBXPanel;
     MatchText: TTntRichEdit;
+    dpRegExpText: TSpTBXPanel;
+    TBXLabel3: TSpTBXLabel;
+    SpTBXPanel1: TSpTBXPanel;
+    RegExpText: TTntRichEdit;
+    dpSearchText: TSpTBXPanel;
+    TBXLabel4: TSpTBXLabel;
+    SpTBXPanel2: TSpTBXPanel;
+    SearchText: TTntRichEdit;
+    SpTBXSplitter1: TSpTBXSplitter;
+    SpTBXSplitter2: TSpTBXSplitter;
+    pnlMiddle: TSpTBXPanel;
+    SpTBXSplitter3: TSpTBXSplitter;
+    pnlBackground: TSpTBXPanel;
     procedure TiClearClick(Sender: TObject);
     procedure GroupsViewGetText(Sender: TBaseVirtualTree; Node: PVirtualNode;
       Column: TColumnIndex; TextType: TVSTTextType; var CellText: WideString);
@@ -135,8 +139,8 @@ begin
   AppStorage.WriteBoolean(BasePath+'\Search', RI_Search.Checked);
   AppStorage.WriteBoolean(BasePath+'\AutoExec', CI_AutoExecute.Checked);
   AppStorage.WriteInteger(BasePath+'\RegExpHeight', dpRegExpText.Height);
+  AppStorage.WriteInteger(BasePath+'\GroupsHeight', dpGroupsView.Height);
   AppStorage.WriteInteger(BasePath+'\SearchHeight', dpSearchText.Height);
-  AppStorage.WriteInteger(BasePath+'\MatchHeight', dpMatchText.Height);
 end;
 
 procedure TRegExpTesterWindow.ReadFromAppStorage(
@@ -152,9 +156,9 @@ begin
   CI_VERBOSE.Checked := AppStorage.ReadBoolean(BasePath+'\VERBOSE', False);
   RI_Search.Checked := AppStorage.ReadBoolean(BasePath+'\Search', True);
   CI_AutoExecute.Checked := AppStorage.ReadBoolean(BasePath+'\AutoExec', True);
-  dpRegExpText.EffectiveHeight := AppStorage.ReadInteger(BasePath+'\RegExpHeight', dpRegExpText.EffectiveHeight);
-  dpSearchText.EffectiveHeight := AppStorage.ReadInteger(BasePath+'\SearchHeight', dpSearchText.EffectiveHeight);
-  dpMatchText.EffectiveHeight := AppStorage.ReadInteger(BasePath+'\MatchHeight', dpMatchText.EffectiveHeight);
+  dpRegExpText.Height := AppStorage.ReadInteger(BasePath+'\RegExpHeight', dpRegExpText.Height);
+  dpGroupsView.Height := AppStorage.ReadInteger(BasePath+'\GroupsHeight', dpGroupsView.Height);
+  dpSearchText.Height := AppStorage.ReadInteger(BasePath+'\SearchHeight', dpSearchText.Height);
 end;
 
 procedure TRegExpTesterWindow.RegExpTextChange(Sender: TObject);
