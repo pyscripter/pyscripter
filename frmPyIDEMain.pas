@@ -351,7 +351,7 @@ Limitations: Python scripts are executed in the main thread
             Support for Python 3.2
             New IDE Option added "Jump to Error on Exception"  (Issue 130)
           Bug fixes
-            Issues  346, 358, 371, 375, 376, 384
+            Issues  346, 358, 371, 375, 376, 384, 389
 
 
   Vista Compatibility issues (all resolved)
