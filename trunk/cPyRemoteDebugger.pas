@@ -623,6 +623,7 @@ procedure TPyRemoteInterpreter.HandleRemoteException(ExcInfo: Variant; SkipFrame
 Var
   LineNo : integer;
   FileName : string;
+  Editor : IEditor;
   Traceback : Variant;
 begin
   CheckConnected;
@@ -642,12 +643,21 @@ begin
     except
       LineNo := 0;
     end;
-    if PyIDEMainForm.ShowFilePosition(FileName, LineNo, 1) and
-      Assigned(GI_ActiveEditor)
-    then begin
-      PyControl.ErrorPos.Editor := GI_ActiveEditor;
-      PyControl.ErrorPos.Line := LineNo;
-      PyControl.DoErrorPosChanged;
+
+    if (FileName[1] ='<') and (FileName[Length(FileName)] = '>') then
+      FileName :=  Copy(FileName, 2, Length(FileName)-2);
+    Editor := GI_EditorFactory.GetEditorByNameOrTitle(FileName);
+    // Check whether the error occurred in the active editor
+    if (Assigned(Editor) and (Editor = PyIDEMainForm.GetActiveEditor)) or
+      CommandsDataModule.PyIDEOptions.JumpToErrorOnException then
+    begin
+      if PyIDEMainForm.ShowFilePosition(FileName, LineNo, 1) and
+        Assigned(GI_ActiveEditor)
+      then begin
+        PyControl.ErrorPos.Editor := GI_ActiveEditor;
+        PyControl.ErrorPos.Line := LineNo;
+        PyControl.DoErrorPosChanged;
+      end;
     end;
   end;
 end;
