@@ -9,7 +9,7 @@ inherited PageSetupDlg: TPageSetupDlg
   OnDestroy = FormDestroy
   OnShow = FormShow
   ExplicitWidth = 638
-  ExplicitHeight = 423
+  ExplicitHeight = 425
   PixelsPerInch = 96
   TextHeight = 13
   object TabControl: TSpTBXTabControl

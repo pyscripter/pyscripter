@@ -248,7 +248,7 @@ uses
   SynEditTextBuffer, cPyDebugger, dlgPickList, JvDockControlForm,
   uSearchHighlighter, VirtualShellNotifier,
   SynHighlighterWebMisc, SynHighlighterWeb, TntSysUtils, gnugettext, TntDialogs,
-  SynUnicode, WideStrings, WideStrUtils, frmIDEDockWin;
+  SynUnicode, WideStrings, WideStrUtils, frmIDEDockWin, SynRegExpr;
 
 const
   WM_DELETETHIS  =  WM_USER + 42;
@@ -734,8 +734,9 @@ procedure TEditor.ExecuteSelection;
 var
   EncodedSource: string;
   ExecType : string;
-  Source : WideString;
+  Source, LeadWhiteSpace : WideString;
   Editor : TSynEdit;
+  RegExpr : TRegExpr;
 begin
   if not HasPythonFile or PyControl.IsRunning then begin
    // it is dangerous to execute code while running scripts
@@ -762,6 +763,21 @@ begin
       ExecType := 'single'
     else
       Source := Source + WideLineBreak;  // issue 291
+  end;
+
+  // Dedent the selection
+  RegExpr := TRegExpr.Create;
+  try
+    RegExpr.ModifierM := False;
+    RegExpr.Expression := '^\s*';
+    if RegExpr.Exec(Source) then begin
+      LeadWhiteSpace := RegExpr.Match[0];
+      RegExpr.ModifierM := True;
+      RegExpr.Expression := '^' + LeadWhiteSpace;
+      Source := RegExpr.Replace(Source, '');
+    end;
+  finally
+    RegExpr.Free;
   end;
 
   ShowDockForm(PythonIIForm);
@@ -1609,6 +1625,20 @@ begin
           CaretXY := BlockEnd;
           Handled := True;
         end;
+//      ecWordRight : // Implement Visual Studio like behaviour
+//        if (ASynEdit.WordEnd.Char <> ASynEdit.CaretXY.Char) or
+//           (ASynEdit.WordEnd.Line <> ASynEdit.CaretXY.Line) then
+//        begin
+//           ASynEdit.CaretXY := ASynEdit.WordEnd;
+//           Handled := True;
+//        end;
+//      ecSelWordRight : // Implement Visual Studio like behaviour
+//        if (ASynEdit.WordEnd.Char <> ASynEdit.CaretXY.Char) or
+//           (ASynEdit.WordEnd.Line <> ASynEdit.CaretXY.Line) then
+//        begin
+//           ASynEdit.SetCaretAndSelection(ASynEdit.WordEnd, ASynEdit.BlockBegin, ASynEdit.WordEnd);
+//           Handled := True;
+//        end;
     end;
   end else begin  // AfterProcessing
     case Command of

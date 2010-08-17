@@ -79,6 +79,7 @@ type
     fInterpreterHistorySize : integer;
     fSaveInterpreterHistory : Boolean;
     fReinitializeBeforeRun: Boolean;
+    fJumpToErrorOnException : Boolean;
     function GetPythonFileExtensions: string;
   public
     constructor Create;
@@ -176,6 +177,8 @@ type
       write fSaveInterpreterHistory;
     property ReinitializeBeforeRun : Boolean read fReinitializeBeforeRun
       write fReinitializeBeforeRun;
+    property JumpToErrorOnException : Boolean read fJumpToErrorOnException
+      write fJumpToErrorOnException;
   end;
 {$METHODINFO OFF}
 
@@ -569,6 +572,7 @@ begin
       Self.fInterpreterHistorySize := InterpreterHistorySize;
       Self.fSaveInterpreterHistory := SaveInterpreterHistory;
       Self.fReinitializeBeforeRun := ReinitializeBeforeRun;
+      Self.fJumpToErrorOnException := JumpToErrorOnException;
     end
   else
     inherited;
@@ -628,6 +632,7 @@ begin
   fInterpreterHistorySize := 50;
   fSaveInterpreterHistory := True;
   fReinitializeBeforeRun := True;
+  fJumpToErrorOnException := True;
 end;
 
 function TPythonIDEOptions.GetPythonFileExtensions: string;
@@ -1977,7 +1982,7 @@ begin
   end;
   with Categories[1] do begin
     DisplayName := 'Python Interpreter';
-    SetLength(Options, 11);
+    SetLength(Options, 12);
     Options[0].PropertyName := 'SaveFilesBeforeRun';
     Options[0].DisplayName := 'Save files before run';
     Options[1].PropertyName := 'SaveEnvironmentBeforeRun';
@@ -2000,6 +2005,8 @@ begin
     Options[9].DisplayName := 'Save interpreter history';
     Options[10].PropertyName := 'ReinitializeBeforeRun';
     Options[10].DisplayName := 'Reinitialize Before Run';
+    Options[11].PropertyName := 'JumpToErrorOnException';
+    Options[11].DisplayName := 'Jump to Error on Exception';
   end;
   with Categories[2] do begin
     DisplayName := 'Code Explorer';

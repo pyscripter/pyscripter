@@ -405,18 +405,29 @@ end;
 procedure TPyBaseInterpreter.HandlePyException(E: EPythonError; SkipFrames : integer = 1);
 Var
   TI : TTracebackItem;
+  FileName : WideString;
+  Editor : IEditor;
 begin
   MessagesWindow.ShowPythonTraceback(SkipFrames);
   MessagesWindow.AddMessage(E.Message);
   with GetPythonEngine.Traceback do begin
     if ItemCount > 0 then begin
       TI := Items[ItemCount -1];
-      if PyIDEMainForm.ShowFilePosition(TI.FileName, TI.LineNo, 1) and
-        Assigned(GI_ActiveEditor)
-      then begin
-        PyControl.ErrorPos.Editor := GI_ActiveEditor;
-        PyControl.ErrorPos.Line := TI.LineNo;
-        PyControl.DoErrorPosChanged;
+      FileName := TI.FileName;
+      if (FileName[1] ='<') and (FileName[Length(FileName)] = '>') then
+        FileName :=  Copy(FileName, 2, Length(FileName)-2);
+      Editor := GI_EditorFactory.GetEditorByNameOrTitle(FileName);
+      // Check whether the error occurred in the active editor
+      if (Assigned(Editor) and (Editor = PyIDEMainForm.GetActiveEditor)) or
+        CommandsDataModule.PyIDEOptions.JumpToErrorOnException then
+      begin
+        if PyIDEMainForm.ShowFilePosition(TI.FileName, TI.LineNo, 1) and
+          Assigned(GI_ActiveEditor)
+        then begin
+          PyControl.ErrorPos.Editor := GI_ActiveEditor;
+          PyControl.ErrorPos.Line := TI.LineNo;
+          PyControl.DoErrorPosChanged;
+        end;
       end;
     end;
   end;

@@ -465,7 +465,9 @@ begin
   for i := 0 to Editor.Lines.Count - 1 do begin
     SelectLine(i);
     AFont.Assign(CurrText);
-    HeadFoot.Add(Editor.Lines[i], AFont, Al, i + 1);
+    // TrimRight is used to fix a long standing bug occurring because
+    // TntRichEdit ads #$D at the end of the string!
+    HeadFoot.Add(TrimRight(Editor.Lines[i]), AFont, Al, i + 1);
   end;
   AFont.Free;
 end;

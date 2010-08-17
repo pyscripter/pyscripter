@@ -74,6 +74,7 @@ Name: {group}\PyScripter for Python 2.6; Filename: {app}\PyScripter.exe; Paramet
 Name: {group}\PyScripter for Python 2.7; Filename: {app}\PyScripter.exe; Parameters: --PYTHON27
 Name: {group}\PyScripter for Python 3.0; Filename: {app}\PyScripter.exe; Parameters: --PYTHON30
 Name: {group}\PyScripter for Python 3.1; Filename: {app}\PyScripter.exe; Parameters: --PYTHON31
+Name: {group}\PyScripter for Python 3.2; Filename: {app}\PyScripter.exe; Parameters: --PYTHON32
 Name: {group}\{cm:UninstallProgram,PyScripter}; Filename: {uninstallexe}
 Name: {userdesktop}\PyScripter; Filename: {app}\PyScripter.exe; Tasks: desktopicon
 Name: {userappdata}\Microsoft\Internet Explorer\Quick Launch\PyScripter; Filename: {app}\PyScripter.exe; Tasks: quicklaunchicon
