@@ -349,9 +349,11 @@ Limitations: Python scripts are executed in the main thread
  History:   v 2.01
           New Features
             Support for Python 3.2
-            New IDE Option added "Jump to Error on Exception"  (Issue 130)
+            New IDE Option added "Jump to error on Exception"  (Issue 130)
+            New IDE Option added "File template for new python scirpts"  (Issue 385)
+            French translation by Vincent Maille added
           Bug fixes
-            Issues  346, 358, 371, 375, 376, 384, 389
+            Issues  346, 354, 358, 371, 375, 376, 384, 389
 
 
   Vista Compatibility issues (all resolved)
@@ -2469,8 +2471,19 @@ begin
 end;
 
 procedure TPyIDEMainForm.actFileNewModuleExecute(Sender: TObject);
+Var
+  TemplateName : WideString;
+  FileTemplate : TFileTemplate;
 begin
-  DoOpenFile('', 'Python')
+  FileTemplate := nil;
+  TemplateName := CommandsDataModule.PyIDEOptions.FileTemplateForNewScripts;
+  if TemplateName <> '' then
+    FileTemplate := FileTemplates.TemplateByName(TemplateName);
+
+  if Assigned(FileTemplate) then
+    NewFileFromTemplate(FileTemplate)
+  else
+    DoOpenFile('', 'Python')
 end;
 
 procedure TPyIDEMainForm.actFileOpenExecute(Sender: TObject);
@@ -2581,7 +2594,11 @@ begin
   try
     AppStorage.WriteString('PyScripter Version', ApplicationVersion);
     AppStorage.WriteString('Language', GetCurrentLanguage);
+
+    AppStorage.StorageOptions.StoreDefaultValues := True;
     AppStorage.WritePersistent('IDE Options', CommandsDataModule.PyIDEOptions);
+    AppStorage.StorageOptions.StoreDefaultValues := False;
+
     with CommandsDataModule do begin
       AppStorage.DeleteSubTree('Editor Options');
       AppStorage.WritePersistent('Editor Options', EditorOptions);

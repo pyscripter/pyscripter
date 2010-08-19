@@ -38,6 +38,7 @@ Type
     procedure AddXMLTemplate;
     procedure AddPlainTextTemplate;
     procedure Assign(Source: TFileTemplates);
+    function TemplateByName(const Name : WideString) : TFileTemplate;
   end;
 
 var
@@ -182,6 +183,18 @@ function TFileTemplates.CreateListItem(Sender: TJvCustomAppStorage;
   const Path: string; Index: Integer): TPersistent;
 begin
   Result := TFileTemplate.Create;
+end;
+
+function TFileTemplates.TemplateByName(const Name: WideString): TFileTemplate;
+var
+  i: Integer;
+begin
+ Result := nil;
+ for i := 0 to Count - 1 do
+   if TFileTemplate(Items[i]).Name = Name then begin
+     Result := TFileTemplate(Items[i]);
+     break;
+   end;
 end;
 
 initialization
