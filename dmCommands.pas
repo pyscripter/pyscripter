@@ -80,6 +80,7 @@ type
     fSaveInterpreterHistory : Boolean;
     fReinitializeBeforeRun: Boolean;
     fJumpToErrorOnException : Boolean;
+    fFileTemplateForNewScripts : WideString;
     function GetPythonFileExtensions: string;
   public
     constructor Create;
@@ -179,6 +180,8 @@ type
       write fReinitializeBeforeRun;
     property JumpToErrorOnException : Boolean read fJumpToErrorOnException
       write fJumpToErrorOnException;
+    property FileTemplateForNewScripts: WideString read fFileTemplateForNewScripts
+      write fFileTemplateForNewScripts;
   end;
 {$METHODINFO OFF}
 
@@ -573,6 +576,7 @@ begin
       Self.fSaveInterpreterHistory := SaveInterpreterHistory;
       Self.fReinitializeBeforeRun := ReinitializeBeforeRun;
       Self.fJumpToErrorOnException := JumpToErrorOnException;
+      Self.fFileTemplateForNewScripts := FileTemplateForNewScripts;
     end
   else
     inherited;
@@ -633,6 +637,7 @@ begin
   fSaveInterpreterHistory := True;
   fReinitializeBeforeRun := True;
   fJumpToErrorOnException := True;
+  fFileTemplateForNewScripts := _(SPythonTemplateName);
 end;
 
 function TPythonIDEOptions.GetPythonFileExtensions: string;
@@ -1962,7 +1967,7 @@ begin
   SetLength(Categories, 7);
   with Categories[0] do begin
     DisplayName := 'IDE';
-    SetLength(Options, 8);
+    SetLength(Options, 9);
     Options[0].PropertyName := 'AutoCheckForUpdates';
     Options[0].DisplayName := 'Check for updates automatically';
     Options[1].PropertyName := 'DaysBetweenChecks';
@@ -1979,6 +1984,8 @@ begin
     Options[6].DisplayName := 'Dock animation interval (ms)';
     Options[7].PropertyName := 'DockAnimationMoveWidth';
     Options[7].DisplayName := 'Dock animation move width (pixels)';
+    Options[8].PropertyName := 'FileTemplateForNewScripts';
+    Options[8].DisplayName := 'File template for new python scripts';
   end;
   with Categories[1] do begin
     DisplayName := 'Python Interpreter';
@@ -2004,9 +2011,9 @@ begin
     Options[9].PropertyName := 'SaveInterpreterHistory';
     Options[9].DisplayName := 'Save interpreter history';
     Options[10].PropertyName := 'ReinitializeBeforeRun';
-    Options[10].DisplayName := 'Reinitialize Before Run';
+    Options[10].DisplayName := 'Reinitialize before run';
     Options[11].PropertyName := 'JumpToErrorOnException';
-    Options[11].DisplayName := 'Jump to Error on Exception';
+    Options[11].DisplayName := 'Jump to error on exception';
   end;
   with Categories[2] do begin
     DisplayName := 'Code Explorer';

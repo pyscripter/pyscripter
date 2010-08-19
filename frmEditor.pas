@@ -248,7 +248,8 @@ uses
   SynEditTextBuffer, cPyDebugger, dlgPickList, JvDockControlForm,
   uSearchHighlighter, VirtualShellNotifier,
   SynHighlighterWebMisc, SynHighlighterWeb, TntSysUtils, gnugettext, TntDialogs,
-  SynUnicode, WideStrings, WideStrUtils, frmIDEDockWin, SynRegExpr;
+  SynUnicode, WideStrings, WideStrUtils, frmIDEDockWin, SynRegExpr,
+  SynEditMiscProcs;
 
 const
   WM_DELETETHIS  =  WM_USER + 42;
@@ -1542,6 +1543,126 @@ begin
   end;
 end;
 
+(* Visual Studio replacement for SynEdits NextWord *)
+function VSNextWordPos(SynEdit: TCustomSynEdit; const XY: TBufferCoord): TBufferCoord;
+var
+  CX, CY, LineLen: Integer;
+  Line: UnicodeString;
+begin
+  CX := XY.Char;
+  CY := XY.Line;
+
+  // valid line?
+  if (CY >= 1) and (CY <= SynEdit.Lines.Count) then
+  with SynEdit do begin
+    Line := Lines[CY - 1];
+
+    LineLen := Length(Line);
+    if CX > LineLen then
+    begin
+      // invalid char
+      // find first char in the next line
+      if CY < Lines.Count then
+      begin
+        Line := Lines[CY];
+        LineLen := Length(Line);
+        Inc(CY);
+        CX := 1;
+        while (CX <= LineLen) and IsWhiteChar(Line[CX]) do
+          Inc(CX);
+      end;
+    end
+    else
+    begin
+      if CX = 0 then
+        CX := 1;
+      // valid char
+      if IsIdentChar(Line[CX]) then begin
+        while (CX <= LineLen) and IsIdentChar(Line[CX]) do
+          Inc(CX);
+        while (CX <= LineLen) and IsWhiteChar(Line[CX]) do
+          Inc(CX);
+      end else if IsWhiteChar(Line[CX]) then begin
+        while (CX <= LineLen) and IsWhiteChar(Line[CX]) do
+          Inc(CX);
+      end else begin
+        // breakchar and not whitechar
+        while (CX <= LineLen) and (IsWordBreakChar(Line[CX]) and not IsWhiteChar(Line[CX])) do
+          Inc(CX);
+        while (CX <= LineLen) and IsWhiteChar(Line[CX]) do
+          Inc(CX);
+      end;
+    end;
+  end;
+  Result.Char := CX;
+  Result.Line := CY;
+end;
+
+(* Visual Studio replacement for SynEdits PrevWord *)
+function VSPrevWordPos(SynEdit: TCustomSynEdit; const XY: TBufferCoord): TBufferCoord;
+var
+  CX, CY: Integer;
+  Line: UnicodeString;
+begin
+  CX := XY.Char;
+  CY := XY.Line;
+
+  // valid line?
+  if (CY >= 1) and (CY <= SynEdit.Lines.Count) then
+  with SynEdit do begin
+    Line := Lines[CY - 1];
+    CX := Min(CX, Length(Line) + 1);
+
+    if CX <= 1 then
+    begin
+      // find last IdentChar in the previous line
+      if CY > 1 then
+      begin
+        Dec(CY);
+        Line := Lines[CY - 1];
+        CX := Length(Line) + 1;
+        while (CX > 1) and IsWhiteChar(Line[CX-1]) do
+          Dec(CX);
+      end;
+    end
+    else
+    begin
+      // CX > 1 and <= LineLenght + 1
+      if IsIdentChar(Line[CX-1]) then begin
+        while (CX > 1) and IsIdentChar(Line[CX-1]) do
+          Dec(CX);
+      end else if IsWhiteChar(Line[CX-1]) then begin
+        while (CX > 1) and IsWhiteChar(Line[CX-1]) do
+          Dec(CX);
+        if CX <= 1 then begin
+          // find last IdentChar in the previous line
+          if CY > 1 then
+          begin
+            Dec(CY);
+            Line := Lines[CY - 1];
+            CX := Length(Line) + 1;
+            while (CX > 1) and IsWhiteChar(Line[CX-1]) do
+              Dec(CX);
+          end;
+        end else if IsIdentChar(Line[CX-1]) then begin
+          while (CX > 1) and IsIdentChar(Line[CX-1]) do
+            Dec(CX);
+        end else begin
+          // breakchar and not whitechar
+          while (CX > 1) and (IsWordBreakChar(Line[CX-1]) and not IsWhiteChar(Line[CX-1])) do
+            Dec(CX);
+        end;
+      end else begin
+        // breakchar and not whitechar
+        while (CX > 1) and (IsWordBreakChar(Line[CX-1]) and not IsWhiteChar(Line[CX-1])) do
+          Dec(CX);
+      end;
+    end;
+  end;
+  Result.Char := CX;
+  Result.Line := CY;
+end;
+
 procedure TEditorForm.doProcessCommandHandler(Sender: TObject;
   AfterProcessing: boolean; var Handled: boolean;
   var Command: TSynEditorCommand; var AChar: WideChar; Data,
@@ -1625,20 +1746,36 @@ begin
           CaretXY := BlockEnd;
           Handled := True;
         end;
-//      ecWordRight : // Implement Visual Studio like behaviour
-//        if (ASynEdit.WordEnd.Char <> ASynEdit.CaretXY.Char) or
-//           (ASynEdit.WordEnd.Line <> ASynEdit.CaretXY.Line) then
-//        begin
-//           ASynEdit.CaretXY := ASynEdit.WordEnd;
-//           Handled := True;
-//        end;
-//      ecSelWordRight : // Implement Visual Studio like behaviour
-//        if (ASynEdit.WordEnd.Char <> ASynEdit.CaretXY.Char) or
-//           (ASynEdit.WordEnd.Line <> ASynEdit.CaretXY.Line) then
-//        begin
-//           ASynEdit.SetCaretAndSelection(ASynEdit.WordEnd, ASynEdit.BlockBegin, ASynEdit.WordEnd);
-//           Handled := True;
-//        end;
+      ecWordRight, ecSelWordRight:  // Implement Visual Studio like behaviour
+        begin
+          BC := VSNextWordPos(ASynEdit, ASynEdit.CaretXY);
+          if Command = ecWordRight then
+            ASynEdit.CaretXY := BC
+          else begin
+            if (ASynEdit.BlockEnd.Line = ASynEdit.CaretXY.Line) and
+               (ASynEdit.BlockEnd.Char = ASynEdit.CaretXY.Char)
+            then
+              ASynEdit.SetCaretAndSelection(BC, ASynEdit.BlockBegin, BC)
+            else
+              ASynEdit.SetCaretAndSelection(BC, BC, ASynEdit.BlockEnd);
+          end;
+          Handled := True;
+        end;
+      ecWordLeft, ecSelWordLeft:  // Implement Visual Studio like behaviour
+        begin
+          BC := VSPrevWordPos(ASynEdit, ASynEdit.CaretXY);
+          if Command = ecWordLeft then
+            ASynEdit.CaretXY := BC
+          else begin
+            if (ASynEdit.BlockEnd.Line = ASynEdit.CaretXY.Line) and
+               (ASynEdit.BlockEnd.Char = ASynEdit.CaretXY.Char)
+            then
+              ASynEdit.SetCaretAndSelection(BC, ASynEdit.BlockBegin, BC)
+            else
+              ASynEdit.SetCaretAndSelection(BC, BC, ASynEdit.BlockEnd);
+          end;
+          Handled := True;
+        end;
     end;
   end else begin  // AfterProcessing
     case Command of
