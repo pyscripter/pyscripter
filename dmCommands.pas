@@ -24,11 +24,11 @@ uses
   JvStringHolder, cPyBaseDebugger, TntDialogs, TntLXDialogs,
   SynEditTypes, VirtualExplorerTree, VirtualShellNotifier, SynHighlighterWeb,
   SynHighlighterCpp, TntStdActns, TntActnList, SynHighlighterYAML, WideStrings,
-  SpTBXTabs;
+  SpTBXTabs, dlgOptionsEditor;
 
 type
 {$METHODINFO ON}
-  TPythonIDEOptions = class(TPersistent)
+  TPythonIDEOptions = class(TBaseOptions)
   private
     fTimeOut : integer;
     fUndoAfterSave : Boolean;
@@ -81,9 +81,12 @@ type
     fReinitializeBeforeRun: Boolean;
     fJumpToErrorOnException : Boolean;
     fFileTemplateForNewScripts : WideString;
+    fAutoCompletionFont : TFont;
     function GetPythonFileExtensions: string;
+    procedure SetAutoCompletionFont(const Value: TFont);
   public
-    constructor Create;
+    constructor Create; override;
+    destructor Destroy; override;
     procedure Assign(Source: TPersistent); override;
     property PythonFileExtensions : string read GetPythonFileExtensions;
   published
@@ -182,6 +185,8 @@ type
       write fJumpToErrorOnException;
     property FileTemplateForNewScripts: WideString read fFileTemplateForNewScripts
       write fFileTemplateForNewScripts;
+    property AutoCompletionFont : TFont read fAutoCompletionFont
+      write SetAutoCompletionFont;
   end;
 {$METHODINFO OFF}
 
@@ -508,7 +513,7 @@ implementation
 
 uses
   dlgSynPageSetup, uHighlighterProcs,
-  dlgOptionsEditor, frmPythonII, dlgDirectoryList, 
+  frmPythonII, dlgDirectoryList, 
   dlgAboutPyScripter, frmPyIDEMain, JclFileUtils, Variants,
   frmEditor, frmFindResults, cParameters, dlgCustomParams,
   uParams, dlgCodeTemplates, dlgConfigureTools, cTools,
@@ -577,6 +582,7 @@ begin
       Self.fReinitializeBeforeRun := ReinitializeBeforeRun;
       Self.fJumpToErrorOnException := JumpToErrorOnException;
       Self.fFileTemplateForNewScripts := FileTemplateForNewScripts;
+      Self.fAutoCompletionFont.Assign(AutoCompletionFont);
     end
   else
     inherited;
@@ -584,6 +590,9 @@ end;
 
 procedure TPythonIDEOptions.Changed;
 begin
+  CommandsDataModule.ParameterCompletion.Font.Assign(AutoCompletionFont);
+  CommandsDataModule.ModifierCompletion.Font.Assign(AutoCompletionFont);
+
   PyIDEMainForm.PyIDEOptionsChanged;
 end;
 
@@ -638,11 +647,24 @@ begin
   fReinitializeBeforeRun := True;
   fJumpToErrorOnException := True;
   fFileTemplateForNewScripts := _(SPythonTemplateName);
+  fAutoCompletionFont := TFont.Create;
+  fAutoCompletionFont.Assign(CommandsDataModule.ParameterCompletion.Font);
+end;
+
+destructor TPythonIDEOptions.Destroy;
+begin
+  FreeAndNil(fAutoCompletionFont);
+  inherited;
 end;
 
 function TPythonIDEOptions.GetPythonFileExtensions: string;
 begin
   Result := FileMaskFromFileFilter(PythonFileFilter);
+end;
+
+procedure TPythonIDEOptions.SetAutoCompletionFont(const Value: TFont);
+begin
+  fAutoCompletionFont.Assign(Value);
 end;
 
 { TEditorSearchOptions }
@@ -1967,7 +1989,7 @@ begin
   SetLength(Categories, 7);
   with Categories[0] do begin
     DisplayName := 'IDE';
-    SetLength(Options, 9);
+    SetLength(Options, 10);
     Options[0].PropertyName := 'AutoCheckForUpdates';
     Options[0].DisplayName := 'Check for updates automatically';
     Options[1].PropertyName := 'DaysBetweenChecks';
@@ -1986,6 +2008,8 @@ begin
     Options[7].DisplayName := 'Dock animation move width (pixels)';
     Options[8].PropertyName := 'FileTemplateForNewScripts';
     Options[8].DisplayName := 'File template for new python scripts';
+    Options[9].PropertyName := 'AutoCompletionFont';
+    Options[9].DisplayName := 'Auto completion font';
   end;
   with Categories[1] do begin
     DisplayName := 'Python Interpreter';
@@ -2106,7 +2130,7 @@ begin
   PyIDEOptions.SearchTextAtCaret := EditorSearchOptions.SearchTextAtCaret;
 
   if InspectOptions(PyIDEOptions, Categories, _(SIDEOptions), 610) then begin
-    PyIDEMainForm.PyIDEOptionsChanged;
+    PyIDEOptions.Changed;
     PyIDEMainForm.StoreApplicationData;
     if PyIDEOptions.FileExplorerContextMenu <> IsRegistered then begin
       Reg := TRegistry.Create;

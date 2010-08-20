@@ -27,6 +27,12 @@ type
     Options : array of TOption;
   end;
 
+  TBaseOptionsClass = class of TBaseOptions;
+  TBaseOptions = class(TPersistent)
+    public
+    constructor Create; virtual; abstract;
+  end;
+
   TOptionsInspector = class(TPyIDEDlgBase)
     Panel1: TSpTBXPanel;
     Inspector: TJvInspector;
@@ -43,11 +49,11 @@ type
     fTempOptionsObject : TPersistent;
   public
     { Public declarations }
-    procedure Setup(OptionsObject : TPersistent; Categories : array of TOptionCategory);
+    procedure Setup(OptionsObject : TBaseOptions; Categories : array of TOptionCategory);
   end;
 
 
-function InspectOptions(OptionsObject : TPersistent;
+function InspectOptions(OptionsObject : TBaseOptions;
   Categories : array of TOptionCategory; FormCaption : string;
   HelpCntxt : integer = 0): boolean;
 
@@ -57,7 +63,7 @@ implementation
 
 { TIDEOptionsWindow }
 
-procedure TOptionsInspector.Setup(OptionsObject: TPersistent;
+procedure TOptionsInspector.Setup(OptionsObject: TBaseOptions;
   Categories: array of TOptionCategory);
 var
   i, j : integer;
@@ -66,7 +72,7 @@ var
 begin
   Inspector.Clear;
   fOptionsObject := OptionsObject;
-  fTempOptionsObject := TPersistentClass(OptionsObject.ClassType).Create;
+  fTempOptionsObject := TBaseOptionsClass(OptionsObject.ClassType).Create;
   fTempOptionsObject.Assign(fOptionsObject);
 
   for i := Low(Categories) to High(Categories) do
@@ -97,7 +103,7 @@ begin
     FreeAndNil(fTempOptionsObject);
 end;
 
-function InspectOptions(OptionsObject : TPersistent;
+function InspectOptions(OptionsObject : TBaseOptions;
   Categories : array of TOptionCategory; FormCaption : string;
   HelpCntxt : integer = 0): boolean;
 begin

@@ -1543,126 +1543,6 @@ begin
   end;
 end;
 
-(* Visual Studio replacement for SynEdits NextWord *)
-function VSNextWordPos(SynEdit: TCustomSynEdit; const XY: TBufferCoord): TBufferCoord;
-var
-  CX, CY, LineLen: Integer;
-  Line: UnicodeString;
-begin
-  CX := XY.Char;
-  CY := XY.Line;
-
-  // valid line?
-  if (CY >= 1) and (CY <= SynEdit.Lines.Count) then
-  with SynEdit do begin
-    Line := Lines[CY - 1];
-
-    LineLen := Length(Line);
-    if CX > LineLen then
-    begin
-      // invalid char
-      // find first char in the next line
-      if CY < Lines.Count then
-      begin
-        Line := Lines[CY];
-        LineLen := Length(Line);
-        Inc(CY);
-        CX := 1;
-        while (CX <= LineLen) and IsWhiteChar(Line[CX]) do
-          Inc(CX);
-      end;
-    end
-    else
-    begin
-      if CX = 0 then
-        CX := 1;
-      // valid char
-      if IsIdentChar(Line[CX]) then begin
-        while (CX <= LineLen) and IsIdentChar(Line[CX]) do
-          Inc(CX);
-        while (CX <= LineLen) and IsWhiteChar(Line[CX]) do
-          Inc(CX);
-      end else if IsWhiteChar(Line[CX]) then begin
-        while (CX <= LineLen) and IsWhiteChar(Line[CX]) do
-          Inc(CX);
-      end else begin
-        // breakchar and not whitechar
-        while (CX <= LineLen) and (IsWordBreakChar(Line[CX]) and not IsWhiteChar(Line[CX])) do
-          Inc(CX);
-        while (CX <= LineLen) and IsWhiteChar(Line[CX]) do
-          Inc(CX);
-      end;
-    end;
-  end;
-  Result.Char := CX;
-  Result.Line := CY;
-end;
-
-(* Visual Studio replacement for SynEdits PrevWord *)
-function VSPrevWordPos(SynEdit: TCustomSynEdit; const XY: TBufferCoord): TBufferCoord;
-var
-  CX, CY: Integer;
-  Line: UnicodeString;
-begin
-  CX := XY.Char;
-  CY := XY.Line;
-
-  // valid line?
-  if (CY >= 1) and (CY <= SynEdit.Lines.Count) then
-  with SynEdit do begin
-    Line := Lines[CY - 1];
-    CX := Min(CX, Length(Line) + 1);
-
-    if CX <= 1 then
-    begin
-      // find last IdentChar in the previous line
-      if CY > 1 then
-      begin
-        Dec(CY);
-        Line := Lines[CY - 1];
-        CX := Length(Line) + 1;
-        while (CX > 1) and IsWhiteChar(Line[CX-1]) do
-          Dec(CX);
-      end;
-    end
-    else
-    begin
-      // CX > 1 and <= LineLenght + 1
-      if IsIdentChar(Line[CX-1]) then begin
-        while (CX > 1) and IsIdentChar(Line[CX-1]) do
-          Dec(CX);
-      end else if IsWhiteChar(Line[CX-1]) then begin
-        while (CX > 1) and IsWhiteChar(Line[CX-1]) do
-          Dec(CX);
-        if CX <= 1 then begin
-          // find last IdentChar in the previous line
-          if CY > 1 then
-          begin
-            Dec(CY);
-            Line := Lines[CY - 1];
-            CX := Length(Line) + 1;
-            while (CX > 1) and IsWhiteChar(Line[CX-1]) do
-              Dec(CX);
-          end;
-        end else if IsIdentChar(Line[CX-1]) then begin
-          while (CX > 1) and IsIdentChar(Line[CX-1]) do
-            Dec(CX);
-        end else begin
-          // breakchar and not whitechar
-          while (CX > 1) and (IsWordBreakChar(Line[CX-1]) and not IsWhiteChar(Line[CX-1])) do
-            Dec(CX);
-        end;
-      end else begin
-        // breakchar and not whitechar
-        while (CX > 1) and (IsWordBreakChar(Line[CX-1]) and not IsWhiteChar(Line[CX-1])) do
-          Dec(CX);
-      end;
-    end;
-  end;
-  Result.Char := CX;
-  Result.Line := CY;
-end;
-
 procedure TEditorForm.doProcessCommandHandler(Sender: TObject;
   AfterProcessing: boolean; var Handled: boolean;
   var Command: TSynEditorCommand; var AChar: WideChar; Data,
@@ -1999,6 +1879,9 @@ begin
   SkinManager.AddSkinNotification(Self);
 
   PyIDEMainForm.ThemeEditorGutter(SynEdit.Gutter);
+
+  SynCodeCompletion.EndOfTokenChr := WordBreakString;
+  SynParamCompletion.EndOfTokenChr := WordBreakString;
 
   Retranslate;
 end;
@@ -2526,6 +2409,7 @@ begin
   CanExecute := FoundMatch;
 
   if CanExecute then begin
+    TSynCompletionProposal(Sender).Font := CommandsDataModule.PyIDEOptions.AutoCompletionFont;
     TSynCompletionProposal(Sender).Form.CurrentIndex := TmpLocation;
     TSynCompletionProposal(Sender).ItemList.Text := DisplayText;
     TSynCompletionProposal(Sender).InsertList.Text := InsertText;
@@ -2581,7 +2465,7 @@ begin
     BC := CaretXY;
     Dec(BC.Char);
     if GetHighlighterAttriAtRowCol(BC, DummyToken, Attr) and
-     ((attr = Highlighter.StringAttribute) or (attr = Highlighter.CommentAttribute) or
+     ({(attr = Highlighter.StringAttribute) or} (attr = Highlighter.CommentAttribute) or
       (attr = CommandsDataModule.SynPythonSyn.CodeCommentAttri) or
       (attr = CommandsDataModule.SynPythonSyn.DocStringAttri)) then
     begin
@@ -2695,6 +2579,7 @@ begin
 
   if CanExecute then begin
     with TSynCompletionProposal(Sender) do begin
+      Font := CommandsDataModule.PyIDEOptions.AutoCompletionFont;
       if DisplayText = '' then begin
         FormatParams := False;
         DisplayText :=  '\style{~B}' + _(SNoParameters) + '\style{~B}';
@@ -2751,6 +2636,7 @@ begin
   SynEdit := TSynCompletionProposal(Sender).Editor;
   SynWebFillCompletionProposal(SynEdit, CommandsDataModule.SynWebHtmlSyn,
     SynWebCompletion, CurrentInput);
+  TSynCompletionProposal(Sender).Font := CommandsDataModule.PyIDEOptions.AutoCompletionFont;
 end;
 
 procedure TEditorForm.ViewsTabControlActiveTabChange(Sender: TObject;
