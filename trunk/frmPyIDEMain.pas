@@ -346,7 +346,7 @@ Limitations: Python scripts are executed in the main thread
             Spanish translation by Javier Pimás (incomplete) was added
           Bug fixes
             Issues  236, 304, 322, 333, 334
- History:   v 2.1
+ History:   v 2.1.1
           New Features
             Support for Python 3.2
             New IDE Option added "Jump to error on Exception"  (Issue 130)
