@@ -2,6 +2,17 @@
 
 = History =
 
+===Version 2.1.1 (August 20, 2010)=== 
+
+  * *New features:*     
+    * Support for Python 3.2
+    * New IDE Option added "Jump to error on Exception"  (Issue #130)
+    * New IDE Option added "File template for new python scirpts"  (Issue #385)
+    * New IDE Option added "Auto completion font"  (Issue #365)
+    * French translation by Groupe AmiensPython added
+  * *Bug fixes*     
+    * Issue #297, Issue #307, Issue #346, Issue #354, Issue #358, Issue #371, Issue #375, Issue #376, Issue #382, Issue #384, Issue #387, Issue #389
+    
 ===Version 2.0 (July 30, 2010)=== 
 
   * *New features:*     
