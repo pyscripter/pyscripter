@@ -346,14 +346,15 @@ Limitations: Python scripts are executed in the main thread
             Spanish translation by Javier Pimás (incomplete) was added
           Bug fixes
             Issues  236, 304, 322, 333, 334
- History:   v 2.01
+ History:   v 2.1
           New Features
             Support for Python 3.2
             New IDE Option added "Jump to error on Exception"  (Issue 130)
             New IDE Option added "File template for new python scirpts"  (Issue 385)
-            French translation by Vincent Maille added
+            New IDE Option added "Auto completion font"  (Issue 365)
+            French translation by Groupe AmiensPython added
           Bug fixes
-            Issues  346, 354, 358, 371, 375, 376, 384, 389
+            Issues  297, 307, 346, 354, 358, 371, 375, 376, 382, 384, 387, 389
 
 
   Vista Compatibility issues (all resolved)
@@ -978,6 +979,7 @@ type
         State: TSpTBXSkinStatesType; const PaintStage: TSpTBXPaintStage;
         var AImageList: TCustomImageList; var AImageIndex: Integer;
         var ARect: TRect; var PaintDefault: Boolean);
+    procedure SetupCustomizer;
   protected
     fCurrentLine : integer;
     fErrorLine : integer;
@@ -1211,14 +1213,6 @@ procedure TPyIDEMainForm.FormCreate(Sender: TObject);
 Var
   TabHost : TJvDockTabHostForm;
   OptionsFileName: string;
-  ItemsList: TList;
-  I, J, K : Integer;
-  C: TComponent;
-  ParentItem: TTBCustomItem;
-  Action: TBasicAction;
-  Item: TTBCustomItem;
-  ItemStyle: TTBItemStyle;
-  ActionList : TActionList;
 begin
   // App Instances
   ShellExtensionFiles := TStringList.Create;
@@ -1323,46 +1317,6 @@ begin
   ActionListArray[1] := CommandsDataModule.actlMain;
   ActionListArray[2] := PythonIIForm.InterpreterActionList;
   ActionListArray[3] := ProjectExplorerWindow.ProjectActionList;
-
-  // Setup Customizer
-  ItemsList := TList.Create;
-  try
-    for I := 0 to ComponentCount - 1 do begin
-      ParentItem := nil;
-      C := Components[I];
-      if C is TSpTBXToolbar and TSpTBXToolbar(C).Customizable then
-         ParentItem := TSpTBXToolbar(C).Items;
-      if Assigned(ParentItem) then begin
-        for J := 0 to ParentItem.Count - 1 do begin
-          Item := ParentItem[j];
-          ItemStyle := TTBCustomItemAccess(Item).ItemStyle;
-          // Exclude the submenus, separators, labels, groups and edit items
-          if (ItemStyle * [tbisSubMenu, tbisSeparator, tbisEmbeddedGroup, tbisClicksTransparent] = []) and
-            not (Item is TTBEditItem) then
-            ItemsList.Add(Item);
-        end;
-      end;
-    end;
-    for I := Low(ActionListArray) to High(ActionListArray) do begin
-      ActionList := ActionListArray[I];
-      for J := 0 to ActionList.ActionCount - 1 do begin
-        Action := ActionList.Actions[J];
-        for K := 0 to ItemsList.Count - 1 do
-          if TTBCustomItem(ItemsList[K]).Action = Action then begin
-            Action := nil;
-            break;
-          end;
-        if Assigned(Action) then begin
-          Item := TSpTBXItem.Create(Self);
-          Item.Action := Action;
-          Item.Name := 'tb' + Action.Name;
-          SpTBXCustomizer.Items.Add(Item);
-        end;
-      end;
-    end;
-  finally
-    ItemsList.Free;
-  end;
 
   // Store Factory Settings
   if not AppStorage.PathExists(FactoryToolbarItems) then
@@ -2584,7 +2538,7 @@ end;
 procedure TPyIDEMainForm.StoreApplicationData;
 Var
   TempStringList : TStringList;
-//  ActionProxyCollection : TActionProxyCollection;
+  ActionProxyCollection : TActionProxyCollection;
   i : integer;
   TempCursor : IInterface;
 begin
@@ -2657,15 +2611,15 @@ begin
     AppStorage.WriteString('Theme Name', SkinManager.CurrentSkinName);
 
 
-    //  No longer needed since save toolbar Items below achieves the same!
-//    // Save IDE Shortcuts
-//    AppStorage.DeleteSubTree('IDE Shortcuts');
-//    ActionProxyCollection := TActionProxyCollection.Create(ActionListArray);
-//    try
-//      AppStorage.WriteCollection('IDE Shortcuts', ActionProxyCollection, 'Action');
-//    finally
-//      ActionProxyCollection.Free;
-//    end;
+    //  Needed since save toolbar Items below does not save secondary shortcuts! Issue 307
+    // Save IDE Shortcuts
+    AppStorage.DeleteSubTree('IDE Shortcuts');
+    ActionProxyCollection := TActionProxyCollection.Create(ActionListArray);
+    try
+      AppStorage.WriteCollection('IDE Shortcuts', ActionProxyCollection, 'Action');
+    finally
+      ActionProxyCollection.Free;
+    end;
 
     // Save Toolbar Items
     SaveToolbarItems('Toolbar Items');
@@ -2701,7 +2655,7 @@ Const
   DefaultHeader='$TITLE$\.1\.0\.-13\.Arial\.0\.96\.10\.0\.1\.2';
   DefaultFooter='$PAGENUM$\\.$PAGECOUNT$\.1\.0\.-13\.Arial\.0\.96\.10\.0\.1\.2';
 Var
-  //ActionProxyCollection : TActionProxyCollection;
+  ActionProxyCollection : TActionProxyCollection;
   TempStringList : TStringList;
   i : integer;
   FName : WideString;
@@ -2711,7 +2665,7 @@ begin
 
   if AppStorage.PathExists('IDE Options') then begin
     AppStorage.ReadPersistent('IDE Options', CommandsDataModule.PyIDEOptions);
-    PyIDEOptionsChanged;
+    CommandsDataModule.PyIDEOptions.Changed;
   end;
   if AppStorage.PathExists('Editor Options') then
     with CommandsDataModule do begin
@@ -2776,6 +2730,7 @@ begin
   AppStorage.ReadCollection('Tools', ToolsCollection, True, 'Tool');
   AppStorage.ReadPersistent('Tools\External Run', ExternalPython);
   SetupToolsMenu;
+  SetupCustomizer;
   AppStorage.ReadPersistent('Output Window\Font', OutputWindow.lsbConsole.Font);
   OutputWindow.lsbConsole.Color := TColor(AppStorage.ReadInteger('Output Window\Color', Integer(clWindow)));
   OutputWindow.FontOrColorUpdated;
@@ -2784,15 +2739,14 @@ begin
   // Load Theme Name
   SkinManager.SetSkin(AppStorage.ReadString('Theme Name', 'Office2003'));
 
-    //  No longer needed since save toolbar Items below achieves the same!
-//  // Load IDE Shortcuts
-//  ActionProxyCollection := TActionProxyCollection.Create(ActionListArray);
-//  try
-//    AppStorage.ReadCollection('IDE Shortcuts', ActionProxyCollection, True, 'Action');
-//    ActionProxyCollection.ApplyShortCuts(ActionListArray);
-//  finally
-//    ActionProxyCollection.Free;
-//  end;
+  // Load IDE Shortcuts
+  ActionProxyCollection := TActionProxyCollection.Create(ActionListArray);
+  try
+    AppStorage.ReadCollection('IDE Shortcuts', ActionProxyCollection, True, 'Action');
+    ActionProxyCollection.ApplyShortCuts(ActionListArray);
+  finally
+    ActionProxyCollection.Free;
+  end;
 
   // Load Toolbar Items
   LoadToolbarItems('Toolbar Items');
@@ -3243,6 +3197,66 @@ begin
     mnSkins.Recreate;
   finally
     SkinList.Free;
+  end;
+end;
+
+procedure TPyIDEMainForm.SetupCustomizer;
+var
+  K: Integer;
+  ItemStyle: TTBItemStyle;
+  ActionList: TActionList;
+  Action: TContainedAction;
+  ItemsList: TList;
+  I: Integer;
+  ParentItem: TTBCustomItem;
+  C: TComponent;
+  J: Integer;
+  Item: TTBCustomItem;
+begin
+  SpTBXCustomizer.Items.Clear;
+  ItemsList := TList.Create;
+  try
+    for I := 0 to ComponentCount - 1 do
+    begin
+      ParentItem := nil;
+      C := Components[I];
+      if C is TSpTBXToolbar and TSpTBXToolbar(C).Customizable then
+        ParentItem := TSpTBXToolbar(C).Items;
+      if Assigned(ParentItem) then
+      begin
+        for J := 0 to ParentItem.Count - 1 do
+        begin
+          Item := ParentItem[j];
+          ItemStyle := TTBCustomItemAccess(Item).ItemStyle;
+          // Exclude the submenus, separators, labels, groups and edit items
+          if (ItemStyle * [tbisSubMenu, tbisSeparator, tbisEmbeddedGroup, tbisClicksTransparent] = []) and not (Item is TTBEditItem) then
+            ItemsList.Add(Item);
+        end;
+      end;
+    end;
+    for I := Low(ActionListArray) to High(ActionListArray) do
+    begin
+      ActionList := ActionListArray[I];
+      for J := 0 to ActionList.ActionCount - 1 do
+      begin
+        Action := ActionList.Actions[J];
+        for K := 0 to ItemsList.Count - 1 do
+          if TTBCustomItem(ItemsList[K]).Action = Action then
+          begin
+            Action := nil;
+            break;
+          end;
+        if Assigned(Action) then
+        begin
+          Item := TSpTBXItem.Create(Self);
+          Item.Action := Action;
+          Item.Name := 'tb' + Action.Name;
+          SpTBXCustomizer.Items.Add(Item);
+        end;
+      end;
+    end;
+  finally
+    ItemsList.Free;
   end;
 end;
 
@@ -3822,7 +3836,10 @@ begin
   end;
 
   // Update External Tools Syntax and Layouts menu
-  SetupToolsMenu;
+  if not FileExists(AppStorage.IniFile.FileName) then begin
+    SetupToolsMenu;
+    SetupCustomizer;
+  end;
   SetupLayoutsMenu;
   SetupSyntaxMenu;
 

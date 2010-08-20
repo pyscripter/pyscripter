@@ -67,9 +67,6 @@ uses
   SysUtils,
   Classes, SynRegExpr;
 
-const
-  ALPHA_CHARS = ['_', 'a'..'z', 'A'..'Z'];
-
 type
   TtkTokenKind = (tkComment, tkIdentifier, tkKey, tkNull, tkNumber, tkSpace,
     tkString, tkSymbol, tkNonKeyword, tkCodeComment, tkTrippleQuotedString,
@@ -125,6 +122,7 @@ type
     procedure StringEndProc(EndChar: WideChar);
     procedure UnknownProc;
   protected
+    function IsIdentChar(AChar: WideChar): Boolean; override;
     function GetSampleSource: WideString; override;
     function IsFilterStored: Boolean; override;
     function GetKeywordIdentifiers: TWideStringList;
@@ -1269,6 +1267,7 @@ begin
         'b', 'B': BUStringProc;
         '''': StringProc;
         '"': String2Proc;
+        else if IsIdentChar(fLine[Run]) then IdentProc
         else UnknownProc;
       end;
   end;
@@ -1360,6 +1359,11 @@ end;
 function TSynPythonSyn.IsFilterStored: Boolean;
 begin
   Result := fDefaultFilter <> SYNS_FilterPython;
+end;
+
+function TSynPythonSyn.IsIdentChar(AChar: WideChar): Boolean;
+begin
+  Result := (AChar >= #33) and not IsWordBreakChar(AChar);
 end;
 
 class function TSynPythonSyn.GetLanguageName: string;

@@ -6,7 +6,8 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, SpTBXCustomizer, SpTBXCustomizerForm, CheckLst, SpTBXEditors,
   SpTBXControls, StdCtrls, ComCtrls, ExtCtrls,
-  TB2Item, SpTBXItem, TntClasses, SpTBXSkins;
+  TB2Item, SpTBXItem, TntClasses, SpTBXSkins, TntCheckLst, TntStdCtrls,
+  SpTBXTabs;
 
 type
   TSpTBXCustomizeFormMod = class(TSpTBXCustomizeForm)
@@ -41,7 +42,7 @@ implementation
 {$R *.dfm}
 
 Uses
-  ActnList, frmPyIDEMain, gnugettext, TntDialogs;
+  ActnList, frmPyIDEMain, gnugettext, TntDialogs, TntActnList;
 
 { TSpTBXCustomizeFormMod }
 
@@ -68,7 +69,6 @@ begin
     lbCategories.ItemIndex := 0;
     lbCategoriesClick(Self);
   end;
-  
 end;
 
 procedure TSpTBXCustomizeFormMod.lbCategoriesClick(Sender: TObject);
@@ -88,7 +88,7 @@ begin
       if not Assigned(Item) or not Assigned(Item.Action) or
         not (Item.Action is TCustomAction)
       then
-        lbCommands.Items.AddObject(FItemList[i], FItemList.Objects[i])
+        lbCommands.Items.AddObject(FItemList[i], Item);
     end;
   end else begin
     for i := 1 to fItemList.Count - 1 do begin  // Skip the first item
@@ -96,7 +96,7 @@ begin
       if Assigned(Item) and Assigned(Item.Action) and (Item.Action is TCustomAction) and
         ((Item.Action as TCustomAction).Category = Category)
       then
-        lbCommands.Items.AddObject(FItemList[i], FItemList.Objects[i])
+        lbCommands.Items.AddObject(FItemList[i], Item);
     end;
   end;
   if FItemList.Count > 0 then

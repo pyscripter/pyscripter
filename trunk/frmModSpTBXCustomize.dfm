@@ -6,7 +6,7 @@ inherited SpTBXCustomizeFormMod: TSpTBXCustomizeFormMod
     inherited tabShortcuts: TSpTBXTabItem
       Visible = False
     end
-    inherited SpTBXTabSheet3: TSpTBXTabSheet
+    inherited SpTBXTabSheet3: TSpTBXTabSheet [3]
       TabItem = 'tabCommands'
       inherited lbCommands: TSpTBXListBox
         Left = 161
@@ -55,12 +55,12 @@ inherited SpTBXCustomizeFormMod: TSpTBXCustomizeFormMod
         OnClick = lbCategoriesClick
       end
     end
-    inherited SpTBXTabSheet1: TSpTBXTabSheet [4]
-      TabItem = 'tabToolbars'
-    end
-    inherited SpTBXTabSheet2: TSpTBXTabSheet [5]
+    inherited SpTBXTabSheet2: TSpTBXTabSheet [4]
       TabVisible = False
       TabItem = 'tabShortcuts'
+    end
+    inherited SpTBXTabSheet1: TSpTBXTabSheet
+      TabItem = 'tabToolbars'
     end
   end
   inherited ClosePanel: TSpTBXPanel

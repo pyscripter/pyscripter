@@ -476,7 +476,7 @@ object PyIDEMainForm: TPyIDEMainForm
       Top = 0
       CloseButton = False
       DockMode = dmCannotFloatOrChangeDocks
-      DockPos = 1
+      DockPos = 0
       FullSize = True
       Images = CommandsDataModule.Images
       ProcessShortCuts = True
@@ -1505,7 +1505,7 @@ object PyIDEMainForm: TPyIDEMainForm
       CustomHeight = 21
     end
     object SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem
-      CustomWidth = 0
+      CustomWidth = 407
     end
     object SpTBXSeparatorItem5: TSpTBXSeparatorItem
     end

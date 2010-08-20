@@ -510,7 +510,10 @@ Var
   P : PPyObject;
 begin
   inherited;
-  SynEdit.ControlStyle := SynEdit.ControlStyle + [csOpaque];
+//  SynEdit.ControlStyle := SynEdit.ControlStyle + [csOpaque];
+
+  SynCodeCompletion.EndOfTokenChr := WordBreakString;
+  SynParamCompletion.EndOfTokenChr := WordBreakString;
 
   SynEdit.OnReplaceText := CommandsDataModule.SynEditReplaceText;
   SynEdit.Highlighter := TSynPythonInterpreterSyn.Create(Self);
@@ -673,6 +676,7 @@ Var
   Buffer : array of WideString;
   NewCommand : TSynEditorCommand;
   WChar : WideChar;
+  BC : TBufferCoord;
 begin
   if (Command <> ecLostFocus) and (Command <> ecGotFocus) then
     EditorSearchOptions.InitSearch;
@@ -837,6 +841,36 @@ begin
     ecRight :  // Implement Visual Studio like behaviour when selection is available
       if SynEdit.SelAvail then with SynEdit do begin
         CaretXY := BlockEnd;
+        Command := ecNone;  // do not processed it further
+      end;
+    ecWordRight, ecSelWordRight:  // Implement Visual Studio like behaviour
+      begin
+        BC := VSNextWordPos(SynEdit, SynEdit.CaretXY);
+        if Command = ecWordRight then
+          SynEdit.CaretXY := BC
+        else begin
+          if (SynEdit.BlockEnd.Line = SynEdit.CaretXY.Line) and
+             (SynEdit.BlockEnd.Char = SynEdit.CaretXY.Char)
+          then
+            SynEdit.SetCaretAndSelection(BC, SynEdit.BlockBegin, BC)
+          else
+            SynEdit.SetCaretAndSelection(BC, BC, SynEdit.BlockEnd);
+        end;
+        Command := ecNone;  // do not processed it further
+      end;
+    ecWordLeft, ecSelWordLeft:  // Implement Visual Studio like behaviour
+      begin
+        BC := VSPrevWordPos(SynEdit, SynEdit.CaretXY);
+        if Command = ecWordLeft then
+          SynEdit.CaretXY := BC
+        else begin
+          if (SynEdit.BlockEnd.Line = SynEdit.CaretXY.Line) and
+             (SynEdit.BlockEnd.Char = SynEdit.CaretXY.Char)
+          then
+            SynEdit.SetCaretAndSelection(BC, SynEdit.BlockBegin, BC)
+          else
+            SynEdit.SetCaretAndSelection(BC, BC, SynEdit.BlockEnd);
+        end;
         Command := ecNone;  // do not processed it further
       end;
   end;
@@ -1190,6 +1224,7 @@ begin
   CanExecute := FoundMatch;
 
   if CanExecute then begin
+    TSynCompletionProposal(Sender).Font := CommandsDataModule.PyIDEOptions.AutoCompletionFont;
     TSynCompletionProposal(Sender).Form.CurrentIndex := TmpLocation;
     TSynCompletionProposal(Sender).ItemList.Text := DisplayText;
     TSynCompletionProposal(Sender).InsertList.Text := InsertText;
@@ -1223,7 +1258,7 @@ begin
     BC := CaretXY;
     Dec(BC.Char);
     if GetHighlighterAttriAtRowCol(BC, DummyToken, Attr) and
-     ((attr = Highlighter.StringAttribute) or (attr = Highlighter.CommentAttribute) or
+     ({(attr = Highlighter.StringAttribute) or} (attr = Highlighter.CommentAttribute) or
       (attr = TSynPythonInterpreterSyn(Highlighter).CodeCommentAttri) or
       (attr = TSynPythonInterpreterSyn(Highlighter).DocStringAttri)) then
     begin
@@ -1286,6 +1321,7 @@ begin
 
   if CanExecute then begin
     with TSynCompletionProposal(Sender) do begin
+      Font := CommandsDataModule.PyIDEOptions.AutoCompletionFont;
       FormatParams := not (DisplayText = '');
       if not FormatParams then
         DisplayText :=  '\style{~B}' + _(SNoParameters) + '\style{~B}';
