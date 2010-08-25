@@ -1081,6 +1081,7 @@ end;
 procedure TPyRemoteInterpreter.ShutDownServer;
 var
   i : integer;
+  OldState : TDebuggerState;
 begin
 //  if PyControl.DebuggerState <> dsInactive then begin
 //    if Dialogs.MessageDlg('The Python interpreter is busy.  Are you sure you want to terminate it?',
@@ -1107,17 +1108,24 @@ begin
         Conn.close();
       except
       end;
-    fThreadExecInterrupted := True;
-    ServerProcess.Terminate;
-    for i := 0 to 20 do
-      if ServerProcess.State <> psReady then begin
-        // Wait for the threads to terminate
-        Application.ProcessMessages;
-        CheckSynchronize;
-        Sleep(20);
-      end else
-        break;
-    Assert(ServerProcess.State = psReady);
+
+    OldState := PyControl.DebuggerState;
+    PyControl.DoStateChange(dsRunning);  // So that we do not reenter run-debug commands
+    try
+      fThreadExecInterrupted := True;
+      ServerProcess.Terminate;
+      for i := 0 to 100 do
+        if ServerProcess.State <> psReady then begin
+          // Wait for the threads to terminate
+          Application.ProcessMessages;
+          CheckSynchronize;
+          Sleep(20);
+        end else
+          break;
+      Assert(ServerProcess.State = psReady);
+    finally
+      PyControl.DoStateChange(OldState);
+    end;
   end;
   VarClear(Conn);
   // Restore excepthook

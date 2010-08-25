@@ -150,23 +150,23 @@ function VSNextWordPos(SynEdit: TCustomSynEdit; const XY: TBufferCoord): TBuffer
 function VSPrevWordPos(SynEdit: TCustomSynEdit; const XY: TBufferCoord): TBufferCoord;
 
 (* Get the text between two Synedit Block coordinates *)
-function GetBlockText(Strings : TUnicodeStrings; BlockBegin, BlockEnd : TBufferCoord) : WideString;
+function GetBlockText(Strings : SynUnicode.TUnicodeStrings; BlockBegin, BlockEnd : TBufferCoord) : WideString;
 
 (* Extract Error information from a VarPyth variant containing the Python error *)
 procedure ExtractPyErrorInfo(E: Variant; var FileName: WideString; var LineNo: Integer; var Offset: Integer);
 
 (* Get Encoded Ansi string from WideStrings ttaking into account Python file encodings *)
 function WideStringsToEncodedText(const AFileName: WideString;
-  Lines : TUnicodeStrings; Encoding : TFileSaveFormat; var EncodedText: string;
+  Lines : SynUnicode.TUnicodeStrings; Encoding : TFileSaveFormat; var EncodedText: string;
   InformationLossWarning: Boolean = False) : Boolean;
 
 (* Load file into WideStrings taking into account Python file encodings *)
 function LoadFileIntoWideStrings(const AFileName: WideString;
-  Lines : TUnicodeStrings; var Encoding : TFileSaveFormat): boolean;
+  Lines : SynUnicode.TUnicodeStrings; var Encoding : TFileSaveFormat): boolean;
 
 (* Save WideStrings to file taking into account Python file encodings *)
 function SaveWideStringsToFile(const AFileName: WideString;
-  Lines : TUnicodeStrings; Encoding : TFileSaveFormat;
+  Lines : SynUnicode.TUnicodeStrings; Encoding : TFileSaveFormat;
   DoBackup : Boolean = True) : boolean;
 
 (* Read File contents. Allows reading of locked files *)
@@ -1205,7 +1205,7 @@ begin
   end;
 end;
 
-function GetBlockText(Strings : TUnicodeStrings; BlockBegin, BlockEnd : TBufferCoord) : WideString;
+function GetBlockText(Strings : SynUnicode.TUnicodeStrings; BlockBegin, BlockEnd : TBufferCoord) : WideString;
 Var
   Line :  integer;
 begin
@@ -1366,7 +1366,7 @@ begin
 end;
 
 function WideStringsToEncodedText(const AFileName: WideString;
-  Lines : TUnicodeStrings; Encoding : TFileSaveFormat; var EncodedText: string;
+  Lines : SynUnicode.TUnicodeStrings; Encoding : TFileSaveFormat; var EncodedText: string;
   InformationLossWarning: Boolean = False) : Boolean;
 // AFileName is passed just for the warning
 var
@@ -1467,7 +1467,7 @@ begin
 end;
 
 function LoadFileIntoWideStrings(const AFileName: WideString;
-  Lines : TUnicodeStrings; var Encoding : TFileSaveFormat): boolean;
+  Lines : SynUnicode.TUnicodeStrings; var Encoding : TFileSaveFormat): boolean;
 Var
   FileStream : TWideFileStream;
   FileText, S, PyEncoding : string;
@@ -1573,7 +1573,7 @@ end;
 
 (* Save WideStrings to file taking into account Python file encodings *)
 function SaveWideStringsToFile(const AFileName: WideString;
-  Lines : TUnicodeStrings; Encoding : TFileSaveFormat;
+  Lines : SynUnicode.TUnicodeStrings; Encoding : TFileSaveFormat;
   DoBackup : Boolean = True) : boolean;
 Var
   FileStream : TWideFileStream;
@@ -1639,10 +1639,10 @@ end;
 
 function FileToEncodedStr(const AFileName : WideString) : string;
 Var
-  SL : TUnicodeStrings;
+  SL : SynUnicode.TUnicodeStrings;
   Encoding: TFileSaveFormat;
 begin
-  SL := TUnicodeStringList.Create;
+  SL := SynUnicode.TUnicodeStringList.Create;
   try
     LoadFileIntoWideStrings(AFileName, SL, Encoding);
     WideStringsToEncodedText(AFileName, SL, Encoding, Result, False);
@@ -1654,10 +1654,10 @@ end;
 
 function FileToWideStr(const AFileName : WideString) : WideString;
 Var
-  SL : TUnicodeStrings;
+  SL : SynUnicode.TUnicodeStrings;
   Encoding: TFileSaveFormat;
 begin
-  SL := TUnicodeStringList.Create;
+  SL := SynUnicode.TUnicodeStringList.Create;
   try
     LoadFileIntoWideStrings(AFileName, SL, Encoding);
     Result := SL.Text;
