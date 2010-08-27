@@ -356,6 +356,11 @@ Limitations: Python scripts are executed in the main thread
           Bug fixes
             Issues  297, 307, 346, 354, 358, 371, 375, 376, 382, 384, 387, 389
 
+ History:   v 2.2
+          New Features
+            Italian translation by Vincenzo Demasi
+          Bug fixes
+
 
   Vista Compatibility issues (all resolved)
   -  Flip3D and Form preview (solved with LX)
