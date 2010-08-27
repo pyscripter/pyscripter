@@ -92,8 +92,6 @@ uses
   uSearchHighlighter in 'uSearchHighlighter.pas',
   SynEditSearch in 'SynEditSearch.pas',
   frmModSpTBXCustomize in 'frmModSpTBXCustomize.pas',
-  WrapDelphi in 'WrapDelphi.pas',
-  WrapDelphiClasses in 'WrapDelphiClasses.pas',
   cProjectClasses in 'cProjectClasses.pas',
   frmProjectExplorer in 'frmProjectExplorer.pas' {ProjectExplorerWindow},
   dlgImportDirectory in 'dlgImportDirectory.pas' {ImportDirectoryForm},
