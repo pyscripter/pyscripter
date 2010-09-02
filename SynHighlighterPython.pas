@@ -60,7 +60,7 @@ uses
 {$ELSE}
   Graphics,
   SynEditHighlighter,
-  
+
   //SynUnicode, {$IFDEF USE_JCL_UNICODE_SUPPORT} JclUnicode, {$ENDIF}
   WideStrings,  //Use Delphi's one which provide a case sensitive property
 {$ENDIF}
@@ -84,8 +84,8 @@ type
     fStringStarter: WideChar;  // used only for rsMultilineString3 stuff
     fRange: TRangeState;
     FTokenID: TtkTokenKind;
-    FKeywords: TWideStringList;
-    fLastIdentifier : WideString;
+    FKeywords: TStringList;
+    fLastIdentifier : UnicodeString;
     fStringAttri: TSynHighlighterAttributes;
     fDocStringAttri: TSynHighlighterAttributes;
     fNumberAttri: TSynHighlighterAttributes;
@@ -122,16 +122,16 @@ type
     procedure StringEndProc(EndChar: WideChar);
     procedure UnknownProc;
   protected
-    function IsIdentChar(AChar: WideChar): Boolean; override;
-    function GetSampleSource: WideString; override;
+    function GetSampleSource: UnicodeString; override;
     function IsFilterStored: Boolean; override;
-    function GetKeywordIdentifiers: TWideStringList;
+    function GetKeywordIdentifiers: TStringList;
     property TokenID: TtkTokenKind read FTokenID;
     procedure DispatchProc; virtual;
   public
-    property Keywords: TWideStringList read FKeywords;
+    function IsIdentChar(AChar: WideChar): Boolean; override;
+    property Keywords: TStringList read FKeywords;
     class function GetLanguageName: string; override;
-    class function GetFriendlyLanguageName: WideString; override;
+    class function GetFriendlyLanguageName: UnicodeString; override;
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -145,7 +145,7 @@ type
     procedure Next; override;
     procedure SetRange(Value: Pointer); override;
     procedure ResetRange; override;
-    function GetKeyWords(TokenKind: Integer): WideString; override;
+    function GetKeyWords(TokenKind: Integer): UnicodeString; override;
   published
     property CommentAttri: TSynHighlighterAttributes read fCommentAttri
       write fCommentAttri;
@@ -200,10 +200,10 @@ type
     procedure PromptProc(Len : integer);
   protected
     procedure DispatchProc; override;
-    function GetSampleSource: WideString; override;
+    function GetSampleSource: UnicodeString; override;
   public
     class function GetLanguageName: string; override;
-    class function GetFriendlyLanguageName: WideString; override;
+    class function GetFriendlyLanguageName: UnicodeString; override;
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -224,7 +224,7 @@ type
   end;
 
 var
-  PythonGlobalKeywords: TWideStringList;
+  PythonGlobalKeywords: TStringList;
 
 implementation
 
@@ -244,18 +244,18 @@ resourcestring
   SYNS_FriendlyFunctionName = 'Function Name';
   SYNS_FriendlyClassName = 'Class Name';
 
-function TSynPythonSyn.GetKeyWords(TokenKind: Integer): WideString;
+function TSynPythonSyn.GetKeyWords(TokenKind: Integer): UnicodeString;
 begin
   Result := GetKeywordIdentifiers.CommaText;
 end;
 
-function TSynPythonSyn.GetKeywordIdentifiers: TWideStringList;
+function TSynPythonSyn.GetKeywordIdentifiers: TStringList;
 const
   // No need to localise keywords!
 
   // List of keywords
   KEYWORDCOUNT = 31;
-  KEYWORDS: array [1..KEYWORDCOUNT] of WideString =
+  KEYWORDS: array [1..KEYWORDCOUNT] of UnicodeString =
     (
     'and',
     'as',
@@ -292,7 +292,7 @@ const
 
   // List of non-keyword identifiers
   NONKEYWORDCOUNT = 137;
-  NONKEYWORDS: array [1..NONKEYWORDCOUNT] of WideString =
+  NONKEYWORDS: array [1..NONKEYWORDCOUNT] of UnicodeString =
     (
     'ArithmeticError',
     'AssertionError',
@@ -438,7 +438,7 @@ begin
   if not Assigned (PythonGlobalKeywords) then
   begin
     // Create the string list of keywords - only once
-    PythonGlobalKeywords := TWideStringList.Create;
+    PythonGlobalKeywords := TStringList.Create;
 
     for f := 1 to KEYWORDCOUNT do
       PythonGlobalKeywords.AddObject(KEYWORDS[f], Pointer(Ord(tkKey)));
@@ -452,7 +452,7 @@ function TSynPythonSyn.IdentKind(MayBe: PWideChar): TtkTokenKind;
 var
   i: Integer;
   temp: PWideChar;
-  s: WideString;
+  s: UnicodeString;
 begin
   // Extract the identifier out - it is assumed to terminate in a
   //   non-alphanumeric character
@@ -468,7 +468,7 @@ begin
   if ((Run <= 0) or (FLine[Run-1]<> '.')) and (fLastIdentifier <> 'class') and
     (fLastIdentifier <> 'def') and FKeywords.Find(s, i) then
   begin
-//    // TWideStringList is not case sensitive!  KV Not now using Delphi's WideStringList
+//    // TStringList is not case sensitive!  KV Not now using Delphi's WideStringList
 //    if s <> FKeywords[i] then
 //      i := -1;
   end
@@ -507,7 +507,7 @@ begin
 
   fCaseSensitive := True;
 
-  FKeywords := TWideStringList.Create;
+  FKeywords := TStringList.Create;
   FKeywords.CaseSensitive := True;
   FKeywords.Duplicates := dupIgnore;
   FKeywords.Sorted := True;
@@ -691,7 +691,7 @@ var
       // Look for dot (.)
       DOT: begin
         // .45
-        if FLine[Run] in INTCHARS then 
+        if CharInSet(FLine[Run], INTCHARS) then
         begin
           Inc (Run);
           fTokenID := tkFloat;
@@ -712,7 +712,7 @@ var
       ZERO: begin
         temp := FLine[Run];
         // 0x123ABC
-        if temp in HEXINDICATOR then begin
+        if CharInSet(temp, HEXINDICATOR) then begin
           Inc (Run);
           fTokenID := tkHex;
           State := nsHex;
@@ -721,10 +721,10 @@ var
           Inc (Run);
           State := nsDotFound;
           fTokenID := tkFloat;
-        end else if temp in INTCHARS then begin
+        end else if CharInSet(temp, INTCHARS) then begin
           Inc (Run);
           // 0123 or 0123.45
-          if temp in OCTCHARS then begin
+          if CharInSet(temp, OCTCHARS) then begin
             fTokenID := tkOct;
             State := nsOct;
           // 0899.45
@@ -753,10 +753,10 @@ var
     State := nsExpFound;
     fTokenID := tkFloat;
     // Skip e[+/-]
-    if FLine[Run+1] in EXPONENTSIGN then
+    if CharInSet(FLine[Run+1], EXPONENTSIGN) then
       Inc (Run);
     // Invalid token : 1.0e
-    if not (FLine[Run+1] in INTCHARS) then begin
+    if not CharInSet(FLine[Run+1], INTCHARS) then begin
       Inc (Run);
       Result := HandleBadNumber;
       Exit;
@@ -778,13 +778,13 @@ var
   function CheckStart: Boolean;
   begin
     // 1234
-    if temp in INTCHARS then begin
+    if CharInSet(temp, INTCHARS) then begin
       Result := True;
     //123e4
-    end else if temp in EXPONENTINDICATOR then begin
+    end else if CharInSet(temp, EXPONENTINDICATOR) then begin
       Result := HandleExponent;
     // 123.45j
-    end else if temp in IMAGINARYINDICATOR then begin
+    end else if CharInSet(temp, IMAGINARYINDICATOR) then begin
       Inc (Run);
       fTokenID := tkFloat;
       Result := False;
@@ -803,13 +803,13 @@ var
   function CheckDotFound: Boolean;
   begin
     // 1.0e4
-    if temp in EXPONENTINDICATOR then begin
+    if CharInSet(temp, EXPONENTINDICATOR) then begin
       Result := HandleExponent;
     // 123.45
-    end else if temp in INTCHARS then begin
+    end else if CharInSet(temp, INTCHARS) then begin
       Result := True;
     // 123.45j
-    end else if temp in IMAGINARYINDICATOR then begin
+    end else if CharInSet(temp, IMAGINARYINDICATOR) then begin
       Inc (Run);
       Result := False;
     // 123.45.45: Error!
@@ -829,16 +829,16 @@ var
   function CheckFloatNeeded: Boolean;
   begin
     // 091.0e4
-    if temp in EXPONENTINDICATOR then begin
+    if CharInSet(temp, EXPONENTINDICATOR) then begin
       Result := HandleExponent;
     // 0912345
-    end else if temp in INTCHARS then begin
+    end else if CharInSet(temp, INTCHARS) then begin
       Result := True;
     // 09123.45
     end else if temp = DOT then begin
       Result := HandleDot or HandleBadNumber; // Bad octal
     // 09123.45j
-    end else if temp in IMAGINARYINDICATOR then begin
+    end else if CharInSet(temp, IMAGINARYINDICATOR) then begin
       Inc (Run);
       Result := False;
     // End of number (error: Bad oct number) 0912345
@@ -850,10 +850,10 @@ var
   function CheckHex: Boolean;
   begin
     // 0x123ABC
-    if temp in HEXCHARS then begin
+    if CharInSet(temp, HEXCHARS) then begin
       Result := True;
     // 0x123ABCL
-    end else if temp in LONGINDICATOR then 
+    end else if CharInSet(temp, LONGINDICATOR) then
     begin
       Inc (Run);
       Result := False;
@@ -874,21 +874,21 @@ var
   function CheckOct: Boolean;
   begin
     // 012345
-    if temp in INTCHARS then begin
-      if not (temp in OCTCHARS) then begin
+    if CharInSet(temp, INTCHARS) then begin
+      if not CharInSet(temp, OCTCHARS) then begin
         State := nsFloatNeeded;
         fTokenID := tkFloat;
       end; // if
       Result := True;
     // 012345L
-    end else if temp in LONGINDICATOR then begin
+    end else if CharInSet(temp, LONGINDICATOR) then begin
       Inc (Run);
       Result := False;
     // 0123e4
-    end else if temp in EXPONENTINDICATOR then begin
+    end else if CharInSet(temp, EXPONENTINDICATOR) then begin
       Result := HandleExponent;
     // 0123j
-    end else if temp in IMAGINARYINDICATOR then begin
+    end else if CharInSet(temp, IMAGINARYINDICATOR) then begin
       Inc (Run);
       fTokenID := tkFloat;
       Result := False;
@@ -907,10 +907,10 @@ var
   function CheckExpFound: Boolean;
   begin
     // 1e+123
-    if temp in INTCHARS then begin
+    if CharInSet(temp, INTCHARS) then begin
       Result := True;
     // 1e+123j
-    end else if temp in IMAGINARYINDICATOR then begin
+    end else if CharInSet(temp, IMAGINARYINDICATOR) then begin
       Inc (Run);
       Result := False;
     // 1e4.5: Error!
@@ -1074,8 +1074,8 @@ procedure TSynPythonSyn.BUStringProc;
 begin
   // Handle python raw, bytes, and unicode strings
   // Valid syntax: u"", or ur""
-  if (FLine[Run + 1] in [WideChar('r'), WideChar('R')]) and
-    (FLine[Run + 2] in [WideChar(''''), WideChar('"')]) then
+  if CharInSet(FLine[Run + 1], [WideChar('r'), WideChar('R')]) and
+    CharInSet(FLine[Run + 2], [WideChar(''''), WideChar('"')]) then
   begin
     // for ur, Remove the "u" and...
     Inc (Run);
@@ -1371,7 +1371,7 @@ begin
   Result := SYNS_LangPython;
 end;
 
-function TSynPythonSyn.GetSampleSource: WideString;
+function TSynPythonSyn.GetSampleSource: UnicodeString;
 begin
   Result :=
     '#!/usr/local/bin/python'#13#10 +
@@ -1385,7 +1385,7 @@ begin
     '        assert 0x00 == 00    #well, it better';
 end;
 
-class function TSynPythonSyn.GetFriendlyLanguageName: WideString;
+class function TSynPythonSyn.GetFriendlyLanguageName: UnicodeString;
 begin
   Result := SYNS_FriendlyLangPython;
 end;
@@ -1475,7 +1475,7 @@ begin
     OutputProc;
 end;
 
-class function TSynPythonInterpreterSyn.GetFriendlyLanguageName: WideString;
+class function TSynPythonInterpreterSyn.GetFriendlyLanguageName: UnicodeString;
 begin
   Result := SYNS_FriendlyLangPythonInterpreter;
 end;
@@ -1485,7 +1485,7 @@ begin
   Result := SYNS_LangPythonInterpreter;
 end;
 
-function TSynPythonInterpreterSyn.GetSampleSource: WideString;
+function TSynPythonInterpreterSyn.GetSampleSource: UnicodeString;
 begin
   Result :=
     '*** Python 2.5.1 (r251:54863, Apr 18 2007, 08:51:08) [MSC v.1310 32 bit (Intel)] on win32. ***'#13#10 +

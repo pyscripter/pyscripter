@@ -5,11 +5,10 @@ inherited ToolProperties: TToolProperties
   Caption = 'External Tool Properties'
   ClientHeight = 498
   ClientWidth = 406
-  Font.Name = 'MS Shell Dlg 2'
   OnDestroy = FormDestroy
   OnShow = FormShow
   ExplicitWidth = 412
-  ExplicitHeight = 524
+  ExplicitHeight = 526
   PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TSpTBXPanel
@@ -80,7 +79,6 @@ inherited ToolProperties: TToolProperties
         Height = 428
         Caption = '&Environment'
         ImageIndex = -1
-        ExplicitHeight = 422
         TabItem = 'SpTBXTabItem2'
         object GroupBox6: TSpTBXGroupBox
           Left = 7
@@ -191,7 +189,7 @@ inherited ToolProperties: TToolProperties
           EditManager.Font.Charset = DEFAULT_CHARSET
           EditManager.Font.Color = clWindowText
           EditManager.Font.Height = -11
-          EditManager.Font.Name = 'MS Shell Dlg 2'
+          EditManager.Font.Name = 'Tahoma'
           EditManager.Font.Style = []
           Header.Columns.Items = {
             0600000002000000110000005445617379436F6C756D6E53746F726564FFFECE
@@ -218,7 +216,6 @@ inherited ToolProperties: TToolProperties
         Height = 428
         Caption = '&Properties'
         ImageIndex = -1
-        ExplicitHeight = 422
         TabItem = 'SpTBXTabItem1'
         object GroupBox1: TSpTBXGroupBox
           Left = 7
@@ -654,8 +651,8 @@ inherited ToolProperties: TToolProperties
             Hint = 
               'If set to a value <> 0 then you will be prompted '#13#10'to abort the ' +
               'program after the specified time.'
-            TabOrder = 2
             Alignment = taLeftJustify
+            TabOrder = 2
             SpinButton.Left = 60
             SpinButton.Top = 0
             SpinButton.Width = 15
@@ -688,36 +685,36 @@ inherited ToolProperties: TToolProperties
       OnClick = Filename1Click
     end
   end
-  object ActionList: TTntActionList
+  object ActionList: TActionList
     Images = CommandsDataModule.Images
     OnUpdate = ActionListUpdate
     Left = 42
     Top = 460
-    object actAddItem: TTntAction
+    object actAddItem: TAction
       Caption = '&Add'
       Hint = 'Add item'
       ImageIndex = 49
       OnExecute = actAddItemExecute
     end
-    object actDeleteItem: TTntAction
+    object actDeleteItem: TAction
       Caption = '&Delete'
       Hint = 'Delete item'
       ImageIndex = 14
       OnExecute = actDeleteItemExecute
     end
-    object actMoveUp: TTntAction
+    object actMoveUp: TAction
       Caption = '&Up'
       Hint = 'Move item up'
       ImageIndex = 47
       OnExecute = actMoveUpExecute
     end
-    object actMoveDown: TTntAction
+    object actMoveDown: TAction
       Caption = '&Down'
       Hint = 'Move item down'
       ImageIndex = 48
       OnExecute = actMoveDownExecute
     end
-    object actUpdateItem: TTntAction
+    object actUpdateItem: TAction
       Caption = '&Update'
       Hint = 'Update item'
       ImageIndex = 39

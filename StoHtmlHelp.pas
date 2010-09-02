@@ -59,11 +59,11 @@ type
   HH_AKLINK = record
     cbStruct: Integer;
     fReserved: BOOL;
-    pszKeywords: PChar;
-    pszURL: PChar;
-    pszMsgText: PChar;
-    pszMsgTitle: PChar;
-    pszWindow: PChar;
+    pszKeywords: PAnsiChar;
+    pszURL: PAnsiChar;
+    pszMsgText: PAnsiChar;
+    pszMsgTitle: PAnsiChar;
+    pszWindow: PAnsiChar;
     fIndexOnFail: BOOL;
   end;
 
@@ -167,7 +167,7 @@ begin
     HH_CLOSE_ALL: FHtmlHelpFunction(0, nil, uCommand, dwData); // special parameters
     HH_GET_LAST_ERROR: ; // ignore
     else
-      FHtmlHelpFunction(FHelpManager.GetHandle, PChar(HelpFile), uCommand, dwData);
+      FHtmlHelpFunction(FHelpManager.GetHandle, PAnsiChar(AnsiString(HelpFile)), uCommand, dwData);
     end;
   end;
 end;
@@ -323,7 +323,7 @@ begin
 
     AKLink.cbStruct := SizeOf(AKLink);
     AKLink.fReserved := False;
-    AKLink.pszKeywords := PChar(sHelpString);
+    AKLink.pszKeywords := PAnsiChar(AnsiString(sHelpString));
     AKLink.pszURL := nil;
     AKLink.pszMsgText := nil;
     AKLink.pszMsgTitle := nil;
@@ -331,7 +331,7 @@ begin
     AKLink.fIndexOnFail := True;
     CallHtmlHelp(sHelpFile, HH_KEYWORD_LOOKUP, DWORD(@AKLink));
 
-//    CallHtmlHelp(sHelpFile, HH_DISPLAY_INDEX, DWORD(Pchar(sHelpString)));
+//    CallHtmlHelp(sHelpFile, HH_DISPLAY_INDEX, DWORD(PAnsiChar(sHelpString)));
   end;
 end;
 

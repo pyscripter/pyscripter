@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, cPyBaseDebugger, StdCtrls, SpTBXControls, SynEdit, 
-  ExtCtrls, TntStdCtrls, SpTBXEditors, dlgPyIDEBase, SpTBXItem;
+  ExtCtrls, SpTBXEditors, dlgPyIDEBase, SpTBXItem;
 
 type
   TRunConfigurationForm = class(TPyIDEDlgBase)

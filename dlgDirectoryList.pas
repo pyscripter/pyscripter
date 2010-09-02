@@ -11,8 +11,8 @@ unit dlgDirectoryList;
 interface
 
 uses
-  SysUtils, Classes, Windows, Controls, Forms, StdCtrls, 
-  SpTBXControls, WideStrings, TntStdCtrls, SpTBXEditors, TntFileCtrl,  dlgPyIDEBase,
+  SysUtils, Classes, Windows, Controls, Forms, StdCtrls,
+  SpTBXControls, WideStrings, SpTBXEditors, dlgPyIDEBase,
   SpTBXItem;
 
 type
@@ -47,15 +47,13 @@ type
   end;
 
 function EditFolderList(Folders: TStrings; FormCaption : string = 'Directory List';
-  HelpCntxt : integer = 0): Boolean; overload;
-function EditFolderList(Folders: TWideStrings; FormCaption : WideString = 'Directory List';
-  HelpCntxt : integer = 0): Boolean; overload;
+  HelpCntxt : integer = 0): Boolean;
 
 implementation
 
 uses
   JVBoxProcs,
-  dmCommands, Math;
+  dmCommands, Math, FileCtrl;
 
 {$R *.dfm}
 
@@ -76,22 +74,6 @@ begin
   end;
 end;
 
-function EditFolderList(Folders: TWideStrings; FormCaption : WideString = 'Directory List';
-  HelpCntxt : integer = 0): Boolean; overload;
-begin
-  Assert(Assigned(Folders));
-  with TDirectoryListDialog.Create(Application) do
-  try
-    Caption := FormCaption;
-    HelpContext := HelpCntxt;
-    DirectoryList.Items.Assign(Folders);
-    Result := ShowModal = mrOK;
-    if Result then
-      Folders.Assign(DirectoryList.Items);
-  finally
-    Free;
-  end;
-end;
 
 //=== { TJvDirectoryListDialog } =============================================
 
@@ -123,10 +105,10 @@ end;
 
 procedure TDirectoryListDialog.BtnPathClick(Sender: TObject);
 var
-  NewDir: WideString;
+  NewDir: string;
 begin
   NewDir := edPath.Text;
-  if WideSelectDirectory('Select Directory:', '', NewDir) then
+  if SelectDirectory('Select Directory:', '', NewDir) then
     edPath.Text := NewDir;
 end;
 

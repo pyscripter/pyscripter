@@ -41,7 +41,7 @@ type
       Node: PVirtualNode; var InitialStates: TVirtualNodeInitStates);
     procedure WatchesViewGetText(Sender: TBaseVirtualTree;
       Node: PVirtualNode; Column: TColumnIndex; TextType: TVSTTextType;
-      var CellText: WideString);
+      var CellText: string);
     procedure TBXPopupMenuPopup(Sender: TObject);
     procedure WatchesViewKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
@@ -75,11 +75,11 @@ uses frmPyIDEMain, dmCommands,
 Type
   TWatchInfo = class(TPersistent)
   private
-    fWatch : WideString;
+    fWatch : string;
   public
-    Value : WideString;
+    Value : string;
   published
-    property Watch : WideString read fWatch write fWatch;
+    property Watch : string read fWatch write fWatch;
   end;
 
   PWatchRec = ^TWatchRec;
@@ -91,7 +91,7 @@ Type
 
 procedure TWatchesWindow.UpdateWindow(DebuggerState : TDebuggerState);
 Var
-  S : WideString;
+  S : string;
   i : integer;
 begin
   // Exit if there are no wathces
@@ -183,7 +183,7 @@ end;
 
 procedure TWatchesWindow.mnCopyToClipboardClick(Sender: TObject);
 begin
-  Clipboard.AsText := WatchesView.ContentToText(tstAll, #9);
+  Clipboard.AsText := string(WatchesView.ContentToText(tstAll, #9));
 end;
 
 procedure TWatchesWindow.FormActivate(Sender: TObject);
@@ -249,7 +249,7 @@ end;
 
 procedure TWatchesWindow.WatchesViewGetText(Sender: TBaseVirtualTree;
   Node: PVirtualNode; Column: TColumnIndex; TextType: TVSTTextType;
-  var CellText: WideString);
+  var CellText: string);
 begin
   Assert(WatchesView.GetNodeLevel(Node) = 0);
   Assert(Integer(Node.Index) < fWatchesList.Count);

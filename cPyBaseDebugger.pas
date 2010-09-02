@@ -38,32 +38,32 @@ type
 
   TRunConfiguration = class(TPersistent)
   private
-    fScriptName: WideString;
+    fScriptName: string;
     fEngineType: TPythonEngineType;
-    fWorkingDir: WideString;
-    fParameters: WideString;
+    fWorkingDir: string;
+    fParameters: string;
     fReinitializeBeforeRun: Boolean;
-    fOutputFileName: WideString;
+    fOutputFileName: string;
     fWriteOutputToFile: Boolean;
     fAppendToFile: Boolean;
     fExternalRun: TExternalRun;
-    fDescription: WideString;
+    fDescription: string;
     procedure SetExternalRun(const Value: TExternalRun);
   public
     constructor Create;
     destructor Destroy; override;
     procedure Assign(Source: TPersistent); override;
   published
-    property ScriptName : WideString read fScriptName write fScriptName;
-    property Description : WideString read fDescription write fDescription;
+    property ScriptName : string read fScriptName write fScriptName;
+    property Description : string read fDescription write fDescription;
     property EngineType : TPythonEngineType read fEngineType write fEngineType;
     property ReinitializeBeforeRun : Boolean read fReinitializeBeforeRun
       write fReinitializeBeforeRun;
-    property Parameters : WideString read fParameters write fParameters;
-    property WorkingDir : WideString read fWorkingDir write fWorkingDir;
+    property Parameters : string read fParameters write fParameters;
+    property WorkingDir : string read fWorkingDir write fWorkingDir;
     property WriteOutputToFile : Boolean read fWriteOutputToFile
       write fWriteOutputToFile;
-    property OutputFileName : WideString read fOutputFileName write fOutputFileName;
+    property OutputFileName : string read fOutputFileName write fOutputFileName;
     property AppendToFile : Boolean read fAppendToFile write fAppendToFile;
     property ExternalRun : TExternalRun read fExternalRun write SetExternalRun;
   end;
@@ -74,7 +74,7 @@ type
     Line : integer;
     Char : integer;
     IsSyntax : Boolean;
-    ErrorMsg : WideString;
+    ErrorMsg : string;
     procedure Clear;
     procedure Assign(Source: TPersistent); override;
   end;
@@ -82,12 +82,12 @@ type
   TBaseFrameInfo = class(TObject)
   // Base (abstract) class for Call Stack frame information
   protected
-    function GetFunctionName : WideString; virtual; abstract;
-    function GetFileName : WideString; virtual; abstract;
+    function GetFunctionName : string; virtual; abstract;
+    function GetFileName : string; virtual; abstract;
     function GetLine : integer; virtual; abstract;
   public
-    property FunctionName : WideString read GetFunctionName;
-    property FileName : WideString read GetFileName;
+    property FunctionName : string read GetFunctionName;
+    property FileName : string read GetFileName;
     property Line : integer read GetLine;
   end;
 
@@ -96,12 +96,12 @@ type
   protected
     GotChildNodes : Boolean;
     GotBufferedValue : Boolean;
-    BufferedValue : WideString;
-    function GetOrCalculateValue : WideString;
-    function GetName : WideString; virtual; abstract;
-    function GetObjectType : WideString; virtual; abstract;
-    function GetValue : WideString; virtual; abstract;
-    function GetDocString : WideString; virtual; abstract;
+    BufferedValue : string;
+    function GetOrCalculateValue : string;
+    function GetName : string; virtual; abstract;
+    function GetObjectType : string; virtual; abstract;
+    function GetValue : string; virtual; abstract;
+    function GetDocString : string; virtual; abstract;
     function GetChildCount : integer; virtual; abstract;
     function GetChildNode(Index: integer): TBaseNameSpaceItem; virtual; abstract;
   public
@@ -112,13 +112,13 @@ type
     function IsFunction : Boolean; virtual; abstract;
     function IsMethod : Boolean; virtual; abstract;
     function Has__dict__ : Boolean; virtual; abstract;
-    function IndexOfChild(AName : WideString): integer; virtual; abstract;
+    function IndexOfChild(AName : string): integer; virtual; abstract;
     procedure GetChildNodes; virtual; abstract;
     procedure CompareToOldItem(OldItem : TBaseNameSpaceItem); virtual;
-    property Name : WideString read GetName;
-    property ObjectType : WideString read GetObjectType;
-    property Value : WideString read GetOrCalculateValue;
-    property DocString : WideString read GetDocString;
+    property Name : string read GetName;
+    property ObjectType : string read GetObjectType;
+    property Value : string read GetOrCalculateValue;
+    property DocString : string read GetDocString;
     property ChildCount : integer read GetChildCount;
     property ChildNode[Index : integer] : TBaseNameSpaceItem
       read GetChildNode;
@@ -132,16 +132,16 @@ type
   public
     procedure Initialize; virtual;
     // Python Path
-    function SysPathAdd(const Path : WideString) : boolean; virtual; abstract;
-    function SysPathRemove(const Path : WideString) : boolean; virtual; abstract;
-    function AddPathToPythonPath(const Path : WideString; AutoRemove : Boolean = True) : IInterface;
-    procedure SysPathToStrings(Strings : TWideStrings); virtual; abstract;
-    procedure StringsToSysPath(Strings : TWideStrings); virtual; abstract;
+    function SysPathAdd(const Path : string) : boolean; virtual; abstract;
+    function SysPathRemove(const Path : string) : boolean; virtual; abstract;
+    function AddPathToPythonPath(const Path : string; AutoRemove : Boolean = True) : IInterface;
+    procedure SysPathToStrings(Strings : TStrings); virtual; abstract;
+    procedure StringsToSysPath(Strings : TStrings); virtual; abstract;
     // NameSpace
     function GetGlobals : TBaseNameSpaceItem; virtual; abstract;
-    function NameSpaceFromExpression(const Expr : WideString) : TBaseNameSpaceItem; virtual; abstract;
-    function CallTipFromExpression(const Expr : WideString;
-      var DisplayString, DocString : WideString) : Boolean; virtual; abstract;
+    function NameSpaceFromExpression(const Expr : string) : TBaseNameSpaceItem; virtual; abstract;
+    function CallTipFromExpression(const Expr : string;
+      var DisplayString, DocString : string) : Boolean; virtual; abstract;
     // Service routines
     procedure HandlePyException(E : EPythonError; SkipFrames : integer = 1); virtual;
     procedure SetCommandLine(ARunConfig : TRunConfiguration); virtual; abstract;
@@ -150,10 +150,10 @@ type
     // Main interface
     function ImportModule(Editor : IEditor; AddToNameSpace : Boolean = False) : Variant; virtual; abstract;
     procedure RunNoDebug(ARunConfig : TRunConfiguration); virtual; abstract;
-    function RunSource(Const Source, FileName : Variant; symbol : WideString = 'single') : boolean; virtual; abstract;
-    procedure RunScript(FileName : WideString); virtual; 
-    function EvalCode(const Expr : WideString) : Variant; virtual; abstract;
-    function GetObjectType(Ob : Variant) : WideString; virtual; abstract;
+    function RunSource(Const Source, FileName : Variant; symbol : string = 'single') : boolean; virtual; abstract;
+    procedure RunScript(FileName : string); virtual;
+    function EvalCode(const Expr : string) : Variant; virtual; abstract;
+    function GetObjectType(Ob : Variant) : string; virtual; abstract;
     property EngineType : TPythonEngineType read fEngineType;
     property InterpreterCapabilities : TInterpreterCapabilities read fInterpreterCapabilities;
   end;
@@ -166,9 +166,9 @@ type
     procedure SetDebuggerBreakpoints; virtual; abstract;
   public
     // Python Path
-    function SysPathAdd(const Path : WideString) : boolean; virtual; abstract;
-    function SysPathRemove(const Path : WideString) : boolean; virtual; abstract;
-    function AddPathToPythonPath(const Path : WideString; AutoRemove : Boolean = True) : IInterface;
+    function SysPathAdd(const Path : string) : boolean; virtual; abstract;
+    function SysPathRemove(const Path : string) : boolean; virtual; abstract;
+    function AddPathToPythonPath(const Path : string; AutoRemove : Boolean = True) : IInterface;
     // Debugging
     procedure Run(ARunConfig : TRunConfiguration; InitStepIn : Boolean = False;
             RunToCursorLine : integer = -1); virtual; abstract;
@@ -180,15 +180,15 @@ type
     procedure Pause; virtual; abstract;
     procedure Abort; virtual; abstract;
     // Evaluate expression in the current frame
-    procedure Evaluate(const Expr : WideString; out ObjType, Value : WideString); virtual; abstract;
+    procedure Evaluate(const Expr : string; out ObjType, Value : string); virtual; abstract;
     // Like the InteractiveInterpreter runsource but for the debugger frame
-    function RunSource(Const Source, FileName : Variant; symbol : WideString = 'single') : boolean; virtual; abstract;
+    function RunSource(Const Source, FileName : Variant; symbol : string = 'single') : boolean; virtual; abstract;
     // Fills in CallStackList with TBaseFrameInfo objects
     procedure GetCallStack(CallStackList : TObjectList); virtual; abstract;
     // functions to get TBaseNamespaceItems corresponding to a frame's gloabals and locals
     function GetFrameGlobals(Frame : TBaseFrameInfo) : TBaseNameSpaceItem; virtual; abstract;
     function GetFrameLocals(Frame : TBaseFrameInfo) : TBaseNameSpaceItem; virtual; abstract;
-    function NameSpaceFromExpression(const Expr : WideString) : TBaseNameSpaceItem; virtual; abstract;
+    function NameSpaceFromExpression(const Expr : string) : TBaseNameSpaceItem; virtual; abstract;
     procedure MakeFrameActive(Frame : TBaseFrameInfo); virtual; abstract;
     // post mortem stuff
     function HaveTraceback : boolean; virtual; abstract;
@@ -231,8 +231,8 @@ type
     // Breakpoint related
     procedure ToggleBreakpoint(Editor : IEditor; ALine: integer;
       CtrlPressed : Boolean = False);
-    procedure SetBreakPoint(FileName : WideString; ALine : integer;
-      Disabled : Boolean; Condition : WideString);
+    procedure SetBreakPoint(FileName : string; ALine : integer;
+      Disabled : Boolean; Condition : string);
     procedure ClearAllBreakpoints;
     // Editor related
     function GetLineInfos(Editor : IEditor; ALine: integer): TDebuggerLineInfos;
@@ -322,7 +322,7 @@ implementation
 uses dmCommands, frmPythonII, frmMessages, frmPyIDEMain,
   uCommonFunctions,
   cParameters, StringResources, cPyDebugger,
-  frmCommandOutput, gnugettext, TntSysUtils, cProjectClasses;
+  frmCommandOutput, gnugettext, cProjectClasses;
 
 { TEditorPos }
 
@@ -350,34 +350,34 @@ end;
 { TPythonPathAdder }
 type
 
-  TSysPathFunction = function(const Path : WideString) : boolean of object;
+  TSysPathFunction = function(const Path : string) : boolean of object;
 
   TPythonPathAdder = class(TInterfacedObject, IInterface)
   private
-    fPath : WideString;
+    fPath : string;
     fPathAdded : boolean;
     PackageRootAdder : IInterface;
     fAutoRemove : Boolean;
     fSysPathRemove : TSysPathFunction;
   public
     constructor Create(SysPathAdd, SysPathRemove : TSysPathFunction;
-      const Path : WideString; AutoRemove : Boolean = True);
+      const Path : string; AutoRemove : Boolean = True);
     destructor Destroy; override;
   end;
 
 constructor TPythonPathAdder.Create(SysPathAdd, SysPathRemove : TSysPathFunction;
-  const Path: WideString; AutoRemove : Boolean = True);
+  const Path: string; AutoRemove : Boolean = True);
 var
-  S : WideString;
+  S : string;
 begin
   inherited Create;
-  fPath := WideExcludeTrailingPathDelimiter(Path);
+  fPath := ExcludeTrailingPathDelimiter(Path);
   fAutoRemove := AutoRemove;
   fSysPathRemove := SysPathRemove;
-  if (fPath <> '') and WideDirectoryExists(fPath) then begin
+  if (fPath <> '') and DirectoryExists(fPath) then begin
     // Add parent directory of the root of the package first
     if IsDirPythonPackage(fPath) then begin
-      S := WideExtractFileDir(GetPackageRootDir(fPath));
+      S := ExtractFileDir(GetPackageRootDir(fPath));
       if S <> fPath then
         PackageRootAdder :=
           TPythonPathAdder.Create(SysPathAdd, SysPathRemove, S, AutoRemove);
@@ -396,7 +396,7 @@ end;
 
 { TPyBaseInterpreter }
 
-function TPyBaseInterpreter.AddPathToPythonPath(const Path: WideString;
+function TPyBaseInterpreter.AddPathToPythonPath(const Path: string;
   AutoRemove: Boolean): IInterface;
 begin
   Result := TPythonPathAdder.Create(SysPathAdd, SysPathRemove, Path, AutoRemove);
@@ -405,7 +405,7 @@ end;
 procedure TPyBaseInterpreter.HandlePyException(E: EPythonError; SkipFrames : integer = 1);
 Var
   TI : TTracebackItem;
-  FileName : WideString;
+  FileName : string;
   Editor : IEditor;
 begin
   MessagesWindow.ShowPythonTraceback(SkipFrames);
@@ -448,15 +448,15 @@ begin
   raise Exception.Create(_(SNotImplented));
 end;
 
-procedure TPyBaseInterpreter.RunScript(FileName: WideString);
+procedure TPyBaseInterpreter.RunScript(FileName: string);
 Var
-  Source : WideString;
+  Source : string;
   AnsiSource : AnsiString;
 begin
   // Execute pyscripterEngineSetup.py
-  if WideFileExists(FileName) then begin
+  if FileExists(FileName) then begin
     if GetPythonEngine.IsPython3000 then begin
-      Source := CleanEOLs(FileToWideStr(FileName))+#10;
+      Source := CleanEOLs(FileToStr(FileName))+#10;
       RunSource(Source, FileName, 'exec');
     end else begin
       AnsiSource := CleanEOLs(FileToEncodedStr(FileName))+#10;
@@ -489,7 +489,7 @@ begin
   end;
 end;
 
-function TBaseNameSpaceItem.GetOrCalculateValue: WideString;
+function TBaseNameSpaceItem.GetOrCalculateValue: string;
 begin
   if GotBufferedValue then
     Result := BufferedValue
@@ -651,8 +651,8 @@ begin
   end;
 end;
 
-procedure TPythonControl.SetBreakPoint(FileName: WideString; ALine: integer;
-  Disabled : Boolean; Condition: WideString);
+procedure TPythonControl.SetBreakPoint(FileName: string; ALine: integer;
+  Disabled : Boolean; Condition: string);
 var
   Editor : IEditor;
   i: integer;
@@ -809,7 +809,7 @@ end;
 
 { TPyBaseDebugger }
 
-function TPyBaseDebugger.AddPathToPythonPath(const Path: WideString;
+function TPyBaseDebugger.AddPathToPythonPath(const Path: string;
   AutoRemove: Boolean): IInterface;
 begin
   Result := TPythonPathAdder.Create(SysPathAdd, SysPathRemove, Path, AutoRemove);
@@ -865,8 +865,3 @@ initialization
 finalization
   FreeAndNil(PyControl);
 end.
-
-
-
-
-

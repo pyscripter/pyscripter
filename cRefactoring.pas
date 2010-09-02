@@ -26,13 +26,13 @@ type
     fPyModule : Variant;
     fIsExpanded : boolean;
   protected
-    function GetAllExportsVar: WideString; override;
-    function GetDocString: WideString; override;
-    function GetCodeHint : WideString; override;
+    function GetAllExportsVar: string; override;
+    function GetDocString: string; override;
+    function GetCodeHint : string; override;
   public
     constructor CreateFromModule(AModule : Variant);
     procedure Expand;
-    procedure GetNameSpace(SList : TWideStringList); override;
+    procedure GetNameSpace(SList : TStringList); override;
     property PyModule : Variant read fPyModule;
     property IsExpanded : boolean read fIsExpanded;
   end;
@@ -42,12 +42,12 @@ type
     fPyClass : Variant;
     fIsExpanded : boolean;
   protected
-    function GetDocString: WideString; override;
+    function GetDocString: string; override;
   public
-    constructor CreateFromClass(AName : WideString; AClass : Variant);
+    constructor CreateFromClass(AName : string; AClass : Variant);
     function GetConstructor : TParsedFunction; override;
     procedure Expand;
-    procedure GetNameSpace(SList : TWideStringList); override;
+    procedure GetNameSpace(SList : TStringList); override;
     property PyClass : Variant read fPyClass;
     property IsExpanded : boolean read fIsExpanded;
   end;
@@ -57,12 +57,12 @@ type
     fPyFunction : Variant;
     fIsExpanded : boolean;
   protected
-    function GetDocString: WideString; override;
+    function GetDocString: string; override;
   public
-    constructor CreateFromFunction(AName : WideString; AFunction : Variant);
+    constructor CreateFromFunction(AName : string; AFunction : Variant);
     procedure Expand;
-    function ArgumentsString : WideString; override;
-    procedure GetNameSpace(SList : TWideStringList); override;
+    function ArgumentsString : string; override;
+    procedure GetNameSpace(SList : TStringList); override;
     property PyFunction : Variant read fPyFunction;
     property IsExpanded : boolean read fIsExpanded;
   end;
@@ -72,12 +72,12 @@ type
     fPyObject : Variant;
     fIsExpanded : boolean;
   protected
-    function GetDocString: WideString; override;
-    function GetCodeHint : WideString; override;
+    function GetDocString: string; override;
+    function GetCodeHint : string; override;
   public
-    constructor CreateFromPyObject(const AName : WideString; AnObject : Variant);
+    constructor CreateFromPyObject(const AName : string; AnObject : Variant);
     procedure Expand;
-    procedure GetNameSpace(SList : TWideStringList); override;
+    procedure GetNameSpace(SList : TStringList); override;
     property PyObject : Variant read fPyObject;
     property IsExpanded : boolean read fIsExpanded;
   end;
@@ -85,59 +85,59 @@ type
   TPyScripterRefactor = class
   private
     fPythonScanner : TPythonScanner;
-    fProxyModules : TWideStringList;
-    fParsedModules : TWideStringList;
-    fImportResolverCache : TWideStringList;
-    fGetTypeCache : TWideStringList;
-    fSpecialPackages : TWideStringList;
+    fProxyModules : TStringList;
+    fParsedModules : TStringList;
+    fImportResolverCache : TStringList;
+    fGetTypeCache : TStringList;
+    fSpecialPackages : TStringList;
   public
     constructor Create;
     destructor Destroy; override;
     procedure ClearParsedModules;
     procedure ClearProxyModules;
     procedure InitializeQuery;
-    function GetSource(const FName : WideString; var Source : WideString): Boolean;
-    function GetParsedModule(const ModuleName : WideString; PythonPath : Variant) : TParsedModule;
+    function GetSource(const FName : string; var Source : string): Boolean;
+    function GetParsedModule(const ModuleName : string; PythonPath : Variant) : TParsedModule;
     { given the coordates to a reference, tries to find the
         definition of that reference - Returns TCodeElement, TVariable or nil}
-    function FindDefinitionByCoordinates(const Filename : WideString; Line, Col: integer;
-      var ErrMsg : WideString; Initialize : Boolean = True) : TBaseCodeElement;
+    function FindDefinitionByCoordinates(const Filename : string; Line, Col: integer;
+      var ErrMsg : string; Initialize : Boolean = True) : TBaseCodeElement;
     { given the coords of a function, class, method or variable
         returns a list of references to it. }
-    procedure FindReferencesByCoordinates(Filename : WideString; Line, Col: integer;
-      var ErrMsg : WideString; List : TWideStringList);
-    function FindUnDottedDefinition(const Ident : WideString; ParsedModule : TParsedModule;
-      Scope : TCodeElement; var ErrMsg : WideString) : TBaseCodeElement;
-    function FindDottedIdentInScope(const DottedIdent : WideString; Scope : TCodeElement;
-      var ErrMsg: WideString) : TBaseCodeElement;
-    function FindDottedDefinition(const DottedIdent : WideString; ParsedModule : TParsedModule;
-      Scope : TCodeElement; var ErrMsg : WideString) : TBaseCodeElement;
+    procedure FindReferencesByCoordinates(Filename : string; Line, Col: integer;
+      var ErrMsg : string; List : TStringList);
+    function FindUnDottedDefinition(const Ident : string; ParsedModule : TParsedModule;
+      Scope : TCodeElement; var ErrMsg : string) : TBaseCodeElement;
+    function FindDottedIdentInScope(const DottedIdent : string; Scope : TCodeElement;
+      var ErrMsg: string) : TBaseCodeElement;
+    function FindDottedDefinition(const DottedIdent : string; ParsedModule : TParsedModule;
+      Scope : TCodeElement; var ErrMsg : string) : TBaseCodeElement;
     function ResolveModuleImport(ModuleImport : TModuleImport): TParsedModule;
-    function ResolveImportedName(const Ident: WideString; ModuleImport: TModuleImport;
-      var ErrMsg: WideString): TBaseCodeElement;
-    function GetType(Variable : TVariable; var ErrMsg : WideString) : TCodeElement;
-    procedure FindReferences(CE : TBaseCodeElement; var ErrMsg : WideString;
-      List : TWideStringList);
+    function ResolveImportedName(const Ident: string; ModuleImport: TModuleImport;
+      var ErrMsg: string): TBaseCodeElement;
+    function GetType(Variable : TVariable; var ErrMsg : string) : TCodeElement;
+    procedure FindReferences(CE : TBaseCodeElement; var ErrMsg : string;
+      List : TStringList);
     procedure FindReferencesInModule(CE : TBaseCodeElement; Module : TParsedModule;
-      CodeBlock: TCodeBlock; var ErrMsg : WideString; List : TWideStringList);
-    procedure FindReferencesGlobally(CE : TBaseCodeElement; var ErrMsg : WideString;
-      List : TWideStringList);
+      CodeBlock: TCodeBlock; var ErrMsg : string; List : TStringList);
+    procedure FindReferencesGlobally(CE : TBaseCodeElement; var ErrMsg : string;
+      List : TStringList);
   end;
 
 var
   PyScripterRefactor : TPyScripterRefactor;
 
 Const
-  FilePosInfoFormat : WideString = '%s (%d:%d)';
-  FilePosInfoRegExpr : WideString = '(.+) \((\d+):(\d+)\)$';
+  FilePosInfoFormat : string = '%s (%d:%d)';
+  FilePosInfoRegExpr : string = '(.+) \((\d+):(\d+)\)$';
 
 implementation
 
 uses
   frmPythonII, PythonEngine, VarPyth, dmCommands,
-  uEditAppIntfs, 
+  uEditAppIntfs,
   uCommonFunctions, Math, StringResources,
-  cPyDebugger, gnugettext, TntSysUtils, VirtualFileSearch;
+  cPyDebugger, gnugettext, VirtualFileSearch, StrUtils, JclStrings;
 
 { TPyScripterRefactor }
 
@@ -146,34 +146,34 @@ begin
   inherited;
   fPythonScanner := TPythonScanner.Create;
 
-  fParsedModules := TWideStringList.Create;
+  fParsedModules := TStringList.Create;
   fParsedModules.CaseSensitive := True;
   fParsedModules.Sorted := True;
   fParsedModules.Duplicates := dupError;
 
-  fProxyModules := TWideStringList.Create;
+  fProxyModules := TStringList.Create;
   fProxyModules.CaseSensitive := True;
   fProxyModules.Sorted := True;
   fProxyModules.Duplicates := dupError;
 
-  fImportResolverCache := TWideStringList.Create;
+  fImportResolverCache := TStringList.Create;
   fImportResolverCache.CaseSensitive := True;
   fImportResolverCache.Sorted := True;
   fImportResolverCache.Duplicates := dupError;
 
-  fGetTypeCache := TWideStringList.Create;
+  fGetTypeCache := TStringList.Create;
   fGetTypeCache.CaseSensitive := True;
   fGetTypeCache.Sorted := True;
   fGetTypeCache.Duplicates := dupError;
 
-  fSpecialPackages := TWideStringList.Create;
+  fSpecialPackages := TStringList.Create;
   fSpecialPackages.CaseSensitive := true;
 end;
 
-function TPyScripterRefactor.FindDefinitionByCoordinates(const Filename: WideString; Line,
-  Col: integer; var ErrMsg : WideString; Initialize : Boolean = True): TBaseCodeElement;
+function TPyScripterRefactor.FindDefinitionByCoordinates(const Filename: string; Line,
+  Col: integer; var ErrMsg : string; Initialize : Boolean = True): TBaseCodeElement;
 var
-  DottedIdent, LineS : WideString;
+  DottedIdent, LineS : string;
   ParsedModule : TParsedModule;
   Scope : TCodeElement;
   PythonPathAdder : IInterface;
@@ -183,13 +183,13 @@ begin
     InitializeQuery;
 
     // Add the file path to the Python path - Will be automatically removed
-    PythonPathAdder := InternalInterpreter.AddPathToPythonPath(WideExtractFileDir(FileName));
+    PythonPathAdder := InternalInterpreter.AddPathToPythonPath(ExtractFileDir(FileName));
   end;
 
   // GetParsedModule
   ParsedModule := GetParsedModule(FileName, None);
   if not Assigned(ParsedModule) then begin
-    ErrMsg := WideFormat(_(SCouldNotLoadModule), [FileName]);
+    ErrMsg := Format(_(SCouldNotLoadModule), [FileName]);
     Exit;
   end;
 
@@ -229,7 +229,7 @@ begin
   inherited;
 end;
 
-function TPyScripterRefactor.GetParsedModule(const ModuleName: WideString;
+function TPyScripterRefactor.GetParsedModule(const ModuleName: string;
   PythonPath : Variant): TParsedModule;
 {
    ModuleName can be either
@@ -240,17 +240,17 @@ function TPyScripterRefactor.GetParsedModule(const ModuleName: WideString;
 { TODO : Deal Source residing in zip file etc. }
 var
   Index, SpecialPackagesIndex : integer;
-  FName : WideString;
+  FName : string;
   FNameVar : Variant;
-  ModuleSource  : WideString;
-  DottedModuleName : WideString;
+  ModuleSource  : string;
+  DottedModuleName : string;
   ParsedModule : TParsedModule;
   Editor : IEditor;
   FoundSource : boolean;
   SuppressOutput : IInterface;
   InSysModules : Boolean;
 begin
-  if WideFileExists(ModuleName) then begin
+  if FileExists(ModuleName) then begin
     FName := ModuleName;
     DottedModuleName := FileNameToModuleName(FName);
   end else begin
@@ -266,7 +266,7 @@ begin
       // only import if it is not available
       if SysModule.modules.__contains__(DottedModuleName) then
       else
-        Import(DottedModuleName);
+        Import(AnsiString(DottedModuleName));
     except
       SpecialPackagesIndex := -1;
     end;
@@ -322,8 +322,8 @@ begin
   end;
 end;
 
-function TPyScripterRefactor.GetSource(const FName: WideString;
-  var Source: WideString): Boolean;
+function TPyScripterRefactor.GetSource(const FName: string;
+  var Source: string): Boolean;
 var
   Editor : IEditor;
 begin
@@ -334,10 +334,10 @@ begin
     Result := True;
   end;
   if not Result then begin
-    if not WideFileExists(FName) then
+    if not FileExists(FName) then
       Exit;
     try
-      Source := FileToWideStr(FName);
+      Source := FileToStr(FName);
       Result := True;
     except
       // We cannot open the file for some reason
@@ -364,15 +364,15 @@ begin
   fProxyModules.Clear;
 end;
 
-function TPyScripterRefactor.FindDottedDefinition(const DottedIdent: WideString;
-  ParsedModule : TParsedModule; Scope: TCodeElement; var ErrMsg: WideString): TBaseCodeElement;
+function TPyScripterRefactor.FindDottedDefinition(const DottedIdent: string;
+  ParsedModule : TParsedModule; Scope: TCodeElement; var ErrMsg: string): TBaseCodeElement;
 {
   Look for a dotted identifier in a given CodeElement (scope) of a ParsedModule
   The function first finds the first part of the dotted definition and then
   calls the recursive function FindDottedIdentInScope
 }
 Var
-  Prefix, Suffix : WideString;
+  Prefix, Suffix : string;
   Def : TBaseCodeElement;
 begin
   Result := nil;
@@ -384,7 +384,7 @@ begin
   if Suffix = '' then Exit;
 
 
-  Prefix := WideStrToken(Suffix, '.');
+  Prefix := StrToken(Suffix, '.');
   Def := FindUnDottedDefinition(Prefix, ParsedModule, Scope, ErrMsg);
 
   if Assigned(Def) then begin
@@ -396,12 +396,12 @@ begin
     end else
       Result := Def;
   end else
-    ErrMsg := WideFormat(_(SCouldNotFindIdentInScope),
+    ErrMsg := Format(_(SCouldNotFindIdentInScope),
           [DottedIdent, Scope.Name]);
 end;
 
-function TPyScripterRefactor.FindUnDottedDefinition(const Ident: WideString;
-  ParsedModule : TParsedModule; Scope: TCodeElement; var ErrMsg: WideString): TBaseCodeElement;
+function TPyScripterRefactor.FindUnDottedDefinition(const Ident: string;
+  ParsedModule : TParsedModule; Scope: TCodeElement; var ErrMsg: string): TBaseCodeElement;
 {
   Look for an undotted (root) identifier in a given CodeElement (scope)
   of a ParsedModule
@@ -410,7 +410,7 @@ function TPyScripterRefactor.FindUnDottedDefinition(const Ident: WideString;
   Finally it looks for implicitely imported modules and from * imports
 }
 Var
-  NameSpace : TWideStringList;
+  NameSpace : TStringList;
   ParsedBuiltinModule : TParsedModule;
   Index: integer;
   CodeElement : TCodeElement;
@@ -427,7 +427,7 @@ begin
     Exit;
   end;
 
-  NameSpace := TWideStringList.Create;
+  NameSpace := TStringList.Create;
   NameSpace.CaseSensitive := True;
   try
     // First check the Scope and Parent scopes
@@ -472,16 +472,16 @@ begin
 
 
   if not Assigned(Result) then
-    ErrMsg := WideFormat(_(SCouldNotFindIdent),
+    ErrMsg := Format(_(SCouldNotFindIdent),
       [Ident, ParsedModule.Name]);
 end;
 
 function TPyScripterRefactor.ResolveModuleImport(ModuleImport: TModuleImport) : TParsedModule;
 var
   ParentModule : TParsedModule;
-  ModulePath : WideString;
+  ModulePath : string;
   PythonPath : Variant;
-  RealName : WideString;
+  RealName : string;
   i : integer;
 begin
   ParentModule := ModuleImport.GetModule;
@@ -490,16 +490,16 @@ begin
   // Deal with relative imports
   if ModuleImport.PrefixDotCount > 1 then begin
     if Assigned(ParentModule) then
-      ModulePath := WideExtractFileDir(ParentModule.FileName);
+      ModulePath := ExtractFileDir(ParentModule.FileName);
     i := 1;
-    while (ModulePath <> '') and (WideDirectoryExists(ModulePath)) and
+    while (ModulePath <> '') and (DirectoryExists(ModulePath)) and
       (i < ModuleImport.PrefixDotCount) do
     begin
       Inc(i);
-      ModulePath := WideExtractFileDir(ModulePath);
+      ModulePath := ExtractFileDir(ModulePath);
     end;
     if (i = ModuleImport.PrefixDotCount) and (ModulePath <> '') and
-       (WideDirectoryExists(ModulePath)) then
+       (DirectoryExists(ModulePath)) then
     begin
       PythonPath := NewPythonList();
       PythonPath.append(ModulePath);
@@ -515,17 +515,17 @@ begin
   end;
 end;
 
-function TPyScripterRefactor.ResolveImportedName(const Ident: WideString;
-  ModuleImport: TModuleImport; var ErrMsg: WideString): TBaseCodeElement;
+function TPyScripterRefactor.ResolveImportedName(const Ident: string;
+  ModuleImport: TModuleImport; var ErrMsg: string): TBaseCodeElement;
 // May be called recursively
 // fImportResolverCache is used to prevent infinite recursion
 Var
-  S : WideString;
+  S : string;
   ImportedModule : TParsedModule;
-  NameSpace : TWideStringList;
+  NameSpace : TStringList;
   Index : integer;
   ParentModule : TParsedModule;
-  ModulePath : WideString;
+  ModulePath : string;
   PythonPath : Variant;
   i : integer;
 begin
@@ -538,16 +538,16 @@ begin
     if ModuleImport.PrefixDotCount > 0 then begin
       ParentModule := ModuleImport.GetModule;
       if Assigned(ParentModule) then begin
-        ModulePath := WideExtractFileDir(ParentModule.FileName);
+        ModulePath := ExtractFileDir(ParentModule.FileName);
         i := 1;
-        while (ModulePath <> '') and (WideDirectoryExists(ModulePath)) and
+        while (ModulePath <> '') and (DirectoryExists(ModulePath)) and
           (i < ModuleImport.PrefixDotCount) do
         begin
           Inc(i);
-          ModulePath := WideExtractFileDir(ModulePath);
+          ModulePath := ExtractFileDir(ModulePath);
         end;
         if (i = ModuleImport.PrefixDotCount) and (ModulePath <> '') and
-           (WideDirectoryExists(ModulePath)) then
+           (DirectoryExists(ModulePath)) then
         begin
           PythonPath := NewPythonList();
           PythonPath.append(ModulePath);
@@ -556,14 +556,14 @@ begin
       end;
     end;
     if not Assigned(Result) then
-      ErrMsg := WideFormat(_(SCouldNotFindModule), [Ident]);
+      ErrMsg := Format(_(SCouldNotFindModule), [Ident]);
   end else begin
     ImportedModule := ResolveModuleImport(ModuleImport);
     if not Assigned(ImportedModule) then
-      ErrMsg := WideFormat(_(SCouldNotAnalyseModule), [ModuleImport.Name])
+      ErrMsg := Format(_(SCouldNotAnalyseModule), [ModuleImport.Name])
     else begin
       fImportResolverCache.Add(S);
-      NameSpace := TWideStringList.Create;
+      NameSpace := TStringList.Create;
       NameSpace.CaseSensitive := True;
       try
         ImportedModule.GetNameSpace(NameSpace);
@@ -585,7 +585,7 @@ begin
           Result := GetParsedModule(ImportedModule.Name + '.' + Ident, None);
 
         if not Assigned(Result) then
-          ErrMsg := WideFormat(_(SCouldNotFindIdent),
+          ErrMsg := Format(_(SCouldNotFindIdent),
           [Ident, ModuleImport.Name]);
       finally
         NameSpace.Free;
@@ -596,7 +596,7 @@ begin
 end;
 
 function TPyScripterRefactor.GetType(Variable: TVariable;
-  var ErrMsg: WideString): TCodeElement;
+  var ErrMsg: string): TCodeElement;
 // Returns the type of a TVariable as a TCodeElement
 // One limitation is that it does not differentiate between Classes and their
 // instances, which should be OK for our needs (FindDefinition and CodeCompletion)
@@ -605,7 +605,7 @@ Var
   AVar : TVariable;
   Module : TParsedModule;
   ParsedBuiltInModule : TParsedModule;
-  S : WideString;
+  S : string;
 begin
   Result := nil;
   // Resolve imported variables
@@ -654,30 +654,30 @@ begin
           Result := GetType(TVariable(TypeCE), ErrMsg);
       end;
       if not Assigned(Result) then
-        ErrMsg := WideFormat(_(STypeOfSIsUnknown), [AVar.Name]);
+        ErrMsg := Format(_(STypeOfSIsUnknown), [AVar.Name]);
     finally
       fGetTypeCache.Delete(fGetTypeCache.IndexOf(S));
     end;
   end;
 end;
 
-function TPyScripterRefactor.FindDottedIdentInScope(const DottedIdent: WideString;
-  Scope: TCodeElement; var ErrMsg: WideString): TBaseCodeElement;
+function TPyScripterRefactor.FindDottedIdentInScope(const DottedIdent: string;
+  Scope: TCodeElement; var ErrMsg: string): TBaseCodeElement;
 // Recursive routine
 // Do not call directly - It is called from FindDottedDefinition
 // and assumes that the first part (Suffix) of the DottedIdent is not
 // a root code element
 Var
-  Prefix, Suffix : WideString;
-  NameSpace : TWideStringList;
+  Prefix, Suffix : string;
+  NameSpace : TStringList;
   Def : TBaseCodeElement;
   Index : integer;
 begin
   Result := nil;
   Suffix := DottedIdent;
-  Prefix := WideStrToken(Suffix, '.');
+  Prefix := StrToken(Suffix, '.');
   Def := nil;
-  NameSpace := TWideStringList.Create;
+  NameSpace := TStringList.Create;
   NameSpace.CaseSensitive := True;
   try
     Scope.GetNameSpace(NameSpace);
@@ -706,7 +706,7 @@ begin
     end else
       Result := Def;
   end else
-    ErrMsg := WideFormat(_(SCouldNotFindIdentInScope),
+    ErrMsg := Format(_(SCouldNotFindIdentInScope),
           [DottedIdent, Scope.Name]);
 end;
 
@@ -717,10 +717,10 @@ begin
   fGetTypeCache.Clear;  // fresh start
 end;
 
-procedure TPyScripterRefactor.FindReferencesByCoordinates(Filename: WideString;
-  Line, Col: integer; var ErrMsg: WideString; List: TWideStringList);
+procedure TPyScripterRefactor.FindReferencesByCoordinates(Filename: string;
+  Line, Col: integer; var ErrMsg: string; List: TStringList);
 Var
-  DottedIdent, LineS : WideString;
+  DottedIdent, LineS : string;
   ParsedModule : TParsedModule;
   Scope : TCodeElement;
   PythonPathAdder : IInterface;
@@ -729,12 +729,12 @@ begin
   InitializeQuery;
 
   // Add the file path to the Python path - Will be automatically removed
-  PythonPathAdder := InternalInterpreter.AddPathToPythonPath(WideExtractFileDir(FileName));
+  PythonPathAdder := InternalInterpreter.AddPathToPythonPath(ExtractFileDir(FileName));
 
   // GetParsedModule
   ParsedModule := GetParsedModule(FileName, None);
   if not Assigned(ParsedModule) then begin
-    ErrMsg := WideFormat(_(SCouldNotLoadModule), [FileName]);
+    ErrMsg := Format(_(SCouldNotLoadModule), [FileName]);
     Exit;
   end;
 
@@ -772,7 +772,7 @@ begin
 end;
 
 procedure TPyScripterRefactor.FindReferences(CE: TBaseCodeElement;
-  var ErrMsg: WideString; List: TWideStringList);
+  var ErrMsg: string; List: TStringList);
 Var
   Module : TParsedModule;
   SearchScope : TCodeElement;
@@ -804,22 +804,22 @@ begin
 end;
 
 procedure TPyScripterRefactor.FindReferencesGlobally(CE: TBaseCodeElement;
-  var ErrMsg: WideString; List: TWideStringList);
+  var ErrMsg: string; List: TStringList);
 Var
   Module, ParsedModule : TParsedModule;
-  FileName, Dir : WideString;
-  CEName, ModuleSource : WideString;
+  FileName, Dir : string;
+  CEName, ModuleSource : string;
   i : integer;
-  FindRefFileList : TWideStringList;
+  FindRefFileList : TStringList;
 begin
   Module := CE.GetModule;
   Assert(Assigned(Module));
-  FindRefFileList := TWideStringList.Create;
+  FindRefFileList := TStringList.Create;
 
   try
     FileName := Module.FileName;
-    Dir := WideExtractFileDir(FileName);
-    if IsDirPythonPackage(Dir) then 
+    Dir := ExtractFileDir(FileName);
+    if IsDirPythonPackage(Dir) then
       Dir := GetPackageRootDir(Dir);
 
     // Find Python files in this directory
@@ -828,7 +828,7 @@ begin
       [vsaArchive, vsaCompressed, vsaEncrypted, vsaNormal, vsaOffline, vsaReadOnly],
       [vsaDirectory, vsaHidden, vsaSystem, vsaTemporary]);
 
-    CEName := Copy(CE.Name, WideCharLastPos(CE.Name, WideChar('.')) + 1, MaxInt);
+    CEName := Copy(CE.Name, CharLastPos(CE.Name, WideChar('.')) + 1, MaxInt);
     for i := 0 to FindRefFileList.Count - 1 do begin
       { TODO 2 : Currently we are reading the source code twice for modules that get searched.
         Once to scan them and then when they get parsed. This can be optimised out. }
@@ -847,11 +847,11 @@ begin
 end;
 
 procedure TPyScripterRefactor.FindReferencesInModule(CE: TBaseCodeElement;
-  Module: TParsedModule; CodeBlock: TCodeBlock; var ErrMsg: WideString;
-  List: TWideStringList);
+  Module: TParsedModule; CodeBlock: TCodeBlock; var ErrMsg: string;
+  List: TStringList);
 Var
-  SL : TWideStringList;
-  Line, CEName, CEModuleName : WideString;
+  SL : TStringList;
+  Line, CEName, CEModuleName : string;
   i, j : integer;
   LinePos: Integer;
   Found : Boolean;
@@ -862,13 +862,13 @@ Var
   ModuleIsImported : boolean;
 begin
   // the following if for seaching for sub-modules and sub-packages
-  CEName := Copy(CE.Name, WideCharLastPos(CE.Name, WideChar('.')) + 1, MaxInt);
+  CEName := Copy(CE.Name, CharLastPos(CE.Name, WideChar('.')) + 1, MaxInt);
   ModuleIsImported := False;
   if not WideSameText(CE.GetModule.FileName, Module.FileName) then begin
     // Check (approximately!) whether CE.GetModule gets imported in Module
     CEModuleName := CE.GetModule.Name;
-    if WideCharPos(CE.GetModule.Name, WideChar('.')) > 0 then
-      CEModuleName := Copy(CEModuleName, WideCharLastPos(CEModuleName, WideChar('.')) + 1, MaxInt);
+    if CharPos(CE.GetModule.Name, WideChar('.')) > 0 then
+      CEModuleName := Copy(CEModuleName, CharLastPos(CEModuleName, WideChar('.')) + 1, MaxInt);
     for i := 0 to Module.ImportedModules.Count - 1 do begin
       if Pos(CEModuleName, TModuleImport(Module.ImportedModules[i]).Name) >0 then begin
         ModuleIsImported := True;
@@ -878,7 +878,7 @@ begin
       // the following is for dealing with the syntax
       //      from package import submodule
       // if CE.Module is a submodule and subpackage
-      if WideCharPos(CE.GetModule.Name, WideChar('.')) > 0 then begin
+      if CharPos(CE.GetModule.Name, WideChar('.')) > 0 then begin
         if Assigned(TModuleImport(Module.ImportedModules[i]).ImportedNames) then
           for j := 0 to TModuleImport(Module.ImportedModules[i]).ImportedNames.Count - 1 do
             if Pos(CEModuleName, TVariable(
@@ -897,14 +897,14 @@ begin
   // if Module is TModuleProxy then MaskedSource will be '' and Cadeblock.StartLine will be 0
   // so no searching will take place.
 
-  SL := TWideStringList.Create;
+  SL := TStringList.Create;
   SL.Text := Module.MaskedSource;
   try
     for i := Max(1 ,CodeBlock.StartLine)-1 to Min(SL.Count, CodeBlock.EndLine) - 1 do begin
       Line := SL[i];
       EndPos := 0;
       Repeat
-        LinePos := WidePosEx(CEName, Line, EndPos + 1);
+        LinePos := PosEx(CEName, Line, EndPos + 1);
         Found := LinePos > 0;
         if Found then begin
           // check if it is a whole word
@@ -935,7 +935,7 @@ begin
             Def := ResolveModuleImport(TModuleImport(Def));
 
           if Def = CE then
-            List.Add(WideFormat(FilePosInfoFormat, [Module.FileName, i+1, LinePos]));
+            List.Add(Format(FilePosInfoFormat, [Module.FileName, i+1, LinePos]));
           // End of processing  -------------------
         end;
       Until not Found;
@@ -996,13 +996,13 @@ begin
     FileName := fPyModule.__file__;
 end;
 
-procedure TModuleProxy.GetNameSpace(SList: TWideStringList);
+procedure TModuleProxy.GetNameSpace(SList: TStringList);
 begin
   if not fIsExpanded then Expand;
   inherited;
 end;
 
-function TModuleProxy.GetAllExportsVar: WideString;
+function TModuleProxy.GetAllExportsVar: string;
 begin
    Result := '';
 //   No need since we are exporting what is needed
@@ -1018,7 +1018,7 @@ begin
 //   end;
 end;
 
-function TModuleProxy.GetDocString: WideString;
+function TModuleProxy.GetDocString: string;
 Var
   PyDocString : Variant;
 begin
@@ -1029,12 +1029,12 @@ begin
     Result := '';
 end;
 
-function TModuleProxy.GetCodeHint: WideString;
+function TModuleProxy.GetCodeHint: string;
 begin
   if IsPackage then
-    Result := WideFormat(_(SPackageProxyCodeHint), [Name])
+    Result := Format(_(SPackageProxyCodeHint), [Name])
   else
-    Result := WideFormat(_(SModuleProxyCodeHint), [Name]);
+    Result := Format(_(SModuleProxyCodeHint), [Name]);
 end;
 
 { TClassProxy }
@@ -1079,7 +1079,7 @@ begin
   fIsExpanded := True;
 end;
 
-constructor TClassProxy.CreateFromClass(AName : WideString; AClass: Variant);
+constructor TClassProxy.CreateFromClass(AName : string; AClass: Variant);
 begin
   inherited Create;
   if not VarIsPythonClass(AClass) then
@@ -1090,7 +1090,7 @@ begin
   fIsProxy := True;
 end;
 
-procedure TClassProxy.GetNameSpace(SList: TWideStringList);
+procedure TClassProxy.GetNameSpace(SList: TStringList);
 Var
   i : integer;
 begin
@@ -1103,7 +1103,7 @@ begin
     SList.AddObject(TVariable(Attributes[i]).Name, Attributes[i])
 end;
 
-function TClassProxy.GetDocString: WideString;
+function TClassProxy.GetDocString: string;
 Var
   PyDocString : Variant;
 begin
@@ -1122,12 +1122,12 @@ end;
 
 { TFunctionProxy }
 
-function TFunctionProxy.ArgumentsString: WideString;
+function TFunctionProxy.ArgumentsString: string;
 begin
   Result := InternalInterpreter.PyInteractiveInterpreter.get_arg_text(fPyFunction);
 end;
 
-constructor TFunctionProxy.CreateFromFunction(AName : WideString; AFunction: Variant);
+constructor TFunctionProxy.CreateFromFunction(AName : string; AFunction: Variant);
 var
   InspectModule : Variant;
 begin
@@ -1205,7 +1205,7 @@ begin
   end;
 end;
 
-function TFunctionProxy.GetDocString: WideString;
+function TFunctionProxy.GetDocString: string;
 Var
   PyDocString : Variant;
 begin
@@ -1216,7 +1216,7 @@ begin
     Result := '';
 end;
 
-procedure TFunctionProxy.GetNameSpace(SList: TWideStringList);
+procedure TFunctionProxy.GetNameSpace(SList: TStringList);
 begin
   if not fIsExpanded then Expand;
   inherited;
@@ -1224,7 +1224,7 @@ end;
 
 { TVariableProxy }
 
-constructor TVariableProxy.CreateFromPyObject(const AName: WideString; AnObject: Variant);
+constructor TVariableProxy.CreateFromPyObject(const AName: string; AnObject: Variant);
 begin
   inherited Create;
   Name := AName;
@@ -1233,7 +1233,7 @@ begin
   fIsProxy := True;
 end;
 
-procedure TVariableProxy.GetNameSpace(SList: TWideStringList);
+procedure TVariableProxy.GetNameSpace(SList: TStringList);
 begin
   if not fIsExpanded then Expand;
   inherited;
@@ -1270,7 +1270,7 @@ begin
   fIsExpanded := True;
 end;
 
-function TVariableProxy.GetDocString: WideString;
+function TVariableProxy.GetDocString: string;
 Var
   PyDocString : Variant;
 begin
@@ -1281,9 +1281,9 @@ begin
     Result := '';
 end;
 
-function TVariableProxy.GetCodeHint: WideString;
+function TVariableProxy.GetCodeHint: string;
 Var
-  Fmt, ObjType : WideString;
+  Fmt, ObjType : string;
 begin
   if Parent is TParsedFunction then
     Fmt := _(SLocalVariableCodeHint)
@@ -1294,11 +1294,11 @@ begin
   else
     Fmt := '';
   if Fmt <> '' then begin
-    Result := WideFormat(Fmt,
+    Result := Format(Fmt,
       [Name, Parent.Name, '']);
 
     ObjType := BuiltInModule.type(PyObject).__name__;
-    Result := Result + WideFormat(_(SVariableTypeCodeHint), [ObjType]);
+    Result := Result + Format(_(SVariableTypeCodeHint), [ObjType]);
   end else
     Result := '';
 end;
@@ -1308,4 +1308,3 @@ initialization
 finalization
   PyScripterRefactor.Free;
 end.
-

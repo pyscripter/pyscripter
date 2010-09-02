@@ -10,8 +10,8 @@ unit dlgConfigureTools;
 interface
 
 uses
-  SysUtils, Classes, Windows, Controls, Forms, StdCtrls, 
-  SpTBXControls, TntStdCtrls, SpTBXEditors, dlgPyIDEBase, SpTBXItem;
+  SysUtils, Classes, Windows, Controls, Forms, StdCtrls,
+  SpTBXControls, SpTBXEditors, dlgPyIDEBase, SpTBXItem;
 
 type
   TConfigureTools = class(TPyIDEDlgBase)

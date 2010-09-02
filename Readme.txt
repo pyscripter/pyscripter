@@ -1,9 +1,7 @@
 INSTRUCTIONS FOR COMPILIING PyScripter
 ======================================
 
-I am using Borland Delphi 2006 to compile PyScripter but with few changes it could compile with other versions.
-
-
+I am using Borland Delphi 2010 to compile PyScripter but it should compile with Delphi 2009.
 
 Use TortoiseSVN to download the code from pyscripter.googlecode.com
 
@@ -14,10 +12,9 @@ To compile the PythonIDE.dpr, you first need to install the following components
    - JCL and JVCL (jvcl.sf.net)
 
    - Toolbar2000 (http://www.innosetup.com/tb2k.php)
-   - Tntware Delphi Unicode Controls (http://www.silverpointdevelopment.com/sptbxlib/TntUnicodeControls.zip)
    - SpTBXLib version (Use SVN svn://www.soft-gems.net/mustangpeak/SpTBXLib)
-     
-   - Install the PyScripterCustom package and the Tntware Delphi LX Controls (can be found in the Components folder of PyScripter)
+   
+   - Install the PyScripterCustom package
 
    - Unicode version of SynEdit (synedit.sf.net) at http://mh-nexus.de/unisynedit.htm (latest version needed)
    - SynWeb Highlighters at http://flatdev.ovh.org/
@@ -26,7 +23,6 @@ To compile the PythonIDE.dpr, you first need to install the following components
    
    - MustangPeak Components: Common Library, EasyListView and VirtualShellTools.  
      Use SVN (svn://www.soft-gems.net/mustangpeak)
-     In all three packages you need to modify the files Addins.inc the "Include" directory and the Options.ini 
-     in the Source directory to enable TB2K and SpTBX
+     In VirtualShellTools you need to modify the files Addins.inc the "Include" directory to enable SpTBX
 
 If you have managed to do all the above then you should be able to compile PyScripter! :) 

@@ -52,10 +52,10 @@ type
   TWebPreviewView = class(TInterfacedObject, IEditorViewFactory)
   private
     function CreateForm(Editor: IEditor; AOwner : TComponent): TCustomForm;
-    function GetName : WideString;
-    function GetTabCaption : WideString;
-    function GetMenuCaption : WideString;
-    function GetHint : WideString;
+    function GetName : string;
+    function GetTabCaption : string;
+    function GetMenuCaption : string;
+    function GetHint : string;
     function GetImageIndex : integer;
     function GetShortCut : TShortCut;
     procedure GetContextHighlighters(List : TList);
@@ -158,22 +158,22 @@ begin
   List.Add(CommandsDataModule.SynWebCssSyn);
 end;
 
-function TWebPreviewView.GetHint: WideString;
+function TWebPreviewView.GetHint: string;
 begin
   Result := _(SWebPreviewHint);
 end;
 
-function TWebPreviewView.GetMenuCaption: WideString;
+function TWebPreviewView.GetMenuCaption: string;
 begin
   Result := _(SWebPreview);
 end;
 
-function TWebPreviewView.GetName: WideString;
+function TWebPreviewView.GetName: string;
 begin
   Result := 'Web Preview';
 end;
 
-function TWebPreviewView.GetTabCaption: WideString;
+function TWebPreviewView.GetTabCaption: string;
 begin
   Result := _(SWebPreviewTab);
 end;

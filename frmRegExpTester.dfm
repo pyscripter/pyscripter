@@ -197,9 +197,6 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
         Height = 138
         Align = alBottom
         TabOrder = 0
-        ExplicitLeft = 2
-        ExplicitTop = 277
-        ExplicitWidth = 376
         object TBXLabel1: TSpTBXLabel
           Left = 2
           Top = 2
@@ -216,7 +213,6 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
           Wrapping = twEndEllipsis
           Underline = True
           UnderlineColor = clBlue
-          ExplicitWidth = 372
         end
         object GroupsView: TVirtualStringTree
           Left = 2
@@ -238,7 +234,6 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
           TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowDropmark, toShowHorzGridLines, toShowVertGridLines, toThemeAware, toUseBlendedImages, toUseBlendedSelection]
           TreeOptions.StringOptions = [toAutoAcceptEditChange]
           OnGetText = GroupsViewGetText
-          ExplicitWidth = 372
           Columns = <
             item
               Alignment = taRightJustify
@@ -270,8 +265,6 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
         Height = 5
         Cursor = crSizeNS
         Align = alBottom
-        ExplicitLeft = 24
-        ExplicitTop = 281
       end
       object dpRegExpText: TSpTBXPanel
         Left = 0
@@ -280,9 +273,6 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
         Height = 82
         Align = alTop
         TabOrder = 1
-        ExplicitLeft = 2
-        ExplicitTop = 2
-        ExplicitWidth = 376
         object TBXLabel3: TSpTBXLabel
           Left = 2
           Top = 2
@@ -299,7 +289,6 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
           Wrapping = twEndEllipsis
           Underline = True
           UnderlineColor = clBlue
-          ExplicitWidth = 372
         end
         object SpTBXPanel1: TSpTBXPanel
           Left = 2
@@ -310,8 +299,7 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
           Align = alClient
           TabOrder = 0
           HotTrack = True
-          ExplicitWidth = 372
-          object RegExpText: TTntRichEdit
+          object RegExpText: TRichEdit
             Left = 2
             Top = 2
             Width = 372
@@ -320,11 +308,16 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
             BevelInner = bvNone
             BevelOuter = bvNone
             BorderStyle = bsNone
+            Font.Charset = GREEK_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -11
+            Font.Name = 'MS Shell Dlg 2'
+            Font.Style = []
+            ParentFont = False
             PlainText = True
             ScrollBars = ssBoth
             TabOrder = 0
             OnChange = RegExpTextChange
-            ExplicitWidth = 368
           end
         end
       end
@@ -335,9 +328,6 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
         Height = 5
         Cursor = crSizeNS
         Align = alTop
-        ExplicitLeft = 2
-        ExplicitTop = 84
-        ExplicitWidth = 376
       end
       object pnlMiddle: TSpTBXPanel
         Left = 0
@@ -348,10 +338,6 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
         TabOrder = 2
         Borders = False
         TBXStyleBackground = True
-        ExplicitLeft = 2
-        ExplicitTop = 89
-        ExplicitWidth = 376
-        ExplicitHeight = 188
         object dpSearchText: TSpTBXPanel
           Left = 0
           Top = 0
@@ -359,7 +345,6 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
           Height = 95
           Align = alTop
           TabOrder = 0
-          ExplicitWidth = 376
           object TBXLabel4: TSpTBXLabel
             Left = 2
             Top = 2
@@ -376,7 +361,6 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
             Wrapping = twEndEllipsis
             Underline = True
             UnderlineColor = clBlue
-            ExplicitWidth = 372
           end
           object SpTBXPanel2: TSpTBXPanel
             Left = 2
@@ -387,8 +371,7 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
             Align = alClient
             TabOrder = 0
             HotTrack = True
-            ExplicitWidth = 372
-            object SearchText: TTntRichEdit
+            object SearchText: TRichEdit
               Left = 2
               Top = 2
               Width = 372
@@ -397,12 +380,16 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
               BevelInner = bvNone
               BevelOuter = bvNone
               BorderStyle = bsNone
+              Font.Charset = GREEK_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'MS Shell Dlg 2'
+              Font.Style = []
+              ParentFont = False
               PlainText = True
               ScrollBars = ssBoth
               TabOrder = 0
               OnChange = RegExpTextChange
-              ExplicitLeft = 3
-              ExplicitTop = 0
             end
           end
         end
@@ -413,7 +400,6 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
           Height = 5
           Cursor = crSizeNS
           Align = alTop
-          ExplicitWidth = 376
         end
         object dpMatchText: TSpTBXPanel
           Left = 0
@@ -422,8 +408,6 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
           Height = 92
           Align = alClient
           TabOrder = 1
-          ExplicitWidth = 376
-          ExplicitHeight = 88
           object TBXLabel2: TSpTBXLabel
             Left = 2
             Top = 2
@@ -440,7 +424,6 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
             Wrapping = twEndEllipsis
             Underline = True
             UnderlineColor = clBlue
-            ExplicitWidth = 372
           end
           object SpTBXPanel3: TSpTBXPanel
             Left = 2
@@ -451,9 +434,7 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
             Align = alClient
             TabOrder = 0
             HotTrack = True
-            ExplicitWidth = 372
-            ExplicitHeight = 64
-            object MatchText: TTntRichEdit
+            object MatchText: TRichEdit
               Left = 2
               Top = 2
               Width = 372
@@ -462,11 +443,15 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
               BevelInner = bvNone
               BevelOuter = bvNone
               BorderStyle = bsNone
+              Font.Charset = GREEK_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'MS Shell Dlg 2'
+              Font.Style = []
+              ParentFont = False
               PlainText = True
               ScrollBars = ssBoth
               TabOrder = 0
-              ExplicitWidth = 368
-              ExplicitHeight = 60
             end
           end
         end

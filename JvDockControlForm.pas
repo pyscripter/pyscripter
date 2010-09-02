@@ -1520,8 +1520,6 @@ var
   TabHost: TJvDockTabHostForm;
   DockClient1, DockCLient2: TJvDockClient;
   ScreenPos: TRect;
-  otherForm:TForm;
-  n:Integer;
 begin
   DockClient1 := FindDockClient(Form1);
   Form1.Hide;

@@ -6,12 +6,11 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
   Caption = 'Editor Options'
   ClientHeight = 421
   ClientWidth = 431
-  Font.Name = 'MS Shell Dlg 2'
   OldCreateOrder = True
   ShowHint = True
   OnShow = FormShow
   ExplicitWidth = 437
-  ExplicitHeight = 447
+  ExplicitHeight = 449
   PixelsPerInch = 96
   TextHeight = 13
   object SpTBXPanel1: TSpTBXPanel
@@ -77,20 +76,290 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
       Width = 421
       Height = 353
       Align = alTop
-      ActiveTabIndex = 2
+      ActiveTabIndex = 0
       HiddenItems = <>
       object SpTBXTabItem1: TSpTBXTabItem
         Caption = 'Display'
+        Checked = True
       end
       object SpTBXTabItem2: TSpTBXTabItem
         Caption = 'Options'
       end
       object SpTBXTabItem3: TSpTBXTabItem
         Caption = 'Keystrokes'
-        Checked = True
       end
       object SpTBXTabItem4: TSpTBXTabItem
         Caption = 'Syntax Colors'
+      end
+      object Color: TSpTBXTabSheet
+        Left = 0
+        Top = 25
+        Width = 421
+        Height = 328
+        Caption = 'Syntax Colors'
+        ImageIndex = -1
+        DesignSize = (
+          421
+          328)
+        TabItem = 'SpTBXTabItem4'
+        object GroupBox1: TSpTBXGroupBox
+          Left = 6
+          Top = 256
+          Width = 150
+          Height = 62
+          Caption = ' Text attributes '
+          TabOrder = 3
+          TBXStyleBackground = True
+          object cbxElementBold: TSpTBXCheckBox
+            Left = 9
+            Top = 17
+            Width = 44
+            Height = 21
+            Caption = '&Bold'
+            Enabled = False
+            ParentColor = True
+            TabOrder = 0
+            OnClick = cbxElementBoldClick
+          end
+          object cbxElementItalic: TSpTBXCheckBox
+            Left = 9
+            Top = 40
+            Width = 47
+            Height = 21
+            Caption = '&Italic'
+            Enabled = False
+            ParentColor = True
+            TabOrder = 1
+            OnClick = cbxElementBoldClick
+          end
+          object cbxElementUnderline: TSpTBXCheckBox
+            Left = 67
+            Top = 17
+            Width = 69
+            Height = 21
+            Caption = '&Underline'
+            Enabled = False
+            ParentColor = True
+            TabOrder = 2
+            OnClick = cbxElementBoldClick
+          end
+          object cbxElementStrikeout: TSpTBXCheckBox
+            Left = 67
+            Top = 40
+            Width = 72
+            Height = 21
+            Caption = '&Strike Out'
+            Enabled = False
+            ParentColor = True
+            TabOrder = 3
+            OnClick = cbxElementBoldClick
+          end
+        end
+        object SynEdit1: TSynEdit
+          Left = 166
+          Top = 64
+          Width = 252
+          Height = 257
+          Anchors = [akLeft, akTop, akRight]
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = 'Courier New'
+          Font.Style = []
+          TabOrder = 4
+          OnClick = SynEdit1Click
+          Gutter.Font.Charset = DEFAULT_CHARSET
+          Gutter.Font.Color = clWindowText
+          Gutter.Font.Height = -11
+          Gutter.Font.Name = 'Courier New'
+          Gutter.Font.Style = []
+          Gutter.Visible = False
+          Gutter.Width = 0
+          RightEdge = 0
+        end
+        object Label11: TSpTBXLabel
+          Left = 6
+          Top = 45
+          Width = 48
+          Height = 19
+          Caption = '&Element:'
+        end
+        object Label12: TSpTBXLabel
+          Left = 6
+          Top = 164
+          Width = 94
+          Height = 19
+          Caption = '&Foreground Color:'
+        end
+        object Label13: TSpTBXLabel
+          Left = 6
+          Top = 208
+          Width = 94
+          Height = 19
+          Caption = 'B&ackground Color:'
+        end
+        object Label14: TSpTBXLabel
+          Left = 164
+          Top = 45
+          Width = 68
+          Height = 19
+          Caption = 'Code Sample'
+        end
+        object Label15: TSpTBXLabel
+          Left = 6
+          Top = 2
+          Width = 121
+          Height = 19
+          Caption = 'Editor Syntax Language'
+        end
+        object cbHighlighters: TSpTBXComboBox
+          Left = 6
+          Top = 22
+          Width = 406
+          Height = 21
+          Style = csDropDownList
+          Anchors = [akLeft, akTop, akRight]
+          ItemHeight = 13
+          TabOrder = 5
+          OnChange = cbHighlightersChange
+        end
+        object lbElements: TSpTBXListBox
+          Left = 6
+          Top = 64
+          Width = 150
+          Height = 97
+          Style = lbStandard
+          ItemHeight = 13
+          TabOrder = 0
+          OnClick = lbElementsClick
+        end
+        object cbElementForeground: TSpTBXColorEdit
+          Left = 6
+          Top = 185
+          Width = 154
+          Height = 21
+          TabOrder = 1
+          OnChange = cbElementForegroundChange
+          SelectedColor = clBlack
+        end
+        object cbElementBackground: TSpTBXColorEdit
+          Left = 6
+          Top = 230
+          Width = 151
+          Height = 21
+          TabOrder = 2
+          OnChange = cbElementBackgroundChange
+          SelectedColor = clBlack
+        end
+      end
+      object KeyStrokes: TSpTBXTabSheet
+        Left = 0
+        Top = 25
+        Width = 421
+        Height = 328
+        Caption = 'Keystrokes'
+        ImageIndex = -1
+        TabItem = 'SpTBXTabItem3'
+        object gbKeyStrokes: TSpTBXGroupBox
+          AlignWithMargins = True
+          Left = 5
+          Top = 202
+          Width = 409
+          Height = 119
+          Caption = 'Keystroke Options'
+          Align = alBottom
+          TabOrder = 3
+          TBXStyleBackground = True
+          object Label5: TSpTBXLabel
+            Left = 50
+            Top = 28
+            Width = 57
+            Height = 19
+            Caption = 'Command:'
+          end
+          object Label6: TSpTBXLabel
+            Left = 50
+            Top = 91
+            Width = 58
+            Height = 19
+            Caption = 'Keystroke:'
+          end
+          object Label7: TSpTBXLabel
+            Left = 50
+            Top = 59
+            Width = 58
+            Height = 19
+            Caption = 'Keystroke:'
+          end
+          object cKeyCommand: TSpTBXComboBox
+            Left = 154
+            Top = 23
+            Width = 186
+            Height = 21
+            ItemHeight = 13
+            Sorted = True
+            TabOrder = 0
+            OnExit = cKeyCommandExit
+            OnKeyPress = cKeyCommandKeyPress
+            OnKeyUp = cKeyCommandKeyUp
+          end
+        end
+        object btnAddKey: TSpTBXButton
+          Left = 168
+          Top = 166
+          Width = 75
+          Height = 25
+          Caption = '&Add'
+          TabOrder = 1
+          OnClick = btnAddKeyClick
+        end
+        object btnRemKey: TSpTBXButton
+          Left = 249
+          Top = 166
+          Width = 75
+          Height = 25
+          Caption = '&Remove'
+          TabOrder = 2
+          OnClick = btnRemKeyClick
+        end
+        object btnUpdateKey: TSpTBXButton
+          Left = 88
+          Top = 166
+          Width = 75
+          Height = 25
+          Caption = '&Update'
+          TabOrder = 0
+          OnClick = btnUpdateKeyClick
+        end
+        object KeyList: TEasyListview
+          AlignWithMargins = True
+          Left = 5
+          Top = 3
+          Width = 409
+          Height = 152
+          Align = alTop
+          BevelInner = bvRaised
+          BorderStyle = bsNone
+          EditManager.Font.Charset = DEFAULT_CHARSET
+          EditManager.Font.Color = clWindowText
+          EditManager.Font.Height = -11
+          EditManager.Font.Name = 'Tahoma'
+          EditManager.Font.Style = []
+          Header.Columns.Items = {
+            0600000002000000110000005445617379436F6C756D6E53746F726564FFFECE
+            00060000008008000101000100000000010001A7000000FFFFFF1F0001000000
+            010000000700000043006F006D006D0061006E00640000000000000000000000
+            0000110000005445617379436F6C756D6E53746F726564FFFECE000600000080
+            080001010001010000000000018E000000FFFFFF1F0001000000010000000900
+            00004B00650079007300740072006F006B006500000000000000000000000000}
+          Header.Draggable = False
+          Header.Visible = True
+          HotTrack.Enabled = True
+          PaintInfoGroup.MarginBottom.CaptionIndent = 4
+          Selection.FullRowSelect = True
+          TabOrder = 4
+          View = elsReport
+        end
       end
       object Options: TSpTBXTabSheet
         Left = 0
@@ -433,167 +702,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           end
         end
       end
-      object Color: TSpTBXTabSheet
-        Left = 0
-        Top = 25
-        Width = 421
-        Height = 328
-        Caption = 'Syntax Colors'
-        ImageIndex = -1
-        DesignSize = (
-          421
-          328)
-        TabItem = 'SpTBXTabItem4'
-        object GroupBox1: TSpTBXGroupBox
-          Left = 6
-          Top = 256
-          Width = 150
-          Height = 62
-          Caption = ' Text attributes '
-          TabOrder = 3
-          TBXStyleBackground = True
-          object cbxElementBold: TSpTBXCheckBox
-            Left = 9
-            Top = 17
-            Width = 44
-            Height = 21
-            Caption = '&Bold'
-            Enabled = False
-            ParentColor = True
-            TabOrder = 0
-            OnClick = cbxElementBoldClick
-          end
-          object cbxElementItalic: TSpTBXCheckBox
-            Left = 9
-            Top = 40
-            Width = 47
-            Height = 21
-            Caption = '&Italic'
-            Enabled = False
-            ParentColor = True
-            TabOrder = 1
-            OnClick = cbxElementBoldClick
-          end
-          object cbxElementUnderline: TSpTBXCheckBox
-            Left = 67
-            Top = 17
-            Width = 69
-            Height = 21
-            Caption = '&Underline'
-            Enabled = False
-            ParentColor = True
-            TabOrder = 2
-            OnClick = cbxElementBoldClick
-          end
-          object cbxElementStrikeout: TSpTBXCheckBox
-            Left = 67
-            Top = 40
-            Width = 72
-            Height = 21
-            Caption = '&Strike Out'
-            Enabled = False
-            ParentColor = True
-            TabOrder = 3
-            OnClick = cbxElementBoldClick
-          end
-        end
-        object SynEdit1: TSynEdit
-          Left = 166
-          Top = 64
-          Width = 252
-          Height = 257
-          Anchors = [akLeft, akTop, akRight]
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -12
-          Font.Name = 'Courier New'
-          Font.Style = []
-          TabOrder = 4
-          OnClick = SynEdit1Click
-          Gutter.Font.Charset = DEFAULT_CHARSET
-          Gutter.Font.Color = clWindowText
-          Gutter.Font.Height = -11
-          Gutter.Font.Name = 'Courier New'
-          Gutter.Font.Style = []
-          Gutter.Visible = False
-          Gutter.Width = 0
-          RightEdge = 0
-        end
-        object Label11: TSpTBXLabel
-          Left = 6
-          Top = 45
-          Width = 48
-          Height = 19
-          Caption = '&Element:'
-        end
-        object Label12: TSpTBXLabel
-          Left = 6
-          Top = 164
-          Width = 94
-          Height = 19
-          Caption = '&Foreground Color:'
-        end
-        object Label13: TSpTBXLabel
-          Left = 6
-          Top = 208
-          Width = 94
-          Height = 19
-          Caption = 'B&ackground Color:'
-        end
-        object Label14: TSpTBXLabel
-          Left = 164
-          Top = 45
-          Width = 68
-          Height = 19
-          Caption = 'Code Sample'
-        end
-        object Label15: TSpTBXLabel
-          Left = 6
-          Top = 2
-          Width = 121
-          Height = 19
-          Caption = 'Editor Syntax Language'
-        end
-        object cbHighlighters: TSpTBXComboBox
-          Left = 6
-          Top = 22
-          Width = 406
-          Height = 21
-          Style = csDropDownList
-          Anchors = [akLeft, akTop, akRight]
-          ItemHeight = 13
-          TabOrder = 5
-          OnChange = cbHighlightersChange
-        end
-        object lbElements: TSpTBXListBox
-          Left = 6
-          Top = 64
-          Width = 150
-          Height = 97
-          Style = lbStandard
-          ItemHeight = 13
-          TabOrder = 0
-          OnClick = lbElementsClick
-        end
-        object cbElementForeground: TSpTBXColorEdit
-          Left = 6
-          Top = 185
-          Width = 154
-          Height = 21
-          TabOrder = 1
-          OnChange = cbElementForegroundChange
-          SelectedColor = clBlack
-        end
-        object cbElementBackground: TSpTBXColorEdit
-          Left = 6
-          Top = 230
-          Width = 151
-          Height = 21
-          TabOrder = 2
-          OnChange = cbElementBackgroundChange
-          SelectedColor = clBlack
-        end
-      end
       object Display: TSpTBXTabSheet
         Left = 0
         Top = 25
@@ -676,8 +784,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
               Font.Style = []
               ParentFont = False
               Alignment = taCenter
-              ExplicitWidth = 66
-              ExplicitHeight = 18
             end
           end
           object btnGutterFont: TSpTBXButton
@@ -828,8 +934,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
               Font.Style = []
               ParentFont = False
               Alignment = taCenter
-              ExplicitWidth = 134
-              ExplicitHeight = 22
             end
           end
           object btnFont: TSpTBXButton
@@ -898,115 +1002,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             TabOrder = 0
             SelectedColor = clBlack
           end
-        end
-      end
-      object KeyStrokes: TSpTBXTabSheet
-        Left = 0
-        Top = 25
-        Width = 421
-        Height = 328
-        Caption = 'Keystrokes'
-        ImageIndex = -1
-        TabItem = 'SpTBXTabItem3'
-        object gbKeyStrokes: TSpTBXGroupBox
-          AlignWithMargins = True
-          Left = 5
-          Top = 202
-          Width = 409
-          Height = 119
-          Caption = 'Keystroke Options'
-          Align = alBottom
-          TabOrder = 3
-          TBXStyleBackground = True
-          object Label5: TSpTBXLabel
-            Left = 50
-            Top = 28
-            Width = 57
-            Height = 19
-            Caption = 'Command:'
-          end
-          object Label6: TSpTBXLabel
-            Left = 50
-            Top = 91
-            Width = 58
-            Height = 19
-            Caption = 'Keystroke:'
-          end
-          object Label7: TSpTBXLabel
-            Left = 50
-            Top = 59
-            Width = 58
-            Height = 19
-            Caption = 'Keystroke:'
-          end
-          object cKeyCommand: TSpTBXComboBox
-            Left = 154
-            Top = 23
-            Width = 186
-            Height = 21
-            ItemHeight = 13
-            Sorted = True
-            TabOrder = 0
-            OnExit = cKeyCommandExit
-            OnKeyPress = cKeyCommandKeyPress
-            OnKeyUp = cKeyCommandKeyUp
-          end
-        end
-        object btnAddKey: TSpTBXButton
-          Left = 168
-          Top = 166
-          Width = 75
-          Height = 25
-          Caption = '&Add'
-          TabOrder = 1
-          OnClick = btnAddKeyClick
-        end
-        object btnRemKey: TSpTBXButton
-          Left = 249
-          Top = 166
-          Width = 75
-          Height = 25
-          Caption = '&Remove'
-          TabOrder = 2
-          OnClick = btnRemKeyClick
-        end
-        object btnUpdateKey: TSpTBXButton
-          Left = 88
-          Top = 166
-          Width = 75
-          Height = 25
-          Caption = '&Update'
-          TabOrder = 0
-          OnClick = btnUpdateKeyClick
-        end
-        object KeyList: TEasyListview
-          AlignWithMargins = True
-          Left = 5
-          Top = 3
-          Width = 409
-          Height = 152
-          Align = alTop
-          BevelInner = bvRaised
-          BorderStyle = bsNone
-          EditManager.Font.Charset = DEFAULT_CHARSET
-          EditManager.Font.Color = clWindowText
-          EditManager.Font.Height = -11
-          EditManager.Font.Name = 'MS Shell Dlg 2'
-          EditManager.Font.Style = []
-          Header.Columns.Items = {
-            0600000002000000110000005445617379436F6C756D6E53746F726564FFFECE
-            00060000008008000101000100000000010001A7000000FFFFFF1F0001000000
-            010000000700000043006F006D006D0061006E00640000000000000000000000
-            0000110000005445617379436F6C756D6E53746F726564FFFECE000600000080
-            080001010001010000000000018E000000FFFFFF1F0001000000010000000900
-            00004B00650079007300740072006F006B006500000000000000000000000000}
-          Header.Draggable = False
-          Header.Visible = True
-          HotTrack.Enabled = True
-          PaintInfoGroup.MarginBottom.CaptionIndent = 4
-          Selection.FullRowSelect = True
-          TabOrder = 4
-          View = elsReport
         end
       end
     end

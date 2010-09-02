@@ -44,9 +44,9 @@ uses
   Windows, SysUtils, Classes, Graphics, Forms, Controls, StdCtrls,
   Buttons, ExtCtrls, ComCtrls, ImgList, ActnList, Dialogs,
   SynEditPrintTypes, SynEditPrint, SynEditPrintMargins,
-  SynEditPrintHeaderFooter, SpTBXControls, TntActnList, TB2Item,
-  SpTBXItem, TB2Dock, TB2Toolbar, TntStdCtrls, SpTBXEditors, 
-  TntComCtrls, dlgPyIDEBase, SpTBXTabs;
+  SynEditPrintHeaderFooter, SpTBXControls, TB2Item,
+  SpTBXItem, TB2Dock, TB2Toolbar, SpTBXEditors,
+  dlgPyIDEBase, SpTBXTabs;
 
 type
   TPageSetupDlg = class(TPyIDEDlgBase)
@@ -62,16 +62,16 @@ type
     CBHighlight: TSpTBXCheckBox;
     CBColors: TSpTBXCheckBox;
     CBWrap: TSpTBXCheckBox;
-    ActionList1: TTntActionList;
-    UnderlineCmd: TTntAction;
-    ItalicCmd: TTntAction;
-    BoldCmd: TTntAction;
-    FontCmd: TTntAction;
-    TitleCmd: TTntAction;
-    DateCmd: TTntAction;
-    TimeCmd: TTntAction;
-    PagesCmd: TTntAction;
-    PageNumCmd: TTntAction;
+    ActionList1: TActionList;
+    UnderlineCmd: TAction;
+    ItalicCmd: TAction;
+    BoldCmd: TAction;
+    FontCmd: TAction;
+    TitleCmd: TAction;
+    DateCmd: TAction;
+    TimeCmd: TAction;
+    PagesCmd: TAction;
+    PageNumCmd: TAction;
     Label1: TSpTBXLabel;
     Label2: TSpTBXLabel;
     Label3: TSpTBXLabel;
@@ -120,9 +120,6 @@ type
     Label12: TSpTBXLabel;
     Label13: TSpTBXLabel;
     Label14: TSpTBXLabel;
-    REHeaderLeft: TTntRichEdit;
-    REHeaderCenter: TTntRichEdit;
-    REHeaderRight: TTntRichEdit;
     GroupBox3: TSpTBXGroupBox;
     GroupBox4: TSpTBXGroupBox;
     PBFooterLine: TPaintBox;
@@ -136,14 +133,17 @@ type
     Label15: TSpTBXLabel;
     Label16: TSpTBXLabel;
     Label17: TSpTBXLabel;
-    REFooterLeft: TTntRichEdit;
-    REFooterCenter: TTntRichEdit;
-    REFooterRight: TTntRichEdit;
     TabControl: TSpTBXTabControl;
     SpTBXTabItem1: TSpTBXTabItem;
     tbMargins: TSpTBXTabSheet;
     SpTBXTabItem2: TSpTBXTabItem;
     tbHeaderFooter: TSpTBXTabSheet;
+    REHeaderLeft: TRichEdit;
+    REHeaderCenter: TRichEdit;
+    REHeaderRight: TRichEdit;
+    REFooterLeft: TRichEdit;
+    REFooterCenter: TRichEdit;
+    REFooterRight: TRichEdit;
     procedure PageNumCmdExecute(Sender: TObject);
     procedure PagesCmdExecute(Sender: TObject);
     procedure TimeCmdExecute(Sender: TObject);
@@ -193,7 +193,7 @@ var
 implementation
 
 uses
-  RichEdit, Messages, TntDialogs, gnugettext, StringResources;
+  RichEdit, Messages, gnugettext, StringResources;
 
 {$R *.DFM}
 
@@ -420,7 +420,7 @@ begin
       RightHFTextIndent := StringToFloat(EditRightHFTextIndent);
       HFInternalMargin := StringToFloat(EditHFInternalMargin);
     except
-      WideMessageDlg(_(SInvalidNumber), mtError, [mbOk], 0);
+      Dialogs.MessageDlg(_(SInvalidNumber), mtError, [mbOk], 0);
       CurEdit.SetFocus;
     end;
     MirrorMargins := CBMirrorMargins.Checked;
@@ -584,4 +584,3 @@ begin
 end;
 
 end.
-

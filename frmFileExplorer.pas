@@ -15,7 +15,7 @@ uses
   Dialogs, ExtCtrls, JvDockControlForm, VirtualTrees,
   MPShellUtilities, VirtualExplorerTree, Menus, frmIDEDockWin,
   ActnList, VirtualShellHistory,  TB2Item, TB2Dock,
-  TB2Toolbar, JvComponentBase, SpTBXItem, TntActnList,
+  TB2Toolbar, JvComponentBase, SpTBXItem,
   SpTBXSkins;
                                                       
 const
@@ -73,17 +73,17 @@ type
     N5: TMenuItem;
     CreateNewFolder1: TMenuItem;
     tbiNewFolder: TSpTBXItem;
-    FileExplorerActions: TTntActionList;
-    actNewFolder: TTntAction;
-    actAddToFavorites: TTntAction;
-    actManageFavorites: TTntAction;
-    actExploreHere: TTntAction;
-    actSearchPath: TTntAction;
-    actEnableFilter: TTntAction;
-    actRefresh: TTntAction;
-    actGoUp: TTntAction;
-    actGoForward: TTntAction;
-    actGoBack: TTntAction;
+    FileExplorerActions: TActionList;
+    actNewFolder: TAction;
+    actAddToFavorites: TAction;
+    actManageFavorites: TAction;
+    actExploreHere: TAction;
+    actSearchPath: TAction;
+    actEnableFilter: TAction;
+    actRefresh: TAction;
+    actGoUp: TAction;
+    actGoForward: TAction;
+    actGoBack: TAction;
     procedure VirtualShellHistoryChange(Sender: TBaseVirtualShellPersistent;
       ItemIndex: Integer; ChangeType: TVSHChangeType);
     procedure FileExplorerTreeKeyPress(Sender: TObject; var Key: Char);
@@ -153,7 +153,7 @@ procedure TFileExplorerWindow.FileExplorerTreeEnumFolder(
   Sender: TCustomVirtualExplorerTree; Namespace: TNamespace;
   var AllowAsChild: Boolean);
 Var
-  FileExt: WideString;
+  FileExt: string;
 begin
   AllowAsChild := True;
   if actEnableFilter.Checked and not Namespace.Folder  { Don't filter folders } then begin
@@ -430,9 +430,9 @@ procedure TFileExplorerWindow.BrowsePathPopup(Sender: TTBCustomItem;
 var
   i : integer;
   Item : TSpTBXItem;
-  Paths : TWideStringList;
+  Paths : TStringList;
 begin
-  Paths := TWideStringList.Create;
+  Paths := TStringList.Create;
   try
     PyControl.ActiveInterpreter.SysPathToStrings(Paths);
     mnPythonPath.Clear;
@@ -473,4 +473,3 @@ begin
 end;
 
 end.
-

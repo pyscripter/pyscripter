@@ -3,11 +3,10 @@ inherited NewFileDialog: TNewFileDialog
   Caption = 'New File'
   ClientHeight = 297
   ClientWidth = 466
-  Font.Name = 'MS Shell Dlg 2'
   OnDestroy = FormDestroy
   OnShow = FormShow
   ExplicitWidth = 472
-  ExplicitHeight = 323
+  ExplicitHeight = 325
   PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TSpTBXPanel
@@ -99,7 +98,7 @@ inherited NewFileDialog: TNewFileDialog
           EditManager.Font.Charset = DEFAULT_CHARSET
           EditManager.Font.Color = clWindowText
           EditManager.Font.Height = -11
-          EditManager.Font.Name = 'MS Shell Dlg 2'
+          EditManager.Font.Name = 'Tahoma'
           EditManager.Font.Style = []
           Header.Columns.Items = {
             0600000001000000110000005445617379436F6C756D6E53746F726564FFFECE

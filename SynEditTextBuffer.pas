@@ -59,6 +59,11 @@ uses
   SynUnicode,
 {$ENDIF}
   Classes,
+  {$IFNDEF UNICODE}
+  {$IFDEF SYN_COMPILER_10_UP}
+  WideStrings,
+  {$ENDIF}
+  {$ENDIF}
   SysUtils,
   Graphics;
 
@@ -140,16 +145,23 @@ type
     constructor Create(AExpandAtWideGlyphsFunc: TExpandAtWideGlyphsFunc);
     destructor Destroy; override;
     function Add(const S: UnicodeString): integer; override;
+    {$IFDEF SYN_COMPILER_10_UP}
+    {$IFDEF UNICODE}
+    procedure AddStrings(Strings: TStrings); override;
+    {$ELSE}
+    procedure AddStrings(Strings: TWideStrings); override;
+    {$ENDIF}
+    {$ELSE}
     procedure AddStrings(Strings: TUnicodeStrings); override;
+    {$ENDIF}
     procedure Clear; override;
     procedure Delete(Index: integer); override;
-    procedure DeleteLines(Index, NumLines: integer);                            
+    procedure DeleteLines(Index, NumLines: integer);
     procedure Exchange(Index1, Index2: integer); override;
     procedure Insert(Index: integer; const S: UnicodeString); override;
     procedure InsertLines(Index, NumLines: integer);
     procedure InsertStrings(Index: integer; NewStrings: TUnicodeStrings);
     procedure InsertText(Index: integer; NewText: UnicodeString);
-    procedure SetTextStr(const Value: UnicodeString); override;
     procedure FontChanged;
     property AppendNewLineAtEOF: Boolean read fAppendNewLineAtEOF write fAppendNewLineAtEOF;
 
@@ -194,7 +206,7 @@ type
     fChangeStartPos: TBufferCoord;
     fChangeEndPos: TBufferCoord;
     fChangeStr: UnicodeString;
-    fChangeNumber: integer;                                                     
+    fChangeNumber: integer;
   public
     procedure Assign(Source: TPersistent); override;
     property ChangeReason: TSynChangeReason read fChangeReason;
@@ -230,7 +242,7 @@ type
     destructor Destroy; override;
     procedure AddChange(AReason: TSynChangeReason; const AStart, AEnd: TBufferCoord;
       const ChangeText: UnicodeString; SelMode: TSynSelectionMode);
-    procedure BeginBlock;                                                       
+    procedure BeginBlock;
     procedure Clear;
     procedure EndBlock;
     procedure Lock;
@@ -308,7 +320,15 @@ begin
   EndUpdate;
 end;
 
+{$IFDEF SYN_COMPILER_10_UP}
+{$IFDEF UNICODE}
+procedure TSynEditStringList.AddStrings(Strings: TStrings);
+{$ELSE}
+procedure TSynEditStringList.AddStrings(Strings: TWideStrings);
+{$ENDIF}
+{$ELSE}
 procedure TSynEditStringList.AddStrings(Strings: TUnicodeStrings);
+{$ENDIF}
 var
   i, FirstAdded: integer;
 begin
@@ -642,7 +662,7 @@ begin
     System.Move(fList^[Index], fList^[Index + 1],
       (fCount - Index) * SynEditStringRecSize);
   end;
-  fIndexOfLongestLine := -1;                                                    
+  fIndexOfLongestLine := -1;
   with fList^[Index] do
   begin
     Pointer(fString) := nil;
@@ -830,74 +850,6 @@ begin
   end;
 end;
 
-procedure TSynEditStringList.SetTextStr(const Value: UnicodeString);
-var
-  Size: Integer;
-  S: UnicodeString;
-  P, Start: PWideChar;
-  fCR, fLF, fLINESEPARATOR: Boolean;
-  iPos: Integer;
-begin
-  fLINESEPARATOR := False;
-  fCR := False;
-  fLF := False;
-  BeginUpdate;
-  try
-    Clear;
-    Size := Length(Value);
-    P := Pointer(Value);
-    if P <> nil then
-    begin
-      iPos := 0;
-      while (iPos < Size) do
-      begin
-        Start := P;
-        while not CharInSet(P^, [#10, #13]) and (P^ <> WideLineSeparator) and (iPos < Size) do
-        begin
-          Inc(P);
-          Inc(iPos);
-        end;
-        SetString(S, Start, P - Start);
-        Add(S);
-        if P^ = WideLineSeparator then
-        begin
-          fLINESEPARATOR := True;
-          Inc(P);
-          Inc(iPos);
-        end;
-        if P^ = WideCR then
-        begin
-          fCR := True;
-          Inc(P);
-          Inc(iPos);
-        end;
-        if P^ = WideLF then
-        begin
-          fLF := True;
-          Inc(P);
-          Inc(iPos);
-        end;
-      end;
-      // keep the old format of the file
-      if not AppendNewLineAtEOF and
-        (CharInSet(Value[Size], [#10, #13]) or (Value[Size] = WideLineSeparator))
-      then
-        Add('');
-    end;
-  finally
-    EndUpdate;
-  end;
-
-  if fLINESEPARATOR then
-    FileFormat := sffUnicode
-  else if fCR and not fLF then
-    FileFormat := sffMac
-  else if fLF and not fCR then
-    FileFormat := sffUnix
-  else
-    FileFormat := sffDos;
-end;
-
 procedure TSynEditStringList.SetUpdateState(Updating: Boolean);
 begin
   if Updating then begin
@@ -1059,9 +1011,9 @@ procedure TSynEditUndoList.EnsureMaxEntries;
 var
   Item: TSynEditUndoItem;
 begin
-  if fItems.Count > fMaxUndoActions then 
+  if fItems.Count > fMaxUndoActions then
   begin
-    fFullUndoImposible := True;                                                 
+    fFullUndoImposible := True;
     while fItems.Count > fMaxUndoActions do begin
       Item := fItems[0];
       Item.Free;

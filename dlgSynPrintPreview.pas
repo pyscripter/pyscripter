@@ -43,21 +43,21 @@ interface
 uses
   Windows, SysUtils, Classes, Graphics, Forms, Controls, 
   Buttons, ActnList, ImgList, Dialogs,
-  SynEditPrintPreview, Printers, TntActnList, SpTBXItem,
+  SynEditPrintPreview, Printers, SpTBXItem,
   TB2Item, TB2Dock, TB2Toolbar, Menus, dlgPyIDEBase;
 
 type
   TPrintPreviewDlg = class(TPyIDEDlgBase)
     ImageList: TImageList;
     SynEditPrintPreview: TSynEditPrintPreview;
-    ActionList: TTntActionList;
-    CloseCmd: TTntAction;
-    PrintCmd: TTntAction;
-    ZoomCmd: TTntAction;
-    LastCmd: TTntAction;
-    NextCmd: TTntAction;
-    PrevCmd: TTntAction;
-    FirstCmd: TTntAction;
+    ActionList: TActionList;
+    CloseCmd: TAction;
+    PrintCmd: TAction;
+    ZoomCmd: TAction;
+    LastCmd: TAction;
+    NextCmd: TAction;
+    PrevCmd: TAction;
+    FirstCmd: TAction;
     ToolbarDock: TSpTBXDock;
     SpTBXToolbar1: TSpTBXToolbar;
     tbiClose: TSpTBXItem;
@@ -204,4 +204,3 @@ begin
 end;
 
 end.
-

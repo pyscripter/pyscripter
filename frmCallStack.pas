@@ -23,7 +23,7 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure CallStackViewGetText(Sender: TBaseVirtualTree;
       Node: PVirtualNode; Column: TColumnIndex; TextType: TVSTTextType;
-      var CellText: WideString);
+      var CellText: string);
     procedure CallStackViewInitNode(Sender: TBaseVirtualTree; ParentNode,
       Node: PVirtualNode; var InitialStates: TVirtualNodeInitStates);
     procedure CallStackViewChange(Sender: TBaseVirtualTree;
@@ -196,7 +196,7 @@ end;
 
 procedure TCallStackWindow.CallStackViewGetText(Sender: TBaseVirtualTree;
   Node: PVirtualNode; Column: TColumnIndex; TextType: TVSTTextType;
-  var CellText: WideString);
+  var CellText: string);
 begin
   Assert(CallStackView.GetNodeLevel(Node) = 0);
   Assert(Integer(Node.Index) < fCallStackList.Count);

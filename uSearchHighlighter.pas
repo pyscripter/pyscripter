@@ -32,7 +32,7 @@ type
     constructor Create(ASynEdit: TSynEdit; AFoundItems: TObjectList);
   end;
 
-  procedure FindSearchTerm(ATerm : WideString; SynEdit : TSynEdit;
+  procedure FindSearchTerm(ATerm : string; SynEdit : TSynEdit;
     FoundItems : TObjectList; SearchEngine : TSynEditSearchCustom;
     SearchOptions : TSynSearchOptions);
 
@@ -86,7 +86,7 @@ begin
   // Do nothing
 end;
 
-procedure FindSearchTerm(ATerm : WideString; SynEdit : TSynEdit;
+procedure FindSearchTerm(ATerm : string; SynEdit : TSynEdit;
   FoundItems : TObjectList; SearchEngine : TSynEditSearchCustom;
   SearchOptions : TSynSearchOptions);
 var

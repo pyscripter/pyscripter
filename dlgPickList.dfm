@@ -2,10 +2,8 @@ inherited PickListDialog: TPickListDialog
   Caption = 'PickListDialog'
   ClientHeight = 333
   ClientWidth = 369
-  Font.Name = 'MS Shell Dlg 2'
-  Position = poMainFormCenter
   ExplicitWidth = 375
-  ExplicitHeight = 359
+  ExplicitHeight = 361
   PixelsPerInch = 96
   TextHeight = 13
   object Panel2: TSpTBXPanel

@@ -11,15 +11,14 @@
 // JCL_DEBUG_EXPERT_INSERTJDBG ON
 // JCL_DEBUG_EXPERT_DELETEMAPFILE ON
 program PyScripter;
-{%ToDo 'PyScripter.todo'}
-{%TogetherDiagram 'ModelSupport_PyScripter\default.txaPackage'}
+
 
 uses
-  VCLFixPack in 'VCLFixPack.pas',
-  RtlVclOptimize in 'RtlVclOptimize.pas',
   Windows,
   Forms,
   Dialogs,
+  SysUtils,
+  VTAccessibility,
   uCmdLine in 'uCmdLine.pas',
   uDpiAware in 'uDpiAware.pas',
   StoHtmlHelp in 'StoHtmlHelp.pas',
@@ -103,13 +102,14 @@ uses
   gnugettext in 'gnugettext.pas',
   dlgPyIDEBase in 'dlgPyIDEBase.pas' {PyIDEDlgBase},
   JvDockInfo in 'JvDockInfo.pas',
-  JvCreateProcessW in 'JvCreateProcessW.pas',
   SynHighlighterYAML in 'SynHighlighterYAML.pas',
   VirtualTrees in 'VirtualTrees.pas',
-  dlgSynEditOptions in 'dlgSynEditOptions.pas' {fmEditorOptionsDialog: TTntForm},
+  dlgSynEditOptions in 'dlgSynEditOptions.pas' {fmEditorOptionsDialog: TForm},
   SynRegExpr in 'SynRegExpr.pas',
   SynEditWordWrap in 'SynEditWordWrap.pas',
-  JvDockSupportControl in 'JvDockSupportControl.pas';
+  JvDockSupportControl in 'JvDockSupportControl.pas',
+  JvAppIniStorage in 'JvAppIniStorage.pas',
+  JvAppStorage in 'JvAppStorage.pas';
 
 {$R *.RES}
 {$R WebCopyAvi.RES}
@@ -121,6 +121,14 @@ uses
 begin
   ReportMemoryLeaksOnShutdown := DebugHook <> 0;
   Application.Initialize;
+
+  if CheckWin32Version(6) then // at least Vista
+    begin
+      Application.DefaultFont.Name := 'Segoe UI';
+      Application.DefaultFont.Size := 9;
+    end;
+  Application.MainFormOnTaskbar := True;
+
   Application.Title := 'PyScripter';
   Application.CreateForm(TCommandsDataModule, CommandsDataModule);
   Application.CreateForm(TPyIDEMainForm, PyIDEMainForm);

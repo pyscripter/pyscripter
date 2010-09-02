@@ -33,7 +33,7 @@ type
     procedure SetModified(const Value: Boolean);
     procedure SetParent(const Value: TAbstractProjectNode);
   protected
-    function GetCaption: WideString; virtual; abstract;
+    function GetCaption: string; virtual; abstract;
     // IJvAppStorageHandler implementation
     procedure ReadFromAppStorage(AppStorage: TJvCustomAppStorage;
       const BasePath: string); virtual;
@@ -55,18 +55,18 @@ type
     property Children : TObjectList read fChildren;
     property RootNode : TAbstractProjectNode read GetRootNode;
     property Modified : Boolean read GetModified write SetModified;
-    property Caption : WideString read GetCaption;
+    property Caption : string read GetCaption;
   end;
 
   TProjectRootNode = class(TAbstractProjectNode)
   private
-    fFileName: WideString;
+    fFileName: string;
     fStoreRelativePaths : Boolean;
     fShowFileExtensions : Boolean;
-    fExtraPythonPath: TWideStrings;
-    function GetName: WideString;
+    fExtraPythonPath: TStrings;
+    function GetName: string;
   protected
-    function GetCaption: WideString; override;
+    function GetCaption: string; override;
     procedure ReadFromAppStorage(AppStorage: TJvCustomAppStorage;
       const BasePath: string); override;
     procedure WriteToAppStorage(AppStorage: TJvCustomAppStorage;
@@ -74,15 +74,15 @@ type
   public
     constructor Create; override;
     destructor Destroy; override;
-    function HasFile(const FileName : WideString) : Boolean;
+    function HasFile(const FileName : string) : Boolean;
     procedure AppendExtraPaths;
     procedure RemoveExtraPaths;
-    property Name : WideString read GetName;
-    property FileName : WideString read fFileName write fFileName;
+    property Name : string read GetName;
+    property FileName : string read fFileName write fFileName;
   published
     property StoreRelativePaths : Boolean read fStoreRelativePaths write fStoreRelativePaths;
     property ShowFileExtensions : Boolean read fShowFileExtensions write fShowFileExtensions;
-    property ExtraPythonPath: TWideStrings read fExtraPythonPath;
+    property ExtraPythonPath: TStrings read fExtraPythonPath;
   end;
 
   TProjectFileNode = class;
@@ -90,59 +90,59 @@ type
 
   TProjectFilesNode = class(TAbstractProjectNode)
   private
-    function GetFileChild(FileName: WideString): TProjectFileNode;
-    function GetFolderChild(FolderName: WideString): TProjectFolderNode;
+    function GetFileChild(FileName: string): TProjectFileNode;
+    function GetFolderChild(FolderName: string): TProjectFolderNode;
   {There should be only one FilesNode per project under the Project Root}
   protected
-    function GetCaption: WideString; override;
+    function GetCaption: string; override;
   public
     procedure SortChildren; override;
-    procedure ImportDirectory(const Directory, Masks : WideString; Recursive : Boolean);
-    property  FileChild[FileName : WideString] : TProjectFileNode read GetFileChild;
-    property  FolderChild[FolderName : WideString] : TProjectFolderNode read GetFolderChild;
+    procedure ImportDirectory(const Directory, Masks : string; Recursive : Boolean);
+    property  FileChild[FileName : string] : TProjectFileNode read GetFileChild;
+    property  FolderChild[FolderName : string] : TProjectFolderNode read GetFolderChild;
   end;
 
   TProjectFolderNode = class(TProjectFilesNode)
   {Like ProjectFilesNode but with a name that can be changed}
   private
-    fName: WideString;
+    fName: string;
   protected
-    function GetCaption: WideString; override;
+    function GetCaption: string; override;
   published
-    property Name : WideString read fName write fName;
+    property Name : string read fName write fName;
   end;
 
   TProjectFileNode = class(TAbstractProjectNode)
   private
-    fFileName: WideString;
-    function GetName: WideString;
+    fFileName: string;
+    function GetName: string;
   protected
-    function GetCaption: WideString; override;
+    function GetCaption: string; override;
     procedure ReadFromAppStorage(AppStorage: TJvCustomAppStorage;
       const BasePath: string); override;
     procedure WriteToAppStorage(AppStorage: TJvCustomAppStorage;
       const BasePath: string); override;
   public
-    property Name : WideString read GetName;
-    property FileName : WideString read fFileName write fFileName;
+    property Name : string read GetName;
+    property FileName : string read fFileName write fFileName;
   end;
 
   TProjectRunConfiguationsNode = class(TAbstractProjectNode)
   protected
-    function GetCaption: WideString; override;
+    function GetCaption: string; override;
   end;
 
   TProjectRunConfiguationNode = class(TAbstractProjectNode)
   private
-    fName: WideString;
+    fName: string;
     fRunConfig : TRunConfiguration;
     procedure SetRunConfig(const Value: TRunConfiguration);
   protected
-    function GetCaption: WideString; override;
+    function GetCaption: string; override;
   published
     constructor Create; override;
     destructor Destroy; override;
-    property Name : WideString read fName write fName;
+    property Name : string read fName write fName;
     property RunConfig : TRunConfiguration read FRunConfig write SetRunConfig;
   end;
 
@@ -152,7 +152,7 @@ Var
 implementation
 
 uses
-  cParameters, MPCommonUtilities, uCommonFunctions;
+  cParameters, MPCommonUtilities, uCommonFunctions, StrUtils;
 
 { TAbstractProjectNode }
 
@@ -337,7 +337,7 @@ begin
   AddChild(TProjectFilesNode.Create);
   AddChild(TProjectRunConfiguationsNode.Create);
   Modified := False;
-  fExtraPythonPath := TWideStringList.Create;
+  fExtraPythonPath := TStringList.Create;
 end;
 
 destructor TProjectRootNode.Destroy;
@@ -347,15 +347,15 @@ begin
   inherited;
 end;
 
-function TProjectRootNode.GetCaption: WideString;
+function TProjectRootNode.GetCaption: string;
 begin
   Result := Name;
 end;
 
-function TProjectRootNode.GetName: WideString;
+function TProjectRootNode.GetName: string;
 begin
   if fFileName <> '' then
-    Result := WideStripExt(WideExtractFileName(fFileName))
+    Result := ChangeFileExt(ExtractFileName(fFileName), '')
   else
     Result := 'Untitled';
 end;
@@ -369,7 +369,7 @@ begin
     Result := True;
 end;
 
-function TProjectRootNode.HasFile(const FileName: WideString): Boolean;
+function TProjectRootNode.HasFile(const FileName: string): Boolean;
 begin
   Result := FirstThat(NodeHasFile, PWideChar(FileName)) <> nil;
 end;
@@ -380,7 +380,7 @@ begin
   inherited;
   RemoveExtraPaths;
   fExtraPythonPath.Clear;
-  AppStorage.ReadWideStringList(BasePath+'\ExtraPythonPath', fExtraPythonPath);
+  AppStorage.ReadStringList(BasePath+'\ExtraPythonPath', fExtraPythonPath);
   AppendExtraPaths;
 end;
 
@@ -399,19 +399,19 @@ procedure TProjectRootNode.WriteToAppStorage(AppStorage: TJvCustomAppStorage;
   const BasePath: string);
 begin
   inherited;
-  AppStorage.WriteWideStringList(BasePath+'\ExtraPythonPath', fExtraPythonPath);
+  AppStorage.WriteStringList(BasePath+'\ExtraPythonPath', fExtraPythonPath);
 end;
 
 { TProjectFolderNode }
 
-function TProjectFolderNode.GetCaption: WideString;
+function TProjectFolderNode.GetCaption: string;
 begin
   Result := fName;
 end;
 
 { TProjectFilesNode }
 
-function TProjectFilesNode.GetCaption: WideString;
+function TProjectFilesNode.GetCaption: string;
 begin
   Result := 'Files';
 end;
@@ -435,7 +435,7 @@ begin
     Assert(False, 'Unexpected Child types in TProjectFilesNode');
 end;
 
-function TProjectFilesNode.GetFileChild(FileName: WideString): TProjectFileNode;
+function TProjectFilesNode.GetFileChild(FileName: string): TProjectFileNode;
 var
   i: Integer;
 begin
@@ -450,7 +450,7 @@ begin
   end;
 end;
 
-function TProjectFilesNode.GetFolderChild(FolderName: WideString): TProjectFolderNode;
+function TProjectFilesNode.GetFolderChild(FolderName: string): TProjectFolderNode;
 var
   i: Integer;
 begin
@@ -465,15 +465,15 @@ begin
   end;
 end;
 
-procedure TProjectFilesNode.ImportDirectory(const Directory, Masks: WideString;
+procedure TProjectFilesNode.ImportDirectory(const Directory, Masks: string;
   Recursive: Boolean);
 Var
-  FileList: TWideStringList;
+  FileList: TStringList;
   i : integer;
   FileNode : TProjectFileNode;
   FolderNode : TProjectFolderNode;
-  FolderName : WideString;
-  FileName : WideString;
+  FolderName : string;
+  FileName : string;
 begin
   FolderName := ExtractFileName(Directory);
   if (FolderName = '.') or (FolderName = '..') then
@@ -486,7 +486,7 @@ begin
     AddChild(FolderNode);
   end;
 
-  FileList := TWideStringList.Create;
+  FileList := TStringList.Create;
   try
     BuildFileList(Directory, Masks, FileList, False,
     [vsaArchive, vsaCompressed, vsaEncrypted, vsaNormal, vsaOffline, vsaReadOnly],
@@ -528,24 +528,24 @@ end;
 
 { TProjectRunConfiguationsNode }
 
-function TProjectRunConfiguationsNode.GetCaption: WideString;
+function TProjectRunConfiguationsNode.GetCaption: string;
 begin
   Result := 'Run Configurations';
 end;
 
 { TProjectFileNode }
 
-function TProjectFileNode.GetCaption: WideString;
+function TProjectFileNode.GetCaption: string;
 begin
   Result := Name;
 end;
 
-function TProjectFileNode.GetName: WideString;
+function TProjectFileNode.GetName: string;
 begin
   if fFileName <> '' then  begin
-    Result := WideExtractFileName(Parameters.ReplaceInText(fFileName));
+    Result := ExtractFileName(Parameters.ReplaceInText(fFileName));
     if not ActiveProject.ShowFileExtensions then
-      Result := WideStripExt(Result);
+      Result := ChangeFileExt(Result, '');
   end else
     Result := 'Untitled';
 end;
@@ -554,7 +554,7 @@ procedure TProjectFileNode.ReadFromAppStorage(AppStorage: TJvCustomAppStorage;
   const BasePath: string);
 begin
   inherited;
-  FileName := AppStorage.ReadWideString(BasePath + '\FileName');
+  FileName := AppStorage.ReadString(BasePath + '\FileName');
 end;
 
 procedure TProjectFileNode.WriteToAppStorage(AppStorage: TJvCustomAppStorage;
@@ -577,7 +577,7 @@ begin
   end else
     fFileName := Parameters.ReplaceInText(fFileName);
 
-  AppStorage.WriteWideString(BasePath + '\FileName', fFileName);
+  AppStorage.WriteString(BasePath + '\FileName', fFileName);
 end;
 
 { TProjectRunConfiguationNode }
@@ -594,7 +594,7 @@ begin
   inherited;
 end;
 
-function TProjectRunConfiguationNode.GetCaption: WideString;
+function TProjectRunConfiguationNode.GetCaption: string;
 begin
   Result := Name;
 end;

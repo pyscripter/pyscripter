@@ -12,7 +12,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, Buttons, ExtCtrls, CheckLst, Menus, SpTBXControls,
-  TntCheckLst, SpTBXEditors, dlgPyIDEBase, SpTBXItem;
+  SpTBXEditors, dlgPyIDEBase, SpTBXItem;
 
 type
   TPickListDialog = class(TPyIDEDlgBase)

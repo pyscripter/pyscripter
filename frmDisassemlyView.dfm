@@ -6,11 +6,7 @@ object DisForm: TDisForm
   ClientHeight = 382
   ClientWidth = 599
   Color = clBtnFace
-  Font.Charset = DEFAULT_CHARSET
-  Font.Color = clWindowText
-  Font.Height = -11
-  Font.Name = 'MS Shell Dlg 2'
-  Font.Style = []
+  ParentFont = True
   OldCreateOrder = False
   PixelsPerInch = 96
   TextHeight = 13

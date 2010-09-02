@@ -34,7 +34,7 @@ type
       var Ghosted: Boolean; var ImageIndex: Integer);
     procedure VariablesTreeGetText(Sender: TBaseVirtualTree;
       Node: PVirtualNode; Column: TColumnIndex; TextType: TVSTTextType;
-      var CellText: WideString);
+      var CellText: string);
     procedure FormActivate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure VariablesTreePaintText(Sender: TBaseVirtualTree;
@@ -207,7 +207,7 @@ end;
 
 procedure TVariablesWindow.VariablesTreeGetText(Sender: TBaseVirtualTree;
   Node: PVirtualNode; Column: TColumnIndex; TextType: TVSTTextType;
-  var CellText: WideString);
+  var CellText: string);
 var
   Data : PPyObjRec;
 begin
@@ -425,7 +425,7 @@ begin
     FunctionName := CurrentFrame.FunctionName;
     ModuleName := PathRemoveExtension(ExtractFileName(CurrentFrame.FileName));
     LineNo := CurrentFrame.Line;
-    NameSpace := WideFormat(_(SNamespaceFormat), [FunctionName, ModuleName, LineNo]);
+    NameSpace := Format(_(SNamespaceFormat), [FunctionName, ModuleName, LineNo]);
   end else
     NameSpace := 'Interpreter globals';
 
@@ -436,13 +436,12 @@ begin
     ObjectValue := HTMLSafe(Data.NameSpaceItem.Value);
     DocString :=  HTMLSafe(Data.NameSpaceItem.DocString);
 
-    HTMLLabel.Caption := WideFormat(_(SVariablesDocSelected),
+    HTMLLabel.Caption := Format(_(SVariablesDocSelected),
       [NameSpace, ObjectName, ObjectType, ObjectValue, Docstring]);
   end else
-    HTMLLabel.Caption := WideFormat(_(SVariablesDocNotSelected), [NameSpace]);
+    HTMLLabel.Caption := Format(_(SVariablesDocNotSelected), [NameSpace]);
 end;
 
 end.
-
 
 

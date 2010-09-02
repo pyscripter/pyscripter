@@ -117,54 +117,54 @@ inherited OutputWindow: TOutputWindow
       Action = actSelectColor
     end
   end
-  object OutputActions: TTntActionList
+  object OutputActions: TActionList
     Images = CommandsDataModule.Images
     OnUpdate = OutputActionsUpdate
     Left = 16
     Top = 131
-    object actCopy: TTntAction
+    object actCopy: TAction
       Caption = 'Co&py'
       Hint = 'Copy contents to Clipboard'
       ImageIndex = 0
       OnExecute = actCopyExecute
     end
-    object actOutputFont: TTntAction
+    object actOutputFont: TAction
       Caption = 'Font...'
       Hint = 'Select font'
       ImageIndex = 91
       OnExecute = actOutputFontExecute
     end
-    object actSelectColor: TTntAction
+    object actSelectColor: TAction
       Caption = 'Background Color...'
       Hint = 'Select background color'
       ImageIndex = 90
       OnExecute = actSelectColorExecute
     end
-    object actClearOutput: TTntAction
+    object actClearOutput: TAction
       Caption = 'Clear'
       Hint = 'Clear output'
       ImageIndex = 14
       OnExecute = actClearOutputExecute
     end
-    object actToolTerminate: TTntAction
+    object actToolTerminate: TAction
       Caption = '&Terminate'
       Hint = 'Terminate running tool (unsafe)'
       ImageIndex = 21
       OnExecute = actToolTerminateExecute
     end
-    object actToolClose: TTntAction
+    object actToolClose: TAction
       Caption = '&Close'
       Hint = 'Close running tool'
       ImageIndex = 44
       OnExecute = actToolCloseExecute
     end
-    object actToolQuit: TTntAction
+    object actToolQuit: TAction
       Caption = '&Quit'
       Hint = 'Post quit message to running tool'
       ImageIndex = 52
       OnExecute = actToolQuitExecute
     end
-    object actToolStopWaiting: TTntAction
+    object actToolStopWaiting: TAction
       Caption = 'Stop &Waiting'
       Hint = 'Stop waiting for running tool'
       OnExecute = actToolStopWaitingExecute

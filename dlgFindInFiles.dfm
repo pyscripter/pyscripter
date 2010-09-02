@@ -5,12 +5,10 @@ inherited FindInFilesDialog: TFindInFilesDialog
   Caption = 'Find in Files Search'
   ClientHeight = 301
   ClientWidth = 374
-  Font.Name = 'MS Shell Dlg 2'
-  OldCreateOrder = True
   Position = poScreenCenter
   Scaled = False
   ExplicitWidth = 380
-  ExplicitHeight = 327
+  ExplicitHeight = 329
   PixelsPerInch = 96
   TextHeight = 13
   object SpTBXPanel1: TSpTBXPanel
@@ -180,7 +178,7 @@ inherited FindInFilesDialog: TFindInFilesDialog
         OnDropDown = cbDirectoryDropDown
       end
       object lblMasks: TSpTBXLabel
-        Left = 15
+        Left = 3
         Top = 52
         Width = 58
         Height = 19
@@ -189,7 +187,7 @@ inherited FindInFilesDialog: TFindInFilesDialog
         FocusControl = cbMasks
       end
       object lblDirectory: TSpTBXLabel
-        Left = 14
+        Left = 2
         Top = 26
         Width = 61
         Height = 19

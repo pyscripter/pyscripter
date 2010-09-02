@@ -32,7 +32,7 @@ type
 
 implementation
 
-uses TntFileCtrl;
+uses FileCtrl;
 
 {$R *.dfm}
 
@@ -40,10 +40,10 @@ uses TntFileCtrl;
 
 procedure TImportDirectoryForm.DirectoryEditBtnClick(Sender: TObject);
 var
-  NewDir: WideString;
+  NewDir: string;
 begin
   NewDir := DirectoryEdit.Text;
-  if WideSelectDirectory('Select Directory:', '', NewDir) then
+  if SelectDirectory('Select Directory:', '', NewDir) then
     DirectoryEdit.Text := NewDir;
 end;
 

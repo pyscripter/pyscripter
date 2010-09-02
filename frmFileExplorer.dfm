@@ -285,12 +285,12 @@ inherited FileExplorerWindow: TFileExplorerWindow
       Action = actSearchPath
     end
   end
-  object FileExplorerActions: TTntActionList
+  object FileExplorerActions: TActionList
     Images = CommandsDataModule.Images
     OnUpdate = FileExplorerActionsUpdate
     Left = 187
     Top = 334
-    object actGoBack: TTntAction
+    object actGoBack: TAction
       Category = 'File Explorer'
       Caption = '&Back'
       HelpContext = 420
@@ -298,7 +298,7 @@ inherited FileExplorerWindow: TFileExplorerWindow
       ImageIndex = 35
       OnExecute = actGoBackExecute
     end
-    object actGoForward: TTntAction
+    object actGoForward: TAction
       Category = 'File Explorer'
       Caption = '&Forward'
       HelpContext = 420
@@ -306,7 +306,7 @@ inherited FileExplorerWindow: TFileExplorerWindow
       ImageIndex = 36
       OnExecute = actGoForwardExecute
     end
-    object actGoUp: TTntAction
+    object actGoUp: TAction
       Category = 'File Explorer'
       Caption = '&Up'
       HelpContext = 420
@@ -314,7 +314,7 @@ inherited FileExplorerWindow: TFileExplorerWindow
       ImageIndex = 45
       OnExecute = actGoUpExecute
     end
-    object actRefresh: TTntAction
+    object actRefresh: TAction
       Category = 'File Explorer'
       Caption = '&Refresh'
       HelpContext = 420
@@ -323,7 +323,7 @@ inherited FileExplorerWindow: TFileExplorerWindow
       ShortCut = 116
       OnExecute = actRefreshExecute
     end
-    object actEnableFilter: TTntAction
+    object actEnableFilter: TAction
       Category = 'File Explorer'
       AutoCheck = True
       Caption = 'Enable &Filter'
@@ -333,7 +333,7 @@ inherited FileExplorerWindow: TFileExplorerWindow
       ImageIndex = 46
       OnExecute = actEnableFilterExecute
     end
-    object actSearchPath: TTntAction
+    object actSearchPath: TAction
       Category = 'File Explorer'
       Caption = '&Search Path...'
       HelpContext = 420
@@ -341,28 +341,28 @@ inherited FileExplorerWindow: TFileExplorerWindow
       ImageIndex = 86
       OnExecute = actSearchPathExecute
     end
-    object actExploreHere: TTntAction
+    object actExploreHere: TAction
       Category = 'File Explorer'
       Caption = '&Explore Here'
       HelpContext = 420
       Hint = 'Set the Root of the File Manager to this folder'
       OnExecute = ExploreHereClick
     end
-    object actManageFavorites: TTntAction
+    object actManageFavorites: TAction
       Category = 'File Explorer'
       Caption = '&Manage Favorites...'
       HelpContext = 420
       Hint = 'Manage favourite paths'
       OnExecute = actManageFavoritesExecute
     end
-    object actAddToFavorites: TTntAction
+    object actAddToFavorites: TAction
       Category = 'File Explorer'
       Caption = 'Add to &Favorites'
       HelpContext = 420
       Hint = 'Add current path to Favorites'
       OnExecute = actAddToFavoritesExecute
     end
-    object actNewFolder: TTntAction
+    object actNewFolder: TAction
       Category = 'File Explorer'
       Caption = 'Create &New Folder'
       HelpContext = 420

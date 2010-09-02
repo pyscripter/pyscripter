@@ -2,11 +2,10 @@ inherited ImportDirectoryForm: TImportDirectoryForm
   Caption = 'Import Directory'
   ClientHeight = 145
   ClientWidth = 436
-  Font.Name = 'MS Shell Dlg 2'
   PopupMode = pmAuto
   Position = poOwnerFormCenter
   ExplicitWidth = 442
-  ExplicitHeight = 171
+  ExplicitHeight = 173
   PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TSpTBXPanel

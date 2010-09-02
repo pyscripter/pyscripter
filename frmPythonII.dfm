@@ -137,8 +137,6 @@ inherited PythonIIForm: TPythonIIForm
     TimerInterval = 300
     Left = 627
     Top = 9
-    EndOfTokenChrW = '()[]{}. =:'
-    TriggerCharsW = '.'
   end
   object DebugIDE: TPythonModule
     Engine = PythonEngine
@@ -236,8 +234,6 @@ inherited PythonIIForm: TPythonIIForm
     TimerInterval = 300
     Left = 657
     Top = 8
-    EndOfTokenChrW = '()[]. ='
-    TriggerCharsW = '('
   end
   object InterpreterPopUp: TSpTBXPopupMenu
     Images = CommandsDataModule.Images
@@ -293,11 +289,11 @@ inherited PythonIIForm: TPythonIIForm
     Left = 584
     Top = 87
   end
-  object InterpreterActionList: TTntActionList
+  object InterpreterActionList: TActionList
     Images = CommandsDataModule.Images
     Left = 8
     Top = 45
-    object actCopyHistory: TTntAction
+    object actCopyHistory: TAction
       Category = 'Interpreter'
       Caption = 'Copy &History'
       HelpContext = 410
@@ -305,7 +301,7 @@ inherited PythonIIForm: TPythonIIForm
       ImageIndex = 12
       OnExecute = actCopyHistoryExecute
     end
-    object actClearContents: TTntAction
+    object actClearContents: TAction
       Category = 'Interpreter'
       Caption = 'Clear &All'
       HelpContext = 410
@@ -313,7 +309,7 @@ inherited PythonIIForm: TPythonIIForm
       ImageIndex = 14
       OnExecute = actClearContentsExecute
     end
-    object actCopyWithoutPrompts: TTntAction
+    object actCopyWithoutPrompts: TAction
       Category = 'Interpreter'
       Caption = 'Copy (&No Prompts)'
       HelpContext = 410
@@ -322,7 +318,7 @@ inherited PythonIIForm: TPythonIIForm
       ShortCut = 24643
       OnExecute = actCopyWithoutPromptsExecute
     end
-    object actPasteWithPrompt: TTntAction
+    object actPasteWithPrompt: TAction
       Category = 'Interpreter'
       Caption = 'Paste (&With Prompts)'
       HelpContext = 410

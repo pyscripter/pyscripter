@@ -18,15 +18,350 @@ inherited PageSetupDlg: TPageSetupDlg
     Width = 632
     Height = 397
     Align = alClient
-    ActiveTabIndex = 1
+    ActiveTabIndex = 0
     OnActiveTabChange = TabControlActiveTabChange
     HiddenItems = <>
     object SpTBXTabItem1: TSpTBXTabItem
       Caption = 'Margins && Options'
+      Checked = True
     end
     object SpTBXTabItem2: TSpTBXTabItem
       Caption = 'Header && Footer'
-      Checked = True
+    end
+    object tbHeaderFooter: TSpTBXTabSheet
+      Left = 0
+      Top = 25
+      Width = 632
+      Height = 372
+      Caption = 'Header && Footer'
+      ImageIndex = -1
+      TabItem = 'SpTBXTabItem2'
+      object ToolbarDock: TSpTBXDock
+        Left = 2
+        Top = 0
+        Width = 626
+        Height = 26
+        AllowDrag = False
+        LimitToOneRow = True
+        object Toolbar: TSpTBXToolbar
+          Left = 0
+          Top = 0
+          DockMode = dmCannotFloatOrChangeDocks
+          FullSize = True
+          Images = ImageList
+          TabOrder = 0
+          Customizable = False
+          object tbiPgNumber: TSpTBXItem
+            Action = PageNumCmd
+          end
+          object tbiPages: TSpTBXItem
+            Action = PagesCmd
+          end
+          object tbiTime: TSpTBXItem
+            Action = TimeCmd
+          end
+          object tbiDate: TSpTBXItem
+            Action = DateCmd
+          end
+          object tbiTitle: TSpTBXItem
+            Action = TitleCmd
+          end
+          object SpTBXSeparatorItem2: TSpTBXSeparatorItem
+          end
+          object tbiFont: TSpTBXItem
+            Action = FontCmd
+          end
+          object SpTBXSeparatorItem1: TSpTBXSeparatorItem
+          end
+          object tbiBold: TSpTBXItem
+            Action = BoldCmd
+          end
+          object tbiItalic: TSpTBXItem
+            Action = ItalicCmd
+          end
+          object tbiUdnerline: TSpTBXItem
+            Action = UnderlineCmd
+          end
+        end
+      end
+      object GroupBox1: TSpTBXGroupBox
+        Left = 5
+        Top = 30
+        Width = 611
+        Height = 161
+        Caption = 'Header'
+        TabOrder = 0
+        TBXStyleBackground = True
+        object GroupBox2: TSpTBXGroupBox
+          Left = 10
+          Top = 90
+          Width = 391
+          Height = 61
+          Caption = 'Appearance'
+          ParentColor = True
+          TabOrder = 3
+          TBXStyleBackground = True
+          object PBHeaderLine: TPaintBox
+            Left = 96
+            Top = 39
+            Width = 95
+            Height = 12
+            OnPaint = PBHeaderLinePaint
+          end
+          object PBHeaderShadow: TPaintBox
+            Left = 281
+            Top = 39
+            Width = 95
+            Height = 12
+            OnPaint = PBHeaderLinePaint
+          end
+          object HeaderLineColorBtn: TSpTBXButton
+            Left = 96
+            Top = 10
+            Width = 95
+            Height = 25
+            Caption = 'Line color'
+            TabOrder = 3
+            OnClick = HeaderLineColorBtnClick
+          end
+          object HeaderShadowColorBtn: TSpTBXButton
+            Left = 281
+            Top = 12
+            Width = 96
+            Height = 25
+            Caption = 'Shadow color'
+            TabOrder = 4
+            OnClick = HeaderShadowColorBtnClick
+          end
+          object CBHeaderLine: TSpTBXCheckBox
+            Left = 8
+            Top = 19
+            Width = 74
+            Height = 21
+            Caption = 'Line under'
+            TabOrder = 0
+          end
+          object CBHeaderBox: TSpTBXCheckBox
+            Left = 8
+            Top = 39
+            Width = 42
+            Height = 21
+            Caption = 'Box'
+            TabOrder = 1
+          end
+          object CBHeaderShadow: TSpTBXCheckBox
+            Left = 209
+            Top = 27
+            Width = 62
+            Height = 21
+            Caption = 'Shadow'
+            TabOrder = 2
+          end
+        end
+        object CBHeaderMirror: TSpTBXCheckBox
+          Left = 410
+          Top = 95
+          Width = 92
+          Height = 21
+          Caption = 'Mirror position'
+          TabOrder = 4
+        end
+        object Label12: TSpTBXLabel
+          Left = 10
+          Top = 15
+          Width = 25
+          Height = 19
+          Caption = 'Left'
+        end
+        object Label13: TSpTBXLabel
+          Left = 210
+          Top = 15
+          Width = 39
+          Height = 19
+          Caption = 'Center'
+        end
+        object Label14: TSpTBXLabel
+          Left = 410
+          Top = 15
+          Width = 31
+          Height = 19
+          Caption = 'Right'
+        end
+        object REHeaderLeft: TRichEdit
+          Left = 10
+          Top = 30
+          Width = 191
+          Height = 56
+          ScrollBars = ssBoth
+          TabOrder = 0
+          WordWrap = False
+          OnEnter = REHeaderLeftEnter
+          OnSelectionChange = REHeaderLeftSelectionChange
+        end
+        object REHeaderCenter: TRichEdit
+          Left = 210
+          Top = 30
+          Width = 191
+          Height = 56
+          Alignment = taCenter
+          ScrollBars = ssBoth
+          TabOrder = 1
+          WordWrap = False
+          OnEnter = REHeaderLeftEnter
+          OnSelectionChange = REHeaderLeftSelectionChange
+        end
+        object REHeaderRight: TRichEdit
+          Left = 410
+          Top = 30
+          Width = 191
+          Height = 56
+          Alignment = taRightJustify
+          ScrollBars = ssBoth
+          TabOrder = 2
+          WordWrap = False
+          OnEnter = REHeaderLeftEnter
+          OnSelectionChange = REHeaderLeftSelectionChange
+        end
+      end
+      object GroupBox3: TSpTBXGroupBox
+        Left = 5
+        Top = 200
+        Width = 611
+        Height = 161
+        Caption = 'Footer'
+        TabOrder = 1
+        TBXStyleBackground = True
+        object GroupBox4: TSpTBXGroupBox
+          Left = 10
+          Top = 92
+          Width = 391
+          Height = 61
+          Caption = 'Appearance'
+          ParentColor = True
+          TabOrder = 3
+          TBXStyleBackground = True
+          object PBFooterLine: TPaintBox
+            Left = 96
+            Top = 38
+            Width = 95
+            Height = 12
+            OnPaint = PBHeaderLinePaint
+          end
+          object PBFooterShadow: TPaintBox
+            Left = 281
+            Top = 38
+            Width = 95
+            Height = 12
+            OnPaint = PBHeaderLinePaint
+          end
+          object FooterLineColorBtn: TSpTBXButton
+            Left = 96
+            Top = 10
+            Width = 95
+            Height = 25
+            Caption = 'Line color'
+            TabOrder = 3
+            OnClick = FooterLineColorBtnClick
+          end
+          object FooterShadowColorBtn: TSpTBXButton
+            Left = 281
+            Top = 10
+            Width = 96
+            Height = 25
+            Caption = 'Shadow color'
+            TabOrder = 4
+            OnClick = FooterShadowColorBtnClick
+          end
+          object CBFooterLine: TSpTBXCheckBox
+            Left = 8
+            Top = 19
+            Width = 76
+            Height = 21
+            Caption = 'Line above'
+            TabOrder = 0
+          end
+          object CBFooterBox: TSpTBXCheckBox
+            Left = 8
+            Top = 39
+            Width = 42
+            Height = 21
+            Caption = 'Box'
+            TabOrder = 1
+          end
+          object CBFooterShadow: TSpTBXCheckBox
+            Left = 209
+            Top = 24
+            Width = 62
+            Height = 21
+            Caption = 'Shadow'
+            TabOrder = 2
+          end
+        end
+        object CBFooterMirror: TSpTBXCheckBox
+          Left = 410
+          Top = 95
+          Width = 92
+          Height = 21
+          Caption = 'Mirror position'
+          TabOrder = 4
+        end
+        object Label15: TSpTBXLabel
+          Left = 10
+          Top = 15
+          Width = 25
+          Height = 19
+          Caption = 'Left'
+        end
+        object Label16: TSpTBXLabel
+          Left = 210
+          Top = 15
+          Width = 39
+          Height = 19
+          Caption = 'Center'
+        end
+        object Label17: TSpTBXLabel
+          Left = 410
+          Top = 15
+          Width = 31
+          Height = 19
+          Caption = 'Right'
+        end
+        object REFooterLeft: TRichEdit
+          Left = 10
+          Top = 30
+          Width = 191
+          Height = 56
+          ScrollBars = ssBoth
+          TabOrder = 0
+          WordWrap = False
+          OnEnter = REHeaderLeftEnter
+          OnSelectionChange = REHeaderLeftSelectionChange
+        end
+        object REFooterCenter: TRichEdit
+          Left = 210
+          Top = 30
+          Width = 191
+          Height = 56
+          Alignment = taCenter
+          ScrollBars = ssBoth
+          TabOrder = 1
+          WordWrap = False
+          OnEnter = REHeaderLeftEnter
+          OnSelectionChange = REHeaderLeftSelectionChange
+        end
+        object REFooterRight: TRichEdit
+          Left = 410
+          Top = 30
+          Width = 191
+          Height = 56
+          Alignment = taRightJustify
+          ScrollBars = ssBoth
+          TabOrder = 2
+          WordWrap = False
+          OnEnter = REHeaderLeftEnter
+          OnSelectionChange = REHeaderLeftSelectionChange
+        end
+      end
     end
     object tbMargins: TSpTBXTabSheet
       Left = 0
@@ -1282,341 +1617,6 @@ inherited PageSetupDlg: TPageSetupDlg
           'Thousandths Of Inches')
       end
     end
-    object tbHeaderFooter: TSpTBXTabSheet
-      Left = 0
-      Top = 25
-      Width = 632
-      Height = 372
-      Caption = 'Header && Footer'
-      ImageIndex = -1
-      TabItem = 'SpTBXTabItem2'
-      object ToolbarDock: TSpTBXDock
-        Left = 2
-        Top = 0
-        Width = 626
-        Height = 26
-        AllowDrag = False
-        LimitToOneRow = True
-        object Toolbar: TSpTBXToolbar
-          Left = 0
-          Top = 0
-          DockMode = dmCannotFloatOrChangeDocks
-          FullSize = True
-          Images = ImageList
-          TabOrder = 0
-          Customizable = False
-          object tbiPgNumber: TSpTBXItem
-            Action = PageNumCmd
-          end
-          object tbiPages: TSpTBXItem
-            Action = PagesCmd
-          end
-          object tbiTime: TSpTBXItem
-            Action = TimeCmd
-          end
-          object tbiDate: TSpTBXItem
-            Action = DateCmd
-          end
-          object tbiTitle: TSpTBXItem
-            Action = TitleCmd
-          end
-          object SpTBXSeparatorItem2: TSpTBXSeparatorItem
-          end
-          object tbiFont: TSpTBXItem
-            Action = FontCmd
-          end
-          object SpTBXSeparatorItem1: TSpTBXSeparatorItem
-          end
-          object tbiBold: TSpTBXItem
-            Action = BoldCmd
-          end
-          object tbiItalic: TSpTBXItem
-            Action = ItalicCmd
-          end
-          object tbiUdnerline: TSpTBXItem
-            Action = UnderlineCmd
-          end
-        end
-      end
-      object GroupBox1: TSpTBXGroupBox
-        Left = 5
-        Top = 30
-        Width = 611
-        Height = 161
-        Caption = 'Header'
-        TabOrder = 0
-        TBXStyleBackground = True
-        object GroupBox2: TSpTBXGroupBox
-          Left = 10
-          Top = 90
-          Width = 391
-          Height = 61
-          Caption = 'Appearance'
-          ParentColor = True
-          TabOrder = 3
-          TBXStyleBackground = True
-          object PBHeaderLine: TPaintBox
-            Left = 96
-            Top = 39
-            Width = 95
-            Height = 12
-            OnPaint = PBHeaderLinePaint
-          end
-          object PBHeaderShadow: TPaintBox
-            Left = 281
-            Top = 39
-            Width = 95
-            Height = 12
-            OnPaint = PBHeaderLinePaint
-          end
-          object HeaderLineColorBtn: TSpTBXButton
-            Left = 96
-            Top = 10
-            Width = 95
-            Height = 25
-            Caption = 'Line color'
-            TabOrder = 3
-            OnClick = HeaderLineColorBtnClick
-          end
-          object HeaderShadowColorBtn: TSpTBXButton
-            Left = 281
-            Top = 12
-            Width = 96
-            Height = 25
-            Caption = 'Shadow color'
-            TabOrder = 4
-            OnClick = HeaderShadowColorBtnClick
-          end
-          object CBHeaderLine: TSpTBXCheckBox
-            Left = 8
-            Top = 19
-            Width = 74
-            Height = 21
-            Caption = 'Line under'
-            TabOrder = 0
-          end
-          object CBHeaderBox: TSpTBXCheckBox
-            Left = 8
-            Top = 39
-            Width = 42
-            Height = 21
-            Caption = 'Box'
-            TabOrder = 1
-          end
-          object CBHeaderShadow: TSpTBXCheckBox
-            Left = 209
-            Top = 27
-            Width = 62
-            Height = 21
-            Caption = 'Shadow'
-            TabOrder = 2
-          end
-        end
-        object CBHeaderMirror: TSpTBXCheckBox
-          Left = 410
-          Top = 95
-          Width = 92
-          Height = 21
-          Caption = 'Mirror position'
-          TabOrder = 4
-        end
-        object Label12: TSpTBXLabel
-          Left = 10
-          Top = 15
-          Width = 25
-          Height = 19
-          Caption = 'Left'
-        end
-        object Label13: TSpTBXLabel
-          Left = 210
-          Top = 15
-          Width = 39
-          Height = 19
-          Caption = 'Center'
-        end
-        object Label14: TSpTBXLabel
-          Left = 410
-          Top = 15
-          Width = 31
-          Height = 19
-          Caption = 'Right'
-        end
-        object REHeaderLeft: TTntRichEdit
-          Left = 10
-          Top = 30
-          Width = 191
-          Height = 56
-          ScrollBars = ssBoth
-          TabOrder = 0
-          WordWrap = False
-          OnEnter = REHeaderLeftEnter
-          OnSelectionChange = REHeaderLeftSelectionChange
-        end
-        object REHeaderCenter: TTntRichEdit
-          Left = 210
-          Top = 30
-          Width = 191
-          Height = 56
-          Alignment = taCenter
-          ScrollBars = ssBoth
-          TabOrder = 1
-          WordWrap = False
-          OnEnter = REHeaderLeftEnter
-          OnSelectionChange = REHeaderLeftSelectionChange
-        end
-        object REHeaderRight: TTntRichEdit
-          Left = 410
-          Top = 30
-          Width = 191
-          Height = 56
-          Alignment = taRightJustify
-          ScrollBars = ssBoth
-          TabOrder = 2
-          WordWrap = False
-          OnEnter = REHeaderLeftEnter
-          OnSelectionChange = REHeaderLeftSelectionChange
-        end
-      end
-      object GroupBox3: TSpTBXGroupBox
-        Left = 5
-        Top = 200
-        Width = 611
-        Height = 161
-        Caption = 'Footer'
-        TabOrder = 1
-        TBXStyleBackground = True
-        object GroupBox4: TSpTBXGroupBox
-          Left = 10
-          Top = 92
-          Width = 391
-          Height = 61
-          Caption = 'Appearance'
-          ParentColor = True
-          TabOrder = 3
-          TBXStyleBackground = True
-          object PBFooterLine: TPaintBox
-            Left = 96
-            Top = 38
-            Width = 95
-            Height = 12
-            OnPaint = PBHeaderLinePaint
-          end
-          object PBFooterShadow: TPaintBox
-            Left = 281
-            Top = 38
-            Width = 95
-            Height = 12
-            OnPaint = PBHeaderLinePaint
-          end
-          object FooterLineColorBtn: TSpTBXButton
-            Left = 96
-            Top = 10
-            Width = 95
-            Height = 25
-            Caption = 'Line color'
-            TabOrder = 3
-            OnClick = FooterLineColorBtnClick
-          end
-          object FooterShadowColorBtn: TSpTBXButton
-            Left = 281
-            Top = 10
-            Width = 96
-            Height = 25
-            Caption = 'Shadow color'
-            TabOrder = 4
-            OnClick = FooterShadowColorBtnClick
-          end
-          object CBFooterLine: TSpTBXCheckBox
-            Left = 8
-            Top = 19
-            Width = 76
-            Height = 21
-            Caption = 'Line above'
-            TabOrder = 0
-          end
-          object CBFooterBox: TSpTBXCheckBox
-            Left = 8
-            Top = 39
-            Width = 42
-            Height = 21
-            Caption = 'Box'
-            TabOrder = 1
-          end
-          object CBFooterShadow: TSpTBXCheckBox
-            Left = 209
-            Top = 24
-            Width = 62
-            Height = 21
-            Caption = 'Shadow'
-            TabOrder = 2
-          end
-        end
-        object CBFooterMirror: TSpTBXCheckBox
-          Left = 410
-          Top = 95
-          Width = 92
-          Height = 21
-          Caption = 'Mirror position'
-          TabOrder = 4
-        end
-        object Label15: TSpTBXLabel
-          Left = 10
-          Top = 15
-          Width = 25
-          Height = 19
-          Caption = 'Left'
-        end
-        object Label16: TSpTBXLabel
-          Left = 210
-          Top = 15
-          Width = 39
-          Height = 19
-          Caption = 'Center'
-        end
-        object Label17: TSpTBXLabel
-          Left = 410
-          Top = 15
-          Width = 31
-          Height = 19
-          Caption = 'Right'
-        end
-        object REFooterLeft: TTntRichEdit
-          Left = 10
-          Top = 30
-          Width = 191
-          Height = 56
-          ScrollBars = ssBoth
-          TabOrder = 0
-          WordWrap = False
-          OnEnter = REHeaderLeftEnter
-          OnSelectionChange = REHeaderLeftSelectionChange
-        end
-        object REFooterCenter: TTntRichEdit
-          Left = 210
-          Top = 30
-          Width = 191
-          Height = 56
-          Alignment = taCenter
-          ScrollBars = ssBoth
-          TabOrder = 1
-          WordWrap = False
-          OnEnter = REHeaderLeftEnter
-          OnSelectionChange = REHeaderLeftSelectionChange
-        end
-        object REFooterRight: TTntRichEdit
-          Left = 410
-          Top = 30
-          Width = 191
-          Height = 56
-          Alignment = taRightJustify
-          ScrollBars = ssBoth
-          TabOrder = 2
-          WordWrap = False
-          OnEnter = REHeaderLeftEnter
-          OnSelectionChange = REHeaderLeftSelectionChange
-        end
-      end
-    end
   end
   object OKBtn: TSpTBXButton
     Left = 534
@@ -2190,59 +2190,59 @@ inherited PageSetupDlg: TPageSetupDlg
     Left = 359
     Top = 4
   end
-  object ActionList1: TTntActionList
+  object ActionList1: TActionList
     Images = ImageList
     Left = 299
     Top = 4
-    object PageNumCmd: TTntAction
+    object PageNumCmd: TAction
       Caption = 'Page number'
       Hint = 'Page number'
       ImageIndex = 0
       OnExecute = PageNumCmdExecute
     end
-    object PagesCmd: TTntAction
+    object PagesCmd: TAction
       Caption = 'Num. pages'
       Hint = 'Num. pages'
       ImageIndex = 1
       OnExecute = PagesCmdExecute
     end
-    object TimeCmd: TTntAction
+    object TimeCmd: TAction
       Caption = 'Time'
       Hint = 'Time'
       ImageIndex = 2
       OnExecute = TimeCmdExecute
     end
-    object DateCmd: TTntAction
+    object DateCmd: TAction
       Caption = 'Date'
       Hint = 'Date'
       ImageIndex = 3
       OnExecute = DateCmdExecute
     end
-    object TitleCmd: TTntAction
+    object TitleCmd: TAction
       Caption = 'Title'
       Hint = 'Title'
       ImageIndex = 4
       OnExecute = TitleCmdExecute
     end
-    object FontCmd: TTntAction
+    object FontCmd: TAction
       Caption = 'Font'
       Hint = 'Font'
       ImageIndex = 5
       OnExecute = FontCmdExecute
     end
-    object BoldCmd: TTntAction
+    object BoldCmd: TAction
       Caption = 'Bold'
       Hint = 'Bold'
       ImageIndex = 6
       OnExecute = BoldCmdExecute
     end
-    object ItalicCmd: TTntAction
+    object ItalicCmd: TAction
       Caption = 'Italic'
       Hint = 'Italic'
       ImageIndex = 7
       OnExecute = ItalicCmdExecute
     end
-    object UnderlineCmd: TTntAction
+    object UnderlineCmd: TAction
       Caption = 'Underline'
       Hint = 'Underline'
       ImageIndex = 8

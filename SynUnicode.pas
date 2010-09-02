@@ -56,13 +56,13 @@ uses
   {$ENDIF}
   {$IFDEF SYN_CLX}
   QGraphics,
-  QClipbrd,  
+  QClipbrd,
   {$ELSE}
   Messages,
   Controls,
   Forms,
   Graphics,
-  Clipbrd,  
+  Clipbrd,
   {$ENDIF}
   {$IFDEF SYN_COMPILER_6_UP}
   Types,
@@ -98,7 +98,7 @@ const
   // constants describing range of the Unicode Private Use Area (Unicode 3.2)
   PrivateUseLow = WideChar($E000);
   PrivateUseHigh = WideChar($F8FF);
-  // filler char: helper for painting wide glyphs 
+  // filler char: helper for painting wide glyphs
   FillerChar = PrivateUseLow;
 
 const
@@ -135,11 +135,6 @@ type
   TFontCharSet = 0..255;
   TSynEditFileFormat = (sffDos, sffUnix, sffMac, sffUnicode); // DOS: CRLF, UNIX: LF, Mac: CR, Unicode: LINE SEPARATOR
 
-{$IFDEF UNICODE}
-  TUnicodeStrings = TStrings;
-{$ELSE}
-{ TUnicodeStrings }
-
   TUnicodeStrings = class;
 
   // Event used to give the application a chance to switch the way of how to save
@@ -149,8 +144,13 @@ type
   // after the callback returns.
   TConfirmConversionEvent = procedure (Sender: TUnicodeStrings; var Allowed: Boolean) of object;
 
+{ TUnicodeStrings }
   {$IFDEF SYN_COMPILER_10_UP}
+  {$IFDEF UNICODE}
+  TUnicodeStrings = class(TStrings)
+  {$ELSE}
   TUnicodeStrings = class(WideStrings.TWideStrings)
+  {$ENDIF}
   {$ELSE}
   TUnicodeStrings = class(TPersistent)
   {$ENDIF}
@@ -166,48 +166,49 @@ type
     function GetCommaText: UnicodeString;
     function GetName(Index: Integer): UnicodeString;
     function GetValue(const Name: UnicodeString): UnicodeString;
-    {$ENDIF}
     procedure ReadData(Reader: TReader);
-    {$IFNDEF SYN_COMPILER_10_UP}
+    procedure WriteData(Writer: TWriter);
     procedure SetCommaText(const Value: UnicodeString);
     procedure SetValue(const Name, Value: UnicodeString);
     {$ENDIF}
-    procedure WriteData(Writer: TWriter);
     function GetSaveUnicode: Boolean;
     procedure SetSaveUnicode(const Value: Boolean);
     procedure SetFileFormat(const Value: TSynEditFileFormat);
   protected
-    procedure DefineProperties(Filer: TFiler); override;
     procedure DoConfirmConversion(var Allowed: Boolean); virtual;
     {$IFDEF SYN_COMPILER_10_UP}
-    function GetTextStr: WideString; override;
-    procedure SetTextStr(const Value: WideString); override;
+    function GetTextStr: UnicodeString; override;
+    procedure SetTextStr(const Value: UnicodeString); override;
     {$ELSE}
+    function GetTextStr: UnicodeString; virtual;
+    procedure SetTextStr(const Value: UnicodeString); virtual;
+    procedure DefineProperties(Filer: TFiler); override;
     procedure Error(const Msg: string; Data: Integer);
     function Get(Index: Integer): UnicodeString; virtual; abstract;
     function GetCapacity: Integer; virtual;
     function GetCount: Integer; virtual; abstract;
     function GetObject(Index: Integer): TObject; virtual;
-    function GetTextStr: UnicodeString; virtual;
     procedure Put(Index: Integer; const S: UnicodeString); virtual; abstract;
     procedure PutObject(Index: Integer; AObject: TObject); virtual; abstract;
     procedure SetCapacity(NewCapacity: Integer); virtual;
     procedure SetUpdateState(Updating: Boolean); virtual;
-    procedure SetTextStr(const Value: UnicodeString); virtual;
     {$ENDIF}
   public
     constructor Create;
     function GetSeparatedText(Separators: UnicodeString): UnicodeString; virtual;
-    procedure AddStrings(Strings: TUnicodeStrings); overload; virtual;
     {$IFDEF SYN_COMPILER_10_UP}
     procedure SaveToStream(Stream: TStream; WithBOM: Boolean = True);reintroduce; virtual;
     procedure LoadFromStream(Stream: TStream); override;
-    procedure AddStrings(Strings: TStrings); override;
-    {$ELSE}
+    procedure LoadFromFile(const FileName: string); override;
+    procedure SaveToFile(const FileName: string); override;
+   {$ELSE}
+    procedure SaveToStream(Stream: TStream; WithBOM: Boolean = True); virtual;
+    procedure LoadFromStream(Stream: TStream); virtual;
+    procedure AddStrings(Strings: TUnicodeStrings); overload; virtual;
+    procedure AddStrings(Strings: TStrings); overload; virtual;
     function Add(const S: UnicodeString): Integer; virtual;
     function AddObject(const S: UnicodeString; AObject: TObject): Integer; virtual;
     procedure Append(const S: UnicodeString);
-    procedure AddStrings(Strings: TStrings); overload; virtual;
     procedure Assign(Source: TPersistent); override;
     procedure AssignTo(Dest: TPersistent); override;
     procedure BeginUpdate;
@@ -223,11 +224,8 @@ type
     procedure Insert(Index: Integer; const S: UnicodeString); virtual; abstract;
     procedure InsertObject(Index: Integer; const S: UnicodeString; AObject: TObject);
     procedure LoadFromFile(const FileName: TFileName); virtual;
-    procedure LoadFromStream(Stream: TStream); virtual;
     procedure Move(CurIndex, NewIndex: Integer); virtual;
     procedure SaveToFile(const FileName: TFileName); virtual;
-    procedure SaveToStream(Stream: TStream; WithBOM: Boolean = True); virtual;
-
     property Capacity: Integer read GetCapacity write SetCapacity;
     property CommaText: UnicodeString read GetCommaText write SetCommaText;
     property Count: Integer read GetCount;
@@ -245,13 +243,10 @@ type
     {$ENDIF}
     property OnConfirmConversion: TConfirmConversionEvent read FOnConfirmConversion write FOnConfirmConversion;
   end;
-{$ENDIF}
 
-{$IFDEF UNICODE}
-  TUnicodeStringList = TStringList;
-{$ELSE}
+
 { TUnicodeStringList }
-  
+
   //----- TUnicodeStringList class
   TDynWideCharArray = array of WideChar;
   TUnicodeStringItem = record
@@ -309,7 +304,7 @@ type
     property OnChange: TNotifyEvent read FOnChange write FOnChange;
     property OnChanging: TNotifyEvent read FOnChanging write FOnChanging;
   end;
-{$ENDIF}
+
 
 {$IFNDEF UNICODE}
 { PWideChar versions of important PAnsiChar functions from SysUtils }
@@ -348,7 +343,7 @@ function WideCompareText(const S1, S2: UnicodeString): Integer;
 var
   DefaultSystemCodePage: Cardinal; // implicitly used when converting AnsiString <--> UnicodeString.
 {$ENDIF}
-  
+
 function WCharUpper(lpsz: PWideChar): PWideChar;
 function WCharUpperBuff(lpsz: PWideChar; cchLength: DWORD): DWORD;
 function WCharLower(lpsz: PWideChar): PWideChar;
@@ -492,7 +487,6 @@ uses
     {$ENDIF}
   {$ENDIF}
 
-{$IFNDEF UNICODE}
 { TUnicodeStrings }
 
 constructor TUnicodeStrings.Create;
@@ -549,7 +543,6 @@ procedure TUnicodeStrings.Append(const S: UnicodeString);
 begin
   Add(S);
 end;
-{$ENDIF}
 
 procedure TUnicodeStrings.AddStrings(Strings: TStrings);
 var
@@ -592,7 +585,6 @@ begin
   end;
 end;
 
-{$IFNDEF SYN_COMPILER_10_UP}
 procedure TUnicodeStrings.Assign(Source: TPersistent);
 // usual assignment routine, but able to assign wide and small strings
 begin
@@ -620,7 +612,7 @@ begin
     end
     else
       inherited Assign(Source);
-  end; 
+  end;
 end;
 
 procedure TUnicodeStrings.AssignTo(Dest: TPersistent);
@@ -669,7 +661,6 @@ begin
     SetUpdateState(True);
   Inc(FUpdateCount);
 end;
-{$ENDIF}
 
 procedure TUnicodeStrings.DefineProperties(Filer: TFiler);
 // Defines a private property for the content of the list.
@@ -693,6 +684,7 @@ procedure TUnicodeStrings.DefineProperties(Filer: TFiler);
 begin
   Filer.DefineProperty('UnicodeStrings', ReadData, WriteData, DoWrite);
 end;
+{$ENDIF}
 
 procedure TUnicodeStrings.DoConfirmConversion(var Allowed: Boolean);
 begin
@@ -818,7 +810,7 @@ begin
   Size := 0;
   for I := 0 to Count - 1 do
     Inc(Size, Length(Get(I)) + SepSize);
-    
+
   // set one separator less, the last line does not need a trailing separator
   SetLength(Result, Size - SepSize);
   if Size > 0 then
@@ -838,7 +830,7 @@ begin
       Inc(I);
       if I = Count then
         Break;
-        
+
       // add separators
       System.Move(Pointer(Separators)^, P^, SizeOf(WideChar) * SepSize);
       Inc(P, SepSize);
@@ -926,8 +918,9 @@ begin
   Insert(Index, S);
   PutObject(Index, AObject);
 end;
+{$ENDIF}
 
-procedure TUnicodeStrings.LoadFromFile(const FileName: TFileName);
+procedure TUnicodeStrings.LoadFromFile(const FileName: string);
 var
   Stream: TStream;
 begin
@@ -942,7 +935,6 @@ begin
     RaiseLastOSError;
   end;
 end;
-{$ENDIF}
 
 procedure TUnicodeStrings.LoadFromStream(Stream: TStream);
 // usual loader routine, but enhanced to handle byte order marks in stream
@@ -1029,7 +1021,7 @@ begin
         if Size > BytesRead then
           Stream.Read(SA[7], Size - BytesRead); // first 6 chars were copied by System.Move
       end;
-      SetTextStr(SA);
+      SetTextStr(UnicodeString(SA));
     end;
   finally
     EndUpdate;
@@ -1056,7 +1048,6 @@ begin
     end;
   end;
 end;
-{$ENDIF}
 
 procedure TUnicodeStrings.ReadData(Reader: TReader);
 begin
@@ -1067,9 +1058,9 @@ begin
     SetTextStr(Reader.ReadWideString);
   end;
 end;
+{$ENDIF}
 
-{$IFNDEF SYN_COMPILER_10_UP}
-procedure TUnicodeStrings.SaveToFile(const FileName: TFileName);
+procedure TUnicodeStrings.SaveToFile(const FileName: string);
 var
   Stream: TStream;
 begin
@@ -1080,7 +1071,6 @@ begin
     Stream.Free;
   end;
 end;
-{$ENDIF}
 
 procedure TUnicodeStrings.SaveToStream(Stream: TStream; WithBOM: Boolean = True);
 // Saves the currently loaded text into the given stream. WithBOM determines whether to write a
@@ -1108,7 +1098,8 @@ begin
     // call back in case information could be lost
     Run := PWideChar(SW);
     // only ask if there's at least one Unicode character in the text
-    while Run^ in [WideChar(#1)..WideChar(#255)] do
+//    while Run^ in [WideChar(#1)..WideChar(#255)] do
+    while (Run^ <> WideNull) and (Run^ < #$0100) do
       Inc(Run);
     // Note: The application can still set FSaveUnicode to True in the callback.
     if Run^ <> WideNull then
@@ -1145,7 +1136,7 @@ begin
         end;
       sfAnsi:
         begin
-          SA := SW;
+          SA := AnsiString(SW);
           Stream.WriteBuffer(SA[1], Length(SA) * SizeOf(AnsiChar));
           FSaved := True;
         end;
@@ -1178,7 +1169,7 @@ begin
       else
       begin
         P1 := P;
-        while (P^ > WideSpace) and (P^ <> ',') do 
+        while (P^ > WideSpace) and (P^ <> ',') do
           Inc(P);
         SetString(S, P1, P - P1);
       end;
@@ -1216,8 +1207,13 @@ begin
     while Head^ <> WideNull do
     begin
       Tail := Head;
+      {$IFDEF UNICODE}
+      while not (CharInSet(Tail^, [WideNull, WideLineFeed, WideCarriageReturn, WideVerticalTab, WideFormFeed])) and
+      {$ELSE}
       while not (Tail^ in [WideNull, WideLineFeed, WideCarriageReturn, WideVerticalTab, WideFormFeed]) and
-        (Tail^ <> WideLineSeparator) and (Tail^ <> WideParagraphSeparator) do
+      {$ENDIF}
+        (Tail^ <> WideLineSeparator) and (Tail^ <> WideParagraphSeparator)
+      do
         Inc(Tail);
       SetString(S, Head, Tail - Head);
       Add(S);
@@ -1273,13 +1269,12 @@ begin
       Delete(I);
   end;
 end;
-{$ENDIF}
 
 procedure TUnicodeStrings.WriteData(Writer: TWriter);
 begin
   Writer.WriteWideString(GetTextStr);
 end;
-
+{$ENDIF}
 
 { TUnicodeStringList }
 
@@ -1624,7 +1619,6 @@ begin
     Changed;
   end;
 end;
-{$ENDIF}
 
 function WStrLen(const Str: PWideChar): Cardinal;
 asm
@@ -2548,7 +2542,7 @@ begin
     // value for GlyphBufferSize (see documentation of cGlyphs parameter of
     // ScriptStringAnalyse function)
     GlyphBufferSize := (3 * Count) div 2 + 16;
-    
+
     if Succeeded(ScriptStringAnalyse(DC, Str, Count, GlyphBufferSize, -1,
       SSAnalyseFlags, 0, nil, nil, nil, nil, nil, @saa)) then
     begin
@@ -3017,7 +3011,7 @@ var
 begin
   // if Stream is nil, let Delphi raise the exception, by accessing Stream,
   // to signal an invalid result
-  
+
   // start analysis at actual Stream.Position
   Size := Stream.Size - Stream.Position;
 
@@ -3266,17 +3260,15 @@ begin
           UnicodeStrings.Text := UTF8ToUnicodeString(UTF8Str);
 {$ELSE}
           UnicodeStrings.Text := UTF8Decode(UTF8Str);
-          UnicodeStrings.SaveFormat := sfUTF8;
 {$ENDIF}
+          UnicodeStrings.SaveFormat := sfUTF8;
         end;
       seUTF16LE:
         begin
           SetLength(WideStr, Size div 2);
           Stream.ReadBuffer(WideStr[1], Size);
           UnicodeStrings.Text := WideStr;
-{$IFNDEF UNICODE}
           UnicodeStrings.SaveFormat := sfUTF16LSB;
-{$ENDIF}
         end;
       seUTF16BE:
         begin
@@ -3284,18 +3276,14 @@ begin
           Stream.ReadBuffer(WideStr[1], Size);
           StrSwapByteOrder(PWideChar(WideStr));
           UnicodeStrings.Text := WideStr;
-{$IFNDEF UNICODE}
           UnicodeStrings.SaveFormat := sfUTF16MSB;
-{$ENDIF}
         end;
       seAnsi:
         begin
           SetLength(AnsiStr, Size);
           Stream.ReadBuffer(AnsiStr[1], Size);
           UnicodeStrings.Text := UnicodeString(AnsiStr);
-{$IFNDEF UNICODE}
           UnicodeStrings.SaveFormat := sfAnsi;
-{$ENDIF}
         end;
     end;
   finally

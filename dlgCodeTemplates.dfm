@@ -5,14 +5,12 @@ inherited CodeTemplates: TCodeTemplates
   Caption = 'Code Templates'
   ClientHeight = 426
   ClientWidth = 430
-  Font.Name = 'MS Shell Dlg 2'
-  Position = poMainFormCenter
   ShowHint = True
   OnClose = FormClose
   OnDestroy = FormDestroy
   OnShow = FormShow
   ExplicitWidth = 436
-  ExplicitHeight = 452
+  ExplicitHeight = 454
   PixelsPerInch = 96
   TextHeight = 13
   object Panel: TSpTBXPanel
@@ -110,22 +108,22 @@ inherited CodeTemplates: TCodeTemplates
     end
     object GroupBox: TSpTBXGroupBox
       AlignWithMargins = True
-      Left = 6
+      Left = 3
       Top = 148
-      Width = 419
+      Width = 424
       Height = 239
       Caption = 'Code Template:'
       Anchors = [akLeft, akTop, akRight]
       TabOrder = 2
       TBXStyleBackground = True
       DesignSize = (
-        419
+        424
         239)
       object SynTemplate: TSynEdit
-        Left = 4
-        Top = 84
-        Width = 404
-        Height = 116
+        Left = 9
+        Top = 90
+        Width = 408
+        Height = 110
         Anchors = [akLeft, akTop, akRight]
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
@@ -144,22 +142,22 @@ inherited CodeTemplates: TCodeTemplates
         TabWidth = 4
       end
       object Label1: TSpTBXLabel
-        Left = 7
-        Top = 24
+        Left = 8
+        Top = 21
         Width = 37
         Height = 19
         Caption = '&Name:'
       end
       object Label2: TSpTBXLabel
-        Left = 7
+        Left = 8
         Top = 65
         Width = 54
         Height = 19
         Caption = '&Template:'
       end
       object Label5: TSpTBXLabel
-        Left = 7
-        Top = 46
+        Left = 8
+        Top = 44
         Width = 63
         Height = 19
         Caption = '&Description:'
@@ -193,30 +191,18 @@ inherited CodeTemplates: TCodeTemplates
         ParentFont = False
       end
       object edDescription: TSpTBXEdit
-        Left = 74
+        Left = 83
         Top = 43
-        Width = 338
+        Width = 334
         Height = 21
         Anchors = [akLeft, akTop, akRight]
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -11
-        Font.Name = 'MS Shell Dlg 2'
-        Font.Style = []
-        ParentFont = False
         TabOrder = 2
       end
       object edShortcut: TSpTBXEdit
-        Left = 74
+        Left = 83
         Top = 19
         Width = 121
         Height = 21
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -11
-        Font.Name = 'MS Shell Dlg 2'
-        Font.Style = []
-        ParentFont = False
         TabOrder = 0
         OnKeyPress = edShortcutKeyPress
       end
@@ -231,7 +217,7 @@ inherited CodeTemplates: TCodeTemplates
       EditManager.Font.Charset = DEFAULT_CHARSET
       EditManager.Font.Color = clWindowText
       EditManager.Font.Height = -11
-      EditManager.Font.Name = 'MS Shell Dlg 2'
+      EditManager.Font.Name = 'Tahoma'
       EditManager.Font.Style = []
       Header.Columns.Items = {
         0600000002000000110000005445617379436F6C756D6E53746F726564FFFECE
@@ -251,36 +237,36 @@ inherited CodeTemplates: TCodeTemplates
       OnItemSelectionsChanged = lvItemsItemSelectionsChanged
     end
   end
-  object ActionList: TTntActionList
+  object ActionList: TActionList
     Images = CommandsDataModule.Images
     OnUpdate = ActionListUpdate
     Left = 379
     Top = 27
-    object actAddItem: TTntAction
+    object actAddItem: TAction
       Caption = '&Add'
       Hint = 'Add item'
       ImageIndex = 49
       OnExecute = actAddItemExecute
     end
-    object actDeleteItem: TTntAction
+    object actDeleteItem: TAction
       Caption = '&Delete'
       Hint = 'Delete item'
       ImageIndex = 14
       OnExecute = actDeleteItemExecute
     end
-    object actMoveUp: TTntAction
+    object actMoveUp: TAction
       Caption = '&Up'
       Hint = 'Move item up'
       ImageIndex = 47
       OnExecute = actMoveUpExecute
     end
-    object actMoveDown: TTntAction
+    object actMoveDown: TAction
       Caption = '&Down'
       Hint = 'Move item down'
       ImageIndex = 48
       OnExecute = actMoveDownExecute
     end
-    object actUpdateItem: TTntAction
+    object actUpdateItem: TAction
       Caption = '&Update'
       Hint = 'Update item'
       ImageIndex = 39

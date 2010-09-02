@@ -25,7 +25,7 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure tvCategoriesGetText(Sender: TBaseVirtualTree; Node: PVirtualNode;
-      Column: TColumnIndex; TextType: TVSTTextType; var CellText: WideString);
+      Column: TColumnIndex; TextType: TVSTTextType; var CellText: string);
     procedure FormShow(Sender: TObject);
     procedure tvCategoriesChange(Sender: TBaseVirtualTree; Node: PVirtualNode);
     procedure btnManageTemplatesClick(Sender: TObject);
@@ -37,7 +37,7 @@ type
     { Private declarations }
   public
     { Public declarations }
-    Categories : TWideStringList;
+    Categories : TStringList;
     SelectedTemplate : TFileTemplate;
     procedure SetUp;
   end;
@@ -66,7 +66,7 @@ end;
 procedure TNewFileDialog.FormCreate(Sender: TObject);
 begin
   inherited;
-  Categories := TWideStringList.Create;
+  Categories := TStringList.Create;
   Categories.CaseSensitive := False;
   lvTemplates.ImagesLarge := LargeSysImages;
   tvCategories.OnBeforeCellPaint :=
@@ -154,7 +154,7 @@ end;
 
 procedure TNewFileDialog.tvCategoriesGetText(Sender: TBaseVirtualTree;
   Node: PVirtualNode; Column: TColumnIndex; TextType: TVSTTextType;
-  var CellText: WideString);
+  var CellText: string);
 begin
   if TextType = ttNormal then
     CellText := Categories[Node.Index]

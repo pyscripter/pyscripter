@@ -10,7 +10,7 @@ unit cTools;
 
 interface
 uses
-  SysUtils, Classes, ActnList, TntActnList;
+  SysUtils, Classes, ActnList;
 
 type
   TProcessStdInputOption = (piNone, piWordAtCursor, piCurrentLine, piSelection,
@@ -26,21 +26,21 @@ type
   }
   TExternalTool = class(TPersistent)
   private
-    fApplicationName: WideString;
-    fParameters: WideString;
+    fApplicationName: string;
+    fParameters: string;
     fProcessInput: TProcessStdInputOption;
     fProcessOutput: TProcessStdOutputOption;
     fCaptureOutput: Boolean;
     fTimeOut: Integer;
     fWaitForTerminate: Boolean;
     fConsoleHidden: Boolean;
-    fWorkingDirectory: WideString;
-    fDescription: WideString;
-    fCaption: WideString;
+    fWorkingDirectory: string;
+    fDescription: string;
+    fCaption: string;
     fShortCut: TShortCut;
     fParseMessages : boolean;
     fParseTraceback : boolean;
-    fMessagesFormat : WideString;
+    fMessagesFormat : string;
     fContext: TToolContext;
     fSaveFiles : TSaveFiles;
     fEnvironment : TStrings;
@@ -52,12 +52,12 @@ type
     procedure Assign(Source: TPersistent); override;
   published
     // The caption of the Menu Item corresponding to this tool
-    property Caption : WideString read fCaption write fCaption;
+    property Caption : string read fCaption write fCaption;
     // The hint of the Menu Item corresponding to this tool
-    property Description : WideString read fDescription write fDescription;
-    property ApplicationName: WideString read fApplicationName write fApplicationName;
-    property Parameters: WideString read fParameters write fParameters;
-    property WorkingDirectory : WideString read fWorkingDirectory write fWorkingDirectory;
+    property Description : string read fDescription write fDescription;
+    property ApplicationName: string read fApplicationName write fApplicationName;
+    property Parameters: string read fParameters write fParameters;
+    property WorkingDirectory : string read fWorkingDirectory write fWorkingDirectory;
     property ShortCut : TShortCut read fShortCut write fShortCut;
     // External Tool action context (tcAlwaysEnabled, tcActiveFile, tcSelectionAvailable)
     property Context : TToolContext read fContext write fContext
@@ -89,7 +89,7 @@ type
       default False;
     // Grep Expression for the parsing output lines for file/Line/Pos information
     // Can use the parameters $[Filename], $[LineNumber], $[Line], $[Column]
-    property MessagesFormat : WideString read fMessagesFormat write fMessagesFormat;
+    property MessagesFormat : string read fMessagesFormat write fMessagesFormat;
     // Capture command line output and place it in the Output Window
     property CaptureOutput : Boolean read fCaptureOutput write fCaptureOutput
       default True;
@@ -133,7 +133,7 @@ type
       write fExternalTool;
   end;
 
-  TExternalToolAction = class(TTntAction)
+  TExternalToolAction = class(TAction)
   private
     fExternalTool : TExternalTool;
   protected
@@ -146,11 +146,11 @@ type
 
 
 { Expands environment variables }
-function ExpandEnv(const S: WideString): WideString;
-{ Surrounds WideString with quotes when it contains spaces and is not quoted }
-function AddQuotesUnless(const S: WideString): WideString;
+function ExpandEnv(const S: string): string;
+{ Surrounds string with quotes when it contains spaces and is not quoted }
+function AddQuotesUnless(const S: string): string;
 { Prepares an application name or the command line parameters for execution }
-function PrepareCommandLine(S: WideString): WideString;
+function PrepareCommandLine(S: string): string;
 
 Const
   GrepFileNameParam = '$[FileName]';
@@ -166,10 +166,10 @@ Var
 implementation
 
 uses Windows, cParameters, Menus, frmCommandOutput,
-  dmCommands, uCommonFunctions, uEditAppIntfs, WideStrUtils, TntSysUtils;
+  dmCommands, uCommonFunctions, uEditAppIntfs, WideStrUtils;
 
 
-function ExpandEnv(const S: WideString): WideString;
+function ExpandEnv(const S: string): string;
 var
   r: array[0..MAX_PATH] of WideChar;
 begin
@@ -177,7 +177,7 @@ begin
   Result := r;
 end;
 
-function AddQuotesUnless(const S: WideString): WideString;
+function AddQuotesUnless(const S: string): string;
 begin
   Result := Trim(S);
   if (Pos(' ', Result) <> 0) and
@@ -185,7 +185,7 @@ begin
     Result := '"' + Result + '"';
 end;
 
-function PrepareCommandLine(S: WideString): WideString;
+function PrepareCommandLine(S: string): string;
 begin
   S := ExpandEnv(S);
   S:= Parameters.ReplaceInText(S);
@@ -286,8 +286,8 @@ end;
 constructor TExternalToolAction.CreateExtToolAction(AOwner: TComponent;
   ExternalTool: TExternalTool);
 var
-  S: WideString;
-  AppFile: WideString;
+  S: string;
+  AppFile: string;
   Index: Integer;
 begin
   inherited Create(AOwner);
@@ -303,7 +303,7 @@ begin
     Hint := fExternalTool.Description;
     if (fExternalTool.ApplicationName <> '') then begin
       AppFile := PrepareCommandLine(fExternalTool.ApplicationName);
-      if WideFileExists(AppFile) then begin
+      if FileExists(AppFile) then begin
         Index := GetIconIndexFromFile(AppFile, True);
         ImageIndex :=
           CommandsDataModule.Images.AddImage(CommandsDataModule.imlShellIcon, Index);
@@ -516,4 +516,3 @@ finalization
   ToolsCollection.Free;
   ExternalPython.Free;
 end.
-

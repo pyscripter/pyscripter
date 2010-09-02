@@ -68,7 +68,7 @@ object CommandsDataModule: TCommandsDataModule
     Left = 32
     Top = 241
     Bitmap = {
-      494C010114001800040010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010114001800180010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000006000000001002000000000000060
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -886,19 +886,14 @@ object CommandsDataModule: TCommandsDataModule
       item
         BiggestWord = 'CONSTRUCTOR'
         DefaultFontStyle = [fsBold]
-        BiggestWordW = 'CONSTRUCTOR'
       end
       item
         BiggestWord = 'This a very long explanation indeed'
-        BiggestWordW = 'This a very long explanation indeed'
       end>
     ShortCut = 24656
     OnCodeCompletion = ParameterCompletionCodeCompletion
     Left = 335
     Top = 12
-    EndOfTokenChrW = '()[]. '
-    TriggerCharsW = '.'
-    TitleW = 'Parameters'
   end
   object ModifierCompletion: TSynCompletionProposal
     Options = [scoLimitToMatchedText, scoUseInsertList, scoUsePrettyText, scoCompleteWithTab, scoCompleteWithEnter]
@@ -919,36 +914,60 @@ object CommandsDataModule: TCommandsDataModule
       item
         BiggestWord = 'CONSTRUCTOR'
         DefaultFontStyle = [fsBold]
-        BiggestWordW = 'CONSTRUCTOR'
       end
       item
         BiggestWord = 'This a very long explanation indeed and even longer'
-        BiggestWordW = 'This a very long explanation indeed and even longer'
       end>
     ShortCut = 24653
     OnCodeCompletion = ModifierCompletionCodeCompletion
     Left = 338
     Top = 58
-    EndOfTokenChrW = '()[].- '
-    TriggerCharsW = '.'
-    TitleW = 'Modifiers'
   end
   object CodeTemplatesCompletion: TSynAutoComplete
-    AutoCompleteList.UnicodeStrings = 
-      'hdr'#13#10'|Python Module header'#13#10'=#----------------------------------' +
-      '---------------------------------------------'#13#10'=# Name:        $' +
-      '[ActiveDoc-Name]'#13#10'=# Purpose:     |'#13#10'=#'#13#10'=# Author:      $[UserN' +
-      'ame]'#13#10'=#'#13#10'=# Created:     $[DateTime-'#39'DD/MM/YYYY'#39'-DateFormat]'#13#10'=' +
-      '# Copyright:   (c) $[UserName] $[DateTime-'#39'YYYY'#39'-DateFormat]'#13#10'=#' +
-      ' Licence:     <your licence>'#13#10'=#--------------------------------' +
-      '-----------------------------------------------'#13#10'=#!/usr/bin/env' +
-      ' python'#13#10'cl'#13#10'|Comment Line'#13#10'=#----------------------------------' +
-      '---------------------------------------------'#13#10'=|'#13#10'pyapp'#13#10'|Pytho' +
-      'n application'#13#10'=def main():'#13#10'=    |pass'#13#10'='#13#10'=if __name__ == '#39'__m' +
-      'ain__'#39':'#13#10'=    main()'#13#10'cls'#13#10'|Python class'#13#10'=class |(object):'#13#10'=  ' +
-      '  """'#13#10'='#9#9'class comment'#13#10'=    """'#13#10'='#13#10'=    def __init__(self):'#13#10 +
-      '=        pass'#13#10'fec'#13#10'|File encoding comment'#13#10'=# -*- coding: UTF-8' +
-      ' -*-'#13#10'=|'
+    AutoCompleteList.Strings = (
+      '=hdr'
+      '=|Python Module header'
+      
+        '==#-------------------------------------------------------------' +
+        '------------------'
+      '==# Name:        $[ActiveDoc-Name]'
+      '==# Purpose:     |'
+      '==#'
+      '==# Author:      $[UserName]'
+      '==#'
+      '==# Created:     $[DateTime-'#39'DD/MM/YYYY'#39'-DateFormat]'
+      '==# Copyright:   (c) $[UserName] $[DateTime-'#39'YYYY'#39'-DateFormat]'
+      '==# Licence:     <your licence>'
+      
+        '==#-------------------------------------------------------------' +
+        '------------------'
+      '==#!/usr/bin/env python'
+      '=cl'
+      '=|Comment Line'
+      
+        '==#-------------------------------------------------------------' +
+        '------------------'
+      '==|'
+      '=pyapp'
+      '=|Python application'
+      '==def main():'
+      '==    |pass'
+      '=='
+      '==if __name__ == '#39'__main__'#39':'
+      '==    main()'
+      '=cls'
+      '=|Python class'
+      '==class |(object):'
+      '==    """'
+      '=='#9#9'class comment'
+      '==    """'
+      '=='
+      '==    def __init__(self):'
+      '==        pass'
+      '=fec'
+      '=|File encoding comment'
+      '==# -*- coding: UTF-8 -*-'
+      '==|')
     EndOfTokenChr = '()[]. '
     ShortCut = 0
     Options = [scoLimitToMatchedText, scoUseInsertList, scoCompleteWithTab, scoCompleteWithEnter]
@@ -3815,12 +3834,12 @@ object CommandsDataModule: TCommandsDataModule
     Left = 343
     Top = 176
   end
-  object dlgFileOpen: TTntOpenDialogLX
+  object dlgFileOpen: TOpenDialog
     Options = [ofHideReadOnly, ofPathMustExist, ofFileMustExist, ofEnableSizing]
     Left = 20
     Top = 16
   end
-  object dlgFileSave: TTntSaveDialogLX
+  object dlgFileSave: TSaveDialog
     Options = [ofOverwritePrompt, ofHideReadOnly, ofPathMustExist, ofNoReadOnlyReturn, ofEnableSizing]
     Left = 20
     Top = 68
@@ -3854,42 +3873,39 @@ object CommandsDataModule: TCommandsDataModule
     Left = 596
     Top = 240
   end
-  object actlMain: TTntActionList
+  object actlMain: TActionList
     Images = Images
     Left = 21
     Top = 125
-    object actFileSave: TTntAction
+    object actFileSave: TAction
       Category = 'File'
       Caption = '&Save'
       Enabled = False
       HelpContext = 310
-      HelpType = htContext
       Hint = 'Save|Save active file'
       ImageIndex = 4
       ShortCut = 16467
       OnExecute = actFileSaveExecute
     end
-    object actFileSaveAs: TTntAction
+    object actFileSaveAs: TAction
       Category = 'File'
       Caption = 'Save &As...'
       Enabled = False
       HelpContext = 310
-      HelpType = htContext
       Hint = 'Save As|Save active file under different name'
       OnExecute = actFileSaveAsExecute
     end
-    object actFileClose: TTntAction
+    object actFileClose: TAction
       Category = 'File'
       Caption = '&Close'
       Enabled = False
       HelpContext = 310
-      HelpType = htContext
       Hint = 'Close|Close active file'
       ImageIndex = 149
       ShortCut = 16499
       OnExecute = actFileCloseExecute
     end
-    object actEditCut: TTntEditCut
+    object actEditCut: TEditCut
       Category = 'Edit'
       Caption = 'Cu&t'
       Enabled = False
@@ -3899,7 +3915,7 @@ object CommandsDataModule: TCommandsDataModule
       ImageIndex = 11
       ShortCut = 16472
     end
-    object actEditCopy: TTntEditCopy
+    object actEditCopy: TEditCopy
       Category = 'Edit'
       Caption = '&Copy'
       Enabled = False
@@ -3909,7 +3925,7 @@ object CommandsDataModule: TCommandsDataModule
       ImageIndex = 12
       ShortCut = 16451
     end
-    object actEditPaste: TTntEditPaste
+    object actEditPaste: TEditPaste
       Category = 'Edit'
       Caption = '&Paste'
       HelpContext = 320
@@ -3918,7 +3934,7 @@ object CommandsDataModule: TCommandsDataModule
       ImageIndex = 13
       ShortCut = 16470
     end
-    object actEditDelete: TTntEditDelete
+    object actEditDelete: TEditDelete
       Category = 'Edit'
       Caption = 'De&lete'
       Enabled = False
@@ -3927,7 +3943,7 @@ object CommandsDataModule: TCommandsDataModule
       Hint = 'Delete|Delete selection'
       ImageIndex = 14
     end
-    object actEditUndo: TTntEditUndo
+    object actEditUndo: TEditUndo
       Category = 'Edit'
       Caption = '&Undo'
       Enabled = False
@@ -3937,18 +3953,17 @@ object CommandsDataModule: TCommandsDataModule
       ImageIndex = 9
       ShortCut = 16474
     end
-    object actEditRedo: TTntAction
+    object actEditRedo: TAction
       Category = 'Edit'
       Caption = '&Redo'
       Enabled = False
       HelpContext = 320
-      HelpType = htContext
       Hint = 'Redo| Redo last action'
       ImageIndex = 10
       ShortCut = 24666
       OnExecute = actEditRedoExecute
     end
-    object actEditSelectAll: TTntEditSelectAll
+    object actEditSelectAll: TEditSelectAll
       Category = 'Edit'
       Caption = 'Select &All'
       HelpContext = 320
@@ -3956,192 +3971,173 @@ object CommandsDataModule: TCommandsDataModule
       Hint = 'Select All|Selects the entire document'
       ShortCut = 16449
     end
-    object actSearchFind: TTntAction
+    object actSearchFind: TAction
       Category = 'Search'
       Caption = '&Find...'
       Enabled = False
       HelpContext = 330
-      HelpType = htContext
       Hint = 'Search|Search for a string'
       ImageIndex = 15
       ShortCut = 16454
       OnExecute = actSearchFindExecute
     end
-    object actSearchFindNext: TTntAction
+    object actSearchFindNext: TAction
       Category = 'Search'
       Caption = 'Find &Next'
       Enabled = False
       HelpContext = 330
-      HelpType = htContext
       Hint = 'Find next|Find next match'
       ImageIndex = 16
       ShortCut = 114
       OnExecute = actSearchFindNextExecute
     end
-    object actSearchFindPrev: TTntAction
+    object actSearchFindPrev: TAction
       Category = 'Search'
       Caption = 'Find &Previous'
       Enabled = False
       HelpContext = 330
-      HelpType = htContext
       Hint = 'Find previous|Find Previous match'
       ImageIndex = 121
       ShortCut = 8306
       OnExecute = actSearchFindPrevExecute
     end
-    object actSearchReplace: TTntAction
+    object actSearchReplace: TAction
       Category = 'Search'
       Caption = '&Replace...'
       Enabled = False
       HelpContext = 330
-      HelpType = htContext
       Hint = 'Replace|Search  & Replace'
       ImageIndex = 17
       ShortCut = 16456
       OnExecute = actSearchReplaceExecute
     end
-    object actFileSaveAll: TTntAction
+    object actFileSaveAll: TAction
       Category = 'File'
       Caption = 'Save &All'
       HelpContext = 310
-      HelpType = htContext
       Hint = 'Save all|Save project and all open files'
       ImageIndex = 5
       OnExecute = actFileSaveAllExecute
     end
-    object actFilePrint: TTntAction
+    object actFilePrint: TAction
       Category = 'File'
       Caption = '&Print...'
       Enabled = False
       HelpContext = 310
-      HelpType = htContext
       Hint = 'Print|Print active file'
       ImageIndex = 8
       ShortCut = 16464
       OnExecute = actFilePrintExecute
     end
-    object actPrinterSetup: TTntAction
+    object actPrinterSetup: TAction
       Category = 'File'
       Caption = 'Printer Set&up...'
       HelpContext = 310
-      HelpType = htContext
       Hint = 'Printer setup'
       ImageIndex = 6
       OnExecute = actPrinterSetupExecute
     end
-    object actPrintPreview: TTntAction
+    object actPrintPreview: TAction
       Category = 'File'
       Caption = 'Print Pre&view'
       HelpContext = 310
-      HelpType = htContext
       Hint = 'Print preview'
       ImageIndex = 7
       OnExecute = actPrintPreviewExecute
     end
-    object actPageSetup: TTntAction
+    object actPageSetup: TAction
       Category = 'File'
       Caption = 'Pa&ge Setup...'
       HelpContext = 310
-      HelpType = htContext
       Hint = 'Page setup'
       ImageIndex = 78
       OnExecute = actPageSetupExecute
     end
-    object actEditorOptions: TTntAction
+    object actEditorOptions: TAction
       Category = 'Options'
       Caption = '&Editor Options...'
       HelpContext = 620
-      HelpType = htContext
       Hint = 'Set Editor Options'
       ImageIndex = 22
       OnExecute = actEditorOptionsExecute
     end
-    object actIDEOptions: TTntAction
+    object actIDEOptions: TAction
       Category = 'Options'
       Caption = '&IDE Options...'
       HelpContext = 610
-      HelpType = htContext
       Hint = 'Set IDE Options'
       ImageIndex = 24
       OnExecute = actIDEOptionsExecute
     end
-    object actEditIndent: TTntAction
+    object actEditIndent: TAction
       Category = 'Source Code'
       Caption = '&Indent Block'
       HelpContext = 320
-      HelpType = htContext
       Hint = 'Indent block|Indent selected block of code'
       ImageIndex = 69
       ShortCut = 24649
       OnExecute = actEditIndentExecute
     end
-    object actEditDedent: TTntAction
+    object actEditDedent: TAction
       Category = 'Source Code'
       Caption = '&Dedent Block'
       HelpContext = 320
-      HelpType = htContext
       Hint = 'Dedent|Dedent selected block of code'
       ImageIndex = 70
       ShortCut = 24661
       OnExecute = actEditDedentExecute
     end
-    object actEditCommentOut: TTntAction
+    object actEditCommentOut: TAction
       Category = 'Source Code'
       Caption = '&Comment out'
       HelpContext = 320
-      HelpType = htContext
       Hint = 'Comment out| Comment out block of code'
       ImageIndex = 73
       ShortCut = 49342
       OnExecute = actEditCommentOutExecute
     end
-    object actEditUncomment: TTntAction
+    object actEditUncomment: TAction
       Category = 'Source Code'
       Caption = '&Uncomment'
       HelpContext = 320
-      HelpType = htContext
       Hint = 'Uncomment| Uncomment block of code'
       ImageIndex = 74
       ShortCut = 49340
       OnExecute = actEditUncommentExecute
     end
-    object actSearchMatchingBrace: TTntAction
+    object actSearchMatchingBrace: TAction
       Category = 'Search'
       Caption = '&Matching Brace'
       HelpContext = 330
-      HelpType = htContext
       Hint = 'Find Matching Brace'
       ShortCut = 24642
       OnExecute = actSearchMatchingBraceExecute
     end
-    object actEditTabify: TTntAction
+    object actEditTabify: TAction
       Category = 'Source Code'
       Caption = '&Tabify'
       HelpContext = 320
-      HelpType = htContext
       Hint = 'Tabify|Convert spaces to tabs'
       ShortCut = 32990
       OnExecute = actEditTabifyExecute
     end
-    object actEditUntabify: TTntAction
+    object actEditUntabify: TAction
       Category = 'Source Code'
       Caption = 'U&ntabify'
       HelpContext = 320
-      HelpType = htContext
       Hint = 'Untabify|Convert tabs to spaces'
       ShortCut = 41182
       OnExecute = actEditUntabifyExecute
     end
-    object actPythonPath: TTntAction
+    object actPythonPath: TAction
       Category = 'Tools'
       Caption = 'Python &Path...'
       HelpContext = 870
-      HelpType = htContext
       Hint = 'Python Path|View or edit the Python path'
       ImageIndex = 25
       OnExecute = actPythonPathExecute
     end
-    object actHelpContents: TTntHelpContents
+    object actHelpContents: THelpContents
       Category = 'Help'
       Caption = '&Contents'
       Enabled = False
@@ -4151,7 +4147,7 @@ object CommandsDataModule: TCommandsDataModule
       ImageIndex = 71
       OnExecute = actHelpContentsExecute
     end
-    object actPythonManuals: TTntHelpContents
+    object actPythonManuals: THelpContents
       Category = 'Help'
       Caption = '&Python Manuals'
       HelpContext = 370
@@ -4160,412 +4156,351 @@ object CommandsDataModule: TCommandsDataModule
       ImageIndex = 77
       OnExecute = actPythonManualsExecute
     end
-    object actAbout: TTntAction
+    object actAbout: TAction
       Category = 'Help'
       Caption = 'About...'
       HelpContext = 370
-      HelpType = htContext
       Hint = 'About|Info about the application'
       ImageIndex = 30
       OnExecute = actAboutExecute
     end
-    object actSearchGoToLine: TTntAction
+    object actSearchGoToLine: TAction
       Category = 'Search'
       Caption = 'Go To &Line...'
       HelpContext = 330
-      HelpType = htContext
       Hint = 'Go to line number'
       ImageIndex = 32
       ShortCut = 32839
       OnExecute = actSearchGoToLineExecute
     end
-    object actSearchGoToSyntaxError: TTntAction
+    object actSearchGoToSyntaxError: TAction
       Category = 'Search'
       Caption = 'Go To Syntax &Error'
       HelpContext = 330
-      HelpType = htContext
       Hint = 'Jump to the position of the first syntax error'
       ImageIndex = 123
       ShortCut = 24645
       OnExecute = actSearchGoToSyntaxErrorExecute
     end
-    object actFindInFiles: TTntAction
+    object actFindInFiles: TAction
       Category = 'Search'
       Caption = '&Find in Files...'
       HelpContext = 330
-      HelpType = htContext
       Hint = 'Search in Files|Search for a string in Files'
       ImageIndex = 86
       ShortCut = 24646
       OnExecute = actFindInFilesExecute
     end
-    object actParameterCompletion: TTntAction
+    object actParameterCompletion: TAction
       Category = 'Parameters'
       Caption = 'Insert &parameter'
       HelpContext = 720
-      HelpType = htContext
       Hint = 'Insert parameter to the edited file'
       ShortCut = 24656
       OnExecute = actParameterCompletionExecute
     end
-    object actModifierCompletion: TTntAction
+    object actModifierCompletion: TAction
       Category = 'Parameters'
       Caption = 'Insert &modifier'
       HelpContext = 720
-      HelpType = htContext
       Hint = 'Insert parameter to the edited file'
       ShortCut = 24653
       OnExecute = actModifierCompletionExecute
     end
-    object actReplaceParameters: TTntAction
+    object actReplaceParameters: TAction
       Category = 'Parameters'
       Caption = '&Replace parameters'
       HelpContext = 720
-      HelpType = htContext
       Hint = 'Replace parameters with their values'
       ShortCut = 24658
       OnExecute = actReplaceParametersExecute
     end
-    object actHelpParameters: TTntAction
+    object actHelpParameters: TAction
       Category = 'Help'
       Caption = '&Parameters'
       HelpContext = 370
-      HelpType = htContext
       Hint = 'Help on custom parameters'
       OnExecute = actHelpParametersExecute
     end
-    object actInsertTemplate: TTntAction
+    object actInsertTemplate: TAction
       Category = 'Edit'
       Caption = 'Insert &Template'
       HelpContext = 320
-      HelpType = htContext
       Hint = 'Insert a Code Template'
       ShortCut = 16458
       OnExecute = actInsertTemplateExecute
     end
-    object actCustomizeParameters: TTntAction
+    object actCustomizeParameters: TAction
       Category = 'Parameters'
       Caption = 'Custom &Parameters...'
       HelpContext = 720
-      HelpType = htContext
       Hint = 'Add/Remove custom parameters'
       OnExecute = actCustomizeParametersExecute
     end
-    object actIDEShortcuts: TTntAction
+    object actIDEShortcuts: TAction
       Category = 'Options'
       Caption = 'IDE &Shortcuts...'
       HelpContext = 615
-      HelpType = htContext
       Hint = 'Customize IDE shortcuts'
       ImageIndex = 102
       OnExecute = actIDEShortcutsExecute
     end
-    object actCodeTemplates: TTntAction
+    object actCodeTemplates: TAction
       Category = 'Options'
       Caption = '&Code Templates...'
       HelpContext = 540
-      HelpType = htContext
       Hint = 'Add/Remove code templates'
       OnExecute = actCodeTemplatesExecute
     end
-    object actConfigureTools: TTntAction
+    object actConfigureTools: TAction
       Category = 'Tools'
       Caption = 'Configure &Tools...'
       HelpContext = 710
-      HelpType = htContext
       Hint = 'Configure Tools|Add/remove/edit command-line tools'
       ImageIndex = 83
       OnExecute = actConfigureToolsExecute
     end
-    object actHelpExternalTools: TTntAction
+    object actHelpExternalTools: TAction
       Category = 'Help'
       Caption = 'External &Tools'
       HelpContext = 370
-      HelpType = htContext
       Hint = 'Help on External Tools'
       OnExecute = actHelpExternalToolsExecute
     end
-    object actFindFunction: TTntAction
+    object actFindFunction: TAction
       Category = 'Search'
       Caption = 'Find F&unction...'
       HelpContext = 330
-      HelpType = htContext
       Hint = 'Find Function|Find function from function list'
       ImageIndex = 26
       ShortCut = 16455
       OnExecute = actFindFunctionExecute
     end
-    object actEditLineNumbers: TTntAction
+    object actEditLineNumbers: TAction
       Category = 'Edit'
       Caption = 'Line &Numbers'
       HelpContext = 320
-      HelpType = htContext
       Hint = 'Show/Hide line numbers'
       ImageIndex = 43
       OnExecute = actEditLineNumbersExecute
     end
-    object actEditShowSpecialChars: TTntAction
+    object actEditShowSpecialChars: TAction
       Category = 'Edit'
       Caption = 'Special &Characters'
       HelpContext = 320
-      HelpType = htContext
       Hint = 'Show/Hide special characters'
       ImageIndex = 95
       OnExecute = actEditShowSpecialCharsExecute
     end
-    object actFindPreviousReference: TTntAction
-      Tag = 1
+    object actFindPreviousReference: TAction
       Category = 'Search'
       Caption = 'Find Previous Reference'
       HelpContext = 330
-      HelpType = htContext
       Hint = 'Find previous identifier reference'
       ShortCut = 49190
       OnExecute = actFindNextReferenceExecute
     end
-    object actFindNextReference: TTntAction
+    object actFindNextReference: TAction
       Category = 'Search'
       Caption = 'Find Next Reference'
       HelpContext = 330
-      HelpType = htContext
       Hint = 'Find next identifier reference'
       ShortCut = 49192
       OnExecute = actFindNextReferenceExecute
     end
-    object actEditLBDos: TTntAction
+    object actEditLBDos: TAction
       Category = 'Edit'
       Caption = '&DOS/Windows'
       Checked = True
-      GroupIndex = 2
       HelpContext = 320
-      HelpType = htContext
       Hint = 'DOS/Windows|Convert to DOS Linebreak'
       ImageIndex = 98
       OnExecute = actEditLBExecute
     end
-    object actEditLBUnix: TTntAction
-      Tag = 1
+    object actEditLBUnix: TAction
       Category = 'Edit'
       Caption = '&UNIX'
-      GroupIndex = 2
       HelpContext = 320
-      HelpType = htContext
       Hint = 'UNIX|Convert to UNIX Linebreak'
       ImageIndex = 99
       OnExecute = actEditLBExecute
     end
-    object actEditLBMac: TTntAction
-      Tag = 2
+    object actEditLBMac: TAction
       Category = 'Edit'
       Caption = '&Mac'
-      GroupIndex = 2
       HelpContext = 320
-      HelpType = htContext
       Hint = 'Mac|Convert to Mac Linebreak'
       ImageIndex = 100
       OnExecute = actEditLBExecute
     end
-    object actEditAnsi: TTntAction
+    object actEditAnsi: TAction
       Category = 'Edit'
       Caption = 'Ansi'
       Checked = True
-      GroupIndex = 1
       HelpContext = 320
-      HelpType = htContext
       Hint = 'Use Ansi encoding'
       OnExecute = actEditFileEncodingExecute
     end
-    object actHelpEditorShortcuts: TTntAction
+    object actHelpEditorShortcuts: TAction
       Category = 'Help'
       Caption = 'Editor &Shortcuts'
       HelpContext = 370
-      HelpType = htContext
       Hint = 'Help on editor shortcuts'
       OnExecute = actHelpEditorShortcutsExecute
     end
-    object actCheckForUpdates: TTntAction
+    object actCheckForUpdates: TAction
       Category = 'Tools'
       Caption = 'Check For &Updates'
       HelpContext = 350
-      HelpType = htContext
       Hint = 'Check whether a newer version of PyScripter is available'
       OnExecute = actCheckForUpdatesExecute
     end
-    object actUnitTestWizard: TTntAction
+    object actUnitTestWizard: TAction
       Category = 'Tools'
       Caption = '&Unit Test Wizard...'
       HelpContext = 930
-      HelpType = htContext
       Hint = 'unitest wizard|Create unitests for active module'
       ImageIndex = 103
       OnExecute = actUnitTestWizardExecute
     end
-    object actInterpreterEditorOptions: TTntAction
+    object actInterpreterEditorOptions: TAction
       Category = 'Options'
       Caption = '&Interpreter Editor Options...'
       HelpContext = 620
-      HelpType = htContext
       Hint = 'Set Interpreter Editor Options'
       ImageIndex = 22
       OnExecute = actInterpreterEditorOptionsExecute
     end
-    object actEditToggleComment: TTntAction
+    object actEditToggleComment: TAction
       Category = 'Source Code'
       Caption = 'Toggle &Comment'
       HelpContext = 320
-      HelpType = htContext
       Hint = 'Toggle Comment| Comment/Uncomment block of code'
       ImageIndex = 73
       ShortCut = 16606
       OnExecute = actEditToggleCommentExecute
     end
-    object actFileTemplates: TTntAction
+    object actFileTemplates: TAction
       Category = 'Options'
       Caption = '&File Templates...'
       HelpContext = 640
-      HelpType = htContext
       Hint = 'Add/Remove file templates'
       OnExecute = actFileTemplatesExecute
     end
-    object actEditUTF8: TTntAction
-      Tag = 1
+    object actEditUTF8: TAction
       Category = 'Edit'
       Caption = 'UTF-8'
-      GroupIndex = 1
       HelpContext = 320
-      HelpType = htContext
       Hint = 'Use UTF-8 encoding when saving the file'
       OnExecute = actEditFileEncodingExecute
     end
-    object actEditUTF8NoBOM: TTntAction
-      Tag = 2
+    object actEditUTF8NoBOM: TAction
       Category = 'Edit'
       Caption = 'UTF-8 (No BOM)'
-      GroupIndex = 1
       HelpContext = 320
-      HelpType = htContext
       Hint = 'Use UTF-8 enconding without BOM'
       OnExecute = actEditFileEncodingExecute
     end
-    object actEditUTF16LE: TTntAction
-      Tag = 3
+    object actEditUTF16LE: TAction
       Category = 'Edit'
       Caption = 'UTF-16LE'
-      GroupIndex = 1
       HelpContext = 320
-      HelpType = htContext
       Hint = 'Use UTF-16LE enconding'
       OnExecute = actEditFileEncodingExecute
     end
-    object actEditUTF16BE: TTntAction
-      Tag = 4
+    object actEditUTF16BE: TAction
       Category = 'Edit'
       Caption = 'UTF-16BE'
-      GroupIndex = 1
       HelpContext = 320
-      HelpType = htContext
       Hint = 'Use UTF-16BE enconding'
       OnExecute = actEditFileEncodingExecute
     end
-    object actFileReload: TTntAction
+    object actFileReload: TAction
       Category = 'File'
       Caption = '&Reload'
       Enabled = False
       HelpContext = 310
-      HelpType = htContext
       Hint = 'Reload|Reload active file'
       ImageIndex = 120
       OnExecute = actFileReloadExecute
     end
-    object actImportShortcuts: TTntAction
+    object actImportShortcuts: TAction
       Category = 'Import/Export'
       Caption = 'Import Shortcuts'
-      HelpType = htContext
       Hint = 'Import Shortcuts'
       OnExecute = actImportShortcutsExecute
     end
-    object actExportShortCuts: TTntAction
+    object actExportShortCuts: TAction
       Category = 'Import/Export'
       Caption = 'Export Shortcuts'
-      HelpType = htContext
       Hint = 'Export Shortcuts'
       OnExecute = actExportShortCutsExecute
     end
-    object actImportHighlighters: TTntAction
+    object actImportHighlighters: TAction
       Category = 'Import/Export'
       Caption = 'Import Highlighters'
-      HelpType = htContext
       Hint = 'Import Syntax Highlighters'
       OnExecute = actImportHighlightersExecute
     end
-    object actExportHighlighters: TTntAction
+    object actExportHighlighters: TAction
       Category = 'Import/Export'
       Caption = 'Export Highlighters'
-      HelpType = htContext
       Hint = 'Export Syntax Highlighters'
       OnExecute = actExportHighlightersExecute
     end
-    object actSearchReplaceNow: TTntAction
+    object actSearchReplaceNow: TAction
       Category = 'Search'
       Caption = 'Replace'
       Enabled = False
       HelpContext = 330
-      HelpType = htContext
       Hint = 'Replace with existing  settings'
       ImageIndex = 17
       OnExecute = actSearchReplaceNowExecute
     end
-    object actSearchHighlight: TTntAction
+    object actSearchHighlight: TAction
       Category = 'Search'
-      AutoCheck = True
       Caption = '&Highlight Search Text'
       HelpContext = 330
-      HelpType = htContext
       Hint = 'Highlight the search text in the current editor'
       ImageIndex = 122
       ShortCut = 24648
       OnExecute = actSearchHighlightExecute
     end
-    object actEditWordWrap: TTntAction
+    object actEditWordWrap: TAction
       Category = 'Edit'
       Caption = 'Word &Wrap'
       HelpContext = 320
-      HelpType = htContext
       Hint = 'Turn word wrap on/off'
       ImageIndex = 124
       OnExecute = actEditWordWrapExecute
     end
-    object actSearchGoToDebugLine: TTntAction
+    object actSearchGoToDebugLine: TAction
       Category = 'Search'
       Caption = 'Go To &Debugger Position'
       HelpContext = 330
-      HelpType = htContext
       Hint = 'Go to the curent position of the debugger'
       OnExecute = actSearchGoToDebugLineExecute
     end
-    object actHelpWebProjectHome: TTntAction
+    object actHelpWebProjectHome: TAction
       Category = 'Help'
       Caption = '&Project Home'
       HelpContext = 370
-      HelpType = htContext
       Hint = 'Go to the project home page'
       ImageIndex = 147
       OnExecute = actHelpWebProjectHomeExecute
     end
-    object actHelpWebGroupSupport: TTntAction
+    object actHelpWebGroupSupport: TAction
       Category = 'Help'
       Caption = '&Group Support'
       HelpContext = 370
-      HelpType = htContext
       Hint = 'Go to the PyScripter Internet group'
       ImageIndex = 147
       OnExecute = actHelpWebGroupSupportExecute
     end
-    object actFileCloseAllOther: TTntAction
+    object actFileCloseAllOther: TAction
       Category = 'File'
       Caption = 'Close All &Other'
       HelpContext = 310
-      HelpType = htContext
       Hint = 'Close all files except the active one'
       OnExecute = actFileCloseAllOtherExecute
     end
@@ -4574,137 +4509,9 @@ object CommandsDataModule: TCommandsDataModule
     Left = 188
     Top = 186
     Bitmap = {
-      494C01019B009F00040010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
-      0000000000003600000028000000400000008002000001002000000000000080
-      0200000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      000000000000000000000000000000000000000000000000000000000000EADD
+      494C01019B009F00180010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      0000000000003600000028000000400000007002000001002000000000000070
+      020000000000000000000000000000000000000000000000000000000000EADD
       CB00AB7734009655000096550000AB773400EADDCB0000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -9697,12 +9504,8 @@ object CommandsDataModule: TCommandsDataModule
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       000000000000000000000000000000000000424D3E000000000000003E000000
-      2800000040000000800200000100010000000000001400000000000000000000
-      000000000000000000000000FFFFFF0000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      00000000000000000000000000000000E07FFFFFFE7F0000C020FFFFFFFF0000
+      2800000040000000700200000100010000000000801300000000000000000000
+      000000000000000000000000FFFFFF00E07FFFFFFE7F0000C020FFFFFFFF0000
       C03F7FFFFEFF0000C020BFC7FE7F0000C03FDF838E3F0000C020EF01FDBF0000
       803FF7008C3F00000000FB00FC370000081FFC01FFF300000C1FFE0793730000
       0E1FFF07837100000C1FFF87C4110000081FFFCFC7640000001FFFEF83640000

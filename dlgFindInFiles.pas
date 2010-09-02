@@ -46,7 +46,7 @@ interface
 
 uses
   Classes, Controls, Graphics, Forms, StdCtrls,
-  cFindInFiles, SpTBXControls, TntStdCtrls,
+  cFindInFiles, SpTBXControls,
   SpTBXEditors, dlgPyIDEBase, SpTBXItem;
 
 type
@@ -97,10 +97,10 @@ implementation
 {$R *.dfm}
 
 uses
-  SysUtils, Windows, Messages, TntFileCtrl,
+  SysUtils, Windows, Messages, FileCtrl,
   {GX_GrepResults, GX_GrepOptions,} Math, 
-  uEditAppIntfs, frmFindResults, dmCommands, TntSysUtils, WideStrings,
-  Dialogs, TntDialogs, gnugettext, StringResources;
+  uEditAppIntfs, frmFindResults, dmCommands, WideStrings,
+  Dialogs, gnugettext, StringResources;
 
 function GetScrollbarWidth: Integer;
 begin
@@ -109,10 +109,10 @@ end;
 
 procedure TFindInFilesDialog.btnBrowseClick(Sender: TObject);
 var
-  NewDir : WideString;
+  NewDir : string;
 begin
   NewDir := cbDirectory.Text;
-  if WideSelectDirectory('Directory To Search', '', NewDir) then
+  if SelectDirectory('Directory To Search', '', NewDir) then
     cbDirectory.Text := NewDir;
 end;
 
@@ -171,13 +171,13 @@ end;
 procedure TFindInFilesDialog.btnOKClick(Sender: TObject);
 var
   i: Integer;
-  Dirs: TWideStringList;
+  Dirs: TStringList;
 begin
   if rbDirectories.Checked then
   begin
     if Trim(cbDirectory.Text) = '' then
       cbDirectory.Text := GetCurrentDir;
-    Dirs := TWideStringList.Create;
+    Dirs := TStringList.Create;
     try
       Dirs.StrictDelimiter:= True;
       Dirs.Delimiter := ';';
@@ -185,9 +185,9 @@ begin
       for i := 0 to Dirs.Count - 1 do
       begin
         if Dirs[i] = '' then continue;
-        Dirs[i] := WideExpandFileName(WideIncludeTrailingPathDelimiter(Dirs[i]));
-        if not WideDirectoryExists(Dirs[i]) then begin
-          WideMessageDlg(WideFormat(_(SSearchDirectoryDoesNotExist), [Dirs[i]]), mtError, [mbOK], 0);
+        Dirs[i] := ExpandFileName(IncludeTrailingPathDelimiter(Dirs[i]));
+        if not DirectoryExists(Dirs[i]) then begin
+          Dialogs.MessageDlg(Format(_(SSearchDirectoryDoesNotExist), [Dirs[i]]), mtError, [mbOK], 0);
           Abort;
         end;
       end;
@@ -238,9 +238,9 @@ end;
 
 procedure TFindInFilesDialog.LoadFormSettings;
 
-  function RetrieveEditorBlockSelection: WideString;
+  function RetrieveEditorBlockSelection: string;
   var
-    Temp: WideString;
+    Temp: string;
     i: Integer;
   begin
     if Assigned(GI_ActiveEditor) then
@@ -259,7 +259,7 @@ procedure TFindInFilesDialog.LoadFormSettings;
     Result := Temp;
   end;
 
-  procedure SetSearchPattern(Str: WideString);
+  procedure SetSearchPattern(Str: string);
   begin
     cbText.Text := Str;
     cbText.SelectAll;
@@ -267,7 +267,7 @@ procedure TFindInFilesDialog.LoadFormSettings;
 
   procedure SetupPattern;
   var
-    Selection: WideString;
+    Selection: string;
   begin
     Selection := RetrieveEditorBlockSelection;
     if (Trim(Selection) = '') and CommandsDataModule.PyIDEOptions.SearchTextAtCaret then begin
@@ -350,5 +350,3 @@ begin
 end;
 
 end.
-
-
