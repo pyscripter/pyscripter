@@ -11,8 +11,8 @@ interface
 
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  StdCtrls, Menus, ActnList, ComCtrls, SpTBXControls, 
-  Buttons, TntStdCtrls, SpTBXEditors, dlgPyIDEBase, WideStrings, ExtCtrls,
+  StdCtrls, Menus, ActnList, ComCtrls, SpTBXControls,
+  Buttons, SpTBXEditors, dlgPyIDEBase, WideStrings, ExtCtrls,
   SpTBXItem;
 
 type
@@ -20,19 +20,19 @@ type
   private
     fSecondaryShortCuts: TShortCutList;
     FShortCut: TShortCut;
-    fActionListName: WideString;
-    fActionName: WideString;
+    fActionListName: string;
+    fActionName: string;
     function IsSecondaryShortCutsStored: Boolean;
     procedure SetSecondaryShortCuts(const Value: TShortCutList);
     function GetSecondaryShortCuts: TShortCutList;
   public
-    Category : WideString;
-    Caption : WideString;
-    Hint : WideString; 
+    Category : string;
+    Caption : string;
+    Hint : string;
     destructor Destroy; override;
   published
-    property ActionListName : WideString read fActionListName write fActionListName;
-    property ActionName : WideString read fActionName write fActionName;
+    property ActionListName : string read fActionListName write fActionListName;
+    property ActionName : string read fActionName write fActionName;
     property ShortCut: TShortCut read FShortCut write FShortCut default 0;
     property SecondaryShortCuts: TShortCutList read GetSecondaryShortCuts
       write SetSecondaryShortCuts stored IsSecondaryShortCutsStored;
@@ -85,8 +85,8 @@ type
   public
     GotKey       : Boolean;
     Categories   : TStringList;
-    FunctionList : TWideStringList;
-    KeyList      : TWideStringList;
+    FunctionList : TStringList;
+    KeyList      : TStringList;
     ActionProxyCollection   : TActionProxyCollection;
 
     procedure PrepActions(ActionListArray : TActionListArray);
@@ -127,11 +127,11 @@ begin
   btnAssign.Enabled := False;
   btnRemove.Enabled := False;
 
-  FunctionList            := TWideStringList.Create;
+  FunctionList            := TStringList.Create;
   FunctionList.Sorted     := True;
   FunctionList.Duplicates := dupIgnore;
 
-  KeyList                 := TWideStringList.Create;
+  KeyList                 := TStringList.Create;
   KeyList.Sorted          := True;
   KeyList.Duplicates      := dupIgnore;
 end;
@@ -167,7 +167,7 @@ var
   i : Integer;
 begin
   for i := Pred(FunctionList.Count) downto 0 do begin
-    (FunctionList.Objects[i] as TWideStringList).Free;
+    (FunctionList.Objects[i] as TStringList).Free;
     FunctionList.Delete(i);
   end;
 end;
@@ -184,7 +184,7 @@ begin
   lbCurrentkeys.Items.Clear;
   lbCommands.Items.Clear;
   lblDescription.Caption := '';
-  lbCommands.Items.AddStrings(FunctionList.Objects[Idx] as TWideStrings);
+  lbCommands.Items.AddStrings(FunctionList.Objects[Idx] as TStrings);
   btnRemove.Enabled := False;
 end;
 
@@ -253,10 +253,10 @@ end;
 function TfrmCustomKeyboard.GetCurrentAction: TActionProxyItem;
 var
   CatIdx, CmdIdx : Integer;
-  SL : TWideStringList;
+  SL : TStringList;
 begin
   CatIdx := FunctionList.IndexOf(lbCategories.Items[lbCategories.ItemIndex]);
-  SL     := FunctionList.Objects[CatIdx] as TWideStringList;
+  SL     := FunctionList.Objects[CatIdx] as TStringList;
   CmdIdx := SL.IndexOf(lbCommands.Items[lbCommands.ItemIndex]);
   Result := (SL.Objects[CmdIdx] as TActionProxyItem);
 end;
@@ -281,10 +281,10 @@ begin
 
     { if category doesn't already exist, add it }
     if Idx < 0 then
-      Idx := FunctionList.AddObject(A.Category, TWideStringList.Create);
+      Idx := FunctionList.AddObject(A.Category, TStringList.Create);
 
     { add keyboard function to list }
-    (FunctionList.Objects[Idx] as TWideStringList).AddObject(A.ActionName, A);
+    (FunctionList.Objects[Idx] as TStringList).AddObject(A.ActionName, A);
 
     { shortcut value already assigned }
     if A.ShortCut <> 0 then begin
@@ -408,7 +408,7 @@ begin
   end;
 end;
 
-function FindActionListByName(Name : WideString;
+function FindActionListByName(Name : string;
   ActionListArray: TActionListArray) : TActionList;
 var
   i : integer;
@@ -421,7 +421,7 @@ begin
     end;
 end;
 
-function FindActionByName(Name : WideString; ActionList : TActionList): TCustomAction;
+function FindActionByName(Name : string; ActionList : TActionList): TCustomAction;
 var
   i : integer;
 begin

@@ -13,7 +13,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Controls, Forms,
   Dialogs, cTools, StdCtrls, SynEdit, Menus,
-  ActnList, SpTBXControls, SpTBXEditors, TntActnList, TntStdCtrls,
+  ActnList, SpTBXControls, SpTBXEditors,
   dlgPyIDEBase, SpTBXItem, SpTBXTabs, TB2Item, MPCommonObjects,
   EasyListview, MPCommonUtilities, ComCtrls;
 
@@ -50,12 +50,12 @@ type
     btnMoveUp: TSpTBXButton;
     btnMoveDown: TSpTBXButton;
     btnUpdate: TSpTBXButton;
-    ActionList: TTntActionList;
-    actUpdateItem: TTntAction;
-    actMoveDown: TTntAction;
-    actMoveUp: TTntAction;
-    actDeleteItem: TTntAction;
-    actAddItem: TTntAction;
+    ActionList: TActionList;
+    actUpdateItem: TAction;
+    actMoveDown: TAction;
+    actMoveUp: TAction;
+    actDeleteItem: TAction;
+    actAddItem: TAction;
     Label1: TSpTBXLabel;
     Label5: TSpTBXLabel;
     Label17: TSpTBXLabel;
@@ -121,8 +121,7 @@ type
 
 implementation
 
-uses dmCommands, JvBrowseFolder, JclSysInfo, gnugettext, StringResources,
-  TntDialogs;
+uses dmCommands, JvBrowseFolder, JclSysInfo, gnugettext, StringResources;
 
 {$R *.dfm}
 
@@ -352,7 +351,7 @@ begin
       if (CompareText(lvItems.Items[i].Caption, edEnvName.Text) = 0) and
          (i <> lvItems.Selection.First.Index) then
       begin
-        WideMessageDlg(_(SSameName), mtError, [mbOK], 0);
+        Dialogs.MessageDlg(_(SSameName), mtError, [mbOK], 0);
         Exit;
       end;
     with lvItems.Items[lvItems.Selection.First.Index] do begin
@@ -414,4 +413,3 @@ begin
 end;
 
 end.
-

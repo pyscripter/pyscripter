@@ -9,11 +9,7 @@ object IDEDockWindow: TIDEDockWindow
   DockSite = True
   DragKind = dkDock
   DragMode = dmAutomatic
-  Font.Charset = DEFAULT_CHARSET
-  Font.Color = clWindowText
-  Font.Height = -11
-  Font.Name = 'MS Shell Dlg 2'
-  Font.Style = []
+  ParentFont = True
   OldCreateOrder = False
   PopupMode = pmExplicit
   Position = poDesigned

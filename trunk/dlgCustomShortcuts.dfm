@@ -5,13 +5,12 @@ inherited frmCustomKeyboard: TfrmCustomKeyboard
   Caption = 'Customize IDE Shortcuts'
   ClientHeight = 376
   ClientWidth = 346
-  Font.Name = 'MS Shell Dlg 2'
   KeyPreview = True
   Position = poOwnerFormCenter
   OnDestroy = FormDestroy
   OnShow = FormShow
   ExplicitWidth = 352
-  ExplicitHeight = 402
+  ExplicitHeight = 404
   PixelsPerInch = 96
   TextHeight = 13
   object SpTBXPanel1: TSpTBXPanel

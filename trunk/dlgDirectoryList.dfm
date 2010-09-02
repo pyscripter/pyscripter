@@ -8,11 +8,10 @@ inherited DirectoryListDialog: TDirectoryListDialog
   ClientWidth = 379
   Constraints.MinHeight = 208
   Constraints.MinWidth = 358
-  Font.Name = 'MS Shell Dlg 2'
   OldCreateOrder = True
   OnShow = FormShow
   ExplicitWidth = 395
-  ExplicitHeight = 378
+  ExplicitHeight = 380
   PixelsPerInch = 96
   TextHeight = 13
   object SpTBXPanel1: TSpTBXPanel
@@ -23,8 +22,6 @@ inherited DirectoryListDialog: TDirectoryListDialog
     Align = alClient
     TabOrder = 0
     TBXStyleBackground = True
-    ExplicitWidth = 389
-    ExplicitHeight = 242
     DesignSize = (
       379
       232)
@@ -41,8 +38,6 @@ inherited DirectoryListDialog: TDirectoryListDialog
       OnClick = DirectoryListClick
       OnDragDrop = DirectoryListDragDrop
       OnDragOver = DirectoryListDragOver
-      ExplicitWidth = 342
-      ExplicitHeight = 199
     end
     object btnMoveUp: TSpTBXButton
       Left = 345
@@ -55,7 +50,6 @@ inherited DirectoryListDialog: TDirectoryListDialog
       OnClick = btnMoveUpClick
       Images = CommandsDataModule.Images
       ImageIndex = 47
-      ExplicitLeft = 354
     end
     object btnMoveDown: TSpTBXButton
       Left = 345
@@ -68,7 +62,6 @@ inherited DirectoryListDialog: TDirectoryListDialog
       OnClick = btnMoveDownClick
       Images = CommandsDataModule.Images
       ImageIndex = 48
-      ExplicitLeft = 354
     end
     object SpTBXLabel1: TSpTBXLabel
       Left = 8
@@ -88,8 +81,6 @@ inherited DirectoryListDialog: TDirectoryListDialog
     TabOrder = 1
     BorderType = pbrFramed
     TBXStyleBackground = True
-    ExplicitTop = 242
-    ExplicitWidth = 389
     DesignSize = (
       379
       110)
@@ -102,7 +93,6 @@ inherited DirectoryListDialog: TDirectoryListDialog
       Align = alBottom
       TabOrder = 0
       TBXStyleBackground = True
-      ExplicitWidth = 385
       DesignSize = (
         375
         42)
@@ -116,7 +106,6 @@ inherited DirectoryListDialog: TDirectoryListDialog
         TabOrder = 0
         Default = True
         ModalResult = 1
-        ExplicitLeft = 210
       end
       object CancelBtn: TSpTBXButton
         Left = 288
@@ -128,7 +117,6 @@ inherited DirectoryListDialog: TDirectoryListDialog
         TabOrder = 1
         Cancel = True
         ModalResult = 2
-        ExplicitLeft = 298
       end
     end
     object btnAdd: TSpTBXButton
@@ -169,8 +157,6 @@ inherited DirectoryListDialog: TDirectoryListDialog
       EditButton.OnClick = BtnPathClick
       EditButton.Images = CommandsDataModule.Images
       EditButton.ImageIndex = 45
-      EditButton.ExplicitLeft = 318
-      ExplicitWidth = 342
     end
     object btnDelete: TSpTBXButton
       Left = 228

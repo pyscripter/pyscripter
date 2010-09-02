@@ -9,7 +9,6 @@ inherited FunctionListWindow: TFunctionListWindow
   Caption = 'Function List'
   ClientHeight = 312
   ClientWidth = 525
-  Font.Name = 'MS Shell Dlg 2'
   Icon.Data = {
     0000010001001010000001002000680400001600000028000000100000002000
     0000010020000000000040040000000000000000000000000000000000000000
@@ -54,7 +53,7 @@ inherited FunctionListWindow: TFunctionListWindow
   OnClose = FormClose
   OnKeyPress = edtMethodsKeyPress
   ExplicitWidth = 541
-  ExplicitHeight = 348
+  ExplicitHeight = 350
   PixelsPerInch = 96
   TextHeight = 13
   object pnHolder: TSpTBXPanel
@@ -76,7 +75,7 @@ inherited FunctionListWindow: TFunctionListWindow
       EditManager.Font.Charset = DEFAULT_CHARSET
       EditManager.Font.Color = clWindowText
       EditManager.Font.Height = -11
-      EditManager.Font.Name = 'MS Shell Dlg 2'
+      EditManager.Font.Name = 'Tahoma'
       EditManager.Font.Style = []
       Header.Columns.Items = {
         0600000003000000110000005445617379436F6C756D6E53746F726564FFFECE
@@ -247,12 +246,12 @@ inherited FunctionListWindow: TFunctionListWindow
     Left = 32
     Top = 88
   end
-  object Actions: TTntActionList
+  object Actions: TActionList
     Images = CommandsDataModule.Images
     OnUpdate = ActionsUpdate
     Left = 32
     Top = 136
-    object actEditCopy: TTntAction
+    object actEditCopy: TAction
       Category = 'Edit'
       Caption = '&Edit'
       Hint = 'Copy procedures to clipboard'
@@ -260,35 +259,35 @@ inherited FunctionListWindow: TFunctionListWindow
       ShortCut = 16451
       OnExecute = actEditCopyExecute
     end
-    object actOptionsFont: TTntAction
+    object actOptionsFont: TAction
       Category = 'Options'
       Caption = '&Font..'
       Hint = 'Configure font'
       ImageIndex = 91
       OnExecute = actOptionsFontExecute
     end
-    object actViewStart: TTntAction
+    object actViewStart: TAction
       Category = 'View'
       Caption = 'S&tart'
       Hint = 'Match only from the start'
       ImageIndex = 94
       OnExecute = actViewStartExecute
     end
-    object actViewAny: TTntAction
+    object actViewAny: TAction
       Category = 'View'
       Caption = '&Any'
       Hint = 'Match anywhere'
       ImageIndex = 93
       OnExecute = actViewAnyExecute
     end
-    object actViewGoto: TTntAction
+    object actViewGoto: TAction
       Category = 'View'
       Caption = '&Goto'
       Hint = 'Goto implementation'
       ImageIndex = 32
       OnExecute = actViewGotoExecute
     end
-    object actHelpHelp: TTntAction
+    object actHelpHelp: TAction
       Category = 'Help'
       Caption = '&Help'
       Hint = 'Help'

@@ -5,12 +5,10 @@ inherited FileTemplatesDialog: TFileTemplatesDialog
   Caption = 'File Templates'
   ClientHeight = 451
   ClientWidth = 528
-  Font.Name = 'MS Shell Dlg 2'
-  Position = poMainFormCenter
   ShowHint = True
   OnDestroy = FormDestroy
   ExplicitWidth = 534
-  ExplicitHeight = 477
+  ExplicitHeight = 479
   PixelsPerInch = 96
   TextHeight = 13
   object Panel: TSpTBXPanel
@@ -58,12 +56,6 @@ inherited FileTemplatesDialog: TFileTemplatesDialog
         Top = 20
         Width = 127
         Height = 21
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -11
-        Font.Name = 'MS Shell Dlg 2'
-        Font.Style = []
-        ParentFont = False
         TabOrder = 0
         OnKeyPress = edNameKeyPress
       end
@@ -72,12 +64,6 @@ inherited FileTemplatesDialog: TFileTemplatesDialog
         Top = 20
         Width = 131
         Height = 21
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -11
-        Font.Name = 'MS Shell Dlg 2'
-        Font.Style = []
-        ParentFont = False
         TabOrder = 2
       end
       object edExtension: TSpTBXEdit
@@ -85,12 +71,6 @@ inherited FileTemplatesDialog: TFileTemplatesDialog
         Top = 44
         Width = 38
         Height = 21
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -11
-        Font.Name = 'MS Shell Dlg 2'
-        Font.Style = []
-        ParentFont = False
         TabOrder = 3
         OnKeyPress = edNameKeyPress
       end
@@ -100,13 +80,7 @@ inherited FileTemplatesDialog: TFileTemplatesDialog
         Width = 131
         Height = 21
         Style = csDropDownList
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -11
-        Font.Name = 'MS Shell Dlg 2'
-        Font.Style = []
         ItemHeight = 13
-        ParentFont = False
         TabOrder = 4
         OnChange = CBHighlightersChange
       end
@@ -259,7 +233,7 @@ inherited FileTemplatesDialog: TFileTemplatesDialog
       EditManager.Font.Charset = DEFAULT_CHARSET
       EditManager.Font.Color = clWindowText
       EditManager.Font.Height = -11
-      EditManager.Font.Name = 'MS Shell Dlg 2'
+      EditManager.Font.Name = 'Tahoma'
       EditManager.Font.Style = []
       Header.Columns.Items = {
         0600000002000000110000005445617379436F6C756D6E53746F726564FFFECE
@@ -279,36 +253,36 @@ inherited FileTemplatesDialog: TFileTemplatesDialog
       OnItemSelectionsChanged = lvItemsItemSelectionsChanged
     end
   end
-  object ActionList: TTntActionList
+  object ActionList: TActionList
     Images = CommandsDataModule.Images
     OnUpdate = ActionListUpdate
     Left = 379
     Top = 27
-    object actAddItem: TTntAction
+    object actAddItem: TAction
       Caption = '&Add'
       Hint = 'Add item'
       ImageIndex = 49
       OnExecute = actAddItemExecute
     end
-    object actDeleteItem: TTntAction
+    object actDeleteItem: TAction
       Caption = '&Delete'
       Hint = 'Delete item'
       ImageIndex = 14
       OnExecute = actDeleteItemExecute
     end
-    object actMoveUp: TTntAction
+    object actMoveUp: TAction
       Caption = '&Up'
       Hint = 'Move item up'
       ImageIndex = 47
       OnExecute = actMoveUpExecute
     end
-    object actMoveDown: TTntAction
+    object actMoveDown: TAction
       Caption = '&Down'
       Hint = 'Move item down'
       ImageIndex = 48
       OnExecute = actMoveDownExecute
     end
-    object actUpdateItem: TTntAction
+    object actUpdateItem: TAction
       Caption = '&Update'
       Hint = 'Update item'
       ImageIndex = 39

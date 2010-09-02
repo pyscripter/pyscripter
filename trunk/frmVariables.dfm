@@ -104,7 +104,6 @@ inherited VariablesWindow: TVariablesWindow
       Height = 243
       Align = alRight
       Color = clBtnFace
-      DoubleBuffered = False
       ParentColor = False
       TabOrder = 1
       object HTMLLabel: TJvLinkLabel

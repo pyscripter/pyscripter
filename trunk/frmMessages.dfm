@@ -187,29 +187,29 @@ inherited MessagesWindow: TMessagesWindow
       Action = actCopyToClipboard
     end
   end
-  object MsgsActionList: TTntActionList
+  object MsgsActionList: TActionList
     Images = CommandsDataModule.Images
     Left = 9
     Top = 47
-    object actClearAll: TTntAction
+    object actClearAll: TAction
       Caption = '&Clear all'
       Hint = 'Clear all messages'
       ImageIndex = 14
       OnExecute = ClearAllExecute
     end
-    object actPreviousMsgs: TTntAction
+    object actPreviousMsgs: TAction
       Caption = '&Previous Messages'
       Hint = 'Show previous messages'
       ImageIndex = 96
       OnExecute = actPreviousMsgsExecute
     end
-    object actNextMsgs: TTntAction
+    object actNextMsgs: TAction
       Caption = '&Next Messages'
       Hint = 'Show next messages'
       ImageIndex = 97
       OnExecute = actNextMsgsExecute
     end
-    object actCopyToClipboard: TTntAction
+    object actCopyToClipboard: TAction
       Caption = 'Co&py to Clipboard'
       Hint = 'Copy contents to Clipboard'
       ImageIndex = 12

@@ -5,6 +5,7 @@ inherited AboutBox: TAboutBox
   Caption = 'About PyScripter'
   ClientHeight = 245
   ClientWidth = 358
+  ParentFont = False
   Font.Name = 'MS Shell Dlg 2'
   KeyPreview = True
   OldCreateOrder = True
@@ -32,6 +33,79 @@ inherited AboutBox: TAboutBox
     end
     object tbLinks: TSpTBXTabItem
       Caption = 'Links'
+    end
+    object SpTBXTabSheet2: TSpTBXTabSheet
+      Left = 0
+      Top = 0
+      Width = 358
+      Height = 220
+      Caption = 'Credits'
+      ImageIndex = -1
+      TabItem = 'tbCredits'
+      object ScrollBox: TSpTBXPageScroller
+        Left = 2
+        Top = 4
+        Width = 352
+        Height = 216
+        Align = alClient
+        TabOrder = 0
+        object JvLinkLabel: TJvLinkLabel
+          Left = 0
+          Top = 0
+          Width = 352
+          Height = 381
+          Caption = 
+            '<b>Credits</b><br>'#13#10'Special thanks to the many great developers ' +
+            'who,'#13#10'with their amazing work, have made PyScripter '#13#10'possible. ' +
+            ' PyScripter makes use of the following '#13#10'components and projects' +
+            ':'#13#10'<br>'#13#10'<br>'#13#10'- Python for Delphi (<link>www.mmm-experts.com</l' +
+            'ink>)'#13#10'<br>'#13#10'- Rpyc (<link>rpyc.sf.net</link>)'#13#10'<br>'#13#10'- JVCL (<l' +
+            'ink>jvcl.sf.net</link>)'#13#10'<br>'#13#10'- SynEdit (<link>synedit.sf.net</' +
+            'link>)'#13#10'<br>'#13#10'- VirtualTreeView (<link>www.delphi-gems.com</link' +
+            '>)'#13#10'<br>'#13#10'- VirtualShellTools (<link>www.mustangpeak.net</link>)' +
+            #13#10'<br>'#13#10'- StoHtmlHelp (<link>www.martinstoeckli.ch/delphi</link>' +
+            ')'#13#10'<br>'#13#10'- GExperts (<link>www.gexperts.org</link>)'#13#10'<br>'#13#10'- Syn' +
+            ' Editor (<link>syn.sf.net</link>)'#13#10'<br>'#13#10'- Syn Web highlighters ' +
+            '(<link>flatdev.ovh.org/</link>)'#13#10'<br>'#13#10'- Toolbar2000 (<link>www.' +
+            'jrsoftware.org/tb2k.php</link>)'#13#10'<br>'#13#10'- SpTBXLib(<link>www.silv' +
+            'erpointdevelopment.com</link>)'#13#10'<br>'#13#10'<br>'#13#10'- TCommandLineReader' +
+            '(<link>www.benibela.de</link>)'#13#10'<br>'#13#10'- Silk icons(<link>www.fam' +
+            'famfam.com</link>)'#13#10'<br>'#13#10'<br>'#13#10'Translations'#13#10'<br>'#13#10'- Chinese tr' +
+            'anslation by "Love China"'#13#10'<br>'#13#10'- French translation by Groupe ' +
+            'AmiensPython (<link>pedagogie.ac-amiens.fr/maths/AmiensPython/</' +
+            'link>)'#13#10'<br>'#13#10'- Japanese translation by Tokibito'#13#10'<br>'#13#10'- Slovak' +
+            ' translation by Marian Denes'#13#10'<br>'#13#10'- Spanish translation by Jav' +
+            'ier Pimas'#13#10'<br>'
+          Text.Strings = (
+            
+              '<b>Credits</b><br>'#13#10'Special thanks to the many great developers ' +
+              'who,'#13#10'with their amazing work, have made PyScripter '#13#10'possible. ' +
+              ' PyScripter makes use of the following '#13#10'components and projects' +
+              ':'#13#10'<br>'#13#10'<br>'#13#10'- Python for Delphi (<link>www.mmm-experts.com</l' +
+              'ink>)'#13#10'<br>'#13#10'- Rpyc (<link>rpyc.sf.net</link>)'#13#10'<br>'#13#10'- JVCL (<l' +
+              'ink>jvcl.sf.net</link>)'#13#10'<br>'#13#10'- SynEdit (<link>synedit.sf.net</' +
+              'link>)'#13#10'<br>'#13#10'- VirtualTreeView (<link>www.delphi-gems.com</link' +
+              '>)'#13#10'<br>'#13#10'- VirtualShellTools (<link>www.mustangpeak.net</link>)' +
+              #13#10'<br>'#13#10'- StoHtmlHelp (<link>www.martinstoeckli.ch/delphi</link>' +
+              ')'#13#10'<br>'#13#10'- GExperts (<link>www.gexperts.org</link>)'#13#10'<br>'#13#10'- Syn' +
+              ' Editor (<link>syn.sf.net</link>)'#13#10'<br>'#13#10'- Syn Web highlighters ' +
+              '(<link>flatdev.ovh.org/</link>)'#13#10'<br>'#13#10'- Toolbar2000 (<link>www.' +
+              'jrsoftware.org/tb2k.php</link>)'#13#10'<br>'#13#10'- SpTBXLib(<link>www.silv' +
+              'erpointdevelopment.com</link>)'#13#10'<br>'#13#10'<br>'#13#10'- TCommandLineReader' +
+              '(<link>www.benibela.de</link>)'#13#10'<br>'#13#10'- Silk icons(<link>www.fam' +
+              'famfam.com</link>)'#13#10'<br>'#13#10'<br>'#13#10'Translations'#13#10'<br>'#13#10'- Chinese tr' +
+              'anslation by "Love China"'#13#10'<br>'#13#10'- French translation by Groupe ' +
+              'AmiensPython (<link>pedagogie.ac-amiens.fr/maths/AmiensPython/</' +
+              'link>)'#13#10'<br>'#13#10'- Japanese translation by Tokibito'#13#10'<br>'#13#10'- Slovak' +
+              ' translation by Marian Denes'#13#10'<br>'#13#10'- Spanish translation by Jav' +
+              'ier Pimas'#13#10'<br>')
+          HotLinks = True
+          MarginWidth = 2
+          MarginHeight = 2
+          OnLinkClick = JvLinkLabelLinkClick
+          Align = alTop
+        end
+      end
     end
     object SpTBXTabSheet3: TSpTBXTabSheet
       Left = 0
@@ -76,94 +150,6 @@ inherited AboutBox: TAboutBox
           HotLinks = True
           OnLinkClick = JvLinkLabelLinkClick
           Align = alTop
-        end
-      end
-    end
-    object SpTBXTabSheet2: TSpTBXTabSheet
-      Left = 0
-      Top = 0
-      Width = 358
-      Height = 220
-      Caption = 'Credits'
-      ImageIndex = -1
-      TabItem = 'tbCredits'
-      object ScrollBox: TSpTBXPageScroller
-        Left = 2
-        Top = 4
-        Width = 352
-        Height = 216
-        Align = alClient
-        DoubleBuffered = False
-        TabOrder = 0
-        object JvLinkLabel: TJvLinkLabel
-          Left = 0
-          Top = 0
-          Width = 352
-          Height = 382
-          Caption = 
-            '<b>Credits</b><br>'#13#10'Special thanks to the many great developers ' +
-            'who,'#13#10'with their amazing work, have made PyScripter '#13#10'possible. ' +
-            ' PyScripter makes use of the following '#13#10'components and projects' +
-            ':'#13#10'<br>'#13#10'<br>'#13#10'- <i>Python for Delphi</i> (<link>www.mmm-experts' +
-            '.com</link>)'#13#10'<br>'#13#10'- <i>Rpyc</i> (<link>rpyc.sf.net</link>)'#13#10'<b' +
-            'r>'#13#10'- <i>JVCL</i> (<link>jvcl.sf.net</link>)'#13#10'<br>'#13#10'- <i>SynEdit' +
-            '</i> (<link>synedit.sf.net</link>)'#13#10'<br>'#13#10'- <i>VirtualTreeView <' +
-            '/i>(<link>www.delphi-gems.com</link>)'#13#10'<br>'#13#10'- <i>VirtualShellTo' +
-            'ols</i> (<link>www.mustangpeak.net</link>)'#13#10'<br>'#13#10'- <i>StoHtmlHe' +
-            'lp</i> (<link>www.martinstoeckli.ch/delphi</link>)'#13#10'<br>'#13#10'- <i>G' +
-            'Experts</i> (<link>www.gexperts.org</link>)'#13#10'<br>'#13#10'- <i>Syn Edit' +
-            'or</i> (<link>syn.sf.net</link>)'#13#10'<br>'#13#10'- <i>Syn Web highlighter' +
-            's</i> (<link>flatdev.ovh.org/</link>)'#13#10'<br>'#13#10'- <i>Toolbar2000</i' +
-            '> (<link>www.jrsoftware.org/tb2k.php</link>)'#13#10'<br>'#13#10'- <i>SpTBXLi' +
-            'b</i>(<link>www.silverpointdevelopment.com</link>)'#13#10'<br>'#13#10'- <i>T' +
-            'ntWare Unicode Controls</i>(<link>www.tntware.com</link>)'#13#10'<br>'#13 +
-            #10'- <i>TCommandLineReader</i>(<link>www.benibela.de</link>)'#13#10'<br>' +
-            #13#10'- <i>Silk icons</i>(<link>www.famfamfam.com</link>)'#13#10'<br>'#13#10'<br' +
-            '>'#13#10'Translations'#13#10'<br>'#13#10'- <i>Chinese translation by "Love China"<' +
-            '/i>'#13#10'<br>'#13#10'- <i>French translation by Groupe AmiensPython (<link' +
-            '>pedagogie.ac-amiens.fr/maths/AmiensPython/</link>)</i>'#13#10'<br>'#13#10'-' +
-            ' <i>Italian translation by Vincenzo Demasi</i>'#13#10'<br>'#13#10'- <i>Japan' +
-            'ese translation by Tokibito</i>'#13#10'<br>'#13#10'- <i>Slovak translation b' +
-            'y Marian Denes</i>'#13#10'<br>'#13#10'- <i>Spanish translation by Javier Pim' +
-            'as</i>'#13#10'<br>'
-          Text.Strings = (
-            
-              '<b>Credits</b><br>'#13#10'Special thanks to the many great developers ' +
-              'who,'#13#10'with their amazing work, have made PyScripter '#13#10'possible. ' +
-              ' PyScripter makes use of the following '#13#10'components and projects' +
-              ':'#13#10'<br>'#13#10'<br>'#13#10'- <i>Python for Delphi</i> (<link>www.mmm-experts' +
-              '.com</link>)'#13#10'<br>'#13#10'- <i>Rpyc</i> (<link>rpyc.sf.net</link>)'#13#10'<b' +
-              'r>'#13#10'- <i>JVCL</i> (<link>jvcl.sf.net</link>)'#13#10'<br>'#13#10'- <i>SynEdit' +
-              '</i> (<link>synedit.sf.net</link>)'#13#10'<br>'#13#10'- <i>VirtualTreeView <' +
-              '/i>(<link>www.delphi-gems.com</link>)'#13#10'<br>'#13#10'- <i>VirtualShellTo' +
-              'ols</i> (<link>www.mustangpeak.net</link>)'#13#10'<br>'#13#10'- <i>StoHtmlHe' +
-              'lp</i> (<link>www.martinstoeckli.ch/delphi</link>)'#13#10'<br>'#13#10'- <i>G' +
-              'Experts</i> (<link>www.gexperts.org</link>)'#13#10'<br>'#13#10'- <i>Syn Edit' +
-              'or</i> (<link>syn.sf.net</link>)'#13#10'<br>'#13#10'- <i>Syn Web highlighter' +
-              's</i> (<link>flatdev.ovh.org/</link>)'#13#10'<br>'#13#10'- <i>Toolbar2000</i' +
-              '> (<link>www.jrsoftware.org/tb2k.php</link>)'#13#10'<br>'#13#10'- <i>SpTBXLi' +
-              'b</i>(<link>www.silverpointdevelopment.com</link>)'#13#10'<br>'#13#10'- <i>T' +
-              'ntWare Unicode Controls</i>(<link>www.tntware.com</link>)'#13#10'<br>'#13 +
-              #10'- <i>TCommandLineReader</i>(<link>www.benibela.de</link>)'#13#10'<br>' +
-              #13#10'- <i>Silk icons</i>(<link>www.famfamfam.com</link>)'#13#10'<br>'#13#10'<br' +
-              '>'#13#10'Translations'#13#10'<br>'#13#10'- <i>Chinese translation by "Love China"<' +
-              '/i>'#13#10'<br>'#13#10'- <i>French translation by Groupe AmiensPython (<link' +
-              '>pedagogie.ac-amiens.fr/maths/AmiensPython/</link>)</i>'#13#10'<br>'#13#10'-' +
-              ' <i>Italian translation by Vincenzo Demasi</i>'#13#10'<br>'#13#10'- <i>Japan' +
-              'ese translation by Tokibito</i>'#13#10'<br>'#13#10'- <i>Slovak translation b' +
-              'y Marian Denes</i>'#13#10'<br>'#13#10'- <i>Spanish translation by Javier Pim' +
-              'as</i>'#13#10'<br>')
-          HotLinks = True
-          MarginWidth = 2
-          MarginHeight = 2
-          OnLinkClick = JvLinkLabelLinkClick
-          Align = alTop
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'Arial'
-          Font.Style = []
-          ParentFont = False
         end
       end
     end

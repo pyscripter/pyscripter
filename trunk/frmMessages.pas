@@ -14,7 +14,7 @@ uses
   Dialogs, Menus, JvDockControlForm, PythonEngine,
   Contnrs, frmIDEDockWin, ExtCtrls, TB2Item, VirtualTrees,
   TB2Dock, TB2Toolbar, ActnList, JvComponentBase, SpTBXSkins, SpTBXItem, SpTBXControls,
-  JvAppStorage, TntActnList;
+  JvAppStorage;
 
 type
   TMessagesWindow = class(TIDEDockWindow, IJvAppStorageHandler)
@@ -31,11 +31,11 @@ type
     TBXSeparatorItem1: TSpTBXSeparatorItem;
     TBXSeparatorItem2: TSpTBXSeparatorItem;
     mnCopy: TSpTBXItem;
-    MsgsActionList: TTntActionList;
-    actCopyToClipboard: TTntAction;
-    actNextMsgs: TTntAction;
-    actPreviousMsgs: TTntAction;
-    actClearAll: TTntAction;
+    MsgsActionList: TActionList;
+    actCopyToClipboard: TAction;
+    actNextMsgs: TAction;
+    actPreviousMsgs: TAction;
+    actClearAll: TAction;
     procedure TBXPopupMenuPopup(Sender: TObject);
     procedure actCopyToClipboardExecute(Sender: TObject);
     procedure ClearAllExecute(Sender: TObject);
@@ -45,7 +45,7 @@ type
       Node: PVirtualNode; var InitialStates: TVirtualNodeInitStates);
     procedure MessagesViewGetText(Sender: TBaseVirtualTree;
       Node: PVirtualNode; Column: TColumnIndex; TextType: TVSTTextType;
-      var CellText: WideString);
+      var CellText: string);
     procedure MessagesViewDblClick(Sender: TObject);
     procedure actNextMsgsExecute(Sender: TObject);
     procedure actPreviousMsgsExecute(Sender: TObject);
@@ -65,7 +65,7 @@ type
   public
     { Public declarations }
     procedure ShowWindow;
-    procedure AddMessage(Msg: WideString; FileName : WideString = '';
+    procedure AddMessage(Msg: string; FileName : string = '';
                          Line : integer = 0; Offset : integer = 0);
     procedure ClearMessages;
     procedure ShowPythonTraceback(SkipFrames : integer = 1);
@@ -89,8 +89,8 @@ uses
 {$R *.dfm}
 Type
   TMsg = class
-    Msg: WideString;
-    FileName : WideString;
+    Msg: string;
+    FileName : string;
     Line : integer;
     Offset : integer;
   end;
@@ -109,7 +109,7 @@ Type
 
 { TMessagesWindow }
 
-procedure TMessagesWindow.AddMessage(Msg, FileName: WideString; Line, Offset : integer);
+procedure TMessagesWindow.AddMessage(Msg, FileName: string; Line, Offset : integer);
 Var
   NewMsg : TMsg;
 begin
@@ -165,7 +165,7 @@ end;
 
 procedure TMessagesWindow.actCopyToClipboardExecute(Sender: TObject);
 begin
-  Clipboard.AsText := MessagesView.ContentToText(tstAll, #9);
+  Clipboard.AsText := string(MessagesView.ContentToText(tstAll, #9));
 end;
 
 procedure TMessagesWindow.ShowPythonTraceback(SkipFrames : integer = 1);
@@ -226,7 +226,7 @@ end;
 
 procedure TMessagesWindow.ShowPythonSyntaxError(ErrorClass : string; E: Variant);
 Var
-  Msg, FileName : WideString;
+  Msg, FileName : string;
   LineNo, Offset : integer;
 begin
   try
@@ -336,7 +336,7 @@ end;
 
 procedure TMessagesWindow.MessagesViewGetText(Sender: TBaseVirtualTree;
   Node: PVirtualNode; Column: TColumnIndex; TextType: TVSTTextType;
-  var CellText: WideString);
+  var CellText: string);
 begin
   Assert(MessagesView.GetNodeLevel(Node) = 0);
   Assert(Integer(Node.Index) < TObjectList(fMessageHistory[fHistoryIndex]).Count);
@@ -424,5 +424,3 @@ begin
 end;
 
 end.
-
-

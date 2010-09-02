@@ -6,12 +6,11 @@ inherited ConfigureTools: TConfigureTools
   Caption = 'Configure Tools'
   ClientHeight = 267
   ClientWidth = 301
-  Font.Name = 'MS Shell Dlg 2'
   OldCreateOrder = True
   OnDestroy = FormDestroy
   OnShow = FormShow
   ExplicitWidth = 307
-  ExplicitHeight = 293
+  ExplicitHeight = 295
   PixelsPerInch = 96
   TextHeight = 13
   object SpTBXPanel1: TSpTBXPanel

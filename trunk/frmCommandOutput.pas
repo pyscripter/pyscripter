@@ -13,9 +13,8 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, frmIDEDockWin, JvDockControlForm, ExtCtrls,
-  StdCtrls, JvCreateProcessW, Menus, ActnList, uEditAppIntfs, cTools,
-  SynEditTypes, JvTimer, SynRegExpr, TB2Item, JvComponentBase, SpTBXItem,
-  TntActnList;
+  StdCtrls, JvCreateProcess, Menus, ActnList, uEditAppIntfs, cTools,
+  SynEditTypes, JvTimer, SynRegExpr, TB2Item, JvComponentBase, SpTBXItem;
 
 type
   TOutputWindow = class(TIDEDockWindow)
@@ -34,15 +33,15 @@ type
     N2: TSpTBXSeparatorItem;
     mnFont: TSpTBXItem;
     mnBackgroundColor: TSpTBXItem;
-    OutputActions: TTntActionList;
-    actToolStopWaiting: TTntAction;
-    actToolQuit: TTntAction;
-    actToolClose: TTntAction;
-    actToolTerminate: TTntAction;
-    actClearOutput: TTntAction;
-    actSelectColor: TTntAction;
-    actOutputFont: TTntAction;
-    actCopy: TTntAction;
+    OutputActions: TActionList;
+    actToolStopWaiting: TAction;
+    actToolQuit: TAction;
+    actToolClose: TAction;
+    actToolTerminate: TAction;
+    actClearOutput: TAction;
+    actSelectColor: TAction;
+    actOutputFont: TAction;
+    actCopy: TAction;
     procedure actSelectColorExecute(Sender: TObject);
     procedure actOutputFontExecute(Sender: TObject);
     procedure actClearOutputExecute(Sender: TObject);
@@ -71,7 +70,7 @@ type
     fItemMaxWidth : integer;  // Calculating max width to show hor scrollbar
   public
     { Public declarations }
-    JvCreateProcess: TJvCreateProcessW;
+    JvCreateProcess: TJvCreateProcess;
     procedure AddNewLine(const S: string);
     procedure ChangeLastLine(const S: string);
     procedure ClearScreen;
@@ -87,7 +86,7 @@ implementation
 uses dmCommands, Clipbrd,
   SynEdit, frmPyIDEMain, frmMessages, JclStrings,
   uCommonFunctions, Math, StringResources, gnugettext,
-  TntDialogs, MPCommonUtilities;
+  MPCommonUtilities;
 
 {$R *.dfm}
 
@@ -232,7 +231,7 @@ begin
   TimeoutTimer.Enabled := False;
   Assert(Assigned(fTool));
 
-  ErrorMsg := WideFormat(_(sProcessTerminated), [StrRemoveChars(fTool.Caption, ['&']), ExitCode]);
+  ErrorMsg := Format(_(sProcessTerminated), [StrRemoveChars(fTool.Caption, ['&']), ExitCode]);
   AddNewLine(ErrorMsg);
   PyIDEMainForm.WriteStatusMsg(ErrorMsg);
 
@@ -330,7 +329,7 @@ begin
         fRegExpr.Compile;
       except
         on E: ERegExpr do begin
-          WideMessageDlg(WideFormat(_(SInvalidRegularExpression), [E.Message]), mtError, [mbOK], 0);
+          Dialogs.MessageDlg(Format(_(SInvalidRegularExpression), [E.Message]), mtError, [mbOK], 0);
           Exit;
         end;
       end;
@@ -365,7 +364,7 @@ const
 begin
   // Check whether a process is still running
   if jvCreateProcess.State <> psReady then begin
-    WideMessageDlg(_(SProcessRunning), mtError, [mbOK], 0);
+    Dialogs.MessageDlg(_(SProcessRunning), mtError, [mbOK], 0);
     Exit;
   end;
 
@@ -374,8 +373,8 @@ begin
   Arguments := PrepareCommandLine(Tool.Parameters);
   WorkDir := PrepareCommandLine(Tool.WorkingDirectory);
 
-  if (Workdir <> '') and not WideDirectoryExists(WorkDir) then begin
-    WideMessageDlg(WideFormat(_(SDirNotFound), [WorkDir]), mtError, [mbOK], 0);
+  if (Workdir <> '') and not DirectoryExists(WorkDir) then begin
+    Dialogs.MessageDlg(Format(_(SDirNotFound), [WorkDir]), mtError, [mbOK], 0);
     Exit;
   end;
 
@@ -398,9 +397,9 @@ begin
     Application.ProcessMessages;
 
     // Print Command line info
-    AddNewLine(WideFormat(_(SPrintCommandLine), [AppName + ' ' + Arguments]));
+    AddNewLine(Format(_(SPrintCommandLine), [AppName + ' ' + Arguments]));
     AddNewLine(_(SPrintWorkingDir) + WorkDir);
-    AddNewLine(WideFormat(_(SPrintTimeOut), [Tool.TimeOut]));
+    AddNewLine(Format(_(SPrintTimeOut), [Tool.TimeOut]));
     AddNewLine('');
 
 
@@ -483,19 +482,19 @@ begin
       // Provide standard input
       if Assigned(GI_ActiveEditor) then begin
         case Tool.ProcessInput of
-          piWordAtCursor : JvCreateProcess.Write(GI_ActiveEditor.SynEdit.WordAtCursor);
-          piCurrentLine : JvCreateProcess.WriteLn(GI_ActiveEditor.SynEdit.LineText);
+          piWordAtCursor : JvCreateProcess.Write(AnsiString(GI_ActiveEditor.SynEdit.WordAtCursor));
+          piCurrentLine : JvCreateProcess.WriteLn(AnsiString(GI_ActiveEditor.SynEdit.LineText));
           piSelection :
             begin
               S := GI_ActiveEditor.SynEdit.SelText;
               if Length(S) < CCPS_BufferSize then begin
-                JvCreateProcess.Write(S);
+                JvCreateProcess.Write(AnsiString(S));
               end else begin
                 SL := TStringList.Create;
                 try
                   SL.Text := S;
                   for i := 0 to SL.Count - 1 do begin
-                    JvCreateProcess.WriteLn(SL[i]);
+                    JvCreateProcess.WriteLn(AnsiString(SL[i]));
                     Sleep(1);  // give some time to process the the input
                   end;
                 finally
@@ -509,7 +508,7 @@ begin
               try
                 SL.Text := GI_ActiveEditor.SynEdit.Text;
                 for i := 0 to SL.Count - 1 do begin
-                  JvCreateProcess.WriteLn(SL[i]);
+                  JvCreateProcess.WriteLn(AnsiString(SL[i]));
                   Sleep(1);  // give some time to process the the input
                 end;
               finally
@@ -600,7 +599,7 @@ begin
   fTool := TExternalTool.Create;
   fRegExpr := TRegExpr.Create;
 
-  JvCreateProcess := TJvCreateProcessW.Create(Self);
+  JvCreateProcess := TJvCreateProcess.Create(Self);
   with JvCreateProcess do
   begin
     Name := 'ExternalToolProcess';
@@ -622,7 +621,7 @@ procedure TOutputWindow.TimeoutTimerTimer(Sender: TObject);
 begin
   if (JvCreateProcess.State <> psReady) and Assigned(fTool) then begin
     TimeoutTimer.Enabled := False;
-    if WideMessageDlg(WideFormat(_(SExternalToolStillRunning),
+    if Dialogs.MessageDlg(Format(_(SExternalToolStillRunning),
       [fTool.Caption]), mtConfirmation, [mbYes, mbNo], 0) = mrYes
     then
       actToolTerminateExecute(Sender)
@@ -635,7 +634,3 @@ begin
 end;
 
 end.
-
-
-
-

@@ -4,7 +4,6 @@ inherited OptionsInspector: TOptionsInspector
   Caption = 'Options Inspector'
   ClientHeight = 349
   ClientWidth = 508
-  Font.Name = 'MS Shell Dlg 2'
   OnDestroy = FormDestroy
   ExplicitWidth = 514
   ExplicitHeight = 377
@@ -31,12 +30,10 @@ inherited OptionsInspector: TOptionsInspector
       BevelInner = bvRaised
       BevelOuter = bvRaised
       RelativeDivider = True
-      Divider = 53
+      Divider = 52
       ItemHeight = 16
       TabStop = True
       TabOrder = 0
-      ExplicitLeft = 4
-      ExplicitTop = 1
     end
   end
   object Panel2: TSpTBXPanel

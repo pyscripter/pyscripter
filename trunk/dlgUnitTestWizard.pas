@@ -56,13 +56,13 @@ type
     procedure ExplorerTreeInitChildren(Sender: TBaseVirtualTree;
       Node: PVirtualNode; var ChildCount: Cardinal);
     procedure ExplorerTreeGetText(Sender: TBaseVirtualTree; Node: PVirtualNode;
-      Column: TColumnIndex; TextType: TVSTTextType; var CellText: WideString);
+      Column: TColumnIndex; TextType: TVSTTextType; var CellText: string);
     procedure ExplorerTreeGetImageIndex(Sender: TBaseVirtualTree;
       Node: PVirtualNode; Kind: TVTImageKind; Column: TColumnIndex;
       var Ghosted: Boolean; var ImageIndex: Integer);
     procedure ExplorerTreeGetHint(Sender: TBaseVirtualTree; Node: PVirtualNode;
       Column: TColumnIndex; var LineBreakStyle: TVTTooltipLineBreakStyle;
-      var HintText: WideString);
+      var HintText: string);
     procedure mnSelectAllClick(Sender: TObject);
     procedure mnDeselectAllClick(Sender: TObject);
   private
@@ -244,7 +244,7 @@ end;
 
 procedure TUnitTestWizard.ExplorerTreeGetHint(Sender: TBaseVirtualTree;
   Node: PVirtualNode; Column: TColumnIndex;
-  var LineBreakStyle: TVTTooltipLineBreakStyle; var HintText: WideString);
+  var LineBreakStyle: TVTTooltipLineBreakStyle; var HintText: string);
 var
   Data : PNodeDataRec;
 begin
@@ -269,7 +269,7 @@ end;
 
 procedure TUnitTestWizard.ExplorerTreeGetText(Sender: TBaseVirtualTree;
   Node: PVirtualNode; Column: TColumnIndex; TextType: TVSTTextType;
-  var CellText: WideString);
+  var CellText: string);
 var
   Data : PNodeDataRec;
 begin

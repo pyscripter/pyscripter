@@ -20,8 +20,8 @@ type
     fPyFrame : Variant;
   protected
   // Implementation of the Base class for the internal debugger
-    function GetFunctionName : WideString; override;
-    function GetFileName : WideString; override;
+    function GetFunctionName : string; override;
+    function GetFileName : string; override;
     function GetLine : integer; override;
   public
     constructor Create(Frame : Variant);
@@ -44,22 +44,22 @@ type
   protected
     fPyObject : Variant;
     fChildCount : integer;
-    fChildNodes : TWideStringList;
-    fName : WideString;
-    fObjectType : WideString; // for caching ObjectType
+    fChildNodes : TStringList;
+    fName : string;
+    fObjectType : string; // for caching ObjectType
     fObjectInfo : TPyObjectInfo;
   protected
-    function GetName : WideString; override;
-    function GetObjectType : WideString; override;
-    function GetValue : WideString; override;
-    function GetDocString : WideString; override;
+    function GetName : string; override;
+    function GetObjectType : string; override;
+    function GetValue : string; override;
+    function GetDocString : string; override;
     function GetChildCount : integer; override;
     function GetChildNode(Index: integer): TBaseNameSpaceItem; override;
     function GetObjectInfo : TPyObjectInfo;
     procedure ExtractObjectInfo(PyObjectInfo : PPyObject);
     procedure FillObjectInfo; virtual;
   public
-    constructor Create(aName : WideString; aPyObject : Variant);
+    constructor Create(aName : string; aPyObject : Variant);
     destructor Destroy; override;
     function IsClass : Boolean; override;
     function IsDict : Boolean; override;
@@ -67,7 +67,7 @@ type
     function IsFunction : Boolean; override;
     function IsMethod : Boolean; override;
     function Has__dict__ : Boolean; override;
-    function IndexOfChild(AName : WideString): integer; override;
+    function IndexOfChild(AName : string): integer; override;
     procedure GetChildNodes; override;
     property ObjectInfo : TPyObjectInfo read GetObjectInfo;
   end;
@@ -80,23 +80,23 @@ type
   public
     constructor Create(II : Variant);
 
-    function SysPathAdd(const Path : WideString) : boolean; override;
-    function SysPathRemove(const Path : WideString) : boolean; override;
-    procedure SysPathToStrings(Strings : TWideStrings); override;
-    procedure StringsToSysPath(Strings : TWideStrings); override;
+    function SysPathAdd(const Path : string) : boolean; override;
+    function SysPathRemove(const Path : string) : boolean; override;
+    procedure SysPathToStrings(Strings : TStrings); override;
+    procedure StringsToSysPath(Strings : TStrings); override;
     function Compile(ARunConfig : TRunConfiguration) : Variant; 
     function GetGlobals : TBaseNameSpaceItem; override;
-    function NameSpaceFromExpression(const Expr : WideString) : TBaseNameSpaceItem; override;
-    function CallTipFromExpression(const Expr : WideString;
-      var DisplayString, DocString : WideString) : Boolean; override;
+    function NameSpaceFromExpression(const Expr : string) : TBaseNameSpaceItem; override;
+    function CallTipFromExpression(const Expr : string;
+      var DisplayString, DocString : string) : Boolean; override;
     procedure SetCommandLine(ARunConfig : TRunConfiguration); override;
     procedure RestoreCommandLine; override;
     function ImportModule(Editor : IEditor; AddToNameSpace : Boolean = False) : Variant; override;
     procedure RunNoDebug(ARunConfig : TRunConfiguration); override;
     function SyntaxCheck(Editor : IEditor; Quiet : Boolean = False) : Boolean;
-    function RunSource(Const Source, FileName : Variant; symbol : WideString = 'single') : boolean; override;
-    function EvalCode(const Expr : WideString) : Variant; override;
-    function GetObjectType(Ob : Variant) : WideString; override;
+    function RunSource(Const Source, FileName : Variant; symbol : string = 'single') : boolean; override;
+    function EvalCode(const Expr : string) : Variant; override;
+    function GetObjectType(Ob : Variant) : string; override;
     property Debugger : Variant read fDebugger;
     property PyInteractiveInterpreter : Variant read fII;
   end;
@@ -124,8 +124,8 @@ type
     destructor Destroy; override;
 
     // Python Path
-    function SysPathAdd(const Path : WideString) : boolean; override;
-    function SysPathRemove(const Path : WideString) : boolean; override;
+    function SysPathAdd(const Path : string) : boolean; override;
+    function SysPathRemove(const Path : string) : boolean; override;
     // Debugging
     procedure Run(ARunConfig : TRunConfiguration; InitStepIn : Boolean = False;
           RunToCursorLine : integer = -1); override;
@@ -137,15 +137,15 @@ type
     procedure Pause; override;
     procedure Abort; override;
     // Evaluate expression in the current frame
-    procedure Evaluate(const Expr : WideString; out ObjType, Value : WideString); override;
+    procedure Evaluate(const Expr : string; out ObjType, Value : string); override;
     // Like the InteractiveInterpreter runsource but for the debugger frame
-    function RunSource(Const Source, FileName : Variant; symbol : WideString = 'single') : boolean; override;
+    function RunSource(Const Source, FileName : Variant; symbol : string = 'single') : boolean; override;
     // Fills in CallStackList with TBaseFrameInfo objects
     procedure GetCallStack(CallStackList : TObjectList); override;
     // functions to get TBaseNamespaceItems corresponding to a frame's gloabals and locals
     function GetFrameGlobals(Frame : TBaseFrameInfo) : TBaseNameSpaceItem; override;
     function GetFrameLocals(Frame : TBaseFrameInfo) : TBaseNameSpaceItem; override;
-    function NameSpaceFromExpression(const Expr : WideString) : TBaseNameSpaceItem; override;
+    function NameSpaceFromExpression(const Expr : string) : TBaseNameSpaceItem; override;
     procedure MakeFrameActive(Frame : TBaseFrameInfo); override;
     // post mortem stuff
     function HaveTraceback : boolean; override;
@@ -161,7 +161,7 @@ implementation
 uses dmCommands, frmPythonII, Variants, VarPyth, frmMessages, frmPyIDEMain,
   MMSystem, Math, JclFileUtils, uCommonFunctions,
   cParameters, StringResources, Dialogs, JvDSADialogs, 
-  gnugettext, TntDialogs, TntSysUtils;
+  gnugettext;
 
 { TFrameInfo }
 
@@ -171,12 +171,12 @@ begin
   inherited Create;
 end;
 
-function TFrameInfo.GetFileName: WideString;
+function TFrameInfo.GetFileName: string;
 begin
   Result := fPyFrame.f_code.co_filename;
 end;
 
-function TFrameInfo.GetFunctionName: WideString;
+function TFrameInfo.GetFunctionName: string;
 begin
   Result := fPyFrame.f_code.co_name;
 end;
@@ -188,7 +188,7 @@ end;
 
 { TNameSpaceItem }
 
-constructor TNameSpaceItem.Create(aName : WideString; aPyObject: Variant);
+constructor TNameSpaceItem.Create(aName : string; aPyObject: Variant);
 begin
   fName := aName;
   fPyObject := aPyObject;
@@ -259,7 +259,7 @@ Var
   FullInfoTuple, APyObject: Variant;
   PyFullInfoTuple, PyMemberInfo, PyFullInfo: PPyObject;
   i : integer;
-  ObjName : WideString;
+  ObjName : string;
   NameSpaceItem : TNameSpaceItem;
   SuppressOutput : IInterface;
 begin
@@ -271,7 +271,7 @@ begin
       fChildCount := len(FullInfoTuple);
 
       if fChildCount > 0 then begin
-        fChildNodes := WideStrings.TWideStringList.Create;
+        fChildNodes := TStringList.Create;
         fChildNodes.CaseSensitive := True;
 
         PyFullInfoTuple := ExtractPythonObjectFrom(FullInfoTuple);
@@ -296,13 +296,13 @@ begin
       end;
     except
       fChildCount := 0;
-      WideMessageDlg(WideFormat(_(SErrorGettingNamespace), [fName]), mtError, [mbAbort], 0);
+      Dialogs.MessageDlg(Format(_(SErrorGettingNamespace), [fName]), mtError, [mbAbort], 0);
       SysUtils.Abort;
     end;
   end;
 end;
 
-function TNameSpaceItem.GetDocString: WideString;
+function TNameSpaceItem.GetDocString: string;
 Var
   SuppressOutput : IInterface;
 begin
@@ -314,7 +314,7 @@ begin
   end;
 end;
 
-function TNameSpaceItem.GetName: WideString;
+function TNameSpaceItem.GetName: string;
 begin
   Result := fName;
 end;
@@ -333,7 +333,7 @@ begin
   ExtractObjectInfo(PyObjectInfo);
 end;
 
-function TNameSpaceItem.GetObjectType: WideString;
+function TNameSpaceItem.GetObjectType: string;
 begin
   if fObjectType <> '' then
     Result := fObjectType
@@ -343,7 +343,7 @@ begin
   end;
 end;
 
-function TNameSpaceItem.GetValue: WideString;
+function TNameSpaceItem.GetValue: string;
 Var
   SuppressOutput : IInterface;
 begin
@@ -360,7 +360,7 @@ begin
   Result := ObjectInfo.Has__dict__;
 end;
 
-function TNameSpaceItem.IndexOfChild(AName: WideString): integer;
+function TNameSpaceItem.IndexOfChild(AName: string): integer;
 var
   L, H, I, C: Integer;
   Found : Boolean;
@@ -475,7 +475,7 @@ begin
      mtInformation, [mbOK], 0, dckActiveForm, 0, mbOK);
 end;
 
-procedure TPyInternalDebugger.Evaluate(const Expr : WideString; out ObjType, Value : WideString);
+procedure TPyInternalDebugger.Evaluate(const Expr : string; out ObjType, Value : string);
 Var
   SuppressOutput : IInterface;
   V : Variant;
@@ -571,7 +571,7 @@ procedure TPyInternalDebugger.Run(ARunConfig: TRunConfiguration;
   InitStepIn: Boolean = False; RunToCursorLine : integer = -1);
 var
   Code : Variant;
-  Path, OldPath : WideString;
+  Path, OldPath : string;
   PythonPathAdder : IInterface;
   ReturnFocusToEditor: Boolean;
   CanDoPostMortem : Boolean;
@@ -592,8 +592,8 @@ begin
     if ARunConfig.WorkingDir <> '' then
       Path := Parameters.ReplaceInText(ARunConfig.WorkingDir)
     else
-      Path := WideExtractFileDir(ARunConfig.ScriptName);
-    OldPath := WideGetCurrentDir;
+      Path := ExtractFileDir(ARunConfig.ScriptName);
+    OldPath := GetCurrentDir;
     if Length(Path) > 1 then begin
       // Add the path of the executed file to the Python path - Will be automatically removed
       PythonPathAdder := AddPathToPythonPath(Path);
@@ -601,9 +601,9 @@ begin
 
       // Change the current path
       try
-        WideSetCurrentDir(Path)
+        SetCurrentDir(Path)
       except
-        WideMessageDlg(_(SCouldNotSetDirectory), mtWarning, [mbOK], 0);
+        Dialogs.MessageDlg(_(SCouldNotSetDirectory), mtWarning, [mbOK], 0);
       end;
     end;
 
@@ -656,7 +656,7 @@ begin
         on E: EPythonError do begin
           InternalInterpreter.HandlePyException(E, 2);
           ReturnFocusToEditor := False;
-          WideMessageDlg(E.Message, mtError, [mbOK], 0);
+          Dialogs.MessageDlg(E.Message, mtError, [mbOK], 0);
           CanDoPostMortem := True;
           SysUtils.Abort;
         end;
@@ -678,7 +678,7 @@ begin
       SysPathAdd('');
 
       // Change the back current path
-      WideSetCurrentDir(OldPath);
+      SetCurrentDir(OldPath);
 
       if PyIDEMainForm.Layouts.IndexOf('Debug') >= 0 then
         PyIDEMainForm.LoadLayout('Current');
@@ -692,7 +692,7 @@ begin
   end;
 end;
 
-function TPyInternalDebugger.RunSource(Const Source, FileName : Variant; symbol : WideString = 'single') : boolean;
+function TPyInternalDebugger.RunSource(Const Source, FileName : Variant; symbol : string = 'single') : boolean;
 // The internal interpreter RunSource calls II.runsource which differs
 // according to whether we debugging or not
 Var
@@ -734,12 +734,12 @@ begin
   fDebuggerCommand := dcStepOver;
 end;
 
-function TPyInternalDebugger.SysPathAdd(const Path: WideString): boolean;
+function TPyInternalDebugger.SysPathAdd(const Path: string): boolean;
 begin
   Result := InternalInterpreter.SysPathAdd(Path);
 end;
 
-function TPyInternalDebugger.SysPathRemove(const Path: WideString): boolean;
+function TPyInternalDebugger.SysPathRemove(const Path: string): boolean;
 begin
   Result := InternalInterpreter.SysPathRemove(Path);
 end;
@@ -905,7 +905,7 @@ begin
 end;
 
 function TPyInternalDebugger.NameSpaceFromExpression(
-  const Expr: WideString): TBaseNameSpaceItem;
+  const Expr: string): TBaseNameSpaceItem;
 //  The internal interpreter knows whether we are debugging and
 //  adjusts accordingly (in II.debugger.evalcode)
 begin
@@ -926,14 +926,14 @@ begin
   fII.setupdisplayhook()
 end;
 
-function TPyInternalInterpreter.EvalCode(const Expr: WideString): Variant;
+function TPyInternalInterpreter.EvalCode(const Expr: string): Variant;
 begin
   // may raise exceptions
   Result := fII.evalcode(Expr);
 end;
 
-function TPyInternalInterpreter.CallTipFromExpression(const Expr: WideString;
-  var DisplayString, DocString: WideString) : Boolean;
+function TPyInternalInterpreter.CallTipFromExpression(const Expr: string;
+  var DisplayString, DocString: string) : Boolean;
 var
   LookupObj, PyDocString: Variant;
   SuppressOutput : IInterface;
@@ -964,11 +964,11 @@ end;
 function TPyInternalInterpreter.Compile(ARunConfig: TRunConfiguration): Variant;
 Var
   co : PPyObject;
-  FName, Source : string;
+  FName, Source : AnsiString;
   Editor : IEditor;
 begin
   if PyControl.DebuggerState <> dsInactive then begin
-    WideMessageDlg(_(SCannotCompileWhileRunning),
+    Dialogs.MessageDlg(_(SCannotCompileWhileRunning),
       mtError, [mbAbort], 0);
     SysUtils.Abort;
   end;
@@ -981,23 +981,23 @@ begin
 
   Editor := GI_EditorFactory.GetEditorByNameOrTitle(ARunConfig.ScriptName);
   if Assigned(Editor) then begin
-    FName := Editor.FileName;
-    if FName = '' then FName := '<'+Editor.FileTitle+'>';
-    Source := CleanEOLs(Editor.EncodedText)+#10;
+    FName := AnsiString(Editor.FileName);
+    if FName = '' then FName := AnsiString('<'+Editor.FileTitle+'>');
+    Source := CleanEOLs(Editor.EncodedText) + AnsiString(#10);
   end else begin
     try
-      FName := ARunConfig.ScriptName;
-      Source := CleanEOLs(FileToEncodedStr(FName)) + #10;
+      FName := AnsiString(ARunConfig.ScriptName);
+      Source := CleanEOLs(FileToEncodedStr(string(FName))) + AnsiString(#10);
     except
       on E: Exception do begin
-        WideMessageDlg(WideFormat(_(SFileOpenError), [FName, E.Message]), mtError, [mbOK], 0);
+        Dialogs.MessageDlg(Format(_(SFileOpenError), [FName, E.Message]), mtError, [mbOK], 0);
         SysUtils.Abort;
       end;
     end;
   end;
 
   with GetPythonEngine do begin
-    co := Py_CompileString(PChar(Source), PChar(FName), file_input );
+    co := Py_CompileString(PAnsiChar(Source), PAnsiChar(FName), file_input );
     if not Assigned( co ) then begin
       // New Line for output
       PythonIIForm.AppendText(sLineBreak);
@@ -1016,12 +1016,12 @@ begin
             PyControl.ErrorPos.IsSyntax := True;
             PyControl.DoErrorPosChanged;
           end;
-          WideMessageDlg(E.Message, mtError, [mbOK], 0);
+          Dialogs.MessageDlg(E.Message, mtError, [mbOK], 0);
           SysUtils.Abort;
         end;
         on E: EPythonError do begin  //may raise OverflowError or ValueError
           HandlePyException(E);
-          WideMessageDlg(E.Message, mtError, [mbOK], 0);
+          Dialogs.MessageDlg(E.Message, mtError, [mbOK], 0);
           SysUtils.Abort;
         end;
       end;
@@ -1038,7 +1038,7 @@ begin
   Result := TNameSpaceItem.Create('globals', VarPythonEval('globals()'));
 end;
 
-function TPyInternalInterpreter.GetObjectType(Ob: Variant): WideString;
+function TPyInternalInterpreter.GetObjectType(Ob: Variant): string;
 Var
   SuppressOutput : IInterface;
 begin
@@ -1099,11 +1099,11 @@ begin
       end;
     end;
     if VarIsNone(Result) then begin
-      WideMessageDlg(_(SErrorInImportingModule), mtError, [mbOK], 0);
+      Dialogs.MessageDlg(_(SErrorInImportingModule), mtError, [mbOK], 0);
       SysUtils.Abort;
     end else if AddToNameSpace then
       // add Module name to the locals() of the interpreter
-      GetPythonEngine.ExecString('import ' + NameOfModule);
+      GetPythonEngine.ExecString(AnsiString('import ' + NameOfModule));
   finally
     //  Add again the empty path
     SysPathAdd('');
@@ -1113,7 +1113,7 @@ begin
 end;
 
 function TPyInternalInterpreter.NameSpaceFromExpression(
-  const Expr: WideString): TBaseNameSpaceItem;
+  const Expr: string): TBaseNameSpaceItem;
 var
   InspectModule, LookupObj, ItemsDict: Variant;
   SuppressOutput : IInterface;
@@ -1166,7 +1166,7 @@ begin
       P := GetParamStr(P, Param);
       SysMod.argv.append(VarPythonCreate(Param));
     end;
-    PythonIIForm.AppendText(WideFormat(_(SCommandLineMsg), [S]));
+    PythonIIForm.AppendText(Format(_(SCommandLineMsg), [S]));
   end;
 //  List := TStringList.Create;
 //  try
@@ -1178,7 +1178,7 @@ begin
 //  end;
 end;
 
-procedure TPyInternalInterpreter.StringsToSysPath(Strings: WideStrings.TWideStrings);
+procedure TPyInternalInterpreter.StringsToSysPath(Strings: TStrings);
 var
   i: Integer;
   PythonPath: Variant;
@@ -1205,7 +1205,7 @@ Var
   Code : Variant;
   mmResult,Resolution : LongWord;
   tc : TTimeCaps;
-  Path, OldPath : WideString;
+  Path, OldPath : string;
   PythonPathAdder : IInterface;
   ReturnFocusToEditor : Boolean;
   CanDoPostMortem : Boolean;
@@ -1230,7 +1230,7 @@ begin
   if ARunConfig.WorkingDir <> '' then
     Path := Parameters.ReplaceInText(ARunConfig.WorkingDir)
   else
-    Path := WideExtractFileDir(ARunConfig.ScriptName);
+    Path := ExtractFileDir(ARunConfig.ScriptName);
   OldPath := GetCurrentDir;
   if Length(Path) > 1 then begin
     // Add the path of the executed file to the Python path - Will be automatically removed
@@ -1239,9 +1239,9 @@ begin
 
     // Change the current path
     try
-      WideSetCurrentDir(Path)
+      SetCurrentDir(Path)
     except
-      WideMessageDlg(_(SCouldNotSetCurrentDir), mtWarning, [mbOK], 0);
+      Dialogs.MessageDlg(_(SCouldNotSetCurrentDir), mtWarning, [mbOK], 0);
     end;
   end;
 
@@ -1270,7 +1270,7 @@ begin
       on E: EPythonError do begin
         HandlePyException(E);
         ReturnFocusToEditor := False;
-        WideMessageDlg(E.Message, mtError, [mbOK], 0);
+        Dialogs.MessageDlg(E.Message, mtError, [mbOK], 0);
         CanDoPostMortem := True;
         SysUtils.Abort;
       end;
@@ -1289,7 +1289,7 @@ begin
     SysPathAdd('');
 
     // Change the back current path
-    WideSetCurrentDir(OldPath);
+    SetCurrentDir(OldPath);
 
     PyControl.DoStateChange(dsInactive);
     if ReturnFocusToEditor then
@@ -1299,7 +1299,7 @@ begin
   end;
 end;
 
-function TPyInternalInterpreter.RunSource(Const Source, FileName : Variant; symbol : WideString = 'single') : boolean;
+function TPyInternalInterpreter.RunSource(Const Source, FileName : Variant; symbol : string = 'single') : boolean;
 Var
   OldDebuggerState : TDebuggerState;
 begin
@@ -1317,7 +1317,8 @@ end;
 
 function TPyInternalInterpreter.SyntaxCheck(Editor: IEditor; Quiet : Boolean = False): Boolean;
 Var
-  FName, Source : string;
+  FName : string;
+  Source : AnsiString;
   tmp: PPyObject;
   PyErrType, PyErrValue, PyErrTraceback, PyErrValueTuple : PPyObject;
   SuppressOutput : IInterface;
@@ -1329,7 +1330,7 @@ begin
 
   FName := Editor.FileName;
   if FName = '' then FName := '<'+Editor.FileTitle+'>';
-  Source := CleanEOLs(Editor.EncodedText)+#10;
+  Source := CleanEOLs(Editor.EncodedText)+AnsiString(#10);
 
   with GetPythonEngine do begin
     if Quiet then
@@ -1403,7 +1404,7 @@ begin
             PyControl.ErrorPos.Char := E.EOffset;
             PyControl.ErrorPos.IsSyntax := True;
             PyControl.DoErrorPosChanged;
-            if Not Quiet then WideMessageDlg(E.Message, mtError, [mbOK], 0);
+            if Not Quiet then Dialogs.MessageDlg(E.Message, mtError, [mbOK], 0);
           end;
         end;
       end;
@@ -1411,7 +1412,7 @@ begin
   end;
 end;
 
-function TPyInternalInterpreter.SysPathAdd(const Path: WideString): boolean;
+function TPyInternalInterpreter.SysPathAdd(const Path: string): boolean;
 begin
   if SysModule.path.__contains__(Path) then
     Result := false
@@ -1421,7 +1422,7 @@ begin
   end;
 end;
 
-function TPyInternalInterpreter.SysPathRemove(const Path: WideString): boolean;
+function TPyInternalInterpreter.SysPathRemove(const Path: string): boolean;
 begin
   if SysModule.path.__contains__(Path) then begin
     Result := True;
@@ -1430,7 +1431,7 @@ begin
     Result := False;
 end;
 
-procedure TPyInternalInterpreter.SysPathToStrings(Strings: WideStrings.TWideStrings);
+procedure TPyInternalInterpreter.SysPathToStrings(Strings: TStrings);
 var
   i: Integer;
 begin
@@ -1439,12 +1440,6 @@ begin
 end;
 
 end.
-
-
-
-
-
-
 
 
 

@@ -48,122 +48,122 @@ interface
 {$i jedi.inc}
 
 uses
-  Windows, Classes, SysUtils, Dialogs, Controls, WideStrings;
+  Windows, Classes, SysUtils, Dialogs, Controls;
 
 type
   (* function, that returns value of a system parameter *)
-  TGetParameterProc = function : WideString;
+  TGetParameterProc = function : string;
 
   (* function, that will be replaced in texts with its value *)
-  TParameterFunction = function (const AParameters: WideString): WideString;
+  TParameterFunction = function (const AParameters: string): string;
 
   (* function, that will return property value for given oobject *)
   TObjectPropertyFunction = function (AObject: TObject;const AObjectName,
-                                      APropertyName: WideString): WideString;
+                                      APropertyName: string): string;
 
   (* function, that will be called if parameter or modifier value is not found *)
-  TUnknownParameterFunction = function (Sender: TObject; const AName: WideString;
-                                        var AValue: WideString): Boolean of object;
+  TUnknownParameterFunction = function (Sender: TObject; const AName: string;
+                                        var AValue: string): Boolean of object;
 
   (* function, that will be called if object is not found *)
-  TUnknownObjectFunction = function (Sender: TObject; const AName: WideString;
+  TUnknownObjectFunction = function (Sender: TObject; const AName: string;
                                      var AObject: TObject): Boolean of object;
 
   (* function, that will be called if object property is not found *)
   TUnknownPropertyFunction = function (Sender, AObject: TObject;
-                                        const AObjectName, APropertyName: WideString;
-                                        var AValue: WideString): Boolean of object;
+                                        const AObjectName, APropertyName: string;
+                                        var AValue: string): Boolean of object;
 
   (* list of all parameters *)
-  TParameterList = class(TWideStringList)
+  TParameterList = class(TStringList)
   private
     FOnUnknownParameter: TUnknownParameterFunction;
     FOnUnknownModifier: TUnknownParameterFunction;
-    FProperties: TWideStrings;
-    FObjectNames: TWideStrings;
-    FModifiers: TWideStrings;
+    FProperties: TStrings;
+    FObjectNames: TStrings;
+    FModifiers: TStrings;
     FOnUnknownObject: TUnknownObjectFunction;
     FOnUnknownProperty: TUnknownPropertyFunction;
-    FStartMask: WideString;
-    FStopMask: WideString;
-    FUsedParameters: TWideStrings;
-    function GetValue(const Name: WideString): WideString;
-    procedure SetModifiers(const Value: TWideStrings);
-    procedure SetObjectNames(const Value: TWideStrings);
-    procedure SetProperties(const Value: TWideStrings);
+    FStartMask: string;
+    FStopMask: string;
+    FUsedParameters: TStrings;
+    function GetValue(const Name: string): string;
+    procedure SetModifiers(const Value: TStrings);
+    procedure SetObjectNames(const Value: TStrings);
+    procedure SetProperties(const Value: TStrings);
   protected
-    procedure SkipParameter(var AText: PWideChar);
-    procedure SkipParameterValue(var AText: PWideChar; ASeparators: TSysCharSet);
-    function ReadParameterValue(var AText: PWideChar; ASeparators: TSysCharSet): WideString;
-    function ReadParameters(var AText: PWideChar): WideString;
-    function ReadCondition(var AText: PWideChar): Boolean;
-    procedure DoAddParameter(const AName, AValue: WideString;
+    procedure SkipParameter(var AText: PChar);
+    procedure SkipParameterValue(var AText: PChar; ASeparators: TSysCharSet);
+    function ReadParameterValue(var AText: PChar; ASeparators: TSysCharSet): string;
+    function ReadParameters(var AText: PChar): string;
+    function ReadCondition(var AText: PChar): Boolean;
+    procedure DoAddParameter(const AName, AValue: string;
                              GetProc: TGetParameterProc);
-    procedure DoChangeParameter(const AName, AValue: WideString;
+    procedure DoChangeParameter(const AName, AValue: string;
                                 GetProc: TGetParameterProc; CanAdd: Boolean);
-    procedure DoRemoveParameter(const AName: WideString);
-    property UsedParameters: TWideStrings read FUsedParameters;
+    procedure DoRemoveParameter(const AName: string);
+    property UsedParameters: TStrings read FUsedParameters;
   public
     constructor Create;
     destructor Destroy; override;
     procedure Assign(Source: TPersistent); override;
   public
     (* system parameters *)
-    procedure RegisterParameter(const AName, AValue: WideString; GetProc: TGetParameterProc);
-    procedure UnRegisterParameter(const AName: WideString);
-    procedure ChangeParameter(const AName, AValue: WideString;
+    procedure RegisterParameter(const AName, AValue: string; GetProc: TGetParameterProc);
+    procedure UnRegisterParameter(const AName: string);
+    procedure ChangeParameter(const AName, AValue: string;
                               GetProc: TGetParameterProc = nil;
                               CanAdd: Boolean = False);
     property OnUnknownParameter: TUnknownParameterFunction
               read FOnUnknownParameter write FOnUnknownParameter;
   public
     (* parameter modifiers *)
-    procedure RegisterModifier(const AName, Comment: WideString; AFunc: TParameterFunction);
-    procedure UnRegisterModifier(const AName: WideString);
-    property Modifiers: TWideStrings read FModifiers write SetModifiers;
+    procedure RegisterModifier(const AName, Comment: string; AFunc: TParameterFunction);
+    procedure UnRegisterModifier(const AName: string);
+    property Modifiers: TStrings read FModifiers write SetModifiers;
     property OnUnknownModifier: TUnknownParameterFunction
               read FOnUnknownModifier write FOnUnknownModifier;
   public
     (* objects and their properties *)
-    procedure RegisterObject(const AName: WideString; AObject: TObject);
-    procedure UnRegisterObject(const AName: WideString);
-    procedure RegisterProperty(const AObjectName, APropertyName: WideString;
+    procedure RegisterObject(const AName: string; AObject: TObject);
+    procedure UnRegisterObject(const AName: string);
+    procedure RegisterProperty(const AObjectName, APropertyName: string;
                                 GetProc: TObjectPropertyFunction = nil);
-    procedure UnRegisterProperty(const AObjectName, APropertyName: WideString);
-    property ObjectNames: TWideStrings read FObjectNames write SetObjectNames;
-    property Properties: TWideStrings read FProperties write SetProperties;
+    procedure UnRegisterProperty(const AObjectName, APropertyName: string);
+    property ObjectNames: TStrings read FObjectNames write SetObjectNames;
+    property Properties: TStrings read FProperties write SetProperties;
     property OnUnknownObject: TUnknownObjectFunction
               read FOnUnknownObject write FOnUnknownObject;
     property OnUnknownProperty: TUnknownPropertyFunction
               read FOnUnknownProperty write FOnUnknownProperty;
   public
     (* parameter usage *)
-    function ReplaceInText(const AText: WideString): WideString;
-    function ReplaceInTextEx(const AText, AStartMask, AStopMask: WideString): WideString;
-    function EvaluteCondition(const ACondition: WideString): Boolean;
-    function CalcValue(const AParams: WideString): WideString;
-    function FindValue(const AName: WideString; var AValue: WideString): Boolean;
-    procedure ExtractParameters(const AText: WideString; AParams: TWideStrings);
-    procedure Split(AIndex: Integer; var AName, AValue: WideString;
+    function ReplaceInText(const AText: string): string;
+    function ReplaceInTextEx(const AText, AStartMask, AStopMask: string): string;
+    function EvaluteCondition(const ACondition: string): Boolean;
+    function CalcValue(const AParams: string): string;
+    function FindValue(const AName: string; var AValue: string): Boolean;
+    procedure ExtractParameters(const AText: string; AParams: TStrings);
+    procedure Split(AIndex: Integer; var AName, AValue: string;
                     DoCalc: Boolean = True);
-    function MakeParameter(const AName: WideString): WideString;
-    property StartMask: WideString read FStartMask write FStartMask;
-    property StopMask: WideString read FStopMask write FStopMask;
-    property Values[const Name: WideString]: WideString read GetValue;
+    function MakeParameter(const AName: string): string;
+    property StartMask: string read FStartMask write FStartMask;
+    property StopMask: string read FStopMask write FStopMask;
+    property Values[const Name: string]: string read GetValue;
   end;
 
-(* returns WideString value for given property *)
+(* returns string value for given property *)
 function GetPropertyValue(AObject: TObject;
-                          const AObjectName, APropertyName: WideString): WideString;
+                          const AObjectName, APropertyName: string): string;
 
 (* adds markers for finding replaced text later *)
-function SetMarkers(const AParameters: WideString): WideString; 
+function SetMarkers(const AParameters: string): string;
 
 (* returns positions of the markers in the text *)
-function FindMarkers(var AText: WideString; out Start, Stop: Integer): Boolean;
+function FindMarkers(var AText: string; out Start, Stop: Integer): Boolean;
 
 (* clears markers, set before *)
-procedure ClearMarkers(var AText: WideString);
+procedure ClearMarkers(var AText: string);
 
 var
   (* moment state of all parameters *)
@@ -172,33 +172,33 @@ var
 implementation
 
 uses
-  TypInfo{$IFDEF DELPHI6_UP}, Variants{$ENDIF}, uCommonFunctions, gnugettext,
-  StringResources, WideStrUtils, TntDialogs;
+  TypInfo{$IFDEF DELPHI6_UP}, Variants{$ENDIF}, gnugettext,
+  StringResources, uCommonFunctions, JclStrings;
 
 const
   WhiteSpaces: TSysCharSet = [#1..' '];
 
 function GetPropertyValue(AObject: TObject; const AObjectName,
-                                                  APropertyName: WideString): WideString;
-(* returns WideString value for given property *)
+                                                  APropertyName: string): string;
+(* returns string value for given property *)
 var
   AValue: Variant;
 begin
   AValue:= GetPropValue(AObject, APropertyName, True);
   if VarIsNull(AValue) then begin
-    WideMessageDlg(WideFormat(_(SInvalidObjectProperty),
+    Dialogs.MessageDlg(Format(_(SInvalidObjectProperty),
                                     [AObjectName, APropertyName]), mtError, [mbOK], 0);
     Abort;
   end else Result:= AValue;
 end;
 
-function SetMarkers(const AParameters: WideString): WideString;
+function SetMarkers(const AParameters: string): string;
 (* adds markers for finding replaced text later *)
 begin
   Result:= Concat('$[>]', AParameters, '$[<]');
 end;
 
-function FindMarkers(var AText: WideString; out Start, Stop: Integer): Boolean;
+function FindMarkers(var AText: string; out Start, Stop: Integer): Boolean;
 (* returns positions of the markers in the text *)
 begin
   Start:= Pos('$[>]', AText);
@@ -213,7 +213,7 @@ begin
   end;
 end;
 
-procedure ClearMarkers(var AText: WideString);
+procedure ClearMarkers(var AText: string);
 (* clears markers, set before *)
 var
   T1, T2: Integer;
@@ -238,16 +238,16 @@ begin
   else inherited;
 end;
 
-function TParameterList.CalcValue(const AParams: WideString): WideString;
+function TParameterList.CalcValue(const AParams: string): string;
 (* calculates parameter value *)
 var
-  P: PWideChar;
+  P: PChar;
 begin
-  P:= PWideChar(AParams);
+  P:= PChar(AParams);
   Result:= ReadParameters(P);
   (* check if we have something after parameter *)
   if P^ <> #0 then begin
-    if WideStrIsLeft(P, PWideChar(StopMask)) then begin
+    if StrIsLeft(P, PChar(StopMask)) then begin
       Inc(P, Length(StopMask));
       if P^ = #0 then Exit;
     end;
@@ -255,7 +255,7 @@ begin
   end;
 end;
 
-procedure TParameterList.ChangeParameter(const AName, AValue: WideString;
+procedure TParameterList.ChangeParameter(const AName, AValue: string;
   GetProc: TGetParameterProc; CanAdd: Boolean);
 (* changes system parameter value *)
 begin
@@ -264,9 +264,9 @@ end;
 
 constructor TParameterList.Create;
 
-  function CreateSortedList: TWideStringList;
+  function CreateSortedList: TStringList;
   begin
-    Result:= TWideStringList.Create;
+    Result:= TStringList.Create;
     with Result do begin
       Duplicates:= dupError;
       Sorted:= True;
@@ -293,21 +293,21 @@ begin
 end;
 
 procedure TParameterList.DoAddParameter(const AName,
-  AValue: WideString; GetProc: TGetParameterProc);
+  AValue: string; GetProc: TGetParameterProc);
 begin
   AddObject(Concat(AName, '=', AValue), TObject(@GetProc));
 end;
 
-procedure TParameterList.DoChangeParameter(const AName, AValue: WideString;
+procedure TParameterList.DoChangeParameter(const AName, AValue: string;
   GetProc: TGetParameterProc; CanAdd: Boolean);
 var
   i, L : Integer;
-  Param: WideString;
+  Param: string;
 begin
   Param:= AName + '=';
   L:= Length(Param);
   for i:= Count - 1 downto 0 do
-    if WideSameText(Param, Copy(Strings[i], 1, L)) then begin
+    if SameText(Param, Copy(Strings[i], 1, L)) then begin
       Strings[i]:= Concat(AName, '=', AValue);
       Objects[i]:= TObject(@GetProc);
       Exit;
@@ -316,56 +316,56 @@ begin
     AddObject(Concat(AName, '=', AValue), TObject(@GetProc));
 end;
 
-procedure TParameterList.DoRemoveParameter(const AName: WideString);
+procedure TParameterList.DoRemoveParameter(const AName: string);
 var
   i, L: Integer;
-  Param: WideString;
+  Param: string;
 begin
   Param:= AName + '=';
   L:= Length(Param);
   for i:= Count - 1 downto 0 do
-    if WideSameText(Param, Copy(Strings[i], 1, L)) then begin
+    if SameText(Param, Copy(Strings[i], 1, L)) then begin
       Delete(i);
       Break;
     end;
 end;
 
-function TParameterList.EvaluteCondition(const ACondition: WideString): Boolean;
+function TParameterList.EvaluteCondition(const ACondition: string): Boolean;
 (* evalutes simple paramater condition *)
 var
-  P: PWideChar;
+  P: PChar;
 begin
-  P:= PWideChar(ACondition);
+  P:= PChar(ACondition);
   Result:= ReadCondition(P);
   if P^ <> #0 then begin
-    WideMessageDlg(_(SInvalidConditionFormat), mtError, [mbOK], 0);
+    Dialogs.MessageDlg(_(SInvalidConditionFormat), mtError, [mbOK], 0);
     Abort;
   end;
 end;
 
-procedure TParameterList.ExtractParameters(const AText: WideString;
-  AParams: TWideStrings);
+procedure TParameterList.ExtractParameters(const AText: string;
+  AParams: TStrings);
 (* extracts parameters from AText to AParams *)
 var
-  PParam: PWideChar;
-  AParam, AValue: WideString;
+  PParam: PChar;
+  AParam, AValue: string;
   Delimiters: TSysCharSet;
 begin
   Delimiters:= [];
-  Include(Delimiters, Char(PWideChar(StartMask)^));
-  Include(Delimiters, Char(PWideChar(StopMask)^));
+  Include(Delimiters, AnsiChar(StartMask[1]));
+  Include(Delimiters, AnsiChar(StopMask[1]));
   with AParams do try
     BeginUpdate;
-    PParam:= PWideChar(AText);
+    PParam:= PChar(AText);
     repeat
-      PParam:= WStrPos(PParam, PWideChar(StartMask));
+      PParam:= StrPos(PParam, PChar(StartMask));
       (* maybe parameter is found *)
       if Assigned(PParam) then begin
         Inc(PParam, Length(StartMask));
         (* we want only real parameters *)
         AValue:= '';
         AParam:= StrGetToken(PParam, Delimiters + ['(', '-', '.', '=', '?'], [], ['''']);
-        if InOpSet(PWideChar(AParam)^, ['(', '''']) or InOpSet(PParam^, ['.', '=']) then
+        if CharInSet(PChar(AParam)^, ['(', '''']) or CharInSet(PParam^, ['.', '=']) then
           AParam:= '';
         (* skip to the end of block *)
         SkipParameter(PParam);
@@ -386,10 +386,10 @@ begin
   end;
 end;
 
-function TParameterList.FindValue(const AName: WideString;
-   var AValue: WideString): Boolean;
+function TParameterList.FindValue(const AName: string;
+   var AValue: string): Boolean;
 var
-  Temp: WideString;
+  Temp: string;
   i: Integer;
 begin
   i:= IndexOfName(AName);
@@ -398,18 +398,18 @@ begin
     Split(i, Temp, AValue, True);
 end;
 
-function TParameterList.GetValue(const Name: WideString): WideString;
+function TParameterList.GetValue(const Name: string): string;
 begin
   if not FindValue(Name, Result) then
     Result:=  '';
 end;
 
-function TParameterList.MakeParameter(const AName: WideString): WideString;
+function TParameterList.MakeParameter(const AName: string): string;
 begin
   Result:= Concat(StartMask, AName, StopMask);
 end;
 
-function TParameterList.ReadCondition(var AText: PWideChar): Boolean;
+function TParameterList.ReadCondition(var AText: PChar): Boolean;
 (* reads parameter condition and evalutes it *)
 const
   Signs: TSysCharSet = ['<', '>', '='];
@@ -427,16 +427,16 @@ const
 
 var
   i: Integer;
-  ALeft, AOperation, ARight: WideString;
+  ALeft, AOperation, ARight: string;
 begin
   if AText^ = '(' then Inc(AText);
-  while InOpSet(AText^, WhiteSpaces) do Inc(AText);
+  while CharInSet(AText^, WhiteSpaces) do Inc(AText);
   (* read left value *)
   ALeft:= ReadParameterValue(AText, Signs + [')']);
-  while InOpSet(AText^, WhiteSpaces) do Inc(AText);
+  while CharInSet(AText^, WhiteSpaces) do Inc(AText);
   (* read operation *)
-  if InOpSet(AText^, Signs) then begin
-    if InOpSet((AText + 1)^, Signs) then begin
+  if CharInSet(AText^, Signs) then begin
+    if CharInSet((AText + 1)^, Signs) then begin
       SetString(AOperation, AText, 2);
       Inc(AText, 2);
     end
@@ -444,7 +444,7 @@ begin
       AOperation:= AText^;
       Inc(AText);
     end;
-    while InOpSet(AText^, WhiteSpaces) do Inc(AText);
+    while CharInSet(AText^, WhiteSpaces) do Inc(AText);
     (* read right value *)
     ARight:= ReadParameterValue(AText, [')']);
   end
@@ -452,7 +452,7 @@ begin
     if AText^ = '?' then begin
       Result:= True;
       Inc(AText);
-      while InOpSet(AText^, WhiteSpaces) do Inc(AText);
+      while CharInSet(AText^, WhiteSpaces) do Inc(AText);
       case MessageDlg(ALeft, mtConfirmation, mbYesNoCancel, 0) of
         mrYes:  Result:= True;
         mrNo:   Result:= False;
@@ -460,28 +460,28 @@ begin
       end;
       Exit;
     end
-    else if WideSameText(Copy(AText, 1, 7), 'IS NULL') then begin
+    else if SameText(Copy(AText, 1, 7), 'IS NULL') then begin
       AOperation:= '=';
       Inc(AText, 7);
     end
-    else if WideSameText(Copy(AText, 1, 11), 'IS NOT NULL') then begin
+    else if SameText(Copy(AText, 1, 11), 'IS NOT NULL') then begin
       AOperation:= '<>';
       Inc(AText, 11);
     end
     else begin
-      WideMessageDlg(_(SInvalidConditionFormat), mtError, [mbOK], 0);
+      Dialogs.MessageDlg(_(SInvalidConditionFormat), mtError, [mbOK], 0);
       Abort;
     end;
     ARight:= '';
   end;
-  while InOpSet(AText^, WhiteSpaces) do Inc(AText);
+  while CharInSet(AText^, WhiteSpaces) do Inc(AText);
   (* evalute condition *)
   if AOperation = '' then begin
-    WideMessageDlg(_(SInvalidConditionFormat), mtError, [mbOK], 0);
+    Dialogs.MessageDlg(_(SInvalidConditionFormat), mtError, [mbOK], 0);
     Abort;
   end;
   (* compare numbers *)
-  if WideStrConsistsOfNumberChars(ALeft) and WideStrConsistsOfNumberChars(ARight) then
+  if StrConsistsOfNumberChars(ALeft) and StrConsistsOfNumberChars(ARight) then
     i:= CompareValue(StrToFloat(ALeft), StrToFloat(ARight))
   (* compare strings *)
   else i:= AnsiCompareText(ALeft, ARight);
@@ -493,7 +493,7 @@ begin
            ((AOperation = '<>') and ((i < 0) or (i > 0)));
 end;
 
-function TParameterList.ReadParameters(var AText: PWideChar): WideString;
+function TParameterList.ReadParameters(var AText: PChar): string;
 (* reads parameters and modifiers and calculates value *)
 const
   Delimiters: TSysCharSet = ['.', '-'];
@@ -508,7 +508,7 @@ var
     (* find the result *)
     IsTrue:= ReadCondition(AText);
     if AText^ <> ')' then begin
-      WideMessageDlg(_(SInvalidConditionFormat), mtError, [mbOK], 0);
+      Dialogs.MessageDlg(_(SInvalidConditionFormat), mtError, [mbOK], 0);
       Abort;
     end;
 
@@ -523,7 +523,7 @@ var
     (* returns false value *)
     else begin
       SkipParameterValue(AText, [':']);
-      if (AText^ = #0) or WideStrIsLeft(AText, PWideChar(StopMask)) then
+      if (AText^ = #0) or StrIsLeft(AText, PChar(StopMask)) then
         Result:= ''
       else begin
         Inc(AText);
@@ -532,19 +532,19 @@ var
     end;
   end;
 
-  procedure CalcParameterValue(const AParam: WideString);
+  procedure CalcParameterValue(const AParam: string);
   (* calculates parameter value *)
   var
-    P: PWideChar;
-    AName, AQuestion: WideString;
+    P: PChar;
+    AName, AQuestion: string;
     ValueFound, HasValue, HasQuestion: Boolean;
   begin
-    P:= PWideChar(AParam);
+    P:= PChar(AParam);
     (* empty parameter are special case *)
     if P^ = #0 then Result:= ''
     (* quoted parameter is returned as it is *)
     else if P^ = '''' then
-      Result:= ReplaceInText(WideExtractQuotedStr(P, ''''))
+      Result:= ReplaceInText(AnsiExtractQuotedStr(P, ''''))
     else begin
       (* split parameter to components *)
       AName:= StrGetToken(P, ['=', '?'], [], ['''']);
@@ -564,27 +564,27 @@ var
         if AQuestion = '' then
           AQuestion:= _(SEnterParameterText)
         (* AQuestion can contain parameters *)
-        else if PWideChar(AQuestion)^ = '''' then
-          AQuestion:= ReplaceInText(WideExtractQuotedStr(P, ''''));
-        ValueFound:= WideInputQuery(_(SEnterParameterCaption), AQuestion, Result);
+        else if PChar(AQuestion)^ = '''' then
+          AQuestion:= ReplaceInText(AnsiExtractQuotedStr(P, ''''));
+        ValueFound:= InputQuery(_(SEnterParameterCaption), AQuestion, Result);
       end;
       (* check if someone can help us *)
       if not (HasQuestion or HasValue) and not ValueFound then
         if not Assigned(FOnUnknownParameter) then begin
-          WideMessageDlg(_(SParameterNotFound), mtError, [mbOK], 0);
+          Dialogs.MessageDlg(_(SParameterNotFound), mtError, [mbOK], 0);
           Abort;
         end else if not FOnUnknownParameter(Self, AName, Result) then
           Abort; // quiet exit after helper event
     end;
   end;
 
-  procedure CalcModifierValue(const AModifier: WideString);
+  procedure CalcModifierValue(const AModifier: string);
   (* modifies calculated parameter value *)
   var
     i: Integer;
   begin
     (* quoted modifier is returned as it is *)
-    if PWideChar(AModifier)^ = '''' then
+    if PChar(AModifier)^ = '''' then
       Result:= Concat(Result, '-''', ReplaceInText(StrUnquote(AModifier)), '''')
     else begin
       i:= Modifiers.IndexOfName(AModifier);
@@ -593,7 +593,7 @@ var
         Result:= TParameterFunction(Modifiers.Objects[i])(Result)
       (* check if someone can help us *)
       else if not Assigned(FOnUnknownModifier) then begin
-        WideMessageDlg(WideFormat(_(SModifierNotFound), [AModifier]), mtError, [mbOK], 0);
+        Dialogs.MessageDlg(Format(_(SModifierNotFound), [AModifier]), mtError, [mbOK], 0);
         Abort;
       end else if not FOnUnknownModifier(Self, AModifier, Result) then
         Abort; // quiet exit after helper event
@@ -601,11 +601,11 @@ var
   end;
 
 var
-  AObjectName: WideString;
+  AObjectName: string;
   AObject: TObject;
   StartOfText, EndOfText: Boolean;
 
-  procedure CalcPropertyValue(const APropertyName: WideString);
+  procedure CalcPropertyValue(const APropertyName: string);
   (* calculates property value *)
   var
     i: Integer;
@@ -629,17 +629,17 @@ var
     end
     (* maybe this is a subobject *)
     else if not EndOfText then begin
-      if TWideStringList(ObjectNames).Find(Result, i) then
+      if TStringList(ObjectNames).Find(Result, i) then
         AObject:= ObjectNames.Objects[i]
       (* or even sub-sub-object :) *)
       else if not Assigned(FOnUnknownObject) or
               not FOnUnknownObject(Self, Result, AObject) then
-        if (i >= 0) and (i < ObjectNames.Count) and WideSameText(Result + '.',
+        if (i >= 0) and (i < ObjectNames.Count) and SameText(Result + '.',
                                 Copy(ObjectNames[i], 1, Length(Result)+1)) then
           AObject:= nil
         else if Assigned(FOnUnknownObject) then Abort // quiet exit after helper event
         else begin
-          WideMessageDlg(WideFormat(_(SPropertyNotFound),
+          Dialogs.MessageDlg(Format(_(SPropertyNotFound),
             [AObjectName, APropertyName]), mtError, [mbOK], 0);
           Abort;
         end;
@@ -648,14 +648,14 @@ var
     end
     else if Assigned(FOnUnknownProperty) then Abort // quiet exit after helper event
     else begin
-      WideMessageDlg(WideFormat(_(SPropertyNotFound),
+      Dialogs.MessageDlg(Format(_(SPropertyNotFound),
         [AObjectName, APropertyName]), mtError, [mbOK], 0);
       Abort;
     end;
   end;
 
 var
-  AName: WideString;
+  AName: string;
   i: Integer;
 begin
   Result:= '';
@@ -664,10 +664,10 @@ begin
   StartOfText:= True;
   (* calculate conditional parameter *)
   Separators:= Delimiters;
-  Include(Separators, Char(PWideChar(StopMask)^));
+  Include(Separators, AnsiChar(StopMask[1]));
   if AText^ = '(' then begin
     CalcCondition;
-    if (AText^ = #0) or WideStrIsLeft(AText, PWideChar(StopMask)) then Exit;
+    if (AText^ = #0) or StrIsLeft(AText, PChar(StopMask)) then Exit;
     StartOfText:= False;
   end;
   AObject:= nil;
@@ -678,9 +678,9 @@ begin
     AName:= '';
     repeat
       AName:= AName + StrGetToken(AText, Separators, [], ['''']);
-      EndOfText:= (AText^ = #0) or WideStrIsLeft(AText, PWideChar(StopMask));
+      EndOfText:= (AText^ = #0) or StrIsLeft(AText, PChar(StopMask));
       if not EndOfText then Inc(AText);
-    until EndOfText or InOpSet((AText-1)^, Delimiters);
+    until EndOfText or CharInSet((AText-1)^, Delimiters);
     (* find it's value *)
     if StartOfText then begin
       (* this is parameter *)
@@ -694,17 +694,17 @@ begin
         if AObjectName = '' then AObjectName:= AName
         else AObjectName:= Concat(AObjectName, '.', AName);
         (* is it registered? *)
-        if not TWideStringList(ObjectNames).Find(AObjectName, i) then begin
+        if not TStringList(ObjectNames).Find(AObjectName, i) then begin
           if not Assigned(FOnUnknownObject) or
              not FOnUnknownObject(Self, AObjectName, AObject) then begin
             (* check if there is subobject of this object *)
             if (i >= 0) and (i < ObjectNames.Count) and
-               WideSameText(AObjectName + '.',
+               SameText(AObjectName + '.',
                         Copy(ObjectNames[i], 1, Length(AObjectName)+1)) then
               AObject:= nil
             else if Assigned(FOnUnknownObject) then Abort // quiet exit after helper event
             else begin
-              WideMessageDlg(WideFormat(_(SObjectNotFound), [AObjectName]), mtError, [mbOK], 0);
+              Dialogs.MessageDlg(Format(_(SObjectNotFound), [AObjectName]), mtError, [mbOK], 0);
               Abort;
             end;
           end
@@ -721,25 +721,25 @@ begin
   end;
 end;
 
-function TParameterList.ReadParameterValue(var AText: PWideChar;
-                                           ASeparators: TSysCharSet): WideString;
+function TParameterList.ReadParameterValue(var AText: PChar;
+                                           ASeparators: TSysCharSet): string;
 (* reads parameter value *)
 begin
   (* parameter value is text and parameters *)
   if AText^ = '''' then
-    Result:= ReplaceInText(WideExtractQuotedStr(AText, ''''))
+    Result:= ReplaceInText(AnsiExtractQuotedStr(AText, ''''))
   (* parameter value is other parameter *)
-  else if WideStrIsLeft(AText, PWideChar(StartMask)) then begin
+  else if StrIsLeft(AText, PChar(StartMask)) then begin
     Inc(AText, Length(StartMask));
     Result:= ReadParameters(AText);
-    if WideStrIsLeft(AText, PWideChar(StopMask)) then
+    if StrIsLeft(AText, PChar(StopMask)) then
       Inc(AText, Length(StopMask));
   end
   (* parameter value is simple value *)
   else Result:= StrGetToken(AText, ASeparators, WhiteSpaces, ['''']);
 end;
 
-procedure TParameterList.RegisterModifier(const AName, Comment: WideString;
+procedure TParameterList.RegisterModifier(const AName, Comment: string;
   AFunc: TParameterFunction);
 (* registers parameter modifier - small name after the parameter,
    that can change parameter value - for example:
@@ -749,38 +749,38 @@ procedure TParameterList.RegisterModifier(const AName, Comment: WideString;
 *)
 begin
   if Modifiers.IndexOfName(AName) >= 0  then
-    raise Exception.CreateFmt(SDuplicateModifier, [AName]); 
+    raise Exception.CreateFmt(SDuplicateModifier, [AName]);
   Modifiers.AddObject(AName + '=' + Comment, TObject(@AFunc))
 end;
 
-procedure TParameterList.RegisterObject(const AName: WideString; AObject: TObject);
+procedure TParameterList.RegisterObject(const AName: string; AObject: TObject);
 begin
   ObjectNames.AddObject(AName, AObject);
 end;
 
-procedure TParameterList.RegisterParameter(const AName, AValue: WideString;
+procedure TParameterList.RegisterParameter(const AName, AValue: string;
   GetProc: TGetParameterProc);
 begin
   DoAddParameter(AName, AValue, GetProc);
 end;
 
 procedure TParameterList.RegisterProperty(const AObjectName,
-  APropertyName: WideString; GetProc: TObjectPropertyFunction = nil);
+  APropertyName: string; GetProc: TObjectPropertyFunction = nil);
 begin
   if not Assigned(GetProc) then GetProc:= GetPropertyValue;
   FProperties.AddObject(Concat(AObjectName, '.', APropertyName), TObject(@GetProc))
 end;
 
-function TParameterList.ReplaceInText(const AText: WideString): WideString;
+function TParameterList.ReplaceInText(const AText: string): string;
 (* replaces parameters in AText with their values *)
 var
-  PText, PParam: PWideChar;
-  AValue: WideString;
+  PText, PParam: PChar;
+  AValue: string;
 begin
   Result:= '';
-  PText:= PWideChar(AText);
+  PText:= PChar(AText);
   repeat
-    PParam:= WStrPos(PText, PWideChar(StartMask));
+    PParam:= StrPos(PText, PChar(StartMask));
     // maybe parameter is found
     if Assigned(PParam) then begin
       Result:= Result + Copy(PText, 1, PParam - PText);
@@ -805,10 +805,10 @@ begin
 end;
 
 function TParameterList.ReplaceInTextEx(const AText, AStartMask,
-  AStopMask: WideString): WideString;
+  AStopMask: string): string;
 (* like ReplaceInText, but uses different parameter start and stop masks *)
 var
-  OldStartMask, OldStopMask: WideString;
+  OldStartMask, OldStopMask: string;
 begin
   OldStartMask:= StartMask;
   OldStopMask:= StopMask;
@@ -822,33 +822,33 @@ begin
   end;
 end;
 
-procedure TParameterList.SetModifiers(const Value: TWideStrings);
+procedure TParameterList.SetModifiers(const Value: TStrings);
 begin
   FModifiers.Assign(Value);
 end;
 
-procedure TParameterList.SetObjectNames(const Value: TWideStrings);
+procedure TParameterList.SetObjectNames(const Value: TStrings);
 begin
   FObjectNames.Assign(Value);
 end;
 
-procedure TParameterList.SetProperties(const Value: TWideStrings);
+procedure TParameterList.SetProperties(const Value: TStrings);
 begin
   FProperties.Assign(Value);
 end;
 
-procedure TParameterList.SkipParameter(var AText: PWideChar);
+procedure TParameterList.SkipParameter(var AText: PChar);
 var
   Level: Integer;
   Delimiters: TSysCharSet;
 begin
   Delimiters:= [];
-  Include(Delimiters, Char(PWideChar(StartMask)^));
-  Include(Delimiters, Char(PWideChar(StopMask)^));
-  Level:= Ord(not WideStrIsLeft(AText, PWideChar(StartMask)));
+  Include(Delimiters, AnsiChar(StartMask[1]));
+  Include(Delimiters, AnsiChar(StopMask[1]));
+  Level:= Ord(not StrIsLeft(AText, PChar(StartMask)));
   repeat
-    if WideStrIsLeft(AText, PWideChar(StartMask)) then Inc(Level);
-    if WideStrIsLeft(AText, PWideChar(StopMask)) then begin
+    if StrIsLeft(AText, PChar(StartMask)) then Inc(Level);
+    if StrIsLeft(AText, PChar(StopMask)) then begin
       Dec(Level);
       if Level = 0 then Break;
     end;
@@ -857,26 +857,26 @@ begin
   if AText^ <> #0 then Inc(AText, Length(StopMask));
 end;
 
-procedure TParameterList.SkipParameterValue(var AText: PWideChar; ASeparators: TSysCharSet);
+procedure TParameterList.SkipParameterValue(var AText: PChar; ASeparators: TSysCharSet);
 begin
   (* parameter value is text and parameters *)
   if AText^ = '''' then
-    WideExtractQuotedStr(AText, '''')
+    AnsiExtractQuotedStr(AText, '''')
   (* parameter value is other parameter *)
-  else if WideStrIsLeft(AText, PWideChar(StartMask)) then
+  else if StrIsLeft(AText, PChar(StartMask)) then
     SkipParameter(AText)
   (* parameter value is simple value *)
   else begin
-    Include(ASeparators, Char(PWideChar(StopMask)^));
+    Include(ASeparators, AnsiChar(StopMask[1]));
     StrGetToken(AText, ASeparators, WhiteSpaces, ['''']);
   end;
 end;
 
-procedure TParameterList.Split(AIndex: Integer; var AName, AValue: WideString;
+procedure TParameterList.Split(AIndex: Integer; var AName, AValue: string;
   DoCalc: Boolean);
 var
   i, ui: Integer;
-  P: PWideChar;
+  P: PChar;
 begin
   // get parameter name and value
   AName:= Strings[AIndex];
@@ -903,17 +903,17 @@ begin
     else if (AValue <> '') then
       // parameter can point to other parameters
       if AValue[1] = '''' then begin
-        P:= PWideChar(AValue);
-        AValue:= ReplaceInText(WideExtractQuotedStr(P, ''''));
+        P:= PChar(AValue);
+        AValue:= ReplaceInText(AnsiExtractQuotedStr(P, ''''));
       end
-      else if WideStrIsLeft(PWideChar(AValue), PWideChar(StartMask)) then
+      else if StrIsLeft(PChar(AValue), PChar(StartMask)) then
         AValue:= CalcValue(Copy(AValue, Length(StartMask)+1, MaxInt));
   finally
     FUsedParameters.Delete(ui);
   end;
 end;
 
-procedure TParameterList.UnRegisterModifier(const AName: WideString);
+procedure TParameterList.UnRegisterModifier(const AName: string);
 (* unregisters parameter modifier *)
 var
   i: Integer;
@@ -924,7 +924,7 @@ begin
   end;
 end;
 
-procedure TParameterList.UnRegisterObject(const AName: WideString);
+procedure TParameterList.UnRegisterObject(const AName: string);
 (* unregisters parameter modifier *)
 var
   i: Integer;
@@ -935,13 +935,13 @@ begin
   end;
 end;
 
-procedure TParameterList.UnRegisterParameter(const AName: WideString);
+procedure TParameterList.UnRegisterParameter(const AName: string);
 begin
   DoRemoveParameter(AName);
 end;
 
 procedure TParameterList.UnRegisterProperty(const AObjectName,
-  APropertyName: WideString);
+  APropertyName: string);
 var
   i: Integer;
 begin
@@ -956,4 +956,3 @@ initialization
 finalization
   FreeAndNil(Parameters);
 end.
-

@@ -79,8 +79,7 @@ end;
 
 procedure TIDEDockWindow.FormCreate(Sender: TObject);
 begin
-  SetDesktopIconFonts(Self.Font);  // For Vista
-  SetVistaContentFonts(FGPanel.Font);
+  //SetVistaContentFonts(FGPanel.Font);
   FGPanel.ControlStyle := FGPanel.ControlStyle + [csOpaque];
 
   //FGPanelExit(Self);

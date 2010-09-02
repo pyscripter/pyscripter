@@ -79,7 +79,7 @@ uses
   SynEditKeyCmds,
 {$ENDIF}
   Classes,
-  SysUtils, SpTBXControls, TntStdCtrls, 
+  SysUtils, SpTBXControls, 
   SpTBXEditors, dlgPyIDEBase, SpTBXItem, SpTBXExtEditors,
   MPCommonObjects, EasyListview, SpTBXTabs, TB2Item;
 
@@ -1278,7 +1278,7 @@ end;
 procedure TfmEditorOptionsDialog.SynEdit1Click(Sender: TObject);
 var
   i, TokenType, Start: Integer;
-  Token: WideString;
+  Token: string;
   Attri: TSynHighlighterAttributes;
 begin
   SynEdit1.GetHighlighterAttriAtRowColEx(SynEdit1.CaretXY, Token,

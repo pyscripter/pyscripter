@@ -16,7 +16,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, frmIDEDockWin, JvComponentBase, JvDockControlForm, ExtCtrls,
   cProjectClasses, VirtualTrees, ImgList, Menus, TB2Item, SpTBXItem,
-  ActnList, TB2Dock, TB2Toolbar, ActiveX, TntActnList, WideStrings, SpTBXSkins;
+  ActnList, TB2Dock, TB2Toolbar, ActiveX, WideStrings, SpTBXSkins;
 
 type
   TProjectExplorerWindow = class(TIDEDockWindow)
@@ -69,30 +69,30 @@ type
     tbiCollapseAll: TSpTBXItem;
     tbiExpandAll: TSpTBXItem;
     mnShowFileExt: TSpTBXItem;
-    ImmutableProjectActionList: TTntActionList;
-    ProjectActionList: TTntActionList;
-    actProjectDebug: TTntAction;
-    actProjectExternalRun: TTntAction;
-    actProjectRun: TTntAction;
-    actProjectFileProperties: TTntAction;
-    actProjectEditRunConfig: TTntAction;
-    actProjectAddRunConfig: TTntAction;
-    actProjectImportDirectory: TTntAction;
-    actProjectAddActiveFile: TTntAction;
-    actProjectFileEdit: TTntAction;
-    actProjectRename: TTntAction;
-    actProjectRemove: TTntAction;
-    actProjectAddFolder: TTntAction;
-    actProjectAddFiles: TTntAction;
-    actProjectCollapseAll: TTntAction;
-    actProjectExpandAll: TTntAction;
-    actProjectShowFileExtensions: TTntAction;
-    actProjectRelativePaths: TTntAction;
-    actProjectSaveAs: TTntAction;
-    actProjectSave: TTntAction;
-    actProjectOpen: TTntAction;
-    actProjectNew: TTntAction;
-    actProjectExtraPythonPath: TTntAction;
+    ImmutableProjectActionList: TActionList;
+    ProjectActionList: TActionList;
+    actProjectDebug: TAction;
+    actProjectExternalRun: TAction;
+    actProjectRun: TAction;
+    actProjectFileProperties: TAction;
+    actProjectEditRunConfig: TAction;
+    actProjectAddRunConfig: TAction;
+    actProjectImportDirectory: TAction;
+    actProjectAddActiveFile: TAction;
+    actProjectFileEdit: TAction;
+    actProjectRename: TAction;
+    actProjectRemove: TAction;
+    actProjectAddFolder: TAction;
+    actProjectAddFiles: TAction;
+    actProjectCollapseAll: TAction;
+    actProjectExpandAll: TAction;
+    actProjectShowFileExtensions: TAction;
+    actProjectRelativePaths: TAction;
+    actProjectSaveAs: TAction;
+    actProjectSave: TAction;
+    actProjectOpen: TAction;
+    actProjectNew: TAction;
+    actProjectExtraPythonPath: TAction;
     SpTBXSeparatorItem12: TSpTBXSeparatorItem;
     mnProjectNew: TSpTBXItem;
     mnProjectOpen: TSpTBXItem;
@@ -101,7 +101,7 @@ type
     mnExtraPythonPath: TSpTBXItem;
     procedure FormCreate(Sender: TObject);
     procedure ExplorerTreeGetText(Sender: TBaseVirtualTree; Node: PVirtualNode;
-      Column: TColumnIndex; TextType: TVSTTextType; var CellText: WideString);
+      Column: TColumnIndex; TextType: TVSTTextType; var CellText: string);
     procedure ExplorerTreeInitChildren(Sender: TBaseVirtualTree;
       Node: PVirtualNode; var ChildCount: Cardinal);
     procedure ExplorerTreeInitNode(Sender: TBaseVirtualTree; ParentNode,
@@ -115,7 +115,7 @@ type
       Column: TColumnIndex; var Allowed: Boolean);
     procedure actProjectAddFolderExecute(Sender: TObject);
     procedure ExplorerTreeNewText(Sender: TBaseVirtualTree; Node: PVirtualNode;
-      Column: TColumnIndex; NewText: WideString);
+      Column: TColumnIndex; NewText: string);
     procedure actProjectAddFilesExecute(Sender: TObject);
     procedure actProjectRenameExecute(Sender: TObject);
     procedure ExplorerTreeGetImageIndex(Sender: TBaseVirtualTree;
@@ -135,7 +135,7 @@ type
     procedure actProjectFilePropertiesExecute(Sender: TObject);
     procedure ExplorerTreeGetHint(Sender: TBaseVirtualTree; Node: PVirtualNode;
       Column: TColumnIndex; var LineBreakStyle: TVTTooltipLineBreakStyle;
-      var HintText: WideString);
+      var HintText: string);
     procedure actProjectEditRunConfigExecute(Sender: TObject);
     procedure actProjectExternalRunExecute(Sender: TObject);
     procedure actProjectRunExecute(Sender: TObject);
@@ -160,8 +160,8 @@ type
     procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
   public
     { Public declarations }
-    FileImageList: TWideStringList;
-    procedure DoOpenProjectFile(FileName : WideString);
+    FileImageList: TStringList;
+    procedure DoOpenProjectFile(FileName : string);
     function DoSave: boolean;
     function DoSaveFile: boolean;
     function DoSaveAs: boolean;
@@ -179,8 +179,8 @@ implementation
 uses dmCommands, StringResources, uEditAppIntfs,
   frmPyIDEMain, uCommonFunctions, JvAppIniStorage, JvAppStorage, JclFileUtils,
   dlgImportDirectory, JclShell, dlgRunConfiguration, cPyBaseDebugger,
-  cParameters, MPDataObject, JvJVCLUtils, TntDialogs,
-  TntSysUtils, gnugettext, uHighlighterProcs, dlgDirectoryList;
+  cParameters, MPDataObject, JvJVCLUtils,
+  gnugettext, uHighlighterProcs, dlgDirectoryList;
 
 {$R *.dfm}
 
@@ -373,9 +373,9 @@ end;
 procedure TProjectExplorerWindow.actProjectExtraPythonPathExecute(
   Sender: TObject);
 var
-  Paths: TWideStrings;
+  Paths: TStrings;
 begin
-  Paths := TWideStringList.Create;
+  Paths := TStringList.Create;
   Paths.Assign(ActiveProject.ExtraPythonPath);
   try
     if EditFolderList(Paths, _(SProjectPythonPath), 0) then begin
@@ -463,7 +463,7 @@ begin
       then
         InitialDir := ExtractFileDir(Editor.FileName);
 
-      if Execute then 
+      if Execute then
         DoOpenProjectFile(FileName);
     end;
   end;
@@ -570,7 +570,7 @@ function TProjectExplorerWindow.CanClose: boolean;
 begin
   Result := not ActiveProject.Modified;
   if not Result then begin
-    case WideMessageDlg(_(SAskSaveProject), mtConfirmation, [mbYes, mbNo, mbCancel], 0) of
+    case Dialogs.MessageDlg(_(SAskSaveProject), mtConfirmation, [mbYes, mbNo, mbCancel], 0) of
       mrYes : Result := DoSave;
       mrNo  : Result := True;
       mrCancel :  Result := False;
@@ -598,7 +598,7 @@ begin
   actProjectShowFileExtensions.Checked := ActiveProject.ShowFileExtensions;
 end;
 
-procedure TProjectExplorerWindow.DoOpenProjectFile(FileName : WideString);
+procedure TProjectExplorerWindow.DoOpenProjectFile(FileName : string);
 var
   AppStorage: TJvAppIniFileStorage;
 begin
@@ -629,20 +629,20 @@ end;
 
 function TProjectExplorerWindow.DoSaveAs: boolean;
 var
-  NewName: WideString;
+  NewName: string;
 begin
   NewName := ActiveProject.FileName;
   if NewName = '' then
     NewName := ActiveProject.Name;
 
-  if  WideExtractFileExt(NewName) = '' then
+  if  ExtractFileExt(NewName) = '' then
     NewName := NewName + '.' + ProjectDefaultExtension;
 
   with CommandsDataModule.dlgFileSave do begin
     if NewName <> '' then begin
-      InitialDir := WideExtractFileDir(NewName);
-      FileName := WideExtractFileName(NewName);
-      Title := WideFormat(_(SSaveProjectFileAs), [FileName]);
+      InitialDir := ExtractFileDir(NewName);
+      FileName := ExtractFileName(NewName);
+      Title := Format(_(SSaveProjectFileAs), [FileName]);
     end else begin
       InitialDir := '';
       FileName := '';
@@ -670,12 +670,12 @@ Var
 begin
   // Create Backup
   if CommandsDataModule.PyIDEOptions.CreateBackupFiles and
-    WideFileExists(ActiveProject.FileName) then
+    FileExists(ActiveProject.FileName) then
   begin
     try
       FileBackup(ActiveProject.FileName);
     except
-      WideMessageDlg(WideFormat(_(SFailedToBackupProject), [ActiveProject.FileName]),
+      Dialogs.MessageDlg(Format(_(SFailedToBackupProject), [ActiveProject.FileName]),
         mtWarning, [mbOK], 0);
     end;
   end;
@@ -698,7 +698,7 @@ begin
     ExplorerTree.ReinitNode(ExplorerTree.RootNode, False);
   except
     on E: Exception do begin
-      WideMessageDlg(WideFormat(_(SErrorInSavingProject) + sLineBreak +
+      Dialogs.MessageDlg(Format(_(SErrorInSavingProject) + sLineBreak +
           'Error: %s', [ActiveProject.FileName, E.Message]), mtError, [mbOK], 0);
       Result := False;
     end;
@@ -848,7 +848,7 @@ Var
   FileNode : TProjectFileNode;
   i: Integer;
   CommonHDrop : TCommonHDrop;
-  FileName : WideString;
+  FileName : string;
   SelectedNodes : TNodeArray;
   SelectedNode : TAbstractProjectNode;
   CanMove : Boolean;
@@ -914,7 +914,7 @@ begin
                   ImportDirectory(FileName,
                     CommandsDataModule.PyIDEOptions.PythonFileExtensions,
                     True)
-                else if WideFileExists(FileName) then begin
+                else if FileExists(FileName) then begin
                   if not Assigned(FileChild[FileName]) then begin
                     FileNode := TProjectFileNode.Create;
                     FileNode.FileName := FileName;
@@ -972,7 +972,7 @@ end;
 
 procedure TProjectExplorerWindow.ExplorerTreeGetHint(Sender: TBaseVirtualTree;
   Node: PVirtualNode; Column: TColumnIndex;
-  var LineBreakStyle: TVTTooltipLineBreakStyle; var HintText: WideString);
+  var LineBreakStyle: TVTTooltipLineBreakStyle; var HintText: string);
 var
   Data: PNodeDataRec;
 begin
@@ -998,9 +998,9 @@ procedure TProjectExplorerWindow.ExplorerTreeGetImageIndex(
   Column: TColumnIndex; var Ghosted: Boolean; var ImageIndex: Integer);
 var
   Data : PNodeDataRec;
-  Extension : WideString;
+  Extension : string;
   Index, ImgIndex : Integer;
-  FileName : WideString;
+  FileName : string;
 begin
   if not (Kind in [ikNormal, ikSelected]) then Exit;
   ImageIndex := -1;
@@ -1015,10 +1015,10 @@ begin
     ImageIndex := 3
   else if Data.ProjectNode is TProjectFileNode then begin
     FileName := TProjectFileNode(Data.ProjectNode).FileName;
-    Extension := WideExtractFileExt(FileName);
+    Extension := ExtractFileExt(FileName);
     Index := FileImageList.IndexOf(Extension);
     if Index < 0 then begin
-      if (Extension <> '') and WideFileExists(FileName) then begin
+      if (Extension <> '') and FileExists(FileName) then begin
         ImgIndex := GetIconIndexFromFile(FileName, True);
         if ImgIndex >= 0 then begin
           ImageIndex :=
@@ -1034,7 +1034,7 @@ end;
 
 procedure TProjectExplorerWindow.ExplorerTreeGetText(Sender: TBaseVirtualTree;
   Node: PVirtualNode; Column: TColumnIndex; TextType: TVSTTextType;
-  var CellText: WideString);
+  var CellText: string);
 var
   Data : PNodeDataRec;
 begin
@@ -1077,7 +1077,7 @@ begin
 end;
 
 procedure TProjectExplorerWindow.ExplorerTreeNewText(Sender: TBaseVirtualTree;
-  Node: PVirtualNode; Column: TColumnIndex; NewText: WideString);
+  Node: PVirtualNode; Column: TColumnIndex; NewText: string);
 var
   Data, ParentData : PNodeDataRec;
   ModifiedText : Boolean;
@@ -1120,7 +1120,7 @@ begin
   inherited;
   // Let the tree know how much data space we need.
   ExplorerTree.NodeDataSize := SizeOf(TNodeDataRec);
-  FileImageList := TWideStringList.Create;
+  FileImageList := TStringList.Create;
   FileImageList.Sorted := True;
   FileImageList.Duplicates := dupError;
 

@@ -53,7 +53,7 @@ type
 
   TSearchOptions = set of TSearchOption;
 
-  TFoundEvent = procedure(Sender: TObject; LineNo: Integer; const Line: WideString; SPos, EPos: Integer) of object;
+  TFoundEvent = procedure(Sender: TObject; LineNo: Integer; const Line: string; SPos, EPos: Integer) of object;
 
 //  ELineTooLong = class(Exception);
 
@@ -64,24 +64,24 @@ type
     FOnFound: TFoundEvent;
     FOnStartSearch: TNotifyEvent;
     procedure SignalStartSearch; virtual;
-    procedure SignalFoundMatch(LineNo: Integer; const Line: WideString; SPos, EPos: Integer); virtual;
+    procedure SignalFoundMatch(LineNo: Integer; const Line: string; SPos, EPos: Integer); virtual;
   protected
-    BLine: WideString; // The current search line,
+    BLine: string; // The current search line,
     FLineNo: Integer;
     fSearchLines : TUnicodeStrings;
     FNoComments: Boolean;
     FSearchOptions: TSearchOptions;
-    FPattern: WideString;
-    FFileName: WideString;
+    FPattern: string;
+    FFileName: string;
     FRegExpr : TRegExpr;
     procedure DoSearch;
     procedure PatternMatch;
   public
     constructor Create;
     destructor Destroy; override;
-    procedure SetPattern(const Value: WideString);
+    procedure SetPattern(const Value: string);
     property NoComments: Boolean read FNoComments write FNoComments;
-    property Pattern: WideString read FPattern write SetPattern;
+    property Pattern: string read FPattern write SetPattern;
     property SearchOptions: TSearchOptions read FSearchOptions write FSearchOptions;
     property OnFound: TFoundEvent read FOnFound write FOnFound;
     property OnStartSearch: TNotifyEvent read FOnStartSearch write FOnStartSearch;
@@ -91,27 +91,26 @@ type
   private
     procedure Reset;
   protected
-    procedure SetFileName(const Value: WideString);
+    procedure SetFileName(const Value: string);
   protected
   public
-    constructor Create(const SearchFileName: WideString);
+    constructor Create(const SearchFileName: string);
     procedure Execute;
-  published
-    property FileName: WideString read FFileName write SetFileName;
+    property FileName: string read FFileName write SetFileName;
   end;
 
 implementation
 
 uses
   Windows, uEditAppIntfs, StringResources,
-  TntSysUtils, uCommonFunctions, WideStrUtils, gnugettext;
+  uCommonFunctions, WideStrUtils, gnugettext;
 
 const
   SearchLineSize = 1024;
 
 { TSearcher }
 
-constructor TSearcher.Create(const SearchFileName: WideString);
+constructor TSearcher.Create(const SearchFileName: string);
 begin
   inherited Create;
 
@@ -119,14 +118,14 @@ begin
     SetFileName(SearchFileName);
 end;
 
-procedure TSearcher.SetFileName(const Value: WideString);
+procedure TSearcher.SetFileName(const Value: string);
 
   function GetFileInterface: Boolean;
   var
     Encoding : TFileSaveFormat;
   begin
     Result := False;
-    if not WideFileExists(FFileName) then
+    if not FileExists(FFileName) then
       Exit;
     Result := LoadFileIntoWideStrings(fFileName, fSearchLines, Encoding);
   end;
@@ -219,7 +218,7 @@ begin
   end;
 end;
 
-procedure TBaseSearcher.SetPattern(const Value: WideString);
+procedure TBaseSearcher.SetPattern(const Value: string);
 begin
   fPattern := Value;
   if soRegEx in SearchOptions then begin
@@ -312,7 +311,7 @@ begin
     FOnStartSearch(Self);
 end;
 
-procedure TBaseSearcher.SignalFoundMatch(LineNo: Integer; const Line: WideString;
+procedure TBaseSearcher.SignalFoundMatch(LineNo: Integer; const Line: string;
   SPos, EPos: Integer);
 begin
   if Assigned(FOnFound) then
@@ -320,6 +319,4 @@ begin
 end;
 
 end.
-
-
 

@@ -13,8 +13,8 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Controls, Forms,
   Dialogs, StdCtrls,
-  SynEdit, ActnList, cFileTemplates, SpTBXControls, TntActnList,
-  dlgPyIDEBase, TntStdCtrls, SpTBXEditors, SpTBXItem, EasyListview,
+  SynEdit, ActnList, cFileTemplates, SpTBXControls,
+  dlgPyIDEBase, SpTBXEditors, SpTBXItem, EasyListview,
   MPCommonObjects, MPCommonUtilities;
 
 type
@@ -34,12 +34,12 @@ type
     btnCancel: TSpTBXButton;
     btnOK: TSpTBXButton;
     btnHelp: TSpTBXButton;
-    ActionList: TTntActionList;
-    actUpdateItem: TTntAction;
-    actMoveDown: TTntAction;
-    actMoveUp: TTntAction;
-    actDeleteItem: TTntAction;
-    actAddItem: TTntAction;
+    ActionList: TActionList;
+    actUpdateItem: TAction;
+    actMoveDown: TAction;
+    actMoveUp: TAction;
+    actDeleteItem: TAction;
+    actAddItem: TAction;
     Label1: TSpTBXLabel;
     Label2: TSpTBXLabel;
     Label5: TSpTBXLabel;
@@ -75,7 +75,7 @@ type
 
 implementation
 
-uses dmCommands, SynEditHighlighter, gnugettext, StringResources, TntDialogs;
+uses dmCommands, SynEditHighlighter, gnugettext, StringResources;
 
 {$R *.dfm}
 
@@ -103,7 +103,7 @@ end;
 
 procedure TFileTemplatesDialog.edNameKeyPress(Sender: TObject; var Key: Char);
 begin
-  if not (Key in ['a'..'z', 'A'..'Z', '0'..'9', #8]) then
+  if not CharInSet(Key, ['a'..'z', 'A'..'Z', '0'..'9', #8]) then
     Key := #0;
   inherited;
 end;
@@ -205,7 +205,7 @@ begin
          (CompareText(lvItems.Items[i].Captions[1], edCategory.Text) = 0) and
          (i <> lvItems.Selection.First.Index) then
       begin
-        WideMessageDlg(_(SSameName), mtError, [mbOK], 0);
+        Dialogs.MessageDlg(_(SSameName), mtError, [mbOK], 0);
         Exit;
       end;
     with lvItems.Items[lvItems.Selection.First.Index] do begin
@@ -261,7 +261,7 @@ end;
 
 procedure TFileTemplatesDialog.actMoveUpExecute(Sender: TObject);
 Var
-  Name, Value : WideString;
+  Name, Value : string;
   P : Pointer;
   Index : integer;
 begin
@@ -287,7 +287,7 @@ end;
 
 procedure TFileTemplatesDialog.actMoveDownExecute(Sender: TObject);
 Var
-  Name, Value : WideString;
+  Name, Value : string;
   P : Pointer;
   Index : integer;
 begin

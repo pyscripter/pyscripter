@@ -593,11 +593,11 @@ inherited PrintPreviewDlg: TPrintPreviewDlg
       0000800040002000100000000000800040002000100000008001C000E0007000
       3000000000000000000000000000000000000000000000000000}
   end
-  object ActionList: TTntActionList
+  object ActionList: TActionList
     Images = ImageList
     Left = 272
     Top = 175
-    object FirstCmd: TTntAction
+    object FirstCmd: TAction
       Caption = 'First'
       Hint = 'First|Go to first page'
       ImageIndex = 0
@@ -605,7 +605,7 @@ inherited PrintPreviewDlg: TPrintPreviewDlg
       OnExecute = FirstCmdExecute
       OnHint = ProcessHint
     end
-    object PrevCmd: TTntAction
+    object PrevCmd: TAction
       Caption = 'Previous'
       Hint = 'Previous|Go to previous page'
       ImageIndex = 1
@@ -613,7 +613,7 @@ inherited PrintPreviewDlg: TPrintPreviewDlg
       OnExecute = PrevCmdExecute
       OnHint = ProcessHint
     end
-    object NextCmd: TTntAction
+    object NextCmd: TAction
       Caption = 'Next'
       Hint = 'Next|Go to next page'
       ImageIndex = 2
@@ -621,7 +621,7 @@ inherited PrintPreviewDlg: TPrintPreviewDlg
       OnExecute = NextCmdExecute
       OnHint = ProcessHint
     end
-    object LastCmd: TTntAction
+    object LastCmd: TAction
       Caption = 'Last'
       Hint = 'Last|Go to last page'
       ImageIndex = 3
@@ -629,7 +629,7 @@ inherited PrintPreviewDlg: TPrintPreviewDlg
       OnExecute = LastCmdExecute
       OnHint = ProcessHint
     end
-    object ZoomCmd: TTntAction
+    object ZoomCmd: TAction
       Caption = 'Zoom'
       Hint = 'Zoom|Zoom In/Out'
       ImageIndex = 4
@@ -637,7 +637,7 @@ inherited PrintPreviewDlg: TPrintPreviewDlg
       OnExecute = ZoomCmdExecute
       OnHint = ProcessHint
     end
-    object PrintCmd: TTntAction
+    object PrintCmd: TAction
       Caption = 'Print'
       Hint = 'Print|Print the document'
       ImageIndex = 5
@@ -645,7 +645,7 @@ inherited PrintPreviewDlg: TPrintPreviewDlg
       OnExecute = PrintCmdExecute
       OnHint = ProcessHint
     end
-    object CloseCmd: TTntAction
+    object CloseCmd: TAction
       Caption = 'Close'
       Hint = 'Close|Close Print Preview'
       ImageIndex = 6

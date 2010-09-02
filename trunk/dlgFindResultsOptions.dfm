@@ -6,11 +6,10 @@ inherited FindResultsOptionsDialog: TFindResultsOptionsDialog
   Caption = 'Find in Files Options'
   ClientHeight = 307
   ClientWidth = 307
-  Font.Name = 'MS Shell Dlg 2'
   Position = poScreenCenter
   Scaled = False
   ExplicitWidth = 313
-  ExplicitHeight = 333
+  ExplicitHeight = 335
   PixelsPerInch = 96
   TextHeight = 13
   object SpTBXPanel1: TSpTBXPanel
@@ -35,9 +34,6 @@ inherited FindResultsOptionsDialog: TFindResultsOptionsDialog
       Align = alTop
       TabOrder = 0
       TBXStyleBackground = True
-      ExplicitLeft = 2
-      ExplicitTop = 8
-      ExplicitWidth = 301
       object chkGrepMiddle: TSpTBXCheckBox
         Left = 12
         Top = 36
@@ -95,8 +91,8 @@ inherited FindResultsOptionsDialog: TFindResultsOptionsDialog
         Top = 118
         Width = 54
         Height = 21
-        TabOrder = 2
         Alignment = taLeftJustify
+        TabOrder = 2
         SpinButton.Left = 35
         SpinButton.Top = 0
         SpinButton.Width = 15

@@ -21,11 +21,11 @@ Type
     procedure ReadFromAppStorage(AppStorage: TJvCustomAppStorage; const BasePath: string);
     procedure WriteToAppStorage(AppStorage: TJvCustomAppStorage; const BasePath: string);
   public
-    Name: WideString;
-    Template: WideString;
-    Extension: WideString;
-    Category: WideString;
-    Highlighter : WideString;
+    Name: string;
+    Template: string;
+    Extension: string;
+    Category: string;
+    Highlighter : string;
     procedure Assign(Source: TPersistent); override;
   end;
 
@@ -38,7 +38,7 @@ Type
     procedure AddXMLTemplate;
     procedure AddPlainTextTemplate;
     procedure Assign(Source: TFileTemplates);
-    function TemplateByName(const Name : WideString) : TFileTemplate;
+    function TemplateByName(const Name : string) : TFileTemplate;
   end;
 
 var
@@ -46,7 +46,7 @@ var
 
 implementation
 
-uses StringResources, gnugettext;
+uses StringResources, gnugettext, WideStrings;
 
 { TFileTemplate }
 
@@ -67,14 +67,14 @@ procedure TFileTemplate.ReadFromAppStorage(AppStorage: TJvCustomAppStorage;
 Var
   SL : TStringList;
 begin
-  Name := AppStorage.ReadWideString(BasePath+'\Name', '');
-  Highlighter := AppStorage.ReadWideString(BasePath+'\Highlighter', '');
-  Extension := AppStorage.ReadWideString(BasePath+'\Extension', '');
-  Category := AppStorage.ReadWideString(BasePath+'\Category', '');
+  Name := AppStorage.ReadString(BasePath+'\Name', '');
+  Highlighter := AppStorage.ReadString(BasePath+'\Highlighter', '');
+  Extension := AppStorage.ReadString(BasePath+'\Extension', '');
+  Category := AppStorage.ReadString(BasePath+'\Category', '');
   SL := TStringList.Create;
   try
     AppStorage.ReadStringList(BasePath+'\Template', SL);
-    Template := UTF8Decode(SL.Text);
+    Template := SL.Text;
   finally
     SL.Free;
   end;
@@ -85,13 +85,13 @@ procedure TFileTemplate.WriteToAppStorage(AppStorage: TJvCustomAppStorage;
 Var
   SL : TStringList;
 begin
-  AppStorage.WriteWideString(BasePath+'\Name', Name);
-  AppStorage.WriteWideString(BasePath+'\Highlighter', Highlighter);
-  AppStorage.WriteWideString(BasePath+'\Extension', Extension);
-  AppStorage.WriteWideString(BasePath+'\Category', Category);
+  AppStorage.WriteString(BasePath+'\Name', Name);
+  AppStorage.WriteString(BasePath+'\Highlighter', Highlighter);
+  AppStorage.WriteString(BasePath+'\Extension', Extension);
+  AppStorage.WriteString(BasePath+'\Category', Category);
   SL := TStringList.Create;
   try
-    SL.Text := UTF8Encode(Template);
+    SL.Text := Template;
     AppStorage.WriteStringList(BasePath+'\Template', SL);
   finally
     SL.Free;
@@ -185,7 +185,7 @@ begin
   Result := TFileTemplate.Create;
 end;
 
-function TFileTemplates.TemplateByName(const Name: WideString): TFileTemplate;
+function TFileTemplates.TemplateByName(const Name: string): TFileTemplate;
 var
   i: Integer;
 begin

@@ -4,10 +4,9 @@ inherited CommandLineDlg: TCommandLineDlg
   Caption = 'Command Line Parameters'
   ClientHeight = 150
   ClientWidth = 446
-  Font.Name = 'MS Shell Dlg 2'
   OnDestroy = FormDestroy
   ExplicitWidth = 452
-  ExplicitHeight = 176
+  ExplicitHeight = 178
   PixelsPerInch = 96
   TextHeight = 13
   object Panel: TSpTBXPanel
@@ -124,7 +123,7 @@ inherited CommandLineDlg: TCommandLineDlg
   end
   object TBXPopupHistory: TSpTBXPopupMenu
     OnPopup = TBXPopupHistoryPopup
-    Left = 424
+    Left = 392
     Top = 96
     object EmptyHistoryPopupItem: TSpTBXItem
       Caption = '(Empty History)'

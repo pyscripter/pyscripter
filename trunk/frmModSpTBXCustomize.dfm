@@ -49,7 +49,6 @@ inherited SpTBXCustomizeFormMod: TSpTBXCustomizeFormMod
         Top = 26
         Width = 148
         Height = 188
-        ItemHeight = 16
         Sorted = True
         TabOrder = 4
         OnClick = lbCategoriesClick

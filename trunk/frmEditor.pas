@@ -28,10 +28,10 @@ type
     SynEdit : TSynEdit;
     HaveHotIdent : boolean;
     IdentArea : TRect;
-    Ident : WideString;
-    DottedIdent : WideString;
+    Ident : string;
+    DottedIdent : string;
     StartCoord : TBufferCoord;
-    SynToken: WideString;
+    SynToken: string;
     SynAttri: TSynHighlighterAttributes;
   end;
 
@@ -57,7 +57,7 @@ type
     procedure SynEditMouseMove(Sender: TObject; Shift: TShiftState; X,
       Y: Integer);
     procedure SynParamCompletionExecute(Kind: SynCompletionType;
-      Sender: TObject; var CurrentInput: Widestring; var x, y: Integer;
+      Sender: TObject; var CurrentInput: string; var x, y: Integer;
       var CanExecute: Boolean);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
@@ -87,7 +87,7 @@ type
     procedure SynEditKeyUp(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure SynCodeCompletionExecute(Kind: SynCompletionType;
-      Sender: TObject; var CurrentInput: WideString; var x, y: Integer;
+      Sender: TObject; var CurrentInput: string; var x, y: Integer;
       var CanExecute: Boolean);
     procedure SynEditMouseWheelDown(Sender: TObject; Shift: TShiftState;
       MousePos: TPoint; var Handled: Boolean);
@@ -96,9 +96,9 @@ type
     procedure EditorViewsChange(Sender: TObject);
     procedure SynCodeCompletionClose(Sender: TObject);
     procedure SynWebCompletionExecute(Kind: SynCompletionType; Sender: TObject;
-      var CurrentInput: WideString; var x, y: Integer; var CanExecute: Boolean);
+      var CurrentInput: string; var x, y: Integer; var CanExecute: Boolean);
     procedure SynWebCompletionAfterCodeCompletion(Sender: TObject;
-      const Value: WideString; Shift: TShiftState; Index: Integer;
+      const Value: string; Shift: TShiftState; Index: Integer;
       EndToken: WideChar);
     procedure mnUpdateViewClick(Sender: TObject);
     procedure ViewsTabControlContextPopup(Sender: TObject; MousePos: TPoint;
@@ -168,15 +168,15 @@ type
     function GetSynEdit2 : TSynEdit;
     function GetActiveSynEdit : TSynEdit;
     function GetBreakPoints : TObjectList;
-    function GetEditorState: WideString;
-    function GetFileName: WideString;
-    function GetFileTitle: WideString;
-    function GetFileNameOrTitle: WideString;
+    function GetEditorState: string;
+    function GetFileName: string;
+    function GetFileTitle: string;
+    function GetFileNameOrTitle: string;
     function GetModified: boolean;
     function GetFileEncoding : TFileSaveFormat;
     procedure SetFileEncoding(FileEncoding : TFileSaveFormat);
-    function GetEncodedText : string;
-    procedure OpenFile(const AFileName: WideString; HighlighterName : WideString = '');
+    function GetEncodedText : AnsiString;
+    procedure OpenFile(const AFileName: string; HighlighterName : string = '');
     function HasPythonFile : Boolean;
     procedure ExecuteSelection;
     procedure SplitEditorHorizontally;
@@ -221,7 +221,7 @@ type
     procedure ExecFindPrev;
     procedure ExecReplace;
   private
-    fFileName: WideString;
+    fFileName: string;
     fForm: TEditorForm;
     fHasSelection: boolean;
     fIsReadOnly: boolean;
@@ -229,8 +229,8 @@ type
     fFileEncoding : TFileSaveFormat;
     function IsEmpty : Boolean;
     constructor Create(AForm: TEditorForm);
-    procedure DoSetFileName(AFileName: WideString);
-    function GetEncodedTextEx(var EncodedText: string;
+    procedure DoSetFileName(AFileName: string);
+    function GetEncodedTextEx(var EncodedText: AnsiString;
       InformationLossWarning: Boolean) : Boolean;
   end;
 
@@ -247,9 +247,9 @@ uses
   frmWatches, PythonEngine, 
   SynEditTextBuffer, cPyDebugger, dlgPickList, JvDockControlForm,
   uSearchHighlighter, VirtualShellNotifier,
-  SynHighlighterWebMisc, SynHighlighterWeb, TntSysUtils, gnugettext, TntDialogs,
+  SynHighlighterWebMisc, SynHighlighterWeb, gnugettext,
   SynUnicode, WideStrings, WideStrUtils, frmIDEDockWin, SynRegExpr,
-  SynEditMiscProcs;
+  SynEditMiscProcs, JclStrings;
 
 const
   WM_DELETETHIS  =  WM_USER + 42;
@@ -449,7 +449,7 @@ begin
   end;
 end;
 
-procedure TEditor.DoSetFileName(AFileName: WideString);
+procedure TEditor.DoSetFileName(AFileName: string);
 begin
   if AFileName <> fFileName then begin
     fFileName := AFileName;
@@ -458,8 +458,8 @@ begin
       fUntitledNumber := -1;
     end;
     //  Kernel change notification
-    if (fFileName <> '') and WideFileExists(fFileName) then
-      ChangeNotifier.NotifyWatchFolder(fForm, WideExtractFileDir(fFileName))
+    if (fFileName <> '') and FileExists(fFileName) then
+      ChangeNotifier.NotifyWatchFolder(fForm, ExtractFileDir(fFileName))
     else
       ChangeNotifier.NotifyWatchFolder(fForm, '');
   end;
@@ -496,7 +496,7 @@ begin
     Result := Point(-1, -1);
 end;
 
-function TEditor.GetEditorState: WideString;
+function TEditor.GetEditorState: string;
 begin
   if fForm <> nil then begin
     if fForm.SynEdit.ReadOnly then
@@ -509,27 +509,27 @@ begin
     Result := '';
 end;
 
-function TEditor.GetEncodedText: string;
+function TEditor.GetEncodedText: AnsiString;
 begin
   GetEncodedTextEx(Result, False);
 end;
 
-function TEditor.GetEncodedTextEx(var EncodedText: string;
+function TEditor.GetEncodedTextEx(var EncodedText: AnsiString;
   InformationLossWarning: Boolean) : Boolean;
 begin
   Result := WideStringsToEncodedText(GetFileNameOrTitle, fForm.SynEdit.Lines,
     fFileEncoding, EncodedText, InformationLossWarning);
 end;
 
-function TEditor.GetFileName: WideString;
+function TEditor.GetFileName: string;
 begin
   Result := fFileName;
 end;
 
-function TEditor.GetFileTitle: WideString;
+function TEditor.GetFileTitle: string;
 begin
   if fFileName <> '' then
-    Result := WideExtractFileName(fFileName)
+    Result := ExtractFileName(fFileName)
   else begin
     if fUntitledNumber = -1 then
       fUntitledNumber := CommandsDataModule.GetUntitledNumber;
@@ -540,7 +540,7 @@ begin
   end;
 end;
 
-function TEditor.GetFileNameOrTitle: WideString;
+function TEditor.GetFileNameOrTitle: string;
 begin
   if fFileName <> '' then
     Result := fFileName
@@ -592,16 +592,21 @@ begin
   end;
 end;
 
-procedure TEditor.OpenFile(const AFileName: WideString; HighlighterName : WideString = '');
+procedure TEditor.OpenFile(const AFileName: string; HighlighterName : string = '');
 begin
   DoSetFileName(AFileName);
 
   if fForm <> nil then begin
-    if (AFileName <> '') and WideFileExists(AFileName) then begin
-      if LoadFileIntoWideStrings(AFileName, fForm.SynEdit.Lines, fFileEncoding) then begin
-        FileTimeLastWriteRaw(AFileName, fForm.FileTime)
-      end else
-        Abort;
+    if (AFileName <> '') and FileExists(AFileName) then begin
+      fForm.SynEdit2.RemoveLinesPointer;
+      try
+        if LoadFileIntoWideStrings(AFileName, fForm.SynEdit.Lines, fFileEncoding) then begin
+          FileTimeLastWriteRaw(AFileName, fForm.FileTime)
+        end else
+          Abort;
+      finally
+        fForm.SynEdit2.SetLinesPointer(fForm.SynEdit);
+      end;
     end else begin
       fForm.SynEdit.Lines.Clear;
       if AFileName = '' then begin
@@ -710,7 +715,7 @@ Var
   P : TBufferCoord;
 begin
   if Quiet or not GetModified or
-    (WideMessageDlg(_(SFileReloadingWarning), mtWarning, [mbYes, mbNo], 0) = mrYes)
+    (Dialogs.MessageDlg(_(SFileReloadingWarning), mtWarning, [mbYes, mbNo], 0) = mrYes)
   then begin
     P := GetSynedit.CaretXY;
     OpenFile(GetFileName);
@@ -733,9 +738,9 @@ end;
 
 procedure TEditor.ExecuteSelection;
 var
-  EncodedSource: string;
+  EncodedSource: AnsiString;
   ExecType : string;
-  Source, LeadWhiteSpace : WideString;
+  Source, LeadWhiteSpace : string;
   Editor : TSynEdit;
   RegExpr : TRegExpr;
 begin
@@ -763,7 +768,7 @@ begin
     if Editor.BlockBegin.Line = Editor.BlockEnd.Line then
       ExecType := 'single'
     else
-      Source := Source + WideLineBreak;  // issue 291
+      Source := Source + sLineBreak;  // issue 291
   end;
 
   // Dedent the selection
@@ -783,7 +788,7 @@ begin
 
   ShowDockForm(PythonIIForm);
   PythonIIForm.SynEdit.ExecuteCommand(ecEditorBottom, ' ', nil);
-  PythonIIForm.AppendText(WideLineBreak);
+  PythonIIForm.AppendText(sLineBreak);
   Source := CleanEOLs(Source);
   EncodedSource := UTF8BOMString + Utf8Encode(Source);
 
@@ -936,8 +941,8 @@ type
     procedure CloseAll;
     function CreateTabSheet(AOwner: TSpTBXTabControl): IEditor;
     function GetEditorCount: integer;
-    function GetEditorByName(const Name : WideString): IEditor;
-    function GetEditorByNameOrTitle(const Name : WideString): IEditor;
+    function GetEditorByName(const Name : string): IEditor;
+    function GetEditorByNameOrTitle(const Name : string): IEditor;
     function GetEditor(Index: integer): IEditor;
     procedure RemoveEditor(AEditor: IEditor);
     procedure RegisterViewFactory(ViewFactory : IEditorViewFactory);
@@ -1072,21 +1077,21 @@ begin
   Result := fEditorViewFactories.Count;
 end;
 
-function TEditorFactory.GetEditorByName(const Name: WideString): IEditor;
+function TEditorFactory.GetEditorByName(const Name: string): IEditor;
 Var
   i : integer;
 begin
   Result := nil;
   for i := 0 to fEditors.Count - 1 do
     if WideCompareText(IEditor(fEditors[i]).GetFileName,
-      GetLongFileName(WideExpandFileName(Name))) = 0 then
+      GetLongFileName(ExpandFileName(Name))) = 0 then
     begin
       Result := IEditor(fEditors[i]);
       break;
     end;
 end;
 
-function TEditorFactory.GetEditorByNameOrTitle(const Name: WideString): IEditor;
+function TEditorFactory.GetEditorByNameOrTitle(const Name: string): IEditor;
 Var
   i : integer;
 begin
@@ -1367,16 +1372,16 @@ end;
 
 function TEditorForm.DoAskSaveChanges: boolean;
 var
-  S: WideString;
+  S: string;
 begin
   // this is necessary to prevent second confirmation when closing MDI childs
   if SynEdit.Modified then begin
     DoActivateEditor;
     MessageBeep(MB_ICONQUESTION);
     Assert(fEditor <> nil);
-    S := WideFormat(_(SAskSaveChanges), [ExtractFileName(fEditor.GetFileTitle)]);
+    S := Format(_(SAskSaveChanges), [ExtractFileName(fEditor.GetFileTitle)]);
 
-    case WideMessageDlg(S, mtConfirmation, [mbYes, mbNo, mbCancel], 0, mbYes) of
+    case Dialogs.MessageDlg(S, mtConfirmation, [mbYes, mbNo, mbCancel], 0, mbYes) of
       mrYes: Result := DoSave;
       mrNo: Result := True;
     else
@@ -1453,7 +1458,7 @@ begin
   begin
     Edit := GI_EditorFactory.GetEditorByName(NewName);
     if Assigned(Edit) and (Edit <> Self.fEditor as IEditor) then begin
-      WideMessageDlg(_(SFileAlreadyOpen), mtError, [mbAbort], 0);
+      Dialogs.MessageDlg(_(SFileAlreadyOpen), mtError, [mbAbort], 0);
       Result := False;
       Exit;
     end;
@@ -1470,7 +1475,7 @@ procedure TEditorForm.DoUpdateCaption;
 begin
   Assert(fEditor <> nil);
   with ParentTabItem do begin
-    Caption := Tnt_WideStringReplace(fEditor.GetFileTitle, '&', '&&', [rfReplaceAll]);
+    Caption := StringReplace(fEditor.GetFileTitle, '&', '&&', [rfReplaceAll]);
     Hint := fEditor.GetFileName;
   end;
   PyIDEMainForm.UpdateCaption;
@@ -1552,12 +1557,12 @@ var
   iPrevLine, Indent: string;
   Position, Len: integer;
   OldOptions : TSynEditorOptions;
-  OpenBrackets, CloseBrackets : WideString;
+  OpenBrackets, CloseBrackets : string;
   OpenBracketPos : integer;
-  Line : WideString;
+  Line : string;
   CharRight, CharLeft : WideChar;
   Attr: TSynHighlighterAttributes;
-  DummyToken : WideString;
+  DummyToken : string;
   BC : TBufferCoord;
 begin
   ASynEdit := Sender as TSynEdit;
@@ -1678,7 +1683,7 @@ begin
             Position := 1;
             Indent := '';
             while (Length(iPrevLine)>=Position) and
-                 (iPrevLine[Position] in [#09, #32]) do begin
+                 CharInSet(iPrevLine[Position], [#09, #32]) do begin
               Indent := Indent + iPrevLine[Position];
               Inc(Position);
             end;
@@ -1777,7 +1782,7 @@ begin
                 CharLeft := Line[Position];
 
               if (CharRight <> aChar) and not Highlighter.IsIdentChar(CharRight) and
-                not ((aChar in [WideChar('"'), WideChar('''')])
+                not (CharInSet(aChar, ['"', ''''])
                 and (Highlighter.IsIdentChar(CharLeft) or (CharLeft= aChar))) then
               begin
                 SelText := CloseBrackets[OpenBracketPos];
@@ -1985,7 +1990,7 @@ procedure TEditorForm.SynEditMouseMove(Sender: TObject; Shift: TShiftState; X,
   Y: Integer);
 var
   TokenType, Start, ExpStart: Integer;
-  Token, LineTxt: WideString;
+  Token, LineTxt: string;
   Attri: TSynHighlighterAttributes;
   Pix : TPoint;
   aLineCharPos : TBufferCoord;
@@ -2076,7 +2081,7 @@ procedure TEditorForm.SynEditMouseCursor(Sender: TObject;
   const aLineCharPos: TBufferCoord; var aCursor: TCursor);
 var
   TokenType, Start: Integer;
-  Token: WideString;
+  Token: string;
   Attri: TSynHighlighterAttributes;
   ASynEdit : TSynEdit;
 begin
@@ -2188,7 +2193,7 @@ end;
 procedure TEditorForm.AddWatchAtCursor;
 var
   TokenType, Start: Integer;
-  Token, LineTxt, DottedIdent: WideString;
+  Token, LineTxt, DottedIdent: string;
   Attri: TSynHighlighterAttributes;
   aLineCharPos : TBufferCoord;
 begin
@@ -2284,21 +2289,21 @@ begin
 end;
 
 procedure TEditorForm.SynCodeCompletionExecute(Kind: SynCompletionType;
-  Sender: TObject; var CurrentInput: WideString; var x, y: Integer;
+  Sender: TObject; var CurrentInput: string; var x, y: Integer;
   var CanExecute: Boolean);
 Var
-  locline, lookup: WideString;
+  locline, lookup: string;
   TmpX, Index, ImageIndex, i,
   TmpLocation    : Integer;
   FoundMatch     : Boolean;
-  DisplayText, InsertText, FName, ErrMsg, S : WideString;
-  NameSpace, SortedNameSpace : WideStrings.TWideStringList;
+  DisplayText, InsertText, FName, ErrMsg, S : string;
+  NameSpace, SortedNameSpace : TStringList;
   Scope: TCodeElement;
   Def, CE : TBaseCodeElement;
   ParsedModule, ParsedBuiltInModule : TParsedModule;
   PythonPathAdder : IInterface;
   Attr: TSynHighlighterAttributes;
-  DummyToken : WideString;
+  DummyToken : string;
   BC : TBufferCoord;
 begin
   if not fEditor.HasPythonFile or PyControl.IsRunning or
@@ -2332,11 +2337,11 @@ begin
     TmpLocation := 0;
 
     lookup := GetWordAtPos(LocLine, TmpX, IdentChars+['.'], True, False);
-    Index := WideCharLastPos(lookup, WideChar('.'));
+    Index := CharLastPos(lookup, WideChar('.'));
 
     FName := GetEditor.GetFileNameOrTitle;
     // Add the file path to the Python path - Will be automatically removed
-    PythonPathAdder := InternalInterpreter.AddPathToPythonPath(WideExtractFileDir(FName));
+    PythonPathAdder := InternalInterpreter.AddPathToPythonPath(ExtractFileDir(FName));
 
     PyScripterRefactor.InitializeQuery;
     // GetParsedModule
@@ -2345,8 +2350,8 @@ begin
     if Assigned(ParsedModule) then
       Scope := ParsedModule.GetScopeForLine(CaretY);
     if Assigned(ParsedModule) and Assigned(Scope) then begin
-      NameSpace := WideStrings.TWideStringList.Create;
-      SortedNameSpace := WideStrings.TWideStringList.Create;
+      NameSpace := TStringList.Create;
+      SortedNameSpace := TStringList.Create;
 
       try
         DisplayText := '';
@@ -2431,26 +2436,26 @@ Var
   OldParamCompetionData : TParamCompletionData;
 
 procedure TEditorForm.SynParamCompletionExecute(Kind: SynCompletionType;
-  Sender: TObject; var CurrentInput: WideString; var x, y: Integer;
+  Sender: TObject; var CurrentInput: string; var x, y: Integer;
   var CanExecute: Boolean);
 Var
-  locline, lookup: WideString;
+  locline, lookup: string;
   TmpX, StartX,
   ParenCounter,
   TmpLocation : Integer;
   FoundMatch : Boolean;
-  FName, DisplayText, ErrMsg, Doc : WideString;
+  FName, DisplayText, ErrMsg, Doc : string;
   p : TPoint;
   Scope: TCodeElement;
   Def: TBaseCodeElement;
   ParsedModule : TParsedModule;
   PythonPathAdder : IInterface;
   TokenType, Start: Integer;
-  Token: WideString;
+  Token: string;
   Attri: TSynHighlighterAttributes;
   AlreadyActive : Boolean;
   Attr: TSynHighlighterAttributes;
-  DummyToken : WideString;
+  DummyToken : string;
   BC : TBufferCoord;
 begin
   if not fEditor.HasPythonFile or PyControl.IsRunning or
@@ -2508,7 +2513,7 @@ begin
       begin
         //we have a valid open paren, lets see what the word before it is
         StartX := TmpX;
-        while (TmpX > 0) and not InOpSet(locLine[TmpX], IdentChars+['.']) do  // added [.]
+        while (TmpX > 0) and not CharInSet(locLine[TmpX], IdentChars+['.']) do  // added [.]
           Dec(TmpX);
         if TmpX > 0 then
         begin
@@ -2528,7 +2533,7 @@ begin
             end else begin
               FName := GetEditor.GetFileNameOrTitle;
               // Add the file path to the Python path - Will be automatically removed
-              PythonPathAdder := InternalInterpreter.AddPathToPythonPath(WideExtractFileDir(FName));
+              PythonPathAdder := InternalInterpreter.AddPathToPythonPath(ExtractFileDir(FName));
 
               PyScripterRefactor.InitializeQuery;
               // GetParsedModule
@@ -2546,9 +2551,9 @@ begin
                 if Assigned(Def) and (Def is TParsedFunction) then begin
                   DisplayText := TParsedFunction(Def).ArgumentsString;
                   // Remove self arguments from methods
-                  if WideStrIsLeft(PWideChar(DisplayText), 'self') then
+                  if StrIsLeft(PWideChar(DisplayText), 'self') then
                     Delete(DisplayText, 1, 4);
-                  if WideStrIsLeft(PWideChar(DisplayText), ', ') then
+                  if StrIsLeft(PWideChar(DisplayText), ', ') then
                     Delete(DisplayText, 1, 2);
                   Doc := TParsedFunction(Def).DocString;
 
@@ -2608,7 +2613,7 @@ begin
 end;
 
 procedure TEditorForm.SynWebCompletionAfterCodeCompletion(Sender: TObject;
-  const Value: WideString; Shift: TShiftState; Index: Integer;
+  const Value: string; Shift: TShiftState; Index: Integer;
   EndToken: WideChar);
 
   function CaretBetween(AStr: String): Boolean;
@@ -2624,11 +2629,14 @@ procedure TEditorForm.SynWebCompletionAfterCodeCompletion(Sender: TObject;
   end;
 
 begin
-  CaretBetween('()') or CaretBetween('><') or CaretBetween('""') or CaretBetween(' ;');
+  if not CaretBetween('()') then
+    if not CaretBetween('><') then
+      if not CaretBetween('""') then
+        CaretBetween(' ;');
 end;
 
 procedure TEditorForm.SynWebCompletionExecute(Kind: SynCompletionType;
-  Sender: TObject; var CurrentInput: WideString; var x, y: Integer;
+  Sender: TObject; var CurrentInput: string; var x, y: Integer;
   var CanExecute: Boolean);
 Var
   SynEdit : TCustomSynEdit;
@@ -2665,8 +2673,8 @@ end;
 procedure TEditorForm.CodeHintEventHandler(Sender: TObject; AArea: TRect;
   var CodeHint: string);
 Var
-  ObjectValue, ObjectType : WideString;
-  ErrMsg : WideString;
+  ObjectValue, ObjectType : string;
+  ErrMsg : string;
   CE : TBaseCodeElement;
 begin
   if CompareMem(@fHintIdentInfo.IdentArea, @AArea, SizeOf(TRect)) then begin
@@ -2682,7 +2690,7 @@ begin
       if ObjectValue <> _(SNotAvailable) then begin
         ObjectValue := HTMLSafe(ObjectValue);
         ObjectType := HTMLSafe(ObjectType);
-        CodeHint := WideFormat(_(SDebuggerHintFormat),
+        CodeHint := Format(_(SDebuggerHintFormat),
           [fHintIdentInfo.DottedIdent, ObjectType, ObjectValue]);
       end else
         CodeHint := '';
@@ -2731,14 +2739,6 @@ initialization
 finalization
   GI_EditorFactory := nil;
 end.
-
-
-
-
-
-
-
-
 
 
 

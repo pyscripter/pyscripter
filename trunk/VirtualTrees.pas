@@ -328,7 +328,7 @@ uses
     {$endif COMPILE_7_UP}
   {$endif ThemeSupport}
   {$ifdef TntSupport}
-    , TntStdCtrls       // Unicode aware inplace editor.
+           // Unicode aware inplace editor.
   {$endif TntSupport}
   ;
 

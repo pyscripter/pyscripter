@@ -3,9 +3,8 @@ inherited UnitTestWizard: TUnitTestWizard
   Caption = 'Unit Test Wizard'
   ClientHeight = 491
   ClientWidth = 436
-  Font.Name = 'MS Shell Dlg 2'
   ExplicitWidth = 442
-  ExplicitHeight = 517
+  ExplicitHeight = 519
   PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TSpTBXPanel

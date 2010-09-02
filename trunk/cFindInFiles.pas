@@ -62,10 +62,10 @@ type
     RegEx: Boolean;
     IncludeSubdirs: Boolean;
     BackupModified : Boolean;
-    Directories: WideString;
-    Mask: WideString;
-    Pattern: WideString;
-    Replace: WideString;
+    Directories: string;
+    Mask: string;
+    Pattern: string;
+    Replace: string;
     FindInFilesAction: TFindInFilesAction;
     CanRefresh: Boolean;
   end;
@@ -100,7 +100,7 @@ type
   // One collection item per line with any number of matches
   TLineResult = class(TCollectionItem)
   private
-    FLine: WideString;
+    FLine: string;
     FLineNo: Integer;
     FMatches: TLineMatches;
   public
@@ -108,7 +108,7 @@ type
     destructor Destroy; override;
     function Add: TMatchResult;
   public
-    property Line: WideString read FLine write FLine;
+    property Line: string read FLine write FLine;
     property LineNo: Integer read FLineNo write FLineNo;
     // Collection of all matches in a line
     property Matches: TLineMatches read FMatches;
@@ -120,8 +120,8 @@ type
   TFileResult = class(TCollection)
   private
     FExpanded: Boolean;
-    FFileName: WideString;
-    FRelativeFileName: WideString;
+    FFileName: string;
+    FRelativeFileName: string;
     FLastLineResult: Integer; // Last LineNo added to result set
     FLastIndex: Integer;      // Index of last added result
     FTotalMatches: Integer;   // Total matches in file
@@ -132,8 +132,8 @@ type
     function Add: TLineResult;
     procedure GetMatchesOnLine(Line: Integer; var Matches: TMatchArray);
     property Expanded: Boolean read FExpanded write FExpanded;
-    property FileName: WideString read FFileName write FFileName;
-    property RelativeFileName: WideString read FRelativeFileName write FRelativeFileName;
+    property FileName: string read FFileName write FFileName;
+    property RelativeFileName: string read FRelativeFileName write FRelativeFileName;
     property LastIndex: Integer read FLastIndex write FLastIndex;
     property LastLineResult: Integer read FLastLineResult write FLastLineResult;
     property Items[Index: Integer]: TLineResult read GetItem write SetItem; default;
@@ -141,38 +141,38 @@ type
   end;
 
 type
-  TOnHitMatch = procedure(Sender: TObject; LineNo: Integer; const Line: WideString;
+  TOnHitMatch = procedure(Sender: TObject; LineNo: Integer; const Line: string;
       SPos, EPos: Integer) of object;
-  TOnSearchFile = procedure(Sender: TObject; const FileName: WideString) of object;
+  TOnSearchFile = procedure(Sender: TObject; const FileName: string) of object;
 
   TGrepSearchRunner = class(TObject)
   private
     FOnHitMatch: TOnHitMatch;
     FOnSearchFile: TOnSearchFile;
-    FStorageTarget: TWideStrings;
-    FDupeFileList: TWideStrings;
+    FStorageTarget: TStrings;
+    FDupeFileList: TStrings;
     FAbortSignalled: Boolean;
     FFileSearchCount: Integer;
     FMatchCount: Integer;
     FFileResult: TFileResult;
     FSearcher: TSearcher;
-    FSearchRoot: WideString;
-    procedure FoundIt(Sender: TObject; LineNo: Integer; const Line: WideString;
+    FSearchRoot: string;
+    procedure FoundIt(Sender: TObject; LineNo: Integer; const Line: string;
       SPos, EPos: Integer);
     procedure StartFileSearch(Sender: TObject);
   private
     FGrepSettings: TGrepSettings;
-    procedure GrepFile(const FileName: WideString);
+    procedure GrepFile(const FileName: string);
   protected
-    procedure DoHitMatch(LineNo: Integer; const Line: WideString;
+    procedure DoHitMatch(LineNo: Integer; const Line: string;
       SPos, EPos: Integer); virtual;
     procedure GrepCurrentSourceEditor;
     procedure GrepOpenFiles;
     procedure GrepProjectFiles;
-    procedure GrepDirectories(const Dir: WideString; Mask: WideString);
+    procedure GrepDirectories(const Dir: string; Mask: string);
     procedure VirtualFileSearchEnd(Sender: TObject; Results: TCommonPIDLList);
   public
-    constructor Create(const Settings: TGrepSettings; StorageTarget: TWideStrings);
+    constructor Create(const Settings: TGrepSettings; StorageTarget: TStrings);
     procedure Execute;
     property OnSearchFile: TOnSearchFile read FOnSearchFile write FOnSearchFile;
     property FileSearchCount: Integer read FFileSearchCount;
@@ -186,10 +186,10 @@ type
     FGrepSave: Boolean;
     FGrepExpandAll: Boolean;
     FBackupModified: Boolean;
-    FSearchList: TWideStrings;
-    FReplaceList: TWideStrings;
-    FMaskList: TWideStrings;
-    FDirList: TWideStrings;
+    FSearchList: TStrings;
+    FReplaceList: TStrings;
+    FMaskList: TStrings;
+    FDirList: TStrings;
     FGrepNoCase: Boolean;
     FGrepNoComments: Boolean;
     FGrepSearch: Integer;
@@ -200,10 +200,10 @@ type
     FListFont: TFont;
     FContextFont: TFont;
     FContextMatchColor: TColor;
-    procedure SetSearchList(New: TWideStrings);
-    procedure SetReplaceList(New: TWideStrings);
-    procedure SetMaskList(New: TWideStrings);
-    procedure SetDirList(New: TWideStrings);
+    procedure SetSearchList(New: TStrings);
+    procedure SetReplaceList(New: TStrings);
+    procedure SetMaskList(New: TStrings);
+    procedure SetDirList(New: TStrings);
   protected
     // IJvAppStorageHandler implementation
     procedure ReadFromAppStorage(AppStorage: TJvCustomAppStorage; const BasePath: string);
@@ -227,21 +227,21 @@ type
     property ContextFont: TFont read FContextFont write FContextFont;
     property ContextMatchColor: TColor read FContextMatchColor write FContextMatchColor;
 
-    property SearchList: TWideStrings read FSearchList write SetSearchList;
-    property ReplaceList: TWideStrings read FReplaceList write SetReplaceList;
-    property MaskList: TWideStrings read FMaskList write SetMaskList;
-    property DirList: TWideStrings read FDirList write SetDirList;
+    property SearchList: TStrings read FSearchList write SetSearchList;
+    property ReplaceList: TStrings read FReplaceList write SetReplaceList;
+    property MaskList: TStrings read FMaskList write SetMaskList;
+    property DirList: TStrings read FDirList write SetDirList;
   end;
 
-procedure AddMRUString(Text: WideString; List: TWideStrings; DeleteTrailingDelimiter: Boolean); 
+procedure AddMRUString(Text: string; List: TStrings; DeleteTrailingDelimiter: Boolean);
 
 implementation
 
 uses
-  SysUtils, Forms, uEditAppIntfs, 
+  SysUtils, Forms, uEditAppIntfs,
   VarPyth, frmPyIDEMain,
   dlgFindResultsOptions, Controls, uCommonFunctions, cProjectClasses,
-  TntSysUtils, VirtualFileSearch, MPCommonUtilities, 
+  VirtualFileSearch, MPCommonUtilities,
   dmCommands, cParameters;
 
 { TLineMatches }
@@ -337,7 +337,7 @@ end;
 
 { TGrepSearchRunner }
 
-procedure TGrepSearchRunner.GrepFile(const FileName: WideString);
+procedure TGrepSearchRunner.GrepFile(const FileName: string);
 begin
   Application.ProcessMessages;
 
@@ -353,7 +353,7 @@ begin
   FFileResult := nil;
 end;
 
-constructor TGrepSearchRunner.Create(const Settings: TGrepSettings; StorageTarget: TWideStrings);
+constructor TGrepSearchRunner.Create(const Settings: TGrepSettings; StorageTarget: TStrings);
 begin
   inherited Create;
 
@@ -366,7 +366,7 @@ procedure TGrepSearchRunner.GrepCurrentSourceEditor;
 resourcestring
   SNoFileOpen = 'No editor is currently active';
 var
-  CurrentFile: WideString;
+  CurrentFile: string;
   Editor : IEditor;
 begin
   Editor := PyIDEMainForm.GetActiveEditor;
@@ -395,7 +395,7 @@ procedure TGrepSearchRunner.GrepOpenFiles;
 Var
   i : integer;
   Editor : IEditor;
-  FileName: WideString;
+  FileName: string;
 begin
   for i := 0 to GI_EditorFactory.Count -1 do begin
     if FAbortSignalled then break;
@@ -408,7 +408,7 @@ end;
 
 function GrepProjectFile(Node: TAbstractProjectNode; Data : Pointer):boolean;
 var
-  FileName : WideString;
+  FileName : string;
 begin
    Result := TGrepSearchRunner(Data).FAbortSignalled;
    if not Result and (Node is TProjectFileNode) and
@@ -424,7 +424,7 @@ begin
   ActiveProject.FirstThat(GrepProjectFile, Self);
 end;
 
-procedure TGrepSearchRunner.GrepDirectories(const Dir: WideString; Mask: WideString);
+procedure TGrepSearchRunner.GrepDirectories(const Dir: string; Mask: string);
 var
   FileSearch : TVirtualFileSearch;
 begin
@@ -481,7 +481,7 @@ begin
 
     FSearcher.SetPattern(FGrepSettings.Pattern);
 
-    FDupeFileList := TWideStringList.Create;
+    FDupeFileList := TStringList.Create;
     try
     case FGrepSettings.FindInFilesAction of
       gaCurrentOnlyGrep:
@@ -508,7 +508,7 @@ begin
   end;
 end;
 
-procedure TGrepSearchRunner.FoundIt(Sender: TObject; LineNo: Integer; const Line: WideString; SPos, EPos: Integer);
+procedure TGrepSearchRunner.FoundIt(Sender: TObject; LineNo: Integer; const Line: string; SPos, EPos: Integer);
 var
   ALineResult: TLineResult;
   AMatchResult: TMatchResult;
@@ -521,7 +521,7 @@ begin
   begin
     FFileResult := TFileResult.Create;
     FFileResult.FileName := FSearcher.FileName;
-    FFileResult.RelativeFileName := Tnt_WideStringReplace(FSearcher.FileName, FSearchRoot, '', [rfIgnoreCase]);
+    FFileResult.RelativeFileName := StringReplace(FSearcher.FileName, FSearchRoot, '', [rfIgnoreCase]);
     FStorageTarget.AddObject(FSearcher.FileName, FFileResult);
   end;
 
@@ -572,7 +572,7 @@ begin
   Results.Clear;
 end;
 
-procedure TGrepSearchRunner.DoHitMatch(LineNo: Integer; const Line: WideString;
+procedure TGrepSearchRunner.DoHitMatch(LineNo: Integer; const Line: string;
   SPos, EPos: Integer);
 begin
   if Assigned(FOnHitMatch) then
@@ -588,9 +588,9 @@ begin
   ShowBold := True;
 end;
 
-procedure AddMRUString(Text: WideString; List: TWideStrings; DeleteTrailingDelimiter: Boolean);
+procedure AddMRUString(Text: string; List: TStrings; DeleteTrailingDelimiter: Boolean);
 
-  procedure DeleteStringFromList(List: TWideStrings; const Item: WideString);
+  procedure DeleteStringFromList(List: TStrings; const Item: string);
   var
     Index: Integer;
   begin
@@ -651,10 +651,10 @@ end;
 constructor TFindInFilesExpert.Create;
 begin
   inherited Create;
-  FSearchList := TWideStringList.Create;
-  FReplaceList := TWideStringList.Create;
-  FMaskList := TWideStringList.Create;
-  FDirList := TWideStringList.Create;
+  FSearchList := TStringList.Create;
+  FReplaceList := TStringList.Create;
+  FMaskList := TStringList.Create;
+  FDirList := TStringList.Create;
   FListFont := TFont.Create;
   SetVistaContentFonts(FListFont);
   FContextFont := TFont.Create;
@@ -711,10 +711,10 @@ begin
     FNumContextLines :=  ReadInteger(BasePath+'\NumContextLines', FNumContextLines);
     FContextMatchColor :=  ReadInteger(BasePath+'\ContextMatchColor', FContextMatchColor);
 
-    ReadWideStringList(BasePath+'\DirectoryList', DirList);
-    ReadWideStringList(BasePath+'\SearchList', SearchList);
-    ReadWideStringList(BasePath+'\ReplaceList', ReplaceList);
-    ReadWideStringList(BasePath+'\MaskList', MaskList);
+    ReadStringList(BasePath+'\DirectoryList', DirList);
+    ReadStringList(BasePath+'\SearchList', SearchList);
+    ReadStringList(BasePath+'\ReplaceList', ReplaceList);
+    ReadStringList(BasePath+'\MaskList', MaskList);
     if MaskList.Count = 0 then
     begin
       MaskList.Add(CommandsDataModule.PyIDEOptions.PythonFileExtensions);
@@ -746,34 +746,33 @@ begin
     WriteInteger(BasePath+'\NumContextLines', NumContextLines);
     WriteInteger(BasePath+'\ContextMatchColor', ContextMatchColor);
 
-    WriteWideStringList(BasePath+'\DirectoryList', DirList);
-    WriteWideStringList(BasePath+'\SearchList', SearchList);
-    WriteWideStringList(BasePath+'\ReplaceList', ReplaceList);
-    WriteWideStringList(BasePath+'\MaskList', MaskList);
+    WriteStringList(BasePath+'\DirectoryList', DirList);
+    WriteStringList(BasePath+'\SearchList', SearchList);
+    WriteStringList(BasePath+'\ReplaceList', ReplaceList);
+    WriteStringList(BasePath+'\MaskList', MaskList);
   end;
 end;
 
-procedure TFindInFilesExpert.SetDirList(New: TWideStrings);
+procedure TFindInFilesExpert.SetDirList(New: TStrings);
 begin
   FDirList.Assign(New);
 end;
 
-procedure TFindInFilesExpert.SetMaskList(New: TWideStrings);
+procedure TFindInFilesExpert.SetMaskList(New: TStrings);
 begin
   FMaskList.Assign(New);
 end;
 
-procedure TFindInFilesExpert.SetReplaceList(New: TWideStrings);
+procedure TFindInFilesExpert.SetReplaceList(New: TStrings);
 begin
   FReplaceList.Assign(New);
 end;
 
-procedure TFindInFilesExpert.SetSearchList(New: TWideStrings);
+procedure TFindInFilesExpert.SetSearchList(New: TStrings);
 begin
   FSearchList.Assign(New);
 end;
 
 end.
-
 
 

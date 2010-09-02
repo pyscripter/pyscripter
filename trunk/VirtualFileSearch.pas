@@ -48,7 +48,6 @@ uses
     TntWideStrUtils,
     {$ENDIF}
   TntClasses,
-  TntSysUtils,
   TntWindows,
   {$ENDIF}
   MPShellTypes,
@@ -297,7 +296,7 @@ begin
   i := 0;
   while not Terminated and (i < SearchPaths.Count) do
   begin
-    if WideDirectoryExists(SearchPaths[i]) then
+    if DirectoryExists(SearchPaths[i]) then
       ProcessFiles(WideExcludeTrailingBackslash( SearchPaths[i]), SearchCriteriaFileName);
     Inc(i)
   end

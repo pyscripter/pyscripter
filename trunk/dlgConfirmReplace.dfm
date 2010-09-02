@@ -4,11 +4,10 @@ inherited ConfirmReplaceDialog: TConfirmReplaceDialog
   Caption = 'Confirm replace'
   ClientHeight = 98
   ClientWidth = 328
-  Font.Name = 'MS Shell Dlg 2'
   Position = poDefaultSizeOnly
   OnDestroy = FormDestroy
   ExplicitWidth = 334
-  ExplicitHeight = 124
+  ExplicitHeight = 126
   PixelsPerInch = 96
   TextHeight = 13
   object SpTBXPanel1: TSpTBXPanel

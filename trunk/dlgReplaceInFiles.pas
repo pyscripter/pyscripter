@@ -46,7 +46,7 @@ interface
 
 uses
   Classes, Controls, StdCtrls, Forms,
-  cFindInFiles, SpTBXControls, TntStdCtrls, SpTBXEditors,
+  cFindInFiles, SpTBXControls, SpTBXEditors,
   dlgPyIDEBase, SpTBXItem;
 
 type
@@ -67,15 +67,15 @@ type
     FFindInFilesExpert : TFindInFilesExpert;
     procedure LoadFormSettings;
     procedure SaveFormSettings;
-    procedure SetSearchString(const Value: WideString);
-    procedure SetReplaceInString(const Value: WideString);
+    procedure SetSearchString(const Value: string);
+    procedure SetReplaceInString(const Value: string);
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
     procedure RetrieveSettings(var Value: TGrepSettings);
     property FindInFilesExpert: TFindInFilesExpert read FFindInFilesExpert;
-    property SearchString: WideString write SetSearchString;
-    property ReplaceInString: WideString write SetReplaceInString;
+    property SearchString: string write SetSearchString;
+    property ReplaceInString: string write SetReplaceInString;
   end;
 
 implementation
@@ -133,12 +133,12 @@ begin
   Application.HelpContext(HelpContext);
 end;
 
-procedure TReplaceInFilesDialog.SetSearchString(const Value: WideString);
+procedure TReplaceInFilesDialog.SetSearchString(const Value: string);
 begin
   lblReplaceString.Caption := Value;
 end;
 
-procedure TReplaceInFilesDialog.SetReplaceInString(const Value: WideString);
+procedure TReplaceInFilesDialog.SetReplaceInString(const Value: string);
 begin
   lblInString.Caption := Value;
 end;

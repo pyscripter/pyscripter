@@ -6,8 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, SpTBXCustomizer, SpTBXCustomizerForm, CheckLst, SpTBXEditors,
   SpTBXControls, StdCtrls, ComCtrls, ExtCtrls,
-  TB2Item, SpTBXItem, TntClasses, SpTBXSkins, TntCheckLst, TntStdCtrls,
-  SpTBXTabs;
+  TB2Item, SpTBXItem, SpTBXSkins,  SpTBXTabs;
 
 type
   TSpTBXCustomizeFormMod = class(TSpTBXCustomizeForm)
@@ -25,7 +24,7 @@ type
   private
     { Private declarations }
   protected
-    procedure DoFillCommands(ToolbarList, ItemList, ShortcutsList: TTntStringList); override;
+    procedure DoFillCommands(ToolbarList, ItemList, ShortcutsList: TStringList); override;
   public
     { Public declarations }
     procedure SortCommands;
@@ -42,12 +41,12 @@ implementation
 {$R *.dfm}
 
 Uses
-  ActnList, frmPyIDEMain, gnugettext, TntDialogs, TntActnList;
+  ActnList, frmPyIDEMain, gnugettext;
 
 { TSpTBXCustomizeFormMod }
 
 procedure TSpTBXCustomizeFormMod.DoFillCommands(ToolbarList, ItemList,
-  ShortcutsList: TTntStringList);
+  ShortcutsList: TStringList);
 var
   i : Integer;
   Item : TTBCustomItem;
@@ -73,7 +72,7 @@ end;
 
 procedure TSpTBXCustomizeFormMod.lbCategoriesClick(Sender: TObject);
 Var
-  Category : WideString;
+  Category : string;
   i: Integer;
   Item : TTBCustomItem;
 begin
@@ -109,7 +108,7 @@ procedure TSpTBXCustomizeFormMod.lbCommandsDragDrop(Sender, Source: TObject; X,
 var
   OrigItem: TTBCustomItem;
   WS: WideString;
-  Category : WideString;
+  Category : string;
   Index : Integer;
 begin
   if Assigned(Source) and (Source is TSpTBXItemDragObject) and
@@ -186,7 +185,7 @@ end;
 
 procedure TSpTBXCustomizeFormMod.ResetButtonClick(Sender: TObject);
 begin
-  if WideMessageDlg(_('This option will reset IDE toolbars and shortcuts to the factory settings.'+#13+#10+'Do you want to proceed?'),
+  if Dialogs.MessageDlg(_('This option will reset IDE toolbars and shortcuts to the factory settings.'+#13+#10+'Do you want to proceed?'),
     mtWarning, [mbOK, mbCancel], 0) = mrOk
   then
     PyIDEMainForm.LoadToolbarItems(FactoryToolbarItems);
@@ -194,7 +193,7 @@ end;
 
 procedure TSpTBXCustomizeFormMod.SortCommands;
 Var
-  WS : WideString;
+  WS : string;
   Item : TObject;
 begin
   if lbCommands.Count = 0 then Exit;

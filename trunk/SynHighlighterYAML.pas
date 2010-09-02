@@ -123,13 +123,13 @@ type
     procedure AnchorProc;
     procedure DocDelimiterProc;
   protected
-    function GetSampleSource: WideString; override;
+    function GetSampleSource: UnicodeString; override;
     function IsFilterStored: Boolean; override;
-    procedure DoSetLine(const Value: WideString; LineNumber: Integer); override;
+    procedure DoSetLine(const Value: UnicodeString; LineNumber: Integer); override;
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
-    class function GetFriendlyLanguageName: WideString; override;
+    class function GetFriendlyLanguageName: UnicodeString; override;
     class function GetLanguageName: string; override;
     function GetRange: Pointer; override;
     procedure ResetRange; override;
@@ -267,10 +267,10 @@ begin
     inc(Run);
 end;
 
-procedure TSynYAMLSyn.DoSetLine(const Value: WideString; LineNumber: Integer);
+procedure TSynYAMLSyn.DoSetLine(const Value: UnicodeString; LineNumber: Integer);
 Const
-  sDocStart : WideString = '---';
-  sDocEnd : WideString = '...';
+  sDocStart : UnicodeString = '---';
+  sDocEnd : UnicodeString = '...';
 Var
   NewIndent : integer;
 begin
@@ -283,7 +283,7 @@ begin
   if fLine^ = '%' then begin
     LongRec(fRange).Lo := rsDirective;
     LongRec(fRange).Hi := NewIndent;
-  end else if WideStrIsLeft(FLine, PWideChar(sDocStart)) or WideStrIsLeft(FLine, PWideChar(sDocEnd)) then begin
+  end else if StrIsLeft(FLine, PWideChar(sDocStart)) or StrIsLeft(FLine, PWideChar(sDocEnd)) then begin
     LongRec(fRange).Lo := rsDocDelimiter;
     LongRec(fRange).Hi := NewIndent;
   end else if (LongRec(fRange).Lo = rsLiteralStart) then begin
@@ -318,7 +318,7 @@ end;
 procedure TSynYAMLSyn.ListItemProc;
 begin
   Inc(Run);
-  if InOpSet(FLine[Run], [' ', #0, #13, #10]) then begin
+  if CharInSet(FLine[Run], [' ', #0, #13, #10]) then begin
     fTokenID := tkSymbol;
     LongRec(fRange).Lo := rsUnknown;
   end else
@@ -332,7 +332,7 @@ begin
   if FLine[Run] = '+' then
     Inc(Run)
   else
-    while InOpSet(FLine[Run], ['0'..'9']) do
+    while CharInSet(FLine[Run], ['0'..'9']) do
       Inc(Run);
   LongRec(fRange).Lo := rsLiteralStart;
 end;
@@ -429,7 +429,7 @@ begin
   fTokenID := tkLiteral;
   LongRec(fRange).Lo := rsValue;
   while not IsLineEnd(Run) do begin
-    if (FLine[Run] = ':') and (InOpSet(FLine[Run+1], [' ', #0, #13, #10])) then begin
+    if (FLine[Run] = ':') and (CharInSet(FLine[Run+1], [' ', #0, #13, #10])) then begin
       Inc(Run);
       if FLine[Run] = ' ' then
         Inc(Run);
@@ -449,7 +449,7 @@ end;
 procedure TSynYAMLSyn.ValueProc;
 Var
   Start : Integer;
-  Val : WideString;
+  Val : UnicodeString;
   FloatVal : Extended;
 begin
   Start := Run;
@@ -620,7 +620,7 @@ begin
   end;
 end;
 
-function TSynYAMLSyn.GetSampleSource: WideString;
+function TSynYAMLSyn.GetSampleSource: UnicodeString;
 begin
   Result :=
     '---'#13#10 +
@@ -663,7 +663,7 @@ begin
   Result := fDefaultFilter <> SYNS_FilterYAML;
 end;
 
-class function TSynYAMLSyn.GetFriendlyLanguageName: WideString;
+class function TSynYAMLSyn.GetFriendlyLanguageName: UnicodeString;
 begin
   Result := SYNS_FriendlyLangYAML;
 end;

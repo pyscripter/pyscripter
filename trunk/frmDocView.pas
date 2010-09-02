@@ -53,10 +53,10 @@ type
   TDocView = class(TInterfacedObject, IEditorViewFactory)
   private
     function CreateForm(Editor: IEditor; AOwner : TComponent): TCustomForm;
-    function GetName : WideString;
-    function GetTabCaption : WideString;
-    function GetMenuCaption : WideString;
-    function GetHint : WideString;
+    function GetName : string;
+    function GetTabCaption : string;
+    function GetMenuCaption : string;
+    function GetHint : string;
     function GetImageIndex : integer;
     function GetShortCut : TShortCut;
     procedure GetContextHighlighters(List : TList);
@@ -140,7 +140,7 @@ begin
 
   SaveFileName := PathRemoveExtension(Editor.FileName) + '.html';
   TempFileName := PathGetTempPath + PathRemoveExtension(Editor.FileTitle) + '.html';
-  StringToFile(TempFileName, HTML);
+  StringToFile(TempFileName, AnsiString(HTML));
   WebBrowser.Navigate(TempFileName);
 end;
 
@@ -168,22 +168,22 @@ begin
   List.Add(CommandsDataModule.SynPythonSyn);
 end;
 
-function TDocView.GetHint: WideString;
+function TDocView.GetHint: string;
 begin
   Result := _(SDocumentationHint);
 end;
 
-function TDocView.GetMenuCaption: WideString;
+function TDocView.GetMenuCaption: string;
 begin
   Result := _(SDocumentation)
 end;
 
-function TDocView.GetName: WideString;
+function TDocView.GetName: string;
 begin
   Result := 'Documentation';
 end;
 
-function TDocView.GetTabCaption: WideString;
+function TDocView.GetTabCaption: string;
 begin
   Result := _(SDocTab);
 end;

@@ -5,11 +5,10 @@ inherited ReplaceInFilesDialog: TReplaceInFilesDialog
   Caption = 'Replace Matches'
   ClientHeight = 158
   ClientWidth = 401
-  Font.Name = 'MS Shell Dlg 2'
   Position = poScreenCenter
   Scaled = False
   ExplicitWidth = 407
-  ExplicitHeight = 184
+  ExplicitHeight = 186
   PixelsPerInch = 96
   TextHeight = 13
   object SpTBXPanel1: TSpTBXPanel

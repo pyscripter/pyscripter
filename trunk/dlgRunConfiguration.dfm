@@ -3,11 +3,9 @@ inherited RunConfigurationForm: TRunConfigurationForm
   Caption = 'Run Configuration'
   ClientHeight = 436
   ClientWidth = 399
-  Font.Name = 'MS Shell Dlg 2'
-  Position = poMainFormCenter
   OnDestroy = FormDestroy
   ExplicitWidth = 405
-  ExplicitHeight = 462
+  ExplicitHeight = 464
   PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TSpTBXPanel

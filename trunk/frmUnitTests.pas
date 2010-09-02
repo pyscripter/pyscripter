@@ -7,8 +7,8 @@ uses
   Dialogs, frmIDEDockWin, JvComponentBase, JvDockControlForm, ExtCtrls, ImgList,
   JvLinkLabel, SpTBXDkPanels, VirtualTrees,
   TB2Item, TB2Dock, TB2Toolbar, StdCtrls,
-  ActnList, SpTBXControls, SpTBXItem, ComCtrls, TntComCtrls,
-  TntActnList, SpTBXSkins;
+  ActnList, SpTBXControls, SpTBXItem, ComCtrls,
+  SpTBXSkins;
 
 type
   TUnitTestWindowStatus = (utwEmpty, utwLoaded, utwRunning, utwRun);
@@ -30,27 +30,27 @@ type
     TBXSeparatorItem7: TSpTBXSeparatorItem;
     tbiClearAll: TSpTBXItem;
     SpTBXSplitter1: TSpTBXSplitter;
-    DialogActions: TTntActionList;
-    actClearAll: TTntAction;
-    actCollapseAll: TTntAction;
-    actExpandAll: TTntAction;
-    actSelectFailed: TTntAction;
-    actDeselectAll: TTntAction;
-    actSelectAll: TTntAction;
-    actStop: TTntAction;
-    actRun: TTntAction;
-    actRefresh: TTntAction;
+    DialogActions: TActionList;
+    actClearAll: TAction;
+    actCollapseAll: TAction;
+    actExpandAll: TAction;
+    actSelectFailed: TAction;
+    actDeselectAll: TAction;
+    actSelectAll: TAction;
+    actStop: TAction;
+    actRun: TAction;
+    actRefresh: TAction;
     Panel1: TSpTBXPanel;
     UnitTests: TVirtualStringTree;
     Panel2: TSpTBXPanel;
     Bevel1: TBevel;
     SpTBXPanel1: TSpTBXPanel;
-    ErrorText: TTntRichEdit;
     Label2: TSpTBXLabel;
     ModuleName: TSpTBXLabel;
     lbFoundTests: TSpTBXLabel;
     lblRunTests: TSpTBXLabel;
     lblFailures: TSpTBXLabel;
+    ErrorText: TRichEdit;
     procedure UnitTestsDblClick(Sender: TObject);
     procedure actStopExecute(Sender: TObject);
     procedure actClearAllExecute(Sender: TObject);
@@ -64,12 +64,12 @@ type
     procedure actSelectAllExecute(Sender: TObject);
     procedure UnitTestsGetHint(Sender: TBaseVirtualTree; Node: PVirtualNode;
       Column: TColumnIndex; var LineBreakStyle: TVTTooltipLineBreakStyle;
-      var HintText: WideString);
+      var HintText: string);
     procedure UnitTestsGetImageIndex(Sender: TBaseVirtualTree;
       Node: PVirtualNode; Kind: TVTImageKind; Column: TColumnIndex;
       var Ghosted: Boolean; var ImageIndex: Integer);
     procedure UnitTestsGetText(Sender: TBaseVirtualTree; Node: PVirtualNode;
-      Column: TColumnIndex; TextType: TVSTTextType; var CellText: WideString);
+      Column: TColumnIndex; TextType: TVSTTextType; var CellText: string);
     procedure UnitTestsInitChildren(Sender: TBaseVirtualTree;
       Node: PVirtualNode; var ChildCount: Cardinal);
     procedure UnitTestsInitNode(Sender: TBaseVirtualTree; ParentNode,
@@ -107,7 +107,7 @@ implementation
 
 uses uCommonFunctions, frmPyIDEMain, VarPyth, JvJVCLUtils,
   uEditAppIntfs, PythonEngine, dmCommands, cPyBaseDebugger, JclSysUtils,
-  cPyDebugger, StringResources, TntDialogs, gnugettext, cPyRemoteDebugger;
+  cPyDebugger, StringResources, gnugettext, cPyRemoteDebugger;
 
 {$R *.dfm}
 
@@ -170,7 +170,7 @@ begin
         TestCase := InnerTestSuite._tests[j];
         //  set the TestStatus
         TestCase.testStatus := Ord(tsNotRun);
-        TestCase.errMsg := WideString('');
+        TestCase.errMsg := string('');
         TestCase.enabled := True;
         ClassName := PyControl.ActiveInterpreter.GetObjectType(TestCase);
         Index := TestClasses.IndexOf(ClassName);
@@ -195,7 +195,7 @@ begin
     end;
 
     if TestCount = 0 then begin
-      WideMessageDlg(_(SNoTestsFound), mtWarning, [mbOK], 0);
+      Dialogs.MessageDlg(_(SNoTestsFound), mtWarning, [mbOK], 0);
       ClearAll;
     end else begin
       UnitTests.RootNodeCount := TestClasses.Count;
@@ -298,7 +298,7 @@ end;
 
 procedure TUnitTestWindow.UnitTestsGetText(Sender: TBaseVirtualTree;
   Node: PVirtualNode; Column: TColumnIndex; TextType: TVSTTextType;
-  var CellText: WideString);
+  var CellText: string);
 begin
   if UnitTests.GetNodeLevel(Node) = 0 then
     CellText := TestClasses[Node.Index]
@@ -329,7 +329,7 @@ end;
 
 procedure TUnitTestWindow.UnitTestsGetHint(Sender: TBaseVirtualTree;
   Node: PVirtualNode; Column: TColumnIndex;
-  var LineBreakStyle: TVTTooltipLineBreakStyle; var HintText: WideString);
+  var LineBreakStyle: TVTTooltipLineBreakStyle; var HintText: string);
 var
   PyTestCase : PPyObject;
   TestCase : Variant;
@@ -446,7 +446,7 @@ begin
         PPyObject(TStringList(TestClasses.Objects[TestCaseNode.Parent.Index]).Objects[TestCaseNode.Index]);
       TestCase := VarPythonCreate(PyTestCase);
       TestCase.testStatus := Ord(tsNotRun);
-      TestCase.errMsg := WideString('');
+      TestCase.errMsg := string('');
       if TestCase.enabled then
         TempTestSuite._tests.append(TestCase);
       TestCaseNode := TestCaseNode.NextSibling;
@@ -705,4 +705,3 @@ begin
 end;
 
 end.
-

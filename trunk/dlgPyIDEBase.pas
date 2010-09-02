@@ -4,10 +4,10 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, TntForms;
+  Dialogs;
 
 type
-  TPyIDEDlgBase = class(TTntForm)
+  TPyIDEDlgBase = class(TForm)
     procedure FormCreate(Sender: TObject);
   private
     { Private declarations }

@@ -46,7 +46,7 @@ interface
 
 uses
   Messages, Windows, Classes, Forms, Dialogs, StdCtrls, ActnList,
-  Controls, TntActnList, SpTBXControls, TntStdCtrls, Graphics,
+  Controls, SpTBXControls, Graphics,
   SpTBXEditors, TB2Dock, TB2Toolbar, SpTBXItem, TB2Item,
   dlgPyIDEBase, MPCommonObjects, EasyListview, MPCommonUtilities;
 
@@ -76,13 +76,13 @@ type
     dlgProcFont: TFontDialog;
     pnlHeaderLeft: TSpTBXPanel;
     pnlHeaderRight: TSpTBXPanel;
-    Actions: TTntActionList;
-    actHelpHelp: TTntAction;
-    actViewGoto: TTntAction;
-    actViewAny: TTntAction;
-    actViewStart: TTntAction;
-    actOptionsFont: TTntAction;
-    actEditCopy: TTntAction;
+    Actions: TActionList;
+    actHelpHelp: TAction;
+    actViewGoto: TAction;
+    actViewAny: TAction;
+    actViewStart: TAction;
+    actOptionsFont: TAction;
+    actEditCopy: TAction;
     lblMethods: TSpTBXLabel;
     lblObjects: TSpTBXLabel;
     edtMethods: TSpTBXEdit;
@@ -609,4 +609,3 @@ begin
 end;
 
 end.
-

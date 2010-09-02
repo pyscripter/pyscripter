@@ -5,13 +5,12 @@ inherited fmToDoOptions: TfmToDoOptions
   Caption = 'To Do Options'
   ClientHeight = 270
   ClientWidth = 512
-  Font.Name = 'MS Shell Dlg 2'
   OldCreateOrder = True
   Position = poScreenCenter
   Scaled = False
   OnShow = FormShow
   ExplicitWidth = 518
-  ExplicitHeight = 296
+  ExplicitHeight = 298
   PixelsPerInch = 96
   TextHeight = 13
   object pnlBG: TSpTBXPanel
@@ -139,7 +138,7 @@ inherited fmToDoOptions: TfmToDoOptions
       TBXStyleBackground = True
       object btnBrowse: TSpTBXButton
         Left = 223
-        Top = 72
+        Top = 76
         Width = 20
         Height = 20
         Hint = 'Select Directory'
@@ -151,7 +150,7 @@ inherited fmToDoOptions: TfmToDoOptions
       end
       object chkInclude: TSpTBXCheckBox
         Left = 8
-        Top = 150
+        Top = 149
         Width = 129
         Height = 21
         Caption = 'Include su&bdirectories'
@@ -159,7 +158,7 @@ inherited fmToDoOptions: TfmToDoOptions
         TabOrder = 3
       end
       object radScanOpen: TSpTBXRadioButton
-        Left = 6
+        Left = 10
         Top = 17
         Width = 96
         Height = 21
@@ -170,8 +169,8 @@ inherited fmToDoOptions: TfmToDoOptions
         OnClick = radScanDirClick
       end
       object radScanDir: TSpTBXRadioButton
-        Left = 6
-        Top = 51
+        Left = 10
+        Top = 55
         Width = 100
         Height = 21
         Caption = 'Scan &directories'
@@ -181,8 +180,8 @@ inherited fmToDoOptions: TfmToDoOptions
         OnClick = radScanDirClick
       end
       object radScanProject: TSpTBXRadioButton
-        Left = 6
-        Top = 34
+        Left = 10
+        Top = 36
         Width = 106
         Height = 21
         Caption = 'Scan &project files'
@@ -191,11 +190,17 @@ inherited fmToDoOptions: TfmToDoOptions
         TabStop = True
         OnClick = radScanDirClick
       end
-      object meDirectories: TTntRichEdit
+      object meDirectories: TRichEdit
         Left = 9
-        Top = 72
+        Top = 78
         Width = 208
-        Height = 72
+        Height = 66
+        Font.Charset = GREEK_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Shell Dlg 2'
+        Font.Style = []
+        ParentFont = False
         PlainText = True
         ScrollBars = ssBoth
         TabOrder = 4

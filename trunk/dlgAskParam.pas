@@ -53,12 +53,12 @@ type
     Label1: TSpTBXLabel;
     SpTBXPanel1: TSpTBXPanel;
   private
-    FParamName: WideString;
-    procedure SetParamName(const Value: WideString);
+    FParamName: string;
+    procedure SetParamName(const Value: string);
   public
-    class function AskForParameter(Sender: TObject; const AName: WideString;
-      var AValue: WideString): Boolean;
-    property ParamName: WideString read FParamName write SetParamName;
+    class function AskForParameter(Sender: TObject; const AName: string;
+      var AValue: string): Boolean;
+    property ParamName: string read FParamName write SetParamName;
   end;
 
 var
@@ -72,8 +72,8 @@ uses
 
 {$R *.DFM}
 
-class function TAskParamForm.AskForParameter(Sender: TObject; const AName: WideString;
-                                             var AValue: WideString): Boolean;
+class function TAskParamForm.AskForParameter(Sender: TObject; const AName: string;
+                                             var AValue: string): Boolean;
 (* ask for parameter value and optionally stores parameter to file *)
 begin
   with TAskParamForm.Create(Application) do try
@@ -100,7 +100,7 @@ end;
 
 { TAskParamForm }
 
-procedure TAskParamForm.SetParamName(const Value: WideString);
+procedure TAskParamForm.SetParamName(const Value: string);
 begin
   FParamName := Value;
   Label1.Caption:= Label1.Caption + Value;

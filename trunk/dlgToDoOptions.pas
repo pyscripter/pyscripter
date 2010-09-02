@@ -46,8 +46,8 @@ interface
 
 
 uses
-  Classes, Controls, StdCtrls, Forms, SpTBXControls, TntStdCtrls,
-  SpTBXEditors, dlgPyIDEBase, SpTBXItem, ComCtrls, TntComCtrls;
+  Classes, Controls, StdCtrls, Forms, SpTBXControls,
+  SpTBXEditors, dlgPyIDEBase, SpTBXItem, ComCtrls;
 
 type
   TfmToDoOptions = class(TPyIDEDlgBase)
@@ -69,10 +69,10 @@ type
     lstTokens: TSpTBXListBox;
     edToken: TSpTBXEdit;
     cboPriority: TSpTBXComboBox;
-    meDirectories: TTntRichEdit;
     lblPriority: TSpTBXLabel;
     lblToken: TSpTBXLabel;
     pnlBG: TSpTBXPanel;
+    meDirectories: TRichEdit;
     procedure btnInsertClick(Sender: TObject);
     procedure btnRemoveClick(Sender: TObject);
     procedure btnApplyClick(Sender: TObject);
@@ -95,7 +95,7 @@ implementation
 
 uses
   Dialogs, Graphics, SysUtils, frmToDo, dlgDirectoryList, gnugettext,
-  TntDialogs, StringResources;
+  StringResources;
 
 procedure TfmToDoOptions.UpdateButtonState;
 var
@@ -142,7 +142,7 @@ end;
 procedure TfmToDoOptions.btnInsertClick(Sender: TObject);
 var
   TokenInfo: TTokenInfo;
-  TokenString: WideString;
+  TokenString: string;
 begin
   TokenString := Trim(edToken.Text);
   if TokenString <> '' then
@@ -155,7 +155,7 @@ begin
   else
   begin
     // Warning message that an empty token is inserted
-    WideMessageDlg(_(SEmptyTokenTextError), mtError, [mbOK], 0);
+    Dialogs.MessageDlg(_(SEmptyTokenTextError), mtError, [mbOK], 0);
   end;
   UpdateButtonState;
 end;
@@ -173,7 +173,7 @@ end;
 
 procedure TfmToDoOptions.btnApplyClick(Sender: TObject);
 var
-  TokenText: WideString;
+  TokenText: string;
 begin
   with lstTokens do
   begin

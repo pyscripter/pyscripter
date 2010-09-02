@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Controls, Forms,
   Dialogs, StdCtrls, 
-  SynEdit, ActnList, SpTBXControls, TntActnList, dlgPyIDEBase,
+  SynEdit, ActnList, SpTBXControls, dlgPyIDEBase,
   SpTBXEditors, WideStrings, SpTBXItem, MPCommonObjects,
   EasyListview, MPCommonUtilities;
 
@@ -19,12 +19,12 @@ type
     TBXButton2: TSpTBXButton;
     btnOK: TSpTBXButton;
     btnCancel: TSpTBXButton;
-    ActionList: TTntActionList;
-    actUpdateItem: TTntAction;
-    actMoveDown: TTntAction;
-    actMoveUp: TTntAction;
-    actDeleteItem: TTntAction;
-    actAddItem: TTntAction;
+    ActionList: TActionList;
+    actUpdateItem: TAction;
+    actMoveDown: TAction;
+    actMoveUp: TAction;
+    actDeleteItem: TAction;
+    actAddItem: TAction;
     Label3: TSpTBXLabel;
     Label4: TSpTBXLabel;
     GroupBox1: TSpTBXGroupBox;
@@ -50,13 +50,13 @@ type
     { Private declarations }
   public
     { Public declarations }
-    procedure SetItems(List : TWideStrings);
-    procedure GetItems(List : TWideStrings);
+    procedure SetItems(List : TStrings);
+    procedure GetItems(List : TStrings);
   end;
 
 implementation
 
-uses dmCommands, gnugettext, StringResources, TntDialogs;
+uses dmCommands, gnugettext, StringResources;
 
 {$R *.dfm}
 
@@ -74,12 +74,12 @@ end;
 
 procedure TCustomizeParams.edNameKeyPress(Sender: TObject; var Key: Char);
 begin
-  if not (Key in ['a'..'z', 'A'..'Z', '0'..'9', #8]) then
+  if not CharInset(Key, ['a'..'z', 'A'..'Z', '0'..'9', #8]) then
     Key := #0;
   inherited;
 end;
 
-procedure TCustomizeParams.GetItems(List: TWideStrings);
+procedure TCustomizeParams.GetItems(List: TStrings);
 Var
  i : integer;
 begin
@@ -93,7 +93,7 @@ begin
   end;
 end;
 
-procedure TCustomizeParams.SetItems(List: TWideStrings);
+procedure TCustomizeParams.SetItems(List: TStrings);
 Var
  i : integer;
 begin
@@ -156,7 +156,7 @@ begin
       if (CompareText(lvItems.Items[i].Caption, edName.Text) = 0) and
          (i <> lvItems.Selection.First.Index) then
       begin
-        WideMessageDlg(_(SSameName), mtError, [mbOK], 0);
+        Dialogs.MessageDlg(_(SSameName), mtError, [mbOK], 0);
         Exit;
       end;
     lvItems.Header.Columns[0].SortDirection := esdNone;

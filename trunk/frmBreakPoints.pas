@@ -38,7 +38,7 @@ type
       Node: PVirtualNode; var InitialStates: TVirtualNodeInitStates);
     procedure BreakPointsViewGetText(Sender: TBaseVirtualTree;
       Node: PVirtualNode; Column: TColumnIndex; TextType: TVSTTextType;
-      var CellText: WideString);
+      var CellText: string);
     procedure FormActivate(Sender: TObject);
   private
     { Private declarations }
@@ -59,17 +59,17 @@ var
 implementation
 
 uses frmPyIDEMain, uEditAppIntfs, dmCommands, Clipbrd,
-  cPyBaseDebugger, TntDialogs, gnugettext,
+  cPyBaseDebugger, gnugettext,
   StringResources, uCommonFunctions;
 
 {$R *.dfm}
 
 Type
   TBreakPointInfo = class
-    FileName : WideString;
+    FileName : string;
     Line : integer;
     Disabled : Boolean;
-    Condition : WideString;
+    Condition : string;
   end;
 
   PBreakPointRec = ^TBreakPointRec;
@@ -146,7 +146,7 @@ begin
       if FileName = '' then Exit; // No FileName or LineNumber
       Editor := GI_EditorFactory.GetEditorByNameOrTitle(FileName);
       if Assigned(Editor) then begin
-        if WideInputQuery(_(SEditBreakpointCond), _(SEnterPythonExpression), Condition)
+        if InputQuery(_(SEditBreakpointCond), _(SEnterPythonExpression), Condition)
         then
           PyControl.SetBreakPoint(FileName, Line, Disabled, Condition);
       end;
@@ -162,7 +162,7 @@ end;
 
 procedure TBreakPointsWindow.mnCopyToClipboardClick(Sender: TObject);
 begin
-  Clipboard.AsText := BreakPointsView.ContentToText(tstAll, #9);
+  Clipboard.AsText := string(BreakPointsView.ContentToText(tstAll, #9));
 end;
 
 procedure TBreakPointsWindow.FormActivate(Sender: TObject);
@@ -222,7 +222,7 @@ end;
 
 procedure TBreakPointsWindow.BreakPointsViewGetText(
   Sender: TBaseVirtualTree; Node: PVirtualNode; Column: TColumnIndex;
-  TextType: TVSTTextType; var CellText: WideString);
+  TextType: TVSTTextType; var CellText: string);
 begin
   Assert(BreakPointsView.GetNodeLevel(Node) = 0);
   Assert(Integer(Node.Index) < fBreakPointsList.Count);
@@ -258,6 +258,5 @@ begin
 end;
 
 end.
-
 
 

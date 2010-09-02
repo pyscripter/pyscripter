@@ -202,7 +202,7 @@ begin
     AZone := TCrackJvDockVSNETZone(Zone);
     R := Rect(Left, Top, Left + ButtonWidth, Top + ButtonHeight);
 
-    if AZone.AutoHideBtnState = bsNormal then begin
+    if AZone.AutoHideBtnState = TJvDockBtnState.bsNormal then begin
       PatternColor := CurrentSkin.GetTextColor(skncDockablePanelTitleBar, sknsNormal, sknSkin);
       if PatternColor = clNone then
         PatternColor := CurrentSkin.GetTextColor(skncToolbarItem, sknsNormal, sknSkin);
@@ -255,7 +255,7 @@ begin
     AZone := TCrackJvDockVSNETZone(Zone);
     R := Rect(Left, Top, Left + ButtonWidth, Top + ButtonHeight);
 
-    if AZone.CloseBtnState = bsNormal then begin
+    if AZone.CloseBtnState = TJvDockBtnState.bsNormal then begin
       PatternColor := CurrentSkin.GetTextColor(skncDockablePanelTitleBar, sknsNormal, sknSkin);
       if PatternColor = clNone then
         PatternColor := CurrentSkin.GetTextColor(skncToolbarItem, sknsNormal, sknSkin);

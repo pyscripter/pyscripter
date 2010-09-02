@@ -3,7 +3,7 @@ inherited FindResultsWindow: TFindResultsWindow
   Top = 146
   HelpContext = 460
   Caption = 'Find in Files Results'
-  ClientHeight = 339
+  ClientHeight = 358
   ClientWidth = 603
   Icon.Data = {
     0000010001001010000000000000680500001600000028000000100000002000
@@ -53,19 +53,19 @@ inherited FindResultsWindow: TFindResultsWindow
   OnKeyPress = FormKeyPress
   OnShow = FormShow
   ExplicitWidth = 619
-  ExplicitHeight = 373
+  ExplicitHeight = 392
   PixelsPerInch = 96
   TextHeight = 13
   inherited FGPanel: TPanel
     Width = 599
-    Height = 335
+    Height = 354
     ExplicitWidth = 599
-    ExplicitHeight = 335
+    ExplicitHeight = 358
     object pnlMain: TPanel
       Left = 0
       Top = 0
       Width = 599
-      Height = 311
+      Height = 330
       Align = alClient
       BevelOuter = bvNone
       FullRepaint = False
@@ -73,12 +73,13 @@ inherited FindResultsWindow: TFindResultsWindow
       TabOrder = 0
       object Splitter: TSpTBXSplitter
         Left = 0
-        Top = 215
+        Top = 234
         Width = 599
         Height = 8
         Cursor = crSizeNS
         Align = alBottom
         MinSize = 20
+        ExplicitTop = 215
       end
       object TBXDock1: TSpTBXDock
         Left = 0
@@ -153,7 +154,7 @@ inherited FindResultsWindow: TFindResultsWindow
         Left = 0
         Top = 26
         Width = 599
-        Height = 189
+        Height = 208
         Align = alClient
         Constraints.MinHeight = 120
         ItemHeight = 17
@@ -165,12 +166,18 @@ inherited FindResultsWindow: TFindResultsWindow
         OnMouseUp = lbResultsMouseUp
         HotTrack = False
       end
-      object reContext: TTntRichEdit
+      object reContext: TRichEdit
         Left = 0
-        Top = 223
+        Top = 242
         Width = 599
         Height = 88
         Align = alBottom
+        Font.Charset = GREEK_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'MS Shell Dlg 2'
+        Font.Style = []
+        ParentFont = False
         ReadOnly = True
         ScrollBars = ssBoth
         TabOrder = 1
@@ -179,9 +186,10 @@ inherited FindResultsWindow: TFindResultsWindow
     end
     object StatusBar: TSpTBXStatusBar
       Left = 0
-      Top = 311
+      Top = 330
       Width = 599
       Height = 24
+      ExplicitTop = 311
       object StatusLeftLabel: TSpTBXLabelItem
         Wrapping = twEndEllipsis
         MinHeight = 20
@@ -249,12 +257,12 @@ inherited FindResultsWindow: TFindResultsWindow
       Action = actHelpHelp
     end
   end
-  object Actions: TTntActionList
+  object Actions: TActionList
     Images = CommandsDataModule.Images
     OnUpdate = ActionsUpdate
     Left = 24
     Top = 80
-    object actReplaceSelected: TTntAction
+    object actReplaceSelected: TAction
       Category = 'Replace'
       Caption = 'Replace Selected Item...'
       Hint = 'Replace selected item...'
@@ -262,7 +270,7 @@ inherited FindResultsWindow: TFindResultsWindow
       ShortCut = 24659
       OnExecute = actReplaceSelectedExecute
     end
-    object actFileSearch: TTntAction
+    object actFileSearch: TAction
       Category = 'File'
       Caption = '&Search...'
       Hint = 'New search...'
@@ -270,7 +278,7 @@ inherited FindResultsWindow: TFindResultsWindow
       ShortCut = 24646
       OnExecute = actFileSearchExecute
     end
-    object actFileRefresh: TTntAction
+    object actFileRefresh: TAction
       Category = 'File'
       Caption = '&Refresh'
       Hint = 'Refresh search'
@@ -278,7 +286,7 @@ inherited FindResultsWindow: TFindResultsWindow
       ShortCut = 116
       OnExecute = actFileRefreshExecute
     end
-    object actFileAbort: TTntAction
+    object actFileAbort: TAction
       Category = 'File'
       Caption = '&Abort'
       Hint = 'Abort search'
@@ -286,7 +294,7 @@ inherited FindResultsWindow: TFindResultsWindow
       ShortCut = 16449
       OnExecute = actFileAbortExecute
     end
-    object actFilePrint: TTntAction
+    object actFilePrint: TAction
       Category = 'File'
       Caption = '&Print...'
       Hint = 'Print results...'
@@ -294,14 +302,14 @@ inherited FindResultsWindow: TFindResultsWindow
       ShortCut = 16464
       OnExecute = actFilePrintExecute
     end
-    object actListGotoSelected: TTntAction
+    object actListGotoSelected: TAction
       Category = 'List'
       Caption = 'Goto Selected'
       Hint = 'Goto match'
       ImageIndex = 32
       OnExecute = actListGotoSelectedExecute
     end
-    object actListContract: TTntAction
+    object actListContract: TAction
       Category = 'List'
       Caption = '&Contract'
       Hint = 'Contract all'
@@ -309,7 +317,7 @@ inherited FindResultsWindow: TFindResultsWindow
       ShortCut = 16462
       OnExecute = actListContractExecute
     end
-    object actListExpand: TTntAction
+    object actListExpand: TAction
       Category = 'List'
       Caption = '&Expand'
       Hint = 'Expand all'
@@ -317,21 +325,21 @@ inherited FindResultsWindow: TFindResultsWindow
       ShortCut = 16453
       OnExecute = actListExpandExecute
     end
-    object actHelpHelp: TTntAction
+    object actHelpHelp: TAction
       Category = 'Help'
       Caption = '&Help'
       Hint = 'Help'
       ImageIndex = 33
       OnExecute = actHelpHelpExecute
     end
-    object actViewShowContext: TTntAction
+    object actViewShowContext: TAction
       Category = 'View'
       Caption = 'Show Match Context'
       Checked = True
       Hint = 'View/Hide Context of found text'
       OnExecute = actViewShowContextExecute
     end
-    object actFileSave: TTntAction
+    object actFileSave: TAction
       Category = 'File'
       Caption = '&Save...'
       Hint = 'Save results to file...'
@@ -339,7 +347,7 @@ inherited FindResultsWindow: TFindResultsWindow
       ShortCut = 49235
       OnExecute = actFileSaveExecute
     end
-    object actFileCopy: TTntAction
+    object actFileCopy: TAction
       Category = 'File'
       Caption = '&Copy'
       Hint = 'Copy results to clipboard'
@@ -347,28 +355,28 @@ inherited FindResultsWindow: TFindResultsWindow
       ShortCut = 16451
       OnExecute = actFileCopyExecute
     end
-    object actViewToolBar: TTntAction
+    object actViewToolBar: TAction
       Category = 'View'
       Caption = 'Toolbar'
       Checked = True
       Hint = 'View/Hide Toolbar'
       OnExecute = actViewToolBarExecute
     end
-    object actViewStatusBar: TTntAction
+    object actViewStatusBar: TAction
       Category = 'View'
       Caption = 'StatusBar'
       Checked = True
       Hint = 'View/Hide StatusBar'
       OnExecute = actViewStatusBarExecute
     end
-    object actViewOptions: TTntAction
+    object actViewOptions: TAction
       Category = 'View'
       Caption = 'Options...'
       Hint = 'Configure Find in Files'
       ImageIndex = 24
       OnExecute = actViewOptionsExecute
     end
-    object actReplaceAll: TTntAction
+    object actReplaceAll: TAction
       Category = 'Replace'
       Caption = 'Replace All Items...'
       Hint = 'Replace all items...'

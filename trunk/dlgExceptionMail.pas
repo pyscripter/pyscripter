@@ -31,7 +31,7 @@ uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, AppEvnts,
   JclSysUtils, JclMapi, JclUnitVersioning, JclUnitVersioningProviders, JclDebug,
-  SpTBXControls, TntStdCtrls, dlgPyIDEBase, SpTBXItem;
+  dlgPyIDEBase, SpTBXItem, SpTBXControls;
 
 const
   UM_CREATEDETAILS = WM_USER + $100;
@@ -42,8 +42,8 @@ type
     OkBtn: TSpTBXButton;
     DetailsBtn: TSpTBXButton;
     BevelDetails: TBevel;
-    TextLabel: TTntMemo;
     DetailsMemo: TMemo;
+    TextLabel: TMemo;
     procedure SendBtnClick(Sender: TObject);
     procedure FormPaint(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -248,8 +248,8 @@ begin
   with TJclEmail.Create do
   try
     ParentWnd := Application.Handle;
-    Recipients.Add(RsSendBugReportAddress);
-    Subject := RsSendBugReportSubject;
+    Recipients.Add(AnsiString(RsSendBugReportAddress));
+    Subject := AnsiString(RsSendBugReportSubject);
     Body := AnsiString(ReportAsText);
     SaveTaskWindows;
     try

@@ -15,8 +15,7 @@ uses
   Dialogs, frmIDEDockWin, JvDockControlForm, ExtCtrls, StdCtrls,
   VirtualTrees, SpTBXDkPanels, TB2Item,
   TB2Dock, TB2Toolbar, JvAppStorage,
-  JvComponentBase, SpTBXItem, ComCtrls, TntComCtrls,
-  SpTBXControls, SpTBXSkins;
+  JvComponentBase, SpTBXItem, ComCtrls,  SpTBXControls, SpTBXSkins;
 
 type
   TRegExpTesterWindow = class(TIDEDockWindow, IJvAppStorageHandler)
@@ -47,23 +46,23 @@ type
     dpMatchText: TSpTBXPanel;
     TBXLabel2: TSpTBXLabel;
     SpTBXPanel3: TSpTBXPanel;
-    MatchText: TTntRichEdit;
     dpRegExpText: TSpTBXPanel;
     TBXLabel3: TSpTBXLabel;
     SpTBXPanel1: TSpTBXPanel;
-    RegExpText: TTntRichEdit;
     dpSearchText: TSpTBXPanel;
     TBXLabel4: TSpTBXLabel;
     SpTBXPanel2: TSpTBXPanel;
-    SearchText: TTntRichEdit;
     SpTBXSplitter1: TSpTBXSplitter;
     SpTBXSplitter2: TSpTBXSplitter;
     pnlMiddle: TSpTBXPanel;
     SpTBXSplitter3: TSpTBXSplitter;
     pnlBackground: TSpTBXPanel;
+    RegExpText: TRichEdit;
+    SearchText: TRichEdit;
+    MatchText: TRichEdit;
     procedure TiClearClick(Sender: TObject);
     procedure GroupsViewGetText(Sender: TBaseVirtualTree; Node: PVirtualNode;
-      Column: TColumnIndex; TextType: TVSTTextType; var CellText: WideString);
+      Column: TColumnIndex; TextType: TVSTTextType; var CellText: string);
     procedure TIExecuteClick(Sender: TObject);
     procedure tiHelpClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -250,7 +249,7 @@ end;
 
 procedure TRegExpTesterWindow.GroupsViewGetText(Sender: TBaseVirtualTree;
   Node: PVirtualNode; Column: TColumnIndex; TextType: TVSTTextType;
-  var CellText: WideString);
+  var CellText: string);
 Var
   GroupDict, Keys : Variant;
   var

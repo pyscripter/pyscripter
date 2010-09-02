@@ -57,11 +57,11 @@ type
   private
     fLineNo : integer;
     fDisabled : Boolean;
-    fCondition : WideString;
+    fCondition : string;
   published
     property LineNo : integer read fLineNo write fLineNo;
     property Disabled : Boolean read fDisabled write fDisabled;
-    property Condition : WideString read fCondition write fCondition;
+    property Condition : string read fCondition write fCondition;
   end;
 
   IEditor = interface;
@@ -69,17 +69,17 @@ type
   IEditorViewFactory = interface
   ['{680F6C4E-5EED-4684-A199-5A62E644D81B}']
     function CreateForm(Editor: IEditor; AOwner : TComponent): TCustomForm;
-    function GetName : WideString;
-    function GetTabCaption : WideString;
-    function GetMenuCaption : WideString;
-    function GetHint : WideString;
+    function GetName : string;
+    function GetTabCaption : string;
+    function GetMenuCaption : string;
+    function GetHint : string;
     function GetImageIndex : integer;
     function GetShortCut : TShortCut;
     procedure GetContextHighlighters(List : TList);
-    property Name : WideString read GetName;
-    property TabCaption : WideString read GetTabCaption;
-    property MenuCaption : WideString read GetMenuCaption;
-    property Hint : WideString read GetHint;
+    property Name : string read GetName;
+    property TabCaption : string read GetTabCaption;
+    property MenuCaption : string read GetMenuCaption;
+    property Hint : string read GetHint;
     property ImageIndex : integer read GetImageIndex;
     property ShortCut : TShortCut read GetShortCut;
   end;
@@ -103,30 +103,30 @@ type
     function GetActiveSynEdit : TSynEdit;
     function GetBreakPoints : TObjectList;
     function GetCaretPos: TPoint;
-    function GetEditorState: WideString;
-    function GetFileName: WideString;
-    function GetFileTitle: WideString;
-    function GetFileNameOrTitle: WideString;
+    function GetEditorState: string;
+    function GetFileName: string;
+    function GetFileTitle: string;
+    function GetFileNameOrTitle: string;
     function GetModified: boolean;
     function GetFileEncoding : TFileSaveFormat;
     function GetForm : TForm;
-    function GetEncodedText : string;
+    function GetEncodedText : AnsiString;
     procedure SetFileEncoding(FileEncoding : TFileSaveFormat);
-    procedure OpenFile(const AFileName: WideString; HighlighterName : WideString = '');
+    procedure OpenFile(const AFileName: string; HighlighterName : string = '');
     function HasPythonFile : Boolean;
     procedure ExecuteSelection;
     procedure SplitEditorHorizontally;
     procedure SplitEditorVertrically;
     procedure Retranslate;
-    property FileName : WideString read GetFileName;
-    property FileTitle : WideString read GetFileTitle;
+    property FileName : string read GetFileName;
+    property FileTitle : string read GetFileTitle;
     property Modified : boolean read GetModified;
     property SynEdit : TSynEdit read GetSynEdit;
     property SynEdit2 : TSynEdit read GetSynEdit2;
     property ActiveSynEdit : TSynEdit read GetActiveSynEdit;
     property BreakPoints : TObjectList read GetBreakPoints;
     property FileEncoding : TFileSaveFormat read GetFileEncoding write SetFileEncoding;
-    property EncodedText : string read GetEncodedText;
+    property EncodedText : AnsiString read GetEncodedText;
     property Form : TForm read GetForm;
   end;
 
@@ -137,8 +137,8 @@ type
     function CreateTabSheet(AOwner: TSpTBXTabControl): IEditor;
     function GetEditorCount: integer;
     function GetEditor(Index: integer): IEditor;
-    function GetEditorByName(const Name : WideString): IEditor;
-    function GetEditorByNameOrTitle(const Name : WideString): IEditor;
+    function GetEditorByName(const Name : string): IEditor;
+    function GetEditorByNameOrTitle(const Name : string): IEditor;
     procedure RemoveEditor(AEditor: IEditor);
     procedure RegisterViewFactory(ViewFactory : IEditorViewFactory);
     function GetViewFactoryCount: integer;

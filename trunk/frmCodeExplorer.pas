@@ -171,7 +171,7 @@ type
     nCollapseAll: TSpTBXItem;
     procedure ExplorerTreeGetHint(Sender: TBaseVirtualTree; Node: PVirtualNode;
       Column: TColumnIndex; var LineBreakStyle: TVTTooltipLineBreakStyle;
-      var HintText: WideString);
+      var HintText: string);
     procedure FormCreate(Sender: TObject);
     procedure ExplorerTreeInitNode(Sender: TBaseVirtualTree; ParentNode,
       Node: PVirtualNode; var InitialStates: TVirtualNodeInitStates);
@@ -180,7 +180,7 @@ type
       var Ghosted: Boolean; var ImageIndex: Integer);
     procedure ExplorerTreeGetText(Sender: TBaseVirtualTree;
       Node: PVirtualNode; Column: TColumnIndex; TextType: TVSTTextType;
-      var CellText: WideString);
+      var CellText: string);
     procedure FormDestroy(Sender: TObject);
     procedure ExplorerTreeInitChildren(Sender: TBaseVirtualTree;
       Node: PVirtualNode; var ChildCount: Cardinal);
@@ -453,7 +453,7 @@ end;
 
 procedure TCodeExplorerWindow.ExplorerTreeGetText(Sender: TBaseVirtualTree;
   Node: PVirtualNode; Column: TColumnIndex; TextType: TVSTTextType;
-  var CellText: WideString);
+  var CellText: string);
 var
   Data : PNodeDataRec;
 begin
@@ -464,7 +464,7 @@ end;
 
 procedure TCodeExplorerWindow.ExplorerTreeGetHint(Sender: TBaseVirtualTree;
   Node: PVirtualNode; Column: TColumnIndex;
-  var LineBreakStyle: TVTTooltipLineBreakStyle; var HintText: WideString);
+  var LineBreakStyle: TVTTooltipLineBreakStyle; var HintText: string);
 var
   Data : PNodeDataRec;
 begin
