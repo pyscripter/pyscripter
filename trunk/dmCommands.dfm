@@ -68,7 +68,7 @@ object CommandsDataModule: TCommandsDataModule
     Left = 32
     Top = 241
     Bitmap = {
-      494C010114001800180010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C0101140018001C0010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000006000000001002000000000000060
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -4293,6 +4293,7 @@ object CommandsDataModule: TCommandsDataModule
       OnExecute = actEditShowSpecialCharsExecute
     end
     object actFindPreviousReference: TAction
+      Tag = 1
       Category = 'Search'
       Caption = 'Find Previous Reference'
       HelpContext = 330
@@ -4318,6 +4319,7 @@ object CommandsDataModule: TCommandsDataModule
       OnExecute = actEditLBExecute
     end
     object actEditLBUnix: TAction
+      Tag = 1
       Category = 'Edit'
       Caption = '&UNIX'
       HelpContext = 320
@@ -4326,6 +4328,7 @@ object CommandsDataModule: TCommandsDataModule
       OnExecute = actEditLBExecute
     end
     object actEditLBMac: TAction
+      Tag = 2
       Category = 'Edit'
       Caption = '&Mac'
       HelpContext = 320
@@ -4388,6 +4391,7 @@ object CommandsDataModule: TCommandsDataModule
       OnExecute = actFileTemplatesExecute
     end
     object actEditUTF8: TAction
+      Tag = 1
       Category = 'Edit'
       Caption = 'UTF-8'
       HelpContext = 320
@@ -4395,6 +4399,7 @@ object CommandsDataModule: TCommandsDataModule
       OnExecute = actEditFileEncodingExecute
     end
     object actEditUTF8NoBOM: TAction
+      Tag = 2
       Category = 'Edit'
       Caption = 'UTF-8 (No BOM)'
       HelpContext = 320
@@ -4402,6 +4407,7 @@ object CommandsDataModule: TCommandsDataModule
       OnExecute = actEditFileEncodingExecute
     end
     object actEditUTF16LE: TAction
+      Tag = 3
       Category = 'Edit'
       Caption = 'UTF-16LE'
       HelpContext = 320
@@ -4409,6 +4415,7 @@ object CommandsDataModule: TCommandsDataModule
       OnExecute = actEditFileEncodingExecute
     end
     object actEditUTF16BE: TAction
+      Tag = 4
       Category = 'Edit'
       Caption = 'UTF-16BE'
       HelpContext = 320
@@ -4504,12 +4511,29 @@ object CommandsDataModule: TCommandsDataModule
       Hint = 'Close all files except the active one'
       OnExecute = actFileCloseAllOtherExecute
     end
+    object actEditCopyFileName: TAction
+      Category = 'Edit'
+      Caption = 'Copy File Name'
+      HelpContext = 320
+      HelpType = htContext
+      Hint = 'Copy file name of active file to clipboard'
+      ImageIndex = 12
+      OnExecute = actEditCopyFileNameExecute
+    end
+    object actToolsEditStartupScripts: TAction
+      Category = 'Tools'
+      Caption = 'Edit Start&up Scripts'
+      HelpContext = 350
+      HelpType = htContext
+      Hint = 'Edit PyScripter initialization files'
+      OnExecute = actToolsEditStartupScriptsExecute
+    end
   end
   object Images: TImageList
     Left = 188
     Top = 186
     Bitmap = {
-      494C01019B009F00180010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01019B009F001C0010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000007002000001002000000000000070
       020000000000000000000000000000000000000000000000000000000000EADD
       CB00AB7734009655000096550000AB773400EADDCB0000000000000000000000

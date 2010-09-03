@@ -426,6 +426,7 @@ object PyIDEMainForm: TPyIDEMainForm
       TabDragReorder = True
       TabPosition = ttpBottom
       OnActiveTabChange = TabControlActiveTabChange
+      ExplicitTop = 3
       HiddenItems = <>
       object tbiRightAlign: TSpTBXRightAlignSpacerItem
         CustomWidth = 652
@@ -1117,6 +1118,11 @@ object PyIDEMainForm: TPyIDEMainForm
         end
         object TBXSeparatorItem15: TSpTBXSeparatorItem
         end
+        object SpTBXItem2: TSpTBXItem
+          Action = CommandsDataModule.actToolsEditStartupScripts
+        end
+        object SpTBXSeparatorItem12: TSpTBXSeparatorItem
+        end
         object mnCheckForUpdates: TSpTBXItem
           Action = CommandsDataModule.actCheckForUpdates
         end
@@ -1602,8 +1608,8 @@ object PyIDEMainForm: TPyIDEMainForm
   end
   object TabControlPopupMenu: TSpTBXPopupMenu
     Images = CommandsDataModule.Images
-    Left = 172
-    Top = 98
+    Left = 312
+    Top = 282
     object mnNewModule2: TSpTBXItem
       Action = actFileNewModule
     end
@@ -1617,6 +1623,11 @@ object PyIDEMainForm: TPyIDEMainForm
       Action = CommandsDataModule.actFileCloseAllOther
     end
     object TBXSeparatorItem28: TSpTBXSeparatorItem
+    end
+    object SpTBXItem1: TSpTBXItem
+      Action = CommandsDataModule.actEditCopyFileName
+    end
+    object SpTBXSeparatorItem11: TSpTBXSeparatorItem
     end
     object mnMaximizeEditor2: TSpTBXItem
       Action = actMaximizeEditor
@@ -1639,7 +1650,7 @@ object PyIDEMainForm: TPyIDEMainForm
   end
   object RunningProcessesPopUpMenu: TSpTBXPopupMenu
     LinkSubitems = OutputWindow.RunningProcess
-    Left = 152
+    Left = 172
     Top = 280
   end
   object JvAppInstances: TJvAppInstances
@@ -1671,8 +1682,8 @@ object PyIDEMainForm: TPyIDEMainForm
   end
   object actlImmutable: TActionList
     Images = CommandsDataModule.Images
-    Left = 100
-    Top = 96
+    Left = 112
+    Top = 100
     object actViewNextEditor: TAction
       Category = 'View'
       Caption = '&Next Editor'
@@ -1694,8 +1705,8 @@ object PyIDEMainForm: TPyIDEMainForm
   end
   object actlStandard: TActionList
     Images = CommandsDataModule.Images
-    Left = 38
-    Top = 96
+    Left = 42
+    Top = 100
     object actViewMainMenu: TAction
       Category = 'View'
       Caption = 'Main Men&u'
@@ -2421,7 +2432,7 @@ object PyIDEMainForm: TPyIDEMainForm
     TabServerOption.InactiveFont.Name = 'Tahoma'
     TabServerOption.InactiveFont.Style = []
     TabServerOption.ShowCloseButtonOnTabs = False
-    Left = 100
+    Left = 136
     Top = 158
   end
 end

@@ -348,6 +348,8 @@ type
     actFileClose: TAction;
     actFileSaveAs: TAction;
     actFileSave: TAction;
+    actEditCopyFileName: TAction;
+    actToolsEditStartupScripts: TAction;
     function ProgramVersionHTTPLocationLoadFileFromRemote(
       AProgramVersionLocation: TJvProgramVersionHTTPLocation; const ARemotePath,
       ARemoteFileName, ALocalPath, ALocalFileName: string): string;
@@ -429,6 +431,8 @@ type
     procedure actHelpWebProjectHomeExecute(Sender: TObject);
     procedure actHelpWebGroupSupportExecute(Sender: TObject);
     procedure actFileCloseAllOtherExecute(Sender: TObject);
+    procedure actEditCopyFileNameExecute(Sender: TObject);
+    procedure actToolsEditStartupScriptsExecute(Sender: TObject);
   private
     fHighlighters: TStrings;
     fUntitledNumbers: TBits;
@@ -1235,6 +1239,12 @@ begin
   end;
 end;
 
+procedure TCommandsDataModule.actToolsEditStartupScriptsExecute(Sender: TObject);
+begin
+  PyIDEMainForm.DoOpenFile(UserDataDir + PyScripterInitFile);
+  PyIDEMainForm.DoOpenFile(UserDataDir + EngineInitFile);
+end;
+
 procedure TCommandsDataModule.actSearchGoToDebugLineExecute(Sender: TObject);
 begin
   with PyControl.CurrentPos do
@@ -1979,7 +1989,6 @@ begin
 end;
 
 procedure TCommandsDataModule.actIDEOptionsExecute(Sender: TObject);
-//TODO Localize Display Names
 Var
   Categories : array of TOptionCategory;
   Reg : TRegistry;
@@ -1988,130 +1997,130 @@ Var
 begin
   SetLength(Categories, 7);
   with Categories[0] do begin
-    DisplayName := 'IDE';
+    DisplayName := _('IDE');
     SetLength(Options, 10);
     Options[0].PropertyName := 'AutoCheckForUpdates';
-    Options[0].DisplayName := 'Check for updates automatically';
+    Options[0].DisplayName := _('Check for updates automatically');
     Options[1].PropertyName := 'DaysBetweenChecks';
-    Options[1].DisplayName := 'Days between update checks';
+    Options[1].DisplayName := _('Days between update checks');
     Options[2].PropertyName := 'MaskFPUExceptions';
-    Options[2].DisplayName := 'Mask FPU Exceptions';
+    Options[2].DisplayName := _('Mask FPU Exceptions');
     Options[3].PropertyName := 'EditorsTabPosition';
-    Options[3].DisplayName := 'Editor tab position';
+    Options[3].DisplayName := _('Editor tab position');
     Options[4].PropertyName := 'SmartNextPrevPage';
-    Options[4].DisplayName := 'Smart Next Previous Page';
+    Options[4].DisplayName := _('Smart Next Previous Page');
     Options[5].PropertyName := 'ShowTabCloseButton';
-    Options[5].DisplayName := 'Show tab close button';
+    Options[5].DisplayName := _('Show tab close button');
     Options[6].PropertyName := 'DockAnimationInterval';
-    Options[6].DisplayName := 'Dock animation interval (ms)';
+    Options[6].DisplayName := _('Dock animation interval (ms)');
     Options[7].PropertyName := 'DockAnimationMoveWidth';
-    Options[7].DisplayName := 'Dock animation move width (pixels)';
+    Options[7].DisplayName := _('Dock animation move width (pixels)');
     Options[8].PropertyName := 'FileTemplateForNewScripts';
-    Options[8].DisplayName := 'File template for new python scripts';
+    Options[8].DisplayName := _('File template for new python scripts');
     Options[9].PropertyName := 'AutoCompletionFont';
-    Options[9].DisplayName := 'Auto completion font';
+    Options[9].DisplayName := _('Auto completion font');
   end;
   with Categories[1] do begin
-    DisplayName := 'Python Interpreter';
+    DisplayName := _('Python Interpreter');
     SetLength(Options, 12);
     Options[0].PropertyName := 'SaveFilesBeforeRun';
-    Options[0].DisplayName := 'Save files before run';
+    Options[0].DisplayName := _('Save files before run');
     Options[1].PropertyName := 'SaveEnvironmentBeforeRun';
-    Options[1].DisplayName := 'Save environment before run';
+    Options[1].DisplayName := _('Save environment before run');
     Options[2].PropertyName := 'TimeOut';
-    Options[2].DisplayName := 'Timeout for running scripts in ms';
+    Options[2].DisplayName := _('Timeout for running scripts in ms');
     Options[3].PropertyName := 'UTF8inInterpreter';
-    Options[3].DisplayName := 'UTF8 in interactive interpreter';
+    Options[3].DisplayName := _('UTF8 in interactive interpreter');
     Options[4].PropertyName := 'PythonEngineType';
-    Options[4].DisplayName := 'Python engine type';
+    Options[4].DisplayName := _('Python engine type');
     Options[5].PropertyName := 'PrettyPrintOutput';
-    Options[5].DisplayName := 'Pretty print output';
+    Options[5].DisplayName := _('Pretty print output');
     Options[6].PropertyName := 'ClearOutputBeforeRun';
-    Options[6].DisplayName := 'Clear output before run';
+    Options[6].DisplayName := _('Clear output before run');
     Options[7].PropertyName := 'PostMortemOnException';
-    Options[7].DisplayName := 'Post-mortem on exception';
+    Options[7].DisplayName := _('Post-mortem on exception');
     Options[8].PropertyName := 'InterpreterHistorySize';
-    Options[8].DisplayName := 'Interpreter history size';
+    Options[8].DisplayName := _('Interpreter history size');
     Options[9].PropertyName := 'SaveInterpreterHistory';
-    Options[9].DisplayName := 'Save interpreter history';
+    Options[9].DisplayName := _('Save interpreter history');
     Options[10].PropertyName := 'ReinitializeBeforeRun';
-    Options[10].DisplayName := 'Reinitialize before run';
+    Options[10].DisplayName := _('Reinitialize before run');
     Options[11].PropertyName := 'JumpToErrorOnException';
-    Options[11].DisplayName := 'Jump to error on exception';
+    Options[11].DisplayName := _('Jump to error on exception');
   end;
   with Categories[2] do begin
-    DisplayName := 'Code Explorer';
+    DisplayName := _('Code Explorer');
     SetLength(Options, 1);
     Options[0].PropertyName := 'ExporerInitiallyExpanded';
-    Options[0].DisplayName := 'Initially expanded';
+    Options[0].DisplayName := _('Initially expanded');
   end;
   with Categories[3] do begin
-    DisplayName := 'File Filters';
+    DisplayName := _('File Filters');
     SetLength(Options, 7);
     Options[0].PropertyName := 'PythonFileFilter';
-    Options[0].DisplayName := 'Open dialog Python filter';
+    Options[0].DisplayName := _('Open dialog Python filter');
     Options[1].PropertyName := 'HTMLFileFilter';
-    Options[1].DisplayName := 'Open dialog HTML filter';
+    Options[1].DisplayName := _('Open dialog HTML filter');
     Options[2].PropertyName := 'XMLFileFilter';
-    Options[2].DisplayName := 'Open dialog XML filter';
+    Options[2].DisplayName := _('Open dialog XML filter');
     Options[3].PropertyName := 'CSSFileFilter';
-    Options[3].DisplayName := 'Open dialog CSS filter';
+    Options[3].DisplayName := _('Open dialog CSS filter');
     Options[4].PropertyName := 'CPPFileFilter';
-    Options[4].DisplayName := 'Open dialog CPP filter';
+    Options[4].DisplayName := _('Open dialog CPP filter');
     Options[5].PropertyName := 'YAMLFileFilter';
-    Options[5].DisplayName := 'Open dialog YAML filter';
+    Options[5].DisplayName := _('Open dialog YAML filter');
     Options[6].PropertyName := 'FileExplorerFilter';
-    Options[6].DisplayName := 'File explorer filter';
+    Options[6].DisplayName := _('File explorer filter');
   end;
   with Categories[4] do begin
-    DisplayName := 'Editor';
+    DisplayName := _('Editor');
     SetLength(Options, 14);
     Options[0].PropertyName := 'RestoreOpenFiles';
-    Options[0].DisplayName := 'Restore open files';
+    Options[0].DisplayName := _('Restore open files');
     Options[1].PropertyName := 'SearchTextAtCaret';
-    Options[1].DisplayName := 'Search text at caret';
+    Options[1].DisplayName := _('Search text at caret');
     Options[2].PropertyName := 'CreateBackupFiles';
-    Options[2].DisplayName := 'Create backup files';
+    Options[2].DisplayName := _('Create backup files');
     Options[3].PropertyName := 'UndoAfterSave';
-    Options[3].DisplayName := 'Undo after save';
+    Options[3].DisplayName := _('Undo after save');
     Options[4].PropertyName := 'ShowCodeHints';
-    Options[4].DisplayName := 'Show code hints';
+    Options[4].DisplayName := _('Show code hints');
     Options[5].PropertyName := 'ShowDebuggerHints';
-    Options[5].DisplayName := 'Show debugger hints';
+    Options[5].DisplayName := _('Show debugger hints');
     Options[6].PropertyName := 'AutoCompleteBrackets';
-    Options[6].DisplayName := 'Auto-complete brackets';
+    Options[6].DisplayName := _('Auto-complete brackets');
     Options[7].PropertyName := 'MarkExecutableLines';
-    Options[7].DisplayName := 'Show executable line marks';
+    Options[7].DisplayName := _('Show executable line marks');
     Options[8].PropertyName := 'CheckSyntaxAsYouType';
-    Options[8].DisplayName := 'Check syntax as you type';
+    Options[8].DisplayName := _('Check syntax as you type');
     Options[9].PropertyName := 'NewFileLineBreaks';
-    Options[9].DisplayName := 'Default line break format for new files';
+    Options[9].DisplayName := _('Default line break format for new files');
     Options[10].PropertyName := 'NewFileEncoding';
-    Options[10].DisplayName := 'Default file encoding for new files';
+    Options[10].DisplayName := _('Default file encoding for new files');
     Options[11].PropertyName := 'DetectUTF8Encoding';
-    Options[11].DisplayName := 'Detect UTF-8 encoding when opening files';
+    Options[11].DisplayName := _('Detect UTF-8 encoding when opening files');
     Options[12].PropertyName := 'AutoReloadChangedFiles';
-    Options[12].DisplayName := 'Auto-reload changed files';
+    Options[12].DisplayName := _('Auto-reload changed files');
     Options[13].PropertyName := 'AutoHideFindToolbar';
-    Options[13].DisplayName := 'Auto-hide find toolbar';
+    Options[13].DisplayName := _('Auto-hide find toolbar');
   end;
   with Categories[5] do begin
-    DisplayName := 'Code Completion';
+    DisplayName := _('Code Completion');
     SetLength(Options, 4);
     Options[0].PropertyName := 'SpecialPackages';
-    Options[0].DisplayName := 'Special packages';
+    Options[0].DisplayName := _('Special packages');
     Options[1].PropertyName := 'CodeCompletionListSize';
-    Options[1].DisplayName := 'Code completion list size';
+    Options[1].DisplayName := _('Code completion list size');
     Options[2].PropertyName := 'EditorCodeCompletion';
-    Options[2].DisplayName := 'Editor code completion';
+    Options[2].DisplayName := _('Editor code completion');
     Options[3].PropertyName := 'InterpreterCodeCompletion';
-    Options[3].DisplayName := 'Interpreter code completion';
+    Options[3].DisplayName := _('Interpreter code completion');
   end;
   with Categories[6] do begin
-    DisplayName := 'Shell Integration';
+    DisplayName := _('Shell Integration');
     SetLength(Options, 1);
     Options[0].PropertyName := 'FileExplorerContextMenu';
-    Options[0].DisplayName := 'File Explorer context menu';
+    Options[0].DisplayName := _('File Explorer context menu');
   end;
 
   // Shell Integration
@@ -2231,6 +2240,7 @@ Var
   Editor : IEditor;
   SearchCommands : ISearchCommands;
 begin
+  Editor := PyIDEMainForm.GetActiveEditor;
   // Edit actions
 //  actEditCut.Enabled := (GI_EditCmds <> nil) and GI_EditCmds.CanCut;
 //  actEditCopy.Enabled := (GI_EditCmds <> nil) and GI_EditCmds.CanCopy;
@@ -2239,6 +2249,7 @@ begin
 //  actEditSelectAll.Enabled := (GI_EditCmds <> nil) and GI_EditCmds.CanSelectAll;
 //  actEditUndo.Enabled := (GI_EditCmds <> nil) and GI_EditCmds.CanUndo;
   actEditRedo.Enabled := (GI_EditCmds <> nil) and GI_EditCmds.CanRedo;
+  actEditCopyFileName.Enabled := Assigned(Editor);
 
   actEditLBDos.Enabled := Assigned(GI_ActiveEditor);
   actEditLBDos.Checked := Assigned(GI_ActiveEditor) and
@@ -2287,7 +2298,6 @@ begin
     actEditShowSpecialChars.Checked := False;
   end;
 
-  Editor := PyIDEMainForm.GetActiveEditor;
   // File Actions
   actFileReload.Enabled := (GI_FileCmds <> nil) and GI_FileCmds.CanReload;
   actFileClose.Enabled := Assigned(Editor) and Editor.CanClose;
@@ -2530,6 +2540,15 @@ procedure TCommandsDataModule.actConfigureToolsExecute(Sender: TObject);
 begin
   if ConfigureTools(ToolsCollection) then
     PyIDEMainForm.SetupToolsMenu;
+end;
+
+procedure TCommandsDataModule.actEditCopyFileNameExecute(Sender: TObject);
+Var
+  Editor : IEditor;
+begin
+  Editor := PyIDEMainForm.GetActiveEditor;
+  if Assigned(Editor) then
+    SetClipboardWideText(Editor.GetFileNameOrTitle);
 end;
 
 procedure TCommandsDataModule.actFindFunctionExecute(Sender: TObject);

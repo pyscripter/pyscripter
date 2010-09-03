@@ -299,9 +299,12 @@
 
   History:   v 2.2
           New Features
+            Start-up python scripts pyscripter_init.py and python_init.py. See help file for details.
             Italian translation by Vincenzo Demasi
+            New Edit command "Copy File Name" available at the contex menu of the tab bar
+            New commands "Previous Frame", "Next Frame" to change frame using the keyboard (Issue 399)
           Bug fixes
-             Issues 324, 395
+             Issues 103, 317, 324, 395
 
   Vista Compatibility issues (all resolved)
   -  Flip3D and Form preview (solved with LX)
@@ -325,9 +328,9 @@
 
 -----------------------------------------------------------------------------}
 
-// TODO: Customize Pyscripter with Setup python script run at startup
-
 // Bugs and minor features
+{ TODO : Autocompletion for Import Statements }
+{ TODO : Scan python code for return statements }
 // TODO: Internal Tool as in pywin
 // TODO: Interpreter raw_input
 // TODO: Improve parameter completion with an option to provide more help (docstring)
@@ -797,6 +800,10 @@ type
     tbiScrollRight: TSpTBXItem;
     tbiTabFiles: TSpTBXSubmenuItem;
     tbiTabSep: TSpTBXSeparatorItem;
+    SpTBXSeparatorItem11: TSpTBXSeparatorItem;
+    SpTBXItem1: TSpTBXItem;
+    SpTBXSeparatorItem12: TSpTBXSeparatorItem;
+    SpTBXItem2: TSpTBXItem;
     procedure mnFilesClick(Sender: TObject);
     procedure actEditorZoomInExecute(Sender: TObject);
     procedure actEditorZoomOutExecute(Sender: TObject);
@@ -981,7 +988,7 @@ type
     procedure UpdateDebugCommands(DebuggerState : TDebuggerState);
     procedure SetRunLastScriptHints(ScriptName : string);
     function ShowFilePosition(FileName : string; Line, Offset : integer;
-         ForceToMiddle : boolean = True) : boolean;
+         ForceToMiddle : boolean = True; FocusEditor : boolean = True) : boolean;
     procedure DebuggerStateChange(Sender: TObject; OldState,
       NewState: TDebuggerState);
     procedure ApplicationOnIdle(Sender: TObject; var Done: Boolean);
@@ -1259,11 +1266,12 @@ begin
   end;
 
   // ActionLists
-  SetLength(ActionListArray, 4);
+  SetLength(ActionListArray, 5);
   ActionListArray[0] := actlStandard;
   ActionListArray[1] := CommandsDataModule.actlMain;
   ActionListArray[2] := PythonIIForm.InterpreterActionList;
   ActionListArray[3] := ProjectExplorerWindow.ProjectActionList;
+  ActionListArray[4] := CallStackWindow.actlCallStack;
 
   // Store Factory Settings
   if not AppStorage.PathExists(FactoryToolbarItems) then
@@ -1324,7 +1332,7 @@ begin
 
     // If we still have no open file then open an empty file
     if GI_EditorFactory.GetEditorCount = 0 then
-      DoOpenFile('', 'Python');
+      actFileNewModuleExecute(Self);
   finally
     TabControl.Toolbar.EndUpdate;
     if Assigned(TabControl.ActiveTab) then
@@ -1341,6 +1349,10 @@ begin
   //Set the HelpFile
   Application.HelpFile := ExtractFilePath(Application.ExeName) + 'PyScripter.chm';
   Application.OnHelp := Self.ApplicationHelp;
+
+  // Execute pyscripter_init.py
+  // Needs to be done after PyScripter loading is finished
+  InternalInterpreter.RunScript(CommandsDataModule.UserDataDir + PyScripterInitFile);
 end;
 
 procedure TPyIDEMainForm.FormCloseQuery(Sender: TObject;
@@ -1908,6 +1920,9 @@ begin
   actRunDebugLastScript.Enabled := actRunLastScript.Enabled;
   actRunLastScriptExternal.Enabled := actRunLastScript.Enabled;
 
+  CallStackWindow.actPreviousFrame.Enabled := (DebuggerState = dsPaused);
+  CallStackWindow.actNextFrame.Enabled := (DebuggerState = dsPaused);
+
   Refresh;
 end;
 
@@ -1994,6 +2009,8 @@ procedure TPyIDEMainForm.DebuggerStateChange(Sender: TObject; OldState,
 var
   s: string;
 begin
+  if csDestroying in ComponentState then Exit;
+
   case NewState of
     dsRunning,
     dsRunningNoDebug: begin
@@ -2101,7 +2118,8 @@ begin
 end;
 
 function TPyIDEMainForm.ShowFilePosition(FileName: string; Line,
-  Offset: integer; ForceToMiddle : boolean = True): boolean;
+  Offset: integer; ForceToMiddle : boolean = True;
+  FocusEditor : boolean = True): boolean;
 Var
   Editor : IEditor;
 begin
@@ -2121,7 +2139,8 @@ begin
       Result := True;
       Application.ProcessMessages;  // to deal with focus problems
       // sets the focus to the editor
-      Editor.Activate;
+      if (Editor <> GetActiveEditor) or FocusEditor then
+        Editor.Activate;
       if (Line > 0) then
         with Editor.SynEdit do begin
           CaretXY := BufferCoord(Offset,Line);
@@ -3801,9 +3820,6 @@ begin
     // Register drop target
     RegisterDragDrop(TabControl.Handle, Self);
   end;
-
-  // Execute pyscripter_init.py
-  //InternalInterpreter.RunScript(CommandsDataModule.UserDataDir + PyScripterInitFile);
 
   // This is needed to update the variables window
   PyControl.DoStateChange(dsInactive);

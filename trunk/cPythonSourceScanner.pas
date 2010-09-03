@@ -738,8 +738,7 @@ begin
         LastLength := Length(S);
         Token := StrToken(S, WideChar(','));
         CharOffset2 := CalcIndent(Token);
-//        Token := Trim(Token);
-        Trim(Token);
+        Token := Trim(Token);
         Index := 0;
         While Token <> '' do begin
           Variable := TVariable.Create;

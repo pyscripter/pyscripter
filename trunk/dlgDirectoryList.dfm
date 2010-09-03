@@ -64,8 +64,8 @@ inherited DirectoryListDialog: TDirectoryListDialog
       ImageIndex = 48
     end
     object SpTBXLabel1: TSpTBXLabel
-      Left = 8
-      Top = 15
+      Left = 10
+      Top = 9
       Width = 126
       Height = 19
       Caption = 'Ordered list of file paths:'

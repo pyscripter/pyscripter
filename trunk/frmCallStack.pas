@@ -13,11 +13,14 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, JvDockControlForm, cPyBaseDebugger, frmIDEDockWin,
   Contnrs, ExtCtrls, VirtualTrees, JvComponentBase,  SpTBXSkins,
-  JvAppStorage;
+  JvAppStorage, ActnList;
 
 type
   TCallStackWindow = class(TIDEDockWindow, IJvAppStorageHandler)
     CallStackView: TVirtualStringTree;
+    actlCallStack: TActionList;
+    actPreviousFrame: TAction;
+    actNextFrame: TAction;
     procedure CallStackViewDblClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -29,6 +32,8 @@ type
     procedure CallStackViewChange(Sender: TBaseVirtualTree;
       Node: PVirtualNode);
     procedure FormActivate(Sender: TObject);
+    procedure actPreviousFrameExecute(Sender: TObject);
+    procedure actNextFrameExecute(Sender: TObject);
   private
     { Private declarations }
     SelectedNode: PVirtualNode;
@@ -49,7 +54,7 @@ var
 
 implementation
 
-uses frmPyIDEMain, frmVariables, 
+uses frmPyIDEMain, frmVariables,
   dmCommands, frmWatches, uCommonFunctions;
 
 {$R *.dfm}
@@ -116,6 +121,22 @@ begin
   CallStackView.Clear;
   fCallStackList.Clear;
   SelectedNode := nil;
+end;
+
+procedure TCallStackWindow.actNextFrameExecute(Sender: TObject);
+begin
+  if CallStackView.Enabled and Assigned(SelectedNode) and
+    Assigned(SelectedNode.PrevSibling)
+  then
+    CallStackView.Selected[SelectedNode.PrevSibling] := True;
+end;
+
+procedure TCallStackWindow.actPreviousFrameExecute(Sender: TObject);
+begin
+  if CallStackView.Enabled and Assigned(SelectedNode) and
+    Assigned(SelectedNode.NextSibling)
+  then
+    CallStackView.Selected[SelectedNode.NextSibling] := True;
 end;
 
 procedure TCallStackWindow.CallStackViewChange(Sender: TBaseVirtualTree;
