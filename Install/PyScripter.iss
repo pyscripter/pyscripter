@@ -3,8 +3,8 @@
 
 [Setup]
 AppName=PyScripter
-AppVersion=2.1.1
-AppVerName=PyScripter 2.1.1
+AppVersion=2.2
+AppVerName=PyScripter 2.2
 AppPublisher=PyScripter
 AppPublisherURL=http://pyscripter.googlecode.com
 AppSupportURL=http://groups.google.com/group/PyScripter
@@ -14,7 +14,7 @@ DefaultGroupName=PyScripter
 InfoBeforeFile=BeforeInstallPyScripter.txt
 InfoAfterFile=AfterInstallPyScripter.txt
 OutputDir=Output
-OutputBaseFilename=PyScripter-v2.1.1-Setup
+OutputBaseFilename=PyScripter-v2.2-Setup
 Compression=lzma
 SolidCompression=true
 ChangesAssociations=true
@@ -61,10 +61,14 @@ Source: ..\..\PythonIDE\locale\es\LC_MESSAGES\languages.mo; DestDir: {app}\local
 Source: ..\..\PythonIDE\locale\es\LC_MESSAGES\languages.po; DestDir: {app}\locale\es\LC_MESSAGES\
 Source: ..\..\PythonIDE\locale\fr\LC_MESSAGES\default.mo; DestDir: {app}\locale\fr\LC_MESSAGES\
 Source: ..\..\PythonIDE\locale\fr\LC_MESSAGES\default.po; DestDir: {app}\locale\fr\LC_MESSAGES\
-Source: ..\..\PythonIDE\locale\fr\LC_MESSAGES\languages.mo; DestDir: {app}\locale\fr\LC_MESSAGES\
+Source: ..\..\PythonIDE\locale\fr\LC_MESSAGES\languages.mo; DestDir: {app}\locale\\LC_MESSAGES\
 Source: ..\..\PythonIDE\locale\fr\LC_MESSAGES\languages.po; DestDir: {app}\locale\fr\LC_MESSAGES\
+Source: ..\..\PythonIDE\locale\it\LC_MESSAGES\default.mo; DestDir: {app}\locale\it\LC_MESSAGES\
+Source: ..\..\PythonIDE\locale\it\LC_MESSAGES\default.po; DestDir: {app}\locale\it\LC_MESSAGES\
+Source: ..\..\PythonIDE\locale\it\LC_MESSAGES\languages.mo; DestDir: {app}\locale\it\LC_MESSAGES\
+Source: ..\..\PythonIDE\locale\it\LC_MESSAGES\languages.po; DestDir: {app}\locale\it\LC_MESSAGES\
 Source: ..\..\PythonIDE\Scripts\pyscripter_init.py; DestDir: {userappdata}\PyScripter; Flags: uninsneveruninstall onlyifdoesntexist
-;Source: ..\..\PythonIDE\Scripts\python_init.py; DestDir: {userappdata}\PyScripter; Flags: uninsneveruninstall onlyifdoesntexist
+Source: ..\..\PythonIDE\Scripts\python_init.py; DestDir: {userappdata}\PyScripter; Flags: uninsneveruninstall onlyifdoesntexist
 Source: ..\Lib\rpyc-python2x.zip; DestDir: {app}\Lib
 Source: ..\Lib\rpyc-python3x.zip; DestDir: {app}\Lib
 

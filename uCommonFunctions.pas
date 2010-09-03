@@ -1561,11 +1561,12 @@ end;
 
 function FileToStr(const AFileName : string) : string;
 Var
-  SL : TStrings;
+  SL : SynUnicode.TUnicodeStrings;
+  Encoding : TFileSaveFormat;
 begin
-  SL := TStringList.Create;
+  SL := SynUnicode.TUnicodeStringList.Create;
   try
-    SL.LoadFromFile(AFileName);
+    LoadFileIntoWideStrings(AFileName, SL, Encoding);
     Result := SL.Text;
   finally
     SL.Free;
@@ -1590,7 +1591,6 @@ begin
     end;
   end;
 end;
-
 
 // Support class for BuildFileList
 type

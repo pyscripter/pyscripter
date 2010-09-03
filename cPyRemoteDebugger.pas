@@ -394,7 +394,7 @@ begin
       if GetPythonEngine.IsPython3000 then
         Source := CleanEOLs(FileToStr(FName)) + WideLF
       else
-        Source := CleanEOLs(FileToEncodedStr(FName)) + #10;
+        Source := CleanEOLs(FileToEncodedStr(FName)) + AnsiChar(#10);
     except
       on E: Exception do begin
         Dialogs.MessageDlg(Format(_(SFileOpenError), [FName, E.Message]), mtError, [mbOK], 0);
@@ -1323,7 +1323,7 @@ begin
      FName :=  Copy(FName, 2, Length(FName)-2);
    // PythonIIForm.AppendText('UserLine '+ FName + ' ' + IntToStr(Frame.f_lineno) +sLineBreak);
 
-   if PyIDEMainForm.ShowFilePosition(FName, fCurrentFrame.f_lineno, 1) and
+   if PyIDEMainForm.ShowFilePosition(FName, fCurrentFrame.f_lineno, 1, True, False) and
      (fCurrentFrame.f_lineno > 0) then
    begin
      PyControl.CurrentPos.Editor := GI_EditorFactory.GetEditorByNameOrTitle(FName);
@@ -1588,7 +1588,7 @@ end;
 
 function TPyRemDebugger.RunSource(Const Source, FileName : Variant; symbol : string = 'single') : boolean;
 // The internal interpreter RunSource calls II.runsource which differs
-// according to whether we debugging or not
+// according to whether we are debugging or not
 Var
   OldCurrentPos : TEditorPos;
 begin

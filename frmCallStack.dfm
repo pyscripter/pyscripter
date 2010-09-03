@@ -99,4 +99,28 @@ inherited CallStackWindow: TCallStackWindow
     Left = 7
     Top = 25
   end
+  object actlCallStack: TActionList
+    Left = 12
+    Top = 76
+    object actPreviousFrame: TAction
+      Category = 'Run'
+      Caption = 'Previous Frame'
+      Enabled = False
+      HelpContext = 470
+      HelpType = htContext
+      Hint = 'Select previous (older) frame'
+      ShortCut = 122
+      OnExecute = actPreviousFrameExecute
+    end
+    object actNextFrame: TAction
+      Category = 'Run'
+      Caption = 'Next Frame'
+      Enabled = False
+      HelpContext = 470
+      HelpType = htContext
+      Hint = 'Select next (newer) frame'
+      ShortCut = 8314
+      OnExecute = actNextFrameExecute
+    end
+  end
 end
