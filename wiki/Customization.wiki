@@ -18,6 +18,8 @@ IDLEv2 by Ethan Shames: [http://pyscripter.googlecode.com/svn/wiki/files/IDLEHig
 
 Komodo Dark Highlighter by Jason Tudisco: [http://pyscripter.googlecode.com/svn/wiki/files/DarkHighlight.ini DarkHighlight.ini]
 
+Cool Dark Highlighter by 7igor777: [http://pyscripter.googlecode.com/svn/wiki/files/DarkHighlight2.ini DarkHighlight2.ini]
+
 Default highlighting in case you want to go back to the original: [http://pyscripter.googlecode.com/svn/wiki/files/DefaultHighlighting.ini DefaultHighlighting,ini]
 
 === Shortcuts ===
