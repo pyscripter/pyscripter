@@ -14,12 +14,12 @@ interface
 
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Contnrs, Forms,
-  uEditAppIntfs, SynEdit, SynEditTypes, 
+  StdCtrls, uEditAppIntfs, SynEdit, SynEditTypes,
   SynEditHighlighter, SynEditMiscClasses, 
   SynEditKeyCmds, ImgList, Dialogs, ExtCtrls,
   TB2Item, uCommonFunctions,
   SynCompletionProposal, cPyBaseDebugger, SpTBXItem,
-  VirtualResources, SpTBXSkins, SpTBXDkPanels, Menus, SpTBXTabs;
+  VirtualResources, SpTBXSkins, SpTBXDkPanels, Menus, SpTBXTabs, SynRegExpr;
 
 type
   TEditor = class;
@@ -113,6 +113,7 @@ type
     fNeedToCheckSyntax : Boolean;
     fSyntaxErrorPos : TEditorPos;
     fCloseBracketChar : WideChar;
+    fOldOptions : TSynEditorOptions;
     function DoAskSaveChanges: boolean;
     procedure DoAssignInterfacePointer(AActive: boolean);
     function DoSave: boolean;
@@ -126,6 +127,7 @@ type
   class var
     fOldEditorForm : TEditorForm;
   protected
+//    CodeCompletionDocLabel : TLabel;
     procedure Retranslate;
     procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
     procedure EditorZoom(theZoom: Integer);
@@ -248,7 +250,7 @@ uses
   SynEditTextBuffer, cPyDebugger, dlgPickList, JvDockControlForm,
   uSearchHighlighter, VirtualShellNotifier,
   SynHighlighterWebMisc, SynHighlighterWeb, gnugettext,
-  SynUnicode, WideStrings, WideStrUtils, frmIDEDockWin, SynRegExpr,
+  SynUnicode, WideStrings, WideStrUtils, frmIDEDockWin,
   SynEditMiscProcs, JclStrings;
 
 const
@@ -1556,7 +1558,6 @@ var
   ASynEdit : TSynEdit;
   iPrevLine, Indent: string;
   Position, Len: integer;
-  OldOptions : TSynEditorOptions;
   OpenBrackets, CloseBrackets : string;
   OpenBracketPos : integer;
   Line : string;
@@ -1661,6 +1662,15 @@ begin
           end;
           Handled := True;
         end;
+      ecLineBreak :  // Python Mode
+        if ASynEdit.InsertMode and (ASynEdit.Highlighter = CommandsDataModule.SynPythonSyn)
+          and not fAutoCompleteActive
+        then begin
+          ASynEdit.UndoList.BeginBlock;
+          fOldOptions := ASynEdit.Options;
+          ASynEdit.Options := ASynEdit.Options + [eoAutoIndent];
+          // not handled so default processing takes place
+        end;
     end;
   end else begin  // AfterProcessing
     case Command of
@@ -1679,55 +1689,13 @@ begin
             (attr = CommandsDataModule.SynPythonSyn.CodeCommentAttri) {or
             (attr = CommandsDataModule.SynPythonSyn.DocStringAttri)}) then
           begin
-
-            Position := 1;
-            Indent := '';
-            while (Length(iPrevLine)>=Position) and
-                 CharInSet(iPrevLine[Position], [#09, #32]) do begin
-              Indent := Indent + iPrevLine[Position];
-              Inc(Position);
-            end;
-
-            if (eoTrimTrailingSpaces in ASynEdit.Options) and (IPrevLine = '') then
-              ASynEdit.Lines[ ASynEdit.CaretY -2 ] := '';
-
-            if CommandsDataModule.IsBlockOpener(iPrevLine) or (Indent <> '') then
-            begin
-              ASynEdit.UndoList.BeginBlock;
-              OldOptions := ASynEdit.Options;
-              ASynEdit.Options := ASynEdit.Options - [eoTrimTrailingSpaces];
-              try
-                if (eoAutoIndent in ASynEdit.Options) and (iPrevLine <> '') then begin
-                  // undo the effect of autoindent
-                  Position := ASynEdit.CaretX;
-                  ASynEdit.BlockBegin := BufferCoord(1, ASynEdit.CaretY);
-                  ASynEdit.BlockEnd :=  BufferCoord(Position, ASynEdit.CaretY);
-                  ASynEdit.SelText := '';
-                end;
-
-                if CommandsDataModule.IsBlockOpener(iPrevLine) then begin
-                  if eoTabsToSpaces in ASynEdit.Options then
-                    Indent := Indent + StringOfChar(' ', ASynEdit.TabWidth)
-                  else
-                    Indent := indent + #9;
-                end else if CommandsDataModule.IsBlockCloser(iPrevLine) then begin
-                  if (eoTabsToSpaces in ASynEdit.Options) and (Length(Indent) > 0) and
-                    (Indent[Length(Indent)] <> #9)
-                  then
-                    Delete(Indent, Length(Indent) - ASynEdit.TabWidth + 1, ASynEdit.TabWidth)
-                  else
-                    Delete(Indent, Length(Indent), 1);
-                end;
-                // use ReplaceSel to ensure it goes at the cursor rather than end of buffer
-                if Trim(iPrevLine) <> '' then
-                  ASynEdit.SelText := Indent;
-              finally
-                ASynEdit.UndoList.EndBlock;
-                ASynEdit.Options := OldOptions;
-              end;
-            end;
-            ASynEdit.InvalidateGutterLine(ASynEdit.CaretY - 1);
+            if CommandsDataModule.IsBlockOpener(iPrevLine) then
+              ASynEdit.ExecuteCommand(ecTab, #0, nil)
+            else if CommandsDataModule.IsBlockCloser(iPrevLine) then
+              ASynEdit.ExecuteCommand(ecShiftTab, #0, nil);
           end;
+          ASynEdit.UndoList.EndBlock;
+          ASynEdit.Options := fOldOptions;
         end;
       ecChar :  // Autocomplete brackets
         if not fAutoCompleteActive
@@ -1887,6 +1855,23 @@ begin
 
   SynCodeCompletion.EndOfTokenChr := WordBreakString;
   SynParamCompletion.EndOfTokenChr := WordBreakString;
+
+//  CodeCompletionDocLabel := TLabel.Create(SynCodeCompletion.Form);
+//  with CodeCompletionDocLabel do begin
+//    Parent := SynCodeCompletion.Form;
+//    Transparent := False;
+//    ParentFont := True;
+//    WordWrap := True;
+//    Align := alRight;
+//    DoubleBuffered := True;
+//  end;
+//  with TSpTBXSplitter.Create(SynCodeCompletion.Form) do begin
+//    Parent := SynCodeCompletion.Form;
+//    Align := alRight;
+//    DoubleBuffered := True;
+//  end;
+//  SynCodeCompletion.Form.Width := 600;
+//  SynCodeCompletion.Form.DoubleBuffered := True;
 
   Retranslate;
 end;

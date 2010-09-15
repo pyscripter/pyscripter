@@ -211,8 +211,6 @@ uses uCommonFunctions, JclFileUtils, cRefactoring, VarPyth,
   Windows, JclStrings;
 
 Const
-  IdentRE = '[A-Za-z_][A-Za-z0-9_]*';
-  DottedIdentRE = '[A-Za-z_][A-Za-z0-9_.]*';
   MaskChar = WideChar(#96);
 
   NoOfImplicitContinuationBraces = 3;
@@ -416,12 +414,6 @@ end;
 { TPythonScanner }
 
 constructor TPythonScanner.Create;
-  function CompiledRegExpr(Expr : string): TRegExpr;
-  begin
-    Result := TRegExpr.Create;
-    Result.Expression := Expr;
-    Result.Compile;
-  end;
 begin
   inherited;
   fCodeRE := CompiledRegExpr('^([ \t]*)(class|def)[ \t]+(\w+)[ \t]*(\(.*\))?');

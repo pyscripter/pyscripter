@@ -36,6 +36,8 @@ Type
     procedure AddHTMLTemplate;
     procedure AddCSSTemplate;
     procedure AddXMLTemplate;
+    procedure AddJSTemplate;
+    procedure AddPHPTemplate;
     procedure AddPlainTextTemplate;
     procedure Assign(Source: TFileTemplates);
     function TemplateByName(const Name : string) : TFileTemplate;
@@ -127,6 +129,32 @@ begin
   Add(FileTemplate);
 end;
 
+procedure TFileTemplates.AddJSTemplate;
+Var
+  FileTemplate : TFileTemplate;
+begin
+  FileTemplate := TFileTemplate.Create;
+  FileTemplate.Name := _(SJSTemplateName);
+  FileTemplate.Extension := 'js';
+  FileTemplate.Category := _(SFileTemplateCategoryOther);
+  FileTemplate.Highlighter := 'JavaScript';
+  FileTemplate.Template := '';
+  Add(FileTemplate);
+end;
+
+procedure TFileTemplates.AddPHPTemplate;
+Var
+  FileTemplate : TFileTemplate;
+begin
+  FileTemplate := TFileTemplate.Create;
+  FileTemplate.Name := _(SPHPTemplateName);
+  FileTemplate.Extension := 'xml';
+  FileTemplate.Category := _(SFileTemplateCategoryOther);
+  FileTemplate.Highlighter := 'XML';
+  FileTemplate.Template := '';
+  Add(FileTemplate);
+end;
+
 procedure TFileTemplates.AddPlainTextTemplate;
 Var
   FileTemplate : TFileTemplate;
@@ -204,6 +232,8 @@ initialization
    AddHTMLTemplate;
    AddXMLTemplate;
    AddCSSTemplate;
+   AddJSTemplate;
+   AddPHPTemplate;
    AddPlainTextTemplate;
   end
 finalization

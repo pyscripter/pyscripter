@@ -44,6 +44,8 @@ type
     fCSSFileFilter : string;
     fCPPFileFilter : string;
     fYAMLFileFilter : string;
+    fJSFileFilter : string;
+    fPHPFileFilter : string;
     fFileExplorerFilter : string;
     fDateLastCheckedForUpdates : TDateTime;
     fAutoCheckForUpdates : boolean;
@@ -118,6 +120,10 @@ type
       write fCPPFileFilter;
     property YAMLFileFilter : string read fYAMLFileFilter
       write fYAMLFileFilter;
+    property JSFileFilter : string read fJSFileFilter
+      write fJSFileFilter;
+    property PHPFileFilter : string read fPHPFileFilter
+      write fPHPFileFilter;
     property FileExplorerFilter : string read fFileExplorerFilter
       write fFileExplorerFilter;
     property DateLastCheckedForUpdates : TDateTime read fDateLastCheckedForUpdates
@@ -350,6 +356,8 @@ type
     actFileSave: TAction;
     actEditCopyFileName: TAction;
     actToolsEditStartupScripts: TAction;
+    SynWebEsSyn: TSynWebEsSyn;
+    SynWebPhpPlainSyn: TSynWebPhpPlainSyn;
     function ProgramVersionHTTPLocationLoadFileFromRemote(
       AProgramVersionLocation: TJvProgramVersionHTTPLocation; const ARemotePath,
       ARemoteFileName, ALocalPath, ALocalFileName: string): string;
@@ -447,7 +455,7 @@ type
     EditorOptions : TSynEditorOptionsContainer;
     InterpreterEditorOptions : TSynEditorOptionsContainer;
     PyIDEOptions : TPythonIDEOptions;
-    UserDataDir : string;
+    UserDataPath : string;
     SkinFilesDir : string;
     function IsBlockOpener(S : string) : Boolean;
     function IsBlockCloser(S : string) : Boolean;
@@ -549,6 +557,8 @@ begin
       Self.fCSSFileFilter := CSSFileFilter;
       Self.fCPPFileFilter := CPPFileFilter;
       Self.fYAMLFileFilter := YAMLFileFilter;
+      Self.fJSFileFilter := JSFileFilter;
+      Self.fPHPFileFilter := PHPFileFilter;
       Self.fFileExplorerFilter := FileExplorerFilter;
       Self.fDateLastCheckedForUpdates := DateLastCheckedForUpdates;
       Self.fAutoCheckForUpdates := AutoCheckForUpdates;
@@ -614,6 +624,8 @@ begin
   fCSSFileFilter := SYNS_FilterCSS;
   fCPPFileFilter := SYNS_FilterCPP;
   fYAMLFileFilter := SYNS_FilterYAML;
+  fJSFileFilter := SYNS_FilterJScript;
+  fPHPFileFilter := SYNS_FilterPHP;
   fFileExplorerFilter := '*.py;*.pyw';
   fSearchTextAtCaret := True;
   fRestoreOpenFiles := True;
@@ -811,11 +823,11 @@ var
   Index : integer;
 begin
   // User Data directory for storing the ini file etc.
-  UserDataDir := IncludeTrailingPathDelimiter(UserDocumentsFolder.NameForParsing) + 'PyScripter\';
-  if not ForceDirectories(UserDataDir) then
-    Dialogs.MessageDlg(Format(SAccessAppDataDir, [UserDataDir]), mtWarning, [mbOK], 0);
+  UserDataPath := IncludeTrailingPathDelimiter(UserDocumentsFolder.NameForParsing) + 'PyScripter\';
+  if not ForceDirectories(UserDataPath) then
+    Dialogs.MessageDlg(Format(SAccessAppDataDir, [UserDataPath]), mtWarning, [mbOK], 0);
   // Skins directory
-  SkinFilesDir := UserDataDir + 'Skins';
+  SkinFilesDir := UserDataPath + 'Skins';
   if not DirectoryExists(SkinFilesDir) then
     try
       CreateDir(SkinFilesDir);
@@ -850,6 +862,8 @@ begin
   SynWebHTMLSyn.DefaultFilter := PyIDEOptions.HTMLFileFilter;
   SynWebXMLSyn.DefaultFilter := PyIDEOptions.XMLFileFilter;
   SynWebCssSyn.DefaultFilter := PyIDEOptions.CSSFileFilter;
+  SynWebEsSyn.DefaultFilter := PyIDEOptions.JSFileFilter;
+  SynWebPhpPlainSyn.DefaultFilter := PyIDEOptions.PHPFileFilter;
 
   MaskFPUExceptions(PyIDEOptions.fMaskFPUExceptions);
   dlgFileOpen.Filter := PyIDEOptions.PythonFileFilter;
@@ -958,7 +972,8 @@ function TCommandsDataModule.GetHighlighterForFile(
   AFileName: string): TSynCustomHighlighter;
 begin
   if AFileName <> '' then
-    Result := GetHighlighterFromFileExt(fHighlighters, ExtractFileExt(AFileName))
+//    Result := GetHighlighterFromFileExt(fHighlighters, ExtractFileExt(AFileName))
+    Result := GetHighlighterFromFileName(fHighlighters, AFileName)
   else
     Result := nil;
 end;
@@ -1241,8 +1256,15 @@ end;
 
 procedure TCommandsDataModule.actToolsEditStartupScriptsExecute(Sender: TObject);
 begin
-  PyIDEMainForm.DoOpenFile(UserDataDir + PyScripterInitFile);
-  PyIDEMainForm.DoOpenFile(UserDataDir + EngineInitFile);
+  // Search first in the Exe directory and then in the user directory
+  if FileExists(ExtractFilePath(Application.ExeName)+ PyScripterInitFile) then
+    PyIDEMainForm.DoOpenFile(ExtractFilePath(Application.ExeName) + PyScripterInitFile)
+  else
+    PyIDEMainForm.DoOpenFile(UserDataPath + PyScripterInitFile);
+  if FileExists(ExtractFilePath(Application.ExeName)+ EngineInitFile) then
+    PyIDEMainForm.DoOpenFile(ExtractFilePath(Application.ExeName) + EngineInitFile)
+  else
+    PyIDEMainForm.DoOpenFile(UserDataPath + EngineInitFile);
 end;
 
 procedure TCommandsDataModule.actSearchGoToDebugLineExecute(Sender: TObject);
@@ -2056,7 +2078,7 @@ begin
   end;
   with Categories[3] do begin
     DisplayName := _('File Filters');
-    SetLength(Options, 7);
+    SetLength(Options, 9);
     Options[0].PropertyName := 'PythonFileFilter';
     Options[0].DisplayName := _('Open dialog Python filter');
     Options[1].PropertyName := 'HTMLFileFilter';
@@ -2069,8 +2091,12 @@ begin
     Options[4].DisplayName := _('Open dialog CPP filter');
     Options[5].PropertyName := 'YAMLFileFilter';
     Options[5].DisplayName := _('Open dialog YAML filter');
-    Options[6].PropertyName := 'FileExplorerFilter';
-    Options[6].DisplayName := _('File explorer filter');
+    Options[6].PropertyName := 'JSFileFilter';
+    Options[6].DisplayName := _('Open dialog JavaScript filter');
+    Options[7].PropertyName := 'PHPFileFilter';
+    Options[7].DisplayName := _('Open dialog PHP filter');
+    Options[8].PropertyName := 'FileExplorerFilter';
+    Options[8].DisplayName := _('File explorer filter');
   end;
   with Categories[4] do begin
     DisplayName := _('Editor');
@@ -2746,7 +2772,7 @@ end;
 procedure TCommandsDataModule.actCheckForUpdatesExecute(Sender: TObject);
 begin
   try
-    ProgramVersionCheck.LocalDirectory := UserDataDir + 'Updates';
+    ProgramVersionCheck.LocalDirectory := UserDataPath + 'Updates';
     ProgramVersionCheck.Execute;
   except
     if Assigned(Sender) then

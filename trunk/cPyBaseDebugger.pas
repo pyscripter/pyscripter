@@ -436,7 +436,11 @@ end;
 procedure TPyBaseInterpreter.Initialize;
 begin
   // Execute python_init.py
-  RunScript(CommandsDataModule.UserDataDir + EngineInitFile);
+  // Search first in the Exe directory and then in the user directory
+  if FileExists(ExtractFilePath(Application.ExeName)+ EngineInitFile) then
+    RunScript(ExtractFilePath(Application.ExeName) + EngineInitFile)
+  else
+    RunScript(CommandsDataModule.UserDataPath + EngineInitFile);
 
   // Add extra project paths
   if Assigned(ActiveProject) then

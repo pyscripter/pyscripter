@@ -608,6 +608,7 @@ begin
   ActiveProject.FileName := FileName;
   AppStorage := TJvAppIniFileStorage.Create(nil);
   try
+    AppStorage.Encoding := TEncoding.UTF8;
     AppStorage.FlushOnDestroy := False;
     AppStorage.Location := flCustom;
     AppStorage.FileName := ActiveProject.FileName;
@@ -683,6 +684,7 @@ begin
   AppStorage := TJvAppIniFileStorage.Create(nil);
   try
     try
+      AppStorage.Encoding := TEncoding.UTF8;
       AppStorage.FlushOnDestroy := True;
       AppStorage.Location := flCustom;
       AppStorage.FileName := ActiveProject.FileName;

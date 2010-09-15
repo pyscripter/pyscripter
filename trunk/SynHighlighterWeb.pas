@@ -79,7 +79,7 @@ uses
 {$IFDEF SYN_CLX}
   QGraphics,
 {$IFDEF UNISYNEDIT}
-  QSynUnicode,    
+  QSynUnicode,
 {$ENDIF}
   QSynEditTypes,
   QSynEditHighlighter,
@@ -87,7 +87,7 @@ uses
 {$ELSE}
   Graphics,
 {$IFDEF UNISYNEDIT}
-  SynUnicode,    
+  SynUnicode,
 {$ENDIF}
   SynEditTypes,
   SynEditHighlighter,
@@ -406,6 +406,7 @@ type
     function GetSampleSource: String; override;
 {$ENDIF}
   public
+    procedure Assign(Source: TPersistent); override;
 {$IFDEF UNISYNEDIT}
     class function GetFriendlyLanguageName: UnicodeString; override;
     class function SynWebSample: UnicodeString; virtual; abstract;
@@ -486,6 +487,7 @@ type
   public
     class function GetLanguageName: string; override;
 {$IFDEF UNISYNEDIT}
+    class function GetFriendlyLanguageName: UnicodeString; override;
     class function SynWebSample: UnicodeString; override;
 {$ELSE}
     class function SynWebSample: String; override;
@@ -570,6 +572,7 @@ type
   public
     class function GetLanguageName: string; override;
 {$IFDEF UNISYNEDIT}
+    class function GetFriendlyLanguageName: UnicodeString; override;
     class function SynWebSample: UnicodeString; override;
 {$ELSE}
     class function SynWebSample: String; override;
@@ -592,6 +595,7 @@ type
   public
     class function GetLanguageName: string; override;
 {$IFDEF UNISYNEDIT}
+    class function GetFriendlyLanguageName: UnicodeString; override;
     class function SynWebSample: UnicodeString; override;
 {$ELSE}
     class function SynWebSample: String; override;
@@ -615,6 +619,7 @@ type
   public
     class function GetLanguageName: string; override;
 {$IFDEF UNISYNEDIT}
+    class function GetFriendlyLanguageName: UnicodeString; override;
     class function SynWebSample: UnicodeString; override;
 {$ELSE}
     class function SynWebSample: String; override;
@@ -661,6 +666,7 @@ type
   public
     class function GetLanguageName: string; override;
 {$IFDEF UNISYNEDIT}
+    class function GetFriendlyLanguageName: UnicodeString; override;
     class function SynWebSample: UnicodeString; override;
 {$ELSE}
     class function SynWebSample: String; override;
@@ -1557,6 +1563,16 @@ end;
 
 { TSynWebBase }
 
+procedure TSynWebBase.Assign(Source: TPersistent);
+begin
+  if (Source <> nil) and (Source is TSynWebBase) then begin
+    Engine := TSynWebBase(Source).Engine;
+    fOptions.Assign(TSynWebBase(Source).fOptions);
+  end;
+
+  inherited;
+end;
+
 constructor TSynWebBase.Create(AOwner: TComponent);
 begin
   FInstance.FHighlither := Self;
@@ -1990,6 +2006,11 @@ begin
 end;
 
 {$IFDEF UNISYNEDIT}
+class function TSynWebHtmlSyn.GetFriendlyLanguageName: UnicodeString;
+begin
+  Result := SYNS_FriendlyLangHTML;
+end;
+
 class function TSynWebHtmlSyn.SynWebSample: UnicodeString;
 {$ELSE}
 class function TSynWebHtmlSyn.SynWebSample: String;
@@ -2237,6 +2258,11 @@ begin
 end;
 
 {$IFDEF UNISYNEDIT}
+class function TSynWebXmlSyn.GetFriendlyLanguageName: UnicodeString;
+begin
+  Result := SYNS_FriendlyLangXML;
+end;
+
 class function TSynWebXmlSyn.SynWebSample: UnicodeString;
 {$ELSE}
 class function TSynWebXmlSyn.SynWebSample: String;
@@ -2299,6 +2325,11 @@ begin
 end;
 
 {$IFDEF UNISYNEDIT}
+class function TSynWebCssSyn.GetFriendlyLanguageName: UnicodeString;
+begin
+  Result := 'CSS';
+end;
+
 class function TSynWebCssSyn.SynWebSample: UnicodeString;
 {$ELSE}
 class function TSynWebCssSyn.SynWebSample: String;
@@ -2360,6 +2391,11 @@ begin
 end;
 
 {$IFDEF UNISYNEDIT}
+class function TSynWebEsSyn.GetFriendlyLanguageName: UnicodeString;
+begin
+  Result := SYNS_FriendlyLangJScript;
+end;
+
 class function TSynWebEsSyn.SynWebSample: UnicodeString;
 {$ELSE}
 class function TSynWebEsSyn.SynWebSample: String;
@@ -2464,6 +2500,11 @@ begin
 end;
 
 {$IFDEF UNISYNEDIT}
+class function TSynWebPhpPlainSyn.GetFriendlyLanguageName: UnicodeString;
+begin
+  Result := SYNS_FriendlyLangPHP;
+end;
+
 class function TSynWebPhpPlainSyn.SynWebSample: UnicodeString;
 {$ELSE}
 class function TSynWebPhpPlainSyn.SynWebSample: String;

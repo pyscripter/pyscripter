@@ -2,8 +2,8 @@ object CommandsDataModule: TCommandsDataModule
   OldCreateOrder = False
   OnCreate = DataModuleCreate
   OnDestroy = DataModuleDestroy
-  Height = 335
-  Width = 663
+  Height = 392
+  Width = 675
   object SynPythonSyn: TSynPythonSyn
     DefaultFilter = 'Python Files (*.py;*.pyw)|*.py;*.pyw'
     CommentAttri.Foreground = clGreen
@@ -17,8 +17,8 @@ object CommandsDataModule: TCommandsDataModule
     StringAttri.Foreground = clOlive
     DocStringAttri.Foreground = clOlive
     SymbolAttri.Foreground = clMaroon
-    Left = 216
-    Top = 240
+    Left = 616
+    Top = 212
   end
   object SynEditPrint: TSynEditPrint
     Copies = 1
@@ -68,7 +68,7 @@ object CommandsDataModule: TCommandsDataModule
     Left = 32
     Top = 241
     Bitmap = {
-      494C0101140018001C0010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010114001800280010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000006000000001002000000000000060
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -925,49 +925,49 @@ object CommandsDataModule: TCommandsDataModule
   end
   object CodeTemplatesCompletion: TSynAutoComplete
     AutoCompleteList.Strings = (
-      '=hdr'
-      '=|Python Module header'
+      'hdr'
+      '|Python Module header'
       
-        '==#-------------------------------------------------------------' +
-        '------------------'
-      '==# Name:        $[ActiveDoc-Name]'
-      '==# Purpose:     |'
-      '==#'
-      '==# Author:      $[UserName]'
-      '==#'
-      '==# Created:     $[DateTime-'#39'DD/MM/YYYY'#39'-DateFormat]'
-      '==# Copyright:   (c) $[UserName] $[DateTime-'#39'YYYY'#39'-DateFormat]'
-      '==# Licence:     <your licence>'
+        '=#--------------------------------------------------------------' +
+        '-----------------'
+      '=# Name:        $[ActiveDoc-Name]'
+      '=# Purpose:     |'
+      '=#'
+      '=# Author:      $[UserName]'
+      '=#'
+      '=# Created:     $[DateTime-'#39'DD/MM/YYYY'#39'-DateFormat]'
+      '=# Copyright:   (c) $[UserName] $[DateTime-'#39'YYYY'#39'-DateFormat]'
+      '=# Licence:     <your licence>'
       
-        '==#-------------------------------------------------------------' +
-        '------------------'
-      '==#!/usr/bin/env python'
-      '=cl'
-      '=|Comment Line'
+        '=#--------------------------------------------------------------' +
+        '-----------------'
+      '=#!/usr/bin/env python'
+      'cl'
+      '|Comment Line'
       
-        '==#-------------------------------------------------------------' +
-        '------------------'
-      '==|'
-      '=pyapp'
-      '=|Python application'
-      '==def main():'
-      '==    |pass'
-      '=='
-      '==if __name__ == '#39'__main__'#39':'
-      '==    main()'
-      '=cls'
-      '=|Python class'
-      '==class |(object):'
-      '==    """'
-      '=='#9#9'class comment'
-      '==    """'
-      '=='
-      '==    def __init__(self):'
-      '==        pass'
-      '=fec'
-      '=|File encoding comment'
-      '==# -*- coding: UTF-8 -*-'
-      '==|')
+        '=#--------------------------------------------------------------' +
+        '-----------------'
+      '=|'
+      'pyapp'
+      '|Python application'
+      '=def main():'
+      '=    |pass'
+      '='
+      '=if __name__ == '#39'__main__'#39':'
+      '=    main()'
+      'cls'
+      '|Python class'
+      '=class |(object):'
+      '=    """'
+      '='#9#9'class comment'
+      '=    """'
+      '='
+      '=    def __init__(self):'
+      '=        pass'
+      'fec'
+      '|File encoding comment'
+      '=# -*- coding: UTF-8 -*-'
+      '=|')
     EndOfTokenChr = '()[]. '
     ShortCut = 0
     Options = [scoLimitToMatchedText, scoUseInsertList, scoCompleteWithTab, scoCompleteWithEnter]
@@ -1023,8 +1023,8 @@ object CommandsDataModule: TCommandsDataModule
     Top = 72
   end
   object SynIniSyn: TSynIniSyn
-    Left = 528
-    Top = 240
+    Left = 344
+    Top = 324
   end
   object JvMultiStringHolder: TJvMultiStringHolder
     MultipleStrings = <
@@ -3848,30 +3848,30 @@ object CommandsDataModule: TCommandsDataModule
     ActiveHighlighterSwitch = False
     Engine = SynWebEngine
     Options.HtmlVersion = shvHtml401Transitional
-    Left = 296
-    Top = 240
+    Left = 432
+    Top = 272
   end
   object SynWebXmlSyn: TSynWebXmlSyn
     ActiveHighlighterSwitch = False
     Engine = SynWebEngine
-    Left = 376
-    Top = 240
+    Left = 436
+    Top = 320
   end
   object SynWebCssSyn: TSynWebCssSyn
     ActiveHighlighterSwitch = False
     Engine = SynWebEngine
     Options.HtmlVersion = shvHtml401Transitional
-    Left = 456
-    Top = 240
+    Left = 528
+    Top = 324
   end
   object SynCppSyn: TSynCppSyn
-    Left = 600
-    Top = 176
+    Left = 344
+    Top = 272
   end
   object SynWebEngine: TSynWebEngine
     Options.HtmlVersion = shvHtml401Transitional
-    Left = 596
-    Top = 240
+    Left = 616
+    Top = 324
   end
   object actlMain: TActionList
     Images = Images
@@ -4533,7 +4533,7 @@ object CommandsDataModule: TCommandsDataModule
     Left = 188
     Top = 186
     Bitmap = {
-      494C01019B009F001C0010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01019B009F00280010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000007002000001002000000000000070
       020000000000000000000000000000000000000000000000000000000000EADD
       CB00AB7734009655000096550000AB773400EADDCB0000000000000000000000
@@ -9687,5 +9687,17 @@ object CommandsDataModule: TCommandsDataModule
       C001800180010001C0018003800101F7C001800780014207C003C3C78001B9FF
       C007FE0F8001C3FFC00FFFFFC1FFFFFF00000000000000000000000000000000
       000000000000}
+  end
+  object SynWebEsSyn: TSynWebEsSyn
+    ActiveHighlighterSwitch = False
+    Engine = SynWebEngine
+    Left = 616
+    Top = 272
+  end
+  object SynWebPhpPlainSyn: TSynWebPhpPlainSyn
+    ActiveHighlighterSwitch = False
+    Engine = SynWebEngine
+    Left = 528
+    Top = 272
   end
 end

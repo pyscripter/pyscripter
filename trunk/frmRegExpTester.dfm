@@ -315,7 +315,7 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
             Font.Style = []
             ParentFont = False
             PlainText = True
-            ScrollBars = ssBoth
+            ScrollBars = ssVertical
             TabOrder = 0
             OnChange = RegExpTextChange
           end
@@ -387,9 +387,11 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
               Font.Style = []
               ParentFont = False
               PlainText = True
-              ScrollBars = ssBoth
+              ScrollBars = ssVertical
               TabOrder = 0
               OnChange = RegExpTextChange
+              ExplicitLeft = 3
+              ExplicitTop = 0
             end
           end
         end
@@ -450,7 +452,7 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
               Font.Style = []
               ParentFont = False
               PlainText = True
-              ScrollBars = ssBoth
+              ScrollBars = ssVertical
               TabOrder = 0
             end
           end

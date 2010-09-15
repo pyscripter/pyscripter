@@ -426,7 +426,6 @@ object PyIDEMainForm: TPyIDEMainForm
       TabDragReorder = True
       TabPosition = ttpBottom
       OnActiveTabChange = TabControlActiveTabChange
-      ExplicitTop = 3
       HiddenItems = <>
       object tbiRightAlign: TSpTBXRightAlignSpacerItem
         CustomWidth = 652
@@ -983,7 +982,6 @@ object PyIDEMainForm: TPyIDEMainForm
         end
         object mnPythonEngines: TSpTBXSubmenuItem
           Caption = 'Python Engine'
-          OnPopup = mnPythonEnginesPopup
           object mnEngineInternal: TSpTBXItem
             Action = actPythonInternal
           end
@@ -1508,7 +1506,7 @@ object PyIDEMainForm: TPyIDEMainForm
       CustomHeight = 21
     end
     object SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem
-      CustomWidth = 407
+      CustomWidth = 0
     end
     object SpTBXSeparatorItem5: TSpTBXSeparatorItem
     end
@@ -2186,6 +2184,7 @@ object PyIDEMainForm: TPyIDEMainForm
     end
     object actPythonInternal: TAction
       Category = 'Run'
+      AutoCheck = True
       Caption = '&Internal'
       Checked = True
       GroupIndex = 1
@@ -2197,6 +2196,7 @@ object PyIDEMainForm: TPyIDEMainForm
     object actPythonRemote: TAction
       Tag = 1
       Category = 'Run'
+      AutoCheck = True
       Caption = '&Remote'
       GroupIndex = 1
       HelpContext = 340
@@ -2207,6 +2207,7 @@ object PyIDEMainForm: TPyIDEMainForm
     object actPythonRemoteTk: TAction
       Tag = 2
       Category = 'Run'
+      AutoCheck = True
       Caption = 'Remote (&Tk)'
       GroupIndex = 1
       HelpContext = 340
@@ -2217,6 +2218,7 @@ object PyIDEMainForm: TPyIDEMainForm
     object actPythonRemoteWx: TAction
       Tag = 3
       Category = 'Run'
+      AutoCheck = True
       Caption = 'Remote (&Wx)'
       GroupIndex = 1
       HelpContext = 340

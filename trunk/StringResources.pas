@@ -227,6 +227,8 @@ Const
   SHTMLFileTemplateName = 'HTML Document';
   STextFileTemplateName = 'Text File';
   SXMLTemplateName = 'XML Document';
+  SJSTemplateName = 'JavaScript Code';
+  SPHPTemplateName = 'PHP Code';
 
   // do not localize further
 
