@@ -231,7 +231,7 @@ type
 {$IFDEF SYN_CLX}
     function DoMouseWheel(Shift: TShiftState; WheelDelta: Integer;
       const MousePos: TPoint): Boolean; override;
-    procedure KeyString(var S: UnicodeString; var Handled: Boolean); override;      
+    procedure KeyString(var S: UnicodeString; var Handled: Boolean); override;
     function WidgetFlags: Integer; override;
 {$ELSE}
     procedure WMChar(var Msg: TWMChar); message WM_CHAR;
@@ -1311,7 +1311,7 @@ var
   iLinesToScroll: integer;
 begin
   if ssCtrl in Application.KeyState then
-    iLinesToScroll := FLinesInWindow 
+    iLinesToScroll := FLinesInWindow
   else
     iLinesToScroll := 3;
   Inc(fMouseWheelAccumulator, WheelDelta);
@@ -1418,16 +1418,16 @@ end;
 procedure TSynBaseCompletionProposalForm.KeyDown(var Key: Word; Shift: TShiftState);
 var
   C: WideChar;
-begin          
+begin
   if DisplayType = ctCode then
   begin
     case Key of
       SYNEDIT_RETURN:
         if (FCompleteWithEnter) and Assigned(OnValidate) then
-          OnValidate(Self, Shift, #0); 
+          OnValidate(Self, Shift, #0);
       SYNEDIT_TAB:
         if  (FCompleteWithTab) and Assigned(OnValidate) then
-          OnValidate(Self, Shift, #0); 
+          OnValidate(Self, Shift, #0);
       SYNEDIT_ESCAPE:
       begin
         if Assigned(OnCancel) then

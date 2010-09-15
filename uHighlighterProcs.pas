@@ -45,6 +45,8 @@ procedure GetHighlighters(AOwner: TComponent; AHighlighters: TStrings;
 function GetHighlightersFilter(AHighlighters: TStrings): string;
 function GetHighlighterFromFileExt(AHighlighters: TStrings;
   Extension: string): TSynCustomHighlighter;
+function GetHighlighterFromFileName(AHighlighters: TStrings;
+  FileName: string): TSynCustomHighlighter;
 function GetHighlighterFromLanguageName(LanguageName : String;
   AHighlighters: TStrings) : TSynCustomHighlighter;
 function FileMaskFromFileFilter(Filter : string) : string;
@@ -52,7 +54,7 @@ function FileMaskFromFileFilter(Filter : string) : string;
 implementation
 
 uses
-  SysUtils;
+  SysUtils, JclStrings;
   
 procedure GetHighlighters(AOwner: TComponent; AHighlighters: TStrings;
   AppendToList: boolean);
@@ -124,6 +126,45 @@ begin
   end;
   Result := nil;
 end;
+
+function GetHighlighterFromFileName(AHighlighters: TStrings;
+  FileName: string): TSynCustomHighlighter;
+var
+  Len: integer;
+  i, j, k: integer;
+  Highlighter: TSynCustomHighlighter;
+  Filter, Mask: string;
+begin
+  Len := Length(FileName);
+  if Assigned(AHighlighters) and (Len > 0) then begin
+    for i := 0 to AHighlighters.Count - 1 do begin
+      if not (AHighlighters.Objects[i] is TSynCustomHighlighter) then
+        continue;
+      Highlighter := TSynCustomHighlighter(AHighlighters.Objects[i]);
+      Filter := Trim(LowerCase(Highlighter.DefaultFilter));
+      j := Pos('|', Filter);
+      if j > 0 then begin
+        Delete(Filter, 1, j);
+        repeat
+          k := CharPos(Filter, ';');
+          if k > 0 then begin
+            Mask := Trim(Copy(Filter, 1, k - 1));
+            Delete(Filter, 1, k);
+          end else begin
+            Mask := Trim(Filter);
+            Filter := '';
+          end;
+          if StrMatches(Mask, LowerCase(ExtractFileName(FileName))) then begin
+            Result := Highlighter;
+            exit;
+          end;
+        until Filter = '';
+      end;
+    end;
+  end;
+  Result := nil;
+end;
+
 
 function GetHighlighterFromLanguageName(LanguageName : String;
   AHighlighters: TStrings) : TSynCustomHighlighter;

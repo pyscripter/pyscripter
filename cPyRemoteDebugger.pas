@@ -39,7 +39,7 @@ type
     destructor Destroy; override;
     function CreateAndConnectToServer : Boolean;
     procedure ShutDownServer;
-    function Compile(ARunConfig : TRunConfiguration) : Variant; 
+    function Compile(ARunConfig : TRunConfiguration) : Variant;
     function ExecuteInThread(Callable, Arguments: Variant) : Variant;
     procedure HandleRemoteException(ExcInfo : Variant; SkipFrames : integer = 1);
     procedure ReInitialize; override;
@@ -493,7 +493,7 @@ begin
   end;
 
   if fIsAvailable then begin
-    ServerFile := CommandsDataModule.UserDataDir + 'remserver.py';
+    ServerFile := CommandsDataModule.UserDataPath + 'remserver.py';
     case fEngineType of
       peRemote: ServerName := 'SimpleServer';
       peRemoteTk: ServerName := 'TkServer';
@@ -1316,7 +1316,7 @@ begin
    fRemotePython.CheckConnected;
    if fRemotePython.fThreadExecInterrupted then
      Exit;
-     
+
    Assert(VarIsPython(fCurrentFrame) and not VarisNone(fCurrentFrame));
    FName := fCurrentFrame.f_code.co_filename;
    if (FName[1] ='<') and (FName[Length(FName)] = '>') then
@@ -1336,7 +1336,7 @@ begin
        PyControl.DoYield(True);
 
      if fRemotePython.fThreadExecInterrupted then
-       Exit; 
+       Exit;
 
      if PyControl.BreakPointsChanged then SetDebuggerBreakpoints;
 

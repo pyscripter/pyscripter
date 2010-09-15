@@ -7464,22 +7464,21 @@ begin
               end;
               Lines.Insert(CaretY, '');
               Caret := CaretXY;
+
+              fUndoList.AddChange(crLineBreak, Caret, Caret, '', smNormal);   //KV
               if Command = ecLineBreak then
               begin
+                InternalCaretXY := BufferCoord(1, CaretY +1);
                 if SpaceCount2 > 0 then
                 begin
                   SpaceBuffer := Copy(Lines[BackCounter], 1, SpaceCount2);
-                  InternalCaretXY := BufferCoord(1, CaretY +1);
                   for i := 1 to Length(SpaceBuffer) do
                     if SpaceBuffer[i] = #9 then
                       CommandProcessor(ecTab, #0, nil)
                     else
                       CommandProcessor(ecChar, SpaceBuffer[i], nil);
-                end
-                else
-                 InternalCaretXY := BufferCoord(1, CaretY +1);
+                end;
               end;
-              fUndoList.AddChange(crLineBreak, Caret, Caret, '', smNormal);
             end;
           end
           else begin

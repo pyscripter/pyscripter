@@ -185,13 +185,31 @@ begin
 end;
 
 function GetDate(const AText: string): string;
+Var
+  V : Variant;
 begin
-  Result:= DateToStr(StrToDateTime(AText));
+  try
+    V := AText;
+    VarCast(V, V, varDate);
+//    Result:= DateToStr(StrToDateTime(AText));
+    Result:= DateToStr(V);
+  except
+    Result := '';
+  end;
 end;
 
 function GetTime(const AText: string): string;
+Var
+  V : Variant;
 begin
-  Result:= TimeToStr(StrToDateTime(AText));
+  try
+    V := AText;
+    VarCast(V, V, varDate);
+//    Result:= TimeToStr(StrToDateTime(AText));
+    Result:= TimeToStr(V);
+  except
+    Result := '';
+  end;
 end;
 
 function GetFileDate(const AFileName: string): string;
@@ -270,21 +288,29 @@ begin
 end;
 
 function GetDateFormated(const AText: string): string;
+// Delphi's string to date conversion fails when the date contains month names
+// so use variant conversion instead
 var
 //  i: Integer;
   RegExpr : TRegExpr;
+  V : Variant;
 begin
   RegExpr := TRegExpr.Create;
   try
     RegExpr.Expression := '([^'']+)-''([^'']+)''';
     if RegExpr.Exec(AText)then
-      Result:= FormatDateTime(RegExpr.Match[2],  StrToDateTime(RegExpr.Match[1]))
+      try
+        V := RegExpr.Match[1];
+        VarCast(V, V, varDate);
+        Result:= FormatDateTime(RegExpr.Match[2],  V)
+      except
+        Result := '';
+      end
     else begin
       Dialogs.MessageDlg(Format(_(SInvalidParameterFormat),
         [Concat(AText, '-', 'DateFormat')]), mtError, [mbOK], 0);
       Abort;
     end;
-
   finally
     RegExpr.Free;
   end;

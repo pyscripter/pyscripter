@@ -297,14 +297,15 @@
           Bug fixes
             Issues  297, 307, 346, 354, 358, 371, 375, 376, 382, 384, 387, 389
 
-  History:   v 2.2
+  History:   v 2.2.1
           New Features
             Start-up python scripts pyscripter_init.py and python_init.py. See help file for details.
             Italian translation by Vincenzo Demasi
             New Edit command "Copy File Name" available at the contex menu of the tab bar
             New commands "Previous Frame", "Next Frame" to change frame using the keyboard (Issue 399)
+            JavaScript and PHP Syntax Highlighters added
           Bug fixes
-             Issues 103, 317, 324, 395
+             Issues 103, 267, 317, 324, 395, 403, 407, 412, 413
 
   Vista Compatibility issues (all resolved)
   -  Flip3D and Form preview (solved with LX)
@@ -883,7 +884,6 @@ type
     procedure actDebugPauseExecute(Sender: TObject);
     procedure actPythonReinitializeExecute(Sender: TObject);
     procedure actPythonEngineExecute(Sender: TObject);
-    procedure mnPythonEnginesPopup(Sender: TTBCustomItem; FromLink: Boolean);
     procedure actExecSelectionExecute(Sender: TObject);
     procedure actRestoreEditorExecute(Sender: TObject);
     procedure actViewMainMenuExecute(Sender: TObject);
@@ -946,6 +946,8 @@ type
     procedure ApplicationOnHint(Sender: TObject);
     procedure ApplcationOnShowHint(var HintStr: string; var CanShow: Boolean;
       var HintInfo: Controls.THintInfo);
+    procedure ApplicationActionUpdate(Action: TBasicAction; var Handled: Boolean);
+    procedure ApplicationActionExecute(Action: TBasicAction; var Handled: Boolean);
     procedure WMFindDefinition(var Msg: TMessage); message WM_FINDDEFINITION;
     procedure WMUpdateBreakPoints(var Msg: TMessage); message WM_UPDATEBREAKPOINTS;
     procedure WMSearchReplaceAction(var Msg: TMessage); message WM_SEARCHREPLACEACTION;
@@ -1050,7 +1052,7 @@ uses
   uCmdLine, uSearchHighlighter, frmModSpTBXCustomize, IniFiles,
   JclStrings, JclSysUtils, frmProjectExplorer, cProjectClasses,
   MPDataObject, gnugettext, WideStrUtils, WideStrings,
-  SpTBXDefaultSkins, SpTBXControls, VirtualFileSearch;
+  SpTBXDefaultSkins, SpTBXControls, VirtualFileSearch, SynEditKeyCmds, StdActns;
 
 {$R *.DFM}
 
@@ -1205,7 +1207,7 @@ begin
     AppStorage.FileName := OptionsFileName;
   end else  // default location
     AppStorage.FileName :=
-      CommandsDataModule.UserDataDir + OptionsFileName;
+      CommandsDataModule.UserDataPath + OptionsFileName;
 
   AppStorage.StorageOptions.StoreDefaultValues := False;
 
@@ -1316,6 +1318,8 @@ begin
   Application.OnIdle := ApplicationOnIdle;
   Application.OnHint := ApplicationOnHint;
   Application.OnShowHint := ApplcationOnShowHint;
+  Application.OnActionUpdate := ApplicationActionUpdate;
+  Application.OnActionExecute := ApplicationActionExecute;
 
   UpdateDebugCommands(PyControl.DebuggerState);
   //  Editor Views Menu
@@ -1351,8 +1355,12 @@ begin
   Application.OnHelp := Self.ApplicationHelp;
 
   // Execute pyscripter_init.py
+  // Search first in the Exe directory and then in the user directory
   // Needs to be done after PyScripter loading is finished
-  InternalInterpreter.RunScript(CommandsDataModule.UserDataDir + PyScripterInitFile);
+  if FileExists(ExtractFilePath(Application.ExeName)+ PyScripterInitFile) then
+    InternalInterpreter.RunScript(ExtractFilePath(Application.ExeName) + PyScripterInitFile)
+  else
+    InternalInterpreter.RunScript(CommandsDataModule.UserDataPath + PyScripterInitFile);
 end;
 
 procedure TPyIDEMainForm.FormCloseQuery(Sender: TObject;
@@ -2864,6 +2872,14 @@ begin
   actBrowseBack.Enabled := mnPreviousList.Count > 0;
   actBrowseForward.Enabled := mnNextList.Count > 0;
 
+  // Python Engines
+  case CommandsDataModule.PyIDEOptions.PythonEngineType of
+    peInternal :  actPythonInternal.Checked := True;
+    peRemote : actPythonRemote.Checked := True;
+    peRemoteTk : actPythonRemoteTk.Checked := True;
+    peRemoteWx : actPythonRemoteWx.Checked := True;
+  end;
+
   // Scroll Buttons
   TabControl.ScrollState(L, R);
   tbiScrollLeft.Enabled := L;
@@ -3117,17 +3133,6 @@ begin
   if Assigned(Editor) then begin
     Editor.SynEdit.Highlighter := nil;
     Editor.SynEdit2.Highlighter := nil;
-  end;
-end;
-
-procedure TPyIDEMainForm.mnPythonEnginesPopup(Sender: TTBCustomItem;
-  FromLink: Boolean);
-begin
-  case CommandsDataModule.PyIDEOptions.PythonEngineType of
-    peInternal :  actPythonInternal.Checked := True;
-    peRemote : actPythonRemote.Checked := True;
-    peRemoteTk : actPythonRemoteTk.Checked := True;
-    peRemoteWx : actPythonRemoteWx.Checked := True;
   end;
 end;
 
@@ -3700,6 +3705,8 @@ end;
 
 function TPyIDEMainForm.NewFileFromTemplate(
   FileTemplate: TFileTemplate): IEditor;
+Var
+  i, j : integer;
 begin
   // create a new editor, add it to the editor list
   Result := DoCreateEditor;
@@ -3711,8 +3718,21 @@ begin
       Result.Close;
       raise
     end;
-    TSynEditStringList(Result.SynEdit.Lines).InsertText(0,
-      Parameters.ReplaceInText(FileTemplate.Template));
+    Result.SynEdit.SelText := Parameters.ReplaceInText(FileTemplate.Template);
+
+    // Locate the caret symbol |
+    for i := 0 to Result.SynEdit.Lines.Count - 1 do begin
+      j := CharPos(Result.SynEdit.Lines[i], '|');
+      if j > 0 then begin
+        Result.SynEdit.CaretXY := BufferCoord(j + 1, i + 1);
+        Result.SynEdit.ExecuteCommand(ecDeleteLastChar, ' ', nil);
+        break;
+      end;
+    end;
+
+    Result.SynEdit.ClearUndo;
+    Result.SynEdit.Modified := False;
+
     TEditorForm(Result.Form).DefaultExtension := FileTemplate.Extension;
   end;
 end;
@@ -3753,6 +3773,44 @@ procedure TPyIDEMainForm.tbiBrowseNextClick(Sender: TObject);
 begin
   if mnNextList.Count > 0 then begin
     NextListClick(Sender, TSpTBXMRUItem(mnNextList.Items[0]).MRUString);
+  end;
+end;
+
+procedure TPyIDEMainForm.ApplicationActionExecute(Action: TBasicAction;
+  var Handled: Boolean);
+Var
+  Msg : Cardinal;
+begin
+  if (Action is TEditAction) and Assigned(Screen.ActiveControl) and
+    (Screen.ActiveControl is TCombobox) and
+    not TComboBox(Screen.ActiveControl).DroppedDown
+  then begin
+    Msg := 0;
+    if Action is TEditCopy then
+      Msg := WM_COPY
+    else if Action is TEditCut then
+      Msg := WM_CUT
+    else if Action is TEditPaste then
+      Msg := WM_PASTE;
+    if Msg <> 0 then begin
+      PostMessage(Screen.ActiveControl.Handle, Msg, 0, 0);
+      Handled := True;
+    end;
+  end;
+end;
+
+procedure TPyIDEMainForm.ApplicationActionUpdate(Action: TBasicAction;
+  var Handled: Boolean);
+begin
+  if (Action is TEditAction) and Assigned(Screen.ActiveControl) and
+    (Screen.ActiveControl is TCombobox) and
+    not TComboBox(Screen.ActiveControl).DroppedDown
+  then begin
+    TEditAction(Action).Enabled :=
+     (Action is TEditCut) and (TComboBox(Screen.ActiveControl).SelLength > 0) or
+     (Action is TEditCopy) and (TComboBox(Screen.ActiveControl).SelLength > 0) or
+     (Action is TEditPaste) and ClipboardProvidesWideText;
+    Handled := (Action is TEditCut) or (Action is TEditCopy) or (Action is TEditPaste);
   end;
 end;
 

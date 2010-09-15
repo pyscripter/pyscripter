@@ -154,6 +154,7 @@ begin
   CI_UNICODE.Checked := AppStorage.ReadBoolean(BasePath+'\UNICODE', False);
   CI_VERBOSE.Checked := AppStorage.ReadBoolean(BasePath+'\VERBOSE', False);
   RI_Search.Checked := AppStorage.ReadBoolean(BasePath+'\Search', True);
+  if not RI_Search.Checked then RI_Match.Checked := True;
   CI_AutoExecute.Checked := AppStorage.ReadBoolean(BasePath+'\AutoExec', True);
   dpRegExpText.Height := AppStorage.ReadInteger(BasePath+'\RegExpHeight', dpRegExpText.Height);
   dpGroupsView.Height := AppStorage.ReadInteger(BasePath+'\GroupsHeight', dpGroupsView.Height);

@@ -12,7 +12,7 @@ interface
 Uses
   Windows, Classes, SysUtils, Graphics, SynEditTypes,
   WideStrings, SynUnicode, uEditAppIntfs, VirtualFileSearch,
-  SpTBXSkins, Controls, SynEdit;
+  SpTBXSkins, Controls, SynEdit, SynRegExpr;
 
 const
   UTF8BOMString : RawByteString = AnsiChar($EF) + AnsiChar($BB) + AnsiChar($BF);
@@ -208,12 +208,20 @@ function GetHotColor(OptionEntry : TSpTBXSkinOptionEntry) : TColor;
 (* Improved CanFocus *)
 function CanActuallyFocus(WinControl: TWinControl): Boolean;
 
+{ Create a Regular Expression and compile it}
+function CompiledRegExpr(Expr : string): TRegExpr;
+
+Var
+  RE_CC_Import  : TRegExpr;
+
 Const
   ZeroFileTime : TFileTime = (dwLowDateTime : 0; dwHighDateTime : 0);
+  IdentRE = '[A-Za-z_][A-Za-z0-9_]*';
+  DottedIdentRE = '[A-Za-z_][A-Za-z0-9_.]*';
 
 implementation
 Uses
-  Forms, JclFileUtils, JclStrings, Math, VarPyth, JclBase, SynRegExpr,
+  Forms, JclFileUtils, JclStrings, Math, VarPyth, JclBase,
   StrUtils, PythonEngine, dmCommands, Dialogs,
   StringResources, frmPythonII, gnugettext, MPCommonUtilities,
   MPCommonObjects, MPShellUtilities;
@@ -1762,5 +1770,20 @@ begin
       Result := WinControl.CanFocus;
   end;
 end;
+
+function CompiledRegExpr(Expr : string): TRegExpr;
+begin
+  Result := TRegExpr.Create;
+  Result.Expression := Expr;
+  Result.Compile;
+end;
+
+initialization
+  RE_CC_Import := CompiledRegExpr(
+    Format('^\s*import +(%s( +as +%s)? *, *)*(%s)?$',
+    [DottedIdentRe, IdentRE, IdentRE]));
+
+finalization
+  RE_CC_Import.Free;
 
 end.
