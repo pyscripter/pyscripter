@@ -57,7 +57,7 @@ implementation
 
 uses
   Windows, SysUtils, Dialogs, jclFileUtils, jclDateTime,
-  jclStrings, cParameters, Registry,  uEditAppIntfs,
+  cParameters, Registry,  uEditAppIntfs,
   dmCommands, VarPyth, SynRegExpr, uCommonFunctions,
   frmPyIDEMain, StringResources, cPyBaseDebugger, cProjectClasses, gnugettext,
   WideStrUtils, MPShellUtilities, MPCommonUtilities, FileCtrl, StrUtils;
@@ -327,8 +327,7 @@ var
   ix: integer;
 begin
   Result := '';
-  if StrConsistsOfNumberChars(AIndex) then begin
-    ix := StrToInt(AIndex);
+  if TryStrToInt(AIndex, ix) then begin
     if ix <= ParamCount then
       Result := ParamStr(ix);
   end;

@@ -29,9 +29,12 @@ interface
 
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ExtCtrls, AppEvnts,
-  JclSysUtils, JclMapi, JclUnitVersioning, JclUnitVersioningProviders, JclDebug,
-  dlgPyIDEBase, SpTBXItem, SpTBXControls;
+  Dialogs, StdCtrls, ExtCtrls, AppEvnts, JclSysUtils, JclMapi,
+  {$IFDEF UNITVERSIONING}
+  JclUnitVersioning,
+  JclUnitVersioningProviders,
+  {$ENDIF UNITVERSIONING}
+  JclDebug, dlgPyIDEBase, SpTBXItem, SpTBXControls;
 
 const
   UM_CREATEDETAILS = WM_USER + $100;
@@ -307,10 +310,12 @@ var
   StackList: TJclStackInfoList;
  
   PETarget: TJclPeTarget;
+  {$IFDEF UNITVERSIONING}
   UnitVersioning: TUnitVersioning;
   UnitVersioningModule: TUnitVersioningModule;
   UnitVersion: TUnitVersion;
   ModuleIndex, UnitIndex: Integer;
+  {$ENDIF UNITVERSIONING}
 begin
   SL := TStringList.Create;
   try
@@ -376,8 +381,10 @@ begin
     // Modules list
     if LoadedModulesList(SL, GetCurrentProcessId) then
     begin
+     {$IFDEF UNITVERSIONING}
       UnitVersioning := GetUnitVersioning;
       UnitVersioning.RegisterProvider(TJclDefaultUnitVersioningProvider);
+     {$ENDIF UNITVERSIONING}
       DetailsMemo.Lines.Add(RsModulesList);
       SL.CustomSort(SortModulesListByAddressCompare);
       for I := 0 to SL.Count - 1 do
@@ -411,6 +418,7 @@ begin
           end
         else
           DetailsMemo.Lines.Add(ImageBaseStr + RsMissingVersionInfo);
+       {$IFDEF UNITVERSIONING}
         for ModuleIndex := 0 to UnitVersioning.ModuleCount - 1 do
         begin
           UnitVersioningModule := UnitVersioning.Modules[ModuleIndex];
@@ -425,6 +433,7 @@ begin
             end;
           end;
         end;
+       {$ENDIF UNITVERSIONING}
       end;
       NextDetailBlock;
     end;

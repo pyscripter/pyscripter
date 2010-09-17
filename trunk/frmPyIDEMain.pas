@@ -305,7 +305,7 @@
             New commands "Previous Frame", "Next Frame" to change frame using the keyboard (Issue 399)
             JavaScript and PHP Syntax Highlighters added
           Bug fixes
-             Issues 103, 267, 317, 324, 395, 403, 407, 412, 413
+             Issues 103, 267, 294, 317, 324, 395, 403, 405, 407, 412, 413
 
   Vista Compatibility issues (all resolved)
   -  Flip3D and Form preview (solved with LX)
@@ -1297,6 +1297,7 @@ begin
     AppStorage.ReadPersistent('Variables Window Options', VariablesWindow);
   end else begin
     SkinManager.SetSkin('Office 2003');
+
     TabHost := ManualTabDock(DockServer.LeftDockPanel, FileExplorerWindow, ProjectExplorerWindow);
     DockServer.LeftDockPanel.Width := 200;
     ManualTabDockAddPage(TabHost, CodeExplorerWindow);
@@ -1304,7 +1305,6 @@ begin
 
     TabHost := ManualTabDock(DockServer.BottomDockPanel, CallStackWindow, VariablesWindow);
     DockServer.BottomDockPanel.Height := 150;
-
     ManualTabDockAddPage(TabHost, WatchesWindow);
     ManualTabDockAddPage(TabHost, BreakPointsWindow);
     ManualTabDockAddPage(TabHost, OutputWindow);

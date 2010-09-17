@@ -181,7 +181,7 @@ Uses
   frmMessages, uCommonFunctions, frmVariables, StringResources,
   frmUnitTests, SynRegExpr, 
   cPyDebugger, cPyRemoteDebugger, JvJVCLUtils, uCmdLine,
-  JclFileUtils, gnugettext, WideStrUtils, JclStrings;
+  JclStrings, JclFileUtils, gnugettext;
 
 {$R *.dfm}
 
@@ -344,7 +344,7 @@ begin
   if Text = '' then Exit;
 
   // Untabify
-  Text :=  WideStringReplace(Text, #9,
+  Text :=  StringReplace(Text, #9,
      StringOfChar(' ', SynEdit.TabWidth), [rfReplaceAll]);
 
   SL := TStringList.Create;
@@ -900,6 +900,15 @@ begin
       if InsertMode and (CaretX <= Len) and (Line[CaretX] = fCloseBracketChar) then
         ExecuteCommand(ecDeleteChar, WideChar(#0), nil);
       fCloseBracketChar := #0;
+    end else if CharInSet(aChar, [')', ']', '}']) then begin
+      fCloseBracketChar := #0;
+      Position := CaretX;
+      if Position <= Len then
+        CharRight := Line[Position]
+      else
+        CharRight := WideNull;
+      if (AChar = CharRight) and (GetMatchingBracket.Line <= 0) then
+        ExecuteCommand(ecDeleteChar, #0, nil);
     end else begin
       fCloseBracketChar := #0;
       OpenBracketPos := Pos(aChar, OpenBrackets);
@@ -925,8 +934,7 @@ begin
         if Position >= 1 then
           CharLeft := Line[Position];
 
-        if (CharRight <> aChar) and not Highlighter.IsIdentChar(CharRight) and
-          not (CharInSet(aChar, ['"', ''''])
+        if (CharRight = WideNull) and not (CharInSet(aChar, ['"', ''''])
           and (Highlighter.IsIdentChar(CharLeft) or (CharLeft= aChar))) then
         begin
           SelText := CloseBrackets[OpenBracketPos];
@@ -1083,7 +1091,7 @@ begin
         i := 0;
         P1 := PWideChar(Source);
         while P1 <> nil do begin
-          P1 := WStrScan(P1, WideLF);
+          P1 := StrScan(P1, WideLF);
           if Assigned(P1) then Inc(P1);
           Inc(i);
         end;
@@ -1092,7 +1100,7 @@ begin
         i := 0;
         P1 := PWideChar(Source);
         while P1 <> nil do begin
-          P2 := WStrScan(P1, WideLF);
+          P2 := StrScan(P1, WideLF);
           if P2 = nil then
             Buffer[i] := Copy(Source, P1 - PWideChar(Source) + 1,
               Length(Source) - (P1 - PWideChar(Source)))

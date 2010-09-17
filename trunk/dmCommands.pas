@@ -1729,14 +1729,9 @@ end;
 
 procedure TCommandsDataModule.actSearchMatchingBraceExecute(
   Sender: TObject);
-Var
-  P : TBufferCoord;
 begin
-  if Assigned(GI_ActiveEditor) then with GI_ActiveEditor.ActiveSynEdit do begin
-    P := GetMatchingBracket;
-    if (P.Char > 0) and (P.Line > 0) then
-      CaretXY := P;
-  end;
+  if Assigned(GI_ActiveEditor) then
+    GI_ActiveEditor.ActiveSynEdit.ExecuteCommand(ecMatchBracket, #0, nil);
 end;
 
 function TCommandsDataModule.IsBlockCloser(S: string): Boolean;

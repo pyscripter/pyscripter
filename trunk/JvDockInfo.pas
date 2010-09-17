@@ -162,7 +162,7 @@ type
 {$IFDEF UNITVERSIONING}
 const
   UnitVersioning: TUnitVersionInfo = (
-    RCSfile: '$URL: https://jvcl.svn.sourceforge.net/svnroot/jvcl/tags/JVCL3_39/run/JvDockInfo.pas $';
+    RCSfile: '$URL: https://jvcl.svn.sourceforge.net/svnroot/jvcl/branches/JVCL3_40_PREPARATION/run/JvDockInfo.pas $';
     Revision: '$Revision: 12461 $';
     Date: '$Date: 2009-08-14 19:21:33 +0200 (ven., 14 aoΓ»t 2009) $';
     LogPath: 'JVCL\run'

@@ -107,9 +107,7 @@ uses
   dlgSynEditOptions in 'dlgSynEditOptions.pas' {fmEditorOptionsDialog: TForm},
   SynRegExpr in 'SynRegExpr.pas',
   SynEditWordWrap in 'SynEditWordWrap.pas',
-  JvDockSupportControl in 'JvDockSupportControl.pas',
-  JvAppIniStorage in 'JvAppIniStorage.pas',
-  JvAppStorage in 'JvAppStorage.pas';
+  JvDockSupportControl in 'JvDockSupportControl.pas';
 
 {$R *.RES}
 {$R WebCopyAvi.RES}
