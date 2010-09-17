@@ -424,6 +424,7 @@ procedure TProjectExplorerWindow.actProjectImportDirectoryExecute(
 var
   Data : PNodeDataRec;
   Node: PVirtualNode;
+  TempCursor : IInterface;
 begin
   Node := ExplorerTree.GetFirstSelected;
   if Assigned(Node) then begin
@@ -431,6 +432,7 @@ begin
     if Data.ProjectNode is TProjectFilesNode then begin
       with TImportDirectoryForm do
         if Execute and (Directory<>'') then begin
+          TempCursor := WaitCursor;
           TProjectFilesNode(Data.ProjectNode).ImportDirectory(Directory, FileMasks, Recursive);
           ExplorerTree.ReinitNode(Node, True);
         end;

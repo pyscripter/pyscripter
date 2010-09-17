@@ -19,7 +19,7 @@ located at http://jvcl.delphi-jedi.org
 
 Known Issues:
 -----------------------------------------------------------------------------}
-// $Id: JvProgramVersionCheck.pas 12461 2009-08-14 17:21:33Z obones $
+// $Id: JvProgramVersionCheck.pas 12741 2010-04-02 10:43:13Z ahuser $
 
 unit JvProgramVersionCheck;
 
@@ -562,9 +562,9 @@ type
 {$IFDEF UNITVERSIONING}
 const
   UnitVersioning: TUnitVersionInfo = (
-    RCSfile: '$URL: https://jvcl.svn.sourceforge.net/svnroot/jvcl/tags/JVCL3_39/run/JvProgramVersionCheck.pas $';
-    Revision: '$Revision: 12461 $';
-    Date: '$Date: 2009-08-14 19:21:33 +0200 (ven., 14 aoΓ»t 2009) $';
+    RCSfile: '$URL: https://jvcl.svn.sourceforge.net/svnroot/jvcl/branches/JVCL3_40_PREPARATION/run/JvProgramVersionCheck.pas $';
+    Revision: '$Revision: 12741 $';
+    Date: '$Date: 2010-04-02 12:43:13 +0200 (ven., 02 avr. 2010) $';
     LogPath: 'JVCL\run'
     );
 {$ENDIF UNITVERSIONING}
@@ -1703,22 +1703,22 @@ end;
 
 procedure TJvProgramVersionCheck.SetLocationDatabase(const Value: TJvProgramVersionDatabaseLocation);
 begin
-  ReplaceComponentReference (Self, Value, TComponent(FLocationDatabase));
+  ReplaceComponentReference(Self, Value, TComponent(FLocationDatabase));
 end;
 
 procedure TJvProgramVersionCheck.SetLocationFTP(const Value: TJvProgramVersionFTPLocation);
 begin
-  ReplaceComponentReference (Self, Value, TComponent(FLocationFTP));
+  ReplaceComponentReference(Self, Value, TComponent(FLocationFTP));
 end;
 
 procedure TJvProgramVersionCheck.SetLocationHTTP(const Value: TJvProgramVersionHTTPLocation);
 begin
-  ReplaceComponentReference (Self, Value, TComponent(FLocationHTTP));
+  ReplaceComponentReference(Self, Value, TComponent(FLocationHTTP));
 end;
 
 procedure TJvProgramVersionCheck.SetLocationNetwork(const Value: TJvProgramVersionNetworkLocation);
 begin
-  ReplaceComponentReference (Self, Value, TComponent(FLocationNetwork));
+  ReplaceComponentReference(Self, Value, TComponent(FLocationNetwork));
 end;
 
 

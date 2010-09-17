@@ -24,7 +24,7 @@ located at http://jvcl.delphi-jedi.org
 
 Known Issues:
 -----------------------------------------------------------------------------}
-// $Id: JvDockControlForm.pas 12579 2009-10-26 19:59:53Z ahuser $
+// $Id: JvDockControlForm.pas 12797 2010-06-07 16:21:51Z ahuser $
 
 { Changes:
 
@@ -107,7 +107,6 @@ type
     procedure CustomEndDock(Target: TObject; X, Y: Integer); override;
     function CustomUnDock(Source: TJvDockDragDockObject; NewTarget: TWinControl; Client: TControl): Boolean; override;
     function DoUnDock(NewTarget: TWinControl; Client: TControl): Boolean; override;
-    procedure Resize; override;
   public
     constructor Create(AOwner: TComponent); override;
     procedure DockDrop(Source: TDragDockObject; X, Y: Integer); override;
@@ -701,8 +700,13 @@ type
   { A TJvDockableForm is a base class for TJvDockConjoinHostForm
      and TJvDockTabHostForm which are the base classes for the two kinds of
      docked-views possible for handling multiple controls docked to the same
-     dock site. }
-  TJvDockableForm = class(TForm)
+     dock site.
+     This form is not meant to be visible to the user nor to contain any
+     visible components, it is just part of the docking framework.
+     This is the reason why it does not inherit from TJvForm, and it were
+     inheriting from it, all sorts of weird bugs would show up (Mantis 5023)
+  }
+  TJvDockableForm = class(TForm) { DO NOT MAKE THIS TJvForm! }
   private
     FDockClient: TJvDockClient;
     FDockableControl: TWinControl;
@@ -835,7 +839,7 @@ function GetClientAlignControlArea(AControl: TWinControl; Align: TAlign; Exclude
 procedure ResetDockClient(Control: TControl; NewTarget: TControl); overload;
 procedure ResetDockClient(DockClient: TJvDockClient; NewTarget: TControl); overload;
 
-{ Quick way to do tabbed docking programmatically - Added by Warren }
+{ Quick way to do tabbed docking programmatically - Added by Warren. New implementation Jan 2010 }
 function ManualTabDock(DockSite: TWinControl; Form1, Form2: TForm): TJvDockTabHostForm;
 { Must create the initial tab dock with two pages, using ManualTabDock,
   then you can add more pages with this:}
@@ -855,9 +859,9 @@ procedure InvalidateDockHostSiteOfControl(Control: TControl; FocusLost: Boolean)
 {$IFDEF UNITVERSIONING}
 const
   UnitVersioning: TUnitVersionInfo = (
-    RCSfile: '$URL: https://jvcl.svn.sourceforge.net/svnroot/jvcl/tags/JVCL3_39/run/JvDockControlForm.pas $';
-    Revision: '$Revision: 12579 $';
-    Date: '$Date: 2009-10-26 20:59:53 +0100 (lun., 26 oct. 2009) $';
+    RCSfile: '$URL: https://jvcl.svn.sourceforge.net/svnroot/jvcl/branches/JVCL3_40_PREPARATION/run/JvDockControlForm.pas $';
+    Revision: '$Revision: 12797 $';
+    Date: '$Date: 2010-06-07 18:21:51 +0200 (lun., 07 juin 2010) $';
     LogPath: 'JVCL\run'
     );
 {$ENDIF UNITVERSIONING}
@@ -953,39 +957,6 @@ function JvGlobalDockIsLoading: Boolean;
 begin
   Result := GDockLoadCount > 0;
 end;
-
-{ ahuser: These functions are not call anywhere
-
-function GetActiveControl(AForm: TCustomForm): TWinControl;
-var
-  AControl: TWinControl;
-begin
-  Result := nil;
-  AControl := AForm.ActiveControl;
-  while AControl <> nil do
-  begin
-    if AControl.HostDockSite <> nil then
-    begin
-      Result := AControl;
-      Break;
-    end;
-    AControl := AControl.Parent;
-  end;
-end;
-
-function GetHostDockParent(AControl: TWinControl): TWinControl;
-begin
-  Result := nil;
-  while AControl <> nil do
-  begin
-    if AControl.HostDockSite <> nil then
-    begin
-      Result := AControl.HostDockSite;
-      Break;
-    end;
-    AControl := AControl.Parent;
-  end;
-end;}
 
 function ComputeDockingRect(AControl: TControl; var DockRect: TRect; MousePos: TPoint): TAlign;
 var
@@ -1513,7 +1484,44 @@ begin
   Result := ConjoinHost;
 end;
 
-{ Quick way to do tabbed docking programmatically - Added by Warren }
+type
+  TWinControlAccess = class(TWinControl);
+
+{ Quick way to do tabbed docking programmatically - this way only works if your
+  dock style is written to accept InsertControl calls of this type, and generate
+  tab hosts. Rewritten January 21, 2010. WPostma }
+//function ManualTabDock(DockSite: TWinControl; Form1, Form2: TForm): TJvDockTabHostForm;
+//var
+//  DockClient: TJvDockClient;
+//  HostForm: TForm;
+//begin
+//  Assert(DockSite <> nil);
+//
+//  { This is an initial sanity check, but the actual DockClient is required later,
+//    so we can find the tab host form that contains it. }
+//  DockClient := FindDockClient(Form1);
+//  if DockClient = nil then
+//    raise EInvalidOperation.Create('ManualTabDock:DockClient not found. Form you are trying to dock must have a dock style');
+//
+//  { This should create the tab host form, if the docking style supports tabbed docking,
+//    as all 'advanced' docking styles provided in the JVCL do provide.
+//
+//    This is the same call used when you drag something with your mouse, so it
+//    is much more reliable, and consistent, and updates the DOckManager state
+//    which prevents all manner of weird problems. }
+//  TWinControlAccess(DockSite).DockManager.InsertControl(Form2, alClient, Form1);
+//
+//  { Now find and return the the new tab host object created depp within the bowels
+//    of the Docking Style code. If anything fails, return EInvalidOperation because its
+//    likely that whoever called ManualTabDock sent us objects that can not be properly
+//    docked, or is using a docking style that does not support tab docking. }
+//
+//  HostForm := DockClient.FindTabHostForm;
+//  if HostForm = nil then
+//    raise EInvalidOperation.Create('ManualTabDock:TabHost not created. Your Docking Style may not support tabbed docking.');
+//
+//  Result := HostForm as TJvDockTabHostForm; {not nil, we checked, so this won't fail.}
+//end;
 
 function ManualTabDock(DockSite: TWinControl; Form1, Form2: TForm): TJvDockTabHostForm;
 var
@@ -1523,6 +1531,50 @@ var
 begin
   DockClient1 := FindDockClient(Form1);
   Form1.Hide;
+
+  Assert(Assigned(DockClient1));
+
+  if DockClient1.DockState = JvDockState_Docking then
+  begin
+    ScreenPos := Application.MainForm.ClientRect; // Just making it float temporarily.
+    Form1.ManualFloat(ScreenPos); // This screws up on Delphi 2010.
+  end;
+
+  DockClient2 := FindDockClient(Form2);
+  Assert(Assigned(DockClient2));
+  Form2.Hide;
+
+  if DockClient2.DockState = JvDockState_Docking then
+  begin
+    ScreenPos := Application.MainForm.ClientRect; // Just making it float temporarily.
+    Form2.ManualFloat(ScreenPos);
+  end;
+
+  TabHost := DockClient1.CreateTabHostAndDockControl(Form1, Form2);
+
+  TabHost.ManualDock(DockSite,nil,alClient);
+
+  ShowDockForm(Form1);
+  ShowDockForm(Form2);
+  Result := TabHost;
+end;
+
+(*
+ This old way was a kludge written by Warren that never properly worked anyways.
+ It had the odd habit of rearranging controls, making previous docked forms (controls)
+  disappear when docking a new one, and all manner of bad stuff like that.
+
+function Old_ManualTabDock(DockSite: TWinControl; Form1, Form2: TForm): TJvDockTabHostForm;
+var
+  TabHost: TJvDockTabHostForm;
+  DockClient1, DockCLient2: TJvDockClient;
+  ScreenPos: TRect;
+//  otherForm:TForm;
+//  n:Integer;
+begin
+  DockClient1 := FindDockClient(Form1);
+  Form1.Hide;
+
 
   Assert(Assigned(DockClient1));
 
@@ -1563,6 +1615,7 @@ begin
   Result := TabHost;
 end;
 
+*)
 
 { Must create the initial tab dock with two pages, using ManualTabDock,
   then you can add more pages with this:}
@@ -2284,7 +2337,7 @@ begin
         RemoveDockStyle(FDockStyle);
       end;
 
-      ReplaceComponentReference (Self, ADockStyle, TComponent(FDockStyle));
+      ReplaceComponentReference(Self, ADockStyle, TComponent(FDockStyle));
 
       if FDockStyle <> nil then
       begin
@@ -3097,9 +3150,7 @@ var
   CheckForm: TComponent;
 begin
   Result := nil;
-  if not Assigned(Owner) then
-    Exit;
-  if not (Owner is TWinControl) then
+  if not Assigned(Owner) or not (Owner is TWinControl) then
     Exit;
   OwnerWin := TWinControl(Owner);
   if Self.DockState <> JvDockState_Docking then
@@ -3318,7 +3369,7 @@ begin
         Supports(TWinControlAccessProtected(FLastDockSite).DockManager, IJvDockManager, JvDockManager) then
         JvDockManager.RemoveControl(Self.ParentForm);
     end;
-    ReplaceComponentReference (Self, ALastDockSite, TComponent(FLastDockSite));
+    ReplaceComponentReference(Self, ALastDockSite, TComponent(FLastDockSite));
   end;
 end;
 
@@ -3337,7 +3388,7 @@ end;
 
 procedure TJvDockClient.SetNCPopupMenu(Value: TPopupMenu);
 begin
-  ReplaceComponentReference (Self, Value, TComponent(FNCPopupMenu));
+  ReplaceComponentReference(Self, Value, TComponent(FNCPopupMenu));
 end;
 
 procedure TJvDockClient.SetParentVisible(const Value: Boolean);
@@ -3908,11 +3959,6 @@ begin
     alBottom:
       Top := Parent.ClientHeight - GetClientAlignControlArea(Parent, Align) - Height - 1;
   end;
-end;
-
-procedure TJvDockPanel.Resize;
-begin
-  inherited Resize;
 end;
 
 procedure TJvDockPanel.SetDockServer(ADockServer: TJvDockServer);

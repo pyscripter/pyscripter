@@ -14,7 +14,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Contnrs, Forms,
-  StdCtrls, uEditAppIntfs, SynEdit, SynEditTypes,
+  StdCtrls, uEditAppIntfs, JclStrings, SynEdit, SynEditTypes,
   SynEditHighlighter, SynEditMiscClasses, 
   SynEditKeyCmds, ImgList, Dialogs, ExtCtrls,
   TB2Item, uCommonFunctions,
@@ -251,7 +251,7 @@ uses
   uSearchHighlighter, VirtualShellNotifier,
   SynHighlighterWebMisc, SynHighlighterWeb, gnugettext,
   SynUnicode, WideStrings, WideStrUtils, frmIDEDockWin,
-  SynEditMiscProcs, JclStrings;
+  SynEditMiscProcs;
 
 const
   WM_DELETETHIS  =  WM_USER + 42;
@@ -1325,7 +1325,7 @@ procedure TEditorForm.DoActivateEditor;
 begin
   DoActivate;
   ViewsTabControl.ActiveTabIndex := 0;
-  if SynEdit.CanFocus then
+  if CanActuallyFocus(SynEdit) then
     SynEdit.SetFocus;
 end;
 
@@ -1556,7 +1556,7 @@ procedure TEditorForm.doProcessCommandHandler(Sender: TObject;
   HandlerData: pointer);
 var
   ASynEdit : TSynEdit;
-  iPrevLine, Indent: string;
+  iPrevLine: string;
   Position, Len: integer;
   OpenBrackets, CloseBrackets : string;
   OpenBracketPos : integer;
@@ -1720,6 +1720,15 @@ begin
             if InsertMode and (CaretX <= Len) and (Line[CaretX] = fCloseBracketChar) then
               ExecuteCommand(ecDeleteChar, WideChar(#0), nil);
             fCloseBracketChar := #0;
+          end else if CharInSet(aChar, [')', ']', '}']) then begin
+            fCloseBracketChar := #0;
+            Position := CaretX;
+            if Position <= Len then
+              CharRight := Line[Position]
+            else
+              CharRight := WideNull;
+            if (AChar = CharRight) and (GetMatchingBracket.Line <= 0) then
+              ExecuteCommand(ecDeleteChar, #0, nil);
           end else begin
             fCloseBracketChar := #0;
             OpenBracketPos := Pos(aChar, OpenBrackets);
@@ -1749,13 +1758,14 @@ begin
               if Position >= 1 then
                 CharLeft := Line[Position];
 
-              if (CharRight <> aChar) and not Highlighter.IsIdentChar(CharRight) and
+              if (CharRight = WideNull) and
                 not (CharInSet(aChar, ['"', ''''])
                 and (Highlighter.IsIdentChar(CharLeft) or (CharLeft= aChar))) then
               begin
                 SelText := CloseBrackets[OpenBracketPos];
                 CaretX := CaretX - 1;
-                fCloseBracketChar := CloseBrackets[OpenBracketPos];
+                if not CharInSet(aChar, [')', ']', '}']) then
+                  fCloseBracketChar := CloseBrackets[OpenBracketPos];
               end;
             end;
           end;

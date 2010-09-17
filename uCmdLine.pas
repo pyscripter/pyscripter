@@ -21,7 +21,7 @@ interface
   {$mode objfpc}{$H+}
 {$ENDIF}
 
-uses sysutils; //for exceptions
+uses sysutils, JclStrings; //for exceptions
 type
   TStringArray=array of string;
   TLongintArray=array of longint;
@@ -123,7 +123,7 @@ var
 
 implementation
 uses
-  Windows, gnugettext, StringResources, uCommonFunctions, JclStrings;
+  Windows, gnugettext, StringResources, uCommonFunctions;
 
 const
   Null = Char(#0);
