@@ -68,7 +68,7 @@ object CommandsDataModule: TCommandsDataModule
     Left = 32
     Top = 241
     Bitmap = {
-      494C010114001800280010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010114001800300010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000006000000001002000000000000060
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -1457,6 +1457,13 @@ object CommandsDataModule: TCommandsDataModule
           '            elif type in (imp.PY_SOURCE, imp.C_EXTENSION):'
           '                return filename'
           ''
+          '    def getmodules(self, path=None):'
+          '        try:'
+          '            import pkgutil'
+          '            return [i[1] for i in pkgutil.iter_modules(path)]'
+          '        except:'
+          '            return []'
+          ''
           '    def runcode(self, code):'
           '        import sys'
           '        def softspace(file, newvalue):'
@@ -2049,6 +2056,13 @@ object CommandsDataModule: TCommandsDataModule
           '            elif type in (imp.PY_SOURCE, imp.C_EXTENSION):'
           '                return filename'
           ''
+          '    def getmodules(self, path=None):'
+          '        try:'
+          '            import pkgutil'
+          '            return [i[1] for i in pkgutil.iter_modules(path)]'
+          '        except:'
+          '            return []'
+          ''
           '    def runcode(self, code):'
           '        import sys'
           '        self.saveStdio = (sys.stdin, sys.stdout, sys.stderr)'
@@ -2473,6 +2487,15 @@ object CommandsDataModule: TCommandsDataModule
           '                return os.path.join(filename, '#39'__init__.py'#39')'
           '            elif type in (imp.PY_SOURCE, imp.C_EXTENSION):'
           '                return filename'
+          ''
+          '    def getmodules(self, path=None):'
+          '        try:'
+          '            import pkgutil'
+          
+            '            return tuple([i[1] for i in pkgutil.iter_modules(pat' +
+            'h)])'
+          '        except:'
+          '            return tuple([])'
           ''
           '    def runcode(self, code):'
           '        import sys'
@@ -3085,6 +3108,15 @@ object CommandsDataModule: TCommandsDataModule
           '                return os.path.join(filename, '#39'__init__.py'#39')'
           '            elif type in (imp.PY_SOURCE, imp.C_EXTENSION):'
           '                return filename'
+          ''
+          '    def getmodules(self, path=None):'
+          '        try:'
+          '            import pkgutil'
+          
+            '            return tuple([i[1] for i in pkgutil.iter_modules(pat' +
+            'h)])'
+          '        except:'
+          '            return tuple([])'
           ''
           '    def runcode(self, code):'
           '        import sys'
@@ -4533,7 +4565,7 @@ object CommandsDataModule: TCommandsDataModule
     Left = 188
     Top = 186
     Bitmap = {
-      494C01019B009F00280010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01019B009F00300010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000007002000001002000000000000070
       020000000000000000000000000000000000000000000000000000000000EADD
       CB00AB7734009655000096550000AB773400EADDCB0000000000000000000000

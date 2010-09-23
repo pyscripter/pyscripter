@@ -87,7 +87,10 @@ function FormatDocString(const DocString : string) : string;
 function CalcIndent(S : string; TabWidth : integer = 4): integer;
 
 (* check if a directory is a Python Package *)
-function IsDirPythonPackage(Dir : string): boolean;
+function DirIsPythonPackage(Dir : string): boolean;
+
+(* check if a directory is a Python Package *)
+function FileIsPythonPackage(FileName : string): boolean;
 
 (* Get Python Package Root directory *)
 function GetPackageRootDir(Dir : string): string;
@@ -212,7 +215,9 @@ function CanActuallyFocus(WinControl: TWinControl): Boolean;
 function CompiledRegExpr(Expr : string): TRegExpr;
 
 Var
-  RE_CC_Import  : TRegExpr;
+  RE_CC_Import     : TRegExpr;
+  RE_CC_From       : TRegExpr;
+  RE_CC_FromImport : TRegExpr;
 
 Const
   ZeroFileTime : TFileTime = (dwLowDateTime : 0; dwHighDateTime : 0);
@@ -670,23 +675,28 @@ begin
       break;
 end;
 
-function IsDirPythonPackage(Dir : string): boolean;
+function DirIsPythonPackage(Dir : string): boolean;
 begin
   Result := DirectoryExists(Dir) and
     FileExists(IncludeTrailingPathDelimiter(Dir) + '__init__.py');
+end;
+
+function FileIsPythonPackage(FileName : string): boolean;
+begin
+  Result := ChangeFileExt(ExtractFileName(FileName), '') = '__init__';
 end;
 
 function GetPackageRootDir(Dir : string): string;
 Var
   S : string;
 begin
-  if not IsDirPythonPackage(Dir) then
+  if not DirIsPythonPackage(Dir) then
     raise Exception.CreateFmt('"%s" is not a Python package', [Dir]);
   S := Dir;
   Repeat
     Result := S;
     S := ExtractFileDir(S);
-  Until (Result = S) or (not IsDirPythonPackage(S));
+  Until (Result = S) or (not DirIsPythonPackage(S));
 end;
 
 function FileNameToModuleName(const FileName : string): string;
@@ -698,7 +708,7 @@ begin
   Dir := ExtractFileName(Path);
 
   if Path <> '' then begin
-    while IsDirPythonPackage(Path) and (Dir <> '') do begin
+    while DirIsPythonPackage(Path) and (Dir <> '') do begin
       Result := Dir + '.' + Result;
       Path := ExtractFileDir(Path);
       Dir := ExtractFileName(Path);
@@ -1782,8 +1792,14 @@ initialization
   RE_CC_Import := CompiledRegExpr(
     Format('^\s*import +(%s( +as +%s)? *, *)*(%s)?$',
     [DottedIdentRe, IdentRE, IdentRE]));
+  RE_CC_From := CompiledRegExpr(
+    Format('^\s*from +(\.*)(%s)?$', [IdentRE]));
+  RE_CC_FromImport := CompiledRegExpr(
+    Format('^\s*from +(\.*)(%s)? +import +\(? *(%s( +as +%s)? *, *)*(%s)?$',
+      [DottedIdentRe, IdentRE, IdentRe, IdentRe]));
 
 finalization
   RE_CC_Import.Free;
-
+  RE_CC_From.Free;
+  RE_CC_FromImport.Free;
 end.

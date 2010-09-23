@@ -1693,14 +1693,19 @@ begin
           else
             DebugWriteln ('Old value: "'+old+'"');
           {$endif}
-          if (old <> '') and (IsWriteProp(PropInfo)) then begin
+//          if (old <> '') and (IsWriteProp(PropInfo)) then begin      KV
+          if (old <> '') and (IsStoredProp(AnObject, PropInfo)) then begin
             if TP_Retranslator<>nil then
               (TP_Retranslator as TTP_Retranslator).Remember(AnObject, PropName, old);
             ws := dgettext(textdomain,old);
             if ws <> old then begin
               ppi:=GetPropInfo(AnObject, Propname);
               if ppi<>nil then begin
+               {$IFDEF UNICODE}
+                SetUnicodeStrProp(AnObject, ppi, ws);
+               {$ELSE}
                 SetWideStrProp(AnObject, ppi, ws);
+               {$ENDIF}
               end else begin
                 {$ifdef DXGETTEXTDEBUG}
                 DebugWriteln ('ERROR: Property disappeared: '+Propname+' for object of type '+AnObject.ClassName);
@@ -2774,7 +2779,11 @@ begin
       newValue:=instance.dgettext(textdomain,item.OldValue);
       ppi:=GetPropInfo(item.obj, item.Propname);
       if ppi<>nil then begin
+       {$IFDEF UNICODE}
+        SetUnicodeStrProp(item.obj, ppi, newValue);
+       {$ELSE}
         SetWideStrProp(item.obj, ppi, newValue);
+       {$ENDIF}
       end else begin
         {$ifdef DXGETTEXTDEBUG}
         Instance.DebugWriteln ('ERROR: On retranslation, property disappeared: '+item.Propname+' for object of type '+item.obj.ClassName);

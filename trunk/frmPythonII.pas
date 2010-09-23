@@ -181,7 +181,7 @@ Uses
   frmMessages, uCommonFunctions, frmVariables, StringResources,
   frmUnitTests, SynRegExpr, 
   cPyDebugger, cPyRemoteDebugger, JvJVCLUtils, uCmdLine,
-  JclStrings, JclFileUtils, gnugettext;
+  JclStrings, gnugettext, cRefactoring, cPythonSourceScanner;
 
 {$R *.dfm}
 
@@ -1147,21 +1147,100 @@ procedure TPythonIIForm.SynCodeCompletionExecute(Kind: SynCompletionType;
   Based on code from Syendit Demo
 -----------------------------------------------------------------------------}
 var locline, lookup: string;
-    TmpX, Index, ImageIndex, i,
-    TmpLocation    : Integer;
+    TmpX, Index, ImageIndex, i : integer;
     FoundMatch     : Boolean;
     DisplayText, InsertText: string;
     NameSpaceDict, NameSpaceItem : TBaseNameSpaceItem;
     Attr: TSynHighlighterAttributes;
     DummyToken : string;
     BC : TBufferCoord;
+    PathDepth: integer;
+    Dir: string;
+    ParsedModule : TParsedModule;
+    NameSpace : TStringList;
+    Prompt : string;
+
+
+  procedure GetModuleList(Path : Variant);
+  Var
+    i : integer;
+    S : string;
+    SortedNameSpace : TStringList;
+  begin
+    SortedNameSpace := TStringList.Create;
+    SortedNameSpace.Duplicates := dupIgnore; // Remove duplicates
+    SortedNameSpace.Sorted := True;
+    try
+      PyControl.ActiveInterpreter.GetModulesOnPath(Path, SortedNameSpace);
+      InsertText := SortedNamespace.Text;
+      for i := 0 to SortedNamespace.Count - 1 do begin
+        S := SortedNamespace[i];
+        DisplayText := DisplayText + Format('\Image{%d}\hspace{2}%s', [16, S]);
+        if i < SortedNamespace.Count - 1 then
+          DisplayText := DisplayText + #10;
+      end;
+    finally
+      SortedNameSpace.Free;
+    end;
+  end;
+
+  procedure ProcessNamespace;
+  Var
+    i : integer;
+    S : string;
+    CE : TBaseCodeElement;
+    SortedNameSpace : TStringList;
+  begin
+    SortedNameSpace := TStringList.Create;
+    try
+      SortedNameSpace.Duplicates := dupIgnore; // Remove duplicates
+      SortedNameSpace.Sorted := True;
+      SortedNameSpace.AddStrings(NameSpace);
+      SortedNameSpace.Sorted := False;
+      SortedNameSpace.CustomSort(ComparePythonIdents);
+      InsertText := SortedNamespace.Text;
+      for i := 0 to SortedNamespace.Count - 1 do begin
+        S := SortedNamespace[i];
+        CE := SortedNamespace.Objects[i] as TBaseCodeElement;
+        if (CE is TParsedModule) or (CE is TModuleImport) then
+          ImageIndex := 16
+        else if CE is TParsedFunction then begin
+          if CE.Parent is TParsedClass then
+            ImageIndex := 14
+          else
+            ImageIndex := 17
+        end else if CE is TParsedClass then
+          ImageIndex := 13
+        else begin  // TVariable or TParsedVariable
+          if CE.Parent is TParsedClass then
+            ImageIndex := 1
+          else
+            ImageIndex := 0
+        end;
+        DisplayText := DisplayText + Format('\Image{%d}\hspace{2}%s', [ImageIndex, S]);
+        if i < SortedNamespace.Count - 1 then
+          DisplayText := DisplayText + #10;
+      end;
+    finally
+      SortedNameSpace.Free;
+    end;
+  end;
+
 begin
   if PyControl.IsRunning or not CommandsDataModule.PyIDEOptions.InterpreterCodeCompletion
   then
     // No code completion while Python is running
     Exit;
+
   with TSynCompletionProposal(Sender).Editor do
   begin
+    locLine := StrPadRight(LineText, CaretX - 1, ' '); // to deal with trim trailing spaces
+    Prompt := GetPromptPrefix(locLine);
+    if Prompt <> '' then
+      locLine := Copy(locLine, Length(Prompt) + 1, MaxInt)
+    else
+      Exit;  // This is not a code line
+
     BC := CaretXY;
     Dec(BC.Char);
     if GetHighlighterAttriAtRowCol(BC, DummyToken, Attr) and
@@ -1174,58 +1253,84 @@ begin
       Exit;
     end;
 
-    locLine := LineText;
-
-    //go back from the cursor and find the first open paren
-    TmpX := CaretX;
-    if TmpX > length(locLine) then
-      TmpX := length(locLine)
-    else dec(TmpX);
-    TmpLocation := 0;
-
-    lookup := GetWordAtPos(LocLine, TmpX, IdentChars+['.'], True, False, True);
-    Index := CharLastPos(lookup, '.');
-    NameSpaceDict := nil;
-    if Index > 0 then
-      lookup := Copy(lookup, 1, Index-1)
-    else
-      lookup := '';  // Completion from global namespace
-    if (Index <= 0) or (lookup <> '') then begin
-      if PyControl.DebuggerState = dsInactive then
-        NameSpaceDict := PyControl.ActiveInterpreter.NameSpaceFromExpression(lookup)
-      else
-        NameSpaceDict := PyControl.ActiveDebugger.NameSpaceFromExpression(lookup);
-    end;
-
-    DisplayText := '';
-    InsertText := '';
-    if Assigned(NameSpaceDict) then
-      for i := 0 to NameSpaceDict.ChildCount - 1 do begin
-        NameSpaceItem := NameSpaceDict.ChildNode[i];
-        if NameSpaceItem.IsModule then
-          ImageIndex := 16
-        else if NameSpaceItem.IsMethod
-             {or NameSpaceItem.IsMethodDescriptor} then
-          ImageIndex := 14
-        else if NameSpaceItem.IsFunction
-             {or NameSpaceItem.IsBuiltin} then
-          ImageIndex := 17
-        else if NameSpaceItem.IsClass then
-          ImageIndex := 13
-        else begin
-          if Index > 0 then
-            ImageIndex := 1
-          else
-            ImageIndex := 0;
-        end;
-        DisplayText := DisplayText + Format('\Image{%d}\hspace{2}%s', [ImageIndex, NameSpaceItem.Name]);
-        InsertText := InsertText + NameSpaceItem.Name;
-        if i < NameSpaceDict.ChildCount - 1 then begin
-          DisplayText := DisplayText + #10;
-          InsertText := InsertText + #10;
+    if RE_CC_Import.Exec(Copy(locLine, 1, CaretX - 1)) then begin
+      // autocomplete import statement
+      GetModuleList(None);
+    end else if RE_CC_From.Exec(Copy(locLine, 1, CaretX - 1)) then begin
+      // autocomplete from statement
+      PathDepth :=  RE_CC_From.MatchLen[1];
+      if PathDepth <= 0 then // relative paths are only valid in packages
+        GetModuleList(None);
+    end else if RE_CC_FromImport.Exec(Copy(locLine, 1, CaretX - 1)) then begin
+      PathDepth :=  RE_CC_FromImport.MatchLen[1];
+      if (PathDepth <= 0) // relative paths are only valid in packages
+         and (RE_CC_FromImport.MatchLen[2] > 0) then
+      begin
+        // from ...module import identifiers
+        PyScripterRefactor.InitializeQuery;
+        ParsedModule :=
+          PyScripterRefactor.ResolveModuleImport(RE_CC_FromImport.Match[2], '');
+        if Assigned(ParsedModule) then begin
+          NameSpace := TStringList.Create;
+          try
+            ParsedModule.GetNamespace(NameSpace);
+            ProcessNamespace;
+          finally
+            NameSpace.Free;
+          end;
         end;
       end;
-      FreeAndNil(NameSpaceDict);
+    end else begin
+      //go back from the cursor and find the first open paren
+      TmpX := CaretX;
+      if TmpX > length(locLine) then
+        TmpX := length(locLine)
+      else dec(TmpX);
+
+      lookup := GetWordAtPos(LocLine, TmpX, IdentChars+['.'], True, False, True);
+      Index := CharLastPos(lookup, '.');
+      NameSpaceDict := nil;
+      if Index > 0 then
+        lookup := Copy(lookup, 1, Index-1)
+      else
+        lookup := '';  // Completion from global namespace
+      if (Index <= 0) or (lookup <> '') then begin
+        if PyControl.DebuggerState = dsInactive then
+          NameSpaceDict := PyControl.ActiveInterpreter.NameSpaceFromExpression(lookup)
+        else
+          NameSpaceDict := PyControl.ActiveDebugger.NameSpaceFromExpression(lookup);
+      end;
+
+      DisplayText := '';
+      InsertText := '';
+      if Assigned(NameSpaceDict) then
+        for i := 0 to NameSpaceDict.ChildCount - 1 do begin
+          NameSpaceItem := NameSpaceDict.ChildNode[i];
+          if NameSpaceItem.IsModule then
+            ImageIndex := 16
+          else if NameSpaceItem.IsMethod
+               {or NameSpaceItem.IsMethodDescriptor} then
+            ImageIndex := 14
+          else if NameSpaceItem.IsFunction
+               {or NameSpaceItem.IsBuiltin} then
+            ImageIndex := 17
+          else if NameSpaceItem.IsClass then
+            ImageIndex := 13
+          else begin
+            if Index > 0 then
+              ImageIndex := 1
+            else
+              ImageIndex := 0;
+          end;
+          DisplayText := DisplayText + Format('\Image{%d}\hspace{2}%s', [ImageIndex, NameSpaceItem.Name]);
+          InsertText := InsertText + NameSpaceItem.Name;
+          if i < NameSpaceDict.ChildCount - 1 then begin
+            DisplayText := DisplayText + #10;
+            InsertText := InsertText + #10;
+          end;
+        end;
+        FreeAndNil(NameSpaceDict);
+    end;
     FoundMatch := DisplayText <> '';
   end;
 
@@ -1233,7 +1338,6 @@ begin
 
   if CanExecute then begin
     TSynCompletionProposal(Sender).Font := CommandsDataModule.PyIDEOptions.AutoCompletionFont;
-    TSynCompletionProposal(Sender).Form.CurrentIndex := TmpLocation;
     TSynCompletionProposal(Sender).ItemList.Text := DisplayText;
     TSynCompletionProposal(Sender).InsertList.Text := InsertText;
     TSynCompletionProposal(Sender).NbLinesInWindow :=
@@ -1771,7 +1875,7 @@ begin
   begin
     PythonEngine.DllName := PYTHON_KNOWN_VERSIONS[i].DllName;
     If UseDebugVersion then
-      PythonEngine.DllName := PathRemoveExtension(PythonEngine.DllName) + '_d.dll';
+      PythonEngine.DllName := ChangeFileExt(PythonEngine.DllName, '') + '_d.dll';
     PythonEngine.APIVersion := PYTHON_KNOWN_VERSIONS[i].APIVersion;
     PythonEngine.RegVersion := PYTHON_KNOWN_VERSIONS[i].RegVersion;
     if i = COMPILED_FOR_PYTHON_VERSION_INDEX then

@@ -139,6 +139,7 @@ type
     procedure StringsToSysPath(Strings : TStrings); virtual; abstract;
     // NameSpace
     function GetGlobals : TBaseNameSpaceItem; virtual; abstract;
+    procedure GetModulesOnPath(Path : Variant; SL : TStrings); virtual; abstract;
     function NameSpaceFromExpression(const Expr : string) : TBaseNameSpaceItem; virtual; abstract;
     function CallTipFromExpression(const Expr : string;
       var DisplayString, DocString : string) : Boolean; virtual; abstract;
@@ -376,7 +377,7 @@ begin
   fSysPathRemove := SysPathRemove;
   if (fPath <> '') and DirectoryExists(fPath) then begin
     // Add parent directory of the root of the package first
-    if IsDirPythonPackage(fPath) then begin
+    if DirIsPythonPackage(fPath) then begin
       S := ExtractFileDir(GetPackageRootDir(fPath));
       if S <> fPath then
         PackageRootAdder :=
