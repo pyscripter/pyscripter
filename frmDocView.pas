@@ -66,8 +66,8 @@ type
 implementation
 
 uses
-  JclFileUtils, JclStrings, dmCommands,
-  JvJVCLUtils, cPyBaseDebugger, gnugettext, StringResources;
+  JclStrings, dmCommands,
+  JvJVCLUtils, cPyBaseDebugger, gnugettext, StringResources, JclFileUtils;
 
 {$R *.dfm}
 
@@ -138,8 +138,8 @@ begin
   HTMLDoc := pydoc.html;
   HTML := HTMLDoc.page(pydoc.describe(module), HTMLDoc.document(module));
 
-  SaveFileName := PathRemoveExtension(Editor.FileName) + '.html';
-  TempFileName := PathGetTempPath + PathRemoveExtension(Editor.FileTitle) + '.html';
+  SaveFileName := ChangeFileExt(Editor.FileName, '') + '.html';
+  TempFileName := PathGetTempPath + ChangeFileExt(Editor.FileTitle, '') + '.html';
   StringToFile(TempFileName, AnsiString(HTML));
   WebBrowser.Navigate(TempFileName);
 end;

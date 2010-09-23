@@ -52,6 +52,7 @@ type
     procedure StringsToSysPath(Strings : TStrings); override;
     // NameSpace
     function GetGlobals : TBaseNameSpaceItem; override;
+    procedure GetModulesOnPath(Path : Variant; SL : TStrings); override;
     function NameSpaceFromExpression(const Expr : string) : TBaseNameSpaceItem; override;
     function CallTipFromExpression(const Expr : string;
       var DisplayString, DocString : string) : Boolean; override;
@@ -152,7 +153,7 @@ implementation
 
 uses
   VarPyth, StringResources, frmPythonII, Dialogs, dmCommands,
-  cParameters, uCommonFunctions, frmMessages, frmPyIDEMain, JclFileUtils,
+  cParameters, uCommonFunctions, frmMessages, frmPyIDEMain,
   frmVariables, frmCallStack, frmUnitTests, JvDSADialogs,
   gnugettext, JclStrings, JclSysUtils;
 
@@ -614,6 +615,16 @@ begin
     Evalcode('globals()'), Self);
 end;
 
+procedure TPyRemoteInterpreter.GetModulesOnPath(Path: Variant; SL: TStrings);
+Var
+  i : integer;
+  ModuleList : Variant;
+begin
+  ModuleList := RPI.getmodules(Path);
+  for I := 0 to Len(ModuleList) - 1 do
+    SL.Add(ModuleList.__getitem__(i));
+end;
+
 function TPyRemoteInterpreter.GetObjectType(Ob: Variant): string;
 begin
   Result := InternalInterpreter.GetObjectType(ob);
@@ -700,7 +711,7 @@ begin
   if Editor.FileName <> '' then
     NameOfModule := FileNameToModuleName(Editor.FileName)
   else
-    NameOfModule := PathRemoveExtension(Editor.FileTitle);
+    NameOfModule := ChangeFileExt(Editor.FileTitle, '');
 
   PyControl.DoStateChange(dsRunningNoDebug);
   try

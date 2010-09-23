@@ -207,7 +207,7 @@ var
 implementation
 
 uses frmPyIDEMain, dmCommands, uEditAppIntfs, SynEdit, 
-  SynEditTypes, JclFileUtils;
+  SynEditTypes;
 
 {$R *.dfm}
 
@@ -309,7 +309,7 @@ begin
   Editor := PyIDEMainForm.GetActiveEditor;
   if Assigned(Editor) and Editor.HasPythonFile then
   begin
-    fModuleName := PathRemoveExtension(Editor.FileTitle);
+    fModuleName := ChangeFileExt(Editor.FileTitle, '');
     fModuleFileName := Editor.FileName;
     fSource := Editor.SynEdit.Text;
   end;

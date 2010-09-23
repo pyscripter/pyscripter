@@ -62,7 +62,7 @@ var
 implementation
 
 uses frmCallStack, PythonEngine, 
-  dmCommands, uCommonFunctions, JclFileUtils, StringResources, 
+  dmCommands, uCommonFunctions, StringResources,
   JvJVCLUtils, Math, gnugettext;
 
 {$R *.dfm}
@@ -423,7 +423,7 @@ begin
   // Get the selected frame
   if Assigned(CurrentFrame) then begin
     FunctionName := CurrentFrame.FunctionName;
-    ModuleName := PathRemoveExtension(ExtractFileName(CurrentFrame.FileName));
+    ModuleName := ChangeFileExt(ExtractFileName(CurrentFrame.FileName), '');
     LineNo := CurrentFrame.Line;
     NameSpace := Format(_(SNamespaceFormat), [FunctionName, ModuleName, LineNo]);
   end else

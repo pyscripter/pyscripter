@@ -206,7 +206,7 @@ public
 
 implementation
 
-uses uCommonFunctions, JclFileUtils, cRefactoring, VarPyth,
+uses uCommonFunctions, cRefactoring, VarPyth,
   StringResources, JclSysUtils, Math, cPyDebugger, gnugettext, WideStrUtils,
   Windows, JclStrings;
 
@@ -841,7 +841,7 @@ begin
           fFromImportRE.Exec(Line);  // reparse
         ModuleImport := TModuleImport.Create(fFromImportRE.Match[2],
           CodeBlock(CodeStart, LineNo));
-        ModuleImport.fPrefixDotCount := Length(fFromImportRE.Match[1]);
+        ModuleImport.fPrefixDotCount := fFromImportRE.MatchLen[1];
         ModuleImport.fCodePos.LineNo := CodeStart;
         ModuleImport.fCodePos.CharOffset := fFromImportRE.MatchPos[2];
         S := fFromImportRE.Match[3];
@@ -1101,23 +1101,24 @@ begin
           if (StrIsLeft(PWideChar(SList[j]), '__') and not StrIsRight(PWidechar(SList[j]), '__')) or ((ParsedModule.AllExportsVar <> '') and (Pos(SList[j], ParsedModule.AllExportsVar) = 0)) then
             SList.Delete(j);
         end;
-    end
-    else if Assigned(ModuleImport.ImportedNames) then
+    end else if Assigned(ModuleImport.ImportedNames) then begin
       for j := 0 to ModuleImport.ImportedNames.Count - 1 do
         SList.AddObject(TVariable(ModuleImport.ImportedNames[j]).Name, ModuleImport.ImportedNames[j]);
-    // imported modules
-    Index := CharPos(ModuleImport.Name, '.');
-    if Index = 0 then
-      SList.AddObject(ModuleImport.Name, ModuleImport)
-    else if Index > 0 then
-    begin
-      // we have a package import add implicit import name
-      PackageRootName := Copy(ModuleImport.Name, 1, Index - 1);
-      if SList.IndexOf(PackageRootName) < 0 then
+    end else begin
+      // imported modules
+      Index := CharPos(ModuleImport.Name, '.');
+      if Index = 0 then
+        SList.AddObject(ModuleImport.Name, ModuleImport)
+      else if Index > 0 then
       begin
-        ParsedModule := PyScripterRefactor.GetParsedModule(PackageRootName, None);
-        if Assigned(ParsedModule) then
-          SList.AddObject(PackageRootName, ParsedModule);
+        // we have a package import add implicit import name
+        PackageRootName := Copy(ModuleImport.Name, 1, Index - 1);
+        if SList.IndexOf(PackageRootName) < 0 then
+        begin
+          ParsedModule := PyScripterRefactor.GetParsedModule(PackageRootName, None);
+          if Assigned(ParsedModule) then
+            SList.AddObject(PackageRootName, ParsedModule);
+        end;
       end;
     end;
   end;
@@ -1126,7 +1127,7 @@ end;
 
 function TParsedModule.GetIsPackage: boolean;
 begin
-  Result := PathRemoveExtension(ExtractFileName(fFileName)) = '__init__';
+  Result := FileIsPythonPackage(fFileName);
 end;
 
 function TParsedModule.GetAllExportsVar: string;

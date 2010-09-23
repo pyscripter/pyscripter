@@ -112,7 +112,9 @@ type
       var ErrMsg: string) : TBaseCodeElement;
     function FindDottedDefinition(const DottedIdent : string; ParsedModule : TParsedModule;
       Scope : TCodeElement; var ErrMsg : string) : TBaseCodeElement;
-    function ResolveModuleImport(ModuleImport : TModuleImport): TParsedModule;
+    function ResolveModuleImport(ModuleImport : TModuleImport): TParsedModule; overload;
+    function ResolveModuleImport(const ModuleName,
+        SourceFileName : string; PrefixDotCount : integer = 0) : TParsedModule; overload;
     function ResolveImportedName(const Ident: string; ModuleImport: TModuleImport;
       var ErrMsg: string): TBaseCodeElement;
     function GetType(Variable : TVariable; var ErrMsg : string) : TCodeElement;
@@ -476,43 +478,50 @@ begin
       [Ident, ParsedModule.Name]);
 end;
 
-function TPyScripterRefactor.ResolveModuleImport(ModuleImport: TModuleImport) : TParsedModule;
+function TPyScripterRefactor.ResolveModuleImport(const ModuleName,
+        SourceFileName : string; PrefixDotCount : integer) : TParsedModule;
 var
-  ParentModule : TParsedModule;
   ModulePath : string;
   PythonPath : Variant;
-  RealName : string;
   i : integer;
 begin
-  ParentModule := ModuleImport.GetModule;
-  RealName := ModuleImport.RealName;
   PythonPath := None;
   // Deal with relative imports
-  if ModuleImport.PrefixDotCount > 1 then begin
-    if Assigned(ParentModule) then
-      ModulePath := ExtractFileDir(ParentModule.FileName);
+  if (PrefixDotCount > 0)and (SourceFileName <> '') then begin
+    ModulePath := ExtractFileDir(SourceFileName);
     i := 1;
     while (ModulePath <> '') and (DirectoryExists(ModulePath)) and
-      (i < ModuleImport.PrefixDotCount) do
+      (i < PrefixDotCount) do
     begin
       Inc(i);
       ModulePath := ExtractFileDir(ModulePath);
     end;
-    if (i = ModuleImport.PrefixDotCount) and (ModulePath <> '') and
-       (DirectoryExists(ModulePath)) then
-    begin
-      PythonPath := NewPythonList();
-      PythonPath.append(ModulePath);
-    end;
+    if (i = PrefixDotCount) and (ModulePath <> '') and
+       (DirectoryExists(ModulePath))
+    then
+      PythonPath := VarPythonCreate([ModulePath]);
   end;
 
-  Result := GetParsedModule(RealName, PythonPath);
-  if not Assigned(Result) then begin
+  Result := GetParsedModule(ModuleName, PythonPath);
+  if not Assigned(Result) and (SourceFileName <> '') then begin
     // try a relative import
-    if Assigned(ParentModule) and ParentModule.IsPackage then
-      Result := GetParsedModule(ParentModule.Name + '.' + RealName, None);
-    { Should we check whether ParentModule belongs to a package?}
+    if FileIsPythonPackage(SourceFileName) then
+      Result := GetParsedModule(FileNameToModuleName(SourceFileName)
+        + '.' + ModuleName, None);
   end;
+end;
+
+function TPyScripterRefactor.ResolveModuleImport(ModuleImport: TModuleImport) : TParsedModule;
+var
+  ParentModule : TParsedModule;
+  SourceFileName : string;
+begin
+  ParentModule := ModuleImport.GetModule;
+
+  if Assigned(ParentModule) then
+    SourceFileName := ParentModule.FileName;
+  Result := ResolveModuleImport(ModuleImport.RealName,
+    SourceFileName, ModuleImport.PrefixDotCount);
 end;
 
 function TPyScripterRefactor.ResolveImportedName(const Ident: string;
@@ -819,7 +828,7 @@ begin
   try
     FileName := Module.FileName;
     Dir := ExtractFileDir(FileName);
-    if IsDirPythonPackage(Dir) then
+    if DirIsPythonPackage(Dir) then
       Dir := GetPackageRootDir(Dir);
 
     // Find Python files in this directory
