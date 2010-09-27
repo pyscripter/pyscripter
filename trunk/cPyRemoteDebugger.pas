@@ -1334,7 +1334,7 @@ begin
      FName :=  Copy(FName, 2, Length(FName)-2);
    // PythonIIForm.AppendText('UserLine '+ FName + ' ' + IntToStr(Frame.f_lineno) +sLineBreak);
 
-   if PyIDEMainForm.ShowFilePosition(FName, fCurrentFrame.f_lineno, 1, True, False) and
+   if PyIDEMainForm.ShowFilePosition(FName, fCurrentFrame.f_lineno, 1, 0, True, False) and
      (fCurrentFrame.f_lineno > 0) then
    begin
      PyControl.CurrentPos.Editor := GI_EditorFactory.GetEditorByNameOrTitle(FName);

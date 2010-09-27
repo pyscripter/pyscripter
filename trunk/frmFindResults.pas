@@ -217,7 +217,9 @@ var
 begin
   MatchFileName := TFileResult(MatchLine.Collection).FileName;
   PyIDEMainForm.ShowFilePosition(MatchFileName, MatchLine.LineNo,
-                       MatchLine.Matches[0].SPos, SourceEditorInMiddle);
+                       MatchLine.Matches[0].SPos,
+                       MatchLine.Matches[0].EPos - MatchLine.Matches[0].SPos + 1,
+                       SourceEditorInMiddle);
 end;
 
 { TFindResultsWindow }
