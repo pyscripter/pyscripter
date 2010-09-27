@@ -60,7 +60,7 @@ inherited FindResultsWindow: TFindResultsWindow
     Width = 599
     Height = 354
     ExplicitWidth = 599
-    ExplicitHeight = 358
+    ExplicitHeight = 354
     object pnlMain: TPanel
       Left = 0
       Top = 0
@@ -79,7 +79,6 @@ inherited FindResultsWindow: TFindResultsWindow
         Cursor = crSizeNS
         Align = alBottom
         MinSize = 20
-        ExplicitTop = 215
       end
       object TBXDock1: TSpTBXDock
         Left = 0
@@ -189,7 +188,6 @@ inherited FindResultsWindow: TFindResultsWindow
       Top = 330
       Width = 599
       Height = 24
-      ExplicitTop = 311
       object StatusLeftLabel: TSpTBXLabelItem
         Wrapping = twEndEllipsis
         MinHeight = 20

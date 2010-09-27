@@ -2436,7 +2436,6 @@ begin
         end;
       end;
     end else begin
-      //go back from the cursor and find the first open paren
       TmpX := CaretX;
       if TmpX > length(locLine) then
         TmpX := length(locLine)

@@ -66,7 +66,7 @@ type
     { Public declarations }
     procedure ShowWindow;
     procedure AddMessage(Msg: string; FileName : string = '';
-                         Line : integer = 0; Offset : integer = 0);
+       Line : integer = 0; Offset : integer = 0; SelLen : integer = 0);
     procedure ClearMessages;
     procedure ShowPythonTraceback(SkipFrames : integer = 1);
     procedure ShowTraceback(Traceback : Variant; SkipFrames : integer = 0);
@@ -93,6 +93,7 @@ Type
     FileName : string;
     Line : integer;
     Offset : integer;
+    SelLen : integer;
   end;
 
   PMsgRec = ^TMsgRec;
@@ -109,7 +110,8 @@ Type
 
 { TMessagesWindow }
 
-procedure TMessagesWindow.AddMessage(Msg, FileName: string; Line, Offset : integer);
+procedure TMessagesWindow.AddMessage(Msg, FileName: string;
+   Line, Offset, SelLen : integer);
 Var
   NewMsg : TMsg;
 begin
@@ -127,6 +129,7 @@ begin
    NewMsg.FileName := FileName;
    NewMsg.Line := Line;
    NewMsg.Offset := Offset;
+   NewMsg.SelLen := SelLen;
 
    TObjectList(fMessageHistory[fHistoryIndex]).Add(NewMsg);
   // ReInitializes the list
@@ -265,7 +268,7 @@ begin
     Msg := PMsgRec(MessagesView.GetNodeData(Node))^.Msg;
 
     if (Msg.FileName ='') then Exit; // No FileName or LineNumber
-    PyIDEMainForm.ShowFilePosition(Msg.FileName, Msg.Line, Msg.Offset);
+    PyIDEMainForm.ShowFilePosition(Msg.FileName, Msg.Line, Msg.Offset, Msg.SelLen);
   end;
 end;
 

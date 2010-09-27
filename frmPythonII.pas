@@ -1281,8 +1281,7 @@ begin
         end;
       end;
     end else begin
-      //go back from the cursor and find the first open paren
-      TmpX := CaretX;
+      TmpX := CaretX - Length(Prompt);
       if TmpX > length(locLine) then
         TmpX := length(locLine)
       else dec(TmpX);
@@ -1290,9 +1289,11 @@ begin
       lookup := GetWordAtPos(LocLine, TmpX, IdentChars+['.'], True, False, True);
       Index := CharLastPos(lookup, '.');
       NameSpaceDict := nil;
-      if Index > 0 then
-        lookup := Copy(lookup, 1, Index-1)
-      else
+      if Index > 0 then begin
+        lookup := Copy(lookup, 1, Index-1);
+        if CharPos(lookup, ')') > 0 then
+          lookup := '';  // Issue 422  Do not evaluate functions
+      end else
         lookup := '';  // Completion from global namespace
       if (Index <= 0) or (lookup <> '') then begin
         if PyControl.DebuggerState = dsInactive then
@@ -1411,12 +1412,16 @@ begin
       begin
         //we have a valid open paren, lets see what the word before it is
         StartX := TmpX;
-        while (TmpX > 0) and not CharInSet(locLine[TmpX], IdentChars+['.']) do  // added [.]
+        Dec(TmpX);
+        while (TmpX > 0) and (locLine[TmpX] = ' ') do
           Dec(TmpX);
         if TmpX > 0 then
         begin
           lookup := GetWordAtPos(LocLine, TmpX, IdentChars+['.'], True, False, True);
-          FoundMatch := PyControl.ActiveInterpreter.CallTipFromExpression(
+
+          FoundMatch := (CharPos(lookup, ')') <= 0) // Issue 422  Do not evaluate functions
+            and (lookup <> '')
+            and PyControl.ActiveInterpreter.CallTipFromExpression(
             lookup, DisplayText, DocString);
 
           if not(FoundMatch) then

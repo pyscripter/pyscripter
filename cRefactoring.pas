@@ -238,7 +238,6 @@ function TPyScripterRefactor.GetParsedModule(const ModuleName: string;
      - a fully qualified file name
      - a possibly dotted module name existing in the Python path
 }
-{ TODO : Deal with relative imports here or maybe in the Source Scanner }
 { TODO : Deal Source residing in zip file etc. }
 var
   Index, SpecialPackagesIndex : integer;
@@ -558,8 +557,7 @@ begin
         if (i = ModuleImport.PrefixDotCount) and (ModulePath <> '') and
            (DirectoryExists(ModulePath)) then
         begin
-          PythonPath := NewPythonList();
-          PythonPath.append(ModulePath);
+          PythonPath := VarPythonCreate([ModulePath]);
           Result := GetParsedModule(Ident, PythonPath);
         end;
       end;
@@ -943,8 +941,11 @@ begin
           if Assigned(Def) and (Def is TModuleImport) then
             Def := ResolveModuleImport(TModuleImport(Def));
 
-          if Def = CE then
+          if Def = CE then begin
+            //  add two lines: one with position and the other with the line
             List.Add(Format(FilePosInfoFormat, [Module.FileName, i+1, LinePos]));
+            List.Add(Line);
+          end;
           // End of processing  -------------------
         end;
       Until not Found;

@@ -306,7 +306,8 @@
             New commands "Previous Frame", "Next Frame" to change frame using the keyboard (Issue 399)
             JavaScript and PHP Syntax Highlighters added
           Bug fixes
-             Issues 103, 267, 294, 317, 324, 395, 403, 405, 407, 412, 413, 419
+             Issues 103, 267, 271, 294, 317, 324, 395, 403, 405, 407, 412, 413,
+                    419, 422
 
   Vista Compatibility issues (all resolved)
   -  Flip3D and Form preview (solved with LX)
@@ -331,7 +332,6 @@
 -----------------------------------------------------------------------------}
 
 // Bugs and minor features
-{ TODO : Autocompletion for Import Statements }
 { TODO : Scan python code for return statements }
 // TODO: Internal Tool as in pywin
 // TODO: Interpreter raw_input
@@ -990,7 +990,7 @@ type
     procedure SaveFileModules;
     procedure UpdateDebugCommands(DebuggerState : TDebuggerState);
     procedure SetRunLastScriptHints(ScriptName : string);
-    function ShowFilePosition(FileName : string; Line, Offset : integer;
+    function ShowFilePosition(FileName : string; Line, Offset : integer; SelLen : integer = 0;
          ForceToMiddle : boolean = True; FocusEditor : boolean = True) : boolean;
     procedure DebuggerStateChange(Sender: TObject; OldState,
       NewState: TDebuggerState);
@@ -2127,7 +2127,7 @@ begin
 end;
 
 function TPyIDEMainForm.ShowFilePosition(FileName: string; Line,
-  Offset: integer; ForceToMiddle : boolean = True;
+  Offset: integer; SelLen : integer = 0; ForceToMiddle : boolean = True;
   FocusEditor : boolean = True): boolean;
 Var
   Editor : IEditor;
@@ -2154,6 +2154,8 @@ begin
         with Editor.SynEdit do begin
           CaretXY := BufferCoord(Offset,Line);
           EnsureCursorPosVisibleEx(ForceToMiddle);
+          if SelLen > 0 then
+             SelLength := SelLen;
         end;
     end;
   end;
@@ -3546,15 +3548,18 @@ begin
                 CaretY, CaretX, ErrMsg, ResultsList);
               FoundReferences := ResultsList.Count > 0;
               RegExpr := TRegExpr.Create;
+              RegExpr.Expression := FilePosInfoRegExpr;
               try
-                for i := 0 to ResultsList.Count -1 do begin
-                  RegExpr.Expression := FilePosInfoRegExpr;
+                i := 0;
+                while i  < ResultsList.Count -1 do begin
                   if RegExpr.Exec(ResultsList[i]) then begin
                     FileName := RegExpr.Match[1];
                     Line := StrToInt(RegExpr.Match[2]);
                     Col := StrToInt(RegExpr.Match[3]);
-                    MessagesWindow.AddMessage(Format(_(StrCertainty), ['100']), Filename, Line, Col);
+                    MessagesWindow.AddMessage(ResultsList[i+1],
+                      Filename, Line, Col, Length(Token));
                   end;
+                  Inc(i, 2);
                 end;
               finally
                 RegExpr.Free;
