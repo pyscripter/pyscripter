@@ -1308,7 +1308,7 @@ begin
   Assert(fEditor <> nil);
   if Changes * [scAll, scSelection] <> [] then
     fEditor.fHasSelection := ASynEdit.SelAvail;
-  if Changes * [scAll, scSelection] <> [] then
+  if Changes * [scAll, scReadOnly] <> [] then
     fEditor.fIsReadOnly := ASynEdit.ReadOnly;
   if scModified  in Changes then begin
     PyIDEMainForm.UpdateCaption;

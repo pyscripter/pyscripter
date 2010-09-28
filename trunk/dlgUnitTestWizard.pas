@@ -112,15 +112,15 @@ end;
 constructor TClassUTWNode.CreateFromClass(AClass: TParsedClass);
 Var
   i : integer;
-  CodeElement : TCodeElement;
+  CE : TCodeElement;
 begin
   inherited Create;
   fCodeElement := AClass;
   fInitiallyExpanded := True;
   for i := 0 to ParsedClass.ChildCount - 1 do begin
-    CodeElement := ParsedClass.Children[i];
-    if CodeElement is TParsedFunction then
-      AddChild(TMethodUTWNode.CreateFromFunction(TParsedFunction(CodeElement)));
+    CE := ParsedClass.Children[i];
+    if CE is TParsedFunction then
+      AddChild(TMethodUTWNode.CreateFromFunction(TParsedFunction(CE)));
   end;
 end;
 
@@ -144,7 +144,7 @@ Var
   Doc : string;
 begin
   Result := Format('Method %s defined at line %d'#13#10'Arguments: %s',
-              [Caption, fCodeElement.CodePos.LineNo, ParsedFunction.ArgumentsString]);
+              [fCodeElement.Name, fCodeElement.CodePos.LineNo, ParsedFunction.ArgumentsString]);
   Doc := ParsedFunction.DocString;
   if Doc <> '' then
     Result := Result + #13#10#13#10 + Doc;
@@ -211,19 +211,19 @@ begin
               csMixedNormal, csMixedPressed]) then
             begin
               if Data.UTWNode is TClassUTWNode then begin
-                Result := Result + Format(ClassHeader, [Data.UTWNode.Caption]);
+                Result := Result + Format(ClassHeader, [Data.UTWNode.CodeElement.Name]);
                 MethodNode := Node.FirstChild;
                 while Assigned(MethodNode) do begin
                   if (MethodNode.CheckState in [csCheckedNormal, csCheckedPressed]) then begin
                     MethodData := PNodeDataRec(ExplorerTree.GetNodeData(MethodNode));
-                    Result := Result + Format(MethodHeader, [MethodData.UTWNode.Caption]);
+                    Result := Result + Format(MethodHeader, [MethodData.UTWNode.CodeElement.Name]);
                   end;
                   MethodNode := MethodNode.NextSibling;
                 end;
               end else if Data.UTWNode is TFunctionUTWNode then begin
                 if FunctionTests = '' then
                   FunctionTests := Format(ClassHeader, ['GlobalFunctions']);
-                FunctionTests := FunctionTests + Format(MethodHeader, [Data.UTWNode.Caption]);
+                FunctionTests := FunctionTests + Format(MethodHeader, [Data.UTWNode.CodeElement.Name]);
               end;
             end;
             Node := Node.NextSibling;
