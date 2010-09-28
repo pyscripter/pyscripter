@@ -300,6 +300,7 @@
   History:   v 2.2.1
           New Features
             Auto-completion for the import statement (Issue 230)
+            Revamped Code Explorer (Issues 192, 163)
             Start-up python scripts pyscripter_init.py and python_init.py. See help file for details.
             Italian translation by Vincenzo Demasi
             New Edit command "Copy File Name" available at the contex menu of the tab bar
@@ -332,6 +333,10 @@
 -----------------------------------------------------------------------------}
 
 // Bugs and minor features
+{ TODO : Save Code Explorer state etc. }
+{ TODO : Cache scanned modules }
+{ TODO : Editor Go back forward }
+{ TODO : Scan python code for global statements }
 { TODO : Scan python code for return statements }
 // TODO: Internal Tool as in pywin
 // TODO: Interpreter raw_input
@@ -2575,6 +2580,8 @@ begin
     AppStorage.WriteBoolean('File Explorer Filter', FileExplorerWindow.actEnableFilter.Checked);
     AppStorage.WriteString('File Explorer Path', FileExplorerWindow.ExplorerPath);
     AppStorage.WriteStringList('File Explorer Favorites', FileExplorerWindow.Favorites);
+    AppStorage.WritePersistent('Code Explorer Options', CodeExplorerWindow);
+
     AppStorage.WriteStringList('Custom Params', CustomParams);
     AppStorage.DeleteSubTree('Tools');
     AppStorage.WriteCollection('Tools', ToolsCollection, 'Tool');
@@ -2702,6 +2709,8 @@ begin
   FileExplorerWindow.actEnableFilter.Checked := AppStorage.ReadBoolean('File Explorer Filter', True);
   FileExplorerWindow.ExplorerPath := AppStorage.ReadString('File Explorer Path');
   AppStorage.ReadStringList('File Explorer Favorites', FileExplorerWindow.Favorites);
+  AppStorage.ReadPersistent('Code Explorer Options', CodeExplorerWindow);
+
   AppStorage.ReadStringList('Custom Params', CustomParams);
   RegisterCustomParams;
   AppStorage.ReadCollection('Tools', ToolsCollection, True, 'Tool');

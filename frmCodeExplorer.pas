@@ -13,11 +13,13 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ExtCtrls, JvDockControlForm,
+  Dialogs, ExtCtrls, JvDockControlForm, JvAppStorage,
   Menus, Contnrs, VirtualTrees, frmIDEDockWin, TB2Item,
   cPythonSourceScanner, SpTBXItem, SpTBXSkins, JvComponentBase;
 
 type
+  TCESortOrder = (soPosition, soAlpha);
+
   TAbstractCENode = class
   private
     fChildren : TObjectList;
@@ -33,6 +35,7 @@ type
     constructor Create;
     destructor Destroy; override;
     procedure AddChild(CENode : TAbstractCENode);
+    procedure Sort(SortOrder : TCESortOrder);
     property CodeElement : TBaseCodeElement read fCodeElement;
     property Hint : string read GetHint;
     property Caption : string read GetCaption;
@@ -163,12 +166,20 @@ type
     function GetImageIndex : integer; override;
   end;
 
-  TCodeExplorerWindow = class(TIDEDockWindow)
+  TCodeExplorerWindow = class(TIDEDockWindow, IJvAppStorageHandler)
     Panel1: TPanel;
     ExplorerTree: TVirtualStringTree;
-    TreePopupMenu: TSpTBXPopupMenu;
+    CEPopupMenu: TSpTBXPopupMenu;
     mnExpandAll: TSpTBXItem;
     nCollapseAll: TSpTBXItem;
+    SpTBXSeparatorItem1: TSpTBXSeparatorItem;
+    mnShowSelection: TSpTBXItem;
+    CENodePopUpMenu: TSpTBXPopupMenu;
+    mnHighlight: TSpTBXItem;
+    mnFindDefinition: TSpTBXItem;
+    SpTBXSeparatorItem2: TSpTBXSeparatorItem;
+    mnFindReferences: TSpTBXItem;
+    mnAlphaSort: TSpTBXItem;
     procedure ExplorerTreeGetHint(Sender: TBaseVirtualTree; Node: PVirtualNode;
       Column: TColumnIndex; var LineBreakStyle: TVTTooltipLineBreakStyle;
       var HintText: string);
@@ -189,9 +200,21 @@ type
     procedure nCollapseAllClick(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure ExplorerTreeKeyPress(Sender: TObject; var Key: Char);
+    procedure ExplorerTreeChange(Sender: TBaseVirtualTree; Node: PVirtualNode);
+    procedure ExplorerTreeContextPopup(Sender: TObject; MousePos: TPoint;
+      var Handled: Boolean);
+    procedure mnHighlightClick(Sender: TObject);
+    procedure mnFindDefinitionClick(Sender: TObject);
+    procedure mnFindReferencesClick(Sender: TObject);
+    procedure mnAlphaSortClick(Sender: TObject);
   private
-    procedure NavigateToNodeElement(Node: PVirtualNode);
+    procedure NavigateToNodeElement(Node: PVirtualNode;
+      ForceToMiddle : Boolean = True; Activate : Boolean = True);
     procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
+  protected
+    // IJvAppStorageHandler implementation
+    procedure ReadFromAppStorage(AppStorage: TJvCustomAppStorage; const BasePath: string);
+    procedure WriteToAppStorage(AppStorage: TJvCustomAppStorage; const BasePath: string);
   public
     { Public declarations }
     ModuleCENode : TModuleCENode;
@@ -207,7 +230,7 @@ var
 implementation
 
 uses frmPyIDEMain, dmCommands, uEditAppIntfs, SynEdit, 
-  SynEditTypes;
+  SynEditTypes, uCommonFunctions, Math;
 
 {$R *.dfm}
 
@@ -346,6 +369,8 @@ begin
   with CodeExplorerWindow do begin
     FreeAndNil(ModuleCENode);
     ModuleCENode := TModuleCENode.CreateFromModule(fOldModule);
+    if mnAlphaSort.Checked then
+      ModuleCENode.Sort(soAlpha);
     // Turn off Animation to speed things up
     ExplorerTree.TreeOptions.AnimationOptions :=
       ExplorerTree.TreeOptions.AnimationOptions - [toAnimatedToggle];
@@ -472,6 +497,51 @@ begin
   HintText := Data.CENode.Hint;
 end;
 
+procedure TCodeExplorerWindow.ExplorerTreeChange(Sender: TBaseVirtualTree;
+  Node: PVirtualNode);
+begin
+  if Assigned(Node) and (vsSelected in Node.States) and
+    mnShowSelection.Checked
+  then
+   NavigateToNodeElement(Node, True, False);
+end;
+
+procedure TCodeExplorerWindow.ExplorerTreeContextPopup(Sender: TObject;
+  MousePos: TPoint; var Handled: Boolean);
+var
+  Data : PNodeDataRec;
+  Node : PVirtualNode;
+  PopUpMenu : TPopupMenu;
+  Pos : TPoint;
+  HitInfo : THitInfo;
+begin
+  if (MousePos.X = -1) and (MousePos.Y = -1) then
+    // Keyboard invocation
+    Node := ExplorerTree.GetFirstSelected
+  else begin
+    ExplorerTree.GetHitTestInfoAt(MousePos.X, MousePos.Y, True, HitInfo);
+    Node := HitInfo.HitNode;
+    if not ([hiOnItemLabel, hiOnNormalIcon] * HitInfo.HitPositions <> []) then
+      Node := nil;
+    if Assigned(Node) and not (vsSelected in Node.States) then
+      Node := nil;
+  end;
+  if Assigned(Node) then begin
+    PopupMenu := CENodePopUpMenu;
+    //UpdatePopupActions;
+    Data := ExplorerTree.GetNodeData(Node);
+    mnFindDefinition.Enabled := Assigned(Data.CENode.CodeElement) and
+      not (Data.CENode is TModuleCENode);
+    mnFindReferences.Enabled := mnFindDefinition.Enabled;
+    mnHighlight.Enabled := mnFindDefinition.Enabled;
+  end else
+    PopUpMenu := CEPopupMenu;
+
+  Pos := ExplorerTree.ClientToScreen(MousePos);
+  PopUpMenu.Popup(Pos.X, Pos.Y);
+  Handled := True;
+end;
+
 procedure TCodeExplorerWindow.ExplorerTreeDblClick(Sender: TObject);
 begin
   NavigateToNodeElement(ExplorerTree.HotNode)
@@ -491,6 +561,13 @@ begin
     ExplorerTree.TreeOptions.PaintOptions := ExplorerTree.TreeOptions.PaintOptions - [toAlwaysHideSelection]
   else
     ExplorerTree.TreeOptions.PaintOptions := ExplorerTree.TreeOptions.PaintOptions + [toAlwaysHideSelection];
+end;
+
+procedure TCodeExplorerWindow.WriteToAppStorage(AppStorage: TJvCustomAppStorage;
+  const BasePath: string);
+begin
+  AppStorage.WriteBoolean(BasePath+'\AlphaSort', mnAlphaSort.Checked);
+  AppStorage.WriteBoolean(BasePath+'\Show Selection', mnShowSelection.Checked);
 end;
 
 procedure TCodeExplorerWindow.ClearAll;
@@ -517,7 +594,8 @@ begin
   end;
 end;
 
-procedure TCodeExplorerWindow.NavigateToNodeElement(Node: PVirtualNode);
+procedure TCodeExplorerWindow.NavigateToNodeElement(Node: PVirtualNode;
+      ForceToMiddle : Boolean = True; Activate : Boolean = True);
 var
   Data: PNodeDataRec;
   CodePos : TCodePos;
@@ -533,31 +611,46 @@ begin
     if Assigned(Data.CENode.CodeElement) then
     begin
       CodePos := Data.CENode.CodeElement.CodePos;
-      L := Length(Data.CENode.Caption);
-    end else if Data.CENode is TImportsCENode then begin
-      if Data.CENode.ChildCount > 0 then begin
-        //  first import
-        CodePos :=
-          TBaseCodeElement(TImportsCENode(Data.CENode).fModule.ImportedModules[0]).CodePos;
-        CodePos.CharOffset := 1;
-      end;
-    end;
+      if not (Data.CENode is TModuleCENode) then
+        L := Length(Data.CENode.CodeElement.Name);
+    end else if Assigned(ExplorerTree.GetFirstChild(Node)) then begin
+        NavigateToNodeElement(Node.FirstChild, ForceToMiddle, Activate);
+        Exit;
+    end else
+      Exit;
 
     Editor := PyIDEMainForm.GetActiveEditor;
     if Assigned(Editor) and (CodePos.LineNo >= 0) then begin
       with Editor.SynEdit do
       begin
         CaretXY := BufferCoord(1, CodePos.LineNo);
-        EnsureCursorPosVisibleEx(True);
+        EnsureCursorPosVisibleEx(ForceToMiddle);
         if CodePos.CharOffset > 0 then
         begin
           SelStart := RowColToCharIndex(CaretXY) + CodePos.CharOffset - 1;
           SelEnd := SelStart + L;
         end;
       end;
-      Editor.Activate;
+      if Activate then Editor.Activate;
     end;
-    
+  end;
+end;
+
+procedure TCodeExplorerWindow.mnAlphaSortClick(Sender: TObject);
+begin
+  if Assigned(ModuleCENode) then begin
+    if mnAlphaSort.Checked then
+      ModuleCENode.Sort(soAlpha)
+    else
+      ModuleCENode.Sort(soPosition);
+
+    ExplorerTree.BeginUpdate;
+    try
+      ExplorerTree.ReinitNode(ExplorerTree.RootNode.FirstChild, True);
+      ExplorerTree.InvalidateToBottom(ExplorerTree.GetFirstVisible);
+    finally
+      ExplorerTree.EndUpdate;
+    end;
   end;
 end;
 
@@ -566,9 +659,62 @@ begin
   ExplorerTree.FullExpand;
 end;
 
+procedure TCodeExplorerWindow.mnFindDefinitionClick(Sender: TObject);
+Var
+  Node : PVirtualNode;
+begin
+  Node := ExplorerTree.GetFirstSelected();
+  if Assigned(Node) then
+    NavigateToNodeElement(Node);
+end;
+
+procedure TCodeExplorerWindow.mnFindReferencesClick(Sender: TObject);
+Var
+  Node : PVirtualNode;
+  Data: PNodeDataRec;
+begin
+  Node := ExplorerTree.GetFirstSelected();
+  if Assigned(Node) then begin
+    Data := ExplorerTree.GetNodeData(Node);
+    if Assigned(Data.CENode.CodeElement) and
+      not (Data.CENode is TModuleCENode) then
+    begin
+      NavigateToNodeElement(Node);
+      PyIDEMainForm.actFindReferencesExecute(Self);
+    end;
+  end;
+end;
+
+procedure TCodeExplorerWindow.mnHighlightClick(Sender: TObject);
+Var
+  Node : PVirtualNode;
+  Data: PNodeDataRec;
+begin
+  Node := ExplorerTree.GetFirstSelected();
+  if Assigned(Node) then begin
+    Data := ExplorerTree.GetNodeData(Node);
+    if Assigned(Data.CENode.CodeElement) and
+      not (Data.CENode is TModuleCENode) then
+    begin
+      EditorSearchOptions.InitSearch;
+      EditorSearchOptions.SearchWholeWords := True;
+      EditorSearchOptions.SearchText := Data.CENode.CodeElement.Name;
+      CommandsDataModule.actSearchHighlight.Checked := True;
+      CommandsDataModule.actSearchHighlightExecute(Self);
+    end;
+  end;
+end;
+
 procedure TCodeExplorerWindow.nCollapseAllClick(Sender: TObject);
 begin
   ExplorerTree.FullCollapse;
+end;
+
+procedure TCodeExplorerWindow.ReadFromAppStorage(
+  AppStorage: TJvCustomAppStorage; const BasePath: string);
+begin
+  mnAlphaSort.Checked := AppStorage.ReadBoolean(BasePath+'\AlphaSort', False);
+  mnShowSelection.Checked := AppStorage.ReadBoolean(BasePath+'\Show Selection', True);
 end;
 
 { TAbstractCENode }
@@ -593,6 +739,49 @@ begin
     Result := TAbstractCENode(fChildren[i])
   else
     Result := nil;
+end;
+
+procedure TAbstractCENode.Sort(SortOrder: TCESortOrder);
+Var
+  Child : Pointer;
+begin
+  if not Assigned(fChildren) then Exit;
+
+  for Child in fChildren do
+    TAbstractCENode(Child).Sort(SortOrder);
+
+  fChildren.SortList(
+     function (Item1, Item2: Pointer): Integer
+     Var
+       Nd1, Nd2 : TAbstractCENode;
+     begin
+       Nd1 := TAbstractCENode(Item1);
+       Nd2 := TAbstractCENode(Item2);
+       if Nd1 is TImportsCENode then
+         Result := -1
+       else if Nd2 is TImportsCENode then
+         Result := 1
+       else if Nd1 is TGlobalsCENode then
+         Result := -1
+       else if Nd2 is TGlobalsCENode then
+         Result := 1
+       else if Nd1 is TAtrributesCENode then
+         Result := -1
+       else if Nd2 is TAtrributesCENode then
+         Result := 1
+       else if Assigned(Nd1.CodeElement) and Assigned(Nd2.CodeElement) then
+         if SortOrder = soAlpha then
+           Result := ComparePythonIdents(Nd1.CodeElement.Name, Nd2.CodeElement.Name)
+         else begin
+           Result := Sign(Nd1.CodeElement.CodePos.LineNo -
+                            Nd2.CodeElement.CodePos.LineNo);
+           if Result = 0 then
+             Result := Sign(Nd1.CodeElement.CodePos.CharOffset -
+                              Nd2.CodeElement.CodePos.CharOffset);
+         end
+       else
+         Result := 0;
+     end);
 end;
 
 destructor TAbstractCENode.Destroy;
@@ -624,7 +813,7 @@ end;
 constructor TModuleCENode.CreateFromModule(AModule: TParsedModule);
 Var
   i : integer;
-  CodeElement : TCodeElement;
+  CE : TCodeElement;
   ClassNode : TClassCENode;
 begin
   inherited Create;
@@ -635,14 +824,14 @@ begin
   if Module.Globals.Count > 0 then
     AddChild(TGlobalsCENode.CreateFromModule(Module));
   for i := 0 to Module.ChildCount - 1 do begin
-    CodeElement := Module.Children[i];
-    if CodeElement is TParsedClass then begin
-      ClassNode := TClassCENode.CreateFromClass(TParsedClass(CodeElement));
+    CE := Module.Children[i];
+    if CE is TParsedClass then begin
+      ClassNode := TClassCENode.CreateFromClass(TParsedClass(CE));
       ClassNode.fInitiallyExpanded :=
         CommandsDataModule.PyIDEOptions.ExporerInitiallyExpanded;
       AddChild(ClassNode);
-    end else if CodeElement is TParsedFunction then
-      AddChild(TFunctionCENode.CreateFromFunction(TParsedFunction(CodeElement)));
+    end else if CE is TParsedFunction then
+      AddChild(TFunctionCENode.CreateFromFunction(TParsedFunction(CE)));
   end;
 end;
 
@@ -848,18 +1037,18 @@ end;
 constructor TClassCENode.CreateFromClass(AClass: TParsedClass);
 Var
   i : integer;
-  CodeElement : TCodeElement;
+  CE : TCodeElement;
 begin
   inherited Create;
   fCodeElement := AClass;
   if ParsedClass.Attributes.Count > 0 then
     AddChild(TAtrributesCENode.CreateFromClass(ParsedClass));
   for i := 0 to ParsedClass.ChildCount - 1 do begin
-    CodeElement := ParsedClass.Children[i];
-    if CodeElement is TParsedClass then
-      AddChild(TClassCENode.CreateFromClass(TParsedClass(CodeElement)))
-    else if CodeElement is TParsedFunction then
-      AddChild(TMethodCENode.CreateFromFunction(TParsedFunction(CodeElement)));
+    CE := ParsedClass.Children[i];
+    if CE is TParsedClass then
+      AddChild(TClassCENode.CreateFromClass(TParsedClass(CE)))
+    else if CE is TParsedFunction then
+      AddChild(TMethodCENode.CreateFromFunction(TParsedFunction(CE)));
   end;
 end;
 
@@ -935,22 +1124,22 @@ end;
 constructor TFunctionCENode.CreateFromFunction(AFunction: TParsedFunction);
 Var
   i : integer;
-  CodeElement : TCodeElement;
+  CE : TCodeElement;
 begin
   inherited Create;
   fCodeElement := AFunction;
   for i := 0 to ParsedFunction.ChildCount - 1 do begin
-    CodeElement := ParsedFunction.Children[i];
-    if CodeElement is TParsedClass then begin
-      AddChild(TClassCENode.CreateFromClass(TParsedClass(CodeElement)));
-    end else if CodeElement is TParsedFunction then
-      AddChild(TFunctionCENode.CreateFromFunction(TParsedFunction(CodeElement)));
+    CE := ParsedFunction.Children[i];
+    if CE is TParsedClass then begin
+      AddChild(TClassCENode.CreateFromClass(TParsedClass(CE)));
+    end else if CE is TParsedFunction then
+      AddChild(TFunctionCENode.CreateFromFunction(TParsedFunction(CE)));
   end;
 end;
 
 function TFunctionCENode.GetCaption: string;
 begin
-  Result := ParsedFunction.Name;
+  Result := Format('%s(%s)', [ParsedFunction.Name, ParsedFunction.ArgumentsString]);
 end;
 
 function TFunctionCENode.GetImageIndex: integer;

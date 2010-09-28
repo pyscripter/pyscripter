@@ -668,7 +668,6 @@ object PyIDEMainForm: TPyIDEMainForm
         end
         object mnSearchHighlight: TSpTBXItem
           Action = CommandsDataModule.actSearchHighlight
-          AutoCheck = True
         end
         object N15: TSpTBXSeparatorItem
         end
@@ -1375,7 +1374,6 @@ object PyIDEMainForm: TPyIDEMainForm
       end
       object tbiHighlight: TSpTBXItem
         Action = CommandsDataModule.actSearchHighlight
-        AutoCheck = True
         RadioItem = True
       end
       object tbiReplaceSeparator: TSpTBXSeparatorItem
@@ -1506,7 +1504,7 @@ object PyIDEMainForm: TPyIDEMainForm
       CustomHeight = 21
     end
     object SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem
-      CustomWidth = 0
+      CustomWidth = 407
     end
     object SpTBXSeparatorItem5: TSpTBXSeparatorItem
     end

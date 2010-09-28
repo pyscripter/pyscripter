@@ -61,16 +61,17 @@ inherited CodeExplorerWindow: TCodeExplorerWindow
         Header.Font.Height = -11
         Header.Font.Name = 'MS Shell Dlg 2'
         Header.Font.Style = []
-        Header.MainColumn = -1
-        Header.Options = [hoColumnResize, hoDrag]
+        Header.Options = [hoAutoResize, hoColumnResize, hoDrag]
         HintMode = hmHint
         Images = CommandsDataModule.CodeImages
         IncrementalSearch = isAll
-        PopupMenu = TreePopupMenu
         TabOrder = 0
         TreeOptions.MiscOptions = [toFullRepaintOnResize, toInitOnSave, toWheelPanning]
         TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowDropmark, toShowRoot, toShowTreeLines, toShowVertGridLines, toThemeAware, toUseBlendedImages, toUseBlendedSelection]
+        TreeOptions.SelectionOptions = [toRightClickSelect]
         TreeOptions.StringOptions = [toAutoAcceptEditChange]
+        OnChange = ExplorerTreeChange
+        OnContextPopup = ExplorerTreeContextPopup
         OnDblClick = ExplorerTreeDblClick
         OnGetText = ExplorerTreeGetText
         OnGetImageIndex = ExplorerTreeGetImageIndex
@@ -78,14 +79,19 @@ inherited CodeExplorerWindow: TCodeExplorerWindow
         OnInitChildren = ExplorerTreeInitChildren
         OnInitNode = ExplorerTreeInitNode
         OnKeyPress = ExplorerTreeKeyPress
-        Columns = <>
+        Columns = <
+          item
+            Options = [coAllowClick, coDraggable, coEnabled, coParentBidiMode, coParentColor, coResizable, coShowDropMark, coVisible, coSmartResize, coAllowFocus]
+            Position = 0
+            Width = 245
+          end>
       end
     end
   end
-  object TreePopupMenu: TSpTBXPopupMenu
+  object CEPopupMenu: TSpTBXPopupMenu
     Images = CommandsDataModule.Images
     Left = 8
-    Top = 49
+    Top = 61
     object mnExpandAll: TSpTBXItem
       Caption = '&Expand All'
       Hint = 'Expand all nodes'
@@ -97,6 +103,43 @@ inherited CodeExplorerWindow: TCodeExplorerWindow
       Hint = 'Collapse all nodes'
       ImageIndex = 29
       OnClick = nCollapseAllClick
+    end
+    object SpTBXSeparatorItem1: TSpTBXSeparatorItem
+    end
+    object mnAlphaSort: TSpTBXItem
+      Caption = 'Alpha Sort'
+      Hint = 'Sort Alphabetically'
+      AutoCheck = True
+      OnClick = mnAlphaSortClick
+    end
+    object mnShowSelection: TSpTBXItem
+      Caption = 'Show Selection'
+      Hint = 'Show selected note in editor'
+      AutoCheck = True
+      Checked = True
+    end
+  end
+  object CENodePopUpMenu: TSpTBXPopupMenu
+    Images = CommandsDataModule.Images
+    Left = 12
+    Top = 116
+    object mnFindDefinition: TSpTBXItem
+      Caption = 'Find Definition'
+      Hint = 'Find Definition'
+      OnClick = mnFindDefinitionClick
+    end
+    object mnFindReferences: TSpTBXItem
+      Caption = 'Find References'
+      Hint = 'Find References'
+      OnClick = mnFindReferencesClick
+    end
+    object SpTBXSeparatorItem2: TSpTBXSeparatorItem
+    end
+    object mnHighlight: TSpTBXItem
+      Caption = 'Highlight'
+      Hint = 'Highlight References'
+      ImageIndex = 122
+      OnClick = mnHighlightClick
     end
   end
 end
