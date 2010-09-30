@@ -617,10 +617,14 @@ end;
 
 procedure MaskFPUExceptions(ExceptionsMasked : boolean);
 begin
+//  if ExceptionsMasked then
+//    Set8087CW($1332 or $3F)
+//  else
+//    Set8087CW($1332);
   if ExceptionsMasked then
-    Set8087CW($1332 or $3F)
+    Set8087CW($1232 or $3F)
   else
-    Set8087CW($1332);
+    Set8087CW($1232);
 end;
 
 function FormatDocString(const DocString : string) : string;

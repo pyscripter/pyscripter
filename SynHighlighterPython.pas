@@ -1014,7 +1014,7 @@ begin
       end;
     end;
   end
-      else //if short string
+  else //if short string
   repeat
     case FLine[Run] of
       #0, #10, #13:

@@ -1155,7 +1155,6 @@ var locline, lookup: string;
     DummyToken : string;
     BC : TBufferCoord;
     PathDepth: integer;
-    Dir: string;
     ParsedModule : TParsedModule;
     NameSpace : TStringList;
     Prompt : string;

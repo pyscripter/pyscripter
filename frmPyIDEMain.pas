@@ -303,12 +303,13 @@
             Revamped Code Explorer (Issues 192, 163)
             Start-up python scripts pyscripter_init.py and python_init.py. See help file for details.
             Italian translation by Vincenzo Demasi
+            New IDE option "Highlight selected word" (Issue 404)
             New Edit command "Copy File Name" available at the contex menu of the tab bar
             New commands "Previous Frame", "Next Frame" to change frame using the keyboard (Issue 399)
             JavaScript and PHP Syntax Highlighters added
           Bug fixes
-             Issues 103, 267, 271, 294, 317, 324, 395, 403, 405, 407, 412, 413,
-                    419, 422
+             Issues 103, 267, 271, 294, 317, 324, 395, 403, 405, 407, 411
+                    412, 413, 419, 422
 
   Vista Compatibility issues (all resolved)
   -  Flip3D and Form preview (solved with LX)

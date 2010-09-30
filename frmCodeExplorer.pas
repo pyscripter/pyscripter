@@ -693,15 +693,8 @@ begin
   Node := ExplorerTree.GetFirstSelected();
   if Assigned(Node) then begin
     Data := ExplorerTree.GetNodeData(Node);
-    if Assigned(Data.CENode.CodeElement) and
-      not (Data.CENode is TModuleCENode) then
-    begin
-      EditorSearchOptions.InitSearch;
-      EditorSearchOptions.SearchWholeWords := True;
-      EditorSearchOptions.SearchText := Data.CENode.CodeElement.Name;
-      CommandsDataModule.actSearchHighlight.Checked := True;
-      CommandsDataModule.actSearchHighlightExecute(Self);
-    end;
+    if Assigned(Data.CENode.CodeElement) and not (Data.CENode is TModuleCENode) then
+      CommandsDataModule.HighlightWordInActiveEditor(Data.CENode.CodeElement.Name);
   end;
 end;
 
