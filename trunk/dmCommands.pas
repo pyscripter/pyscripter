@@ -84,6 +84,7 @@ type
     fJumpToErrorOnException : Boolean;
     fFileTemplateForNewScripts : string;
     fAutoCompletionFont : TFont;
+    fHighlightSelectedWord : Boolean;
     function GetPythonFileExtensions: string;
     procedure SetAutoCompletionFont(const Value: TFont);
   public
@@ -193,6 +194,8 @@ type
       write fFileTemplateForNewScripts;
     property AutoCompletionFont : TFont read fAutoCompletionFont
       write SetAutoCompletionFont;
+    property HighlightSelectedWord : boolean read fHighlightSelectedWord
+      write fHighlightSelectedWord;
   end;
 {$METHODINFO OFF}
 
@@ -504,8 +507,9 @@ type
     procedure ApplyEditorOptions;
     procedure ProcessShellNotify(Sender: TCustomVirtualExplorerTree; ShellEvent: TVirtualShellEvent);
     function FileIsPythonSource(FileName : string): Boolean;
-    property Highlighters : TStrings read fHighlighters;
     function FindSearchTarget : ISearchCommands;
+    procedure HighlightWordInActiveEditor(SearchWord : string);
+    property Highlighters : TStrings read fHighlighters;
   end;
 
 Const
@@ -597,6 +601,7 @@ begin
       Self.fJumpToErrorOnException := JumpToErrorOnException;
       Self.fFileTemplateForNewScripts := FileTemplateForNewScripts;
       Self.fAutoCompletionFont.Assign(AutoCompletionFont);
+      Self.fHighlightSelectedWord := HighlightSelectedWord;
     end
   else
     inherited;
@@ -665,6 +670,7 @@ begin
   fFileTemplateForNewScripts := _(SPythonTemplateName);
   fAutoCompletionFont := TFont.Create;
   fAutoCompletionFont.Assign(CommandsDataModule.ParameterCompletion.Font);
+  fHighlightSelectedWord := True;
 end;
 
 destructor TPythonIDEOptions.Destroy;
@@ -1061,6 +1067,19 @@ begin
     fUntitledNumbers.Size := fUntitledNumbers.Size + 32;
   fUntitledNumbers[Result] := TRUE;
   Inc(Result);
+end;
+
+procedure TCommandsDataModule.HighlightWordInActiveEditor(SearchWord: string);
+Var
+  OldWholeWords : Boolean;
+begin
+  EditorSearchOptions.InitSearch;
+  OldWholeWords := EditorSearchOptions.SearchWholeWords;
+  EditorSearchOptions.SearchWholeWords := True;
+  EditorSearchOptions.SearchText := SearchWord;
+  actSearchHighlight.Checked := True;
+  actSearchHighlightExecute(Self);
+  EditorSearchOptions.SearchWholeWords := OldWholeWords;
 end;
 
 procedure TCommandsDataModule.ReleaseUntitledNumber(ANumber: integer);
@@ -2095,7 +2114,7 @@ begin
   end;
   with Categories[4] do begin
     DisplayName := _('Editor');
-    SetLength(Options, 14);
+    SetLength(Options, 15);
     Options[0].PropertyName := 'RestoreOpenFiles';
     Options[0].DisplayName := _('Restore open files');
     Options[1].PropertyName := 'SearchTextAtCaret';
@@ -2124,6 +2143,8 @@ begin
     Options[12].DisplayName := _('Auto-reload changed files');
     Options[13].PropertyName := 'AutoHideFindToolbar';
     Options[13].DisplayName := _('Auto-hide find toolbar');
+    Options[14].PropertyName := 'HighlightSelectedWord';
+    Options[14].DisplayName := _('Highlight selected wordr');
   end;
   with Categories[5] do begin
     DisplayName := _('Code Completion');

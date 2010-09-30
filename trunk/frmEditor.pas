@@ -105,6 +105,7 @@ type
       var Handled: Boolean);
     procedure ViewsTabControlActiveTabChange(Sender: TObject;
       TabIndex: Integer);
+    procedure SynEditDblClick(Sender: TObject);
   private
     fEditor: TEditor;
     fAutoCompleteActive : Boolean;
@@ -1261,6 +1262,20 @@ begin
   FoundSearchItems.Clear;
 end;
 
+procedure TEditorForm.SynEditDblClick(Sender: TObject);
+var
+  ptMouse: TPoint;
+  ASynEdit : TSynEdit;
+begin
+  ASynEdit := Sender as TSynEdit;
+  GetCursorPos(ptMouse);
+  ptMouse := ASynEdit.ScreenToClient(ptMouse);
+  if (ptMouse.X >= ASynEdit.Gutter.Width + 2) and ASynEdit.SelAvail and
+     CommandsDataModule.PyIDEOptions.HighlightSelectedWord
+  then
+    CommandsDataModule.HighlightWordInActiveEditor(ASynEdit.SelText);
+end;
+
 procedure TEditorForm.SynEditEnter(Sender: TObject);
 Var
   ASynEdit : TSynEdit;
@@ -1770,6 +1785,9 @@ begin
             end;
           end;
         end;
+      ecSelWord :
+        if ASynEdit.SelAvail and CommandsDataModule.PyIDEOptions.HighlightSelectedWord then
+          CommandsDataModule.HighlightWordInActiveEditor(ASynEdit.SelText);
     end;
   end;
 end;

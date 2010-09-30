@@ -48,22 +48,49 @@ Uses
 
 procedure THighlightSearchPlugin.AfterPaint(ACanvas: TCanvas;
   const AClip: TRect; FirstLine, LastLine: integer);
+
+  procedure PaintHightlight(StartXY, EndXY : TBufferCoord);
+  var
+    Pix: TPoint;
+    S : string;
+  begin
+    if StartXY.Char < EndXY.Char then begin
+      Pix := fSynEdit.RowColumnToPixels(fSynEdit.BufferToDisplayPos(StartXY));
+      ACanvas.Brush.Color := clYellow;
+      ACanvas.Brush.Style := bsSolid;
+      SetTextCharacterExtra(ACanvas.Handle, fSynEdit.CharWidth - ACanvas.TextWidth('W'));
+      S := Copy(fSynEdit.Lines[StartXY.Line-1],
+             StartXY.Char, EndXY.Char - StartXY.Char);
+      ACanvas.TextOut(Pix.X, Pix.Y, S);
+    end;
+  end;
+
+
 var
   i : Integer;
   FoundItem : TFoundItem;
-  Pix: TPoint;
-  S : string;
+  StartXY, EndXY : TBufferCoord;
 begin
   for i := 0 to fFoundItems.Count - 1 do begin
     FoundItem := fFoundItems[i] as TFoundItem;
     if InRange(FoundItem.Start.Line, FirstLine, LastLine) then begin
-      Pix := fSynEdit.RowColumnToPixels(fSynEdit.BufferToDisplayPos(FoundItem.Start));
-      ACanvas.Brush.Color := clYellow;
-      ACanvas.Brush.Style := bsSolid;
-      SetTextCharacterExtra(ACanvas.Handle, fSynEdit.CharWidth - ACanvas.TextWidth('W'));
-      S := Copy(fSynEdit.Lines[FoundItem.Start.Line-1],
-             FoundItem.Start.Char, FoundItem.Length);
-      ACanvas.TextOut(Pix.X, Pix.Y, S);
+      // do not highlight selection
+      // Highlight front part
+      StartXY := FoundItem.Start;
+      EndXY := StartXY;
+      while not fSynEdit.IsPointInSelection(EndXY) and
+        (EndXY.Char < FoundItem.Start.Char + FoundItem.Length)
+      do
+        Inc(EndXY.Char);
+      PaintHightlight(StartXY, EndXY);
+
+      StartXY.Char := EndXY.Char;
+      EndXY.Char := FoundItem.Start.Char + FoundItem.Length;
+      // Skip Selection
+      while fSynEdit.IsPointInSelection(StartXY) and (StartXY.Char < EndXY.Char) do
+        Inc(StartXY.Char);
+      // Highlight end part
+       PaintHightlight(StartXY, EndXY);
     end;
   end;
 end;

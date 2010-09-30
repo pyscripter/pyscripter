@@ -22,7 +22,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
     Align = alClient
     TabOrder = 0
     TBXStyleBackground = True
-    ExplicitWidth = 431
     DesignSize = (
       492
       421)
@@ -37,7 +36,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
       OnClick = btnOkClick
       Default = True
       ModalResult = 1
-      ExplicitLeft = 188
     end
     object btnCancel: TSpTBXButton
       Left = 330
@@ -49,7 +47,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
       TabOrder = 1
       Cancel = True
       ModalResult = 2
-      ExplicitLeft = 269
     end
     object btnHelp: TSpTBXButton
       Left = 409
@@ -60,7 +57,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
       Anchors = [akRight, akBottom]
       TabOrder = 3
       OnClick = btnHelpClick
-      ExplicitLeft = 348
     end
     object cbApplyToAll: TSpTBXCheckBox
       Left = 19
@@ -81,7 +77,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
       Height = 353
       Align = alTop
       ActiveTabIndex = 0
-      ExplicitLeft = 7
+      ExplicitLeft = 10
       ExplicitTop = 7
       HiddenItems = <>
       object SpTBXTabItem1: TSpTBXTabItem
@@ -104,7 +100,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
         Height = 328
         Caption = 'Syntax Colors'
         ImageIndex = -1
-        ExplicitWidth = 421
         DesignSize = (
           482
           328)
@@ -183,7 +178,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Gutter.Visible = False
           Gutter.Width = 0
           RightEdge = 0
-          ExplicitWidth = 252
         end
         object Label11: TSpTBXLabel
           Left = 6
@@ -230,7 +224,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           ItemHeight = 13
           TabOrder = 5
           OnChange = cbHighlightersChange
-          ExplicitWidth = 406
         end
         object lbElements: TSpTBXListBox
           Left = 6
@@ -268,7 +261,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
         Height = 328
         Caption = 'Options'
         ImageIndex = -1
-        ExplicitWidth = 421
         TabItem = 'SpTBXTabItem2'
         object gbOptions: TSpTBXGroupBox
           AlignWithMargins = True
@@ -282,8 +274,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           ShowHint = True
           TabOrder = 0
           TBXStyleBackground = True
-          ExplicitLeft = 9
-          ExplicitWidth = 409
           DesignSize = (
             470
             247)
@@ -322,7 +312,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             TabOrder = 2
           end
           object ckHalfPageScroll: TSpTBXCheckBox
-            Left = 248
+            Left = 242
             Top = 15
             Width = 97
             Height = 21
@@ -335,7 +325,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             TabOrder = 11
           end
           object ckThemeSelection: TSpTBXCheckBox
-            Left = 248
+            Left = 242
             Top = 224
             Width = 101
             Height = 21
@@ -346,7 +336,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             TabOrder = 20
           end
           object ckScrollByOneLess: TSpTBXCheckBox
-            Left = 248
+            Left = 242
             Top = 34
             Width = 106
             Height = 21
@@ -357,7 +347,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             TabOrder = 12
           end
           object ckScrollPastEOF: TSpTBXCheckBox
-            Left = 248
+            Left = 242
             Top = 53
             Width = 124
             Height = 21
@@ -368,7 +358,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             TabOrder = 13
           end
           object ckScrollPastEOL: TSpTBXCheckBox
-            Left = 248
+            Left = 242
             Top = 72
             Width = 126
             Height = 21
@@ -381,7 +371,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             TabOrder = 14
           end
           object ckShowScrollHint: TSpTBXCheckBox
-            Left = 248
+            Left = 242
             Top = 91
             Width = 98
             Height = 21
@@ -416,7 +406,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             TabOrder = 17
           end
           object ckTrimTrailingSpaces: TSpTBXCheckBox
-            Left = 248
+            Left = 242
             Top = 148
             Width = 115
             Height = 21
@@ -461,7 +451,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             TabOrder = 4
           end
           object ckScrollHintFollows: TSpTBXCheckBox
-            Left = 248
+            Left = 242
             Top = 110
             Width = 140
             Height = 21
@@ -472,7 +462,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             TabOrder = 16
           end
           object ckGroupUndo: TSpTBXCheckBox
-            Left = 248
+            Left = 242
             Top = 167
             Width = 80
             Height = 21
@@ -518,7 +508,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             TabOrder = 9
           end
           object ckHideShowScrollbars: TSpTBXCheckBox
-            Left = 248
+            Left = 242
             Top = 129
             Width = 159
             Height = 21
@@ -532,7 +522,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             TabOrder = 10
           end
           object ckDisableScrollArrows: TSpTBXCheckBox
-            Left = 248
+            Left = 242
             Top = 186
             Width = 121
             Height = 21
@@ -545,7 +535,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             TabOrder = 21
           end
           object ckShowSpecialChars: TSpTBXCheckBox
-            Left = 248
+            Left = 242
             Top = 205
             Width = 114
             Height = 21
@@ -576,7 +566,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Align = alBottom
           TabOrder = 1
           TBXStyleBackground = True
-          ExplicitWidth = 409
           object Label2: TSpTBXLabel
             Left = 60
             Top = 19
@@ -628,7 +617,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
         Height = 328
         Caption = 'Keystrokes'
         ImageIndex = -1
-        ExplicitWidth = 421
         TabItem = 'SpTBXTabItem3'
         object gbKeyStrokes: TSpTBXGroupBox
           AlignWithMargins = True
@@ -640,7 +628,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Align = alBottom
           TabOrder = 3
           TBXStyleBackground = True
-          ExplicitWidth = 409
           object Label5: TSpTBXLabel
             Left = 50
             Top = 28
@@ -667,6 +654,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             Top = 23
             Width = 186
             Height = 21
+            Style = csDropDownList
             ItemHeight = 13
             Sorted = True
             TabOrder = 0
@@ -736,9 +724,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             Selection.FullRowSelect = True
             TabOrder = 0
             View = elsReport
-            ExplicitLeft = 7
-            ExplicitTop = 7
-            ExplicitHeight = 154
           end
         end
       end
@@ -749,7 +734,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
         Height = 328
         Caption = 'Display'
         ImageIndex = -1
-        ExplicitWidth = 421
         DesignSize = (
           482
           328)
@@ -804,8 +788,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Align = alBottom
           TabOrder = 0
           TBXStyleBackground = True
-          ExplicitLeft = 15
-          ExplicitWidth = 460
           object pnlGutterFontDisplay: TSpTBXPanel
             Left = 270
             Top = 44
@@ -827,7 +809,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
               Font.Style = []
               ParentFont = False
               Alignment = taCenter
-              ExplicitLeft = 1
             end
           end
           object btnGutterFont: TSpTBXButton
@@ -978,9 +959,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
               Font.Style = []
               ParentFont = False
               Alignment = taCenter
-              ExplicitLeft = 14
-              ExplicitTop = 4
-              ExplicitWidth = 168
             end
           end
           object btnFont: TSpTBXButton
