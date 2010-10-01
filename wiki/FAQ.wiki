@@ -35,7 +35,10 @@ a) From an existing !PyScripter installation copy !PyScripter.exe !PyScripter.ch
 
 b) In the same directory create a batch or command file that will set the PYTHONHOME environment variable and start !PyScripter with appropriate command-line options e.g.
 
-{{{SET PYTHONHOME=E:\PortablePython PyScripter --PYTHON25 --PYTHONDLLPATH "E:\PortablePython" %1 %2 %3 %4 %5}}}
+{{{
+SET PYTHONHOME=E:\PortablePython 
+PyScripter --PYTHON25 --PYTHONDLLPATH "E:\PortablePython" %1 %2 %3 %4 %5
+}}}
 
 c) Start !PyScripter using the created batch file.
 
@@ -224,4 +227,3 @@ The incompatibility between PyScripter and the !TortoiseHg Mercurial addon has f
 of !TortoiseHg 0.8, which replaces the Python Windows shell extensions with C++ based ones.
      
 [http://code.google.com/p/pyscripter/wiki/FAQ#Frequently_Asked_Questions Back to Top]
-
