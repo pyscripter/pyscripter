@@ -1278,6 +1278,7 @@ begin
             NameSpace.Free;
           end;
         end;
+        PyScripterRefactor.FinalizeQuery;
       end;
     end else begin
       TmpX := CaretX - Length(Prompt);

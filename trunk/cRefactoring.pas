@@ -90,12 +90,14 @@ type
     fImportResolverCache : TStringList;
     fGetTypeCache : TStringList;
     fSpecialPackages : TStringList;
+    fSourceScanners : TInterfaceList;
   public
     constructor Create;
     destructor Destroy; override;
     procedure ClearParsedModules;
     procedure ClearProxyModules;
     procedure InitializeQuery;
+    procedure FinalizeQuery;
     function GetSource(const FName : string; var Source : string): Boolean;
     function GetParsedModule(const ModuleName : string; PythonPath : Variant) : TParsedModule;
     { given the coordates to a reference, tries to find the
@@ -139,7 +141,7 @@ uses
   frmPythonII, PythonEngine, VarPyth, dmCommands,
   uEditAppIntfs,
   uCommonFunctions, Math, StringResources,
-  cPyDebugger, gnugettext, VirtualFileSearch, StrUtils, JclStrings;
+  cPyDebugger, gnugettext, VirtualFileSearch, StrUtils, JclStrings, DateUtils;
 
 { TPyScripterRefactor }
 
@@ -170,6 +172,13 @@ begin
 
   fSpecialPackages := TStringList.Create;
   fSpecialPackages.CaseSensitive := true;
+
+  fSourceScanners := TInterfaceList.Create;
+end;
+
+procedure TPyScripterRefactor.FinalizeQuery;
+begin
+  fSourceScanners.Clear;
 end;
 
 function TPyScripterRefactor.FindDefinitionByCoordinates(const Filename: string; Line,
@@ -183,7 +192,6 @@ begin
   Result := nil;
   if Initialize then begin
     InitializeQuery;
-
     // Add the file path to the Python path - Will be automatically removed
     PythonPathAdder := InternalInterpreter.AddPathToPythonPath(ExtractFileDir(FileName));
   end;
@@ -192,6 +200,7 @@ begin
   ParsedModule := GetParsedModule(FileName, None);
   if not Assigned(ParsedModule) then begin
     ErrMsg := Format(_(SCouldNotLoadModule), [FileName]);
+    if Initialize then FinalizeQuery;
     Exit;
   end;
 
@@ -202,6 +211,7 @@ begin
 
   if DottedIdent = '' then begin
     ErrMsg := _(SNoIdentifier);
+    if Initialize then FinalizeQuery;
     Exit;
  end;
 
@@ -212,7 +222,9 @@ begin
   else
     // Find identifier in the module and scope
     Result := FindDottedDefinition(DottedIdent, ParsedModule, Scope, ErrMsg);
-end;
+
+  if Initialize then FinalizeQuery;
+ end;
 
 destructor TPyScripterRefactor.Destroy;
 begin
@@ -228,6 +240,7 @@ begin
   fGetTypeCache.Free;
 
   fSpecialPackages.Free;
+  fSourceScanners.Free;
   inherited;
 end;
 
@@ -247,10 +260,13 @@ var
   DottedModuleName : string;
   ParsedModule : TParsedModule;
   Editor : IEditor;
-  FoundSource : boolean;
   SuppressOutput : IInterface;
   InSysModules : Boolean;
+  SourceScanner : IAsyncSourceScanner;
+  FAge : TDateTime;
 begin
+  Result := nil;
+
   if FileExists(ModuleName) then begin
     FName := ModuleName;
     DottedModuleName := FileNameToModuleName(FName);
@@ -259,12 +275,14 @@ begin
     DottedModuleName := ModuleName;
   end;
 
+  // If module name in special packages then import module
   fSpecialPackages.CommaText := CommandsDataModule.PyIDEOptions.SpecialPackages;
   SpecialPackagesIndex := fSpecialPackages.IndexOf(DottedModuleName);
+
   if SpecialPackagesIndex >= 0 then
+    // only import if it is not available
     try
       SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
-      // only import if it is not available
       if SysModule.modules.__contains__(DottedModuleName) then
       else
         Import(AnsiString(DottedModuleName));
@@ -272,41 +290,54 @@ begin
       SpecialPackagesIndex := -1;
     end;
 
-  FoundSource := False;
-
+  // if it is an open file then get the parsed module directly
   if SpecialPackagesIndex < 0 then begin
     // Check whether it is an unsaved file
     Editor := GI_EditorFactory.GetEditorByNameOrTitle(DottedModuleName);
-    if Assigned(Editor) and (Editor.FileName = '') and Editor.HasPythonFile then
+    // Find the source file
+    if FName = '' then begin  // No filename was provided
+      FNameVar := InternalInterpreter.PyInteractiveInterpreter.findModuleOrPackage(DottedModuleName, PythonPath);
+      if not VarIsNone(FNameVar) then
+         FName := FNameVar;
+    end;
+    if not Assigned(Editor) and (FName <> '') then
+      Editor := GI_EditorFactory.GetEditorByName(FName);
+
+    if Assigned(Editor) and Editor.HasPythonFile then
     begin
-      ModuleSource := Editor.SynEdit.Text;
-      FName := DottedModuleName;
-      FoundSource := True;
-    end else begin
-      // Find the source file
-      if FName = '' then begin  // No filename was provided
-        FNameVar := InternalInterpreter.PyInteractiveInterpreter.findModuleOrPackage(DottedModuleName, PythonPath);
-        if not VarIsNone(FNameVar) then
-           FName := FNameVar;
-      end;
-      if (FName <> '') and CommandsDataModule.FileIsPythonSource(FName) and GetSource(FName, ModuleSource) then
-         FoundSource := True;
+      SourceScanner := Editor.SourceScanner;
+      fSourceScanners.Add(SourceScanner);
+      Result := SourceScanner.ParsedModule;
     end;
   end;
 
-  if FoundSource then begin
+  // Next try to find the source
+  if (Result = nil) and (FName <> '') and
+     CommandsDataModule.FileIsPythonSource(FName) then
+  begin
     DottedModuleName := FileNameToModuleName(FName);
     Index := fParsedModules.IndexOf(DottedModuleName);
-    if Index < 0 then begin
-      ParsedModule := TParsedModule.Create;
+    if (Index >= 0) then begin
+      // check whether we have the latest version
+      Result := fParsedModules.Objects[Index] as TParsedModule;
+      if FileAge(FName, FAge) and not SameDateTime(FAge, Result.FileAge) then begin
+        fParsedModules.Delete(Index);
+        FreeAndNil(Result);
+      end;
+    end;
+    if (Result = nil) and GetSource(FName, ModuleSource) then begin
+      ParsedModule := TParsedModule.Create(FName, ModuleSource);
       ParsedModule.Name := DottedModuleName;
-      ParsedModule.FileName := FName;
-      fPythonScanner.ScanModule(ModuleSource, ParsedModule);
+      if FileAge(FName, FAge) then ParsedModule.FileAge := FAge;
+      fPythonScanner.ScanModule(ParsedModule);
       fParsedModules.AddObject(DottedModuleName, ParsedModule);
       Result := ParsedModule;
-    end else
-      Result := fParsedModules.Objects[Index] as TParsedModule;
-  end else begin
+    end;
+  end;
+
+  // Last effort.  Search in sys.modules
+  // Special modules should already be there
+  if Result = nil then begin
     InSysModules := SysModule.modules.__contains__(DottedModuleName);
     if InSysModules and VarIsPythonModule(SysModule.modules.__getitem__(DottedModuleName)) then begin
       // If the source file does not exist look at sys.modules to see whether it
@@ -318,8 +349,7 @@ begin
         Result := fProxyModules.Objects[Index] as TParsedModule;
       end else
         Result := fProxyModules.Objects[Index] as TParsedModule;
-    end else
-      Result := nil;  // no source and not in sys.modules
+    end;
   end;
 end;
 
@@ -383,7 +413,6 @@ begin
     Delete(Suffix, 1, 1);
 
   if Suffix = '' then Exit;
-
 
   Prefix := StrToken(Suffix, '.');
   Def := FindUnDottedDefinition(Prefix, ParsedModule, Scope, ErrMsg);
@@ -719,7 +748,7 @@ end;
 
 procedure TPyScripterRefactor.InitializeQuery;
 begin
-  ClearParsedModules;  // in case source has changed
+  //ClearParsedModules;  // Do not clear.  A check is made if Source has changed
   fImportResolverCache.Clear;  // fresh start
   fGetTypeCache.Clear;  // fresh start
 end;
@@ -742,6 +771,7 @@ begin
   ParsedModule := GetParsedModule(FileName, None);
   if not Assigned(ParsedModule) then begin
     ErrMsg := Format(_(SCouldNotLoadModule), [FileName]);
+    FinalizeQuery;
     Exit;
   end;
 
@@ -752,6 +782,7 @@ begin
 
   if DottedIdent = '' then begin
     ErrMsg := _(SNoIdentifier);
+    FinalizeQuery;
     Exit;
  end;
 
@@ -776,6 +807,8 @@ begin
 
   if Assigned(Def) then
     FindReferences(Def, ErrMsg, List);
+
+  FinalizeQuery;
 end;
 
 procedure TPyScripterRefactor.FindReferences(CE: TBaseCodeElement;

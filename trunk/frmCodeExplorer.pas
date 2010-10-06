@@ -19,6 +19,7 @@ uses
 
 type
   TCESortOrder = (soPosition, soAlpha);
+  TCEExpandState = (esExpanded, esCollapsed, esUnknown);
 
   TAbstractCENode = class
   private
@@ -27,7 +28,8 @@ type
     function GetChildren(i : integer): TAbstractCENode;
   protected
     fCodeElement : TBaseCodeElement;
-    fInitiallyExpanded : boolean;
+    fExpanded : TCEExpandState;
+    fNode : PVirtualNode;
     function GetHint: string; virtual; abstract;
     function GetCaption: string; virtual; abstract;
     function GetImageIndex : integer; virtual; abstract;
@@ -42,11 +44,12 @@ type
     property ImageIndex : integer read GetImageIndex;
     property ChildCount : integer read GetChildCount;
     property Children[i : integer] : TAbstractCENode read GetChildren;
-    property InitiallyExpanded : boolean read fInitiallyExpanded;
+    property Expanded : TCEExpandState read fExpanded write fExpanded;
   end;
 
   TModuleCENode = class(TAbstractCENode)
   private
+    fOffsetXY: TPoint;
     function GetParsedModule: TParsedModule;
   protected
     function GetHint: string; override;
@@ -55,6 +58,7 @@ type
   public
     constructor CreateFromModule(AModule : TParsedModule);
     property Module : TParsedModule read GetParsedModule;
+    property OffsetXY : TPoint read fOffsetXY write fOffsetXY;
   end;
 
   TImportsCENode = class(TAbstractCENode)
@@ -166,6 +170,32 @@ type
     function GetImageIndex : integer; override;
   end;
 
+  TCEUpdateReason = (ceuChange, ceuEnter, ceuExit);
+
+  // for storing and restoring code explorer data
+  ICodeExplorerData = interface
+    function GetSourceScanner : IAsyncSourceScanner;
+    procedure SetSourceScanner(SC : IAsyncSourceScanner);
+    function GetModuleNode : TModuleCENode;
+    procedure SetModuleNode(ModuleNode : TModuleCENode);
+    property SourceScanner : IAsyncSourceScanner
+      read GetSourceScanner write SetSourceScanner;
+    property ModuleNode : TModuleCENode
+      read GetModuleNode write SetModuleNode;
+  end;
+
+  TCodeExplorerData = class(TInterfacedObject, ICodeExplorerData)
+  private
+    fModuleNode : TModuleCENode;
+    fSourceScanner : IAsyncSourceScanner;
+    function GetSourceScanner : IAsyncSourceScanner;
+    procedure SetSourceScanner(SC : IAsyncSourceScanner);
+    function GetModuleNode : TModuleCENode;
+    procedure SetModuleNode(AModuleNode : TModuleCENode);
+  public
+    destructor Destroy; override;
+  end;
+
   TCodeExplorerWindow = class(TIDEDockWindow, IJvAppStorageHandler)
     Panel1: TPanel;
     ExplorerTree: TVirtualStringTree;
@@ -207,6 +237,12 @@ type
     procedure mnFindDefinitionClick(Sender: TObject);
     procedure mnFindReferencesClick(Sender: TObject);
     procedure mnAlphaSortClick(Sender: TObject);
+    procedure ExplorerTreeCollapsed(Sender: TBaseVirtualTree;
+      Node: PVirtualNode);
+    procedure ExplorerTreeExpanded(Sender: TBaseVirtualTree;
+      Node: PVirtualNode);
+    procedure ExplorerTreeScroll(Sender: TBaseVirtualTree; DeltaX,
+      DeltaY: Integer);
   private
     procedure NavigateToNodeElement(Node: PVirtualNode;
       ForceToMiddle : Boolean = True; Activate : Boolean = True);
@@ -217,10 +253,9 @@ type
     procedure WriteToAppStorage(AppStorage: TJvCustomAppStorage; const BasePath: string);
   public
     { Public declarations }
-    ModuleCENode : TModuleCENode;
     WorkerThread: TThread;
     procedure ClearAll;
-    procedure UpdateWindow;
+    procedure UpdateWindow(UpdateReason : TCEUpdateReason);
     procedure ShutDownWorkerThread;
   end;
 
@@ -229,7 +264,7 @@ var
 
 implementation
 
-uses frmPyIDEMain, dmCommands, uEditAppIntfs, SynEdit, 
+uses frmPyIDEMain, dmCommands, uEditAppIntfs, SynEdit,
   SynEditTypes, uCommonFunctions, Math;
 
 {$R *.dfm}
@@ -237,17 +272,12 @@ uses frmPyIDEMain, dmCommands, uEditAppIntfs, SynEdit,
 type
   TScanCodeThread = class(TThread)
   private
-    fOldModule : TParsedModule;
-    fNewModule : TParsedModule;
+    fOldCEData : ICodeExplorerData;
+    fNewCEData : ICodeExplorerData;
     fScanEventHandle: THandle;
-    fSource: string;
-    fModuleName : string;
-    fModuleFileName : string;
     fSourceChanged: boolean;
-    fPythonScanner : TPythonScanner;
-    procedure GetSource;
+    procedure GetEditorData;
     procedure SetResults;
-    procedure ScanProgress(CharNo, NoOfChars : integer; var Stop : Boolean);
   protected
     procedure Execute; override;
   public
@@ -262,10 +292,6 @@ constructor TScanCodeThread.Create;
 begin
   inherited Create(True);
   FreeOnTerminate := False;
-  fOldModule := TParsedModule.Create;
-  fNewModule := TParsedModule.Create;
-  fPythonScanner := TPythonScanner.Create();
-  fPythonScanner.OnScannerProgress := ScanProgress;
   Priority := tpLowest;
   fScanEventHandle := CreateEvent(nil, FALSE, FALSE, nil);
   if (fScanEventHandle = 0) or (fScanEventHandle = INVALID_HANDLE_VALUE) then
@@ -275,77 +301,62 @@ end;
 
 destructor TScanCodeThread.Destroy;
 begin
-  fOldModule.Free;
-  fNewModule.Free;
-  fPythonScanner.Free;
   if (fScanEventHandle <> 0) and (fScanEventHandle <> INVALID_HANDLE_VALUE) then
     CloseHandle(fScanEventHandle);
   inherited Destroy;
 end;
 
 procedure TScanCodeThread.Execute;
+Var
+  ParsedModule : TParsedModule;
 begin
   while not Terminated do begin
     WaitForSingleObject(fScanEventHandle, INFINITE);
     repeat
       // make sure the event is reset when we are still in the repeat loop
+      ParsedModule := nil;
       ResetEvent(fScanEventHandle);
       if Terminated then
         break;
-      // get the modified source and set fSourceChanged to 0
-      Synchronize(GetSource);
+      Synchronize(GetEditorData);
       if Terminated then
         break;
-      // clear
-      fNewModule.Clear;
-      fNewModule.Name := fModuleName;
-      fNewModule.FileName := fModuleFileName;
-      // scan the source text for the keywords, cancel if the source in the
-      // editor has been changed again
-      if fSource <> '' then
-        fPythonScanner.ScanModule(fSource, fNewModule);
+      fSourceChanged := False;
+      if Assigned(fNewCEData) and Assigned(fNewCEData.SourceScanner) then
+        ParsedModule := fNewCEData.SourceScanner.ParsedModule;  //Wait till scanning is finished;
     until not fSourceChanged or Terminated;
 
     if Terminated then
-      break;
-    // source was changed while scanning
-    if fSourceChanged then begin
-      //Sleep(100);
-      if not Terminated then continue;
-    end;
-
-    if not Terminated then
-      Synchronize(SetResults)
-      // and go to sleep again
-    else
-      break;
+      break
+    // if Assigned(fNewCEData) and not Assigned(ParsedModule) means that StopScanning was called
+    else if not (Assigned(fNewCEData) and Assigned(fNewCEData.SourceScanner)) or
+      Assigned(ParsedModule)
+    then
+      Synchronize(SetResults);
+    // and go to sleep again
   end;
 end;
 
-procedure TScanCodeThread.GetSource;
-var
+procedure TScanCodeThread.GetEditorData;
+Var
   Editor : IEditor;
 begin
-  fModuleName := '';
-  fModuleFileName := '';
-  fSource := '';
   Editor := PyIDEMainForm.GetActiveEditor;
-  if Assigned(Editor) and Editor.HasPythonFile then
-  begin
-    fModuleName := ChangeFileExt(Editor.FileTitle, '');
-    fModuleFileName := Editor.FileName;
-    fSource := Editor.SynEdit.Text;
+  if Assigned(Editor) then begin
+    fNewCEData := Editor.CodeExplorerData;
+    // Do not assign a new scanner if we have switched files
+    // and the Code Explrorer data is alread setup
+    if (fNewCEData = fOldCEData) or
+      not (Assigned(fNewCEData.SourceScanner) and Assigned(fNewCEData.ModuleNode))
+    then
+      fNewCEData.SourceScanner := Editor.SourceScanner;
+  end else begin
+    fNewCEData := nil;
   end;
-  fSourceChanged := FALSE;
-end;
-
-procedure TScanCodeThread.ScanProgress(CharNo, NoOfChars : integer;
-  var Stop: Boolean);
-begin
-  Stop := Terminated or fSourceChanged;
 end;
 
 procedure TScanCodeThread.SetModified;
+{it is called in the main thread}
 begin
   if Terminated or (csDestroying in CodeExplorerWindow.ComponentState) then Exit;
   fSourceChanged := True;
@@ -356,25 +367,37 @@ end;
 procedure TScanCodeThread.SetResults;
 Var
   SameModule : Boolean;
+  NewMod : TParsedModule;
+  ModuleCENode : TModuleCENode;
 begin
   if Terminated or (csDestroying in CodeExplorerWindow.ComponentState) then Exit;
 
-  SameModule := (fOldModule.Name = fNewModule.Name) and
-               (fOldModule.FileName = fNewModule.FileName) and
+  if Assigned(fNewCEData) and Assigned(fNewCEData.SourceScanner) then
+    NewMod := fNewCEData.SourceScanner.ParsedModule
+  else
+    NewMod := nil;
+
+  if not Assigned(NewMod) then with CodeExplorerWindow do begin
+    ExplorerTree.Clear;
+    fOldCEData := fNewCEData;
+    if Assigned(fOldCEData) then fOldCEData.ModuleNode := nil;
+    fNewCEData := nil;
+    Exit;
+  end;
+
+  SameModule := (fNewCEData = fOldCEData) and
                (CodeExplorerWindow.ExplorerTree.RootNodeCount > 0);
 
-  fOldModule.Free;
-  fOldModule := fNewModule;
-  fNewModule := TParsedModule.Create;
   with CodeExplorerWindow do begin
-    FreeAndNil(ModuleCENode);
-    ModuleCENode := TModuleCENode.CreateFromModule(fOldModule);
-    if mnAlphaSort.Checked then
-      ModuleCENode.Sort(soAlpha);
     // Turn off Animation to speed things up
     ExplorerTree.TreeOptions.AnimationOptions :=
       ExplorerTree.TreeOptions.AnimationOptions - [toAnimatedToggle];
     if SameModule then begin
+      ModuleCENode := TModuleCENode.CreateFromModule(NewMod);
+      if mnAlphaSort.Checked then
+        ModuleCENode.Sort(soAlpha);
+      fOldCEData := fNewCEData;
+      fOldCEData.ModuleNode := ModuleCENode;
       ExplorerTree.BeginUpdate;
       try
         ExplorerTree.ReinitNode(ExplorerTree.RootNode.FirstChild, True);
@@ -384,11 +407,26 @@ begin
       end;
     end else begin
       ExplorerTree.Clear;
-      ExplorerTree.RootNodeCount := 1;
+      if Assigned(fNewCEData.ModuleNode) then begin
+        // Restore existing Tree
+        fOldCEData := fNewCEData;
+        ExplorerTree.RootNodeCount := 1;
+        ExplorerTree.Refresh;
+        ExplorerTree.OffsetXY := fOldCEData.ModuleNode.OffsetXY;
+      end else begin
+        ModuleCENode := TModuleCENode.CreateFromModule(NewMod);
+        if mnAlphaSort.Checked then
+          ModuleCENode.Sort(soAlpha);
+        fOldCEData := fNewCEData;
+        fOldCEData.ModuleNode := ModuleCENode;
+        ExplorerTree.RootNodeCount := 1;
+      end;
+      ExplorerTree.ValidateChildren(ExplorerTree.RootNode.FirstChild, True);
     end;
     ExplorerTree.TreeOptions.AnimationOptions :=
       ExplorerTree.TreeOptions.AnimationOptions + [toAnimatedToggle];
   end;
+  fNewCEData := nil;
 end;
 
 procedure TScanCodeThread.Shutdown;
@@ -416,7 +454,6 @@ begin
   inherited;
   // Let the tree know how much data space we need.
   ExplorerTree.NodeDataSize := SizeOf(TNodeDataRec);
-  ModuleCENode := nil;
   WorkerThread := TScanCodeThread.Create;
   ExplorerTree.OnBeforeCellPaint :=
     CommandsDataModule.VirtualStringTreeBeforeCellPaint;
@@ -432,17 +469,19 @@ var
 begin
   Data := ExplorerTree.GetNodeData(Node);
   if ExplorerTree.GetNodeLevel(Node) = 0 then
-    Data.CENode := ModuleCENode
+    Data.CENode := TScanCodeThread(WorkerThread).fOldCEData.ModuleNode
   else begin
     ParentData := ExplorerTree.GetNodeData(ParentNode);
     Data.CENode :=
       ParentData.CENode.Children[Node.Index] as TAbstractCENode;
   end;
   if Data.CENode.ChildCount > 0 then
-    if Data.CENode.InitiallyExpanded then
+    if Data.CENode.Expanded = esExpanded then
       InitialStates := [ivsHasChildren, ivsExpanded]
     else
       InitialStates := [ivsHasChildren];
+  // reverse link from CENode to Tree node
+  Data.CENode.fNode := Node;
 end;
 
 procedure TCodeExplorerWindow.ExplorerTreeKeyPress(Sender: TObject;
@@ -450,6 +489,18 @@ procedure TCodeExplorerWindow.ExplorerTreeKeyPress(Sender: TObject;
 begin
   if Key = Char(VK_Return) then
     NavigateToNodeElement(ExplorerTree.GetFirstSelected);
+end;
+
+procedure TCodeExplorerWindow.ExplorerTreeScroll(Sender: TBaseVirtualTree;
+  DeltaX, DeltaY: Integer);
+Var
+  ModuleCENode : TModuleCENode;
+begin
+  if Assigned(TScanCodeThread(WorkerThread).fOldCEData) then begin
+     ModuleCENode := TScanCodeThread(WorkerThread).fOldCEData.ModuleNode;
+     if Assigned(ModuleCENode) then
+       ModuleCENode.OffsetXY := ExplorerTree.OffsetXY;
+  end;
 end;
 
 procedure TCodeExplorerWindow.ExplorerTreeInitChildren(
@@ -506,6 +557,17 @@ begin
    NavigateToNodeElement(Node, True, False);
 end;
 
+procedure TCodeExplorerWindow.ExplorerTreeCollapsed(Sender: TBaseVirtualTree;
+  Node: PVirtualNode);
+var
+  Data : PNodeDataRec;
+begin
+  if Assigned(Node) then begin
+    Data := ExplorerTree.GetNodeData(Node);
+    Data.CENode.Expanded := esCollapsed;
+  end;
+end;
+
 procedure TCodeExplorerWindow.ExplorerTreeContextPopup(Sender: TObject;
   MousePos: TPoint; var Handled: Boolean);
 var
@@ -547,9 +609,20 @@ begin
   NavigateToNodeElement(ExplorerTree.HotNode)
 end;
 
-procedure TCodeExplorerWindow.UpdateWindow;
+procedure TCodeExplorerWindow.ExplorerTreeExpanded(Sender: TBaseVirtualTree;
+  Node: PVirtualNode);
+var
+  Data : PNodeDataRec;
 begin
-  if Visible and Assigned(WorkerThread) then  // Issue 219
+  if Assigned(Node) then begin
+    Data := ExplorerTree.GetNodeData(Node);
+    Data.CENode.Expanded := esExpanded;
+  end;
+end;
+
+procedure TCodeExplorerWindow.UpdateWindow(UpdateReason : TCEUpdateReason);
+begin
+  if Visible and Assigned(WorkerThread) then   // Issue 219
     TScanCodeThread(WorkerThread).SetModified;
 end;
 
@@ -573,7 +646,6 @@ end;
 procedure TCodeExplorerWindow.ClearAll;
 begin
   ExplorerTree.Clear;
-  FreeAndNil(ModuleCENode);
 end;
 
 procedure TCodeExplorerWindow.FormDestroy(Sender: TObject);
@@ -585,7 +657,7 @@ end;
 procedure TCodeExplorerWindow.ShutDownWorkerThread;
 begin
   //  Important to Clear here since the destruction of the Worker thread
-  //  destroys fOldModule to which ModuleCENode has pointers.
+  //  destroys fOldCodeExplorerData to which tree nodes have pointers.
   ClearAll;
   if WorkerThread <> nil then begin
     TScanCodeThread(WorkerThread).Shutdown;
@@ -637,7 +709,14 @@ begin
 end;
 
 procedure TCodeExplorerWindow.mnAlphaSortClick(Sender: TObject);
+Var
+  ModuleCENode : TModuleCENode;
 begin
+  if Assigned(TScanCodeThread(WorkerThread).fOldCEData) then
+     ModuleCENode := TScanCodeThread(WorkerThread).fOldCEData.ModuleNode
+  else
+    ModuleCENode := nil;
+
   if Assigned(ModuleCENode) then begin
     if mnAlphaSort.Checked then
       ModuleCENode.Sort(soAlpha)
@@ -723,7 +802,7 @@ end;
 constructor TAbstractCENode.Create;
 begin
   fChildren := nil;
-  fInitiallyExpanded := False;
+  fExpanded := esUnknown;
 end;
 
 function TAbstractCENode.GetChildren(i: integer): TAbstractCENode;
@@ -811,7 +890,7 @@ Var
 begin
   inherited Create;
   fCodeElement := AModule;
-  fInitiallyExpanded := True;
+  fExpanded := esExpanded;
   if Module.ImportedModules.Count > 0 then
     AddChild(TImportsCENode.CreateFromModule(Module));
   if Module.Globals.Count > 0 then
@@ -820,8 +899,8 @@ begin
     CE := Module.Children[i];
     if CE is TParsedClass then begin
       ClassNode := TClassCENode.CreateFromClass(TParsedClass(CE));
-      ClassNode.fInitiallyExpanded :=
-        CommandsDataModule.PyIDEOptions.ExporerInitiallyExpanded;
+      if CommandsDataModule.PyIDEOptions.ExporerInitiallyExpanded then
+        ClassNode.fExpanded := esExpanded;
       AddChild(ClassNode);
     end else if CE is TParsedFunction then
       AddChild(TFunctionCENode.CreateFromFunction(TParsedFunction(CE)));
@@ -902,7 +981,7 @@ function TImportCENode.GetHint: string;
 begin
   if ModuleImport.RealName <> ModuleImport.Name then
     Result := Format('Imported Module "%s" as %s at line %d',
-                    [ModuleImport.RealName, ModuleImport.Name, 
+                    [ModuleImport.RealName, ModuleImport.Name,
                      fCodeElement.CodePos.LineNo])
   else
     Result := Format('Imported Module "%s" at line %d',
@@ -1172,6 +1251,36 @@ begin
   Doc := ParsedFunction.DocString;
   if Doc <> '' then
     Result := Result + #13#10#13#10 + Doc;
+end;
+
+{ TCodeExplorerData }
+
+destructor TCodeExplorerData.Destroy;
+begin
+  fSourceScanner := nil;
+  FreeAndNil(fModuleNode);
+  inherited;
+end;
+
+function TCodeExplorerData.GetModuleNode: TModuleCENode;
+begin
+  Result := fModuleNode;
+end;
+
+function TCodeExplorerData.GetSourceScanner: IAsyncSourceScanner;
+begin
+  Result := fSourceScanner;
+end;
+
+procedure TCodeExplorerData.SetModuleNode(AModuleNode: TModuleCENode);
+begin
+  FreeAndNil(fModuleNode);
+  fModuleNode := AModuleNode;
+end;
+
+procedure TCodeExplorerData.SetSourceScanner(SC: IAsyncSourceScanner);
+begin
+  fSourceScanner := SC;
 end;
 
 end.

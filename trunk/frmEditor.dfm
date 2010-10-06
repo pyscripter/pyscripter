@@ -8,11 +8,8 @@ object EditorForm: TEditorForm
   Ctl3D = False
   ParentFont = True
   OldCreateOrder = False
-  OnActivate = FormActivate
-  OnClose = FormClose
   OnCreate = FormCreate
   OnDestroy = FormDestroy
-  OnDeactivate = FormDeactivate
   PixelsPerInch = 96
   TextHeight = 13
   object FGPanel: TPanel
@@ -180,7 +177,7 @@ object EditorForm: TEditorForm
     Left = 93
     Top = 136
     Bitmap = {
-      494C01010600090044000B000E00FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C0101060009004C000B000E00FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       00000000000036000000280000002C0000001C00000001002000000000004013
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -350,14 +347,61 @@ object EditorForm: TEditorForm
   end
   object pmnuEditor: TSpTBXPopupMenu
     Images = CommandsDataModule.Images
-    LinkSubitems = PyIDEMainForm.EditMenu
     Left = 92
     Top = 29
+    object mnEditUndo: TSpTBXItem
+      Action = CommandsDataModule.actEditUndo
+    end
+    object mnEditRedo: TSpTBXItem
+      Action = CommandsDataModule.actEditRedo
+    end
+    object N5: TSpTBXSeparatorItem
+    end
+    object mnEditCut: TSpTBXItem
+      Action = CommandsDataModule.actEditCut
+    end
+    object mnEditCopy: TSpTBXItem
+      Action = CommandsDataModule.actEditCopy
+    end
+    object mnEditPaste: TSpTBXItem
+      Action = CommandsDataModule.actEditPaste
+    end
+    object mnEditDelete: TSpTBXItem
+      Action = CommandsDataModule.actEditDelete
+    end
+    object mnEditSelectAll: TSpTBXItem
+      Action = CommandsDataModule.actEditSelectAll
+    end
+    object TBXSeparatorItem9: TSpTBXSeparatorItem
+    end
+    object mnSourceCode: TSpTBXSubmenuItem
+      Caption = '&Source Code'
+      LinkSubitems = PyIDEMainForm.mnSourceCode
+    end
+    object SpTBXSeparatorItem1: TSpTBXSeparatorItem
+    end
+    object mnSearch: TSpTBXSubmenuItem
+      Caption = 'Search'
+      LinkSubitems = PyIDEMainForm.SearchMenu
+    end
+    object SpTBXSeparatorItem2: TSpTBXSeparatorItem
+    end
+    object mnMaximizeEditor2: TSpTBXItem
+      Action = PyIDEMainForm.actMaximizeEditor
+    end
+    object mnRestoreEditor2: TSpTBXItem
+      Action = PyIDEMainForm.actRestoreEditor
+    end
+    object N12: TSpTBXSeparatorItem
+    end
+    object mnEditorOptions: TSpTBXItem
+      Action = CommandsDataModule.actEditorOptions
+    end
   end
   object pmnuViewsTab: TSpTBXPopupMenu
     Images = CommandsDataModule.Images
-    Left = 94
-    Top = 172
+    Left = 90
+    Top = 184
     object mnUpdateView: TSpTBXItem
       Caption = 'Update View'
       Hint = 'Update View|Update the selected view'

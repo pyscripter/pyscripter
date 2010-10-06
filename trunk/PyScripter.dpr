@@ -109,7 +109,8 @@ uses
   SynEditWordWrap in 'SynEditWordWrap.pas',
   JvDockSupportControl in 'JvDockSupportControl.pas',
   JclStrings in 'JclStrings.pas',
-  JclWideStrings in 'JclWideStrings.pas';
+  JclWideStrings in 'JclWideStrings.pas',
+  AsyncCalls in 'AsyncCalls.pas';
 
 {$R *.RES}
 {$R WebCopyAvi.RES}

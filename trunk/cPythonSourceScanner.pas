@@ -14,7 +14,7 @@ interface
 uses SysUtils,
      Classes,
      Contnrs,
-     SynRegExpr, WideStrings;
+     SynRegExpr, AsyncCalls, SyncObjs;
 
 Type
   TParsedModule = class;
@@ -52,15 +52,16 @@ Type
   private
     fRealName : string; // used if name is an alias
     fPrefixDotCount : integer; // for relative package imports
+    fCodeBlock : TCodeBlock;
     function GetRealName: string;
   protected
     function GetCodeHint : string; override;
   public
-    CodeBlock : TCodeBlock;
     ImportAll : Boolean;
     ImportedNames : TObjectList;
     property RealName : string read GetRealName;
     property PrefixDotCount : integer read fPrefixDotCount;
+    property CodeBlock : TCodeBlock read fCodeBlock;
     constructor Create(AName : string; CB : TCodeBlock);
     destructor Destroy; override;
   end;
@@ -121,13 +122,17 @@ Type
     fFileName : string;
     fMaskedSource : string;
     fAllExportsVar : string;
+    fFileAge : TDateTime;
     function GetIsPackage: boolean;
+    procedure SetFileName(const Value: string);
   protected
     function GetAllExportsVar: string; virtual;
     function GetCodeHint : string; override;
     procedure GetNameSpaceInternal(SList, ImportedModuleCache : TStringList);
 public
-    constructor Create;
+    constructor Create; overload;
+    constructor Create(const Source : string); overload;
+    constructor Create(const FName : string; const Source : string); overload;
     destructor Destroy; override;
     procedure Clear;
     procedure GetNameSpace(SList : TStringList); override;
@@ -135,11 +140,12 @@ public
     procedure GetUniqueSortedGlobals(GlobalsList : TObjectList);
     property ImportedModules : TObjectList read fImportedModules;
     property Globals : TObjectList read fGlobals;
-    property Source : string read fSource;
-    property FileName : string read fFileName write fFileName;
+    property Source : string read fSource write fSource;
+    property FileName : string read fFileName write SetFileName;
     property MaskedSource : string read fMaskedSource;
     property IsPackage : boolean read GetIsPackage;
     property AllExportsVar : string read GetAllExportsVar;
+    property FileAge : TDateTime read fFileAge write fFileAge;
   end;
 
   TParsedFunction = class(TCodeElement)
@@ -182,7 +188,7 @@ public
     fOnScannerProgress : TScannerProgressEvent;
     fCodeRE : TRegExpr;
     fBlankLineRE : TRegExpr;
-    fEscapedQuotesRE : TRegExpr;
+    //fEscapedQuotesRE : TRegExpr;
     fStringsAndCommentsRE : TRegExpr;
     fLineContinueRE : TRegExpr;
     fImportRE : TRegExpr;
@@ -198,8 +204,46 @@ public
 
     constructor Create;
     destructor Destroy; override;
-    function ScanModule(Source : string; Module : TParsedModule) : boolean;
+    function ScanModule(Module : TParsedModule) : boolean;
   end;
+
+  IAsyncSourceScanner = interface
+    function GetParsedModule : TParsedModule;
+    function Finished : Boolean;
+    procedure StopScanning;
+    property ParsedModule : TParsedModule read GetParsedModule;
+  end;
+
+  TAsynchSourceScanner = class(TInterfacedObject, IAsyncSourceScanner)
+  private
+    fStopped : Boolean;
+    fPythonScanner : TPythonScanner;
+    fParsedModule : TParsedModule;
+    fAsyncCall : IAsyncCall;
+    procedure ThreadProc(Arg : Integer);
+    procedure ScanProgress(CharNo, NoOfChars : integer; var Stop : Boolean);
+    // IAsyncSourceScanner implementation
+    function Finished : Boolean;
+    function GetParsedModule : TParsedModule;
+    procedure StopScanning;
+  public
+    constructor Create(const FileName : string; const Source : String);
+    destructor Destroy; override;
+  end;
+
+  TAsynchSourceScannerFactory = class
+  private
+    fIList : TInterfaceList;
+    procedure ClearFinished;
+  public
+    constructor Create;
+    destructor Destroy; override;
+    procedure ReleaseScanner(Scanner : IAsyncSourceScanner);
+    function CreateAsynchSourceScanner(const FileName : string; const Source : String): IAsyncSourceScanner;
+  end;
+
+  Var
+    AsynchSourceScannerFactory : TAsynchSourceScannerFactory;
 
   function CodeBlock(StartLine, EndLine : integer) : TCodeBlock;
   function GetExpressionType(Expr : string; Var IsBuiltIn : boolean) : string;
@@ -418,7 +462,7 @@ begin
   inherited;
   fCodeRE := CompiledRegExpr('^([ \t]*)(class|def)[ \t]+(\w+)[ \t]*(\(.*\))?');
   fBlankLineRE := CompiledRegExpr('^[ \t]*(\$|\#|\"\"\"|''''''|' + MaskChar +')');
-  fEscapedQuotesRE := CompiledRegExpr('(\\\\|\\\"|\\\'')');
+  //fEscapedQuotesRE := CompiledRegExpr('(\\\\|\\\"|\\\'')');
   fStringsAndCommentsRE :=
     CompiledRegExpr('(?sm)(\"\"\".*?\"\"\"|''''''.*?''''''|\"[^\"]*\"|\''[^\'']*\''|#.*?\n)');
   fLineContinueRE := CompiledRegExpr('\\[ \t]*(#.*)?$');
@@ -439,7 +483,7 @@ destructor TPythonScanner.Destroy;
 begin
   fCodeRE.Free;
   fBlankLineRE.Free;
-  fEscapedQuotesRE.Free;
+  //fEscapedQuotesRE.Free;
   fStringsAndCommentsRE.Free;
   fLineContinueRE.Free;
   fImportRE.Free;
@@ -457,7 +501,8 @@ begin
     fOnScannerProgress(CharNo, NoOfChars, Stop);
 end;
 
-function TPythonScanner.ScanModule(Source: string; Module : TParsedModule): boolean;
+function TPythonScanner.ScanModule(Module : TParsedModule): boolean;
+// Expectes Module Source code in Module.Source
 // Parses the Python Source code and adds code elements as children of Module
 { TODO 2 : Optimize out calls to Trim }
 Var
@@ -469,7 +514,7 @@ Var
   begin
     if not Assigned(SourceLines) then begin
       SourceLines := TStringList(Guard(TStringList.Create, SourceLinesSafeGuard));
-      SourceLines.Text := Source;
+      SourceLines.Text := Module.Source;
     end;
 
     if LineNo <= SourceLines.Count then
@@ -560,14 +605,13 @@ Var
     Result := TParsedClass(CodeElement);
   end;
 
-  function ReplaceQuotedChars(const Source : string): string;
+  procedure ReplaceQuotedChars(var Source : string);
   //  replace quoted \ ' " with **
   Var
     pRes, pSource : PWideChar;
   begin
-    Result := Source;
     if Length(Source) = 0 then Exit;
-    pRes := PWideChar(Result);
+    pRes := PWideChar(Source);
     pSource := PWideChar(Source);
     while pSource^ <> WideChar(#0) do begin
       if (pSource^ = WideChar('\')) then begin
@@ -584,7 +628,7 @@ Var
     end;
   end;
 
-  function MaskStringsAndComments(const Source : string): string;
+  procedure MaskStringsAndComments(var Source : string);
   // Replace all chars in strings and comments with *
   Type
     TParseState = (psNormal, psInTripleSingleQuote, psInTripleDoubleQuote,
@@ -593,10 +637,9 @@ Var
     pRes, pSource : PWideChar;
     ParseState : TParseState;
   begin
-    Result := Source;
     SourceLines := nil;
     if Length(Source) = 0 then Exit;
-    pRes := PWideChar(Result);
+    pRes := PWideChar(Source);
     pSource := PWideChar(Source);
     ParseState := psNormal;
     while pSource^ <> #0 do begin
@@ -687,20 +730,19 @@ begin
   UseModifiedSource := True;
 
   Module.Clear;
-  Module.fSource := Source;
   Module.fCodeBlock.StartLine := 1;
   Module.fIndent := -1;  // so that everything is a child of the module
 
   // Change \" \' and \\ into ** so that text searches
   // for " and ' won't hit escaped ones
   //Module.fMaskedSource := fEscapedQuotesRE.Replace(Source, '**', False);
-  Module.fMaskedSource := Copy(Source, 1, MaxInt);
-  Module.fMaskedSource := ReplaceQuotedChars(Module.fMaskedSource);
+  Module.fMaskedSource := Copy(Module.fSource, 1, MaxInt);
+  ReplaceQuotedChars(Module.fMaskedSource);
 
-// Replace all chars in strings and comments with *
-// This ensures that text searches don't mistake comments for keywords, and that all
-// matches are in the same line/comment as the original
-  Module.fMaskedSource := MaskStringsAndComments(Module.fMaskedSource);
+  // Replace all chars in strings and comments with *
+  // This ensures that text searches don't mistake comments for keywords, and that all
+  // matches are in the same line/comment as the original
+  MaskStringsAndComments(Module.fMaskedSource);
 
   P := PWideChar(Module.fMaskedSource);
   LineNo := 0;
@@ -984,13 +1026,25 @@ end;
 
 procedure TParsedModule.Clear;
 begin
-  fSource := '';
+  //fSource := '';
   fMaskedSource := '';
   if Assigned(fChildren) then
     fChildren.Clear;
   fImportedModules.Clear;
   fGlobals.Clear;
   inherited;
+end;
+
+constructor TParsedModule.Create(const Source: string);
+begin
+  Create;
+  fSource := Source;
+end;
+
+constructor TParsedModule.Create(const FName, Source: string);
+begin
+  Create(Source);
+  FileName := FName;
 end;
 
 destructor TParsedModule.Destroy;
@@ -1021,6 +1075,12 @@ begin
       GlobalsList.Add(fGlobals[i]);
   end;
   GlobalsList.Sort(CompareVariables);
+end;
+
+procedure TParsedModule.SetFileName(const Value: string);
+begin
+  fFileName := Value;
+  Name := FileNameToModuleName(Value);
 end;
 
 function CompareImports(Item1, Item2: Pointer): Integer;
@@ -1149,7 +1209,7 @@ constructor TModuleImport.Create(AName : string; CB : TCodeBlock);
 begin
   inherited Create;
   Name := AName;
-  CodeBlock := CB;
+  fCodeBlock := CB;
   ImportAll := False;
   ImportedNames := nil;
 end;
@@ -1468,7 +1528,6 @@ begin
     Result := Result.fParent;
 end;
 
-
 { TVariable }
 
 function TVariable.GetCodeHint: string;
@@ -1520,10 +1579,110 @@ begin
     Result := Name;
 end;
 
+{ TAsynchSourceScanner }
+
+constructor TAsynchSourceScanner.Create(const FileName, Source: String);
+begin
+  inherited Create;
+  fParsedModule := TParsedModule.Create(FileName, Source);
+  fPythonScanner := TPythonScanner.Create;
+  fPythonScanner.OnScannerProgress := ScanProgress;
+//  fAsyncCall := TAsyncCalls.Invoke(ThreadProc);
+  fAsyncCall := AsyncCall(ThreadProc, 0);
+end;
+
+destructor TAsynchSourceScanner.Destroy;
+begin
+  FreeAndNil(fParsedModule);
+  FreeAndNil(fPythonScanner);
+  inherited;
+end;
+
+function TAsynchSourceScanner.Finished: Boolean;
+begin
+  Result := fAsyncCall.Finished;
+end;
+
+function TAsynchSourceScanner.GetParsedModule: TParsedModule;
+begin
+  if not fAsyncCall.Finished then
+    fAsyncCall.Sync;
+  Result := fParsedModule;
+end;
+
+procedure TAsynchSourceScanner.ScanProgress(CharNo, NoOfChars: integer;
+  var Stop: Boolean);
+begin
+  if fStopped then Stop := True;
+end;
+
+procedure TAsynchSourceScanner.StopScanning;
+begin
+  fStopped := True;
+end;
+
+procedure TAsynchSourceScanner.ThreadProc(Arg : Integer);
+begin
+  if not fPythonScanner.ScanModule(fParsedModule) then
+    FreeAndNil(fParsedModule);
+end;
+
+{ TAsynchSourceScannerFactory }
+
+procedure TAsynchSourceScannerFactory.ClearFinished;
+var
+  i : integer;
+  Scanner :  IAsyncSourceScanner;
+begin
+  fIList.Lock;
+  try
+    for i := fIList.Count - 1 downto 0 do begin
+      Scanner := IAsyncSourceScanner(fIList[i]);
+      if Scanner.Finished then
+        fIList.Delete(i);
+    end;
+  finally
+    fIList.UnLock;
+  end;
+end;
+
+constructor TAsynchSourceScannerFactory.Create;
+begin
+  inherited;
+  fIList := TInterfaceList.Create;
+end;
+
+function TAsynchSourceScannerFactory.CreateAsynchSourceScanner(const FileName,
+  Source: String): IAsyncSourceScanner;
+begin
+  ClearFinished;
+  Result := TAsynchSourceScanner.Create(FileName, Source);
+  fIList.Add(Result);
+end;
+
+destructor TAsynchSourceScannerFactory.Destroy;
+begin
+  while fIList.Count > 0 do begin
+    ClearFinished;
+    Sleep(10);  // wait for threads to finish
+  end;
+  fIList.Free;
+  inherited;
+end;
+
+procedure TAsynchSourceScannerFactory.ReleaseScanner(
+  Scanner: IAsyncSourceScanner);
+begin
+  fIList.Remove(Scanner);
+end;
+
 initialization
   DocStringRE := TRegExpr.Create;
   DocStringRE.Expression := '(?sm)^[ \t]*[ur]?(\"\"\"(.*?)\"\"\"|''''''(.*?)'''''')';
   DocStringRE.Compile;
+
+  AsynchSourceScannerFactory := TAsynchSourceScannerFactory.Create;
 finalization
   FreeAndNil(DocStringRE);
+  FreeAndNil(AsynchSourceScannerFactory);
 end.
