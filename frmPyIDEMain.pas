@@ -300,7 +300,7 @@
   History:   v 2.2.1
           New Features
             Auto-completion for the import statement (Issue 230)
-            Revamped Code Explorer (Issues 192, 163)
+            Revamped Code Explorer (Issues 192, 163, 213)
             Start-up python scripts pyscripter_init.py and python_init.py. See help file for details.
             Italian translation by Vincenzo Demasi
             New IDE option "Highlight selected word" (Issue 404)
@@ -308,8 +308,8 @@
             New commands "Previous Frame", "Next Frame" to change frame using the keyboard (Issue 399)
             JavaScript and PHP Syntax Highlighters added
           Bug fixes
-             Issues 103, 267, 271, 294, 317, 324, 395, 403, 405, 407, 411
-                    412, 413, 419, 422
+             Issues 103, 239, 267, 270, 271, 294, 317, 324, 343, 395,
+                    403, 405, 407, 411, 412, 413, 419, 422
 
   Vista Compatibility issues (all resolved)
   -  Flip3D and Form preview (solved with LX)
@@ -334,8 +334,6 @@
 -----------------------------------------------------------------------------}
 
 // Bugs and minor features
-{ TODO : Save Code Explorer state etc. }
-{ TODO : Cache scanned modules }
 { TODO : Editor Go back forward }
 { TODO : Scan python code for global statements }
 { TODO : Scan python code for return statements }
@@ -418,7 +416,7 @@ type
     N16: TSpTBXSeparatorItem;
     mnReplaceParameter: TSpTBXItem;
     mnIsertCodeTemplate: TSpTBXItem;
-    SourceCode1: TSpTBXSubmenuItem;
+    mnSourceCode: TSpTBXSubmenuItem;
     mnIndentBlock: TSpTBXItem;
     mnDedentBlock: TSpTBXItem;
     mnToggleComment: TSpTBXItem;

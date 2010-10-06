@@ -50,7 +50,8 @@ unit uEditAppIntfs;
 interface
 
 uses
-  Windows, Classes, Forms, SynEdit, SpTBXTabs, Contnrs;
+  Windows, Classes, Forms, SynEdit, SpTBXTabs, Contnrs, cPythonSourceScanner,
+  frmCodeExplorer;
 
 type
   TBreakPoint = class(TPersistent)
@@ -111,6 +112,8 @@ type
     function GetFileEncoding : TFileSaveFormat;
     function GetForm : TForm;
     function GetEncodedText : AnsiString;
+    function GetSourceScanner : IAsyncSourceScanner;
+    function GetCodeExplorerData : ICodeExplorerData;
     procedure SetFileEncoding(FileEncoding : TFileSaveFormat);
     procedure OpenFile(const AFileName: string; HighlighterName : string = '');
     function HasPythonFile : Boolean;
@@ -128,6 +131,8 @@ type
     property FileEncoding : TFileSaveFormat read GetFileEncoding write SetFileEncoding;
     property EncodedText : AnsiString read GetEncodedText;
     property Form : TForm read GetForm;
+    property SourceScanner : IAsyncSourceScanner read GetSourceScanner;
+    property CodeExplorerData : ICodeExplorerData read GetCodeExplorerdata;
   end;
 
   IEditorFactory = interface

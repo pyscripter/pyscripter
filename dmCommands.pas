@@ -539,7 +539,8 @@ uses
   dlgUnitTestWizard, WinInet, Registry, ShlObj, ShellAPI,
   dlgFileTemplates, JclSysUtils, dlgPickList, JvAppIniStorage,
   JvAppStorage, JvDSADialogs, uSearchHighlighter,
-  MPShellUtilities, gnugettext, SpTBXSkins, SpTBXMDIMRU, StrUtils, JclStrings;
+  MPShellUtilities, gnugettext, SpTBXSkins, SpTBXMDIMRU, StrUtils, JclStrings,
+  DateUtils;
 
 { TPythonIDEOptions }
 
@@ -1900,13 +1901,6 @@ end;
 
 procedure TCommandsDataModule.ProcessShellNotify(Sender: TCustomVirtualExplorerTree;
   ShellEvent: TVirtualShellEvent);
-
-  function AreFileTimesEqual(FT1, FT2 : TFileTime) : Boolean;
-  begin
-    Result := (FT1.dwLowDateTime = FT2.dwLowDateTime) and
-              (FT1.dwHighDateTime = FT2.dwHighDateTime);
-  end;
-
 Var
   i : integer;
   ModifiedCount : integer;
@@ -1915,7 +1909,7 @@ Var
   SafeGuard: ISafeGuard;
   NS: TNamespace;
   Dir : string;
-  FTime : TFileTime;
+  FTime : TDateTime;
 begin
 //  if not (ShellEvent.ShellNotifyEvent in [vsneUpdateDir, vsneUpdateItem]) then Exit;
   if not (ShellEvent.ShellNotifyEvent = vsneUpdateDir) then Exit;
@@ -1939,16 +1933,16 @@ begin
   for i := 0 to GI_EditorFactory.Count -1 do begin
     Editor := GI_EditorFactory.Editor[i];
     if (Editor.FileName <> '') and (ExtractFileDir(Editor.FileName) = Dir) then begin
-      if not FileTimeLastWriteRaw(Editor.FileName, FTime) then begin
-        // File or directory has been moved or deleted
-        if not AreFileTimesEqual(TEditorForm(Editor.Form).FileTime, ZeroFileTime) then begin
+      if not FileAge(Editor.FileName, FTime) then begin
+        if not FileExists(Editor.FileName)then begin
+          // File or directory has been moved or deleted
           // Mark as modified so that we try to save it
           Editor.SynEdit.Modified := True;
           // Set FileTime to zero to prevent further notifications
-          TEditorForm(Editor.Form).FileTime := ZeroFileTime;
+          TEditorForm(Editor.Form).FileTime := 0;
           Dialogs.MessageDlg(Format(_(SFileRenamedOrDeleted), [Editor.FileName]) , mtWarning, [mbOK], 0);
         end;
-      end else if not AreFileTimesEqual(TEditorForm(Editor.Form).FileTime, FTime) then begin
+      end else if not SameDateTime(TEditorForm(Editor.Form).FileTime, FTime) then begin
         ChangedFiles.AddObject(Editor.GetFileNameOrTitle, Editor.Form);
         // Prevent further notifications on this file
         TEditorForm(Editor.Form).FileTime := FTime;
@@ -2144,7 +2138,7 @@ begin
     Options[13].PropertyName := 'AutoHideFindToolbar';
     Options[13].DisplayName := _('Auto-hide find toolbar');
     Options[14].PropertyName := 'HighlightSelectedWord';
-    Options[14].DisplayName := _('Highlight selected wordr');
+    Options[14].DisplayName := _('Highlight selected word');
   end;
   with Categories[5] do begin
     DisplayName := _('Code Completion');

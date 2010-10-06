@@ -364,7 +364,7 @@ function NodeHasFile(Node: TAbstractProjectNode; Data : Pointer):boolean;
 begin
   Result := False;
   if (Node is TProjectFileNode) and
-     (WideCompareText(PWideChar(Data), TProjectFileNode(Node).FileName) = 0)
+     AnsiSameText(PWideChar(Data), TProjectFileNode(Node).FileName)
   then
     Result := True;
 end;
@@ -428,9 +428,9 @@ begin
   else if (Node1 is TProjectFileNode) and (Node2 is TProjectFolderNode) then
     Result := 1
   else if (Node1 is TProjectFolderNode) and (Node2 is TProjectFolderNode) then
-    Result := WideCompareText(TProjectFolderNode(Node1).Name, TProjectFolderNode(Node2).Name)
+    Result := AnsiCompareText(TProjectFolderNode(Node1).Name, TProjectFolderNode(Node2).Name)
   else if (Node1 is TProjectFileNode) and (Node2 is TProjectFileNode) then
-    Result := WideCompareText(TProjectFileNode(Node1).Name, TProjectFileNode(Node2).Name)
+    Result := AnsiCompareText(TProjectFileNode(Node1).Name, TProjectFileNode(Node2).Name)
   else
     Assert(False, 'Unexpected Child types in TProjectFilesNode');
 end;
@@ -442,7 +442,7 @@ begin
   Result := nil;
   for i := 0 to fChildren.Count - 1 do begin
     if (fChildren[i] is TProjectFileNode) and
-       (WideCompareText(TProjectFileNode(fChildren[i]).fFileName, FileName) = 0) then
+       (AnsiCompareText(TProjectFileNode(fChildren[i]).fFileName, FileName) = 0) then
      begin
        Result := TProjectFileNode(fChildren[i]);
        break;
@@ -457,7 +457,7 @@ begin
   Result := nil;
   for i := 0 to fChildren.Count - 1 do begin
     if (fChildren[i] is TProjectFolderNode) and
-       (WideCompareText(TProjectFolderNode(fChildren[i]).fName, FolderName) = 0) then
+       (AnsiCompareText(TProjectFolderNode(fChildren[i]).fName, FolderName) = 0) then
      begin
        Result := TProjectFolderNode(fChildren[i]);
        break;

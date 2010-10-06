@@ -71,14 +71,17 @@ inherited CodeExplorerWindow: TCodeExplorerWindow
         TreeOptions.SelectionOptions = [toRightClickSelect]
         TreeOptions.StringOptions = [toAutoAcceptEditChange]
         OnChange = ExplorerTreeChange
+        OnCollapsed = ExplorerTreeCollapsed
         OnContextPopup = ExplorerTreeContextPopup
         OnDblClick = ExplorerTreeDblClick
+        OnExpanded = ExplorerTreeExpanded
         OnGetText = ExplorerTreeGetText
         OnGetImageIndex = ExplorerTreeGetImageIndex
         OnGetHint = ExplorerTreeGetHint
         OnInitChildren = ExplorerTreeInitChildren
         OnInitNode = ExplorerTreeInitNode
         OnKeyPress = ExplorerTreeKeyPress
+        OnScroll = ExplorerTreeScroll
         Columns = <
           item
             Options = [coAllowClick, coDraggable, coEnabled, coParentBidiMode, coParentColor, coResizable, coShowDropMark, coVisible, coSmartResize, coAllowFocus]
@@ -95,12 +98,14 @@ inherited CodeExplorerWindow: TCodeExplorerWindow
     object mnExpandAll: TSpTBXItem
       Caption = '&Expand All'
       Hint = 'Expand all nodes'
+      HelpContext = 430
       ImageIndex = 28
       OnClick = mnExpandAllClick
     end
     object nCollapseAll: TSpTBXItem
       Caption = '&Collapse All'
       Hint = 'Collapse all nodes'
+      HelpContext = 430
       ImageIndex = 29
       OnClick = nCollapseAllClick
     end
@@ -110,6 +115,7 @@ inherited CodeExplorerWindow: TCodeExplorerWindow
       Caption = 'Alpha Sort'
       Hint = 'Sort Alphabetically'
       AutoCheck = True
+      HelpContext = 430
       OnClick = mnAlphaSortClick
     end
     object mnShowSelection: TSpTBXItem
@@ -117,20 +123,23 @@ inherited CodeExplorerWindow: TCodeExplorerWindow
       Hint = 'Show selected note in editor'
       AutoCheck = True
       Checked = True
+      HelpContext = 430
     end
   end
   object CENodePopUpMenu: TSpTBXPopupMenu
     Images = CommandsDataModule.Images
     Left = 12
-    Top = 116
+    Top = 120
     object mnFindDefinition: TSpTBXItem
       Caption = 'Find Definition'
       Hint = 'Find Definition'
+      HelpContext = 430
       OnClick = mnFindDefinitionClick
     end
     object mnFindReferences: TSpTBXItem
       Caption = 'Find References'
       Hint = 'Find References'
+      HelpContext = 430
       OnClick = mnFindReferencesClick
     end
     object SpTBXSeparatorItem2: TSpTBXSeparatorItem
@@ -138,6 +147,7 @@ inherited CodeExplorerWindow: TCodeExplorerWindow
     object mnHighlight: TSpTBXItem
       Caption = 'Highlight'
       Hint = 'Highlight References'
+      HelpContext = 430
       ImageIndex = 122
       OnClick = mnHighlightClick
     end

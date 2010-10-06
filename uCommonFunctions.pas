@@ -178,9 +178,6 @@ procedure BuildFileList(const Path, Masks: string;
   FileList: TStrings; Recursive: Boolean; SearchAttribs,
   SearchExcludeAttribs: TVirtualSearchAttribs);
 
-(* Get the raw FileTime of a File's last write operation *)
-function FileTimeLastWriteRaw(AFileName: string; var Time : TFileTime) : Boolean;
-
 (* Check whether is S is likely to be a number *)
 //function WideStrConsistsofNumberChars(const S: WideString): Boolean;
 
@@ -220,7 +217,6 @@ Var
   RE_CC_FromImport : TRegExpr;
 
 Const
-  ZeroFileTime : TFileTime = (dwLowDateTime : 0; dwHighDateTime : 0);
   IdentRE = '[A-Za-z_][A-Za-z0-9_]*';
   DottedIdentRE = '[A-Za-z_][A-Za-z0-9_.]*';
 
@@ -1085,13 +1081,13 @@ begin
   L1 := Length(S1);
   L2 := Length(S2);
   if (L1 > 0) and (S1[1] = Char('_')) and (L2>0) and (S2[1] = Char('_')) then
-    Result := CompareStr(S1, S2)
+    Result := CompareText(S1, S2)
   else if (L1 > 0) and (S1[1] = Char('_')) then
     Result := 1
   else if (L2>0) and (S2[1] = Char('_')) then
     Result := -1
   else
-    Result := CompareStr(S1, S2)
+    Result := CompareText(S1, S2)
 end;
 
 function ComparePythonIdents(List: TStringList; Index1, Index2: Integer): Integer; overload;
@@ -1592,25 +1588,6 @@ begin
     Result := SL.Text;
   finally
     SL.Free;
-  end;
-end;
-
-function FileTimeLastWriteRaw(AFileName: string; var Time : TFileTime) : Boolean;
-Var
-  FindData: TWIN32FindData;
-  Handle: THandle;
-begin
-  Result := False;
-  Time := ZeroFileTime;
-  Handle := FindFirstFile(PChar(AFileName), FindData);
-  if Handle <> INVALID_HANDLE_VALUE then
-  begin
-    Windows.FindClose(Handle);
-    if (FindData.dwFileAttributes and FILE_ATTRIBUTE_DIRECTORY) = 0 then
-    begin
-      Result := True;
-      Time := FindData.ftLastWriteTime;
-    end;
   end;
 end;
 

@@ -571,7 +571,7 @@ object PyIDEMainForm: TPyIDEMainForm
         end
         object TBXSeparatorItem9: TSpTBXSeparatorItem
         end
-        object SourceCode1: TSpTBXSubmenuItem
+        object mnSourceCode: TSpTBXSubmenuItem
           Caption = '&Source Code'
           object mnIndentBlock: TSpTBXItem
             Action = CommandsDataModule.actEditIndent

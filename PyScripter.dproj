@@ -237,6 +237,7 @@
 			<DCCReference Include="JvDockSupportControl.pas"/>
 			<DCCReference Include="JclStrings.pas"/>
 			<DCCReference Include="JclWideStrings.pas"/>
+			<DCCReference Include="AsyncCalls.pas"/>
 			<None Include="PyScripter.todo"/>
 			<None Include="ModelSupport_PyScripter\default.txaPackage"/>
 			<BuildConfiguration Include="Base">
@@ -264,7 +265,7 @@
 						<Parameters Name="UseLauncher">False</Parameters>
 						<Parameters Name="LoadAllSymbols">True</Parameters>
 						<Parameters Name="LoadUnspecifiedSymbols">False</Parameters>
-						<Parameters Name="RunParams">--PYTHON27</Parameters>
+						<Parameters Name="RunParams">--PYTHON26</Parameters>
 					</Parameters>
 					<VersionInfo>
 						<VersionInfo Name="IncludeVerInfo">True</VersionInfo>

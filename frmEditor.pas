@@ -15,11 +15,12 @@ interface
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Contnrs, Forms,
   StdCtrls, uEditAppIntfs, JclStrings, SynEdit, SynEditTypes,
-  SynEditHighlighter, SynEditMiscClasses, 
+  SynEditHighlighter, SynEditMiscClasses,
   SynEditKeyCmds, ImgList, Dialogs, ExtCtrls,
   TB2Item, uCommonFunctions,
   SynCompletionProposal, cPyBaseDebugger, SpTBXItem,
-  VirtualResources, SpTBXSkins, SpTBXDkPanels, Menus, SpTBXTabs, SynRegExpr;
+  VirtualResources, SpTBXSkins, SpTBXDkPanels, Menus, SpTBXTabs, SynRegExpr,
+  cPythonSourceScanner, frmCodeExplorer;
 
 type
   TEditor = class;
@@ -54,15 +55,29 @@ type
     SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem;
     tbiUpdateView: TSpTBXItem;
     tbiCloseTab: TSpTBXItem;
+    mnEditUndo: TSpTBXItem;
+    mnEditRedo: TSpTBXItem;
+    N5: TSpTBXSeparatorItem;
+    mnEditCut: TSpTBXItem;
+    mnEditCopy: TSpTBXItem;
+    mnEditPaste: TSpTBXItem;
+    mnEditDelete: TSpTBXItem;
+    mnEditSelectAll: TSpTBXItem;
+    TBXSeparatorItem9: TSpTBXSeparatorItem;
+    mnSourceCode: TSpTBXSubmenuItem;
+    SpTBXSeparatorItem1: TSpTBXSeparatorItem;
+    mnSearch: TSpTBXSubmenuItem;
+    SpTBXSeparatorItem2: TSpTBXSeparatorItem;
+    mnMaximizeEditor2: TSpTBXItem;
+    mnRestoreEditor2: TSpTBXItem;
+    N12: TSpTBXSeparatorItem;
+    mnEditorOptions: TSpTBXItem;
     procedure SynEditMouseMove(Sender: TObject; Shift: TShiftState; X,
       Y: Integer);
     procedure SynParamCompletionExecute(Kind: SynCompletionType;
       Sender: TObject; var CurrentInput: string; var x, y: Integer;
       var CanExecute: Boolean);
-    procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
-    procedure FormActivate(Sender: TObject);
-    procedure FormDeactivate(Sender: TObject);
     procedure SynEditChange(Sender: TObject);
     procedure SynEditEnter(Sender: TObject);
     procedure SynEditExit(Sender: TObject);
@@ -112,6 +127,7 @@ type
     fHotIdentInfo : THotIdentInfo;
     fHintIdentInfo : THotIdentInfo;
     fNeedToCheckSyntax : Boolean;
+    fNeedToParseModule : Boolean;
     fSyntaxErrorPos : TEditorPos;
     fCloseBracketChar : WideChar;
     fOldOptions : TSynEditorOptions;
@@ -139,9 +155,10 @@ type
     BreakPoints : TObjectList;
     FoundSearchItems : TObjectList;
     HasFocus : Boolean;
-    FileTime : TFileTime;
+    FileTime : TDateTime;
     DefaultExtension : string;
     ParentTabItem : TSpTBXTabItem;
+    SourceScanner : IAsyncSourceScanner;
     procedure DoActivate;
     procedure DoActivateEditor;
     function DoActivateView(ViewFactory : IEditorViewFactory) : IEditorView;
@@ -152,6 +169,7 @@ type
     procedure PaintGutterGlyphs(ACanvas: TCanvas; AClip: TRect;
       FirstLine, LastLine: integer);
     procedure DoOnIdle;
+    procedure ReparseIfNeeded;
     procedure AddWatchAtCursor;
     procedure SetUpCodeHints;
     function HasSyntaxError : Boolean;
@@ -186,6 +204,8 @@ type
     procedure SplitEditorVertrically;
     procedure Retranslate;
     function GetForm : TForm;
+    function GetSourceScanner : IAsyncSourceScanner;
+    function GetCodeExplorerData : ICodeExplorerData;
     // IEditCommands implementation
     function CanCopy: boolean;
     function CanCut: boolean;
@@ -230,6 +250,7 @@ type
     fIsReadOnly: boolean;
     fUntitledNumber: integer;
     fFileEncoding : TFileSaveFormat;
+    fCodeExplorerData : ICodeExplorerData;
     function IsEmpty : Boolean;
     constructor Create(AForm: TEditorForm);
     procedure DoSetFileName(AFileName: string);
@@ -243,11 +264,11 @@ implementation
 {$R *.DFM}
 
 uses
-  frmPyIDEMain, dlgSynPrintPreview, frmCodeExplorer,
-  frmBreakPoints, Variants, dmCommands, 
+  frmPyIDEMain, dlgSynPrintPreview,
+  frmBreakPoints, Variants, dmCommands,
   StringResources, VarPyth, cRefactoring,
-  cPythonSourceScanner, cCodeHint, frmPythonII, Math,
-  frmWatches, PythonEngine, 
+  cCodeHint, frmPythonII, Math,
+  frmWatches, PythonEngine,
   SynEditTextBuffer, cPyDebugger, dlgPickList, JvDockControlForm,
   uSearchHighlighter, VirtualShellNotifier,
   SynHighlighterWebMisc, SynHighlighterWeb, gnugettext,
@@ -405,6 +426,7 @@ begin
   fForm := AForm;
   fUntitledNumber := -1;
   fFileEncoding := sf_Ansi;
+  fCodeExplorerData := TCodeExplorerData.Create;
 end;
 
 procedure TEditor.Activate;
@@ -433,6 +455,9 @@ Var
   TabSheet : TSpTBXTabSheet;
 begin
   if (fForm <> nil) then begin
+
+    CodeExplorerWindow.UpdateWindow(ceuExit);
+
     if (fFileName <> '') and (CommandsDataModule <> nil) then
       PyIDEMainForm.tbiRecentFileList.MRUAdd(fFileName);
     if fUntitledNumber <> -1 then
@@ -448,7 +473,6 @@ begin
     fForm.DoAssignInterfacePointer(False);
     //fForm.Close;
     TabSheet.Free;
-    CodeExplorerWindow.UpdateWindow;
   end;
 end;
 
@@ -465,6 +489,8 @@ begin
       ChangeNotifier.NotifyWatchFolder(fForm, ExtractFileDir(fFileName))
     else
       ChangeNotifier.NotifyWatchFolder(fForm, '');
+
+    fForm.fNeedToParseModule := True;
   end;
 end;
 
@@ -497,6 +523,11 @@ begin
     Result := TPoint(GetActiveSynEdit.CaretXY);
   end else
     Result := Point(-1, -1);
+end;
+
+function TEditor.GetCodeExplorerData: ICodeExplorerData;
+begin
+  Result := fCodeExplorerData;
 end;
 
 function TEditor.GetEditorState: string;
@@ -559,6 +590,12 @@ begin
     Result := FALSE;
 end;
 
+function TEditor.GetSourceScanner: IAsyncSourceScanner;
+begin
+  fForm.ReparseIfNeeded;
+  Result := fForm.SourceScanner;
+end;
+
 function TEditor.GetFileEncoding: TFileSaveFormat;
 begin
   Result := fFileEncoding;
@@ -604,7 +641,7 @@ begin
       fForm.SynEdit2.RemoveLinesPointer;
       try
         if LoadFileIntoWideStrings(AFileName, fForm.SynEdit.Lines, fFileEncoding) then begin
-          FileTimeLastWriteRaw(AFileName, fForm.FileTime)
+          if not FileAge(AFileName, fForm.FileTime) then fForm.FileTime := 0;
         end else
           Abort;
       finally
@@ -625,8 +662,6 @@ begin
     fForm.SynEdit.Modified := False;
     fForm.DoUpdateHighlighter(HighlighterName);
     fForm.DoUpdateCaption;
-    // Code Explorer
-    CodeExplorerWindow.UpdateWindow;
     fForm.fOldEditorForm := fForm;
   end;
 end;
@@ -987,12 +1022,12 @@ begin
       if IEditor(fEditors[i]).Modified then
         CheckListBox.Items.AddObject(IEditor(fEditors[i]).GetFileNameOrTitle,
           IEditor(fEditors[i]).Form);
-    SetScrollWidth;      
+    SetScrollWidth;
     mnSelectAllClick(nil);
     if CheckListBox.Items.Count = 0 then
       Result := True
     else if CheckListBox.Items.Count = 1  then
-      Result := TEditorForm(CheckListBox.Items.Objects[0]).DoAskSaveChanges 
+      Result := TEditorForm(CheckListBox.Items.Objects[0]).DoAskSaveChanges
     else if ShowModal = IdOK then begin
       Result := True;
       for i := CheckListBox.Count - 1 downto 0 do begin
@@ -1086,8 +1121,8 @@ Var
 begin
   Result := nil;
   for i := 0 to fEditors.Count - 1 do
-    if WideCompareText(IEditor(fEditors[i]).GetFileName,
-      GetLongFileName(ExpandFileName(Name))) = 0 then
+    if AnsiSameText(IEditor(fEditors[i]).GetFileName,
+      GetLongFileName(ExpandFileName(Name)))then
     begin
       Result := IEditor(fEditors[i]);
       break;
@@ -1101,8 +1136,8 @@ begin
   Result := GetEditorByName(Name);
   if not Assigned(Result) then
     for i := 0 to fEditors.Count - 1 do
-      if (IEditor(fEditors[i]).GetFileName = '') and
-         (WideCompareText(IEditor(fEditors[i]).GetFileTitle, Name) = 0) then begin
+      if (IEditor(fEditors[i]).FileName = '') and
+         AnsiSameText(IEditor(fEditors[i]).GetFileTitle, Name) then begin
         Result := IEditor(fEditors[i]);
         break;
       end;
@@ -1209,26 +1244,14 @@ begin
 
 { TEditorForm }
 
-procedure TEditorForm.FormActivate(Sender: TObject);
-begin
-  DoAssignInterfacePointer(TRUE);
-end;
-
-procedure TEditorForm.FormDeactivate(Sender: TObject);
-begin
-  DoAssignInterfacePointer(FALSE);
-end;
-
-procedure TEditorForm.FormClose(Sender: TObject; var Action: TCloseAction);
-begin
-  //PostMessage(Parent.Handle, WM_DELETETHIS, 0, 0);
-  Action := caNone;
-end;
-
 procedure TEditorForm.FormDestroy(Sender: TObject);
 var
   LEditor: IEditor;
 begin
+  if Assigned(SourceScanner) then
+    SourceScanner.StopScanning;
+  SourceScanner := nil;
+
   SynEdit2.RemoveLinesPointer;
   LEditor := fEditor;
   Assert(fEditor <> nil);
@@ -1249,7 +1272,6 @@ end;
 
 procedure TEditorForm.SynEditChange(Sender: TObject);
 begin
-  CodeExplorerWindow.UpdateWindow;
   with PyControl.ErrorPos do
     if  Editor = GetEditor then begin
       Clear;
@@ -1257,6 +1279,11 @@ begin
     end;
   fSyntaxErrorPos.Clear;
   fNeedToCheckSyntax := True;
+
+  if Assigned(SourceScanner) then
+    SourceScanner.StopScanning;
+  fNeedToParseModule := True;
+
   InvalidateHighlightedTerms(SynEdit, FoundSearchItems);
   InvalidateHighlightedTerms(SynEdit2, FoundSearchItems);
   FoundSearchItems.Clear;
@@ -1298,7 +1325,7 @@ begin
 
 
   if fOldEditorForm <> Self then
-    CodeExplorerWindow.UpdateWindow;
+    CodeExplorerWindow.UpdateWindow(ceuEnter);
   fOldEditorForm := Self;
 
   // Search and Replace Target
@@ -1453,7 +1480,7 @@ begin
   Result := SaveWideStringsToFile(fEditor.fFileName, SynEdit.Lines,
     fEditor.fFileEncoding, CommandsDataModule.PyIDEOptions.CreateBackupFiles);
   if Result then begin
-    FileTimeLastWriteRaw(fEditor.fFileName, FileTime);
+    if not FileAge(fEditor.fFileName, FileTime) then FileTime := 0;
     if not CommandsDataModule.PyIDEOptions.UndoAfterSave then
       SynEdit.ClearUndo;
     SynEdit.Modified := False;
@@ -1836,6 +1863,20 @@ begin
         imglGutterGlyphs.Draw(ACanvas, X, Y, ImgIndex);
       Inc(FirstLine);
     end;
+  end;
+end;
+
+procedure TEditorForm.ReparseIfNeeded;
+begin
+  if fNeedToParseModule then begin
+    if GetEditor.HasPythonFile then begin
+      if Assigned(SourceScanner) then
+        SourceScanner.StopScanning;
+      SourceScanner := AsynchSourceScannerFactory.CreateAsynchSourceScanner(fEditor.GetFileNameOrTitle, SynEdit.Text);
+    end else
+      SourceScanner := nil;
+    fNeedToParseModule := False;
+    CodeExplorerWindow.UpdateWindow(ceuChange);
   end;
 end;
 
@@ -2444,6 +2485,7 @@ begin
             NameSpace.Free;
           end;
         end;
+        PyScripterRefactor.FinalizeQuery;
       end else begin
         // from ... import modules
         if PathDepth > 0 then begin
@@ -2500,6 +2542,7 @@ begin
           NameSpace.Free;
         end;
       end;
+      PyScripterRefactor.FinalizeQuery;
     end;
     FoundMatch := DisplayText <> '';
   end;
@@ -2655,6 +2698,7 @@ begin
                   FoundMatch := True;
                 end;
               end;
+              PyScripterRefactor.FinalizeQuery;
             end;
           end;
 
@@ -2811,8 +2855,11 @@ end;
 
 procedure TEditorForm.DoOnIdle;
 begin
+  ReparseIfNeeded;
+
   if GetEditor.HasPythonFile and fNeedToCheckSyntax and
-    CommandsDataModule.PyIDEOptions.CheckSyntaxAsYouType
+    CommandsDataModule.PyIDEOptions.CheckSyntaxAsYouType and
+    (SynEdit.Lines.Count < 5000) // do not syntax check very long files
   then begin
     InternalInterpreter.SyntaxCheck(GetEditor, True);
     fSyntaxErrorPos.Assign(PyControl.ErrorPos);

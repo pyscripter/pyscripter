@@ -217,14 +217,14 @@ begin
   Caption := Caption + ' - ' + ExtractFileName(FFileName);
   Editor := GI_EditorFactory.GetEditorByNameOrTitle(Self.FFileName);
   if not Assigned(Editor) then Exit;
-  Module := TParsedModule.Create;
+  Module := TParsedModule.Create(Editor.SynEdit.Lines.Text);
   PythonScanner := TPythonScanner.Create;
   try
     FProcList.Capacity := 200;
     ClearObjectStrings;
     FProcList.BeginUpdate;
     try
-      PythonScanner.ScanModule(Editor.SynEdit.Lines.Text, Module);
+      PythonScanner.ScanModule(Module);
       ProcessParsedModule(Module);
     finally
       FProcList.EndUpdate;

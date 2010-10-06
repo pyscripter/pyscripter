@@ -96,7 +96,7 @@ Var
 begin
   inherited Create;
   fCodeElement := AModule;
-  fInitiallyExpanded := True;
+  fExpanded := esExpanded;
   for i := 0 to Module.ChildCount - 1 do begin
     CodeElement := Module.Children[i];
     if CodeElement is TParsedClass then begin
@@ -116,7 +116,7 @@ Var
 begin
   inherited Create;
   fCodeElement := AClass;
-  fInitiallyExpanded := True;
+  fExpanded := esExpanded;
   for i := 0 to ParsedClass.ChildCount - 1 do begin
     CE := ParsedClass.Children[i];
     if CE is TParsedFunction then
@@ -185,10 +185,9 @@ begin
   Result := '';
   FunctionTests := '';
   PythonScanner := TPythonScanner.Create;
-  ParsedModule := TParsedModule.Create;
-  ParsedModule.Name := ModuleFileName;
+  ParsedModule := TParsedModule.Create(ModuleFileName, ModuleSource);
   try
-    if PythonScanner.ScanModule(ModuleSource, ParsedModule) then begin
+    if PythonScanner.ScanModule(ParsedModule) then begin
       with TUnitTestWizard.Create(Application) do begin
         ModuleUTWNode := TModuleUTWNode.CreateFromModule(ParsedModule);
         lbFileName.Caption := ModuleFileName;
@@ -306,7 +305,7 @@ begin
     Node.CheckState := csCheckedNormal;
   if Data.UTWNode.ChildCount > 0 then begin
     Node.CheckType := ctTriStateCheckBox;
-    if Data.UTWNode.InitiallyExpanded then
+    if Data.UTWNode.Expanded = esExpanded then
       InitialStates := [ivsHasChildren, ivsExpanded]
     else
       InitialStates := [ivsHasChildren];
