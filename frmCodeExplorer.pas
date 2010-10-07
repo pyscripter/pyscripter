@@ -47,7 +47,15 @@ type
     property Expanded : TCEExpandState read fExpanded write fExpanded;
   end;
 
-  TModuleCENode = class(TAbstractCENode)
+  TCodeElementCENode = class(TAbstractCENode)
+  private
+    function GetCodeBlock : TCodeBlock;
+  public
+    function GetScopeForLine(LineNo: integer): TCodeElementCENode;
+    property CodeBlock : TCodeBlock read GetCodeBlock;
+  end;
+
+  TModuleCENode = class(TCodeElementCENode)
   private
     fOffsetXY: TPoint;
     function GetParsedModule: TParsedModule;
@@ -123,7 +131,7 @@ type
     function GetImageIndex : integer; override;
   end;
 
-  TClassCENode = class(TAbstractCENode)
+  TClassCENode = class(TCodeElementCENode)
   private
     function GetParsedClass: TParsedClass;
   protected
@@ -152,7 +160,7 @@ type
     function GetImageIndex : integer; override;
   end;
 
-  TFunctionCENode = class(TAbstractCENode)
+  TFunctionCENode = class(TCodeElementCENode)
   private
     function GetParsedFunction: TParsedFunction;
   protected
@@ -210,6 +218,7 @@ type
     SpTBXSeparatorItem2: TSpTBXSeparatorItem;
     mnFindReferences: TSpTBXItem;
     mnAlphaSort: TSpTBXItem;
+    mnFollowEditor: TSpTBXItem;
     procedure ExplorerTreeGetHint(Sender: TBaseVirtualTree; Node: PVirtualNode;
       Column: TColumnIndex; var LineBreakStyle: TVTTooltipLineBreakStyle;
       var HintText: string);
@@ -243,6 +252,7 @@ type
       Node: PVirtualNode);
     procedure ExplorerTreeScroll(Sender: TBaseVirtualTree; DeltaX,
       DeltaY: Integer);
+    procedure mnFollowEditorClick(Sender: TObject);
   private
     procedure NavigateToNodeElement(Node: PVirtualNode;
       ForceToMiddle : Boolean = True; Activate : Boolean = True);
@@ -255,6 +265,7 @@ type
     { Public declarations }
     WorkerThread: TThread;
     procedure ClearAll;
+    procedure ShowEditorCodeElement;
     procedure UpdateWindow(UpdateReason : TCEUpdateReason);
     procedure ShutDownWorkerThread;
   end;
@@ -421,10 +432,11 @@ begin
         fOldCEData.ModuleNode := ModuleCENode;
         ExplorerTree.RootNodeCount := 1;
       end;
-      ExplorerTree.ValidateChildren(ExplorerTree.RootNode.FirstChild, True);
+      ExplorerTree.ValidateNode(ExplorerTree.RootNode.FirstChild, True);
     end;
     ExplorerTree.TreeOptions.AnimationOptions :=
       ExplorerTree.TreeOptions.AnimationOptions + [toAnimatedToggle];
+    ShowEditorCodeElement;
   end;
   fNewCEData := nil;
 end;
@@ -641,6 +653,7 @@ procedure TCodeExplorerWindow.WriteToAppStorage(AppStorage: TJvCustomAppStorage;
 begin
   AppStorage.WriteBoolean(BasePath+'\AlphaSort', mnAlphaSort.Checked);
   AppStorage.WriteBoolean(BasePath+'\Show Selection', mnShowSelection.Checked);
+  AppStorage.WriteBoolean(BasePath+'\Follow Editor', mnFollowEditor.Checked);
 end;
 
 procedure TCodeExplorerWindow.ClearAll;
@@ -652,6 +665,37 @@ procedure TCodeExplorerWindow.FormDestroy(Sender: TObject);
 begin
   inherited;
   ShutDownWorkerThread;  // Calls ClearAll;
+end;
+
+procedure TCodeExplorerWindow.ShowEditorCodeElement;
+Var
+  Editor : IEditor;
+  ModuleCENode : TModuleCENode;
+  CodeElement : TCodeElementCENode;
+begin
+  if not mnFollowEditor.Checked then Exit;
+
+  Editor := PyIDEMainForm.GetActiveEditor;
+  if not Assigned(Editor) then Exit;
+
+  if (TScanCodeThread(WorkerThread).fOldCEData = Editor.CodeExplorerData) and
+    Assigned(Editor.CodeExplorerData.ModuleNode) and
+    (ExplorerTree.RootNodeCount > 0) then
+  begin
+    ModuleCENode := Editor.CodeExplorerData.ModuleNode;
+    CodeElement := ModuleCENode.GetScopeForLine(Editor.SynEdit.CaretY);
+    if Assigned(CodeElement) and Assigned(CodeElement.fNode) then begin
+      ExplorerTree.TreeOptions.AnimationOptions :=
+        ExplorerTree.TreeOptions.AnimationOptions - [toAnimatedToggle];
+      ExplorerTree.OnChange := nil;
+      ExplorerTree.FullyVisible[CodeElement.fNode] := True;
+      ExplorerTree.Selected[CodeElement.fNode] := True;
+      ExplorerTree.ScrollIntoView(CodeElement.fNode, False);
+      ExplorerTree.OnChange := ExplorerTreeChange;
+      ExplorerTree.TreeOptions.AnimationOptions :=
+        ExplorerTree.TreeOptions.AnimationOptions + [toAnimatedToggle];
+    end;
+  end;
 end;
 
 procedure TCodeExplorerWindow.ShutDownWorkerThread;
@@ -764,6 +808,12 @@ begin
   end;
 end;
 
+procedure TCodeExplorerWindow.mnFollowEditorClick(Sender: TObject);
+begin
+  if mnFollowEditor.Checked then
+    ShowEditorCodeElement;
+end;
+
 procedure TCodeExplorerWindow.mnHighlightClick(Sender: TObject);
 Var
   Node : PVirtualNode;
@@ -787,6 +837,7 @@ procedure TCodeExplorerWindow.ReadFromAppStorage(
 begin
   mnAlphaSort.Checked := AppStorage.ReadBoolean(BasePath+'\AlphaSort', False);
   mnShowSelection.Checked := AppStorage.ReadBoolean(BasePath+'\Show Selection', True);
+  mnFollowEditor.Checked := AppStorage.ReadBoolean(BasePath+'\Follow Editor', True);
 end;
 
 { TAbstractCENode }
@@ -916,6 +967,7 @@ function TModuleCENode.GetParsedModule: TParsedModule;
 begin
   Result := fCodeElement as TParsedModule;
 end;
+
 
 { TImportsCENode }
 
@@ -1281,6 +1333,42 @@ end;
 procedure TCodeExplorerData.SetSourceScanner(SC: IAsyncSourceScanner);
 begin
   fSourceScanner := SC;
+end;
+
+{ TCodeElementCENode }
+
+function TCodeElementCENode.GetCodeBlock: TCodeBlock;
+begin
+  if Assigned(CodeElement) and (CodeElement is TCodeElement) then
+    Result := TCodeElement(CodeElement).CodeBlock
+  else
+    Result := cPythonSourceScanner.CodeBlock(0, 0);
+end;
+
+function TCodeElementCENode.GetScopeForLine(LineNo: integer): TCodeElementCENode;
+// similar to TCodeElement.GetScopeForLine in cPythonSourceScanner
+Var
+  i : integer;
+  Node : TAbstractCENode;
+begin
+  if (LineNo >= CodeBlock.StartLine) and (LineNo <= CodeBlock.EndLine) then begin
+    Result := Self;
+    //  try to see whether the line belongs to a child
+    if not Assigned(fChildren) then Exit;
+    for i := 0 to fChildren.Count - 1 do begin
+      Node := Children[i];
+      if not (Node is TCodeElementCENode) then continue;
+
+      if (LineNo >= TCodeElementCENode(Node).CodeBlock.StartLine) and
+          (LineNo <= TCodeElementCENode(Node).CodeBlock.EndLine)
+      then begin
+        // recursive call
+        Result := TCodeElementCENode(Node).GetScopeForLine(LineNo);
+        break;
+      end;
+    end;
+  end else
+    Result := nil;
 end;
 
 end.

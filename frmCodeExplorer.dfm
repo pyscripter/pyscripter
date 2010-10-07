@@ -118,6 +118,14 @@ inherited CodeExplorerWindow: TCodeExplorerWindow
       HelpContext = 430
       OnClick = mnAlphaSortClick
     end
+    object mnFollowEditor: TSpTBXItem
+      Caption = 'Follow Editor'
+      Hint = 'Move selection to match the editor position'
+      AutoCheck = True
+      Checked = True
+      HelpContext = 430
+      OnClick = mnFollowEditorClick
+    end
     object mnShowSelection: TSpTBXItem
       Caption = 'Show Selection'
       Hint = 'Show selected note in editor'
