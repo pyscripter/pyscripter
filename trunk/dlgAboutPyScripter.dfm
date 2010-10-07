@@ -73,9 +73,10 @@ inherited AboutBox: TAboutBox
             'famfam.com</link>)'#13#10'<br>'#13#10'<br>'#13#10'Translations'#13#10'<br>'#13#10'- Chinese tr' +
             'anslation by "Love China"'#13#10'<br>'#13#10'- French translation by Groupe ' +
             'AmiensPython (<link>pedagogie.ac-amiens.fr/maths/AmiensPython/</' +
-            'link>)'#13#10'<br>'#13#10'- Japanese translation by Tokibito'#13#10'<br>'#13#10'- Slovak' +
-            ' translation by Marian Denes'#13#10'<br>'#13#10'- Spanish translation by Jav' +
-            'ier Pimas'#13#10'<br>'
+            'link>)'#13#10'<br>'#13#10'- Japanese translation by Tokibito'#13#10'<br>'#13#10'- Russia' +
+            'n translation by Aleksander Dragunkin'#13#10'<br>'#13#10'- Slovak translatio' +
+            'n by Marian Denes'#13#10'<br>'#13#10'- Spanish translation by Javier Pimas'#13#10 +
+            '<br>'
           Text.Strings = (
             
               '<b>Credits</b><br>'#13#10'Special thanks to the many great developers ' +
@@ -96,9 +97,10 @@ inherited AboutBox: TAboutBox
               'famfam.com</link>)'#13#10'<br>'#13#10'<br>'#13#10'Translations'#13#10'<br>'#13#10'- Chinese tr' +
               'anslation by "Love China"'#13#10'<br>'#13#10'- French translation by Groupe ' +
               'AmiensPython (<link>pedagogie.ac-amiens.fr/maths/AmiensPython/</' +
-              'link>)'#13#10'<br>'#13#10'- Japanese translation by Tokibito'#13#10'<br>'#13#10'- Slovak' +
-              ' translation by Marian Denes'#13#10'<br>'#13#10'- Spanish translation by Jav' +
-              'ier Pimas'#13#10'<br>')
+              'link>)'#13#10'<br>'#13#10'- Japanese translation by Tokibito'#13#10'<br>'#13#10'- Russia' +
+              'n translation by Aleksander Dragunkin'#13#10'<br>'#13#10'- Slovak translatio' +
+              'n by Marian Denes'#13#10'<br>'#13#10'- Spanish translation by Javier Pimas'#13#10 +
+              '<br>')
           HotLinks = True
           MarginWidth = 2
           MarginHeight = 2

@@ -300,9 +300,10 @@
   History:   v 2.2.1
           New Features
             Auto-completion for the import statement (Issue 230)
-            Revamped Code Explorer (Issues 192, 163, 213)
+            Revamped Code Explorer (Issues 192, 163, 213, 225)
             Start-up python scripts pyscripter_init.py and python_init.py. See help file for details.
             Italian translation by Vincenzo Demasi
+            Russian translation by Aleksander Dragunkin
             New IDE option "Highlight selected word" (Issue 404)
             New Edit command "Copy File Name" available at the contex menu of the tab bar
             New commands "Previous Frame", "Next Frame" to change frame using the keyboard (Issue 399)
@@ -1195,6 +1196,13 @@ begin
 
   SkinManager.AddSkinNotification(Self);
 
+  // JvDocking Fonts
+  with JvDockVSNetStyleSpTBX.TabServerOption as TJvDockVIDTabServerOption do begin
+    ActiveFont.Assign(ToolbarFont);
+    InactiveFont.Assign(ToolbarFont);
+  end;
+
+  //  Layout stuff
   Layouts := TStringList.Create;
   Layouts.Sorted := True;
   Layouts.Duplicates := dupError;

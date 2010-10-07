@@ -128,6 +128,7 @@ type
     fHintIdentInfo : THotIdentInfo;
     fNeedToCheckSyntax : Boolean;
     fNeedToParseModule : Boolean;
+    fNeedToSyncCodeExplorer : Boolean;
     fSyntaxErrorPos : TEditorPos;
     fCloseBracketChar : WideChar;
     fOldOptions : TSynEditorOptions;
@@ -169,7 +170,7 @@ type
     procedure PaintGutterGlyphs(ACanvas: TCanvas; AClip: TRect;
       FirstLine, LastLine: integer);
     procedure DoOnIdle;
-    procedure ReparseIfNeeded;
+    procedure ReparseAndSyncIfNeeded;
     procedure AddWatchAtCursor;
     procedure SetUpCodeHints;
     function HasSyntaxError : Boolean;
@@ -592,7 +593,7 @@ end;
 
 function TEditor.GetSourceScanner: IAsyncSourceScanner;
 begin
-  fForm.ReparseIfNeeded;
+  fForm.ReparseAndSyncIfNeeded;
   Result := fForm.SourceScanner;
 end;
 
@@ -1356,6 +1357,8 @@ begin
     PyIDEMainForm.UpdateCaption;
     ParentTabItem.Invalidate;
   end;
+  if scCaretY in Changes then
+    fNeedToSyncCodeExplorer := True;
 end;
 
 procedure TEditorForm.DoActivate;
@@ -1866,7 +1869,7 @@ begin
   end;
 end;
 
-procedure TEditorForm.ReparseIfNeeded;
+procedure TEditorForm.ReparseAndSyncIfNeeded;
 begin
   if fNeedToParseModule then begin
     if GetEditor.HasPythonFile then begin
@@ -1877,6 +1880,9 @@ begin
       SourceScanner := nil;
     fNeedToParseModule := False;
     CodeExplorerWindow.UpdateWindow(ceuChange);
+  end else if fNeedToSyncCodeExplorer and GetEditor.HasPythonFile then begin
+    CodeExplorerWindow.ShowEditorCodeElement;
+    fNeedToSyncCodeExplorer := False;
   end;
 end;
 
@@ -2855,7 +2861,7 @@ end;
 
 procedure TEditorForm.DoOnIdle;
 begin
-  ReparseIfNeeded;
+  ReparseAndSyncIfNeeded;
 
   if GetEditor.HasPythonFile and fNeedToCheckSyntax and
     CommandsDataModule.PyIDEOptions.CheckSyntaxAsYouType and
