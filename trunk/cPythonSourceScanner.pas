@@ -36,6 +36,7 @@ Type
     Name : string;
     function GetRoot : TBaseCodeElement;
     function GetModule : TParsedModule;
+    function GetDottedName : string;
     function GetModuleSource : string;
     property CodePos : TCodePos read fCodePos;
     property Parent : TBaseCodeElement read fParent write fParent;
@@ -155,6 +156,8 @@ public
   protected
     function GetCodeHint : string; override;
   public
+    ReturnType : string;
+    ReturnAttributes : TVariableAttributes;
     constructor Create;
     destructor Destroy; override;
     function ArgumentsString : string; virtual;
@@ -194,6 +197,7 @@ public
     fImportRE : TRegExpr;
     fFromImportRE : TRegExpr;
     fAssignmentRE : TRegExpr;
+    fReturnRE : TRegExpr;
     fAliasRE : TRegExpr;
     fListRE : TRegExpr;
   protected
@@ -246,7 +250,7 @@ public
     AsynchSourceScannerFactory : TAsynchSourceScannerFactory;
 
   function CodeBlock(StartLine, EndLine : integer) : TCodeBlock;
-  function GetExpressionType(Expr : string; Var IsBuiltIn : boolean) : string;
+  function GetExpressionBuiltInType(Expr : string; Var IsBuiltIn : boolean) : string;
 
 implementation
 
@@ -472,6 +476,9 @@ begin
   fAssignmentRE :=
     CompiledRegExpr(Format('^([ \t]*(self.)?%s[ \t]*(,[ \t]*(self.)?%s[ \t]*)*(=))+[ \t]*((%s)(\(?))?',
       [IdentRE, IdentRE, DottedIdentRE]));
+  fReturnRE :=
+    CompiledRegExpr(Format('^([ \t]*return[ \t]*)((%s)(\(?))?',
+      [DottedIdentRE]));
   fAliasRE :=
     CompiledRegExpr(Format('^[ \t]*(%s)([ \t]+as[ \t]+(%s))?',
       [DottedIdentRE, IdentRE]));
@@ -489,6 +496,7 @@ begin
   fImportRE.Free;
   fFromImportRE.Free;
   fAssignmentRE.Free;
+  fReturnRE.Free;
   fAliasRE.Free;
   fListRE.Free;
   inherited;
@@ -858,7 +866,7 @@ begin
         Token := StrToken(S, ',');
         While Token <> '' do begin
           if fAliasRE.Exec(Token) then begin
-            if fAliasRE.Match[3] <> '' then begin
+            if fAliasRE.MatchLen[3] > 0 then begin
               Token := fAliasRE.Match[3];
               CharOffset2 := fAliasRE.MatchPos[3] - 1;
             end else begin
@@ -868,7 +876,7 @@ begin
             ModuleImport := TModuleImport.Create(Token, CodeBlock(CodeStart, LineNo));
             CharOffsetToCodePos(CharOffset + CharOffset2, CodeStart, LineStarts, ModuleImport.fCodePos);
             ModuleImport.Parent := Module;
-            if fAliasRE.Match[3] <> '' then
+            if fAliasRE.MatchLen[3] > 0 then
               ModuleImport.fRealName := fAliasRE.Match[1];
             Module.fImportedModules.Add(ModuleImport);
           end;
@@ -900,7 +908,7 @@ begin
           Token := StrToken(S, ',');
           While Token <> '' do begin
             if fAliasRE.Exec(Token) then begin
-              if fAliasRE.Match[3] <> '' then begin
+              if fAliasRE.MatchLen[3] > 0 then begin
                 Token := fAliasRE.Match[3];
                 CharOffset2 := fAliasRE.MatchPos[3] - 1;
               end else begin
@@ -912,7 +920,7 @@ begin
               CharOffsetToCodePos(CharOffset + CharOffset2, CodeStart, LineStarts, Variable.fCodePos);
               Variable.Parent := ModuleImport;
               Include(Variable.Attributes, vaImported);
-              if fAliasRE.Match[3] <> '' then
+              if fAliasRE.MatchLen[3] > 0 then
                 Variable.fRealName := fAliasRE.Match[1];
               ModuleImport.ImportedNames.Add(Variable);
             end;
@@ -980,20 +988,37 @@ begin
           end;
           // Variable Type if the assignment has a single target
           if AsgnTargetCount = 1 then begin
-            if fAssignmentRE.Match[7] <> '' then begin
+            if fAssignmentRE.MatchLen[7] > 0 then begin
               Variable.ObjType := fAssignmentRE.Match[7];
-              if fAssignmentRE.Match[8] = '(' then
+              if fAssignmentRE.MatchLen[8] > 0 then  //= '('
                 Include(Variable.Attributes, vaCall);
             end else begin
-              Variable.ObjType := GetExpressionType(
+              Variable.ObjType := GetExpressionBuiltInType(
                 Copy(Line, fAssignmentRE.MatchPos[5]+1, MaxInt), IsBuiltInType);
               if IsBuiltInType then
-                Include(Variable.Attributes, vaBuiltIn)
-              else
-                Variable.ObjType := '';  // not a dotted name so we can't do much with it
+                Include(Variable.Attributes, vaBuiltIn);
             end;
           end;
           AsgnTargetList := StrToken(S, '=');
+        end;
+      end else if fReturnRE.Exec(Line) then begin
+        // only process first return statement
+        if (LastCodeElement is TParsedFunction) and
+          (TParsedFunction(LastCodeElement).ReturnType = '') then
+        begin
+          // same code as for variables
+          if fReturnRE.MatchLen[3] > 0 then begin
+            TParsedFunction(LastCodeElement).ReturnType := fReturnRE.Match[3];
+            if fReturnRE.MatchLen[4] > 0 then  //= '('
+              Include(TParsedFunction(LastCodeElement).ReturnAttributes, vaCall);
+          end else begin
+            TParsedFunction(LastCodeElement).ReturnType := GetExpressionBuiltInType(
+              Copy(Line, fReturnRE.MatchPos[1] + fReturnRE.MatchLen[1], MaxInt),
+              IsBuiltInType);
+            if IsBuiltInType then
+              Include(TParsedFunction(LastCodeElement).ReturnAttributes, vaBuiltIn);
+            //else not a dotted name so we can't do much with it
+          end;
         end;
       end;
     end;
@@ -1467,43 +1492,50 @@ begin
   Result.EndLine := EndLine;
 end;
 
-function GetExpressionType(Expr : string; Var IsBuiltIn : boolean) : string;
+function GetExpressionBuiltInType(Expr : string; Var IsBuiltIn : boolean) : string;
 Var
   i :  integer;
 begin
+  Result := '';
+  IsBuiltIn := False;
+
   Expr := Trim(Expr);
-  if (Expr = '') or (Expr[1] > #$FF) then begin
-    Result := Expr;
-    IsBuiltIn := False;
-  end else begin
-    IsBuiltIn := True;
-    case Expr[1] of
-      '"','''' : Result := 'str';
-      '0'..'9', '+', '-' :
-        begin
-          Result := 'int';
-          for i := 2 to Length(Expr) - 1 do begin
-            if Expr[i] = '.' then begin
-              Result := 'float';
-              break;
-            end else if not CharInSet(Expr[i], ['0'..'9', '+', '-']) then
-              break;
-          end;
+  if (Expr = '') or (Expr[1] > #$FF) then Exit;
+
+  IsBuiltIn := True;
+  case Expr[1] of
+    '"','''' : Result := 'str';
+    '0'..'9', '+', '-' :
+      begin
+        Result := 'int';
+        for i := 2 to Length(Expr) - 1 do begin
+          if Expr[i] = '.' then begin
+            Result := 'float';
+            break;
+          end else if not CharInSet(Expr[i], ['0'..'9', '+', '-']) then
+            break;
         end;
-      '{' : Result := 'dict';
-      '[': Result := 'list';
-    else
-      if (Expr[1] = '(') and (CharPos(Expr, ',') <> 0) then
-        Result := 'tuple'  // speculative
-      else begin
-        IsBuiltIn := False;
-        Result := Expr;
       end;
-    end;
+    '{' : Result := 'dict';
+    '[': Result := 'list';
+  else
+    if (Expr[1] = '(') and (CharPos(Expr, ',') <> 0) then
+      Result := 'tuple'  // speculative
+    else
+      IsBuiltIn := False;
   end;
 end;
 
 { TBaseCodeElement }
+
+function TBaseCodeElement.GetDottedName: string;
+// Unique name in dotted notation;
+begin
+  if Assigned(Parent) then
+    Result := Parent.GetDottedName + Name
+  else
+    Result := Name;
+end;
 
 function TBaseCodeElement.GetModule: TParsedModule;
 begin
@@ -1566,7 +1598,7 @@ begin
   Result := Format(Fmt,
     [Name, Parent.Name, DefinedIn]);
 
-  CE := PyScripterRefactor.GetType(Self, ErrMsg);
+  CE := PyScripterRefactor.GetVarType(Self, ErrMsg);
   if Assigned(CE) then
     Result := Result + Format(_(SVariableTypeCodeHint), [CE.Name]);
 end;

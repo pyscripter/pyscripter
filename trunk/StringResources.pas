@@ -213,6 +213,7 @@ Const
   SCouldNotFindScope = 'Could not find scope for the given line';
   STypeOfSIsUnknown = 'Type of "%s" is unknown';
   SCyclicImports = 'Cyclic imports encountered!';
+  SCyclicTypeDependency = 'Cyclic type dependency encountered!';
   SCouldNotFindIdent = 'Could not find identifier "%s" in module "%s"';
   SCouldNotAnalyseModule = 'Could not analyse module: "%s"';
   SCouldNotFindModule = 'Could not find module: "%s"';

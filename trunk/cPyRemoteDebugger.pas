@@ -1076,14 +1076,21 @@ begin
   Argv := Conn.modules.sys.argv;
   // Workaround due to PREFER_UNICODE flag to make sure
   // no conversion to Unicode and back will take place
-  Argv.append(VarPythonCreate(ARunConfig.ScriptName));
+  if GetPythonEngine.IsPython3000 then        // Issue 425
+    Argv.append(VarPythonCreate(ARunConfig.ScriptName))
+  else
+    Argv.append(VarPythonCreate(AnsiString(ARunConfig.ScriptName)));
+
   S := ARunConfig.Parameters;
   if Trim(S) <> '' then begin
     S := Parameters.ReplaceInText(S);
     P := PChar(S);
     while P[0] <> #0 do begin
       P := GetParamStr(P, Param);
-      Argv.append(VarPythonCreate(Param));
+      if GetPythonEngine.IsPython3000 then
+        Argv.append(VarPythonCreate(Param))
+      else
+        Argv.append(VarPythonCreate(AnsiString(Param)))
     end;
     PythonIIForm.AppendText(Format(_(SCommandLineMsg), [S]));
   end;

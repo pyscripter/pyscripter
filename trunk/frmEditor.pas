@@ -553,7 +553,7 @@ function TEditor.GetEncodedTextEx(var EncodedText: AnsiString;
   InformationLossWarning: Boolean) : Boolean;
 begin
   Result := WideStringsToEncodedText(GetFileNameOrTitle, fForm.SynEdit.Lines,
-    fFileEncoding, EncodedText, InformationLossWarning);
+    fFileEncoding, EncodedText, InformationLossWarning, HasPythonFile);
 end;
 
 function TEditor.GetFileName: string;
@@ -2529,7 +2529,7 @@ begin
             Def := PyScripterRefactor.FindDottedDefinition(lookup, ParsedModule,
               Scope, ErrMsg);
             if Assigned(Def) and(Def.ClassType = TVariable) then
-              Def := PyScripterRefactor.GetType(TVariable(Def), ErrMsg);
+              Def := PyScripterRefactor.GetVarType(TVariable(Def), ErrMsg);
             if Assigned(Def) then
               (Def as TCodeElement).GetNamespace(NameSpace);
           end else begin
