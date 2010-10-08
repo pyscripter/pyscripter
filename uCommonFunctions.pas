@@ -149,7 +149,7 @@ procedure ExtractPyErrorInfo(E: Variant; var FileName: string; var LineNo: Integ
 (* Get Encoded Ansi string from WideStrings ttaking into account Python file encodings *)
 function WideStringsToEncodedText(const AFileName: string;
   Lines : SynUnicode.TUnicodeStrings; Encoding : TFileSaveFormat; var EncodedText: AnsiString;
-  InformationLossWarning: Boolean = False) : Boolean;
+  InformationLossWarning: Boolean = False; IsPython: Boolean = False) : Boolean;
 
 (* Load file into WideStrings taking into account Python file encodings *)
 function LoadFileIntoWideStrings(const AFileName: string;
@@ -1290,7 +1290,7 @@ end;
 
 function WideStringsToEncodedText(const AFileName: string;
   Lines : SynUnicode.TUnicodeStrings; Encoding : TFileSaveFormat; var EncodedText: AnsiString;
-  InformationLossWarning: Boolean = False) : Boolean;
+  InformationLossWarning: Boolean = False; IsPython: Boolean = False) : Boolean;
 // AFileName is passed just for the warning
 var
   PyEncoding : string;
@@ -1320,7 +1320,7 @@ begin
 
   case Encoding of
     sf_Ansi :
-      if CommandsDataModule.FileIsPythonSource(AFileName) then begin
+      if IsPython or CommandsDataModule.FileIsPythonSource(AFileName) then begin
         PyEncoding := '';
         if Lines.Count > 0 then
           PyEncoding := ParsePySourceEncoding(Lines[0]);
@@ -1358,10 +1358,10 @@ begin
                   end;
                 end;
               end else begin
-                  EncodedString := PyUnicode_AsEncodedString(UniPy, PAnsiChar(AnsiString(PyEncoding)), 'replace');
-                  CheckError;
-                  EncodedText := PyString_AsAnsiString(EncodedString);
-                  CheckError;
+                EncodedString := PyUnicode_AsEncodedString(UniPy, PAnsiChar(AnsiString(PyEncoding)), 'replace');
+                CheckError;
+                EncodedText := PyString_AsAnsiString(EncodedString);
+                CheckError;
               end;
             finally
               Py_XDECREF(UniPy);

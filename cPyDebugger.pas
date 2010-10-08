@@ -1168,14 +1168,20 @@ begin
   SysMod.argv := NewPythonList;
   // Workaround due to PREFER_UNICODE flag to make sure
   // no conversion to Unicode and back will take place
-  SysMod.argv.append(VarPythonCreate(ARunConfig.ScriptName));
+  if GetPythonEngine.IsPython3000 then        // Issue 425
+    SysMod.argv.append(VarPythonCreate(ARunConfig.ScriptName))
+  else
+    SysMod.argv.append(VarPythonCreate(AnsiString(ARunConfig.ScriptName)));
   S := ARunConfig.Parameters;
   if Trim(S) <> '' then begin
     S := Parameters.ReplaceInText(S);
     P := PChar(S);
     while P[0] <> #0 do begin
       P := GetParamStr(P, Param);
-      SysMod.argv.append(VarPythonCreate(Param));
+      if GetPythonEngine.IsPython3000 then        // Issue 425
+       SysMod.argv.append(VarPythonCreate(Param))
+      else
+       SysMod.argv.append(VarPythonCreate(AnsiString(Param)));
     end;
     PythonIIForm.AppendText(Format(_(SCommandLineMsg), [S]));
   end;

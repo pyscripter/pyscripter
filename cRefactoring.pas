@@ -119,13 +119,15 @@ type
         SourceFileName : string; PrefixDotCount : integer = 0) : TParsedModule; overload;
     function ResolveImportedName(const Ident: string; ModuleImport: TModuleImport;
       var ErrMsg: string): TBaseCodeElement;
-    function GetType(Variable : TVariable; var ErrMsg : string) : TCodeElement;
+    function GetVarType(Variable : TVariable; var ErrMsg : string) : TCodeElement;
     procedure FindReferences(CE : TBaseCodeElement; var ErrMsg : string;
       List : TStringList);
     procedure FindReferencesInModule(CE : TBaseCodeElement; Module : TParsedModule;
       CodeBlock: TCodeBlock; var ErrMsg : string; List : TStringList);
     procedure FindReferencesGlobally(CE : TBaseCodeElement; var ErrMsg : string;
       List : TStringList);
+    function GetBuiltInName(AName : string) : TCodeElement;
+    function GetFuncReturnType(FunctionCE: TParsedFunction; var ErrMsg: string): TCodeElement;
   end;
 
 var
@@ -420,7 +422,7 @@ begin
   if Assigned(Def) then begin
     if Suffix <> '' then begin
       if Def.ClassType = TVariable then
-        Def := GetType(TVariable(Def), ErrMsg);
+        Def := GetVarType(TVariable(Def), ErrMsg);
       if Assigned(Def) then
         Result := FindDottedIdentInScope(Suffix, Def as TCodeElement, ErrMsg);
     end else
@@ -472,23 +474,13 @@ begin
       end;
       CodeElement := CodeElement.Parent as TCodeElement;
     end;
-
-    // then check the builtin module
-    NameSpace.Clear;
-    if not Assigned(Result) then begin
-      ParsedBuiltInModule := GetParsedModule(GetPythonEngine.BuiltInModuleName, None);
-      if not Assigned(ParsedBuiltInModule) then
-        raise ERefactoringException.Create(
-          'Internal Error in FindUnDottedDefinition: Could not get the Builtin module');
-      ParsedBuiltInModule.GetNameSpace(NameSpace);
-      Index := NameSpace.IndexOf(Ident);
-      if Index >= 0 then
-        Result := NameSpace.Objects[Index] as TBaseCodeelement;
-      NameSpace.Clear;
-    end;
   finally
     NameSpace.Free;
   end;
+
+  // then check the builtin module
+  if not Assigned(Result) then
+    Result := GetBuiltInName(Ident);
 
   if Assigned(Result) and (Result is TVariable)
     and (TVariable(Result).Parent is TModuleImport)
@@ -631,7 +623,7 @@ begin
   end;
 end;
 
-function TPyScripterRefactor.GetType(Variable: TVariable;
+function TPyScripterRefactor.GetVarType(Variable: TVariable;
   var ErrMsg: string): TCodeElement;
 // Returns the type of a TVariable as a TCodeElement
 // One limitation is that it does not differentiate between Classes and their
@@ -640,7 +632,6 @@ Var
   BaseCE, TypeCE : TBaseCodeElement;
   AVar : TVariable;
   Module : TParsedModule;
-  ParsedBuiltInModule : TParsedModule;
   S : string;
 begin
   Result := nil;
@@ -657,37 +648,35 @@ begin
       Exit;
     end else begin
       // cannot be anything but TVariable !
-      Assert(BaseCE is TVariable, 'Internal Error in GetType');
+      Assert(BaseCE is TVariable, 'Internal Error in GetVarType');
       AVar := TVariable(BaseCE);
     end;
   end else
     AVar := Variable;
 
   Module := AVar.GetModule;
-  S := Module.Name + '.' + AVar.Parent.Name + '.' + AVar.Name;
+  S := Variable.GetDottedName;
   if fGetTypeCache.IndexOf(S) >= 0 then
     ErrMsg := _(SCyclicImports)
   else begin
     fGetTypeCache.Add(S);
     try
       // check standard types
-      if vaBuiltIn in AVar.Attributes then begin
-        ParsedBuiltInModule := GetParsedModule(GetPythonEngine.BuiltInModuleName, None);
-        (ParsedBuiltInModule as TModuleProxy).Expand;
-        Result := ParsedBuiltInModule.GetChildByName(AVar.ObjType)
-      end else if (AVar.ObjType <> '') and Assigned(AVar.Parent) and
+      if vaBuiltIn in AVar.Attributes then
+        Result := GetBuiltInName(AVar.ObjType)
+      else if (AVar.ObjType <> '') and Assigned(AVar.Parent) and
         (AVar.Parent is TCodeElement) then
       begin
         TypeCE := FindDottedDefinition(AVar.ObjType, Module,
           TCodeElement(AVar.Parent), ErrMsg);
-        // Note: currently we are not able to detect the return type of functions
-        if (TypeCE is TParsedClass) or (TypeCE is TParsedModule) or
-           ((TypeCE is TVariableProxy) and not (vaCall in AVar.Attributes)) or
-           ((TypeCE is TParsedFunction) and not (vaCall in AVar.Attributes))
+        if (TypeCE is TParsedClass) or
+           ((TypeCE is TCodeElement) and not (vaCall in AVar.Attributes))
         then
           Result := TCodeElement(TypeCE)
         else if TypeCE is TVariable then
-          Result := GetType(TVariable(TypeCE), ErrMsg);
+          Result := GetVarType(TVariable(TypeCE), ErrMsg)
+        else if (TypeCE is TParsedFunction) and (vaCall in AVar.Attributes) then
+          Result := GetFuncReturnType(TParsedFunction(TypeCE), ErrMsg);
       end;
       if not Assigned(Result) then
         ErrMsg := Format(_(STypeOfSIsUnknown), [AVar.Name]);
@@ -736,7 +725,7 @@ begin
   if Assigned(Def) then begin
     if Suffix <> '' then begin
       if Def.ClassType = TVariable then
-        Def := GetType(TVariable(Def), ErrMsg);
+        Def := GetVarType(TVariable(Def), ErrMsg);
       if Assigned(Def) then
         Result := FindDottedIdentInScope(Suffix, Def as TCodeElement, ErrMsg);
     end else
@@ -883,6 +872,65 @@ begin
     end;
   finally
     FindRefFileList.Free;
+  end;
+end;
+
+function TPyScripterRefactor.GetBuiltInName(AName : string) : TCodeElement;
+var
+  ParsedBuiltInModule: TParsedModule;
+begin
+  ParsedBuiltInModule := GetParsedModule(GetPythonEngine.BuiltInModuleName, None);
+  if not Assigned(ParsedBuiltInModule) then
+    raise ERefactoringException.Create(
+      'Internal Error in FindUnDottedDefinition: Could not get the Builtin module');
+  (ParsedBuiltInModule as TModuleProxy).Expand;
+  Result := ParsedBuiltInModule.GetChildByName(AName);
+end;
+
+function TPyScripterRefactor.GetFuncReturnType(FunctionCE: TParsedFunction;
+  var ErrMsg: string): TCodeElement;
+Var
+  TypeCE : TBaseCodeElement;
+  S : string;
+begin
+  Result := nil;
+
+  // special case for open in Python 2.x
+  if FunctionCE.Name = 'open' then begin
+    Result := GetBuiltInName('file');
+    Exit;
+  end;
+
+  // Exit if no return type is given
+  // Functions from Module proxies will have Return type = ''
+  if FunctionCE.ReturnType = '' then Exit;
+
+  S := FunctionCE.GetDottedName;
+  if fGetTypeCache.IndexOf(S) >= 0 then
+    ErrMsg := _(SCyclicTypeDependency)
+  else begin
+    fGetTypeCache.Add(S);
+    try
+      if vaBuiltIn in FunctionCE.ReturnAttributes then
+        Result := GetBuiltInName(FunctionCE.ReturnType)
+      else begin
+        TypeCE := FindDottedDefinition(FunctionCE.ReturnType,
+          FunctionCE.GetModule, FunctionCE, ErrMsg);
+
+        if (TypeCE is TParsedClass) or
+           ((TypeCE is TCodeElement) and not (vaCall in FunctionCE.ReturnAttributes))
+        then
+          Result := TCodeElement(TypeCE)
+        else if TypeCE is TVariable then
+          Result := GetVarType(TVariable(TypeCE), ErrMsg)
+        else if (TypeCE is TParsedFunction) and
+          (vaCall in FunctionCE.ReturnAttributes)
+        then
+          Result := GetFuncReturnType(TParsedFunction(TypeCE), ErrMsg);
+      end;
+    finally
+      fGetTypeCache.Delete(fGetTypeCache.IndexOf(S));
+    end;
   end;
 end;
 

@@ -297,20 +297,24 @@
           Bug fixes
             Issues  297, 307, 346, 354, 358, 371, 375, 376, 382, 384, 387, 389
 
-  History:   v 2.2.1
+  History:   v 2.3
           New Features
-            Auto-completion for the import statement (Issue 230)
+            Native unicode strings throught (speed improvements on XP)
             Revamped Code Explorer (Issues 192, 163, 213, 225)
+            Improvements to Code completion
+            -  Auto-completion for the import statement in python 2.5 and later (Issue 230)
+            -  Analysing function return statements
+            -  Background module parsing and caching of parsed modules
             Start-up python scripts pyscripter_init.py and python_init.py. See help file for details.
-            Italian translation by Vincenzo Demasi
-            Russian translation by Aleksander Dragunkin
+            Italian translation by Vincenzo Demasi added
+            Russian translation by Aleksander Dragunkin added
             New IDE option "Highlight selected word" (Issue 404)
             New Edit command "Copy File Name" available at the contex menu of the tab bar
             New commands "Previous Frame", "Next Frame" to change frame using the keyboard (Issue 399)
             JavaScript and PHP Syntax Highlighters added
-          Bug fixes
-             Issues 103, 239, 267, 270, 271, 294, 317, 324, 343, 395,
-                    403, 405, 407, 411, 412, 413, 419, 422
+          Issues addressed
+             103, 239, 267, 270, 271, 294, 317, 324, 343, 395,
+             403, 405, 407, 411, 412, 413, 419, 422, 425
 
   Vista Compatibility issues (all resolved)
   -  Flip3D and Form preview (solved with LX)
@@ -337,7 +341,6 @@
 // Bugs and minor features
 { TODO : Editor Go back forward }
 { TODO : Scan python code for global statements }
-{ TODO : Scan python code for return statements }
 // TODO: Internal Tool as in pywin
 // TODO: Interpreter raw_input
 // TODO: Improve parameter completion with an option to provide more help (docstring)
