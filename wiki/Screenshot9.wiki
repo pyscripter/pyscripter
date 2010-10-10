@@ -1,4 +1,4 @@
-#summary File Explorer
+#summary PyScripter in dark
 
 http://pyscripter.googlecode.com/svn/wiki/images/screenshot9.png
 

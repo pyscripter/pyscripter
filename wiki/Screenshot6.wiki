@@ -1,5 +1,5 @@
 #summary Debugger - Variables window
 
-http://pyscripter.googlecode.com/svn/wiki/screenshot6.png
+http://pyscripter.googlecode.com/svn/wiki/images/screenshot6.png
 
-<wiki:gadget url="http://pyscripter.googlecode.com/svn/wiki/adsense3.xml" border="0" width="468" height="60" />
+<wiki:gadget url="http://pyscripter.googlecode.com/svn/wiki/files/adsense3.xml" border="0" width="468" height="60" />
