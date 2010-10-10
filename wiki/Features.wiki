@@ -18,6 +18,7 @@
    * Print preview and print syntax highlighted Python code
    * Syntax highlighting of HTML, XML and CSS files
    * Split view file editing
+   * Firefox-like search and replace
  * *Integrated Python Interpreter*
    * Code Completion
    * Call Tips
@@ -38,6 +39,9 @@
  * *File Explorer*
    * Easy configuration and browsing of the Python Path
    * Integrated Version Control using Tortoise CVS or Tortoise SVN
+ * *Project Manager*
+   * Import existing directories 
+   * Multiple run configurations
  * *Integrated Unit testing*
    * Automatic generation of tests
    * Unit testing GUI

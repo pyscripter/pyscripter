@@ -1,0 +1,5 @@
+#summary File Explorer
+
+http://pyscripter.googlecode.com/svn/wiki/screenshot9.png
+
+<wiki:gadget url="http://pyscripter.googlecode.com/svn/wiki/adsense3.xml" border="0" width="468" height="60" />
