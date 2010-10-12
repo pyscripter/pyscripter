@@ -85,6 +85,7 @@ type
     fFileTemplateForNewScripts : string;
     fAutoCompletionFont : TFont;
     fHighlightSelectedWord : Boolean;
+    fUsePythonColorsInIDE : Boolean;
     function GetPythonFileExtensions: string;
     procedure SetAutoCompletionFont(const Value: TFont);
   public
@@ -196,6 +197,8 @@ type
       write SetAutoCompletionFont;
     property HighlightSelectedWord : boolean read fHighlightSelectedWord
       write fHighlightSelectedWord;
+    property UsePythonColorsInIDE : boolean read fUsePythonColorsInIDE
+      write fUsePythonColorsInIDE;
   end;
 {$METHODINFO OFF}
 
@@ -603,6 +606,7 @@ begin
       Self.fFileTemplateForNewScripts := FileTemplateForNewScripts;
       Self.fAutoCompletionFont.Assign(AutoCompletionFont);
       Self.fHighlightSelectedWord := HighlightSelectedWord;
+      Self.fUsePythonColorsInIDE := UsePythonColorsInIDE;
     end
   else
     inherited;
@@ -672,6 +676,7 @@ begin
   fAutoCompletionFont := TFont.Create;
   fAutoCompletionFont.Assign(CommandsDataModule.ParameterCompletion.Font);
   fHighlightSelectedWord := True;
+  fUsePythonColorsInIDE := False;
 end;
 
 destructor TPythonIDEOptions.Destroy;
@@ -1420,6 +1425,7 @@ begin
       UseExtendedStrings := True;
       if Execute(TempEditorOptions) then begin
         UpdateHighlighters;
+        PyIDEMainForm.SetIDEColors;
         if Form.cbApplyToAll.Checked then begin
           EditorOptions.Assign(TempEditorOptions);
           ApplyEditorOptions;
@@ -2028,7 +2034,7 @@ begin
   SetLength(Categories, 7);
   with Categories[0] do begin
     DisplayName := _('IDE');
-    SetLength(Options, 10);
+    SetLength(Options, 11);
     Options[0].PropertyName := 'AutoCheckForUpdates';
     Options[0].DisplayName := _('Check for updates automatically');
     Options[1].PropertyName := 'DaysBetweenChecks';
@@ -2049,6 +2055,8 @@ begin
     Options[8].DisplayName := _('File template for new python scripts');
     Options[9].PropertyName := 'AutoCompletionFont';
     Options[9].DisplayName := _('Auto completion font');
+    Options[10].PropertyName := 'UsePythonColorsInIDE';
+    Options[10].DisplayName := _('Use Python colors in IDE');
   end;
   with Categories[1] do begin
     DisplayName := _('Python Interpreter');
@@ -2662,11 +2670,14 @@ begin
     if (Column = FocusedColumn) or (toFullRowSelect in TCrackedCustomStringTreeOptions(TreeOptions).SelectionOptions) then
     begin
       if (Node = HotNode) or (vsSelected in Node.States) then
-      begin
         TargetCanvas.Font.Color :=
-          CurrentSkin.GetTextColor(skncListItem, CurrentSkin.GetState(True, False, Node = HotNode, vsSelected in Node.States));
-      end;
-    end;
+          CurrentSkin.GetTextColor(skncListItem,
+            CurrentSkin.GetState(True, False, Node = HotNode,
+            vsSelected in Node.States))
+      else if PyIDEOptions.UsePythonColorsInIDE and (Color <> clWindow) then
+        TargetCanvas.Font.Color := SynPythonSyn.IdentifierAttri.Foreground;
+    end else if PyIDEOptions.UsePythonColorsInIDE and (Color <> clWindow) then
+      TargetCanvas.Font.Color := SynPythonSyn.IdentifierAttri.Foreground;
   end;
 end;
 

@@ -128,7 +128,7 @@ inherited CodeExplorerWindow: TCodeExplorerWindow
     end
     object mnShowSelection: TSpTBXItem
       Caption = 'Show Selection'
-      Hint = 'Show selected note in editor'
+      Hint = 'Show selected node in editor'
       AutoCheck = True
       Checked = True
       HelpContext = 430

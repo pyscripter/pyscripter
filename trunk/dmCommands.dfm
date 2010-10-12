@@ -68,7 +68,7 @@ object CommandsDataModule: TCommandsDataModule
     Left = 32
     Top = 241
     Bitmap = {
-      494C010114001800340010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010114001800400010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000006000000001002000000000000060
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -1487,6 +1487,14 @@ object CommandsDataModule: TCommandsDataModule
           
             '                exec code in self.debugger.currentframe.f_global' +
             's, self.debugger.currentframe.f_locals'
+          '                # save locals'
+          '                try:'
+          '                    import ctypes'
+          
+            '                    ctypes.pythonapi.PyFrame_LocalsToFast(ctypes' +
+            '.py_object(self.debugger.currentframe), 0)'
+          '                except :'
+          '                    pass'
           '            else:'
           '                exec code in self.locals'
           '        except SystemExit, e:'
@@ -2071,6 +2079,14 @@ object CommandsDataModule: TCommandsDataModule
           
             '                exec(code, self.debugger.currentframe.f_globals,' +
             ' self.debugger.currentframe.f_locals)'
+          '                # save locals'
+          '                try:'
+          '                    import ctypes'
+          
+            '                    ctypes.pythonapi.PyFrame_LocalsToFast(ctypes' +
+            '.py_object(self.debugger.currentframe), 0)'
+          '                except :'
+          '                    pass'
           '            else:'
           '                exec(code, self.locals)'
           '        except SystemExit as e:'
@@ -2520,6 +2536,14 @@ object CommandsDataModule: TCommandsDataModule
           
             '                exec code in self.debugger.currentframe.f_global' +
             's, self.debugger.currentframe.f_locals'
+          '                # save locals'
+          '                try:'
+          '                    import ctypes'
+          
+            '                    ctypes.pythonapi.PyFrame_LocalsToFast(ctypes' +
+            '.py_object(self.debugger.currentframe), 0)'
+          '                except :'
+          '                    pass'
           '            else:'
           '              exec code in self.locals'
           '        except SystemExit, e:'
@@ -3127,6 +3151,14 @@ object CommandsDataModule: TCommandsDataModule
           
             '                exec(code, self.debugger.currentframe.f_globals,' +
             ' self.debugger.currentframe.f_locals)'
+          '                # save locals'
+          '                try:'
+          '                    import ctypes'
+          
+            '                    ctypes.pythonapi.PyFrame_LocalsToFast(ctypes' +
+            '.py_object(self.debugger.currentframe), 0)'
+          '                except :'
+          '                    pass'
           '            else:'
           '              exec(code, self.locals)'
           '        except SystemExit as e:'
@@ -4566,7 +4598,7 @@ object CommandsDataModule: TCommandsDataModule
     Left = 188
     Top = 186
     Bitmap = {
-      494C01019B009F00340010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01019B009F00400010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000007002000001002000000000000070
       020000000000000000000000000000000000000000000000000000000000EADD
       CB00AB7734009655000096550000AB773400EADDCB0000000000000000000000

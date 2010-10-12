@@ -443,7 +443,6 @@ function TPyScripterRefactor.FindUnDottedDefinition(const Ident: string;
 }
 Var
   NameSpace : TStringList;
-  ParsedBuiltinModule : TParsedModule;
   Index: integer;
   CodeElement : TCodeElement;
 begin
@@ -895,9 +894,17 @@ Var
 begin
   Result := nil;
 
-  // special case for open in Python 2.x
+  // special case for built-in open
   if FunctionCE.Name = 'open' then begin
     Result := GetBuiltInName('file');
+    if (Result = nil) then begin
+      Result := GetParsedModule('_io', None);
+      if Assigned(Result) then begin
+        if Result is TModuleProxy then
+          TModuleProxy(Result).Expand;
+        Result := Result.GetChildByName('TextIOWrapper');
+      end;
+    end;
     Exit;
   end;
 
