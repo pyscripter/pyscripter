@@ -345,6 +345,7 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
           Height = 95
           Align = alTop
           TabOrder = 0
+          TBXStyleBackground = True
           object TBXLabel4: TSpTBXLabel
             Left = 2
             Top = 2
@@ -408,6 +409,7 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
           Height = 92
           Align = alClient
           TabOrder = 1
+          TBXStyleBackground = True
           object TBXLabel2: TSpTBXLabel
             Left = 2
             Top = 2

@@ -198,6 +198,8 @@ public
     fFromImportRE : TRegExpr;
     fAssignmentRE : TRegExpr;
     fReturnRE : TRegExpr;
+    fWithRE : TRegExpr;
+    fGlobalRE : TRegExpr;
     fAliasRE : TRegExpr;
     fListRE : TRegExpr;
   protected
@@ -479,6 +481,12 @@ begin
   fReturnRE :=
     CompiledRegExpr(Format('^([ \t]*return[ \t]*)((%s)(\(?))?',
       [DottedIdentRE]));
+  fWithRE :=
+    CompiledRegExpr(Format('^[ \t]*with +(%s) *(\(?).*as +(%s)',
+      [DottedIdentRE, IdentRE]));
+  fGlobalRE :=
+    CompiledRegExpr(Format('^[ \t]*global +((%s)( *, *%s)*)',
+      [IdentRE, IdentRE]));
   fAliasRE :=
     CompiledRegExpr(Format('^[ \t]*(%s)([ \t]+as[ \t]+(%s))?',
       [DottedIdentRE, IdentRE]));
@@ -497,6 +505,8 @@ begin
   fFromImportRE.Free;
   fAssignmentRE.Free;
   fReturnRE.Free;
+  fWithRE.Free;
+  fGlobalRE.Free;
   fAliasRE.Free;
   fListRE.Free;
   inherited;
@@ -730,11 +740,15 @@ var
   Variable : TVariable;
   Klass : TParsedClass;
   IsBuiltInType : Boolean;
-  SafeGuard: ISafeGuard;
   LineStarts: TList;
+  LineStartsGuard: ISafeGuard;
+  GlobalList : TStringList;
+  GlobalListGuard : ISafeGuard;
   AsgnTargetCount : integer;
 begin
-  LineStarts := TList(Guard(TList.Create, SafeGuard));
+  LineStarts := TList(Guard(TList.Create, LineStartsGuard));
+  GlobalList := TStringList(Guard(TStringList.Create, GlobalListGuard));
+  GlobalList.CaseSensitive := True;
   UseModifiedSource := True;
 
   Module.Clear;
@@ -763,6 +777,7 @@ begin
       // skip blank lines and comment lines
     end else if fCodeRE.Exec(Line) then begin
       // found class or function definition
+      GlobalList.Clear;
       CodeStart := LineNo;
       // Process continuation lines
       if ProcessLineContinuation(P, Line, LineNo, LineStarts) then
@@ -933,13 +948,13 @@ begin
         Module.fImportedModules.Add(ModuleImport);
       end else if fAssignmentRE.Exec(Line) then begin
         S := Copy(Line, 1, fAssignmentRE.MatchPos[5]-1);
-        AsgnTargetList := StrToken(S, '=');
+        AsgnTargetList := Trim(StrToken(S, '='));
         CharOffset2 := 1; // Keeps track of the end of the identifier
         while AsgnTargetList <> '' do begin
           AsgnTargetCount := 0;
           Variable := nil;
-          Token := StrToken(AsgnTargetList, ',');
-          while Token <> '' do begin
+          while AsgnTargetList <> '' do begin
+            Token := StrToken(AsgnTargetList, ',');
             CharOffset := CharOffset2;  // Keeps track of the start of the identifier
             Inc(CharOffset, CalcIndent(Token, 1)); // do not expand tabs
             Inc(CharOffset2, Succ(Length(Token))); // account for ,
@@ -959,7 +974,7 @@ begin
                 Klass.fAttributes.Add(Variable);
                 Inc(AsgnTargetCount);
               end;
-            end else begin
+            end else if (GlobalList.IndexOf(Token) < 0) then begin
               // search for local/global variables
               Variable := TVariable.Create;
               Variable.Name := Token;
@@ -984,7 +999,6 @@ begin
               end;
               Inc(AsgnTargetCount);
             end;
-            Token := StrToken(AsgnTargetList, ',');
           end;
           // Variable Type if the assignment has a single target
           if AsgnTargetCount = 1 then begin
@@ -1020,6 +1034,26 @@ begin
             //else not a dotted name so we can't do much with it
           end;
         end;
+      end else if fWithRE.Exec(Line) then begin
+        Variable := TVariable.Create;
+        Variable.Name := fWithRE.Match[3];
+        Variable.Parent := LastCodeElement;
+        Variable.fCodePos.LineNo := LineNo;
+        Variable.fCodePos.CharOffset := fWithRE.MatchPos[3];
+        Variable.ObjType := fWithRE.Match[1];
+        if fWithRE.MatchLen[2] > 0 then
+          Include(Variable.Attributes, vaCall);
+        if LastCodeElement.ClassType = TParsedFunction then
+          TParsedFunction(LastCodeElement).Locals.Add(Variable)
+        else if LastCodeElement.ClassType = TParsedClass then begin
+          Include(Variable.Attributes, vaClassAttribute);
+          TParsedClass(LastCodeElement).Attributes.Add(Variable)
+        end else
+          Module.Globals.Add(Variable);
+      end else if fGlobalRE.Exec(Line) then begin
+        S := fGlobalRE.Match[1];
+        while S <> '' do
+          GlobalList.Add(Trim(StrToken(S, ',')));
       end;
     end;
     DoScannerProgress(P - PWideChar(Module.fMaskedSource), Length(Module.fMaskedSource), Stop);

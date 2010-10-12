@@ -58,6 +58,11 @@ inherited FileExplorerWindow: TFileExplorerWindow
       FileObjects = [foFolders, foNonFolders]
       FileSizeFormat = fsfExplorer
       FileSort = fsFileType
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
       Header.AutoSizeIndex = 0
       Header.DefaultHeight = 17
       Header.Font.Charset = DEFAULT_CHARSET
@@ -70,6 +75,7 @@ inherited FileExplorerWindow: TFileExplorerWindow
       HintMode = hmHint
       IncrementalSearch = isInitializedOnly
       ParentColor = False
+      ParentFont = False
       PopupMenu = ExplorerPopUp
       RootFolder = rfDrives
       ShellContextSubMenu = ShellContextPopUp
@@ -175,20 +181,20 @@ inherited FileExplorerWindow: TFileExplorerWindow
     end
   end
   inherited DockClient: TJvDockClient
-    Left = 186
-    Top = 206
+    Left = 26
+    Top = 38
   end
   object VirtualShellHistory: TVirtualShellHistory
     MenuOptions.Images = True
     OnChange = VirtualShellHistoryChange
     VirtualExplorerTree = FileExplorerTree
-    Left = 186
-    Top = 304
+    Left = 34
+    Top = 200
   end
   object ExplorerPopUp: TSpTBXPopupMenu
     Images = CommandsDataModule.Images
-    Left = 186
-    Top = 239
+    Left = 30
+    Top = 91
     object mnBack: TSpTBXItem
       Action = actGoBack
     end
@@ -261,8 +267,8 @@ inherited FileExplorerWindow: TFileExplorerWindow
   end
   object ShellContextPopUp: TPopupMenu
     Images = CommandsDataModule.Images
-    Left = 186
-    Top = 272
+    Left = 30
+    Top = 148
     object ExploreHere: TMenuItem
       Caption = '&Explore Here'
       HelpContext = 420
@@ -288,8 +294,8 @@ inherited FileExplorerWindow: TFileExplorerWindow
   object FileExplorerActions: TActionList
     Images = CommandsDataModule.Images
     OnUpdate = FileExplorerActionsUpdate
-    Left = 187
-    Top = 334
+    Left = 35
+    Top = 258
     object actGoBack: TAction
       Category = 'File Explorer'
       Caption = '&Back'

@@ -309,12 +309,14 @@
             Italian translation by Vincenzo Demasi added
             Russian translation by Aleksander Dragunkin added
             New IDE option "Highlight selected word" (Issue 404)
+            New IDE option "Use Python colors in IDE"
             New Edit command "Copy File Name" available at the contex menu of the tab bar
             New commands "Previous Frame", "Next Frame" to change frame using the keyboard (Issue 399)
             JavaScript and PHP Syntax Highlighters added
           Issues addressed
-             103, 239, 267, 270, 271, 294, 317, 324, 343, 395,
-             403, 405, 407, 411, 412, 413, 419, 422, 425
+             103, 239, 267, 270, 271, 294, 317, 324, 343, 378,
+             395, 403, 405, 407, 411, 412, 413, 419, 421, 422,
+             425
 
   Vista Compatibility issues (all resolved)
   -  Flip3D and Form preview (solved with LX)
@@ -1029,8 +1031,8 @@ type
     procedure ChangeLanguage(LangCode : string);
     function EditorFromTab(Tab : TSpTBXTabItem) : IEditor;
     procedure LoadAdditionalThemes;
+    procedure SetIDEColors;
   end;
-
 
 Const
   ctkRemember : TDSACheckTextKind = 100;
@@ -2521,6 +2523,7 @@ begin
             TEditorForm(GI_EditorFactory.Editor[i].Form).ViewsTabControl.TabPosition := ttpTop;
         end;
     end;
+  SetIDEColors;
 
   Editor := GetActiveEditor;
   if Assigned(Editor) then
@@ -2773,6 +2776,7 @@ begin
   // Load MRU Lists
   tbiRecentFileList.LoadFromIni(AppStorage.IniFile, 'MRU File List');
 
+  SetIDEColors;
 end;
 
 function TPyIDEMainForm.EditorFromTab(Tab : TSpTBXTabItem) : IEditor;
@@ -3190,6 +3194,66 @@ begin
     mnSkins.Recreate;
   finally
     SkinList.Free;
+  end;
+end;
+
+procedure TPyIDEMainForm.SetIDEColors;
+begin
+  if CommandsDataModule.PyIDEOptions.UsePythonColorsInIDE then
+  begin
+    FileExplorerWindow.FileExplorerTree.Color := CommandsDataModule.SynPythonSyn.SpaceAttri.Background;
+    BreakPointsWindow.BreakPointsView.Color := CommandsDataModule.SynPythonSyn.SpaceAttri.Background;
+    CallStackWindow.CallStackView.Color := CommandsDataModule.SynPythonSyn.SpaceAttri.Background;
+    CodeExplorerWindow.ExplorerTree.Color := CommandsDataModule.SynPythonSyn.SpaceAttri.Background;
+    MessagesWindow.MessagesView.Color := CommandsDataModule.SynPythonSyn.SpaceAttri.Background;
+    ProjectExplorerWindow.ExplorerTree.Color := CommandsDataModule.SynPythonSyn.SpaceAttri.Background;
+    RegExpTesterWindow.GroupsView.Color := CommandsDataModule.SynPythonSyn.SpaceAttri.Background;
+    RegExpTesterWindow.RegExpText.Color := CommandsDataModule.SynPythonSyn.SpaceAttri.Background;
+    RegExpTesterWindow.SearchText.Color := CommandsDataModule.SynPythonSyn.SpaceAttri.Background;
+    RegExpTesterWindow.MatchText.Color := CommandsDataModule.SynPythonSyn.SpaceAttri.Background;
+    RegExpTesterWindow.RegExpText.Font.Color := CommandsDataModule.SynPythonSyn.IdentifierAttri.Foreground;
+    RegExpTesterWindow.SearchText.Font.Color := CommandsDataModule.SynPythonSyn.IdentifierAttri.Foreground;
+    RegExpTesterWindow.MatchText.Font.Color := CommandsDataModule.SynPythonSyn.IdentifierAttri.Foreground;
+    ToDoWindow.ToDoView.Color := CommandsDataModule.SynPythonSyn.SpaceAttri.Background;
+    UnitTestWindow.UnitTests.Color := CommandsDataModule.SynPythonSyn.SpaceAttri.Background;
+    UnitTestWindow.ErrorText.Color := CommandsDataModule.SynPythonSyn.SpaceAttri.Background;
+    UnitTestWindow.ErrorText.Font.Color := CommandsDataModule.SynPythonSyn.IdentifierAttri.Foreground;
+    VariablesWindow.VariablesTree.Color := CommandsDataModule.SynPythonSyn.SpaceAttri.Background;
+    VariablesWindow.HTMLLabel.Color := CommandsDataModule.SynPythonSyn.SpaceAttri.Background;
+    VariablesWindow.DocPanel.Color := CommandsDataModule.SynPythonSyn.SpaceAttri.Background;
+    VariablesWindow.HTMLLabel.Font.Color := CommandsDataModule.SynPythonSyn.IdentifierAttri.Foreground;
+    WatchesWindow.WatchesView.Color := CommandsDataModule.SynPythonSyn.SpaceAttri.Background;
+    OutputWindow.lsbConsole.Color := CommandsDataModule.SynPythonSyn.SpaceAttri.Background;
+    OutputWindow.lsbConsole.Font.Color := CommandsDataModule.SynPythonSyn.IdentifierAttri.Foreground;
+    OutputWindow.FontOrColorUpdated;
+  end
+  else
+  begin
+    FileExplorerWindow.FileExplorerTree.Color := clWindow;
+    BreakPointsWindow.BreakPointsView.Color := clWindow;
+    CallStackWindow.CallStackView.Color := clWindow;
+    CodeExplorerWindow.ExplorerTree.Color := clWindow;
+    MessagesWindow.MessagesView.Color := clWindow;
+    ProjectExplorerWindow.ExplorerTree.Color := clWindow;
+    RegExpTesterWindow.GroupsView.Color := clWindow;
+    RegExpTesterWindow.RegExpText.Color := clWindow;
+    RegExpTesterWindow.SearchText.Color := clWindow;
+    RegExpTesterWindow.MatchText.Color := clWindow;
+    RegExpTesterWindow.RegExpText.Font.Color := clWindowText;
+    RegExpTesterWindow.SearchText.Font.Color := clWindowText;
+    RegExpTesterWindow.MatchText.Font.Color := clWindowText;
+    ToDoWindow.ToDoView.Color := clWindow;
+    UnitTestWindow.UnitTests.Color := clWindow;
+    UnitTestWindow.ErrorText.Color := clWindow;
+    UnitTestWindow.ErrorText.Font.Color := clWindowText;
+    VariablesWindow.VariablesTree.Color := clWindow;
+    VariablesWindow.HTMLLabel.Color := clWindow;
+    VariablesWindow.DocPanel.Color := clWindow;
+    VariablesWindow.HTMLLabel.Font.Color := clWindowText;
+    WatchesWindow.WatchesView.Color := clWindow;
+    OutputWindow.lsbConsole.Color := clWindow;
+    OutputWindow.lsbConsole.Font.Color := clWindowText;
+    OutputWindow.FontOrColorUpdated;
   end;
 end;
 
