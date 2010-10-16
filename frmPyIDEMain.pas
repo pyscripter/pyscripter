@@ -297,13 +297,13 @@
           Bug fixes
             Issues  297, 307, 346, 354, 358, 371, 375, 376, 382, 384, 387, 389
 
-  History:   v 2.3
+  History:   v 2.3.1
           New Features
             Native unicode strings throught (speed improvements on XP)
             Revamped Code Explorer (Issues 192, 163, 213, 225)
             Improvements to Code completion
             -  Auto-completion for the import statement in python 2.5 and later (Issue 230)
-            -  Analysing function return statements
+            -  Processing of function return statements
             -  Background module parsing and caching of parsed modules
             Start-up python scripts pyscripter_init.py and python_init.py. See help file for details.
             Imporved "Match Brace" (Issue 426) and New Editor Command "Select to brace"
@@ -817,6 +817,7 @@ type
     SpTBXItem1: TSpTBXItem;
     SpTBXSeparatorItem12: TSpTBXSeparatorItem;
     SpTBXItem2: TSpTBXItem;
+    SpTBXItem3: TSpTBXItem;
     procedure mnFilesClick(Sender: TObject);
     procedure actEditorZoomInExecute(Sender: TObject);
     procedure actEditorZoomOutExecute(Sender: TObject);

@@ -364,6 +364,7 @@ type
     actToolsEditStartupScripts: TAction;
     SynWebEsSyn: TSynWebEsSyn;
     SynWebPhpPlainSyn: TSynWebPhpPlainSyn;
+    actHelpWebBlog: TAction;
     function ProgramVersionHTTPLocationLoadFileFromRemote(
       AProgramVersionLocation: TJvProgramVersionHTTPLocation; const ARemotePath,
       ARemoteFileName, ALocalPath, ALocalFileName: string): string;
@@ -447,6 +448,7 @@ type
     procedure actFileCloseAllOtherExecute(Sender: TObject);
     procedure actEditCopyFileNameExecute(Sender: TObject);
     procedure actToolsEditStartupScriptsExecute(Sender: TObject);
+    procedure actHelpWebBlogExecute(Sender: TObject);
   private
     fHighlighters: TStrings;
     fUntitledNumbers: TBits;
@@ -2550,6 +2552,11 @@ begin
   PyIDEMainForm.MenuHelpRequested := True;
   Application.HelpJump('parameters');
   PyIDEMainForm.MenuHelpRequested := False;
+end;
+
+procedure TCommandsDataModule.actHelpWebBlogExecute(Sender: TObject);
+begin
+  OpenObject('http://pyscripter.blogspot.com/');
 end;
 
 procedure TCommandsDataModule.actHelpWebGroupSupportExecute(Sender: TObject);

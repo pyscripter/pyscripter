@@ -5,9 +5,9 @@ then you need to download and install it manually from
 http://www.microsoft.com/downloads/details.aspx?familyid=A5C84275-3B97-4AB7-A40D-3802B2AF5FC2.
 
 Versions later than 1.8 contain support for remote debugging.  Read 
-http://pyscripter.googlepages.com/remotepythonengines for details.  
+http://code.google.com/p/pyscripter/wiki/RemoteEngines for details.  
 
-Please visit http:\\pyscripter.googlepages.com for information about
+Please visit http:\\pyscripter.googlecode.com for information about
 remote debugging and other PyScripter related topics.
 
 Also if you are using a 64bit version of Windows note that PyScripter will only
