@@ -77,9 +77,6 @@ function GetWordAtPos(const LineText : string; Start : Integer; WordChars : TSys
   ScanBackwards : boolean = True; ScanForward : boolean = True;
   HandleBrackets : Boolean = False) : string;
 
-(* Mask FPU Excptions - Useful for importing SciPy and other Python libs *)
-procedure MaskFPUExceptions(ExceptionsMasked : boolean);
-
 (* Format a doc string by removing left space and blank lines at start and bottom *)
 function FormatDocString(const DocString : string) : string;
 
@@ -609,18 +606,6 @@ begin
           ScanBackWards, False, True) + Result;
     end;
   end;
-end;
-
-procedure MaskFPUExceptions(ExceptionsMasked : boolean);
-begin
-//  if ExceptionsMasked then
-//    Set8087CW($1332 or $3F)
-//  else
-//    Set8087CW($1332);
-  if ExceptionsMasked then
-    Set8087CW($1232 or $3F)
-  else
-    Set8087CW($1232);
 end;
 
 function FormatDocString(const DocString : string) : string;

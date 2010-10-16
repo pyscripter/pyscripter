@@ -83,6 +83,7 @@ Type
   TJvDockVSNETPanelSpTBX = class(TJvDockVSNETPanel)
   protected
     procedure AddDockServer(ADockServer: TJvDockServer); override;
+    procedure OnPaintSplitter(Sender : TObject);
   public
     constructor Create(AOwner: TComponent); override;
   end;
@@ -365,7 +366,7 @@ var
   IsVertical: Boolean;
   R, DragHandleR : TRect;
   C1, C2 : TColor;
-  
+
 begin
   if SkinManager.GetSkinType <> sknSkin then begin
     inherited;
@@ -770,6 +771,7 @@ begin
   if Assigned(VSChannel) then begin
     VSChannel.VSPopupPanelSplitter.ResizeStyle := rsUpdate;
     VSChannel.VSPopupPanelSplitter.SplitWidth := 5;
+    VSChannel.VSPopupPanelSplitter.OnPaint := OnPaintSplitter;
   end;
 end;
 
@@ -780,6 +782,24 @@ begin
   VSChannelClass := TJvDockVSChannelSpTBX;
 end;
 
+procedure TJvDockVSNETPanelSpTBX.OnPaintSplitter(Sender: TObject);
+Var
+  R : TRect;
+  IsVertical : Boolean;
+begin
+  if SkinManager.GetSkinType <> sknSkin then Exit;
+
+  if Assigned(Sender) and (Sender is TJvDockVSPopupPanelSplitter) then
+    with TJvDockVSPopupPanelSplitter(Sender) do begin
+      R := ClientRect;
+      IsVertical := R.Right - R.Left < R.Bottom - R.Top;
+
+      // Paint background
+      CurrentSkin.PaintBackground(Canvas, R, skncSplitter, sknsNormal,
+                                         True, False, IsVertical);
+    end;
+end;
+
 { TJvDockVSChannelSpTBX }
 
 constructor TJvDockVSChannelSpTBX.Create(AOwner: TComponent);
@@ -788,6 +808,7 @@ var
 begin
   inherited;
   ControlStyle := ControlStyle + [csOpaque];
+  DoubleBuffered := True;
   SkinManager.AddSkinNotification(Self);
   Canvas.Font.Assign(ToolbarFont);
   NonClientMetrics.cbSize := SizeOf(NonClientMetrics);
@@ -959,6 +980,7 @@ begin
   FMouseOver := false;
   FMouseDown := false;
   ControlStyle := ControlStyle + [csOpaque];
+  DoubleBuffered := True;
   SkinManager.AddSkinNotification(Self);
 end;
 

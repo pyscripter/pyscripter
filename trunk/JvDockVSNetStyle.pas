@@ -1,4 +1,4 @@
-{-----------------------------------------------------------------------------
+﻿{-----------------------------------------------------------------------------
 The contents of this file are subject to the Mozilla Public License
 Version 1.1 (the "License"); you may not use this file except in compliance
 with the License. You may obtain a copy of the License at
@@ -2563,20 +2563,21 @@ procedure TJvDockVSNetStyle.Timer(Sender: TObject);
           ActivePopupWindow := IsPopupWindow(Handle);
         end;
       end;
+      Result := ActivePopupWindow;
 
-      if ActivePopupWindow then
-      begin
-        GetWindowRect(Handle, Rect);
-        // Search for a control one pixel to the left;
-        Dec(Rect.Left);
-        Result := PointIsOnPopup(Rect.TopLeft, False);
-        if not Result then
-        begin
-          // Search for a control one pixel to the Right;
-          Inc(Rect.Right);
-          Result := PointIsOnPopup(Point(Rect.Right, Rect.Top), False);
-        end;
-      end;
+//      if ActivePopupWindow then
+//      begin
+//        GetWindowRect(Handle, Rect);
+//        // Search for a control one pixel to the left;
+//        Dec(Rect.Left);
+//        Result := PointIsOnPopup(Rect.TopLeft, False);
+//        if not Result then
+//        begin
+//          // Search for a control one pixel to the Right;
+//          Inc(Rect.Right);
+//          Result := PointIsOnPopup(Point(Rect.Right, Rect.Top), False);
+//        end;
+//      end;
     end;
   end;
 

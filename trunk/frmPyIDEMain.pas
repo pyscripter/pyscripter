@@ -306,6 +306,7 @@
             -  Analysing function return statements
             -  Background module parsing and caching of parsed modules
             Start-up python scripts pyscripter_init.py and python_init.py. See help file for details.
+            Imporved "Match Brace" (Issue 426) and New Editor Command "Select to brace"
             Italian translation by Vincenzo Demasi added
             Russian translation by Aleksander Dragunkin added
             New IDE option "Highlight selected word" (Issue 404)
@@ -1063,7 +1064,8 @@ uses
   uCmdLine, uSearchHighlighter, frmModSpTBXCustomize, IniFiles,
   JclStrings, JclSysUtils, frmProjectExplorer, cProjectClasses,
   MPDataObject, gnugettext, WideStrUtils, WideStrings,
-  SpTBXDefaultSkins, SpTBXControls, VirtualFileSearch, SynEditKeyCmds, StdActns;
+  SpTBXDefaultSkins, SpTBXControls, VirtualFileSearch, SynEditKeyCmds, StdActns,
+  PythonEngine;
 
 {$R *.DFM}
 
@@ -1443,10 +1445,10 @@ begin
     // Shut down help
     Application.OnHelp := nil;
     // QC25183
-//    try
-//      Application.HelpCommand(HELP_QUIT, 0);
-//    except
-//    end;
+    try
+      Application.HelpCommand(HELP_QUIT, 0);
+    except
+    end;
 
     // Stop DropTarget to make sure tis unregistered
     RevokeDragDrop(TabControl.Handle);

@@ -521,6 +521,9 @@ Const
   ecRecallCommandEsc = ecUserFirst + 102;
   ecCodeCompletion = ecUserFirst + 103;
   ecParamCompletion = ecUserFirst + 104;
+  ecSelMatchBracket = ecUserFirst + 105;
+
+  function GetMatchingBracket(SynEdit : TSynEdit) : TBufferCoord;
 
 var
   CommandsDataModule: TCommandsDataModule = nil;
@@ -915,18 +918,16 @@ begin
     TabWidth := 4;
 
     //SelectedColor.Background := SelectionBackgroundColor;
+
+    // Register User Commands and shortcuts
+    Keystrokes.AddKey(ecCodeCompletion, VK_SPACE, [ssCtrl]);
+    Keystrokes.AddKey(ecParamCompletion, VK_SPACE, [ssCtrl, ssShift]);
+    Keystrokes.AddKey(ecSelMatchBracket, 221, [ssCtrl, ssShift]); // 221 code for ]
+    // Visual studio shortcut form Match Bracket
     Keystrokes.Delete(Keystrokes.FindCommand(ecMatchBracket));
-    // Register the CodeCompletion Command
-    with Keystrokes.Add do begin
-      ShortCut := Menus.ShortCut(VK_SPACE, [ssCtrl]);
-      Command := ecCodeCompletion;
-    end;
-    // Register the ParamCompletion Command
-    with Keystrokes.Add do begin
-      ShortCut := Menus.ShortCut(VK_SPACE, [ssCtrl, ssShift]);
-      Command := ecParamCompletion;
-    end;
+    Keystrokes.AddKey(ecMatchBracket, 221, [ssCtrl]);
   end;
+
   InterpreterEditorOptions := TSynEditorOptionsContainer.Create(Self);
   InterpreterEditorOptions.Assign(EditorOptions);
   InterpreterEditorOptions.Options := InterpreterEditorOptions.Options -
@@ -1757,7 +1758,7 @@ procedure TCommandsDataModule.actSearchMatchingBraceExecute(
   Sender: TObject);
 begin
   if Assigned(GI_ActiveEditor) then
-    GI_ActiveEditor.ActiveSynEdit.ExecuteCommand(ecMatchBracket, #0, nil);
+    GI_ActiveEditor.ActiveSynEdit.CommandProcessor(ecMatchBracket, #0, nil);
 end;
 
 function TCommandsDataModule.IsBlockCloser(S: string): Boolean;
@@ -1775,29 +1776,22 @@ begin
   Result := not ((Line = '') or NonExecutableLineRE.Exec(Line));
 end;
 
-procedure TCommandsDataModule.PaintMatchingBrackets(Canvas : TCanvas;
-  SynEdit : TSynEdit; TransientType: TTransientType);
-{-----------------------------------------------------------------------------
-  Based on code from devcpp (dev-cpp.sf.net)
------------------------------------------------------------------------------}
-const
-  Brackets: array[0..5] of char = ('(', ')', '[', ']', '{', '}');
 
-  function CharToPixels(P: TBufferCoord): TPoint;
-  begin
-    Result:= SynEdit.RowColumnToPixels(SynEdit.BufferToDisplayPos(P));
-  end;
+procedure GetMatchingBrackets(SynEdit : TSynEdit;
+  var BracketPos : TBufferCoord; out MatchingBracketPos : TBufferCoord;
+  out IsBracket, HasMatchingBracket : Boolean; out BracketCh, MatchCh : Char;
+  out Attri: TSynHighlighterAttributes);
 
-  procedure GetMatchingBrackets(P : TBufferCoord; out PM : TBufferCoord;
-    out IsBracket, HasMatchingBracket : Boolean; out BracketCh, MatchCh : Char;
-    out Attri: TSynHighlighterAttributes);
+  procedure GetMatchingBracketsInt(const P : TBufferCoord);
+  const
+    Brackets: array[0..5] of char = ('(', ')', '[', ']', '{', '}');
+
   var
     S: string;
     I: Integer;
   begin
     IsBracket := False;
     HasMatchingBracket := False;
-    PM := BufferCoord(0,0);
     SynEdit.GetHighlighterAttriAtRowCol(P, S, Attri);
     if Assigned(Attri) and (SynEdit.Highlighter.SymbolAttribute = Attri) and
         (SynEdit.CaretX<=length(SynEdit.LineText) + 1) then begin
@@ -1805,8 +1799,8 @@ const
         if S = Brackets[i] then begin
           BracketCh := Brackets[i];
           IsBracket := True;
-          PM := SynEdit.GetMatchingBracketEx(P);
-          if (PM.Char > 0) then begin
+          MatchingBracketPos := SynEdit.GetMatchingBracketEx(P);
+          if (MatchingBracketPos.Char > 0) then begin
             HasMatchingBracket := True;
             MatchCh := Brackets[i xor 1];
           end;
@@ -1814,6 +1808,52 @@ const
         end;
     end;
   end;
+
+begin
+  MatchingBracketPos := BufferCoord(0,0);
+  BracketPos := SynEdit.CaretXY;
+
+  // First Look at the previous character like Site
+  if BracketPos.Char > 1 then Dec(BracketPos.Char);
+  GetMatchingBracketsInt(BracketPos);
+
+  //if it is not a bracket then look at the next character;
+  if not IsBracket and (SynEdit.CaretX > 1) then begin
+    Inc(BracketPos.Char);
+    GetMatchingBracketsInt(BracketPos);
+  end;
+end;
+
+function GetMatchingBracket(SynEdit : TSynEdit) : TBufferCoord;
+var
+  BracketPos : TBufferCoord;
+  BracketCh, MatchCh : Char;
+  IsBracket, HasMatchingBracket : Boolean;
+  Attri: TSynHighlighterAttributes;
+  IsOutside : Boolean;
+Const
+  OpenChars = ['(', '{', '['];
+begin
+  GetMatchingBrackets(SynEdit, BracketPos, Result, IsBracket, HasMatchingBracket,
+    BracketCh, MatchCh, Attri);
+  if HasMatchingBracket then begin
+    IsOutside := (CharInSet(BracketCh, OpenChars) and
+                  (BracketPos.Char = SynEdit.CaretXY.Char)) or
+                 not (CharInSet(BracketCh, OpenChars) or
+                  (BracketPos.Char = SynEdit.CaretXY.Char));
+   if (IsOutSide and not CharInSet(MatchCh, OpenChars)) or
+      (not IsOutSide and CharInSet(MatchCh, OpenChars))
+   then
+     Inc(Result.Char);
+  end;
+end;
+
+
+procedure TCommandsDataModule.PaintMatchingBrackets(Canvas : TCanvas;
+  SynEdit : TSynEdit; TransientType: TTransientType);
+{-----------------------------------------------------------------------------
+  Based on code from devcpp (dev-cpp.sf.net)
+-----------------------------------------------------------------------------}
 
 var
   P, PM: TBufferCoord;
@@ -1824,17 +1864,8 @@ var
   IsBracket, HasMatchingBracket : Boolean;
   Attri: TSynHighlighterAttributes;
 begin
-  P := SynEdit.CaretXY;
-
-  // First Look at the previous character like Site
-  if P.Char > 1 then Dec(P.Char);
-  GetMatchingBrackets(P, PM, IsBracket, HasMatchingBracket, BracketCh, MatchCh, Attri);
-
-  //if it is not a bracket then look at the next character;
-  if not IsBracket and (SynEdit.CaretX > 1) then begin
-    Inc(P.Char);
-    GetMatchingBrackets(P, PM, IsBracket, HasMatchingBracket, BracketCh, MatchCh, Attri);
-  end;
+  GetMatchingBrackets(SynEdit, P, PM, IsBracket, HasMatchingBracket, BracketCh,
+    MatchCh, Attri);
 
   if IsBracket then begin
     PD := SynEdit.BufferToDisplayPos(P);
@@ -2817,13 +2848,16 @@ begin
   if AUserCommand = ecCodeCompletion then
     ADescription := 'Code Completion'
   else if AUserCommand = ecParamCompletion then
-    ADescription := 'Param Completion';
+    ADescription := 'Param Completion'
+  else if AUserCommand = ecSelMatchBracket then
+    ADescription := 'Select to Bracket';
 end;
 
 procedure TCommandsDataModule.GetEditorAllUserCommands(ACommands: TStrings);
 begin
   ACommands.AddObject('Code Completion', TObject(ecCodeCompletion));
   ACommands.AddObject('Param Completion', TObject(ecParamCompletion));
+  ACommands.AddObject('Select to Bracket', TObject(ecSelMatchBracket));
 end;
 
 function TCommandsDataModule.DoSearchReplaceText(SynEdit : TSynEdit;

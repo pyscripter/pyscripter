@@ -63,20 +63,19 @@ inherited AboutBox: TAboutBox
             'ink>jvcl.sf.net</link>)'#13#10'<br>'#13#10'- SynEdit (<link>synedit.sf.net</' +
             'link>)'#13#10'<br>'#13#10'- VirtualTreeView (<link>www.delphi-gems.com</link' +
             '>)'#13#10'<br>'#13#10'- VirtualShellTools (<link>www.mustangpeak.net</link>)' +
-            #13#10'<br>'#13#10'- StoHtmlHelp (<link>www.martinstoeckli.ch/delphi</link>' +
-            ')'#13#10'<br>'#13#10'- GExperts (<link>www.gexperts.org</link>)'#13#10'<br>'#13#10'- Syn' +
-            ' Editor (<link>syn.sf.net</link>)'#13#10'<br>'#13#10'- Syn Web highlighters ' +
-            '(<link>flatdev.ovh.org/</link>)'#13#10'<br>'#13#10'- Toolbar2000 (<link>www.' +
-            'jrsoftware.org/tb2k.php</link>)'#13#10'<br>'#13#10'- SpTBXLib(<link>www.silv' +
-            'erpointdevelopment.com</link>)'#13#10'<br>'#13#10'<br>'#13#10'- TCommandLineReader' +
-            '(<link>www.benibela.de</link>)'#13#10'<br>'#13#10'- Silk icons(<link>www.fam' +
-            'famfam.com</link>)'#13#10'<br>'#13#10'<br>'#13#10'Translations'#13#10'<br>'#13#10'- Chinese tr' +
-            'anslation by "Love China"'#13#10'<br>'#13#10'- French translation by Groupe ' +
-            'AmiensPython (<link>pedagogie.ac-amiens.fr/maths/AmiensPython/</' +
-            'link>)'#13#10'<br>'#13#10'- Japanese translation by Tokibito'#13#10'<br>'#13#10'- Russia' +
-            'n translation by Aleksander Dragunkin'#13#10'<br>'#13#10'- Slovak translatio' +
-            'n by Marian Denes'#13#10'<br>'#13#10'- Spanish translation by Javier Pimas'#13#10 +
-            '<br>'
+            #13#10'<br>'#13#10'- GExperts (<link>www.gexperts.org</link>)'#13#10'<br>'#13#10'- Syn ' +
+            'Editor (<link>syn.sf.net</link>)'#13#10'<br>'#13#10'- Syn Web highlighters (' +
+            '<link>flatdev.ovh.org/</link>)'#13#10'<br>'#13#10'- Toolbar2000 (<link>www.j' +
+            'rsoftware.org/tb2k.php</link>)'#13#10'<br>'#13#10'- SpTBXLib(<link>www.silve' +
+            'rpointdevelopment.com</link>)'#13#10'<br>'#13#10'<br>'#13#10'- TCommandLineReader(' +
+            '<link>www.benibela.de</link>)'#13#10'<br>'#13#10'- Silk icons(<link>www.famf' +
+            'amfam.com</link>)'#13#10'<br>'#13#10'<br>'#13#10'Translations'#13#10'<br>'#13#10'- Chinese tra' +
+            'nslation by "Love China"'#13#10'<br>'#13#10'- French translation by Groupe A' +
+            'miensPython (<link>pedagogie.ac-amiens.fr/maths/AmiensPython/</l' +
+            'ink>)'#13#10'<br>'#13#10'- Japanese translation by Tokibito'#13#10'<br>'#13#10'- Russian' +
+            ' translation by Aleksander Dragunkin'#13#10'<br>'#13#10'- Slovak translation' +
+            ' by Marian Denes'#13#10'<br>'#13#10'- Spanish translation by Javier Pimas'#13#10'<' +
+            'br>'
           Text.Strings = (
             
               '<b>Credits</b><br>'#13#10'Special thanks to the many great developers ' +
@@ -87,20 +86,19 @@ inherited AboutBox: TAboutBox
               'ink>jvcl.sf.net</link>)'#13#10'<br>'#13#10'- SynEdit (<link>synedit.sf.net</' +
               'link>)'#13#10'<br>'#13#10'- VirtualTreeView (<link>www.delphi-gems.com</link' +
               '>)'#13#10'<br>'#13#10'- VirtualShellTools (<link>www.mustangpeak.net</link>)' +
-              #13#10'<br>'#13#10'- StoHtmlHelp (<link>www.martinstoeckli.ch/delphi</link>' +
-              ')'#13#10'<br>'#13#10'- GExperts (<link>www.gexperts.org</link>)'#13#10'<br>'#13#10'- Syn' +
-              ' Editor (<link>syn.sf.net</link>)'#13#10'<br>'#13#10'- Syn Web highlighters ' +
-              '(<link>flatdev.ovh.org/</link>)'#13#10'<br>'#13#10'- Toolbar2000 (<link>www.' +
-              'jrsoftware.org/tb2k.php</link>)'#13#10'<br>'#13#10'- SpTBXLib(<link>www.silv' +
-              'erpointdevelopment.com</link>)'#13#10'<br>'#13#10'<br>'#13#10'- TCommandLineReader' +
-              '(<link>www.benibela.de</link>)'#13#10'<br>'#13#10'- Silk icons(<link>www.fam' +
-              'famfam.com</link>)'#13#10'<br>'#13#10'<br>'#13#10'Translations'#13#10'<br>'#13#10'- Chinese tr' +
-              'anslation by "Love China"'#13#10'<br>'#13#10'- French translation by Groupe ' +
-              'AmiensPython (<link>pedagogie.ac-amiens.fr/maths/AmiensPython/</' +
-              'link>)'#13#10'<br>'#13#10'- Japanese translation by Tokibito'#13#10'<br>'#13#10'- Russia' +
-              'n translation by Aleksander Dragunkin'#13#10'<br>'#13#10'- Slovak translatio' +
-              'n by Marian Denes'#13#10'<br>'#13#10'- Spanish translation by Javier Pimas'#13#10 +
-              '<br>')
+              #13#10'<br>'#13#10'- GExperts (<link>www.gexperts.org</link>)'#13#10'<br>'#13#10'- Syn ' +
+              'Editor (<link>syn.sf.net</link>)'#13#10'<br>'#13#10'- Syn Web highlighters (' +
+              '<link>flatdev.ovh.org/</link>)'#13#10'<br>'#13#10'- Toolbar2000 (<link>www.j' +
+              'rsoftware.org/tb2k.php</link>)'#13#10'<br>'#13#10'- SpTBXLib(<link>www.silve' +
+              'rpointdevelopment.com</link>)'#13#10'<br>'#13#10'<br>'#13#10'- TCommandLineReader(' +
+              '<link>www.benibela.de</link>)'#13#10'<br>'#13#10'- Silk icons(<link>www.famf' +
+              'amfam.com</link>)'#13#10'<br>'#13#10'<br>'#13#10'Translations'#13#10'<br>'#13#10'- Chinese tra' +
+              'nslation by "Love China"'#13#10'<br>'#13#10'- French translation by Groupe A' +
+              'miensPython (<link>pedagogie.ac-amiens.fr/maths/AmiensPython/</l' +
+              'ink>)'#13#10'<br>'#13#10'- Japanese translation by Tokibito'#13#10'<br>'#13#10'- Russian' +
+              ' translation by Aleksander Dragunkin'#13#10'<br>'#13#10'- Slovak translation' +
+              ' by Marian Denes'#13#10'<br>'#13#10'- Spanish translation by Javier Pimas'#13#10'<' +
+              'br>')
           HotLinks = True
           MarginWidth = 2
           MarginHeight = 2

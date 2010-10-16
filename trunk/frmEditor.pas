@@ -164,7 +164,7 @@ type
     procedure DoActivateEditor;
     function DoActivateView(ViewFactory : IEditorViewFactory) : IEditorView;
     function GetEditor : IEditor;
-    procedure doProcessCommandHandler(Sender: TObject; AfterProcessing: boolean;
+    procedure EditorCommandHandler(Sender: TObject; AfterProcessing: boolean;
       var Handled: boolean; var Command: TSynEditorCommand;
       var AChar: WideChar; Data: Pointer; HandlerData: pointer);
     procedure PaintGutterGlyphs(ACanvas: TCanvas; AClip: TRect;
@@ -1546,7 +1546,7 @@ begin
   end else //No highlighter otherwise
     SynEdit.Highlighter := nil;
   SynEdit2.Highlighter := SynEdit.Highlighter;
-  SynEdit.RegisterCommandHandler( doProcessCommandHandler, nil );
+  SynEdit.RegisterCommandHandler( EditorCommandHandler, nil );
 end;
 
 procedure TEditorForm.EditorMouseWheel(theDirection: Integer;
@@ -1595,7 +1595,7 @@ begin
   end;
 end;
 
-procedure TEditorForm.doProcessCommandHandler(Sender: TObject;
+procedure TEditorForm.EditorCommandHandler(Sender: TObject;
   AfterProcessing: boolean; var Handled: boolean;
   var Command: TSynEditorCommand; var AChar: WideChar; Data,
   HandlerData: pointer);
@@ -1715,6 +1715,20 @@ begin
           fOldOptions := ASynEdit.Options;
           ASynEdit.Options := ASynEdit.Options + [eoAutoIndent];
           // not handled so default processing takes place
+        end;
+      ecMatchBracket :
+        begin
+          BC := GetMatchingBracket(ASynEdit);
+          if BC.Char > 0 then
+            ASynEdit.CaretXY := BC;
+          Handled := True;
+        end;
+      ecSelMatchBracket :
+        begin
+          BC := GetMatchingBracket(ASynEdit);
+          if BC.Char > 0 then
+            ASynEdit.SetCaretAndSelection(BC, ASynEdit.CaretXY, BC);
+          Handled := True;
         end;
     end;
   end else begin  // AfterProcessing
