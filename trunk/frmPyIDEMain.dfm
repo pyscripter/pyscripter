@@ -1153,6 +1153,9 @@ object PyIDEMainForm: TPyIDEMainForm
           object mnHelpWebSupport: TSpTBXItem
             Action = CommandsDataModule.actHelpWebGroupSupport
           end
+          object SpTBXItem3: TSpTBXItem
+            Action = CommandsDataModule.actHelpWebBlog
+          end
         end
         object N17: TSpTBXSeparatorItem
         end
@@ -1503,7 +1506,7 @@ object PyIDEMainForm: TPyIDEMainForm
       CustomHeight = 21
     end
     object SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem
-      CustomWidth = 0
+      CustomWidth = 407
     end
     object SpTBXSeparatorItem5: TSpTBXSeparatorItem
     end

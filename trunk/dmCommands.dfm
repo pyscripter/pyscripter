@@ -4593,6 +4593,14 @@ object CommandsDataModule: TCommandsDataModule
       Hint = 'Edit PyScripter initialization files'
       OnExecute = actToolsEditStartupScriptsExecute
     end
+    object actHelpWebBlog: TAction
+      Category = 'Help'
+      Caption = '&Blog'
+      HelpContext = 370
+      Hint = 'Go to the PyScripter Blog'
+      ImageIndex = 147
+      OnExecute = actHelpWebBlogExecute
+    end
   end
   object Images: TImageList
     Left = 188
