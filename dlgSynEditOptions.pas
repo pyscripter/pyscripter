@@ -79,7 +79,7 @@ uses
   SynEditKeyCmds,
 {$ENDIF}
   Classes,
-  SysUtils, SpTBXControls, 
+  SysUtils, SpTBXControls,
   SpTBXEditors, dlgPyIDEBase, SpTBXItem, SpTBXExtEditors,
   MPCommonObjects, EasyListview, SpTBXTabs, TB2Item;
 
@@ -364,7 +364,7 @@ uses
 {$IFDEF SYN_CLX}
   QSynEditKeyConst;
 {$ELSE}
-  SynEditKeyConst, uCommonFunctions, gnugettext, StringResources;
+  SynEditKeyConst, uCommonFunctions, gnugettext, StringResources, SpTBXSkins;
 {$ENDIF}
 
 //function SortByColumn(Item1, Item2: TEasyItem; Data: integer): integer; stdcall;
@@ -1041,6 +1041,10 @@ end;
 procedure TfmEditorOptionsDialog.btnOkClick(Sender: TObject);
 begin
 //  btnUpdateKey.Click;
+  // Bug fix of SpTBXColorEdit
+  btnOk.SetFocus;
+  Application.ProcessMessages;
+
   ModalResult:= mrOk;
 end;
 
@@ -1285,7 +1289,7 @@ begin
   SynEdit1.GetHighlighterAttriAtRowColEx(SynEdit1.CaretXY, Token,
             TokenType, Start, Attri);
   for i := 0 to lbElements.Count - 1 do
-    if Assigned(Attri) and (lbElements.Items[i] = Attri.Name) then begin
+    if Assigned(Attri) and (lbElements.Items[i] = Attri.FriendlyName) then begin
       lbElements.ItemIndex := i;
       lbElementsClick(Self);
       break;
