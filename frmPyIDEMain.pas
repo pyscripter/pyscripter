@@ -343,7 +343,6 @@
 
 // Bugs and minor features
 { TODO : Editor Go back forward }
-{ TODO : Scan python code for global statements }
 // TODO: Internal Tool as in pywin
 // TODO: Interpreter raw_input
 // TODO: Improve parameter completion with an option to provide more help (docstring)
