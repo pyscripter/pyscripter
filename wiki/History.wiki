@@ -2,7 +2,7 @@
 
 = History =
 
-===Version 2.3.1 (August 20, 2010)=== 
+===Version 2.3.1 (October 16, 2010)=== 
 
   * *New features:*     
     * Native unicode strings throught (speed improvements on XP)
