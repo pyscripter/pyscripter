@@ -11,7 +11,7 @@ unit uCommonFunctions;
 interface
 Uses
   Windows, Classes, SysUtils, Graphics, SynEditTypes,
-  WideStrings, SynUnicode, uEditAppIntfs, VirtualFileSearch,
+  SynUnicode, uEditAppIntfs, VirtualFileSearch,
   SpTBXSkins, Controls, SynEdit, SynRegExpr;
 
 const

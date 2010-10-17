@@ -62,7 +62,7 @@ uses
   SynEditHighlighter,
 
   //SynUnicode, {$IFDEF USE_JCL_UNICODE_SUPPORT} JclUnicode, {$ENDIF}
-  WideStrings,  //Use Delphi's one which provide a case sensitive property
+   //Use Delphi's one which provide a case sensitive property
 {$ENDIF}
   SysUtils,
   Classes, SynRegExpr;

@@ -41,10 +41,10 @@ unit dlgSynPrintPreview;
 interface
 
 uses
-  Windows, SysUtils, Classes, Graphics, Forms, Controls, 
+  Windows, SysUtils, Classes, Graphics, Forms, Controls,
   Buttons, ActnList, ImgList, Dialogs,
   SynEditPrintPreview, Printers, SpTBXItem,
-  TB2Item, TB2Dock, TB2Toolbar, Menus, dlgPyIDEBase;
+  TB2Item, TB2Dock, TB2Toolbar, dlgPyIDEBase;
 
 type
   TPrintPreviewDlg = class(TPyIDEDlgBase)

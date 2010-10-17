@@ -37,7 +37,7 @@ uses
   Graphics,
   Controls,
   Dialogs,
-  ActiveX,
+
   ShlObj,
   MPCommonUtilities,
   MPThreadManager,
@@ -53,7 +53,7 @@ uses
   MPShellTypes,
   ExtCtrls,
   MPShellUtilities,
-  VirtualResources,
+
   MPCommonObjects;
 
 type

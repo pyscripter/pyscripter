@@ -11,8 +11,7 @@ unit cRefactoring;
 interface
 
 uses
-  SysUtils, Classes, Windows, Variants, cPythonSourceScanner, Contnrs,
-  WideStrings;
+  SysUtils, Classes, Windows, Variants, cPythonSourceScanner, Contnrs;
 
 type
   {

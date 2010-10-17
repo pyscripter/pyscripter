@@ -193,7 +193,7 @@ implementation
 
 uses dmCommands, uEditAppIntfs, Math, frmPyIDEMain, dlgToDoOptions,
   uCommonFunctions, JvJVCLUtils, cProjectClasses, WideStrUtils,
-  VirtualFileSearch, MPCommonUtilities, cParameters, WideStrings;
+  VirtualFileSearch, MPCommonUtilities, cParameters;
 
 {$R *.dfm}
 

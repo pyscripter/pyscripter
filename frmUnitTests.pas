@@ -107,7 +107,7 @@ implementation
 
 uses uCommonFunctions, frmPyIDEMain, VarPyth, JvJVCLUtils,
   uEditAppIntfs, PythonEngine, dmCommands, cPyBaseDebugger, JclSysUtils,
-  cPyDebugger, StringResources, gnugettext, cPyRemoteDebugger;
+  cPyDebugger, StringResources, gnugettext;
 
 {$R *.dfm}
 

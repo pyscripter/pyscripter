@@ -66,8 +66,8 @@ var
 
 implementation
 
-uses frmPyIDEMain, dmCommands, 
-  Clipbrd, JvDockGlobals, StringResources, gnugettext, uCommonFunctions;
+uses frmPyIDEMain, dmCommands,
+  Clipbrd, StringResources, gnugettext, uCommonFunctions;
 
 
 {$R *.dfm}

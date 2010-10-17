@@ -14,7 +14,7 @@ interface
 uses SysUtils,
      Classes,
      Contnrs,
-     SynRegExpr, AsyncCalls, SyncObjs;
+     SynRegExpr, AsyncCalls;
 
 Type
   TParsedModule = class;
@@ -257,7 +257,7 @@ public
 implementation
 
 uses uCommonFunctions, cRefactoring, VarPyth,
-  StringResources, JclSysUtils, Math, cPyDebugger, gnugettext, WideStrUtils,
+  StringResources, JclSysUtils, Math, cPyDebugger, gnugettext,
   Windows, JclStrings;
 
 Const

@@ -2543,7 +2543,7 @@ procedure TJvDockVSNetStyle.Timer(Sender: TObject);
   var
     Control: TWinControl;
     Handle: HWND;
-    Rect: TRect;
+//    Rect: TRect;
     ActivePopupWindow: Boolean;
   begin
     Control := FindVCLWindow(P);

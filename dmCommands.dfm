@@ -68,7 +68,7 @@ object CommandsDataModule: TCommandsDataModule
     Left = 32
     Top = 241
     Bitmap = {
-      494C010114001800480010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C0101140018004C0010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000006000000001002000000000000060
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -3912,12 +3912,26 @@ object CommandsDataModule: TCommandsDataModule
     ActiveHighlighterSwitch = False
     Engine = SynWebEngine
     Options.HtmlVersion = shvHtml401Transitional
+    Options.CssVersion = scvCss21
+    Options.PhpVersion = spvPhp5
+    Options.PhpShortOpenTag = True
+    Options.PhpAspTags = False
+    Options.AllowASPTags = True
+    Options.CssEmbeded = True
+    Options.PhpEmbeded = True
+    Options.EsEmbeded = True
+    Options.UseEngineOptions = False
     Left = 432
     Top = 272
   end
   object SynWebXmlSyn: TSynWebXmlSyn
     ActiveHighlighterSwitch = False
     Engine = SynWebEngine
+    Options.PhpVersion = spvPhp5
+    Options.PhpShortOpenTag = False
+    Options.PhpAspTags = False
+    Options.PhpEmbeded = True
+    Options.UseEngineOptions = False
     Left = 436
     Top = 320
   end
@@ -3925,6 +3939,12 @@ object CommandsDataModule: TCommandsDataModule
     ActiveHighlighterSwitch = False
     Engine = SynWebEngine
     Options.HtmlVersion = shvHtml401Transitional
+    Options.CssVersion = scvCss21
+    Options.PhpVersion = spvPhp5
+    Options.PhpShortOpenTag = True
+    Options.PhpAspTags = False
+    Options.PhpEmbeded = False
+    Options.UseEngineOptions = False
     Left = 528
     Top = 324
   end
@@ -3934,6 +3954,12 @@ object CommandsDataModule: TCommandsDataModule
   end
   object SynWebEngine: TSynWebEngine
     Options.HtmlVersion = shvHtml401Transitional
+    Options.WmlVersion = swvWml13
+    Options.XsltVersion = swvXslt20
+    Options.CssVersion = scvCss21
+    Options.PhpVersion = spvPhp5
+    Options.PhpShortOpenTag = True
+    Options.PhpAspTags = False
     Left = 616
     Top = 324
   end
@@ -4606,7 +4632,7 @@ object CommandsDataModule: TCommandsDataModule
     Left = 188
     Top = 186
     Bitmap = {
-      494C01019B009F00480010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01019B009F004C0010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000007002000001002000000000000070
       020000000000000000000000000000000000000000000000000000000000EADD
       CB00AB7734009655000096550000AB773400EADDCB0000000000000000000000
@@ -9764,12 +9790,19 @@ object CommandsDataModule: TCommandsDataModule
   object SynWebEsSyn: TSynWebEsSyn
     ActiveHighlighterSwitch = False
     Engine = SynWebEngine
+    Options.PhpVersion = spvPhp5
+    Options.PhpShortOpenTag = True
+    Options.PhpAspTags = False
+    Options.PhpEmbeded = False
+    Options.UseEngineOptions = False
     Left = 616
     Top = 272
   end
   object SynWebPhpPlainSyn: TSynWebPhpPlainSyn
     ActiveHighlighterSwitch = False
     Engine = SynWebEngine
+    Options.PhpVersion = spvPhp5
+    Options.UseEngineOptions = False
     Left = 528
     Top = 272
   end

@@ -49,7 +49,7 @@ uses
   Graphics,
   cFileSearch,
   JvAppStorage,
-  WideStrings, MPCommonObjects;
+  MPCommonObjects;
 
 type
   TFindInFilesAction = (gaCurrentOnlyGrep, gaOpenFilesGrep, gaProjectGrep, gaDirGrep);

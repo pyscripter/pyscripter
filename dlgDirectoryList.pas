@@ -12,7 +12,7 @@ interface
 
 uses
   SysUtils, Classes, Windows, Controls, Forms, StdCtrls,
-  SpTBXControls, WideStrings, SpTBXEditors, dlgPyIDEBase,
+  SpTBXControls, SpTBXEditors, dlgPyIDEBase,
   SpTBXItem;
 
 type

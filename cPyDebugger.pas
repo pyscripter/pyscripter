@@ -12,7 +12,7 @@ interface
 
 uses
   Windows, SysUtils, Classes, uEditAppIntfs, PythonEngine, Forms, Contnrs,
-  cPyBaseDebugger, WideStrings;
+  cPyBaseDebugger;
 
 type
   TFrameInfo = class(TBaseFrameInfo)

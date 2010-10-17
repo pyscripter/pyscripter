@@ -45,8 +45,8 @@ unit dlgFindResultsOptions;
 interface
 
 uses
-  StdCtrls, Dialogs, Controls, ExtCtrls, Classes, Forms, JvExMask,
-  JvSpin, SpTBXControls, SpTBXEditors, dlgPyIDEBase, SpTBXItem;
+  StdCtrls, Dialogs, Controls, ExtCtrls, Classes, Forms,
+  SpTBXControls, SpTBXEditors, dlgPyIDEBase, SpTBXItem;
 
 type
   TFindResultsOptionsDialog = class(TPyIDEDlgBase)

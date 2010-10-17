@@ -50,7 +50,7 @@ uses
   Dialogs, frmIDEDockWin, JvDockControlForm, ExtCtrls, Menus,
   ActnList, ComCtrls, StdCtrls, cFindInFiles, JvAppStorage,
   TB2Item, TB2Dock, TB2Toolbar, JvComponentBase,  SpTBXSkins,
-  SpTBXItem, WideStrings, SynUnicode, SpTBXEditors, SpTBXDkPanels;
+  SpTBXItem, SynUnicode, SpTBXEditors, SpTBXDkPanels;
 
 type
   TFindResultsWindow = class(TIDEDockWindow, IJvAppStorageHandler)

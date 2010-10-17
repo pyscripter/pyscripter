@@ -136,7 +136,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             Width = 186
             Height = 21
             Style = csDropDownList
-            ItemHeight = 13
             Sorted = True
             TabOrder = 0
             OnExit = cKeyCommandExit
@@ -336,7 +335,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Height = 21
           Style = csDropDownList
           Anchors = [akLeft, akTop, akRight]
-          ItemHeight = 13
           TabOrder = 5
           OnChange = cbHighlightersChange
         end
@@ -379,9 +377,9 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
         TabItem = 'SpTBXTabItem2'
         object gbOptions: TSpTBXGroupBox
           AlignWithMargins = True
-          Left = 5
+          Left = 3
           Top = 3
-          Width = 470
+          Width = 476
           Height = 247
           Caption = 'Options'
           Align = alTop
@@ -389,8 +387,10 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           ShowHint = True
           TabOrder = 0
           TBXStyleBackground = True
+          ExplicitLeft = 5
+          ExplicitWidth = 470
           DesignSize = (
-            470
+            476
             247)
           object ckAutoIndent: TSpTBXCheckBox
             Left = 23
@@ -673,14 +673,17 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
         end
         object gbCaret: TSpTBXGroupBox
           AlignWithMargins = True
-          Left = 5
-          Top = 252
-          Width = 470
+          Left = 3
+          Top = 256
+          Width = 476
           Height = 69
           Caption = 'Caret'
           Align = alBottom
           TabOrder = 1
           TBXStyleBackground = True
+          ExplicitLeft = 5
+          ExplicitTop = 252
+          ExplicitWidth = 470
           object Label2: TSpTBXLabel
             Left = 60
             Top = 19
@@ -701,7 +704,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             Width = 176
             Height = 21
             Style = csDropDownList
-            ItemHeight = 13
             TabOrder = 0
             Items.Strings = (
               'Vertical Line'
@@ -715,7 +717,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             Width = 176
             Height = 21
             Style = csDropDownList
-            ItemHeight = 13
             TabOrder = 1
             Items.Strings = (
               'Vertical Line'

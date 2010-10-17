@@ -184,7 +184,7 @@ uses
 {$ELSE}
   SynEditStrConst,
 {$ENDIF}
-  WideStrUtils,
+
   uCommonFunctions, Math;
 
 procedure TSynYAMLSyn.SpaceProc;
