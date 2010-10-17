@@ -98,8 +98,8 @@ implementation
 
 uses
   SysUtils, Windows, Messages, FileCtrl,
-  {GX_GrepResults, GX_GrepOptions,} Math, 
-  uEditAppIntfs, frmFindResults, dmCommands, WideStrings,
+  {GX_GrepResults, GX_GrepOptions,} Math,
+  uEditAppIntfs, frmFindResults, dmCommands,
   Dialogs, gnugettext, StringResources;
 
 function GetScrollbarWidth: Integer;

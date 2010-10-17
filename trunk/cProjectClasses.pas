@@ -13,8 +13,7 @@ unit cProjectClasses;
 interface
 
 uses
-  SysUtils, Classes, Contnrs, JvAppStorage, cPyBaseDebugger, VirtualFileSearch, WideStrings,
-  MPCommonObjects;
+  SysUtils, Classes, Contnrs, JvAppStorage, cPyBaseDebugger, VirtualFileSearch;
 
 type
   TAbstractProjectNode = class;
@@ -152,7 +151,7 @@ Var
 implementation
 
 uses
-  cParameters, MPCommonUtilities, uCommonFunctions, StrUtils;
+  cParameters, uCommonFunctions;
 
 { TAbstractProjectNode }
 

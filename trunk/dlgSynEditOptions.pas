@@ -70,7 +70,7 @@ uses
   Forms,
   Dialogs,
   StdCtrls,
-  ExtCtrls,
+
   Buttons,
   Menus,
   SynEdit,
@@ -81,7 +81,7 @@ uses
   Classes,
   SysUtils, SpTBXControls,
   SpTBXEditors, dlgPyIDEBase, SpTBXItem, SpTBXExtEditors,
-  MPCommonObjects, EasyListview, SpTBXTabs, TB2Item;
+  EasyListview, SpTBXTabs, TB2Item, MPCommonObjects;
 
 type
   TSynEditorOptionsUserCommand = procedure(AUserCommand: Integer;

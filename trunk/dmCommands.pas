@@ -23,7 +23,7 @@ uses
   SynHighlighterIni, uEditAppIntfs, SynUnicode,
   JvStringHolder, cPyBaseDebugger,
   SynEditTypes, VirtualExplorerTree, VirtualShellNotifier, SynHighlighterWeb,
-  SynHighlighterCpp, SynHighlighterYAML, WideStrings,
+  SynHighlighterCpp, SynHighlighterYAML,
   SpTBXTabs, dlgOptionsEditor;
 
 type
@@ -542,7 +542,7 @@ uses
   frmEditor, frmFindResults, cParameters, dlgCustomParams,
   uParams, dlgCodeTemplates, dlgConfigureTools, cTools,
   frmFunctionList, StringResources, uCommonFunctions,
-  {uMMMXP_MainService, }JvJCLUtils, Menus, SynEditStrConst,
+  {uMMMXP_MainService, }JvJCLUtils, SynEditStrConst,
   dlgConfirmReplace, dlgCustomShortcuts,// jclStrings,
   dlgUnitTestWizard, WinInet, Registry, ShlObj, ShellAPI,
   dlgFileTemplates, JclSysUtils, dlgPickList, JvAppIniStorage,

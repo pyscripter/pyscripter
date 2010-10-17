@@ -54,7 +54,7 @@ function FileMaskFromFileFilter(Filter : string) : string;
 implementation
 
 uses
-  SysUtils, uCommonFunctions, JclStrings;
+  SysUtils, JclStrings;
   
 procedure GetHighlighters(AOwner: TComponent; AHighlighters: TStrings;
   AppendToList: boolean);

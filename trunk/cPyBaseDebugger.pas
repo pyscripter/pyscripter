@@ -9,8 +9,7 @@ unit cPyBaseDebugger;
 
 interface
 uses
-  Windows, SysUtils, Classes, uEditAppIntfs, PythonEngine, Forms, Contnrs, cTools,
-  WideStrings;
+  Windows, SysUtils, Classes, uEditAppIntfs, PythonEngine, Forms, Contnrs, cTools;
 
 type
   TPythonEngineType = (peInternal, peRemote, peRemoteTk, peRemoteWx);

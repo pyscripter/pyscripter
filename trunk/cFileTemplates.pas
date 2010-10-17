@@ -48,7 +48,7 @@ var
 
 implementation
 
-uses StringResources, gnugettext, WideStrings;
+uses StringResources, gnugettext;
 
 { TFileTemplate }
 

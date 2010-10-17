@@ -139,9 +139,9 @@ var
 implementation
 
 uses frmPyIDEMain, uEditAppIntfs, dmCommands, SHlObj,
-  frmFindResults, 
+  frmFindResults,
   MPCommonObjects, dlgDirectoryList, StringResources, cPyBaseDebugger,
-  cFindInFiles, gnugettext, WideStrings;
+  cFindInFiles, gnugettext;
 
 {$R *.dfm}
 

@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Classes, Controls, Forms,
   Dialogs, VirtualTrees, cFileTemplates,
-  SpTBXDkPanels, SpTBXControls, WideStrings, dlgPyIDEBase,
+  SpTBXDkPanels, SpTBXControls, dlgPyIDEBase,
   SpTBXItem, SpTBXSkins, MPCommonObjects, MPCommonUtilities, EasyListview;
 
 type

@@ -24,7 +24,7 @@ uses
   SynEditHighlighter, SynEdit,
   SynEditKeyCmds, SynCompletionProposal, JvDockControlForm,
   frmIDEDockWin, ExtCtrls, JvComponentBase,
-  WideStrings, TB2Item, ActnList, cPyBaseDebugger, WrapDelphi, 
+  TB2Item, ActnList, cPyBaseDebugger, WrapDelphi,
   SpTBXItem, SpTBXSkins, uEditAppIntfs;
 
 const

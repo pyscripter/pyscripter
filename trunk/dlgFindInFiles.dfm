@@ -163,7 +163,6 @@ inherited FindInFilesDialog: TFindInFilesDialog
         Height = 21
         Anchors = [akLeft, akTop, akRight]
         DropDownCount = 15
-        ItemHeight = 13
         TabOrder = 2
       end
       object cbDirectory: TSpTBXComboBox
@@ -173,7 +172,6 @@ inherited FindInFilesDialog: TFindInFilesDialog
         Height = 21
         Anchors = [akLeft, akTop, akRight]
         DropDownCount = 15
-        ItemHeight = 13
         TabOrder = 0
         OnDropDown = cbDirectoryDropDown
       end
@@ -236,7 +234,6 @@ inherited FindInFilesDialog: TFindInFilesDialog
       Height = 21
       Anchors = [akLeft, akTop, akRight]
       DropDownCount = 15
-      ItemHeight = 13
       TabOrder = 0
     end
     object lblFind: TSpTBXLabel

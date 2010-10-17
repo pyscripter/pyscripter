@@ -273,8 +273,7 @@ uses
   SynEditTextBuffer, cPyDebugger, dlgPickList, JvDockControlForm,
   uSearchHighlighter, VirtualShellNotifier,
   SynHighlighterWebMisc, SynHighlighterWeb, gnugettext,
-  SynUnicode, WideStrings, WideStrUtils, frmIDEDockWin,
-  SynEditMiscProcs;
+  SynUnicode, frmIDEDockWin;
 
 const
   WM_DELETETHIS  =  WM_USER + 42;

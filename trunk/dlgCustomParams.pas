@@ -4,9 +4,9 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Controls, Forms,
-  Dialogs, StdCtrls, 
+  Dialogs, StdCtrls,
   SynEdit, ActnList, SpTBXControls, dlgPyIDEBase,
-  SpTBXEditors, WideStrings, SpTBXItem, MPCommonObjects,
+  SpTBXEditors, SpTBXItem, MPCommonObjects,
   EasyListview, MPCommonUtilities;
 
 type

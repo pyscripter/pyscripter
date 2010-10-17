@@ -1060,7 +1060,7 @@ uses
   JvJVCLUtils, DateUtils, cPythonSourceScanner, frmRegExpTester,
   StringResources, dlgCommandLine, frmUnitTests, cFilePersist, frmIDEDockWin,
   dlgPickList, VirtualTrees, VirtualExplorerTree, Math,
-  cCodeHint, dlgNewFile, SynEditTextBuffer, JclSysInfo, cPyRemoteDebugger,
+  cCodeHint, dlgNewFile, JclSysInfo, cPyRemoteDebugger,
   uCmdLine, uSearchHighlighter, frmModSpTBXCustomize, IniFiles,
   JclStrings, JclSysUtils, frmProjectExplorer, cProjectClasses,
   MPDataObject, gnugettext, WideStrUtils, WideStrings,

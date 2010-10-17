@@ -40,7 +40,7 @@ unit uParams;
 interface
 
 Uses
-  Classes, WideStrings;
+  Classes;
 
 
 (* parameters, valid for current Windows configuration *)
@@ -60,7 +60,7 @@ uses
   cParameters, Registry,  uEditAppIntfs,
   dmCommands, VarPyth, SynRegExpr, uCommonFunctions,
   frmPyIDEMain, StringResources, cPyBaseDebugger, cProjectClasses, gnugettext,
-  WideStrUtils, MPShellUtilities, MPCommonUtilities, FileCtrl, StrUtils;
+  WideStrUtils, MPShellUtilities, MPCommonUtilities, FileCtrl;
 
 function GetActiveDoc: string;
 Var

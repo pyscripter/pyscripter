@@ -97,8 +97,8 @@ implementation
 {$R *.dfm}
 
 uses
-  ClipBrd, Math, 
-  JclBase, JclFileUtils, JclHookExcept, JclPeImage, JclStrings, JclSysInfo, JclWin32, 
+  ClipBrd,
+  JclBase, JclFileUtils, JclHookExcept, JclPeImage, JclStrings, JclSysInfo, JclWin32,
   uCommonFunctions, PythonEngine, dmCommands, TypInfo, cPyBaseDebugger;
 
 resourcestring

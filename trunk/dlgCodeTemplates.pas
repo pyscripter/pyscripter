@@ -67,7 +67,7 @@ type
 
 implementation
 
-uses dmCommands, WideStrings, WideStrUtils, gnugettext,
+uses dmCommands, gnugettext,
   StringResources;
 
 {$R *.dfm}
