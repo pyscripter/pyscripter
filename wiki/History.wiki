@@ -2,7 +2,7 @@
 
 = History =
 
-===Version 2.3.1 (October 16, 2010)=== 
+===Version 2.3.2 (October 16, 2010)=== 
 
   * *New features:*     
     * Native unicode strings throught (speed improvements on XP)
@@ -21,7 +21,7 @@
     * New commands "Previous Frame", "Next Frame" to change frame using the keyboard (Issue #399)
     * JavaScript and PHP Syntax Highlighters added
   * *Issues addressed*     
-    * Issue #103, Issue #239, Issue #267, Issue #270, Issue #271, Issue #294, Issue #317, Issue #324,  Issue #343, Issue #378, Issue #395, Issue #403, Issue #405, Issue #407, Issue #411, Issue #412, Issue #413, Issue #419, Issue #421, Issue #422, Issue #425
+    * Issue #103, Issue #239, Issue #267, Issue #270, Issue #271, Issue #294, Issue #317, Issue #324,  Issue #343, Issue #378, Issue #395, Issue #403, Issue #405, Issue #407, Issue #411, Issue #412, Issue #413, Issue #419, Issue #421, Issue #422, Issue #425, Issue #432
     
 ===Version 2.1.1 (August 20, 2010)=== 
 
