@@ -3,8 +3,8 @@
 
 [Setup]
 AppName=PyScripter
-AppVersion=2.3.1
-AppVerName=PyScripter 2.3.1
+AppVersion=2.3.2
+AppVerName=PyScripter 2.3.2
 AppPublisher=PyScripter
 AppPublisherURL=http://pyscripter.googlecode.com
 AppSupportURL=http://groups.google.com/group/PyScripter
@@ -14,7 +14,7 @@ DefaultGroupName=PyScripter
 InfoBeforeFile=BeforeInstallPyScripter.txt
 InfoAfterFile=AfterInstallPyScripter.txt
 OutputDir=Output
-OutputBaseFilename=PyScripter-v2.3.1-Setup
+OutputBaseFilename=PyScripter-v2.3.2-Setup
 Compression=lzma
 SolidCompression=true
 ChangesAssociations=true

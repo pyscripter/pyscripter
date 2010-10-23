@@ -297,7 +297,7 @@
           Bug fixes
             Issues  297, 307, 346, 354, 358, 371, 375, 376, 382, 384, 387, 389
 
-  History:   v 2.3.1
+  History:   v 2.3.2
           New Features
             Native unicode strings throught (speed improvements on XP)
             Revamped Code Explorer (Issues 192, 163, 213, 225)
@@ -317,7 +317,7 @@
           Issues addressed
              103, 239, 267, 270, 271, 294, 317, 324, 343, 378,
              395, 403, 405, 407, 411, 412, 413, 419, 421, 422,
-             425
+             425, 432
 
   Vista Compatibility issues (all resolved)
   -  Flip3D and Form preview (solved with LX)

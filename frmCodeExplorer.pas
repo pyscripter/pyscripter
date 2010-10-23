@@ -184,10 +184,14 @@ type
   ICodeExplorerData = interface
     function GetSourceScanner : IAsyncSourceScanner;
     procedure SetSourceScanner(SC : IAsyncSourceScanner);
+    function GetNewSourceScanner : IAsyncSourceScanner;
+    procedure SetNewSourceScanner(SC : IAsyncSourceScanner);
     function GetModuleNode : TModuleCENode;
     procedure SetModuleNode(ModuleNode : TModuleCENode);
     property SourceScanner : IAsyncSourceScanner
       read GetSourceScanner write SetSourceScanner;
+    property NewSourceScanner : IAsyncSourceScanner
+      read GetNewSourceScanner write SetNewSourceScanner;
     property ModuleNode : TModuleCENode
       read GetModuleNode write SetModuleNode;
   end;
@@ -196,10 +200,13 @@ type
   private
     fModuleNode : TModuleCENode;
     fSourceScanner : IAsyncSourceScanner;
+    fNewSourceScanner : IAsyncSourceScanner;
     function GetSourceScanner : IAsyncSourceScanner;
     procedure SetSourceScanner(SC : IAsyncSourceScanner);
     function GetModuleNode : TModuleCENode;
     procedure SetModuleNode(AModuleNode : TModuleCENode);
+    function GetNewSourceScanner : IAsyncSourceScanner;
+    procedure SetNewSourceScanner(SC : IAsyncSourceScanner);
   public
     destructor Destroy; override;
   end;
@@ -330,18 +337,26 @@ begin
       if Terminated then
         break;
       Synchronize(GetEditorData);
+
+      fSourceChanged := False;
+
+      Sleep(100);
+
+      if fSourceChanged then
+        continue;
+      if True then
+
       if Terminated then
         break;
-      fSourceChanged := False;
-      if Assigned(fNewCEData) and Assigned(fNewCEData.SourceScanner) then
-        ParsedModule := fNewCEData.SourceScanner.ParsedModule;  //Wait till scanning is finished;
+      if Assigned(fNewCEData) and Assigned(fNewCEData.NewSourceScanner) then
+        ParsedModule := fNewCEData.NewSourceScanner.ParsedModule;  //Wait till scanning is finished;
     until not fSourceChanged or Terminated;
 
     if Terminated then
       break
     // if Assigned(fNewCEData) and not Assigned(ParsedModule) means that StopScanning was called
-    else if not (Assigned(fNewCEData) and Assigned(fNewCEData.SourceScanner)) or
-      Assigned(ParsedModule)
+    else if  Assigned(ParsedModule)  or
+      not (Assigned(fNewCEData) and Assigned(fNewCEData.NewSourceScanner))
     then
       Synchronize(SetResults);
     // and go to sleep again
@@ -355,12 +370,7 @@ begin
   Editor := PyIDEMainForm.GetActiveEditor;
   if Assigned(Editor) then begin
     fNewCEData := Editor.CodeExplorerData;
-    // Do not assign a new scanner if we have switched files
-    // and the Code Explrorer data is alread setup
-    if (fNewCEData = fOldCEData) or
-      not (Assigned(fNewCEData.SourceScanner) and Assigned(fNewCEData.ModuleNode))
-    then
-      fNewCEData.SourceScanner := Editor.SourceScanner;
+    fNewCEData.NewSourceScanner := Editor.SourceScanner;
   end else begin
     fNewCEData := nil;
   end;
@@ -383,15 +393,17 @@ Var
 begin
   if Terminated or (csDestroying in CodeExplorerWindow.ComponentState) then Exit;
 
-  if Assigned(fNewCEData) and Assigned(fNewCEData.SourceScanner) then
-    NewMod := fNewCEData.SourceScanner.ParsedModule
+  if Assigned(fNewCEData) and Assigned(fNewCEData.NewSourceScanner) then
+    NewMod := fNewCEData.NewSourceScanner.ParsedModule
   else
     NewMod := nil;
 
   if not Assigned(NewMod) then with CodeExplorerWindow do begin
     ExplorerTree.Clear;
+    fNewCEData.SourceScanner := fNewCEData.NewSourceScanner;
+    fNewCEData.NewSourceScanner := nil;
     fOldCEData := fNewCEData;
-    if Assigned(fOldCEData) then fOldCEData.ModuleNode := nil;
+    fOldCEData.ModuleNode := nil;
     fNewCEData := nil;
     Exit;
   end;
@@ -404,9 +416,13 @@ begin
     ExplorerTree.TreeOptions.AnimationOptions :=
       ExplorerTree.TreeOptions.AnimationOptions - [toAnimatedToggle];
     if SameModule then begin
+      // The same module but changed
+      // ReInit the tree with the new data to keep it as close as possible
       ModuleCENode := TModuleCENode.CreateFromModule(NewMod);
       if mnAlphaSort.Checked then
         ModuleCENode.Sort(soAlpha);
+      fNewCEData.SourceScanner := fNewCEData.NewSourceScanner;
+      fNewCEData.NewSourceScanner := nil;
       fOldCEData := fNewCEData;
       fOldCEData.ModuleNode := ModuleCENode;
       ExplorerTree.BeginUpdate;
@@ -418,16 +434,23 @@ begin
       end;
     end else begin
       ExplorerTree.Clear;
-      if Assigned(fNewCEData.ModuleNode) then begin
+      if Assigned(fNewCEData.ModuleNode) and
+        (fNewCEData.SourceScanner = fNewCEData.NewSourceScanner) then
+      begin
+        // Different module unchanged
         // Restore existing Tree
+        fNewCEData.NewSourceScanner := nil;
         fOldCEData := fNewCEData;
         ExplorerTree.RootNodeCount := 1;
         ExplorerTree.Refresh;
         ExplorerTree.OffsetXY := fOldCEData.ModuleNode.OffsetXY;
       end else begin
+        // All other cases
         ModuleCENode := TModuleCENode.CreateFromModule(NewMod);
         if mnAlphaSort.Checked then
           ModuleCENode.Sort(soAlpha);
+        fNewCEData.SourceScanner := fNewCEData.NewSourceScanner;
+        fNewCEData.NewSourceScanner := nil;
         fOldCEData := fNewCEData;
         fOldCEData.ModuleNode := ModuleCENode;
         ExplorerTree.RootNodeCount := 1;
@@ -679,10 +702,10 @@ begin
   if not Assigned(Editor) then Exit;
 
   if (TScanCodeThread(WorkerThread).fOldCEData = Editor.CodeExplorerData) and
-    Assigned(Editor.CodeExplorerData.ModuleNode) and
+    Assigned(TScanCodeThread(WorkerThread).fOldCEData.ModuleNode) and
     (ExplorerTree.RootNodeCount > 0) then
   begin
-    ModuleCENode := Editor.CodeExplorerData.ModuleNode;
+    ModuleCENode := TScanCodeThread(WorkerThread).fOldCEData.ModuleNode;
     CodeElement := ModuleCENode.GetScopeForLine(Editor.SynEdit.CaretY);
     if Assigned(CodeElement) and Assigned(CodeElement.fNode) then begin
       ExplorerTree.TreeOptions.AnimationOptions :=
@@ -1319,6 +1342,11 @@ begin
   Result := fModuleNode;
 end;
 
+function TCodeExplorerData.GetNewSourceScanner: IAsyncSourceScanner;
+begin
+  Result := fNewSourceScanner;
+end;
+
 function TCodeExplorerData.GetSourceScanner: IAsyncSourceScanner;
 begin
   Result := fSourceScanner;
@@ -1328,6 +1356,11 @@ procedure TCodeExplorerData.SetModuleNode(AModuleNode: TModuleCENode);
 begin
   FreeAndNil(fModuleNode);
   fModuleNode := AModuleNode;
+end;
+
+procedure TCodeExplorerData.SetNewSourceScanner(SC: IAsyncSourceScanner);
+begin
+  fNewSourceScanner := SC;
 end;
 
 procedure TCodeExplorerData.SetSourceScanner(SC: IAsyncSourceScanner);

@@ -160,6 +160,7 @@ type
     FFileFormat: TSynEditFileFormat;
     FStreaming: Boolean;
     FOnConfirmConversion: TConfirmConversionEvent;
+    fAppendNewLineAtEOF: Boolean;
     FSaveFormat: TSaveFormat;  // overrides the FSaveUnicode flag, initialized when a file is loaded,
                                // expect losses if it is set to sfAnsi before saving
     {$IFNDEF SYN_COMPILER_10_UP}
@@ -237,6 +238,7 @@ type
     property Saved: Boolean read FSaved;
     property SaveUnicode: Boolean read GetSaveUnicode write SetSaveUnicode default True;
     property SaveFormat: TSaveFormat read FSaveFormat write FSaveFormat default sfUnicodeLSB;
+    property AppendNewLineAtEOF: Boolean read fAppendNewLineAtEOF write fAppendNewLineAtEOF;
     {$IFNDEF SYN_COMPILER_10_UP}
     property Strings[Index: Integer]: UnicodeString read Get write Put; default;
     property Text: UnicodeString read GetTextStr write SetTextStr;
@@ -863,6 +865,8 @@ begin
     end;
     Result := GetSeparatedText(SLineBreak);
   end;
+  if AppendNewLineAtEOF then
+    Result := Result + SLineBreak;
 end;
 
 {$IFNDEF SYN_COMPILER_10_UP}
@@ -1234,6 +1238,11 @@ begin
         Inc(Head);
       end;
     end;
+    // keep the old format of the file
+    if not AppendNewLineAtEOF and
+      (CharInSet(Value[Length(Value)], [#10, #13]) or (Value[Length(Value)] = WideLineSeparator))
+    then
+      Add('');
   finally
     EndUpdate;
   end;

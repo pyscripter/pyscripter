@@ -170,7 +170,8 @@ type
     procedure PaintGutterGlyphs(ACanvas: TCanvas; AClip: TRect;
       FirstLine, LastLine: integer);
     procedure DoOnIdle;
-    procedure ReparseAndSyncIfNeeded;
+    function ReparseIfNeeded : Boolean;
+    procedure SyncCodeExplorer;
     procedure AddWatchAtCursor;
     procedure SetUpCodeHints;
     function HasSyntaxError : Boolean;
@@ -592,7 +593,7 @@ end;
 
 function TEditor.GetSourceScanner: IAsyncSourceScanner;
 begin
-  fForm.ReparseAndSyncIfNeeded;
+  fForm.ReparseIfNeeded;
   Result := fForm.SourceScanner;
 end;
 
@@ -1882,20 +1883,28 @@ begin
   end;
 end;
 
-procedure TEditorForm.ReparseAndSyncIfNeeded;
+procedure TEditorForm.SyncCodeExplorer;
 begin
+  if fNeedToSyncCodeExplorer and GetEditor.HasPythonFile then begin
+    CodeExplorerWindow.ShowEditorCodeElement;
+    fNeedToSyncCodeExplorer := False;
+  end;
+end;
+
+
+function TEditorForm.ReparseIfNeeded : Boolean;
+begin
+  Result := False;
   if fNeedToParseModule then begin
     if GetEditor.HasPythonFile then begin
       if Assigned(SourceScanner) then
         SourceScanner.StopScanning;
       SourceScanner := AsynchSourceScannerFactory.CreateAsynchSourceScanner(fEditor.GetFileNameOrTitle, SynEdit.Text);
+      Result := True;
     end else
       SourceScanner := nil;
     fNeedToParseModule := False;
     CodeExplorerWindow.UpdateWindow(ceuChange);
-  end else if fNeedToSyncCodeExplorer and GetEditor.HasPythonFile then begin
-    CodeExplorerWindow.ShowEditorCodeElement;
-    fNeedToSyncCodeExplorer := False;
   end;
 end;
 
@@ -2874,11 +2883,12 @@ end;
 
 procedure TEditorForm.DoOnIdle;
 begin
-  ReparseAndSyncIfNeeded;
+  if not ReparseIfNeeded then
+    SyncCodeExplorer;
 
   if GetEditor.HasPythonFile and fNeedToCheckSyntax and
     CommandsDataModule.PyIDEOptions.CheckSyntaxAsYouType and
-    (SynEdit.Lines.Count < 5000) // do not syntax check very long files
+    (SynEdit.Lines.Count < 1000) // do not syntax check very long files
   then begin
     InternalInterpreter.SyntaxCheck(GetEditor, True);
     fSyntaxErrorPos.Assign(PyControl.ErrorPos);
