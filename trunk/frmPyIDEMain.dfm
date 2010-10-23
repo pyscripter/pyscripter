@@ -1438,6 +1438,7 @@ object PyIDEMainForm: TPyIDEMainForm
         Width = 160
         Height = 21
         AutoCloseUp = True
+        ItemHeight = 13
         TabOrder = 0
         OnChange = tbiSearchTextChange
         OnExit = tbiSearchTextExit
@@ -1449,6 +1450,7 @@ object PyIDEMainForm: TPyIDEMainForm
         Top = 0
         Width = 160
         Height = 21
+        ItemHeight = 13
         TabOrder = 1
         Visible = False
         OnChange = tbiReplaceTextChange
@@ -1504,7 +1506,7 @@ object PyIDEMainForm: TPyIDEMainForm
       CustomHeight = 21
     end
     object SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem
-      CustomWidth = 407
+      CustomWidth = 0
     end
     object SpTBXSeparatorItem5: TSpTBXSeparatorItem
     end

@@ -5,13 +5,14 @@
  Purpose:   Python IDE written with Python for Delphi
  History:
 -----------------------------------------------------------------------------}
-
-
 // JCL_DEBUG_EXPERT_GENERATEJDBG ON
 // JCL_DEBUG_EXPERT_INSERTJDBG ON
 // JCL_DEBUG_EXPERT_DELETEMAPFILE ON
 program PyScripter;
-
+{$IF System.CompilerVersion >= 21}
+  {$WEAKLINKRTTI ON}
+  {$RTTI EXPLICIT METHODS([]) PROPERTIES([]) FIELDS([])}
+{$IFEND}
 
 uses
   Windows,

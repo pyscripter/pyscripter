@@ -106,7 +106,6 @@ type
     fList: PSynEditStringRecList;
     fCount: integer;
     fCapacity: integer;
-    fAppendNewLineAtEOF: Boolean;
     fConvertTabsProc: TConvertTabsProcEx;
     fIndexOfLongestLine: integer;
     fTabWidth: integer;
@@ -134,7 +133,6 @@ type
       {$IFDEF SYN_COMPILER_3_UP} override; {$ENDIF}
     function GetCount: integer; override;
     function GetObject(Index: integer): TObject; override;
-    function GetTextStr: UnicodeString; override;
     procedure Put(Index: integer; const S: UnicodeString); override;
     procedure PutObject(Index: integer; AObject: TObject); override;
     procedure SetCapacity(NewCapacity: integer);
@@ -163,7 +161,6 @@ type
     procedure InsertStrings(Index: integer; NewStrings: TUnicodeStrings);
     procedure InsertText(Index: integer; NewText: UnicodeString);
     procedure FontChanged;
-    property AppendNewLineAtEOF: Boolean read fAppendNewLineAtEOF write fAppendNewLineAtEOF;
 
     property ExpandedStrings[Index: integer]: UnicodeString read GetExpandedString;
     property ExpandedStringLengths[Index: integer]: integer read GetExpandedStringLength;
@@ -605,29 +602,6 @@ begin
     Result := fList^[Index].fRange
   else
     Result := nil;
-end;
-
-function TSynEditStringList.GetTextStr: UnicodeString;
-var
-  SLineBreak: UnicodeString;
-begin
-  Result := inherited GetTextStr;
-{$IFDEF UNICODE}
-  SLineBreak := LineBreak;
-{$ELSE}
-  case FileFormat of
-    sffDos:
-      SLineBreak := WideCRLF;
-    sffUnix:
-      SLineBreak := WideLF;
-    sffMac:
-      SLineBreak := WideCR;
-    sffUnicode:
-      SLineBreak := WideLineSeparator;
-  end;
-{$ENDIF}
-  if AppendNewLineAtEOF then
-    Result := Result + SLineBreak;
 end;
 
 procedure TSynEditStringList.Grow;
