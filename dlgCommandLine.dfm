@@ -22,7 +22,7 @@ inherited CommandLineDlg: TCommandLineDlg
       150)
     object SynParameters: TSynEdit
       Left = 8
-      Top = 63
+      Top = 61
       Width = 405
       Height = 18
       Anchors = [akLeft, akRight, akBottom]

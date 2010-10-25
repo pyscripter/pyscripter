@@ -297,7 +297,7 @@
           Bug fixes
             Issues  297, 307, 346, 354, 358, 371, 375, 376, 382, 384, 387, 389
 
-  History:   v 2.3.2
+  History:   v 2.3.3
           New Features
             Native unicode strings throught (speed improvements on XP)
             Revamped Code Explorer (Issues 192, 163, 213, 225)
