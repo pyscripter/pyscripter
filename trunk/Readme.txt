@@ -12,12 +12,12 @@ To compile the PythonIDE.dpr, you first need to install the following components
    - JCL and JVCL (jvcl.sf.net)
 
    - Toolbar2000 (http://www.innosetup.com/tb2k.php)
-   - SpTBXLib version (Use SVN svn://www.soft-gems.net/mustangpeak/SpTBXLib)
+   - SpTBXLib (Use SVN svn://www.soft-gems.net/mustangpeak/SpTBXLib)
    
-   - Install the PyScripterCustom package
+   - Install the PyScripterCustom package from the components subdirectory.
 
-   - Unicode version of SynEdit (synedit.sf.net) at http://mh-nexus.de/unisynedit.htm (latest version needed)
-   - SynWeb Highlighters at http://flatdev.ovh.org/
+   - Unicode version of SynEdit (synedit.sf.net) - use SVN
+   - SynWeb Highlighters at http://flatdev.ovh.org/ - use SVN
 
    - VirtualTreeView (http://www.delphi-gems.com/) 
    
