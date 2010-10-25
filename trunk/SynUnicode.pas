@@ -1239,7 +1239,7 @@ begin
       end;
     end;
     // keep the old format of the file
-    if not AppendNewLineAtEOF and
+    if not AppendNewLineAtEOF and (Length(Value) > 0) and
       (CharInSet(Value[Length(Value)], [#10, #13]) or (Value[Length(Value)] = WideLineSeparator))
     then
       Add('');
