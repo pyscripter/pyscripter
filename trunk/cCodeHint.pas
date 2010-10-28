@@ -56,7 +56,7 @@ type
   end;
   TCodeHintWindowClass = class of TCodeHintWindow;
 
-  TCodeHintState = (tmBeginShow, tmShowing, tmStopped);
+  TCodeHintState = (tmBeginShow, tmShowing, tmStopped, tmProcessing);
   TGetCodeHintEvent = procedure(Sender : TObject; AArea : TRect;
     var CodeHint : string) of object;
 
@@ -108,7 +108,7 @@ begin
   inherited Create(AOwner);
   TimerHint := TTimer.Create(Self);
   TimerHint.Enabled := False;
-  TimerHint.Interval := 50;
+  TimerHint.Interval := 70;
   TimerHint.OnTimer := TimerHintTimer;
   HintWindow := TCodeHintWindowClass.Create(Self);
   FAutoHide := False;
@@ -138,7 +138,7 @@ begin
   fOldCursorPos := P;
 
   if (CompareMem(@Area, @AArea, SizeOf(TRect)) and
-    (State in [tmBeginShow, tmShowing])) or
+    (State in [tmBeginShow, tmShowing])) or (State = tmProcessing) or
     ((State = tmShowing) and PtInRect(Area, P))
   then
     Exit;  //  already showing this hint
@@ -160,6 +160,7 @@ begin
   HintWindow.Color := Application.HintColor;
   Delay := FDelay * Integer(TimerHint.Interval);
   case State of
+    tmProcessing : Exit;  // still working
     tmBeginShow:
       begin
         GetCursorPos(P);
@@ -182,8 +183,10 @@ begin
         begin
           Txt := '';
           // Get the text to display
-          if Assigned(fOnGetCodeHint) then
+          if Assigned(fOnGetCodeHint) then begin
+            State := tmProcessing;
             fOnGetCodeHint(Self, Area, Txt);
+          end;
           if Txt = '' then begin
             State := tmStopped;
             Exit;
@@ -193,9 +196,9 @@ begin
           R.Left := fScreenPos.X;
           Inc(R.Bottom, R.Top);
           Inc(R.Right, R.Left);
+          State := tmShowing;
           HintWindow.ActivateHint(R, Txt);
           FDelay := 0;
-          State := tmShowing;
         end
         else
           Inc(FDelay);

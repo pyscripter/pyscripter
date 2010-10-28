@@ -94,7 +94,7 @@ type
 
   IEditor = interface
   ['{15E8BD28-6E18-4D49-8499-1DB594AB88F7}']
-    procedure Activate;
+    procedure Activate(Primary : Boolean = True);
     function ActivateView(ViewFactory : IEditorViewFactory) : IEditorView;
     function AskSaveChanges: boolean;
     function CanClose: boolean;
@@ -216,6 +216,7 @@ var
 implementation
 
 end.
+
 
 
 

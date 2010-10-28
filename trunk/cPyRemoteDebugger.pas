@@ -11,7 +11,7 @@ interface
 
 uses
   Windows, SysUtils, Classes, uEditAppIntfs, PythonEngine, Forms, Contnrs,
-  JvCreateProcess, cTools, cPyBaseDebugger, cPyDebugger, Variants;
+  JvCreateProcess, cTools, cPyBaseDebugger, cPyDebugger, Variants, SyncObjs;
 
 type
 
