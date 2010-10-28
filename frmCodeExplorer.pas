@@ -706,7 +706,7 @@ begin
     (ExplorerTree.RootNodeCount > 0) then
   begin
     ModuleCENode := TScanCodeThread(WorkerThread).fOldCEData.ModuleNode;
-    CodeElement := ModuleCENode.GetScopeForLine(Editor.SynEdit.CaretY);
+    CodeElement := ModuleCENode.GetScopeForLine(Editor.ActiveSynEdit.CaretY);
     if Assigned(CodeElement) and Assigned(CodeElement.fNode) then begin
       ExplorerTree.TreeOptions.AnimationOptions :=
         ExplorerTree.TreeOptions.AnimationOptions - [toAnimatedToggle];
@@ -760,7 +760,7 @@ begin
 
     Editor := PyIDEMainForm.GetActiveEditor;
     if Assigned(Editor) and (CodePos.LineNo >= 0) then begin
-      with Editor.SynEdit do
+      with Editor.ActiveSynEdit do
       begin
         CaretXY := BufferCoord(1, CodePos.LineNo);
         EnsureCursorPosVisibleEx(ForceToMiddle);
@@ -770,7 +770,7 @@ begin
           SelEnd := SelStart + L;
         end;
       end;
-      if Activate then Editor.Activate;
+      if Activate then Editor.Activate(False);
     end;
   end;
 end;

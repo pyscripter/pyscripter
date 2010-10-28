@@ -123,6 +123,7 @@ type
     procedure SynEditDblClick(Sender: TObject);
   private
     fEditor: TEditor;
+    fActiveSynEdit : TSynEdit;
     fAutoCompleteActive : Boolean;
     fHotIdentInfo : THotIdentInfo;
     fHintIdentInfo : THotIdentInfo;
@@ -161,7 +162,7 @@ type
     ParentTabItem : TSpTBXTabItem;
     SourceScanner : IAsyncSourceScanner;
     procedure DoActivate;
-    procedure DoActivateEditor;
+    procedure DoActivateEditor(Primary : Boolean = True);
     function DoActivateView(ViewFactory : IEditorViewFactory) : IEditorView;
     function GetEditor : IEditor;
     procedure EditorCommandHandler(Sender: TObject; AfterProcessing: boolean;
@@ -182,7 +183,7 @@ type
     ISearchCommands)
   private
     // IEditor implementation
-    procedure Activate;
+    procedure Activate(Primary : Boolean = True);
     function ActivateView(ViewFactory : IEditorViewFactory) : IEditorView;
     function AskSaveChanges: boolean;
     procedure Close;
@@ -430,10 +431,10 @@ begin
   fCodeExplorerData := TCodeExplorerData.Create;
 end;
 
-procedure TEditor.Activate;
+procedure TEditor.Activate(Primary : Boolean = True);
 begin
   if fForm <> nil then
-    fForm.DoActivateEditor;
+    fForm.DoActivateEditor(Primary);
 end;
 
 function TEditor.ActivateView(ViewFactory : IEditorViewFactory) : IEditorView;
@@ -507,7 +508,7 @@ end;
 
 function TEditor.GetActiveSynEdit: TSynEdit;
 begin
-  if fForm.SynEdit2.Visible and fForm.SynEdit2.Focused then
+  if fForm.SynEdit2.Visible and (fForm.fActiveSynEdit = fForm.SynEdit2) then
     Result := fForm.SynEdit2
   else
     Result := fForm.SynEdit;
@@ -849,7 +850,7 @@ begin
 
   PythonIIForm.WritePendingMessages;
   PythonIIForm.AppendPrompt;
-  Activate;
+  Activate(False);
 end;
 
 // IFileCommands implementation
@@ -1309,6 +1310,7 @@ Var
   ASynEdit : TSynEdit;
 begin
   ASynEdit := Sender as TSynEdit;
+  fActiveSynEdit := ASynEdit;
   DoAssignInterfacePointer(TRUE);
   CommandsDataModule.ParameterCompletion.Editor := ASynEdit;
   CommandsDataModule.ModifierCompletion.Editor := ASynEdit;
@@ -1366,12 +1368,18 @@ begin
     ParentTabItem.Checked := True
 end;
 
-procedure TEditorForm.DoActivateEditor;
+procedure TEditorForm.DoActivateEditor(Primary : Boolean = True);
+Var
+  ASynEdit : TSynEdit;
 begin
   DoActivate;
   ViewsTabControl.ActiveTabIndex := 0;
-  if CanActuallyFocus(SynEdit) then
-    SynEdit.SetFocus;
+  if Primary then
+    ASynEdit := SynEdit
+  else
+    ASynEdit := fEditor.GetActiveSynEdit;
+  if CanActuallyFocus(ASynEdit) then
+    ASynEdit.SetFocus;
 end;
 
 function TEditorForm.DoActivateView(ViewFactory : IEditorViewFactory) : IEditorView;
@@ -1570,10 +1578,7 @@ begin
   if ssCtrl in Shift then
     EditorZoom( theDirection )
   else begin
-    if SynEdit2.Visible and SynEdit2.Focused then
-      ASynEdit := SynEdit2
-    else
-      ASynEdit := SynEdit;
+    ASynEdit := fEditor.GetActiveSynEdit;
 
     ASynEdit.TopLine := ASynEdit.TopLine +
      (theDirection * OwnScroll( Shift, ASynEdit.LinesInWindow ) );
