@@ -86,7 +86,6 @@ uses
   cFileTemplates in 'cFileTemplates.pas',
   dlgCodeTemplates in 'dlgCodeTemplates.pas' {CodeTemplates},
   dlgNewFile in 'dlgNewFile.pas' {NewFileDialog},
-  SynEdit in 'SynEdit.pas',
   JvDockVSNetStyle in 'JvDockVSNetStyle.pas',
   JvDockControlForm in 'JvDockControlForm.pas',
   uSearchHighlighter in 'uSearchHighlighter.pas',
