@@ -200,7 +200,6 @@
 			<DCCReference Include="dlgNewFile.pas">
 				<Form>NewFileDialog</Form>
 			</DCCReference>
-			<DCCReference Include="SynEdit.pas"/>
 			<DCCReference Include="JvDockVSNetStyle.pas"/>
 			<DCCReference Include="JvDockControlForm.pas"/>
 			<DCCReference Include="uSearchHighlighter.pas"/>
