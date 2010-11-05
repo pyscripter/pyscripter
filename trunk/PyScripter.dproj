@@ -204,7 +204,6 @@
 			<DCCReference Include="JvDockVSNetStyle.pas"/>
 			<DCCReference Include="JvDockControlForm.pas"/>
 			<DCCReference Include="uSearchHighlighter.pas"/>
-			<DCCReference Include="SynEditSearch.pas"/>
 			<DCCReference Include="frmModSpTBXCustomize.pas"/>
 			<DCCReference Include="cProjectClasses.pas"/>
 			<DCCReference Include="frmProjectExplorer.pas">
@@ -231,8 +230,6 @@
 				<Form>fmEditorOptionsDialog</Form>
 				<DesignClass>TForm</DesignClass>
 			</DCCReference>
-			<DCCReference Include="SynRegExpr.pas"/>
-			<DCCReference Include="SynEditWordWrap.pas"/>
 			<DCCReference Include="JvDockSupportControl.pas"/>
 			<DCCReference Include="JclStrings.pas"/>
 			<DCCReference Include="JclWideStrings.pas"/>
