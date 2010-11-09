@@ -948,7 +948,7 @@ begin
         Module.fImportedModules.Add(ModuleImport);
       end else if fAssignmentRE.Exec(Line) then begin
         S := Copy(Line, 1, fAssignmentRE.MatchPos[5]-1);
-        AsgnTargetList := Trim(StrToken(S, '='));
+        AsgnTargetList := StrToken(S, '=');
         CharOffset2 := 1; // Keeps track of the end of the identifier
         while AsgnTargetList <> '' do begin
           AsgnTargetCount := 0;

@@ -319,6 +319,11 @@
              395, 403, 405, 407, 411, 412, 413, 419, 421, 422,
              425, 432
 
+  History:   v 2.3.3
+          New Features
+          Issues addressed
+              439
+
   Vista Compatibility issues (all resolved)
   -  Flip3D and Form preview (solved with LX)
   -  Dissapearring controls (solved with SpTXPLib)
