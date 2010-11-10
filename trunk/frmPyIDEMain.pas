@@ -322,7 +322,7 @@
   History:   v 2.3.3
           New Features
           Issues addressed
-              439
+              439, 440
 
   Vista Compatibility issues (all resolved)
   -  Flip3D and Form preview (solved with LX)
