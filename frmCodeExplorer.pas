@@ -400,10 +400,12 @@ begin
 
   if not Assigned(NewMod) then with CodeExplorerWindow do begin
     ExplorerTree.Clear;
-    fNewCEData.SourceScanner := fNewCEData.NewSourceScanner;
-    fNewCEData.NewSourceScanner := nil;
+    if Assigned(fNewCEData) then begin
+      fNewCEData.SourceScanner := fNewCEData.NewSourceScanner;
+      fNewCEData.NewSourceScanner := nil;
+      fNewCEData.ModuleNode := nil;
+    end;
     fOldCEData := fNewCEData;
-    fOldCEData.ModuleNode := nil;
     fNewCEData := nil;
     Exit;
   end;
