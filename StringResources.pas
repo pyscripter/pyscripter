@@ -132,6 +132,7 @@ Const
   SWebPreview = '&Web Preview';
   SWebPreviewTab = 'Browser';
   SSourceTabCaption = 'Source';
+  SErrorInitScript = 'Error in running initialization script %s: "%s';
 
   //  Project Manager
   SAskSaveProject = 'The active project has not been saved.  Do you want to save the changes?';

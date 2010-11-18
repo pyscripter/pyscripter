@@ -321,8 +321,10 @@
 
   History:   v 2.3.3
           New Features
+            Compatibility with Python 3.1.3rc, 3.2a4
+            Ctrl + Mouse scroll scrolls whole pages in print preview
           Issues addressed
-              439, 440
+              439, 440, 443
 
   Vista Compatibility issues (all resolved)
   -  Flip3D and Form preview (solved with LX)
@@ -950,6 +952,7 @@ type
         var AImageList: TCustomImageList; var AImageIndex: Integer;
         var ARect: TRect; var PaintDefault: Boolean);
     procedure SetupCustomizer;
+    procedure RunInitScript;
   protected
     fCurrentLine : integer;
     fErrorLine : integer;
@@ -1380,12 +1383,7 @@ begin
   Application.OnHelp := Self.ApplicationHelp;
 
   // Execute pyscripter_init.py
-  // Search first in the Exe directory and then in the user directory
-  // Needs to be done after PyScripter loading is finished
-  if FileExists(ExtractFilePath(Application.ExeName)+ PyScripterInitFile) then
-    InternalInterpreter.RunScript(ExtractFilePath(Application.ExeName) + PyScripterInitFile)
-  else
-    InternalInterpreter.RunScript(CommandsDataModule.UserDataPath + PyScripterInitFile);
+  RunInitScript;
 end;
 
 procedure TPyIDEMainForm.FormCloseQuery(Sender: TObject;
@@ -3261,6 +3259,27 @@ begin
     OutputWindow.lsbConsole.Color := clWindow;
     OutputWindow.lsbConsole.Font.Color := clWindowText;
     OutputWindow.FontOrColorUpdated;
+  end;
+end;
+
+procedure TPyIDEMainForm.RunInitScript;
+// Execute pyscripter_init.py
+Var
+  FileName : String;
+begin
+  // Search first in the Exe directory and then in the user directory
+  // Needs to be done after PyScripter loading is finished
+
+  FileName := ExtractFilePath(Application.ExeName) + PyScripterInitFile;
+  if not FileExists(FileName) then
+    FileName := CommandsDataModule.UserDataPath + PyScripterInitFile;
+
+  try
+    InternalInterpreter.RunScript(FileName);
+  except
+    on E: Exception do
+      Dialogs.MessageDlg(Format(_(SErrorInitScript),
+        [PyScripterInitFile, E.Message]), mtError, [mbOK], 0);
   end;
 end;
 
