@@ -322,7 +322,7 @@ implementation
 uses dmCommands, frmPythonII, frmMessages, frmPyIDEMain,
   uCommonFunctions,
   cParameters, StringResources, cPyDebugger,
-  frmCommandOutput, gnugettext, cProjectClasses;
+  frmCommandOutput, gnugettext, cProjectClasses, Dialogs;
 
 { TEditorPos }
 
@@ -434,13 +434,22 @@ begin
 end;
 
 procedure TPyBaseInterpreter.Initialize;
+// Execute python_init.py
+Var
+  FileName : String;
 begin
-  // Execute python_init.py
   // Search first in the Exe directory and then in the user directory
-  if FileExists(ExtractFilePath(Application.ExeName)+ EngineInitFile) then
-    RunScript(ExtractFilePath(Application.ExeName) + EngineInitFile)
-  else
-    RunScript(CommandsDataModule.UserDataPath + EngineInitFile);
+  FileName := ExtractFilePath(Application.ExeName)+ EngineInitFile;
+  if not FileExists(FileName) then
+    FileName := CommandsDataModule.UserDataPath + EngineInitFile;
+
+  try
+    RunScript(FileName);
+  except
+    on E: Exception do
+      Dialogs.MessageDlg(Format(_(SErrorInitScript),
+        [EngineInitFile, E.Message]), mtError, [mbOK], 0);
+  end;
 
   // Add extra project paths
   if Assigned(ActiveProject) then

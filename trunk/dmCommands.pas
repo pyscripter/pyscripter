@@ -1081,14 +1081,19 @@ end;
 procedure TCommandsDataModule.HighlightWordInActiveEditor(SearchWord: string);
 Var
   OldWholeWords : Boolean;
+  OldSearchText : string;
 begin
   EditorSearchOptions.InitSearch;
   OldWholeWords := EditorSearchOptions.SearchWholeWords;
+  OldSearchText := EditorSearchOptions.SearchText;
+
   EditorSearchOptions.SearchWholeWords := True;
   EditorSearchOptions.SearchText := SearchWord;
   actSearchHighlight.Checked := True;
   actSearchHighlightExecute(Self);
+
   EditorSearchOptions.SearchWholeWords := OldWholeWords;
+  EditorSearchOptions.SearchText := OldSearchText;
 end;
 
 procedure TCommandsDataModule.ReleaseUntitledNumber(ANumber: integer);
