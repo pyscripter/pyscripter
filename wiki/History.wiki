@@ -9,7 +9,7 @@
     * Add watches by dragging and dropping text
     * Ctrl + Mouse scroll scrolls whole pages in print preview
     * Search for custom skins first in the Skins subdirectory of the Exe file if it exists
-  * *Issues addressed*     
+  * *Issues addressed:*     
     * Issue #430, Issue #434, Issue #435, Issue #439, Issue #440, Issue #441, Issue #443, Issue #446
 
 ===Version 2.3.3 (October 16, 2010)=== 
@@ -30,7 +30,7 @@
     * New Edit command "Copy File Name" available at the contex menu of the tab bar
     * New commands "Previous Frame", "Next Frame" to change frame using the keyboard (Issue #399)
     * JavaScript and PHP Syntax Highlighters added
-  * *Issues addressed*     
+  * *Issues addressed:*     
     * Issue #103, Issue #239, Issue #267, Issue #270, Issue #271, Issue #294, Issue #317, Issue #324,  Issue #343, Issue #378, Issue #395, Issue #403, Issue #405, Issue #407, Issue #411, Issue #412, Issue #413, Issue #419, Issue #421, Issue #422, Issue #425, Issue #432
     
 ===Version 2.1.1 (August 20, 2010)=== 
@@ -41,7 +41,7 @@
     * New IDE Option added "File template for new python scirpts"  (Issue #385)
     * New IDE Option added "Auto completion font"  (Issue #365)
     * French translation by Groupe AmiensPython added
-  * *Bug fixes*     
+  * *Bug fixes:*
     * Issue #297, Issue #307, Issue #346, Issue #354, Issue #358, Issue #371, Issue #375, Issue #376, Issue #382, Issue #384, Issue #387, Issue #389
     
 ===Version 2.0 (July 30, 2010)=== 
@@ -52,7 +52,7 @@
     * IDE Option "Reinitialize before run" was added defaulting to True
     * The default Python engine is now the remote engine
     * Spanish translation by Javier Pimás (incomplete) was added
-  * *Bug fixes*     
+  * *Bug fixes:*     
     * Issue #236, Issue #304, Issue #322, Issue #333, Issue #334
 
 ===Version 1.9.9.7 (May 20, 2009)=== 
@@ -60,7 +60,7 @@
   * *New features:*     
     * Updated theme engine with [http://code.google.com/p/pyscripter/wiki/Customization customizable themes]
     * Python 3.1 support
-  * *Bug fixes*     
+  * *Bug fixes:*     
     * Issue #269, Issue #273, Issue #278, Issue #291, Issue #292
 
 ===Version 1.9.9.6 (Feb 16, 2009)=== 
@@ -168,7 +168,7 @@
   * *New features:*     
     * Store toolbar positions   
     * Improved bracket completion now also works with strings (Issue #4)
-  * *Bug fixes*     
+  * *Bug fixes:*     
     * Bracket highlighting with non default background   
     * Opening wrongly encoded UTF8 files results in empty module   
     * File Format (Line End) choice not respected   
@@ -183,7 +183,7 @@
     * Repeat scrolling of editor tabs   
     * Massively improved start up time   
     * Faster Python source file scanning
-  * *Bug fixes*     
+  * *Bug fixes:*     
     * Infinite loop with cyclical Python imports
 
 ===Version 1.7 (Oct 14, 2006)===
@@ -221,7 +221,7 @@
     * Windows Explorer file association (installation and IDE option)   
     * Command line history   
     * Color coding of new and changed variables in the Variables Window
-  * *Bug fixes*     
+  * *Bug fixes:*     
     * Gutter glyphs painted when gutter is invisible   
     * Sticky bracket highlighting in the interpreter window   
     * Selecting lines by dragging mouse in the gutter sets breakpoint   
@@ -254,7 +254,7 @@
     * File Explorer autorefreshes   
     * Improved bracket highlighting   
     * User customization (PyScripter.ini) is now stored in the user's Application Data direcrory to support network installations(breaking change). To restore old settings copy the ini file to the new location.
-  * *Bug fixes*     
+  * *Bug fixes:*     
     * Resolved problems with dropping files from File Explorer   
     * Restore open files options not taken into account   
     * Resolved problems with long Environment variables in Tools Configure   
