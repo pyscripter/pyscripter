@@ -844,7 +844,9 @@ begin
   if not ForceDirectories(UserDataPath) then
     Dialogs.MessageDlg(Format(SAccessAppDataDir, [UserDataPath]), mtWarning, [mbOK], 0);
   // Skins directory
-  SkinFilesDir := UserDataPath + 'Skins';
+  SkinFilesDir := ExtractFilePath(Application.ExeName) + 'Skins';
+  if not DirectoryExists(SkinFilesDir) then
+    SkinFilesDir := UserDataPath + 'Skins';
   if not DirectoryExists(SkinFilesDir) then
     try
       CreateDir(SkinFilesDir);
@@ -1899,9 +1901,9 @@ begin
 
     if (TransientType = ttAfter) then begin
       if HasMatchingBracket then
-        Canvas.Font.Color:= clBlue
+        Canvas.Font.Color:= SynPythonSyn.MatchingBraceAttri.Foreground
       else
-        Canvas.Font.Color:= clRed;
+        Canvas.Font.Color:= SynPythonSyn.UnbalancedBraceAttri.Foreground;
       Canvas.Font.Style := Canvas.Font.Style + [fsBold];
     end
     else begin

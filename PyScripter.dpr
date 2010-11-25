@@ -107,7 +107,9 @@ uses
   JvDockSupportControl in 'JvDockSupportControl.pas',
   JclStrings in 'JclStrings.pas',
   JclWideStrings in 'JclWideStrings.pas',
-  AsyncCalls in 'AsyncCalls.pas';
+  AsyncCalls in 'AsyncCalls.pas',
+  VirtualExplorerTree in 'VirtualExplorerTree.pas',
+  MPShellUtilities in 'MPShellUtilities.pas';
 
 {$R *.RES}
 {$R WebCopyAvi.RES}

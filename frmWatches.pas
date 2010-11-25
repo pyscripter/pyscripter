@@ -11,7 +11,7 @@ unit frmWatches;
 interface
        
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Windows, Messages, ActiveX, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, Menus, frmIDEDockWin, JvDockControlForm, 
   Contnrs, cPyBaseDebugger, ExtCtrls, TB2Item, VirtualTrees,
   JvComponentBase, JvAppStorage, SpTBXSkins, SpTBXItem;
@@ -45,6 +45,12 @@ type
     procedure TBXPopupMenuPopup(Sender: TObject);
     procedure WatchesViewKeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
+    procedure WatchesViewDragOver(Sender: TBaseVirtualTree; Source: TObject;
+      Shift: TShiftState; State: TDragState; Pt: TPoint; Mode: TDropMode;
+      var Effect: Integer; var Accept: Boolean);
+    procedure WatchesViewDragDrop(Sender: TBaseVirtualTree; Source: TObject;
+      DataObject: IDataObject; Formats: TFormatArray; Shift: TShiftState;
+      Pt: TPoint; var Effect: Integer; Mode: TDropMode);
   private
     { Private declarations }
     fWatchesList : TObjectList;
@@ -67,7 +73,7 @@ var
 implementation
 
 uses frmPyIDEMain, dmCommands,
-  Clipbrd, StringResources, gnugettext, uCommonFunctions;
+  Clipbrd, StringResources, gnugettext, uCommonFunctions, SynEdit;
 
 
 {$R *.dfm}
@@ -179,6 +185,24 @@ begin
     mnEditWatchClick(Sender)
   else
     mnAddWatchClick(Sender);
+end;
+
+procedure TWatchesWindow.WatchesViewDragDrop(Sender: TBaseVirtualTree;
+  Source: TObject; DataObject: IDataObject; Formats: TFormatArray;
+  Shift: TShiftState; Pt: TPoint; var Effect: Integer; Mode: TDropMode);
+begin
+  if (Source is TCustomSynEdit)
+    and TCustomSynEdit(Source).SelAvail then
+  begin
+    AddWatch(TCustomSynEdit(Source).SelText);
+  end;
+end;
+
+procedure TWatchesWindow.WatchesViewDragOver(Sender: TBaseVirtualTree;
+  Source: TObject; Shift: TShiftState; State: TDragState; Pt: TPoint;
+  Mode: TDropMode; var Effect: Integer; var Accept: Boolean);
+begin
+  Accept := Source is TSynEdit;
 end;
 
 procedure TWatchesWindow.mnCopyToClipboardClick(Sender: TObject);

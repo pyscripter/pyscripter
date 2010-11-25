@@ -75,6 +75,8 @@ inherited WatchesWindow: TWatchesWindow
       TreeOptions.SelectionOptions = [toExtendedFocus, toFullRowSelect, toRightClickSelect]
       TreeOptions.StringOptions = [toAutoAcceptEditChange]
       OnDblClick = WatchesViewDblClick
+      OnDragOver = WatchesViewDragOver
+      OnDragDrop = WatchesViewDragDrop
       OnGetText = WatchesViewGetText
       OnInitNode = WatchesViewInitNode
       OnKeyDown = WatchesViewKeyDown

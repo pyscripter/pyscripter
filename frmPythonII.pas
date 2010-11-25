@@ -143,6 +143,7 @@ type
     procedure ExecFindNext;
     procedure ExecFindPrev;
     procedure ExecReplace;
+    procedure FindPythonHelpFile;
   protected
     procedure PythonIOSendData(Sender: TObject; const Data: string);
     procedure PythonIOReceiveData(Sender: TObject; var Data: string);
@@ -152,6 +153,8 @@ type
   public
     { Public declarations }
     PS1, PS2, DebugPrefix, PMPrefix : string;
+    PythonVersionIsRegistered : Boolean;
+    AllUserInstall : Boolean;
     PythonHelpFile : string;
     function OutputSuppressor : IInterface;
     procedure WritePendingMessages;
@@ -504,8 +507,6 @@ end;
 
 procedure TPythonIIForm.FormCreate(Sender: TObject);
 Var
-  Registry : TRegistry;
-  RegKey : string;
   II : Variant;   // wrapping sys and code modules
   P : PPyObject;
 begin
@@ -547,32 +548,7 @@ begin
 
   PrintInterpreterBanner;
 
-  // Python Help File
-  Registry := TRegistry.Create(KEY_READ and not KEY_NOTIFY);
-  try
-    Registry.RootKey := HKEY_LOCAL_MACHINE;
-    // False because we do not want to create it if it doesn't exist
-    RegKey := '\SOFTWARE\Python\PythonCore\'+SysModule.winver+
-      '\Help\Main Python Documentation';
-    if Registry.OpenKey(RegKey, False) then
-      PythonHelpFile := Registry.ReadString('')
-    else begin
-      // try Current User
-      Registry.RootKey := HKEY_CURRENT_USER;
-      if Registry.OpenKey(RegKey, False) then
-        PythonHelpFile := Registry.ReadString('')
-    end;
-  finally
-    Registry.Free;
-  end;
-
-  // for unregistered Python
-  if PythonHelpFile = '' then begin
-    PythonHelpFile := SysModule.prefix + '\Doc\Python' +IntToStr(SysModule.version_info[0]) +
-                     IntToStr(SysModule.version_info[1]) + '.chm';
-    if not FileExists(PythonHelpFile) then
-      PythonHelpFile := '';
-  end;
+  FindPythonHelpFile;
 
   // Create internal Interpreter and Debugger
   II := VarPythonEval('_II');
@@ -941,8 +917,9 @@ begin
         if Position >= 1 then
           CharLeft := Line[Position];
 
-        if (CharRight = WideNull) and not (CharInSet(aChar, ['"', ''''])
-          and (Highlighter.IsIdentChar(CharLeft) or (CharLeft= aChar))) then
+        if CharInSet(CharRight, [WideNull, ')', ']', '}', ',']) and
+          not (CharInSet(aChar, ['"', '''']) and
+           (Highlighter.IsIdentChar(CharLeft) or (CharLeft= aChar))) then
         begin
           SelText := CloseBrackets[OpenBracketPos];
           CaretX := CaretX - 1;
@@ -1639,6 +1616,46 @@ begin
   actPasteWithPrompt.Enabled := ClipboardProvidesWideText;
 end;
 
+procedure TPythonIIForm.FindPythonHelpFile;
+var
+  Res: Integer;
+  Registry: TRegistry;
+  SR: TSearchRec;
+  RegKey: string;
+  PythonHelpFilePath : string;
+begin
+  if PythonVersionIsRegistered then
+  begin
+    Registry := TRegistry.Create(KEY_READ and not KEY_NOTIFY);
+    try
+      Registry.RootKey := HKEY_LOCAL_MACHINE;
+      // False because we do not want to create it if it doesn't exist
+      RegKey := '\SOFTWARE\Python\PythonCore\' + SysModule.winver + '\Help\Main Python Documentation';
+      if Registry.OpenKey(RegKey, False) then
+        PythonHelpFile := Registry.ReadString('')
+      else
+      begin
+        // try Current User
+        Registry.RootKey := HKEY_CURRENT_USER;
+        if Registry.OpenKey(RegKey, False) then
+          PythonHelpFile := Registry.ReadString('');
+      end;
+    finally
+      Registry.Free;
+    end;
+  end;
+
+  // for unregistered Python
+  if PythonHelpFile = '' then
+  begin
+    PythonHelpFilePath := SysModule.prefix + '\Doc\*.chm';
+    Res := FindFirst(PythonHelpFilePath, faAnyFile, SR);
+    if Res = 0 then
+      PythonHelpFile := SysModule.prefix + '\Doc\' + SR.Name;
+    FindClose(SR);
+  end;
+end;
+
 procedure TPythonIIForm.MaskFPUExceptionsExecute(Sender: TObject; PSelf,
   Args: PPyObject; var Result: PPyObject);
 begin
@@ -1778,22 +1795,7 @@ begin
 end;
 
 function TPythonIIForm.LoadPythonEngine : integer;
-{-----------------------------------------------------------------------------
-  Result: Index of Python Version in PYTHON_KNOWN_VERSIONS
------------------------------------------------------------------------------}
 
-
-
-//  function IsPythonVersionParam(const AParam : String; out AVersion : String) : Boolean;
-//  begin
-//    Result := (Length(AParam) = 9) and
-//              SameText(Copy(AParam, 1, 7), '-PYTHON') and
-//              (AParam[8] in ['0'..'9']) and
-//              (AParam[9] in ['0'..'9']);
-//    if Result then
-//      AVersion := AParam[8] + '.' + AParam[9];
-//  end;
-//
   function IndexOfKnownVersion(const AVersion : String) : Integer;
   var
     i : Integer;
@@ -1814,27 +1816,13 @@ var
   expectedVersion : string;
   expectedVersionIdx : Integer;
   UseDebugVersion : Boolean;
+  InstallPath : string;
 begin
   Result := 0;
   // first find an optional parameter specifying the expected Python version in the form of -PYTHONXY
   expectedVersion := '';
   expectedVersionIdx := -1;
-//  for i := 1 to ParamCount do begin
-//    if IsPythonVersionParam(ParamStr(i), expectedVersion) then
-//    begin
-//      idx := IndexOfKnownVersion(expectedVersion);
-//      if idx >= COMPILED_FOR_PYTHON_VERSION_INDEX then
-//        expectedVersionIdx := idx;
-//      if expectedVersionIdx = -1 then
-//        if idx = -1 then
-//          MessageDlg(Format('PyScripter can''t use command line parameter %s because it doesn''t know this version of Python.',
-//            [ParamStr(i)]), mtWarning, [mbOK], 0)
-//        else
-//          MessageDlg(Format('PyScripter can''t use command line parameter %s because it was compiled for Python %s or later.',
-//            [ParamStr(i), PYTHON_KNOWN_VERSIONS[COMPILED_FOR_PYTHON_VERSION_INDEX].RegVersion]), mtWarning, [mbOK], 0);
-//      Break;
-//    end;
-//  end;
+
   if CmdLineReader.readFlag('PYTHON23') then
     expectedVersion := '2.3'
   else if CmdLineReader.readFlag('PYTHON24') then
@@ -1898,22 +1886,32 @@ begin
       PythonEngine.DllName := ChangeFileExt(PythonEngine.DllName, '') + '_d.dll';
     PythonEngine.APIVersion := PYTHON_KNOWN_VERSIONS[i].APIVersion;
     PythonEngine.RegVersion := PYTHON_KNOWN_VERSIONS[i].RegVersion;
+
     if i = COMPILED_FOR_PYTHON_VERSION_INDEX then
     begin
       // last chance, so raise an error if it goes wrong
       PythonEngine.FatalMsgDlg := True;
       PythonEngine.FatalAbort := True;
     end;
-    try
-      PythonEngine.LoadDll;
-      Result := i;
-    except on E: EPyImportError do
-      Dialogs.MessageDlg(_(SPythonInitError), mtError, [mbOK], 0);
+
+    PythonVersionIsRegistered :=
+      IsPythonVersionRegistered(PythonEngine.RegVersion, InstallPath, AllUserInstall);
+
+    if PythonVersionIsRegistered  or (PythonEngine.DllPath <> '') then begin
+      try
+        PythonEngine.LoadDll;
+        Result := i;
+      except on E: EPyImportError do
+        Dialogs.MessageDlg(_(SPythonInitError), mtError, [mbOK], 0);
+      end;
+      if PythonEngine.IsHandleValid then
+        // we found a valid version
+        Break;
     end;
-    if PythonEngine.IsHandleValid then
-      // we found a valid version
-      Break;
   end;
+
+  if not PythonEngine.IsHandleValid then
+    PythonEngine.Quit;
 end;
 
 procedure TPythonIIForm.GetBlockCode(var Source: string;
