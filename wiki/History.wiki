@@ -2,6 +2,16 @@
 
 = History =
 
+===Version 2.3.4 (November 25, 2010)=== 
+
+  * *New features:*     
+    * Compatibility with Python 3.1.3rc, 3.2a4
+    * Add watches by dragging and dropping text
+    * Ctrl + Mouse scroll scrolls whole pages in print preview
+    * Search for custom skins first in the Skins subdirectory of the Exe file if it exists
+  * *Issues addressed*     
+    * Issue #430, Issue #434, Issue #435, Issue #439, Issue #440, Issue #441, Issue #443, Issue #446
+
 ===Version 2.3.3 (October 16, 2010)=== 
 
   * *New features:*     
