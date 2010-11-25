@@ -1822,9 +1822,9 @@ begin
               if Position >= 1 then
                 CharLeft := Line[Position];
 
-              if (CharRight = WideNull) and
-                not (CharInSet(aChar, ['"', ''''])
-                and (Highlighter.IsIdentChar(CharLeft) or (CharLeft= aChar))) then
+              if CharInSet(CharRight, [WideNull, ')', ']', '}', ',']) and
+                not (CharInSet(aChar, ['"', '''']) and
+                 (Highlighter.IsIdentChar(CharLeft) or (CharLeft= aChar))) then
               begin
                 SelText := CloseBrackets[OpenBracketPos];
                 CaretX := CaretX - 1;

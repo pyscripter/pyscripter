@@ -1543,7 +1543,7 @@ inherited AboutBox: TAboutBox
           Top = 68
           Width = 190
           Height = 22
-          Caption = '(C) Kiriakos Vlahos  2005-2008'
+          Caption = '(C) Kiriakos Vlahos  2005-2010'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clNavy
           Font.Height = -13

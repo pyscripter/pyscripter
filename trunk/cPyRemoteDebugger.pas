@@ -459,7 +459,9 @@ Var
 begin
   fInterpreterCapabilities := [icReInitialize];
   fEngineType := AEngineType;
-  fSocketPort := 18888;
+
+  Randomize;
+  fSocketPort := 18000 + Random(1000);  //18888
 
   ServerProcess := TJvCreateProcess.Create(nil);
   with ServerProcess do
@@ -480,14 +482,6 @@ begin
     InternalInterpreter.SysPathAdd(fRpycPath);
     Rpyc := Import('rpyc');
     fIsAvailable := True;
-
-//    // Check Rpyc version
-//    if VarModuleHasObject(Rpyc, '__version__') and
-//        ((Rpyc.__version__[0] <> 2) or (Rpyc.__version__[1] <> 60)) then
-//    begin
-//      Dialogs.MessageDlg(_(SWrongRpycVersion), mtError, [mbAbort], 0);
-//      fIsAvailable := False;
-//    end;
   except
     Dialogs.MessageDlg(_(SRpycNotAvailable), mtError, [mbAbort], 0);
     fIsAvailable := False;

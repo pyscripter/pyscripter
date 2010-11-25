@@ -103,6 +103,8 @@ type
     fIdentifierAttri: TSynHighlighterAttributes;
     fSpaceAttri: TSynHighlighterAttributes;
     fErrorAttri: TSynHighlighterAttributes;
+    fMatchingBraceAttri : TSynHighlighterAttributes;
+    fUnbalancedBraceAttri : TSynHighlighterAttributes;
     fTempSpaceAttri: TSynHighlighterAttributes;
     function IdentKind(MayBe: PWideChar): TtkTokenKind;
     procedure SymbolProc;
@@ -180,6 +182,10 @@ type
       write fSymbolAttri;
     property ErrorAttri: TSynHighlighterAttributes read fErrorAttri
       write fErrorAttri;
+    property MatchingBraceAttri : TSynHighlighterAttributes read fMatchingBraceAttri
+      write fMatchingBraceAttri;
+    property UnbalancedBraceAttri : TSynHighlighterAttributes read fUnbalancedBraceAttri
+      write fUnbalancedBraceAttri;
   end;
 
   TSynPythonInterpreterSyn = class(TSynPythonSyn)
@@ -240,9 +246,13 @@ resourcestring
   SYNS_CommentedCode = 'Commented Code';
   SYNS_FunctionName = 'Function Name';
   SYNS_ClassName = 'Class Name';
+  SYNS_MatchingBrace = 'Matching Brace';
+  SYNS_UnbalancedBrace = 'Unbalanced Brace';
   SYNS_FriendlyCommentedCode = 'Commented Code';
   SYNS_FriendlyFunctionName = 'Function Name';
   SYNS_FriendlyClassName = 'Class Name';
+  SYNS_FriendlyMatchingBrace = 'Matching Brace';
+  SYNS_FriendlyUnbalancedBrace = 'Unbalanced Brace';
 
 function TSynPythonSyn.GetKeyWords(TokenKind: Integer): UnicodeString;
 begin
@@ -567,6 +577,13 @@ begin
   fErrorAttri := TSynHighlighterAttributes.Create(SYNS_AttrSyntaxError, SYNS_FriendlyAttrSyntaxError);
   fErrorAttri.Foreground := clRed;
   AddAttribute(fErrorAttri);
+  fMatchingBraceAttri := TSynHighlighterAttributes.Create(SYNS_MatchingBrace, SYNS_FriendlyMatchingBrace);
+  fMatchingBraceAttri.Foreground := clBlue;
+  AddAttribute(fMatchingBraceAttri);
+  fUnbalancedBraceAttri := TSynHighlighterAttributes.Create(SYNS_UnbalancedBrace, SYNS_FriendlyUnbalancedBrace);
+  fUnbalancedBraceAttri.Foreground := clRed;
+  AddAttribute(fUnbalancedBraceAttri);
+
   SetAttributesOnChange(DefHighlightChange);
   fDefaultFilter := SYNS_FilterPython;
   // for coloring doc comment background

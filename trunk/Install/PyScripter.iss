@@ -3,8 +3,8 @@
 
 [Setup]
 AppName=PyScripter
-AppVersion=2.3.3
-AppVerName=PyScripter 2.3.3
+AppVersion=2.3.4
+AppVerName=PyScripter 2.3.4
 AppPublisher=PyScripter
 AppPublisherURL=http://pyscripter.googlecode.com
 AppSupportURL=http://groups.google.com/group/PyScripter
@@ -14,7 +14,7 @@ DefaultGroupName=PyScripter
 InfoBeforeFile=BeforeInstallPyScripter.txt
 InfoAfterFile=AfterInstallPyScripter.txt
 OutputDir=Output
-OutputBaseFilename=PyScripter-v2.3.3-Setup
+OutputBaseFilename=PyScripter-v2.3.4-Setup
 Compression=lzma
 SolidCompression=true
 ChangesAssociations=true
@@ -79,7 +79,6 @@ Source: ..\Lib\rpyc-python3x.zip; DestDir: {app}\Lib
 [Icons]
 Name: {group}\PyScripter (Latest Python Version); Filename: {app}\PyScripter.exe
 Name: {group}\PyScripter Help; Filename: {app}\PyScripter.chm
-Name: {group}\PyScripter for Python 2.3; Filename: {app}\PyScripter.exe; Parameters: --PYTHON23
 Name: {group}\PyScripter for Python 2.4; Filename: {app}\PyScripter.exe; Parameters: --PYTHON24
 Name: {group}\PyScripter for Python 2.5; Filename: {app}\PyScripter.exe; Parameters: --PYTHON25
 Name: {group}\PyScripter for Python 2.6; Filename: {app}\PyScripter.exe; Parameters: --PYTHON26

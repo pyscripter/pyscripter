@@ -322,29 +322,11 @@
   History:   v 2.3.3
           New Features
             Compatibility with Python 3.1.3rc, 3.2a4
+            Add watches by dragging and dropping text
             Ctrl + Mouse scroll scrolls whole pages in print preview
+            Search for custom skins first in the Skins subdirectory of the Exe file if it exists
           Issues addressed
-              439, 440, 443
-
-  Vista Compatibility issues (all resolved)
-  -  Flip3D and Form preview (solved with LX)
-  -  Dissapearring controls (solved with SpTXPLib)
-  -  Dragging forms rectagle
-  -  Flicker related to LockWindowsUpdate in loading layouts
-  -  Common AVI not available
-  -  Fonts
-  -  VISTA compatible manifest
-
-  Move to new version of SpTBXLib
-  -  Replace TTBXStringList (a couple) (DONE)
-  -  Replace TTBXMRULists (DONE)
-  -  Theming of JvDocking  (DONE)
-  -  Theming of VirtualStringTrees (DONE)
-  -  Customizer form (DONE)
-  -  Theming of various windows (DONE)
-  -  Find Toolbar - Replace TSpTBXComboItem (DONE)
-  -  Theming of JvTabbar (Replace with SpTBXTabControl) (DONE)
-  -  Painting of ListViewItems (DONE)
+              430, 434, 435, 439, 440, 441, 443, 446
 
 -----------------------------------------------------------------------------}
 

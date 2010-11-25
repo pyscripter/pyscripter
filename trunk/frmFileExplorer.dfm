@@ -33,6 +33,7 @@ inherited FileExplorerWindow: TFileExplorerWindow
     000000000000000000000000000000000000000000000000000000000000FBC1
     0000FD410000FBC10000FFFF0000FBC10000FD410000FBC10000FFFF0000001F
     0000001F0000001F0000001F0000001F0000001F0000003F00000FFF0000}
+  ExplicitWidth = 243
   ExplicitHeight = 473
   PixelsPerInch = 96
   TextHeight = 13
@@ -86,7 +87,7 @@ inherited FileExplorerWindow: TFileExplorerWindow
       TreeOptions.MiscOptions = [toAcceptOLEDrop, toEditable, toFullRepaintOnResize, toInitOnSave, toToggleOnDblClick, toWheelPanning]
       TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowTreeLines, toThemeAware, toUseBlendedImages, toGhostedIfUnfocused, toUseBlendedSelection]
       TreeOptions.SelectionOptions = [toRightClickSelect]
-      TreeOptions.VETFolderOptions = [toFoldersExpandable, toForceHideRecycleBin]
+      TreeOptions.VETFolderOptions = [toFoldersExpandable, toForceHideRecycleBin, toThreadedExpandMark]
       TreeOptions.VETShellOptions = [toRightAlignSizeColumn, toContextMenus, toDragDrop, toShellHints]
       TreeOptions.VETSyncOptions = [toCollapseTargetFirst, toExpandTarget, toSelectTarget]
       TreeOptions.VETMiscOptions = [toBrowseExecuteFolder, toBrowseExecuteFolderShortcut, toBrowseExecuteZipFolder, toAutoScrollHorz, toRestoreTopNodeOnRefresh]

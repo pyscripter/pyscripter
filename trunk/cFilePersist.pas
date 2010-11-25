@@ -66,7 +66,7 @@ Type
 
 uses
   cPyBaseDebugger, frmPyIDEMain, SynEditTypes, dmCommands, uHighlighterProcs,
-  SynEdit;
+  SynEdit, SpTBXTabs, TB2Item;
 
 { TFilePersistInfo }
 
@@ -293,18 +293,24 @@ end;
 
 procedure TPersistFileInfo.GetFileInfo;
 var
-  i : integer;
+  I: Integer;
+  IV: TTBItemViewer;
   Editor : IEditor;
   FilePersistInfo : TFilePersistInfo;
 begin
-  // in the order of the TabControl
-  for i := 0 to PyIDEMainForm.TabControl.PagesCount - 1 do begin
-    Editor := PyIDEMainForm.EditorFromTab(PyIDEMainForm.TabControl.Pages[i].Item);
-    if Assigned(Editor) and (Editor.FileName <> '') then begin
-      FilePersistInfo := TFilePersistInfo.CreateFromEditor(Editor);
-      fFileInfoList.Add(FilePersistInfo)
+  // Note that the Pages property may have a different order than the
+  // physical order of the tabs
+  for I := 0 to PyIDEMainForm.TabControl.View.ViewerCount - 1 do begin
+    IV := PyIDEMainForm.TabControl.View.Viewers[I];
+    if IV.Item is TSpTBXTabItem then begin
+      Editor := PyIDEMainForm.EditorFromTab(TSpTBXTabItem(IV.Item));
+      if Assigned(Editor) and (Editor.FileName <> '') then begin
+        FilePersistInfo := TFilePersistInfo.CreateFromEditor(Editor);
+        fFileInfoList.Add(FilePersistInfo)
+      end;
     end;
   end;
 end;
+
 
 end.
