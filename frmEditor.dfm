@@ -158,6 +158,8 @@ object EditorForm: TEditorForm
           OnSpecialLineColors = SynEditSpecialLineColors
           OnStatusChange = SynEditStatusChange
           OnPaintTransient = SynEditPaintTransient
+          ExplicitLeft = 359
+          ExplicitTop = 1
         end
         object EditorSplitter: TSpTBXSplitter
           Left = 353
@@ -177,7 +179,7 @@ object EditorForm: TEditorForm
     Left = 93
     Top = 136
     Bitmap = {
-      494C01010600090054000B000E00FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01010600090060000B000E00FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       00000000000036000000280000002C0000001C00000001002000000000004013
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

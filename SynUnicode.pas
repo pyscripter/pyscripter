@@ -42,9 +42,7 @@ Provides:
 - Some character constants like CR&LF.
 -------------------------------------------------------------------------------}
 
-{$IFNDEF QSYNUNICODE}
 unit SynUnicode;
-{$ENDIF}
 
 {$I SynEdit.inc}
 
@@ -54,16 +52,11 @@ uses
   {$IFDEF SYN_WIN32}
   Windows,
   {$ENDIF}
-  {$IFDEF SYN_CLX}
-  QGraphics,
-  QClipbrd,
-  {$ELSE}
   Messages,
   Controls,
   Forms,
   Graphics,
   Clipbrd,
-  {$ENDIF}
   {$IFDEF SYN_COMPILER_6_UP}
   Types,
   {$ENDIF}
@@ -463,13 +456,9 @@ var
 implementation
 
 uses
-  {$IFDEF SYN_CLX}
-  QSynEditTextBuffer,
-  {$ELSE}
   SynEditTextBuffer,
-    {$IFDEF SYN_UNISCRIBE}
-    SynUsp10,
-    {$ENDIF}
+  {$IFDEF SYN_UNISCRIBE}
+  SynUsp10,
   {$ENDIF}
   Math,
   {$IFDEF SYN_LINUX}
@@ -482,11 +471,7 @@ uses
   {$IFDEF SYN_COMPILER_6_UP}
   RTLConsts;
   {$ELSE}
-    {$IFDEF SYN_CLX}
-    QConsts;
-    {$ELSE}
-    Consts;
-    {$ENDIF}
+  Consts;
   {$ENDIF}
 
 { TUnicodeStrings }
@@ -2011,11 +1996,7 @@ begin
       Result := lpsz;
       while lpsz^ <> #0 do
       begin
-        {$IFDEF SYN_CLX}
-        lpsz^ := WideChar(QSynUnicode.WCharUpper(PWideChar(lpsz^)));
-        {$ELSE}
         lpsz^ := WideChar(SynUnicode.WCharUpper(PWideChar(lpsz^)));
-        {$ENDIF}
         Inc(lpsz);
       end;
     end;
@@ -2033,11 +2014,7 @@ begin
     Result := cchLength;
     for i := 1 to cchLength do
     begin
-      {$IFDEF SYN_CLX}
-      lpsz^ := WideChar(QSynUnicode.WCharUpper(PWideChar(lpsz^)));
-      {$ELSE}
       lpsz^ := WideChar(SynUnicode.WCharUpper(PWideChar(lpsz^)));
-      {$ENDIF}
       Inc(lpsz);
     end;
   end;
@@ -2071,11 +2048,7 @@ begin
       Result := lpsz;
       while lpsz^ <> #0 do
       begin
-        {$IFDEF SYN_CLX}
-        lpsz^ := WideChar(QSynUnicode.WCharLower(PWideChar(lpsz^)));
-        {$ELSE}
         lpsz^ := WideChar(SynUnicode.WCharLower(PWideChar(lpsz^)));
-        {$ENDIF}
         Inc(lpsz);
       end;
     end;
@@ -2093,11 +2066,7 @@ begin
     Result := cchLength;
     for i := 1 to cchLength do
     begin
-      {$IFDEF SYN_CLX}
-      lpsz^ := WideChar(QSynUnicode.WCharLower(PWideChar(lpsz^)));
-      {$ELSE}
       lpsz^ := WideChar(SynUnicode.WCharLower(PWideChar(lpsz^)));
-      {$ENDIF}
       Inc(lpsz);
     end;
   end;
@@ -2110,8 +2079,7 @@ begin
   Len := Length(S);
   SetString(Result, PWideChar(S), Len);
   if Len > 0 then
-    {$IFDEF SYN_CLX} QSynUnicode. {$ELSE} SynUnicode. {$ENDIF}
-    WCharUpperBuff(Pointer(Result), Len);
+    SynUnicode.WCharUpperBuff(Pointer(Result), Len);
 end;
 
 function SynWideLowerCase(const S: UnicodeString): UnicodeString;
@@ -2121,8 +2089,7 @@ begin
   Len := Length(S);
   SetString(Result, PWideChar(S), Len);
   if Len > 0 then
-    {$IFDEF SYN_CLX} QSynUnicode. {$ELSE} SynUnicode. {$ENDIF}
-    WCharLowerBuff(Pointer(Result), Len);
+    SynUnicode.WCharLowerBuff(Pointer(Result), Len);
 end;
 {$ELSE}
 function SynWideUpperCase(const S: UnicodeString): UnicodeString;
@@ -2589,40 +2556,25 @@ type
 
 function TextExtent(ACanvas: TCanvas; const Text: UnicodeString): TSize;
 begin
-{$IFDEF SYN_CLX}
-  Result := ACanvas.TextExtent(Text);
-{$ELSE}
   with TAccessCanvas(ACanvas) do
   begin
     RequiredState([csHandleValid, csFontValid]);
     Result := GetTextSize(Handle, PWideChar(Text), Length(Text));
   end;
-{$ENDIF}
 end;
 
 function TextWidth(ACanvas: TCanvas; const Text: UnicodeString): Integer;
 begin
-{$IFDEF SYN_CLX}
-  Result := ACanvas.TextExtent(Text).cX;
-{$ELSE}
   Result := TextExtent(ACanvas, Text).cX;
-{$ENDIF}
 end;
 
 function TextHeight(ACanvas: TCanvas; const Text: UnicodeString): Integer;
 begin
-{$IFDEF SYN_CLX}
-  Result := ACanvas.TextExtent(Text).cY;
-{$ELSE}
   Result := TextExtent(ACanvas, Text).cY;
-{$ENDIF}
 end;
 
 procedure TextOut(ACanvas: TCanvas; X, Y: Integer; const Text: UnicodeString);
 begin
-{$IFDEF SYN_CLX}
-  ACanvas.TextOut(X, Y, Text);
-{$ELSE}
   with TAccessCanvas(ACanvas) do
   begin
     Changing;
@@ -2634,19 +2586,13 @@ begin
     MoveTo(X + SynUnicode.TextWidth(ACanvas, Text), Y);
     Changed;
   end;
-{$ENDIF}
 end;
 
 procedure TextRect(ACanvas: TCanvas; Rect: TRect; X, Y: Integer;
   const Text: UnicodeString);
-{$IFNDEF SYN_CLX}
 var
   Options: Longint;
-{$ENDIF}
 begin
-{$IFDEF SYN_CLX}
-  ACanvas.TextRect(Rect, X, Y, Text);
-{$ELSE}
   with TAccessCanvas(ACanvas) do
   begin
     Changing;
@@ -2662,7 +2608,6 @@ begin
       Length(Text), nil);
     Changed;
   end;
-{$ENDIF}
 end;
 
 {$IFNDEF UNICODE}
@@ -3302,19 +3247,10 @@ end;
 
 function ClipboardProvidesText: Boolean;
 begin
-{$IFDEF SYN_CLX}
-  Result := Clipboard.Provides('text/plain');
-{$ELSE}
   Result := IsClipboardFormatAvailable(CF_TEXT) or IsClipboardFormatAvailable(CF_UNICODETEXT);
-{$ENDIF}
 end;
 
 function GetClipboardText: UnicodeString;
-{$IFDEF SYN_CLX}
-begin
-  Result := Clipboard.AsText;
-end;
-{$ELSE}
 var
   Mem: HGLOBAL;
   LocaleID: LCID;
@@ -3358,14 +3294,8 @@ begin
     Clipboard.Close;
   end;
 end;
-{$ENDIF}
 
 procedure SetClipboardText(const Text: UnicodeString);
-{$IFDEF SYN_CLX}
-begin
-  Clipboard.AsText := Text;
-end;
-{$ELSE}
 var
   Mem: HGLOBAL;
   P: PByte;
@@ -3419,7 +3349,6 @@ begin
     Clipboard.Close;
   end;
 end;
-{$ENDIF}
 
 {$IFNDEF UNICODE}
 {$IFNDEF SYN_COMPILER_6_UP}

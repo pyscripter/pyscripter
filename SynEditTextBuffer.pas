@@ -37,27 +37,17 @@ Known Issues:
 -------------------------------------------------------------------------------}
 //todo: Avoid calculating expanded string unncessarily (just calculate expandedLength instead).
 
-{$IFNDEF QSYNEDITTEXTBUFFER}
 unit SynEditTextBuffer;
-{$ENDIF}
 
 {$I SynEdit.inc}
 
 interface
 
 uses
-{$IFDEF SYN_CLX}
-  kTextDrawer,
-  Types,
-  QSynEditTypes,
-  QSynEditMiscProcs,
-  QSynUnicode,
-{$ELSE}
   Windows,
   SynEditTypes,
   SynEditMiscProcs,
   SynUnicode,
-{$ENDIF}
   Classes,
   {$IFNDEF UNICODE}
   {$IFDEF SYN_COMPILER_10_UP}
