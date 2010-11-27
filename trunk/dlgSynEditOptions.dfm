@@ -136,6 +136,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             Width = 186
             Height = 21
             Style = csDropDownList
+            ItemHeight = 13
             Sorted = True
             TabOrder = 0
             OnExit = cKeyCommandExit
@@ -335,6 +336,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Height = 21
           Style = csDropDownList
           Anchors = [akLeft, akTop, akRight]
+          ItemHeight = 13
           TabOrder = 5
           OnChange = cbHighlightersChange
         end
@@ -377,9 +379,9 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
         TabItem = 'SpTBXTabItem2'
         object gbOptions: TSpTBXGroupBox
           AlignWithMargins = True
-          Left = 3
+          Left = 5
           Top = 3
-          Width = 476
+          Width = 470
           Height = 247
           Caption = 'Options'
           Align = alTop
@@ -387,10 +389,8 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           ShowHint = True
           TabOrder = 0
           TBXStyleBackground = True
-          ExplicitLeft = 5
-          ExplicitWidth = 470
           DesignSize = (
-            476
+            470
             247)
           object ckAutoIndent: TSpTBXCheckBox
             Left = 23
@@ -427,7 +427,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             TabOrder = 2
           end
           object ckHalfPageScroll: TSpTBXCheckBox
-            Left = 230
+            Left = 224
             Top = 15
             Width = 97
             Height = 21
@@ -440,7 +440,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             TabOrder = 11
           end
           object ckThemeSelection: TSpTBXCheckBox
-            Left = 230
+            Left = 224
             Top = 224
             Width = 101
             Height = 21
@@ -451,7 +451,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             TabOrder = 20
           end
           object ckScrollByOneLess: TSpTBXCheckBox
-            Left = 230
+            Left = 224
             Top = 34
             Width = 106
             Height = 21
@@ -462,7 +462,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             TabOrder = 12
           end
           object ckScrollPastEOF: TSpTBXCheckBox
-            Left = 230
+            Left = 224
             Top = 53
             Width = 124
             Height = 21
@@ -473,7 +473,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             TabOrder = 13
           end
           object ckScrollPastEOL: TSpTBXCheckBox
-            Left = 230
+            Left = 224
             Top = 72
             Width = 126
             Height = 21
@@ -486,7 +486,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             TabOrder = 14
           end
           object ckShowScrollHint: TSpTBXCheckBox
-            Left = 230
+            Left = 224
             Top = 91
             Width = 98
             Height = 21
@@ -521,7 +521,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             TabOrder = 17
           end
           object ckTrimTrailingSpaces: TSpTBXCheckBox
-            Left = 230
+            Left = 224
             Top = 148
             Width = 115
             Height = 21
@@ -566,7 +566,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             TabOrder = 4
           end
           object ckScrollHintFollows: TSpTBXCheckBox
-            Left = 230
+            Left = 224
             Top = 110
             Width = 140
             Height = 21
@@ -577,7 +577,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             TabOrder = 16
           end
           object ckGroupUndo: TSpTBXCheckBox
-            Left = 230
+            Left = 224
             Top = 167
             Width = 80
             Height = 21
@@ -623,7 +623,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             TabOrder = 9
           end
           object ckHideShowScrollbars: TSpTBXCheckBox
-            Left = 230
+            Left = 224
             Top = 129
             Width = 159
             Height = 21
@@ -637,7 +637,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             TabOrder = 10
           end
           object ckDisableScrollArrows: TSpTBXCheckBox
-            Left = 230
+            Left = 224
             Top = 186
             Width = 121
             Height = 21
@@ -650,7 +650,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             TabOrder = 21
           end
           object ckShowSpecialChars: TSpTBXCheckBox
-            Left = 230
+            Left = 224
             Top = 205
             Width = 114
             Height = 21
@@ -673,17 +673,14 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
         end
         object gbCaret: TSpTBXGroupBox
           AlignWithMargins = True
-          Left = 3
-          Top = 256
-          Width = 476
+          Left = 5
+          Top = 252
+          Width = 470
           Height = 69
           Caption = 'Caret'
           Align = alBottom
           TabOrder = 1
           TBXStyleBackground = True
-          ExplicitLeft = 5
-          ExplicitTop = 252
-          ExplicitWidth = 470
           object Label2: TSpTBXLabel
             Left = 60
             Top = 19
@@ -704,6 +701,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             Width = 176
             Height = 21
             Style = csDropDownList
+            ItemHeight = 13
             TabOrder = 0
             Items.Strings = (
               'Vertical Line'
@@ -717,6 +715,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             Width = 176
             Height = 21
             Style = csDropDownList
+            ItemHeight = 13
             TabOrder = 1
             Items.Strings = (
               'Vertical Line'

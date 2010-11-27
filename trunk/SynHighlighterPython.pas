@@ -43,27 +43,15 @@ Known Issues:
 @lastmod(2003-02-13)
 The SynHighlighterPython implements a highlighter for Python for the SynEdit projects.
 }
-{$IFNDEF QSYNHIGHLIGHTERPYTHON}
 unit SynHighlighterPython;
-{$ENDIF}
 
 {$I SynEdit.inc}
 
 interface
 
 uses
-{$IFDEF SYN_CLX}
-  QGraphics,
-  QSynEditHighlighter,
-  QSynEditTypes,
-  QSynUnicode,
-{$ELSE}
   Graphics,
   SynEditHighlighter,
-
-  //SynUnicode, {$IFDEF USE_JCL_UNICODE_SUPPORT} JclUnicode, {$ENDIF}
-   //Use Delphi's one which provide a case sensitive property
-{$ENDIF}
   SysUtils,
   Classes, SynRegExpr;
 
@@ -236,11 +224,7 @@ implementation
 
 uses
   StrUtils,
-{$IFDEF SYN_CLX}
-  QSynEditStrConst;
-{$ELSE}
   SynEditStrConst;
-{$ENDIF}
 
 resourcestring
   SYNS_CommentedCode = 'Commented Code';

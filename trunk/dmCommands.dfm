@@ -68,7 +68,7 @@ object CommandsDataModule: TCommandsDataModule
     Left = 32
     Top = 241
     Bitmap = {
-      494C010114001800580010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010114001800640010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000006000000001002000000000000060
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -1380,7 +1380,7 @@ object CommandsDataModule: TCommandsDataModule
           '        if dictitems and isinstance(ob, dict):'
           '            result = {}'
           '            for (i,j) in ob.items():'
-          '                result[str(i)] = j'
+          '                result[self.safestr(i)] = j'
           
             '        elif not expandcommontypes and (self.objecttype(ob) in s' +
             'elf.commontypes):'
@@ -1389,9 +1389,9 @@ object CommandsDataModule: TCommandsDataModule
           '            result = {}'
           '            for i in dir(ob):'
           '                try :'
-          '                    result[str(i)] = getattr(ob, i)'
+          '                    result[self.safestr(i)] = getattr(ob, i)'
           '                except:'
-          '                    result[str(i)] = None'
+          '                    result[self.safestr(i)] = None'
           '        return result'
           ''
           
@@ -1422,6 +1422,12 @@ object CommandsDataModule: TCommandsDataModule
           '            return tuple(d.items())'
           '        except:'
           '            return ()'
+          ''
+          '    def safestr(self, value):'
+          '        try:'
+          '            return str(value)'
+          '        except:'
+          '            return self.saferepr(value)'
           ''
           '    def find_dotted_module(self, name, path=None):'
           '        import imp'
@@ -1987,7 +1993,7 @@ object CommandsDataModule: TCommandsDataModule
           '        if dictitems and isinstance(ob, dict):'
           '            result = {}'
           '            for (i,j) in ob.items():'
-          '                result[str(i)] = j'
+          '                result[self.safestr(i)] = j'
           
             '        elif not expandcommontypes and (self.objecttype(ob) in s' +
             'elf.commontypes):'
@@ -1996,9 +2002,9 @@ object CommandsDataModule: TCommandsDataModule
           '            result = {}'
           '            for i in dir(ob):'
           '                try :'
-          '                    result[str(i)] = getattr(ob, i)'
+          '                    result[self.safestr(i)] = getattr(ob, i)'
           '                except:'
-          '                    result[str(i)] = None'
+          '                    result[self.safestr(i)] = None'
           '        return result'
           ''
           
@@ -2029,6 +2035,12 @@ object CommandsDataModule: TCommandsDataModule
           '            return tuple(d.items())'
           '        except:'
           '            return ()'
+          ''
+          '    def safestr(self, value):'
+          '        try:'
+          '            return str(value)'
+          '        except:'
+          '            return self.saferepr(value)'
           ''
           '    def find_dotted_module(self, name, path=None):'
           '        import imp'
@@ -2432,7 +2444,7 @@ object CommandsDataModule: TCommandsDataModule
           '        if dictitems and isinstance(ob, dict):'
           '            result = {}'
           '            for (i,j) in ob.items():'
-          '                result[str(i)] = j'
+          '                result[self.safestr(i)] = j'
           
             '        elif not expandcommontypes and (self.objecttype(ob) in s' +
             'elf.commontypes):'
@@ -2441,9 +2453,9 @@ object CommandsDataModule: TCommandsDataModule
           '            result = {}'
           '            for i in dir(ob):'
           '                try :'
-          '                    result[str(i)] = getattr(ob, i)'
+          '                    result[self.safestr(i)] = getattr(ob, i)'
           '                except:'
-          '                    result[str(i)] = None'
+          '                    result[self.safestr(i)] = None'
           '        return result'
           ''
           
@@ -2475,13 +2487,11 @@ object CommandsDataModule: TCommandsDataModule
           '        except:'
           '            return ()'
           ''
-          '    def _some_str(self, value):'
+          '    def safestr(self, value):'
           '        try:'
           '            return str(value)'
           '        except:'
-          
-            '            return '#39'<unprintable %s object>'#39' % type(value).__nam' +
-            'e__'
+          '            return self.saferepr(value)'
           ''
           '    def find_dotted_module(self, name, path=None):'
           '        import imp'
@@ -3061,7 +3071,7 @@ object CommandsDataModule: TCommandsDataModule
           '        if dictitems and isinstance(ob, dict):'
           '            result = {}'
           '            for (i,j) in ob.items():'
-          '                result[str(i)] = j'
+          '                result[self.safestr(i)] = j'
           
             '        elif not expandcommontypes and (self.objecttype(ob) in s' +
             'elf.commontypes):'
@@ -3070,9 +3080,9 @@ object CommandsDataModule: TCommandsDataModule
           '            result = {}'
           '            for i in dir(ob):'
           '                try :'
-          '                    result[str(i)] = getattr(ob, i)'
+          '                    result[self.safestr(i)] = getattr(ob, i)'
           '                except:'
-          '                    result[str(i)] = None'
+          '                    result[self.safestr(i)] = None'
           '        return result'
           ''
           
@@ -3104,13 +3114,11 @@ object CommandsDataModule: TCommandsDataModule
           '        except:'
           '            return ()'
           ''
-          '    def _some_str(self, value):'
+          '    def safestr(self, value):'
           '        try:'
           '            return str(value)'
           '        except:'
-          
-            '            return '#39'<unprintable %s object>'#39' % type(value).__nam' +
-            'e__'
+          '            return self.saferepr(value)'
           ''
           '    def find_dotted_module(self, name, path=None):'
           '        import imp'
@@ -4618,7 +4626,7 @@ object CommandsDataModule: TCommandsDataModule
     Left = 188
     Top = 186
     Bitmap = {
-      494C01019B009F00580010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01019B009F00640010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000007002000001002000000000000070
       020000000000000000000000000000000000000000000000000000000000EADD
       CB00AB7734009655000096550000AB773400EADDCB0000000000000000000000

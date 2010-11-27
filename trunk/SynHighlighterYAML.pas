@@ -34,24 +34,15 @@ located at http://SynEdit.SourceForge.net
 
 -------------------------------------------------------------------------------}
 
-{$IFNDEF QYAML}
 unit SynHighlighterYAML;
-{$ENDIF}
 
 {$I SynEdit.inc}
 
 interface
 
 uses
-{$IFDEF SYN_CLX}
-  QGraphics,
-  QSynEditTypes,
-  QSynEditHighlighter,
-{$ELSE}
   Graphics,
-  
   SynEditHighlighter,
-{$ENDIF}
   SysUtils,
   Classes;
 
@@ -179,12 +170,7 @@ implementation
 
 uses
   Windows,
-{$IFDEF SYN_CLX}
-  QSynEditStrConst,
-{$ELSE}
   SynEditStrConst,
-{$ENDIF}
-
   uCommonFunctions, Math;
 
 procedure TSynYAMLSyn.SpaceProc;
