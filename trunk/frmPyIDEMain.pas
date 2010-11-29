@@ -332,7 +332,8 @@
           New Features
             Side-by-side file editing (Issue 214)
             Need to update help file
-
+          Issues addressed
+             449
 -----------------------------------------------------------------------------}
 
 // Bugs and minor features
