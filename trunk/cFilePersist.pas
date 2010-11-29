@@ -25,6 +25,7 @@ Type
   TFilePersistInfo = class (TInterfacedPersistent, IJvAppStorageHandler)
   //  For storage/loading of a file's persistent info
   private
+    TabControlIndex : integer;
     Line, Char, TopLine : integer;
     BreakPoints : TObjectList;
     BookMarks : TObjectList;
@@ -62,11 +63,19 @@ Type
     class procedure ReadFromAppStorage(AppStorage : TJvCustomAppStorage; Path : String);
   end;
 
-  implementation
+  TTabsPersistInfo = class (TInterfacedPersistent, IJvAppStorageHandler)
+    procedure ReadFromAppStorage(AppStorage: TJvCustomAppStorage; const BasePath: string); virtual;
+    procedure WriteToAppStorage(AppStorage: TJvCustomAppStorage; const BasePath: string); virtual;
+  end;
+
+Var
+  TabsPersistsInfo : TTabsPersistInfo;   // Singleton
+
+implementation
 
 uses
   cPyBaseDebugger, frmPyIDEMain, SynEditTypes, dmCommands, uHighlighterProcs,
-  SynEdit, SpTBXTabs, TB2Item;
+  SynEdit, SpTBXTabs, TB2Item, Math;
 
 { TFilePersistInfo }
 
@@ -85,6 +94,7 @@ var
   IgnoreProperties : TStringList;
 begin
    AppStorage.WriteString(BasePath+'\FileName', FileName);
+   AppStorage.WriteInteger(BasePath+'\TabControlIndex', TabControlIndex);
    AppStorage.WriteInteger(BasePath+'\Line', Line);
    AppStorage.WriteInteger(BasePath+'\Char', Char);
    AppStorage.WriteInteger(BasePath+'\TopLine', TopLine);
@@ -112,6 +122,7 @@ procedure TFilePersistInfo.ReadFromAppStorage(AppStorage: TJvCustomAppStorage;
   const BasePath: string);
 begin
    FileName := AppStorage.ReadString(BasePath+'\FileName');
+   TabControlIndex := AppStorage.ReadInteger(BasePath+'\TabControlIndex', 1);
    Line := AppStorage.ReadInteger(BasePath+'\Line');
    Char := AppStorage.ReadInteger(BasePath+'\Char');
    TopLine := AppStorage.ReadInteger(BasePath+'\TopLine');
@@ -158,6 +169,7 @@ Var
 begin
   Create;
   FileName := Editor.FileName;
+  TabControlIndex := Editor.TabControlIndex;
   Char := Editor.SynEdit.CaretX;
   Line := Editor.SynEdit.CaretY;
   TopLine := Editor.Synedit.TopLine;
@@ -186,10 +198,8 @@ begin
   SecondEditorVisible := Editor.SynEdit2.Visible;
   if SecondEditorVisible then begin
     SecondEditorAlign := Editor.SynEdit2.Align;
-    if SecondEditorAlign = alRight then
-      SecondEditorSize := Editor.SynEdit2.Width
-    else
-      SecondEditorSize := Editor.SynEdit2.Height;
+    SecondEditorSize := IfThen(SecondEditorAlign = alRight,
+      Editor.SynEdit2.Width, Editor.SynEdit2.Height);
     EditorOptions2.Assign(Editor.SynEdit2);
   end;
 end;
@@ -217,7 +227,8 @@ begin
     for i := 0 to PersistFileInfo.fFileInfoList.Count - 1 do begin
       FilePersistInfo := TFilePersistInfo(PersistFileInfo.fFileInfoList[i]);
       if FileExists(FilePersistInfo.FileName) then
-        Editor := PyIDEMainForm.DoOpenFile(FilePersistInfo.FileName);
+        Editor := PyIDEMainForm.DoOpenFile(FilePersistInfo.FileName, '',
+          FilePersistInfo.TabControlIndex);
       if Assigned(Editor) then begin
         Editor.SynEdit.TopLine := FilePersistInfo.TopLine;
         Editor.SynEdit.CaretXY := BufferCoord(FilePersistInfo.Char, FilePersistInfo.Line);
@@ -292,25 +303,67 @@ begin
 end;
 
 procedure TPersistFileInfo.GetFileInfo;
-var
-  I: Integer;
-  IV: TTBItemViewer;
-  Editor : IEditor;
-  FilePersistInfo : TFilePersistInfo;
-begin
-  // Note that the Pages property may have a different order than the
-  // physical order of the tabs
-  for I := 0 to PyIDEMainForm.TabControl.View.ViewerCount - 1 do begin
-    IV := PyIDEMainForm.TabControl.View.Viewers[I];
-    if IV.Item is TSpTBXTabItem then begin
-      Editor := PyIDEMainForm.EditorFromTab(TSpTBXTabItem(IV.Item));
-      if Assigned(Editor) and (Editor.FileName <> '') then begin
-        FilePersistInfo := TFilePersistInfo.CreateFromEditor(Editor);
-        fFileInfoList.Add(FilePersistInfo)
+
+  procedure ProcessTabControl(TabControl : TSpTBXCustomTabControl);
+  var
+    I: Integer;
+    IV: TTBItemViewer;
+    Editor : IEditor;
+    FilePersistInfo : TFilePersistInfo;
+  begin
+    // Note that the Pages property may have a different order than the
+    // physical order of the tabs
+    for I := 0 to TabControl.View.ViewerCount - 1 do begin
+      IV := TabControl.View.Viewers[I];
+      if IV.Item is TSpTBXTabItem then begin
+        Editor := PyIDEMainForm.EditorFromTab(TSpTBXTabItem(IV.Item));
+        if Assigned(Editor) and (Editor.FileName <> '') then begin
+          FilePersistInfo := TFilePersistInfo.CreateFromEditor(Editor);
+          fFileInfoList.Add(FilePersistInfo)
+        end;
       end;
     end;
   end;
+begin
+  ProcessTabControl(PyIDEMainForm.TabControl1);
+  ProcessTabControl(PyIDEMainForm.TabControl2);
 end;
 
+{ TTabsPersistInfo }
 
+procedure TTabsPersistInfo.ReadFromAppStorage(AppStorage: TJvCustomAppStorage;
+  const BasePath: string);
+Var
+  IsVisible : Boolean;
+  Size : integer;
+  Alignment : TAlign;
+begin
+  with PyIDEMainForm do begin
+    IsVisible := AppStorage.ReadBoolean(BasePath+'\Visible', False);
+    if IsVisible then begin
+      Alignment := alRight;
+      AppStorage.ReadEnumeration(BasePath+'\Align', TypeInfo(TAlign),
+        Alignment, Alignment);
+      Size := AppStorage.ReadInteger(BasePath+'\Size', -1);
+      SplitTabControl(True, Alignment, Size);
+    end else
+      SplitTabControl(False);
+  end;
+end;
+
+procedure TTabsPersistInfo.WriteToAppStorage(AppStorage: TJvCustomAppStorage;
+  const BasePath: string);
+begin
+  AppStorage.WriteBoolean(BasePath+'\Visible', PyIDEMainForm.TabControl2.Visible);
+  with PyIDEMainForm do if TabControl2.Visible then begin
+    AppStorage.WriteEnumeration(BasePath+'\Align', TypeInfo(TAlign), TabControl2.Align);
+    AppStorage.WriteInteger(BasePath+'\Size',
+     IfThen(TabControl2.Align = alRight, TabControl2.Width, TabControl2.Height));
+  end;
+end;
+
+initialization
+  TabsPersistsInfo := TTabsPersistInfo.Create;
+finalization
+  FreeAndNil(TabsPersistsInfo);
 end.

@@ -114,6 +114,7 @@ type
     function GetEncodedText : AnsiString;
     function GetSourceScanner : IAsyncSourceScanner;
     function GetCodeExplorerData : ICodeExplorerData;
+    function GetTabControlIndex : integer;
     procedure SetFileEncoding(FileEncoding : TFileSaveFormat);
     procedure OpenFile(const AFileName: string; HighlighterName : string = '');
     function HasPythonFile : Boolean;
@@ -133,13 +134,14 @@ type
     property Form : TForm read GetForm;
     property SourceScanner : IAsyncSourceScanner read GetSourceScanner;
     property CodeExplorerData : ICodeExplorerData read GetCodeExplorerdata;
+    property TabControlIndex : integer read GetTabControlIndex;
   end;
 
   IEditorFactory = interface
   ['{FDAE7FBD-4B61-4D7C-BEE6-DB7740A225E8}']
     function CanCloseAll: boolean;
     procedure CloseAll;
-    function CreateTabSheet(AOwner: TSpTBXTabControl): IEditor;
+    function CreateTabSheet(AOwner: TSpTBXCustomTabControl): IEditor;
     function GetEditorCount: integer;
     function GetEditor(Index: integer): IEditor;
     function GetEditorByName(const Name : string): IEditor;

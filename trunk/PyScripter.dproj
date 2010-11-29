@@ -20,6 +20,7 @@
 			<Base>true</Base>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Base)'!=''">
+			<DCC_UNIT_PLATFORM>false</DCC_UNIT_PLATFORM>
 			<DCC_StringChecks>off</DCC_StringChecks>
 			<DCC_DependencyCheckOutputName>PyScripter.exe</DCC_DependencyCheckOutputName>
 			<DCC_ImageBase>00400000</DCC_ImageBase>
