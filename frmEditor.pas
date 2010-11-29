@@ -160,6 +160,7 @@ type
     FileTime : TDateTime;
     DefaultExtension : string;
     ParentTabItem : TSpTBXTabItem;
+    ParentTabControl : TSpTBXCustomTabControl;
     SourceScanner : IAsyncSourceScanner;
     procedure DoActivate;
     procedure DoActivateEditor(Primary : Boolean = True);
@@ -209,6 +210,7 @@ type
     function GetForm : TForm;
     function GetSourceScanner : IAsyncSourceScanner;
     function GetCodeExplorerData : ICodeExplorerData;
+    function GetTabControlIndex : integer;
     // IEditCommands implementation
     function CanCopy: boolean;
     function CanCut: boolean;
@@ -471,7 +473,7 @@ begin
     end;
 
     TabSheet := (fForm.Parent as TSpTBXTabSheet);
-    PyIDEMainForm.zOrder.Remove(TabSheet.Item);
+    (fForm.ParentTabControl as TSpTBXTabControl).zOrder.Remove(TabSheet.Item);
     fForm.DoAssignInterfacePointer(False);
     //fForm.Close;
     TabSheet.Free;
@@ -504,6 +506,11 @@ end;
 function TEditor.GetSynEdit2: TSynEdit;
 begin
   Result := fForm.SynEdit2;
+end;
+
+function TEditor.GetTabControlIndex: integer;
+begin
+  Result := PyIDEMainForm.TabControlIndex(fForm.ParentTabControl);
 end;
 
 function TEditor.GetActiveSynEdit: TSynEdit;
@@ -979,7 +986,7 @@ type
     // IEditorFactory implementation
     function CanCloseAll: boolean;
     procedure CloseAll;
-    function CreateTabSheet(AOwner: TSpTBXTabControl): IEditor;
+    function CreateTabSheet(AOwner: TSpTBXCustomTabControl): IEditor;
     function GetEditorCount: integer;
     function GetEditorByName(const Name : string): IEditor;
     function GetEditorByNameOrTitle(const Name : string): IEditor;
@@ -1068,7 +1075,7 @@ begin
   end;
 end;
 
-function TEditorFactory.CreateTabSheet(AOwner: TSpTBXTabControl): IEditor;
+function TEditorFactory.CreateTabSheet(AOwner: TSpTBXCustomTabControl): IEditor;
 var
   Sheet: TSpTBXTabSheet;
   LForm: TEditorForm;
@@ -1082,14 +1089,13 @@ begin
       Visible := False;
       fEditor := TEditor.Create(LForm);
       ParentTabItem := TabItem;
+      ParentTabControl := AOwner;
       Result := fEditor;
       BorderStyle := bsNone;
       Parent := Sheet;
       Align := alClient;
       Visible := True;
     end;
-    // fix for Delphi 4 (???)
-    // LForm.Realign;
     if Result <> nil then
       fEditors.Add(Result);
   except
@@ -1311,6 +1317,7 @@ Var
 begin
   ASynEdit := Sender as TSynEdit;
   fActiveSynEdit := ASynEdit;
+  PyIDEMainForm.ActiveTabControl := ParentTabControl;
   DoAssignInterfacePointer(TRUE);
   CommandsDataModule.ParameterCompletion.Editor := ASynEdit;
   CommandsDataModule.ModifierCompletion.Editor := ASynEdit;

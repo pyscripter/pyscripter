@@ -319,7 +319,7 @@
              395, 403, 405, 407, 411, 412, 413, 419, 421, 422,
              425, 432
 
-  History:   v 2.3.3
+  History:   v 2.3.4
           New Features
             Compatibility with Python 3.1.3rc, 3.2a4
             Add watches by dragging and dropping text
@@ -327,6 +327,11 @@
             Search for custom skins first in the Skins subdirectory of the Exe file if it exists
           Issues addressed
               430, 434, 435, 439, 440, 441, 443, 446
+
+  History:   v 2.3.5
+          New Features
+            Side-by-side file editing (Issue 214)
+            Need to update help file
 
 -----------------------------------------------------------------------------}
 
@@ -362,7 +367,7 @@ uses
   JvComponentBase, JvAppInst, uHighlighterProcs, cFileTemplates,
   JvDockVSNetStyleSpTBX, JvFormPlacement, SpTBXCustomizer,
   SpTbxSkins, SpTBXItem, SpTBXEditors, StdCtrls, JvDSADialogs, Dialogs,
-  ActiveX, SpTBXMDIMRU, SpTBXTabs, ImgList;
+  ActiveX, SpTBXMDIMRU, SpTBXTabs, ImgList, SpTBXDkPanels;
 
 const
   WM_FINDDEFINITION  = WM_USER + 100;
@@ -371,6 +376,18 @@ const
   WM_SEARCHREPLACEACTION  = WM_USER + 130;
 
 type
+  { Trick to add functionality to TTSpTBXTabControl}
+  TSpTBXTabControl = class(SpTBXTabs.TSPTBXTabControl)
+  private
+    zOrderPos : integer;
+    zOrderProcessing : Boolean;
+  public
+    zOrder : TList;
+    constructor Create(AOwner: TComponent); override;
+    destructor Destroy; override;
+  end;
+
+
   TPyIDEMainForm = class(TForm, IDropTarget)
     DockServer: TJvDockServer;
     AppStorage: TJvAppIniFileStorage;
@@ -656,7 +673,7 @@ type
     mnSearchHighlight: TSpTBXItem;
     tbiEditWordWrap: TSpTBXItem;
     mnGoToDebugLine: TSpTBXItem;
-    TBXSubmenuItem8: TSpTBXSubmenuItem;
+    mnSplitEditors: TSpTBXSubmenuItem;
     mnSplitEditorVer: TSpTBXItem;
     mnSplitEditorHor: TSpTBXItem;
     mnHideSecondEditor: TSpTBXItem;
@@ -794,7 +811,7 @@ type
     TBControlItem2: TTBControlItem;
     tbiReplaceText: TSpTBXComboBox;
     TBControlItem4: TTBControlItem;
-    TabControl: TSpTBXTabControl;
+    TabControl1: TSpTBXTabControl;
     tbiRightAlign: TSpTBXRightAlignSpacerItem;
     tbiScrollLeft: TSpTBXItem;
     tbiTabClose: TSpTBXItem;
@@ -806,6 +823,23 @@ type
     SpTBXSeparatorItem12: TSpTBXSeparatorItem;
     SpTBXItem2: TSpTBXItem;
     SpTBXItem3: TSpTBXItem;
+    TabControl2: TSpTBXTabControl;
+    SpTBXRightAlignSpacerItem2: TSpTBXRightAlignSpacerItem;
+    SpTBXSeparatorItem13: TSpTBXSeparatorItem;
+    tbiTabFiles2: TSpTBXSubmenuItem;
+    tbiScrollLeft2: TSpTBXItem;
+    tbiScrollRight2: TSpTBXItem;
+    tbiTabClose2: TSpTBXItem;
+    TabSplitter: TSpTBXSplitter;
+    actViewSplitTabsVer: TAction;
+    actViewSplitTabsHor: TAction;
+    actViewHideSecondaryTabs: TAction;
+    mnSplitTabs: TSpTBXSubmenuItem;
+    SpTBXItem7: TSpTBXItem;
+    SpTBXItem8: TSpTBXItem;
+    SpTBXItem9: TSpTBXItem;
+    SpTBXSeparatorItem14: TSpTBXSeparatorItem;
+    SpTBXSeparatorItem15: TSpTBXSeparatorItem;
     procedure mnFilesClick(Sender: TObject);
     procedure actEditorZoomInExecute(Sender: TObject);
     procedure actEditorZoomOutExecute(Sender: TObject);
@@ -917,9 +951,11 @@ type
     procedure tbiSearchTextExit(Sender: TObject);
     procedure tbiReplaceTextKeyPress(Sender: TObject; var Key: Char);
     procedure TabControlActiveTabChange(Sender: TObject; TabIndex: Integer);
-    procedure tbiTabFilesClick(Sender: TObject);
     procedure tbiScrollLeftClick(Sender: TObject);
     procedure tbiScrollRightClick(Sender: TObject);
+    procedure actViewSplitTabsVerExecute(Sender: TObject);
+    procedure actViewSplitTabsHorExecute(Sender: TObject);
+    procedure actViewHideSecondaryTabsExecute(Sender: TObject);
   private
     DSAAppStorage: TDSAAppStorage;
     ShellExtensionFiles : TStringList;
@@ -935,11 +971,13 @@ type
         var ARect: TRect; var PaintDefault: Boolean);
     procedure SetupCustomizer;
     procedure RunInitScript;
+    function GetActiveTabControl: TSpTBXCustomTabControl;
+    procedure SetActiveTabControl(const Value: TSpTBXCustomTabControl);
   protected
     fCurrentLine : integer;
     fErrorLine : integer;
     fCurrentBrowseInfo : string;
-    function DoCreateEditor: IEditor;
+    function DoCreateEditor(TabControl : TSpTBXTabControl): IEditor;
     function CmdLineOpenFiles(): boolean;
     procedure DebuggerBreakpointChange(Sender: TObject; Editor : IEditor; ALine: integer);
     procedure DebuggerCurrentPosChange(Sender: TObject);
@@ -950,6 +988,9 @@ type
       var HintInfo: Controls.THintInfo);
     procedure ApplicationActionUpdate(Action: TBasicAction; var Handled: Boolean);
     procedure ApplicationActionExecute(Action: TBasicAction; var Handled: Boolean);
+    procedure TabToolBarDragOver(Sender, Source: TObject; X, Y: Integer;
+      State: TDragState; var Accept: Boolean);
+    procedure TabToolbarlDragDrop(Sender, Source: TObject; X, Y: Integer);
     procedure WMFindDefinition(var Msg: TMessage); message WM_FINDDEFINITION;
     procedure WMUpdateBreakPoints(var Msg: TMessage); message WM_UPDATEBREAKPOINTS;
     procedure WMSearchReplaceAction(var Msg: TMessage); message WM_SEARCHREPLACEACTION;
@@ -974,19 +1015,19 @@ type
     function Drop(const dataObj: IDataObject; grfKeyState: Longint; pt: TPoint;
       var dwEffect: Longint): HResult; stdcall;
   public
+    ActiveTabControlIndex : integer;
     PythonKeywordHelpRequested : Boolean;
     MenuHelpRequested : Boolean;
     ActionListArray : TActionListArray;
     Layouts : TStringList;
     fLanguageList : TStringList;
-    zOrder : TList;
-    zOrderPos : integer;
-    zOrderProcessing : Boolean;
     procedure SaveEnvironment;
     procedure StoreApplicationData;
     procedure RestoreApplicationData;
-    function DoOpenFile(AFileName: string; HighlighterName : string = '') : IEditor;
-    function NewFileFromTemplate(FileTemplate : TFileTemplate) : IEditor;
+    function DoOpenFile(AFileName: string; HighlighterName : string = '';
+       TabControlIndex : integer = 1) : IEditor;
+    function NewFileFromTemplate(FileTemplate : TFileTemplate;
+       TabControlIndex : integer = 1) : IEditor;
     function GetActiveEditor : IEditor;
     procedure SaveFileModules;
     procedure UpdateDebugCommands(DebuggerState : TDebuggerState);
@@ -1023,6 +1064,14 @@ type
     function EditorFromTab(Tab : TSpTBXTabItem) : IEditor;
     procedure LoadAdditionalThemes;
     procedure SetIDEColors;
+    procedure SplitTabControl(SecondTabsVisible : Boolean;
+      Alignment : TAlign = alRight; Size : integer = -1);
+    procedure MoveTab(Tab : TSpTBXTabItem; TabControl : TSpTBXTabControl;
+      Index : integer = -1);
+    function TabControl(TabControlIndex : integer = 1) : TSpTBXTabControl;
+    function TabControlIndex(TabControl : TSpTBXCustomTabControl) : integer;
+    property ActiveTabControl : TSpTBXCustomTabControl read GetActiveTabControl
+      write SetActiveTabControl;
   end;
 
 Const
@@ -1055,13 +1104,13 @@ uses
   JclStrings, JclSysUtils, frmProjectExplorer, cProjectClasses,
   MPDataObject, gnugettext, WideStrUtils, WideStrings,
   SpTBXDefaultSkins, SpTBXControls, VirtualFileSearch, SynEditKeyCmds, StdActns,
-  PythonEngine;
+  PythonEngine, Contnrs;
 
 {$R *.DFM}
 
 { TWorkbookMainForm }
 
-function TPyIDEMainForm.DoCreateEditor: IEditor;
+function TPyIDEMainForm.DoCreateEditor(TabControl : TSpTBXTabControl): IEditor;
 begin
   if GI_EditorFactory <> nil then begin
     Result := GI_EditorFactory.CreateTabSheet(TabControl);
@@ -1073,7 +1122,10 @@ begin
     Result := nil;
 end;
 
-function TPyIDEMainForm.DoOpenFile(AFileName: string; HighlighterName : string = '') : IEditor;
+function TPyIDEMainForm.DoOpenFile(AFileName: string; HighlighterName : string = '';
+       TabControlIndex : integer = 1) : IEditor;
+Var
+  TabCtrl : TSpTBXTabControl;
 begin
   Result := nil;
   AFileName := GetLongFileName(ExpandFileName(AFileName));
@@ -1087,9 +1139,10 @@ begin
     end;
   end;
   // create a new editor, add it to the editor list, open the file
-  TabControl.Toolbar.BeginUpdate;
+  TabCtrl := TabControl(TabControlIndex);
+  TabCtrl.Toolbar.BeginUpdate;
   try
-    Result := DoCreateEditor;
+    Result := DoCreateEditor(TabCtrl);
     if Result <> nil then begin
       try
         Result.OpenFile(AFileName, HighlighterName);
@@ -1108,9 +1161,9 @@ begin
         TEditorForm(Result.Form).DefaultExtension := 'py';
     end;
   finally
-    TabControl.Toolbar.EndUpdate;
-    if Assigned(TabControl.ActiveTab) then
-      TabControl.MakeVisible(TabControl.ActiveTab);
+    TabCtrl.Toolbar.EndUpdate;
+    if Assigned(TabCtrl.ActiveTab) then
+      TabCtrl.MakeVisible(TabCtrl.ActiveTab);
     UpdateCaption;
   end;
 end;
@@ -1145,8 +1198,15 @@ Var
   CommonHDrop : TCommonHDrop;
   FileName : string;
   i : integer;
+  TabCtrlIndx : integer;
 begin
   Result := S_OK;
+  if TabControl2.Visible then
+    TabCtrlIndx :=
+      IfThen(PtInRect(TabControl2.ClientRect, TabControl2.ScreenToClient(pt)), 2, 1)
+  else
+    TabCtrlIndx := 1;
+
   CommonHDrop := TCommonHDrop.Create;
   try
     if CommonHDrop.LoadFromDataObject(dataObj) then begin
@@ -1154,7 +1214,7 @@ begin
         FileName := CommonHDrop.FileName(i);
         if FileExists(FileName) then  // checks it is not a directory
           try
-            DoOpenFile(FileName);
+            DoOpenFile(FileName, '', TabCtrlIndx);
           except
           end;
       end;
@@ -1203,8 +1263,6 @@ begin
   Layouts := TStringList.Create;
   Layouts.Sorted := True;
   Layouts.Duplicates := dupError;
-
-  zOrder := TList.Create;
 
   // Application Storage
   OptionsFileName := ChangeFileExt(ExtractFileName(Application.ExeName), '.ini');
@@ -1337,7 +1395,14 @@ begin
 
   Update;
 
-  TabControl.Toolbar.BeginUpdate;
+  // Tab Conrol Drag Drop
+  TabControl1.Toolbar.OnDragOver := TabToolbarDragOver;
+  TabControl1.Toolbar.OnDragDrop := TabToolbarlDragDrop;
+  TabControl2.Toolbar.OnDragOver := TabToolbarDragOver;
+  TabControl2.Toolbar.OnDragDrop := TabToolbarlDragDrop;
+
+  TabControl1.Toolbar.BeginUpdate;
+  TabControl2.Toolbar.BeginUpdate;
   try
     // Open Files on the command line
     // if there was no file on the command line try restoring open files
@@ -1348,9 +1413,12 @@ begin
     if GI_EditorFactory.GetEditorCount = 0 then
       actFileNewModuleExecute(Self);
   finally
-    TabControl.Toolbar.EndUpdate;
-    if Assigned(TabControl.ActiveTab) then
-      TabControl.MakeVisible(TabControl.ActiveTab);
+    TabControl1.Toolbar.EndUpdate;
+    TabControl2.Toolbar.EndUpdate;
+    if Assigned(TabControl1.ActiveTab) then
+      TabControl1.MakeVisible(TabControl1.ActiveTab);
+    if Assigned(TabControl2.ActiveTab) then
+      TabControl2.MakeVisible(TabControl2.ActiveTab);
 
     if Assigned(GetActiveEditor()) then
       GetActiveEditor.Activate;
@@ -1359,7 +1427,8 @@ begin
     CodeExplorerWindow.WorkerThread.Start;
   end;
 
-  TabControl.Toolbar.OnMouseDown := TabControlMouseDown;
+  TabControl1.Toolbar.OnMouseDown := TabControlMouseDown;
+  TabControl2.Toolbar.OnMouseDown := TabControlMouseDown;
   //Set the HelpFile
   Application.HelpFile := ExtractFilePath(Application.ExeName) + 'PyScripter.chm';
   Application.OnHelp := Self.ApplicationHelp;
@@ -1435,8 +1504,9 @@ begin
     except
     end;
 
-    // Stop DropTarget to make sure tis unregistered
-    RevokeDragDrop(TabControl.Handle);
+    // Stop DropTarget to make sure is unregistered
+    RevokeDragDrop(TabControl1.Handle);
+    RevokeDragDrop(TabControl2.Handle);
 
 
     VariablesWindow.ClearAll;
@@ -1454,12 +1524,14 @@ begin
         Dialogs.MessageDlg(Format(_(SFileSaveError), [AppStorage.FullFileName, E.Message]), mtError, [mbOK], 0);
     end;
 
-    TabControl.Toolbar.BeginUpdate;
+    TabControl1.Toolbar.BeginUpdate;
+    TabControl2.Toolbar.BeginUpdate;
     try
       if GI_EditorFactory <> nil then
         GI_EditorFactory.CloseAll;
     finally
-      TabControl.Toolbar.EndUpdate;
+      TabControl1.Toolbar.EndUpdate;
+      TabControl2.Toolbar.EndUpdate;
     end;
 
     SkinManager.RemoveSkinNotification(Self);
@@ -1470,8 +1542,12 @@ procedure TPyIDEMainForm.TabContolContextPopup(Sender: TObject;
   MousePos: TPoint; var Handled: Boolean);
 Var
   IV: TTBItemViewer;
+  TabCtrl : TSpTBXTabControl;
 begin
-  IV := TabControl.View.ViewerFromPoint(TabControl.Toolbar.ScreenToClient(TabControl.ClientToScreen(MousePos)));
+  TabCtrl := Sender as TSpTBXTabControl;
+  ActiveTabControl := TabCtrl;
+  IV := TabCtrl.View.ViewerFromPoint(
+    TabCtrl.Toolbar.ScreenToClient(TabCtrl.ClientToScreen(MousePos)));
   if Assigned(IV) and (IV.Item is TSpTBXTabItem) then
     IV.Item.Checked := True;
   //To update File Close
@@ -1601,17 +1677,19 @@ end;
 procedure TPyIDEMainForm.actNextEditorExecute(Sender: TObject);
 Var
   TabItem : TSpTBXTabItem;
+  TabCtrl : TSpTBXTabControl;
 begin
-  if TabControl.PagesCount <= 1 then Exit;
+  TabCtrl := ActiveTabControl as TSpTBXTabControl;
+  if TabCtrl.PagesCount <= 1 then Exit;
   TabItem := nil;
-  if CommandsDataModule.PyIDEOptions.SmartNextPrevPage then begin
+  if CommandsDataModule.PyIDEOptions.SmartNextPrevPage then with TabCtrl do begin
     Repeat
       Inc(zOrderPos);
       if zOrderPos >= zOrder.Count then
         ZOrderPos := 0;
       while zOrderPos < zOrder.Count  do begin
         TabItem := zOrder[zOrderPos];
-        if TabControl.Items.IndexOf(TabItem) < 0 then begin
+        if Items.IndexOf(TabItem) < 0 then begin
           zOrder.Delete(zOrderPos);
           TabItem := nil;
         end else
@@ -1621,14 +1699,14 @@ begin
     KeyPreview := True;
     zOrderProcessing := True;
   end else begin
-    if Assigned(TabControl.ActivePage) then
-      TabItem := TabControl.ActivePage.Item.GetNextTab(True, sivtNormal)
+    if Assigned(TabCtrl.ActivePage) then
+      TabItem := TabCtrl.ActivePage.Item.GetNextTab(True, sivtNormal)
     else
-      TabItem := TabControl.Pages[0].Item;
+      TabItem := TabCtrl.Pages[0].Item;
   end;
 
-  if not Assigned(TabItem) and (TabControl.PagesCount > 0) then
-    TabItem := TabControl.Pages[0].Item;
+  if not Assigned(TabItem) and (TabCtrl.PagesCount > 0) then
+    TabItem := TabCtrl.Pages[0].Item;
   if Assigned(TabItem) then
     TabItem.Checked := True;
 end;
@@ -1641,17 +1719,19 @@ end;
 procedure TPyIDEMainForm.actPreviousEditorExecute(Sender: TObject);
 Var
   TabItem : TSpTBXTabItem;
+  TabCtrl : TSpTBXTabControl;
 begin
-  if TabControl.PagesCount <= 1 then Exit;
+  TabCtrl := ActiveTabControl as TSpTBXTabControl;
+  if TabCtrl.PagesCount <= 1 then Exit;
   TabItem := nil;
-  if CommandsDataModule.PyIDEOptions.SmartNextPrevPage then begin
+  if CommandsDataModule.PyIDEOptions.SmartNextPrevPage then with TabCtrl do begin
     Repeat
       Dec(zOrderPos);
       if zOrderPos < 0 then
         zOrderPos := zOrder.Count - 1;
       while zOrderPos < zOrder.Count  do begin
         TabItem := zOrder[zOrderPos];
-        if TabControl.Items.IndexOf(TabItem) < 0 then begin
+        if Items.IndexOf(TabItem) < 0 then begin
           zOrder.Delete(zOrderPos);
           TabItem := nil;
         end else
@@ -1661,13 +1741,13 @@ begin
     KeyPreview := True;
     zOrderProcessing := True;
   end else begin
-    if Assigned(TabControl.ActivePage) then
-      TabItem := TabControl.ActivePage.Item.GetNextTab(False, sivtNormal)
+    if Assigned(TabCtrl.ActivePage) then
+      TabItem := TabCtrl.ActivePage.Item.GetNextTab(False, sivtNormal)
     else
-      TabItem := TabControl.Pages[TabControl.PagesCount-1].Item;
+      TabItem := TabCtrl.Pages[TabCtrl.PagesCount-1].Item;
   end;
   if not Assigned(TabItem) then
-    TabItem := TabControl.Pages[TabControl.PagesCount-1].Item;
+    TabItem := TabCtrl.Pages[TabCtrl.PagesCount-1].Item;
   if Assigned(TabItem) then
     TabItem.Checked := True;
 end;
@@ -1858,7 +1938,8 @@ procedure TPyIDEMainForm.UpdateCaption;
 Var
   Editor : IEditor;
 begin
-  if TabControl.Toolbar.IsUpdating then Exit;
+  if TabControl1.Toolbar.IsUpdating or TabControl2.Toolbar.IsUpdating then
+    Exit;
 
   Editor := GetActiveEditor;
   if Assigned(Editor) then
@@ -1937,6 +2018,11 @@ begin
   CallStackWindow.actNextFrame.Enabled := (DebuggerState = dsPaused);
 
   Refresh;
+end;
+
+procedure TPyIDEMainForm.SetActiveTabControl(const Value: TSpTBXCustomTabControl);
+begin
+  ActiveTabControlIndex := TabControlIndex(Value);
 end;
 
 procedure TPyIDEMainForm.SetCurrentPos(Editor : IEditor; ALine: integer);
@@ -2143,7 +2229,7 @@ begin
     Editor := GI_EditorFactory.GetEditorByNameOrTitle(FileName);
     if not Assigned(Editor) and FileExists(FileName) then begin
       try
-        DoOpenFile(FileName);
+        DoOpenFile(FileName, '', TabControlIndex(ActiveTabControl));
       except
       end;
       Editor := GI_EditorFactory.GetEditorByNameOrTitle(FileName);
@@ -2187,6 +2273,16 @@ begin
   Editor := GetActiveEditor;
   if Assigned(Editor) then
     Editor.SplitEditorVertrically;
+end;
+
+procedure TPyIDEMainForm.actViewSplitTabsHorExecute(Sender: TObject);
+begin
+  SplitTabControl(True, alBottom);
+end;
+
+procedure TPyIDEMainForm.actViewSplitTabsVerExecute(Sender: TObject);
+begin
+  SplitTabControl(True, alRight);
 end;
 
 procedure TPyIDEMainForm.actViewStatusBarExecute(Sender: TObject);
@@ -2280,6 +2376,36 @@ begin
     HideDockForm(FindResultsWindow);
 end;
 
+procedure TPyIDEMainForm.actViewHideSecondaryTabsExecute(Sender: TObject);
+var
+  I: Integer;
+  IV: TTBItemViewer;
+  List : TObjectList;
+begin
+  // Move all tabs to TabControl1
+  // Note that the Pages property may have a different order than the
+  // physical order of the tabs
+  TabControl1.Toolbar.BeginUpdate;
+  TabControl2.Toolbar.BeginUpdate;
+  List := TObjectList.Create(False);
+  try
+    for I := 0 to TabControl2.View.ViewerCount - 1 do begin
+      IV := TabControl2.View.Viewers[I];
+      if IV.Item is TSpTBXTabItem then
+        List.Add(IV.Item)
+    end;
+
+    for i := 0 to List.Count - 1 do
+      MoveTab(TSpTBXTabItem(List[I]), TabControl1);
+  finally
+    TabControl1.Toolbar.EndUpdate;
+    TabControl2.Toolbar.EndUpdate;
+    List.Free;
+  end;
+
+  SplitTabControl(False);
+end;
+
 procedure TPyIDEMainForm.actViewHideSecondEditorExecute(Sender: TObject);
 Var
   Editor : IEditor;
@@ -2341,12 +2467,51 @@ begin
 end;
 
 function TPyIDEMainForm.GetActiveEditor : IEditor;
+{
+  Returns the active editor irrespective of whether it is has the focus
+  If want the active editor with focus then use GI_ActiveEditor
+}
+Var
+  ActivePage : TSpTBXTabSheet;
 begin
-  if Assigned(TabControl.ActivePage) and (TabControl.ActivePage.ComponentCount > 0) and
-    (TabControl.ActivePage.Components[0] is TEditorForm) then
-    Result := TEditorForm(TabControl.ActivePage.Components[0]).GetEditor
+  // Find Active Page
+  ActivePage := ActiveTabControl.ActivePage;
+  if not Assigned(ActivePage) then begin
+    ActivePage := TabControl1.ActivePage;
+    if not Assigned(ActivePage) then
+      ActivePage := TabControl2.ActivePage;
+  end;
+
+  if Assigned(ActivePage) and (ActivePage.ComponentCount > 0) and
+    (ActivePage.Components[0] is TEditorForm) then
+    Result := TEditorForm(ActivePage.Components[0]).GetEditor
   else
     Result := nil;
+end;
+
+function TPyIDEMainForm.GetActiveTabControl: TSpTBXCustomTabControl;
+begin
+   if ActiveTabControlIndex = 2 then
+     Result := TabControl2
+   else
+     Result := TabControl1;
+end;
+
+function TPyIDEMainForm.TabControl(TabControlIndex: integer): TSpTBXTabControl;
+begin
+  if TabControlIndex = 2 then
+    Result := TabControl2
+  else
+    Result := TabControl1;
+end;
+
+function TPyIDEMainForm.TabControlIndex(
+  TabControl: TSpTBXCustomTabControl): integer;
+begin
+  if TabControl = TabControl2 then
+    Result := 2
+  else
+    Result := 1;
 end;
 
 procedure TPyIDEMainForm.UpdateStatusBarPanels;
@@ -2395,7 +2560,6 @@ procedure TPyIDEMainForm.FormDestroy(Sender: TObject);
 begin
   FreeAndNil(Layouts);
   FreeAndNil(fLanguageList);
-  FreeAndNil(zOrder);
   FreeAndNil(DSAAppStorage);
   FreeAndNil(ShellExtensionFiles);
 end;
@@ -2416,9 +2580,9 @@ begin
     FileTemplate := FileTemplates.TemplateByName(TemplateName);
 
   if Assigned(FileTemplate) then
-    NewFileFromTemplate(FileTemplate)
+    NewFileFromTemplate(FileTemplate, TabControlIndex(ActiveTabControl))
   else
-    DoOpenFile('', 'Python')
+    DoOpenFile('', 'Python', TabControlIndex(ActiveTabControl));
 end;
 
 procedure TPyIDEMainForm.actFileOpenExecute(Sender: TObject);
@@ -2439,7 +2603,7 @@ begin
     Options := Options + [ofAllowMultiSelect];
     if Execute then begin
       for i := 0 to Files.Count - 1 do
-        DoOpenFile(Files[i]);
+        DoOpenFile(Files[i], '', TabControlIndex(ActiveTabControl));
     end;
     Options := Options - [ofAllowMultiSelect];
   end;
@@ -2449,11 +2613,13 @@ procedure TPyIDEMainForm.actFileCloseAllExecute(Sender: TObject);
 begin
   if GI_EditorFactory <> nil then begin
     if GI_EditorFactory.CanCloseAll then begin
-      TabControl.Toolbar.BeginUpdate;
+      TabControl1.Toolbar.BeginUpdate;
+      TabControl2.Toolbar.BeginUpdate;
       try
         GI_EditorFactory.CloseAll;
       finally
-        TabControl.Toolbar.EndUpdate;
+        TabControl1.Toolbar.EndUpdate;
+        TabControl2.Toolbar.EndUpdate;
         UpdateCaption;
       end;
     end;
@@ -2491,21 +2657,26 @@ begin
   // Command History Size
   PythonIIForm.CommandHistorySize := CommandsDataModule.PyIDEOptions.InterpreterHistorySize;
 
-  if CommandsDataModule.PyIDEOptions.ShowTabCloseButton then
-    TabControl.TabCloseButton := tcbAll
-  else
-    TabControl.TabCloseButton := tcbNone;
-  if TabControl.TabPosition <> CommandsDataModule.PyIDEOptions.EditorsTabPosition then
+  if CommandsDataModule.PyIDEOptions.ShowTabCloseButton then begin
+    TabControl1.TabCloseButton := tcbAll;
+    TabControl2.TabCloseButton := tcbAll;
+  end else begin
+    TabControl1.TabCloseButton := tcbNone;
+    TabControl2.TabCloseButton := tcbNone;
+  end;
+  if TabControl1.TabPosition <> CommandsDataModule.PyIDEOptions.EditorsTabPosition then
     case CommandsDataModule.PyIDEOptions.EditorsTabPosition of
       ttpTop:
         begin
-          TabControl.TabPosition := ttpTop;
+          TabControl1.TabPosition := ttpTop;
+          TabControl2.TabPosition := ttpTop;
           for i  := 0 to GI_EditorFactory.Count - 1 do
             TEditorForm(GI_EditorFactory.Editor[i].Form).ViewsTabControl.TabPosition := ttpBottom;
         end;
       ttpBottom:
         begin
-          TabControl.TabPosition := ttpBottom;
+          TabControl1.TabPosition := ttpBottom;
+          TabControl2.TabPosition := ttpBottom;
           for i  := 0 to GI_EditorFactory.Count - 1 do
             TEditorForm(GI_EditorFactory.Editor[i].Form).ViewsTabControl.TabPosition := ttpTop;
         end;
@@ -2568,6 +2739,7 @@ begin
       AppStorage.WriteStringList('Code Templates', TempStringList);
       AppStorage.StorageOptions.PreserveLeadingTrailingBlanks := False;
     end;
+    AppStorage.WritePersistent('Secondary Tabs', TabsPersistsInfo);
     AppStorage.WritePersistent('ToDo Options', ToDoExpert);
     AppStorage.DeleteSubTree('Find in Files Options');
     AppStorage.WritePersistent('Find in Files Options', FindResultsWindow.FindInFilesExpert);
@@ -2697,6 +2869,7 @@ begin
       AppStorage.StorageOptions.PreserveLeadingTrailingBlanks := False;
 
     end;
+  AppStorage.ReadPersistent('Secondary Tabs', TabsPersistsInfo);
   if AppStorage.PathExists('ToDo Options') then
     AppStorage.ReadPersistent('ToDo Options', ToDoExpert);
   AppStorage.ReadPersistent('Find in Files Options', FindResultsWindow.FindInFilesExpert);
@@ -2772,7 +2945,7 @@ Var
 begin
   Result := nil;
   if Assigned(Tab) then begin
-    Sheet := TabControl.GetPage(Tab);
+    Sheet := (Tab.Owner as TSpTBXTabControl).GetPage(Tab);
     if Assigned(Sheet) and (Sheet.ControlCount > 0) then
       Result := (Sheet.Controls[0] as TEditorForm).GetEditor;
   end;
@@ -2781,28 +2954,30 @@ end;
 procedure TPyIDEMainForm.TabControlActiveTabChange(Sender: TObject;
   TabIndex: Integer);
 Var
-//  WinControl : TWinControl;
   EditorForm : TEditorForm;
   Index : integer;
+  TabCtrl : TSpTBXTabControl;
 begin
   EditorSearchOptions.InitSearch;
   UpdateCaption;
-  if Assigned(TabControl.ActivePage) and not (csDestroying in ComponentState) then begin
-    if TabControl.ActivePage.ControlCount > 0 then
+  TabCtrl := Sender as TSpTBXTabControl;
+  if Assigned(TabCtrl.ActivePage) and not (csDestroying in ComponentState) then begin
+    if TabCtrl.ActivePage.ControlCount > 0 then
     begin
-      EditorForm := TabControl.ActivePage.Controls[0] as TEditorForm;
+      EditorForm := TabCtrl.ActivePage.Controls[0] as TEditorForm;
       // Code hint stuff
       EditorForm.SetUpCodeHints;
     end;
     // zOrder
-    if not zOrderProcessing then begin
-      Index := zOrder.IndexOf(TabControl.ActivePage.Item);
-      if Index < 0 then
-        zOrder.Insert(0, TabControl.ActivePage.Item)
-      else
-        zOrder.Move(Index, 0);
-      zOrderPos := 0;
-    end;
+    with TabCtrl do
+      if not zOrderProcessing then begin
+        Index := zOrder.IndexOf(TabCtrl.ActivePage.Item);
+        if Index < 0 then
+          zOrder.Insert(0, TabCtrl.ActivePage.Item)
+        else
+          zOrder.Move(Index, 0);
+        zOrderPos := 0;
+      end;
   end else begin
     CodeHint.OnGetCodeHint := nil;
     CodeHint.OnHyperLinkClick := nil;
@@ -2817,7 +2992,7 @@ Var
   TabItem : TSpTBXTabItem;
 begin
   TabItem := nil;
-  IV := TabControl.View.ViewerFromPoint(Point(X,Y));
+  IV := (Sender as TSpTBXTabToolbar).View.ViewerFromPoint(Point(X,Y));
   if Assigned(IV) and (IV.Item is TSpTBXTabItem) then
     TabItem := TSpTBXTabItem(IV.Item);
 
@@ -2844,6 +3019,42 @@ begin
   end;
 end;
 
+procedure TPyIDEMainForm.TabToolbarlDragDrop(Sender, Source: TObject; X,
+  Y: Integer);
+Var
+  Tab : TSpTBXTabItem;
+  TargetTabControl : TSpTBXTabControl;
+  IV : TTBItemViewer;
+  Index : integer;
+begin
+  if (Source is TSpTBXTabItemDragObject) and
+     (TSpTBXTabItemDragObject(Source).SouceItem is TSpTBXTabItem) and
+     (Sender is TSpTBXTabToolbar) and
+     (TSpTBXTabItemDragObject(Source).SourceControl <> Sender) then
+  begin
+    Tab := TSpTBXTabItemDragObject(Source).SouceItem as TSpTBXTabItem;
+    TargetTabControl := TSpTBXTabToolbar(Sender).Owner as TSpTBXTabControl;
+    IV := TSpTBXTabToolbar(Sender).View.ViewerFromPoint(Point(X,Y));
+    if Assigned(IV) and (IV is TSpTBXTabItemViewer) then
+      Index := TargetTabControl.Toolbar.Items.IndexOf(TSpTBXTabItemViewer(IV).Item)
+    else
+      Index := -1;
+    MoveTab(Tab, TargetTabControl, Index);
+  end;
+end;
+
+procedure TPyIDEMainForm.TabToolBarDragOver(Sender, Source: TObject; X,
+  Y: Integer; State: TDragState; var Accept: Boolean);
+begin
+  if (Source is TSpTBXTabItemDragObject) then begin
+    if TSpTBXTabItemDragObject(Source).DragCursorAccept <> crDrag then begin
+      TSpTBXTabItemDragObject(Source).DragCursorAccept := crDrag;
+      TSpTBXTabItemDragObject(Source).DragCursorCancel := crNo;
+    end;
+    Accept := True;
+  end;
+end;
+
 procedure TPyIDEMainForm.UpdateStandardActions;
 Var
   L, R : Boolean;
@@ -2865,6 +3076,8 @@ begin
   actViewSplitEditorVer.Enabled := Assigned(GI_ActiveEditor);
   actViewHideSecondEditor.Enabled := Assigned(GI_ActiveEditor)
     and GI_ActiveEditor.SynEdit2.Visible;
+  actViewHideSecondaryTabs.Enabled := TabControl2.Visible;
+
   actWatchesWin.Checked := WatchesWindow.Visible;
 
   actViewStatusbar.Checked := StatusBar.Visible;
@@ -2894,9 +3107,12 @@ begin
   end;
 
   // Scroll Buttons
-  TabControl.ScrollState(L, R);
+  TabControl1.ScrollState(L, R);
   tbiScrollLeft.Enabled := L;
   tbiScrollRight.Enabled := R;
+  TabControl2.ScrollState(L, R);
+  tbiScrollLeft2.Enabled := L;
+  tbiScrollRight2.Enabled := R;
 end;
 
 procedure TPyIDEMainForm.FormShortCut(var Msg: TWMKey;
@@ -3122,6 +3338,42 @@ begin
     not Assigned(Editor.SynEdit.Highlighter);
 end;
 
+procedure TPyIDEMainForm.MoveTab(Tab: TSpTBXTabItem;
+  TabControl: TSpTBXTabControl; Index: integer);
+Var
+  NewTab : TSpTBXTabItem;
+  Sheet,
+  NewSheet : TSpTBXTabSheet;
+  EditorForm : TEditorForm;
+begin
+  if (Tab.Owner = TabControl) or not Assigned(Tab) then
+    Exit;
+
+  if Index >= 0 then
+    NewTab := TabControl.Insert(Index, Tab.Caption)
+  else
+    NewTab := TabControl.Add(Tab.Caption);
+
+  EditorForm := nil;
+  Sheet := (Tab.Owner as TSpTBXTabControl).GetPage(Tab);
+  if Assigned(Sheet) and (Sheet.ControlCount > 0) then
+    EditorForm := Sheet.Controls[0] as TEditorForm;
+
+  if Assigned(EditorForm) then begin
+    EditorForm.Visible := False;
+    NewSheet := (NewTab.Owner as TSpTBXTabControl).GetPage(NewTab);
+    EditorForm.ParentTabItem := NewTab;
+    EditorForm.ParentTabControl := TabControl;
+    EditorForm.Parent := NewSheet;
+    EditorForm.Align := alClient;
+    NewSheet.InsertComponent(EditorForm);  // changes ownership
+    EditorForm.Visible := True;
+  end;
+
+  Tab.Free;
+  NewTab.Click;
+end;
+
 procedure TPyIDEMainForm.SyntaxClick(Sender: TObject);
 Var
   Editor : IEditor;
@@ -3241,6 +3493,23 @@ begin
     OutputWindow.lsbConsole.Color := clWindow;
     OutputWindow.lsbConsole.Font.Color := clWindowText;
     OutputWindow.FontOrColorUpdated;
+  end;
+end;
+
+procedure TPyIDEMainForm.SplitTabControl(SecondTabsVisible : Boolean;
+      Alignment : TAlign; Size : integer);
+begin
+  TabSplitter.Visible := False;
+  TabControl2.Visible := False;
+  if SecondTabsVisible then begin
+    TabControl2.Align := Alignment;
+    if Alignment = alRight then
+      TabControl2.Width := IfThen(Size >= 0, Size, (BGPanel.ClientWidth - 5) div 2)
+    else
+      TabControl2.Height := IfThen(Size >= 0, Size, (BGPanel.ClientHeight - 5) div 2);
+    TabSplitter.Align := Alignment;
+    TabControl2.Visible := True;
+    TabSplitter.Visible := True;
   end;
 end;
 
@@ -3484,14 +3753,16 @@ procedure TPyIDEMainForm.FormKeyUp(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
   inherited;
-  if (Key = VK_Control) and zOrderProcessing then begin
-    zOrderProcessing := False;
-    KeyPreview := False;
-    if (zOrderPos > 0) and (zOrderPos < zOrder.Count) then begin
-      zOrder.Move(zOrderPos, 0);
-      zOrderPos := 0;
+  with ActiveTabControl as TSpTBXTabControl do
+    if (Key = VK_Control) and zOrderProcessing then
+    begin
+      zOrderProcessing := False;
+      KeyPreview := False;
+      if (zOrderPos > 0) and (zOrderPos < zOrder.Count) then begin
+        zOrder.Move(zOrderPos, 0);
+        zOrderPos := 0;
+      end;
     end;
-  end;
 end;
 
 procedure TPyIDEMainForm.AdjustBrowserLists(FileName: string;
@@ -3801,12 +4072,12 @@ begin
 end;
 
 function TPyIDEMainForm.NewFileFromTemplate(
-  FileTemplate: TFileTemplate): IEditor;
+  FileTemplate: TFileTemplate; TabControlIndex : integer): IEditor;
 Var
   i, j : integer;
 begin
   // create a new editor, add it to the editor list
-  Result := DoCreateEditor;
+  Result := DoCreateEditor(TabControl(TabControlIndex));
   if Result <> nil then begin
     try
       Result.OpenFile('', FileTemplate.Highlighter);
@@ -3973,7 +4244,8 @@ begin
     // Connect ChangeNotify
     OnAfterShellNotify := CommandsDataModule.ProcessShellNotify;
     // Register drop target
-    RegisterDragDrop(TabControl.Handle, Self);
+    RegisterDragDrop(TabControl1.Handle, Self);
+    RegisterDragDrop(TabControl2.Handle, Self);
   end;
 
   // This is needed to update the variables window
@@ -4120,12 +4392,12 @@ end;
 
 procedure TPyIDEMainForm.tbiScrollLeftClick(Sender: TObject);
 begin
-  TabControl.ScrollLeft;
+  TabControl((Sender as TSPTBXItem).Tag).ScrollLeft;
 end;
 
 procedure TPyIDEMainForm.tbiScrollRightClick(Sender: TObject);
 begin
-  TabControl.ScrollRight;
+  TabControl((Sender as TSPTBXItem).Tag).ScrollRight;
 end;
 
 procedure TPyIDEMainForm.tbiSearchOptionsPopup(Sender: TTBCustomItem;
@@ -4181,11 +4453,6 @@ begin
     PostMessage(Handle, WM_SEARCHREPLACEACTION, 2, 0);
 end;
 
-procedure TPyIDEMainForm.tbiTabFilesClick(Sender: TObject);
-begin
-  TabControl.ScrollLeft;
-end;
-
 procedure TPyIDEMainForm.tbiSearchTextChange(Sender: TObject);
 begin
   if EditorSearchOptions.SearchText <> tbiSearchText.Text then begin
@@ -4212,7 +4479,7 @@ Var
   S : string;
 begin
   S := FileName;
-  DoOpenFile(S);
+  DoOpenFile(S, '', TabControlIndex(ActiveTabControl));
   // A bit problematic since it Frees the MRU Item which calls this click handler
   tbiRecentFileList.MRURemove(S);
 end;
@@ -4285,6 +4552,20 @@ end;
 procedure TPyIDEMainForm.SelectEditor(Sender: TObject);
 begin
     ShowFilePosition((Sender as TTBCustomItem).Hint, -1, -1);
+end;
+
+{ TTSpTBXTabControl }
+
+constructor TSpTBXTabControl.Create(AOwner: TComponent);
+begin
+  inherited;
+  zOrder := TList.Create;
+end;
+
+destructor TSpTBXTabControl.Destroy;
+begin
+  FreeAndNil(zOrder);
+  inherited;
 end;
 
 end.

@@ -413,10 +413,10 @@ object PyIDEMainForm: TPyIDEMainForm
     FullRepaint = False
     ParentBackground = False
     TabOrder = 2
-    object TabControl: TSpTBXTabControl
+    object TabControl1: TSpTBXTabControl
       Left = 0
       Top = 0
-      Width = 762
+      Width = 757
       Height = 427
       Align = alClient
       PopupMenu = TabControlPopupMenu
@@ -426,20 +426,22 @@ object PyIDEMainForm: TPyIDEMainForm
       TabDragReorder = True
       TabPosition = ttpBottom
       OnActiveTabChange = TabControlActiveTabChange
+      ExplicitWidth = 755
       HiddenItems = <>
       object tbiRightAlign: TSpTBXRightAlignSpacerItem
-        CustomWidth = 652
+        CustomWidth = 647
       end
       object tbiTabSep: TSpTBXSeparatorItem
       end
       object tbiTabFiles: TSpTBXSubmenuItem
+        Tag = 1
         Hint = 'Select File'
         ImageIndex = 151
         Options = [tboDropdownArrow]
-        OnClick = tbiTabFilesClick
         LinkSubitems = mnFiles
       end
       object tbiScrollLeft: TSpTBXItem
+        Tag = 1
         Hint = 'Scroll left'
         Enabled = False
         ImageIndex = 80
@@ -447,6 +449,7 @@ object PyIDEMainForm: TPyIDEMainForm
         OnClick = tbiScrollLeftClick
       end
       object tbiScrollRight: TSpTBXItem
+        Tag = 1
         Hint = 'Scroll right'
         Enabled = False
         ImageIndex = 79
@@ -455,9 +458,68 @@ object PyIDEMainForm: TPyIDEMainForm
         FontSettings.Name = 'Marlett'
       end
       object tbiTabClose: TSpTBXItem
+        Tag = 1
         Action = CommandsDataModule.actFileClose
         Options = [tboToolbarStyle]
       end
+    end
+    object TabControl2: TSpTBXTabControl
+      Left = 757
+      Top = 0
+      Width = 0
+      Height = 427
+      Align = alRight
+      PopupMenu = TabControlPopupMenu
+      Visible = False
+      OnContextPopup = TabContolContextPopup
+      ActiveTabIndex = -1
+      Images = CommandsDataModule.Images
+      TabDragReorder = True
+      TabPosition = ttpBottom
+      OnActiveTabChange = TabControlActiveTabChange
+      HiddenItems = <>
+      object SpTBXRightAlignSpacerItem2: TSpTBXRightAlignSpacerItem
+      end
+      object SpTBXSeparatorItem13: TSpTBXSeparatorItem
+      end
+      object tbiTabFiles2: TSpTBXSubmenuItem
+        Tag = 2
+        Hint = 'Select File'
+        ImageIndex = 151
+        Options = [tboDropdownArrow]
+        LinkSubitems = mnFiles
+      end
+      object tbiScrollLeft2: TSpTBXItem
+        Tag = 2
+        Hint = 'Scroll left'
+        Enabled = False
+        ImageIndex = 80
+        Options = [tboToolbarStyle]
+        OnClick = tbiScrollLeftClick
+      end
+      object tbiScrollRight2: TSpTBXItem
+        Tag = 2
+        Hint = 'Scroll right'
+        Enabled = False
+        ImageIndex = 79
+        Options = [tboToolbarStyle]
+        OnClick = tbiScrollRightClick
+        FontSettings.Name = 'Marlett'
+      end
+      object tbiTabClose2: TSpTBXItem
+        Tag = 2
+        Action = CommandsDataModule.actFileClose
+        Options = [tboToolbarStyle]
+      end
+    end
+    object TabSplitter: TSpTBXSplitter
+      Left = 757
+      Top = 0
+      Height = 427
+      Cursor = crSizeWE
+      Align = alRight
+      Visible = False
+      ExplicitLeft = 755
     end
   end
   object TBXDockTop: TSpTBXDock
@@ -715,7 +777,7 @@ object PyIDEMainForm: TPyIDEMainForm
         object mnPreviousEditor: TSpTBXItem
           Action = actViewPreviousEditor
         end
-        object TBXSubmenuItem8: TSpTBXSubmenuItem
+        object mnSplitEditors: TSpTBXSubmenuItem
           Caption = 'Split Editor'
           object mnSplitEditorVer: TSpTBXItem
             Action = actViewSplitEditorVer
@@ -723,8 +785,24 @@ object PyIDEMainForm: TPyIDEMainForm
           object mnSplitEditorHor: TSpTBXItem
             Action = actViewSplitEditorHor
           end
+          object SpTBXSeparatorItem15: TSpTBXSeparatorItem
+          end
           object mnHideSecondEditor: TSpTBXItem
             Action = actViewHideSecondEditor
+          end
+        end
+        object mnSplitTabs: TSpTBXSubmenuItem
+          Caption = 'Split Tabs'
+          object SpTBXItem8: TSpTBXItem
+            Action = actViewSplitTabsVer
+          end
+          object SpTBXItem7: TSpTBXItem
+            Action = actViewSplitTabsHor
+          end
+          object SpTBXSeparatorItem14: TSpTBXSeparatorItem
+          end
+          object SpTBXItem9: TSpTBXItem
+            Action = actViewHideSecondaryTabs
           end
         end
         object TBXSeparatorItem20: TSpTBXSeparatorItem
@@ -1506,7 +1584,7 @@ object PyIDEMainForm: TPyIDEMainForm
       CustomHeight = 21
     end
     object SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem
-      CustomWidth = 0
+      CustomWidth = 407
     end
     object SpTBXSeparatorItem5: TSpTBXSeparatorItem
     end
@@ -2158,7 +2236,7 @@ object PyIDEMainForm: TPyIDEMainForm
     object actViewSplitEditorVer: TAction
       Category = 'View'
       Caption = 'Split Editor Vertically'
-      HelpContext = 270
+      HelpContext = 360
       HelpType = htContext
       Hint = 'Split the editor Windows vertically'
       ImageIndex = 125
@@ -2354,7 +2432,7 @@ object PyIDEMainForm: TPyIDEMainForm
     object actViewSplitEditorHor: TAction
       Category = 'View'
       Caption = 'Split Editor Horizontally'
-      HelpContext = 270
+      HelpContext = 360
       HelpType = htContext
       Hint = 'Split the editor Windows horizontally'
       ImageIndex = 126
@@ -2363,7 +2441,7 @@ object PyIDEMainForm: TPyIDEMainForm
     object actViewHideSecondEditor: TAction
       Category = 'View'
       Caption = 'Hide Second Editor'
-      HelpContext = 270
+      HelpContext = 360
       HelpType = htContext
       Hint = 'Clear the editor'
       OnExecute = actViewHideSecondEditorExecute
@@ -2403,6 +2481,36 @@ object PyIDEMainForm: TPyIDEMainForm
       ImageIndex = 131
       ShortCut = 49232
       OnExecute = actNavProjectExplorerExecute
+    end
+    object actViewSplitTabsVer: TAction
+      Category = 'View'
+      Caption = 'Split Tabs Vertically'
+      HelpContext = 360
+      HelpType = htContext
+      Hint = 
+        'Split editor tabs vertically|Show secondatry editor tabset verti' +
+        'cally alligned'
+      ImageIndex = 125
+      OnExecute = actViewSplitTabsVerExecute
+    end
+    object actViewSplitTabsHor: TAction
+      Category = 'View'
+      Caption = 'Split Tabs Horizontally'
+      HelpContext = 360
+      HelpType = htContext
+      Hint = 
+        'Split editor tabs horizontally|Show secondatry editor tabset hor' +
+        'izontally alligned'
+      ImageIndex = 126
+      OnExecute = actViewSplitTabsHorExecute
+    end
+    object actViewHideSecondaryTabs: TAction
+      Category = 'View'
+      Caption = 'Hide Secondary Tabs'
+      HelpContext = 360
+      HelpType = htContext
+      Hint = 'Hide secondary editor tabs'
+      OnExecute = actViewHideSecondaryTabsExecute
     end
   end
   object JvDockVSNetStyleSpTBX: TJvDockVSNetStyleSpTBX
