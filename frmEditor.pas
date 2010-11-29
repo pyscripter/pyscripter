@@ -1700,7 +1700,7 @@ begin
             then
               ASynEdit.SetCaretAndSelection(BC, ASynEdit.BlockBegin, BC)
             else
-              ASynEdit.SetCaretAndSelection(BC, BC, ASynEdit.BlockEnd);
+              ASynEdit.SetCaretAndSelection(BC, ASynEdit.BlockEnd, BC);
           end;
           Handled := True;
         end;
@@ -1715,7 +1715,7 @@ begin
             then
               ASynEdit.SetCaretAndSelection(BC, ASynEdit.BlockBegin, BC)
             else
-              ASynEdit.SetCaretAndSelection(BC, BC, ASynEdit.BlockEnd);
+              ASynEdit.SetCaretAndSelection(BC, ASynEdit.BlockEnd, BC);
           end;
           Handled := True;
         end;
