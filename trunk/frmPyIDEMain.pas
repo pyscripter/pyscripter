@@ -832,10 +832,10 @@ type
     tbiScrollRight2: TSpTBXItem;
     tbiTabClose2: TSpTBXItem;
     TabSplitter: TSpTBXSplitter;
-    actViewSplitTabsVer: TAction;
-    actViewSplitTabsHor: TAction;
-    actViewHideSecondaryTabs: TAction;
-    mnSplitTabs: TSpTBXSubmenuItem;
+    actViewSplitWorkspaceVer: TAction;
+    actViewSplitWorkspaceHor: TAction;
+    actViewHideSecondaryWorkspace: TAction;
+    mnSplitWorkspace: TSpTBXSubmenuItem;
     SpTBXItem7: TSpTBXItem;
     SpTBXItem8: TSpTBXItem;
     SpTBXItem9: TSpTBXItem;
@@ -954,9 +954,9 @@ type
     procedure TabControlActiveTabChange(Sender: TObject; TabIndex: Integer);
     procedure tbiScrollLeftClick(Sender: TObject);
     procedure tbiScrollRightClick(Sender: TObject);
-    procedure actViewSplitTabsVerExecute(Sender: TObject);
-    procedure actViewSplitTabsHorExecute(Sender: TObject);
-    procedure actViewHideSecondaryTabsExecute(Sender: TObject);
+    procedure actViewSplitWorkspaceVerExecute(Sender: TObject);
+    procedure actViewSplitWorkspaceHorExecute(Sender: TObject);
+    procedure actViewHideSecondaryWorkspaceExecute(Sender: TObject);
   private
     DSAAppStorage: TDSAAppStorage;
     ShellExtensionFiles : TStringList;
@@ -1065,7 +1065,7 @@ type
     function EditorFromTab(Tab : TSpTBXTabItem) : IEditor;
     procedure LoadAdditionalThemes;
     procedure SetIDEColors;
-    procedure SplitTabControl(SecondTabsVisible : Boolean;
+    procedure SplitWorkspace(SecondTabsVisible : Boolean;
       Alignment : TAlign = alRight; Size : integer = -1);
     procedure MoveTab(Tab : TSpTBXTabItem; TabControl : TSpTBXTabControl;
       Index : integer = -1);
@@ -2276,14 +2276,14 @@ begin
     Editor.SplitEditorVertrically;
 end;
 
-procedure TPyIDEMainForm.actViewSplitTabsHorExecute(Sender: TObject);
+procedure TPyIDEMainForm.actViewSplitWorkspaceHorExecute(Sender: TObject);
 begin
-  SplitTabControl(True, alBottom);
+  SplitWorkspace(True, alBottom);
 end;
 
-procedure TPyIDEMainForm.actViewSplitTabsVerExecute(Sender: TObject);
+procedure TPyIDEMainForm.actViewSplitWorkspaceVerExecute(Sender: TObject);
 begin
-  SplitTabControl(True, alRight);
+  SplitWorkspace(True, alRight);
 end;
 
 procedure TPyIDEMainForm.actViewStatusBarExecute(Sender: TObject);
@@ -2377,7 +2377,7 @@ begin
     HideDockForm(FindResultsWindow);
 end;
 
-procedure TPyIDEMainForm.actViewHideSecondaryTabsExecute(Sender: TObject);
+procedure TPyIDEMainForm.actViewHideSecondaryWorkspaceExecute(Sender: TObject);
 var
   I: Integer;
   IV: TTBItemViewer;
@@ -2404,7 +2404,7 @@ begin
     List.Free;
   end;
 
-  SplitTabControl(False);
+  SplitWorkspace(False);
 end;
 
 procedure TPyIDEMainForm.actViewHideSecondEditorExecute(Sender: TObject);
@@ -3077,7 +3077,7 @@ begin
   actViewSplitEditorVer.Enabled := Assigned(GI_ActiveEditor);
   actViewHideSecondEditor.Enabled := Assigned(GI_ActiveEditor)
     and GI_ActiveEditor.SynEdit2.Visible;
-  actViewHideSecondaryTabs.Enabled := TabControl2.Visible;
+  actViewHideSecondaryWorkspace.Enabled := TabControl2.Visible;
 
   actWatchesWin.Checked := WatchesWindow.Visible;
 
@@ -3497,7 +3497,7 @@ begin
   end;
 end;
 
-procedure TPyIDEMainForm.SplitTabControl(SecondTabsVisible : Boolean;
+procedure TPyIDEMainForm.SplitWorkspace(SecondTabsVisible : Boolean;
       Alignment : TAlign; Size : integer);
 begin
   TabSplitter.Visible := False;

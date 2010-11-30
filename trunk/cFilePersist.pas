@@ -345,9 +345,9 @@ begin
       AppStorage.ReadEnumeration(BasePath+'\Align', TypeInfo(TAlign),
         Alignment, Alignment);
       Size := AppStorage.ReadInteger(BasePath+'\Size', -1);
-      SplitTabControl(True, Alignment, Size);
+      SplitWorkspace(True, Alignment, Size);
     end else
-      SplitTabControl(False);
+      SplitWorkspace(False);
   end;
 end;
 

@@ -216,8 +216,8 @@ Var
 begin
   if FileExplorerTree.ValidateNamespace(FileExplorerTree.GetFirstSelected, NameSpace) and
       not NameSpace.Folder and NameSpace.FileSystem
-  then
-      PyIDEMainForm.DoOpenFile(NameSpace.NameForParsing);
+  then with PyIDEMainForm do
+      DoOpenFile(NameSpace.NameForParsing, '', TabControlIndex(ActiveTabControl));
 end;
 
 procedure TFileExplorerWindow.ExploreHereClick(Sender: TObject);
