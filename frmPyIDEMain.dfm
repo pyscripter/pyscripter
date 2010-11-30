@@ -426,7 +426,6 @@ object PyIDEMainForm: TPyIDEMainForm
       TabDragReorder = True
       TabPosition = ttpBottom
       OnActiveTabChange = TabControlActiveTabChange
-      ExplicitWidth = 755
       HiddenItems = <>
       object tbiRightAlign: TSpTBXRightAlignSpacerItem
         CustomWidth = 647
@@ -519,7 +518,6 @@ object PyIDEMainForm: TPyIDEMainForm
       Cursor = crSizeWE
       Align = alRight
       Visible = False
-      ExplicitLeft = 755
     end
   end
   object TBXDockTop: TSpTBXDock
@@ -791,18 +789,18 @@ object PyIDEMainForm: TPyIDEMainForm
             Action = actViewHideSecondEditor
           end
         end
-        object mnSplitTabs: TSpTBXSubmenuItem
-          Caption = 'Split Tabs'
+        object mnSplitWorkspace: TSpTBXSubmenuItem
+          Caption = 'Split Workspace'
           object SpTBXItem8: TSpTBXItem
-            Action = actViewSplitTabsVer
+            Action = actViewSplitWorkspaceVer
           end
           object SpTBXItem7: TSpTBXItem
-            Action = actViewSplitTabsHor
+            Action = actViewSplitWorkspaceHor
           end
           object SpTBXSeparatorItem14: TSpTBXSeparatorItem
           end
           object SpTBXItem9: TSpTBXItem
-            Action = actViewHideSecondaryTabs
+            Action = actViewHideSecondaryWorkspace
           end
         end
         object TBXSeparatorItem20: TSpTBXSeparatorItem
@@ -1584,7 +1582,7 @@ object PyIDEMainForm: TPyIDEMainForm
       CustomHeight = 21
     end
     object SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem
-      CustomWidth = 0
+      CustomWidth = 407
     end
     object SpTBXSeparatorItem5: TSpTBXSeparatorItem
     end
@@ -2482,35 +2480,35 @@ object PyIDEMainForm: TPyIDEMainForm
       ShortCut = 49232
       OnExecute = actNavProjectExplorerExecute
     end
-    object actViewSplitTabsVer: TAction
+    object actViewSplitWorkspaceVer: TAction
       Category = 'View'
-      Caption = 'Split Tabs Vertically'
+      Caption = 'Split Workspace Vertically'
       HelpContext = 360
       HelpType = htContext
       Hint = 
-        'Split editor tabs vertically|Show secondatry editor tabset verti' +
-        'cally alligned'
+        'Split workspace vertically|Show secondatry editor tabset vertica' +
+        'lly alligned'
       ImageIndex = 125
-      OnExecute = actViewSplitTabsVerExecute
+      OnExecute = actViewSplitWorkspaceVerExecute
     end
-    object actViewSplitTabsHor: TAction
+    object actViewSplitWorkspaceHor: TAction
       Category = 'View'
-      Caption = 'Split Tabs Horizontally'
+      Caption = 'Split Workspace Horizontally'
       HelpContext = 360
       HelpType = htContext
       Hint = 
-        'Split editor tabs horizontally|Show secondatry editor tabset hor' +
-        'izontally alligned'
+        'Split workspace horizontally|Show secondatry workspace horizonta' +
+        'lly alligned'
       ImageIndex = 126
-      OnExecute = actViewSplitTabsHorExecute
+      OnExecute = actViewSplitWorkspaceHorExecute
     end
-    object actViewHideSecondaryTabs: TAction
+    object actViewHideSecondaryWorkspace: TAction
       Category = 'View'
-      Caption = 'Hide Secondary Tabs'
+      Caption = 'Hide Secondary Workspace'
       HelpContext = 360
       HelpType = htContext
-      Hint = 'Hide secondary editor tabs'
-      OnExecute = actViewHideSecondaryTabsExecute
+      Hint = 'Hide secondary workspace'
+      OnExecute = actViewHideSecondaryWorkspaceExecute
     end
   end
   object JvDockVSNetStyleSpTBX: TJvDockVSNetStyleSpTBX

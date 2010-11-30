@@ -588,8 +588,9 @@ begin
   begin
     Data := ExplorerTree.GetNodeData(Node);
     if Data.ProjectNode is TProjectFileNode and (TProjectFileNode(Data.ProjectNode).FileName <> '') then
-    begin
-      PyIDEMainForm.DoOpenFile(Parameters.ReplaceInText(TProjectFileNode(Data.ProjectNode).FileName));
+    with PyIDEMainForm do begin
+      DoOpenFile(Parameters.ReplaceInText(TProjectFileNode(Data.ProjectNode).FileName),
+        '', TabControlIndex(ActiveTabControl));
     end;
   end;
 end;
