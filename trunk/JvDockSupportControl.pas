@@ -454,7 +454,7 @@ type
     property DragObject: TJvDockDragDockObject read FDragObject write FDragObject;
   end;
 
-  TJvDockCustomPanelSplitter = class(TJvCustomControl)
+  TJvDockCustomPanelSplitter = class(TJvGraphicControl)
   private
     FActiveControl: TWinControl;
     FAutoSnap: Boolean;

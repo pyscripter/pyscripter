@@ -980,7 +980,7 @@ begin
   FMouseOver := false;
   FMouseDown := false;
   ControlStyle := ControlStyle + [csOpaque];
-  DoubleBuffered := True;
+  //DoubleBuffered := True;
   SkinManager.AddSkinNotification(Self);
 end;
 

@@ -331,7 +331,6 @@
   History:   v 2.3.5
           New Features
             Side-by-side file editing (Issue 214)
-            Need to update help file
           Issues addressed
              449
 -----------------------------------------------------------------------------}
@@ -974,6 +973,7 @@ type
     procedure RunInitScript;
     function GetActiveTabControl: TSpTBXCustomTabControl;
     procedure SetActiveTabControl(const Value: TSpTBXCustomTabControl);
+    procedure WMEraseBkgnd(var Message: TWMEraseBkgnd); message WM_ERASEBKGND;
   protected
     fCurrentLine : integer;
     fErrorLine : integer;
@@ -1241,7 +1241,7 @@ begin
   end;
 
 // Trying to reduce flicker!
-//  ControlStyle := ControlStyle + [csOpaque];
+  ControlStyle := ControlStyle + [csOpaque];
 //  BGPanel.ControlStyle := BGPanel.ControlStyle + [csOpaque];
 //  DockServer.LeftDockPanel.ControlStyle := DockServer.LeftDockPanel.ControlStyle + [csOpaque];
 //  DockServer.RightDockPanel.ControlStyle := DockServer.LeftDockPanel.ControlStyle + [csOpaque];
@@ -4211,6 +4211,11 @@ begin
   except
     // fail silently
   end;
+end;
+
+procedure TPyIDEMainForm.WMEraseBkgnd(var Message: TWMEraseBkgnd);
+begin
+  Message.Result := 1;
 end;
 
 procedure TPyIDEMainForm.FormShow(Sender: TObject);
