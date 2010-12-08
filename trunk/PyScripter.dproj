@@ -236,6 +236,7 @@
 			<DCCReference Include="AsyncCalls.pas"/>
 			<DCCReference Include="VirtualExplorerTree.pas"/>
 			<DCCReference Include="MPShellUtilities.pas"/>
+			<DCCReference Include="SpTBXItem.pas"/>
 			<None Include="PyScripter.todo"/>
 			<None Include="ModelSupport_PyScripter\default.txaPackage"/>
 			<BuildConfiguration Include="Base">

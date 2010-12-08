@@ -1341,8 +1341,9 @@ Var
   Editor : IEditor;
 begin
   Editor := PyIDEMainForm.GetActiveEditor;
-  if Assigned(Editor) and (EditorSearchOptions.SearchText <> '') then begin
-    if actSearchHighlight.Checked then begin
+  if Assigned(Editor) then begin
+    if actSearchHighlight.Checked and (EditorSearchOptions.SearchText <> '') then
+    begin
       SearchOptions := [];
       if EditorSearchOptions.SearchCaseSensitive then
         Include(SearchOptions, ssoMatchCase);
@@ -1357,7 +1358,7 @@ begin
       FindSearchTerm(EditorSearchOptions.SearchText, Editor.SynEdit,
         TEditorForm(Editor.Form).FoundSearchItems, SearchEngine, SearchOptions);
       InvalidateHighlightedTerms(Editor.SynEdit2, TEditorForm(Editor.Form).FoundSearchItems);
-    end else
+    end else if not actSearchHighlight.Checked then
       ClearAllHighlightedTerms;
   end;
 end;
@@ -1707,6 +1708,7 @@ begin
         if AppStorage.IniFile.SectionExists('Highlighters\Intepreter') then
           AppStorage.ReadPersistent('Highlighters\Intepreter',
             PythonIIForm.SynEdit.Highlighter);
+        PyIDEMainForm.SetIDEColors;
       finally
         AppStorage.Free;
       end;
@@ -2412,9 +2414,10 @@ begin
   SearchCommands := nil;
   if Assigned(Editor) then
     SearchCommands := Editor as ISearchCommands;
-  actSearchHighlight.Enabled := Assigned(SearchCommands) and SearchCommands.CanFindNext;
-  actSearchHighlight.Checked := actSearchHighlight.Enabled and
+  actSearchHighlight.Checked := Assigned(Editor) and
     (TEditorForm(Editor.Form).FoundSearchItems.Count > 0);
+  actSearchHighlight.Enabled := actSearchHighlight.Checked or Assigned(Editor) and
+     (EditorSearchOptions.SearchText <> '') ;
 
   actSearchMatchingBrace.Enabled := Assigned(GI_ActiveEditor);
   actSearchGoToLine.Enabled := Assigned(GI_ActiveEditor);

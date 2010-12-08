@@ -109,7 +109,8 @@ uses
   JclWideStrings in 'JclWideStrings.pas',
   AsyncCalls in 'AsyncCalls.pas',
   VirtualExplorerTree in 'VirtualExplorerTree.pas',
-  MPShellUtilities in 'MPShellUtilities.pas';
+  MPShellUtilities in 'MPShellUtilities.pas',
+  SpTBXItem in 'SpTBXItem.pas';
 
 {$R *.RES}
 {$R WebCopyAvi.RES}

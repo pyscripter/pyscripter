@@ -58,8 +58,9 @@ uses
 type
   TtkTokenKind = (tkComment, tkIdentifier, tkKey, tkNull, tkNumber, tkSpace,
     tkString, tkSymbol, tkNonKeyword, tkCodeComment, tkTrippleQuotedString,
-    tkFunctionName, tkClassName, tkSystemDefined, tkHex, tkOct, tkFloat, tkUnknown,
-    tkBanner, tkOutput, tkTraceback, tkPrompt);  // used in the interpreter
+    tkTrippleQuotedString2, tkFunctionName, tkClassName, tkSystemDefined, tkHex,
+    tkOct, tkFloat, tkUnknown, tkBanner, tkOutput, tkTraceback,
+    tkPrompt);  // used in the interpreter
 
   TRangeState = (rsANil, rsComment, rsUnKnown, rsMultilineString, rsMultilineString2,
                  rsMultilineString3, //this is to indicate if a string is made multiline by backslash char at line end (as in C++ highlighter)
@@ -76,6 +77,7 @@ type
     fLastIdentifier : UnicodeString;
     fStringAttri: TSynHighlighterAttributes;
     fDocStringAttri: TSynHighlighterAttributes;
+    fMultiLineStringAttri: TSynHighlighterAttributes;
     fNumberAttri: TSynHighlighterAttributes;
     fHexAttri: TSynHighlighterAttributes;
     fOctalAttri: TSynHighlighterAttributes;
@@ -166,6 +168,8 @@ type
       write fStringAttri;
     property DocStringAttri: TSynHighlighterAttributes read fDocStringAttri
       write fDocStringAttri;
+    property MultiLineStringAttri: TSynHighlighterAttributes read fMultiLineStringAttri
+      write fMultiLineStringAttri;
     property SymbolAttri: TSynHighlighterAttributes read fSymbolAttri
       write fSymbolAttri;
     property ErrorAttri: TSynHighlighterAttributes read fErrorAttri
@@ -232,11 +236,13 @@ resourcestring
   SYNS_ClassName = 'Class Name';
   SYNS_MatchingBrace = 'Matching Brace';
   SYNS_UnbalancedBrace = 'Unbalanced Brace';
+  SYNS_MultiLineString = 'Multi-Line String';
   SYNS_FriendlyCommentedCode = 'Commented Code';
   SYNS_FriendlyFunctionName = 'Function Name';
   SYNS_FriendlyClassName = 'Class Name';
   SYNS_FriendlyMatchingBrace = 'Matching Brace';
   SYNS_FriendlyUnbalancedBrace = 'Unbalanced Brace';
+  SYNS_FriendlyMultiLineString = 'Multi-Line String';
 
 function TSynPythonSyn.GetKeyWords(TokenKind: Integer): UnicodeString;
 begin
@@ -549,13 +555,17 @@ begin
   fFloatAttri.Foreground := clBlue;
   AddAttribute(fFloatAttri);
   fSpaceAttri := TSynHighlighterAttributes.Create(SYNS_AttrSpace, SYNS_FriendlyAttrSpace);
+  fSpaceAttri.Background := clWindow;
   AddAttribute(fSpaceAttri);
   fStringAttri := TSynHighlighterAttributes.Create(SYNS_AttrString, SYNS_FriendlyAttrString);
   fStringAttri.Foreground := clBlue;
   AddAttribute(fStringAttri);
   fDocStringAttri := TSynHighlighterAttributes.Create(SYNS_AttrDocumentation, SYNS_FriendlyAttrDocumentation);
-  fDocStringAttri.Foreground := clTeal;
+  fDocStringAttri.Foreground := $FF00CC;
   AddAttribute(fDocStringAttri);
+  fMultiLineStringAttri := TSynHighlighterAttributes.Create(SYNS_MultiLineString, SYNS_FriendlyMultiLineString);
+  fMultiLineStringAttri.Foreground := clOlive;
+  AddAttribute(fMultiLineStringAttri);
   fSymbolAttri := TSynHighlighterAttributes.Create(SYNS_AttrSymbol, SYNS_FriendlyAttrSymbol);
   AddAttribute(fSymbolAttri);
   fErrorAttri := TSynHighlighterAttributes.Create(SYNS_AttrSyntaxError, SYNS_FriendlyAttrSyntaxError);
@@ -976,7 +986,7 @@ begin
   fTokenID := tkString;
   if (FLine[Run + 1] = '"') and (FLine[Run + 2] = '"') then
   begin
-    fTokenID := tkTrippleQuotedString;
+    fTokenID := tkTrippleQuotedString2;
     inc(Run, 3);
 
     fRange := rsMultilineString2;
@@ -1166,6 +1176,8 @@ var
 begin
   if fRange = rsMultilineString3 then
     fTokenID := tkString
+  else if EndChar = '"' then
+    fTokenID := tkTrippleQuotedString2
   else
     fTokenID := tkTrippleQuotedString;
 
@@ -1193,18 +1205,18 @@ begin
         inc(Run);
         fRange:=rsUnknown;
         EXIT;
-      end else if FLine[Run]='\' then ;  {The same backslash stuff above...}
-          begin
-             if FLine[Run + 1] = fStringStarter then
-               begin
-                 fBackslashCount := 1;
+      end else if FLine[Run]='\' then   {The same backslash stuff above...}
+      begin
+         if FLine[Run + 1] = fStringStarter then
+           begin
+             fBackslashCount := 1;
 
-                 while ((Run >= fBackslashCount) and (FLine[Run - fBackslashCount] = '\')) do
-                   fBackslashCount := fBackslashCount + 1;
+             while ((Run >= fBackslashCount) and (FLine[Run - fBackslashCount] = '\')) do
+               fBackslashCount := fBackslashCount + 1;
 
-                 if (fBackslashCount mod 2 = 1) then inc(Run);
-             end;
-           end;// if FLine[Run]...
+             if (fBackslashCount mod 2 = 1) then inc(Run);
+         end;
+       end;// if FLine[Run]...
 
       inc(Run);
     until IsLineEnd(Run);
@@ -1289,7 +1301,9 @@ begin
     SYN_ATTR_WHITESPACE:
       begin
         fTempSpaceAttri.Assign(fSpaceAttri);
-        if fRange in [rsMultilineString, rsMultilineString2] then
+        if (fRange = rsMultilineString) and (fMultiLineStringAttri.Background <> clNone) then
+          fTempSpaceAttri.Background := fMultiLineStringAttri.Background
+        else if (fRange = rsMultilineString2) and (fDocStringAttri.Background <> clNone)  then
           fTempSpaceAttri.Background := fDocStringAttri.Background;
         Result := fTempSpaceAttri;
       end;
@@ -1333,7 +1347,8 @@ begin
     tkFloat: Result := fFloatAttri;
     tkSpace: Result := fSpaceAttri;
     tkString: Result := fStringAttri;
-    tkTrippleQuotedString: Result := fDocStringAttri;
+    tkTrippleQuotedString: Result := fMultiLineStringAttri;
+    tkTrippleQuotedString2: Result := fDocStringAttri;
     tkSymbol: Result := fSymbolAttri;
     tkUnknown: Result := fErrorAttri;
   else
