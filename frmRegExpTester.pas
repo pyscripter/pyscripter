@@ -15,7 +15,8 @@ uses
   Dialogs, frmIDEDockWin, JvDockControlForm, ExtCtrls, StdCtrls,
   VirtualTrees, SpTBXDkPanels, TB2Item,
   TB2Dock, TB2Toolbar, JvAppStorage,
-  JvComponentBase, SpTBXItem, ComCtrls,  SpTBXControls, SpTBXSkins;
+  JvComponentBase, SpTBXItem, ComCtrls,  SpTBXControls, SpTBXSkins,
+  Generics.Collections, SpTBXEditors;
 
 type
   TRegExpTesterWindow = class(TIDEDockWindow, IJvAppStorageHandler)
@@ -44,7 +45,7 @@ type
     TBXLabel1: TSpTBXLabel;
     GroupsView: TVirtualStringTree;
     dpMatchText: TSpTBXPanel;
-    TBXLabel2: TSpTBXLabel;
+    lblMatch: TSpTBXLabel;
     SpTBXPanel3: TSpTBXPanel;
     dpRegExpText: TSpTBXPanel;
     TBXLabel3: TSpTBXLabel;
@@ -60,6 +61,8 @@ type
     RegExpText: TRichEdit;
     SearchText: TRichEdit;
     MatchText: TRichEdit;
+    RI_findall: TSpTBXItem;
+    SpinMatches: TSpTBXSpinEdit;
     procedure TiClearClick(Sender: TObject);
     procedure GroupsViewGetText(Sender: TBaseVirtualTree; Node: PVirtualNode;
       Column: TColumnIndex; TextType: TVSTTextType; var CellText: string);
@@ -68,10 +71,13 @@ type
     procedure FormCreate(Sender: TObject);
     procedure RegExpTextChange(Sender: TObject);
     procedure FormActivate(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
+    procedure SpinMatchesValueChanged(Sender: TObject);
   private
     { Private declarations }
     RegExp : Variant;
     MatchObject : Variant;
+    MatchList : TList<Variant>;
   protected
     procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
     // IJvAppStorageHandler implementation
@@ -87,7 +93,7 @@ var
 implementation
 
 uses dmCommands, VarPyth, frmPythonII,
-  PythonEngine;
+  PythonEngine, gnugettext, JvAppIniStorage;
 
 {$R *.dfm}
 
@@ -102,6 +108,8 @@ begin
 procedure TRegExpTesterWindow.FormCreate(Sender: TObject);
 begin
   inherited;
+  MatchList := TList<Variant>.Create;
+
   GroupsView.NodeDataSize := 0;
   GroupsView.OnAdvancedHeaderDraw :=
     CommandsDataModule.VirtualStringTreeAdvancedHeaderDraw;
@@ -111,6 +119,13 @@ begin
     CommandsDataModule.VirtualStringTreeBeforeCellPaint;
   GroupsView.OnPaintText :=
     CommandsDataModule.VirtualStringTreePaintText;
+end;
+
+procedure TRegExpTesterWindow.FormDestroy(Sender: TObject);
+begin
+  inherited;
+  GroupsView.Clear;
+  FreeAndNil(MatchList);
 end;
 
 procedure TRegExpTesterWindow.WMSpSkinChange(var Message: TMessage);
@@ -126,47 +141,87 @@ end;
 
 procedure TRegExpTesterWindow.WriteToAppStorage(AppStorage: TJvCustomAppStorage;
   const BasePath: string);
+Var
+  SearchType : integer;
 begin
+  if RI_findall.Checked then
+    SearchType := 0
+  else if RI_Search.Checked then
+    SearchType := 1
+  else
+    SearchType := 2;
+  TJvAppIniStorageOptions(AppStorage.StorageOptions).ReplaceCRLF := True;
+  TJvAppIniStorageOptions(AppStorage.StorageOptions).PreserveLeadingTrailingBlanks := True;
   AppStorage.WriteString(BasePath+'\Regular Expression', RegExpText.Text);
   AppStorage.WriteString(BasePath+'\Search Text', SearchText.Text);
+  TJvAppIniStorageOptions(AppStorage.StorageOptions).ReplaceCRLF := False;
+  TJvAppIniStorageOptions(AppStorage.StorageOptions).PreserveLeadingTrailingBlanks := False;
+
   AppStorage.WriteBoolean(BasePath+'\DOTALL', CI_DOTALL.Checked);
   AppStorage.WriteBoolean(BasePath+'\IGNORECASE', CI_IGNORECASE.Checked);
   AppStorage.WriteBoolean(BasePath+'\LOCALE', CI_LOCALE.Checked);
   AppStorage.WriteBoolean(BasePath+'\MULTILINE', CI_MULTILINE.Checked);
   AppStorage.WriteBoolean(BasePath+'\UNICODE', CI_UNICODE.Checked);
   AppStorage.WriteBoolean(BasePath+'\VERBOSE', CI_VERBOSE.Checked);
-  AppStorage.WriteBoolean(BasePath+'\Search', RI_Search.Checked);
+  AppStorage.WriteInteger(BasePath+'\SearchType', SearchType);
   AppStorage.WriteBoolean(BasePath+'\AutoExec', CI_AutoExecute.Checked);
   AppStorage.WriteInteger(BasePath+'\RegExpHeight', dpRegExpText.Height);
   AppStorage.WriteInteger(BasePath+'\GroupsHeight', dpGroupsView.Height);
   AppStorage.WriteInteger(BasePath+'\SearchHeight', dpSearchText.Height);
+  TJvAppIniStorageOptions(AppStorage.StorageOptions).ReplaceCRLF := False;
 end;
 
 procedure TRegExpTesterWindow.ReadFromAppStorage(
   AppStorage: TJvCustomAppStorage; const BasePath: string);
+Var
+  SearchType : integer;
 begin
+  TJvAppIniStorageOptions(AppStorage.StorageOptions).ReplaceCRLF := True;
+  TJvAppIniStorageOptions(AppStorage.StorageOptions).PreserveLeadingTrailingBlanks := True;
   RegExpText.Text := AppStorage.ReadString(BasePath+'\Regular Expression');
   SearchText.Text := AppStorage.ReadString(BasePath+'\Search Text');
+  TJvAppIniStorageOptions(AppStorage.StorageOptions).ReplaceCRLF := False;
+  TJvAppIniStorageOptions(AppStorage.StorageOptions).PreserveLeadingTrailingBlanks := False;
+
   CI_DOTALL.Checked := AppStorage.ReadBoolean(BasePath+'\DOTALL', False);
   CI_IGNORECASE.Checked := AppStorage.ReadBoolean(BasePath+'\IGNORECASE', False);
   CI_LOCALE.Checked := AppStorage.ReadBoolean(BasePath+'\LOCALE', False);
   CI_MULTILINE.Checked := AppStorage.ReadBoolean(BasePath+'\MULTILINE', False);
   CI_UNICODE.Checked := AppStorage.ReadBoolean(BasePath+'\UNICODE', False);
   CI_VERBOSE.Checked := AppStorage.ReadBoolean(BasePath+'\VERBOSE', False);
-  RI_Search.Checked := AppStorage.ReadBoolean(BasePath+'\Search', True);
-  if not RI_Search.Checked then RI_Match.Checked := True;
-  CI_AutoExecute.Checked := AppStorage.ReadBoolean(BasePath+'\AutoExec', True);
+  SearchType := AppStorage.ReadInteger(BasePath+'\SearchType');
+  case SearchType of
+    1: RI_Search.Checked := True;
+    2: RI_Match.Checked := True;
+  else
+    RI_findall.Checked := True;
+  end;
   dpRegExpText.Height := AppStorage.ReadInteger(BasePath+'\RegExpHeight', dpRegExpText.Height);
   dpGroupsView.Height := AppStorage.ReadInteger(BasePath+'\GroupsHeight', dpGroupsView.Height);
   dpSearchText.Height := AppStorage.ReadInteger(BasePath+'\SearchHeight', dpSearchText.Height);
+  CI_AutoExecute.Checked := AppStorage.ReadBoolean(BasePath+'\AutoExec', False);
 end;
 
 procedure TRegExpTesterWindow.RegExpTextChange(Sender: TObject);
 begin
   if CI_AutoExecute.Checked and (RegExpText.Text <> '') and
-    (SearchText.Text <> '')
+    (SearchText.Text <> '') and Visible
   then
     TIExecuteClick(Self);
+end;
+
+procedure TRegExpTesterWindow.SpinMatchesValueChanged(Sender: TObject);
+Var
+  Index : Integer;
+begin
+  Index := Trunc(SpinMatches.Value);
+  if (Index > 0) and (Index <= MatchList.Count) then begin
+    GroupsView.Clear;
+    MatchObject := MatchList[Index-1];
+    MatchText.Text := MatchObject.group();
+    GroupsView.RootNodeCount := len(MatchObject.groups());
+    lblMatch.Caption := Format(_('Match %d of %d'), [Index, MatchList.Count]);
+  end;
 end;
 
 procedure TRegExpTesterWindow.tiHelpClick(Sender: TObject);
@@ -179,11 +234,17 @@ procedure TRegExpTesterWindow.TIExecuteClick(Sender: TObject);
 Var
   re: Variant;
   Flags : integer;
+  FindIter : Variant;
 begin
   MatchText.Clear;
   GroupsView.Clear;
   VarClear(RegExp);
   VarClear(MatchObject);
+  MatchList.Clear;
+  lblMatch.Caption := _('Match');
+
+  if RegExpText.Text = '' then Exit;
+  if SearchText.Text = '' then Exit;
 
   re := Import('re');
   Flags := 0;
@@ -216,10 +277,24 @@ begin
 
   // Execute regular expression
   try
-    if RI_Search.Checked then
-      MatchObject := regexp.search(SearchText.Text, 0)
-    else
+    if RI_Search.Checked then begin
+      MatchObject := regexp.search(SearchText.Text, 0);
+      MatchList.Add(MatchObject);
+    end else if RI_Match.Checked then begin
       MatchObject := RegExp.match(SearchText.Text);
+      MatchList.Add(MatchObject);
+    end else begin
+      FindIter := RegExp.finditer(SearchText.Text);
+      try
+        while True do begin
+          MatchObject := FindIter.next();
+          GetPythonEngine.CheckError(True);
+          MatchList.Add(MatchObject);
+        end;
+      except
+        on EPyStopIteration do begin end;
+      end;
+    end;
   except
     on E: Exception do begin
       with lbStatusBar do begin
@@ -229,6 +304,20 @@ begin
       PythonIIForm.ShowOutput := True;
       Exit;
     end;
+  end;
+
+  if MatchList.Count > 0 then
+    MatchObject := MatchList[0]
+  else
+    MatchObject := None;
+
+  SpinMatches.Value := 1;
+  SpinMatches.Enabled := False;
+  if MatchList.Count > 1 then begin
+    SpinMatches.SpinOptions.MinValue := 1;
+    SpinMatches.SpinOptions.MaxValue := MatchList.Count;
+    SpinMatches.Enabled := True;
+    lblMatch.Caption := Format(_('Match %d of %d'), [1, MatchList.Count]);
   end;
 
   if (not VarIsPython(MatchObject)) or VarIsNone(MatchObject) then begin

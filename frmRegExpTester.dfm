@@ -143,12 +143,18 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
             Options = [tboShowHint]
             RadioItem = True
           end
+          object RI_findall: TSpTBXItem
+            Caption = 'Findall'
+            Hint = 'Performs re.findall'
+            GroupIndex = 1
+            Options = [tboShowHint]
+            RadioItem = True
+          end
           object TBXSeparatorItem4: TSpTBXSeparatorItem
           end
           object CI_AutoExecute: TSpTBXItem
             Caption = 'Auto Execute'
             AutoCheck = True
-            Checked = True
           end
         end
         object TBXSeparatorItem1: TSpTBXSeparatorItem
@@ -197,6 +203,7 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
         Height = 138
         Align = alBottom
         TabOrder = 0
+        TBXStyleBackground = True
         object TBXLabel1: TSpTBXLabel
           Left = 2
           Top = 2
@@ -273,35 +280,20 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
         Height = 82
         Align = alTop
         TabOrder = 1
-        object TBXLabel3: TSpTBXLabel
+        TBXStyleBackground = True
+        object SpTBXPanel1: TSpTBXPanel
           Left = 2
           Top = 2
           Width = 376
-          Height = 20
-          Caption = 'Regular Expression'
-          Align = alTop
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'MS Shell Dlg 2'
-          Font.Style = [fsBold]
-          ParentFont = False
-          Wrapping = twEndEllipsis
-          Underline = True
-          UnderlineColor = clBlue
-        end
-        object SpTBXPanel1: TSpTBXPanel
-          Left = 2
-          Top = 22
-          Width = 376
-          Height = 58
+          Height = 78
           Caption = 'SpTBXPanel1'
           Align = alClient
           TabOrder = 0
           HotTrack = True
+          TBXStyleBackground = True
           object RegExpText: TRichEdit
             Left = 2
-            Top = 2
+            Top = 22
             Width = 372
             Height = 54
             Align = alClient
@@ -318,6 +310,23 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
             ScrollBars = ssVertical
             TabOrder = 0
             OnChange = RegExpTextChange
+          end
+          object TBXLabel3: TSpTBXLabel
+            Left = 2
+            Top = 2
+            Width = 372
+            Height = 20
+            Caption = 'Regular Expression'
+            Align = alTop
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -11
+            Font.Name = 'MS Shell Dlg 2'
+            Font.Style = [fsBold]
+            ParentFont = False
+            Wrapping = twEndEllipsis
+            Underline = True
+            UnderlineColor = clBlue
           end
         end
       end
@@ -346,35 +355,19 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
           Align = alTop
           TabOrder = 0
           TBXStyleBackground = True
-          object TBXLabel4: TSpTBXLabel
+          object SpTBXPanel2: TSpTBXPanel
             Left = 2
             Top = 2
             Width = 376
-            Height = 20
-            Caption = 'Search Text:'
-            Align = alTop
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -11
-            Font.Name = 'MS Shell Dlg 2'
-            Font.Style = [fsBold]
-            ParentFont = False
-            Wrapping = twEndEllipsis
-            Underline = True
-            UnderlineColor = clBlue
-          end
-          object SpTBXPanel2: TSpTBXPanel
-            Left = 2
-            Top = 22
-            Width = 376
-            Height = 71
+            Height = 91
             Caption = 'SpTBXPanel2'
             Align = alClient
             TabOrder = 0
             HotTrack = True
+            TBXStyleBackground = True
             object SearchText: TRichEdit
               Left = 2
-              Top = 2
+              Top = 22
               Width = 372
               Height = 67
               Align = alClient
@@ -391,6 +384,23 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
               ScrollBars = ssVertical
               TabOrder = 0
               OnChange = RegExpTextChange
+            end
+            object TBXLabel4: TSpTBXLabel
+              Left = 2
+              Top = 2
+              Width = 372
+              Height = 20
+              Caption = 'Search Text:'
+              Align = alTop
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'MS Shell Dlg 2'
+              Font.Style = [fsBold]
+              ParentFont = False
+              Wrapping = twEndEllipsis
+              Underline = True
+              UnderlineColor = clBlue
             end
           end
         end
@@ -409,39 +419,28 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
           Height = 92
           Align = alClient
           TabOrder = 1
+          HotTrack = True
           TBXStyleBackground = True
-          object TBXLabel2: TSpTBXLabel
+          object SpTBXPanel3: TSpTBXPanel
             Left = 2
             Top = 2
             Width = 376
-            Height = 20
-            Caption = 'Match:'
-            Align = alTop
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -11
-            Font.Name = 'MS Shell Dlg 2'
-            Font.Style = [fsBold]
-            ParentFont = False
-            Wrapping = twEndEllipsis
-            Underline = True
-            UnderlineColor = clBlue
-          end
-          object SpTBXPanel3: TSpTBXPanel
-            Left = 2
-            Top = 22
-            Width = 376
-            Height = 68
+            Height = 88
             Caption = 'SpTBXPanel3'
             Align = alClient
             TabOrder = 0
             HotTrack = True
+            TBXStyleBackground = True
+            DesignSize = (
+              376
+              88)
             object MatchText: TRichEdit
               Left = 2
-              Top = 2
+              Top = 24
               Width = 372
-              Height = 64
-              Align = alClient
+              Height = 62
+              Align = alBottom
+              Anchors = [akLeft, akTop, akRight, akBottom]
               BevelInner = bvNone
               BevelOuter = bvNone
               BorderStyle = bsNone
@@ -454,6 +453,48 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
               PlainText = True
               ScrollBars = ssVertical
               TabOrder = 0
+            end
+            object lblMatch: TSpTBXLabel
+              Left = 2
+              Top = 2
+              Width = 328
+              Height = 20
+              Caption = 'Match:'
+              Anchors = [akLeft, akTop, akRight]
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'MS Shell Dlg 2'
+              Font.Style = [fsBold]
+              ParentFont = False
+              Wrapping = twEndEllipsis
+              Underline = True
+              UnderlineColor = clBlue
+            end
+            object SpinMatches: TSpTBXSpinEdit
+              Left = 336
+              Top = 2
+              Width = 42
+              Height = 19
+              Hint = 'Show a found match'
+              Anchors = [akTop, akRight]
+              DoubleBuffered = True
+              Enabled = False
+              NumbersOnly = True
+              ParentDoubleBuffered = False
+              TabOrder = 2
+              ExtendedAccept = True
+              SpinButton.Left = 28
+              SpinButton.Top = 0
+              SpinButton.Width = 14
+              SpinButton.Height = 19
+              SpinButton.Align = alRight
+              SpinButton.Enabled = False
+              SpinOptions.Decimal = 0
+              SpinOptions.MaxValue = 1.000000000000000000
+              SpinOptions.MinValue = 1.000000000000000000
+              SpinOptions.Value = 1.000000000000000000
+              OnValueChanged = SpinMatchesValueChanged
             end
           end
         end

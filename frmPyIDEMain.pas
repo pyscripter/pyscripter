@@ -331,8 +331,10 @@
   History:   v 2.3.5
           New Features
             Side-by-side file editing (Issue 214)
+            Reduced flicker when resizing form and panels
+            Regular expression window enhanced (findall - Issue 161)
           Issues addressed
-             449
+             415, 437, 449
 -----------------------------------------------------------------------------}
 
 // Bugs and minor features
@@ -2199,7 +2201,7 @@ begin
 
   if ShellExtensionFiles.Count > 0 then begin
     for i := 0 to ShellExtensionFiles.Count - 1 do
-      DoOpenFile(ShellExtensionFiles[i]);
+      DoOpenFile(ShellExtensionFiles[i], '', TabControlIndex(ActiveTabControl));
     ShellExtensionFiles.Clear;
   end;
   Done := True;
@@ -3439,7 +3441,8 @@ end;
 
 procedure TPyIDEMainForm.SetIDEColors;
 begin
-  if CommandsDataModule.PyIDEOptions.UsePythonColorsInIDE then
+  if CommandsDataModule.PyIDEOptions.UsePythonColorsInIDE and
+    (CommandsDataModule.SynPythonSyn.SpaceAttri.Background <> clNone) then
   begin
     FileExplorerWindow.FileExplorerTree.Color := CommandsDataModule.SynPythonSyn.SpaceAttri.Background;
     BreakPointsWindow.BreakPointsView.Color := CommandsDataModule.SynPythonSyn.SpaceAttri.Background;
@@ -4455,8 +4458,7 @@ begin
     Key := #0;
     tbiSearchTextAcceptText(tbiSearchText.Text);
     CommandsDataModule.actSearchFindNext.Execute;
-  end else if ((Key = #8) or (key > #32)) and EditorSearchOptions.IncrementalSearch then
-    PostMessage(Handle, WM_SEARCHREPLACEACTION, 2, 0);
+  end;
 end;
 
 procedure TPyIDEMainForm.tbiSearchTextChange(Sender: TObject);
@@ -4471,6 +4473,9 @@ begin
       CommandsDataModule.actSearchHighlight.Checked
     then
       CommandsDataModule.actSearchHighlightExecute(Sender);
+
+    if EditorSearchOptions.IncrementalSearch then
+      PostMessage(Handle, WM_SEARCHREPLACEACTION, 2, 0);
   end;
 end;
 

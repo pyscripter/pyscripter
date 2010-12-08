@@ -429,7 +429,7 @@ begin
         end;
       end else
         HandleRemoteException(ExcInfo);
-      Dialogs.MessageDlg(Format('%s: %s',[ExcInfo.__getitem__(0), RPI._some_str(Error)]),
+      Dialogs.MessageDlg(Format('%s: %s',[ExcInfo.__getitem__(0), RPI.safestr(Error)]),
         mtError, [mbOK], 0);
       SysUtils.Abort;
     end;
@@ -637,7 +637,7 @@ begin
   Traceback := ExcInfo.__getitem__(2);
   MessagesWindow.ShowTraceback(Traceback, SkipFrames);
   MessagesWindow.AddMessage(Format('%s: %s',[ExcInfo.__getitem__(0),
-    RPI._some_str(ExcInfo.__getitem__(1))]));
+    RPI.safestr(ExcInfo.__getitem__(1))]));
 
   if VarIsPython(Traceback) and not VarIsNone(Traceback) then begin
     while not VarIsNone(Traceback.tb_next) do
@@ -716,7 +716,7 @@ begin
       if not VarIsNone(RPI.exc_info) then begin
         Result := None;
         HandleRemoteException(ExcInfo);
-        Dialogs.MessageDlg(Format('%s: %s',[ExcInfo.__getitem__(0), RPI._some_str(ExcInfo.__getitem__(1))]),
+        Dialogs.MessageDlg(Format('%s: %s',[ExcInfo.__getitem__(0), RPI.safestr(ExcInfo.__getitem__(1))]),
           mtError, [mbOK], 0);
         SysUtils.Abort;
       end;
@@ -888,7 +888,7 @@ begin
         if not VarIsNone(ExcInfo) then begin
           HandleRemoteException(ExcInfo);
           ReturnFocusToEditor := False;
-          Dialogs.MessageDlg(Format('%s: %s',[ExcInfo.__getitem__(0), RPI._some_str(ExcInfo.__getitem__(1))]),
+          Dialogs.MessageDlg(Format('%s: %s',[ExcInfo.__getitem__(0), RPI.safestr(ExcInfo.__getitem__(1))]),
             mtError, [mbOK], 0);
           CanDoPostMortem := True;
           SysUtils.Abort;
@@ -1539,7 +1539,7 @@ begin
             fRemotePython.HandleRemoteException(ExcInfo, 2);
             ReturnFocusToEditor := False;
             Dialogs.MessageDlg(Format('%s: %s',[ExcInfo.__getitem__(0),
-              fRemotePython.RPI._some_str(ExcInfo.__getitem__(1))]), mtError, [mbOK], 0);
+              fRemotePython.RPI.safestr(ExcInfo.__getitem__(1))]), mtError, [mbOK], 0);
             CanDoPostMortem := True;
             SysUtils.Abort;
           end;
