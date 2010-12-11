@@ -328,11 +328,12 @@
           Issues addressed
               430, 434, 435, 439, 440, 441, 443, 446
 
-  History:   v 2.3.5
+  History:   v 2.4
           New Features
             Side-by-side file editing (Issue 214)
             Reduced flicker when resizing form and panels
             Regular expression window enhanced (findall - Issue 161)
+            Open file at a specific line:column (Issue 447)
           Issues addressed
              415, 437, 449
 -----------------------------------------------------------------------------}
@@ -982,6 +983,7 @@ type
     fCurrentBrowseInfo : string;
     function DoCreateEditor(TabControl : TSpTBXTabControl): IEditor;
     function CmdLineOpenFiles(): boolean;
+    function OpenCmdLineFile(FileName : string) : Boolean;
     procedure DebuggerBreakpointChange(Sender: TObject; Editor : IEditor; ALine: integer);
     procedure DebuggerCurrentPosChange(Sender: TObject);
     procedure UpdateStandardActions;
@@ -2201,7 +2203,7 @@ begin
 
   if ShellExtensionFiles.Count > 0 then begin
     for i := 0 to ShellExtensionFiles.Count - 1 do
-      DoOpenFile(ShellExtensionFiles[i], '', TabControlIndex(ActiveTabControl));
+      OpenCmdLineFile(ShellExtensionFiles[i]);
     ShellExtensionFiles.Clear;
   end;
   Done := True;
@@ -2551,8 +2553,7 @@ var
 begin
   Result := False;
   for i := Low(CmdLineReader.readNamelessString) to High(CmdLineReader.readNamelessString) do
-    if FileExists(CmdLineReader.readNamelessString[i]) then
-      Result := Assigned(DoOpenFile(CmdLineReader.readNamelessString[i])) or Result;
+    Result := OpenCmdLineFile(CmdLineReader.readNamelessString[i]) or Result;
 
   // Project Filename
   if CmdLineReader.readString('PROJECT') <> '' then
@@ -4141,6 +4142,14 @@ begin
   mnNextList.Items[0].OnClick := NextClickHandler;
 end;
 
+function TPyIDEMainForm.OpenCmdLineFile(FileName : string): Boolean;
+begin
+  // Try to see whether it contains line/char info
+  Result := JumpToFilePosInfo(FileName);
+  if not Result and FileExists(FileName) then
+    Result := Assigned(DoOpenFile(FileName, '', TabControlIndex(ActiveTabControl)));
+end;
+
 procedure TPyIDEMainForm.tbiBrowseNextClick(Sender: TObject);
 begin
   if mnNextList.Count > 0 then begin
@@ -4268,7 +4277,7 @@ var
 begin
   if JvAppInstances.AppInstances.InstanceIndex[GetCurrentProcessID] <> 0 then Exit;
   for i := 0 to CmdLine.Count - 1 do
-    if (CmdLine[i][1] <> '-') and FileExists(CmdLine[i]) then
+    if (CmdLine[i][1] <> '-') then
       //DoOpenFile(CmdLine[i]);
       ShellExtensionFiles.Add(CmdLine[i])
 end;

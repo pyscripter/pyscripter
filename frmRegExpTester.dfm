@@ -87,6 +87,7 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
             Hint = 'Sets the DOTALL re flag'
             AutoCheck = True
             Checked = True
+            HelpContext = 865
             Options = [tboShowHint]
           end
           object CI_IGNORECASE: TSpTBXItem
@@ -94,6 +95,7 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
             Hint = 'Sets the IGNORECASE re flag'
             AutoCheck = True
             Checked = True
+            HelpContext = 865
             Options = [tboShowHint]
           end
           object CI_LOCALE: TSpTBXItem
@@ -101,6 +103,7 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
             Hint = 'Sets the LOCALE re flag'
             AutoCheck = True
             Checked = True
+            HelpContext = 865
             Options = [tboShowHint]
           end
           object CI_MULTILINE: TSpTBXItem
@@ -108,6 +111,7 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
             Hint = 'Sets the MULTILINE re flag'
             AutoCheck = True
             Checked = True
+            HelpContext = 865
             Options = [tboShowHint]
           end
           object CI_UNICODE: TSpTBXItem
@@ -115,6 +119,7 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
             Hint = 'Sets the UNICODE re flag'
             AutoCheck = True
             Checked = True
+            HelpContext = 865
             Options = [tboShowHint]
           end
           object CI_VERBOSE: TSpTBXItem
@@ -122,6 +127,7 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
             Hint = 'Sets the VERBOSE re flag'
             AutoCheck = True
             Checked = True
+            HelpContext = 865
             Options = [tboShowHint]
           end
           object TBXSeparatorItem2: TSpTBXSeparatorItem
@@ -131,6 +137,7 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
             Hint = 'Performs re.match'
             AutoCheck = True
             GroupIndex = 1
+            HelpContext = 865
             Options = [tboShowHint]
             RadioItem = True
           end
@@ -140,6 +147,7 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
             AutoCheck = True
             Checked = True
             GroupIndex = 1
+            HelpContext = 865
             Options = [tboShowHint]
             RadioItem = True
           end
@@ -147,6 +155,7 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
             Caption = 'Findall'
             Hint = 'Performs re.findall'
             GroupIndex = 1
+            HelpContext = 865
             Options = [tboShowHint]
             RadioItem = True
           end
@@ -155,6 +164,7 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
           object CI_AutoExecute: TSpTBXItem
             Caption = 'Auto Execute'
             AutoCheck = True
+            HelpContext = 865
           end
         end
         object TBXSeparatorItem1: TSpTBXSeparatorItem
@@ -233,7 +243,7 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
           BorderStyle = bsNone
           Header.AutoSizeIndex = 2
           Header.DefaultHeight = 17
-          Header.Options = [hoAutoResize, hoColumnResize, hoOwnerDraw, hoVisible]
+          Header.Options = [hoAutoResize, hoColumnResize, hoDblClickResize, hoHotTrack, hoOwnerDraw, hoVisible]
           Header.ParentFont = True
           HintMode = hmTooltip
           TabOrder = 0
@@ -300,16 +310,12 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
             BevelInner = bvNone
             BevelOuter = bvNone
             BorderStyle = bsNone
-            Font.Charset = GREEK_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -11
-            Font.Name = 'MS Shell Dlg 2'
-            Font.Style = []
-            ParentFont = False
             PlainText = True
             ScrollBars = ssVertical
             TabOrder = 0
             OnChange = RegExpTextChange
+            ExplicitLeft = 3
+            ExplicitTop = 20
           end
           object TBXLabel3: TSpTBXLabel
             Left = 2
@@ -374,12 +380,6 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
               BevelInner = bvNone
               BevelOuter = bvNone
               BorderStyle = bsNone
-              Font.Charset = GREEK_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -11
-              Font.Name = 'MS Shell Dlg 2'
-              Font.Style = []
-              ParentFont = False
               PlainText = True
               ScrollBars = ssVertical
               TabOrder = 0
@@ -444,12 +444,6 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
               BevelInner = bvNone
               BevelOuter = bvNone
               BorderStyle = bsNone
-              Font.Charset = GREEK_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -11
-              Font.Name = 'MS Shell Dlg 2'
-              Font.Style = []
-              ParentFont = False
               PlainText = True
               ScrollBars = ssVertical
               TabOrder = 0

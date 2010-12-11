@@ -75,6 +75,8 @@ type
     procedure SpinMatchesValueChanged(Sender: TObject);
   private
     { Private declarations }
+    OldRegExp : string;
+    OldSearchText : string;
     RegExp : Variant;
     MatchObject : Variant;
     MatchList : TList<Variant>;
@@ -85,6 +87,8 @@ type
     procedure WriteToAppStorage(AppStorage: TJvCustomAppStorage; const BasePath: string);
   public
     { Public declarations }
+    procedure HighlightMatches;
+    procedure ClearHighlight;
   end;
 
 var
@@ -93,9 +97,34 @@ var
 implementation
 
 uses dmCommands, VarPyth, frmPythonII,
-  PythonEngine, gnugettext, JvAppIniStorage;
+  PythonEngine, gnugettext, JvAppIniStorage, uCommonFunctions, RichEdit;
 
 {$R *.dfm}
+
+procedure RE_SetSelBgColor(RichEdit: TRichEdit; SelectionOnly: Boolean; AColor: TColor);
+var
+  Format: TCharFormat2;
+  WParam : integer;
+begin
+  if SelectionOnly then
+    WParam := SCF_SELECTION
+  else
+    WParam := SCF_ALL;
+
+  FillChar(Format, SizeOf(Format), 0);
+  with Format do
+  begin
+    cbSize := SizeOf(Format);
+    dwMask := CFM_BACKCOLOR;
+    crBackColor := AColor;
+    Richedit.Perform(EM_SETCHARFORMAT, WParam, Longint(@Format));
+  end;
+end;
+
+procedure TRegExpTesterWindow.ClearHighlight;
+begin
+  RE_SetSelBgColor(SearchText, False, MatchText.Color);
+end;
 
 procedure TRegExpTesterWindow.FormActivate(Sender: TObject);
 begin
@@ -203,9 +232,16 @@ begin
 end;
 
 procedure TRegExpTesterWindow.RegExpTextChange(Sender: TObject);
+//  This is fired not only when the text is changed but for other
+//  various changes.  So we need to check that the text has changed
 begin
+  if Visible and
+     ((OldRegExp <> RegExpText.Text) or (OldSearchText <> SearchText.Text))
+  then
+    ClearHighlight;
   if CI_AutoExecute.Checked and (RegExpText.Text <> '') and
-    (SearchText.Text <> '') and Visible
+    (SearchText.Text <> '') and Visible and
+    ((OldRegExp <> RegExpText.Text) or (OldSearchText <> SearchText.Text))
   then
     TIExecuteClick(Self);
 end;
@@ -226,7 +262,7 @@ end;
 
 procedure TRegExpTesterWindow.tiHelpClick(Sender: TObject);
 begin
-  if not CommandsDataModule.ShowPythonKeywordHelp('re (standard module)') then
+  if not CommandsDataModule.ShowPythonKeywordHelp('re (module)') then
     Application.HelpContext(HelpContext);
 end;
 
@@ -235,12 +271,14 @@ Var
   re: Variant;
   Flags : integer;
   FindIter : Variant;
+  AdjSearchText : string;
 begin
   MatchText.Clear;
   GroupsView.Clear;
   VarClear(RegExp);
   VarClear(MatchObject);
   MatchList.Clear;
+  ClearHighlight;
   lblMatch.Caption := _('Match');
 
   if RegExpText.Text = '' then Exit;
@@ -260,6 +298,11 @@ begin
     Flags := Flags or re.UNICODE;
   if CI_VERBOSE.Checked then
     Flags := Flags or re.VERBOSE;
+
+  // Save text values
+  OldRegExp := RegExpText.Text;
+  OldSearchText := SearchText.Text;
+
   // Compile Regular Expression
   try
     PythonIIForm.ShowOutput := false;
@@ -276,15 +319,17 @@ begin
   end;
 
   // Execute regular expression
+  AdjSearchText := AdjustLineBreaks(SearchText.Text, tlbsLF);
   try
     if RI_Search.Checked then begin
-      MatchObject := regexp.search(SearchText.Text, 0);
+      MatchObject := regexp.search(AdjSearchText, 0);
       MatchList.Add(MatchObject);
     end else if RI_Match.Checked then begin
-      MatchObject := RegExp.match(SearchText.Text);
-      MatchList.Add(MatchObject);
+      MatchObject := RegExp.match(AdjSearchText);
+      if not VarIsPython(MatchObject) or VarIsNone(MatchObject) then
+        MatchList.Add(MatchObject);
     end else begin
-      FindIter := RegExp.finditer(SearchText.Text);
+      FindIter := RegExp.finditer(AdjSearchText);
       try
         while True do begin
           MatchObject := FindIter.next();
@@ -332,6 +377,7 @@ begin
     end;
     MatchText.Text := MatchObject.group();
     GroupsView.RootNodeCount := len(MatchObject.groups());
+    HighlightMatches;
   end;
 
   PythonIIForm.ShowOutput := True;
@@ -369,14 +415,42 @@ begin
   end;
 end;
 
+procedure TRegExpTesterWindow.HighlightMatches;
+Var
+  OldSelStart,
+  OldSelLen : integer;
+  VMatch : Variant;
+begin
+  OldSelStart := SearchText.SelStart;
+  OldSelLen := SearchText.SelLength;
+  SearchText.Lines.BeginUpdate;
+  try
+    for VMatch in MatchList do
+    begin
+      SearchText.SelStart := VMatch.start();
+      SearchText.SelLength := VMatch.end() - SearchText.SelStart;
+      RE_SetSelBgColor(SearchText, True, ColorToRGB(clHighlight));
+    end;
+  finally
+    SearchText.SelStart := OldSelStart;
+    SearchText.SelLength := OldSelLen;
+    SearchText.Lines.EndUpdate;
+  end;
+end;
+
 procedure TRegExpTesterWindow.TiClearClick(Sender: TObject);
 begin
   RegExpText.Clear;
   SearchText.Clear;
+  ClearHighlight;
   MatchText.Clear;
   GroupsView.Clear;
   VarClear(RegExp);
   VarClear(MatchObject);
+  MatchList.Clear;
+  lblMatch.Caption := _('Match');
+  SpinMatches.Value := 1;
+  SpinMatches.Enabled := False;
   with lbStatusBar do begin
     ImageIndex := 21;
     Caption := 'Not executed';

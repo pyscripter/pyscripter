@@ -177,7 +177,7 @@ object EditorForm: TEditorForm
     Left = 93
     Top = 136
     Bitmap = {
-      494C01010600090068000B000E00FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C0101060009006C000B000E00FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       00000000000036000000280000002C0000001C00000001002000000000004013
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -436,8 +436,8 @@ object EditorForm: TEditorForm
     ShortCut = 0
     Editor = SynEdit
     TimerInterval = 300
-    Left = 490
-    Top = 24
+    Left = 458
+    Top = 32
   end
   object SynParamCompletion: TSynCompletionProposal
     DefaultType = ctParams
@@ -460,8 +460,8 @@ object EditorForm: TEditorForm
     ShortCut = 0
     Editor = SynEdit
     TimerInterval = 300
-    Left = 520
-    Top = 23
+    Left = 456
+    Top = 79
   end
   object SynWebCompletion: TSynCompletionProposal
     Options = [scoLimitToMatchedText, scoUseInsertList, scoUsePrettyText, scoUseBuiltInTimer, scoEndCharCompletion, scoCompleteWithTab, scoCompleteWithEnter]
@@ -485,7 +485,7 @@ object EditorForm: TEditorForm
     OnExecute = SynWebCompletionExecute
     ShortCut = 0
     OnAfterCodeCompletion = SynWebCompletionAfterCodeCompletion
-    Left = 492
-    Top = 56
+    Left = 456
+    Top = 136
   end
 end
