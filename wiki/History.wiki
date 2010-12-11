@@ -2,6 +2,16 @@
 
 = History =
 
+===Version 2.4 December 11, 2010)=== 
+
+  * *New features:*     
+    * Side-by-side file editing (Issue #214)
+    * Enhanced regular expression window (findall - Issue #161)
+    * Open file at a specific line:column (Issue #447)
+  * *Issues addressed:*     
+    * Reduced flicker when resizing form and panels
+    * Issue #415, Issue #437, Issue #449
+
 ===Version 2.3.4 (November 25, 2010)=== 
 
   * *New features:*     
@@ -15,7 +25,7 @@
 ===Version 2.3.3 (October 16, 2010)=== 
 
   * *New features:*     
-    * Native unicode strings throught (speed improvements on XP)
+    * Native unicode strings throughtout (speed improvements on XP)
     * Revamped Code Explorer (Issue #192, Issue #163, Issue #213, Issue #225)
     * Improvements to Code completion
       * Auto-completion for the import statement in python 2.5 and later (Issue #230)
