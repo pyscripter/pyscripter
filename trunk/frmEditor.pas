@@ -1372,7 +1372,7 @@ end;
 
 procedure TEditorForm.DoActivate;
 begin
-    ParentTabItem.Checked := True
+  ParentTabItem.Checked := True;
 end;
 
 procedure TEditorForm.DoActivateEditor(Primary : Boolean = True);

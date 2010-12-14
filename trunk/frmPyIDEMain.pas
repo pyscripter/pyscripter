@@ -331,11 +331,11 @@
   History:   v 2.4
           New Features
             Side-by-side file editing (Issue 214)
-            Reduced flicker when resizing form and panels
-            Regular expression window enhanced (findall - Issue 161)
+            Enhanced regular expression window (findall - Issue 161)
             Open file at a specific line:column (Issue 447)
           Issues addressed
-             415, 437, 449
+            Reduced flicker when resizing form and panels
+            415, 437, 449
 -----------------------------------------------------------------------------}
 
 // Bugs and minor features
@@ -4080,33 +4080,43 @@ function TPyIDEMainForm.NewFileFromTemplate(
   FileTemplate: TFileTemplate; TabControlIndex : integer): IEditor;
 Var
   i, j : integer;
+  TabCtrl : TSpTBXTabControl;
 begin
   // create a new editor, add it to the editor list
-  Result := DoCreateEditor(TabControl(TabControlIndex));
-  if Result <> nil then begin
-    try
-      Result.OpenFile('', FileTemplate.Highlighter);
-      Result.Activate;
-    except
-      Result.Close;
-      raise
-    end;
-    Result.SynEdit.SelText := Parameters.ReplaceInText(FileTemplate.Template);
-
-    // Locate the caret symbol |
-    for i := 0 to Result.SynEdit.Lines.Count - 1 do begin
-      j := CharPos(Result.SynEdit.Lines[i], '|');
-      if j > 0 then begin
-        Result.SynEdit.CaretXY := BufferCoord(j + 1, i + 1);
-        Result.SynEdit.ExecuteCommand(ecDeleteLastChar, ' ', nil);
-        break;
+  TabCtrl := TabControl(TabControlIndex);
+  TabCtrl.Toolbar.BeginUpdate;
+  try
+    Result := DoCreateEditor(TabCtrl);
+    if Result <> nil then begin
+      try
+        Result.OpenFile('', FileTemplate.Highlighter);
+        Result.Activate;
+      except
+        Result.Close;
+        raise
       end;
+      Result.SynEdit.SelText := Parameters.ReplaceInText(FileTemplate.Template);
+
+      // Locate the caret symbol |
+      for i := 0 to Result.SynEdit.Lines.Count - 1 do begin
+        j := CharPos(Result.SynEdit.Lines[i], '|');
+        if j > 0 then begin
+          Result.SynEdit.CaretXY := BufferCoord(j + 1, i + 1);
+          Result.SynEdit.ExecuteCommand(ecDeleteLastChar, ' ', nil);
+          break;
+        end;
+      end;
+
+      Result.SynEdit.ClearUndo;
+      Result.SynEdit.Modified := False;
+
+      TEditorForm(Result.Form).DefaultExtension := FileTemplate.Extension;
     end;
-
-    Result.SynEdit.ClearUndo;
-    Result.SynEdit.Modified := False;
-
-    TEditorForm(Result.Form).DefaultExtension := FileTemplate.Extension;
+  finally
+    TabCtrl.Toolbar.EndUpdate;
+    if Assigned(TabCtrl.ActiveTab) then
+      TabCtrl.MakeVisible(TabCtrl.ActiveTab);
+    UpdateCaption;
   end;
 end;
 
