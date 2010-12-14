@@ -110,7 +110,8 @@ uses
   AsyncCalls in 'AsyncCalls.pas',
   VirtualExplorerTree in 'VirtualExplorerTree.pas',
   MPShellUtilities in 'MPShellUtilities.pas',
-  SpTBXItem in 'SpTBXItem.pas';
+  SpTBXItem in 'SpTBXItem.pas',
+  TB2Item in 'TB2Item.pas';
 
 {$R *.RES}
 {$R WebCopyAvi.RES}
