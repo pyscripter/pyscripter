@@ -2,7 +2,7 @@
 
 = History =
 
-===Version 2.4 December 11, 2010)=== 
+===Version 2.4.1 December 12, 2010)=== 
 
   * *New features:*     
     * Side-by-side file editing (Issue #214)
