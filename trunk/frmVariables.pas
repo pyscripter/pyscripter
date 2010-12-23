@@ -212,7 +212,7 @@ var
   Data : PPyObjRec;
 begin
   Data := VariablesTree.GetNodeData(Node);
-  if not Assigned(Data) then
+  if not Assigned(Data) or not Assigned(Data.NameSpaceItem) then
     Exit;
 
   CellText := '';
