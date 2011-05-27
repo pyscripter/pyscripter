@@ -328,7 +328,7 @@
           Issues addressed
               430, 434, 435, 439, 440, 441, 443, 446
 
-  History:   v 2.4
+  History:   v 2.4.1
           New Features
             Side-by-side file editing (Issue 214)
             Enhanced regular expression window (findall - Issue 161)
@@ -336,6 +336,11 @@
           Issues addressed
             Reduced flicker when resizing form and panels
             415, 437, 449
+
+  History:   v 2.4.2
+          New Features
+          Issues addressed
+            474
 -----------------------------------------------------------------------------}
 
 // Bugs and minor features
