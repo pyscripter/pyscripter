@@ -830,7 +830,7 @@ begin
           then
             SynEdit.SetCaretAndSelection(BC, SynEdit.BlockBegin, BC)
           else
-            SynEdit.SetCaretAndSelection(BC, BC, SynEdit.BlockEnd);
+            SynEdit.SetCaretAndSelection(BC, SynEdit.BlockEnd, BC);
         end;
         Command := ecNone;  // do not processed it further
       end;
@@ -845,7 +845,7 @@ begin
           then
             SynEdit.SetCaretAndSelection(BC, SynEdit.BlockBegin, BC)
           else
-            SynEdit.SetCaretAndSelection(BC, BC, SynEdit.BlockEnd);
+            SynEdit.SetCaretAndSelection(BC, SynEdit.BlockEnd, BC);
         end;
         Command := ecNone;  // do not processed it further
       end;
