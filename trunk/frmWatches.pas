@@ -100,19 +100,25 @@ Var
   S : string;
   i : integer;
 begin
-  // Exit if there are no wathces
-  if fWatchesList.Count <= 0 then Exit;
-  // Clear values
-  for i := 0 to fWatchesList.Count - 1 do
-    TWatchInfo(fWatchesList[i]).Value := _(SNotAvailable);
-  // Exit if Debugger is not in Stopped state
-  if DebuggerState in [dsPaused, dsPostMortem] then
-    for i := 0 to fWatchesList.Count - 1 do begin
-      PyControl.ActiveDebugger.Evaluate(TWatchInfo(fWatchesList[i]).Watch,
-        S, TWatchInfo(fWatchesList[i]).Value);
+  WatchesView.BeginUpdate;
+  try
+    WatchesView.Clear;
+    // Exit if there are no wathces
+    if fWatchesList.Count >0 then begin
+      // Clear values
+      for i := 0 to fWatchesList.Count - 1 do
+        TWatchInfo(fWatchesList[i]).Value := _(SNotAvailable);
+      // Exit if Debugger is not in Stopped state
+      if DebuggerState in [dsPaused, dsPostMortem] then
+        for i := 0 to fWatchesList.Count - 1 do begin
+          PyControl.ActiveDebugger.Evaluate(TWatchInfo(fWatchesList[i]).Watch,
+            S, TWatchInfo(fWatchesList[i]).Value);
+        end;
+      WatchesView.RootNodeCount := fWatchesList.Count;
     end;
-  WatchesView.Clear;
-  WatchesView.RootNodeCount := fWatchesList.Count;
+  finally
+    WatchesView.EndUpdate;
+  end;
 end;
 
 procedure TWatchesWindow.AddWatch(S: string);
@@ -143,9 +149,14 @@ begin
   Node := WatchesView.GetFirstSelected();
   if Assigned(Node) then begin
     WatchInfo := PWatchRec(WatchesView.GetNodeData(Node))^.WatchInfo;
-    WatchInfo.Watch := InputBox('Edit Watch', 'Enter new expression:', WatchInfo.Watch);
-    if WatchInfo.Watch = '' then fWatchesList.Remove(WatchInfo);
-    UpdateWindow(PyControl.DebuggerState);
+    WatchesView.BeginUpdate;
+    try
+      WatchInfo.Watch := InputBox('Edit Watch', 'Enter new expression:', WatchInfo.Watch);
+      if WatchInfo.Watch = '' then fWatchesList.Remove(WatchInfo);
+      UpdateWindow(PyControl.DebuggerState);
+    finally
+      WatchesView.EndUpdate;
+    end;
   end;
 end;
 

@@ -114,6 +114,10 @@ type
     procedure actPasteWithPromptExecute(Sender: TObject);
     procedure SynEditEnter(Sender: TObject);
     procedure SynEditExit(Sender: TObject);
+    procedure SynEditMouseWheelDown(Sender: TObject; Shift: TShiftState;
+      MousePos: TPoint; var Handled: Boolean);
+    procedure SynEditMouseWheelUp(Sender: TObject; Shift: TShiftState;
+      MousePos: TPoint; var Handled: Boolean);
   private
     { Private declarations }
     fCommandHistory : TStringList;
@@ -147,6 +151,7 @@ type
   protected
     procedure PythonIOSendData(Sender: TObject; const Data: string);
     procedure PythonIOReceiveData(Sender: TObject; var Data: string);
+    procedure EditorMouseWheel(theDirection: Integer; Shift: TShiftState );
     procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
     procedure WMAPPENDTEXT(var Message: TMessage); message WM_APPENDTEXT;
     procedure WMREINITINTERPRETER(var Message: TMessage); message WM_REINITINTERPRETER;
@@ -979,6 +984,20 @@ begin
     SynParamCompletion.CancelCompletion;
 end;
 
+procedure TPythonIIForm.SynEditMouseWheelDown(Sender: TObject;
+  Shift: TShiftState; MousePos: TPoint; var Handled: Boolean);
+begin
+  EditorMouseWheel( +1, Shift );
+  Handled := True;
+end;
+
+procedure TPythonIIForm.SynEditMouseWheelUp(Sender: TObject; Shift: TShiftState;
+  MousePos: TPoint; var Handled: Boolean);
+begin
+  EditorMouseWheel( -1, Shift );
+  Handled := True;
+end;
+
 procedure TPythonIIForm.SynEditProcessUserCommand(Sender: TObject;
   var Command: TSynEditorCommand; var AChar: WideChar; Data: Pointer);
 Var
@@ -1752,6 +1771,33 @@ end;
 function TPythonIIForm.CanReplace: boolean;
 begin
   Result := not IsEmpty;
+end;
+
+procedure TPythonIIForm.EditorMouseWheel(theDirection: Integer;
+  Shift: TShiftState);
+
+  function OwnScroll(Shift: TShiftState; LinesInWindow: Integer): Integer;
+  begin
+    if (ssShift in Shift) or (Mouse.WheelScrollLines = -1)
+    then
+      Result := LinesInWindow shr Ord(eoHalfPageScroll in SynEdit.Options)
+    else
+      Result := Mouse.WheelScrollLines;
+  end;
+//
+begin
+{*
+  Manage Zoom in and out, Page up and down, Line scroll - with the Mouse Wheel
+*}
+  if ssCtrl in Shift then
+    if not ( (theDirection < 1) and (SynEdit.Font.Size <= 2) ) then begin
+      SynEdit.Font.Size        := SynEdit.Font.Size        + theDirection;
+      SynEdit.Gutter.Font.Size := Max(SynEdit.Font.Size -2, 1);
+    end
+  else begin
+    SynEdit.TopLine := SynEdit.TopLine +
+     (theDirection * OwnScroll( Shift, SynEdit.LinesInWindow ) );
+  end;
 end;
 
 procedure TPythonIIForm.ExecFind;

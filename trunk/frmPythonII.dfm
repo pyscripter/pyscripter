@@ -72,6 +72,8 @@ inherited PythonIIForm: TPythonIIForm
       OnEnter = SynEditEnter
       OnExit = SynEditExit
       OnMouseDown = SynEditMouseDown
+      OnMouseWheelDown = SynEditMouseWheelDown
+      OnMouseWheelUp = SynEditMouseWheelUp
       BorderStyle = bsNone
       Gutter.BorderStyle = gbsNone
       Gutter.Font.Charset = DEFAULT_CHARSET

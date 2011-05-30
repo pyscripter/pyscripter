@@ -25,7 +25,7 @@ const
   AnsiLineFeed       = AnsiChar(#10);
   AnsiCarriageReturn = AnsiChar(#13);
   AnsiCrLf           = AnsiString(#13#10);
-  WordBreakString = ',.;:"´`°^!?&$@§%#~[](){}<>-=+*/\|';
+  WordBreakString = ',.;:"´`°^!?&$@§%#~[](){}<>-=+*/\| ';
 
 (* returns the System ImageList index of the icon of a given file *)
 function GetIconIndexFromFile(const AFileName: string;

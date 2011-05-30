@@ -3401,7 +3401,7 @@ begin
   if Assigned(OnBeforeExecute) then OnBeforeExecute(Self);
   try
     i := AutoCompleteList.IndexOf(Token);
-    if (i <> -1) then
+    if (Length(Token) > 0) and (i <> -1) then
     begin
       TmpOptions := Editor.Options;
       OrigOptions := Editor.Options;
