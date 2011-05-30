@@ -289,7 +289,7 @@ inherited RunConfigurationForm: TRunConfigurationForm
         Top = 16
         Width = 277
         Height = 25
-        Caption = '&Set Enternal Run properties'
+        Caption = '&Set External Run properties'
         TabOrder = 0
         OnClick = btnExternalRunClick
       end

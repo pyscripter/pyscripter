@@ -548,7 +548,7 @@ uses
   dlgFileTemplates, JclSysUtils, dlgPickList, JvAppIniStorage,
   JvAppStorage, JvDSADialogs, uSearchHighlighter,
   MPShellUtilities, gnugettext, SpTBXSkins, SpTBXMDIMRU, StrUtils, JclStrings,
-  DateUtils;
+  DateUtils, JclDebug, Clipbrd;
 
 { TPythonIDEOptions }
 
@@ -2976,6 +2976,7 @@ begin
     except
       on E: ERegExpr do begin
         Result := 0;
+        MessageBeep(MB_ICONERROR);
         PyIDEMainForm.WriteStatusMsg(Format(_(SInvalidRegularExpression), [E.Message]));
         Exit;
       end;
@@ -3279,6 +3280,9 @@ initialization
   TP_GlobalIgnoreClassProperty(TAction,'Category');
   TP_GlobalIgnoreClassProperty(TControl,'HelpKeyword');
   TP_GlobalIgnoreClass(TFont);
+
+  //JCL Debug
+  AddIgnoredException(EClipboardException);
 finalization
   EditorSearchOptions.Free;
 end.

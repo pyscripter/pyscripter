@@ -339,8 +339,11 @@
 
   History:   v 2.4.2
           New Features
+            Ctrl+Mousewheel for zooming the interpreter (Issue 475)
           Issues addressed
-            474
+            Command line history not saved
+            Editing a watch to an empty string crashes PyScripter
+            474, 488
 -----------------------------------------------------------------------------}
 
 // Bugs and minor features
@@ -1825,6 +1828,7 @@ begin
       CommandsDataModule.PyIDEOptions.CommandLine := SynParameters.Text;
       CommandsDataModule.PyIDEOptions.UseCommandLine := cbUseCommandLine.Checked;
     end;
+    Release;
   end;
 end;
 
@@ -3376,6 +3380,8 @@ begin
     EditorForm.Parent := NewSheet;
     EditorForm.Align := alClient;
     NewSheet.InsertComponent(EditorForm);  // changes ownership
+    NewTab.OnTabClosing := TabControlTabClosing;
+    NewTab.OnDrawTabCloseButton := DrawCloseButton;
     EditorForm.Visible := True;
   end;
 
