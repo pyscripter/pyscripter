@@ -69,7 +69,7 @@ object CommandsDataModule: TCommandsDataModule
     Left = 32
     Top = 241
     Bitmap = {
-      494C010114001800680010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010114001800740010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000006000000001002000000000000060
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -1108,7 +1108,10 @@ object CommandsDataModule: TCommandsDataModule
           '        #keeps GUI alive'
           '        future = self.Future(func, *args)'
           '        time.sleep(0.001)'
-          '        self.thread_id = future.thread_id'
+          '        try:'
+          '            self.thread_id = future.thread_id'
+          '        except:'
+          '            self.thread_id = 0 # should not really happen'
           '        return future()'
           ''
           '    class IDEDebugger(__import__('#39'bdb'#39').Bdb):'
@@ -1719,7 +1722,10 @@ object CommandsDataModule: TCommandsDataModule
           '        #keeps GUI alive'
           '        future = self.Future(func, *args)'
           '        time.sleep(0.001)'
-          '        self.thread_id = future.thread_id'
+          '        try:'
+          '            self.thread_id = future.thread_id'
+          '        except:'
+          '            self.thread_id = 0 # should not really happen'
           '        return future()'
           ''
           '    class IDEDebugger(__import__('#39'bdb'#39').Bdb):'
@@ -4627,7 +4633,7 @@ object CommandsDataModule: TCommandsDataModule
     Left = 188
     Top = 186
     Bitmap = {
-      494C01019B009F00680010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01019B009F00740010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000007002000001002000000000000070
       020000000000000000000000000000000000000000000000000000000000EADD
       CB00AB7734009655000096550000AB773400EADDCB0000000000000000000000

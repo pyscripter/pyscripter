@@ -121,7 +121,9 @@ begin
   try
     List.Text := CodeTemplateText;
     while i < List.Count do begin
-      if not CharInSet(List[i][1], ['|', '=']) then begin
+      if Length(List[i]) <= 0 then // Delphi's string list adds a blank line at the end
+        Inc(i)
+      else if not CharInSet(List[i][1], ['|', '=']) then begin
         Inc(Count);
         with lvItems.Items.Add() do begin
           Caption := List[i];

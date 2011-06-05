@@ -1343,8 +1343,6 @@ begin
   PyControl.ErrorPos.Clear;
   PyControl.DoErrorPosChanged;
 
-  MessagesWindow.ClearMessages;
-
   FName := Editor.FileName;
   if FName = '' then FName := '<'+Editor.FileTitle+'>';
   Source := CleanEOLs(Editor.EncodedText)+AnsiString(#10);
@@ -1404,6 +1402,8 @@ begin
       end else begin
         // Display error
         // New Line for output
+        MessagesWindow.ClearMessages;
+
         PythonIIForm.AppendText(sLineBreak);
         try
           // Print and throw exception for the error

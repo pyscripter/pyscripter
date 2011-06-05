@@ -224,8 +224,7 @@ begin
   if soRegEx in SearchOptions then begin
     if not Assigned(fRegExpr) then
       fRegExpr := TRegExpr.Create();
-    fRegExpr.ModifierI := soCaseSensitive in SearchOptions;
-    fRegExpr.ModifierI := True;
+    fRegExpr.ModifierI := not (soCaseSensitive in SearchOptions);
     try
       fRegExpr.Expression := Value;
       fRegExpr.Compile;

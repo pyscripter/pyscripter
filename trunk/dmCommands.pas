@@ -27,6 +27,8 @@ uses
   SpTBXTabs, dlgOptionsEditor;
 
 type
+  TFileChangeNotificationType = (fcnFull, fcnNoMappedDrives, fcnDisabled);
+
 {$METHODINFO ON}
   TPythonIDEOptions = class(TBaseOptions)
   private
@@ -86,6 +88,7 @@ type
     fAutoCompletionFont : TFont;
     fHighlightSelectedWord : Boolean;
     fUsePythonColorsInIDE : Boolean;
+    fFileChangeNotification : TFileChangeNotificationType;
     function GetPythonFileExtensions: string;
     procedure SetAutoCompletionFont(const Value: TFont);
   public
@@ -199,6 +202,8 @@ type
       write fHighlightSelectedWord;
     property UsePythonColorsInIDE : boolean read fUsePythonColorsInIDE
       write fUsePythonColorsInIDE;
+    property FileChangeNotification : TFileChangeNotificationType read fFileChangeNotification
+      write fFileChangeNotification;
   end;
 {$METHODINFO OFF}
 
@@ -548,7 +553,7 @@ uses
   dlgFileTemplates, JclSysUtils, dlgPickList, JvAppIniStorage,
   JvAppStorage, JvDSADialogs, uSearchHighlighter,
   MPShellUtilities, gnugettext, SpTBXSkins, SpTBXMDIMRU, StrUtils, JclStrings,
-  DateUtils, JclDebug, Clipbrd;
+  DateUtils, JclDebug, Clipbrd, MPCommonUtilities;
 
 { TPythonIDEOptions }
 
@@ -612,6 +617,7 @@ begin
       Self.fAutoCompletionFont.Assign(AutoCompletionFont);
       Self.fHighlightSelectedWord := HighlightSelectedWord;
       Self.fUsePythonColorsInIDE := UsePythonColorsInIDE;
+      Self.fFileChangeNotification := FileChangeNotification;
     end
   else
     inherited;
@@ -682,6 +688,7 @@ begin
   fAutoCompletionFont.Assign(CommandsDataModule.ParameterCompletion.Font);
   fHighlightSelectedWord := True;
   fUsePythonColorsInIDE := False;
+  fFileChangeNotification := fcnNoMappedDrives;
 end;
 
 destructor TPythonIDEOptions.Destroy;
@@ -1958,6 +1965,7 @@ Var
   NS: TNamespace;
   Dir : string;
   FTime : TDateTime;
+  WS: WideString;
 begin
 //  if not (ShellEvent.ShellNotifyEvent in [vsneUpdateDir, vsneUpdateItem]) then Exit;
   if not (ShellEvent.ShellNotifyEvent = vsneUpdateDir) then Exit;
@@ -1967,10 +1975,20 @@ begin
   try
     NS.FreePIDLOnDestroy := False;
     Dir := NS.NameForParsing;
+    if CommandsDataModule.PyIDEOptions.FileChangeNotification = fcnNoMappedDrives then begin
+      // Do not process mapped drive
+      WS := WideExtractFileDrive(Dir);
+      if WideIsDrive(WS) and (GetDriveTypeW_MP(PWideChar(WS)) = DRIVE_REMOTE)then Exit;
+    end;
     if not NS.Folder then // UpdateItem notifications
       Dir := ExtractFileDir(Dir);
   finally
     NS.Free;
+  end;
+
+  if CommandsDataModule.PyIDEOptions.FileChangeNotification = fcnNoMappedDrives then begin
+    WS := WideExtractFileDrive(NS.NameForParsing);
+    if WideIsDrive(WS) and (GetDriveTypeW_MP(PWideChar(WS)) = DRIVE_REMOTE)then Exit;
   end;
 
   if Dir = '' then Exit;
@@ -2076,7 +2094,7 @@ begin
   SetLength(Categories, 7);
   with Categories[0] do begin
     DisplayName := _('IDE');
-    SetLength(Options, 11);
+    SetLength(Options, 12);
     Options[0].PropertyName := 'AutoCheckForUpdates';
     Options[0].DisplayName := _('Check for updates automatically');
     Options[1].PropertyName := 'DaysBetweenChecks';
@@ -2099,6 +2117,8 @@ begin
     Options[9].DisplayName := _('Auto completion font');
     Options[10].PropertyName := 'UsePythonColorsInIDE';
     Options[10].DisplayName := _('Use Python colors in IDE');
+    Options[11].PropertyName := 'FileChangeNotification';
+    Options[11].DisplayName := _('File Change Notification');
   end;
   with Categories[1] do begin
     DisplayName := _('Python Interpreter');
