@@ -46,7 +46,7 @@ type
     { Public declarations }
     procedure ClearAll;
     function GetSelectedStackFrame : TBaseFrameInfo;
-    procedure UpdateWindow(DebuggerState : TDebuggerState);
+    procedure UpdateWindow(DebuggerState, OldState : TDebuggerState);
   end;
 
 var
@@ -67,38 +67,43 @@ Type
 
 { TCallStackWindow }
 
-procedure TCallStackWindow.UpdateWindow(DebuggerState : TDebuggerState);
+procedure TCallStackWindow.UpdateWindow(DebuggerState, OldState : TDebuggerState);
 begin
   //  Do not update anything if the debugger just entered running state
   //  The callstack and the variables window will be updated when the
   //  Debugger becomes Paused or Inactive
   case DebuggerState of
     dsPaused, dsPostMortem:
-      begin
+       if OldState = dsRunningNoDebug then begin
+          // This sequence of states happens with RunSource.  No need to update the CallStack - Issue 461
+          CallStackView.Enabled := True;
+          if Assigned(VariablesWindow) then VariablesWindow.UpdateWindow;
+          if Assigned(WatchesWindow) then WatchesWindow.UpdateWindow(DebuggerState);
+        end else
+        begin
+          CallStackView.BeginUpdate;
+          try
+            ClearAll;
+            PyControl.ActiveDebugger.GetCallStack(fCallStackList);
+            CallStackView.RootNodeCount := fCallStackList.Count;  // Fills the View
+            CallStackView.ValidateNode(nil, True);
+            //CallStackView.ReinitNode(CallStackView.RootNode, True);
+          finally
+            CallStackView.EndUpdate;
+          end;
+          CallStackView.Enabled := True;
 
-        CallStackView.BeginUpdate;
-        try
-          ClearAll;
-          PyControl.ActiveDebugger.GetCallStack(fCallStackList);
-          CallStackView.RootNodeCount := fCallStackList.Count;  // Fills the View
-          CallStackView.ValidateNode(nil, True);
-//          CallStackView.ReinitNode(CallStackView.RootNode, True);
-        finally
-          CallStackView.EndUpdate;
+        //  The following statement updates the Variables and Watches Windows as well
+          if Assigned(CallStackView.RootNode.FirstChild) then
+            CallStackView.Selected[CallStackView.RootNode.FirstChild] := True;
         end;
-        CallStackView.Enabled := True;
-
-      //  The following statement updates the Variables and Watches Windows as well
-        if Assigned(CallStackView.RootNode.FirstChild) then
-          CallStackView.Selected[CallStackView.RootNode.FirstChild] := True;
-      end;
+    dsRunningNoDebug,
     dsRunning:
       begin
         CallStackView.Enabled := False;
         if Assigned(VariablesWindow) then VariablesWindow.UpdateWindow;
         if Assigned(WatchesWindow) then WatchesWindow.UpdateWindow(DebuggerState);
       end;
-    dsRunningNoDebug,
     dsInactive:
       begin
         ClearAll;

@@ -340,10 +340,11 @@
   History:   v 2.4.2
           New Features
             Ctrl+Mousewheel for zooming the interpreter (Issue 475)
+            New IDE Option "File Change Notification" introduced with possible values Full, NoMappedDrives(default), Disabled (Issue 470)
           Issues addressed
             Command line history not saved
             Editing a watch to an empty string crashes PyScripter
-            474, 488
+            461, 463, 474, 488, 509, 512, 525, 526
 -----------------------------------------------------------------------------}
 
 // Bugs and minor features
@@ -1083,6 +1084,7 @@ type
       Index : integer = -1);
     function TabControl(TabControlIndex : integer = 1) : TSpTBXTabControl;
     function TabControlIndex(TabControl : TSpTBXCustomTabControl) : integer;
+    procedure ConfigureFCN(FCN : TFileChangeNotificationType);
     property ActiveTabControl : TSpTBXCustomTabControl read GetActiveTabControl
       write SetActiveTabControl;
   end;
@@ -1499,12 +1501,7 @@ begin
     CodeExplorerWindow.ShutDownWorkerThread;
 
     // Disconnect ChangeNotify
-    FileExplorerWindow.FileExplorerTree.OnAfterShellNotify := nil;
-
-    // Close FileExplorer ChangeNotify Thread
-    FileExplorerWindow.FileExplorerTree.TreeOptions.VETMiscOptions :=
-      FileExplorerWindow.FileExplorerTree.TreeOptions.VETMiscOptions
-          - [toChangeNotifierThread];
+    ConfigureFCN(fcnDisabled);
 
     // Disable CodeHint timer
     CodeHint.CancelHint;
@@ -2152,7 +2149,7 @@ begin
   lbStatusMessage.Caption := ' ' + s;
   StatusBar.Refresh;
 
-  CallStackWindow.UpdateWindow(NewState);  // also updates Variables and Watches
+  CallStackWindow.UpdateWindow(NewState, OldState);  // also updates Variables and Watches
   UpdateDebugCommands(NewState);
 end;
 
@@ -2569,6 +2566,35 @@ begin
     ProjectExplorerWindow.DoOpenProjectFile(CmdLineReader.readString('PROJECT'));
 end;
 
+procedure TPyIDEMainForm.ConfigureFCN(FCN: TFileChangeNotificationType);
+begin
+  case FCN of
+    fcnFull:
+      with FileExplorerWindow.FileExplorerTree do begin
+        TreeOptions.VETMiscOptions :=
+          TreeOptions.VETMiscOptions + [toChangeNotifierThread, toTrackChangesInMappedDrives];
+        // Connect ChangeNotify
+        OnAfterShellNotify := CommandsDataModule.ProcessShellNotify;
+      end;
+    fcnNoMappedDrives:
+      with FileExplorerWindow.FileExplorerTree do begin
+        TreeOptions.VETMiscOptions :=
+          TreeOptions.VETMiscOptions + [toChangeNotifierThread];
+        TreeOptions.VETMiscOptions :=
+          TreeOptions.VETMiscOptions - [toChangeNotifierThread];
+        // Connect ChangeNotify
+        OnAfterShellNotify := CommandsDataModule.ProcessShellNotify;
+      end;
+    fcnDisabled:
+      with FileExplorerWindow.FileExplorerTree do begin
+        TreeOptions.VETMiscOptions :=
+          TreeOptions.VETMiscOptions - [toChangeNotifierThread, toTrackChangesInMappedDrives];
+        // Connect ChangeNotify
+        OnAfterShellNotify := nil;
+      end;
+  end;
+end;
+
 procedure TPyIDEMainForm.FormDestroy(Sender: TObject);
 begin
   FreeAndNil(Layouts);
@@ -2694,6 +2720,9 @@ begin
             TEditorForm(GI_EditorFactory.Editor[i].Form).ViewsTabControl.TabPosition := ttpTop;
         end;
     end;
+
+  ConfigureFCN(CommandsDataModule.PyIDEOptions.FileChangeNotification);
+
   SetIDEColors;
 
   Editor := GetActiveEditor;
@@ -3024,12 +3053,16 @@ end;
 procedure TPyIDEMainForm.TabControlTabClosing(Sender: TObject; var Allow, CloseAndFree: Boolean);
 Var
   Editor : IEditor;
+  Toolbar : TSpTBXTabToolbar;
 begin
+  ToolBar := ((Sender as TSpTBXTabItem).Owner as TSpTBXTabControl).Toolbar;
   Editor := EditorFromTab(Sender as TSpTBXTabItem);
   if Assigned(Editor) then begin
     Allow := False;
     (Editor as IFileCommands).ExecClose;
   end;
+  if Assigned(Toolbar) then
+    Toolbar.MakeVisible(Toolbar.ActiveTab);
 end;
 
 procedure TPyIDEMainForm.TabToolbarlDragDrop(Sender, Source: TObject; X,
@@ -4276,16 +4309,12 @@ begin
   SetupSyntaxMenu;
 
   // Activate File Explorer
-  with FileExplorerWindow.FileExplorerTree do begin
-    TreeOptions.VETMiscOptions :=
-      TreeOptions.VETMiscOptions + [toChangeNotifierThread];
-    Active := True;
-    // Connect ChangeNotify
-    OnAfterShellNotify := CommandsDataModule.ProcessShellNotify;
-    // Register drop target
-    RegisterDragDrop(TabControl1.Handle, Self);
-    RegisterDragDrop(TabControl2.Handle, Self);
-  end;
+  FileExplorerWindow.FileExplorerTree.Active := True;
+  ConfigureFCN(CommandsDataModule.PyIDEOptions.FileChangeNotification);
+
+  // Register drop target
+  RegisterDragDrop(TabControl1.Handle, Self);
+  RegisterDragDrop(TabControl2.Handle, Self);
 
   // This is needed to update the variables window
   PyControl.DoStateChange(dsInactive);
