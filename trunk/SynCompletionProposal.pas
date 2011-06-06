@@ -2188,11 +2188,16 @@ begin
 end;
 
 procedure TSynBaseCompletionProposal.ExecuteEx(s: UnicodeString; x, y: integer; Kind : SynCompletionType);
+{$IFDEF SYN_COMPILER_5_UP}
+Var
+  WorkArea : TRect;
+  Monitor: TMonitor;
+{$ENDIF}
 
   function GetWorkAreaWidth: Integer;
   begin
     {$IFDEF SYN_COMPILER_5_UP}
-    Result := Screen.DesktopWidth;
+    Result := WorkArea.Right;
     {$ELSE}
     Result := Screen.Width;
     {$ENDIF}
@@ -2201,7 +2206,7 @@ procedure TSynBaseCompletionProposal.ExecuteEx(s: UnicodeString; x, y: integer; 
   function GetWorkAreaHeight: Integer;
   begin
     {$IFDEF SYN_COMPILER_5_UP}
-    Result := Screen.DesktopHeight;
+    Result := WorkArea.Bottom;
     {$ELSE}
     Result := Screen.Height;
     {$ENDIF}
@@ -2321,6 +2326,11 @@ procedure TSynBaseCompletionProposal.ExecuteEx(s: UnicodeString; x, y: integer; 
 var
   TmpOffset: Integer;
 begin
+{$IFDEF SYN_COMPILER_5_UP}
+  Monitor := Screen.MonitorFromPoint(Point(x, y));
+  WorkArea := Monitor.WorkareaRect;
+{$ENDIF}
+
   DisplayType := Kind;
 
   FCanExecute := True;
