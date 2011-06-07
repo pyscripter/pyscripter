@@ -1986,11 +1986,6 @@ begin
     NS.Free;
   end;
 
-  if CommandsDataModule.PyIDEOptions.FileChangeNotification = fcnNoMappedDrives then begin
-    WS := WideExtractFileDrive(NS.NameForParsing);
-    if WideIsDrive(WS) and (GetDriveTypeW_MP(PWideChar(WS)) = DRIVE_REMOTE)then Exit;
-  end;
-
   if Dir = '' then Exit;
 
   ChangedFiles := TStringList.Create;
