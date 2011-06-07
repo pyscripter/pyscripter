@@ -457,6 +457,7 @@ procedure TEditor.Close;
 // Closes without asking
 Var
   TabSheet : TSpTBXTabSheet;
+  TabControl : TSpTBXCustomTabControl;
 begin
   if (fForm <> nil) then begin
 
@@ -473,10 +474,13 @@ begin
     end;
 
     TabSheet := (fForm.Parent as TSpTBXTabSheet);
+    TabControl := TabSheet.TabControl;
     (fForm.ParentTabControl as TSpTBXTabControl).zOrder.Remove(TabSheet.Item);
     fForm.DoAssignInterfacePointer(False);
     //fForm.Close;
     TabSheet.Free;
+    if Assigned(TabControl) then
+      TabControl.Toolbar.MakeVisible(TabControl.ActiveTab);
   end;
 end;
 

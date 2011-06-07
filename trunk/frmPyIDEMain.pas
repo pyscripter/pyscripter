@@ -2581,7 +2581,7 @@ begin
         TreeOptions.VETMiscOptions :=
           TreeOptions.VETMiscOptions + [toChangeNotifierThread];
         TreeOptions.VETMiscOptions :=
-          TreeOptions.VETMiscOptions - [toChangeNotifierThread];
+          TreeOptions.VETMiscOptions - [toTrackChangesInMappedDrives];
         // Connect ChangeNotify
         OnAfterShellNotify := CommandsDataModule.ProcessShellNotify;
       end;
@@ -3061,8 +3061,6 @@ begin
     Allow := False;
     (Editor as IFileCommands).ExecClose;
   end;
-  if Assigned(Toolbar) then
-    Toolbar.MakeVisible(Toolbar.ActiveTab);
 end;
 
 procedure TPyIDEMainForm.TabToolbarlDragDrop(Sender, Source: TObject; X,
