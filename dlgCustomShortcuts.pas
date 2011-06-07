@@ -81,6 +81,7 @@ type
     procedure SelectItem(Idx: Integer);
     function GetCurrentAction: TActionProxyItem;
     procedure FillFunctionList;
+    procedure AssignKeysToActionProxy(var CurAction: TActionProxyItem);
     { Private declarations }
   public
     GotKey       : Boolean;
@@ -119,6 +120,21 @@ begin
   end;
 
   DoneItems;
+end;
+
+procedure TfrmCustomKeyboard.AssignKeysToActionProxy(var CurAction: TActionProxyItem);
+var
+  i: Integer;
+begin
+  if lbCurrentKeys.Count > 0 then
+    CurAction.ShortCut := TShortCut(lbCurrentKeys.Items.Objects[0])
+  else
+    CurAction.ShortCut := 0;
+  { Assign secondary shortcuts }
+  CurAction.SecondaryShortCuts.Clear;
+  for i := 1 to lbCurrentKeys.Count - 1 do
+    CurAction.SecondaryShortCuts.AddObject(lbCurrentKeys.Items[i],
+      lbCurrentKeys.Items.Objects[i]);
 end;
 
 procedure TfrmCustomKeyboard.FormCreate(Sender: TObject);
@@ -203,10 +219,9 @@ begin
   lblDescription.Caption := GetLongHint(A.Hint);
 
   if A.ShortCut <> 0 then
-    lbCurrentKeys.Items.Add(ShortCutToText(A.ShortCut));
+    lbCurrentKeys.Items.AddObject(ShortCutToText(A.ShortCut), TObject(A.ShortCut));
 
-  for i := 0 to Pred(A.SecondaryShortCuts.Count) do
-    lbCurrentKeys.Items.Add(A.SecondaryShortCuts[i]);
+  lbCurrentKeys.Items.AddStrings(A.SecondaryShortCuts);
 
   btnRemove.Enabled := False;
 end;
@@ -215,7 +230,6 @@ procedure TfrmCustomKeyboard.btnAssignClick(Sender: TObject);
 var
   ShortCut : TShortCut;
   CurAction : TActionProxyItem;
-  i : integer;
 begin
   if lbCommands.ItemIndex < 0 then Exit;
   if edNewShortcut.HotKey <> 0 then begin
@@ -226,14 +240,9 @@ begin
 
       if lbCurrentKeys.Items.IndexOf(ShortCutToText(edNewShortcut.HotKey)) < 0 then begin
         { show the keystroke }
-        lbCurrentKeys.Items.Add(ShortCutToText(edNewShortcut.HotKey));
+        lbCurrentKeys.Items.AddObject(ShortCutToText(edNewShortcut.HotKey), TObject(edNewShortcut.HotKey));
 
-        CurAction.ShortCut := TextToShortCut(lbCurrentKeys.Items[0]);
-
-        { Assign secondary shortcuts }
-        CurAction.SecondaryShortCuts.Clear;
-        for i := 1 to lbCurrentKeys.Count - 1 do
-          CurAction.SecondaryShortCuts.Add(lbCurrentKeys.Items[i]);
+        AssignKeysToActionProxy(CurAction);
 
         { track the keystroke assignment }
         KeyList.Add(ShortCutToText(ShortCut) + '=' + CurAction.ActionName);
@@ -301,7 +310,7 @@ end;
 procedure TfrmCustomKeyboard.btnRemoveClick(Sender: TObject);
 var
   CurAction : TActionProxyItem;
-  i, Index : integer;
+  Index : integer;
 begin
   if lbCurrentKeys.ItemIndex < 0 then Exit;
   CurAction := CurrentAction;
@@ -313,15 +322,9 @@ begin
 
   { Remove shortcut from lbCurrentKeys }
   lbCurrentKeys.Items.Delete(lbCurrentKeys.ItemIndex);
-  if lbCurrentKeys.Count > 0 then
-    CurAction.ShortCut := TextToShortCut(lbCurrentKeys.Items[0])
-  else
-    CurAction.ShortCut := 0;
 
-  { Assign secondary shortcuts }
-  CurAction.SecondaryShortCuts.Clear;
-  for i := 1 to lbCurrentKeys.Count - 1 do
-    CurAction.SecondaryShortCuts.Add(lbCurrentKeys.Items[i]);
+  AssignKeysToActionProxy(CurAction);
+
   { Update the lblAssignedTo}
   edNewShortcutChange(Self);
   btnRemove.Enabled := False;

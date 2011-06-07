@@ -2081,7 +2081,7 @@ function TTBCustomItem.FindItemWithShortCut(AShortCut: TShortCut;
     end;
     for I := 0 to NewParentItem.Count-1 do begin
       Item := NewParentItem.Items[I];
-      if ShortCutToText(Item.ShortCut) = ShortCutToText(AShortCut) then begin
+      if Item.ShortCut = AShortCut then begin
         Result := Item;
         Exit;
       end;

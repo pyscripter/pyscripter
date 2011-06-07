@@ -344,7 +344,7 @@
           Issues addressed
             Command line history not saved
             Editing a watch to an empty string crashes PyScripter
-            461, 463, 474, 488, 504, 509, 512, 525, 526
+            461, 463, 474, 488, 504, 509, 512, 525, 526, 528
 -----------------------------------------------------------------------------}
 
 // Bugs and minor features
