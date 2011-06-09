@@ -345,7 +345,7 @@
             Command line history not saved
             Editing a watch to an empty string crashes PyScripter
             Replace in Find-in-Files now supports subexpression substitution (Issue 332)
-            461, 463, 468, 474, 488, 504, 509, 512, 525, 526, 528
+            461, 463, 468, 474, 488, 496, 504, 509, 512, 525, 526, 527, 528
 -----------------------------------------------------------------------------}
 
 // Bugs and minor features
@@ -2811,6 +2811,9 @@ begin
     AppStorage.WriteString('Theme Name', SkinManager.CurrentSkinName);
 
 
+    // Save Toolbar Items
+    SaveToolbarItems('Toolbar Items');
+
     //  Needed since save toolbar Items below does not save secondary shortcuts! Issue 307
     // Save IDE Shortcuts
     AppStorage.DeleteSubTree('IDE Shortcuts');
@@ -2820,9 +2823,6 @@ begin
     finally
       ActionProxyCollection.Free;
     end;
-
-    // Save Toolbar Items
-    SaveToolbarItems('Toolbar Items');
 
     // Save Interpreter History
     TempStringList.Clear;

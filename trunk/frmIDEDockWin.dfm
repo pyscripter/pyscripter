@@ -6,6 +6,7 @@ object IDEDockWindow: TIDEDockWindow
   ClientHeight = 408
   ClientWidth = 227
   Color = clBtnFace
+  DefaultMonitor = dmDesktop
   DockSite = True
   DragKind = dkDock
   DragMode = dmAutomatic
