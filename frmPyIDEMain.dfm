@@ -1582,7 +1582,7 @@ object PyIDEMainForm: TPyIDEMainForm
       CustomHeight = 21
     end
     object SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem
-      CustomWidth = 0
+      CustomWidth = 407
     end
     object SpTBXSeparatorItem5: TSpTBXSeparatorItem
     end
@@ -1931,7 +1931,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpType = htContext
       Hint = 'Debug|Debug active script'
       ImageIndex = 53
-      ShortCut = 8312
+      ShortCut = 120
       OnExecute = actDebugExecute
     end
     object actRestoreEditor: TAction
