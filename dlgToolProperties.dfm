@@ -242,8 +242,8 @@ inherited ToolProperties: TToolProperties
             FocusControl = edDescription
           end
           object Label17: TSpTBXLabel
-            Left = 200
-            Top = 17
+            Left = 212
+            Top = 16
             Width = 54
             Height = 19
             Caption = '(required)'
@@ -255,16 +255,16 @@ inherited ToolProperties: TToolProperties
             ParentFont = False
           end
           object edName: TSpTBXEdit
-            Left = 71
+            Left = 77
             Top = 13
-            Width = 118
+            Width = 124
             Height = 21
             TabOrder = 0
           end
           object edDescription: TSpTBXEdit
-            Left = 71
+            Left = 77
             Top = 36
-            Width = 307
+            Width = 301
             Height = 21
             TabOrder = 1
           end
@@ -278,9 +278,9 @@ inherited ToolProperties: TToolProperties
           TabOrder = 1
           TBXStyleBackground = True
           object SynApplication: TSynEdit
-            Left = 71
+            Left = 77
             Top = 18
-            Width = 283
+            Width = 277
             Height = 18
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clWindowText
@@ -301,9 +301,9 @@ inherited ToolProperties: TToolProperties
             WantReturns = False
           end
           object SynParameters: TSynEdit
-            Left = 71
+            Left = 77
             Top = 40
-            Width = 302
+            Width = 296
             Height = 18
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clWindowText

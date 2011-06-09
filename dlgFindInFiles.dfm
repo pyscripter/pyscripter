@@ -32,7 +32,7 @@ inherited FindInFilesDialog: TFindInFilesDialog
       Anchors = [akLeft, akBottom]
       TabOrder = 2
       TBXStyleBackground = True
-      object cbNoCase: TSpTBXCheckBox
+      object cbCaseSensitive: TSpTBXCheckBox
         Left = 8
         Top = 16
         Width = 93

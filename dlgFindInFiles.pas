@@ -58,7 +58,7 @@ type
     btnOK: TSpTBXButton;
     btnCancel: TSpTBXButton;
     btnHelp: TSpTBXButton;
-    cbNoCase: TSpTBXCheckBox;
+    cbCaseSensitive: TSpTBXCheckBox;
     cbNoComments: TSpTBXCheckBox;
     cbWholeWord: TSpTBXCheckBox;
     cbRegEx: TSpTBXCheckBox;
@@ -220,7 +220,7 @@ begin
   AddMRUString(cbDirectory.Text, FFindInFilesExpert.DirList, True);
   AddMRUString(cbMasks.Text, FFindInFilesExpert.MaskList, False);
 
-  FFindInFilesExpert.GrepNoCase := cbNoCase.Checked;
+  FFindInFilesExpert.GrepCaseSensitive := cbCaseSensitive.Checked;
   FFindInFilesExpert.GrepNoComments := cbNoComments.Checked;
   FFindInFilesExpert.GrepSub := cbInclude.Checked;
   FFindInFilesExpert.GrepWholeWord := cbWholeWord.Checked;
@@ -289,7 +289,7 @@ begin
 
   if FFindInFilesExpert.GrepSave then
   begin
-    cbNoCase.Checked := FFindInFilesExpert.GrepNoCase;
+    cbCaseSensitive.Checked := FFindInFilesExpert.GrepCaseSensitive;
     cbNoComments.Checked := FFindInFilesExpert.GrepNoComments;
     cbInclude.Checked := FFindInFilesExpert.GrepSub;
     cbWholeWord.Checked := FFindInFilesExpert.GrepWholeWord;
@@ -320,7 +320,7 @@ end;
 procedure TFindInFilesDialog.RetrieveSettings(var Value: TGrepSettings);
 begin
   Value.NoComments := cbNoComments.Checked;
-  Value.NoCase := cbNoCase.Checked;
+  Value.CaseSensitive := cbCaseSensitive.Checked;
   Value.WholeWord := cbWholeWord.Checked;
   Value.RegEx := cbRegEx.Checked;
   Value.Pattern := cbText.Text;

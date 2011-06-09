@@ -344,7 +344,8 @@
           Issues addressed
             Command line history not saved
             Editing a watch to an empty string crashes PyScripter
-            461, 463, 474, 488, 504, 509, 512, 525, 526, 528
+            Replace in Find-in-Files now supports subexpression substitution (Issue 332)
+            461, 463, 468, 474, 488, 504, 509, 512, 525, 526, 528
 -----------------------------------------------------------------------------}
 
 // Bugs and minor features
@@ -1501,6 +1502,7 @@ begin
     CodeExplorerWindow.ShutDownWorkerThread;
 
     // Disconnect ChangeNotify
+    FileExplorerWindow.FileExplorerTree.Active := False;
     ConfigureFCN(fcnDisabled);
 
     // Disable CodeHint timer
@@ -2940,6 +2942,9 @@ begin
   // Load Theme Name
   SkinManager.SetSkin(AppStorage.ReadString('Theme Name', 'Office2003'));
 
+  // Load Toolbar Items
+  LoadToolbarItems('Toolbar Items');
+
   // Load IDE Shortcuts
   ActionProxyCollection := TActionProxyCollection.Create(ActionListArray);
   try
@@ -2948,9 +2953,6 @@ begin
   finally
     ActionProxyCollection.Free;
   end;
-
-  // Load Toolbar Items
-  LoadToolbarItems('Toolbar Items');
 
   // Restore Interpreter History
   TempStringList := TStringList.Create;
@@ -3053,9 +3055,7 @@ end;
 procedure TPyIDEMainForm.TabControlTabClosing(Sender: TObject; var Allow, CloseAndFree: Boolean);
 Var
   Editor : IEditor;
-  Toolbar : TSpTBXTabToolbar;
 begin
-  ToolBar := ((Sender as TSpTBXTabItem).Owner as TSpTBXTabControl).Toolbar;
   Editor := EditorFromTab(Sender as TSpTBXTabItem);
   if Assigned(Editor) then begin
     Allow := False;
