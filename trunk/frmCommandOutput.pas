@@ -226,7 +226,7 @@ Var
 
  Var
   LineNo, ErrLineNo, ColNo : integer;
-  ErrorMsg, RE, FileName, OutStr : string;
+  ErrorMsg, RE, FileName, OutStr, OldCurrentDir : string;
 begin
   TimeoutTimer.Enabled := False;
   Assert(Assigned(fTool));
@@ -334,20 +334,30 @@ begin
         end;
       end;
 
-      LineNo := 0;
-      while LineNo < Count do begin
-        if fRegExpr.Exec(Strings[LineNo]) then begin
-          FileName := RegExMatch(FilePos);
-          StringReplace(FileName, '/', '\', [rfReplaceAll]); // fix for filenames with '/'
-          FileName := GetLongFileName(ExpandFileName(FileName)); // always full filename
-          ErrLineNo := StrToIntDef(RegExMatch(LinePos), -1);
-          ColNo :=  StrToIntDef(RegExMatch(ColPos), -1);
-         // add Message info (message, filename, linenumber)
-          MessagesWindow.AddMessage(fRegExpr.Match[fRegExpr.SubExprMatchCount], FileName, ErrLineNo, ColNo);
-        end;
-        Inc(LineNo);
+      if JvCreateProcess.CurrentDirectory <> '' then begin
+         OldCurrentDir := GetCurrentDir;
+         SetCurrentDir(JvCreateProcess.CurrentDirectory)
       end;
-      ShowDockForm(MessagesWindow);
+
+      try
+        LineNo := 0;
+        while LineNo < Count do begin
+          if fRegExpr.Exec(Strings[LineNo]) then begin
+            FileName := RegExMatch(FilePos);
+            StringReplace(FileName, '/', '\', [rfReplaceAll]); // fix for filenames with '/'
+            FileName := GetLongFileName(ExpandFileName(FileName)); // always full filename
+            ErrLineNo := StrToIntDef(RegExMatch(LinePos), -1);
+            ColNo :=  StrToIntDef(RegExMatch(ColPos), -1);
+           // add Message info (message, filename, linenumber)
+            MessagesWindow.AddMessage(fRegExpr.Match[fRegExpr.SubExprMatchCount], FileName, ErrLineNo, ColNo);
+          end;
+          Inc(LineNo);
+        end;
+        ShowDockForm(MessagesWindow);
+      finally
+        if JvCreateProcess.CurrentDirectory <> '' then
+         SetCurrentDir(OldCurrentDir);
+      end;
     end;
   end;
 end;

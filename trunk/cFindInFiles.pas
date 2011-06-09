@@ -57,7 +57,7 @@ type
   // Saved grep settings (used for refresh)
   TGrepSettings = packed record
     NoComments: Boolean;
-    NoCase: Boolean;
+    CaseSensitive: Boolean;
     WholeWord: Boolean;
     RegEx: Boolean;
     IncludeSubdirs: Boolean;
@@ -190,7 +190,7 @@ type
     FReplaceList: TStrings;
     FMaskList: TStrings;
     FDirList: TStrings;
-    FGrepNoCase: Boolean;
+    FGrepCaseSensitive: Boolean;
     FGrepNoComments: Boolean;
     FGrepSearch: Integer;
     FGrepSub: Boolean;
@@ -216,7 +216,7 @@ type
     property GrepSave: Boolean read FGrepSave write FGrepSave;
     property GrepExpandAll: Boolean read FGrepExpandAll write FGrepExpandAll;
     property BackupModified: Boolean read FBackupModified write FBackupModified;
-    property GrepNoCase: Boolean read FGrepNoCase write FGrepNoCase;
+    property GrepCaseSensitive: Boolean read FGrepCaseSensitive write FGrepCaseSensitive;
     property GrepNoComments: Boolean read FGrepNoComments write FGrepNoComments;
     property GrepSearch: Integer read FGrepSearch write FGrepSearch;
     property GrepSub: Boolean read FGrepSub write FGrepSub;
@@ -472,7 +472,7 @@ begin
     FSearcher.OnStartSearch := StartFileSearch;
 
     FSearcher.NoComments := FGrepSettings.NoComments;
-    if FGrepSettings.NoCase then
+    if FGrepSettings.CaseSensitive then
       FSearcher.SearchOptions := [soCaseSensitive];
     if FGrepSettings.WholeWord then
       FSearcher.SearchOptions := FSearcher.SearchOptions + [soWholeWord];
@@ -663,7 +663,7 @@ begin
   FNumContextLines := 2;
 
   FGrepSave := True;
-  FGrepNoCase := False;
+  FGrepCaseSensitive := False;
   FGrepNoComments := False;
   FGrepExpandAll := False;
   FBackupModified := False;
@@ -695,7 +695,7 @@ procedure TFindInFilesExpert.ReadFromAppStorage(AppStorage: TJvCustomAppStorage;
   const BasePath: string);
 begin
   with AppStorage do begin
-    FGrepNoCase := ReadBoolean(BasePath+'\NoCase', False);
+    FGrepCaseSensitive := ReadBoolean(BasePath+'\CaseSensitive', False);
     FGrepNoComments := ReadBoolean(BasePath+'\NoComments', False);
     FGrepSearch := ReadInteger(BasePath+'\Search', 1);
     FGrepSub := ReadBoolean(BasePath+'\SubDirectories', True);
@@ -731,7 +731,7 @@ procedure TFindInFilesExpert.WriteToAppStorage(AppStorage: TJvCustomAppStorage;
   const BasePath: string);
 begin
   with AppStorage do begin
-    WriteBoolean(BasePath+'\NoCase', GrepNoCase);
+    WriteBoolean(BasePath+'\CaseSensitive', GrepCaseSensitive);
     WriteBoolean(BasePath+'\NoComments', GrepNoComments);
     WriteInteger(BasePath+'\Search', GrepSearch);
     WriteBoolean(BasePath+'\SubDirectories', GrepSub);
