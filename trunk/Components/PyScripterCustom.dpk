@@ -1,3 +1,6 @@
+// JCL_DEBUG_EXPERT_GENERATEJDBG OFF
+// JCL_DEBUG_EXPERT_INSERTJDBG OFF
+// JCL_DEBUG_EXPERT_DELETEMAPFILE OFF
 package PyScripterCustom;
 
 {$R *.res}
@@ -29,17 +32,16 @@ package PyScripterCustom;
 requires
   vcl,
   rtl,
-  JvCore,
   vclx,
-  JvStdCtrls,
-  JvSystem,
-  JvCustom,
   SpTBXLib_d14,
   tb2k_d14,
-  JvDocking,
   vclactnband,
   vcldb,
-  dbrtl;
+  dbrtl,
+  vclimg,
+  JvDocking,
+  JvCore,
+  Jcl;
 
 contains
   JvDockVSNetStyleSpTBX in 'JvDockVSNetStyleSpTBX.pas';

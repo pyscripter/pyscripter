@@ -178,6 +178,8 @@ begin
   fBreakPointsList := TObjectList.Create(True);  // Onwns objects
   // Let the tree know how much data space we need.
   BreakPointsView.NodeDataSize := SizeOf(TBreakPointRec);
+  BreakPointsView.Header.Height :=
+    MulDiv(BreakPointsView.Header.Height, Screen.PixelsPerInch, 96);
   BreakPointsView.OnAdvancedHeaderDraw :=
     CommandsDataModule.VirtualStringTreeAdvancedHeaderDraw;
   BreakPointsView.OnHeaderDrawQueryElements :=

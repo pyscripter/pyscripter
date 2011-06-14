@@ -63,6 +63,7 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
       Width = 380
       Height = 26
       AllowDrag = False
+      ExplicitWidth = 381
       object RegExpTesterToolbar: TSpTBXToolbar
         Left = 0
         Top = 0
@@ -154,6 +155,7 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
           object RI_findall: TSpTBXItem
             Caption = 'Findall'
             Hint = 'Performs re.findall'
+            AutoCheck = True
             GroupIndex = 1
             HelpContext = 865
             Options = [tboShowHint]
@@ -187,11 +189,13 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
     end
     object StatusBar: TSpTBXStatusBar
       Left = 0
-      Top = 448
+      Top = 449
       Width = 380
-      Height = 26
+      Height = 25
       Images = CommandsDataModule.Images
       SizeGrip = False
+      ExplicitTop = 450
+      ExplicitWidth = 381
       object lbStatusBar: TSpTBXLabelItem
         Caption = 'Not executed'
         ImageIndex = 21
@@ -201,29 +205,31 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
       Left = 0
       Top = 26
       Width = 380
-      Height = 422
+      Height = 423
       Align = alClient
       TabOrder = 2
       Borders = False
       TBXStyleBackground = True
       object dpGroupsView: TSpTBXPanel
         Left = 0
-        Top = 284
+        Top = 285
         Width = 380
         Height = 138
         Align = alBottom
         TabOrder = 0
         TBXStyleBackground = True
+        ExplicitTop = 288
+        ExplicitWidth = 381
         object TBXLabel1: TSpTBXLabel
           Left = 2
           Top = 2
-          Width = 376
-          Height = 20
+          Width = 377
+          Height = 22
           Caption = 'Groups:'
           Align = alTop
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
-          Font.Height = -11
+          Font.Height = -12
           Font.Name = 'MS Shell Dlg 2'
           Font.Style = [fsBold]
           ParentFont = False
@@ -233,9 +239,9 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
         end
         object GroupsView: TVirtualStringTree
           Left = 2
-          Top = 22
-          Width = 376
-          Height = 114
+          Top = 24
+          Width = 377
+          Height = 112
           Align = alClient
           BevelEdges = []
           BevelInner = bvNone
@@ -270,18 +276,20 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
             item
               Options = [coEnabled, coParentBidiMode, coParentColor, coResizable, coShowDropMark, coVisible]
               Position = 2
-              Width = 296
+              Width = 297
               WideText = 'Value'
             end>
         end
       end
       object SpTBXSplitter1: TSpTBXSplitter
         Left = 0
-        Top = 279
+        Top = 280
         Width = 380
         Height = 5
         Cursor = crSizeNS
         Align = alBottom
+        ExplicitTop = 283
+        ExplicitWidth = 381
       end
       object dpRegExpText: TSpTBXPanel
         Left = 0
@@ -303,36 +311,41 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
           TBXStyleBackground = True
           object RegExpText: TRichEdit
             Left = 2
-            Top = 22
+            Top = 24
             Width = 372
-            Height = 54
+            Height = 52
             Align = alClient
             BevelInner = bvNone
             BevelOuter = bvNone
             BorderStyle = bsNone
+            Font.Charset = GREEK_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -12
+            Font.Name = 'Tahoma'
+            Font.Style = []
+            ParentFont = False
             PlainText = True
             ScrollBars = ssVertical
             TabOrder = 0
             OnChange = RegExpTextChange
-            ExplicitLeft = 3
-            ExplicitTop = 20
           end
           object TBXLabel3: TSpTBXLabel
             Left = 2
             Top = 2
             Width = 372
-            Height = 20
+            Height = 22
             Caption = 'Regular Expression'
             Align = alTop
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clWindowText
-            Font.Height = -11
+            Font.Height = -12
             Font.Name = 'MS Shell Dlg 2'
             Font.Style = [fsBold]
             ParentFont = False
             Wrapping = twEndEllipsis
             Underline = True
             UnderlineColor = clBlue
+            ExplicitWidth = 374
           end
         end
       end
@@ -343,12 +356,13 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
         Height = 5
         Cursor = crSizeNS
         Align = alTop
+        ExplicitWidth = 381
       end
       object pnlMiddle: TSpTBXPanel
         Left = 0
         Top = 87
         Width = 380
-        Height = 192
+        Height = 193
         Align = alClient
         TabOrder = 2
         Borders = False
@@ -373,13 +387,19 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
             TBXStyleBackground = True
             object SearchText: TRichEdit
               Left = 2
-              Top = 22
+              Top = 24
               Width = 372
-              Height = 67
+              Height = 65
               Align = alClient
               BevelInner = bvNone
               BevelOuter = bvNone
               BorderStyle = bsNone
+              Font.Charset = GREEK_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -12
+              Font.Name = 'Tahoma'
+              Font.Style = []
+              ParentFont = False
               PlainText = True
               ScrollBars = ssVertical
               TabOrder = 0
@@ -389,18 +409,19 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
               Left = 2
               Top = 2
               Width = 372
-              Height = 20
+              Height = 22
               Caption = 'Search Text:'
               Align = alTop
               Font.Charset = DEFAULT_CHARSET
               Font.Color = clWindowText
-              Font.Height = -11
+              Font.Height = -12
               Font.Name = 'MS Shell Dlg 2'
               Font.Style = [fsBold]
               ParentFont = False
               Wrapping = twEndEllipsis
               Underline = True
               UnderlineColor = clBlue
+              ExplicitWidth = 374
             end
           end
         end
@@ -411,12 +432,13 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
           Height = 5
           Cursor = crSizeNS
           Align = alTop
+          ExplicitWidth = 381
         end
         object dpMatchText: TSpTBXPanel
           Left = 0
           Top = 100
           Width = 380
-          Height = 92
+          Height = 93
           Align = alClient
           TabOrder = 1
           HotTrack = True
@@ -425,7 +447,7 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
             Left = 2
             Top = 2
             Width = 376
-            Height = 88
+            Height = 89
             Caption = 'SpTBXPanel3'
             Align = alClient
             TabOrder = 0
@@ -433,17 +455,23 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
             TBXStyleBackground = True
             DesignSize = (
               376
-              88)
+              89)
             object MatchText: TRichEdit
               Left = 2
               Top = 24
               Width = 372
-              Height = 62
+              Height = 63
               Align = alBottom
               Anchors = [akLeft, akTop, akRight, akBottom]
               BevelInner = bvNone
               BevelOuter = bvNone
               BorderStyle = bsNone
+              Font.Charset = GREEK_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -12
+              Font.Name = 'Tahoma'
+              Font.Style = []
+              ParentFont = False
               PlainText = True
               ScrollBars = ssVertical
               TabOrder = 0
@@ -451,25 +479,26 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
             object lblMatch: TSpTBXLabel
               Left = 2
               Top = 2
-              Width = 328
-              Height = 20
+              Width = 329
+              Height = 22
               Caption = 'Match:'
               Anchors = [akLeft, akTop, akRight]
               Font.Charset = DEFAULT_CHARSET
               Font.Color = clWindowText
-              Font.Height = -11
+              Font.Height = -12
               Font.Name = 'MS Shell Dlg 2'
               Font.Style = [fsBold]
               ParentFont = False
               Wrapping = twEndEllipsis
               Underline = True
               UnderlineColor = clBlue
+              ExplicitWidth = 330
             end
             object SpinMatches: TSpTBXSpinEdit
-              Left = 336
+              Left = 337
               Top = 2
-              Width = 42
-              Height = 19
+              Width = 41
+              Height = 22
               Hint = 'Show a found match'
               Anchors = [akTop, akRight]
               DoubleBuffered = True
@@ -478,10 +507,10 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
               ParentDoubleBuffered = False
               TabOrder = 2
               ExtendedAccept = True
-              SpinButton.Left = 28
+              SpinButton.Left = 27
               SpinButton.Top = 0
               SpinButton.Width = 14
-              SpinButton.Height = 19
+              SpinButton.Height = 18
               SpinButton.Align = alRight
               SpinButton.Enabled = False
               SpinOptions.Decimal = 0
@@ -489,6 +518,7 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
               SpinOptions.MinValue = 1.000000000000000000
               SpinOptions.Value = 1.000000000000000000
               OnValueChanged = SpinMatchesValueChanged
+              ExplicitLeft = 338
             end
           end
         end

@@ -20,6 +20,7 @@
 			<Base>true</Base>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Base)'!=''">
+			<DCC_DebugDCUs>true</DCC_DebugDCUs>
 			<DCC_UNIT_PLATFORM>false</DCC_UNIT_PLATFORM>
 			<DCC_StringChecks>off</DCC_StringChecks>
 			<DCC_DependencyCheckOutputName>PyScripter.exe</DCC_DependencyCheckOutputName>
@@ -238,6 +239,7 @@
 			<DCCReference Include="MPShellUtilities.pas"/>
 			<DCCReference Include="SpTBXItem.pas"/>
 			<DCCReference Include="TB2Item.pas"/>
+			<DCCReference Include="JvDockVIDStyle.pas"/>
 			<None Include="PyScripter.todo"/>
 			<None Include="ModelSupport_PyScripter\default.txaPackage"/>
 			<BuildConfiguration Include="Base">
@@ -273,7 +275,7 @@
 						<VersionInfo Name="MajorVer">2</VersionInfo>
 						<VersionInfo Name="MinorVer">4</VersionInfo>
 						<VersionInfo Name="Release">2</VersionInfo>
-						<VersionInfo Name="Build">1</VersionInfo>
+						<VersionInfo Name="Build">2</VersionInfo>
 						<VersionInfo Name="Debug">False</VersionInfo>
 						<VersionInfo Name="PreRelease">False</VersionInfo>
 						<VersionInfo Name="Special">False</VersionInfo>
@@ -285,7 +287,7 @@
 					<VersionInfoKeys>
 						<VersionInfoKeys Name="CompanyName"/>
 						<VersionInfoKeys Name="FileDescription">PyScripter Python IDE</VersionInfoKeys>
-						<VersionInfoKeys Name="FileVersion">2.4.2.1</VersionInfoKeys>
+						<VersionInfoKeys Name="FileVersion">2.4.2.2</VersionInfoKeys>
 						<VersionInfoKeys Name="InternalName"/>
 						<VersionInfoKeys Name="LegalCopyright"/>
 						<VersionInfoKeys Name="LegalTrademarks"/>

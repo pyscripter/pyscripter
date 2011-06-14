@@ -20,6 +20,7 @@
 			<Base>true</Base>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Base)'!=''">
+			<DesignOnlyPackage>false</DesignOnlyPackage>
 			<DCC_DependencyCheckOutputName>C:\Users\Public\Documents\RAD Studio\7.0\Bpl\PyScripterCustom.bpl</DCC_DependencyCheckOutputName>
 			<DCC_ImageBase>00400000</DCC_ImageBase>
 			<DCC_MapFile>3</DCC_MapFile>
@@ -50,17 +51,16 @@
 			<DCCReference Include="JvDockVSNetStyleSpTBX.dcr"/>
 			<DCCReference Include="vcl.dcp"/>
 			<DCCReference Include="rtl.dcp"/>
-			<DCCReference Include="JvCore.dcp"/>
 			<DCCReference Include="vclx.dcp"/>
-			<DCCReference Include="JvStdCtrls.dcp"/>
-			<DCCReference Include="JvSystem.dcp"/>
-			<DCCReference Include="JvCustom.dcp"/>
 			<DCCReference Include="SpTBXLib_d14.dcp"/>
 			<DCCReference Include="tb2k_d14.dcp"/>
-			<DCCReference Include="JvDocking.dcp"/>
 			<DCCReference Include="vclactnband.dcp"/>
 			<DCCReference Include="vcldb.dcp"/>
 			<DCCReference Include="dbrtl.dcp"/>
+			<DCCReference Include="vclimg.dcp"/>
+			<DCCReference Include="JvDocking.dcp"/>
+			<DCCReference Include="JvCore.dcp"/>
+			<DCCReference Include="Jcl.dcp"/>
 			<DCCReference Include="JvDockVSNetStyleSpTBX.pas"/>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>

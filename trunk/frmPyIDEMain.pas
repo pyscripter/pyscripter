@@ -341,11 +341,13 @@
           New Features
             Ctrl+Mousewheel for zooming the interpreter (Issue 475)
             New IDE Option "File Change Notification" introduced with possible values Full, NoMappedDrives(default), Disabled (Issue 470)
+            Background color for Matching and Unbalanced braces (Issue 472)
           Issues addressed
             Command line history not saved
             Editing a watch to an empty string crashes PyScripter
             Replace in Find-in-Files now supports subexpression substitution (Issue 332)
-            461, 463, 468, 474, 488, 496, 504, 509, 512, 525, 526, 527, 528
+            461, 463, 468, 474, 478, 488, 496, 504, 508, 509, 512, 525,
+            526, 527, 528
 -----------------------------------------------------------------------------}
 
 // Bugs and minor features

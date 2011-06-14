@@ -139,13 +139,9 @@ inherited ToDoWindow: TToDoWindow
       BorderStyle = bsNone
       Header.AutoSizeIndex = 1
       Header.DefaultHeight = 17
-      Header.Font.Charset = DEFAULT_CHARSET
-      Header.Font.Color = clWindowText
-      Header.Font.Height = -11
-      Header.Font.Name = 'MS Shell Dlg 2'
-      Header.Font.Style = []
       Header.MainColumn = 1
       Header.Options = [hoAutoResize, hoColumnResize, hoHotTrack, hoOwnerDraw, hoShowSortGlyphs, hoVisible]
+      Header.ParentFont = True
       HintMode = hmTooltip
       Images = ilTodo
       PopupMenu = PopupMenu
@@ -208,7 +204,7 @@ inherited ToDoWindow: TToDoWindow
     Left = 24
     Top = 56
     Bitmap = {
-      494C010104000900180010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010104000900240010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000002000000001002000000000000020
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

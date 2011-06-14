@@ -77,6 +77,8 @@ begin
   inherited;
   // Let the tree know how much data space we need.
   VariablesTree.NodeDataSize := SizeOf(TPyObjRec);
+  VariablesTree.Header.Height :=
+    MulDiv(VariablesTree.Header.Height, Screen.PixelsPerInch, 96);
   VariablesTree.OnAdvancedHeaderDraw :=
     CommandsDataModule.VirtualStringTreeAdvancedHeaderDraw;
   VariablesTree.OnHeaderDrawQueryElements :=

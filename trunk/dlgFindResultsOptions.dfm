@@ -7,7 +7,6 @@ inherited FindResultsOptionsDialog: TFindResultsOptionsDialog
   ClientHeight = 307
   ClientWidth = 307
   Position = poScreenCenter
-  Scaled = False
   ExplicitWidth = 313
   ExplicitHeight = 335
   PixelsPerInch = 96

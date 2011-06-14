@@ -341,6 +341,8 @@ begin
 
   // Let the tree know how much data space we need.
   ToDoView.NodeDataSize := SizeOf(TToDoRec);
+  ToDoView.Header.Height :=
+    MulDiv(ToDoView.Header.Height, Screen.PixelsPerInch, 96);
   ToDoView.OnAdvancedHeaderDraw :=
     CommandsDataModule.VirtualStringTreeAdvancedHeaderDraw;
   ToDoView.OnHeaderDrawQueryElements :=

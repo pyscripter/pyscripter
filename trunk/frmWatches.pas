@@ -246,6 +246,8 @@ begin
   fWatchesList := TObjectList.Create(True);  // Onwns objects
   // Let the tree know how much data space we need.
   WatchesView.NodeDataSize := SizeOf(TWatchRec);
+  WatchesView.Header.Height :=
+    MulDiv(WatchesView.Header.Height, Screen.PixelsPerInch, 96);
   WatchesView.OnAdvancedHeaderDraw :=
     CommandsDataModule.VirtualStringTreeAdvancedHeaderDraw;
   WatchesView.OnHeaderDrawQueryElements :=

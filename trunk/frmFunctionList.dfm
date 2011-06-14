@@ -49,7 +49,6 @@ inherited FunctionListWindow: TFunctionListWindow
   KeyPreview = True
   OldCreateOrder = True
   Position = poScreenCenter
-  Scaled = False
   OnClose = FormClose
   OnKeyPress = edtMethodsKeyPress
   ExplicitWidth = 541

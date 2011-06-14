@@ -208,10 +208,14 @@ function CanActuallyFocus(WinControl: TWinControl): Boolean;
 { Create a Regular Expression and compile it}
 function CompiledRegExpr(Expr : string): TRegExpr;
 
+{ Checks whether S contains digits only }
+function IsDigits(S : string): Boolean;
+
 Var
   RE_CC_Import     : TRegExpr;
   RE_CC_From       : TRegExpr;
   RE_CC_FromImport : TRegExpr;
+  RE_Digits        : TRegExpr;
 
 Const
   IdentRE = '[A-Za-z_][A-Za-z0-9_]*';
@@ -1747,6 +1751,11 @@ begin
   end;
 end;
 
+function IsDigits(S : string): Boolean;
+begin
+  Result := RE_Digits.Exec(S);
+end;
+
 function CompiledRegExpr(Expr : string): TRegExpr;
 begin
   Result := TRegExpr.Create;
@@ -1763,9 +1772,11 @@ initialization
   RE_CC_FromImport := CompiledRegExpr(
     Format('^\s*from +(\.*)(%s)? +import +\(? *(%s( +as +%s)? *, *)*(%s)?$',
       [DottedIdentRe, IdentRE, IdentRe, IdentRe]));
+  RE_Digits := CompiledRegExpr('\d+');
 
 finalization
   RE_CC_Import.Free;
   RE_CC_From.Free;
   RE_CC_FromImport.Free;
+  RE_Digits.Free;
 end.

@@ -193,6 +193,8 @@ begin
   fCallStackList := TObjectList.Create(True);  // Onwns objects
   // Let the tree know how much data space we need.
   CallStackView.NodeDataSize := SizeOf(TCallStackRec);
+  CallStackView.Header.Height :=
+    MulDiv(CallStackView.Header.Height, Screen.PixelsPerInch, 96);
   CallStackView.OnAdvancedHeaderDraw :=
     CommandsDataModule.VirtualStringTreeAdvancedHeaderDraw;
   CallStackView.OnHeaderDrawQueryElements :=
