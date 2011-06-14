@@ -289,6 +289,8 @@ begin
   fHistorySize := 10;
   // Let the tree know how much data space we need.
   MessagesView.NodeDataSize := SizeOf(TMsgRec);
+  MessagesView.Header.Height :=
+    MulDiv(MessagesView.Header.Height, Screen.PixelsPerInch, 96);
   MessagesView.OnAdvancedHeaderDraw :=
     CommandsDataModule.VirtualStringTreeAdvancedHeaderDraw;
   MessagesView.OnHeaderDrawQueryElements :=

@@ -19,6 +19,7 @@ Type
   TJvDockVSNETSpTBXConjoinServerOption = class(TJvDockVSNETConjoinServerOption)
   protected
     procedure UpdateDefaultSystemCaptionInfo; override;
+    procedure Changed; override;
   public
     constructor Create(ADockStyle: TJvDockObservableStyle); override;
   published
@@ -814,7 +815,8 @@ begin
   NonClientMetrics.cbSize := SizeOf(NonClientMetrics);
   if SystemParametersInfo(SPI_GETNONCLIENTMETRICS, 0, @NonClientMetrics, 0) then
     PInteger(@(Self.ChannelWidth))^ :=
-      Max(Abs(NonClientMetrics.lfSmCaptionFont.lfHeight) + 10, 22);  // Access private property
+      Max(Abs(NonClientMetrics.lfSmCaptionFont.lfHeight) +
+        MulDiv(10, Screen.PixelsPerInch, 96), 22);  // Access private property
 end;
 
 destructor TJvDockVSChannelSpTBX.Destroy;
@@ -1097,12 +1099,20 @@ end;
 
 { TJvDockVSNETSpTBXConjoinServerOption }
 
+procedure TJvDockVSNETSpTBXConjoinServerOption.Changed;
+Var
+  Saved : Boolean;
+begin
+  inherited;
+
+end;
+
 constructor TJvDockVSNETSpTBXConjoinServerOption.Create(
   ADockStyle: TJvDockObservableStyle);
 begin
   inherited;
-  GrabbersSize := 18;
-  SplitterWidth := 5;
+//  GrabbersSize := 18;
+//  SplitterWidth := 5;
 end;
 
 procedure TJvDockVSNETSpTBXConjoinServerOption.UpdateDefaultSystemCaptionInfo;
@@ -1113,7 +1123,8 @@ begin
   SplitterWidth := 5;
   NonClientMetrics.cbSize := SizeOf(NonClientMetrics);
   if SystemParametersInfo(SPI_GETNONCLIENTMETRICS, 0, @NonClientMetrics, 0) then
-    GrabbersSize := Max(Abs(NonClientMetrics.lfSmCaptionFont.lfHeight) + 6, 18);
+    GrabbersSize := Max(Abs(NonClientMetrics.lfSmCaptionFont.lfHeight) +
+      MulDiv(8, Screen.PixelsPerInch, 96), 18);
 end;
 
 { TJvDockVSNETTabSheetSpTBX }

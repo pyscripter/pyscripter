@@ -413,7 +413,7 @@ begin
           TBreakPoint(BreakPoints[i]).LineNo - Count;
         PyControl.BreakPointsChanged := True;
         BreakPointsWindow.UpdateWindow;
-      end else if TBreakPoint(BreakPoints[i]).LineNo > FirstLine then begin
+      end else if TBreakPoint(BreakPoints[i]).LineNo >= FirstLine then begin
         BreakPoints.Delete(i);
         PyControl.BreakPointsChanged := True;
         BreakPointsWindow.UpdateWindow;

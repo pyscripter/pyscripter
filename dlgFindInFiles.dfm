@@ -6,7 +6,6 @@ inherited FindInFilesDialog: TFindInFilesDialog
   ClientHeight = 301
   ClientWidth = 374
   Position = poScreenCenter
-  Scaled = False
   ExplicitWidth = 380
   ExplicitHeight = 329
   PixelsPerInch = 96
@@ -163,6 +162,7 @@ inherited FindInFilesDialog: TFindInFilesDialog
         Height = 21
         Anchors = [akLeft, akTop, akRight]
         DropDownCount = 15
+        ItemHeight = 13
         TabOrder = 2
       end
       object cbDirectory: TSpTBXComboBox
@@ -172,6 +172,7 @@ inherited FindInFilesDialog: TFindInFilesDialog
         Height = 21
         Anchors = [akLeft, akTop, akRight]
         DropDownCount = 15
+        ItemHeight = 13
         TabOrder = 0
         OnDropDown = cbDirectoryDropDown
       end
@@ -234,11 +235,12 @@ inherited FindInFilesDialog: TFindInFilesDialog
       Height = 21
       Anchors = [akLeft, akTop, akRight]
       DropDownCount = 15
+      ItemHeight = 13
       TabOrder = 0
     end
     object lblFind: TSpTBXLabel
       Left = 8
-      Top = 8
+      Top = 3
       Width = 66
       Height = 19
       Caption = '&Text to find:'

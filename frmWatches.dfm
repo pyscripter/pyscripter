@@ -49,13 +49,13 @@ inherited WatchesWindow: TWatchesWindow
   inherited FGPanel: TPanel
     Width = 435
     Height = 221
-    ExplicitWidth = 435
-    ExplicitHeight = 221
+    ExplicitWidth = 436
+    ExplicitHeight = 222
     object WatchesView: TVirtualStringTree
       Left = 0
       Top = 0
-      Width = 435
-      Height = 221
+      Width = 436
+      Height = 222
       Align = alClient
       Alignment = taRightJustify
       BevelInner = bvNone
@@ -70,6 +70,7 @@ inherited WatchesWindow: TWatchesWindow
       PopupMenu = TBXPopupMenu
       TabOrder = 0
       TreeOptions.AnimationOptions = [toAnimatedToggle]
+      TreeOptions.AutoOptions = [toAutoDropExpand, toAutoScrollOnExpand, toAutoTristateTracking, toAutoDeleteMovedNodes, toAutoChangeScale]
       TreeOptions.MiscOptions = [toFullRepaintOnResize, toInitOnSave, toReportMode, toToggleOnDblClick, toWheelPanning]
       TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowDropmark, toShowHorzGridLines, toShowVertGridLines, toThemeAware, toUseBlendedImages, toUseBlendedSelection]
       TreeOptions.SelectionOptions = [toExtendedFocus, toFullRowSelect, toRightClickSelect]
@@ -88,7 +89,7 @@ inherited WatchesWindow: TWatchesWindow
         end
         item
           Position = 1
-          Width = 235
+          Width = 236
           WideText = 'Value'
         end>
     end

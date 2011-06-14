@@ -405,9 +405,9 @@ object PyIDEMainForm: TPyIDEMainForm
   TextHeight = 13
   object BGPanel: TPanel
     Left = 9
-    Top = 77
+    Top = 52
     Width = 762
-    Height = 427
+    Height = 452
     Align = alClient
     BevelOuter = bvNone
     FullRepaint = False
@@ -416,8 +416,8 @@ object PyIDEMainForm: TPyIDEMainForm
     object TabControl1: TSpTBXTabControl
       Left = 0
       Top = 0
-      Width = 757
-      Height = 427
+      Width = 758
+      Height = 452
       Align = alClient
       PopupMenu = TabControlPopupMenu
       OnContextPopup = TabContolContextPopup
@@ -428,7 +428,7 @@ object PyIDEMainForm: TPyIDEMainForm
       OnActiveTabChange = TabControlActiveTabChange
       HiddenItems = <>
       object tbiRightAlign: TSpTBXRightAlignSpacerItem
-        CustomWidth = 647
+        CustomWidth = 648
       end
       object tbiTabSep: TSpTBXSeparatorItem
       end
@@ -463,10 +463,10 @@ object PyIDEMainForm: TPyIDEMainForm
       end
     end
     object TabControl2: TSpTBXTabControl
-      Left = 757
+      Left = 758
       Top = 0
       Width = 0
-      Height = 427
+      Height = 452
       Align = alRight
       PopupMenu = TabControlPopupMenu
       Visible = False
@@ -512,9 +512,10 @@ object PyIDEMainForm: TPyIDEMainForm
       end
     end
     object TabSplitter: TSpTBXSplitter
-      Left = 757
+      Left = 758
       Top = 0
-      Height = 427
+      Width = 4
+      Height = 452
       Cursor = crSizeWE
       Align = alRight
       Visible = False
@@ -524,14 +525,15 @@ object PyIDEMainForm: TPyIDEMainForm
     Left = 0
     Top = 0
     Width = 780
-    Height = 77
+    Height = 52
     PopupMenu = ToolbarPopupMenu
     object MainMenu: TSpTBXToolbar
       Left = 0
-      Top = 0
+      Top = 26
       CloseButton = False
       DockMode = dmCannotFloatOrChangeDocks
-      DockPos = 0
+      DockPos = -28
+      DockRow = 2
       Images = CommandsDataModule.Images
       ProcessShortCuts = True
       ShrinkMode = tbsmWrap
@@ -1242,7 +1244,7 @@ object PyIDEMainForm: TPyIDEMainForm
     end
     object MainToolBar: TSpTBXToolbar
       Left = 0
-      Top = 25
+      Top = 0
       DockPos = -6
       DockRow = 1
       Images = CommandsDataModule.Images
@@ -1309,7 +1311,7 @@ object PyIDEMainForm: TPyIDEMainForm
     end
     object DebugToolbar: TSpTBXToolbar
       Left = 361
-      Top = 25
+      Top = 0
       DockPos = 361
       DockRow = 1
       Images = CommandsDataModule.Images
@@ -1352,7 +1354,7 @@ object PyIDEMainForm: TPyIDEMainForm
     end
     object ViewToolbar: TSpTBXToolbar
       Left = 727
-      Top = 25
+      Top = 0
       DockPos = 728
       DockRow = 1
       Images = CommandsDataModule.Images
@@ -1374,7 +1376,7 @@ object PyIDEMainForm: TPyIDEMainForm
     end
     object EditorToolbar: TSpTBXToolbar
       Left = 574
-      Top = 25
+      Top = 0
       DockPos = 574
       DockRow = 1
       Images = CommandsDataModule.Images
@@ -1426,8 +1428,8 @@ object PyIDEMainForm: TPyIDEMainForm
       end
     end
     object FindToolbar: TSpTBXToolbar
-      Left = 1
-      Top = 51
+      Left = 348
+      Top = 26
       CloseButtonWhenDocked = True
       DockPos = 1
       DockRow = 2
@@ -1522,8 +1524,8 @@ object PyIDEMainForm: TPyIDEMainForm
         AutoDropDownWidth = True
       end
       object tbiReplaceText: TSpTBXComboBox
-        Left = 265
-        Top = 0
+        Left = 381
+        Top = 22
         Width = 160
         Height = 21
         ItemHeight = 13
@@ -1535,8 +1537,8 @@ object PyIDEMainForm: TPyIDEMainForm
       end
     end
     object UserToolbar: TSpTBXToolbar
-      Left = 496
-      Top = 51
+      Left = 747
+      Top = 26
       DockPos = 310
       DockRow = 2
       Images = CommandsDataModule.Images
@@ -1547,18 +1549,18 @@ object PyIDEMainForm: TPyIDEMainForm
   end
   object TBXDockLeft: TSpTBXDock
     Left = 0
-    Top = 77
+    Top = 52
     Width = 9
-    Height = 427
+    Height = 452
     FixAlign = True
     PopupMenu = ToolbarPopupMenu
     Position = dpLeft
   end
   object TBXDockRight: TSpTBXDock
     Left = 771
-    Top = 77
+    Top = 52
     Width = 9
-    Height = 427
+    Height = 452
     FixAlign = True
     PopupMenu = ToolbarPopupMenu
     Position = dpRight
@@ -2513,21 +2515,7 @@ object PyIDEMainForm: TPyIDEMainForm
   end
   object JvDockVSNetStyleSpTBX: TJvDockVSNetStyleSpTBX
     AlwaysShowGrabber = False
-    ConjoinServerOption.ActiveFont.Charset = DEFAULT_CHARSET
-    ConjoinServerOption.ActiveFont.Color = clWhite
-    ConjoinServerOption.ActiveFont.Height = -12
-    ConjoinServerOption.ActiveFont.Name = 'Segoe UI'
-    ConjoinServerOption.ActiveFont.Style = []
-    ConjoinServerOption.InactiveFont.Charset = DEFAULT_CHARSET
-    ConjoinServerOption.InactiveFont.Color = clBlack
-    ConjoinServerOption.InactiveFont.Height = -12
-    ConjoinServerOption.InactiveFont.Name = 'Segoe UI'
-    ConjoinServerOption.InactiveFont.Style = []
-    ConjoinServerOption.ActiveTitleStartColor = 13743257
-    ConjoinServerOption.ActiveTitleEndColor = 13743257
-    ConjoinServerOption.InactiveTitleStartColor = clBtnFace
-    ConjoinServerOption.InactiveTitleEndColor = clBtnFace
-    ConjoinServerOption.SystemInfo = False
+    ConjoinServerOption.GrabbersSize = 20
     TabServerOption.HotTrack = True
     TabServerOption.ActiveFont.Charset = DEFAULT_CHARSET
     TabServerOption.ActiveFont.Color = clWindowText

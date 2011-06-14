@@ -1303,7 +1303,9 @@ begin
       if Index > 0 then begin
         lookup := Copy(lookup, 1, Index-1);
         if CharPos(lookup, ')') > 0 then
-          lookup := '';  // Issue 422  Do not evaluate functions
+          lookup := ''  // Issue 422  Do not evaluate functions
+        else if IsDigits(lookup) then
+          lookup := ''  // Issue 478  User is typing a number
       end else
         lookup := '';  // Completion from global namespace
       if (Index <= 0) or (lookup <> '') then begin

@@ -7,7 +7,6 @@ inherited fmToDoOptions: TfmToDoOptions
   ClientWidth = 512
   OldCreateOrder = True
   Position = poScreenCenter
-  Scaled = False
   OnShow = FormShow
   ExplicitWidth = 518
   ExplicitHeight = 298

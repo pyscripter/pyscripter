@@ -79,10 +79,12 @@ inherited MessagesWindow: TMessagesWindow
       OnDblClick = MessagesViewDblClick
       OnGetText = MessagesViewGetText
       OnInitNode = MessagesViewInitNode
+      ExplicitWidth = 690
+      ExplicitHeight = 183
       Columns = <
         item
           Position = 0
-          Width = 339
+          Width = 340
           WideText = 'Message'
         end
         item
@@ -134,7 +136,7 @@ inherited MessagesWindow: TMessagesWindow
         Enabled = False
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
-        Font.Height = -11
+        Font.Height = -12
         Font.Name = 'Webdings'
         Font.Style = []
         ParentFont = False
@@ -152,7 +154,7 @@ inherited MessagesWindow: TMessagesWindow
         Enabled = False
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
-        Font.Height = -11
+        Font.Height = -12
         Font.Name = 'Webdings'
         Font.Style = []
         ParentFont = False

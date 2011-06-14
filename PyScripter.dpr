@@ -111,7 +111,8 @@ uses
   VirtualExplorerTree in 'VirtualExplorerTree.pas',
   MPShellUtilities in 'MPShellUtilities.pas',
   SpTBXItem in 'SpTBXItem.pas',
-  TB2Item in 'TB2Item.pas';
+  TB2Item in 'TB2Item.pas',
+  JvDockVIDStyle in 'JvDockVIDStyle.pas';
 
 {$R *.RES}
 {$R WebCopyAvi.RES}

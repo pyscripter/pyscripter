@@ -116,7 +116,7 @@ begin
   begin
     cbSize := SizeOf(Format);
     dwMask := CFM_BACKCOLOR;
-    crBackColor := AColor;
+    crBackColor := ColorToRGB(AColor);
     Richedit.Perform(EM_SETCHARFORMAT, WParam, Longint(@Format));
   end;
 end;
@@ -140,6 +140,8 @@ begin
   MatchList := TList<Variant>.Create;
 
   GroupsView.NodeDataSize := 0;
+  GroupsView.Header.Height :=
+    MulDiv(GroupsView.Header.Height, Screen.PixelsPerInch, 96);
   GroupsView.OnAdvancedHeaderDraw :=
     CommandsDataModule.VirtualStringTreeAdvancedHeaderDraw;
   GroupsView.OnHeaderDrawQueryElements :=
@@ -322,11 +324,12 @@ begin
   AdjSearchText := AdjustLineBreaks(SearchText.Text, tlbsLF);
   try
     if RI_Search.Checked then begin
-      MatchObject := regexp.search(AdjSearchText, 0);
-      MatchList.Add(MatchObject);
+      MatchObject := RegExp.search(AdjSearchText, 0);
+      if VarIsPython(MatchObject) and not VarIsNone(MatchObject) then
+        MatchList.Add(MatchObject);
     end else if RI_Match.Checked then begin
       MatchObject := RegExp.match(AdjSearchText);
-      if not VarIsPython(MatchObject) or VarIsNone(MatchObject) then
+      if VarIsPython(MatchObject) and not VarIsNone(MatchObject) then
         MatchList.Add(MatchObject);
     end else begin
       FindIter := RegExp.finditer(AdjSearchText);

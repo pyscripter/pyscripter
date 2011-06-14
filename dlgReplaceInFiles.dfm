@@ -6,7 +6,6 @@ inherited ReplaceInFilesDialog: TReplaceInFilesDialog
   ClientHeight = 158
   ClientWidth = 401
   Position = poScreenCenter
-  Scaled = False
   ExplicitWidth = 407
   ExplicitHeight = 186
   PixelsPerInch = 96

@@ -573,9 +573,11 @@ begin
   AddAttribute(fErrorAttri);
   fMatchingBraceAttri := TSynHighlighterAttributes.Create(SYNS_MatchingBrace, SYNS_FriendlyMatchingBrace);
   fMatchingBraceAttri.Foreground := clBlue;
+  fMatchingBraceAttri.Background := clAqua;
   AddAttribute(fMatchingBraceAttri);
   fUnbalancedBraceAttri := TSynHighlighterAttributes.Create(SYNS_UnbalancedBrace, SYNS_FriendlyUnbalancedBrace);
-  fUnbalancedBraceAttri.Foreground := clRed;
+  fUnbalancedBraceAttri.Background := clRed;
+  fUnbalancedBraceAttri.Foreground := clBlue;
   AddAttribute(fUnbalancedBraceAttri);
 
   SetAttributesOnChange(DefHighlightChange);

@@ -69,6 +69,7 @@ inherited CallStackWindow: TCallStackWindow
       HintMode = hmTooltip
       TabOrder = 0
       TreeOptions.AnimationOptions = [toAnimatedToggle]
+      TreeOptions.AutoOptions = [toAutoDropExpand, toAutoScrollOnExpand, toAutoTristateTracking, toAutoDeleteMovedNodes, toAutoChangeScale]
       TreeOptions.MiscOptions = [toFullRepaintOnResize, toInitOnSave, toReportMode, toToggleOnDblClick, toWheelPanning]
       TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowDropmark, toShowHorzGridLines, toShowVertGridLines, toThemeAware, toUseBlendedImages, toUseBlendedSelection]
       TreeOptions.SelectionOptions = [toExtendedFocus, toFullRowSelect, toRightClickSelect]
