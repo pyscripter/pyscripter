@@ -466,7 +466,7 @@ end;
 constructor TPythonScanner.Create;
 begin
   inherited;
-  fCodeRE := CompiledRegExpr('^([ \t]*)(class|def)[ \t]+(\w+)[ \t]*(\(.*\))?');
+  fCodeRE := CompiledRegExpr('^([ \t]*)(class|def)[ \t]+([^ \t\(\)\[\]\{\}:;\.,@]+)[ \t]*(\(.*\))?');
   fBlankLineRE := CompiledRegExpr('^[ \t]*(\$|\#|\"\"\"|''''''|' + MaskChar +')');
   //fEscapedQuotesRE := CompiledRegExpr('(\\\\|\\\"|\\\'')');
   fStringsAndCommentsRE :=
@@ -818,6 +818,12 @@ begin
             end;
           end;
           CharOffsetToCodePos(CharOffset + CharOffset2, CodeStart, LineStarts, Variable.fCodePos);
+          // Deal with string annotations (Issue 511)
+          if CharPos(Variable.Name, MaskChar) > 0 then begin
+            SourceLine := GetNthSourceLine(Variable.fCodePos.LineNo);
+            Variable.Name :=
+              Copy(SourceLine, Variable.CodePos.CharOffset, Length(Variable.Name));
+          end;
           // Deal with string arguments (Issue 32)
           if  (Variable.DefaultValue <> '') then begin
             if CharPos(Variable.DefaultValue, MaskChar) > 0 then begin

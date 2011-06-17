@@ -1805,7 +1805,7 @@ begin
     RecalcList;
     AdjustScrollBarPosition;
     Position := 0;
-    
+
     if Visible and Assigned(FOnChangePosition) and (DisplayType = ctCode) then
       FOnChangePosition(Owner as TSynBaseCompletionProposal,
         LogicalToPhysicalIndex(FPosition));
