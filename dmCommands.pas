@@ -89,6 +89,7 @@ type
     fHighlightSelectedWord : Boolean;
     fUsePythonColorsInIDE : Boolean;
     fFileChangeNotification : TFileChangeNotificationType;
+    fCodeCompletionCaseSensitive : Boolean;
     function GetPythonFileExtensions: string;
     procedure SetAutoCompletionFont(const Value: TFont);
   public
@@ -204,6 +205,8 @@ type
       write fUsePythonColorsInIDE;
     property FileChangeNotification : TFileChangeNotificationType read fFileChangeNotification
       write fFileChangeNotification;
+    property CodeCompletionCaseSensitive : Boolean read fCodeCompletionCaseSensitive
+      write fCodeCompletionCaseSensitive;
   end;
 {$METHODINFO OFF}
 
@@ -618,6 +621,7 @@ begin
       Self.fHighlightSelectedWord := HighlightSelectedWord;
       Self.fUsePythonColorsInIDE := UsePythonColorsInIDE;
       Self.fFileChangeNotification := FileChangeNotification;
+      Self.fCodeCompletionCaseSensitive := CodeCompletionCaseSensitive;
     end
   else
     inherited;
@@ -689,6 +693,7 @@ begin
   fHighlightSelectedWord := True;
   fUsePythonColorsInIDE := False;
   fFileChangeNotification := fcnNoMappedDrives;
+  fCodeCompletionCaseSensitive := True;
 end;
 
 destructor TPythonIDEOptions.Destroy;
@@ -2220,7 +2225,7 @@ begin
   end;
   with Categories[5] do begin
     DisplayName := _('Code Completion');
-    SetLength(Options, 4);
+    SetLength(Options, 5);
     Options[0].PropertyName := 'SpecialPackages';
     Options[0].DisplayName := _('Special packages');
     Options[1].PropertyName := 'CodeCompletionListSize';
@@ -2229,6 +2234,8 @@ begin
     Options[2].DisplayName := _('Editor code completion');
     Options[3].PropertyName := 'InterpreterCodeCompletion';
     Options[3].DisplayName := _('Interpreter code completion');
+    Options[4].PropertyName := 'CodeCompletionCaseSensitive';
+    Options[4].DisplayName := _('Case sensitive');
   end;
   with Categories[6] do begin
     DisplayName := _('Shell Integration');

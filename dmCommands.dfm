@@ -69,7 +69,7 @@ object CommandsDataModule: TCommandsDataModule
     Left = 32
     Top = 241
     Bitmap = {
-      494C010114001800740010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010114001800840010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000006000000001002000000000000060
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -1553,8 +1553,9 @@ object CommandsDataModule: TCommandsDataModule
           '        import types'
           
             '        from inspect import isclass, isfunction, getargspec, for' +
-            'matargspec'
+            'matargspec, getdoc'
           '        argText = ""'
+          '        doc = ""'
           '        if ob is not None:'
           '            argOffset = 0'
           '            if isclass(ob):'
@@ -1589,7 +1590,7 @@ object CommandsDataModule: TCommandsDataModule
             't)'
           '                except:'
           '                    pass'
-          '            return argText'
+          '            return (argText, getdoc(fob))'
           ''
           '    def Win32RawInput(self, prompt=None):'
           '        "Provide raw_input() for gui apps"'
@@ -2150,8 +2151,8 @@ object CommandsDataModule: TCommandsDataModule
             'ect - From IDLE"'
           '        import types'
           
-            '        from inspect import isclass, isfunction, getargspec, for' +
-            'matargspec'
+            '        from inspect import isclass, isfunction, getfullargspec,' +
+            ' formatargspec, getdoc'
           '        argText = ""'
           '        if ob is not None:'
           '            argOffset = 0'
@@ -2177,17 +2178,17 @@ object CommandsDataModule: TCommandsDataModule
           '            if isfunction(fob):'
           '                try:'
           
-            '                    args, varargs, varkw, defaults = getargspec(' +
-            'fob)'
+            '                    args, varargs, varkw, defaults, kwonlyargs, ' +
+            'kwonlydefaults, ann =  getfullargspec(fob)'
           
             '                    argText = formatargspec(args[argOffset:], va' +
-            'rargs, varkw, defaults)[1:-1]'
+            'rargs, varkw, defaults, kwonlyargs, kwonlydefaults, ann)[1:-1]'
           
             '                    #argText = "%s(%s)" % (fob.func_name, argTex' +
             't)'
           '                except:'
           '                    pass'
-          '            return argText'
+          '            return (argText, getdoc(fob))'
           ''
           '    def Win32RawInput(self, prompt=None):'
           '        "Provide raw_input() for gui apps"'
@@ -2622,7 +2623,7 @@ object CommandsDataModule: TCommandsDataModule
           '        import types'
           
             '        from inspect import isclass, isfunction, getargspec, for' +
-            'matargspec'
+            'matargspec, getdoc'
           '        argText = ""'
           '        if ob is not None:'
           '            argOffset = 0'
@@ -2658,7 +2659,7 @@ object CommandsDataModule: TCommandsDataModule
             't)'
           '                except:'
           '                    pass'
-          '            return argText'
+          '            return (argText, getdoc(fob))'
           ''
           '    def rem_compile(self, source, fname):'
           '        import sys'
@@ -3231,8 +3232,8 @@ object CommandsDataModule: TCommandsDataModule
             'ect - From IDLE"'
           '        import types'
           
-            '        from inspect import isclass, isfunction, getargspec, for' +
-            'matargspec'
+            '        from inspect import isclass, isfunction, getfullargspec,' +
+            ' formatargspec, getdoc'
           '        argText = ""'
           '        if ob is not None:'
           '            argOffset = 0'
@@ -3258,17 +3259,17 @@ object CommandsDataModule: TCommandsDataModule
           '            if isfunction(fob):'
           '                try:'
           
-            '                    args, varargs, varkw, defaults = getargspec(' +
-            'fob)'
+            '                    args, varargs, varkw, defaults, kwonlyargs, ' +
+            'kwonlydefaults, ann =  getfullargspec(fob)'
           
             '                    argText = formatargspec(args[argOffset:], va' +
-            'rargs, varkw, defaults)[1:-1]'
+            'rargs, varkw, defaults, kwonlyargs, kwonlydefaults, ann)[1:-1]'
           
             '                    #argText = "%s(%s)" % (fob.func_name, argTex' +
             't)'
           '                except:'
           '                    pass'
-          '            return argText'
+          '            return (argText, getdoc(fob))'
           ''
           '    def rem_compile(self, source, fname):'
           '        import sys'
@@ -4633,7 +4634,7 @@ object CommandsDataModule: TCommandsDataModule
     Left = 188
     Top = 186
     Bitmap = {
-      494C01019B009F00740010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01019B009F00840010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000007002000001002000000000000070
       020000000000000000000000000000000000000000000000000000000000EADD
       CB00AB7734009655000096550000AB773400EADDCB0000000000000000000000

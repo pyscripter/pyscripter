@@ -335,7 +335,10 @@ begin
       FindIter := RegExp.finditer(AdjSearchText);
       try
         while True do begin
-          MatchObject := FindIter.next();
+          if GetPythonEngine.IsPython3000 then
+            MatchObject := FindIter.__next__()
+          else
+            MatchObject := FindIter.next();
           GetPythonEngine.CheckError(True);
           MatchList.Add(MatchObject);
         end;

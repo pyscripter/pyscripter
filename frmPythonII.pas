@@ -1350,16 +1350,24 @@ begin
 
   CanExecute := FoundMatch;
 
-  if CanExecute then begin
-    TSynCompletionProposal(Sender).Font := CommandsDataModule.PyIDEOptions.AutoCompletionFont;
-    TSynCompletionProposal(Sender).ItemList.Text := DisplayText;
-    TSynCompletionProposal(Sender).InsertList.Text := InsertText;
-    TSynCompletionProposal(Sender).NbLinesInWindow :=
-      CommandsDataModule.PyIDEOptions.CodeCompletionListSize;
-  end else begin
-    TSynCompletionProposal(Sender).ItemList.Clear;
-    TSynCompletionProposal(Sender).InsertList.Clear;
-  end;
+  with TSynCompletionProposal(Sender) do
+    if CanExecute then begin
+      Font := CommandsDataModule.PyIDEOptions.AutoCompletionFont;
+      ItemList.Text := DisplayText;
+      InsertList.Text := InsertText;
+      NbLinesInWindow :=
+        CommandsDataModule.PyIDEOptions.CodeCompletionListSize;
+
+      // Auto-complete with one entry without showing the form
+      CurrentString := CurrentInput;
+      if Form.AssignedList.Count = 1 then begin
+        CanExecute := False;
+        OnValidate(Form, [], #0);
+      end;
+    end else begin
+      ItemList.Clear;
+      InsertList.Clear;
+    end;
 end;
 
 procedure TPythonIIForm.SynParamCompletionExecute(Kind: SynCompletionType;

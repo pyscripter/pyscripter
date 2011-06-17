@@ -317,7 +317,7 @@ end;
 function TPyRemoteInterpreter.CallTipFromExpression(const Expr: string;
   var DisplayString, DocString: string): Boolean;
 var
-  LookupObj, PyDocString: Variant;
+  LookupObj, ArgText, PyDocString: Variant;
   SuppressOutput : IInterface;
 begin
   CheckConnected;
@@ -330,10 +330,11 @@ begin
   try
     //Evaluate the lookup expression and get the hint text
     LookupObj := RPI.evalcode(Expr);
-    DisplayString := RPI.get_arg_text(LookupObj);
+    ArgText := RPI.get_arg_text(LookupObj);
+    DisplayString := ArgText.__getitem__(0);
+    PyDocString := ArgText.__getitem__(1);
     Result := True;
 
-    PyDocString := RPI.inspect.getdoc(LookupObj);
     if not VarIsNone(PyDocString) then begin
       //DocString := GetNthLine(PyDocString, 1)
       DocString := PyDocString;

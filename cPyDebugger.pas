@@ -936,7 +936,7 @@ end;
 function TPyInternalInterpreter.CallTipFromExpression(const Expr: string;
   var DisplayString, DocString: string) : Boolean;
 var
-  LookupObj, PyDocString: Variant;
+  LookupObj, ArgText, PyDocString: Variant;
   SuppressOutput : IInterface;
 begin
   Result := False;
@@ -948,10 +948,11 @@ begin
   try
     //Evaluate the lookup expression and get the hint text
     LookupObj := fII.evalcode(Expr);
-    DisplayString := fII.get_arg_text(LookupObj);
+    ArgText := fII.get_arg_text(LookupObj);
+    DisplayString := ArgText.__getitem__(0);
+    PyDocString := ArgText.__getitem__(1);
     Result := True;
 
-    PyDocString := Import('inspect').getdoc(LookupObj);
     if not VarIsNone(PyDocString) then begin
       //DocString := GetNthLine(PyDocString, 1)
       DocString := PyDocString;

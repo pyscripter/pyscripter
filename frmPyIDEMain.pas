@@ -342,12 +342,13 @@
             Ctrl+Mousewheel for zooming the interpreter (Issue 475)
             New IDE Option "File Change Notification" introduced with possible values Full, NoMappedDrives(default), Disabled (Issue 470)
             Background color for Matching and Unbalanced braces (Issue 472)
+            New IDE option Case Sensitive Code Completion (default True)
           Issues addressed
             Command line history not saved
             Editing a watch to an empty string crashes PyScripter
             Replace in Find-in-Files now supports subexpression substitution (Issue 332)
-            461, 463, 468, 474, 478, 488, 496, 504, 508, 509, 512, 525,
-            526, 527, 528
+            461, 463, 468, 471, 474, 478, 488, 496, 504, 508,
+            509, 511, 512, 515, 525, 526, 527, 528
 -----------------------------------------------------------------------------}
 
 // Bugs and minor features
@@ -1122,7 +1123,7 @@ uses
   JclStrings, JclSysUtils, frmProjectExplorer, cProjectClasses,
   MPDataObject, gnugettext, WideStrUtils, WideStrings,
   SpTBXDefaultSkins, SpTBXControls, VirtualFileSearch, SynEditKeyCmds, StdActns,
-  PythonEngine, Contnrs;
+  PythonEngine, Contnrs, SynCompletionProposal;
 
 {$R *.DFM}
 
@@ -2673,6 +2674,7 @@ procedure TPyIDEMainForm.PyIDEOptionsChanged;
 var
   Editor : IEditor;
   i : integer;
+  CaseSensitive : Boolean;
 begin
   FileExplorerWindow.FileExplorerTree.RefreshTree;
   EditorSearchOptions.SearchTextAtCaret :=
@@ -2728,6 +2730,23 @@ begin
   ConfigureFCN(CommandsDataModule.PyIDEOptions.FileChangeNotification);
 
   SetIDEColors;
+
+  // Code completion
+  CaseSensitive := CommandsDataModule.PyIDEOptions.CodeCompletionCaseSensitive;
+  with PythonIIForm.SynCodeCompletion do
+  if CaseSensitive then
+    Options := Options + [scoCaseSensitive]
+  else
+    Options := Options - [scoCaseSensitive];
+
+  for i := 0 to GI_EditorFactory.Count - 1 do begin
+    Editor := GI_EditorFactory.Editor[i];
+    with TEditorForm(Editor.Form).SynCodeCompletion do
+      if CaseSensitive then
+        Options := Options + [scoCaseSensitive]
+      else
+        Options := Options - [scoCaseSensitive];
+  end;
 
   Editor := GetActiveEditor;
   if Assigned(Editor) then
