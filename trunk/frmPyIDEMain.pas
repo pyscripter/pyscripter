@@ -349,7 +349,7 @@
             Editing a watch to an empty string crashes PyScripter
             Replace in Find-in-Files now supports subexpression substitution (Issue 332)
             Import statement completion does not include builtin module names
-            461, 463, 468, 471, 474, 478, 488, 496, 504, 508,
+            452, 461, 463, 468, 471, 474, 478, 488, 496, 504, 508,
             509, 511, 512, 515, 525, 526, 527, 528
 -----------------------------------------------------------------------------}
 
