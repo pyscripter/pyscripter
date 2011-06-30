@@ -342,11 +342,13 @@
             Ctrl+Mousewheel for zooming the interpreter (Issue 475)
             New IDE Option "File Change Notification" introduced with possible values Full, NoMappedDrives(default), Disabled (Issue 470)
             Background color for Matching and Unbalanced braces (Issue 472)
-            New IDE option Case Sensitive Code Completion (default True)
+            New IDE option "Case Sensitive Code Completion" (default True)
+            New IDE option "Complete Python keywords" (default True)
           Issues addressed
             Command line history not saved
             Editing a watch to an empty string crashes PyScripter
             Replace in Find-in-Files now supports subexpression substitution (Issue 332)
+            Import statement completion does not include builtin module names
             461, 463, 468, 471, 474, 478, 488, 496, 504, 508,
             509, 511, 512, 515, 525, 526, 527, 528
 -----------------------------------------------------------------------------}
