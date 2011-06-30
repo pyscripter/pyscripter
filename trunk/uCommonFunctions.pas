@@ -215,7 +215,6 @@ Var
   RE_CC_Import     : TRegExpr;
   RE_CC_From       : TRegExpr;
   RE_CC_FromImport : TRegExpr;
-  RE_Digits        : TRegExpr;
 
 Const
   IdentRE = '[A-Za-z_][A-Za-z0-9_]*';
@@ -1752,8 +1751,15 @@ begin
 end;
 
 function IsDigits(S : string): Boolean;
+Var
+  i : integer;
 begin
-  Result := RE_Digits.Exec(S);
+  Result := True;
+  for I := 1 to Length(S) do
+    if not CharInSet(S[I], ['0'..'9']) then begin
+      Result := False;
+      break;
+    end;
 end;
 
 function CompiledRegExpr(Expr : string): TRegExpr;
@@ -1772,11 +1778,9 @@ initialization
   RE_CC_FromImport := CompiledRegExpr(
     Format('^\s*from +(\.*)(%s)? +import +\(? *(%s( +as +%s)? *, *)*(%s)?$',
       [DottedIdentRe, IdentRE, IdentRe, IdentRe]));
-  RE_Digits := CompiledRegExpr('\d+');
 
 finalization
   RE_CC_Import.Free;
   RE_CC_From.Free;
   RE_CC_FromImport.Free;
-  RE_Digits.Free;
 end.

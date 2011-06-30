@@ -2394,7 +2394,7 @@ Var
   TmpX, Index, ImageIndex, i, PathDepth : integer;
   FoundMatch     : Boolean;
   DisplayText, InsertText, FName, ErrMsg : string;
-  NameSpace : TStringList;
+  NameSpace, KeywordList : TStringList;
   Scope: TCodeElement;
   Def : TBaseCodeElement;
   ParsedModule, ParsedBuiltInModule : TParsedModule;
@@ -2402,6 +2402,7 @@ Var
   Attr: TSynHighlighterAttributes;
   DummyToken, Dir : string;
   BC : TBufferCoord;
+  Keywords : Variant;
 
   procedure GetModuleList(Path : Variant);
   Var
@@ -2587,6 +2588,20 @@ begin
         end;
       end;
       PyScripterRefactor.FinalizeQuery;
+      if (Index <= 0) and CommandsDataModule.PyIDEOptions.CompleteKeywords then begin
+        Keywords := Import('keyword').kwlist;
+        Keywords := BuiltinModule.tuple(Keywords);
+        KeywordList := TStringList.Create;
+        try
+          GetPythonEngine.PyTupleToStrings(ExtractPythonObjectFrom(Keywords), KeyWordList);
+          for i := 0 to KeywordList.Count - 1 do begin
+            DisplayText := DisplayText + #10 + Format('\Image{%d}\hspace{2}\color{clBlue}%s', [20, KeywordList[i]]);
+          end;
+          InsertText := InsertText +  KeywordList.Text;
+        finally
+          KeywordList.Free;
+        end;
+      end;
     end;
     FoundMatch := DisplayText <> '';
   end;

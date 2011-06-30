@@ -1167,8 +1167,9 @@ var locline, lookup: string;
     BC : TBufferCoord;
     PathDepth: integer;
     ParsedModule : TParsedModule;
-    NameSpace : TStringList;
+    NameSpace, KeywordList : TStringList;
     Prompt : string;
+    Keywords : Variant;
 
 
   procedure GetModuleList(Path : Variant);
@@ -1317,7 +1318,7 @@ begin
 
       DisplayText := '';
       InsertText := '';
-      if Assigned(NameSpaceDict) then
+      if Assigned(NameSpaceDict) then begin
         for i := 0 to NameSpaceDict.ChildCount - 1 do begin
           NameSpaceItem := NameSpaceDict.ChildNode[i];
           if NameSpaceItem.IsModule then
@@ -1344,6 +1345,21 @@ begin
           end;
         end;
         FreeAndNil(NameSpaceDict);
+      end;
+      if (Index <= 0) and CommandsDataModule.PyIDEOptions.CompleteKeywords then begin
+        Keywords := Import('keyword').kwlist;
+        Keywords := BuiltinModule.tuple(Keywords);
+        KeywordList := TStringList.Create;
+        try
+          GetPythonEngine.PyTupleToStrings(ExtractPythonObjectFrom(Keywords), KeyWordList);
+          for i := 0 to KeywordList.Count - 1 do begin
+            DisplayText := DisplayText + #10 + Format('\Image{%d}\hspace{2}\color{clBlue}%s', [20, KeywordList[i]]);
+            InsertText := InsertText + #10 + KeywordList[i];
+          end;
+        finally
+          KeywordList.Free;
+        end;
+      end;
     end;
     FoundMatch := DisplayText <> '';
   end;
