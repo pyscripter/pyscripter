@@ -91,6 +91,7 @@ type
     fFileChangeNotification : TFileChangeNotificationType;
     fCodeCompletionCaseSensitive : Boolean;
     fCompleteKeywords : Boolean;
+    fAnyWordComplete:Boolean;
     function GetPythonFileExtensions: string;
     procedure SetAutoCompletionFont(const Value: TFont);
   public
@@ -210,6 +211,9 @@ type
       write fCodeCompletionCaseSensitive;
     property CompleteKeywords : Boolean read fCompleteKeywords
       write fCompleteKeywords;
+    property AnyWordComplete : Boolean read fAnyWordComplete
+      write fAnyWordComplete;
+
   end;
 {$METHODINFO OFF}
 
@@ -626,6 +630,7 @@ begin
       Self.fFileChangeNotification := FileChangeNotification;
       Self.fCodeCompletionCaseSensitive := CodeCompletionCaseSensitive;
       Self.fCompleteKeywords := CompleteKeywords;
+      Self.fAnyWordComplete := AnyWordComplete;
     end
   else
     inherited;
@@ -699,6 +704,7 @@ begin
   fFileChangeNotification := fcnNoMappedDrives;
   fCodeCompletionCaseSensitive := True;
   fCompleteKeywords := True;
+  fAnyWordComplete:=True;
 end;
 
 destructor TPythonIDEOptions.Destroy;

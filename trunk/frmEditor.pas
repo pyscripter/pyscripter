@@ -1,13 +1,12 @@
-{-----------------------------------------------------------------------------
- Unit Name: frmEditor
- Author:    Kiriakos Vlahos
- Date:      23-Feb-2005
- Purpose:
- History:   Origianlly Based on SynEdit Demo
------------------------------------------------------------------------------}
+{ -----------------------------------------------------------------------------
+  Unit Name: frmEditor
+  Author:    Kiriakos Vlahos
+  Date:      23-Feb-2005
+  Purpose:
+  History:   Origianlly Based on SynEdit Demo
+  ----------------------------------------------------------------------------- }
 
 unit frmEditor;
-
 {$I SynEdit.inc}
 
 interface
@@ -26,12 +25,12 @@ type
   TEditor = class;
 
   THotIdentInfo = record
-    SynEdit : TSynEdit;
-    HaveHotIdent : boolean;
-    IdentArea : TRect;
-    Ident : string;
-    DottedIdent : string;
-    StartCoord : TBufferCoord;
+    SynEdit: TSynEdit;
+    HaveHotIdent: boolean;
+    IdentArea: TRect;
+    Ident: string;
+    DottedIdent: string;
+    StartCoord: TBufferCoord;
     SynToken: string;
     SynAttri: TSynHighlighterAttributes;
   end;
@@ -72,22 +71,21 @@ type
     mnRestoreEditor2: TSpTBXItem;
     N12: TSpTBXSeparatorItem;
     mnEditorOptions: TSpTBXItem;
-    procedure SynEditMouseMove(Sender: TObject; Shift: TShiftState; X,
-      Y: Integer);
+    procedure SynEditMouseMove(Sender: TObject; Shift: TShiftState;
+      X, Y: Integer);
     procedure SynParamCompletionExecute(Kind: SynCompletionType;
-      Sender: TObject; var CurrentInput: string; var x, y: Integer;
-      var CanExecute: Boolean);
+      Sender: TObject; var CurrentInput: string; var X, Y: Integer;
+      var CanExecute: boolean);
     procedure FormDestroy(Sender: TObject);
     procedure SynEditChange(Sender: TObject);
     procedure SynEditEnter(Sender: TObject);
     procedure SynEditExit(Sender: TObject);
-    procedure SynEditStatusChange(Sender: TObject;
-      Changes: TSynStatusChanges);
+    procedure SynEditStatusChange(Sender: TObject; Changes: TSynStatusChanges);
     procedure FormCreate(Sender: TObject);
     procedure SynEditGutterClick(Sender: TObject; Button: TMouseButton;
       X, Y, Line: Integer; Mark: TSynEditMark);
     procedure SynEditSpecialLineColors(Sender: TObject; Line: Integer;
-      var Special: Boolean; var FG, BG: TColor);
+      var Special: boolean; var FG, BG: TColor);
     procedure SynEditPaintTransient(Sender: TObject; Canvas: TCanvas;
       TransientType: TTransientType);
     procedure SynEditKeyDown(Sender: TObject; var Key: Word;
@@ -99,118 +97,118 @@ type
     procedure mnCloseTabClick(Sender: TObject);
     procedure SynEditMouseCursor(Sender: TObject;
       const aLineCharPos: TBufferCoord; var aCursor: TCursor);
-    procedure SynEditKeyUp(Sender: TObject; var Key: Word;
-      Shift: TShiftState);
+    procedure SynEditKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure SynCodeCompletionExecute(Kind: SynCompletionType;
-      Sender: TObject; var CurrentInput: string; var x, y: Integer;
-      var CanExecute: Boolean);
+      Sender: TObject; var CurrentInput: string; var X, Y: Integer;
+      var CanExecute: boolean);
     procedure SynEditMouseWheelDown(Sender: TObject; Shift: TShiftState;
-      MousePos: TPoint; var Handled: Boolean);
+      MousePos: TPoint; var Handled: boolean);
     procedure SynEditMouseWheelUp(Sender: TObject; Shift: TShiftState;
-      MousePos: TPoint; var Handled: Boolean);
+      MousePos: TPoint; var Handled: boolean);
     procedure EditorViewsChange(Sender: TObject);
     procedure SynCodeCompletionClose(Sender: TObject);
     procedure SynWebCompletionExecute(Kind: SynCompletionType; Sender: TObject;
-      var CurrentInput: string; var x, y: Integer; var CanExecute: Boolean);
+      var CurrentInput: string; var X, Y: Integer; var CanExecute: boolean);
     procedure SynWebCompletionAfterCodeCompletion(Sender: TObject;
       const Value: string; Shift: TShiftState; Index: Integer;
       EndToken: WideChar);
     procedure mnUpdateViewClick(Sender: TObject);
     procedure ViewsTabControlContextPopup(Sender: TObject; MousePos: TPoint;
-      var Handled: Boolean);
+      var Handled: boolean);
     procedure ViewsTabControlActiveTabChange(Sender: TObject;
       TabIndex: Integer);
     procedure SynEditDblClick(Sender: TObject);
   private
     fEditor: TEditor;
-    fActiveSynEdit : TSynEdit;
-    fAutoCompleteActive : Boolean;
-    fHotIdentInfo : THotIdentInfo;
-    fHintIdentInfo : THotIdentInfo;
-    fNeedToCheckSyntax : Boolean;
-    fNeedToParseModule : Boolean;
-    fNeedToSyncCodeExplorer : Boolean;
-    fSyntaxErrorPos : TEditorPos;
-    fCloseBracketChar : WideChar;
-    fOldOptions : TSynEditorOptions;
+    fActiveSynEdit: TSynEdit;
+    fAutoCompleteActive: boolean;
+    fHotIdentInfo: THotIdentInfo;
+    fHintIdentInfo: THotIdentInfo;
+    fNeedToCheckSyntax: boolean;
+    fNeedToParseModule: boolean;
+    fNeedToSyncCodeExplorer: boolean;
+    fSyntaxErrorPos: TEditorPos;
+    fCloseBracketChar: WideChar;
+    fOldOptions: TSynEditorOptions;
     function DoAskSaveChanges: boolean;
     procedure DoAssignInterfacePointer(AActive: boolean);
     function DoSave: boolean;
     function DoSaveFile: boolean;
     function DoSaveAs: boolean;
     procedure DoUpdateCaption;
-    procedure DoUpdateHighlighter(HighlighterName : string = '');
+    procedure DoUpdateHighlighter(HighlighterName: string = '');
     procedure AutoCompleteBeforeExecute(Sender: TObject);
     procedure AutoCompleteAfterExecute(Sender: TObject);
     procedure WMShellNotify(var Msg: TMessage); message WM_SHELLNOTIFY;
-  class var
-    fOldEditorForm : TEditorForm;
+    class var fOldEditorForm: TEditorForm;
   protected
-//    CodeCompletionDocLabel : TLabel;
+    // CodeCompletionDocLabel : TLabel;
     procedure Retranslate;
     procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
     procedure EditorZoom(theZoom: Integer);
-    procedure EditorMouseWheel(theDirection: Integer; Shift: TShiftState );
-    procedure CodeHintEventHandler(Sender : TObject; AArea : TRect; var CodeHint : string);
+    procedure EditorMouseWheel(theDirection: Integer; Shift: TShiftState);
+    procedure CodeHintEventHandler(Sender: TObject; AArea: TRect;
+      var CodeHint: string);
     procedure CodeHintLinkHandler(Sender: TObject; LinkName: string);
   public
-    BreakPoints : TObjectList;
-    FoundSearchItems : TObjectList;
-    HasFocus : Boolean;
-    FileTime : TDateTime;
-    DefaultExtension : string;
-    ParentTabItem : TSpTBXTabItem;
-    ParentTabControl : TSpTBXCustomTabControl;
-    SourceScanner : IAsyncSourceScanner;
+    BreakPoints: TObjectList;
+    FoundSearchItems: TObjectList;
+    HasFocus: boolean;
+    FileTime: TDateTime;
+    DefaultExtension: string;
+    ParentTabItem: TSpTBXTabItem;
+    ParentTabControl: TSpTBXCustomTabControl;
+    SourceScanner: IAsyncSourceScanner;
     procedure DoActivate;
-    procedure DoActivateEditor(Primary : Boolean = True);
-    function DoActivateView(ViewFactory : IEditorViewFactory) : IEditorView;
-    function GetEditor : IEditor;
+    procedure DoActivateEditor(Primary: boolean = True);
+    function DoActivateView(ViewFactory: IEditorViewFactory): IEditorView;
+    function GetEditor: IEditor;
     procedure EditorCommandHandler(Sender: TObject; AfterProcessing: boolean;
       var Handled: boolean; var Command: TSynEditorCommand;
-      var AChar: WideChar; Data: Pointer; HandlerData: pointer);
+      var AChar: WideChar; Data: Pointer; HandlerData: Pointer);
     procedure PaintGutterGlyphs(ACanvas: TCanvas; AClip: TRect;
-      FirstLine, LastLine: integer);
+      FirstLine, LastLine: Integer);
     procedure DoOnIdle;
-    function ReparseIfNeeded : Boolean;
+    function ReparseIfNeeded: boolean;
     procedure SyncCodeExplorer;
     procedure AddWatchAtCursor;
     procedure SetUpCodeHints;
-    function HasSyntaxError : Boolean;
+    function HasSyntaxError: boolean;
     procedure GoToSyntaxError;
+
   end;
 
-  TEditor = class(TInterfacedObject, IUnknown, IEditor, IEditCommands, IFileCommands,
-    ISearchCommands)
+  TEditor = class(TInterfacedObject, IUnknown, IEditor, IEditCommands,
+    IFileCommands, ISearchCommands)
   private
     // IEditor implementation
-    procedure Activate(Primary : Boolean = True);
-    function ActivateView(ViewFactory : IEditorViewFactory) : IEditorView;
+    procedure Activate(Primary: boolean = True);
+    function ActivateView(ViewFactory: IEditorViewFactory): IEditorView;
     function AskSaveChanges: boolean;
     procedure Close;
     function GetCaretPos: TPoint;
-    function GetSynEdit : TSynEdit;
-    function GetSynEdit2 : TSynEdit;
-    function GetActiveSynEdit : TSynEdit;
-    function GetBreakPoints : TObjectList;
+    function GetSynEdit: TSynEdit;
+    function GetSynEdit2: TSynEdit;
+    function GetActiveSynEdit: TSynEdit;
+    function GetBreakPoints: TObjectList;
     function GetEditorState: string;
     function GetFileName: string;
     function GetFileTitle: string;
     function GetFileNameOrTitle: string;
     function GetModified: boolean;
-    function GetFileEncoding : TFileSaveFormat;
-    procedure SetFileEncoding(FileEncoding : TFileSaveFormat);
-    function GetEncodedText : AnsiString;
-    procedure OpenFile(const AFileName: string; HighlighterName : string = '');
-    function HasPythonFile : Boolean;
+    function GetFileEncoding: TFileSaveFormat;
+    procedure SetFileEncoding(FileEncoding: TFileSaveFormat);
+    function GetEncodedText: AnsiString;
+    procedure OpenFile(const AFileName: string; HighlighterName: string = '');
+    function HasPythonFile: boolean;
     procedure ExecuteSelection;
     procedure SplitEditorHorizontally;
     procedure SplitEditorVertrically;
     procedure Retranslate;
-    function GetForm : TForm;
-    function GetSourceScanner : IAsyncSourceScanner;
-    function GetCodeExplorerData : ICodeExplorerData;
-    function GetTabControlIndex : integer;
+    function GetForm: TForm;
+    function GetSourceScanner: IAsyncSourceScanner;
+    function GetCodeExplorerData: ICodeExplorerData;
+    function GetTabControlIndex: Integer;
     // IEditCommands implementation
     function CanCopy: boolean;
     function CanCut: boolean;
@@ -237,7 +235,7 @@ type
     procedure ExecPrintPreview;
     procedure ExecSave;
     procedure ExecSaveAs;
-    procedure ExecReload(Quiet : Boolean = False);
+    procedure ExecReload(Quiet: boolean = False);
     // ISearchCommands implementation
     function CanFind: boolean;
     function CanFindNext: boolean;
@@ -253,16 +251,15 @@ type
     fForm: TEditorForm;
     fHasSelection: boolean;
     fIsReadOnly: boolean;
-    fUntitledNumber: integer;
-    fFileEncoding : TFileSaveFormat;
-    fCodeExplorerData : ICodeExplorerData;
-    function IsEmpty : Boolean;
+    fUntitledNumber: Integer;
+    fFileEncoding: TFileSaveFormat;
+    fCodeExplorerData: ICodeExplorerData;
+    function IsEmpty: boolean;
     constructor Create(AForm: TEditorForm);
     procedure DoSetFileName(AFileName: string);
     function GetEncodedTextEx(var EncodedText: AnsiString;
-      InformationLossWarning: Boolean) : Boolean;
+      InformationLossWarning: boolean): boolean;
   end;
-
 
 implementation
 
@@ -280,18 +277,18 @@ uses
   SynUnicode, frmIDEDockWin;
 
 const
-  WM_DELETETHIS  =  WM_USER + 42;
+  WM_DELETETHIS = WM_USER + 42;
 
-{ TGutterMarkDrawPlugin }
+  { TGutterMarkDrawPlugin }
 
 type
   TDebugSupportPlugin = class(TSynEditPlugin)
   protected
     fForm: TEditorForm;
     procedure AfterPaint(ACanvas: TCanvas; const AClip: TRect;
-      FirstLine, LastLine: integer); override;
-    procedure LinesInserted(FirstLine, Count: integer); override;
-    procedure LinesDeleted(FirstLine, Count: integer); override;
+      FirstLine, LastLine: Integer); override;
+    procedure LinesInserted(FirstLine, Count: Integer); override;
+    procedure LinesDeleted(FirstLine, Count: Integer); override;
   public
     constructor Create(AForm: TEditorForm);
   end;
@@ -306,17 +303,16 @@ Type
   TUnderlineStyle = (usCorelWordPerfect, usMicrosoftWord);
 
 procedure TDebugSupportPlugin.AfterPaint(ACanvas: TCanvas; const AClip: TRect;
-  FirstLine, LastLine: integer);
+  FirstLine, LastLine: Integer);
 Var
-  TP : TPoint;
-  MaxX, LH : integer;
+  TP: TPoint;
+  MaxX, LH: Integer;
 
   procedure PaintUnderLine;
   Const
-    UnderlineStyle : TUnderlineStyle = usMicrosoftWord;
+    UnderlineStyle: TUnderlineStyle = usMicrosoftWord;
   var
-    NewPoint,
-    NewY: Integer;
+    NewPoint, NewY: Integer;
 
     procedure DrawPoint;
     begin
@@ -325,7 +321,8 @@ Var
       // the gutter.
       if TP.X <= Editor.Gutter.RealGutterWidth(Editor.CharWidth) then
         Exit;
-      with ACanvas do begin
+      with ACanvas do
+      begin
         if NewY = TP.Y - 1 then
           Pen.Color := fForm.SynEdit.Color
         else
@@ -336,11 +333,11 @@ Var
 
   const
     // Microsoft Word style
-//  MW_POINTS: array[0..6] of ShortInt = (1, 2, 2, 1, 0, 0, 0);
-    MW_POINTS: array[0..3] of ShortInt = (0, 1, 2, 1);
+    // MW_POINTS: array[0..6] of ShortInt = (1, 2, 2, 1, 0, 0, 0);
+    MW_POINTS: array [0 .. 3] of ShortInt = (0, 1, 2, 1);
     // Corel Word Perfect style
-//  WP_POINTS: array[0..4] of ShortInt = (3, 2, 1, -1, -1);
-    WP_POINTS: array[0..3] of ShortInt = (2, 1, 0, -1);
+    // WP_POINTS: array[0..4] of ShortInt = (3, 2, 1, -1, -1);
+    WP_POINTS: array [0 .. 3] of ShortInt = (2, 1, 0, -1);
 
   begin
     Inc(TP.Y, LH - 3);
@@ -350,13 +347,17 @@ Var
     else
       NewY := TP.Y + WP_POINTS[NewPoint];
     DrawPoint;
-    while TP.X <= MaxX do begin
+    while TP.X <= MaxX do
+    begin
       DrawPoint;
       Inc(NewPoint);
-      if UnderlineStyle = usMicrosoftWord then begin
+      if UnderlineStyle = usMicrosoftWord then
+      begin
         if NewPoint > High(MW_POINTS) then
           NewPoint := 0
-      end else begin
+      end
+      else
+      begin
         if NewPoint > High(WP_POINTS) then
           NewPoint := 0;
       end;
@@ -371,49 +372,57 @@ Var
 
 begin
   if fForm.HasSyntaxError then
-  with fForm.fSyntaxErrorPos do
-    if Math.InRange(Line, FirstLine, LastLine) then begin
-      LH := fForm.SynEdit.LineHeight;
-      TP := fForm.SynEdit.RowColumnToPixels(fForm.SynEdit.BufferToDisplayPos(
-        BufferCoord(1, Line)));
-      if TP.X <= ACanvas.ClipRect.Right - ACanvas.ClipRect.Left then begin
-        MaxX := fForm.SynEdit.RowColumnToPixels(fForm.SynEdit.BufferToDisplayPos(
-          BufferCoord(Char, Line))).X;
-        PaintUnderLine;
+    with fForm.fSyntaxErrorPos do
+      if Math.InRange(Line, FirstLine, LastLine) then
+      begin
+        LH := fForm.SynEdit.LineHeight;
+        TP := fForm.SynEdit.RowColumnToPixels
+          (fForm.SynEdit.BufferToDisplayPos(BufferCoord(1, Line)));
+        if TP.X <= ACanvas.ClipRect.Right - ACanvas.ClipRect.Left then
+        begin
+          MaxX := fForm.SynEdit.RowColumnToPixels
+            (fForm.SynEdit.BufferToDisplayPos(BufferCoord(Char, Line))).X;
+          PaintUnderLine;
+        end;
       end;
-    end;
 
   if fForm.SynEdit.Highlighter = CommandsDataModule.SynPythonSyn then
     fForm.PaintGutterGlyphs(ACanvas, AClip, FirstLine, LastLine);
 end;
 
-procedure TDebugSupportPlugin.LinesInserted(FirstLine, Count: integer);
+procedure TDebugSupportPlugin.LinesInserted(FirstLine, Count: Integer);
 var
-  i: integer;
+  i: Integer;
 begin
-  with fForm do begin
+  with fForm do
+  begin
     for i := 0 to BreakPoints.Count - 1 do
-      if TBreakPoint(BreakPoints[i]).LineNo >= FirstLine then begin
-        TBreakPoint(BreakPoints[i]).LineNo :=
-          TBreakPoint(BreakPoints[i]).LineNo + Count;
+      if TBreakPoint(BreakPoints[i]).LineNo >= FirstLine then
+      begin
+        TBreakPoint(BreakPoints[i]).LineNo := TBreakPoint(BreakPoints[i])
+          .LineNo + Count;
         PyControl.BreakPointsChanged := True;
         BreakPointsWindow.UpdateWindow;
       end;
   end;
 end;
 
-procedure TDebugSupportPlugin.LinesDeleted(FirstLine, Count: integer);
+procedure TDebugSupportPlugin.LinesDeleted(FirstLine, Count: Integer);
 var
-  i: integer;
+  i: Integer;
 begin
-  with fForm do begin
+  with fForm do
+  begin
     for i := BreakPoints.Count - 1 downto 0 do
-      if TBreakPoint(BreakPoints[i]).LineNo >= FirstLine + Count then begin
-        TBreakPoint(BreakPoints[i]).LineNo :=
-          TBreakPoint(BreakPoints[i]).LineNo - Count;
+      if TBreakPoint(BreakPoints[i]).LineNo >= FirstLine + Count then
+      begin
+        TBreakPoint(BreakPoints[i]).LineNo := TBreakPoint(BreakPoints[i])
+          .LineNo - Count;
         PyControl.BreakPointsChanged := True;
         BreakPointsWindow.UpdateWindow;
-      end else if TBreakPoint(BreakPoints[i]).LineNo >= FirstLine then begin
+      end
+      else if TBreakPoint(BreakPoints[i]).LineNo >= FirstLine then
+      begin
         BreakPoints.Delete(i);
         PyControl.BreakPointsChanged := True;
         BreakPointsWindow.UpdateWindow;
@@ -433,13 +442,13 @@ begin
   fCodeExplorerData := TCodeExplorerData.Create;
 end;
 
-procedure TEditor.Activate(Primary : Boolean = True);
+procedure TEditor.Activate(Primary: boolean = True);
 begin
   if fForm <> nil then
     fForm.DoActivateEditor(Primary);
 end;
 
-function TEditor.ActivateView(ViewFactory : IEditorViewFactory) : IEditorView;
+function TEditor.ActivateView(ViewFactory: IEditorViewFactory): IEditorView;
 begin
   if fForm <> nil then
     Result := fForm.DoActivateView(ViewFactory);
@@ -450,17 +459,17 @@ begin
   if fForm <> nil then
     Result := fForm.DoAskSaveChanges
   else
-    Result := TRUE;
+    Result := True;
 end;
 
 procedure TEditor.Close;
 // Closes without asking
 Var
-  TabSheet : TSpTBXTabSheet;
-  TabControl : TSpTBXCustomTabControl;
+  TabSheet: TSpTBXTabSheet;
+  TabControl: TSpTBXCustomTabControl;
 begin
-  if (fForm <> nil) then begin
-
+  if (fForm <> nil) then
+  begin
     CodeExplorerWindow.UpdateWindow(ceuExit);
 
     if (fFileName <> '') and (CommandsDataModule <> nil) then
@@ -468,16 +477,18 @@ begin
     if fUntitledNumber <> -1 then
       CommandsDataModule.ReleaseUntitledNumber(fUntitledNumber);
 
-    if fForm.BreakPoints.Count > 0 then begin
+    if fForm.BreakPoints.Count > 0 then
+    begin
       PyControl.BreakPointsChanged := True;
       BreakPointsWindow.UpdateWindow;
     end;
 
     TabSheet := (fForm.Parent as TSpTBXTabSheet);
     TabControl := TabSheet.TabControl;
-    (fForm.ParentTabControl as TSpTBXTabControl).zOrder.Remove(TabSheet.Item);
+(fForm.ParentTabControl as TSpTBXTabControl)
+    .zOrder.Remove(TabSheet.Item);
     fForm.DoAssignInterfacePointer(False);
-    //fForm.Close;
+    // fForm.Close;
     TabSheet.Free;
     if Assigned(TabControl) then
       TabControl.Toolbar.MakeVisible(TabControl.ActiveTab);
@@ -486,13 +497,15 @@ end;
 
 procedure TEditor.DoSetFileName(AFileName: string);
 begin
-  if AFileName <> fFileName then begin
+  if AFileName <> fFileName then
+  begin
     fFileName := AFileName;
-    if fUntitledNumber <> -1 then begin
+    if fUntitledNumber <> -1 then
+    begin
       CommandsDataModule.ReleaseUntitledNumber(fUntitledNumber);
       fUntitledNumber := -1;
     end;
-    //  Kernel change notification
+    // Kernel change notification
     if (fFileName <> '') and FileExists(fFileName) then
       ChangeNotifier.NotifyWatchFolder(fForm, ExtractFileDir(fFileName))
     else
@@ -512,7 +525,7 @@ begin
   Result := fForm.SynEdit2;
 end;
 
-function TEditor.GetTabControlIndex: integer;
+function TEditor.GetTabControlIndex: Integer;
 begin
   Result := PyIDEMainForm.TabControlIndex(fForm.ParentTabControl);
 end;
@@ -532,9 +545,11 @@ end;
 
 function TEditor.GetCaretPos: TPoint;
 begin
-  if fForm <> nil then begin
+  if fForm <> nil then
+  begin
     Result := TPoint(GetActiveSynEdit.CaretXY);
-  end else
+  end
+  else
     Result := Point(-1, -1);
 end;
 
@@ -545,14 +560,16 @@ end;
 
 function TEditor.GetEditorState: string;
 begin
-  if fForm <> nil then begin
+  if fForm <> nil then
+  begin
     if fForm.SynEdit.ReadOnly then
       Result := _(SReadOnly)
     else if fForm.SynEdit.InsertMode then
       Result := _(SInsert)
     else
       Result := _(SOverwrite);
-  end else
+  end
+  else
     Result := '';
 end;
 
@@ -562,7 +579,7 @@ begin
 end;
 
 function TEditor.GetEncodedTextEx(var EncodedText: AnsiString;
-  InformationLossWarning: Boolean) : Boolean;
+  InformationLossWarning: boolean): boolean;
 begin
   Result := WideStringsToEncodedText(GetFileNameOrTitle, fForm.SynEdit.Lines,
     fFileEncoding, EncodedText, InformationLossWarning, HasPythonFile);
@@ -577,7 +594,8 @@ function TEditor.GetFileTitle: string;
 begin
   if fFileName <> '' then
     Result := ExtractFileName(fFileName)
-  else begin
+  else
+  begin
     if fUntitledNumber = -1 then
       fUntitledNumber := CommandsDataModule.GetUntitledNumber;
     if fForm.SynEdit.Highlighter = CommandsDataModule.SynPythonSyn then
@@ -600,7 +618,7 @@ begin
   if fForm <> nil then
     Result := fForm.SynEdit.Modified
   else
-    Result := FALSE;
+    Result := False;
 end;
 
 function TEditor.GetSourceScanner: IAsyncSourceScanner;
@@ -621,52 +639,64 @@ end;
 
 procedure TEditor.SplitEditorHorizontally;
 begin
-  with fForm do begin
-     EditorSplitter.Visible := False;
-     SynEdit2.Visible := False;
-     SynEdit2.Align := alBottom;
-     SynEdit2.Height := (ClientHeight - 5) div 2;
-     EditorSplitter.Align := alBottom;
-     SynEdit2.Visible := True;
-     EditorSplitter.Visible := True;
+  with fForm do
+  begin
+    EditorSplitter.Visible := False;
+    SynEdit2.Visible := False;
+    SynEdit2.Align := alBottom;
+    SynEdit2.Height := (ClientHeight - 5) div 2;
+    EditorSplitter.Align := alBottom;
+    SynEdit2.Visible := True;
+    EditorSplitter.Visible := True;
   end;
 end;
 
 procedure TEditor.SplitEditorVertrically;
 begin
-  with fForm do begin
-   EditorSplitter.Visible := False;
-   SynEdit2.Visible := False;
-   SynEdit2.Align := alRight;
-   SynEdit2.Width := (ClientWidth - 5) div 2;
-   EditorSplitter.Align := alRight;
-   SynEdit2.Visible := True;
-   EditorSplitter.Visible := True;
+  with fForm do
+  begin
+    EditorSplitter.Visible := False;
+    SynEdit2.Visible := False;
+    SynEdit2.Align := alRight;
+    SynEdit2.Width := (ClientWidth - 5) div 2;
+    EditorSplitter.Align := alRight;
+    SynEdit2.Visible := True;
+    EditorSplitter.Visible := True;
   end;
 end;
 
-procedure TEditor.OpenFile(const AFileName: string; HighlighterName : string = '');
+procedure TEditor.OpenFile(const AFileName: string;
+  HighlighterName: string = '');
 begin
   DoSetFileName(AFileName);
 
-  if fForm <> nil then begin
-    if (AFileName <> '') and FileExists(AFileName) then begin
+  if fForm <> nil then
+  begin
+    if (AFileName <> '') and FileExists(AFileName) then
+    begin
       fForm.SynEdit2.RemoveLinesPointer;
       try
-        if LoadFileIntoWideStrings(AFileName, fForm.SynEdit.Lines, fFileEncoding) then begin
-          if not FileAge(AFileName, fForm.FileTime) then fForm.FileTime := 0;
-        end else
+        if LoadFileIntoWideStrings(AFileName, fForm.SynEdit.Lines,
+          fFileEncoding) then
+        begin
+          if not FileAge(AFileName, fForm.FileTime) then
+            fForm.FileTime := 0;
+        end
+        else
           Abort;
       finally
         fForm.SynEdit2.SetLinesPointer(fForm.SynEdit);
       end;
-    end else begin
+    end
+    else
+    begin
       fForm.SynEdit.Lines.Clear;
-      if AFileName = '' then begin
+      if AFileName = '' then
+      begin
         // Default settings for new files
         if CommandsDataModule.PyIDEOptions.NewFileLineBreaks <> sffUnicode then
-          (fForm.SynEdit.Lines as TSynEditStringList).FileFormat :=
-            CommandsDataModule.PyIDEOptions.NewFileLineBreaks;
+  (fForm.SynEdit.Lines as TSynEditStringList)
+          .FileFormat := CommandsDataModule.PyIDEOptions.NewFileLineBreaks;
 
         fFileEncoding := CommandsDataModule.PyIDEOptions.NewFileEncoding;
       end;
@@ -684,7 +714,7 @@ begin
   fForm.Retranslate;
 end;
 
-function TEditor.HasPythonFile: Boolean;
+function TEditor.HasPythonFile: boolean;
 begin
   Result := GetSynEdit.Highlighter = CommandsDataModule.SynPythonSyn;
 end;
@@ -761,14 +791,14 @@ begin
     fForm.SynEdit.Redo;
 end;
 
-procedure TEditor.ExecReload(Quiet : Boolean = False);
+procedure TEditor.ExecReload(Quiet: boolean = False);
 Var
-  P : TBufferCoord;
+  P: TBufferCoord;
 begin
-  if Quiet or not GetModified or
-    (Dialogs.MessageDlg(_(SFileReloadingWarning), mtWarning, [mbYes, mbNo], 0) = mrYes)
-  then begin
-    P := GetSynedit.CaretXY;
+  if Quiet or not GetModified or (Dialogs.MessageDlg(_(SFileReloadingWarning),
+      mtWarning, [mbYes, mbNo], 0) = mrYes) then
+  begin
+    P := GetSynEdit.CaretXY;
     OpenFile(GetFileName);
     if (P.Line <= GetSynEdit.Lines.Count) then
       GetSynEdit.CaretXY := P;
@@ -790,14 +820,15 @@ end;
 procedure TEditor.ExecuteSelection;
 var
   EncodedSource: AnsiString;
-  ExecType : string;
-  Source, LeadWhiteSpace : string;
-  Editor : TSynEdit;
-  RegExpr : TRegExpr;
+  ExecType: string;
+  Source, LeadWhiteSpace: string;
+  Editor: TSynEdit;
+  RegExpr: TRegExpr;
 begin
-  if not HasPythonFile or PyControl.IsRunning then begin
-   // it is dangerous to execute code while running scripts
-   // so just beep and do nothing
+  if not HasPythonFile or PyControl.IsRunning then
+  begin
+    // it is dangerous to execute code while running scripts
+    // so just beep and do nothing
     MessageBeep(MB_ICONERROR);
     Exit;
   end;
@@ -807,19 +838,22 @@ begin
   ExecType := 'exec';
 
   // If nothing is selected then try to eval the word at cursor
-  if not fHasSelection then begin
+  if not fHasSelection then
+  begin
     Source := Editor.WordAtCursor;
     if Source <> '' then
       ExecType := 'single'
     else
       Exit;
-  end else begin
+  end
+  else
+  begin
     Source := Editor.SelText;
     // if a single line or part of a line is selected then eval the selection
     if Editor.BlockBegin.Line = Editor.BlockEnd.Line then
       ExecType := 'single'
     else
-      Source := Source + sLineBreak;  // issue 291
+      Source := Source + sLineBreak; // issue 291
   end;
 
   // Dedent the selection
@@ -827,7 +861,8 @@ begin
   try
     RegExpr.ModifierM := False;
     RegExpr.Expression := '^\s*';
-    if RegExpr.Exec(Source) then begin
+    if RegExpr.Exec(Source) then
+    begin
       LeadWhiteSpace := RegExpr.Match[0];
       RegExpr.ModifierM := True;
       RegExpr.Expression := '^' + LeadWhiteSpace;
@@ -847,16 +882,20 @@ begin
     EncodedSource := EncodedSource + #10;
   // RunSource
   case PyControl.DebuggerState of
-    dsInactive :
+    dsInactive:
       if GetPythonEngine.IsPython3000 then
-        PyControl.ActiveInterpreter.RunSource(Source, '<editor selection>', ExecType)
+        PyControl.ActiveInterpreter.RunSource(Source, '<editor selection>',
+          ExecType)
       else
-        PyControl.ActiveInterpreter.RunSource(EncodedSource, '<editor selection>', ExecType);
-    dsPaused, dsPostMortem :
+        PyControl.ActiveInterpreter.RunSource(EncodedSource,
+          '<editor selection>', ExecType);
+    dsPaused, dsPostMortem:
       if GetPythonEngine.IsPython3000 then
-        PyControl.ActiveDebugger.RunSource(Source, '<editor selection>', ExecType)
+        PyControl.ActiveDebugger.RunSource(Source, '<editor selection>',
+          ExecType)
       else
-        PyControl.ActiveDebugger.RunSource(EncodedSource, '<editor selection>', ExecType);
+        PyControl.ActiveDebugger.RunSource(EncodedSource, '<editor selection>',
+          ExecType);
   end;
 
   PythonIIForm.WritePendingMessages;
@@ -887,31 +926,36 @@ begin
 end;
 
 procedure TEditor.ExecClose;
-//  Close only after asking
+// Close only after asking
 begin
-  if AskSaveChanges then Close;
+  if AskSaveChanges then
+    Close;
 end;
 
 procedure TEditor.ExecPrint;
 begin
-  if fForm <> nil then with CommandsDataModule do begin
-    PrintDialog.PrintRange := prAllPages;
-    if PrintDialog.Execute then begin
-      SynEditPrint.SynEdit := fForm.SynEdit;
-      SynEditPrint.Title := GetFileTitle;
-      if PrintDialog.PrintRange = prAllPages then
-        SynEditPrint.Print
-      else
-        SynEditPrint.PrintRange(PrintDialog.FromPage, PrintDialog.ToPage);
+  if fForm <> nil then
+    with CommandsDataModule do
+    begin
+      PrintDialog.PrintRange := prAllPages;
+      if PrintDialog.Execute then
+      begin
+        SynEditPrint.SynEdit := fForm.SynEdit;
+        SynEditPrint.Title := GetFileTitle;
+        if PrintDialog.PrintRange = prAllPages then
+          SynEditPrint.Print
+        else
+          SynEditPrint.PrintRange(PrintDialog.FromPage, PrintDialog.ToPage);
+      end;
     end;
-  end;
 end;
 
 procedure TEditor.ExecPrintPreview;
 begin
   CommandsDataModule.SynEditPrint.SynEdit := fForm.SynEdit;
   CommandsDataModule.SynEditPrint.Title := GetFileTitle;
-  with TPrintPreviewDlg.Create(PyIDEMainForm) do begin
+  with TPrintPreviewDlg.Create(PyIDEMainForm) do
+  begin
     SynEditPrintPreview.SynEditPrint := CommandsDataModule.SynEditPrint;
     ShowModal;
     Release;
@@ -920,7 +964,8 @@ end;
 
 procedure TEditor.ExecSave;
 begin
-  if fForm <> nil then begin
+  if fForm <> nil then
+  begin
     if fFileName <> '' then
       fForm.DoSave
     else
@@ -955,31 +1000,31 @@ end;
 procedure TEditor.ExecFind;
 begin
   if fForm <> nil then
-    CommandsDataModule.ShowSearchReplaceDialog(GetActiveSynEdit, FALSE);
+    CommandsDataModule.ShowSearchReplaceDialog(GetActiveSynEdit, False);
 end;
 
 procedure TEditor.ExecFindNext;
 begin
   if fForm <> nil then
-    CommandsDataModule.DoSearchReplaceText(GetActiveSynEdit, FALSE, FALSE);
+    CommandsDataModule.DoSearchReplaceText(GetActiveSynEdit, False, False);
 end;
 
 procedure TEditor.ExecFindPrev;
 begin
   if fForm <> nil then
-    CommandsDataModule.DoSearchReplaceText(GetActiveSynEdit, FALSE, TRUE);
+    CommandsDataModule.DoSearchReplaceText(GetActiveSynEdit, False, True);
 end;
 
 procedure TEditor.ExecReplace;
 begin
   if fForm <> nil then
-    CommandsDataModule.ShowSearchReplaceDialog(GetActiveSynEdit, TRUE);
+    CommandsDataModule.ShowSearchReplaceDialog(GetActiveSynEdit, True);
 end;
 
-function TEditor.IsEmpty: Boolean;
+function TEditor.IsEmpty: boolean;
 begin
-  Result := (fForm.SynEdit.Lines.Count  = 0) or
-    ((fForm.SynEdit.Lines.Count  = 1) and (fForm.SynEdit.Lines[0] = ''));
+  Result := (fForm.SynEdit.Lines.Count = 0) or
+    ((fForm.SynEdit.Lines.Count = 1) and (fForm.SynEdit.Lines[0] = ''));
 end;
 
 { TEditorFactory }
@@ -991,22 +1036,22 @@ type
     function CanCloseAll: boolean;
     procedure CloseAll;
     function CreateTabSheet(AOwner: TSpTBXCustomTabControl): IEditor;
-    function GetEditorCount: integer;
-    function GetEditorByName(const Name : string): IEditor;
-    function GetEditorByNameOrTitle(const Name : string): IEditor;
-    function GetEditor(Index: integer): IEditor;
+    function GetEditorCount: Integer;
+    function GetEditorByName(const Name: string): IEditor;
+    function GetEditorByNameOrTitle(const Name: string): IEditor;
+    function GetEditor(Index: Integer): IEditor;
     procedure RemoveEditor(AEditor: IEditor);
-    procedure RegisterViewFactory(ViewFactory : IEditorViewFactory);
+    procedure RegisterViewFactory(ViewFactory: IEditorViewFactory);
     procedure SetupEditorViewMenu;
     procedure UpdateEditorViewMenu;
-    function GetViewFactoryCount: integer;
-    function GetViewFactory(Index: integer): IEditorViewFactory;
+    function GetViewFactoryCount: Integer;
+    function GetViewFactory(Index: Integer): IEditorViewFactory;
   private
     fEditors: TInterfaceList;
-    fEditorViewFactories : TInterfaceList;
+    fEditorViewFactories: TInterfaceList;
     constructor Create;
     destructor Destroy; override;
-    procedure OnEditorViewClick(Sender : TObject);
+    procedure OnEditorViewClick(Sender: TObject);
   end;
 
 constructor TEditorFactory.Create;
@@ -1025,10 +1070,11 @@ end;
 
 function TEditorFactory.CanCloseAll: boolean;
 var
-  i: integer;
+  i: Integer;
 begin
   Result := False;
-  with TPickListDialog.Create(Application.MainForm) do begin
+  with TPickListDialog.Create(Application.MainForm) do
+  begin
     Caption := _(SSaveModifiedFiles);
     lbMessage.Caption := _(SSelectModifiedFiles);
     for i := 0 to fEditors.Count - 1 do
@@ -1039,13 +1085,17 @@ begin
     mnSelectAllClick(nil);
     if CheckListBox.Items.Count = 0 then
       Result := True
-    else if CheckListBox.Items.Count = 1  then
+    else if CheckListBox.Items.Count = 1 then
       Result := TEditorForm(CheckListBox.Items.Objects[0]).DoAskSaveChanges
-    else if ShowModal = IdOK then begin
+    else if ShowModal = IdOK then
+    begin
       Result := True;
-      for i := CheckListBox.Count - 1 downto 0 do begin
-        if CheckListBox.Checked[i] then begin
-          if not TEditorForm(CheckListBox.Items.Objects[i]).DoSave then begin
+      for i := CheckListBox.Count - 1 downto 0 do
+      begin
+        if CheckListBox.Checked[i] then
+        begin
+          if not TEditorForm(CheckListBox.Items.Objects[i]).DoSave then
+          begin
             Result := False;
             break;
           end;
@@ -1055,25 +1105,26 @@ begin
     Free;
   end;
 
-//  i := fEditors.Count - 1;
-//  while i >= 0 do begin
-//    LEditor := IEditor(fEditors[i]);
-//    if not LEditor.AskSaveChanges then begin
-//      Result := FALSE;
-//      exit;
-//    end;
-//    Dec(i);
-//  end;
-//  Result := TRUE;
+  // i := fEditors.Count - 1;
+  // while i >= 0 do begin
+  // LEditor := IEditor(fEditors[i]);
+  // if not LEditor.AskSaveChanges then begin
+  // Result := FALSE;
+  // exit;
+  // end;
+  // Dec(i);
+  // end;
+  // Result := TRUE;
 
 end;
 
 procedure TEditorFactory.CloseAll;
 var
-  i: integer;
+  i: Integer;
 begin
   i := fEditors.Count - 1;
-  while i >= 0 do begin
+  while i >= 0 do
+  begin
     IEditor(fEditors[i]).Close;
     Dec(i);
   end;
@@ -1083,13 +1134,14 @@ function TEditorFactory.CreateTabSheet(AOwner: TSpTBXCustomTabControl): IEditor;
 var
   Sheet: TSpTBXTabSheet;
   LForm: TEditorForm;
-  TabItem : TSpTBXTabItem;
+  TabItem: TSpTBXTabItem;
 begin
   TabItem := AOwner.Add('');
   Sheet := AOwner.GetPage(TabItem);
   try
     LForm := TEditorForm.Create(Sheet);
-    with LForm do begin
+    with LForm do
+    begin
       Visible := False;
       fEditor := TEditor.Create(LForm);
       ParentTabItem := TabItem;
@@ -1107,12 +1159,12 @@ begin
   end;
 end;
 
-function TEditorFactory.GetEditorCount: integer;
+function TEditorFactory.GetEditorCount: Integer;
 begin
   Result := fEditors.Count;
 end;
 
-function TEditorFactory.GetViewFactory(Index: integer): IEditorViewFactory;
+function TEditorFactory.GetViewFactory(Index: Integer): IEditorViewFactory;
 begin
   fEditorViewFactories.Lock;
   try
@@ -1122,19 +1174,19 @@ begin
   end;
 end;
 
-function TEditorFactory.GetViewFactoryCount: integer;
+function TEditorFactory.GetViewFactoryCount: Integer;
 begin
   Result := fEditorViewFactories.Count;
 end;
 
 function TEditorFactory.GetEditorByName(const Name: string): IEditor;
 Var
-  i : integer;
+  i: Integer;
 begin
   Result := nil;
   for i := 0 to fEditors.Count - 1 do
     if AnsiSameText(IEditor(fEditors[i]).GetFileName,
-      GetLongFileName(ExpandFileName(Name)))then
+      GetLongFileName(ExpandFileName(Name))) then
     begin
       Result := IEditor(fEditors[i]);
       break;
@@ -1143,26 +1195,27 @@ end;
 
 function TEditorFactory.GetEditorByNameOrTitle(const Name: string): IEditor;
 Var
-  i : integer;
+  i: Integer;
 begin
   Result := GetEditorByName(Name);
   if not Assigned(Result) then
     for i := 0 to fEditors.Count - 1 do
-      if (IEditor(fEditors[i]).FileName = '') and
-         AnsiSameText(IEditor(fEditors[i]).GetFileTitle, Name) then begin
+      if (IEditor(fEditors[i]).FileName = '') and AnsiSameText
+        (IEditor(fEditors[i]).GetFileTitle, Name) then
+      begin
         Result := IEditor(fEditors[i]);
         break;
       end;
 end;
 
-function TEditorFactory.GetEditor(Index: integer): IEditor;
+function TEditorFactory.GetEditor(Index: Integer): IEditor;
 begin
   Result := IEditor(fEditors[Index]);
 end;
 
 procedure TEditorFactory.RemoveEditor(AEditor: IEditor);
 var
-  i: integer;
+  i: Integer;
 begin
   i := fEditors.IndexOf(AEditor);
   if i > -1 then
@@ -1177,14 +1230,16 @@ end;
 procedure TEditorFactory.OnEditorViewClick(Sender: TObject);
 Var
   ViewFactory: IEditorViewFactory;
-  EditorView : IEditorView;
-  Editor : IEditor;
-  Index : Integer;
+  EditorView: IEditorView;
+  Editor: IEditor;
+  Index: Integer;
 begin
   Editor := GI_ActiveEditor;
-  if not assigned(Editor) then Exit;
+  if not Assigned(Editor) then
+    Exit;
   Index := (Sender as TSpTBXItem).Tag;
-  if (Index >= 0) and (Index < fEditorViewFactories.Count) then begin
+  if (Index >= 0) and (Index < fEditorViewFactories.Count) then
+  begin
     ViewFactory := fEditorViewFactories[Index] as IEditorViewFactory;
     EditorView := Editor.ActivateView(ViewFactory);
     if Assigned(EditorView) then
@@ -1194,15 +1249,16 @@ end;
 
 procedure TEditorFactory.SetupEditorViewMenu;
 Var
-  MenuItem : TSpTBXItem;
-  i : integer;
+  MenuItem: TSpTBXItem;
+  i: Integer;
   ViewFactory: IEditorViewFactory;
 begin
-  PyIdeMainForm.EditorViewsMenu.Clear;
+  PyIDEMainForm.EditorViewsMenu.Clear;
   fEditorViewFactories.Lock;
   try
-    PyIdeMainForm.EditorViewsMenu.Enabled := fEditorViewFactories.Count > 0;
-    for i := 0 to fEditorViewFactories.Count - 1 do begin
+    PyIDEMainForm.EditorViewsMenu.Enabled := fEditorViewFactories.Count > 0;
+    for i := 0 to fEditorViewFactories.Count - 1 do
+    begin
       ViewFactory := fEditorViewFactories[i] as IEditorViewFactory;
 
       // Add MenuItem
@@ -1214,7 +1270,7 @@ begin
       MenuItem.OnClick := OnEditorViewClick;
       MenuItem.Tag := i;
 
-      PyIdeMainForm.EditorViewsMenu.Add(MenuItem);
+      PyIDEMainForm.EditorViewsMenu.Add(MenuItem);
     end;
   finally
     fEditorViewFactories.UnLock;
@@ -1223,23 +1279,28 @@ end;
 
 procedure TEditorFactory.UpdateEditorViewMenu;
 Var
-  i, j : integer;
+  i, j: Integer;
   ViewFactory: IEditorViewFactory;
-  List : TList;
-  Enabled : Boolean;
+  List: TList;
+  Enabled: boolean;
 begin
   fEditorViewFactories.Lock;
   List := TList.Create;
   try
-    for i := 0 to fEditorViewFactories.Count - 1 do begin
+    for i := 0 to fEditorViewFactories.Count - 1 do
+    begin
       Enabled := Assigned(GI_ActiveEditor);
-      if Enabled then begin
+      if Enabled then
+      begin
         ViewFactory := fEditorViewFactories[i] as IEditorViewFactory;
         ViewFactory.GetContextHighlighters(List);
-        if List.Count > 0 then begin
+        if List.Count > 0 then
+        begin
           Enabled := False;
-          for j := 0 to List.Count - 1 do begin
-            if List[j] = GI_ActiveEditor.SynEdit.Highlighter then begin
+          for j := 0 to List.Count - 1 do
+          begin
+            if List[j] = GI_ActiveEditor.SynEdit.Highlighter then
+            begin
               Enabled := True;
               break;
             end;
@@ -1252,7 +1313,8 @@ begin
   finally
     List.Free;
     fEditorViewFactories.UnLock;
-  end;end;
+  end;
+end;
 
 { TEditorForm }
 
@@ -1272,7 +1334,7 @@ begin
   GI_EditorFactory.RemoveEditor(LEditor);
   if GI_EditorFactory.Count = 0 then
     PyIDEMainForm.UpdateCaption;
-  Breakpoints.Free;
+  BreakPoints.Free;
   FoundSearchItems.Free;
   fSyntaxErrorPos.Free;
 
@@ -1285,7 +1347,8 @@ end;
 procedure TEditorForm.SynEditChange(Sender: TObject);
 begin
   with PyControl.ErrorPos do
-    if  Editor = GetEditor then begin
+    if Editor = GetEditor then
+    begin
       Clear;
       PyIDEMainForm.DebuggerErrorPosChange(Self);
     end;
@@ -1304,39 +1367,43 @@ end;
 procedure TEditorForm.SynEditDblClick(Sender: TObject);
 var
   ptMouse: TPoint;
-  ASynEdit : TSynEdit;
+  ASynEdit: TSynEdit;
 begin
   ASynEdit := Sender as TSynEdit;
   GetCursorPos(ptMouse);
   ptMouse := ASynEdit.ScreenToClient(ptMouse);
-  if (ptMouse.X >= ASynEdit.Gutter.Width + 2) and ASynEdit.SelAvail and
-     CommandsDataModule.PyIDEOptions.HighlightSelectedWord
-  then
+  if (ptMouse.X >= ASynEdit.Gutter.Width + 2)
+    and ASynEdit.SelAvail and CommandsDataModule.PyIDEOptions.
+    HighlightSelectedWord then
     CommandsDataModule.HighlightWordInActiveEditor(ASynEdit.SelText);
 end;
 
 procedure TEditorForm.SynEditEnter(Sender: TObject);
 Var
-  ASynEdit : TSynEdit;
+  ASynEdit: TSynEdit;
 begin
   ASynEdit := Sender as TSynEdit;
   fActiveSynEdit := ASynEdit;
   PyIDEMainForm.ActiveTabControl := ParentTabControl;
-  DoAssignInterfacePointer(TRUE);
+  DoAssignInterfacePointer(True);
   CommandsDataModule.ParameterCompletion.Editor := ASynEdit;
   CommandsDataModule.ModifierCompletion.Editor := ASynEdit;
   CommandsDataModule.CodeTemplatesCompletion.Editor := ASynEdit;
-  CommandsDataModule.CodeTemplatesCompletion.OnBeforeExecute := AutoCompleteBeforeExecute;
-  CommandsDataModule.CodeTemplatesCompletion.OnAfterExecute := AutoCompleteAfterExecute;
+  CommandsDataModule.CodeTemplatesCompletion.OnBeforeExecute :=
+    AutoCompleteBeforeExecute;
+  CommandsDataModule.CodeTemplatesCompletion.OnAfterExecute :=
+    AutoCompleteAfterExecute;
 
-  if ASynEdit.Highlighter is TSynWebBase then begin
+  if ASynEdit.Highlighter is TSynWebBase then
+  begin
     SynCodeCompletion.Editor := nil;
     SynWebCompletion.Editor := ASynEdit;
-  end else begin
+  end
+  else
+  begin
     SynCodeCompletion.Editor := ASynEdit;
     SynWebCompletion.Editor := nil;
   end;
-
 
   if fOldEditorForm <> Self then
     CodeExplorerWindow.UpdateWindow(ceuEnter);
@@ -1352,13 +1419,13 @@ begin
   // CommandsDataModule.ParameterCompletion.Editor := nil;
   // CommandsDataModule.ModifierCompletion.Editor := nil;
   // CommandsDataModule.CodeTemplatesCompletion.Editor := nil;
-  DoAssignInterfacePointer(FALSE);
+  DoAssignInterfacePointer(False);
 end;
 
 procedure TEditorForm.SynEditStatusChange(Sender: TObject;
   Changes: TSynStatusChanges);
 Var
-  ASynEdit : TSynEdit;
+  ASynEdit: TSynEdit;
 begin
   ASynEdit := Sender as TSynEdit;
   Assert(fEditor <> nil);
@@ -1366,7 +1433,8 @@ begin
     fEditor.fHasSelection := ASynEdit.SelAvail;
   if Changes * [scAll, scReadOnly] <> [] then
     fEditor.fIsReadOnly := ASynEdit.ReadOnly;
-  if scModified  in Changes then begin
+  if scModified in Changes then
+  begin
     PyIDEMainForm.UpdateCaption;
     ParentTabItem.Invalidate;
   end;
@@ -1379,9 +1447,9 @@ begin
   ParentTabItem.Checked := True;
 end;
 
-procedure TEditorForm.DoActivateEditor(Primary : Boolean = True);
+procedure TEditorForm.DoActivateEditor(Primary: boolean = True);
 Var
-  ASynEdit : TSynEdit;
+  ASynEdit: TSynEdit;
 begin
   DoActivate;
   ViewsTabControl.ActiveTabIndex := 0;
@@ -1393,35 +1461,39 @@ begin
     ASynEdit.SetFocus;
 end;
 
-function TEditorForm.DoActivateView(ViewFactory : IEditorViewFactory) : IEditorView;
+function TEditorForm.DoActivateView(ViewFactory: IEditorViewFactory)
+  : IEditorView;
 var
-  i : integer;
-  Form : TCustomForm;
+  i: Integer;
+  Form: TCustomForm;
   Tab: TSpTBXTabItem;
-  TabSheet : TSpTBXTabSheet;
+  TabSheet: TSpTBXTabSheet;
 begin
   Result := nil;
   DoActivate;
   // Does the EditorView tab exist?
   Result := nil;
   for i := 0 to ViewsTabControl.PagesCount - 1 do
-    if ViewsTabControl.Pages[i].Caption = ViewFactory.TabCaption then begin
+    if ViewsTabControl.Pages[i].Caption = ViewFactory.TabCaption then
+    begin
       ViewsTabControl.ActiveTabIndex := i;
       Result := ViewsTabControl.Pages[i].Components[0] as IEditorView;
       break;
     end;
-  if not Assigned(Result) then begin
-    //  Editor View does not exist - Create
+  if not Assigned(Result) then
+  begin
+    // Editor View does not exist - Create
     Tab := ViewsTabControl.Add(ViewFactory.TabCaption);
     TabSheet := ViewsTabControl.GetPage(Tab);
     try
       Form := ViewFactory.CreateForm(fEditor, TabSheet);
-      with Form do begin
+      with Form do
+      begin
         BorderStyle := bsNone;
         Parent := TabSheet;
         Align := alClient;
         Visible := True;
-//        Form.SetFocus;
+        // Form.SetFocus;
         Result := Form as IEditorView;
       end;
       // fix for Delphi 4 (???)
@@ -1429,7 +1501,7 @@ begin
       Tab.Checked := True;
     except
       Tab.Free;
-      raise;
+      raise ;
     end;
   end;
 
@@ -1441,30 +1513,38 @@ var
   S: string;
 begin
   // this is necessary to prevent second confirmation when closing MDI childs
-  if SynEdit.Modified then begin
+  if SynEdit.Modified then
+  begin
     DoActivateEditor;
     MessageBeep(MB_ICONQUESTION);
     Assert(fEditor <> nil);
     S := Format(_(SAskSaveChanges), [ExtractFileName(fEditor.GetFileTitle)]);
 
-    case Dialogs.MessageDlg(S, mtConfirmation, [mbYes, mbNo, mbCancel], 0, mbYes) of
-      mrYes: Result := DoSave;
-      mrNo: Result := True;
+    case Dialogs.MessageDlg(S, mtConfirmation, [mbYes, mbNo, mbCancel], 0,
+      mbYes) of
+      mrYes:
+        Result := DoSave;
+      mrNo:
+        Result := True;
     else
       Result := False;
     end;
-  end else
-    Result := TRUE;
+  end
+  else
+    Result := True;
 end;
 
 procedure TEditorForm.DoAssignInterfacePointer(AActive: boolean);
 begin
-  if AActive then begin
+  if AActive then
+  begin
     GI_ActiveEditor := fEditor;
     GI_EditCmds := fEditor;
     GI_FileCmds := fEditor;
     GI_SearchCmds := fEditor;
-  end else begin
+  end
+  else
+  begin
     if GI_ActiveEditor = IEditor(fEditor) then
       GI_ActiveEditor := nil;
     if GI_EditCmds = IEditCommands(fEditor) then
@@ -1490,19 +1570,23 @@ var
   i: Integer;
 begin
   // Trim all lines just in case (Issue 196)
-  if (eoTrimTrailingSpaces in Synedit.Options) and (SynEdit.Lines.Count > 0) then begin
+  if (eoTrimTrailingSpaces in SynEdit.Options) and (SynEdit.Lines.Count > 0)
+    then
+  begin
     SynEdit.BeginUpdate;
     try
       for i := 0 to SynEdit.Lines.Count - 1 do
-        SynEdit.Lines[i] := TrimRight(SynEdit.LineS[i]);
+        SynEdit.Lines[i] := TrimRight(SynEdit.Lines[i]);
     finally
       SynEdit.EndUpdate;
     end;
   end;
   Result := SaveWideStringsToFile(fEditor.fFileName, SynEdit.Lines,
     fEditor.fFileEncoding, CommandsDataModule.PyIDEOptions.CreateBackupFiles);
-  if Result then begin
-    if not FileAge(fEditor.fFileName, FileTime) then FileTime := 0;
+  if Result then
+  begin
+    if not FileAge(fEditor.fFileName, FileTime) then
+      FileTime := 0;
     if not CommandsDataModule.PyIDEOptions.UndoAfterSave then
       SynEdit.ClearUndo;
     SynEdit.Modified := False;
@@ -1512,234 +1596,251 @@ end;
 function TEditorForm.DoSaveAs: boolean;
 var
   NewName: string;
-  Edit : IEditor;
+  Edit: IEditor;
 begin
   Assert(fEditor <> nil);
   NewName := fEditor.GetFileNameOrTitle;
   if (fEditor.GetFileName = '') and (DefaultExtension <> '') and
-     (ExtractFileExt(NewName) = '')
-  then
+    (ExtractFileExt(NewName) = '') then
     NewName := NewName + '.' + DefaultExtension;
-  if CommandsDataModule.GetSaveFileName(NewName, SynEdit.Highlighter, DefaultExtension) then
+  if CommandsDataModule.GetSaveFileName(NewName, SynEdit.Highlighter,
+    DefaultExtension) then
   begin
     Edit := GI_EditorFactory.GetEditorByName(NewName);
-    if Assigned(Edit) and (Edit <> Self.fEditor as IEditor) then begin
+    if Assigned(Edit) and (Edit <> Self.fEditor as IEditor) then
+    begin
       Dialogs.MessageDlg(_(SFileAlreadyOpen), mtError, [mbAbort], 0);
       Result := False;
       Exit;
     end;
     fEditor.DoSetFileName(NewName);
     DoUpdateHighlighter;
-    DoUpdateCaption;  // Do it twice in case the following statement fails
+    DoUpdateCaption; // Do it twice in case the following statement fails
     Result := DoSaveFile;
     DoUpdateCaption;
-  end else
-    Result := FALSE;
+  end
+  else
+    Result := False;
 end;
 
 procedure TEditorForm.DoUpdateCaption;
 begin
   Assert(fEditor <> nil);
-  with ParentTabItem do begin
+  with ParentTabItem do
+  begin
     Caption := StringReplace(fEditor.GetFileTitle, '&', '&&', [rfReplaceAll]);
     Hint := fEditor.GetFileName;
   end;
   PyIDEMainForm.UpdateCaption;
 end;
 
-procedure TEditorForm.DoUpdateHighlighter(HighlighterName : string = '');
+procedure TEditorForm.DoUpdateHighlighter(HighlighterName: string = '');
 var
-  Index : integer;
+  Index: Integer;
 begin
   Assert(fEditor <> nil);
   if fEditor.fFileName <> '' then
-    SynEdit.Highlighter := CommandsDataModule.GetHighlighterForFile(
-      fEditor.fFileName)
-  else if HighlighterName <> '' then begin
+    SynEdit.Highlighter := CommandsDataModule.GetHighlighterForFile
+      (fEditor.fFileName)
+  else if HighlighterName <> '' then
+  begin
     Index := CommandsDataModule.Highlighters.IndexOf(HighlighterName);
     if Index < 0 then
       SynEdit.Highlighter := nil
     else
-      SynEdit.Highlighter :=
-        CommandsDataModule.Highlighters.Objects[Index] as TSynCustomHighlighter;
-  end else //No highlighter otherwise
+      SynEdit.Highlighter := CommandsDataModule.Highlighters.Objects[Index]
+        as TSynCustomHighlighter;
+  end
+  else // No highlighter otherwise
     SynEdit.Highlighter := nil;
   SynEdit2.Highlighter := SynEdit.Highlighter;
-  SynEdit.RegisterCommandHandler( EditorCommandHandler, nil );
+  SynEdit.RegisterCommandHandler(EditorCommandHandler, nil);
 end;
 
 procedure TEditorForm.EditorMouseWheel(theDirection: Integer;
   Shift: TShiftState);
 Var
-  ASynEdit : TSynEdit;
+  ASynEdit: TSynEdit;
 
   function OwnScroll(Shift: TShiftState; LinesInWindow: Integer): Integer;
   begin
-    if (ssShift in Shift) or (Mouse.WheelScrollLines = -1)
-    then
-      Result := LinesInWindow shr Ord(eoHalfPageScroll in ASynEdit.Options)
+    if (ssShift in Shift) or (Mouse.WheelScrollLines = -1) then
+      Result := LinesInWindow shr ord(eoHalfPageScroll in ASynEdit.Options)
     else
       Result := Mouse.WheelScrollLines;
   end;
+
 //
 begin
-{*
-  Manage Zoom in and out, Page up and down, Line scroll - with the Mouse Wheel
-*}
+  { *
+    Manage Zoom in and out, Page up and down, Line scroll - with the Mouse Wheel
+    * }
   if ssCtrl in Shift then
-    EditorZoom( theDirection )
-  else begin
+    EditorZoom(theDirection)
+  else
+  begin
     ASynEdit := fEditor.GetActiveSynEdit;
 
-    ASynEdit.TopLine := ASynEdit.TopLine +
-     (theDirection * OwnScroll( Shift, ASynEdit.LinesInWindow ) );
+    ASynEdit.TopLine := ASynEdit.TopLine + (theDirection * OwnScroll(Shift,
+        ASynEdit.LinesInWindow));
   end;
 end;
 
 procedure TEditorForm.EditorViewsChange(Sender: TObject);
 begin
-  SetupCodeHints;
+  SetUpCodeHints;
 end;
 
 procedure TEditorForm.EditorZoom(theZoom: Integer);
 begin
-  if not ( (theZoom < 1) and (SynEdit.Font.Size <= 2) ) then begin
-    SynEdit.Font.Size        := SynEdit.Font.Size        + theZoom;
-    SynEdit.Gutter.Font.Size := Max(SynEdit.Font.Size -2, 1);
-    SynEdit2.Font.Size        := SynEdit.Font.Size;
+  if not((theZoom < 1) and (SynEdit.Font.Size <= 2)) then
+  begin
+    SynEdit.Font.Size := SynEdit.Font.Size + theZoom;
+    SynEdit.Gutter.Font.Size := Max(SynEdit.Font.Size - 2, 1);
+    SynEdit2.Font.Size := SynEdit.Font.Size;
     SynEdit2.Gutter.Font.Size := SynEdit2.Gutter.Font.Size;
   end;
 end;
 
 procedure TEditorForm.EditorCommandHandler(Sender: TObject;
   AfterProcessing: boolean; var Handled: boolean;
-  var Command: TSynEditorCommand; var AChar: WideChar; Data,
-  HandlerData: pointer);
+  var Command: TSynEditorCommand; var AChar: WideChar;
+  Data, HandlerData: Pointer);
 var
-  ASynEdit : TSynEdit;
+  ASynEdit: TSynEdit;
   iPrevLine: string;
-  Position, Len: integer;
-  OpenBrackets, CloseBrackets : string;
-  OpenBracketPos : integer;
-  Line : string;
-  CharRight, CharLeft : WideChar;
+  Position, Len: Integer;
+  OpenBrackets, CloseBrackets: string;
+  OpenBracketPos: Integer;
+  Line: string;
+  CharRight, CharLeft: WideChar;
   Attr: TSynHighlighterAttributes;
-  DummyToken : string;
-  BC : TBufferCoord;
+  DummyToken: string;
+  BC: TBufferCoord;
 begin
   ASynEdit := Sender as TSynEdit;
   if (Command <> ecLostFocus) and (Command <> ecGotFocus) then
     EditorSearchOptions.InitSearch;
 
-  if not AfterProcessing then begin
+  if not AfterProcessing then
+  begin
     case Command of
-      ecCut :
-        if not ASynEdit.SelAvail then with ASynEdit do begin
-          // Cut the current line to the Clipboard
-          BeginUpdate;
-          try
-            ExecuteCommand(ecLineStart, AChar, Data);
-            ExecuteCommand(ecSelLineEnd, AChar, Data);
-            ActiveSelectionMode := smLine;
-            ExecuteCommand(ecCut, AChar, Data);
-            ActiveSelectionMode := SelectionMode;
-          finally
-            EndUpdate;
+      ecCut:
+        if not ASynEdit.SelAvail then
+          with ASynEdit do
+          begin
+            // Cut the current line to the Clipboard
+            BeginUpdate;
+            try
+              ExecuteCommand(ecLineStart, AChar, Data);
+              ExecuteCommand(ecSelLineEnd, AChar, Data);
+              ActiveSelectionMode := smLine;
+              ExecuteCommand(ecCut, AChar, Data);
+              ActiveSelectionMode := SelectionMode;
+            finally
+              EndUpdate;
+            end;
+            Handled := True;
           end;
-          Handled := True;
-        end;
       ecCopy:
-        if not ASynEdit.SelAvail then with ASynEdit do begin
-          // Copy the current line to the Clipboard
-          BC := ASynEdit.CaretXY;
-          BeginUpdate;
-          try
-            ExecuteCommand(ecLineStart, AChar, Data);
-            ExecuteCommand(ecSelLineEnd, AChar, Data);
-            ActiveSelectionMode := smLine;
-            ExecuteCommand(ecCopy, AChar, Data);
-            SetCaretAndSelection(BC, BC, BC);
-            ActiveSelectionMode := SelectionMode;
-          finally
-            EndUpdate;
+        if not ASynEdit.SelAvail then
+          with ASynEdit do
+          begin
+            // Copy the current line to the Clipboard
+            BC := ASynEdit.CaretXY;
+            BeginUpdate;
+            try
+              ExecuteCommand(ecLineStart, AChar, Data);
+              ExecuteCommand(ecSelLineEnd, AChar, Data);
+              ActiveSelectionMode := smLine;
+              ExecuteCommand(ecCopy, AChar, Data);
+              SetCaretAndSelection(BC, BC, BC);
+              ActiveSelectionMode := SelectionMode;
+            finally
+              EndUpdate;
+            end;
+            Handled := True;
           end;
-          Handled := True;
-        end;
-      ecCodeCompletion :
+      ecCodeCompletion:
         if ASynEdit.Highlighter = CommandsDataModule.SynPythonSyn then
         begin
           if SynCodeCompletion.Form.Visible then
             SynCodeCompletion.CancelCompletion;
-          //SynCodeCompletion.DefaultType := ctCode;
+          // SynCodeCompletion.DefaultType := ctCode;
           SynCodeCompletion.ActivateCompletion;
           Handled := True;
         end;
-      ecParamCompletion :
+      ecParamCompletion:
         if ASynEdit.Highlighter = CommandsDataModule.SynPythonSyn then
         begin
           if SynParamCompletion.Form.Visible then
             SynParamCompletion.CancelCompletion;
-          //SynCodeCompletion.DefaultType := ctParams;
+          // SynCodeCompletion.DefaultType := ctParams;
           SynParamCompletion.ActivateCompletion;
           Handled := True;
         end;
-      ecLeft :  // Implement Visual Studio like behaviour when selection is available
-        if ASynEdit.SelAvail then with ASynEdit do begin
-          CaretXY := BlockBegin;
-          Handled := True;
-        end;
-      ecRight :  // Implement Visual Studio like behaviour when selection is available
-        if ASynEdit.SelAvail then with ASynEdit do begin
-          CaretXY := BlockEnd;
-          Handled := True;
-        end;
-      ecWordRight, ecSelWordRight:  // Implement Visual Studio like behaviour
+      ecLeft: // Implement Visual Studio like behaviour when selection is available
+        if ASynEdit.SelAvail then
+          with ASynEdit do
+          begin
+            CaretXY := BlockBegin;
+            Handled := True;
+          end;
+      ecRight: // Implement Visual Studio like behaviour when selection is available
+        if ASynEdit.SelAvail then
+          with ASynEdit do
+          begin
+            CaretXY := BlockEnd;
+            Handled := True;
+          end;
+      ecWordRight, ecSelWordRight: // Implement Visual Studio like behaviour
         begin
           BC := VSNextWordPos(ASynEdit, ASynEdit.CaretXY);
           if Command = ecWordRight then
             ASynEdit.CaretXY := BC
-          else begin
+          else
+          begin
             if (ASynEdit.BlockEnd.Line = ASynEdit.CaretXY.Line) and
-               (ASynEdit.BlockEnd.Char = ASynEdit.CaretXY.Char)
-            then
+              (ASynEdit.BlockEnd.Char = ASynEdit.CaretXY.Char) then
               ASynEdit.SetCaretAndSelection(BC, ASynEdit.BlockBegin, BC)
             else
               ASynEdit.SetCaretAndSelection(BC, ASynEdit.BlockEnd, BC);
           end;
           Handled := True;
         end;
-      ecWordLeft, ecSelWordLeft:  // Implement Visual Studio like behaviour
+      ecWordLeft, ecSelWordLeft: // Implement Visual Studio like behaviour
         begin
           BC := VSPrevWordPos(ASynEdit, ASynEdit.CaretXY);
           if Command = ecWordLeft then
             ASynEdit.CaretXY := BC
-          else begin
+          else
+          begin
             if (ASynEdit.BlockEnd.Line = ASynEdit.CaretXY.Line) and
-               (ASynEdit.BlockEnd.Char = ASynEdit.CaretXY.Char)
-            then
+              (ASynEdit.BlockEnd.Char = ASynEdit.CaretXY.Char) then
               ASynEdit.SetCaretAndSelection(BC, ASynEdit.BlockBegin, BC)
             else
               ASynEdit.SetCaretAndSelection(BC, ASynEdit.BlockEnd, BC);
           end;
           Handled := True;
         end;
-      ecLineBreak :  // Python Mode
-        if ASynEdit.InsertMode and (ASynEdit.Highlighter = CommandsDataModule.SynPythonSyn)
-          and not fAutoCompleteActive
-        then begin
+      ecLineBreak: // Python Mode
+        if ASynEdit.InsertMode and
+          (ASynEdit.Highlighter = CommandsDataModule.SynPythonSyn)
+          and not fAutoCompleteActive then
+        begin
           ASynEdit.UndoList.BeginBlock;
           fOldOptions := ASynEdit.Options;
           ASynEdit.Options := ASynEdit.Options + [eoAutoIndent];
           // not handled so default processing takes place
         end;
-      ecMatchBracket :
+      ecMatchBracket:
         begin
           BC := GetMatchingBracket(ASynEdit);
           if BC.Char > 0 then
             ASynEdit.CaretXY := BC;
           Handled := True;
         end;
-      ecSelMatchBracket :
+      ecSelMatchBracket:
         begin
           BC := GetMatchingBracket(ASynEdit);
           if BC.Char > 0 then
@@ -1747,22 +1848,25 @@ begin
           Handled := True;
         end;
     end;
-  end else begin  // AfterProcessing
+  end
+  else
+  begin // AfterProcessing
     case Command of
-      ecLineBreak :  // Python Mode
-        if ASynEdit.InsertMode and (ASynEdit.Highlighter = CommandsDataModule.SynPythonSyn)
-          and not fAutoCompleteActive
-        then begin
+      ecLineBreak: // Python Mode
+        if ASynEdit.InsertMode and
+          (ASynEdit.Highlighter = CommandsDataModule.SynPythonSyn)
+          and not fAutoCompleteActive then
+        begin
           { CaretY should never be lesser than 2 right after ecLineBreak, so there's
-          no need for a check }
-          iPrevLine := TrimRight( ASynEdit.Lines[ ASynEdit.CaretY -2 ] );
-          BC := BufferCoord(Length(IPrevLine), ASynEdit.CaretY -1);
+            no need for a check }
+          iPrevLine := TrimRight(ASynEdit.Lines[ASynEdit.CaretY - 2]);
+          BC := BufferCoord(Length(iPrevLine), ASynEdit.CaretY - 1);
 
           if ASynEdit.GetHighlighterAttriAtRowCol(BC, DummyToken, Attr) and not
-           (//(attr = ASynEdit.Highlighter.StringAttribute) or
-            (attr = ASynEdit.Highlighter.CommentAttribute) or
-            (attr = CommandsDataModule.SynPythonSyn.CodeCommentAttri) {or
-            (attr = CommandsDataModule.SynPythonSyn.DocStringAttri)}) then
+            ( // (attr = ASynEdit.Highlighter.StringAttribute) or
+            (Attr = ASynEdit.Highlighter.CommentAttribute) or
+              (Attr = CommandsDataModule.SynPythonSyn.CodeCommentAttri) { or
+              (attr = CommandsDataModule.SynPythonSyn.DocStringAttri) } ) then
           begin
             if CommandsDataModule.IsBlockOpener(iPrevLine) then
               ASynEdit.ExecuteCommand(ecTab, #0, nil)
@@ -1772,92 +1876,106 @@ begin
           ASynEdit.UndoList.EndBlock;
           ASynEdit.Options := fOldOptions;
         end;
-      ecChar :  // Autocomplete brackets
-        if not fAutoCompleteActive
-          and CommandsDataModule.PyIDEOptions.AutoCompleteBrackets then
-        with ASynEdit do begin
-          if ASynEdit.Highlighter = CommandsDataModule.SynPythonSyn then begin
-            OpenBrackets := '([{"''';
-            CloseBrackets := ')]}"''';
-          end else if (ASynEdit.Highlighter = CommandsDataModule.SynWebHTMLSyn) or
-             (ASynEdit.Highlighter = CommandsDataModule.SynWebXMLSyn) or
-             (ASynEdit.Highlighter = CommandsDataModule.SynWebCssSyn) then
+      ecChar: // Autocomplete brackets
+        if not fAutoCompleteActive and CommandsDataModule.PyIDEOptions.
+          AutoCompleteBrackets then
+          with ASynEdit do
           begin
-            OpenBrackets := '<"''';
-            CloseBrackets := '>"''';
-          end else
-            Exit;
-
-          Line := LineText;
-          Len := Length(LineText);
-
-          if aChar = fCloseBracketChar then begin
-            if InsertMode and (CaretX <= Len) and (Line[CaretX] = fCloseBracketChar) then
-              ExecuteCommand(ecDeleteChar, WideChar(#0), nil);
-            fCloseBracketChar := #0;
-          end else if CharInSet(aChar, [')', ']', '}']) then begin
-            fCloseBracketChar := #0;
-            Position := CaretX;
-            if Position <= Len then
-              CharRight := Line[Position]
+            if ASynEdit.Highlighter = CommandsDataModule.SynPythonSyn then
+            begin
+              OpenBrackets := '([{"''';
+              CloseBrackets := ')]}"''';
+            end
+            else if (ASynEdit.Highlighter = CommandsDataModule.SynWebHTMLSyn)
+              or (ASynEdit.Highlighter = CommandsDataModule.SynWebXMLSyn) or
+              (ASynEdit.Highlighter = CommandsDataModule.SynWebCssSyn) then
+            begin
+              OpenBrackets := '<"''';
+              CloseBrackets := '>"''';
+            end
             else
-              CharRight := WideNull;
-            if (AChar = CharRight) and (GetMatchingBracket.Line <= 0) then
-              ExecuteCommand(ecDeleteChar, #0, nil);
-          end else begin
-            fCloseBracketChar := #0;
-            OpenBracketPos := Pos(aChar, OpenBrackets);
+              Exit;
 
-            BC := CaretXY;
-            Dec(BC.Char, 2);
-            if (BC.Char >= 1) and GetHighlighterAttriAtRowCol(BC, DummyToken, Attr) and
-              ((attr = Highlighter.StringAttribute) or
-               (attr = Highlighter.CommentAttribute) or
-               (attr = CommandsDataModule.SynPythonSyn.CodeCommentAttri) or
-               (attr = CommandsDataModule.SynPythonSyn.DocStringAttri))
-            then
-              OpenBracketPos := 0;  // Do not auto complete brakets inside strings or comments
+            Line := LineText;
+            Len := Length(LineText);
 
-            if (OpenBracketPos > 0) then begin
-              CharRight := WideNull;
+            if AChar = fCloseBracketChar then
+            begin
+              if InsertMode and (CaretX <= Len) and
+                (Line[CaretX] = fCloseBracketChar) then
+                ExecuteCommand(ecDeleteChar, WideChar(#0), nil);
+              fCloseBracketChar := #0;
+            end
+            else if CharInSet(AChar, [')', ']', '}']) then
+            begin
+              fCloseBracketChar := #0;
               Position := CaretX;
-              while (Position <= Len) and Highlighter.IsWhiteChar(LineText[Position]) do
-                Inc(Position);
               if Position <= Len then
-                CharRight := Line[Position];
+                CharRight := Line[Position]
+              else
+                CharRight := WideNull;
+              if (AChar = CharRight) and (GetMatchingBracket.Line <= 0) then
+                ExecuteCommand(ecDeleteChar, #0, nil);
+            end
+            else
+            begin
+              fCloseBracketChar := #0;
+              OpenBracketPos := Pos(AChar, OpenBrackets);
 
-              CharLeft := WideNull;
-              Position := CaretX-2;
-              while (Position >= 1) and Highlighter.IsWhiteChar(LineText[Position]) do
-                Dec(Position);
-              if Position >= 1 then
-                CharLeft := Line[Position];
+              BC := CaretXY;
+              Dec(BC.Char, 2);
+              if (BC.Char >= 1) and GetHighlighterAttriAtRowCol(BC, DummyToken,
+                Attr) and ((Attr = Highlighter.StringAttribute) or
+                  (Attr = Highlighter.CommentAttribute) or
+                  (Attr = CommandsDataModule.SynPythonSyn.CodeCommentAttri) or
+                  (Attr = CommandsDataModule.SynPythonSyn.DocStringAttri)) then
+                OpenBracketPos := 0; // Do not auto complete brakets inside strings or comments
 
-              if CharInSet(CharRight, [WideNull, ')', ']', '}', ',']) and
-                not (CharInSet(aChar, ['"', '''']) and
-                 (Highlighter.IsIdentChar(CharLeft) or (CharLeft= aChar))) then
+              if (OpenBracketPos > 0) then
               begin
-                SelText := CloseBrackets[OpenBracketPos];
-                CaretX := CaretX - 1;
-                if not CharInSet(aChar, [')', ']', '}']) then
-                  fCloseBracketChar := CloseBrackets[OpenBracketPos];
+                CharRight := WideNull;
+                Position := CaretX;
+                while (Position <= Len) and Highlighter.IsWhiteChar
+                  (LineText[Position]) do
+                  Inc(Position);
+                if Position <= Len then
+                  CharRight := Line[Position];
+
+                CharLeft := WideNull;
+                Position := CaretX - 2;
+                while (Position >= 1) and Highlighter.IsWhiteChar
+                  (LineText[Position]) do
+                  Dec(Position);
+                if Position >= 1 then
+                  CharLeft := Line[Position];
+
+                if CharInSet(CharRight, [WideNull, ')', ']', '}', ',']) and not
+                  (CharInSet(AChar, ['"', '''']) and
+                    (Highlighter.IsIdentChar(CharLeft) or (CharLeft = AChar)))
+                  then
+                begin
+                  SelText := CloseBrackets[OpenBracketPos];
+                  CaretX := CaretX - 1;
+                  if not CharInSet(AChar, [')', ']', '}']) then
+                    fCloseBracketChar := CloseBrackets[OpenBracketPos];
+                end;
               end;
             end;
           end;
-        end;
-      ecSelWord :
-        if ASynEdit.SelAvail and CommandsDataModule.PyIDEOptions.HighlightSelectedWord then
+      ecSelWord:
+        if ASynEdit.SelAvail and CommandsDataModule.PyIDEOptions.
+          HighlightSelectedWord then
           CommandsDataModule.HighlightWordInActiveEditor(ASynEdit.SelText);
     end;
   end;
 end;
 
 procedure TEditorForm.PaintGutterGlyphs(ACanvas: TCanvas; AClip: TRect;
-  FirstLine, LastLine: integer);
+  FirstLine, LastLine: Integer);
 var
-  LH, X, Y: integer;
+  LH, X, Y: Integer;
   LI: TDebuggerLineInfos;
-  ImgIndex: integer;
+  ImgIndex: Integer;
 begin
   if (PyControl.ActiveDebugger <> nil) and SynEdit.Gutter.Visible then
   begin
@@ -1867,15 +1985,18 @@ begin
     LH := SynEdit.LineHeight;
     while FirstLine <= LastLine do
     begin
-      Y := (LH - imglGutterGlyphs.Height) div 2
-           + LH * (SynEdit.LineToRow(FirstLine) - SynEdit.TopLine);
+      Y := (LH - imglGutterGlyphs.Height) div 2 + LH *
+        (SynEdit.LineToRow(FirstLine) - SynEdit.TopLine);
       LI := PyControl.GetLineInfos(fEditor, FirstLine);
-      if dlCurrentLine in LI then begin
+      if dlCurrentLine in LI then
+      begin
         if dlBreakpointLine in LI then
           ImgIndex := 2
         else
           ImgIndex := 1;
-      end else if dlExecutableLine in LI then begin
+      end
+      else if dlExecutableLine in LI then
+      begin
         if dlBreakpointLine in LI then
           ImgIndex := 3
         else if dlDisabledBreakpointLine in LI then
@@ -1884,7 +2005,9 @@ begin
           ImgIndex := 0
         else
           ImgIndex := -1
-      end else begin
+      end
+      else
+      begin
         if dlBreakpointLine in LI then
           ImgIndex := 4
         else if dlDisabledBreakpointLine in LI then
@@ -1901,23 +2024,27 @@ end;
 
 procedure TEditorForm.SyncCodeExplorer;
 begin
-  if fNeedToSyncCodeExplorer and GetEditor.HasPythonFile then begin
+  if fNeedToSyncCodeExplorer and GetEditor.HasPythonFile then
+  begin
     CodeExplorerWindow.ShowEditorCodeElement;
     fNeedToSyncCodeExplorer := False;
   end;
 end;
 
-
-function TEditorForm.ReparseIfNeeded : Boolean;
+function TEditorForm.ReparseIfNeeded: boolean;
 begin
   Result := False;
-  if fNeedToParseModule then begin
-    if GetEditor.HasPythonFile then begin
+  if fNeedToParseModule then
+  begin
+    if GetEditor.HasPythonFile then
+    begin
       if Assigned(SourceScanner) then
         SourceScanner.StopScanning;
-      SourceScanner := AsynchSourceScannerFactory.CreateAsynchSourceScanner(fEditor.GetFileNameOrTitle, SynEdit.Text);
+      SourceScanner := AsynchSourceScannerFactory.CreateAsynchSourceScanner
+        (fEditor.GetFileNameOrTitle, SynEdit.Text);
       Result := True;
-    end else
+    end
+    else
       SourceScanner := nil;
     fNeedToParseModule := False;
     CodeExplorerWindow.UpdateWindow(ceuChange);
@@ -1931,13 +2058,15 @@ begin
 end;
 
 procedure TEditorForm.FormCreate(Sender: TObject);
+Var
+  i: Integer;
 begin
   FGPanelExit(Self);
 
-//  ControlStyle := ControlStyle + [csOpaque];
-//  SynEdit.ControlStyle := Synedit.ControlStyle + [csOpaque];
-//  SynEdit2.ControlStyle := Synedit.ControlStyle + [csOpaque];
-//  FGPanel.ControlStyle := FGPanel.ControlStyle + [csOpaque];
+  // ControlStyle := ControlStyle + [csOpaque];
+  // SynEdit.ControlStyle := Synedit.ControlStyle + [csOpaque];
+  // SynEdit2.ControlStyle := Synedit.ControlStyle + [csOpaque];
+  // FGPanel.ControlStyle := FGPanel.ControlStyle + [csOpaque];
   SynEdit.OnReplaceText := CommandsDataModule.SynEditReplaceText;
 
   fHotIdentInfo.HaveHotIdent := False;
@@ -1945,15 +2074,17 @@ begin
 
   ViewsTabControl.TabVisible := False;
   case CommandsDataModule.PyIDEOptions.EditorsTabPosition of
-    ttpTop: ViewsTabControl.TabPosition := ttpBottom;
-    ttpBottom: ViewsTabControl.TabPosition := ttpTop;
+    ttpTop:
+      ViewsTabControl.TabPosition := ttpBottom;
+    ttpBottom:
+      ViewsTabControl.TabPosition := ttpTop;
   end;
 
   SynEdit2.SetLinesPointer(SynEdit);
 
   FoundSearchItems := TObjectList.Create(True);
-  THighlightSearchPlugin.Create(SynEdit, FoundSearchItems);  // No need to free
-  THighlightSearchPlugin.Create(SynEdit2, FoundSearchItems);  // No need to free
+  THighlightSearchPlugin.Create(SynEdit, FoundSearchItems); // No need to free
+  THighlightSearchPlugin.Create(SynEdit2, FoundSearchItems); // No need to free
 
   BreakPoints := TObjectList.Create(True);
   TDebugSupportPlugin.Create(Self); // No need to free
@@ -1969,52 +2100,55 @@ begin
   SynCodeCompletion.EndOfTokenChr := WordBreakString;
   SynParamCompletion.EndOfTokenChr := WordBreakString;
 
-//  CodeCompletionDocLabel := TLabel.Create(SynCodeCompletion.Form);
-//  with CodeCompletionDocLabel do begin
-//    Parent := SynCodeCompletion.Form;
-//    Transparent := False;
-//    ParentFont := True;
-//    WordWrap := True;
-//    Align := alRight;
-//    DoubleBuffered := True;
-//  end;
-//  with TSpTBXSplitter.Create(SynCodeCompletion.Form) do begin
-//    Parent := SynCodeCompletion.Form;
-//    Align := alRight;
-//    DoubleBuffered := True;
-//  end;
-//  SynCodeCompletion.Form.Width := 600;
-//  SynCodeCompletion.Form.DoubleBuffered := True;
+  // CodeCompletionDocLabel := TLabel.Create(SynCodeCompletion.Form);
+  // with CodeCompletionDocLabel do begin
+  // Parent := SynCodeCompletion.Form;
+  // Transparent := False;
+  // ParentFont := True;
+  // WordWrap := True;
+  // Align := alRight;
+  // DoubleBuffered := True;
+  // end;
+  // with TSpTBXSplitter.Create(SynCodeCompletion.Form) do begin
+  // Parent := SynCodeCompletion.Form;
+  // Align := alRight;
+  // DoubleBuffered := True;
+  // end;
+  // SynCodeCompletion.Form.Width := 600;
+  // SynCodeCompletion.Form.DoubleBuffered := True;
 
   Retranslate;
 end;
 
-procedure TEditorForm.SynEditGutterClick(Sender: TObject;
-  Button: TMouseButton; X, Y, Line: Integer; Mark: TSynEditMark);
+procedure TEditorForm.SynEditGutterClick(Sender: TObject; Button: TMouseButton;
+  X, Y, Line: Integer; Mark: TSynEditMark);
 Var
-  ASynEdit : TSynEdit;
+  ASynEdit: TSynEdit;
 begin
   ASynEdit := Sender as TSynEdit;
   if (ASynEdit.Highlighter = CommandsDataModule.SynPythonSyn) and
-    (PyControl.ActiveDebugger <> nil) and not (sfGutterDragging in ASynEdit.StateFlags)
-  then
-    PyControl.ToggleBreakpoint(fEditor, Line, GetKeyState(VK_CONTROL)<0);
+    (PyControl.ActiveDebugger <> nil) and not
+    (sfGutterDragging in ASynEdit.StateFlags) then
+    PyControl.ToggleBreakpoint(fEditor, Line, GetKeyState(VK_CONTROL) < 0);
 end;
 
-procedure TEditorForm.SynEditSpecialLineColors(Sender: TObject;
-  Line: Integer; var Special: Boolean; var FG, BG: TColor);
+procedure TEditorForm.SynEditSpecialLineColors(Sender: TObject; Line: Integer;
+  var Special: boolean; var FG, BG: TColor);
 var
   LI: TDebuggerLineInfos;
 begin
-  if PyControl.ActiveDebugger <> nil then begin
+  if PyControl.ActiveDebugger <> nil then
+  begin
     LI := PyControl.GetLineInfos(fEditor, Line);
-    if dlCurrentLine in LI then begin
-      Special := TRUE;
+    if dlCurrentLine in LI then
+    begin
+      Special := True;
       FG := clWhite;
       BG := clBlue;
-    end else if (dlErrorLine in LI) then
+    end
+    else if (dlErrorLine in LI) then
     begin
-      Special := TRUE;
+      Special := True;
       FG := clWhite;
       BG := clRed
     end;
@@ -2032,36 +2166,39 @@ begin
     SynEdit.CaretXY := BufferCoord(fSyntaxErrorPos.Char, fSyntaxErrorPos.Line);
 end;
 
-function TEditorForm.HasSyntaxError: Boolean;
+function TEditorForm.HasSyntaxError: boolean;
 begin
-  Result := CommandsDataModule.PyIDEOptions.CheckSyntaxAsYouType and
-     fEditor.HasPythonFile and fSyntaxErrorPos.IsSyntax and
-     (fSyntaxErrorPos.Editor = GetEditor) and
-     (fSyntaxErrorPos.Line < SynEdit.Lines.Count);
+  Result :=
+    CommandsDataModule.PyIDEOptions.CheckSyntaxAsYouType and fEditor.
+    HasPythonFile and fSyntaxErrorPos.IsSyntax and
+    (fSyntaxErrorPos.Editor = GetEditor) and
+    (fSyntaxErrorPos.Line < SynEdit.Lines.Count);
 end;
 
-procedure TEditorForm.SynEditPaintTransient(Sender: TObject;
-  Canvas: TCanvas; TransientType: TTransientType);
+procedure TEditorForm.SynEditPaintTransient(Sender: TObject; Canvas: TCanvas;
+  TransientType: TTransientType);
 Var
   Pix: TPoint;
-  ASynEdit : TSynEdit;
+  ASynEdit: TSynEdit;
 begin
   ASynEdit := Sender as TSynEdit;
   if (not Assigned(ASynEdit.Highlighter)) then
     Exit;
   if fHotIdentInfo.HaveHotIdent and (fHotIdentInfo.SynEdit = ASynEdit) and
-     (TransientType = ttAfter) then
+    (TransientType = ttAfter) then
   begin
-    Pix := ASynEdit.RowColumnToPixels(ASynEdit.BufferToDisplayPos(fHotIdentInfo.StartCoord));
+    Pix := ASynEdit.RowColumnToPixels(ASynEdit.BufferToDisplayPos
+        (fHotIdentInfo.StartCoord));
     Canvas.Font.Assign(ASynEdit.Font);
     Canvas.Font.Style := fHotIdentInfo.SynAttri.Style + [fsUnderline];
-    Canvas.Font.Color:= clBlue;
+    Canvas.Font.Color := clBlue;
     if fHotIdentInfo.SynAttri.Background <> clNone then
       Canvas.Brush.Color := fHotIdentInfo.SynAttri.Background
     else
       Canvas.Brush.Color := ASynEdit.Color;
     Canvas.Brush.Style := bsSolid;
-    SetTextCharacterExtra(Canvas.Handle, ASynEdit.CharWidth - Canvas.TextWidth('W'));
+    SetTextCharacterExtra(Canvas.Handle,
+      ASynEdit.CharWidth - Canvas.TextWidth('W'));
     Canvas.TextOut(Pix.X, Pix.Y, fHotIdentInfo.SynToken);
   end;
   CommandsDataModule.PaintMatchingBrackets(Canvas, ASynEdit, TransientType);
@@ -2077,101 +2214,113 @@ end;
 procedure TEditorForm.SynEditKeyUp(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
-  if fHotIdentInfo.HaveHotIdent then begin
+  if fHotIdentInfo.HaveHotIdent then
+  begin
     fHotIdentInfo.HaveHotIdent := False;
     fHotIdentInfo.SynEdit.InvalidateLine(fHotIdentInfo.StartCoord.Line);
     SetCursor(SynEdit.Cursor);
   end;
 end;
 
-procedure TEditorForm.SynEditMouseMove(Sender: TObject; Shift: TShiftState; X,
-  Y: Integer);
+procedure TEditorForm.SynEditMouseMove(Sender: TObject; Shift: TShiftState;
+  X, Y: Integer);
 var
   TokenType, Start, ExpStart: Integer;
   Token, LineTxt: string;
   Attri: TSynHighlighterAttributes;
-  Pix : TPoint;
-  aLineCharPos : TBufferCoord;
-  ASynEdit : TSynEdit;
+  Pix: TPoint;
+  aLineCharPos: TBufferCoord;
+  ASynEdit: TSynEdit;
 begin
   ASynEdit := Sender as TSynEdit;
-  if (ASynEdit.Gutter.Visible) and (X < ASynedit.Gutter.Width) then exit;
-  aLineCharPos := ASynedit.DisplayToBufferPos(ASynedit.PixelsToRowColumn(X, Y));
+  if (ASynEdit.Gutter.Visible) and (X < ASynEdit.Gutter.Width) then
+    Exit;
+  aLineCharPos := ASynEdit.DisplayToBufferPos(ASynEdit.PixelsToRowColumn(X, Y));
   // Syntax error hints
-  if HasSyntaxError and
-     (aLineCharPos.Line = fSyntaxErrorPos.Line) and
-     (aLineCharPos.Char <= fSyntaxErrorPos.Char) then
-  with ASynedit do begin
-    Pix := ClientToScreen(RowColumnToPixels(BufferToDisplayPos(BufferCoord(1, aLineCharpos.Line))));
-    fHintIdentInfo.IdentArea.TopLeft := Pix;
-    Pix := ClientToScreen(RowColumnToPixels(BufferToDisplayPos(BufferCoord(fSyntaxErrorPos.Char, aLineCharpos.Line))));
-    fHintIdentInfo.IdentArea.Right := Pix.X;
-    fHintIdentInfo.IdentArea.Bottom := Pix.Y + LineHeight + 3;
-    Pix := ClientToScreen(RowColumnToPixels(BufferToDisplayPos(aLineCharPos)));
-    Pix.Y := Pix.Y + LineHeight;
-    fHintIdentInfo.SynToken := 'Syntax Error';
-    CodeHint.ActivateHintAt(fHintIdentInfo.IdentArea, Pix);
-  end else if fEditor.HasPythonFile and
-    (HiWord(GetAsyncKeyState(VK_CONTROL)) = 0) and
-    not ASynedit.IsPointInSelection(aLineCharPos) and
-    //(FindVCLWindow(ASynedit.ClientToScreen(Point(X,Y))) = ASynedit) and
-    (((PyControl.DebuggerState in [dsPaused, dsPostMortem]) and
-    CommandsDataModule.PyIDEOptions.ShowDebuggerHints) or
-    ((PyControl.DebuggerState = dsInactive) and
-    CommandsDataModule.PyIDEOptions.ShowCodeHints))
-  then with ASynedit do begin
-    // Code and debugger hints
-    GetHighlighterAttriAtRowColEx(aLineCharPos, Token, TokenType, Start, Attri);
-    if (Attri = CommandsDataModule.SynPythonSyn.IdentifierAttri) or
-       (Attri = CommandsDataModule.SynPythonSyn.NonKeyAttri) or
-       (Attri = CommandsDataModule.SynPythonSyn.SystemAttri) or
-       ((PyControl.DebuggerState in [dsPaused, dsPostMortem]) and ((Token = ')')
-        or (Token = ']'))) then
+  if HasSyntaxError and (aLineCharPos.Line = fSyntaxErrorPos.Line) and
+    (aLineCharPos.Char <= fSyntaxErrorPos.Char) then
+    with ASynEdit do
     begin
-      with fHintIdentInfo do begin
-        LineTxt := Lines[aLineCharPos.Line - 1];
-        SynToken := '';
-        Ident := Token;
-        DottedIdent :=
-          GetWordAtPos(LineTxt, aLineCharPos.Char, IdentChars+['.'], True, False, True);
-        ExpStart := aLineCharPos.Char - Length(DottedIdent) + 1;
-        DottedIdent := DottedIdent +
-          GetWordAtPos(LineTxt, aLineCharPos.Char + 1, IdentChars, False, True);
-        //Determine the hint area
-        StartCoord := BufferCoord(Start, aLineCharPos.Line);
-        Pix := ClientToScreen(RowColumnToPixels(BufferToDisplayPos(StartCoord)));
-        IdentArea.TopLeft := Pix;
-        aLineCharPos := WordEndEx(aLineCharPos);
-        if (Token = ']') or (Token = ')') then
-          Inc(aLineCharPos.Char);
-        Pix := ClientToScreen(RowColumnToPixels(BufferToDisplayPos(aLineCharPos)));
-        IdentArea.Right := Pix.X;
-        IdentArea.Bottom := Pix.Y + LineHeight + 3;
-        // Determine where the hint should be shown (beginning of the expression)
-        if PyControl.DebuggerState in [dsPaused, dsPostMortem] then
-          aLineCharPos := BufferCoord(ExpStart, aLineCharPos.Line)
-        else
-          aLineCharPos := StartCoord;
-        Pix := ClientToScreen(RowColumnToPixels(BufferToDisplayPos(aLineCharPos)));
-        Pix.Y := Pix.Y + LineHeight;
-        // Activate the hint
-        CodeHint.ActivateHintAt(IdentArea, Pix);
+      Pix := ClientToScreen(RowColumnToPixels(BufferToDisplayPos(BufferCoord(1,
+              aLineCharPos.Line))));
+      fHintIdentInfo.IdentArea.TopLeft := Pix;
+      Pix := ClientToScreen(RowColumnToPixels(BufferToDisplayPos
+            (BufferCoord(fSyntaxErrorPos.Char, aLineCharPos.Line))));
+      fHintIdentInfo.IdentArea.Right := Pix.X;
+      fHintIdentInfo.IdentArea.Bottom := Pix.Y + LineHeight + 3;
+      Pix := ClientToScreen(RowColumnToPixels(BufferToDisplayPos(aLineCharPos))
+        );
+      Pix.Y := Pix.Y + LineHeight;
+      fHintIdentInfo.SynToken := 'Syntax Error';
+      CodeHint.ActivateHintAt(fHintIdentInfo.IdentArea, Pix);
+    end
+    else if fEditor.HasPythonFile and (HiWord(GetAsyncKeyState(VK_CONTROL))
+        = 0) and not ASynEdit.IsPointInSelection(aLineCharPos) and
+    // (FindVCLWindow(ASynedit.ClientToScreen(Point(X,Y))) = ASynedit) and
+      (((PyControl.DebuggerState in [dsPaused,
+          dsPostMortem])
+          and CommandsDataModule.PyIDEOptions.ShowDebuggerHints) or
+        ((PyControl.DebuggerState = dsInactive)
+          and CommandsDataModule.PyIDEOptions.ShowCodeHints)) then
+      with ASynEdit do
+      begin
+        // Code and debugger hints
+        GetHighlighterAttriAtRowColEx(aLineCharPos, Token, TokenType, Start,
+          Attri);
+        if (Attri = CommandsDataModule.SynPythonSyn.IdentifierAttri) or
+          (Attri = CommandsDataModule.SynPythonSyn.NonKeyAttri) or
+          (Attri = CommandsDataModule.SynPythonSyn.SystemAttri) or
+          ((PyControl.DebuggerState in [dsPaused, dsPostMortem]) and
+            ((Token = ')') or (Token = ']'))) then
+        begin
+          with fHintIdentInfo do
+          begin
+            LineTxt := Lines[aLineCharPos.Line - 1];
+            SynToken := '';
+            Ident := Token;
+            DottedIdent := GetWordAtPos(LineTxt, aLineCharPos.Char,
+              IdentChars + ['.'], True, False, True);
+            ExpStart := aLineCharPos.Char - Length(DottedIdent) + 1;
+            DottedIdent := DottedIdent + GetWordAtPos(LineTxt,
+              aLineCharPos.Char + 1, IdentChars, False, True);
+            // Determine the hint area
+            StartCoord := BufferCoord(Start, aLineCharPos.Line);
+            Pix := ClientToScreen
+              (RowColumnToPixels(BufferToDisplayPos(StartCoord)));
+            IdentArea.TopLeft := Pix;
+            aLineCharPos := WordEndEx(aLineCharPos);
+            if (Token = ']') or (Token = ')') then
+              Inc(aLineCharPos.Char);
+            Pix := ClientToScreen
+              (RowColumnToPixels(BufferToDisplayPos(aLineCharPos)));
+            IdentArea.Right := Pix.X;
+            IdentArea.Bottom := Pix.Y + LineHeight + 3;
+            // Determine where the hint should be shown (beginning of the expression)
+            if PyControl.DebuggerState in [dsPaused, dsPostMortem] then
+              aLineCharPos := BufferCoord(ExpStart, aLineCharPos.Line)
+            else
+              aLineCharPos := StartCoord;
+            Pix := ClientToScreen
+              (RowColumnToPixels(BufferToDisplayPos(aLineCharPos)));
+            Pix.Y := Pix.Y + LineHeight;
+            // Activate the hint
+            CodeHint.ActivateHintAt(IdentArea, Pix);
+          end;
+        end;
       end;
-    end;
-  end;
 end;
 
-procedure TEditorForm.SynEditMouseWheelDown(Sender: TObject; Shift: TShiftState;
-  MousePos: TPoint; var Handled: Boolean);
+procedure TEditorForm.SynEditMouseWheelDown(Sender: TObject;
+  Shift: TShiftState; MousePos: TPoint; var Handled: boolean);
 begin
-  EditorMouseWheel( +1, Shift );
+  EditorMouseWheel(+1, Shift);
   Handled := True;
 end;
 
 procedure TEditorForm.SynEditMouseWheelUp(Sender: TObject; Shift: TShiftState;
-  MousePos: TPoint; var Handled: Boolean);
+  MousePos: TPoint; var Handled: boolean);
 begin
-  EditorMouseWheel( -1, Shift );
+  EditorMouseWheel(-1, Shift);
   Handled := True;
 end;
 
@@ -2181,50 +2330,57 @@ var
   TokenType, Start: Integer;
   Token: string;
   Attri: TSynHighlighterAttributes;
-  ASynEdit : TSynEdit;
+  ASynEdit: TSynEdit;
 begin
   ASynEdit := Sender as TSynEdit;
   aCursor := SynEdit.Cursor;
-  if fHotIdentInfo.HaveHotIdent then begin
+  if fHotIdentInfo.HaveHotIdent then
+  begin
     fHotIdentInfo.HaveHotIdent := False;
     fHotIdentInfo.SynEdit.InvalidateLine(fHotIdentInfo.StartCoord.Line);
   end;
-  if ASynEdit.Focused and (HiWord(GetAsyncKeyState(VK_CONTROL)) > 0) and
-     fEditor.HasPythonFile and not ASynEdit.IsPointInSelection(aLineCharPos)
-  then with ASynEdit do begin
-    GetHighlighterAttriAtRowColEx(aLineCharPos, Token, TokenType, Start, Attri);
-    if (Attri = CommandsDataModule.SynPythonSyn.IdentifierAttri) or
-       (Attri = CommandsDataModule.SynPythonSyn.NonKeyAttri) or
-       (Attri = CommandsDataModule.SynPythonSyn.SystemAttri) then
+  if ASynEdit.Focused and (HiWord(GetAsyncKeyState(VK_CONTROL)) > 0)
+    and fEditor.HasPythonFile and not ASynEdit.IsPointInSelection
+    (aLineCharPos) then
+    with ASynEdit do
     begin
-      aCursor := crHandPoint;
-      with fHotIdentInfo do begin
-        SynEdit := ASynEdit;
-        HaveHotIdent := True;
-        SynAttri := Attri;
-        SynToken := Token;
-        StartCoord := BufferCoord(Start, aLineCharPos.Line);
-        SynEdit.InvalidateLine(aLineCharPos.Line);
+      GetHighlighterAttriAtRowColEx(aLineCharPos, Token, TokenType, Start,
+        Attri);
+      if (Attri = CommandsDataModule.SynPythonSyn.IdentifierAttri) or
+        (Attri = CommandsDataModule.SynPythonSyn.NonKeyAttri) or
+        (Attri = CommandsDataModule.SynPythonSyn.SystemAttri) then
+      begin
+        aCursor := crHandPoint;
+        with fHotIdentInfo do
+        begin
+          SynEdit := ASynEdit;
+          HaveHotIdent := True;
+          SynAttri := Attri;
+          SynToken := Token;
+          StartCoord := BufferCoord(Start, aLineCharPos.Line);
+          SynEdit.InvalidateLine(aLineCharPos.Line);
+        end;
       end;
     end;
-  end;
 end;
 
-procedure TEditorForm.SynEditMouseDown(Sender: TObject;
-  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+procedure TEditorForm.SynEditMouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
 begin
   EditorSearchOptions.InitSearch;
   with PyControl.ErrorPos do
-    if Editor = GetEditor then begin
+    if Editor = GetEditor then
+    begin
       Clear;
       PyIDEMainForm.DebuggerErrorPosChange(Self);
     end;
 
-  if fHotIdentInfo.HaveHotIdent then begin
+  if fHotIdentInfo.HaveHotIdent then
+  begin
     fHotIdentInfo.HaveHotIdent := False;
     fHotIdentInfo.SynEdit.InvalidateLine(fHotIdentInfo.StartCoord.Line);
-    PostMessage(PyIDEMainForm.Handle, WM_FINDDEFINITION, fHotIdentInfo.StartCoord.Char,
-      fHotIdentInfo.StartCoord.Line);
+    PostMessage(PyIDEMainForm.Handle, WM_FINDDEFINITION,
+      fHotIdentInfo.StartCoord.Char, fHotIdentInfo.StartCoord.Line);
   end;
   if SynParamCompletion.Form.Visible then
     SynParamCompletion.CancelCompletion;
@@ -2234,21 +2390,23 @@ procedure TEditorForm.FGPanelEnter(Sender: TObject);
 begin
   HasFocus := True;
   Color := frmIDEDockWin.BorderHighlight;
-  //FGPanel.Margins.SetBounds(2,2,2,2);
+  // FGPanel.Margins.SetBounds(2,2,2,2);
 end;
 
 procedure TEditorForm.FGPanelExit(Sender: TObject);
 begin
   HasFocus := False;
   Color := frmIDEDockWin.BorderNormal;
-  //FGPanel.Margins.SetBounds(0,0,0,0);
+  // FGPanel.Margins.SetBounds(0,0,0,0);
 end;
 
 procedure TEditorForm.mnCloseTabClick(Sender: TObject);
 begin
-  if ViewsTabControl.ActivePage <> tbshSource then begin
+  if ViewsTabControl.ActivePage <> tbshSource then
+  begin
     ViewsTabControl.ActivePage.Free;
-    if ViewsTabControl.PagesCount = 1 then begin
+    if ViewsTabControl.PagesCount = 1 then
+    begin
       ViewsTabControl.TabVisible := False;
     end;
   end;
@@ -2256,36 +2414,36 @@ end;
 
 procedure TEditorForm.WMShellNotify(var Msg: TMessage);
 {
-   Does nothing except for releasing the ShellEventList
-   All the processing takes place from the FileExplorer's
-   OnAfterShellNotify Event
-   Note the File Explorer receives the Kernel notifications
-   registered by the editors
+  Does nothing except for releasing the ShellEventList
+  All the processing takes place from the FileExplorer's
+  OnAfterShellNotify Event
+  Note the File Explorer receives the Kernel notifications
+  registered by the editors
 }
 var
   ShellEventList: TVirtualShellEventList;
-//  ShellEvent : TVirtualShellEvent;
-//  List: TList;
-//  Count: integer;
-//  i : integer;
+  // ShellEvent : TVirtualShellEvent;
+  // List: TList;
+  // Count: integer;
+  // i : integer;
 begin
-//  if csDestroying in ComponentState then Exit;
-//
+  // if csDestroying in ComponentState then Exit;
+  //
   ShellEventList := TVirtualShellEventList(Msg.wParam);
-//  List := ShellEventList.LockList;
-//  try
-//    begin
-//      Count := List.Count;
-//      for i := 0 to Count - 1 do
-//      begin
-//          ShellEvent := TVirtualShellEvent(List.Items[i]);
-//          CommandsDataModule.ProcessShellNotify(ShellEvent);
-//      end;
-//    end;
-//  finally
-//    ShellEventList.UnlockList;
-    ShellEventList.Release;
-//  end;
+  // List := ShellEventList.LockList;
+  // try
+  // begin
+  // Count := List.Count;
+  // for i := 0 to Count - 1 do
+  // begin
+  // ShellEvent := TVirtualShellEvent(List.Items[i]);
+  // CommandsDataModule.ProcessShellNotify(ShellEvent);
+  // end;
+  // end;
+  // finally
+  // ShellEventList.UnlockList;
+  ShellEventList.Release;
+  // end;
 end;
 
 procedure TEditorForm.AddWatchAtCursor;
@@ -2293,25 +2451,28 @@ var
   TokenType, Start: Integer;
   Token, LineTxt, DottedIdent: string;
   Attri: TSynHighlighterAttributes;
-  aLineCharPos : TBufferCoord;
+  aLineCharPos: TBufferCoord;
 begin
- aLineCharPos := SynEdit.CaretXY;
- if fEditor.HasPythonFile then with SynEdit do begin
-    GetHighlighterAttriAtRowColEx(aLineCharPos, Token, TokenType, Start, Attri);
-    if (Attri = CommandsDataModule.SynPythonSyn.IdentifierAttri) or
-       (Attri = CommandsDataModule.SynPythonSyn.NonKeyAttri) or
-       (Attri = CommandsDataModule.SynPythonSyn.SystemAttri) or
-       ((Token = ')') or (Token = ']')) then
+  aLineCharPos := SynEdit.CaretXY;
+  if fEditor.HasPythonFile then
+    with SynEdit do
     begin
-      LineTxt := Lines[aLineCharPos.Line - 1];
-      DottedIdent :=
-        GetWordAtPos(LineTxt, aLineCharPos.Char, IdentChars+['.'], True, False, True);
-      DottedIdent := DottedIdent +
-        GetWordAtPos(LineTxt, aLineCharPos.Char + 1, IdentChars, False, True);
-      if DottedIdent <> '' then
-        WatchesWindow.AddWatch(DottedIdent);
+      GetHighlighterAttriAtRowColEx(aLineCharPos, Token, TokenType, Start,
+        Attri);
+      if (Attri = CommandsDataModule.SynPythonSyn.IdentifierAttri) or
+        (Attri = CommandsDataModule.SynPythonSyn.NonKeyAttri) or
+        (Attri = CommandsDataModule.SynPythonSyn.SystemAttri) or
+        ((Token = ')') or (Token = ']')) then
+      begin
+        LineTxt := Lines[aLineCharPos.Line - 1];
+        DottedIdent := GetWordAtPos(LineTxt, aLineCharPos.Char,
+          IdentChars + ['.'], True, False, True);
+        DottedIdent := DottedIdent + GetWordAtPos(LineTxt,
+          aLineCharPos.Char + 1, IdentChars, False, True);
+        if DottedIdent <> '' then
+          WatchesWindow.AddWatch(DottedIdent);
+      end;
     end;
-  end;
 end;
 
 procedure TEditorForm.SetUpCodeHints;
@@ -2332,19 +2493,23 @@ procedure TEditorForm.mnUpdateViewClick(Sender: TObject);
 var
   TabCaption: string;
   i: Integer;
-  ViewFactory : IEditorViewFactory;
-  EditorView : IEditorView;
+  ViewFactory: IEditorViewFactory;
+  EditorView: IEditorView;
 begin
-  if ViewsTabControl.ActivePage <> tbshSource then begin
+  if ViewsTabControl.ActivePage <> tbshSource then
+  begin
     TabCaption := ViewsTabControl.ActivePage.Caption;
     ViewFactory := nil;
-    for i := 0 to GI_EditorFactory.ViewFactoryCount - 1 do begin
-      if GI_EditorFactory.ViewFactory[i].TabCaption = TabCaption then begin
+    for i := 0 to GI_EditorFactory.ViewFactoryCount - 1 do
+    begin
+      if GI_EditorFactory.ViewFactory[i].TabCaption = TabCaption then
+      begin
         ViewFactory := GI_EditorFactory.ViewFactory[i];
         break;
       end;
     end;
-    if Assigned(ViewFactory) then begin
+    if Assigned(ViewFactory) then
+    begin
       EditorView := fEditor.ActivateView(ViewFactory);
       if Assigned(EditorView) then
         EditorView.UpdateView(fEditor);
@@ -2365,12 +2530,15 @@ end;
 
 procedure TEditorForm.WMSpSkinChange(var Message: TMessage);
 begin
-  if HasFocus then begin
+  if HasFocus then
+  begin
     Color := frmIDEDockWin.BorderHighlight;
-    //FGPanel.Margins.SetBounds(2,2,2,2);
-  end else begin
+    // FGPanel.Margins.SetBounds(2,2,2,2);
+  end
+  else
+  begin
     Color := frmIDEDockWin.BorderNormal;
-    //FGPanel.Margins.SetBounds(0,0,0,0);
+    // FGPanel.Margins.SetBounds(0,0,0,0);
   end;
 
   PyIDEMainForm.ThemeEditorGutter(SynEdit.Gutter);
@@ -2387,39 +2555,40 @@ begin
 end;
 
 procedure TEditorForm.SynCodeCompletionExecute(Kind: SynCompletionType;
-  Sender: TObject; var CurrentInput: string; var x, y: Integer;
-  var CanExecute: Boolean);
+  Sender: TObject; var CurrentInput: string; var X, Y: Integer;
+  var CanExecute: boolean);
 Var
   locline, lookup: string;
-  TmpX, Index, ImageIndex, i, PathDepth : integer;
-  FoundMatch     : Boolean;
-  DisplayText, InsertText, FName, ErrMsg : string;
-  NameSpace, KeywordList : TStringList;
+  TmpX, Index, ImageIndex, i, PathDepth: Integer;
+  FoundMatch: boolean;
+  DisplayText, InsertText, FName, ErrMsg: string;
+  NameSpace, KeywordList: TStringList;
   Scope: TCodeElement;
-  Def : TBaseCodeElement;
-  ParsedModule, ParsedBuiltInModule : TParsedModule;
-  PythonPathAdder : IInterface;
+  Def: TBaseCodeElement;
+  ParsedModule, ParsedBuiltInModule: TParsedModule;
+  PythonPathAdder: IInterface;
   Attr: TSynHighlighterAttributes;
-  DummyToken, Dir : string;
-  BC : TBufferCoord;
-  Keywords : Variant;
+  DummyToken, Dir: string;
+  BC: TBufferCoord;
+  Keywords: Variant;
 
-  procedure GetModuleList(Path : Variant);
+  procedure GetModuleList(Path: Variant);
   Var
-    i : integer;
-    S : string;
-    SortedNameSpace : TStringList;
+    i: Integer;
+    S: string;
+    SortedNameSpace: TStringList;
   begin
     SortedNameSpace := TStringList.Create;
     SortedNameSpace.Duplicates := dupIgnore; // Remove duplicates
     SortedNameSpace.Sorted := True;
     try
       PyControl.ActiveInterpreter.GetModulesOnPath(Path, SortedNameSpace);
-      InsertText := SortedNamespace.Text;
-      for i := 0 to SortedNamespace.Count - 1 do begin
-        S := SortedNamespace[i];
+      InsertText := SortedNameSpace.Text;
+      for i := 0 to SortedNameSpace.Count - 1 do
+      begin
+        S := SortedNameSpace[i];
         DisplayText := DisplayText + Format('\Image{%d}\hspace{2}%s', [16, S]);
-        if i < SortedNamespace.Count - 1 then
+        if i < SortedNameSpace.Count - 1 then
           DisplayText := DisplayText + #10;
       end;
     finally
@@ -2429,10 +2598,10 @@ Var
 
   procedure ProcessNamespace;
   Var
-    i : integer;
-    S : string;
-    CE : TBaseCodeElement;
-    SortedNameSpace : TStringList;
+    i: Integer;
+    S: string;
+    CE: TBaseCodeElement;
+    SortedNameSpace: TStringList;
   begin
     SortedNameSpace := TStringList.Create;
     try
@@ -2441,27 +2610,30 @@ Var
       SortedNameSpace.AddStrings(NameSpace);
       SortedNameSpace.Sorted := False;
       SortedNameSpace.CustomSort(ComparePythonIdents);
-      InsertText := SortedNamespace.Text;
-      for i := 0 to SortedNamespace.Count - 1 do begin
-        S := SortedNamespace[i];
-        CE := SortedNamespace.Objects[i] as TBaseCodeElement;
+      InsertText := SortedNameSpace.Text;
+      for i := 0 to SortedNameSpace.Count - 1 do
+      begin
+        S := SortedNameSpace[i];
+        CE := SortedNameSpace.Objects[i] as TBaseCodeElement;
         if (CE is TParsedModule) or (CE is TModuleImport) then
           ImageIndex := 16
-        else if CE is TParsedFunction then begin
+        else if CE is TParsedFunction then
+        begin
           if CE.Parent is TParsedClass then
             ImageIndex := 14
           else
             ImageIndex := 17
-        end else if CE is TParsedClass then
+        end
+        else if CE is TParsedClass then
           ImageIndex := 13
-        else begin  // TVariable or TParsedVariable
-          if CE.Parent is TParsedClass then
-            ImageIndex := 1
-          else
-            ImageIndex := 0
+        else
+        begin // TVariable or TParsedVariable
+          if Assigned(CE) and (CE.Parent is TParsedClass) then ImageIndex := 1 else ImageIndex := 0;
+          if Assigned(KeywordList) and (KeywordList.IndexOf(S)>=0) then ImageIndex:=20;
         end;
-        DisplayText := DisplayText + Format('\Image{%d}\hspace{2}%s', [ImageIndex, S]);
-        if i < SortedNamespace.Count - 1 then
+        DisplayText := DisplayText + Format('\Image{%d}\hspace{2}%s',
+          [ImageIndex, S]);
+        if i < SortedNameSpace.Count - 1 then
           DisplayText := DisplayText + #10;
       end;
     finally
@@ -2470,21 +2642,21 @@ Var
   end;
 
 begin
-  if not fEditor.HasPythonFile or PyControl.IsRunning or
-    not CommandsDataModule.PyIDEOptions.EditorCodeCompletion then
+  if not fEditor.HasPythonFile or PyControl.IsRunning or not CommandsDataModule.
+    PyIDEOptions.EditorCodeCompletion then
   begin
     CanExecute := False;
     Exit;
   end;
-
   with TSynCompletionProposal(Sender).Editor do
   begin
     BC := CaretXY;
     Dec(BC.Char);
     if GetHighlighterAttriAtRowCol(BC, DummyToken, Attr) and
-     ((attr = Highlighter.StringAttribute) or (attr = Highlighter.CommentAttribute) or
-      (attr = CommandsDataModule.SynPythonSyn.CodeCommentAttri) or
-      (attr = CommandsDataModule.SynPythonSyn.DocStringAttri)) then
+      ((Attr = Highlighter.StringAttribute) or
+        (Attr = Highlighter.CommentAttribute) or
+        (Attr = CommandsDataModule.SynPythonSyn.CodeCommentAttri) or
+        (Attr = CommandsDataModule.SynPythonSyn.DocStringAttri)) then
     begin
       // Do not code complete inside strings or comments
       CanExecute := False;
@@ -2492,36 +2664,48 @@ begin
     end;
 
     FName := GetEditor.GetFileNameOrTitle;
-    locLine := StrPadRight(LineText, CaretX - 1, ' '); // to deal with trim trailing spaces
+    locline := StrPadRight(LineText, CaretX - 1, ' ');
+    // to deal with trim trailing spaces
 
-    if RE_CC_Import.Exec(Copy(locLine, 1, CaretX - 1)) then begin
+    if RE_CC_Import.Exec(Copy(locline, 1, CaretX - 1)) then
+    begin
       // autocomplete import statement
 
       // Add the file path to the Python path - Will be automatically removed
-      PythonPathAdder := PyControl.ActiveInterpreter.AddPathToPythonPath(ExtractFileDir(FName));
+      PythonPathAdder := PyControl.ActiveInterpreter.AddPathToPythonPath
+        (ExtractFileDir(FName));
       GetModuleList(None);
-    end else if RE_CC_From.Exec(Copy(locLine, 1, CaretX - 1)) then begin
+    end
+    else if RE_CC_From.Exec(Copy(locline, 1, CaretX - 1)) then
+    begin
       // autocomplete from statement
-      PathDepth :=  RE_CC_From.MatchLen[1];
-      if PathDepth > 0 then begin
+      PathDepth := RE_CC_From.MatchLen[1];
+      if PathDepth > 0 then
+      begin
         Dir := FName;
         for i := 1 to PathDepth do
-           Dir := ExtractFileDir(Dir);
+          Dir := ExtractFileDir(Dir);
         GetModuleList(VarPythonCreate([Dir]));
-      end else begin
+      end
+      else
+      begin
         // Add the file path to the Python path - Will be automatically removed
-        PythonPathAdder := PyControl.ActiveInterpreter.AddPathToPythonPath(ExtractFileDir(FName));
+        PythonPathAdder := PyControl.ActiveInterpreter.AddPathToPythonPath
+          (ExtractFileDir(FName));
         GetModuleList(None);
       end;
-    end else if RE_CC_FromImport.Exec(Copy(locLine, 1, CaretX - 1)) then begin
-      PathDepth :=  RE_CC_FromImport.MatchLen[1];
-      if RE_CC_FromImport.MatchLen[2] > 0 then begin
+    end
+    else if RE_CC_FromImport.Exec(Copy(locline, 1, CaretX - 1)) then
+    begin
+      PathDepth := RE_CC_FromImport.MatchLen[1];
+      if RE_CC_FromImport.MatchLen[2] > 0 then
+      begin
         // from ...module import identifiers
         PyScripterRefactor.InitializeQuery;
-        ParsedModule :=
-          PyScripterRefactor.ResolveModuleImport(RE_CC_FromImport.Match[2],
-                                                 FName, PathDepth);
-        if Assigned(ParsedModule) then begin
+        ParsedModule := PyScripterRefactor.ResolveModuleImport
+          (RE_CC_FromImport.Match[2], FName, PathDepth);
+        if Assigned(ParsedModule) then
+        begin
           NameSpace := TStringList.Create;
           try
             ParsedModule.GetNamespace(NameSpace);
@@ -2531,26 +2715,33 @@ begin
           end;
         end;
         PyScripterRefactor.FinalizeQuery;
-      end else begin
+      end
+      else
+      begin
         // from ... import modules
-        if PathDepth > 0 then begin
+        if PathDepth > 0 then
+        begin
           Dir := FName;
           for i := 1 to PathDepth do
-             Dir := ExtractFileDir(Dir);
+            Dir := ExtractFileDir(Dir);
           GetModuleList(VarPythonCreate([Dir]));
         end;
       end;
-    end else begin
+    end
+    else
+    begin
       TmpX := CaretX;
-      if TmpX > length(locLine) then
-        TmpX := length(locLine)
-      else dec(TmpX);
+      if TmpX > Length(locline) then
+        TmpX := Length(locline)
+      else
+        Dec(TmpX);
 
-      lookup := GetWordAtPos(LocLine, TmpX, IdentChars+['.'], True, False);
+      lookup := GetWordAtPos(locline, TmpX, IdentChars + ['.'], True, False);
       Index := CharLastPos(lookup, WideChar('.'));
 
       // Add the file path to the Python path - Will be automatically removed
-      PythonPathAdder := InternalInterpreter.AddPathToPythonPath(ExtractFileDir(FName));
+      PythonPathAdder := InternalInterpreter.AddPathToPythonPath
+        (ExtractFileDir(FName));
 
       PyScripterRefactor.InitializeQuery;
       // GetParsedModule
@@ -2558,29 +2749,42 @@ begin
       Scope := nil;
       if Assigned(ParsedModule) then
         Scope := ParsedModule.GetScopeForLine(CaretY);
-      if Assigned(ParsedModule) and Assigned(Scope) then begin
+      if Assigned(ParsedModule) and Assigned(Scope) then
+      begin
         NameSpace := TStringList.Create;
-
         try
           DisplayText := '';
-          if Index > 0 then begin
-            lookup := Copy(lookup, 1, Index-1);
-            Def := PyScripterRefactor.FindDottedDefinition(lookup, ParsedModule,
-              Scope, ErrMsg);
-            if Assigned(Def) and(Def.ClassType = TVariable) then
+          if Index > 0 then
+          begin
+            lookup := Copy(lookup, 1, Index - 1);
+            Def := PyScripterRefactor.FindDottedDefinition(lookup,
+              ParsedModule, Scope, ErrMsg);
+            if Assigned(Def) and (Def.ClassType = TVariable) then
               Def := PyScripterRefactor.GetVarType(TVariable(Def), ErrMsg);
-            if Assigned(Def) then
-              (Def as TCodeElement).GetNamespace(NameSpace);
+            if Assigned(Def) then (Def as TCodeElement).GetNamespace(NameSpace);
           end else begin
             // extract namespace from current scope and its parents
-            while Assigned(Scope) do begin
-              Scope.GetNameSpace(NameSpace);
+            while Assigned(Scope) do
+            begin
+              Scope.GetNamespace(NameSpace);
               Scope := Scope.Parent as TCodeElement;
             end;
-
-            //  builtins (could add keywords as well)
+            // builtins (could add keywords as well)
             ParsedBuiltInModule := PyScripterRefactor.GetParsedModule(GetPythonEngine.BuiltInModuleName, None);
-            ParsedBuiltInModule.GetNameSpace(NameSpace);
+            ParsedBuiltInModule.GetNamespace(NameSpace);
+            if CommandsDataModule.PyIDEOptions.CompleteKeywords then
+            begin
+              Keywords := Import('keyword').kwlist;
+              Keywords := BuiltinModule.tuple(Keywords);
+              KeywordList := TStringList.Create;
+              try
+                GetPythonEngine.PyTupleToStrings(ExtractPythonObjectFrom(Keywords), KeywordList);
+    //                for i := 0 to KeywordList.Count - 1 do DisplayText := DisplayText + #10 + Format('\Image{%d}\hspace{2}\color{clBlue}%s', [20, KeywordList[i]]);
+                for i := 0 to Pred(KeywordList.Count) do NameSpace.Insert(0,KeywordList[i]);
+              finally
+                KeywordList.Free;
+              end;
+            end
           end;
           ProcessNamespace;
         finally
@@ -2588,41 +2792,31 @@ begin
         end;
       end;
       PyScripterRefactor.FinalizeQuery;
-      if (Index <= 0) and CommandsDataModule.PyIDEOptions.CompleteKeywords then begin
-        Keywords := Import('keyword').kwlist;
-        Keywords := BuiltinModule.tuple(Keywords);
-        KeywordList := TStringList.Create;
-        try
-          GetPythonEngine.PyTupleToStrings(ExtractPythonObjectFrom(Keywords), KeyWordList);
-          for i := 0 to KeywordList.Count - 1 do begin
-            DisplayText := DisplayText + #10 + Format('\Image{%d}\hspace{2}\color{clBlue}%s', [20, KeywordList[i]]);
-          end;
-          InsertText := InsertText +  KeywordList.Text;
-        finally
-          KeywordList.Free;
-        end;
-      end;
     end;
     FoundMatch := DisplayText <> '';
   end;
 
+
   CanExecute := FoundMatch;
 
   with TSynCompletionProposal(Sender) do
-    if CanExecute then begin
+    if CanExecute then
+    begin
       Font := CommandsDataModule.PyIDEOptions.AutoCompletionFont;
       ItemList.Text := DisplayText;
       InsertList.Text := InsertText;
-      NbLinesInWindow :=
-        CommandsDataModule.PyIDEOptions.CodeCompletionListSize;
+      NbLinesInWindow := CommandsDataModule.PyIDEOptions.CodeCompletionListSize;
 
       // Auto-complete with one entry without showing the form
       CurrentString := CurrentInput;
-      if Form.AssignedList.Count = 1 then begin
+      if Form.AssignedList.Count = 1 then
+      begin
         CanExecute := False;
         OnValidate(Form, [], #0);
       end;
-    end else begin
+    end
+    else
+    begin
       ItemList.Clear;
       InsertList.Clear;
     end;
@@ -2630,38 +2824,35 @@ end;
 
 type
   TParamCompletionData = record
-    lookup,
-    DisplayText,
-    Doc : string;
+    lookup, DisplayText, Doc: string;
   end;
+
 Var
-  OldParamCompetionData : TParamCompletionData;
+  OldParamCompetionData: TParamCompletionData;
 
 procedure TEditorForm.SynParamCompletionExecute(Kind: SynCompletionType;
-  Sender: TObject; var CurrentInput: string; var x, y: Integer;
-  var CanExecute: Boolean);
+  Sender: TObject; var CurrentInput: string; var X, Y: Integer;
+  var CanExecute: boolean);
 Var
   locline, lookup: string;
-  TmpX, StartX,
-  ParenCounter,
-  TmpLocation : Integer;
-  FoundMatch : Boolean;
-  FName, DisplayText, ErrMsg, Doc : string;
-  p : TPoint;
+  TmpX, StartX, ParenCounter, TmpLocation: Integer;
+  FoundMatch: boolean;
+  FName, DisplayText, ErrMsg, Doc: string;
+  P: TPoint;
   Scope: TCodeElement;
   Def: TBaseCodeElement;
-  ParsedModule : TParsedModule;
-  PythonPathAdder : IInterface;
+  ParsedModule: TParsedModule;
+  PythonPathAdder: IInterface;
   TokenType, Start: Integer;
   Token: string;
   Attri: TSynHighlighterAttributes;
-  AlreadyActive : Boolean;
+  AlreadyActive: boolean;
   Attr: TSynHighlighterAttributes;
-  DummyToken : string;
-  BC : TBufferCoord;
+  DummyToken: string;
+  BC: TBufferCoord;
 begin
-  if not fEditor.HasPythonFile or PyControl.IsRunning or
-    not CommandsDataModule.PyIDEOptions.EditorCodeCompletion then
+  if not fEditor.HasPythonFile or PyControl.IsRunning or not CommandsDataModule.
+    PyIDEOptions.EditorCodeCompletion then
   begin
     CanExecute := False;
     Exit;
@@ -2671,10 +2862,11 @@ begin
   begin
     BC := CaretXY;
     Dec(BC.Char);
-    if GetHighlighterAttriAtRowCol(BC, DummyToken, Attr) and
-     ({(attr = Highlighter.StringAttribute) or} (attr = Highlighter.CommentAttribute) or
-      (attr = CommandsDataModule.SynPythonSyn.CodeCommentAttri) or
-      (attr = CommandsDataModule.SynPythonSyn.DocStringAttri)) then
+    if GetHighlighterAttriAtRowCol(BC, DummyToken, Attr) and (
+      { (attr = Highlighter.StringAttribute) or }
+      (Attr = Highlighter.CommentAttribute) or
+        (Attr = CommandsDataModule.SynPythonSyn.CodeCommentAttri) or
+        (Attr = CommandsDataModule.SynPythonSyn.DocStringAttri)) then
     begin
       // Do not code complete inside strings or comments
       CanExecute := False;
@@ -2683,39 +2875,45 @@ begin
 
     AlreadyActive := TSynCompletionProposal(Sender).Form.Visible;
 
-    locLine := LineText;
+    locline := LineText;
 
-    //go back from the cursor and find the first open paren
+    // go back from the cursor and find the first open paren
     TmpX := CaretX;
     StartX := CaretX;
-    if TmpX > length(locLine) then
-      TmpX := length(locLine)
-    else dec(TmpX);
+    if TmpX > Length(locline) then
+      TmpX := Length(locline)
+    else
+      Dec(TmpX);
     FoundMatch := False;
     TmpLocation := 0;
 
     while (TmpX > 0) and not(FoundMatch) do
     begin
-      if LocLine[TmpX] = ',' then
+      if locline[TmpX] = ',' then
       begin
-        inc(TmpLocation);
-        dec(TmpX);
-      end else if LocLine[TmpX] = ')' then
+        Inc(TmpLocation);
+        Dec(TmpX);
+      end
+      else if locline[TmpX] = ')' then
       begin
-        //We found a close, go till it's opening paren
+        // We found a close, go till it's opening paren
         ParenCounter := 1;
-        dec(TmpX);
+        Dec(TmpX);
         while (TmpX > 0) and (ParenCounter > 0) do
         begin
-          if LocLine[TmpX] = ')' then inc(ParenCounter)
-          else if LocLine[TmpX] = '(' then dec(ParenCounter);
-          dec(TmpX);
+          if locline[TmpX] = ')' then
+            Inc(ParenCounter)
+          else if locline[TmpX] = '(' then
+            Dec(ParenCounter);
+          Dec(TmpX);
         end;
-      end else if locLine[TmpX] = '(' then
+      end
+      else if locline[TmpX] = '(' then
       begin
-        //we have a valid open paren, lets see what the word before it is
+        // we have a valid open paren, lets see what the word before it is
         StartX := TmpX;
-        while (TmpX > 0) and not CharInSet(locLine[TmpX], IdentChars+['.']) do  // added [.]
+        while (TmpX > 0) and not CharInSet(locline[TmpX], IdentChars + ['.'])
+          do // added [.]
           Dec(TmpX);
         if TmpX > 0 then
         begin
@@ -2724,18 +2922,23 @@ begin
           GetHighlighterAttriAtRowColEx(BufferCoord(TmpX, CaretY), Token,
             TokenType, Start, Attri);
           if (Attri = CommandsDataModule.SynPythonSyn.IdentifierAttri) or
-             (Attri = CommandsDataModule.SynPythonSyn.NonKeyAttri) or
-             (Attri = CommandsDataModule.SynPythonSyn.SystemAttri) then
+            (Attri = CommandsDataModule.SynPythonSyn.NonKeyAttri) or
+            (Attri = CommandsDataModule.SynPythonSyn.SystemAttri) then
           begin
-            lookup := GetWordAtPos(LocLine, TmpX, IdentChars+['.'], True, False);
-            if AlreadyActive and (lookup = OldParamCompetionData.lookup) then begin
+            lookup := GetWordAtPos(locline, TmpX, IdentChars + ['.'], True,
+              False);
+            if AlreadyActive and (lookup = OldParamCompetionData.lookup) then
+            begin
               DisplayText := OldParamCompetionData.DisplayText;
               Doc := OldParamCompetionData.Doc;
               FoundMatch := True;
-            end else begin
+            end
+            else
+            begin
               FName := GetEditor.GetFileNameOrTitle;
               // Add the file path to the Python path - Will be automatically removed
-              PythonPathAdder := InternalInterpreter.AddPathToPythonPath(ExtractFileDir(FName));
+              PythonPathAdder := InternalInterpreter.AddPathToPythonPath
+                (ExtractFileDir(FName));
 
               PyScripterRefactor.InitializeQuery;
               // GetParsedModule
@@ -2743,14 +2946,16 @@ begin
               Scope := nil;
               if Assigned(ParsedModule) then
                 Scope := ParsedModule.GetScopeForLine(CaretY);
-              if Assigned(ParsedModule) and Assigned(Scope) then begin
-                Def := PyScripterRefactor.FindDottedDefinition(lookup, ParsedModule,
-                  Scope, ErrMsg);
+              if Assigned(ParsedModule) and Assigned(Scope) then
+              begin
+                Def := PyScripterRefactor.FindDottedDefinition(lookup,
+                  ParsedModule, Scope, ErrMsg);
 
                 if Assigned(Def) and (Def is TParsedClass) then
                   Def := TParsedClass(Def).GetConstructor;
 
-                if Assigned(Def) and (Def is TParsedFunction) then begin
+                if Assigned(Def) and (Def is TParsedFunction) then
+                begin
                   DisplayText := TParsedFunction(Def).ArgumentsString;
                   // Remove self arguments from methods
                   if StrIsLeft(PWideChar(DisplayText), 'self') then
@@ -2772,29 +2977,39 @@ begin
           if not(FoundMatch) then
           begin
             TmpX := StartX;
-            dec(TmpX);
+            Dec(TmpX);
           end;
         end;
-      end else dec(TmpX)
+      end
+      else
+        Dec(TmpX)
     end;
   end;
 
-  if FoundMatch then begin
-    //CanExecute := (DisplayText <> '') or (Doc <> '');
+  if FoundMatch then
+  begin
+    // CanExecute := (DisplayText <> '') or (Doc <> '');
     CanExecute := True;
-  end else
+  end
+  else
     CanExecute := False;
 
-  if CanExecute then begin
-    with TSynCompletionProposal(Sender) do begin
+  if CanExecute then
+  begin
+    with TSynCompletionProposal(Sender) do
+    begin
       Font := CommandsDataModule.PyIDEOptions.AutoCompletionFont;
-      if DisplayText = '' then begin
+      if DisplayText = '' then
+      begin
         FormatParams := False;
-        DisplayText :=  '\style{~B}' + _(SNoParameters) + '\style{~B}';
-      end else begin
+        DisplayText := '\style{~B}' + _(SNoParameters) + '\style{~B}';
+      end
+      else
+      begin
         FormatParams := True;
       end;
-      if (Doc <> '') then begin
+      if (Doc <> '') then
+      begin
         DisplayText := DisplayText + sLineBreak;
         Doc := GetLineRange(Doc, 1, 40) // 40 lines max
       end;
@@ -2803,13 +3018,16 @@ begin
       ItemList.Text := DisplayText + Doc;
     end;
 
-    //  position the hint window at and just below the opening bracket
-    p := SynEdit.ClientToScreen(SynEdit.RowColumnToPixels(
-      SynEdit.BufferToDisplayPos(BufferCoord(Succ(StartX), SynEdit.CaretY))));
-    Inc(p.y, SynEdit.LineHeight);
-    x := p.X;
-    y := p.Y;
-  end else begin
+    // position the hint window at and just below the opening bracket
+    P := SynEdit.ClientToScreen(SynEdit.RowColumnToPixels
+        (SynEdit.BufferToDisplayPos(BufferCoord(Succ(StartX), SynEdit.CaretY)))
+      );
+    Inc(P.Y, SynEdit.LineHeight);
+    X := P.X;
+    Y := P.Y;
+  end
+  else
+  begin
     TSynCompletionProposal(Sender).ItemList.Clear;
     TSynCompletionProposal(Sender).InsertList.Clear;
   end;
@@ -2819,10 +3037,10 @@ procedure TEditorForm.SynWebCompletionAfterCodeCompletion(Sender: TObject;
   const Value: string; Shift: TShiftState; Index: Integer;
   EndToken: WideChar);
 
-  function CaretBetween(AStr: String): Boolean;
+  function CaretBetween(AStr: String): boolean;
   var
     i: Integer;
-    SynEdit : TCustomSynEdit;
+    SynEdit: TCustomSynEdit;
   begin
     SynEdit := TSynCompletionProposal(Sender).Editor;
     i := Pos(AStr, Value);
@@ -2839,15 +3057,16 @@ begin
 end;
 
 procedure TEditorForm.SynWebCompletionExecute(Kind: SynCompletionType;
-  Sender: TObject; var CurrentInput: string; var x, y: Integer;
-  var CanExecute: Boolean);
+  Sender: TObject; var CurrentInput: string; var X, Y: Integer;
+  var CanExecute: boolean);
 Var
-  SynEdit : TCustomSynEdit;
+  SynEdit: TCustomSynEdit;
 begin
   SynEdit := TSynCompletionProposal(Sender).Editor;
-  SynWebFillCompletionProposal(SynEdit, CommandsDataModule.SynWebHtmlSyn,
+  SynWebFillCompletionProposal(SynEdit, CommandsDataModule.SynWebHTMLSyn,
     SynWebCompletion, CurrentInput);
-  TSynCompletionProposal(Sender).Font := CommandsDataModule.PyIDEOptions.AutoCompletionFont;
+  TSynCompletionProposal(Sender).Font :=
+    CommandsDataModule.PyIDEOptions.AutoCompletionFont;
 end;
 
 procedure TEditorForm.ViewsTabControlActiveTabChange(Sender: TObject;
@@ -2858,16 +3077,18 @@ begin
 end;
 
 procedure TEditorForm.ViewsTabControlContextPopup(Sender: TObject;
-  MousePos: TPoint; var Handled: Boolean);
+  MousePos: TPoint; var Handled: boolean);
 Var
   IV: TTBItemViewer;
-  P : TPoint;
+  P: TPoint;
 begin
   IV := ViewsTabControl.View.ViewerFromPoint(MousePos);
-  if Assigned(IV) and (IV.Item is TSpTBXTabItem) then begin
+  if Assigned(IV) and (IV.Item is TSpTBXTabItem) then
+  begin
     IV.Item.Checked := True;
     P := ClientToScreen(MousePos);
-    mnCloseTab.Enabled := not (ViewsTabControl.GetPage(TSpTBXTabItem(IV.Item)) = tbshSource);
+    mnCloseTab.Enabled := not(ViewsTabControl.GetPage(TSpTBXTabItem(IV.Item))
+        = tbshSource);
     pmnuViewsTab.Popup(P.X, P.Y);
   end;
   Handled := True;
@@ -2876,39 +3097,49 @@ end;
 procedure TEditorForm.CodeHintEventHandler(Sender: TObject; AArea: TRect;
   var CodeHint: string);
 Var
-  ObjectValue, ObjectType : string;
-  ErrMsg : string;
-  CE : TBaseCodeElement;
+  ObjectValue, ObjectType: string;
+  ErrMsg: string;
+  CE: TBaseCodeElement;
 begin
-  if CompareMem(@fHintIdentInfo.IdentArea, @AArea, SizeOf(TRect)) then begin
+  if CompareMem(@fHintIdentInfo.IdentArea, @AArea, SizeOf(TRect)) then
+  begin
     if (fHintIdentInfo.SynToken = 'Syntax Error') and HasSyntaxError then
     begin
-    // Syntax hint
-       CodeHint := 'Syntax Error: ' + fSyntaxErrorPos.ErrorMsg;
-    end else if (PyControl.DebuggerState in [dsPaused, dsPostMortem]) and
-      CommandsDataModule.PyIDEOptions.ShowDebuggerHints then
+      // Syntax hint
+      CodeHint := 'Syntax Error: ' + fSyntaxErrorPos.ErrorMsg;
+    end
+    else if (PyControl.DebuggerState in [dsPaused, dsPostMortem])
+      and CommandsDataModule.PyIDEOptions.ShowDebuggerHints then
     begin
       // Debugger hints
-      PyControl.ActiveDebugger.Evaluate(fHintIdentInfo.DottedIdent, ObjectType, ObjectValue);
-      if ObjectValue <> _(SNotAvailable) then begin
+      PyControl.ActiveDebugger.Evaluate(fHintIdentInfo.DottedIdent, ObjectType,
+        ObjectValue);
+      if ObjectValue <> _(SNotAvailable) then
+      begin
         ObjectValue := HTMLSafe(ObjectValue);
         ObjectType := HTMLSafe(ObjectType);
-        CodeHint := Format(_(SDebuggerHintFormat),
-          [fHintIdentInfo.DottedIdent, ObjectType, ObjectValue]);
-      end else
+        CodeHint := Format(_(SDebuggerHintFormat), [fHintIdentInfo.DottedIdent,
+          ObjectType, ObjectValue]);
+      end
+      else
         CodeHint := '';
-    end else if (PyControl.DebuggerState = dsInactive) and
-      CommandsDataModule.PyIDEOptions.ShowCodeHints then
+    end
+    else if (PyControl.DebuggerState = dsInactive)
+      and CommandsDataModule.PyIDEOptions.ShowCodeHints then
     begin
       // Code hints
-      CE := PyScripterRefactor.FindDefinitionByCoordinates(fEditor.GetFileNameOrTitle,
-        fHintIdentInfo.StartCoord.Line, fHintIdentInfo.StartCoord.Char, ErrMsg);
-      if Assigned(CE) then begin
+      CE := PyScripterRefactor.FindDefinitionByCoordinates
+        (fEditor.GetFileNameOrTitle, fHintIdentInfo.StartCoord.Line,
+        fHintIdentInfo.StartCoord.Char, ErrMsg);
+      if Assigned(CE) then
+      begin
         CodeHint := CE.CodeHint;
-      end else
+      end
+      else
         CodeHint := '';
     end;
-  end else
+  end
+  else
     CodeHint := '';
 end;
 
@@ -2925,10 +3156,11 @@ begin
   if not ReparseIfNeeded then
     SyncCodeExplorer;
 
-  if GetEditor.HasPythonFile and fNeedToCheckSyntax and
-    CommandsDataModule.PyIDEOptions.CheckSyntaxAsYouType and
-    (SynEdit.Lines.Count < 1000) // do not syntax check very long files
-  then begin
+  if GetEditor.HasPythonFile and fNeedToCheckSyntax and CommandsDataModule.
+    PyIDEOptions.CheckSyntaxAsYouType and (SynEdit.Lines.Count < 1000)
+  // do not syntax check very long files
+    then
+  begin
     InternalInterpreter.SyntaxCheck(GetEditor, True);
     fSyntaxErrorPos.Assign(PyControl.ErrorPos);
     PyControl.ErrorPos.Clear;
@@ -2937,33 +3169,15 @@ begin
   if HasSyntaxError then
     ParentTabItem.ImageIndex := 123
   else
-    ParentTabItem.ImageIndex:= -1;
+    ParentTabItem.ImageIndex := -1;
 end;
 
 initialization
-  GI_EditorFactory := TEditorFactory.Create;
+
+GI_EditorFactory := TEditorFactory.Create;
 
 finalization
-  GI_EditorFactory := nil;
+
+GI_EditorFactory := nil;
+
 end.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
