@@ -1455,6 +1455,7 @@ begin
   Application.OnHelp := Self.ApplicationHelp;
 
   // Execute pyscripter_init.py
+  PyIDEOptionsChanged;
   RunInitScript;
 end;
 
@@ -2676,7 +2677,7 @@ procedure TPyIDEMainForm.PyIDEOptionsChanged;
 var
   Editor : IEditor;
   i : integer;
-  CaseSensitive : Boolean;
+  CaseSensitive,AnyWordComplete : Boolean;
 begin
   FileExplorerWindow.FileExplorerTree.RefreshTree;
   EditorSearchOptions.SearchTextAtCaret :=
@@ -2735,19 +2736,34 @@ begin
 
   // Code completion
   CaseSensitive := CommandsDataModule.PyIDEOptions.CodeCompletionCaseSensitive;
-  with PythonIIForm.SynCodeCompletion do
-  if CaseSensitive then
-    Options := Options + [scoCaseSensitive]
-  else
-    Options := Options - [scoCaseSensitive];
+  AnyWordComplete:=CommandsDataModule.PyIDEOptions.AnyWordComplete;
+
+  with PythonIIForm do begin
+    with SynCodeCompletion do
+      if CaseSensitive then Options := Options + [scoCaseSensitive]
+      else Options := Options - [scoCaseSensitive];
+    SynParamCompletion.Options:=SynCodeCompletion.Options;
+  end;
+
+  with PythonIIForm do begin
+    with SynCodeCompletion do begin
+      TriggerChars := '.';
+      if AnyWordComplete then begin
+        for i := ord('a') to ord('z') do TriggerChars := TriggerChars + Chr(i);
+        for i := ord('A') to ord('Z') do TriggerChars := TriggerChars + Chr(i);
+      end;
+    end;
+    SynParamCompletion.TriggerChars:=SynCodeCompletion.TriggerChars;
+  end;
 
   for i := 0 to GI_EditorFactory.Count - 1 do begin
     Editor := GI_EditorFactory.Editor[i];
-    with TEditorForm(Editor.Form).SynCodeCompletion do
-      if CaseSensitive then
-        Options := Options + [scoCaseSensitive]
-      else
-        Options := Options - [scoCaseSensitive];
+    with TEditorForm(Editor.Form) do begin
+      SynCodeCompletion.Options:=PythonIIForm.SynCodeCompletion.Options;
+      SynParamCompletion.Options:=PythonIIForm.SynParamCompletion.Options;
+      SynCodeCompletion.TriggerChars:=PythonIIForm.SynCodeCompletion.TriggerChars;
+      SynParamCompletion.TriggerChars:=PythonIIForm.SynParamCompletion.TriggerChars;
+    end;
   end;
 
   Editor := GetActiveEditor;

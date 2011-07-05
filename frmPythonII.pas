@@ -514,6 +514,7 @@ procedure TPythonIIForm.FormCreate(Sender: TObject);
 Var
   II : Variant;   // wrapping sys and code modules
   P : PPyObject;
+  i:integer;
 begin
   inherited;
 //  SynEdit.ControlStyle := SynEdit.ControlStyle + [csOpaque];
