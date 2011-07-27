@@ -250,8 +250,8 @@ Both configurations seem to work flawlessly with the internal and remote python 
 [http://code.google.com/p/pyscripter/wiki/FAQ#Frequently_Asked_Questions Back to Top]
 
 === How do I have autocompletion with !PyQt4 or !PyGtk  ===
-	* PyQt4
-		* Go to Tools, Options, IDE Options, Special packages and add PyQt4 to the list
+	* !PyQt4
+		* Go to Tools, Options, IDE Options, Special packages and add !PyQt4 to the list
 		* Tools, Edit Startup Scripts.  Add to the end of pyscripter_init.pythe following:
 		   {{{from PyQt4 import QtCore, QtGui}}}
 		* Save and restart PyScripter, go to a new editor and type
@@ -260,7 +260,7 @@ Both configurations seem to work flawlessly with the internal and remote python 
 	   
 	  and voila.  Code completion is available.  See [http://groups.google.com/group/pyscripter/msg/20afb8ec66d80bd5?hl=en Support Group message] for explanations.
   
-	*  PyGtk
+	*  !PyGtk
 		* Similar to the above.  See [https://groups.google.com/d/msg/pyscripter/j6YY3VUiyTk/mY9jIZG_24UJ Support Group message] for details.
  
  
