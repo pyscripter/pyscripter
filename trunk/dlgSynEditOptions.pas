@@ -1071,7 +1071,7 @@ var TmpString: String;      begin
 end;
 
 procedure TfmEditorOptionsDialog.cKeyCommandExit(Sender: TObject);
-VAR TmpIndex : Integer;
+var TmpIndex : Integer;
 begin
   TmpIndex := cKeyCommand.Items.IndexOf(cKeyCommand.Text);
   if TmpIndex = -1 then
