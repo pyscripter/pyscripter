@@ -1310,9 +1310,11 @@ end;
 
 procedure TSynBaseCompletionProposalForm.Deactivate;
 begin
-  if (DisplayType = ctCode) and Assigned(CurrentEditor) then  //KV
+  if (DisplayType = ctCode) and Assigned(CurrentEditor) then begin  //KV
     (CurrentEditor as TCustomSynEdit).RemoveFocusControl(Self);
-  Visible := False;
+    Visible := False;
+  end;
+  //Visible := False;  // KV
 end;
 
 destructor TSynBaseCompletionProposalForm.Destroy;
@@ -1452,9 +1454,9 @@ begin
         begin
           if IsWordBreakChar(Key) and Assigned(OnValidate) then
           begin
-            if Key = #32 then
-              OnValidate(Self, [], #0)
-            else
+//            if Key = #32 then
+//              OnValidate(Self, [], #0)
+//            else
               OnValidate(Self, [], Key);
           end;
 
@@ -2346,6 +2348,8 @@ begin
 
   {$IFDEF SYN_COMPILER_10_UP}
     Form.PopupMode := pmExplicit;
+    if (Kind =  ctCode) then Form.FormStyle := fsStayOnTop;
+
   {$ELSE}
     Form.FormStyle := fsStayOnTop;
   {$ENDIF}
@@ -3252,7 +3256,7 @@ end;
 procedure TSynCompletionProposal.CancelCompletion;
 begin
   InternalCancelCompletion;
-  if Assigned(OnCancelled) then OnCancelled(Self); 
+  if Assigned(OnCancelled) then OnCancelled(Self);
 end;
 
 procedure TSynCompletionProposal.EditorCancelMode(Sender: TObject);
@@ -3280,8 +3284,8 @@ begin
     ctParams:
       begin
         case Command of
-        ecGotFocus, ecLostFocus:
-            CancelCompletion;
+//        ecGotFocus, ecLostFocus:         //KV
+//            CancelCompletion;
         ecLineBreak:
           DoExecute(Sender as TCustomSynEdit);
         ecChar:

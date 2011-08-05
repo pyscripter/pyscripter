@@ -142,7 +142,6 @@ type
     procedure WMShellNotify(var Msg: TMessage); message WM_SHELLNOTIFY;
     class var fOldEditorForm: TEditorForm;
   protected
-    // CodeCompletionDocLabel : TLabel;
     procedure Retranslate;
     procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
     procedure EditorZoom(theZoom: Integer);
@@ -175,7 +174,6 @@ type
     procedure SetUpCodeHints;
     function HasSyntaxError: boolean;
     procedure GoToSyntaxError;
-
   end;
 
   TEditor = class(TInterfacedObject, IUnknown, IEditor, IEditCommands,
@@ -1665,7 +1663,7 @@ Var
   function OwnScroll(Shift: TShiftState; LinesInWindow: Integer): Integer;
   begin
     if (ssShift in Shift) or (Mouse.WheelScrollLines = -1) then
-      Result := LinesInWindow shr ord(eoHalfPageScroll in ASynEdit.Options)
+      Result := LinesInWindow shr Ord(eoHalfPageScroll in ASynEdit.Options)
     else
       Result := Mouse.WheelScrollLines;
   end;
@@ -2058,8 +2056,6 @@ begin
 end;
 
 procedure TEditorForm.FormCreate(Sender: TObject);
-Var
-  i: Integer;
 begin
   FGPanelExit(Self);
 
@@ -2099,23 +2095,6 @@ begin
 
   SynCodeCompletion.EndOfTokenChr := WordBreakString;
   SynParamCompletion.EndOfTokenChr := WordBreakString;
-
-  // CodeCompletionDocLabel := TLabel.Create(SynCodeCompletion.Form);
-  // with CodeCompletionDocLabel do begin
-  // Parent := SynCodeCompletion.Form;
-  // Transparent := False;
-  // ParentFont := True;
-  // WordWrap := True;
-  // Align := alRight;
-  // DoubleBuffered := True;
-  // end;
-  // with TSpTBXSplitter.Create(SynCodeCompletion.Form) do begin
-  // Parent := SynCodeCompletion.Form;
-  // Align := alRight;
-  // DoubleBuffered := True;
-  // end;
-  // SynCodeCompletion.Form.Width := 600;
-  // SynCodeCompletion.Form.DoubleBuffered := True;
 
   Retranslate;
 end;
@@ -2615,24 +2594,34 @@ Var
       begin
         S := SortedNameSpace[i];
         CE := SortedNameSpace.Objects[i] as TBaseCodeElement;
-        if (CE is TParsedModule) or (CE is TModuleImport) then
-          ImageIndex := 16
-        else if CE is TParsedFunction then
+        if not Assigned(CE) then
         begin
-          if CE.Parent is TParsedClass then
-            ImageIndex := 14
-          else
-            ImageIndex := 17
+        // Keyword
+          DisplayText := DisplayText + Format('\Image{%d}\hspace{2}\color{clBlue}%s', [20, KeywordList[i]]);
         end
-        else if CE is TParsedClass then
-          ImageIndex := 13
         else
-        begin // TVariable or TParsedVariable
-          if Assigned(CE) and (CE.Parent is TParsedClass) then ImageIndex := 1 else ImageIndex := 0;
-          if Assigned(KeywordList) and (KeywordList.IndexOf(S)>=0) then ImageIndex:=20;
+        begin
+          if (CE is TParsedModule) or (CE is TModuleImport) then
+            ImageIndex := 16
+          else if CE is TParsedFunction then
+          begin
+            if CE.Parent is TParsedClass then
+              ImageIndex := 14
+            else
+              ImageIndex := 17
+          end
+          else if CE is TParsedClass then
+            ImageIndex := 13
+          else
+          begin // TVariable or TParsedVariable
+            if Assigned(CE) and (CE.Parent is TParsedClass) then
+              ImageIndex := 1
+            else
+              ImageIndex := 0;
+          end;
+          DisplayText := DisplayText + Format('\Image{%d}\hspace{2}%s',
+            [ImageIndex, S]);
         end;
-        DisplayText := DisplayText + Format('\Image{%d}\hspace{2}%s',
-          [ImageIndex, S]);
         if i < SortedNameSpace.Count - 1 then
           DisplayText := DisplayText + #10;
       end;
@@ -2648,6 +2637,7 @@ begin
     CanExecute := False;
     Exit;
   end;
+
   with TSynCompletionProposal(Sender).Editor do
   begin
     BC := CaretXY;
@@ -2779,8 +2769,7 @@ begin
               KeywordList := TStringList.Create;
               try
                 GetPythonEngine.PyTupleToStrings(ExtractPythonObjectFrom(Keywords), KeywordList);
-    //                for i := 0 to KeywordList.Count - 1 do DisplayText := DisplayText + #10 + Format('\Image{%d}\hspace{2}\color{clBlue}%s', [20, KeywordList[i]]);
-                for i := 0 to Pred(KeywordList.Count) do NameSpace.Insert(0,KeywordList[i]);
+                NameSpace.AddStrings(KeywordList);
               finally
                 KeywordList.Free;
               end;
@@ -2795,7 +2784,6 @@ begin
     end;
     FoundMatch := DisplayText <> '';
   end;
-
 
   CanExecute := FoundMatch;
 
