@@ -92,6 +92,7 @@ type
     fCodeCompletionCaseSensitive : Boolean;
     fCompleteKeywords : Boolean;
     fCompleteAsYouType: Boolean;
+    fCompleteWithWordBreakChars: Boolean;
     function GetPythonFileExtensions: string;
     procedure SetAutoCompletionFont(const Value: TFont);
   public
@@ -213,7 +214,8 @@ type
       write fCompleteKeywords;
     property CompleteAsYouType : Boolean read fCompleteAsYouType
       write fCompleteAsYouType;
-
+    property CompleteWithWordBreakChars : Boolean read fCompleteWithWordBreakChars
+      write fCompleteWithWordBreakChars;
   end;
 {$METHODINFO OFF}
 
@@ -631,6 +633,7 @@ begin
       Self.fCodeCompletionCaseSensitive := CodeCompletionCaseSensitive;
       Self.fCompleteKeywords := CompleteKeywords;
       Self.fCompleteAsYouType := CompleteAsYouType;
+      Self.fCompleteWithWordBreakChars := CompleteWithWordBreakChars;
     end
   else
     inherited;
@@ -705,6 +708,7 @@ begin
   fCodeCompletionCaseSensitive := True;
   fCompleteKeywords := True;
   fCompleteAsYouType := True;
+  fCompleteWithWordBreakChars := True;
 end;
 
 destructor TPythonIDEOptions.Destroy;
@@ -2234,7 +2238,7 @@ begin
   end;
   with Categories[5] do begin
     DisplayName := _('Code Completion');
-    SetLength(Options, 8);
+    SetLength(Options, 9);
     Options[0].PropertyName := 'SpecialPackages';
     Options[0].DisplayName := _('Special packages');
     Options[1].PropertyName := 'CodeCompletionListSize';
@@ -2251,6 +2255,8 @@ begin
     Options[6].DisplayName := _('Complete as you type');
     Options[7].PropertyName := 'AutoCompletionFont';
     Options[7].DisplayName := _('Auto completion font');
+    Options[8].PropertyName := 'CompleteWithWordBreakChars';
+    Options[8].DisplayName := _('Complete with word-break characters');
   end;
   with Categories[6] do begin
     DisplayName := _('Shell Integration');

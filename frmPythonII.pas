@@ -1318,47 +1318,63 @@ begin
 
       DisplayText := '';
       InsertText := '';
-      if Assigned(NameSpaceDict) then begin
-        for i := 0 to NameSpaceDict.ChildCount - 1 do begin
-          NameSpaceItem := NameSpaceDict.ChildNode[i];
-          if NameSpaceItem.IsModule then
-            ImageIndex := 16
-          else if NameSpaceItem.IsMethod
-               {or NameSpaceItem.IsMethodDescriptor} then
-            ImageIndex := 14
-          else if NameSpaceItem.IsFunction
-               {or NameSpaceItem.IsBuiltin} then
-            ImageIndex := 17
-          else if NameSpaceItem.IsClass then
-            ImageIndex := 13
-          else begin
-            if Index > 0 then
-              ImageIndex := 1
-            else
-              ImageIndex := 0;
+
+      NameSpace := TStringList.Create;
+      try
+        if Assigned(NameSpaceDict) then begin
+          for i := 0 to NameSpaceDict.ChildCount - 1 do begin
+            NameSpaceItem := NameSpaceDict.ChildNode[i];
+            NameSpace.AddObject(NameSpaceItem.Name, NameSpaceItem);
           end;
-          DisplayText := DisplayText + Format('\Image{%d}\hspace{2}%s', [ImageIndex, NameSpaceItem.Name]);
-          InsertText := InsertText + NameSpaceItem.Name;
-          if i < NameSpaceDict.ChildCount - 1 then begin
+        end;
+        if (Index <= 0) and CommandsDataModule.PyIDEOptions.CompleteKeywords then begin
+          Keywords := Import('keyword').kwlist;
+          Keywords := BuiltinModule.tuple(Keywords);
+          KeywordList := TStringList.Create;
+          try
+            GetPythonEngine.PyTupleToStrings(ExtractPythonObjectFrom(Keywords), KeywordList);
+            NameSpace.AddStrings(KeywordList);
+          finally
+            KeywordList.Free;
+          end;
+        end;
+
+        NameSpace.CustomSort(ComparePythonIdents);
+
+        for i := 0 to NameSpace.Count - 1 do begin
+          InsertText := InsertText + NameSpace[i];
+
+          NameSpaceItem := NameSpace.Objects[i] as TBaseNameSpaceItem;
+          if not Assigned(NameSpaceItem) then
+             DisplayText := DisplayText + Format('\Image{%d}\hspace{2}\color{clBlue}%s', [20, NameSpace[i]])
+          else
+          begin
+            if NameSpaceItem.IsModule then
+              ImageIndex := 16
+            else if NameSpaceItem.IsMethod
+                 {or NameSpaceItem.IsMethodDescriptor} then
+              ImageIndex := 14
+            else if NameSpaceItem.IsFunction
+                 {or NameSpaceItem.IsBuiltin} then
+              ImageIndex := 17
+            else if NameSpaceItem.IsClass then
+              ImageIndex := 13
+            else begin
+              if Index > 0 then
+                ImageIndex := 1
+              else
+                ImageIndex := 0;
+            end;
+            DisplayText := DisplayText + Format('\Image{%d}\hspace{2}%s', [ImageIndex, NameSpaceItem.Name]);
+          end;
+          if i < NameSpace.Count - 1 then begin
             DisplayText := DisplayText + #10;
             InsertText := InsertText + #10;
           end;
         end;
+      finally
         FreeAndNil(NameSpaceDict);
-      end;
-      if (Index <= 0) and CommandsDataModule.PyIDEOptions.CompleteKeywords then begin
-        Keywords := Import('keyword').kwlist;
-        Keywords := BuiltinModule.tuple(Keywords);
-        KeywordList := TStringList.Create;
-        try
-          GetPythonEngine.PyTupleToStrings(ExtractPythonObjectFrom(Keywords), KeyWordList);
-          for i := 0 to KeywordList.Count - 1 do begin
-            DisplayText := DisplayText + #10 + Format('\Image{%d}\hspace{2}\color{clBlue}%s', [20, KeywordList[i]]);
-            InsertText := InsertText + #10 + KeywordList[i];
-          end;
-        finally
-          KeywordList.Free;
-        end;
+        NameSpace.Free;
       end;
     end;
     FoundMatch := DisplayText <> '';
@@ -1816,11 +1832,14 @@ begin
   Manage Zoom in and out, Page up and down, Line scroll - with the Mouse Wheel
 *}
   if ssCtrl in Shift then
+  begin
     if not ( (theDirection < 1) and (SynEdit.Font.Size <= 2) ) then begin
       SynEdit.Font.Size        := SynEdit.Font.Size        + theDirection;
       SynEdit.Gutter.Font.Size := Max(SynEdit.Font.Size -2, 1);
-    end
-  else begin
+    end;
+  end
+  else
+  begin
     SynEdit.TopLine := SynEdit.TopLine +
      (theDirection * OwnScroll( Shift, SynEdit.LinesInWindow ) );
   end;
