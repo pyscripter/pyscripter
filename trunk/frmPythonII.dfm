@@ -117,7 +117,7 @@ inherited PythonIIForm: TPythonIIForm
     Top = 53
   end
   object SynCodeCompletion: TSynCompletionProposal
-    Options = [scoCaseSensitive, scoLimitToMatchedText, scoUseInsertList, scoUsePrettyText, scoUseBuiltInTimer, scoEndCharCompletion, scoCompleteWithTab, scoCompleteWithEnter]
+    Options = [scoCaseSensitive, scoLimitToMatchedText, scoUseInsertList, scoUsePrettyText, scoUseBuiltInTimer, scoCompleteWithTab, scoCompleteWithEnter]
     EndOfTokenChr = '()[]{}. =:'
     TriggerChars = '.'
     Font.Charset = DEFAULT_CHARSET
@@ -136,7 +136,7 @@ inherited PythonIIForm: TPythonIIForm
     OnExecute = SynCodeCompletionExecute
     ShortCut = 0
     Editor = SynEdit
-    TimerInterval = 300
+    TimerInterval = 10
     Left = 627
     Top = 9
   end

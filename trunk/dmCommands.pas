@@ -91,7 +91,7 @@ type
     fFileChangeNotification : TFileChangeNotificationType;
     fCodeCompletionCaseSensitive : Boolean;
     fCompleteKeywords : Boolean;
-    fAnyWordComplete:Boolean;
+    fCompleteAsYouType: Boolean;
     function GetPythonFileExtensions: string;
     procedure SetAutoCompletionFont(const Value: TFont);
   public
@@ -211,8 +211,8 @@ type
       write fCodeCompletionCaseSensitive;
     property CompleteKeywords : Boolean read fCompleteKeywords
       write fCompleteKeywords;
-    property AnyWordComplete : Boolean read fAnyWordComplete
-      write fAnyWordComplete;
+    property CompleteAsYouType : Boolean read fCompleteAsYouType
+      write fCompleteAsYouType;
 
   end;
 {$METHODINFO OFF}
@@ -630,7 +630,7 @@ begin
       Self.fFileChangeNotification := FileChangeNotification;
       Self.fCodeCompletionCaseSensitive := CodeCompletionCaseSensitive;
       Self.fCompleteKeywords := CompleteKeywords;
-      Self.fAnyWordComplete := AnyWordComplete;
+      Self.fCompleteAsYouType := CompleteAsYouType;
     end
   else
     inherited;
@@ -704,7 +704,7 @@ begin
   fFileChangeNotification := fcnNoMappedDrives;
   fCodeCompletionCaseSensitive := True;
   fCompleteKeywords := True;
-  fAnyWordComplete:=True;
+  fCompleteAsYouType := True;
 end;
 
 destructor TPythonIDEOptions.Destroy;
@@ -2118,7 +2118,7 @@ begin
   SetLength(Categories, 7);
   with Categories[0] do begin
     DisplayName := _('IDE');
-    SetLength(Options, 12);
+    SetLength(Options, 11);
     Options[0].PropertyName := 'AutoCheckForUpdates';
     Options[0].DisplayName := _('Check for updates automatically');
     Options[1].PropertyName := 'DaysBetweenChecks';
@@ -2137,12 +2137,10 @@ begin
     Options[7].DisplayName := _('Dock animation move width (pixels)');
     Options[8].PropertyName := 'FileTemplateForNewScripts';
     Options[8].DisplayName := _('File template for new python scripts');
-    Options[9].PropertyName := 'AutoCompletionFont';
-    Options[9].DisplayName := _('Auto completion font');
-    Options[10].PropertyName := 'UsePythonColorsInIDE';
-    Options[10].DisplayName := _('Use Python colors in IDE');
-    Options[11].PropertyName := 'FileChangeNotification';
-    Options[11].DisplayName := _('File Change Notification');
+    Options[9].PropertyName := 'UsePythonColorsInIDE';
+    Options[9].DisplayName := _('Use Python colors in IDE');
+    Options[10].PropertyName := 'FileChangeNotification';
+    Options[10].DisplayName := _('File Change Notification');
   end;
   with Categories[1] do begin
     DisplayName := _('Python Interpreter');
@@ -2236,7 +2234,7 @@ begin
   end;
   with Categories[5] do begin
     DisplayName := _('Code Completion');
-    SetLength(Options, 6);
+    SetLength(Options, 8);
     Options[0].PropertyName := 'SpecialPackages';
     Options[0].DisplayName := _('Special packages');
     Options[1].PropertyName := 'CodeCompletionListSize';
@@ -2249,6 +2247,10 @@ begin
     Options[4].DisplayName := _('Case sensitive');
     Options[5].PropertyName := 'CompleteKeywords';
     Options[5].DisplayName := _('Complete Python keywords');
+    Options[6].PropertyName := 'CompleteAsYouType';
+    Options[6].DisplayName := _('Complete as you type');
+    Options[7].PropertyName := 'AutoCompletionFont';
+    Options[7].DisplayName := _('Auto completion font');
   end;
   with Categories[6] do begin
     DisplayName := _('Shell Integration');

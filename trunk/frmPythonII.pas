@@ -514,7 +514,6 @@ procedure TPythonIIForm.FormCreate(Sender: TObject);
 Var
   II : Variant;   // wrapping sys and code modules
   P : PPyObject;
-  i:integer;
 begin
   inherited;
 //  SynEdit.ControlStyle := SynEdit.ControlStyle + [csOpaque];
@@ -669,8 +668,8 @@ begin
 
         fCommandHistoryPrefix := '';
 
-        if SynParamCompletion.Form.Visible then
-          SynParamCompletion.CancelCompletion;
+//        if SynParamCompletion.Form.Visible then
+//          SynParamCompletion.CancelCompletion;
 
         LineN := SynEdit.CaretY - 1;  // Caret is 1 based
         GetBlockBoundary(LineN, StartLineN, EndLineN, IsCode);
