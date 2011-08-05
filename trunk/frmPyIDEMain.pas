@@ -344,6 +344,8 @@
             Background color for Matching and Unbalanced braces (Issue 472)
             New IDE option "Case Sensitive Code Completion" (default True)
             New IDE option "Complete Python keywords" (default True)
+            New IDE option "Complete as you type" (default True, Issue 473)
+            New IDE option "Complete with word-break chars" (default True)
           Issues addressed
             Command line history not saved
             Editing a watch to an empty string crashes PyScripter
@@ -2676,7 +2678,9 @@ procedure TPyIDEMainForm.PyIDEOptionsChanged;
 var
   Editor : IEditor;
   i : integer;
-  CaseSensitive,CompleteAsYouType : Boolean;
+  CaseSensitive,
+  CompleteAsYouType,
+  CompleteWithWordBreakChars : Boolean;
 begin
   FileExplorerWindow.FileExplorerTree.RefreshTree;
   EditorSearchOptions.SearchTextAtCaret :=
@@ -2736,18 +2740,23 @@ begin
   // Code completion
   CaseSensitive := CommandsDataModule.PyIDEOptions.CodeCompletionCaseSensitive;
   CompleteAsYouType := CommandsDataModule.PyIDEOptions.CompleteAsYouType;
+  CompleteWithWordBreakChars := CommandsDataModule.PyIDEOptions.CompleteWithWordBreakChars;
 
   with PythonIIForm do begin
-    with SynCodeCompletion do
+    with SynCodeCompletion do begin
       if CaseSensitive then Options := Options + [scoCaseSensitive]
       else Options := Options - [scoCaseSensitive];
+      if CompleteWithWordBreakChars then Options := Options + [scoEndCharCompletion]
+      else Options := Options - [scoEndCharCompletion];
 
-    with SynCodeCompletion do begin
       TriggerChars := '.';
       if CompleteAsYouType then begin
         for i := ord('a') to ord('z') do TriggerChars := TriggerChars + Chr(i);
         for i := ord('A') to ord('Z') do TriggerChars := TriggerChars + Chr(i);
-      end;
+        TimerInterval := 10;
+      end
+      else
+        TimerInterval := 300;
     end;
   end;
 
