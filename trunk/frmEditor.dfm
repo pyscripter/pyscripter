@@ -45,7 +45,7 @@ object EditorForm: TEditorForm
         Checked = True
       end
       object SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem
-        CustomWidth = 462
+        CustomWidth = 465
       end
       object tbiUpdateView: TSpTBXItem
         Caption = 'Update View'
@@ -70,8 +70,8 @@ object EditorForm: TEditorForm
         object SynEdit: TSynEdit
           Left = 2
           Top = 0
-          Width = 351
-          Height = 349
+          Width = 353
+          Height = 351
           HelpContext = 510
           Align = alClient
           Ctl3D = False
@@ -127,10 +127,10 @@ object EditorForm: TEditorForm
           AddedKeystrokes = <>
         end
         object SynEdit2: TSynEdit
-          Left = 358
+          Left = 360
           Top = 0
           Width = 200
-          Height = 349
+          Height = 351
           Align = alRight
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
@@ -160,9 +160,9 @@ object EditorForm: TEditorForm
           OnPaintTransient = SynEditPaintTransient
         end
         object EditorSplitter: TSpTBXSplitter
-          Left = 353
+          Left = 355
           Top = 0
-          Height = 349
+          Height = 351
           Cursor = crSizeWE
           Align = alRight
           Visible = False
@@ -177,7 +177,7 @@ object EditorForm: TEditorForm
     Left = 93
     Top = 136
     Bitmap = {
-      494C01010600090084000B000E00FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01010600080084000B000E00FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       00000000000036000000280000002C0000001C00000001002000000000004013
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
