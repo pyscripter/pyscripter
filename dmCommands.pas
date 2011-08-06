@@ -93,6 +93,7 @@ type
     fCompleteKeywords : Boolean;
     fCompleteAsYouType: Boolean;
     fCompleteWithWordBreakChars: Boolean;
+    fCompleteWithOneEntry:Boolean;
     function GetPythonFileExtensions: string;
     procedure SetAutoCompletionFont(const Value: TFont);
   public
@@ -216,6 +217,10 @@ type
       write fCompleteAsYouType;
     property CompleteWithWordBreakChars : Boolean read fCompleteWithWordBreakChars
       write fCompleteWithWordBreakChars;
+    property CompleteWithOneEntry : Boolean read fCompleteWithOneEntry
+      write fCompleteWithOneEntry;
+
+
   end;
 {$METHODINFO OFF}
 
@@ -634,6 +639,7 @@ begin
       Self.fCompleteKeywords := CompleteKeywords;
       Self.fCompleteAsYouType := CompleteAsYouType;
       Self.fCompleteWithWordBreakChars := CompleteWithWordBreakChars;
+      Self.fCompleteWithOneEntry := CompleteWithOneEntry;
     end
   else
     inherited;
@@ -709,6 +715,7 @@ begin
   fCompleteKeywords := True;
   fCompleteAsYouType := True;
   fCompleteWithWordBreakChars := True;
+  fCompleteWithOneEntry:=True;
 end;
 
 destructor TPythonIDEOptions.Destroy;
@@ -2238,7 +2245,7 @@ begin
   end;
   with Categories[5] do begin
     DisplayName := _('Code Completion');
-    SetLength(Options, 9);
+    SetLength(Options, 10);
     Options[0].PropertyName := 'SpecialPackages';
     Options[0].DisplayName := _('Special packages');
     Options[1].PropertyName := 'CodeCompletionListSize';
@@ -2257,6 +2264,8 @@ begin
     Options[7].DisplayName := _('Auto completion font');
     Options[8].PropertyName := 'CompleteWithWordBreakChars';
     Options[8].DisplayName := _('Complete with word-break characters');
+    Options[9].PropertyName := 'CompleteWithOneEntry';
+    Options[9].DisplayName := _('Complete with one entry');
   end;
   with Categories[6] do begin
     DisplayName := _('Shell Integration');
