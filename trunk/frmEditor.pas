@@ -2799,11 +2799,13 @@ begin
       NbLinesInWindow := CommandsDataModule.PyIDEOptions.CodeCompletionListSize;
 
       // Auto-complete with one entry without showing the form
-      CurrentString := CurrentInput;
-      if Form.AssignedList.Count = 1 then
-      begin
-        CanExecute := False;
-        OnValidate(Form, [], #0);
+      if CommandsDataModule.PyIDEOptions.CompleteWithOneEntry then begin
+        CurrentString := CurrentInput;
+        if Form.AssignedList.Count = 1 then
+        begin
+          CanExecute := False;
+          OnValidate(Form, [], #0);
+        end;
       end;
     end
     else
