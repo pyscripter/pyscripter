@@ -2097,7 +2097,7 @@ begin
   SynParamCompletion.EndOfTokenChr := WordBreakString;
   SynCodeCompletion.Options:=PythonIIForm.SynCodeCompletion.Options;
   SynCodeCompletion.TriggerChars:=PythonIIForm.SynCodeCompletion.TriggerChars;
-  SynCodeCompletion.TimerInterval := 300;
+  SynCodeCompletion.TimerInterval := PythonIIForm.SynCodeCompletion.TimerInterval;
 
   Retranslate;
 end;

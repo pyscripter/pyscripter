@@ -337,7 +337,7 @@
             Reduced flicker when resizing form and panels
             415, 437, 449
 
-  History:   v 2.4.2
+  History:   v 2.4.3
           New Features
             Ctrl+Mousewheel for zooming the interpreter (Issue 475)
             New IDE Option "File Change Notification" introduced with possible values Full, NoMappedDrives(default), Disabled (Issue 470)
@@ -346,13 +346,14 @@
             New IDE option "Complete Python keywords" (default True)
             New IDE option "Complete as you type" (default True, Issue 473)
             New IDE option "Complete with word-break chars" (default True)
+            New IDE option "Auto-complete with one entry" (default True, Issue 452)
           Issues addressed
             Command line history not saved
             Editing a watch to an empty string crashes PyScripter
             Replace in Find-in-Files now supports subexpression substitution (Issue 332)
             Import statement completion does not include builtin module names
-            452, 461, 463, 468, 471, 474, 478, 488, 496, 504, 508,
-            509, 511, 512, 515, 525, 526, 527, 528
+            461, 463, 468, 471, 474, 478, 488, 496, 504, 508, 509,
+            511, 512, 515, 525, 526, 527, 528
 -----------------------------------------------------------------------------}
 
 // Bugs and minor features
@@ -2765,6 +2766,7 @@ begin
     with TEditorForm(Editor.Form) do begin
       SynCodeCompletion.Options:=PythonIIForm.SynCodeCompletion.Options;
       SynCodeCompletion.TriggerChars:=PythonIIForm.SynCodeCompletion.TriggerChars;
+      SynCodeCompletion.TimerInterval:=PythonIIForm.SynCodeCompletion.TimerInterval;
     end;
   end;
 
