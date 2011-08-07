@@ -2265,7 +2265,7 @@ begin
     Options[8].PropertyName := 'CompleteWithWordBreakChars';
     Options[8].DisplayName := _('Complete with word-break characters');
     Options[9].PropertyName := 'CompleteWithOneEntry';
-    Options[9].DisplayName := _('Complete with one entry');
+    Options[9].DisplayName := _('Auto-complete with one entry');
   end;
   with Categories[6] do begin
     DisplayName := _('Shell Integration');
