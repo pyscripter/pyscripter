@@ -1543,7 +1543,7 @@ begin
 
     BlockIsCommented := True;
     for i  := BlockBegin.Line to EndLine do
-      if Copy(Lines[i-1], 1, 2) <> '##' then begin
+      if Copy(Trim(Lines[i-1]), 1, 1) <> '#' then begin
         BlockIsCommented := False;
         Break;
       end;
@@ -1610,25 +1610,25 @@ begin
 end;
 
 procedure TCommandsDataModule.actEditUncommentExecute(Sender: TObject);
-Var
+
+var
   OldBlockBegin, OldBlockEnd : TBufferCoord;
+  i:integer;
 begin
   if Assigned(GI_ActiveEditor) then with GI_ActiveEditor.ActiveSynEdit do begin
     OldBlockBegin := BlockBegin;
     OldBlockEnd := BlockEnd;
     if SelAvail then
     begin
-      OldBlockBegin := BufferCoord(1, OldBlockBegin.Line);
-      BlockBegin := OldBlockBegin;
-      BlockEnd := OldBlockEnd;
-      SelText := CommentLineRE.Replace(SelText, '', False);
-      BlockBegin := OldBlockBegin;
-      BlockEnd := BufferCoord(OldBlockEnd.Char - 2, OldBlockEnd.Line);
-    end else begin
-      BlockBegin := BufferCoord(1, CaretY);
-      BlockEnd := BufferCoord(Length(LineText)+1, CaretY);
-      SelText := CommentLineRE.Replace(SelText, '', False);
-      CaretXY := BufferCoord(OldBlockEnd.Char - 2, OldBlockEnd.Line);
+      for i := OldBlockBegin.Line-1 to OldBlockEnd.Line-1 do while WideSameText(LeftStr(TrimW(Lines[i]),1),'#') do begin
+      	Lines[i]:=WideStringReplace(Lines[i],'#','',[]);
+      	if i=OldBlockEnd.Line-1 then OldBlockEnd:=BufferCoord(OldBlockEnd.Char-1,OldBlockEnd.Line);
+      end;
+      BlockBegin := BufferCoord(0,OldBlockBegin.Line);
+      BlockEnd := BufferCoord(OldBlockEnd.Char,OldBlockEnd.Line);
+    end else while WideSameText(LeftStr(TrimW(LineText),1),'#') do begin
+      LineText:=WideStringReplace(LineText,'#','',[]);
+      CaretX:=CaretX-1;
     end;
     UpdateCaret;
   end;
