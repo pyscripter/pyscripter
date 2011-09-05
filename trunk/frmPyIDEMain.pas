@@ -1028,6 +1028,7 @@ type
     procedure PrevMRUAdd(S : WideString);
     procedure NextMRUAdd(S : WideString);
   protected
+    fStoredEffect : Longint;
     // IDropTarget implementation
     function DragEnter(const dataObj: IDataObject; grfKeyState: Longint;
       pt: TPoint; var dwEffect: Longint): HResult; stdcall;
@@ -1194,8 +1195,22 @@ end;
 
 function TPyIDEMainForm.DragEnter(const dataObj: IDataObject;
   grfKeyState: Integer; pt: TPoint; var dwEffect: Integer): HResult;
+
+  function GetFormatEtc: TFormatEtc;
+  begin
+    Result.cfFormat := CF_HDROP; // This guy is always registered for all applications
+    Result.ptd := nil;
+    Result.dwAspect := DVASPECT_CONTENT;
+    Result.lindex := -1;
+    Result.tymed := TYMED_HGLOBAL
+  end;
+
 begin
-  dwEffect := DROPEFFECT_COPY;
+  if Succeeded(dataObj.QueryGetData(GetFormatEtc)) then
+    dwEffect := DROPEFFECT_COPY
+  else
+    dwEffect := DROPEFFECT_NONE;
+  fStoredEffect := dwEffect;
   Result := S_OK;
 end;
 
@@ -1207,7 +1222,7 @@ end;
 function TPyIDEMainForm.DropTargetDragOver(grfKeyState: Integer; pt: TPoint;
   var dwEffect: Integer): HResult;
 begin
-  dwEffect := DROPEFFECT_COPY;
+  dwEffect := fStoredEffect;
   Result := S_OK;
 end;
 
