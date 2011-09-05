@@ -479,6 +479,7 @@ type
     SynYAMLSyn: TSynYAMLSyn;
     BlockOpenerRE : TRegExpr;
     BlockCloserRE : TRegExpr;
+    CommentLineRE : TRegExpr;
     NumberOfOriginalImages : integer;
     NonExecutableLineRE : TRegExpr;
     EditorOptions : TSynEditorOptionsContainer;
@@ -926,6 +927,9 @@ begin
   BlockCloserRE.Expression := '\s*(return|break|continue|raise|pass)\b';
   NonExecutableLineRE := TRegExpr.Create;
   NonExecutableLineRE.Expression := '(^\s*(class|def)\b)|(^\s*#)|(^\s*$)';
+  CommentLineRE := TRegExpr.Create;
+  CommentLineRE.Expression := '^([ \t]*)##';
+  CommentLineRE.ModifierM := True;
 
   EditorOptions := TSynEditorOptionsContainer.Create(Self);
   with EditorOptions do begin
@@ -1008,6 +1012,7 @@ begin
   BlockOpenerRE.Free;
   BlockCloserRE.Free;
   NonExecutableLineRE.Free;
+  CommentLineRE.Free;
   PyIDEOptions.Free;
   imlShellIcon.Handle := 0;
 end;
@@ -1608,27 +1613,23 @@ procedure TCommandsDataModule.actEditUncommentExecute(Sender: TObject);
 
 var
   OldBlockBegin, OldBlockEnd : TBufferCoord;
-  i:integer;
 begin
   if Assigned(GI_ActiveEditor) then with GI_ActiveEditor.ActiveSynEdit do begin
     OldBlockBegin := BlockBegin;
     OldBlockEnd := BlockEnd;
     if SelAvail then
     begin
-      for i := OldBlockBegin.Line-1 to OldBlockEnd.Line-1 do
-      begin
-        if WideSameText(LeftStr(Trim(Lines[i]), 2), '##') then
-         	Lines[i]:=StringReplace(Lines[i], '##','', []);
-
-      	if i=OldBlockEnd.Line-1 then
-          OldBlockEnd:=BufferCoord(OldBlockEnd.Char-2, OldBlockEnd.Line);
-      end;
-      SetCaretAndSelection(OldBlockEnd, BufferCoord(0, OldBlockBegin.Line), OldBlockEnd);
-    end
-    else if WideSameText(LeftStr(Trim(LineText), 2), '##') then
-    begin
-      LineText:=StringReplace(LineText, '##', '', []);
-      CaretX:=CaretX-2;
+      OldBlockBegin := BufferCoord(1, OldBlockBegin.Line);
+      BlockBegin := OldBlockBegin;
+      BlockEnd := OldBlockEnd;
+      SelText := CommentLineRE.Replace(SelText, '$1', True);
+      BlockBegin := OldBlockBegin;
+      BlockEnd := BufferCoord(OldBlockEnd.Char - 2, OldBlockEnd.Line);
+    end else begin
+      BlockBegin := BufferCoord(1, CaretY);
+      BlockEnd := BufferCoord(Length(LineText)+1, CaretY);
+      SelText := CommentLineRE.Replace(SelText, '$1', True);
+      CaretXY := BufferCoord(OldBlockEnd.Char - 2, OldBlockEnd.Line);
     end;
     UpdateCaret;
   end;
