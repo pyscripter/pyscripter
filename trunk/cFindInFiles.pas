@@ -649,6 +649,8 @@ begin
 end;
 
 constructor TFindInFilesExpert.Create;
+Var
+  PythonPrefix : string;
 begin
   inherited Create;
   FSearchList := TStringList.Create;
@@ -675,7 +677,8 @@ begin
   FGrepRegEx := False;
 
   MaskList.Add(CommandsDataModule.PyIDEOptions.PythonFileExtensions);
-  DirList.Add(SysModule.prefix+'\Lib');
+  PythonPrefix := SysModule.prefix;
+  DirList.Add(PythonPrefix + '\Lib');
 end;
 
 destructor TFindInFilesExpert.Destroy;

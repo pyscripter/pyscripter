@@ -479,7 +479,6 @@ type
     SynYAMLSyn: TSynYAMLSyn;
     BlockOpenerRE : TRegExpr;
     BlockCloserRE : TRegExpr;
-    CommentLineRE : TRegExpr;
     NumberOfOriginalImages : integer;
     NonExecutableLineRE : TRegExpr;
     EditorOptions : TSynEditorOptionsContainer;
@@ -927,9 +926,6 @@ begin
   BlockCloserRE.Expression := '\s*(return|break|continue|raise|pass)\b';
   NonExecutableLineRE := TRegExpr.Create;
   NonExecutableLineRE.Expression := '(^\s*(class|def)\b)|(^\s*#)|(^\s*$)';
-  CommentLineRE := TRegExpr.Create;
-  CommentLineRE.Expression := '^##';
-  CommentLineRE.ModifierM := True;
 
   EditorOptions := TSynEditorOptionsContainer.Create(Self);
   with EditorOptions do begin
@@ -1012,7 +1008,6 @@ begin
   BlockOpenerRE.Free;
   BlockCloserRE.Free;
   NonExecutableLineRE.Free;
-  CommentLineRE.Free;
   PyIDEOptions.Free;
   imlShellIcon.Handle := 0;
 end;
@@ -1543,7 +1538,7 @@ begin
 
     BlockIsCommented := True;
     for i  := BlockBegin.Line to EndLine do
-      if Copy(Trim(Lines[i-1]), 1, 1) <> '#' then begin
+      if Copy(Trim(Lines[i-1]), 1, 2) <> '##' then begin
         BlockIsCommented := False;
         Break;
       end;
@@ -1586,7 +1581,7 @@ begin
           Offset:=1;
         S:=Copy(S, 1, Length(S)-Offset);
       end;
-      S := UnicodeStringReplace(S, #10, #10'##', [rfReplaceAll]);
+      S := StringReplace(S, #10, #10'##', [rfReplaceAll]);
       if Offset=1 then
         S:=S+#10
       else if Offset=2 then
@@ -1620,15 +1615,20 @@ begin
     OldBlockEnd := BlockEnd;
     if SelAvail then
     begin
-      for i := OldBlockBegin.Line-1 to OldBlockEnd.Line-1 do while WideSameText(LeftStr(TrimW(Lines[i]),1),'#') do begin
-      	Lines[i]:=WideStringReplace(Lines[i],'#','',[]);
-      	if i=OldBlockEnd.Line-1 then OldBlockEnd:=BufferCoord(OldBlockEnd.Char-1,OldBlockEnd.Line);
+      for i := OldBlockBegin.Line-1 to OldBlockEnd.Line-1 do
+      begin
+        if WideSameText(LeftStr(Trim(Lines[i]), 2), '##') then
+         	Lines[i]:=StringReplace(Lines[i], '##','', []);
+
+      	if i=OldBlockEnd.Line-1 then
+          OldBlockEnd:=BufferCoord(OldBlockEnd.Char-2, OldBlockEnd.Line);
       end;
-      BlockBegin := BufferCoord(0,OldBlockBegin.Line);
-      BlockEnd := BufferCoord(OldBlockEnd.Char,OldBlockEnd.Line);
-    end else while WideSameText(LeftStr(TrimW(LineText),1),'#') do begin
-      LineText:=WideStringReplace(LineText,'#','',[]);
-      CaretX:=CaretX-1;
+      SetCaretAndSelection(OldBlockEnd, BufferCoord(0, OldBlockBegin.Line), OldBlockEnd);
+    end
+    else if WideSameText(LeftStr(Trim(LineText), 2), '##') then
+    begin
+      LineText:=StringReplace(LineText, '##', '', []);
+      CaretX:=CaretX-2;
     end;
     UpdateCaret;
   end;
@@ -1639,7 +1639,7 @@ begin
   if Assigned(GI_ActiveEditor) then with GI_ActiveEditor.ActiveSynEdit do begin
     if SelAvail then
     begin
-       SelText :=  UnicodeStringReplace(SelText,
+       SelText :=  StringReplace(SelText,
          StringOfChar(' ',GI_ActiveEditor.SynEdit.TabWidth), #9, [rfReplaceAll]);
        UpdateCaret;
     end;
@@ -1651,7 +1651,7 @@ begin
   if Assigned(GI_ActiveEditor) then with GI_ActiveEditor.ActiveSynEdit do begin
     if SelAvail then
     begin
-       SelText :=  UnicodeStringReplace(SelText, #9,
+       SelText :=  StringReplace(SelText, #9,
          StringOfChar(' ',GI_ActiveEditor.SynEdit.TabWidth), [rfReplaceAll]);
        UpdateCaret;
     end;
