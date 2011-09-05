@@ -295,8 +295,8 @@ begin
   if Assigned(fExternalTool) then begin
     ShortCut := fExternalTool.ShortCut;
     Caption := fExternalTool.Caption;
-    S := WideStringReplace(Caption, ' ', '', [rfReplaceAll]);
-    S := WideStringReplace(S, '&', '', [rfReplaceAll]);
+    S := StringReplace(Caption, ' ', '', [rfReplaceAll]);
+    S := StringReplace(S, '&', '', [rfReplaceAll]);
     if IsValidIdent(S) then
       Name := 'actTools' + S;
     Category := 'External Tools';
