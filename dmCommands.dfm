@@ -69,7 +69,7 @@ object CommandsDataModule: TCommandsDataModule
     Left = 32
     Top = 241
     Bitmap = {
-      494C010115001800AC0010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010115001800C00010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000006000000001002000000000000060
       000000000000000000000000000000000000A2D0E5004AA1D6004399D0004093
       CF0097C7DF000000000000000000000000000000000000000000000000000000
@@ -2372,6 +2372,41 @@ object CommandsDataModule: TCommandsDataModule
           '                    del globals['#39'__file__'#39']'
           '                __import__("gc").collect()'
           ''
+          '    class IDETestResult(__import__('#39'unittest'#39').TestResult):'
+          ''
+          '        def startTest(self, test):'
+          
+            '            __import__('#39'unittest'#39').TestResult.startTest(self, te' +
+            'st)'
+          '            self.debugIDE.testResultStartTest(test)'
+          ''
+          '        def stopTest(self, test):'
+          
+            '            __import__('#39'unittest'#39').TestResult.stopTest(self, tes' +
+            't)'
+          '            self.debugIDE.testResultStopTest(test)'
+          ''
+          '        def addError(self, test, err):'
+          
+            '            __import__('#39'unittest'#39').TestResult.addError(self, tes' +
+            't, err)'
+          
+            '            self.debugIDE.testResultAddError(test, self._exc_inf' +
+            'o_to_string(err, test))'
+          ''
+          '        def addFailure(self, test, err):'
+          
+            '            __import__('#39'unittest'#39').TestResult.addFailure(self, t' +
+            'est, err)'
+          
+            '            self.debugIDE.testResultAddFailure(test, self._exc_i' +
+            'nfo_to_string(err, test))'
+          ''
+          '        def addSuccess(self, test):'
+          '            self.debugIDE.testResultAddSuccess(test)'
+          
+            '            __import__('#39'unittest'#39').TestResult.addSuccess(self, t' +
+            'est)'
           ''
           '    def __init__(self, locals = None):'
           '        code.InteractiveInterpreter.__init__(self, locals)'
@@ -3002,6 +3037,41 @@ object CommandsDataModule: TCommandsDataModule
           '                    del globals['#39'__file__'#39']'
           '                __import__("gc").collect()'
           ''
+          '    class IDETestResult(__import__('#39'unittest'#39').TestResult):'
+          ''
+          '        def startTest(self, test):'
+          
+            '            __import__('#39'unittest'#39').TestResult.startTest(self, te' +
+            'st)'
+          '            self.debugIDE.testResultStartTest(test)'
+          ''
+          '        def stopTest(self, test):'
+          
+            '            __import__('#39'unittest'#39').TestResult.stopTest(self, tes' +
+            't)'
+          '            self.debugIDE.testResultStopTest(test)'
+          ''
+          '        def addError(self, test, err):'
+          
+            '            __import__('#39'unittest'#39').TestResult.addError(self, tes' +
+            't, err)'
+          
+            '            self.debugIDE.testResultAddError(test, self._exc_inf' +
+            'o_to_string(err, test))'
+          ''
+          '        def addFailure(self, test, err):'
+          
+            '            __import__('#39'unittest'#39').TestResult.addFailure(self, t' +
+            'est, err)'
+          
+            '            self.debugIDE.testResultAddFailure(test, self._exc_i' +
+            'nfo_to_string(err, test))'
+          ''
+          '        def addSuccess(self, test):'
+          '            self.debugIDE.testResultAddSuccess(test)'
+          
+            '            __import__('#39'unittest'#39').TestResult.addSuccess(self, t' +
+            'est)'
           ''
           '    def __init__(self, locals = None):'
           '        code.InteractiveInterpreter.__init__(self, locals)'
@@ -4646,7 +4716,7 @@ object CommandsDataModule: TCommandsDataModule
     Left = 188
     Top = 186
     Bitmap = {
-      494C01019B009F00840010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01019B009F00980010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000007002000001002000000000000070
       020000000000000000000000000000000000000000000000000000000000EADD
       CB00AB7734009655000096550000AB773400EADDCB0000000000000000000000

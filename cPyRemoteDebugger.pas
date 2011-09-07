@@ -65,6 +65,7 @@ type
     function RunSource(Const Source, FileName : Variant; symbol : string = 'single') : boolean; override;
     function EvalCode(const Expr : string) : Variant; override;
     function GetObjectType(Ob : Variant) : string; override;
+    function UnitTestResult : Variant; override;
 
     property IsAvailable : Boolean read fIsAvailable;
     property IsConnected : Boolean read fIsConnected;
@@ -1195,6 +1196,12 @@ begin
     Strings.Add(RemPath.__getitem__(i));
 end;
 
+
+function TPyRemoteInterpreter.UnitTestResult: Variant;
+begin
+  Result := RPI.IDETestResult();
+  Result.debugIDE := RPI.debugIDE;
+end;
 
 { TPyRemDebugger }
 

@@ -98,6 +98,7 @@ type
     function RunSource(Const Source, FileName : Variant; symbol : string = 'single') : boolean; override;
     function EvalCode(const Expr : string) : Variant; override;
     function GetObjectType(Ob : Variant) : string; override;
+    function UnitTestResult : Variant; override;
     property Debugger : Variant read fDebugger;
     property PyInteractiveInterpreter : Variant read fII;
   end;
@@ -1455,6 +1456,11 @@ var
 begin
   for i := 0 to Len(SysModule.path) - 1  do
     Strings.Add(SysModule.path.__getitem__(i));
+end;
+
+function TPyInternalInterpreter.UnitTestResult: Variant;
+begin
+  Result := PyInteractiveInterpreter.IDETestResult();
 end;
 
 end.
