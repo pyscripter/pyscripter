@@ -154,6 +154,7 @@ type
     procedure RunScript(FileName : string); virtual;
     function EvalCode(const Expr : string) : Variant; virtual; abstract;
     function GetObjectType(Ob : Variant) : string; virtual; abstract;
+    function UnitTestResult : Variant; virtual; abstract;
     property EngineType : TPythonEngineType read fEngineType;
     property InterpreterCapabilities : TInterpreterCapabilities read fInterpreterCapabilities;
   end;

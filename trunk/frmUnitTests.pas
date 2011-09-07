@@ -466,8 +466,7 @@ begin
   PyIDEMainForm.DebuggerStateChange(Self, dsInactive, dsRunningNoDebug);
   Application.ProcessMessages;
 
-  // Always use the internal interpreter!
-  TestResult := InternalInterpreter.PyInteractiveInterpreter.IDETestResult();
+  TestResult := PyControl.ActiveInterpreter.UnitTestResult();
   try
     QueryPerformanceCounter(StartTime);
     TempTestSuite.run(TestResult);
@@ -478,6 +477,7 @@ begin
     else
       ElapsedTime := 0;
     VarClear(TestResult);
+    VarClear(TempTestSuite);
     Status := utwRun;
     PyIDEMainForm.DebuggerStateChange(Self, dsRunningNoDebug, dsInactive);
     lblRunTests.Caption := Format(RunTestsLabel,
