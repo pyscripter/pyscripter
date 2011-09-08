@@ -339,6 +339,7 @@
 
   History:   v 2.4.3
           New Features
+            100% portable by placing PyScripter.ini in the PyScripter exe directory
             Ctrl+Mousewheel for zooming the interpreter (Issue 475)
             New IDE Option "File Change Notification" introduced with possible values Full, NoMappedDrives(default), Disabled (Issue 470)
             Background color for Matching and Unbalanced braces (Issue 472)
@@ -353,7 +354,7 @@
             Replace in Find-in-Files now supports subexpression substitution (Issue 332)
             Import statement completion does not include builtin module names
             461, 463, 468, 471, 474, 478, 488, 496, 504, 508, 509,
-            511, 512, 515, 525, 526, 527, 528, 532
+            511, 512, 515, 525, 526, 527, 528, 532, 559
 -----------------------------------------------------------------------------}
 
 // Bugs and minor features
@@ -3626,9 +3627,7 @@ begin
   // Search first in the Exe directory and then in the user directory
   // Needs to be done after PyScripter loading is finished
 
-  FileName := ExtractFilePath(Application.ExeName) + PyScripterInitFile;
-  if not FileExists(FileName) then
-    FileName := CommandsDataModule.UserDataPath + PyScripterInitFile;
+  FileName := CommandsDataModule.UserDataPath + PyScripterInitFile;
 
   try
     InternalInterpreter.RunScript(FileName);
