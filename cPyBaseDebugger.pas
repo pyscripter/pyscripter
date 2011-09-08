@@ -439,10 +439,7 @@ procedure TPyBaseInterpreter.Initialize;
 Var
   FileName : String;
 begin
-  // Search first in the Exe directory and then in the user directory
-  FileName := ExtractFilePath(Application.ExeName)+ EngineInitFile;
-  if not FileExists(FileName) then
-    FileName := CommandsDataModule.UserDataPath + EngineInitFile;
+  FileName := CommandsDataModule.UserDataPath + EngineInitFile;
 
   try
     RunScript(FileName);

@@ -570,7 +570,7 @@ uses
   dlgFileTemplates, JclSysUtils, dlgPickList, JvAppIniStorage,
   JvAppStorage, JvDSADialogs, uSearchHighlighter,
   MPShellUtilities, gnugettext, SpTBXSkins, SpTBXMDIMRU, StrUtils, JclStrings,
-  DateUtils, JclDebug, Clipbrd, MPCommonUtilities;
+  DateUtils, JclDebug, Clipbrd, MPCommonUtilities, JclSysInfo;
 
 { TPythonIDEOptions }
 
@@ -846,6 +846,7 @@ begin
       Include(SearchOptions, ssoWholeWord);
     SynEdit.SearchEngine.Options := SearchOptions;
     try
+      SynEdit.SearchEngine.Pattern := ''; //  To deal with case sensitivity
       SynEdit.SearchEngine.Pattern := SearchText;
       if ABackwards then
         CanWrapSearch := FindTextInBlock(SynEdit.Lines, InitCaretXY, InitBlockEnd)
@@ -874,13 +875,17 @@ var
   Index : integer;
 begin
   // User Data directory for storing the ini file etc.
-  UserDataPath := IncludeTrailingPathDelimiter(UserDocumentsFolder.NameForParsing) + 'PyScripter\';
-  if not ForceDirectories(UserDataPath) then
-    Dialogs.MessageDlg(Format(SAccessAppDataDir, [UserDataPath]), mtWarning, [mbOK], 0);
+  if FileExists(ChangeFileExt(Application.ExeName, '.ini')) then
+    // Portable version - nothing is stored in other directories
+    UserDataPath :=   ExtractFilePath(Application.ExeName)
+  else begin
+    UserDataPath := IncludeTrailingPathDelimiter(GetAppdataFolder) + 'PyScripter\';
+    if not ForceDirectories(UserDataPath) then
+      Dialogs.MessageDlg(Format(SAccessAppDataDir, [UserDataPath]), mtWarning, [mbOK], 0);
+  end;
+
   // Skins directory
-  SkinFilesDir := ExtractFilePath(Application.ExeName) + 'Skins';
-  if not DirectoryExists(SkinFilesDir) then
-    SkinFilesDir := UserDataPath + 'Skins';
+  SkinFilesDir := UserDataPath + 'Skins';
   if not DirectoryExists(SkinFilesDir) then
     try
       CreateDir(SkinFilesDir);
@@ -1325,15 +1330,8 @@ end;
 
 procedure TCommandsDataModule.actToolsEditStartupScriptsExecute(Sender: TObject);
 begin
-  // Search first in the Exe directory and then in the user directory
-  if FileExists(ExtractFilePath(Application.ExeName)+ PyScripterInitFile) then
-    PyIDEMainForm.DoOpenFile(ExtractFilePath(Application.ExeName) + PyScripterInitFile)
-  else
-    PyIDEMainForm.DoOpenFile(UserDataPath + PyScripterInitFile);
-  if FileExists(ExtractFilePath(Application.ExeName)+ EngineInitFile) then
-    PyIDEMainForm.DoOpenFile(ExtractFilePath(Application.ExeName) + EngineInitFile)
-  else
-    PyIDEMainForm.DoOpenFile(UserDataPath + EngineInitFile);
+  PyIDEMainForm.DoOpenFile(UserDataPath + PyScripterInitFile);
+  PyIDEMainForm.DoOpenFile(UserDataPath + EngineInitFile);
 end;
 
 procedure TCommandsDataModule.actSearchGoToDebugLineExecute(Sender: TObject);
