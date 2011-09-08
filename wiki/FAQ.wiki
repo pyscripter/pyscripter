@@ -32,16 +32,18 @@ You can very easily setup PyScripter so that it can work with unregistered versi
 
 Steps:
 
-a) From an existing !PyScripter installation copy !PyScripter.exe !PyScripter.chm and !PyScripter.ini (this last file is typically located in the %APPDATA%\!PyScripter directory) to a directory of your choice in the portable drive.
+a) Download the zip-only distribution from the [http://code.google.com/p/pyscripter/downloads/list PyScripter downloads page] and extract it to a directory of your choice in the portable drive.
 
-b) In the same directory create a batch or command file that will set the PYTHONHOME environment variable and start !PyScripter with appropriate command-line options e.g.
+b)  From an existing !PyScripter installation copy !PyScripter.ini (this file is typically located in the %APPDATA%\!PyScripter directory) to the same directory as the !PyScripter.exe file..
+
+c) In the same directory create a batch or command file that will set the PYTHONHOME environment variable and start !PyScripter with appropriate command-line options e.g.
 
 {{{
 SET PYTHONHOME=E:\PortablePython 
 PyScripter --PYTHON25 --PYTHONDLLPATH "E:\PortablePython" %1 %2 %3 %4 %5
 }}}
 
-c) Start !PyScripter using the created batch file.
+d) Start !PyScripter using the created batch file.
 
 [http://code.google.com/p/pyscripter/wiki/FAQ#Frequently_Asked_Questions Back to Top]
 
