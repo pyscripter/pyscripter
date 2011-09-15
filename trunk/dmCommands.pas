@@ -1922,6 +1922,7 @@ begin
     Canvas.Brush.Style := bsSolid;
     Canvas.Font.Assign(SynEdit.Font);
     Canvas.Font.Style := Attri.Style;
+    Canvas.Font.Color := Attri.Foreground;
 
     if SynEdit.IsPointInSelection(P) then
       Canvas.Brush.Color := SynEdit.SelectedColor.Background
@@ -1936,24 +1937,26 @@ begin
 
     if (TransientType = ttAfter) then begin
       if HasMatchingBracket then begin
-        if not SynEdit.IsPointInSelection(P) and (
-          SynPythonSyn.MatchingBraceAttri.Background <> clNone)
-        then
-          Canvas.Brush.Color := SynPythonSyn.MatchingBraceAttri.Background;
-        Canvas.Font.Color:= SynPythonSyn.MatchingBraceAttri.Foreground
+        if not SynEdit.IsPointInSelection(P) then 
+        begin
+          if SynPythonSyn.MatchingBraceAttri.Background <> clNone then
+            Canvas.Brush.Color := SynPythonSyn.MatchingBraceAttri.Background;
+          Canvas.Font.Color:= SynPythonSyn.MatchingBraceAttri.Foreground;
+        end;
       end else begin
-        if not SynEdit.IsPointInSelection(P) and
-          (SynPythonSyn.UnbalancedBraceAttri.Background <> clNone)
-        then
-          Canvas.Brush.Color := SynPythonSyn.UnbalancedBraceAttri.Background;
-        Canvas.Font.Color:= SynPythonSyn.UnbalancedBraceAttri.Foreground;
+        if not SynEdit.IsPointInSelection(P) then 
+        begin
+          if SynPythonSyn.UnbalancedBraceAttri.Background <> clNone then
+            Canvas.Brush.Color := SynPythonSyn.UnbalancedBraceAttri.Background;
+          Canvas.Font.Color:= SynPythonSyn.UnbalancedBraceAttri.Foreground;
+        end;
       end;
       Canvas.Font.Style := Canvas.Font.Style + [fsBold];
     end
     else begin
       Canvas.Font.Style := Attri.Style;
-//      if not SynEdit.IsPointInSelection(P) then
-//        Canvas.Font.Color:= Attri.Foreground;
+      if not SynEdit.IsPointInSelection(P) then
+        Canvas.Font.Color:= Attri.Foreground;
     end;
 
     if (PD.Column >= SynEdit.LeftChar) and
@@ -1970,10 +1973,14 @@ begin
       (PMD.Row > 0)and (PMD.Row >= SynEdit.TopLine) and
       (PMD.Row < SynEdit.TopLine + SynEdit.LinesInWindow) then
     begin
-      if SynEdit.IsPointInSelection(PM) then begin
-        Canvas.Brush.Color := SynEdit.SelectedColor.Background;
-        Canvas.Font.Color := SynEdit.SelectedColor.Foreground;
-      end else if (TransientType = ttAfter) and (SynPythonSyn.MatchingBraceAttri.Background <> clNone) then
+      if SynEdit.IsPointInSelection(PM) then 
+        Canvas.Font.Color := SynEdit.SelectedColor.Foreground
+      else if (TransientType = ttAfter) then
+        Canvas.Font.Color:= SynPythonSyn.MatchingBraceAttri.Foreground;
+        
+      if SynEdit.IsPointInSelection(PM) then 
+        Canvas.Brush.Color := SynEdit.SelectedColor.Background
+      else if (TransientType = ttAfter) and (SynPythonSyn.MatchingBraceAttri.Background <> clNone) then
         Canvas.Brush.Color := SynPythonSyn.MatchingBraceAttri.Background
       else if (Synedit.ActiveLineColor <> clNone) and (SynEdit.CaretY = PM.Line) then
         Canvas.Brush.Color := SynEdit.ActiveLineColor
