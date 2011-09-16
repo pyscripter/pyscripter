@@ -228,7 +228,10 @@ begin
           NameSpaceItem.GotBufferedValue := True;
           NameSpaceItem.fObjectType := PyString_AsWideString(PyTuple_GetItem(PyFullInfo, 2));
           NameSpaceItem.ExtractObjectInfo(PyTuple_GetItem(PyFullInfo, 3));
-          NameSpaceItem.fChildCount := PyInt_AsLong(PyTuple_GetItem(PyFullInfo, 4));
+          if NameSpaceItem.IsProxy then
+            NameSpaceItem.fChildCount := PyInt_AsLong(PyTuple_GetItem(PyFullInfo, 4))
+          else
+            NameSpaceItem.fChildCount := NameSpaceItem.ChildCount;
 
           fChildNodes.AddObject(ObjName, NameSpaceItem);
         end;
