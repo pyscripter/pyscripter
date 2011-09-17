@@ -21,6 +21,9 @@ uses
   VirtualResources, SpTBXSkins, SpTBXDkPanels, Menus, SpTBXTabs, SynRegExpr,
   cPythonSourceScanner, frmCodeExplorer;
 
+const
+  WM_PARAMCOMPLETION = WM_USER +1040;
+
 type
   TEditor = class;
 
@@ -118,6 +121,8 @@ type
     procedure ViewsTabControlActiveTabChange(Sender: TObject;
       TabIndex: Integer);
     procedure SynEditDblClick(Sender: TObject);
+    procedure SynCodeCompletionAfterCodeCompletion(Sender: TObject;
+      const Value: string; Shift: TShiftState; Index: Integer; EndToken: Char);
   private
     fEditor: TEditor;
     fActiveSynEdit: TSynEdit;
@@ -149,6 +154,7 @@ type
     procedure CodeHintEventHandler(Sender: TObject; AArea: TRect;
       var CodeHint: string);
     procedure CodeHintLinkHandler(Sender: TObject; LinkName: string);
+    procedure WMPARAMCOMPLETION(var Message: TMessage); message WM_PARAMCOMPLETION;
   public
     BreakPoints: TObjectList;
     FoundSearchItems: TObjectList;
@@ -2394,6 +2400,11 @@ begin
   end;
 end;
 
+procedure TEditorForm.WMPARAMCOMPLETION(var Message: TMessage);
+begin
+  SynParamCompletion.ActivateCompletion;
+end;
+
 procedure TEditorForm.WMShellNotify(var Msg: TMessage);
 {
   Does nothing except for releasing the ShellEventList
@@ -2528,6 +2539,13 @@ begin
   PyIDEMainForm.ThemeEditorGutter(SynEdit2.Gutter);
   SynEdit2.InvalidateGutter;
   Invalidate;
+end;
+
+procedure TEditorForm.SynCodeCompletionAfterCodeCompletion(Sender: TObject;
+  const Value: string; Shift: TShiftState; Index: Integer; EndToken: Char);
+begin
+  if EndToken = '(' then
+    PostMessage(Handle, WM_PARAMCOMPLETION, 0, 0);
 end;
 
 procedure TEditorForm.SynCodeCompletionClose(Sender: TObject);

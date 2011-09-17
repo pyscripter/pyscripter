@@ -137,6 +137,7 @@ inherited PythonIIForm: TPythonIIForm
     ShortCut = 0
     Editor = SynEdit
     TimerInterval = 300
+    OnAfterCodeCompletion = SynCodeCompletionAfterCodeCompletion
     Left = 627
     Top = 9
   end

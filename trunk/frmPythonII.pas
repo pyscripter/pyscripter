@@ -30,6 +30,7 @@ uses
 const
   WM_APPENDTEXT = WM_USER + 1020;
   WM_REINITINTERPRETER = WM_USER + 1030;
+  WM_PARAMCOMPLETION = WM_USER +1040;
 
 type
   TPythonIIForm = class(TIDEDockWindow, ISearchCommands)
@@ -118,6 +119,8 @@ type
       MousePos: TPoint; var Handled: Boolean);
     procedure SynEditMouseWheelUp(Sender: TObject; Shift: TShiftState;
       MousePos: TPoint; var Handled: Boolean);
+    procedure SynCodeCompletionAfterCodeCompletion(Sender: TObject;
+      const Value: string; Shift: TShiftState; Index: Integer; EndToken: Char);
   private
     { Private declarations }
     fCommandHistory : TStringList;
@@ -155,6 +158,7 @@ type
     procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
     procedure WMAPPENDTEXT(var Message: TMessage); message WM_APPENDTEXT;
     procedure WMREINITINTERPRETER(var Message: TMessage); message WM_REINITINTERPRETER;
+    procedure WMPARAMCOMPLETION(var Message: TMessage); message WM_PARAMCOMPLETION;
   public
     { Public declarations }
     PS1, PS2, DebugPrefix, PMPrefix : string;
@@ -1145,6 +1149,13 @@ begin
   end;
 end;
 
+procedure TPythonIIForm.SynCodeCompletionAfterCodeCompletion(Sender: TObject;
+  const Value: string; Shift: TShiftState; Index: Integer; EndToken: Char);
+begin
+  if EndToken = '(' then
+    PostMessage(Handle, WM_PARAMCOMPLETION, 0, 0);
+end;
+
 procedure TPythonIIForm.SynCodeCompletionClose(Sender: TObject);
 begin
   CommandsDataModule.PyIDEOptions.CodeCompletionListSize :=
@@ -1787,6 +1798,11 @@ begin
   while PeekMessage(Msg, 0, WM_APPENDTEXT, WM_APPENDTEXT, PM_REMOVE) do
     ; // do nothing
   WritePendingMessages;
+end;
+
+procedure TPythonIIForm.WMPARAMCOMPLETION(var Message: TMessage);
+begin
+  SynParamCompletion.ActivateCompletion;
 end;
 
 procedure TPythonIIForm.WMREINITINTERPRETER(var Message: TMessage);
