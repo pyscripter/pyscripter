@@ -2,6 +2,27 @@
 
 = History =
 
+===Version 2.4.3 September 20, 2011)=== 
+
+  * *New features:*     
+    * 100% portable by placing PyScripter.ini in the PyScripter exe directory
+    * 100% portable by placing PyScripter.ini in the PyScripter exe directory
+    * Ctrl+Mousewheel for zooming the interpreter (Issue 475)
+    * Show docstrings during completion list (Issue 274)
+    * New IDE Option "File Change Notification" introduced with possible values Full, NoMappedDrives(default), Disabled (Issue 470)
+    * Background color for Matching and Unbalanced braces (Issue 472)
+    * New IDE option "Case Sensitive Code Completion" (default True)
+    * New IDE option "Complete Python keywords" (default True)
+    * New IDE option "Complete as you type" (default True, Issue 473)
+    * New IDE option "Complete with word-break chars" (default True)
+    * New IDE option "Auto-complete with one entry" (default True, Issue 452)
+  * *Issues addressed:*     
+    * Command line history not saved
+    * Editing a watch to an empty string crashes PyScripter
+    * Replace in Find-in-Files now supports subexpression substitution (Issue 332)
+    * Import statement completion does not include builtin module names
+    * Issue 461, Issue 463, Issue 468, Issue 471, Issue 474, Issue 478, Issue 488, Issue 496, Issue 504, Issue 508, Issue 509, Issue 511, Issue 512, Issue 515, Issue 525, Issue 526, Issue 527, Issue 528, Issue 532, Issue 559, Issue 560
+
 ===Version 2.4.1 December 12, 2010)=== 
 
   * *New features:*     
