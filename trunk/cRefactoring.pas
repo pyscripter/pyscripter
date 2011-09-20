@@ -90,12 +90,13 @@ type
     fGetTypeCache : TStringList;
     fSpecialPackages : TStringList;
     fSourceScanners : TInterfaceList;
+    fIsProcessingQuery : Boolean;
   public
     constructor Create;
     destructor Destroy; override;
     procedure ClearParsedModules;
     procedure ClearProxyModules;
-    procedure InitializeQuery;
+    function InitializeQuery : Boolean;
     procedure FinalizeQuery;
     function GetSource(const FName : string; var Source : string): Boolean;
     function GetParsedModule(const ModuleName : string; PythonPath : Variant) : TParsedModule;
@@ -127,6 +128,8 @@ type
       List : TStringList);
     function GetBuiltInName(AName : string) : TCodeElement;
     function GetFuncReturnType(FunctionCE: TParsedFunction; var ErrMsg: string): TCodeElement;
+    property
+    IsProcessingQuery : Boolean read fIsProcessingQuery write fIsProcessingQuery;
   end;
 
 var
@@ -180,6 +183,7 @@ end;
 procedure TPyScripterRefactor.FinalizeQuery;
 begin
   fSourceScanners.Clear;
+  IsProcessingQuery := False;
 end;
 
 function TPyScripterRefactor.FindDefinitionByCoordinates(const Filename: string; Line,
@@ -192,7 +196,10 @@ var
 begin
   Result := nil;
   if Initialize then begin
-    InitializeQuery;
+    if not InitializeQuery then begin
+      ErrMsg := _(SRefactoryEngineBusy);
+      Exit;
+    end;
     // Add the file path to the Python path - Will be automatically removed
     PythonPathAdder := InternalInterpreter.AddPathToPythonPath(ExtractFileDir(FileName));
   end;
@@ -733,11 +740,17 @@ begin
           [DottedIdent, Scope.Name]);
 end;
 
-procedure TPyScripterRefactor.InitializeQuery;
+function TPyScripterRefactor.InitializeQuery : Boolean;
 begin
-  //ClearParsedModules;  // Do not clear.  A check is made if Source has changed
-  fImportResolverCache.Clear;  // fresh start
-  fGetTypeCache.Clear;  // fresh start
+  Result :=  not IsProcessingQuery;
+  if Result then
+  begin
+    IsProcessingQuery := True;
+    //ClearParsedModules;  // Do not clear.  A check is made if Source has changed
+    fImportResolverCache.Clear;  // fresh start
+    fGetTypeCache.Clear;  // fresh start
+    Result := True;
+  end;
 end;
 
 procedure TPyScripterRefactor.FindReferencesByCoordinates(Filename: string;
@@ -749,7 +762,10 @@ Var
   PythonPathAdder : IInterface;
   Def : TBaseCodeElement;
 begin
-  InitializeQuery;
+  if not InitializeQuery then begin
+    ErrMsg := _(SRefactoryEngineBusy);
+    Exit;
+  end;
 
   // Add the file path to the Python path - Will be automatically removed
   PythonPathAdder := InternalInterpreter.AddPathToPythonPath(ExtractFileDir(FileName));

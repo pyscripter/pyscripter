@@ -220,6 +220,8 @@ Const
   SCouldNotFindModule = 'Could not find module: "%s"';
   SSelfOutsideClassScope = '"self" used outside a class scope';
   SCouldNotFindIdentInScope = 'Could not find identifier "%s" in scope "%s"';
+  SRefactoryEngineBusy = 'Refactory engine is busy';
+  SPythonKeyword = 'Python keyword';
 
   // File Templates
   SFileTemplateCategoryInternet = 'Internet';

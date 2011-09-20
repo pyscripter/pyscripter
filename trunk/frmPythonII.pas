@@ -33,6 +33,9 @@ const
   WM_PARAMCOMPLETION = WM_USER +1040;
 
 type
+
+  TCodeCompletionType = (cctNone, cctModule, cctFrom, cctNameSpace);
+
   TPythonIIForm = class(TIDEDockWindow, ISearchCommands)
     SynEdit: TSynEdit;
     PythonEngine: TPythonEngine;
@@ -132,6 +135,12 @@ type
     fOutputStream : TMemoryStream;
     fCloseBracketChar: WideChar;
     fOutputMirror : TFileStream;
+    //Code completion internal variables - cleanup takes place in the Close event
+    fCodeCompletionType : TCodeCompletionType;
+    fNameSpaceDict : TBaseNameSpaceItem;
+    fNameSpace : TStringList;
+    fSortedNameSpace : TStringList;
+    procedure CleanupCodeCompletion;
     procedure GetBlockBoundary(LineN: integer; var StartLineN,
               EndLineN: integer; var IsCode: Boolean);
     function GetPromptPrefix(line: string): string;
@@ -151,6 +160,8 @@ type
     procedure ExecFindPrev;
     procedure ExecReplace;
     procedure FindPythonHelpFile;
+    procedure SynCodeCompletionCodeItemInfo(Sender: TObject;
+      AIndex: Integer; var Info : string);
   protected
     procedure PythonIOSendData(Sender: TObject; const Data: string);
     procedure PythonIOReceiveData(Sender: TObject; var Data: string);
@@ -191,7 +202,7 @@ implementation
 Uses
   SynEditTypes, Math, frmPyIDEMain, dmCommands, VarPyth, Registry,
   frmMessages, uCommonFunctions, frmVariables, StringResources,
-  frmUnitTests, SynRegExpr, 
+  frmUnitTests, SynRegExpr,
   cPyDebugger, cPyRemoteDebugger, JvJVCLUtils, uCmdLine,
   JclStrings, gnugettext, cRefactoring, cPythonSourceScanner;
 
@@ -572,6 +583,8 @@ begin
   PyControl.ActiveInterpreter := InternalInterpreter;
   PyControl.ActiveDebugger := TPyInternalDebugger.Create;
   InternalInterpreter.Initialize;
+
+  SynCodeCompletion.OnCodeItemInfo := SynCodeCompletionCodeItemInfo;
 end;
 
 procedure TPythonIIForm.FormDestroy(Sender: TObject);
@@ -1156,10 +1169,29 @@ begin
     PostMessage(Handle, WM_PARAMCOMPLETION, 0, 0);
 end;
 
+procedure TPythonIIForm.CleanupCodeCompletion;
+begin
+  case fCodeCompletionType of
+    cctFrom:
+      begin
+        FreeAndNil(fSortedNameSpace);
+        PyScripterRefactor.FinalizeQuery;
+      end;
+    cctNameSpace:
+      begin
+        FreeAndNil(fNameSpace);
+        FreeAndNil(fNameSpaceDict);
+      end;
+  end;
+  fCodeCompletionType := cctNone;
+end;
+
 procedure TPythonIIForm.SynCodeCompletionClose(Sender: TObject);
 begin
   CommandsDataModule.PyIDEOptions.CodeCompletionListSize :=
     SynCodeCompletion.NbLinesInWindow;
+  //  Clean-up
+  CleanupCodeCompletion;
 end;
 
 procedure TPythonIIForm.SynCodeCompletionExecute(Kind: SynCompletionType;
@@ -1172,13 +1204,13 @@ var locline, lookup: string;
     TmpX, Index, ImageIndex, i : integer;
     FoundMatch     : Boolean;
     DisplayText, InsertText: string;
-    NameSpaceDict, NameSpaceItem : TBaseNameSpaceItem;
+    NameSpaceItem : TBaseNameSpaceItem;
     Attr: TSynHighlighterAttributes;
     DummyToken : string;
     BC : TBufferCoord;
     PathDepth: integer;
     ParsedModule : TParsedModule;
-    NameSpace, KeywordList : TStringList;
+    KeywordList : TStringList;
     Prompt : string;
     Keywords : Variant;
 
@@ -1211,40 +1243,36 @@ var locline, lookup: string;
     i : integer;
     S : string;
     CE : TBaseCodeElement;
-    SortedNameSpace : TStringList;
   begin
-    SortedNameSpace := TStringList.Create;
-    try
-      SortedNameSpace.Duplicates := dupIgnore; // Remove duplicates
-      SortedNameSpace.Sorted := True;
-      SortedNameSpace.AddStrings(NameSpace);
-      SortedNameSpace.Sorted := False;
-      SortedNameSpace.CustomSort(ComparePythonIdents);
-      InsertText := SortedNamespace.Text;
-      for i := 0 to SortedNamespace.Count - 1 do begin
-        S := SortedNamespace[i];
-        CE := SortedNamespace.Objects[i] as TBaseCodeElement;
-        if (CE is TParsedModule) or (CE is TModuleImport) then
-          ImageIndex := 16
-        else if CE is TParsedFunction then begin
-          if CE.Parent is TParsedClass then
-            ImageIndex := 14
-          else
-            ImageIndex := 17
-        end else if CE is TParsedClass then
-          ImageIndex := 13
-        else begin  // TVariable or TParsedVariable
-          if CE.Parent is TParsedClass then
-            ImageIndex := 1
-          else
-            ImageIndex := 0
-        end;
-        DisplayText := DisplayText + Format('\Image{%d}\hspace{2}%s', [ImageIndex, S]);
-        if i < SortedNamespace.Count - 1 then
-          DisplayText := DisplayText + #10;
+    //fSortedNameSpace is freed in Close event
+    fSortedNameSpace := TStringList.Create;
+    fSortedNameSpace.Duplicates := dupIgnore; // Remove duplicates
+    fSortedNameSpace.Sorted := True;
+    fSortedNameSpace.AddStrings(fNameSpace);
+    fSortedNameSpace.Sorted := False;
+    fSortedNameSpace.CustomSort(ComparePythonIdents);
+    InsertText := fSortedNameSpace.Text;
+    for i := 0 to fSortedNameSpace.Count - 1 do begin
+      S := fSortedNameSpace[i];
+      CE := fSortedNameSpace.Objects[i] as TBaseCodeElement;
+      if (CE is TParsedModule) or (CE is TModuleImport) then
+        ImageIndex := 16
+      else if CE is TParsedFunction then begin
+        if CE.Parent is TParsedClass then
+          ImageIndex := 14
+        else
+          ImageIndex := 17
+      end else if CE is TParsedClass then
+        ImageIndex := 13
+      else begin  // TVariable or TParsedVariable
+        if CE.Parent is TParsedClass then
+          ImageIndex := 1
+        else
+          ImageIndex := 0
       end;
-    finally
-      SortedNameSpace.Free;
+      DisplayText := DisplayText + Format('\Image{%d}\hspace{2}%s', [ImageIndex, S]);
+      if i < fSortedNameSpace.Count - 1 then
+        DisplayText := DisplayText + #10;
     end;
   end;
 
@@ -1277,33 +1305,39 @@ begin
 
     if RE_CC_Import.Exec(Copy(locLine, 1, CaretX - 1)) then begin
       // autocomplete import statement
+      FCodeCompletionType := cctModule;
       GetModuleList(None);
     end else if RE_CC_From.Exec(Copy(locLine, 1, CaretX - 1)) then begin
       // autocomplete from statement
+      FCodeCompletionType := cctModule;
       PathDepth :=  RE_CC_From.MatchLen[1];
       if PathDepth <= 0 then // relative paths are only valid in packages
         GetModuleList(None);
     end else if RE_CC_FromImport.Exec(Copy(locLine, 1, CaretX - 1)) then begin
+      FCodeCompletionType := cctFrom;
       PathDepth :=  RE_CC_FromImport.MatchLen[1];
       if (PathDepth <= 0) // relative paths are only valid in packages
          and (RE_CC_FromImport.MatchLen[2] > 0) then
       begin
         // from ...module import identifiers
-        PyScripterRefactor.InitializeQuery;
-        ParsedModule :=
-          PyScripterRefactor.ResolveModuleImport(RE_CC_FromImport.Match[2], '');
-        if Assigned(ParsedModule) then begin
-          NameSpace := TStringList.Create;
-          try
-            ParsedModule.GetNamespace(NameSpace);
-            ProcessNamespace;
-          finally
-            NameSpace.Free;
+        if PyScripterRefactor.InitializeQuery then
+        begin
+          ParsedModule :=
+            PyScripterRefactor.ResolveModuleImport(RE_CC_FromImport.Match[2], '');
+          if Assigned(ParsedModule) then begin
+            fNameSpace := TStringList.Create;
+            try
+              ParsedModule.GetNamespace(fNameSpace);
+              ProcessNamespace;
+            finally
+              FreeAndNil(fNameSpace);
+            end;
           end;
         end;
-        PyScripterRefactor.FinalizeQuery;
       end;
     end else begin
+      FCodeCompletionType := cctNameSpace;
+      // Clean-up of FNameSpace and FNameSpaceDict takes place in the Close event
       TmpX := CaretX - Length(Prompt);
       if TmpX > length(locLine) then
         TmpX := length(locLine)
@@ -1311,7 +1345,7 @@ begin
 
       lookup := GetWordAtPos(LocLine, TmpX, IdentChars+['.'], True, False, True);
       Index := CharLastPos(lookup, '.');
-      NameSpaceDict := nil;
+      fNameSpaceDict := nil;
       if Index > 0 then begin
         lookup := Copy(lookup, 1, Index-1);
         if CharPos(lookup, ')') > 0 then
@@ -1322,70 +1356,65 @@ begin
         lookup := '';  // Completion from global namespace
       if (Index <= 0) or (lookup <> '') then begin
         if PyControl.DebuggerState = dsInactive then
-          NameSpaceDict := PyControl.ActiveInterpreter.NameSpaceFromExpression(lookup)
+          fNameSpaceDict := PyControl.ActiveInterpreter.NameSpaceFromExpression(lookup)
         else
-          NameSpaceDict := PyControl.ActiveDebugger.NameSpaceFromExpression(lookup);
+          fNameSpaceDict := PyControl.ActiveDebugger.NameSpaceFromExpression(lookup);
       end;
 
       DisplayText := '';
       InsertText := '';
 
-      NameSpace := TStringList.Create;
-      try
-        if Assigned(NameSpaceDict) then begin
-          for i := 0 to NameSpaceDict.ChildCount - 1 do begin
-            NameSpaceItem := NameSpaceDict.ChildNode[i];
-            NameSpace.AddObject(NameSpaceItem.Name, NameSpaceItem);
-          end;
+      fNameSpace := TStringList.Create;
+      if Assigned(fNameSpaceDict) then begin
+        for i := 0 to fNameSpaceDict.ChildCount - 1 do begin
+          NameSpaceItem := fNameSpaceDict.ChildNode[i];
+          fNameSpace.AddObject(NameSpaceItem.Name, NameSpaceItem);
         end;
-        if (Index <= 0) and CommandsDataModule.PyIDEOptions.CompleteKeywords then begin
-          Keywords := Import('keyword').kwlist;
-          Keywords := BuiltinModule.tuple(Keywords);
-          KeywordList := TStringList.Create;
-          try
-            GetPythonEngine.PyTupleToStrings(ExtractPythonObjectFrom(Keywords), KeywordList);
-            NameSpace.AddStrings(KeywordList);
-          finally
-            KeywordList.Free;
-          end;
+      end;
+      if (Index <= 0) and CommandsDataModule.PyIDEOptions.CompleteKeywords then begin
+        Keywords := Import('keyword').kwlist;
+        Keywords := BuiltinModule.tuple(Keywords);
+        KeywordList := TStringList.Create;
+        try
+          GetPythonEngine.PyTupleToStrings(ExtractPythonObjectFrom(Keywords), KeywordList);
+          fNameSpace.AddStrings(KeywordList);
+        finally
+          KeywordList.Free;
         end;
+      end;
 
-        NameSpace.CustomSort(ComparePythonIdents);
+      fNameSpace.CustomSort(ComparePythonIdents);
 
-        for i := 0 to NameSpace.Count - 1 do begin
-          InsertText := InsertText + NameSpace[i];
+      for i := 0 to fNameSpace.Count - 1 do begin
+        InsertText := InsertText + fNameSpace[i];
 
-          NameSpaceItem := NameSpace.Objects[i] as TBaseNameSpaceItem;
-          if not Assigned(NameSpaceItem) then
-             DisplayText := DisplayText + Format('\Image{%d}\hspace{2}\color{clBlue}%s', [20, NameSpace[i]])
-          else
-          begin
-            if NameSpaceItem.IsModule then
-              ImageIndex := 16
-            else if NameSpaceItem.IsMethod
-                 {or NameSpaceItem.IsMethodDescriptor} then
-              ImageIndex := 14
-            else if NameSpaceItem.IsFunction
-                 {or NameSpaceItem.IsBuiltin} then
-              ImageIndex := 17
-            else if NameSpaceItem.IsClass then
-              ImageIndex := 13
-            else begin
-              if Index > 0 then
-                ImageIndex := 1
-              else
-                ImageIndex := 0;
-            end;
-            DisplayText := DisplayText + Format('\Image{%d}\hspace{2}%s', [ImageIndex, NameSpaceItem.Name]);
+        NameSpaceItem := fNameSpace.Objects[i] as TBaseNameSpaceItem;
+        if not Assigned(NameSpaceItem) then
+           DisplayText := DisplayText + Format('\Image{%d}\hspace{2}\color{clBlue}%s', [20, fNameSpace[i]])
+        else
+        begin
+          if NameSpaceItem.IsModule then
+            ImageIndex := 16
+          else if NameSpaceItem.IsMethod
+               {or NameSpaceItem.IsMethodDescriptor} then
+            ImageIndex := 14
+          else if NameSpaceItem.IsFunction
+               {or NameSpaceItem.IsBuiltin} then
+            ImageIndex := 17
+          else if NameSpaceItem.IsClass then
+            ImageIndex := 13
+          else begin
+            if Index > 0 then
+              ImageIndex := 1
+            else
+              ImageIndex := 0;
           end;
-          if i < NameSpace.Count - 1 then begin
-            DisplayText := DisplayText + #10;
-            InsertText := InsertText + #10;
-          end;
+          DisplayText := DisplayText + Format('\Image{%d}\hspace{2}%s', [ImageIndex, NameSpaceItem.Name]);
         end;
-      finally
-        FreeAndNil(NameSpaceDict);
-        NameSpace.Free;
+        if i < fNameSpace.Count - 1 then begin
+          DisplayText := DisplayText + #10;
+          InsertText := InsertText + #10;
+        end;
       end;
     end;
     FoundMatch := DisplayText <> '';
@@ -1407,12 +1436,64 @@ begin
         if Form.AssignedList.Count = 1 then begin
           CanExecute := False;
           OnValidate(Form, [], #0);
+          CleanupCodeCompletion;
         end;
       end;
     end else begin
       ItemList.Clear;
       InsertList.Clear;
+      CleanupCodeCompletion;
     end;
+end;
+
+procedure TPythonIIForm.SynCodeCompletionCodeItemInfo(Sender: TObject;
+  AIndex: Integer; var Info: string);
+Var
+  Module,
+  Ident : string;
+  ParsedModule: TParsedModule;
+  Index: Integer;
+  NameSpaceItem : TBaseNameSpaceItem;
+  CE : TBaseCodeElement;
+begin
+  case fCodeCompletionType of
+    cctModule:
+      begin
+        Module := (Sender as TSynCompletionProposal).InsertList[AIndex];
+        if PyScripterRefactor.InitializeQuery then
+        begin
+          ParsedModule :=
+            PyScripterRefactor.ResolveModuleImport(Module, '');
+          if Assigned(ParsedModule) then
+            Info := GetLineRange(ParsedModule.DocString, 1, 20);
+          PyScripterRefactor.FinalizeQuery;
+        end;
+      end;
+    cctFrom:
+      begin
+        Ident := (Sender as TSynCompletionProposal).InsertList[AIndex];
+        Index := fSortedNameSpace.IndexOf(Ident);
+        if Index >=0  then
+        begin
+          CE := fSortedNameSpace.Objects[Index] as TBaseCodeElement;
+          if Assigned(CE) and (CE is TCodeElement) then
+            Info := GetLineRange(TCodeElement(CE).DocString, 1, 20);
+        end;
+      end;
+    cctNameSpace:
+      begin
+        Ident := (Sender as TSynCompletionProposal).InsertList[AIndex];
+        Index := fNameSpace.IndexOf(Ident);
+        if Index >=0  then
+        begin
+          NameSpaceItem := fNameSpace.Objects[Index] as TBaseNameSpaceItem;
+          if not Assigned(NameSpaceItem) then
+            Info := _(SPythonKeyword)
+          else
+            Info := GetLineRange(NameSpaceItem.DocString, 1, 20);
+        end;
+      end;
+  end;
 end;
 
 procedure TPythonIIForm.SynParamCompletionExecute(Kind: SynCompletionType;
