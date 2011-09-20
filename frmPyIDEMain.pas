@@ -341,6 +341,7 @@
           New Features
             100% portable by placing PyScripter.ini in the PyScripter exe directory
             Ctrl+Mousewheel for zooming the interpreter (Issue 475)
+            Show docstrings during completion list (Issue 274)
             New IDE Option "File Change Notification" introduced with possible values Full, NoMappedDrives(default), Disabled (Issue 470)
             Background color for Matching and Unbalanced braces (Issue 472)
             New IDE option "Case Sensitive Code Completion" (default True)

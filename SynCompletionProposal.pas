@@ -93,6 +93,8 @@ type
 
   TCompletionChange = procedure(Sender: TObject; AIndex: Integer) of object;
 
+  TCodeItemInfo = procedure(Sender: TObject; AIndex: Integer; var Info : string) of object;
+
   TSynCompletionOption = (scoCaseSensitive,         //Use case sensitivity to do matches
                           scoLimitToMatchedText,    //Limit the matched text to only what they have typed in
                           scoTitleIsCentered,       //Center the title in the box if you choose to use titles
@@ -121,6 +123,7 @@ type
     FOnPaintItem: TSynBaseCompletionProposalPaintItem;
     FOnMeasureItem: TSynBaseCompletionProposalMeasureItem;
     FOnChangePosition: TCompletionChange;
+    FOnCodeItemInfo: TCodeItemInfo;
     FItemList: TUnicodeStrings;
     FInsertList: TUnicodeStrings;
     FAssignedList: TUnicodeStrings;
@@ -194,6 +197,7 @@ type
     procedure RecalcItemHeight;
     function IsWordBreakChar(AChar: WideChar): Boolean;
   protected
+    FCodeItemInfoWindow : THintWindow;
     procedure DoKeyPressW(Key: WideChar);
     procedure KeyDown(var Key: Word; Shift: TShiftState); override;
     procedure KeyPress(var Key: Char); override;
@@ -214,6 +218,7 @@ type
     {$IFDEF SYN_DELPHI_4_UP}
     function CanResize(var NewWidth, NewHeight: Integer): Boolean; override;
     {$ENDIF}
+    procedure ShowCodeItemInfo(Info: string);
   public
     constructor Create(AOwner: Tcomponent); override;
     destructor Destroy; override;
@@ -324,6 +329,8 @@ type
     procedure SetTriggerChars(const Value: UnicodeString);
     function GetOnChange: TCompletionChange;
     procedure SetOnChange(const Value: TCompletionChange);
+    function GetOnCodeItemInfo: TCodeItemInfo;
+    procedure SetOnCodeItemInfo(const Value: TCodeItemInfo);
     procedure SetColumns(const Value: TProposalColumns);
     function GetColumns: TProposalColumns;
     function GetResizeable: Boolean;
@@ -390,6 +397,7 @@ type
     property Margin: Integer read GetMargin write SetMargin default 2;
 
     property OnChange: TCompletionChange read GetOnChange write SetOnChange;
+    property OnCodeItemInfo: TCodeItemInfo read GetOnCodeItemInfo write SetOnCodeItemInfo;
     property OnClose: TNotifyEvent read FOnClose write FOnClose;
     property OnExecute: TCompletionExecute read FOnExecute write FOnExecute;
     property OnMeasureItem: TSynBaseCompletionProposalMeasureItem read GetOnMeasureItem write SetOnMeasureItem;
@@ -1313,6 +1321,8 @@ begin
   if (DisplayType = ctCode) and Assigned(CurrentEditor) then begin  //KV
     (CurrentEditor as TCustomSynEdit).RemoveFocusControl(Self);
     Visible := False;
+    if Assigned(FCodeItemInfoWindow) then
+      FCodeItemInfoWindow.ReleaseHandle;
   end;
   //Visible := False;  // KV
 end;
@@ -1685,8 +1695,11 @@ begin
   else
     if Position > FScrollbar.Position + FLinesInWindow - 1 then
       Position := FScrollbar.Position + FLinesInWindow - 1
-    else
+    else begin
       Repaint;
+      if Visible and Assigned(FCodeItemInfoWindow) then
+        ShowCodeItemInfo(FCodeItemInfoWindow.Caption);
+    end;
 end;
 
 procedure TSynBaseCompletionProposalForm.ScrollbarOnScroll(Sender: TObject;
@@ -1847,8 +1860,13 @@ begin
 end;
 
 procedure TSynBaseCompletionProposalForm.SetPosition(const Value: Integer);
+Var
+  Info : string;
 begin
-  if ((Value <= 0) and (FPosition = 0)) or (FPosition = Value) then
+//  if ((Value <= 0) and (FPosition = 0)) or (FPosition = Value) then
+//    exit;
+
+  if Value < 0 then
     exit;
 
   if Value <= FAssignedList.Count - 1 then
@@ -1859,10 +1877,17 @@ begin
     if FScrollbar.Position < (Position - FLinesInWindow + 1) then
       FScrollbar.Position := Position - FLinesInWindow + 1;
 
-    if Visible and Assigned(FOnChangePosition) and (DisplayType = ctCode) then
-      FOnChangePosition(Owner as TSynBaseCompletionProposal,
-        LogicalToPhysicalIndex(FPosition));
-
+    if Visible and (DisplayType = ctCode) then
+    begin
+      if Assigned(FOnChangePosition) then
+        FOnChangePosition(Owner as TSynBaseCompletionProposal,
+          LogicalToPhysicalIndex(FPosition));
+      if Assigned(FOnCodeItemInfo) then begin
+        FOnCodeItemInfo(Owner as TSynBaseCompletionProposal,
+          LogicalToPhysicalIndex(FPosition), Info);
+        ShowCodeItemInfo(Info);
+      end;
+    end;
     Repaint;
   end;
 end;
@@ -2129,6 +2154,8 @@ begin
   FFont.Assign(Value);
   RecalcItemHeight;
   AdjustMetrics;
+  if Assigned(FCodeItemInfoWindow) then
+    FCodeItemInfoWindow.Canvas.Font.Assign(FFont);
 end;
 
 procedure TSynBaseCompletionProposalForm.SetTitleFont(const Value: TFont);
@@ -2136,6 +2163,46 @@ begin
   FTitleFont.Assign(Value);
   FTitleFontHeight := TextHeight(Canvas, TextHeightString);
   AdjustMetrics;
+end;
+
+procedure TSynBaseCompletionProposalForm.ShowCodeItemInfo(Info: string);
+Var
+  HintRect, WorkArea: TRect;
+  Monitor: TMonitor;
+begin
+  if Info = '' then begin
+    if Assigned(FCodeItemInfoWindow) then begin
+       fCodeItemInfoWindow.ReleaseHandle;
+       FCodeItemInfoWindow.Caption := '';
+    end;
+  end
+  else
+  begin
+    if not Assigned(FCodeItemInfoWindow) then begin
+      FCodeItemInfoWindow := THintWindow.Create(Self);
+      FCodeItemInfoWindow.Canvas.Font.Assign(FFont);
+    end;
+
+    Monitor := Screen.MonitorFromPoint(ClientToScreen(Point(0,0)));
+    WorkArea := Monitor.WorkareaRect;
+
+    HintRect := FCodeItemInfoWindow.CalcHintRect(Monitor.Width div 2, Info, nil);
+
+    // Calculate horizontal position
+    if Left + Width + (HintRect.Right - HintRect.Left) < WorkArea.Right
+    then
+      OffsetRect(HintRect, Left + Width , 0)
+    else
+      OffsetRect(HintRect, Left - (HintRect.Right - HintRect.Left), 0);
+
+    // Calculate vertical position
+      OffsetRect(HintRect, 0, ClientToScreen(Point(0,0)).Y +
+        (FPosition - FScrollbar.Position) * FEffectiveItemHeight);
+      // No need to fit it to the workare since ActivateHint does that
+
+    FCodeItemInfoWindow.ActivateHint(HintRect, Info);
+
+  end;
 end;
 
 procedure TSynBaseCompletionProposalForm.SetColumns(Value: TProposalColumns);
@@ -2155,6 +2222,8 @@ procedure TSynBaseCompletionProposalForm.FontChange(Sender: TObject);
 begin
   RecalcItemHeight;
   AdjustMetrics;
+  if Assigned(FCodeItemInfoWindow) then
+    FCodeItemInfoWindow.Canvas.Font.Assign(FFont);
 end;
 
 procedure TSynBaseCompletionProposalForm.Notification(AComponent: TComponent;
@@ -2782,10 +2851,21 @@ begin
   Result := Form.FOnChangePosition;
 end;
 
+function TSynBaseCompletionProposal.GetOnCodeItemInfo: TCodeItemInfo;
+begin
+  Result := Form.FOnCodeItemInfo;
+end;
+
 procedure TSynBaseCompletionProposal.SetOnChange(
   const Value: TCompletionChange);
 begin
   Form.FOnChangePosition := Value;
+end;
+
+procedure TSynBaseCompletionProposal.SetOnCodeItemInfo(
+  const Value: TCodeItemInfo);
+begin
+  Form.FOnCodeItemInfo := Value;
 end;
 
 procedure TSynBaseCompletionProposal.ResetAssignedList;
