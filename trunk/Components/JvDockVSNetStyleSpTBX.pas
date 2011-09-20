@@ -1100,8 +1100,6 @@ end;
 { TJvDockVSNETSpTBXConjoinServerOption }
 
 procedure TJvDockVSNETSpTBXConjoinServerOption.Changed;
-Var
-  Saved : Boolean;
 begin
   inherited;
 

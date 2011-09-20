@@ -207,7 +207,6 @@ end;
 procedure TfrmCustomKeyboard.lbCommandsClick(Sender: TObject);
 var
   A : TActionProxyItem;
-  i : Integer;
 begin
   if lbCommands.ItemIndex < 0 then Exit;
 

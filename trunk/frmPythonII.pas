@@ -685,8 +685,8 @@ begin
 
         fCommandHistoryPrefix := '';
 
-//        if SynParamCompletion.Form.Visible then
-//          SynParamCompletion.CancelCompletion;
+        if SynParamCompletion.Form.Visible then
+          SynParamCompletion.CancelCompletion;
 
         LineN := SynEdit.CaretY - 1;  // Caret is 1 based
         GetBlockBoundary(LineN, StartLineN, EndLineN, IsCode);
@@ -1050,100 +1050,104 @@ begin
     ecRecallCommandNext,
     ecRecallCommandEsc :
       begin
-        SynCodeCompletion.CancelCompletion;
-        SynParamCompletion.CancelCompletion;
-        LineN := SynEdit.CaretY -1;
-        GetBlockBoundary(LineN, StartLineN, EndLineN, IsCode);
-        SetLength(Buffer, EndLineN-StartLineN + 1);
-        GetBlockCode(BlockSource, Buffer, EndLineN, StartLineN);
-        // Prefix
-        if fCommandHistoryPrefix <> '' then begin
-          if not (IsCode and (EndLineN = SynEdit.Lines.Count - 1) and
-                  (SynEdit.CaretX = Length(SynEdit.Lines[SynEdit.Lines.Count - 1])+1) and
-                  InRange(fCommandHistoryPointer, 0, fCommandHistory.Count-1) and
-                  (BlockSource =  fCommandHistory[fCommandHistoryPointer])) then
-            fCommandHistoryPrefix := ''
-        end else begin
-          if IsCode and (EndLineN = SynEdit.Lines.Count - 1) and
-                  (SynEdit.CaretX = Length(SynEdit.Lines[SynEdit.Lines.Count - 1])+1) and
-                  not (InRange(fCommandHistoryPointer, 0, fCommandHistory.Count-1) and
-                  (BlockSource =  fCommandHistory[fCommandHistoryPointer]))
-          then
-            fCommandHistoryPrefix := BlockSource;
-        end;
+        if (Command = ecRecallCommandEsc) and SynParamCompletion.Form.Visible then
+          SynParamCompletion.CancelCompletion
+        else
+        begin
+          SynParamCompletion.CancelCompletion;
+          LineN := SynEdit.CaretY -1;
+          GetBlockBoundary(LineN, StartLineN, EndLineN, IsCode);
+          SetLength(Buffer, EndLineN-StartLineN + 1);
+          GetBlockCode(BlockSource, Buffer, EndLineN, StartLineN);
+          // Prefix
+          if fCommandHistoryPrefix <> '' then begin
+            if not (IsCode and (EndLineN = SynEdit.Lines.Count - 1) and
+                    (SynEdit.CaretX = Length(SynEdit.Lines[SynEdit.Lines.Count - 1])+1) and
+                    InRange(fCommandHistoryPointer, 0, fCommandHistory.Count-1) and
+                    (BlockSource =  fCommandHistory[fCommandHistoryPointer])) then
+              fCommandHistoryPrefix := ''
+          end else begin
+            if IsCode and (EndLineN = SynEdit.Lines.Count - 1) and
+                    (SynEdit.CaretX = Length(SynEdit.Lines[SynEdit.Lines.Count - 1])+1) and
+                    not (InRange(fCommandHistoryPointer, 0, fCommandHistory.Count-1) and
+                    (BlockSource =  fCommandHistory[fCommandHistoryPointer]))
+            then
+              fCommandHistoryPrefix := BlockSource;
+          end;
 
-        Source := '';
-        if Command = ecRecallCommandEsc then begin
-         fCommandHistoryPointer := fCommandHistory.Count;
-         fCommandHistoryPrefix := '';
-        end else
-          Repeat
-            if Command = ecRecallCommandPrev then
-              Dec(fCommandHistoryPointer)
-            else if Command = ecRecallCommandNext then
-              Inc(fCommandHistoryPointer);
-            fCommandHistoryPointer := EnsureRange(fCommandHistoryPointer, -1, fCommandHistory.Count);
-          Until not InRange(fCommandHistoryPointer, 0, fCommandHistory.Count-1) or
-            (fCommandHistoryPrefix = '') or
-             StrIsLeft(PWideChar(fCommandHistory[fCommandHistoryPointer]), PWideChar(fCommandHistoryPrefix));
+          Source := '';
+          if Command = ecRecallCommandEsc then begin
+           fCommandHistoryPointer := fCommandHistory.Count;
+           fCommandHistoryPrefix := '';
+          end else
+            Repeat
+              if Command = ecRecallCommandPrev then
+                Dec(fCommandHistoryPointer)
+              else if Command = ecRecallCommandNext then
+                Inc(fCommandHistoryPointer);
+              fCommandHistoryPointer := EnsureRange(fCommandHistoryPointer, -1, fCommandHistory.Count);
+            Until not InRange(fCommandHistoryPointer, 0, fCommandHistory.Count-1) or
+              (fCommandHistoryPrefix = '') or
+               StrIsLeft(PWideChar(fCommandHistory[fCommandHistoryPointer]), PWideChar(fCommandHistoryPrefix));
 
-        if InRange(fCommandHistoryPointer, 0, fCommandHistory.Count-1) then
-          Source := fCommandHistory[fCommandHistoryPointer]
-        else begin
-          if Command <> ecRecallCommandEsc then
-            Beep();
-          Source := fCommandHistoryPrefix;
-          fCommandHistoryPrefix := '';
-        end;
+          if InRange(fCommandHistoryPointer, 0, fCommandHistory.Count-1) then
+            Source := fCommandHistory[fCommandHistoryPointer]
+          else begin
+            if Command <> ecRecallCommandEsc then
+              Beep();
+            Source := fCommandHistoryPrefix;
+            fCommandHistoryPrefix := '';
+          end;
 
-        SynEdit.BeginUpdate;
-        try
-          if IsCode and (EndLineN = SynEdit.Lines.Count - 1) then begin
-            // already at the bottom and inside the prompt
-           if (BlockSource <> Source) then begin
-              for i := EndLineN downto StartLineN do
-                SynEdit.Lines.Delete(i);
-              //Append new prompt if needed
+          SynEdit.BeginUpdate;
+          try
+            if IsCode and (EndLineN = SynEdit.Lines.Count - 1) then begin
+              // already at the bottom and inside the prompt
+             if (BlockSource <> Source) then begin
+                for i := EndLineN downto StartLineN do
+                  SynEdit.Lines.Delete(i);
+                //Append new prompt if needed
+                SetLength(Buffer, 0);
+                AppendToPrompt(Buffer);
+             end;  // else do nothing
+            end else begin
               SetLength(Buffer, 0);
               AppendToPrompt(Buffer);
-           end;  // else do nothing
-          end else begin
-            SetLength(Buffer, 0);
-            AppendToPrompt(Buffer);
-          end;
-
-          if (Source <> '') and
-            ((BlockSource <> Source) or (EndLineN < SynEdit.Lines.Count - 1)) then
-          begin
-            i := 0;
-            P1 := PWideChar(Source);
-            while P1 <> nil do begin
-              P1 := StrScan(P1, WideLF);
-              if Assigned(P1) then Inc(P1);
-              Inc(i);
             end;
-            SetLength(Buffer, i);
 
-            i := 0;
-            P1 := PWideChar(Source);
-            while P1 <> nil do begin
-              P2 := StrScan(P1, WideLF);
-              if P2 = nil then
-                Buffer[i] := Copy(Source, P1 - PWideChar(Source) + 1,
-                  Length(Source) - (P1 - PWideChar(Source)))
-              else begin
-                Buffer[i] := Copy(Source, P1 - PWideChar(Source) + 1, P2 - P1);
-                Inc(P2);
+            if (Source <> '') and
+              ((BlockSource <> Source) or (EndLineN < SynEdit.Lines.Count - 1)) then
+            begin
+              i := 0;
+              P1 := PWideChar(Source);
+              while P1 <> nil do begin
+                P1 := StrScan(P1, WideLF);
+                if Assigned(P1) then Inc(P1);
+                Inc(i);
               end;
-              P1 := P2;
-              Inc(i);
+              SetLength(Buffer, i);
+
+              i := 0;
+              P1 := PWideChar(Source);
+              while P1 <> nil do begin
+                P2 := StrScan(P1, WideLF);
+                if P2 = nil then
+                  Buffer[i] := Copy(Source, P1 - PWideChar(Source) + 1,
+                    Length(Source) - (P1 - PWideChar(Source)))
+                else begin
+                  Buffer[i] := Copy(Source, P1 - PWideChar(Source) + 1, P2 - P1);
+                  Inc(P2);
+                end;
+                P1 := P2;
+                Inc(i);
+              end;
+              AppendToPrompt(Buffer);
             end;
-            AppendToPrompt(Buffer);
+            SynEdit.ExecuteCommand(ecEditorBottom, ' ', nil);
+            SynEdit.EnsureCursorPosVisible;
+          finally
+            SynEdit.EndUpdate;
           end;
-          SynEdit.ExecuteCommand(ecEditorBottom, ' ', nil);
-          SynEdit.EnsureCursorPosVisible;
-        finally
-          SynEdit.EndUpdate;
         end;
       end;
   end;
