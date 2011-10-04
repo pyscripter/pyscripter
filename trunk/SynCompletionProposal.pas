@@ -3364,8 +3364,9 @@ begin
     ctParams:
       begin
         case Command of
-//        ecGotFocus, ecLostFocus:         //KV
-//            CancelCompletion;
+//        KV So that param completion is not hidden when you display code completion
+//        ecGotFocus, ecLostFocus:
+//          CancelCompletion;
         ecLineBreak:
           DoExecute(Sender as TCustomSynEdit);
         ecChar:

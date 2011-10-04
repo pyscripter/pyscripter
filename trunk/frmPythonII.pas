@@ -188,6 +188,7 @@ type
     procedure StartOutputMirror(AFileName : string; Append : Boolean);
     procedure StopFileMirror;
     procedure UpdateInterpreterActions;
+    procedure DoOnIdle;
     property ShowOutput : boolean read fShowOutput write fShowOutput;
     property CommandHistory : TStringList read fCommandHistory;
     property CommandHistoryPointer : integer read fCommandHistoryPointer write fCommandHistoryPointer;
@@ -474,6 +475,17 @@ begin
     fOutputStream.Clear;
   finally
     fCriticalSection.Release;
+  end;
+end;
+
+procedure TPythonIIForm.DoOnIdle;
+begin
+  if not Application.Active then
+  begin
+    if SynCodeCompletion.Form.Visible then
+      SynCodeCompletion.CancelCompletion;
+    if SynParamCompletion.Form.Visible then
+      SynParamCompletion.CancelCompletion;
   end;
 end;
 
@@ -878,6 +890,9 @@ begin
           SynEdit.CaretXY := BC;
         Command := ecNone;  // do not processed it further
       end;
+    ecLostFocus:
+      if not (SynCodeCompletion.Form.Visible or SynEdit.Focused) then
+        SynParamCompletion.CancelCompletion;
   end;
 end;
 

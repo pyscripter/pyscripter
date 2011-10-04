@@ -356,6 +356,10 @@
             Import statement completion does not include builtin module names
             461, 463, 468, 471, 474, 478, 488, 496, 504, 508, 509,
             511, 512, 515, 525, 526, 527, 528, 532, 559, 560
+  History:   v 2.4.4
+          New Features
+          Issues addressed
+            563, 564
 -----------------------------------------------------------------------------}
 
 // Bugs and minor features
@@ -2222,6 +2226,7 @@ begin
 //        TEditorForm(TJvStandardPage(TabControl.Tabs[i].Data).Components[0]).GetEditor.Modified;
   if Assigned(GI_ActiveEditor) then
     TEditorForm(GI_ActiveEditor.Form).DoOnIdle;
+  PythonIIForm.DoOnIdle;
 
   // If a Tk or Wx remote engine is active pump up event handling
   // This is for processing input output coming from event handlers
