@@ -1425,6 +1425,8 @@ begin
 
   // Search and Replace Target
   EditorSearchOptions.InterpreterIsSearchTarget := False;
+
+  PyIDEMainForm.UpdateCaption;
 end;
 
 procedure TEditorForm.SynEditExit(Sender: TObject);
@@ -1980,6 +1982,9 @@ begin
         if ASynEdit.SelAvail and CommandsDataModule.PyIDEOptions.
           HighlightSelectedWord then
           CommandsDataModule.HighlightWordInActiveEditor(ASynEdit.SelText);
+      ecLostFocus:
+        if not (SynCodeCompletion.Form.Visible or SynEdit.Focused) then
+          SynParamCompletion.CancelCompletion;
     end;
   end;
 end;
@@ -3256,6 +3261,14 @@ begin
     ParentTabItem.ImageIndex := 123
   else
     ParentTabItem.ImageIndex := -1;
+
+  if not Application.Active then
+  begin
+    if SynCodeCompletion.Form.Visible then
+      SynCodeCompletion.CancelCompletion;
+    if SynParamCompletion.Form.Visible then
+      SynParamCompletion.CancelCompletion;
+  end;
 end;
 
 initialization
