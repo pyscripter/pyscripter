@@ -21,4 +21,4 @@ If you find PyScripter useful and make regular use, please consider making a don
 
 [https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=pyscripter@gmail.com&currency_code=EUR http://pyscripter.googlecode.com/svn/wiki/images/donate.png]
 
-<wiki:gadget url="http://pyscripter.googlecode.com/svn/wiki/files/adsense3.xml" border="0" width="468" height="60" />
+<wiki:gadget url="http://pyscripter.googlecode.com/svn/wiki/files/adsense3.xml" border="0" width="468" height="60 caja= 1" />
