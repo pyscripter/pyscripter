@@ -1315,6 +1315,7 @@ begin
     if GetHighlighterAttriAtRowCol(BC, DummyToken, Attr) and
      ((attr = Highlighter.StringAttribute) or (attr = Highlighter.CommentAttribute) or
       (attr = TSynPythonInterpreterSyn(Highlighter).CodeCommentAttri) or
+      (attr = TSynPythonInterpreterSyn(Highlighter).MultiLineStringAttri) or
       (attr = TSynPythonInterpreterSyn(Highlighter).DocStringAttri)) then
     begin
       // Do not code complete inside strings or comments
@@ -1539,6 +1540,7 @@ begin
     if GetHighlighterAttriAtRowCol(BC, DummyToken, Attr) and
      ({(attr = Highlighter.StringAttribute) or} (attr = Highlighter.CommentAttribute) or
       (attr = TSynPythonInterpreterSyn(Highlighter).CodeCommentAttri) or
+      (attr = TSynPythonInterpreterSyn(Highlighter).MultiLineStringAttri) or
       (attr = TSynPythonInterpreterSyn(Highlighter).DocStringAttri)) then
     begin
       // Do not code complete inside strings or comments

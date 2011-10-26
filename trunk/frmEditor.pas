@@ -1944,6 +1944,7 @@ begin
                 Attr) and ((Attr = Highlighter.StringAttribute) or
                   (Attr = Highlighter.CommentAttribute) or
                   (Attr = CommandsDataModule.SynPythonSyn.CodeCommentAttri) or
+                  (Attr = CommandsDataModule.SynPythonSyn.MultiLineStringAttri) or
                   (Attr = CommandsDataModule.SynPythonSyn.DocStringAttri)) then
                 OpenBracketPos := 0; // Do not auto complete brakets inside strings or comments
 
@@ -2734,6 +2735,7 @@ begin
       ((Attr = Highlighter.StringAttribute) or
         (Attr = Highlighter.CommentAttribute) or
         (Attr = CommandsDataModule.SynPythonSyn.CodeCommentAttri) or
+        (Attr = CommandsDataModule.SynPythonSyn.MultiLineStringAttri) or
         (Attr = CommandsDataModule.SynPythonSyn.DocStringAttri)) then
     begin
       // Do not code complete inside strings or comments
