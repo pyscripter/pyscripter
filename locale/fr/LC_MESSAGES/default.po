@@ -1472,7 +1472,7 @@ msgstr "Redimensionnement automatique"
 #. fmEditorOptionsDialog..SpTBXPanel1..TabControl..Display..gbGutter..ckGutterShowLineNumbers..Caption
 #: dlgSynEditOptions.dfm:835
 msgid "Show line numbers"
-msgstr "Montrer la ligne"
+msgstr "Afficher numéros de ligne"
 
 #. fmEditorOptionsDialog..SpTBXPanel1..TabControl..Display..gbGutter..ckGutterShowLeaderZeros..Caption
 #: dlgSynEditOptions.dfm:844
