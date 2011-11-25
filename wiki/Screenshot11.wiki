@@ -1,4 +1,4 @@
-#summary Side-by-side file editing
+#summary PyScripter in Ubuntu using Wine
 
 http://pyscripter.googlecode.com/svn/wiki/images/screenshot11.png
 
