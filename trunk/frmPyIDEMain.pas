@@ -379,12 +379,12 @@
    Port to 64 bit
    - Python for Delphi
    - JCL and JVCL
-   - Toolbar2000 - Done
-   - SpTBXLib - Done
+   + Toolbar2000
+   + SpTBXLib
    - PyScripterCustom package
-   - Unicode version of SynEdit
-   - SynWeb Highlighters at http://flatdev.ovh.org/ - use SVN
-   - VirtualTreeView (http://www.delphi-gems.com/)
+   + Unicode version of SynEdit
+   - SynWeb Highlighters
+   + VirtualTreeView
    - MustangPeak Components: Common Library, EasyListView and VirtualShellTools.
    - PyScripter source code
 }

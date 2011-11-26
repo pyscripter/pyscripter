@@ -5673,9 +5673,9 @@ begin
   end
   else
     EndModal;
-  {$IFNDEF CLR}
-  Exit; asm db 0,'Toolbar2000 (C) 1998-2008 Jordan Russell',0 end;
-  {$ENDIF}
+//  {$IFNDEF CLR}
+//  Exit; asm db 0,'Toolbar2000 (C) 1998-2008 Jordan Russell',0 end;
+//  {$ENDIF}
 end;
 
 procedure TTBView.Scroll(ADown: Boolean);

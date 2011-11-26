@@ -1,7 +1,7 @@
 unit SpTBXItem;
 
 {==============================================================================
-Version 2.4.5
+Version 2.4.6
 
 The contents of this file are subject to the SpTBXLib License; you may
 not use or distribute this file except in compliance with the
@@ -71,7 +71,7 @@ To Do:
   -
 
 History:
-7 September 2010 - version 2.4.6
+25 June 2011 - version 2.4.6
   - Fixed TSpTBXTitleBar bug, OnSystemMenuPopup was not fired
     when the system menu was showed, thanks to Sebastien for
     reporting this.
@@ -384,7 +384,7 @@ History:
 interface
 
 {$BOOLEVAL OFF} // Unit depends on short-circuit boolean evaluation
-{$I TB2Ver.inc}
+{$I SpTBXVer.inc}
 
 uses
   Windows, Messages, Classes, SysUtils, Forms, Controls, Graphics, ImgList,
@@ -2678,7 +2678,7 @@ begin
           sknsChecked:  Flags := TS_CHECKED;
           sknsCheckedAndHotTrack: Flags := TS_HOTCHECKED;
         end;
-        DrawThemeBackground(ThemeServices.Theme[teToolBar], ACanvas.Handle, XPPart[ComboPart], Flags, ARect, nil);
+        DrawThemeBackground({$IFNDEF JR_D16}ThemeServices{$ELSE}StyleServices{$ENDIF}.Theme[teToolBar], ACanvas.Handle, XPPart[ComboPart], Flags, ARect, nil);
       end;
     sknSkin:
       begin
@@ -2733,7 +2733,7 @@ procedure SpDrawXPMenuItem(ACanvas: TCanvas; ARect: TRect; ItemInfo: TSpTBXMenuI
                 sknsPushed:   Flags := MBI_PUSHED;
               end;
 
-              DrawThemeBackground(ThemeServices.Theme[teMenu], ACanvas.Handle, MENU_BARITEM, Flags, ARect, nil);
+              DrawThemeBackground({$IFNDEF JR_D16}ThemeServices{$ELSE}StyleServices{$ENDIF}.Theme[teMenu], ACanvas.Handle, MENU_BARITEM, Flags, ARect, nil);
             end
             else
               if ItemInfo.State in [sknsHotTrack, sknsPushed, sknsChecked, sknsCheckedAndHotTrack] then
@@ -2770,7 +2770,7 @@ procedure SpDrawXPMenuItem(ACanvas: TCanvas; ARect: TRect; ItemInfo: TSpTBXMenuI
           // Use the new API on Windows Vista
           if ItemInfo.Enabled then Flags := MPI_HOT
           else Flags := MPI_DISABLEDHOT;
-          DrawThemeBackground(ThemeServices.Theme[teMenu], ACanvas.Handle, MENU_POPUPITEM, Flags, ARect, nil);
+          DrawThemeBackground({$IFNDEF JR_D16}ThemeServices{$ELSE}StyleServices{$ENDIF}.Theme[teMenu], ACanvas.Handle, MENU_POPUPITEM, Flags, ARect, nil);
         end
         else
           SpFillRect(ACanvas, ARect, clHighlight);
@@ -2853,7 +2853,7 @@ begin
         if ItemInfo.State = sknsDisabled then Flags := MCB_DISABLED
         else if ItemInfo.ImageShown then Flags := MCB_BITMAP
         else Flags := MCB_NORMAL;
-        DrawThemeBackground(ThemeServices.Theme[teMenu], ACanvas.Handle, MENU_POPUPCHECKBACKGROUND, Flags, R, nil);
+        DrawThemeBackground({$IFNDEF JR_D16}ThemeServices{$ELSE}StyleServices{$ENDIF}.Theme[teMenu], ACanvas.Handle, MENU_POPUPCHECKBACKGROUND, Flags, R, nil);
       end
       else
         if ItemInfo.SkinType = sknSkin then
@@ -2898,9 +2898,9 @@ begin
     sknWindows:
       if MenuItemStyle and SpIsWinVistaOrUp then begin
         // Use the new API in Windows Vista
-        GetThemePartSize(ThemeServices.Theme[teMenu], 0, MENU_POPUPSEPARATOR, 0, nil, TS_TRUE, VistaSeparatorSize);
+        GetThemePartSize({$IFNDEF JR_D16}ThemeServices{$ELSE}StyleServices{$ENDIF}.Theme[teMenu], 0, MENU_POPUPSEPARATOR, 0, nil, TS_TRUE, VistaSeparatorSize);
         R := SpCenterRectVert(R, VistaSeparatorSize.cy);
-        DrawThemeBackground(ThemeServices.Theme[teMenu], ACanvas.Handle, MENU_POPUPSEPARATOR, 0, R, nil);
+        DrawThemeBackground({$IFNDEF JR_D16}ThemeServices{$ELSE}StyleServices{$ENDIF}.Theme[teMenu], ACanvas.Handle, MENU_POPUPSEPARATOR, 0, R, nil);
       end
       else begin
         if MenuItemStyle then begin
@@ -2917,7 +2917,7 @@ begin
           end;
         end
         else
-          DrawThemeBackground(ThemeServices.Theme[teToolbar], ACanvas.Handle, ToolbarXPFlags[Vertical], TS_NORMAL, R, nil);
+          DrawThemeBackground({$IFNDEF JR_D16}ThemeServices{$ELSE}StyleServices{$ENDIF}.Theme[teToolbar], ACanvas.Handle, ToolbarXPFlags[Vertical], TS_NORMAL, R, nil);
       end;
     sknSkin:
       if not Vertical then begin
@@ -2986,7 +2986,7 @@ begin
       begin
          // Only Windows Vista painting, XP just fills the background
         if SpIsWinVistaOrUp then
-          DrawThemeBackground(ThemeServices.Theme[teMenu], ACanvas.Handle, MENU_POPUPGUTTER, 0, ARect, nil);
+          DrawThemeBackground({$IFNDEF JR_D16}ThemeServices{$ELSE}StyleServices{$ENDIF}.Theme[teMenu], ACanvas.Handle, MENU_POPUPGUTTER, 0, ARect, nil);
       end;
     sknSkin:
       begin
@@ -3031,13 +3031,13 @@ begin
     sknWindows: // Only Windows Vista painting, XP just fills the background
       begin
         // Use the new API in Windows Vista
-        DrawThemeBackground(ThemeServices.Theme[teMenu], ACanvas.Handle, MENU_POPUPBACKGROUND, 0, ARect, nil);
+        DrawThemeBackground({$IFNDEF JR_D16}ThemeServices{$ELSE}StyleServices{$ENDIF}.Theme[teMenu], ACanvas.Handle, MENU_POPUPBACKGROUND, 0, ARect, nil);
 
         // Now paint the borders, clip the background
         SaveIndex := SaveDC(ACanvas.Handle);
         try
           ExcludeClipRect(ACanvas.Handle, ARect.Left + 2, ARect.Top + 2, ARect.Right - 2, ARect.Bottom - 2);
-          DrawThemeBackground(ThemeServices.Theme[teMenu], ACanvas.Handle, MENU_POPUPBORDERS, 0, ARect, nil);
+          DrawThemeBackground({$IFNDEF JR_D16}ThemeServices{$ELSE}StyleServices{$ENDIF}.Theme[teMenu], ACanvas.Handle, MENU_POPUPBORDERS, 0, ARect, nil);
         finally
           RestoreDC(ACanvas.Handle, SaveIndex);
         end;
@@ -3107,9 +3107,9 @@ begin
     sknWindows:
       begin
         if not IsRectEmpty(ARect) then
-          DrawThemeBackground(ThemeServices.Theme[teStatus], ACanvas.Handle, 0, 0, ARect, nil);
+          DrawThemeBackground({$IFNDEF JR_D16}ThemeServices{$ELSE}StyleServices{$ENDIF}.Theme[teStatus], ACanvas.Handle, 0, 0, ARect, nil);
         if not IsRectEmpty(AGripRect) then
-          DrawThemeBackground(ThemeServices.Theme[teStatus], ACanvas.Handle, SP_GRIPPER, 0, AGripRect, nil)
+          DrawThemeBackground({$IFNDEF JR_D16}ThemeServices{$ELSE}StyleServices{$ENDIF}.Theme[teStatus], ACanvas.Handle, SP_GRIPPER, 0, AGripRect, nil)
       end;
     sknSkin:
       begin
@@ -3155,7 +3155,7 @@ begin
       end;
     sknWindows:
       // If WP_CAPTION is used instead of WP_SMALLCAPTION the top borders are rounded
-      DrawThemeBackground(ThemeServices.Theme[teWindow], ACanvas.Handle, WP_SMALLCAPTION, XpFlags[IsActive], ARect, nil);
+      DrawThemeBackground({$IFNDEF JR_D16}ThemeServices{$ELSE}StyleServices{$ENDIF}.Theme[teWindow], ACanvas.Handle, WP_SMALLCAPTION, XpFlags[IsActive], ARect, nil);
     sknSkin:
       CurrentSkin.PaintBackground(ACanvas, ARect, skncWindowTitleBar, sknsNormal, True, DrawBorders);
   end;
@@ -3193,14 +3193,14 @@ begin
           Flags := FS_INACTIVE;
         R := ARect;
         R.Top := R.Bottom - BorderSize.Y;
-        DrawThemeBackground(ThemeServices.Theme[teWindow], ACanvas.Handle, WP_SMALLFRAMEBOTTOM, Flags, R, nil);
+        DrawThemeBackground({$IFNDEF JR_D16}ThemeServices{$ELSE}StyleServices{$ENDIF}.Theme[teWindow], ACanvas.Handle, WP_SMALLFRAMEBOTTOM, Flags, R, nil);
         R.Top := ARect.Top + BorderSize.Y;
         R.Bottom := ARect.Bottom - BorderSize.Y;
         R.Right := R.Left + BorderSize.X;
-        DrawThemeBackground(ThemeServices.Theme[teWindow], ACanvas.Handle, WP_SMALLFRAMELEFT, Flags, R, nil);
+        DrawThemeBackground({$IFNDEF JR_D16}ThemeServices{$ELSE}StyleServices{$ENDIF}.Theme[teWindow], ACanvas.Handle, WP_SMALLFRAMELEFT, Flags, R, nil);
         R.Right := ARect.Right;
         R.Left := R.Right - BorderSize.X;
-        DrawThemeBackground(ThemeServices.Theme[teWindow], ACanvas.Handle, WP_SMALLFRAMERIGHT, Flags, R, nil);
+        DrawThemeBackground({$IFNDEF JR_D16}ThemeServices{$ELSE}StyleServices{$ENDIF}.Theme[teWindow], ACanvas.Handle, WP_SMALLFRAMERIGHT, Flags, R, nil);
 
         // Don't know how to paint a captionless window frame
         // We have to mirror the bottom frame and paint it on the top
@@ -3210,7 +3210,7 @@ begin
           R.Bottom := R.Top + BorderSize.Y;
           B.Width := R.Right - R.Left;
           B.Height := R.Bottom - R.Top;
-          DrawThemeBackground(ThemeServices.Theme[teWindow], B.Canvas.Handle, WP_SMALLFRAMEBOTTOM, Flags, R, nil);
+          DrawThemeBackground({$IFNDEF JR_D16}ThemeServices{$ELSE}StyleServices{$ENDIF}.Theme[teWindow], B.Canvas.Handle, WP_SMALLFRAMEBOTTOM, Flags, R, nil);
 
           // Mirror
           MirrorR := Rect(0, B.Height - 1, B.Width, -1);
@@ -3238,7 +3238,7 @@ begin
     sknWindows:
       begin
         if Vertical then Inc(ARect.Bottom, 1);  // Fix WindowsXP bug
-        DrawThemeBackground(ThemeServices.Theme[teRebar], ACanvas.Handle, 0, 0, ARect, nil);
+        DrawThemeBackground({$IFNDEF JR_D16}ThemeServices{$ELSE}StyleServices{$ENDIF}.Theme[teRebar], ACanvas.Handle, 0, 0, ARect, nil);
       end;
     sknSkin:
       CurrentSkin.PaintBackground(ACanvas, ARect, skncDock, sknsNormal, True, True, Vertical);
@@ -3454,14 +3454,14 @@ begin
             GripR.Top := GripR.Top  - 1 + (Z and $3) shr 1;
             GripR.Bottom := GripR.Top + Z and not $3 + 1;
           end;
-          DrawThemeBackground(ThemeServices.Theme[teRebar], ACanvas.Handle, GripperPart[Vertical], 0, GripR, nil);
+          DrawThemeBackground({$IFNDEF JR_D16}ThemeServices{$ELSE}StyleServices{$ENDIF}.Theme[teRebar], ACanvas.Handle, GripperPart[Vertical], 0, GripR, nil);
 
           // Close button
           if Toolbar.CloseButtonWhenDocked then begin
             Flags := TS_NORMAL;
             if Toolbar.CloseButtonDown then Flags := TS_PRESSED
             else if Toolbar.CloseButtonHover then Flags := TS_HOT;
-            DrawThemeBackground(ThemeServices.Theme[teToolbar], ACanvas.Handle, TP_BUTTON, Flags, CloseR, nil);
+            DrawThemeBackground({$IFNDEF JR_D16}ThemeServices{$ELSE}StyleServices{$ENDIF}.Theme[teToolbar], ACanvas.Handle, TP_BUTTON, Flags, CloseR, nil);
             if Toolbar.CloseButtonDown then OffsetRect(CloseR, 1, 1);
             SpDrawGlyphPattern(ACanvas.Handle, CloseR, 7, 7, Pattern[0], clBtnText);
           end;
@@ -3501,11 +3501,15 @@ procedure SpDrawXPTooltipBackground(ACanvas: TCanvas; ARect: TRect);
 var
   ClipRect: TRect;
 begin
+  {$IFNDEF JR_D16}
   if SpIsWinVistaOrUp and ThemeServices.ThemesEnabled then begin
+  {$ELSE}
+  if SpIsWinVistaOrUp and StyleServices.Enabled then begin
+  {$ENDIF}
     // Paint Vista gradient background if themes enabled
     ClipRect := ARect;
     InflateRect(ARect, 4, 4);
-    DrawThemeBackground(ThemeServices.Theme[teToolTip], ACanvas.Handle, TTP_STANDARD, TTSS_NORMAL, ARect, @ClipRect);
+    DrawThemeBackground({$IFNDEF JR_D16}ThemeServices{$ELSE}StyleServices{$ENDIF}.Theme[teToolTip], ACanvas.Handle, TTP_STANDARD, TTSS_NORMAL, ARect, @ClipRect);
   end
   else
     ACanvas.FillRect(ARect);
@@ -7978,7 +7982,7 @@ begin
                 if CloseButtonDown then Flags := CBS_PUSHED
                 else if FCloseButtonHover then Flags := CBS_HOT
                 else Flags := CBS_NORMAL;
-                DrawThemeBackground(ThemeServices.Theme[teWindow], ACanvas.Handle, WP_SMALLCLOSEBUTTON, Flags, CloseR, nil);
+                DrawThemeBackground({$IFNDEF JR_D16}ThemeServices{$ELSE}StyleServices{$ENDIF}.Theme[teWindow], ACanvas.Handle, WP_SMALLCLOSEBUTTON, Flags, CloseR, nil);
               end;
             sknSkin:
               begin
@@ -8010,7 +8014,7 @@ end;
 
 procedure TSpTBXFloatingWindowParent.UpdateDwmNCSize;
 var
-  Style: Integer;
+  Style: {$IFDEF JR_D15} NativeInt {$ELSE} Integer {$ENDIF};
 begin
   if HandleAllocated then begin
     // Make sure WS_THICKFRAME is setted only when Windows themes are used with
@@ -9484,7 +9488,8 @@ begin
   end;
 
   if Assigned(Application) and Assigned(FNewAppWndProc) then begin
-    SetWindowLong(Application.Handle, GWL_WNDPROC, Longint(FOldAppWndProc));
+    SetWindowLong(Application.Handle, GWL_WNDPROC,
+      {$IFDEF JR_D11} LONG_PTR {$ELSE} Longint {$ENDIF}(FOldAppWndProc));
     Classes.FreeObjectInstance(FNewAppWndProc);
     FNewAppWndProc := nil;
   end;
@@ -9512,7 +9517,8 @@ begin
       // When Application.MainForm asume FParentForm as the MainForm
       FOldAppWndProc := Pointer(GetWindowLong(Application.Handle, GWL_WNDPROC));
       FNewAppWndProc := Classes.MakeObjectInstance(AppWndProc);
-      SetWindowLong(Application.Handle, GWL_WNDPROC, Longint(FNewAppWndProc));
+      SetWindowLong(Application.Handle, GWL_WNDPROC,
+        {$IFDEF JR_D11} LONG_PTR {$ELSE} Longint {$ENDIF}(FNewAppWndProc));
     end;
 
     ChangeTitleBarState(Active);
@@ -9683,7 +9689,7 @@ end;
 procedure TSpTBXCustomTitleBar.ChangeTitleBarState(Activate: Boolean);
 var
   FloatingBorderSize: TPoint;
-  Style: Integer;
+  Style: {$IFDEF JR_D15} NativeInt {$ELSE} Integer {$ENDIF};
   RestoreR: TRect;
   WState: TWindowState;
   OnParentFormShow: TNotifyEvent;
@@ -9962,7 +9968,7 @@ var
   B: TBitmap;
 begin
   Message.Result := 1;
-  if not DoubleBuffered or (Message.wParam = Message.lParam) then begin
+  if not DoubleBuffered or (Message.wParam = {$IFDEF JR_D16}UINT_PTR({$ENDIF}Message.lParam{$IFDEF JR_D16}){$ENDIF}) then begin
     B := TBitmap.Create;
     try
       ARect := GetClientRect;
