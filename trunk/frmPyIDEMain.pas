@@ -366,7 +366,6 @@
 { TODO : Editor Go back forward }
 // TODO: Internal Tool as in pywin
 // TODO: Interpreter raw_input
-// TODO: Improve parameter completion with an option to provide more help (docstring)
 // TODO: Find module expert
 // TODO: Code helpers, automatically fill the self parameter in methods
 
@@ -375,6 +374,22 @@
 
 // TODO: Plugin architecture
 // TODO Package as an Application Scripter Component
+
+{
+   Port to 64 bit
+   - Python for Delphi
+   - JCL and JVCL
+   - Toolbar2000 - Done
+   - SpTBXLib - Done
+   - PyScripterCustom package
+   - Unicode version of SynEdit
+   - SynWeb Highlighters at http://flatdev.ovh.org/ - use SVN
+   - VirtualTreeView (http://www.delphi-gems.com/)
+   - MustangPeak Components: Common Library, EasyListView and VirtualShellTools.
+   - PyScripter source code
+}
+
+
 
 unit frmPyIDEMain;
 
