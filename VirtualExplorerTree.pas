@@ -1504,7 +1504,7 @@ type
     procedure DoUpdating(State: TVTUpdateState); override;
     function DragDrop(const DataObject: IDataObject; KeyState: Integer; Pt: TPoint;  var Effect: Integer): HResult; override;
     function DragEnter(KeyState: Integer; Pt: TPoint; var Effect: Integer): HResult; override;
-    procedure DragAndDrop(AllowedEffects: Integer; DataObject: IDataObject; DragEffect: Integer); override;
+    procedure DragAndDrop(AllowedEffects: Integer; DataObject: IDataObject; var DragEffect: Integer); override;
     procedure DragLeave; override;
     function DragOver(Source: TObject; KeyState: Integer; DragState: TDragState; Pt: TPoint; var Effect: Integer): HResult; override;
     procedure DummyOnDragOver(Sender: TBaseVirtualTree; Source: TObject; Shift: TShiftState; State: TDragState; Pt: TPoint; Mode: TDropMode; var Effect: Integer; var Accept: Boolean);
@@ -5177,7 +5177,7 @@ begin
 end;
 
 procedure TCustomVirtualExplorerTree.DragAndDrop(AllowedEffects: Integer;
-  DataObject: IDataObject; DragEffect: Integer);
+  DataObject: IDataObject; var DragEffect: Integer);
 begin
   if (Win32Platform = VER_PLATFORM_WIN32_NT) and (Win32MajorVersion >= 6) and Assigned(SHDoDragDrop_MP) then
     SHDoDragDrop_MP(Handle, DataObject, nil, AllowedEffects, DragEffect)
@@ -6661,7 +6661,7 @@ begin
             Inc(j);  // Node exists move on
             Inc(i)
           end else
-          if Compare > 0 then
+          if Compare < 0 then
           begin
             // Must be a new node, don't Inc j
             Allow := True;
