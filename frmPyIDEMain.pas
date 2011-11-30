@@ -385,7 +385,7 @@
    + Unicode version of SynEdit
    - SynWeb Highlighters
    + VirtualTreeView
-   - MustangPeak Components: Common Library, EasyListView and VirtualShellTools.
+   + MustangPeak Components: Common Library, EasyListView and VirtualShellTools.
    - PyScripter source code
 }
 

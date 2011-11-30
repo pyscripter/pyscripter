@@ -20,6 +20,9 @@
 {                                                                                                  }
 {**************************************************************************************************}
 {                                                                                                  }
+{ Version: 2.98 (2011-10-22)                                                                       }
+{   Added: Support for Delphi XE2 64bit                                                            }
+{                                                                                                  }
 { Version: 2.97 (2011-05-21)                                                                       }
 {   Fixed: The thread priority wasn't reset to Normal for new AsyncCall tasks.                     }
 {   Fixed: Replaced Suspend/Resume code to prevent a race condition where all threads are          }
@@ -85,6 +88,12 @@ unit AsyncCalls;
 {.$DEFINE DEBUG_ASYNCCALLS_ODS}
 {.$DEFINE DEBUG_THREADSTATS}
 
+{$IFDEF MSWINDOWS}
+  {$IFNDEF CPUX64}
+    {$DEFINE SUPPORT_LOCAL_FUNCTIONS}
+  {$ENDIF ~CPUX64}
+{$ENDIF MSWINDOWS}
+
 interface
 
 {$IFNDEF CONDITIONALEXPRESSIONS}
@@ -141,12 +150,14 @@ type
 
   TAsyncIdleMsgMethod = procedure of object;
 
+  {$IFDEF SUPPORT_LOCAL_FUNCTIONS}
   TCdeclFunc = Pointer; // function(Arg1: Type1; Arg2: Type2; ...); cdecl;
   TCdeclMethod = TMethod; // function(Arg1: Type1; Arg2: Type2; ...) of object; cdecl;
   TLocalAsyncProc = function: Integer;
   TLocalVclProc = function(Param: INT_PTR): INT_PTR;
   TLocalAsyncProcEx = function(Param: INT_PTR): INT_PTR;
   //TLocalAsyncForLoopProc = function(Index: Integer; SyncLock: TCriticalSection): Boolean;
+  {$ENDIF SUPPORT_LOCAL_FUNCTIONS}
 
   TAsyncCallArgObjectProc = function(Arg: TObject): Integer;
   TAsyncCallArgIntegerProc = function(Arg: Integer): Integer;
@@ -217,7 +228,6 @@ procedure SetMaxAsyncCallThreads(MaxThreads: Integer);
   exist in the thread pool. }
 function GetMaxAsyncCallThreads: Integer;
 
-
 { AsyncCall() executes the given function/procedure in a separate thread. The
   result value of the asynchronous function is returned by IAsyncCall.Sync() and
   IAsyncCall.ReturnValue().
@@ -266,6 +276,7 @@ function AsyncCall(Runnable: IAsyncRunnable): IAsyncCall; overload;
 
 procedure AsyncExec(Method: TNotifyEvent; Arg: TObject; IdleMsgMethod: TAsyncIdleMsgMethod);
 
+{$IFDEF SUPPORT_LOCAL_FUNCTIONS}
 { LocalAsyncCall() executes the given local function/procedure in a separate thread.
   The result value of the asynchronous function is returned by IAsyncCall.Sync() and
   IAsyncCall.ReturnValue().
@@ -351,7 +362,7 @@ Example:
 
 procedure LocalVclCall(LocalProc: TLocalVclProc; Param: INT_PTR = 0);
 function LocalAsyncVclCall(LocalProc: TLocalVclProc; Param: INT_PTR = 0): IAsyncCall;
-
+{$ENDIF SUPPORT_LOCAL_FUNCTIONS}
 
 
 { AsyncCallEx() executes the given function/procedure in a separate thread. The
@@ -377,6 +388,7 @@ function AsyncCallEx(Method: TAsyncCallArgRecordMethod; var Arg{: TRecordType}):
 function AsyncCallEx(Method: TAsyncCallArgRecordEvent; var Arg{: TRecordType}): IAsyncCall; overload;
 
 
+{$IFDEF SUPPORT_LOCAL_FUNCTIONS}
 { The following AsyncCall() functions support variable parameters. All reference
   counted types are protected by an AddRef and later Release. The ShortString,
   Extended, Currency and Int64 types are internally copied to a temporary location.
@@ -410,6 +422,7 @@ Example:
 }
 function AsyncCall(Proc: TCdeclFunc; const Args: array of const): IAsyncCall; overload;
 function AsyncCall(Proc: TCdeclMethod; const Args: array of const): IAsyncCall; overload;
+{$ENDIF SUPPORT_LOCAL_FUNCTIONS}
 
 
 
@@ -474,6 +487,7 @@ function MsgAsyncMultiSync(const List: array of IAsyncCall; WaitAll: Boolean;
 function MsgAsyncMultiSyncEx(const List: array of IAsyncCall; const Handles: array of THandle;
   WaitAll: Boolean; Milliseconds: Cardinal; dwWakeMask: DWORD): Cardinal;
 
+{$IFDEF SUPPORT_LOCAL_FUNCTIONS}  
 {
    EnterMainThread/LeaveMainThread can be used to temporary switch to the
    main thread. The code that should be synchonized (blocking) has to be put
@@ -510,6 +524,7 @@ function MsgAsyncMultiSyncEx(const List: array of IAsyncCall; const Handles: arr
 }
 procedure EnterMainThread;
 procedure LeaveMainThread;
+{$ENDIF SUPPORT_LOCAL_FUNCTIONS}
 
 
 type
@@ -539,7 +554,7 @@ type
     function ExecuteAsync: TAsyncCall;
     function SyncInThisThreadIfPossible: Boolean;
 
-    function GetEvent: Cardinal;
+    function GetEvent: THandle;
 
     function Sync: Integer;
     function Finished: Boolean;
@@ -935,6 +950,7 @@ type
 
 { ---------------------------------------------------------------------------- }
 
+  {$IFDEF SUPPORT_LOCAL_FUNCTIONS}
   TAsyncCallLocalProc = class(TAsyncCall)
   private
     FProc: TLocalAsyncProc;
@@ -966,6 +982,7 @@ type
   public
     constructor Create(AProc: TLocalVclProc; AParam: INT_PTR; ABasePointer: Pointer);
   end;
+  {$ENDIF SUPPORT_LOCAL_FUNCTIONS}
 
 { ---------------------------------------------------------------------------- }
 
@@ -1051,6 +1068,7 @@ type
     constructor Create(AProc: TAsyncCallArgRecordMethod; AArg: Pointer);
   end;
 
+  {$IFDEF SUPPORT_LOCAL_FUNCTIONS}
   TAsyncCallArrayOfConst = class(TAsyncCall)
   private
     FProc: function: Integer register;
@@ -1063,6 +1081,7 @@ type
     constructor Create(AProc: Pointer; MethodData: TObject; const AArgs: array of const); overload;
     destructor Destroy; override;
   end;
+  {$ENDIF SUPPORT_LOCAL_FUNCTIONS}
 
 { ---------------------------------------------------------------------------- }
 var
@@ -1268,6 +1287,7 @@ begin
 end;
 
 { ---------------------------------------------------------------------------- }
+{$IFDEF SUPPORT_LOCAL_FUNCTIONS}
 function InternLocalAsyncCall(LocalProc: TLocalAsyncProc; BasePointer: Pointer): IAsyncCall;
 begin
   Result := TAsyncCallLocalProc.Create(LocalProc, BasePointer).ExecuteAsync;
@@ -1315,6 +1335,8 @@ asm // TMethod causes the compiler to generate a stackframe
 end;
 {$STACKFRAMES OFF}
 
+{$ENDIF SUPPORT_LOCAL_FUNCTIONS}
+
 { ---------------------------------------------------------------------------- }
 
 function AsyncCallEx(Proc: TAsyncCallArgRecordProc; var Arg{: TRecordType}): IAsyncCall;
@@ -1342,6 +1364,7 @@ end;
 
 { ---------------------------------------------------------------------------- }
 
+{$IFDEF SUPPORT_LOCAL_FUNCTIONS}
 function AsyncCall(Proc: TCdeclFunc; const Args: array of const): IAsyncCall; overload;
 var
   Call: TAsyncCall;
@@ -1365,6 +1388,7 @@ begin
     Call.ExecuteAsync;
   Result := Call;
 end;
+{$ENDIF SUPPORT_LOCAL_FUNCTIONS}
 
 { ---------------------------------------------------------------------------- }
 
@@ -1833,12 +1857,14 @@ end;
 
 procedure TThreadPool.AllocThread;
 
+{$IFNDEF DELPHI2009_UP}
   // Needed for older Delphi versions
   function InterlockedCompareExchange(var Destination: Integer; Exchange: Integer; Comparand: Integer): Integer;
   asm
          XCHG    EAX, ECX
     LOCK CMPXCHG [ECX], EDX
   end;
+{$ENDIF ~DELPHI2009_UP}
 
 var
   Index: Integer;
@@ -1980,7 +2006,7 @@ begin
   FForceDifferentThread := True;
 end;
 
-function TAsyncCall.GetEvent: Cardinal;
+function TAsyncCall.GetEvent: THandle;
 begin
   Result := FEvent;
 end;
@@ -2096,6 +2122,7 @@ begin
 end;
 
 { ---------------------------------------------------------------------------- }
+{$IFDEF SUPPORT_LOCAL_FUNCTIONS}
 { TAsyncCallArrayOfConst }
 
 constructor TAsyncCallArrayOfConst.Create(AProc: Pointer; const AArgs: array of const);
@@ -2277,6 +2304,7 @@ begin
     add esp, [ByteCount]
   end;
 end;
+{$ENDIF SUPPORT_LOCAL_FUNCTIONS}
 
 { ---------------------------------------------------------------------------- }
 { TAsyncCallArgRecord }
@@ -2491,6 +2519,7 @@ end;
 
 { ---------------------------------------------------------------------------- }
 
+{$IFDEF SUPPORT_LOCAL_FUNCTIONS}
 { TAsyncCallLocalProc }
 
 constructor TAsyncCallLocalProc.Create(AProc: TLocalAsyncProc; ABasePointer: Pointer);
@@ -2905,6 +2934,7 @@ asm
     manipulates MainThreadOpenBlockCount }
   inc [MainThreadContext].TMainThreadContext.MainThreadOpenBlockCount
 end;
+{$ENDIF SUPPORT_LOCAL_FUNCTIONS}
 
 {----------------------------------------------------------------------------}
 
@@ -3189,16 +3219,20 @@ end;
 
 initialization
   ThreadPool := TThreadPool.Create;
+  {$IFDEF SUPPORT_LOCAL_FUNCTIONS}
   MainThreadContext.MainThreadEntered := -1;
+  InitializeCriticalSection(MainThreadContextCritSect);
+  {$ENDIF SUPPORT_LOCAL_FUNCTIONS}
   {$IFNDEF DELPHi7_UP}
   SyncEvent := CreateEvent(nil, False, False, nil);
   {$ENDIF ~DELPHi7_UP}
-  InitializeCriticalSection(MainThreadContextCritSect);
 
 finalization
   ThreadPool.Free;
   ThreadPool := nil;
+  {$IFDEF SUPPORT_LOCAL_FUNCTIONS}
   DeleteCriticalSection(MainThreadContextCritSect);
+  {$ENDIF SUPPORT_LOCAL_FUNCTIONS}
   {$IFNDEF DELPHi7_UP}
   CloseHandle(SyncEvent);
   SyncEvent := 0;
