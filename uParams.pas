@@ -36,7 +36,6 @@
  $Id: uParams.pas,v 1.12 2004/06/07 23:03:48 neum Exp $
  }
 unit uParams;
-{$I jedi.inc}
 interface
 
 Uses
@@ -218,11 +217,11 @@ function GetFileDate(const AFileName: string): string;
 begin
   Result:= '';
   if FileExists(AFileName) then begin
-{$IFDEF DELPHICOMPILER10_UP}
+{$IF CompilerVersion >= 21}
     FileAge(AFileName, DateTime);
 {$ELSE}
     DateTime := FileDateToDateTime(FileAge(AFileName));
-{$ENDIF}
+{$IFEND}
     Result:= DateTimeToStr(DateTime);
   end;
 end;
@@ -454,11 +453,9 @@ begin
 end;
 
 function GetPythonDir (VersionString : string) : string;
-{$IFDEF MSWINDOWS}
 var
   key : String;
   AllUserInstall : Boolean;
-{$ENDIF}
 begin
   Result := '';
 

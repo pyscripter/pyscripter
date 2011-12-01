@@ -21,7 +21,7 @@ located at http://jvcl.delphi-jedi.org
 
 Known Issues:
 -----------------------------------------------------------------------------}
-// $Id: JvDockSupportControl.pas 12579 2009-10-26 19:59:53Z ahuser $
+// $Id: JvDockSupportControl.pas 13173 2011-11-19 12:43:58Z ahuser $
 
 unit JvDockSupportControl;
 
@@ -518,9 +518,9 @@ type
 {$IFDEF UNITVERSIONING}
 const
   UnitVersioning: TUnitVersionInfo = (
-    RCSfile: '$URL: https://jvcl.svn.sourceforge.net/svnroot/jvcl/branches/JVCL3_40_PREPARATION/run/JvDockSupportControl.pas $';
-    Revision: '$Revision: 12579 $';
-    Date: '$Date: 2009-10-26 20:59:53 +0100 (lun., 26 oct. 2009) $';
+    RCSfile: '$URL: https://jcl.svn.sourceforge.net/svnroot/jvcl/trunk/jvcl/run/JvDockSupportControl.pas $';
+    Revision: '$Revision: 13173 $';
+    Date: '$Date: 2011-11-19 14:43:58 +0200 (Σαβ, 19 Νοε 2011) $';
     LogPath: 'JVCL\run'
   );
 {$ENDIF UNITVERSIONING}
@@ -671,7 +671,7 @@ procedure TJvDockCustomControl.CustomPositionDockRect(Source: TJvDockDragDockObj
 var
   NewWidth, NewHeight: Integer;
   TempX, TempY: Double;
-  R, TempDockRect: TRect;
+  R: TRect;
 begin
   with Source do
   begin
@@ -681,15 +681,12 @@ begin
       NewHeight := Control.UndockHeight;
       TempX := DragPos.X - ((NewWidth) * MouseDeltaX);
       TempY := DragPos.Y - ((NewHeight) * MouseDeltaY);
-      TempDockRect := DockRect;
-      with TempDockRect do
-      begin
-        Left := Round(TempX);
-        Top := Round(TempY);
-        Right := Left + NewWidth;
-        Bottom := Top + NewHeight;
-      end;
-      DockRect := TempDockRect;
+      R := DockRect;
+      R.Left := Round(TempX);
+      R.Top := Round(TempY);
+      R.Right := R.Left + NewWidth;
+      R.Bottom := R.Top + NewHeight;
+      DockRect := R;
       AdjustDockRect(DockRect);
     end
     else
@@ -894,16 +891,16 @@ end;
 
 procedure TJvDockCustomPanelSplitter.DrawLine;
 var
-  P: TPoint;
+  X, Y: Integer;
 begin
   FLineVisible := not FLineVisible;
-  P := Point(Left, Top);
+  X := Left;
+  Y := Top;
   if Align in [alLeft, alRight] then
-    P.X := Left + FSplit
+    X := Left + FSplit
   else
-    P.Y := Top + FSplit;
-  with P do
-    PatBlt(FLineDC, X, Y, Width, Height, PATINVERT);
+    Y := Top + FSplit;
+  PatBlt(FLineDC, X, Y, Width, Height, PATINVERT);
 end;
 
 function TJvDockCustomPanelSplitter.FindControl: TControl;
@@ -1364,29 +1361,28 @@ var
 begin
   Result := [];
   if PtInRect(ClientRect, Point(X, Y)) then
-    with HitTest do
+  begin
+    HitTest.pt.X := X;
+    HitTest.pt.Y := Y;
+    if TabCtrl_HitTest(Handle, @HitTest) <> -1 then
     begin
-      pt.X := X;
-      pt.Y := Y;
-      if TabCtrl_HitTest(Handle, @HitTest) <> -1 then
-      begin
-        if (flags and TCHT_NOWHERE) <> 0 then
-          Include(Result, htNowhere);
-        if (flags and TCHT_ONITEM) = TCHT_ONITEM then
-          Include(Result, htOnItem)
-        else
-        begin
-          if (flags and TCHT_ONITEM) <> 0 then
-            Include(Result, htOnItem);
-          if (flags and TCHT_ONITEMICON) <> 0 then
-            Include(Result, htOnIcon);
-          if (flags and TCHT_ONITEMLABEL) <> 0 then
-            Include(Result, htOnLabel);
-        end;
-      end
+      if (HitTest.flags and TCHT_NOWHERE) <> 0 then
+        Include(Result, htNowhere);
+      if (HitTest.flags and TCHT_ONITEM) = TCHT_ONITEM then
+        Include(Result, htOnItem)
       else
-        Result := [htNowhere];
-    end;
+      begin
+        if (HitTest.flags and TCHT_ONITEM) <> 0 then
+          Include(Result, htOnItem);
+        if (HitTest.flags and TCHT_ONITEMICON) <> 0 then
+          Include(Result, htOnIcon);
+        if (HitTest.flags and TCHT_ONITEMLABEL) <> 0 then
+          Include(Result, htOnLabel);
+      end;
+    end
+    else
+      Result := [htNowhere];
+  end;
 end;
 
 function TJvDockCustomTabControl.GetImageIndex(TabIndex: Integer): Integer;
@@ -1417,12 +1413,11 @@ var
 begin
   Result := -1;
   if PtInRect(ClientRect, Point(X, Y)) then
-    with HitTest do
-    begin
-      pt.X := X;
-      pt.Y := Y;
-      Result := TabCtrl_HitTest(Handle, @HitTest);
-    end;
+  begin
+    HitTest.pt.X := X;
+    HitTest.pt.Y := Y;
+    Result := TabCtrl_HitTest(Handle, @HitTest);
+  end;
 end;
 
 function TJvDockCustomTabControl.InternalSetMultiLine(Value: Boolean): Boolean;
@@ -1664,7 +1659,7 @@ end;
 
 procedure TJvDockCustomTabControl.UpdateTabSize;
 begin
-  SendMessage(Handle, TCM_SETITEMSIZE, 0, LPARAM(FTabSize));
+  SendMessage(Handle, TCM_SETITEMSIZE, 0, {$IFDEF RTL230_UP}PointToLParam{$ELSE}LPARAM{$ENDIF RTL230_UP}(FTabSize));
   TabsChanged;
 end;
 
@@ -1741,17 +1736,14 @@ begin
   begin
     {$IFDEF DELPHI6_UP} // Delphi 5's TCustomForm doesn't have the AlphaBlend properties
     FAlphaBlendedTab := TJvAlphaBlendedForm.CreateNew(nil);
-    with FAlphaBlendedTab do
-    begin
-      Visible := False;
-      Color := clHighlight;
-      AlphaBlend := True;
-      AlphaBlendValue := 140;
-      BorderIcons := [];
-      BorderStyle := bsNone;
-      FormStyle := fsStayOnTop;
-      BoundsRect := Rect(0, 0, 0, 0);
-    end;
+    FAlphaBlendedTab.Visible := False;
+    FAlphaBlendedTab.Color := clHighlight;
+    FAlphaBlendedTab.AlphaBlend := True;
+    FAlphaBlendedTab.AlphaBlendValue := 140;
+    FAlphaBlendedTab.BorderIcons := [];
+    FAlphaBlendedTab.BorderStyle := bsNone;
+    FAlphaBlendedTab.FormStyle := fsStayOnTop;
+    FAlphaBlendedTab.BoundsRect := Rect(0, 0, 0, 0);
     {$ENDIF DELPHI6_UP}
   end;
   Result := FAlphaBlendedTab;
@@ -1815,23 +1807,20 @@ var
   DesktopWindow: HWND;
   DC: HDC;
   OldBrush: HBRUSH;
-  DrawRect: TRect;
+  R: TRect;
   PenSize: Integer;
   Brush: TBrush;
 begin
-  GetBrush_PenSize_DrawRect(Brush, PenSize, DrawRect, Erase);
+  GetBrush_PenSize_DrawRect(Brush, PenSize, R, Erase);
 
   DesktopWindow := GetDesktopWindow;
   DC := GetDCEx(DesktopWindow, 0, DCX_CACHE or DCX_LOCKWINDOWUPDATE);
   try
     OldBrush := SelectObject(DC, Brush.Handle);
-    with DrawRect do
-    begin
-      PatBlt(DC, Left + PenSize, Top, Right - Left - PenSize, PenSize, PATINVERT);
-      PatBlt(DC, Right - PenSize, Top + PenSize, PenSize, Bottom - Top - PenSize, PATINVERT);
-      PatBlt(DC, Left, Bottom - PenSize, Right - Left - PenSize, PenSize, PATINVERT);
-      PatBlt(DC, Left, Top, PenSize, Bottom - Top - PenSize, PATINVERT);
-    end;
+    PatBlt(DC, R.Left + PenSize, R.Top, R.Right - R.Left - PenSize, PenSize, PATINVERT);
+    PatBlt(DC, R.Right - PenSize, R.Top + PenSize, PenSize, R.Bottom - R.Top - PenSize, PATINVERT);
+    PatBlt(DC, R.Left, R.Bottom - PenSize, R.Right - R.Left - PenSize, PenSize, PATINVERT);
+    PatBlt(DC, R.Left, R.Top, PenSize, R.Bottom - R.Top - PenSize, PATINVERT);
     SelectObject(DC, OldBrush);
   finally
     ReleaseDC(DesktopWindow, DC);
@@ -2147,7 +2136,7 @@ begin
     begin
       GetCursorPos(P);
       P := Control.ScreenToClient(P);
-      Control.Perform(WM_LBUTTONUP, 0, LPARAM(PointToSmallPoint(P)));
+      Control.Perform(WM_LBUTTONUP, 0, {$IFDEF RTL230_UP}PointToLParam{$ELSE}LPARAM{$ENDIF RTL230_UP}(PointToSmallPoint(P)));
     end;
 
     if Threshold < 0 then
@@ -2204,20 +2193,21 @@ procedure TJvDockManager.DoDockDrop(Source: TJvDockDragDockObject; Pos: TPoint);
 var
   Target: TWinControl;
   ADockClient: TJvDockClient;
+  Pt: TPoint;
 begin
   if Source.DragTarget <> nil then
   begin
     Target := Source.TargetControl;
-    with Target.ScreenToClient(Pos) do
-      if Target is TJvDockCustomControl then
-        TJvDockCustomControl(Target).CustomDockDrop(Source, X, Y)
-      else
-      if Target is TForm then
-      begin
-        ADockClient := FindDockClient(Target);
-        if ADockClient <> nil then
-          ADockClient.FormDockDrop(Source, X, Y);
-      end;
+    Pt := Target.ScreenToClient(Pos);
+    if Target is TJvDockCustomControl then
+      TJvDockCustomControl(Target).CustomDockDrop(Source, Pt.X, Pt.Y)
+    else
+    if Target is TForm then
+    begin
+      ADockClient := FindDockClient(Target);
+      if ADockClient <> nil then
+        ADockClient.FormDockDrop(Source, Pt.X, Pt.Y);
+    end;
   end;
 end;
 
@@ -2225,21 +2215,22 @@ function TJvDockManager.DoDockOver(DragState: TDragState): Boolean;
 var
   Target: TControl;
   ADockClient: TJvDockClient;
+  Pt: TPoint;
 begin
   Result := True;
   if DragObject.DragTarget <> nil then
   begin
     Target := TControl(DragObject.DragTarget);
-    with Target.ScreenToClient(DragObject.DragPos) do
-      if Target is TJvDockCustomControl then
-        TJvDockCustomControl(Target).CustomDockOver(DragObject, X, Y, DragState, Result)
-      else
-      if Target is TForm then
-      begin
-        ADockClient := FindDockClient(Target);
-        if ADockClient <> nil then
-          ADockClient.FormDockOver(DragObject, X, Y, DragState, Result);
-      end;
+    Pt := Target.ScreenToClient(DragObject.DragPos);
+    if Target is TJvDockCustomControl then
+      TJvDockCustomControl(Target).CustomDockOver(DragObject, Pt.X, Pt.Y, DragState, Result)
+    else
+    if Target is TForm then
+    begin
+      ADockClient := FindDockClient(Target);
+      if ADockClient <> nil then
+        ADockClient.FormDockOver(DragObject, Pt.X, Pt.Y, DragState, Result);
+    end;
   end;
 end;
 
@@ -2326,7 +2317,7 @@ var
     begin
       WasVisible := Control.Visible;
       try
-        DragObject.AlphaBlendedForm.Hide;  // KV
+        DragObject.AlphaBlendedForm.Hide;
         Control.Dock(nil, DragObject.DockRect);
         if (Control.Left <> DragObject.DockRect.Left) or (Control.Top <> DragObject.DockRect.Top) then
         begin
@@ -2426,6 +2417,8 @@ end;
 
 procedure TJvDockManager.DragInit(ADragObject: TJvDockDragDockObject;
   Immediate: Boolean; Threshold: Integer);
+var
+  R: TRect;
 begin
   DragObject := ADragObject;
   DragObject.DragTarget := nil;
@@ -2434,14 +2427,15 @@ begin
   FDragSaveCursor := Windows.GetCursor;
   FDragCapture := DragObject.Capture;
   FDragThreshold := Threshold;
-  with ADragObject, DockRect do
+  with ADragObject do
   begin
-    if Right - Left > 0 then
-      MouseDeltaX := (DragPos.X - Left) / (Right - Left)
+    R := DockRect;
+    if R.Right - R.Left > 0 then
+      MouseDeltaX := (DragPos.X - R.Left) / (R.Right - R.Left)
     else
       MouseDeltaX := 0;
-    if Bottom - Top > 0 then
-      MouseDeltaY := (DragPos.Y - Top) / (Bottom - Top)
+    if R.Bottom - R.Top > 0 then
+      MouseDeltaY := (DragPos.Y - R.Top) / (R.Bottom - R.Top)
     else
       MouseDeltaY := 0;
     if Immediate then
@@ -2454,8 +2448,7 @@ begin
   end;
   FDragImageList := DragObject.GetDragImages;
   if FDragImageList <> nil then
-    with FDragStartPos do
-      FDragImageList.BeginDrag(GetDesktopWindow, X, Y);
+    FDragImageList.BeginDrag(GetDesktopWindow, FDragStartPos.X, FDragStartPos.Y);
   FQualifyingSites := TSiteList.Create;
   if FActiveDrag <> dopNone then
     DragTo(FDragStartPos);
@@ -2532,8 +2525,7 @@ begin
   begin
     Target := DragFindTarget(Pos, TargetHandle, TControlAccessProtected(FDragControl).DragKind, FDragControl);
     if (FActiveDrag = dopNone) and (FDragImageList <> nil) then
-      with FDragStartPos do
-        FDragImageList.BeginDrag(GetDesktopWindow, X, Y);
+      FDragImageList.BeginDrag(GetDesktopWindow, FDragStartPos.X, FDragStartPos.Y);
     DoErase := FActiveDrag <> dopNone;
     FActiveDrag := dopDock;
 
@@ -2957,8 +2949,8 @@ procedure TJvDockPageControl.CMUnDockClient(var Msg: TCMUnDockClient);
 var
   Page: TJvDockTabSheet;
 begin
-{$ifdef VER210}
-  if (csDestroying in Self.ComponentState) then exit; // rather ugly workaround for Delphi2010 crash at shutdown.
+{$ifdef RTL210_UP}
+  if (csDestroying in Self.ComponentState) then exit; // rather ugly workaround for Delphi 2010+ crash at shutdown.
 {$endif}
 
   Msg.Result := 0;
@@ -3581,8 +3573,8 @@ var
   TCItem: TTCItem;
 begin
   TCItem.mask := TCIF_PARAM;
-  TCItem.lParam := Longint(AObject);
-  if SendMessage(FTabControl.Handle, TCM_SETITEM, Index, LPARAM(@TCItem)) = 0 then
+  TCItem.lParam := LPARAM(AObject);
+  if SendMessage(FTabControl.Handle, TCM_SETITEM, WPARAM(Index), LPARAM(@TCItem)) = 0 then
     TabControlError(Format(sTabFailSetObject, [Index]));
 end;
 

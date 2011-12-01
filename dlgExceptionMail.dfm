@@ -83,7 +83,7 @@ inherited ExceptionDialogMail: TExceptionDialogMail
     WantReturns = False
     WordWrap = False
   end
-  object TextLabel: TMemo
+  object TextMemo: TMemo
     Left = 56
     Top = 8
     Width = 271
