@@ -17,8 +17,8 @@
 {                                                                                                  }
 {**************************************************************************************************}
 {                                                                                                  }
-{ Last modified: $Date:: 2009-09-14 18:00:50 +0200 (lun., 14 sept. 2009)                        $ }
-{ Revision:      $Rev:: 3012                                                                     $ }
+{ Last modified: $Date:: 2011-10-23 21:26:07 +0300 (Κυρ, 23 Οκτ 2011)                      $ }
+{ Revision:      $Rev:: 3615                                                                     $ }
 { Author:        $Author:: outchy                                                                $ }
 {                                                                                                  }
 {**************************************************************************************************}
@@ -42,11 +42,11 @@ const
 type
   TExceptionDialogMail = class(TPyIDEDlgBase)
     SendBtn: TSpTBXButton;
+    TextMemo: TMemo;
     OkBtn: TSpTBXButton;
     DetailsBtn: TSpTBXButton;
     BevelDetails: TBevel;
     DetailsMemo: TMemo;
-    TextLabel: TMemo;
     procedure SendBtnClick(Sender: TObject);
     procedure FormPaint(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -62,8 +62,6 @@ type
     FLastActiveControl: TWinControl;
     FNonDetailsHeight: Integer;
     FFullHeight: Integer;
-    FSimpleLog: TJclSimpleLog;
-    procedure ReportToLog;
     function GetReportAsText: string;
     procedure SetDetailsVisible(const Value: Boolean);
     procedure UMCreateDetails(var Message: TMessage); message UM_CREATEDETAILS;
@@ -75,7 +73,7 @@ type
     function ReportMaxColumns: Integer; virtual;
     function ReportNewBlockDelimiterChar: Char; virtual;
     procedure NextDetailBlock;
-    procedure UpdateTextLabelScrollbars;
+    procedure UpdateTextMemoScrollbars;
   public
     procedure CopyReportToClipboard;
     class procedure ExceptionHandler(Sender: TObject; E: Exception);
@@ -84,7 +82,6 @@ type
     property DetailsVisible: Boolean read FDetailsVisible
       write SetDetailsVisible;
     property ReportAsText: string read GetReportAsText;
-    property SimpleLog: TJclSimpleLog read FSimpleLog;
   end;
 
   TExceptionDialogMailClass = class of TExceptionDialogMail;
@@ -97,7 +94,7 @@ implementation
 {$R *.dfm}
 
 uses
-  ClipBrd,
+  ClipBrd, Math,
   JclBase, JclFileUtils, JclHookExcept, JclPeImage, JclStrings, JclSysInfo, JclWin32,
   uCommonFunctions, PythonEngine, dmCommands, TypInfo, cPyBaseDebugger;
 
@@ -280,7 +277,6 @@ begin
   DetailsMemo.Lines.BeginUpdate;
   try
     CreateReport;
-    if False then ReportToLog;    // no file logging kv
     DetailsMemo.SelStart := 0;
     SendMessage(DetailsMemo.Handle, EM_SCROLLCARET, 0, 0);
     AfterCreateDetails;
@@ -330,7 +326,7 @@ begin
     StackList := JclGetExceptStackList(FThreadID);
     if Assigned(StackList) then
     begin
-      DetailsMemo.Lines.Add(Format(LoadResString(@RsStackList), [DateTimeToStr(StackList.TimeStamp)]));
+      DetailsMemo.Lines.Add(Format(LoadResString(PResStringRec(@RsStackList)), [DateTimeToStr(StackList.TimeStamp)]));
       StackList.AddToStrings(DetailsMemo.Lines, True, True, True, True);
       NextDetailBlock;
     end;
@@ -357,12 +353,14 @@ begin
       ProcessorDetails := ProcessorDetails + ' SSE3';
     if ssse3 in CpuInfo.SSE then
       ProcessorDetails := ProcessorDetails + ' SSSE3';
+    if sse41 in CpuInfo.SSE then
+      ProcessorDetails := ProcessorDetails + ' SSE41';
+    if sse42 in CpuInfo.SSE then
+      ProcessorDetails := ProcessorDetails + ' SSE42';
     if sse4A in CpuInfo.SSE then
       ProcessorDetails := ProcessorDetails + ' SSE4A';
-    if sse4B in CpuInfo.SSE then
-      ProcessorDetails := ProcessorDetails + ' SSE4B';
     if sse5 in CpuInfo.SSE then
-      ProcessorDetails := ProcessorDetails + ' SSE';
+      ProcessorDetails := ProcessorDetails + ' SSE5';
     if CpuInfo.Ex3DNow then
       ProcessorDetails := ProcessorDetails + ' 3DNow!ex';
     if CpuInfo._3DNow then
@@ -376,7 +374,6 @@ begin
       GetFreePhysicalMemory div 1024 div 1024]));
     DetailsMemo.Lines.Add(Format(RsScreenRes, [Screen.Width, Screen.Height, GetBPP]));
     NextDetailBlock;
-
 
     // Modules list
     if LoadedModulesList(SL, GetCurrentProcessId) then
@@ -425,7 +422,7 @@ begin
           if UnitVersioningModule.Instance = ModuleBase then
           begin
             if UnitVersioningModule.Count > 0 then
-              DetailsMemo.Lines.Add(StrRepeat(' ', 11) + LoadResString(@RsUnitVersioningIntro));
+              DetailsMemo.Lines.Add(StrRepeat(' ', 11) + LoadResString(PResStringRec(@RsUnitVersioningIntro)));
             for UnitIndex := 0 to UnitVersioningModule.Count - 1 do
             begin
               UnitVersion := UnitVersioningModule.Items[UnitIndex];
@@ -437,7 +434,6 @@ begin
       end;
       NextDetailBlock;
     end;
-
 
     // Active controls
     if (FLastActiveControl <> nil) then
@@ -451,7 +447,6 @@ begin
       end;
       NextDetailBlock;
     end;
-
   finally
     SL.Free;
   end;
@@ -514,7 +509,6 @@ end;
 procedure TExceptionDialogMail.FormCreate(Sender: TObject);
 begin
   inherited;
-  FSimpleLog := TJclSimpleLog.Create('filename.log');
   FFullHeight := ClientHeight;
   DetailsVisible := False;
   Caption := Format(RsAppError, [Application.Title]);
@@ -524,7 +518,7 @@ end;
 
 procedure TExceptionDialogMail.FormDestroy(Sender: TObject);
 begin
-  FreeAndNil(FSimpleLog);
+
 end;
 
 //--------------------------------------------------------------------------------------------------
@@ -542,15 +536,15 @@ end;
 
 procedure TExceptionDialogMail.FormPaint(Sender: TObject);
 begin
-  DrawIcon(Canvas.Handle, TextLabel.Left - GetSystemMetrics(SM_CXICON) - 15,
-    TextLabel.Top, LoadIcon(0, IDI_ERROR));
+  DrawIcon(Canvas.Handle, TextMemo.Left - GetSystemMetrics(SM_CXICON) - 15,
+    TextMemo.Top, LoadIcon(0, IDI_ERROR));
 end;
 
 //--------------------------------------------------------------------------------------------------
 
 procedure TExceptionDialogMail.FormResize(Sender: TObject);
 begin
-  UpdateTextLabelScrollbars;
+  UpdateTextMemoScrollbars;
 end;
 
 //--------------------------------------------------------------------------------------------------
@@ -569,7 +563,7 @@ end;
 
 function TExceptionDialogMail.GetReportAsText: string;
 begin
-  Result := StrEnsureSuffix(NativeCrLf, TextLabel.Text) + NativeCrLf + DetailsMemo.Text;
+  Result := StrEnsureSuffix(NativeCrLf, TextMemo.Text) + NativeCrLf + DetailsMemo.Text;
 end;
 
 //--------------------------------------------------------------------------------------------------
@@ -584,18 +578,6 @@ end;
 function TExceptionDialogMail.ReportNewBlockDelimiterChar: Char;
 begin
   Result := '-';
-end;
-
-//--------------------------------------------------------------------------------------------------
-
-procedure TExceptionDialogMail.ReportToLog;
-begin
-  FSimpleLog.WriteStamp(ReportMaxColumns);
-  try
-    FSimpleLog.Write(ReportAsText);
-  finally
-    FSimpleLog.CloseLog;
-  end;
 end;
 
 //--------------------------------------------------------------------------------------------------
@@ -649,10 +631,10 @@ begin
         FThreadID := MainThreadID;
       FLastActiveControl := Screen.ActiveControl;
       if E is Exception then
-        TextLabel.Text := AdjustLineBreaks(StrEnsureSuffix('.', Exception(E).Message))
+        TextMemo.Text := AdjustLineBreaks(StrEnsureSuffix('.', Exception(E).Message))
       else
-        TextLabel.Text := AdjustLineBreaks(StrEnsureSuffix('.', E.ClassName));
-      UpdateTextLabelScrollbars;
+        TextMemo.Text := AdjustLineBreaks(StrEnsureSuffix('.', E.ClassName));
+      UpdateTextMemoScrollbars;
       DetailsMemo.Lines.Add(Format(RsExceptionClass, [E.ClassName]));
       if E is Exception then
         DetailsMemo.Lines.Add(Format(RsExceptionMessage, [StrEnsureSuffix('.', Exception(E).Message)]));
@@ -678,13 +660,13 @@ end;
 
 //--------------------------------------------------------------------------------------------------
 
-procedure TExceptionDialogMail.UpdateTextLabelScrollbars;
+procedure TExceptionDialogMail.UpdateTextMemoScrollbars;
 begin
-  Canvas.Font := TextLabel.Font;
-  if TextLabel.Lines.Count * Canvas.TextHeight('Wg') > TextLabel.ClientHeight then
-    TextLabel.ScrollBars := ssVertical
+  Canvas.Font := TextMemo.Font;
+  if TextMemo.Lines.Count * Canvas.TextHeight('Wg') > TextMemo.ClientHeight then
+    TextMemo.ScrollBars := ssVertical
   else
-    TextLabel.ScrollBars := ssNone;   
+    TextMemo.ScrollBars := ssNone;   
 end;
 
 //==================================================================================================
@@ -700,9 +682,6 @@ begin
   begin
     AppEvents := TApplicationEvents.Create(nil);
     AppEvents.OnException := TExceptionDialogMail.ExceptionHandler;
-
-
-
     JclStackTrackingOptions := JclStackTrackingOptions + [stRawMode];
     JclStackTrackingOptions := JclStackTrackingOptions + [stStaticModuleList];
     JclStackTrackingOptions := JclStackTrackingOptions + [stDelayedTrace];

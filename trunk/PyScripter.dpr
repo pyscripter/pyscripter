@@ -105,8 +105,6 @@ uses
   VirtualTrees in 'VirtualTrees.pas',
   dlgSynEditOptions in 'dlgSynEditOptions.pas' {fmEditorOptionsDialog: TForm},
   JvDockSupportControl in 'JvDockSupportControl.pas',
-  JclStrings in 'JclStrings.pas',
-  JclWideStrings in 'JclWideStrings.pas',
   AsyncCalls in 'AsyncCalls.pas',
   VirtualExplorerTree in 'VirtualExplorerTree.pas',
   MPShellUtilities in 'MPShellUtilities.pas',

@@ -24,7 +24,7 @@ located at http://jvcl.delphi-jedi.org
 
 Known Issues:
 -----------------------------------------------------------------------------}
-// $Id: JvDockControlForm.pas 12797 2010-06-07 16:21:51Z ahuser $
+// $Id: JvDockControlForm.pas 13173 2011-11-19 12:43:58Z ahuser $
 
 { Changes:
 
@@ -333,6 +333,9 @@ type
 
   TJvDockPosition = (dpLeft, dpRight, dpTop, dpBottom, dpCustom); {dpCustom NEW!}
 
+  {$IFDEF RTL230_UP}
+  [ComponentPlatformsAttribute(pidWin32 or pidWin64)]
+  {$ENDIF RTL230_UP}
   TJvDockServer = class(TJvDockBaseControl)
   private
     FDockPanelClass: TJvDockPanelClass;
@@ -433,6 +436,9 @@ type
   TJvDockPaintDockSplitterEvent = TJvDockPaintDockEvent;
   TJvDockFormHintEvent = procedure(HTFlag: Integer; var HintStr: string; var CanShow: Boolean) of object;
 
+  {$IFDEF RTL230_UP}
+  [ComponentPlatformsAttribute(pidWin32 or pidWin64)]
+  {$ENDIF RTL230_UP}
   TJvDockClient = class(TJvDockBaseControl)
   private
     FConjoinPanelClass: TJvDockConjoinPanelClass;
@@ -859,9 +865,9 @@ procedure InvalidateDockHostSiteOfControl(Control: TControl; FocusLost: Boolean)
 {$IFDEF UNITVERSIONING}
 const
   UnitVersioning: TUnitVersionInfo = (
-    RCSfile: '$URL: https://jvcl.svn.sourceforge.net/svnroot/jvcl/branches/JVCL3_40_PREPARATION/run/JvDockControlForm.pas $';
-    Revision: '$Revision: 12797 $';
-    Date: '$Date: 2010-06-07 18:21:51 +0200 (lun., 07 juin 2010) $';
+    RCSfile: '$URL: https://jcl.svn.sourceforge.net/svnroot/jvcl/trunk/jvcl/run/JvDockControlForm.pas $';
+    Revision: '$Revision: 13173 $';
+    Date: '$Date: 2011-11-19 14:43:58 +0200 (Σαβ, 19 Νοε 2011) $';
     LogPath: 'JVCL\run'
     );
 {$ENDIF UNITVERSIONING}
@@ -894,9 +900,7 @@ var
 
 function IsWinXP_UP: Boolean;
 begin
-  Result := (Win32Platform = VER_PLATFORM_WIN32_NT) and
-    ((Win32MajorVersion > 5) or
-    (Win32MajorVersion = 5) and (Win32MinorVersion >= 1));
+  Result := (Win32Platform = VER_PLATFORM_WIN32_NT) and CheckWin32Version(5, 1);
 end;
 
 procedure ApplyShowingChanged;
@@ -1295,7 +1299,7 @@ begin
   end;
   if ChildDockSite <> nil then
     TWinControlAccessProtected(ChildDockSite).SendDockNotification(CM_INVALIDATEDOCKHOST,
-      Integer(Control), Integer(FocusLost));
+      WPARAM(Control), LPARAM(FocusLost));
 end;
 {$ENDIF !COMPILER9_UP}
 
@@ -1558,6 +1562,7 @@ begin
   ShowDockForm(Form2);
   Result := TabHost;
 end;
+
 
 (*
  This old way was a kludge written by Warren that never properly worked anyways.
@@ -2604,7 +2609,7 @@ procedure TJvDockBasicStyle.FormPositionDockRect(DockClient: TJvDockClient;
 var
   NewWidth, NewHeight: Integer;
   TempX, TempY: Double;
-  R, TempDockRect: TRect;
+  R: TRect;
 begin
   with Source do
   begin
@@ -2612,19 +2617,14 @@ begin
     begin
       NewWidth := Control.UndockWidth;
       NewHeight := Control.UndockHeight;
-
       TempX := DragPos.X - ((NewWidth) * MouseDeltaX);
       TempY := DragPos.Y - ((NewHeight) * MouseDeltaY);
-      TempDockRect := DockRect;
-      with TempDockRect do
-      begin
-        Left := Round(TempX);
-        Top := Round(TempY);
-        Right := Left + NewWidth;
-        Bottom := Top + NewHeight;
-      end;
-      DockRect := TempDockRect;
-
+      R := DockRect;
+      R.Left := Round(TempX);
+      R.Top := Round(TempY);
+      R.Right := R.Left + NewWidth;
+      R.Bottom := R.Top + NewHeight;
+      DockRect := R;
       AdjustDockRect(DockRect);
     end
     else
@@ -3013,7 +3013,7 @@ var
 begin
   Result := TJvDockTabHostForm.Create(Application);
   Result.Name := 'TJvDockTabHostForm_' + Control1.Name + '_' + Control2.Name + '_' +
-    IntToHex(Integer(Result), 8);
+    IntToHex(LPARAM(Result), 2 * SizeOf(LPARAM));
 
   { CreateTabDockClass implicitly sets Result.DockClient.DockStyle via the
     assign in that function }
@@ -3701,7 +3701,7 @@ end;
 
 procedure TJvDockConjoinPanel.DockDrop(Source: TDragDockObject; X, Y: Integer);
 begin
-  if Perform(CM_DOCKCLIENT, WPARAM(Source), LPARAM(SmallPoint(X, Y))) >= 0 then
+  if Perform(CM_DOCKCLIENT, WPARAM(Source), {$IFDEF RTL230_UP}PointToLParam{$ELSE}LPARAM{$ENDIF RTL230_UP}(SmallPoint(X, Y))) >= 0 then
   begin
     if Source.Control is TForm then
     begin
@@ -3889,7 +3889,7 @@ end;
 
 procedure TJvDockPanel.DockDrop(Source: TDragDockObject; X, Y: Integer);
 begin
-  if Perform(CM_DOCKCLIENT, WPARAM(Source), LPARAM(SmallPoint(X, Y))) >= 0 then
+  if Perform(CM_DOCKCLIENT, WPARAM(Source), {$IFDEF RTL230_UP}PointToLParam{$ELSE}LPARAM{$ENDIF RTL230_UP}(SmallPoint(X, Y))) >= 0 then
   begin
     if Source.Control is TForm then
     begin
@@ -4820,7 +4820,7 @@ begin
     try
       DragDockObject.DockRect := Source.DockRect;
       DragDockObject.Control := Source.Control;
-      Perform(CM_DOCKCLIENT, WPARAM(DragDockObject), LPARAM(SmallPoint(X, Y)));
+      Perform(CM_DOCKCLIENT, WPARAM(DragDockObject), {$IFDEF RTL230_UP}PointToLParam{$ELSE}LPARAM{$ENDIF RTL230_UP}(SmallPoint(X, Y)));
       UpdateCaption(nil);
     finally
       DragDockObject.Free;
@@ -4897,7 +4897,7 @@ end;
 procedure TJvDockTabPageControl.DockDrop(Source: TDragDockObject; X,
   Y: Integer);
 begin
-  if Perform(CM_DOCKCLIENT, WPARAM(Source), LPARAM(SmallPoint(X, Y))) >= 0 then
+  if Perform(CM_DOCKCLIENT, WPARAM(Source), {$IFDEF RTL230_UP}PointToLParam{$ELSE}LPARAM{$ENDIF RTL230_UP}(SmallPoint(X, Y))) >= 0 then
   begin
     if Source.Control is TForm then
     begin

@@ -45,8 +45,6 @@ unit cParameters;
 
 interface
 
-{$i jedi.inc}
-
 uses
   Windows, Classes, SysUtils, Dialogs, Controls;
 
@@ -172,7 +170,7 @@ var
 implementation
 
 uses
-  TypInfo{$IFDEF DELPHI6_UP}, Variants{$ENDIF}, gnugettext,
+  TypInfo, Variants, gnugettext,
   StringResources, uCommonFunctions, JclStrings;
 
 const

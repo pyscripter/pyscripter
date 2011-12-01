@@ -21,7 +21,7 @@ located at http://jvcl.delphi-jedi.org
 
 Known Issues:
 -----------------------------------------------------------------------------}
-// $Id: JvDockVSNetStyle.pas 12461 2009-08-14 17:21:33Z obones $
+// $Id: JvDockVSNetStyle.pas 13104 2011-09-07 06:50:43Z obones $
 
 unit JvDockVSNetStyle;
 
@@ -35,7 +35,7 @@ uses
   {$ENDIF UNITVERSIONING}
   Windows, Messages, Classes, Graphics, Controls, Forms, ExtCtrls,
   JvDockControlForm, JvDockSupportControl, JvDockTree, JvDockVIDStyle,
-  JvDockGlobals, ContNrs;
+  JvDockGlobals, Contnrs;
 
 type
   TJvDockVSNETConjoinServerOption = class(TJvDockVIDConjoinServerOption)
@@ -269,6 +269,9 @@ type
 
   TJvDockVSChannelClass = class of TJvDockVSChannel;
 
+  {$IFDEF RTL230_UP}
+  [ComponentPlatformsAttribute(pidWin32 or pidWin64)]
+  {$ENDIF RTL230_UP}
   TJvDockVSNetStyle = class(TJvDockVIDStyle)
   private
     FTimer: TTimer;
@@ -535,9 +538,9 @@ var
 {$IFDEF UNITVERSIONING}
 const
   UnitVersioning: TUnitVersionInfo = (
-    RCSfile: '$URL: https://jvcl.svn.sourceforge.net/svnroot/jvcl/branches/JVCL3_40_PREPARATION/run/JvDockVSNetStyle.pas $';
-    Revision: '$Revision: 12461 $';
-    Date: '$Date: 2009-08-14 19:21:33 +0200 (ven., 14 août 2009) $';
+    RCSfile: '$URL: https://jcl.svn.sourceforge.net/svnroot/jvcl/trunk/jvcl/run/JvDockVSNetStyle.pas $';
+    Revision: '$Revision: 13104 $';
+    Date: '$Date: 2011-09-07 09:50:43 +0300 (Ξ¤ΞµΟ„, 07 Ξ£ΞµΟ€ 2011) $';
     LogPath: 'JVCL\run'
   );
 {$ENDIF UNITVERSIONING}
@@ -3373,16 +3376,16 @@ end;
 
 procedure TJvDockVSPopupPanelSplitter.DrawLine;
 var
-  P: TPoint;
+  X, Y: Integer;
 begin
   FLineVisible := not FLineVisible;
-  P := Point(Left, Top);
+  X := Left;
+  Y := Top;
   if VSChannelAlign in [alLeft, alRight] then
-    P.X := Left + FSplit
+    X := Left + FSplit
   else
-    P.Y := Top + FSplit;
-  with P do
-    PatBlt(FLineDC, X, Y, Width, Height, PATINVERT);
+    Y := Top + FSplit;
+  PatBlt(FLineDC, X, Y, Width, Height, PATINVERT);
 end;
 
 function TJvDockVSPopupPanelSplitter.FindControl: TControl;

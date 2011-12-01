@@ -231,8 +231,6 @@
 				<DesignClass>TForm</DesignClass>
 			</DCCReference>
 			<DCCReference Include="JvDockSupportControl.pas"/>
-			<DCCReference Include="JclStrings.pas"/>
-			<DCCReference Include="JclWideStrings.pas"/>
 			<DCCReference Include="AsyncCalls.pas"/>
 			<DCCReference Include="VirtualExplorerTree.pas"/>
 			<DCCReference Include="MPShellUtilities.pas"/>
