@@ -227,7 +227,7 @@ begin
   if FileExplorerTree.ValidateNamespace(FileExplorerTree.GetFirstSelected, NameSpace) and
     NameSpace.Folder
   then begin
-    PostMessage(Handle, WM_EXPLOREHERE, 0, Integer(NameSpace.AbsolutePIDL));
+    PostMessage(Handle, WM_EXPLOREHERE, 0, LPARAM(NameSpace.AbsolutePIDL));
   end;
 end;
 

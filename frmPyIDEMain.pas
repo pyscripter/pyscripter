@@ -4673,7 +4673,7 @@ begin
     Key := #0;
     tbiReplaceTextAcceptText(tbiReplaceText.Text);
     CommandsDataModule.actSearchReplaceNow.Execute;
-//    PostMessage(Handle, WM_SEARCHREPLACEACTION, 0, Integer(Action));
+//    PostMessage(Handle, WM_SEARCHREPLACEACTION, 0, LPARAM(Action));
   end;
 end;
 

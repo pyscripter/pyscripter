@@ -1584,7 +1584,7 @@ object PyIDEMainForm: TPyIDEMainForm
       CustomHeight = 21
     end
     object SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem
-      CustomWidth = 0
+      CustomWidth = 407
     end
     object SpTBXSeparatorItem5: TSpTBXSeparatorItem
     end
@@ -2516,6 +2516,21 @@ object PyIDEMainForm: TPyIDEMainForm
   object JvDockVSNetStyleSpTBX: TJvDockVSNetStyleSpTBX
     AlwaysShowGrabber = False
     ConjoinServerOption.GrabbersSize = 20
+    ConjoinServerOption.ActiveFont.Charset = DEFAULT_CHARSET
+    ConjoinServerOption.ActiveFont.Color = clWhite
+    ConjoinServerOption.ActiveFont.Height = -12
+    ConjoinServerOption.ActiveFont.Name = 'Segoe UI'
+    ConjoinServerOption.ActiveFont.Style = []
+    ConjoinServerOption.InactiveFont.Charset = DEFAULT_CHARSET
+    ConjoinServerOption.InactiveFont.Color = clBlack
+    ConjoinServerOption.InactiveFont.Height = -12
+    ConjoinServerOption.InactiveFont.Name = 'Segoe UI'
+    ConjoinServerOption.InactiveFont.Style = []
+    ConjoinServerOption.ActiveTitleStartColor = 13743257
+    ConjoinServerOption.ActiveTitleEndColor = 13743257
+    ConjoinServerOption.InactiveTitleStartColor = clBtnFace
+    ConjoinServerOption.InactiveTitleEndColor = clBtnFace
+    ConjoinServerOption.SystemInfo = False
     TabServerOption.HotTrack = True
     TabServerOption.ActiveFont.Charset = DEFAULT_CHARSET
     TabServerOption.ActiveFont.Color = clWindowText

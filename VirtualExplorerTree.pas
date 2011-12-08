@@ -5594,10 +5594,10 @@ begin
           else
             LargeIconSize := GetSystemMetrics(SM_CXICON);
           Reg.WriteString('Shell Icon Size', IntToStr(LargeIconSize + 1));
-          SendMessage(Handle, WM_SETTINGCHANGE, SPI_SETNONCLIENTMETRICS, Integer(PChar('WindowMetrics')));
+          SendMessage(Handle, WM_SETTINGCHANGE, SPI_SETNONCLIENTMETRICS, LPARAM(PChar('WindowMetrics')));
           FileIconInit(True); // Flush the cached Icons
           Reg.WriteString('Shell Icon Size', IntToStr(LargeIconSize));
-          SendMessage(Handle, WM_SETTINGCHANGE, SPI_SETNONCLIENTMETRICS, Integer(PChar('WindowMetrics')));
+          SendMessage(Handle, WM_SETTINGCHANGE, SPI_SETNONCLIENTMETRICS, LPARAM(PChar('WindowMetrics')));
           FileIconInit(True); // Flush the cached Icons
         end;
       except // Quiet failure
