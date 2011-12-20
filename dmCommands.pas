@@ -570,7 +570,7 @@ uses
   dlgFileTemplates, JclSysUtils, dlgPickList, JvAppIniStorage,
   JvAppStorage, JvDSADialogs, uSearchHighlighter,
   MPShellUtilities, gnugettext, SpTBXSkins, SpTBXMDIMRU, StrUtils, JclStrings,
-  DateUtils, JclDebug, Clipbrd, MPCommonUtilities, JclSysInfo;
+  DateUtils, JclDebug, Clipbrd, MPCommonUtilities, JclSysInfo, JvDynControlEngineVCL;
 
 { TPythonIDEOptions }
 

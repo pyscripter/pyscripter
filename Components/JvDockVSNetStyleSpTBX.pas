@@ -1149,7 +1149,7 @@ begin
     Exit;
   end;
 
-  if not DoubleBuffered or (Message.wParam = Message.lParam) then begin
+  if not DoubleBuffered or (Message.wParam = WPARAM(Message.lParam)) then begin
     if not (csDestroying in ComponentState) then begin
       if Assigned(PageControl) and Visible then begin
         ACanvas := TCanvas.Create;

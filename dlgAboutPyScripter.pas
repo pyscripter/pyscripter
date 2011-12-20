@@ -72,9 +72,16 @@ begin
 end;
 
 procedure TAboutBox.FormCreate(Sender: TObject);
+Var
+  winplatform : string;
 begin
+  {$IFDEF WIN64}
+  winplatform := 'x64';
+  {$ELSE}
+  winplatform := 'x86';
+  {$ENDIF}
   inherited;
-  Version.Caption := 'Version ' + ApplicationVersion;
+  Version.Caption := Format('Version %s %s', [ApplicationVersion, winplatform]);
 end;
 
 initialization

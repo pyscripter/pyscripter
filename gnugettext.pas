@@ -877,8 +877,8 @@ type
     Ident: Integer;
     Str: String;
   end;
-  
-function SysUtilsEnumStringModules(Instance: Longint; Data: Pointer): Boolean;
+
+function SysUtilsEnumStringModules(Instance: {$IF CompilerVersion >= 23}NativeInt{$ELSE}integer{$IFEND}; Data: Pointer): Boolean;
 {$IFDEF MSWINDOWS}
 var
   Buffer: array [0..1023] of Char; // WideChar in Delphi 2008, AnsiChar before that
@@ -1784,8 +1784,8 @@ begin
       TodoList.Delete(0);
       if (AnObject<>nil) and (AnObject is TPersistent) then begin
         // Make sure each object is only translated once
-        Assert (sizeof(integer)=sizeof(TObject));
-        objid:=IntToHex(integer(AnObject),8);
+        Assert (sizeof(NativeInt)=sizeof(TObject));
+        objid:=IntToHex(NativeInt(AnObject),8);
         if DoneList.Find(objid,i) then begin
           continue;
         end else begin
@@ -1968,19 +1968,28 @@ var
   line: string;
   i: integer;
   s:TStringList;
+  OldOwnObjects : Boolean;
 begin
   if sl.Count > 0 then begin
     sl.BeginUpdate;
     try
       s:=TStringList.Create;
       try
-        s.Assign (sl);
+        s.AddStrings(sl);
         for i:=0 to s.Count-1 do begin
           line:=s.Strings[i];
           if line<>'' then
             s.Strings[i]:=dgettext(TextDomain,line);
         end;
-        sl.Assign(s);
+        OldOwnObjects := False;
+        if (sl is TStringList) and TStringList(sl).OwnsObjects then begin
+          OldOwnObjects := True;
+          TStringList(sl).OwnsObjects := False;
+        end;
+        sl.Clear;
+        sl.AddStrings(s);
+        if (sl is TStringList) and OldOwnObjects then
+          TStringList(sl).OwnsObjects := True;
       finally
         FreeAndNil (s);
       end;
@@ -2820,7 +2829,9 @@ constructor THook.Create(OldProcedure, NewProcedure: pointer; FollowJump:boolean
 { Modified by Jacques Garcia Vazquez and Lars Dybdahl }
 begin
   {$ifndef CPU386}
+  {$ifndef CPUx64}
   raise Exception.Create ('This procedure only works on Intel i386 compatible processors.');
+  {$endif}
   {$endif}
 
   oldproc:=OldProcedure;
@@ -2873,7 +2884,7 @@ begin
   if FollowJump and (Word(OldProc^) = $25FF) then begin
     // This finds the correct procedure if a virtual jump has been inserted
     // at the procedure address
-    Inc(Integer(patchPosition), 2); // skip the jump
+    Inc(NativeInt(patchPosition), 2); // skip the jump
     patchPosition := pansiChar(Pointer(pointer(patchPosition)^)^);
   end;
   offset:=integer(NewProc)-integer(pointer(patchPosition))-5;

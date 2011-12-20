@@ -3869,6 +3869,38 @@ var
     tymed: TYMED_ISTREAM or TYMED_HGLOBAL;
   );
 
+  {$if CompilerVersion < 23}
+type
+  // For compatibility with Delphi XE and earlier, prevents deprecated warnings in Delphi XE2 and higher
+  StyleServices = class
+    class function Enabled: Boolean; inline;
+    class function DrawElement(DC: HDC; Details: TThemedElementDetails; const R: TRect; ClipRect: PRect = nil): Boolean; inline;
+    class function GetElementDetails(Detail: TThemedHeader): TThemedElementDetails; inline;
+    class procedure PaintBorder(Control: TWinControl; EraseLRCorner: Boolean);
+  end;
+
+  class function StyleServices.Enabled: Boolean;
+  begin
+    Result := ThemeServices.ThemesEnabled;
+  end;
+
+  class function StyleServices.DrawElement(DC: HDC; Details: TThemedElementDetails; const R: TRect; ClipRect: PRect = nil): Boolean;
+  begin
+    ThemeServices.DrawElement(DC, Details, R, ClipRect);
+    Result := Enabled;
+  end;
+
+  class function StyleServices.GetElementDetails(Detail: TThemedHeader): TThemedElementDetails;
+  begin
+    Result := ThemeServices.GetElementDetails(Detail);
+  end;
+
+  class procedure StyleServices.PaintBorder(Control: TWinControl; EraseLRCorner: Boolean);
+  begin
+    ThemeServices.PaintBorder(Control, EraseLRCorner);
+  end;
+  {$ifend}
+
 type
   // protection against TRect record method that cause problems with with-statements
   TWithSafeRect = record
@@ -6409,7 +6441,7 @@ begin
       if HandleAllocated then
       begin
         if IsWinVistaOrAbove and ((tsUseThemes in FStates) or
-           ((toThemeAware in ToBeSet) and ThemeServices.ThemesEnabled)) and
+           ((toThemeAware in ToBeSet) and StyleServices.Enabled)) and
            (toUseExplorerTheme in (ToBeSet + ToBeCleared)) then
           if toUseExplorerTheme in ToBeSet then
           begin
@@ -6427,7 +6459,7 @@ begin
         begin
           if (toThemeAware in ToBeSet + ToBeCleared) or (toUseExplorerTheme in ToBeSet + ToBeCleared) then
           begin
-            if (toThemeAware in ToBeSet) and ThemeServices.ThemesEnabled then
+            if (toThemeAware in ToBeSet) and StyleServices.Enabled then
               DoStateChange([tsUseThemes])
             else
               if (toThemeAware in ToBeCleared) then
@@ -10890,8 +10922,8 @@ var
       begin
         if tsUseThemes in FHeader.Treeview.FStates then
         begin
-          Details := ThemeServices.GetElementDetails(thHeaderItemRightNormal);
-          ThemeServices.DrawElement(Handle, Details, BackgroundRect, @BackgroundRect);
+          Details := StyleServices.GetElementDetails(thHeaderItemRightNormal);
+          StyleServices.DrawElement(Handle, Details, BackgroundRect, @BackgroundRect);
         end
         else begin
           Brush.Color := FHeader.FBackground;
@@ -10969,13 +11001,13 @@ var
           if tsUseThemes in FHeader.Treeview.FStates then
           begin
             if IsDownIndex then
-              Details := ThemeServices.GetElementDetails(thHeaderItemPressed)
+              Details := StyleServices.GetElementDetails(thHeaderItemPressed)
             else
               if IsHoverIndex then
-                Details := ThemeServices.GetElementDetails(thHeaderItemHot)
+                Details := StyleServices.GetElementDetails(thHeaderItemHot)
               else
-                Details := ThemeServices.GetElementDetails(thHeaderItemNormal);
-            ThemeServices.DrawElement(TargetCanvas.Handle, Details, PaintRectangle, @PaintRectangle);
+                Details := StyleServices.GetElementDetails(thHeaderItemNormal);
+            StyleServices.DrawElement(TargetCanvas.Handle, Details, PaintRectangle, @PaintRectangle);
           end
           else
           begin
@@ -11077,8 +11109,8 @@ var
               Glyph := thHeaderSortArrowSortedUp
             else
               Glyph := thHeaderSortArrowSortedDown;
-            Details := ThemeServices.GetElementDetails(Glyph);
-            ThemeServices.DrawElement(TargetCanvas.Handle, Details, Pos, @Pos);
+            Details := StyleServices.GetElementDetails(Glyph);
+            StyleServices.DrawElement(TargetCanvas.Handle, Details, Pos, @Pos);
           end
           else
           begin
@@ -12454,10 +12486,9 @@ begin
         Treeview.DoHeaderMouseMove(GetShiftState, P.X, P.Y + Integer(FHeight));
         if InHeader(P) and ((AdjustHoverColumn(P)) or ((FDownIndex >= 0) and (FHoverIndex <> FDownIndex))) then
         begin
-          // We need a mouse leave detection from here for the non client area. The best solution available would be the
-          // TrackMouseEvent API. Unfortunately, it leaves Win95 totally and WinNT4 for non-client stuff out and
-          // currently I cannot ignore these systems. Hence I go the only other reliable way and use a timer
-          // (although, I don't like it...).
+          // We need a mouse leave detection from here for the non client area.
+          // TODO: The best solution available would be the TrackMouseEvent API.
+          // With the drop of the support of Win95 totally and WinNT4 we should replace the timer.
           Treeview.StopTimer(HeaderTimer);
           SetTimer(Treeview.Handle, HeaderTimer, 50, nil);
           // use Delphi's internal hint handling for header hints too
@@ -18788,7 +18819,7 @@ begin
 
   Flags := DCX_CACHE or DCX_CLIPSIBLINGS or DCX_WINDOW or DCX_VALIDATE;
 
-  if ((Message.Rgn {$ifdef CPUX64}shr 32{$endif}) = 1) then // fixes issue #235
+  if Message.Rgn = 1 then
     DC := GetDCEx(Handle, 0, Flags)
   else
     DC := GetDCEx(Handle, Message.Rgn, Flags or DCX_INTERSECTRGN);
@@ -18804,7 +18835,7 @@ begin
     ReleaseDC(Handle, DC);
   end;
     if tsUseThemes in FStates then
-      ThemeServices.PaintBorder(Self, False);
+      StyleServices.PaintBorder(Self, False);
 end;
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -19063,7 +19094,7 @@ procedure TBaseVirtualTree.WMThemeChanged(var Message: TMessage);
 begin
   inherited;
 
-  if ThemeServices.ThemesEnabled and (toThemeAware in TreeOptions.PaintOptions) then
+  if StyleServices.Enabled and (toThemeAware in TreeOptions.PaintOptions) then
     DoStateChange([tsUseThemes])
   else
     DoStateChange([], [tsUseThemes]);
@@ -19828,7 +19859,7 @@ begin
   inherited;
   DoStateChange([], [tsWindowCreating]);
 
-  if ThemeServices.ThemesEnabled and (toThemeAware in TreeOptions.PaintOptions) then
+  if StyleServices.Enabled and (toThemeAware in TreeOptions.PaintOptions) then
   begin
     DoStateChange([tsUseThemes]);
     if (toUseExplorerTheme in FOptions.FPaintOptions) and IsWinVistaOrAbove then
@@ -22424,8 +22455,8 @@ begin
       Include(Shift, ssMiddle);
     if tsRightButtonDown in FStates then
       Include(Shift, ssRight);
-
     GetHitTestInfoAt(Pt.X, Pt.Y, True, HitInfo);
+
     if Assigned(HitInfo.HitNode) then
       R := GetDisplayRect(HitInfo.HitNode, NoColumn, False)
     else
@@ -24794,7 +24825,7 @@ begin
         Details.Part := 0;
         Details.State := 0;
       end;
-      ThemeServices.DrawElement(Canvas.Handle, Details, R);
+      StyleServices.DrawElement(Canvas.Handle, Details, R);
       if Index in [21..24] then
         UtilityImages.Draw(Canvas, XPos - 1, YPos, 4);
     end

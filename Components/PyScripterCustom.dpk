@@ -5,6 +5,7 @@ package PyScripterCustom;
 
 {$R *.res}
 {$R 'JvDockVSNetStyleSpTBX.dcr'}
+{$IFDEF IMPLICITBUILDING This IFDEF should not be used by users}
 {$ALIGN 8}
 {$ASSERTIONS ON}
 {$BOOLEVAL OFF}
@@ -26,6 +27,8 @@ package PyScripterCustom;
 {$WRITEABLECONST OFF}
 {$MINENUMSIZE 1}
 {$IMAGEBASE $400000}
+{$DEFINE DEBUG}
+{$ENDIF IMPLICITBUILDING}
 {$DESCRIPTION 'PyScripter Custom Components'}
 {$IMPLICITBUILD ON}
 
@@ -33,8 +36,8 @@ requires
   vcl,
   rtl,
   vclx,
-  SpTBXLib_d14,
-  tb2k_d14,
+  SpTBXLib_d16,
+  tb2k_d16,
   vclactnband,
   vcldb,
   dbrtl,

@@ -186,7 +186,7 @@ begin
       begin
         if Dirs[i] = '' then continue;
         Dirs[i] := ExpandFileName(IncludeTrailingPathDelimiter(Dirs[i]));
-        if not DirectoryExists(Dirs[i]) then begin
+        if not SysUtils.DirectoryExists(Dirs[i]) then begin
           Dialogs.MessageDlg(Format(_(SSearchDirectoryDoesNotExist), [Dirs[i]]), mtError, [mbOK], 0);
           Abort;
         end;
