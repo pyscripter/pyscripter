@@ -312,11 +312,17 @@ var
   UnitVersion: TUnitVersion;
   ModuleIndex, UnitIndex: Integer;
   {$ENDIF UNITVERSIONING}
+  winplatform : string;
 begin
+  {$IFDEF WIN64}
+  winplatform := 'x64';
+  {$ELSE}
+  winplatform := 'x86';
+  {$ENDIF}
   SL := TStringList.Create;
   try
     // Version Info
-    DetailsMemo.Lines.Add(Format('%s version : %s', [Application.Title, ApplicationVersion]));
+    DetailsMemo.Lines.Add(Format('%s version : %s %s', [Application.Title, ApplicationVersion, winplatform]));
     DetailsMemo.Lines.Add(Format('Python DLL : %s', [GetPythonEngine.DllName]));
     DetailsMemo.Lines.Add(Format('Python Engine : %s', [
       GetEnumName(System.TypeInfo(TPythonEngineType),

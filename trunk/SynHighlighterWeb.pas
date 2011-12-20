@@ -9110,10 +9110,14 @@ var
 begin
   i := $FFFFFFFF shl ALen;
   //todo: Does it work in CLX? Should be [EBX].APos? I don't know :(
+  {$IFDEF CPUX64}
+  i:= (i shl APos) or (i shr (32-APos));
+  {$ELSE}
   asm
     mov ecx, APos
     rol i, cl
   end;
+  {$ENDIF}
   FInstance^.FRange := (FInstance^.FRange and i) or ((AVal shl APos) and not i);
 end;
 

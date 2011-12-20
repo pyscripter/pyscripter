@@ -5,7 +5,8 @@ object PyIDEMainForm: TPyIDEMainForm
   Caption = 'Python Scripter'
   ClientHeight = 538
   ClientWidth = 780
-  Color = clBtnFace
+  Color = clWindow
+  Ctl3D = False
   ParentFont = True
   Icon.Data = {
     000001000600101000000000000068050000660000001818000000000000C806
@@ -1584,7 +1585,7 @@ object PyIDEMainForm: TPyIDEMainForm
       CustomHeight = 21
     end
     object SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem
-      CustomWidth = 407
+      CustomWidth = 0
     end
     object SpTBXSeparatorItem5: TSpTBXSeparatorItem
     end

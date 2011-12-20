@@ -46,7 +46,7 @@ unit frmFindResults;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Windows, Messages, Types, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, frmIDEDockWin, JvDockControlForm, ExtCtrls, Menus,
   ActnList, ComCtrls, StdCtrls, cFindInFiles, JvAppStorage,
   TB2Item, TB2Dock, TB2Toolbar, JvComponentBase,  SpTBXSkins,

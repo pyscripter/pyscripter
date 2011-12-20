@@ -645,8 +645,6 @@ end;
 
 //=== { TJvProgramVersionsStringList } =======================================
 
-procedure TJvProgramVersionsStringList.Sort;
-
   function VersionNumberSortCompare(List: TStringList; Index1, Index2: Integer): Integer;
   var
     S1, S2: string;
@@ -655,6 +653,8 @@ procedure TJvProgramVersionsStringList.Sort;
     S2 := TJvProgramVersionInfo(List.Objects[Index2]).ProgramVersion;
     Result := CompareVersionNumbers(S1, S2);
   end;
+
+procedure TJvProgramVersionsStringList.Sort;
 
 begin
   CustomSort(@VersionNumberSortCompare);

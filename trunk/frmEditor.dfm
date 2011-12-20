@@ -7,13 +7,16 @@ object EditorForm: TEditorForm
   Color = clWindow
   Ctl3D = False
   ParentFont = True
+  Padding.Left = 2
+  Padding.Top = 2
+  Padding.Right = 2
+  Padding.Bottom = 2
   OldCreateOrder = False
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   PixelsPerInch = 96
   TextHeight = 13
   object FGPanel: TPanel
-    AlignWithMargins = True
     Left = 2
     Top = 2
     Width = 562
@@ -177,7 +180,7 @@ object EditorForm: TEditorForm
     Left = 93
     Top = 136
     Bitmap = {
-      494C01010600090094000B000E00FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010106000900A0000B000E00FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       00000000000036000000280000002C0000001C00000001002000000000004013
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

@@ -90,7 +90,7 @@ type
     procedure SynCodeCompletionExecute(Kind: SynCompletionType;
       Sender: TObject; var CurrentInput: string; var x, y: Integer;
       var CanExecute: Boolean);
-    function FormHelp(Command: Word; Data: Integer;
+    function FormHelp(Command: Word; Data: NativeInt;
       var CallHelp: Boolean): Boolean;
     procedure InputBoxExecute(Sender: TObject; PSelf,
       Args: PPyObject; var Result: PPyObject);
@@ -453,9 +453,11 @@ end;
 
 procedure TPythonIIForm.PrintInterpreterBanner;
 var
-  S: string;
+  SVersion, SPlatform, S: string;
 begin
-  S := Format('*** Python %s on %s. ***' + sLineBreak, [SysModule.version, SysModule.platform]);
+  SVersion := SysModule.version;
+  SPlatform := SysModule.platform;
+  S := Format('*** Python %s on %s. ***' + sLineBreak, [SVersion, SPlatform]);
   AppendText(S);
   AppendText(PS1);
 end;
@@ -1630,7 +1632,7 @@ begin
   end;
 end;
 
-function TPythonIIForm.FormHelp(Command: Word; Data: Integer;
+function TPythonIIForm.FormHelp(Command: Word; Data: NativeInt;
   var CallHelp: Boolean): Boolean;
 Var
   KeyWord : string;
@@ -1657,7 +1659,7 @@ Var
   Res : Boolean;
 begin
   with GetPythonEngine do
-    if PyArg_ParseTuple( args, 'uuu:InputBox', [@PCaption, @PPrompt, @PDefault] ) <> 0 then begin
+    if PyArg_ParseTuple( args, 'uuu:InputBox', @PCaption, @PPrompt, @PDefault) <> 0 then begin
       WideS := PDefault;
 
       with GetPythonEngine do begin
@@ -1711,7 +1713,7 @@ Var
   Msg : PAnsiChar;
 begin
   with GetPythonEngine do
-    if PyArg_ParseTuple( args, 's:statusWrite', [@Msg] ) <> 0 then begin
+    if PyArg_ParseTuple( args, 's:statusWrite', @Msg) <> 0 then begin
       PyIDEMainForm.WriteStatusMsg(string(Msg));
       Application.ProcessMessages;
       Result := ReturnNone;
@@ -1741,7 +1743,7 @@ begin
   LineNo := 0;
   Offset := 0;
   with GetPythonEngine do
-    if PyArg_ParseTuple( args, 's|sii:messageWrite', [@Msg, @FName, @LineNo, @Offset] ) <> 0 then begin
+    if PyArg_ParseTuple( args, 's|sii:messageWrite', @Msg, @FName, @LineNo, @Offset) <> 0 then begin
       if Assigned(FName) then
         S := string(FName)
       else
