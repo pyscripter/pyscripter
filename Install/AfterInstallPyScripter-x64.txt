@@ -1,6 +1,6 @@
-***********  This is the 32-bit version of PyScripter. *************
-If you are using a 64-bit version of Windows please note that PyScripter will only
-work if a 32-bit version of Python is installed.
+***********  This is the 64-bit version of PyScripter. *************
+It requires a 64-bit version of Windows. Please note that PyScripter will only
+work if a 64-bit version of Python is installed.
 
 Note: For compatibility with Python 2.6, 2.7 and 3.x, this PyScripter version 
 requires the latest C++ Redistributable Package.  This is automatically installed 
