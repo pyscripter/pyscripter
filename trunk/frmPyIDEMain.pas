@@ -356,10 +356,12 @@
             Import statement completion does not include builtin module names
             461, 463, 468, 471, 474, 478, 488, 496, 504, 508, 509,
             511, 512, 515, 525, 526, 527, 528, 532, 559, 560
+
   History:   v 2.4.4
           New Features
+            64-bit version released
           Issues addressed
-            563, 564, 568, 576
+            563, 564, 568, 576, 591
 -----------------------------------------------------------------------------}
 
 // Bugs and minor features
