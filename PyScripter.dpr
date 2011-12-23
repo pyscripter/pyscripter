@@ -108,7 +108,8 @@ uses
   AsyncCalls in 'AsyncCalls.pas',
   SpTBXItem in 'SpTBXItem.pas',
   TB2Item in 'TB2Item.pas',
-  JvDockVIDStyle in 'JvDockVIDStyle.pas';
+  JvDockVIDStyle in 'JvDockVIDStyle.pas',
+  JclMapi in 'JclMapi.pas';
 
 {$R *.RES}
 {$R WebCopyAvi.RES}

@@ -357,7 +357,7 @@
             461, 463, 468, 471, 474, 478, 488, 496, 504, 508, 509,
             511, 512, 515, 525, 526, 527, 528, 532, 559, 560
 
-  History:   v 2.4.4
+  History:   v 2.4.5
           New Features
             64-bit version released
           Issues addressed
@@ -376,21 +376,6 @@
 
 // TODO: Plugin architecture
 // TODO Package as an Application Scripter Component
-
-{
-   Port to 64 bit
-   + Python for Delphi
-   + JCL and JVCL
-   + Toolbar2000
-   + SpTBXLib
-   + Unicode version of SynEdit
-   + VirtualTreeView
-   + MustangPeak Components: Common Library, EasyListView and VirtualShellTools.
-   - SynWeb Highlighters
-   - PyScripterCustom package
-   - PyScripter source code
-}
-
 
 unit frmPyIDEMain;
 
@@ -417,6 +402,7 @@ const
   WM_CHECKFORUPDATES = WM_USER + 110;
   WM_UPDATEBREAKPOINTS  = WM_USER + 120;
   WM_SEARCHREPLACEACTION  = WM_USER + 130;
+  WM_EXECCLOSE  = WM_USER + 140;
 
 type
   { Trick to add functionality to TTSpTBXTabControl}
@@ -1039,6 +1025,7 @@ type
     procedure WMFindDefinition(var Msg: TMessage); message WM_FINDDEFINITION;
     procedure WMUpdateBreakPoints(var Msg: TMessage); message WM_UPDATEBREAKPOINTS;
     procedure WMSearchReplaceAction(var Msg: TMessage); message WM_SEARCHREPLACEACTION;
+    procedure WMExecCLose(var Msg: TMessage); message WM_EXECCLOSE;
     procedure WMCheckForUpdates(var Msg: TMessage); message WM_CHECKFORUPDATES;
     procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
     procedure SyntaxClick(Sender : TObject);
@@ -3140,7 +3127,8 @@ begin
   Editor := EditorFromTab(Sender as TSpTBXTabItem);
   if Assigned(Editor) then begin
     Allow := False;
-    (Editor as IFileCommands).ExecClose;
+    PostMessage(Handle, WM_EXECCLOSE, WPARAM(Editor), 0);
+    //(Editor as IFileCommands).ExecClose;
   end;
 end;
 
@@ -4359,6 +4347,11 @@ end;
 procedure TPyIDEMainForm.WMEraseBkgnd(var Message: TWMEraseBkgnd);
 begin
   Message.Result := 1;
+end;
+
+procedure TPyIDEMainForm.WMExecCLose(var Msg: TMessage);
+begin
+  (IEditor(Pointer(Msg.WParam)) as IFileCommands).ExecClose;
 end;
 
 procedure TPyIDEMainForm.FormShow(Sender: TObject);

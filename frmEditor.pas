@@ -499,8 +499,7 @@ begin
 
     TabSheet := (fForm.Parent as TSpTBXTabSheet);
     TabControl := TabSheet.TabControl;
-(fForm.ParentTabControl as TSpTBXTabControl)
-    .zOrder.Remove(TabSheet.Item);
+    (fForm.ParentTabControl as TSpTBXTabControl).zOrder.Remove(TabSheet.Item);
     fForm.DoAssignInterfacePointer(False);
     // fForm.Close;
     TabSheet.Free;
