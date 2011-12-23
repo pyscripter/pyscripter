@@ -62,6 +62,7 @@ type
     FLastActiveControl: TWinControl;
     FNonDetailsHeight: Integer;
     FFullHeight: Integer;
+    WinPlatform: string;
     function GetReportAsText: string;
     procedure SetDetailsVisible(const Value: Boolean);
     procedure UMCreateDetails(var Message: TMessage); message UM_CREATEDETAILS;
@@ -117,6 +118,7 @@ resourcestring
 
   RsSendBugReportAddress = 'pyscripter@gmail.com';
   RsSendBugReportSubject = 'PyScripter Bug Report';
+  RsNoMailClient = 'No %s mail client is available';
 
 var
   ExceptionDialogMail: TExceptionDialogMail;
@@ -252,11 +254,14 @@ begin
     Subject := AnsiString(RsSendBugReportSubject);
     Body := AnsiString(ReportAsText);
     SaveTaskWindows;
-    try
-      Send(True);
-    finally
-      RestoreTaskWindows;
-    end;
+    if AnyClientInstalled then
+      try
+        Send(True);
+      finally
+        RestoreTaskWindows;
+      end
+    else
+      ShowMessage(Format(RsNoMailClient, [WinPlatform]));
   finally
     Free;
   end;
@@ -298,74 +303,67 @@ var
   ModuleName: TFileName;
   NtHeaders32: PImageNtHeaders32;
   NtHeaders64: PImageNtHeaders64;
-  ModuleBase: Cardinal;
+  ModuleBase: {$IFDEF CPUX64}NativeUInt{$ELSE}Cardinal{$ENDIF};
   ImageBaseStr: string;
   C: TWinControl;
   CpuInfo: TCpuInfo;
   ProcessorDetails: string;
   StackList: TJclStackInfoList;
- 
   PETarget: TJclPeTarget;
-  {$IFDEF UNITVERSIONING}
+{$IFDEF UNITVERSIONING}
   UnitVersioning: TUnitVersioning;
   UnitVersioningModule: TUnitVersioningModule;
   UnitVersion: TUnitVersion;
   ModuleIndex, UnitIndex: Integer;
-  {$ENDIF UNITVERSIONING}
-  winplatform : string;
+{$ENDIF UNITVERSIONING}
 begin
-  {$IFDEF WIN64}
-  winplatform := 'x64';
-  {$ELSE}
-  winplatform := 'x86';
-  {$ENDIF}
   SL := TStringList.Create;
   try
     // Version Info
-    DetailsMemo.Lines.Add(Format('%s version : %s %s', [Application.Title, ApplicationVersion, winplatform]));
+    DetailsMemo.Lines.Add(Format('%s version : %s %s', [Application.Title,
+      ApplicationVersion, WinPlatform]));
     DetailsMemo.Lines.Add(Format('Python DLL : %s', [GetPythonEngine.DllName]));
-    DetailsMemo.Lines.Add(Format('Python Engine : %s', [
-      GetEnumName(System.TypeInfo(TPythonEngineType),
+    DetailsMemo.Lines.Add(Format('Python Engine : %s',
+      [GetEnumName(System.TypeInfo(TPythonEngineType),
       ord(CommandsDataModule.PyIDEOptions.PythonEngineType))]));
     NextDetailBlock;
     // Stack list
     StackList := JclGetExceptStackList(FThreadID);
     if Assigned(StackList) then
     begin
-      DetailsMemo.Lines.Add(Format(LoadResString(PResStringRec(@RsStackList)), [DateTimeToStr(StackList.TimeStamp)]));
+      DetailsMemo.Lines.Add(Format(LoadResString(PResStringRec(@RsStackList)),
+        [DateTimeToStr(StackList.TimeStamp)]));
       StackList.AddToStrings(DetailsMemo.Lines, True, True, True, True);
       NextDetailBlock;
     end;
-
-
-
     // System and OS information
-    DetailsMemo.Lines.Add(Format(RsOSVersion, [GetWindowsVersionString, NtProductTypeString,
-      Win32MajorVersion, Win32MinorVersion, Win32BuildNumber, Win32CSDVersion]));
+    DetailsMemo.Lines.Add(Format(RsOSVersion, [GetWindowsVersionString,
+      NtProductTypeString, Win32MajorVersion, Win32MinorVersion,
+      Win32BuildNumber, Win32CSDVersion]));
     GetCpuInfo(CpuInfo);
-    ProcessorDetails := Format(RsProcessor, [CpuInfo.Manufacturer, CpuInfo.CpuName,
-      RoundFrequency(CpuInfo.FrequencyInfo.NormFreq)]);
+    ProcessorDetails := Format(RsProcessor, [CpuInfo.Manufacturer,
+      CpuInfo.CpuName, RoundFrequency(CpuInfo.FrequencyInfo.NormFreq)]);
     if not CpuInfo.IsFDIVOK then
       ProcessorDetails := ProcessorDetails + ' [FDIV Bug]';
     if CpuInfo.ExMMX then
       ProcessorDetails := ProcessorDetails + ' MMXex';
     if CpuInfo.MMX then
       ProcessorDetails := ProcessorDetails + ' MMX';
-    if sse in CpuInfo.SSE then
+    if sse in CpuInfo.sse then
       ProcessorDetails := ProcessorDetails + ' SSE';
-    if sse2 in CpuInfo.SSE then
+    if sse2 in CpuInfo.sse then
       ProcessorDetails := ProcessorDetails + ' SSE2';
-    if sse3 in CpuInfo.SSE then
+    if sse3 in CpuInfo.sse then
       ProcessorDetails := ProcessorDetails + ' SSE3';
-    if ssse3 in CpuInfo.SSE then
+    if ssse3 in CpuInfo.sse then
       ProcessorDetails := ProcessorDetails + ' SSSE3';
-    if sse41 in CpuInfo.SSE then
+    if sse41 in CpuInfo.sse then
       ProcessorDetails := ProcessorDetails + ' SSE41';
-    if sse42 in CpuInfo.SSE then
+    if sse42 in CpuInfo.sse then
       ProcessorDetails := ProcessorDetails + ' SSE42';
-    if sse4A in CpuInfo.SSE then
+    if sse4A in CpuInfo.sse then
       ProcessorDetails := ProcessorDetails + ' SSE4A';
-    if sse5 in CpuInfo.SSE then
+    if sse5 in CpuInfo.sse then
       ProcessorDetails := ProcessorDetails + ' SSE5';
     if CpuInfo.Ex3DNow then
       ProcessorDetails := ProcessorDetails + ' 3DNow!ex';
@@ -376,71 +374,78 @@ begin
     if CpuInfo.DEPCapable then
       ProcessorDetails := ProcessorDetails + ' DEP';
     DetailsMemo.Lines.Add(ProcessorDetails);
-    DetailsMemo.Lines.Add(Format(RsMemory, [GetTotalPhysicalMemory div 1024 div 1024,
+    DetailsMemo.Lines.Add(Format(RsMemory,
+      [GetTotalPhysicalMemory div 1024 div 1024,
       GetFreePhysicalMemory div 1024 div 1024]));
-    DetailsMemo.Lines.Add(Format(RsScreenRes, [Screen.Width, Screen.Height, GetBPP]));
+    DetailsMemo.Lines.Add(Format(RsScreenRes, [Screen.Width, Screen.Height,
+      GetBPP]));
     NextDetailBlock;
-
     // Modules list
     if LoadedModulesList(SL, GetCurrentProcessId) then
     begin
-     {$IFDEF UNITVERSIONING}
+{$IFDEF UNITVERSIONING}
       UnitVersioning := GetUnitVersioning;
       UnitVersioning.RegisterProvider(TJclDefaultUnitVersioningProvider);
-     {$ENDIF UNITVERSIONING}
+{$ENDIF UNITVERSIONING}
       DetailsMemo.Lines.Add(RsModulesList);
       SL.CustomSort(SortModulesListByAddressCompare);
       for I := 0 to SL.Count - 1 do
       begin
         ModuleName := SL[I];
-        ModuleBase := Cardinal(SL.Objects[I]);
+        ModuleBase :=
+        {$IFDEF CPUX64}NativeUInt{$ELSE}Cardinal{$ENDIF}(SL.Objects[I]);
         DetailsMemo.Lines.Add(Format('[%.8x] %s', [ModuleBase, ModuleName]));
         PETarget := PeMapImgTarget(Pointer(ModuleBase));
         NtHeaders32 := nil;
         NtHeaders64 := nil;
         if PETarget = taWin32 then
           NtHeaders32 := PeMapImgNtHeaders32(Pointer(ModuleBase))
-        else
-        if PETarget = taWin64 then
+        else if PETarget = taWin64 then
           NtHeaders64 := PeMapImgNtHeaders64(Pointer(ModuleBase));
-        if (NtHeaders32 <> nil) and (NtHeaders32^.OptionalHeader.ImageBase <> ModuleBase) then
-          ImageBaseStr := Format('<%.8x> ', [NtHeaders32^.OptionalHeader.ImageBase])
-        else
-        if (NtHeaders64 <> nil) and (NtHeaders64^.OptionalHeader.ImageBase <> ModuleBase) then
-          ImageBaseStr := Format('<%.8x> ', [NtHeaders64^.OptionalHeader.ImageBase])
+        if (NtHeaders32 <> nil) and
+          (NtHeaders32^.OptionalHeader.ImageBase <> ModuleBase) then
+          ImageBaseStr := Format('<%.8x> ',
+            [NtHeaders32^.OptionalHeader.ImageBase])
+        else if (NtHeaders64 <> nil) and
+          (NtHeaders64^.OptionalHeader.ImageBase <> ModuleBase) then
+          ImageBaseStr := Format('<%.8x> ',
+            [NtHeaders64^.OptionalHeader.ImageBase])
         else
           ImageBaseStr := StrRepeat(' ', 11);
         if VersionResourceAvailable(ModuleName) then
           with TJclFileVersionInfo.Create(ModuleName) do
-          try
-            DetailsMemo.Lines.Add(ImageBaseStr + BinFileVersion + ' - ' + FileVersion);
-            if FileDescription <> '' then
-              DetailsMemo.Lines.Add(StrRepeat(' ', 11) + FileDescription);
-          finally
-            Free;
-          end
+            try
+              DetailsMemo.Lines.Add(ImageBaseStr + BinFileVersion + ' - ' +
+                FileVersion);
+              if FileDescription <> '' then
+                DetailsMemo.Lines.Add(StrRepeat(' ', 11) + FileDescription);
+            finally
+              Free;
+            end
         else
           DetailsMemo.Lines.Add(ImageBaseStr + RsMissingVersionInfo);
-       {$IFDEF UNITVERSIONING}
+{$IFDEF UNITVERSIONING}
         for ModuleIndex := 0 to UnitVersioning.ModuleCount - 1 do
         begin
           UnitVersioningModule := UnitVersioning.Modules[ModuleIndex];
           if UnitVersioningModule.Instance = ModuleBase then
           begin
             if UnitVersioningModule.Count > 0 then
-              DetailsMemo.Lines.Add(StrRepeat(' ', 11) + LoadResString(PResStringRec(@RsUnitVersioningIntro)));
+              DetailsMemo.Lines.Add(StrRepeat(' ', 11) +
+                LoadResString(PResStringRec(@RsUnitVersioningIntro)));
             for UnitIndex := 0 to UnitVersioningModule.Count - 1 do
             begin
               UnitVersion := UnitVersioningModule.Items[UnitIndex];
-              DetailsMemo.Lines.Add(Format('%s%s %s %s %s', [StrRepeat(' ', 13), UnitVersion.LogPath, UnitVersion.RCSfile, UnitVersion.Revision, UnitVersion.Date]));
+              DetailsMemo.Lines.Add(Format('%s%s %s %s %s', [StrRepeat(' ', 13),
+                UnitVersion.LogPath, UnitVersion.RCSfile, UnitVersion.Revision,
+                UnitVersion.Date]));
             end;
           end;
         end;
-       {$ENDIF UNITVERSIONING}
+{$ENDIF UNITVERSIONING}
       end;
       NextDetailBlock;
     end;
-
     // Active controls
     if (FLastActiveControl <> nil) then
     begin
@@ -518,6 +523,11 @@ begin
   FFullHeight := ClientHeight;
   DetailsVisible := False;
   Caption := Format(RsAppError, [Application.Title]);
+  {$IFDEF WIN64}
+  winplatform := 'x64';
+  {$ELSE}
+  winplatform := 'x86';
+  {$ENDIF}
 end;
 
 //--------------------------------------------------------------------------------------------------
@@ -672,7 +682,7 @@ begin
   if TextMemo.Lines.Count * Canvas.TextHeight('Wg') > TextMemo.ClientHeight then
     TextMemo.ScrollBars := ssVertical
   else
-    TextMemo.ScrollBars := ssNone;   
+    TextMemo.ScrollBars := ssNone;
 end;
 
 //==================================================================================================
