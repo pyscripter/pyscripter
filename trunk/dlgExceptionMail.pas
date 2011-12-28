@@ -17,8 +17,8 @@
 {                                                                                                  }
 {**************************************************************************************************}
 {                                                                                                  }
-{ Last modified: $Date:: 2011-10-23 21:26:07 +0300 (Κυρ, 23 Οκτ 2011)                      $ }
-{ Revision:      $Rev:: 3615                                                                     $ }
+{ Last modified: $Date:: 2011-12-27 21:11:45 +0200 (Τρι, 27 Δεκ 2011)                      $ }
+{ Revision:      $Rev:: 3649                                                                     $ }
 { Author:        $Author:: outchy                                                                $ }
 {                                                                                                  }
 {**************************************************************************************************}
@@ -132,10 +132,10 @@ var
 function SortModulesListByAddressCompare(List: TStringList;
   Index1, Index2: Integer): Integer;
 var
-  Addr1, Addr2: Cardinal;
+  Addr1, Addr2: TJclAddr;
 begin
-  Addr1 := Cardinal(List.Objects[Index1]);
-  Addr2 := Cardinal(List.Objects[Index2]);
+  Addr1 := TJclAddr(List.Objects[Index1]);
+  Addr2 := TJclAddr(List.Objects[Index2]);
   if Addr1 > Addr2 then
     Result := 1
   else if Addr1 < Addr2 then
@@ -184,15 +184,15 @@ var
   function CheckAddressForOffset(Offset: Cardinal): Boolean;
   begin
     try
-      CallAddress := Pointer(Cardinal(TApplicationHandleExceptionAddr) + Offset);
+      CallAddress := Pointer(TJclAddr(TApplicationHandleExceptionAddr) + Offset);
       CALLInstruction.Call := $E8;
       Result := PCALLInstruction(CallAddress)^.Call = CALLInstruction.Call;
       if Result then
       begin
         if IsCompiledWithPackages then
-          Result := PeMapImgResolvePackageThunk(Pointer(Integer(CallAddress) + Integer(PCALLInstruction(CallAddress)^.Address) + SizeOf(CALLInstruction))) = SysUtilsShowExceptionAddr
+          Result := PeMapImgResolvePackageThunk(Pointer(SizeInt(CallAddress) + Integer(PCALLInstruction(CallAddress)^.Address) + SizeOf(CALLInstruction))) = SysUtilsShowExceptionAddr
         else
-          Result := PCALLInstruction(CallAddress)^.Address = Integer(SysUtilsShowExceptionAddr) - Integer(CallAddress) - SizeOf(CALLInstruction);
+          Result := PCALLInstruction(CallAddress)^.Address = SizeInt(SysUtilsShowExceptionAddr) - SizeInt(CallAddress) - SizeOf(CALLInstruction);
       end;
     except
       Result := False;
@@ -207,7 +207,7 @@ begin
     Result := CheckAddressForOffset(CallOffset) or CheckAddressForOffset(CallOffsetDebug);
     if Result then
     begin
-      CALLInstruction.Address := Integer(@HookShowException) - Integer(CallAddress) - SizeOf(CALLInstruction);
+      CALLInstruction.Address := SizeInt(@HookShowException) - SizeInt(CallAddress) - SizeOf(CALLInstruction);
       Result := WriteProtectedMemory(CallAddress, @CallInstruction, SizeOf(CallInstruction), WrittenBytes);
     end;
   end
@@ -216,7 +216,7 @@ begin
 end;
 
 //============================================================================
-// Exception dialog with Send
+// Exception dialog
 //============================================================================
 
 var
@@ -303,7 +303,7 @@ var
   ModuleName: TFileName;
   NtHeaders32: PImageNtHeaders32;
   NtHeaders64: PImageNtHeaders64;
-  ModuleBase: {$IFDEF CPUX64}NativeUInt{$ELSE}Cardinal{$ENDIF};
+  ModuleBase: TJclAddr;
   ImageBaseStr: string;
   C: TWinControl;
   CpuInfo: TCpuInfo;
@@ -337,33 +337,32 @@ begin
       NextDetailBlock;
     end;
     // System and OS information
-    DetailsMemo.Lines.Add(Format(RsOSVersion, [GetWindowsVersionString,
-      NtProductTypeString, Win32MajorVersion, Win32MinorVersion,
-      Win32BuildNumber, Win32CSDVersion]));
+    DetailsMemo.Lines.Add(Format(RsOSVersion, [GetWindowsVersionString, NtProductTypeString,
+      Win32MajorVersion, Win32MinorVersion, Win32BuildNumber, Win32CSDVersion]));
     GetCpuInfo(CpuInfo);
-    ProcessorDetails := Format(RsProcessor, [CpuInfo.Manufacturer,
-      CpuInfo.CpuName, RoundFrequency(CpuInfo.FrequencyInfo.NormFreq)]);
+    ProcessorDetails := Format(RsProcessor, [CpuInfo.Manufacturer, CpuInfo.CpuName,
+      RoundFrequency(CpuInfo.FrequencyInfo.NormFreq)]);
     if not CpuInfo.IsFDIVOK then
       ProcessorDetails := ProcessorDetails + ' [FDIV Bug]';
     if CpuInfo.ExMMX then
       ProcessorDetails := ProcessorDetails + ' MMXex';
     if CpuInfo.MMX then
       ProcessorDetails := ProcessorDetails + ' MMX';
-    if sse in CpuInfo.sse then
+    if sse in CpuInfo.SSE then
       ProcessorDetails := ProcessorDetails + ' SSE';
-    if sse2 in CpuInfo.sse then
+    if sse2 in CpuInfo.SSE then
       ProcessorDetails := ProcessorDetails + ' SSE2';
-    if sse3 in CpuInfo.sse then
+    if sse3 in CpuInfo.SSE then
       ProcessorDetails := ProcessorDetails + ' SSE3';
-    if ssse3 in CpuInfo.sse then
+    if ssse3 in CpuInfo.SSE then
       ProcessorDetails := ProcessorDetails + ' SSSE3';
-    if sse41 in CpuInfo.sse then
+    if sse41 in CpuInfo.SSE then
       ProcessorDetails := ProcessorDetails + ' SSE41';
-    if sse42 in CpuInfo.sse then
+    if sse42 in CpuInfo.SSE then
       ProcessorDetails := ProcessorDetails + ' SSE42';
-    if sse4A in CpuInfo.sse then
+    if sse4A in CpuInfo.SSE then
       ProcessorDetails := ProcessorDetails + ' SSE4A';
-    if sse5 in CpuInfo.sse then
+    if sse5 in CpuInfo.SSE then
       ProcessorDetails := ProcessorDetails + ' SSE5';
     if CpuInfo.Ex3DNow then
       ProcessorDetails := ProcessorDetails + ' 3DNow!ex';
@@ -374,12 +373,11 @@ begin
     if CpuInfo.DEPCapable then
       ProcessorDetails := ProcessorDetails + ' DEP';
     DetailsMemo.Lines.Add(ProcessorDetails);
-    DetailsMemo.Lines.Add(Format(RsMemory,
-      [GetTotalPhysicalMemory div 1024 div 1024,
+    DetailsMemo.Lines.Add(Format(RsMemory, [GetTotalPhysicalMemory div 1024 div 1024,
       GetFreePhysicalMemory div 1024 div 1024]));
-    DetailsMemo.Lines.Add(Format(RsScreenRes, [Screen.Width, Screen.Height,
-      GetBPP]));
+    DetailsMemo.Lines.Add(Format(RsScreenRes, [Screen.Width, Screen.Height, GetBPP]));
     NextDetailBlock;
+
     // Modules list
     if LoadedModulesList(SL, GetCurrentProcessId) then
     begin
@@ -392,31 +390,27 @@ begin
       for I := 0 to SL.Count - 1 do
       begin
         ModuleName := SL[I];
-        ModuleBase :=
-        {$IFDEF CPUX64}NativeUInt{$ELSE}Cardinal{$ENDIF}(SL.Objects[I]);
+        ModuleBase := TJclAddr(SL.Objects[I]);
         DetailsMemo.Lines.Add(Format('[%.8x] %s', [ModuleBase, ModuleName]));
         PETarget := PeMapImgTarget(Pointer(ModuleBase));
         NtHeaders32 := nil;
         NtHeaders64 := nil;
         if PETarget = taWin32 then
           NtHeaders32 := PeMapImgNtHeaders32(Pointer(ModuleBase))
-        else if PETarget = taWin64 then
+        else
+        if PETarget = taWin64 then
           NtHeaders64 := PeMapImgNtHeaders64(Pointer(ModuleBase));
-        if (NtHeaders32 <> nil) and
-          (NtHeaders32^.OptionalHeader.ImageBase <> ModuleBase) then
-          ImageBaseStr := Format('<%.8x> ',
-            [NtHeaders32^.OptionalHeader.ImageBase])
-        else if (NtHeaders64 <> nil) and
-          (NtHeaders64^.OptionalHeader.ImageBase <> ModuleBase) then
-          ImageBaseStr := Format('<%.8x> ',
-            [NtHeaders64^.OptionalHeader.ImageBase])
+        if (NtHeaders32 <> nil) and (NtHeaders32^.OptionalHeader.ImageBase <> ModuleBase) then
+          ImageBaseStr := Format('<%.8x> ', [NtHeaders32^.OptionalHeader.ImageBase])
+        else
+        if (NtHeaders64 <> nil) and (NtHeaders64^.OptionalHeader.ImageBase <> ModuleBase) then
+          ImageBaseStr := Format('<%.8x> ', [NtHeaders64^.OptionalHeader.ImageBase])
         else
           ImageBaseStr := StrRepeat(' ', 11);
         if VersionResourceAvailable(ModuleName) then
           with TJclFileVersionInfo.Create(ModuleName) do
             try
-              DetailsMemo.Lines.Add(ImageBaseStr + BinFileVersion + ' - ' +
-                FileVersion);
+            DetailsMemo.Lines.Add(ImageBaseStr + BinFileVersion + ' - ' + FileVersion);
               if FileDescription <> '' then
                 DetailsMemo.Lines.Add(StrRepeat(' ', 11) + FileDescription);
             finally
@@ -431,14 +425,11 @@ begin
           if UnitVersioningModule.Instance = ModuleBase then
           begin
             if UnitVersioningModule.Count > 0 then
-              DetailsMemo.Lines.Add(StrRepeat(' ', 11) +
-                LoadResString(PResStringRec(@RsUnitVersioningIntro)));
+              DetailsMemo.Lines.Add(StrRepeat(' ', 11) + LoadResString(PResStringRec(@RsUnitVersioningIntro)));
             for UnitIndex := 0 to UnitVersioningModule.Count - 1 do
             begin
               UnitVersion := UnitVersioningModule.Items[UnitIndex];
-              DetailsMemo.Lines.Add(Format('%s%s %s %s %s', [StrRepeat(' ', 13),
-                UnitVersion.LogPath, UnitVersion.RCSfile, UnitVersion.Revision,
-                UnitVersion.Date]));
+              DetailsMemo.Lines.Add(Format('%s%s %s %s %s', [StrRepeat(' ', 13), UnitVersion.LogPath, UnitVersion.RCSfile, UnitVersion.Revision, UnitVersion.Date]));
             end;
           end;
         end;
@@ -446,6 +437,7 @@ begin
       end;
       NextDetailBlock;
     end;
+
     // Active controls
     if (FLastActiveControl <> nil) then
     begin
