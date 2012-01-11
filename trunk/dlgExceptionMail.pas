@@ -17,8 +17,8 @@
 {                                                                                                  }
 {**************************************************************************************************}
 {                                                                                                  }
-{ Last modified: $Date:: 2011-12-27 21:11:45 +0200 (Τρι, 27 Δεκ 2011)                      $ }
-{ Revision:      $Rev:: 3649                                                                     $ }
+{ Last modified: $Date:: 2011-12-28 22:59:49 +0200 (Τετ, 28 Δεκ 2011)                      $ }
+{ Revision:      $Rev:: 3655                                                                     $ }
 { Author:        $Author:: outchy                                                                $ }
 {                                                                                                  }
 {**************************************************************************************************}
@@ -167,8 +167,10 @@ end;
 
 function HookTApplicationHandleException: Boolean;
 const
-  CallOffset      = $86;
-  CallOffsetDebug = $94;
+  CallOffset      = $86;   // Until D2007
+  CallOffsetDebug = $94;   // Until D2007
+  CallOffsetWin32 = $7A;   // D2009 and newer
+  CallOffsetWin64 = $95;   // DXE2 for Win64
 type
   PCALLInstruction = ^TCALLInstruction;
   TCALLInstruction = packed record
@@ -204,7 +206,8 @@ begin
   SysUtilsShowExceptionAddr := PeMapImgResolvePackageThunk(@SysUtils.ShowException);
   if Assigned(TApplicationHandleExceptionAddr) and Assigned(SysUtilsShowExceptionAddr) then
   begin
-    Result := CheckAddressForOffset(CallOffset) or CheckAddressForOffset(CallOffsetDebug);
+    Result := CheckAddressForOffset(CallOffset) or CheckAddressForOffset(CallOffsetDebug) or
+      CheckAddressForOffset(CallOffsetWin32) or CheckAddressForOffset(CallOffsetWin64);
     if Result then
     begin
       CALLInstruction.Address := SizeInt(@HookShowException) - SizeInt(CallAddress) - SizeOf(CALLInstruction);

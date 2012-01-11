@@ -434,7 +434,8 @@ begin
         end;
       end else
         HandleRemoteException(ExcInfo);
-      Dialogs.MessageDlg(Format('%s: %s',[ExcInfo.__getitem__(0), RPI.safestr(Error)]),
+      Dialogs.MessageDlg(Format('%s: %s',
+        [VarPythonAsString(ExcInfo.__getitem__(0)), VarPythonAsString(RPI.safestr(Error))]),
         mtError, [mbOK], 0);
       SysUtils.Abort;
     end;
@@ -641,8 +642,9 @@ begin
 
   Traceback := ExcInfo.__getitem__(2);
   MessagesWindow.ShowTraceback(Traceback, SkipFrames);
-  MessagesWindow.AddMessage(Format('%s: %s',[ExcInfo.__getitem__(0),
-    RPI.safestr(ExcInfo.__getitem__(1))]));
+  MessagesWindow.AddMessage(Format('%s: %s',
+            [VarPythonAsString(ExcInfo.__getitem__(0)),
+             VarPythonAsString(RPI.safestr(ExcInfo.__getitem__(1)))]));
 
   if VarIsPython(Traceback) and not VarIsNone(Traceback) then begin
     while not VarIsNone(Traceback.tb_next) do
@@ -721,7 +723,8 @@ begin
       if not VarIsNone(RPI.exc_info) then begin
         Result := None;
         HandleRemoteException(ExcInfo);
-        Dialogs.MessageDlg(Format('%s: %s',[ExcInfo.__getitem__(0), RPI.safestr(ExcInfo.__getitem__(1))]),
+        Dialogs.MessageDlg(Format('%s: %s',
+          [VarPythonAsString(ExcInfo.__getitem__(0)), VarPythonAsString(RPI.safestr(ExcInfo.__getitem__(1)))]),
           mtError, [mbOK], 0);
         SysUtils.Abort;
       end;
@@ -893,7 +896,9 @@ begin
         if not VarIsNone(ExcInfo) then begin
           HandleRemoteException(ExcInfo);
           ReturnFocusToEditor := False;
-          Dialogs.MessageDlg(Format('%s: %s',[ExcInfo.__getitem__(0), RPI.safestr(ExcInfo.__getitem__(1))]),
+          Dialogs.MessageDlg(Format('%s: %s',
+            [VarPythonAsString(ExcInfo.__getitem__(0)),
+             VarPythonAsString(RPI.safestr(ExcInfo.__getitem__(1)))]),
             mtError, [mbOK], 0);
           CanDoPostMortem := True;
           SysUtils.Abort;
@@ -960,6 +965,7 @@ var
   I: Integer;
   Source : string;
   InitScriptName : string;
+  PyScripterMod, PySource, debugIDE : Variant;
 begin
   Result := False;
 
@@ -1027,26 +1033,27 @@ begin
 
     Source := CleanEOLs(
       CommandsDataModule.JvMultiStringHolder.StringsByName[InitScriptName].Text)+#10;
-    Conn.execute(VarPythonCreate(Source));
+    PySource := VarPythonCreate(Source);
+    Conn.execute(PySource);
     RPI := Conn.namespace.__getitem__('_RPI');
     //  pass a reference to the P4D module DebugIDE
     Conn.namespace.__delitem__('_RPI');
 //    Conn.execute('del _RPI.locals["_RPI"]');
 //    Rpyc.getattr(RPI, '__class__').debugIDE :=
 //      InternalInterpreter.PyInteractiveInterpreter.debugIDE;
-    RPI.__class__.debugIDE :=
-      InternalInterpreter.PyInteractiveInterpreter.debugIDE;
+    debugIDE := InternalInterpreter.PyInteractiveInterpreter.debugIDE;
+    RPI.__class__.debugIDE := debugIDE;
 
     // make sys.stdout etc asynchronous when writing
     RPI.asyncIO();
     // debugger
     fDebugger := RPI.debugger;
-    fDebugger.__class__.debugIDE :=
-      InternalInterpreter.PyInteractiveInterpreter.debugIDE;
+    fDebugger.__class__.debugIDE := debugIDE;
 //    // Install Rpyc excepthook gets automatically installed
 //    Rpyc.install_rpyc_excepthook;
     // Execute PyscripterSetup.py here
-    Conn.namespace.__setitem__('pyscripter', Import('pyscripter'));
+    PyScripterMod := Import('pyscripter');
+    Conn.namespace.__setitem__('pyscripter', PyScripterMod);
 
     // sys.displayhook
     RPI.setupdisplayhook();
@@ -1099,6 +1106,7 @@ procedure TPyRemoteInterpreter.ShutDownServer;
 var
   i : integer;
   OldState : TDebuggerState;
+  OldExceptHook : Variant;
 begin
 //  if PyControl.DebuggerState <> dsInactive then begin
 //    if Dialogs.MessageDlg('The Python interpreter is busy.  Are you sure you want to terminate it?',
@@ -1146,7 +1154,8 @@ begin
   end;
   VarClear(Conn);
   // Restore excepthook
-  SysModule.excepthook := SysModule.__excepthook__;
+  OldExceptHook := Varpyth.SysModule.__excepthook__;
+  SysModule.excepthook := OldExceptHook;
   fIsConnected := False;
 end;
 
@@ -1549,8 +1558,10 @@ begin
           if not VarIsNone(ExcInfo) then begin
             fRemotePython.HandleRemoteException(ExcInfo, 2);
             ReturnFocusToEditor := False;
-            Dialogs.MessageDlg(Format('%s: %s',[ExcInfo.__getitem__(0),
-              fRemotePython.RPI.safestr(ExcInfo.__getitem__(1))]), mtError, [mbOK], 0);
+            Dialogs.MessageDlg(Format('%s: %s',
+              [VarPythonAsString(ExcInfo.__getitem__(0)),
+               VarPythonAsString(fRemotePython.RPI.safestr(ExcInfo.__getitem__(1)))]),
+               mtError, [mbOK], 0);
             CanDoPostMortem := True;
             SysUtils.Abort;
           end;

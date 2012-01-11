@@ -15,13 +15,15 @@ To compile the PythonIDE.dpr, you first need to install the following components
 
    - Toolbar2000 (http://www.innosetup.com/tb2k.php)
    - SpTBXLib (Use SVN svn://www.soft-gems.net/mustangpeak/SpTBXLib)
+     *** For now download 64-bit compatible Toolbar 2000 and SpTBXLib from 
+     https://skydrive.live.com/?cid=83A7119830FC7582&id=83A7119830FC7582!158&sc=documents ***
    
    - Install the PyScripterCustom package from the components subdirectory.
 
    - SynEdit (synedit.sf.net) - use SVN
    - SynWeb Highlighters at http://flatdev.ovh.org/ - use SVN
 
-   - VirtualTreeView (http://www.delphi-gems.com/) 
+   - VirtualTreeView (http://code.google.com/p/virtual-treeview/) - use SVN
    
    - MustangPeak Components: 
      - Common Library (http://mustangpeakcommonlib.googlecode.com/) - use SVN
