@@ -94,11 +94,12 @@
 			<DCC_Define>DEBUG;$(DCC_Define)</DCC_Define>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Cfg_2_Win64)'!=''">
-			<VerInfo_Release>5</VerInfo_Release>
-			<VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=2.4.5.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+			<VerInfo_Release>6</VerInfo_Release>
+			<VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=2.4.6.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
 			<VerInfo_Locale>1033</VerInfo_Locale>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
+			<Debugger_RunParams>--PYTHON27</Debugger_RunParams>
 			<ILINK_FullDebugInfo>true</ILINK_FullDebugInfo>
 			<BCC_SourceDebuggingOn>true</BCC_SourceDebuggingOn>
 			<BCC_DebugLineNumbers>true</BCC_DebugLineNumbers>
@@ -296,6 +297,7 @@
 			<DCCReference Include="SpTBXItem.pas"/>
 			<DCCReference Include="TB2Item.pas"/>
 			<DCCReference Include="JvDockVIDStyle.pas"/>
+			<DCCReference Include="JvAppInst.pas"/>
 			<None Include="PyScripter.todo"/>
 			<None Include="ModelSupport_PyScripter\default.txaPackage"/>
 			<BuildConfiguration Include="Debug">

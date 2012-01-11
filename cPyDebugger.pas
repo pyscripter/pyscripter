@@ -1321,6 +1321,7 @@ end;
 function TPyInternalInterpreter.RunSource(Const Source, FileName : Variant; symbol : string = 'single') : boolean;
 Var
   OldDebuggerState : TDebuggerState;
+  PySource : Variant;
 begin
   Assert(not PyControl.IsRunning, 'RunSource called while the Python engine is active');
   OldDebuggerState := PyControl.DebuggerState;
@@ -1328,7 +1329,8 @@ begin
   try
     // Workaround due to PREFER_UNICODE flag to make sure
     // no conversion to Unicode and back will take place
-    Result := fII.runsource(VarPythonCreate(Source), FileName, symbol);
+    PySource := VarPythonCreate(Source);
+    Result := fII.runsource(PySource, FileName, symbol);
   finally
     PyControl.DoStateChange(OldDebuggerState);
   end;

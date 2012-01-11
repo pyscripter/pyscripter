@@ -508,10 +508,10 @@ begin
   fCaseSensitive := True;
 
   FKeywords := TStringList.Create;
+  FKeywords.AddStrings(GetKeywordIdentifiers);
   FKeywords.CaseSensitive := True;
   FKeywords.Duplicates := dupIgnore;
   FKeywords.Sorted := True;
-  FKeywords.Assign (GetKeywordIdentifiers);
 
   fRange := rsUnknown;
   fCommentAttri := TSynHighlighterAttributes.Create(SYNS_AttrComment, SYNS_FriendlyAttrComment);

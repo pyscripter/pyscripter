@@ -254,7 +254,7 @@ end;
 
 procedure TPythonIIForm.PythonEngineAfterInit(Sender: TObject);
 Var
-  Keywords, Builtins : Variant;
+  Keywords, Builtins, BuiltInMod : Variant;
   i : integer;
 begin
   // Execute initialization script
@@ -271,14 +271,17 @@ begin
   Keywords := Import('keyword').kwlist;
   for i := 0 to Len(Keywords) - 1 do
     PythonGlobalKeywords.AddObject(Keywords.__getitem__(i), Pointer(Ord(tkKey)));
-  Builtins := BuiltinModule.dir(BuiltinModule);
+  BuiltInMod := VarPyth.BuiltinModule;
+  Builtins := BuiltinMod.dir(BuiltinMod);
   for i := 0 to Len(Builtins) - 1 do
     PythonGlobalKeywords.AddObject(Builtins.__getitem__(i), Pointer(Ord(tkNonKeyword)));
   // add pseudo keyword self
   PythonGlobalKeywords.AddObject('self', Pointer(Ord(tkNonKeyword)));
 
-  CommandsDataModule.SynPythonSyn.Keywords.Assign(PythonGlobalKeywords);
-  (SynEdit.Highlighter as TSynPythonInterpreterSyn).Keywords.Assign(PythonGlobalKeywords);
+  CommandsDataModule.SynPythonSyn.Keywords.Clear;
+  CommandsDataModule.SynPythonSyn.Keywords.AddStrings(PythonGlobalKeywords);
+  (SynEdit.Highlighter as TSynPythonInterpreterSyn).Keywords.Clear;
+  (SynEdit.Highlighter as TSynPythonInterpreterSyn).Keywords.AddStrings(PythonGlobalKeywords);
 end;
 
 procedure TPythonIIForm.PythonIOReceiveData(Sender: TObject;
@@ -603,6 +606,7 @@ end;
 
 procedure TPythonIIForm.FormDestroy(Sender: TObject);
 begin
+  PyscripterModule.DeleteVar('IDEOptions');
   PyControl.ActiveDebugger := nil;  // Frees it
   PyControl.ActiveInterpreter := nil;  // Frees it
 
