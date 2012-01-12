@@ -417,10 +417,14 @@ begin
   begin
     Value := ReadValue(Section, Key);
     {$IFDEF CPUX64}
-    if BinStrToBuf(Value, @Result, SizeOf(TempValue)) <> SizeOf(TempValue) then
+    if BinStrToBuf(Value, @TempValue, SizeOf(TempValue)) <> SizeOf(TempValue) then
       Result := Default
     else
-      Result := TempValue;
+      try
+        Result := TempValue;
+      except
+        Result := Default;
+      end;
     {$ELSE CPUX64}
     if BinStrToBuf(Value, @Result, SizeOf(Result)) <> SizeOf(Result) then
       Result := Default;
