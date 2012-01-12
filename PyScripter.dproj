@@ -297,7 +297,6 @@
 			<DCCReference Include="SpTBXItem.pas"/>
 			<DCCReference Include="TB2Item.pas"/>
 			<DCCReference Include="JvDockVIDStyle.pas"/>
-			<DCCReference Include="JvAppInst.pas"/>
 			<None Include="PyScripter.todo"/>
 			<None Include="ModelSupport_PyScripter\default.txaPackage"/>
 			<BuildConfiguration Include="Debug">
