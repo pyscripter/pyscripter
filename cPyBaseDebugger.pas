@@ -448,10 +448,6 @@ begin
       Dialogs.MessageDlg(Format(_(SErrorInitScript),
         [EngineInitFile, E.Message]), mtError, [mbOK], 0);
   end;
-
-  // Add extra project paths
-  if Assigned(ActiveProject) then
-    ActiveProject.AppendExtraPaths;
 end;
 
 procedure TPyBaseInterpreter.ReInitialize;

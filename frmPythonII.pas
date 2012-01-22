@@ -205,7 +205,7 @@ Uses
   frmMessages, uCommonFunctions, frmVariables, StringResources,
   frmUnitTests, SynRegExpr,
   cPyDebugger, cPyRemoteDebugger, JvJVCLUtils, uCmdLine,
-  JclStrings, gnugettext, cRefactoring, cPythonSourceScanner;
+  JclStrings, gnugettext, cRefactoring, cPythonSourceScanner, cProjectClasses;
 
 {$R *.dfm}
 
@@ -431,6 +431,10 @@ begin
           PyControl.ActiveInterpreter := RemoteInterpreter;
           PyControl.ActiveDebugger := TPyRemDebugger.Create(RemoteInterpreter);
           CommandsDataModule.PyIDEOptions.PythonEngineType := PythonEngineType;
+
+          // Add extra project paths
+          if Assigned(ActiveProject) then
+            ActiveProject.AppendExtraPaths;
         end else begin
           // failed to connect
           FreeAndNil(RemoteInterpreter);
