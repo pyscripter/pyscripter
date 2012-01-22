@@ -156,7 +156,7 @@ uses
   VarPyth, StringResources, frmPythonII, Dialogs, dmCommands,
   cParameters, uCommonFunctions, frmMessages, frmPyIDEMain,
   frmVariables, frmCallStack, frmUnitTests, JvDSADialogs,
-  gnugettext, JclStrings, JclSysUtils;
+  gnugettext, JclStrings, JclSysUtils, cProjectClasses;
 
 { TRemNameSpaceItem }
 constructor TRemNameSpaceItem.Create(aName : string; aPyObject : Variant;
@@ -822,6 +822,11 @@ begin
             PythonIIForm.AppendPrompt;
             // Recreate the Active debugger
             PyControl.ActiveDebugger := TPyRemDebugger.Create(Self);
+
+            // Add extra project paths
+            if Assigned(ActiveProject) then
+              ActiveProject.AppendExtraPaths;
+
             PyControl.DoStateChange(dsInactive);
           end;
         end else

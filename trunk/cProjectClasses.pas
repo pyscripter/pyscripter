@@ -151,7 +151,7 @@ Var
 implementation
 
 uses
-  cParameters, uCommonFunctions;
+  cParameters, uCommonFunctions, cPyDebugger;
 
 { TAbstractProjectNode }
 
@@ -325,9 +325,11 @@ var
 begin
   if not (Assigned(PyControl) and Assigned(PyControl.ActiveInterpreter)) then Exit;
 
-  for i := 0 to fExtraPythonPath.Count-1 do
-    fExtraPythonPath.Objects[i] :=
-      TObject(PyControl.ActiveInterpreter.SysPathAdd(fExtraPythonPath[i]));
+  for i := 0 to fExtraPythonPath.Count-1 do begin
+    InternalInterpreter.SysPathAdd(fExtraPythonPath[i]);
+    if PyControl.ActiveInterpreter <> InternalInterpreter then
+      PyControl.ActiveInterpreter.SysPathAdd(fExtraPythonPath[i]);
+  end;
 end;
 
 constructor TProjectRootNode.Create;
@@ -389,9 +391,11 @@ var
 begin
   if not (Assigned(PyControl) and Assigned(PyControl.ActiveInterpreter)) then Exit;
 
-  for i := 0 to fExtraPythonPath.Count-1 do
-    if Boolean(fExtraPythonPath.Objects[i]) then
+  for i := 0 to fExtraPythonPath.Count-1 do begin
+    InternalInterpreter.SysPathRemove(fExtraPythonPath[i]);
+    if PyControl.ActiveInterpreter <> InternalInterpreter then
       PyControl.ActiveInterpreter.SysPathRemove(fExtraPythonPath[i]);
+  end;
 end;
 
 procedure TProjectRootNode.WriteToAppStorage(AppStorage: TJvCustomAppStorage;
