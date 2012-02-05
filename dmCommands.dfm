@@ -69,7 +69,7 @@ object CommandsDataModule: TCommandsDataModule
     Left = 32
     Top = 241
     Bitmap = {
-      494C010115001800C40010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010115001800E00010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000006000000001002000000000000060
       000000000000000000000000000000000000A2D0E5004AA1D6004399D0004093
       CF0097C7DF000000000000000000000000000000000000000000000000000000
@@ -1129,6 +1129,12 @@ object CommandsDataModule: TCommandsDataModule
           '                self.set_continue()'
           '                return 0'
           '            return bdb.Bdb.stop_here(self, frame)'
+          ''
+          '        def canonic(self, filename):'
+          '            import bdb'
+          '            if type(filename) is unicode:'
+          '                filename = filename.encode("mbcs")'
+          '            return bdb.Bdb.canonic(self, filename)'
           ''
           '        def user_call(self, frame, args):'
           '            self.debugIDE.user_call(frame, args)'
@@ -2281,6 +2287,11 @@ object CommandsDataModule: TCommandsDataModule
           '                self.set_continue()'
           '                return 0'
           '            return __import__('#39'bdb'#39').Bdb.stop_here(self, frame)'
+          ''
+          '        def canonic(self, filename):'
+          '            if type(filename) is unicode:'
+          '                filename = filename.encode("mbcs")'
+          '            return __import__('#39'bdb'#39').Bdb.canonic(self, filename)'
           ''
           '        def user_line(self, frame):'
           '##            self.user_line_lock.acquire()'
@@ -4716,7 +4727,7 @@ object CommandsDataModule: TCommandsDataModule
     Left = 188
     Top = 186
     Bitmap = {
-      494C01019B009F009C0010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01019B009F00B80010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000007002000001002000000000000070
       020000000000000000000000000000000000000000000000000000000000EADD
       CB00AB7734009655000096550000AB773400EADDCB0000000000000000000000
