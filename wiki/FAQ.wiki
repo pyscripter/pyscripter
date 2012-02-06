@@ -202,7 +202,7 @@ demoplot()
 [http://code.google.com/p/pyscripter/wiki/FAQ#Frequently_Asked_Questions Back to Top]
 
 
-=== How do I use !PyScripter with !TortoiseHg installed  ===
+=== How do I use !PyScripter with !TortoiseHg installed? ===
 
 [http://bitbucket.org/tortoisehg/stable/wiki/Home TortoiseHg] is Windows Explorer extention 
 for the [http://www.selenic.com/mercurial/wiki/ Mercurial] distributed revision control system.
@@ -232,7 +232,7 @@ of !TortoiseHg 0.8, which replaces the Python Windows shell extensions with C++ 
      
 [http://code.google.com/p/pyscripter/wiki/FAQ#Frequently_Asked_Questions Back to Top]
 
-=== How do I use !PyScripter in Ubuntu  ===
+=== How do I use !PyScripter in Ubuntu?  ===
 
 This how-to is based on the XFCE 4.8 desktop running on top of Ubuntu 11.04.  The easiest way to get this configuration is to 
 install [http://www.xubuntu.org/ Xubuntu].  Or from any Ubuntu distribution one can install the XFCE meta package
@@ -254,7 +254,7 @@ Both configurations seem to work flawlessly with the internal and remote python 
 
 [http://code.google.com/p/pyscripter/wiki/FAQ#Frequently_Asked_Questions Back to Top]
 
-=== How do I have autocompletion with !PyQt4 or !PyGtk  ===
+=== How do I have autocompletion with !PyQt4 or !PyGtk?  ===
 
 	* !PyQt4
 		* Go to Tools, Options, IDE Options, Special packages and add !PyQt4 to the list
@@ -273,7 +273,7 @@ Both configurations seem to work flawlessly with the internal and remote python 
 
 [http://code.google.com/p/pyscripter/wiki/FAQ#Frequently_Asked_Questions Back to Top]
 
-=== Why am I getting !UnicodeEncodeError/!UnicodeDecodeError?  ===
+=== Why am I getting UnicodeEncodeError/UnicodeDecodeError?  ===
 
 Most likely you are using scripts with file names containing non-ascii characters.  Please see my [http://pyscripter.blogspot.com/2012/02/dreaded-unicode-encodedecode-errors.html blog post] 
 explaining the issue and providing advice for dealing with it.
