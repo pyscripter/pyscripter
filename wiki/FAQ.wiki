@@ -59,7 +59,8 @@ The remote interpreter/debugger is strongly recommended for all uses of !PyScrip
 It is more robust since it isolates the IDE from the Python engine that runs your scripts.
 It also allows you to start afresh by reinitializing the Python engine.
 
-When you run GUI scripts such wxPython, Tkinter etc. it is necessary to use the remote Python engine.
+When you run GUI scripts such wxPython, Tkinter etc. it is necessary to use the remote Python engine and reinitialize the engine before each run.  This last step
+is done automatically by default.
    
 [http://code.google.com/p/pyscripter/wiki/FAQ#Frequently_Asked_Questions Back to Top]
 
@@ -232,6 +233,7 @@ of !TortoiseHg 0.8, which replaces the Python Windows shell extensions with C++ 
 [http://code.google.com/p/pyscripter/wiki/FAQ#Frequently_Asked_Questions Back to Top]
 
 === How do I use !PyScripter in Ubuntu  ===
+
 This how-to is based on the XFCE 4.8 desktop running on top of Ubuntu 11.04.  The easiest way to get this configuration is to 
 install [http://www.xubuntu.org/ Xubuntu].  Or from any Ubuntu distribution one can install the XFCE meta package
 from Synaptic and choose XFCE from the boot manager at login.
@@ -253,6 +255,7 @@ Both configurations seem to work flawlessly with the internal and remote python 
 [http://code.google.com/p/pyscripter/wiki/FAQ#Frequently_Asked_Questions Back to Top]
 
 === How do I have autocompletion with !PyQt4 or !PyGtk  ===
+
 	* !PyQt4
 		* Go to Tools, Options, IDE Options, Special packages and add !PyQt4 to the list
 		* Tools, Edit Startup Scripts.  Add to the end of pyscripter_init.pythe following:
@@ -267,5 +270,12 @@ Both configurations seem to work flawlessly with the internal and remote python 
 		* Similar to the above.  See [https://groups.google.com/d/msg/pyscripter/j6YY3VUiyTk/mY9jIZG_24UJ Support Group message] for details.
  
  
+
+[http://code.google.com/p/pyscripter/wiki/FAQ#Frequently_Asked_Questions Back to Top]
+
+=== Why am I getting !UnicodeEncodeError/!UnicodeDecodeError?  ===
+
+Most likely you are using scripts with file names containing non-ascii characters.  Please see my [http://pyscripter.blogspot.com/2012/02/dreaded-unicode-encodedecode-errors.html blog post] 
+explaining the issue and providing advice for dealing with it.
 
 [http://code.google.com/p/pyscripter/wiki/FAQ#Frequently_Asked_Questions Back to Top]
