@@ -273,7 +273,7 @@ Both configurations seem to work flawlessly with the internal and remote python 
 
 [http://code.google.com/p/pyscripter/wiki/FAQ#Frequently_Asked_Questions Back to Top]
 
-=== Why am I getting UnicodeEncodeError/UnicodeDecodeError?  ===
+=== Why am I getting !UnicodeEncodeError/!UnicodeDecodeError?  ===
 
 Most likely you are using scripts with file names containing non-ascii characters.  Please see my [http://pyscripter.blogspot.com/2012/02/dreaded-unicode-encodedecode-errors.html blog post] 
 explaining the issue and providing advice for dealing with it.
