@@ -1143,7 +1143,7 @@ begin
     PyControl.DoStateChange(dsRunning);  // So that we do not reenter run-debug commands
     try
       fThreadExecInterrupted := True;
-      ServerProcess.Terminate;
+      ServerProcess.TerminateTree;
       for i := 0 to 100 do
         if ServerProcess.State <> psReady then begin
           // Wait for the threads to terminate
@@ -1153,6 +1153,7 @@ begin
         end else
           break;
       Assert(ServerProcess.State = psReady);
+      ServerProcess.ConsoleOutput.Clear;
     finally
       PyControl.DoStateChange(OldState);
     end;
