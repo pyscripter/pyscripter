@@ -13,7 +13,7 @@ unit cProjectClasses;
 interface
 
 uses
-  SysUtils, Classes, Contnrs, JvAppStorage, cPyBaseDebugger, VirtualFileSearch;
+  SysUtils, Classes, Contnrs, JvAppStorage, cPyBaseDebugger;
 
 type
   TAbstractProjectNode = class;
@@ -491,9 +491,7 @@ begin
 
   FileList := TStringList.Create;
   try
-    BuildFileList(Directory, Masks, FileList, False,
-    [vsaArchive, vsaCompressed, vsaEncrypted, vsaNormal, vsaOffline, vsaReadOnly],
-    [vsaDirectory, vsaHidden, vsaSystem, vsaTemporary]);
+    GetFilesInPaths(Directory, Masks, FileList, False);
     for i := 0 to FileList.Count - 1 do begin
       FileName := FileList[i];
       if not Assigned(FileChild[FileName]) then begin
@@ -505,9 +503,7 @@ begin
 
     if Recursive then begin
       FileList.Clear;
-      BuildFileList(Directory, '*.*', FileList, False,
-      [vsaDirectory],
-      [vsaHidden, vsaSystem, vsaTemporary]);
+      GetDirectoriesInPaths(Directory, '*.*', FileList, False);
       for i := 0 to FileList.Count - 1 do begin
         FolderName := FileList[i];
         if (FolderName = '.') or (FolderName = '..') then

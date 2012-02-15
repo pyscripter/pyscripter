@@ -94,7 +94,6 @@ uses
   frmProjectExplorer in 'frmProjectExplorer.pas' {ProjectExplorerWindow},
   dlgImportDirectory in 'dlgImportDirectory.pas' {ImportDirectoryForm},
   dlgRunConfiguration in 'dlgRunConfiguration.pas' {RunConfigurationForm},
-  VirtualFileSearch in 'VirtualFileSearch.pas',
   SynHighlighterWeb in 'SynHighlighterWeb.pas',
   SynEditTextBuffer in 'SynEditTextBuffer.pas',
   SynUnicode in 'SynUnicode.pas',

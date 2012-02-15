@@ -49,7 +49,7 @@ uses
   Graphics,
   cFileSearch,
   JvAppStorage,
-  MPCommonObjects;
+  MPCommonObjects, uCommonFunctions;
 
 type
   TFindInFilesAction = (gaCurrentOnlyGrep, gaOpenFilesGrep, gaProjectGrep, gaDirGrep);
@@ -169,8 +169,8 @@ type
     procedure GrepCurrentSourceEditor;
     procedure GrepOpenFiles;
     procedure GrepProjectFiles;
-    procedure GrepDirectories(const Dir: string; Mask: string);
-    procedure VirtualFileSearchEnd(Sender: TObject; Results: TCommonPIDLList);
+    procedure GrepDirectories(const Dir: string; const Mask: string);
+    function GetPreCallback: TDirectoryWalkProc;
   public
     constructor Create(const Settings: TGrepSettings; StorageTarget: TStrings);
     procedure Execute;
@@ -240,9 +240,8 @@ implementation
 uses
   SysUtils, Forms, uEditAppIntfs,
   VarPyth, frmPyIDEMain,
-  dlgFindResultsOptions, Controls, uCommonFunctions, cProjectClasses,
-  VirtualFileSearch, MPCommonUtilities,
-  dmCommands, cParameters;
+  dlgFindResultsOptions, Controls, cProjectClasses,
+  MPCommonUtilities, dmCommands, cParameters, AsyncCalls;
 
 { TLineMatches }
 
@@ -362,6 +361,26 @@ begin
   FGrepSettings := Settings;
 end;
 
+function TGrepSearchRunner.GetPreCallback: TDirectoryWalkProc;
+// Separate method to avoid memory leak
+// See http://stackoverflow.com/questions/6273376/memory-leaks-happens-in-nested-anonymous-method
+begin
+  Result :=
+    function (const Path: string; const FileInfo: TSearchRec): Boolean
+    var
+      Name : string;
+    begin
+      Result := not FAbortSignalled;
+
+      if Result and (FileInfo.Attr and SysUtils.faDirectory = 0) then begin
+        Name := Path + FileInfo.Name;
+        TAsyncCalls.VCLSync(procedure begin
+          GrepFile(Name);
+        end);
+      end;
+    end;
+end;
+
 procedure TGrepSearchRunner.GrepCurrentSourceEditor;
 resourcestring
   SNoFileOpen = 'No editor is currently active';
@@ -424,41 +443,16 @@ begin
   ActiveProject.FirstThat(GrepProjectFile, Self);
 end;
 
-procedure TGrepSearchRunner.GrepDirectories(const Dir: string; Mask: string);
+procedure TGrepSearchRunner.GrepDirectories(const Dir: string; const Mask: string);
 var
-  FileSearch : TVirtualFileSearch;
+  Async : IAsyncCall;
+  PreCallBack : TDirectoryWalkProc;
 begin
-  FileSearch := TVirtualFileSearch.Create(nil);
-  try
-    FileSearch.SearchAttribs := FileSearch.SearchAttribs- [vsaSystem, vsaHidden];
-    FileSearch.SearchExcludeAttribs := [vsaSystem, vsaHidden];
-    FileSearch.SearchPaths.StrictDelimiter := True;
-    FileSearch.SearchPaths.Delimiter := ';';
-    FileSearch.SearchPaths.DelimitedText := Dir;
-
-    FileSearch.SearchCriteriaFilename.StrictDelimiter := True;
-    FileSearch.SearchCriteriaFilename.Delimiter := ';';
-    FileSearch.SearchCriteriaFilename.DelimitedText := Mask;
-
-    FileSearch.SubFolders := FGrepSettings.IncludeSubdirs;
-
-    FileSearch.UpdateRate := 200;
-
-    FileSearch.OnSearchEnd := VirtualFileSearchEnd;
-
-    FileSearch.Run;
-    while not FileSearch.Finished do begin
-      if FAbortSignalled then begin
-        FileSearch.Stop;
-        Exit;
-      end else begin
-        Application.ProcessMessages;
-        Sleep(20);
-      end;
-    end;
-  finally
-    FileSearch.Free;
-  end;
+  PreCallBack := GetPreCallBack();
+  Async :=  TAsyncCalls.Invoke(procedure begin
+    WalkThroughDirectories(Dir, Mask, PreCallBack, FGrepSettings.IncludeSubdirs);
+  end);
+  TAsyncCalls.MsgExec(Async, Application.ProcessMessages);
 end;
 
 procedure TGrepSearchRunner.Execute;
@@ -559,26 +553,12 @@ begin
     FOnSearchFile(Self, FSearcher.FileName);
 end;
 
-procedure TGrepSearchRunner.VirtualFileSearchEnd(Sender: TObject;
-  Results: TCommonPIDLList);
-Var
-  i : integer;
-begin
-  for i := 0 to Results.Count - 1 do begin
-    if FAbortSignalled then
-        Exit;
-    GrepFile(PIDLToPath(Results[i]));
-  end;
-  Results.Clear;
-end;
-
 procedure TGrepSearchRunner.DoHitMatch(LineNo: Integer; const Line: string;
   SPos, EPos: Integer);
 begin
   if Assigned(FOnHitMatch) then
     FOnHitMatch(Self, LineNo, Line, SPos, EPos);
 end;
-
 
 { TMatchResult }
 

@@ -145,7 +145,7 @@ uses
   frmPythonII, PythonEngine, VarPyth, dmCommands,
   uEditAppIntfs,
   uCommonFunctions, Math, StringResources,
-  cPyDebugger, gnugettext, VirtualFileSearch, StrUtils, JclStrings, DateUtils;
+  cPyDebugger, gnugettext, StrUtils, JclStrings, DateUtils;
 
 { TPyScripterRefactor }
 
@@ -866,10 +866,8 @@ begin
       Dir := GetPackageRootDir(Dir);
 
     // Find Python files in this directory
-    BuildFileList(Dir,
-      CommandsDataModule.PyIDEOptions.PythonFileExtensions, FindRefFileList, True,
-      [vsaArchive, vsaCompressed, vsaEncrypted, vsaNormal, vsaOffline, vsaReadOnly],
-      [vsaDirectory, vsaHidden, vsaSystem, vsaTemporary]);
+    GetFilesInPaths(Dir,
+      CommandsDataModule.PyIDEOptions.PythonFileExtensions, FindRefFileList, True);
 
     CEName := Copy(CE.Name, CharLastPos(CE.Name, WideChar('.')) + 1, MaxInt);
     for i := 0 to FindRefFileList.Count - 1 do begin

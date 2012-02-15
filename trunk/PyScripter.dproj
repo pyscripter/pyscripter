@@ -100,6 +100,7 @@
 			<VerInfo_Locale>1033</VerInfo_Locale>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
+			<Debugger_RunParams>--PYTHON27</Debugger_RunParams>
 			<ILINK_FullDebugInfo>true</ILINK_FullDebugInfo>
 			<BCC_SourceDebuggingOn>true</BCC_SourceDebuggingOn>
 			<BCC_DebugLineNumbers>true</BCC_DebugLineNumbers>
@@ -277,7 +278,6 @@
 			<DCCReference Include="dlgRunConfiguration.pas">
 				<Form>RunConfigurationForm</Form>
 			</DCCReference>
-			<DCCReference Include="VirtualFileSearch.pas"/>
 			<DCCReference Include="SynHighlighterWeb.pas"/>
 			<DCCReference Include="SynEditTextBuffer.pas"/>
 			<DCCReference Include="SynUnicode.pas"/>
