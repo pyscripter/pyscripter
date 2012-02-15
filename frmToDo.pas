@@ -50,7 +50,7 @@ uses
   Dialogs, frmIDEDockWin, JvDockControlForm, ExtCtrls, ActnList,
   Contnrs, ImgList, ComCtrls, Menus, JvAppStorage, TB2Item,
   TB2Dock, TB2Toolbar, VirtualTrees, JvComponentBase, SpTBXItem,
-  SynUnicode, MPCommonObjects, SpTBXSkins;
+  SynUnicode, MPCommonObjects, SpTBXSkins, uCommonFunctions;
 
 type
   TToDoPriority = (tpHigh, tpMed, tpLow, tpDone);
@@ -159,9 +159,9 @@ type
     procedure LoadFile(const FileName: string);
     function ParseComment(const FileName, SComment, EComment,
      TokenString: string; LineNumber: Integer): TToDoInfo;
+    function GetPreCallback: TDirectoryWalkProc;
   protected
     procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
-    procedure VirtualFileSearchEnd(Sender: TObject; Results: TCommonPIDLList);
   public
     { Public declarations }
     procedure RefreshTodoList;
@@ -192,8 +192,8 @@ var
 implementation
 
 uses dmCommands, uEditAppIntfs, Math, frmPyIDEMain, dlgToDoOptions,
-  uCommonFunctions, JvJVCLUtils, cProjectClasses, WideStrUtils,
-  VirtualFileSearch, MPCommonUtilities, cParameters;
+  JvJVCLUtils, cProjectClasses, WideStrUtils,
+  cParameters, AsyncCalls, MPCommonUtilities;
 
 {$R *.dfm}
 
@@ -234,6 +234,26 @@ end;
 procedure TToDoWindow.actOptionsConfigureExecute(Sender: TObject);
 begin
   ToDoExpert.Configure;
+end;
+
+function TToDoWindow.GetPreCallback: TDirectoryWalkProc;
+// Separate method to avoid memory leak
+// See http://stackoverflow.com/questions/6273376/memory-leaks-happens-in-nested-anonymous-method
+begin
+  Result :=
+    function (const Path: string; const FileInfo: TSearchRec): Boolean
+    Var
+      Name : string;
+    begin
+      Result := not FAbortSignalled;
+
+      if Result and (FileInfo.Attr and SysUtils.faDirectory = 0) then begin
+        Name := Path + FileInfo.Name;
+        TAsyncCalls.VCLSync(procedure begin
+          LoadFile(Name);
+        end);
+      end;
+    end;
 end;
 
 function TToDoWindow.GetSelectedItem: TToDoInfo;
@@ -774,56 +794,22 @@ begin
   end;
 end;
 
-procedure TToDoWindow.VirtualFileSearchEnd(Sender: TObject;
-  Results: TCommonPIDLList);
-Var
-  i : integer;
-begin
-  for i := 0 to Results.Count - 1 do begin
-    if FAbortSignalled then
-        Exit;
-    LoadFile(PIDLToPath(Results[i]));
-    Application.ProcessMessages;
-  end;
-  Results.Clear;
-end;
-
 procedure TToDoWindow.EnumerateFilesByDirectory;
 var
-  FileSearch : TVirtualFileSearch;
+  Async : IAsyncCall;
+  PreCallback: TDirectoryWalkProc;
+  Paths : string;
 begin
-  FileSearch := TVirtualFileSearch.Create(nil);
-  FileSearch.SearchAttribs := FileSearch.SearchAttribs- [vsaSystem, vsaHidden];
-  FileSearch.SearchExcludeAttribs := [vsaSystem, vsaHidden];
-  try
-    FileSearch.SearchPaths.StrictDelimiter := True;
-    FileSearch.SearchPaths.Delimiter := ';';
-    FileSearch.SearchPaths.DelimitedText := ToDoExpert.FDirsToScan;
-
-    FileSearch.SearchCriteriaFilename.StrictDelimiter := True;
-    FileSearch.SearchCriteriaFilename.Delimiter := ';';
-    FileSearch.SearchCriteriaFilename.DelimitedText :=
-      CommandsDataModule.PyIDEOptions.PythonFileExtensions;
-
-    FileSearch.SubFolders := ToDoExpert.FRecurseDirScan;
-
-    FileSearch.UpdateRate := 200;
-
-    FileSearch.OnSearchEnd := VirtualFileSearchEnd;
-
-    FileSearch.Run;
-    while not FileSearch.Finished do begin
-      if FAbortSignalled then begin
-        FileSearch.Stop;
-        Exit;
-      end else begin
-        Application.ProcessMessages;
-        Sleep(20);
-      end;
-    end;
-  finally
-    FileSearch.Free;
-  end;
+  Paths := StringReplace(ToDoExpert.FDirsToScan, SLineBreak, ';', [rfReplaceAll]);
+  if Paths[Length(Paths)] = ';' then
+    Delete(Paths, Length(Paths), 1);
+  PreCallBack := GetPreCallBack();
+  Async :=  TAsyncCalls.Invoke(procedure begin
+    WalkThroughDirectories(Paths,
+      CommandsDataModule.PyIDEOptions.PythonFileExtensions, PreCallBack,
+      ToDoExpert.FRecurseDirScan);
+  end);
+  TAsyncCalls.MsgExec(Async, Application.ProcessMessages);
 end;
 
 procedure TToDoWindow.EnumerateOpenFiles;

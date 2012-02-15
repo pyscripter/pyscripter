@@ -83,6 +83,8 @@ inherited ToDoWindow: TToDoWindow
   inherited FGPanel: TPanel
     Width = 488
     Height = 289
+    ExplicitLeft = 2
+    ExplicitTop = 2
     ExplicitWidth = 488
     ExplicitHeight = 289
     object TBXDock1: TSpTBXDock
@@ -138,7 +140,6 @@ inherited ToDoWindow: TToDoWindow
       BevelOuter = bvNone
       BorderStyle = bsNone
       Header.AutoSizeIndex = 1
-      Header.DefaultHeight = 17
       Header.MainColumn = 1
       Header.Options = [hoAutoResize, hoColumnResize, hoHotTrack, hoOwnerDraw, hoShowSortGlyphs, hoVisible]
       Header.ParentFont = True
@@ -204,7 +205,7 @@ inherited ToDoWindow: TToDoWindow
     Left = 24
     Top = 56
     Bitmap = {
-      494C010104000900240010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C0101040009002C0010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000002000000001002000000000000020
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

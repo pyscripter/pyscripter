@@ -1137,7 +1137,7 @@ uses
   uCmdLine, uSearchHighlighter, frmModSpTBXCustomize, IniFiles,
   JclStrings, JclSysUtils, frmProjectExplorer, cProjectClasses,
   MPDataObject, gnugettext, WideStrUtils, WideStrings,
-  SpTBXDefaultSkins, SpTBXControls, VirtualFileSearch, SynEditKeyCmds, StdActns,
+  SpTBXDefaultSkins, SpTBXControls, SynEditKeyCmds, StdActns,
   PythonEngine, Contnrs, SynCompletionProposal;
 
 {$R *.DFM}
@@ -3540,9 +3540,7 @@ begin
 
   SkinList := TStringList.Create;
   try
-    BuildFileList(CommandsDataModule.SkinFilesDir, '*.skn',  SkinList, False,
-      [vsaArchive, vsaCompressed, vsaEncrypted, vsaNormal, vsaOffline, vsaReadOnly],
-      [vsaDirectory, vsaHidden, vsaSystem, vsaTemporary]);
+    GetFilesInPaths(CommandsDataModule.SkinFilesDir, '*.skn',  SkinList, False);
     for FileName in SkinList do
       SkinManager.SkinsList.AddSkinFromFile(FileName);
     mnSkins.Recreate;

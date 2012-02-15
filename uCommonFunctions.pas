@@ -10,9 +10,8 @@ unit uCommonFunctions;
 
 interface
 Uses
-  Windows, Classes, SysUtils, Graphics, SynEditTypes,
-  SynUnicode, uEditAppIntfs, VirtualFileSearch,
-  SpTBXSkins, Controls, SynEdit, SynRegExpr;
+  Windows, Classes, SysUtils, Graphics, SynEditTypes, SynUnicode,
+  uEditAppIntfs,  SpTBXSkins, Controls, SynEdit, SynRegExpr;
 
 const
   UTF8BOMString : RawByteString = AnsiChar($EF) + AnsiChar($BB) + AnsiChar($BF);
@@ -166,14 +165,26 @@ function FileToEncodedStr(const AFileName : string) : AnsiString;
 (* Read File contents into Widestring. Takes into account Python encodings *)
 function FileToStr(const AFileName : string) : string;
 
+type
+  TDirectoryWalkProc = reference to function (const Path: string;
+      const FileInfo: TSearchRec): Boolean;
+
 (*
-  Builds a list of files in FileList matching certain criteria.
-  Uses VirtualFileSearch that is found in the Mustangpeak VirtualFileExplorer package.
-  It is Unicode based.
+   Directory traversal function.  Paths and Masks are semi-colon delimited lists.
 *)
-procedure BuildFileList(const Path, Masks: string;
-  FileList: TStrings; Recursive: Boolean; SearchAttribs,
-  SearchExcludeAttribs: TVirtualSearchAttribs);
+procedure WalkThroughDirectories(const Paths, Masks: string;
+  const PreCallback: TDirectoryWalkProc;
+  const Recursive: Boolean);
+
+(*
+   Find files and place them in FileList. Paths and Masks are semi-colon delimited lists.
+*)
+procedure GetFilesInPaths(Paths, Masks : string; FileList: TStrings; Recursive : Boolean = True);
+
+(*
+   Find directories and place them in DirList. Paths and Masks are semi-colon delimited lists.
+*)
+procedure GetDirectoriesInPaths(Paths, Masks : string; DirList: TStrings; Recursive : Boolean = True);
 
 (* Check whether is S is likely to be a number *)
 //function WideStrConsistsofNumberChars(const S: WideString): Boolean;
@@ -222,10 +233,10 @@ Const
 
 implementation
 Uses
-  Forms, JclFileUtils, Math, VarPyth, JclBase, JclStrings,
+  Types, Forms, JclFileUtils, Math, VarPyth, JclBase, JclStrings,
   StrUtils, PythonEngine, dmCommands, Dialogs,
   StringResources, frmPythonII, gnugettext, MPCommonUtilities,
-  MPCommonObjects, MPShellUtilities;
+  MPCommonObjects, MPShellUtilities, IOUtils;
 
 function GetIconIndexFromFile(const AFileName: string;
   const ASmall: boolean): integer;
@@ -1579,71 +1590,94 @@ begin
   end;
 end;
 
-// Support class for BuildFileList
-type
-TBuildFileList = class
-  private
-    fFileList : TStrings;
-    procedure VirtualFileSearchEnd(Sender: TObject;  Results: TCommonPIDLList);
-    procedure BuildFileList(const Path, Masks: string;
-      FileList: TStrings; Recursive: Boolean; SearchAttribs,
-      SearchExcludeAttribs: TVirtualSearchAttribs);
-end;
-
-{ TBuildFileList }
-
-procedure TBuildFileList.BuildFileList(const Path, Masks: string;
-  FileList: TStrings; Recursive: Boolean; SearchAttribs,
-  SearchExcludeAttribs: TVirtualSearchAttribs);
+(*
+   Single directory traversal function used in WalkThroughDirectories
+*)
+procedure WalkThroughDirectory(const Path: string; Masks : TStringDynArray;
+  const PreCallback: TDirectoryWalkProc;
+  const Recursive: Boolean);
 var
-  FileSearch : TVirtualFileSearch;
+  SearchRec: TSearchRec;
+  Match: Boolean;
+  Stop: Boolean;
+  PathWithSep, Mask : string;
 begin
-  fFileList := FileList;
-  FileSearch := TVirtualFileSearch.Create(nil);
+  PathWithSep := IncludeTrailingPathDelimiter(Path);
+  if FindFirst(PathWithSep + '*', faAnyFile, SearchRec) = 0 then
   try
-    FileSearch.SearchAttribs := SearchAttribs;
-    FileSearch.SearchExcludeAttribs := SearchExcludeAttribs;
+    Stop := False;
 
-    FileSearch.SearchPaths.StrictDelimiter := True;
-    FileSearch.SearchPaths.Delimiter := ';';
-    FileSearch.SearchPaths.DelimitedText := Path;
+    repeat
+      Match := Length(Masks) = 0;
+      for Mask in Masks do begin
+        Match := TPath.MatchesPattern(SearchRec.Name, Mask, False);
+        if Match then Break;
+      end;
 
-    FileSearch.SearchCriteriaFilename.StrictDelimiter := True;
-    FileSearch.SearchCriteriaFilename.Delimiter := ';';
-    FileSearch.SearchCriteriaFilename.DelimitedText := Masks;
+      // call the preorder callback method
+      if Match and Assigned(PreCallback) then
+        Stop := not PreCallback(PathWithSep, SearchRec);
 
-    FileSearch.SubFolders := Recursive;
-    FileSearch.UpdateRate := 100;
-    FileSearch.OnSearchEnd := VirtualFileSearchEnd;
-    FileSearch.RunAndWait;
+      if not Stop then
+      begin
+        // go recursive in subdirectories
+        if Recursive and (SearchRec.Attr and SysUtils.faDirectory <> 0) and
+           (SearchRec.Name <> '.') and
+           (SearchRec.Name <> '..') then
+          WalkThroughDirectory(PathWithSep + SearchRec.Name,
+            Masks, PreCallback, Recursive);
+
+      end;
+    until Stop or (FindNext(SearchRec) <> 0);
   finally
-    FileSearch.Free;
+    FindClose(SearchRec);
   end;
 end;
 
-procedure TBuildFileList.VirtualFileSearchEnd(Sender: TObject;
-  Results: TCommonPIDLList);
+procedure WalkThroughDirectories(const Paths, Masks: string;
+  const PreCallback: TDirectoryWalkProc;
+  const Recursive: Boolean);
 Var
-  i : integer;
+  Path : string;
+  PathList, MaskList : TStringDynArray;
 begin
-  for i := 0 to Results.Count - 1 do
-    fFileList.Add(PIDLToPath(Results[i]));
-  Results.Clear;
+  PathList := SplitString(Paths, ';');
+  MaskList := SplitString(Masks, ';');
+  for Path in PathList do
+    WalkThroughDirectory(Path, MaskList, PreCallback, Recursive);
 end;
 
-procedure BuildFileList(const Path, Masks: string;
-  FileList: TStrings; Recursive: Boolean; SearchAttribs,
-  SearchExcludeAttribs: TVirtualSearchAttribs);
+procedure GetFilesInPaths(Paths, Masks : string; FileList: TStrings; Recursive : Boolean = True);
 Var
-  BFL : TBuildFileList;
+  PreCallback: TDirectoryWalkProc;
 begin
-  BFL := TBuildFileList.Create;
-  try
-    BFL.BuildFileList(Path, Masks, FileList, Recursive, SearchAttribs,
-      SearchExcludeAttribs);
-  finally
-    BFL.Free;
-  end;
+  PreCallback :=
+    function (const Path: string; const FileInfo: TSearchRec): Boolean
+    begin
+      Result := True;
+
+      if FileInfo.Attr and SysUtils.faDirectory = 0 then
+        FileList.Add(Path+FileInfo.Name);
+    end;
+
+  WalkThroughDirectories(Paths, Masks, PreCallback, Recursive);
+end;
+
+procedure GetDirectoriesInPaths(Paths, Masks : string; DirList: TStrings; Recursive : Boolean = True);
+Var
+  PreCallback: TDirectoryWalkProc;
+begin
+  PreCallback :=
+    function (const Path: string; const FileInfo: TSearchRec): Boolean
+    begin
+      Result := True;
+
+      if (FileInfo.Attr and SysUtils.faDirectory <> 0) and
+         (FileInfo.Name <> '.') and (FileInfo.Name <> '..') then
+        DirList.Add(Path+FileInfo.Name);
+    end;
+
+  WalkThroughDirectories(Paths, Masks, PreCallback, Recursive);
 end;
 
 //function WideCharIsNumberChar(const C: WideChar): Boolean;
