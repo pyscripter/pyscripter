@@ -108,7 +108,8 @@ uses
   SpTBXItem in 'SpTBXItem.pas',
   TB2Item in 'TB2Item.pas',
   JvDockVIDStyle in 'JvDockVIDStyle.pas',
-  JvCreateProcess in 'JvCreateProcess.pas';
+  JvCreateProcess in 'JvCreateProcess.pas',
+  cCodeCompletion in 'cCodeCompletion.pas';
 
 {$R *.RES}
 {$R WebCopyAvi.RES}

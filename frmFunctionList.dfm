@@ -70,7 +70,6 @@ inherited FunctionListWindow: TFunctionListWindow
       Width = 515
       Height = 208
       Align = alClient
-      BevelInner = bvRaised
       EditManager.Font.Charset = DEFAULT_CHARSET
       EditManager.Font.Color = clWindowText
       EditManager.Font.Height = -11

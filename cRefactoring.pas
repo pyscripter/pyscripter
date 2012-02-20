@@ -1065,6 +1065,8 @@ Var
   S : string;
   VariableProxy : TVariableProxy;
 begin
+  if fIsExpanded then Exit;
+
   InspectModule := Import('inspect');
   ItemsDict := fPyModule.__dict__;
   ItemKeys := ItemsDict.keys();
@@ -1109,7 +1111,7 @@ end;
 
 procedure TModuleProxy.GetNameSpace(SList: TStringList);
 begin
-  if not fIsExpanded then Expand;
+  Expand;
   inherited;
 end;
 
@@ -1157,6 +1159,8 @@ Var
   S : string;
   VariableProxy : TVariableProxy;
 begin
+  if fIsExpanded then Exit;
+
   InspectModule := Import('inspect');
   ItemsDict := InternalInterpreter.PyInteractiveInterpreter.safegetmembers(fPyClass);
   ItemKeys := ItemsDict.keys();
@@ -1205,7 +1209,7 @@ procedure TClassProxy.GetNameSpace(SList: TStringList);
 Var
   i : integer;
 begin
-  if not fIsExpanded then Expand;
+  Expand;
   //  There is no need to examine base classes so we do not call inherited
   //  Add from Children
   for i := 0 to ChildCount - 1 do
@@ -1227,7 +1231,7 @@ end;
 
 function TClassProxy.GetConstructor: TParsedFunction;
 begin
-  if not fIsExpanded then Expand;
+  Expand;
   Result := inherited GetConstructor;
 end;
 
@@ -1263,6 +1267,8 @@ Var
   Variable : TVariable;
   VariableProxy : TVariableProxy;
 begin
+  if fIsExpanded then Exit;
+
   //  insert members of Function type
   InspectModule := Import('inspect');
   ItemsDict := InternalInterpreter.PyInteractiveInterpreter.safegetmembers(fPyFunction);
@@ -1329,7 +1335,7 @@ end;
 
 procedure TFunctionProxy.GetNameSpace(SList: TStringList);
 begin
-  if not fIsExpanded then Expand;
+  Expand;
   inherited;
 end;
 
@@ -1346,7 +1352,7 @@ end;
 
 procedure TVariableProxy.GetNameSpace(SList: TStringList);
 begin
-  if not fIsExpanded then Expand;
+  Expand;
   inherited;
 end;
 
@@ -1356,6 +1362,8 @@ Var
   i : integer;
   S : string;
 begin
+  if fIsExpanded then Exit;
+
   InspectModule := Import('inspect');
   ItemsDict := InternalInterpreter.PyInteractiveInterpreter.safegetmembers(fPyObject);
   ItemKeys := ItemsDict.keys();

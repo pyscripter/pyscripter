@@ -862,20 +862,20 @@ begin
   //Compile
   Code := Compile(ARunConfig);
 
-  PyControl.DoStateChange(dsRunningNoDebug);
+  if VarIsPython(Code) then begin
+    PyControl.DoStateChange(dsRunningNoDebug);
 
-  // New Line for output
-  PythonIIForm.AppendText(sLineBreak);
+    // New Line for output
+    PythonIIForm.AppendText(sLineBreak);
 
-  if ARunConfig.WorkingDir <> '' then
-    Path := Parameters.ReplaceInText(ARunConfig.WorkingDir)
-  else
     Path := ExtractFileDir(ARunConfig.ScriptName);
-  OldPath := RPI.rem_getcwdu();
-  if Length(Path) > 1 then begin
-    // Add the path of the executed file to the Python path - Will be automatically removed
-    PythonPathAdder := AddPathToPythonPath(Path);
     SysPathRemove('');
+    if Length(Path) > 1 then
+      // Add the path of the executed file to the Python path - Will be automatically removed
+      PythonPathAdder := AddPathToPythonPath(Path);
+    if ARunConfig.WorkingDir <> '' then
+      Path := Parameters.ReplaceInText(ARunConfig.WorkingDir);
+    OldPath := RPI.rem_getcwdu();
 
     // Change the current path
     try
@@ -883,66 +883,66 @@ begin
     except
       Dialogs.MessageDlg(_(SCouldNotSetCurrentDir), mtWarning, [mbOK], 0);
     end;
-  end;
 
-  // Set the command line parameters
-  SetCommandLine(ARunConfig);
+    // Set the command line parameters
+    SetCommandLine(ARunConfig);
 
-  Editor := GI_ActiveEditor;
-  ReturnFocusToEditor := Assigned(Editor);
-  PyIDEMainForm.actNavInterpreterExecute(nil);
+    Editor := GI_ActiveEditor;
+    ReturnFocusToEditor := Assigned(Editor);
+    PyIDEMainForm.actNavInterpreterExecute(nil);
 
-  try
     try
-      ExecuteInThread(RPI.run_nodebug, VarPythonCreate([Code], stTuple));
-      GetPythonEngine.CheckError;
-      if not fThreadExecInterrupted then begin
-        ExcInfo := RPI.exc_info;
-        if not VarIsNone(ExcInfo) then begin
-          HandleRemoteException(ExcInfo);
-          ReturnFocusToEditor := False;
-          Dialogs.MessageDlg(Format('%s: %s',
-            [VarPythonAsString(ExcInfo.__getitem__(0)),
-             VarPythonAsString(RPI.safestr(ExcInfo.__getitem__(1)))]),
-            mtError, [mbOK], 0);
-          CanDoPostMortem := True;
+      try
+        ExecuteInThread(RPI.run_nodebug, VarPythonCreate([Code], stTuple));
+        GetPythonEngine.CheckError;
+        if not fThreadExecInterrupted then begin
+          ExcInfo := RPI.exc_info;
+          if not VarIsNone(ExcInfo) then begin
+            HandleRemoteException(ExcInfo);
+            ReturnFocusToEditor := False;
+            Dialogs.MessageDlg(Format('%s: %s',
+              [VarPythonAsString(ExcInfo.__getitem__(0)),
+               VarPythonAsString(RPI.safestr(ExcInfo.__getitem__(1)))]),
+              mtError, [mbOK], 0);
+            CanDoPostMortem := True;
+            SysUtils.Abort;
+          end;
+        end;
+      except
+        on E: EPythonError do begin
+          // should not happen
+          if not fThreadExecInterrupted then begin
+            HandlePyException(E);
+            Dialogs.MessageDlg(E.Message, mtError, [mbOK], 0);
+          end;
           SysUtils.Abort;
         end;
       end;
-    except
-      on E: EPythonError do begin
-        // should not happen
-        if not fThreadExecInterrupted then begin
-          HandlePyException(E);
-          Dialogs.MessageDlg(E.Message, mtError, [mbOK], 0);
-        end;
-        SysUtils.Abort;
+    finally
+      PythonIIForm.AppendPrompt;
+      CheckConnected(True, False);
+      if not fThreadExecInterrupted then begin
+        // happpens when the remote server was shutdown
+
+        // Restore the command line parameters
+        RestoreCommandLine;
+
+        //  Add again the empty path
+        SysPathAdd('');
+
+        // Change the back current path
+        RPI.rem_chdir(OldPath);
       end;
+      PyControl.DoStateChange(dsInactive);
+      if ReturnFocusToEditor then
+        Editor.Activate;
+      if fThreadExecInterrupted then begin
+        PythonPathAdder := nil;
+        PythonIIForm.ClearPendingMessages;
+        ReInitialize;
+      end else if CanDoPostMortem and CommandsDataModule.PyIDEOptions.PostMortemOnException then
+        PyControl.ActiveDebugger.EnterPostMortem;
     end;
-  finally
-    PythonIIForm.AppendPrompt;
-    CheckConnected(True, False);
-    if not fThreadExecInterrupted then begin
-      // happpens when the remote server was shutdown
-
-      // Restore the command line parameters
-      RestoreCommandLine;
-
-      //  Add again the empty path
-      SysPathAdd('');
-
-      // Change the back current path
-      RPI.rem_chdir(OldPath);
-    end;
-    PyControl.DoStateChange(dsInactive);
-    if ReturnFocusToEditor then
-      Editor.Activate;
-    if fThreadExecInterrupted then begin
-      PythonPathAdder := nil;
-      PythonIIForm.ClearPendingMessages;
-      ReInitialize;
-    end else if CanDoPostMortem and CommandsDataModule.PyIDEOptions.PostMortemOnException then
-      PyControl.ActiveDebugger.EnterPostMortem;
   end;
 end;
 
@@ -1483,22 +1483,20 @@ begin
   Code := fRemotePython.Compile(ARunConfig);
 
   if VarIsPython(Code) then begin
-    if ARunConfig.WorkingDir <> '' then
-      Path := Parameters.ReplaceInText(ARunConfig.WorkingDir)
-    else
-      Path := ExtractFileDir(ARunConfig.ScriptName);
-    OldPath := fRemotePython.RPI.rem_getcwdu();
-    if Length(Path) > 1 then begin
+    Path := ExtractFileDir(ARunConfig.ScriptName);
+    SysPathRemove('');
+    if Length(Path) > 1 then
       // Add the path of the executed file to the Python path - Will be automatically removed
       PythonPathAdder := AddPathToPythonPath(Path);
-      SysPathRemove('');
+    if ARunConfig.WorkingDir <> '' then
+      Path := Parameters.ReplaceInText(ARunConfig.WorkingDir);
+    OldPath := fRemotePython.RPI.rem_getcwdu();
 
-      // Change the current path
-      try
-        fRemotePython.RPI.rem_chdir(Path)
-      except
-        Dialogs.MessageDlg(_(SCouldNotSetCurrentDir), mtWarning, [mbOK], 0);
-      end;
+    // Change the current path
+    try
+      fRemotePython.RPI.rem_chdir(Path)
+    except
+      Dialogs.MessageDlg(_(SCouldNotSetCurrentDir), mtWarning, [mbOK], 0);
     end;
 
     PyControl.DoStateChange(dsRunning);

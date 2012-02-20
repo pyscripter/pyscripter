@@ -591,22 +591,20 @@ begin
   Code := InternalInterpreter.Compile(ARunConfig);
 
   if VarIsPython(Code) then begin
-    if ARunConfig.WorkingDir <> '' then
-      Path := Parameters.ReplaceInText(ARunConfig.WorkingDir)
-    else
-      Path := ExtractFileDir(ARunConfig.ScriptName);
-    OldPath := GetCurrentDir;
-    if Length(Path) > 1 then begin
+    Path := ExtractFileDir(ARunConfig.ScriptName);
+    SysPathRemove('');
+    if Length(Path) > 1 then
       // Add the path of the executed file to the Python path - Will be automatically removed
       PythonPathAdder := AddPathToPythonPath(Path);
-      SysPathRemove('');
+    if ARunConfig.WorkingDir <> '' then
+      Path := Parameters.ReplaceInText(ARunConfig.WorkingDir);
+    OldPath := GetCurrentDir;
 
-      // Change the current path
-      try
-        SetCurrentDir(Path)
-      except
-        Dialogs.MessageDlg(_(SCouldNotSetDirectory), mtWarning, [mbOK], 0);
-      end;
+    // Change the current path
+    try
+      SetCurrentDir(Path)
+    except
+      Dialogs.MessageDlg(_(SCouldNotSetDirectory), mtWarning, [mbOK], 0);
     end;
 
     PyControl.DoStateChange(dsRunning);
@@ -1238,83 +1236,84 @@ begin
   //Compile
   Code := Compile(ARunConfig);
 
-  PyControl.DoStateChange(dsRunningNoDebug);
+  if VarIsPython(Code) then begin
+    PyControl.DoStateChange(dsRunningNoDebug);
 
-  // New Line for output
-  PythonIIForm.AppendText(sLineBreak);
+    // New Line for output
+    PythonIIForm.AppendText(sLineBreak);
 
-  mmResult := 0;
-  Resolution := 100;
+    mmResult := 0;
+    Resolution := 100;
 
-  if ARunConfig.WorkingDir <> '' then
-    Path := Parameters.ReplaceInText(ARunConfig.WorkingDir)
-  else
     Path := ExtractFileDir(ARunConfig.ScriptName);
-  OldPath := GetCurrentDir;
-  if Length(Path) > 1 then begin
-    // Add the path of the executed file to the Python path - Will be automatically removed
-    PythonPathAdder := AddPathToPythonPath(Path);
     SysPathRemove('');
+    if Length(Path) > 1 then
+      // Add the path of the executed file to the Python path - Will be automatically removed
+      PythonPathAdder := AddPathToPythonPath(Path);
+    if ARunConfig.WorkingDir <> '' then
+      Path := Parameters.ReplaceInText(ARunConfig.WorkingDir);
+    OldPath := GetCurrentDir;
 
     // Change the current path
     try
       SetCurrentDir(Path)
     except
-      Dialogs.MessageDlg(_(SCouldNotSetCurrentDir), mtWarning, [mbOK], 0);
+      Dialogs.MessageDlg(_(SCouldNotSetDirectory), mtWarning, [mbOK], 0);
     end;
-  end;
 
-  // Set the command line parameters
-  SetCommandLine(ARunConfig);
 
-  Editor := GI_ActiveEditor;
-  ReturnFocusToEditor := Assigned(Editor);
-  PyIDEMainForm.actNavInterpreterExecute(nil);
+    // Set the command line parameters
+    SetCommandLine(ARunConfig);
 
-  try
-    // Set Multimedia Timer
-    if (CommandsDataModule.PyIDEOptions.TimeOut > 0) and
-      (timeGetDevCaps(@tc, SizeOf(tc))=TIMERR_NOERROR) then
-    begin
-      Resolution := Min(Resolution,tc.wPeriodMax);
-      TimeBeginPeriod(Resolution);
-      mmResult := TimeSetEvent(CommandsDataModule.PyIDEOptions.TimeOut, resolution,
-        @TimeCallBack, DWORD(@mmResult), TIME_PERIODIC or 256);
-    end;
+    Editor := GI_ActiveEditor;
+    ReturnFocusToEditor := Assigned(Editor);
+    PyIDEMainForm.actNavInterpreterExecute(nil);
 
     try
-      fII.run_nodebug(Code);
-    except
-      // CheckError already called by VarPyth
-      on E: EPythonError do begin
-        HandlePyException(E);
-        ReturnFocusToEditor := False;
-        Dialogs.MessageDlg(E.Message, mtError, [mbOK], 0);
-        CanDoPostMortem := True;
-        SysUtils.Abort;
+      // Set Multimedia Timer
+      if (CommandsDataModule.PyIDEOptions.TimeOut > 0) and
+        (timeGetDevCaps(@tc, SizeOf(tc))=TIMERR_NOERROR) then
+      begin
+        Resolution := Min(Resolution,tc.wPeriodMax);
+        TimeBeginPeriod(Resolution);
+        mmResult := TimeSetEvent(CommandsDataModule.PyIDEOptions.TimeOut, resolution,
+          @TimeCallBack, DWORD(@mmResult), TIME_PERIODIC or 256);
       end;
+
+      try
+        fII.run_nodebug(Code);
+      except
+        // CheckError already called by VarPyth
+        on E: EPythonError do begin
+          HandlePyException(E);
+          ReturnFocusToEditor := False;
+          Dialogs.MessageDlg(E.Message, mtError, [mbOK], 0);
+          CanDoPostMortem := True;
+          SysUtils.Abort;
+        end;
+      end;
+    finally
+      if CommandsDataModule.PyIDEOptions.TimeOut > 0 then begin
+        if (mmResult <> 0) then TimeKillEvent(mmResult);
+        TimeEndPeriod(Resolution);
+      end;
+      PythonIIForm.AppendPrompt;
+
+      // Restore the command line parameters
+      RestoreCommandLine;
+
+      //  Add again the empty path
+      SysPathAdd('');
+
+      // Change the back current path
+      SetCurrentDir(OldPath);
+
+      PyControl.DoStateChange(dsInactive);
+      if ReturnFocusToEditor then
+        Editor.Activate;
+      if CanDoPostMortem and CommandsDataModule.PyIDEOptions.PostMortemOnException then
+        PyControl.ActiveDebugger.EnterPostMortem;
     end;
-  finally
-    if CommandsDataModule.PyIDEOptions.TimeOut > 0 then begin
-      if (mmResult <> 0) then TimeKillEvent(mmResult);
-      TimeEndPeriod(Resolution);
-    end;
-    PythonIIForm.AppendPrompt;
-
-    // Restore the command line parameters
-    RestoreCommandLine;
-
-    //  Add again the empty path
-    SysPathAdd('');
-
-    // Change the back current path
-    SetCurrentDir(OldPath);
-
-    PyControl.DoStateChange(dsInactive);
-    if ReturnFocusToEditor then
-      Editor.Activate;
-    if CanDoPostMortem and CommandsDataModule.PyIDEOptions.PostMortemOnException then
-      PyControl.ActiveDebugger.EnterPostMortem;
   end;
 end;
 

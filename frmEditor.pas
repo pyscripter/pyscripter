@@ -12,14 +12,14 @@ unit frmEditor;
 interface
 
 uses
-  Windows, Messages, SysUtils, Classes, Graphics, Controls, Contnrs, Forms,
+  Types, Windows, Messages, SysUtils, Classes, Graphics, Controls, Contnrs, Forms,
   StdCtrls, uEditAppIntfs, JclStrings, SynEdit, SynEditTypes,
   SynEditHighlighter, SynEditMiscClasses,
   SynEditKeyCmds, ImgList, Dialogs, ExtCtrls,
   TB2Item, uCommonFunctions,
   SynCompletionProposal, cPyBaseDebugger, SpTBXItem,
   VirtualResources, SpTBXSkins, SpTBXDkPanels, Menus, SpTBXTabs, SynRegExpr,
-  cPythonSourceScanner, frmCodeExplorer;
+  cPythonSourceScanner, frmCodeExplorer, cCodeCompletion;
 
 const
   WM_PARAMCOMPLETION = WM_USER +1040;
@@ -137,11 +137,7 @@ type
     fSyntaxErrorPos: TEditorPos;
     fCloseBracketChar: WideChar;
     fOldOptions: TSynEditorOptions;
-    //Code completion internal variables - cleanup takes place in the Close event
-    fCodeCompletionType : TCodeCompletionType;
-    fCCFileName : string;
-    fPathDepth : Integer;
-    fSortedNameSpace : TStringList;
+    fCompletionHandler : TBaseCodeCompletionHandler;
     procedure CleanupCodeCompletion;
     function DoAskSaveChanges: boolean;
     procedure DoAssignInterfacePointer(AActive: boolean);
@@ -288,7 +284,7 @@ uses
   SynEditTextBuffer, cPyDebugger, dlgPickList, JvDockControlForm,
   uSearchHighlighter, VirtualShellNotifier,
   SynHighlighterWebMisc, SynHighlighterWeb, gnugettext,
-  SynUnicode, frmIDEDockWin;
+  SynUnicode, frmIDEDockWin, StrUtils;
 
 const
   WM_DELETETHIS = WM_USER + 42;
@@ -2080,10 +2076,6 @@ procedure TEditorForm.FormCreate(Sender: TObject);
 begin
   FGPanelExit(Self);
 
-  // ControlStyle := ControlStyle + [csOpaque];
-  // SynEdit.ControlStyle := Synedit.ControlStyle + [csOpaque];
-  // SynEdit2.ControlStyle := Synedit.ControlStyle + [csOpaque];
-  // FGPanel.ControlStyle := FGPanel.ControlStyle + [csOpaque];
   SynEdit.OnReplaceText := CommandsDataModule.SynEditReplaceText;
 
   fHotIdentInfo.HaveHotIdent := False;
@@ -2566,14 +2558,9 @@ end;
 
 procedure TEditorForm.CleanupCodeCompletion;
 begin
-  case fCodeCompletionType of
-    cctFrom, cctNameSpace:
-      begin
-        FreeAndNil(fSortedNameSpace);
-        PyScripterRefactor.FinalizeQuery;
-      end;
-  end;
-  fCodeCompletionType := cctNone;
+  if Assigned(fCompletionHandler) then
+    fCompletionHandler.Finalize;
+  fCompletionHandler := nil;
 end;
 
 procedure TEditorForm.SynCodeCompletionClose(Sender: TObject);
@@ -2585,139 +2572,24 @@ end;
 
 procedure TEditorForm.SynCodeCompletionCodeItemInfo(Sender: TObject;
   AIndex: Integer; var Info: string);
-Var
-  Module,
-  Ident : string;
-  ParsedModule: TParsedModule;
-  Index: Integer;
-  CE : TBaseCodeElement;
-  PythonPathAdder: IInterface;
 begin
-  case fCodeCompletionType of
-    cctModule:
-      begin
-        Module := (Sender as TSynCompletionProposal).InsertList[AIndex];
-        if PyScripterRefactor.InitializeQuery then
-        begin
-          // Add the file path to the Python path - Will be automatically removed
-          PythonPathAdder := PyControl.ActiveInterpreter.AddPathToPythonPath
-            (ExtractFileDir(fCCFileName));
-          ParsedModule :=
-            PyScripterRefactor.ResolveModuleImport(Module, fCCFileName, fPathDepth);
-          if Assigned(ParsedModule) then
-            Info := GetLineRange(ParsedModule.DocString, 1, 20);
-          PyScripterRefactor.FinalizeQuery;
-        end;
-      end;
-    cctFrom, cctNameSpace:
-      begin
-        Ident := (Sender as TSynCompletionProposal).InsertList[AIndex];
-        Index := fSortedNameSpace.IndexOf(Ident);
-        if Index >=0  then
-        begin
-          CE := fSortedNameSpace.Objects[Index] as TBaseCodeElement;
-          if not Assigned(CE) then
-            Info := _(SPythonKeyword)
-          else if Assigned(CE) and (CE is TCodeElement) then
-            Info := GetLineRange(TCodeElement(CE).DocString, 1, 20);
-        end;
-      end;
-  end;
+  if Assigned(fCompletionHandler) then
+    Info := fCompletionHandler.GetInfo((Sender as TSynCompletionProposal).InsertList[AIndex]);
 end;
 
 procedure TEditorForm.SynCodeCompletionExecute(Kind: SynCompletionType;
   Sender: TObject; var CurrentInput: string; var X, Y: Integer;
   var CanExecute: boolean);
 Var
-  locline, lookup: string;
-  TmpX, Index, ImageIndex, i: Integer;
-  FoundMatch: boolean;
-  DisplayText, InsertText, ErrMsg: string;
-  NameSpace, KeywordList: TStringList;
-  Scope: TCodeElement;
-  Def: TBaseCodeElement;
-  ParsedModule, ParsedBuiltInModule: TParsedModule;
-  PythonPathAdder: IInterface;
+  i : integer;
+  Skipped, Handled : Boolean;
+  locline: string;
+  DisplayText, InsertText: string;
+  FileName : string;
   Attr: TSynHighlighterAttributes;
-  DummyToken, Dir: string;
+  DummyToken: string;
   BC: TBufferCoord;
-  Keywords: Variant;
-
-  procedure GetModuleList(Path: Variant);
-  Var
-    i: Integer;
-    S: string;
-    SortedNameSpace: TStringList;
-  begin
-    SortedNameSpace := TStringList.Create;
-    SortedNameSpace.Duplicates := dupIgnore; // Remove duplicates
-    SortedNameSpace.Sorted := True;
-    try
-      PyControl.ActiveInterpreter.GetModulesOnPath(Path, SortedNameSpace);
-      InsertText := SortedNameSpace.Text;
-      for i := 0 to SortedNameSpace.Count - 1 do
-      begin
-        S := SortedNameSpace[i];
-        DisplayText := DisplayText + Format('\Image{%d}\hspace{2}%s', [16, S]);
-        if i < SortedNameSpace.Count - 1 then
-          DisplayText := DisplayText + #10;
-      end;
-    finally
-      SortedNameSpace.Free;
-    end;
-  end;
-
-  procedure ProcessNamespace;
-  Var
-    i: Integer;
-    S: string;
-    CE: TBaseCodeElement;
-  begin
-    //fSortedNameSpace is freed in Close event
-    fSortedNameSpace := TStringList.Create;
-    fSortedNameSpace.Duplicates := dupIgnore; // Remove duplicates
-    fSortedNameSpace.Sorted := True;
-    fSortedNameSpace.AddStrings(NameSpace);
-    fSortedNameSpace.Sorted := False;
-    fSortedNameSpace.CustomSort(ComparePythonIdents);
-    InsertText := fSortedNameSpace.Text;
-    for i := 0 to fSortedNameSpace.Count - 1 do
-    begin
-      S := fSortedNameSpace[i];
-      CE := fSortedNameSpace.Objects[i] as TBaseCodeElement;
-      if not Assigned(CE) then
-      begin
-      // Keyword
-        DisplayText := DisplayText + Format('\Image{%d}\hspace{2}\color{clBlue}%s', [20, KeywordList[i]]);
-      end
-      else
-      begin
-        if (CE is TParsedModule) or (CE is TModuleImport) then
-          ImageIndex := 16
-        else if CE is TParsedFunction then
-        begin
-          if CE.Parent is TParsedClass then
-            ImageIndex := 14
-          else
-            ImageIndex := 17
-        end
-        else if CE is TParsedClass then
-          ImageIndex := 13
-        else
-        begin // TVariable or TParsedVariable
-          if Assigned(CE) and (CE.Parent is TParsedClass) then
-            ImageIndex := 1
-          else
-            ImageIndex := 0;
-        end;
-        DisplayText := DisplayText + Format('\Image{%d}\hspace{2}%s',
-          [ImageIndex, S]);
-      end;
-      if i < fSortedNameSpace.Count - 1 then
-        DisplayText := DisplayText + #10;
-    end;
-  end;
-
+  SkipHandler : TBaseCodeCompletionSkipHandler;
 begin
   if not fEditor.HasPythonFile or PyControl.IsRunning or not CommandsDataModule.
     PyIDEOptions.EditorCodeCompletion then
@@ -2730,160 +2602,36 @@ begin
   begin
     BC := CaretXY;
     Dec(BC.Char);
-    if GetHighlighterAttriAtRowCol(BC, DummyToken, Attr) and
-      ((Attr = Highlighter.StringAttribute) or
-        (Attr = Highlighter.CommentAttribute) or
-        (Attr = CommandsDataModule.SynPythonSyn.CodeCommentAttri) or
-        (Attr = CommandsDataModule.SynPythonSyn.MultiLineStringAttri) or
-        (Attr = CommandsDataModule.SynPythonSyn.DocStringAttri)) then
-    begin
-      // Do not code complete inside strings or comments
-      CanExecute := False;
-      Exit;
-    end;
+    GetHighlighterAttriAtRowCol(BC, DummyToken, Attr);
 
-    fCCFileName := GetEditor.GetFileNameOrTitle;
+    FileName := GetEditor.GetFileNameOrTitle;
     locline := StrPadRight(LineText, CaretX - 1, ' ');
     // to deal with trim trailing spaces
 
-    if RE_CC_Import.Exec(Copy(locline, 1, CaretX - 1)) then
+    Skipped := False;
+    for I := 0 to TIDECompletion.EditorCodeCompletion.SkipHandlers.Count -1 do
     begin
-      // autocomplete import statement
-      FCodeCompletionType := cctModule;
-      FPathDepth := 0;
+      SkipHandler := TIDECompletion.EditorCodeCompletion.SkipHandlers[i] as
+        TBaseCodeCompletionSkipHandler;
+      Skipped := SkipHandler.SkipCodeCompletion(locline, FileName, CaretXY, Highlighter, Attr);
+      if Skipped then Break;
+    end;
 
-      // Add the file path to the Python path - Will be automatically removed
-      PythonPathAdder := PyControl.ActiveInterpreter.AddPathToPythonPath
-        (ExtractFileDir(fCCFileName));
-      GetModuleList(None);
-    end
-    else if RE_CC_From.Exec(Copy(locline, 1, CaretX - 1)) then
+    Handled := False;
+    if not Skipped then
     begin
-      // autocomplete from statement
-      FCodeCompletionType := cctModule;
-      fPathDepth := RE_CC_From.MatchLen[1];
-      if fPathDepth > 0 then
+      for I := 0 to TIDECompletion.EditorCodeCompletion.CompletionHandlers.Count -1 do
       begin
-        Dir := fCCFileName;
-        for i := 1 to fPathDepth do
-          Dir := ExtractFileDir(Dir);
-        GetModuleList(VarPythonCreate([Dir]));
-      end
-      else
-      begin
-        // Add the file path to the Python path - Will be automatically removed
-        PythonPathAdder := PyControl.ActiveInterpreter.AddPathToPythonPath
-          (ExtractFileDir(fCCFileName));
-        GetModuleList(None);
-      end;
-    end
-    else if RE_CC_FromImport.Exec(Copy(locline, 1, CaretX - 1)) then
-    begin
-      // autocomplete from statement
-      fPathDepth := RE_CC_FromImport.MatchLen[1];
-      if RE_CC_FromImport.MatchLen[2] > 0 then
-      begin
-        FCodeCompletionType := cctFrom;
-        // from ...module import identifiers
-        if PyScripterRefactor.InitializeQuery then
-        begin
-          ParsedModule := PyScripterRefactor.ResolveModuleImport
-            (RE_CC_FromImport.Match[2], fCCFileName, fPathDepth);
-          if Assigned(ParsedModule) then
-          begin
-            NameSpace := TStringList.Create;
-            try
-              ParsedModule.GetNamespace(NameSpace);
-              ProcessNamespace;
-            finally
-              NameSpace.Free;
-            end;
-          end;
-        end;
-      end
-      else
-      begin
-        FCodeCompletionType := cctModule;
-        // from ... import modules
-        if fPathDepth > 0 then
-        begin
-          Dir := fCCFileName;
-          for i := 1 to fPathDepth do
-            Dir := ExtractFileDir(Dir);
-          GetModuleList(VarPythonCreate([Dir]));
-        end;
-      end;
-    end
-    else
-    begin
-      FCodeCompletionType := cctNameSpace;
-      TmpX := CaretX;
-      if TmpX > Length(locline) then
-        TmpX := Length(locline)
-      else
-        Dec(TmpX);
-
-      lookup := GetWordAtPos(locline, TmpX, IdentChars + ['.'], True, False);
-      Index := CharLastPos(lookup, WideChar('.'));
-
-      // Add the file path to the Python path - Will be automatically removed
-      PythonPathAdder := InternalInterpreter.AddPathToPythonPath
-        (ExtractFileDir(fCCFileName));
-
-      if PyScripterRefactor.InitializeQuery then
-      begin
-        // GetParsedModule
-        ParsedModule := PyScripterRefactor.GetParsedModule(fCCFileName, None);
-        Scope := nil;
-        if Assigned(ParsedModule) then
-          Scope := ParsedModule.GetScopeForLine(CaretY);
-        if Assigned(ParsedModule) and Assigned(Scope) then
-        begin
-          NameSpace := TStringList.Create;
-          try
-            DisplayText := '';
-            if Index > 0 then
-            begin
-              lookup := Copy(lookup, 1, Index - 1);
-              Def := PyScripterRefactor.FindDottedDefinition(lookup,
-                ParsedModule, Scope, ErrMsg);
-              if Assigned(Def) and (Def.ClassType = TVariable) then
-                Def := PyScripterRefactor.GetVarType(TVariable(Def), ErrMsg);
-              if Assigned(Def) then (Def as TCodeElement).GetNamespace(NameSpace);
-            end else begin
-              // extract namespace from current scope and its parents
-              while Assigned(Scope) do
-              begin
-                Scope.GetNamespace(NameSpace);
-                Scope := Scope.Parent as TCodeElement;
-              end;
-              // builtins (could add keywords as well)
-              ParsedBuiltInModule := PyScripterRefactor.GetParsedModule(GetPythonEngine.BuiltInModuleName, None);
-              ParsedBuiltInModule.GetNamespace(NameSpace);
-              if CommandsDataModule.PyIDEOptions.CompleteKeywords then
-              begin
-                Keywords := Import('keyword').kwlist;
-                Keywords := BuiltinModule.tuple(Keywords);
-                KeywordList := TStringList.Create;
-                try
-                  GetPythonEngine.PyTupleToStrings(ExtractPythonObjectFrom(Keywords), KeywordList);
-                  NameSpace.AddStrings(KeywordList);
-                finally
-                  KeywordList.Free;
-                end;
-              end
-            end;
-            ProcessNamespace;
-          finally
-            NameSpace.Free;
-          end;
-        end;
+        fCompletionHandler := TIDECompletion.EditorCodeCompletion.CompletionHandlers[i] as
+          TBaseCodeCompletionHandler;
+        Handled := fCompletionHandler.HandleCodeCompletion(locline, FileName,
+          CaretXY, Highlighter, Attr, InsertText, DisplayText);
+        if Handled then Break;
       end;
     end;
-    FoundMatch := DisplayText <> '';
-  end;
 
-  CanExecute := FoundMatch;
+    CanExecute := not Skipped and Handled and (InsertText <> '');
+  end;
 
   with TSynCompletionProposal(Sender) do
     if CanExecute then
