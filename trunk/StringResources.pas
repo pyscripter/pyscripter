@@ -282,7 +282,6 @@ Const
     '# Copyright:   (c) $[UserName] $[DateTime-''YYYY''-DateFormat]' + sLineBreak +
     '# Licence:     <your licence>' + sLineBreak +
     '#-------------------------------------------------------------------------------' + sLineBreak +
-    '#!/usr/bin/env python' + sLineBreak +
     '' + sLineBreak +
     'def main():' + sLineBreak +
     '    pass' + sLineBreak +

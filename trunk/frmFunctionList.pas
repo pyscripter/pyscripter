@@ -571,6 +571,7 @@ end;
 procedure TFunctionListWindow.InitializeForm;
 begin
   FObjectStrings := TStringList.Create;
+  FObjectStrings.CaseSensitive := True;
   FObjectStrings.Sorted := True;
   FObjectStrings.Duplicates := dupIgnore;
   ClearObjectStrings;

@@ -222,11 +222,6 @@ function CompiledRegExpr(Expr : string): TRegExpr;
 { Checks whether S contains digits only }
 function IsDigits(S : string): Boolean;
 
-Var
-  RE_CC_Import     : TRegExpr;
-  RE_CC_From       : TRegExpr;
-  RE_CC_FromImport : TRegExpr;
-
 Const
   IdentRE = '[A-Za-z_][A-Za-z0-9_]*';
   DottedIdentRE = '[A-Za-z_][A-Za-z0-9_.]*';
@@ -1804,17 +1799,6 @@ begin
 end;
 
 initialization
-  RE_CC_Import := CompiledRegExpr(
-    Format('^\s*import +(%s( +as +%s)? *, *)*(%s)?$',
-    [DottedIdentRe, IdentRE, IdentRE]));
-  RE_CC_From := CompiledRegExpr(
-    Format('^\s*from +(\.*)(%s)?$', [IdentRE]));
-  RE_CC_FromImport := CompiledRegExpr(
-    Format('^\s*from +(\.*)(%s)? +import +\(? *(%s( +as +%s)? *, *)*(%s)?$',
-      [DottedIdentRe, IdentRE, IdentRe, IdentRe]));
 
 finalization
-  RE_CC_Import.Free;
-  RE_CC_From.Free;
-  RE_CC_FromImport.Free;
 end.

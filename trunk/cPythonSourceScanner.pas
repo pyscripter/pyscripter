@@ -429,11 +429,12 @@ var
   ModuleSource, DocStringSource : string;
   CB : TCodeBlock;
 begin
+  if fDocStringExtracted then Exit;
+
   fDocStringExtracted := True;
   fDocString := '';
 
   CB := fCodeBlock;
-  Inc(CB.StartLine);
   if Assigned(fChildren) and (fChildren.Count > 0) then
     CB.EndLine := Pred(Children[0].CodeBlock.StartLine);
   if CB.StartLine > CB.EndLine then Exit;
@@ -540,7 +541,6 @@ Var
     else
       Result := '';
   end;
-
 
   procedure GetLine(var P : PWideChar; var Line : string; var LineNo : integer);
   Var
@@ -1247,7 +1247,6 @@ begin
       end;
     end;
   end;
-  { TODO2 : If it is a Package, then add sub-modules and packages }
 end;
 
 function TParsedModule.GetIsPackage: boolean;
