@@ -1375,6 +1375,12 @@ begin
         begin
           lookup := GetWordAtPos(LocLine, TmpX, IdentChars+['.'], True, False, True);
 
+          if (lookup <> '') and (lookup[1] = '.') and
+             (TmpX > Length(lookup)) and
+             CharInSet(locline[TmpX - Length(lookup)], ['''', '"'])
+          then
+            lookup := 'str' + lookup;
+
           FoundMatch := (CharPos(lookup, ')') <= 0) // Issue 422  Do not evaluate functions
             and (lookup <> '')
             and PyControl.ActiveInterpreter.CallTipFromExpression(

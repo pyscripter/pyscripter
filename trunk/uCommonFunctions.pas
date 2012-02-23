@@ -557,9 +557,9 @@ Var
   L, WordStart, WordEnd, ParenCounter, NewStart : integer;
   Bracket, MatchingBracket : WideChar;
 Const
-  AllBrackets: array[0..3] of WideChar = ('(', ')', '[', ']');
-  CloseBrackets = [')', ']'];
-  OpenBrackets = ['(', '['];
+  AllBrackets: array[0..5] of WideChar = ('(', ')', '[', ']','{', '}');
+  CloseBrackets = [')', ']', '}'];
+  OpenBrackets = ['(', '[', '{'];
 begin
   L := Length(LineText);
   WordStart := Start;

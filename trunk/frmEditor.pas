@@ -2765,6 +2765,13 @@ begin
           begin
             lookup := GetWordAtPos(locline, TmpX, IdentChars + ['.'], True,
               False);
+            // string constant completion
+            if (lookup <> '') and (lookup[1] = '.') and
+               (TmpX > Length(lookup)) and
+               CharInSet(locline[TmpX - Length(lookup)], ['''', '"'])
+            then
+              lookup := 'str' + lookup;
+
             if AlreadyActive and (lookup = OldParamCompetionData.lookup) then
             begin
               DisplayText := OldParamCompetionData.DisplayText;
