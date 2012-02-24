@@ -197,6 +197,7 @@ public
     fImportRE : TRegExpr;
     fFromImportRE : TRegExpr;
     fAssignmentRE : TRegExpr;
+    fForRE : TRegExpr;
     fReturnRE : TRegExpr;
     fWithRE : TRegExpr;
     fGlobalRE : TRegExpr;
@@ -479,6 +480,7 @@ begin
   fAssignmentRE :=
     CompiledRegExpr(Format('^([ \t]*(self.)?%s[ \t]*(,[ \t]*(self.)?%s[ \t]*)*(=))+[ \t]*((%s)(\(?))?',
       [IdentRE, IdentRE, DottedIdentRE]));
+  fForRE := CompiledRegExpr(Format('^\s*for +(%s)( *, *%s)* *(in)', [IdentRe, IdentRe]));
   fReturnRE :=
     CompiledRegExpr(Format('^([ \t]*return[ \t]*)((%s)(\(?))?',
       [DottedIdentRE]));
@@ -505,6 +507,7 @@ begin
   fImportRE.Free;
   fFromImportRE.Free;
   fAssignmentRE.Free;
+  fForRE.Free;
   fReturnRE.Free;
   fWithRE.Free;
   fGlobalRE.Free;
@@ -1020,6 +1023,33 @@ begin
             end;
           end;
           AsgnTargetList := StrToken(S, '=');
+        end;
+      end else if fForRE.Exec(Line) then begin
+        AsgnTargetList := Copy(Line, fForRE.MatchPos[1], fForRE.MatchPos[3]-fForRE.MatchPos[1]);
+        CharOffset2 := fForRE.MatchPos[1]; // Keeps track of the end of the identifier
+        Variable := nil;
+        while AsgnTargetList <> '' do begin
+          Token := StrToken(AsgnTargetList, ',');
+          CharOffset := CharOffset2;  // Keeps track of the start of the identifier
+          Inc(CharOffset, CalcIndent(Token, 1)); // do not expand tabs
+          Inc(CharOffset2, Succ(Length(Token))); // account for ,
+          Token := Trim(Token);
+          if (GlobalList.IndexOf(Token) < 0) then begin
+            // search for local/global variables
+            Variable := TVariable.Create;
+            Variable.Name := Token;
+            Variable.Parent := LastCodeElement;
+            Variable.fCodePos.LineNo := LineNo;
+            Variable.fCodePos.CharOffset := CharOffset;
+            if LastCodeElement.ClassType = TParsedFunction then
+              TParsedFunction(LastCodeElement).Locals.Add(Variable)
+            else if LastCodeElement.ClassType = TParsedClass then begin
+              //  Do not add for variables to class
+              Variable.Free;
+            end else begin
+              Module.Globals.Add(Variable);
+            end;
+          end;
         end;
       end else if fReturnRE.Exec(Line) then begin
         // only process first return statement
