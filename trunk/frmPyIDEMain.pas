@@ -361,7 +361,7 @@
           New Features
             64-bit version released
           Issues addressed
-            516, 563, 564, 568, 576, 587, 591, 592, 594, 598, 612, 613
+            516, 549, 563, 564, 568, 576, 587, 591, 592, 594, 598, 612, 613
 -----------------------------------------------------------------------------}
 
 // Bugs and minor features
@@ -2282,6 +2282,7 @@ begin
     end;
     if Assigned(Editor) then begin
       Result := True;
+      Sleep(200);
       Application.ProcessMessages;  // to deal with focus problems
       // sets the focus to the editor
       if (Editor <> GetActiveEditor) or FocusEditor then
