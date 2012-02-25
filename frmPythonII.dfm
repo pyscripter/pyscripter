@@ -134,6 +134,7 @@ inherited PythonIIForm: TPythonIIForm
     TitleFont.Name = 'MS Sans Serif'
     TitleFont.Style = [fsBold]
     Columns = <>
+    Resizeable = False
     Images = CommandsDataModule.CodeImages
     OnClose = SynCodeCompletionClose
     OnExecute = SynCodeCompletionExecute

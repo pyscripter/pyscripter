@@ -648,8 +648,13 @@ end;
 procedure TPythonIDEOptions.Changed;
 begin
   CommandsDataModule.ParameterCompletion.Font.Assign(AutoCompletionFont);
+  CommandsDataModule.ParameterCompletion.TitleFont.Assign(AutoCompletionFont);
+  CommandsDataModule.ParameterCompletion.TitleFont.Style := [fsBold];
   CommandsDataModule.ModifierCompletion.Font.Assign(AutoCompletionFont);
-
+  CommandsDataModule.ModifierCompletion.TitleFont.Assign(AutoCompletionFont);
+  CommandsDataModule.ModifierCompletion.TitleFont.Style := [fsBold];
+  if Assigned(CommandsDataModule.CodeTemplatesCompletion.GetCompletionProposal()) then
+    CommandsDataModule.CodeTemplatesCompletion.GetCompletionProposal().Font.Assign(AutoCompletionFont);
   PyIDEMainForm.PyIDEOptionsChanged;
 end;
 
@@ -707,7 +712,7 @@ begin
   fJumpToErrorOnException := True;
   fFileTemplateForNewScripts := _(SPythonTemplateName);
   fAutoCompletionFont := TFont.Create;
-  fAutoCompletionFont.Assign(CommandsDataModule.ParameterCompletion.Font);
+  fAutoCompletionFont.Assign(Application.DefaultFont);
   fHighlightSelectedWord := True;
   fUsePythonColorsInIDE := False;
   fFileChangeNotification := fcnNoMappedDrives;
