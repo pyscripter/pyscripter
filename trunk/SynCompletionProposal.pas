@@ -473,8 +473,8 @@ type
     fAutoCompleteList: TUnicodeStrings;
     fNoNextKey : Boolean;
     FEndOfTokenChr: UnicodeString;
-    FOnBeforeExecute: TNotifyEvent;  
-    FOnAfterExecute: TNotifyEvent;   
+    FOnBeforeExecute: TNotifyEvent;
+    FOnAfterExecute: TNotifyEvent;
     FInternalCompletion: TSynCompletionProposal;
     FDoLookup: Boolean;
     FOptions: TSynCompletionOptions;
@@ -497,6 +497,7 @@ type
     procedure EditorKeyPress(Sender: TObject; var Key: WideChar); virtual;
     function GetPreviousToken(Editor: TCustomSynEdit): UnicodeString;
   public
+    function GetCompletionProposal : TSynCompletionProposal;
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
     procedure Execute(Token: UnicodeString; Editor: TCustomSynEdit);
@@ -1198,7 +1199,7 @@ end;
 
 constructor TSynBaseCompletionProposalForm.Create(AOwner: TComponent);
 begin
-  FResizeable := True;
+  FResizeable := False;
 {$IFDEF SYN_CPPB_1}
   CreateNew(AOwner, 0);
 {$ELSE}
@@ -1275,7 +1276,7 @@ begin
   begin
     Style := WS_POPUP;
     ExStyle := WS_EX_TOOLWINDOW;
-
+//
     {$IFDEF SYN_COMPILER_3_UP}
     if ((Win32Platform and VER_PLATFORM_WIN32_NT) <> 0)
       and (Win32MajorVersion > 4)
@@ -1293,7 +1294,7 @@ begin
       if FResizeable then
         Style := Style or WS_THICKFRAME
       else
-        Style := Style or WS_DLGFRAME;
+       Style := Style or WS_DLGFRAME;
   end;
 end;
 
@@ -1507,7 +1508,10 @@ begin
   case FDisplayKind of
   ctCode:
     begin
-      BorderWidth := 2 * GetSystemMetrics(SM_CYSIZEFRAME);
+      if Resizeable then
+        BorderWidth := 2 * GetSystemMetrics(SM_CYSIZEFRAME)
+      else
+        BorderWidth := 2 * GetSystemMetrics(SM_CYFIXEDFRAME);
 
       if FEffectiveItemHeight <> 0 then
       begin
@@ -2320,13 +2324,16 @@ Var
   begin
 
     tmpX := x;
-    tmpY := y;
+    tmpY := Y + 2;
     tmpWidth := 0;
     tmpHeight := 0;
     case Kind of
     ctCode:
       begin
-        BorderWidth := 2 * GetSystemMetrics(SM_CYSIZEFRAME);
+        if Resizeable then
+          BorderWidth := 2 * GetSystemMetrics(SM_CYSIZEFRAME)
+        else
+          BorderWidth := 2 * GetSystemMetrics(SM_CYFIXEDFRAME);
 
         tmpWidth := FWidth;
         tmpHeight := Form.FHeightBuffer + Form.FEffectiveItemHeight * FNbLinesInWindow + BorderWidth;
@@ -2383,7 +2390,7 @@ Var
 
     if tmpY + tmpHeight > GetWorkAreaHeight then
     begin
-      tmpY := tmpY - tmpHeight - (Form.CurrentEditor  as TCustomSynEdit).LineHeight -2;
+      tmpY := tmpY - tmpHeight - (Form.CurrentEditor  as TCustomSynEdit).LineHeight -4;
       if tmpY < 0 then
         tmpY := 0;
     end;
@@ -3740,6 +3747,11 @@ procedure TSynAutoComplete.CancelCompletion;
 begin
   if Assigned(FInternalCompletion) then
     FInternalCompletion.CancelCompletion;
+end;
+
+function TSynAutoComplete.GetCompletionProposal: TSynCompletionProposal;
+begin
+  Result := FInternalCompletion;
 end;
 
 function TSynAutoComplete.GetExecuting: Boolean;
