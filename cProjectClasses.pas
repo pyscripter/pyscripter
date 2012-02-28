@@ -339,6 +339,7 @@ begin
   AddChild(TProjectRunConfiguationsNode.Create);
   Modified := False;
   fExtraPythonPath := TStringList.Create;
+  fStoreRelativePaths := True;
 end;
 
 destructor TProjectRootNode.Destroy;

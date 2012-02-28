@@ -515,10 +515,15 @@ end;
 
 procedure TPythonIIForm.AppendText(S: string);
 begin
-  SynEdit.ExecuteCommand(ecEditorBottom, ' ', nil);
-  SynEdit.SelText := S;
-  SynEdit.ExecuteCommand(ecEditorBottom, ' ', nil);
-  SynEdit.EnsureCursorPosVisible;
+  SynEdit.BeginUpdate;
+  try
+    SynEdit.ExecuteCommand(ecEditorBottom, ' ', nil);
+    SynEdit.SelText := S;
+    SynEdit.ExecuteCommand(ecEditorBottom, ' ', nil);
+    SynEdit.EnsureCursorPosVisible;
+  finally
+    SynEdit.EndUpdate;
+  end;
 end;
 
 procedure TPythonIIForm.AppendToPrompt(const Buffer: array of string);

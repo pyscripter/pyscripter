@@ -443,6 +443,9 @@ end;
 procedure TProjectExplorerWindow.actProjectNewExecute(Sender: TObject);
 begin
   if CanClose then begin
+    if ActiveProject.FileName <> '' then
+      PyIDEMainForm.tbiRecentProjects.MRUAdd(ActiveProject.FileName);
+
     ExplorerTree.Clear;
     FreeAndNil(ActiveProject);
     ActiveProject := TProjectRootNode.Create;
@@ -605,6 +608,9 @@ procedure TProjectExplorerWindow.DoOpenProjectFile(FileName : string);
 var
   AppStorage: TJvAppIniFileStorage;
 begin
+  if ActiveProject.FileName <> '' then
+    PyIDEMainForm.tbiRecentProjects.MRUAdd(ActiveProject.FileName);
+
   ExplorerTree.Clear;
   ActiveProject.Free;
   ActiveProject := TProjectRootNode.Create;
@@ -618,6 +624,7 @@ begin
     AppStorage.ReadPersistent('Project', ActiveProject);
     ActiveProject.Modified := False;
     ExplorerTree.RootNodeCount := 1;
+    PyIDEMainForm.tbiRecentProjects.MRURemove(FileName);
   finally
     AppStorage.Free;
   end;
