@@ -182,7 +182,7 @@ begin
       fRemotePython.CheckConnected;
       SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
       try
-        Result := fRemotePython.RPI.membercount(fPyObject, True, False);
+        Result := fRemotePython.RPI.membercount(fPyObject, True, False, True);
       except
         Result := 0;
       end;
@@ -206,9 +206,9 @@ begin
     SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
     try
       if IsProxy then
-        FullInfoTuple := fRemotePython.RPI.safegetmembersfullinfo(fPyObject, True, False)
+        FullInfoTuple := fRemotePython.RPI.safegetmembersfullinfo(fPyObject, True, False, True)
       else
-        FullInfoTuple := InternalInterpreter.PyInteractiveInterpreter.safegetmembersfullinfo(fPyObject, True, False);
+        FullInfoTuple := InternalInterpreter.PyInteractiveInterpreter.safegetmembersfullinfo(fPyObject, True, False, True);
       fChildCount := len(FullInfoTuple);
 
       if fChildCount > 0 then begin
@@ -236,7 +236,8 @@ begin
           fChildNodes.AddObject(ObjName, NameSpaceItem);
         end;
         GetPythonEngine.CheckError;
-        fChildNodes.CustomSort(ComparePythonIdents);
+        if (ObjectType <> 'list') and (ObjectType <> 'tuple') then
+          fChildNodes.CustomSort(ComparePythonIdents);
       end;
     except
       fChildCount := 0;

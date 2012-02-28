@@ -239,7 +239,7 @@ begin
   else begin
     SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
     try
-      Result := InternalInterpreter.PyInteractiveInterpreter.membercount(fPyObject, True, False);
+      Result := InternalInterpreter.PyInteractiveInterpreter.membercount(fPyObject, True, False, True);
     except
       Result := 0;
     end;
@@ -269,7 +269,7 @@ begin
     GotChildNodes := True;
     SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
     try
-      FullInfoTuple := InternalInterpreter.PyInteractiveInterpreter.safegetmembersfullinfo(fPyObject, True, False);
+      FullInfoTuple := InternalInterpreter.PyInteractiveInterpreter.safegetmembersfullinfo(fPyObject, True, False, True);
       fChildCount := len(FullInfoTuple);
 
       if fChildCount > 0 then begin
@@ -294,7 +294,8 @@ begin
           fChildNodes.AddObject(ObjName, NameSpaceItem);
         end;
         GetPythonEngine.CheckError;
-        fChildNodes.CustomSort(ComparePythonIdents);
+        if (ObjectType <> 'list') and (ObjectType <> 'tuple') then
+          fChildNodes.CustomSort(ComparePythonIdents);
       end;
     except
       fChildCount := 0;

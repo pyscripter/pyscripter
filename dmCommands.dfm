@@ -1366,7 +1366,7 @@ object CommandsDataModule: TCommandsDataModule
           ''
           
             '    def membercount(self, ob, dictitems = False, expandcommontyp' +
-            'es = True):'
+            'es = True, sequenceitems = False):'
           
             '        #  dictitems will be True when used in the Variables win' +
             'dow'
@@ -1374,7 +1374,9 @@ object CommandsDataModule: TCommandsDataModule
             '        #  expandcommontypes will be False when used in the Vari' +
             'ables window'
           '        try:'
-          '            if dictitems and isinstance(ob, dict):'
+          '            if sequenceitems and isinstance(ob, (list, tuple)):'
+          '                return len(ob)'
+          '            elif dictitems and isinstance(ob, dict):'
           '                return len(ob)'
           
             '            elif not expandcommontypes and (self.objecttype(ob) ' +
@@ -1387,8 +1389,12 @@ object CommandsDataModule: TCommandsDataModule
           ''
           
             '    def _getmembers(self, ob, dictitems = False, expandcommontyp' +
-            'es = True):'
-          '        if dictitems and isinstance(ob, dict):'
+            'es = True, sequenceitems = False):'
+          '        if sequenceitems and isinstance(ob, (list, tuple)):'
+          '            result = {}'
+          '            for i in range(len(ob)):'
+          '                result[str(i)] = ob[i]'
+          '        elif dictitems and isinstance(ob, dict):'
           '            result = {}'
           '            for (i,j) in ob.items():'
           '                result[self.safestr(i)] = j'
@@ -1407,21 +1413,21 @@ object CommandsDataModule: TCommandsDataModule
           ''
           
             '    def safegetmembers(self, ob, dictitems = False, expandcommon' +
-            'types = True):'
+            'types = True, sequenceitems = False):'
           '        try:'
           
             '            return self._getmembers(ob, dictitems, expandcommont' +
-            'ypes)'
+            'ypes, sequenceitems)'
           '        except:'
           '            return {}'
           ''
           
             '    def safegetmembersfullinfo(self, ob, dictitems = False, expa' +
-            'ndcommontypes = True):'
+            'ndcommontypes = True, sequenceitems = False):'
           '        try:'
           
             '            members = self._getmembers(ob, dictitems, expandcomm' +
-            'ontypes)'
+            'ontypes, sequenceitems)'
           '            d = {}'
           '            for (i,j) in members.items():'
           
@@ -1429,8 +1435,13 @@ object CommandsDataModule: TCommandsDataModule
             ' self.objectinfo(j),'
           
             '                            self.membercount(j, dictitems, expan' +
-            'dcommontypes))'
-          '            return tuple(d.items())'
+            'dcommontypes, sequenceitems))'
+          '            if sequenceitems and isinstance(ob, (list, tuple)):'
+          
+            '                return tuple(sorted(d.items(), key = lambda r: i' +
+            'nt(r[0])))'
+          '            else:'
+          '                return tuple(d.items())'
           '        except:'
           '            return ()'
           ''
@@ -1987,7 +1998,7 @@ object CommandsDataModule: TCommandsDataModule
           ''
           
             '    def membercount(self, ob, dictitems = False, expandcommontyp' +
-            'es = True):'
+            'es = True, sequenceitems = False):'
           
             '        #  dictitems will be True when used in the Variables win' +
             'dow'
@@ -1995,7 +2006,9 @@ object CommandsDataModule: TCommandsDataModule
             '        #  expandcommontypes will be False when used in the Vari' +
             'ables window'
           '        try:'
-          '            if dictitems and isinstance(ob, dict):'
+          '            if sequenceitems and isinstance(ob, (list, tuple)):'
+          '                return len(ob)'
+          '            elif dictitems and isinstance(ob, dict):'
           '                return len(ob)'
           
             '            elif not expandcommontypes and (self.objecttype(ob) ' +
@@ -2008,8 +2021,12 @@ object CommandsDataModule: TCommandsDataModule
           ''
           
             '    def _getmembers(self, ob, dictitems = False, expandcommontyp' +
-            'es = True):'
-          '        if dictitems and isinstance(ob, dict):'
+            'es = True, sequenceitems = False):'
+          '        if sequenceitems and isinstance(ob, (list, tuple)):'
+          '            result = {}'
+          '            for i in range(len(ob)):'
+          '                result[str(i)] = ob[i]'
+          '        elif dictitems and isinstance(ob, dict):'
           '            result = {}'
           '            for (i,j) in ob.items():'
           '                result[self.safestr(i)] = j'
@@ -2028,21 +2045,21 @@ object CommandsDataModule: TCommandsDataModule
           ''
           
             '    def safegetmembers(self, ob, dictitems = False, expandcommon' +
-            'types = True):'
+            'types = True, sequenceitems = False):'
           '        try:'
           
             '            return self._getmembers(ob, dictitems, expandcommont' +
-            'ypes)'
+            'ypes, sequenceitems)'
           '        except:'
           '            return {}'
           ''
           
             '    def safegetmembersfullinfo(self, ob, dictitems = False, expa' +
-            'ndcommontypes = True):'
+            'ndcommontypes = True, sequenceitems = False):'
           '        try:'
           
             '            members = self._getmembers(ob, dictitems, expandcomm' +
-            'ontypes)'
+            'ontypes, sequenceitems)'
           '            d = {}'
           '            for (i,j) in members.items():'
           
@@ -2050,8 +2067,13 @@ object CommandsDataModule: TCommandsDataModule
             ' self.objectinfo(j),'
           
             '                            self.membercount(j, dictitems, expan' +
-            'dcommontypes))'
-          '            return tuple(d.items())'
+            'dcommontypes, sequenceitems))'
+          '            if sequenceitems and isinstance(ob, (list, tuple)):'
+          
+            '                return tuple(sorted(d.items(), key = lambda r: i' +
+            'nt(r[0])))'
+          '            else:'
+          '                return tuple(d.items())'
           '        except:'
           '            return ()'
           ''
@@ -2481,7 +2503,7 @@ object CommandsDataModule: TCommandsDataModule
           ''
           
             '    def membercount(self, ob, dictitems = False, expandcommontyp' +
-            'es = True):'
+            'es = True, sequenceitems = False):'
           
             '        #  dictitems will be True when used in the Variables win' +
             'dow'
@@ -2489,7 +2511,9 @@ object CommandsDataModule: TCommandsDataModule
             '        #  expandcommontypes will be False when used in the Vari' +
             'ables window'
           '        try:'
-          '            if dictitems and isinstance(ob, dict):'
+          '            if sequenceitems and isinstance(ob, (list, tuple)):'
+          '                return len(ob)'
+          '            elif dictitems and isinstance(ob, dict):'
           '                return len(ob)'
           
             '            elif not expandcommontypes and (self.objecttype(ob) ' +
@@ -2502,8 +2526,12 @@ object CommandsDataModule: TCommandsDataModule
           ''
           
             '    def _getmembers(self, ob, dictitems = False, expandcommontyp' +
-            'es = True):'
-          '        if dictitems and isinstance(ob, dict):'
+            'es = True, sequenceitems = False):'
+          '        if sequenceitems and isinstance(ob, (list, tuple)):'
+          '            result = {}'
+          '            for i in range(len(ob)):'
+          '                result[str(i)] = ob[i]'
+          '        elif dictitems and isinstance(ob, dict):'
           '            result = {}'
           '            for (i,j) in ob.items():'
           '                result[self.safestr(i)] = j'
@@ -2522,21 +2550,21 @@ object CommandsDataModule: TCommandsDataModule
           ''
           
             '    def safegetmembers(self, ob, dictitems = False, expandcommon' +
-            'types = True):'
+            'types = True, sequenceitems = False):'
           '        try:'
           
             '            return self._getmembers(ob, dictitems, expandcommont' +
-            'ypes)'
+            'ypes, sequenceitems)'
           '        except:'
           '            return {}'
           ''
           
             '    def safegetmembersfullinfo(self, ob, dictitems = False, expa' +
-            'ndcommontypes = True):'
+            'ndcommontypes = True, sequenceitems = False):'
           '        try:'
           
             '            members = self._getmembers(ob, dictitems, expandcomm' +
-            'ontypes)'
+            'ontypes, sequenceitems)'
           '            d = {}'
           '            for (i,j) in members.items():'
           
@@ -2544,8 +2572,13 @@ object CommandsDataModule: TCommandsDataModule
             ' self.objectinfo(j),'
           
             '                            self.membercount(j, dictitems, expan' +
-            'dcommontypes))'
-          '            return tuple(d.items())'
+            'dcommontypes, sequenceitems))'
+          '            if sequenceitems and isinstance(ob, (list, tuple)):'
+          
+            '                return tuple(sorted(d.items(), key = lambda r: i' +
+            'nt(r[0])))'
+          '            else:'
+          '                return tuple(d.items())'
           '        except:'
           '            return ()'
           ''
@@ -3144,7 +3177,7 @@ object CommandsDataModule: TCommandsDataModule
           ''
           
             '    def membercount(self, ob, dictitems = False, expandcommontyp' +
-            'es = True):'
+            'es = True, sequenceitems = False):'
           
             '        #  dictitems will be True when used in the Variables win' +
             'dow'
@@ -3152,7 +3185,9 @@ object CommandsDataModule: TCommandsDataModule
             '        #  expandcommontypes will be False when used in the Vari' +
             'ables window'
           '        try:'
-          '            if dictitems and isinstance(ob, dict):'
+          '            if sequenceitems and isinstance(ob, (list, tuple)):'
+          '                return len(ob)'
+          '            elif dictitems and isinstance(ob, dict):'
           '                return len(ob)'
           
             '            elif not expandcommontypes and (self.objecttype(ob) ' +
@@ -3165,8 +3200,12 @@ object CommandsDataModule: TCommandsDataModule
           ''
           
             '    def _getmembers(self, ob, dictitems = False, expandcommontyp' +
-            'es = True):'
-          '        if dictitems and isinstance(ob, dict):'
+            'es = True, sequenceitems = False):'
+          '        if sequenceitems and isinstance(ob, (list, tuple)):'
+          '            result = {}'
+          '            for i in range(len(ob)):'
+          '                result[str(i)] = ob[i]'
+          '        elif dictitems and isinstance(ob, dict):'
           '            result = {}'
           '            for (i,j) in ob.items():'
           '                result[self.safestr(i)] = j'
@@ -3185,21 +3224,21 @@ object CommandsDataModule: TCommandsDataModule
           ''
           
             '    def safegetmembers(self, ob, dictitems = False, expandcommon' +
-            'types = True):'
+            'types = True, sequenceitems = False):'
           '        try:'
           
             '            return self._getmembers(ob, dictitems, expandcommont' +
-            'ypes)'
+            'ypes, sequenceitems)'
           '        except:'
           '            return {}'
           ''
           
             '    def safegetmembersfullinfo(self, ob, dictitems = False, expa' +
-            'ndcommontypes = True):'
+            'ndcommontypes = True, sequenceitems = False):'
           '        try:'
           
             '            members = self._getmembers(ob, dictitems, expandcomm' +
-            'ontypes)'
+            'ontypes, sequenceitems)'
           '            d = {}'
           '            for (i,j) in members.items():'
           
@@ -3207,8 +3246,13 @@ object CommandsDataModule: TCommandsDataModule
             ' self.objectinfo(j),'
           
             '                            self.membercount(j, dictitems, expan' +
-            'dcommontypes))'
-          '            return tuple(d.items())'
+            'dcommontypes, sequenceitems))'
+          '            if sequenceitems and isinstance(ob, (list, tuple)):'
+          
+            '                return tuple(sorted(d.items(), key = lambda r: i' +
+            'nt(r[0])))'
+          '            else:'
+          '                return tuple(d.items())'
           '        except:'
           '            return ()'
           ''

@@ -361,6 +361,7 @@
           New Features
             64-bit version released
             Recent Projects menu item added
+            Expandable lists and tuples in the Variables window (Issue 583)
           Issues addressed
             516, 549, 563, 564, 568, 576, 587, 591, 592, 594,
             597, 598, 599, 612, 613
