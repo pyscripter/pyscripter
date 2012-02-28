@@ -360,9 +360,10 @@
   History:   v 2.4.7
           New Features
             64-bit version released
+            Recent Projects menu item added
           Issues addressed
             516, 549, 563, 564, 568, 576, 587, 591, 592, 594,
-            598, 599, 612, 613
+            597, 598, 599, 612, 613
 -----------------------------------------------------------------------------}
 
 // Bugs and minor features
@@ -870,6 +871,9 @@ type
     SpTBXItem9: TSpTBXItem;
     SpTBXSeparatorItem14: TSpTBXSeparatorItem;
     SpTBXSeparatorItem15: TSpTBXSeparatorItem;
+    SpTBXSeparatorItem16: TSpTBXSeparatorItem;
+    SpTBXSubmenuItem1: TSpTBXSubmenuItem;
+    tbiRecentProjects: TSpTBXMRUListItem;
     procedure mnFilesClick(Sender: TObject);
     procedure actEditorZoomInExecute(Sender: TObject);
     procedure actEditorZoomOutExecute(Sender: TObject);
@@ -986,6 +990,8 @@ type
     procedure actViewSplitWorkspaceVerExecute(Sender: TObject);
     procedure actViewSplitWorkspaceHorExecute(Sender: TObject);
     procedure actViewHideSecondaryWorkspaceExecute(Sender: TObject);
+    procedure tbiRecentProjectsClick(Sender: TObject;
+      const Filename: WideString);
   private
     DSAAppStorage: TDSAAppStorage;
     ShellExtensionFiles : TStringList;
@@ -2905,10 +2911,6 @@ begin
     // Form Placement
     JvFormStorage.SaveFormPlacement;
 
-    // Project Filename
-    AppStorage.DeleteSubTree('Active Project');
-    AppStorage.WriteString('Active Project', ActiveProject.FileName);
-
   finally
     AppStorage.EndUpdate;
     TempStringList.Free;
@@ -2916,6 +2918,11 @@ begin
 
   // Save MRU Lists
   tbiRecentFileList.SaveToIni(AppStorage.IniFile, 'MRU File List');
+  tbiRecentProjects.SaveToIni(AppStorage.IniFile, 'MRU Project List');
+
+  // Project Filename
+  AppStorage.DeleteSubTree('Active Project');
+  AppStorage.WriteString('Active Project', ActiveProject.FileName);
 
   AppStorage.Flush;
 end;
@@ -3036,19 +3043,20 @@ begin
       PythonIIForm.CommandHistory.Add(StrEscapedToString(TempStringList[i]));
     PythonIIForm.CommandHistoryPointer := TempStringList.Count;  // one after the last one
 
-    // Project Filename
-    if CmdLineReader.readString('PROJECT') = '' then begin
-      FName := AppStorage.ReadString('Active Project');
-      if FName <> '' then
-        ProjectExplorerWindow.DoOpenProjectFile(FName);
-    end;
-
   finally
     TempStringList.Free;
   end;
 
   // Load MRU Lists
   tbiRecentFileList.LoadFromIni(AppStorage.IniFile, 'MRU File List');
+  tbiRecentProjects.LoadFromIni(AppStorage.IniFile, 'MRU Project List');
+
+  // Project Filename
+  if CmdLineReader.readString('PROJECT') = '' then begin
+    FName := AppStorage.ReadString('Active Project');
+    if FName <> '' then
+      ProjectExplorerWindow.DoOpenProjectFile(FName);
+  end;
 
   SetIDEColors;
 end;
@@ -4622,6 +4630,13 @@ begin
   DoOpenFile(S, '', TabControlIndex(ActiveTabControl));
   // A bit problematic since it Frees the MRU Item which calls this click handler
   tbiRecentFileList.MRURemove(S);
+end;
+
+procedure TPyIDEMainForm.tbiRecentProjectsClick(Sender: TObject;
+  const Filename: WideString);
+begin
+  ProjectExplorerWindow.DoOpenProjectFile(FileName);
+  tbiRecentProjects.MRURemove(Filename);
 end;
 
 procedure TPyIDEMainForm.tbiReplaceTextAcceptText(const NewText: WideString);

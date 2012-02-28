@@ -58,7 +58,6 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
         Align = alClient
         BorderStyle = bsNone
         Header.AutoSizeIndex = -1
-        Header.DefaultHeight = 17
         Header.Font.Charset = DEFAULT_CHARSET
         Header.Font.Color = clWindowText
         Header.Font.Height = -11
@@ -375,7 +374,7 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
     Left = 8
     Top = 140
     Bitmap = {
-      494C0101040009001C0010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010104000900200010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000002000000001002000000000000020
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

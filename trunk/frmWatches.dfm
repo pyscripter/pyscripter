@@ -49,20 +49,21 @@ inherited WatchesWindow: TWatchesWindow
   inherited FGPanel: TPanel
     Width = 435
     Height = 221
-    ExplicitWidth = 436
-    ExplicitHeight = 222
+    ExplicitLeft = 2
+    ExplicitTop = 2
+    ExplicitWidth = 435
+    ExplicitHeight = 221
     object WatchesView: TVirtualStringTree
       Left = 0
       Top = 0
-      Width = 436
-      Height = 222
+      Width = 435
+      Height = 221
       Align = alClient
       Alignment = taRightJustify
       BevelInner = bvNone
       BevelOuter = bvNone
       BorderStyle = bsNone
       Header.AutoSizeIndex = -1
-      Header.DefaultHeight = 17
       Header.MainColumn = 1
       Header.Options = [hoAutoResize, hoColumnResize, hoDblClickResize, hoHotTrack, hoOwnerDraw, hoVisible]
       Header.ParentFont = True
@@ -89,7 +90,7 @@ inherited WatchesWindow: TWatchesWindow
         end
         item
           Position = 1
-          Width = 236
+          Width = 235
           WideText = 'Value'
         end>
     end

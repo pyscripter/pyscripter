@@ -483,8 +483,7 @@ begin
 
   fOldSysModules := SysModule.modules.copy();
   try
-    fRpycPath := Format('%sLib\rpyc-python%sx.zip',
-      [ExtractFilePath(Application.ExeName), iff(GetPythonEngine.IsPython3000, '3', '2')]);
+    fRpycPath := Format('%sLib\rpyc.zip', [ExtractFilePath(Application.ExeName)]);
     InternalInterpreter.SysPathAdd(fRpycPath);
     Rpyc := Import('rpyc');
     fIsAvailable := True;
