@@ -4,7 +4,6 @@
  Purpose:   Code completion support classes
  History:
 -----------------------------------------------------------------------------}
- { TODO : in form import check whether is package }
 
 unit cCodeCompletion;
 
@@ -107,28 +106,29 @@ begin
     CE := SortedNameSpace.Objects[i] as TBaseCodeElement;
     if not Assigned(CE) then
     begin
-    // Keyword
-      DisplayText := DisplayText + Format('\Image{%d}\hspace{2}\color{clBlue}%s', [20, S]);
+      // Keyword
+      ImageIndex := Integer(TCodeImages.Keyword);
+      DisplayText := DisplayText + Format('\Image{%d}\hspace{2}\color{clBlue}%s', [ImageIndex, S]);
     end
     else
     begin
       if (CE is TParsedModule) or (CE is TModuleImport) then
-        ImageIndex := 16
+        ImageIndex := Integer(TCodeImages.Module)
       else if CE is TParsedFunction then
       begin
         if CE.Parent is TParsedClass then
-          ImageIndex := 14
+          ImageIndex := Integer(TCodeImages.Method)
         else
-          ImageIndex := 17
+          ImageIndex := Integer(TCodeImages.Func)
       end
       else if CE is TParsedClass then
-        ImageIndex := 13
+        ImageIndex := Integer(TCodeImages.Klass)
       else
       begin // TVariable or TParsedVariable
         if Assigned(CE) and (CE.Parent is TParsedClass) then
-          ImageIndex := 1
+          ImageIndex := Integer(TCodeImages.Field)
         else
-          ImageIndex := 0;
+          ImageIndex := Integer(TCodeImages.Variable);
       end;
       DisplayText := DisplayText + Format('\Image{%d}\hspace{2}%s',
         [ImageIndex, S]);
@@ -796,24 +796,25 @@ begin
 
     NameSpaceItem := fNameSpace.Objects[i] as TBaseNameSpaceItem;
     if not Assigned(NameSpaceItem) then
-       DisplayText := DisplayText + Format('\Image{%d}\hspace{2}\color{clBlue}%s', [20, fNameSpace[i]])
+       DisplayText := DisplayText + Format('\Image{%d}\hspace{2}\color{clBlue}%s',
+         [Integer(TCodeImages.Keyword), fNameSpace[i]])
     else
     begin
       if NameSpaceItem.IsModule then
-        ImageIndex := 16
+        ImageIndex := Integer(TCodeImages.Module)
       else if NameSpaceItem.IsMethod
            {or NameSpaceItem.IsMethodDescriptor} then
-        ImageIndex := 14
+        ImageIndex := Integer(TCodeImages.Method)
       else if NameSpaceItem.IsFunction
            {or NameSpaceItem.IsBuiltin} then
-        ImageIndex := 17
+        ImageIndex := Integer(TCodeImages.Func)
       else if NameSpaceItem.IsClass then
-        ImageIndex := 13
+        ImageIndex := Integer(TCodeImages.Klass)
       else begin
         if Index > 0 then
-          ImageIndex := 1
+          ImageIndex := Integer(TCodeImages.Field)
         else
-          ImageIndex := 0;
+          ImageIndex := Integer(TCodeImages.Variable);
       end;
       DisplayText := DisplayText + Format('\Image{%d}\hspace{2}%s', [ImageIndex, NameSpaceItem.Name]);
     end;

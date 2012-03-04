@@ -558,9 +558,6 @@ begin
   if Kind in [ikNormal, ikSelected] then begin
     Data := ExplorerTree.GetNodeData(Node);
     ImageIndex := Data.CENode.ImageIndex;
-    if (Data.CENode.ClassType = TParsedClass) and
-      (vsExpanded in Node.States) then
-        ImageIndex := 12;
   end;
 end;
 
@@ -955,7 +952,7 @@ end;
 
 function TModuleCENode.GetImageIndex: integer;
 begin
-  Result := 18;
+  Result := Integer(TCodeImages.Python);
 end;
 
 constructor TModuleCENode.CreateFromModule(AModule: TParsedModule);
@@ -1048,10 +1045,7 @@ end;
 
 function TImportCENode.GetImageIndex: integer;
 begin
-  if ModuleImport.ImportAll or (ChildCount > 0) then
-    Result := 19
-  else
-    Result := 16;
+  Result := Integer(TCodeImages.Module);
 end;
 
 function TImportCENode.GetHint: string;
@@ -1162,7 +1156,7 @@ end;
 
 function TGlobalCENode.GetImageIndex: integer;
 begin
-  Result := 0;
+  Result := Integer(TCodeImages.Variable);
 end;
 
 function TGlobalCENode.GetHint: string;
@@ -1180,7 +1174,7 @@ end;
 
 function TClassCENode.GetImageIndex: integer;
 begin
-  Result := 13;
+  Result := Integer(TCodeImages.Klass);
 end;
 
 constructor TClassCENode.CreateFromClass(AClass: TParsedClass);
@@ -1259,7 +1253,7 @@ end;
 
 function TAttributeCENode.GetImageIndex: integer;
 begin
-  Result := 1;
+  Result := Integer(TCodeImages.Field);
 end;
 
 function TAttributeCENode.GetHint: string;
@@ -1293,7 +1287,7 @@ end;
 
 function TFunctionCENode.GetImageIndex: integer;
 begin
-  Result := 17;
+  Result := Integer(TCodeImages.Func);
 end;
 
 function TFunctionCENode.GetHint: string;
@@ -1316,7 +1310,7 @@ end;
 
 function TMethodCENode.GetImageIndex: integer;
 begin
-  Result := 14;
+  Result := Integer(TCodeImages.Method);
 end;
 
 function TMethodCENode.GetHint: string;

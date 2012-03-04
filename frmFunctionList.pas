@@ -190,9 +190,9 @@ procedure TFunctionListWindow.LoadProcs;
       ProcInfo.ProcArgs := TParsedFunction(CodeElement).ArgumentsString;
       if Assigned(CodeElement.Parent) and (CodeElement.Parent.ClassType = TParsedClass) then begin
         ProcInfo.FProcClass := CodeElement.Parent.Name;
-        ProcInfo.ProcIndex := 17;
+        ProcInfo.ProcIndex := Integer(TCodeImages.Method);
       end else
-        ProcInfo.ProcIndex := 14;
+        ProcInfo.ProcIndex := Integer(TCodeImages.Func);
 
       AddProcedure(ProcInfo);
     end;

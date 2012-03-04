@@ -49,6 +49,8 @@ inherited OutputWindow: TOutputWindow
   inherited FGPanel: TPanel
     Width = 548
     Height = 327
+    ExplicitLeft = 2
+    ExplicitTop = 2
     ExplicitWidth = 548
     ExplicitHeight = 327
     object lsbConsole: TListBox

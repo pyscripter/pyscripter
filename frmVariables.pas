@@ -175,32 +175,26 @@ begin
   if (Column = 0) and (Kind in [ikNormal, ikSelected]) then begin
     Data := VariablesTree.GetNodeData(Node);
     with GetPythonEngine do begin
-      if Data.NameSpaceItem.IsDict then begin
-        if vsExpanded in Node.States then
-          ImageIndex := 9
-        else
-          ImageIndex := 10;
-      end else if Data.NameSpaceItem.IsModule then
-        ImageIndex := 16
+      if Data.NameSpaceItem.IsDict then
+        ImageIndex := Integer(TCodeImages.Namespace)
+      else if Data.NameSpaceItem.IsModule then
+        ImageIndex := Integer(TCodeImages.Module)
       else if Data.NameSpaceItem.IsMethod then
-        ImageIndex := 14
+        ImageIndex := Integer(TCodeImages.Method)
       else if Data.NameSpaceItem.IsFunction then
-        ImageIndex := 17
-      else if Data.NameSpaceItem.IsClass or Data.NameSpaceItem.Has__dict__ then begin
-        if (Data.NameSpaceItem.ChildCount > 0) and
-           (vsExpanded in Node.States)
-        then
-          ImageIndex := 12
-        else
-          ImageIndex := 13;
-      end else begin
+        ImageIndex := Integer(TCodeImages.Func)
+      else if Data.NameSpaceItem.IsClass or Data.NameSpaceItem.Has__dict__ then
+          ImageIndex := Integer(TCodeImages.Klass)
+      else if (Data.NameSpaceItem.ObjectType = 'list') or (Data.NameSpaceItem.ObjectType = 'tuple') then
+        ImageIndex := Integer(TCodeImages.List)
+      else begin
         if Assigned(Node.Parent) and (Node.Parent <> VariablesTree.RootNode) and
           (PPyObjRec(VariablesTree.GetNodeData(Node.Parent)).NameSpaceItem.IsDict
             or PPyObjRec(VariablesTree.GetNodeData(Node.Parent)).NameSpaceItem.IsModule)
         then
-          ImageIndex := 0
+          ImageIndex := Integer(TCodeImages.Variable)
         else
-          ImageIndex := 1;
+          ImageIndex := Integer(TCodeImages.Field);
       end;
     end
   end else

@@ -136,7 +136,7 @@ end;
 
 function TMethodUTWNode.GetImageIndex: integer;
 begin
-  Result := 14;
+  Result := Integer(TCodeImages.Method);
 end;
 
 function TMethodUTWNode.GetHint: string;
@@ -260,9 +260,6 @@ begin
   if Kind in [ikNormal, ikSelected] then begin
     Data := ExplorerTree.GetNodeData(Node);
     ImageIndex := Data.UTWNode.ImageIndex;
-    if (Data.UTWNode.ClassType = TParsedClass) and
-      (vsExpanded in Node.States) then
-        ImageIndex := 12;
   end;
 end;
 

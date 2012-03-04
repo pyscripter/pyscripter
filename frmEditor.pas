@@ -1449,8 +1449,10 @@ begin
     PyIDEMainForm.UpdateCaption;
     ParentTabItem.Invalidate;
   end;
-  if scCaretY in Changes then
+  if scCaretY in Changes then begin
     fNeedToSyncCodeExplorer := True;
+    fCloseBracketChar := #0;
+  end;
 end;
 
 procedure TEditorForm.DoActivate;
@@ -1732,6 +1734,8 @@ begin
   ASynEdit := Sender as TSynEdit;
   if (Command <> ecLostFocus) and (Command <> ecGotFocus) then
     EditorSearchOptions.InitSearch;
+  if Command <> ecChar then
+    fCloseBracketChar := #0;
 
   if not AfterProcessing then
   begin
@@ -1930,7 +1934,7 @@ begin
             end
             else
             begin
-              fCloseBracketChar := #0;
+              //fCloseBracketChar := #0;
               OpenBracketPos := Pos(AChar, OpenBrackets);
 
               BC := CaretXY;
@@ -1964,7 +1968,7 @@ begin
                 if CharInSet(CharRight, [WideNull, ')', ']', '}', ',']) and not
                   (CharInSet(AChar, ['"', '''']) and
                     (Highlighter.IsIdentChar(CharLeft) or (CharLeft = AChar)))
-                  then
+                then
                 begin
                   SelText := CloseBrackets[OpenBracketPos];
                   CaretX := CaretX - 1;
