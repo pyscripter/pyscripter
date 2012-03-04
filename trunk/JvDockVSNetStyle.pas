@@ -549,7 +549,7 @@ implementation
 
 uses
   SysUtils, Math, {AppEvnts,} JvJVCLUtils,
-  JvDockSupportProc;
+  JvDockSupportProc, ImgList;
 
 type
   TAnimateState = (asPopup, asHide);
@@ -748,6 +748,7 @@ begin
   FVSChannel := AOwner;
   FVSPanes := TObjectList.Create;
   FImageList := TImageList.CreateSize(16, 16);
+  FImageList.ColorDepth := cd32Bit;
   FInactiveBlockWidth := 24;
   FActiveBlockWidth := 24;
 end;

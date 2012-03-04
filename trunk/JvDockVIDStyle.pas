@@ -2453,6 +2453,7 @@ begin
   if AOwner is TJvDockTabHostForm then
   begin
     FTabImageList := TCustomImageList.Create(AOwner);
+    FTabImageList.ColorDepth := cd32Bit;
     Images := FTabImageList;
   end;
 end;

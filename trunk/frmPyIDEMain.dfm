@@ -414,8 +414,6 @@ object PyIDEMainForm: TPyIDEMainForm
     FullRepaint = False
     ParentBackground = False
     TabOrder = 2
-    ExplicitTop = 52
-    ExplicitHeight = 452
     object TabControl1: TSpTBXTabControl
       Left = 0
       Top = 0
@@ -429,7 +427,6 @@ object PyIDEMainForm: TPyIDEMainForm
       TabDragReorder = True
       TabPosition = ttpBottom
       OnActiveTabChange = TabControlActiveTabChange
-      ExplicitHeight = 452
       HiddenItems = <>
       object tbiRightAlign: TSpTBXRightAlignSpacerItem
         CustomWidth = 648
@@ -480,7 +477,6 @@ object PyIDEMainForm: TPyIDEMainForm
       TabDragReorder = True
       TabPosition = ttpBottom
       OnActiveTabChange = TabControlActiveTabChange
-      ExplicitHeight = 452
       HiddenItems = <>
       object SpTBXRightAlignSpacerItem2: TSpTBXRightAlignSpacerItem
       end
@@ -524,7 +520,6 @@ object PyIDEMainForm: TPyIDEMainForm
       Cursor = crSizeWE
       Align = alRight
       Visible = False
-      ExplicitHeight = 452
     end
   end
   object TBXDockTop: TSpTBXDock
@@ -533,7 +528,6 @@ object PyIDEMainForm: TPyIDEMainForm
     Width = 780
     Height = 77
     PopupMenu = ToolbarPopupMenu
-    ExplicitTop = -6
     object MainMenu: TSpTBXToolbar
       Left = 0
       Top = 0
@@ -1571,8 +1565,6 @@ object PyIDEMainForm: TPyIDEMainForm
     FixAlign = True
     PopupMenu = ToolbarPopupMenu
     Position = dpLeft
-    ExplicitTop = 52
-    ExplicitHeight = 452
   end
   object TBXDockRight: TSpTBXDock
     Left = 771
@@ -1582,8 +1574,6 @@ object PyIDEMainForm: TPyIDEMainForm
     FixAlign = True
     PopupMenu = ToolbarPopupMenu
     Position = dpRight
-    ExplicitTop = 52
-    ExplicitHeight = 452
   end
   object TBXDockBottom: TSpTBXDock
     Left = 0
@@ -2069,7 +2059,7 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpContext = 360
       HelpType = htContext
       Hint = 'Show/Hide Breakpoints window'
-      ImageIndex = 60
+      ImageIndex = 67
       OnExecute = actBreakPointsWinExecute
     end
     object actWatchesWin: TAction
@@ -2345,7 +2335,7 @@ object PyIDEMainForm: TPyIDEMainForm
       Caption = '&BreakPoints'
       HelpType = htContext
       Hint = 'Activate the Breakpoints window'
-      ImageIndex = 60
+      ImageIndex = 67
       ShortCut = 49218
       OnExecute = actNavBreakpointsExecute
     end

@@ -539,6 +539,22 @@ type
     property Highlighters : TStrings read fHighlighters;
   end;
 
+{$SCOPEDENUMS ON}
+  TCodeImages =(
+    Python,
+    Variable,
+    Field,
+    Func,
+    Method,
+    Klass,
+    Namespace,
+    List,
+    Module,
+    Keyword
+  );
+{$SCOPEDENUMS OFF}
+
+
 Const
   ecRecallCommandPrev = ecUserFirst + 100;
   ecRecallCommandNext = ecUserFirst + 101;
@@ -719,7 +735,7 @@ begin
   fCodeCompletionCaseSensitive := True;
   fCompleteKeywords := True;
   fCompleteAsYouType := True;
-  fCompleteWithWordBreakChars := True;
+  fCompleteWithWordBreakChars := False;
   fCompleteWithOneEntry:=True;
 end;
 
@@ -1391,9 +1407,16 @@ begin
         SearchEngine := SynEditRegexSearch
       else
         SearchEngine := SynEditSearch;
-
-      FindSearchTerm(EditorSearchOptions.SearchText, Editor.SynEdit,
-        TEditorForm(Editor.Form).FoundSearchItems, SearchEngine, SearchOptions);
+      try
+        FindSearchTerm(EditorSearchOptions.SearchText, Editor.SynEdit,
+          TEditorForm(Editor.Form).FoundSearchItems, SearchEngine, SearchOptions);
+      except
+        on E: ERegExpr do begin
+          MessageBeep(MB_ICONERROR);
+          PyIDEMainForm.WriteStatusMsg(Format(_(SInvalidRegularExpression), [E.Message]));
+          Exit;
+        end;
+      end;
       InvalidateHighlightedTerms(Editor.SynEdit2, TEditorForm(Editor.Form).FoundSearchItems);
     end else if not actSearchHighlight.Checked then
       ClearAllHighlightedTerms;
