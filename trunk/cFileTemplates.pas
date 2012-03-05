@@ -32,7 +32,8 @@ Type
   TFileTemplates = class(TObjectList)
     function CreateListItem(Sender: TJvCustomAppStorage; const Path: string;
       Index: Integer): TPersistent;
-    procedure  AddPythonTemplate;
+    procedure AddPythonTemplate;
+    procedure AddCythonTemplate;
     procedure AddHTMLTemplate;
     procedure AddCSSTemplate;
     procedure AddXMLTemplate;
@@ -113,6 +114,19 @@ begin
   FileTemplate.Category := _(SFileTemplateCategoryInternet);
   FileTemplate.Highlighter := 'CSS';
   FileTemplate.Template := SCSSFileTemplate;
+  Add(FileTemplate);
+end;
+
+procedure TFileTemplates.AddCythonTemplate;
+Var
+  FileTemplate : TFileTemplate;
+begin
+  FileTemplate := TFileTemplate.Create;
+  FileTemplate.Name := _(SCythonTemplateName);
+  FileTemplate.Extension := 'pyx';
+  FileTemplate.Category := 'Python';
+  FileTemplate.Highlighter := 'Cython';
+  FileTemplate.Template := _(SPythonFileTemplate);
   Add(FileTemplate);
 end;
 
@@ -229,6 +243,7 @@ initialization
   FileTemplates := TFileTemplates.Create(True);
   with FileTemplates do begin
    AddPythonTemplate;
+   AddCythonTemplate;
    AddHTMLTemplate;
    AddXMLTemplate;
    AddCSSTemplate;

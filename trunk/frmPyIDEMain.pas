@@ -357,18 +357,19 @@
             461, 463, 468, 471, 474, 478, 488, 496, 504, 508,
             509, 511, 512, 515, 525, 526, 527, 528, 532, 559, 560
 
-  History:   v 2.4.7
+  History:   v 2.5
           New Features
-            64-bit version released
+            This is the first joint 32-bit and 64-bit version release
             Recent Projects menu item added
             Expandable lists and tuples in the Variables window (Issue 583)
+            Basic support for Cython files added (Issue 542)
+            New interpreter action Paste & Execute (Issue 500) Replaces Paste with Prompt
           Issues addressed
             516, 549, 563, 564, 568, 576, 587, 591, 592, 594,
             597, 598, 599, 612, 613, 615
 -----------------------------------------------------------------------------}
 
 // Bugs and minor features
-{ TODO : Editor Go back forward }
 // TODO: Internal Tool as in pywin
 // TODO: Interpreter raw_input
 // TODO: Find module expert
@@ -2033,7 +2034,8 @@ var
   PyFileActive : boolean;
 begin
   Editor := GetActiveEditor;
-  PyFileActive := Assigned(Editor) and Editor.HasPythonFile;
+  PyFileActive := Assigned(Editor) and
+    (Editor.SynEdit.Highlighter = CommandsDataModule.SynPythonSyn);
 
   actSyntaxCheck.Enabled := PyFileActive and (DebuggerState = dsInactive);
   actRun.Enabled := PyFileActive and (DebuggerState = dsInactive);
@@ -2723,6 +2725,8 @@ begin
   MaskFPUExceptions(CommandsDataModule.PyIDEOptions.MaskFPUExceptions);
   CommandsDataModule.SynPythonSyn.DefaultFilter :=
     CommandsDataModule.PyIDEOptions.PythonFileFilter;
+  CommandsDataModule.SynCythonSyn.DefaultFilter :=
+    CommandsDataModule.PyIDEOptions.CythonFileFilter;
   CommandsDataModule.SynWebHTMLSyn.DefaultFilter :=
     CommandsDataModule.PyIDEOptions.HTMLFileFilter;
   CommandsDataModule.SynWebXMLSyn.DefaultFilter :=

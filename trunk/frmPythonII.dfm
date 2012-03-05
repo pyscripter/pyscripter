@@ -97,6 +97,9 @@ inherited PythonIIForm: TPythonIIForm
       OnPaintTransient = SynEditPaintTransient
     end
   end
+  inherited DockClient: TJvDockClient
+    Left = 40
+  end
   object PythonEngine: TPythonEngine
     AutoLoad = False
     DllName = 'python24.dll'
@@ -244,8 +247,8 @@ inherited PythonIIForm: TPythonIIForm
   end
   object InterpreterPopUp: TSpTBXPopupMenu
     Images = CommandsDataModule.Images
-    Left = 45
-    Top = 12
+    Left = 37
+    Top = 60
     object TBXPythonEngines: TSpTBXSubmenuItem
       Caption = 'Python Engine'
       LinkSubitems = PyIDEMainForm.mnPythonEngines
@@ -267,7 +270,7 @@ inherited PythonIIForm: TPythonIIForm
       Action = actCopyWithoutPrompts
     end
     object mnPasteWithPrompts: TSpTBXItem
-      Action = actPasteWithPrompt
+      Action = actPasteAndExecute
     end
     object mnCopyHistory: TSpTBXItem
       Action = actCopyHistory
@@ -298,8 +301,8 @@ inherited PythonIIForm: TPythonIIForm
   end
   object InterpreterActionList: TActionList
     Images = CommandsDataModule.Images
-    Left = 8
-    Top = 45
+    Left = 40
+    Top = 109
     object actCopyHistory: TAction
       Category = 'Interpreter'
       Caption = 'Copy &History'
@@ -325,14 +328,14 @@ inherited PythonIIForm: TPythonIIForm
       ShortCut = 24643
       OnExecute = actCopyWithoutPromptsExecute
     end
-    object actPasteWithPrompt: TAction
+    object actPasteAndExecute: TAction
       Category = 'Interpreter'
-      Caption = 'Paste (&With Prompts)'
+      Caption = 'Paste && E&xecute'
       HelpContext = 410
       Hint = 'Paste clipboard text with added interpreter prompts'
       ImageIndex = 13
       ShortCut = 24662
-      OnExecute = actPasteWithPromptExecute
+      OnExecute = actPasteAndExecuteExecute
     end
   end
 end
