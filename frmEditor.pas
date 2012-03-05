@@ -284,7 +284,7 @@ uses
   SynEditTextBuffer, cPyDebugger, dlgPickList, JvDockControlForm,
   uSearchHighlighter, VirtualShellNotifier,
   SynHighlighterWebMisc, SynHighlighterWeb, gnugettext,
-  SynUnicode, frmIDEDockWin, StrUtils;
+  SynUnicode, frmIDEDockWin, StrUtils, SynHighlighterPython;
 
 const
   WM_DELETETHIS = WM_USER + 42;
@@ -725,7 +725,7 @@ end;
 
 function TEditor.HasPythonFile: boolean;
 begin
-  Result := GetSynEdit.Highlighter = CommandsDataModule.SynPythonSyn;
+  Result := GetSynEdit.Highlighter is TSynPythonSyn;
 end;
 
 function TEditor.GetForm: TForm;
@@ -830,9 +830,8 @@ procedure TEditor.ExecuteSelection;
 var
   EncodedSource: AnsiString;
   ExecType: string;
-  Source, LeadWhiteSpace: string;
+  Source: string;
   Editor: TSynEdit;
-  RegExpr: TRegExpr;
 begin
   if not HasPythonFile or PyControl.IsRunning then
   begin
@@ -866,20 +865,7 @@ begin
   end;
 
   // Dedent the selection
-  RegExpr := TRegExpr.Create;
-  try
-    RegExpr.ModifierM := False;
-    RegExpr.Expression := '^\s*';
-    if RegExpr.Exec(Source) then
-    begin
-      LeadWhiteSpace := RegExpr.Match[0];
-      RegExpr.ModifierM := True;
-      RegExpr.Expression := '^' + LeadWhiteSpace;
-      Source := RegExpr.Replace(Source, '');
-    end;
-  finally
-    RegExpr.Free;
-  end;
+  Source := Dedent(Source);
 
   ShowDockForm(PythonIIForm);
   PythonIIForm.SynEdit.ExecuteCommand(ecEditorBottom, ' ', nil);
@@ -1777,16 +1763,17 @@ begin
             Handled := True;
           end;
       ecCodeCompletion:
-        if ASynEdit.Highlighter = CommandsDataModule.SynPythonSyn then
+        if ASynEdit.Highlighter is TSynPythonSyn then
         begin
           if SynCodeCompletion.Form.Visible then
             SynCodeCompletion.CancelCompletion;
           // SynCodeCompletion.DefaultType := ctCode;
           SynCodeCompletion.ActivateCompletion;
           Handled := True;
-        end;
+        end else if ASynEdit.Highlighter is TSynWebBase then
+          SynWebCompletion.ActivateCompletion;
       ecParamCompletion:
-        if ASynEdit.Highlighter = CommandsDataModule.SynPythonSyn then
+        if ASynEdit.Highlighter is TSynPythonSyn then
         begin
           if SynParamCompletion.Form.Visible then
             SynParamCompletion.CancelCompletion;
@@ -1840,7 +1827,7 @@ begin
         end;
       ecLineBreak: // Python Mode
         if ASynEdit.InsertMode and
-          (ASynEdit.Highlighter = CommandsDataModule.SynPythonSyn)
+          (ASynEdit.Highlighter is TSynPythonSyn)
           and not fAutoCompleteActive then
         begin
           ASynEdit.UndoList.BeginBlock;
@@ -1869,7 +1856,7 @@ begin
     case Command of
       ecLineBreak: // Python Mode
         if ASynEdit.InsertMode and
-          (ASynEdit.Highlighter = CommandsDataModule.SynPythonSyn)
+          (ASynEdit.Highlighter is TSynPythonSyn)
           and not fAutoCompleteActive then
         begin
           { CaretY should never be lesser than 2 right after ecLineBreak, so there's
@@ -1880,7 +1867,7 @@ begin
           if ASynEdit.GetHighlighterAttriAtRowCol(BC, DummyToken, Attr) and not
             ( // (attr = ASynEdit.Highlighter.StringAttribute) or
             (Attr = ASynEdit.Highlighter.CommentAttribute) or
-              (Attr = CommandsDataModule.SynPythonSyn.CodeCommentAttri) { or
+              (Attr = TSynPythonSyn(ASynEdit.Highlighter).CodeCommentAttri) { or
               (attr = CommandsDataModule.SynPythonSyn.DocStringAttri) } ) then
           begin
             if CommandsDataModule.IsBlockOpener(iPrevLine) then
@@ -1896,7 +1883,7 @@ begin
           AutoCompleteBrackets then
           with ASynEdit do
           begin
-            if ASynEdit.Highlighter = CommandsDataModule.SynPythonSyn then
+            if ASynEdit.Highlighter is TSynPythonSyn then
             begin
               OpenBrackets := '([{"''';
               CloseBrackets := ')]}"''';
@@ -1942,9 +1929,10 @@ begin
               if (BC.Char >= 1) and GetHighlighterAttriAtRowCol(BC, DummyToken,
                 Attr) and ((Attr = Highlighter.StringAttribute) or
                   (Attr = Highlighter.CommentAttribute) or
-                  (Attr = CommandsDataModule.SynPythonSyn.CodeCommentAttri) or
-                  (Attr = CommandsDataModule.SynPythonSyn.MultiLineStringAttri) or
-                  (Attr = CommandsDataModule.SynPythonSyn.DocStringAttri)) then
+                  ((Highlighter is TSynPythonSyn) and
+                    (Attr = TSynPythonSyn(Highlighter).CodeCommentAttri) or
+                    (Attr = TSynPythonSyn(Highlighter).MultiLineStringAttri) or
+                    (Attr = TSynPythonSyn(Highlighter).DocStringAttri))) then
                 OpenBracketPos := 0; // Do not auto complete brakets inside strings or comments
 
               if (OpenBracketPos > 0) then
@@ -2267,9 +2255,9 @@ begin
         // Code and debugger hints
         GetHighlighterAttriAtRowColEx(aLineCharPos, Token, TokenType, Start,
           Attri);
-        if (Attri = CommandsDataModule.SynPythonSyn.IdentifierAttri) or
-          (Attri = CommandsDataModule.SynPythonSyn.NonKeyAttri) or
-          (Attri = CommandsDataModule.SynPythonSyn.SystemAttri) or
+        if (Attri = TSynPythonSyn(Highlighter).IdentifierAttri) or
+          (Attri = TSynPythonSyn(Highlighter).NonKeyAttri) or
+          (Attri = TSynPythonSyn(Highlighter).SystemAttri) or
           ((PyControl.DebuggerState in [dsPaused, dsPostMortem]) and
             ((Token = ')') or (Token = ']'))) then
         begin
@@ -2346,9 +2334,9 @@ begin
     begin
       GetHighlighterAttriAtRowColEx(aLineCharPos, Token, TokenType, Start,
         Attri);
-      if (Attri = CommandsDataModule.SynPythonSyn.IdentifierAttri) or
-        (Attri = CommandsDataModule.SynPythonSyn.NonKeyAttri) or
-        (Attri = CommandsDataModule.SynPythonSyn.SystemAttri) then
+      if (Attri = TSynPythonSyn(Highlighter).IdentifierAttri) or
+        (Attri = TSynPythonSyn(Highlighter).NonKeyAttri) or
+        (Attri = TSynPythonSyn(Highlighter).SystemAttri) then
       begin
         aCursor := crHandPoint;
         with fHotIdentInfo do
@@ -2459,7 +2447,7 @@ var
   aLineCharPos: TBufferCoord;
 begin
   aLineCharPos := SynEdit.CaretXY;
-  if fEditor.HasPythonFile then
+  if SynEdit.Highlighter = CommandsDataModule.SynPythonSyn then
     with SynEdit do
     begin
       GetHighlighterAttriAtRowColEx(aLineCharPos, Token, TokenType, Start,
@@ -2707,8 +2695,8 @@ begin
     if GetHighlighterAttriAtRowCol(BC, DummyToken, Attr) and (
       { (attr = Highlighter.StringAttribute) or }
       (Attr = Highlighter.CommentAttribute) or
-        (Attr = CommandsDataModule.SynPythonSyn.CodeCommentAttri) or
-        (Attr = CommandsDataModule.SynPythonSyn.DocStringAttri)) then
+        (Attr = TSynPythonSyn(Highlighter).CodeCommentAttri) or
+        (Attr = TSynPythonSyn(Highlighter).DocStringAttri)) then
     begin
       // Do not code complete inside strings or comments
       CanExecute := False;
@@ -2763,9 +2751,9 @@ begin
 
           GetHighlighterAttriAtRowColEx(BufferCoord(TmpX, CaretY), Token,
             TokenType, Start, Attri);
-          if (Attri = CommandsDataModule.SynPythonSyn.IdentifierAttri) or
-            (Attri = CommandsDataModule.SynPythonSyn.NonKeyAttri) or
-            (Attri = CommandsDataModule.SynPythonSyn.SystemAttri) then
+          if (Attri = TSynPythonSyn(Highlighter).IdentifierAttri) or
+            (Attri = TSynPythonSyn(Highlighter).NonKeyAttri) or
+            (Attri = TSynPythonSyn(Highlighter).SystemAttri) then
           begin
             lookup := GetWordAtPos(locline, TmpX, IdentChars + ['.'], True,
               False);
@@ -3007,7 +2995,8 @@ begin
   if not ReparseIfNeeded then
     SyncCodeExplorer;
 
-  if GetEditor.HasPythonFile and fNeedToCheckSyntax and CommandsDataModule.
+  if (SynEdit.Highlighter = CommandsDataModule.SynPythonSyn) and
+    fNeedToCheckSyntax and CommandsDataModule.
     PyIDEOptions.CheckSyntaxAsYouType and (SynEdit.Lines.Count < 1000)
   // do not syntax check very long files
     then

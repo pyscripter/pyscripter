@@ -227,6 +227,7 @@ Const
   SFileTemplateCategoryInternet = 'Internet';
   SFileTemplateCategoryOther = 'Other';
   SPythonTemplateName = 'Python Script';
+  SCythonTemplateName = 'Cython Script';
   SCSSFileTemplateName = 'Cascading Style Sheet';
   SHTMLFileTemplateName = 'HTML Document';
   STextFileTemplateName = 'Text File';

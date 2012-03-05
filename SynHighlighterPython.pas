@@ -116,7 +116,7 @@ type
   protected
     function GetSampleSource: UnicodeString; override;
     function IsFilterStored: Boolean; override;
-    function GetKeywordIdentifiers: TStringList;
+    function GetKeywordIdentifiers: TStringList; virtual;
     property TokenID: TtkTokenKind read FTokenID;
     procedure DispatchProc; virtual;
   public
@@ -221,14 +221,22 @@ type
     property PM : string read fPM write fPM;
   end;
 
+  TSynCythonSyn = class(TSynPythonSyn)
+  protected
+    function GetKeywordIdentifiers: TStringList; override;
+  public
+    constructor Create(AOwner: TComponent); override;
+    procedure AddCythonKeywords(KeywordList: TStringList);
+    class function GetLanguageName: string; override;
+    class function GetFriendlyLanguageName: UnicodeString; override;
+  end;
+
+
+
 var
   PythonGlobalKeywords: TStringList;
+  CythonGlobalKeywords: TStringList;
 
-implementation
-
-uses
-  StrUtils,
-  SynEditStrConst;
 
 resourcestring
   SYNS_CommentedCode = 'Commented Code';
@@ -243,6 +251,13 @@ resourcestring
   SYNS_FriendlyMatchingBrace = 'Matching Brace';
   SYNS_FriendlyUnbalancedBrace = 'Unbalanced Brace';
   SYNS_FriendlyMultiLineString = 'Multi-Line String';
+  SYNS_FilterCython =  'Cython Files (*.pyx*.pxd;*.pxi)|*.pyx;*.pxd;*.pxi';
+
+implementation
+
+uses
+  StrUtils,
+  SynEditStrConst;
 
 function TSynPythonSyn.GetKeyWords(TokenKind: Integer): UnicodeString;
 begin
@@ -1421,6 +1436,8 @@ resourcestring
   SYNS_FriendlyAttrPrompt = 'Prompt';
   SYNS_LangPythonInterpreter = 'Python Interpreter';
   SYNS_FriendlyLangPythonInterpreter = 'Python Interpreter';
+  SYNS_LangCython = 'Cython';
+  SYNS_FriendlyLangCython = 'Cython';
 
 procedure TSynPythonInterpreterSyn.BannerProc;
 begin
@@ -1565,11 +1582,88 @@ begin
     inc(Run);
 end;
 
+{ TSynCythonSyn }
+
+constructor TSynCythonSyn.Create(AOwner: TComponent);
+begin
+  inherited;
+  fDefaultFilter := SYNS_FilterCython;
+end;
+
+class function TSynCythonSyn.GetFriendlyLanguageName: UnicodeString;
+begin
+  Result := SYNS_FriendlyLangCython;
+end;
+
+procedure TSynCythonSyn.AddCythonKeywords(KeywordList: TStringList);
+const
+  // No need to localise keywords!
+
+  // List of keywords
+  KEYWORDCOUNT = 7;
+  KEYWORDS: array [1..KEYWORDCOUNT] of UnicodeString =
+    (
+      'cdef',
+      'ctypedef',
+      'cpdef',
+      'inline',
+      'cimport',
+      'include',
+      'DEF'
+    );
+
+  // List of non-keyword identifiers
+  NONKEYWORDCOUNT = 13;
+  NONKEYWORDS: array [1..NONKEYWORDCOUNT] of UnicodeString =
+    (
+      'bool',
+      'char',
+      'double',
+      'enum',
+      'float',
+      'int',
+      'long',
+      'mutable',
+      'short',
+      'signed',
+      'struct',
+      'unsigned',
+      'void'
+    );
+var
+  f: Integer;
+begin
+  for f := 1 to KEYWORDCOUNT do
+    KeywordList.AddObject(KEYWORDS[f], Pointer(Ord(tkKey)));
+  for f := 1 to NONKEYWORDCOUNT do
+    KeywordList.AddObject(NONKEYWORDS[f], Pointer(Ord(tkNonKeyword)));
+end;
+
+function TSynCythonSyn.GetKeywordIdentifiers: TStringList;
+begin
+  inherited;
+  if not Assigned (CythonGlobalKeywords) then
+  begin
+    // Create the string list of keywords - only once
+    CythonGlobalKeywords := TStringList.Create;
+    CythonGlobalKeywords.AddStrings(PythonGlobalKeywords);
+    AddCythonKeywords(CythonGlobalKeywords);
+  end; // if
+  Result := CythonGlobalKeywords;
+end;
+
+class function TSynCythonSyn.GetLanguageName: string;
+begin
+  Result := SYNS_LangCython;
+end;
+
 initialization
 {$IFNDEF SYN_CPPB_1}
   RegisterPlaceableHighlighter(TSynPythonSyn);
+  RegisterPlaceableHighlighter(TSynCythonSyn);
 {$ENDIF}
 finalization
   PythonGlobalKeywords.Free;
+  CythonGlobalKeywords.Free;
 end.
 

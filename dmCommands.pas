@@ -41,6 +41,7 @@ type
     fExporerInitiallyExpanded : Boolean;
     fSearchTextAtCaret : Boolean;
     fPythonFileFilter : string;
+    fCythonFileFilter : string;
     fHTMLFileFilter : string;
     fXMLFileFilter : string;
     fCSSFileFilter : string;
@@ -120,6 +121,8 @@ type
       write fSearchTextAtCaret stored False;
     property PythonFileFilter : string read fPythonFileFilter
       write fPythonFileFilter;
+    property CythonFileFilter : string read fCythonFileFilter
+      write fCythonFileFilter;
     property HTMLFileFilter : string read fHTMLFileFilter
       write fHTMLFileFilter;
     property XMLFileFilter : string read fXMLFileFilter
@@ -219,8 +222,6 @@ type
       write fCompleteWithWordBreakChars;
     property CompleteWithOneEntry : Boolean read fCompleteWithOneEntry
       write fCompleteWithOneEntry;
-
-
   end;
 {$METHODINFO OFF}
 
@@ -477,6 +478,7 @@ type
     fConfirmReplaceDialogRect: TRect;
   public
     SynYAMLSyn: TSynYAMLSyn;
+    SynCythonSyn: TSynCythonSyn;
     BlockOpenerRE : TRegExpr;
     BlockCloserRE : TRegExpr;
     CommentLineRE : TRegExpr;
@@ -603,6 +605,7 @@ begin
       Self.fExporerInitiallyExpanded := ExporerInitiallyExpanded;
       Self.fSearchTextAtCaret := SearchTextAtCaret;
       Self.fPythonFileFilter := PythonFileFilter;
+      Self.fCythonFileFilter := CythonFileFilter;
       Self.fHTMLFileFilter := HTMLFileFilter;
       Self.fXMLFileFilter := XMLFileFilter;
       Self.fCSSFileFilter := CSSFileFilter;
@@ -683,6 +686,7 @@ begin
   fCreateBackupFiles := False;
   fExporerInitiallyExpanded := False;
   fPythonFileFilter := 'Python Files (*.py;*.pyw)|*.py;*.pyw';
+  fCythonFileFilter := SYNS_FilterCython;
   fHTMLFileFilter := SYNS_FilterHTML;
   fXMLFileFilter := SYNS_FilterXML;
   fCSSFileFilter := SYNS_FilterCSS;
@@ -913,8 +917,14 @@ begin
     except
     end;
 
+  // DefaultOptions
+  PyIDEOptions := TPythonIDEOptions.Create;
+
   // Setup Highlighters
   SynYAMLSyn := TSynYAMLSyn.Create(Self);
+  SynCythonSyn := TSynCythonSyn.Create(Self);
+  SynCythonSyn.Assign(SynPythonSyn);
+  SynCythonSyn.DefaultFilter := PyIDEOptions.CythonFileFilter;
   fHighlighters := TStringList.Create;
   TStringList(fHighlighters).CaseSensitive := False;
   GetHighlighters(Self, fHighlighters, False);
@@ -924,6 +934,10 @@ begin
   Index := fHighlighters.IndexOf(SynPythonSyn.FriendlyLanguageName);
   if Index >= 0 then fHighlighters.Delete(Index);
   fHighlighters.InsertObject(0, SynPythonSyn.FriendlyLanguageName, SynPythonSyn);
+  //  Place Cython last
+  Index := fHighlighters.IndexOf(SynCythonSyn.FriendlyLanguageName);
+  if Index >= 0 then fHighlighters.Delete(Index);
+  fHighlighters.AddObject(SynCythonSyn.FriendlyLanguageName, SynCythonSyn);
 
   // this is to save the internal state of highlighter attributes
   // Work around for the reported bug according to which some
@@ -933,9 +947,6 @@ begin
     with TCrackSynCustomHighlighter(Highlighter) do
         SetAttributesOnChange(DefHighlightChange);
   end;
-
-  // DefaultOptions
-  PyIDEOptions := TPythonIDEOptions.Create;
 
   // SynWeb Highlighters do not provide default filters
   SynWebHTMLSyn.DefaultFilter := PyIDEOptions.HTMLFileFilter;
@@ -1058,7 +1069,7 @@ end;
 procedure TCommandsDataModule.SynEditOptionsDialogGetHighlighterCount(Sender: TObject;
   var Count: Integer);
 begin
-   Count := fHighlighters.Count;
+   Count := fHighlighters.Count - 1; //  Cython gets Python highlighting
 end;
 
 procedure TCommandsDataModule.SynEditOptionsDialogGetHighlighter(Sender: TObject;
@@ -1462,7 +1473,9 @@ begin
   InterpreterEditorOptions.Keystrokes.Assign(EditorOptions.Keystrokes);
   PythonIIForm.SynEdit.Keystrokes.Assign(EditorOptions.Keystrokes);
   PythonIIForm.RegisterHistoryCommands;
-  PythonIIForm.SynEdit.Highlighter.Assign(CommandsDataModule.SynPythonSyn);
+  PythonIIForm.SynEdit.Highlighter.Assign(SynPythonSyn);
+  SynCythonSyn.Assign(SynPythonSyn);
+  SynCythonSyn.DefaultFilter := PyIDEOptions.CythonFileFilter;
 end;
 
 procedure TCommandsDataModule.actEditorOptionsExecute(Sender: TObject);
@@ -1765,7 +1778,9 @@ begin
         for i := 0 to Highlighters.Count - 1 do
           AppStorage.ReadPersistent('Highlighters\'+Highlighters[i],
             TPersistent(Highlighters.Objects[i]));
-        PythonIIForm.SynEdit.Highlighter.Assign(CommandsDataModule.SynPythonSyn);
+        PythonIIForm.SynEdit.Highlighter.Assign(SynPythonSyn);
+        SynCythonSyn.Assign(SynPythonSyn);
+        SynCythonSyn.DefaultFilter := PyIDEOptions.CythonFileFilter;
         if AppStorage.IniFile.SectionExists('Highlighters\Intepreter') then
           AppStorage.ReadPersistent('Highlighters\Intepreter',
             PythonIIForm.SynEdit.Highlighter);
@@ -2223,7 +2238,7 @@ begin
   end;
   with Categories[3] do begin
     DisplayName := _('File Filters');
-    SetLength(Options, 9);
+    SetLength(Options, 10);
     Options[0].PropertyName := 'PythonFileFilter';
     Options[0].DisplayName := _('Open dialog Python filter');
     Options[1].PropertyName := 'HTMLFileFilter';
@@ -2242,6 +2257,8 @@ begin
     Options[7].DisplayName := _('Open dialog PHP filter');
     Options[8].PropertyName := 'FileExplorerFilter';
     Options[8].DisplayName := _('File explorer filter');
+    Options[9].PropertyName := 'CythonFileFilter';
+    Options[9].DisplayName := _('Open dialog Cython filter');
   end;
   with Categories[4] do begin
     DisplayName := _('Editor');
@@ -3139,7 +3156,7 @@ end;
 
 function TCommandsDataModule.FileIsPythonSource(FileName: string): Boolean;
 begin
-  Result :=  GetHighlighterForFile(FileName) = SynPythonSyn;
+  Result := GetHighlighterForFile(FileName) is TSynPythonSyn;
 end;
 
 function TCommandsDataModule.FindSearchTarget: ISearchCommands;

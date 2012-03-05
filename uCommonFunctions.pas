@@ -222,6 +222,9 @@ function CompiledRegExpr(Expr : string): TRegExpr;
 { Checks whether S contains digits only }
 function IsDigits(S : string): Boolean;
 
+{ Remove the white space in front of the first line from all lines }
+function Dedent (const S : string) : string;
+
 Const
   IdentRE = '[A-Za-z_][A-Za-z0-9_]*';
   DottedIdentRE = '[A-Za-z_][A-Za-z0-9_.]*';
@@ -1789,6 +1792,28 @@ begin
       Result := False;
       break;
     end;
+end;
+
+function Dedent (const S : string) : string;
+Var
+  LeadWhiteSpace: string;
+  RegExpr: TRegExpr;
+begin
+  RegExpr := TRegExpr.Create;
+  try
+    RegExpr.ModifierM := False;
+    RegExpr.Expression := '^\s*';
+    if RegExpr.Exec(S) then
+    begin
+      LeadWhiteSpace := RegExpr.Match[0];
+      RegExpr.ModifierM := True;
+      RegExpr.Expression := '^' + LeadWhiteSpace;
+      Result := RegExpr.Replace(S, '');
+    end else
+      Result := S;
+  finally
+    RegExpr.Free;
+  end;
 end;
 
 function CompiledRegExpr(Expr : string): TRegExpr;

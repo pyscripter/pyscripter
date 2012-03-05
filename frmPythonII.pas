@@ -19,7 +19,7 @@ unit frmPythonII;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Types, Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs , Menus, PythonEngine, SyncObjs, SynHighlighterPython,
   SynEditHighlighter, SynEdit,
   SynEditKeyCmds, SynCompletionProposal, JvDockControlForm,
@@ -60,7 +60,7 @@ type
     SpTBXSeparatorItem1: TSpTBXSeparatorItem;
     mnPasteWithPrompts: TSpTBXItem;
     InterpreterActionList: TActionList;
-    actPasteWithPrompt: TAction;
+    actPasteAndExecute: TAction;
     actCopyWithoutPrompts: TAction;
     actClearContents: TAction;
     actCopyHistory: TAction;
@@ -115,7 +115,7 @@ type
     procedure SynCodeCompletionClose(Sender: TObject);
     procedure PythonEngineAfterInit(Sender: TObject);
     procedure actCopyWithoutPromptsExecute(Sender: TObject);
-    procedure actPasteWithPromptExecute(Sender: TObject);
+    procedure actPasteAndExecuteExecute(Sender: TObject);
     procedure SynEditEnter(Sender: TObject);
     procedure SynEditExit(Sender: TObject);
     procedure SynEditMouseWheelDown(Sender: TObject; Shift: TShiftState;
@@ -356,12 +356,25 @@ begin
   SetClipboardWideText(SelText);
 end;
 
-procedure TPythonIIForm.actPasteWithPromptExecute(Sender: TObject);
+procedure TPythonIIForm.actPasteAndExecuteExecute(Sender: TObject);
+
+  procedure ExecuteBuffer(Buffer : TStringDynArray; NLines : integer);
+  begin
+    if NLines > 1 then begin
+      SetLength(Buffer, NLines + 1);
+      Buffer[NLines] := '';
+    end
+    else
+      SetLength(Buffer, NLines);
+    AppendToPrompt(Buffer);
+    SynEdit.CommandProcessor(ecLineBreak, ' ', nil);
+  end;
+
 Var
-  Buffer : array of string;
+  Buffer : TStringDynArray;
   Text : string;
   SL : TStringList;
-  i: Integer;
+  i, Line: Integer;
 begin
   Text := GetClipboardWideText;
   if Text = '' then Exit;
@@ -369,20 +382,33 @@ begin
   // Untabify
   Text :=  StringReplace(Text, #9,
      StringOfChar(' ', SynEdit.TabWidth), [rfReplaceAll]);
+  // Dedent
+  Text := Dedent(Text);
+  Line := 0;
 
   SL := TStringList.Create;
   try
     SL.Text := Text;
-    SetLength(Buffer, SL.Count);
-    if SL.Count > 0 then
-    Buffer[0] := SL[0];
-    for i := 1 to SL.Count - 1 do
-      Buffer[i] := SL[i];
+
+    for i := 0 to SL.Count - 1 do begin
+      if SL[i] = '' then continue;
+
+      if CalcIndent(SL[i]) = 0 then
+      begin
+        if Length(Buffer) > 0 then
+          // Allready have a full statement we need to execute
+          ExecuteBuffer(Buffer, Line);
+        Line := 0;
+        SetLength(Buffer, SL.Count);
+      end;
+      Buffer[Line] := SL[i];
+      Inc(Line);
+    end;
   finally
     SL.Free;
   end;
-
-  AppendToPrompt(Buffer);
+  if Line > 0 then
+    ExecuteBuffer(Buffer, Line);
 end;
 
 procedure TPythonIIForm.SetPythonEngineType(PythonEngineType: TPythonEngineType);
@@ -1588,7 +1614,7 @@ end;
 procedure TPythonIIForm.UpdateInterpreterActions;
 begin
   actCopyWithoutPrompts.Enabled := SynEdit.SelAvail;
-  actPasteWithPrompt.Enabled := ClipboardProvidesWideText;
+  actPasteAndExecute.Enabled := ClipboardProvidesWideText;
 end;
 
 procedure TPythonIIForm.FindPythonHelpFile;
