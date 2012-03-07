@@ -84,7 +84,7 @@ implementation
 
 uses
   frmPyIDEMain, dmCommands, uCommonFunctions,
-  Clipbrd, VarPyth, gnugettext, StringResources;
+  Clipbrd, VarPyth, gnugettext, StringResources, cThemedVirtualStringTree;
 
 {$R *.dfm}
 Type
@@ -291,14 +291,7 @@ begin
   MessagesView.NodeDataSize := SizeOf(TMsgRec);
   MessagesView.Header.Height :=
     MulDiv(MessagesView.Header.Height, Screen.PixelsPerInch, 96);
-  MessagesView.OnAdvancedHeaderDraw :=
-    CommandsDataModule.VirtualStringTreeAdvancedHeaderDraw;
-  MessagesView.OnHeaderDrawQueryElements :=
-    CommandsDataModule.VirtualStringTreeDrawQueryElements;
-  MessagesView.OnBeforeCellPaint :=
-    CommandsDataModule.VirtualStringTreeBeforeCellPaint;
-  MessagesView.OnPaintText :=
-    CommandsDataModule.VirtualStringTreePaintText;
+  MessagesView.SkinTree;
 end;
 
 procedure TMessagesWindow.FormDestroy(Sender: TObject);

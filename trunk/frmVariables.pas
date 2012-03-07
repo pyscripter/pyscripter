@@ -40,6 +40,8 @@ type
     procedure VariablesTreePaintText(Sender: TBaseVirtualTree;
       const TargetCanvas: TCanvas; Node: PVirtualNode; Column: TColumnIndex;
       TextType: TVSTTextType);
+    procedure VariablesTreeInitChildren(Sender: TBaseVirtualTree;
+      Node: PVirtualNode; var ChildCount: Cardinal);
   private
     { Private declarations }
     CurrentFrame : TBaseFrameInfo;
@@ -63,7 +65,7 @@ implementation
 
 uses frmCallStack, PythonEngine, 
   dmCommands, uCommonFunctions, StringResources,
-  JvJVCLUtils, Math, gnugettext;
+  JvJVCLUtils, Math, gnugettext, cThemedVirtualStringTree;
 
 {$R *.dfm}
 Type
@@ -79,16 +81,18 @@ begin
   VariablesTree.NodeDataSize := SizeOf(TPyObjRec);
   VariablesTree.Header.Height :=
     MulDiv(VariablesTree.Header.Height, Screen.PixelsPerInch, 96);
-  VariablesTree.OnAdvancedHeaderDraw :=
-    CommandsDataModule.VirtualStringTreeAdvancedHeaderDraw;
-  VariablesTree.OnHeaderDrawQueryElements :=
-    CommandsDataModule.VirtualStringTreeDrawQueryElements;
-  VariablesTree.OnBeforeCellPaint :=
-    CommandsDataModule.VirtualStringTreeBeforeCellPaint;
-  VariablesTree.OnPaintText :=
-    CommandsDataModule.VirtualStringTreePaintText;
+  VariablesTree.SkinTree;
   HTMLLabel.Color := clWindow;
   DocPanel.Color := clWindow;
+end;
+
+procedure TVariablesWindow.VariablesTreeInitChildren(Sender: TBaseVirtualTree;
+  Node: PVirtualNode; var ChildCount: Cardinal);
+var
+  Data: PPyObjRec;
+begin
+  Data := VariablesTree.GetNodeData(Node);
+  ChildCount := Data.NameSpaceItem.ChildCount;
 end;
 
 procedure TVariablesWindow.VariablesTreeInitNode(Sender: TBaseVirtualTree;
@@ -116,12 +120,10 @@ begin
       Data.NameSpaceItem := GlobalsNameSpace;
       InitialStates := [ivsExpanded, ivsHasChildren];
     end;
-    VariablesTree.ChildCount[Node] := Data.NameSpaceItem.ChildCount;
   end else begin
     ParentData := VariablesTree.GetNodeData(ParentNode);
     Data.NameSpaceItem := ParentData.NameSpaceItem.ChildNode[Node.Index];
-    VariablesTree.ChildCount[Node] := Data.NameSpaceItem.ChildCount;
-    if VariablesTree.ChildCount[Node] > 0 then
+    if Data.NameSpaceItem.ChildCount > 0 then
       InitialStates := [ivsHasChildren]
     else
       InitialStates := [];
@@ -232,57 +234,6 @@ Type
    end;
 
 procedure TVariablesWindow.UpdateWindow;
-
-  procedure ReinitNode(Node: PVirtualNode; Recursive: Boolean); forward;
-
-  procedure ReinitChildren(Node: PVirtualNode; Recursive: Boolean);
-
-  // Forces all child nodes of Node to be reinitialized.
-  // If Recursive is True then also the grandchildren are reinitialized.
-  // Modified version to reinitialize only when the node is already initialized
-
-  var
-    Run: PVirtualNode;
-
-  begin
-    if Assigned(Node) then
-    begin
-      TCrackedVirtualStringTree(VariablesTree).InitChildren(Node);
-      Run := Node.FirstChild;
-    end
-    else
-    begin
-      TCrackedVirtualStringTree(VariablesTree).InitChildren(VariablesTree.RootNode);
-      Run := VariablesTree.RootNode.FirstChild;
-    end;
-
-    while Assigned(Run) do
-    begin
-      if vsInitialized in Run.States then
-        ReinitNode(Run, Recursive);
-      Run := Run.NextSibling;
-    end;
-  end;
-
-  //----------------------------------------------------------------------------------------------------------------------
-
-  procedure ReinitNode(Node: PVirtualNode; Recursive: Boolean);
-
-  // Forces the given node and all its children (if recursive is True) to be initialized again without
-  // modifying any data in the nodes nor deleting children (unless the application requests a different amount).
-
-  begin
-    if Assigned(Node) and (Node <> VariablesTree.RootNode) then
-    begin
-      // Remove dynamic styles.
-      Node.States := Node.States - [vsChecking, vsCutOrCopy, vsDeleting, vsHeightMeasured];
-      TCrackedVirtualStringTree(VariablesTree).InitNode(Node);
-    end;
-
-    if Recursive then
-      ReinitChildren(Node, True);
-  end;
-
 Var
   SameFrame : boolean;
   RootNodeCount : Cardinal;
@@ -351,7 +302,7 @@ begin
       LocalsNameSpace.CompareToOldItem(OldLocalsNameSpace);
     VariablesTree.BeginUpdate;
     try
-      ReinitChildren(VariablesTree.RootNode, True);
+      VariablesTree.ReinitInitializedChildren(nil, True);
       VariablesTree.InvalidateToBottom(VariablesTree.GetFirstVisible);
     finally
       VariablesTree.EndUpdate;
@@ -414,6 +365,7 @@ Var
   ObjectValue,
   DocString : string;
   LineNo : integer;
+  Color1, Color2 : string;
   Data : PPyObjRec;
 begin
   // Get the selected frame
@@ -425,6 +377,14 @@ begin
   end else
     NameSpace := 'Interpreter globals';
 
+  if CommandsDataModule.PyIDEOptions.UsePythonColorsInIDE then begin
+    Color1 := ColorToString(CommandsDataModule.SynPythonSyn.KeyAttri.Foreground);
+    Color2 := ColorToString(CommandsDataModule.SynPythonSyn.NonKeyAttri.Foreground);
+  end else begin
+    Color1 := 'clBlue';
+    Color2 := 'clBlue';
+  end;
+
   if Assigned(Node) and (vsSelected in Node.States) then begin
     Data := VariablesTree.GetNodeData(Node);
     ObjectName := Data.NameSpaceItem.Name;
@@ -433,9 +393,9 @@ begin
     DocString :=  HTMLSafe(Data.NameSpaceItem.DocString);
 
     HTMLLabel.Caption := Format(_(SVariablesDocSelected),
-      [NameSpace, ObjectName, ObjectType, ObjectValue, Docstring]);
+      [Color1, NameSpace, Color2, ObjectName, ObjectType, ObjectValue, Docstring]);
   end else
-    HTMLLabel.Caption := Format(_(SVariablesDocNotSelected), [NameSpace]);
+    HTMLLabel.Caption := Format(_(SVariablesDocNotSelected), [Color1, NameSpace]);
 end;
 
 end.

@@ -13,7 +13,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, JvDockControlForm, frmIDEDockWin, ExtCtrls,
   Contnrs, TB2Item, Menus, VirtualTrees, JvComponentBase,
-  SpTBXSkins, SpTBXItem, JvAppStorage;
+  SpTBXSkins, SpTBXItem, JvAppStorage, cThemedVirtualStringTree;
 
 type
   TBreakPointsWindow = class(TIDEDockWindow, IJvAppStorageHandler)
@@ -180,14 +180,7 @@ begin
   BreakPointsView.NodeDataSize := SizeOf(TBreakPointRec);
   BreakPointsView.Header.Height :=
     MulDiv(BreakPointsView.Header.Height, Screen.PixelsPerInch, 96);
-  BreakPointsView.OnAdvancedHeaderDraw :=
-    CommandsDataModule.VirtualStringTreeAdvancedHeaderDraw;
-  BreakPointsView.OnHeaderDrawQueryElements :=
-    CommandsDataModule.VirtualStringTreeDrawQueryElements;
-  BreakPointsView.OnBeforeCellPaint :=
-    CommandsDataModule.VirtualStringTreeBeforeCellPaint;
-  BreakPointsView.OnPaintText :=
-    CommandsDataModule.VirtualStringTreePaintText;
+  BreakPointsView.SkinTree;
 end;
 
 procedure TBreakPointsWindow.FormDestroy(Sender: TObject);

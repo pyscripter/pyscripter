@@ -97,7 +97,8 @@ var
 implementation
 
 uses dmCommands, VarPyth, frmPythonII,
-  PythonEngine, gnugettext, JvAppIniStorage, uCommonFunctions, RichEdit;
+  PythonEngine, gnugettext, JvAppIniStorage, uCommonFunctions, RichEdit,
+  cThemedVirtualStringTree;
 
 {$R *.dfm}
 
@@ -142,14 +143,7 @@ begin
   GroupsView.NodeDataSize := 0;
   GroupsView.Header.Height :=
     MulDiv(GroupsView.Header.Height, Screen.PixelsPerInch, 96);
-  GroupsView.OnAdvancedHeaderDraw :=
-    CommandsDataModule.VirtualStringTreeAdvancedHeaderDraw;
-  GroupsView.OnHeaderDrawQueryElements :=
-    CommandsDataModule.VirtualStringTreeDrawQueryElements;
-  GroupsView.OnBeforeCellPaint :=
-    CommandsDataModule.VirtualStringTreeBeforeCellPaint;
-  GroupsView.OnPaintText :=
-    CommandsDataModule.VirtualStringTreePaintText;
+  GroupsView.SkinTree;
 end;
 
 procedure TRegExpTesterWindow.FormDestroy(Sender: TObject);

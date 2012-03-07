@@ -13,7 +13,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, Buttons, VirtualTrees, ExtCtrls,
   frmCodeExplorer, cPythonSourceScanner, TB2Item, Menus, SpTBXItem,
-  SpTBXControls, dlgPyIDEBase;
+  SpTBXControls, dlgPyIDEBase, cThemedVirtualStringTree;
 
 type
 
@@ -314,14 +314,7 @@ procedure TUnitTestWizard.FormCreate(Sender: TObject);
 begin
   inherited;
   ExplorerTree.NodeDataSize := SizeOf(TNodeDataRec);
-  ExplorerTree.OnBeforeCellPaint :=
-    CommandsDataModule.VirtualStringTreeBeforeCellPaint;
-  ExplorerTree.OnPaintText :=
-    CommandsDataModule.VirtualStringTreePaintText;
-  if SkinManager.IsDefaultSkin then
-    ExplorerTree.TreeOptions.PaintOptions := ExplorerTree.TreeOptions.PaintOptions - [toAlwaysHideSelection]
-  else
-    ExplorerTree.TreeOptions.PaintOptions := ExplorerTree.TreeOptions.PaintOptions + [toAlwaysHideSelection];
+  ExplorerTree.SkinTree;
 end;
 
 procedure TUnitTestWizard.HelpButtonClick(Sender: TObject);

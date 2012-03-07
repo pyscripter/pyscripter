@@ -13,7 +13,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, JvDockControlForm, cPyBaseDebugger, frmIDEDockWin,
   Contnrs, ExtCtrls, VirtualTrees, JvComponentBase,  SpTBXSkins,
-  JvAppStorage, ActnList;
+  JvAppStorage, ActnList, cThemedVirtualStringTree;
 
 type
   TCallStackWindow = class(TIDEDockWindow, IJvAppStorageHandler)
@@ -147,8 +147,8 @@ end;
 procedure TCallStackWindow.CallStackViewChange(Sender: TBaseVirtualTree;
   Node: PVirtualNode);
 begin
-  if Assigned(Node) and CallStackView.Selected[Node] and
-     (Node <> SelectedNode) then
+  if Assigned(Node) and not (tsUpdating in CallStackView.TreeStates) and
+    CallStackView.Selected[Node] and (Node <> SelectedNode) then
   begin
     // Update the Variables Window
     SelectedNode := Node;
@@ -195,14 +195,7 @@ begin
   CallStackView.NodeDataSize := SizeOf(TCallStackRec);
   CallStackView.Header.Height :=
     MulDiv(CallStackView.Header.Height, Screen.PixelsPerInch, 96);
-  CallStackView.OnAdvancedHeaderDraw :=
-    CommandsDataModule.VirtualStringTreeAdvancedHeaderDraw;
-  CallStackView.OnHeaderDrawQueryElements :=
-    CommandsDataModule.VirtualStringTreeDrawQueryElements;
-  CallStackView.OnBeforeCellPaint :=
-    CommandsDataModule.VirtualStringTreeBeforeCellPaint;
-  CallStackView.OnPaintText :=
-    CommandsDataModule.VirtualStringTreePaintText;
+  CallStackView.SkinTree;
 end;
 
 procedure TCallStackWindow.FormDestroy(Sender: TObject);

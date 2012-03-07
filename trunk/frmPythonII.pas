@@ -262,22 +262,35 @@ begin
   end;
 
   // Setup Highlighter keywords
-  Assert(Assigned(PythonGlobalKeywords));
-  PythonGlobalKeywords.Clear;
-  Keywords := Import('keyword').kwlist;
-  for i := 0 to Len(Keywords) - 1 do
-    PythonGlobalKeywords.AddObject(Keywords.__getitem__(i), Pointer(Ord(tkKey)));
-  BuiltInMod := VarPyth.BuiltinModule;
-  Builtins := BuiltinMod.dir(BuiltinMod);
-  for i := 0 to Len(Builtins) - 1 do
-    PythonGlobalKeywords.AddObject(Builtins.__getitem__(i), Pointer(Ord(tkNonKeyword)));
-  // add pseudo keyword self
-  PythonGlobalKeywords.AddObject('self', Pointer(Ord(tkNonKeyword)));
+  with CommandsDataModule do begin
+    SynPythonSyn.Keywords.Clear;
+    SynPythonSyn.Keywords.Sorted := False;
+    Keywords := Import('keyword').kwlist;
+    for i := 0 to Len(Keywords) - 1 do
+      SynPythonSyn.Keywords.AddObject(Keywords.__getitem__(i), Pointer(Ord(tkKey)));
+    BuiltInMod := VarPyth.BuiltinModule;
+    Builtins := BuiltinMod.dir(BuiltinMod);
+    for i := 0 to Len(Builtins) - 1 do
+      SynPythonSyn.Keywords.AddObject(Builtins.__getitem__(i), Pointer(Ord(tkNonKeyword)));
+    // add pseudo keyword self
+    SynPythonSyn.Keywords.AddObject('self', Pointer(Ord(tkNonKeyword)));
+    SynPythonSyn.Keywords.Sorted := True;
 
-  CommandsDataModule.SynPythonSyn.Keywords.Clear;
-  CommandsDataModule.SynPythonSyn.Keywords.AddStrings(PythonGlobalKeywords);
-  (SynEdit.Highlighter as TSynPythonInterpreterSyn).Keywords.Clear;
-  (SynEdit.Highlighter as TSynPythonInterpreterSyn).Keywords.AddStrings(PythonGlobalKeywords);
+    with SynCythonSyn do begin
+      Keywords.Clear;
+      Keywords.Sorted := False;
+      Keywords.AddStrings(SynPythonSyn.Keywords);
+      AddCythonKeywords(SynCythonSyn.Keywords);
+      Keywords.Sorted := True;
+    end;
+
+    with (SynEdit.Highlighter as TSynPythonInterpreterSyn) do begin
+      Keywords.Clear;
+      Keywords.Sorted := False;
+      Keywords.AddStrings(SynPythonSyn.Keywords);
+      Keywords.Sorted := True;
+    end;
+  end;
 end;
 
 procedure TPythonIIForm.PythonIOReceiveData(Sender: TObject;

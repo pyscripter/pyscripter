@@ -193,7 +193,7 @@ implementation
 
 uses dmCommands, uEditAppIntfs, Math, frmPyIDEMain, dlgToDoOptions,
   JvJVCLUtils, cProjectClasses, WideStrUtils,
-  cParameters, AsyncCalls, MPCommonUtilities;
+  cParameters, AsyncCalls, MPCommonUtilities, cThemedVirtualStringTree;
 
 {$R *.dfm}
 
@@ -363,14 +363,7 @@ begin
   ToDoView.NodeDataSize := SizeOf(TToDoRec);
   ToDoView.Header.Height :=
     MulDiv(ToDoView.Header.Height, Screen.PixelsPerInch, 96);
-  ToDoView.OnAdvancedHeaderDraw :=
-    CommandsDataModule.VirtualStringTreeAdvancedHeaderDraw;
-  ToDoView.OnHeaderDrawQueryElements :=
-    CommandsDataModule.VirtualStringTreeDrawQueryElements;
-  ToDoView.OnBeforeCellPaint :=
-    CommandsDataModule.VirtualStringTreeBeforeCellPaint;
-  ToDoView.OnPaintText :=
-    CommandsDataModule.VirtualStringTreePaintText;
+  ToDoView.SkinTree;
 end;
 
 procedure TToDoWindow.FormDestroy(Sender: TObject);

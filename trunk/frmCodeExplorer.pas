@@ -15,7 +15,8 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ExtCtrls, JvDockControlForm, JvAppStorage,
   Menus, Contnrs, VirtualTrees, frmIDEDockWin, TB2Item,
-  cPythonSourceScanner, SpTBXItem, SpTBXSkins, JvComponentBase;
+  cPythonSourceScanner, SpTBXItem, SpTBXSkins, JvComponentBase,
+  cThemedVirtualStringTree;
 
 type
   TCESortOrder = (soPosition, soAlpha);
@@ -492,10 +493,7 @@ begin
   // Let the tree know how much data space we need.
   ExplorerTree.NodeDataSize := SizeOf(TNodeDataRec);
   WorkerThread := TScanCodeThread.Create;
-  ExplorerTree.OnBeforeCellPaint :=
-    CommandsDataModule.VirtualStringTreeBeforeCellPaint;
-  ExplorerTree.OnPaintText :=
-    CommandsDataModule.VirtualStringTreePaintText;
+  ExplorerTree.SkinTree;
 end;
 
 procedure TCodeExplorerWindow.ExplorerTreeInitNode(Sender: TBaseVirtualTree;

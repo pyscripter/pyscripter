@@ -109,7 +109,8 @@ uses
   TB2Item in 'TB2Item.pas',
   JvDockVIDStyle in 'JvDockVIDStyle.pas',
   JvCreateProcess in 'JvCreateProcess.pas',
-  cCodeCompletion in 'cCodeCompletion.pas';
+  cCodeCompletion in 'cCodeCompletion.pas',
+  cThemedVirtualStringTree in 'cThemedVirtualStringTree.pas';
 
 {$R *.RES}
 {$R WebCopyAvi.RES}

@@ -180,7 +180,7 @@ uses dmCommands, StringResources, uEditAppIntfs,
   frmPyIDEMain, uCommonFunctions, JvAppIniStorage, JvAppStorage, JclFileUtils,
   dlgImportDirectory, JclShell, dlgRunConfiguration, cPyBaseDebugger,
   cParameters, MPDataObject, JvJVCLUtils,
-  gnugettext, uHighlighterProcs, dlgDirectoryList;
+  gnugettext, uHighlighterProcs, dlgDirectoryList, cThemedVirtualStringTree;
 
 {$R *.dfm}
 
@@ -1136,10 +1136,7 @@ begin
   FileImageList.Sorted := True;
   FileImageList.Duplicates := dupError;
 
-  ExplorerTree.OnBeforeCellPaint :=
-    CommandsDataModule.VirtualStringTreeBeforeCellPaint;
-  ExplorerTree.OnPaintText :=
-    CommandsDataModule.VirtualStringTreePaintText;
+  ExplorerTree.SkinTree;
 
   // Wierd translation bug
   TP_Ignore(self, 'mnProjectNew');

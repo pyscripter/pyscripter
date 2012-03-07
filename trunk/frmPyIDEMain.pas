@@ -360,8 +360,10 @@
   History:   v 2.5
           New Features
             This is the first joint 32-bit and 64-bit version release
+            Python 3.3 support added
             Recent Projects menu item added
             Expandable lists and tuples in the Variables window (Issue 583)
+            Expandable watches as in the Variables window (Issue 523)
             Basic support for Cython files added (Issue 542)
             New interpreter action Paste & Execute (Issue 500) Replaces Paste with Prompt
           Issues addressed
