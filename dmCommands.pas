@@ -95,6 +95,7 @@ type
     fCompleteAsYouType: Boolean;
     fCompleteWithWordBreakChars: Boolean;
     fCompleteWithOneEntry:Boolean;
+    fDisplayPackageNames:Boolean;
     function GetPythonFileExtensions: string;
     procedure SetAutoCompletionFont(const Value: TFont);
   public
@@ -222,6 +223,8 @@ type
       write fCompleteWithWordBreakChars;
     property CompleteWithOneEntry : Boolean read fCompleteWithOneEntry
       write fCompleteWithOneEntry;
+    property DisplayPackageNames : Boolean read fDisplayPackageNames
+      write fDisplayPackageNames;
   end;
 {$METHODINFO OFF}
 
@@ -648,6 +651,7 @@ begin
       Self.fCompleteAsYouType := CompleteAsYouType;
       Self.fCompleteWithWordBreakChars := CompleteWithWordBreakChars;
       Self.fCompleteWithOneEntry := CompleteWithOneEntry;
+      Self.fDisplayPackageNames := DisplayPackageNames;
     end
   else
     inherited;
@@ -730,6 +734,7 @@ begin
   fCompleteAsYouType := True;
   fCompleteWithWordBreakChars := False;
   fCompleteWithOneEntry:=True;
+  fDisplayPackageNames:=True;
 end;
 
 destructor TPythonIDEOptions.Destroy;
@@ -2251,7 +2256,7 @@ begin
   end;
   with Categories[4] do begin
     DisplayName := _('Editor');
-    SetLength(Options, 15);
+    SetLength(Options, 16);
     Options[0].PropertyName := 'RestoreOpenFiles';
     Options[0].DisplayName := _('Restore open files');
     Options[1].PropertyName := 'SearchTextAtCaret';
@@ -2282,6 +2287,8 @@ begin
     Options[13].DisplayName := _('Auto-hide find toolbar');
     Options[14].PropertyName := 'HighlightSelectedWord';
     Options[14].DisplayName := _('Highlight selected word');
+    Options[15].PropertyName := 'DisplayPackageNames';
+    Options[15].DisplayName := _('Display package names in editor tabs');
   end;
   with Categories[5] do begin
     DisplayName := _('Code Completion');
