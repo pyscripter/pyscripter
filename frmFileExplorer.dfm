@@ -38,6 +38,9 @@ inherited FileExplorerWindow: TFileExplorerWindow
   TextHeight = 13
   inherited FGPanel: TPanel
     Height = 435
+    ExplicitLeft = 2
+    ExplicitTop = 2
+    ExplicitWidth = 223
     ExplicitHeight = 435
     object FileExplorerTree: TVirtualExplorerTree
       Left = 0
@@ -58,13 +61,7 @@ inherited FileExplorerWindow: TFileExplorerWindow
       FileObjects = [foFolders, foNonFolders]
       FileSizeFormat = fsfExplorer
       FileSort = fsFileType
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -11
-      Font.Name = 'Tahoma'
-      Font.Style = []
       Header.AutoSizeIndex = 0
-      Header.DefaultHeight = 17
       Header.Font.Charset = DEFAULT_CHARSET
       Header.Font.Color = clWindowText
       Header.Font.Height = -11
@@ -75,7 +72,6 @@ inherited FileExplorerWindow: TFileExplorerWindow
       HintMode = hmHint
       IncrementalSearch = isInitializedOnly
       ParentColor = False
-      ParentFont = False
       PopupMenu = ExplorerPopUp
       RootFolder = rfDrives
       ShellContextSubMenu = ShellContextPopUp

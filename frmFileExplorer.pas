@@ -16,7 +16,7 @@ uses
   MPShellUtilities, VirtualExplorerTree, Menus, frmIDEDockWin,
   ActnList, VirtualShellHistory,  TB2Item, TB2Dock,
   TB2Toolbar, JvComponentBase, SpTBXItem,
-  SpTBXSkins;
+  SpTBXSkins, cThemedVirtualStringTree;
                                                       
 const
   WM_EXPLOREHERE = WM_USER + 1000;
@@ -400,10 +400,7 @@ begin
   fFavorites := TStringList.Create;
   fFavorites.Duplicates := dupIgnore;
   fFavorites.Sorted := True;
-  FileExplorerTree.OnBeforeCellPaint :=
-    CommandsDataModule.VirtualStringTreeBeforeCellPaint;
-  FileExplorerTree.OnPaintText :=
-    CommandsDataModule.VirtualStringTreePaintText;
+  FileExplorerTree.SkinTree;
 end;
 
 procedure TFileExplorerWindow.FormDestroy(Sender: TObject);

@@ -139,7 +139,8 @@ type
     procedure Pause; override;
     procedure Abort; override;
     // Evaluate expression in the current frame
-    procedure Evaluate(const Expr : string; out ObjType, Value : string); override;
+    procedure Evaluate(const Expr : string; out ObjType, Value : string); overload; override;
+    function Evaluate(const Expr : string) : TBaseNamespaceItem; overload; override;
     // Like the InteractiveInterpreter runsource but for the debugger frame
     function RunSource(Const Source, FileName : Variant; symbol : string = 'single') : boolean; override;
     // Fills in CallStackList with TBaseFrameInfo objects
@@ -476,6 +477,24 @@ begin
   PyControl.DoStateChange(dsPostMortem);
   DSAMessageDlg(dsaPostMortemInfo, 'PyScripter', _(SPostMortemInfo),
      mtInformation, [mbOK], 0, dckActiveForm, 0, mbOK);
+end;
+
+function TPyInternalDebugger.Evaluate(const Expr: string): TBaseNamespaceItem;
+Var
+  SuppressOutput : IInterface;
+  V : Variant;
+begin
+  Result := nil;
+  if PyControl.DebuggerState in [dsPaused, dsPostMortem] then begin
+    SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
+    try
+      // evalcode knows we are in the debugger and uses current frame locals/globals
+      V := InternalInterpreter.PyInteractiveInterpreter.evalcode(Expr);
+      Result := TNameSpaceItem.Create(Expr, V);
+    except
+      // fail quitely
+    end;
+  end;
 end;
 
 procedure TPyInternalDebugger.Evaluate(const Expr : string; out ObjType, Value : string);

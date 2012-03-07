@@ -113,13 +113,13 @@ inherited PythonIIForm: TPythonIIForm
     IO = PythonIO
     PyFlags = [pfInteractive]
     OnAfterInit = PythonEngineAfterInit
-    Left = 557
+    Left = 493
     Top = 54
   end
   object PythonIO: TPythonInputOutput
     UnicodeIO = False
     RawOutput = False
-    Left = 586
+    Left = 554
     Top = 53
   end
   object SynCodeCompletion: TSynCompletionProposal
@@ -145,8 +145,8 @@ inherited PythonIIForm: TPythonIIForm
     Editor = SynEdit
     TimerInterval = 300
     OnAfterCodeCompletion = SynCodeCompletionAfterCodeCompletion
-    Left = 627
-    Top = 9
+    Left = 555
+    Top = 1
   end
   object DebugIDE: TPythonModule
     Engine = PythonEngine
@@ -289,15 +289,15 @@ inherited PythonIIForm: TPythonIIForm
   object PyDelphiWrapper: TPyDelphiWrapper
     Engine = PythonEngine
     Module = PyscripterModule
-    Left = 612
-    Top = 86
+    Left = 636
+    Top = 118
   end
   object PyscripterModule: TPythonModule
     Engine = PythonEngine
     ModuleName = 'pyscripter'
     Errors = <>
-    Left = 584
-    Top = 87
+    Left = 544
+    Top = 119
   end
   object InterpreterActionList: TActionList
     Images = CommandsDataModule.Images

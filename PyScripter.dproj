@@ -100,6 +100,7 @@
 			<VerInfo_Locale>1033</VerInfo_Locale>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
+			<Debugger_RunParams>--PYTHON27</Debugger_RunParams>
 			<VerInfo_Release>0</VerInfo_Release>
 			<VerInfo_MinorVer>5</VerInfo_MinorVer>
 			<ILINK_FullDebugInfo>true</ILINK_FullDebugInfo>
@@ -300,6 +301,7 @@
 			<DCCReference Include="JvDockVIDStyle.pas"/>
 			<DCCReference Include="JvCreateProcess.pas"/>
 			<DCCReference Include="cCodeCompletion.pas"/>
+			<DCCReference Include="cThemedVirtualStringTree.pas"/>
 			<None Include="PyScripter.todo"/>
 			<None Include="ModelSupport_PyScripter\default.txaPackage"/>
 			<BuildConfiguration Include="Debug">
@@ -314,7 +316,7 @@
 				<CfgParent>Base</CfgParent>
 			</BuildConfiguration>
 		</ItemGroup>
-		<Import Condition="Exists('$(BDS)\Bin\CodeGear.Delphi.Targets')" Project="$(BDS)\Bin\CodeGear.Delphi.Targets"/>
+		<Import Project="$(BDS)\Bin\CodeGear.Delphi.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Delphi.Targets')"/>
 		<ProjectExtensions>
 			<Borland.Personality>Delphi.Personality.12</Borland.Personality>
 			<Borland.ProjectType>VCLApplication</Borland.ProjectType>
@@ -369,5 +371,5 @@
 			</BorlandProject>
 			<ProjectFileVersion>12</ProjectFileVersion>
 		</ProjectExtensions>
-		<Import Condition="Exists('$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj')" Project="$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj"/>
+		<Import Project="$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj" Condition="Exists('$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj')"/>
 	</Project>

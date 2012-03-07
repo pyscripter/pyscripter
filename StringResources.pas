@@ -238,9 +238,9 @@ Const
   // do not localize further
 
 {gnugettext: reset }
-  SVariablesDocNotSelected = '<b>Namespace: </b> <color=clBlue>%s</color>';
-  SVariablesDocSelected = '<b>Namespace: </b> <color=clBlue>%s</color><br>'+
-                          '<b>Name: </b> <color=clBlue>%s</color><br>'+
+  SVariablesDocNotSelected = '<b>Namespace: </b> <color=%s>%s</color>';
+  SVariablesDocSelected = '<b>Namespace: </b> <color=%s>%s</color><br>'+
+                          '<b>Name: </b> <color=%s>%s</color><br>'+
                           '<b>Type: </b> %s<br><b>Value:</b><br>%s<br>'+
                           '<b>Docstring:</b><br>%s';
   SDebuggerHintFormat  = '<b>Name: </b> <font color="clBlue">%s</font><br>'+

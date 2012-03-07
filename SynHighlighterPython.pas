@@ -116,7 +116,7 @@ type
   protected
     function GetSampleSource: UnicodeString; override;
     function IsFilterStored: Boolean; override;
-    function GetKeywordIdentifiers: TStringList; virtual;
+    procedure GetKeywordIdentifiers(KeywordList: TStrings); virtual;
     property TokenID: TtkTokenKind read FTokenID;
     procedure DispatchProc; virtual;
   public
@@ -223,20 +223,13 @@ type
 
   TSynCythonSyn = class(TSynPythonSyn)
   protected
-    function GetKeywordIdentifiers: TStringList; override;
+    procedure GetKeywordIdentifiers(KeywordList: TStrings); override;
   public
     constructor Create(AOwner: TComponent); override;
-    procedure AddCythonKeywords(KeywordList: TStringList);
+    procedure AddCythonKeywords(KeywordList: TStrings);
     class function GetLanguageName: string; override;
     class function GetFriendlyLanguageName: UnicodeString; override;
   end;
-
-
-
-var
-  PythonGlobalKeywords: TStringList;
-  CythonGlobalKeywords: TStringList;
-
 
 resourcestring
   SYNS_CommentedCode = 'Commented Code';
@@ -261,10 +254,10 @@ uses
 
 function TSynPythonSyn.GetKeyWords(TokenKind: Integer): UnicodeString;
 begin
-  Result := GetKeywordIdentifiers.CommaText;
+  Result := Keywords.CommaText;
 end;
 
-function TSynPythonSyn.GetKeywordIdentifiers: TStringList;
+procedure TSynPythonSyn.GetKeywordIdentifiers(KeywordList: TStrings);
 const
   // No need to localise keywords!
 
@@ -450,17 +443,10 @@ const
 var
   f: Integer;
 begin
-  if not Assigned (PythonGlobalKeywords) then
-  begin
-    // Create the string list of keywords - only once
-    PythonGlobalKeywords := TStringList.Create;
-
-    for f := 1 to KEYWORDCOUNT do
-      PythonGlobalKeywords.AddObject(KEYWORDS[f], Pointer(Ord(tkKey)));
-    for f := 1 to NONKEYWORDCOUNT do
-      PythonGlobalKeywords.AddObject(NONKEYWORDS[f], Pointer(Ord(tkNonKeyword)));
-  end; // if
-  Result := PythonGlobalKeywords;
+  for f := 1 to KEYWORDCOUNT do
+    KeywordList.AddObject(KEYWORDS[f], Pointer(Ord(tkKey)));
+  for f := 1 to NONKEYWORDCOUNT do
+    KeywordList.AddObject(NONKEYWORDS[f], Pointer(Ord(tkNonKeyword)));
 end;
 
 function TSynPythonSyn.IdentKind(MayBe: PWideChar): TtkTokenKind;
@@ -523,7 +509,7 @@ begin
   fCaseSensitive := True;
 
   FKeywords := TStringList.Create;
-  FKeywords.AddStrings(GetKeywordIdentifiers);
+  GetKeywordIdentifiers(FKeywords);
   FKeywords.CaseSensitive := True;
   FKeywords.Duplicates := dupIgnore;
   FKeywords.Sorted := True;
@@ -1595,7 +1581,7 @@ begin
   Result := SYNS_FriendlyLangCython;
 end;
 
-procedure TSynCythonSyn.AddCythonKeywords(KeywordList: TStringList);
+procedure TSynCythonSyn.AddCythonKeywords(KeywordList: TStrings);
 const
   // No need to localise keywords!
 
@@ -1639,17 +1625,10 @@ begin
     KeywordList.AddObject(NONKEYWORDS[f], Pointer(Ord(tkNonKeyword)));
 end;
 
-function TSynCythonSyn.GetKeywordIdentifiers: TStringList;
+procedure TSynCythonSyn.GetKeywordIdentifiers(KeywordList: TStrings);
 begin
-  inherited;
-  if not Assigned (CythonGlobalKeywords) then
-  begin
-    // Create the string list of keywords - only once
-    CythonGlobalKeywords := TStringList.Create;
-    CythonGlobalKeywords.AddStrings(PythonGlobalKeywords);
-    AddCythonKeywords(CythonGlobalKeywords);
-  end; // if
-  Result := CythonGlobalKeywords;
+    inherited;
+    AddCythonKeywords(KeywordList);
 end;
 
 class function TSynCythonSyn.GetLanguageName: string;
@@ -1662,8 +1641,5 @@ initialization
   RegisterPlaceableHighlighter(TSynPythonSyn);
   RegisterPlaceableHighlighter(TSynCythonSyn);
 {$ENDIF}
-finalization
-  PythonGlobalKeywords.Free;
-  CythonGlobalKeywords.Free;
 end.
 

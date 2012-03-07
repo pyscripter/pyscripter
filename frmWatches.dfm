@@ -3,8 +3,8 @@ inherited WatchesWindow: TWatchesWindow
   Top = 325
   HelpContext = 490
   Caption = 'Watches'
-  ClientHeight = 225
-  ClientWidth = 439
+  ClientHeight = 229
+  ClientWidth = 760
   Icon.Data = {
     0000010001001010000001002000280400001600000028000000100000002000
     0000010020000000000000000000000000000000000000000000000000000000
@@ -40,44 +40,46 @@ inherited WatchesWindow: TWatchesWindow
     72FFCF9971FFCE986FFFCB956EFFC9936BFFC39679F4A670516B000000000000
     0000000000000000000000000000000000000000000000000000000000000000
     000000000000000000000000000000000000000000000000000000000000}
-  ExplicitWidth = 455
-  ExplicitHeight = 259
+  ExplicitWidth = 776
+  ExplicitHeight = 263
   PixelsPerInch = 96
   TextHeight = 13
   inherited FGPanel: TPanel
-    Width = 435
-    Height = 221
+    Width = 756
+    Height = 225
     ExplicitLeft = 2
     ExplicitTop = 2
-    ExplicitWidth = 435
-    ExplicitHeight = 221
+    ExplicitWidth = 756
+    ExplicitHeight = 225
     object WatchesView: TVirtualStringTree
       Left = 0
       Top = 0
-      Width = 435
-      Height = 221
+      Width = 756
+      Height = 225
       Align = alClient
       Alignment = taRightJustify
       BevelInner = bvNone
       BevelOuter = bvNone
       BorderStyle = bsNone
       Header.AutoSizeIndex = -1
-      Header.MainColumn = 1
       Header.Options = [hoAutoResize, hoColumnResize, hoDblClickResize, hoHotTrack, hoOwnerDraw, hoVisible]
       Header.ParentFont = True
       HintMode = hmTooltip
+      Images = CommandsDataModule.CodeImages
       PopupMenu = TBXPopupMenu
       TabOrder = 0
       TreeOptions.AnimationOptions = [toAnimatedToggle]
       TreeOptions.AutoOptions = [toAutoDropExpand, toAutoScrollOnExpand, toAutoTristateTracking, toAutoDeleteMovedNodes, toAutoChangeScale]
       TreeOptions.MiscOptions = [toFullRepaintOnResize, toInitOnSave, toReportMode, toToggleOnDblClick, toWheelPanning]
-      TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowDropmark, toShowHorzGridLines, toShowVertGridLines, toThemeAware, toUseBlendedImages, toUseBlendedSelection]
+      TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowDropmark, toShowRoot, toShowTreeLines, toShowVertGridLines, toThemeAware, toUseBlendedImages, toUseBlendedSelection]
       TreeOptions.SelectionOptions = [toExtendedFocus, toFullRowSelect, toRightClickSelect]
       TreeOptions.StringOptions = [toAutoAcceptEditChange]
       OnDblClick = WatchesViewDblClick
       OnDragOver = WatchesViewDragOver
       OnDragDrop = WatchesViewDragDrop
       OnGetText = WatchesViewGetText
+      OnGetImageIndex = WatchesViewGetImageIndex
+      OnInitChildren = WatchesViewInitChildren
       OnInitNode = WatchesViewInitNode
       OnKeyDown = WatchesViewKeyDown
       Columns = <
@@ -88,16 +90,25 @@ inherited WatchesWindow: TWatchesWindow
         end
         item
           Position = 1
-          Width = 235
+          Width = 120
+          WideText = 'Type'
+        end
+        item
+          Position = 2
+          Width = 436
           WideText = 'Value'
         end>
     end
   end
+  inherited DockClient: TJvDockClient
+    Left = 24
+    Top = 26
+  end
   object TBXPopupMenu: TSpTBXPopupMenu
     Images = CommandsDataModule.Images
     OnPopup = TBXPopupMenuPopup
-    Left = 8
-    Top = 45
+    Left = 24
+    Top = 85
     object mnAddWatch: TSpTBXItem
       Caption = '&Add Watch'
       ImageIndex = 49

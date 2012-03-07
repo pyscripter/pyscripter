@@ -107,7 +107,7 @@ implementation
 
 uses uCommonFunctions, frmPyIDEMain, VarPyth, JvJVCLUtils,
   uEditAppIntfs, PythonEngine, dmCommands, cPyBaseDebugger, JclSysUtils,
-  cPyDebugger, StringResources, gnugettext;
+  cPyDebugger, StringResources, gnugettext, cThemedVirtualStringTree;
 
 {$R *.dfm}
 
@@ -225,10 +225,7 @@ begin
 
   Status := utwEmpty;
 
-  UnitTests.OnBeforeCellPaint :=
-    CommandsDataModule.VirtualStringTreeBeforeCellPaint;
-  UnitTests.OnPaintText :=
-    CommandsDataModule.VirtualStringTreePaintText;
+  UnitTests.SkinTree;
 end;
 
 procedure TUnitTestWindow.FormDestroy(Sender: TObject);

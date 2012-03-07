@@ -181,7 +181,8 @@ type
     procedure Pause; virtual; abstract;
     procedure Abort; virtual; abstract;
     // Evaluate expression in the current frame
-    procedure Evaluate(const Expr : string; out ObjType, Value : string); virtual; abstract;
+    procedure Evaluate(const Expr : string; out ObjType, Value : string); overload; virtual; abstract;
+    function Evaluate(const Expr : string) : TBaseNamespaceItem; overload; virtual; abstract;
     // Like the InteractiveInterpreter runsource but for the debugger frame
     function RunSource(Const Source, FileName : Variant; symbol : string = 'single') : boolean; virtual; abstract;
     // Fills in CallStackList with TBaseFrameInfo objects

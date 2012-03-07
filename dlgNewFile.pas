@@ -6,7 +6,8 @@ uses
   Windows, Messages, SysUtils, Classes, Controls, Forms,
   Dialogs, VirtualTrees, cFileTemplates,
   SpTBXDkPanels, SpTBXControls, dlgPyIDEBase,
-  SpTBXItem, SpTBXSkins, MPCommonObjects, MPCommonUtilities, EasyListview;
+  SpTBXItem, SpTBXSkins, MPCommonObjects, MPCommonUtilities, EasyListview,
+  cThemedVirtualStringTree;
 
 type
   TNewFileDialog = class(TPyIDEDlgBase)
@@ -69,14 +70,7 @@ begin
   Categories := TStringList.Create;
   Categories.CaseSensitive := False;
   lvTemplates.ImagesLarge := LargeSysImages;
-  tvCategories.OnBeforeCellPaint :=
-    CommandsDataModule.VirtualStringTreeBeforeCellPaint;
-  tvCategories.OnPaintText :=
-    CommandsDataModule.VirtualStringTreePaintText;
-  if SkinManager.IsDefaultSkin then
-    tvCategories.TreeOptions.PaintOptions := tvCategories.TreeOptions.PaintOptions - [toAlwaysHideSelection]
-  else
-    tvCategories.TreeOptions.PaintOptions := tvCategories.TreeOptions.PaintOptions + [toAlwaysHideSelection];
+  tvCategories.SkinTree;
 end;
 
 procedure TNewFileDialog.FormDestroy(Sender: TObject);

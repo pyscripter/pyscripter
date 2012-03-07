@@ -78,6 +78,7 @@ inherited VariablesWindow: TVariablesWindow
       OnGetText = VariablesTreeGetText
       OnPaintText = VariablesTreePaintText
       OnGetImageIndex = VariablesTreeGetImageIndex
+      OnInitChildren = VariablesTreeInitChildren
       OnInitNode = VariablesTreeInitNode
       Columns = <
         item
@@ -131,9 +132,11 @@ inherited VariablesWindow: TVariablesWindow
   inherited DockClient: TJvDockClient
     LeftDock = False
     RightDock = False
+    Left = 24
+    Top = 26
   end
   object VTHeaderPopupMenu: TVTHeaderPopupMenu
-    Left = 44
-    Top = 35
+    Left = 20
+    Top = 75
   end
 end
