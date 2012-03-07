@@ -680,7 +680,8 @@ end;
 
 function FileIsPythonPackage(FileName : string): boolean;
 begin
-  Result := ChangeFileExt(ExtractFileName(FileName), '') = '__init__';
+  Result := (ExtractFileExt(FileName) = '.py') and
+    (ChangeFileExt(ExtractFileName(FileName), '') = '__init__');
 end;
 
 function GetPackageRootDir(Dir : string): string;

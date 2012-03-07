@@ -602,7 +602,14 @@ end;
 function TEditor.GetFileTitle: string;
 begin
   if fFileName <> '' then
-    Result := ExtractFileName(fFileName)
+  begin
+    if CommandsDataModule.PyIDEOptions.DisplayPackageNames and
+      FileIsPythonPackage(fFileName)
+    then
+      Result := FileNameToModuleName(fFileName)
+    else
+      Result := ExtractFileName(fFileName);
+  end
   else
   begin
     if fUntitledNumber = -1 then

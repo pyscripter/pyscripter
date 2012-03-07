@@ -366,6 +366,7 @@
             Expandable watches as in the Variables window (Issue 523)
             Basic support for Cython files added (Issue 542)
             New interpreter action Paste & Execute (Issue 500) Replaces Paste with Prompt
+            New PyIDEoption "Display package names in editor tabs" default True (Issue 115)
           Issues addressed
             516, 549, 563, 564, 568, 576, 587, 591, 592, 594,
             597, 598, 599, 612, 613, 615
