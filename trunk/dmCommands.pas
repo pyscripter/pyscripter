@@ -226,12 +226,14 @@ type
     property DisplayPackageNames : Boolean read fDisplayPackageNames
       write fDisplayPackageNames;
   end;
-{$METHODINFO OFF}
 
+  TSearchCaseSensitiveType = (scsAuto, scsNotCaseSenitive, scsCaseSensitive);
+
+{$METHODINFO OFF}
   TEditorSearchOptions = class(TPersistent)
   private
     fSearchBackwards: boolean;
-    fSearchCaseSensitive: boolean;
+    fSearchCaseSensitiveType: TSearchCaseSensitiveType;
     fSearchFromCaret: boolean;
     fSearchSelectionOnly: boolean;
     fSearchTextAtCaret: boolean;
@@ -277,7 +279,7 @@ type
     property SearchTextHistory: string read fSearchTextHistory write fSearchTextHistory;
     property ReplaceTextHistory: string read fReplaceTextHistory write fReplaceTextHistory;
     property SearchSelectionOnly: boolean read fSearchSelectionOnly write fSearchSelectionOnly;
-    property SearchCaseSensitive: boolean read fSearchCaseSensitive write fSearchCaseSensitive;
+    property SearchCaseSensitiveType: TSearchCaseSensitiveType read fSearchCaseSensitiveType write fSearchCaseSensitiveType;
     property SearchFromCaret: boolean read fSearchFromCaret write fSearchFromCaret;
     property SearchTextAtCaret: boolean read fSearchTextAtCaret write fSearchTextAtCaret;
     property SearchWholeWords: boolean read fSearchWholeWords write fSearchWholeWords;
@@ -575,7 +577,7 @@ uses
   uParams, dlgCodeTemplates, dlgConfigureTools, cTools,
   frmFunctionList, StringResources, uCommonFunctions,
   {uMMMXP_MainService, }JvJCLUtils, SynEditStrConst,
-  dlgConfirmReplace, dlgCustomShortcuts,// jclStrings,
+  dlgConfirmReplace, dlgCustomShortcuts,
   dlgUnitTestWizard, WinInet, Registry, ShlObj, ShellAPI,
   dlgFileTemplates, JclSysUtils, dlgPickList, JvAppIniStorage,
   JvAppStorage, JvDSADialogs, uSearchHighlighter,
@@ -760,7 +762,7 @@ begin
   if Source is TEditorSearchOptions then
     with TEditorSearchOptions(Source) do begin
       Self.fSearchBackwards := SearchBackwards;
-      Self.fSearchCaseSensitive := SearchCaseSensitive;
+      Self.fSearchCaseSensitiveType := SearchCaseSensitiveType;
       Self.fSearchFromCaret := SearchFromCaret;
       Self.fTempSearchFromCaret := TempSearchFromCaret;
       Self.fSearchSelectionOnly := SearchSelectionOnly;
@@ -859,9 +861,13 @@ begin
 //    else
 //      TextLeft := GetBlockText(SynEdit.Lines, InitBlockBegin, InitCaretXY);
     SearchOptions := [];
-    if EditorSearchOptions.SearchCaseSensitive then
-      Include(SearchOptions, ssoMatchCase);
-    if EditorSearchOptions.SearchWholeWords then
+
+    case SearchCaseSensitiveType of
+      scsAuto:           if LowerCase(SearchText) <> SearchText then
+                           Include(SearchOptions, ssoMatchCase);
+      scsCaseSensitive : Include(SearchOptions, ssoMatchCase);
+    end;
+    if SearchWholeWords then
       Include(SearchOptions, ssoWholeWord);
     SynEdit.SearchEngine.Options := SearchOptions;
     try
@@ -1403,8 +1409,12 @@ begin
     if actSearchHighlight.Checked and (EditorSearchOptions.SearchText <> '') then
     begin
       SearchOptions := [];
-      if EditorSearchOptions.SearchCaseSensitive then
-        Include(SearchOptions, ssoMatchCase);
+      case EditorSearchOptions.SearchCaseSensitiveType of
+        scsAuto:
+          if LowerCase(EditorSearchOptions.SearchText) <> EditorSearchOptions.SearchText then
+            Include(SearchOptions, ssoMatchCase);
+        scsCaseSensitive : Include(SearchOptions, ssoMatchCase);
+      end;
       if EditorSearchOptions.SearchWholeWords then
         Include(SearchOptions, ssoWholeWord);
 
@@ -2899,8 +2909,12 @@ begin
     Options := [];
   if ABackwards then
     Include(Options, ssoBackwards);
-  if EditorSearchOptions.SearchCaseSensitive then
-    Include(Options, ssoMatchCase);
+  case EditorSearchOptions.SearchCaseSensitiveType of
+    scsAuto:
+      if LowerCase(EditorSearchOptions.SearchText) <> EditorSearchOptions.SearchText then
+        Include(Options, ssoMatchCase);
+    scsCaseSensitive : Include(Options, ssoMatchCase);
+  end;
   if not EditorSearchOptions.TempSearchFromCaret then
     Include(Options, ssoEntireScope);
   if EditorSearchOptions.SearchWholeWords then

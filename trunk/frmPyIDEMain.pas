@@ -366,7 +366,8 @@
             Expandable watches as in the Variables window (Issue 523)
             Basic support for Cython files added (Issue 542)
             New interpreter action Paste & Execute (Issue 500) Replaces Paste with Prompt
-            New PyIDEoption "Display package names in editor tabs" default True (Issue 115)
+            New PyIDE option "Display package names in editor tabs" default True (Issue 115)
+            New search option "Auto Case Sensitive" (case insensitive when search text is lower case)
           Issues addressed
             516, 549, 563, 564, 568, 576, 587, 591, 592, 594,
             597, 598, 599, 612, 613, 615
@@ -879,6 +880,7 @@ type
     SpTBXSeparatorItem16: TSpTBXSeparatorItem;
     SpTBXSubmenuItem1: TSpTBXSubmenuItem;
     tbiRecentProjects: TSpTBXMRUListItem;
+    tbiAutoCaseSensitive: TSpTBXItem;
     procedure mnFilesClick(Sender: TObject);
     procedure actEditorZoomInExecute(Sender: TObject);
     procedure actEditorZoomOutExecute(Sender: TObject);
@@ -4562,7 +4564,9 @@ begin
     tbiSearchInSelection.Checked := SearchSelectionOnly;
     tbiWholeWords.Checked := SearchWholeWords;
     tbiRegExp.Checked := UseRegExp;
-    tbiCaseSensitive.Checked := SearchCaseSensitive;
+    tbiAutoCaseSensitive.Checked := SearchCaseSensitiveType = scsAuto;
+    tbiCaseSensitive.Checked := SearchCaseSensitiveType = scsCaseSensitive;
+    tbiCaseSensitive.Enabled := not tbiAutoCaseSensitive.Checked;
     tbiIncrementalSearch.Checked := IncrementalSearch;
   end;
 end;
@@ -4701,7 +4705,12 @@ begin
     SearchSelectionOnly := tbiSearchInSelection.Checked;
     SearchWholeWords := tbiWholeWords.Checked;
     UseRegExp := tbiRegExp.Checked;
-    SearchCaseSensitive := tbiCaseSensitive.Checked;
+    if tbiAutoCaseSensitive.Checked then
+      SearchCaseSensitiveType := scsAuto
+    else if tbiCaseSensitive.Checked then
+      SearchCaseSensitiveType := scsCaseSensitive
+    else
+      SearchCaseSensitiveType := scsNotCaseSenitive;
     IncrementalSearch := tbiIncrementalSearch.Checked and not SearchWholeWords;
     InitSearch;
   end;
