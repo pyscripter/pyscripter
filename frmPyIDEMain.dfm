@@ -1492,6 +1492,13 @@ object PyIDEMainForm: TPyIDEMainForm
         end
         object SpTBXSeparatorItem2: TSpTBXSeparatorItem
         end
+        object tbiAutoCaseSensitive: TSpTBXItem
+          Caption = '&Auto Case Sensitive'
+          Hint = 'Case Sensitive when search text contains upper case characters'
+          AutoCheck = True
+          Checked = True
+          OnClick = SearchOptionsChanged
+        end
         object tbiCaseSensitive: TSpTBXItem
           Caption = '&Case Sensitive'
           AutoCheck = True
@@ -1594,7 +1601,7 @@ object PyIDEMainForm: TPyIDEMainForm
       CustomHeight = 21
     end
     object SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem
-      CustomWidth = 0
+      CustomWidth = 407
     end
     object SpTBXSeparatorItem5: TSpTBXSeparatorItem
     end
