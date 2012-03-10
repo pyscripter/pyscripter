@@ -100,7 +100,7 @@
 			<VerInfo_Locale>1033</VerInfo_Locale>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
-			<Debugger_RunParams>--PYTHON27</Debugger_RunParams>
+			<Debugger_RunParams>--PYTHON32</Debugger_RunParams>
 			<VerInfo_Release>0</VerInfo_Release>
 			<VerInfo_MinorVer>5</VerInfo_MinorVer>
 			<ILINK_FullDebugInfo>true</ILINK_FullDebugInfo>

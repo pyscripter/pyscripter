@@ -1872,9 +1872,7 @@ begin
   expectedVersion := '';
   expectedVersionIdx := -1;
 
-  if CmdLineReader.readFlag('PYTHON23') then
-    expectedVersion := '2.3'
-  else if CmdLineReader.readFlag('PYTHON24') then
+  if CmdLineReader.readFlag('PYTHON24') then
     expectedVersion := '2.4'
   else if CmdLineReader.readFlag('PYTHON25') then
     expectedVersion := '2.5'
@@ -1887,7 +1885,9 @@ begin
   else if CmdLineReader.readFlag('PYTHON31') then
     expectedVersion := '3.1'
   else if CmdLineReader.readFlag('PYTHON32') then
-    expectedVersion := '3.2';
+    expectedVersion := '3.2'
+  else if CmdLineReader.readFlag('PYTHON33') then
+    expectedVersion := '3.3';
   PythonEngine.DllPath := CmdLineReader.readString('PYTHONDLLPATH');
   UseDebugVersion := CmdLineReader.readFlag('DEBUG');
 

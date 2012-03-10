@@ -1065,7 +1065,11 @@ Var
   S : string;
   VariableProxy : TVariableProxy;
 begin
-  if fIsExpanded then Exit;
+  if Name = '__main__' then begin
+    if Assigned(fChildren) then fChildren.Clear;
+    if Assigned(fGlobals) then fGlobals.Clear;
+  end else if fIsExpanded then
+    Exit;
 
   InspectModule := Import('inspect');
   ItemsDict := fPyModule.__dict__;

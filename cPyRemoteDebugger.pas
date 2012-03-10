@@ -157,7 +157,7 @@ uses
   VarPyth, StringResources, frmPythonII, Dialogs, dmCommands,
   cParameters, uCommonFunctions, frmMessages, frmPyIDEMain,
   frmVariables, frmCallStack, frmUnitTests, JvDSADialogs,
-  gnugettext, JclStrings, JclSysUtils, cProjectClasses;
+  gnugettext, JclStrings, JclSysUtils, cProjectClasses, JvJCLUtils;
 
 { TRemNameSpaceItem }
 constructor TRemNameSpaceItem.Create(aName : string; aPyObject : Variant;
@@ -478,6 +478,10 @@ begin
     ConsoleOptions := [coRedirect];
     StartupInfo.ForceOnFeedback := False;
     StartupInfo.ForceOffFeedback := True;
+//    StartupInfo.DefaultWindowState := True;
+//    StartupInfo.ShowWindow := swNormal;
+    StartupInfo.DefaultWindowState := False;
+    StartupInfo.ShowWindow := swHide;
   end;
 
   // Import Rpyc
@@ -518,10 +522,8 @@ begin
   if fIsAvailable then begin
     RemoteServer := TExternalTool.Create;
     RemoteServer.CaptureOutput := False;
-    RemoteServer.ApplicationName := '$[PythonDir]\pythonw.exe';
+    RemoteServer.ApplicationName := '$[PythonDir]\python.exe';
     RemoteServer.Parameters := Format('"%s" %d "%s"', [ServerFile, fSocketPort, fRpycPath]);
-//       '$[PythonExe-Short-Path]Lib\site-packages\Rpyc\Servers\threaded_server.py';
-//       '"$[PythonExe-Path]Lib\site-packages\Rpyc\Servers\simple_server_wx.py"';
     try
       fIsAvailable := fIsAvailable and CreateAndConnectToServer;
     except
@@ -992,8 +994,6 @@ begin
     // According to the Help file it is more robust to add the appname to the command line
     // ApplicationName := AppName;
     CommandLine := Trim(AppName + ' ' + Arguments);
-    StartupInfo.DefaultWindowState := True;
-    StartupInfo.ShowWindow := swNormal;
     if RemoteServer.UseCustomEnvironment then
       Environment.Assign(RemoteServer.Environment);
     // Execute Process
@@ -1223,13 +1223,38 @@ begin
 end;
 
 { TPyRemDebugger }
+function CtrlHandler( fdwCtrlType : dword): LongBool; stdcall;
+begin
+  Result := True;
+end;
+
 
 procedure TPyRemDebugger.Abort;
+Var
+  AttachConsole: Function (dwProcessId: longword): LongBool; stdCall;
 begin
-  if PyControl.DebuggerState = dsPostMortem then
-    ExitPostMortem
-  else
-    fDebuggerCommand := dcAbort;
+  case PyControl.DebuggerState of
+    dsPostMortem: ExitPostMortem;
+    dsRunning,
+    dsRunningNoDebug:
+      begin
+        AttachConsole := GetProcAddress (GetModuleHandle ('kernel32.dll'), 'AttachConsole');
+        if Assigned(AttachConsole) then
+        try
+          OSCheck(AttachConsole(fRemotePython.ServerProcess.ProcessInfo.dwProcessId));
+          OSCheck(SetConsoleCtrlHandler(@CtrlHandler, True));
+          try
+            OSCheck(GenerateConsoleCtrlEvent(CTRL_C_EVENT, 0));
+            Sleep(100);
+          finally
+            OSCheck(SetConsoleCtrlHandler(@CtrlHandler, False));
+            OSCheck(FreeConsole);
+          end;
+        except
+        end;
+      end;
+    dsPaused: fDebuggerCommand := dcAbort;
+  end;
 end;
 
 constructor TPyRemDebugger.Create(RemotePython: TPyRemoteInterpreter);
