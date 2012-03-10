@@ -490,7 +490,6 @@ initialization
   CmdLineReader.declareFlag('NEWINSTANCE','Start a new instance of PyScripter', Char('N'),False);
   CmdLineReader.declareFlag('DPIAWARE','Make PyScripter DPI aware in VISTA', Char('D'),False);
   CmdLineReader.declareFlag('DEBUG','Use debug version of Python', Char('B'),False);
-  CmdLineReader.declareFlag('PYTHON23','Use Python version 2.3',False);
   CmdLineReader.declareFlag('PYTHON24','Use Python version 2.4',False);
   CmdLineReader.declareFlag('PYTHON25','Use Python version 2.5',False);
   CmdLineReader.declareFlag('PYTHON26','Use Python version 2.6',False);
@@ -498,6 +497,7 @@ initialization
   CmdLineReader.declareFlag('PYTHON30','Use Python version 3.0',False);
   CmdLineReader.declareFlag('PYTHON31','Use Python version 3.1',False);
   CmdLineReader.declareFlag('PYTHON32','Use Python version 3.2',False);
+  CmdLineReader.declareFlag('PYTHON33','Use Python version 3.3',False);
   CmdLineReader.declareFile('PROJECT','Specify a project file to open');
   CmdLineReader.declareFile('PYTHONDLLPATH','Use a specific Pythonxx.dll');
 

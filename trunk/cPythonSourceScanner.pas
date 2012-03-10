@@ -14,7 +14,8 @@ interface
 uses SysUtils,
      Classes,
      Contnrs,
-     SynRegExpr, AsyncCalls;
+     SynRegExpr,
+     AsyncCalls;
 
 Type
   TParsedModule = class;
@@ -92,12 +93,12 @@ Type
     fCodeBlock : TCodeBlock;
     fDocString : string;
     fIndent : integer;
-    fChildren : TObjectList;
     fDocStringExtracted : boolean;
     function GetChildCount: integer;
     function GetChildren(i : integer): TCodeElement;
     procedure ExtractDocString;
   protected
+    fChildren : TObjectList;
     function GetDocString: string; virtual;
   public
     constructor Create;
@@ -118,7 +119,6 @@ Type
   TParsedModule = class(TCodeElement)
   private
     fImportedModules : TObjectList;
-    fGlobals : TObjectList;
     fSource : string;
     fFileName : string;
     fMaskedSource : string;
@@ -127,6 +127,7 @@ Type
     function GetIsPackage: boolean;
     procedure SetFileName(const Value: string);
   protected
+    fGlobals : TObjectList;
     function GetAllExportsVar: string; virtual;
     function GetCodeHint : string; override;
     procedure GetNameSpaceInternal(SList, ImportedModuleCache : TStringList);
@@ -257,9 +258,9 @@ public
 
 implementation
 
-uses uCommonFunctions, cRefactoring, VarPyth,
-  StringResources, JclSysUtils, Math, cPyDebugger, gnugettext,
-  Windows, JclStrings;
+uses  Windows, uCommonFunctions, cRefactoring, VarPyth,
+  StringResources, JclSysUtils, Math, cPyDebugger,
+  gnugettext, JclStrings;
 
 Const
   MaskChar = WideChar(#96);
@@ -1248,6 +1249,8 @@ begin
       if not Assigned(ParsedModule) or (ParsedModule = Self) then
         break;
       CurrentCount := SList.Count;
+      if ParsedModule is TModuleProxy then
+        TModuleProxy(ParsedModule).Expand;
       ParsedModule.GetNameSpaceInternal(SList, ImportedModuleCache);
       // Now filter out added names for private and accounting for __all__
       if not (ParsedModule is TModuleProxy) then

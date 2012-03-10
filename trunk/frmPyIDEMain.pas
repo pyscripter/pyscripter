@@ -368,6 +368,7 @@
             New interpreter action Paste & Execute (Issue 500) Replaces Paste with Prompt
             New PyIDE option "Display package names in editor tabs" default True (Issue 115)
             New search option "Auto Case Sensitive" (case insensitive when search text is lower case)
+            The Abort command raises a KeyboardInterrupt at the Remote Engine (Issue 618)
           Issues addressed
             516, 549, 563, 564, 568, 576, 587, 591, 592, 594,
             597, 598, 599, 612, 613, 615
@@ -2050,7 +2051,7 @@ begin
   actStepInto.Enabled := PyFileActive and (DebuggerState in [dsInactive, dsPaused]);
   actStepOut.Enabled := DebuggerState = dsPaused;
   actStepOver.Enabled := DebuggerState = dsPaused;
-  actDebugAbort.Enabled := DebuggerState in [dsPaused, dsRunning, dsPostMortem];
+  actDebugAbort.Enabled := DebuggerState in [dsPaused, dsRunning, dsRunningNoDebug, dsPostMortem];
   actDebugPause.Enabled := DebuggerState = dsRunning;
   actRunToCursor.Enabled := PyFileActive and (DebuggerState in [dsInactive, dsPaused])
     and PyControl.IsExecutableLine(Editor, Editor.SynEdit.CaretY);
@@ -4320,15 +4321,22 @@ end;
 procedure TPyIDEMainForm.ApplicationActionUpdate(Action: TBasicAction;
   var Handled: Boolean);
 begin
-  if (Action is TEditAction) and Assigned(Screen.ActiveControl) and
-    (Screen.ActiveControl is TCombobox) and
-    not TComboBox(Screen.ActiveControl).DroppedDown
-  then begin
-    TEditAction(Action).Enabled :=
-     (Action is TEditCut) and (TComboBox(Screen.ActiveControl).SelLength > 0) or
-     (Action is TEditCopy) and (TComboBox(Screen.ActiveControl).SelLength > 0) or
-     (Action is TEditPaste) and ClipboardProvidesWideText;
-    Handled := (Action is TEditCut) or (Action is TEditCopy) or (Action is TEditPaste);
+  if (Action is TEditAction) then
+  begin
+     if Assigned(Screen.ActiveControl) and (Screen.ActiveControl is TCombobox) and
+      not TComboBox(Screen.ActiveControl).DroppedDown
+    then begin
+      TEditAction(Action).Enabled :=
+       (Action is TEditCut) and (TComboBox(Screen.ActiveControl).SelLength > 0) or
+       (Action is TEditCopy) and (TComboBox(Screen.ActiveControl).SelLength > 0) or
+       (Action is TEditPaste) and ClipboardProvidesWideText;
+      Handled := (Action is TEditCut) or (Action is TEditCopy) or (Action is TEditPaste);
+    end
+    else if ((Action is TEditCopy) or (Action is TEditCut)) and Assigned(GI_ActiveEditor) then
+    begin
+      TEditAction(Action).Enabled := True;
+      Handled := True;
+    end;
   end;
 end;
 
