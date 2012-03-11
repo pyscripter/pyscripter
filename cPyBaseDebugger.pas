@@ -9,7 +9,8 @@ unit cPyBaseDebugger;
 
 interface
 uses
-  Windows, SysUtils, Classes, uEditAppIntfs, PythonEngine, Forms, Contnrs, cTools;
+  Windows, SysUtils, Classes, uEditAppIntfs, PythonEngine, Forms,
+  Contnrs, cTools, cRefactoring;
 
 type
   TPythonEngineType = (peInternal, peRemote, peRemoteTk, peRemoteWx);
@@ -125,10 +126,15 @@ type
 
   TPyBaseInterpreter = class(TObject)
   //  Base (abstract) class for implementing Python Interpreters
+  private
+    function GetMainModule: TModuleProxy;
   protected
     fInterpreterCapabilities : TInterpreterCapabilities;
     fEngineType : TPythonEngineType;
+    fMainModule : TModuleProxy;
+    procedure CreateMainModule; virtual; abstract;
   public
+    destructor Destroy; override;
     procedure Initialize; virtual;
     // Python Path
     function SysPathAdd(const Path : string) : boolean; virtual; abstract;
@@ -157,6 +163,7 @@ type
     function UnitTestResult : Variant; virtual; abstract;
     property EngineType : TPythonEngineType read fEngineType;
     property InterpreterCapabilities : TInterpreterCapabilities read fInterpreterCapabilities;
+    property MainModule : TModuleProxy read GetMainModule;
   end;
 
   TPyBaseDebugger = class(TObject)
@@ -402,6 +409,19 @@ function TPyBaseInterpreter.AddPathToPythonPath(const Path: string;
   AutoRemove: Boolean): IInterface;
 begin
   Result := TPythonPathAdder.Create(SysPathAdd, SysPathRemove, Path, AutoRemove);
+end;
+
+destructor TPyBaseInterpreter.Destroy;
+begin
+  FreeAndNil(fMainModule);
+  inherited;
+end;
+
+function TPyBaseInterpreter.GetMainModule: TModuleProxy;
+begin
+  if not Assigned(fMainModule) then
+    CreateMainModule;
+  Result := fMainModule;
 end;
 
 procedure TPyBaseInterpreter.HandlePyException(E: EPythonError; SkipFrames : integer = 1);

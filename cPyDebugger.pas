@@ -77,6 +77,8 @@ type
     fII : Variant;  // Python VarPyth wrapper to the interactive interpreter
     fDebugger : Variant;
     fOldargv : Variant;
+  protected
+    procedure CreateMainModule; override;
   public
     constructor Create(II : Variant);
 
@@ -164,7 +166,7 @@ implementation
 uses dmCommands, frmPythonII, Variants, VarPyth, frmMessages, frmPyIDEMain,
   MMSystem, Math, uCommonFunctions,
   cParameters, StringResources, Dialogs, JvDSADialogs, 
-  gnugettext;
+  gnugettext, cRefactoring;
 
 { TFrameInfo }
 
@@ -940,10 +942,13 @@ begin
   fII := II;
   fDebugger := II.debugger;
 
-  // Execute PyscripterSetup.py here
-
   // sys.displayhook
   fII.setupdisplayhook()
+end;
+
+procedure TPyInternalInterpreter.CreateMainModule;
+begin
+  fMainModule := TModuleProxy.CreateFromModule(VarPyth.MainModule);
 end;
 
 function TPyInternalInterpreter.EvalCode(const Expr: string): Variant;

@@ -370,8 +370,8 @@
             New search option "Auto Case Sensitive" (case insensitive when search text is lower case)
             The Abort command raises a KeyboardInterrupt at the Remote Engine (Issue 618)
           Issues addressed
-            516, 549, 563, 564, 568, 576, 587, 591, 592, 594,
-            597, 598, 599, 612, 613, 615
+            516, 348, 549, 563, 564, 568, 576, 587, 591, 592,
+            594, 597, 598, 599, 612, 613, 615
 -----------------------------------------------------------------------------}
 
 // Bugs and minor features
