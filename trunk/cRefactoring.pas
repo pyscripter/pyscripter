@@ -145,7 +145,7 @@ uses
   frmPythonII, PythonEngine, VarPyth, dmCommands,
   uEditAppIntfs,
   uCommonFunctions, Math, StringResources,
-  cPyDebugger, gnugettext, StrUtils, JclStrings, DateUtils;
+  cPyDebugger, gnugettext, StrUtils, JclStrings, DateUtils, cPyBaseDebugger;
 
 { TPyScripterRefactor }
 
@@ -346,17 +346,21 @@ begin
   // Last effort.  Search in sys.modules
   // Special modules should already be there
   if Result = nil then begin
-    InSysModules := SysModule.modules.__contains__(DottedModuleName);
-    if InSysModules and VarIsPythonModule(SysModule.modules.__getitem__(DottedModuleName)) then begin
-      // If the source file does not exist look at sys.modules to see whether it
-      // is available in the interpreter.  If yes then create a proxy module
-      Index := fProxyModules.IndexOf(DottedModuleName);
-      if Index < 0 then begin
-        Index := fProxyModules.AddObject(DottedModuleName,
-          TModuleProxy.CreateFromModule(SysModule.modules.__getitem__(DottedModuleName)));
-        Result := fProxyModules.Objects[Index] as TParsedModule;
-      end else
-        Result := fProxyModules.Objects[Index] as TParsedModule;
+    if DottedModuleName = '__main__' then
+      Result := PyControl.ActiveInterpreter.MainModule
+    else begin
+      InSysModules := SysModule.modules.__contains__(DottedModuleName);
+      if InSysModules and VarIsPythonModule(SysModule.modules.__getitem__(DottedModuleName)) then begin
+        // If the source file does not exist look at sys.modules to see whether it
+        // is available in the interpreter.  If yes then create a proxy module
+        Index := fProxyModules.IndexOf(DottedModuleName);
+        if Index < 0 then begin
+          Index := fProxyModules.AddObject(DottedModuleName,
+            TModuleProxy.CreateFromModule(SysModule.modules.__getitem__(DottedModuleName)));
+          Result := fProxyModules.Objects[Index] as TParsedModule;
+        end else
+          Result := fProxyModules.Objects[Index] as TParsedModule;
+      end;
     end;
   end;
 end;
@@ -1103,7 +1107,7 @@ end;
 constructor TModuleProxy.CreateFromModule(AModule: Variant);
 begin
   inherited Create;
-  if not VarIsPythonModule(AModule) then
+  if not VarIsPython(AModule) or (AModule.__class__.__name__ <> 'module') then
     Raise Exception.Create('TModuleProxy creation error');
   Name := AModule.__name__;
   fPyModule := AModule;

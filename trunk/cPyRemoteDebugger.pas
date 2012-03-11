@@ -34,6 +34,8 @@ type
     fDebugger : Variant;
     fSocketPort: integer;
     fRpycPath : string;
+  protected
+    procedure CreateMainModule; override;
   public
     constructor Create(AEngineType : TPythonEngineType = peRemote);
     destructor Destroy; override;
@@ -157,7 +159,8 @@ uses
   VarPyth, StringResources, frmPythonII, Dialogs, dmCommands,
   cParameters, uCommonFunctions, frmMessages, frmPyIDEMain,
   frmVariables, frmCallStack, frmUnitTests, JvDSADialogs,
-  gnugettext, JclStrings, JclSysUtils, cProjectClasses, JvJCLUtils;
+  gnugettext, JclStrings, JclSysUtils, cProjectClasses, JvJCLUtils,
+  cRefactoring;
 
 { TRemNameSpaceItem }
 constructor TRemNameSpaceItem.Create(aName : string; aPyObject : Variant;
@@ -1069,6 +1072,11 @@ begin
   end;
 end;
 
+procedure TPyRemoteInterpreter.CreateMainModule;
+begin
+  fMainModule := TModuleProxy.CreateFromModule(Conn.modules.__main__);
+end;
+
 procedure TPyRemoteInterpreter.ServeConnection;
 begin
   CheckConnected;
@@ -1127,6 +1135,7 @@ begin
   // Do not destroy Remote Debugger
   // PyControl.ActiveDebugger := nil;
 
+  FreeAndNil(fMainModule);
   VarClear(fOldArgv);
   VarClear(fDebugger);
   VarClear(RPI);
