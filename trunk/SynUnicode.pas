@@ -62,11 +62,6 @@ uses
   {$ENDIF}
   Classes,
   SysUtils,
-  {$IFNDEF UNICODE}
-  {$IFDEF SYN_COMPILER_10_UP}
-  WideStrings,
-  {$ENDIF}
-  {$ENDIF}
   TypInfo;
 
 {$IFNDEF SYN_COMPILER_6_UP}
@@ -138,12 +133,8 @@ type
   TConfirmConversionEvent = procedure (Sender: TUnicodeStrings; var Allowed: Boolean) of object;
 
 { TUnicodeStrings }
-  {$IFDEF SYN_COMPILER_10_UP}
   {$IFDEF UNICODE}
   TUnicodeStrings = class(TStrings)
-  {$ELSE}
-  TUnicodeStrings = class(WideStrings.TWideStrings)
-  {$ENDIF}
   {$ELSE}
   TUnicodeStrings = class(TPersistent)
   {$ENDIF}
@@ -156,7 +147,7 @@ type
     fAppendNewLineAtEOF: Boolean;
     FSaveFormat: TSaveFormat;  // overrides the FSaveUnicode flag, initialized when a file is loaded,
                                // expect losses if it is set to sfAnsi before saving
-    {$IFNDEF SYN_COMPILER_10_UP}
+    {$IFNDEF UNICODE}
     function GetCommaText: UnicodeString;
     function GetName(Index: Integer): UnicodeString;
     function GetValue(const Name: UnicodeString): UnicodeString;
@@ -170,7 +161,7 @@ type
     procedure SetFileFormat(const Value: TSynEditFileFormat);
   protected
     procedure DoConfirmConversion(var Allowed: Boolean); virtual;
-    {$IFDEF SYN_COMPILER_10_UP}
+    {$IFDEF UNICODE}
     function GetTextStr: UnicodeString; override;
     procedure SetTextStr(const Value: UnicodeString); override;
     {$ELSE}
@@ -190,7 +181,7 @@ type
   public
     constructor Create;
     function GetSeparatedText(Separators: UnicodeString): UnicodeString; virtual;
-    {$IFDEF SYN_COMPILER_10_UP}
+    {$IFDEF UNICODE}
     procedure SaveToStream(Stream: TStream; WithBOM: Boolean = True);reintroduce; virtual;
     procedure LoadFromStream(Stream: TStream); override;
     procedure LoadFromFile(const FileName: string); override;
@@ -232,7 +223,7 @@ type
     property SaveUnicode: Boolean read GetSaveUnicode write SetSaveUnicode default True;
     property SaveFormat: TSaveFormat read FSaveFormat write FSaveFormat default sfUnicodeLSB;
     property AppendNewLineAtEOF: Boolean read fAppendNewLineAtEOF write fAppendNewLineAtEOF;
-    {$IFNDEF SYN_COMPILER_10_UP}
+    {$IFNDEF UNICODE}
     property Strings[Index: Integer]: UnicodeString read Get write Put; default;
     property Text: UnicodeString read GetTextStr write SetTextStr;
     {$ENDIF}
@@ -499,7 +490,7 @@ end;
 procedure TUnicodeStrings.SetFileFormat(const Value: TSynEditFileFormat);
 begin
   fFileFormat := Value;
-{$IFDEF SYN_COMPILER_10_UP}
+{$IFDEF UNICODE}
   case FileFormat of
     sffDos:
       LineBreak := WideCRLF;
@@ -513,7 +504,7 @@ begin
 {$ENDIF}
 end;
 
-{$IFNDEF SYN_COMPILER_10_UP}
+{$IFNDEF UNICODE}
 function TUnicodeStrings.Add(const S: UnicodeString): Integer;
 begin
   Result := GetCount;
@@ -679,7 +670,7 @@ begin
     FOnConfirmConversion(Self, Allowed);
 end;
 
-{$IFNDEF SYN_COMPILER_10_UP}
+{$IFNDEF UNICODE}
 procedure TUnicodeStrings.EndUpdate;
 begin
   Dec(FUpdateCount);
@@ -827,34 +818,34 @@ end;
 
 function TUnicodeStrings.GetTextStr: UnicodeString;
 var
-  SLineBreak: UnicodeString;
+  LB: UnicodeString;
 begin
   if not FStreaming then
-    Result := GetSeparatedText(WideCRLF)
+    Result := GetSeparatedText(SynUnicode.SLineBreak)
   else
   begin
     case FileFormat of
       sffDos:
-        SLineBreak := WideCRLF;
+        LB := WideCRLF;
       sffUnix:
-        SLineBreak := WideLF;
+        LB := WideLF;
       sffMac:
-        SLineBreak := WideCR;
+        LB := WideCR;
       sffUnicode:
         if not SaveUnicode then
           // Ansi-file cannot contain Unicode LINE SEPARATOR,
           // so default to platform-specific Ansi-compatible SLineBreak
-          SLineBreak := SynUnicode.SLineBreak
+          LB := SynUnicode.SLineBreak
         else
-          SLineBreak := WideLineSeparator;
+          LB := WideLineSeparator;
     end;
-    Result := GetSeparatedText(SLineBreak);
+    Result := GetSeparatedText(LB);
   end;
   if AppendNewLineAtEOF then
-    Result := Result + SLineBreak;
+    Result := Result + LB;
 end;
 
-{$IFNDEF SYN_COMPILER_10_UP}
+{$IFNDEF UNICODE}
 function TUnicodeStrings.GetText: PWideChar;
 begin
   Result := WStrNew(PWideChar(GetTextStr));
@@ -1018,7 +1009,7 @@ begin
   end;
 end;
 
-{$IFNDEF SYN_COMPILER_10_UP}
+{$IFNDEF UNICODE}
 procedure TUnicodeStrings.Move(CurIndex, NewIndex: Integer);
 var
   TempObject: TObject;
@@ -1134,7 +1125,7 @@ begin
   end;
 end;
 
-{$IFNDEF SYN_COMPILER_10_UP}
+{$IFNDEF UNICODE}
 procedure TUnicodeStrings.SetCapacity(NewCapacity: Integer);
 begin
   // do nothing - descendants may optionally implement this method
@@ -1241,7 +1232,7 @@ begin
     FileFormat := sffDos;
 end;
 
-{$IFNDEF SYN_COMPILER_10_UP}
+{$IFNDEF UNICODE}
 procedure TUnicodeStrings.SetUpdateState(Updating: Boolean);
 begin
 end;

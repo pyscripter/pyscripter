@@ -154,6 +154,8 @@ type
     procedure actProjectCollapseAllExecute(Sender: TObject);
     procedure actProjectShowFileExtensionsExecute(Sender: TObject);
     procedure actProjectExtraPythonPathExecute(Sender: TObject);
+    procedure ExplorerTreeIncrementalSearch(Sender: TBaseVirtualTree;
+      Node: PVirtualNode; const SearchText: string; var Result: Integer);
   private
     procedure ProjectFileNodeEdit(Node: PVirtualNode);
     procedure UpdatePopupActions(Node : PVirtualNode);
@@ -1053,6 +1055,20 @@ begin
   Data := ExplorerTree.GetNodeData(Node);
   if Assigned(Data) then
     CellText := Data.ProjectNode.Caption;
+end;
+
+procedure TProjectExplorerWindow.ExplorerTreeIncrementalSearch(
+  Sender: TBaseVirtualTree; Node: PVirtualNode; const SearchText: string;
+  var Result: Integer);
+var
+  Data : PNodeDataRec;
+begin
+  Result := -1;
+  Data := ExplorerTree.GetNodeData(Node);
+  if Assigned(Data)
+    and (AnsiPos(UpperCase(SearchText), UpperCase(Data.ProjectNode.Caption)) > 0)
+  then
+    Result := 0;
 end;
 
 procedure TProjectExplorerWindow.ExplorerTreeInitChildren(

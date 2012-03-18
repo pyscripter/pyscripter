@@ -369,6 +369,7 @@
             New PyIDE option "Display package names in editor tabs" default True (Issue 115)
             New search option "Auto Case Sensitive" (case insensitive when search text is lower case)
             The Abort command raises a KeyboardInterrupt at the Remote Engine (Issue 618)
+            Incremental search in the Project Explorer matches any part of a filename (Issue 623)
           Issues addressed
             516, 348, 549, 563, 564, 568, 576, 587, 591, 592,
             594, 597, 598, 599, 612, 613, 615
