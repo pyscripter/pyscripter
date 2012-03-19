@@ -370,6 +370,7 @@
             New search option "Auto Case Sensitive" (case insensitive when search text is lower case)
             The Abort command raises a KeyboardInterrupt at the Remote Engine (Issue 618)
             Incremental search in the Project Explorer matches any part of a filename (Issue 623)
+            New IDE option "File line limit for syntax check as you type" default 1000
           Issues addressed
             516, 348, 549, 563, 564, 568, 576, 587, 591, 592,
             594, 597, 598, 599, 612, 613, 615

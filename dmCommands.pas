@@ -96,6 +96,7 @@ type
     fCompleteWithWordBreakChars: Boolean;
     fCompleteWithOneEntry:Boolean;
     fDisplayPackageNames:Boolean;
+    fCheckSyntaxLineLimit : integer;
     function GetPythonFileExtensions: string;
     procedure SetAutoCompletionFont(const Value: TFont);
   public
@@ -225,6 +226,8 @@ type
       write fCompleteWithOneEntry;
     property DisplayPackageNames : Boolean read fDisplayPackageNames
       write fDisplayPackageNames;
+    property CheckSyntaxLineLimit : integer read fCheckSyntaxLineLimit
+      write fCheckSyntaxLineLimit;
   end;
 
   TSearchCaseSensitiveType = (scsAuto, scsNotCaseSenitive, scsCaseSensitive);
@@ -654,6 +657,7 @@ begin
       Self.fCompleteWithWordBreakChars := CompleteWithWordBreakChars;
       Self.fCompleteWithOneEntry := CompleteWithOneEntry;
       Self.fDisplayPackageNames := DisplayPackageNames;
+      Self.fCheckSyntaxLineLimit := CheckSyntaxLineLimit;
     end
   else
     inherited;
@@ -737,6 +741,7 @@ begin
   fCompleteWithWordBreakChars := False;
   fCompleteWithOneEntry:=True;
   fDisplayPackageNames:=True;
+  fCheckSyntaxLineLimit:=1000;
 end;
 
 destructor TPythonIDEOptions.Destroy;
@@ -1036,6 +1041,11 @@ begin
   ProgramVersionCheck.ThreadDialog.DialogOptions.Caption := 'Downloading...';
   ProgramVersionCheck.ThreadDialog.DialogOptions.ResName := 'WebCopyAvi';
   ProgramVersionCheck.LocalDirectory := ExtractFilePath(Application.ExeName)+ 'Updates';
+  {$IFDEF CPUX64}
+  ProgramVersionHTTPLocation.VersionInfoFileName := 'PyScripterVersionInfo-x64.ini';
+  {$ELSE}
+  ProgramVersionHTTPLocation.VersionInfoFileName := 'PyScripterVersionInfo.ini';
+  {$ENDIF}
 
   // Translate
   TranslateComponent(Self);
@@ -2266,7 +2276,7 @@ begin
   end;
   with Categories[4] do begin
     DisplayName := _('Editor');
-    SetLength(Options, 16);
+    SetLength(Options, 17);
     Options[0].PropertyName := 'RestoreOpenFiles';
     Options[0].DisplayName := _('Restore open files');
     Options[1].PropertyName := 'SearchTextAtCaret';
@@ -2299,6 +2309,8 @@ begin
     Options[14].DisplayName := _('Highlight selected word');
     Options[15].PropertyName := 'DisplayPackageNames';
     Options[15].DisplayName := _('Display package names in editor tabs');
+    Options[16].PropertyName := 'CheckSyntaxLineLimit';
+    Options[16].DisplayName := _('File line limit for syntax check as you type');
   end;
   with Categories[5] do begin
     DisplayName := _('Code Completion');
