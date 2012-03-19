@@ -3,8 +3,8 @@
 
 [Setup]
 AppName=PyScripter
-AppVersion=2.4.3
-AppVerName=PyScripter 2.4.3
+AppVersion=2.5
+AppVerName=PyScripter 2.5
 AppPublisher=PyScripter
 AppPublisherURL=http://pyscripter.googlecode.com
 AppSupportURL=http://groups.google.com/group/PyScripter
@@ -14,7 +14,7 @@ DefaultGroupName=PyScripter
 InfoBeforeFile=BeforeInstallPyScripter.txt
 InfoAfterFile=AfterInstallPyScripter.txt
 OutputDir=Output
-OutputBaseFilename=PyScripter-v2.4.3-Setup
+OutputBaseFilename=PyScripter-v2.5-Setup
 Compression=lzma
 SolidCompression=true
 ChangesAssociations=true
@@ -85,7 +85,7 @@ Name: {group}\PyScripter for Python 2.7; Filename: {app}\PyScripter.exe; Paramet
 Name: {group}\PyScripter for Python 3.0; Filename: {app}\PyScripter.exe; Parameters: --PYTHON30
 Name: {group}\PyScripter for Python 3.1; Filename: {app}\PyScripter.exe; Parameters: --PYTHON31
 Name: {group}\PyScripter for Python 3.2; Filename: {app}\PyScripter.exe; Parameters: --PYTHON32
-Name: {group}\PyScripter for Python 3.2; Filename: {app}\PyScripter.exe; Parameters: --PYTHON33
+Name: {group}\PyScripter for Python 3.3; Filename: {app}\PyScripter.exe; Parameters: --PYTHON33
 Name: {group}\{cm:UninstallProgram,PyScripter}; Filename: {uninstallexe}
 Name: {userdesktop}\PyScripter; Filename: {app}\PyScripter.exe; Tasks: desktopicon
 Name: {userappdata}\Microsoft\Internet Explorer\Quick Launch\PyScripter; Filename: {app}\PyScripter.exe; Tasks: quicklaunchicon

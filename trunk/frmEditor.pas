@@ -3004,9 +3004,10 @@ begin
 
   if (SynEdit.Highlighter = CommandsDataModule.SynPythonSyn) and
     fNeedToCheckSyntax and CommandsDataModule.
-    PyIDEOptions.CheckSyntaxAsYouType and (SynEdit.Lines.Count < 1000)
+    PyIDEOptions.CheckSyntaxAsYouType and
+    (SynEdit.Lines.Count <= CommandsDataModule.PyIDEOptions.CheckSyntaxLineLimit)
   // do not syntax check very long files
-    then
+  then
   begin
     InternalInterpreter.SyntaxCheck(GetEditor, True);
     fSyntaxErrorPos.Assign(PyControl.ErrorPos);
