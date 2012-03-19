@@ -2,7 +2,25 @@
 
 = History =
 
-===Version 2.4.3 September 20, 2011)=== 
+===Version 2.5 (March 19, 2012)=== 
+
+  * *New features:*     
+    * This is the first joint 32-bit and 64-bit version release
+    * Python 3.3 support added
+    * Recent Projects menu item added
+    * Expandable lists and tuples in the Variables window (Issue 583)
+    * Expandable watches as in the Variables window (Issue 523)
+    * Basic support for Cython files added (Issue 542)
+    * New interpreter action Paste & Execute (Issue 500) Replaces Paste with Prompt
+    * New PyIDE option "Display package names in editor tabs" default True (Issue 115)
+    * New search option "Auto Case Sensitive" (case insensitive when search text is lower case)
+    * The Abort command raises a KeyboardInterrupt at the Remote Engine (Issue 618)
+    * Incremental search in the Project Explorer matches any part of a filename (Issue 623)
+    * New IDE option "File line limit for syntax check as you type" default 1000
+  * *Issues addressed:*     
+    * Issue 516, Issue 348, Issue 549, Issue 563, Issue 564, Issue 568, Issue 576, Issue 587, Issue 591, Issue 592, Issue 594, Issue 597, Issue 598, Issue 599, Issue 612, Issue 613, Issue 615
+
+===Version 2.4.3 (September 20, 2011)=== 
 
   * *New features:*     
     * 100% portable by placing !PyScripter.ini in the !PyScripter exe directory
@@ -22,7 +40,7 @@
     * Import statement completion does not include builtin module names
     * Issue 461, Issue 463, Issue 468, Issue 471, Issue 474, Issue 478, Issue 488, Issue 496, Issue 504, Issue 508, Issue 509, Issue 511, Issue 512, Issue 515, Issue 525, Issue 526, Issue 527, Issue 528, Issue 532, Issue 559, Issue 560
 
-===Version 2.4.1 December 12, 2010)=== 
+===Version 2.4.1 (December 12, 2010)=== 
 
   * *New features:*     
     * Side-by-side file editing (Issue #214)
