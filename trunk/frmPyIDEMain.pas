@@ -357,7 +357,7 @@
             461, 463, 468, 471, 474, 478, 488, 496, 504, 508,
             509, 511, 512, 515, 525, 526, 527, 528, 532, 559, 560
 
-  History:   v 2.5
+  History:   v 2.5.1
           New Features
             This is the first joint 32-bit and 64-bit version release
             Python 3.3 support added
