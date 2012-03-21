@@ -81,7 +81,7 @@ type
   TJvCPSBuffer = array [0..CCPS_BufferSize - 1] of AnsiChar;
   TJvCPSState = (psReady, psRunning, psWaiting);
   TJvCPSFlag = (cfDefaultErrorMode, cfNewConsole, cfNewProcGroup, cfSeparateWdm,
-    cfSharedWdm, cfSuspended, cfUnicode, cfDetached);
+    cfSharedWdm, cfSuspended, cfUnicode, cfDetached, cfCreateNoWindow);
   TJvCPSFlags = set of TJvCPSFlag;
   TJvCPSShowWindow = (swHide, swMinimize, swMaximize, swNormal);
 
@@ -1242,7 +1242,7 @@ const
   CreationFlagsValues: array [TJvCPSFlag] of DWORD =
     (CREATE_DEFAULT_ERROR_MODE, CREATE_NEW_CONSOLE, CREATE_NEW_PROCESS_GROUP,
      CREATE_SEPARATE_WOW_VDM, CREATE_SHARED_WOW_VDM, CREATE_SUSPENDED,
-     CREATE_UNICODE_ENVIRONMENT, DETACHED_PROCESS);
+     CREATE_UNICODE_ENVIRONMENT, DETACHED_PROCESS, CREATE_NO_WINDOW);
 var
   ConsoleHandles: TJvRWEHandles; // Will be used by the console
   LocalHandles: TJvRWEHandles; // Will be used by TJvCreateProcess
