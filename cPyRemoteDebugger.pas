@@ -479,12 +479,11 @@ begin
   begin
     Name := 'PyScripterServerProcess';
     ConsoleOptions := [coRedirect];
+    CreationFlags := CreationFlags +[cfCreateNoWindow];
     StartupInfo.ForceOnFeedback := False;
     StartupInfo.ForceOffFeedback := True;
-//    StartupInfo.DefaultWindowState := True;
-//    StartupInfo.ShowWindow := swNormal;
-    StartupInfo.DefaultWindowState := False;
-    StartupInfo.ShowWindow := swHide;
+    StartupInfo.DefaultWindowState := True;
+    StartupInfo.ShowWindow := swNormal;
   end;
 
   // Import Rpyc
