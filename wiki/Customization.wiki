@@ -1,4 +1,4 @@
-<wiki:gadget url="http://pyscripter.googlecode.com/svn/wiki/files/adsense3.xml" border="0" width="468" height="60" />
+﻿<wiki:gadget url="http://pyscripter.googlecode.com/svn/wiki/files/adsense3.xml" border="0" width="468" height="60" />
 
 == Themes ==
 
@@ -15,6 +15,8 @@ You can import and export shortcuts and syntax highlighting settings using the c
 IDLE by Jose: [http://pyscripter.googlecode.com/svn/wiki/files/IDLEHighlighting.ini IdleHighlighting.ini]
 
 IDLEv2 by Ethan Shames: [http://pyscripter.googlecode.com/svn/wiki/files/IDLEHighlightingv2.ini IdleHighlightingv2.ini]
+
+IDLEv3 by Николай Головкин : [http://pyscripter.googlecode.com/svn/wiki/files/IDLEHighlightingv3.ini IdleHighlightingv3.ini]
 
 Komodo Dark Highlighter by Jason Tudisco: [http://pyscripter.googlecode.com/svn/wiki/files/DarkHighlight.ini DarkHighlight.ini]
 
