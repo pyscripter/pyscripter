@@ -75,7 +75,7 @@ type
 
 implementation
 
-uses dmCommands, JvJVCLUtils, SpTBXSkins;
+uses dmCommands, JvJVCLUtils, SpTBXSkins, uCommonFunctions;
 
 {$R *.dfm}
 
@@ -202,7 +202,7 @@ begin
           Application.ProcessMessages;
           WaitCursorInterface := WaitCursor;
           // Generate code
-          Result := Format(Header, [ChangeFileExt(ExtractFileName(ModuleFileName), '')]);
+          Result := Format(Header, [FileNameToModuleName(ModuleFileName)]);
           Node := (ExplorerTree.RootNode)^.FirstChild^.FirstChild;
           while Assigned(Node) do begin
             Data := PNodeDataRec(ExplorerTree.GetNodeData(Node));

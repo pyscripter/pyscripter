@@ -806,6 +806,8 @@ var
     end else if temp = DOT then begin
       Result := HandleDot;
     // Error!
+    end else if CharInSet(temp, LONGINDICATOR) then begin
+      Result := False;
     end else if IsIdentChar(temp) then begin
       Result := HandleBadNumber;
     // End of number

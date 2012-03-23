@@ -452,7 +452,7 @@ begin
   Async :=  TAsyncCalls.Invoke(procedure begin
     WalkThroughDirectories(Dir, Mask, PreCallBack, FGrepSettings.IncludeSubdirs);
   end);
-  TAsyncCalls.MsgExec(Async, Application.ProcessMessages);
+  //TAsyncCalls.MsgExec(Async, Application.ProcessMessages);
 end;
 
 procedure TGrepSearchRunner.Execute;

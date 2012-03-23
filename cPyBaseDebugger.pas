@@ -94,6 +94,7 @@ type
   TBaseNameSpaceItem = class(TObject)
   // Base (abstract) class for Namespace item information
   protected
+    fPyObject : Variant;
     GotChildNodes : Boolean;
     GotBufferedValue : Boolean;
     BufferedValue : string;
@@ -122,6 +123,7 @@ type
     property ChildCount : integer read GetChildCount;
     property ChildNode[Index : integer] : TBaseNameSpaceItem
       read GetChildNode;
+    property PyObject : Variant read fPyObject;
   end;
 
   TPyBaseInterpreter = class(TObject)
