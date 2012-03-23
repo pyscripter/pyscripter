@@ -251,6 +251,7 @@ begin
         Name := Path + FileInfo.Name;
         TAsyncCalls.VCLSync(procedure begin
           LoadFile(Name);
+          Application.ProcessMessages;
         end);
       end;
     end;
@@ -750,13 +751,11 @@ begin
 end;
 
 procedure TToDoWindow.RefreshTodoList;
-var
-  Cursor: IInterface;
 begin
-  Application.ProcessMessages;  // to repaint etc.
-  Cursor := WaitCursor;
   FAbortSignalled := False;
   actFileAbort.Enabled := True;
+  actFileRefresh.Enabled := False;
+  Application.ProcessMessages;  // to repaint etc.
   try
     ClearDataListAndListView;
 
@@ -783,6 +782,7 @@ begin
     else
       actEditGoto.Enabled := False;
     fAbortSignalled := True;
+    actFileRefresh.Enabled := True;
     actFileAbort.Enabled := False;
   end;
 end;
@@ -802,7 +802,7 @@ begin
       CommandsDataModule.PyIDEOptions.PythonFileExtensions, PreCallBack,
       ToDoExpert.FRecurseDirScan);
   end);
-  TAsyncCalls.MsgExec(Async, Application.ProcessMessages);
+  //TAsyncCalls.MsgExec(Async, Application.ProcessMessages);
 end;
 
 procedure TToDoWindow.EnumerateOpenFiles;

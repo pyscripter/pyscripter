@@ -165,9 +165,9 @@ begin
     //  a TestCase class in the module!!!
     TestCount := 0;
     for i := 0 to Len(TestSuite._tests) - 1 do begin
-      InnerTestSuite := TestSuite._tests[i];
+      InnerTestSuite := TestSuite._tests.__getitem__(i);
       for j := 0 to Len(InnerTestSuite._tests) - 1 do begin
-        TestCase := InnerTestSuite._tests[j];
+        TestCase := InnerTestSuite._tests.__getitem__(j);
         //  set the TestStatus
         TestCase.testStatus := Ord(tsNotRun);
         TestCase.errMsg := string('');

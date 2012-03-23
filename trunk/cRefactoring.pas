@@ -1068,37 +1068,56 @@ Var
   i : integer;
   S : string;
   VariableProxy : TVariableProxy;
+  NS, ChildNS : TBaseNameSpaceItem;
 begin
   if Name = '__main__' then begin
     if Assigned(fChildren) then fChildren.Clear;
-    if Assigned(fGlobals) then fGlobals.Clear;
-  end else if fIsExpanded then
-    Exit;
-
-  InspectModule := Import('inspect');
-  ItemsDict := fPyModule.__dict__;
-  ItemKeys := ItemsDict.keys();
-  if GetPythonEngine.IsPython3000 then
-    ItemKeys := BuiltinModule.list(ItemKeys);
-  ItemKeys.sort();
-  for i := 0 to len(ItemKeys) - 1 do begin
+    fGlobals.Clear;
+    NS := PyControl.ActiveDebugger.Evaluate('__import__("__main__")');
     try
-      S := ItemKeys.__getitem__(i);
-      ItemValue := ItemsDict.__getitem__(S);
-      if InspectModule.isroutine(ItemValue) then
-        AddChild(TFunctionProxy.CreateFromFunction(S, ItemValue))
-      else if InspectModule.isclass(ItemValue) then
-        AddChild(TClassProxy.CreateFromClass(S, ItemValue))
-  //   the following would risk infinite recursion and fails in e.g. os.path
-  //   path is a variable pointing to the module ntpath
-  //    else if InspectModule.ismodule(ItemValue) then
-  //      AddChild(TModuleProxy.CreateFromModule(ItemValue))
-      else begin
-        VariableProxy := TVariableProxy.CreateFromPyObject(S, ItemValue);
-        VariableProxy.Parent := self;
-        Globals.Add(VariableProxy);
+      for I := 0 to NS.ChildCount do begin
+        ChildNS := NS.ChildNode[i];
+        if ChildNS.IsFunction or ChildNS.IsMethod then
+         AddChild(TFunctionProxy.CreateFromFunction(ChildNS.Name, ChildNS.PyObject))
+        else if ChildNS.IsClass then
+          AddChild(TClassProxy.CreateFromClass(ChildNS.Name, ChildNS.PyObject))
+        else begin
+          VariableProxy := TVariableProxy.CreateFromPyObject(ChildNS.Name, ChildNS.PyObject);
+          VariableProxy.Parent := self;
+          Globals.Add(VariableProxy);
+        end;
       end;
-    except
+    finally
+      NS.Free;
+    end;
+  end else if fIsExpanded then
+    Exit
+  else begin
+    InspectModule := Import('inspect');
+    ItemsDict := fPyModule.__dict__;
+    ItemKeys := ItemsDict.keys();
+    if GetPythonEngine.IsPython3000 then
+      ItemKeys := BuiltinModule.list(ItemKeys);
+    ItemKeys.sort();
+    for i := 0 to len(ItemKeys) - 1 do begin
+      try
+        S := ItemKeys.__getitem__(i);
+        ItemValue := ItemsDict.__getitem__(S);
+        if InspectModule.isroutine(ItemValue) then
+          AddChild(TFunctionProxy.CreateFromFunction(S, ItemValue))
+        else if InspectModule.isclass(ItemValue) then
+          AddChild(TClassProxy.CreateFromClass(S, ItemValue))
+    //   the following would risk infinite recursion and fails in e.g. os.path
+    //   path is a variable pointing to the module ntpath
+    //    else if InspectModule.ismodule(ItemValue) then
+    //      AddChild(TModuleProxy.CreateFromModule(ItemValue))
+        else begin
+          VariableProxy := TVariableProxy.CreateFromPyObject(S, ItemValue);
+          VariableProxy.Parent := self;
+          Globals.Add(VariableProxy);
+        end;
+      except
+      end;
     end;
   end;
   fIsExpanded := True;

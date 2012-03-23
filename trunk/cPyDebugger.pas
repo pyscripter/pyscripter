@@ -42,7 +42,6 @@ type
   TNameSpaceItem = class(TBaseNameSpaceItem)
   // Implementation of the Base class for the internal debugger
   protected
-    fPyObject : Variant;
     fChildCount : integer;
     fChildNodes : TStringList;
     fName : string;
