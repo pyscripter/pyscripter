@@ -100,6 +100,7 @@ type
     function EvalCode(const Expr : string) : Variant; override;
     function GetObjectType(Ob : Variant) : string; override;
     function UnitTestResult : Variant; override;
+    function NameSpaceItemFromPyObject(aName : string; aPyObject : Variant): TBaseNameSpaceItem; override;
     property Debugger : Variant read fDebugger;
     property PyInteractiveInterpreter : Variant read fII;
   end;
@@ -194,10 +195,12 @@ end;
 
 constructor TNameSpaceItem.Create(aName : string; aPyObject: Variant);
 begin
+  Assert(VarIsPython(aPyObject));
   fName := aName;
   fPyObject := aPyObject;
   fChildCount := -1;  // unknown
   fObjectInfo.Initialized := False;
+  fExpandSequences := True;
 end;
 
 destructor TNameSpaceItem.Destroy;
@@ -241,7 +244,8 @@ begin
   else begin
     SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
     try
-      Result := InternalInterpreter.PyInteractiveInterpreter.membercount(fPyObject, True, False, True);
+      Result := InternalInterpreter.PyInteractiveInterpreter.membercount(fPyObject, True,
+        ExpandCommonTypes, ExpandSequences);
     except
       Result := 0;
     end;
@@ -271,7 +275,8 @@ begin
     GotChildNodes := True;
     SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
     try
-      FullInfoTuple := InternalInterpreter.PyInteractiveInterpreter.safegetmembersfullinfo(fPyObject, True, False, True);
+      FullInfoTuple := InternalInterpreter.PyInteractiveInterpreter.safegetmembersfullinfo(fPyObject, True,
+        ExpandCommonTypes, ExpandSequences);
       fChildCount := len(FullInfoTuple);
 
       if fChildCount > 0 then begin
@@ -286,6 +291,8 @@ begin
           APyObject := VarPythonCreate(PyTuple_GetItem(PyFullInfo, 0));
 
           NameSpaceItem := TNameSpaceItem.Create(ObjName, APyObject);
+          NameSpaceItem.ExpandCommonTypes := ExpandCommonTypes;
+          NameSpaceItem.ExpandSequences := ExpandSequences;
 
           NameSpaceItem.BufferedValue := PyString_AsWideString(PyTuple_GetItem(PyFullInfo, 1));
           NameSpaceItem.GotBufferedValue := True;
@@ -947,7 +954,7 @@ end;
 
 procedure TPyInternalInterpreter.CreateMainModule;
 begin
-  fMainModule := TModuleProxy.CreateFromModule(VarPyth.MainModule);
+  fMainModule := TModuleProxy.CreateFromModule(VarPyth.MainModule, self);
 end;
 
 function TPyInternalInterpreter.EvalCode(const Expr: string): Variant;
@@ -979,7 +986,7 @@ begin
     if not VarIsNone(PyDocString) then begin
       //DocString := GetNthLine(PyDocString, 1)
       DocString := PyDocString;
-      DocString := GetLineRange(DocString, 1, 40);  // first 40 lines
+      DocString := GetLineRange(DocString, 1, 20);  // first 20 lines
     end else
       DocString := '';
   except
@@ -1172,6 +1179,12 @@ begin
     ItemsDict := NewPythonDict;
     Result := TNameSpaceItem.Create(Expr, ItemsDict);
   end;
+end;
+
+function TPyInternalInterpreter.NameSpaceItemFromPyObject(aName: string;
+  aPyObject: Variant): TBaseNameSpaceItem;
+begin
+  Result := TNameSpaceItem.Create(aName, aPyObject);
 end;
 
 procedure TPyInternalInterpreter.RestoreCommandLine;

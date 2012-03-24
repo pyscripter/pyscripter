@@ -68,6 +68,7 @@ type
     function EvalCode(const Expr : string) : Variant; override;
     function GetObjectType(Ob : Variant) : string; override;
     function UnitTestResult : Variant; override;
+    function NameSpaceItemFromPyObject(aName : string; aPyObject : Variant): TBaseNameSpaceItem; override;
 
     property IsAvailable : Boolean read fIsAvailable;
     property IsConnected : Boolean read fIsConnected;
@@ -186,7 +187,7 @@ begin
       fRemotePython.CheckConnected;
       SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
       try
-        Result := fRemotePython.RPI.membercount(fPyObject, True, False, True);
+        Result := fRemotePython.RPI.membercount(fPyObject, True, ExpandCommonTypes, ExpandSequences);
       except
         Result := 0;
       end;
@@ -210,9 +211,11 @@ begin
     SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
     try
       if IsProxy then
-        FullInfoTuple := fRemotePython.RPI.safegetmembersfullinfo(fPyObject, True, False, True)
+        FullInfoTuple := fRemotePython.RPI.safegetmembersfullinfo(fPyObject, True,
+          ExpandCommonTypes, ExpandSequences)
       else
-        FullInfoTuple := InternalInterpreter.PyInteractiveInterpreter.safegetmembersfullinfo(fPyObject, True, False, True);
+        FullInfoTuple := InternalInterpreter.PyInteractiveInterpreter.safegetmembersfullinfo(fPyObject, True,
+          ExpandCommonTypes, ExpandSequences);
       fChildCount := len(FullInfoTuple);
 
       if fChildCount > 0 then begin
@@ -227,6 +230,8 @@ begin
           APyObject := VarPythonCreate(PyTuple_GetItem(PyFullInfo, 0));
 
           NameSpaceItem := TRemNameSpaceItem.Create(ObjName, APyObject, fRemotePython);
+          NameSpaceItem.ExpandCommonTypes := ExpandCommonTypes;
+          NameSpaceItem.ExpandSequences := ExpandSequences;
 
           NameSpaceItem.BufferedValue := PyString_AsWideString(PyTuple_GetItem(PyFullInfo, 1));
           NameSpaceItem.GotBufferedValue := True;
@@ -347,7 +352,7 @@ begin
     if not VarIsNone(PyDocString) then begin
       //DocString := GetNthLine(PyDocString, 1)
       DocString := PyDocString;
-      DocString := GetLineRange(DocString, 1, 40);  // first 40 lines
+      DocString := GetLineRange(DocString, 1, 20);  // first 20 lines
     end else
       DocString := '';
   except
@@ -782,6 +787,12 @@ begin
   end;
 end;
 
+function TPyRemoteInterpreter.NameSpaceItemFromPyObject(aName: string;
+  aPyObject: Variant): TBaseNameSpaceItem;
+begin
+  Result := TRemNameSpaceItem.Create(aName, aPyObject, Self);
+end;
+
 procedure TPyRemoteInterpreter.ReInitialize;
 Var
   SuppressOutput : IInterface;
@@ -1073,7 +1084,7 @@ end;
 
 procedure TPyRemoteInterpreter.CreateMainModule;
 begin
-  fMainModule := TModuleProxy.CreateFromModule(Conn.modules.__main__);
+  fMainModule := TModuleProxy.CreateFromModule(Conn.modules.__main__, self);
 end;
 
 procedure TPyRemoteInterpreter.ServeConnection;

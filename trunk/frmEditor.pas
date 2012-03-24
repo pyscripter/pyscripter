@@ -2857,7 +2857,7 @@ begin
       if (Doc <> '') then
       begin
         DisplayText := DisplayText + sLineBreak;
-        Doc := GetLineRange(Doc, 1, 40) // 40 lines max
+        Doc := GetLineRange(Doc, 1, 20) // 20 lines max
       end;
 
       Form.CurrentIndex := TmpLocation;
