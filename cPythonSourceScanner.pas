@@ -258,8 +258,9 @@ public
 
 implementation
 
-uses  Windows, uCommonFunctions, cRefactoring, VarPyth,
-  StringResources, JclSysUtils, Math, cPyDebugger,
+uses  Windows, uCommonFunctions, VarPyth,
+  StringResources, JclSysUtils, Math,
+  cRefactoring, cPyBaseDebugger, cPyDebugger,
   gnugettext, JclStrings;
 
 Const
