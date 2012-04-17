@@ -739,7 +739,7 @@ begin
   fCompleteKeywords := True;
   fCompleteAsYouType := True;
   fCompleteWithWordBreakChars := False;
-  fCompleteWithOneEntry:=True;
+  fCompleteWithOneEntry:=False;
   fDisplayPackageNames:=True;
   fCheckSyntaxLineLimit:=1000;
 end;
