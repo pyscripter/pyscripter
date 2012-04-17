@@ -959,7 +959,7 @@ begin
       then
         InsertItem(fCount, '');
     end;
-    if Assigned(OnInserted) then
+    if Assigned(OnInserted) and (fCount > 0) then
       OnInserted(Self, 0, fCount);
   finally
     EndUpdate;
