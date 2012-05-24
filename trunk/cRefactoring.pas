@@ -250,7 +250,7 @@ begin
     if not Assigned(Editor) and (FName <> '') then
       Editor := GI_EditorFactory.GetEditorByName(FName);
 
-    if Assigned(Editor) and Editor.HasPythonFile then
+    if Assigned(Editor) and Editor.HasPythonFile and Assigned(Editor.SourceScanner) then
     begin
       SourceScanner := Editor.SourceScanner;
       fSourceScanners.Add(SourceScanner);
