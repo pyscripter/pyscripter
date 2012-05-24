@@ -378,7 +378,7 @@
   History:   v 2.5.1
           New Features
           Issues addressed
-            639
+            639, 657
 -----------------------------------------------------------------------------}
 
 // Bugs and minor features

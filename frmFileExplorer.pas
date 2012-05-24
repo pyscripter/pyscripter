@@ -289,7 +289,7 @@ begin
     Item.Caption := _(SEmptyList);
     mnFavorites.Insert(0, Item);
   end else
-    for i := 0 to fFavorites.Count - 1  do begin
+    for i := fFavorites.Count - 1 downto 0 do begin
       Item := TSpTBXItem.Create(mnFavorites);
       Item.Caption := fFavorites[i];
       Item.OnClick := PathItemClick;
