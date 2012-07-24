@@ -1122,7 +1122,7 @@ begin
   NonClientMetrics.cbSize := SizeOf(NonClientMetrics);
   if SystemParametersInfo(SPI_GETNONCLIENTMETRICS, 0, @NonClientMetrics, 0) then
     GrabbersSize := Max(Abs(NonClientMetrics.lfSmCaptionFont.lfHeight) +
-      MulDiv(8, Screen.PixelsPerInch, 96), 18);
+      MulDiv(8, Screen.PixelsPerInch, 96), 23);
 end;
 
 { TJvDockVSNETTabSheetSpTBX }
