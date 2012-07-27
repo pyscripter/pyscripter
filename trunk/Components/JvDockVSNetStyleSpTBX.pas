@@ -23,8 +23,8 @@ Type
   public
     constructor Create(ADockStyle: TJvDockObservableStyle); override;
   published
-    property GrabbersSize default 18;
-    property SplitterWidth default 5;
+    property GrabbersSize stored IsNotSystemInfo;
+    property SplitterWidth stored IsNotSystemInfo;
   end;
 
 
@@ -1100,17 +1100,21 @@ end;
 { TJvDockVSNETSpTBXConjoinServerOption }
 
 procedure TJvDockVSNETSpTBXConjoinServerOption.Changed;
+// Hack to call the grandfather version
+// This is to avoid reseting the SystemInfo property.  Bad design...
+Var
+  GrandFatherChange : procedure of object;
 begin
-  inherited;
-
+  TMethod(GrandFatherChange).Code := @TJvDockBasicServerOption.Changed;
+  TMethod(GrandFatherChange).Data := Self;
+  GrandFatherChange;
+  TJvDockVSNetStyleSpTBX(DockStyle).DoSystemInfoChange(SystemInfo);
 end;
 
 constructor TJvDockVSNETSpTBXConjoinServerOption.Create(
   ADockStyle: TJvDockObservableStyle);
 begin
   inherited;
-//  GrabbersSize := 18;
-//  SplitterWidth := 5;
 end;
 
 procedure TJvDockVSNETSpTBXConjoinServerOption.UpdateDefaultSystemCaptionInfo;
@@ -1122,7 +1126,7 @@ begin
   NonClientMetrics.cbSize := SizeOf(NonClientMetrics);
   if SystemParametersInfo(SPI_GETNONCLIENTMETRICS, 0, @NonClientMetrics, 0) then
     GrabbersSize := Max(Abs(NonClientMetrics.lfSmCaptionFont.lfHeight) +
-      MulDiv(8, Screen.PixelsPerInch, 96), 23);
+      MulDiv(8, Screen.PixelsPerInch, 96), 18);
 end;
 
 { TJvDockVSNETTabSheetSpTBX }

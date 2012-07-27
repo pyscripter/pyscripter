@@ -4711,6 +4711,7 @@ begin
   FInactiveFont.Assign(Value);
 end;
 
+
 procedure TJvDockVIDConjoinServerOption.Changed;
 begin
   inherited Changed;
