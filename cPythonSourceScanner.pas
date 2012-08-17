@@ -471,7 +471,7 @@ constructor TPythonScanner.Create;
 begin
   inherited;
   fCodeRE := CompiledRegExpr('^([ \t]*)(class|def)[ \t]+([^ \t\(\)\[\]\{\}:;\.,@]+)[ \t]*(\(.*\))?');
-  fBlankLineRE := CompiledRegExpr('^[ \t]*(\$|\#|\"\"\"|''''''|' + MaskChar +')');
+  fBlankLineRE := CompiledRegExpr('^[ \t]*($|\$|\#|\"\"\"|''''''|' + MaskChar +')');
   //fEscapedQuotesRE := CompiledRegExpr('(\\\\|\\\"|\\\'')');
   fStringsAndCommentsRE :=
     CompiledRegExpr('(?sm)(\"\"\".*?\"\"\"|''''''.*?''''''|\"[^\"]*\"|\''[^\'']*\''|#.*?\n)');
