@@ -379,6 +379,9 @@
           New Features
           Issues addressed
             639, 657, 673
+  History:   v 2.6
+          New Features
+            Compatibility with Python 3.4
 -----------------------------------------------------------------------------}
 
 // Bugs and minor features
@@ -411,7 +414,7 @@ uses
   JvComponentBase, JvAppInst, uHighlighterProcs, cFileTemplates,
   JvDockVSNetStyleSpTBX, JvFormPlacement, SpTBXCustomizer,
   SpTbxSkins, SpTBXItem, SpTBXEditors, StdCtrls, JvDSADialogs, Dialogs,
-  ActiveX, SpTBXMDIMRU, SpTBXTabs, ImgList, SpTBXDkPanels;
+  ActiveX, SpTBXMDIMRU, SpTBXTabs, ImgList, SpTBXDkPanels, System.Actions;
 
 const
   WM_FINDDEFINITION  = WM_USER + 100;
@@ -4164,7 +4167,7 @@ begin
   if State = sknsHotTrack then begin
     R := ARect;
     InflateRect(R, -1, -1);
-    SpDrawXPButton(ACanvas, R, True, False, True, False, False, False, SkinManager.GetSkinType);
+    SpDrawXPButton(ACanvas, R, True, False, True, False, False, False);
   end;
   PatternColor := CurrentSkin.GetTextColor(skncToolbarItem, State);
   if Editor.Modified then

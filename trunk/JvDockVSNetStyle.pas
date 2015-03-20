@@ -21,7 +21,7 @@ located at http://jvcl.delphi-jedi.org
 
 Known Issues:
 -----------------------------------------------------------------------------}
-// $Id: JvDockVSNetStyle.pas 13104 2011-09-07 06:50:43Z obones $
+// $Id$
 
 unit JvDockVSNetStyle;
 
@@ -538,9 +538,9 @@ var
 {$IFDEF UNITVERSIONING}
 const
   UnitVersioning: TUnitVersionInfo = (
-    RCSfile: '$URL: https://jcl.svn.sourceforge.net/svnroot/jvcl/trunk/jvcl/run/JvDockVSNetStyle.pas $';
-    Revision: '$Revision: 13104 $';
-    Date: '$Date: 2011-09-07 09:50:43 +0300 (Ξ¤ΞµΟ„, 07 Ξ£ΞµΟ€ 2011) $';
+    RCSfile: '$URL$';
+    Revision: '$Revision$';
+    Date: '$Date$';
     LogPath: 'JVCL\run'
   );
 {$ENDIF UNITVERSIONING}
@@ -548,8 +548,8 @@ const
 implementation
 
 uses
-  SysUtils, Math, {AppEvnts,} JvJVCLUtils,
-  JvDockSupportProc, ImgList;
+  Types, SysUtils, Math, ImgList, {AppEvnts,} JvJVCLUtils,
+  JvDockSupportProc;
 
 type
   TAnimateState = (asPopup, asHide);
@@ -748,7 +748,9 @@ begin
   FVSChannel := AOwner;
   FVSPanes := TObjectList.Create;
   FImageList := TImageList.CreateSize(16, 16);
+  {$IFDEF RTL200_UP}
   FImageList.ColorDepth := cd32Bit;
+  {$ENDIF RTL200_UP}
   FInactiveBlockWidth := 24;
   FActiveBlockWidth := 24;
 end;
@@ -1475,7 +1477,7 @@ var
       Canvas.FrameRect(DrawRect);
 
       AdjustImagePos;
-      Block.FImageList.Draw(Canvas, DrawRect.Left, DrawRect.Top, I);
+      Block.FImageList.Draw(Canvas, DrawRect.Left, DrawRect.Top, I, dsTransparent, itImage);
 
       if Block.ActivePane = Block.VSPane[I] then
       begin

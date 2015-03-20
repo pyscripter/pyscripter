@@ -12,7 +12,7 @@ The Original Code is: SynEditTextBuffer.pas, released 2000-04-07.
 The Original Code is based on parts of mwCustomEdit.pas by Martin Waldenburg,
 part of the mwEdit component suite.
 Portions created by Martin Waldenburg are Copyright (C) 1998 Martin Waldenburg.
-Unicode translation by Maλl Hφrz.
+Unicode translation by Maël Hörz.
 All Rights Reserved.
 
 Contributors to the SynEdit and mwEdit projects are listed in the
@@ -28,7 +28,7 @@ replace them with the notice and other provisions required by the GPL.
 If you do not delete the provisions above, a recipient may use your version
 of this file under either the MPL or the GPL.
 
-$Id: SynEditTextBuffer.pas,v 1.63.2.15 2009/06/14 13:41:44 maelh Exp $
+$Id: SynEditTextBuffer.pas,v 1.14 2011/12/28 09:24:20 Egg Exp $
 
 You may retrieve the latest version of this file at the SynEdit home page,
 located at http://SynEdit.SourceForge.net

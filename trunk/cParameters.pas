@@ -46,7 +46,7 @@ unit cParameters;
 interface
 
 uses
-  Windows, Classes, SysUtils, Dialogs, Controls;
+  System.UITypes, Windows, Classes, SysUtils, Dialogs, Controls;
 
 type
   (* function, that returns value of a system parameter *)

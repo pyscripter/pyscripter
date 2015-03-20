@@ -50,7 +50,7 @@ uses
   Dialogs, frmIDEDockWin, JvDockControlForm, ExtCtrls, Menus,
   ActnList, ComCtrls, StdCtrls, cFindInFiles, JvAppStorage,
   TB2Item, TB2Dock, TB2Toolbar, JvComponentBase,  SpTBXSkins,
-  SpTBXItem, SynUnicode, SpTBXEditors, SpTBXDkPanels;
+  SpTBXItem, SynUnicode, SpTBXEditors, SpTBXDkPanels, System.Actions;
 
 type
   TFindResultsWindow = class(TIDEDockWindow, IJvAppStorageHandler)
@@ -322,10 +322,10 @@ begin
     //ARect.Right := ARect.Right + 2;
     if odSelected in State then begin
       CurrentSkin.PaintBackground(ResultsCanvas, ARect, skncListItem, sknsChecked, True, True);
-      ResultsCanvas.Font.Color := CurrentSkin.GetTextColor(skncListItem, sknsChecked, SkinManager.GetSkinType);
+      ResultsCanvas.Font.Color := CurrentSkin.GetTextColor(skncListItem, sknsChecked);
     end else begin
       CurrentSkin.PaintWindowFrame(ResultsCanvas, ARect, False, True, 0);
-      ResultsCanvas.Font.Color := CurrentSkin.GetTextColor(skncListItem, sknsNormal, SkinManager.GetSkinType);
+      ResultsCanvas.Font.Color := CurrentSkin.GetTextColor(skncListItem, sknsNormal);
       Frame3D(ResultsCanvas, ARect, TopColor, BottomColor, 1);
     end;
 

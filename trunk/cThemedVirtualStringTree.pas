@@ -123,9 +123,9 @@ begin
   if hpeBackground in Elements then begin
     R := PaintInfo.PaintRectangle;
     if (PaintInfo.Column = nil) then begin
-      SpDrawXPHeader(PaintInfo.TargetCanvas, R, False, False, SkinManager.GetSkinType);
+      SpDrawXPHeader(PaintInfo.TargetCanvas, R, False, False);
     end else with PaintInfo do begin
-      SpDrawXPHeader(PaintInfo.TargetCanvas, R, IsHoverIndex, IsDownIndex, SkinManager.GetSkinType );
+      SpDrawXPHeader(PaintInfo.TargetCanvas, R, IsHoverIndex, IsDownIndex);
     end;
   end;
   if (hpeText in Elements) and Assigned(PaintInfo.Column) then begin
@@ -197,7 +197,7 @@ begin
         if not IsRectEmpty(InnerRect) then begin
           TargetCanvas.FillRect(InnerRect);
           SpDrawXPListItemBackground(TargetCanvas, InnerRect, vsSelected in Node.States, Node = HotNode,
-            False, SkinManager.GetSkinType, True, False);
+            False, True, False);
         end;
       end;
     end;

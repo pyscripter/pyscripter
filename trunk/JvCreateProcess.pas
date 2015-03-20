@@ -24,7 +24,7 @@ located at http://jvcl.delphi-jedi.org
 
 Known Issues:
 -----------------------------------------------------------------------------}
-// $Id: JvCreateProcess.pas 13189 2012-01-12 18:19:24Z ahuser $
+// $Id$
 
 unit JvCreateProcess;
 
@@ -48,7 +48,7 @@ const
 type
   EJvProcessError = EJVCLException;
 
-  TJvProcessPriority = (ppIdle, ppNormal, ppHigh, ppRealTime);
+  TJvProcessPriority = (ppIdle, ppNormal, ppHigh, ppRealTime, ppBelowNormal, ppAboveNormal);
 
   TJvConsoleOption = (coOwnerData, coRedirect, coSeparateError);
   TJvConsoleOptions = set of TJvConsoleOption;
@@ -232,9 +232,9 @@ type
 {$IFDEF UNITVERSIONING}
 const
   UnitVersioning: TUnitVersionInfo = (
-    RCSfile: '$URL: https://jcl.svn.sourceforge.net/svnroot/jvcl/trunk/jvcl/run/JvCreateProcess.pas $';
-    Revision: '$Revision: 13189 $';
-    Date: '$Date: 2012-01-12 20:19:24 +0200 (Πεμ, 12 Ιαν 2012) $';
+    RCSfile: '$URL$';
+    Revision: '$Revision$';
+    Date: '$Date$';
     LogPath: 'JVCL\run'
   );
 {$ENDIF UNITVERSIONING}
@@ -250,9 +250,13 @@ const
   CM_READ = WM_USER + 1;
   CM_THREADTERMINATED = WM_USER + 2;
 
+  BELOW_NORMAL_PRIORITY_CLASS = $00004000;
+  ABOVE_NORMAL_PRIORITY_CLASS = $00008000;
+
   //MaxProcessCount = 4096;
   ProcessPriorities: array [TJvProcessPriority] of DWORD =
-    (IDLE_PRIORITY_CLASS, NORMAL_PRIORITY_CLASS, HIGH_PRIORITY_CLASS, REALTIME_PRIORITY_CLASS);
+    (IDLE_PRIORITY_CLASS, NORMAL_PRIORITY_CLASS, HIGH_PRIORITY_CLASS, REALTIME_PRIORITY_CLASS,
+     BELOW_NORMAL_PRIORITY_CLASS, ABOVE_NORMAL_PRIORITY_CLASS);
 
 type
   { Threads which monitor the created process }
@@ -634,6 +638,10 @@ begin
           Result := ppHigh;
         REALTIME_PRIORITY_CLASS:
           Result := ppRealTime;
+        BELOW_NORMAL_PRIORITY_CLASS:
+          Result := ppBelowNormal;
+        ABOVE_NORMAL_PRIORITY_CLASS:
+          Result := ppAboveNormal;
       else
         Result := ppNormal;
       end;
@@ -664,6 +672,10 @@ begin
       Result := RsHigh;
     ppRealTime:
       Result := RsRealTime;
+    ppBelowNormal:
+      Result := RsBelowNormal;
+    ppAboveNormal:
+      Result := RsAboveNormal;
   end;
 end;
 

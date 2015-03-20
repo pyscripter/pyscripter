@@ -16,7 +16,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, frmIDEDockWin, JvComponentBase, JvDockControlForm, ExtCtrls,
   cProjectClasses, VirtualTrees, ImgList, Menus, TB2Item, SpTBXItem,
-  ActnList, TB2Dock, TB2Toolbar, ActiveX, SpTBXSkins;
+  ActnList, TB2Dock, TB2Toolbar, ActiveX, SpTBXSkins, System.Actions;
 
 type
   TProjectExplorerWindow = class(TIDEDockWindow)

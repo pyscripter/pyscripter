@@ -21,7 +21,7 @@ located at http://jvcl.delphi-jedi.org
 
 Known Issues:
 -----------------------------------------------------------------------------}
-// $Id: JvDockVIDStyle.pas 13180 2011-11-22 12:45:23Z obones $
+// $Id$
 
 unit JvDockVIDStyle;
 
@@ -106,6 +106,7 @@ type
     FInactiveFont: TFont;
     FInactiveSheetColor: TColor;
     FShowTabImages: Boolean;
+    FShowTabHints: Boolean;
     { NEW! if true, shows invididual close buttons on tabs. If false, you get the old VID behaviour. }
     FShowCloseButtonOnTabs: Boolean;
     {NEW! default is true, which is the old VID Style behaviour. False is a new behaviour added by Warren. }
@@ -116,6 +117,7 @@ type
     procedure SetInactiveFont(Value: TFont);
     procedure SetInactiveSheetColor(const Value: TColor);
     procedure SetShowTabImages(const Value: Boolean);
+    procedure SetShowTabHints(const Value: Boolean);
     procedure SetShowCloseButtonOnGrabber(const Value: Boolean);
     procedure SetShowCloseButtonOnTabs(const Value: Boolean);
   protected
@@ -132,6 +134,8 @@ type
     property InactiveFont: TFont read FInactiveFont write SetInactiveFont;
     property HotTrackColor: TColor read FHotTrackColor write SetHotTrackColor default clBlue;
     property ShowTabImages: Boolean read FShowTabImages write SetShowTabImages default False;
+    { If true, shows the tab caption as a hint when you mouse over it }
+    property ShowTabHints: Boolean read FShowTabHints write SetShowTabHints default False;
     property TabPosition default tpBottom;
     { NEW! If true, shows invididual close buttons on tabs.
            If false, you get the old VID behaviour. }
@@ -356,6 +360,7 @@ type
     FTempPages: TList;
     FSelectHotIndex: Integer;
     FShowTabImages: Boolean;
+    FShowTabHints: Boolean;
     procedure SetPage(const Value: TJvDockVIDTabPageControl);
     function GetTotalTabWidth: Integer;
     procedure SetTotalTabWidth(const Value: Integer);
@@ -377,6 +382,7 @@ type
     function GetDockClientFromPageIndex(Index: Integer): TControl;
     procedure CMMouseLeave(var Msg: TMessage); message CM_MOUSELEAVE;
     procedure SetShowTabImages(const Value: Boolean);
+    procedure SetShowTabHints(const Value: Boolean);
     procedure SetTabHeight(const Value: Integer);
   protected
     procedure Paint; override;
@@ -410,6 +416,7 @@ type
     property Page: TJvDockVIDTabPageControl read FPage write SetPage;
     property SelectSheet: TJvDockVIDTabSheet read FSelectSheet write FSelectSheet;
     property ShowTabImages: Boolean read FShowTabImages write SetShowTabImages;
+    property ShowTabHints: Boolean read FShowTabHints write SetShowTabHints;
     {NEW! If docked to a TJvDockPanel, this is it. if not (nil) then it is floating.}
     property DockPanel: TJvDockPanel read FDockPanel write FDockPanel;
   end;
@@ -443,6 +450,8 @@ type
     function GetHotTrackColor: TColor;
     function GetShowTabImages: Boolean;
     procedure SetShowTabImages(const Value: Boolean);
+    function GetShowTabHints: Boolean;
+    procedure SetShowTabHints(const Value: Boolean);
     function GetPage(Index: Integer): TJvDockVIDTabSheet;
     function GetActiveVIDPage: TJvDockVIDTabSheet;
     procedure SetActiveVIDPage(const Value: TJvDockVIDTabSheet);
@@ -498,6 +507,7 @@ type
     property InactiveFont: TFont read GetInactiveFont write SetInactiveFont;
     property HotTrackColor: TColor read GetHotTrackColor write SetHotTrackColor;
     property ShowTabImages: Boolean read GetShowTabImages write SetShowTabImages;
+    property ShowTabHints: Boolean read GetShowTabHints write SetShowTabHints;
     property ActivePage;
     property Align;
     property Anchors;
@@ -588,9 +598,9 @@ procedure PaintGradientBackground(Canvas: TCanvas; ARect: TRect; StartColor, End
 {$IFDEF UNITVERSIONING}
 const
   UnitVersioning: TUnitVersionInfo = (
-    RCSfile: '$URL: https://jcl.svn.sourceforge.net/svnroot/jvcl/trunk/jvcl/run/JvDockVIDStyle.pas $';
-    Revision: '$Revision: 13180 $';
-    Date: '$Date: 2011-11-22 14:45:23 +0200 (Ξ¤ΟΞΉ, 22 ΞΞΏΞµ 2011) $';
+    RCSfile: '$URL$';
+    Revision: '$Revision$';
+    Date: '$Date$';
     LogPath: 'JVCL\run'
   );
 {$ENDIF UNITVERSIONING}
@@ -598,6 +608,9 @@ const
 implementation
 
 uses
+  {$IFDEF HAS_UNIT_SYSTEM_UITYPES}
+  System.UITypes,
+  {$ENDIF HAS_UNIT_SYSTEM_UITYPES}
   Types,
   {$IFDEF JVCLThemesEnabled}
   JvThemes,
@@ -2278,7 +2291,7 @@ begin
     if (ADockClient <> nil) and not ADockClient.EnableCloseButton then
       Exit;
     {$IFDEF JVCLThemesEnabled}
-    if ThemeServices.{$IFDEF RTL230_UP}Available{$ELSE}ThemesAvailable{$ENDIF RTL230_UP} and ThemeServices.{$IFDEF RTL230_UP}Enabled{$ELSE}ThemesEnabled{$ENDIF RTL230_UP} then
+    if StyleServices.Available and StyleServices.Enabled then
     begin
       if GrabberSize <= 18 then
       begin
@@ -2292,8 +2305,8 @@ begin
         if AZone.CloseBtnDown then
           CurrentThemeType := twCloseButtonPushed;
       end;
-      Details := ThemeServices.GetElementDetails(CurrentThemeType);
-      ThemeServices.DrawElement(Canvas.Handle, Details, Rect(Left, Top, Left + ButtonWidth, Top + ButtonHeight));
+      Details := StyleServices.GetElementDetails(CurrentThemeType);
+      StyleServices.DrawElement(Canvas.Handle, Details, Rect(Left, Top, Left + ButtonWidth, Top + ButtonHeight));
     end
     else
       {$ENDIF JVCLThemesEnabled}
@@ -2453,7 +2466,9 @@ begin
   if AOwner is TJvDockTabHostForm then
   begin
     FTabImageList := TCustomImageList.Create(AOwner);
+    {$IFDEF RTL200_UP}
     FTabImageList.ColorDepth := cd32Bit;
+    {$ENDIF RTL200_UP}
     Images := FTabImageList;
   end;
 end;
@@ -3005,6 +3020,16 @@ begin
   FPanel.ShowTabImages := Value;
 end;
 
+function TJvDockVIDTabPageControl.GetShowTabHints: Boolean;
+begin
+  Result := FPanel.FShowTabHints;
+end;
+
+procedure TJvDockVIDTabPageControl.SetShowTabHints(const Value: Boolean);
+begin
+  FPanel.ShowTabHints := Value;
+end;
+
 function TJvDockVIDTabPageControl.CustomUnDock(Source: TJvDockDragDockObject;
   NewTarget: TWinControl; Client: TControl): Boolean;
 var
@@ -3071,6 +3096,7 @@ begin
     InactiveFont := VIDTabServerOption.InactiveFont;
     InactiveSheetColor := VIDTabServerOption.InactiveSheetColor;
     ShowTabImages := VIDTabServerOption.ShowTabImages;
+    ShowTabHints := VIDTabServerOption.ShowTabHints;
     TabPosition := VIDTabServerOption.TabPosition;
   end;
 end;
@@ -3314,9 +3340,21 @@ var
   Index: Integer;
   Ctrl: TControl;
   ARect: TRect;
+  HintText: string;
 begin
   inherited MouseMove(Shift, X, Y);
   Index := GetPageIndexFromMousePos(X, Y);
+
+  if ShowTabHints and (Index > -1) then
+  begin
+    HintText := StringReplace(Page.Pages[Index].Caption, '&', '', [rfReplaceAll]);
+    if HintText <> Hint then
+    begin
+      Hint := HintText;
+      Application.ActivateHint(ClientToScreen(Point(X, Y)));
+    end;
+  end;
+
   if Page.HotTrack and (Index <> FSelectHotIndex) then
   begin
     FSelectHotIndex := Index;
@@ -3766,6 +3804,17 @@ begin
   end;
 end;
 
+procedure TJvDockTabPanel.SetShowTabHints(const Value: Boolean);
+begin
+  if FShowTabHints <> Value then
+  begin
+    FShowTabHints := Value;
+    if not FShowTabHints then
+      Hint := '';
+    Invalidate;
+  end;
+end;
+
 procedure TJvDockTabPanel.SetTabHeight(const Value: Integer);
 begin
   FTabHeight := Value;
@@ -3904,7 +3953,6 @@ end;
 
 // (rom) unused writeable const option removed
 
-{$IFDEF DELPHI6_UP}
 procedure TJvDockVIDDragDockObject.DefaultDockImage(Erase: Boolean);
 var
   DrawRect: TRect;
@@ -3984,77 +4032,6 @@ begin
     end;
   end;
 end;
-{$ELSE}
-procedure TJvDockVIDDragDockObject.DefaultDockImage(Erase: Boolean);
-const
-  LeftOffset = 4;
-var
-  DesktopWindow: HWND;
-  DC: HDC;
-  OldBrush: HBrush;
-  DrawRect: TRect;
-  PenSize: Integer;
-  ABrush: TBrush;
-  ButtomOffset: Integer;
-  MaxTabWidth: Integer;
-
-  procedure DoDrawDefaultImage;
-  var
-    R: PRect;
-  begin
-    R := @DrawRect;
-    PatBlt(DC, R.Left + PenSize, R.Top, R.Right - R.Left - PenSize, PenSize, PATINVERT);
-    PatBlt(DC, R.Right - PenSize, R.Top + PenSize, PenSize, R.Bottom - R.Top - PenSize, PATINVERT);
-    PatBlt(DC, R.Left, R.Bottom - PenSize, R.Right - R.Left - PenSize, PenSize, PATINVERT);
-    PatBlt(DC, R.Left, R.Top, PenSize, R.Bottom - R.Top - PenSize, PATINVERT);
-  end;
-
-  procedure DoDrawTabImage;
-  var
-    R: PRect;
-  begin
-    R := @DrawRect;
-    ButtomOffset := 15;
-    MaxTabWidth := 30;
-
-    PatBlt(DC, R.Left + PenSize, R.Top, R.Right - R.Left - PenSize, PenSize, PATINVERT);
-    PatBlt(DC, R.Right - PenSize, R.Top + PenSize, PenSize, R.Bottom - R.Top - 2 * PenSize - ButtomOffset, PATINVERT);
-
-    if R.Right - R.Left - 2 * PenSize < LeftOffset + 2 * PenSize + 2 * MaxTabWidth then
-      MaxTabWidth := (R.Right - R.Left - 4 * PenSize - LeftOffset) div 2;
-
-    if R.Bottom - R.Top - 2 * PenSize < 2 * ButtomOffset then
-      ButtomOffset := Max((R.Bottom - R.Top - 2 * PenSize) div 2, 0);
-
-    PatBlt(DC, R.Left, R.Bottom - PenSize - ButtomOffset, 2 * PenSize + LeftOffset, PenSize, PATINVERT);
-    PatBlt(DC, R.Left + PenSize + LeftOffset, R.Bottom - ButtomOffset, PenSize, ButtomOffset, PATINVERT);
-    PatBlt(DC, R.Left + 2 * PenSize + LeftOffset, R.Bottom - PenSize, MaxTabWidth, PenSize, PATINVERT);
-    PatBlt(DC, R.Left + 2 * PenSize + LeftOffset + MaxTabWidth, R.Bottom - PenSize - ButtomOffset, PenSize, PenSize +
-      ButtomOffset, PATINVERT);
-    PatBlt(DC, R.Left + 3 * PenSize + LeftOffset + MaxTabWidth, R.Bottom - PenSize - ButtomOffset, R.Right - R.Left - 3 *
-      PenSize - LeftOffset - MaxTabWidth, PenSize, PATINVERT);
-
-    PatBlt(DC, R.Left, R.Top, PenSize, R.Bottom - R.Top - PenSize - ButtomOffset, PATINVERT);
-  end;
-
-begin
-  FErase := Erase;
-  GetBrush_PenSize_DrawRect(ABrush, PenSize, DrawRect, Erase);
-
-  DesktopWindow := GetDesktopWindow;
-  DC := GetDCEx(DesktopWindow, 0, DCX_CACHE or DCX_LOCKWINDOWUPDATE);
-  try
-    OldBrush := SelectObject(DC, ABrush.Handle);
-    if not FIsTabDockOver then
-      DoDrawDefaultImage
-    else
-      DoDrawTabImage;
-    SelectObject(DC, OldBrush);
-  finally
-    ReleaseDC(DesktopWindow, DC);
-  end;
-end;
-{$ENDIF DELPHI6_UP}
 
 function TJvDockVIDDragDockObject.DragFindWindow(const Pos: TPoint): THandle;
 begin
@@ -4386,6 +4363,7 @@ begin
   FInactiveFont.OnChange := FontChanged;
   FInactiveSheetColor := clBtnShadow;
   FShowTabImages := False;
+  FShowTabHints := False;
   FShowCloseButtonOnGrabber := True;
   FShowCloseButtonOnTabs := False;
 end;
@@ -4413,6 +4391,7 @@ begin
       InactiveFont := Src.InactiveFont;
       InactiveSheetColor := Src.InactiveSheetColor;
       ShowTabImages := Src.ShowTabImages;
+      ShowTabHints := Src.ShowTabHints;
 
       inherited Assign(Source);
     finally
@@ -4461,6 +4440,15 @@ begin
   if FInactiveSheetColor <> Value then
   begin
     FInactiveSheetColor := Value;
+    Changed;
+  end;
+end;
+
+procedure TJvDockVIDTabServerOption.SetShowTabHints(const Value: Boolean);
+begin
+  if FShowTabHints <> Value then
+  begin
+    FShowTabHints := Value;
     Changed;
   end;
 end;
@@ -4710,7 +4698,6 @@ procedure TJvDockVIDConjoinServerOption.SetInactiveFont(Value: TFont);
 begin
   FInactiveFont.Assign(Value);
 end;
-
 
 procedure TJvDockVIDConjoinServerOption.Changed;
 begin
