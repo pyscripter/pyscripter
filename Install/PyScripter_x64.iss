@@ -34,7 +34,6 @@ Name: fileexplorercontextmenu; Description: """Edit with PyScripter"" File Explo
 [Files]
 Source: ..\..\PythonIDE\PyScripter.exe; DestDir: {app}; Flags: ignoreversion
 Source: ..\..\PythonIDE\PyScripter.chm; DestDir: {app}; Flags: ignoreversion
-Source: ..\..\PythonIDE\PyScripter.jdbg; DestDir: {app}; 
 Source: ..\..\PythonIDE\PyProject.ico; DestDir: {app}
 Source: ..\..\PythonIDE\locale\default.po; DestDir: {app}\locale
 Source: ..\..\PythonIDE\locale\languagecodes.mo; DestDir: {app}\locale

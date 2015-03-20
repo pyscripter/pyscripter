@@ -1,0 +1,18 @@
+**NOTE**
+
+**Before** using PyScripter, you must ensure that there is a version of Python 
+greater or equal to 2.4 installed on your machine. Windows.  If you do not have one 
+installed, you can download one from http://www.python.org/.
+
+The 64-bit version of PyScripter (x64) works only on 64-bit Windows **and**
+with 64-bit versions of Python.  The 32-bit version of PyScripter works on both
+32-bit and 64-bit Windows with the 32-bit versions of Python.
+
+The zip files contain portable versions of PyScripter.   No intallation is needed. Just
+unzip the archive and start using PyScripter.
+
+************************************************************ 
+If you find PyScripter useful, please consider making a donation by clicking
+"Donations" in the navigation Toolbar.
+************************************************************
+
