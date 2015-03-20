@@ -205,9 +205,9 @@ begin
     R := Rect(Left, Top, Left + ButtonWidth, Top + ButtonHeight);
 
     if AZone.AutoHideBtnState = TJvDockBtnState.bsNormal then begin
-      PatternColor := CurrentSkin.GetTextColor(skncDockablePanelTitleBar, sknsNormal, sknSkin);
+      PatternColor := CurrentSkin.GetTextColor(skncDockablePanelTitleBar, sknsNormal);
       if PatternColor = clNone then
-        PatternColor := CurrentSkin.GetTextColor(skncToolbarItem, sknsNormal, sknSkin);
+        PatternColor := CurrentSkin.GetTextColor(skncToolbarItem, sknsNormal);
       if PatternColor = clNone then
         PatternColor := clCaptionText;
     end else begin
@@ -258,9 +258,9 @@ begin
     R := Rect(Left, Top, Left + ButtonWidth, Top + ButtonHeight);
 
     if AZone.CloseBtnState = TJvDockBtnState.bsNormal then begin
-      PatternColor := CurrentSkin.GetTextColor(skncDockablePanelTitleBar, sknsNormal, sknSkin);
+      PatternColor := CurrentSkin.GetTextColor(skncDockablePanelTitleBar, sknsNormal);
       if PatternColor = clNone then
-        PatternColor := CurrentSkin.GetTextColor(skncToolbarItem, sknsNormal, sknSkin);
+        PatternColor := CurrentSkin.GetTextColor(skncToolbarItem, sknsNormal);
       if PatternColor = clNone then
         PatternColor := clCaptionText;
     end else begin
@@ -338,9 +338,9 @@ begin
 
   Canvas.Brush.Style := bsClear; // body already painted
   State := CurrentSkin.GetState(True, False, False, False);
-  TextColor := CurrentSkin.GetTextColor(skncDockablePanelTitleBar, State, sknSkin);
+  TextColor := CurrentSkin.GetTextColor(skncDockablePanelTitleBar, State);
   if TextColor = clNone then
-    TextColor := CurrentSkin.GetTextColor(skncToolbarItem, State, sknSkin);
+    TextColor := CurrentSkin.GetTextColor(skncToolbarItem, State);
   if TextColor = clNone then
     TextColor := clCaptionText;
   Canvas.Font.Color := TextColor;
@@ -665,7 +665,7 @@ begin
             Inc(R.Bottom, 5);
             // maintain background border
             if IsActive then begin
-              SpDrawXPTab(Canvas, R, True, IsActive, False, False, Position, sknSkin, Edge);
+              SpDrawXPTab(Canvas, R, True, IsActive, False, False, Position, Edge);
               ExcludeClipRect(Canvas.Handle, R.Left+1, ARect.Bottom - TabSheetBorderSize, R.Right-1, ARect.Bottom);
             end;
           end;
@@ -673,12 +673,12 @@ begin
           begin
             Dec(R.Top, 5);
             if IsActive then begin
-              SpDrawXPTab(Canvas, R, True, IsActive, False, False, Position, sknSkin, Edge);
+              SpDrawXPTab(Canvas, R, True, IsActive, False, False, Position, Edge);
               ExcludeClipRect(Canvas.Handle, R.Left+1, 0, R.Right-1, TabSheetBorderSize);
             end;
           end;
       end;
-      SpDrawXPTab(Canvas, R, True, IsActive, IsHot, False, Position, sknSkin, Edge);
+      SpDrawXPTab(Canvas, R, True, IsActive, IsHot, False, Position, Edge);
     end
     else begin
       // Draw the separators
@@ -718,7 +718,7 @@ begin
 
     CaptionString := Page.Pages[I].Caption;
     State := CurrentSkin.GetState(True, False, IsHot, IsActive);
-    TextColor := CurrentSkin.GetTextColor(skncTab, State, sknSkin);
+    TextColor := CurrentSkin.GetTextColor(skncTab, State);
     if TextColor = clNone then
       TextColor := clBtnText;
     Canvas.Font.Color := TextColor;
@@ -755,7 +755,7 @@ begin
     Inc(CompleteWidth, CurrTabWidth + TabSplitterWidth);
   end;
   // Paint one side of the TabSheet background after drawing the tabs;
-  SpDrawXPTabControlBackground(Canvas, BgRect, Color, Page.TabPosition = tpBottom, sknSkin);
+  SpDrawXPTabControlBackground(Canvas, BgRect, Color, Page.TabPosition = tpBottom);
 end;
 
 procedure TJvDockVSNETTabPanelSpTBX.WMSpSkinChange(var Message: TMessage);
@@ -891,7 +891,7 @@ var
       IsHot := TCrackJvDockVSBlock(Block).ActiveDockControl = Block.VSPane[I].DockForm;
       IsChecked := Block.VSPane[I].Active;
       State := CurrentSkin.GetState(True, False, IsHot, IsChecked);
-      SpDrawXPButton(Canvas, DrawRect, True, False, IsHot, IsChecked, False, False, sknSkin);
+      SpDrawXPButton(Canvas, DrawRect, True, False, IsHot, IsChecked, False, False);
 
       AdjustImagePos;
       SpDrawImageList(Canvas, R, Block.ImageList, I, True, False);
@@ -916,7 +916,7 @@ var
         OldGraphicsMode := SetGraphicsMode(Canvas.Handle, GM_ADVANCED);
         Canvas.Brush.Style := bsClear;
 
-        TextColor := CurrentSkin.GetTextColor(skncButton, State, sknSkin);
+        TextColor := CurrentSkin.GetTextColor(skncButton, State);
         if TextColor = clNone then
           TextColor := clBtnText;
         Canvas.Font.Color := TextColor;
@@ -1170,7 +1170,7 @@ begin
           else
             Dec(R.Top, TabSheetBorderSize);
 
-          SpDrawXPTabControlBackground(ACanvas, R, Color, (PageControl as TJvDockVSNETTabPageControlSpTBX).TabPosition = tpBottom, sknSkin);
+          SpDrawXPTabControlBackground(ACanvas, R, Color, (PageControl as TJvDockVSNETTabPageControlSpTBX).TabPosition = tpBottom);
         finally
           ACanvas.Handle := 0;
           ACanvas.Free;

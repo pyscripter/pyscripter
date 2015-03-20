@@ -95,6 +95,7 @@ inherited PythonIIForm: TPythonIIForm
       OnProcessCommand = SynEditProcessCommand
       OnProcessUserCommand = SynEditProcessUserCommand
       OnPaintTransient = SynEditPaintTransient
+      FontSmoothing = fsmNone
     end
   end
   inherited DockClient: TJvDockClient

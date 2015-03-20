@@ -173,6 +173,7 @@ inherited FindResultsWindow: TFindResultsWindow
         ScrollBars = ssBoth
         TabOrder = 1
         WordWrap = False
+        Zoom = 100
       end
     end
     object StatusBar: TSpTBXStatusBar

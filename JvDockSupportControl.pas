@@ -21,7 +21,7 @@ located at http://jvcl.delphi-jedi.org
 
 Known Issues:
 -----------------------------------------------------------------------------}
-// $Id: JvDockSupportControl.pas 13173 2011-11-19 12:43:58Z ahuser $
+// $Id$
 
 unit JvDockSupportControl;
 
@@ -33,8 +33,11 @@ uses
   {$IFDEF UNITVERSIONING}
   JclUnitVersioning,
   {$ENDIF UNITVERSIONING}
-  Messages, Windows, CommCtrl, Graphics, Controls, Forms, Classes, ExtCtrls,
-  ComCtrls, ImgList,
+  Messages, Windows, CommCtrl, Graphics, Controls, Forms, ImgList, Classes, ExtCtrls,
+  ComCtrls,
+  {$IFDEF HAS_UNIT_SYSTEM_UITYPES}
+  System.UITypes,
+  {$ENDIF HAS_UNIT_SYSTEM_UITYPES}
   JvComponent, JvAppStorage,
   JvDockTree;
 
@@ -518,9 +521,9 @@ type
 {$IFDEF UNITVERSIONING}
 const
   UnitVersioning: TUnitVersionInfo = (
-    RCSfile: '$URL: https://jcl.svn.sourceforge.net/svnroot/jvcl/trunk/jvcl/run/JvDockSupportControl.pas $';
-    Revision: '$Revision: 13173 $';
-    Date: '$Date: 2011-11-19 14:43:58 +0200 (Σαβ, 19 Νοε 2011) $';
+    RCSfile: '$URL$';
+    Revision: '$Revision$';
+    Date: '$Date$';
     LogPath: 'JVCL\run'
   );
 {$ENDIF UNITVERSIONING}
@@ -528,7 +531,7 @@ const
 implementation
 
 uses
-  ComStrs, Consts, SysUtils,
+  Types, ComStrs, Consts, SysUtils,
   {$IFNDEF COMPILER12_UP}
   JvJCLUtils,
   {$ENDIF ~COMPILER12_UP}
@@ -1723,10 +1726,8 @@ begin
     FBrush.Free;
     FBrush := nil;
   end;
-  {$IFDEF DELPHI6_UP}
   FAlphaBlendedForm.Free;
   FAlphaBlendedTab.Free;
-  {$ENDIF DELPHI6_UP}
   inherited Destroy;
 end;
 
@@ -1734,7 +1735,6 @@ function TJvDockDragDockObject.GetAlphaBlendedTab: TJvAlphaBlendedForm;
 begin
   if FAlphaBlendedTab = nil then
   begin
-    {$IFDEF DELPHI6_UP} // Delphi 5's TCustomForm doesn't have the AlphaBlend properties
     FAlphaBlendedTab := TJvAlphaBlendedForm.CreateNew(nil);
     FAlphaBlendedTab.Visible := False;
     FAlphaBlendedTab.Color := clHighlight;
@@ -1744,7 +1744,6 @@ begin
     FAlphaBlendedTab.BorderStyle := bsNone;
     FAlphaBlendedTab.FormStyle := fsStayOnTop;
     FAlphaBlendedTab.BoundsRect := Rect(0, 0, 0, 0);
-    {$ENDIF DELPHI6_UP}
   end;
   Result := FAlphaBlendedTab;
 end;
@@ -1781,7 +1780,7 @@ end;
 
 function TJvDockDragDockObject.CanLeave(NewTarget: TWinControl): Boolean;
 begin
-  Result := NewTarget <> TWinControl(FDragTarget);
+  Result := (NewTarget <> TWinControl(FDragTarget));
 end;
 
 function TJvDockDragDockObject.Capture: THandle;
@@ -1790,7 +1789,6 @@ begin
   SetCapture(Result);
 end;
 
-{$IFDEF DELPHI6_UP}
 procedure TJvDockDragDockObject.DefaultDockImage(Erase: Boolean);
 Var
   DrawRect: TRect;
@@ -1801,32 +1799,6 @@ begin
   AlphaBlendedForm.Visible := True;
   AlphaBlendedForm.BoundsRect := DrawRect;
 end;
-{$ELSE}
-procedure TJvDockDragDockObject.DefaultDockImage(Erase: Boolean);
-var
-  DesktopWindow: HWND;
-  DC: HDC;
-  OldBrush: HBRUSH;
-  R: TRect;
-  PenSize: Integer;
-  Brush: TBrush;
-begin
-  GetBrush_PenSize_DrawRect(Brush, PenSize, R, Erase);
-
-  DesktopWindow := GetDesktopWindow;
-  DC := GetDCEx(DesktopWindow, 0, DCX_CACHE or DCX_LOCKWINDOWUPDATE);
-  try
-    OldBrush := SelectObject(DC, Brush.Handle);
-    PatBlt(DC, R.Left + PenSize, R.Top, R.Right - R.Left - PenSize, PenSize, PATINVERT);
-    PatBlt(DC, R.Right - PenSize, R.Top + PenSize, PenSize, R.Bottom - R.Top - PenSize, PATINVERT);
-    PatBlt(DC, R.Left, R.Bottom - PenSize, R.Right - R.Left - PenSize, PenSize, PATINVERT);
-    PatBlt(DC, R.Left, R.Top, PenSize, R.Bottom - R.Top - PenSize, PATINVERT);
-    SelectObject(DC, OldBrush);
-  finally
-    ReleaseDC(DesktopWindow, DC);
-  end;
-end;
-{$ENDIF DELPHI6_UP}
 
 function TJvDockDragDockObject.DragFindWindow(const Pos: TPoint): THandle;
 var
@@ -2283,7 +2255,26 @@ begin
 end;
 
 function TJvDockManager.DoUnDock(Source: TJvDockDragDockObject; Target: TWinControl; Client: TControl): Boolean;
+var
+  allow:Boolean;
 begin
+  if not (csDestroying in Client.ComponentState) then
+  if Client is TForm then begin
+      if Client is TForm then begin
+        allow := true;
+        if Assigned(TForm(Client).OnUnDock) then
+          TForm(Client).OnUnDock(Self,Client,TWinControl(nil),allow);
+         if not allow then begin
+               result := false;
+               exit;
+         end;
+
+      end;
+
+  end;
+
+
+
   if Client.HostDockSite is TJvDockCustomControl then
     Result := TJvDockCustomControl(Client.HostDockSite).CustomUnDock(Source, Target, Client)
   else
@@ -2317,6 +2308,7 @@ var
     begin
       WasVisible := Control.Visible;
       try
+        if Assigned(DragObject.AlphaBlendedForm) then
         DragObject.AlphaBlendedForm.Hide;
         Control.Dock(nil, DragObject.DockRect);
         if (Control.Left <> DragObject.DockRect.Left) or (Control.Top <> DragObject.DockRect.Top) then

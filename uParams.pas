@@ -603,6 +603,7 @@ begin
     RegisterParameter('Python31Dir', GetPythonDir('3.1'), nil);
     RegisterParameter('Python32Dir', GetPythonDir('3.2'), nil);
     RegisterParameter('Python33Dir', GetPythonDir('3.3'), nil);
+    RegisterParameter('Python34Dir', GetPythonDir('3.4'), nil);
     RegisterParameter('Python24Exe', '$[PYTHON24DIR]python.exe', nil);
     RegisterParameter('Python25Exe', '$[PYTHON25DIR]python.exe', nil);
     RegisterParameter('Python26Exe', '$[PYTHON26DIR]python.exe', nil);
@@ -611,6 +612,7 @@ begin
     RegisterParameter('Python31Exe', '$[PYTHON31DIR]python.exe', nil);
     RegisterParameter('Python32Exe', '$[PYTHON32DIR]python.exe', nil);
     RegisterParameter('Python33Exe', '$[PYTHON33DIR]python.exe', nil);
+    RegisterParameter('Python34Exe', '$[PYTHON34DIR]python.exe', nil);
     RegisterParameter('PythonDir', 'Directory of active python version', GetActivePythonDir);
     RegisterParameter('PythonExe', '$[PYTHONDIR]python.exe', nil);
     RegisterParameter('PythonVersion', 'Version of active Python', GetPythonVersion);
@@ -703,6 +705,7 @@ begin
     UnRegisterParameter('Python31Dir');
     UnRegisterParameter('Python32Dir');
     UnRegisterParameter('Python33Dir');
+    UnRegisterParameter('Python34Dir');
     UnRegisterParameter('Python24Exe');
     UnRegisterParameter('Python25Exe');
     UnRegisterParameter('Python26Exe');
@@ -711,6 +714,7 @@ begin
     UnRegisterParameter('Python31Exe');
     UnRegisterParameter('Python32Exe');
     UnRegisterParameter('Python33Exe');
+    UnRegisterParameter('Python34Exe');
     UnRegisterParameter('PythonDir');
     UnRegisterParameter('PythonExe');
     UnRegisterParameter('PythonVersion');

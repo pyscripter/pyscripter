@@ -11,7 +11,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  StdCtrls, Menus, ActnList, ComCtrls, SpTBXControls,
+  StdCtrls, Menus, System.Actions, ActnList, ComCtrls, SpTBXControls,
   Buttons, SpTBXEditors, dlgPyIDEBase, ExtCtrls,
   SpTBXItem;
 
@@ -23,8 +23,8 @@ type
     fActionListName: string;
     fActionName: string;
     function IsSecondaryShortCutsStored: Boolean;
-    procedure SetSecondaryShortCuts(const Value: TShortCutList);
-    function GetSecondaryShortCuts: TShortCutList;
+    procedure SetSecondaryShortCuts(const Value: TCustomShortCutList);
+    function GetSecondaryShortCuts: TCustomShortCutList;
   public
     Category : string;
     Caption : string;
@@ -34,7 +34,7 @@ type
     property ActionListName : string read fActionListName write fActionListName;
     property ActionName : string read fActionName write fActionName;
     property ShortCut: TShortCut read FShortCut write FShortCut default 0;
-    property SecondaryShortCuts: TShortCutList read GetSecondaryShortCuts
+    property SecondaryShortCuts: TCustomShortCutList read GetSecondaryShortCuts
       write SetSecondaryShortCuts stored IsSecondaryShortCutsStored;
   end;
 
@@ -357,7 +357,7 @@ end;
 
 { TActionProxyItem }
 
-procedure TActionProxyItem.SetSecondaryShortCuts(const Value: TShortCutList);
+procedure TActionProxyItem.SetSecondaryShortCuts(const Value: TCustomShortCutList);
 begin
   if FSecondaryShortCuts = nil then
     FSecondaryShortCuts := TShortCutList.Create;
@@ -376,7 +376,7 @@ begin
   inherited;
 end;
 
-function TActionProxyItem.GetSecondaryShortCuts: TShortCutList;
+function TActionProxyItem.GetSecondaryShortCuts: TCustomShortCutList;
 begin
   if FSecondaryShortCuts = nil then
     FSecondaryShortCuts := TShortCutList.Create;

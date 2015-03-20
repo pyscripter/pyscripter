@@ -6,6 +6,9 @@ object CommandsDataModule: TCommandsDataModule
   Width = 675
   object SynPythonSyn: TSynPythonSyn
     DefaultFilter = 'Python Files (*.py;*.pyw)|*.py;*.pyw'
+    Options.AutoDetectEnabled = False
+    Options.AutoDetectLineLimit = 0
+    Options.Visible = False
     CommentAttri.Foreground = clGreen
     KeyAttri.Foreground = clNavy
     KeyAttri.Style = []
@@ -70,7 +73,7 @@ object CommandsDataModule: TCommandsDataModule
     Left = 32
     Top = 241
     Bitmap = {
-      494C01010A003000000010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C01010A000D00040010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -490,11 +493,11 @@ object CommandsDataModule: TCommandsDataModule
     TitleFont.Style = [fsBold]
     Columns = <
       item
-        BiggestWord = 'CONSTRUCTOR'
+        ColumnWidth = 100
         DefaultFontStyle = [fsBold]
       end
       item
-        BiggestWord = 'This a very long explanation indeed'
+        ColumnWidth = 300
       end>
     Resizeable = False
     ShortCut = 24656
@@ -519,11 +522,11 @@ object CommandsDataModule: TCommandsDataModule
     TitleFont.Style = [fsBold]
     Columns = <
       item
-        BiggestWord = 'CONSTRUCTOR'
+        ColumnWidth = 100
         DefaultFontStyle = [fsBold]
       end
       item
-        BiggestWord = 'This a very long explanation indeed and even longer'
+        ColumnWidth = 400
       end>
     Resizeable = False
     ShortCut = 24653
@@ -630,6 +633,9 @@ object CommandsDataModule: TCommandsDataModule
     Top = 72
   end
   object SynIniSyn: TSynIniSyn
+    Options.AutoDetectEnabled = False
+    Options.AutoDetectLineLimit = 0
+    Options.Visible = False
     Left = 344
     Top = 324
   end
@@ -3675,9 +3681,9 @@ object CommandsDataModule: TCommandsDataModule
     Top = 68
   end
   object SynWebHtmlSyn: TSynWebHtmlSyn
+    Options.HtmlVersion = shvHtml401Transitional
     ActiveHighlighterSwitch = False
     Engine = SynWebEngine
-    Options.HtmlVersion = shvHtml401Transitional
     Left = 432
     Top = 272
   end
@@ -3688,13 +3694,16 @@ object CommandsDataModule: TCommandsDataModule
     Top = 320
   end
   object SynWebCssSyn: TSynWebCssSyn
+    Options.HtmlVersion = shvHtml401Transitional
     ActiveHighlighterSwitch = False
     Engine = SynWebEngine
-    Options.HtmlVersion = shvHtml401Transitional
     Left = 528
     Top = 324
   end
   object SynCppSyn: TSynCppSyn
+    Options.AutoDetectEnabled = False
+    Options.AutoDetectLineLimit = 0
+    Options.Visible = False
     Left = 344
     Top = 272
   end
@@ -4373,7 +4382,7 @@ object CommandsDataModule: TCommandsDataModule
     Left = 36
     Top = 194
     Bitmap = {
-      494C01019800B400000110001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C010198009D00040010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000007002000001002000000000000070
       0200000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

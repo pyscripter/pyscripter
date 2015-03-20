@@ -14,7 +14,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, frmIDEDockWin, JvDockControlForm, ExtCtrls,
   StdCtrls, JvCreateProcess, Menus, ActnList, uEditAppIntfs, cTools,
-  SynEditTypes, SynRegExpr, TB2Item, JvComponentBase, SpTBXItem;
+  SynEditTypes, SynRegExpr, TB2Item, JvComponentBase, SpTBXItem, System.Actions;
 
 type
   TOutputWindow = class(TIDEDockWindow)

@@ -21,7 +21,7 @@ located at http://jvcl.delphi-jedi.org
 
 Known Issues:
 -----------------------------------------------------------------------------}
-// $Id: JvDockInfo.pas 12461 2009-08-14 17:21:33Z obones $
+// $Id$
 
 unit JvDockInfo;
 
@@ -162,9 +162,9 @@ type
 {$IFDEF UNITVERSIONING}
 const
   UnitVersioning: TUnitVersionInfo = (
-    RCSfile: '$URL: https://jcl.svn.sourceforge.net/svnroot/jvcl/trunk/jvcl/run/JvDockInfo.pas $';
-    Revision: '$Revision: 12461 $';
-    Date: '$Date: 2009-08-14 20:21:33 +0300 (Ξ Ξ±Ο, 14 Ξ‘Ο…Ξ³ 2009) $';
+    RCSfile: '$URL$';
+    Revision: '$Revision$';
+    Date: '$Date$';
     LogPath: 'JVCL\run'
   );
 {$ENDIF UNITVERSIONING}

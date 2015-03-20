@@ -24,7 +24,7 @@ uses
   JvStringHolder, cPyBaseDebugger,
   SynEditTypes, VirtualExplorerTree, VirtualShellNotifier, SynHighlighterWeb,
   SynHighlighterCpp, SynHighlighterYAML,
-  SpTBXTabs, dlgOptionsEditor;
+  SpTBXTabs, dlgOptionsEditor, System.Actions;
 
 type
   TFileChangeNotificationType = (fcnFull, fcnNoMappedDrives, fcnDisabled);
@@ -1040,7 +1040,6 @@ begin
   ProgramVersionCheck.ThreadDialog.DialogOptions.ShowModal := False;
   ProgramVersionCheck.ThreadDialog.DialogOptions.Caption := 'Downloading...';
   ProgramVersionCheck.ThreadDialog.DialogOptions.ResName := 'WebCopyAvi';
-  ProgramVersionCheck.LocalDirectory := ExtractFilePath(Application.ExeName)+ 'Updates';
   {$IFDEF CPUX64}
   ProgramVersionHTTPLocation.VersionInfoFileName := 'PyScripterVersionInfo-x64.ini';
   {$ELSE}

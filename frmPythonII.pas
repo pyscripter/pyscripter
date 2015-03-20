@@ -19,13 +19,14 @@ unit frmPythonII;
 interface
 
 uses
-  Types, Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Types, System.UITypes, System.Contnrs, Windows, Messages, SysUtils,
+  Variants, Classes, Graphics, Controls, Forms,
   Dialogs , Menus, PythonEngine, SyncObjs, SynHighlighterPython,
   SynEditHighlighter, SynEdit,
   SynEditKeyCmds, SynCompletionProposal, JvDockControlForm,
   frmIDEDockWin, ExtCtrls, JvComponentBase,
   TB2Item, ActnList, cPyBaseDebugger, WrapDelphi,
-  SpTBXItem, SpTBXSkins, uEditAppIntfs, cCodeCompletion;
+  SpTBXItem, SpTBXSkins, uEditAppIntfs, cCodeCompletion, System.Actions;
 
 const
   WM_APPENDTEXT = WM_USER + 1020;
@@ -1887,7 +1888,9 @@ begin
   else if CmdLineReader.readFlag('PYTHON32') then
     expectedVersion := '3.2'
   else if CmdLineReader.readFlag('PYTHON33') then
-    expectedVersion := '3.3';
+    expectedVersion := '3.3'
+  else if CmdLineReader.readFlag('PYTHON34') then
+    expectedVersion := '3.4';
   PythonEngine.DllPath := CmdLineReader.readString('PYTHONDLLPATH');
   UseDebugVersion := CmdLineReader.readFlag('DEBUG');
 
