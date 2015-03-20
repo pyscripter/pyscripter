@@ -1,6 +1,10 @@
 <wiki:gadget url="http://pyscripter.googlecode.com/svn/wiki/files/adsense3.xml" border="0" width="468" height="60" />
-
 = History =
+
+===Version 2.6 (March 20, 2015)=== 
+
+  * *New features:*     
+    * Python 3.4 support added
 
 ===Version 2.5 (March 19, 2012)=== 
 
