@@ -1,4 +1,4 @@
 Unfortunately, Google has made the the Project Hosting Downloads read-only and
-will eventually be shutting this site.
+will eventually be shutting down this site.
 
 Downloads are now available at the [https://sourceforge.net/projects/pyscripter   SourceForge PyScripter project].
