@@ -1,0 +1,16 @@
+***********  This is the 64-bit version of PyScripter. *************
+It requires a 64-bit version of Windows. Please note that PyScripter will only
+work if a 64-bit version of Python is installed.
+
+Note: For compatibility with Python 2.6, 2.7 and 3.x, this PyScripter version 
+requires the latest C++ Redistributable Package.  This is automatically installed 
+by Python 2.6, 2.7 and 3.x.  If you do not have any of these versions installed, 
+then you need to download and install it manually from
+http://www.microsoft.com/downloads/details.aspx?familyid=A5C84275-3B97-4AB7-A40D-3802B2AF5FC2.
+
+Versions later than 1.8 contain support for remote debugging.  Read 
+http://code.google.com/p/pyscripter/wiki/RemoteEngines for details.  
+
+Please visit http:\\pyscripter.googlecode.com for information about
+remote debugging and other PyScripter related topics.
+

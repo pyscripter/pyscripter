@@ -1,0 +1,50 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2003-05-05 12:39\n"
+"PO-Revision-Date: 2008-06-16 23:13+0900\n"
+"Last-Translator: Shinya Okano <xxshss@yahoo.co.jp>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language-Team: \n"
+
+msgid "Chinese"
+msgstr "中国語"
+
+msgid "English"
+msgstr "英語"
+
+#. Language of France
+msgid "French"
+msgstr "フランス語"
+
+#. Language of Germany, Austria and others
+msgid "German"
+msgstr "ドイツ語"
+
+#. Language of Greece
+msgid "Greek"
+msgstr "ギリシャ語"
+
+#. Language of Italy, Europe
+msgid "Italian"
+msgstr "イタリア語"
+
+#. Language of Japan, Asia
+msgid "Japanese"
+msgstr "日本語"
+
+#. Language of Portugal, Europe
+msgid "Portuguese"
+msgstr "ポルトガル語"
+
+#. Language of Russia
+msgid "Russian"
+msgstr "ロシア語"
+

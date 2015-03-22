@@ -1,0 +1,14 @@
+Note: For compatibility with Python 2.6 and Python 3.0, this PyScripter version 
+requires the latest C++ Redistributable Package.  This is automatically installed 
+by Python 2.6 and Python 3.0.  If you do not have any of these versions installed, 
+then you need to download and install it manually from
+http://www.microsoft.com/downloads/details.aspx?familyid=A5C84275-3B97-4AB7-A40D-3802B2AF5FC2.
+
+Copy the included files to the PyScripter installation folder overriding existing files. 
+ 
+You can read about remote debugging at http://code.google.com/p/pyscripter/wiki/RemoteEngines
+
+If you upgrade from a version earlier than 1.8.5 you will need to change the PyScripter shortcuts, since now command line 
+arguments are prefixed by double dash ("--"), eg "PyScripter --PYTHON25".
+
+Also if you are using a 64bit version of Windows note that PyScripter will only work if a 32bit version of Python is installed.

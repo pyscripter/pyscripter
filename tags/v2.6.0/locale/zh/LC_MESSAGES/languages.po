@@ -1,0 +1,53 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2003-05-05 12:39\n"
+"PO-Revision-Date: 2009-01-31 15:01+0800\n"
+"Last-Translator: InChina <cw2002cw2002@yahoo.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language-Team: InChina <cw2002cw2002@yahoo.com>\n"
+"X-Poedit-Language: Chinese\n"
+"X-Poedit-Country: CHINA\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+msgid "Chinese"
+msgstr "中国语"
+
+msgid "English"
+msgstr "英语"
+
+#. Language of France
+msgid "French"
+msgstr "法语"
+
+#. Language of Germany, Austria and others
+msgid "German"
+msgstr "德语"
+
+#. Language of Greece
+msgid "Greek"
+msgstr "希腊语"
+
+#. Language of Italy, Europe
+msgid "Italian"
+msgstr "意大利语"
+
+#. Language of Japan, Asia
+msgid "Japanese"
+msgstr "日语"
+
+#. Language of Portugal, Europe
+msgid "Portuguese"
+msgstr "葡萄牙语"
+
+#. Language of Russia
+msgid "Russian"
+msgstr "俄语"
+

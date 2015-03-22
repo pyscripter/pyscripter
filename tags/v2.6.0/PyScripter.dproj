@@ -1,0 +1,376 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{FD7531E1-BDA2-4EF3-A3E8-074B952317EF}</ProjectGuid>
+        <MainSource>PyScripter.dpr</MainSource>
+        <Config Condition="'$(Config)'==''">Debug</Config>
+        <DCC_DCCCompiler>DCC32</DCC_DCCCompiler>
+        <ProjectVersion>16.1</ProjectVersion>
+        <FrameworkType>VCL</FrameworkType>
+        <Base>True</Base>
+        <Platform Condition="'$(Platform)'==''">Win64</Platform>
+        <TargetedPlatforms>3</TargetedPlatforms>
+        <AppType>Application</AppType>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Base)'=='true') or '$(Base_Win32)'!=''">
+        <Base_Win32>true</Base_Win32>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win64' and '$(Base)'=='true') or '$(Base_Win64)'!=''">
+        <Base_Win64>true</Base_Win64>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Config)'=='Release' or '$(Cfg_1)'!=''">
+        <Cfg_1>true</Cfg_1>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Config)'=='Debug' or '$(Cfg_2)'!=''">
+        <Cfg_2>true</Cfg_2>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Cfg_2)'=='true') or '$(Cfg_2_Win32)'!=''">
+        <Cfg_2_Win32>true</Cfg_2_Win32>
+        <CfgParent>Cfg_2</CfgParent>
+        <Cfg_2>true</Cfg_2>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win64' and '$(Cfg_2)'=='true') or '$(Cfg_2_Win64)'!=''">
+        <Cfg_2_Win64>true</Cfg_2_Win64>
+        <CfgParent>Cfg_2</CfgParent>
+        <Cfg_2>true</Cfg_2>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Base)'!=''">
+        <SanitizedProjectName>PyScripter</SanitizedProjectName>
+        <Icon_MainIcon>PyScripter_Icon1.ico</Icon_MainIcon>
+        <Manifest_File>None</Manifest_File>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <VerInfo_MinorVer>5</VerInfo_MinorVer>
+        <VerInfo_Keys>CompanyName=;FileDescription=PyScripter Python IDE;FileVersion=2.5.1.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=PyScripter;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <VerInfo_Locale>2057</VerInfo_Locale>
+        <VerInfo_MajorVer>2</VerInfo_MajorVer>
+        <VerInfo_Release>1</VerInfo_Release>
+        <DCC_Namespace>Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;System;Xml;Data;Datasnap;Web;Soap;Winapi;System.Win;$(DCC_Namespace)</DCC_Namespace>
+        <DCC_UNIT_PLATFORM>false</DCC_UNIT_PLATFORM>
+        <DCC_StringChecks>off</DCC_StringChecks>
+        <DCC_DependencyCheckOutputName>PyScripter.exe</DCC_DependencyCheckOutputName>
+        <DCC_ImageBase>00400000</DCC_ImageBase>
+        <DCC_Platform>x86</DCC_Platform>
+        <DCC_SYMBOL_PLATFORM>false</DCC_SYMBOL_PLATFORM>
+        <DCC_Define>PYTHON24;$(DCC_Define)</DCC_Define>
+        <DCC_MapFile>3</DCC_MapFile>
+        <DCC_K>false</DCC_K>
+        <DCC_N>true</DCC_N>
+        <DCC_S>false</DCC_S>
+        <DCC_F>false</DCC_F>
+        <DCC_UsePackage>vcl;rtl;vcldb;dbrtl;vclx;xmlrtl;vclie;inetdbbde;inet;inetdbxpress;IndySystem;IndyCore;dclOfficeXP;VclSmp;soaprtl;dsnap;IndyProtocols;inetdb;bdertl;vcldbx;vclactnband;vclshlctrls;teeui;teedb;tee;DJcl;JvStdCtrlsD9R;JvAppFrmD9R;JvCoreD9R;JvBandsD9R;JvDlgsD9R;JvCmpD9R;JvCtrlsD9R;JvCustomD9R;JvDockingD9R;JvHMID9R;JvInspectorD9R;JvPageCompsD9R;JvPluginD9R;JvSystemD9R;JvValidatorsD9R;Python_bds3;SynEdit_R2005;tb2k_d9;tbx_d9;VirtualTreesD9;VirtualShellToolsD9;FreeComp9;DJclVcl;mbTBXJvLibD9D;JvRuntimeDesignD9R;$(DCC_UsePackage)</DCC_UsePackage>
+        <DCC_E>false</DCC_E>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Base_Win32)'!=''">
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <Icon_MainIcon>PyScripter_Icon1.ico</Icon_MainIcon>
+        <DCC_Namespace>Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
+        <VerInfo_Locale>1033</VerInfo_Locale>
+        <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
+        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Base_Win64)'!=''">
+        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <DCC_Namespace>Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;$(DCC_Namespace)</DCC_Namespace>
+        <VerInfo_Locale>1033</VerInfo_Locale>
+        <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
+        <Icon_MainIcon>PyScripter_Icon1.ico</Icon_MainIcon>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_1)'!=''">
+        <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
+        <DCC_Define>RELEASE;$(DCC_Define)</DCC_Define>
+        <DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
+        <DCC_DebugInformation>0</DCC_DebugInformation>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_2)'!=''">
+        <DCC_Define>DEBUG;$(DCC_Define)</DCC_Define>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
+        <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
+        <VerInfo_Release>4</VerInfo_Release>
+        <ILINK_FullDebugInfo>true</ILINK_FullDebugInfo>
+        <BCC_SourceDebuggingOn>true</BCC_SourceDebuggingOn>
+        <BCC_DebugLineNumbers>true</BCC_DebugLineNumbers>
+        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=2.5.4.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <VerInfo_Locale>1033</VerInfo_Locale>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_2_Win64)'!=''">
+        <VerInfo_MinorVer>6</VerInfo_MinorVer>
+        <VerInfo_Release>0</VerInfo_Release>
+        <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
+        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=2.6.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <VerInfo_Locale>1033</VerInfo_Locale>
+    </PropertyGroup>
+    <ItemGroup>
+        <DelphiCompile Include="$(MainSource)">
+            <MainSource>MainSource</MainSource>
+        </DelphiCompile>
+        <DCCReference Include="uCmdLine.pas"/>
+        <DCCReference Include="uDpiAware.pas"/>
+        <DCCReference Include="dlgExceptionMail.pas">
+            <Form>ExceptionDialogMail</Form>
+        </DCCReference>
+        <DCCReference Include="frmPyIDEMain.pas">
+            <Form>PyIDEMainForm</Form>
+        </DCCReference>
+        <DCCReference Include="uEditAppIntfs.pas"/>
+        <DCCReference Include="frmEditor.pas">
+            <Form>EditorForm</Form>
+        </DCCReference>
+        <DCCReference Include="dmCommands.pas">
+            <Form>CommandsDataModule</Form>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="uHighlighterProcs.pas"/>
+        <DCCReference Include="dlgConfirmReplace.pas">
+            <Form>ConfirmReplaceDialog</Form>
+        </DCCReference>
+        <DCCReference Include="frmPythonII.pas">
+            <Form>PythonIIForm</Form>
+        </DCCReference>
+        <DCCReference Include="frmMessages.pas">
+            <Form>MessagesWindow</Form>
+        </DCCReference>
+        <DCCReference Include="cPyDebugger.pas"/>
+        <DCCReference Include="dlgSynPageSetup.pas">
+            <Form>PageSetupDlg</Form>
+        </DCCReference>
+        <DCCReference Include="dlgSynPrintPreview.pas">
+            <Form>PrintPreviewDlg</Form>
+        </DCCReference>
+        <DCCReference Include="frmCallStack.pas">
+            <Form>CallStackWindow</Form>
+        </DCCReference>
+        <DCCReference Include="frmBreakPoints.pas">
+            <Form>BreakPointsWindow</Form>
+        </DCCReference>
+        <DCCReference Include="frmWatches.pas">
+            <Form>WatchesWindow</Form>
+        </DCCReference>
+        <DCCReference Include="frmVariables.pas">
+            <Form>VariablesWindow</Form>
+        </DCCReference>
+        <DCCReference Include="frmCodeExplorer.pas">
+            <Form>CodeExplorerWindow</Form>
+        </DCCReference>
+        <DCCReference Include="dlgOptionsEditor.pas">
+            <Form>OptionsInspector</Form>
+        </DCCReference>
+        <DCCReference Include="dlgDirectoryList.pas">
+            <Form>DirectoryListDialog</Form>
+        </DCCReference>
+        <DCCReference Include="frmFileExplorer.pas">
+            <Form>FileExplorerWindow</Form>
+        </DCCReference>
+        <DCCReference Include="frmIDEDockWin.pas">
+            <Form>IDEDockWindow</Form>
+        </DCCReference>
+        <DCCReference Include="frmDisassemlyView.pas">
+            <Form>DisForm</Form>
+        </DCCReference>
+        <DCCReference Include="frmDocView.pas">
+            <Form>DocForm</Form>
+        </DCCReference>
+        <DCCReference Include="frmWebPreview.pas">
+            <Form>WebPreviewForm</Form>
+        </DCCReference>
+        <DCCReference Include="SynHighlighterPython.pas"/>
+        <DCCReference Include="frmToDo.pas">
+            <Form>ToDoWindow</Form>
+        </DCCReference>
+        <DCCReference Include="dlgToDoOptions.pas">
+            <Form>fmToDoOptions</Form>
+        </DCCReference>
+        <DCCReference Include="cFileSearch.pas"/>
+        <DCCReference Include="cFindInFiles.pas"/>
+        <DCCReference Include="dlgFindInFiles.pas">
+            <Form>FindInFilesDialog</Form>
+        </DCCReference>
+        <DCCReference Include="frmFindResults.pas">
+            <Form>FindResultsWindow</Form>
+        </DCCReference>
+        <DCCReference Include="dlgFindResultsOptions.pas">
+            <Form>FindResultsOptionsDialog</Form>
+        </DCCReference>
+        <DCCReference Include="dlgReplaceInFiles.pas">
+            <Form>ReplaceInFilesDialog</Form>
+        </DCCReference>
+        <DCCReference Include="cParameters.pas"/>
+        <DCCReference Include="uParams.pas"/>
+        <DCCReference Include="dlgCustomParams.pas">
+            <Form>CustomizeParams</Form>
+        </DCCReference>
+        <DCCReference Include="dlgAskParam.pas">
+            <Form>AskParamForm</Form>
+        </DCCReference>
+        <DCCReference Include="dlgFileTemplates.pas">
+            <Form>FileTemplatesDialog</Form>
+        </DCCReference>
+        <DCCReference Include="cTools.pas"/>
+        <DCCReference Include="dlgConfigureTools.pas">
+            <Form>ConfigureTools</Form>
+        </DCCReference>
+        <DCCReference Include="dlgToolProperties.pas">
+            <Form>ToolProperties</Form>
+        </DCCReference>
+        <DCCReference Include="frmCommandOutput.pas">
+            <Form>OutputWindow</Form>
+        </DCCReference>
+        <DCCReference Include="frmFunctionList.pas">
+            <Form>FunctionListWindow</Form>
+        </DCCReference>
+        <DCCReference Include="cPythonSourceScanner.pas"/>
+        <DCCReference Include="uCommonFunctions.pas"/>
+        <DCCReference Include="StringResources.pas"/>
+        <DCCReference Include="cRefactoring.pas"/>
+        <DCCReference Include="SynCompletionProposal.pas"/>
+        <DCCReference Include="frmRegExpTester.pas">
+            <Form>RegExpTesterWindow</Form>
+        </DCCReference>
+        <DCCReference Include="cCodeHint.pas"/>
+        <DCCReference Include="dlgCommandLine.pas">
+            <Form>CommandLineDlg</Form>
+        </DCCReference>
+        <DCCReference Include="dlgCustomShortcuts.pas">
+            <Form>frmCustomKeyboard</Form>
+        </DCCReference>
+        <DCCReference Include="dlgUnitTestWizard.pas">
+            <Form>UnitTestWizard</Form>
+        </DCCReference>
+        <DCCReference Include="frmUnitTests.pas">
+            <Form>UnitTestWindow</Form>
+        </DCCReference>
+        <DCCReference Include="cFilePersist.pas"/>
+        <DCCReference Include="dlgPickList.pas">
+            <Form>PickListDialog</Form>
+        </DCCReference>
+        <DCCReference Include="dlgAboutPyScripter.pas">
+            <Form>AboutBox</Form>
+        </DCCReference>
+        <DCCReference Include="JvProgramVersionCheck.pas"/>
+        <DCCReference Include="cPyBaseDebugger.pas"/>
+        <DCCReference Include="cPyRemoteDebugger.pas"/>
+        <DCCReference Include="cFileTemplates.pas"/>
+        <DCCReference Include="dlgCodeTemplates.pas">
+            <Form>CodeTemplates</Form>
+        </DCCReference>
+        <DCCReference Include="dlgNewFile.pas">
+            <Form>NewFileDialog</Form>
+        </DCCReference>
+        <DCCReference Include="JvDockVSNetStyle.pas"/>
+        <DCCReference Include="JvDockControlForm.pas"/>
+        <DCCReference Include="uSearchHighlighter.pas"/>
+        <DCCReference Include="frmModSpTBXCustomize.pas"/>
+        <DCCReference Include="cProjectClasses.pas"/>
+        <DCCReference Include="frmProjectExplorer.pas">
+            <Form>ProjectExplorerWindow</Form>
+        </DCCReference>
+        <DCCReference Include="dlgImportDirectory.pas">
+            <Form>ImportDirectoryForm</Form>
+        </DCCReference>
+        <DCCReference Include="dlgRunConfiguration.pas">
+            <Form>RunConfigurationForm</Form>
+        </DCCReference>
+        <DCCReference Include="SynHighlighterWeb.pas"/>
+        <DCCReference Include="SynEditTextBuffer.pas"/>
+        <DCCReference Include="SynUnicode.pas"/>
+        <DCCReference Include="gnugettext.pas"/>
+        <DCCReference Include="dlgPyIDEBase.pas">
+            <Form>PyIDEDlgBase</Form>
+        </DCCReference>
+        <DCCReference Include="JvDockInfo.pas"/>
+        <DCCReference Include="SynHighlighterYAML.pas"/>
+        <DCCReference Include="VirtualTrees.pas"/>
+        <DCCReference Include="dlgSynEditOptions.pas">
+            <Form>fmEditorOptionsDialog</Form>
+            <DesignClass>TForm</DesignClass>
+        </DCCReference>
+        <DCCReference Include="JvDockSupportControl.pas"/>
+        <DCCReference Include="AsyncCalls.pas"/>
+        <DCCReference Include="SpTBXItem.pas"/>
+        <DCCReference Include="TB2Item.pas"/>
+        <DCCReference Include="JvDockVIDStyle.pas"/>
+        <DCCReference Include="JvCreateProcess.pas"/>
+        <DCCReference Include="cCodeCompletion.pas"/>
+        <DCCReference Include="cThemedVirtualStringTree.pas"/>
+        <None Include="PyScripter.todo"/>
+        <None Include="ModelSupport_PyScripter\default.txaPackage"/>
+        <BuildConfiguration Include="Debug">
+            <Key>Cfg_2</Key>
+            <CfgParent>Base</CfgParent>
+        </BuildConfiguration>
+        <BuildConfiguration Include="Base">
+            <Key>Base</Key>
+        </BuildConfiguration>
+        <BuildConfiguration Include="Release">
+            <Key>Cfg_1</Key>
+            <CfgParent>Base</CfgParent>
+        </BuildConfiguration>
+    </ItemGroup>
+    <Import Condition="Exists('$(BDS)\Bin\CodeGear.Delphi.Targets')" Project="$(BDS)\Bin\CodeGear.Delphi.Targets"/>
+    <ProjectExtensions>
+        <Borland.Personality>Delphi.Personality.12</Borland.Personality>
+        <Borland.ProjectType>VCLApplication</Borland.ProjectType>
+        <BorlandProject>
+            <Delphi.Personality>
+                <Source>
+                    <Source Name="MainSource">PyScripter.dpr</Source>
+                </Source>
+                <Parameters>
+                    <Parameters Name="UseLauncher">False</Parameters>
+                    <Parameters Name="LoadAllSymbols">True</Parameters>
+                    <Parameters Name="LoadUnspecifiedSymbols">False</Parameters>
+                </Parameters>
+                <VersionInfo>
+                    <VersionInfo Name="IncludeVerInfo">True</VersionInfo>
+                    <VersionInfo Name="AutoIncBuild">False</VersionInfo>
+                    <VersionInfo Name="MajorVer">2</VersionInfo>
+                    <VersionInfo Name="MinorVer">4</VersionInfo>
+                    <VersionInfo Name="Release">4</VersionInfo>
+                    <VersionInfo Name="Build">0</VersionInfo>
+                    <VersionInfo Name="Debug">False</VersionInfo>
+                    <VersionInfo Name="PreRelease">False</VersionInfo>
+                    <VersionInfo Name="Special">False</VersionInfo>
+                    <VersionInfo Name="Private">False</VersionInfo>
+                    <VersionInfo Name="DLL">False</VersionInfo>
+                    <VersionInfo Name="Locale">2057</VersionInfo>
+                    <VersionInfo Name="CodePage">1252</VersionInfo>
+                </VersionInfo>
+                <VersionInfoKeys>
+                    <VersionInfoKeys Name="CompanyName"/>
+                    <VersionInfoKeys Name="FileDescription">PyScripter Python IDE</VersionInfoKeys>
+                    <VersionInfoKeys Name="FileVersion">2.4.4.0</VersionInfoKeys>
+                    <VersionInfoKeys Name="InternalName"/>
+                    <VersionInfoKeys Name="LegalCopyright"/>
+                    <VersionInfoKeys Name="LegalTrademarks"/>
+                    <VersionInfoKeys Name="OriginalFilename"/>
+                    <VersionInfoKeys Name="ProductName">PyScripter</VersionInfoKeys>
+                    <VersionInfoKeys Name="ProductVersion">1.0.0.0</VersionInfoKeys>
+                    <VersionInfoKeys Name="Comments"/>
+                </VersionInfoKeys>
+                <Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dcloffice2k210.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dclofficexp210.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
+                </Excluded_Packages>
+            </Delphi.Personality>
+            <ModelSupport>False</ModelSupport>
+            <Platforms>
+                <Platform value="Win32">True</Platform>
+                <Platform value="Win64">True</Platform>
+            </Platforms>
+        </BorlandProject>
+        <ProjectFileVersion>12</ProjectFileVersion>
+    </ProjectExtensions>
+    <Import Condition="Exists('$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj')" Project="$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj"/>
+</Project>

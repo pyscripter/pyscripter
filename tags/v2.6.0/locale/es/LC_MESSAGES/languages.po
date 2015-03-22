@@ -1,0 +1,59 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PyScriterEsLang 1.9.9.7\n"
+"POT-Creation-Date: 2003-05-05 12:39\n"
+"PO-Revision-Date: 2010-07-15 14:40-0300\n"
+"Last-Translator: J. Pimás <javier_pimas@hotmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language-Team: \n"
+
+#, fuzzy
+msgid "Chinese"
+msgstr "Chino"
+
+#, fuzzy
+msgid "English"
+msgstr "Inglés"
+
+#. Language of France
+#, fuzzy
+msgid "French"
+msgstr "Francés"
+
+#. Language of Germany, Austria and others
+#, fuzzy
+msgid "German"
+msgstr "Alemán"
+
+#. Language of Greece
+#, fuzzy
+msgid "Greek"
+msgstr "Griego"
+
+#. Language of Italy, Europe
+#, fuzzy
+msgid "Italian"
+msgstr "Italiano"
+
+#. Language of Japan, Asia
+#, fuzzy
+msgid "Japanese"
+msgstr "Japonés"
+
+#. Language of Portugal, Europe
+#, fuzzy
+msgid "Portuguese"
+msgstr "Portugués"
+
+#. Language of Russia
+#, fuzzy
+msgid "Russian"
+msgstr "Ruso"
+
