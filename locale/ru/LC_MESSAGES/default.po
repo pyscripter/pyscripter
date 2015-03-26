@@ -6828,7 +6828,7 @@ msgstr "Неназванный"
 #. Programmer's name for it: SNonamePythonFileTitle
 #: StringResources.pas:192
 msgid "module"
-msgstr "модуль"
+msgstr "module"
 
 #. Programmer's name for it: SAskSaveChanges
 #: StringResources.pas:193
