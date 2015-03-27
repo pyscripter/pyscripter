@@ -7,7 +7,7 @@
 
 === Which Python versions are supported? ===
 
-PyScripter supports Python versions 2.3, 2.4, 2.5, 2.6, 3.0 and 3.1.  You should consider support for version 2.3 as deprecated and likely to be dropped soon.
+PyScripter supports Python versions 2.4-2.7, 3.0-3.4.
 
 [http://code.google.com/p/pyscripter/wiki/FAQ#Frequently_Asked_Questions Back to Top]
 
@@ -32,7 +32,7 @@ You can very easily setup PyScripter so that it can work with unregistered versi
 
 Steps:
 
-a) Download the zip-only distribution from the [http://code.google.com/p/pyscripter/downloads/list PyScripter downloads page] and extract it to a directory of your choice in the portable drive.
+a) Download the zip-only distribution from the [https://sourceforge.net/projects/pyscripter/files/ PyScripter downloads page] and extract it to a directory of your choice in the portable drive.
 
 b)  From an existing !PyScripter installation copy !PyScripter.ini (this file is typically located in the %APPDATA%\!PyScripter directory) to the same directory as the !PyScripter.exe file..
 
@@ -47,11 +47,25 @@ d) Start !PyScripter using the created batch file.
 
 [http://code.google.com/p/pyscripter/wiki/FAQ#Frequently_Asked_Questions Back to Top]
 
-=== How do I use !PyScripter with an unregistered version of Python? ===
+=== How do I use !PyScripter with an unregistered version of Python (e.g. WinPython)? ===
 
 See answer above
 
 [http://code.google.com/p/pyscripter/wiki/FAQ#Frequently_Asked_Questions Back to Top]
+
+For WinPython in particular the following command file works.  It assumes WinPython version is 2.7.9.amd64 
+and that it is located at C:\WinPython\python-2.7.9.amd64. Adjust this according to your WinPython version and installation directory.
+
+{{{
+SET PYTHONHOME=C:\WinPython\python-2.7.9.amd64
+SET PYTHONPATH=C:\WinPython\python-2.7.9.amd64\Lib
+SET HOME=C:\WinPython\settings
+SET PATH=C:\WinPython\python-2.7.9.amd64\Lib\site-packages\PyQt4;C:\WinPython\python-2.7.9.amd64\;%PATH%
+SET WINPYDIR=C:\WinPython\python-2.7.9.amd64
+SET WINPYVER=2.7.9.3
+PyScripter.exe --PYTHON27 --PYTHONDLLPATH "C:\WinPython\python-2.7.9.amd64" %1 %2 %3 %4 %5
+}}}
+
 
 === When should I use the remote interpreter/debugger? ===
 
