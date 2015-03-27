@@ -51,8 +51,6 @@ d) Start !PyScripter using the created batch file.
 
 See answer above
 
-[http://code.google.com/p/pyscripter/wiki/FAQ#Frequently_Asked_Questions Back to Top]
-
 For WinPython in particular the following command file works.  It assumes WinPython version is 2.7.9.amd64 
 and that it is located at C:\WinPython\python-2.7.9.amd64. Adjust this according to your WinPython version and installation directory.
 
@@ -66,6 +64,7 @@ SET WINPYVER=2.7.9.3
 PyScripter.exe --PYTHON27 --PYTHONDLLPATH "C:\WinPython\python-2.7.9.amd64" %1 %2 %3 %4 %5
 }}}
 
+[http://code.google.com/p/pyscripter/wiki/FAQ#Frequently_Asked_Questions Back to Top]
 
 === When should I use the remote interpreter/debugger? ===
 
