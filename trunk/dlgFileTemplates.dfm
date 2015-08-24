@@ -50,6 +50,7 @@ inherited FileTemplatesDialog: TFileTemplatesDialog
         Gutter.Width = 0
         Options = [eoAutoIndent, eoAutoSizeMaxScrollWidth, eoDragDropEditing, eoEnhanceHomeKey, eoGroupUndo, eoHideShowScrollbars, eoKeepCaretX, eoShowScrollHint, eoTrimTrailingSpaces]
         TabWidth = 4
+        FontSmoothing = fsmNone
       end
       object edName: TSpTBXEdit
         Left = 106

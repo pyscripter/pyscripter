@@ -13,7 +13,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, JvDockControlForm, frmIDEDockWin, ExtCtrls,
   Contnrs, TB2Item, Menus, VirtualTrees, JvComponentBase,
-  SpTBXSkins, SpTBXItem, JvAppStorage, cThemedVirtualStringTree;
+  SpTBXSkins, SpTBXItem, JvAppStorage, cThemedVirtualStringTree, SpTBXControls;
 
 type
   TBreakPointsWindow = class(TIDEDockWindow, IJvAppStorageHandler)
@@ -180,7 +180,6 @@ begin
   BreakPointsView.NodeDataSize := SizeOf(TBreakPointRec);
   BreakPointsView.Header.Height :=
     MulDiv(BreakPointsView.Header.Height, Screen.PixelsPerInch, 96);
-  BreakPointsView.SkinTree;
 end;
 
 procedure TBreakPointsWindow.FormDestroy(Sender: TObject);
@@ -192,12 +191,7 @@ end;
 procedure TBreakPointsWindow.WMSpSkinChange(var Message: TMessage);
 begin
   inherited;
-  BreakPointsView.Header.Invalidate(nil, True);
-  BreakPointsView.Invalidate;
-  if SkinManager.IsDefaultSkin then
-    BreakPointsView.TreeOptions.PaintOptions := BreakPointsView.TreeOptions.PaintOptions - [toAlwaysHideSelection]
-  else
-    BreakPointsView.TreeOptions.PaintOptions := BreakPointsView.TreeOptions.PaintOptions + [toAlwaysHideSelection];
+  BreakPointsView.SkinTree;
 end;
 
 procedure TBreakPointsWindow.BreakPointsViewInitNode(

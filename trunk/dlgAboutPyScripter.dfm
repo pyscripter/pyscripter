@@ -12,7 +12,7 @@ inherited AboutBox: TAboutBox
   Position = poScreenCenter
   OnKeyPress = FormKeyPress
   ExplicitWidth = 364
-  ExplicitHeight = 273
+  ExplicitHeight = 274
   PixelsPerInch = 96
   TextHeight = 13
   object SpTBXTabControl1: TSpTBXTabControl
@@ -21,6 +21,7 @@ inherited AboutBox: TAboutBox
     Width = 358
     Height = 245
     Align = alClient
+    Color = clNone
     ActiveTabIndex = 0
     TabPosition = ttpBottom
     HiddenItems = <>
@@ -33,6 +34,61 @@ inherited AboutBox: TAboutBox
     end
     object tbLinks: TSpTBXTabItem
       Caption = 'Links'
+    end
+    object SpTBXTabSheet3: TSpTBXTabSheet
+      Left = 0
+      Top = 0
+      Width = 358
+      Height = 220
+      Caption = 'Links'
+      ImageIndex = -1
+      TabItem = 'tbLinks'
+      object ScrollBox1: TScrollBox
+        Left = 2
+        Top = 4
+        Width = 352
+        Height = 216
+        VertScrollBar.ParentColor = False
+        VertScrollBar.Smooth = True
+        VertScrollBar.Style = ssHotTrack
+        VertScrollBar.Tracking = True
+        Align = alClient
+        BorderStyle = bsNone
+        Color = clBtnFace
+        ParentColor = False
+        TabOrder = 0
+        object JvLinkLabel1: TJvLinkLabel
+          Left = 0
+          Top = 0
+          Width = 352
+          Height = 117
+          Caption = 
+            '<b>Links:</b><br><br>'#13#10'- The project home, Issue Tracker and sou' +
+            'rce code repository are hosted at Google Code (<link>pyscripter.' +
+            'googlecode.com</link>)<br>'#13#10'- Internet group support is avalable' +
+            ' at <link>groups.google.com/group/PyScripter</link><br>'#13#10'<br>'#13#10'P' +
+            'lease submit bug reports and questions about PyScripter to pyscr' +
+            'ipter@gmail.com.'
+          Text.Strings = (
+            
+              '<b>Links:</b><br><br>'#13#10'- The project home, Issue Tracker and sou' +
+              'rce code repository are hosted at Google Code (<link>pyscripter.' +
+              'googlecode.com</link>)<br>'#13#10'- Internet group support is avalable' +
+              ' at <link>groups.google.com/group/PyScripter</link><br>'#13#10'<br>'#13#10'P' +
+              'lease submit bug reports and questions about PyScripter to pyscr' +
+              'ipter@gmail.com.')
+          HotLinks = True
+          OnLinkClick = JvLinkLabelLinkClick
+          Align = alTop
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Shell Dlg 2'
+          Font.Style = []
+          ParentFont = False
+          ExplicitWidth = 348
+        end
+      end
     end
     object SpTBXTabSheet2: TSpTBXTabSheet
       Left = 0
@@ -48,108 +104,66 @@ inherited AboutBox: TAboutBox
         Width = 352
         Height = 216
         Align = alClient
+        Color = clBtnFace
+        ParentColor = False
         TabOrder = 0
         object JvLinkLabel: TJvLinkLabel
           Left = 0
           Top = 0
           Width = 352
-          Height = 381
+          Height = 368
           Caption = 
             '<b>Credits</b><br>'#13#10'Special thanks to the many great developers ' +
             'who,'#13#10'with their amazing work, have made PyScripter '#13#10'possible. ' +
             ' PyScripter makes use of the following '#13#10'components and projects' +
-            ':'#13#10'<br>'#13#10'<br>'#13#10'- Python for Delphi (<link>www.mmm-experts.com</l' +
-            'ink>)'#13#10'<br>'#13#10'- Rpyc (<link>rpyc.sf.net</link>)'#13#10'<br>'#13#10'- JVCL (<l' +
-            'ink>jvcl.sf.net</link>)'#13#10'<br>'#13#10'- SynEdit (<link>synedit.sf.net</' +
-            'link>)'#13#10'<br>'#13#10'- VirtualTreeView (<link>www.delphi-gems.com</link' +
-            '>)'#13#10'<br>'#13#10'- VirtualShellTools (<link>www.mustangpeak.net</link>)' +
-            #13#10'<br>'#13#10'- GExperts (<link>www.gexperts.org</link>)'#13#10'<br>'#13#10'- Syn ' +
-            'Editor (<link>syn.sf.net</link>)'#13#10'<br>'#13#10'- Syn Web highlighters (' +
-            '<link>flatdev.ovh.org/</link>)'#13#10'<br>'#13#10'- Toolbar2000 (<link>www.j' +
-            'rsoftware.org/tb2k.php</link>)'#13#10'<br>'#13#10'- SpTBXLib(<link>www.silve' +
-            'rpointdevelopment.com</link>)'#13#10'<br>'#13#10'<br>'#13#10'- TCommandLineReader(' +
-            '<link>www.benibela.de</link>)'#13#10'<br>'#13#10'- Silk icons(<link>www.famf' +
-            'amfam.com</link>)'#13#10'<br>'#13#10'<br>'#13#10'Translations'#13#10'<br>'#13#10'- Chinese tra' +
-            'nslation by "Love China"'#13#10'<br>'#13#10'- French translation by Groupe A' +
-            'miensPython (<link>pedagogie.ac-amiens.fr/maths/AmiensPython/</l' +
-            'ink>)'#13#10'<br>'#13#10'- Japanese translation by Tokibito'#13#10'<br>'#13#10'- Russian' +
-            ' translation by Aleksander Dragunkin'#13#10'<br>'#13#10'- Slovak translation' +
-            ' by Marian Denes'#13#10'<br>'#13#10'- Spanish translation by Javier Pimas'#13#10'<' +
-            'br>'
+            ':'#13#10'<br>'#13#10'<br>'#13#10'- Python for Delphi (<link>python4delphi.googleco' +
+            'de.com</link>)'#13#10'<br>'#13#10'- Rpyc (<link>rpyc.sf.net</link>)'#13#10'<br>'#13#10'-' +
+            ' JVCL (<link>jvcl.sf.net</link>)'#13#10'<br>'#13#10'- SynEdit (<link>synedit' +
+            '.sf.net</link>)'#13#10'<br>'#13#10'- VirtualTreeView (<link>www.delphi-gems.' +
+            'com</link>)'#13#10'<br>'#13#10'- VirtualShellTools (<link>virtualshelltools.' +
+            'googlecode.com</link>)'#13#10'<br>'#13#10'- GExperts (<link>www.gexperts.org' +
+            '</link>)'#13#10'<br>'#13#10'- Syn Editor (<link>syn.sf.net</link>)'#13#10'<br>'#13#10'- ' +
+            'Syn Web highlighters (<link>flatdev.ovh.org/</link>)'#13#10'<br>'#13#10'- To' +
+            'olbar2000 (<link>www.jrsoftware.org/tb2k.php</link>)'#13#10'<br>'#13#10'- Sp' +
+            'TBXLib(<link>www.silverpointdevelopment.com</link>)'#13#10'<br>'#13#10'- TCo' +
+            'mmandLineReader(<link>www.benibela.de</link>)'#13#10'<br>'#13#10'- Silk icon' +
+            's(<link>www.famfamfam.com</link>)'#13#10'<br>'#13#10'<br>'#13#10'Translations'#13#10'<br' +
+            '>'#13#10'- Chinese translation by "Love China"'#13#10'<br>'#13#10'- French transla' +
+            'tion by Groupe AmiensPython (<link>pedagogie.ac-amiens.fr/maths/' +
+            'AmiensPython/</link>)'#13#10'<br>'#13#10'- Japanese translation by Tokibito'#13 +
+            #10'<br>'#13#10'- Russian translation by Aleksander Dragunkin'#13#10'<br>'#13#10'- Sl' +
+            'ovak translation by Marian Denes'#13#10'<br>'#13#10'- Spanish translation by' +
+            ' Javier Pimas'#13#10'<br>'#13#10'- Gernan translation by Daniel Frost'
           Text.Strings = (
             
               '<b>Credits</b><br>'#13#10'Special thanks to the many great developers ' +
               'who,'#13#10'with their amazing work, have made PyScripter '#13#10'possible. ' +
               ' PyScripter makes use of the following '#13#10'components and projects' +
-              ':'#13#10'<br>'#13#10'<br>'#13#10'- Python for Delphi (<link>www.mmm-experts.com</l' +
-              'ink>)'#13#10'<br>'#13#10'- Rpyc (<link>rpyc.sf.net</link>)'#13#10'<br>'#13#10'- JVCL (<l' +
-              'ink>jvcl.sf.net</link>)'#13#10'<br>'#13#10'- SynEdit (<link>synedit.sf.net</' +
-              'link>)'#13#10'<br>'#13#10'- VirtualTreeView (<link>www.delphi-gems.com</link' +
-              '>)'#13#10'<br>'#13#10'- VirtualShellTools (<link>www.mustangpeak.net</link>)' +
-              #13#10'<br>'#13#10'- GExperts (<link>www.gexperts.org</link>)'#13#10'<br>'#13#10'- Syn ' +
-              'Editor (<link>syn.sf.net</link>)'#13#10'<br>'#13#10'- Syn Web highlighters (' +
-              '<link>flatdev.ovh.org/</link>)'#13#10'<br>'#13#10'- Toolbar2000 (<link>www.j' +
-              'rsoftware.org/tb2k.php</link>)'#13#10'<br>'#13#10'- SpTBXLib(<link>www.silve' +
-              'rpointdevelopment.com</link>)'#13#10'<br>'#13#10'<br>'#13#10'- TCommandLineReader(' +
-              '<link>www.benibela.de</link>)'#13#10'<br>'#13#10'- Silk icons(<link>www.famf' +
-              'amfam.com</link>)'#13#10'<br>'#13#10'<br>'#13#10'Translations'#13#10'<br>'#13#10'- Chinese tra' +
-              'nslation by "Love China"'#13#10'<br>'#13#10'- French translation by Groupe A' +
-              'miensPython (<link>pedagogie.ac-amiens.fr/maths/AmiensPython/</l' +
-              'ink>)'#13#10'<br>'#13#10'- Japanese translation by Tokibito'#13#10'<br>'#13#10'- Russian' +
-              ' translation by Aleksander Dragunkin'#13#10'<br>'#13#10'- Slovak translation' +
-              ' by Marian Denes'#13#10'<br>'#13#10'- Spanish translation by Javier Pimas'#13#10'<' +
-              'br>')
+              ':'#13#10'<br>'#13#10'<br>'#13#10'- Python for Delphi (<link>python4delphi.googleco' +
+              'de.com</link>)'#13#10'<br>'#13#10'- Rpyc (<link>rpyc.sf.net</link>)'#13#10'<br>'#13#10'-' +
+              ' JVCL (<link>jvcl.sf.net</link>)'#13#10'<br>'#13#10'- SynEdit (<link>synedit' +
+              '.sf.net</link>)'#13#10'<br>'#13#10'- VirtualTreeView (<link>www.delphi-gems.' +
+              'com</link>)'#13#10'<br>'#13#10'- VirtualShellTools (<link>virtualshelltools.' +
+              'googlecode.com</link>)'#13#10'<br>'#13#10'- GExperts (<link>www.gexperts.org' +
+              '</link>)'#13#10'<br>'#13#10'- Syn Editor (<link>syn.sf.net</link>)'#13#10'<br>'#13#10'- ' +
+              'Syn Web highlighters (<link>flatdev.ovh.org/</link>)'#13#10'<br>'#13#10'- To' +
+              'olbar2000 (<link>www.jrsoftware.org/tb2k.php</link>)'#13#10'<br>'#13#10'- Sp' +
+              'TBXLib(<link>www.silverpointdevelopment.com</link>)'#13#10'<br>'#13#10'- TCo' +
+              'mmandLineReader(<link>www.benibela.de</link>)'#13#10'<br>'#13#10'- Silk icon' +
+              's(<link>www.famfamfam.com</link>)'#13#10'<br>'#13#10'<br>'#13#10'Translations'#13#10'<br' +
+              '>'#13#10'- Chinese translation by "Love China"'#13#10'<br>'#13#10'- French transla' +
+              'tion by Groupe AmiensPython (<link>pedagogie.ac-amiens.fr/maths/' +
+              'AmiensPython/</link>)'#13#10'<br>'#13#10'- Japanese translation by Tokibito'#13 +
+              #10'<br>'#13#10'- Russian translation by Aleksander Dragunkin'#13#10'<br>'#13#10'- Sl' +
+              'ovak translation by Marian Denes'#13#10'<br>'#13#10'- Spanish translation by' +
+              ' Javier Pimas'#13#10'<br>'#13#10'- Gernan translation by Daniel Frost')
           HotLinks = True
           MarginWidth = 2
           MarginHeight = 2
           OnLinkClick = JvLinkLabelLinkClick
           Align = alTop
-        end
-      end
-    end
-    object SpTBXTabSheet3: TSpTBXTabSheet
-      Left = 0
-      Top = 0
-      Width = 358
-      Height = 220
-      Caption = 'Links'
-      ImageIndex = -1
-      TabItem = 'tbLinks'
-      object ScrollBox1: TScrollBox
-        Left = 2
-        Top = 4
-        Width = 352
-        Height = 216
-        VertScrollBar.Smooth = True
-        VertScrollBar.Style = ssHotTrack
-        VertScrollBar.Tracking = True
-        Align = alClient
-        BevelKind = bkSoft
-        BorderStyle = bsNone
-        TabOrder = 0
-        object JvLinkLabel1: TJvLinkLabel
-          Left = 0
-          Top = 0
-          Width = 348
-          Height = 117
-          Caption = 
-            '<b>Links:</b><br><br>'#13#10'- The project home, Issue Tracker and sou' +
-            'rce code repository are hosted at Google Code (<link>pyscripter.' +
-            'googlecode.com</link>)<br>'#13#10'- Internet group support is avalable' +
-            ' at <link>groups.google.com/group/PyScripter</link>)<br>'#13#10'<br>'#13#10 +
-            'Please submit bug reports and questions about PyScripter to pysc' +
-            'ripter@gmail.com.'
-          Text.Strings = (
-            
-              '<b>Links:</b><br><br>'#13#10'- The project home, Issue Tracker and sou' +
-              'rce code repository are hosted at Google Code (<link>pyscripter.' +
-              'googlecode.com</link>)<br>'#13#10'- Internet group support is avalable' +
-              ' at <link>groups.google.com/group/PyScripter</link>)<br>'#13#10'<br>'#13#10 +
-              'Please submit bug reports and questions about PyScripter to pysc' +
-              'ripter@gmail.com.')
-          HotLinks = True
-          OnLinkClick = JvLinkLabelLinkClick
-          Align = alTop
+          ExplicitLeft = -2
+          ExplicitTop = -107
         end
       end
     end
@@ -1543,9 +1557,9 @@ inherited AboutBox: TAboutBox
           Top = 68
           Width = 190
           Height = 22
-          Caption = '(C) Kiriakos Vlahos  2005-2010'
+          Caption = '(C) Kiriakos Vlahos  2005-2015'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clNavy
+          Font.Color = clHotLight
           Font.Height = -13
           Font.Name = 'Arial'
           Font.Style = [fsItalic]
@@ -1564,7 +1578,7 @@ inherited AboutBox: TAboutBox
             's available for other languages.'
           AutoSize = False
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clNavy
+          Font.Color = clHotLight
           Font.Height = -11
           Font.Name = 'Arial'
           Font.Style = []
@@ -1579,7 +1593,7 @@ inherited AboutBox: TAboutBox
           Height = 24
           Caption = 'Version 1.3'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clNavy
+          Font.Color = clHotLight
           Font.Height = -16
           Font.Name = 'Arial'
           Font.Style = [fsBold, fsItalic]
@@ -1593,7 +1607,7 @@ inherited AboutBox: TAboutBox
           Height = 30
           Caption = 'Python Scripter'
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clNavy
+          Font.Color = clHotLight
           Font.Height = -21
           Font.Name = 'Arial'
           Font.Style = [fsBold, fsItalic]

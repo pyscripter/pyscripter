@@ -571,7 +571,8 @@ uses
 {$ENDIF}
   SynEditTextBuffer,
   SynEditMiscProcs,
-  SynEditKeyConst;
+  SynEditKeyConst,
+  Vcl.Themes;
 
 const
   TextHeightString = 'CompletionProposal';
@@ -931,7 +932,7 @@ begin
         end;
       fcColor:
         if not Invisible then
-          TargetCanvas.Font.Color := TColor(C^.Data);
+          TargetCanvas.Font.Color := StyleServices.GetSystemColor(TColor(C^.Data));
       fcStyle:
         begin
           case PFormatStyleData(C^.Data)^.Style of
@@ -1558,9 +1559,10 @@ procedure TSynBaseCompletionProposalForm.Paint;
   begin
     with Bitmap.Canvas do
     begin
-      Pen.Color := FClBackGround;
-      Brush.Color := FClBackGround;
+      Pen.Color := StyleServices.GetSystemColor(FClBackGround);
+      Brush.Color := StyleServices.GetSystemColor(FClBackGround);
       Font.Assign(FFont);
+      Font.Color := StyleServices.GetSystemColor(clWindowText);
     end;
   end;
 
@@ -1578,19 +1580,19 @@ begin
     with Bitmap do
     begin
       ResetCanvas;
-      Canvas.Pen.Color := clBtnFace;
+      Canvas.Pen.Color := StyleServices.GetSystemColor(clBtnFace);
       Canvas.Rectangle(0, 0, ClientWidth - FScrollbar.Width, ClientHeight);
       for i := 0 to Min(FLinesInWindow - 1, FAssignedList.Count - 1) do
       begin
         if i + FScrollbar.Position = Position then
         begin
-          Canvas.Brush.Color := FClSelect;
-          Canvas.Pen.Color := FClSelect;
+          Canvas.Brush.Color := StyleServices.GetSystemColor(FClSelect);
+          Canvas.Pen.Color := StyleServices.GetSystemColor(FClSelect);
           Canvas.Rectangle(0, FEffectiveItemHeight * i, ClientWidth - FScrollbar.Width,
             FEffectiveItemHeight * (i + 1));
-          Canvas.Pen.Color := fClSelectText;
+          Canvas.Pen.Color := StyleServices.GetSystemColor(fClSelectText);
           Canvas.Font.Assign(FFont);
-          Canvas.Font.Color := FClSelectText;
+          Canvas.Font.Color := StyleServices.GetSystemColor(FClSelectText);
         end;
 
         AlreadyDrawn := False;
@@ -1629,16 +1631,17 @@ begin
     begin
       with TitleBitmap do
       begin
-        Canvas.Brush.Color := FClTitleBackground;
+        Canvas.Brush.Color := StyleServices.GetSystemColor(FClTitleBackground);
         TmpRect := Rect(0, 0, ClientWidth + 1, FHeightBuffer);                        //GBN
         Canvas.FillRect(TmpRect);
-        Canvas.Pen.Color := clBtnShadow;
+        Canvas.Pen.Color := StyleServices.GetSystemColor(clBtnShadow);
         dec(TmpRect.Bottom, 1);
         Canvas.PenPos := TmpRect.BottomRight;
         Canvas.LineTo(TmpRect.Left - 1,TmpRect.Bottom);
-        Canvas.Pen.Color := clBtnFace;
+        Canvas.Pen.Color := StyleServices.GetSystemColor(clBtnFace);
 
         Canvas.Font.Assign(FTitleFont);
+        Canvas.Font.Color := StyleServices.GetSystemColor(FTitleFont.Color);
 
         if CenterTitle then
         begin
@@ -2203,7 +2206,7 @@ begin
     // Calculate vertical position
       OffsetRect(HintRect, 0, ClientToScreen(Point(0,0)).Y +
         (FPosition - FScrollbar.Position) * FEffectiveItemHeight);
-      // No need to fit it to the workare since ActivateHint does that
+      // No need to fit it to the workarea since ActivateHint does that
 
     FCodeItemInfoWindow.ActivateHint(HintRect, Info);
 

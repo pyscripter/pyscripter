@@ -21,25 +21,34 @@ object IDEDockWindow: TIDEDockWindow
   OnDeactivate = FormDeactivate
   PixelsPerInch = 96
   TextHeight = 13
-  object FGPanel: TPanel
-    AlignWithMargins = True
-    Left = 2
-    Top = 2
-    Width = 223
-    Height = 404
-    Margins.Left = 2
-    Margins.Top = 2
-    Margins.Right = 2
-    Margins.Bottom = 2
+  object BGPanel: TSpTBXPanel
+    Left = 0
+    Top = 0
+    Width = 227
+    Height = 408
     Align = alClient
-    BevelOuter = bvNone
-    Ctl3D = False
-    ParentCtl3D = False
     TabOrder = 0
-    ExplicitLeft = 0
-    ExplicitTop = 0
-    ExplicitWidth = 227
-    ExplicitHeight = 408
+    Borders = False
+    ExplicitLeft = 112
+    ExplicitTop = 200
+    ExplicitWidth = 100
+    ExplicitHeight = 40
+    object FGPanel: TPanel
+      AlignWithMargins = True
+      Left = 2
+      Top = 2
+      Width = 223
+      Height = 404
+      Margins.Left = 2
+      Margins.Top = 2
+      Margins.Right = 2
+      Margins.Bottom = 2
+      Align = alClient
+      BevelOuter = bvNone
+      Ctl3D = False
+      ParentCtl3D = False
+      TabOrder = 0
+    end
   end
   object DockClient: TJvDockClient
     LRDockWidth = 220

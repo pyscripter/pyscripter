@@ -13,7 +13,8 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, JvDockControlForm, cPyBaseDebugger, frmIDEDockWin,
   Contnrs, ExtCtrls, VirtualTrees, JvComponentBase,  SpTBXSkins,
-  JvAppStorage, ActnList, cThemedVirtualStringTree;
+  JvAppStorage, ActnList, cThemedVirtualStringTree, System.Actions, SpTBXItem,
+  SpTBXControls;
 
 type
   TCallStackWindow = class(TIDEDockWindow, IJvAppStorageHandler)
@@ -172,12 +173,7 @@ end;
 procedure TCallStackWindow.WMSpSkinChange(var Message: TMessage);
 begin
   inherited;
-  CallStackView.Header.Invalidate(nil, True);
-  CallStackView.Invalidate;
-  if SkinManager.IsDefaultSkin then
-    CallStackView.TreeOptions.PaintOptions := CallStackView.TreeOptions.PaintOptions - [toAlwaysHideSelection]
-  else
-    CallStackView.TreeOptions.PaintOptions := CallStackView.TreeOptions.PaintOptions + [toAlwaysHideSelection];
+  CallStackView.SkinTree;
 end;
 
 procedure TCallStackWindow.FormActivate(Sender: TObject);
@@ -195,7 +191,6 @@ begin
   CallStackView.NodeDataSize := SizeOf(TCallStackRec);
   CallStackView.Header.Height :=
     MulDiv(CallStackView.Header.Height, Screen.PixelsPerInch, 96);
-  CallStackView.SkinTree;
 end;
 
 procedure TCallStackWindow.FormDestroy(Sender: TObject);

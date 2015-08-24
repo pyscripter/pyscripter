@@ -140,6 +140,7 @@ inherited CodeTemplates: TCodeTemplates
         Gutter.Width = 0
         Options = [eoAutoIndent, eoAutoSizeMaxScrollWidth, eoDragDropEditing, eoEnhanceHomeKey, eoGroupUndo, eoHideShowScrollbars, eoKeepCaretX, eoShowScrollHint, eoTrimTrailingSpaces]
         TabWidth = 4
+        FontSmoothing = fsmNone
       end
       object Label1: TSpTBXLabel
         Left = 8

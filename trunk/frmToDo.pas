@@ -50,7 +50,8 @@ uses
   Dialogs, frmIDEDockWin, JvDockControlForm, ExtCtrls, ActnList,
   Contnrs, ImgList, ComCtrls, Menus, JvAppStorage, TB2Item,
   TB2Dock, TB2Toolbar, VirtualTrees, JvComponentBase, SpTBXItem,
-  SynUnicode, MPCommonObjects, SpTBXSkins, uCommonFunctions;
+  SynUnicode, MPCommonObjects, SpTBXSkins, uCommonFunctions, System.Actions,
+  SpTBXControls;
 
 type
   TToDoPriority = (tpHigh, tpMed, tpLow, tpDone);
@@ -364,7 +365,6 @@ begin
   ToDoView.NodeDataSize := SizeOf(TToDoRec);
   ToDoView.Header.Height :=
     MulDiv(ToDoView.Header.Height, Screen.PixelsPerInch, 96);
-  ToDoView.SkinTree;
 end;
 
 procedure TToDoWindow.FormDestroy(Sender: TObject);
@@ -882,12 +882,7 @@ end;
 procedure TToDoWindow.WMSpSkinChange(var Message: TMessage);
 begin
   inherited;
-  ToDoView.Header.Invalidate(nil, True);
-  ToDoView.Invalidate;
-  if SkinManager.IsDefaultSkin then
-    ToDoView.TreeOptions.PaintOptions := ToDoView.TreeOptions.PaintOptions - [toAlwaysHideSelection]
-  else
-    ToDoView.TreeOptions.PaintOptions := ToDoView.TreeOptions.PaintOptions + [toAlwaysHideSelection];
+  ToDoView.SkinTree;
 end;
 
 procedure TToDoWindow.ToDoViewInitNode(Sender: TBaseVirtualTree;

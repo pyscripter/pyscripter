@@ -41,124 +41,126 @@ inherited ToDoWindow: TToDoWindow
     0000000000000000000000000000000000000000000000000000000000000000
     000000000000000000000000000000000000000000000000000000000000}
   ExplicitWidth = 508
-  ExplicitHeight = 327
+  ExplicitHeight = 332
   PixelsPerInch = 96
   TextHeight = 13
-  inherited FGPanel: TPanel
-    Width = 488
-    Height = 289
-    ExplicitLeft = 2
-    ExplicitTop = 2
-    ExplicitWidth = 488
-    ExplicitHeight = 289
-    object TBXDock1: TSpTBXDock
-      Left = 0
-      Top = 0
+  inherited BGPanel: TSpTBXPanel
+    Width = 492
+    Height = 293
+    inherited FGPanel: TPanel
       Width = 488
-      Height = 26
-      AllowDrag = False
-      object Toolbar: TSpTBXToolbar
+      Height = 289
+      ExplicitWidth = 488
+      ExplicitHeight = 289
+      object TBXDock1: TSpTBXDock
         Left = 0
         Top = 0
-        DockPos = 2
-        FullSize = True
-        Images = CommandsDataModule.Images
-        TabOrder = 0
-        Customizable = False
-        object tbiRefresh: TSpTBXItem
-          Action = actFileRefresh
-        end
-        object tbiAbort: TSpTBXItem
-          Action = actFileAbort
-        end
-        object TBXSeparatorItem1: TSpTBXSeparatorItem
-        end
-        object tbiGoTo: TSpTBXItem
-          Action = actEditGoto
-        end
-        object TBXSeparatorItem2: TSpTBXSeparatorItem
-        end
-        object tbiPrint: TSpTBXItem
-          Action = actFilePrint
-        end
-        object TBXSeparatorItem3: TSpTBXSeparatorItem
-        end
-        object tbiOptions: TSpTBXItem
-          Action = actOptionsConfigure
-        end
-        object TBXSeparatorItem5: TSpTBXSeparatorItem
-        end
-        object tbiHelp: TSpTBXItem
-          Action = actHelpHelp
+        Width = 488
+        Height = 26
+        AllowDrag = False
+        object Toolbar: TSpTBXToolbar
+          Left = 0
+          Top = 0
+          DockPos = 2
+          FullSize = True
+          Images = CommandsDataModule.Images
+          TabOrder = 0
+          Customizable = False
+          object tbiRefresh: TSpTBXItem
+            Action = actFileRefresh
+          end
+          object tbiAbort: TSpTBXItem
+            Action = actFileAbort
+          end
+          object TBXSeparatorItem1: TSpTBXSeparatorItem
+          end
+          object tbiGoTo: TSpTBXItem
+            Action = actEditGoto
+          end
+          object TBXSeparatorItem2: TSpTBXSeparatorItem
+          end
+          object tbiPrint: TSpTBXItem
+            Action = actFilePrint
+          end
+          object TBXSeparatorItem3: TSpTBXSeparatorItem
+          end
+          object tbiOptions: TSpTBXItem
+            Action = actOptionsConfigure
+          end
+          object TBXSeparatorItem5: TSpTBXSeparatorItem
+          end
+          object tbiHelp: TSpTBXItem
+            Action = actHelpHelp
+          end
         end
       end
-    end
-    object ToDoView: TVirtualStringTree
-      Left = 0
-      Top = 26
-      Width = 488
-      Height = 263
-      Align = alClient
-      Alignment = taRightJustify
-      BevelInner = bvNone
-      BevelOuter = bvNone
-      BorderStyle = bsNone
-      Header.AutoSizeIndex = 1
-      Header.MainColumn = 1
-      Header.Options = [hoAutoResize, hoColumnResize, hoHotTrack, hoOwnerDraw, hoShowSortGlyphs, hoVisible]
-      Header.ParentFont = True
-      HintMode = hmTooltip
-      Images = ilTodo
-      PopupMenu = PopupMenu
-      TabOrder = 1
-      TreeOptions.AnimationOptions = [toAnimatedToggle]
-      TreeOptions.AutoOptions = [toAutoDropExpand, toAutoScrollOnExpand, toAutoSort, toAutoTristateTracking, toAutoDeleteMovedNodes]
-      TreeOptions.MiscOptions = [toFullRepaintOnResize, toInitOnSave, toReportMode, toToggleOnDblClick, toWheelPanning]
-      TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowDropmark, toShowHorzGridLines, toShowVertGridLines, toThemeAware, toUseBlendedImages, toUseBlendedSelection]
-      TreeOptions.SelectionOptions = [toExtendedFocus, toFullRowSelect, toRightClickSelect]
-      TreeOptions.StringOptions = [toAutoAcceptEditChange]
-      OnChange = ToDoViewChange
-      OnCompareNodes = ToDoViewCompareNodes
-      OnDblClick = actEditGotoExecute
-      OnGetText = ToDoViewGetText
-      OnGetImageIndex = ToDoViewGetImageIndex
-      OnHeaderClick = ToDoViewHeaderClick
-      OnInitNode = ToDoViewInitNode
-      OnKeyPress = TodoViewKeyPress
-      OnShortenString = ToDoViewShortenString
-      Columns = <
-        item
-          Alignment = taCenter
-          Layout = blGlyphRight
-          Margin = 0
-          Options = [coAllowClick, coDraggable, coEnabled, coParentBidiMode, coParentColor, coShowDropMark, coVisible]
-          Position = 0
-          Spacing = 0
-          Width = 25
-          WideText = '!'
-        end
-        item
-          Layout = blGlyphRight
-          MinWidth = 100
-          Position = 1
-          Width = 203
-          WideText = 'Description'
-        end
-        item
-          Layout = blGlyphRight
-          MinWidth = 50
-          Position = 2
-          Width = 200
-          WideText = 'File Name'
-        end
-        item
-          Alignment = taRightJustify
-          Layout = blGlyphRight
-          MinWidth = 20
-          Position = 3
-          Width = 60
-          WideText = 'Line'
-        end>
+      object ToDoView: TVirtualStringTree
+        Left = 0
+        Top = 26
+        Width = 488
+        Height = 263
+        Align = alClient
+        Alignment = taRightJustify
+        BevelInner = bvNone
+        BevelOuter = bvNone
+        BorderStyle = bsNone
+        Header.AutoSizeIndex = 1
+        Header.MainColumn = 1
+        Header.Options = [hoAutoResize, hoColumnResize, hoHotTrack, hoOwnerDraw, hoShowSortGlyphs, hoVisible]
+        Header.ParentFont = True
+        HintMode = hmTooltip
+        Images = ilTodo
+        PopupMenu = PopupMenu
+        TabOrder = 1
+        TreeOptions.AnimationOptions = [toAnimatedToggle]
+        TreeOptions.AutoOptions = [toAutoDropExpand, toAutoScrollOnExpand, toAutoSort, toAutoTristateTracking, toAutoDeleteMovedNodes]
+        TreeOptions.MiscOptions = [toFullRepaintOnResize, toInitOnSave, toReportMode, toToggleOnDblClick, toWheelPanning]
+        TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowDropmark, toShowHorzGridLines, toShowVertGridLines, toThemeAware, toUseBlendedImages, toUseBlendedSelection]
+        TreeOptions.SelectionOptions = [toExtendedFocus, toFullRowSelect, toRightClickSelect]
+        TreeOptions.StringOptions = [toAutoAcceptEditChange]
+        OnChange = ToDoViewChange
+        OnCompareNodes = ToDoViewCompareNodes
+        OnDblClick = actEditGotoExecute
+        OnGetText = ToDoViewGetText
+        OnGetImageIndex = ToDoViewGetImageIndex
+        OnHeaderClick = ToDoViewHeaderClick
+        OnInitNode = ToDoViewInitNode
+        OnKeyPress = TodoViewKeyPress
+        OnShortenString = ToDoViewShortenString
+        Columns = <
+          item
+            Alignment = taCenter
+            Layout = blGlyphRight
+            Margin = 0
+            Options = [coAllowClick, coDraggable, coEnabled, coParentBidiMode, coParentColor, coShowDropMark, coVisible]
+            Position = 0
+            Spacing = 0
+            Width = 25
+            WideText = '!'
+          end
+          item
+            Layout = blGlyphRight
+            MinWidth = 100
+            Position = 1
+            Width = 203
+            WideText = 'Description'
+          end
+          item
+            Layout = blGlyphRight
+            MinWidth = 50
+            Position = 2
+            Width = 200
+            WideText = 'File Name'
+          end
+          item
+            Alignment = taRightJustify
+            Layout = blGlyphRight
+            MinWidth = 20
+            Position = 3
+            Width = 60
+            WideText = 'Line'
+          end>
+      end
     end
   end
   inherited DockClient: TJvDockClient
@@ -169,7 +171,7 @@ inherited ToDoWindow: TToDoWindow
     Left = 24
     Top = 56
     Bitmap = {
-      494C0101040009003C0010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010104000900040010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000002000000001002000000000000020
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

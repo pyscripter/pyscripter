@@ -13,10 +13,12 @@ unit frmProjectExplorer;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  System.UITypes, System.Contnrs, Windows, Messages, SysUtils, Variants,
+  Classes, Graphics, Controls, Forms,
   Dialogs, frmIDEDockWin, JvComponentBase, JvDockControlForm, ExtCtrls,
   cProjectClasses, VirtualTrees, ImgList, Menus, TB2Item, SpTBXItem,
-  ActnList, TB2Dock, TB2Toolbar, ActiveX, SpTBXSkins, System.Actions;
+  ActnList, TB2Dock, TB2Toolbar, ActiveX, SpTBXSkins, System.Actions,
+  SpTBXControls;
 
 type
   TProjectExplorerWindow = class(TIDEDockWindow)
@@ -768,11 +770,7 @@ end;
 procedure TProjectExplorerWindow.WMSpSkinChange(var Message: TMessage);
 begin
   inherited;
-  ExplorerTree.Invalidate;
-  if SkinManager.IsDefaultSkin then
-    ExplorerTree.TreeOptions.PaintOptions := ExplorerTree.TreeOptions.PaintOptions - [toAlwaysHideSelection]
-  else
-    ExplorerTree.TreeOptions.PaintOptions := ExplorerTree.TreeOptions.PaintOptions + [toAlwaysHideSelection];
+  ExplorerTree.SkinTree;
 end;
 
 procedure TProjectExplorerWindow.ExplorerTreeContextPopup(Sender: TObject;
@@ -1151,8 +1149,6 @@ begin
   FileImageList := TStringList.Create;
   FileImageList.Sorted := True;
   FileImageList.Duplicates := dupError;
-
-  ExplorerTree.SkinTree;
 
   // Wierd translation bug
   TP_Ignore(self, 'mnProjectNew');

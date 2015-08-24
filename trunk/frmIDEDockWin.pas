@@ -13,12 +13,13 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, JvDockControlForm, ExtCtrls, SpTBXSkins,
-  JvComponentBase, SpTBXItem;
+  JvComponentBase, SpTBXItem, SpTBXControls;
 
 type
   TIDEDockWindow = class(TForm)
     DockClient: TJvDockClient;
     FGPanel: TPanel;
+    BGPanel: TSpTBXPanel;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure DockClientTabHostFormCreated(DockClient: TJvDockClient;
@@ -43,15 +44,20 @@ var
 
 implementation
 
-uses frmPyIDEMain, uCommonFunctions;
+uses frmPyIDEMain, uCommonFunctions, Vcl.Themes;
 
 {$R *.dfm}
 
 procedure TIDEDockWindow.WMSpSkinChange(var Message: TMessage);
 begin
-  if SkinManager.IsDefaultSkin then begin
-    BorderHighlight := clBtnShadow;
-    BorderNormal := clBtnFace;
+  if SkinManager.GetSkinType <> sknSkin  then begin
+    if IsStyledWindowsColorDark then begin
+      BorderHighlight := StyleServices.GetSystemColor(clBtnHighlight);
+      BorderNormal := StyleServices.GetSystemColor(clBtnFace);
+    end else begin
+      BorderHighlight := StyleServices.GetSystemColor(clBtnShadow);
+      BorderNormal := StyleServices.GetSystemColor(clBtnFace);
+    end;
   end else begin
     BorderHighlight := GetHotColor(CurrentSkin.Options(skncTab, sknsCheckedAndHotTrack).Body);
     BorderNormal := CurrentSkin.Options(skncTab, sknsChecked).Body.Color1;
@@ -61,10 +67,10 @@ begin
       BorderNormal := CurrentSkin.Options(skncPanel, sknsNormal).Body.Color1;
   end;
   if HasFocus then begin
-    Color := BorderHighlight;
+    BGPanel.Color := BorderHighlight;
     //FGPanel.Margins.SetBounds(2,2,2,2);
   end else begin
-    Color := BorderNormal;
+    BGPanel.Color := BorderNormal;
     //FGPanel.Margins.SetBounds(0,0,0,0);
   end;
   Invalidate;
@@ -73,7 +79,7 @@ end;
 procedure TIDEDockWindow.FormActivate(Sender: TObject);
 begin
   HasFocus := True;
-  Color := BorderHighlight;
+  BGPanel.Color := BorderHighlight;
   //FGPanel.Margins.SetBounds(2,2,2,2);
 end;
 
@@ -83,8 +89,8 @@ begin
   FGPanel.ControlStyle := FGPanel.ControlStyle + [csOpaque];
 
   //FGPanelExit(Self);
-  BorderHighlight := clBtnShadow;
-  BorderNormal := clBtnFace;
+  BorderHighlight := StyleServices.GetSystemColor(clBtnHighlight);
+  BorderNormal := StyleServices.GetSystemColor(clBtnShadow);
 
   SkinManager.AddSkinNotification(Self);
 
@@ -94,7 +100,7 @@ end;
 procedure TIDEDockWindow.FormDeactivate(Sender: TObject);
 begin
   HasFocus := False;
-  Color := BorderNormal;
+  BGPanel.Color := BorderNormal;
   //FGPanel.Margins.SetBounds(0,0,0,0);
   // Set the MouseleaveHide option
   // It may have been reset when a dock form is shown via the keyboard or menu

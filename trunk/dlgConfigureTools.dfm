@@ -10,7 +10,7 @@ inherited ConfigureTools: TConfigureTools
   OnDestroy = FormDestroy
   OnShow = FormShow
   ExplicitWidth = 307
-  ExplicitHeight = 295
+  ExplicitHeight = 296
   PixelsPerInch = 96
   TextHeight = 13
   object SpTBXPanel1: TSpTBXPanel

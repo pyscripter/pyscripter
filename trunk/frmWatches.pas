@@ -119,7 +119,6 @@ begin
   WatchesView.NodeDataSize := SizeOf(TWatchRec);
   WatchesView.Header.Height := MulDiv(WatchesView.Header.Height,
     Screen.PixelsPerInch, 96);
-  WatchesView.SkinTree;
 end;
 
 procedure TWatchesWindow.WatchesViewInitChildren(Sender: TBaseVirtualTree;
@@ -295,14 +294,7 @@ end;
 procedure TWatchesWindow.WMSpSkinChange(var Message: TMessage);
 begin
   inherited;
-  WatchesView.Header.Invalidate(nil, True);
-  WatchesView.Invalidate;
-  if SkinManager.IsDefaultSkin then
-    WatchesView.TreeOptions.PaintOptions :=
-      WatchesView.TreeOptions.PaintOptions - [toAlwaysHideSelection]
-  else
-    WatchesView.TreeOptions.PaintOptions :=
-      WatchesView.TreeOptions.PaintOptions + [toAlwaysHideSelection];
+  WatchesView.SkinTree;
 end;
 
 procedure TWatchesWindow.FormDestroy(Sender: TObject);

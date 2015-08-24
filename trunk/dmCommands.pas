@@ -1522,7 +1522,6 @@ begin
       UseExtendedStrings := True;
       if Execute(TempEditorOptions) then begin
         UpdateHighlighters;
-        PyIDEMainForm.SetIDEColors;
         if Form.cbApplyToAll.Checked then begin
           EditorOptions.Assign(TempEditorOptions);
           ApplyEditorOptions;
@@ -1797,7 +1796,6 @@ begin
         if AppStorage.IniFile.SectionExists('Highlighters\Intepreter') then
           AppStorage.ReadPersistent('Highlighters\Intepreter',
             PythonIIForm.SynEdit.Highlighter);
-        PyIDEMainForm.SetIDEColors;
       finally
         AppStorage.Free;
       end;
@@ -2157,7 +2155,7 @@ begin
     InsertList.Clear;
     for i := 0 to Parameters.Count - 1 do begin
       Parameters.Split(i, ParamName, ParamValue, False);
-      ItemList.Add(Format('\color{clBlue}%s\color{clBlack}\column{}%s',
+      ItemList.Add(Format('\color{clHotlight}%s\color{clWindowText}\column{}%s',
          [ParamName, StringReplace(ParamValue, '\', '\\', [rfReplaceAll])]));
       InsertList.Add(ParamName);
     end;
@@ -2175,7 +2173,7 @@ begin
     for i := 0 to Parameters.Modifiers.Count - 1 do begin
       ModName := Parameters.Modifiers.Names[i];
       ModComment := Parameters.Modifiers.Values[ModName];
-      ItemList.Add(Format('\color{clBlue}%s\color{clBlack}\column{}%s', [ModName, ModComment]));
+      ItemList.Add(Format('\color{clHotlight}%s\color{clWindowText}\column{}%s', [ModName, ModComment]));
       InsertList.Add(ModName);
     end;
   end;

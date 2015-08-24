@@ -374,7 +374,7 @@ begin
 
   fSymbolAttri := TSynHighLighterAttributes.Create(SYNS_AttrSymbol, SYNS_FriendlyAttrSymbol);
   fSymbolAttri.Style := [fsBold];
-  fSymbolAttri.Foreground := clBlue;
+  fSymbolAttri.Foreground := clHotlight;
   AddAttribute(fSymbolAttri);
 
   fTagAttri := TSynHighLighterAttributes.Create(SYNS_AttrTag, SYNS_FriendlyAttrTag);
@@ -386,7 +386,7 @@ begin
   AddAttribute(fTextValueAttri);
 
   fStringAttri := TSynHighlighterAttributes.Create(SYNS_AttrString, SYNS_FriendlyAttrString);
-  fStringAttri.Foreground := clBlue;
+  fStringAttri.Foreground := clHotlight;
   AddAttribute(fStringAttri);
 
   fDirectiveAttri := TSynHighlighterAttributes.Create(SYNS_AttrDirective, SYNS_FriendlyAttrDirective);

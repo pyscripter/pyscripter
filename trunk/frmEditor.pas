@@ -12,14 +12,15 @@ unit frmEditor;
 interface
 
 uses
-  Types, Windows, Messages, SysUtils, Classes, Graphics, Controls, Contnrs, Forms,
+  Types, System.UITypes, Windows, Messages, SysUtils, Classes,
+  Graphics, Controls, Contnrs, Forms,
   StdCtrls, uEditAppIntfs, JclStrings, SynEdit, SynEditTypes,
   SynEditHighlighter, SynEditMiscClasses,
   SynEditKeyCmds, ImgList, Dialogs, ExtCtrls,
   TB2Item, uCommonFunctions,
   SynCompletionProposal, cPyBaseDebugger, SpTBXItem,
   VirtualResources, SpTBXSkins, SpTBXDkPanels, Menus, SpTBXTabs, SynRegExpr,
-  cPythonSourceScanner, frmCodeExplorer, cCodeCompletion;
+  cPythonSourceScanner, frmCodeExplorer, cCodeCompletion, SpTBXControls;
 
 const
   WM_PARAMCOMPLETION = WM_USER +1040;
@@ -76,6 +77,7 @@ type
     mnRestoreEditor2: TSpTBXItem;
     N12: TSpTBXSeparatorItem;
     mnEditorOptions: TSpTBXItem;
+    BGPanel: TSpTBXPanel;
     procedure SynEditMouseMove(Sender: TObject; Shift: TShiftState;
       X, Y: Integer);
     procedure SynParamCompletionExecute(Kind: SynCompletionType;
@@ -2137,7 +2139,7 @@ begin
     LI := PyControl.GetLineInfos(fEditor, Line);
     if dlCurrentLine in LI then
     begin
-      Special := True;
+      Special := True;     { TODO : Allow customization of these colors }
       FG := clWhite;
       BG := clBlue;
     end
@@ -2186,7 +2188,7 @@ begin
         (fHotIdentInfo.StartCoord));
     Canvas.Font.Assign(ASynEdit.Font);
     Canvas.Font.Style := fHotIdentInfo.SynAttri.Style + [fsUnderline];
-    Canvas.Font.Color := clBlue;
+    Canvas.Font.Color := clHotlight;
     if fHotIdentInfo.SynAttri.Background <> clNone then
       Canvas.Brush.Color := fHotIdentInfo.SynAttri.Background
     else
@@ -2384,14 +2386,14 @@ end;
 procedure TEditorForm.FGPanelEnter(Sender: TObject);
 begin
   HasFocus := True;
-  Color := frmIDEDockWin.BorderHighlight;
+  BGPanel.Color := frmIDEDockWin.BorderHighlight;
   // FGPanel.Margins.SetBounds(2,2,2,2);
 end;
 
 procedure TEditorForm.FGPanelExit(Sender: TObject);
 begin
   HasFocus := False;
-  Color := frmIDEDockWin.BorderNormal;
+  BGPanel.Color := frmIDEDockWin.BorderNormal;
   // FGPanel.Margins.SetBounds(0,0,0,0);
 end;
 
@@ -2532,12 +2534,12 @@ procedure TEditorForm.WMSpSkinChange(var Message: TMessage);
 begin
   if HasFocus then
   begin
-    Color := frmIDEDockWin.BorderHighlight;
+    BGPanel.Color := frmIDEDockWin.BorderHighlight;
     // FGPanel.Margins.SetBounds(2,2,2,2);
   end
   else
   begin
-    Color := frmIDEDockWin.BorderNormal;
+    BGPanel.Color := frmIDEDockWin.BorderNormal;
     // FGPanel.Margins.SetBounds(0,0,0,0);
   end;
 

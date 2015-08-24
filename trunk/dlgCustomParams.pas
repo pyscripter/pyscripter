@@ -7,7 +7,7 @@ uses
   Dialogs, StdCtrls,
   SynEdit, ActnList, SpTBXControls, dlgPyIDEBase,
   SpTBXEditors, SpTBXItem, MPCommonObjects,
-  EasyListview, MPCommonUtilities;
+  EasyListview, MPCommonUtilities, System.Actions;
 
 type
   TCustomizeParams = class(TPyIDEDlgBase)

@@ -41,12 +41,14 @@ inherited UnitTestWindow: TUnitTestWindow
     00008001000000000000000000000000000080010000C0030000E00700000000
     000000000000F00F0000C00300008C3100009C390000FC3F0000F99F0000}
   ExplicitWidth = 278
-  ExplicitHeight = 485
+  ExplicitHeight = 490
   PixelsPerInch = 96
   TextHeight = 13
   inherited FGPanel: TPanel
     Width = 258
     Height = 447
+    ExplicitLeft = 2
+    ExplicitTop = 2
     ExplicitWidth = 258
     ExplicitHeight = 447
     object ExplorerDock: TSpTBXDock
@@ -108,23 +110,22 @@ inherited UnitTestWindow: TUnitTestWindow
       Height = 5
       Cursor = crSizeNS
       Align = alBottom
+      Color = clNone
+      ParentColor = False
       MinSize = 1
     end
-    object Panel1: TSpTBXPanel
+    object Panel1: TPanel
       Left = 0
       Top = 26
       Width = 258
       Height = 243
-      Color = clBtnFace
       Align = alClient
-      UseDockManager = True
       TabOrder = 1
-      TBXStyleBackground = True
       object UnitTests: TVirtualStringTree
-        Left = 2
-        Top = 2
-        Width = 254
-        Height = 239
+        Left = 1
+        Top = 1
+        Width = 256
+        Height = 241
         Align = alClient
         BorderStyle = bsNone
         CheckImageKind = ckXP
@@ -156,16 +157,14 @@ inherited UnitTestWindow: TUnitTestWindow
         Columns = <>
       end
     end
-    object Panel2: TSpTBXPanel
+    object Panel2: TPanel
       Left = 0
       Top = 274
       Width = 258
       Height = 173
       Align = alBottom
-      UseDockManager = True
       ParentColor = True
       TabOrder = 2
-      TBXStyleBackground = True
       DesignSize = (
         258
         173)
@@ -178,24 +177,23 @@ inherited UnitTestWindow: TUnitTestWindow
         Shape = bsTopLine
         ExplicitWidth = 240
       end
-      object SpTBXPanel1: TSpTBXPanel
-        Left = 2
-        Top = 84
-        Width = 254
+      object SpTBXPanel1: TPanel
+        Left = 1
+        Top = 85
+        Width = 256
         Height = 87
-        Caption = 'SpTBXPanel1'
         Align = alBottom
         Anchors = [akLeft, akTop, akRight, akBottom]
+        Caption = 'SpTBXPanel1'
         TabOrder = 0
-        HotTrack = True
         object ErrorText: TRichEdit
-          Left = 2
-          Top = 2
-          Width = 250
-          Height = 83
+          Left = 1
+          Top = 1
+          Width = 254
+          Height = 85
           Align = alClient
           BorderStyle = bsNone
-          Font.Charset = GREEK_CHARSET
+          Font.Charset = ANSI_CHARSET
           Font.Color = clWindowText
           Font.Height = -11
           Font.Name = 'MS Shell Dlg 2'
@@ -206,6 +204,7 @@ inherited UnitTestWindow: TUnitTestWindow
           ReadOnly = True
           ScrollBars = ssBoth
           TabOrder = 0
+          Zoom = 100
         end
       end
       object Label2: TSpTBXLabel
@@ -258,7 +257,7 @@ inherited UnitTestWindow: TUnitTestWindow
     Left = 88
     Top = 48
     Bitmap = {
-      494C010107000900140010001000FFFFFF00FF10FFFFFFFFFFFFFFFF424D3600
+      494C010107000900080010001000FFFFFF00FF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000002000000001002000000000000020
       000000000000000000000000000000000000FFFFFF00FFFFFF00FFFFFF00FFFF
       FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF

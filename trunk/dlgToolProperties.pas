@@ -15,7 +15,7 @@ uses
   Dialogs, cTools, StdCtrls, SynEdit, Menus,
   ActnList, SpTBXControls, SpTBXEditors,
   dlgPyIDEBase, SpTBXItem, SpTBXTabs, TB2Item, MPCommonObjects,
-  EasyListview, MPCommonUtilities, ComCtrls;
+  EasyListview, MPCommonUtilities, ComCtrls, System.Actions;
 
 type
   TToolProperties = class(TPyIDEDlgBase)

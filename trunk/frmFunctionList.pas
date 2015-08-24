@@ -48,7 +48,7 @@ uses
   Messages, Windows, Classes, Forms, Dialogs, StdCtrls, ActnList,
   Controls, SpTBXControls, Graphics,
   SpTBXEditors, TB2Dock, TB2Toolbar, SpTBXItem, TB2Item,
-  dlgPyIDEBase, MPCommonObjects, EasyListview, MPCommonUtilities;
+  dlgPyIDEBase, MPCommonObjects, EasyListview, MPCommonUtilities, System.Actions;
 
 type
   TProcInfo = class(TObject)

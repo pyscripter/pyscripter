@@ -493,7 +493,6 @@ begin
   // Let the tree know how much data space we need.
   ExplorerTree.NodeDataSize := SizeOf(TNodeDataRec);
   WorkerThread := TScanCodeThread.Create;
-  ExplorerTree.SkinTree;
 end;
 
 procedure TCodeExplorerWindow.ExplorerTreeInitNode(Sender: TBaseVirtualTree;
@@ -661,11 +660,7 @@ end;
 procedure TCodeExplorerWindow.WMSpSkinChange(var Message: TMessage);
 begin
   inherited;
-  ExplorerTree.Invalidate;
-  if SkinManager.IsDefaultSkin then
-    ExplorerTree.TreeOptions.PaintOptions := ExplorerTree.TreeOptions.PaintOptions - [toAlwaysHideSelection]
-  else
-    ExplorerTree.TreeOptions.PaintOptions := ExplorerTree.TreeOptions.PaintOptions + [toAlwaysHideSelection];
+  ExplorerTree.SkinTree;
 end;
 
 procedure TCodeExplorerWindow.WriteToAppStorage(AppStorage: TJvCustomAppStorage;

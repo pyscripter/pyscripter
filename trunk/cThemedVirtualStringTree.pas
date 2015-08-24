@@ -10,7 +10,8 @@ unit cThemedVirtualStringTree;
 
 interface
 uses
-  Types, Windows, Classes, Graphics, VirtualTrees;
+  Types, Windows, Classes, Graphics, VirtualTrees, VirtualTrees.Utils,
+  SpTBXSkins;
 
 type
 
@@ -36,7 +37,7 @@ type
 implementation
 
 Uses
-  SpTBXSkins, dmCommands;
+  dmCommands;
 
 type
   // to help us access protected methods
@@ -96,10 +97,27 @@ end;
 
 procedure TThemedVirtualStringTree.SkinTree;
 begin
-  OnAdvancedHeaderDraw := VirtualStringTreeAdvancedHeaderDraw;
-  OnHeaderDrawQueryElements := VirtualStringTreeDrawQueryElements;
-  OnBeforeCellPaint := VirtualStringTreeBeforeCellPaint;
-  OnPaintText := VirtualStringTreePaintText;
+  TreeOptions.PaintOptions := TreeOptions.PaintOptions + [toThemeAware, toUseExplorerTheme];
+  if SkinManager.GetSkinType = sknSkin then
+  begin
+    OnAdvancedHeaderDraw := VirtualStringTreeAdvancedHeaderDraw;
+    OnHeaderDrawQueryElements := VirtualStringTreeDrawQueryElements;
+    OnBeforeCellPaint := VirtualStringTreeBeforeCellPaint;
+    OnPaintText := VirtualStringTreePaintText;
+  end else begin
+    OnAdvancedHeaderDraw := nil;
+    OnHeaderDrawQueryElements := nil;
+    OnBeforeCellPaint := nil;
+    OnPaintText := nil;
+  end;
+  if Assigned(Header) then
+    Header.Invalidate(nil, True);
+  Invalidate;
+//  Cannot remember why this was needed.
+//  if SkinManager.GetSkinType in [sknNone, sknWindows] then
+//    TreeOptions.PaintOptions := TreeOptions.PaintOptions - [toAlwaysHideSelection]
+//  else
+//    TreeOptions.PaintOptions := TreeOptions.PaintOptions + [toAlwaysHideSelection];
 end;
 
 procedure TThemedVirtualStringTree.VirtualStringTreeAdvancedHeaderDraw(

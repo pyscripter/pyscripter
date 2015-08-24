@@ -142,6 +142,7 @@ inherited CustomizeParams: TCustomizeParams
         Options = [eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoShowScrollHint, eoSmartTabDelete, eoSmartTabs, eoTabsToSpaces]
         ScrollBars = ssNone
         WantReturns = False
+        FontSmoothing = fsmNone
       end
       object Label1: TSpTBXLabel
         Left = 14

@@ -3,7 +3,7 @@ inherited PickListDialog: TPickListDialog
   ClientHeight = 333
   ClientWidth = 369
   ExplicitWidth = 375
-  ExplicitHeight = 361
+  ExplicitHeight = 362
   PixelsPerInch = 96
   TextHeight = 13
   object Panel2: TSpTBXPanel
@@ -11,7 +11,6 @@ inherited PickListDialog: TPickListDialog
     Top = 249
     Width = 369
     Height = 84
-    Color = clBtnFace
     Align = alBottom
     Anchors = [akLeft, akBottom]
     UseDockManager = True
@@ -108,12 +107,14 @@ inherited PickListDialog: TPickListDialog
       PopupMenu = PickListPopUp
       Style = lbStandard
       TabOrder = 0
+      ExplicitLeft = 7
+      ExplicitTop = 66
     end
   end
   object PickListPopUp: TPopupMenu
     Images = CommandsDataModule.Images
-    Left = 368
-    Top = 104
+    Left = 296
+    Top = 112
     object mnSelectAll: TMenuItem
       Caption = '&Select All'
       Hint = 'Select all items'

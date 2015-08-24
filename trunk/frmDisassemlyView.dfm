@@ -34,7 +34,7 @@ object DisForm: TDisForm
   object SynPythonSyn: TSynPythonSyn
     CommentAttri.Foreground = clMaroon
     CommentAttri.Style = []
-    KeyAttri.Foreground = clBlue
+    KeyAttri.Foreground = clHotlight
     NumberAttri.Foreground = clTeal
     StringAttri.Foreground = clPurple
     DocStringAttri.Foreground = clMaroon

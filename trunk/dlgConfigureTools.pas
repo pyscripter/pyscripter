@@ -11,10 +11,11 @@ interface
 
 uses
   Types, SysUtils, Classes, Windows, Controls, Forms, StdCtrls,
-  SpTBXControls, SpTBXEditors, dlgPyIDEBase, SpTBXItem;
+  SpTBXControls, SpTBXEditors, dlgPyIDEBase, SpTBXItem, Vcl.ExtCtrls;
 
 type
   TConfigureTools = class(TPyIDEDlgBase)
+    SpTBXPanel1: TSpTBXPanel;
     AddBtn: TSpTBXButton;
     RemoveBtn: TSpTBXButton;
     ModifyBtn: TSpTBXButton;
@@ -23,7 +24,6 @@ type
     MoveUpBtn: TSpTBXButton;
     MoveDownBtn: TSpTBXButton;
     ToolsList: TSpTBXListBox;
-    SpTBXPanel1: TSpTBXPanel;
     procedure AddBtnClick(Sender: TObject);
     procedure ModifyBtnClick(Sender: TObject);
     procedure RemoveBtnClick(Sender: TObject);

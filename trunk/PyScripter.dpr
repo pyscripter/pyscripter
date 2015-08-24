@@ -12,7 +12,7 @@ program PyScripter;
 {$IF System.CompilerVersion >= 21}
   {$WEAKLINKRTTI ON}
   {$RTTI EXPLICIT METHODS([]) PROPERTIES([]) FIELDS([])}
-{$IFEND}
+{$ENDIF}
 
 uses
   Windows,
@@ -110,7 +110,22 @@ uses
   JvDockVIDStyle in 'JvDockVIDStyle.pas',
   JvCreateProcess in 'JvCreateProcess.pas',
   cCodeCompletion in 'cCodeCompletion.pas',
-  cThemedVirtualStringTree in 'cThemedVirtualStringTree.pas';
+  cThemedVirtualStringTree in 'cThemedVirtualStringTree.pas',
+  SpTBXPageScroller in 'SpTBXPageScroller.pas',
+  SpTBXSkins in 'SpTBXSkins.pas',
+  SynEdit,
+  JvInspector,
+  Vcl.StdCtrls,
+  Vcl.Themes,
+  Vcl.Styles,
+//  Vcl.Styles.UxTheme,
+//  Vcl.Styles.Utils.StdCtrls,
+  Vcl.Styles.Utils.ComCtrls,
+//  Vcl.Styles.Utils.ScreenTips,
+//  Vcl.Styles.Utils.SysControls,
+//  Vcl.Styles.Utils.SysStyleHook,
+//  Vcl.Styles.Utils.Forms,
+  Vcl.Styles.Utils.SystemMenu;
 
 {$R *.RES}
 {$R WebCopyAvi.RES}
@@ -121,6 +136,11 @@ uses
 
 begin
   ReportMemoryLeaksOnShutdown := DebugHook <> 0;
+
+  UseLatestCommonDialogs := False;
+  TStyleManager.Engine.RegisterStyleHook(TCustomSynEdit, TMemoStyleHook);
+  TStyleManager.Engine.RegisterStyleHook(TJvInspector, TMemoStyleHook);
+
   Application.Initialize;
 
   if CheckWin32Version(6) then // at least Vista
@@ -130,10 +150,16 @@ begin
     end;
   Application.MainFormOnTaskbar := True;
 
+  TStyleManager.TrySetStyle('Jet');
   Application.Title := 'PyScripter';
   Application.CreateForm(TCommandsDataModule, CommandsDataModule);
   Application.CreateForm(TPyIDEMainForm, PyIDEMainForm);
+  TVclStylesSystemMenu.Create(PyIDEMainForm);
   Application.Run;
-end.
+
+  TStyleManager.Engine.UnRegisterStyleHook(TCustomSynEdit, TMemoStyleHook);
+  TStyleManager.Engine.UnRegisterStyleHook(TJvInspector, TMemoStyleHook);
+
+  end.
 
 

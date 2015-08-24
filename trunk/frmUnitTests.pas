@@ -3,12 +3,12 @@ unit frmUnitTests;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, frmIDEDockWin, JvComponentBase, JvDockControlForm, ExtCtrls, ImgList,
-  JvLinkLabel, SpTBXDkPanels, VirtualTrees,
+  System.UITypes, Windows, Messages, SysUtils, Variants, Classes, Graphics,
+  Controls, Forms, Dialogs, frmIDEDockWin, JvComponentBase, JvDockControlForm,
+  ExtCtrls, ImgList, JvLinkLabel, SpTBXDkPanels, VirtualTrees,
   TB2Item, TB2Dock, TB2Toolbar, StdCtrls,
   ActnList, SpTBXControls, SpTBXItem, ComCtrls,
-  SpTBXSkins;
+  SpTBXSkins, System.Actions;
 
 type
   TUnitTestWindowStatus = (utwEmpty, utwLoaded, utwRunning, utwRun);
@@ -40,11 +40,11 @@ type
     actStop: TAction;
     actRun: TAction;
     actRefresh: TAction;
-    Panel1: TSpTBXPanel;
+    Panel1: TPanel;
     UnitTests: TVirtualStringTree;
-    Panel2: TSpTBXPanel;
+    Panel2: TPanel;
     Bevel1: TBevel;
-    SpTBXPanel1: TSpTBXPanel;
+    SpTBXPanel1: TPanel;
     Label2: TSpTBXLabel;
     ModuleName: TSpTBXLabel;
     lbFoundTests: TSpTBXLabel;
@@ -130,11 +130,7 @@ Const
 procedure TUnitTestWindow.WMSpSkinChange(var Message: TMessage);
 begin
   inherited;
-  UnitTests.Invalidate;
-  if SkinManager.IsDefaultSkin then
-    UnitTests.TreeOptions.PaintOptions := UnitTests.TreeOptions.PaintOptions - [toAlwaysHideSelection]
-  else
-    UnitTests.TreeOptions.PaintOptions := UnitTests.TreeOptions.PaintOptions + [toAlwaysHideSelection];
+  UnitTests.SkinTree;
 end;
 
 procedure TUnitTestWindow.actRefreshExecute(Sender: TObject);
@@ -224,8 +220,6 @@ begin
   TestClasses.Duplicates := dupError;
 
   Status := utwEmpty;
-
-  UnitTests.SkinTree;
 end;
 
 procedure TUnitTestWindow.FormDestroy(Sender: TObject);

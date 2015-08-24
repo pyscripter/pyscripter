@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, cPyBaseDebugger, StdCtrls, SpTBXControls, SynEdit, 
-  ExtCtrls, SpTBXEditors, dlgPyIDEBase, SpTBXItem;
+  ExtCtrls, SpTBXEditors, dlgPyIDEBase, SpTBXItem, System.Generics.Collections;
 
 type
   TRunConfigurationForm = class(TPyIDEDlgBase)
@@ -62,7 +62,7 @@ implementation
 
 uses
   Math, dlgToolProperties, dmCommands, uHighlighterProcs, cProjectClasses,
-  StringResources, JvBrowseFolder, gnugettext;
+  StringResources, JvBrowseFolder, gnugettext, Vcl.Themes;
 
 {$R *.dfm}
 
@@ -184,9 +184,19 @@ begin
 end;
 
 procedure TRunConfigurationForm.FormCreate(Sender: TObject);
+Var
+  SynEditArray : TArray<TSynEdit>;
+  SynEdit : TSynEdit;
 begin
   inherited;
   fRunConfig := TRunConfiguration.Create;
+
+  SynEditArray := [SynFileName, SynParameters, SynWorkDir, SynOutputFileName];
+  for SynEdit in SynEditArray do
+  begin
+    SynEdit.Color := StyleServices.GetSystemColor(clWindow);
+    SynEdit.Font.Color := StyleServices.GetSystemColor(clWindowText);
+  end;
 end;
 
 procedure TRunConfigurationForm.FormDestroy(Sender: TObject);

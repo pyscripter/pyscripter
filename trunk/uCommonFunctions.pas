@@ -10,7 +10,7 @@ unit uCommonFunctions;
 
 interface
 Uses
-  Windows, Classes, SysUtils, Graphics, SynEditTypes, SynUnicode,
+  Windows, Classes, System.SysUtils, Graphics, SynEditTypes, SynUnicode,
   uEditAppIntfs,  SpTBXSkins, Controls, SynEdit, SynRegExpr;
 
 const
@@ -225,6 +225,12 @@ function IsDigits(S : string): Boolean;
 { Remove the white space in front of the first line from all lines }
 function Dedent (const S : string) : string;
 
+{ Returns true for dark colors }
+function IsColorDark(AColor : TColor) : boolean;
+
+{ Returns true if the styled clWindows system oolor is dark }
+function IsStyledWindowsColorDark : boolean;
+
 Const
   IdentRE = '[A-Za-z_][A-Za-z0-9_]*';
   DottedIdentRE = '[A-Za-z_][A-Za-z0-9_.]*';
@@ -234,7 +240,8 @@ Uses
   Types, Forms, JclFileUtils, Math, VarPyth, JclBase, JclStrings,
   StrUtils, PythonEngine, dmCommands, Dialogs,
   StringResources, frmPythonII, gnugettext, MPCommonUtilities,
-  MPCommonObjects, MPShellUtilities, IOUtils;
+  MPCommonObjects, MPShellUtilities, IOUtils, Vcl.Themes, System.AnsiStrings,
+  System.UITypes;
 
 function GetIconIndexFromFile(const AFileName: string;
   const ASmall: boolean): integer;
@@ -983,7 +990,7 @@ function CleanEOLs(S: AnsiString): AnsiString;
       else
         if Source^ in LeadBytes then
         begin
-          Source := StrNextChar(Source);
+          Source := System.AnsiStrings.StrNextChar(Source);
           continue;
         end;
       end;
@@ -1024,7 +1031,7 @@ function CleanEOLs(S: AnsiString): AnsiString;
         else
           if Source^ in LeadBytes then
           begin
-            L := StrCharLength(Source);
+            L := System.AnsiStrings.StrCharLength(Source);
             Move(Source^, Dest^, L);
             Inc(Dest, L);
             Inc(Source, L);
@@ -1620,7 +1627,7 @@ begin
       if not Stop then
       begin
         // go recursive in subdirectories
-        if Recursive and (SearchRec.Attr and SysUtils.faDirectory <> 0) and
+        if Recursive and (SearchRec.Attr and System.SysUtils.faDirectory <> 0) and
            (SearchRec.Name <> '.') and
            (SearchRec.Name <> '..') then
           WalkThroughDirectory(PathWithSep + SearchRec.Name,
@@ -1655,7 +1662,7 @@ begin
     begin
       Result := True;
 
-      if FileInfo.Attr and SysUtils.faDirectory = 0 then
+      if FileInfo.Attr and System.SysUtils.faDirectory = 0 then
         FileList.Add(Path+FileInfo.Name);
     end;
 
@@ -1671,7 +1678,7 @@ begin
     begin
       Result := True;
 
-      if (FileInfo.Attr and SysUtils.faDirectory <> 0) and
+      if (FileInfo.Attr and System.SysUtils.faDirectory <> 0) and
          (FileInfo.Name <> '.') and (FileInfo.Name <> '..') then
         DirList.Add(Path+FileInfo.Name);
     end;
@@ -1684,7 +1691,7 @@ end;
 //  Result := IsWideCharDigit(C) or WideStrUtils.CharInSet(C, ['-', '+', DecimalSeparator]);
 //end;
 //
-//function WideStrConsistsofNumberChars(const S: WideString): Boolean;
+//function WideStrConsistsofNumberCh.ars(const S: WideString): Boolean;
 //var
 //  I: Integer;
 //begin
@@ -1822,6 +1829,20 @@ begin
   Result := TRegExpr.Create;
   Result.Expression := Expr;
   Result.Compile;
+end;
+
+function IsColorDark(AColor : TColor) : boolean;
+var
+  ACol: Longint;
+begin
+  ACol := ColorToRGB(AColor) and $00FFFFFF;
+  Result := ((2.99 * GetRValue(ACol) + 5.87 * GetGValue(ACol) +
+                 1.14 * GetBValue(ACol)) < $400);
+end;
+
+function IsStyledWindowsColorDark : boolean;
+begin
+  Result := IsColorDark(StyleServices.GetSystemColor(clWindow));
 end;
 
 initialization
