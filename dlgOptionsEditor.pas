@@ -50,6 +50,7 @@ type
   public
     { Public declarations }
     procedure Setup(OptionsObject : TBaseOptions; Categories : array of TOptionCategory);
+    procedure ApplyVclStyle;
   end;
 
 
@@ -58,6 +59,9 @@ function InspectOptions(OptionsObject : TBaseOptions;
   HelpCntxt : integer = 0): boolean;
 
 implementation
+
+uses
+  Vcl.Themes;
 
 {$R *.dfm}
 
@@ -97,6 +101,23 @@ begin
   fOptionsObject.Assign(fTempOptionsObject);
 end;
 
+procedure TOptionsInspector.ApplyVclStyle;
+begin
+  if Assigned(Inspector.ActivePainter) then
+    with Inspector.ActivePainter do begin
+      BackgroundColor := StyleServices.GetSystemColor(clWindow);
+      CategoryColor := StyleServices.GetSystemColor(clBtnFace);
+      CategoryFont.Color := StyleServices.GetSystemColor(clWindowText);
+      DividerColor := StyleServices.GetSystemColor(clBtnFace);
+      NameFont.Color := StyleServices.GetSystemColor(clWindowText);
+      ValueFont.Color := StyleServices.GetSystemColor(clWindowText);
+      HideSelectColor := StyleServices.GetSystemColor(clBtnFace);
+      HideSelectFont.Color := StyleServices.GetSystemColor(clHighlightText);
+      SelectedColor := StyleServices.GetSystemColor(clHighlight);
+      SelectedFont.Color := StyleServices.GetSystemColor(clHighlightText);;
+  end;
+end;
+
 procedure TOptionsInspector.FormDestroy(Sender: TObject);
 begin
   if Assigned(fTempOptionsObject) then
@@ -111,6 +132,7 @@ begin
     Caption := FormCaption;
     HelpContext := HelpCntxt;
     Setup(OptionsObject, Categories);
+    ApplyVclStyle;
     Result := ShowModal = mrOK;
     Release;
   end;
@@ -121,6 +143,45 @@ begin
   if HelpContext <> 0 then
     Application.HelpContext(HelpContext);
 end;
+
+type
+  TJvInspectorColorItem = class(TJvInspectorIntegerItem)
+  protected
+    procedure Edit; override;
+    procedure SetFlags(const Value: TInspectorItemFlags); override;
+  end;
+
+
+{ TJvInspectorColorItem }
+
+procedure TJvInspectorColorItem.Edit;
+begin
+  with TColorDialog.Create(GetParentForm(Inspector)) do
+    try
+      Color := Data.AsOrdinal;
+      Options := [cdFullOpen, cdAnyColor];
+      if Execute then
+      begin
+        Data.AsOrdinal := Color;
+        //Data.InvalidateData;
+      end;
+    finally
+      Free;
+    end;
+end;
+
+procedure TJvInspectorColorItem.SetFlags(const Value: TInspectorItemFlags);
+var
+  NewValue: TInspectorItemFlags;
+begin
+  NewValue := Value + [iifEditButton];
+  inherited SetFlags(NewValue);
+end;
+
+initialization
+  if TJvCustomInspectorData.ItemRegister <> nil then
+    with TJvCustomInspectorData.ItemRegister do
+      Add(TJvInspectorTypeInfoRegItem.Create(TJvInspectorColorItem, TypeInfo(TColor)));  with TJvCustomInspectorData.ItemRegister do
 
 end.
 

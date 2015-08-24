@@ -41,58 +41,64 @@ inherited BreakPointsWindow: TBreakPointsWindow
     0000000000000000000000000000000000000000000000000000000000000000
     000000000000000000000000000000000000000000000000000000000000}
   ExplicitWidth = 395
-  ExplicitHeight = 278
+  ExplicitHeight = 283
   PixelsPerInch = 96
   TextHeight = 13
-  inherited FGPanel: TPanel
-    Width = 375
-    Height = 240
-    ExplicitLeft = 2
-    ExplicitTop = 2
-    ExplicitWidth = 375
-    ExplicitHeight = 240
-    object BreakPointsView: TVirtualStringTree
-      Left = 0
-      Top = 0
+  inherited BGPanel: TSpTBXPanel
+    Width = 379
+    Height = 244
+    ExplicitLeft = 0
+    ExplicitTop = 0
+    ExplicitWidth = 379
+    ExplicitHeight = 244
+    inherited FGPanel: TPanel
       Width = 375
       Height = 240
-      Align = alClient
-      Alignment = taRightJustify
-      BevelInner = bvNone
-      BevelOuter = bvNone
-      BorderStyle = bsNone
-      CheckImageKind = ckXP
-      Header.AutoSizeIndex = 2
-      Header.Options = [hoAutoResize, hoColumnResize, hoDblClickResize, hoHotTrack, hoOwnerDraw, hoVisible]
-      Header.ParentFont = True
-      HintMode = hmTooltip
-      PopupMenu = TBXPopupMenu
-      TabOrder = 0
-      TreeOptions.AnimationOptions = [toAnimatedToggle]
-      TreeOptions.MiscOptions = [toCheckSupport, toFullRepaintOnResize, toInitOnSave, toReportMode, toToggleOnDblClick, toWheelPanning]
-      TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowDropmark, toShowHorzGridLines, toShowVertGridLines, toThemeAware, toUseBlendedImages, toUseBlendedSelection]
-      TreeOptions.SelectionOptions = [toExtendedFocus, toFullRowSelect, toRightClickSelect]
-      TreeOptions.StringOptions = [toAutoAcceptEditChange]
-      OnChecked = BreakPointsViewChecked
-      OnDblClick = BreakPointLVDblClick
-      OnGetText = BreakPointsViewGetText
-      OnInitNode = BreakPointsViewInitNode
-      Columns = <
-        item
-          Position = 0
-          Width = 200
-          WideText = 'File Name'
-        end
-        item
-          Alignment = taRightJustify
-          Position = 1
-          WideText = 'Line'
-        end
-        item
-          Position = 2
-          Width = 125
-          WideText = 'Condition'
-        end>
+      ExplicitWidth = 375
+      ExplicitHeight = 240
+      object BreakPointsView: TVirtualStringTree
+        Left = 0
+        Top = 0
+        Width = 375
+        Height = 240
+        Align = alClient
+        Alignment = taRightJustify
+        BevelInner = bvNone
+        BevelOuter = bvNone
+        BorderStyle = bsNone
+        CheckImageKind = ckXP
+        Header.AutoSizeIndex = 2
+        Header.Options = [hoAutoResize, hoColumnResize, hoDblClickResize, hoHotTrack, hoOwnerDraw, hoVisible]
+        Header.ParentFont = True
+        HintMode = hmTooltip
+        PopupMenu = TBXPopupMenu
+        TabOrder = 0
+        TreeOptions.AnimationOptions = [toAnimatedToggle]
+        TreeOptions.MiscOptions = [toCheckSupport, toFullRepaintOnResize, toInitOnSave, toReportMode, toToggleOnDblClick, toWheelPanning]
+        TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowDropmark, toShowHorzGridLines, toShowVertGridLines, toThemeAware, toUseBlendedImages, toUseBlendedSelection]
+        TreeOptions.SelectionOptions = [toExtendedFocus, toFullRowSelect, toRightClickSelect]
+        TreeOptions.StringOptions = [toAutoAcceptEditChange]
+        OnChecked = BreakPointsViewChecked
+        OnDblClick = BreakPointLVDblClick
+        OnGetText = BreakPointsViewGetText
+        OnInitNode = BreakPointsViewInitNode
+        Columns = <
+          item
+            Position = 0
+            Width = 200
+            WideText = 'File Name'
+          end
+          item
+            Alignment = taRightJustify
+            Position = 1
+            WideText = 'Line'
+          end
+          item
+            Position = 2
+            Width = 125
+            WideText = 'Condition'
+          end>
+      end
     end
   end
   inherited DockClient: TJvDockClient

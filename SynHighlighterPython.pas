@@ -231,13 +231,15 @@ type
     class function GetFriendlyLanguageName: UnicodeString; override;
   end;
 
-resourcestring
+Const
   SYNS_CommentedCode = 'Commented Code';
   SYNS_FunctionName = 'Function Name';
   SYNS_ClassName = 'Class Name';
   SYNS_MatchingBrace = 'Matching Brace';
   SYNS_UnbalancedBrace = 'Unbalanced Brace';
   SYNS_MultiLineString = 'Multi-Line String';
+
+resourcestring
   SYNS_FriendlyCommentedCode = 'Commented Code';
   SYNS_FriendlyFunctionName = 'Function Name';
   SYNS_FriendlyClassName = 'Class Name';
@@ -528,7 +530,7 @@ begin
   fFunctionNameAttri.Style := [fsBold];
   AddAttribute(fFunctionNameAttri);
   fClassNameAttri := TSynHighlighterAttributes.Create(SYNS_ClassName, SYNS_FriendlyClassName);
-  fClassNameAttri.Foreground := clBlue;
+  fClassNameAttri.Foreground := clHotlight;
   fClassNameAttri.Style := [fsBold];
   AddAttribute(fClassNameAttri);
   fIdentifierAttri := TSynHighlighterAttributes.Create(SYNS_AttrIdentifier, SYNS_FriendlyAttrIdentifier);
@@ -544,22 +546,22 @@ begin
   fSystemAttri.Style := [fsBold];
   AddAttribute (fSystemAttri);
   fNumberAttri := TSynHighlighterAttributes.Create(SYNS_AttrNumber, SYNS_FriendlyAttrNumber);
-  fNumberAttri.Foreground := clBlue;
+  fNumberAttri.Foreground := clHotlight;
   AddAttribute(fNumberAttri);
   fHexAttri := TSynHighlighterAttributes.Create(SYNS_AttrHexadecimal, SYNS_FriendlyAttrHexadecimal);
-  fHexAttri.Foreground := clBlue;
+  fHexAttri.Foreground := clHotlight;
   AddAttribute(fHexAttri);
   fOctalAttri := TSynHighlighterAttributes.Create(SYNS_AttrOctal, SYNS_FriendlyAttrOctal);
-  fOctalAttri.Foreground := clBlue;
+  fOctalAttri.Foreground := clHotlight;
   AddAttribute(fOctalAttri);
   fFloatAttri := TSynHighlighterAttributes.Create(SYNS_AttrFloat, SYNS_FriendlyAttrFloat);
-  fFloatAttri.Foreground := clBlue;
+  fFloatAttri.Foreground := clHotlight;
   AddAttribute(fFloatAttri);
   fSpaceAttri := TSynHighlighterAttributes.Create(SYNS_AttrSpace, SYNS_FriendlyAttrSpace);
   fSpaceAttri.Background := clWindow;
   AddAttribute(fSpaceAttri);
   fStringAttri := TSynHighlighterAttributes.Create(SYNS_AttrString, SYNS_FriendlyAttrString);
-  fStringAttri.Foreground := clBlue;
+  fStringAttri.Foreground := clHotlight;
   AddAttribute(fStringAttri);
   fDocStringAttri := TSynHighlighterAttributes.Create(SYNS_AttrDocumentation, SYNS_FriendlyAttrDocumentation);
   fDocStringAttri.Foreground := $FF00CC;
@@ -573,12 +575,12 @@ begin
   fErrorAttri.Foreground := clRed;
   AddAttribute(fErrorAttri);
   fMatchingBraceAttri := TSynHighlighterAttributes.Create(SYNS_MatchingBrace, SYNS_FriendlyMatchingBrace);
-  fMatchingBraceAttri.Foreground := clBlue;
+  fMatchingBraceAttri.Foreground := clHotlight;
   fMatchingBraceAttri.Background := clAqua;
   AddAttribute(fMatchingBraceAttri);
   fUnbalancedBraceAttri := TSynHighlighterAttributes.Create(SYNS_UnbalancedBrace, SYNS_FriendlyUnbalancedBrace);
   fUnbalancedBraceAttri.Background := clRed;
-  fUnbalancedBraceAttri.Foreground := clBlue;
+  fUnbalancedBraceAttri.Foreground := clHotlight;
   AddAttribute(fUnbalancedBraceAttri);
 
   SetAttributesOnChange(DefHighlightChange);
@@ -1443,7 +1445,7 @@ begin
   fDbg := '[Dbg]';
   fPM := '[PM]';
   fBannerAttri := TSynHighlighterAttributes.Create(SYNS_AttrBanner, SYNS_FriendlyAttrBanner);
-  fBannerAttri.Foreground := clBlue;
+  fBannerAttri.Foreground := clHotlight;
   AddAttribute(fBannerAttri);
   fOutputAttri := TSynHighlighterAttributes.Create(SYNS_AttrOutput, SYNS_FriendlyAttrOutput);
   fOutputAttri.Foreground := clTeal;

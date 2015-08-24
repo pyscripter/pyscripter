@@ -8,7 +8,7 @@ inherited ToolProperties: TToolProperties
   OnDestroy = FormDestroy
   OnShow = FormShow
   ExplicitWidth = 412
-  ExplicitHeight = 526
+  ExplicitHeight = 527
   PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TSpTBXPanel
@@ -16,11 +16,11 @@ inherited ToolProperties: TToolProperties
     Top = 0
     Width = 406
     Height = 498
-    Color = clBtnFace
     Align = alClient
     ParentShowHint = False
     ShowHint = True
     TabOrder = 0
+    Borders = False
     TBXStyleBackground = True
     DesignSize = (
       406
@@ -58,9 +58,9 @@ inherited ToolProperties: TToolProperties
       OnClick = btnHelpClick
     end
     object TabControl: TSpTBXTabControl
-      Left = 2
-      Top = 2
-      Width = 402
+      Left = 0
+      Top = 0
+      Width = 406
       Height = 453
       Align = alTop
       ActiveTabIndex = 0
@@ -75,7 +75,7 @@ inherited ToolProperties: TToolProperties
       object tabEnvironment: TSpTBXTabSheet
         Left = 0
         Top = 25
-        Width = 402
+        Width = 406
         Height = 428
         Caption = '&Environment'
         ImageIndex = -1
@@ -182,10 +182,9 @@ inherited ToolProperties: TToolProperties
           AlignWithMargins = True
           Left = 5
           Top = 3
-          Width = 390
+          Width = 394
           Height = 263
           Align = alTop
-          BevelInner = bvRaised
           EditManager.Font.Charset = DEFAULT_CHARSET
           EditManager.Font.Color = clWindowText
           EditManager.Font.Height = -11
@@ -207,12 +206,13 @@ inherited ToolProperties: TToolProperties
           View = elsReport
           OnColumnClick = lvItemsColumnClick
           OnItemSelectionsChanged = lvItemsItemSelectionsChanged
+          ExplicitLeft = 3
         end
       end
       object tabProperties: TSpTBXTabSheet
         Left = 0
         Top = 25
-        Width = 402
+        Width = 406
         Height = 428
         Caption = '&Properties'
         ImageIndex = -1
@@ -299,6 +299,7 @@ inherited ToolProperties: TToolProperties
             Options = [eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoShowScrollHint, eoSmartTabDelete, eoSmartTabs, eoTabsToSpaces]
             ScrollBars = ssNone
             WantReturns = False
+            FontSmoothing = fsmNone
           end
           object SynParameters: TSynEdit
             Left = 77
@@ -322,6 +323,7 @@ inherited ToolProperties: TToolProperties
             Options = [eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoShowScrollHint, eoSmartTabDelete, eoSmartTabs, eoTabsToSpaces]
             ScrollBars = ssNone
             WantReturns = False
+            FontSmoothing = fsmNone
           end
           object SynWorkDir: TSynEdit
             Left = 114
@@ -345,6 +347,7 @@ inherited ToolProperties: TToolProperties
             Options = [eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoShowScrollHint, eoSmartTabDelete, eoSmartTabs, eoTabsToSpaces]
             ScrollBars = ssNone
             WantReturns = False
+            FontSmoothing = fsmNone
           end
           object btnAppDir: TSpTBXButton
             Left = 357

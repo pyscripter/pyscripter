@@ -32,6 +32,9 @@ To compile the PythonIDE.dpr, you first need to install the following components
      - VirtualShellTools (http://mustangpeakcommonlib.googlecode.com/) - use SVN  
        After installing define USE_TOOLBAR_TB2K in Addins.inc and immediately below add {$DEFINE SpTBX}
 
+   - Vcl Style Utils (Use SVN to get it from vcl-styles-utils.googlecode.com)
+     Add the Common and and Common\delphi-detours-library directories to your library path. 	
+
 
 
 If you have managed to do all the above then you should be able to compile PyScripter! :) 

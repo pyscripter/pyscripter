@@ -9,7 +9,7 @@ inherited PageSetupDlg: TPageSetupDlg
   OnDestroy = FormDestroy
   OnShow = FormShow
   ExplicitWidth = 638
-  ExplicitHeight = 425
+  ExplicitHeight = 426
   PixelsPerInch = 96
   TextHeight = 13
   object TabControl: TSpTBXTabControl
@@ -18,350 +18,15 @@ inherited PageSetupDlg: TPageSetupDlg
     Width = 632
     Height = 397
     Align = alClient
-    ActiveTabIndex = 0
+    ActiveTabIndex = 1
     OnActiveTabChange = TabControlActiveTabChange
     HiddenItems = <>
     object SpTBXTabItem1: TSpTBXTabItem
       Caption = 'Margins && Options'
-      Checked = True
     end
     object SpTBXTabItem2: TSpTBXTabItem
       Caption = 'Header && Footer'
-    end
-    object tbHeaderFooter: TSpTBXTabSheet
-      Left = 0
-      Top = 25
-      Width = 632
-      Height = 372
-      Caption = 'Header && Footer'
-      ImageIndex = -1
-      TabItem = 'SpTBXTabItem2'
-      object ToolbarDock: TSpTBXDock
-        Left = 2
-        Top = 0
-        Width = 626
-        Height = 26
-        AllowDrag = False
-        LimitToOneRow = True
-        object Toolbar: TSpTBXToolbar
-          Left = 0
-          Top = 0
-          DockMode = dmCannotFloatOrChangeDocks
-          FullSize = True
-          Images = ImageList
-          TabOrder = 0
-          Customizable = False
-          object tbiPgNumber: TSpTBXItem
-            Action = PageNumCmd
-          end
-          object tbiPages: TSpTBXItem
-            Action = PagesCmd
-          end
-          object tbiTime: TSpTBXItem
-            Action = TimeCmd
-          end
-          object tbiDate: TSpTBXItem
-            Action = DateCmd
-          end
-          object tbiTitle: TSpTBXItem
-            Action = TitleCmd
-          end
-          object SpTBXSeparatorItem2: TSpTBXSeparatorItem
-          end
-          object tbiFont: TSpTBXItem
-            Action = FontCmd
-          end
-          object SpTBXSeparatorItem1: TSpTBXSeparatorItem
-          end
-          object tbiBold: TSpTBXItem
-            Action = BoldCmd
-          end
-          object tbiItalic: TSpTBXItem
-            Action = ItalicCmd
-          end
-          object tbiUdnerline: TSpTBXItem
-            Action = UnderlineCmd
-          end
-        end
-      end
-      object GroupBox1: TSpTBXGroupBox
-        Left = 5
-        Top = 30
-        Width = 611
-        Height = 161
-        Caption = 'Header'
-        TabOrder = 0
-        TBXStyleBackground = True
-        object GroupBox2: TSpTBXGroupBox
-          Left = 10
-          Top = 90
-          Width = 391
-          Height = 61
-          Caption = 'Appearance'
-          ParentColor = True
-          TabOrder = 3
-          TBXStyleBackground = True
-          object PBHeaderLine: TPaintBox
-            Left = 96
-            Top = 39
-            Width = 95
-            Height = 12
-            OnPaint = PBHeaderLinePaint
-          end
-          object PBHeaderShadow: TPaintBox
-            Left = 281
-            Top = 39
-            Width = 95
-            Height = 12
-            OnPaint = PBHeaderLinePaint
-          end
-          object HeaderLineColorBtn: TSpTBXButton
-            Left = 96
-            Top = 10
-            Width = 95
-            Height = 25
-            Caption = 'Line color'
-            TabOrder = 3
-            OnClick = HeaderLineColorBtnClick
-          end
-          object HeaderShadowColorBtn: TSpTBXButton
-            Left = 281
-            Top = 12
-            Width = 96
-            Height = 25
-            Caption = 'Shadow color'
-            TabOrder = 4
-            OnClick = HeaderShadowColorBtnClick
-          end
-          object CBHeaderLine: TSpTBXCheckBox
-            Left = 8
-            Top = 19
-            Width = 74
-            Height = 21
-            Caption = 'Line under'
-            TabOrder = 0
-          end
-          object CBHeaderBox: TSpTBXCheckBox
-            Left = 8
-            Top = 39
-            Width = 42
-            Height = 21
-            Caption = 'Box'
-            TabOrder = 1
-          end
-          object CBHeaderShadow: TSpTBXCheckBox
-            Left = 209
-            Top = 27
-            Width = 62
-            Height = 21
-            Caption = 'Shadow'
-            TabOrder = 2
-          end
-        end
-        object CBHeaderMirror: TSpTBXCheckBox
-          Left = 410
-          Top = 95
-          Width = 92
-          Height = 21
-          Caption = 'Mirror position'
-          TabOrder = 4
-        end
-        object Label12: TSpTBXLabel
-          Left = 10
-          Top = 15
-          Width = 25
-          Height = 19
-          Caption = 'Left'
-        end
-        object Label13: TSpTBXLabel
-          Left = 210
-          Top = 15
-          Width = 39
-          Height = 19
-          Caption = 'Center'
-        end
-        object Label14: TSpTBXLabel
-          Left = 410
-          Top = 15
-          Width = 31
-          Height = 19
-          Caption = 'Right'
-        end
-        object REHeaderLeft: TRichEdit
-          Left = 10
-          Top = 30
-          Width = 191
-          Height = 56
-          ScrollBars = ssBoth
-          TabOrder = 0
-          WordWrap = False
-          OnEnter = REHeaderLeftEnter
-          OnSelectionChange = REHeaderLeftSelectionChange
-        end
-        object REHeaderCenter: TRichEdit
-          Left = 210
-          Top = 30
-          Width = 191
-          Height = 56
-          Alignment = taCenter
-          ScrollBars = ssBoth
-          TabOrder = 1
-          WordWrap = False
-          OnEnter = REHeaderLeftEnter
-          OnSelectionChange = REHeaderLeftSelectionChange
-        end
-        object REHeaderRight: TRichEdit
-          Left = 410
-          Top = 30
-          Width = 191
-          Height = 56
-          Alignment = taRightJustify
-          ScrollBars = ssBoth
-          TabOrder = 2
-          WordWrap = False
-          OnEnter = REHeaderLeftEnter
-          OnSelectionChange = REHeaderLeftSelectionChange
-        end
-      end
-      object GroupBox3: TSpTBXGroupBox
-        Left = 5
-        Top = 200
-        Width = 611
-        Height = 161
-        Caption = 'Footer'
-        TabOrder = 1
-        TBXStyleBackground = True
-        object GroupBox4: TSpTBXGroupBox
-          Left = 10
-          Top = 92
-          Width = 391
-          Height = 61
-          Caption = 'Appearance'
-          ParentColor = True
-          TabOrder = 3
-          TBXStyleBackground = True
-          object PBFooterLine: TPaintBox
-            Left = 96
-            Top = 38
-            Width = 95
-            Height = 12
-            OnPaint = PBHeaderLinePaint
-          end
-          object PBFooterShadow: TPaintBox
-            Left = 281
-            Top = 38
-            Width = 95
-            Height = 12
-            OnPaint = PBHeaderLinePaint
-          end
-          object FooterLineColorBtn: TSpTBXButton
-            Left = 96
-            Top = 10
-            Width = 95
-            Height = 25
-            Caption = 'Line color'
-            TabOrder = 3
-            OnClick = FooterLineColorBtnClick
-          end
-          object FooterShadowColorBtn: TSpTBXButton
-            Left = 281
-            Top = 10
-            Width = 96
-            Height = 25
-            Caption = 'Shadow color'
-            TabOrder = 4
-            OnClick = FooterShadowColorBtnClick
-          end
-          object CBFooterLine: TSpTBXCheckBox
-            Left = 8
-            Top = 19
-            Width = 76
-            Height = 21
-            Caption = 'Line above'
-            TabOrder = 0
-          end
-          object CBFooterBox: TSpTBXCheckBox
-            Left = 8
-            Top = 39
-            Width = 42
-            Height = 21
-            Caption = 'Box'
-            TabOrder = 1
-          end
-          object CBFooterShadow: TSpTBXCheckBox
-            Left = 209
-            Top = 24
-            Width = 62
-            Height = 21
-            Caption = 'Shadow'
-            TabOrder = 2
-          end
-        end
-        object CBFooterMirror: TSpTBXCheckBox
-          Left = 410
-          Top = 95
-          Width = 92
-          Height = 21
-          Caption = 'Mirror position'
-          TabOrder = 4
-        end
-        object Label15: TSpTBXLabel
-          Left = 10
-          Top = 15
-          Width = 25
-          Height = 19
-          Caption = 'Left'
-        end
-        object Label16: TSpTBXLabel
-          Left = 210
-          Top = 15
-          Width = 39
-          Height = 19
-          Caption = 'Center'
-        end
-        object Label17: TSpTBXLabel
-          Left = 410
-          Top = 15
-          Width = 31
-          Height = 19
-          Caption = 'Right'
-        end
-        object REFooterLeft: TRichEdit
-          Left = 10
-          Top = 30
-          Width = 191
-          Height = 56
-          ScrollBars = ssBoth
-          TabOrder = 0
-          WordWrap = False
-          OnEnter = REHeaderLeftEnter
-          OnSelectionChange = REHeaderLeftSelectionChange
-        end
-        object REFooterCenter: TRichEdit
-          Left = 210
-          Top = 30
-          Width = 191
-          Height = 56
-          Alignment = taCenter
-          ScrollBars = ssBoth
-          TabOrder = 1
-          WordWrap = False
-          OnEnter = REHeaderLeftEnter
-          OnSelectionChange = REHeaderLeftSelectionChange
-        end
-        object REFooterRight: TRichEdit
-          Left = 410
-          Top = 30
-          Width = 191
-          Height = 56
-          Alignment = taRightJustify
-          ScrollBars = ssBoth
-          TabOrder = 2
-          WordWrap = False
-          OnEnter = REHeaderLeftEnter
-          OnSelectionChange = REHeaderLeftSelectionChange
-        end
-      end
+      Checked = True
     end
     object tbMargins: TSpTBXTabSheet
       Left = 0
@@ -1617,6 +1282,383 @@ inherited PageSetupDlg: TPageSetupDlg
           'Thousandths Of Inches')
       end
     end
+    object tbHeaderFooter: TSpTBXTabSheet
+      Left = 0
+      Top = 25
+      Width = 632
+      Height = 372
+      Caption = 'Header && Footer'
+      ImageIndex = -1
+      TabItem = 'SpTBXTabItem2'
+      object ToolbarDock: TSpTBXDock
+        Left = 2
+        Top = 0
+        Width = 626
+        Height = 26
+        AllowDrag = False
+        LimitToOneRow = True
+        object Toolbar: TSpTBXToolbar
+          Left = 0
+          Top = 0
+          DockMode = dmCannotFloatOrChangeDocks
+          FullSize = True
+          Images = ImageList
+          TabOrder = 0
+          Customizable = False
+          object tbiPgNumber: TSpTBXItem
+            Action = PageNumCmd
+          end
+          object tbiPages: TSpTBXItem
+            Action = PagesCmd
+          end
+          object tbiTime: TSpTBXItem
+            Action = TimeCmd
+          end
+          object tbiDate: TSpTBXItem
+            Action = DateCmd
+          end
+          object tbiTitle: TSpTBXItem
+            Action = TitleCmd
+          end
+          object SpTBXSeparatorItem2: TSpTBXSeparatorItem
+          end
+          object tbiFont: TSpTBXItem
+            Action = FontCmd
+          end
+          object SpTBXSeparatorItem1: TSpTBXSeparatorItem
+          end
+          object tbiBold: TSpTBXItem
+            Action = BoldCmd
+          end
+          object tbiItalic: TSpTBXItem
+            Action = ItalicCmd
+          end
+          object tbiUdnerline: TSpTBXItem
+            Action = UnderlineCmd
+          end
+        end
+      end
+      object GroupBox1: TSpTBXGroupBox
+        Left = 5
+        Top = 30
+        Width = 611
+        Height = 161
+        Caption = 'Header'
+        TabOrder = 0
+        TBXStyleBackground = True
+        object GroupBox2: TSpTBXGroupBox
+          Left = 10
+          Top = 90
+          Width = 391
+          Height = 61
+          Caption = 'Appearance'
+          ParentColor = True
+          TabOrder = 3
+          TBXStyleBackground = True
+          object PBHeaderLine: TPaintBox
+            Left = 96
+            Top = 39
+            Width = 95
+            Height = 12
+            OnPaint = PBHeaderLinePaint
+          end
+          object PBHeaderShadow: TPaintBox
+            Left = 281
+            Top = 39
+            Width = 95
+            Height = 12
+            OnPaint = PBHeaderLinePaint
+          end
+          object HeaderLineColorBtn: TSpTBXButton
+            Left = 96
+            Top = 10
+            Width = 95
+            Height = 25
+            Caption = 'Line color'
+            TabOrder = 3
+            OnClick = HeaderLineColorBtnClick
+          end
+          object HeaderShadowColorBtn: TSpTBXButton
+            Left = 281
+            Top = 12
+            Width = 96
+            Height = 25
+            Caption = 'Shadow color'
+            TabOrder = 4
+            OnClick = HeaderShadowColorBtnClick
+          end
+          object CBHeaderLine: TSpTBXCheckBox
+            Left = 8
+            Top = 19
+            Width = 74
+            Height = 21
+            Caption = 'Line under'
+            TabOrder = 0
+          end
+          object CBHeaderBox: TSpTBXCheckBox
+            Left = 8
+            Top = 39
+            Width = 42
+            Height = 21
+            Caption = 'Box'
+            TabOrder = 1
+          end
+          object CBHeaderShadow: TSpTBXCheckBox
+            Left = 209
+            Top = 27
+            Width = 62
+            Height = 21
+            Caption = 'Shadow'
+            TabOrder = 2
+          end
+        end
+        object CBHeaderMirror: TSpTBXCheckBox
+          Left = 410
+          Top = 95
+          Width = 92
+          Height = 21
+          Caption = 'Mirror position'
+          TabOrder = 4
+        end
+        object Label12: TSpTBXLabel
+          Left = 10
+          Top = 15
+          Width = 25
+          Height = 19
+          Caption = 'Left'
+        end
+        object Label13: TSpTBXLabel
+          Left = 210
+          Top = 15
+          Width = 39
+          Height = 19
+          Caption = 'Center'
+        end
+        object Label14: TSpTBXLabel
+          Left = 410
+          Top = 15
+          Width = 31
+          Height = 19
+          Caption = 'Right'
+        end
+        object REHeaderLeft: TRichEdit
+          Left = 10
+          Top = 30
+          Width = 191
+          Height = 56
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          ParentFont = False
+          ScrollBars = ssBoth
+          TabOrder = 0
+          WordWrap = False
+          Zoom = 100
+          OnEnter = REHeaderLeftEnter
+          OnSelectionChange = REHeaderLeftSelectionChange
+        end
+        object REHeaderCenter: TRichEdit
+          Left = 210
+          Top = 30
+          Width = 191
+          Height = 56
+          Alignment = taCenter
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          ParentFont = False
+          ScrollBars = ssBoth
+          TabOrder = 1
+          WordWrap = False
+          Zoom = 100
+          OnEnter = REHeaderLeftEnter
+          OnSelectionChange = REHeaderLeftSelectionChange
+        end
+        object REHeaderRight: TRichEdit
+          Left = 410
+          Top = 30
+          Width = 191
+          Height = 56
+          Alignment = taRightJustify
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          ParentFont = False
+          ScrollBars = ssBoth
+          TabOrder = 2
+          WordWrap = False
+          Zoom = 100
+          OnEnter = REHeaderLeftEnter
+          OnSelectionChange = REHeaderLeftSelectionChange
+        end
+      end
+      object GroupBox3: TSpTBXGroupBox
+        Left = 5
+        Top = 200
+        Width = 611
+        Height = 161
+        Caption = 'Footer'
+        TabOrder = 1
+        TBXStyleBackground = True
+        object GroupBox4: TSpTBXGroupBox
+          Left = 10
+          Top = 92
+          Width = 391
+          Height = 61
+          Caption = 'Appearance'
+          ParentColor = True
+          TabOrder = 3
+          TBXStyleBackground = True
+          object PBFooterLine: TPaintBox
+            Left = 96
+            Top = 38
+            Width = 95
+            Height = 12
+            OnPaint = PBHeaderLinePaint
+          end
+          object PBFooterShadow: TPaintBox
+            Left = 281
+            Top = 38
+            Width = 95
+            Height = 12
+            OnPaint = PBHeaderLinePaint
+          end
+          object FooterLineColorBtn: TSpTBXButton
+            Left = 96
+            Top = 10
+            Width = 95
+            Height = 25
+            Caption = 'Line color'
+            TabOrder = 3
+            OnClick = FooterLineColorBtnClick
+          end
+          object FooterShadowColorBtn: TSpTBXButton
+            Left = 281
+            Top = 10
+            Width = 96
+            Height = 25
+            Caption = 'Shadow color'
+            TabOrder = 4
+            OnClick = FooterShadowColorBtnClick
+          end
+          object CBFooterLine: TSpTBXCheckBox
+            Left = 8
+            Top = 19
+            Width = 76
+            Height = 21
+            Caption = 'Line above'
+            TabOrder = 0
+          end
+          object CBFooterBox: TSpTBXCheckBox
+            Left = 8
+            Top = 39
+            Width = 42
+            Height = 21
+            Caption = 'Box'
+            TabOrder = 1
+          end
+          object CBFooterShadow: TSpTBXCheckBox
+            Left = 209
+            Top = 24
+            Width = 62
+            Height = 21
+            Caption = 'Shadow'
+            TabOrder = 2
+          end
+        end
+        object CBFooterMirror: TSpTBXCheckBox
+          Left = 410
+          Top = 95
+          Width = 92
+          Height = 21
+          Caption = 'Mirror position'
+          TabOrder = 4
+        end
+        object Label15: TSpTBXLabel
+          Left = 10
+          Top = 15
+          Width = 25
+          Height = 19
+          Caption = 'Left'
+        end
+        object Label16: TSpTBXLabel
+          Left = 210
+          Top = 15
+          Width = 39
+          Height = 19
+          Caption = 'Center'
+        end
+        object Label17: TSpTBXLabel
+          Left = 410
+          Top = 15
+          Width = 31
+          Height = 19
+          Caption = 'Right'
+        end
+        object REFooterLeft: TRichEdit
+          Left = 10
+          Top = 30
+          Width = 191
+          Height = 56
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          ParentFont = False
+          ScrollBars = ssBoth
+          TabOrder = 0
+          WordWrap = False
+          Zoom = 100
+          OnEnter = REHeaderLeftEnter
+          OnSelectionChange = REHeaderLeftSelectionChange
+        end
+        object REFooterCenter: TRichEdit
+          Left = 210
+          Top = 30
+          Width = 191
+          Height = 56
+          Alignment = taCenter
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          ParentFont = False
+          ScrollBars = ssBoth
+          TabOrder = 1
+          WordWrap = False
+          Zoom = 100
+          OnEnter = REHeaderLeftEnter
+          OnSelectionChange = REHeaderLeftSelectionChange
+        end
+        object REFooterRight: TRichEdit
+          Left = 410
+          Top = 30
+          Width = 191
+          Height = 56
+          Alignment = taRightJustify
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          ParentFont = False
+          ScrollBars = ssBoth
+          TabOrder = 2
+          WordWrap = False
+          Zoom = 100
+          OnEnter = REHeaderLeftEnter
+          OnSelectionChange = REHeaderLeftSelectionChange
+        end
+      end
+    end
   end
   object OKBtn: TSpTBXButton
     Left = 534
@@ -1642,136 +1684,8 @@ inherited PageSetupDlg: TPageSetupDlg
     Left = 269
     Top = 4
     Bitmap = {
-      494C010109000E00040010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
-      0000000000003600000028000000400000004000000001002000000000000040
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
+      494C010109000D00040010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      0000000000003600000028000000400000003000000001002000000000000030
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -2157,12 +2071,8 @@ inherited PageSetupDlg: TPageSetupDlg
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       000000000000000000000000000000000000424D3E000000000000003E000000
-      2800000040000000400000000100010000000000000200000000000000000000
-      000000000000000000000000FFFFFF0000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      00000000000000000000000000000000FFFF000000000000FFFF000000000000
+      2800000040000000300000000100010000000000800100000000000000000000
+      000000000000000000000000FFFFFF00FFFF000000000000FFFF000000000000
       E00F000000000000FFFF000000000000F83F000000000000F39F000000000000
       F39F000000000000F39F000000000000F39F000000000000F39F000000000000
       F39F000000000000F39F000000000000E10F000000000000FFFF000000000000

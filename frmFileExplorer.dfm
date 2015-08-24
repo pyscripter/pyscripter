@@ -33,7 +33,7 @@ inherited FileExplorerWindow: TFileExplorerWindow
     000000000000000000000000000000000000000000000000000000000000FBC1
     0000FD410000FBC10000FFFF0000FBC10000FD410000FBC10000FFFF0000001F
     0000001F0000001F0000001F0000001F0000001F0000003F00000FFF0000}
-  ExplicitHeight = 473
+  ExplicitHeight = 478
   PixelsPerInch = 96
   TextHeight = 13
   inherited FGPanel: TPanel
@@ -58,7 +58,7 @@ inherited FileExplorerWindow: TFileExplorerWindow
       DefaultNodeHeight = 17
       DragHeight = 250
       DragWidth = 150
-      FileObjects = [foFolders, foNonFolders]
+      FileObjects = [foFolders, foNonFolders, foEnableAsync]
       FileSizeFormat = fsfExplorer
       FileSort = fsFileType
       Header.AutoSizeIndex = 0
@@ -67,6 +67,7 @@ inherited FileExplorerWindow: TFileExplorerWindow
       Header.Font.Height = -11
       Header.Font.Name = 'MS Shell Dlg 2'
       Header.Font.Style = []
+      Header.Height = 17
       Header.MainColumn = -1
       Header.Options = [hoColumnResize, hoDrag]
       HintMode = hmHint
@@ -82,10 +83,10 @@ inherited FileExplorerWindow: TFileExplorerWindow
       TreeOptions.MiscOptions = [toAcceptOLEDrop, toEditable, toFullRepaintOnResize, toInitOnSave, toToggleOnDblClick, toWheelPanning]
       TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowTreeLines, toThemeAware, toUseBlendedImages, toGhostedIfUnfocused, toUseBlendedSelection]
       TreeOptions.SelectionOptions = [toRightClickSelect]
-      TreeOptions.VETFolderOptions = [toFoldersExpandable, toForceHideRecycleBin, toThreadedExpandMark]
+      TreeOptions.VETFolderOptions = [toFoldersExpandable, toForceHideRecycleBin, toNoUseVETColorsProp, toThreadedExpandMark]
       TreeOptions.VETShellOptions = [toRightAlignSizeColumn, toContextMenus, toDragDrop, toShellHints]
       TreeOptions.VETSyncOptions = [toCollapseTargetFirst, toExpandTarget, toSelectTarget]
-      TreeOptions.VETMiscOptions = [toBrowseExecuteFolder, toBrowseExecuteFolderShortcut, toBrowseExecuteZipFolder, toAutoScrollHorz, toRestoreTopNodeOnRefresh]
+      TreeOptions.VETMiscOptions = [toBrowseExecuteFolder, toBrowseExecuteFolderShortcut, toBrowseExecuteZipFolder, toChangeNotifierThread, toAutoScrollHorz, toRestoreTopNodeOnRefresh]
       TreeOptions.VETImageOptions = [toImages, toMarkCutAndCopy]
       OnDblClick = FileExplorerTreeDblClick
       OnEnumFolder = FileExplorerTreeEnumFolder

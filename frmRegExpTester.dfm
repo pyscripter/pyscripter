@@ -49,14 +49,13 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
     0000E00F00008003000000010000000100000001000000010000000100000003
     00000007000080030000E0010000FF800000FFC00000FFE00000FFF00000}
   ExplicitWidth = 400
-  ExplicitHeight = 512
+  ExplicitHeight = 517
   PixelsPerInch = 96
   TextHeight = 13
   inherited FGPanel: TPanel
     Width = 380
     Height = 474
-    ExplicitLeft = 2
-    ExplicitTop = 2
+    ParentBackground = False
     ExplicitWidth = 380
     ExplicitHeight = 474
     object TBXDock: TSpTBXDock
@@ -195,32 +194,30 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
       Height = 26
       Images = CommandsDataModule.Images
       SizeGrip = False
-      ExplicitTop = 449
       object lbStatusBar: TSpTBXLabelItem
         Caption = 'Not executed'
         ImageIndex = 21
       end
     end
-    object pnlBackground: TSpTBXPanel
+    object pnlBackground: TPanel
       Left = 0
       Top = 26
       Width = 380
       Height = 422
       Align = alClient
+      ParentColor = True
       TabOrder = 2
-      Borders = False
-      TBXStyleBackground = True
-      object dpGroupsView: TSpTBXPanel
-        Left = 0
-        Top = 284
-        Width = 380
+      object dpGroupsView: TPanel
+        Left = 1
+        Top = 283
+        Width = 378
         Height = 138
         Align = alBottom
+        ParentColor = True
         TabOrder = 0
-        TBXStyleBackground = True
         object TBXLabel1: TSpTBXLabel
-          Left = 2
-          Top = 2
+          Left = 1
+          Top = 1
           Width = 376
           Height = 21
           Caption = 'Groups:'
@@ -233,13 +230,13 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
           ParentFont = False
           Wrapping = twEndEllipsis
           Underline = True
-          UnderlineColor = clBlue
+          UnderlineColor = clHotLight
         end
         object GroupsView: TVirtualStringTree
-          Left = 2
-          Top = 23
+          Left = 1
+          Top = 22
           Width = 376
-          Height = 113
+          Height = 115
           Align = alClient
           BevelEdges = []
           BevelInner = bvNone
@@ -279,41 +276,41 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
         end
       end
       object SpTBXSplitter1: TSpTBXSplitter
-        Left = 0
-        Top = 279
-        Width = 380
+        Left = 1
+        Top = 278
+        Width = 378
         Height = 5
         Cursor = crSizeNS
         Align = alBottom
+        Color = clNone
+        ParentColor = False
       end
-      object dpRegExpText: TSpTBXPanel
-        Left = 0
-        Top = 0
-        Width = 380
+      object dpRegExpText: TPanel
+        Left = 1
+        Top = 1
+        Width = 378
         Height = 82
         Align = alTop
+        ParentColor = True
         TabOrder = 1
-        TBXStyleBackground = True
-        object SpTBXPanel1: TSpTBXPanel
-          Left = 2
-          Top = 2
+        object SpTBXPanel1: TPanel
+          Left = 1
+          Top = 1
           Width = 376
-          Height = 78
-          Caption = 'SpTBXPanel1'
+          Height = 80
           Align = alClient
+          ParentColor = True
           TabOrder = 0
-          HotTrack = True
-          TBXStyleBackground = True
           object RegExpText: TRichEdit
-            Left = 2
-            Top = 23
-            Width = 372
-            Height = 53
+            Left = 1
+            Top = 22
+            Width = 374
+            Height = 57
             Align = alClient
             BevelInner = bvNone
             BevelOuter = bvNone
             BorderStyle = bsNone
-            Font.Charset = GREEK_CHARSET
+            Font.Charset = ANSI_CHARSET
             Font.Color = clWindowText
             Font.Height = -12
             Font.Name = 'Tahoma'
@@ -322,14 +319,13 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
             PlainText = True
             ScrollBars = ssVertical
             TabOrder = 0
+            Zoom = 100
             OnChange = RegExpTextChange
-            ExplicitTop = 24
-            ExplicitHeight = 52
           end
           object TBXLabel3: TSpTBXLabel
-            Left = 2
-            Top = 2
-            Width = 372
+            Left = 1
+            Top = 1
+            Width = 374
             Height = 21
             Caption = 'Regular Expression'
             Align = alTop
@@ -341,55 +337,53 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
             ParentFont = False
             Wrapping = twEndEllipsis
             Underline = True
-            UnderlineColor = clBlue
+            UnderlineColor = clHotLight
           end
         end
       end
       object SpTBXSplitter2: TSpTBXSplitter
-        Left = 0
-        Top = 82
-        Width = 380
+        Left = 1
+        Top = 83
+        Width = 378
         Height = 5
         Cursor = crSizeNS
         Align = alTop
+        Color = clNone
+        ParentColor = False
       end
-      object pnlMiddle: TSpTBXPanel
-        Left = 0
-        Top = 87
-        Width = 380
-        Height = 192
+      object pnlMiddle: TPanel
+        Left = 1
+        Top = 88
+        Width = 378
+        Height = 190
         Align = alClient
+        ParentBackground = False
         TabOrder = 2
-        Borders = False
-        TBXStyleBackground = True
-        object dpSearchText: TSpTBXPanel
-          Left = 0
-          Top = 0
-          Width = 380
+        object dpSearchText: TPanel
+          Left = 1
+          Top = 1
+          Width = 376
           Height = 95
           Align = alTop
+          ParentColor = True
           TabOrder = 0
-          TBXStyleBackground = True
-          object SpTBXPanel2: TSpTBXPanel
-            Left = 2
-            Top = 2
-            Width = 376
-            Height = 91
-            Caption = 'SpTBXPanel2'
+          object SpTBXPanel2: TPanel
+            Left = 1
+            Top = 1
+            Width = 374
+            Height = 93
             Align = alClient
             TabOrder = 0
-            HotTrack = True
-            TBXStyleBackground = True
             object SearchText: TRichEdit
-              Left = 2
-              Top = 23
+              Left = 1
+              Top = 22
               Width = 372
-              Height = 66
+              Height = 70
               Align = alClient
               BevelInner = bvNone
               BevelOuter = bvNone
               BorderStyle = bsNone
-              Font.Charset = GREEK_CHARSET
+              Font.Charset = ANSI_CHARSET
               Font.Color = clWindowText
               Font.Height = -12
               Font.Name = 'Tahoma'
@@ -398,13 +392,12 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
               PlainText = True
               ScrollBars = ssVertical
               TabOrder = 0
+              Zoom = 100
               OnChange = RegExpTextChange
-              ExplicitTop = 24
-              ExplicitHeight = 65
             end
             object TBXLabel4: TSpTBXLabel
-              Left = 2
-              Top = 2
+              Left = 1
+              Top = 1
               Width = 372
               Height = 21
               Caption = 'Search Text:'
@@ -417,51 +410,50 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
               ParentFont = False
               Wrapping = twEndEllipsis
               Underline = True
-              UnderlineColor = clBlue
+              UnderlineColor = clHotLight
             end
           end
         end
         object SpTBXSplitter3: TSpTBXSplitter
-          Left = 0
-          Top = 95
-          Width = 380
+          Left = 1
+          Top = 96
+          Width = 376
           Height = 5
           Cursor = crSizeNS
           Align = alTop
+          Color = clNone
+          ParentColor = False
         end
-        object dpMatchText: TSpTBXPanel
-          Left = 0
-          Top = 100
-          Width = 380
-          Height = 92
+        object dpMatchText: TPanel
+          Left = 1
+          Top = 101
+          Width = 376
+          Height = 88
           Align = alClient
+          ParentColor = True
           TabOrder = 1
-          HotTrack = True
-          TBXStyleBackground = True
-          object SpTBXPanel3: TSpTBXPanel
-            Left = 2
-            Top = 2
-            Width = 376
-            Height = 88
-            Caption = 'SpTBXPanel3'
+          object SpTBXPanel3: TPanel
+            Left = 1
+            Top = 1
+            Width = 374
+            Height = 86
             Align = alClient
+            ParentColor = True
             TabOrder = 0
-            HotTrack = True
-            TBXStyleBackground = True
             DesignSize = (
-              376
-              88)
+              374
+              86)
             object MatchText: TRichEdit
-              Left = 2
-              Top = 24
+              Left = 1
+              Top = 25
               Width = 372
-              Height = 62
+              Height = 60
               Align = alBottom
               Anchors = [akLeft, akTop, akRight, akBottom]
               BevelInner = bvNone
               BevelOuter = bvNone
               BorderStyle = bsNone
-              Font.Charset = GREEK_CHARSET
+              Font.Charset = ANSI_CHARSET
               Font.Color = clWindowText
               Font.Height = -12
               Font.Name = 'Tahoma'
@@ -470,11 +462,12 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
               PlainText = True
               ScrollBars = ssVertical
               TabOrder = 0
+              Zoom = 100
             end
             object lblMatch: TSpTBXLabel
               Left = 2
               Top = 2
-              Width = 329
+              Width = 327
               Height = 21
               Caption = 'Match:'
               Anchors = [akLeft, akTop, akRight]
@@ -486,10 +479,10 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
               ParentFont = False
               Wrapping = twEndEllipsis
               Underline = True
-              UnderlineColor = clBlue
+              UnderlineColor = clHotLight
             end
             object SpinMatches: TSpTBXSpinEdit
-              Left = 337
+              Left = 335
               Top = 2
               Width = 41
               Height = 19

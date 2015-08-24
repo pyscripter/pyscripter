@@ -41,23 +41,23 @@ type
     CI_AutoExecute: TSpTBXItem;
     StatusBar: TSpTBXStatusBar;
     lbStatusBar: TSpTBXLabelItem;
-    dpGroupsView: TSpTBXPanel;
+    dpGroupsView: TPanel;
     TBXLabel1: TSpTBXLabel;
     GroupsView: TVirtualStringTree;
-    dpMatchText: TSpTBXPanel;
+    dpMatchText: TPanel;
     lblMatch: TSpTBXLabel;
-    SpTBXPanel3: TSpTBXPanel;
-    dpRegExpText: TSpTBXPanel;
+    SpTBXPanel3: TPanel;
+    dpRegExpText: TPanel;
     TBXLabel3: TSpTBXLabel;
-    SpTBXPanel1: TSpTBXPanel;
-    dpSearchText: TSpTBXPanel;
+    SpTBXPanel1: TPanel;
+    dpSearchText: TPanel;
     TBXLabel4: TSpTBXLabel;
-    SpTBXPanel2: TSpTBXPanel;
+    SpTBXPanel2: TPanel;
     SpTBXSplitter1: TSpTBXSplitter;
     SpTBXSplitter2: TSpTBXSplitter;
-    pnlMiddle: TSpTBXPanel;
+    pnlMiddle: TPanel;
     SpTBXSplitter3: TSpTBXSplitter;
-    pnlBackground: TSpTBXPanel;
+    pnlBackground: TPanel;
     RegExpText: TRichEdit;
     SearchText: TRichEdit;
     MatchText: TRichEdit;
@@ -143,7 +143,6 @@ begin
   GroupsView.NodeDataSize := 0;
   GroupsView.Header.Height :=
     MulDiv(GroupsView.Header.Height, Screen.PixelsPerInch, 96);
-  GroupsView.SkinTree;
 end;
 
 procedure TRegExpTesterWindow.FormDestroy(Sender: TObject);
@@ -156,12 +155,7 @@ end;
 procedure TRegExpTesterWindow.WMSpSkinChange(var Message: TMessage);
 begin
   inherited;
-  GroupsView.Header.Invalidate(nil, True);
-  GroupsView.Invalidate;
-  if SkinManager.IsDefaultSkin then
-    GroupsView.TreeOptions.PaintOptions := GroupsView.TreeOptions.PaintOptions - [toAlwaysHideSelection]
-  else
-    GroupsView.TreeOptions.PaintOptions := GroupsView.TreeOptions.PaintOptions + [toAlwaysHideSelection];
+  GroupsView.SkinTree;
 end;
 
 procedure TRegExpTesterWindow.WriteToAppStorage(AppStorage: TJvCustomAppStorage;

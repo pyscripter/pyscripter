@@ -6,7 +6,7 @@ inherited OptionsInspector: TOptionsInspector
   ClientWidth = 508
   OnDestroy = FormDestroy
   ExplicitWidth = 514
-  ExplicitHeight = 377
+  ExplicitHeight = 378
   PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TSpTBXPanel
@@ -18,19 +18,19 @@ inherited OptionsInspector: TOptionsInspector
     Align = alClient
     UseDockManager = True
     TabOrder = 0
+    Borders = False
     TBXStyleBackground = True
     object Inspector: TJvInspector
-      Left = 2
-      Top = 2
-      Width = 504
-      Height = 308
+      Left = 0
+      Top = 0
+      Width = 508
+      Height = 312
       Style = isDotNet
       Align = alClient
-      BevelKind = bkFlat
-      BevelInner = bvRaised
-      BevelOuter = bvRaised
+      BevelKind = bkNone
+      BevelOuter = bvNone
       RelativeDivider = True
-      Divider = 52
+      Divider = 51
       ItemHeight = 16
       TabStop = True
       TabOrder = 0
@@ -41,7 +41,6 @@ inherited OptionsInspector: TOptionsInspector
     Top = 312
     Width = 508
     Height = 37
-    Color = clBtnFace
     Align = alBottom
     Anchors = [akLeft, akBottom]
     UseDockManager = True

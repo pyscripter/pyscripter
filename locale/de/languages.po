@@ -1,0 +1,52 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PyScripter 2.6.0.0 x64\n"
+"POT-Creation-Date: 2003-05-05 12:39\n"
+"PO-Revision-Date: 2015-05-05 21:22+0100\n"
+"Last-Translator: Daniel Frost <kontakt@frostinfo.de>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language-Team: Daniel Frost <kontakt@frostinfo.de>\n"
+"Language: de\n"
+"X-Generator: Poedit 1.7.6\n"
+
+msgid "Chinese"
+msgstr "Chinesisch"
+
+msgid "English"
+msgstr "Englisch"
+
+#. Language of France
+msgid "French"
+msgstr "Französisch"
+
+#. Language of Germany, Austria and others
+msgid "German"
+msgstr "Deutsch"
+
+#. Language of Greece
+msgid "Greek"
+msgstr "Griechisch"
+
+#. Language of Italy, Europe
+msgid "Italian"
+msgstr "Italienisch"
+
+#. Language of Japan, Asia
+msgid "Japanese"
+msgstr "Japanisch"
+
+#. Language of Portugal, Europe
+msgid "Portuguese"
+msgstr "Portugisisch"
+
+#. Language of Russia
+msgid "Russian"
+msgstr "Russisch"

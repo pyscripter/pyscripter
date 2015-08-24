@@ -5,7 +5,7 @@ inherited RunConfigurationForm: TRunConfigurationForm
   ClientWidth = 399
   OnDestroy = FormDestroy
   ExplicitWidth = 405
-  ExplicitHeight = 464
+  ExplicitHeight = 465
   PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TSpTBXPanel
@@ -120,6 +120,7 @@ inherited RunConfigurationForm: TRunConfigurationForm
         Options = [eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoShowScrollHint, eoSmartTabDelete, eoSmartTabs, eoTabsToSpaces]
         ScrollBars = ssNone
         WantReturns = False
+        FontSmoothing = fsmNone
       end
       object SynParameters: TSynEdit
         Left = 92
@@ -143,6 +144,7 @@ inherited RunConfigurationForm: TRunConfigurationForm
         Options = [eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoShowScrollHint, eoSmartTabDelete, eoSmartTabs, eoTabsToSpaces]
         ScrollBars = ssNone
         WantReturns = False
+        FontSmoothing = fsmNone
       end
       object SynWorkDir: TSynEdit
         Left = 120
@@ -166,6 +168,7 @@ inherited RunConfigurationForm: TRunConfigurationForm
         Options = [eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoShowScrollHint, eoSmartTabDelete, eoSmartTabs, eoTabsToSpaces]
         ScrollBars = ssNone
         WantReturns = False
+        FontSmoothing = fsmNone
       end
       object btnFileName: TSpTBXButton
         Left = 357
@@ -332,6 +335,7 @@ inherited RunConfigurationForm: TRunConfigurationForm
         Options = [eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoShowScrollHint, eoSmartTabDelete, eoSmartTabs, eoTabsToSpaces]
         ScrollBars = ssNone
         WantReturns = False
+        FontSmoothing = fsmNone
       end
       object btnOutputFileName: TSpTBXButton
         Left = 357

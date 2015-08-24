@@ -41,99 +41,101 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
-  inherited FGPanel: TPanel
-    object Panel1: TPanel
-      Left = 0
-      Top = 0
-      Width = 223
-      Height = 404
-      Align = alClient
-      BevelOuter = bvNone
-      TabOrder = 0
-      object ExplorerTree: TVirtualStringTree
-        Left = 0
-        Top = 26
-        Width = 223
-        Height = 378
-        Align = alClient
-        BorderStyle = bsNone
-        Header.AutoSizeIndex = -1
-        Header.Font.Charset = DEFAULT_CHARSET
-        Header.Font.Color = clWindowText
-        Header.Font.Height = -11
-        Header.Font.Name = 'MS Sans Serif'
-        Header.Font.Style = []
-        Header.MainColumn = -1
-        Header.Options = [hoColumnResize, hoDrag]
-        HintMode = hmHintAndDefault
-        Images = ProjectImageList
-        IncrementalSearch = isAll
-        TabOrder = 0
-        TreeOptions.AutoOptions = [toAutoDropExpand, toAutoScroll, toAutoScrollOnExpand, toAutoTristateTracking]
-        TreeOptions.MiscOptions = [toAcceptOLEDrop, toEditable, toFullRepaintOnResize, toInitOnSave, toWheelPanning]
-        TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowDropmark, toShowTreeLines, toShowVertGridLines, toThemeAware, toUseBlendedImages, toUseBlendedSelection]
-        TreeOptions.SelectionOptions = [toMultiSelect, toRightClickSelect, toSiblingSelectConstraint]
-        TreeOptions.StringOptions = [toAutoAcceptEditChange]
-        OnContextPopup = ExplorerTreeContextPopup
-        OnDblClick = ExplorerTreeDblClick
-        OnDragAllowed = ExplorerTreeDragAllowed
-        OnDragOver = ExplorerTreeDragOver
-        OnDragDrop = ExplorerTreeDragDrop
-        OnEditing = ExplorerTreeEditing
-        OnGetText = ExplorerTreeGetText
-        OnGetImageIndex = ExplorerTreeGetImageIndex
-        OnGetHint = ExplorerTreeGetHint
-        OnIncrementalSearch = ExplorerTreeIncrementalSearch
-        OnInitChildren = ExplorerTreeInitChildren
-        OnInitNode = ExplorerTreeInitNode
-        OnKeyPress = ExplorerTreeKeyPress
-        OnNewText = ExplorerTreeNewText
-        Columns = <>
-      end
-      object SpTBXDock1: TSpTBXDock
+  inherited BGPanel: TSpTBXPanel
+    inherited FGPanel: TPanel
+      object Panel1: TPanel
         Left = 0
         Top = 0
         Width = 223
-        Height = 26
-        AllowDrag = False
-        object SpTBXToolbar1: TSpTBXToolbar
+        Height = 404
+        Align = alClient
+        BevelOuter = bvNone
+        TabOrder = 0
+        object ExplorerTree: TVirtualStringTree
+          Left = 0
+          Top = 26
+          Width = 223
+          Height = 378
+          Align = alClient
+          BorderStyle = bsNone
+          Header.AutoSizeIndex = -1
+          Header.Font.Charset = DEFAULT_CHARSET
+          Header.Font.Color = clWindowText
+          Header.Font.Height = -11
+          Header.Font.Name = 'MS Sans Serif'
+          Header.Font.Style = []
+          Header.MainColumn = -1
+          Header.Options = [hoColumnResize, hoDrag]
+          HintMode = hmHintAndDefault
+          Images = ProjectImageList
+          IncrementalSearch = isAll
+          TabOrder = 0
+          TreeOptions.AutoOptions = [toAutoDropExpand, toAutoScroll, toAutoScrollOnExpand, toAutoTristateTracking]
+          TreeOptions.MiscOptions = [toAcceptOLEDrop, toEditable, toFullRepaintOnResize, toInitOnSave, toWheelPanning]
+          TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowDropmark, toShowTreeLines, toShowVertGridLines, toThemeAware, toUseBlendedImages, toUseBlendedSelection]
+          TreeOptions.SelectionOptions = [toMultiSelect, toRightClickSelect, toSiblingSelectConstraint]
+          TreeOptions.StringOptions = [toAutoAcceptEditChange]
+          OnContextPopup = ExplorerTreeContextPopup
+          OnDblClick = ExplorerTreeDblClick
+          OnDragAllowed = ExplorerTreeDragAllowed
+          OnDragOver = ExplorerTreeDragOver
+          OnDragDrop = ExplorerTreeDragDrop
+          OnEditing = ExplorerTreeEditing
+          OnGetText = ExplorerTreeGetText
+          OnGetImageIndex = ExplorerTreeGetImageIndex
+          OnGetHint = ExplorerTreeGetHint
+          OnIncrementalSearch = ExplorerTreeIncrementalSearch
+          OnInitChildren = ExplorerTreeInitChildren
+          OnInitNode = ExplorerTreeInitNode
+          OnKeyPress = ExplorerTreeKeyPress
+          OnNewText = ExplorerTreeNewText
+          Columns = <>
+        end
+        object SpTBXDock1: TSpTBXDock
           Left = 0
           Top = 0
-          Align = alTop
-          AutoResize = False
-          DockMode = dmCannotFloat
-          FullSize = True
-          Images = CommandsDataModule.Images
-          TabOrder = 0
-          Caption = 'Project Explorer Toolbar'
-          Customizable = False
-          object tbiProjectNew: TSpTBXItem
-            Action = actProjectNew
-          end
-          object tbiProjectOpen: TSpTBXItem
-            Action = actProjectOpen
-          end
-          object tbiProjectSave: TSpTBXItem
-            Action = actProjectSave
-          end
-          object SpTBXSeparatorItem8: TSpTBXSeparatorItem
-          end
-          object tbiRunLast: TSpTBXItem
-            Action = PyIDEMainForm.actRunLastScript
-          end
-          object tbiDebugLast: TSpTBXItem
-            Action = PyIDEMainForm.actRunDebugLastScript
-          end
-          object tbiRunLastExternal: TSpTBXItem
-            Action = PyIDEMainForm.actRunLastScriptExternal
-          end
-          object SpTBXSeparatorItem11: TSpTBXSeparatorItem
-          end
-          object tbiExpandAll: TSpTBXItem
-            Action = actProjectExpandAll
-          end
-          object tbiCollapseAll: TSpTBXItem
-            Action = actProjectCollapseAll
+          Width = 223
+          Height = 26
+          AllowDrag = False
+          object SpTBXToolbar1: TSpTBXToolbar
+            Left = 0
+            Top = 0
+            Align = alTop
+            AutoResize = False
+            DockMode = dmCannotFloat
+            FullSize = True
+            Images = CommandsDataModule.Images
+            TabOrder = 0
+            Caption = 'Project Explorer Toolbar'
+            Customizable = False
+            object tbiProjectNew: TSpTBXItem
+              Action = actProjectNew
+            end
+            object tbiProjectOpen: TSpTBXItem
+              Action = actProjectOpen
+            end
+            object tbiProjectSave: TSpTBXItem
+              Action = actProjectSave
+            end
+            object SpTBXSeparatorItem8: TSpTBXSeparatorItem
+            end
+            object tbiRunLast: TSpTBXItem
+              Action = PyIDEMainForm.actRunLastScript
+            end
+            object tbiDebugLast: TSpTBXItem
+              Action = PyIDEMainForm.actRunDebugLastScript
+            end
+            object tbiRunLastExternal: TSpTBXItem
+              Action = PyIDEMainForm.actRunLastScriptExternal
+            end
+            object SpTBXSeparatorItem11: TSpTBXSeparatorItem
+            end
+            object tbiExpandAll: TSpTBXItem
+              Action = actProjectExpandAll
+            end
+            object tbiCollapseAll: TSpTBXItem
+              Action = actProjectCollapseAll
+            end
           end
         end
       end
@@ -375,7 +377,7 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
     Left = 8
     Top = 140
     Bitmap = {
-      494C010104000900300010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010104000900040010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000002000000001002000000000000020
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

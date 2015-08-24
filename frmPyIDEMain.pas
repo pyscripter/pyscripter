@@ -382,7 +382,21 @@
   History:   v 2.6
           New Features
             Compatibility with Python 3.4
------------------------------------------------------------------------------}
+  History:   v 2.7
+          New Features
+            New Skin Engine (VCL Styles)
+            Internal Interpreter is hidden by default
+          Issues addressed
+            Remove UseEditorColors in IDE
+            { TODO : Issue 311 }
+            { TODO : Issue 765 }
+            { TODO : Issue 690 }
+            { TODO : Auto PEP8 tool }
+            { TODO : Replace assertion "1175" with message }
+
+{ TODO : Remove UseEditorColorsInIDE }
+{ TODO : Add Hide Internal Interpreter option }
+{------------------------------------------------------------------------------}
 
 // Bugs and minor features
 // TODO: Internal Tool as in pywin
@@ -403,7 +417,8 @@ unit frmPyIDEMain;
 interface
 
 uses
-  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms,
+  System.Types, System.UITypes, WinAPI.Windows, WinAPI.Messages,
+  System.SysUtils, System.Classes, Graphics, Controls, Forms,
   Variants, dmCommands, ActnList, Menus, uEditAppIntfs,
   JvDockControlForm, JvDockVIDStyle, JvDockVSNetStyle,
   SynEditTypes, SynEditMiscClasses, cPyBaseDebugger,
@@ -414,7 +429,8 @@ uses
   JvComponentBase, JvAppInst, uHighlighterProcs, cFileTemplates,
   JvDockVSNetStyleSpTBX, JvFormPlacement, SpTBXCustomizer,
   SpTbxSkins, SpTBXItem, SpTBXEditors, StdCtrls, JvDSADialogs, Dialogs,
-  ActiveX, SpTBXMDIMRU, SpTBXTabs, ImgList, SpTBXDkPanels, System.Actions;
+  ActiveX, SpTBXMDIMRU, SpTBXTabs, ImgList, SpTBXDkPanels, System.Actions,
+  VCL.Styles;
 
 const
   WM_FINDDEFINITION  = WM_USER + 100;
@@ -1053,6 +1069,7 @@ type
     procedure WMExecCLose(var Msg: TMessage); message WM_EXECCLOSE;
     procedure WMCheckForUpdates(var Msg: TMessage); message WM_CHECKFORUPDATES;
     procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
+    procedure CMStyleChanged(var Message: TMessage); message CM_STYLECHANGED;
     procedure SyntaxClick(Sender : TObject);
     procedure SelectEditor(Sender : TObject);
     procedure mnLanguageClick(Sender: TObject);
@@ -1163,7 +1180,7 @@ uses
   JclStrings, JclSysUtils, frmProjectExplorer, cProjectClasses,
   MPDataObject, gnugettext, WideStrUtils, WideStrings,
   SpTBXDefaultSkins, SpTBXControls, SynEditKeyCmds, StdActns,
-  PythonEngine, Contnrs, SynCompletionProposal;
+  PythonEngine, Contnrs, SynCompletionProposal, Vcl.Themes;
 
 {$R *.DFM}
 
@@ -1508,6 +1525,9 @@ begin
 
   // Execute pyscripter_init.py
   RunInitScript;
+
+  SkinManager.AddSkinNotification(Self);
+  SkinManager.BroadcastSkinNotification;
 end;
 
 procedure TPyIDEMainForm.FormCloseQuery(Sender: TObject;
@@ -2659,6 +2679,7 @@ end;
 
 procedure TPyIDEMainForm.FormDestroy(Sender: TObject);
 begin
+  SkinManager.RemoveSkinNotification(Self);
   FreeAndNil(Layouts);
   FreeAndNil(fLanguageList);
   FreeAndNil(DSAAppStorage);
@@ -2789,8 +2810,6 @@ begin
     end;
 
   ConfigureFCN(CommandsDataModule.PyIDEOptions.FileChangeNotification);
-
-  SetIDEColors;
 
   // Code completion
   CaseSensitive := CommandsDataModule.PyIDEOptions.CodeCompletionCaseSensitive;
@@ -3038,7 +3057,7 @@ begin
   AppStorage.ReadPersistent('Watches', WatchesWindow);
   StatusBar.Visible := AppStorage.ReadBoolean('Status Bar');
   // Load Theme Name
-  SkinManager.SetSkin(AppStorage.ReadString('Theme Name', 'Office2003'));
+  //SkinManager.SetSkin(AppStorage.ReadString('Theme Name', 'Office2003'));
 
   // Load Toolbar Items
   LoadToolbarItems('Toolbar Items');
@@ -3078,8 +3097,6 @@ begin
     if FName <> '' then
       ProjectExplorerWindow.DoOpenProjectFile(FName);
   end;
-
-  SetIDEColors;
 end;
 
 function TPyIDEMainForm.EditorFromTab(Tab : TSpTBXTabItem) : IEditor;
@@ -3581,64 +3598,26 @@ begin
 end;
 
 procedure TPyIDEMainForm.SetIDEColors;
+Var
+  BGColor, TextColor : TColor;
 begin
-  if CommandsDataModule.PyIDEOptions.UsePythonColorsInIDE and
-    (CommandsDataModule.SynPythonSyn.SpaceAttri.Background <> clNone) then
-  begin
-    FileExplorerWindow.FileExplorerTree.Color := CommandsDataModule.SynPythonSyn.SpaceAttri.Background;
-    BreakPointsWindow.BreakPointsView.Color := CommandsDataModule.SynPythonSyn.SpaceAttri.Background;
-    CallStackWindow.CallStackView.Color := CommandsDataModule.SynPythonSyn.SpaceAttri.Background;
-    CodeExplorerWindow.ExplorerTree.Color := CommandsDataModule.SynPythonSyn.SpaceAttri.Background;
-    MessagesWindow.MessagesView.Color := CommandsDataModule.SynPythonSyn.SpaceAttri.Background;
-    ProjectExplorerWindow.ExplorerTree.Color := CommandsDataModule.SynPythonSyn.SpaceAttri.Background;
-    RegExpTesterWindow.GroupsView.Color := CommandsDataModule.SynPythonSyn.SpaceAttri.Background;
-    RegExpTesterWindow.RegExpText.Color := CommandsDataModule.SynPythonSyn.SpaceAttri.Background;
-    RegExpTesterWindow.SearchText.Color := CommandsDataModule.SynPythonSyn.SpaceAttri.Background;
-    RegExpTesterWindow.MatchText.Color := CommandsDataModule.SynPythonSyn.SpaceAttri.Background;
-    RegExpTesterWindow.RegExpText.Font.Color := CommandsDataModule.SynPythonSyn.IdentifierAttri.Foreground;
-    RegExpTesterWindow.SearchText.Font.Color := CommandsDataModule.SynPythonSyn.IdentifierAttri.Foreground;
-    RegExpTesterWindow.MatchText.Font.Color := CommandsDataModule.SynPythonSyn.IdentifierAttri.Foreground;
-    ToDoWindow.ToDoView.Color := CommandsDataModule.SynPythonSyn.SpaceAttri.Background;
-    UnitTestWindow.UnitTests.Color := CommandsDataModule.SynPythonSyn.SpaceAttri.Background;
-    UnitTestWindow.ErrorText.Color := CommandsDataModule.SynPythonSyn.SpaceAttri.Background;
-    UnitTestWindow.ErrorText.Font.Color := CommandsDataModule.SynPythonSyn.IdentifierAttri.Foreground;
-    VariablesWindow.VariablesTree.Color := CommandsDataModule.SynPythonSyn.SpaceAttri.Background;
-    VariablesWindow.HTMLLabel.Color := CommandsDataModule.SynPythonSyn.SpaceAttri.Background;
-    VariablesWindow.DocPanel.Color := CommandsDataModule.SynPythonSyn.SpaceAttri.Background;
-    VariablesWindow.HTMLLabel.Font.Color := CommandsDataModule.SynPythonSyn.IdentifierAttri.Foreground;
-    WatchesWindow.WatchesView.Color := CommandsDataModule.SynPythonSyn.SpaceAttri.Background;
-    OutputWindow.lsbConsole.Color := CommandsDataModule.SynPythonSyn.SpaceAttri.Background;
-    OutputWindow.lsbConsole.Font.Color := CommandsDataModule.SynPythonSyn.IdentifierAttri.Foreground;
+  BGColor := StyleServices.GetSystemColor(clWindow);
+  TextColor :=  StyleServices.GetSystemColor(clWindowText);
+
+  RegExpTesterWindow.RegExpText.Color := BGColor;
+  RegExpTesterWindow.SearchText.Color := BGColor;
+  RegExpTesterWindow.MatchText.Color := BGColor;
+  RegExpTesterWindow.RegExpText.Font.Color := TextColor;
+  RegExpTesterWindow.SearchText.Font.Color := TextColor;
+  RegExpTesterWindow.MatchText.Font.Color := TextColor;
+  UnitTestWindow.ErrorText.Color := BGColor;
+  UnitTestWindow.ErrorText.Font.Color := TextColor;
+  VariablesWindow.HTMLLabel.Color := BGColor;
+  VariablesWindow.DocPanel.Color := BGColor;
+  VariablesWindow.HTMLLabel.Font.Color := TextColor;
+  OutputWindow.lsbConsole.Color := BGColor;
+  OutputWindow.lsbConsole.Font.Color := TextColor;
     OutputWindow.FontOrColorUpdated;
-  end
-  else
-  begin
-    FileExplorerWindow.FileExplorerTree.Color := clWindow;
-    BreakPointsWindow.BreakPointsView.Color := clWindow;
-    CallStackWindow.CallStackView.Color := clWindow;
-    CodeExplorerWindow.ExplorerTree.Color := clWindow;
-    MessagesWindow.MessagesView.Color := clWindow;
-    ProjectExplorerWindow.ExplorerTree.Color := clWindow;
-    RegExpTesterWindow.GroupsView.Color := clWindow;
-    RegExpTesterWindow.RegExpText.Color := clWindow;
-    RegExpTesterWindow.SearchText.Color := clWindow;
-    RegExpTesterWindow.MatchText.Color := clWindow;
-    RegExpTesterWindow.RegExpText.Font.Color := clWindowText;
-    RegExpTesterWindow.SearchText.Font.Color := clWindowText;
-    RegExpTesterWindow.MatchText.Font.Color := clWindowText;
-    ToDoWindow.ToDoView.Color := clWindow;
-    UnitTestWindow.UnitTests.Color := clWindow;
-    UnitTestWindow.ErrorText.Color := clWindow;
-    UnitTestWindow.ErrorText.Font.Color := clWindowText;
-    VariablesWindow.VariablesTree.Color := clWindow;
-    VariablesWindow.HTMLLabel.Color := clWindow;
-    VariablesWindow.DocPanel.Color := clWindow;
-    VariablesWindow.HTMLLabel.Font.Color := clWindowText;
-    WatchesWindow.WatchesView.Color := clWindow;
-    OutputWindow.lsbConsole.Color := clWindow;
-    OutputWindow.lsbConsole.Font.Color := clWindowText;
-    OutputWindow.FontOrColorUpdated;
-  end;
 end;
 
 procedure TPyIDEMainForm.SplitWorkspace(SecondTabsVisible : Boolean;
@@ -3873,22 +3852,37 @@ end;
 
 procedure TPyIDEMainForm.ThemeEditorGutter(Gutter : TSynGutter);
 Var
-  GradColor : TColor;
+  GradColor, TextColor : TColor;
 begin
-  if SkinManager.IsDefaultSkin then begin
+  if SkinManager.GetSkinType in [sknNone, sknWindows] then begin
     Gutter.GradientStartColor := clWindow;
     Gutter.GradientEndColor := clBtnFace;
+    Gutter.Font.Color := clSilver;
     Exit;
   end;
 
-  GradColor := CurrentSkin.Options(skncToolbar, sknsNormal).Body.Color1;
-  if GradColor = clNone then
-    GradColor := CurrentSkin.Options(skncDock, sknsNormal).Body.Color1;
+  if SkinManager.GetSkinType = sknSkin then begin
+    GradColor := CurrentSkin.Options(skncToolbar, sknsNormal).Body.Color1;
+    if GradColor = clNone then
+      GradColor := CurrentSkin.Options(skncDock, sknsNormal).Body.Color1;
+    Gutter.Font.Color := CurrentSkin.GetTextColor(skncTab, sknsNormal)
+  end else begin  // Delphi Skins
+    if not StyleServices.GetElementColor(StyleServices.GetElementDetails(ttTabItemNormal),
+      ecFillColor, GradColor) or (GradColor = clNone)
+    then
+      GradColor := StyleServices.GetSystemColor(clBtnFace);
+
+    if not StyleServices.GetElementColor(StyleServices.GetElementDetails(ttTabItemNormal),
+      ecTextColor, TextColor) or (TextColor = clNone)
+    then
+      TextColor := StyleServices.GetSystemColor(clBtnText);
+    Gutter.Font.Color := TextColor;
+  end;
 
   with Gutter do begin
     BorderStyle := gbsNone;
-    GradientStartColor := LightenColor(GradColor, 30);
-    GradientEndColor := DarkenColor(GradColor, 10);
+    GradientStartColor := LightenColor(GradColor, 40);
+    GradientEndColor := DarkenColor(GradColor, 20);
   end;
 end;
 
@@ -4092,6 +4086,12 @@ begin
   ThemeEditorGutter(CommandsDataModule.EditorOptions.Gutter);
 //  BGPanel.Color := CurrentTheme.GetItemColor(GetItemInfo('inactive'));
 //  Application.HintColor := CurrentTheme.GetViewColor(VT_DOCKPANEL);
+  SetIDEColors;
+end;
+
+procedure TPyIDEMainForm.CMStyleChanged(var Message: TMessage);
+begin
+  SkinManager.BroadcastSkinNotification;
 end;
 
 procedure TPyIDEMainForm.WMFindDefinition(var Msg: TMessage);

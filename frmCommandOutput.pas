@@ -11,10 +11,11 @@ unit frmCommandOutput;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, frmIDEDockWin, JvDockControlForm, ExtCtrls,
+  System.UITypes, Windows, Messages, SysUtils, Variants, Classes, Graphics,
+  Controls, Forms, Dialogs, frmIDEDockWin, JvDockControlForm, ExtCtrls,
   StdCtrls, JvCreateProcess, Menus, ActnList, uEditAppIntfs, cTools,
-  SynEditTypes, SynRegExpr, TB2Item, JvComponentBase, SpTBXItem, System.Actions;
+  SynEditTypes, SynRegExpr, TB2Item, JvComponentBase, SpTBXItem, System.Actions,
+  SpTBXControls;
 
 type
   TOutputWindow = class(TIDEDockWindow)

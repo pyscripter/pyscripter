@@ -14,7 +14,7 @@ uses
   Dialogs, Menus, JvDockControlForm, PythonEngine,
   Contnrs, frmIDEDockWin, ExtCtrls, TB2Item, VirtualTrees,
   TB2Dock, TB2Toolbar, ActnList, JvComponentBase, SpTBXSkins, SpTBXItem, SpTBXControls,
-  JvAppStorage;
+  JvAppStorage, System.Actions;
 
 type
   TMessagesWindow = class(TIDEDockWindow, IJvAppStorageHandler)
@@ -291,7 +291,6 @@ begin
   MessagesView.NodeDataSize := SizeOf(TMsgRec);
   MessagesView.Header.Height :=
     MulDiv(MessagesView.Header.Height, Screen.PixelsPerInch, 96);
-  MessagesView.SkinTree;
 end;
 
 procedure TMessagesWindow.FormDestroy(Sender: TObject);
@@ -364,12 +363,7 @@ end;
 procedure TMessagesWindow.WMSpSkinChange(var Message: TMessage);
 begin
   inherited;
-  MessagesView.Header.Invalidate(nil, True);
-  MessagesView.Invalidate;
-  if SkinManager.IsDefaultSkin then
-    MessagesView.TreeOptions.PaintOptions := MessagesView.TreeOptions.PaintOptions - [toAlwaysHideSelection]
-  else
-    MessagesView.TreeOptions.PaintOptions := MessagesView.TreeOptions.PaintOptions + [toAlwaysHideSelection];
+  MessagesView.SkinTree;
 end;
 
 procedure TMessagesWindow.actNextMsgsExecute(Sender: TObject);

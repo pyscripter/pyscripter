@@ -65,7 +65,7 @@ implementation
 
 uses frmCallStack, PythonEngine, 
   dmCommands, uCommonFunctions, StringResources,
-  JvJVCLUtils, Math, gnugettext, cThemedVirtualStringTree;
+  JvJVCLUtils, Math, gnugettext, cThemedVirtualStringTree, Vcl.Themes;
 
 {$R *.dfm}
 Type
@@ -81,7 +81,6 @@ begin
   VariablesTree.NodeDataSize := SizeOf(TPyObjRec);
   VariablesTree.Header.Height :=
     MulDiv(VariablesTree.Header.Height, Screen.PixelsPerInch, 96);
-  VariablesTree.SkinTree;
   HTMLLabel.Color := clWindow;
   DocPanel.Color := clWindow;
 end;
@@ -141,7 +140,7 @@ begin
     if nsaChanged in Data.NameSpaceItem.Attributes then
       TargetCanvas.Font.Color := clRed
     else if nsaNew in Data.NameSpaceItem.Attributes then
-      TargetCanvas.Font.Color := clBlue;
+      TargetCanvas.Font.Color := StyleServices.GetSystemColor(clHotlight);
 end;
 
 procedure TVariablesWindow.ReadFromAppStorage(AppStorage: TJvCustomAppStorage;
@@ -176,29 +175,27 @@ var
 begin
   if (Column = 0) and (Kind in [ikNormal, ikSelected]) then begin
     Data := VariablesTree.GetNodeData(Node);
-    with GetPythonEngine do begin
-      if Data.NameSpaceItem.IsDict then
-        ImageIndex := Integer(TCodeImages.Namespace)
-      else if Data.NameSpaceItem.IsModule then
-        ImageIndex := Integer(TCodeImages.Module)
-      else if Data.NameSpaceItem.IsMethod then
-        ImageIndex := Integer(TCodeImages.Method)
-      else if Data.NameSpaceItem.IsFunction then
-        ImageIndex := Integer(TCodeImages.Func)
-      else if Data.NameSpaceItem.IsClass or Data.NameSpaceItem.Has__dict__ then
-          ImageIndex := Integer(TCodeImages.Klass)
-      else if (Data.NameSpaceItem.ObjectType = 'list') or (Data.NameSpaceItem.ObjectType = 'tuple') then
-        ImageIndex := Integer(TCodeImages.List)
-      else begin
-        if Assigned(Node.Parent) and (Node.Parent <> VariablesTree.RootNode) and
-          (PPyObjRec(VariablesTree.GetNodeData(Node.Parent)).NameSpaceItem.IsDict
-            or PPyObjRec(VariablesTree.GetNodeData(Node.Parent)).NameSpaceItem.IsModule)
-        then
-          ImageIndex := Integer(TCodeImages.Variable)
-        else
-          ImageIndex := Integer(TCodeImages.Field);
-      end;
-    end
+    if Data.NameSpaceItem.IsDict then
+      ImageIndex := Integer(TCodeImages.Namespace)
+    else if Data.NameSpaceItem.IsModule then
+      ImageIndex := Integer(TCodeImages.Module)
+    else if Data.NameSpaceItem.IsMethod then
+      ImageIndex := Integer(TCodeImages.Method)
+    else if Data.NameSpaceItem.IsFunction then
+      ImageIndex := Integer(TCodeImages.Func)
+    else if Data.NameSpaceItem.IsClass or Data.NameSpaceItem.Has__dict__ then
+        ImageIndex := Integer(TCodeImages.Klass)
+    else if (Data.NameSpaceItem.ObjectType = 'list') or (Data.NameSpaceItem.ObjectType = 'tuple') then
+      ImageIndex := Integer(TCodeImages.List)
+    else begin
+      if Assigned(Node.Parent) and (Node.Parent <> VariablesTree.RootNode) and
+        (PPyObjRec(VariablesTree.GetNodeData(Node.Parent)).NameSpaceItem.IsDict
+          or PPyObjRec(VariablesTree.GetNodeData(Node.Parent)).NameSpaceItem.IsModule)
+      then
+        ImageIndex := Integer(TCodeImages.Variable)
+      else
+        ImageIndex := Integer(TCodeImages.Field);
+    end;
   end else
     ImageIndex := -1;
 end;
@@ -227,11 +224,6 @@ begin
         end;
   end;
 end;
-
-Type
-   // to help us access protected methods
-   TCrackedVirtualStringTree = class(TVirtualStringTree)
-   end;
 
 procedure TVariablesWindow.UpdateWindow;
 Var
@@ -339,12 +331,7 @@ end;
 procedure TVariablesWindow.WMSpSkinChange(var Message: TMessage);
 begin
   inherited;
-  VariablesTree.Header.Invalidate(nil, True);
-  VariablesTree.Invalidate;
-  if SkinManager.IsDefaultSkin then
-    VariablesTree.TreeOptions.PaintOptions := VariablesTree.TreeOptions.PaintOptions - [toAlwaysHideSelection]
-  else
-    VariablesTree.TreeOptions.PaintOptions := VariablesTree.TreeOptions.PaintOptions + [toAlwaysHideSelection];
+  VariablesTree.SkinTree;
 end;
 
 procedure TVariablesWindow.FormDestroy(Sender: TObject);
@@ -381,8 +368,8 @@ begin
     Color1 := ColorToString(CommandsDataModule.SynPythonSyn.KeyAttri.Foreground);
     Color2 := ColorToString(CommandsDataModule.SynPythonSyn.NonKeyAttri.Foreground);
   end else begin
-    Color1 := 'clBlue';
-    Color2 := 'clBlue';
+    Color1 := ColorToString(StyleServices.GetSystemColor(clHotlight));
+    Color2 := Color1;
   end;
 
   if Assigned(Node) and (vsSelected in Node.States) then begin

@@ -16,7 +16,7 @@ uses
   MPShellUtilities, VirtualExplorerTree, Menus, frmIDEDockWin,
   ActnList, VirtualShellHistory,  TB2Item, TB2Dock,
   TB2Toolbar, JvComponentBase, SpTBXItem,
-  SpTBXSkins, cThemedVirtualStringTree;
+  SpTBXSkins, cThemedVirtualStringTree, System.Actions;
                                                       
 const
   WM_EXPLOREHERE = WM_USER + 1000;
@@ -260,11 +260,7 @@ end;
 procedure TFileExplorerWindow.WMSpSkinChange(var Message: TMessage);
 begin
   inherited;
-  FileExplorerTree.Invalidate;
-  if SkinManager.IsDefaultSkin then
-    FileExplorerTree.TreeOptions.PaintOptions := FileExplorerTree.TreeOptions.PaintOptions - [toAlwaysHideSelection]
-  else
-    FileExplorerTree.TreeOptions.PaintOptions := FileExplorerTree.TreeOptions.PaintOptions + [toAlwaysHideSelection];
+  FileExplorerTree.SkinTree;
 end;
 
 function TFileExplorerWindow.GetExplorerPath: string;
@@ -400,7 +396,6 @@ begin
   fFavorites := TStringList.Create;
   fFavorites.Duplicates := dupIgnore;
   fFavorites.Sorted := True;
-  FileExplorerTree.SkinTree;
 end;
 
 procedure TFileExplorerWindow.FormDestroy(Sender: TObject);

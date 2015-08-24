@@ -43,36 +43,42 @@ inherited OutputWindow: TOutputWindow
     0000FFFF00000000000000000000000000000000000000000000000000000000
     0000000000000000000000000000000000000000000000000000FFFF0000}
   ExplicitWidth = 568
-  ExplicitHeight = 365
+  ExplicitHeight = 370
   PixelsPerInch = 96
   TextHeight = 13
-  inherited FGPanel: TPanel
-    Width = 548
-    Height = 327
-    ExplicitLeft = 2
-    ExplicitTop = 2
-    ExplicitWidth = 548
-    ExplicitHeight = 327
-    object lsbConsole: TListBox
-      Left = 0
-      Top = 0
+  inherited BGPanel: TSpTBXPanel
+    Width = 552
+    Height = 331
+    ExplicitLeft = 0
+    ExplicitTop = 0
+    ExplicitWidth = 552
+    ExplicitHeight = 331
+    inherited FGPanel: TPanel
       Width = 548
       Height = 327
-      TabStop = False
-      Align = alClient
-      BevelInner = bvNone
-      BorderStyle = bsNone
-      Ctl3D = False
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -12
-      Font.Name = 'Courier New'
-      Font.Style = []
-      ItemHeight = 15
-      ParentCtl3D = False
-      ParentFont = False
-      PopupMenu = OutputPopup
-      TabOrder = 0
+      ExplicitWidth = 548
+      ExplicitHeight = 327
+      object lsbConsole: TListBox
+        Left = 0
+        Top = 0
+        Width = 548
+        Height = 327
+        TabStop = False
+        Align = alClient
+        BevelInner = bvNone
+        BorderStyle = bsNone
+        Ctl3D = False
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Courier New'
+        Font.Style = []
+        ItemHeight = 15
+        ParentCtl3D = False
+        ParentFont = False
+        PopupMenu = OutputPopup
+        TabOrder = 0
+      end
     end
   end
   object TimeoutTimer: TTimer

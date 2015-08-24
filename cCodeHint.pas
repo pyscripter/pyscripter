@@ -74,7 +74,6 @@ type
     R: TRect;
     Area: TRect;
     State: TCodeHintState;
-    Txt: THintString;
     HintWindow: TCodeHintWindow;
     TimerHint: TTimer;
     FDelay: Integer;
@@ -98,6 +97,9 @@ var
   CodeHint : TCodeHint;
 
 implementation
+
+uses
+  Vcl.Graphics, Vcl.Themes;
 
 
 
@@ -157,7 +159,7 @@ var
   HintPause: Integer;
   Txt : string;
 begin
-  HintWindow.Color := Application.HintColor;
+  //HintWindow.Color := Application.HintColor;
   Delay := FDelay * Integer(TimerHint.Interval);
   case State of
     tmProcessing : Exit;  // still working
@@ -197,7 +199,7 @@ begin
           Inc(R.Bottom, R.Top);
           Inc(R.Right, R.Left);
           State := tmShowing;
-          HintWindow.ActivateHint(R, Txt);
+          HintWindow.ActivateHint(R, '');
           FDelay := 0;
         end
         else
@@ -232,7 +234,7 @@ begin
     ShowWindow(HintWindow.Handle, SW_HIDE);
   State := tmStopped;
   TimerHint.Enabled := False;
-  HintWindow.Caption := '';
+  HintWindow.HtLabel.Caption := '';
 end;
 
 procedure TCodeHint.SetOnGetCodeHint(const Value: TGetCodeHintEvent);
@@ -259,24 +261,28 @@ begin
   HtLabel := TJvHTLabel.Create(Self);
   HtLabel.Parent := Self;
   HtLabel.SetBounds(2, 2, 0, 0);
-  HtLabel.Transparent := False;
+
+  { TODO : Allow customization of these colors }
+  HtLabel.Font.Name := 'Courier New';
+  HtLabel.Font.Size := 10;
+  HtLabel.Transparent := True;
 end;
 
 procedure TCodeHintWindow.Paint;
 begin
+  inherited;
 end;
 
 function TCodeHintWindow.CalcHintRect(MaxWidth: Integer;
   const AHint: THintString; AData: Pointer): TRect;
 begin
+  HtLabel.Font.Color := StyleServices.GetSystemColor(Screen.HintFont.Color);
   HtLabel.Caption := AHint;
   Result := Bounds(0, 0, HtLabel.Width + 6, HtLabel.Height + 2);
 end;
 
 initialization
   CodeHint := TCodeHint.Create(nil);
-  CodeHint.HintWindow.HtLabel.Font.Name := 'Courier New';
-  CodeHint.HintWindow.HtLabel.Font.Size := 10;
 finalization
   FreeAndNil(CodeHint);
 end.

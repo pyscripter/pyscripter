@@ -6,7 +6,7 @@ inherited NewFileDialog: TNewFileDialog
   OnDestroy = FormDestroy
   OnShow = FormShow
   ExplicitWidth = 472
-  ExplicitHeight = 325
+  ExplicitHeight = 326
   PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TSpTBXPanel
@@ -14,7 +14,6 @@ inherited NewFileDialog: TNewFileDialog
     Top = 0
     Width = 466
     Height = 297
-    Color = clBtnFace
     Align = alClient
     UseDockManager = True
     TabOrder = 0
@@ -24,7 +23,6 @@ inherited NewFileDialog: TNewFileDialog
       Top = 2
       Width = 462
       Height = 255
-      Color = clBtnFace
       Align = alTop
       UseDockManager = True
       TabOrder = 0
@@ -34,7 +32,6 @@ inherited NewFileDialog: TNewFileDialog
         Top = 2
         Width = 185
         Height = 251
-        Color = clBtnFace
         Align = alLeft
         UseDockManager = True
         TabOrder = 0
@@ -76,7 +73,6 @@ inherited NewFileDialog: TNewFileDialog
         Top = 2
         Width = 270
         Height = 251
-        Color = clBtnFace
         Align = alClient
         UseDockManager = True
         TabOrder = 1

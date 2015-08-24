@@ -41,122 +41,129 @@ inherited MessagesWindow: TMessagesWindow
     5928B786568EB88756B1B88756B1B88756B1B88756B1B88756B1B88756B1B886
     57A9B6855763BB88551E0000000000000000000000000000000000000000}
   ExplicitWidth = 709
-  ExplicitHeight = 220
+  ExplicitHeight = 225
   PixelsPerInch = 96
   TextHeight = 13
-  inherited FGPanel: TPanel
-    Width = 689
-    Height = 182
-    ExplicitLeft = 2
-    ExplicitTop = 2
-    ExplicitWidth = 689
-    ExplicitHeight = 182
-    DesignSize = (
-      689
-      182)
-    object MessagesView: TVirtualStringTree
-      Left = 0
-      Top = 0
+  inherited BGPanel: TSpTBXPanel
+    Width = 693
+    Height = 186
+    ExplicitLeft = 0
+    ExplicitTop = 0
+    ExplicitWidth = 693
+    ExplicitHeight = 186
+    inherited FGPanel: TPanel
       Width = 689
       Height = 182
-      Align = alClient
-      Alignment = taRightJustify
-      BevelInner = bvNone
-      BevelOuter = bvNone
-      BorderStyle = bsNone
-      Header.AutoSizeIndex = 0
-      Header.Options = [hoAutoResize, hoColumnResize, hoDblClickResize, hoHotTrack, hoOwnerDraw, hoVisible]
-      Header.ParentFont = True
-      HintMode = hmTooltip
-      PopupMenu = TBXPopupMenu
-      TabOrder = 0
-      TreeOptions.AnimationOptions = [toAnimatedToggle]
-      TreeOptions.MiscOptions = [toFullRepaintOnResize, toInitOnSave, toReportMode, toToggleOnDblClick, toWheelPanning]
-      TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowDropmark, toShowHorzGridLines, toShowVertGridLines, toThemeAware, toUseBlendedImages, toUseBlendedSelection]
-      TreeOptions.SelectionOptions = [toExtendedFocus, toFullRowSelect, toRightClickSelect]
-      TreeOptions.StringOptions = [toAutoAcceptEditChange]
-      OnDblClick = MessagesViewDblClick
-      OnGetText = MessagesViewGetText
-      OnInitNode = MessagesViewInitNode
-      Columns = <
-        item
-          Position = 0
-          Width = 339
-          WideText = 'Message'
-        end
-        item
-          Position = 1
-          Width = 200
-          WideText = 'File Name'
-        end
-        item
-          Alignment = taRightJustify
-          Position = 2
-          WideText = 'Line'
-        end
-        item
-          Alignment = taRightJustify
-          Position = 3
-          Width = 60
-          WideText = 'Position'
-        end
-        item
-          Position = 4
-          Width = 40
-        end>
-    end
-    object TBToolbar1: TTBToolbar
-      Left = 648
-      Top = 0
-      Width = 39
-      Height = 17
-      Anchors = [akTop, akRight]
-      Caption = 'TBToolbar1'
-      TabOrder = 1
+      ExplicitWidth = 689
+      ExplicitHeight = 182
       DesignSize = (
-        39
-        17)
-      object TBControlItem5: TTBControlItem
-        Control = BtnPreviousMsgs
-      end
-      object TBControlItem6: TTBControlItem
-        Control = BtnNextMsgs
-      end
-      object BtnPreviousMsgs: TSpTBXButton
+        689
+        182)
+      object MessagesView: TVirtualStringTree
         Left = 0
         Top = 0
-        Width = 20
-        Height = 17
-        Hint = 'Show previous messages'
-        Caption = '3'
-        Anchors = [akTop, akRight]
-        Enabled = False
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -12
-        Font.Name = 'Webdings'
-        Font.Style = []
-        ParentFont = False
+        Width = 689
+        Height = 182
+        Align = alClient
+        Alignment = taRightJustify
+        BevelInner = bvNone
+        BevelOuter = bvNone
+        BorderStyle = bsNone
+        Header.AutoSizeIndex = 0
+        Header.Options = [hoAutoResize, hoColumnResize, hoDblClickResize, hoHotTrack, hoOwnerDraw, hoVisible]
+        Header.ParentFont = True
+        HintMode = hmTooltip
+        PopupMenu = TBXPopupMenu
         TabOrder = 0
-        OnClick = actPreviousMsgsExecute
+        TreeOptions.AnimationOptions = [toAnimatedToggle]
+        TreeOptions.MiscOptions = [toFullRepaintOnResize, toInitOnSave, toReportMode, toToggleOnDblClick, toWheelPanning]
+        TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowDropmark, toShowHorzGridLines, toShowVertGridLines, toThemeAware, toUseBlendedImages, toUseBlendedSelection]
+        TreeOptions.SelectionOptions = [toExtendedFocus, toFullRowSelect, toRightClickSelect]
+        TreeOptions.StringOptions = [toAutoAcceptEditChange]
+        OnDblClick = MessagesViewDblClick
+        OnGetText = MessagesViewGetText
+        OnInitNode = MessagesViewInitNode
+        Columns = <
+          item
+            Position = 0
+            Width = 339
+            WideText = 'Message'
+          end
+          item
+            Position = 1
+            Width = 200
+            WideText = 'File Name'
+          end
+          item
+            Alignment = taRightJustify
+            Position = 2
+            WideText = 'Line'
+          end
+          item
+            Alignment = taRightJustify
+            Position = 3
+            Width = 60
+            WideText = 'Position'
+          end
+          item
+            Position = 4
+            Width = 40
+          end>
       end
-      object BtnNextMsgs: TSpTBXButton
-        Left = 20
+      object TBToolbar1: TTBToolbar
+        Left = 648
         Top = 0
-        Width = 19
+        Width = 39
         Height = 17
-        Hint = 'Show next messages'
-        Caption = '4'
         Anchors = [akTop, akRight]
-        Enabled = False
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -12
-        Font.Name = 'Webdings'
-        Font.Style = []
-        ParentFont = False
+        Caption = 'TBToolbar1'
+        Color = clNone
         TabOrder = 1
-        OnClick = actNextMsgsExecute
+        DesignSize = (
+          39
+          17)
+        object TBControlItem5: TTBControlItem
+          Control = BtnPreviousMsgs
+        end
+        object TBControlItem6: TTBControlItem
+          Control = BtnNextMsgs
+        end
+        object BtnPreviousMsgs: TSpTBXButton
+          Left = 0
+          Top = 0
+          Width = 20
+          Height = 17
+          Hint = 'Show previous messages'
+          Caption = '3'
+          Anchors = [akTop, akRight]
+          Enabled = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = 'Webdings'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 0
+          OnClick = actPreviousMsgsExecute
+        end
+        object BtnNextMsgs: TSpTBXButton
+          Left = 20
+          Top = 0
+          Width = 19
+          Height = 17
+          Hint = 'Show next messages'
+          Caption = '4'
+          Anchors = [akTop, akRight]
+          Enabled = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = 'Webdings'
+          Font.Style = []
+          ParentFont = False
+          TabOrder = 1
+          OnClick = actNextMsgsExecute
+        end
       end
     end
   end

@@ -46,7 +46,7 @@ uses
   SynEditPrintTypes, SynEditPrint, SynEditPrintMargins,
   SynEditPrintHeaderFooter, SpTBXControls, TB2Item,
   SpTBXItem, TB2Dock, TB2Toolbar, SpTBXEditors,
-  dlgPyIDEBase, SpTBXTabs;
+  dlgPyIDEBase, SpTBXTabs, System.Actions;
 
 type
   TPageSetupDlg = class(TPyIDEDlgBase)

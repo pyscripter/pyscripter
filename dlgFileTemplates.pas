@@ -11,11 +11,11 @@ unit dlgFileTemplates;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Controls, Forms,
-  Dialogs, StdCtrls,
+  System.UITypes, Windows, Messages, SysUtils, Variants, Classes, Controls,
+  Forms, Dialogs, System.Contnrs, StdCtrls,
   SynEdit, ActnList, cFileTemplates, SpTBXControls,
   dlgPyIDEBase, SpTBXEditors, SpTBXItem, EasyListview,
-  MPCommonObjects, MPCommonUtilities;
+  MPCommonObjects, MPCommonUtilities, System.Actions;
 
 type
   TFileTemplatesDialog = class(TPyIDEDlgBase)

@@ -41,58 +41,71 @@ inherited CallStackWindow: TCallStackWindow
     0000000000000000000000000000000000000000000000000000000000000000
     000000000000000000000000000000000000000000000000000000000000}
   ExplicitWidth = 397
-  ExplicitHeight = 202
+  ExplicitHeight = 207
   PixelsPerInch = 96
   TextHeight = 13
-  inherited FGPanel: TPanel
-    Width = 377
-    Height = 164
-    ExplicitLeft = 2
-    ExplicitTop = 2
-    ExplicitWidth = 377
-    ExplicitHeight = 164
-    object CallStackView: TVirtualStringTree
-      Left = 0
-      Top = 0
+  inherited BGPanel: TSpTBXPanel
+    Width = 381
+    Height = 168
+    ExplicitWidth = 381
+    ExplicitHeight = 168
+    inherited FGPanel: TPanel
       Width = 377
       Height = 164
-      Align = alClient
-      Alignment = taRightJustify
-      BevelInner = bvNone
-      BevelOuter = bvNone
-      BorderStyle = bsNone
-      Header.AutoSizeIndex = 1
-      Header.MainColumn = 1
-      Header.Options = [hoAutoResize, hoColumnResize, hoDblClickResize, hoHotTrack, hoOwnerDraw, hoVisible]
-      Header.ParentFont = True
-      HintMode = hmTooltip
-      TabOrder = 0
-      TreeOptions.AnimationOptions = [toAnimatedToggle]
-      TreeOptions.AutoOptions = [toAutoDropExpand, toAutoScrollOnExpand, toAutoTristateTracking, toAutoDeleteMovedNodes, toAutoChangeScale]
-      TreeOptions.MiscOptions = [toFullRepaintOnResize, toInitOnSave, toReportMode, toToggleOnDblClick, toWheelPanning]
-      TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowDropmark, toShowHorzGridLines, toShowVertGridLines, toThemeAware, toUseBlendedImages, toUseBlendedSelection]
-      TreeOptions.SelectionOptions = [toExtendedFocus, toFullRowSelect, toRightClickSelect]
-      TreeOptions.StringOptions = [toAutoAcceptEditChange]
-      OnChange = CallStackViewChange
-      OnDblClick = CallStackViewDblClick
-      OnGetText = CallStackViewGetText
-      OnInitNode = CallStackViewInitNode
-      Columns = <
-        item
-          Position = 0
-          Width = 100
-          WideText = 'Function Name'
-        end
-        item
-          Position = 1
-          Width = 227
-          WideText = 'File Name'
-        end
-        item
-          Alignment = taRightJustify
-          Position = 2
-          WideText = 'Line'
-        end>
+      ExplicitWidth = 377
+      ExplicitHeight = 164
+      object CallStackView: TVirtualStringTree
+        Left = 0
+        Top = 0
+        Width = 377
+        Height = 164
+        Align = alClient
+        Alignment = taRightJustify
+        BevelInner = bvNone
+        BevelOuter = bvNone
+        BevelKind = bkFlat
+        BorderStyle = bsNone
+        Color = 2500134
+        Colors.FocusedSelectionColor = 3158064
+        Colors.FocusedSelectionBorderColor = 855309
+        Colors.SelectionRectangleBlendColor = 3158064
+        Colors.SelectionRectangleBorderColor = 855309
+        Colors.TreeLineColor = clWhite
+        Colors.UnfocusedSelectionColor = cl3DDkShadow
+        Colors.UnfocusedSelectionBorderColor = 855309
+        Header.AutoSizeIndex = 1
+        Header.MainColumn = 1
+        Header.Options = [hoAutoResize, hoColumnResize, hoDblClickResize, hoHotTrack, hoOwnerDraw, hoVisible]
+        Header.ParentFont = True
+        HintMode = hmTooltip
+        TabOrder = 0
+        TreeOptions.AnimationOptions = [toAnimatedToggle]
+        TreeOptions.AutoOptions = [toAutoDropExpand, toAutoScrollOnExpand, toAutoTristateTracking, toAutoDeleteMovedNodes, toAutoChangeScale]
+        TreeOptions.MiscOptions = [toFullRepaintOnResize, toInitOnSave, toReportMode, toToggleOnDblClick, toWheelPanning]
+        TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowDropmark, toShowHorzGridLines, toShowVertGridLines, toThemeAware, toUseBlendedImages, toUseBlendedSelection]
+        TreeOptions.SelectionOptions = [toExtendedFocus, toFullRowSelect, toRightClickSelect]
+        TreeOptions.StringOptions = [toAutoAcceptEditChange]
+        OnChange = CallStackViewChange
+        OnDblClick = CallStackViewDblClick
+        OnGetText = CallStackViewGetText
+        OnInitNode = CallStackViewInitNode
+        Columns = <
+          item
+            Position = 0
+            Width = 100
+            WideText = 'Function Name'
+          end
+          item
+            Position = 1
+            Width = 227
+            WideText = 'File Name'
+          end
+          item
+            Alignment = taRightJustify
+            Position = 2
+            WideText = 'Line'
+          end>
+      end
     end
   end
   inherited DockClient: TJvDockClient

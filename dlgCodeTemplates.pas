@@ -11,10 +11,10 @@ unit dlgCodeTemplates;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Controls, Forms,
-  Dialogs, StdCtrls, SynEdit,  ActnList, SpTBXControls, 
+  System.UITypes, Windows, Messages, SysUtils, Variants, Classes,
+  Controls, Forms, Dialogs, StdCtrls, SynEdit,  ActnList, SpTBXControls,
   dlgPyIDEBase, SpTBXEditors, SpTBXItem,
-  MPCommonObjects, EasyListview;
+  MPCommonObjects, EasyListview, System.Actions;
 
 type
   TCodeTemplates = class(TPyIDEDlgBase)

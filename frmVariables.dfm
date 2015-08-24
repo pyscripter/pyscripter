@@ -41,7 +41,7 @@ inherited VariablesWindow: TVariablesWindow
     0000000000000000000000000000000000000000000000000000000000000000
     000000000000000000000000000000000000000000000000000000000000}
   ExplicitWidth = 595
-  ExplicitHeight = 281
+  ExplicitHeight = 286
   PixelsPerInch = 96
   TextHeight = 13
   inherited FGPanel: TPanel
@@ -126,6 +126,8 @@ inherited VariablesWindow: TVariablesWindow
       Height = 243
       Cursor = crSizeWE
       Align = alRight
+      Color = clNone
+      ParentColor = False
       MinSize = 3
     end
   end

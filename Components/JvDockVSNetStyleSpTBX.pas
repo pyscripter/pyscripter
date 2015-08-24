@@ -190,10 +190,10 @@ var
   SkinState : TSpTBXSkinStatesType;
   R : TRect;
 begin
-  if SkinManager.GetSkinType <> sknSkin then begin
-    inherited;
-    Exit;
-  end;
+//  if not (SkinManager.GetSkinType in [sknSkin, sknDelphiStyle]) then begin
+//    inherited;
+//    Exit;
+//  end;
 
   if Zone <> nil then
   begin
@@ -212,7 +212,8 @@ begin
         PatternColor := clCaptionText;
     end else begin
       SkinState := CurrentSkin.GetState(True, AZone.AutoHideBtnState = bsDown, AZone.AutoHideBtnState = bsUp, False);
-      CurrentSkin.PaintBackground(Canvas, R, skncToolbarItem, SkinState, True, True);
+      //CurrentSkin.PaintBackground(Canvas, R, skncToolbarItem, SkinState, True, True);
+      SpDrawXPToolbarButton(Canvas, R, SkinState);
       PatternColor := CurrentSkin.GetTextColor(skncToolbarItem, SkinState);
     end;
 
@@ -234,10 +235,10 @@ var
   SkinState : TSpTBXSkinStatesType;
   R : TRect;
 begin
-  if SkinManager.GetSkinType <> sknSkin then begin
-    inherited;
-    Exit;
-  end;
+//  if not (SkinManager.GetSkinType in [sknSkin, sknDelphiStyle]) then begin
+//    inherited;
+//    Exit;
+//  end;
 
   if Zone <> nil then
   begin
@@ -265,7 +266,8 @@ begin
         PatternColor := clCaptionText;
     end else begin
       SkinState := CurrentSkin.GetState(True, AZone.CloseBtnState = bsDown, AZone.CloseBtnState = bsUp, False);
-      CurrentSkin.PaintBackground(Canvas, R, skncToolbarItem, SkinState, True, True);
+      SpDrawXPToolbarButton(Canvas, R, SkinState);
+      //CurrentSkin.PaintBackground(Canvas, R, skncToolbarItem, SkinState, True, True);
       PatternColor := CurrentSkin.GetTextColor(skncToolbarItem, SkinState);
     end;
     SpDrawGlyphPattern(Canvas, R, 0, PatternColor);
@@ -285,10 +287,10 @@ var
   TextColor: TColor;
 
 begin
-  if SkinManager.GetSkinType <> sknSkin then begin
-    inherited;
-    Exit;
-  end;
+//  if not (SkinManager.GetSkinType in [sknSkin, sknDelphiStyle]) then begin
+//    inherited;
+//    Exit;
+//  end;
 
   Assert(Assigned(Control));
   ShowCloseButtonOnGrabber := True;
@@ -319,6 +321,7 @@ begin
   CRect := DrawRect;
 
   // Draw Background
+  SpDrawXPDock(Canvas, ARect);
   SpDrawXPDockablePanelTitleBar(Canvas, DrawRect, False, False);
 
   if ShowCloseButtonOnGrabber then
@@ -349,6 +352,25 @@ begin
     DT_VCENTER or DT_SINGLELINE or DT_NOPREFIX or DT_END_ELLIPSIS);
 end;
 
+procedure PaintSplitterFrame(Canvas : TCanvas; IsVertical: Boolean; var R: TRect);
+var
+  FrameBrush: HBRUSH;
+begin
+  //Exit;
+  if IsVertical then
+    InflateRect(R, -1, 2)
+  else
+    InflateRect(R, 2, -1);
+  OffsetRect(R, 1, 1);
+  FrameBrush := CreateSolidBrush(ColorToRGB(CurrentSkin.GetThemedSystemColor(clBtnHighlight)));
+  FrameRect(Canvas.Handle, R, FrameBrush);
+  DeleteObject(FrameBrush);
+  OffsetRect(R, -2, -2);
+  FrameBrush := CreateSolidBrush(ColorToRGB(CurrentSkin.GetThemedSystemColor(clBtnShadow)));
+  FrameRect(Canvas.Handle, R, FrameBrush);
+  DeleteObject(FrameBrush);
+end;
+
 
 procedure TJvDockVSNETTreeSpTBX.DrawSplitterRect(const ARect: TRect);
 
@@ -369,15 +391,23 @@ var
   C1, C2 : TColor;
 
 begin
-  if SkinManager.GetSkinType <> sknSkin then begin
-    inherited;
-    Exit;
-  end;
+//  if not (SkinManager.GetSkinType in [sknSkin, sknDelphiStyle]) then begin
+//    inherited;
+//    Exit;
+//  end;
 
   IsVertical := ARect.Right - ARect.Left < ARect.Bottom - ARect.Top;
 
   // Paint background
-  CurrentSkin.PaintBackground(Canvas, ARect, skncSplitter, sknsNormal, True, False, IsVertical);
+  if SkinManager.GetSkinType = sknSkin then
+    CurrentSkin.PaintBackground(Canvas, ARect, skncSplitter, sknsNormal, True,
+      False, IsVertical)
+  else begin
+    Canvas.Brush.Color := CurrentSkin.GetThemedSystemColor(clBtnFace);
+    Canvas.FillRect(ARect);
+    PaintSplitterFrame(Canvas, IsVertical, R);
+  end;
+
 
   // Paint grip
   R := GetGripRect(ARect, IsVertical);
@@ -387,11 +417,18 @@ begin
   else
     InflateRect(DragHandleR, -10, -1);
 
-  if Assigned(SizingZone) then
-    CurrentSkin.PaintBackground(Canvas, R, skncButton, sknsNormal, True, True, False, [akLeft, akTop, akRight, akBottom]);
-  C1 := SkinManager.CurrentSkin.Options(skncToolbarGrip).Body.Color1;
-  C2 := SkinManager.CurrentSkin.Options(skncToolbarGrip).Body.Color2;
+  if SkinManager.GetSkinType = sknSkin then begin
+    if Assigned(SizingZone) then
+      CurrentSkin.PaintBackground(Canvas, R, skncButton, sknsNormal, True, True, False, [akLeft, akTop, akRight, akBottom]);
+    C1 := SkinManager.CurrentSkin.Options(skncToolbarGrip).Body.Color1;
+    C2 := SkinManager.CurrentSkin.Options(skncToolbarGrip).Body.Color2;
+  end
+  else begin
+    C1 := CurrentSkin.GetThemedSystemColor(clBtnShadow);
+    C2 := CurrentSkin.GetThemedSystemColor(clWindow);
+  end;
   SpDrawXPGrip(Canvas, DragHandleR, C1, C2);
+
 end;
 
 procedure TJvDockVSNETTreeSpTBX.SyncWithStyle;
@@ -425,7 +462,7 @@ procedure TJvDockVSNETTreeSpTBX.WMSpSkinChange(var Message: TMessage);
 begin
   UpdateAll;
   DockSite.Invalidate;
-  if SkinManager.IsDefaultSkin then
+  if not (SkinManager.GetSkinType in [sknSkin, sknDelphiStyle]) then
     ButtonWidth := 16
   else
     ButtonWidth := 14
@@ -585,17 +622,17 @@ var
   I, CompleteWidth: Integer;
   ImageWidth: Integer;
   CaptionString: string;
-  Edge: TSpTBXTabEdge;
+//  Edge: TSpTBXTabEdge;
   Position: TSpTBXTabPosition;
   IsActive, IsHot : Boolean;
   State : TSpTBXSkinStatesType;
   TextColor: TColor;
   Format : UINT;
 begin
-  if SkinManager.GetSkinType <> sknSkin then begin
-    inherited;
-    Exit;
-  end;
+//  if not (SkinManager.GetSkinType in [sknSkin, sknDelphiStyle]) then begin
+//    inherited;
+//    Exit;
+//  end;
 
   if Page = nil then
     Exit;
@@ -625,14 +662,15 @@ begin
   end;
 
   // Paint the toolbar background
-  CurrentSkin.PaintBackground(Canvas, DockRect, skncDock, sknsNormal, True, False);
-  CurrentSkin.PaintBackground(Canvas, DockRect, skncToolbar, sknsNormal, True, False);
+  //CurrentSkin.PaintBackground(Canvas, DockRect, skncDock, sknsNormal, True, False);
+  //CurrentSkin.PaintBackground(Canvas, DockRect, skncToolbar, sknsNormal, True, False);
+  SpDrawXPTabControlBackground(Canvas, DockRect, clBtnFace, Position = ttpBottom);
 
   CompleteWidth := TabLeftOffset;
 
   // Paint all the tabs
   Canvas.Font.Assign(ToolbarFont);
-  Edge := tedLeft;  // Only for the first visible tab
+//  Edge := tedLeft;  // Only for the first visible tab
 
   for I := 0 to Page.Count - 1 do
   begin
@@ -654,7 +692,7 @@ begin
     IsActive := Page.ActivePageIndex = I;
     IsHot := Page.HotTrack and (FSelectHotIndex = I);
 
-    if IsActive or IsHot or
+    if IsActive or IsHot or (SkinManager.GetSkinType = sknDelphiStyle) or
       not CurrentSkin.Options(skncTab, sknsNormal).Body.IsEmpty or
       not CurrentSkin.Options(skncTab, sknsNormal).Borders.IsEmpty then
     begin
@@ -665,7 +703,7 @@ begin
             Inc(R.Bottom, 5);
             // maintain background border
             if IsActive then begin
-              SpDrawXPTab(Canvas, R, True, IsActive, False, False, Position, Edge);
+              SpDrawXPTab(Canvas, R, True, IsActive, False, False, Position, tedNone);
               ExcludeClipRect(Canvas.Handle, R.Left+1, ARect.Bottom - TabSheetBorderSize, R.Right-1, ARect.Bottom);
             end;
           end;
@@ -673,12 +711,12 @@ begin
           begin
             Dec(R.Top, 5);
             if IsActive then begin
-              SpDrawXPTab(Canvas, R, True, IsActive, False, False, Position, Edge);
+              SpDrawXPTab(Canvas, R, True, IsActive, False, False, Position, tedNone);
               ExcludeClipRect(Canvas.Handle, R.Left+1, 0, R.Right-1, TabSheetBorderSize);
             end;
           end;
       end;
-      SpDrawXPTab(Canvas, R, True, IsActive, IsHot, False, Position, Edge);
+      SpDrawXPTab(Canvas, R, True, IsActive, IsHot, False, Position, tedNone);
     end
     else begin
       // Draw the separators
@@ -690,7 +728,7 @@ begin
               CompleteWidth + CurrTabWidth + 4,
               PanelHeight - TabBottomOffset), False, True);
     end;
-    Edge := tedNone;
+//    Edge := tedNone;
 
     // now paint the caption
     Format := DT_LEFT or DT_SINGLELINE or DT_END_ELLIPSIS;
@@ -788,7 +826,7 @@ Var
   R : TRect;
   IsVertical : Boolean;
 begin
-  if SkinManager.GetSkinType <> sknSkin then Exit;
+  //if not (SkinManager.GetSkinType in [sknSkin, sknDelphiStyle]) then Exit;
 
   if Assigned(Sender) and (Sender is TJvDockVSPopupPanelSplitter) then
     with TJvDockVSPopupPanelSplitter(Sender) do begin
@@ -796,8 +834,15 @@ begin
       IsVertical := R.Right - R.Left < R.Bottom - R.Top;
 
       // Paint background
-      CurrentSkin.PaintBackground(Canvas, R, skncSplitter, sknsNormal,
-                                         True, False, IsVertical);
+      if SkinManager.GetSkinType = sknSkin then
+        CurrentSkin.PaintBackground(Canvas, R, skncSplitter, sknsNormal,
+                                           True, False, IsVertical)
+      else begin
+        Canvas.Brush.Color := CurrentSkin.GetThemedSystemColor(clBtnFace);
+        Canvas.FillRect(R);
+
+        PaintSplitterFrame(Canvas, IsVertical, R);
+      end;
     end;
 end;
 
@@ -932,13 +977,14 @@ var
   end;
 
 begin
-  if SkinManager.GetSkinType <> sknSkin then begin
-    inherited;
-    Exit;
-  end;
+//  if not (SkinManager.GetSkinType in [sknSkin, sknDelphiStyle]) then begin
+//    inherited;
+//    Exit;
+//  end;
 
   IsVertical := Align in [alLeft, alRight];
-  CurrentSkin.PaintBackground(Canvas, ClientRect, skncDock, sknsNormal, True, True, IsVertical);
+  SpDrawXPDock(Canvas, ClientRect, IsVertical);
+  //CurrentSkin.PaintBackground(Canvas, ClientRect, skncDock, sknsNormal, True, True, IsVertical);
 
   CurrentPos := BlockStartOffset;
   for I := 0 to BlockCount - 1 do
@@ -1051,15 +1097,23 @@ var
   IsVertical : Boolean;
   C1, C2 : TColor;
 begin
-  if SkinManager.GetSkinType <> sknSkin then begin
-    inherited;
-    Exit;
-  end;
+//  if not (SkinManager.GetSkinType in [sknSkin, sknDelphiStyle]) then begin
+//    inherited;
+//    Exit;
+//  end;
 
   IsVertical := Align in [alLeft, alRight];
 
   // Paint background
-  CurrentSkin.PaintBackground(Canvas, ClientRect, skncSplitter, sknsNormal, True, False, IsVertical);
+  if SkinManager.GetSkinType = sknSkin then
+    CurrentSkin.PaintBackground(Canvas, ClientRect, skncSplitter, sknsNormal,
+     True, False, IsVertical)
+  else begin
+    Canvas.Brush.Color := CurrentSkin.GetThemedSystemColor(clBtnFace);
+    Canvas.FillRect(ClientRect);
+
+    PaintSplitterFrame(Canvas, IsVertical, R);
+  end;
 
   // Paint grip
   R := GetGripRect(IsVertical);
@@ -1069,11 +1123,17 @@ begin
   else
     InflateRect(DragHandleR, -10, -1);
 
-  if FMouseLoc in [mlOver, mlDown]  then
-    CurrentSkin.PaintBackground(Canvas, R, skncButton, sknsNormal, True, True, False, [akLeft, akTop, akRight, akBottom]);
-  C1 := SkinManager.CurrentSkin.Options(skncToolbarGrip).Body.Color1;
-  C2 := SkinManager.CurrentSkin.Options(skncToolbarGrip).Body.Color2;
-  SpDrawXPGrip(Canvas, DragHandleR, C1, C2);
+    if SkinManager.GetSkinType = sknSkin then begin
+      if FMouseLoc in [mlOver, mlDown]  then
+        CurrentSkin.PaintBackground(Canvas, R, skncButton, sknsNormal, True, True, False, [akLeft, akTop, akRight, akBottom]);
+      C1 := SkinManager.CurrentSkin.Options(skncToolbarGrip).Body.Color1;
+      C2 := SkinManager.CurrentSkin.Options(skncToolbarGrip).Body.Color2;
+    end
+    else begin
+      C1 := CurrentSkin.GetThemedSystemColor(clBtnShadow);
+      C2 := CurrentSkin.GetThemedSystemColor(clWindow);
+    end;
+    SpDrawXPGrip(Canvas, DragHandleR, C1, C2);
 
 //  //uncomment this is you want the dotted frame drawn at designtime
 //  if csDesigning in ComponentState then
@@ -1133,7 +1193,7 @@ end;
 
 procedure TJvDockVSNETTabSheetSpTBX.AdjustClientRect(var Rect: TRect);
 begin
-  if Assigned(PageControl) and (SkinManager.GetSkinType = sknSkin) then begin
+  if Assigned(PageControl) {and (SkinManager.GetSkinType in [sknSkin, sknDelphiStyle])} then begin
     InflateRect(Rect, -TabSheetBorderSize, -TabSheetBorderSize);
     if (PageControl as TJvDockVSNETTabPageControlSpTBX).TabPosition = tpBottom then
       Inc(Rect.Bottom, TabSheetBorderSize)
@@ -1148,10 +1208,10 @@ var
   R: TRect;
   ACanvas: TCanvas;
 begin
-  if SkinManager.GetSkinType <> sknSkin then begin
-    inherited;
-    Exit;
-  end;
+//  if not (SkinManager.GetSkinType in [sknSkin, sknDelphiStyle]) then begin
+//    inherited;
+//    Exit;
+//  end;
 
   if not DoubleBuffered or (Message.wParam = WPARAM(Message.lParam)) then begin
     if not (csDestroying in ComponentState) then begin
