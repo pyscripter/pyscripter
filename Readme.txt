@@ -1,7 +1,7 @@
 INSTRUCTIONS FOR COMPILIING PyScripter
 ======================================
 
-I am using Borland Delphi 2010 to compile PyScripter but it should compile with Delphi 2009.
+I am using Borland Delphi XE7 to compile PyScripter but it should compile with other recent versions.
 
 Use TortoiseSVN to download the code from pyscripter.googlecode.com
 
