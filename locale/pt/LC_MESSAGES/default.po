@@ -6010,7 +6010,7 @@ msgstr ""
 #. Programmer's name for it: SDecodingError
 #: StringResources.pas:31
 msgid "Error in decoding file \"%s\" from \"%s\" encoding"
-msgstr ""
+msgstr "Erro em decodificar o arquivo \"%s\" com a codificação \"%s\""
 
 #. Programmer's name for it: SFileOpenError
 #: StringResources.pas:32
@@ -6018,6 +6018,8 @@ msgid ""
 "Error in opening file: \"%s\".\n"
 "Error: %s"
 msgstr ""
+"Erro ao abrir o arquivo: \"%s\".\n"
+"Erro: %s"
 
 #. Programmer's name for it: SFileSaveError
 #: StringResources.pas:33
@@ -6025,28 +6027,31 @@ msgid ""
 "Error in saving file: \"%s\".\n"
 "Error: %s"
 msgstr ""
+"Erro ao salvar o arquivo: \"%s\".\n"
+"Erro: %s"
 
 #. Programmer's name for it: SErrorGettingNamespace
 #: StringResources.pas:34
 msgid "Error in getting the namespace of %s"
-msgstr ""
+msgstr "Erro ao obter o \'namespace\' de %s"
 
 #. Programmer's name for it: SCouldNotSetDirectory
 #. Programmer's name for it: SCouldNotSetCurrentDir
 #: StringResources.pas:35 StringResources.pas:38
 msgid "Could not set the current directory to the script path"
-msgstr ""
+msgstr "Não é possível configurar o atual diretório para o caminho do script"
 
 #. Programmer's name for it: SCannotCompileWhileRunning
 #: StringResources.pas:36
 msgid ""
 "You cannot compile, import or run modules while debugging or running programs"
 msgstr ""
+"Não é possível compilar, importar ou executar módulos enquanto estiver depurando ou executando programas"
 
 #. Programmer's name for it: SErrorInImportingModule
 #: StringResources.pas:37
 msgid "Error in importing module"
-msgstr ""
+msgstr "Erro ao importar módulo"
 
 #. Programmer's name for it: SRemoteServerNotConnected
 #: StringResources.pas:39
@@ -6054,6 +6059,8 @@ msgid ""
 "Remote Server is not connected.  Please reinitialize or disconnect the "
 "remote  interpreter."
 msgstr ""
+"Servidor remoto não está conectado. Por favor reinicialize ou desconecte o "
+"interpretador remoto."
 
 #. Programmer's name for it: SRpycNotAvailable
 #: StringResources.pas:41
@@ -6061,6 +6068,8 @@ msgid ""
 "The Rpyc module is not available.  To use the remote Python Engine download "
 "Rpyc from http://Rpyc.sf.net and install it."
 msgstr ""
+"O módulo Rpyc module não está disponível.  Para usar o Python Engine remoto baixe o "
+"Rpyc de http://Rpyc.sf.net e instale-o."
 
 #. Programmer's name for it: SWrongRpycVersion
 #: StringResources.pas:43
@@ -6068,6 +6077,8 @@ msgid ""
 "Wrong Rpyc version.  To use the remote Python Engine download version 2.6 "
 "Rpyc from http://Rpyc.sf.net and install it."
 msgstr ""
+"Versão incorreta do Rpyc.  Para usar o Python Engine remoto baixe a version 2.6 do "
+"Rpyc de http://Rpyc.sf.net and instale-a."
 
 #. Programmer's name for it: SCouldNotWriteServerFile
 #: StringResources.pas:44
