@@ -6039,14 +6039,14 @@ msgstr "Erro ao obter o \'namespace\' de %s"
 #. Programmer's name for it: SCouldNotSetCurrentDir
 #: StringResources.pas:35 StringResources.pas:38
 msgid "Could not set the current directory to the script path"
-msgstr "Não é possível configurar o atual diretório para o caminho do script"
+msgstr "Não foi possível configurar o atual diretório para o caminho do script"
 
 #. Programmer's name for it: SCannotCompileWhileRunning
 #: StringResources.pas:36
 msgid ""
 "You cannot compile, import or run modules while debugging or running programs"
 msgstr ""
-"Não é possível compilar, importar ou executar módulos enquanto estiver depurando ou executando programas"
+"Você não pode compilar, importar ou executar módulos enquanto estiver depurando ou executando programas"
 
 #. Programmer's name for it: SErrorInImportingModule
 #: StringResources.pas:37
@@ -6083,12 +6083,12 @@ msgstr ""
 #. Programmer's name for it: SCouldNotWriteServerFile
 #: StringResources.pas:44
 msgid "Could not write file \"%s\" and cannot use a remote Python engine"
-msgstr ""
+msgstr "Não foi possível escrever arquivo \"%s\" e não podes usar um Python Engine remoto"
 
 #. Programmer's name for it: SErrorCreatingRemoteEngine
 #: StringResources.pas:45
 msgid "Error in creating the remote intepreter: "
-msgstr ""
+msgstr "Erro ao criar o interpretador remoto: "
 
 #. Programmer's name for it: SCouldNotConnectRemoteEngine
 #: StringResources.pas:47
@@ -6096,11 +6096,13 @@ msgid ""
 "Could not connect to the remote Python engine server. The remote interpreter "
 "and debugger is not available."
 msgstr ""
+"Não foi possível conectar ao servidor remoto do Python Engine. O interpretador remoto "
+"e o depurador não estão disponíveis."
 
 #. Programmer's name for it: SRemoteInterpreterInit
 #: StringResources.pas:48
 msgid "*** Remote Interpreter Reinitialized  ***"
-msgstr ""
+msgstr "*** Interpretador Remoto Reinicializado  ***"
 
 #. Programmer's name for it: SCouldNotShutDownRemoteEngine
 #: StringResources.pas:50
@@ -6108,6 +6110,8 @@ msgid ""
 "Could not shut down the remote Python engine server. Please shut down and "
 "restart Pyscripter."
 msgstr ""
+"Não foi possível desligar o servidor remoto do Python Engine. Por favor desligue e "
+"reinicie Pyscripter."
 
 #. Programmer's name for it: SSameName
 #: StringResources.pas:51
