@@ -630,12 +630,8 @@ object PyIDEMainForm: TPyIDEMainForm
             OnClick = actRestoreEditorExecute
           end
         end
-        object mnThemes: TSpTBXSubmenuItem
-          Caption = 'Themes'
-          ImageIndex = 107
-          object mnSkins: TSpTBXSkinGroupItem
-            OnSkinChange = mnSkinsSkinChange
-          end
+        object SpTBXItem5: TSpTBXItem
+          Action = actSelectStyle
         end
       end
       object ProjectMenu: TSpTBXSubmenuItem
@@ -981,18 +977,15 @@ object PyIDEMainForm: TPyIDEMainForm
       end
     end
     object ViewToolbar: TSpTBXToolbar
-      Left = 727
+      Left = 728
       Top = 25
       DockPos = 728
       DockRow = 1
       Images = CommandsDataModule.Images
       TabOrder = 4
       Caption = 'View Toolbar'
-      object tbiViewThemes: TSpTBXSubmenuItem
-        Caption = 'Themes'
-        ImageIndex = 107
-        Options = [tboDropdownArrow]
-        LinkSubitems = mnThemes
+      object SpTBXItem4: TSpTBXItem
+        Action = actSelectStyle
       end
       object tbiViewLayouts: TSpTBXSubmenuItem
         Caption = 'Layouts'
@@ -2146,6 +2139,13 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpType = htContext
       Hint = 'Hide secondary workspace'
       OnExecute = actViewHideSecondaryWorkspaceExecute
+    end
+    object actSelectStyle: TAction
+      Category = 'View'
+      Caption = 'Select Style'
+      Hint = 'Select Style'
+      ImageIndex = 107
+      OnExecute = actSelectStyleExecute
     end
   end
   object JvDockVSNetStyleSpTBX: TJvDockVSNetStyleSpTBX

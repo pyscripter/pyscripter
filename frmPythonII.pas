@@ -26,7 +26,8 @@ uses
   SynEditKeyCmds, SynCompletionProposal, JvDockControlForm,
   frmIDEDockWin, ExtCtrls, JvComponentBase,
   TB2Item, ActnList, cPyBaseDebugger, WrapDelphi,
-  SpTBXItem, SpTBXSkins, uEditAppIntfs, cCodeCompletion, System.Actions;
+  SpTBXItem, SpTBXSkins, uEditAppIntfs, cCodeCompletion, System.Actions,
+  SpTBXControls;
 
 const
   WM_APPENDTEXT = WM_USER + 1020;
@@ -1890,7 +1891,11 @@ begin
   else if CmdLineReader.readFlag('PYTHON33') then
     expectedVersion := '3.3'
   else if CmdLineReader.readFlag('PYTHON34') then
-    expectedVersion := '3.4';
+    expectedVersion := '3.4'
+  else if CmdLineReader.readFlag('PYTHON35') then
+    expectedVersion := '3.5'
+  else if CmdLineReader.readFlag('PYTHON36') then
+    expectedVersion := '3.6';
   PythonEngine.DllPath := CmdLineReader.readString('PYTHONDLLPATH');
   UseDebugVersion := CmdLineReader.readFlag('DEBUG');
 

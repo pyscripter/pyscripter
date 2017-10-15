@@ -111,21 +111,15 @@ uses
   JvCreateProcess in 'JvCreateProcess.pas',
   cCodeCompletion in 'cCodeCompletion.pas',
   cThemedVirtualStringTree in 'cThemedVirtualStringTree.pas',
-  SpTBXPageScroller in 'SpTBXPageScroller.pas',
+  SpTBXPageScroller in 'SpTBXPageScroller.pas' {/  Vcl.Themes,},
   SpTBXSkins in 'SpTBXSkins.pas',
   SynEdit,
   JvInspector,
   Vcl.StdCtrls,
   Vcl.Themes,
   Vcl.Styles,
-//  Vcl.Styles.UxTheme,
-//  Vcl.Styles.Utils.StdCtrls,
   Vcl.Styles.Utils.ComCtrls,
-//  Vcl.Styles.Utils.ScreenTips,
-//  Vcl.Styles.Utils.SysControls,
-//  Vcl.Styles.Utils.SysStyleHook,
-//  Vcl.Styles.Utils.Forms,
-  Vcl.Styles.Utils.SystemMenu;
+  dlgStyleSelector in 'dlgStyleSelector.pas' {StyleSelectorForm};
 
 {$R *.RES}
 {$R WebCopyAvi.RES}
@@ -150,11 +144,10 @@ begin
     end;
   Application.MainFormOnTaskbar := True;
 
-  TStyleManager.TrySetStyle('Jet');
+  TStyleManager.TrySetStyle('Windows10');
   Application.Title := 'PyScripter';
   Application.CreateForm(TCommandsDataModule, CommandsDataModule);
   Application.CreateForm(TPyIDEMainForm, PyIDEMainForm);
-  TVclStylesSystemMenu.Create(PyIDEMainForm);
   Application.Run;
 
   TStyleManager.Engine.UnRegisterStyleHook(TCustomSynEdit, TMemoStyleHook);

@@ -36,143 +36,143 @@ inherited FileExplorerWindow: TFileExplorerWindow
   ExplicitHeight = 478
   PixelsPerInch = 96
   TextHeight = 13
-  inherited FGPanel: TPanel
-    Height = 435
-    ExplicitLeft = 2
-    ExplicitTop = 2
-    ExplicitWidth = 223
-    ExplicitHeight = 435
-    object FileExplorerTree: TVirtualExplorerTree
-      Left = 0
-      Top = 26
-      Width = 223
-      Height = 409
-      Active = False
-      Align = alClient
-      AnimationDuration = 100
-      BevelInner = bvNone
-      BevelOuter = bvNone
-      BorderStyle = bsNone
-      ColumnDetails = cdUser
-      ColumnMenuItemCount = 8
-      DefaultNodeHeight = 17
-      DragHeight = 250
-      DragWidth = 150
-      FileObjects = [foFolders, foNonFolders, foEnableAsync]
-      FileSizeFormat = fsfExplorer
-      FileSort = fsFileType
-      Header.AutoSizeIndex = 0
-      Header.Font.Charset = DEFAULT_CHARSET
-      Header.Font.Color = clWindowText
-      Header.Font.Height = -11
-      Header.Font.Name = 'MS Shell Dlg 2'
-      Header.Font.Style = []
-      Header.Height = 17
-      Header.MainColumn = -1
-      Header.Options = [hoColumnResize, hoDrag]
-      HintMode = hmHint
-      IncrementalSearch = isInitializedOnly
-      ParentColor = False
-      PopupMenu = ExplorerPopUp
-      RootFolder = rfDrives
-      ShellContextSubMenu = ShellContextPopUp
-      ShellContextSubMenuCaption = 'File Explorer'
-      TabOrder = 0
-      TabStop = True
-      TreeOptions.AnimationOptions = [toAnimatedToggle]
-      TreeOptions.MiscOptions = [toAcceptOLEDrop, toEditable, toFullRepaintOnResize, toInitOnSave, toToggleOnDblClick, toWheelPanning]
-      TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowTreeLines, toThemeAware, toUseBlendedImages, toGhostedIfUnfocused, toUseBlendedSelection]
-      TreeOptions.SelectionOptions = [toRightClickSelect]
-      TreeOptions.VETFolderOptions = [toFoldersExpandable, toForceHideRecycleBin, toNoUseVETColorsProp, toThreadedExpandMark]
-      TreeOptions.VETShellOptions = [toRightAlignSizeColumn, toContextMenus, toDragDrop, toShellHints]
-      TreeOptions.VETSyncOptions = [toCollapseTargetFirst, toExpandTarget, toSelectTarget]
-      TreeOptions.VETMiscOptions = [toBrowseExecuteFolder, toBrowseExecuteFolderShortcut, toBrowseExecuteZipFolder, toChangeNotifierThread, toAutoScrollHorz, toRestoreTopNodeOnRefresh]
-      TreeOptions.VETImageOptions = [toImages, toMarkCutAndCopy]
-      OnDblClick = FileExplorerTreeDblClick
-      OnEnumFolder = FileExplorerTreeEnumFolder
-      OnKeyPress = FileExplorerTreeKeyPress
-      Columns = <>
-    end
-    object ExplorerDock: TSpTBXDock
-      Left = 0
-      Top = 0
-      Width = 223
-      Height = 26
-      AllowDrag = False
-      object ExplorerToolbar: TSpTBXToolbar
+  inherited BGPanel: TSpTBXPanel
+    Height = 439
+    inherited FGPanel: TPanel
+      Height = 435
+      ExplicitHeight = 435
+      object FileExplorerTree: TVirtualExplorerTree
+        Left = 0
+        Top = 26
+        Width = 223
+        Height = 409
+        Active = False
+        Align = alClient
+        AnimationDuration = 100
+        BevelInner = bvNone
+        BevelOuter = bvNone
+        BorderStyle = bsNone
+        ColumnDetails = cdUser
+        ColumnMenuItemCount = 8
+        DefaultNodeHeight = 17
+        DragHeight = 250
+        DragWidth = 150
+        FileObjects = [foFolders, foNonFolders, foEnableAsync]
+        FileSizeFormat = fsfExplorer
+        FileSort = fsFileType
+        Header.AutoSizeIndex = 0
+        Header.Font.Charset = DEFAULT_CHARSET
+        Header.Font.Color = clWindowText
+        Header.Font.Height = -11
+        Header.Font.Name = 'MS Shell Dlg 2'
+        Header.Font.Style = []
+        Header.Height = 17
+        Header.MainColumn = -1
+        Header.Options = [hoColumnResize, hoDrag]
+        HintMode = hmHint
+        IncrementalSearch = isInitializedOnly
+        ParentColor = False
+        PopupMenu = ExplorerPopUp
+        RootFolder = rfDrives
+        ShellContextSubMenu = ShellContextPopUp
+        ShellContextSubMenuCaption = 'File Explorer'
+        TabOrder = 0
+        TabStop = True
+        TreeOptions.AnimationOptions = [toAnimatedToggle]
+        TreeOptions.MiscOptions = [toAcceptOLEDrop, toEditable, toFullRepaintOnResize, toInitOnSave, toToggleOnDblClick, toWheelPanning]
+        TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowTreeLines, toThemeAware, toUseBlendedImages, toGhostedIfUnfocused, toUseBlendedSelection]
+        TreeOptions.SelectionOptions = [toRightClickSelect]
+        TreeOptions.VETFolderOptions = [toFoldersExpandable, toForceHideRecycleBin, toNoUseVETColorsProp, toThreadedExpandMark]
+        TreeOptions.VETShellOptions = [toRightAlignSizeColumn, toContextMenus, toDragDrop, toShellHints]
+        TreeOptions.VETSyncOptions = [toCollapseTargetFirst, toExpandTarget, toSelectTarget]
+        TreeOptions.VETMiscOptions = [toBrowseExecuteFolder, toBrowseExecuteFolderShortcut, toBrowseExecuteZipFolder, toChangeNotifierThread, toAutoScrollHorz, toRestoreTopNodeOnRefresh]
+        TreeOptions.VETImageOptions = [toImages, toMarkCutAndCopy]
+        OnDblClick = FileExplorerTreeDblClick
+        OnEnumFolder = FileExplorerTreeEnumFolder
+        OnKeyPress = FileExplorerTreeKeyPress
+        Columns = <>
+      end
+      object ExplorerDock: TSpTBXDock
         Left = 0
         Top = 0
-        Align = alTop
-        AutoResize = False
-        DockMode = dmCannotFloat
-        FullSize = True
-        Images = CommandsDataModule.Images
-        TabOrder = 0
-        Caption = 'ExplorerToolbar'
-        Customizable = False
-        object tbiItemBack: TSpTBXSubmenuItem
-          Action = actGoBack
-          DropdownCombo = True
-          OnPopup = tbiItemBackPopup
-        end
-        object tbiItemForward: TSpTBXSubmenuItem
-          Action = actGoForward
-          DropdownCombo = True
-          OnPopup = tbiItemForwardPopup
-        end
-        object tbiGoUp: TSpTBXItem
-          Action = actGoUp
-        end
-        object TBXSeparatorItem1: TSpTBXSeparatorItem
-        end
-        object TBXSubmenuItem1: TSpTBXSubmenuItem
-          ImageIndex = 84
-          Options = [tboDropdownArrow]
-          object tbiBrowsePath: TSpTBXSubmenuItem
-            Caption = 'Browse Path'
-            LinkSubitems = mnBrowsePath
+        Width = 223
+        Height = 26
+        AllowDrag = False
+        object ExplorerToolbar: TSpTBXToolbar
+          Left = 0
+          Top = 0
+          Align = alTop
+          AutoResize = False
+          DockMode = dmCannotFloat
+          FullSize = True
+          Images = CommandsDataModule.Images
+          TabOrder = 0
+          Caption = 'ExplorerToolbar'
+          Customizable = False
+          object tbiItemBack: TSpTBXSubmenuItem
+            Action = actGoBack
+            DropdownCombo = True
+            OnPopup = tbiItemBackPopup
           end
-          object mnFavorites: TSpTBXSubmenuItem
-            Caption = '&Favorites'
-            ImageIndex = 114
-            OnPopup = mnFavoritesPopup
-            object TBXSeparatorItem5: TSpTBXSeparatorItem
+          object tbiItemForward: TSpTBXSubmenuItem
+            Action = actGoForward
+            DropdownCombo = True
+            OnPopup = tbiItemForwardPopup
+          end
+          object tbiGoUp: TSpTBXItem
+            Action = actGoUp
+          end
+          object TBXSeparatorItem1: TSpTBXSeparatorItem
+          end
+          object TBXSubmenuItem1: TSpTBXSubmenuItem
+            ImageIndex = 84
+            Options = [tboDropdownArrow]
+            object tbiBrowsePath: TSpTBXSubmenuItem
+              Caption = 'Browse Path'
+              LinkSubitems = mnBrowsePath
             end
-            object TBXItem7: TSpTBXItem
-              Caption = 'Add to &Favorites'
-              Hint = 'Add current path to Favorites'
-              HelpContext = 420
-              OnClick = actAddToFavoritesExecute
+            object mnFavorites: TSpTBXSubmenuItem
+              Caption = '&Favorites'
+              ImageIndex = 114
+              OnPopup = mnFavoritesPopup
+              object TBXSeparatorItem5: TSpTBXSeparatorItem
+              end
+              object TBXItem7: TSpTBXItem
+                Caption = 'Add to &Favorites'
+                Hint = 'Add current path to Favorites'
+                HelpContext = 420
+                OnClick = actAddToFavoritesExecute
+              end
+              object TBXItem2: TSpTBXItem
+                Caption = '&Manage Favorites...'
+                Hint = 'Manage favourite paths'
+                HelpContext = 420
+                OnClick = actManageFavoritesExecute
+              end
             end
-            object TBXItem2: TSpTBXItem
-              Caption = '&Manage Favorites...'
-              Hint = 'Manage favourite paths'
-              HelpContext = 420
-              OnClick = actManageFavoritesExecute
+            object TBXSubmenuItem3: TSpTBXSubmenuItem
+              Caption = 'Python Path'
+              LinkSubitems = mnPythonPath
+              OnPopup = BrowsePathPopup
+            end
+            object TBXSeparatorItem3: TSpTBXSeparatorItem
+            end
+            object tbiPythonPath: TSpTBXItem
+              Caption = 'Manage Python &Path...'
+              Action = CommandsDataModule.actPythonPath
+            end
+            object TBXSeparatorItem2: TSpTBXSeparatorItem
+            end
+            object tbiSearchPath: TSpTBXItem
+              Action = actSearchPath
             end
           end
-          object TBXSubmenuItem3: TSpTBXSubmenuItem
-            Caption = 'Python Path'
-            LinkSubitems = mnPythonPath
-            OnPopup = BrowsePathPopup
+          object tbiEnableFilter: TSpTBXItem
+            Action = actEnableFilter
           end
-          object TBXSeparatorItem3: TSpTBXSeparatorItem
+          object tbiNewFolder: TSpTBXItem
+            Action = actNewFolder
           end
-          object tbiPythonPath: TSpTBXItem
-            Caption = 'Manage Python &Path...'
-            Action = CommandsDataModule.actPythonPath
-          end
-          object TBXSeparatorItem2: TSpTBXSeparatorItem
-          end
-          object tbiSearchPath: TSpTBXItem
-            Action = actSearchPath
-          end
-        end
-        object tbiEnableFilter: TSpTBXItem
-          Action = actEnableFilter
-        end
-        object tbiNewFolder: TSpTBXItem
-          Action = actNewFolder
         end
       end
     end

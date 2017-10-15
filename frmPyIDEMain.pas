@@ -385,6 +385,7 @@
   History:   v 2.7
           New Features
             New Skin Engine (VCL Styles)
+            German Translation added
             Internal Interpreter is hidden by default
           Issues addressed
             Remove UseEditorColors in IDE
@@ -598,7 +599,6 @@ type
     tbiRunToggleBreakpoint: TSpTBXItem;
     tbiRunClearAllBreakpoints: TSpTBXItem;
     ViewToolbar: TSpTBXToolbar;
-    tbiViewThemes: TSpTBXSubmenuItem;
     TBXDockLeft: TSpTBXDock;
     TBXDockRight: TSpTBXDock;
     TBXDockBottom: TSpTBXDock;
@@ -612,7 +612,6 @@ type
     RecentSubmenu: TSpTBXSubmenuItem;
     EditorViewsMenu: TSpTBXSubmenuItem;
     TBXSeparatorItem8: TSpTBXSeparatorItem;
-    mnThemes: TSpTBXSubmenuItem;
     EditorToolbar: TSpTBXToolbar;
     tbiEditDedent: TSpTBXItem;
     tbiEditIndent: TSpTBXItem;
@@ -870,7 +869,6 @@ type
     tbiRecentFileList: TSpTBXMRUListItem;
     mnPreviousList: TSpTBXMRUListItem;
     mnNextList: TSpTBXMRUListItem;
-    mnSkins: TSpTBXSkinGroupItem;
     tbiSearchText: TSpTBXComboBox;
     TBControlItem2: TTBControlItem;
     tbiReplaceText: TSpTBXComboBox;
@@ -908,6 +906,9 @@ type
     SpTBXSubmenuItem1: TSpTBXSubmenuItem;
     tbiRecentProjects: TSpTBXMRUListItem;
     tbiAutoCaseSensitive: TSpTBXItem;
+    actSelectStyle: TAction;
+    SpTBXItem4: TSpTBXItem;
+    SpTBXItem5: TSpTBXItem;
     procedure mnFilesClick(Sender: TObject);
     procedure actEditorZoomInExecute(Sender: TObject);
     procedure actEditorZoomOutExecute(Sender: TObject);
@@ -1015,7 +1016,6 @@ type
     procedure EditorViewsMenuClick(Sender: TObject);
     procedure tbiRecentFileListClick(Sender: TObject;
       const Filename: WideString);
-    procedure mnSkinsSkinChange(Sender: TObject);
     procedure tbiSearchTextExit(Sender: TObject);
     procedure tbiReplaceTextKeyPress(Sender: TObject; var Key: Char);
     procedure TabControlActiveTabChange(Sender: TObject; TabIndex: Integer);
@@ -1026,6 +1026,7 @@ type
     procedure actViewHideSecondaryWorkspaceExecute(Sender: TObject);
     procedure tbiRecentProjectsClick(Sender: TObject;
       const Filename: WideString);
+    procedure actSelectStyleExecute(Sender: TObject);
   private
     DSAAppStorage: TDSAAppStorage;
     ShellExtensionFiles : TStringList;
@@ -1137,7 +1138,6 @@ type
     procedure UpdateCaption;
     procedure ChangeLanguage(LangCode : string);
     function EditorFromTab(Tab : TSpTBXTabItem) : IEditor;
-    procedure LoadAdditionalThemes;
     procedure SetIDEColors;
     procedure SplitWorkspace(SecondTabsVisible : Boolean;
       Alignment : TAlign = alRight; Size : integer = -1);
@@ -1179,8 +1179,8 @@ uses
   uCmdLine, uSearchHighlighter, frmModSpTBXCustomize, IniFiles,
   JclStrings, JclSysUtils, frmProjectExplorer, cProjectClasses,
   MPDataObject, gnugettext, WideStrUtils, WideStrings,
-  SpTBXDefaultSkins, SpTBXControls, SynEditKeyCmds, StdActns,
-  PythonEngine, Contnrs, SynCompletionProposal, Vcl.Themes;
+  SpTBXControls, SynEditKeyCmds, StdActns,
+  PythonEngine, Contnrs, SynCompletionProposal, dlgStyleSelector, Vcl.Themes;
 
 {$R *.DFM}
 
@@ -1437,9 +1437,6 @@ begin
   if not AppStorage.PathExists(FactoryToolbarItems) then
     SaveToolbarItems(FactoryToolbarItems);
 
-  // Load additional skins from skin folders
-  LoadAdditionalThemes;
-
   // Read Settings from PyScripter.ini
   if FileExists(AppStorage.IniFile.FileName) then begin
     RestoreApplicationData;
@@ -1453,8 +1450,8 @@ begin
   if AppStorage.PathExists('Layouts\Current\Forms') then begin
     LoadLayout('Current');
     AppStorage.ReadPersistent('Variables Window Options', VariablesWindow);
-  end else begin
-    SkinManager.SetSkin('Office 2003');
+  end else
+  begin
 
     TabHost := ManualTabDock(DockServer.LeftDockPanel, FileExplorerWindow, ProjectExplorerWindow);
     DockServer.LeftDockPanel.Width := 200;
@@ -1963,6 +1960,11 @@ end;
 procedure TPyIDEMainForm.actDebugPauseExecute(Sender: TObject);
 begin
   PyControl.ActiveDebugger.Pause;
+end;
+
+procedure TPyIDEMainForm.actSelectStyleExecute(Sender: TObject);
+begin
+   TStyleSelectorForm.Execute;
 end;
 
 procedure TPyIDEMainForm.actStepIntoExecute(Sender: TObject);
@@ -2924,7 +2926,7 @@ begin
     AppStorage.WriteStringList('Layouts', Layouts);
     AppStorage.WriteBoolean('Status Bar', StatusBar.Visible);
     // Save Theme Name
-    AppStorage.WriteString('Theme Name', SkinManager.CurrentSkinName);
+    AppStorage.WriteString('Style Name', TStyleSelectorForm.CurrentSkinName);
 
 
     // Save Toolbar Items
@@ -3056,8 +3058,8 @@ begin
   OutputWindow.FontOrColorUpdated;
   AppStorage.ReadPersistent('Watches', WatchesWindow);
   StatusBar.Visible := AppStorage.ReadBoolean('Status Bar');
-  // Load Theme Name
-  //SkinManager.SetSkin(AppStorage.ReadString('Theme Name', 'Office2003'));
+  // Load Style Name
+  TStyleSelectorForm.SetStyle(AppStorage.ReadString('Style Name', 'Windows10'));
 
   // Load Toolbar Items
   LoadToolbarItems('Toolbar Items');
@@ -3451,36 +3453,6 @@ begin
   end;
 end;
 
-procedure TPyIDEMainForm.mnSkinsSkinChange(Sender: TObject);
-begin
-  if (CurrentSkin  is TSpTBXOffice2003Skin) and
-    (TSpTBXOffice2003Skin(CurrentSkin).DefaultColorScheme = lusUnknown) then begin
-      TSpTBXOffice2003Skin(CurrentSkin).DefaultColorScheme := lusBlue;
-    SkinManager.BroadcastSkinNotification;
-  end else if (CurrentSkin  is TSpTBXAluminumSkin) and
-    (TSpTBXAluminumSkin(CurrentSkin).DefaultColorScheme = lusUnknown) then begin
-      TSpTBXAluminumSkin(CurrentSkin).DefaultColorScheme := lusBlue;
-    SkinManager.BroadcastSkinNotification;
-  end;
-  if (CurrentSkin.Options(skncListItem, sknsCheckedAndHotTrack).IsEmpty
-     or CurrentSkin.Options(skncListItem, sknsChecked).IsEmpty) and
-     not CurrentSkin.Options(skncListItem, sknsHotTrack).IsEmpty
-  then with CurrentSkin do begin
-    if Options(skncListItem, sknsCheckedAndHotTrack).IsEmpty then begin
-      Options(skncListItem, sknsCheckedAndHotTrack).Assign(Options(skncListItem, sknsHotTrack));
-      Options(skncListItem, sknsCheckedAndHotTrack).Body.Lighten(-20);
-      Options(skncListItem, sknsCheckedAndHotTrack).Borders.Lighten(-20);
-    end;
-    if Options(skncListItem, sknsChecked).IsEmpty then begin
-      Options(skncListItem, sknsChecked).Assign(Options(skncListItem, sknsHotTrack));
-    end;
-    Options(skncListItem, sknsHotTrack).Body.Lighten(20);
-    Options(skncListItem, sknsHotTrack).Borders.Lighten(20);
-
-    SkinManager.BroadcastSkinNotification;
-  end;
-end;
-
 procedure TPyIDEMainForm.mnSyntaxPopup(Sender: TTBCustomItem;
   FromLink: Boolean);
 Var
@@ -3576,24 +3548,6 @@ begin
     MenuItem.GroupIndex := 3;
     MenuItem.OnClick := SyntaxClick;
     MenuItem.Hint := Format(_(SUseSyntax), [MenuItem.Caption]);
-  end;
-end;
-
-procedure TPyIDEMainForm.LoadAdditionalThemes;
-Var
-  SkinList : TStringList;
-  FileName : string;
-begin
-  if not DirectoryExists(CommandsDataModule.SkinFilesDir) then Exit;
-
-  SkinList := TStringList.Create;
-  try
-    GetFilesInPaths(CommandsDataModule.SkinFilesDir, '*.skn',  SkinList, False);
-    for FileName in SkinList do
-      SkinManager.SkinsList.AddSkinFromFile(FileName);
-    mnSkins.Recreate;
-  finally
-    SkinList.Free;
   end;
 end;
 

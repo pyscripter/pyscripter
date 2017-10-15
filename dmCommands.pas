@@ -497,6 +497,7 @@ type
     PyIDEOptions : TPythonIDEOptions;
     UserDataPath : string;
     SkinFilesDir : string;
+    StylesFilesDir : string;
     function IsBlockOpener(S : string) : Boolean;
     function IsBlockCloser(S : string) : Boolean;
     function IsExecutableLine(Line : string) : Boolean;
@@ -919,6 +920,14 @@ begin
   if not DirectoryExists(SkinFilesDir) then
     try
       CreateDir(SkinFilesDir);
+    except
+    end;
+
+  // Styles directory
+  StylesFilesDir := UserDataPath + 'Styles';
+  if not DirectoryExists(StylesFilesDir) then
+    try
+      CreateDir(StylesFilesDir);
     except
     end;
 
