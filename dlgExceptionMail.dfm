@@ -15,7 +15,7 @@ inherited ExceptionDialogMail: TExceptionDialogMail
   OnResize = FormResize
   OnShow = FormShow
   ExplicitWidth = 438
-  ExplicitHeight = 283
+  ExplicitHeight = 284
   DesignSize = (
     422
     245)

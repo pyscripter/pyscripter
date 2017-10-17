@@ -43,6 +43,7 @@ unit dlgSynEditOptions;
 interface
 
 uses
+  System.Types,
   Windows,
   Messages,
   Graphics,
@@ -181,6 +182,13 @@ type
     KeyList: TEasyListview;
     SpTBXPanel1: TSpTBXPanel;
     SpTBXPanel2: TSpTBXPanel;
+    SpTBXTabItem5: TSpTBXTabItem;
+    ColorThemes: TSpTBXTabSheet;
+    SynThemeSample: TSynEdit;
+    SpTBXLabel1: TSpTBXLabel;
+    lbColorThemes: TListBox;
+    SpTBXLabel2: TSpTBXLabel;
+    bApplyTheme: TButton;
     procedure SynEdit1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnFontClick(Sender: TObject);
@@ -202,6 +210,8 @@ type
     procedure cbxElementBoldClick(Sender: TObject);
     procedure btnHelpClick(Sender: TObject);
     procedure KeyListItemSelectionsChanged(Sender: TCustomEasyListview);
+    procedure lbColorThemesClick(Sender: TObject);
+    procedure bApplyThemeClick(Sender: TObject);
   private
     FHandleChanges : Boolean;  //Normally true, can prevent unwanted execution of event handlers
 
@@ -248,6 +258,7 @@ type
     fGetHighlighterEvent: TSynGetHighlighterEvent;
     fSetHighlighterEvent: TSynSetHighlighterEvent;
     fHighlighters : TList;
+    fColorThemeHighlighter : TSynCustomHighlighter;
     function GetUserCommandNames: TSynEditorOptionsUserCommand;
     procedure SetUserCommandNames(
       const Value: TSynEditorOptionsUserCommand);
@@ -265,6 +276,7 @@ type
     function Execute(EditOptions : TSynEditorOptionsContainer) : Boolean;
     property Form: TfmEditorOptionsDialog read FForm;
     procedure UpdateHighlighters;
+    class var HighlighterFileDir : string;
   published
     property GetUserCommand: TSynEditorOptionsUserCommand
       read GetUserCommandNames
@@ -340,7 +352,8 @@ implementation
 {$R *.dfm}
 
 uses
-  SynEditKeyConst, uCommonFunctions, gnugettext, StringResources, SpTBXSkins;
+  SynEditKeyConst, uCommonFunctions, gnugettext, StringResources, SpTBXSkins,
+  System.IOUtils, JvAppStorage, JvAppIniStorage;
 
 //function SortByColumn(Item1, Item2: TEasyItem; Data: integer): integer; stdcall;
 //begin
@@ -364,6 +377,7 @@ end;
 destructor TSynEditOptionsDialog.Destroy;
 begin
   ClearHighlighters;
+  FreeandNil(fColorThemeHighlighter);
   fHighlighters.free;
   FForm.Free;
   inherited;
@@ -378,6 +392,7 @@ var
    wHighlighter : TSynCustomHighlighter;
    wInternalSynH : TSynCustomHighlighter;
    wSynHClass : TSynHClass;
+   FileName : string;
 begin
   if soDisplay in fPages then
      FForm.Display.TabVisible := true
@@ -388,6 +403,11 @@ begin
      FForm.Options.TabVisible := true
   else
      FForm.Options.TabVisible := false;
+
+  if soKeyStrokes in fPages then
+     FForm.Keystrokes.TabVisible := true
+  else
+     FForm.Keystrokes.TabVisible := false;
 
   if soKeyStrokes in fPages then
      FForm.Keystrokes.TabVisible := true
@@ -407,8 +427,8 @@ begin
         if fForm.cbHighlighters.Items.Count <> wCount then
         begin
            FForm.cbHighlighters.Items.Clear;
-             
-           for loop := 0 to wCount do
+
+           for loop := 0 to wCount - 1 do
            begin
               fGetHighlighterEvent(self, loop, wHighlighter);
               if assigned(wHighlighter) then
@@ -418,15 +438,35 @@ begin
                  wInternalSynH.assign(wHighlighter);
                  fHighlighters.add(wInternalSynH);
                  FForm.cbHighlighters.Items.AddObject(wInternalSynH.FriendlyLanguageName, wInternalSynH);
+
+                 if (wInternalSynH.FriendlyLanguageName = 'Python') or
+                    ((wInternalSynH.FriendlyLanguageName = 'Python Interpreter') and
+                   not Assigned(fColorThemeHighlighter)) then
+                 begin
+                   fForm.SynThemeSample.Assign(EditOptions);
+                   fColorThemeHighlighter := wSynHClass.Create(nil);
+                   fColorThemeHighlighter.Assign(wHighlighter);
+                   FForm.SynThemeSample.Highlighter := fColorThemeHighlighter;
+                   FForm.SynThemeSample.Lines.Text := fColorThemeHighlighter.SampleSource;
+                 end;
               end;
            end;
         end;
      end;
 
+    if HighlighterFileDir <> '' then
+      for FileName in TDirectory.GetFiles(HighlighterFileDir,'*.ini') do
+        FForm.lbColorThemes.Items.Add(TPath.GetFileNameWithoutExtension(FileName));
+
+
+
     FForm.Color.TabVisible := true;
+    FForm.ColorThemes.TabVisible := true;
   end
-  else
+  else begin
     FForm.Color.TabVisible := false;
+    FForm.ColorThemes.TabVisible := false;
+  end;
 
   //Run the form
   Result:= FForm.Execute(EditOptions);
@@ -916,6 +956,31 @@ begin
   KeyList.Sort.SortAll;
 end;
 
+procedure TfmEditorOptionsDialog.bApplyThemeClick(Sender: TObject);
+Var
+  i : integer;
+  AppStorage : TJvAppIniFileStorage;
+  FileName : string;
+begin
+  if lbColorThemes.ItemIndex >= 0 then
+  begin
+    FileName := IncludeTrailingPathDelimiter(TSynEditOptionsDialog.HighlighterFileDir) +
+                   lbColorThemes.Items[lbColorThemes.ItemIndex]+ '.ini';
+    AppStorage := TJvAppIniFileStorage.Create(nil);
+    try
+      AppStorage.FlushOnDestroy := False;
+      AppStorage.Location := flCustom;
+      AppStorage.FileName := FileName;
+      for i := 0 to cbHighlighters.Items.Count - 1 do
+          AppStorage.ReadPersistent('Highlighters\'+
+            TSynCustomHighlighter(cbHighlighters.Items.Objects[i]).FriendlyLanguageName,
+            TPersistent(cbHighlighters.Items.Objects[i]));
+    finally
+        AppStorage.Free;
+    end;
+  end;
+end;
+
 procedure TfmEditorOptionsDialog.btnAddKeyClick(Sender: TObject);
 var
   Item : TEasyItem;
@@ -1144,6 +1209,28 @@ begin
   finally
     lbElements.items.EndUpdate;
     synedit1.Lines.EndUpdate;
+  end;
+end;
+
+procedure TfmEditorOptionsDialog.lbColorThemesClick(Sender: TObject);
+Var
+  AppStorage : TJvAppIniFileStorage;
+  FileName : string;
+begin
+  if lbColorThemes.ItemIndex >= 0 then
+  begin
+    FileName := IncludeTrailingPathDelimiter(TSynEditOptionsDialog.HighlighterFileDir) +
+                   lbColorThemes.Items[lbColorThemes.ItemIndex]+ '.ini';
+    AppStorage := TJvAppIniFileStorage.Create(nil);
+    try
+      AppStorage.FlushOnDestroy := False;
+      AppStorage.Location := flCustom;
+      AppStorage.FileName := FileName;
+      AppStorage.ReadPersistent('Highlighters\'+SynThemeSample.Highlighter.FriendlyLanguageName,
+          SynThemeSample.Highlighter);
+    finally
+      AppStorage.Free;
+    end;
   end;
 end;
 

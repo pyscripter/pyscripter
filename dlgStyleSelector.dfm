@@ -1882,8 +1882,8 @@ object StyleSelectorForm: TStyleSelectorForm
     TabOrder = 1
   end
   object Button1: TSpTBXButton
-    Left = 184
-    Top = 454
+    Left = 188
+    Top = 446
     Width = 105
     Height = 25
     Caption = '&Apply Style'

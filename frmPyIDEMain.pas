@@ -382,10 +382,16 @@
   History:   v 2.6
           New Features
             Compatibility with Python 3.4
-  History:   v 2.7
+  History:   v 3.0
           New Features
-            New Skin Engine (VCL Styles)
+            Python 3.5 and 3.6 support
+            New Style Engine (VCL Styles) with high quality choices
+            Visual Style Preview and selection (View, Select Style)
+            Visual Source highligther theme selection (Editor Options, Select theme)
             German Translation added
+
+  History:   v 3.1
+          New Features
             Internal Interpreter is hidden by default
           Issues addressed
             Remove UseEditorColors in IDE

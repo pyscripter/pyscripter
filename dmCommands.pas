@@ -13,6 +13,7 @@ unit dmCommands;
 interface
 
 uses
+  System.Types, System.UITypes,
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
   ActnList, SynEdit, SynEditHighlighter, SynHighlighterPython, SynRegExpr,
   ImgList, dlgSynEditOptions, SynEditPrint, StdActns,
@@ -496,7 +497,7 @@ type
     InterpreterEditorOptions : TSynEditorOptionsContainer;
     PyIDEOptions : TPythonIDEOptions;
     UserDataPath : string;
-    SkinFilesDir : string;
+    ColorThemesFilesDir : string;
     StylesFilesDir : string;
     function IsBlockOpener(S : string) : Boolean;
     function IsBlockCloser(S : string) : Boolean;
@@ -916,10 +917,10 @@ begin
   end;
 
   // Skins directory
-  SkinFilesDir := UserDataPath + 'Skins';
-  if not DirectoryExists(SkinFilesDir) then
+  ColorThemesFilesDir := UserDataPath + 'Highlighters';
+  if not DirectoryExists(ColorThemesFilesDir) then
     try
-      CreateDir(SkinFilesDir);
+      CreateDir(ColorThemesFilesDir);
     except
     end;
 
@@ -1087,7 +1088,7 @@ end;
 procedure TCommandsDataModule.SynEditOptionsDialogGetHighlighterCount(Sender: TObject;
   var Count: Integer);
 begin
-   Count := fHighlighters.Count - 1; //  Cython gets Python highlighting
+   Count := fHighlighters.Count + 1; // The last one is the Python Interpreter
 end;
 
 procedure TCommandsDataModule.SynEditOptionsDialogGetHighlighter(Sender: TObject;
@@ -1095,6 +1096,8 @@ procedure TCommandsDataModule.SynEditOptionsDialogGetHighlighter(Sender: TObject
 begin
    if (Index >= 0) and (Index < fHighlighters.Count) then
       SynHighlighter := fHighlighters.Objects[Index] as TSynCustomHighlighter
+   else if Index = fHighlighters.Count then
+     SynHighlighter := PythonIIForm.SynEdit.Highlighter
    else
      SynHighlighter := nil;
 end;
@@ -1103,13 +1106,15 @@ procedure TCommandsDataModule.SynEditOptionsDialogSetHighlighter(Sender: TObject
   Index: Integer; SynHighlighter: TSynCustomHighlighter);
 begin
    if (Index >= 0) and (Index < fHighlighters.Count) then
-     (fHighlighters.Objects[Index] as TSynCustomHighlighter).Assign(SynHighlighter);
+     (fHighlighters.Objects[Index] as TSynCustomHighlighter).Assign(SynHighlighter)
+   else if Index = fHighlighters.Count then
+     PythonIIForm.SynEdit.Highlighter.Assign(SynHighlighter);
 end;
 
 procedure TCommandsDataModule.SynInterpreterOptionsDialogGetHighlighter(
   Sender: TObject; Index: Integer; var SynHighlighter: TSynCustomHighlighter);
 begin
-  if Index = 1 then
+  if Index = 0 then
     SynHighlighter := PythonIIForm.SynEdit.Highlighter
   else
     SynHighlighter := nil;
@@ -1124,7 +1129,8 @@ end;
 procedure TCommandsDataModule.SynInterpreterOptionsDialogSetHighlighter(
   Sender: TObject; Index: Integer; SynHighlighter: TSynCustomHighlighter);
 begin
-  PythonIIForm.SynEdit.Highlighter.Assign(SynHighlighter);
+  if Index = 0 then
+    PythonIIForm.SynEdit.Highlighter.Assign(SynHighlighter);
 end;
 
 function TCommandsDataModule.GetSaveFileName(var ANewName: string;
@@ -1526,6 +1532,7 @@ begin
       OnGetHighlighter := SynEditOptionsDialogGetHighlighter;
       OnSetHighlighter := SynEditOptionsDialogSetHighlighter;
       VisiblePages := [soDisplay, soOptions, soKeystrokes, soColor];
+      TSynEditOptionsDialog.HighlighterFileDir := ColorThemesFilesDir;
       GetUserCommand := GetEditorUserCommand;
       GetAllUserCommands := GetEditorAllUserCommands;
       UseExtendedStrings := True;
@@ -1560,10 +1567,11 @@ begin
       Form.cbApplyToAll.Checked := False;
       Form.cbApplyToAll.Enabled := False;
       Form.Caption := 'Interpreter Editor Options';
-      OnGetHighlighterCount := SynEditOptionsDialogGetHighlighterCount;
+      OnGetHighlighterCount := SynInterpreterOptionsDialogGetHighlighterCount;
       OnGetHighlighter := SynInterpreterOptionsDialogGetHighlighter;
       OnSetHighlighter := SynInterpreterOptionsDialogSetHighlighter;
       VisiblePages := [soDisplay, soOptions, soColor];
+      TSynEditOptionsDialog.HighlighterFileDir := ColorThemesFilesDir;
       if Execute(TempEditorOptions) then begin
         UpdateHighlighters;
         InterpreterEditorOptions.Assign(TempEditorOptions);
@@ -1739,9 +1747,9 @@ begin
         for i := 0 to Highlighters.Count - 1 do
           AppStorage.WritePersistent('Highlighters\'+Highlighters[i],
             TPersistent(Highlighters.Objects[i]));
-          AppStorage.WritePersistent('Highlighters\Intepreter',
-            PythonIIForm.SynEdit.Highlighter);
-      finally
+        AppStorage.WritePersistent('Highlighters\Intepreter',
+          PythonIIForm.SynEdit.Highlighter);
+    finally
         AppStorage.Free;
       end;
     end;

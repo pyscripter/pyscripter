@@ -10,7 +10,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
   ShowHint = True
   OnShow = FormShow
   ExplicitWidth = 498
-  ExplicitHeight = 449
+  ExplicitHeight = 450
   PixelsPerInch = 96
   TextHeight = 13
   object SpTBXPanel1: TSpTBXPanel
@@ -22,6 +22,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
     Align = alClient
     TabOrder = 0
     TBXStyleBackground = True
+    ExplicitTop = -16
     DesignSize = (
       492
       421)
@@ -76,11 +77,12 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
       Width = 482
       Height = 353
       Align = alTop
-      ActiveTabIndex = 0
+      ActiveTabIndex = 4
+      ExplicitLeft = 3
+      ExplicitTop = 7
       HiddenItems = <>
       object SpTBXTabItem1: TSpTBXTabItem
         Caption = 'Display'
-        Checked = True
       end
       object SpTBXTabItem2: TSpTBXTabItem
         Caption = 'Options'
@@ -88,8 +90,368 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
       object SpTBXTabItem3: TSpTBXTabItem
         Caption = 'Keystrokes'
       end
+      object SpTBXTabItem5: TSpTBXTabItem
+        Caption = 'Select Color Theme'
+      end
       object SpTBXTabItem4: TSpTBXTabItem
         Caption = 'Syntax Colors'
+        Checked = True
+      end
+      object Options: TSpTBXTabSheet
+        Left = 0
+        Top = 25
+        Width = 482
+        Height = 328
+        Caption = 'Options'
+        ImageIndex = -1
+        TabItem = 'SpTBXTabItem2'
+        object gbOptions: TSpTBXGroupBox
+          AlignWithMargins = True
+          Left = 5
+          Top = 3
+          Width = 470
+          Height = 247
+          Caption = 'Options'
+          Align = alTop
+          ParentShowHint = False
+          ShowHint = True
+          TabOrder = 0
+          TBXStyleBackground = True
+          DesignSize = (
+            470
+            247)
+          object ckAutoIndent: TSpTBXCheckBox
+            Left = 23
+            Top = 15
+            Width = 80
+            Height = 21
+            Hint = 
+              'Will indent the caret on new lines with the same amount of leadi' +
+              'ng white space as the preceding line'
+            Caption = 'Auto indent'
+            ParentColor = True
+            TabOrder = 0
+          end
+          object ckDragAndDropEditing: TSpTBXCheckBox
+            Left = 23
+            Top = 34
+            Width = 128
+            Height = 21
+            Hint = 
+              'Allows you to select a block of text and drag it within the docu' +
+              'ment to another location'
+            Caption = 'Drag and drop editing'
+            ParentColor = True
+            TabOrder = 1
+          end
+          object ckWordWrap: TSpTBXCheckBox
+            Left = 23
+            Top = 53
+            Width = 77
+            Height = 21
+            Hint = 'Allows the editor accept OLE file drops'
+            Caption = 'Word wrap'
+            ParentColor = True
+            TabOrder = 2
+          end
+          object ckHalfPageScroll: TSpTBXCheckBox
+            Left = 218
+            Top = 15
+            Width = 97
+            Height = 21
+            Hint = 
+              'When scrolling with page-up and page-down commands, only scroll ' +
+              'a half page at a time'
+            Caption = 'Half page scroll'
+            Anchors = [akTop, akRight]
+            ParentColor = True
+            TabOrder = 11
+          end
+          object ckThemeSelection: TSpTBXCheckBox
+            Left = 218
+            Top = 224
+            Width = 101
+            Height = 21
+            Hint = 'Themes the selection color'
+            Caption = 'Theme selection'
+            Anchors = [akTop, akRight]
+            ParentColor = True
+            TabOrder = 20
+          end
+          object ckScrollByOneLess: TSpTBXCheckBox
+            Left = 218
+            Top = 34
+            Width = 106
+            Height = 21
+            Hint = 'Forces scrolling to be one less'
+            Caption = 'Scroll by one less'
+            Anchors = [akTop, akRight]
+            ParentColor = True
+            TabOrder = 12
+          end
+          object ckScrollPastEOF: TSpTBXCheckBox
+            Left = 218
+            Top = 53
+            Width = 124
+            Height = 21
+            Hint = 'Allows the cursor to go past the end of file marker'
+            Caption = 'Scroll past end of file'
+            Anchors = [akTop, akRight]
+            ParentColor = True
+            TabOrder = 13
+          end
+          object ckScrollPastEOL: TSpTBXCheckBox
+            Left = 218
+            Top = 72
+            Width = 126
+            Height = 21
+            Hint = 
+              'Allows the cursor to go past the last character into the white s' +
+              'pace at the end of a line'
+            Caption = 'Scroll past end of line'
+            Anchors = [akTop, akRight]
+            ParentColor = True
+            TabOrder = 14
+          end
+          object ckShowScrollHint: TSpTBXCheckBox
+            Left = 218
+            Top = 91
+            Width = 98
+            Height = 21
+            Hint = 
+              'Shows a hint of the visible line numbers when scrolling vertical' +
+              'ly'
+            Caption = 'Show scroll hint'
+            Anchors = [akTop, akRight]
+            ParentColor = True
+            TabOrder = 15
+          end
+          object ckSmartTabs: TSpTBXCheckBox
+            Left = 23
+            Top = 129
+            Width = 76
+            Height = 21
+            Hint = 
+              'When tabbing, the cursor will go to the next non-white space cha' +
+              'racter of the previous line'
+            Caption = 'Smart tabs'
+            ParentColor = True
+            TabOrder = 6
+          end
+          object ckTabsToSpaces: TSpTBXCheckBox
+            Left = 23
+            Top = 167
+            Width = 96
+            Height = 21
+            Hint = 'Converts a tab character to the number of spaces in Tab Width'
+            Caption = 'Tabs to spaces'
+            ParentColor = True
+            TabOrder = 17
+          end
+          object ckTrimTrailingSpaces: TSpTBXCheckBox
+            Left = 218
+            Top = 148
+            Width = 115
+            Height = 21
+            Hint = 'Spaces at the end of lines will be trimmed and not saved'
+            Caption = 'Trim trailing spaces'
+            Anchors = [akTop, akRight]
+            ParentColor = True
+            TabOrder = 18
+          end
+          object ckTabIndent: TSpTBXCheckBox
+            Left = 23
+            Top = 110
+            Width = 77
+            Height = 21
+            Hint = 'Tab indents and Shft-Tab unindents'
+            Caption = 'Tab Indent'
+            ParentColor = True
+            TabOrder = 5
+          end
+          object ckAltSetsColumnMode: TSpTBXCheckBox
+            Left = 23
+            Top = 72
+            Width = 125
+            Height = 21
+            Hint = 
+              'Holding down the Alt Key will put the selection mode into column' +
+              'ar format'
+            Caption = 'Alt sets column mode'
+            ParentColor = True
+            TabOrder = 3
+          end
+          object ckKeepCaretX: TSpTBXCheckBox
+            Left = 23
+            Top = 91
+            Width = 128
+            Height = 21
+            Hint = 
+              'When moving through lines the X position will always stay the sa' +
+              'me'
+            Caption = 'Maintain caret column'
+            ParentColor = True
+            TabOrder = 4
+          end
+          object ckScrollHintFollows: TSpTBXCheckBox
+            Left = 218
+            Top = 110
+            Width = 140
+            Height = 21
+            Hint = 'The scroll hint follows the mouse when scrolling vertically'
+            Caption = 'Scroll hint follows mouse'
+            Anchors = [akTop, akRight]
+            ParentColor = True
+            TabOrder = 16
+          end
+          object ckGroupUndo: TSpTBXCheckBox
+            Left = 218
+            Top = 167
+            Width = 80
+            Height = 21
+            Hint = 
+              'When undoing/redoing actions, handle all continous changes of th' +
+              'e same kind in one call instead undoing/redoing each command sep' +
+              'arately'
+            Caption = 'Group undo'
+            Anchors = [akTop, akRight]
+            ParentColor = True
+            TabOrder = 19
+          end
+          object ckSmartTabDelete: TSpTBXCheckBox
+            Left = 23
+            Top = 148
+            Width = 104
+            Height = 21
+            Hint = 'similar to Smart Tabs, but when you delete characters'
+            Caption = 'Smart tab delete'
+            ParentColor = True
+            TabOrder = 7
+          end
+          object ckRightMouseMoves: TSpTBXCheckBox
+            Left = 23
+            Top = 186
+            Width = 150
+            Height = 21
+            Hint = 
+              'When clicking with the right mouse for a popup menu, move the cu' +
+              'rsor to that location'
+            Caption = 'Right mouse moves cursor'
+            ParentColor = True
+            TabOrder = 8
+          end
+          object ckEnhanceHomeKey: TSpTBXCheckBox
+            Left = 23
+            Top = 205
+            Width = 116
+            Height = 21
+            Hint = 'enhances home key positioning, similar to visual studio'
+            Caption = 'Enhance Home Key'
+            ParentColor = True
+            TabOrder = 9
+          end
+          object ckHideShowScrollbars: TSpTBXCheckBox
+            Left = 218
+            Top = 129
+            Width = 159
+            Height = 21
+            Hint = 
+              'if enabled, then the scrollbars will only show when necessary.  ' +
+              'If you have ScrollPastEOL, then it the horizontal bar will alway' +
+              's be there (it uses MaxLength instead)'
+            Caption = 'Hide scrollbars as necessary'
+            Anchors = [akTop, akRight]
+            ParentColor = True
+            TabOrder = 10
+          end
+          object ckDisableScrollArrows: TSpTBXCheckBox
+            Left = 218
+            Top = 186
+            Width = 121
+            Height = 21
+            Hint = 
+              'Disables the scroll bar arrow buttons when you can'#39't scroll in t' +
+              'hat direction any more'
+            Caption = 'Disable scroll arrows'
+            Anchors = [akTop, akRight]
+            ParentColor = True
+            TabOrder = 21
+          end
+          object ckShowSpecialChars: TSpTBXCheckBox
+            Left = 218
+            Top = 205
+            Width = 114
+            Height = 21
+            Hint = 'Shows linebreaks, spaces and tabs using special symbols'
+            Caption = 'Show special chars'
+            Anchors = [akTop, akRight]
+            ParentColor = True
+            TabOrder = 22
+          end
+          object ckEnhanceEndKey: TSpTBXCheckBox
+            Left = 23
+            Top = 224
+            Width = 107
+            Height = 21
+            Hint = 'Enhances end key similar to JDeveloper'
+            Caption = 'Enhance End Key'
+            ParentColor = True
+            TabOrder = 23
+          end
+        end
+        object gbCaret: TSpTBXGroupBox
+          AlignWithMargins = True
+          Left = 5
+          Top = 252
+          Width = 470
+          Height = 69
+          Caption = 'Caret'
+          Align = alBottom
+          TabOrder = 1
+          TBXStyleBackground = True
+          object Label2: TSpTBXLabel
+            Left = 60
+            Top = 19
+            Width = 67
+            Height = 19
+            Caption = 'Insert caret:'
+          end
+          object Label4: TSpTBXLabel
+            Left = 60
+            Top = 43
+            Width = 86
+            Height = 19
+            Caption = 'Overwrite caret:'
+          end
+          object cInsertCaret: TSpTBXComboBox
+            Left = 183
+            Top = 14
+            Width = 176
+            Height = 21
+            Style = csDropDownList
+            ItemHeight = 13
+            TabOrder = 0
+            Items.Strings = (
+              'Vertical Line'
+              'Horizontal Line'
+              'Half Block'
+              'Block')
+          end
+          object cOverwriteCaret: TSpTBXComboBox
+            Left = 183
+            Top = 38
+            Width = 176
+            Height = 21
+            Style = csDropDownList
+            ItemHeight = 13
+            TabOrder = 1
+            Items.Strings = (
+              'Vertical Line'
+              'Horizontal Line'
+              'Half Block'
+              'Block')
+          end
+        end
       end
       object KeyStrokes: TSpTBXTabSheet
         Left = 0
@@ -205,523 +567,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             Selection.FullRowSelect = True
             TabOrder = 0
             View = elsReport
-          end
-        end
-      end
-      object Color: TSpTBXTabSheet
-        Left = 0
-        Top = 25
-        Width = 482
-        Height = 328
-        Caption = 'Syntax Colors'
-        ImageIndex = -1
-        DesignSize = (
-          482
-          328)
-        TabItem = 'SpTBXTabItem4'
-        object GroupBox1: TSpTBXGroupBox
-          Left = 6
-          Top = 256
-          Width = 150
-          Height = 62
-          Caption = ' Text attributes '
-          TabOrder = 3
-          TBXStyleBackground = True
-          object cbxElementBold: TSpTBXCheckBox
-            Left = 9
-            Top = 17
-            Width = 44
-            Height = 21
-            Caption = '&Bold'
-            Enabled = False
-            ParentColor = True
-            TabOrder = 0
-            OnClick = cbxElementBoldClick
-          end
-          object cbxElementItalic: TSpTBXCheckBox
-            Left = 9
-            Top = 40
-            Width = 47
-            Height = 21
-            Caption = '&Italic'
-            Enabled = False
-            ParentColor = True
-            TabOrder = 1
-            OnClick = cbxElementBoldClick
-          end
-          object cbxElementUnderline: TSpTBXCheckBox
-            Left = 67
-            Top = 17
-            Width = 69
-            Height = 21
-            Caption = '&Underline'
-            Enabled = False
-            ParentColor = True
-            TabOrder = 2
-            OnClick = cbxElementBoldClick
-          end
-          object cbxElementStrikeout: TSpTBXCheckBox
-            Left = 67
-            Top = 40
-            Width = 72
-            Height = 21
-            Caption = '&Strike Out'
-            Enabled = False
-            ParentColor = True
-            TabOrder = 3
-            OnClick = cbxElementBoldClick
-          end
-        end
-        object SynEdit1: TSynEdit
-          Left = 166
-          Top = 64
-          Width = 313
-          Height = 257
-          Anchors = [akLeft, akTop, akRight]
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -12
-          Font.Name = 'Courier New'
-          Font.Style = []
-          TabOrder = 4
-          OnClick = SynEdit1Click
-          Gutter.Font.Charset = DEFAULT_CHARSET
-          Gutter.Font.Color = clWindowText
-          Gutter.Font.Height = -11
-          Gutter.Font.Name = 'Courier New'
-          Gutter.Font.Style = []
-          Gutter.Visible = False
-          Gutter.Width = 0
-          RightEdge = 0
-        end
-        object Label11: TSpTBXLabel
-          Left = 6
-          Top = 45
-          Width = 48
-          Height = 19
-          Caption = '&Element:'
-        end
-        object Label12: TSpTBXLabel
-          Left = 6
-          Top = 164
-          Width = 94
-          Height = 19
-          Caption = '&Foreground Color:'
-        end
-        object Label13: TSpTBXLabel
-          Left = 6
-          Top = 208
-          Width = 94
-          Height = 19
-          Caption = 'B&ackground Color:'
-        end
-        object Label14: TSpTBXLabel
-          Left = 164
-          Top = 45
-          Width = 68
-          Height = 19
-          Caption = 'Code Sample'
-        end
-        object Label15: TSpTBXLabel
-          Left = 6
-          Top = 2
-          Width = 121
-          Height = 19
-          Caption = 'Editor Syntax Language'
-        end
-        object cbHighlighters: TSpTBXComboBox
-          Left = 3
-          Top = 23
-          Width = 467
-          Height = 21
-          Style = csDropDownList
-          Anchors = [akLeft, akTop, akRight]
-          ItemHeight = 13
-          TabOrder = 5
-          OnChange = cbHighlightersChange
-        end
-        object lbElements: TSpTBXListBox
-          Left = 6
-          Top = 64
-          Width = 150
-          Height = 97
-          Style = lbStandard
-          ItemHeight = 13
-          TabOrder = 0
-          OnClick = lbElementsClick
-        end
-        object cbElementForeground: TSpTBXColorEdit
-          Left = 6
-          Top = 181
-          Width = 154
-          Height = 21
-          TabOrder = 1
-          SelectedColor = clBlack
-          OnSelectedColorChanged = cbElementForegroundChange
-        end
-        object cbElementBackground: TSpTBXColorEdit
-          Left = 6
-          Top = 230
-          Width = 151
-          Height = 21
-          TabOrder = 2
-          SelectedColor = clBlack
-          OnSelectedColorChanged = cbElementBackgroundChange
-        end
-      end
-      object Options: TSpTBXTabSheet
-        Left = 0
-        Top = 25
-        Width = 482
-        Height = 328
-        Caption = 'Options'
-        ImageIndex = -1
-        TabItem = 'SpTBXTabItem2'
-        object gbOptions: TSpTBXGroupBox
-          AlignWithMargins = True
-          Left = 5
-          Top = 3
-          Width = 470
-          Height = 247
-          Caption = 'Options'
-          Align = alTop
-          ParentShowHint = False
-          ShowHint = True
-          TabOrder = 0
-          TBXStyleBackground = True
-          DesignSize = (
-            470
-            247)
-          object ckAutoIndent: TSpTBXCheckBox
-            Left = 23
-            Top = 15
-            Width = 80
-            Height = 21
-            Hint = 
-              'Will indent the caret on new lines with the same amount of leadi' +
-              'ng white space as the preceding line'
-            Caption = 'Auto indent'
-            ParentColor = True
-            TabOrder = 0
-          end
-          object ckDragAndDropEditing: TSpTBXCheckBox
-            Left = 23
-            Top = 34
-            Width = 128
-            Height = 21
-            Hint = 
-              'Allows you to select a block of text and drag it within the docu' +
-              'ment to another location'
-            Caption = 'Drag and drop editing'
-            ParentColor = True
-            TabOrder = 1
-          end
-          object ckWordWrap: TSpTBXCheckBox
-            Left = 23
-            Top = 53
-            Width = 77
-            Height = 21
-            Hint = 'Allows the editor accept OLE file drops'
-            Caption = 'Word wrap'
-            ParentColor = True
-            TabOrder = 2
-          end
-          object ckHalfPageScroll: TSpTBXCheckBox
-            Left = 224
-            Top = 15
-            Width = 97
-            Height = 21
-            Hint = 
-              'When scrolling with page-up and page-down commands, only scroll ' +
-              'a half page at a time'
-            Caption = 'Half page scroll'
-            Anchors = [akTop, akRight]
-            ParentColor = True
-            TabOrder = 11
-          end
-          object ckThemeSelection: TSpTBXCheckBox
-            Left = 224
-            Top = 224
-            Width = 101
-            Height = 21
-            Hint = 'Themes the selection color'
-            Caption = 'Theme selection'
-            Anchors = [akTop, akRight]
-            ParentColor = True
-            TabOrder = 20
-          end
-          object ckScrollByOneLess: TSpTBXCheckBox
-            Left = 224
-            Top = 34
-            Width = 106
-            Height = 21
-            Hint = 'Forces scrolling to be one less'
-            Caption = 'Scroll by one less'
-            Anchors = [akTop, akRight]
-            ParentColor = True
-            TabOrder = 12
-          end
-          object ckScrollPastEOF: TSpTBXCheckBox
-            Left = 224
-            Top = 53
-            Width = 124
-            Height = 21
-            Hint = 'Allows the cursor to go past the end of file marker'
-            Caption = 'Scroll past end of file'
-            Anchors = [akTop, akRight]
-            ParentColor = True
-            TabOrder = 13
-          end
-          object ckScrollPastEOL: TSpTBXCheckBox
-            Left = 224
-            Top = 72
-            Width = 126
-            Height = 21
-            Hint = 
-              'Allows the cursor to go past the last character into the white s' +
-              'pace at the end of a line'
-            Caption = 'Scroll past end of line'
-            Anchors = [akTop, akRight]
-            ParentColor = True
-            TabOrder = 14
-          end
-          object ckShowScrollHint: TSpTBXCheckBox
-            Left = 224
-            Top = 91
-            Width = 98
-            Height = 21
-            Hint = 
-              'Shows a hint of the visible line numbers when scrolling vertical' +
-              'ly'
-            Caption = 'Show scroll hint'
-            Anchors = [akTop, akRight]
-            ParentColor = True
-            TabOrder = 15
-          end
-          object ckSmartTabs: TSpTBXCheckBox
-            Left = 23
-            Top = 129
-            Width = 76
-            Height = 21
-            Hint = 
-              'When tabbing, the cursor will go to the next non-white space cha' +
-              'racter of the previous line'
-            Caption = 'Smart tabs'
-            ParentColor = True
-            TabOrder = 6
-          end
-          object ckTabsToSpaces: TSpTBXCheckBox
-            Left = 23
-            Top = 167
-            Width = 96
-            Height = 21
-            Hint = 'Converts a tab character to the number of spaces in Tab Width'
-            Caption = 'Tabs to spaces'
-            ParentColor = True
-            TabOrder = 17
-          end
-          object ckTrimTrailingSpaces: TSpTBXCheckBox
-            Left = 224
-            Top = 148
-            Width = 115
-            Height = 21
-            Hint = 'Spaces at the end of lines will be trimmed and not saved'
-            Caption = 'Trim trailing spaces'
-            Anchors = [akTop, akRight]
-            ParentColor = True
-            TabOrder = 18
-          end
-          object ckTabIndent: TSpTBXCheckBox
-            Left = 23
-            Top = 110
-            Width = 77
-            Height = 21
-            Hint = 'Tab indents and Shft-Tab unindents'
-            Caption = 'Tab Indent'
-            ParentColor = True
-            TabOrder = 5
-          end
-          object ckAltSetsColumnMode: TSpTBXCheckBox
-            Left = 23
-            Top = 72
-            Width = 125
-            Height = 21
-            Hint = 
-              'Holding down the Alt Key will put the selection mode into column' +
-              'ar format'
-            Caption = 'Alt sets column mode'
-            ParentColor = True
-            TabOrder = 3
-          end
-          object ckKeepCaretX: TSpTBXCheckBox
-            Left = 23
-            Top = 91
-            Width = 128
-            Height = 21
-            Hint = 
-              'When moving through lines the X position will always stay the sa' +
-              'me'
-            Caption = 'Maintain caret column'
-            ParentColor = True
-            TabOrder = 4
-          end
-          object ckScrollHintFollows: TSpTBXCheckBox
-            Left = 224
-            Top = 110
-            Width = 140
-            Height = 21
-            Hint = 'The scroll hint follows the mouse when scrolling vertically'
-            Caption = 'Scroll hint follows mouse'
-            Anchors = [akTop, akRight]
-            ParentColor = True
-            TabOrder = 16
-          end
-          object ckGroupUndo: TSpTBXCheckBox
-            Left = 224
-            Top = 167
-            Width = 80
-            Height = 21
-            Hint = 
-              'When undoing/redoing actions, handle all continous changes of th' +
-              'e same kind in one call instead undoing/redoing each command sep' +
-              'arately'
-            Caption = 'Group undo'
-            Anchors = [akTop, akRight]
-            ParentColor = True
-            TabOrder = 19
-          end
-          object ckSmartTabDelete: TSpTBXCheckBox
-            Left = 23
-            Top = 148
-            Width = 104
-            Height = 21
-            Hint = 'similar to Smart Tabs, but when you delete characters'
-            Caption = 'Smart tab delete'
-            ParentColor = True
-            TabOrder = 7
-          end
-          object ckRightMouseMoves: TSpTBXCheckBox
-            Left = 23
-            Top = 186
-            Width = 150
-            Height = 21
-            Hint = 
-              'When clicking with the right mouse for a popup menu, move the cu' +
-              'rsor to that location'
-            Caption = 'Right mouse moves cursor'
-            ParentColor = True
-            TabOrder = 8
-          end
-          object ckEnhanceHomeKey: TSpTBXCheckBox
-            Left = 23
-            Top = 205
-            Width = 116
-            Height = 21
-            Hint = 'enhances home key positioning, similar to visual studio'
-            Caption = 'Enhance Home Key'
-            ParentColor = True
-            TabOrder = 9
-          end
-          object ckHideShowScrollbars: TSpTBXCheckBox
-            Left = 224
-            Top = 129
-            Width = 159
-            Height = 21
-            Hint = 
-              'if enabled, then the scrollbars will only show when necessary.  ' +
-              'If you have ScrollPastEOL, then it the horizontal bar will alway' +
-              's be there (it uses MaxLength instead)'
-            Caption = 'Hide scrollbars as necessary'
-            Anchors = [akTop, akRight]
-            ParentColor = True
-            TabOrder = 10
-          end
-          object ckDisableScrollArrows: TSpTBXCheckBox
-            Left = 224
-            Top = 186
-            Width = 121
-            Height = 21
-            Hint = 
-              'Disables the scroll bar arrow buttons when you can'#39't scroll in t' +
-              'hat direction any more'
-            Caption = 'Disable scroll arrows'
-            Anchors = [akTop, akRight]
-            ParentColor = True
-            TabOrder = 21
-          end
-          object ckShowSpecialChars: TSpTBXCheckBox
-            Left = 224
-            Top = 205
-            Width = 114
-            Height = 21
-            Hint = 'Shows linebreaks, spaces and tabs using special symbols'
-            Caption = 'Show special chars'
-            Anchors = [akTop, akRight]
-            ParentColor = True
-            TabOrder = 22
-          end
-          object ckEnhanceEndKey: TSpTBXCheckBox
-            Left = 23
-            Top = 224
-            Width = 107
-            Height = 21
-            Hint = 'Enhances end key similar to JDeveloper'
-            Caption = 'Enhance End Key'
-            ParentColor = True
-            TabOrder = 23
-          end
-        end
-        object gbCaret: TSpTBXGroupBox
-          AlignWithMargins = True
-          Left = 5
-          Top = 252
-          Width = 470
-          Height = 69
-          Caption = 'Caret'
-          Align = alBottom
-          TabOrder = 1
-          TBXStyleBackground = True
-          object Label2: TSpTBXLabel
-            Left = 60
-            Top = 19
-            Width = 67
-            Height = 19
-            Caption = 'Insert caret:'
-          end
-          object Label4: TSpTBXLabel
-            Left = 60
-            Top = 43
-            Width = 86
-            Height = 19
-            Caption = 'Overwrite caret:'
-          end
-          object cInsertCaret: TSpTBXComboBox
-            Left = 183
-            Top = 14
-            Width = 176
-            Height = 21
-            Style = csDropDownList
-            ItemHeight = 13
-            TabOrder = 0
-            Items.Strings = (
-              'Vertical Line'
-              'Horizontal Line'
-              'Half Block'
-              'Block')
-          end
-          object cOverwriteCaret: TSpTBXComboBox
-            Left = 183
-            Top = 38
-            Width = 176
-            Height = 21
-            Style = csDropDownList
-            ItemHeight = 13
-            TabOrder = 1
-            Items.Strings = (
-              'Vertical Line'
-              'Horizontal Line'
-              'Half Block'
-              'Block')
           end
         end
       end
@@ -1026,6 +871,237 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             TabOrder = 0
             SelectedColor = clBlack
           end
+        end
+      end
+      object ColorThemes: TSpTBXTabSheet
+        Left = 0
+        Top = 25
+        Width = 482
+        Height = 328
+        Caption = 'Select Color Theme'
+        ImageIndex = -1
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
+        DesignSize = (
+          482
+          328)
+        TabItem = 'SpTBXTabItem5'
+        object SynThemeSample: TSynEdit
+          Left = 169
+          Top = 37
+          Width = 313
+          Height = 276
+          Anchors = [akLeft, akTop, akRight]
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = 'Courier New'
+          Font.Style = []
+          TabOrder = 0
+          Gutter.Font.Charset = DEFAULT_CHARSET
+          Gutter.Font.Color = clWindowText
+          Gutter.Font.Height = -11
+          Gutter.Font.Name = 'Courier New'
+          Gutter.Font.Style = []
+          Gutter.Visible = False
+          Gutter.Width = 0
+          RightEdge = 0
+          FontSmoothing = fsmNone
+        end
+        object SpTBXLabel1: TSpTBXLabel
+          Left = 169
+          Top = 12
+          Width = 68
+          Height = 19
+          Caption = 'Code Sample'
+        end
+        object lbColorThemes: TListBox
+          Left = 3
+          Top = 37
+          Width = 155
+          Height = 240
+          ItemHeight = 13
+          TabOrder = 2
+          OnClick = lbColorThemesClick
+        end
+        object SpTBXLabel2: TSpTBXLabel
+          Left = 3
+          Top = 12
+          Width = 89
+          Height = 19
+          Caption = 'Available Themes'
+        end
+        object bApplyTheme: TButton
+          Left = 49
+          Top = 286
+          Width = 75
+          Height = 25
+          Caption = 'Apply Theme'
+          TabOrder = 4
+          OnClick = bApplyThemeClick
+        end
+      end
+      object Color: TSpTBXTabSheet
+        Left = 0
+        Top = 25
+        Width = 482
+        Height = 328
+        Caption = 'Syntax Colors'
+        ImageIndex = -1
+        DesignSize = (
+          482
+          328)
+        TabItem = 'SpTBXTabItem4'
+        object GroupBox1: TSpTBXGroupBox
+          Left = 6
+          Top = 256
+          Width = 150
+          Height = 62
+          Caption = ' Text attributes '
+          TabOrder = 3
+          TBXStyleBackground = True
+          object cbxElementBold: TSpTBXCheckBox
+            Left = 9
+            Top = 17
+            Width = 44
+            Height = 21
+            Caption = '&Bold'
+            Enabled = False
+            ParentColor = True
+            TabOrder = 0
+            OnClick = cbxElementBoldClick
+          end
+          object cbxElementItalic: TSpTBXCheckBox
+            Left = 9
+            Top = 40
+            Width = 47
+            Height = 21
+            Caption = '&Italic'
+            Enabled = False
+            ParentColor = True
+            TabOrder = 1
+            OnClick = cbxElementBoldClick
+          end
+          object cbxElementUnderline: TSpTBXCheckBox
+            Left = 67
+            Top = 17
+            Width = 69
+            Height = 21
+            Caption = '&Underline'
+            Enabled = False
+            ParentColor = True
+            TabOrder = 2
+            OnClick = cbxElementBoldClick
+          end
+          object cbxElementStrikeout: TSpTBXCheckBox
+            Left = 67
+            Top = 40
+            Width = 72
+            Height = 21
+            Caption = '&Strike Out'
+            Enabled = False
+            ParentColor = True
+            TabOrder = 3
+            OnClick = cbxElementBoldClick
+          end
+        end
+        object SynEdit1: TSynEdit
+          Left = 166
+          Top = 64
+          Width = 313
+          Height = 257
+          Anchors = [akLeft, akTop, akRight]
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = 'Courier New'
+          Font.Style = []
+          TabOrder = 4
+          OnClick = SynEdit1Click
+          Gutter.Font.Charset = DEFAULT_CHARSET
+          Gutter.Font.Color = clWindowText
+          Gutter.Font.Height = -11
+          Gutter.Font.Name = 'Courier New'
+          Gutter.Font.Style = []
+          Gutter.Visible = False
+          Gutter.Width = 0
+          RightEdge = 0
+          FontSmoothing = fsmNone
+        end
+        object Label11: TSpTBXLabel
+          Left = 6
+          Top = 45
+          Width = 48
+          Height = 19
+          Caption = '&Element:'
+        end
+        object Label12: TSpTBXLabel
+          Left = 6
+          Top = 164
+          Width = 94
+          Height = 19
+          Caption = '&Foreground Color:'
+        end
+        object Label13: TSpTBXLabel
+          Left = 6
+          Top = 208
+          Width = 94
+          Height = 19
+          Caption = 'B&ackground Color:'
+        end
+        object Label14: TSpTBXLabel
+          Left = 164
+          Top = 45
+          Width = 68
+          Height = 19
+          Caption = 'Code Sample'
+        end
+        object Label15: TSpTBXLabel
+          Left = 6
+          Top = 2
+          Width = 121
+          Height = 19
+          Caption = 'Editor Syntax Language'
+        end
+        object cbHighlighters: TSpTBXComboBox
+          Left = 3
+          Top = 23
+          Width = 467
+          Height = 21
+          Style = csDropDownList
+          Anchors = [akLeft, akTop, akRight]
+          ItemHeight = 13
+          TabOrder = 5
+          OnChange = cbHighlightersChange
+        end
+        object lbElements: TSpTBXListBox
+          Left = 6
+          Top = 64
+          Width = 150
+          Height = 97
+          Style = lbStandard
+          ItemHeight = 13
+          TabOrder = 0
+          OnClick = lbElementsClick
+        end
+        object cbElementForeground: TSpTBXColorEdit
+          Left = 6
+          Top = 181
+          Width = 154
+          Height = 21
+          TabOrder = 1
+          SelectedColor = clBlack
+          OnSelectedColorChanged = cbElementForegroundChange
+        end
+        object cbElementBackground: TSpTBXColorEdit
+          Left = 6
+          Top = 230
+          Width = 151
+          Height = 21
+          TabOrder = 2
+          SelectedColor = clBlack
+          OnSelectedColorChanged = cbElementBackgroundChange
         end
       end
     end
