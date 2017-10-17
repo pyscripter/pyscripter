@@ -384,7 +384,7 @@
             Compatibility with Python 3.4
   History:   v 3.0
           New Features
-            Python 3.5 and 3.6 support
+            Python 3.5, 3.6 and 3.7 support
             New Style Engine (VCL Styles) with high quality choices
             Visual Style Preview and selection (View, Select Style)
             Visual Source highligther theme selection (Editor Options, Select theme)

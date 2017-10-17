@@ -39,7 +39,7 @@ unit uParams;
 interface
 
 Uses
-  Classes;
+  System.UITypes, Classes;
 
 
 (* parameters, valid for current Windows configuration *)
@@ -606,6 +606,7 @@ begin
     RegisterParameter('Python34Dir', GetPythonDir('3.4'), nil);
     RegisterParameter('Python35Dir', GetPythonDir('3.5'), nil);
     RegisterParameter('Python36Dir', GetPythonDir('3.6'), nil);
+    RegisterParameter('Python37Dir', GetPythonDir('3.7'), nil);
     RegisterParameter('Python24Exe', '$[PYTHON24DIR]python.exe', nil);
     RegisterParameter('Python25Exe', '$[PYTHON25DIR]python.exe', nil);
     RegisterParameter('Python26Exe', '$[PYTHON26DIR]python.exe', nil);
@@ -617,6 +618,7 @@ begin
     RegisterParameter('Python34Exe', '$[PYTHON34DIR]python.exe', nil);
     RegisterParameter('Python35Exe', '$[PYTHON35DIR]python.exe', nil);
     RegisterParameter('Python36Exe', '$[PYTHON36DIR]python.exe', nil);
+    RegisterParameter('Python37Exe', '$[PYTHON37DIR]python.exe', nil);
     RegisterParameter('PythonDir', 'Directory of active python version', GetActivePythonDir);
     RegisterParameter('PythonExe', '$[PYTHONDIR]python.exe', nil);
     RegisterParameter('PythonVersion', 'Version of active Python', GetPythonVersion);
@@ -712,6 +714,7 @@ begin
     UnRegisterParameter('Python34Dir');
     UnRegisterParameter('Python35Dir');
     UnRegisterParameter('Python36Dir');
+    UnRegisterParameter('Python37Dir');
     UnRegisterParameter('Python24Exe');
     UnRegisterParameter('Python25Exe');
     UnRegisterParameter('Python26Exe');
@@ -723,6 +726,7 @@ begin
     UnRegisterParameter('Python34Exe');
     UnRegisterParameter('Python35Exe');
     UnRegisterParameter('Python36Exe');
+    UnRegisterParameter('Python37Exe');
     UnRegisterParameter('PythonDir');
     UnRegisterParameter('PythonExe');
     UnRegisterParameter('PythonVersion');

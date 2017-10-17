@@ -111,6 +111,7 @@
         <VerInfo_Locale>1033</VerInfo_Locale>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win64)'!=''">
+        <Debugger_RunParams>--PYTHON27</Debugger_RunParams>
         <VerInfo_MajorVer>3</VerInfo_MajorVer>
         <DCC_DebugDCUs>true</DCC_DebugDCUs>
         <VerInfo_MinorVer>0</VerInfo_MinorVer>
@@ -375,6 +376,7 @@
                     <VersionInfoKeys Name="Comments"/>
                 </VersionInfoKeys>
                 <Excluded_Packages>
+                    <Excluded_Packages Name="C:\Users\Public\Documents\Embarcadero\Studio\15.0\Bpl\JvPluginSystemDesign210.bpl">JVCL Plugin Components</Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\dcloffice2k210.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\dclofficexp210.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
                 </Excluded_Packages>

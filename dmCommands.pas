@@ -2852,7 +2852,16 @@ begin
 end;
 
 procedure TCommandsDataModule.actCheckForUpdatesExecute(Sender: TObject);
+Var
+  PlatformSuffix : string;
 begin
+  {$IFDEF WIN64}
+  PlatformSuffix := '-x64';
+  {$ELSE}
+  PlatformSuffix := '';
+  {$ENDIF}
+  ProgramVersionHTTPLocation.VersionInfoFileName := 'PyScripterVersionInfo' +
+    PlatformSuffix + '.ini';
   try
     ProgramVersionCheck.LocalDirectory := UserDataPath + 'Updates';
     ProgramVersionCheck.Execute;

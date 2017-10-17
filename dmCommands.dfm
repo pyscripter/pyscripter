@@ -627,7 +627,7 @@ object CommandsDataModule: TCommandsDataModule
   object ProgramVersionHTTPLocation: TJvProgramVersionHTTPLocation
     OnLoadFileFromRemote = ProgramVersionHTTPLocationLoadFileFromRemote
     VersionInfoLocationPathList.Strings = (
-      'http://pyscripter.googlecode.com/svn/trunk')
+      'https://raw.githubusercontent.com/pyscripter/pyscripter/master')
     VersionInfoFileName = 'PyScripterVersionInfo.ini'
     Left = 494
     Top = 72
