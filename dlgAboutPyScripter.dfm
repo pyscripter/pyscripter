@@ -61,32 +61,34 @@ inherited AboutBox: TAboutBox
           Left = 0
           Top = 0
           Width = 352
-          Height = 117
+          Height = 126
           Caption = 
             '<b>Links:</b><br><br>'#13#10'- The project home, Issue Tracker and sou' +
-            'rce code repository are hosted at Google Code (<link>pyscripter.' +
-            'googlecode.com</link>)<br>'#13#10'- Internet group support is avalable' +
-            ' at <link>groups.google.com/group/PyScripter</link><br>'#13#10'<br>'#13#10'P' +
-            'lease submit bug reports and questions about PyScripter to pyscr' +
-            'ipter@gmail.com.'
+            'rce code repository are hosted at Github (<link>github.com/pyscr' +
+            'ipter/pyscripter</link>)<br>'#13#10'- Internet group support is avalab' +
+            'le at <link>groups.google.com/group/PyScripter</link><br>'#13#10'<br>'#13 +
+            #10'Please submit bug reports and questions about PyScripter to pys' +
+            'cripter@gmail.com.'#13#10
           Text.Strings = (
             
               '<b>Links:</b><br><br>'#13#10'- The project home, Issue Tracker and sou' +
-              'rce code repository are hosted at Google Code (<link>pyscripter.' +
-              'googlecode.com</link>)<br>'#13#10'- Internet group support is avalable' +
-              ' at <link>groups.google.com/group/PyScripter</link><br>'#13#10'<br>'#13#10'P' +
-              'lease submit bug reports and questions about PyScripter to pyscr' +
-              'ipter@gmail.com.')
+              'rce code repository are hosted at Github (<link>github.com/pyscr' +
+              'ipter/pyscripter</link>)<br>'#13#10'- Internet group support is avalab' +
+              'le at <link>groups.google.com/group/PyScripter</link><br>'#13#10'<br>'#13 +
+              #10'Please submit bug reports and questions about PyScripter to pys' +
+              'cripter@gmail.com.'#13#10)
+          LinkColor = clWindowText
+          LinkColorClicked = clWindowText
+          LinkColorHot = clHotLight
           HotLinks = True
           OnLinkClick = JvLinkLabelLinkClick
           Align = alTop
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
-          Font.Height = -11
+          Font.Height = -12
           Font.Name = 'MS Shell Dlg 2'
           Font.Style = []
           ParentFont = False
-          ExplicitWidth = 348
         end
       end
     end
@@ -111,59 +113,68 @@ inherited AboutBox: TAboutBox
           Left = 0
           Top = 0
           Width = 352
-          Height = 368
+          Height = 410
           Caption = 
             '<b>Credits</b><br>'#13#10'Special thanks to the many great developers ' +
             'who,'#13#10'with their amazing work, have made PyScripter '#13#10'possible. ' +
             ' PyScripter makes use of the following '#13#10'components and projects' +
-            ':'#13#10'<br>'#13#10'<br>'#13#10'- Python for Delphi (<link>python4delphi.googleco' +
-            'de.com</link>)'#13#10'<br>'#13#10'- Rpyc (<link>rpyc.sf.net</link>)'#13#10'<br>'#13#10'-' +
-            ' JVCL (<link>jvcl.sf.net</link>)'#13#10'<br>'#13#10'- SynEdit (<link>synedit' +
-            '.sf.net</link>)'#13#10'<br>'#13#10'- VirtualTreeView (<link>www.delphi-gems.' +
-            'com</link>)'#13#10'<br>'#13#10'- VirtualShellTools (<link>virtualshelltools.' +
-            'googlecode.com</link>)'#13#10'<br>'#13#10'- GExperts (<link>www.gexperts.org' +
-            '</link>)'#13#10'<br>'#13#10'- Syn Editor (<link>syn.sf.net</link>)'#13#10'<br>'#13#10'- ' +
-            'Syn Web highlighters (<link>flatdev.ovh.org/</link>)'#13#10'<br>'#13#10'- To' +
-            'olbar2000 (<link>www.jrsoftware.org/tb2k.php</link>)'#13#10'<br>'#13#10'- Sp' +
-            'TBXLib(<link>www.silverpointdevelopment.com</link>)'#13#10'<br>'#13#10'- TCo' +
-            'mmandLineReader(<link>www.benibela.de</link>)'#13#10'<br>'#13#10'- Silk icon' +
-            's(<link>www.famfamfam.com</link>)'#13#10'<br>'#13#10'<br>'#13#10'Translations'#13#10'<br' +
-            '>'#13#10'- Chinese translation by "Love China"'#13#10'<br>'#13#10'- French transla' +
-            'tion by Groupe AmiensPython (<link>pedagogie.ac-amiens.fr/maths/' +
-            'AmiensPython/</link>)'#13#10'<br>'#13#10'- Japanese translation by Tokibito'#13 +
-            #10'<br>'#13#10'- Russian translation by Aleksander Dragunkin'#13#10'<br>'#13#10'- Sl' +
-            'ovak translation by Marian Denes'#13#10'<br>'#13#10'- Spanish translation by' +
-            ' Javier Pimas'#13#10'<br>'#13#10'- Gernan translation by Daniel Frost'
+            ':'#13#10'<br>'#13#10'<br>'#13#10'- Python for Delphi (<link>github.com/pyscripter/' +
+            'python4delphi</link>)'#13#10'<br>'#13#10'- Rpyc (<link>rpyc.sf.net</link>)'#13#10 +
+            '<br>'#13#10'- JVCL (<link>jvcl.delphi-jedi.org/</link>)'#13#10'<br>'#13#10'- SynEd' +
+            'it (<link>synedit.sf.net</link>)'#13#10'<br>'#13#10'- VirtualTreeView (<link' +
+            '>github.com/Virtual-TreeView/</link>)'#13#10'<br>'#13#10'- VirtualShellTools' +
+            ' (<link>github.com/pyscripter/mustangpeakvirtualshelltools</link' +
+            '>)'#13#10'<br>'#13#10'- GExperts (<link>www.gexperts.org</link>)'#13#10'<br>'#13#10'- Sy' +
+            'n Editor (<link>syn.sf.net</link>)'#13#10'<br>'#13#10'- Syn Web highlighters' +
+            ' (<link>flatdev.ovh.org/</link>)'#13#10'<br>'#13#10'- Toolbar2000 (<link>www' +
+            '.jrsoftware.org/tb2k.php</link>)'#13#10'<br>'#13#10'- SpTBXLib(<link>www.sil' +
+            'verpointdevelopment.com</link>)'#13#10'<br>'#13#10'- TCommandLineReader(<lin' +
+            'k>www.benibela.de</link>)'#13#10'<br>'#13#10'- Silk icons(<link>www.famfamfa' +
+            'm.com</link>)'#13#10'<br>'#13#10'<br>'#13#10'Translations'#13#10'<br>'#13#10'- Chinese transla' +
+            'tion by "Love China"'#13#10'<br>'#13#10'- French translation by Groupe Amien' +
+            'sPython (<link>pedagogie.ac-amiens.fr/maths/AmiensPython/</link>' +
+            ')'#13#10'<br>'#13#10'- Japanese translation by Tokibito'#13#10'<br>'#13#10'- Russian tra' +
+            'nslation by Aleksander Dragunkin'#13#10'<br>'#13#10'- Slovak translation by ' +
+            'Marian Denes'#13#10'<br>'#13#10'- Spanish translation by Javier Pimas'#13#10'<br>'#13 +
+            #10'- Gernan translation by Daniel Frost'#13#10
           Text.Strings = (
             
               '<b>Credits</b><br>'#13#10'Special thanks to the many great developers ' +
               'who,'#13#10'with their amazing work, have made PyScripter '#13#10'possible. ' +
               ' PyScripter makes use of the following '#13#10'components and projects' +
-              ':'#13#10'<br>'#13#10'<br>'#13#10'- Python for Delphi (<link>python4delphi.googleco' +
-              'de.com</link>)'#13#10'<br>'#13#10'- Rpyc (<link>rpyc.sf.net</link>)'#13#10'<br>'#13#10'-' +
-              ' JVCL (<link>jvcl.sf.net</link>)'#13#10'<br>'#13#10'- SynEdit (<link>synedit' +
-              '.sf.net</link>)'#13#10'<br>'#13#10'- VirtualTreeView (<link>www.delphi-gems.' +
-              'com</link>)'#13#10'<br>'#13#10'- VirtualShellTools (<link>virtualshelltools.' +
-              'googlecode.com</link>)'#13#10'<br>'#13#10'- GExperts (<link>www.gexperts.org' +
-              '</link>)'#13#10'<br>'#13#10'- Syn Editor (<link>syn.sf.net</link>)'#13#10'<br>'#13#10'- ' +
-              'Syn Web highlighters (<link>flatdev.ovh.org/</link>)'#13#10'<br>'#13#10'- To' +
-              'olbar2000 (<link>www.jrsoftware.org/tb2k.php</link>)'#13#10'<br>'#13#10'- Sp' +
-              'TBXLib(<link>www.silverpointdevelopment.com</link>)'#13#10'<br>'#13#10'- TCo' +
-              'mmandLineReader(<link>www.benibela.de</link>)'#13#10'<br>'#13#10'- Silk icon' +
-              's(<link>www.famfamfam.com</link>)'#13#10'<br>'#13#10'<br>'#13#10'Translations'#13#10'<br' +
-              '>'#13#10'- Chinese translation by "Love China"'#13#10'<br>'#13#10'- French transla' +
-              'tion by Groupe AmiensPython (<link>pedagogie.ac-amiens.fr/maths/' +
-              'AmiensPython/</link>)'#13#10'<br>'#13#10'- Japanese translation by Tokibito'#13 +
-              #10'<br>'#13#10'- Russian translation by Aleksander Dragunkin'#13#10'<br>'#13#10'- Sl' +
-              'ovak translation by Marian Denes'#13#10'<br>'#13#10'- Spanish translation by' +
-              ' Javier Pimas'#13#10'<br>'#13#10'- Gernan translation by Daniel Frost')
+              ':'#13#10'<br>'#13#10'<br>'#13#10'- Python for Delphi (<link>github.com/pyscripter/' +
+              'python4delphi</link>)'#13#10'<br>'#13#10'- Rpyc (<link>rpyc.sf.net</link>)'#13#10 +
+              '<br>'#13#10'- JVCL (<link>jvcl.delphi-jedi.org/</link>)'#13#10'<br>'#13#10'- SynEd' +
+              'it (<link>synedit.sf.net</link>)'#13#10'<br>'#13#10'- VirtualTreeView (<link' +
+              '>github.com/Virtual-TreeView/</link>)'#13#10'<br>'#13#10'- VirtualShellTools' +
+              ' (<link>github.com/pyscripter/mustangpeakvirtualshelltools</link' +
+              '>)'#13#10'<br>'#13#10'- GExperts (<link>www.gexperts.org</link>)'#13#10'<br>'#13#10'- Sy' +
+              'n Editor (<link>syn.sf.net</link>)'#13#10'<br>'#13#10'- Syn Web highlighters' +
+              ' (<link>flatdev.ovh.org/</link>)'#13#10'<br>'#13#10'- Toolbar2000 (<link>www' +
+              '.jrsoftware.org/tb2k.php</link>)'#13#10'<br>'#13#10'- SpTBXLib(<link>www.sil' +
+              'verpointdevelopment.com</link>)'#13#10'<br>'#13#10'- TCommandLineReader(<lin' +
+              'k>www.benibela.de</link>)'#13#10'<br>'#13#10'- Silk icons(<link>www.famfamfa' +
+              'm.com</link>)'#13#10'<br>'#13#10'<br>'#13#10'Translations'#13#10'<br>'#13#10'- Chinese transla' +
+              'tion by "Love China"'#13#10'<br>'#13#10'- French translation by Groupe Amien' +
+              'sPython (<link>pedagogie.ac-amiens.fr/maths/AmiensPython/</link>' +
+              ')'#13#10'<br>'#13#10'- Japanese translation by Tokibito'#13#10'<br>'#13#10'- Russian tra' +
+              'nslation by Aleksander Dragunkin'#13#10'<br>'#13#10'- Slovak translation by ' +
+              'Marian Denes'#13#10'<br>'#13#10'- Spanish translation by Javier Pimas'#13#10'<br>'#13 +
+              #10'- Gernan translation by Daniel Frost'#13#10)
+          LinkColor = clWindowText
+          LinkColorClicked = clWindowText
+          LinkColorHot = clHotLight
           HotLinks = True
           MarginWidth = 2
           MarginHeight = 2
           OnLinkClick = JvLinkLabelLinkClick
           Align = alTop
-          ExplicitLeft = -2
-          ExplicitTop = -107
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = 'MS Shell Dlg 2'
+          Font.Style = []
+          ParentFont = False
         end
       end
     end
@@ -1579,7 +1590,7 @@ inherited AboutBox: TAboutBox
           AutoSize = False
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clHotLight
-          Font.Height = -11
+          Font.Height = -12
           Font.Name = 'Arial'
           Font.Style = []
           ParentFont = False
