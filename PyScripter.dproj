@@ -7,7 +7,7 @@
         <ProjectVersion>16.1</ProjectVersion>
         <FrameworkType>VCL</FrameworkType>
         <Base>True</Base>
-        <Platform Condition="'$(Platform)'==''">Win32</Platform>
+        <Platform Condition="'$(Platform)'==''">Win64</Platform>
         <TargetedPlatforms>3</TargetedPlatforms>
         <AppType>Application</AppType>
     </PropertyGroup>
@@ -111,7 +111,6 @@
         <VerInfo_Locale>1033</VerInfo_Locale>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win64)'!=''">
-        <Debugger_RunParams>--PYTHON27</Debugger_RunParams>
         <VerInfo_MajorVer>3</VerInfo_MajorVer>
         <DCC_DebugDCUs>true</DCC_DebugDCUs>
         <VerInfo_MinorVer>0</VerInfo_MinorVer>
