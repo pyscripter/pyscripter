@@ -3,8 +3,8 @@
 
 [Setup]
 AppName=PyScripter
-AppVersion=3.0.0
-AppVerName=PyScripter 3.0.0
+AppVersion=3.0.1
+AppVerName=PyScripter 3.0.1
 AppPublisher=PyScripter
 AppPublisherURL=https://sourceforge.net/projects/pyscripter/
 AppSupportURL=https://github.com/pyscripter/pyscripter
@@ -14,7 +14,7 @@ DefaultGroupName=PyScripter-x64
 InfoBeforeFile=BeforeInstallPyScripter-x64.txt
 InfoAfterFile=AfterInstallPyScripter-x64.txt
 OutputDir=Output
-OutputBaseFilename=PyScripter-v3.0.0-x64-Setup
+OutputBaseFilename=PyScripter-v3.0.1-x64-Setup
 Compression=lzma/Max
 SolidCompression=true
 ChangesAssociations=true
@@ -71,6 +71,10 @@ Source: ..\..\PythonIDE\locale\it\LC_MESSAGES\default.mo; DestDir: {app}\locale\
 Source: ..\..\PythonIDE\locale\it\LC_MESSAGES\default.po; DestDir: {app}\locale\it\LC_MESSAGES\
 Source: ..\..\PythonIDE\locale\it\LC_MESSAGES\languages.mo; DestDir: {app}\locale\it\LC_MESSAGES\
 Source: ..\..\PythonIDE\locale\it\LC_MESSAGES\languages.po; DestDir: {app}\locale\it\LC_MESSAGES\
+Source: ..\..\PythonIDE\locale\pt\LC_MESSAGES\default.mo; DestDir: {app}\locale\pt\LC_MESSAGES\
+Source: ..\..\PythonIDE\locale\pt\LC_MESSAGES\default.po; DestDir: {app}\locale\pt\LC_MESSAGES\
+Source: ..\..\PythonIDE\locale\pt\LC_MESSAGES\languages.mo; DestDir: {app}\locale\pt\LC_MESSAGES\
+Source: ..\..\PythonIDE\locale\pt\LC_MESSAGES\languages.po; DestDir: {app}\locale\pt\LC_MESSAGES\
 Source: ..\..\PythonIDE\locale\ru\LC_MESSAGES\default.mo; DestDir: {app}\locale\ru\LC_MESSAGES\
 Source: ..\..\PythonIDE\locale\ru\LC_MESSAGES\default.po; DestDir: {app}\locale\ru\LC_MESSAGES\
 Source: ..\..\PythonIDE\locale\ru\LC_MESSAGES\languages.mo; DestDir: {app}\locale\ru\LC_MESSAGES\
@@ -94,6 +98,7 @@ Source: "..\Highlighters\IDLEHighlightingv2.ini"; DestDir: "{userappdata}\PyScri
 Source: "..\Highlighters\IDLEHighlightingv3.ini"; DestDir: "{userappdata}\PyScripter\Highlighters"
 Source: "..\Highlighters\Inkpot.ini"; DestDir: "{userappdata}\PyScripter\Highlighters"
 Source: "..\Highlighters\minimal.ini"; DestDir: "{userappdata}\PyScripter\Highlighters"
+Source: "..\Highlighters\MochaHighlight.ini"; DestDir: "{userappdata}\PyScripter\Highlighters"
 Source: "..\Highlighters\Monokai.ini"; DestDir: "{userappdata}\PyScripter\Highlighters"
 Source: "..\Highlighters\Mr.ini"; DestDir: "{userappdata}\PyScripter\Highlighters"
 Source: "..\Highlighters\NightLion Aptana Theme.ini"; DestDir: "{userappdata}\PyScripter\Highlighters"

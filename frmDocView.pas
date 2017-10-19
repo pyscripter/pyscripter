@@ -13,9 +13,12 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, OleCtrls, ActiveX, SHDocVw,
-  ImgList, uEditAppIntfs, TB2Item, TB2Dock, TB2Toolbar, SpTBXItem;
+  ImgList, uEditAppIntfs, TB2Item, TB2Dock, TB2Toolbar, SpTBXItem,
+  Vcl.Styles.WebBrowser;
                                                                  
 type
+  TWebBrowser=class(TVclStylesWebBrowser);
+
   TDocForm = class(TForm, IEditorView)
     WebBrowser: TWebBrowser;
     Images: TImageList;
@@ -50,6 +53,7 @@ type
     { Public declarations }
   end;
 
+
   TDocView = class(TInterfacedObject, IEditorViewFactory)
   private
     function CreateForm(Editor: IEditor; AOwner : TComponent): TCustomForm;
@@ -62,6 +66,8 @@ type
     procedure GetContextHighlighters(List : TList);
   end;
 
+  Var
+    DocForm : TDocForm;
 
 implementation
 

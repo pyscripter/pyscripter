@@ -13,9 +13,12 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, OleCtrls, ActiveX, SHDocVw,
-  ImgList, uEditAppIntfs, TB2Item, TB2Dock, TB2Toolbar, SpTBXItem;
-                                                                 
+  ImgList, uEditAppIntfs, TB2Item, TB2Dock, TB2Toolbar, SpTBXItem,
+  Vcl.Styles.WebBrowser;
+
 type
+  TWebBrowser=class(TVclStylesWebBrowser);
+
   TWebPreviewForm = class(TForm, IEditorView)
     WebBrowser: TWebBrowser;
     Images: TImageList;

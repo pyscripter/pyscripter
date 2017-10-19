@@ -145,9 +145,11 @@ begin
   Application.MainFormOnTaskbar := True;
 
   TStyleManager.TrySetStyle('Windows10');
+
   Application.Title := 'PyScripter';
   Application.CreateForm(TCommandsDataModule, CommandsDataModule);
   Application.CreateForm(TPyIDEMainForm, PyIDEMainForm);
+
   Application.Run;
 
   TStyleManager.Engine.UnRegisterStyleHook(TCustomSynEdit, TMemoStyleHook);

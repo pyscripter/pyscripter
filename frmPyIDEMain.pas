@@ -3064,6 +3064,8 @@ begin
   OutputWindow.FontOrColorUpdated;
   AppStorage.ReadPersistent('Watches', WatchesWindow);
   StatusBar.Visible := AppStorage.ReadBoolean('Status Bar');
+
+
   // Load Style Name
   TStyleSelectorForm.SetStyle(AppStorage.ReadString('Style Name', 'Windows10'));
 
