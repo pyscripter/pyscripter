@@ -110,7 +110,6 @@ uses
   JvDockVIDStyle in 'JvDockVIDStyle.pas',
   JvCreateProcess in 'JvCreateProcess.pas',
   cCodeCompletion in 'cCodeCompletion.pas',
-  cThemedVirtualStringTree in 'cThemedVirtualStringTree.pas',
   SpTBXPageScroller in 'SpTBXPageScroller.pas' {/  Vcl.Themes,},
   SpTBXSkins in 'SpTBXSkins.pas',
   SynEdit,
@@ -149,7 +148,6 @@ begin
   Application.Title := 'PyScripter';
   Application.CreateForm(TCommandsDataModule, CommandsDataModule);
   Application.CreateForm(TPyIDEMainForm, PyIDEMainForm);
-
   Application.Run;
 
   TStyleManager.Engine.UnRegisterStyleHook(TCustomSynEdit, TMemoStyleHook);

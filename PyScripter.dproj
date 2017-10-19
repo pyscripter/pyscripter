@@ -7,7 +7,7 @@
         <ProjectVersion>16.1</ProjectVersion>
         <FrameworkType>VCL</FrameworkType>
         <Base>True</Base>
-        <Platform Condition="'$(Platform)'==''">Win32</Platform>
+        <Platform Condition="'$(Platform)'==''">Win64</Platform>
         <TargetedPlatforms>3</TargetedPlatforms>
         <AppType>Application</AppType>
     </PropertyGroup>
@@ -114,7 +114,7 @@
         <DCC_DebugDCUs>true</DCC_DebugDCUs>
         <VerInfo_MinorVer>0</VerInfo_MinorVer>
         <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
-        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=3.0.1.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=3.0.1.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=PyScripter.exe;ProductName=PyScripter;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <VerInfo_Locale>1033</VerInfo_Locale>
     </PropertyGroup>
     <ItemGroup>
@@ -308,7 +308,6 @@
         <DCCReference Include="JvDockVIDStyle.pas"/>
         <DCCReference Include="JvCreateProcess.pas"/>
         <DCCReference Include="cCodeCompletion.pas"/>
-        <DCCReference Include="cThemedVirtualStringTree.pas"/>
         <DCCReference Include="SpTBXPageScroller.pas">
             <Form>/  Vcl.Themes,</Form>
         </DCCReference>

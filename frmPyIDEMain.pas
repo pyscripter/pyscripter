@@ -401,7 +401,6 @@
             { TODO : Auto PEP8 tool }
             { TODO : Replace assertion "1175" with message }
 
-{ TODO : Remove UseEditorColorsInIDE }
 { TODO : Add Hide Internal Interpreter option }
 {------------------------------------------------------------------------------}
 
