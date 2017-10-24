@@ -118,7 +118,9 @@ uses
   Vcl.Themes,
   Vcl.Styles,
   Vcl.Styles.Utils.ComCtrls,
-  dlgStyleSelector in 'dlgStyleSelector.pas' {StyleSelectorForm};
+  Vcl.Styles.Utils.Menus,
+  dlgStyleSelector in 'dlgStyleSelector.pas' {StyleSelectorForm},
+  cVirtualStringTreeHelper in 'cVirtualStringTreeHelper.pas';
 
 {$R *.RES}
 {$R WebCopyAvi.RES}

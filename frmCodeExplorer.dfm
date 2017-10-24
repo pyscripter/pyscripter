@@ -41,64 +41,68 @@ inherited CodeExplorerWindow: TCodeExplorerWindow
     0000000000000000000000000000078AA723108FB1F3078AA723000000000000
     000000000000000000000000000000000000000000000000000000000000}
   ExplicitWidth = 265
-  ExplicitHeight = 340
+  ExplicitHeight = 345
   PixelsPerInch = 96
   TextHeight = 13
-  inherited FGPanel: TPanel
-    Width = 245
-    Height = 302
-    ExplicitLeft = 2
-    ExplicitTop = 2
-    ExplicitWidth = 245
-    ExplicitHeight = 302
-    object Panel1: TPanel
-      Left = 0
-      Top = 0
+  inherited BGPanel: TSpTBXPanel
+    Width = 249
+    Height = 306
+    ExplicitWidth = 249
+    ExplicitHeight = 306
+    inherited FGPanel: TPanel
       Width = 245
       Height = 302
-      Align = alClient
-      BevelOuter = bvNone
-      TabOrder = 0
-      object ExplorerTree: TVirtualStringTree
+      ExplicitWidth = 245
+      ExplicitHeight = 302
+      object Panel1: TPanel
         Left = 0
         Top = 0
         Width = 245
         Height = 302
         Align = alClient
-        BorderStyle = bsNone
-        Header.AutoSizeIndex = -1
-        Header.Font.Charset = DEFAULT_CHARSET
-        Header.Font.Color = clWindowText
-        Header.Font.Height = -11
-        Header.Font.Name = 'MS Shell Dlg 2'
-        Header.Font.Style = []
-        Header.Options = [hoAutoResize, hoColumnResize, hoDrag]
-        HintMode = hmHint
-        Images = CommandsDataModule.CodeImages
-        IncrementalSearch = isAll
+        BevelOuter = bvNone
         TabOrder = 0
-        TreeOptions.MiscOptions = [toFullRepaintOnResize, toInitOnSave, toWheelPanning]
-        TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowDropmark, toShowRoot, toShowTreeLines, toShowVertGridLines, toThemeAware, toUseBlendedImages, toUseBlendedSelection]
-        TreeOptions.SelectionOptions = [toRightClickSelect]
-        TreeOptions.StringOptions = [toAutoAcceptEditChange]
-        OnChange = ExplorerTreeChange
-        OnCollapsed = ExplorerTreeCollapsed
-        OnContextPopup = ExplorerTreeContextPopup
-        OnDblClick = ExplorerTreeDblClick
-        OnExpanded = ExplorerTreeExpanded
-        OnGetText = ExplorerTreeGetText
-        OnGetImageIndex = ExplorerTreeGetImageIndex
-        OnGetHint = ExplorerTreeGetHint
-        OnInitChildren = ExplorerTreeInitChildren
-        OnInitNode = ExplorerTreeInitNode
-        OnKeyPress = ExplorerTreeKeyPress
-        OnScroll = ExplorerTreeScroll
-        Columns = <
-          item
-            Options = [coAllowClick, coDraggable, coEnabled, coParentBidiMode, coParentColor, coResizable, coShowDropMark, coVisible, coSmartResize, coAllowFocus]
-            Position = 0
-            Width = 245
-          end>
+        object ExplorerTree: TVirtualStringTree
+          Left = 0
+          Top = 0
+          Width = 245
+          Height = 302
+          Align = alClient
+          BorderStyle = bsNone
+          Header.AutoSizeIndex = -1
+          Header.Font.Charset = DEFAULT_CHARSET
+          Header.Font.Color = clWindowText
+          Header.Font.Height = -11
+          Header.Font.Name = 'MS Shell Dlg 2'
+          Header.Font.Style = []
+          Header.Options = [hoAutoResize, hoColumnResize, hoDrag]
+          HintMode = hmHint
+          Images = CommandsDataModule.CodeImages
+          IncrementalSearch = isAll
+          TabOrder = 0
+          TreeOptions.MiscOptions = [toFullRepaintOnResize, toInitOnSave, toWheelPanning]
+          TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowDropmark, toShowRoot, toShowTreeLines, toShowVertGridLines, toThemeAware, toUseBlendedImages, toUseBlendedSelection]
+          TreeOptions.SelectionOptions = [toRightClickSelect]
+          TreeOptions.StringOptions = [toAutoAcceptEditChange]
+          OnChange = ExplorerTreeChange
+          OnCollapsed = ExplorerTreeCollapsed
+          OnContextPopup = ExplorerTreeContextPopup
+          OnDblClick = ExplorerTreeDblClick
+          OnExpanded = ExplorerTreeExpanded
+          OnGetText = ExplorerTreeGetText
+          OnGetImageIndex = ExplorerTreeGetImageIndex
+          OnGetHint = ExplorerTreeGetHint
+          OnInitChildren = ExplorerTreeInitChildren
+          OnInitNode = ExplorerTreeInitNode
+          OnKeyPress = ExplorerTreeKeyPress
+          OnScroll = ExplorerTreeScroll
+          Columns = <
+            item
+              Options = [coAllowClick, coDraggable, coEnabled, coParentBidiMode, coParentColor, coResizable, coShowDropMark, coVisible, coSmartResize, coAllowFocus]
+              Position = 0
+              Width = 245
+            end>
+        end
       end
     end
   end

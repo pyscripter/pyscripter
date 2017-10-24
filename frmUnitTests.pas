@@ -83,7 +83,6 @@ type
     TestClasses : TStringList;
     TestSuite, TestResult : Variant;
   protected
-    procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
     procedure UpdateActions; override;
   public
     { Public declarations }
@@ -107,7 +106,7 @@ implementation
 
 uses uCommonFunctions, frmPyIDEMain, VarPyth, JvJVCLUtils,
   uEditAppIntfs, PythonEngine, dmCommands, cPyBaseDebugger, JclSysUtils,
-  cPyDebugger, StringResources, gnugettext, cThemedVirtualStringTree;
+  cPyDebugger, StringResources, gnugettext;
 
 {$R *.dfm}
 
@@ -126,12 +125,6 @@ Const
   ElapsedTimeFormat = ' in %.3fs';
   FailuresLabel = 'Failures/Errors : %d/%d';
 { TUnitTestWindow }
-
-procedure TUnitTestWindow.WMSpSkinChange(var Message: TMessage);
-begin
-  inherited;
-  UnitTests.SkinTree;
-end;
 
 procedure TUnitTestWindow.actRefreshExecute(Sender: TObject);
 Var

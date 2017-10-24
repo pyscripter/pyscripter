@@ -4,7 +4,7 @@ inherited UnitTestWizard: TUnitTestWizard
   ClientHeight = 491
   ClientWidth = 436
   ExplicitWidth = 442
-  ExplicitHeight = 519
+  ExplicitHeight = 520
   PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TSpTBXPanel

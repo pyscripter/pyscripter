@@ -16,7 +16,8 @@ uses
   JvDockControlForm, Menus, VTHeaderPopup, JvAppStorage,
   VirtualTrees, frmIDEDockWin, 
   JvExControls, JvLinkLabel, SpTBXDkPanels, cPyBaseDebugger,
-  SpTBXSkins, SpTBXPageScroller, JvComponentBase, ExtCtrls;
+  SpTBXSkins, SpTBXPageScroller, JvComponentBase, ExtCtrls, SpTBXItem,
+  SpTBXControls;
 
 type
   TVariablesWindow = class(TIDEDockWindow, IJvAppStorageHandler)
@@ -48,7 +49,6 @@ type
     CurrentFileName, CurrentFunctionName : string;
     GlobalsNameSpace, LocalsNameSpace : TBaseNameSpaceItem;
   protected
-    procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
     // IJvAppStorageHandler implementation
     procedure ReadFromAppStorage(AppStorage: TJvCustomAppStorage; const BasePath: string);
     procedure WriteToAppStorage(AppStorage: TJvCustomAppStorage; const BasePath: string);
@@ -63,9 +63,9 @@ var
 
 implementation
 
-uses frmCallStack, PythonEngine, 
+uses frmCallStack, PythonEngine, cVirtualStringTreeHelper,
   dmCommands, uCommonFunctions, StringResources,
-  JvJVCLUtils, Math, gnugettext, cThemedVirtualStringTree, Vcl.Themes;
+  JvJVCLUtils, Math, gnugettext, Vcl.Themes;
 
 {$R *.dfm}
 Type
@@ -326,12 +326,6 @@ begin
   if CanActuallyFocus(VariablesTree) then
     VariablesTree.SetFocus;
   //PostMessage(VariablesTree.Handle, WM_SETFOCUS, 0, 0);
-end;
-
-procedure TVariablesWindow.WMSpSkinChange(var Message: TMessage);
-begin
-  inherited;
-  VariablesTree.SkinTree;
 end;
 
 procedure TVariablesWindow.FormDestroy(Sender: TObject);

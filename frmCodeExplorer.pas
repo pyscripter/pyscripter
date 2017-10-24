@@ -15,8 +15,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ExtCtrls, JvDockControlForm, JvAppStorage,
   Menus, Contnrs, VirtualTrees, frmIDEDockWin, TB2Item,
-  cPythonSourceScanner, SpTBXItem, SpTBXSkins, JvComponentBase,
-  cThemedVirtualStringTree;
+  cPythonSourceScanner, SpTBXItem, SpTBXSkins, JvComponentBase, SpTBXControls;
 
 type
   TCESortOrder = (soPosition, soAlpha);
@@ -264,7 +263,6 @@ type
   private
     procedure NavigateToNodeElement(Node: PVirtualNode;
       ForceToMiddle : Boolean = True; Activate : Boolean = True);
-    procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
   protected
     // IJvAppStorageHandler implementation
     procedure ReadFromAppStorage(AppStorage: TJvCustomAppStorage; const BasePath: string);
@@ -655,12 +653,6 @@ procedure TCodeExplorerWindow.UpdateWindow(UpdateReason : TCEUpdateReason);
 begin
   if Visible and Assigned(WorkerThread) then   // Issue 219
     TScanCodeThread(WorkerThread).SetModified;
-end;
-
-procedure TCodeExplorerWindow.WMSpSkinChange(var Message: TMessage);
-begin
-  inherited;
-  ExplorerTree.SkinTree;
 end;
 
 procedure TCodeExplorerWindow.WriteToAppStorage(AppStorage: TJvCustomAppStorage;

@@ -16,7 +16,7 @@ uses
   Dialogs, Menus, frmIDEDockWin, JvDockControlForm,
   Contnrs, cPyBaseDebugger, ExtCtrls, TB2Item, VirtualTrees,
   JvComponentBase, JvAppStorage, SpTBXSkins, SpTBXItem, PythonEngine,
-  cThemedVirtualStringTree;
+  SpTBXControls;
 
 type
   TWatchesWindow = class(TIDEDockWindow, IJvAppStorageHandler)
@@ -62,7 +62,6 @@ type
     { Private declarations }
     fWatchesList: TObjectList;
   protected
-    procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
     // IJvAppStorageHandler implementation
     procedure ReadFromAppStorage(AppStorage: TJvCustomAppStorage;
       const BasePath: string);
@@ -82,7 +81,8 @@ var
 implementation
 
 uses frmPyIDEMain, dmCommands,
-  Clipbrd, StringResources, gnugettext, uCommonFunctions, SynEdit, frmCallStack;
+  Clipbrd, StringResources, gnugettext, uCommonFunctions, SynEdit,
+  frmCallStack, cVirtualStringTreeHelper;
 {$R *.dfm}
 
 Type
@@ -289,12 +289,6 @@ begin
   if CanActuallyFocus(WatchesView) then
     WatchesView.SetFocus;
   //PostMessage(WatchesView.Handle, WM_SETFOCUS, 0, 0);
-end;
-
-procedure TWatchesWindow.WMSpSkinChange(var Message: TMessage);
-begin
-  inherited;
-  WatchesView.SkinTree;
 end;
 
 procedure TWatchesWindow.FormDestroy(Sender: TObject);

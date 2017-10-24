@@ -44,205 +44,207 @@ inherited UnitTestWindow: TUnitTestWindow
   ExplicitHeight = 490
   PixelsPerInch = 96
   TextHeight = 13
-  inherited FGPanel: TPanel
-    Width = 258
-    Height = 447
-    ExplicitLeft = 2
-    ExplicitTop = 2
-    ExplicitWidth = 258
-    ExplicitHeight = 447
-    object ExplorerDock: TSpTBXDock
-      Left = 0
-      Top = 0
+  inherited BGPanel: TSpTBXPanel
+    Width = 262
+    Height = 451
+    inherited FGPanel: TPanel
       Width = 258
-      Height = 26
-      AllowDrag = False
-      object ExplorerToolbar: TSpTBXToolbar
+      Height = 447
+      ExplicitWidth = 258
+      ExplicitHeight = 447
+      object ExplorerDock: TSpTBXDock
         Left = 0
         Top = 0
-        Align = alTop
-        AutoResize = False
-        DockMode = dmCannotFloat
-        FullSize = True
-        Images = CommandsDataModule.Images
-        TabOrder = 0
-        Caption = 'ExplorerToolbar'
-        Customizable = False
-        object tbiRefresh: TSpTBXItem
-          Action = actRefresh
-        end
-        object tbiClearAll: TSpTBXItem
-          Action = actClearAll
-        end
-        object TBXSeparatorItem2: TSpTBXSeparatorItem
-        end
-        object tbiRun: TSpTBXItem
-          Action = actRun
-        end
-        object tbiStop: TSpTBXItem
-          Action = actStop
-        end
-        object TBXSeparatorItem1: TSpTBXSeparatorItem
-        end
-        object tbiSelectAll: TSpTBXItem
-          Action = actSelectAll
-        end
-        object tbiDeselectAll: TSpTBXItem
-          Action = actDeselectAll
-        end
-        object tbiSelectFailed: TSpTBXItem
-          Action = actSelectFailed
-        end
-        object TBXSeparatorItem7: TSpTBXSeparatorItem
-        end
-        object tbiCollapseAll: TSpTBXItem
-          Action = actCollapseAll
-        end
-        object tbiExpandAll: TSpTBXItem
-          Action = actExpandAll
+        Width = 258
+        Height = 26
+        AllowDrag = False
+        object ExplorerToolbar: TSpTBXToolbar
+          Left = 0
+          Top = 0
+          Align = alTop
+          AutoResize = False
+          DockMode = dmCannotFloat
+          FullSize = True
+          Images = CommandsDataModule.Images
+          TabOrder = 0
+          Caption = 'ExplorerToolbar'
+          Customizable = False
+          object tbiRefresh: TSpTBXItem
+            Action = actRefresh
+          end
+          object tbiClearAll: TSpTBXItem
+            Action = actClearAll
+          end
+          object TBXSeparatorItem2: TSpTBXSeparatorItem
+          end
+          object tbiRun: TSpTBXItem
+            Action = actRun
+          end
+          object tbiStop: TSpTBXItem
+            Action = actStop
+          end
+          object TBXSeparatorItem1: TSpTBXSeparatorItem
+          end
+          object tbiSelectAll: TSpTBXItem
+            Action = actSelectAll
+          end
+          object tbiDeselectAll: TSpTBXItem
+            Action = actDeselectAll
+          end
+          object tbiSelectFailed: TSpTBXItem
+            Action = actSelectFailed
+          end
+          object TBXSeparatorItem7: TSpTBXSeparatorItem
+          end
+          object tbiCollapseAll: TSpTBXItem
+            Action = actCollapseAll
+          end
+          object tbiExpandAll: TSpTBXItem
+            Action = actExpandAll
+          end
         end
       end
-    end
-    object SpTBXSplitter1: TSpTBXSplitter
-      Left = 0
-      Top = 269
-      Width = 258
-      Height = 5
-      Cursor = crSizeNS
-      Align = alBottom
-      Color = clNone
-      ParentColor = False
-      MinSize = 1
-    end
-    object Panel1: TPanel
-      Left = 0
-      Top = 26
-      Width = 258
-      Height = 243
-      Align = alClient
-      TabOrder = 1
-      object UnitTests: TVirtualStringTree
-        Left = 1
-        Top = 1
-        Width = 256
-        Height = 241
-        Align = alClient
-        BorderStyle = bsNone
-        CheckImageKind = ckXP
-        Header.AutoSizeIndex = -1
-        Header.Font.Charset = DEFAULT_CHARSET
-        Header.Font.Color = clWindowText
-        Header.Font.Height = -11
-        Header.Font.Name = 'MS Shell Dlg 2'
-        Header.Font.Style = []
-        Header.MainColumn = -1
-        Header.Options = [hoColumnResize, hoDrag]
-        HintMode = hmHint
-        Images = RunImages
-        IncrementalSearch = isAll
-        ParentShowHint = False
-        ShowHint = True
-        TabOrder = 0
-        TreeOptions.MiscOptions = [toCheckSupport, toFullRepaintOnResize, toInitOnSave, toWheelPanning]
-        TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowDropmark, toShowRoot, toShowTreeLines, toShowVertGridLines, toThemeAware, toUseBlendedImages, toUseBlendedSelection]
-        TreeOptions.StringOptions = [toAutoAcceptEditChange]
-        OnChange = UnitTestsChange
-        OnChecked = UnitTestsChecked
-        OnDblClick = UnitTestsDblClick
-        OnGetText = UnitTestsGetText
-        OnGetImageIndex = UnitTestsGetImageIndex
-        OnGetHint = UnitTestsGetHint
-        OnInitChildren = UnitTestsInitChildren
-        OnInitNode = UnitTestsInitNode
-        Columns = <>
-      end
-    end
-    object Panel2: TPanel
-      Left = 0
-      Top = 274
-      Width = 258
-      Height = 173
-      Align = alBottom
-      ParentColor = True
-      TabOrder = 2
-      DesignSize = (
-        258
-        173)
-      object Bevel1: TBevel
-        Left = 8
-        Top = 58
-        Width = 242
+      object SpTBXSplitter1: TSpTBXSplitter
+        Left = 0
+        Top = 269
+        Width = 258
         Height = 5
-        Anchors = [akLeft, akTop, akRight]
-        Shape = bsTopLine
-        ExplicitWidth = 240
-      end
-      object SpTBXPanel1: TPanel
-        Left = 1
-        Top = 85
-        Width = 256
-        Height = 87
+        Cursor = crSizeNS
         Align = alBottom
-        Anchors = [akLeft, akTop, akRight, akBottom]
-        Caption = 'SpTBXPanel1'
-        TabOrder = 0
-        object ErrorText: TRichEdit
+        Color = clNone
+        ParentColor = False
+        MinSize = 1
+      end
+      object Panel1: TPanel
+        Left = 0
+        Top = 26
+        Width = 258
+        Height = 243
+        Align = alClient
+        TabOrder = 1
+        object UnitTests: TVirtualStringTree
           Left = 1
           Top = 1
-          Width = 254
-          Height = 85
+          Width = 256
+          Height = 241
           Align = alClient
           BorderStyle = bsNone
-          Font.Charset = ANSI_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -11
-          Font.Name = 'MS Shell Dlg 2'
-          Font.Style = []
-          Constraints.MinHeight = 10
-          ParentFont = False
-          PlainText = True
-          ReadOnly = True
-          ScrollBars = ssBoth
+          CheckImageKind = ckXP
+          Header.AutoSizeIndex = -1
+          Header.Font.Charset = DEFAULT_CHARSET
+          Header.Font.Color = clWindowText
+          Header.Font.Height = -11
+          Header.Font.Name = 'MS Shell Dlg 2'
+          Header.Font.Style = []
+          Header.MainColumn = -1
+          Header.Options = [hoColumnResize, hoDrag]
+          HintMode = hmHint
+          Images = RunImages
+          IncrementalSearch = isAll
+          ParentShowHint = False
+          ShowHint = True
           TabOrder = 0
-          Zoom = 100
+          TreeOptions.MiscOptions = [toCheckSupport, toFullRepaintOnResize, toInitOnSave, toWheelPanning]
+          TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowDropmark, toShowRoot, toShowTreeLines, toShowVertGridLines, toThemeAware, toUseBlendedImages, toUseBlendedSelection]
+          TreeOptions.StringOptions = [toAutoAcceptEditChange]
+          OnChange = UnitTestsChange
+          OnChecked = UnitTestsChecked
+          OnDblClick = UnitTestsDblClick
+          OnGetText = UnitTestsGetText
+          OnGetImageIndex = UnitTestsGetImageIndex
+          OnGetHint = UnitTestsGetHint
+          OnInitChildren = UnitTestsInitChildren
+          OnInitNode = UnitTestsInitNode
+          Columns = <>
         end
       end
-      object Label2: TSpTBXLabel
-        Left = 7
-        Top = 62
-        Width = 79
-        Height = 19
-        Caption = 'Error Message:'
-      end
-      object ModuleName: TSpTBXLabel
-        Left = 7
-        Top = 1
-        Width = 94
-        Height = 19
-        Caption = 'No Module Loaded'
-      end
-      object lbFoundTests: TSpTBXLabel
-        Left = 172
-        Top = 1
-        Width = 72
-        Height = 19
-        Caption = 'Found 0 tests'
-        Anchors = [akTop, akRight]
-        Alignment = taRightJustify
-      end
-      object lblRunTests: TSpTBXLabel
-        Left = 7
-        Top = 19
-        Width = 61
-        Height = 19
-        Caption = 'Run 0 tests'
-      end
-      object lblFailures: TSpTBXLabel
-        Left = 7
-        Top = 37
-        Width = 102
-        Height = 19
-        Caption = 'Failures/Errors : 0/0'
+      object Panel2: TPanel
+        Left = 0
+        Top = 274
+        Width = 258
+        Height = 173
+        Align = alBottom
+        ParentColor = True
+        TabOrder = 2
+        DesignSize = (
+          258
+          173)
+        object Bevel1: TBevel
+          Left = 8
+          Top = 58
+          Width = 242
+          Height = 5
+          Anchors = [akLeft, akTop, akRight]
+          Shape = bsTopLine
+          ExplicitWidth = 240
+        end
+        object SpTBXPanel1: TPanel
+          Left = 1
+          Top = 85
+          Width = 256
+          Height = 87
+          Align = alBottom
+          Anchors = [akLeft, akTop, akRight, akBottom]
+          Caption = 'SpTBXPanel1'
+          TabOrder = 0
+          object ErrorText: TRichEdit
+            Left = 1
+            Top = 1
+            Width = 254
+            Height = 85
+            Align = alClient
+            BorderStyle = bsNone
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -11
+            Font.Name = 'MS Shell Dlg 2'
+            Font.Style = []
+            Constraints.MinHeight = 10
+            ParentFont = False
+            PlainText = True
+            ReadOnly = True
+            ScrollBars = ssBoth
+            TabOrder = 0
+            Zoom = 100
+          end
+        end
+        object Label2: TSpTBXLabel
+          Left = 7
+          Top = 62
+          Width = 79
+          Height = 19
+          Caption = 'Error Message:'
+        end
+        object ModuleName: TSpTBXLabel
+          Left = 7
+          Top = 1
+          Width = 94
+          Height = 19
+          Caption = 'No Module Loaded'
+        end
+        object lbFoundTests: TSpTBXLabel
+          Left = 172
+          Top = 1
+          Width = 72
+          Height = 19
+          Caption = 'Found 0 tests'
+          Anchors = [akTop, akRight]
+          Alignment = taRightJustify
+        end
+        object lblRunTests: TSpTBXLabel
+          Left = 7
+          Top = 19
+          Width = 61
+          Height = 19
+          Caption = 'Run 0 tests'
+        end
+        object lblFailures: TSpTBXLabel
+          Left = 7
+          Top = 37
+          Width = 102
+          Height = 19
+          Caption = 'Failures/Errors : 0/0'
+        end
       end
     end
   end

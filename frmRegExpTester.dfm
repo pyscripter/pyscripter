@@ -52,282 +52,180 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
   ExplicitHeight = 517
   PixelsPerInch = 96
   TextHeight = 13
-  inherited FGPanel: TPanel
-    Width = 380
-    Height = 474
-    ParentBackground = False
-    ExplicitWidth = 380
-    ExplicitHeight = 474
-    object TBXDock: TSpTBXDock
-      Left = 0
-      Top = 0
+  inherited BGPanel: TSpTBXPanel
+    Width = 384
+    Height = 478
+    ExplicitWidth = 384
+    ExplicitHeight = 478
+    inherited FGPanel: TPanel
       Width = 380
-      Height = 26
-      AllowDrag = False
-      object RegExpTesterToolbar: TSpTBXToolbar
+      Height = 474
+      ParentBackground = False
+      ExplicitWidth = 380
+      ExplicitHeight = 474
+      object TBXDock: TSpTBXDock
         Left = 0
         Top = 0
-        Align = alTop
-        AutoResize = False
-        DockMode = dmCannotFloat
-        FullSize = True
-        Images = CommandsDataModule.Images
-        TabOrder = 0
-        Customizable = False
-        object TiClear: TSpTBXItem
-          Caption = 'Clear'
-          Hint = 'Clear all fields'
-          ImageIndex = 14
-          OnClick = TiClearClick
-        end
-        object TBXSubmenuItem2: TSpTBXSubmenuItem
-          Caption = 'Options'
-          ImageIndex = 22
-          object CI_DOTALL: TSpTBXItem
-            Caption = 'DOTALL'
-            Hint = 'Sets the DOTALL re flag'
-            AutoCheck = True
-            Checked = True
-            HelpContext = 865
-            Options = [tboShowHint]
-          end
-          object CI_IGNORECASE: TSpTBXItem
-            Caption = 'IGNORECASE'
-            Hint = 'Sets the IGNORECASE re flag'
-            AutoCheck = True
-            Checked = True
-            HelpContext = 865
-            Options = [tboShowHint]
-          end
-          object CI_LOCALE: TSpTBXItem
-            Caption = 'LOCALE'
-            Hint = 'Sets the LOCALE re flag'
-            AutoCheck = True
-            Checked = True
-            HelpContext = 865
-            Options = [tboShowHint]
-          end
-          object CI_MULTILINE: TSpTBXItem
-            Caption = 'MULTILINE'
-            Hint = 'Sets the MULTILINE re flag'
-            AutoCheck = True
-            Checked = True
-            HelpContext = 865
-            Options = [tboShowHint]
-          end
-          object CI_UNICODE: TSpTBXItem
-            Caption = 'UNICODE'
-            Hint = 'Sets the UNICODE re flag'
-            AutoCheck = True
-            Checked = True
-            HelpContext = 865
-            Options = [tboShowHint]
-          end
-          object CI_VERBOSE: TSpTBXItem
-            Caption = 'VERBOSE'
-            Hint = 'Sets the VERBOSE re flag'
-            AutoCheck = True
-            Checked = True
-            HelpContext = 865
-            Options = [tboShowHint]
-          end
-          object TBXSeparatorItem2: TSpTBXSeparatorItem
-          end
-          object RI_Match: TSpTBXItem
-            Caption = 'Match'
-            Hint = 'Performs re.match'
-            AutoCheck = True
-            GroupIndex = 1
-            HelpContext = 865
-            Options = [tboShowHint]
-            RadioItem = True
-          end
-          object RI_Search: TSpTBXItem
-            Caption = 'Search'
-            Hint = 'Performs re.search'
-            AutoCheck = True
-            Checked = True
-            GroupIndex = 1
-            HelpContext = 865
-            Options = [tboShowHint]
-            RadioItem = True
-          end
-          object RI_findall: TSpTBXItem
-            Caption = 'Findall'
-            Hint = 'Performs re.findall'
-            AutoCheck = True
-            GroupIndex = 1
-            HelpContext = 865
-            Options = [tboShowHint]
-            RadioItem = True
-          end
-          object TBXSeparatorItem4: TSpTBXSeparatorItem
-          end
-          object CI_AutoExecute: TSpTBXItem
-            Caption = 'Auto Execute'
-            AutoCheck = True
-            HelpContext = 865
-          end
-        end
-        object TBXSeparatorItem1: TSpTBXSeparatorItem
-        end
-        object TIExecute: TSpTBXItem
-          Caption = 'Execute'
-          Hint = 'Execute search or match'
-          ImageIndex = 19
-          OnClick = TIExecuteClick
-        end
-        object TBXSeparatorItem3: TSpTBXSeparatorItem
-        end
-        object tiHelp: TSpTBXItem
-          Caption = 'Help'
-          Hint = 'Show Python Help on the re module'
-          ImageIndex = 33
-          OnClick = tiHelpClick
-        end
-      end
-    end
-    object StatusBar: TSpTBXStatusBar
-      Left = 0
-      Top = 448
-      Width = 380
-      Height = 26
-      Images = CommandsDataModule.Images
-      SizeGrip = False
-      object lbStatusBar: TSpTBXLabelItem
-        Caption = 'Not executed'
-        ImageIndex = 21
-      end
-    end
-    object pnlBackground: TPanel
-      Left = 0
-      Top = 26
-      Width = 380
-      Height = 422
-      Align = alClient
-      ParentColor = True
-      TabOrder = 2
-      object dpGroupsView: TPanel
-        Left = 1
-        Top = 283
-        Width = 378
-        Height = 138
-        Align = alBottom
-        ParentColor = True
-        TabOrder = 0
-        object TBXLabel1: TSpTBXLabel
-          Left = 1
-          Top = 1
-          Width = 376
-          Height = 21
-          Caption = 'Groups:'
+        Width = 380
+        Height = 26
+        AllowDrag = False
+        object RegExpTesterToolbar: TSpTBXToolbar
+          Left = 0
+          Top = 0
           Align = alTop
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -12
-          Font.Name = 'MS Shell Dlg 2'
-          Font.Style = [fsBold]
-          ParentFont = False
-          Wrapping = twEndEllipsis
-          Underline = True
-          UnderlineColor = clHotLight
-        end
-        object GroupsView: TVirtualStringTree
-          Left = 1
-          Top = 22
-          Width = 376
-          Height = 115
-          Align = alClient
-          BevelEdges = []
-          BevelInner = bvNone
-          BevelOuter = bvNone
-          BorderStyle = bsNone
-          Header.AutoSizeIndex = 2
-          Header.Options = [hoAutoResize, hoColumnResize, hoDblClickResize, hoHotTrack, hoOwnerDraw, hoVisible]
-          Header.ParentFont = True
-          HintMode = hmTooltip
+          AutoResize = False
+          DockMode = dmCannotFloat
+          FullSize = True
+          Images = CommandsDataModule.Images
           TabOrder = 0
-          TreeOptions.MiscOptions = [toFullRepaintOnResize, toInitOnSave, toReportMode, toToggleOnDblClick, toWheelPanning]
-          TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowDropmark, toShowHorzGridLines, toShowVertGridLines, toThemeAware, toUseBlendedImages, toUseBlendedSelection]
-          TreeOptions.StringOptions = [toAutoAcceptEditChange]
-          OnGetText = GroupsViewGetText
-          Columns = <
-            item
-              Alignment = taRightJustify
-              Margin = 1
-              Options = [coAllowClick, coEnabled, coParentBidiMode, coParentColor, coResizable, coShowDropMark, coVisible]
-              Position = 0
-              Spacing = 1
-              Width = 20
-              WideText = '#'
+          Customizable = False
+          object TiClear: TSpTBXItem
+            Caption = 'Clear'
+            Hint = 'Clear all fields'
+            ImageIndex = 14
+            OnClick = TiClearClick
+          end
+          object TBXSubmenuItem2: TSpTBXSubmenuItem
+            Caption = 'Options'
+            ImageIndex = 22
+            object CI_DOTALL: TSpTBXItem
+              Caption = 'DOTALL'
+              Hint = 'Sets the DOTALL re flag'
+              AutoCheck = True
+              Checked = True
+              HelpContext = 865
+              Options = [tboShowHint]
             end
-            item
-              Options = [coAllowClick, coEnabled, coParentBidiMode, coParentColor, coResizable, coShowDropMark, coVisible]
-              Position = 1
-              Width = 60
-              WideText = 'Name'
+            object CI_IGNORECASE: TSpTBXItem
+              Caption = 'IGNORECASE'
+              Hint = 'Sets the IGNORECASE re flag'
+              AutoCheck = True
+              Checked = True
+              HelpContext = 865
+              Options = [tboShowHint]
             end
-            item
-              Options = [coEnabled, coParentBidiMode, coParentColor, coResizable, coShowDropMark, coVisible]
-              Position = 2
-              Width = 296
-              WideText = 'Value'
-            end>
+            object CI_LOCALE: TSpTBXItem
+              Caption = 'LOCALE'
+              Hint = 'Sets the LOCALE re flag'
+              AutoCheck = True
+              Checked = True
+              HelpContext = 865
+              Options = [tboShowHint]
+            end
+            object CI_MULTILINE: TSpTBXItem
+              Caption = 'MULTILINE'
+              Hint = 'Sets the MULTILINE re flag'
+              AutoCheck = True
+              Checked = True
+              HelpContext = 865
+              Options = [tboShowHint]
+            end
+            object CI_UNICODE: TSpTBXItem
+              Caption = 'UNICODE'
+              Hint = 'Sets the UNICODE re flag'
+              AutoCheck = True
+              Checked = True
+              HelpContext = 865
+              Options = [tboShowHint]
+            end
+            object CI_VERBOSE: TSpTBXItem
+              Caption = 'VERBOSE'
+              Hint = 'Sets the VERBOSE re flag'
+              AutoCheck = True
+              Checked = True
+              HelpContext = 865
+              Options = [tboShowHint]
+            end
+            object TBXSeparatorItem2: TSpTBXSeparatorItem
+            end
+            object RI_Match: TSpTBXItem
+              Caption = 'Match'
+              Hint = 'Performs re.match'
+              AutoCheck = True
+              GroupIndex = 1
+              HelpContext = 865
+              Options = [tboShowHint]
+              RadioItem = True
+            end
+            object RI_Search: TSpTBXItem
+              Caption = 'Search'
+              Hint = 'Performs re.search'
+              AutoCheck = True
+              Checked = True
+              GroupIndex = 1
+              HelpContext = 865
+              Options = [tboShowHint]
+              RadioItem = True
+            end
+            object RI_findall: TSpTBXItem
+              Caption = 'Findall'
+              Hint = 'Performs re.findall'
+              AutoCheck = True
+              GroupIndex = 1
+              HelpContext = 865
+              Options = [tboShowHint]
+              RadioItem = True
+            end
+            object TBXSeparatorItem4: TSpTBXSeparatorItem
+            end
+            object CI_AutoExecute: TSpTBXItem
+              Caption = 'Auto Execute'
+              AutoCheck = True
+              HelpContext = 865
+            end
+          end
+          object TBXSeparatorItem1: TSpTBXSeparatorItem
+          end
+          object TIExecute: TSpTBXItem
+            Caption = 'Execute'
+            Hint = 'Execute search or match'
+            ImageIndex = 19
+            OnClick = TIExecuteClick
+          end
+          object TBXSeparatorItem3: TSpTBXSeparatorItem
+          end
+          object tiHelp: TSpTBXItem
+            Caption = 'Help'
+            Hint = 'Show Python Help on the re module'
+            ImageIndex = 33
+            OnClick = tiHelpClick
+          end
         end
       end
-      object SpTBXSplitter1: TSpTBXSplitter
-        Left = 1
-        Top = 278
-        Width = 378
-        Height = 5
-        Cursor = crSizeNS
-        Align = alBottom
-        Color = clNone
-        ParentColor = False
+      object StatusBar: TSpTBXStatusBar
+        Left = 0
+        Top = 448
+        Width = 380
+        Height = 26
+        Images = CommandsDataModule.Images
+        SizeGrip = False
+        object lbStatusBar: TSpTBXLabelItem
+          Caption = 'Not executed'
+          ImageIndex = 21
+        end
       end
-      object dpRegExpText: TPanel
-        Left = 1
-        Top = 1
-        Width = 378
-        Height = 82
-        Align = alTop
+      object pnlBackground: TPanel
+        Left = 0
+        Top = 26
+        Width = 380
+        Height = 422
+        Align = alClient
         ParentColor = True
-        TabOrder = 1
-        object SpTBXPanel1: TPanel
+        TabOrder = 2
+        object dpGroupsView: TPanel
           Left = 1
-          Top = 1
-          Width = 376
-          Height = 80
-          Align = alClient
+          Top = 283
+          Width = 378
+          Height = 138
+          Align = alBottom
           ParentColor = True
           TabOrder = 0
-          object RegExpText: TRichEdit
-            Left = 1
-            Top = 22
-            Width = 374
-            Height = 57
-            Align = alClient
-            BevelInner = bvNone
-            BevelOuter = bvNone
-            BorderStyle = bsNone
-            Font.Charset = ANSI_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -12
-            Font.Name = 'Tahoma'
-            Font.Style = []
-            ParentFont = False
-            PlainText = True
-            ScrollBars = ssVertical
-            TabOrder = 0
-            Zoom = 100
-            OnChange = RegExpTextChange
-          end
-          object TBXLabel3: TSpTBXLabel
+          object TBXLabel1: TSpTBXLabel
             Left = 1
             Top = 1
-            Width = 374
+            Width = 376
             Height = 21
-            Caption = 'Regular Expression'
+            Caption = 'Groups:'
             Align = alTop
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clWindowText
@@ -339,46 +237,80 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
             Underline = True
             UnderlineColor = clHotLight
           end
+          object GroupsView: TVirtualStringTree
+            Left = 1
+            Top = 22
+            Width = 376
+            Height = 115
+            Align = alClient
+            BevelEdges = []
+            BevelInner = bvNone
+            BevelOuter = bvNone
+            BorderStyle = bsNone
+            Header.AutoSizeIndex = 2
+            Header.Options = [hoAutoResize, hoColumnResize, hoDblClickResize, hoHotTrack, hoOwnerDraw, hoVisible]
+            Header.ParentFont = True
+            HintMode = hmTooltip
+            TabOrder = 0
+            TreeOptions.MiscOptions = [toFullRepaintOnResize, toInitOnSave, toReportMode, toToggleOnDblClick, toWheelPanning]
+            TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowDropmark, toShowHorzGridLines, toShowVertGridLines, toThemeAware, toUseBlendedImages, toUseBlendedSelection]
+            TreeOptions.StringOptions = [toAutoAcceptEditChange]
+            OnGetText = GroupsViewGetText
+            Columns = <
+              item
+                Alignment = taRightJustify
+                Margin = 1
+                Options = [coAllowClick, coEnabled, coParentBidiMode, coParentColor, coResizable, coShowDropMark, coVisible]
+                Position = 0
+                Spacing = 1
+                Width = 20
+                WideText = '#'
+              end
+              item
+                Options = [coAllowClick, coEnabled, coParentBidiMode, coParentColor, coResizable, coShowDropMark, coVisible]
+                Position = 1
+                Width = 60
+                WideText = 'Name'
+              end
+              item
+                Options = [coEnabled, coParentBidiMode, coParentColor, coResizable, coShowDropMark, coVisible]
+                Position = 2
+                Width = 296
+                WideText = 'Value'
+              end>
+          end
         end
-      end
-      object SpTBXSplitter2: TSpTBXSplitter
-        Left = 1
-        Top = 83
-        Width = 378
-        Height = 5
-        Cursor = crSizeNS
-        Align = alTop
-        Color = clNone
-        ParentColor = False
-      end
-      object pnlMiddle: TPanel
-        Left = 1
-        Top = 88
-        Width = 378
-        Height = 190
-        Align = alClient
-        ParentBackground = False
-        TabOrder = 2
-        object dpSearchText: TPanel
+        object SpTBXSplitter1: TSpTBXSplitter
+          Left = 1
+          Top = 278
+          Width = 378
+          Height = 5
+          Cursor = crSizeNS
+          Align = alBottom
+          Color = clNone
+          ParentColor = False
+        end
+        object dpRegExpText: TPanel
           Left = 1
           Top = 1
-          Width = 376
-          Height = 95
+          Width = 378
+          Height = 82
           Align = alTop
           ParentColor = True
-          TabOrder = 0
-          object SpTBXPanel2: TPanel
+          TabOrder = 1
+          object SpTBXPanel1: TPanel
             Left = 1
             Top = 1
-            Width = 374
-            Height = 93
+            Width = 376
+            Height = 80
             Align = alClient
+            ParentColor = True
             TabOrder = 0
-            object SearchText: TRichEdit
+            object RegExpText: TRichEdit
               Left = 1
               Top = 22
-              Width = 372
-              Height = 70
+              Width = 374
+              Height = 57
               Align = alClient
               BevelInner = bvNone
               BevelOuter = bvNone
@@ -395,12 +327,12 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
               Zoom = 100
               OnChange = RegExpTextChange
             end
-            object TBXLabel4: TSpTBXLabel
+            object TBXLabel3: TSpTBXLabel
               Left = 1
               Top = 1
-              Width = 372
+              Width = 374
               Height = 21
-              Caption = 'Search Text:'
+              Caption = 'Regular Expression'
               Align = alTop
               Font.Charset = DEFAULT_CHARSET
               Font.Color = clWindowText
@@ -414,97 +346,171 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
             end
           end
         end
-        object SpTBXSplitter3: TSpTBXSplitter
+        object SpTBXSplitter2: TSpTBXSplitter
           Left = 1
-          Top = 96
-          Width = 376
+          Top = 83
+          Width = 378
           Height = 5
           Cursor = crSizeNS
           Align = alTop
           Color = clNone
           ParentColor = False
         end
-        object dpMatchText: TPanel
+        object pnlMiddle: TPanel
           Left = 1
-          Top = 101
-          Width = 376
-          Height = 88
+          Top = 88
+          Width = 378
+          Height = 190
           Align = alClient
-          ParentColor = True
-          TabOrder = 1
-          object SpTBXPanel3: TPanel
+          ParentBackground = False
+          TabOrder = 2
+          object dpSearchText: TPanel
             Left = 1
             Top = 1
-            Width = 374
-            Height = 86
-            Align = alClient
+            Width = 376
+            Height = 95
+            Align = alTop
             ParentColor = True
             TabOrder = 0
-            DesignSize = (
-              374
-              86)
-            object MatchText: TRichEdit
+            object SpTBXPanel2: TPanel
               Left = 1
-              Top = 25
-              Width = 372
-              Height = 60
-              Align = alBottom
-              Anchors = [akLeft, akTop, akRight, akBottom]
-              BevelInner = bvNone
-              BevelOuter = bvNone
-              BorderStyle = bsNone
-              Font.Charset = ANSI_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -12
-              Font.Name = 'Tahoma'
-              Font.Style = []
-              ParentFont = False
-              PlainText = True
-              ScrollBars = ssVertical
+              Top = 1
+              Width = 374
+              Height = 93
+              Align = alClient
               TabOrder = 0
-              Zoom = 100
+              object SearchText: TRichEdit
+                Left = 1
+                Top = 22
+                Width = 372
+                Height = 70
+                Align = alClient
+                BevelInner = bvNone
+                BevelOuter = bvNone
+                BorderStyle = bsNone
+                Font.Charset = ANSI_CHARSET
+                Font.Color = clWindowText
+                Font.Height = -12
+                Font.Name = 'Tahoma'
+                Font.Style = []
+                ParentFont = False
+                PlainText = True
+                ScrollBars = ssVertical
+                TabOrder = 0
+                Zoom = 100
+                OnChange = RegExpTextChange
+              end
+              object TBXLabel4: TSpTBXLabel
+                Left = 1
+                Top = 1
+                Width = 372
+                Height = 21
+                Caption = 'Search Text:'
+                Align = alTop
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clWindowText
+                Font.Height = -12
+                Font.Name = 'MS Shell Dlg 2'
+                Font.Style = [fsBold]
+                ParentFont = False
+                Wrapping = twEndEllipsis
+                Underline = True
+                UnderlineColor = clHotLight
+              end
             end
-            object lblMatch: TSpTBXLabel
-              Left = 2
-              Top = 2
-              Width = 327
-              Height = 21
-              Caption = 'Match:'
-              Anchors = [akLeft, akTop, akRight]
-              Font.Charset = DEFAULT_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -12
-              Font.Name = 'MS Shell Dlg 2'
-              Font.Style = [fsBold]
-              ParentFont = False
-              Wrapping = twEndEllipsis
-              Underline = True
-              UnderlineColor = clHotLight
-            end
-            object SpinMatches: TSpTBXSpinEdit
-              Left = 335
-              Top = 2
-              Width = 41
-              Height = 19
-              Hint = 'Show a found match'
-              Anchors = [akTop, akRight]
-              DoubleBuffered = True
-              Enabled = False
-              NumbersOnly = True
-              ParentDoubleBuffered = False
-              TabOrder = 2
-              ExtendedAccept = True
-              SpinButton.Left = 27
-              SpinButton.Top = 0
-              SpinButton.Width = 14
-              SpinButton.Height = 19
-              SpinButton.Align = alRight
-              SpinButton.Enabled = False
-              SpinOptions.Decimal = 0
-              SpinOptions.MaxValue = 1.000000000000000000
-              SpinOptions.MinValue = 1.000000000000000000
-              SpinOptions.Value = 1.000000000000000000
-              OnValueChanged = SpinMatchesValueChanged
+          end
+          object SpTBXSplitter3: TSpTBXSplitter
+            Left = 1
+            Top = 96
+            Width = 376
+            Height = 5
+            Cursor = crSizeNS
+            Align = alTop
+            Color = clNone
+            ParentColor = False
+          end
+          object dpMatchText: TPanel
+            Left = 1
+            Top = 101
+            Width = 376
+            Height = 88
+            Align = alClient
+            ParentColor = True
+            TabOrder = 1
+            object SpTBXPanel3: TPanel
+              Left = 1
+              Top = 1
+              Width = 374
+              Height = 86
+              Align = alClient
+              ParentColor = True
+              TabOrder = 0
+              DesignSize = (
+                374
+                86)
+              object MatchText: TRichEdit
+                Left = 1
+                Top = 25
+                Width = 372
+                Height = 60
+                Align = alBottom
+                Anchors = [akLeft, akTop, akRight, akBottom]
+                BevelInner = bvNone
+                BevelOuter = bvNone
+                BorderStyle = bsNone
+                Font.Charset = ANSI_CHARSET
+                Font.Color = clWindowText
+                Font.Height = -12
+                Font.Name = 'Tahoma'
+                Font.Style = []
+                ParentFont = False
+                PlainText = True
+                ScrollBars = ssVertical
+                TabOrder = 0
+                Zoom = 100
+              end
+              object lblMatch: TSpTBXLabel
+                Left = 2
+                Top = 2
+                Width = 327
+                Height = 21
+                Caption = 'Match:'
+                Anchors = [akLeft, akTop, akRight]
+                Font.Charset = DEFAULT_CHARSET
+                Font.Color = clWindowText
+                Font.Height = -12
+                Font.Name = 'MS Shell Dlg 2'
+                Font.Style = [fsBold]
+                ParentFont = False
+                Wrapping = twEndEllipsis
+                Underline = True
+                UnderlineColor = clHotLight
+              end
+              object SpinMatches: TSpTBXSpinEdit
+                Left = 335
+                Top = 2
+                Width = 41
+                Height = 19
+                Hint = 'Show a found match'
+                Anchors = [akTop, akRight]
+                DoubleBuffered = True
+                Enabled = False
+                NumbersOnly = True
+                ParentDoubleBuffered = False
+                TabOrder = 2
+                ExtendedAccept = True
+                SpinButton.Left = 27
+                SpinButton.Top = 0
+                SpinButton.Width = 14
+                SpinButton.Height = 19
+                SpinButton.Align = alRight
+                SpinButton.Enabled = False
+                SpinOptions.Decimal = 0
+                SpinOptions.MaxValue = 1.000000000000000000
+                SpinOptions.MinValue = 1.000000000000000000
+                SpinOptions.Value = 1.000000000000000000
+                OnValueChanged = SpinMatchesValueChanged
+              end
             end
           end
         end

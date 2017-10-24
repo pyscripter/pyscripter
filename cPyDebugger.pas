@@ -11,8 +11,8 @@ unit cPyDebugger;
 interface
 
 uses
-  Windows, SysUtils, Classes, uEditAppIntfs, PythonEngine, Forms, Contnrs,
-  cPyBaseDebugger;
+  Windows, SysUtils, Classes, System.UITypes,
+  uEditAppIntfs, PythonEngine, Forms, Contnrs, cPyBaseDebugger;
 
 type
   TFrameInfo = class(TBaseFrameInfo)

@@ -161,7 +161,6 @@ type
   private
     procedure ProjectFileNodeEdit(Node: PVirtualNode);
     procedure UpdatePopupActions(Node : PVirtualNode);
-    procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
   public
     { Public declarations }
     FileImageList: TStringList;
@@ -184,7 +183,7 @@ uses dmCommands, StringResources, uEditAppIntfs,
   frmPyIDEMain, uCommonFunctions, JvAppIniStorage, JvAppStorage, JclFileUtils,
   dlgImportDirectory, JclShell, dlgRunConfiguration, cPyBaseDebugger,
   cParameters, MPDataObject, JvJVCLUtils,
-  gnugettext, uHighlighterProcs, dlgDirectoryList, cThemedVirtualStringTree;
+  gnugettext, uHighlighterProcs, dlgDirectoryList;
 
 {$R *.dfm}
 
@@ -765,12 +764,6 @@ begin
      actProjectExternalRun.Enabled := False;
      actProjectDebug.Enabled := False;
    end;
-end;
-
-procedure TProjectExplorerWindow.WMSpSkinChange(var Message: TMessage);
-begin
-  inherited;
-  ExplorerTree.SkinTree;
 end;
 
 procedure TProjectExplorerWindow.ExplorerTreeContextPopup(Sender: TObject;

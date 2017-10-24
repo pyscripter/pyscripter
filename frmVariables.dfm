@@ -44,91 +44,95 @@ inherited VariablesWindow: TVariablesWindow
   ExplicitHeight = 286
   PixelsPerInch = 96
   TextHeight = 13
-  inherited FGPanel: TPanel
-    Width = 575
-    Height = 243
-    ExplicitLeft = 2
-    ExplicitTop = 2
-    ExplicitWidth = 575
-    ExplicitHeight = 243
-    object VariablesTree: TVirtualStringTree
-      Left = 0
-      Top = 0
-      Width = 195
+  inherited BGPanel: TSpTBXPanel
+    Width = 579
+    Height = 247
+    ExplicitWidth = 579
+    ExplicitHeight = 247
+    inherited FGPanel: TPanel
+      Width = 575
       Height = 243
-      Align = alClient
-      Alignment = taRightJustify
-      Anchors = [akLeft, akTop, akBottom]
-      BevelInner = bvNone
-      BevelOuter = bvNone
-      BorderStyle = bsNone
-      Header.AutoSizeIndex = 2
-      Header.Options = [hoAutoResize, hoColumnResize, hoDblClickResize, hoHotTrack, hoOwnerDraw, hoVisible]
-      Header.ParentFont = True
-      Header.PopupMenu = VTHeaderPopupMenu
-      HintMode = hmTooltip
-      Images = CommandsDataModule.CodeImages
-      IncrementalSearch = isVisibleOnly
-      TabOrder = 0
-      TreeOptions.AnimationOptions = [toAnimatedToggle]
-      TreeOptions.MiscOptions = [toFullRepaintOnResize, toInitOnSave, toToggleOnDblClick, toWheelPanning]
-      TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowDropmark, toShowRoot, toShowTreeLines, toShowVertGridLines, toThemeAware, toUseBlendedImages, toUseBlendedSelection]
-      TreeOptions.StringOptions = [toAutoAcceptEditChange]
-      OnChange = VariablesTreeChange
-      OnGetText = VariablesTreeGetText
-      OnPaintText = VariablesTreePaintText
-      OnGetImageIndex = VariablesTreeGetImageIndex
-      OnInitChildren = VariablesTreeInitChildren
-      OnInitNode = VariablesTreeInitNode
-      Columns = <
-        item
-          Position = 0
-          Width = 160
-          WideText = 'Name'
-        end
-        item
-          Position = 1
-          Width = 100
-          WideText = 'Type'
-        end
-        item
-          Position = 2
-          Width = 10
-          WideText = 'Value'
-        end>
-    end
-    object DocPanel: TSpTBXPageScroller
-      Left = 200
-      Top = 0
-      Width = 375
-      Height = 243
-      Align = alRight
-      Color = clBtnFace
-      ParentColor = False
-      TabOrder = 1
-      object HTMLLabel: TJvLinkLabel
+      ExplicitWidth = 575
+      ExplicitHeight = 243
+      object VariablesTree: TVirtualStringTree
         Left = 0
         Top = 0
+        Width = 195
+        Height = 243
+        Align = alClient
+        Alignment = taRightJustify
+        Anchors = [akLeft, akTop, akBottom]
+        BevelInner = bvNone
+        BevelOuter = bvNone
+        BorderStyle = bsNone
+        Header.AutoSizeIndex = 2
+        Header.Options = [hoAutoResize, hoColumnResize, hoDblClickResize, hoHotTrack, hoOwnerDraw, hoVisible]
+        Header.ParentFont = True
+        Header.PopupMenu = VTHeaderPopupMenu
+        HintMode = hmTooltip
+        Images = CommandsDataModule.CodeImages
+        IncrementalSearch = isVisibleOnly
+        TabOrder = 0
+        TreeOptions.AnimationOptions = [toAnimatedToggle]
+        TreeOptions.MiscOptions = [toFullRepaintOnResize, toInitOnSave, toToggleOnDblClick, toWheelPanning]
+        TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowDropmark, toShowRoot, toShowTreeLines, toShowVertGridLines, toThemeAware, toUseBlendedImages, toUseBlendedSelection]
+        TreeOptions.StringOptions = [toAutoAcceptEditChange]
+        OnChange = VariablesTreeChange
+        OnGetText = VariablesTreeGetText
+        OnPaintText = VariablesTreePaintText
+        OnGetImageIndex = VariablesTreeGetImageIndex
+        OnInitChildren = VariablesTreeInitChildren
+        OnInitNode = VariablesTreeInitNode
+        Columns = <
+          item
+            Position = 0
+            Width = 160
+            WideText = 'Name'
+          end
+          item
+            Position = 1
+            Width = 100
+            WideText = 'Type'
+          end
+          item
+            Position = 2
+            Width = 10
+            WideText = 'Value'
+          end>
+      end
+      object DocPanel: TSpTBXPageScroller
+        Left = 200
+        Top = 0
         Width = 375
-        Caption = '<b>NameSpace'
-        Text.Strings = (
-          '<b>NameSpace')
-        MarginWidth = 2
-        MarginHeight = 2
-        Align = alTop
+        Height = 243
+        Align = alRight
         Color = clBtnFace
         ParentColor = False
+        TabOrder = 1
+        object HTMLLabel: TJvLinkLabel
+          Left = 0
+          Top = 0
+          Width = 375
+          Caption = '<b>NameSpace'
+          Text.Strings = (
+            '<b>NameSpace')
+          MarginWidth = 2
+          MarginHeight = 2
+          Align = alTop
+          Color = clBtnFace
+          ParentColor = False
+        end
       end
-    end
-    object SpTBXSplitter: TSpTBXSplitter
-      Left = 195
-      Top = 0
-      Height = 243
-      Cursor = crSizeWE
-      Align = alRight
-      Color = clNone
-      ParentColor = False
-      MinSize = 3
+      object SpTBXSplitter: TSpTBXSplitter
+        Left = 195
+        Top = 0
+        Height = 243
+        Cursor = crSizeWE
+        Align = alRight
+        Color = clNone
+        ParentColor = False
+        MinSize = 3
+      end
     end
   end
   inherited DockClient: TJvDockClient

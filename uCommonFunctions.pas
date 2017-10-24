@@ -1425,16 +1425,17 @@ begin
           seUTF8 :
             begin
               if not HasBOM then begin
-                if IsPythonFile then
-                  // Ignore detected UTF8 if it is Python and does not have BOM
-                  // File will still be read as UTF8 if it has an encoding comment
-                  Encoding := sf_Ansi
-                else begin
+//                PEP8 states that in Python 3 the default encoding is UTF8 without BOM
+//                if IsPythonFile then
+//                  // Ignore detected UTF8 if it is Python and does not have BOM
+//                  // File will still be read as UTF8 if it has an encoding comment
+//                  Encoding := sf_Ansi
+//                else begin
                   if CommandsDataModule.PyIDEOptions.DetectUTF8Encoding then
                     Encoding := sf_UTF8_NoBOM
                   else
                     Encoding := sf_Ansi;
-                end;
+//                end;
               end else
                 Encoding := sf_UTF8;
             end;

@@ -24,10 +24,6 @@ object EditorForm: TEditorForm
     Align = alClient
     TabOrder = 0
     Borders = False
-    ExplicitLeft = 280
-    ExplicitTop = 192
-    ExplicitWidth = 100
-    ExplicitHeight = 40
     object FGPanel: TPanel
       AlignWithMargins = True
       Left = 2
@@ -45,8 +41,6 @@ object EditorForm: TEditorForm
       TabOrder = 0
       OnEnter = FGPanelEnter
       OnExit = FGPanelExit
-      ExplicitWidth = 562
-      ExplicitHeight = 379
       object ViewsTabControl: TSpTBXTabControl
         Left = 0
         Top = 0
@@ -57,8 +51,6 @@ object EditorForm: TEditorForm
         ActiveTabIndex = 0
         Images = CommandsDataModule.Images
         OnActiveTabChange = ViewsTabControlActiveTabChange
-        ExplicitWidth = 562
-        ExplicitHeight = 379
         HiddenItems = <>
         object tabSource: TSpTBXTabItem
           Caption = 'Source'
@@ -86,8 +78,6 @@ object EditorForm: TEditorForm
           Height = 349
           Caption = 'Source'
           ImageIndex = -1
-          ExplicitWidth = 562
-          ExplicitHeight = 353
           TabItem = 'tabSource'
           object SynEdit: TSynEdit
             Left = 2
@@ -134,8 +124,6 @@ object EditorForm: TEditorForm
             OnStatusChange = SynEditStatusChange
             OnPaintTransient = SynEditPaintTransient
             FontSmoothing = fsmNone
-            ExplicitWidth = 351
-            ExplicitHeight = 349
             RemovedKeystrokes = <
               item
                 Command = ecDeleteLastChar
@@ -184,8 +172,6 @@ object EditorForm: TEditorForm
             OnStatusChange = SynEditStatusChange
             OnPaintTransient = SynEditPaintTransient
             FontSmoothing = fsmNone
-            ExplicitLeft = 358
-            ExplicitHeight = 349
           end
           object EditorSplitter: TSpTBXSplitter
             Left = 349
@@ -197,8 +183,6 @@ object EditorForm: TEditorForm
             ParentColor = False
             Visible = False
             GripSize = 80
-            ExplicitLeft = 353
-            ExplicitHeight = 349
           end
         end
       end

@@ -81,7 +81,6 @@ type
     MatchObject : Variant;
     MatchList : TList<Variant>;
   protected
-    procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
     // IJvAppStorageHandler implementation
     procedure ReadFromAppStorage(AppStorage: TJvCustomAppStorage; const BasePath: string);
     procedure WriteToAppStorage(AppStorage: TJvCustomAppStorage; const BasePath: string);
@@ -97,8 +96,7 @@ var
 implementation
 
 uses dmCommands, VarPyth, frmPythonII,
-  PythonEngine, gnugettext, JvAppIniStorage, uCommonFunctions, RichEdit,
-  cThemedVirtualStringTree;
+  PythonEngine, gnugettext, JvAppIniStorage, uCommonFunctions, RichEdit;
 
 {$R *.dfm}
 
@@ -150,12 +148,6 @@ begin
   inherited;
   GroupsView.Clear;
   FreeAndNil(MatchList);
-end;
-
-procedure TRegExpTesterWindow.WMSpSkinChange(var Message: TMessage);
-begin
-  inherited;
-  GroupsView.SkinTree;
 end;
 
 procedure TRegExpTesterWindow.WriteToAppStorage(AppStorage: TJvCustomAppStorage;

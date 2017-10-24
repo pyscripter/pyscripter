@@ -16,8 +16,8 @@ uses
   MPShellUtilities, VirtualExplorerTree, Menus, frmIDEDockWin,
   ActnList, VirtualShellHistory,  TB2Item, TB2Dock,
   TB2Toolbar, JvComponentBase, SpTBXItem,
-  SpTBXSkins, cThemedVirtualStringTree, System.Actions, SpTBXControls;
-                                                      
+  SpTBXSkins, System.Actions, SpTBXControls;
+
 const
   WM_EXPLOREHERE = WM_USER + 1000;
                                                                       
@@ -125,7 +125,6 @@ type
     procedure WMExploreHere(var Message: TMessage); message WM_EXPLOREHERE;
     function GetExplorerPath: string;
     procedure SetExplorerPath(const Value: string);
-    procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
   public
     { Public declarations }
     procedure UpdateWindow;
@@ -255,12 +254,6 @@ begin
     FileExplorerTree.RootFolderCustomPIDL := PIDL;
     //VirtualShellHistory.Clear;
   end;
-end;
-
-procedure TFileExplorerWindow.WMSpSkinChange(var Message: TMessage);
-begin
-  inherited;
-  FileExplorerTree.SkinTree;
 end;
 
 function TFileExplorerWindow.GetExplorerPath: string;

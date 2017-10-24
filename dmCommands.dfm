@@ -4155,7 +4155,6 @@ object CommandsDataModule: TCommandsDataModule
       Checked = True
       HelpContext = 320
       Hint = 'DOS/Windows|Convert to DOS Linebreak'
-      ImageIndex = 98
       OnExecute = actEditLBExecute
     end
     object actEditLBUnix: TAction
@@ -4164,7 +4163,6 @@ object CommandsDataModule: TCommandsDataModule
       Caption = '&UNIX'
       HelpContext = 320
       Hint = 'UNIX|Convert to UNIX Linebreak'
-      ImageIndex = 99
       OnExecute = actEditLBExecute
     end
     object actEditLBMac: TAction
@@ -4173,7 +4171,6 @@ object CommandsDataModule: TCommandsDataModule
       Caption = '&Mac'
       HelpContext = 320
       Hint = 'Mac|Convert to Mac Linebreak'
-      ImageIndex = 100
       OnExecute = actEditLBExecute
     end
     object actEditAnsi: TAction

@@ -38,6 +38,7 @@ inherited FileExplorerWindow: TFileExplorerWindow
   TextHeight = 13
   inherited BGPanel: TSpTBXPanel
     Height = 439
+    ExplicitHeight = 439
     inherited FGPanel: TPanel
       Height = 435
       ExplicitHeight = 435

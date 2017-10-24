@@ -56,7 +56,6 @@ type
     fHistoryIndex : integer;
     fHistorySize : integer;
   protected
-    procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
     procedure StoreTopNodeIndex;
     procedure RestoreTopNodeIndex;
     // IJvAppStorageHandler implementation
@@ -84,7 +83,7 @@ implementation
 
 uses
   frmPyIDEMain, dmCommands, uCommonFunctions,
-  Clipbrd, VarPyth, gnugettext, StringResources, cThemedVirtualStringTree;
+  Clipbrd, VarPyth, gnugettext, StringResources;
 
 {$R *.dfm}
 Type
@@ -358,12 +357,6 @@ procedure TMessagesWindow.MessagesViewDblClick(Sender: TObject);
 begin
   if Assigned(MessagesView.GetFirstSelected()) then
     JumpToPosition(MessagesView.GetFirstSelected)
-end;
-
-procedure TMessagesWindow.WMSpSkinChange(var Message: TMessage);
-begin
-  inherited;
-  MessagesView.SkinTree;
 end;
 
 procedure TMessagesWindow.actNextMsgsExecute(Sender: TObject);

@@ -41,63 +41,65 @@ inherited WatchesWindow: TWatchesWindow
     0000000000000000000000000000000000000000000000000000000000000000
     000000000000000000000000000000000000000000000000000000000000}
   ExplicitWidth = 776
-  ExplicitHeight = 263
+  ExplicitHeight = 268
   PixelsPerInch = 96
   TextHeight = 13
-  inherited FGPanel: TPanel
-    Width = 756
-    Height = 225
-    ExplicitLeft = 2
-    ExplicitTop = 2
-    ExplicitWidth = 756
-    ExplicitHeight = 225
-    object WatchesView: TVirtualStringTree
-      Left = 0
-      Top = 0
+  inherited BGPanel: TSpTBXPanel
+    Width = 760
+    Height = 229
+    inherited FGPanel: TPanel
       Width = 756
       Height = 225
-      Align = alClient
-      Alignment = taRightJustify
-      BevelInner = bvNone
-      BevelOuter = bvNone
-      BorderStyle = bsNone
-      Header.AutoSizeIndex = -1
-      Header.Options = [hoAutoResize, hoColumnResize, hoDblClickResize, hoHotTrack, hoOwnerDraw, hoVisible]
-      Header.ParentFont = True
-      HintMode = hmTooltip
-      Images = CommandsDataModule.CodeImages
-      PopupMenu = TBXPopupMenu
-      TabOrder = 0
-      TreeOptions.AnimationOptions = [toAnimatedToggle]
-      TreeOptions.AutoOptions = [toAutoDropExpand, toAutoScrollOnExpand, toAutoTristateTracking, toAutoDeleteMovedNodes, toAutoChangeScale]
-      TreeOptions.MiscOptions = [toFullRepaintOnResize, toInitOnSave, toReportMode, toToggleOnDblClick, toWheelPanning]
-      TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowDropmark, toShowRoot, toShowTreeLines, toShowVertGridLines, toThemeAware, toUseBlendedImages, toUseBlendedSelection]
-      TreeOptions.SelectionOptions = [toExtendedFocus, toFullRowSelect, toRightClickSelect]
-      TreeOptions.StringOptions = [toAutoAcceptEditChange]
-      OnDblClick = WatchesViewDblClick
-      OnDragOver = WatchesViewDragOver
-      OnDragDrop = WatchesViewDragDrop
-      OnGetText = WatchesViewGetText
-      OnGetImageIndex = WatchesViewGetImageIndex
-      OnInitChildren = WatchesViewInitChildren
-      OnInitNode = WatchesViewInitNode
-      OnKeyDown = WatchesViewKeyDown
-      Columns = <
-        item
-          Position = 0
-          Width = 200
-          WideText = 'Watches'
-        end
-        item
-          Position = 1
-          Width = 120
-          WideText = 'Type'
-        end
-        item
-          Position = 2
-          Width = 436
-          WideText = 'Value'
-        end>
+      ExplicitWidth = 756
+      ExplicitHeight = 225
+      object WatchesView: TVirtualStringTree
+        Left = 0
+        Top = 0
+        Width = 756
+        Height = 225
+        Align = alClient
+        Alignment = taRightJustify
+        BevelInner = bvNone
+        BevelOuter = bvNone
+        BorderStyle = bsNone
+        Header.AutoSizeIndex = -1
+        Header.Options = [hoAutoResize, hoColumnResize, hoDblClickResize, hoHotTrack, hoOwnerDraw, hoVisible]
+        Header.ParentFont = True
+        HintMode = hmTooltip
+        Images = CommandsDataModule.CodeImages
+        PopupMenu = TBXPopupMenu
+        TabOrder = 0
+        TreeOptions.AnimationOptions = [toAnimatedToggle]
+        TreeOptions.AutoOptions = [toAutoDropExpand, toAutoScrollOnExpand, toAutoTristateTracking, toAutoDeleteMovedNodes, toAutoChangeScale]
+        TreeOptions.MiscOptions = [toFullRepaintOnResize, toInitOnSave, toReportMode, toToggleOnDblClick, toWheelPanning]
+        TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowDropmark, toShowRoot, toShowTreeLines, toShowVertGridLines, toThemeAware, toUseBlendedImages, toUseBlendedSelection]
+        TreeOptions.SelectionOptions = [toExtendedFocus, toFullRowSelect, toRightClickSelect]
+        TreeOptions.StringOptions = [toAutoAcceptEditChange]
+        OnDblClick = WatchesViewDblClick
+        OnDragOver = WatchesViewDragOver
+        OnDragDrop = WatchesViewDragDrop
+        OnGetText = WatchesViewGetText
+        OnGetImageIndex = WatchesViewGetImageIndex
+        OnInitChildren = WatchesViewInitChildren
+        OnInitNode = WatchesViewInitNode
+        OnKeyDown = WatchesViewKeyDown
+        Columns = <
+          item
+            Position = 0
+            Width = 200
+            WideText = 'Watches'
+          end
+          item
+            Position = 1
+            Width = 120
+            WideText = 'Type'
+          end
+          item
+            Position = 2
+            Width = 436
+            WideText = 'Value'
+          end>
+      end
     end
   end
   inherited DockClient: TJvDockClient

@@ -3,11 +3,11 @@ unit dlgNewFile;
 interface
 
 uses
-  Windows, Messages, SysUtils, Classes, Controls, Forms,
+  Windows, Messages, SysUtils, Classes, System.Contnrs,
+  Controls, Forms,
   Dialogs, VirtualTrees, cFileTemplates,
   SpTBXDkPanels, SpTBXControls, dlgPyIDEBase,
-  SpTBXItem, SpTBXSkins, MPCommonObjects, MPCommonUtilities, EasyListview,
-  cThemedVirtualStringTree;
+  SpTBXItem, SpTBXSkins, MPCommonObjects, MPCommonUtilities, EasyListview;
 
 type
   TNewFileDialog = class(TPyIDEDlgBase)
@@ -70,7 +70,6 @@ begin
   Categories := TStringList.Create;
   Categories.CaseSensitive := False;
   lvTemplates.ImagesLarge := LargeSysImages;
-  tvCategories.SkinTree;
 end;
 
 procedure TNewFileDialog.FormDestroy(Sender: TObject);

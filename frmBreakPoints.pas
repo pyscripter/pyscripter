@@ -13,7 +13,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, JvDockControlForm, frmIDEDockWin, ExtCtrls,
   Contnrs, TB2Item, Menus, VirtualTrees, JvComponentBase,
-  SpTBXSkins, SpTBXItem, JvAppStorage, cThemedVirtualStringTree, SpTBXControls;
+  SpTBXSkins, SpTBXItem, JvAppStorage, SpTBXControls;
 
 type
   TBreakPointsWindow = class(TIDEDockWindow, IJvAppStorageHandler)
@@ -43,7 +43,6 @@ type
   private
     { Private declarations }
     fBreakPointsList : TObjectList;
-    procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
   protected
     // IJvAppStorageHandler implementation
     procedure ReadFromAppStorage(AppStorage: TJvCustomAppStorage; const BasePath: string);
@@ -186,12 +185,6 @@ procedure TBreakPointsWindow.FormDestroy(Sender: TObject);
 begin
   fBreakPointsList.Free;
   inherited;
-end;
-
-procedure TBreakPointsWindow.WMSpSkinChange(var Message: TMessage);
-begin
-  inherited;
-  BreakPointsView.SkinTree;
 end;
 
 procedure TBreakPointsWindow.BreakPointsViewInitNode(

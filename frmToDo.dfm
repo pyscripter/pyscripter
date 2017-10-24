@@ -47,6 +47,8 @@ inherited ToDoWindow: TToDoWindow
   inherited BGPanel: TSpTBXPanel
     Width = 492
     Height = 293
+    ExplicitWidth = 492
+    ExplicitHeight = 293
     inherited FGPanel: TPanel
       Width = 488
       Height = 289

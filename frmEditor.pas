@@ -1873,17 +1873,18 @@ begin
           iPrevLine := TrimRight(ASynEdit.Lines[ASynEdit.CaretY - 2]);
           BC := BufferCoord(Length(iPrevLine), ASynEdit.CaretY - 1);
 
-          if ASynEdit.GetHighlighterAttriAtRowCol(BC, DummyToken, Attr) and not
-            ( // (attr = ASynEdit.Highlighter.StringAttribute) or
-            (Attr = ASynEdit.Highlighter.CommentAttribute) or
-              (Attr = TSynPythonSyn(ASynEdit.Highlighter).CodeCommentAttri) { or
-              (attr = CommandsDataModule.SynPythonSyn.DocStringAttri) } ) then
-          begin
+          // Indent on: if a: # success?
+          //if ASynEdit.GetHighlighterAttriAtRowCol(BC, DummyToken, Attr) and not
+          //  ( // (attr = ASynEdit.Highlighter.StringAttribute) or
+          //  (Attr = ASynEdit.Highlighter.CommentAttribute) or
+          //    (Attr = TSynPythonSyn(ASynEdit.Highlighter).CodeCommentAttri) { or
+          //    (attr = CommandsDataModule.SynPythonSyn.DocStringAttri) } ) then
+          //begin
             if CommandsDataModule.IsBlockOpener(iPrevLine) then
               ASynEdit.ExecuteCommand(ecTab, #0, nil)
             else if CommandsDataModule.IsBlockCloser(iPrevLine) then
               ASynEdit.ExecuteCommand(ecShiftTab, #0, nil);
-          end;
+          //end;
           ASynEdit.UndoList.EndBlock;
           ASynEdit.Options := fOldOptions;
         end;

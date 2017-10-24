@@ -13,7 +13,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, Buttons, VirtualTrees, ExtCtrls,
   frmCodeExplorer, cPythonSourceScanner, TB2Item, Menus, SpTBXItem,
-  SpTBXControls, dlgPyIDEBase, cThemedVirtualStringTree;
+  SpTBXControls, dlgPyIDEBase;
 
 type
 
@@ -314,7 +314,6 @@ procedure TUnitTestWizard.FormCreate(Sender: TObject);
 begin
   inherited;
   ExplorerTree.NodeDataSize := SizeOf(TNodeDataRec);
-  ExplorerTree.SkinTree;
 end;
 
 procedure TUnitTestWizard.HelpButtonClick(Sender: TObject);

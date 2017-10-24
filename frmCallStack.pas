@@ -13,7 +13,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, JvDockControlForm, cPyBaseDebugger, frmIDEDockWin,
   Contnrs, ExtCtrls, VirtualTrees, JvComponentBase,  SpTBXSkins,
-  JvAppStorage, ActnList, cThemedVirtualStringTree, System.Actions, SpTBXItem,
+  JvAppStorage, ActnList, System.Actions, SpTBXItem,
   SpTBXControls;
 
 type
@@ -42,7 +42,6 @@ type
   protected
     procedure ReadFromAppStorage(AppStorage: TJvCustomAppStorage; const BasePath: string);
     procedure WriteToAppStorage(AppStorage: TJvCustomAppStorage; const BasePath: string);
-    procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
   public
     { Public declarations }
     procedure ClearAll;
@@ -168,12 +167,6 @@ begin
     with PCallStackRec(CallStackView.GetNodeData(SelectedNode))^.FrameInfo do
       if FileName <> '' then
         PyIDEMainForm.ShowFilePosition(FileName, Line, 1);
-end;
-
-procedure TCallStackWindow.WMSpSkinChange(var Message: TMessage);
-begin
-  inherited;
-  CallStackView.SkinTree;
 end;
 
 procedure TCallStackWindow.FormActivate(Sender: TObject);

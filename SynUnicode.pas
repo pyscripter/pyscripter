@@ -2881,7 +2881,7 @@ begin
     { If no BOM was found, check for leading/trailing byte sequences,
       which are uncommon in usual non UTF-8 encoded text.
 
-      NOTE: There is no 100% save way to detect UTF-8 streams. The bigger
+      NOTE: There is no 100% safe way to detect UTF-8 streams. The bigger
             MinimumCountOfUTF8Strings, the lower is the probability of
             a false positive. On the other hand, a big MinimumCountOfUTF8Strings
             makes it unlikely to detect files with only little usage of non

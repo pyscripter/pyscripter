@@ -162,7 +162,6 @@ type
      TokenString: string; LineNumber: Integer): TToDoInfo;
     function GetPreCallback: TDirectoryWalkProc;
   protected
-    procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
   public
     { Public declarations }
     procedure RefreshTodoList;
@@ -194,7 +193,7 @@ implementation
 
 uses dmCommands, uEditAppIntfs, Math, frmPyIDEMain, dlgToDoOptions,
   JvJVCLUtils, cProjectClasses, WideStrUtils,
-  cParameters, AsyncCalls, MPCommonUtilities, cThemedVirtualStringTree;
+  cParameters, AsyncCalls, MPCommonUtilities;
 
 {$R *.dfm}
 
@@ -877,12 +876,6 @@ begin
       Application.UseRightToLeftReading, sseFilePathMiddle);
     Done := True
   end;
-end;
-
-procedure TToDoWindow.WMSpSkinChange(var Message: TMessage);
-begin
-  inherited;
-  ToDoView.SkinTree;
 end;
 
 procedure TToDoWindow.ToDoViewInitNode(Sender: TBaseVirtualTree;
