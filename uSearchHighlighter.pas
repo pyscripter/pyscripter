@@ -42,7 +42,7 @@ type
 
 implementation
 Uses
-  Math, uEditAppIntfs, frmEditor;
+  Math, uEditAppIntfs, frmEditor, dmCommands;
 
 { THighlightSearchPlugin }
 
@@ -56,7 +56,7 @@ procedure THighlightSearchPlugin.AfterPaint(ACanvas: TCanvas;
   begin
     if StartXY.Char < EndXY.Char then begin
       Pix := fSynEdit.RowColumnToPixels(fSynEdit.BufferToDisplayPos(StartXY));
-      ACanvas.Brush.Color := clYellow;
+      ACanvas.Brush.Color := CommandsDataModule.PyIDEOptions.HighlightSelectedWordColor;
       ACanvas.Brush.Style := bsSolid;
       SetTextCharacterExtra(ACanvas.Handle, fSynEdit.CharWidth - ACanvas.TextWidth('W'));
       S := Copy(fSynEdit.Lines[StartXY.Line-1],

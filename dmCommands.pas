@@ -89,6 +89,7 @@ type
     fFileTemplateForNewScripts : string;
     fAutoCompletionFont : TFont;
     fHighlightSelectedWord : Boolean;
+    fHighlightSelectedWordColor : TColor;
     fUsePythonColorsInIDE : Boolean;
     fFileChangeNotification : TFileChangeNotificationType;
     fCodeCompletionCaseSensitive : Boolean;
@@ -211,6 +212,8 @@ type
       write SetAutoCompletionFont;
     property HighlightSelectedWord : boolean read fHighlightSelectedWord
       write fHighlightSelectedWord;
+    property HighlightSelectedWordColor : TColor read fHighlightSelectedWordColor
+      write fHighlightSelectedWordColor;
     property UsePythonColorsInIDE : boolean read fUsePythonColorsInIDE
       write fUsePythonColorsInIDE;
     property FileChangeNotification : TFileChangeNotificationType read fFileChangeNotification
@@ -651,6 +654,7 @@ begin
       Self.fFileTemplateForNewScripts := FileTemplateForNewScripts;
       Self.fAutoCompletionFont.Assign(AutoCompletionFont);
       Self.fHighlightSelectedWord := HighlightSelectedWord;
+      Self.fHighlightSelectedWordColor := HighlightSelectedWordColor;
       Self.fUsePythonColorsInIDE := UsePythonColorsInIDE;
       Self.fFileChangeNotification := FileChangeNotification;
       Self.fCodeCompletionCaseSensitive := CodeCompletionCaseSensitive;
@@ -735,6 +739,7 @@ begin
   fAutoCompletionFont := TFont.Create;
   fAutoCompletionFont.Assign(Application.DefaultFont);
   fHighlightSelectedWord := True;
+  fHighlightSelectedWordColor := clYellow;
   fUsePythonColorsInIDE := False;
   fFileChangeNotification := fcnNoMappedDrives;
   fCodeCompletionCaseSensitive := True;
@@ -2290,7 +2295,7 @@ begin
   end;
   with Categories[4] do begin
     DisplayName := _('Editor');
-    SetLength(Options, 17);
+    SetLength(Options, 18);
     Options[0].PropertyName := 'RestoreOpenFiles';
     Options[0].DisplayName := _('Restore open files');
     Options[1].PropertyName := 'SearchTextAtCaret';
@@ -2321,10 +2326,12 @@ begin
     Options[13].DisplayName := _('Auto-hide find toolbar');
     Options[14].PropertyName := 'HighlightSelectedWord';
     Options[14].DisplayName := _('Highlight selected word');
-    Options[15].PropertyName := 'DisplayPackageNames';
-    Options[15].DisplayName := _('Display package names in editor tabs');
-    Options[16].PropertyName := 'CheckSyntaxLineLimit';
-    Options[16].DisplayName := _('File line limit for syntax check as you type');
+    Options[15].PropertyName := 'HighlightSelectedWordColor';
+    Options[15].DisplayName := _('Highlight color of selected word');
+    Options[16].PropertyName := 'DisplayPackageNames';
+    Options[16].DisplayName := _('Display package names in editor tabs');
+    Options[17].PropertyName := 'CheckSyntaxLineLimit';
+    Options[17].DisplayName := _('File line limit for syntax check as you type');
   end;
   with Categories[5] do begin
     DisplayName := _('Code Completion');
