@@ -13,78 +13,13 @@
 { The Original Code is AsyncCalls.pas.                                                             }
 {                                                                                                  }
 { The Initial Developer of the Original Code is Andreas Hausladen.                                 }
-{ Portions created by Andreas Hausladen are Copyright (C) 2006-2011 Andreas Hausladen.             }
+{ Portions created by Andreas Hausladen are Copyright (C) 2006-2016 Andreas Hausladen.             }
 { All Rights Reserved.                                                                             }
 {                                                                                                  }
 { Contributor(s):                                                                                  }
 {                                                                                                  }
 {**************************************************************************************************}
-{                                                                                                  }
-{ Version: 2.99 (2011-12-14)                                                                       }
-{   Added: IAsyncCall.CancelInvocation method                                                      }
-{   Added: IAsyncCall.Forget method                                                                }
-{                                                                                                  }
-{ Version: 2.98 (2011-10-22)                                                                       }
-{   Added: Support for Delphi XE2 64bit                                                            }
-{                                                                                                  }
-{ Version: 2.97 (2011-05-21)                                                                       }
-{   Fixed: The thread priority wasn't reset to Normal for new AsyncCall tasks.                     }
-{   Fixed: Replaced Suspend/Resume code to prevent a race condition where all threads are          }
-{          suspended but their FSuspended flag is false.                                           }
-{   Fixed: Exception handling in TAsyncCall.InternExecuteSyncCall. Quit() wasn't called after an   }
-{          exception was raised.                                                                   }
-{                                                                                                  }
-{ Version: 2.96 (2010-09-12)                                                                       }
-{   Fixed: CoInitialize call was missing                                                           }
-{                                                                                                  }
-{ Version: 2.95 (2010-09-12)                                                                       }
-{   Added: Support for RAD Studio XE                                                               }
-{   Added: Support for UnicodeString                                                               }
-{                                                                                                  }
-{ Version: 2.92 (2009-08-30)                                                                       }
-{   Added: Support for RAD Studio 2010                                                             }
-{   Restored: Delphi 2009 Update 1 fixed the compiler bug. All generic methods are now available.  }
-{                                                                                                  }
-{ Version: 2.91 (2008-09-29)                                                                       }
-{   Fixed: All generic methods are now disabled due to an internal compiler error in Delphi 2009   }
-{                                                                                                  }
-{ Version: 2.9 (2008-09-27)                                                                        }
-{   Fixed: Window message handling                                                                 }
-{   Added: Delphi 2009 support with generics and anonymous methods                                 }
-{   Added: AsyncCall(Runnable: IAsyncRunnable)                                                     }
-{                                                                                                  }
-{ Version: 2.21 (2008-05-14)                                                                       }
-{   Fixed: Fixed bug in AsyncMultiSync                                                             }
-{                                                                                                  }
-{ Version: 2.2 (2008-05-12)                                                                        }
-{   Fixed: Bugs in main thread AsyncMultiSync implementation                                       }
-{   Added: Delphi 5 support                                                                        }
-{                                                                                                  }
-{ Version: 2.1 (2008-05-06)                                                                        }
-{   Added: Delphi 6 support                                                                        }
-{   Added: Support for "Exit;" in the MainThread block                                             }
-{   Fixed: Exception handling for Delphi 6, 7 and 2005                                             }
-{   Fixed: EBX, ESI and EDI weren't copied into the synchronized block (e.g. used for Self-Pointer)}
-{                                                                                                  }
-{ Version: 2.0 (2008-05-04)                                                                        }
-{   Added: EnterMainThread/LeaveMainThread                                                         }
-{   Added: LocalVclCall, LocalAsyncVclCall, MsgAsyncMultiSync                                      }
-{   Added: LocalAsyncExec, AsyncExec                                                               }
-{   Added: IAsyncCall.ForceDifferentThread                                                         }
-{   Fixed: Exception handling                                                                      }
-{   Removed: Delphi 5 and 6 support                                                                }
-{                                                                                                  }
-{ Version: 1.2 (2008-02-10)                                                                        }
-{   Added: CoInitialize                                                                            }
-{   Added: LocalAsynCall() function                                                                }
-{                                                                                                  }
-{ Version: 1.1 (2007-08-14)                                                                        }
-{   Fixed: Workaround for TThread.Resume bug                                                       }
-{                                                                                                  }
-{ Version: 1.0 (2006-12-23)                                                                        }
-{   Initial release                                                                                }
-{**************************************************************************************************}
-{$A+,B-,C-,D-,E-,F-,G+,H+,I+,J-,K-,L+,M-,N+,O+,P+,Q-,R-,S-,T-,U-,V+,W+,X+,Y+,Z1}
+{$A+,B-,C+,D-,E-,F-,G+,H+,I+,J-,K-,L+,M-,N+,O+,P+,Q-,R-,S-,T-,U-,V+,W+,X+,Y+,Z1}
 
 unit AsyncCalls;
 
@@ -552,21 +487,22 @@ type
   TAsyncCall = class;
 
   { *** Internal class. Do not use it *** }
-  { TAsyncCall is the base class for all parameter based async call types }
+  { TInternalAsyncCall is the base class for all parameter based async call types }
   TInternalAsyncCall = class(TObject)
   private
     FNext: TInternalAsyncCall;
 
     FEvent: THandle;
-    FReturnValue: Integer;
-    FFinished: Boolean;
     FFatalException: Exception;
     FFatalErrorAddr: Pointer;
+
+    FRefCount: Integer;    
+    FReturnValue: Integer;
     FForceDifferentThread: Boolean;
     FCancelInvocation: Boolean;
     FCanceled: Boolean;
     FExecuted: Boolean;
-    FAutoDelete: Boolean;
+    FFinished: Boolean;
 
     procedure InternExecuteAsyncCall;
     procedure InternExecuteSyncCall;
@@ -577,6 +513,9 @@ type
     function ExecuteAsyncCall: Integer; virtual; abstract;
   private
     constructor Create;
+    procedure AddRef;
+    procedure Release;
+
     function ExecuteAsync: TAsyncCall;
 
     function GetEvent: THandle;
@@ -624,6 +563,7 @@ type
     FReturnValue: Integer;
   private
     constructor Create(AReturnValue: Integer);
+    { IAsyncCall }
     function Sync: Integer;
     function Finished: Boolean;
     function ReturnValue: Integer;
@@ -793,6 +733,7 @@ resourcestring
 
 const
   WM_VCLSYNC = WM_USER + 12;
+  WM_RAISEEXCEPTION = WM_USER + 13;
 
 {$IFNDEF DELPHI7_UP}
 var
@@ -917,6 +858,7 @@ type
     FWakeUpEvent: THandle;
     FThreadTerminateEvent: THandle;
     FSleepingThreadCount: Integer;
+    FEnqueuedCallCount: Integer;
     FMaxThreads: Integer;
     FDestroying: Boolean;
 
@@ -925,7 +867,6 @@ type
 
     FAsyncCallsCritSect: TRTLCriticalSection;
     FAsyncCallHead, FAsyncCallTail: TInternalAsyncCall;
-    FAutoDeleteAsyncCalls: TInternalAsyncCall;
 
     FNumberOfProcessors: Cardinal;
     {$IFDEF DEBUG_THREADSTATS}
@@ -942,8 +883,6 @@ type
 
     procedure WakeUpThread;
     procedure Sleep;
-    procedure ReleaseAutoDeleteAsyncCalls;
-    procedure CheckAutoDelete(Call: TInternalAsyncCall);
   public
     constructor Create;
     destructor Destroy; override;
@@ -953,7 +892,6 @@ type
 
     procedure AddAsyncCall(Call: TInternalAsyncCall);
     function RemoveAsyncCall(Call: TInternalAsyncCall): Boolean;
-    procedure ForgetAsyncCall(Call: TInternalAsyncCall);
 
     property MaxThreads: Integer read FMaxThreads;
     property NumberOfProcessors: Cardinal read FNumberOfProcessors;
@@ -1799,7 +1737,7 @@ begin
       end;
 
       if FAsyncCall <> nil then
-        ThreadPool.CheckAutoDelete(FAsyncCall);
+        FAsyncCall.Release;
     end;
   finally
     if CoInitialized then
@@ -1832,6 +1770,7 @@ destructor TThreadPool.Destroy;
 var
   I: Integer;
   Call: TInternalAsyncCall;
+  Msg: TMsg;
 begin
   FMaxThreads := FThreadCount; // Do not allocation new threads
   FDestroying := True; // => Sync in this thread because there is no other thread (required for FAsnycCallHead.Free)
@@ -1844,20 +1783,24 @@ begin
   // Wait and destroy the threads
   for I := FThreadCount - 1 downto 0 do
     FThreads[I].Free;
-  ReleaseAutoDeleteAsyncCalls;
 
-  // Clean up not yet released AutoDelete InternalAsyncCalls.
+  // Clean up not yet released TInternalAsyncCalls objects
   while FAsyncCallHead <> nil do
   begin
     Call := FAsyncCallHead.FNext;
-    CheckAutoDelete(FAsyncCallHead);
+    FAsyncCallHead.Release;
     FAsyncCallHead := Call;
   end;
+
+  // Handle pending FatalExceptions from "forgotten" async calls
+  while PeekMessage(Msg, FMainThreadVclHandle, WM_RAISEEXCEPTION, WM_RAISEEXCEPTION, PM_REMOVE or PM_NOYIELD) do
+    DispatchMessage(Msg);
 
   CloseHandle(FThreadTerminateEvent);
   CloseHandle(FWakeUpEvent);
   CloseHandle(FMainThreadSyncEvent);
   DeallocateHWnd(FMainThreadVclHandle);
+  FMainThreadVclHandle := 0;
   DeleteCriticalSection(FAsyncCallsCritSect);
 
   inherited Destroy;
@@ -1870,59 +1813,16 @@ begin
     raise EAsyncCallError.CreateRes(@RsNoVclSyncPossible);
 end;
 
-procedure TThreadPool.CheckAutoDelete(Call: TInternalAsyncCall);
-var
-  AutoDelete: Boolean;
-begin
-  EnterCriticalSection(FAsyncCallsCritSect); // spinning
-  try
-    AutoDelete := Call.FAutoDelete;
-  finally
-    LeaveCriticalSection(FAsyncCallsCritSect);
-  end;
-  if AutoDelete then
-  begin
-    try
-      Call.Sync; // throw exception if one is to throw
-    except
-      if Assigned(ApplicationHandleException) then
-        ApplicationHandleException(Self);
-    end;
-    Call.Free;
-  end;
-end;
-
-procedure TThreadPool.ReleaseAutoDeleteAsyncCalls;
-var
-  ItemP: ^TInternalAsyncCall;
-  Next: TInternalAsyncCall;
-begin
-  EnterCriticalSection(FAsyncCallsCritSect); // spinning
-  try
-    ItemP := @FAutoDeleteAsyncCalls;
-    while ItemP^ <> nil do
-    begin
-      Next := ItemP^.FNext;
-      try
-        ItemP^.Sync; // throw raised exceptions here
-      finally
-        ItemP^.Free;
-        ItemP^ := Next;
-      end;
-    end;
-  finally
-    LeaveCriticalSection(FAsyncCallsCritSect);
-  end;
-end;
-
 function TThreadPool.GetNextAsyncCall: TInternalAsyncCall;
 begin
   { Dequeue }
   EnterCriticalSection(FAsyncCallsCritSect); // spinning
   try
-    ReleaseAutoDeleteAsyncCalls;
+    // Skip reference count handling, because we would increment (Result) and decrement (ListRemove) it.
     { Get the "oldest" async call }
     Result := FAsyncCallHead;
+    if Result <> nil then
+      Dec(FEnqueuedCallCount);
     if FAsyncCallHead <> nil then
       FAsyncCallHead := FAsyncCallHead.FNext;
     if Result = FAsyncCallTail then
@@ -1953,6 +1853,7 @@ begin
       FAsyncCallHead := Call.FNext;
       if FAsyncCallHead = nil then
         FAsyncCallTail := nil;
+      Dec(FEnqueuedCallCount);
       Result := True;
     end
     else
@@ -1964,17 +1865,24 @@ begin
         Item.FNext := Call.FNext;
         if Call = FAsyncCallTail then
           FAsyncCallTail := Item;
+        Dec(FEnqueuedCallCount);
         Result := True;
       end;
     end;
   finally
     LeaveCriticalSection(FAsyncCallsCritSect);
   end;
+  if Result then
+    Call.Release; // removed from list
 end;
 
 procedure TThreadPool.AddAsyncCall(Call: TInternalAsyncCall);
+var
+  AvailableThreadCount: Integer;
 begin
   { Enqueue }
+  Call.AddRef; // added to list
+
   EnterCriticalSection(FAsyncCallsCritSect); // spinning
   if FAsyncCallTail = nil then
   begin
@@ -1986,10 +1894,13 @@ begin
     FAsyncCallTail.FNext := Call;
     FAsyncCallTail := Call;
   end;
+  AvailableThreadCount := FSleepingThreadCount - FEnqueuedCallCount;
+  Inc(FEnqueuedCallCount);
   LeaveCriticalSection(FAsyncCallsCritSect);
 
-  { All threads are busy, we need to allocate another thread if possible. }
-  if FSleepingThreadCount = 0 then
+  { We need to start another thread, if all threads are busy (not sleeping) or we have already
+    enqueued tasks for all sleeping thread. }
+  if AvailableThreadCount <= 0 then
   begin
     { Do an unsafe ThreadCount check. AllocThread will do a safe check if we were wrong here. }
     if FThreadCount < MaxThreads then
@@ -1998,31 +1909,6 @@ begin
 
   { Wake up one of the sleeping threads. }
   WakeUpThread;
-end;
-
-procedure TThreadPool.ForgetAsyncCall(Call: TInternalAsyncCall);
-var
-  Item: TInternalAsyncCall;
-begin
-  // Assert(Call.FRefCount > 0);
-  EnterCriticalSection(FAsyncCallsCritSect); // spinning, but we may take too much time
-  try
-    Item := FAsyncCallHead;
-    while (Item <> nil) and (Item <> Call) do
-      Item := Item.FNext;
-    if Item <> nil then
-      Call.FAutoDelete := True // it is still safe to set FAutoDelete
-    else
-    begin
-      { There is no way to find out if the FAutoDelete code in TAsyncCallThread.Execute was
-        already executed or not, so release the the calls the next time GetNextAsyncCall is
-        called. }
-      Call.FNext := FAutoDeleteAsyncCalls;
-      FAutoDeleteAsyncCalls := Call;
-    end
-  finally
-    LeaveCriticalSection(FAsyncCallsCritSect);
-  end;
 end;
 
 procedure TThreadPool.AllocThread;
@@ -2073,11 +1959,18 @@ end;
 
 procedure TThreadPool.MainThreadWndProc(var Msg: TMessage);
 begin
+  try
   case Msg.Msg of
     WM_VCLSYNC:
       TInternalAsyncCall(Msg.LParam).InternExecuteSyncCall;
+      WM_RAISEEXCEPTION:
+        raise Exception(Msg.LParam) at Pointer(Msg.WParam);
   else
     Msg.Result := DefWindowProc(FMainThreadVclHandle, Msg.Msg, Msg.WParam, Msg.LParam);
+  end;
+  except
+    if Assigned(ApplicationHandleException) then
+      ApplicationHandleException(Self);
   end;
 end;
 
@@ -2147,14 +2040,32 @@ destructor TInternalAsyncCall.Destroy;
 begin
   if FEvent <> 0 then
   begin
-    try
-      Sync;
-    finally
       CloseHandle(FEvent);
       FEvent := 0;
     end;
+  // TAsyncCall.Destroy either already called Sync() or we are a "forgotten" async call
+  // and we need to handle the exception ourself by trying to throw it in the main thread
+  // or just ignoring it.
+  if FFatalException <> nil then
+  begin
+    if Assigned(ApplicationHandleException) and
+       (ThreadPool.FMainThreadVclHandle <> 0) and IsWindow(ThreadPool.FMainThreadVclHandle) then
+      PostMessage(ThreadPool.FMainThreadVclHandle, WM_RAISEEXCEPTION, WPARAM(FFatalErrorAddr), LPARAM(FFatalException))
+    else
+      FFatalException.Free;
   end;
   inherited Destroy;
+end;
+
+procedure TInternalAsyncCall.AddRef;
+begin
+  InterlockedIncrement(FRefCount);
+end;
+
+procedure TInternalAsyncCall.Release;
+begin
+  if InterlockedDecrement(FRefCount) = 0 then
+    Destroy;
 end;
 
 function TInternalAsyncCall.Finished: Boolean;
@@ -2173,7 +2084,6 @@ end;
 procedure TInternalAsyncCall.Forget;
 begin
   ForceDifferentThread;
-  ThreadPool.ForgetAsyncCall(Self);
 end;
 
 function TInternalAsyncCall.Canceled: Boolean;
@@ -2209,7 +2119,7 @@ begin
       FCanceled := True;
   except
     FFatalErrorAddr := ExceptAddr;
-    FFatalException := AcquireExceptionObject;
+    FFatalException := Exception(AcquireExceptionObject);
   end;
   Quit(Value);
 end;
@@ -2289,6 +2199,8 @@ end;
 
 function TInternalAsyncCall.SyncInThisThreadIfPossible: Boolean;
 begin
+  // AddRef/Release protection isn't needed here because SyncInThisThreadIfPossible
+  // is only called from an TAsynCall instance that holds a reference.
   if not Finished then
   begin
     Result := False;
@@ -2309,8 +2221,8 @@ end;
 
 function TInternalAsyncCall.ExecuteAsync: TAsyncCall;
 begin
-  ThreadPool.AddAsyncCall(Self);
   Result := TAsyncCall.Create(Self);
+  ThreadPool.AddAsyncCall(Self);
 end;
 
 { ---------------------------------------------------------------------------- }
@@ -2969,7 +2881,7 @@ asm
   { Detect if the finally block is called by System._HandleFinally.
     In that case an exception was raised in the MainThread-Block. The
     Classes.CheckSynchronize function will handle the exception and the
-    thread switch for us. This will also restore the EBP regíster. }
+    thread switch for us. This will also restore the EBP register. }
   mov eax, [esp + $04] // finally return address
   mov edx, OFFSET System.@HandleFinally
   cmp eax, edx
@@ -3421,6 +3333,7 @@ end;
 constructor TAsyncCall.Create(ACall: TInternalAsyncCall);
 begin
   inherited Create;
+  ACall.AddRef;
   FCall := ACall;
 end;
 
@@ -3429,9 +3342,9 @@ begin
   if FCall <> nil then
   begin
     try
-      FCall.Sync; // throw raised exceptions here
+      FCall.Sync; // throws raised exception
     finally
-      FCall.Free;
+      FCall.Release;
     end;
   end;
   inherited Destroy;
@@ -3457,6 +3370,7 @@ begin
   C := FCall;
   FCall := nil;
   C.Forget;
+  C.Release;
 end;
 
 function TAsyncCall.ReturnValue: Integer;
@@ -3523,3 +3437,4 @@ finalization
   {$ENDIF ~DELPHi7_UP}
 
 end.
+

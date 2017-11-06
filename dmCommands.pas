@@ -2731,7 +2731,7 @@ end;
 
 procedure TCommandsDataModule.actHelpWebProjectHomeExecute(Sender: TObject);
 begin
-  OpenObject('http://pyscripter.googlecode.com');
+  OpenObject('https://github.com/pyscripter/pyscripter');
 end;
 
 procedure TCommandsDataModule.actHelpExternalToolsExecute(Sender: TObject);
