@@ -806,7 +806,7 @@ procedure TEditorSearchOptions.NewSearch(SynEdit : TSynEdit; ABackwards : Boolea
     Result := (BC1.Line > BC2.Line) or (BC1.Line = BC2.Line) and (BC1.Char > BC2.Char);
   end;
 
-  function FindTextInBlock(Strings : TUnicodeStrings; BlockBegin, BlockEnd : TBufferCoord) : Boolean;
+  function FindTextInBlock(Strings : TStrings; BlockBegin, BlockEnd : TBufferCoord) : Boolean;
   Var
     Line :  integer;
     S : string;
@@ -2418,9 +2418,9 @@ end;
 
 procedure TCommandsDataModule.actPythonPathExecute(Sender: TObject);
 Var
-  Paths : TUnicodeStringList;
+  Paths : TStringList;
 begin
-  Paths := TUnicodeStringList.Create;
+  Paths := TStringList.Create;
   try
     PyControl.ActiveInterpreter.SysPathToStrings(Paths);
     if EditFolderList(Paths, 'Python Path', 870) then

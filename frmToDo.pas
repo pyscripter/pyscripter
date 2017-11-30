@@ -79,7 +79,7 @@ type
     LineNo: Integer;
   end;
 
-  TTokenList = class(TUnicodeStringList)
+  TTokenList = class(TStringList)
   private
     procedure AddToken(const Token: string; Priority: TToDoPriority);
   public
@@ -211,12 +211,12 @@ end;
 
 procedure TToDoWindow.actEditCopyExecute(Sender: TObject);
 var
-  ClipText: TUnicodeStrings;
+  ClipText: TStrings;
   i: Integer;
 begin
   inherited;
 
-  ClipText := TUnicodeStringList.Create;
+  ClipText := TStringList.Create;
   try
     for i := 0 to fDataList.Count - 1 do
     with TToDoInfo(fDataList[i]) do begin
@@ -700,7 +700,7 @@ end;
 
 procedure TToDoWindow.LoadFile(const FileName: string);
 Var
-  SourceCode : TUnicodeStringList;
+  SourceCode : TStringList;
   Editor : IEditor;
   i, Index : integer;
   TokenString : string;
@@ -708,7 +708,7 @@ Var
   Info, OldInfo : TToDoInfo;
   PStart : PWideChar;
 begin
-  SourceCode := TUnicodeStringList.Create;
+  SourceCode := TStringList.Create;
   try
     //  Read file into SourceCode
     Editor := GI_EditorFactory.GetEditorByNameOrTitle(FileName);

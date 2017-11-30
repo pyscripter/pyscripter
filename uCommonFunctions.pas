@@ -137,23 +137,24 @@ function VSNextWordPos(SynEdit: TCustomSynEdit; const XY: TBufferCoord): TBuffer
 function VSPrevWordPos(SynEdit: TCustomSynEdit; const XY: TBufferCoord): TBufferCoord;
 
 (* Get the text between two Synedit Block coordinates *)
-function GetBlockText(Strings : SynUnicode.TUnicodeStrings; BlockBegin, BlockEnd : TBufferCoord) : string;
+function GetBlockText(Strings : TStrings; BlockBegin, BlockEnd : TBufferCoord) : string;
 
 (* Extract Error information from a VarPyth variant containing the Python error *)
 procedure ExtractPyErrorInfo(E: Variant; var FileName: string; var LineNo: Integer; var Offset: Integer);
 
 (* Get Encoded Ansi string from WideStrings ttaking into account Python file encodings *)
 function WideStringsToEncodedText(const AFileName: string;
-  Lines : SynUnicode.TUnicodeStrings; Encoding : TFileSaveFormat; var EncodedText: AnsiString;
-  InformationLossWarning: Boolean = False; IsPython: Boolean = False) : Boolean;
+  Lines : TStrings; var EncodedText: AnsiString;
+  InformationLossWarning: Boolean = False;
+  IsPython: Boolean = False) : Boolean;
 
 (* Load file into WideStrings taking into account Python file encodings *)
 function LoadFileIntoWideStrings(const AFileName: string;
-  Lines : SynUnicode.TUnicodeStrings; var Encoding : TFileSaveFormat): boolean;
+  Lines : TStrings; var Encoding : TFileSaveFormat): boolean;
 
 (* Save WideStrings to file taking into account Python file encodings *)
 function SaveWideStringsToFile(const AFileName: string;
-  Lines : SynUnicode.TUnicodeStrings; Encoding : TFileSaveFormat;
+  Lines : TStrings; Encoding : TFileSaveFormat;
   DoBackup : Boolean = True) : boolean;
 
 (* Read File contents. Allows reading of locked files *)
@@ -234,6 +235,13 @@ function IsStyledWindowsColorDark : boolean;
 Const
   IdentRE = '[A-Za-z_][A-Za-z0-9_]*';
   DottedIdentRE = '[A-Za-z_][A-Za-z0-9_.]*';
+
+Type
+  {  TStringlist that preserves the LineBreak of a read File }
+  TLineBreakStringList = class(TStringList)
+  protected
+    procedure SetTextStr(const Value: string); override;
+  end;
 
 implementation
 Uses
@@ -1133,7 +1141,7 @@ begin
   end;
 end;
 
-function GetBlockText(Strings : SynUnicode.TUnicodeStrings; BlockBegin, BlockEnd : TBufferCoord) : string;
+function GetBlockText(Strings : TStrings; BlockBegin, BlockEnd : TBufferCoord) : string;
 Var
   Line :  integer;
 begin
@@ -1294,109 +1302,95 @@ begin
 end;
 
 function WideStringsToEncodedText(const AFileName: string;
-  Lines : SynUnicode.TUnicodeStrings; Encoding : TFileSaveFormat; var EncodedText: AnsiString;
-  InformationLossWarning: Boolean = False; IsPython: Boolean = False) : Boolean;
+  Lines : TStrings; var EncodedText: AnsiString;
+  InformationLossWarning: Boolean = False;
+  IsPython: Boolean = False) : Boolean;
 // AFileName is passed just for the warning
 var
   PyEncoding : string;
   UniPy, EncodedString : PPyObject;
-  wStr, LineBreak : string;
+  wStr: string;
   SuppressOutput : IInterface;
+  OldLineBreak : string;
 begin
   Result := True;
 
-  case Lines.FileFormat of
-    sffDos:
-      LineBreak := WideCRLF;
-    sffUnix:
-      LineBreak := WideLF;
-    sffMac:
-      LineBreak := WideCR;
-    sffUnicode:
-      if Encoding = sf_Ansi then
-        // Ansi-file cannot contain Unicode LINE SEPARATOR,
-        // so default to platform-specific Ansi-compatible LineBreak
-        LineBreak := SynUnicode.SLineBreak
-      else
-        LineBreak := WideLineSeparator;
-  end;
+  //  Encoded strings cannot contain WideLineSeparator
+  OldLineBreak := Lines.LineBreak;
+  if Lines.LineBreak = WideLineSeparator then
+    Lines.LineBreak := sLineBreak;
 
-  wStr := Lines.GetSeparatedText(LineBreak);
+  wStr := Lines.Text;
+  Lines.LineBreak := OldLineBreak;
 
-  case Encoding of
-    sf_Ansi :
-      if IsPython or CommandsDataModule.FileIsPythonSource(AFileName) then begin
-        PyEncoding := '';
-        if Lines.Count > 0 then
-          PyEncoding := ParsePySourceEncoding(Lines[0]);
-        if (PyEncoding = '') and (Lines.Count > 1) then
-          PyEncoding := ParsePySourceEncoding(Lines[1]);
+  if IsPython or CommandsDataModule.FileIsPythonSource(AFileName) then begin
+    PyEncoding := '';
+    if Lines.Count > 0 then
+      PyEncoding := ParsePySourceEncoding(Lines[0]);
+    if (PyEncoding = '') and (Lines.Count > 1) then
+      PyEncoding := ParsePySourceEncoding(Lines[1]);
 
-        with GetPythonEngine do begin
-          if PyEncoding = '' then
-            PyEncoding := SysModule.getdefaultencoding();
-          SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
-          UniPy := nil;
-          EncodedString := nil;
-          try
+    with GetPythonEngine do begin
+      if PyEncoding = '' then
+        PyEncoding := SysModule.getdefaultencoding();
+      SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
+      UniPy := nil;
+      EncodedString := nil;
+      try
+        try
+          UniPy := PyUnicode_FromWideChar(PWideChar(wStr), Length(wStr));
+          CheckError;
+          if InformationLossWarning then begin
             try
-              UniPy := PyUnicode_FromWideChar(PWideChar(wStr), Length(wStr));
+              EncodedString := PyUnicode_AsEncodedString(UniPy, PAnsiChar(AnsiString(PyEncoding)), 'strict');
               CheckError;
-              if InformationLossWarning then begin
-                try
-                  EncodedString := PyUnicode_AsEncodedString(UniPy, PAnsiChar(AnsiString(PyEncoding)), 'strict');
+              EncodedText := PyString_AsAnsiString(EncodedString);
+              CheckError;
+            except
+              on UnicodeEncodeError do begin
+                Result :=
+                  Dialogs.MessageDlg(Format(_(SFileEncodingWarning),
+                    [AFileName, PyEncoding]), mtWarning, [mbYes, mbCancel], 0)= mrYes;
+                if Result then begin
+                  EncodedString := PyUnicode_AsEncodedString(UniPy,
+                    PAnsiChar(AnsiString(PyEncoding)), PAnsiChar(AnsiString('replace')));
                   CheckError;
                   EncodedText := PyString_AsAnsiString(EncodedString);
                   CheckError;
-                except
-                  on UnicodeEncodeError do begin
-                    Result :=
-                      Dialogs.MessageDlg(Format(_(SFileEncodingWarning),
-                        [AFileName, PyEncoding]), mtWarning, [mbYes, mbCancel], 0)= mrYes;
-                    if Result then begin
-                      EncodedString := PyUnicode_AsEncodedString(UniPy,
-                        PAnsiChar(AnsiString(PyEncoding)), PAnsiChar(AnsiString('replace')));
-                      CheckError;
-                      EncodedText := PyString_AsAnsiString(EncodedString);
-                      CheckError;
-                    end;
-                  end;
                 end;
-              end else begin
-                EncodedString := PyUnicode_AsEncodedString(UniPy, PAnsiChar(AnsiString(PyEncoding)), 'replace');
-                CheckError;
-                EncodedText := PyString_AsAnsiString(EncodedString);
-                CheckError;
               end;
-            finally
-              Py_XDECREF(UniPy);
-              Py_XDECREF(EncodedString);
             end;
-          except
-            PyErr_Clear;
-            EncodedText := AnsiString(wStr);
-            if InformationLossWarning then
-              Result :=
-                Dialogs.MessageDlg(Format(_(SFileEncodingWarning),
-                  [AFileName, PyEncoding]), mtWarning, [mbYes, mbCancel], 0)= mrYes ;
+          end else begin
+            EncodedString := PyUnicode_AsEncodedString(UniPy, PAnsiChar(AnsiString(PyEncoding)), 'replace');
+            CheckError;
+            EncodedText := PyString_AsAnsiString(EncodedString);
+            CheckError;
           end;
+        finally
+          Py_XDECREF(UniPy);
+          Py_XDECREF(EncodedString);
         end;
-      end else begin
+      except
+        PyErr_Clear;
         EncodedText := AnsiString(wStr);
-        if InformationLossWarning and not IsAnsiOnly(wStr) then begin
+        if InformationLossWarning then
           Result :=
             Dialogs.MessageDlg(Format(_(SFileEncodingWarning),
-            [AFileName, 'ANSI']), mtWarning, [mbYes, mbCancel], 0)= mrYes ;
-        end;
+              [AFileName, PyEncoding]), mtWarning, [mbYes, mbCancel], 0)= mrYes ;
       end;
-    sf_UTF8 : EncodedText := UTF8BOMString + UTF8Encode(wStr);
-    sf_UTF8_NoBOM : EncodedText := UTF8Encode(wStr);
-    sf_UTF16LE, sf_UTF16BE : EncodedText := AnsiString(wStr);
+    end;
+  end else begin
+    EncodedText := AnsiString(wStr);
+    if InformationLossWarning and not IsAnsiOnly(wStr) then begin
+      Result :=
+        Dialogs.MessageDlg(Format(_(SFileEncodingWarning),
+        [AFileName, 'ANSI']), mtWarning, [mbYes, mbCancel], 0)= mrYes ;
+    end;
   end;
 end;
 
 function LoadFileIntoWideStrings(const AFileName: string;
-  Lines : SynUnicode.TUnicodeStrings; var Encoding : TFileSaveFormat): boolean;
+  Lines : TStrings; var Encoding : TFileSaveFormat): boolean;
 Var
   FileStream : TFileStream;
   FileText, S, PyEncoding : AnsiString;
@@ -1504,7 +1498,7 @@ end;
 
 (* Save WideStrings to file taking into account Python file encodings *)
 function SaveWideStringsToFile(const AFileName: string;
-  Lines : SynUnicode.TUnicodeStrings; Encoding : TFileSaveFormat;
+  Lines : TStrings; Encoding : TFileSaveFormat;
   DoBackup : Boolean = True) : boolean;
 Var
   FileStream : TFileStream;
@@ -1526,7 +1520,7 @@ begin
     Result := True;
 
     if Encoding = sf_Ansi then
-      Result := WideStringsToEncodedText(AFileName, Lines, Encoding, S, True);
+      Result := WideStringsToEncodedText(AFileName, Lines, S, True);
 
     if Result then begin
       FileStream := TFileStream.Create(AFileName, fmCreate);
@@ -1570,13 +1564,13 @@ end;
 
 function FileToEncodedStr(const AFileName : string) : AnsiString;
 Var
-  SL : SynUnicode.TUnicodeStrings;
+  SL : TStrings;
   Encoding: TFileSaveFormat;
 begin
-  SL := SynUnicode.TUnicodeStringList.Create;
+  SL := TStringList.Create;
   try
     LoadFileIntoWideStrings(AFileName, SL, Encoding);
-    WideStringsToEncodedText(AFileName, SL, Encoding, Result, False);
+    WideStringsToEncodedText(AFileName, SL, Result, False);
   finally
     SL.Free;
   end;
@@ -1585,10 +1579,10 @@ end;
 
 function FileToStr(const AFileName : string) : string;
 Var
-  SL : SynUnicode.TUnicodeStrings;
+  SL : TStrings;
   Encoding : TFileSaveFormat;
 begin
-  SL := SynUnicode.TUnicodeStringList.Create;
+  SL := TStringList.Create;
   try
     LoadFileIntoWideStrings(AFileName, SL, Encoding);
     Result := SL.Text;
@@ -1844,6 +1838,72 @@ end;
 function IsStyledWindowsColorDark : boolean;
 begin
   Result := IsColorDark(StyleServices.GetSystemColor(clWindow));
+end;
+
+{ TLineBreakeStingList }
+
+procedure TLineBreakStringList.SetTextStr(const Value: string);
+var
+  S: string;
+  Size: Integer;
+  P, Start, Pmax: PWideChar;
+  fCR, fLF, fWideLineSeparater: Boolean;
+begin
+  fWideLineSeparater := False;
+  fCR := False;
+  fLF := False;
+  BeginUpdate;
+  try
+    Clear;
+    P := Pointer(Value);
+    if P <> nil then
+    begin
+      Size := Length(Value);
+      Pmax := @Value[Size];
+      while (P <= Pmax) do
+      begin
+        Start := P;
+        while (P^ <> WideCR) and (P^ <> WideLF) and (P^ <> WideLineSeparator) and (P <= Pmax) do
+        begin
+          Inc(P);
+        end;
+        if P<>Start then
+        begin
+          SetString(S, Start, P - Start);
+          InsertItem(Count, S, nil);
+        end else InsertItem(Count, '', nil);
+        if P^ = WideLineSeparator then
+        begin
+          fWideLineSeparater := True;
+          Inc(P);
+        end;
+        if P^ = WideCR then
+        begin
+          fCR := True;
+          Inc(P);
+        end;
+        if P^ = WideLF then
+        begin
+          fLF := True;
+          Inc(P);
+        end;
+      end;
+      // keep the old format of the file
+      if (CharInSet(Value[Size], [#10, #13]) or (Value[Size] = WideLineSeparator))
+      then
+        InsertItem(Count, '', nil);
+    end;
+  finally
+    EndUpdate;
+  end;
+  if fWideLineSeparater then
+    LineBreak := WideLineSeparator
+  else if fCR and not fLF then
+    LineBreak := WideCR
+  else if fLF and not fCR then
+    LineBreak := WideLF
+  else
+    LineBreak := sLineBreak;
 end;
 
 initialization

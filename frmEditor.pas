@@ -593,7 +593,7 @@ function TEditor.GetEncodedTextEx(var EncodedText: AnsiString;
   InformationLossWarning: boolean): boolean;
 begin
   Result := WideStringsToEncodedText(GetFileNameOrTitle, fForm.SynEdit.Lines,
-    fFileEncoding, EncodedText, InformationLossWarning, HasPythonFile);
+    EncodedText, InformationLossWarning, HasPythonFile);
 end;
 
 function TEditor.GetFileName: string;

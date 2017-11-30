@@ -126,9 +126,9 @@ type
     FOnMeasureItem: TSynBaseCompletionProposalMeasureItem;
     FOnChangePosition: TCompletionChange;
     FOnCodeItemInfo: TCodeItemInfo;
-    FItemList: TUnicodeStrings;
-    FInsertList: TUnicodeStrings;
-    FAssignedList: TUnicodeStrings;
+    FItemList: TStrings;
+    FInsertList: TStrings;
+    FAssignedList: TStrings;
     FPosition: Integer;
     FLinesInWindow: Integer;
     FTitleFontHeight: Integer;
@@ -178,8 +178,8 @@ type
     procedure ScrollbarOnScroll(Sender: TObject; ScrollCode: TScrollCode; var ScrollPos: Integer);
     procedure ScrollbarOnEnter(Sender: TObject);
 
-    procedure SetItemList(const Value: TUnicodeStrings);
-    procedure SetInsertList(const Value: TUnicodeStrings);
+    procedure SetItemList(const Value: TStrings);
+    procedure SetInsertList(const Value: TStrings);
     procedure SetPosition(const Value: Integer);
     procedure SetResizeable(const Value: Boolean);
     procedure SetItemHeight(const Value: Integer);
@@ -239,9 +239,9 @@ type
     property OnMeasureItem: TSynBaseCompletionProposalMeasureItem read FOnMeasureItem write FOnMeasureItem;
     property OnValidate: TValidateEvent read FOnValidate write FOnValidate;
     property OnCancel: TNotifyEvent read FOnCancel write FOnCancel;
-    property ItemList: TUnicodeStrings read FItemList write SetItemList;
-    property InsertList: TUnicodeStrings read FInsertList write SetInsertList;
-    property AssignedList: TUnicodeStrings read FAssignedList write FAssignedList;
+    property ItemList: TStrings read FItemList write SetItemList;
+    property InsertList: TStrings read FInsertList write SetInsertList;
+    property AssignedList: TStrings read FAssignedList write FAssignedList;
     property Position: Integer read FPosition write SetPosition;
     property Title: UnicodeString read fTitle write SetTitle;
     property ClSelect: TColor read FClSelect write FClSelect default clHighlight;
@@ -286,8 +286,8 @@ type
     function GetClSelect: TColor;
     procedure SetClSelect(const Value: TColor);
     function GetCurrentString: UnicodeString;
-    function GetItemList: TUnicodeStrings;
-    function GetInsertList: TUnicodeStrings;
+    function GetItemList: TStrings;
+    function GetInsertList: TStrings;
     function GetOnCancel: TNotifyEvent;
     function GetOnKeyPress: TKeyPressWEvent;
     function GetOnPaintItem: TSynBaseCompletionProposalPaintItem;
@@ -295,8 +295,8 @@ type
     function GetOnValidate: TValidateEvent;
     function GetPosition: Integer;
     procedure SetCurrentString(const Value: UnicodeString);
-    procedure SetItemList(const Value: TUnicodeStrings);
-    procedure SetInsertList(const Value: TUnicodeStrings);
+    procedure SetItemList(const Value: TStrings);
+    procedure SetInsertList(const Value: TStrings);
     procedure SetNbLinesInWindow(const Value: Integer);
     procedure SetOnCancel(const Value: TNotifyEvent);
     procedure SetOnKeyPress(const Value: TKeyPressWEvent);
@@ -379,8 +379,8 @@ type
     property DefaultType: SynCompletionType read GetDefaultKind write SetDefaultKind default ctCode;
     property Options: TSynCompletionOptions read GetOptions write SetOptions default DefaultProposalOptions;
 
-    property ItemList: TUnicodeStrings read GetItemList write SetItemList;
-    property InsertList: TUnicodeStrings read GetInsertList write SetInsertList;
+    property ItemList: TStrings read GetItemList write SetItemList;
+    property InsertList: TStrings read GetInsertList write SetInsertList;
     property NbLinesInWindow: Integer read FNbLinesInWindow write SetNbLinesInWindow default 8;
     property ClSelect: TColor read GetClSelect write SetClSelect default clHighlight;
     property ClSelectedText: TColor read GetClSelectedText write SetClSelectedText default clHighlightText;
@@ -472,7 +472,7 @@ type
   private
     FShortCut: TShortCut;
     fEditor: TCustomSynEdit;
-    fAutoCompleteList: TUnicodeStrings;
+    fAutoCompleteList: TStrings;
     fNoNextKey : Boolean;
     FEndOfTokenChr: UnicodeString;
     FOnBeforeExecute: TNotifyEvent;
@@ -480,7 +480,7 @@ type
     FInternalCompletion: TSynCompletionProposal;
     FDoLookup: Boolean;
     FOptions: TSynCompletionOptions;
-    procedure SetAutoCompleteList(List: TUnicodeStrings);
+    procedure SetAutoCompleteList(List: TStrings);
     procedure SetEditor(const Value: TCustomSynEdit);
     procedure SetDoLookup(const Value: Boolean);
     procedure CreateInternalCompletion;
@@ -509,7 +509,7 @@ type
     procedure CancelCompletion;
     property Executing: Boolean read GetExecuting;
   published
-    property AutoCompleteList: TUnicodeStrings read fAutoCompleteList
+    property AutoCompleteList: TStrings read fAutoCompleteList
       write SetAutoCompleteList;
     property EndOfTokenChr: UnicodeString read FEndOfTokenChr write FEndOfTokenChr;
     property Editor: TCustomSynEdit read fEditor write SetEditor;
@@ -566,9 +566,7 @@ function PrettyTextToFormattedString(const APrettyText: UnicodeString;
 implementation
 
 uses
-{$IFDEF SYN_COMPILER_4_UP}
   Math,
-{$ENDIF}
   SynEditTextBuffer,
   SynEditMiscProcs,
   SynEditKeyConst,
@@ -1173,10 +1171,10 @@ end;
 function FormatParamList(const S: UnicodeString; CurrentIndex: Integer): UnicodeString;
 var
   i: Integer;
-  List: TUnicodeStrings;
+  List: TStrings;
 begin
   Result := '';
-  List := TUnicodeStringList.Create;
+  List := TStringList.Create;
   try
     List.StrictDelimiter := True;
     List.CommaText := S;
@@ -1209,9 +1207,9 @@ begin
 {$ENDIF}
   Bitmap := TBitmap.Create;
   TitleBitmap := TBitmap.Create;
-  FItemList := TUnicodeStringList.Create;
-  FInsertList := TUnicodeStringList.Create;
-  FAssignedList := TUnicodeStringList.Create;
+  FItemList := TStringList.Create;
+  FInsertList := TStringList.Create;
+  FAssignedList := TStringList.Create;
   FMatchText := False;
   BorderStyle := bsNone;
   FScrollbar := TScrollBar.Create(Self);
@@ -1239,7 +1237,7 @@ begin
   ClTitleBackground := clBtnFace;
 
 
-  (FItemList as TUnicodeStringList).OnChange := StringListChange;  // Really necessary? It seems to work
+  (FItemList as TStringList).OnChange := StringListChange;  // Really necessary? It seems to work
   FTitle := '';                                             // fine without it
   FUseInsertList := False;
   FFormattedText := False;
@@ -1848,14 +1846,14 @@ begin
   end;
 end;
 
-procedure TSynBaseCompletionProposalForm.SetItemList(const Value: TUnicodeStrings);
+procedure TSynBaseCompletionProposalForm.SetItemList(const Value: TStrings);
 begin
   FItemList.Assign(Value);
   FAssignedList.Assign(Value);
   CurrentString := CurrentString;
 end;
 
-procedure TSynBaseCompletionProposalForm.SetInsertList(const Value: TUnicodeStrings);
+procedure TSynBaseCompletionProposalForm.SetInsertList(const Value: TStrings);
 begin
   FInsertList.Assign(Value);
 end;
@@ -2294,10 +2292,10 @@ Var
   function GetParamWidth(const S: UnicodeString): Integer;
   var
     i: Integer;
-    List: TUnicodeStringList;
+    List: TStringList;
     NewWidth: Integer;
   begin
-    List := TUnicodeStringList.Create;
+    List := TStringList.Create;
     try
       List.CommaText := S;
 
@@ -2483,12 +2481,12 @@ begin
   Result := Form.CurrentString;
 end;
 
-function TSynBaseCompletionProposal.GetItemList: TUnicodeStrings;
+function TSynBaseCompletionProposal.GetItemList: TStrings;
 begin
   Result := Form.ItemList;
 end;
 
-function TSynBaseCompletionProposal.GetInsertList: TUnicodeStrings;
+function TSynBaseCompletionProposal.GetInsertList: TStrings;
 begin
   Result := Form.InsertList;
 end;
@@ -2528,12 +2526,12 @@ begin
   Form.CurrentString := Value;
 end;
 
-procedure TSynBaseCompletionProposal.SetItemList(const Value: TUnicodeStrings);
+procedure TSynBaseCompletionProposal.SetItemList(const Value: TStrings);
 begin
   Form.ItemList := Value;
 end;
 
-procedure TSynBaseCompletionProposal.SetInsertList(const Value: TUnicodeStrings);
+procedure TSynBaseCompletionProposal.SetInsertList(const Value: TStrings);
 begin
   Form.InsertList := Value;
 end;
@@ -3439,7 +3437,7 @@ begin
   FDoLookup := True;
   CreateInternalCompletion;
   FEndOfTokenChr := DefaultEndOfTokenChr;
-  fAutoCompleteList := TUnicodeStringList.Create;
+  fAutoCompleteList := TStringList.Create;
   fNoNextKey := false;
   fShortCut := Menus.ShortCut(Ord(' '), [ssShift]);
 end;
@@ -3642,7 +3640,7 @@ begin
   inherited Notification(AComponent, Operation);
 end;
 
-procedure TSynAutoComplete.SetAutoCompleteList(List: TUnicodeStrings);
+procedure TSynAutoComplete.SetAutoCompleteList(List: TStrings);
 begin
   fAutoCompleteList.Assign(List);
 end;
@@ -3671,12 +3669,12 @@ end;
 
 function TSynAutoComplete.GetTokenList: UnicodeString;
 var
-  List: TUnicodeStringList;
+  List: TStringList;
   i: integer;
 begin
   Result := '';
   if AutoCompleteList.Count < 1 then Exit;
-  List := TUnicodeStringList.Create;
+  List := TStringList.Create;
   i := 0;
   while (i < AutoCompleteList.Count) do begin
     if (length(AutoCompleteList[i]) > 0) and (AutoCompleteList[i][1] <> '=') then
@@ -3690,13 +3688,13 @@ end;
 function TSynAutoComplete.GetTokenValue(Token: UnicodeString): UnicodeString;
 var
   i: integer;
-  List: TUnicodeStringList;
+  List: TStringList;
 begin
   Result := '';
   i := AutoCompleteList.IndexOf(Token);
   if i <> -1 then
   begin
-    List := TUnicodeStringList.Create;
+    List := TStringList.Create;
     Inc(i);
     while (i < AutoCompleteList.Count) and
       (length(AutoCompleteList[i]) > 0) and

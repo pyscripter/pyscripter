@@ -43,153 +43,159 @@ inherited FindResultsWindow: TFindResultsWindow
   OnKeyPress = FormKeyPress
   OnShow = FormShow
   ExplicitWidth = 619
-  ExplicitHeight = 392
+  ExplicitHeight = 397
   PixelsPerInch = 96
   TextHeight = 13
-  inherited FGPanel: TPanel
-    Width = 599
-    Height = 354
-    ExplicitLeft = 2
-    ExplicitTop = 2
-    ExplicitWidth = 599
-    ExplicitHeight = 354
-    object pnlMain: TPanel
-      Left = 0
-      Top = 0
+  inherited BGPanel: TSpTBXPanel
+    Width = 603
+    Height = 358
+    ExplicitLeft = 0
+    ExplicitTop = 0
+    ExplicitWidth = 603
+    ExplicitHeight = 358
+    inherited FGPanel: TPanel
       Width = 599
-      Height = 330
-      Align = alClient
-      BevelOuter = bvNone
-      FullRepaint = False
-      PopupMenu = TBXPopupMenu
-      TabOrder = 0
-      object Splitter: TSpTBXSplitter
-        Left = 0
-        Top = 234
-        Width = 599
-        Height = 8
-        Cursor = crSizeNS
-        Align = alBottom
-        MinSize = 20
-      end
-      object TBXDock1: TSpTBXDock
+      Height = 354
+      ExplicitWidth = 599
+      ExplicitHeight = 354
+      object pnlMain: TPanel
         Left = 0
         Top = 0
         Width = 599
-        Height = 26
-        AllowDrag = False
-        object ToolBar: TSpTBXToolbar
+        Height = 330
+        Align = alClient
+        BevelOuter = bvNone
+        FullRepaint = False
+        PopupMenu = TBXPopupMenu
+        TabOrder = 0
+        object Splitter: TSpTBXSplitter
+          Left = 0
+          Top = 234
+          Width = 599
+          Height = 8
+          Cursor = crSizeNS
+          Align = alBottom
+          MinSize = 20
+        end
+        object TBXDock1: TSpTBXDock
           Left = 0
           Top = 0
-          DockPos = 0
-          FullSize = True
-          Images = CommandsDataModule.Images
-          TabOrder = 0
-          Customizable = False
-          object tbiSearch: TSpTBXItem
-            Action = actFileSearch
-          end
-          object tbiRefresh: TSpTBXItem
-            Action = actFileRefresh
-          end
-          object TBXSeparatorItem1: TSpTBXSeparatorItem
-          end
-          object tbiAbort: TSpTBXItem
-            Action = actFileAbort
-          end
-          object TBXSeparatorItem2: TSpTBXSeparatorItem
-          end
-          object tbiGoToSelected: TSpTBXItem
-            Action = actListGotoSelected
-          end
-          object TBXSeparatorItem3: TSpTBXSeparatorItem
-          end
-          object tbiPrint: TSpTBXItem
-            Action = actFilePrint
-          end
-          object tbiCopy: TSpTBXItem
-            Action = actFileCopy
-          end
-          object tbiSave: TSpTBXItem
-            Action = actFileSave
-          end
-          object TBXSeparatorItem4: TSpTBXSeparatorItem
-          end
-          object tbiExpand: TSpTBXItem
-            Action = actListExpand
-          end
-          object tbiContract: TSpTBXItem
-            Action = actListContract
-          end
-          object TBXSeparatorItem5: TSpTBXSeparatorItem
-          end
-          object tbiReplaceSelected: TSpTBXItem
-            Action = actReplaceSelected
-          end
-          object tbiReplaceAll: TSpTBXItem
-            Action = actReplaceAll
-          end
-          object TBXSeparatorItem6: TSpTBXSeparatorItem
-          end
-          object tbiOptions: TSpTBXItem
-            Action = actViewOptions
-          end
-          object TBXSeparatorItem8: TSpTBXSeparatorItem
-          end
-          object tbiHelp: TSpTBXItem
-            Action = actHelpHelp
+          Width = 599
+          Height = 26
+          AllowDrag = False
+          object ToolBar: TSpTBXToolbar
+            Left = 0
+            Top = 0
+            DockPos = 0
+            FullSize = True
+            Images = CommandsDataModule.Images
+            TabOrder = 0
+            Customizable = False
+            object tbiSearch: TSpTBXItem
+              Action = actFileSearch
+            end
+            object tbiRefresh: TSpTBXItem
+              Action = actFileRefresh
+            end
+            object TBXSeparatorItem1: TSpTBXSeparatorItem
+            end
+            object tbiAbort: TSpTBXItem
+              Action = actFileAbort
+            end
+            object TBXSeparatorItem2: TSpTBXSeparatorItem
+            end
+            object tbiGoToSelected: TSpTBXItem
+              Action = actListGotoSelected
+            end
+            object TBXSeparatorItem3: TSpTBXSeparatorItem
+            end
+            object tbiPrint: TSpTBXItem
+              Action = actFilePrint
+            end
+            object tbiCopy: TSpTBXItem
+              Action = actFileCopy
+            end
+            object tbiSave: TSpTBXItem
+              Action = actFileSave
+            end
+            object TBXSeparatorItem4: TSpTBXSeparatorItem
+            end
+            object tbiExpand: TSpTBXItem
+              Action = actListExpand
+            end
+            object tbiContract: TSpTBXItem
+              Action = actListContract
+            end
+            object TBXSeparatorItem5: TSpTBXSeparatorItem
+            end
+            object tbiReplaceSelected: TSpTBXItem
+              Action = actReplaceSelected
+            end
+            object tbiReplaceAll: TSpTBXItem
+              Action = actReplaceAll
+            end
+            object TBXSeparatorItem6: TSpTBXSeparatorItem
+            end
+            object tbiOptions: TSpTBXItem
+              Action = actViewOptions
+            end
+            object TBXSeparatorItem8: TSpTBXSeparatorItem
+            end
+            object tbiHelp: TSpTBXItem
+              Action = actHelpHelp
+            end
           end
         end
+        object lbResults: TSpTBXListBox
+          Left = 0
+          Top = 26
+          Width = 599
+          Height = 208
+          Align = alClient
+          Constraints.MinHeight = 120
+          ItemHeight = 17
+          TabOrder = 0
+          OnClick = lbResultsClick
+          OnDblClick = actListGotoSelectedExecute
+          OnDrawItem = lbResultsDrawItem
+          OnKeyPress = lbResultsKeyPress
+          OnMouseUp = lbResultsMouseUp
+          HotTrack = False
+        end
+        object reContext: TRichEdit
+          Left = 0
+          Top = 242
+          Width = 599
+          Height = 88
+          Align = alBottom
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'MS Shell Dlg 2'
+          Font.Style = []
+          ParentFont = False
+          ReadOnly = True
+          ScrollBars = ssBoth
+          TabOrder = 1
+          WordWrap = False
+          Zoom = 100
+        end
       end
-      object lbResults: TSpTBXListBox
+      object StatusBar: TSpTBXStatusBar
         Left = 0
-        Top = 26
+        Top = 330
         Width = 599
-        Height = 208
-        Align = alClient
-        Constraints.MinHeight = 120
-        ItemHeight = 17
-        TabOrder = 0
-        OnClick = lbResultsClick
-        OnDblClick = actListGotoSelectedExecute
-        OnDrawItem = lbResultsDrawItem
-        OnKeyPress = lbResultsKeyPress
-        OnMouseUp = lbResultsMouseUp
-        HotTrack = False
-      end
-      object reContext: TRichEdit
-        Left = 0
-        Top = 242
-        Width = 599
-        Height = 88
-        Align = alBottom
-        Font.Charset = GREEK_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -11
-        Font.Name = 'MS Shell Dlg 2'
-        Font.Style = []
-        ParentFont = False
-        ReadOnly = True
-        ScrollBars = ssBoth
-        TabOrder = 1
-        WordWrap = False
-        Zoom = 100
-      end
-    end
-    object StatusBar: TSpTBXStatusBar
-      Left = 0
-      Top = 330
-      Width = 599
-      Height = 24
-      object StatusLeftLabel: TSpTBXLabelItem
-        Wrapping = twEndEllipsis
-        MinHeight = 20
-      end
-      object SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem
-        CustomWidth = 570
-      end
-      object StatusRightLabel: TSpTBXLabelItem
-        Alignment = taRightJustify
+        Height = 24
+        object StatusLeftLabel: TSpTBXLabelItem
+          Wrapping = twEndEllipsis
+          MinHeight = 20
+        end
+        object SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem
+          CustomWidth = 570
+        end
+        object StatusRightLabel: TSpTBXLabelItem
+          Alignment = taRightJustify
+        end
       end
     end
   end

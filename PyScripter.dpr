@@ -95,8 +95,6 @@ uses
   dlgImportDirectory in 'dlgImportDirectory.pas' {ImportDirectoryForm},
   dlgRunConfiguration in 'dlgRunConfiguration.pas' {RunConfigurationForm},
   SynHighlighterWeb in 'SynHighlighterWeb.pas',
-  SynEditTextBuffer in 'SynEditTextBuffer.pas',
-  SynUnicode in 'SynUnicode.pas',
   gnugettext in 'gnugettext.pas',
   dlgPyIDEBase in 'dlgPyIDEBase.pas' {PyIDEDlgBase},
   JvDockInfo in 'JvDockInfo.pas',

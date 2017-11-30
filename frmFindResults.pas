@@ -50,7 +50,8 @@ uses
   Dialogs, frmIDEDockWin, JvDockControlForm, ExtCtrls, Menus,
   ActnList, ComCtrls, StdCtrls, cFindInFiles, JvAppStorage,
   TB2Item, TB2Dock, TB2Toolbar, JvComponentBase,  SpTBXSkins,
-  SpTBXItem, SynUnicode, SpTBXEditors, SpTBXDkPanels, System.Actions;
+  SpTBXItem, SpTBXEditors, SpTBXDkPanels, System.Actions,
+  SpTBXControls;
 
 type
   TFindResultsWindow = class(TIDEDockWindow, IJvAppStorageHandler)
@@ -154,7 +155,7 @@ type
     FSearcher: TGrepSearchRunner;
     FShowContext: Boolean;
     FDoSearchReplace: Boolean;
-    fSearchResults : TUnicodeStrings;
+    fSearchResults : TStrings;
     procedure RefreshContextLines;
     procedure SetShowContext(Value: Boolean);
     procedure HighlightMemo(FileMatches: TFileResult; StartLine, MatchLineNo: Integer);
@@ -205,7 +206,7 @@ var
 
 implementation
 
-uses dmCommands, dlgFindInFiles, Math, frmPyIDEMain, uEditAppIntfs,
+uses System.UITypes, dmCommands, dlgFindInFiles, Math, frmPyIDEMain, uEditAppIntfs,
   dlgReplaceInFiles, SynEdit, SynEditTypes, JclFileUtils, uCommonFunctions,
   JvJVCLUtils, gnugettext, StringResources, SynRegExpr;
 
@@ -616,7 +617,7 @@ end;
 constructor TFindResultsWindow.Create(AOwner: TComponent);
 begin
   inherited;
-  fSearchResults := TUnicodeStringList.Create;
+  fSearchResults := TStringList.Create;
   FSearchInProgress := False;
   //lbResults.DoubleBuffered := True;
   ShowContext := True;
@@ -848,7 +849,7 @@ begin
   end;
 end;
 
-function GetFileAsText(const FileName: string; Lines: TUnicodeStrings;
+function GetFileAsText(const FileName: string; Lines: TStrings;
                        var Encoding : TFileSaveFormat): Boolean;
 Var
   Editor : IEditor;
@@ -865,7 +866,7 @@ procedure TFindResultsWindow.RefreshContextLines;
 var
   CurrentLine: TLineResult;
   MatchLineNo, BeginLineNo, EndLineNo, REMatchLineNo: Integer;
-  FileLines: TUnicodeStringList;
+  FileLines: TStringList;
   FileName: string;
   i: Integer;
   Encoding : TFileSaveFormat;
@@ -886,7 +887,7 @@ begin
         FileName := TFileResult(CurrentLine.Collection).FileName;
         MatchLineNo := CurrentLine.LineNo - 1;
 
-        FileLines := TUnicodeStringList.Create;
+        FileLines := TStringList.Create;
         try
           if not GetFileAsText(FileName, FileLines, Encoding) then
           begin
@@ -1044,7 +1045,7 @@ function InternalReplace(LineMode: Boolean; ALineResult: TLineResult; AFileResul
 var
   TempString: string;
   MatchFile: string;
-  TempFile: TUnicodeStrings;
+  TempFile: TStrings;
   LineResult : TLineResult;
   Encoding : TFileSaveFormat;
   RegEx: TRegExpr;
@@ -1126,7 +1127,7 @@ begin
     MatchFile := AFileResult.FileName;
 
   RegEx := nil;
-  TempFile := TUnicodeStringList.Create;
+  TempFile := TLineBreakStringList.Create;
   try
    if GrepSettings.RegEx then
    begin

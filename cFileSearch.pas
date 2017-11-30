@@ -68,7 +68,7 @@ type
   protected
     BLine: string; // The current search line,
     FLineNo: Integer;
-    fSearchLines : TUnicodeStrings;
+    fSearchLines : TStrings;
     FNoComments: Boolean;
     FSearchOptions: TSearchOptions;
     FPattern: string;
@@ -169,7 +169,7 @@ end;
 constructor TBaseSearcher.Create;
 begin
   inherited Create;
-  FSearchLines := TUnicodeStringList.Create;
+  FSearchLines := TStringList.Create;
   FRegExpr := nil;
 end;
 
