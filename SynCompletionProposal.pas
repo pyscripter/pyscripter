@@ -50,6 +50,8 @@ unit SynCompletionProposal;
 interface
 
 uses
+  System.Types,
+  System.UITypes,
   Windows,
   Messages,
   Graphics,
@@ -68,7 +70,7 @@ uses
 type
   SynCompletionType = (ctCode, ctHint, ctParams);
 
-  TSynForm = {$IFDEF SYN_COMPILER_3_UP}TCustomForm{$ELSE}TForm{$ENDIF};
+  TSynForm = TCustomForm;
 
   TSynBaseCompletionProposalPaintItem = procedure(Sender: TObject;
     Index: Integer; TargetCanvas: TCanvas; ItemRect: TRect;
@@ -217,9 +219,7 @@ type
     procedure WMGetDlgCode(var Message: TWMGetDlgCode); message WM_GETDLGCODE;
     procedure CreateParams(var Params: TCreateParams); override;
     procedure CreateWnd; override;
-    {$IFDEF SYN_DELPHI_4_UP}
     function CanResize(var NewWidth, NewHeight: Integer): Boolean; override;
-    {$ENDIF}
     procedure ShowCodeItemInfo(Info: string);
   public
     constructor Create(AOwner: Tcomponent); override;
@@ -353,8 +353,7 @@ type
   public
     constructor Create(Aowner: TComponent); override;
     procedure Execute(s: UnicodeString; x, y: Integer);
-    procedure ExecuteEx(s: UnicodeString; x, y: Integer; Kind: SynCompletionType
-      {$IFDEF SYN_COMPILER_4_UP} = ctCode {$ENDIF}); virtual;
+    procedure ExecuteEx(s: UnicodeString; x, y: Integer; Kind: SynCompletionType = ctCode); virtual;
     procedure Activate;
     procedure Deactivate;
 
@@ -450,10 +449,9 @@ type
     procedure AddEditor(AEditor: TCustomSynEdit);
     function RemoveEditor(AEditor: TCustomSynEdit): boolean;
     function EditorsCount: integer;
-    procedure ExecuteEx(s: UnicodeString; x, y: Integer; Kind : SynCompletionType
-      {$IFDEF SYN_COMPILER_4_UP} = ctCode {$ENDIF}); override;
+    procedure ExecuteEx(s: UnicodeString; x, y: Integer; Kind : SynCompletionType = ctCode); override;
     procedure ActivateCompletion;
-    procedure CancelCompletion; 
+    procedure CancelCompletion;
     procedure ActivateTimer(ACurrentEditor: TCustomSynEdit);
     procedure DeactivateTimer;
     property Editors[i: Integer]: TCustomSynEdit read GetEditor;
@@ -542,16 +540,12 @@ type
     function GetItem(Index: Integer): TProposalColumn;
     procedure SetItem(Index: Integer; Value: TProposalColumn);
   protected
-    function GetOwner: TPersistent; {$IFDEF SYN_COMPILER_3_UP} override; {$ENDIF}
+    function GetOwner: TPersistent; override;
   public
     constructor Create(AOwner: TPersistent; ItemClass: TCollectionItemClass);
     function Add: TProposalColumn;
-    {$IFDEF SYN_COMPILER_3_UP}
     function FindItemID(ID: Integer): TProposalColumn;
-    {$ENDIF}
-    {$IFDEF SYN_COMPILER_4_UP}
     function Insert(Index: Integer): TProposalColumn;
-    {$ENDIF}
     property Items[Index: Integer]: TProposalColumn read GetItem write SetItem; default;
   end;
 
@@ -561,7 +555,7 @@ procedure FormattedTextOut(TargetCanvas: TCanvas; const Rect: TRect;
 function FormattedTextWidth(TargetCanvas: TCanvas; const Text: UnicodeString;
   Columns: TProposalColumns; Images: TImageList): Integer;
 function PrettyTextToFormattedString(const APrettyText: UnicodeString;
-  AlternateBoldStyle: Boolean {$IFDEF SYN_COMPILER_4_UP} = False {$ENDIF}): UnicodeString;
+  AlternateBoldStyle: Boolean = False): UnicodeString;
 
 implementation
 
@@ -1034,7 +1028,7 @@ begin
 end;
 
 function PrettyTextToFormattedString(const APrettyText: UnicodeString;
-  AlternateBoldStyle: Boolean {$IFDEF SYN_COMPILER_4_UP} = False {$ENDIF}): UnicodeString;
+  AlternateBoldStyle: Boolean = False): UnicodeString;
 var
   i: Integer;
   Color: TColor;
@@ -1116,9 +1110,6 @@ end;
 procedure TProposalColumn.DefineProperties(Filer: TFiler);
 begin
   inherited;
-{$IFNDEF UNICODE}
-  UnicodeDefineProperties(Filer, Self);
-{$ENDIF}
 end;
 
 constructor TProposalColumns.Create(AOwner: TPersistent; ItemClass: TCollectionItemClass);
@@ -1147,20 +1138,15 @@ begin
   Result := inherited Add as TProposalColumn;
 end;
 
-
-{$IFDEF SYN_COMPILER_3_UP}
 function TProposalColumns.FindItemID(ID: Integer): TProposalColumn;
 begin
   Result := inherited FindItemID(ID) as TProposalColumn;
 end;
-{$ENDIF}
 
-{$IFDEF SYN_COMPILER_4_UP}
 function TProposalColumns.Insert(Index: Integer): TProposalColumn;
 begin
   Result := inherited Insert(Index) as TProposalColumn;
 end;
-{$ENDIF}
 
 
 
@@ -1200,11 +1186,7 @@ end;
 constructor TSynBaseCompletionProposalForm.Create(AOwner: TComponent);
 begin
   FResizeable := False;
-{$IFDEF SYN_CPPB_1}
-  CreateNew(AOwner, 0);
-{$ELSE}
   CreateNew(AOwner);
-{$ENDIF}
   Bitmap := TBitmap.Create;
   TitleBitmap := TBitmap.Create;
   FItemList := TStringList.Create;
@@ -1266,10 +1248,6 @@ end;
 procedure TSynBaseCompletionProposalForm.CreateParams(var Params: TCreateParams);
 const
   CS_DROPSHADOW = $20000;
-{$IFNDEF SYN_COMPILER_3_UP}
-var
-  VersionInfo: TOSVersionInfo;
-{$ENDIF}
 begin
   inherited;
   with Params do
@@ -1277,17 +1255,9 @@ begin
     Style := WS_POPUP;
     ExStyle := WS_EX_TOOLWINDOW;
 
-    {$IFDEF SYN_COMPILER_3_UP}
     if ((Win32Platform and VER_PLATFORM_WIN32_NT) <> 0)
       and (Win32MajorVersion > 4)
       and (Win32MinorVersion > 0) {Windows XP} then
-    {$ELSE}
-    VersionInfo.dwOSVersionInfoSize := sizeof(TOSVersionInfo);
-    if GetVersionEx(VersionInfo)
-      and ((VersionInfo.dwPlatformId and VER_PLATFORM_WIN32_NT) <> 0)
-      and (VersionInfo.dwMajorVersion > 4)
-      and (VersionInfo.dwMinorVersion > 0) {Windows XP} then
-    {$ENDIF}
       Params.WindowClass.style := Params.WindowClass.style or CS_DROPSHADOW;
 
     if DisplayType = ctCode then
@@ -1448,7 +1418,6 @@ procedure TSynBaseCompletionProposalForm.KeyPress(var Key: Char);
 begin
 end;
 
-{$MESSAGE 'Check what must be adapted in DoKeyPressW and related methods'}
 procedure TSynBaseCompletionProposalForm.DoKeyPressW(Key: WideChar);
 begin
   if Key <> #0 then
@@ -1498,7 +1467,6 @@ begin
 //  (CurrentEditor as TCustomSynEdit).UpdateCaret;
 end;
 
-{$IFDEF SYN_DELPHI_4_UP}
 function TSynBaseCompletionProposalForm.CanResize(var NewWidth, NewHeight: Integer): Boolean;
 var
   NewLinesInWindow: Integer;
@@ -1533,7 +1501,6 @@ begin
   ctParams:;
   end;
 end;
-{$ENDIF}
 
 procedure TSynBaseCompletionProposalForm.Resize;
 begin
@@ -1917,10 +1884,8 @@ procedure TSynBaseCompletionProposalForm.SetImages(const Value: TImageList);
 begin
   if FImages <> Value then
   begin
-    {$IFDEF SYN_COMPILER_5_UP}
     if Assigned(FImages) then
       FImages.RemoveFreeNotification(Self);
-    {$ENDIF SYN_COMPILER_5_UP}
 
     FImages := Value;
     if Assigned(FImages) then
@@ -1955,24 +1920,10 @@ procedure TSynBaseCompletionProposalForm.WMMouseWheel(var Msg: TMessage);
 var
   nDelta: integer;
   nWheelClicks: integer;
-{$IFNDEF SYN_COMPILER_4_UP}
-const
-  LinesToScroll = 3;
-  WHEEL_DELTA = 120;
-  WHEEL_PAGESCROLL = MAXDWORD;
-  {$IFNDEF SYN_COMPILER_3_UP}
-  SPI_GETWHEELSCROLLLINES = 104;
-  {$ENDIF}
-{$ENDIF}
 begin
   if csDesigning in ComponentState then exit;
 
-{$IFDEF SYN_COMPILER_4_UP}
   if GetKeyState(VK_CONTROL) >= 0 then nDelta := Mouse.WheelScrollLines
-{$ELSE}
-  if GetKeyState(VK_CONTROL) >= 0 then
-    SystemParametersInfo(SPI_GETWHEELSCROLLLINES, 0, @nDelta, 0)
-{$ENDIF}
     else nDelta := FLinesInWindow;
 
   Inc(fMouseWheelAccumulator, SmallInt(Msg.wParamHi));
@@ -2124,23 +2075,17 @@ begin
 
       if FAssignedList.Count - FLinesInWindow < 0 then
       begin
-        {$IFDEF SYN_DELPHI_4_UP}
         FScrollbar.PageSize := 0;
-        {$ENDIF}
         FScrollbar.Max := 0;
         FScrollbar.Enabled := False;
       end else
       begin
-        {$IFDEF SYN_DELPHI_4_UP}
         FScrollbar.PageSize := 0;
-        {$ENDIF}
         FScrollbar.Max := FAssignedList.Count - FLinesInWindow;
         if FScrollbar.Max <> 0 then
         begin
           FScrollbar.LargeChange := FLinesInWindow;
-          {$IFDEF SYN_DELPHI_4_UP}
           FScrollbar.PageSize := 1;
-          {$ENDIF}
           FScrollbar.Enabled := True;
         end else
           FScrollbar.Enabled := False;
@@ -2265,28 +2210,18 @@ begin
 end;
 
 procedure TSynBaseCompletionProposal.ExecuteEx(s: UnicodeString; x, y: integer; Kind : SynCompletionType);
-{$IFDEF SYN_COMPILER_5_UP}
 Var
   WorkArea : TRect;
   Monitor: TMonitor;
-{$ENDIF}
 
   function GetWorkAreaWidth: Integer;
   begin
-    {$IFDEF SYN_COMPILER_5_UP}
     Result := WorkArea.Right;
-    {$ELSE}
-    Result := Screen.Width;
-    {$ENDIF}
   end;
 
   function GetWorkAreaHeight: Integer;
   begin
-    {$IFDEF SYN_COMPILER_5_UP}
     Result := WorkArea.Bottom;
-    {$ELSE}
-    Result := Screen.Height;
-    {$ENDIF}
   end;
 
   function GetParamWidth(const S: UnicodeString): Integer;
@@ -2406,10 +2341,8 @@ Var
 var
   TmpOffset: Integer;
 begin
-{$IFDEF SYN_COMPILER_5_UP}
   Monitor := Screen.MonitorFromPoint(Point(x, y));
   WorkArea := Monitor.WorkareaRect;
-{$ENDIF}
 
   DisplayType := Kind;
 
@@ -2424,22 +2357,15 @@ begin
     exit;
   end;
 
-  {$IFDEF SYN_COMPILER_10_UP}
     Form.PopupMode := pmExplicit;
     if (Kind =  ctCode) then Form.FormStyle := fsStayOnTop;
-
-  {$ELSE}
-    Form.FormStyle := fsStayOnTop;
-  {$ENDIF}
 
   if Assigned(Form.CurrentEditor) then
   begin
     TmpOffset := TextWidth((Form.CurrentEditor as TCustomSynEdit).Canvas, Copy(s, 1, DotOffset));
     if DotOffset > 1 then
       TmpOffset := TmpOffset + (3 * (DotOffset -1));
-    {$IFDEF SYN_COMPILER_10_UP}
     Form.PopupParent := GetParentForm(Form.CurrentEditor);
-    {$ENDIF}
   end else
     TmpOffset := 0;
   x := x - tmpOffset;
@@ -2604,9 +2530,6 @@ end;
 procedure TSynBaseCompletionProposal.DefineProperties(Filer: TFiler);
 begin
   inherited;
-{$IFNDEF UNICODE}
-  UnicodeDefineProperties(Filer, Self);
-{$ENDIF}
 end;
 
 function TSynBaseCompletionProposal.GetClBack: TColor;
@@ -3201,9 +3124,7 @@ begin
     FNoNextKey := False;
   end else if Form.Visible then begin
     Form.Hide;
-    {$IFDEF SYN_COMPILER_10_UP}
     Form.PopupParent := nil;
-    {$ENDIF}
   end;
 end;
 
@@ -3292,9 +3213,7 @@ begin
     AEditor.RemoveKeyDownHandler(EditorKeyDown);
     AEditor.RemoveKeyPressHandler(EditorKeyPress);
     AEditor.UnregisterCommandHandler(HookedEditorCommand);
-    {$IFDEF SYN_COMPILER_5_UP}
     RemoveFreeNotification( AEditor );
-    {$ENDIF}
     if fEditor = AEditor then
       fEditor := nil;
   end;
@@ -3336,9 +3255,7 @@ begin
   begin
     Deactivate;
     Form.Hide;
-    {$IFDEF SYN_COMPILER_10_UP}
     Form.PopupParent := nil;
-    {$ENDIF}
   end;
 end;
 
@@ -3653,9 +3570,7 @@ begin
     begin
       Editor.RemoveKeyDownHandler( EditorKeyDown );
       Editor.RemoveKeyPressHandler( EditorKeyPress );
-      {$IFDEF SYN_COMPILER_5_UP}
       RemoveFreeNotification( Editor );
-      {$ENDIF}
     end;
     fEditor := Value;
     if Editor <> nil then

@@ -97,7 +97,7 @@ implementation
 {$R *.dfm}
 
 uses
-  SysUtils, Windows, Messages, FileCtrl,
+  System.UITypes, SysUtils, Windows, Messages, FileCtrl,
   {GX_GrepResults, GX_GrepOptions,} Math,
   uEditAppIntfs, frmFindResults, dmCommands,
   Dialogs, gnugettext, StringResources;

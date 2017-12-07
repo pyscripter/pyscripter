@@ -392,12 +392,12 @@
 
   History:   v 3.1
           New Features
+            pip tool added
             Internal Interpreter is hidden by default
           Issues addressed
-            Remove UseEditorColors in IDE
+            690
             { TODO : Issue 311 }
             { TODO : Issue 765 }
-            { TODO : Issue 690 }
             { TODO : Auto PEP8 tool }
             { TODO : Replace assertion "1175" with message }
 
@@ -3836,7 +3836,7 @@ begin
     if not StyleServices.GetElementColor(StyleServices.GetElementDetails(ttTabItemNormal),
       ecTextColor, TextColor) or (TextColor = clNone)
     then
-      TextColor := StyleServices.GetSystemColor(clBtnText);
+      TextColor := StyleServices.GetSystemColor(clGrayText);
     Gutter.Font.Color := TextColor;
   end;
 

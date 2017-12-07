@@ -326,6 +326,7 @@ type
   private
     FVSChannelClass: TJvDockVSChannelClass;
     FVSChannel: TJvDockVSChannel;
+    procedure WMEraseBkgnd(var Msg: TMessage); message WM_ERASEBKGND;
   protected
     procedure Notification(AComponent: TComponent;
       Operation: TOperation); override;
@@ -2153,6 +2154,11 @@ begin
     if Assigned(DockServer.DockPanelWithAlign[alRight]) then
       TJvDockVSNETPanel(DockServer.DockPanelWithAlign[alRight]).VSChannel.ResetPopupPanelHeight;
   end;
+end;
+
+procedure TJvDockVSNETPanel.WMEraseBkgnd(var Msg: TMessage);
+begin
+  Msg.Result := 1;
 end;
 
 //=== { TJvDockVSNetStyle } ==================================================

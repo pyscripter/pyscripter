@@ -41,7 +41,7 @@ unit dlgSynPageSetup;
 interface
 
 uses
-  Windows, SysUtils, Classes, Graphics, Forms, Controls, StdCtrls,
+  System.UITypes, Windows, SysUtils, Classes, Graphics, Forms, Controls, StdCtrls,
   Buttons, ExtCtrls, ComCtrls, ImgList, ActnList, Dialogs,
   SynEditPrintTypes, SynEditPrint, SynEditPrintMargins,
   SynEditPrintHeaderFooter, SpTBXControls, TB2Item,

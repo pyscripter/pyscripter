@@ -352,6 +352,16 @@ initialization
   end;
 
   with (ToolsCollection.Add as TToolItem).ExternalTool do begin
+    Caption := 'Install Packages (pip)';
+    Description := 'Install python packages';
+    ApplicationName := '$[PythonDir-Short]Lib\site-packages\pip install $[Package?Package Name]';
+    ParseMessages := False;
+    CaptureOutput := True;
+    ConsoleHidden := True;
+    WaitForTerminate := True;
+  end;
+
+  with (ToolsCollection.Add as TToolItem).ExternalTool do begin
     Caption := 'Python&Win help';
     Description := 'Show Python Win Help';
     ApplicationName := '$[PythonExe-Path-Short]Lib\site-packages\PyWin32.chm';

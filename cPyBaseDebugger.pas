@@ -400,10 +400,12 @@ const
 
 implementation
 
-uses dmCommands, frmPythonII, frmMessages, frmPyIDEMain,
+uses
+  dmCommands, frmPythonII, frmMessages, frmPyIDEMain,
   uCommonFunctions, VarPyth,
   cParameters, StringResources, cPyDebugger,
-  frmCommandOutput, gnugettext, cProjectClasses, Dialogs;
+  frmCommandOutput, gnugettext, cProjectClasses,
+  System.UITypes, Dialogs;
 
 { TEditorPos }
 
@@ -965,7 +967,6 @@ end;
 procedure TModuleProxy.Expand;
 Var
   i : integer;
-  S : string;
   VariableProxy : TVariableProxy;
   NS, ChildNS : TBaseNameSpaceItem;
 begin

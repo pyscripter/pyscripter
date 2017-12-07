@@ -3,8 +3,8 @@ unit dlgCustomParams;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Controls, Forms,
-  Dialogs, StdCtrls,
+  System.UITypes, Windows, Messages, SysUtils, Variants, Classes,
+  Controls, Forms, Dialogs, StdCtrls,
   SynEdit, ActnList, SpTBXControls, dlgPyIDEBase,
   SpTBXEditors, SpTBXItem, MPCommonObjects,
   EasyListview, MPCommonUtilities, System.Actions;

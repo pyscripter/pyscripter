@@ -4374,6 +4374,11 @@ object CommandsDataModule: TCommandsDataModule
       ImageIndex = 147
       OnExecute = actHelpWebBlogExecute
     end
+    object actFoldVisible: TAction
+      Category = 'Code Folding'
+      Caption = 'Code Folding'
+      OnExecute = actFoldVisibleExecute
+    end
   end
   object Images: TImageList
     ColorDepth = cd32Bit

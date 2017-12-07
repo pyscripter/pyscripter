@@ -400,6 +400,7 @@ type
     SynWebEsSyn: TSynWebEsSyn;
     SynWebPhpPlainSyn: TSynWebPhpPlainSyn;
     actHelpWebBlog: TAction;
+    actFoldVisible: TAction;
     function ProgramVersionHTTPLocationLoadFileFromRemote(
       AProgramVersionLocation: TJvProgramVersionHTTPLocation; const ARemotePath,
       ARemoteFileName, ALocalPath, ALocalFileName: string): string;
@@ -484,6 +485,7 @@ type
     procedure actEditCopyFileNameExecute(Sender: TObject);
     procedure actToolsEditStartupScriptsExecute(Sender: TObject);
     procedure actHelpWebBlogExecute(Sender: TObject);
+    procedure actFoldVisibleExecute(Sender: TObject);
   private
     fHighlighters: TStrings;
     fUntitledNumbers: TBits;
@@ -2491,6 +2493,10 @@ begin
 //  actEditUndo.Enabled := (GI_EditCmds <> nil) and GI_EditCmds.CanUndo;
   actEditRedo.Enabled := (GI_EditCmds <> nil) and GI_EditCmds.CanRedo;
   actEditCopyFileName.Enabled := Assigned(Editor);
+  actFoldVisible.Enabled := Assigned(GI_ActiveEditor);
+  actFoldVisible.Checked := Assigned(GI_ActiveEditor) and
+    GI_ActiveEditor.SynEdit.UseCodeFolding;
+
 
   actEditLBDos.Enabled := Assigned(GI_ActiveEditor);
   actEditLBDos.Checked := Assigned(GI_ActiveEditor) and
@@ -2856,6 +2862,13 @@ begin
       end;
     end;
   end;
+end;
+
+procedure TCommandsDataModule.actFoldVisibleExecute(Sender: TObject);
+begin
+  if Assigned(GI_ActiveEditor) then
+    GI_ActiveEditor.SynEdit.UseCodeFolding :=
+      not GI_ActiveEditor.SynEdit.UseCodeFolding;
 end;
 
 procedure TCommandsDataModule.actCheckForUpdatesExecute(Sender: TObject);

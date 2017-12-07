@@ -403,6 +403,11 @@ object EditorForm: TEditorForm
     end
     object SpTBXSeparatorItem2: TSpTBXSeparatorItem
     end
+    object mnFoldVisible: TSpTBXItem
+      Action = CommandsDataModule.actFoldVisible
+    end
+    object SpTBXSeparatorItem3: TSpTBXSeparatorItem
+    end
     object mnMaximizeEditor2: TSpTBXItem
       Action = PyIDEMainForm.actMaximizeEditor
     end

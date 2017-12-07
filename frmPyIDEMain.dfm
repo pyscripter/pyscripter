@@ -7,6 +7,7 @@ object PyIDEMainForm: TPyIDEMainForm
   ClientWidth = 780
   Color = clWindow
   Ctl3D = False
+  DoubleBuffered = True
   ParentFont = True
   OldCreateOrder = False
   Position = poDefault
@@ -1212,7 +1213,7 @@ object PyIDEMainForm: TPyIDEMainForm
       CustomHeight = 21
     end
     object SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem
-      CustomWidth = 0
+      CustomWidth = 407
     end
     object SpTBXSeparatorItem5: TSpTBXSeparatorItem
     end

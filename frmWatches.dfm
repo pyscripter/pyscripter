@@ -47,6 +47,8 @@ inherited WatchesWindow: TWatchesWindow
   inherited BGPanel: TSpTBXPanel
     Width = 760
     Height = 229
+    ExplicitWidth = 760
+    ExplicitHeight = 229
     inherited FGPanel: TPanel
       Width = 756
       Height = 225

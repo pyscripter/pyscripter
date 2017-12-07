@@ -206,7 +206,6 @@ inherited ToolProperties: TToolProperties
           View = elsReport
           OnColumnClick = lvItemsColumnClick
           OnItemSelectionsChanged = lvItemsItemSelectionsChanged
-          ExplicitLeft = 3
         end
       end
       object tabProperties: TSpTBXTabSheet

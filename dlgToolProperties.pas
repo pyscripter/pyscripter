@@ -12,7 +12,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Controls, Forms,
-  Dialogs, cTools, StdCtrls, SynEdit, Menus,
+  System.UITypes, Dialogs, cTools, StdCtrls, SynEdit, Menus,
   ActnList, SpTBXControls, SpTBXEditors,
   dlgPyIDEBase, SpTBXItem, SpTBXTabs, TB2Item, MPCommonObjects,
   EasyListview, MPCommonUtilities, ComCtrls, System.Actions;

@@ -2,7 +2,7 @@
  Unit Name: cVirtualStringTreeHelper
  Author:    Kiriakos
  Date:      06-March-2012
- Purpose:   SpTBXLib themeing of TVirtualStringTree
+ Purpose:   VirtualTreeView support routines
  History:
 -----------------------------------------------------------------------------}
 

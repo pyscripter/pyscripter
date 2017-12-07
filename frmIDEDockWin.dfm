@@ -29,10 +29,6 @@ object IDEDockWindow: TIDEDockWindow
     Align = alClient
     TabOrder = 0
     Borders = False
-    ExplicitLeft = 112
-    ExplicitTop = 200
-    ExplicitWidth = 100
-    ExplicitHeight = 40
     object FGPanel: TPanel
       AlignWithMargins = True
       Left = 2

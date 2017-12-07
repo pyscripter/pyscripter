@@ -78,6 +78,8 @@ type
     N12: TSpTBXSeparatorItem;
     mnEditorOptions: TSpTBXItem;
     BGPanel: TSpTBXPanel;
+    SpTBXSeparatorItem3: TSpTBXSeparatorItem;
+    mnFoldVisible: TSpTBXItem;
     procedure SynEditMouseMove(Sender: TObject; Shift: TShiftState;
       X, Y: Integer);
     procedure SynParamCompletionExecute(Kind: SynCompletionType;
@@ -1993,18 +1995,23 @@ var
   LH, X, Y: Integer;
   LI: TDebuggerLineInfos;
   ImgIndex: Integer;
+  Line: Integer;
 begin
   if (PyControl.ActiveDebugger <> nil) and SynEdit.Gutter.Visible then
   begin
     FirstLine := SynEdit.RowToLine(FirstLine);
     LastLine := SynEdit.RowToLine(LastLine);
+    // Todo something
     X := 14;
     LH := SynEdit.LineHeight;
-    while FirstLine <= LastLine do
+
+    for Line := FirstLine to LastLine do
     begin
+      if SynEdit.AllFoldRanges.FoldHidesLine(Line) then
+        continue;
       Y := (LH - imglGutterGlyphs.Height) div 2 + LH *
-        (SynEdit.LineToRow(FirstLine) - SynEdit.TopLine);
-      LI := PyControl.GetLineInfos(fEditor, FirstLine);
+        (SynEdit.LineToRow(Line) - SynEdit.TopLine);
+      LI := PyControl.GetLineInfos(fEditor, Line);
       if dlCurrentLine in LI then
       begin
         if dlBreakpointLine in LI then
@@ -2034,7 +2041,6 @@ begin
       end;
       if ImgIndex >= 0 then
         imglGutterGlyphs.Draw(ACanvas, X, Y, ImgIndex);
-      Inc(FirstLine);
     end;
   end;
 end;

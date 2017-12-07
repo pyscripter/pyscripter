@@ -52,8 +52,10 @@ interface
 uses
   Graphics,
   SynEditHighlighter,
+  SynEditCodeFolding,
+  SynRegExpr,
   SysUtils,
-  Classes, SynRegExpr;
+  Classes;
 
 type
   TtkTokenKind = (tkComment, tkIdentifier, tkKey, tkNull, tkNumber, tkSpace,
@@ -68,7 +70,7 @@ type
                 );
 
 type
-  TSynPythonSyn = class(TSynCustomHighLighter)
+  TSynPythonSyn = class(TSynCustomCodeFoldingHighlighter)
   private
     fStringStarter: WideChar;  // used only for rsMultilineString3 stuff
     fRange: TRangeState;
@@ -96,6 +98,7 @@ type
     fMatchingBraceAttri : TSynHighlighterAttributes;
     fUnbalancedBraceAttri : TSynHighlighterAttributes;
     fTempSpaceAttri: TSynHighlighterAttributes;
+    BlockOpenerRE : TRegExpr;
     function IdentKind(MayBe: PWideChar): TtkTokenKind;
     procedure SymbolProc;
     procedure CRProc;
@@ -138,6 +141,9 @@ type
     procedure SetRange(Value: Pointer); override;
     procedure ResetRange; override;
     function GetKeyWords(TokenKind: Integer): UnicodeString; override;
+    procedure InitFoldRanges(FoldRanges : TSynFoldRanges); override;
+    procedure ScanForFoldRanges(FoldRanges: TSynFoldRanges;
+      LinesToScan: TStrings; FromLine: Integer; ToLine: Integer); override;
   published
     property CommentAttri: TSynHighlighterAttributes read fCommentAttri
       write fCommentAttri;
@@ -516,6 +522,11 @@ begin
   FKeywords.Duplicates := dupIgnore;
   FKeywords.Sorted := True;
 
+  BlockOpenerRE := TRegExpr.Create;
+  BlockOpenerRE.Expression := // ':\s*(#.*)?$';
+     '^(def|class|while|for|if|else|elif|try|except|with'+
+     '|(async[ \t]+def)|(async[ \t]+with)|(async[ \t]+for))\b';
+
   fRange := rsUnknown;
   fCommentAttri := TSynHighlighterAttributes.Create(SYNS_AttrComment, SYNS_FriendlyAttrComment);
   fCommentAttri.Foreground := clGray;
@@ -591,6 +602,7 @@ end; { Create }
 
 destructor TSynPythonSyn.Destroy;
 begin
+  BlockOpenerRE.Free;
   FKeywords.Free;
   fTempSpaceAttri.Free;
   inherited;
@@ -1368,6 +1380,124 @@ begin
   Result := Ord(fTokenId);
 end;
 
+procedure TSynPythonSyn.InitFoldRanges(FoldRanges: TSynFoldRanges);
+begin
+  inherited;
+  FoldRanges.CodeFoldingMode := cfmIndentation;
+end;
+
+procedure TSynPythonSyn.ScanForFoldRanges(FoldRanges: TSynFoldRanges;
+  LinesToScan: TStrings; FromLine, ToLine: Integer);
+var
+  CurLine: string;
+  LeftTrimmedLine : string;
+  Line: Integer;
+  Indent : Integer;
+  TabW : integer;
+  FoldType : integer;
+const
+  MultiLineStringFoldType = 2;
+  ClassDefType = 3;
+  FunctionDefType = 4;
+
+
+  function IsMultiLineString(Line : integer; Range : TRangeState; Fold : Boolean): Boolean;
+  begin
+    Result := True;
+    if TRangeState(GetLineRange(LinesToScan, Line)) = Range then
+    begin
+      if (TRangeState(GetLineRange(LinesToScan, Line - 1)) <> Range) and Fold then
+        FoldRanges.StartFoldRange(Line + 1, MultiLineStringFoldType)
+      else
+        FoldRanges.NoFoldInfo(Line + 1);
+    end
+    else if (TRangeState(GetLineRange(LinesToScan, Line - 1)) = Range) and Fold then
+    begin
+      FoldRanges.StopFoldRange(Line + 1, MultiLineStringFoldType);
+    end else
+      Result := False;
+  end;
+
+  function FoldRegion(Line: Integer): Boolean;
+  begin
+    Result := False;
+    if Uppercase(Copy(LeftTrimmedLine, 1, 7)) = '#REGION' then
+    begin
+      FoldRanges.StartFoldRange(Line + 1, FoldRegionType);
+      Result := True;
+    end
+    else if Uppercase(Copy(LeftTrimmedLine, 1, 10)) = '#ENDREGION' then
+    begin
+      FoldRanges.StopFoldRange(Line + 1, FoldRegionType);
+      Result := True;
+    end;
+  end;
+
+  function LeftSpaces: Integer;
+  var
+    p: PWideChar;
+  begin
+    p := PWideChar(CurLine);
+    if Assigned(p) then
+    begin
+      Result := 0;
+      while (p^ >= #1) and (p^ <= #32) do
+      begin
+        if (p^ = #9) then
+          Inc(Result, TabW)
+        else
+          Inc(Result);
+        Inc(p);
+      end;
+    end
+    else
+      Result := 0;
+  end;
+
+begin
+  //  Deal with multiline strings
+  for Line := FromLine to ToLine do begin
+    if IsMultiLineString(Line, rsMultilineString, True) or
+       IsMultiLineString(Line, rsMultilineString2, True) or
+       IsMultiLineString(Line, rsMultilineString3, False)
+    then
+      Continue;
+
+    // Find Fold regions
+    CurLine := LinesToScan[Line];
+    LeftTrimmedLine := TrimLeft(CurLine);
+
+    // Skip empty lines
+    if LeftTrimmedLine = '' then begin
+      FoldRanges.NoFoldInfo(Line + 1);
+      Continue;
+    end;
+
+    // Find Fold regions
+    if FoldRegion(Line) then
+      Continue;
+
+    TabW := TabWidth(LinesToScan);
+    Indent := LeftSpaces;
+
+    // find fold openers
+    if BlockOpenerRE.Exec(LeftTrimmedLine) then
+    begin
+      if BlockOpenerRE.Match[1] = 'class' then
+        FoldType := ClassDefType
+      else if Pos('def', BlockOpenerRE.Match[1]) >= 1 then
+        FoldType := FunctionDefType
+      else
+        FoldType := 1;
+
+      FoldRanges.StartFoldRange(Line + 1, FoldType, Indent);
+      Continue;
+    end;
+
+    FoldRanges.StopFoldRange(Line + 1, 1, Indent)
+  end;
+end;
+
 procedure TSynPythonSyn.ResetRange;
 begin
   fRange := rsUnknown;
@@ -1403,9 +1533,11 @@ begin
     'class Conversions:'#13#10 +
     '"""A collection of conversion functions"""'#13#10 +
     '    if len(sys.argv) < 1:'#13#10 +
-    '        print ''Usage: number[, number, ...]'''#13#10 +
     '        sys.exit(2)'#13#10 +
-    '        assert 0x00 == 00    #well, it better';
+    '        assert 0x00 == 00    #well, it better'#13#10+
+    ''#13#10+
+    'if __name__ == ''__main__'''#13#10+
+    '    main()';
 end;
 
 class function TSynPythonSyn.GetFriendlyLanguageName: UnicodeString;
@@ -1514,17 +1646,17 @@ function TSynPythonInterpreterSyn.GetSampleSource: UnicodeString;
 begin
   Result :=
     '*** Python 2.5.1 (r251:54863, Apr 18 2007, 08:51:08) [MSC v.1310 32 bit (Intel)] on win32. ***'#13#10 +
-    '>>> print [1, 2, 3]'#13#10 +
-    '[1, 2, 3]'#13#10 +
-    '>>> print 1/0'#13#10 +
+    '>>> def Greet(person):'#13#10 +
+    '...     return "Hi "+ person'#13#10 +
+    '>>> Greet("John")'#13#10 +
+    'Hi John'#13#10 +
+    '>>> errorvar = 1/0'#13#10 +
     'Traceback (most recent call last):'#13#10 +
     '  File "<interactive input>", line 1, in <module>'#13#10 +
     'ZeroDivisionError: integer division or modulo by zero'#13#10 +
-    '>>> import string, sys'#13#10 +
     '>>> class Conversions:'#13#10 +
     '... """A collection of conversion functions"""'#13#10 +
     '...    if len(sys.argv) < 1:'#13#10 +
-    '...        print ''Usage: number[, number, ...]'''#13#10 +
     '...        sys.exit(2)'#13#10 +
     '...        assert 0x00 == 00    #well, it better';
 end;

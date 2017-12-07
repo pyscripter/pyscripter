@@ -11,8 +11,8 @@ unit frmWatches;
 interface
 
 uses
-  Windows, Messages, ActiveX, SysUtils, Variants, Classes, Graphics, Controls,
-  Forms,
+  System.Types, Windows, Messages, ActiveX, SysUtils, Variants,
+  Classes, Graphics, Controls, Forms,
   Dialogs, Menus, frmIDEDockWin, JvDockControlForm,
   Contnrs, cPyBaseDebugger, ExtCtrls, TB2Item, VirtualTrees,
   JvComponentBase, JvAppStorage, SpTBXSkins, SpTBXItem, PythonEngine,
