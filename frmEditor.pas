@@ -387,7 +387,9 @@ Var
 begin
   if fForm.HasSyntaxError then
     with fForm.fSyntaxErrorPos do
-      if Math.InRange(Line, FirstLine, LastLine) then
+      if Math.InRange(Line, FirstLine, LastLine)
+        and not (fForm.SynEdit.UseCodeFolding and
+          fForm.SynEdit.AllFoldRanges.FoldHidesLine(Line)) then
       begin
         LH := fForm.SynEdit.LineHeight;
         TP := fForm.SynEdit.RowColumnToPixels
@@ -726,6 +728,8 @@ begin
     fForm.DoUpdateHighlighter(HighlighterName);
     fForm.DoUpdateCaption;
     fForm.fOldEditorForm := fForm;
+    fForm.Synedit.UseCodeFolding := CommandsDataModule.PyIDEOptions.UseCodeFolding;
+    fForm.Synedit2.UseCodeFolding := fForm.Synedit.UseCodeFolding;
   end;
 end;
 
@@ -2337,7 +2341,6 @@ var
   ASynEdit: TSynEdit;
 begin
   ASynEdit := Sender as TSynEdit;
-  aCursor := SynEdit.Cursor;
   if fHotIdentInfo.HaveHotIdent then
   begin
     fHotIdentInfo.HaveHotIdent := False;

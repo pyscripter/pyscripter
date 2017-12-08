@@ -99,6 +99,8 @@ type
     fCompleteWithOneEntry:Boolean;
     fDisplayPackageNames:Boolean;
     fCheckSyntaxLineLimit : integer;
+    fNoOfRecentFiles : integer;
+    fUseCodeFolding : boolean;
     function GetPythonFileExtensions: string;
     procedure SetAutoCompletionFont(const Value: TFont);
   public
@@ -214,8 +216,6 @@ type
       write fHighlightSelectedWord;
     property HighlightSelectedWordColor : TColor read fHighlightSelectedWordColor
       write fHighlightSelectedWordColor;
-    property UsePythonColorsInIDE : boolean read fUsePythonColorsInIDE
-      write fUsePythonColorsInIDE;
     property FileChangeNotification : TFileChangeNotificationType read fFileChangeNotification
       write fFileChangeNotification;
     property CodeCompletionCaseSensitive : Boolean read fCodeCompletionCaseSensitive
@@ -232,6 +232,10 @@ type
       write fDisplayPackageNames;
     property CheckSyntaxLineLimit : integer read fCheckSyntaxLineLimit
       write fCheckSyntaxLineLimit;
+    property NoOfRecentFiles : integer read fNoOfRecentFiles
+      write fNoOfRecentFiles;
+    property UseCodeFolding : Boolean read fUseCodeFolding
+      write fUseCodeFolding;
   end;
 
   TSearchCaseSensitiveType = (scsAuto, scsNotCaseSenitive, scsCaseSensitive);
@@ -657,7 +661,6 @@ begin
       Self.fAutoCompletionFont.Assign(AutoCompletionFont);
       Self.fHighlightSelectedWord := HighlightSelectedWord;
       Self.fHighlightSelectedWordColor := HighlightSelectedWordColor;
-      Self.fUsePythonColorsInIDE := UsePythonColorsInIDE;
       Self.fFileChangeNotification := FileChangeNotification;
       Self.fCodeCompletionCaseSensitive := CodeCompletionCaseSensitive;
       Self.fCompleteKeywords := CompleteKeywords;
@@ -666,6 +669,8 @@ begin
       Self.fCompleteWithOneEntry := CompleteWithOneEntry;
       Self.fDisplayPackageNames := DisplayPackageNames;
       Self.fCheckSyntaxLineLimit := CheckSyntaxLineLimit;
+      Self.fNoOfRecentFiles := NoOfRecentFiles;
+      Self.fUseCodeFolding := UseCodeFolding;
     end
   else
     inherited;
@@ -742,15 +747,16 @@ begin
   fAutoCompletionFont.Assign(Application.DefaultFont);
   fHighlightSelectedWord := True;
   fHighlightSelectedWordColor := clYellow;
-  fUsePythonColorsInIDE := False;
   fFileChangeNotification := fcnNoMappedDrives;
   fCodeCompletionCaseSensitive := True;
   fCompleteKeywords := True;
   fCompleteAsYouType := True;
   fCompleteWithWordBreakChars := False;
-  fCompleteWithOneEntry:=False;
-  fDisplayPackageNames:=True;
-  fCheckSyntaxLineLimit:=1000;
+  fCompleteWithOneEntry := False;
+  fDisplayPackageNames := True;
+  fCheckSyntaxLineLimit := 1000;
+  fNoOfRecentFiles:=8;
+  fUseCodeFolding := True;
 end;
 
 destructor TPythonIDEOptions.Destroy;
@@ -1003,7 +1009,7 @@ begin
     Gutter.LeftOffset := 25;
     Gutter.RightOffset := 1;
     Gutter.Width := 27;
-    Gutter.DigitCount := 3;
+    Gutter.DigitCount := 2;
     Gutter.Autosize := True;
 
     Options := [{eoAutoSizeMaxScrollWidth,} eoDragDropEditing, eoEnhanceHomeKey,
@@ -2232,8 +2238,8 @@ begin
     Options[7].DisplayName := _('Dock animation move width (pixels)');
     Options[8].PropertyName := 'FileTemplateForNewScripts';
     Options[8].DisplayName := _('File template for new python scripts');
-    Options[9].PropertyName := 'UsePythonColorsInIDE';
-    Options[9].DisplayName := _('Use Python colors in IDE');
+    Options[9].PropertyName := 'NoOfRecentFiles';
+    Options[9].DisplayName := _('Number of recent file');
     Options[10].PropertyName := 'FileChangeNotification';
     Options[10].DisplayName := _('File Change Notification');
   end;
@@ -2297,7 +2303,7 @@ begin
   end;
   with Categories[4] do begin
     DisplayName := _('Editor');
-    SetLength(Options, 18);
+    SetLength(Options, 19);
     Options[0].PropertyName := 'RestoreOpenFiles';
     Options[0].DisplayName := _('Restore open files');
     Options[1].PropertyName := 'SearchTextAtCaret';
@@ -2334,6 +2340,8 @@ begin
     Options[16].DisplayName := _('Display package names in editor tabs');
     Options[17].PropertyName := 'CheckSyntaxLineLimit';
     Options[17].DisplayName := _('File line limit for syntax check as you type');
+    Options[18].PropertyName := 'UseCodeFolding';
+    Options[18].DisplayName := _('Code Folding is enabled by default');
   end;
   with Categories[5] do begin
     DisplayName := _('Code Completion');
@@ -2867,8 +2875,8 @@ end;
 procedure TCommandsDataModule.actFoldVisibleExecute(Sender: TObject);
 begin
   if Assigned(GI_ActiveEditor) then
-    GI_ActiveEditor.SynEdit.UseCodeFolding :=
-      not GI_ActiveEditor.SynEdit.UseCodeFolding;
+    GI_ActiveEditor.ActiveSynEdit.UseCodeFolding :=
+      not GI_ActiveEditor.ActiveSynEdit.UseCodeFolding;
 end;
 
 procedure TCommandsDataModule.actCheckForUpdatesExecute(Sender: TObject);

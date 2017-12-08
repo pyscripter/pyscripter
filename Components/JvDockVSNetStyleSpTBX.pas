@@ -1220,7 +1220,7 @@ begin
         ACanvas.Handle := TWMEraseBkgnd(Message).DC;
         try
           R := ClientRect;
-          ACanvas.Brush.Color := clWhite;
+          ACanvas.Brush.Color := clWindow;
           ACanvas.FillRect(R);
 
           // Part of the background will be painted by the TabPanel, since we want the

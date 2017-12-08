@@ -358,13 +358,8 @@ begin
   end else
     NameSpace := 'Interpreter globals';
 
-  if CommandsDataModule.PyIDEOptions.UsePythonColorsInIDE then begin
-    Color1 := ColorToString(CommandsDataModule.SynPythonSyn.KeyAttri.Foreground);
-    Color2 := ColorToString(CommandsDataModule.SynPythonSyn.NonKeyAttri.Foreground);
-  end else begin
-    Color1 := ColorToString(StyleServices.GetSystemColor(clHotlight));
-    Color2 := Color1;
-  end;
+  Color1 := ColorToString(StyleServices.GetSystemColor(clHotlight));
+  Color2 := Color1;
 
   if Assigned(Node) and (vsSelected in Node.States) then begin
     Data := VariablesTree.GetNodeData(Node);

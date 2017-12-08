@@ -31,10 +31,12 @@ Type
     BookMarks : TObjectList;
     FileName : string;
     Highlighter : string;
+    UseCodeFolding: Boolean;
     EditorOptions : TSynEditorOptionsContainer;
     SecondEditorVisible : Boolean;
     SecondEditorAlign : TAlign;
     SecondEditorSize : integer;
+    SecondEditorUseCodeFolding: Boolean;
     EditorOptions2 : TSynEditorOptionsContainer;
   protected
     // IJvAppStorageHandler implementation
@@ -101,6 +103,8 @@ begin
    AppStorage.WriteString(BasePath+'\Highlighter', Highlighter);
    AppStorage.WriteObjectList(BasePath+'\BreakPoints', BreakPoints, 'BreakPoint');
    AppStorage.WriteObjectList(BasePath+'\BookMarks', BookMarks, 'BookMarks');
+   AppStorage.WriteBoolean(BasePath+'\UseCodeFolding', UseCodeFolding);
+
    AppStorage.WriteBoolean(BasePath+'\SecondEditorVisible', SecondEditorVisible);
    IgnoreProperties := TStringList.Create;
    try
@@ -110,6 +114,7 @@ begin
      if SecondEditorVisible then begin
        AppStorage.WriteEnumeration(BasePath+'\Second Editor Align', TypeInfo(TAlign), SecondEditorAlign);
        AppStorage.WriteInteger(BasePath+'Second Editor Size', SecondEditorSize);
+       AppStorage.WriteBoolean(BasePath+'\Second Editor UseCodeFolding', SecondEditorUseCodeFolding);
        AppStorage.WritePersistent(BasePath+'\Second Editor Options', EditorOptions2,
          True, IgnoreProperties);
      end;
@@ -129,13 +134,16 @@ begin
    Highlighter := AppStorage.ReadString(BasePath+'\Highlighter', Highlighter);
    AppStorage.ReadObjectList(BasePath+'\BreakPoints', BreakPoints, CreateListItem, True, 'BreakPoint');
    AppStorage.ReadObjectList(BasePath+'\BookMarks', BookMarks, CreateListItem, True, 'BookMarks');
+   UseCodeFolding := AppStorage.ReadBoolean(BasePath+'\UseCodeFolding', False);
    EditorOptions.Assign(CommandsDataModule.EditorOptions);
    AppStorage.ReadPersistent(BasePath+'\Editor Options', EditorOptions, True, True);
+
    SecondEditorVisible := AppStorage.ReadBoolean(BasePath+'\SecondEditorVisible', False);
    if SecondEditorVisible then begin
      AppStorage.ReadEnumeration(BasePath+'\Second Editor Align', TypeInfo(TAlign),
        SecondEditorAlign, SecondEditorAlign);
      SecondEditorSize := AppStorage.ReadInteger(BasePath+'Second Editor Size');
+     SecondEditorUseCodeFolding := AppStorage.ReadBoolean(BasePath+'\Second Editor UseCodeFolding', False);
      EditorOptions2.Assign(CommandsDataModule.EditorOptions);
      AppStorage.ReadPersistent(BasePath+'\Second Editor Options', EditorOptions2, True, True);
    end;
@@ -195,12 +203,15 @@ begin
     end;
   end;
   EditorOptions.Assign(Editor.SynEdit);
+  UseCodeFolding := Editor.SynEdit.UseCodeFolding;
+
   SecondEditorVisible := Editor.SynEdit2.Visible;
   if SecondEditorVisible then begin
     SecondEditorAlign := Editor.SynEdit2.Align;
     SecondEditorSize := IfThen(SecondEditorAlign = alRight,
       Editor.SynEdit2.Width, Editor.SynEdit2.Height);
     EditorOptions2.Assign(Editor.SynEdit2);
+    SecondEditorUseCodeFolding := Editor.SynEdit2.UseCodeFolding;
   end;
 end;
 
@@ -245,8 +256,12 @@ begin
           Editor.SynEdit2.Highlighter := Editor.SynEdit.Highlighter;
         end;
         Editor.SynEdit.Assign(FilePersistInfo.EditorOptions);
+        Editor.SynEdit.UseCodeFolding := FilePersistInfo.UseCodeFolding;
+
         if FilePersistInfo.SecondEditorVisible then begin
           Editor.SynEdit2.Assign(FilePersistInfo.EditorOptions2);
+          Editor.SynEdit2.UseCodeFolding := FilePersistInfo.SecondEditorUseCodeFolding;
+
           if FilePersistInfo.SecondEditorAlign = alRight then begin
             Editor.SplitEditorVertrically;
             Editor.SynEdit2.Width := FilePersistInfo.SecondEditorSize;

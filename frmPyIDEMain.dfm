@@ -7,7 +7,6 @@ object PyIDEMainForm: TPyIDEMainForm
   ClientWidth = 780
   Color = clWindow
   Ctl3D = False
-  DoubleBuffered = True
   ParentFont = True
   OldCreateOrder = False
   Position = poDefault
@@ -44,6 +43,8 @@ object PyIDEMainForm: TPyIDEMainForm
       TabDragReorder = True
       TabPosition = ttpBottom
       OnActiveTabChange = TabControlActiveTabChange
+      ExplicitLeft = -2
+      ExplicitTop = 3
       HiddenItems = <>
       object tbiRightAlign: TSpTBXRightAlignSpacerItem
         CustomWidth = 648
@@ -1213,7 +1214,7 @@ object PyIDEMainForm: TPyIDEMainForm
       CustomHeight = 21
     end
     object SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem
-      CustomWidth = 407
+      CustomWidth = 0
     end
     object SpTBXSeparatorItem5: TSpTBXSeparatorItem
     end

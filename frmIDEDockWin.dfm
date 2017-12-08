@@ -42,6 +42,7 @@ object IDEDockWindow: TIDEDockWindow
       Align = alClient
       BevelOuter = bvNone
       Ctl3D = False
+      FullRepaint = False
       ParentCtl3D = False
       TabOrder = 0
     end

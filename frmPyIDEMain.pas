@@ -395,7 +395,7 @@
             pip tool added
             Internal Interpreter is hidden by default
           Issues addressed
-            690
+            690, 765
             { TODO : Issue 311 }
             { TODO : Issue 765 }
             { TODO : Auto PEP8 tool }
@@ -2849,6 +2849,8 @@ begin
       SynCodeCompletion.TimerInterval:=PythonIIForm.SynCodeCompletion.TimerInterval;
     end;
   end;
+
+  tbiRecentFileList.MaxItems :=  CommandsDataModule.PyIDEOptions.NoOfRecentFiles;
 
   Editor := GetActiveEditor;
   if Assigned(Editor) then

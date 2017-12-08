@@ -409,11 +409,6 @@ begin
   else
      FForm.Keystrokes.TabVisible := false;
 
-  if soKeyStrokes in fPages then
-     FForm.Keystrokes.TabVisible := true
-  else
-     FForm.Keystrokes.TabVisible := false;
-
   if soColor in FPages then
   begin
      if assigned(fHighlighterCountEvent) then
@@ -457,8 +452,6 @@ begin
     if HighlighterFileDir <> '' then
       for FileName in TDirectory.GetFiles(HighlighterFileDir,'*.ini') do
         FForm.lbColorThemes.Items.Add(TPath.GetFileNameWithoutExtension(FileName));
-
-
 
     FForm.Color.TabVisible := true;
     FForm.ColorThemes.TabVisible := true;
