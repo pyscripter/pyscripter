@@ -1596,6 +1596,8 @@ begin
   fTracebackStartRE.Expression := '^Traceback \(|File ".*line';
   fTracebackEndRE := TRegExpr.Create;
   fTracebackEndRE.Expression := '^\w*(Error|Exception|Warning|KeyboardInterrupt):';
+
+  SetAttributesOnChange(DefHighlightChange);
 end;
 
 procedure TSynPythonInterpreterSyn.DispatchProc;
