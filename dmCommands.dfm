@@ -610,7 +610,6 @@ object CommandsDataModule: TCommandsDataModule
     VersionHistoryFileOptions.INIOptions.BooleanStringTrueValues = 'TRUE, YES, Y'
     VersionHistoryFileOptions.INIOptions.BooleanStringFalseValues = 'FALSE, NO, N'
     VersionHistoryFileOptions.INIOptions.SetAsString = True
-    VersionHistoryFileOptions.INIOptions.DateTimeAsString = False
     VersionHistoryFileOptions.INIOptions.FloatAsString = True
     VersionHistoryFileOptions.INIOptions.DefaultIfReadConvertError = True
     VersionHistoryFileOptions.XMLOptions.BooleanStringTrueValues = 'TRUE, YES, Y'

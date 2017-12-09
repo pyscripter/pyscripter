@@ -90,7 +90,6 @@ type
     fAutoCompletionFont : TFont;
     fHighlightSelectedWord : Boolean;
     fHighlightSelectedWordColor : TColor;
-    fUsePythonColorsInIDE : Boolean;
     fFileChangeNotification : TFileChangeNotificationType;
     fCodeCompletionCaseSensitive : Boolean;
     fCompleteKeywords : Boolean;
@@ -1039,7 +1038,6 @@ begin
   InterpreterEditorOptions.Gutter.Visible := False;
   InterpreterEditorOptions.RightEdge := 0;
 
-
   with SynEditPrint.Header do begin
     Add('$TITLE$', nil, taCenter, 2);
   end;
@@ -1760,7 +1758,7 @@ begin
         for i := 0 to Highlighters.Count - 1 do
           AppStorage.WritePersistent('Highlighters\'+Highlighters[i],
             TPersistent(Highlighters.Objects[i]));
-        AppStorage.WritePersistent('Highlighters\Intepreter',
+        AppStorage.WritePersistent('Highlighters\Python Interpreter',
           PythonIIForm.SynEdit.Highlighter);
     finally
         AppStorage.Free;
@@ -1823,8 +1821,8 @@ begin
         PythonIIForm.SynEdit.Highlighter.Assign(SynPythonSyn);
         SynCythonSyn.Assign(SynPythonSyn);
         SynCythonSyn.DefaultFilter := PyIDEOptions.CythonFileFilter;
-        if AppStorage.IniFile.SectionExists('Highlighters\Intepreter') then
-          AppStorage.ReadPersistent('Highlighters\Intepreter',
+        if AppStorage.IniFile.SectionExists('Highlighters\Python Interpreter') then
+          AppStorage.ReadPersistent('Highlighters\Python Interpreter',
             PythonIIForm.SynEdit.Highlighter);
       finally
         AppStorage.Free;

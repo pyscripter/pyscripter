@@ -1556,10 +1556,15 @@ resourcestring
   SYNS_FriendlyAttrTraceback = 'Traceback';
   SYNS_AttrPrompt = 'Prompt';
   SYNS_FriendlyAttrPrompt = 'Prompt';
-  SYNS_LangPythonInterpreter = 'Python Interpreter';
-  SYNS_FriendlyLangPythonInterpreter = 'Python Interpreter';
   SYNS_LangCython = 'Cython';
   SYNS_FriendlyLangCython = 'Cython';
+
+Const
+  // Do not localise
+  SYNS_LangPythonInterpreter = 'Python Interpreter';
+  SYNS_FriendlyLangPythonInterpreter = 'Python Interpreter';
+
+
 
 procedure TSynPythonInterpreterSyn.BannerProc;
 begin
