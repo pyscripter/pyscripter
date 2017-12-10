@@ -100,6 +100,7 @@ type
     fCheckSyntaxLineLimit : integer;
     fNoOfRecentFiles : integer;
     fUseCodeFolding : boolean;
+    fInternalInterpreterHidden : boolean;
     function GetPythonFileExtensions: string;
     procedure SetAutoCompletionFont(const Value: TFont);
   public
@@ -109,19 +110,19 @@ type
     property PythonFileExtensions : string read GetPythonFileExtensions;
   published
     procedure Changed;
-    property TimeOut : integer read fTimeOut write fTimeOut;
+    property TimeOut : integer read fTimeOut write fTimeOut default 0;
     property UndoAfterSave : boolean read fUndoAfterSave
-      write fUndoAfterSave;
+      write fUndoAfterSave default True;
     property SaveFilesBeforeRun : boolean read fSaveFilesBeforeRun
-      write fSaveFilesBeforeRun;
+      write fSaveFilesBeforeRun default True;
     property SaveEnvironmentBeforeRun : boolean read fSaveEnvironmentBeforeRun
-      write fSaveEnvironmentBeforeRun;
+      write fSaveEnvironmentBeforeRun default False;
     property RestoreOpenFiles : Boolean read fRestoreOpenFiles
-      write fRestoreOpenFiles;
+      write fRestoreOpenFiles default True;
     property CreateBackupFiles : boolean read fCreateBackupFiles
-      write fCreateBackupFiles;
+      write fCreateBackupFiles default False;
     property ExporerInitiallyExpanded : boolean read fExporerInitiallyExpanded
-      write fExporerInitiallyExpanded;
+      write fExporerInitiallyExpanded default False;
     property SearchTextAtCaret : Boolean read fSearchTextAtCaret
       write fSearchTextAtCaret stored False;
     property PythonFileFilter : string read fPythonFileFilter
@@ -147,54 +148,59 @@ type
     property DateLastCheckedForUpdates : TDateTime read fDateLastCheckedForUpdates
       write fDateLastCheckedForUpdates;
     property AutoCheckForUpdates : boolean read fAutoCheckForUpdates
-      write fAutoCheckForUpdates;
+      write fAutoCheckForUpdates default True;
     property DaysBetweenChecks : integer read fDaysBetweenChecks
-      write fDaysBetweenChecks;
+      write fDaysBetweenChecks default 7;
     property MaskFPUExceptions : Boolean read fMaskFPUExceptions
-      write fMaskFPUExceptions;
+      write fMaskFPUExceptions default True;
     property SpecialPackages : string read fSpecialPackages write fSpecialPackages;
     property UTF8inInterpreter : boolean read fUTF8inInterpreter
-      write fUTF8inInterpreter;
-    property ShowCodeHints : boolean read fShowCodeHints write fShowCodeHints;
-    property ShowDebuggerHints : boolean
-      read fShowDebuggerHints write fShowDebuggerHints;
-    property AutoCompleteBrackets : boolean
-      read fAutoCompleteBrackets write fAutoCompleteBrackets;
+      write fUTF8inInterpreter default True;
+    property ShowCodeHints : boolean read fShowCodeHints
+      write fShowCodeHints default True;
+    property ShowDebuggerHints : boolean read fShowDebuggerHints
+      write fShowDebuggerHints default True;
+    property AutoCompleteBrackets : boolean read fAutoCompleteBrackets
+      write fAutoCompleteBrackets default True;
     property CommandLine : string read fCommandLine write fCommandLine;
-    property UseCommandLine : Boolean read fUseCommandLine write fUseCommandLine;
+    property UseCommandLine : Boolean read fUseCommandLine
+      write fUseCommandLine default False;
     property MarkExecutableLines : Boolean read fMarkExecutableLines
-      write fMarkExecutableLines;
+      write fMarkExecutableLines default True;
     property CheckSyntaxAsYouType : Boolean read fCheckSyntaxAsYouType
-      write fCheckSyntaxAsYouType;
+      write fCheckSyntaxAsYouType default True;
     property FileExplorerContextMenu : Boolean read fFileExplorerContextMenu
-      write fFileExplorerContextMenu;
+      write fFileExplorerContextMenu default True;
     property NewFileLineBreaks : TSynEditFileFormat read fNewFileLineBreaks
-      write fNewFileLineBreaks;
-    property NewFileEncoding : TFileSaveFormat read fNewFileEncoding write fNewFileEncoding;
+      write fNewFileLineBreaks default sffDos;
+    property NewFileEncoding : TFileSaveFormat read fNewFileEncoding
+      write fNewFileEncoding default sf_Ansi;
     property DetectUTF8Encoding : Boolean read fDetectUTF8Encoding
-      write fDetectUTF8Encoding;
+      write fDetectUTF8Encoding default True;
     property EditorsTabPosition : TSpTBXTabPosition read fEditorsTabPosition
-      write fEditorsTabPosition;
+      write fEditorsTabPosition default ttpBottom;
     property PythonEngineType : TPythonEngineType read fPythonEngineType
-      write fPythonEngineType;
-    property PrettyPrintOutput : Boolean read fPrettyPrintOutput write fPrettyPrintOutput;
-    property SmartNextPrevPage : Boolean read fSmartNextPrevPage write fSmartNextPrevPage;
+      write fPythonEngineType default peRemote;
+    property PrettyPrintOutput : Boolean read fPrettyPrintOutput
+      write fPrettyPrintOutput default True;
+    property SmartNextPrevPage : Boolean read fSmartNextPrevPage
+      write fSmartNextPrevPage default True;
     property AutoReloadChangedFiles : Boolean read fAutoReloadChangedFiles
-      write fAutoReloadChangedFiles;
+      write fAutoReloadChangedFiles default True;
     property ClearOutputBeforeRun : Boolean read fClearOutputBeforeRun
-      write fClearOutputBeforeRun;
+      write fClearOutputBeforeRun default False;
     property AutoHideFindToolbar : Boolean read fAutoHideFindToolbar
-      write fAutoHideFindToolbar;
+      write fAutoHideFindToolbar default False;
     property EditorCodeCompletion : Boolean read fEditorCodeCompletion
-      write fEditorCodeCompletion;
+      write fEditorCodeCompletion default True;
     property InterpreterCodeCompletion : Boolean read fInterpreterCodeCompletion
-      write fInterpreterCodeCompletion;
+      write fInterpreterCodeCompletion default True;
     property CodeCompletionListSize : integer read fCodeCompletionListSize
-      write fCodeCompletionListSize;
+      write fCodeCompletionListSize default 8;
     property ShowTabCloseButton : Boolean read fShowTabCloseButton
-      write fShowTabCloseButton;
+      write fShowTabCloseButton default True;
     property PostMortemOnException : Boolean read fPostMortemOnException
-      write fPostMortemOnException;
+      write fPostMortemOnException default False;
     property DockAnimationInterval : integer read fDockAnimationInterval
       write fDockAnimationInterval;
     property DockAnimationMoveWidth : integer read fDockAnimationMoveWidth
@@ -202,39 +208,41 @@ type
     property InterpreterHistorySize : integer read fInterpreterHistorySize
       write fInterpreterHistorySize;
     property SaveInterpreterHistory : Boolean read fSaveInterpreterHistory
-      write fSaveInterpreterHistory;
+      write fSaveInterpreterHistory default True;
     property ReinitializeBeforeRun : Boolean read fReinitializeBeforeRun
-      write fReinitializeBeforeRun;
+      write fReinitializeBeforeRun default True;
     property JumpToErrorOnException : Boolean read fJumpToErrorOnException
-      write fJumpToErrorOnException;
+      write fJumpToErrorOnException default True;
     property FileTemplateForNewScripts: string read fFileTemplateForNewScripts
       write fFileTemplateForNewScripts;
     property AutoCompletionFont : TFont read fAutoCompletionFont
       write SetAutoCompletionFont;
     property HighlightSelectedWord : boolean read fHighlightSelectedWord
-      write fHighlightSelectedWord;
+      write fHighlightSelectedWord default True;
     property HighlightSelectedWordColor : TColor read fHighlightSelectedWordColor
-      write fHighlightSelectedWordColor;
+      write fHighlightSelectedWordColor default clOlive;
     property FileChangeNotification : TFileChangeNotificationType read fFileChangeNotification
       write fFileChangeNotification;
     property CodeCompletionCaseSensitive : Boolean read fCodeCompletionCaseSensitive
-      write fCodeCompletionCaseSensitive;
+      write fCodeCompletionCaseSensitive default True;
     property CompleteKeywords : Boolean read fCompleteKeywords
-      write fCompleteKeywords;
+      write fCompleteKeywords default True;
     property CompleteAsYouType : Boolean read fCompleteAsYouType
-      write fCompleteAsYouType;
+      write fCompleteAsYouType default True;
     property CompleteWithWordBreakChars : Boolean read fCompleteWithWordBreakChars
-      write fCompleteWithWordBreakChars;
+      write fCompleteWithWordBreakChars default False;
     property CompleteWithOneEntry : Boolean read fCompleteWithOneEntry
-      write fCompleteWithOneEntry;
+      write fCompleteWithOneEntry default False;
     property DisplayPackageNames : Boolean read fDisplayPackageNames
-      write fDisplayPackageNames;
+      write fDisplayPackageNames default True;
     property CheckSyntaxLineLimit : integer read fCheckSyntaxLineLimit
-      write fCheckSyntaxLineLimit;
+      write fCheckSyntaxLineLimit default 1000;
     property NoOfRecentFiles : integer read fNoOfRecentFiles
-      write fNoOfRecentFiles;
+      write fNoOfRecentFiles default 8;
     property UseCodeFolding : Boolean read fUseCodeFolding
-      write fUseCodeFolding;
+      write fUseCodeFolding default True;
+    property InternalInterpreterHidden : Boolean read fInternalInterpreterHidden
+      write fInternalInterpreterHidden default True;
   end;
 
   TSearchCaseSensitiveType = (scsAuto, scsNotCaseSenitive, scsCaseSensitive);
@@ -670,6 +678,7 @@ begin
       Self.fCheckSyntaxLineLimit := CheckSyntaxLineLimit;
       Self.fNoOfRecentFiles := NoOfRecentFiles;
       Self.fUseCodeFolding := UseCodeFolding;
+      Self.fInternalInterpreterHidden := InternalInterpreterHidden;
     end
   else
     inherited;
@@ -745,7 +754,7 @@ begin
   fAutoCompletionFont := TFont.Create;
   fAutoCompletionFont.Assign(Application.DefaultFont);
   fHighlightSelectedWord := True;
-  fHighlightSelectedWordColor := clYellow;
+  fHighlightSelectedWordColor := clOlive;
   fFileChangeNotification := fcnNoMappedDrives;
   fCodeCompletionCaseSensitive := True;
   fCompleteKeywords := True;
@@ -754,8 +763,9 @@ begin
   fCompleteWithOneEntry := False;
   fDisplayPackageNames := True;
   fCheckSyntaxLineLimit := 1000;
-  fNoOfRecentFiles:=8;
+  fNoOfRecentFiles := 8;
   fUseCodeFolding := True;
+  fInternalInterpreterHidden := True;
 end;
 
 destructor TPythonIDEOptions.Destroy;
@@ -1003,7 +1013,8 @@ begin
     else
       Font.Name := 'Courier New';
     Gutter.Font.Height := -11;
-    Gutter.Font.Name := 'Courier New';
+    Gutter.Font.Name := Font.Name;
+    Gutter.Font.Color := clGrayText;
     Gutter.Gradient := True;
     Gutter.LeftOffset := 25;
     Gutter.RightOffset := 1;
@@ -1025,7 +1036,7 @@ begin
     Keystrokes.AddKey(ecCodeCompletion, VK_SPACE, [ssCtrl]);
     Keystrokes.AddKey(ecParamCompletion, VK_SPACE, [ssCtrl, ssShift]);
     Keystrokes.AddKey(ecSelMatchBracket, 221, [ssCtrl, ssShift]); // 221 code for ]
-    // Visual studio shortcut form Match Bracket
+    // Visual studio shortcut for Match Bracket
     Keystrokes.Delete(Keystrokes.FindCommand(ecMatchBracket));
     Keystrokes.AddKey(ecMatchBracket, 221, [ssCtrl]);
   end;
@@ -2243,7 +2254,7 @@ begin
   end;
   with Categories[1] do begin
     DisplayName := _('Python Interpreter');
-    SetLength(Options, 12);
+    SetLength(Options, 13);
     Options[0].PropertyName := 'SaveFilesBeforeRun';
     Options[0].DisplayName := _('Save files before run');
     Options[1].PropertyName := 'SaveEnvironmentBeforeRun';
@@ -2268,6 +2279,8 @@ begin
     Options[10].DisplayName := _('Reinitialize before run');
     Options[11].PropertyName := 'JumpToErrorOnException';
     Options[11].DisplayName := _('Jump to error on exception');
+    Options[12].PropertyName := 'InternalInterpreterHidden';
+    Options[12].DisplayName := _('Internal Interpreter Hidden');
   end;
   with Categories[2] do begin
     DisplayName := _('Code Explorer');

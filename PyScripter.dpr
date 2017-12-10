@@ -131,8 +131,8 @@ begin
   ReportMemoryLeaksOnShutdown := DebugHook <> 0;
 
   UseLatestCommonDialogs := False;
-  TStyleManager.Engine.RegisterStyleHook(TCustomSynEdit, TMemoStyleHook);
-  TStyleManager.Engine.RegisterStyleHook(TJvInspector, TMemoStyleHook);
+//  TStyleManager.Engine.RegisterStyleHook(TCustomSynEdit, TMemoStyleHook);
+//  TStyleManager.Engine.RegisterStyleHook(TJvInspector, TMemoStyleHook);
 
   Application.Initialize;
 
@@ -150,8 +150,8 @@ begin
   Application.CreateForm(TPyIDEMainForm, PyIDEMainForm);
   Application.Run;
 
-  TStyleManager.Engine.UnRegisterStyleHook(TCustomSynEdit, TMemoStyleHook);
-  TStyleManager.Engine.UnRegisterStyleHook(TJvInspector, TMemoStyleHook);
+//  TStyleManager.Engine.UnRegisterStyleHook(TCustomSynEdit, TMemoStyleHook);
+//  TStyleManager.Engine.UnRegisterStyleHook(TJvInspector, TMemoStyleHook);
 
   end.
 

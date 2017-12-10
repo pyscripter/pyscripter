@@ -1447,8 +1447,7 @@ begin
     RestoreApplicationData;
     JvFormStorage.RestoreFormPlacement;
   end else
-    // Set Python engine
-    PyControl.PythonEngineType := CommandsDataModule.PyIDEOptions.PythonEngineType;
+    CommandsDataModule.PyIDEOptions.Changed;
 
   AppStorage.ReadStringList('Layouts', Layouts, True);
 
@@ -1463,6 +1462,7 @@ begin
     ManualTabDockAddPage(TabHost, CodeExplorerWindow);
     ShowDockForm(FileExplorerWindow);
 
+    StatusBar.Visible := False;
     TabHost := ManualTabDock(DockServer.BottomDockPanel, CallStackWindow, VariablesWindow);
     DockServer.BottomDockPanel.Height := 150;
     ManualTabDockAddPage(TabHost, WatchesWindow);
@@ -1471,6 +1471,7 @@ begin
     ManualTabDockAddPage(TabHost, MessagesWindow);
     ManualTabDockAddPage(TabHost, PythonIIForm);
     ShowDockForm(PythonIIForm);
+    StatusBar.Visible := True;
 
     Application.ProcessMessages;
   end;
@@ -2786,6 +2787,12 @@ begin
   JvDockVSNetStyleSpTBX.SetAnimationMoveWidth(CommandsDataModule.PyIDEOptions.DockAnimationMoveWidth);
 
   // Set Python engine
+  actPythonInternal.Visible := not CommandsDataModule.PyIDEOptions.InternalInterpreterHidden;
+  if not actPythonInternal.Visible and
+     (CommandsDataModule.PyIDEOptions.PythonEngineType = peInternal)
+  then
+    CommandsDataModule.PyIDEOptions.PythonEngineType := peRemote;
+
   PyControl.PythonEngineType := CommandsDataModule.PyIDEOptions.PythonEngineType;
 
   // Command History Size
@@ -3835,9 +3842,9 @@ begin
     then
       GradColor := StyleServices.GetSystemColor(clBtnFace);
 
-    if not StyleServices.GetElementColor(StyleServices.GetElementDetails(ttTabItemNormal),
-      ecTextColor, TextColor) or (TextColor = clNone)
-    then
+//    if not StyleServices.GetElementColor(StyleServices.GetElementDetails(ttTabItemNormal),
+//      ecTextColor, TextColor) or (TextColor = clNone)
+//    then
       TextColor := StyleServices.GetSystemColor(clGrayText);
     Gutter.Font.Color := TextColor;
   end;

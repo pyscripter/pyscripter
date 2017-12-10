@@ -9,15 +9,14 @@ object CommandsDataModule: TCommandsDataModule
     Options.AutoDetectEnabled = False
     Options.AutoDetectLineLimit = 0
     Options.Visible = False
-    CommentAttri.Foreground = clGreen
+    IdentifierAttri.Foreground = clBlack
     KeyAttri.Foreground = clNavy
-    KeyAttri.Style = []
     NonKeyAttri.Style = []
     NumberAttri.Foreground = clTeal
     HexAttri.Foreground = clTeal
     OctalAttri.Foreground = clTeal
     FloatAttri.Foreground = clTeal
-    SpaceAttri.Background = clWindow
+    SpaceAttri.Background = clWhite
     StringAttri.Foreground = clOlive
     DocStringAttri.Foreground = 16711884
     SymbolAttri.Foreground = clMaroon

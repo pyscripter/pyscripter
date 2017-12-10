@@ -43,8 +43,6 @@ object PyIDEMainForm: TPyIDEMainForm
       TabDragReorder = True
       TabPosition = ttpBottom
       OnActiveTabChange = TabControlActiveTabChange
-      ExplicitLeft = -2
-      ExplicitTop = 3
       HiddenItems = <>
       object tbiRightAlign: TSpTBXRightAlignSpacerItem
         CustomWidth = 648
@@ -1272,27 +1270,6 @@ object PyIDEMainForm: TPyIDEMainForm
       Visible = False
     end
   end
-  object DockServer: TJvDockServer
-    LeftSplitterStyle.Cursor = crHSplit
-    LeftSplitterStyle.ParentColor = False
-    LeftSplitterStyle.ResizeStyle = rsUpdate
-    LeftSplitterStyle.Size = 5
-    RightSplitterStyle.Cursor = crHSplit
-    RightSplitterStyle.ParentColor = False
-    RightSplitterStyle.ResizeStyle = rsUpdate
-    RightSplitterStyle.Size = 5
-    TopSplitterStyle.Cursor = crVSplit
-    TopSplitterStyle.ParentColor = False
-    TopSplitterStyle.ResizeStyle = rsUpdate
-    TopSplitterStyle.Size = 5
-    BottomSplitterStyle.Cursor = crVSplit
-    BottomSplitterStyle.ParentColor = False
-    BottomSplitterStyle.ResizeStyle = rsUpdate
-    BottomSplitterStyle.Size = 5
-    DockStyle = JvDockVSNetStyleSpTBX
-    Left = 37
-    Top = 158
-  end
   object AppStorage: TJvAppIniFileStorage
     StorageOptions.BooleanStringTrueValues = 'TRUE, YES, Y'
     StorageOptions.BooleanStringFalseValues = 'FALSE, NO, N'
@@ -2149,6 +2126,27 @@ object PyIDEMainForm: TPyIDEMainForm
       ImageIndex = 107
       OnExecute = actSelectStyleExecute
     end
+  end
+  object DockServer: TJvDockServer
+    LeftSplitterStyle.Cursor = crHSplit
+    LeftSplitterStyle.ParentColor = False
+    LeftSplitterStyle.ResizeStyle = rsUpdate
+    LeftSplitterStyle.Size = 5
+    RightSplitterStyle.Cursor = crHSplit
+    RightSplitterStyle.ParentColor = False
+    RightSplitterStyle.ResizeStyle = rsUpdate
+    RightSplitterStyle.Size = 5
+    TopSplitterStyle.Cursor = crVSplit
+    TopSplitterStyle.ParentColor = False
+    TopSplitterStyle.ResizeStyle = rsUpdate
+    TopSplitterStyle.Size = 5
+    BottomSplitterStyle.Cursor = crVSplit
+    BottomSplitterStyle.ParentColor = False
+    BottomSplitterStyle.ResizeStyle = rsUpdate
+    BottomSplitterStyle.Size = 5
+    DockStyle = JvDockVSNetStyleSpTBX
+    Left = 37
+    Top = 158
   end
   object JvDockVSNetStyleSpTBX: TJvDockVSNetStyleSpTBX
     AlwaysShowGrabber = False
