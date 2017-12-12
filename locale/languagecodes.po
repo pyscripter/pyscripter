@@ -330,6 +330,10 @@ msgstr "Javanese"
 msgid "ka"
 msgstr "Georgian"
 
+#. Row 
+msgid "kab"
+msgstr "Taqbaylit"
+
 #. Row 81
 msgid "kg"
 msgstr "Kongo"
