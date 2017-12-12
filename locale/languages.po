@@ -1,17 +1,7 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+"Language: en\n"
+
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2003-05-05 12:39\n"
-"PO-Revision-Date: 2003-09-17 10:06+1000\n"
-"Last-Translator: Olivier Sannier <ods@opcom.com.au>\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
 
 msgid "Chinese"
 msgstr ""
@@ -39,6 +29,10 @@ msgstr ""
 msgid "Japanese"
 msgstr ""
 
+#. Language of Kabyle people
+msgid "Kabyle"
+msgstr ""
+
 #. Language of Portugal, Europe
 msgid "Portuguese"
 msgstr ""
@@ -47,3 +41,10 @@ msgstr ""
 msgid "Russian"
 msgstr ""
 
+#. Language of Slovakia
+msgid "Slovak"
+msgstr ""
+
+#. Language of Spain
+msgid "Spanish"
+msgstr ""
