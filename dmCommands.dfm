@@ -576,6 +576,10 @@ object CommandsDataModule: TCommandsDataModule
       'fec'
       '|File encoding comment'
       '=# -*- coding: UTF-8 -*-'
+      '=|'
+      'she'
+      '|Sheband'
+      '=#!/usr/bin/env python$[($[PythonVersion]>='#39'3.0'#39')'#39'3'#39':'#39#39']'
       '=|')
     EndOfTokenChr = '()[]. '
     ShortCut = 0
@@ -3286,8 +3290,8 @@ object CommandsDataModule: TCommandsDataModule
           '    import warnings'
           '    warnings.simplefilter("ignore", DeprecationWarning)'
           ''
-          '    import logging'
-          '    logging.basicConfig(level=logging.CRITICAL)'
+          '    #import logging'
+          '    #logging.basicConfig(level=logging.CRITICAL)'
           ''
           '    try:'
           '        port = int(sys.argv[1])'
@@ -4375,7 +4379,106 @@ object CommandsDataModule: TCommandsDataModule
     object actFoldVisible: TAction
       Category = 'Code Folding'
       Caption = 'Code Folding'
+      Hint = 'Show/Hide Code Folding'
       OnExecute = actFoldVisibleExecute
+    end
+    object actFoldAll: TAction
+      Category = 'Code Folding'
+      Caption = 'All'
+      Hint = 'Fold all'
+      ImageIndex = 29
+      OnExecute = actFoldAllExecute
+    end
+    object actUnfoldAll: TAction
+      Category = 'Code Folding'
+      Caption = 'All'
+      Hint = 'Unfold all'
+      ImageIndex = 28
+      OnExecute = actUnfoldAllExecute
+    end
+    object actFoldNearest: TAction
+      Category = 'Code Folding'
+      Caption = 'Nearest'
+      Hint = 'Collapse nearst fold'
+      OnExecute = actFoldNearestExecute
+    end
+    object actUnfoldNearest: TAction
+      Category = 'Code Folding'
+      Caption = 'Nearest'
+      Hint = 'Uncollapse nerest fold'
+      OnExecute = actUnfoldNearestExecute
+    end
+    object actFoldRegions: TAction
+      Category = 'Code Folding'
+      Caption = 'Regions'
+      Hint = 'Fold Ranges'
+      OnExecute = actFoldRegionsExecute
+    end
+    object actUnfoldRegions: TAction
+      Category = 'Code Folding'
+      Caption = 'Regions'
+      Hint = 'Unfold ranges'
+      OnExecute = actUnfoldRegionsExecute
+    end
+    object actFoldLevel1: TAction
+      Category = 'Code Folding'
+      Caption = 'Level 1'
+      Hint = 'Fold level 1'
+      OnExecute = actFoldLevel1Execute
+    end
+    object actUnfoldLevel1: TAction
+      Category = 'Code Folding'
+      Caption = 'Level 1'
+      Hint = 'Unfold level 1'
+      OnExecute = actUnfoldLevel1Execute
+    end
+    object actFoldLevel2: TAction
+      Category = 'Code Folding'
+      Caption = 'Level 2'
+      Hint = 'Fold level 2'
+      OnExecute = actFoldLevel2Execute
+    end
+    object actUnfoldLevel2: TAction
+      Category = 'Code Folding'
+      Caption = 'Level 2'
+      Hint = 'Unfold level 2'
+      OnExecute = actUnfoldLevel2Execute
+    end
+    object actFoldLevel3: TAction
+      Category = 'Code Folding'
+      Caption = 'Level 3'
+      Hint = 'Fold level 3'
+      OnExecute = actFoldLevel3Execute
+    end
+    object actUnfoldLevel3: TAction
+      Category = 'Code Folding'
+      Caption = 'Level 3'
+      Hint = 'Unfold level 3'
+      OnExecute = actUnfoldLevel3Execute
+    end
+    object actFoldClasses: TAction
+      Category = 'Code Folding'
+      Caption = 'Classes'
+      Hint = 'Fold classes'
+      OnExecute = actFoldClassesExecute
+    end
+    object actUnfoldClasses: TAction
+      Category = 'Code Folding'
+      Caption = 'Classes'
+      Hint = 'Unfold classes'
+      OnExecute = actUnfoldClassesExecute
+    end
+    object actFoldFunctions: TAction
+      Category = 'Code Folding'
+      Caption = 'Functions'
+      Hint = 'Fold functions'
+      OnExecute = actFoldFunctionsExecute
+    end
+    object actUnfoldFunctions: TAction
+      Category = 'Code Folding'
+      Caption = 'Functions'
+      Hint = 'Unfold functions'
+      OnExecute = actUnfoldFunctionsExecute
     end
   end
   object Images: TImageList

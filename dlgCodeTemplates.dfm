@@ -10,7 +10,7 @@ inherited CodeTemplates: TCodeTemplates
   OnDestroy = FormDestroy
   OnShow = FormShow
   ExplicitWidth = 436
-  ExplicitHeight = 454
+  ExplicitHeight = 455
   PixelsPerInch = 96
   TextHeight = 13
   object Panel: TSpTBXPanel
@@ -231,7 +231,12 @@ inherited CodeTemplates: TCodeTemplates
       Header.Visible = True
       HotTrack.Enabled = True
       PaintInfoGroup.MarginBottom.CaptionIndent = 4
+      Selection.AlphaBlend = True
+      Selection.AlphaBlendSelRect = True
       Selection.FullRowSelect = True
+      Selection.InactiveBorderColor = clHighlight
+      Selection.InactiveColor = clHighlight
+      Selection.InactiveTextColor = clWindowText
       TabOrder = 9
       View = elsReport
       OnItemFreeing = lvItemsItemFreeing

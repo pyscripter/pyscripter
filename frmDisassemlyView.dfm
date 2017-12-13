@@ -30,12 +30,17 @@ object DisForm: TDisForm
     Gutter.Visible = False
     Gutter.Width = 0
     Highlighter = SynPythonSyn
+    FontSmoothing = fsmNone
   end
   object SynPythonSyn: TSynPythonSyn
+    Options.AutoDetectEnabled = False
+    Options.AutoDetectLineLimit = 0
+    Options.Visible = False
     CommentAttri.Foreground = clMaroon
     CommentAttri.Style = []
-    KeyAttri.Foreground = clHotlight
+    KeyAttri.Foreground = clHotLight
     NumberAttri.Foreground = clTeal
+    SpaceAttri.Background = clWhite
     StringAttri.Foreground = clPurple
     DocStringAttri.Foreground = clMaroon
     Left = 537

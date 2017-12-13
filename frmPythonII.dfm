@@ -51,8 +51,6 @@ inherited PythonIIForm: TPythonIIForm
   inherited BGPanel: TSpTBXPanel
     Width = 701
     Height = 451
-    ExplicitLeft = 0
-    ExplicitTop = 0
     ExplicitWidth = 701
     ExplicitHeight = 451
     inherited FGPanel: TPanel
@@ -152,7 +150,7 @@ inherited PythonIIForm: TPythonIIForm
     Editor = SynEdit
     TimerInterval = 300
     OnAfterCodeCompletion = SynCodeCompletionAfterCodeCompletion
-    Left = 555
+    Left = 523
     Top = 1
   end
   object DebugIDE: TPythonModule
@@ -249,8 +247,7 @@ inherited PythonIIForm: TPythonIIForm
     ShortCut = 0
     Editor = SynEdit
     TimerInterval = 300
-    Left = 657
-    Top = 8
+    Left = 625
   end
   object InterpreterPopUp: TSpTBXPopupMenu
     Images = CommandsDataModule.Images

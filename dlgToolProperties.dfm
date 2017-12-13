@@ -64,6 +64,7 @@ inherited ToolProperties: TToolProperties
       Height = 453
       Align = alTop
       ActiveTabIndex = 0
+      ExplicitTop = 6
       HiddenItems = <>
       object SpTBXTabItem1: TSpTBXTabItem
         Caption = '&Properties'
@@ -202,6 +203,12 @@ inherited ToolProperties: TToolProperties
           HotTrack.Enabled = True
           PaintInfoGroup.MarginBottom.CaptionIndent = 4
           PaintInfoItem.GridLines = True
+          Selection.AlphaBlend = True
+          Selection.AlphaBlendSelRect = True
+          Selection.FullRowSelect = True
+          Selection.InactiveBorderColor = clHighlight
+          Selection.InactiveColor = clHighlight
+          Selection.InactiveTextColor = clWindowText
           TabOrder = 0
           View = elsReport
           OnColumnClick = lvItemsColumnClick

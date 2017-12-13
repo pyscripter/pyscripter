@@ -52,7 +52,7 @@ inherited FunctionListWindow: TFunctionListWindow
   OnClose = FormClose
   OnKeyPress = edtMethodsKeyPress
   ExplicitWidth = 541
-  ExplicitHeight = 350
+  ExplicitHeight = 351
   PixelsPerInch = 96
   TextHeight = 13
   object pnHolder: TSpTBXPanel
@@ -75,6 +75,7 @@ inherited FunctionListWindow: TFunctionListWindow
       EditManager.Font.Height = -11
       EditManager.Font.Name = 'Tahoma'
       EditManager.Font.Style = []
+      DragManager.InsertMark.Color = clGrayText
       Header.Columns.Items = {
         0600000003000000110000005445617379436F6C756D6E53746F726564FFFECE
         0006000000800800010100010000000000000114000000FFFFFF1F0001000000
@@ -87,7 +88,12 @@ inherited FunctionListWindow: TFunctionListWindow
       Header.Visible = True
       ImagesSmall = CommandsDataModule.CodeImages
       PaintInfoGroup.MarginBottom.CaptionIndent = 4
+      Selection.AlphaBlend = True
+      Selection.AlphaBlendSelRect = True
       Selection.FullRowSelect = True
+      Selection.InactiveBorderColor = clHighlight
+      Selection.InactiveColor = clHighlight
+      Selection.InactiveTextColor = clWindowText
       Sort.AutoSort = True
       TabOrder = 0
       View = elsReport
@@ -95,6 +101,8 @@ inherited FunctionListWindow: TFunctionListWindow
       OnItemDblClick = lvProcsItemDblClick
       OnItemSelectionsChanged = lvProcsItemSelectionsChanged
       OnSortEnd = lvProcsSortEnd
+      ExplicitLeft = 3
+      ExplicitTop = 6
     end
   end
   object pnlHeader: TSpTBXPanel

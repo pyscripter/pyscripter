@@ -1475,6 +1475,12 @@ begin
       Continue;
     end;
 
+    // Skip code comments
+    if Copy(CurLine, 1, 2) = '##' then begin
+      FoldRanges.NoFoldInfo(Line + 1);
+      Continue;
+    end;
+
     // Find Fold regions
     if FoldRegion(Line) then
       Continue;

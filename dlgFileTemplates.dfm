@@ -8,7 +8,7 @@ inherited FileTemplatesDialog: TFileTemplatesDialog
   ShowHint = True
   OnDestroy = FormDestroy
   ExplicitWidth = 534
-  ExplicitHeight = 479
+  ExplicitHeight = 480
   PixelsPerInch = 96
   TextHeight = 13
   object Panel: TSpTBXPanel
@@ -247,7 +247,12 @@ inherited FileTemplatesDialog: TFileTemplatesDialog
       Header.Visible = True
       HotTrack.Enabled = True
       PaintInfoGroup.MarginBottom.CaptionIndent = 4
+      Selection.AlphaBlend = True
+      Selection.AlphaBlendSelRect = True
       Selection.FullRowSelect = True
+      Selection.InactiveBorderColor = clHighlight
+      Selection.InactiveColor = clHighlight
+      Selection.InactiveTextColor = clWindowText
       TabOrder = 9
       View = elsReport
       OnColumnClick = lvItemsColumnClick

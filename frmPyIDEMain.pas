@@ -392,12 +392,15 @@
 
   History:   v 3.1
           New Features
+            Code folding
+            Indentation lines
             pip tool added
             Internal Interpreter is hidden by default
+            Kabyle language added
           Issues addressed
-            690, 765
+            16, 571, 685, 690, 765, 814, 836
+            { TODO : Issue 721 }
             { TODO : Issue 311 }
-            { TODO : Issue 765 }
             { TODO : Auto PEP8 tool }
             { TODO : Replace assertion "1175" with message }
 
@@ -2854,6 +2857,8 @@ begin
       SynCodeCompletion.Options:=PythonIIForm.SynCodeCompletion.Options;
       SynCodeCompletion.TriggerChars:=PythonIIForm.SynCodeCompletion.TriggerChars;
       SynCodeCompletion.TimerInterval:=PythonIIForm.SynCodeCompletion.TimerInterval;
+      Synedit.CodeFolding.Assign(CommandsDataModule.PyIDEOptions.CodeFolding);
+      Synedit2.CodeFolding.Assign(CommandsDataModule.PyIDEOptions.CodeFolding);
     end;
   end;
 
@@ -2992,7 +2997,10 @@ Var
   TempStringList : TStringList;
   i : integer;
   FName : string;
+  PyScripterVersion : string;
 begin
+  PyScripterVersion := AppStorage.ReadString('PyScripter Version', '1.0');
+
   // Change language
   ChangeLanguage(AppStorage.ReadString('Language', GetCurrentLanguage));
 
@@ -3004,6 +3012,11 @@ begin
     with CommandsDataModule do begin
       EditorOptions.Gutter.Gradient := False;  //default value
       AppStorage.ReadPersistent('Editor Options', EditorOptions);
+      if CompareVersion(PyScripterVersion, '3.1') < 0 then begin
+        EditorOptions.Keystrokes.ResetDefaults;
+        EditorOptions.Gutter.DigitCount := 2;
+      end;
+
       for i := 0 to Highlighters.Count - 1 do
         AppStorage.ReadPersistent('Highlighters\'+Highlighters[i],
           TPersistent(Highlighters.Objects[i]));
@@ -3595,6 +3608,7 @@ procedure TPyIDEMainForm.SplitWorkspace(SecondTabsVisible : Boolean;
 begin
   TabSplitter.Visible := False;
   TabControl2.Visible := False;
+  ActiveTabControlIndex := 1;
   if SecondTabsVisible then begin
     TabControl2.Align := Alignment;
     if Alignment = alRight then

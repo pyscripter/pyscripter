@@ -455,7 +455,8 @@ end;
 function GetPythonDir (VersionString : string) : string;
 var
   key : String;
-  AllUserInstall : Boolean;
+  CurrentUserInstall : Boolean;
+  VersionSuffix : string;
 begin
   Result := '';
 
@@ -467,15 +468,33 @@ begin
   // Hence, for Current user installations we need to try and find the install path
   // since it may not be on the system path.
 
-  AllUserInstall := False;
-  key := Format('\Software\Python\PythonCore\%s\InstallPath', [VersionString]);
+  VersionSuffix := '';
+{$IFDEF CPUX86}
+  if CompareVersion(VersionString, '3.5') >= 0 then
+    VersionSuffix := '-32';
+{$ENDIF}
+
+  CurrentUserInstall := False;
+  key := Format('\Software\Python\PythonCore\%s%s\InstallPath', [VersionString, VersionSuffix]);
+  with TRegistry.Create(KEY_READ and not KEY_NOTIFY) do
+    try
+      RootKey := HKEY_CURRENT_USER;
+      if KeyExists(Key) and  OpenKey(Key, False) then
+        Result := ReadString('');
+        CurrentUserInstall := True;
+    finally
+      Free;
+      end;
+
+  // We do not seem to have an Current User Python Installation.
+  // Check whether we have an All User installation
+  if not CurrentUserInstall then
   try
     with TRegistry.Create(KEY_READ and not KEY_NOTIFY) do
       try
         RootKey := HKEY_LOCAL_MACHINE;
-        if OpenKey(Key, False) then begin
+        if KeyExists(Key) and  OpenKey(Key, False) then begin
           Result := ReadString('');
-          AllUserInstall := True;
         end;
       finally
         Free;
@@ -484,17 +503,6 @@ begin
     // under WinNT, with a user without admin rights, the access to the
     // LocalMachine keys would raise an exception.
   end;
-  // We do not seem to have an All User Python Installation.
-  // Check whether we have a current user installation
-  if not AllUserInstall then
-    with TRegistry.Create(KEY_READ and not KEY_NOTIFY) do
-      try
-        RootKey := HKEY_CURRENT_USER;
-        if OpenKey(Key, False) then
-          Result := ReadString('');
-      finally
-        Free;
-      end;
 
   if Result <> '' then
     Result := IncludeTrailingPathDelimiter(Result);

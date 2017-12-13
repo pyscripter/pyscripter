@@ -590,26 +590,31 @@ procedure TSynEditorOptionsContainer.AssignTo(Dest: TPersistent);
 begin
   if Assigned(Dest) and (Dest is TCustomSynEdit) then
   begin
-    TCustomSynEdit(Dest).Font.Assign(Self.Font);
-    TCustomSynEdit(Dest).BookmarkOptions.Assign(Self.BookmarkOptions);
-    TCustomSynEdit(Dest).Gutter.Assign(Self.Gutter);
-    TCustomSynEdit(Dest).Keystrokes.Assign(Self.Keystrokes);
-    TCustomSynEdit(Dest).SelectedColor.Assign(Self.SelectedColor);
+    TCustomSynEdit(Dest).BeginUpdate;
+    try
+      TCustomSynEdit(Dest).Font.Assign(Self.Font);
+      TCustomSynEdit(Dest).BookmarkOptions.Assign(Self.BookmarkOptions);
+      TCustomSynEdit(Dest).Gutter.Assign(Self.Gutter);
+      TCustomSynEdit(Dest).Keystrokes.Assign(Self.Keystrokes);
+      TCustomSynEdit(Dest).SelectedColor.Assign(Self.SelectedColor);
 
-    TCustomSynEdit(Dest).Color := Self.Color;
-    TCustomSynEdit(Dest).Options := Self.Options;
-    TCustomSynEdit(Dest).ExtraLineSpacing := Self.ExtraLineSpacing;
-    TCustomSynEdit(Dest).HideSelection := Self.HideSelection;
-    TCustomSynEdit(Dest).InsertCaret := Self.InsertCaret;
-    TCustomSynEdit(Dest).OverwriteCaret := Self.OverwriteCaret;
-    TCustomSynEdit(Dest).MaxScrollWidth := Self.MaxScrollWidth;
-    TCustomSynEdit(Dest).MaxUndo := Self.MaxUndo;
-    TCustomSynEdit(Dest).RightEdge := Self.RightEdge;
-    TCustomSynEdit(Dest).RightEdgeColor := Self.RightEdgeColor;
-    TCustomSynEdit(Dest).TabWidth := Self.TabWidth;
-    TCustomSynEdit(Dest).WantTabs := Self.WantTabs;
-    TCustomSynEdit(Dest).WordWrap := Self.WordWrap;
-    TCustomSynEdit(Dest).ActiveLineColor := Self.ActiveLineColor;
+      TCustomSynEdit(Dest).Color := Self.Color;
+      TCustomSynEdit(Dest).Options := Self.Options;
+      TCustomSynEdit(Dest).ExtraLineSpacing := Self.ExtraLineSpacing;
+      TCustomSynEdit(Dest).HideSelection := Self.HideSelection;
+      TCustomSynEdit(Dest).InsertCaret := Self.InsertCaret;
+      TCustomSynEdit(Dest).OverwriteCaret := Self.OverwriteCaret;
+      TCustomSynEdit(Dest).MaxScrollWidth := Self.MaxScrollWidth;
+      TCustomSynEdit(Dest).MaxUndo := Self.MaxUndo;
+      TCustomSynEdit(Dest).RightEdge := Self.RightEdge;
+      TCustomSynEdit(Dest).RightEdgeColor := Self.RightEdgeColor;
+      TCustomSynEdit(Dest).TabWidth := Self.TabWidth;
+      TCustomSynEdit(Dest).WantTabs := Self.WantTabs;
+      TCustomSynEdit(Dest).WordWrap := Self.WordWrap;
+      TCustomSynEdit(Dest).ActiveLineColor := Self.ActiveLineColor;
+    finally
+      TCustomSynEdit(Dest).EndUpdate;
+    end;
   end else
     inherited;
 end;

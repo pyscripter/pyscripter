@@ -9,7 +9,7 @@ inherited CustomizeParams: TCustomizeParams
   OnDestroy = FormDestroy
   OnShow = FormShow
   ExplicitWidth = 441
-  ExplicitHeight = 371
+  ExplicitHeight = 372
   PixelsPerInch = 96
   TextHeight = 13
   object Panel: TSpTBXPanel
@@ -190,7 +190,12 @@ inherited CustomizeParams: TCustomizeParams
       Header.Visible = True
       HotTrack.Enabled = True
       PaintInfoGroup.MarginBottom.CaptionIndent = 4
+      Selection.AlphaBlend = True
+      Selection.AlphaBlendSelRect = True
       Selection.FullRowSelect = True
+      Selection.InactiveBorderColor = clHighlight
+      Selection.InactiveColor = clHighlight
+      Selection.InactiveTextColor = clWindowText
       TabOrder = 10
       View = elsReport
       OnColumnClick = lvItemsColumnClick

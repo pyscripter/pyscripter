@@ -78,8 +78,30 @@ type
     N12: TSpTBXSeparatorItem;
     mnEditorOptions: TSpTBXItem;
     BGPanel: TSpTBXPanel;
-    SpTBXSeparatorItem3: TSpTBXSeparatorItem;
     mnFoldVisible: TSpTBXItem;
+    SpTBXSeparatorItem4: TSpTBXSeparatorItem;
+    mnFold: TSpTBXSubmenuItem;
+    mnUnfold: TSpTBXSubmenuItem;
+    mnFoldAll: TSpTBXItem;
+    mnUnfoldAll: TSpTBXItem;
+    mnFoldNearest: TSpTBXItem;
+    mnUnfoldNearest: TSpTBXItem;
+    mnFoldRegions: TSpTBXItem;
+    SpTBXSeparatorItem3: TSpTBXSeparatorItem;
+    mnFoldLevel1: TSpTBXItem;
+    mnUnfoldRegions: TSpTBXItem;
+    SpTBXSeparatorItem5: TSpTBXSeparatorItem;
+    mnUnfoldLevel1: TSpTBXItem;
+    mnFoldLevel2: TSpTBXItem;
+    mnFoldLevel3: TSpTBXItem;
+    mnUnfoldLevel2: TSpTBXItem;
+    mnUnfoldLevel3: TSpTBXItem;
+    SpTBXSeparatorItem6: TSpTBXSeparatorItem;
+    mnFoldFunctions: TSpTBXItem;
+    mnFoldClasses: TSpTBXItem;
+    SpTBXSeparatorItem7: TSpTBXSeparatorItem;
+    mnUnfoldFunctions: TSpTBXItem;
+    mnUnfoldClasses: TSpTBXItem;
     procedure SynEditMouseMove(Sender: TObject; Shift: TShiftState;
       X, Y: Integer);
     procedure SynParamCompletionExecute(Kind: SynCompletionType;
@@ -2005,8 +2027,7 @@ begin
   begin
     FirstLine := SynEdit.RowToLine(FirstLine);
     LastLine := SynEdit.RowToLine(LastLine);
-    // Todo something
-    X := 14;
+    X := SynEdit.BookMarkOptions.Xoffset + SynEdit.Gutter.RightMargin;
     LH := SynEdit.LineHeight;
 
     for Line := FirstLine to LastLine do

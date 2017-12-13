@@ -24,7 +24,7 @@ uses
   SynHighlighterIni, uEditAppIntfs, SynUnicode,
   JvStringHolder, cPyBaseDebugger,
   SynEditTypes, VirtualExplorerTree, VirtualShellNotifier, SynHighlighterWeb,
-  SynHighlighterCpp, SynHighlighterYAML,
+  SynHighlighterCpp, SynHighlighterYAML, SynEditCodeFolding,
   SpTBXTabs, dlgOptionsEditor, System.Actions;
 
 type
@@ -101,6 +101,7 @@ type
     fNoOfRecentFiles : integer;
     fUseCodeFolding : boolean;
     fInternalInterpreterHidden : boolean;
+    fCodeFolding : TSynCodeFolding;
     function GetPythonFileExtensions: string;
     procedure SetAutoCompletionFont(const Value: TFont);
   public
@@ -110,6 +111,8 @@ type
     property PythonFileExtensions : string read GetPythonFileExtensions;
   published
     procedure Changed;
+    property CodeFolding : TSynCodeFolding read fCodeFolding
+      write fCodeFolding;
     property TimeOut : integer read fTimeOut write fTimeOut default 0;
     property UndoAfterSave : boolean read fUndoAfterSave
       write fUndoAfterSave default True;
@@ -412,6 +415,22 @@ type
     SynWebPhpPlainSyn: TSynWebPhpPlainSyn;
     actHelpWebBlog: TAction;
     actFoldVisible: TAction;
+    actFoldAll: TAction;
+    actUnfoldAll: TAction;
+    actFoldNearest: TAction;
+    actUnfoldNearest: TAction;
+    actFoldRegions: TAction;
+    actUnfoldRegions: TAction;
+    actFoldLevel1: TAction;
+    actUnfoldLevel1: TAction;
+    actFoldLevel2: TAction;
+    actUnfoldLevel2: TAction;
+    actFoldLevel3: TAction;
+    actUnfoldLevel3: TAction;
+    actFoldClasses: TAction;
+    actUnfoldClasses: TAction;
+    actFoldFunctions: TAction;
+    actUnfoldFunctions: TAction;
     function ProgramVersionHTTPLocationLoadFileFromRemote(
       AProgramVersionLocation: TJvProgramVersionHTTPLocation; const ARemotePath,
       ARemoteFileName, ALocalPath, ALocalFileName: string): string;
@@ -497,6 +516,22 @@ type
     procedure actToolsEditStartupScriptsExecute(Sender: TObject);
     procedure actHelpWebBlogExecute(Sender: TObject);
     procedure actFoldVisibleExecute(Sender: TObject);
+    procedure actFoldAllExecute(Sender: TObject);
+    procedure actUnfoldAllExecute(Sender: TObject);
+    procedure actFoldNearestExecute(Sender: TObject);
+    procedure actUnfoldNearestExecute(Sender: TObject);
+    procedure actUnfoldRegionsExecute(Sender: TObject);
+    procedure actFoldRegionsExecute(Sender: TObject);
+    procedure actUnfoldLevel1Execute(Sender: TObject);
+    procedure actFoldLevel1Execute(Sender: TObject);
+    procedure actFoldLevel2Execute(Sender: TObject);
+    procedure actUnfoldLevel2Execute(Sender: TObject);
+    procedure actFoldLevel3Execute(Sender: TObject);
+    procedure actUnfoldLevel3Execute(Sender: TObject);
+    procedure actFoldClassesExecute(Sender: TObject);
+    procedure actUnfoldClassesExecute(Sender: TObject);
+    procedure actFoldFunctionsExecute(Sender: TObject);
+    procedure actUnfoldFunctionsExecute(Sender: TObject);
   private
     fHighlighters: TStrings;
     fUntitledNumbers: TBits;
@@ -611,6 +646,7 @@ procedure TPythonIDEOptions.Assign(Source: TPersistent);
 begin
   if Source is TPythonIDEOptions then
     with TPythonIDEOptions(Source) do begin
+      Self.fCodeFolding.Assign(CodeFolding);
       Self.fTimeOut := TimeOut;
       Self.fUndoAfterSave := UndoAfterSave;
       Self.fSaveFilesBeforeRun := SaveFilesBeforeRun;
@@ -766,11 +802,13 @@ begin
   fNoOfRecentFiles := 8;
   fUseCodeFolding := True;
   fInternalInterpreterHidden := True;
+  fCodeFolding := TSynCodeFolding.Create;
 end;
 
 destructor TPythonIDEOptions.Destroy;
 begin
   FreeAndNil(fAutoCompletionFont);
+  FreeAndNil(fCodeFolding);
   inherited;
 end;
 
@@ -1490,6 +1528,54 @@ begin
     FindResultsWindow.Execute(False)
 end;
 
+procedure TCommandsDataModule.actUnfoldAllExecute(Sender: TObject);
+begin
+  if Assigned(GI_ActiveEditor) then
+    GI_ActiveEditor.ActiveSynEdit.UncollapseAll;
+end;
+
+procedure TCommandsDataModule.actUnfoldClassesExecute(Sender: TObject);
+begin
+  if Assigned(GI_ActiveEditor) then
+    GI_ActiveEditor.ActiveSynEdit.UncollapseFoldType(3);
+end;
+
+procedure TCommandsDataModule.actUnfoldFunctionsExecute(Sender: TObject);
+begin
+  if Assigned(GI_ActiveEditor) then
+    GI_ActiveEditor.ActiveSynEdit.UncollapseFoldType(4);
+end;
+
+procedure TCommandsDataModule.actUnfoldLevel1Execute(Sender: TObject);
+begin
+  if Assigned(GI_ActiveEditor) then
+    GI_ActiveEditor.ActiveSynEdit.ExecuteCommand(ecUnfoldLevel1, ' ', nil);
+end;
+
+procedure TCommandsDataModule.actUnfoldLevel2Execute(Sender: TObject);
+begin
+  if Assigned(GI_ActiveEditor) then
+    GI_ActiveEditor.ActiveSynEdit.ExecuteCommand(ecUnfoldLevel2, ' ', nil);
+end;
+
+procedure TCommandsDataModule.actUnfoldLevel3Execute(Sender: TObject);
+begin
+  if Assigned(GI_ActiveEditor) then
+    GI_ActiveEditor.ActiveSynEdit.ExecuteCommand(ecUnfoldLevel3, ' ', nil);
+end;
+
+procedure TCommandsDataModule.actUnfoldNearestExecute(Sender: TObject);
+begin
+  if Assigned(GI_ActiveEditor) then
+    GI_ActiveEditor.ActiveSynEdit.ExecuteCommand(ecUnfoldNearest, ' ', nil);
+end;
+
+procedure TCommandsDataModule.actUnfoldRegionsExecute(Sender: TObject);
+begin
+  if Assigned(GI_ActiveEditor) then
+    GI_ActiveEditor.ActiveSynEdit.ExecuteCommand(ecUnfoldRegions, ' ', nil);
+end;
+
 procedure TCommandsDataModule.actUnitTestWizardExecute(Sender: TObject);
 Var
   Tests : string;
@@ -1516,12 +1602,9 @@ begin
     GI_EditorFactory.Editor[i].SynEdit2.Assign(EditorOptions);
   end;
 
-//  InterpreterEditorOptions.Assign(EditorOptions);
-//  InterpreterEditorOptions.Options := InterpreterEditorOptions.Options -
-//    [eoTrimTrailingSpaces, eoTabsToSpaces];
-//  PythonIIForm.SynEdit.Assign(InterpreterEditorOptions);
   InterpreterEditorOptions.Keystrokes.Assign(EditorOptions.Keystrokes);
-  PythonIIForm.SynEdit.Keystrokes.Assign(EditorOptions.Keystrokes);
+  InterpreterEditorOptions.Font.Assign(EditorOptions.Font);
+  PythonIIForm.SynEdit.Assign(InterpreterEditorOptions);
   PythonIIForm.RegisterHistoryCommands;
   PythonIIForm.SynEdit.Highlighter.Assign(SynPythonSyn);
   SynCythonSyn.Assign(SynPythonSyn);
@@ -2314,7 +2397,7 @@ begin
   end;
   with Categories[4] do begin
     DisplayName := _('Editor');
-    SetLength(Options, 19);
+    SetLength(Options, 20);
     Options[0].PropertyName := 'RestoreOpenFiles';
     Options[0].DisplayName := _('Restore open files');
     Options[1].PropertyName := 'SearchTextAtCaret';
@@ -2352,7 +2435,9 @@ begin
     Options[17].PropertyName := 'CheckSyntaxLineLimit';
     Options[17].DisplayName := _('File line limit for syntax check as you type');
     Options[18].PropertyName := 'UseCodeFolding';
-    Options[18].DisplayName := _('Code Folding is enabled by default');
+    Options[18].DisplayName := _('Code folding enabled by default');
+    Options[19].PropertyName := 'CodeFolding';
+    Options[19].DisplayName := _('Code folding options');
   end;
   with Categories[5] do begin
     DisplayName := _('Code Completion');
@@ -2512,10 +2597,26 @@ begin
 //  actEditUndo.Enabled := (GI_EditCmds <> nil) and GI_EditCmds.CanUndo;
   actEditRedo.Enabled := (GI_EditCmds <> nil) and GI_EditCmds.CanRedo;
   actEditCopyFileName.Enabled := Assigned(Editor);
+
   actFoldVisible.Enabled := Assigned(GI_ActiveEditor);
   actFoldVisible.Checked := Assigned(GI_ActiveEditor) and
     GI_ActiveEditor.SynEdit.UseCodeFolding;
-
+  actFoldAll.Enabled := actFoldVisible.Checked;
+  actUnfoldAll.Enabled := actFoldVisible.Checked;
+  actFoldNearest.Enabled := actFoldVisible.Checked;
+  actUnfoldNearest.Enabled := actFoldVisible.Checked;
+  actFoldRegions.Enabled := actFoldVisible.Checked;
+  actUnfoldRegions.Enabled := actFoldVisible.Checked;
+  actFoldLevel1.Enabled := actFoldVisible.Checked;
+  actUnfoldLevel1.Enabled := actFoldVisible.Checked;
+  actFoldLevel2.Enabled := actFoldVisible.Checked;
+  actUnfoldLevel2.Enabled := actFoldVisible.Checked;
+  actFoldLevel3.Enabled := actFoldVisible.Checked;
+  actUnfoldLevel3.Enabled := actFoldVisible.Checked;
+  actFoldClasses.Enabled := actFoldVisible.Checked;
+  actUnfoldClasses.Enabled := actFoldVisible.Checked;
+  actFoldFunctions.Enabled := actFoldVisible.Checked;
+  actUnfoldFunctions.Enabled := actFoldVisible.Checked;
 
   actEditLBDos.Enabled := Assigned(GI_ActiveEditor);
   actEditLBDos.Checked := Assigned(GI_ActiveEditor) and
@@ -2881,6 +2982,54 @@ begin
       end;
     end;
   end;
+end;
+
+procedure TCommandsDataModule.actFoldAllExecute(Sender: TObject);
+begin
+  if Assigned(GI_ActiveEditor) then
+    GI_ActiveEditor.ActiveSynEdit.CollapseAll;
+end;
+
+procedure TCommandsDataModule.actFoldClassesExecute(Sender: TObject);
+begin
+  if Assigned(GI_ActiveEditor) then
+    GI_ActiveEditor.ActiveSynEdit.CollapseFoldType(3);
+end;
+
+procedure TCommandsDataModule.actFoldFunctionsExecute(Sender: TObject);
+begin
+  if Assigned(GI_ActiveEditor) then
+    GI_ActiveEditor.ActiveSynEdit.CollapseFoldType(4);
+end;
+
+procedure TCommandsDataModule.actFoldLevel1Execute(Sender: TObject);
+begin
+  if Assigned(GI_ActiveEditor) then
+    GI_ActiveEditor.ActiveSynEdit.ExecuteCommand(ecFoldLevel1, ' ', nil);
+end;
+
+procedure TCommandsDataModule.actFoldLevel2Execute(Sender: TObject);
+begin
+  if Assigned(GI_ActiveEditor) then
+    GI_ActiveEditor.ActiveSynEdit.ExecuteCommand(ecFoldLevel2, ' ', nil);
+end;
+
+procedure TCommandsDataModule.actFoldLevel3Execute(Sender: TObject);
+begin
+  if Assigned(GI_ActiveEditor) then
+    GI_ActiveEditor.ActiveSynEdit.ExecuteCommand(ecFoldLevel3, ' ', nil);
+end;
+
+procedure TCommandsDataModule.actFoldNearestExecute(Sender: TObject);
+begin
+  if Assigned(GI_ActiveEditor) then
+    GI_ActiveEditor.ActiveSynEdit.ExecuteCommand(ecFoldNearest, ' ', nil);
+end;
+
+procedure TCommandsDataModule.actFoldRegionsExecute(Sender: TObject);
+begin
+  if Assigned(GI_ActiveEditor) then
+    GI_ActiveEditor.ActiveSynEdit.ExecuteCommand(ecFoldRegions, ' ', nil);
 end;
 
 procedure TCommandsDataModule.actFoldVisibleExecute(Sender: TObject);

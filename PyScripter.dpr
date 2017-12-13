@@ -110,15 +110,11 @@ uses
   cCodeCompletion in 'cCodeCompletion.pas',
   SpTBXPageScroller in 'SpTBXPageScroller.pas' {/  Vcl.Themes,},
   SpTBXSkins in 'SpTBXSkins.pas',
-  SynEdit,
-  JvInspector,
-  Vcl.StdCtrls,
   Vcl.Themes,
-  Vcl.Styles,
   Vcl.Styles.Utils.ComCtrls,
-  Vcl.Styles.Utils.Menus,
   dlgStyleSelector in 'dlgStyleSelector.pas' {StyleSelectorForm},
-  cVirtualStringTreeHelper in 'cVirtualStringTreeHelper.pas';
+  cVirtualStringTreeHelper in 'cVirtualStringTreeHelper.pas',
+  Vcl.Styles;
 
 {$R *.RES}
 {$R WebCopyAvi.RES}

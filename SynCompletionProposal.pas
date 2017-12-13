@@ -2357,8 +2357,8 @@ begin
     exit;
   end;
 
-    Form.PopupMode := pmExplicit;
-    if (Kind =  ctCode) then Form.FormStyle := fsStayOnTop;
+  Form.PopupMode := pmExplicit;
+  if (Kind =  ctCode) then Form.FormStyle := fsStayOnTop;
 
   if Assigned(Form.CurrentEditor) then
   begin
@@ -3628,9 +3628,9 @@ end;
 procedure TSynAutoComplete.SetDoLookup(const Value: Boolean);
 begin
   FDoLookup := Value;
-  if FDoLookup and not(Assigned(FInternalCompletion)) then
+  if FDoLookup and not Assigned(FInternalCompletion) then
     CreateInternalCompletion
-  else begin
+  else if not FDoLookup and Assigned(FInternalCompletion) then begin
     FInternalCompletion.Free;
     FInternalCompletion := nil;
   end;
@@ -3643,9 +3643,7 @@ begin
   FInternalCompletion.EndOfTokenChr := FEndOfTokenChr;
   FInternalCompletion.ShortCut := 0;
   FInternalCompletion.OnAfterCodeCompletion := DoInternalAutoCompletion;
-//  with FInternalCompletion.Columns.Add do
-//    //this is the trigger column
-//    BiggestWord := 'XXXXXXXX';
+  FInternalCompletion.Columns.Add;
 end;
 
 function TSynAutoComplete.GetOptions: TSynCompletionOptions;

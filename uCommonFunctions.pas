@@ -416,7 +416,8 @@ begin
     Result := '1.0.0';
 end;
 
-function  CompareVersion(const A, B : String) : Integer; var
+function  CompareVersion(const A, B : String) : Integer;
+var
   i : Integer;
   _delta : Integer;
   _version1 : TStringList;

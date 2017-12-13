@@ -24,6 +24,8 @@ object EditorForm: TEditorForm
     Align = alClient
     TabOrder = 0
     Borders = False
+    ExplicitLeft = 0
+    ExplicitTop = 0
     object FGPanel: TPanel
       AlignWithMargins = True
       Left = 2
@@ -191,8 +193,8 @@ object EditorForm: TEditorForm
   object imglGutterGlyphs: TImageList
     Height = 14
     Width = 11
-    Left = 93
-    Top = 136
+    Left = 96
+    Top = 80
     Bitmap = {
       494C01010600090004000B000E00FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       00000000000036000000280000002C0000001C00000001002000000000004013
@@ -364,8 +366,8 @@ object EditorForm: TEditorForm
   end
   object pmnuEditor: TSpTBXPopupMenu
     Images = CommandsDataModule.Images
-    Left = 92
-    Top = 29
+    Left = 96
+    Top = 32
     object mnEditUndo: TSpTBXItem
       Action = CommandsDataModule.actEditUndo
     end
@@ -406,7 +408,69 @@ object EditorForm: TEditorForm
     object mnFoldVisible: TSpTBXItem
       Action = CommandsDataModule.actFoldVisible
     end
-    object SpTBXSeparatorItem3: TSpTBXSeparatorItem
+    object mnFold: TSpTBXSubmenuItem
+      Caption = 'Fold'
+      object mnFoldAll: TSpTBXItem
+        Action = CommandsDataModule.actFoldAll
+      end
+      object mnFoldNearest: TSpTBXItem
+        Action = CommandsDataModule.actFoldNearest
+      end
+      object mnFoldRegions: TSpTBXItem
+        Action = CommandsDataModule.actFoldRegions
+      end
+      object SpTBXSeparatorItem3: TSpTBXSeparatorItem
+      end
+      object mnFoldLevel1: TSpTBXItem
+        Action = CommandsDataModule.actFoldLevel1
+      end
+      object mnFoldLevel2: TSpTBXItem
+        Action = CommandsDataModule.actFoldLevel2
+      end
+      object mnFoldLevel3: TSpTBXItem
+        Action = CommandsDataModule.actFoldLevel3
+      end
+      object SpTBXSeparatorItem6: TSpTBXSeparatorItem
+      end
+      object mnFoldClasses: TSpTBXItem
+        Action = CommandsDataModule.actFoldClasses
+      end
+      object mnFoldFunctions: TSpTBXItem
+        Action = CommandsDataModule.actFoldFunctions
+      end
+    end
+    object mnUnfold: TSpTBXSubmenuItem
+      Caption = 'UnFold'
+      object mnUnfoldAll: TSpTBXItem
+        Action = CommandsDataModule.actUnfoldAll
+      end
+      object mnUnfoldNearest: TSpTBXItem
+        Action = CommandsDataModule.actUnfoldNearest
+      end
+      object mnUnfoldRegions: TSpTBXItem
+        Action = CommandsDataModule.actUnfoldRegions
+      end
+      object SpTBXSeparatorItem5: TSpTBXSeparatorItem
+      end
+      object mnUnfoldLevel1: TSpTBXItem
+        Action = CommandsDataModule.actUnfoldLevel1
+      end
+      object mnUnfoldLevel2: TSpTBXItem
+        Action = CommandsDataModule.actUnfoldLevel2
+      end
+      object mnUnfoldLevel3: TSpTBXItem
+        Action = CommandsDataModule.actUnfoldLevel3
+      end
+      object SpTBXSeparatorItem7: TSpTBXSeparatorItem
+      end
+      object mnUnfoldClasses: TSpTBXItem
+        Action = CommandsDataModule.actUnfoldClasses
+      end
+      object mnUnfoldFunctions: TSpTBXItem
+        Action = CommandsDataModule.actUnfoldFunctions
+      end
+    end
+    object SpTBXSeparatorItem4: TSpTBXSeparatorItem
     end
     object mnMaximizeEditor2: TSpTBXItem
       Action = PyIDEMainForm.actMaximizeEditor
@@ -422,8 +486,8 @@ object EditorForm: TEditorForm
   end
   object pmnuViewsTab: TSpTBXPopupMenu
     Images = CommandsDataModule.Images
-    Left = 90
-    Top = 184
+    Left = 96
+    Top = 128
     object mnUpdateView: TSpTBXItem
       Caption = 'Update View'
       Hint = 'Update View|Update the selected view'

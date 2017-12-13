@@ -101,6 +101,9 @@ inherited NewFileDialog: TNewFileDialog
             00000000000000000000000000000000}
           HotTrack.Enabled = True
           PaintInfoGroup.MarginBottom.CaptionIndent = 4
+          Selection.InactiveBorderColor = clHighlight
+          Selection.InactiveColor = clHighlight
+          Selection.InactiveTextColor = clWindowText
           TabOrder = 1
           OnItemDblClick = lvTemplatesItemDblClick
           OnItemSelectionsChanged = lvTemplatesItemSelectionsChanged

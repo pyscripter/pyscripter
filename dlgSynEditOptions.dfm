@@ -152,7 +152,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             TabOrder = 2
           end
           object ckHalfPageScroll: TSpTBXCheckBox
-            Left = 212
+            Left = 188
             Top = 15
             Width = 97
             Height = 21
@@ -165,7 +165,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             TabOrder = 11
           end
           object ckThemeSelection: TSpTBXCheckBox
-            Left = 212
+            Left = 188
             Top = 224
             Width = 101
             Height = 21
@@ -176,7 +176,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             TabOrder = 20
           end
           object ckScrollByOneLess: TSpTBXCheckBox
-            Left = 212
+            Left = 188
             Top = 34
             Width = 106
             Height = 21
@@ -187,7 +187,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             TabOrder = 12
           end
           object ckScrollPastEOF: TSpTBXCheckBox
-            Left = 212
+            Left = 188
             Top = 53
             Width = 124
             Height = 21
@@ -198,7 +198,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             TabOrder = 13
           end
           object ckScrollPastEOL: TSpTBXCheckBox
-            Left = 212
+            Left = 188
             Top = 72
             Width = 126
             Height = 21
@@ -211,7 +211,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             TabOrder = 14
           end
           object ckShowScrollHint: TSpTBXCheckBox
-            Left = 212
+            Left = 188
             Top = 91
             Width = 98
             Height = 21
@@ -246,7 +246,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             TabOrder = 17
           end
           object ckTrimTrailingSpaces: TSpTBXCheckBox
-            Left = 212
+            Left = 188
             Top = 148
             Width = 115
             Height = 21
@@ -291,7 +291,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             TabOrder = 4
           end
           object ckScrollHintFollows: TSpTBXCheckBox
-            Left = 212
+            Left = 188
             Top = 110
             Width = 140
             Height = 21
@@ -302,7 +302,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             TabOrder = 16
           end
           object ckGroupUndo: TSpTBXCheckBox
-            Left = 212
+            Left = 188
             Top = 167
             Width = 80
             Height = 21
@@ -348,7 +348,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             TabOrder = 9
           end
           object ckHideShowScrollbars: TSpTBXCheckBox
-            Left = 212
+            Left = 188
             Top = 129
             Width = 159
             Height = 21
@@ -362,7 +362,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             TabOrder = 10
           end
           object ckDisableScrollArrows: TSpTBXCheckBox
-            Left = 212
+            Left = 188
             Top = 186
             Width = 121
             Height = 21
@@ -375,7 +375,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             TabOrder = 21
           end
           object ckShowSpecialChars: TSpTBXCheckBox
-            Left = 212
+            Left = 188
             Top = 205
             Width = 114
             Height = 21
@@ -447,123 +447,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
               'Horizontal Line'
               'Half Block'
               'Block')
-          end
-        end
-      end
-      object KeyStrokes: TSpTBXTabSheet
-        Left = 0
-        Top = 25
-        Width = 482
-        Height = 328
-        Caption = 'Keystrokes'
-        ImageIndex = -1
-        TabItem = 'SpTBXTabItem3'
-        object gbKeyStrokes: TSpTBXGroupBox
-          AlignWithMargins = True
-          Left = 5
-          Top = 202
-          Width = 470
-          Height = 119
-          Caption = 'Keystroke Options'
-          Align = alBottom
-          TabOrder = 3
-          TBXStyleBackground = True
-          object Label5: TSpTBXLabel
-            Left = 50
-            Top = 28
-            Width = 57
-            Height = 19
-            Caption = 'Command:'
-          end
-          object Label6: TSpTBXLabel
-            Left = 50
-            Top = 91
-            Width = 58
-            Height = 19
-            Caption = 'Keystroke:'
-          end
-          object Label7: TSpTBXLabel
-            Left = 50
-            Top = 59
-            Width = 58
-            Height = 19
-            Caption = 'Keystroke:'
-          end
-          object cKeyCommand: TSpTBXComboBox
-            Left = 154
-            Top = 23
-            Width = 186
-            Height = 21
-            Style = csDropDownList
-            ItemHeight = 13
-            Sorted = True
-            TabOrder = 0
-            OnExit = cKeyCommandExit
-            OnKeyPress = cKeyCommandKeyPress
-            OnKeyUp = cKeyCommandKeyUp
-          end
-        end
-        object btnAddKey: TSpTBXButton
-          Left = 203
-          Top = 166
-          Width = 75
-          Height = 25
-          Caption = '&Add'
-          TabOrder = 1
-          OnClick = btnAddKeyClick
-        end
-        object btnRemKey: TSpTBXButton
-          Left = 284
-          Top = 166
-          Width = 75
-          Height = 25
-          Caption = '&Remove'
-          TabOrder = 2
-          OnClick = btnRemKeyClick
-        end
-        object btnUpdateKey: TSpTBXButton
-          Left = 122
-          Top = 166
-          Width = 75
-          Height = 25
-          Caption = '&Update'
-          TabOrder = 0
-          OnClick = btnUpdateKeyClick
-        end
-        object SpTBXPanel2: TSpTBXPanel
-          Left = 2
-          Top = 0
-          Width = 476
-          Height = 158
-          Align = alTop
-          TabOrder = 4
-          HotTrack = True
-          object KeyList: TEasyListview
-            AlignWithMargins = True
-            Left = 5
-            Top = 5
-            Width = 466
-            Height = 148
-            Align = alClient
-            EditManager.Font.Charset = DEFAULT_CHARSET
-            EditManager.Font.Color = clWindowText
-            EditManager.Font.Height = -11
-            EditManager.Font.Name = 'Tahoma'
-            EditManager.Font.Style = []
-            Header.Columns.Items = {
-              0600000002000000110000005445617379436F6C756D6E53746F726564FFFECE
-              00060000008008000101000100000000010001A7000000FFFFFF1F0001000000
-              010000000700000043006F006D006D0061006E00640000000000000000000000
-              0000110000005445617379436F6C756D6E53746F726564FFFECE000600000080
-              080001010001010000000000018E000000FFFFFF1F0001000000010000000900
-              00004B00650079007300740072006F006B006500000000000000000000000000}
-            Header.Draggable = False
-            Header.Visible = True
-            HotTrack.Enabled = True
-            PaintInfoGroup.MarginBottom.CaptionIndent = 4
-            Selection.FullRowSelect = True
-            TabOrder = 0
-            View = elsReport
           end
         end
       end
@@ -793,6 +676,128 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Caption = 'Apply Theme'
           TabOrder = 4
           OnClick = bApplyThemeClick
+        end
+      end
+      object KeyStrokes: TSpTBXTabSheet
+        Left = 0
+        Top = 25
+        Width = 482
+        Height = 328
+        Caption = 'Keystrokes'
+        ImageIndex = -1
+        TabItem = 'SpTBXTabItem3'
+        object gbKeyStrokes: TSpTBXGroupBox
+          AlignWithMargins = True
+          Left = 5
+          Top = 202
+          Width = 470
+          Height = 119
+          Caption = 'Keystroke Options'
+          Align = alBottom
+          TabOrder = 3
+          TBXStyleBackground = True
+          object Label5: TSpTBXLabel
+            Left = 50
+            Top = 28
+            Width = 57
+            Height = 19
+            Caption = 'Command:'
+          end
+          object Label6: TSpTBXLabel
+            Left = 50
+            Top = 91
+            Width = 58
+            Height = 19
+            Caption = 'Keystroke:'
+          end
+          object Label7: TSpTBXLabel
+            Left = 50
+            Top = 59
+            Width = 58
+            Height = 19
+            Caption = 'Keystroke:'
+          end
+          object cKeyCommand: TSpTBXComboBox
+            Left = 154
+            Top = 23
+            Width = 186
+            Height = 21
+            Style = csDropDownList
+            ItemHeight = 13
+            Sorted = True
+            TabOrder = 0
+            OnExit = cKeyCommandExit
+            OnKeyPress = cKeyCommandKeyPress
+            OnKeyUp = cKeyCommandKeyUp
+          end
+        end
+        object btnAddKey: TSpTBXButton
+          Left = 203
+          Top = 166
+          Width = 75
+          Height = 25
+          Caption = '&Add'
+          TabOrder = 1
+          OnClick = btnAddKeyClick
+        end
+        object btnRemKey: TSpTBXButton
+          Left = 284
+          Top = 166
+          Width = 75
+          Height = 25
+          Caption = '&Remove'
+          TabOrder = 2
+          OnClick = btnRemKeyClick
+        end
+        object btnUpdateKey: TSpTBXButton
+          Left = 122
+          Top = 166
+          Width = 75
+          Height = 25
+          Caption = '&Update'
+          TabOrder = 0
+          OnClick = btnUpdateKeyClick
+        end
+        object SpTBXPanel2: TSpTBXPanel
+          Left = 2
+          Top = 0
+          Width = 476
+          Height = 158
+          Align = alTop
+          TabOrder = 4
+          HotTrack = True
+          object KeyList: TEasyListview
+            AlignWithMargins = True
+            Left = 5
+            Top = 5
+            Width = 466
+            Height = 148
+            Align = alClient
+            EditManager.Font.Charset = DEFAULT_CHARSET
+            EditManager.Font.Color = clWindowText
+            EditManager.Font.Height = -11
+            EditManager.Font.Name = 'Tahoma'
+            EditManager.Font.Style = []
+            Header.Columns.Items = {
+              0600000002000000110000005445617379436F6C756D6E53746F726564FFFECE
+              00060000008008000101000100000000010001A7000000FFFFFF1F0001000000
+              010000000700000043006F006D006D0061006E00640000000000000000000000
+              0000110000005445617379436F6C756D6E53746F726564FFFECE000600000080
+              080001010001010000000000018E000000FFFFFF1F0001000000010000000900
+              00004B00650079007300740072006F006B006500000000000000000000000000}
+            Header.Draggable = False
+            Header.Visible = True
+            HotTrack.Enabled = True
+            PaintInfoGroup.MarginBottom.CaptionIndent = 4
+            Selection.AlphaBlend = True
+            Selection.AlphaBlendSelRect = True
+            Selection.FullRowSelect = True
+            Selection.InactiveBorderColor = clHighlight
+            Selection.InactiveColor = clHighlight
+            Selection.InactiveTextColor = clWindowText
+            TabOrder = 0
+            View = elsReport
+          end
         end
       end
       object Display: TSpTBXTabSheet
