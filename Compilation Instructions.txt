@@ -16,23 +16,21 @@ To compile the PythonIDE.dpr, you first need to install the following components
      *** For now download "TB2K with XE7 support.7z" from 
      https://onedrive.live.com/redir?resid=83A7119830FC7582!2251&authkey=!APLUfnvNQ35oYog&ithint=folder%2cexe ***
 
-   - SpTBXLib (Use SVN from https://code.google.com/p/sptbxlib/)
+   - SpTBXLib (Use GIT from https://github.com/SilverpointDev/sptbxlib)
   
    - Install the PyScripterCustom package from the components subdirectory.
 
-   - SynEdit (synedit.sf.net) - get it from Github.com
-   - SynWeb Highlighters - get it from Github.com
+   - SynEdit - get it from Github.com (https://github.com/SynEdit/SynEdit)
+   - SynWeb Highlighters - get it from Github.com (https://github.com/KrystianBigaj/synweb)
 
-   - VirtualTreeView - get it from Github.com
+   - VirtualTreeView - get it from Github.com (https://github.com/Virtual-TreeView/Virtual-TreeView)
    
    - MustangPeak Components: 
-     - Common Library (http://mustangpeakcommonlib.googlecode.com/) - use SVN
-     - EasyListView (http://mustangpeakcommonlib.googlecode.com/) - use SVN
-       After installing define SpTBX in Options.inc 
-     - VirtualShellTools (http://mustangpeakcommonlib.googlecode.com/) - use SVN  
-       After installing define USE_TOOLBAR_TB2K in Addins.inc and immediately below add {$DEFINE SpTBX}
+     - Common Library (https://github.com/TurboPack/MustangpeakCommonLib) - use SVN
+     - EasyListView (https://github.com/TurboPack/MustangpeakEasyListview) - use SVN
+     - VirtualShellTools (https://github.com/TurboPack/MustangpeakVirtualshellTools) - use SVN  
 
-   - Vcl Style Utils (Use SVN to get it from vcl-styles-utils.googlecode.com)
+   - Vcl Style Utils (https://github.com/RRUZ/vcl-styles-utils)
      Add the Common and and Common\delphi-detours-library directories to your library path. 	
 
 
