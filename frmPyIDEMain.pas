@@ -398,8 +398,8 @@
             Internal Interpreter is hidden by default
             Kabyle language added
           Issues addressed
-            16, 571, 685, 690, 765, 814, 836
-            { TODO : Issue 721 }
+            16, 571, 685, 690, 721, 765, 814, 836
+
             { TODO : Issue 311 }
             { TODO : Auto PEP8 tool }
             { TODO : Replace assertion "1175" with message }

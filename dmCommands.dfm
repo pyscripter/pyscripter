@@ -1933,20 +1933,25 @@ object CommandsDataModule: TCommandsDataModule
           '            return __import__('#39'bdb'#39').Bdb.canonic(self, filename)'
           ''
           '        def user_line(self, frame):'
-          '##            self.user_line_lock.acquire()'
-          '##            try:'
-          '##                self.debugIDE.user_line(frame)'
-          '##            finally:'
-          '##                self.user_line_lock.release()'
+          
+            '            self.conn = object.__getattribute__(self.debugIDE, "' +
+            '____conn__")()'
+          '            while len(self.conn._async_callbacks) > 0 :'
+          '                self.conn.poll_all(0.01)'
           '            self.debugIDE.user_line(frame)'
           ''
           '        def trace_dispatch(self, frame, event, arg):'
-          '            if self.isTraceable(frame) <> 0:'
+          '            if self.isTraceable(frame) != 0:'
           '                self.tracecount += 1'
           
-            '                if self.tracecount == 1000:  #yield processing e' +
-            'very 1000 steps'
+            '                if self.tracecount == 10000:  #yield processing ' +
+            'every 1000 steps'
           '                    self.tracecount = 0'
+          
+            '                    self.conn = object.__getattribute__(self.deb' +
+            'ugIDE, "____conn__")()'
+          '                    while len(self.conn._async_callbacks) > 0 :'
+          '                        self.conn.poll_all(0.01)'
           '                    self.debugIDE.user_yield()'
           '                    if self.quitting:'
           '                        self.interrupted = True'
@@ -1991,9 +1996,6 @@ object CommandsDataModule: TCommandsDataModule
           '            self.exc_info = None'
           '            self.interrupted = False'
           '            try:'
-          
-            '                ##__import__("threading").settrace(self.trace_di' +
-            'spatch)'
           '                try:'
           '                    bdb.Bdb.run(self, cmd, globals, locals)'
           '                except SystemExit, e:'
@@ -2522,8 +2524,6 @@ object CommandsDataModule: TCommandsDataModule
           
             '            self.conn._async_request(self.HANDLE_CALL, (self.oid' +
             ', (message,), ()))'
-          '            while len(self.conn._async_callbacks) > 100 :'
-          '                self.conn.poll_all(0.01)'
           ''
           '    def asyncIO(self):'
           '        import sys'
@@ -2619,15 +2619,25 @@ object CommandsDataModule: TCommandsDataModule
           '            return __import__('#39'bdb'#39').Bdb.stop_here(self, frame)'
           ''
           '        def user_line(self, frame):'
+          
+            '            self.conn = object.__getattribute__(self.debugIDE, "' +
+            '____conn__")()'
+          '            while len(self.conn._async_callbacks) > 0 :'
+          '                self.conn.poll_all(0.01)'
           '            self.debugIDE.user_line(frame)'
           ''
           '        def trace_dispatch(self, frame, event, arg):'
           '            if self.isTraceable(frame) != 0:'
           '                self.tracecount += 1'
           
-            '                if self.tracecount == 1000:  #yield processing e' +
-            'very 1000 steps'
+            '                if self.tracecount == 10000:  #yield processing ' +
+            'every 1000 steps'
           '                    self.tracecount = 0'
+          
+            '                    self.conn = object.__getattribute__(self.deb' +
+            'ugIDE, "____conn__")()'
+          '                    while len(self.conn._async_callbacks) > 0 :'
+          '                        self.conn.poll_all(0.01)'
           '                    self.debugIDE.user_yield()'
           '                    if self.quitting:'
           '                        self.interrupted = True'
@@ -3161,8 +3171,7 @@ object CommandsDataModule: TCommandsDataModule
           '            self.origwrite = stream.write'
           
             '            self.conn = object.__getattribute__(self.origwrite, ' +
-            '"____conn__")'
-          '            self.conn = self.conn()'
+            '"____conn__")()'
           
             '            self.oid = object.__getattribute__(self.origwrite, "' +
             '____oid__")'
@@ -3181,8 +3190,6 @@ object CommandsDataModule: TCommandsDataModule
           
             '            self.conn._async_request(self.HANDLE_CALL, (self.oid' +
             ', (message,), ()))'
-          '            while len(self.conn._async_callbacks) > 100 :'
-          '                self.conn.poll_all(0.01)'
           ''
           '    def asyncIO(self):'
           '        import sys'
