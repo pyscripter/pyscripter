@@ -44,12 +44,12 @@ type
     UnitTests: TVirtualStringTree;
     Panel2: TPanel;
     Bevel1: TBevel;
+    Label2: TLabel;
+    ModuleName: TLabel;
+    lbFoundTests: TLabel;
+    lblRunTests: TLabel;
+    lblFailures: TLabel;
     SpTBXPanel1: TPanel;
-    Label2: TSpTBXLabel;
-    ModuleName: TSpTBXLabel;
-    lbFoundTests: TSpTBXLabel;
-    lblRunTests: TSpTBXLabel;
-    lblFailures: TSpTBXLabel;
     ErrorText: TRichEdit;
     procedure UnitTestsDblClick(Sender: TObject);
     procedure actStopExecute(Sender: TObject);

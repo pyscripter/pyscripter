@@ -24,8 +24,6 @@ object EditorForm: TEditorForm
     Align = alClient
     TabOrder = 0
     Borders = False
-    ExplicitLeft = 0
-    ExplicitTop = 0
     object FGPanel: TPanel
       AlignWithMargins = True
       Left = 2

@@ -49,8 +49,6 @@ inherited FindResultsWindow: TFindResultsWindow
   inherited BGPanel: TSpTBXPanel
     Width = 603
     Height = 358
-    ExplicitLeft = 0
-    ExplicitTop = 0
     ExplicitWidth = 603
     ExplicitHeight = 358
     inherited FGPanel: TPanel

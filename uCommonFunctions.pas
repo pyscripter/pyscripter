@@ -53,9 +53,6 @@ function LightenColor(Color:TColor; Percentage:integer):TColor;
 (* Darken a given Color by a certain percentage *)
 function DarkenColor(Color:TColor; Percentage:integer):TColor;
 
-(* Return either clSkyBlue or clHighlight depending on current settings *)
-function SelectionBackgroundColor():TColor;
-
 (* Get Exe File Version string *)
 function ApplicationVersion : string;
 
@@ -389,17 +386,6 @@ begin
    wG := round(GetGValue(wRGB) / (1+(percentage / 100)));
    wB := round(GetBValue(wRGB) / (1+(percentage / 100)));
    result := RGB(wR, wG, wB);
-end;
-
-(* Return either clSkyBlue or clHighlight depending on current settings *)
-function SelectionBackgroundColor():TColor;
-begin
-  if (ColorToRGB(clWindowText) = clBlack) and (ColorToRGB(clWindow) = clWhite) and
-    (ColorToRGB(clHighlightText) = clWhite)
-  then
-    Result := clSkyBlue
-  else
-    Result := clHighlight;  // Just play it safe safe
 end;
 
 function ApplicationVersion : string;

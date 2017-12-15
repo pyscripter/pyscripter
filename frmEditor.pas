@@ -162,7 +162,6 @@ type
     fNeedToSyncCodeExplorer: boolean;
     fSyntaxErrorPos: TEditorPos;
     fCloseBracketChar: WideChar;
-    fOldOptions: TSynEditorOptions;
     fCompletionHandler : TBaseCodeCompletionHandler;
     procedure CleanupCodeCompletion;
     function DoAskSaveChanges: boolean;
@@ -1862,16 +1861,6 @@ begin
           end;
           Handled := True;
         end;
-      ecLineBreak: // Python Mode
-        if ASynEdit.InsertMode and
-          (ASynEdit.Highlighter is TSynPythonSyn)
-          and not fAutoCompleteActive then
-        begin
-          ASynEdit.UndoList.BeginBlock;
-          fOldOptions := ASynEdit.Options;
-          ASynEdit.Options := ASynEdit.Options + [eoAutoIndent];
-          // not handled so default processing takes place
-        end;
       ecMatchBracket:
         begin
           BC := GetMatchingBracket(ASynEdit);
@@ -1892,15 +1881,15 @@ begin
   begin // AfterProcessing
     case Command of
       ecLineBreak: // Python Mode
-        if ASynEdit.InsertMode and
+        if ASynEdit.InsertMode and (eoAutoIndent in ASynEdit.Options) and
           (ASynEdit.Highlighter is TSynPythonSyn)
           and not fAutoCompleteActive then
         begin
           { CaretY should never be lesser than 2 right after ecLineBreak, so there's
             no need for a check }
           iPrevLine := TrimRight(ASynEdit.Lines[ASynEdit.CaretY - 2]);
-          BC := BufferCoord(Length(iPrevLine), ASynEdit.CaretY - 1);
 
+          //BC := BufferCoord(Length(iPrevLine), ASynEdit.CaretY - 1);
           // Indent on: if a: # success?
           //if ASynEdit.GetHighlighterAttriAtRowCol(BC, DummyToken, Attr) and not
           //  ( // (attr = ASynEdit.Highlighter.StringAttribute) or
@@ -1908,13 +1897,13 @@ begin
           //    (Attr = TSynPythonSyn(ASynEdit.Highlighter).CodeCommentAttri) { or
           //    (attr = CommandsDataModule.SynPythonSyn.DocStringAttri) } ) then
           //begin
+          ASynEdit.UndoList.BeginBlock;
             if CommandsDataModule.IsBlockOpener(iPrevLine) then
               ASynEdit.ExecuteCommand(ecTab, #0, nil)
             else if CommandsDataModule.IsBlockCloser(iPrevLine) then
               ASynEdit.ExecuteCommand(ecShiftTab, #0, nil);
-          //end;
           ASynEdit.UndoList.EndBlock;
-          ASynEdit.Options := fOldOptions;
+          //end;
         end;
       ecChar: // Autocomplete brackets
         if not fAutoCompleteActive and CommandsDataModule.PyIDEOptions.

@@ -47,6 +47,8 @@ inherited UnitTestWindow: TUnitTestWindow
   inherited BGPanel: TSpTBXPanel
     Width = 262
     Height = 451
+    ExplicitWidth = 262
+    ExplicitHeight = 451
     inherited FGPanel: TPanel
       Width = 258
       Height = 447
@@ -164,7 +166,6 @@ inherited UnitTestWindow: TUnitTestWindow
         Width = 258
         Height = 173
         Align = alBottom
-        ParentColor = True
         TabOrder = 2
         DesignSize = (
           258
@@ -176,7 +177,76 @@ inherited UnitTestWindow: TUnitTestWindow
           Height = 5
           Anchors = [akLeft, akTop, akRight]
           Shape = bsTopLine
-          ExplicitWidth = 240
+        end
+        object Label2: TLabel
+          Left = 7
+          Top = 62
+          Width = 73
+          Height = 13
+          Caption = 'Error Message:'
+          Color = clNone
+          ParentColor = False
+          Transparent = True
+        end
+        object ModuleName: TLabel
+          Left = 7
+          Top = 1
+          Width = 88
+          Height = 13
+          Caption = 'No Module Loaded'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBtnText
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          ParentFont = False
+          Transparent = True
+        end
+        object lbFoundTests: TLabel
+          Left = 172
+          Top = 1
+          Width = 66
+          Height = 13
+          Alignment = taRightJustify
+          Anchors = [akTop, akRight]
+          Caption = 'Found 0 tests'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBtnText
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          ParentFont = False
+          Transparent = True
+        end
+        object lblRunTests: TLabel
+          Left = 7
+          Top = 19
+          Width = 55
+          Height = 13
+          Caption = 'Run 0 tests'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBtnText
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          ParentFont = False
+          Transparent = True
+        end
+        object lblFailures: TLabel
+          Left = 7
+          Top = 37
+          Width = 96
+          Height = 13
+          Caption = 'Failures/Errors : 0/0'
+          Color = clBtnFace
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBtnText
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          ParentColor = False
+          ParentFont = False
+          Transparent = True
         end
         object SpTBXPanel1: TPanel
           Left = 1
@@ -187,6 +257,9 @@ inherited UnitTestWindow: TUnitTestWindow
           Anchors = [akLeft, akTop, akRight, akBottom]
           Caption = 'SpTBXPanel1'
           TabOrder = 0
+          ExplicitLeft = 2
+          ExplicitTop = 84
+          ExplicitWidth = 254
           object ErrorText: TRichEdit
             Left = 1
             Top = 1
@@ -207,43 +280,6 @@ inherited UnitTestWindow: TUnitTestWindow
             TabOrder = 0
             Zoom = 100
           end
-        end
-        object Label2: TSpTBXLabel
-          Left = 7
-          Top = 62
-          Width = 79
-          Height = 19
-          Caption = 'Error Message:'
-        end
-        object ModuleName: TSpTBXLabel
-          Left = 7
-          Top = 1
-          Width = 94
-          Height = 19
-          Caption = 'No Module Loaded'
-        end
-        object lbFoundTests: TSpTBXLabel
-          Left = 172
-          Top = 1
-          Width = 72
-          Height = 19
-          Caption = 'Found 0 tests'
-          Anchors = [akTop, akRight]
-          Alignment = taRightJustify
-        end
-        object lblRunTests: TSpTBXLabel
-          Left = 7
-          Top = 19
-          Width = 61
-          Height = 19
-          Caption = 'Run 0 tests'
-        end
-        object lblFailures: TSpTBXLabel
-          Left = 7
-          Top = 37
-          Width = 102
-          Height = 19
-          Caption = 'Failures/Errors : 0/0'
         end
       end
     end

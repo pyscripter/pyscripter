@@ -571,6 +571,7 @@ begin
   AddAttribute(fFloatAttri);
   fSpaceAttri := TSynHighlighterAttributes.Create(SYNS_AttrSpace, SYNS_FriendlyAttrSpace);
   fSpaceAttri.Background := clWhite;
+  fSpaceAttri.Foreground := clSilver;
   AddAttribute(fSpaceAttri);
   fStringAttri := TSynHighlighterAttributes.Create(SYNS_AttrString, SYNS_FriendlyAttrString);
   fStringAttri.Foreground := clOlive;

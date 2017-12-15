@@ -354,14 +354,14 @@ begin
 
     if odSelected in State then
     begin
-      nb := SelectionBackgroundColor;
+      nb := clHighlight;
       nf := clHighLightText;
       sb := clWindow;
       sf := clWindowText;
     end
     else
     begin
-      sb := SelectionBackgroundColor;
+      sb := clHighlight;
       sf := clHighLightText;
       nb := clWindow;
       nf := clWindowText;

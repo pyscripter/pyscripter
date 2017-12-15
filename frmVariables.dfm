@@ -106,7 +106,6 @@ inherited VariablesWindow: TVariablesWindow
         Width = 375
         Height = 243
         Align = alRight
-        Color = clBtnFace
         ParentColor = False
         TabOrder = 1
         object HTMLLabel: TJvLinkLabel
@@ -119,7 +118,6 @@ inherited VariablesWindow: TVariablesWindow
           MarginWidth = 2
           MarginHeight = 2
           Align = alTop
-          Color = clBtnFace
           ParentColor = False
         end
       end

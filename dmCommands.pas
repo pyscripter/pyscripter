@@ -1060,15 +1060,13 @@ begin
     Gutter.DigitCount := 2;
     Gutter.Autosize := True;
 
-    Options := [{eoAutoSizeMaxScrollWidth,} eoDragDropEditing, eoEnhanceHomeKey,
+    Options := [eoAutoSizeMaxScrollWidth, eoDragDropEditing, eoEnhanceHomeKey,
                 eoEnhanceEndKey, eoGroupUndo, eoHideShowScrollbars, eoKeepCaretX,
                 eoShowScrollHint, eoSmartTabDelete, eoTabsToSpaces, eoTabIndent,
-                eoTrimTrailingSpaces, eoAutoIndent, eoRightMouseMovesCursor];
-    TabWidth := 4;
+                eoTrimTrailingSpaces, eoAutoIndent, eoScrollPastEol];
+    MaxScrollWidth := 100;
     WantTabs := True;
     TabWidth := 4;
-
-    //SelectedColor.Background := SelectionBackgroundColor;
 
     // Register User Commands and shortcuts
     Keystrokes.AddKey(ecCodeCompletion, VK_SPACE, [ssCtrl]);

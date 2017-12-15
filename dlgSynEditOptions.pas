@@ -115,7 +115,6 @@ type
     ckDragAndDropEditing: TSpTBXCheckBox;
     ckWordWrap: TSpTBXCheckBox;
     ckHalfPageScroll: TSpTBXCheckBox;
-    ckThemeSelection: TSpTBXCheckBox;
     ckScrollByOneLess: TSpTBXCheckBox;
     ckScrollPastEOF: TSpTBXCheckBox;
     ckScrollPastEOL: TSpTBXCheckBox;
@@ -635,7 +634,8 @@ begin
   Color:= clWindow;
   Keystrokes.ResetDefaults;
   Options := [eoAutoIndent,eoDragDropEditing,eoDropFiles,eoScrollPastEol,
-    eoShowScrollHint,eoSmartTabs,eoAltSetsColumnMode, eoTabsToSpaces,eoTrimTrailingSpaces, eoKeepCaretX];
+    eoShowScrollHint,eoSmartTabs,eoAltSetsColumnMode, eoTabsToSpaces,
+    eoTrimTrailingSpaces, eoKeepCaretX];
   ExtraLineSpacing := 0;
   HideSelection := False;
   InsertCaret := ctVerticalLine;
@@ -763,12 +763,9 @@ begin
   ckDisableScrollArrows.Checked := eoDisableScrollArrows in FSynEdit.Options;
   ckHideShowScrollbars.Checked := eoHideShowScrollbars in FSynEdit.Options;
   ckShowSpecialChars.Checked := eoShowSpecialChars in FSynEdit.Options;
-  ckThemeSelection.Checked := FSynEdit.SelectedColor.Background <> clHighlight;
-
   //Caret
   cInsertCaret.ItemIndex:= ord(FSynEdit.InsertCaret);
   cOverwriteCaret.ItemIndex:= ord(FSynEdit.OverwriteCaret);
-
 
   KeyList.BeginUpdate;
   try
@@ -848,11 +845,6 @@ begin
   SetFlag(eoHideShowScrollbars, ckHideShowScrollbars.Checked);
   SetFlag(eoShowSpecialChars, ckShowSpecialChars.Checked);
   FSynEdit.Options := vOptions;
-  if ckThemeSelection.Checked then
-    FSynEdit.SelectedColor.Background := SelectionBackgroundColor
-  else
-    FSynEdit.SelectedColor.Background := clHighlight;
-
   //Caret
   FSynEdit.InsertCaret:= TSynEditCaretType(cInsertCaret.ItemIndex);
   FSynEdit.OverwriteCaret:= TSynEditCaretType(cOverwriteCaret.ItemIndex);

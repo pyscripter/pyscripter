@@ -398,7 +398,7 @@
             Internal Interpreter is hidden by default
             Kabyle language added
           Issues addressed
-            16, 571, 685, 690, 721, 765, 814, 836
+            16, 571, 685, 690, 718, 721, 765, 814, 836
 
             { TODO : Issue 311 }
             { TODO : Auto PEP8 tool }
@@ -1146,7 +1146,6 @@ type
     procedure UpdateCaption;
     procedure ChangeLanguage(LangCode : string);
     function EditorFromTab(Tab : TSpTBXTabItem) : IEditor;
-    procedure SetIDEColors;
     procedure SplitWorkspace(SecondTabsVisible : Boolean;
       Alignment : TAlign = alRight; Size : integer = -1);
     procedure MoveTab(Tab : TSpTBXTabItem; TabControl : TSpTBXTabControl;
@@ -3015,6 +3014,9 @@ begin
       if CompareVersion(PyScripterVersion, '3.1') < 0 then begin
         EditorOptions.Keystrokes.ResetDefaults;
         EditorOptions.Gutter.DigitCount := 2;
+        EditorOptions.Options := EditorOptions.Options +
+          [eoAutoIndent, eoAutoSizeMaxScrollWidth, eoScrollPastEol];
+        EditorOptions.MaxScrollWidth := 100;
       end;
 
       for i := 0 to Highlighters.Count - 1 do
@@ -3580,29 +3582,6 @@ begin
   end;
 end;
 
-procedure TPyIDEMainForm.SetIDEColors;
-Var
-  BGColor, TextColor : TColor;
-begin
-  BGColor := StyleServices.GetSystemColor(clWindow);
-  TextColor :=  StyleServices.GetSystemColor(clWindowText);
-
-  RegExpTesterWindow.RegExpText.Color := BGColor;
-  RegExpTesterWindow.SearchText.Color := BGColor;
-  RegExpTesterWindow.MatchText.Color := BGColor;
-  RegExpTesterWindow.RegExpText.Font.Color := TextColor;
-  RegExpTesterWindow.SearchText.Font.Color := TextColor;
-  RegExpTesterWindow.MatchText.Font.Color := TextColor;
-  UnitTestWindow.ErrorText.Color := BGColor;
-  UnitTestWindow.ErrorText.Font.Color := TextColor;
-  VariablesWindow.HTMLLabel.Color := BGColor;
-  VariablesWindow.DocPanel.Color := BGColor;
-  VariablesWindow.HTMLLabel.Font.Color := TextColor;
-  OutputWindow.lsbConsole.Color := BGColor;
-  OutputWindow.lsbConsole.Font.Color := TextColor;
-    OutputWindow.FontOrColorUpdated;
-end;
-
 procedure TPyIDEMainForm.SplitWorkspace(SecondTabsVisible : Boolean;
       Alignment : TAlign; Size : integer);
 begin
@@ -4070,7 +4049,6 @@ begin
   ThemeEditorGutter(CommandsDataModule.EditorOptions.Gutter);
 //  BGPanel.Color := CurrentTheme.GetItemColor(GetItemInfo('inactive'));
 //  Application.HintColor := CurrentTheme.GetViewColor(VT_DOCKPANEL);
-  SetIDEColors;
 end;
 
 procedure TPyIDEMainForm.CMStyleChanged(var Message: TMessage);

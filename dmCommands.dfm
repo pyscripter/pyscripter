@@ -17,6 +17,7 @@ object CommandsDataModule: TCommandsDataModule
     OctalAttri.Foreground = clTeal
     FloatAttri.Foreground = clTeal
     SpaceAttri.Background = clWhite
+    SpaceAttri.Foreground = clSilver
     StringAttri.Foreground = clOlive
     DocStringAttri.Foreground = 16711884
     SymbolAttri.Foreground = clMaroon
