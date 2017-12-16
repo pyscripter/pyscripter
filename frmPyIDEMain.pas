@@ -402,9 +402,7 @@
 
             { TODO : Issue 311 }
             { TODO : Auto PEP8 tool }
-            { TODO : Replace assertion "1175" with message }
 
-{ TODO : Add Hide Internal Interpreter option }
 {------------------------------------------------------------------------------}
 
 // Bugs and minor features

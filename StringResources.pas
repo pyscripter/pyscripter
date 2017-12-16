@@ -23,6 +23,20 @@ Const
   'for a single user installation of Python.  ("x.y" stands for the version of Python).' + SLineBreak +
   'In a proper installation the key should exist and the "InstallPath" and "PythonPath" variables defined.' + SLineBreak +
   'Also check the PYTHONHOME and PYTHONPATH environment variables to see whether they conflict with the Python version used.' ;
+  SPythonLoadError =
+  'PyScripter could not load a Python engine' + SLineBreak +
+  '**Before** using PyScripter, you must ensure that a version of Python' + SLineBreak +
+  'greater or equal to 2.5 is installed on your machine. If you do not have one' + SLineBreak +
+  'installed, you can download one from http://www.python.org/.' + SLineBreak +  SLineBreak +
+  'The 64-bit version of PyScripter (x64) works only on 64-bit Windows **and**' + SLineBreak +
+  'with 64-bit versions of Python.  The 32-bit version of PyScripter works on both' + SLineBreak +
+  '32-bit and 64-bit Windows with 32-bit versions of Python';
+  SCouldNotShutDownRemoteEngine =
+  'PyScripter is waiting for the remote engine to shut-down for a long time without success.' + SLineBreak +
+  'This might mean that either the system is very busy or more likely something is preventing' + SLineBreak +
+  'the remote engine from shutting down, such as waiting in a blocked state.' + SLineBreak +
+  'You can use the task manager to kill the engine (appears as a process "python.exe")' + SLineBreak +
+  'and then reinitialize the remote engine.  Alternatively, you can close down and restart PyScripter';
   SPostMortemInfo = 'You are now in post-mortem analysis mode.  You can examine the Call Stack, ' +
                     'Variables and Watches windows, evaluate expressions etc.' + SLineBreak +
                     'To exit the post-mortem analysis select the Abort Debugging command.';
@@ -46,8 +60,6 @@ Const
   SCouldNotConnectRemoteEngine = 'Could not connect to the remote Python engine server. '+
         'The remote interpreter and debugger is not available.';
   SRemoteInterpreterInit = '*** Remote Interpreter Reinitialized  ***';
-  SCouldNotShutDownRemoteEngine = 'Could not shut down the remote Python engine server. '+
-            'Please shut down and restart Pyscripter.';
   SSameName = 'Another item has the same name';
   SCodeTemplateModified = 'The template has been modified.  Do you want to update it with the new definition?';
   SInvalidNumber = 'Invalid number!';

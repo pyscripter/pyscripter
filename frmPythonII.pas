@@ -1969,8 +1969,10 @@ begin
     end;
   end;
 
-  if not PythonEngine.IsHandleValid then
-    PythonEngine.Quit;
+  if not PythonEngine.IsHandleValid then begin
+    Dialogs.MessageDlg(_(SPythonLoadError), mtError, [mbOK], 0);
+    ExitProcess(1);
+  end;
 end;
 
 procedure TPythonIIForm.GetBlockCode(var Source: string;

@@ -801,14 +801,14 @@ begin
   case PyControl.DebuggerState of
     dsRunning, dsRunningNoDebug:
       begin
-        fThreadExecInterrupted := True;
         SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
         try
           // raise an asynchronous exception in the running thread
           if InternalInterpreter.PyInteractiveInterpreter.thread_id <> 0 then
             with GetPythonEngine do begin
               if PyThreadState_SetAsyncExc(InternalInterpreter.PyInteractiveInterpreter.thread_id,
-                PyExc_SystemExit^) > 1
+                PyExc_KeyboardInterrupt^) > 1
+//                PyExc_SystemExit^) > 1
               then  // call again with exception set to nil
                 PyThreadState_SetAsyncExc(InternalInterpreter.PyInteractiveInterpreter.thread_id,
                   nil);
@@ -822,6 +822,10 @@ begin
 //          VarClear(OutputRedirector);
 //          Conn.close();
           ShutDownServer;
+          if ServerProcess.State <> psReady then
+            Dialogs.MessageDlg(_(SCouldNotShutDownRemoteEngine), mtError, [mbAbort], 0)
+          else
+            fThreadExecInterrupted := True;
         except
           // swalow exceptions
         end;
@@ -849,8 +853,9 @@ begin
         end else
           Dialogs.MessageDlg(_(SCouldNotShutDownRemoteEngine), mtError, [mbAbort], 0);
       end;
-    {else
-      Exit; }
+    else
+      // Should not happen.  Reinitialise is not enabled for other states
+      Exit;
   end;
 end;
 
@@ -1173,7 +1178,6 @@ begin
           Sleep(20);
         end else
           break;
-      Assert(ServerProcess.State = psReady);
       ServerProcess.ConsoleOutput.Clear;
     finally
       PyControl.DoStateChange(OldState);
