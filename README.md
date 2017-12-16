@@ -7,5 +7,6 @@ languages.
 * [Screenshots](https://github.com/pyscripter/pyscripter/wiki/Screenshots)
 * [Downloads](https://sourceforge.net/projects/pyscripter/files)
 * [Blog](https://pyscripter.blogspot.com/)
+* [Support](https://groups.google.com/forum/#!forum/pyscripter)
 
 Licence: MIT
