@@ -394,6 +394,7 @@
           New Features
             Code folding
             Indentation lines
+            New IDE option "Compact line numbers"
             pip tool added
             Internal Interpreter is hidden by default
             Kabyle language added
@@ -1051,6 +1052,7 @@ type
     function GetActiveTabControl: TSpTBXCustomTabControl;
     procedure SetActiveTabControl(const Value: TSpTBXCustomTabControl);
     procedure WMEraseBkgnd(var Message: TWMEraseBkgnd); message WM_ERASEBKGND;
+    procedure ApplyIDEOptionsToEditor(Editor: IEditor);
   protected
     fCurrentLine : integer;
     fErrorLine : integer;
@@ -1199,6 +1201,7 @@ begin
     Result.SynEdit2.Assign(CommandsDataModule.EditorOptions);
     TEditorForm(Result.Form).ParentTabItem.OnTabClosing := TabControlTabClosing;
     TEditorForm(Result.Form).ParentTabItem.OnDrawTabCloseButton := DrawCloseButton;
+    ApplyIDEOptionsToEditor(Result);
   end else
     Result := nil;
 end;
@@ -2685,6 +2688,30 @@ begin
   end;
 end;
 
+procedure TPyIDEMainForm.ApplyIDEOptionsToEditor(Editor: IEditor);
+begin
+  with TEditorForm(Editor.Form) do
+  begin
+    SynCodeCompletion.Options := PythonIIForm.SynCodeCompletion.Options;
+    SynCodeCompletion.TriggerChars := PythonIIForm.SynCodeCompletion.TriggerChars;
+    SynCodeCompletion.TimerInterval := PythonIIForm.SynCodeCompletion.TimerInterval;
+    Synedit.CodeFolding.Assign(CommandsDataModule.PyIDEOptions.CodeFolding);
+    Synedit2.CodeFolding.Assign(CommandsDataModule.PyIDEOptions.CodeFolding);
+    if CommandsDataModule.PyIDEOptions.CompactLineNumbers then
+    begin
+      SynEdit.OnGutterGetText := TEditorForm(Editor.Form).SynEditGutterGetText;
+      SynEdit2.OnGutterGetText := TEditorForm(Editor.Form).SynEditGutterGetText;
+    end
+    else
+    begin
+      SynEdit.OnGutterGetText := nil;
+      SynEdit2.OnGutterGetText := nil;
+    end;
+    SynEdit.InvalidateGutter;
+    SynEdit2.InvalidateGutter;
+  end;
+end;
+
 procedure TPyIDEMainForm.FormDestroy(Sender: TObject);
 begin
   SkinManager.RemoveSkinNotification(Self);
@@ -2850,13 +2877,7 @@ begin
 
   for i := 0 to GI_EditorFactory.Count - 1 do begin
     Editor := GI_EditorFactory.Editor[i];
-    with TEditorForm(Editor.Form) do begin
-      SynCodeCompletion.Options:=PythonIIForm.SynCodeCompletion.Options;
-      SynCodeCompletion.TriggerChars:=PythonIIForm.SynCodeCompletion.TriggerChars;
-      SynCodeCompletion.TimerInterval:=PythonIIForm.SynCodeCompletion.TimerInterval;
-      Synedit.CodeFolding.Assign(CommandsDataModule.PyIDEOptions.CodeFolding);
-      Synedit2.CodeFolding.Assign(CommandsDataModule.PyIDEOptions.CodeFolding);
-    end;
+    ApplyIDEOptionsToEditor(Editor);
   end;
 
   tbiRecentFileList.MaxItems :=  CommandsDataModule.PyIDEOptions.NoOfRecentFiles;

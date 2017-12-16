@@ -100,8 +100,9 @@ type
     fCheckSyntaxLineLimit : integer;
     fNoOfRecentFiles : integer;
     fUseCodeFolding : boolean;
-    fInternalInterpreterHidden : boolean;
     fCodeFolding : TSynCodeFolding;
+    fInternalInterpreterHidden : boolean;
+    fCompactLineNumbers : Boolean;
     function GetPythonFileExtensions: string;
     procedure SetAutoCompletionFont(const Value: TFont);
   public
@@ -246,6 +247,8 @@ type
       write fUseCodeFolding default True;
     property InternalInterpreterHidden : Boolean read fInternalInterpreterHidden
       write fInternalInterpreterHidden default True;
+    property CompactLineNumbers : Boolean read fCompactLineNumbers
+      write fCompactLineNumbers default True;
   end;
 
   TSearchCaseSensitiveType = (scsAuto, scsNotCaseSenitive, scsCaseSensitive);
@@ -715,6 +718,7 @@ begin
       Self.fNoOfRecentFiles := NoOfRecentFiles;
       Self.fUseCodeFolding := UseCodeFolding;
       Self.fInternalInterpreterHidden := InternalInterpreterHidden;
+      Self.fCompactLineNumbers := CompactLineNumbers;
     end
   else
     inherited;
@@ -802,6 +806,7 @@ begin
   fNoOfRecentFiles := 8;
   fUseCodeFolding := True;
   fInternalInterpreterHidden := True;
+  fCompactLineNumbers := True;
   fCodeFolding := TSynCodeFolding.Create;
 end;
 
@@ -2395,7 +2400,7 @@ begin
   end;
   with Categories[4] do begin
     DisplayName := _('Editor');
-    SetLength(Options, 20);
+    SetLength(Options, 21);
     Options[0].PropertyName := 'RestoreOpenFiles';
     Options[0].DisplayName := _('Restore open files');
     Options[1].PropertyName := 'SearchTextAtCaret';
@@ -2436,6 +2441,8 @@ begin
     Options[18].DisplayName := _('Code folding enabled by default');
     Options[19].PropertyName := 'CodeFolding';
     Options[19].DisplayName := _('Code folding options');
+    Options[20].PropertyName := 'CompactLineNumbers';
+    Options[20].DisplayName := _('Compact Line Numbers');
   end;
   with Categories[5] do begin
     DisplayName := _('Code Completion');

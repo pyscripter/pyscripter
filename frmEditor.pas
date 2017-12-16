@@ -151,6 +151,8 @@ type
     procedure SynEditDblClick(Sender: TObject);
     procedure SynCodeCompletionAfterCodeCompletion(Sender: TObject;
       const Value: string; Shift: TShiftState; Index: Integer; EndToken: Char);
+    procedure SynEditGutterGetText(Sender: TObject; aLine: Integer;
+      var aText: string);
   private
     fEditor: TEditor;
     fActiveSynEdit: TSynEdit;
@@ -163,6 +165,7 @@ type
     fSyntaxErrorPos: TEditorPos;
     fCloseBracketChar: WideChar;
     fCompletionHandler : TBaseCodeCompletionHandler;
+    fOldCaretY : Integer;
     procedure CleanupCodeCompletion;
     function DoAskSaveChanges: boolean;
     procedure DoAssignInterfacePointer(AActive: boolean);
@@ -1415,6 +1418,7 @@ Var
 begin
   ASynEdit := Sender as TSynEdit;
   fActiveSynEdit := ASynEdit;
+  fOldCaretY := ASynEdit.CaretY;
   PyIDEMainForm.ActiveTabControl := ParentTabControl;
   DoAssignInterfacePointer(True);
   CommandsDataModule.ParameterCompletion.Editor := ASynEdit;
@@ -1459,6 +1463,7 @@ procedure TEditorForm.SynEditStatusChange(Sender: TObject;
   Changes: TSynStatusChanges);
 Var
   ASynEdit: TSynEdit;
+  NewCaretY: integer;
 begin
   ASynEdit := Sender as TSynEdit;
   Assert(fEditor <> nil);
@@ -1474,6 +1479,15 @@ begin
   if scCaretY in Changes then begin
     fNeedToSyncCodeExplorer := True;
     fCloseBracketChar := #0;
+  end;
+  if (scCaretY in Changes) and ASynEdit.Gutter.Visible
+    and ASynEdit.Gutter.ShowLineNumbers
+    and CommandsDataModule.PyIDEOptions.CompactLineNumbers then
+  begin
+    NewCaretY := ASynEdit.CaretY;
+    ASynEdit.InvalidateGutterLine(fOldCaretY);
+    ASynEdit.InvalidateGutterLine(NewCaretY);
+    fOldCaretY := NewCaretY;
   end;
 end;
 
@@ -2148,6 +2162,19 @@ begin
     (PyControl.ActiveDebugger <> nil) and not
     (sfGutterDragging in ASynEdit.StateFlags) then
     PyControl.ToggleBreakpoint(fEditor, Line, GetKeyState(VK_CONTROL) < 0);
+end;
+
+procedure TEditorForm.SynEditGutterGetText(Sender: TObject; aLine: Integer;
+  var aText: string);
+begin
+  if aLine = TSynEdit(Sender).CaretY then
+    Exit;
+
+  if aLine mod 10 <> 0 then
+    if aLine mod 5 <> 0 then
+      aText := '·'
+    else
+      aText := '-';
 end;
 
 procedure TEditorForm.SynEditSpecialLineColors(Sender: TObject; Line: Integer;

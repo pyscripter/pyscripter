@@ -119,6 +119,7 @@ object EditorForm: TEditorForm
             WantTabs = True
             OnChange = SynEditChange
             OnGutterClick = SynEditGutterClick
+            OnGutterGetText = SynEditGutterGetText
             OnMouseCursor = SynEditMouseCursor
             OnSpecialLineColors = SynEditSpecialLineColors
             OnStatusChange = SynEditStatusChange
