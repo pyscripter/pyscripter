@@ -13,7 +13,7 @@ msgstr ""
 msgid "French"
 msgstr ""
 
-#. Language of Germany, Austria and others
+#. Language of Germany, Austria
 msgid "German"
 msgstr ""
 
@@ -21,7 +21,7 @@ msgstr ""
 msgid "Greek"
 msgstr ""
 
-#. Language of Italy, Europe
+#. Language of Italy
 msgid "Italian"
 msgstr ""
 
@@ -30,7 +30,7 @@ msgid "Japanese"
 msgstr ""
 
 #. Language of Kabyle people
-msgid "Kabyle"
+msgid "Taqbaylit"
 msgstr ""
 
 #. Language of Portugal, Europe
