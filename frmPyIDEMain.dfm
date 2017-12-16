@@ -20,6 +20,74 @@ object PyIDEMainForm: TPyIDEMainForm
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
+  object StatusBar: TSpTBXStatusBar
+    Left = 0
+    Top = 513
+    Width = 780
+    Height = 25
+    object lbStatusMessage: TSpTBXLabelItem
+      Wrapping = twNone
+      CustomHeight = 21
+    end
+    object SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem
+      CustomWidth = 407
+    end
+    object SpTBXSeparatorItem5: TSpTBXSeparatorItem
+    end
+    object lbStatusCaret: TSpTBXLabelItem
+      Wrapping = twNone
+      Options = [tboNoAutoHint]
+      Alignment = taCenter
+      CustomWidth = 84
+    end
+    object SpTBXSeparatorItem6: TSpTBXSeparatorItem
+    end
+    object lbStatusModified: TSpTBXLabelItem
+      Wrapping = twNone
+      Options = [tboNoAutoHint]
+      Alignment = taCenter
+      CustomWidth = 72
+    end
+    object SpTBXSeparatorItem7: TSpTBXSeparatorItem
+    end
+    object lbStatusOverwrite: TSpTBXLabelItem
+      Wrapping = twNone
+      Options = [tboNoAutoHint]
+      Alignment = taCenter
+      CustomWidth = 84
+    end
+    object SpTBXSeparatorItem8: TSpTBXSeparatorItem
+    end
+    object lbStatusCaps: TSpTBXLabelItem
+      Wrapping = twNone
+      Options = [tboNoAutoHint]
+      Alignment = taCenter
+      CustomWidth = 40
+    end
+    object SpTBXSeparatorItem9: TSpTBXSeparatorItem
+    end
+    object TBControlItem3: TTBControlItem
+      Control = StatusLED
+    end
+    object SpTBXSeparatorItem10: TSpTBXSeparatorItem
+    end
+    object TBControlItem1: TTBControlItem
+      Control = ExternalToolsLED
+    end
+    object StatusLED: TJvLED
+      Left = 723
+      Top = 2
+      Hint = 'Ready'
+    end
+    object ExternalToolsLED: TJvLED
+      Left = 746
+      Top = 2
+      Hint = 'External Tool Running'
+      PopupMenu = RunningProcessesPopUpMenu
+      Status = False
+      Visible = False
+    end
+  end
   object BGPanel: TPanel
     Left = 9
     Top = 77
@@ -1202,73 +1270,26 @@ object PyIDEMainForm: TPyIDEMainForm
     PopupMenu = ToolbarPopupMenu
     Position = dpBottom
   end
-  object StatusBar: TSpTBXStatusBar
-    Left = 0
-    Top = 513
-    Width = 780
-    Height = 25
-    object lbStatusMessage: TSpTBXLabelItem
-      Wrapping = twNone
-      CustomHeight = 21
-    end
-    object SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem
-      CustomWidth = 407
-    end
-    object SpTBXSeparatorItem5: TSpTBXSeparatorItem
-    end
-    object lbStatusCaret: TSpTBXLabelItem
-      Wrapping = twNone
-      Options = [tboNoAutoHint]
-      Alignment = taCenter
-      CustomWidth = 84
-    end
-    object SpTBXSeparatorItem6: TSpTBXSeparatorItem
-    end
-    object lbStatusModified: TSpTBXLabelItem
-      Wrapping = twNone
-      Options = [tboNoAutoHint]
-      Alignment = taCenter
-      CustomWidth = 72
-    end
-    object SpTBXSeparatorItem7: TSpTBXSeparatorItem
-    end
-    object lbStatusOverwrite: TSpTBXLabelItem
-      Wrapping = twNone
-      Options = [tboNoAutoHint]
-      Alignment = taCenter
-      CustomWidth = 84
-    end
-    object SpTBXSeparatorItem8: TSpTBXSeparatorItem
-    end
-    object lbStatusCaps: TSpTBXLabelItem
-      Wrapping = twNone
-      Options = [tboNoAutoHint]
-      Alignment = taCenter
-      CustomWidth = 40
-    end
-    object SpTBXSeparatorItem9: TSpTBXSeparatorItem
-    end
-    object TBControlItem3: TTBControlItem
-      Control = StatusLED
-    end
-    object SpTBXSeparatorItem10: TSpTBXSeparatorItem
-    end
-    object TBControlItem1: TTBControlItem
-      Control = ExternalToolsLED
-    end
-    object StatusLED: TJvLED
-      Left = 723
-      Top = 2
-      Hint = 'Ready'
-    end
-    object ExternalToolsLED: TJvLED
-      Left = 746
-      Top = 2
-      Hint = 'External Tool Running'
-      PopupMenu = RunningProcessesPopUpMenu
-      Status = False
-      Visible = False
-    end
+  object DockServer: TJvDockServer
+    LeftSplitterStyle.Cursor = crHSplit
+    LeftSplitterStyle.ParentColor = False
+    LeftSplitterStyle.ResizeStyle = rsUpdate
+    LeftSplitterStyle.Size = 5
+    RightSplitterStyle.Cursor = crHSplit
+    RightSplitterStyle.ParentColor = False
+    RightSplitterStyle.ResizeStyle = rsUpdate
+    RightSplitterStyle.Size = 5
+    TopSplitterStyle.Cursor = crVSplit
+    TopSplitterStyle.ParentColor = False
+    TopSplitterStyle.ResizeStyle = rsUpdate
+    TopSplitterStyle.Size = 5
+    BottomSplitterStyle.Cursor = crVSplit
+    BottomSplitterStyle.ParentColor = False
+    BottomSplitterStyle.ResizeStyle = rsUpdate
+    BottomSplitterStyle.Size = 5
+    DockStyle = JvDockVSNetStyleSpTBX
+    Left = 37
+    Top = 158
   end
   object AppStorage: TJvAppIniFileStorage
     StorageOptions.BooleanStringTrueValues = 'TRUE, YES, Y'
@@ -2126,27 +2147,6 @@ object PyIDEMainForm: TPyIDEMainForm
       ImageIndex = 107
       OnExecute = actSelectStyleExecute
     end
-  end
-  object DockServer: TJvDockServer
-    LeftSplitterStyle.Cursor = crHSplit
-    LeftSplitterStyle.ParentColor = False
-    LeftSplitterStyle.ResizeStyle = rsUpdate
-    LeftSplitterStyle.Size = 5
-    RightSplitterStyle.Cursor = crHSplit
-    RightSplitterStyle.ParentColor = False
-    RightSplitterStyle.ResizeStyle = rsUpdate
-    RightSplitterStyle.Size = 5
-    TopSplitterStyle.Cursor = crVSplit
-    TopSplitterStyle.ParentColor = False
-    TopSplitterStyle.ResizeStyle = rsUpdate
-    TopSplitterStyle.Size = 5
-    BottomSplitterStyle.Cursor = crVSplit
-    BottomSplitterStyle.ParentColor = False
-    BottomSplitterStyle.ResizeStyle = rsUpdate
-    BottomSplitterStyle.Size = 5
-    DockStyle = JvDockVSNetStyleSpTBX
-    Left = 37
-    Top = 158
   end
   object JvDockVSNetStyleSpTBX: TJvDockVSNetStyleSpTBX
     AlwaysShowGrabber = False

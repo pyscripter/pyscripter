@@ -1465,7 +1465,6 @@ begin
     ManualTabDockAddPage(TabHost, CodeExplorerWindow);
     ShowDockForm(FileExplorerWindow);
 
-    StatusBar.Visible := False;
     TabHost := ManualTabDock(DockServer.BottomDockPanel, CallStackWindow, VariablesWindow);
     DockServer.BottomDockPanel.Height := 150;
     ManualTabDockAddPage(TabHost, WatchesWindow);
@@ -1474,7 +1473,6 @@ begin
     ManualTabDockAddPage(TabHost, MessagesWindow);
     ManualTabDockAddPage(TabHost, PythonIIForm);
     ShowDockForm(PythonIIForm);
-    StatusBar.Visible := True;
 
     Application.ProcessMessages;
   end;
@@ -4391,6 +4389,8 @@ begin
   if not FileExists(AppStorage.IniFile.FileName) then begin
     SetupToolsMenu;
     SetupCustomizer;
+    // fix for staturbar appearing above interpreter
+    StatusBar.Top := MaxInt;
   end;
   SetupLayoutsMenu;
   SetupSyntaxMenu;

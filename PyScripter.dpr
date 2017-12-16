@@ -110,18 +110,19 @@ uses
   cCodeCompletion in 'cCodeCompletion.pas',
   SpTBXPageScroller in 'SpTBXPageScroller.pas' {/  Vcl.Themes,},
   SpTBXSkins in 'SpTBXSkins.pas',
-  Vcl.Themes,
-  Vcl.Styles.Utils.ComCtrls,
   dlgStyleSelector in 'dlgStyleSelector.pas' {StyleSelectorForm},
   cVirtualStringTreeHelper in 'cVirtualStringTreeHelper.pas',
-  Vcl.Styles;
+  Vcl.Themes,
+  Vcl.Styles,
+  Vcl.Styles.Utils.ComCtrls;
 
 {$R *.RES}
 {$R WebCopyAvi.RES}
 {$R XP_UAC.RES}
 
-
-{$SetPEFlags IMAGE_FILE_RELOCS_STRIPPED}
+{$SetPEFlags IMAGE_FILE_RELOCS_STRIPPED
+  or IMAGE_FILE_REMOVABLE_RUN_FROM_SWAP
+  or IMAGE_FILE_NET_RUN_FROM_SWAP}
 
 begin
   ReportMemoryLeaksOnShutdown := DebugHook <> 0;
