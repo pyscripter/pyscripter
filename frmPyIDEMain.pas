@@ -1419,9 +1419,9 @@ begin
   // Setup Languages
   fLanguageList := TStringList.Create;
   SetUpLanguageMenu;
-  TP_GlobalIgnoreClass(TJvFormStorage);
   // And now translate after all the docking forms have been created
   // They will be translated as well
+  TP_GlobalIgnoreClass(TJvFormStorage);
   TranslateComponent(Self);
 
   // Assign Debugger Events
