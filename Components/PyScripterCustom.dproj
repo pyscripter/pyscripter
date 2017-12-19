@@ -4,7 +4,7 @@
         <MainSource>PyScripterCustom.dpk</MainSource>
         <Config Condition="'$(Config)'==''">Debug</Config>
         <DCC_DCCCompiler>DCC32</DCC_DCCCompiler>
-        <ProjectVersion>16.1</ProjectVersion>
+        <ProjectVersion>18.3</ProjectVersion>
         <FrameworkType>VCL</FrameworkType>
         <Base>True</Base>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
@@ -55,15 +55,13 @@
         <DCC_K>false</DCC_K>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
-        <DCC_UsePackage>rtl;vclimg;vcl;vclactnband;vclx;dbrtl;vcldb;Jcl;JvCore;JvDocking;tb2k_XE7;SpTBXLib_XE7;$(DCC_UsePackage)</DCC_UsePackage>
-        <Icon_MainIcon>PyScripterCustom_Icon.ico</Icon_MainIcon>
+        <DCC_UsePackage>rtl;vclimg;vcl;vclactnband;vclx;dbrtl;vcldb;Jcl;JvCore;JvDocking;tb2k_XE7;SpTBXLib_XE7;tb2k_d25;SpTBXLib;$(DCC_UsePackage)</DCC_UsePackage>
         <DCC_Namespace>System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Locale>1033</VerInfo_Locale>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win64)'!=''">
         <DCC_UsePackage>rtl;vclimg;vcl;vclactnband;vclx;dbrtl;vcldb;$(DCC_UsePackage)</DCC_UsePackage>
-        <Icon_MainIcon>PyScripterCustom_Icon.ico</Icon_MainIcon>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1)'!=''">
         <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
@@ -82,8 +80,8 @@
         <DCCReference Include="vcl.dcp"/>
         <DCCReference Include="rtl.dcp"/>
         <DCCReference Include="vclx.dcp"/>
-        <DCCReference Include="SpTBXLib_XE7.dcp"/>
-        <DCCReference Include="tb2k_XE7.dcp"/>
+        <DCCReference Include="SpTBXLib.dcp"/>
+        <DCCReference Include="tb2k_D25.dcp"/>
         <DCCReference Include="vclactnband.dcp"/>
         <DCCReference Include="vcldb.dcp"/>
         <DCCReference Include="dbrtl.dcp"/>
@@ -153,9 +151,6 @@
                 </Excluded_Packages>
             </Delphi.Personality>
             <Platforms>
-                <Platform value="Android">False</Platform>
-                <Platform value="iOSDevice">False</Platform>
-                <Platform value="iOSSimulator">False</Platform>
                 <Platform value="Win32">True</Platform>
                 <Platform value="Win64">False</Platform>
             </Platforms>
