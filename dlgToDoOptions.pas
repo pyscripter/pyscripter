@@ -94,7 +94,7 @@ implementation
 {$R *.dfm}
 
 uses
-  Dialogs, Graphics, SysUtils, frmToDo, dlgDirectoryList, gnugettext,
+  System.UITypes, Dialogs, Graphics, SysUtils, frmToDo, dlgDirectoryList, gnugettext,
   StringResources;
 
 procedure TfmToDoOptions.UpdateButtonState;

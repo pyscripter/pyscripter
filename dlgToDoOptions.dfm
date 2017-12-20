@@ -204,6 +204,7 @@ inherited fmToDoOptions: TfmToDoOptions
         ScrollBars = ssBoth
         TabOrder = 4
         WordWrap = False
+        Zoom = 100
       end
     end
     object btnOK: TSpTBXButton

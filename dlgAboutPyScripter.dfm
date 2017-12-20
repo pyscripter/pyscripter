@@ -3,27 +3,34 @@ inherited AboutBox: TAboutBox
   Top = 155
   BorderIcons = [biSystemMenu]
   Caption = 'About PyScripter'
-  ClientHeight = 245
-  ClientWidth = 358
-  ParentFont = False
-  Font.Name = 'MS Shell Dlg 2'
+  ClientHeight = 261
+  ClientWidth = 382
   KeyPreview = True
   OldCreateOrder = True
   Position = poScreenCenter
+  StyleElements = [seFont, seBorder]
   OnKeyPress = FormKeyPress
-  ExplicitWidth = 364
-  ExplicitHeight = 274
+  ExplicitWidth = 388
+  ExplicitHeight = 290
   PixelsPerInch = 96
   TextHeight = 13
   object SpTBXTabControl1: TSpTBXTabControl
     Left = 0
     Top = 0
-    Width = 358
-    Height = 245
+    Width = 382
+    Height = 261
     Align = alClient
-    Color = clNone
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -12
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentColor = True
+    ParentFont = False
     ActiveTabIndex = 0
+    TabBackgroundBorders = True
     TabPosition = ttpBottom
+    ExplicitLeft = -8
     HiddenItems = <>
     object tbAbout: TSpTBXTabItem
       Caption = 'About'
@@ -38,107 +45,108 @@ inherited AboutBox: TAboutBox
     object SpTBXTabSheet3: TSpTBXTabSheet
       Left = 0
       Top = 0
-      Width = 358
-      Height = 220
+      Width = 382
+      Height = 236
       Caption = 'Links'
       ImageIndex = -1
       TabItem = 'tbLinks'
-      object ScrollBox1: TScrollBox
+      object Panel2: TPanel
         Left = 2
         Top = 4
-        Width = 352
-        Height = 216
-        VertScrollBar.ParentColor = False
-        VertScrollBar.Smooth = True
-        VertScrollBar.Style = ssHotTrack
-        VertScrollBar.Tracking = True
+        Width = 376
+        Height = 232
         Align = alClient
-        BorderStyle = bsNone
-        Color = clBtnFace
-        ParentColor = False
+        AutoSize = True
+        ParentBackground = False
         TabOrder = 0
+        ExplicitLeft = 96
+        ExplicitTop = 96
+        ExplicitWidth = 185
+        ExplicitHeight = 41
         object JvLinkLabel1: TJvLinkLabel
-          Left = 0
-          Top = 0
-          Width = 352
-          Height = 126
+          AlignWithMargins = True
+          Left = 6
+          Top = 6
+          Width = 364
+          Height = 220
+          Margins.Left = 5
+          Margins.Top = 5
+          Margins.Right = 5
+          Margins.Bottom = 5
           Caption = 
             '<b>Links:</b><br><br>'#13#10'- The project home, Issue Tracker and sou' +
             'rce code repository are hosted at Github (<link>github.com/pyscr' +
-            'ipter/pyscripter</link>)<br>'#13#10'- Internet group support is avalab' +
-            'le at <link>groups.google.com/group/PyScripter</link><br>'#13#10'<br>'#13 +
-            #10'Please submit bug reports and questions about PyScripter to pys' +
-            'cripter@gmail.com.'#13#10
+            'ipter/pyscripter</link>)'#13#10'<br>'#13#10'- Internet group support is aval' +
+            'able at <link>groups.google.com/group/PyScripter</link>'#13#10'<br>'#13#10'<' +
+            'br>'#13#10'Please submit bug reports and questions about PyScripter to' +
+            ' pyscripter@gmail.com.'
           Text.Strings = (
             
               '<b>Links:</b><br><br>'#13#10'- The project home, Issue Tracker and sou' +
               'rce code repository are hosted at Github (<link>github.com/pyscr' +
-              'ipter/pyscripter</link>)<br>'#13#10'- Internet group support is avalab' +
-              'le at <link>groups.google.com/group/PyScripter</link><br>'#13#10'<br>'#13 +
-              #10'Please submit bug reports and questions about PyScripter to pys' +
-              'cripter@gmail.com.'#13#10)
+              'ipter/pyscripter</link>)'#13#10'<br>'#13#10'- Internet group support is aval' +
+              'able at <link>groups.google.com/group/PyScripter</link>'#13#10'<br>'#13#10'<' +
+              'br>'#13#10'Please submit bug reports and questions about PyScripter to' +
+              ' pyscripter@gmail.com.')
+          Transparent = True
           LinkColor = clWindowText
           LinkColorClicked = clWindowText
           LinkColorHot = clHotLight
           HotLinks = True
+          AutoHeight = False
+          MarginWidth = 5
           OnLinkClick = JvLinkLabelLinkClick
-          Align = alTop
+          Align = alClient
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
+          Font.Color = clBtnText
           Font.Height = -12
-          Font.Name = 'MS Shell Dlg 2'
+          Font.Name = 'Tahoma'
           Font.Style = []
           ParentFont = False
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 374
+          ExplicitHeight = 230
         end
       end
     end
     object SpTBXTabSheet2: TSpTBXTabSheet
       Left = 0
       Top = 0
-      Width = 358
-      Height = 220
+      Width = 382
+      Height = 236
       Caption = 'Credits'
       ImageIndex = -1
       TabItem = 'tbCredits'
       object ScrollBox: TSpTBXPageScroller
-        Left = 2
-        Top = 4
-        Width = 352
-        Height = 216
+        AlignWithMargins = True
+        Left = 5
+        Top = 7
+        Width = 370
+        Height = 226
         Align = alClient
-        Color = clBtnFace
-        ParentColor = False
+        ButtonSize = 15
+        DoubleBuffered = True
+        Ctl3D = False
+        ParentCtl3D = False
         TabOrder = 0
-        object JvLinkLabel: TJvLinkLabel
+        object Panel3: TPanel
           Left = 0
           Top = 0
-          Width = 352
-          Height = 410
-          Caption = 
-            '<b>Credits</b><br>'#13#10'Special thanks to the many great developers ' +
-            'who,'#13#10'with their amazing work, have made PyScripter '#13#10'possible. ' +
-            ' PyScripter makes use of the following '#13#10'components and projects' +
-            ':'#13#10'<br>'#13#10'<br>'#13#10'- Python for Delphi (<link>github.com/pyscripter/' +
-            'python4delphi</link>)'#13#10'<br>'#13#10'- Rpyc (<link>rpyc.sf.net</link>)'#13#10 +
-            '<br>'#13#10'- JVCL (<link>jvcl.delphi-jedi.org/</link>)'#13#10'<br>'#13#10'- SynEd' +
-            'it (<link>synedit.sf.net</link>)'#13#10'<br>'#13#10'- VirtualTreeView (<link' +
-            '>github.com/Virtual-TreeView/</link>)'#13#10'<br>'#13#10'- VirtualShellTools' +
-            ' (<link>github.com/pyscripter/mustangpeakvirtualshelltools</link' +
-            '>)'#13#10'<br>'#13#10'- GExperts (<link>www.gexperts.org</link>)'#13#10'<br>'#13#10'- Sy' +
-            'n Editor (<link>syn.sf.net</link>)'#13#10'<br>'#13#10'- Syn Web highlighters' +
-            ' (<link>flatdev.ovh.org/</link>)'#13#10'<br>'#13#10'- Toolbar2000 (<link>www' +
-            '.jrsoftware.org/tb2k.php</link>)'#13#10'<br>'#13#10'- SpTBXLib(<link>www.sil' +
-            'verpointdevelopment.com</link>)'#13#10'<br>'#13#10'- TCommandLineReader(<lin' +
-            'k>www.benibela.de</link>)'#13#10'<br>'#13#10'- Silk icons(<link>www.famfamfa' +
-            'm.com</link>)'#13#10'<br>'#13#10'<br>'#13#10'Translations'#13#10'<br>'#13#10'- Chinese transla' +
-            'tion by "Love China"'#13#10'<br>'#13#10'- French translation by Groupe Amien' +
-            'sPython (<link>pedagogie.ac-amiens.fr/maths/AmiensPython/</link>' +
-            ')'#13#10'<br>'#13#10'- Japanese translation by Tokibito'#13#10'<br>'#13#10'- Russian tra' +
-            'nslation by Aleksander Dragunkin'#13#10'<br>'#13#10'- Slovak translation by ' +
-            'Marian Denes'#13#10'<br>'#13#10'- Spanish translation by Javier Pimas'#13#10'<br>'#13 +
-            #10'- Gernan translation by Daniel Frost'#13#10
-          Text.Strings = (
-            
+          Width = 370
+          Height = 412
+          Align = alTop
+          AutoSize = True
+          Locked = True
+          ParentBackground = False
+          ShowCaption = False
+          TabOrder = 0
+          object JvLinkLabel: TJvLinkLabel
+            Left = 1
+            Top = 1
+            Width = 368
+            Height = 410
+            Caption = 
               '<b>Credits</b><br>'#13#10'Special thanks to the many great developers ' +
               'who,'#13#10'with their amazing work, have made PyScripter '#13#10'possible. ' +
               ' PyScripter makes use of the following '#13#10'components and projects' +
@@ -160,46 +168,80 @@ inherited AboutBox: TAboutBox
               ')'#13#10'<br>'#13#10'- Japanese translation by Tokibito'#13#10'<br>'#13#10'- Russian tra' +
               'nslation by Aleksander Dragunkin'#13#10'<br>'#13#10'- Slovak translation by ' +
               'Marian Denes'#13#10'<br>'#13#10'- Spanish translation by Javier Pimas'#13#10'<br>'#13 +
-              #10'- Gernan translation by Daniel Frost'#13#10)
-          LinkColor = clWindowText
-          LinkColorClicked = clWindowText
-          LinkColorHot = clHotLight
-          HotLinks = True
-          MarginWidth = 2
-          MarginHeight = 2
-          OnLinkClick = JvLinkLabelLinkClick
-          Align = alTop
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -12
-          Font.Name = 'MS Shell Dlg 2'
-          Font.Style = []
-          ParentFont = False
+              #10'- Gernan translation by Daniel Frost'#13#10
+            Text.Strings = (
+              
+                '<b>Credits</b><br>'#13#10'Special thanks to the many great developers ' +
+                'who,'#13#10'with their amazing work, have made PyScripter '#13#10'possible. ' +
+                ' PyScripter makes use of the following '#13#10'components and projects' +
+                ':'#13#10'<br>'#13#10'<br>'#13#10'- Python for Delphi (<link>github.com/pyscripter/' +
+                'python4delphi</link>)'#13#10'<br>'#13#10'- Rpyc (<link>rpyc.sf.net</link>)'#13#10 +
+                '<br>'#13#10'- JVCL (<link>jvcl.delphi-jedi.org/</link>)'#13#10'<br>'#13#10'- SynEd' +
+                'it (<link>synedit.sf.net</link>)'#13#10'<br>'#13#10'- VirtualTreeView (<link' +
+                '>github.com/Virtual-TreeView/</link>)'#13#10'<br>'#13#10'- VirtualShellTools' +
+                ' (<link>github.com/pyscripter/mustangpeakvirtualshelltools</link' +
+                '>)'#13#10'<br>'#13#10'- GExperts (<link>www.gexperts.org</link>)'#13#10'<br>'#13#10'- Sy' +
+                'n Editor (<link>syn.sf.net</link>)'#13#10'<br>'#13#10'- Syn Web highlighters' +
+                ' (<link>flatdev.ovh.org/</link>)'#13#10'<br>'#13#10'- Toolbar2000 (<link>www' +
+                '.jrsoftware.org/tb2k.php</link>)'#13#10'<br>'#13#10'- SpTBXLib(<link>www.sil' +
+                'verpointdevelopment.com</link>)'#13#10'<br>'#13#10'- TCommandLineReader(<lin' +
+                'k>www.benibela.de</link>)'#13#10'<br>'#13#10'- Silk icons(<link>www.famfamfa' +
+                'm.com</link>)'#13#10'<br>'#13#10'<br>'#13#10'Translations'#13#10'<br>'#13#10'- Chinese transla' +
+                'tion by "Love China"'#13#10'<br>'#13#10'- French translation by Groupe Amien' +
+                'sPython (<link>pedagogie.ac-amiens.fr/maths/AmiensPython/</link>' +
+                ')'#13#10'<br>'#13#10'- Japanese translation by Tokibito'#13#10'<br>'#13#10'- Russian tra' +
+                'nslation by Aleksander Dragunkin'#13#10'<br>'#13#10'- Slovak translation by ' +
+                'Marian Denes'#13#10'<br>'#13#10'- Spanish translation by Javier Pimas'#13#10'<br>'#13 +
+                #10'- Gernan translation by Daniel Frost'#13#10)
+            Transparent = True
+            LinkColor = clWindowText
+            LinkColorClicked = clWindowText
+            LinkColorHot = clHotLight
+            HotLinks = True
+            MarginWidth = 2
+            MarginHeight = 2
+            OnLinkClick = JvLinkLabelLinkClick
+            Align = alTop
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clBtnText
+            Font.Height = -12
+            Font.Name = 'Tahoma'
+            Font.Style = []
+            ParentFont = False
+          end
         end
       end
     end
     object SpTBXTabSheet1: TSpTBXTabSheet
       Left = 0
       Top = 0
-      Width = 358
-      Height = 220
+      Width = 382
+      Height = 236
       Caption = 'About'
       ImageIndex = -1
       TabItem = 'tbAbout'
-      object Panel1: TSpTBXPanel
+      object Panel1: TPanel
         AlignWithMargins = True
         Left = 15
         Top = 12
-        Width = 328
-        Height = 197
+        Width = 346
+        Height = 217
         Margins.Left = 10
         Margins.Top = 10
         Margins.Right = 10
         Margins.Bottom = 10
-        UseDockManager = True
+        DoubleBuffered = False
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBtnText
+        Font.Height = -11
+        Font.Name = 'MS Shell Dlg 2'
+        Font.Style = []
+        ParentBackground = False
+        ParentDoubleBuffered = False
+        ParentFont = False
+        ShowCaption = False
         TabOrder = 0
         OnClick = Panel1Click
-        TBXStyleBackground = True
         object ProgramIcon: TImage
           Left = 8
           Top = 8
@@ -1563,12 +1605,12 @@ inherited AboutBox: TAboutBox
           Transparent = True
           OnClick = Panel1Click
         end
-        object Copyright: TSpTBXLabel
+        object Copyright: TLabel
           Left = 129
-          Top = 68
-          Width = 190
-          Height = 22
-          Caption = '(C) Kiriakos Vlahos  2005-2015'
+          Top = 74
+          Width = 181
+          Height = 16
+          Caption = '(C) Kiriakos Vlahos  2005-2018'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clHotLight
           Font.Height = -13
@@ -1577,31 +1619,11 @@ inherited AboutBox: TAboutBox
           ParentFont = False
           OnClick = Panel1Click
         end
-        object Comments: TSpTBXLabel
-          Left = 8
-          Top = 115
-          Width = 305
-          Height = 76
-          Caption = 
-            'A freeware, open source Python scripting integrated development ' +
-            'environment created with the ambition to bring to the Python com' +
-            'munity the quality and functionality available in commercial IDE' +
-            's available for other languages.'
-          AutoSize = False
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clHotLight
-          Font.Height = -12
-          Font.Name = 'Arial'
-          Font.Style = []
-          ParentFont = False
-          Wrapping = twWrap
-          OnClick = Panel1Click
-        end
-        object Version: TSpTBXLabel
+        object Version: TLabel
           Left = 129
           Top = 44
-          Width = 93
-          Height = 24
+          Width = 84
+          Height = 18
           Caption = 'Version 1.3'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clHotLight
@@ -1611,18 +1633,45 @@ inherited AboutBox: TAboutBox
           ParentFont = False
           OnClick = Panel1Click
         end
-        object ProductName: TSpTBXLabel
+        object ProductName: TLabel
           Left = 129
           Top = 14
-          Width = 169
-          Height = 30
-          Caption = 'Python Scripter'
+          Width = 106
+          Height = 24
+          Caption = 'PyScripter'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clHotLight
           Font.Height = -21
           Font.Name = 'Arial'
           Font.Style = [fsBold, fsItalic]
           ParentFont = False
+          Transparent = True
+          OnClick = Panel1Click
+        end
+        object Comments: TLabel
+          AlignWithMargins = True
+          Left = 11
+          Top = 120
+          Width = 334
+          Height = 96
+          Margins.Left = 10
+          Margins.Top = 0
+          Margins.Right = 0
+          Margins.Bottom = 0
+          Align = alBottom
+          AutoSize = False
+          Caption = 
+            'A freeware, open source Python scripting integrated development ' +
+            'environment created with the ambition to bring to the Python com' +
+            'munity the quality and functionality available in commercial IDE' +
+            's available for other languages.'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clBtnText
+          Font.Height = -12
+          Font.Name = 'MS Shell Dlg 2'
+          Font.Style = []
+          ParentFont = False
+          WordWrap = True
           OnClick = Panel1Click
         end
       end

@@ -12,18 +12,12 @@ interface
 
 uses Windows, SysUtils, Classes, Graphics, Forms, Controls, 
   Buttons,  JvLinkLabel, JvExControls, ExtCtrls,
-  dlgPyIDEBase, SpTBXControls, SpTBXItem, SpTBXTabs, TB2Item, SpTBXPageScroller;
+  dlgPyIDEBase, SpTBXControls, SpTBXItem, SpTBXTabs, TB2Item, SpTBXPageScroller,
+  Vcl.StdCtrls;
 
 type
   TAboutBox = class(TPyIDEDlgBase)
-    ScrollBox1: TScrollBox;
     JvLinkLabel1: TJvLinkLabel;
-    Panel1: TSpTBXPanel;
-    ProgramIcon: TImage;
-    Copyright: TSpTBXLabel;
-    Comments: TSpTBXLabel;
-    Version: TSpTBXLabel;
-    ProductName: TSpTBXLabel;
     SpTBXTabControl1: TSpTBXTabControl;
     tbAbout: TSpTBXTabItem;
     SpTBXTabSheet1: TSpTBXTabSheet;
@@ -33,6 +27,14 @@ type
     SpTBXTabSheet3: TSpTBXTabSheet;
     ScrollBox: TSpTBXPageScroller;
     JvLinkLabel: TJvLinkLabel;
+    Panel1: TPanel;
+    ProgramIcon: TImage;
+    Copyright: TLabel;
+    Version: TLabel;
+    ProductName: TLabel;
+    Comments: TLabel;
+    Panel2: TPanel;
+    Panel3: TPanel;
     procedure Panel1Click(Sender: TObject);
     procedure JvLinkLabelLinkClick(Sender: TObject; LinkNumber: Integer;
       LinkText, LinkParam: String);
@@ -85,7 +87,7 @@ begin
 end;
 
 initialization
-  TP_GlobalIgnoreClass (TJvLinkLabel);
+  //TP_GlobalIgnoreClass (TJvLinkLabel);
   TP_GlobalIgnoreClassProperty(TAboutBox, 'Copyright');
   TP_GlobalIgnoreClassProperty(TAboutBox, 'Version');
   TP_GlobalIgnoreClassProperty(TAboutBox, 'ProductName');
