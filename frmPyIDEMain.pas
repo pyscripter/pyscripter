@@ -3029,7 +3029,18 @@ begin
       EditorOptions.Gutter.Gradient := False;  //default value
       AppStorage.ReadPersistent('Editor Options', EditorOptions);
       if CompareVersion(PyScripterVersion, '3.1') < 0 then begin
-        EditorOptions.Keystrokes.ResetDefaults;
+        with EditorOptions.Keystrokes do begin
+          AddKey(ecFoldAll, VK_OEM_MINUS, [ssCtrl, ssShift]);   {- _}
+          AddKey(ecUnfoldAll,  VK_OEM_PLUS, [ssCtrl, ssShift]); {= +}
+          AddKey(ecFoldNearest, VK_OEM_2, [ssCtrl]);  // Divide {'/'}
+          AddKey(ecUnfoldNearest, VK_OEM_2, [ssCtrl, ssShift]);
+          AddKey(ecFoldLevel1, ord('K'), [ssCtrl], Ord('1'), [ssCtrl]);
+          AddKey(ecFoldLevel2, ord('K'), [ssCtrl], Ord('2'), [ssCtrl]);
+          AddKey(ecFoldLevel3, ord('K'), [ssCtrl], Ord('3'), [ssCtrl]);
+          AddKey(ecUnfoldLevel1, ord('K'), [ssCtrl, ssShift], Ord('1'), [ssCtrl, ssShift]);
+          AddKey(ecUnfoldLevel2, ord('K'), [ssCtrl, ssShift], Ord('2'), [ssCtrl, ssShift]);
+          AddKey(ecUnfoldLevel3, ord('K'), [ssCtrl, ssShift], Ord('3'), [ssCtrl, ssShift]);
+        end;
         EditorOptions.Gutter.DigitCount := 2;
         EditorOptions.Options := EditorOptions.Options +
           [eoAutoIndent, eoAutoSizeMaxScrollWidth, eoScrollPastEol];

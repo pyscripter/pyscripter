@@ -564,6 +564,23 @@ type
   );
   TVTOperationKinds = set of TVTOperationKind;
 
+  // content elements of the control from left to right, used when calculatin left margins.
+  TVTElement = (
+    ofsControlMargin,
+    ofsNodeIndent,
+    ofsToggleButton,
+    ofsCheckBox,
+    ofsStateImage,
+    ofsImage,
+    ofsLabel,
+    ofsEndOfClientArea // The end of the paint area
+  );
+
+  /// An array that can be used to calculate the offsets ofthe elements in the tree.
+  TVTOffsets = array [TVTElement] of integer;
+
+
+
 const
   DefaultPaintOptions = [toShowButtons, toShowDropmark, toShowTreeLines, toShowRoot, toThemeAware, toUseBlendedImages];
   DefaultAnimationOptions = [];
@@ -1042,6 +1059,7 @@ type
     procedure SaveToStream(const Stream: TStream);
     function UseRightToLeftReading: Boolean;
 
+    property CaptionText: string read FCaptionText;
     property Left: Integer read GetLeft;
     property Owner: TVirtualTreeColumns read GetOwner;
   published
@@ -1049,7 +1067,6 @@ type
     property BiDiMode: TBiDiMode read FBiDiMode write SetBiDiMode stored IsBiDiModeStored;
     property CaptionAlignment: TAlignment read GetCaptionAlignment write SetCaptionAlignment
       stored IsCaptionAlignmentStored default taLeftJustify;
-    property CaptionText: string read FCaptionText stored False;
     property CheckType: TCheckType read FCheckType write SetCheckType default ctCheckBox;
     property CheckState: TCheckState read FCheckState write SetCheckState default csUncheckedNormal;
     property CheckBox: Boolean read FCheckBox write SetCheckBox default False;
@@ -1378,7 +1395,7 @@ type
     property MaxHeight: Integer read FMaxHeight write SetMaxHeight default 10000;
     property MinHeight: Integer read FMinHeight write SetMinHeight default 10;
     property Options: TVTHeaderOptions read FOptions write SetOptions default [hoColumnResize, hoDrag, hoShowSortGlyphs];
-    property ParentFont: Boolean read FParentFont write SetParentFont default False;
+    property ParentFont: Boolean read FParentFont write SetParentFont default True;
     property PopupMenu: TPopupMenu read FPopupMenu write FPopupMenu;
     property SortColumn: TColumnIndex read FSortColumn write SetSortColumn default NoColumn;
     property SortDirection: TSortDirection read FSortDirection write SetSortDirection default sdAscending;
@@ -1593,7 +1610,7 @@ type
     etCustom // supported by external tools
   );
 
-  TVTNodeExportEvent   = function (Sender: TBaseVirtualTree; aExportType: TVTExportType; Node: PVirtualNode): Boolean of object;
+  TVTNodeExportEvent   = procedure (Sender: TBaseVirtualTree; aExportType: TVTExportType; Node: PVirtualNode) of object;
   TVTColumnExportEvent = procedure (Sender: TBaseVirtualTree; aExportType: TVTExportType; Column: TVirtualTreeColumn) of object;
   TVTTreeExportEvent   = procedure(Sender: TBaseVirtualTree; aExportType: TVTExportType) of object;
 
@@ -1818,6 +1835,7 @@ type
     out EditLink: IVTEditLink) of object;
   TVTSaveTreeEvent = procedure(Sender: TBaseVirtualTree; Stream: TStream) of object;
   TVTSaveNodeEvent = procedure(Sender: TBaseVirtualTree; Node: PVirtualNode; Stream: TStream) of object;
+  TVTBeforeGetCheckStateEvent = procedure(Sender: TBaseVirtualTree; Node: PVirtualNode) of object;
 
   // header/column events
   TVTHeaderClickEvent = procedure(Sender: TVTHeader; HitInfo: TVTHeaderHitInfo) of object;
@@ -2073,6 +2091,8 @@ type
     FCustomCheckImages: TCustomImageList;        // application defined check images
     FCheckImageKind: TCheckImageKind;            // light or dark, cross marks or tick marks
     FCheckImages: TCustomImageList;              // Reference to global image list to be used for the check images.
+    //TODO: Use this margin for other images as well
+    FImagesMargin: Integer;                      // The margin used left and right of the checkboxes.
     FImageChangeLink,
     FStateChangeLink,
     FCustomCheckChangeLink: TChangeLink;         // connections to the image lists
@@ -2295,6 +2315,9 @@ type
     FOnStateChange: TVTStateChangeEvent;         // Called whenever a state in the tree changes.
     FOnGetCellIsEmpty: TVTGetCellIsEmptyEvent;   // Called when the tree needs to know if a cell is empty.
     FOnShowScrollBar: TVTScrollBarShowEvent;     // Called when a scrollbar is changed in its visibility.
+    FOnBeforeGetCheckState: TVTBeforeGetCheckStateEvent; // Called before a CheckState for a Node is obtained.
+                                                         // Gives the application a chance to do special processing
+                                                         // when a check state is actually required for the first time.
 
     // search, sort
     FOnCompareNodes: TVTCompareEvent;            // used during sort
@@ -2946,6 +2969,7 @@ type
     property OnSaveTree: TVTSaveTreeEvent read FOnSaveTree write FOnSaveTree;
     property OnScroll: TVTScrollEvent read FOnScroll write FOnScroll;
     property OnShowScrollBar: TVTScrollBarShowEvent read FOnShowScrollBar write FOnShowScrollBar;
+    property OnBeforeGetCheckState: TVTBeforeGetCheckStateEvent read FOnBeforeGetCheckState write FOnBeforeGetCheckState;
     property OnStartOperation: TVTOperationEvent read FOnStartOperation write FOnStartOperation;
     property OnStateChange: TVTStateChangeEvent read FOnStateChange write FOnStateChange;
     property OnStructureChange: TVTStructureChangeEvent read FOnStructureChange write FOnStructureChange;
@@ -3053,6 +3077,8 @@ type
     function GetFirstSelectedNodeData<T>(): T;
     function GetNodeLevel(Node: PVirtualNode): Cardinal;
     function GetNodeLevelForSelectConstraint(Node: PVirtualNode): integer;
+    function GetOffset(pElement: TVTElement; pNode: PVirtualNode): integer;
+    procedure GetOffsets(pElement: TVTElement; pNode: PVirtualNode; out pOffsets: TVTOffsets);
     function GetPrevious(Node: PVirtualNode; ConsiderChildrenAbove: Boolean = False): PVirtualNode;
     function GetPreviousChecked(Node: PVirtualNode; State: TCheckState = csCheckedNormal;
       ConsiderChildrenAbove: Boolean = False): PVirtualNode;
@@ -3690,6 +3716,7 @@ type
     property OnScroll;
     property OnShortenString;
     property OnShowScrollBar;
+    property OnBeforeGetCheckState;
     property OnStartDock;
     property OnStartDrag;
     property OnStartOperation;
@@ -4501,6 +4528,9 @@ begin
       begin
         if toCheckSupport in ToBeSet + ToBeCleared then
           Invalidate;
+        if toEditOnDblClick in ToBeSet then
+          FMiscOptions := FMiscOptions - [toToggleOnDblClick];  // In order for toEditOnDblClick to take effect, we need to remove toToggleOnDblClick which is handled with priority. See issue #747
+
         if not (csDesigning in ComponentState) then
         begin
           if toAcceptOLEDrop in ToBeCleared then
@@ -5828,6 +5858,7 @@ var
   R: TRect;
 
 begin
+  try
   if AData = nil then
     // Defensive approach, it *can* happen that AData is nil. Maybe when several user defined hint classes are used.
     Result := Rect(0, 0, 0, 0)
@@ -5991,6 +6022,9 @@ begin
         end;
       end;
     end;
+  end;
+  except
+    Application.HandleException(Self);
   end;
 end;
 
@@ -7045,7 +7079,7 @@ var
   Temp: TColumnIndex;
 
 begin
-  if csLoading in Owner.Header.Treeview.ComponentState then
+  if (csLoading in Owner.Header.Treeview.ComponentState) or (Owner.UpdateCount > 0) then
     // Only cache the position for final fixup when loading from DFM.
     FPosition := Value
   else
@@ -8313,8 +8347,17 @@ begin
       end;//else
     end;//if
 
-    if (Button = mbRight) and (hoAutoColumnPopupMenu in Header.Options) then begin
+    if (Button = mbRight) then 
+    begin
       FreeAndNil(fColumnPopupMenu);// Attention: Do not free the TVTHeaderPopupMenu at the end of this method, otherwise the clikc events of the menu item will not be fired.
+      if Assigned(Header.PopupMenu) then
+      begin
+        Header.PopupMenu.PopupComponent := Header.Treeview;
+        With Header.Treeview.ClientToScreen(P) do
+          Header.PopupMenu.Popup(X, Y);
+      end // if  hoAutoColumnPopupMenu
+      else if (hoAutoColumnPopupMenu in Header.Options) then
+      begin
       fColumnPopupMenu := TVTHeaderPopupMenu.Create(Header.TreeView);
       TVTHeaderPopupMenu(fColumnPopupMenu).OnColumnChange := HeaderPopupMenuColumnChange;
       fColumnPopupMenu.PopupComponent := Header.Treeview;
@@ -8324,7 +8367,8 @@ begin
         TVTHeaderPopupMenu(fColumnPopupMenu).Options := TVTHeaderPopupMenu(fColumnPopupMenu).Options - [poResizeToFitItem];
       With Header.Treeview.ClientToScreen(P) do
         fColumnPopupMenu.Popup(X, Y);
-    end;//if hoShowColumnPopupMenu
+      end;         
+    end;//if mbRight
     FHeader.Treeview.DoHeaderClick(HitInfo);
   end;//else (not DblClick)
 
@@ -9676,7 +9720,7 @@ begin
   FMaxHeight := 10000;
   FFont := TFont.Create;
   FFont.OnChange := FontChanged;
-  FParentFont := False;
+  FParentFont := True;
   FBackgroundColor := clBtnFace;
   FOptions := [hoColumnResize, hoDrag, hoShowSortGlyphs];
 
@@ -12051,7 +12095,7 @@ begin
       9:
         // FocusedSelectionBorderColor
         if FColors[Index] = clHighlight then
-          StyleServices.GetElementColor(StyleServices.GetElementDetails(ttItemSelected), ecFillColor, Result)
+          Result := StyleServices.GetSystemColor(clHighlight)
         else
           Result := FColors[Index];
       11:
@@ -12072,7 +12116,7 @@ begin
         begin
           if not StyleServices.GetElementColor(StyleServices.GetElementDetails(ttItemSelected), ecTextColor, Result) or
             (Result <> clWindowText) then
-            Result := NodeFontColor;
+            Result := StyleServices.GetSystemColor(clHighlightText);
         end
         else
           Result := FColors[Index];
@@ -12257,6 +12301,7 @@ begin
   FDefaultPasteMode := amAddChildLast;
   FMargin := 4;
   FTextMargin := 4;
+  FImagesMargin := 2;
   FLastDragEffect := DROPEFFECT_NONE;
   FDragType := dtOLE;
   FDragHeight := 350;
@@ -12542,11 +12587,11 @@ begin
                     begin
                       if Run.CheckType in [ctCheckBox, ctTriStateCheckBox] then
                       begin
-                        if not Run.CheckState.IsDisabled() then
+                        if not Self.GetCheckState(Run).IsDisabled() then
                           SetCheckState(Run, csUncheckedNormal);
                         // Check if the new child state was set successfully, otherwise we have to adjust the
                         // node's new check state accordingly.
-                        case Run.CheckState of
+                        case Self.GetCheckState(Run) of
                           csCheckedNormal, csCheckedDisabled:
                             Inc(CheckedCount);
                           csMixedNormal:
@@ -12581,11 +12626,11 @@ begin
                     begin
                       if Run.CheckType in [ctCheckBox, ctTriStateCheckBox] then
                       begin
-                        if not Run.CheckState.IsDisabled() then
+                        if not Self.GetCheckState(Run).IsDisabled() then
                           SetCheckState(Run, csCheckedNormal);
                         // Check if the new child state was set successfully, otherwise we have to adjust the
                         // node's new check state accordingly.
-                        case Run.CheckState of
+                        case Self.GetCheckState(Run) of
                           csCheckedNormal:
                             Inc(CheckedCount);
                           csMixedNormal:
@@ -12631,7 +12676,7 @@ begin
       if Result then
         CheckState := Value // Set new check state
       else
-        CheckState := CheckState.GetUnpressed(); // Reset dynamic check state.
+        CheckState := Self.GetCheckState(Node).GetUnpressed(); // Reset dynamic check state.
 
       // Propagate state up to the parent.
       if not (vsInitialized in Parent.States) then
@@ -12701,7 +12746,7 @@ begin
   // Don't check the events here as descendant trees might have overriden the DoGetImageIndex method.
   WithStateImages := Assigned(FStateImages) or Assigned(OnGetImageIndexEx);
   if WithCheck then
-    CheckOffset := FCheckImages.Width + 2
+    CheckOffset := FCheckImages.Width + FImagesMargin
   else
     CheckOffset := 0;
   AutoSpan := FHeader.UseColumns and (toAutoSpanColumns in FOptions.FAutoOptions);
@@ -12870,7 +12915,7 @@ begin
   // Don't check the events here as descendant trees might have overriden the DoGetImageIndex method.
   WithStateImages := Assigned(FStateImages) or Assigned(OnGetImageIndexEx);
   if WithCheck then
-    CheckOffset := FCheckImages.Width + 2
+    CheckOffset := FCheckImages.Width + FImagesMargin
   else
     CheckOffset := 0;
   AutoSpan := FHeader.UseColumns and (toAutoSpanColumns in FOptions.FAutoOptions);
@@ -13353,6 +13398,9 @@ end;
 function TBaseVirtualTree.GetCheckState(Node: PVirtualNode): TCheckState;
 
 begin
+  if Assigned(FOnBeforeGetCheckState) then
+     FOnBeforeGetCheckState(Self, Node);
+
   Result := Node.CheckState;
 end;
 
@@ -13520,6 +13568,54 @@ begin
 end;
 
 //----------------------------------------------------------------------------------------------------------------------
+
+function TBaseVirtualTree.GetOffset(pElement: TVTElement; pNode: PVirtualNode): integer;
+// Calculates the offset of the given element
+var
+  lOffsets: TVTOffsets;
+begin
+  GetOffsets(pElement, pNode, lOffsets);
+  Exit(lOffsets[pElement]);
+end;
+
+procedure TBaseVirtualTree.GetOffsets(pElement: TVTElement; pNode: PVirtualNode; out pOffsets: TVTOffsets);
+// Calculates the offset up to the given element and supplies them in an array.
+var
+  lNodeLevel: Integer;
+begin
+  // Left Margin
+  pOffsets[TVTElement.ofsControlMargin] := FMargin;
+  if pElement = ofsControlMargin then
+    exit;
+  // plus Indent
+  lNodeLevel := GetNodeLevel(pNode);
+  if toShowRoot in FOptions.FPaintOptions then
+    Inc(lNodeLevel);
+  pOffsets[TVTElement.ofsNodeIndent] := pOffsets[TVTElement.ofsControlMargin] + (lNodeLevel * Integer(FIndent));
+  if pElement = TVTElement.ofsNodeIndent then
+    exit;
+  // toggle buttons
+  pOffsets[TVTElement.ofsToggleButton] := pOffsets[TVTElement.ofsNodeIndent] + Round((Integer(FIndent) - FPlusBM.Width) / 2) + 1;
+  // checkbox
+  if (toCheckSupport in FOptions.FMiscOptions) and Assigned(FCheckImages) and (pNode.CheckType <> ctNone) then
+    pOffsets[TVTElement.ofsCheckBox] := pOffsets[TVTElement.ofsNodeIndent] + Integer(fIndent); // The area in which the toggle buttons are painted must have exactly the size of one indent level
+  if pElement <= TVTElement.ofsCheckBox then
+    exit;
+  // state image
+  pOffsets[TVTElement.ofsStateImage] := pOffsets[TVTElement.ofsCheckBox] + FCheckImages.Width;
+  if pElement = TVTElement.ofsStateImage then
+    exit;
+  // normal image
+  pOffsets[TVTElement.ofsImage] := pOffsets[TVTElement.ofsStateImage] + GetImageSize(pNode, TVTImageKind.ikState).cx;
+  if pElement = TVTElement.ofsImage then
+    exit;
+  // label
+  pOffsets[TVTElement.ofsLabel] := pOffsets[TVTElement.ofsStateImage] + GetImageSize(pNode, TVTImageKind.ikNormal).cx + FTextMargin;
+  // end of client area
+  pOffsets[TVTElement.ofsEndOfClientArea] := Max(FRangeX, ClientWidth) - FTextMargin;
+  //TODO: support BiDi
+  //TODO: Use this method in GetDisplayRect(), DetermineHitPositionLTR(), GetMaxRightExtend,PaintTree()...
+end;
 
 function TBaseVirtualTree.GetOffsetXY: TPoint;
 
@@ -14624,9 +14720,9 @@ begin
       if not (vsInitialized in Node.Parent.States) then
         InitNode(Node.Parent);
       if (Node.Parent.CheckType = ctTriStateCheckBox) then begin
-        if (Node.Parent.CheckState in [csUncheckedNormal, csUncheckedDisabled]) then
+        if (GetCheckState(Node.Parent) in [csUncheckedNormal, csUncheckedDisabled]) then
           CheckState[Node] := csUncheckedNormal
-        else if (Node.Parent.CheckState in [csCheckedNormal, csCheckedDisabled]) then
+        else if (GetCheckState(Node.Parent) in [csCheckedNormal, csCheckedDisabled]) then
           CheckState[Node] := csCheckedNormal;
       end;//if
     end;//if
@@ -14934,6 +15030,7 @@ begin
         IsVisible[Node] := True;
     until False;
   end;
+  ScrollIntoView(Node, False);
 end;
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -16929,7 +17026,7 @@ begin
       if (tsKeyCheckPending in FStates) and (CharCode <> VK_SPACE) then
       begin
         DoStateChange([], [tskeyCheckPending]);
-        FCheckNode.CheckState := FCheckNode.CheckState.GetToggled().GetUnpressed();
+        FCheckNode.CheckState := GetCheckState(FCheckNode).GetToggled().GetUnpressed();
         InvalidateNode(FCheckNode);
         FCheckNode := nil;
       end;
@@ -17453,13 +17550,13 @@ begin
                 not (vsDisabled in FFocusedNode.States) then
               begin
                 with FFocusedNode^ do
-                  NewCheckState := DetermineNextCheckState(CheckType, CheckState);
+                  NewCheckState := DetermineNextCheckState(CheckType, GetCheckState(FFocusedNode));
                 if DoChecking(FFocusedNode, NewCheckState) then
                 begin
                   DoStateChange([tsKeyCheckPending]);
                   FCheckNode := FFocusedNode;
                   FPendingCheckState := NewCheckState;
-                  FCheckNode.CheckState := FCheckNode.CheckState.GetPressed();
+                  FCheckNode.CheckState := GetCheckState(FFocusedNode).GetPressed();
                   RepaintNode(FCheckNode);
                 end;
               end;
@@ -17617,12 +17714,16 @@ var
 
 begin
   DoStateChange([tsLeftDblClick]);
-  inherited;
-
-  // get information about the hit
+  try
+    // get information about the hit, before calling inherited, is this may change the scroll postion and so the node under the mouse would chnage and would no longer be the one the user actually clicked
   GetHitTestInfoAt(Message.XPos, Message.YPos, True, HitInfo);
   HandleMouseDblClick(Message, HitInfo);
+    // Call inherited after doing our standard handling, as the event handler may close the form or re-fill the control, so our clicked node would be no longer valid.
+    // Our standard handling does not do that.
+    inherited;
+  finally
   DoStateChange([], [tsLeftDblClick]);
+end;
 end;
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -18697,6 +18798,9 @@ begin
         FHeader.ChangeScale(M, D);
         SetDefaultNodeHeight(MulDiv(FDefaultNodeHeight, M, D));
         Indent := MulDiv(Indent, M, D);
+        FTextMargin := MulDiv(FTextMargin, M, D);
+        FMargin := MulDiv(FMargin, M, D);
+        FImagesMargin := MulDiv(FImagesMargin, M, D);
         // Scale also node heights
         Run := GetFirstInitialized;
         while Assigned(Run) do
@@ -18757,9 +18861,9 @@ begin
       if Run.CheckType in [ctCheckBox, ctTriStateCheckBox] then
       begin
         Inc(BoxCount);
-        if Run.CheckState.IsChecked then
+        if GetCheckState(Run).IsChecked then
           Inc(CheckCount);
-        PartialCheck := PartialCheck or (Run.CheckState = csMixedNormal);
+        PartialCheck := PartialCheck or (GetCheckState(Run) = csMixedNormal);
       end;
     Run := Run.NextSibling;
   end;
@@ -19171,7 +19275,7 @@ begin
       // Check support is only available for the main column.
       if MainColumnHit and (toCheckSupport in FOptions.FMiscOptions) and Assigned(FCheckImages) and
         (HitInfo.HitNode.CheckType <> ctNone) then
-        Inc(ImageOffset, FCheckImages.Width + 2);
+        Inc(ImageOffset, FCheckImages.Width + FImagesMargin);
 
       if MainColumnHit and (Offset < ImageOffset) then
       begin
@@ -19306,7 +19410,7 @@ begin
       // Check support is only available for the main column.
       if MainColumnHit and (toCheckSupport in FOptions.FMiscOptions) and Assigned(FCheckImages) and
         (HitInfo.HitNode.CheckType <> ctNone) then
-        Dec(ImageOffset, FCheckImages.Width + 2);
+        Dec(ImageOffset, FCheckImages.Width + FImagesMargin);
 
       if MainColumnHit and (Offset > ImageOffset) then
       begin
@@ -22059,7 +22163,7 @@ begin
   if Assigned(Node) then
   begin
     ImgCheckType := Node.CheckType;
-    ImgCheckState := Node.CheckState;
+    ImgCheckState := GetCheckState(Node);
     ImgEnabled := not (vsDisabled in Node.States) and Self.Enabled;
 
     IsHot := Node = FCurrentHotNode;
@@ -22211,7 +22315,7 @@ begin
   Inc(NodeLeft, GetImageSize(Node, TVTImageKind.ikNormal).cx);
   WithCheck := (toCheckSupport in FOptions.FMiscOptions) and Assigned(FCheckImages);
   if WithCheck then
-    CheckOffset := FCheckImages.Width + 2
+    CheckOffset := FCheckImages.Width + FImagesMargin
   else
     CheckOffset := 0;
 
@@ -23224,7 +23328,7 @@ procedure TBaseVirtualTree.InitNode(Node: PVirtualNode);
 var
   InitStates: TVirtualNodeInitStates;
   MustAdjustInternalVariables: Boolean;
-
+  ParentCheckState, SelfCheckState: TCheckState;
 begin
   with Node^ do
   begin
@@ -23244,11 +23348,13 @@ begin
       // by the App.
       if Node.CheckType in [ctTriStateCheckBox] then
       begin
-        if ((Node.Parent.CheckState = csCheckedNormal)
-             or (Node.Parent.CheckState = csUncheckedNormal))
-            and (not Node.CheckState.IsDisabled())
-            and (Node.CheckState <> Node.Parent.CheckState) then
-          SetCheckState(Node, Node.Parent.CheckState);
+        ParentCheckState := Self.GetCheckState(Node.Parent);
+        SelfCheckState := Self.GetCheckState(Node);
+        if ((ParentCheckState = csCheckedNormal)
+             or (ParentCheckState = csUncheckedNormal))
+            and (not SelfCheckState.IsDisabled())
+            and (SelfCheckState <> ParentCheckState) then
+          SetCheckState(Node, ParentCheckState);
       end;
 
       if ivsDisabled in InitStates then
@@ -25994,7 +26100,7 @@ begin
       // Some states are only temporary so take them out as they make no sense at the new location.
       Body.States := States - [vsChecking, vsCutOrCopy, vsDeleting, vsOnFreeNodeCallRequired, vsHeightMeasured];
       Body.Align := Align;
-      Body.CheckState := CheckState;
+      Body.CheckState := GetCheckState(Node);
       Body.CheckType := CheckType;
       Body.Reserved := 0;
     end;
@@ -26315,7 +26421,7 @@ begin
   if HandleAllocated and (toAutoChangeScale in TreeOptions.AutoOptions) and not isDpiChange then
   begin
     Canvas.Font.Assign(Self.Font);
-    lTextHeight := Canvas.TextHeight('Tg');
+    lTextHeight := Canvas.TextHeight('Tg') + 2;
     // By default, we only ensure that DefaultNodeHeight is large enough.
     // If the form's dpi has changed, we scale up and down the DefaultNodeHeight, See issue #677.
     if (lTextHeight > Self.DefaultNodeHeight) then
@@ -27402,7 +27508,7 @@ begin
       if toShowRoot in FOptions.FPaintOptions then
         Inc(Offset, FIndent);
       if (toCheckSupport in FOptions.FMiscOptions) and Assigned(FCheckImages) and (Node.CheckType <> ctNone) then
-        Inc(Offset, FCheckImages.Width + 2);
+        Inc(Offset, FCheckImages.Width + FImagesMargin);
     end;
     // Consider associated images.
     Inc(Offset, GetImageSize(Node, TVTImageKind.ikState, Column).cx);
@@ -28258,7 +28364,7 @@ begin
 
     WithStateImages := Assigned(FStateImages) or Assigned(OnGetImageIndexEx);
     if Assigned(FCheckImages) then
-      CheckOffset := FCheckImages.Width + 2
+      CheckOffset := FCheckImages.Width + FImagesMargin
     else
       CheckOffset := 0;
 
@@ -28438,7 +28544,7 @@ begin
   else
     Result := GetNextNoInit(Node, ConsiderChildrenAbove);
 
-  while Assigned(Result) and (Result.CheckState <> State) do
+  while Assigned(Result) and (GetCheckState(Result) <> State) do
     Result := GetNextNoInit(Result, ConsiderChildrenAbove);
 
   if Assigned(Result) and not (vsInitialized in Result.States) then
@@ -29182,7 +29288,7 @@ begin
   else
     Result := GetPreviousNoInit(Node, ConsiderChildrenAbove);
 
-  while Assigned(Result) and (Result.CheckState <> State) do
+  while Assigned(Result) and (GetCheckState(Result) <> State) do
     Result := GetPreviousNoInit(Result, ConsiderChildrenAbove);
 
   if Assigned(Result) and not (vsInitialized in Result.States) then
@@ -34209,8 +34315,8 @@ begin
         Exclude(FStates, tsPreviouslySelectedLocked);
       end;
       // if a there is a selected node now, then make sure that it is visible
-      if (Self.GetFirstSelected <> nil) and (UpdateCount = 0) then
-        Self.ScrollIntoView(Self.GetFirstSelected, True);
+      if (Self.GetFirstSelected <> nil) then
+        Self.SetFullyVisible(Self.GetFirstSelected, True);
     end;
   end;
 end;
@@ -34468,6 +34574,8 @@ begin
     // Determine main text direction as well as other text properties.
     TextOutFlags := ETO_CLIPPED or RTLFlag[PaintInfo.BidiMode <> bdLeftToRight];
     lEventArgs := TVSTGetCellTextEventArgs.Create(PaintInfo.Node, PaintInfo.Column);
+
+    lEventArgs.CellText := FDefaultText;
     DoGetText(lEventArgs);
 
     // Paint the normal text first...
@@ -34838,9 +34946,9 @@ function TCustomVirtualStringTree.CanExportNode(Node: PVirtualNode): Boolean;
 begin
   case FOptions.ExportMode of
     emChecked:
-      Result := Node.CheckState = csCheckedNormal;
+      Result := GetCheckState(Node) = csCheckedNormal;
     emUnchecked:
-      Result := Node.CheckState = csUncheckedNormal;
+      Result := GetCheckState(Node) = csUncheckedNormal;
     emVisibleDueToExpansion: //Do not export nodes that are not visible because their parent is not expanded
       Result := not Assigned(Node.Parent) or Self.Expanded[Node.Parent];
     emSelected: // export selected nodes only

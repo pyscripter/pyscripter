@@ -479,12 +479,13 @@ begin
   with TRegistry.Create(KEY_READ and not KEY_NOTIFY) do
     try
       RootKey := HKEY_CURRENT_USER;
-      if KeyExists(Key) and  OpenKey(Key, False) then
+      if KeyExists(Key) and  OpenKey(Key, False) then begin
         Result := ReadString('');
         CurrentUserInstall := True;
+      end;
     finally
       Free;
-      end;
+    end;
 
   // We do not seem to have an Current User Python Installation.
   // Check whether we have an All User installation

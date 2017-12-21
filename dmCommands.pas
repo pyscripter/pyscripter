@@ -25,7 +25,7 @@ uses
   JvStringHolder, cPyBaseDebugger,
   SynEditTypes, VirtualExplorerTree, VirtualShellNotifier, SynHighlighterWeb,
   SynHighlighterCpp, SynHighlighterYAML, SynEditCodeFolding,
-  SpTBXTabs, dlgOptionsEditor, System.Actions;
+  SpTBXTabs, dlgOptionsEditor, System.Actions, System.ImageList;
 
 type
   TFileChangeNotificationType = (fcnFull, fcnNoMappedDrives, fcnDisabled);
@@ -553,6 +553,7 @@ type
     UserDataPath : string;
     ColorThemesFilesDir : string;
     StylesFilesDir : string;
+    procedure RegisterEditorUserCommands(Keystrokes : TSynEditKeyStrokes);
     function IsBlockOpener(S : string) : Boolean;
     function IsBlockCloser(S : string) : Boolean;
     function IsExecutableLine(Line : string) : Boolean;
@@ -1072,15 +1073,8 @@ begin
     MaxScrollWidth := 100;
     WantTabs := True;
     TabWidth := 4;
-
-    // Register User Commands and shortcuts
-    Keystrokes.AddKey(ecCodeCompletion, VK_SPACE, [ssCtrl]);
-    Keystrokes.AddKey(ecParamCompletion, VK_SPACE, [ssCtrl, ssShift]);
-    Keystrokes.AddKey(ecSelMatchBracket, 221, [ssCtrl, ssShift]); // 221 code for ]
-    // Visual studio shortcut for Match Bracket
-    Keystrokes.Delete(Keystrokes.FindCommand(ecMatchBracket));
-    Keystrokes.AddKey(ecMatchBracket, 221, [ssCtrl]);
-  end;
+    RegisterEditorUserCommands(EditorOptions.Keystrokes);
+ end;
 
   InterpreterEditorOptions := TSynEditorOptionsContainer.Create(Self);
   InterpreterEditorOptions.Assign(EditorOptions);
@@ -1254,6 +1248,20 @@ begin
 
   EditorSearchOptions.SearchWholeWords := OldWholeWords;
   EditorSearchOptions.SearchText := OldSearchText;
+end;
+
+procedure TCommandsDataModule.RegisterEditorUserCommands(Keystrokes : TSynEditKeyStrokes);
+// Register User Commands and shortcuts
+begin
+  with Keystrokes do begin
+  AddKey(ecCodeCompletion, VK_SPACE, [ssCtrl]);
+  AddKey(ecParamCompletion, VK_SPACE, [ssCtrl, ssShift]);
+  AddKey(ecSelMatchBracket, 221, [ssCtrl, ssShift]);
+  // 221 code for ]
+  // Visual studio shortcut for Match Bracket
+  Delete(FindCommand(ecMatchBracket));
+  AddKey(ecMatchBracket, 221, [ssCtrl]);
+  end;
 end;
 
 procedure TCommandsDataModule.ReleaseUntitledNumber(ANumber: integer);
