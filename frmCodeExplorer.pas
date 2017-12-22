@@ -12,8 +12,8 @@ unit frmCodeExplorer;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ExtCtrls, JvDockControlForm, JvAppStorage,
+  Windows, Messages, System.UITypes, SysUtils, Variants, Classes, Graphics,
+  Controls, Forms, Dialogs, ExtCtrls, JvDockControlForm, JvAppStorage,
   Menus, Contnrs, VirtualTrees, frmIDEDockWin, TB2Item,
   cPythonSourceScanner, SpTBXItem, SpTBXSkins, JvComponentBase, SpTBXControls;
 
@@ -234,7 +234,7 @@ type
       Node: PVirtualNode; var InitialStates: TVirtualNodeInitStates);
     procedure ExplorerTreeGetImageIndex(Sender: TBaseVirtualTree;
       Node: PVirtualNode; Kind: TVTImageKind; Column: TColumnIndex;
-      var Ghosted: Boolean; var ImageIndex: Integer);
+      var Ghosted: Boolean; var ImageIndex: TImageIndex);
     procedure ExplorerTreeGetText(Sender: TBaseVirtualTree;
       Node: PVirtualNode; Column: TColumnIndex; TextType: TVSTTextType;
       var CellText: string);
@@ -546,7 +546,7 @@ end;
 
 procedure TCodeExplorerWindow.ExplorerTreeGetImageIndex(
   Sender: TBaseVirtualTree; Node: PVirtualNode; Kind: TVTImageKind;
-  Column: TColumnIndex; var Ghosted: Boolean; var ImageIndex: Integer);
+  Column: TColumnIndex; var Ghosted: Boolean; var ImageIndex: TImageIndex);
 var
   Data : PNodeDataRec;
 begin

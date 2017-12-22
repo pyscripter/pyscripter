@@ -59,11 +59,6 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
           Align = alClient
           BorderStyle = bsNone
           Header.AutoSizeIndex = -1
-          Header.Font.Charset = DEFAULT_CHARSET
-          Header.Font.Color = clWindowText
-          Header.Font.Height = -11
-          Header.Font.Name = 'MS Sans Serif'
-          Header.Font.Style = []
           Header.MainColumn = -1
           Header.Options = [hoColumnResize, hoDrag]
           HintMode = hmHintAndDefault

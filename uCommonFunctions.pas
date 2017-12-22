@@ -11,7 +11,7 @@ unit uCommonFunctions;
 interface
 Uses
   Windows, Classes, System.SysUtils, Graphics, SynEditTypes, SynUnicode,
-  uEditAppIntfs,  SpTBXSkins, Controls, SynEdit, SynRegExpr;
+  uEditAppIntfs,  SpTBXSkins, Controls, SynEdit, SynRegExpr, Vcl.ComCtrls;
 
 const
   UTF8BOMString : RawByteString = AnsiChar($EF) + AnsiChar($BB) + AnsiChar($BF);
@@ -229,7 +229,10 @@ function IsColorDark(AColor : TColor) : boolean;
 { Returns true if the styled clWindows system oolor is dark }
 function IsStyledWindowsColorDark : boolean;
 
-Const
+procedure AddFormatText(RE : TRichEdit; const S: string;  FontStyle: TFontStyles = [];
+ const FontColor: TColor = clDefault; FontSize: Integer = 0);
+
+ Const
   IdentRE = '[A-Za-z_][A-Za-z0-9_]*';
   DottedIdentRE = '[A-Za-z_][A-Za-z0-9_.]*';
 
@@ -1892,6 +1895,28 @@ begin
   else
     LineBreak := sLineBreak;
 end;
+
+procedure AddFormatText(RE : TRichEdit; const S: string;  FontStyle: TFontStyles = [];
+ const FontColor: TColor = clDefault; FontSize: Integer = 0);
+begin
+  with RE do
+  begin
+    //move caret to end
+    SelStart := GetTextLen;
+    SelAttributes.Style := FontStyle;
+    if FontSize <> 0 then
+      SelAttributes.Size := FontSize
+    else
+      SelAttributes.Size := DefAttributes.Size;
+    if FontColor <> clDefault then
+      SelAttributes.Color := FontColor
+    else
+      SelAttributes.Color := DefAttributes.Color;
+
+    SelText := S;
+  end;
+end;
+
 
 initialization
 

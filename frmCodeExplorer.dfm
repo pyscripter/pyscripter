@@ -70,11 +70,6 @@ inherited CodeExplorerWindow: TCodeExplorerWindow
           Align = alClient
           BorderStyle = bsNone
           Header.AutoSizeIndex = -1
-          Header.Font.Charset = DEFAULT_CHARSET
-          Header.Font.Color = clWindowText
-          Header.Font.Height = -11
-          Header.Font.Name = 'MS Shell Dlg 2'
-          Header.Font.Style = []
           Header.Options = [hoAutoResize, hoColumnResize, hoDrag]
           HintMode = hmHint
           Images = CommandsDataModule.CodeImages

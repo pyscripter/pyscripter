@@ -30,7 +30,6 @@ inherited AboutBox: TAboutBox
     ActiveTabIndex = 0
     TabBackgroundBorders = True
     TabPosition = ttpBottom
-    ExplicitLeft = -8
     HiddenItems = <>
     object tbAbout: TSpTBXTabItem
       Caption = 'About'
@@ -50,64 +49,20 @@ inherited AboutBox: TAboutBox
       Caption = 'Links'
       ImageIndex = -1
       TabItem = 'tbLinks'
-      object Panel2: TPanel
+      object reLinks: TRichEdit
         Left = 2
         Top = 4
         Width = 376
         Height = 232
         Align = alClient
-        AutoSize = True
-        ParentBackground = False
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentFont = False
         TabOrder = 0
-        ExplicitLeft = 96
-        ExplicitTop = 96
-        ExplicitWidth = 185
-        ExplicitHeight = 41
-        object JvLinkLabel1: TJvLinkLabel
-          AlignWithMargins = True
-          Left = 6
-          Top = 6
-          Width = 364
-          Height = 220
-          Margins.Left = 5
-          Margins.Top = 5
-          Margins.Right = 5
-          Margins.Bottom = 5
-          Caption = 
-            '<b>Links:</b><br><br>'#13#10'- The project home, Issue Tracker and sou' +
-            'rce code repository are hosted at Github (<link>github.com/pyscr' +
-            'ipter/pyscripter</link>)'#13#10'<br>'#13#10'- Internet group support is aval' +
-            'able at <link>groups.google.com/group/PyScripter</link>'#13#10'<br>'#13#10'<' +
-            'br>'#13#10'Please submit bug reports and questions about PyScripter to' +
-            ' pyscripter@gmail.com.'
-          Text.Strings = (
-            
-              '<b>Links:</b><br><br>'#13#10'- The project home, Issue Tracker and sou' +
-              'rce code repository are hosted at Github (<link>github.com/pyscr' +
-              'ipter/pyscripter</link>)'#13#10'<br>'#13#10'- Internet group support is aval' +
-              'able at <link>groups.google.com/group/PyScripter</link>'#13#10'<br>'#13#10'<' +
-              'br>'#13#10'Please submit bug reports and questions about PyScripter to' +
-              ' pyscripter@gmail.com.')
-          Transparent = True
-          LinkColor = clWindowText
-          LinkColorClicked = clWindowText
-          LinkColorHot = clHotLight
-          HotLinks = True
-          AutoHeight = False
-          MarginWidth = 5
-          OnLinkClick = JvLinkLabelLinkClick
-          Align = alClient
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clBtnText
-          Font.Height = -12
-          Font.Name = 'Tahoma'
-          Font.Style = []
-          ParentFont = False
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 374
-          ExplicitHeight = 230
-        end
+        Zoom = 100
       end
     end
     object SpTBXTabSheet2: TSpTBXTabSheet
@@ -119,95 +74,45 @@ inherited AboutBox: TAboutBox
       ImageIndex = -1
       TabItem = 'tbCredits'
       object ScrollBox: TSpTBXPageScroller
-        AlignWithMargins = True
-        Left = 5
-        Top = 7
-        Width = 370
-        Height = 226
+        Left = 2
+        Top = 4
+        Width = 376
+        Height = 232
         Align = alClient
-        ButtonSize = 15
+        ButtonSize = 14
+        Color = clBtnFace
         DoubleBuffered = True
         Ctl3D = False
+        ParentColor = False
         ParentCtl3D = False
         TabOrder = 0
-        object Panel3: TPanel
+        object Panel2: TPanel
           Left = 0
           Top = 0
-          Width = 370
-          Height = 412
+          Width = 376
+          Height = 89
           Align = alTop
           AutoSize = True
-          Locked = True
-          ParentBackground = False
-          ShowCaption = False
+          BevelOuter = bvNone
           TabOrder = 0
-          object JvLinkLabel: TJvLinkLabel
-            Left = 1
-            Top = 1
-            Width = 368
-            Height = 410
-            Caption = 
-              '<b>Credits</b><br>'#13#10'Special thanks to the many great developers ' +
-              'who,'#13#10'with their amazing work, have made PyScripter '#13#10'possible. ' +
-              ' PyScripter makes use of the following '#13#10'components and projects' +
-              ':'#13#10'<br>'#13#10'<br>'#13#10'- Python for Delphi (<link>github.com/pyscripter/' +
-              'python4delphi</link>)'#13#10'<br>'#13#10'- Rpyc (<link>rpyc.sf.net</link>)'#13#10 +
-              '<br>'#13#10'- JVCL (<link>jvcl.delphi-jedi.org/</link>)'#13#10'<br>'#13#10'- SynEd' +
-              'it (<link>synedit.sf.net</link>)'#13#10'<br>'#13#10'- VirtualTreeView (<link' +
-              '>github.com/Virtual-TreeView/</link>)'#13#10'<br>'#13#10'- VirtualShellTools' +
-              ' (<link>github.com/pyscripter/mustangpeakvirtualshelltools</link' +
-              '>)'#13#10'<br>'#13#10'- GExperts (<link>www.gexperts.org</link>)'#13#10'<br>'#13#10'- Sy' +
-              'n Editor (<link>syn.sf.net</link>)'#13#10'<br>'#13#10'- Syn Web highlighters' +
-              ' (<link>flatdev.ovh.org/</link>)'#13#10'<br>'#13#10'- Toolbar2000 (<link>www' +
-              '.jrsoftware.org/tb2k.php</link>)'#13#10'<br>'#13#10'- SpTBXLib(<link>www.sil' +
-              'verpointdevelopment.com</link>)'#13#10'<br>'#13#10'- TCommandLineReader(<lin' +
-              'k>www.benibela.de</link>)'#13#10'<br>'#13#10'- Silk icons(<link>www.famfamfa' +
-              'm.com</link>)'#13#10'<br>'#13#10'<br>'#13#10'Translations'#13#10'<br>'#13#10'- Chinese transla' +
-              'tion by "Love China"'#13#10'<br>'#13#10'- French translation by Groupe Amien' +
-              'sPython (<link>pedagogie.ac-amiens.fr/maths/AmiensPython/</link>' +
-              ')'#13#10'<br>'#13#10'- Japanese translation by Tokibito'#13#10'<br>'#13#10'- Russian tra' +
-              'nslation by Aleksander Dragunkin'#13#10'<br>'#13#10'- Slovak translation by ' +
-              'Marian Denes'#13#10'<br>'#13#10'- Spanish translation by Javier Pimas'#13#10'<br>'#13 +
-              #10'- Gernan translation by Daniel Frost'#13#10
-            Text.Strings = (
-              
-                '<b>Credits</b><br>'#13#10'Special thanks to the many great developers ' +
-                'who,'#13#10'with their amazing work, have made PyScripter '#13#10'possible. ' +
-                ' PyScripter makes use of the following '#13#10'components and projects' +
-                ':'#13#10'<br>'#13#10'<br>'#13#10'- Python for Delphi (<link>github.com/pyscripter/' +
-                'python4delphi</link>)'#13#10'<br>'#13#10'- Rpyc (<link>rpyc.sf.net</link>)'#13#10 +
-                '<br>'#13#10'- JVCL (<link>jvcl.delphi-jedi.org/</link>)'#13#10'<br>'#13#10'- SynEd' +
-                'it (<link>synedit.sf.net</link>)'#13#10'<br>'#13#10'- VirtualTreeView (<link' +
-                '>github.com/Virtual-TreeView/</link>)'#13#10'<br>'#13#10'- VirtualShellTools' +
-                ' (<link>github.com/pyscripter/mustangpeakvirtualshelltools</link' +
-                '>)'#13#10'<br>'#13#10'- GExperts (<link>www.gexperts.org</link>)'#13#10'<br>'#13#10'- Sy' +
-                'n Editor (<link>syn.sf.net</link>)'#13#10'<br>'#13#10'- Syn Web highlighters' +
-                ' (<link>flatdev.ovh.org/</link>)'#13#10'<br>'#13#10'- Toolbar2000 (<link>www' +
-                '.jrsoftware.org/tb2k.php</link>)'#13#10'<br>'#13#10'- SpTBXLib(<link>www.sil' +
-                'verpointdevelopment.com</link>)'#13#10'<br>'#13#10'- TCommandLineReader(<lin' +
-                'k>www.benibela.de</link>)'#13#10'<br>'#13#10'- Silk icons(<link>www.famfamfa' +
-                'm.com</link>)'#13#10'<br>'#13#10'<br>'#13#10'Translations'#13#10'<br>'#13#10'- Chinese transla' +
-                'tion by "Love China"'#13#10'<br>'#13#10'- French translation by Groupe Amien' +
-                'sPython (<link>pedagogie.ac-amiens.fr/maths/AmiensPython/</link>' +
-                ')'#13#10'<br>'#13#10'- Japanese translation by Tokibito'#13#10'<br>'#13#10'- Russian tra' +
-                'nslation by Aleksander Dragunkin'#13#10'<br>'#13#10'- Slovak translation by ' +
-                'Marian Denes'#13#10'<br>'#13#10'- Spanish translation by Javier Pimas'#13#10'<br>'#13 +
-                #10'- Gernan translation by Daniel Frost'#13#10)
-            Transparent = True
-            LinkColor = clWindowText
-            LinkColorClicked = clWindowText
-            LinkColorHot = clHotLight
-            HotLinks = True
-            MarginWidth = 2
-            MarginHeight = 2
-            OnLinkClick = JvLinkLabelLinkClick
+          object reCredits: TRichEdit
+            Left = 0
+            Top = 0
+            Width = 376
+            Height = 89
             Align = alTop
-            Font.Charset = DEFAULT_CHARSET
+            BevelEdges = []
+            BevelInner = bvNone
+            BevelOuter = bvNone
+            Font.Charset = ANSI_CHARSET
             Font.Color = clBtnText
             Font.Height = -12
-            Font.Name = 'Tahoma'
+            Font.Name = 'MS Shell Dlg 2'
             Font.Style = []
             ParentFont = False
+            TabOrder = 0
+            Zoom = 100
+            OnResizeRequest = reCreditsResizeRequest
           end
         end
       end

@@ -18,7 +18,7 @@ uses
   Dialogs, frmIDEDockWin, JvComponentBase, JvDockControlForm, ExtCtrls,
   cProjectClasses, VirtualTrees, ImgList, Menus, TB2Item, SpTBXItem,
   ActnList, TB2Dock, TB2Toolbar, ActiveX, SpTBXSkins, System.Actions,
-  SpTBXControls;
+  SpTBXControls, System.ImageList;
 
 type
   TProjectExplorerWindow = class(TIDEDockWindow)
@@ -122,7 +122,7 @@ type
     procedure actProjectRenameExecute(Sender: TObject);
     procedure ExplorerTreeGetImageIndex(Sender: TBaseVirtualTree;
       Node: PVirtualNode; Kind: TVTImageKind; Column: TColumnIndex;
-      var Ghosted: Boolean; var ImageIndex: Integer);
+      var Ghosted: Boolean; var ImageIndex: TImageIndex);
     procedure actProjectSaveExecute(Sender: TObject);
     procedure actProjectSaveAsExecute(Sender: TObject);
     procedure actProjectNewExecute(Sender: TObject);
@@ -1000,7 +1000,7 @@ end;
 
 procedure TProjectExplorerWindow.ExplorerTreeGetImageIndex(
   Sender: TBaseVirtualTree; Node: PVirtualNode; Kind: TVTImageKind;
-  Column: TColumnIndex; var Ghosted: Boolean; var ImageIndex: Integer);
+  Column: TColumnIndex; var Ghosted: Boolean; var ImageIndex: TImageIndex);
 var
   Data : PNodeDataRec;
   Extension : string;

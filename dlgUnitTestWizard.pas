@@ -10,7 +10,8 @@ unit dlgUnitTestWizard;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Windows, System.UITypes, Messages, SysUtils, Variants, Classes,
+  Graphics, Controls, Forms,
   Dialogs, Buttons, VirtualTrees, ExtCtrls,
   frmCodeExplorer, cPythonSourceScanner, TB2Item, Menus, SpTBXItem,
   SpTBXControls, dlgPyIDEBase;
@@ -59,7 +60,7 @@ type
       Column: TColumnIndex; TextType: TVSTTextType; var CellText: string);
     procedure ExplorerTreeGetImageIndex(Sender: TBaseVirtualTree;
       Node: PVirtualNode; Kind: TVTImageKind; Column: TColumnIndex;
-      var Ghosted: Boolean; var ImageIndex: Integer);
+      var Ghosted: Boolean; var ImageIndex: TImageIndex);
     procedure ExplorerTreeGetHint(Sender: TBaseVirtualTree; Node: PVirtualNode;
       Column: TColumnIndex; var LineBreakStyle: TVTTooltipLineBreakStyle;
       var HintText: string);
@@ -253,7 +254,7 @@ end;
 
 procedure TUnitTestWizard.ExplorerTreeGetImageIndex(Sender: TBaseVirtualTree;
   Node: PVirtualNode; Kind: TVTImageKind; Column: TColumnIndex;
-  var Ghosted: Boolean; var ImageIndex: Integer);
+  var Ghosted: Boolean; var ImageIndex: TImageIndex);
 var
   Data : PNodeDataRec;
 begin
