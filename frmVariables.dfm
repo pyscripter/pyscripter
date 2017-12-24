@@ -67,7 +67,6 @@ inherited VariablesWindow: TVariablesWindow
         BorderStyle = bsNone
         Header.AutoSizeIndex = 2
         Header.Options = [hoAutoResize, hoColumnResize, hoDblClickResize, hoHotTrack, hoOwnerDraw, hoVisible]
-        Header.ParentFont = True
         Header.PopupMenu = VTHeaderPopupMenu
         HintMode = hmTooltip
         Images = CommandsDataModule.CodeImages
@@ -106,19 +105,33 @@ inherited VariablesWindow: TVariablesWindow
         Width = 375
         Height = 243
         Align = alRight
+        Color = clBtnFace
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -12
+        Font.Name = 'Tahoma'
+        Font.Style = []
         ParentColor = False
+        ParentFont = False
         TabOrder = 1
-        object HTMLLabel: TJvLinkLabel
+        object reInfo: TRichEdit
           Left = 0
           Top = 0
           Width = 375
-          Caption = '<b>NameSpace'
-          Text.Strings = (
-            '<b>NameSpace')
-          MarginWidth = 2
-          MarginHeight = 2
+          Height = 89
           Align = alTop
-          ParentColor = False
+          BevelOuter = bvNone
+          BorderStyle = bsNone
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          ParentFont = False
+          ReadOnly = True
+          TabOrder = 0
+          Zoom = 100
+          OnResizeRequest = reInfoResizeRequest
         end
       end
       object SpTBXSplitter: TSpTBXSplitter

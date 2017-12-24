@@ -109,7 +109,6 @@ inherited ToDoWindow: TToDoWindow
         Header.AutoSizeIndex = 1
         Header.MainColumn = 1
         Header.Options = [hoAutoResize, hoColumnResize, hoHotTrack, hoOwnerDraw, hoShowSortGlyphs, hoVisible]
-        Header.ParentFont = True
         HintMode = hmTooltip
         Images = ilTodo
         PopupMenu = PopupMenu

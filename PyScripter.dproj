@@ -138,7 +138,6 @@
         <BT_BuildType>Debug</BT_BuildType>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win64)'!=''">
-        <Debugger_RunParams>--PYTHON27</Debugger_RunParams>
         <VerInfo_Release>0</VerInfo_Release>
         <VerInfo_MajorVer>3</VerInfo_MajorVer>
         <DCC_DebugDCUs>true</DCC_DebugDCUs>
@@ -148,6 +147,7 @@
         <BT_BuildType>Debug</BT_BuildType>
         <Manifest_File>XP_UAC.manifest</Manifest_File>
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
+        <Debugger_RunParams>--PYTHON27</Debugger_RunParams>
     </PropertyGroup>
     <ItemGroup>
         <DelphiCompile Include="$(MainSource)">

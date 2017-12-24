@@ -11,7 +11,7 @@ unit frmWatches;
 interface
 
 uses
-  System.Types, Windows, Messages, ActiveX, SysUtils, Variants,
+  System.Types, System.UITypes, Windows, Messages, ActiveX, SysUtils, Variants,
   Classes, Graphics, Controls, Forms,
   Dialogs, Menus, frmIDEDockWin, JvDockControlForm,
   Contnrs, cPyBaseDebugger, ExtCtrls, TB2Item, VirtualTrees,
@@ -55,7 +55,7 @@ type
       Pt: TPoint; var Effect: Integer; Mode: TDropMode);
     procedure WatchesViewGetImageIndex(Sender: TBaseVirtualTree;
       Node: PVirtualNode; Kind: TVTImageKind; Column: TColumnIndex;
-      var Ghosted: Boolean; var ImageIndex: Integer);
+      var Ghosted: Boolean; var ImageIndex: TImageIndex);
     procedure WatchesViewInitChildren(Sender: TBaseVirtualTree;
       Node: PVirtualNode; var ChildCount: Cardinal);
   private
@@ -310,7 +310,7 @@ end;
 
 procedure TWatchesWindow.WatchesViewGetImageIndex(Sender: TBaseVirtualTree;
   Node: PVirtualNode; Kind: TVTImageKind; Column: TColumnIndex;
-  var Ghosted: Boolean; var ImageIndex: Integer);
+  var Ghosted: Boolean; var ImageIndex: TImageIndex);
 var
   Data: PWatchRec;
 begin

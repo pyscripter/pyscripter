@@ -66,7 +66,6 @@ inherited WatchesWindow: TWatchesWindow
         BorderStyle = bsNone
         Header.AutoSizeIndex = -1
         Header.Options = [hoAutoResize, hoColumnResize, hoDblClickResize, hoHotTrack, hoOwnerDraw, hoVisible]
-        Header.ParentFont = True
         HintMode = hmTooltip
         Images = CommandsDataModule.CodeImages
         PopupMenu = TBXPopupMenu

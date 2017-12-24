@@ -131,13 +131,7 @@ inherited UnitTestWindow: TUnitTestWindow
           Height = 241
           Align = alClient
           BorderStyle = bsNone
-          CheckImageKind = ckXP
           Header.AutoSizeIndex = -1
-          Header.Font.Charset = DEFAULT_CHARSET
-          Header.Font.Color = clWindowText
-          Header.Font.Height = -11
-          Header.Font.Name = 'MS Shell Dlg 2'
-          Header.Font.Style = []
           Header.MainColumn = -1
           Header.Options = [hoColumnResize, hoDrag]
           HintMode = hmHint
@@ -257,9 +251,6 @@ inherited UnitTestWindow: TUnitTestWindow
           Anchors = [akLeft, akTop, akRight, akBottom]
           Caption = 'SpTBXPanel1'
           TabOrder = 0
-          ExplicitLeft = 2
-          ExplicitTop = 84
-          ExplicitWidth = 254
           object ErrorText: TRichEdit
             Left = 1
             Top = 1

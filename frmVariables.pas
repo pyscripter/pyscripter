@@ -11,28 +11,27 @@ unit frmVariables;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, 
+  System.UITypes, Windows, Messages, SysUtils, Variants, Classes,
+  Graphics, Controls, Forms, Dialogs,
   JvDockControlForm, Menus, VTHeaderPopup, JvAppStorage,
-  VirtualTrees, frmIDEDockWin, 
-  JvExControls, JvLinkLabel, SpTBXDkPanels, cPyBaseDebugger,
-  SpTBXSkins, SpTBXPageScroller, JvComponentBase, ExtCtrls, SpTBXItem,
-  SpTBXControls;
+  VirtualTrees, frmIDEDockWin, SpTBXDkPanels, cPyBaseDebugger,
+  SpTBXSkins, SpTBXPageScroller, ExtCtrls, SpTBXItem,
+  SpTBXControls, Vcl.StdCtrls, Vcl.ComCtrls, JvComponentBase;
 
 type
   TVariablesWindow = class(TIDEDockWindow, IJvAppStorageHandler)
     VTHeaderPopupMenu: TVTHeaderPopupMenu;
     VariablesTree: TVirtualStringTree;
     DocPanel: TSpTBXPageScroller;
-    HTMLLabel: TJvLinkLabel;
     SpTBXSplitter: TSpTBXSplitter;
+    reInfo: TRichEdit;
     procedure VariablesTreeChange(Sender: TBaseVirtualTree; Node: PVirtualNode);
     procedure FormCreate(Sender: TObject);
     procedure VariablesTreeInitNode(Sender: TBaseVirtualTree; ParentNode,
       Node: PVirtualNode; var InitialStates: TVirtualNodeInitStates);
     procedure VariablesTreeGetImageIndex(Sender: TBaseVirtualTree;
       Node: PVirtualNode; Kind: TVTImageKind; Column: TColumnIndex;
-      var Ghosted: Boolean; var ImageIndex: Integer);
+      var Ghosted: Boolean; var ImageIndex: TImageIndex);
     procedure VariablesTreeGetText(Sender: TBaseVirtualTree;
       Node: PVirtualNode; Column: TColumnIndex; TextType: TVSTTextType;
       var CellText: string);
@@ -43,6 +42,7 @@ type
       TextType: TVSTTextType);
     procedure VariablesTreeInitChildren(Sender: TBaseVirtualTree;
       Node: PVirtualNode; var ChildCount: Cardinal);
+    procedure reInfoResizeRequest(Sender: TObject; Rect: TRect);
   private
     { Private declarations }
     CurrentFrame : TBaseFrameInfo;
@@ -81,7 +81,6 @@ begin
   VariablesTree.NodeDataSize := SizeOf(TPyObjRec);
   VariablesTree.Header.Height :=
     MulDiv(VariablesTree.Header.Height, Screen.PixelsPerInch, 96);
-  HTMLLabel.Color := clWindow;
   DocPanel.Color := clWindow;
 end;
 
@@ -158,6 +157,11 @@ begin
   VariablesTree.Header.Columns[1].Width := AppStorage.ReadInteger(BasePath+'\Types Width', 100);
 end;
 
+procedure TVariablesWindow.reInfoResizeRequest(Sender: TObject; Rect: TRect);
+begin
+  reInfo.BoundsRect := Rect;
+end;
+
 procedure TVariablesWindow.WriteToAppStorage(AppStorage: TJvCustomAppStorage;
   const BasePath: string);
 begin
@@ -169,7 +173,7 @@ end;
 
 procedure TVariablesWindow.VariablesTreeGetImageIndex(
   Sender: TBaseVirtualTree; Node: PVirtualNode; Kind: TVTImageKind;
-  Column: TColumnIndex; var Ghosted: Boolean; var ImageIndex: Integer);
+  Column: TColumnIndex; var Ghosted: Boolean; var ImageIndex: TImageIndex);
 var
   Data : PPyObjRec;
 begin
@@ -346,7 +350,6 @@ Var
   ObjectValue,
   DocString : string;
   LineNo : integer;
-  Color1, Color2 : string;
   Data : PPyObjRec;
 begin
   // Get the selected frame
@@ -358,20 +361,25 @@ begin
   end else
     NameSpace := 'Interpreter globals';
 
-  Color1 := ColorToString(StyleServices.GetSystemColor(clHotlight));
-  Color2 := Color1;
-
+  reInfo.Clear;
+  AddFormatText(reInfo, _('Namespace') + ': ', [fsBold]);
+  AddFormatText(reInfo, NameSpace, [fsItalic]);
   if Assigned(Node) and (vsSelected in Node.States) then begin
     Data := VariablesTree.GetNodeData(Node);
     ObjectName := Data.NameSpaceItem.Name;
     ObjectType := Data.NameSpaceItem.ObjectType;
-    ObjectValue := HTMLSafe(Data.NameSpaceItem.Value);
-    DocString :=  HTMLSafe(Data.NameSpaceItem.DocString);
+    ObjectValue := Data.NameSpaceItem.Value;
+    DocString :=  Data.NameSpaceItem.DocString;
 
-    HTMLLabel.Caption := Format(_(SVariablesDocSelected),
-      [Color1, NameSpace, Color2, ObjectName, ObjectType, ObjectValue, Docstring]);
-  end else
-    HTMLLabel.Caption := Format(_(SVariablesDocNotSelected), [Color1, NameSpace]);
+    AddFormatText(reInfo, SLineBreak+_('Name')+': ', [fsBold]);
+    AddFormatText(reInfo, ObjectName, [fsItalic]);
+    AddFormatText(reInfo, SLineBreak + _('Type') + ': ', [fsBold]);
+    AddFormatText(reInfo, ObjectType);
+    AddFormatText(reInfo, SLineBreak + _('Value') + ':' + SLineBreak, [fsBold]);
+    AddFormatText(reInfo, ObjectValue);
+    AddFormatText(reInfo, SLineBreak + _('DocString') + ':' + SLineBreak, [fsBold]);
+    AddFormatText(reInfo, Docstring);
+  end;
 end;
 
 end.

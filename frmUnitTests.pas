@@ -3,12 +3,11 @@ unit frmUnitTests;
 interface
 
 uses
-  System.UITypes, Windows, Messages, SysUtils, Variants, Classes, Graphics,
-  Controls, Forms, Dialogs, frmIDEDockWin, JvComponentBase, JvDockControlForm,
-  ExtCtrls, ImgList, JvLinkLabel, SpTBXDkPanels, VirtualTrees,
-  TB2Item, TB2Dock, TB2Toolbar, StdCtrls,
-  ActnList, SpTBXControls, SpTBXItem, ComCtrls,
-  SpTBXSkins, System.Actions;
+  System.UITypes, System.ImageList, Windows, Messages, SysUtils, Variants,
+  System.Actions, Classes, Graphics, Controls, Forms, Dialogs, frmIDEDockWin,
+  JvComponentBase, JvDockControlForm, ExtCtrls, ImgList, SpTBXDkPanels, VirtualTrees,
+  TB2Item, TB2Dock, TB2Toolbar, StdCtrls,   ActnList, SpTBXControls, SpTBXItem,
+  ComCtrls, SpTBXSkins;
 
 type
   TUnitTestWindowStatus = (utwEmpty, utwLoaded, utwRunning, utwRun);
@@ -67,7 +66,7 @@ type
       var HintText: string);
     procedure UnitTestsGetImageIndex(Sender: TBaseVirtualTree;
       Node: PVirtualNode; Kind: TVTImageKind; Column: TColumnIndex;
-      var Ghosted: Boolean; var ImageIndex: Integer);
+      var Ghosted: Boolean; var ImageIndex: TImageIndex);
     procedure UnitTestsGetText(Sender: TBaseVirtualTree; Node: PVirtualNode;
       Column: TColumnIndex; TextType: TVSTTextType; var CellText: string);
     procedure UnitTestsInitChildren(Sender: TBaseVirtualTree;
@@ -292,7 +291,7 @@ end;
 
 procedure TUnitTestWindow.UnitTestsGetImageIndex(Sender: TBaseVirtualTree;
   Node: PVirtualNode; Kind: TVTImageKind; Column: TColumnIndex;
-  var Ghosted: Boolean; var ImageIndex: Integer);
+  var Ghosted: Boolean; var ImageIndex: TImageIndex);
 var
   PyTestCase, PytestStatus : PPyObject;
 begin

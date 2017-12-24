@@ -20,7 +20,8 @@ uses
   TB2Item, uCommonFunctions,
   SynCompletionProposal, cPyBaseDebugger, SpTBXItem,
   VirtualResources, SpTBXSkins, SpTBXDkPanels, Menus, SpTBXTabs, SynRegExpr,
-  cPythonSourceScanner, frmCodeExplorer, cCodeCompletion, SpTBXControls;
+  cPythonSourceScanner, frmCodeExplorer, cCodeCompletion, SpTBXControls,
+  System.ImageList;
 
 const
   WM_PARAMCOMPLETION = WM_USER +1040;

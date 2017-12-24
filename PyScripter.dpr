@@ -114,6 +114,8 @@ uses
   cVirtualStringTreeHelper in 'cVirtualStringTreeHelper.pas',
   Vcl.Themes,
   Vcl.Styles,
+  Vcl.SysStyles,
+  Vcl.Styles.UxTheme,
   Vcl.Styles.Utils.ComCtrls;
 
 {$R *.RES}
@@ -127,7 +129,8 @@ uses
 begin
   ReportMemoryLeaksOnShutdown := DebugHook <> 0;
 
-  UseLatestCommonDialogs := False;
+//  UseLatestCommonDialogs := True;
+//  TCustomStyleEngine.UnRegisterSysStyleHook('SysTabControl32', TSysTabControlStyleHook);
 //  TStyleManager.Engine.RegisterStyleHook(TCustomSynEdit, TMemoStyleHook);
 //  TStyleManager.Engine.RegisterStyleHook(TJvInspector, TMemoStyleHook);
 

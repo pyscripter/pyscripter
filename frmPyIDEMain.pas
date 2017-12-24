@@ -3028,7 +3028,9 @@ begin
     with CommandsDataModule do begin
       EditorOptions.Gutter.Gradient := False;  //default value
       AppStorage.ReadPersistent('Editor Options', EditorOptions);
-      if CompareVersion(PyScripterVersion, '3.1') < 0 then begin
+      if (CompareVersion(PyScripterVersion, '3.1') < 0)
+          and  (EditorOptions.Keystrokes.FindCommand(ecNone) < 0) then
+      begin
         with EditorOptions.Keystrokes do begin
           AddKey(ecFoldAll, VK_OEM_MINUS, [ssCtrl, ssShift]);   {- _}
           AddKey(ecUnfoldAll,  VK_OEM_PLUS, [ssCtrl, ssShift]); {= +}

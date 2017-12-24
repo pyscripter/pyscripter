@@ -46,12 +46,12 @@ unit frmToDo;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, frmIDEDockWin, JvDockControlForm, ExtCtrls, ActnList,
+  System.UITypes, Windows, Messages, SysUtils, Variants, Classes, Graphics,
+  Controls, Forms, Dialogs, frmIDEDockWin, JvDockControlForm, ExtCtrls, ActnList,
   Contnrs, ImgList, ComCtrls, Menus, JvAppStorage, TB2Item,
   TB2Dock, TB2Toolbar, VirtualTrees, JvComponentBase, SpTBXItem,
   SynUnicode, MPCommonObjects, SpTBXSkins, uCommonFunctions, System.Actions,
-  SpTBXControls;
+  SpTBXControls, System.ImageList;
 
 type
   TToDoPriority = (tpHigh, tpMed, tpLow, tpDone);
@@ -136,7 +136,7 @@ type
       var CellText: string);
     procedure ToDoViewGetImageIndex(Sender: TBaseVirtualTree;
       Node: PVirtualNode; Kind: TVTImageKind; Column: TColumnIndex;
-      var Ghosted: Boolean; var ImageIndex: Integer);
+      var Ghosted: Boolean; var ImageIndex: TImageIndex);
     procedure ToDoViewChange(Sender: TBaseVirtualTree; Node: PVirtualNode);
     procedure ToDoViewCompareNodes(Sender: TBaseVirtualTree; Node1,
       Node2: PVirtualNode; Column: TColumnIndex; var Result: Integer);
@@ -921,7 +921,7 @@ end;
 
 procedure TToDoWindow.ToDoViewGetImageIndex(Sender: TBaseVirtualTree;
   Node: PVirtualNode; Kind: TVTImageKind; Column: TColumnIndex;
-  var Ghosted: Boolean; var ImageIndex: Integer);
+  var Ghosted: Boolean; var ImageIndex: TImageIndex);
 begin
   if (Kind in [ikNormal, ikSelected]) and (Column = 0) then begin
     Assert(ToDoView.GetNodeLevel(Node) = 0);
