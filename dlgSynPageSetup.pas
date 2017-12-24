@@ -193,7 +193,7 @@ var
 implementation
 
 uses
-  RichEdit, Messages, gnugettext, StringResources;
+  RichEdit, Messages, JvGnugettext, StringResources;
 
 {$R *.DFM}
 

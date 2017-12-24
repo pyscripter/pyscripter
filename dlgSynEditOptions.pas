@@ -351,7 +351,7 @@ implementation
 {$R *.dfm}
 
 uses
-  SynEditKeyConst, uCommonFunctions, gnugettext, StringResources, SpTBXSkins,
+  SynEditKeyConst, uCommonFunctions, JvGnugettext, StringResources, SpTBXSkins,
   System.IOUtils, JvAppStorage, JvAppIniStorage;
 
 //function SortByColumn(Item1, Item2: TEasyItem; Data: integer): integer; stdcall;

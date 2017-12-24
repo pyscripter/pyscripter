@@ -208,7 +208,7 @@ implementation
 
 uses System.UITypes, dmCommands, dlgFindInFiles, Math, frmPyIDEMain, uEditAppIntfs,
   dlgReplaceInFiles, SynEdit, SynEditTypes, JclFileUtils, uCommonFunctions,
-  JvJVCLUtils, gnugettext, StringResources, SynRegExpr;
+  JvJVCLUtils, JvGnugettext, StringResources, SynRegExpr;
 
 {$R *.dfm}
 

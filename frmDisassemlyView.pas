@@ -41,7 +41,7 @@ type
 implementation
 
 uses dmCommands, 
-  JvJVCLUtils, cPyBaseDebugger, gnugettext, StringResources;
+  JvJVCLUtils, cPyBaseDebugger, JvGnugettext, StringResources;
 
 {$R *.dfm}
 

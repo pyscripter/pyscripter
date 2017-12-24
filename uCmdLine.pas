@@ -123,7 +123,7 @@ var
 
 implementation
 uses
-  Windows, gnugettext, StringResources, uCommonFunctions;
+  Windows, JvGnugettext, StringResources, uCommonFunctions;
 
 const
   Null = Char(#0);

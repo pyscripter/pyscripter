@@ -319,7 +319,7 @@ Const
 
 implementation
 
-uses gnugettext, SysUtils;
+uses JvGnugettext, SysUtils;
 initialization
   // GNU Initialization is put here to make sure that
   // all localized stings get translated

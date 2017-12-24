@@ -166,7 +166,7 @@ implementation
 uses dmCommands, frmPythonII, Variants, VarPyth, frmMessages, frmPyIDEMain,
   MMSystem, Math, uCommonFunctions,
   cParameters, StringResources, Dialogs, JvDSADialogs, 
-  gnugettext, cRefactoring;
+  JvGnugettext, cRefactoring;
 
 { TFrameInfo }
 

@@ -58,7 +58,7 @@ var
 implementation
 
 uses frmPyIDEMain, uEditAppIntfs, dmCommands, Clipbrd,
-  cPyBaseDebugger, gnugettext,
+  cPyBaseDebugger, JvGnugettext,
   StringResources, uCommonFunctions;
 
 {$R *.dfm}

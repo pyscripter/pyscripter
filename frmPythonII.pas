@@ -203,7 +203,7 @@ Uses
   frmMessages, uCommonFunctions, frmVariables, StringResources,
   frmUnitTests, SynRegExpr,
   cPyDebugger, cPyRemoteDebugger, JvJVCLUtils, uCmdLine,
-  JclStrings, gnugettext, cRefactoring, cPythonSourceScanner, cProjectClasses;
+  JclStrings, JvGnugettext, cRefactoring, cPythonSourceScanner, cProjectClasses;
 
 {$R *.dfm}
 

@@ -96,7 +96,7 @@ var
 implementation
 
 uses dmCommands, VarPyth, frmPythonII,
-  PythonEngine, gnugettext, JvAppIniStorage, uCommonFunctions, RichEdit;
+  PythonEngine, JvGnugettext, JvAppIniStorage, uCommonFunctions, RichEdit;
 
 {$R *.dfm}
 

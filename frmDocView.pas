@@ -73,7 +73,7 @@ implementation
 
 uses
   JclStrings, dmCommands,
-  JvJVCLUtils, cPyBaseDebugger, gnugettext, StringResources, JclFileUtils;
+  JvJVCLUtils, cPyBaseDebugger, JvGnugettext, StringResources, JclFileUtils;
 
 {$R *.dfm}
 

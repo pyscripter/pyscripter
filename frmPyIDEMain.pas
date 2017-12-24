@@ -1185,7 +1185,7 @@ uses
   cCodeHint, dlgNewFile, JclSysInfo, cPyRemoteDebugger,
   uCmdLine, uSearchHighlighter, frmModSpTBXCustomize, IniFiles,
   JclStrings, JclSysUtils, frmProjectExplorer, cProjectClasses,
-  MPDataObject, gnugettext, WideStrUtils, WideStrings,
+  MPDataObject, JvGnugettext, WideStrUtils, WideStrings,
   SpTBXControls, SynEditKeyCmds, StdActns,
   PythonEngine, Contnrs, SynCompletionProposal, dlgStyleSelector, Vcl.Themes;
 

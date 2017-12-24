@@ -140,7 +140,7 @@ implementation
 uses frmPyIDEMain, uEditAppIntfs, dmCommands, SHlObj,
   frmFindResults,
   MPCommonObjects, dlgDirectoryList, StringResources, cPyBaseDebugger,
-  cFindInFiles, gnugettext;
+  cFindInFiles, JvGnugettext;
 
 {$R *.dfm}
 

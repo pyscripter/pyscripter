@@ -62,7 +62,7 @@ implementation
 
 uses
   Math, dlgToolProperties, dmCommands, uHighlighterProcs, cProjectClasses,
-  StringResources, JvBrowseFolder, gnugettext, Vcl.Themes;
+  StringResources, JvBrowseFolder, JvGnugettext, Vcl.Themes;
 
 {$R *.dfm}
 

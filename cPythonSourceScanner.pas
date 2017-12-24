@@ -261,7 +261,7 @@ implementation
 uses  Windows, uCommonFunctions, VarPyth,
   StringResources, JclSysUtils, Math,
   cRefactoring, cPyBaseDebugger, cPyDebugger,
-  gnugettext, JclStrings;
+  JvGnugettext, JclStrings;
 
 Const
   MaskChar = WideChar(#96);

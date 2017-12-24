@@ -58,7 +58,7 @@ uses
   Windows, SysUtils, Dialogs, jclFileUtils, jclDateTime,
   cParameters, Registry,  uEditAppIntfs,
   dmCommands, VarPyth, SynRegExpr, uCommonFunctions,
-  frmPyIDEMain, StringResources, cPyBaseDebugger, cProjectClasses, gnugettext,
+  frmPyIDEMain, StringResources, cPyBaseDebugger, cProjectClasses, JvGnugettext,
   WideStrUtils, MPShellUtilities, MPCommonUtilities, FileCtrl;
 
 function GetActiveDoc: string;

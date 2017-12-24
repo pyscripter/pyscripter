@@ -49,8 +49,6 @@ inherited OutputWindow: TOutputWindow
   inherited BGPanel: TSpTBXPanel
     Width = 552
     Height = 331
-    ExplicitLeft = 0
-    ExplicitTop = 0
     ExplicitWidth = 552
     ExplicitHeight = 331
     inherited FGPanel: TPanel

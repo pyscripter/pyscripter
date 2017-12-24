@@ -60,7 +60,7 @@ uses
   cRefactoring,
   dmCommands,
   VarPyth,
-  JclStrings, PythonEngine, StringResources, gnugettext;
+  JclStrings, PythonEngine, StringResources, JvGnugettext;
 
 procedure GetModuleList(Path: Variant; out InsertText, DisplayText : string);
 Var

@@ -69,7 +69,7 @@ implementation
 
 uses
   dmCommands,
-  MSHTML, gnugettext,
+  MSHTML, JvGnugettext,
   StringResources;
 
 {$R *.dfm}

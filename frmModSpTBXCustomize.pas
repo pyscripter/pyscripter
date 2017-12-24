@@ -41,7 +41,7 @@ implementation
 {$R *.dfm}
 
 Uses
-  ActnList, frmPyIDEMain, gnugettext;
+  ActnList, frmPyIDEMain, JvGnugettext;
 
 { TSpTBXCustomizeFormMod }
 

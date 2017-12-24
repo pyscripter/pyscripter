@@ -86,7 +86,7 @@ implementation
 
 uses dmCommands, Clipbrd,
   SynEdit, frmPyIDEMain, frmMessages, JclStrings,
-  uCommonFunctions, Math, StringResources, gnugettext,
+  uCommonFunctions, Math, StringResources, JvGnugettext,
   MPCommonUtilities;
 
 {$R *.dfm}

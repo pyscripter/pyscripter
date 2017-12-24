@@ -105,7 +105,7 @@ implementation
 
 uses uCommonFunctions, frmPyIDEMain, VarPyth, JvJVCLUtils,
   uEditAppIntfs, PythonEngine, dmCommands, cPyBaseDebugger, JclSysUtils,
-  cPyDebugger, StringResources, gnugettext;
+  cPyDebugger, StringResources, JvGnugettext;
 
 {$R *.dfm}
 
@@ -192,7 +192,7 @@ begin
       Status := utwLoaded;
     end;
   end;
-end;         
+end;
 
 procedure TUnitTestWindow.FormActivate(Sender: TObject);
 begin

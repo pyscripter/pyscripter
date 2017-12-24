@@ -183,7 +183,7 @@ uses dmCommands, StringResources, uEditAppIntfs,
   frmPyIDEMain, uCommonFunctions, JvAppIniStorage, JvAppStorage, JclFileUtils,
   dlgImportDirectory, JclShell, dlgRunConfiguration, cPyBaseDebugger,
   cParameters, MPDataObject, JvJVCLUtils,
-  gnugettext, uHighlighterProcs, dlgDirectoryList;
+  JvGnugettext, uHighlighterProcs, dlgDirectoryList;
 
 {$R *.dfm}
 

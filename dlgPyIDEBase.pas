@@ -20,7 +20,7 @@ var
 
 implementation
 
-uses gnugettext;
+uses JvGnugettext;
 
 {$R *.dfm}
 

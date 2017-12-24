@@ -312,7 +312,7 @@ uses
   frmWatches, PythonEngine,
   SynEditTextBuffer, cPyDebugger, dlgPickList, JvDockControlForm,
   uSearchHighlighter, VirtualShellNotifier,
-  SynHighlighterWebMisc, SynHighlighterWeb, gnugettext,
+  SynHighlighterWebMisc, SynHighlighterWeb, JvGnugettext,
   SynUnicode, frmIDEDockWin, StrUtils, SynHighlighterPython;
 
 const

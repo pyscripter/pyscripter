@@ -49,7 +49,7 @@ var
 
 implementation
 
-uses StringResources, gnugettext;
+uses StringResources, JvGnugettext;
 
 { TFileTemplate }
 

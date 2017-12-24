@@ -100,7 +100,7 @@ uses
   System.UITypes, SysUtils, Windows, Messages, FileCtrl,
   {GX_GrepResults, GX_GrepOptions,} Math,
   uEditAppIntfs, frmFindResults, dmCommands,
-  Dialogs, gnugettext, StringResources;
+  Dialogs, JvGnugettext, StringResources;
 
 function GetScrollbarWidth: Integer;
 begin

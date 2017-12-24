@@ -404,7 +404,7 @@ uses
   dmCommands, frmPythonII, frmMessages, frmPyIDEMain,
   uCommonFunctions, VarPyth,
   cParameters, StringResources, cPyDebugger,
-  frmCommandOutput, gnugettext, cProjectClasses,
+  frmCommandOutput, JvGnugettext, cProjectClasses,
   System.UITypes, Dialogs;
 
 { TEditorPos }

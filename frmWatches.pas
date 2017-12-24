@@ -81,7 +81,7 @@ var
 implementation
 
 uses frmPyIDEMain, dmCommands,
-  Clipbrd, StringResources, gnugettext, uCommonFunctions, SynEdit,
+  Clipbrd, StringResources, JvGnugettext, uCommonFunctions, SynEdit,
   frmCallStack, cVirtualStringTreeHelper;
 {$R *.dfm}
 

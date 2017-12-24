@@ -121,7 +121,7 @@ type
 
 implementation
 
-uses dmCommands, JvBrowseFolder, JclSysInfo, gnugettext, StringResources;
+uses dmCommands, JvBrowseFolder, JclSysInfo, JvGnugettext, StringResources;
 
 {$R *.dfm}
 

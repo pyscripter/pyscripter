@@ -170,7 +170,7 @@ var
 implementation
 
 uses
-  TypInfo, Variants, gnugettext,
+  TypInfo, Variants, JvGnugettext,
   StringResources, uCommonFunctions, JclStrings;
 
 const

@@ -65,7 +65,7 @@ implementation
 
 uses frmCallStack, PythonEngine, cVirtualStringTreeHelper,
   dmCommands, uCommonFunctions, StringResources,
-  JvJVCLUtils, Math, gnugettext, Vcl.Themes;
+  JvJVCLUtils, Math, JvGnugettext, Vcl.Themes;
 
 {$R *.dfm}
 Type

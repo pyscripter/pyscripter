@@ -161,7 +161,7 @@ uses
   VarPyth, StringResources, frmPythonII, Dialogs, dmCommands,
   cParameters, uCommonFunctions, frmMessages, frmPyIDEMain,
   frmVariables, frmCallStack, frmUnitTests, JvDSADialogs,
-  gnugettext, JclStrings, JclSysUtils, cProjectClasses, JvJCLUtils,
+  JvGnugettext, JclStrings, JclSysUtils, cProjectClasses, JvJCLUtils,
   cRefactoring;
 
 { TRemNameSpaceItem }

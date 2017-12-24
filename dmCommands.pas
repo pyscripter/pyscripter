@@ -641,7 +641,7 @@ uses
   dlgUnitTestWizard, WinInet, Registry, ShlObj, ShellAPI,
   dlgFileTemplates, JclSysUtils, dlgPickList, JvAppIniStorage,
   JvAppStorage, JvDSADialogs, uSearchHighlighter,
-  MPShellUtilities, gnugettext, SpTBXSkins, SpTBXMDIMRU, StrUtils, JclStrings,
+  MPShellUtilities, JvGnugettext, SpTBXSkins, SpTBXMDIMRU, StrUtils, JclStrings,
   DateUtils, JclDebug, Clipbrd, MPCommonUtilities, JclSysInfo, JvDynControlEngineVCL;
 
 { TPythonIDEOptions }
@@ -2124,14 +2124,14 @@ begin
 
     if (TransientType = ttAfter) then begin
       if HasMatchingBracket then begin
-        if not SynEdit.IsPointInSelection(P) then 
+        if not SynEdit.IsPointInSelection(P) then
         begin
           if SynPythonSyn.MatchingBraceAttri.Background <> clNone then
             Canvas.Brush.Color := SynPythonSyn.MatchingBraceAttri.Background;
           Canvas.Font.Color:= SynPythonSyn.MatchingBraceAttri.Foreground;
         end;
       end else begin
-        if not SynEdit.IsPointInSelection(P) then 
+        if not SynEdit.IsPointInSelection(P) then
         begin
           if SynPythonSyn.UnbalancedBraceAttri.Background <> clNone then
             Canvas.Brush.Color := SynPythonSyn.UnbalancedBraceAttri.Background;
@@ -2160,12 +2160,12 @@ begin
       (PMD.Row > 0)and (PMD.Row >= SynEdit.TopLine) and
       (PMD.Row < SynEdit.TopLine + SynEdit.LinesInWindow) then
     begin
-      if SynEdit.IsPointInSelection(PM) then 
+      if SynEdit.IsPointInSelection(PM) then
         Canvas.Font.Color := SynEdit.SelectedColor.Foreground
       else if (TransientType = ttAfter) then
         Canvas.Font.Color:= SynPythonSyn.MatchingBraceAttri.Foreground;
-        
-      if SynEdit.IsPointInSelection(PM) then 
+
+      if SynEdit.IsPointInSelection(PM) then
         Canvas.Brush.Color := SynEdit.SelectedColor.Background
       else if (TransientType = ttAfter) and (SynPythonSyn.MatchingBraceAttri.Background <> clNone) then
         Canvas.Brush.Color := SynPythonSyn.MatchingBraceAttri.Background

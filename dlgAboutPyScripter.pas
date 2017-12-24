@@ -57,7 +57,7 @@ var
 implementation
 
 uses
-  Winapi.ShellAPI, Winapi.RichEdit, uCommonFunctions, JvJCLUtils, gnugettext;
+  Winapi.ShellAPI, Winapi.RichEdit, uCommonFunctions, JvJCLUtils, JvGnugettext;
 
 {$R *.dfm}
 

@@ -83,7 +83,7 @@ implementation
 
 uses
   frmPyIDEMain, dmCommands, uCommonFunctions,
-  Clipbrd, VarPyth, gnugettext, StringResources;
+  Clipbrd, VarPyth, JvGnugettext, StringResources;
 
 {$R *.dfm}
 Type

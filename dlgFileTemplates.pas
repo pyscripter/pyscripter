@@ -75,7 +75,7 @@ type
 
 implementation
 
-uses dmCommands, SynEditHighlighter, gnugettext, StringResources;
+uses dmCommands, SynEditHighlighter, JvGnugettext, StringResources;
 
 {$R *.dfm}
 

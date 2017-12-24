@@ -247,7 +247,7 @@ implementation
 Uses
   Types, Forms, JclFileUtils, Math, VarPyth, JclBase, JclStrings,
   StrUtils, PythonEngine, dmCommands, Dialogs,
-  StringResources, frmPythonII, gnugettext, MPCommonUtilities,
+  StringResources, frmPythonII, JvGnugettext, MPCommonUtilities,
   MPCommonObjects, MPShellUtilities, IOUtils, Vcl.Themes, System.AnsiStrings,
   System.UITypes;
 

@@ -103,7 +103,7 @@ implementation
 
 uses
   Windows, uEditAppIntfs, StringResources,
-  uCommonFunctions, WideStrUtils, gnugettext;
+  uCommonFunctions, WideStrUtils, JvGnugettext;
 
 const
   SearchLineSize = 1024;

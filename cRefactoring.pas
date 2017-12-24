@@ -84,7 +84,7 @@ uses
   frmPythonII, PythonEngine, VarPyth, dmCommands,
   uEditAppIntfs,
   uCommonFunctions, Math, StringResources,
-  cPyDebugger, gnugettext, StrUtils, JclStrings, DateUtils, cPyBaseDebugger;
+  cPyDebugger, JvGnugettext, StrUtils, JclStrings, DateUtils, cPyBaseDebugger;
 
 { TPyScripterRefactor }
 
