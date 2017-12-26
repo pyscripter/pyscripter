@@ -181,7 +181,12 @@ end;
 initialization
   if TJvCustomInspectorData.ItemRegister <> nil then
     with TJvCustomInspectorData.ItemRegister do
-      Add(TJvInspectorTypeInfoRegItem.Create(TJvInspectorColorItem, TypeInfo(TColor)));  with TJvCustomInspectorData.ItemRegister do
+      Add(TJvInspectorTypeInfoRegItem.Create(TJvInspectorColorItem, TypeInfo(TColor)));
+
+  TStyleManager.Engine.RegisterStyleHook(TJvInspector, TScrollingStyleHook);
+
+finalization
+  TStyleManager.Engine.UnRegisterStyleHook(TJvInspector, TScrollingStyleHook);
 
 end.
 

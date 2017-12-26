@@ -30,7 +30,7 @@ inherited OptionsInspector: TOptionsInspector
       BevelKind = bkNone
       BevelOuter = bvNone
       RelativeDivider = True
-      Divider = 51
+      Divider = 50
       ItemHeight = 16
       TabStop = True
       TabOrder = 0

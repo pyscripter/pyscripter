@@ -12,13 +12,10 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, OleCtrls, ActiveX, SHDocVw,
-  ImgList, uEditAppIntfs, TB2Item, TB2Dock, TB2Toolbar, SpTBXItem,
-  Vcl.Styles.WebBrowser;
+  Dialogs, OleCtrls, ActiveX, SHDocVw, ImgList, uEditAppIntfs, TB2Item, TB2Dock,
+  TB2Toolbar, SpTBXItem, System.ImageList;
 
 type
-  TWebBrowser=class(TVclStylesWebBrowser);
-
   TWebPreviewForm = class(TForm, IEditorView)
     WebBrowser: TWebBrowser;
     Images: TImageList;
@@ -126,7 +123,7 @@ end;
 
 procedure TWebPreviewForm.UpdateView(Editor: IEditor);
 var
-  v: Variant;
+//  v: Variant;
   HTMLDocument: IHTMLDocument2;
 begin
   fEditor := Editor;
@@ -135,9 +132,13 @@ begin
     Application.ProcessMessages;
 
   HTMLDocument := WebBrowser.Document as IHTMLDocument2;
-  v := VarArrayCreate([0, 0], varVariant);
-  v[0] := Editor.SynEdit.Text;
-  HTMLDocument.Write(PSafeArray(TVarData(v).VArray));
+  if not Assigned(HTMLDocument) then Exit;
+
+//  HTMLDocument.clear;
+  OleVariant(HTMLDocument).Write(Editor.SynEdit.Text);
+//  v := VarArrayCreate([0, 0], varVariant);
+//  v[0] := Editor.SynEdit.Text;
+//  HTMLDocument.Write(PSafeArray(TVarData(v).VArray));
   HTMLDocument.Close;
 end;
 

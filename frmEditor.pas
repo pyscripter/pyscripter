@@ -2932,13 +2932,13 @@ end;
 procedure TEditorForm.SynWebCompletionAfterCodeCompletion(Sender: TObject;
   const Value: string; Shift: TShiftState; Index: Integer;
   EndToken: WideChar);
+Var
+    SynEdit: TCustomSynEdit;
 
   function CaretBetween(AStr: String): boolean;
   var
     i: Integer;
-    SynEdit: TCustomSynEdit;
   begin
-    SynEdit := TSynCompletionProposal(Sender).Editor;
     i := Pos(AStr, Value);
     Result := i > 0;
     if Result then
@@ -2946,6 +2946,10 @@ procedure TEditorForm.SynWebCompletionAfterCodeCompletion(Sender: TObject;
   end;
 
 begin
+  SynEdit := TSynCompletionProposal(Sender).Editor;
+  if Pos('>>', SynEdit.Lines[SynEdit.CaretY]) >= 0 then
+    SynEdit.ExecuteCommand(ecDeleteChar, ' ', nil);
+
   if not CaretBetween('()') then
     if not CaretBetween('><') then
       if not CaretBetween('""') then

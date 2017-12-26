@@ -81,7 +81,6 @@ begin
   VariablesTree.NodeDataSize := SizeOf(TPyObjRec);
   VariablesTree.Header.Height :=
     MulDiv(VariablesTree.Header.Height, Screen.PixelsPerInch, 96);
-  DocPanel.Color := clWindow;
 end;
 
 procedure TVariablesWindow.VariablesTreeInitChildren(Sender: TBaseVirtualTree;
@@ -159,6 +158,7 @@ end;
 
 procedure TVariablesWindow.reInfoResizeRequest(Sender: TObject; Rect: TRect);
 begin
+  Rect.Height := Max(Rect.Height, reInfo.Parent.ClientHeight);
   reInfo.BoundsRect := Rect;
 end;
 

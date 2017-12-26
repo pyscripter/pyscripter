@@ -15,11 +15,14 @@ program PyScripter;
 {$ENDIF}
 
 uses
-  Windows,
-  Forms,
-  Dialogs,
-  SysUtils,
-  HTMLHelpViewer,
+  WinApi.Windows,
+  System.SysUtils,
+  Vcl.HTMLHelpViewer,
+  Vcl.Themes,
+  Vcl.Styles,
+  Vcl.SysStyles,
+  Vcl.Forms,
+  Vcl.Dialogs,
   VTAccessibility,
   uCmdLine in 'uCmdLine.pas',
   uDpiAware in 'uDpiAware.pas',
@@ -95,6 +98,7 @@ uses
   dlgImportDirectory in 'dlgImportDirectory.pas' {ImportDirectoryForm},
   dlgRunConfiguration in 'dlgRunConfiguration.pas' {RunConfigurationForm},
   SynHighlighterWeb in 'SynHighlighterWeb.pas',
+  SynHighlighterWebMisc in 'SynHighlighterWebMisc.pas',
   dlgPyIDEBase in 'dlgPyIDEBase.pas' {PyIDEDlgBase},
   JvDockInfo in 'JvDockInfo.pas',
   SynHighlighterYAML in 'SynHighlighterYAML.pas',
@@ -107,15 +111,13 @@ uses
   JvDockVIDStyle in 'JvDockVIDStyle.pas',
   JvCreateProcess in 'JvCreateProcess.pas',
   cCodeCompletion in 'cCodeCompletion.pas',
-  SpTBXPageScroller in 'SpTBXPageScroller.pas' {/  Vcl.Themes,},
   SpTBXSkins in 'SpTBXSkins.pas',
   dlgStyleSelector in 'dlgStyleSelector.pas' {StyleSelectorForm},
   cVirtualStringTreeHelper in 'cVirtualStringTreeHelper.pas',
-  Vcl.Themes,
-  Vcl.Styles,
-  Vcl.SysStyles,
-  Vcl.Styles.UxTheme,
-  Vcl.Styles.Utils.ComCtrls;
+  Synedit,
+  Vcl.StdCtrls,
+  VCL.Styles.PyScripter in 'VCL.Styles.PyScripter.pas';
+
 
 {$R *.RES}
 {$R WebCopyAvi.RES}
@@ -128,10 +130,9 @@ uses
 begin
   ReportMemoryLeaksOnShutdown := DebugHook <> 0;
 
-//  UseLatestCommonDialogs := True;
-//  TCustomStyleEngine.UnRegisterSysStyleHook('SysTabControl32', TSysTabControlStyleHook);
-//  TStyleManager.Engine.RegisterStyleHook(TCustomSynEdit, TMemoStyleHook);
-//  TStyleManager.Engine.RegisterStyleHook(TJvInspector, TMemoStyleHook);
+  TStyleManager.SystemHooks := TStyleManager.SystemHooks - [shDialogs];
+
+  TStyleManager.Engine.RegisterStyleHook(TCustomSynEdit, TScrollingStyleHook);
 
   Application.Initialize;
 
@@ -149,8 +150,7 @@ begin
   Application.CreateForm(TPyIDEMainForm, PyIDEMainForm);
   Application.Run;
 
-//  TStyleManager.Engine.UnRegisterStyleHook(TCustomSynEdit, TMemoStyleHook);
-//  TStyleManager.Engine.UnRegisterStyleHook(TJvInspector, TMemoStyleHook);
+  TStyleManager.Engine.UnRegisterStyleHook(TCustomSynEdit, TScrollingStyleHook);
 
   end.
 

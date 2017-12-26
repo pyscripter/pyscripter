@@ -3,12 +3,13 @@ unit dlgStyleSelector;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, 
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Types, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ComCtrls, Vcl.ExtCtrls, Vcl.Styles.Ext,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ComCtrls, Vcl.ExtCtrls,
   Vcl.ActnList, Vcl.PlatformDefaultStyleActnCtrls, Vcl.ActnMan, Vcl.ToolWin,
-  System.Actions, dlgPyIDEBase, SpTBXItem, SpTBXControls, 
-  System.Generics.Collections, Vcl.Themes, Vcl.Styles;
+  System.Actions, dlgPyIDEBase, SpTBXItem, SpTBXControls,
+  System.Generics.Collections, Vcl.Themes, Vcl.Styles,
+  Vcl.Styles.PyScripter;
 
 type
   TStyleSelectorForm = class(TPyIDEDlgBase)
@@ -30,10 +31,10 @@ type
     Loading : Boolean;
     FStylesPath : string;
     FPreview:TVclStylesPreview;
-    ExternalFilesDict :  TDictionary<String, string>;
-    LastSelectedStyle : TCustomStyle;
+    ExternalStyleFilesDict :  TDictionary<string, string>;
     procedure FillVclStylesList;
   public
+    class var LoadedStylesDict :  TDictionary<string, string>;
     class var CurrentSkinName : string;
     class procedure Execute;
     class procedure SetStyle(StyleName : string);
@@ -43,7 +44,8 @@ type
 implementation
 
 uses
-  System.IOUtils, dmCommands;
+  System.IOUtils,
+  dmCommands;
 
 
 type
@@ -55,7 +57,7 @@ procedure TStyleSelectorForm.FormCreate(Sender: TObject);
 begin
    Loading:=False;
    LBStyleNames.Sorted := True;
-   ExternalFilesDict := TDictionary<String, string>.Create;
+   ExternalStyleFilesDict := TDictionary<string, string>.Create;
    FStylesPath := CommandsDataModule.StylesFilesDir;
    FPreview:=TVclStylesPreview.Create(Self);
    FPreview.Parent:=Panel1;
@@ -65,9 +67,8 @@ end;
 
 procedure TStyleSelectorForm.FormDestroy(Sender: TObject);
 begin
-  ExternalFilesDict.Free;
+  ExternalStyleFilesDict.Free;
   FPreview.Free;
-  FreeAndNil(LastSelectedStyle);
   end;
 
 procedure TStyleSelectorForm.FormShow(Sender: TObject);
@@ -88,9 +89,8 @@ end;
 
 procedure TStyleSelectorForm.LBStyleNamesClick(Sender: TObject);
 var
-  LStyle : TCustomStyle;
+  LStyle : TCustomStyleServices;
   FileName : string;
-  SourceInfo: TSourceInfo;
   StyleName : String;
 begin
   LStyle:=nil;
@@ -102,15 +102,18 @@ begin
       // FileName
       if not Loading then
       begin
-        FileName := ExternalFilesDict.Items[StyleName];
-        LStyle := TCustomStyleExt.Create(FileName);
+        FileName := ExternalStyleFilesDict.Items[StyleName];
+        TStyleManager.LoadFromFile(FileName);
+        LStyle := TStyleManager.Style[StyleName];
+        TStyleSelectorForm.LoadedStylesDict.Add(StyleName, FileName);
+        //  The Style is now loaded and registerd
+        LBStyleNames.Items.Objects[LbStylenames.ItemIndex] := nil;
       end;
     end
-    else 
+    else
     begin
-         // Resource style                                                              
-        SourceInfo:=TStyleManager.StyleSourceInfo[StyleName];
-        LStyle := TCustomStyleExt.Create(TStream(SourceInfo.Data));
+         // Resource style
+        LStyle := TStyleManager.Style[StyleName];
     end;
 
   end;
@@ -122,8 +125,6 @@ begin
     TVclStylesPreviewClass(FPreview).Paint;
   end;
 
-  FreeAndNil(LastSelectedStyle);
-  LastSelectedStyle := LStyle;
 end;
 
 
@@ -131,63 +132,49 @@ class procedure TStyleSelectorForm.SetStyle(StyleName: string);
 // StyleName can be either a reousrce of a file name
 var
   SName : string;
-  LStyle : TCustomStyle;
-  IsResource : boolean;
+  StyleInfo : TStyleInfo;
 begin
-  IsResource := False;
   for SName in TStyleManager.StyleNames do
-  begin
-    if SName = StyleName then 
+    if SName = StyleName then
     begin
-      IsResource := True;
-      break;
+       // Resource style
+      TStyleManager.SetStyle(StyleName);
+      if TStyleSelectorForm.LoadedStylesDict.ContainsKey(StyleName) then
+        TStyleSelectorForm.CurrentSkinName := TStyleSelectorForm.LoadedStylesDict[StyleName]
+      else
+        TStyleSelectorForm.CurrentSkinName := StyleName;
+      Exit;
     end;
-  end;     
-    
-  if IsResource then
-  begin
-       // Resource style                                                              
-    TStyleManager.SetStyle(StyleName);
-    TStyleSelectorForm.CurrentSkinName := StyleName;
-  end
-  else 
-  begin
-    // FileName
-    if TStyleManager.IsValidStyle(StyleName) then
-    begin
-      LStyle := TCustomStyleExt.Create(StyleName);
-      TStyleManager.SetStyle(LStyle);
-      TStyleSelectorForm.CurrentSkinName := StyleName;
-    end;
-  end;
 
+  // FileName
+  if FileExists(StyleName) and TStyleManager.IsValidStyle(StyleName, StyleInfo) then
+  begin
+    if not TStyleManager.TrySetStyle(StyleInfo.Name, False) then
+    begin
+      TStyleManager.LoadFromFile(StyleName);
+      TStyleSelectorForm.LoadedStylesDict.Add(StyleInfo.Name, StyleName);
+    end;
+    TStyleManager.SetStyle(StyleInfo.Name);
+    TStyleSelectorForm.CurrentSkinName := StyleName;
+  end;
 end;
 
 procedure TStyleSelectorForm.ActionApplyStyleExecute(Sender: TObject);
 var
-  StyleName : String;
+  StyleName : string;
   FileName : string;
-  LStyle : TCustomStyle;
-  begin
+begin
   if LBStyleNames.ItemIndex >= 0 then begin
     StyleName := LBStyleNames.Items[LBStyleNames.ItemIndex];
     if Integer(LBStyleNames.Items.Objects[LbStylenames.ItemIndex]) = 1 then
     begin
       // FileName
-      if not Loading then
-      begin
-        FileName := ExternalFilesDict.Items[StyleName];
-        LStyle := TCustomStyleExt.Create(FileName);
-        TStyleManager.SetStyle(LStyle);
-        TStyleSelectorForm.CurrentSkinName := FileName;
-      end;
+      FileName := ExternalStyleFilesDict.Items[StyleName];
+      TStyleSelectorForm.SetStyle(FileName);
     end
-    else 
-    begin
-         // Resource style                                                              
-      TStyleManager.SetStyle(StyleName);
-      TStyleSelectorForm.CurrentSkinName := StyleName;
-    end;
+    else
+      // Resource style
+     TStyleSelectorForm.SetStyle(StyleName);
   end;
 end;
 
@@ -230,24 +217,25 @@ begin
     try
        for FileName in TDirectory.GetFiles(FStylesPath,'*.vsf') do
        begin
-          if TStyleManager.IsValidStyle(FileName, StyleInfo) and 
+          if TStyleManager.IsValidStyle(FileName, StyleInfo) and
              (LBStyleNames.Items.IndexOf(StyleInfo.Name) < 0)
           then
           begin
             // TObject(1) denotes external file
             LBStyleNames.Items.AddObject(StyleInfo.Name, TObject(1));
-            ExternalFilesDict.Add(StyleInfo.Name, FileName);
+            ExternalStyleFilesDict.Add(StyleInfo.Name, FileName);
           end;
        end;
-    
-    except 
+
+    except
     end;
 
    Loading:=False;
 end;
 
-Initialization
-
+initialization
   TStyleSelectorForm.CurrentSkinName := TStyleManager.ActiveStyle.Name;
-
+  TStyleSelectorForm.LoadedStylesDict := TDictionary<string, string>.Create;
+finalization
+  TStyleSelectorForm.LoadedStylesDict.Free;
 end.

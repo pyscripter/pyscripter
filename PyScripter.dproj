@@ -320,6 +320,7 @@
             <Form>RunConfigurationForm</Form>
         </DCCReference>
         <DCCReference Include="SynHighlighterWeb.pas"/>
+        <DCCReference Include="SynHighlighterWebMisc.pas"/>
         <DCCReference Include="dlgPyIDEBase.pas">
             <Form>PyIDEDlgBase</Form>
         </DCCReference>
@@ -337,14 +338,14 @@
         <DCCReference Include="JvDockVIDStyle.pas"/>
         <DCCReference Include="JvCreateProcess.pas"/>
         <DCCReference Include="cCodeCompletion.pas"/>
-        <DCCReference Include="SpTBXPageScroller.pas">
-            <Form>/  Vcl.Themes,</Form>
-        </DCCReference>
         <DCCReference Include="SpTBXSkins.pas"/>
         <DCCReference Include="dlgStyleSelector.pas">
             <Form>StyleSelectorForm</Form>
         </DCCReference>
         <DCCReference Include="cVirtualStringTreeHelper.pas"/>
+        <DCCReference Include="VCL.Styles.PyScripter.pas">
+            <Form>/  Vcl.Styles.Utils.Forms;</Form>
+        </DCCReference>
         <None Include="PyScripter.todo"/>
         <None Include="ModelSupport_PyScripter\default.txaPackage"/>
         <BuildConfiguration Include="Debug">

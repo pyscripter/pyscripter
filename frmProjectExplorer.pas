@@ -13,12 +13,12 @@ unit frmProjectExplorer;
 interface
 
 uses
-  System.UITypes, System.Contnrs, Windows, Messages, SysUtils, Variants,
+ System.Contnrs, Windows, Messages, SysUtils, Variants,
   Classes, Graphics, Controls, Forms,
   Dialogs, frmIDEDockWin, JvComponentBase, JvDockControlForm, ExtCtrls,
   cProjectClasses, VirtualTrees, ImgList, Menus, TB2Item, SpTBXItem,
   ActnList, TB2Dock, TB2Toolbar, ActiveX, SpTBXSkins, System.Actions,
-  SpTBXControls, System.ImageList;
+  SpTBXControls,  System.UITypes, System.ImageList;
 
 type
   TProjectExplorerWindow = class(TIDEDockWindow)
