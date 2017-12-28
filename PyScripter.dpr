@@ -132,8 +132,6 @@ begin
 
   TStyleManager.SystemHooks := TStyleManager.SystemHooks - [shDialogs];
 
-  TStyleManager.Engine.RegisterStyleHook(TCustomSynEdit, TScrollingStyleHook);
-
   Application.Initialize;
 
   if CheckWin32Version(6) then // at least Vista
@@ -150,8 +148,6 @@ begin
   Application.CreateForm(TPyIDEMainForm, PyIDEMainForm);
   Application.Run;
 
-  TStyleManager.Engine.UnRegisterStyleHook(TCustomSynEdit, TScrollingStyleHook);
-
-  end.
+end.
 
 

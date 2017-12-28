@@ -12,8 +12,8 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, Buttons, JvInspector, JvExControls,
-  SpTBXControls, dlgPyIDEBase, SpTBXItem;
+  Dialogs, Buttons, SpTBXControls, dlgPyIDEBase, SpTBXItem, zBase,
+  zObjInspector, Vcl.ExtCtrls, System.Generics.Collections;
 
 type
 
@@ -34,23 +34,26 @@ type
   end;
 
   TOptionsInspector = class(TPyIDEDlgBase)
-    Panel1: TSpTBXPanel;
-    Inspector: TJvInspector;
-    Panel2: TSpTBXPanel;
+    Panel1: TPanel;
+    Panel2: TPanel;
     OKButton: TSpTBXButton;
     BitBtn2: TSpTBXButton;
     HelpButton: TSpTBXButton;
+    Inspector: TzObjectInspector;
     procedure OKButtonClick(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure HelpButtonClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    function InspectorGetItemFriendlyName(Sender: TControl;
+      PItem: PPropItem): string;
   private
     { Private declarations }
     fOptionsObject,
     fTempOptionsObject : TPersistent;
+    FriendlyNames : TDictionary<string, string>;
   public
     { Public declarations }
     procedure Setup(OptionsObject : TBaseOptions; Categories : array of TOptionCategory);
-    procedure ApplyVclStyle;
   end;
 
 
@@ -60,9 +63,6 @@ function InspectOptions(OptionsObject : TBaseOptions;
 
 implementation
 
-uses
-  Vcl.Themes;
-
 {$R *.dfm}
 
 { TIDEOptionsWindow }
@@ -71,57 +71,37 @@ procedure TOptionsInspector.Setup(OptionsObject: TBaseOptions;
   Categories: array of TOptionCategory);
 var
   i, j : integer;
-  InspCat: TJvInspectorCustomCategoryItem;
-  Item : TJvCustomInspectorItem;
 begin
-  Inspector.Clear;
   fOptionsObject := OptionsObject;
   fTempOptionsObject := TBaseOptionsClass(OptionsObject.ClassType).Create;
   fTempOptionsObject.Assign(fOptionsObject);
-
+  Inspector.Component := fTempOptionsObject;
   for i := Low(Categories) to High(Categories) do
     with Categories[i] do begin
-      InspCat := TJvInspectorCustomCategoryItem.Create(Inspector.Root, nil);
-      InspCat.DisplayName := DisplayName;
       for j := Low(Options) to High(Options) do begin
-        Item := TJvInspectorPropData.New(InspCat, fTempOptionsObject,
-          Options[j].PropertyName);
-        Item.DisplayName := Options[j].DisplayName;
-        if Item is TJvInspectorBooleanItem then
-          TJvInspectorBooleanItem(Item).ShowAsCheckbox := True;
+        Inspector.RegisterPropertyInCategory(Categories[i].DisplayName, Options[j].PropertyName);
+        FriendlyNames.Add(Options[j].PropertyName, Options[j].DisplayName);
       end;
-      InspCat.Expanded := True;
     end;
-  Inspector.Root.Sort;
+  Inspector.UpdateProperties;
 end;
 
 procedure TOptionsInspector.OKButtonClick(Sender: TObject);
 begin
-  Inspector.SaveValues;  // Save currently editing item
   fOptionsObject.Assign(fTempOptionsObject);
 end;
 
-procedure TOptionsInspector.ApplyVclStyle;
+procedure TOptionsInspector.FormCreate(Sender: TObject);
 begin
-  if Assigned(Inspector.ActivePainter) then
-    with Inspector.ActivePainter do begin
-      BackgroundColor := StyleServices.GetSystemColor(clWindow);
-      CategoryColor := StyleServices.GetSystemColor(clBtnFace);
-      CategoryFont.Color := StyleServices.GetSystemColor(clWindowText);
-      DividerColor := StyleServices.GetSystemColor(clBtnFace);
-      NameFont.Color := StyleServices.GetSystemColor(clWindowText);
-      ValueFont.Color := StyleServices.GetSystemColor(clWindowText);
-      HideSelectColor := StyleServices.GetSystemColor(clBtnFace);
-      HideSelectFont.Color := StyleServices.GetSystemColor(clHighlightText);
-      SelectedColor := StyleServices.GetSystemColor(clHighlight);
-      SelectedFont.Color := StyleServices.GetSystemColor(clHighlightText);;
-  end;
+  inherited;
+  FriendlyNames := TDictionary<string,string>.Create;
 end;
 
 procedure TOptionsInspector.FormDestroy(Sender: TObject);
 begin
   if Assigned(fTempOptionsObject) then
     FreeAndNil(fTempOptionsObject);
+  FriendlyNames.Free;
 end;
 
 function InspectOptions(OptionsObject : TBaseOptions;
@@ -132,7 +112,6 @@ begin
     Caption := FormCaption;
     HelpContext := HelpCntxt;
     Setup(OptionsObject, Categories);
-    ApplyVclStyle;
     Result := ShowModal = mrOK;
     Release;
   end;
@@ -144,49 +123,15 @@ begin
     Application.HelpContext(HelpContext);
 end;
 
-type
-  TJvInspectorColorItem = class(TJvInspectorIntegerItem)
-  protected
-    procedure Edit; override;
-    procedure SetFlags(const Value: TInspectorItemFlags); override;
-  end;
-
-
-{ TJvInspectorColorItem }
-
-procedure TJvInspectorColorItem.Edit;
+function TOptionsInspector.InspectorGetItemFriendlyName(Sender: TControl;
+  PItem: PPropItem): string;
 begin
-  with TColorDialog.Create(GetParentForm(Inspector)) do
-    try
-      Color := Data.AsOrdinal;
-      Options := [cdFullOpen, cdAnyColor];
-      if Execute then
-      begin
-        Data.AsOrdinal := Color;
-        //Data.InvalidateData;
-      end;
-    finally
-      Free;
-    end;
+  if FriendlyNames.ContainsKey(PItem.Name) then
+    Result := FriendlyNames[PItem.Name]
+  else
+    Result := PItem.Name;
 end;
 
-procedure TJvInspectorColorItem.SetFlags(const Value: TInspectorItemFlags);
-var
-  NewValue: TInspectorItemFlags;
-begin
-  NewValue := Value + [iifEditButton];
-  inherited SetFlags(NewValue);
-end;
-
-initialization
-  if TJvCustomInspectorData.ItemRegister <> nil then
-    with TJvCustomInspectorData.ItemRegister do
-      Add(TJvInspectorTypeInfoRegItem.Create(TJvInspectorColorItem, TypeInfo(TColor)));
-
-  TStyleManager.Engine.RegisterStyleHook(TJvInspector, TScrollingStyleHook);
-
-finalization
-  TStyleManager.Engine.UnRegisterStyleHook(TJvInspector, TScrollingStyleHook);
 
 end.
 

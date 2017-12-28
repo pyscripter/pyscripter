@@ -9,43 +9,70 @@ inherited OptionsInspector: TOptionsInspector
   ExplicitHeight = 378
   PixelsPerInch = 96
   TextHeight = 13
-  object Panel1: TSpTBXPanel
+  object Panel1: TPanel
     Left = 0
     Top = 0
     Width = 508
     Height = 312
-    Color = clBtnFace
     Align = alClient
-    UseDockManager = True
+    ParentColor = True
+    ShowCaption = False
     TabOrder = 0
-    Borders = False
-    TBXStyleBackground = True
-    object Inspector: TJvInspector
-      Left = 0
-      Top = 0
-      Width = 508
-      Height = 312
-      Style = isDotNet
+    object Inspector: TzObjectInspector
+      Left = 1
+      Top = 1
+      Width = 506
+      Height = 310
       Align = alClient
-      BevelKind = bkNone
-      BevelOuter = bvNone
-      RelativeDivider = True
-      Divider = 50
-      ItemHeight = 16
-      TabStop = True
+      Text = 'Inspector'
+      Color = clWhite
+      BorderStyle = bsSingle
+      Component = Inspector
       TabOrder = 0
+      AllowSearch = True
+      AutoCompleteText = True
+      DefaultCategoryName = 'Miscellaneous'
+      ShowGutter = True
+      GutterColor = clCream
+      GutterEdgeColor = clGray
+      NameColor = clBtnText
+      ValueColor = clNavy
+      NonDefaultValueColor = clNavy
+      BoldNonDefaultValue = True
+      HighlightColor = 14737632
+      ReferencesColor = clMaroon
+      SubPropertiesColor = clGreen
+      ShowHeader = False
+      ShowGridLines = False
+      GridColor = clBlack
+      SplitterColor = clGray
+      ReadOnlyColor = clGrayText
+      FixedSplitter = False
+      ReadOnly = False
+      TrackChange = False
+      GutterWidth = 12
+      ShowItemHint = True
+      SortByCategory = True
+      SplitterPos = 250
+      HeaderPropText = 'Property'
+      HeaderValueText = 'Value'
+      ObjectVisibility = mvPublished
+      FloatPreference.MaxDigits = 2
+      FloatPreference.ExpPrecision = 6
+      OnGetItemFriendlyName = InspectorGetItemFriendlyName
     end
   end
-  object Panel2: TSpTBXPanel
+  object Panel2: TPanel
     Left = 0
     Top = 312
     Width = 508
     Height = 37
     Align = alBottom
     Anchors = [akLeft, akBottom]
-    UseDockManager = True
+    ParentBackground = False
+    ParentColor = True
+    ShowCaption = False
     TabOrder = 1
-    TBXStyleBackground = True
     DesignSize = (
       508
       37)

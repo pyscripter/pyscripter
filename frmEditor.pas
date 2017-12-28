@@ -313,7 +313,7 @@ uses
   SynEditTextBuffer, cPyDebugger, dlgPickList, JvDockControlForm,
   uSearchHighlighter, VirtualShellNotifier,
   SynHighlighterWebMisc, SynHighlighterWeb, JvGnugettext,
-  SynUnicode, frmIDEDockWin, StrUtils, SynHighlighterPython;
+  SynUnicode, frmIDEDockWin, StrUtils, SynHighlighterPython, Vcl.Themes;
 
 const
   WM_DELETETHIS = WM_USER + 42;
@@ -3086,8 +3086,12 @@ initialization
 
 GI_EditorFactory := TEditorFactory.Create;
 
+TStyleManager.Engine.RegisterStyleHook(TCustomSynEdit, TScrollingStyleHook);
+
 finalization
 
 GI_EditorFactory := nil;
+
+TStyleManager.Engine.UnRegisterStyleHook(TCustomSynEdit, TScrollingStyleHook);
 
 end.
