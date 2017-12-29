@@ -13,6 +13,7 @@ type
     SpTBXLabel2: TSpTBXLabel;
     SpTBXLabel5: TSpTBXLabel;
     lbCategories: TSpTBXListBox;
+    Panel2: TPanel;
     procedure lbCommandsDrawItem(Sender: TObject;
       ACanvas: TCanvas; var ARect: TRect; Index: Integer;
       const State: TOwnerDrawState; const PaintStage: TSpTBXPaintStage;

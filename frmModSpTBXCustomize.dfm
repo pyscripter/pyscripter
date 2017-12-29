@@ -1,4 +1,5 @@
 inherited SpTBXCustomizeFormMod: TSpTBXCustomizeFormMod
+  ParentFont = True
   PixelsPerInch = 96
   TextHeight = 13
   inherited SpTBXTabControl1: TSpTBXTabControl
@@ -6,7 +7,7 @@ inherited SpTBXCustomizeFormMod: TSpTBXCustomizeFormMod
     inherited tabShortcuts: TSpTBXTabItem
       Visible = False
     end
-    inherited SpTBXTabSheet3: TSpTBXTabSheet [3]
+    inherited SpTBXTabSheet3: TSpTBXTabSheet
       TabItem = 'tabCommands'
       inherited lbCommands: TSpTBXListBox
         Left = 161
@@ -54,15 +55,36 @@ inherited SpTBXCustomizeFormMod: TSpTBXCustomizeFormMod
         OnClick = lbCategoriesClick
       end
     end
-    inherited SpTBXTabSheet2: TSpTBXTabSheet [4]
+    inherited SpTBXTabSheet2: TSpTBXTabSheet
       TabVisible = False
       TabItem = 'tabShortcuts'
     end
     inherited SpTBXTabSheet1: TSpTBXTabSheet
+      ExplicitTop = 23
       TabItem = 'tabToolbars'
+      inherited SpTBXGroupBox1: TSpTBXGroupBox
+        Height = 247
+        ExplicitHeight = 247
+      end
+      inherited SpTBXGroupBox2: TSpTBXGroupBox
+        Visible = False
+      end
     end
   end
   inherited ClosePanel: TSpTBXPanel
+    TBXStyleBackground = False
+    object Panel2: TPanel [0]
+      Left = 0
+      Top = 0
+      Width = 347
+      Height = 35
+      Align = alClient
+      ParentBackground = False
+      TabOrder = 2
+      ExplicitLeft = 80
+      ExplicitWidth = 185
+      ExplicitHeight = 41
+    end
     inherited ResetButton: TSpTBXButton
       Top = 3
       ExplicitTop = 3
