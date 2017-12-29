@@ -76,14 +76,14 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
       Width = 482
       Height = 353
       Align = alTop
-      ActiveTabIndex = 1
+      ActiveTabIndex = 0
       HiddenItems = <>
       object SpTBXTabItem1: TSpTBXTabItem
         Caption = 'Display'
+        Checked = True
       end
       object SpTBXTabItem2: TSpTBXTabItem
         Caption = 'Options'
-        Checked = True
       end
       object SpTBXTabItem3: TSpTBXTabItem
         Caption = 'Keystrokes'
@@ -171,6 +171,14 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Font.Style = []
           TabOrder = 4
           OnClick = SynEdit1Click
+          CodeFolding.GutterShapeSize = 11
+          CodeFolding.CollapsedLineColor = clGrayText
+          CodeFolding.FolderBarLinesColor = clGrayText
+          CodeFolding.IndentGuidesColor = clGray
+          CodeFolding.IndentGuides = True
+          CodeFolding.ShowCollapsedLine = False
+          CodeFolding.ShowHintMark = True
+          UseCodeFolding = False
           Gutter.Font.Charset = DEFAULT_CHARSET
           Gutter.Font.Color = clWindowText
           Gutter.Font.Height = -11
@@ -279,6 +287,14 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Font.Name = 'Courier New'
           Font.Style = []
           TabOrder = 0
+          CodeFolding.GutterShapeSize = 11
+          CodeFolding.CollapsedLineColor = clGrayText
+          CodeFolding.FolderBarLinesColor = clGrayText
+          CodeFolding.IndentGuidesColor = clGray
+          CodeFolding.IndentGuides = True
+          CodeFolding.ShowCollapsedLine = False
+          CodeFolding.ShowHintMark = True
+          UseCodeFolding = False
           Gutter.Font.Charset = DEFAULT_CHARSET
           Gutter.Font.Color = clWindowText
           Gutter.Font.Height = -11
@@ -320,431 +336,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Caption = 'Apply Theme'
           TabOrder = 4
           OnClick = bApplyThemeClick
-        end
-      end
-      object KeyStrokes: TSpTBXTabSheet
-        Left = 0
-        Top = 25
-        Width = 482
-        Height = 328
-        Caption = 'Keystrokes'
-        ImageIndex = -1
-        TabItem = 'SpTBXTabItem3'
-        object gbKeyStrokes: TSpTBXGroupBox
-          AlignWithMargins = True
-          Left = 5
-          Top = 202
-          Width = 470
-          Height = 119
-          Caption = 'Keystroke Options'
-          Align = alBottom
-          TabOrder = 3
-          TBXStyleBackground = True
-          object Label5: TSpTBXLabel
-            Left = 50
-            Top = 28
-            Width = 57
-            Height = 19
-            Caption = 'Command:'
-          end
-          object Label6: TSpTBXLabel
-            Left = 50
-            Top = 91
-            Width = 58
-            Height = 19
-            Caption = 'Keystroke:'
-          end
-          object Label7: TSpTBXLabel
-            Left = 50
-            Top = 59
-            Width = 58
-            Height = 19
-            Caption = 'Keystroke:'
-          end
-          object cKeyCommand: TSpTBXComboBox
-            Left = 154
-            Top = 23
-            Width = 186
-            Height = 21
-            Style = csDropDownList
-            ItemHeight = 13
-            Sorted = True
-            TabOrder = 0
-            OnExit = cKeyCommandExit
-            OnKeyPress = cKeyCommandKeyPress
-            OnKeyUp = cKeyCommandKeyUp
-          end
-        end
-        object btnAddKey: TSpTBXButton
-          Left = 203
-          Top = 166
-          Width = 75
-          Height = 25
-          Caption = '&Add'
-          TabOrder = 1
-          OnClick = btnAddKeyClick
-        end
-        object btnRemKey: TSpTBXButton
-          Left = 284
-          Top = 166
-          Width = 75
-          Height = 25
-          Caption = '&Remove'
-          TabOrder = 2
-          OnClick = btnRemKeyClick
-        end
-        object btnUpdateKey: TSpTBXButton
-          Left = 122
-          Top = 166
-          Width = 75
-          Height = 25
-          Caption = '&Update'
-          TabOrder = 0
-          OnClick = btnUpdateKeyClick
-        end
-        object SpTBXPanel2: TSpTBXPanel
-          Left = 2
-          Top = 0
-          Width = 476
-          Height = 158
-          Align = alTop
-          TabOrder = 4
-          HotTrack = True
-          object KeyList: TEasyListview
-            AlignWithMargins = True
-            Left = 5
-            Top = 5
-            Width = 466
-            Height = 148
-            Align = alClient
-            EditManager.Font.Charset = DEFAULT_CHARSET
-            EditManager.Font.Color = clWindowText
-            EditManager.Font.Height = -11
-            EditManager.Font.Name = 'Tahoma'
-            EditManager.Font.Style = []
-            Header.Columns.Items = {
-              0600000002000000110000005445617379436F6C756D6E53746F726564FFFECE
-              00060000008008000101000100000000010001A7000000FFFFFF1F0001000000
-              010000000700000043006F006D006D0061006E00640000000000000000000000
-              0000110000005445617379436F6C756D6E53746F726564FFFECE000600000080
-              080001010001010000000000018E000000FFFFFF1F0001000000010000000900
-              00004B00650079007300740072006F006B006500000000000000000000000000}
-            Header.Draggable = False
-            Header.Visible = True
-            HotTrack.Enabled = True
-            PaintInfoGroup.MarginBottom.CaptionIndent = 4
-            Selection.AlphaBlend = True
-            Selection.AlphaBlendSelRect = True
-            Selection.FullRowSelect = True
-            Selection.InactiveBorderColor = clHighlight
-            Selection.InactiveColor = clHighlight
-            Selection.InactiveTextColor = clWindowText
-            TabOrder = 0
-            View = elsReport
-          end
-        end
-      end
-      object Display: TSpTBXTabSheet
-        Left = 0
-        Top = 25
-        Width = 482
-        Height = 328
-        Caption = 'Display'
-        ImageIndex = -1
-        DesignSize = (
-          482
-          328)
-        TabItem = 'SpTBXTabItem1'
-        object gbRightEdge: TSpTBXGroupBox
-          Left = 240
-          Top = 116
-          Width = 235
-          Height = 80
-          Caption = 'Right Edge'
-          Anchors = [akTop, akRight]
-          TabOrder = 1
-          TBXStyleBackground = True
-          object Label3: TSpTBXLabel
-            Left = 9
-            Top = 45
-            Width = 60
-            Height = 19
-            Caption = 'Edge color:'
-          end
-          object Label10: TSpTBXLabel
-            Left = 9
-            Top = 20
-            Width = 72
-            Height = 19
-            Caption = 'Edge Column:'
-          end
-          object eRightEdge: TSpTBXEdit
-            Left = 82
-            Top = 17
-            Width = 51
-            Height = 21
-            TabOrder = 0
-            Text = '0'
-          end
-          object cbRightEdgeColor: TSpTBXColorEdit
-            Left = 75
-            Top = 45
-            Width = 132
-            Height = 21
-            TabOrder = 1
-            SelectedColor = clBlack
-          end
-        end
-        object gbGutter: TSpTBXGroupBox
-          AlignWithMargins = True
-          Left = 5
-          Top = 197
-          Width = 470
-          Height = 124
-          Caption = 'Gutter'
-          Align = alBottom
-          TabOrder = 0
-          TBXStyleBackground = True
-          object pnlGutterFontDisplay: TSpTBXPanel
-            Left = 270
-            Top = 44
-            Width = 175
-            Height = 27
-            TabOrder = 6
-            TBXStyleBackground = True
-            object lblGutterFont: TSpTBXLabel
-              Left = 2
-              Top = 2
-              Width = 171
-              Height = 23
-              Caption = 'Terminal 8pt'
-              Align = alClient
-              Font.Charset = DEFAULT_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -11
-              Font.Name = 'Terminal'
-              Font.Style = []
-              ParentFont = False
-              Alignment = taCenter
-            end
-          end
-          object btnGutterFont: TSpTBXButton
-            Left = 346
-            Top = 13
-            Width = 99
-            Height = 25
-            Caption = 'Font'
-            TabOrder = 5
-            OnClick = btnGutterFontClick
-          end
-          object ckGutterAutosize: TSpTBXCheckBox
-            Left = 23
-            Top = 38
-            Width = 65
-            Height = 21
-            Caption = 'Autosize'
-            ParentColor = True
-            TabOrder = 1
-          end
-          object ckGutterShowLineNumbers: TSpTBXCheckBox
-            Left = 23
-            Top = 59
-            Width = 113
-            Height = 21
-            Caption = 'Show line numbers'
-            ParentColor = True
-            TabOrder = 2
-          end
-          object ckGutterShowLeaderZeros: TSpTBXCheckBox
-            Left = 23
-            Top = 100
-            Width = 116
-            Height = 21
-            Caption = 'Show leading zeros'
-            ParentColor = True
-            TabOrder = 3
-          end
-          object ckGutterVisible: TSpTBXCheckBox
-            Left = 23
-            Top = 18
-            Width = 53
-            Height = 21
-            Caption = 'Visible'
-            ParentColor = True
-            TabOrder = 0
-            Checked = True
-            State = cbChecked
-          end
-          object cbGutterFont: TSpTBXCheckBox
-            Left = 233
-            Top = 17
-            Width = 101
-            Height = 21
-            Caption = 'Use Gutter Font'
-            ParentColor = True
-            TabOrder = 4
-            OnClick = cbGutterFontClick
-          end
-          object ckGutterStartAtZero: TSpTBXCheckBox
-            Left = 23
-            Top = 79
-            Width = 85
-            Height = 21
-            Caption = 'Start at zero'
-            ParentColor = True
-            TabOrder = 8
-          end
-          object ckGutterGradient: TSpTBXCheckBox
-            Left = 237
-            Top = 98
-            Width = 99
-            Height = 21
-            Hint = 'Gutter gradient visible'
-            Caption = 'Gutter Gradient'
-            ParentColor = True
-            TabOrder = 9
-          end
-          object Label1: TSpTBXLabel
-            Left = 237
-            Top = 77
-            Width = 67
-            Height = 19
-            Caption = 'Gutter color:'
-          end
-          object cbGutterColor: TSpTBXColorEdit
-            Left = 310
-            Top = 75
-            Width = 132
-            Height = 21
-            TabOrder = 7
-            SelectedColor = clBlack
-          end
-        end
-        object gbBookmarks: TSpTBXGroupBox
-          Left = 238
-          Top = 50
-          Width = 237
-          Height = 62
-          Caption = 'Bookmarks'
-          TabOrder = 3
-          TBXStyleBackground = True
-          object ckBookmarkKeys: TSpTBXCheckBox
-            Left = 23
-            Top = 16
-            Width = 95
-            Height = 21
-            Caption = 'Bookmark keys'
-            ParentColor = True
-            TabOrder = 0
-          end
-          object ckBookmarkVisible: TSpTBXCheckBox
-            Left = 23
-            Top = 35
-            Width = 107
-            Height = 21
-            Caption = 'Bookmarks visible'
-            ParentColor = True
-            TabOrder = 1
-          end
-        end
-        object gbEditorFont: TSpTBXGroupBox
-          Left = 9
-          Top = 10
-          Width = 223
-          Height = 92
-          Caption = 'Editor Font'
-          TabOrder = 4
-          TBXStyleBackground = True
-          object Panel3: TSpTBXPanel
-            Left = 19
-            Top = 21
-            Width = 190
-            Height = 30
-            TabOrder = 1
-            TBXStyleBackground = True
-            object labFont: TSpTBXLabel
-              Left = 2
-              Top = 2
-              Width = 186
-              Height = 26
-              Caption = 'Courier New 10pt'
-              Align = alClient
-              Font.Charset = DEFAULT_CHARSET
-              Font.Color = clWindowText
-              Font.Height = -13
-              Font.Name = 'Courier New'
-              Font.Style = []
-              ParentFont = False
-              Alignment = taCenter
-            end
-          end
-          object btnFont: TSpTBXButton
-            Left = 62
-            Top = 57
-            Width = 92
-            Height = 25
-            Caption = 'Font'
-            TabOrder = 0
-            OnClick = btnFontClick
-          end
-        end
-        object gbLineSpacing: TSpTBXGroupBox
-          Left = 6
-          Top = 108
-          Width = 226
-          Height = 88
-          Caption = 'Line spacing / Tab spacing'
-          Anchors = [akTop]
-          TabOrder = 2
-          TBXStyleBackground = True
-          object Label8: TSpTBXLabel
-            Left = 23
-            Top = 27
-            Width = 63
-            Height = 19
-            Caption = 'Extra Lines:'
-          end
-          object Label9: TSpTBXLabel
-            Left = 23
-            Top = 56
-            Width = 59
-            Height = 19
-            Caption = 'Tab Width:'
-          end
-          object eLineSpacing: TSpTBXEdit
-            Left = 116
-            Top = 23
-            Width = 48
-            Height = 21
-            TabOrder = 0
-            Text = '0'
-          end
-          object eTabWidth: TSpTBXEdit
-            Left = 116
-            Top = 53
-            Width = 48
-            Height = 21
-            TabOrder = 1
-            Text = '8'
-          end
-        end
-        object GroupBox2: TSpTBXGroupBox
-          Left = 238
-          Top = 7
-          Width = 237
-          Height = 43
-          Caption = 'Active Line Color'
-          Anchors = [akTop, akRight]
-          TabOrder = 5
-          TBXStyleBackground = True
-          object cbActiveLineColor: TSpTBXColorEdit
-            Left = 41
-            Top = 15
-            Width = 152
-            Height = 21
-            TabOrder = 0
-            SelectedColor = clBlack
-          end
         end
       end
       object Options: TSpTBXTabSheet
@@ -1089,6 +680,430 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
               'Horizontal Line'
               'Half Block'
               'Block')
+          end
+        end
+      end
+      object KeyStrokes: TSpTBXTabSheet
+        Left = 0
+        Top = 25
+        Width = 482
+        Height = 328
+        Caption = 'Keystrokes'
+        ImageIndex = -1
+        TabItem = 'SpTBXTabItem3'
+        object gbKeyStrokes: TSpTBXGroupBox
+          AlignWithMargins = True
+          Left = 5
+          Top = 202
+          Width = 470
+          Height = 119
+          Caption = 'Keystroke Options'
+          Align = alBottom
+          TabOrder = 3
+          TBXStyleBackground = True
+          object Label5: TSpTBXLabel
+            Left = 50
+            Top = 28
+            Width = 57
+            Height = 19
+            Caption = 'Command:'
+          end
+          object Label6: TSpTBXLabel
+            Left = 50
+            Top = 91
+            Width = 58
+            Height = 19
+            Caption = 'Keystroke:'
+          end
+          object Label7: TSpTBXLabel
+            Left = 50
+            Top = 59
+            Width = 58
+            Height = 19
+            Caption = 'Keystroke:'
+          end
+          object cKeyCommand: TSpTBXComboBox
+            Left = 154
+            Top = 23
+            Width = 186
+            Height = 21
+            Style = csDropDownList
+            ItemHeight = 13
+            Sorted = True
+            TabOrder = 0
+            OnExit = cKeyCommandExit
+            OnKeyPress = cKeyCommandKeyPress
+            OnKeyUp = cKeyCommandKeyUp
+          end
+        end
+        object btnAddKey: TSpTBXButton
+          Left = 203
+          Top = 166
+          Width = 75
+          Height = 25
+          Caption = '&Add'
+          TabOrder = 1
+          OnClick = btnAddKeyClick
+        end
+        object btnRemKey: TSpTBXButton
+          Left = 284
+          Top = 166
+          Width = 75
+          Height = 25
+          Caption = '&Remove'
+          TabOrder = 2
+          OnClick = btnRemKeyClick
+        end
+        object btnUpdateKey: TSpTBXButton
+          Left = 122
+          Top = 166
+          Width = 75
+          Height = 25
+          Caption = '&Update'
+          TabOrder = 0
+          OnClick = btnUpdateKeyClick
+        end
+        object SpTBXPanel2: TSpTBXPanel
+          Left = 2
+          Top = 0
+          Width = 476
+          Height = 158
+          Align = alTop
+          TabOrder = 4
+          HotTrack = True
+          object KeyList: TEasyListview
+            AlignWithMargins = True
+            Left = 5
+            Top = 5
+            Width = 466
+            Height = 148
+            Align = alClient
+            EditManager.Font.Charset = DEFAULT_CHARSET
+            EditManager.Font.Color = clWindowText
+            EditManager.Font.Height = -11
+            EditManager.Font.Name = 'Tahoma'
+            EditManager.Font.Style = []
+            Header.Columns.Items = {
+              0600000002000000110000005445617379436F6C756D6E53746F726564FFFECE
+              00060000008008000101000100000000010001A7000000FFFFFF1F0001000000
+              010000000700000043006F006D006D0061006E00640000000000000000000000
+              0000110000005445617379436F6C756D6E53746F726564FFFECE000600000080
+              080001010001010000000000018E000000FFFFFF1F0001000000010000000900
+              00004B00650079007300740072006F006B006500000000000000000000000000}
+            Header.Draggable = False
+            Header.Visible = True
+            HotTrack.Enabled = True
+            PaintInfoGroup.MarginBottom.CaptionIndent = 4
+            Selection.AlphaBlend = True
+            Selection.AlphaBlendSelRect = True
+            Selection.FullRowSelect = True
+            Selection.InactiveBorderColor = clHighlight
+            Selection.InactiveColor = clHighlight
+            TabOrder = 0
+            View = elsReport
+          end
+        end
+      end
+      object Display: TSpTBXTabSheet
+        Left = 0
+        Top = 25
+        Width = 482
+        Height = 328
+        Caption = 'Display'
+        ImageIndex = -1
+        DesignSize = (
+          482
+          328)
+        TabItem = 'SpTBXTabItem1'
+        object gbRightEdge: TSpTBXGroupBox
+          Left = 240
+          Top = 116
+          Width = 235
+          Height = 80
+          Caption = 'Right Edge'
+          Anchors = [akTop, akRight]
+          TabOrder = 1
+          TBXStyleBackground = True
+          object Label3: TSpTBXLabel
+            Left = 9
+            Top = 45
+            Width = 60
+            Height = 19
+            Caption = 'Edge color:'
+          end
+          object Label10: TSpTBXLabel
+            Left = 9
+            Top = 20
+            Width = 72
+            Height = 19
+            Caption = 'Edge Column:'
+          end
+          object eRightEdge: TSpTBXEdit
+            Left = 82
+            Top = 17
+            Width = 51
+            Height = 21
+            TabOrder = 0
+            Text = '0'
+          end
+          object cbRightEdgeColor: TSpTBXColorEdit
+            Left = 75
+            Top = 45
+            Width = 132
+            Height = 21
+            TabOrder = 1
+            SelectedColor = clBlack
+          end
+        end
+        object gbGutter: TSpTBXGroupBox
+          AlignWithMargins = True
+          Left = 5
+          Top = 197
+          Width = 470
+          Height = 124
+          Caption = 'Gutter'
+          Align = alBottom
+          TabOrder = 0
+          TBXStyleBackground = True
+          object pnlGutterFontDisplay: TSpTBXPanel
+            Left = 270
+            Top = 44
+            Width = 175
+            Height = 27
+            TabOrder = 6
+            TBXStyleBackground = True
+            object lblGutterFont: TSpTBXLabel
+              Left = 2
+              Top = 2
+              Width = 171
+              Height = 23
+              Caption = 'Terminal 8pt'
+              Align = alClient
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Terminal'
+              Font.Style = []
+              ParentFont = False
+              Alignment = taCenter
+            end
+          end
+          object btnGutterFont: TSpTBXButton
+            Left = 346
+            Top = 13
+            Width = 99
+            Height = 25
+            Caption = 'Font'
+            TabOrder = 5
+            OnClick = btnGutterFontClick
+          end
+          object ckGutterAutosize: TSpTBXCheckBox
+            Left = 23
+            Top = 38
+            Width = 65
+            Height = 21
+            Caption = 'Autosize'
+            ParentColor = True
+            TabOrder = 1
+          end
+          object ckGutterShowLineNumbers: TSpTBXCheckBox
+            Left = 23
+            Top = 59
+            Width = 113
+            Height = 21
+            Caption = 'Show line numbers'
+            ParentColor = True
+            TabOrder = 2
+          end
+          object ckGutterShowLeaderZeros: TSpTBXCheckBox
+            Left = 23
+            Top = 100
+            Width = 116
+            Height = 21
+            Caption = 'Show leading zeros'
+            ParentColor = True
+            TabOrder = 3
+          end
+          object ckGutterVisible: TSpTBXCheckBox
+            Left = 23
+            Top = 18
+            Width = 53
+            Height = 21
+            Caption = 'Visible'
+            ParentColor = True
+            TabOrder = 0
+            Checked = True
+            State = cbChecked
+          end
+          object cbGutterFont: TSpTBXCheckBox
+            Left = 233
+            Top = 17
+            Width = 101
+            Height = 21
+            Caption = 'Use Gutter Font'
+            ParentColor = True
+            TabOrder = 4
+            OnClick = cbGutterFontClick
+          end
+          object ckGutterStartAtZero: TSpTBXCheckBox
+            Left = 23
+            Top = 79
+            Width = 85
+            Height = 21
+            Caption = 'Start at zero'
+            ParentColor = True
+            TabOrder = 8
+          end
+          object ckGutterGradient: TSpTBXCheckBox
+            Left = 237
+            Top = 98
+            Width = 99
+            Height = 21
+            Hint = 'Gutter gradient visible'
+            Caption = 'Gutter Gradient'
+            ParentColor = True
+            TabOrder = 9
+          end
+          object Label1: TSpTBXLabel
+            Left = 237
+            Top = 77
+            Width = 67
+            Height = 19
+            Caption = 'Gutter color:'
+          end
+          object cbGutterColor: TSpTBXColorEdit
+            Left = 310
+            Top = 75
+            Width = 132
+            Height = 21
+            TabOrder = 7
+            SelectedColor = clBlack
+          end
+        end
+        object gbBookmarks: TSpTBXGroupBox
+          Left = 238
+          Top = 50
+          Width = 237
+          Height = 62
+          Caption = 'Bookmarks'
+          TabOrder = 3
+          TBXStyleBackground = True
+          object ckBookmarkKeys: TSpTBXCheckBox
+            Left = 23
+            Top = 16
+            Width = 95
+            Height = 21
+            Caption = 'Bookmark keys'
+            ParentColor = True
+            TabOrder = 0
+          end
+          object ckBookmarkVisible: TSpTBXCheckBox
+            Left = 23
+            Top = 35
+            Width = 107
+            Height = 21
+            Caption = 'Bookmarks visible'
+            ParentColor = True
+            TabOrder = 1
+          end
+        end
+        object gbEditorFont: TSpTBXGroupBox
+          Left = 9
+          Top = 10
+          Width = 223
+          Height = 92
+          Caption = 'Editor Font'
+          TabOrder = 4
+          TBXStyleBackground = True
+          object Panel3: TSpTBXPanel
+            Left = 19
+            Top = 21
+            Width = 190
+            Height = 30
+            TabOrder = 1
+            TBXStyleBackground = True
+            object labFont: TSpTBXLabel
+              Left = 2
+              Top = 2
+              Width = 186
+              Height = 26
+              Caption = 'Courier New 10pt'
+              Align = alClient
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -13
+              Font.Name = 'Courier New'
+              Font.Style = []
+              ParentFont = False
+              Alignment = taCenter
+            end
+          end
+          object btnFont: TSpTBXButton
+            Left = 62
+            Top = 57
+            Width = 92
+            Height = 25
+            Caption = 'Font'
+            TabOrder = 0
+            OnClick = btnFontClick
+          end
+        end
+        object gbLineSpacing: TSpTBXGroupBox
+          Left = 6
+          Top = 108
+          Width = 226
+          Height = 88
+          Caption = 'Line spacing / Tab spacing'
+          Anchors = [akTop]
+          TabOrder = 2
+          TBXStyleBackground = True
+          object Label8: TSpTBXLabel
+            Left = 23
+            Top = 27
+            Width = 63
+            Height = 19
+            Caption = 'Extra Lines:'
+          end
+          object Label9: TSpTBXLabel
+            Left = 23
+            Top = 56
+            Width = 59
+            Height = 19
+            Caption = 'Tab Width:'
+          end
+          object eLineSpacing: TSpTBXEdit
+            Left = 116
+            Top = 23
+            Width = 48
+            Height = 21
+            TabOrder = 0
+            Text = '0'
+          end
+          object eTabWidth: TSpTBXEdit
+            Left = 116
+            Top = 53
+            Width = 48
+            Height = 21
+            TabOrder = 1
+            Text = '8'
+          end
+        end
+        object GroupBox2: TSpTBXGroupBox
+          Left = 238
+          Top = 7
+          Width = 237
+          Height = 43
+          Caption = 'Active Line Color'
+          Anchors = [akTop, akRight]
+          TabOrder = 5
+          TBXStyleBackground = True
+          object cbActiveLineColor: TSpTBXColorEdit
+            Left = 41
+            Top = 15
+            Width = 152
+            Height = 21
+            TabOrder = 0
+            SelectedColor = clBlack
           end
         end
       end

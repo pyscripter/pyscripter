@@ -352,7 +352,7 @@ implementation
 
 uses
   SynEditKeyConst, uCommonFunctions, JvGnugettext, StringResources, SpTBXSkins,
-  System.IOUtils, JvAppStorage, JvAppIniStorage;
+  System.IOUtils, JvAppStorage, JvAppIniStorage, Vcl.Themes;
 
 //function SortByColumn(Item1, Item2: TEasyItem; Data: integer): integer; stdcall;
 //begin
@@ -870,6 +870,8 @@ begin
     Modifiers := [];
     HotKey := 0;
     TabOrder := 1;
+    Font.Color := StyleServices.GetSystemColor(clWindowText);
+    Color := StyleServices.GetSystemColor(clWindow);
   end;
 
   eKeyShort2:= TSynHotKey.Create(Self);
@@ -884,6 +886,8 @@ begin
     Modifiers := [];
     HotKey := 0;
     TabOrder := 2;
+    Font.Color := StyleServices.GetSystemColor(clWindowText);
+    Color := StyleServices.GetSystemColor(clWindow);
   end;
 end;
 

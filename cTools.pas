@@ -352,7 +352,7 @@ initialization
   end;
 
   with (ToolsCollection.Add as TToolItem).ExternalTool do begin
-    Caption := 'Install Packages (pip)';
+    Caption := 'Install Packages with pip';
     Description := 'Install python packages';
     ApplicationName := '$[PythonExe-Short]';
     Parameters := '$[PythonDir-Short]Lib\site-packages\pip install $[Package?Package Name]';

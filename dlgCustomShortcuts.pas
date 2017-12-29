@@ -11,9 +11,8 @@ interface
 
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  StdCtrls, Menus, System.Actions, ActnList, ComCtrls, SpTBXControls,
-  Buttons, SpTBXEditors, dlgPyIDEBase, ExtCtrls,
-  SpTBXItem;
+  StdCtrls, Menus, System.Actions, ActnList, Buttons, dlgPyIDEBase,
+  ExtCtrls, SynEditMiscClasses;
 
 type
   TActionProxyItem = class(TCollectionItem)
@@ -46,25 +45,27 @@ type
   end;
 
   TfrmCustomKeyboard = class(TPyIDEDlgBase)
-    gbDescription: TSpTBXGroupBox;
-    edNewShortcut: THotKey;
-    btnOK: TSpTBXButton;
-    btnCancel: TSpTBXButton;
-    btnHelp: TSpTBXButton;
-    btnAssign: TSpTBXButton;
-    btnRemove: TSpTBXButton;
-    lblNewShortcutKey: TSpTBXLabel;
-    lblCategories: TSpTBXLabel;
-    lblCommands: TSpTBXLabel;
-    lblCurrent: TSpTBXLabel;
-    lblAssignedTo: TSpTBXLabel;
-    lblCurrentKeys: TSpTBXLabel;
-    lblDescription: TSpTBXLabel;
-    lbCategories: TSpTBXListBox;
-    lbCommands: TSpTBXListBox;
-    lbCurrentKeys: TSpTBXListBox;
+    Panel1: TPanel;
     Bevel1: TBevel;
-    SpTBXPanel1: TSpTBXPanel;
+    lblNewShortcutKey: TLabel;
+    lblCategories: TLabel;
+    lblCommands: TLabel;
+    lblCurrent: TLabel;
+    lblAssignedTo: TLabel;
+    lblCurrentKeys: TLabel;
+    btnOK: TButton;
+    btnCancel: TButton;
+    btnHelp: TButton;
+    btnAssign: TButton;
+    btnRemove: TButton;
+    lbCategories: TListBox;
+    lbCommands: TListBox;
+    lbCurrentKeys: TListBox;
+    gbDescription: TGroupBox;
+    lblDescription: TLabel;
+    ActionList1: TActionList;
+    actAssignShortcut: TAction;
+    actRemoveShortcut: TAction;
     procedure HelpButtonClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure lbCategoriesClick(Sender: TObject);
@@ -73,9 +74,10 @@ type
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure btnRemoveClick(Sender: TObject);
-    procedure edNewShortcutChange(Sender: TObject);
-    procedure lbCurrentKeysClick(Sender: TObject);
+    procedure actRemoveShortcutUpdate(Sender: TObject);
+    procedure actAssignShortcutUpdate(Sender: TObject);
   private
+    edNewShortcut: TSynHotKey;
     procedure SetCategories;
     procedure DoneItems;
     procedure SelectItem(Idx: Integer);
@@ -84,7 +86,6 @@ type
     procedure AssignKeysToActionProxy(var CurAction: TActionProxyItem);
     { Private declarations }
   public
-    GotKey       : Boolean;
     Categories   : TStringList;
     FunctionList : TStringList;
     KeyList      : TStringList;
@@ -102,6 +103,8 @@ var
   frmCustomKeyboard: TfrmCustomKeyboard;
 
 implementation
+uses
+  Vcl.Themes, JvGnugettext;
 
 {$R *.DFM}
 
@@ -122,6 +125,35 @@ begin
   DoneItems;
 end;
 
+procedure TfrmCustomKeyboard.actAssignShortcutUpdate(Sender: TObject);
+var
+  Enabled : boolean;
+begin
+  Enabled := False;
+  if edNewShortCut.HotKey = 0 then begin
+    lblAssignedTo.Visible := False;
+    lblCurrent.Visible := False;
+  end
+  else begin
+    lblAssignedTo.Visible := True;
+    if KeyList.IndexOfName(ShortCutToText(edNewShortCut.HotKey)) > -1 then begin
+      lblCurrent.Visible := True;
+      lblAssignedTo.Caption := KeyList.Values[ShortCutToText(edNewShortCut.HotKey)];
+    end else begin
+      Enabled := lbCommands.ItemIndex >= 0;
+      lblCurrent.Visible := False;
+      lblAssignedTo.Caption := '['+_('Unassigned')+']';
+    end;
+  end;
+  actAssignShortcut.Enabled := Enabled;
+end;
+
+procedure TfrmCustomKeyboard.actRemoveShortcutUpdate(Sender: TObject);
+begin
+  actRemoveShortcut.Enabled :=
+    (lbCurrentKeys.ItemIndex >= 0) and (lbCommands.ItemIndex >= 0);
+end;
+
 procedure TfrmCustomKeyboard.AssignKeysToActionProxy(var CurAction: TActionProxyItem);
 var
   i: Integer;
@@ -140,9 +172,6 @@ end;
 procedure TfrmCustomKeyboard.FormCreate(Sender: TObject);
 begin
   inherited;
-  btnAssign.Enabled := False;
-  btnRemove.Enabled := False;
-
   FunctionList            := TStringList.Create;
   FunctionList.Sorted     := True;
   FunctionList.Duplicates := dupIgnore;
@@ -150,6 +179,24 @@ begin
   KeyList                 := TStringList.Create;
   KeyList.Sorted          := True;
   KeyList.Duplicates      := dupIgnore;
+
+
+  edNewShortcut := TSynHotKey.Create(Self);
+  with edNewShortcut do
+  begin
+    Name := 'edNewShortcut';
+    Parent := Panel1;
+    Left := 8;
+    Top := 224;
+    Width := 169;
+    Height := 21;
+    TabOrder := 4;
+    InvalidKeys := [];
+    Modifiers := [];
+    HotKey := 0;
+    Font.Color := StyleServices.GetSystemColor(clWindowText);
+    Color := StyleServices.GetSystemColor(clWindow);
+  end;
 end;
 
 procedure TfrmCustomKeyboard.FormDestroy(Sender: TObject);
@@ -196,12 +243,10 @@ end;
 procedure TfrmCustomKeyboard.SelectItem(Idx: Integer);
 begin
   edNewShortCut.HotKey := 0;
-  edNewShortcutChange(Self);
   lbCurrentkeys.Items.Clear;
   lbCommands.Items.Clear;
   lblDescription.Caption := '';
   lbCommands.Items.AddStrings(FunctionList.Objects[Idx] as TStrings);
-  btnRemove.Enabled := False;
 end;
 
 procedure TfrmCustomKeyboard.lbCommandsClick(Sender: TObject);
@@ -213,7 +258,6 @@ begin
   A := CurrentAction;
 
   edNewShortCut.HotKey := 0;
-  edNewShortcutChange(Self);
   lbCurrentKeys.Items.Clear;
   lblDescription.Caption := GetLongHint(A.Hint);
 
@@ -221,8 +265,6 @@ begin
     lbCurrentKeys.Items.AddObject(ShortCutToText(A.ShortCut), TObject(A.ShortCut));
 
   lbCurrentKeys.Items.AddStrings(A.SecondaryShortCuts);
-
-  btnRemove.Enabled := False;
 end;
 
 procedure TfrmCustomKeyboard.btnAssignClick(Sender: TObject);
@@ -246,8 +288,6 @@ begin
         { track the keystroke assignment }
         KeyList.Add(ShortCutToText(ShortCut) + '=' + CurAction.ActionName);
 
-        { Update the lblAssignedTo}
-        edNewShortcutChange(Self);
       end else begin
         MessageBeep(MB_ICONEXCLAMATION);
       end;
@@ -263,6 +303,8 @@ var
   CatIdx, CmdIdx : Integer;
   SL : TStringList;
 begin
+  if lbCommands.ItemIndex < 0 then
+    Exit(nil);
   CatIdx := FunctionList.IndexOf(lbCategories.Items[lbCategories.ItemIndex]);
   SL     := FunctionList.Objects[CatIdx] as TStringList;
   CmdIdx := SL.IndexOf(lbCommands.Items[lbCommands.ItemIndex]);
@@ -311,7 +353,7 @@ var
   CurAction : TActionProxyItem;
   Index : integer;
 begin
-  if lbCurrentKeys.ItemIndex < 0 then Exit;
+  if (lbCurrentKeys.ItemIndex < 0) or (lbCommands.ItemIndex < 0) then Exit;
   CurAction := CurrentAction;
   { Remove shortcut from keylist }
   Index := KeyList.IndexOf(lbCurrentKeys.Items[lbCurrentKeys.ItemIndex]
@@ -323,36 +365,6 @@ begin
   lbCurrentKeys.Items.Delete(lbCurrentKeys.ItemIndex);
 
   AssignKeysToActionProxy(CurAction);
-
-  { Update the lblAssignedTo}
-  edNewShortcutChange(Self);
-  btnRemove.Enabled := False;
-end;
-
-procedure TfrmCustomKeyboard.edNewShortcutChange(Sender: TObject);
-begin
-  if edNewShortCut.HotKey = 0 then begin
-    btnAssign.Enabled := False;
-    lblAssignedTo.Visible := False;
-    lblCurrent.Visible := False;
-  end
-  else begin
-    btnAssign.Enabled := True;
-    lblAssignedTo.Visible := True;
-    if KeyList.IndexOfName(ShortCutToText(edNewShortCut.HotKey)) > -1 then begin
-      lblCurrent.Visible := True;
-      lblAssignedTo.Caption := KeyList.Values[ShortCutToText(edNewShortCut.HotKey)];
-    end else begin
-      lblCurrent.Visible := False;
-      lblAssignedTo.Caption := '[Unassigned]';
-    end;
-  end;
-end;
-
-procedure TfrmCustomKeyboard.lbCurrentKeysClick(Sender: TObject);
-begin
-  btnAssign.Enabled := False;
-  btnRemove.Enabled := True;
 end;
 
 { TActionProxyItem }
