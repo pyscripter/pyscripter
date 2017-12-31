@@ -11,7 +11,7 @@ inherited ToolProperties: TToolProperties
   ExplicitHeight = 527
   PixelsPerInch = 96
   TextHeight = 13
-  object Panel1: TSpTBXPanel
+  object Panel1: TPanel
     Left = 0
     Top = 0
     Width = 406
@@ -20,50 +20,49 @@ inherited ToolProperties: TToolProperties
     ParentShowHint = False
     ShowHint = True
     TabOrder = 0
-    Borders = False
-    TBXStyleBackground = True
     DesignSize = (
       406
       498)
-    object btnOK: TSpTBXButton
+    object btnOK: TButton
       Left = 149
-      Top = 465
+      Top = 460
       Width = 75
       Height = 25
-      Caption = '&OK'
       Anchors = [akRight, akBottom]
-      TabOrder = 0
+      Caption = '&OK'
       Default = True
       ModalResult = 1
+      TabOrder = 0
     end
-    object btnCancel: TSpTBXButton
+    object btnCancel: TButton
       Left = 233
-      Top = 465
+      Top = 460
       Width = 75
       Height = 25
-      Caption = '&Cancel'
       Anchors = [akRight, akBottom]
-      TabOrder = 1
       Cancel = True
+      Caption = '&Cancel'
       ModalResult = 2
+      TabOrder = 1
     end
-    object btnHelp: TSpTBXButton
+    object btnHelp: TButton
       Left = 317
-      Top = 465
+      Top = 460
       Width = 75
       Height = 25
-      Caption = '&Help'
       Anchors = [akRight, akBottom]
+      Caption = '&Help'
       TabOrder = 2
       OnClick = btnHelpClick
     end
     object TabControl: TSpTBXTabControl
-      Left = 0
-      Top = 0
-      Width = 406
+      Left = 1
+      Top = 1
+      Width = 404
       Height = 453
       Align = alTop
       ActiveTabIndex = 0
+      ExplicitLeft = 0
       ExplicitTop = 6
       HiddenItems = <>
       object SpTBXTabItem1: TSpTBXTabItem
@@ -76,42 +75,41 @@ inherited ToolProperties: TToolProperties
       object tabEnvironment: TSpTBXTabSheet
         Left = 0
         Top = 25
-        Width = 406
+        Width = 404
         Height = 428
         Caption = '&Environment'
         ImageIndex = -1
         TabItem = 'SpTBXTabItem2'
-        object GroupBox6: TSpTBXGroupBox
+        object GroupBox6: TGroupBox
           Left = 7
           Top = 307
           Width = 385
           Height = 83
           Caption = 'Name-Value Pair'
           TabOrder = 1
-          TBXStyleBackground = True
-          object Label15: TSpTBXLabel
+          object Label15: TLabel
             Left = 14
             Top = 28
-            Width = 37
-            Height = 19
+            Width = 31
+            Height = 13
             Caption = '&Name:'
             FocusControl = edEnvName
           end
-          object Label16: TSpTBXLabel
+          object Label16: TLabel
             Left = 14
             Top = 50
-            Width = 36
-            Height = 19
+            Width = 30
+            Height = 13
             Caption = '&Value:'
           end
-          object edEnvName: TSpTBXEdit
+          object edEnvName: TEdit
             Left = 61
             Top = 23
             Width = 121
             Height = 21
             TabOrder = 0
           end
-          object edEnvValue: TSpTBXEdit
+          object edEnvValue: TEdit
             Left = 62
             Top = 48
             Width = 308
@@ -121,7 +119,7 @@ inherited ToolProperties: TToolProperties
             TabOrder = 1
           end
         end
-        object cbUseCustomEnv: TSpTBXCheckBox
+        object cbUseCustomEnv: TCheckBox
           Left = 123
           Top = 401
           Width = 163
@@ -129,129 +127,94 @@ inherited ToolProperties: TToolProperties
           Caption = 'Use Customized Environment'
           TabOrder = 2
         end
-        object btnAdd: TSpTBXButton
-          Left = 3
-          Top = 270
+        object btnAdd: TButton
+          Left = 61
+          Top = 269
           Width = 77
           Height = 24
           Action = actAddItem
-          TabOrder = 3
           Images = CommandsDataModule.Images
-          ImageIndex = 49
+          TabOrder = 3
         end
-        object btnDelete: TSpTBXButton
-          Left = 81
-          Top = 270
+        object btnDelete: TButton
+          Left = 163
+          Top = 269
           Width = 77
           Height = 24
           Action = actDeleteItem
+          Images = CommandsDataModule.Images
           TabOrder = 4
-          Images = CommandsDataModule.Images
-          ImageIndex = 14
         end
-        object btnMoveUp: TSpTBXButton
-          Left = 160
-          Top = 270
-          Width = 77
-          Height = 24
-          Action = actMoveUp
-          TabOrder = 5
-          Images = CommandsDataModule.Images
-          ImageIndex = 47
-        end
-        object btnMoveDown: TSpTBXButton
-          Left = 239
-          Top = 270
-          Width = 77
-          Height = 24
-          Action = actMoveDown
-          TabOrder = 6
-          Images = CommandsDataModule.Images
-          ImageIndex = 48
-        end
-        object btnUpdate: TSpTBXButton
-          Left = 318
-          Top = 270
+        object btnUpdate: TButton
+          Left = 265
+          Top = 269
           Width = 77
           Height = 24
           Action = actUpdateItem
-          TabOrder = 7
           Images = CommandsDataModule.Images
-          ImageIndex = 39
+          TabOrder = 5
         end
-        object lvItems: TEasyListview
-          AlignWithMargins = True
-          Left = 5
-          Top = 3
-          Width = 394
+        object lvItems: TListView
+          Left = 2
+          Top = 0
+          Width = 398
           Height = 263
           Align = alTop
-          EditManager.Font.Charset = DEFAULT_CHARSET
-          EditManager.Font.Color = clWindowText
-          EditManager.Font.Height = -11
-          EditManager.Font.Name = 'Tahoma'
-          EditManager.Font.Style = []
-          Header.Columns.Items = {
-            0600000002000000110000005445617379436F6C756D6E53746F726564FFFECE
-            0006000000800800010100010000000000000178000000FFFFFF1F0001000000
-            01000000040000004E0061006D00650000000000000000000000000011000000
-            5445617379436F6C756D6E53746F726564FFFECE000600000080080001010001
-            010000000000000E010000FFFFFF1F0001000000010000000500000056006100
-            6C0075006500000000000000000000000000}
-          Header.Draggable = False
-          Header.Visible = True
-          HotTrack.Enabled = True
-          PaintInfoGroup.MarginBottom.CaptionIndent = 4
-          PaintInfoItem.GridLines = True
-          Selection.AlphaBlend = True
-          Selection.AlphaBlendSelRect = True
-          Selection.FullRowSelect = True
-          Selection.InactiveBorderColor = clHighlight
-          Selection.InactiveColor = clHighlight
-          Selection.InactiveTextColor = clWindowText
+          Columns = <
+            item
+              Caption = 'Name'
+              Width = 120
+            end
+            item
+              Caption = 'Value'
+              Width = 270
+            end>
+          ColumnClick = False
+          HideSelection = False
+          ReadOnly = True
+          RowSelect = True
+          SortType = stText
           TabOrder = 0
-          View = elsReport
-          OnColumnClick = lvItemsColumnClick
-          OnItemSelectionsChanged = lvItemsItemSelectionsChanged
+          ViewStyle = vsReport
+          OnChange = lvItemsChange
         end
       end
       object tabProperties: TSpTBXTabSheet
         Left = 0
         Top = 25
-        Width = 406
+        Width = 404
         Height = 428
         Caption = '&Properties'
         ImageIndex = -1
         TabItem = 'SpTBXTabItem1'
-        object GroupBox1: TSpTBXGroupBox
+        object GroupBox1: TGroupBox
           Left = 7
           Top = 5
           Width = 384
           Height = 65
           Caption = 'General'
           TabOrder = 0
-          TBXStyleBackground = True
-          object Label1: TSpTBXLabel
+          object Label1: TLabel
             Left = 8
             Top = 16
-            Width = 37
-            Height = 19
+            Width = 31
+            Height = 13
             Caption = '&Name:'
             FocusControl = edName
           end
-          object Label5: TSpTBXLabel
+          object Label5: TLabel
             Left = 8
             Top = 39
-            Width = 63
-            Height = 19
+            Width = 57
+            Height = 13
             Caption = 'Desc&ription:'
             FocusControl = edDescription
           end
-          object Label17: TSpTBXLabel
+          object Label17: TLabel
             Left = 212
             Top = 16
-            Width = 54
-            Height = 19
+            Width = 48
+            Height = 13
             Caption = '(required)'
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clGrayText
@@ -260,14 +223,14 @@ inherited ToolProperties: TToolProperties
             Font.Style = []
             ParentFont = False
           end
-          object edName: TSpTBXEdit
+          object edName: TEdit
             Left = 77
             Top = 13
             Width = 124
             Height = 21
             TabOrder = 0
           end
-          object edDescription: TSpTBXEdit
+          object edDescription: TEdit
             Left = 77
             Top = 36
             Width = 301
@@ -275,14 +238,45 @@ inherited ToolProperties: TToolProperties
             TabOrder = 1
           end
         end
-        object GroupBox2: TSpTBXGroupBox
+        object GroupBox2: TGroupBox
           Left = 7
           Top = 73
           Width = 385
           Height = 108
           Caption = 'Command'
           TabOrder = 1
-          TBXStyleBackground = True
+          object Label2: TLabel
+            Left = 6
+            Top = 18
+            Width = 56
+            Height = 13
+            Caption = '&Application:'
+            FocusControl = SynApplication
+          end
+          object Label6: TLabel
+            Left = 6
+            Top = 42
+            Width = 59
+            Height = 13
+            Caption = '&Parameters:'
+            FocusControl = SynParameters
+          end
+          object Label7: TLabel
+            Left = 6
+            Top = 66
+            Width = 89
+            Height = 13
+            Caption = 'Working &directory:'
+            FocusControl = SynWorkDir
+          end
+          object Label3: TLabel
+            Left = 8
+            Top = 86
+            Width = 252
+            Height = 13
+            Caption = 'Parameters : Shift+Ctrl+P, Modifiers : Shift+Ctrl+M '
+            Enabled = False
+          end
           object SynApplication: TSynEdit
             Left = 77
             Top = 18
@@ -295,6 +289,14 @@ inherited ToolProperties: TToolProperties
             Font.Style = []
             TabOrder = 0
             OnEnter = SynApplicationEnter
+            CodeFolding.GutterShapeSize = 11
+            CodeFolding.CollapsedLineColor = clGrayText
+            CodeFolding.FolderBarLinesColor = clGrayText
+            CodeFolding.IndentGuidesColor = clGray
+            CodeFolding.IndentGuides = True
+            CodeFolding.ShowCollapsedLine = False
+            CodeFolding.ShowHintMark = True
+            UseCodeFolding = False
             Gutter.Font.Charset = DEFAULT_CHARSET
             Gutter.Font.Color = clWindowText
             Gutter.Font.Height = -11
@@ -319,6 +321,14 @@ inherited ToolProperties: TToolProperties
             Font.Style = []
             TabOrder = 2
             OnEnter = SynParametersEnter
+            CodeFolding.GutterShapeSize = 11
+            CodeFolding.CollapsedLineColor = clGrayText
+            CodeFolding.FolderBarLinesColor = clGrayText
+            CodeFolding.IndentGuidesColor = clGray
+            CodeFolding.IndentGuides = True
+            CodeFolding.ShowCollapsedLine = False
+            CodeFolding.ShowHintMark = True
+            UseCodeFolding = False
             Gutter.Font.Charset = DEFAULT_CHARSET
             Gutter.Font.Color = clWindowText
             Gutter.Font.Height = -11
@@ -343,6 +353,14 @@ inherited ToolProperties: TToolProperties
             Font.Style = []
             TabOrder = 3
             OnEnter = SynWorkDirEnter
+            CodeFolding.GutterShapeSize = 11
+            CodeFolding.CollapsedLineColor = clGrayText
+            CodeFolding.FolderBarLinesColor = clGrayText
+            CodeFolding.IndentGuidesColor = clGray
+            CodeFolding.IndentGuides = True
+            CodeFolding.ShowCollapsedLine = False
+            CodeFolding.ShowHintMark = True
+            UseCodeFolding = False
             Gutter.Font.Charset = DEFAULT_CHARSET
             Gutter.Font.Color = clWindowText
             Gutter.Font.Height = -11
@@ -355,7 +373,7 @@ inherited ToolProperties: TToolProperties
             WantReturns = False
             FontSmoothing = fsmNone
           end
-          object btnAppDir: TSpTBXButton
+          object btnAppDir: TButton
             Left = 357
             Top = 15
             Width = 19
@@ -364,7 +382,7 @@ inherited ToolProperties: TToolProperties
             TabOrder = 1
             OnClick = btnAppDirClick
           end
-          object btnWorkDir: TSpTBXButton
+          object btnWorkDir: TButton
             Left = 357
             Top = 63
             Width = 19
@@ -373,141 +391,116 @@ inherited ToolProperties: TToolProperties
             TabOrder = 4
             OnClick = btnWorkDirClick
           end
-          object Label2: TSpTBXLabel
-            Left = 6
-            Top = 18
-            Width = 62
-            Height = 19
-            Caption = '&Application:'
-            FocusControl = SynApplication
-          end
-          object Label6: TSpTBXLabel
-            Left = 6
-            Top = 42
-            Width = 65
-            Height = 19
-            Caption = '&Parameters:'
-            FocusControl = SynParameters
-          end
-          object Label7: TSpTBXLabel
-            Left = 6
-            Top = 66
-            Width = 95
-            Height = 19
-            Caption = 'Working &directory:'
-            FocusControl = SynWorkDir
-          end
-          object Label3: TSpTBXLabel
-            Left = 8
-            Top = 86
-            Width = 258
-            Height = 19
-            Caption = 'Parameters : Shift+Ctrl+P, Modifiers : Shift+Ctrl+M '
-            Enabled = False
-          end
         end
-        object GroupBox4: TSpTBXGroupBox
+        object GroupBox4: TGroupBox
           Left = 7
           Top = 187
           Width = 385
           Height = 64
           Caption = 'Shortcut and Context'
           TabOrder = 2
-          TBXStyleBackground = True
-          object lbShortcut: TSpTBXLabel
+          object lbShortcut: TLabel
             Left = 11
             Top = 18
-            Width = 51
-            Height = 19
+            Width = 45
+            Height = 13
             Caption = '&Shortcut:'
-            FocusControl = hkShortCut
           end
-          object lbContext: TSpTBXLabel
+          object lbContext: TLabel
             Left = 13
             Top = 40
-            Width = 49
-            Height = 19
+            Width = 43
+            Height = 13
             Caption = 'Conte&xt:'
             FocusControl = cbContext
           end
-          object Label13: TSpTBXLabel
+          object Label13: TLabel
             Left = 232
             Top = 18
-            Width = 56
-            Height = 19
+            Width = 50
+            Height = 13
             Caption = 'Sa&ve files:'
             FocusControl = cbSaveFiles
           end
-          object hkShortCut: THotKey
-            Left = 86
-            Top = 15
-            Width = 125
-            Height = 19
-            Hint = 'Allows you to specify a menu shortcut for the tool'
-            HotKey = 0
-            InvalidKeys = [hcNone]
-            Modifiers = []
-            TabOrder = 0
-          end
-          object cbContext: TSpTBXComboBox
+          object cbContext: TComboBox
             Left = 86
             Top = 36
             Width = 125
             Height = 21
             Hint = 'Specifies the context in which'#13#10'the tool is enabled.'
             Style = csDropDownList
-            ItemHeight = 13
-            TabOrder = 1
+            TabOrder = 0
             Items.Strings = (
               'Always enabled'
               'Active editor'
               'Active Python file'
               'Selection available')
           end
-          object cbSaveFiles: TSpTBXComboBox
+          object cbSaveFiles: TComboBox
             Left = 233
             Top = 37
             Width = 142
             Height = 21
             Style = csDropDownList
-            ItemHeight = 13
-            TabOrder = 2
+            TabOrder = 1
             Items.Strings = (
               'None'
               'Active only'
               'All files')
           end
         end
-        object GroupBox3: TSpTBXGroupBox
-          Left = 7
-          Top = 258
+        object GroupBox3: TGroupBox
+          Left = 3
+          Top = 257
           Width = 383
           Height = 94
           Caption = 'Standard Input and Output'
           TabOrder = 3
-          TBXStyleBackground = True
-          object btnStdFormats: TSpTBXButton
+          object Label10: TLabel
+            Left = 6
+            Top = 18
+            Width = 53
+            Height = 13
+            Caption = 'Std. &Input:'
+            FocusControl = cbStandardInput
+          end
+          object Label11: TLabel
+            Left = 6
+            Top = 42
+            Width = 61
+            Height = 13
+            Caption = 'Std. &Output:'
+            FocusControl = cbStandardOutput
+          end
+          object Label12: TLabel
+            Left = 6
+            Top = 70
+            Width = 88
+            Height = 13
+            Caption = 'Messages &Format:'
+            FocusControl = edMessagesFormat
+          end
+          object btnStdFormats: TButton
             Left = 357
             Top = 66
             Width = 19
             Height = 20
             Caption = '<'
-            TabOrder = 6
-            DropDownArrow = False
             DropDownMenu = FormatsPopup
+            TabOrder = 6
+            OnClick = btnStdFormatsClick
           end
-          object cbCaptureOutput: TSpTBXCheckBox
+          object cbCaptureOutput: TCheckBox
             Left = 233
             Top = 13
             Width = 100
             Height = 21
             Caption = '&Capture Output'
-            ParentColor = True
-            TabOrder = 2
             Checked = True
             State = cbChecked
+            TabOrder = 2
           end
-          object cbParseMessages: TSpTBXCheckBox
+          object cbParseMessages: TCheckBox
             Left = 233
             Top = 30
             Width = 101
@@ -516,13 +509,12 @@ inherited ToolProperties: TToolProperties
               'If checked output lines that look like messages '#13#10'will be parsed' +
               ' and shown in the messages window.'
             Caption = 'Parse &Messages'
-            ParentColor = True
-            TabOrder = 3
-            OnClick = cbParseMessagesClick
             Checked = True
             State = cbChecked
+            TabOrder = 3
+            OnClick = cbParseMessagesClick
           end
-          object cbParseTraceback: TSpTBXCheckBox
+          object cbParseTraceback: TCheckBox
             Left = 233
             Top = 47
             Width = 103
@@ -531,36 +523,11 @@ inherited ToolProperties: TToolProperties
               'If checked output lines that look like messages '#13#10'will be parsed' +
               ' and shown in the messages window.'
             Caption = 'Parse &Traceback'
-            ParentColor = True
-            TabOrder = 4
             Checked = True
             State = cbChecked
+            TabOrder = 4
           end
-          object Label10: TSpTBXLabel
-            Left = 6
-            Top = 18
-            Width = 59
-            Height = 19
-            Caption = 'Std. &Input:'
-            FocusControl = cbStandardInput
-          end
-          object Label11: TSpTBXLabel
-            Left = 6
-            Top = 42
-            Width = 67
-            Height = 19
-            Caption = 'Std. &Output:'
-            FocusControl = cbStandardOutput
-          end
-          object Label12: TSpTBXLabel
-            Left = 6
-            Top = 70
-            Width = 94
-            Height = 19
-            Caption = 'Messages &Format:'
-            FocusControl = edMessagesFormat
-          end
-          object edMessagesFormat: TSpTBXEdit
+          object edMessagesFormat: TEdit
             Left = 113
             Top = 67
             Width = 240
@@ -572,7 +539,7 @@ inherited ToolProperties: TToolProperties
             AutoSize = False
             TabOrder = 5
           end
-          object cbStandardInput: TSpTBXComboBox
+          object cbStandardInput: TComboBox
             Left = 86
             Top = 16
             Width = 125
@@ -581,7 +548,6 @@ inherited ToolProperties: TToolProperties
               'Select option other than None to '#13#10'feed the corresponding inform' +
               'ation'#13#10'to the standard input.'
             Style = csDropDownList
-            ItemHeight = 13
             TabOrder = 0
             Items.Strings = (
               'None'
@@ -590,7 +556,7 @@ inherited ToolProperties: TToolProperties
               'Selection'
               'ActiveFile')
           end
-          object cbStandardOutput: TSpTBXComboBox
+          object cbStandardOutput: TComboBox
             Left = 86
             Top = 40
             Width = 125
@@ -599,7 +565,6 @@ inherited ToolProperties: TToolProperties
               'Select option other than None to '#13#10'redirect the output to the '#13#10 +
               'corresponding outlet.'
             Style = csDropDownList
-            ItemHeight = 13
             TabOrder = 1
             Items.Strings = (
               'None'
@@ -610,27 +575,33 @@ inherited ToolProperties: TToolProperties
               'New file')
           end
         end
-        object GroupBox5: TSpTBXGroupBox
+        object GroupBox5: TGroupBox
           Left = 7
           Top = 357
           Width = 384
           Height = 65
           Caption = 'Console'
           TabOrder = 4
-          TBXStyleBackground = True
-          object cbHideConsole: TSpTBXCheckBox
+          object Label9: TLabel
+            Left = 240
+            Top = 18
+            Width = 66
+            Height = 13
+            Caption = '&Timeout (ms):'
+            FocusControl = seTimeout
+          end
+          object cbHideConsole: TCheckBox
             Left = 8
             Top = 16
             Width = 84
             Height = 21
             Hint = 'Check to hide the console.'
             Caption = '&Hide console'
-            ParentColor = True
-            TabOrder = 0
             Checked = True
             State = cbChecked
+            TabOrder = 0
           end
-          object cbWaitForTermination: TSpTBXCheckBox
+          object cbWaitForTermination: TCheckBox
             Left = 8
             Top = 37
             Width = 122
@@ -639,43 +610,31 @@ inherited ToolProperties: TToolProperties
               'If checked will monitor the process '#13#10'and notify you when is ter' +
               'minated.'
             Caption = '&Wait for Termination'
-            ParentColor = True
-            TabOrder = 1
             Checked = True
             State = cbChecked
+            TabOrder = 1
           end
-          object Label9: TSpTBXLabel
-            Left = 240
-            Top = 18
-            Width = 72
-            Height = 19
-            Caption = '&Timeout (ms):'
-            FocusControl = seTimeout
-          end
-          object seTimeout: TSpTBXSpinEdit
+          object seTimeout: TSpinEdit
             Left = 240
             Top = 37
             Width = 79
-            Height = 21
+            Height = 22
             Hint = 
               'If set to a value <> 0 then you will be prompted '#13#10'to abort the ' +
-              'program after the specified time.'
-            Alignment = taLeftJustify
+              'program after the specified time (ms).'
+            Increment = 100
+            MaxValue = 10000
+            MinValue = 0
             TabOrder = 2
-            SpinButton.Left = 60
-            SpinButton.Top = 0
-            SpinButton.Width = 15
-            SpinButton.Height = 17
-            SpinButton.Align = alRight
-            SpinOptions.Increment = 100.000000000000000000
+            Value = 0
           end
         end
       end
     end
   end
   object FormatsPopup: TPopupMenu
-    Left = 10
-    Top = 460
+    Left = 290
+    Top = 4
     object Filename1: TMenuItem
       Caption = 'Filename'
       Hint = 'Placeholder of the Filename'
@@ -697,8 +656,8 @@ inherited ToolProperties: TToolProperties
   object ActionList: TActionList
     Images = CommandsDataModule.Images
     OnUpdate = ActionListUpdate
-    Left = 42
-    Top = 460
+    Left = 354
+    Top = 4
     object actAddItem: TAction
       Caption = '&Add'
       Hint = 'Add item'
@@ -710,18 +669,6 @@ inherited ToolProperties: TToolProperties
       Hint = 'Delete item'
       ImageIndex = 14
       OnExecute = actDeleteItemExecute
-    end
-    object actMoveUp: TAction
-      Caption = '&Up'
-      Hint = 'Move item up'
-      ImageIndex = 47
-      OnExecute = actMoveUpExecute
-    end
-    object actMoveDown: TAction
-      Caption = '&Down'
-      Hint = 'Move item down'
-      ImageIndex = 48
-      OnExecute = actMoveDownExecute
     end
     object actUpdateItem: TAction
       Caption = '&Update'

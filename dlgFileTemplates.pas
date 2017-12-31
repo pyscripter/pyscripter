@@ -12,42 +12,40 @@ interface
 
 uses
   System.UITypes, Windows, Messages, SysUtils, Variants, Classes, Controls,
-  Forms, Dialogs, System.Contnrs, StdCtrls,
-  SynEdit, ActnList, cFileTemplates, SpTBXControls,
-  dlgPyIDEBase, SpTBXEditors, SpTBXItem, EasyListview,
-  MPCommonObjects, MPCommonUtilities, System.Actions;
+  Forms, Dialogs, System.Contnrs, StdCtrls, SynEdit, ActnList, cFileTemplates,
+  dlgPyIDEBase, System.Actions, Vcl.ComCtrls, Vcl.ExtCtrls;
 
 type
   TFileTemplatesDialog = class(TPyIDEDlgBase)
-    Panel: TSpTBXPanel;
-    GroupBox: TSpTBXGroupBox;
+    Panel: TPanel;
+    GroupBox: TGroupBox;
     SynTemplate: TSynEdit;
-    edName: TSpTBXEdit;
-    edCategory: TSpTBXEdit;
-    edExtension: TSpTBXEdit;
-    CBHighlighters: TSpTBXComboBox;
-    TBXButton1: TSpTBXButton;
-    TBXButton3: TSpTBXButton;
-    TBXButton4: TSpTBXButton;
-    TBXButton5: TSpTBXButton;
-    TBXButton2: TSpTBXButton;
-    btnCancel: TSpTBXButton;
-    btnOK: TSpTBXButton;
-    btnHelp: TSpTBXButton;
+    TBXButton1: TButton;
+    TBXButton3: TButton;
+    TBXButton4: TButton;
+    TBXButton5: TButton;
+    TBXButton2: TButton;
+    btnCancel: TButton;
+    btnOK: TButton;
+    btnHelp: TButton;
     ActionList: TActionList;
     actUpdateItem: TAction;
     actMoveDown: TAction;
     actMoveUp: TAction;
     actDeleteItem: TAction;
     actAddItem: TAction;
-    Label1: TSpTBXLabel;
-    Label2: TSpTBXLabel;
-    Label5: TSpTBXLabel;
-    Label4: TSpTBXLabel;
-    Label3: TSpTBXLabel;
-    Label6: TSpTBXLabel;
-    Label7: TSpTBXLabel;
-    lvItems: TEasyListview;
+    Label1: TLabel;
+    Label2: TLabel;
+    Label5: TLabel;
+    Label4: TLabel;
+    Label3: TLabel;
+    Label6: TLabel;
+    Label7: TLabel;
+    lvItems: TListview;
+    CBHighlighters: TComboBox;
+    edName: TEdit;
+    edCategory: TEdit;
+    edExtension: TEdit;
     procedure FormDestroy(Sender: TObject);
     procedure edNameKeyPress(Sender: TObject; var Key: Char);
     procedure ActionListUpdate(Action: TBasicAction; var Handled: Boolean);
@@ -59,10 +57,8 @@ type
     procedure btnHelpClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure CBHighlightersChange(Sender: TObject);
-    procedure lvItemsItemSelectionsChanged(Sender: TCustomEasyListview);
-    procedure lvItemsColumnClick(Sender: TCustomEasyListview;
-      Button: TCommonMouseButton; ShiftState: TShiftState;
-      const Column: TEasyColumn);
+    procedure lvItemsChange(Sender: TObject; Item: TListItem;
+      Change: TItemChange);
   private
     procedure StoreFieldsToFileTemplate(FileTemplate: TFileTemplate);
     { Private declarations }
@@ -75,7 +71,11 @@ type
 
 implementation
 
-uses dmCommands, SynEditHighlighter, JvGnugettext, StringResources;
+uses
+  dmCommands,
+  SynEditHighlighter,
+  JvGnugettext,
+  StringResources;
 
 {$R *.dfm}
 
@@ -127,50 +127,50 @@ Var
  i : integer;
 begin
   TempFileTemplates.Assign(FileTemplates);
-  lvItems.BeginUpdate;
+  lvItems.Items.BeginUpdate;
   try
     lvItems.Items.Clear;
     for i := 0 to TempFileTemplates.Count - 1 do
       with lvItems.Items.Add() do begin
         Caption := (TempFileTemplates[i] as TFileTemplate).Name;
         Data := TempFileTemplates[i];
-        Captions[1] := TFileTemplate(TempFileTemplates[i]).Category;
+        SubItems.Add(TFileTemplate(TempFileTemplates[i]).Category);
       end;
   finally
-    lvItems.EndUpdate;
+    lvItems.Items.EndUpdate;
   end;
 end;
 
 procedure TFileTemplatesDialog.ActionListUpdate(Action: TBasicAction;
   var Handled: Boolean);
 begin
-  actDeleteItem.Enabled := Assigned(lvItems.Selection.First());
-  actMoveUp.Enabled :=  Assigned(lvItems.Selection.First()) and  (lvItems.Selection.First.Index >= 1);
-  actMoveDown.Enabled := Assigned(lvItems.Selection.First()) and
-                         (lvItems.Selection.First.Index < lvItems.Items.Count - 1);
+  actDeleteItem.Enabled := lvItems.ItemIndex >= 0;
+  actMoveUp.Enabled := lvItems.ItemIndex >= 1;
+  actMoveDown.Enabled := (lvItems.ItemIndex >= 0) and
+                         (lvItems.ItemIndex < lvItems.Items.Count - 1);
   actAddItem.Enabled := (edName.Text <> '') and (edCategory.Text <> '');
-  actUpdateItem.Enabled := (edName.Text <> '') and Assigned(lvItems.Selection.First());
+  actUpdateItem.Enabled := (edName.Text <> '') and (lvItems.ItemIndex >= 0);
   Handled := True;
 end;
 
 procedure TFileTemplatesDialog.actAddItemExecute(Sender: TObject);
 Var
-  Item : TEasyItem;
+  Item : TListItem;
   FileTemplate : TFileTemplate;
   i : Integer;
 begin
   if (edName.Text <> '') and (edCategory.Text <> '') then begin
     for i := 0 to lvItems.Items.Count - 1 do
       if (CompareText(lvItems.Items[i].Caption, edName.Text) = 0) and
-         (CompareText(lvItems.Items[i].Captions[1], edCategory.Text) = 0) then
+         (CompareText(lvItems.Items[i].SubItems[0], edCategory.Text) = 0) then
       begin
         Item := lvItems.Items[i];
         FileTemplate := TFileTemplate(Item.Data);
         StoreFieldsToFileTemplate(FileTemplate);
         Item.Caption := edName.Text;
-        Item.Captions[1] := edCategory.Text;
+        Item.SubItems[0] := edCategory.Text;
         Item.Selected := True;
-        Item.MakeVisible(emvAuto);
+        Item.MakeVisible(False);
         Exit;
       end;
 
@@ -179,19 +179,19 @@ begin
     StoreFieldsToFileTemplate(FileTemplate);
     with lvItems.Items.Add() do begin
       Caption := edName.Text;
-      Captions[1] := edCategory.Text;
+      SubItems.Add(edCategory.Text);
       Data := FileTemplate;
       Selected := True;
-      MakeVisible(emvAuto);
+      MakeVisible(False);
     end;
   end;
 end;
 
 procedure TFileTemplatesDialog.actDeleteItemExecute(Sender: TObject);
 begin
-  if Assigned(lvItems.Selection.First()) then begin
-    TempFileTemplates.Delete(lvItems.Selection.First.Index);
-    lvItems.Items.Delete(lvItems.Selection.First.Index);
+  if lvItems.ItemIndex >= 0 then begin
+    TempFileTemplates.Delete(lvItems.ItemIndex);
+    lvItems.Items.Delete(lvItems.ItemIndex);
   end;
 end;
 
@@ -199,19 +199,19 @@ procedure TFileTemplatesDialog.actUpdateItemExecute(Sender: TObject);
 Var
   i : integer;
 begin
-  if (edName.Text <> '') and Assigned(lvItems.Selection.First()) then begin
+  if (edName.Text <> '') and (lvItems.ItemIndex >= 0) then begin
     for i := 0 to lvItems.Items.Count - 1 do
       if (CompareText(lvItems.Items[i].Caption, edName.Text) = 0) and
-         (CompareText(lvItems.Items[i].Captions[1], edCategory.Text) = 0) and
-         (i <> lvItems.Selection.First.Index) then
+         (CompareText(lvItems.Items[i].SubItems[0], edCategory.Text) = 0) and
+         (i <> lvItems.ItemIndex) then
       begin
         Dialogs.MessageDlg(_(SSameName), mtError, [mbOK], 0);
         Exit;
       end;
-    with lvItems.Items[lvItems.Selection.First.Index] do begin
+    with lvItems.Items[lvItems.ItemIndex] do begin
       StoreFieldsToFileTemplate(TFileTemplate(Data));
       Caption := edName.Text;
-      Captions[1] := edCategory.Text;
+      SubItems[0] := edCategory.Text;
     end;
   end;
 end;
@@ -230,20 +230,13 @@ begin
       CBHighlighters.Items.Objects[CBHighlighters.ItemIndex] as TSynCustomHighlighter;
 end;
 
-procedure TFileTemplatesDialog.lvItemsColumnClick(Sender: TCustomEasyListview;
-  Button: TCommonMouseButton; ShiftState: TShiftState;
-  const Column: TEasyColumn);
-begin
-  if Column.Clickable then lvItems.Sort.SortAll;
-end;
-
-procedure TFileTemplatesDialog.lvItemsItemSelectionsChanged(
-  Sender: TCustomEasyListview);
+procedure TFileTemplatesDialog.lvItemsChange(Sender: TObject; Item: TListItem;
+      Change: TItemChange);
 var
   FileTemplate : TFileTemplate;
 begin
-  if Assigned(lvItems.Selection.First())  then begin
-    FileTemplate := TFileTemplate(lvItems.Selection.First.Data);
+  if Item.Selected then begin
+    FileTemplate := TFileTemplate(Item.Data);
     edName.Text := FileTemplate.Name;
     edCategory.Text := FileTemplate.Category;
     edExtension.Text := FileTemplate.Extension;
@@ -265,19 +258,16 @@ Var
   P : Pointer;
   Index : integer;
 begin
-  if Assigned(lvItems.Selection.First()) and (lvItems.Selection.First.Index >= 1) then begin
-    lvItems.Header.Columns[0].SortDirection := esdNone;
-    lvItems.Header.Columns[1].SortDirection := esdNone;
-
-    Index := lvItems.Selection.First.Index;
+  if lvItems.ItemIndex > 0 then begin
+    Index := lvItems.ItemIndex;
     Name := lvItems.Items[Index].Caption;
-    Value := lvItems.Items[Index].Captions[1];
+    Value := lvItems.Items[Index].SubItems[0];
     P := lvItems.Items[Index].Data;
     lvItems.Items.Delete(Index);
 
     with lvItems.Items.Insert(Index - 1) do begin
       Caption := Name;
-      Captions[1] := Value;
+      SubItems.Add(Value);
       Data := P;
       Selected := True;
     end;
@@ -291,21 +281,16 @@ Var
   P : Pointer;
   Index : integer;
 begin
-  if Assigned(lvItems.Selection.First()) and
-    (lvItems.Selection.First.Index < lvItems.Items.Count - 1) then
-  begin
-    lvItems.Header.Columns[0].SortDirection := esdNone;
-    lvItems.Header.Columns[1].SortDirection := esdNone;
-
-    Index := lvItems.Selection.First.Index;
+  if lvItems.ItemIndex < lvItems.Items.Count - 1 then begin
+    Index := lvItems.ItemIndex;
     Name := lvItems.Items[Index].Caption;
-    Value := lvItems.Items[Index].Captions[1];
+    Value := lvItems.Items[Index].SubItems[0];
     P := lvItems.Items[Index].Data;
     lvItems.Items.Delete(Index);
 
     with lvItems.Items.Insert(Index + 1) do begin
       Caption := Name;
-      Captions[1] := Value;
+      SubItems.Add(Value);
       Data := P;
       Selected := True;
     end;

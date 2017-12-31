@@ -5,34 +5,32 @@ interface
 uses
   System.UITypes, Windows, Messages, SysUtils, Variants, Classes,
   Controls, Forms, Dialogs, StdCtrls,
-  SynEdit, ActnList, SpTBXControls, dlgPyIDEBase,
-  SpTBXEditors, SpTBXItem, MPCommonObjects,
-  EasyListview, MPCommonUtilities, System.Actions;
+  SynEdit, ActnList,  dlgPyIDEBase, System.Actions, Vcl.ComCtrls, Vcl.ExtCtrls;
 
 type
   TCustomizeParams = class(TPyIDEDlgBase)
-    Panel: TSpTBXPanel;
-    TBXButton1: TSpTBXButton;
-    TBXButton3: TSpTBXButton;
-    TBXButton4: TSpTBXButton;
-    TBXButton5: TSpTBXButton;
-    TBXButton2: TSpTBXButton;
-    btnOK: TSpTBXButton;
-    btnCancel: TSpTBXButton;
+    Panel: TPanel;
+    TBXButton1: TButton;
+    TBXButton3: TButton;
+    TBXButton4: TButton;
+    TBXButton5: TButton;
+    TBXButton2: TButton;
+    btnOK: TButton;
+    btnCancel: TButton;
     ActionList: TActionList;
     actUpdateItem: TAction;
     actMoveDown: TAction;
     actMoveUp: TAction;
     actDeleteItem: TAction;
     actAddItem: TAction;
-    Label3: TSpTBXLabel;
-    Label4: TSpTBXLabel;
-    GroupBox1: TSpTBXGroupBox;
+    Label3: TLabel;
+    Label4: TLabel;
+    GroupBox1: TGroupBox;
     SynValue: TSynEdit;
-    Label1: TSpTBXLabel;
-    Label2: TSpTBXLabel;
-    edName: TSpTBXEdit;
-    lvItems: TEasyListview;
+    Label1: TLabel;
+    Label2: TLabel;
+    edName: TEdit;
+    lvItems: TListview;
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure edNameKeyPress(Sender: TObject; var Key: Char);
@@ -42,10 +40,8 @@ type
     procedure actUpdateItemExecute(Sender: TObject);
     procedure actMoveUpExecute(Sender: TObject);
     procedure actMoveDownExecute(Sender: TObject);
-    procedure lvItemsItemSelectionsChanged(Sender: TCustomEasyListview);
-    procedure lvItemsColumnClick(Sender: TCustomEasyListview;
-      Button: TCommonMouseButton; ShiftState: TShiftState;
-      const Column: TEasyColumn);
+    procedure lvItemsChange(Sender: TObject; Item: TListItem;
+      Change: TItemChange);
   private
     { Private declarations }
   public
@@ -56,7 +52,7 @@ type
 
 implementation
 
-uses dmCommands, JvGnugettext, StringResources;
+uses Vcl.Themes, Vcl.Graphics, dmCommands, JvGnugettext, StringResources;
 
 {$R *.dfm}
 
@@ -70,6 +66,9 @@ procedure TCustomizeParams.FormShow(Sender: TObject);
 begin
   CommandsDataModule.ParameterCompletion.Editor := SynValue;
   CommandsDataModule.ModifierCompletion.Editor := SynValue;
+  // Styling
+  SynValue.Font.Color := StyleServices.GetSystemColor(clWindowText);
+  SynValue.Color := StyleServices.GetSystemColor(clWindow);
 end;
 
 procedure TCustomizeParams.edNameKeyPress(Sender: TObject; var Key: Char);
@@ -87,7 +86,7 @@ begin
   List.BeginUpdate;
   try
     for i := 0 to lvItems.Items.Count - 1 do
-      List.Add(lvItems.Items[i].Caption + '=' + lvItems.Items[i].Captions[1]);
+      List.Add(lvItems.Items[i].Caption + '=' + lvItems.Items[i].SubItems[0]);
   finally
     List.EndUpdate;
   end;
@@ -101,25 +100,25 @@ begin
   for i := 0 to List.Count - 1 do
     with lvItems.Items.Add() do begin
       Caption := List.Names[i];
-      Captions[1] := List.Values[List.Names[i]];
+      SubItems.Add(List.Values[List.Names[i]]);
     end;
 end;
 
 procedure TCustomizeParams.ActionListUpdate(Action: TBasicAction;
   var Handled: Boolean);
 begin
-  actDeleteItem.Enabled := Assigned(lvItems.Selection.First());
-  actMoveUp.Enabled :=  Assigned(lvItems.Selection.First()) and  (lvItems.Selection.First.Index >= 1);
-  actMoveDown.Enabled := Assigned(lvItems.Selection.First()) and
-                         (lvItems.Selection.First.Index < lvItems.Items.Count - 1);
+  actDeleteItem.Enabled := lvItems.ItemIndex >= 0;
+  actMoveUp.Enabled := lvItems.ItemIndex >= 1;
+  actMoveDown.Enabled := (lvItems.ItemIndex >= 0) and
+                         (lvItems.ItemIndex < lvItems.Items.Count - 1);
   actAddItem.Enabled := edName.Text <> '';
-  actUpdateItem.Enabled := (edName.Text <> '') and Assigned(lvItems.Selection.First());
+  actUpdateItem.Enabled := (edName.Text <> '') and (lvItems.ItemIndex >= 0);
   Handled := True;
 end;
 
 procedure TCustomizeParams.actAddItemExecute(Sender: TObject);
 Var
-  Item : TEasyItem;
+  Item : TListItem;
   i : Integer;
 begin
   if edName.Text <> '' then begin
@@ -127,59 +126,51 @@ begin
       if CompareText(lvItems.Items[i].Caption, edName.Text) = 0 then begin
         Item := lvItems.Items[i];
         Item.Caption := EdName.Text;
-        Item.Captions[1] := SynValue.Text;
+        Item.SubItems[0] := SynValue.Text;
         Item.Selected := True;
-        Item.MakeVisible(emvAuto);
+        Item.MakeVisible(False);
         Exit;
       end;
 
     with lvItems.Items.Add() do begin
       Caption := edName.Text;
-      Captions[1] := SynValue.Text;
-      MakeVisible(emvAuto);
+      SubItems.Add(SynValue.Text);
+      MakeVisible(False);
     end;
   end;
 end;
 
 procedure TCustomizeParams.actDeleteItemExecute(Sender: TObject);
 begin
-  if Assigned(lvItems.Selection.First()) then
-    lvItems.Items.Delete(lvItems.Selection.First.Index);
+  if lvItems.ItemIndex >= 0 then
+    lvItems.Items.Delete(lvItems.ItemIndex);
 end;
 
 procedure TCustomizeParams.actUpdateItemExecute(Sender: TObject);
 Var
   i : integer;
 begin
-  if (edName.Text <> '') and Assigned(lvItems.Selection.First()) then begin
+  if (edName.Text <> '') and (lvItems.ItemIndex >= 0) then begin
     for i := 0 to lvItems.Items.Count - 1 do
       if (CompareText(lvItems.Items[i].Caption, edName.Text) = 0) and
-         (i <> lvItems.Selection.First.Index) then
+         (i <> lvItems.ItemIndex) then
       begin
         Dialogs.MessageDlg(_(SSameName), mtError, [mbOK], 0);
         Exit;
       end;
-    lvItems.Header.Columns[0].SortDirection := esdNone;
-    with lvItems.Items[lvItems.Selection.First.Index] do begin
+    with lvItems.Items[lvItems.ItemIndex] do begin
       Caption := EdName.Text;
-      Captions[1] := SynValue.Text;
+      SubItems[0] := SynValue.Text;
     end;
   end;
 end;
 
-procedure TCustomizeParams.lvItemsColumnClick(Sender: TCustomEasyListview;
-  Button: TCommonMouseButton; ShiftState: TShiftState;
-  const Column: TEasyColumn);
+procedure TCustomizeParams.lvItemsChange(Sender: TObject; Item: TListItem;
+      Change: TItemChange);
 begin
-  if Column.Clickable then lvItems.Sort.SortAll;
-end;
-
-procedure TCustomizeParams.lvItemsItemSelectionsChanged(
-  Sender: TCustomEasyListview);
-begin
-  if Assigned(lvItems.Selection.First()) then with lvItems.Selection.First do begin
-    edName.Text := Caption;
-    SynValue.Text := Captions[1];
+  if Item.Selected then begin
+    edName.Text := Item.Caption;
+    SynValue.Text := Item.SubItems[0];
   end;
 end;
 
@@ -188,16 +179,15 @@ Var
   Name, Value : string;
   Index : integer;
 begin
-  if Assigned(lvItems.Selection.First()) and  (lvItems.Selection.First.Index >= 1) then begin
-    lvItems.Header.Columns[0].SortDirection := esdNone;
-    Index := lvItems.Selection.First.Index;
+  if lvItems.ItemIndex > 0 then begin
+    Index := lvItems.ItemIndex;
     Name := lvItems.Items[Index].Caption;
-    Value := lvItems.Items[Index].Captions[1];
+    Value := lvItems.Items[Index].SubItems[0];
     lvItems.Items.Delete(Index);
 
     with lvItems.Items.Insert(Index - 1) do begin
       Caption := Name;
-      Captions[1] := Value;
+      SubItems.Add(Value);
       Selected := True;
     end;
   end;
@@ -208,17 +198,17 @@ Var
   Name, Value : string;
   Index : integer;
 begin
-  if Assigned(lvItems.Selection.First()) and (lvItems.Selection.First.Index < lvItems.Items.Count - 1) then
+  if (lvItems.ItemIndex >= 0) and
+    (lvItems.ItemIndex < lvItems.Items.Count - 1) then
   begin
-    lvItems.Header.Columns[0].SortDirection := esdNone;
-    Index := lvItems.Selection.First.Index;
+    Index := lvItems.ItemIndex;
     Name := lvItems.Items[Index].Caption;
-    Value := lvItems.Items[Index].Captions[1];
+    Value := lvItems.Items[Index].SubItems[0];
     lvItems.Items.Delete(Index);
 
     with lvItems.Items.Insert(Index + 1) do begin
       Caption := Name;
-      Captions[1] := Value;
+      SubItems.Add(Value);
       Selected := True;
     end;
   end;

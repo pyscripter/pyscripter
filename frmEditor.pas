@@ -3086,12 +3086,8 @@ initialization
 
 GI_EditorFactory := TEditorFactory.Create;
 
-TStyleManager.Engine.RegisterStyleHook(TCustomSynEdit, TScrollingStyleHook);
-
 finalization
 
 GI_EditorFactory := nil;
-
-TStyleManager.Engine.UnRegisterStyleHook(TCustomSynEdit, TScrollingStyleHook);
 
 end.

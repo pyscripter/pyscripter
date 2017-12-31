@@ -51,7 +51,8 @@ uses
   Forms,
   Dialogs,
   StdCtrls,
-
+  Vcl.ComCtrls,
+  Vcl.ExtCtrls,
   Buttons,
   Menus,
   SynEdit,
@@ -59,9 +60,11 @@ uses
   SynEditMiscClasses,
   SynEditKeyCmds,
   Classes,
-  SysUtils, SpTBXControls,
-  SpTBXEditors, dlgPyIDEBase, SpTBXItem, SpTBXExtEditors,
-  EasyListview, SpTBXTabs, TB2Item, MPCommonObjects;
+  SysUtils,
+  dlgPyIDEBase,
+  SpTBXControls,  SpTBXEditors,
+  SpTBXItem, SpTBXExtEditors,
+  SpTBXTabs, TB2Item;
 
 type
   TSynEditorOptionsUserCommand = procedure(AUserCommand: Integer;
@@ -80,89 +83,89 @@ type
   TSynEditorOptionsContainer = class;
 
   TfmEditorOptionsDialog = class(TPyIDEDlgBase)
-    gbBookmarks: TSpTBXGroupBox;
-    gbLineSpacing: TSpTBXGroupBox;
-    gbGutter: TSpTBXGroupBox;
-    gbRightEdge: TSpTBXGroupBox;
-    gbEditorFont: TSpTBXGroupBox;
-    gbOptions: TSpTBXGroupBox;
-    gbCaret: TSpTBXGroupBox;
-    Panel3: TSpTBXPanel;
+    gbBookmarks: TGroupBox;
+    gbLineSpacing: TGroupBox;
+    gbGutter: TGroupBox;
+    gbRightEdge: TGroupBox;
+    gbEditorFont: TGroupBox;
+    gbOptions: TGroupBox;
+    gbCaret: TGroupBox;
+    Panel3: TPanel;
     FontDialog: TFontDialog;
-    gbKeyStrokes: TSpTBXGroupBox;
-    pnlGutterFontDisplay: TSpTBXPanel;
-    GroupBox1: TSpTBXGroupBox;
+    gbKeyStrokes: TGroupBox;
+    pnlGutterFontDisplay: TPanel;
+    GroupBox1: TGroupBox;
     SynEdit1: TSynEdit;
-    GroupBox2: TSpTBXGroupBox;
-    btnGutterFont: TSpTBXButton;
-    btnFont: TSpTBXButton;
-    btnAddKey: TSpTBXButton;
-    btnRemKey: TSpTBXButton;
-    btnUpdateKey: TSpTBXButton;
-    btnOk: TSpTBXButton;
-    btnCancel: TSpTBXButton;
-    btnHelp: TSpTBXButton;
-    ckGutterAutosize: TSpTBXCheckBox;
-    ckGutterShowLineNumbers: TSpTBXCheckBox;
-    ckGutterShowLeaderZeros: TSpTBXCheckBox;
-    ckGutterVisible: TSpTBXCheckBox;
-    cbGutterFont: TSpTBXCheckBox;
-    ckGutterStartAtZero: TSpTBXCheckBox;
-    ckGutterGradient: TSpTBXCheckBox;
-    ckBookmarkKeys: TSpTBXCheckBox;
-    ckBookmarkVisible: TSpTBXCheckBox;
-    ckAutoIndent: TSpTBXCheckBox;
-    ckDragAndDropEditing: TSpTBXCheckBox;
-    ckWordWrap: TSpTBXCheckBox;
-    ckHalfPageScroll: TSpTBXCheckBox;
-    ckScrollByOneLess: TSpTBXCheckBox;
-    ckScrollPastEOF: TSpTBXCheckBox;
-    ckScrollPastEOL: TSpTBXCheckBox;
-    ckShowScrollHint: TSpTBXCheckBox;
-    ckSmartTabs: TSpTBXCheckBox;
-    ckTabsToSpaces: TSpTBXCheckBox;
-    ckTrimTrailingSpaces: TSpTBXCheckBox;
-    ckTabIndent: TSpTBXCheckBox;
-    ckAltSetsColumnMode: TSpTBXCheckBox;
-    ckKeepCaretX: TSpTBXCheckBox;
-    ckScrollHintFollows: TSpTBXCheckBox;
-    ckGroupUndo: TSpTBXCheckBox;
-    ckSmartTabDelete: TSpTBXCheckBox;
-    ckRightMouseMoves: TSpTBXCheckBox;
-    ckEnhanceHomeKey: TSpTBXCheckBox;
-    ckHideShowScrollbars: TSpTBXCheckBox;
-    ckDisableScrollArrows: TSpTBXCheckBox;
-    ckShowSpecialChars: TSpTBXCheckBox;
-    ckEnhanceEndKey: TSpTBXCheckBox;
-    cbxElementBold: TSpTBXCheckBox;
-    cbxElementItalic: TSpTBXCheckBox;
-    cbxElementUnderline: TSpTBXCheckBox;
-    cbxElementStrikeout: TSpTBXCheckBox;
-    cbApplyToAll: TSpTBXCheckBox;
-    Label3: TSpTBXLabel;
-    Label10: TSpTBXLabel;
-    Label1: TSpTBXLabel;
-    lblGutterFont: TSpTBXLabel;
-    labFont: TSpTBXLabel;
-    Label8: TSpTBXLabel;
-    Label9: TSpTBXLabel;
-    Label2: TSpTBXLabel;
-    Label4: TSpTBXLabel;
-    Label5: TSpTBXLabel;
-    Label6: TSpTBXLabel;
-    Label7: TSpTBXLabel;
-    Label11: TSpTBXLabel;
-    Label12: TSpTBXLabel;
-    Label13: TSpTBXLabel;
-    Label14: TSpTBXLabel;
-    Label15: TSpTBXLabel;
-    cInsertCaret: TSpTBXComboBox;
-    cOverwriteCaret: TSpTBXComboBox;
-    cKeyCommand: TSpTBXComboBox;
-    cbHighlighters: TSpTBXComboBox;
-    eRightEdge: TSpTBXEdit;
-    eLineSpacing: TSpTBXEdit;
-    eTabWidth: TSpTBXEdit;
+    GroupBox2: TGroupBox;
+    btnGutterFont: TButton;
+    btnFont: TButton;
+    btnAddKey: TButton;
+    btnRemKey: TButton;
+    btnUpdateKey: TButton;
+    btnOk: TButton;
+    btnCancel: TButton;
+    btnHelp: TButton;
+    ckGutterAutosize: TCheckBox;
+    ckGutterShowLineNumbers: TCheckBox;
+    ckGutterShowLeaderZeros: TCheckBox;
+    ckGutterVisible: TCheckBox;
+    cbGutterFont: TCheckBox;
+    ckGutterStartAtZero: TCheckBox;
+    ckGutterGradient: TCheckBox;
+    ckBookmarkKeys: TCheckBox;
+    ckBookmarkVisible: TCheckBox;
+    ckAutoIndent: TCheckBox;
+    ckDragAndDropEditing: TCheckBox;
+    ckWordWrap: TCheckBox;
+    ckHalfPageScroll: TCheckBox;
+    ckScrollByOneLess: TCheckBox;
+    ckScrollPastEOF: TCheckBox;
+    ckScrollPastEOL: TCheckBox;
+    ckShowScrollHint: TCheckBox;
+    ckSmartTabs: TCheckBox;
+    ckTabsToSpaces: TCheckBox;
+    ckTrimTrailingSpaces: TCheckBox;
+    ckTabIndent: TCheckBox;
+    ckAltSetsColumnMode: TCheckBox;
+    ckKeepCaretX: TCheckBox;
+    ckScrollHintFollows: TCheckBox;
+    ckGroupUndo: TCheckBox;
+    ckSmartTabDelete: TCheckBox;
+    ckRightMouseMoves: TCheckBox;
+    ckEnhanceHomeKey: TCheckBox;
+    ckHideShowScrollbars: TCheckBox;
+    ckDisableScrollArrows: TCheckBox;
+    ckShowSpecialChars: TCheckBox;
+    ckEnhanceEndKey: TCheckBox;
+    cbxElementBold: TCheckBox;
+    cbxElementItalic: TCheckBox;
+    cbxElementUnderline: TCheckBox;
+    cbxElementStrikeout: TCheckBox;
+    cbApplyToAll: TCheckBox;
+    Label3: TLabel;
+    Label10: TLabel;
+    Label1: TLabel;
+    lblGutterFont: TLabel;
+    labFont: TLabel;
+    Label8: TLabel;
+    Label9: TLabel;
+    Label2: TLabel;
+    Label4: TLabel;
+    Label5: TLabel;
+    Label6: TLabel;
+    Label7: TLabel;
+    Label11: TLabel;
+    Label12: TLabel;
+    Label13: TLabel;
+    Label14: TLabel;
+    Label15: TLabel;
+    cInsertCaret: TComboBox;
+    cOverwriteCaret: TComboBox;
+    cKeyCommand: TComboBox;
+    cbHighlighters: TComboBox;
+    eRightEdge: TEdit;
+    eLineSpacing: TEdit;
+    eTabWidth: TEdit;
     lbElements: TSpTBXListBox;
     cbRightEdgeColor: TSpTBXColorEdit;
     cbGutterColor: TSpTBXColorEdit;
@@ -178,16 +181,16 @@ type
     KeyStrokes: TSpTBXTabSheet;
     SpTBXTabItem4: TSpTBXTabItem;
     Color: TSpTBXTabSheet;
-    KeyList: TEasyListview;
-    SpTBXPanel1: TSpTBXPanel;
-    SpTBXPanel2: TSpTBXPanel;
+    KeyList: TListview;
+    Panel1: TPanel;
+    Panel2: TPanel;
     SpTBXTabItem5: TSpTBXTabItem;
     ColorThemes: TSpTBXTabSheet;
     SynThemeSample: TSynEdit;
-    SpTBXLabel1: TSpTBXLabel;
+    SpTBXLabel1: TLabel;
     lbColorThemes: TListBox;
-    SpTBXLabel2: TSpTBXLabel;
-    bApplyTheme: TButton;
+    SpTBXLabel2: TLabel;
+    btnApplyTheme: TButton;
     procedure SynEdit1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnFontClick(Sender: TObject);
@@ -208,23 +211,21 @@ type
     procedure cbElementBackgroundChange(Sender: TObject);
     procedure cbxElementBoldClick(Sender: TObject);
     procedure btnHelpClick(Sender: TObject);
-    procedure KeyListItemSelectionsChanged(Sender: TCustomEasyListview);
+    procedure KeyListSelectItem(Sender: TObject; Item: TListItem; Selected: Boolean);
     procedure lbColorThemesClick(Sender: TObject);
-    procedure bApplyThemeClick(Sender: TObject);
+    procedure btnApplyThemeClick(Sender: TObject);
   private
     FHandleChanges : Boolean;  //Normally true, can prevent unwanted execution of event handlers
 
     FSynEdit: TSynEditorOptionsContainer;
     FUserCommand: TSynEditorOptionsUserCommand;
     FAllUserCommands: TSynEditorOptionsAllUserCommands;
-
-//    OldSelected: TEasyItem;
     FExtended: Boolean;
 
     procedure GetData;
     procedure PutData;
     procedure EditStrCallback(const S: string);
-    procedure FillInKeystrokeInfo(AKey: TSynEditKeystroke; AItem: TEasyItem);
+    procedure FillInKeystrokeInfo(AKey: TSynEditKeystroke; AItem: TListItem);
     procedure UpdateKey(AKey: TSynEditKeystroke);
     function SelectedHighlighter:TSynCustomHighlighter;
     procedure EnableColorItems(aEnable:boolean);
@@ -353,15 +354,6 @@ implementation
 uses
   SynEditKeyConst, uCommonFunctions, JvGnugettext, StringResources, SpTBXSkins,
   System.IOUtils, JvAppStorage, JvAppIniStorage, Vcl.Themes;
-
-//function SortByColumn(Item1, Item2: TEasyItem; Data: integer): integer; stdcall;
-//begin
-//  if Data = 0 then
-//    Result := AnsiCompareText(Item1.Caption, Item2.Caption)
-//  else
-//    Result := AnsiCompareText(Item1.SubItems[Data-1],
-//                              Item2.SubItems[Data-1]);
-//end;
 
 { TSynEditOptionsDialog }
 
@@ -710,7 +702,7 @@ end;
 
 procedure TfmEditorOptionsDialog.GetData;
 var I : Integer;
-    Item : TEasyItem;
+    Item : TListItem;
 begin
   ckWordWrap.Checked := FSynedit.WordWrap;
   //Gutter
@@ -767,7 +759,7 @@ begin
   cInsertCaret.ItemIndex:= ord(FSynEdit.InsertCaret);
   cOverwriteCaret.ItemIndex:= ord(FSynEdit.OverwriteCaret);
 
-  KeyList.BeginUpdate;
+  KeyList.Items.BeginUpdate;
   try
     KeyList.Items.Clear;
     for I:= 0 to FSynEdit.Keystrokes.Count-1 do
@@ -777,9 +769,8 @@ begin
       Item.Data:= FSynEdit.Keystrokes.Items[I];
     end;
   finally
-    KeyList.EndUpdate;
+    KeyList.Items.EndUpdate;
   end;
-  KeyList.Sort.AutoSort := True;
 end;
 
 procedure TfmEditorOptionsDialog.PutData;
@@ -856,7 +847,7 @@ begin
   inherited;
   FHandleChanges := True;  //Normally true, can prevent unwanted execution of event handlers
 
-  KeyList.OnItemSelectionsChanged := KeyListItemSelectionsChanged;
+  KeyList.OnSelectItem := KeyListSelectItem;
 
   eKeyShort1:= TSynHotKey.Create(Self);
   with eKeyShort1 do
@@ -905,7 +896,7 @@ end;
 
 procedure TfmEditorOptionsDialog.UpdateKey(AKey: TSynEditKeystroke);
 var
-  Cmd          : Integer;
+  Cmd: Integer;
 begin
   Cmd := Integer(cKeyCommand.Items.Objects[cKeyCommand.ItemIndex]);
 
@@ -930,10 +921,10 @@ var
   Key : TSynEditKeyStroke;
   S : string;
 begin
-  if not Assigned(KeyList.Selection.First()) then Exit;
+  if KeyList.Selected = nil then Exit;
   if cKeyCommand.ItemIndex < 0 then Exit;
 
-  Key := TSynEditKeyStroke(KeyList.Selection.First.Data);
+  Key := TSynEditKeyStroke(KeyList.Selected.Data);
   OldShortcut  := Key.ShortCut;
   OldShortcut2 := Key.ShortCut2;
   try
@@ -946,11 +937,10 @@ begin
        MessageBox(0, PChar(E.Message), PChar(S), MB_ICONERROR or MB_OK);
      end;
   end;
-  FillInKeystrokeInfo(TSynEditKeyStroke(KeyList.Selection.First.Data), KeyList.Selection.First);
-  KeyList.Sort.SortAll;
+  FillInKeystrokeInfo(TSynEditKeyStroke(KeyList.Selected.Data), KeyList.Selected);
 end;
 
-procedure TfmEditorOptionsDialog.bApplyThemeClick(Sender: TObject);
+procedure TfmEditorOptionsDialog.btnApplyThemeClick(Sender: TObject);
 Var
   i : integer;
   AppStorage : TJvAppIniFileStorage;
@@ -977,7 +967,7 @@ end;
 
 procedure TfmEditorOptionsDialog.btnAddKeyClick(Sender: TObject);
 var
-  Item : TEasyItem;
+  Item : TListItem;
   S : String;
 begin
   Item:= KeyList.Items.Add;
@@ -991,21 +981,17 @@ begin
        S := _(SDuplicateKey);
        MessageBox(0, PChar(E.Message), PChar(S), MB_ICONERROR or MB_OK);
        TSynEditKeyStroke(Item.Data).Free;
-       KeyList.Items.Delete(Item.Index);
+       Item.Delete;
      end;
   end;
-  KeyList.Sort.SortAll;
-  Item.MakeVisible(emvAuto);
+  Item.MakeVisible(True);
 end;
 
 procedure TfmEditorOptionsDialog.btnRemKeyClick(Sender: TObject);
-var
-  Item : TEasyItem;
 begin
-  Item := KeyList.Selection.First;
-  if not Assigned(Item) then Exit;
-  TSynEditKeyStroke(Item.Data).Free;
-  KeyList.Items.Delete(Item.Index);
+  if KeyList.Selected = nil then Exit;
+  TSynEditKeyStroke(KeyList.Selected.Data).Free;
+  KeyList.Selected.Delete;
 end;
 
 procedure TfmEditorOptionsDialog.EditStrCallback(const S: string);
@@ -1041,7 +1027,6 @@ begin
       Commands.Free;
     end;
   end;
-//  KeyList.CustomSort(@SortByColumn, 0);
   if (KeyList.Items.Count > 0) then KeyList.Items[0].Selected:= True;
 
   TabControl.ActivePage := Display;
@@ -1059,17 +1044,14 @@ begin
   end;
 end;
 
-procedure TfmEditorOptionsDialog.KeyListItemSelectionsChanged(
-  Sender: TCustomEasyListview);
+procedure TfmEditorOptionsDialog.KeyListSelectItem(Sender: TObject;
+  Item: TListItem; Selected: Boolean);
 begin
-  if not Assigned(KeyList.Selection.First()) then Exit;
-  with KeyList.Selection.First do begin
-    cKeyCommand.Text      := Caption;
-    cKeyCommand.ItemIndex := cKeyCommand.Items.IndexOf(Caption);
-    eKeyShort1.HotKey     := TSynEditKeyStroke(Data).ShortCut;
-    eKeyShort2.HotKey     := TSynEditKeyStroke(Data).ShortCut2;
-  end;
-//  OldSelected := Item;
+  if not (Selected and Assigned(Item)) then Exit;
+  cKeyCommand.Text      := Item.Caption;
+  cKeyCommand.ItemIndex := cKeyCommand.Items.IndexOf(Item.Caption);
+  eKeyShort1.HotKey     := TSynEditKeyStroke(Item.Data).ShortCut;
+  eKeyShort2.HotKey     := TSynEditKeyStroke(Item.Data).ShortCut2;
 end;
 
 procedure TfmEditorOptionsDialog.btnOkClick(Sender: TObject);
@@ -1100,7 +1082,7 @@ end;
 
 
 procedure TfmEditorOptionsDialog.FillInKeystrokeInfo(
-  AKey: TSynEditKeystroke; AItem: TEasyItem);
+  AKey: TSynEditKeystroke; AItem: TListItem);
 var TmpString: String;      begin
   with AKey do
   begin
@@ -1116,7 +1098,7 @@ var TmpString: String;      begin
     end;
 
     AItem.Caption:= TmpString;
-    AItem.Captions[1] := '';
+    AItem.SubItems.Clear;
 
     TmpString := '';
     if Shortcut <> 0 then
@@ -1125,7 +1107,7 @@ var TmpString: String;      begin
     if (TmpString <> '') and (Shortcut2 <> 0) then
       TmpString := TmpString + ' ' + ShortCutToText(ShortCut2);
 
-    AItem.Captions[1] := TmpString;
+    AItem.SubItems.Add(TmpString);
   end;
 end;
 

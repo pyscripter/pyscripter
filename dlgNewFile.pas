@@ -6,23 +6,22 @@ uses
   Windows, Messages, SysUtils, Classes, System.Contnrs,
   Controls, Forms,
   Dialogs, VirtualTrees, cFileTemplates,
-  SpTBXDkPanels, SpTBXControls, dlgPyIDEBase,
-  SpTBXItem, SpTBXSkins, MPCommonObjects, MPCommonUtilities, EasyListview;
+  dlgPyIDEBase, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.ComCtrls;
 
 type
   TNewFileDialog = class(TPyIDEDlgBase)
-    Panel1: TSpTBXPanel;
-    Panel2: TSpTBXPanel;
-    Panel3: TSpTBXPanel;
+    Panel1: TPanel;
+    Panel2: TPanel;
+    Panel3: TPanel;
     tvCategories: TVirtualStringTree;
-    Label1: TSpTBXLabel;
-    Panel4: TSpTBXPanel;
-    Label2: TSpTBXLabel;
-    btnCancel: TSpTBXButton;
-    btnCreate: TSpTBXButton;
-    btnManageTemplates: TSpTBXButton;
-    Splitter1: TSpTBXSplitter;
-    lvTemplates: TEasyListview;
+    Label1: TLabel;
+    Panel4: TPanel;
+    Label2: TLabel;
+    btnCancel: TButton;
+    btnCreate: TButton;
+    btnManageTemplates: TButton;
+    Splitter1: TSplitter;
+    lvTemplates: TListview;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure tvCategoriesGetText(Sender: TBaseVirtualTree; Node: PVirtualNode;
@@ -31,9 +30,9 @@ type
     procedure tvCategoriesChange(Sender: TBaseVirtualTree; Node: PVirtualNode);
     procedure btnManageTemplatesClick(Sender: TObject);
     procedure btnCreateClick(Sender: TObject);
-    procedure lvTemplatesItemDblClick(Sender: TCustomEasyListview;
-      Button: TCommonMouseButton; MousePos: TPoint; HitInfo: TEasyHitInfoItem);
-    procedure lvTemplatesItemSelectionsChanged(Sender: TCustomEasyListview);
+    procedure lvTemplatesSelectItem(Sender: TObject; Item: TListItem;
+      Selected: Boolean);
+    procedure lvTemplatesDblClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -46,14 +45,14 @@ type
 implementation
 
 uses
-  ShellAPI, dmCommands;
+  ShellAPI, dmCommands, MPCommonObjects;
 
 {$R *.dfm}
 
 procedure TNewFileDialog.btnCreateClick(Sender: TObject);
 begin
-  if Assigned(lvTemplates.Selection.First()) then begin
-    SelectedTemplate := TFileTemplate(lvTemplates.Selection.First.Data);
+  if Assigned(lvTemplates.Selected) then begin
+    SelectedTemplate := TFileTemplate(lvTemplates.Selected.Data);
     ModalResult := mrOK;
   end;
 end;
@@ -69,7 +68,7 @@ begin
   inherited;
   Categories := TStringList.Create;
   Categories.CaseSensitive := False;
-  lvTemplates.ImagesLarge := LargeSysImages;
+  lvTemplates.LargeImages := LargeSysImages;
 end;
 
 procedure TNewFileDialog.FormDestroy(Sender: TObject);
@@ -82,16 +81,15 @@ begin
   SetUp;
 end;
 
-procedure TNewFileDialog.lvTemplatesItemDblClick(Sender: TCustomEasyListview;
-  Button: TCommonMouseButton; MousePos: TPoint; HitInfo: TEasyHitInfoItem);
+procedure TNewFileDialog.lvTemplatesDblClick(Sender: TObject);
 begin
   btnCreateClick(Self);
 end;
 
-procedure TNewFileDialog.lvTemplatesItemSelectionsChanged(
-  Sender: TCustomEasyListview);
+procedure TNewFileDialog.lvTemplatesSelectItem(Sender: TObject; Item: TListItem;
+  Selected: Boolean);
 begin
-  btnCreate.Enabled := Assigned(lvTemplates.Selection.First());
+  btnCreate.Enabled := Assigned(Item) and Selected;
 end;
 
 procedure TNewFileDialog.SetUp;

@@ -30,4 +30,6 @@ To compile the PythonIDE.dpr, you first need to install the following components
      - EasyListView (https://github.com/TurboPack/MustangpeakEasyListview) - use SVN
      - VirtualShellTools (https://github.com/TurboPack/MustangpeakVirtualshellTools) - use SVN  
 
+    - zControls (https://github.com/MahdiSafsafi/zcontrols)
+
 If you have managed to do all the above then you should be able to compile PyScripter! :) 

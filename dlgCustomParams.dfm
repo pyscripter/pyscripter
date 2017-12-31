@@ -12,113 +12,120 @@ inherited CustomizeParams: TCustomizeParams
   ExplicitHeight = 372
   PixelsPerInch = 96
   TextHeight = 13
-  object Panel: TSpTBXPanel
+  object Panel: TPanel
     Left = 0
     Top = 0
     Width = 435
     Height = 343
     Align = alClient
     TabOrder = 0
-    TBXStyleBackground = True
     DesignSize = (
       435
       343)
-    object TBXButton1: TSpTBXButton
+    object Label3: TLabel
+      Left = 12
+      Top = 304
+      Width = 214
+      Height = 13
+      Caption = 'Press Shift+Ctrl+P for Parameter completion'
+      Enabled = False
+    end
+    object Label4: TLabel
+      Left = 12
+      Top = 319
+      Width = 204
+      Height = 13
+      Caption = 'Press Shift+Ctrl+M for Modifier completion'
+      Enabled = False
+    end
+    object TBXButton1: TButton
       Left = 5
       Top = 183
       Width = 84
       Height = 24
       Action = actAddItem
-      TabOrder = 3
       Images = CommandsDataModule.Images
-      ImageIndex = 49
+      TabOrder = 3
     end
-    object TBXButton3: TSpTBXButton
+    object TBXButton3: TButton
       Left = 89
       Top = 183
       Width = 84
       Height = 24
       Action = actDeleteItem
-      TabOrder = 4
       Images = CommandsDataModule.Images
-      ImageIndex = 14
+      TabOrder = 4
     end
-    object TBXButton4: TSpTBXButton
+    object TBXButton4: TButton
       Left = 174
       Top = 183
       Width = 84
       Height = 24
       Action = actMoveUp
-      TabOrder = 5
       Images = CommandsDataModule.Images
-      ImageIndex = 47
+      TabOrder = 5
     end
-    object TBXButton5: TSpTBXButton
+    object TBXButton5: TButton
       Left = 258
       Top = 183
       Width = 84
       Height = 24
       Action = actMoveDown
-      TabOrder = 6
       Images = CommandsDataModule.Images
-      ImageIndex = 48
+      TabOrder = 6
     end
-    object TBXButton2: TSpTBXButton
+    object TBXButton2: TButton
       Left = 343
       Top = 183
       Width = 84
       Height = 24
       Action = actUpdateItem
-      TabOrder = 7
       Images = CommandsDataModule.Images
-      ImageIndex = 39
+      TabOrder = 7
     end
-    object btnOK: TSpTBXButton
+    object btnOK: TButton
       Left = 260
       Top = 308
       Width = 75
       Height = 25
-      Caption = '&OK'
       Anchors = [akRight, akBottom]
-      TabOrder = 1
+      Caption = '&OK'
       Default = True
       ModalResult = 1
+      TabOrder = 1
     end
-    object btnCancel: TSpTBXButton
+    object btnCancel: TButton
       Left = 340
       Top = 308
       Width = 75
       Height = 25
-      Caption = '&Cancel'
       Anchors = [akRight, akBottom]
-      TabOrder = 0
       Cancel = True
+      Caption = '&Cancel'
       ModalResult = 2
+      TabOrder = 8
     end
-    object Label3: TSpTBXLabel
-      Left = 12
-      Top = 304
-      Width = 220
-      Height = 19
-      Caption = 'Press Shift+Ctrl+P for Parameter completion'
-      Enabled = False
-    end
-    object Label4: TSpTBXLabel
-      Left = 12
-      Top = 319
-      Width = 210
-      Height = 19
-      Caption = 'Press Shift+Ctrl+M for Modifier completion'
-      Enabled = False
-    end
-    object GroupBox1: TSpTBXGroupBox
+    object GroupBox1: TGroupBox
       Left = 10
       Top = 215
       Width = 414
       Height = 83
       Caption = 'Name-Value Pair'
       TabOrder = 2
-      TBXStyleBackground = True
+      object Label1: TLabel
+        Left = 14
+        Top = 28
+        Width = 31
+        Height = 13
+        Caption = '&Name:'
+      end
+      object Label2: TLabel
+        Left = 14
+        Top = 50
+        Width = 30
+        Height = 13
+        Caption = '&Value:'
+      end
       object SynValue: TSynEdit
         Left = 61
         Top = 48
@@ -131,7 +138,14 @@ inherited CustomizeParams: TCustomizeParams
         Font.Pitch = fpFixed
         Font.Style = []
         TabOrder = 1
-        BorderStyle = bsNone
+        CodeFolding.GutterShapeSize = 11
+        CodeFolding.CollapsedLineColor = clGrayText
+        CodeFolding.FolderBarLinesColor = clGrayText
+        CodeFolding.IndentGuidesColor = clGray
+        CodeFolding.IndentGuides = True
+        CodeFolding.ShowCollapsedLine = False
+        CodeFolding.ShowHintMark = True
+        UseCodeFolding = False
         Gutter.Font.Charset = DEFAULT_CHARSET
         Gutter.Font.Color = clWindowText
         Gutter.Font.Height = -11
@@ -144,21 +158,7 @@ inherited CustomizeParams: TCustomizeParams
         WantReturns = False
         FontSmoothing = fsmNone
       end
-      object Label1: TSpTBXLabel
-        Left = 14
-        Top = 28
-        Width = 37
-        Height = 19
-        Caption = '&Name:'
-      end
-      object Label2: TSpTBXLabel
-        Left = 14
-        Top = 50
-        Width = 36
-        Height = 19
-        Caption = '&Value:'
-      end
-      object edName: TSpTBXEdit
+      object edName: TEdit
         Left = 61
         Top = 23
         Width = 121
@@ -167,39 +167,28 @@ inherited CustomizeParams: TCustomizeParams
         OnKeyPress = edNameKeyPress
       end
     end
-    object lvItems: TEasyListview
-      AlignWithMargins = True
-      Left = 5
-      Top = 5
-      Width = 425
-      Height = 174
+    object lvItems: TListView
+      Left = 1
+      Top = 1
+      Width = 433
+      Height = 171
       Align = alTop
-      EditManager.Font.Charset = DEFAULT_CHARSET
-      EditManager.Font.Color = clWindowText
-      EditManager.Font.Height = -11
-      EditManager.Font.Name = 'Tahoma'
-      EditManager.Font.Style = []
-      Header.Columns.Items = {
-        0600000002000000110000005445617379436F6C756D6E53746F726564FFFECE
-        000600000080080001010001000000000000018C000000FFFFFF1F0001000000
-        01000000040000004E0061006D00650000000000000000000000000011000000
-        5445617379436F6C756D6E53746F726564FFFECE000600000080080001010001
-        01000000000000FA000000FFFFFF1F0001000000010000000500000056006100
-        6C0075006500000000000000000000000000}
-      Header.Draggable = False
-      Header.Visible = True
-      HotTrack.Enabled = True
-      PaintInfoGroup.MarginBottom.CaptionIndent = 4
-      Selection.AlphaBlend = True
-      Selection.AlphaBlendSelRect = True
-      Selection.FullRowSelect = True
-      Selection.InactiveBorderColor = clHighlight
-      Selection.InactiveColor = clHighlight
-      Selection.InactiveTextColor = clWindowText
-      TabOrder = 10
-      View = elsReport
-      OnColumnClick = lvItemsColumnClick
-      OnItemSelectionsChanged = lvItemsItemSelectionsChanged
+      Columns = <
+        item
+          Caption = 'Name'
+          Width = 140
+        end
+        item
+          Caption = 'Value'
+          Width = 250
+        end>
+      ColumnClick = False
+      HideSelection = False
+      ReadOnly = True
+      RowSelect = True
+      TabOrder = 0
+      ViewStyle = vsReport
+      OnChange = lvItemsChange
     end
   end
   object ActionList: TActionList

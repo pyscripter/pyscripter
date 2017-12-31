@@ -11,84 +11,79 @@ unit dlgToolProperties;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Controls, Forms,
+  System.Types, Windows, Messages, SysUtils, Variants, Classes, Controls, Forms,
   System.UITypes, Dialogs, cTools, StdCtrls, SynEdit, Menus,
-  ActnList, SpTBXControls, SpTBXEditors,
-  dlgPyIDEBase, SpTBXItem, SpTBXTabs, TB2Item, MPCommonObjects,
-  EasyListview, MPCommonUtilities, ComCtrls, System.Actions;
+  ActnList, SpTBXControls, SpTBXEditors, SpTBXItem, SpTBXTabs, TB2Item, 
+  dlgPyIDEBase, ComCtrls, System.Actions, Vcl.Samples.Spin, Vcl.ExtCtrls,
+  SynEditMiscClasses;
 
 type
   TToolProperties = class(TPyIDEDlgBase)
-    Panel1: TSpTBXPanel;
+    Panel1: TPanel;
     FormatsPopup: TPopupMenu;
     Filename1: TMenuItem;
     Linenumber1: TMenuItem;
     Columnnumber1: TMenuItem;
-    GroupBox1: TSpTBXGroupBox;
-    GroupBox2: TSpTBXGroupBox;
+    GroupBox1: TGroupBox;
+    GroupBox2: TGroupBox;
     SynApplication: TSynEdit;
     SynParameters: TSynEdit;
     SynWorkDir: TSynEdit;
-    GroupBox4: TSpTBXGroupBox;
-    GroupBox3: TSpTBXGroupBox;
-    GroupBox5: TSpTBXGroupBox;
-    GroupBox6: TSpTBXGroupBox;
-    btnOK: TSpTBXButton;
-    btnCancel: TSpTBXButton;
-    btnAppDir: TSpTBXButton;
-    btnWorkDir: TSpTBXButton;
-    btnStdFormats: TSpTBXButton;
-    btnHelp: TSpTBXButton;
-    cbCaptureOutput: TSpTBXCheckBox;
-    cbParseMessages: TSpTBXCheckBox;
-    cbParseTraceback: TSpTBXCheckBox;
-    cbHideConsole: TSpTBXCheckBox;
-    cbWaitForTermination: TSpTBXCheckBox;
-    cbUseCustomEnv: TSpTBXCheckBox;
-    btnAdd: TSpTBXButton;
-    btnDelete: TSpTBXButton;
-    btnMoveUp: TSpTBXButton;
-    btnMoveDown: TSpTBXButton;
-    btnUpdate: TSpTBXButton;
+    GroupBox4: TGroupBox;
+    GroupBox3: TGroupBox;
+    GroupBox5: TGroupBox;
+    GroupBox6: TGroupBox;
+    btnOK: TButton;
+    btnCancel: TButton;
+    btnAppDir: TButton;
+    btnWorkDir: TButton;
+    btnStdFormats: TButton;
+    btnHelp: TButton;
+    cbCaptureOutput: TCheckBox;
+    cbParseMessages: TCheckBox;
+    cbParseTraceback: TCheckBox;
+    cbHideConsole: TCheckBox;
+    cbWaitForTermination: TCheckBox;
+    cbUseCustomEnv: TCheckBox;
+    btnAdd: TButton;
+    btnDelete: TButton;
+    btnUpdate: TButton;
     ActionList: TActionList;
     actUpdateItem: TAction;
-    actMoveDown: TAction;
-    actMoveUp: TAction;
     actDeleteItem: TAction;
     actAddItem: TAction;
-    Label1: TSpTBXLabel;
-    Label5: TSpTBXLabel;
-    Label17: TSpTBXLabel;
-    Label2: TSpTBXLabel;
-    Label6: TSpTBXLabel;
-    Label7: TSpTBXLabel;
-    Label3: TSpTBXLabel;
-    lbShortcut: TSpTBXLabel;
-    lbContext: TSpTBXLabel;
-    Label13: TSpTBXLabel;
-    Label10: TSpTBXLabel;
-    Label11: TSpTBXLabel;
-    Label12: TSpTBXLabel;
-    Label9: TSpTBXLabel;
-    Label15: TSpTBXLabel;
-    Label16: TSpTBXLabel;
-    hkShortCut: THotKey;
-    seTimeout: TSpTBXSpinEdit;
-    edName: TSpTBXEdit;
-    edDescription: TSpTBXEdit;
-    edMessagesFormat: TSpTBXEdit;
-    edEnvName: TSpTBXEdit;
-    edEnvValue: TSpTBXEdit;
-    cbContext: TSpTBXComboBox;
-    cbSaveFiles: TSpTBXComboBox;
-    cbStandardInput: TSpTBXComboBox;
-    cbStandardOutput: TSpTBXComboBox;
+    Label1: TLabel;
+    Label5: TLabel;
+    Label17: TLabel;
+    Label2: TLabel;
+    Label6: TLabel;
+    Label7: TLabel;
+    Label3: TLabel;
+    lbShortcut: TLabel;
+    lbContext: TLabel;
+    Label13: TLabel;
+    Label10: TLabel;
+    Label11: TLabel;
+    Label12: TLabel;
+    Label9: TLabel;
+    Label15: TLabel;
+    Label16: TLabel;
+    seTimeout: TSpinEdit;
+    edName: TEdit;
+    edDescription: TEdit;
+    edMessagesFormat: TEdit;
+    edEnvName: TEdit;
+    edEnvValue: TEdit;
+    cbContext: TComboBox;
+    cbSaveFiles: TComboBox;
+    cbStandardInput: TComboBox;
+    cbStandardOutput: TComboBox;
     TabControl: TSpTBXTabControl;
     SpTBXTabItem1: TSpTBXTabItem;
     tabProperties: TSpTBXTabSheet;
     SpTBXTabItem2: TSpTBXTabItem;
     tabEnvironment: TSpTBXTabSheet;
-    lvItems: TEasyListview;
+    lvItems: TListview;
     procedure FormShow(Sender: TObject);
     procedure Filename1Click(Sender: TObject);
     procedure SynApplicationEnter(Sender: TObject);
@@ -100,19 +95,16 @@ type
     procedure FormCreate(Sender: TObject);
     procedure actAddItemExecute(Sender: TObject);
     procedure actDeleteItemExecute(Sender: TObject);
-    procedure actMoveUpExecute(Sender: TObject);
-    procedure actMoveDownExecute(Sender: TObject);
     procedure actUpdateItemExecute(Sender: TObject);
     procedure ActionListUpdate(Action: TBasicAction; var Handled: Boolean);
     procedure btnHelpClick(Sender: TObject);
     procedure cbParseMessagesClick(Sender: TObject);
-    procedure lvItemsItemSelectionsChanged(Sender: TCustomEasyListview);
-    procedure lvItemsColumnClick(Sender: TCustomEasyListview;
-      Button: TCommonMouseButton; ShiftState: TShiftState;
-      const Column: TEasyColumn);
+    procedure lvItemsChange(Sender: TObject; Item: TListItem; Change: TItemChange);
+    procedure btnStdFormatsClick(Sender: TObject);
   private
     { Private declarations }
     fEnvStrings : TStrings;
+    hkShortCut: TSynHotKey;
   public
     { Public declarations }
   end;
@@ -121,7 +113,14 @@ type
 
 implementation
 
-uses dmCommands, JvBrowseFolder, JclSysInfo, JvGnugettext, StringResources;
+uses
+  Vcl.Graphics,
+  Vcl.Themes,
+  Vcl.FileCtrl,
+  dmCommands,
+  JclSysInfo,
+  JvGnugettext,
+  StringResources;
 
 {$R *.dfm}
 
@@ -187,7 +186,7 @@ begin
       Environment.Clear;
       if UseCustomEnvironment then begin
         for i := 0 to lvItems.Items.Count - 1 do
-          Environment.Add(lvItems.Items[i].Caption + '=' + lvItems.Items[i].Captions[1]);
+          Environment.Add(lvItems.Items[i].Caption + '=' + lvItems.Items[i].SubItems[0]);
       end;
     end;
   finally
@@ -227,6 +226,31 @@ procedure TToolProperties.FormCreate(Sender: TObject);
 begin
   inherited;
   fEnvStrings := TStringList.Create;
+
+  hkShortCut := TSynHotKey.Create(Self);
+  with hkShortCut do
+  begin
+    Name := 'hkShortCut';
+    Parent := GroupBox4;
+    Left := 86;
+    Top := 15;
+    Width := 125;
+    Height := 19;
+    Hint := 'Allows you to specify a menu shortcut for the tool';
+    HotKey := 0;
+    InvalidKeys := [hcNone];
+    Modifiers := [];
+    TabOrder := 0;
+    Color := StyleServices.GetSystemColor(clWindow);
+    Font.Color := StyleServices.GetSystemColor(clWindowText);
+  end;
+
+  SynApplication.Color := StyleServices.GetSystemColor(clWindow);
+  SynApplication.Font.Color := StyleServices.GetSystemColor(clWindowText);
+  SynParameters.Color := StyleServices.GetSystemColor(clWindow);
+  SynParameters.Font.Color := StyleServices.GetSystemColor(clWindowText);
+  SynWorkDir.Color := StyleServices.GetSystemColor(clWindow);
+  SynWorkDir.Font.Color := StyleServices.GetSystemColor(clWindowText);
 end;
 
 procedure TToolProperties.FormDestroy(Sender: TObject);
@@ -241,7 +265,7 @@ var
   S: string;
 begin
   S := '';
-  if BrowseDirectory(S, 'Select working directory:', 0) then begin
+  if SelectDirectory(_('Select working directory:'), '', S, [], Self) then begin
     SynWorkDir.SelectAll;
     SynWorkDir.SelText := S;
     SynWorkDir.SetFocus;
@@ -270,7 +294,7 @@ end;
 
 procedure TToolProperties.actAddItemExecute(Sender: TObject);
 Var
-  Item : TEasyItem;
+  Item : TListItem;
   i : Integer;
 begin
   if edEnvName.Text <> '' then begin
@@ -278,114 +302,60 @@ begin
       if CompareText(lvItems.Items[i].Caption, EdEnvName.Text) = 0 then begin
         Item := lvItems.Items[i];
         Item.Caption := EdEnvName.Text;
-        Item.Captions[1] := EdEnvValue.Text;
+        Item.SubItems[0] := EdEnvValue.Text;
         Item.Selected := True;
-        Item.MakeVisible(emvAuto);
+        Item.MakeVisible(False);
         Exit;
       end;
 
     with lvItems.Items.Add() do begin
       Caption := edEnvName.Text;
-      Captions[1] := edEnvValue.Text;
+      SubItems.Add(edEnvValue.Text);
       Selected := True;
-      MakeVisible(emvAuto);
+      MakeVisible(False);
     end;
   end;end;
 
 procedure TToolProperties.actDeleteItemExecute(Sender: TObject);
 begin
-  if Assigned(lvItems.Selection.First()) then
-    lvItems.Items.Delete(lvItems.Selection.First.Index);
-end;
-
-procedure TToolProperties.actMoveUpExecute(Sender: TObject);
-Var
-  Name, Value : string;
-  Index : integer;
-begin
-  if Assigned(lvItems.Selection.First()) and (lvItems.Selection.First.Index >= 1) then begin
-    lvItems.Header.Columns[0].SortDirection := esdNone;
-
-    Index := lvItems.Selection.First.Index;
-    Name := lvItems.Items[Index].Caption;
-    Value := lvItems.Items[Index].Captions[1];
-    lvItems.Items.Delete(Index);
-
-    with lvItems.Items.Insert(Index - 1) do begin
-      Caption := Name;
-      Captions[1] := Value;
-      Selected := True;
-    end;
-  end;
-end;
-
-procedure TToolProperties.actMoveDownExecute(Sender: TObject);
-Var
-  Name, Value : string;
-  Index : integer;
-begin
-  if Assigned(lvItems.Selection.First()) and
-    (lvItems.Selection.First.Index < lvItems.Items.Count - 1) then
-  begin
-    lvItems.Header.Columns[0].SortDirection := esdNone;
-
-    Index := lvItems.Selection.First.Index;
-    Name := lvItems.Items[Index].Caption;
-    Value := lvItems.Items[Index].Captions[1];
-    lvItems.Items.Delete(Index);
-
-    with lvItems.Items.Insert(Index + 1) do begin
-      Caption := Name;
-      Captions[1] := Value;
-      Selected := True;
-    end;
-  end;
+  if lvItems.ItemIndex >= 0 then
+    lvItems.Items.Delete(lvItems.ItemIndex);
 end;
 
 procedure TToolProperties.actUpdateItemExecute(Sender: TObject);
 Var
   i : integer;
 begin
-  if (edEnvName.Text <> '') and Assigned(lvItems.Selection.First())  then begin
+  if (edEnvName.Text <> '') and (lvItems.ItemIndex >= 0) then begin
     for i := 0 to lvItems.Items.Count - 1 do
       if (CompareText(lvItems.Items[i].Caption, edEnvName.Text) = 0) and
-         (i <> lvItems.Selection.First.Index) then
+         (i <> lvItems.ItemIndex) then
       begin
         Dialogs.MessageDlg(_(SSameName), mtError, [mbOK], 0);
         Exit;
       end;
-    with lvItems.Items[lvItems.Selection.First.Index] do begin
+    with lvItems.Items[lvItems.ItemIndex] do begin
       Caption := EdEnvName.Text;
-      Captions[1] := EdEnvValue.Text;
+      SubItems[0] := EdEnvValue.Text;
     end;
   end;
 end;
 
-procedure TToolProperties.lvItemsColumnClick(Sender: TCustomEasyListview;
-  Button: TCommonMouseButton; ShiftState: TShiftState;
-  const Column: TEasyColumn);
+procedure TToolProperties.lvItemsChange(Sender: TObject; Item: TListItem;
+  Change: TItemChange);
 begin
-  if Column.Clickable then lvItems.Sort.SortAll;
-end;
-
-procedure TToolProperties.lvItemsItemSelectionsChanged(
-  Sender: TCustomEasyListview);
-begin
- if Assigned(lvItems.Selection.First()) then begin
-    edEnvName.Text := lvItems.Selection.First.Caption;
-    edEnvValue.Text := lvItems.Selection.First.Captions[1];
+  if Item.Selected then begin
+    edEnvName.Text := Item.Caption;
+    edEnvValue.Text := Item.SubItems[0];
   end;
 end;
 
 procedure TToolProperties.ActionListUpdate(Action: TBasicAction;
   var Handled: Boolean);
 begin
-  actDeleteItem.Enabled := Assigned(lvItems.Selection.First());
-  actMoveUp.Enabled :=  Assigned(lvItems.Selection.First()) and  (lvItems.Selection.First.Index >= 1);
-  actMoveDown.Enabled := Assigned(lvItems.Selection.First()) and
-                         (lvItems.Selection.First.Index < lvItems.Items.Count - 1);
+  actDeleteItem.Enabled := lvItems.ItemIndex >= 0;
   actAddItem.Enabled := edName.Text <> '';
-  actUpdateItem.Enabled := (edName.Text <> '') and Assigned(lvItems.Selection.First());
+  actUpdateItem.Enabled := (edName.Text <> '') and (lvItems.ItemIndex >= 0);
   Handled := True;
 end;
 
@@ -394,21 +364,35 @@ begin
   Application.HelpContext(HelpContext);
 end;
 
+procedure TToolProperties.btnStdFormatsClick(Sender: TObject);
+var
+  button: TControl;
+  lowerLeft: TPoint;
+begin
+  if Sender is TControl then
+  begin
+    button := TControl(Sender);
+    lowerLeft := Point(0, button.Height);
+    lowerLeft := button.ClientToScreen(lowerLeft);
+    FormatsPopup.Popup(lowerLeft.X, lowerLeft.Y);
+  end;
+end;
+
 procedure TToolProperties.FormShow(Sender: TObject);
 Var
   i : integer;
 begin
   lvItems.Items.Clear;
-  lvItems.BeginUpdate;
+  lvItems.Items.BeginUpdate;
   try
     for i := 0 to fEnvStrings.Count - 1 do
       if fEnvStrings.Names[i] <> '' then
         with lvItems.Items.Add() do begin
           Caption := fEnvStrings.Names[i];
-          Captions[1] := fEnvStrings.Values[Caption];
+          SubItems.Add(fEnvStrings.Values[Caption]);
         end;
   finally
-    lvItems.EndUpdate;
+    lvItems.Items.EndUpdate;
   end;
 end;
 

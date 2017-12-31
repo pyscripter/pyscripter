@@ -62,7 +62,7 @@ implementation
 
 uses
   Math, dlgToolProperties, dmCommands, uHighlighterProcs, cProjectClasses,
-  StringResources, JvBrowseFolder, JvGnugettext, Vcl.Themes;
+  StringResources, JvGnugettext, Vcl.Themes, Vcl.FileCtrl;
 
 {$R *.dfm}
 
@@ -164,7 +164,7 @@ var
 begin
   if ActiveProject.FileName <> '' then
     S := ExtractFileDir(ActiveProject.FileName);
-  if BrowseDirectory(S, 'Select working directory:', 0) then begin
+  if SelectDirectory(_('Select working directory:'), '', S, [], Self) then begin
     SynWorkDir.SelectAll;
     SynWorkDir.SelText := S;
     SynWorkDir.SetFocus;

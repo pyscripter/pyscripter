@@ -7,8 +7,8 @@ inherited FunctionListWindow: TFunctionListWindow
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSizeable
   Caption = 'Function List'
-  ClientHeight = 312
-  ClientWidth = 525
+  ClientHeight = 317
+  ClientWidth = 536
   Icon.Data = {
     0000010001001010000001002000680400001600000028000000100000002000
     0000010020000000000040040000000000000000000000000000000000000000
@@ -51,90 +51,80 @@ inherited FunctionListWindow: TFunctionListWindow
   Position = poScreenCenter
   OnClose = FormClose
   OnKeyPress = edtMethodsKeyPress
-  ExplicitWidth = 541
-  ExplicitHeight = 351
+  OnResize = FormResize
+  ExplicitWidth = 552
+  ExplicitHeight = 356
   PixelsPerInch = 96
   TextHeight = 13
-  object pnHolder: TSpTBXPanel
+  object pnHolder: TPanel
     Left = 0
     Top = 69
-    Width = 525
-    Height = 218
+    Width = 536
+    Height = 223
     Align = alClient
     TabOrder = 0
-    TBXStyleBackground = True
-    object lvProcs: TEasyListview
-      AlignWithMargins = True
-      Left = 5
-      Top = 5
-      Width = 515
-      Height = 208
+    ExplicitWidth = 525
+    ExplicitHeight = 218
+    object lvProcs: TListView
+      Left = 1
+      Top = 1
+      Width = 534
+      Height = 221
       Align = alClient
-      EditManager.Font.Charset = DEFAULT_CHARSET
-      EditManager.Font.Color = clWindowText
-      EditManager.Font.Height = -11
-      EditManager.Font.Name = 'Tahoma'
-      EditManager.Font.Style = []
-      DragManager.InsertMark.Color = clGrayText
-      Header.Columns.Items = {
-        0600000003000000110000005445617379436F6C756D6E53746F726564FFFECE
-        0006000000800800010100010000000000000114000000FFFFFF1F0001000000
-        00000000000000000000000000000000110000005445617379436F6C756D6E53
-        746F726564FFFECE00060000008008000101010101000000000001A4010000FF
-        FFFF1F00010000000100000008000000460075006E006300740069006F006E00
-        000000000000000000000000110000005445617379436F6C756D6E53746F7265
-        64FFFECE0006000000800801010100010200000000000146000000FFFFFF1F00
-        0100000001000000040000004C0069006E006500000000000000000000000000}
-      Header.Visible = True
-      ImagesSmall = CommandsDataModule.CodeImages
-      PaintInfoGroup.MarginBottom.CaptionIndent = 4
-      Selection.AlphaBlend = True
-      Selection.AlphaBlendSelRect = True
-      Selection.FullRowSelect = True
-      Selection.InactiveBorderColor = clHighlight
-      Selection.InactiveColor = clHighlight
-      Selection.InactiveTextColor = clWindowText
-      Sort.AutoSort = True
+      Columns = <
+        item
+          Width = 20
+        end
+        item
+          Caption = 'Function'
+          Width = 313
+        end
+        item
+          Caption = 'Line'
+          Width = 68
+        end>
+      HideSelection = False
+      ReadOnly = True
+      RowSelect = True
+      SmallImages = CommandsDataModule.CodeImages
       TabOrder = 0
-      View = elsReport
-      OnItemCompare = lvProcsItemCompare
-      OnItemDblClick = lvProcsItemDblClick
-      OnItemSelectionsChanged = lvProcsItemSelectionsChanged
-      OnSortEnd = lvProcsSortEnd
-      ExplicitLeft = 3
-      ExplicitTop = 6
+      ViewStyle = vsReport
+      OnChange = lvProcsChange
+      OnColumnClick = lvProcsColumnClick
+      OnDblClick = actViewGotoExecute
+      ExplicitWidth = 523
+      ExplicitHeight = 216
     end
   end
-  object pnlHeader: TSpTBXPanel
+  object pnlHeader: TPanel
     Left = 0
     Top = 26
-    Width = 525
+    Width = 536
     Height = 43
     Align = alTop
     ParentShowHint = False
     ShowHint = True
     TabOrder = 1
     OnResize = pnlHeaderResize
-    TBXStyleBackground = True
-    object pnlHeaderLeft: TSpTBXPanel
+    ExplicitWidth = 525
+    object pnlHeaderLeft: TPanel
       AlignWithMargins = True
-      Left = 5
-      Top = 5
+      Left = 4
+      Top = 4
       Width = 260
-      Height = 33
+      Height = 35
       Align = alLeft
       TabOrder = 0
-      TBXStyleBackground = True
-      object lblMethods: TSpTBXLabel
-        Left = 10
+      object lblMethods: TLabel
+        Left = 16
         Top = 8
-        Width = 39
-        Height = 19
-        Caption = '&Search'
+        Width = 33
+        Height = 13
         Alignment = taRightJustify
+        Caption = '&Search'
         FocusControl = edtMethods
       end
-      object edtMethods: TSpTBXEdit
+      object edtMethods: TEdit
         Left = 74
         Top = 6
         Width = 179
@@ -145,32 +135,31 @@ inherited FunctionListWindow: TFunctionListWindow
         OnKeyPress = edtMethodsKeyPress
       end
     end
-    object pnlHeaderRight: TSpTBXPanel
+    object pnlHeaderRight: TPanel
       AlignWithMargins = True
-      Left = 271
-      Top = 5
-      Width = 249
-      Height = 33
+      Left = 270
+      Top = 4
+      Width = 262
+      Height = 35
       Align = alClient
       TabOrder = 1
-      TBXStyleBackground = True
-      object lblObjects: TSpTBXLabel
-        Left = 10
+      ExplicitWidth = 251
+      object lblObjects: TLabel
+        Left = 16
         Top = 8
-        Width = 43
-        Height = 19
-        Caption = '&Objects'
+        Width = 37
+        Height = 13
         Alignment = taRightJustify
+        Caption = '&Objects'
         FocusControl = cbxObjects
       end
-      object cbxObjects: TSpTBXComboBox
+      object cbxObjects: TComboBox
         Left = 82
         Top = 6
         Width = 170
         Height = 21
         Style = csDropDownList
         DropDownCount = 16
-        ItemHeight = 13
         Sorted = True
         TabOrder = 0
         OnChange = cbxObjectsChange
@@ -181,10 +170,11 @@ inherited FunctionListWindow: TFunctionListWindow
   object ToolBarDock: TSpTBXDock
     Left = 0
     Top = 0
-    Width = 525
+    Width = 536
     Height = 26
     AllowDrag = False
     LimitToOneRow = True
+    ExplicitWidth = 525
     object Toolbar: TSpTBXToolbar
       Left = 0
       Top = 0
@@ -223,18 +213,20 @@ inherited FunctionListWindow: TFunctionListWindow
   end
   object StatusBar: TSpTBXStatusBar
     Left = 0
-    Top = 287
-    Width = 525
+    Top = 292
+    Width = 536
     Height = 25
     ParentShowHint = False
     ShowHint = True
+    ExplicitTop = 287
+    ExplicitWidth = 525
     object LeftStatusLabel: TSpTBXLabelItem
       Wrapping = twEndEllipsis
       Options = [tboShowHint]
       CustomHeight = 21
     end
     object SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem
-      CustomWidth = 490
+      CustomWidth = 501
     end
     object SpTBXSeparatorItem5: TSpTBXSeparatorItem
     end

@@ -85,7 +85,9 @@ type
 
 implementation
 uses
-  System.SysUtils;
+  System.SysUtils,
+  Vcl.Forms,
+  SynEdit;
 
 { TVclStylePreview }
 
@@ -353,5 +355,12 @@ begin
 
   Canvas.Draw(0,0,FBitmap);
 end;
+
+initialization
+  TStyleManager.Engine.RegisterStyleHook(TCustomSynEdit, TScrollingStyleHook);
+
+finalization
+  TStyleManager.Engine.UnRegisterStyleHook(TCustomSynEdit, TScrollingStyleHook);
+
 
 end.

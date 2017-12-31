@@ -9,48 +9,53 @@ inherited NewFileDialog: TNewFileDialog
   ExplicitHeight = 326
   PixelsPerInch = 96
   TextHeight = 13
-  object Panel1: TSpTBXPanel
+  object Panel1: TPanel
     Left = 0
     Top = 0
     Width = 466
     Height = 297
     Align = alClient
-    UseDockManager = True
     TabOrder = 0
-    TBXStyleBackground = True
-    object Panel2: TSpTBXPanel
-      Left = 2
-      Top = 2
-      Width = 462
+    object Panel2: TPanel
+      Left = 1
+      Top = 1
+      Width = 464
       Height = 255
       Align = alTop
-      UseDockManager = True
       TabOrder = 0
-      TBXStyleBackground = True
-      object Panel3: TSpTBXPanel
-        Left = 2
-        Top = 2
+      object Splitter1: TSplitter
+        Left = 186
+        Top = 1
+        Height = 253
+        Cursor = crSizeWE
+        ExplicitLeft = 187
+        ExplicitTop = 2
+        ExplicitHeight = 251
+      end
+      object Panel3: TPanel
+        Left = 1
+        Top = 1
         Width = 185
-        Height = 251
+        Height = 253
         Align = alLeft
-        UseDockManager = True
         TabOrder = 0
-        TBXStyleBackground = True
+        object Label1: TLabel
+          Left = 9
+          Top = 7
+          Width = 56
+          Height = 13
+          Caption = 'Categories:'
+        end
         object tvCategories: TVirtualStringTree
-          Left = 2
-          Top = 26
-          Width = 181
+          Left = 1
+          Top = 29
+          Width = 183
           Height = 223
           Align = alBottom
           BevelInner = bvNone
           BevelOuter = bvNone
           BevelKind = bkFlat
           Header.AutoSizeIndex = 0
-          Header.Font.Charset = DEFAULT_CHARSET
-          Header.Font.Color = clWindowText
-          Header.Font.Height = -11
-          Header.Font.Name = 'MS Shell Dlg 2'
-          Header.Font.Style = []
           Header.MainColumn = -1
           Header.Options = [hoColumnResize, hoDrag]
           NodeDataSize = 0
@@ -60,75 +65,47 @@ inherited NewFileDialog: TNewFileDialog
           OnGetText = tvCategoriesGetText
           Columns = <>
         end
-        object Label1: TSpTBXLabel
-          Left = 9
-          Top = 7
-          Width = 62
-          Height = 19
-          Caption = 'Categories:'
-        end
       end
-      object Panel4: TSpTBXPanel
-        Left = 190
-        Top = 2
-        Width = 270
-        Height = 251
+      object Panel4: TPanel
+        Left = 189
+        Top = 1
+        Width = 274
+        Height = 253
         Align = alClient
-        UseDockManager = True
         TabOrder = 1
-        TBXStyleBackground = True
-        object Label2: TSpTBXLabel
+        object Label2: TLabel
           Left = 6
           Top = 7
-          Width = 59
-          Height = 19
+          Width = 53
+          Height = 13
           Caption = 'Templates:'
         end
-        object lvTemplates: TEasyListview
-          Left = 2
-          Top = 26
-          Width = 266
+        object lvTemplates: TListView
+          Left = 1
+          Top = 29
+          Width = 272
           Height = 223
           Align = alBottom
-          EditManager.Font.Charset = DEFAULT_CHARSET
-          EditManager.Font.Color = clWindowText
-          EditManager.Font.Height = -11
-          EditManager.Font.Name = 'Tahoma'
-          EditManager.Font.Style = []
-          Header.Columns.Items = {
-            0600000001000000110000005445617379436F6C756D6E53746F726564FFFECE
-            0006000000800800010100010000000000000161000000FFFFFF1F0001000000
-            00000000000000000000000000000000}
-          HotTrack.Enabled = True
-          PaintInfoGroup.MarginBottom.CaptionIndent = 4
-          Selection.InactiveBorderColor = clHighlight
-          Selection.InactiveColor = clHighlight
-          Selection.InactiveTextColor = clWindowText
-          TabOrder = 1
-          OnItemDblClick = lvTemplatesItemDblClick
-          OnItemSelectionsChanged = lvTemplatesItemSelectionsChanged
+          Columns = <>
+          FlatScrollBars = True
+          ReadOnly = True
+          TabOrder = 0
+          OnDblClick = lvTemplatesDblClick
+          OnSelectItem = lvTemplatesSelectItem
         end
       end
-      object Splitter1: TSpTBXSplitter
-        Left = 187
-        Top = 2
-        Width = 3
-        Height = 251
-        Cursor = crSizeWE
-        MinSize = 30
-      end
     end
-    object btnCancel: TSpTBXButton
+    object btnCancel: TButton
       Left = 378
       Top = 264
       Width = 75
       Height = 25
-      Caption = '&Cancel'
-      TabOrder = 1
       Cancel = True
+      Caption = '&Cancel'
       ModalResult = 2
+      TabOrder = 1
     end
-    object btnCreate: TSpTBXButton
+    object btnCreate: TButton
       Left = 293
       Top = 265
       Width = 75
@@ -138,7 +115,7 @@ inherited NewFileDialog: TNewFileDialog
       TabOrder = 2
       OnClick = btnCreateClick
     end
-    object btnManageTemplates: TSpTBXButton
+    object btnManageTemplates: TButton
       Left = 13
       Top = 263
       Width = 166
