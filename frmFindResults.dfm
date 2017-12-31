@@ -68,12 +68,15 @@ inherited FindResultsWindow: TFindResultsWindow
         TabOrder = 0
         object Splitter: TSpTBXSplitter
           Left = 0
-          Top = 234
+          Top = 239
           Width = 599
-          Height = 8
+          Height = 3
           Cursor = crSizeNS
           Align = alBottom
+          Color = clNone
+          ParentColor = False
           MinSize = 20
+          ExplicitTop = 234
         end
         object TBXDock1: TSpTBXDock
           Left = 0
@@ -148,7 +151,7 @@ inherited FindResultsWindow: TFindResultsWindow
           Left = 0
           Top = 26
           Width = 599
-          Height = 208
+          Height = 213
           Align = alClient
           Constraints.MinHeight = 120
           ItemHeight = 17
@@ -159,6 +162,7 @@ inherited FindResultsWindow: TFindResultsWindow
           OnKeyPress = lbResultsKeyPress
           OnMouseUp = lbResultsMouseUp
           HotTrack = False
+          ExplicitHeight = 208
         end
         object reContext: TRichEdit
           Left = 0
@@ -166,10 +170,11 @@ inherited FindResultsWindow: TFindResultsWindow
           Width = 599
           Height = 88
           Align = alBottom
+          BorderStyle = bsNone
           Font.Charset = ANSI_CHARSET
           Font.Color = clWindowText
           Font.Height = -11
-          Font.Name = 'MS Shell Dlg 2'
+          Font.Name = 'Courier New'
           Font.Style = []
           ParentFont = False
           ReadOnly = True

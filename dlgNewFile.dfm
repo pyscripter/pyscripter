@@ -28,6 +28,7 @@ inherited NewFileDialog: TNewFileDialog
         Top = 1
         Height = 253
         Cursor = crSizeWE
+        ResizeStyle = rsUpdate
         ExplicitLeft = 187
         ExplicitTop = 2
         ExplicitHeight = 251

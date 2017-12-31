@@ -354,17 +354,17 @@ begin
 
     if odSelected in State then
     begin
-      nb := clHighlight;
-      nf := clHighLightText;
-      sb := clWindow;
-      sf := clWindowText;
+      nb := SpTBXThemeServices.GetSystemColor(clHighlight);
+      nf := SpTBXThemeServices.GetSystemColor(clHighLightText);
+      sb := SpTBXThemeServices.GetSystemColor(clWindow);
+      sf := SpTBXThemeServices.GetSystemColor(clWindowText);
     end
     else
     begin
-      sb := clHighlight;
-      sf := clHighLightText;
-      nb := clWindow;
-      nf := clWindowText;
+      sb := SpTBXThemeServices.GetSystemColor(clHighlight);
+      sf := SpTBXThemeServices.GetSystemColor(clHighLightText);
+      nb := SpTBXThemeServices.GetSystemColor(clWindow);
+      nf := SpTBXThemeServices.GetSystemColor(clWindowText);
     end;
 
     ResultsCanvas.Brush.Color := nb;
