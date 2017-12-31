@@ -977,6 +977,7 @@ begin
       begin
         SynEditPrint.SynEdit := fForm.SynEdit;
         SynEditPrint.Title := GetFileTitle;
+        SynEditPrint.Highlighter := fForm.SynEdit.Highlighter;
         if PrintDialog.PrintRange = prAllPages then
           SynEditPrint.Print
         else
@@ -989,6 +990,7 @@ procedure TEditor.ExecPrintPreview;
 begin
   CommandsDataModule.SynEditPrint.SynEdit := fForm.SynEdit;
   CommandsDataModule.SynEditPrint.Title := GetFileTitle;
+  CommandsDataModule.SynEditPrint.Highlighter := fForm.SynEdit.Highlighter;
   with TPrintPreviewDlg.Create(PyIDEMainForm) do
   begin
     SynEditPrintPreview.SynEditPrint := CommandsDataModule.SynEditPrint;

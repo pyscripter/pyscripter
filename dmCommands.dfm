@@ -51,7 +51,6 @@ object CommandsDataModule: TCommandsDataModule
     Font.Height = -13
     Font.Name = 'Courier New'
     Font.Style = []
-    Colors = True
     Highlighter = SynPythonSyn
     TabWidth = 8
     Color = clWhite

@@ -46,7 +46,7 @@ uses
   SynEditPrintTypes, SynEditPrint, SynEditPrintMargins,
   SynEditPrintHeaderFooter, SpTBXControls, TB2Item,
   SpTBXItem, TB2Dock, TB2Toolbar, SpTBXEditors,
-  dlgPyIDEBase, SpTBXTabs, System.Actions;
+  dlgPyIDEBase, SpTBXTabs, System.Actions, System.ImageList;
 
 type
   TPageSetupDlg = class(TPyIDEDlgBase)
@@ -465,6 +465,9 @@ begin
   for i := 0 to Editor.Lines.Count - 1 do begin
     SelectLine(i);
     AFont.Assign(CurrText);
+    if not CBColors.Checked then
+      AFont.Color := HeadFoot.DefaultFont.Color;
+
     // TrimRight is used to fix a long standing bug occurring because
     // TntRichEdit ads #$D at the end of the string!
     HeadFoot.Add(TrimRight(Editor.Lines[i]), AFont, Al, i + 1);
