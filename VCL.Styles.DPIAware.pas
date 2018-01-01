@@ -5,6 +5,25 @@
  Purpose:   Use VCL Styles in DPI Aware applications by scaling styles
  History:
 -----------------------------------------------------------------------------}
+{
+  To use the unit just add it to the implementation uses statement of the main form and add 
+  the following code to the FormCreate handler.
+  
+  procedure TFrmMain.FormCreate(Sender: TObject);
+  Var
+    StyleDPIAwareness : TStyleDPIAwareness;
+  begin
+    StyleDPIAwareness := TStyleDPIAwareness.Create(Self);
+    StyleDPIAwareness.Parent := Self;
+
+  By default the component scales the styles at multiples of 100%. You can change that, 
+  by adding the line:
+  
+  StyleDPIAwareness.RoundScalingFactor := False;
+  
+  With this statement styles are scaled to whatever scaling factor results for Screen.PixelsPerInch. 
+  Most of the styles would work fine, but a few may show some visual defects.  
+}
 
 unit VCL.Styles.DPIAware;
 
