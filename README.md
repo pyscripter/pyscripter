@@ -10,3 +10,5 @@ languages.
 * [Support](https://groups.google.com/forum/#!forum/pyscripter)
 
 Licence: MIT
+
+![Screenshot](https://raw.githubusercontent.com/wiki/pyscripter/pyscripter/images/CodeFolding.jpg)
