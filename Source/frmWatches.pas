@@ -117,8 +117,6 @@ begin
   fWatchesList := TObjectList.Create(True); // Onwns objects
   // Let the tree know how much data space we need.
   WatchesView.NodeDataSize := SizeOf(TWatchRec);
-  WatchesView.Header.Height := MulDiv(WatchesView.Header.Height,
-    Screen.PixelsPerInch, 96);
 end;
 
 procedure TWatchesWindow.WatchesViewInitChildren(Sender: TBaseVirtualTree;
@@ -419,9 +417,9 @@ procedure TWatchesWindow.WriteToAppStorage(AppStorage: TJvCustomAppStorage;
 begin
   AppStorage.WriteObjectList(BasePath, fWatchesList, 'Watch');
   AppStorage.WriteInteger(BasePath + '\WatchesWidth',
-    WatchesView.Header.Columns[0].Width);
-  AppStorage.WriteInteger(BasePath+'\Types Width', WatchesView.Header.Columns[1].Width);
-  WatchesView.Header.Columns[1].Width := AppStorage.ReadInteger(BasePath+'\Types Width', 100);
+    PPIUnScaled(WatchesView.Header.Columns[0].Width));
+  AppStorage.WriteInteger(BasePath+'\Types Width',
+    PPIUnScaled(WatchesView.Header.Columns[1].Width));
 end;
 
 procedure TWatchesWindow.ReadFromAppStorage(AppStorage: TJvCustomAppStorage;
@@ -430,8 +428,10 @@ begin
   mnClearAllClick(Self);
   AppStorage.ReadObjectList(BasePath, fWatchesList, CreateWatch, True,
     'Watch');
-  WatchesView.Header.Columns[0].Width := AppStorage.ReadInteger
-    (BasePath + '\WatchesWidth', 200);
+  WatchesView.Header.Columns[0].Width :=
+    PPIScaled(AppStorage.ReadInteger(BasePath + '\WatchesWidth', 200));
+  WatchesView.Header.Columns[1].Width :=
+    PPIScaled(AppStorage.ReadInteger(BasePath+'\Types Width', 100));
   UpdateWindow(PyControl.DebuggerState);
 end;
 

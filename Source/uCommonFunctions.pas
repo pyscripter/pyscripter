@@ -205,9 +205,6 @@ procedure SetClipboardWideText(AText : string);
 (* Check whether the Clipboard can provide Unicode string *)
 function ClipboardProvidesWideText : Boolean;
 
-//(* Unicode vesion of StrReplaceChars (in JclStrings) *)
-//function WideStrReplaceChars(const S: WideString; const Chars: TSysCharSet; Replace: WideChar): WideString;
-
 (* Get Hot Color from SpTBX Skin option entry *)
 function GetHotColor(OptionEntry : TSpTBXSkinOptionEntry) : TColor;
 
@@ -229,8 +226,21 @@ function IsColorDark(AColor : TColor) : boolean;
 { Returns true if the styled clWindows system oolor is dark }
 function IsStyledWindowsColorDark : boolean;
 
+{ Adds formated text to a Richedit control }
 procedure AddFormatText(RE : TRichEdit; const S: string;  FontStyle: TFontStyles = [];
  const FontColor: TColor = clDefault; FontSize: Integer = 0);
+
+{ Scales the images of an ImageList }
+procedure ScaleImageList(const ImgList: TImageList; M, D: Integer);
+
+{ Resize Bitmap }
+procedure ResizeBitmap(Bitmap: TBitmap; const NewWidth, NewHeight: integer);
+
+{ Scale a value according to the Screen.PixelperInch }
+function PPIScaled(I : Integer): Integer;
+
+{ Reverse PPI Scaling  }
+function PPIUnScaled(I : Integer): Integer;
 
  Const
   IdentRE = '[A-Za-z_][A-Za-z0-9_]*';
@@ -245,11 +255,11 @@ Type
 
 implementation
 Uses
-  Types, Forms, JclFileUtils, Math, VarPyth, JclBase, JclStrings,
+  Types, Forms, JclFileUtils, Math, VarPyth, JclBase,
   StrUtils, PythonEngine, dmCommands, Dialogs,
   StringResources, frmPythonII, JvGnugettext, MPCommonUtilities,
   MPCommonObjects, MPShellUtilities, IOUtils, Vcl.Themes, System.AnsiStrings,
-  System.UITypes;
+  System.UITypes, Winapi.CommCtrl, JclStrings, JvAppStorage, SynEditMiscClasses;
 
 function GetIconIndexFromFile(const AFileName: string;
   const ASmall: boolean): integer;
@@ -1671,26 +1681,6 @@ begin
   WalkThroughDirectories(Paths, Masks, PreCallback, Recursive);
 end;
 
-//function WideCharIsNumberChar(const C: WideChar): Boolean;
-//begin
-//  Result := IsWideCharDigit(C) or WideStrUtils.CharInSet(C, ['-', '+', DecimalSeparator]);
-//end;
-//
-//function WideStrConsistsofNumberCh.ars(const S: WideString): Boolean;
-//var
-//  I: Integer;
-//begin
-//  Result := S <> '';
-//  for I := 1 to Length(S) do
-//  begin
-//    if not WideCharIsNumberChar(S[I]) then
-//    begin
-//      Result := False;
-//      Exit;
-//    end;
-//  end;
-//end;
-
 function StrTrimCharsLeft(const S: string; const Chars: TSysCharSet): string;
 var
   I, L: Integer;
@@ -1917,8 +1907,218 @@ begin
   end;
 end;
 
+procedure ScaleImageList(const ImgList: TImageList; M, D: Integer);
+var
+  {ScaleFactor, }ii : integer;
+  mb, ib, sib, smb : TBitmap;
+  TmpImgList : TImageList;
+begin
+  if M = D then Exit;
+
+//  ScaleFactor := M div D;
+  //clear images
+  TmpImgList := TImageList.Create(nil);
+  try
+    TmpImgList.Assign(ImgList);
+
+    //set size to match DPI size (like 250% of 16px = 40px)
+    ImgList.Clear;
+    ImgList.SetSize(MulDiv(ImgList.Width, M, D), MulDiv(ImgList.Height, M, D));
+
+    //add images back to original ImageList stretched (if DPI scaling > 150%) or centered (if DPI scaling <= 150%)
+    for ii := 0 to -1 + TmpImgList.Count do
+    begin
+      ib := TBitmap.Create;
+      mb := TBitmap.Create;
+      try
+        ib.Width := TmpImgList.Width;
+        ib.Height := TmpImgList.Height;
+        ib.Canvas.FillRect(ib.Canvas.ClipRect);
+
+        mb.Width := TmpImgList.Width;
+        mb.Height := TmpImgList.Height;
+        mb.Canvas.FillRect(mb.Canvas.ClipRect);
+
+        ImageList_DrawEx(TmpImgList.Handle, ii, ib.Canvas.Handle, 0, 0, ib.Width, ib.Height, CLR_NONE, CLR_NONE, ILD_NORMAL);
+        ImageList_DrawEx(TmpImgList.Handle, ii, mb.Canvas.Handle, 0, 0, mb.Width, mb.Height, CLR_NONE, CLR_NONE, ILD_MASK);
+
+        sib := TBitmap.Create; //stretched (or centered) image
+        smb := TBitmap.Create; //stretched (or centered) mask
+        try
+          sib.Width := ImgList.Width;
+          sib.Height := ImgList.Height;
+          sib.Canvas.FillRect(sib.Canvas.ClipRect);
+          smb.Width := ImgList.Width;
+          smb.Height := ImgList.Height;
+          smb.Canvas.FillRect(smb.Canvas.ClipRect);
+
+          if M * 100 / D >= 150 then //stretch if >= 150%
+          begin
+            sib.Canvas.StretchDraw(Rect(0, 0, sib.Width, sib.Width), ib);
+            smb.Canvas.StretchDraw(Rect(0, 0, smb.Width, smb.Width), mb);
+          end
+          else //center if < 150%
+          begin
+            sib.Canvas.Draw((sib.Width - ib.Width) DIV 2, (sib.Height - ib.Height) DIV 2, ib);
+            smb.Canvas.Draw((smb.Width - mb.Width) DIV 2, (smb.Height - mb.Height) DIV 2, mb);
+          end;
+          ImgList.Add(sib, smb);
+        finally
+          sib.Free;
+          smb.Free;
+        end;
+    finally
+        ib.Free;
+        mb.Free;
+      end;
+    end;
+  finally
+    TmpImgList.Free;
+  end;
+end;
+
+procedure ResizeBitmap(Bitmap: TBitmap; const NewWidth, NewHeight: integer);
+var
+  buffer: TBitmap;
+begin
+  buffer := TBitmap.Create;
+  try
+    buffer.SetSize(NewWidth, NewHeight);
+    buffer.Canvas.StretchDraw(Rect(0, 0, NewWidth, NewHeight), Bitmap);
+    Bitmap.SetSize(NewWidth, NewHeight);
+    Bitmap.Canvas.Draw(0, 0, buffer);
+  finally
+    buffer.Free;
+  end;
+end;
+
+function PPIScaled(I : Integer): Integer;
+begin
+  Result := MulDiv(I, Screen.PixelsPerInch, 96);
+end;
+
+function PPIUnScaled(I : Integer): Integer;
+begin
+  Result := MulDiv(I, 96, Screen.PixelsPerInch);
+end;
+
+
+type
+// Modify JvAppStorage handling of Fonts
+// We want to store Font.Size and not Font.Height
+TJvAppStorageFontPropertyEngine = class(TJvAppStoragePropertyBaseEngine)
+  private
+    class var FFontIgnoreProperties: TStringList;
+public
+  function Supports(AObject: TObject; AProperty: TObject): Boolean; override;
+  procedure ReadProperty(AStorage: TJvCustomAppStorage; const APath: string; AObject: TObject; AProperty: TObject; const Recursive,
+    ClearFirst: Boolean; const IgnoreProperties: TStrings = nil); override;
+  procedure WriteProperty(AStorage: TJvCustomAppStorage; const APath: string; AObject: TObject; AProperty: TObject; const
+    Recursive: Boolean; const IgnoreProperties: TStrings = nil); override;
+  class property FontIgnoreProperties : TStringList read FFontIgnoreProperties;
+strict private
+  class constructor Create;
+  class destructor Destroy;
+end;
+
+
+{ TJvAppStorageFontPropertyEngine }
+
+function TJvAppStorageFontPropertyEngine.Supports(AObject,
+  AProperty: TObject): Boolean;
+begin
+  Result := AProperty is TFont;
+end;
+
+class constructor TJvAppStorageFontPropertyEngine.Create;
+begin
+  TJvAppStorageFontPropertyEngine.FFontIgnoreProperties := TStringList.Create;
+  with TJvAppStorageFontPropertyEngine.FFontIgnoreProperties do begin
+    Add('Height');
+    Add('Charset');
+    Add('Orientation');
+    Add('Pitch');
+    Add('Quality');
+  end;
+end;
+
+class destructor TJvAppStorageFontPropertyEngine.Destroy;
+begin
+  TJvAppStorageFontPropertyEngine.FFontIgnoreProperties.Free;
+end;
+
+procedure TJvAppStorageFontPropertyEngine.ReadProperty(
+  AStorage: TJvCustomAppStorage; const APath: string; AObject,
+  AProperty: TObject; const Recursive, ClearFirst: Boolean;
+  const IgnoreProperties: TStrings);
+begin
+  // Font Size is a published property and is read
+  AStorage.ReadPersistent(APath, AProperty as TFont, Recursive, ClearFirst,
+    TJvAppStorageFontPropertyEngine.FFontIgnoreProperties);
+end;
+
+procedure TJvAppStorageFontPropertyEngine.WriteProperty(
+  AStorage: TJvCustomAppStorage; const APath: string; AObject,
+  AProperty: TObject; const Recursive: Boolean;
+  const IgnoreProperties: TStrings);
+begin
+  AStorage.WritePersistent(APath, AProperty as TFont, Recursive,
+    TJvAppStorageFontPropertyEngine.FFontIgnoreProperties);
+  AStorage.WriteInteger(APath + '\Size', (AProperty as TFont).Size);
+end;
+
+
+type
+// Modify JvAppStorage handling of TSynGutter
+// We want to PPI scale size properties
+TJvAppStorageGutterPropertyEngine = class(TJvAppStoragePropertyBaseEngine)
+public
+  function Supports(AObject: TObject; AProperty: TObject): Boolean; override;
+  procedure ReadProperty(AStorage: TJvCustomAppStorage; const APath: string; AObject: TObject; AProperty: TObject; const Recursive,
+    ClearFirst: Boolean; const IgnoreProperties: TStrings = nil); override;
+  procedure WriteProperty(AStorage: TJvCustomAppStorage; const APath: string; AObject: TObject; AProperty: TObject; const
+    Recursive: Boolean; const IgnoreProperties: TStrings = nil); override;
+end;
+
+{ TJvAppStorageGutterPropertyEngine }
+
+function TJvAppStorageGutterPropertyEngine.Supports(AObject,
+  AProperty: TObject): Boolean;
+begin
+  Result := AProperty is TSynGutter;
+end;
+
+procedure TJvAppStorageGutterPropertyEngine.ReadProperty(
+  AStorage: TJvCustomAppStorage; const APath: string; AObject,
+  AProperty: TObject; const Recursive, ClearFirst: Boolean;
+  const IgnoreProperties: TStrings);
+Var
+  FontSize : Integer;
+begin
+  AStorage.ReadPersistent(APath, AProperty as TSynGutter, Recursive, ClearFirst,
+    IgnoreProperties);
+  FontSize := TSynGutter(AProperty).Font.Size;
+  TSynGutter(AProperty).ChangeScale(Screen.PixelsPerInch, 96);
+  TSynGutter(AProperty).Font.Size := FontSize;
+end;
+
+procedure TJvAppStorageGutterPropertyEngine.WriteProperty(
+  AStorage: TJvCustomAppStorage; const APath: string; AObject,
+  AProperty: TObject; const Recursive: Boolean;
+  const IgnoreProperties: TStrings);
+Var
+  FontSize : Integer;
+begin
+  FontSize := TSynGutter(AProperty).Font.Size;
+  TSynGutter(AProperty).ChangeScale(96, Screen.PixelsPerInch);
+  TSynGutter(AProperty).Font.Size := FontSize;
+  AStorage.WritePersistent(APath, AProperty as TSynGutter, Recursive,
+    IgnoreProperties);
+  TSynGutter(AProperty).ChangeScale(Screen.PixelsPerInch, 96);
+  TSynGutter(AProperty).Font.Size := FontSize;
+end;
 
 initialization
-
-finalization
+  RegisterAppStoragePropertyEngine(TJvAppStorageFontPropertyEngine);
+  RegisterAppStoragePropertyEngine(TJvAppStorageGutterPropertyEngine);
 end.

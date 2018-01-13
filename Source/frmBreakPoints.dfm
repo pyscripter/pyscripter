@@ -47,8 +47,6 @@ inherited BreakPointsWindow: TBreakPointsWindow
   inherited BGPanel: TSpTBXPanel
     Width = 379
     Height = 244
-    ExplicitLeft = 0
-    ExplicitTop = 0
     ExplicitWidth = 379
     ExplicitHeight = 244
     inherited FGPanel: TPanel
@@ -66,10 +64,8 @@ inherited BreakPointsWindow: TBreakPointsWindow
         BevelInner = bvNone
         BevelOuter = bvNone
         BorderStyle = bsNone
-        CheckImageKind = ckXP
         Header.AutoSizeIndex = 2
         Header.Options = [hoAutoResize, hoColumnResize, hoDblClickResize, hoHotTrack, hoOwnerDraw, hoVisible]
-        Header.ParentFont = True
         HintMode = hmTooltip
         PopupMenu = TBXPopupMenu
         TabOrder = 0

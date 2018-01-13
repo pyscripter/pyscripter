@@ -44,7 +44,7 @@ uses
   Windows, SysUtils, Classes, Graphics, Forms, Controls,
   Buttons, ActnList, ImgList, Dialogs,
   SynEditPrintPreview, Printers, SpTBXItem,
-  TB2Item, TB2Dock, TB2Toolbar, dlgPyIDEBase, System.Actions;
+  TB2Item, TB2Dock, TB2Toolbar, dlgPyIDEBase, System.Actions, System.ImageList;
 
 type
   TPrintPreviewDlg = class(TPyIDEDlgBase)
@@ -109,10 +109,14 @@ var
 
 implementation
 
+uses
+  uCommonFunctions;
+
 {$R *.DFM}
 
 procedure TPrintPreviewDlg.FormShow(Sender: TObject);
 begin
+  ScaleImageList(ImageList, Screen.PixelsPerInch, 96);
   SynEditPrintPreview.UpdatePreview;
   SynEditPrintPreview.FirstPage;
   if Printer.PrinterIndex >= 0 then

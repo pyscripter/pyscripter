@@ -186,10 +186,10 @@ begin
   begin
     Name := 'edNewShortcut';
     Parent := Panel1;
-    Left := 8;
-    Top := 224;
-    Width := 169;
-    Height := 21;
+    Left := MulDiv(8, Screen.PixelsPerInch, 96);
+    Top := MulDiv(224, Screen.PixelsPerInch, 96);
+    Width := MulDiv(169, Screen.PixelsPerInch, 96);
+    Height := MulDiv(21, Screen.PixelsPerInch, 96);
     TabOrder := 4;
     InvalidKeys := [];
     Modifiers := [];

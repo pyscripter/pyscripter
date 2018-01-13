@@ -70,8 +70,14 @@ type
 implementation
 
 uses
-  JclStrings, dmCommands,
-  JvJVCLUtils, cPyBaseDebugger, JvGnugettext, StringResources, JclFileUtils;
+  JclStrings,
+  dmCommands,
+  JvJVCLUtils,
+  cPyBaseDebugger,
+  JvGnugettext,
+  StringResources,
+  uCommonFunctions,
+  JclFileUtils;
 
 {$R *.dfm}
 
@@ -156,10 +162,10 @@ end;
 
 { TDocView }
 
-
 function TDocView.CreateForm(Editor: IEditor; AOwner : TComponent): TCustomForm;
 begin
   Result := TDocForm.Create(AOwner);
+  ScaleImageList(TDocForm(Result).Images, Screen.PixelsPerInch, 96);
 end;
 
 function TDocView.GetImageIndex: Integer;

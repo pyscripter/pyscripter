@@ -518,6 +518,7 @@ object EditorForm: TEditorForm
   end
   object SynCodeCompletion: TSynCompletionProposal
     Options = [scoCaseSensitive, scoLimitToMatchedText, scoUseInsertList, scoUsePrettyText, scoUseBuiltInTimer, scoEndCharCompletion, scoCompleteWithTab, scoCompleteWithEnter]
+    Width = 200
     EndOfTokenChr = '()[]{}. =:'
     TriggerChars = '.'
     Font.Charset = DEFAULT_CHARSET

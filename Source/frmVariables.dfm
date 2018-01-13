@@ -108,7 +108,6 @@ inherited VariablesWindow: TVariablesWindow
         Color = clNone
         ParentColor = False
         TabOrder = 1
-        ExplicitLeft = 201
         object reInfo: TRichEdit
           Left = 0
           Top = 0
@@ -117,6 +116,12 @@ inherited VariablesWindow: TVariablesWindow
           Align = alTop
           BevelOuter = bvNone
           BorderStyle = bsNone
+          Font.Charset = ANSI_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          ParentFont = False
           ReadOnly = True
           TabOrder = 0
           Zoom = 100

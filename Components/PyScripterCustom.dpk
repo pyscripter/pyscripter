@@ -3,13 +3,14 @@
 // JCL_DEBUG_EXPERT_DELETEMAPFILE OFF
 package PyScripterCustom;
 
-{$R *.res}
+{{$R *.res}
+{$R '*'}
 {$R 'JvDockVSNetStyleSpTBX.dcr'}
 {$IFDEF IMPLICITBUILDING This IFDEF should not be used by users}
 {$ALIGN 8}
 {$ASSERTIONS ON}
 {$BOOLEVAL OFF}
-{$DEBUGINFO ON}
+{$DEBUGINFO OFF}
 {$EXTENDEDSYNTAX ON}
 {$IMPORTEDDATA ON}
 {$IOCHECKS ON}
@@ -49,4 +50,4 @@ requires
 contains
   JvDockVSNetStyleSpTBX in 'JvDockVSNetStyleSpTBX.pas';
 
-end.
+

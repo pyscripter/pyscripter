@@ -79,8 +79,6 @@ begin
   inherited;
   // Let the tree know how much data space we need.
   VariablesTree.NodeDataSize := SizeOf(TPyObjRec);
-  VariablesTree.Header.Height :=
-    MulDiv(VariablesTree.Header.Height, Screen.PixelsPerInch, 96);
 end;
 
 procedure TVariablesWindow.VariablesTreeInitChildren(Sender: TBaseVirtualTree;
@@ -146,14 +144,16 @@ procedure TVariablesWindow.ReadFromAppStorage(AppStorage: TJvCustomAppStorage;
 Var
   TempWidth : integer;
 begin
-  TempWidth := AppStorage.ReadInteger(BasePath+'\DocPanelWidth', DocPanel.Width);
-  DocPanel.Width := Min(Max(TempWidth, 3), Max(Width-100, 3));
+  TempWidth := PPIScaled(AppStorage.ReadInteger(BasePath+'\DocPanelWidth', DocPanel.Width));
+  DocPanel.Width := Min(TempWidth,  Max(Width-PPIScaled(100), PPIScaled(3)));
   if AppStorage.ReadBoolean(BasePath+'\Types Visible') then
     VariablesTree.Header.Columns[1].Options := VariablesTree.Header.Columns[1].Options + [coVisible]
   else
     VariablesTree.Header.Columns[1].Options := VariablesTree.Header.Columns[1].Options - [coVisible];
-  VariablesTree.Header.Columns[0].Width := AppStorage.ReadInteger(BasePath+'\Names Width', 160);
-  VariablesTree.Header.Columns[1].Width := AppStorage.ReadInteger(BasePath+'\Types Width', 100);
+  VariablesTree.Header.Columns[0].Width :=
+    PPIScaled(AppStorage.ReadInteger(BasePath+'\Names Width', 160));
+  VariablesTree.Header.Columns[1].Width :=
+    PPIScaled(AppStorage.ReadInteger(BasePath+'\Types Width', 100));
 end;
 
 procedure TVariablesWindow.reInfoResizeRequest(Sender: TObject; Rect: TRect);
@@ -165,10 +165,12 @@ end;
 procedure TVariablesWindow.WriteToAppStorage(AppStorage: TJvCustomAppStorage;
   const BasePath: string);
 begin
-  AppStorage.WriteInteger(BasePath+'\DocPanelWidth', DocPanel.Width);
+  AppStorage.WriteInteger(BasePath+'\DocPanelWidth', PPIUnScaled(DocPanel.Width));
   AppStorage.WriteBoolean(BasePath+'\Types Visible', coVisible in VariablesTree.Header.Columns[1].Options);
-  AppStorage.WriteInteger(BasePath+'\Names Width', VariablesTree.Header.Columns[0].Width);
-  AppStorage.WriteInteger(BasePath+'\Types Width', VariablesTree.Header.Columns[1].Width);
+  AppStorage.WriteInteger(BasePath+'\Names Width',
+    PPIUnScaled(VariablesTree.Header.Columns[0].Width));
+  AppStorage.WriteInteger(BasePath+'\Types Width',
+    PPIUnScaled(VariablesTree.Header.Columns[1].Width));
 end;
 
 procedure TVariablesWindow.VariablesTreeGetImageIndex(

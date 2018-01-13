@@ -288,8 +288,6 @@ begin
   fHistorySize := 10;
   // Let the tree know how much data space we need.
   MessagesView.NodeDataSize := SizeOf(TMsgRec);
-  MessagesView.Header.Height :=
-    MulDiv(MessagesView.Header.Height, Screen.PixelsPerInch, 96);
 end;
 
 procedure TMessagesWindow.FormDestroy(Sender: TObject);
@@ -305,14 +303,6 @@ begin
   Assert(Integer(Node.Index) < TObjectList(fMessageHistory[fHistoryIndex]).Count);
   PMsgRec(MessagesView.GetNodeData(Node))^.Msg :=
     TMsg(TObjectList(fMessageHistory[fHistoryIndex])[Node.Index]);
-end;
-
-procedure TMessagesWindow.ReadFromAppStorage(AppStorage: TJvCustomAppStorage;
-  const BasePath: string);
-begin
-  MessagesView.Header.Columns[1].Width := AppStorage.ReadInteger(BasePath+'\FileName Width', 200);
-  MessagesView.Header.Columns[2].Width := AppStorage.ReadInteger(BasePath+'\Line Width', 50);
-  MessagesView.Header.Columns[3].Width := AppStorage.ReadInteger(BasePath+'\Position Width', 60);
 end;
 
 procedure TMessagesWindow.RestoreTopNodeIndex;
@@ -395,12 +385,26 @@ begin
   actCopyToClipboard.Enabled := MessagesView.RootNodeCount <> 0;
 end;
 
+procedure TMessagesWindow.ReadFromAppStorage(AppStorage: TJvCustomAppStorage;
+  const BasePath: string);
+begin
+  MessagesView.Header.Columns[1].Width :=
+    PPIScaled(AppStorage.ReadInteger(BasePath+'\FileName Width', 200));
+  MessagesView.Header.Columns[2].Width :=
+    PPIScaled(AppStorage.ReadInteger(BasePath+'\Line Width', 50));
+  MessagesView.Header.Columns[3].Width :=
+    PPIScaled(AppStorage.ReadInteger(BasePath+'\Position Width', 60));
+end;
+
 procedure TMessagesWindow.WriteToAppStorage(AppStorage: TJvCustomAppStorage;
   const BasePath: string);
 begin
-  AppStorage.WriteInteger(BasePath+'\FileName Width', MessagesView.Header.Columns[1].Width);
-  AppStorage.WriteInteger(BasePath+'\Line Width', MessagesView.Header.Columns[2].Width);
-  AppStorage.WriteInteger(BasePath+'\Position Width', MessagesView.Header.Columns[3].Width);
+  AppStorage.WriteInteger(BasePath+'\FileName Width',
+    PPIUnScaled(MessagesView.Header.Columns[1].Width));
+  AppStorage.WriteInteger(BasePath+'\Line Width',
+    PPIUnScaled(MessagesView.Header.Columns[2].Width));
+  AppStorage.WriteInteger(BasePath+'\Position Width',
+    PPIUnScaled(MessagesView.Header.Columns[3].Width));
 end;
 
 procedure TMessagesWindow.TBXPopupMenuPopup(Sender: TObject);

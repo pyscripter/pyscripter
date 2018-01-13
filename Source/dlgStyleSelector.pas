@@ -45,7 +45,8 @@ implementation
 
 uses
   System.IOUtils,
-  dmCommands;
+  dmCommands,
+  frmPyIDEMain;
 
 
 type
@@ -61,6 +62,7 @@ begin
    FStylesPath := CommandsDataModule.StylesFilesDir;
    FPreview:=TVclStylesPreview.Create(Self);
    FPreview.Parent:=Panel1;
+   FPreview.Icon := Application.Icon.Handle;
    FPreview.BoundsRect := Panel1.ClientRect;
    FillVclStylesList;
 end;
@@ -120,6 +122,7 @@ begin
 
   if Assigned(LStyle) and not Loading  then
   begin
+    PyIDEMainForm.StyleDPIAwareness.ScaleStyle(LStyle);
     FPreview.Caption:=StyleName;
     FPreview.Style:=LStyle;
     TVclStylesPreviewClass(FPreview).Paint;
@@ -134,6 +137,16 @@ var
   SName : string;
   StyleInfo : TStyleInfo;
 begin
+  if CompareText(StyleName, TStyleManager.ActiveStyle.Name) = 0 then
+    Exit;
+
+  if CompareText(StyleName, 'Windows') = 0 then
+  begin
+    TStyleManager.SetStyle(TStyleManager.SystemStyle);
+    TStyleSelectorForm.CurrentSkinName := 'Windows';
+    Exit;
+  end;
+
   for SName in TStyleManager.StyleNames do
     if SName = StyleName then
     begin

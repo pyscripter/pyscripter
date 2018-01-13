@@ -33,17 +33,14 @@ type
     mnClear: TSpTBXItem;
     N2: TSpTBXSeparatorItem;
     mnFont: TSpTBXItem;
-    mnBackgroundColor: TSpTBXItem;
     OutputActions: TActionList;
     actToolStopWaiting: TAction;
     actToolQuit: TAction;
     actToolClose: TAction;
     actToolTerminate: TAction;
     actClearOutput: TAction;
-    actSelectColor: TAction;
     actOutputFont: TAction;
     actCopy: TAction;
-    procedure actSelectColorExecute(Sender: TObject);
     procedure actOutputFontExecute(Sender: TObject);
     procedure actClearOutputExecute(Sender: TObject);
     procedure JvCreateProcessRead(Sender: TObject; const S: String;
@@ -124,21 +121,6 @@ begin
   lsbConsole.Clear;
   lsbConsole.ScrollWidth := 0;
   fItemMaxWidth := 0;
-end;
-
-procedure TOutputWindow.actSelectColorExecute(Sender: TObject);
-begin
-  with TColorDialog.Create(Application) do
-  try
-    Color := lsbConsole.Color;
-    if Execute then
-    begin
-      lsbConsole.Color := Color;
-      FontOrColorUpdated;
-    end;
-  finally
-    Free;
-  end;
 end;
 
 procedure TOutputWindow.actOutputFontExecute(Sender: TObject);

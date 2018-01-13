@@ -1000,6 +1000,7 @@ begin
 
   // DefaultOptions
   PyIDEOptions := TPythonIDEOptions.Create;
+  PyIDEOptions.CodeFolding.GutterShapeSize := PPIScaled(PyIDEOptions.CodeFolding.GutterShapeSize);
 
   // Setup Highlighters
   SynYAMLSyn := TSynYAMLSyn.Create(Self);
@@ -1051,12 +1052,11 @@ begin
 
   EditorOptions := TSynEditorOptionsContainer.Create(Self);
   with EditorOptions do begin
-    Font.Height := -13;
+    Font.Size := 10;
     if CheckWin32Version(6) then
       Font.Name := 'Consolas'
     else
       Font.Name := 'Courier New';
-    Gutter.Font.Height := -11;
     Gutter.Font.Name := Font.Name;
     Gutter.Font.Color := clGrayText;
     Gutter.Gradient := True;
@@ -1065,6 +1065,8 @@ begin
     Gutter.Width := 27;
     Gutter.DigitCount := 2;
     Gutter.Autosize := True;
+    Gutter.ChangeScale(Screen.PixelsPerInch, 96);
+    Gutter.Font.Size := 9;
 
     Options := [eoAutoSizeMaxScrollWidth, eoDragDropEditing, eoEnhanceHomeKey,
                 eoEnhanceEndKey, eoGroupUndo, eoHideShowScrollbars, eoKeepCaretX,
@@ -1074,6 +1076,8 @@ begin
     WantTabs := True;
     TabWidth := 4;
     RegisterEditorUserCommands(EditorOptions.Keystrokes);
+    // Scale BookmarkOptions
+    BookMarkOptions.ChangeScale(Screen.PixelsPerInch, 96);
  end;
 
   InterpreterEditorOptions := TSynEditorOptionsContainer.Create(Self);

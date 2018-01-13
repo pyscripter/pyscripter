@@ -47,8 +47,6 @@ inherited MessagesWindow: TMessagesWindow
   inherited BGPanel: TSpTBXPanel
     Width = 693
     Height = 186
-    ExplicitLeft = 0
-    ExplicitTop = 0
     ExplicitWidth = 693
     ExplicitHeight = 186
     inherited FGPanel: TPanel
@@ -71,7 +69,6 @@ inherited MessagesWindow: TMessagesWindow
         BorderStyle = bsNone
         Header.AutoSizeIndex = 0
         Header.Options = [hoAutoResize, hoColumnResize, hoDblClickResize, hoHotTrack, hoOwnerDraw, hoVisible]
-        Header.ParentFont = True
         HintMode = hmTooltip
         PopupMenu = TBXPopupMenu
         TabOrder = 0

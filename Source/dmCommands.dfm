@@ -477,6 +477,7 @@ object CommandsDataModule: TCommandsDataModule
   end
   object ParameterCompletion: TSynCompletionProposal
     Options = [scoLimitToMatchedText, scoUseInsertList, scoUsePrettyText, scoCompleteWithTab, scoCompleteWithEnter]
+    Width = 300
     EndOfTokenChr = '()[]. '
     TriggerChars = '.'
     Title = 'Parameters'
@@ -506,6 +507,7 @@ object CommandsDataModule: TCommandsDataModule
   end
   object ModifierCompletion: TSynCompletionProposal
     Options = [scoLimitToMatchedText, scoUseInsertList, scoUsePrettyText, scoCompleteWithTab, scoCompleteWithEnter]
+    Width = 300
     EndOfTokenChr = '()[].- '
     TriggerChars = '.'
     Title = 'Modifiers'
@@ -591,7 +593,7 @@ object CommandsDataModule: TCommandsDataModule
     DrawingStyle = dsTransparent
     ShareImages = True
     Left = 104
-    Top = 243
+    Top = 240
   end
   object SynEditSearch: TSynEditSearch
     Left = 195
@@ -1940,27 +1942,23 @@ object CommandsDataModule: TCommandsDataModule
           '                self.conn.poll_all(0.01)'
           '            self.debugIDE.user_line(frame)'
           ''
-          '        def trace_dispatch(self, frame, event, arg):'
-          '            if self.isTraceable(frame) != 0:'
-          '                self.tracecount += 1'
-          
-            '                if self.tracecount == 10000:  #yield processing ' +
-            'every 1000 steps'
-          '                    self.tracecount = 0'
-          
-            '                    self.conn = object.__getattribute__(self.deb' +
-            'ugIDE, "____conn__")()'
-          '                    while len(self.conn._async_callbacks) > 0 :'
-          '                        self.conn.poll_all(0.01)'
-          '                    self.debugIDE.user_yield()'
-          '                    if self.quitting:'
-          '                        self.interrupted = True'
-          '                        raise __import__('#39'bdb'#39').BdbQuit'
-          
-            '            return __import__('#39'bdb'#39').Bdb.trace_dispatch(self, fr' +
-            'ame, event, arg)'
-          ''
           '        def dispatch_call(self, frame, arg):'
+          '            self.tracecount += 1'
+          '            #yield processing every 1000 calls'
+          
+            '            if (self.tracecount > 1000) and not __import__('#39'sys'#39 +
+            ').stdout.writing and not __import__('#39'sys'#39').stderr.writing:'
+          '                self.tracecount = 0'
+          
+            '                self.conn = object.__getattribute__(self.debugID' +
+            'E, "____conn__")()'
+          '                while len(self.conn._async_callbacks) > 0 :'
+          '                    self.conn.poll_all(0.01)'
+          '                self.debugIDE.user_yield()'
+          '                if self.quitting:'
+          '                    self.interrupted = True'
+          '                    raise __import__('#39'bdb'#39').BdbQuit'
+          ''
           
             '            res = __import__('#39'bdb'#39').Bdb.dispatch_call(self, fram' +
             'e, arg)'
@@ -2510,6 +2508,7 @@ object CommandsDataModule: TCommandsDataModule
             '            self.oid = object.__getattribute__(self.origwrite, "' +
             '____oid__")'
           '            self.HANDLE_CALL = HANDLE_CALL'
+          '            self.writing = False'
           ''
           '        def __getattr__(self, attr):'
           '            return getattr(self._stream, attr)'
@@ -2521,9 +2520,13 @@ object CommandsDataModule: TCommandsDataModule
           '                raise KeyboardInterrupt, "Operation Cancelled"'
           ''
           '        def write(self, message):'
+          '            self.writing = True'
           
             '            self.conn._async_request(self.HANDLE_CALL, (self.oid' +
             ', (message,), ()))'
+          '            while len(self.conn._async_callbacks) > 100 :'
+          '                self.conn.poll_all(0.01)'
+          '            self.writing = False'
           ''
           '    def asyncIO(self):'
           '        import sys'
@@ -2616,7 +2619,7 @@ object CommandsDataModule: TCommandsDataModule
           '                self.InitStepIn = True'
           '                self.set_continue()'
           '                return 0'
-          '            return __import__('#39'bdb'#39').Bdb.stop_here(self, frame)'
+          '            return super().stop_here(frame)'
           ''
           '        def user_line(self, frame):'
           
@@ -2626,30 +2629,24 @@ object CommandsDataModule: TCommandsDataModule
           '                self.conn.poll_all(0.01)'
           '            self.debugIDE.user_line(frame)'
           ''
-          '        def trace_dispatch(self, frame, event, arg):'
-          '            if self.isTraceable(frame) != 0:'
-          '                self.tracecount += 1'
-          
-            '                if self.tracecount == 10000:  #yield processing ' +
-            'every 1000 steps'
-          '                    self.tracecount = 0'
-          
-            '                    self.conn = object.__getattribute__(self.deb' +
-            'ugIDE, "____conn__")()'
-          '                    while len(self.conn._async_callbacks) > 0 :'
-          '                        self.conn.poll_all(0.01)'
-          '                    self.debugIDE.user_yield()'
-          '                    if self.quitting:'
-          '                        self.interrupted = True'
-          '                        raise __import__('#39'bdb'#39').BdbQuit'
-          
-            '            return __import__('#39'bdb'#39').Bdb.trace_dispatch(self, fr' +
-            'ame, event, arg)'
-          ''
           '        def dispatch_call(self, frame, arg):'
+          '            self.tracecount += 1'
+          '            #yield processing every 1000 calls'
           
-            '            res = __import__('#39'bdb'#39').Bdb.dispatch_call(self, fram' +
-            'e, arg)'
+            '            if (self.tracecount > 1000) and not __import__('#39'sys'#39 +
+            ').stdout.writing and not __import__('#39'sys'#39').stderr.writing:'
+          '                self.tracecount = 0'
+          
+            '                self.conn = object.__getattribute__(self.debugID' +
+            'E, "____conn__")()'
+          '                while len(self.conn._async_callbacks) > 0 :'
+          '                    self.conn.poll_all(0.01)'
+          '                self.debugIDE.user_yield()'
+          '                if self.quitting:'
+          '                    self.interrupted = True'
+          '                    raise __import__('#39'bdb'#39').BdbQuit'
+          ''
+          '            res = super().dispatch_call(frame, arg)'
           
             '            while frame is not None and frame is not self.stopfr' +
             'ame:'
@@ -3176,6 +3173,7 @@ object CommandsDataModule: TCommandsDataModule
             '            self.oid = object.__getattribute__(self.origwrite, "' +
             '____oid__")'
           '            self.HANDLE_CALL = HANDLE_CALL'
+          '            self.writing = False'
           ''
           '        def __getattr__(self, attr):'
           '            return getattr(self._stream, attr)'
@@ -3187,9 +3185,13 @@ object CommandsDataModule: TCommandsDataModule
           '                raise KeyboardInterrupt("Operation Cancelled")'
           ''
           '        def write(self, message):'
+          '            self.writing = True'
           
             '            self.conn._async_request(self.HANDLE_CALL, (self.oid' +
             ', (message,), ()))'
+          '            while len(self.conn._async_callbacks) > 100 :'
+          '                self.conn.poll_all(0.01)'
+          '            self.writing = False'
           ''
           '    def asyncIO(self):'
           '        import sys'

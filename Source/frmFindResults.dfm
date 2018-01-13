@@ -76,7 +76,6 @@ inherited FindResultsWindow: TFindResultsWindow
           Color = clNone
           ParentColor = False
           MinSize = 20
-          ExplicitTop = 234
         end
         object TBXDock1: TSpTBXDock
           Left = 0
@@ -162,7 +161,6 @@ inherited FindResultsWindow: TFindResultsWindow
           OnKeyPress = lbResultsKeyPress
           OnMouseUp = lbResultsMouseUp
           HotTrack = False
-          ExplicitHeight = 208
         end
         object reContext: TRichEdit
           Left = 0

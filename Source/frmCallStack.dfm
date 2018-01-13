@@ -76,7 +76,6 @@ inherited CallStackWindow: TCallStackWindow
         Header.AutoSizeIndex = 1
         Header.MainColumn = 1
         Header.Options = [hoAutoResize, hoColumnResize, hoDblClickResize, hoHotTrack, hoOwnerDraw, hoVisible]
-        Header.ParentFont = True
         HintMode = hmTooltip
         TabOrder = 0
         TreeOptions.AnimationOptions = [toAnimatedToggle]

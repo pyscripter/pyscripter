@@ -356,14 +356,14 @@ end;
 procedure TToDoWindow.FormCreate(Sender: TObject);
 begin
   inherited;
+  ScaleImageList(ilTodo, Screen.PixelsPerInch, 96);
+
   FIsFirstActivation := True;
 
   FDataList := TObjectList.Create(True); // Owned objects
 
   // Let the tree know how much data space we need.
   ToDoView.NodeDataSize := SizeOf(TToDoRec);
-  ToDoView.Header.Height :=
-    MulDiv(ToDoView.Header.Height, Screen.PixelsPerInch, 96);
 end;
 
 procedure TToDoWindow.FormDestroy(Sender: TObject);
@@ -526,8 +526,10 @@ begin
         FTokenList.AddToken(Token, Priority);
       end;
     end;
-    ToDoWindow.ToDoView.Header.Columns[2].Width := AppStorage.ReadInteger(BasePath+'\FileName Width', 150);
-    ToDoWindow.ToDoView.Header.Columns[3].Width := AppStorage.ReadInteger(BasePath+'\Line Width', 50);
+    ToDoWindow.ToDoView.Header.Columns[2].Width :=
+      PPIScaled(AppStorage.ReadInteger(BasePath+'\FileName Width', 150));
+    ToDoWindow.ToDoView.Header.Columns[3].Width :=
+      PPIScaled(AppStorage.ReadInteger(BasePath+'\Line Width', 50));
   end;
 end;
 
@@ -557,8 +559,10 @@ begin
       WriteEnumeration(AppStorage.ConcatPaths([BasePath, 'Todo Tokens', 'Token'+IntToStr(i), 'Priority']),
         TypeInfo(TToDoPriority), TTokenInfo(FTokenList.Objects[i]).Priority);
     end;
-    AppStorage.WriteInteger(BasePath+'\FileName Width', TodoWindow.TodoView.Header.Columns[2].Width);
-    AppStorage.WriteInteger(BasePath+'\Line Width', TodoWindow.TodoView.Header.Columns[3].Width);
+    AppStorage.WriteInteger(BasePath+'\FileName Width',
+      PPIUnScaled(TodoWindow.TodoView.Header.Columns[2].Width));
+    AppStorage.WriteInteger(BasePath+'\Line Width',
+      PPIUnScaled(TodoWindow.TodoView.Header.Columns[3].Width));
   end;
 end;
 

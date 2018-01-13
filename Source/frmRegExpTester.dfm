@@ -249,7 +249,6 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
             BorderStyle = bsNone
             Header.AutoSizeIndex = 2
             Header.Options = [hoAutoResize, hoColumnResize, hoDblClickResize, hoHotTrack, hoOwnerDraw, hoVisible]
-            Header.ParentFont = True
             HintMode = hmTooltip
             TabOrder = 0
             TreeOptions.MiscOptions = [toFullRepaintOnResize, toInitOnSave, toReportMode, toToggleOnDblClick, toWheelPanning]

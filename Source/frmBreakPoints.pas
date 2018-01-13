@@ -98,11 +98,22 @@ begin
   BreakPointsView.RootNodeCount := fBreakPointsList.Count;
 end;
 
+procedure TBreakPointsWindow.ReadFromAppStorage(AppStorage: TJvCustomAppStorage;
+  const BasePath: string);
+begin
+  BreakPointsView.Header.Columns[0].Width :=
+    PPIScaled(AppStorage.ReadInteger(BasePath+'\FileName Width', 200));
+  BreakPointsView.Header.Columns[1].Width :=
+    PPIScaled(AppStorage.ReadInteger(BasePath+'\Line Width', 50));
+end;
+
 procedure TBreakPointsWindow.WriteToAppStorage(AppStorage: TJvCustomAppStorage;
   const BasePath: string);
 begin
-  AppStorage.WriteInteger(BasePath+'\FileName Width', BreakPointsView.Header.Columns[0].Width);
-  AppStorage.WriteInteger(BasePath+'\Line Width', BreakPointsView.Header.Columns[1].Width);
+  AppStorage.WriteInteger(BasePath+'\FileName Width',
+    PPIUnScaled(BreakPointsView.Header.Columns[0].Width));
+  AppStorage.WriteInteger(BasePath+'\Line Width',
+    PPIUnScaled(BreakPointsView.Header.Columns[1].Width));
 end;
 
 procedure TBreakPointsWindow.BreakPointLVDblClick(Sender: TObject);
@@ -152,13 +163,6 @@ begin
     end;
 end;
 
-procedure TBreakPointsWindow.ReadFromAppStorage(AppStorage: TJvCustomAppStorage;
-  const BasePath: string);
-begin
-  BreakPointsView.Header.Columns[0].Width := AppStorage.ReadInteger(BasePath+'\FileName Width', 200);
-  BreakPointsView.Header.Columns[1].Width := AppStorage.ReadInteger(BasePath+'\Line Width', 50);
-end;
-
 procedure TBreakPointsWindow.mnCopyToClipboardClick(Sender: TObject);
 begin
   Clipboard.AsText := string(BreakPointsView.ContentToText(tstAll, #9));
@@ -177,8 +181,6 @@ begin
   fBreakPointsList := TObjectList.Create(True);  // Onwns objects
   // Let the tree know how much data space we need.
   BreakPointsView.NodeDataSize := SizeOf(TBreakPointRec);
-  BreakPointsView.Header.Height :=
-    MulDiv(BreakPointsView.Header.Height, Screen.PixelsPerInch, 96);
 end;
 
 procedure TBreakPointsWindow.FormDestroy(Sender: TObject);

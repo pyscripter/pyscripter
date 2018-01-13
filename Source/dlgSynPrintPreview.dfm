@@ -12,7 +12,7 @@ inherited PrintPreviewDlg: TPrintPreviewDlg
   WindowState = wsMaximized
   OnShow = FormShow
   ExplicitWidth = 506
-  ExplicitHeight = 410
+  ExplicitHeight = 413
   PixelsPerInch = 96
   TextHeight = 13
   object SynEditPrintPreview: TSynEditPrintPreview

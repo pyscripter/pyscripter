@@ -356,6 +356,7 @@ type
     procedure ExecuteEx(s: UnicodeString; x, y: Integer; Kind: SynCompletionType = ctCode); virtual;
     procedure Activate;
     procedure Deactivate;
+    procedure ChangeScale(M, D: Integer); virtual;
 
     procedure ClearList;
     function DisplayItem(AIndex: Integer): UnicodeString;
@@ -564,7 +565,7 @@ uses
   SynEditTextBuffer,
   SynEditMiscProcs,
   SynEditKeyConst,
-  Vcl.Themes;
+  Vcl.Themes, uCommonFunctions;
 
 const
   TextHeightString = 'CompletionProposal';
@@ -2568,6 +2569,16 @@ begin
   end;
 end;
 
+procedure TSynBaseCompletionProposal.ChangeScale(M, D: Integer);
+Var
+  Col : TCollectionItem;
+begin
+  Self.FWidth := PPIScaled(Self.FWidth);
+  Self.Margin := PPIScaled(Self.Margin);
+  for Col in Columns do
+    TProposalColumn(Col).ColumnWidth := PPIScaled(TProposalColumn(Col).ColumnWidth);
+end;
+
 procedure TSynBaseCompletionProposal.ClearList;
 begin
   GetInsertList.Clear;
@@ -3644,6 +3655,7 @@ begin
   FInternalCompletion.ShortCut := 0;
   FInternalCompletion.OnAfterCodeCompletion := DoInternalAutoCompletion;
   FInternalCompletion.Columns.Add;
+  FInternalCompletion.ChangeScale(Screen.PixelsPerInch, 96);
 end;
 
 function TSynAutoComplete.GetOptions: TSynCompletionOptions;

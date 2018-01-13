@@ -742,8 +742,8 @@ begin
       begin
         // Default settings for new files
         if CommandsDataModule.PyIDEOptions.NewFileLineBreaks <> sffUnicode then
-  (fForm.SynEdit.Lines as TSynEditStringList)
-          .FileFormat := CommandsDataModule.PyIDEOptions.NewFileLineBreaks;
+          (fForm.SynEdit.Lines as TSynEditStringList).FileFormat :=
+            CommandsDataModule.PyIDEOptions.NewFileLineBreaks;
 
         fFileEncoding := CommandsDataModule.PyIDEOptions.NewFileEncoding;
       end;
@@ -2113,6 +2113,9 @@ end;
 
 procedure TEditorForm.FormCreate(Sender: TObject);
 begin
+  // Scale ImageList
+  ScaleImageList(imglGutterGlyphs, Screen.PixelsPerInch, 96);
+
   FGPanelExit(Self);
 
   SynEdit.OnReplaceText := CommandsDataModule.SynEditReplaceText;
@@ -2151,6 +2154,11 @@ begin
   SynCodeCompletion.TriggerChars:=PythonIIForm.SynCodeCompletion.TriggerChars;
   SynCodeCompletion.TimerInterval := PythonIIForm.SynCodeCompletion.TimerInterval;
   SynCodeCompletion.OnCodeItemInfo := SynCodeCompletionCodeItemInfo;
+
+  // Scale
+  SynCodeCompletion.ChangeScale(Screen.PixelsPerInch, 96);
+  SynParamCompletion.ChangeScale(Screen.PixelsPerInch, 96);
+  SynWebCompletion.ChangeScale(Screen.PixelsPerInch, 96);
 
   Retranslate;
 end;

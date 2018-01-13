@@ -748,12 +748,13 @@ begin
   inherited Create;
   FVSChannel := AOwner;
   FVSPanes := TObjectList.Create;
-  FImageList := TImageList.CreateSize(16, 16);
+  FImageList := TImageList.CreateSize(MulDiv(16, Screen.PixelsPerInch, 96),
+    MulDiv(16, Screen.PixelsPerInch, 96));
   {$IFDEF RTL200_UP}
   FImageList.ColorDepth := cd32Bit;
   {$ENDIF RTL200_UP}
-  FInactiveBlockWidth := 24;
-  FActiveBlockWidth := 24;
+  FInactiveBlockWidth := MulDiv(24, Screen.PixelsPerInch, 96);
+  FActiveBlockWidth := MulDiv(24, Screen.PixelsPerInch, 96);
 end;
 
 destructor TJvDockVSBlock.Destroy;
@@ -769,7 +770,7 @@ var
 
   function GetPaneWidth: Integer;
   begin
-    Result := 100;
+    Result := MulDiv(100, Screen.PixelsPerInch, 96);
     if Control = nil then
       Exit;
     case VSChannel.Align of
@@ -877,8 +878,8 @@ begin
   begin
     Icon := TIcon.Create;
     try
-      Icon.Width := 16;
-      Icon.Height := 16;
+      Icon.Width := MulDiv(16, Screen.PixelsPerInch, 96);
+      Icon.Height := MulDiv(16, Screen.PixelsPerInch, 96);
       //2. Adding an Icon without real bitmap does nothing,
       //so transparent icon needed
       Icon.Handle := CreateIcon(hInstance,16,16,1,1,@ANDbits,@XORbits);
@@ -984,7 +985,8 @@ begin
     begin
       for I := 0 to VSPaneCount - 1 do
       begin
-        TextWidth := Canvas.TextWidth(VSPane[I].FDockForm.Caption) + InactiveBlockWidth + 10;
+        TextWidth := Canvas.TextWidth(VSPane[I].FDockForm.Caption) +
+          InactiveBlockWidth + MulDiv(10, Screen.PixelsPerInch, 96);
         if TextWidth >= VSChannel.ActivePaneSize then
         begin
           FActiveBlockWidth := VSChannel.ActivePaneSize;
@@ -1031,10 +1033,10 @@ begin
   FBlocks := TObjectList.Create;
   FActivePaneSize := MaxActivePaneWidth;
   FTabColor := clBtnFace;
-  FChannelWidth := 22;
-  FBlockStartOffset := 2;
-  FBlockUpOffset := 2;
-  FBlockInterval := 13;
+  FChannelWidth := MulDiv(22, Screen.PixelsPerInch, 96);
+  FBlockStartOffset := MulDiv(2, Screen.PixelsPerInch, 96);
+  FBlockUpOffset := MulDiv(2, Screen.PixelsPerInch, 96);
+  FBlockInterval := MulDiv(13, Screen.PixelsPerInch, 96);
   if AOwner is TJvDockVSNETPanel then
   begin
     FVSNETDockPanel := TJvDockVSNETPanel(AOwner);
@@ -1232,7 +1234,7 @@ begin
   case Align of
     alLeft:
       begin
-        ARect.Left := -1;
+        ARect.Left := -MulDiv(1, Screen.PixelsPerInch, 96);
         ARect.Top := FCurrentPos;
         ARect.Right := Width - FBlockUpOffset;
         ARect.Bottom := ARect.Top + BlockWidth;
@@ -1241,13 +1243,13 @@ begin
       begin
         ARect.Left := FBlockUpOffset;
         ARect.Top := FCurrentPos;
-        ARect.Right := Width + 1;
+        ARect.Right := Width + MulDiv(1, Screen.PixelsPerInch, 96);
         ARect.Bottom := ARect.Top + BlockWidth;
       end;
     alTop:
       begin
         ARect.Left := FCurrentPos;
-        ARect.Top := -1;
+        ARect.Top := -MulDiv(1, Screen.PixelsPerInch, 96);
         ARect.Right := ARect.Left + BlockWidth;
         ARect.Bottom := Height - FBlockUpOffset;
       end;
@@ -1256,11 +1258,11 @@ begin
         ARect.Left := FCurrentPos;
         ARect.Top := FBlockUpOffset;
         ARect.Right := ARect.Left + BlockWidth;
-        ARect.Bottom := Height + 1;
+        ARect.Bottom := Height + MulDiv(1, Screen.PixelsPerInch, 96);
       end;
   end;
 
-  Inc(FCurrentPos, BlockWidth - 1);
+  Inc(FCurrentPos, BlockWidth - MulDiv(1, Screen.PixelsPerInch, 96));
 end;
 
 function TJvDockVSChannel.GetDockServer: TJvDockServer;
@@ -1441,26 +1443,26 @@ var
     begin
       if Align = alLeft then
       begin
-        Inc(DrawRect.Left, 3);
-        Inc(DrawRect.Top, 4);
+        Inc(DrawRect.Left, MulDiv(3, Screen.PixelsPerInch, 96));
+        Inc(DrawRect.Top, MulDiv(4, Screen.PixelsPerInch, 96));
       end
       else
       if Align = alTop then
       begin
-        Inc(DrawRect.Left, 4);
-        Inc(DrawRect.Top, 2);
+        Inc(DrawRect.Left, MulDiv(4, Screen.PixelsPerInch, 96));
+        Inc(DrawRect.Top, MulDiv(2, Screen.PixelsPerInch, 96));
       end
       else
       if Align = alRight then
       begin
-        Inc(DrawRect.Left, 4);
-        Inc(DrawRect.Top, 4);
+        Inc(DrawRect.Left, MulDiv(4, Screen.PixelsPerInch, 96));
+        Inc(DrawRect.Top, MulDiv(4, Screen.PixelsPerInch, 96));
       end
       else
       if Align = alBottom then
       begin
-        Inc(DrawRect.Left, 4);
-        Inc(DrawRect.Top, 3);
+        Inc(DrawRect.Left, MulDiv(4, Screen.PixelsPerInch, 96));
+        Inc(DrawRect.Top, MulDiv(3, Screen.PixelsPerInch, 96));
       end;
     end;
 
@@ -1489,15 +1491,15 @@ var
         begin
           Inc(DrawRect.Top, Block.InactiveBlockWidth);
           if Align = alLeft then
-            DrawRect.Left := 15
+            DrawRect.Left := MulDiv(15, Screen.PixelsPerInch, 96)
           else
-            DrawRect.Left := 20;
+            DrawRect.Left := MulDiv(20, Screen.PixelsPerInch, 96);
           DrawRect.Right := DrawRect.Left + (DrawRect.Bottom - DrawRect.Top);
         end;
         Canvas.Brush.Color := TabColor;
         Canvas.Pen.Color := clBlack;
 
-        Dec(DrawRect.Right, 3);
+        Dec(DrawRect.Right, MulDiv(3, Screen.PixelsPerInch, 96));
 
         OldGraphicsMode := SetGraphicsMode(Canvas.Handle, GM_ADVANCED);
         Canvas.Brush.Style := bsClear;
@@ -1903,7 +1905,7 @@ end;
 constructor TJvDockVSNETChannelOption.Create(ADockStyle: TJvDockObservableStyle);
 begin
   inherited Create(ADockStyle);
-  FActivePaneSize := 100;
+  FActivePaneSize := MulDiv(100, Screen.PixelsPerInch, 96);
   FShowImage := True;
   FMouseleaveHide := True;
   FHideHoldTime := 1000;
@@ -1937,7 +1939,7 @@ end;
 
 procedure TJvDockVSNETChannelOption.SetActivePaneSize(Value: Integer);
 begin
-  Value := Max(24, Value);
+  Value := Max(MulDiv(24, Screen.PixelsPerInch, 96), Value);
   if FActivePaneSize <> Value then
   begin
     FActivePaneSize := Value;
@@ -2647,8 +2649,8 @@ end;
 constructor TJvDockVSNETTabPanel.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
-  TabHeight := 25;
-  CaptionTopOffset := 1;
+  TabHeight := MulDiv(25, Screen.PixelsPerInch, 96);
+  CaptionTopOffset := MulDiv(1, Screen.PixelsPerInch, 96);
 end;
 
 //=== { TJvDockVSNETTabServerOption } ========================================
@@ -2681,15 +2683,15 @@ constructor TJvDockVSNETTree.Create(DockSite: TWinControl;
 begin
   inherited Create(DockSite, DockZoneClass, ADockStyle);
 
-  ButtonHeight := 12;
-  ButtonWidth := 16;
-  LeftOffset := 2;
-  RightOffset := 3;
-  TopOffset := 4;
-  BottomOffset := 3;
-  ButtonSplitter := 2;
-  CaptionLeftOffset := 5;
-  CaptionRightOffset := 5;
+  ButtonHeight := MulDiv(12, Screen.PixelsPerInch, 96);
+  ButtonWidth := MulDiv(16, Screen.PixelsPerInch, 96);
+  LeftOffset := MulDiv(2, Screen.PixelsPerInch, 96);
+  RightOffset := MulDiv(3, Screen.PixelsPerInch, 96);
+  TopOffset := MulDiv(4, Screen.PixelsPerInch, 96);
+  BottomOffset := MulDiv(3, Screen.PixelsPerInch, 96);
+  ButtonSplitter := MulDiv(2, Screen.PixelsPerInch, 96);
+  CaptionLeftOffset := MulDiv(5, Screen.PixelsPerInch, 96);
+  CaptionRightOffset := MulDiv(5, Screen.PixelsPerInch, 96);
 end;
 
 procedure TJvDockVSNETTree.BeginDrag(Control: TControl; Immediate: Boolean;

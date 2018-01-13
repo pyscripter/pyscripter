@@ -1832,7 +1832,7 @@ begin
     fRemotePython.Debugger.set_quit();
   end else if fDebuggerCommand = dcPause then
     fRemotePython.Debugger.set_step();
-   Result := GetPythonEngine.ReturnNone;
+  Result := GetPythonEngine.ReturnNone;
 end;
 
 end.

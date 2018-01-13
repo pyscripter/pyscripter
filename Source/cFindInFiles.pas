@@ -180,6 +180,12 @@ type
     property AbortSignalled: Boolean read FAbortSignalled write FAbortSignalled;
   end;
 
+  TFont = class(Graphics.TFont)
+  published
+    property Height stored False;
+    property Size stored True;
+  end;
+
  TFindInFilesExpert = class(TInterfacedPersistent, IJvAppStorageHandler)
   private
     FGrepMiddle: Boolean;

@@ -30,7 +30,7 @@ object PyIDEMainForm: TPyIDEMainForm
       CustomHeight = 21
     end
     object SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem
-      CustomWidth = 0
+      CustomWidth = 417
     end
     object SpTBXSeparatorItem5: TSpTBXSeparatorItem
     end
@@ -66,26 +66,49 @@ object PyIDEMainForm: TPyIDEMainForm
     end
     object SpTBXSeparatorItem9: TSpTBXSeparatorItem
     end
-    object TBControlItem3: TTBControlItem
+    object tbciStatusLed: TTBControlItem
       Control = StatusLED
     end
     object SpTBXSeparatorItem10: TSpTBXSeparatorItem
     end
-    object TBControlItem1: TTBControlItem
+    object tbciStatusExternal: TTBControlItem
       Control = ExternalToolsLED
     end
-    object StatusLED: TJvLED
-      Left = 723
-      Top = 2
+    object StatusLED: TAMHLEDVecStd
+      Left = 733
+      Top = 4
+      Width = 12
+      Height = 12
       Hint = 'Ready'
+      BorderStyle = bsNone
+      ColorEffect = True
+      ColorEffectOff = clSilver
+      ColorEffectOn = clSilver
+      ColorLeftTop = clSilver
+      ColorRightBottom = clGray
+      LEDActive = True
+      LEDColorOff = clRed
+      LEDColorOn = clGreen
+      LEDStyle = lsEllipse
     end
-    object ExternalToolsLED: TJvLED
-      Left = 746
-      Top = 2
+    object ExternalToolsLED: TAMHLEDVecStd
+      Left = 751
+      Top = 4
+      Width = 12
+      Height = 12
       Hint = 'External Tool Running'
-      PopupMenu = RunningProcessesPopUpMenu
-      Status = False
+      BorderStyle = bsNone
+      ColorEffect = True
+      ColorEffectOff = clSilver
+      ColorEffectOn = clSilver
+      ColorLeftTop = clSilver
+      ColorRightBottom = clGray
+      LEDActive = False
+      LEDColorOff = clRed
+      LEDColorOn = clGreen
+      LEDStyle = lsEllipse
       Visible = False
+      PopupMenu = RunningProcessesPopUpMenu
     end
   end
   object BGPanel: TPanel
@@ -215,11 +238,11 @@ object PyIDEMainForm: TPyIDEMainForm
     Height = 77
     PopupMenu = ToolbarPopupMenu
     object MainMenu: TSpTBXToolbar
-      Left = 7
+      Left = 0
       Top = 0
       CloseButton = False
       DockMode = dmCannotFloatOrChangeDocks
-      DockPos = 7
+      DockPos = 0
       Images = CommandsDataModule.Images
       ProcessShortCuts = True
       ShrinkMode = tbsmWrap
@@ -937,7 +960,7 @@ object PyIDEMainForm: TPyIDEMainForm
     object MainToolBar: TSpTBXToolbar
       Left = 0
       Top = 25
-      DockPos = 3
+      DockPos = -6
       DockRow = 1
       Images = CommandsDataModule.Images
       TabOrder = 1

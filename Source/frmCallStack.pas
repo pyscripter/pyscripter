@@ -114,13 +114,6 @@ begin
   end;
 end;
 
-procedure TCallStackWindow.WriteToAppStorage(AppStorage: TJvCustomAppStorage;
-  const BasePath: string);
-begin
-  AppStorage.WriteInteger(BasePath+'\Function Width', CallStackView.Header.Columns[0].Width);
-  AppStorage.WriteInteger(BasePath+'\Line Width', CallStackView.Header.Columns[2].Width);
-end;
-
 procedure TCallStackWindow.ClearAll;
 begin
   CallStackView.Clear;
@@ -182,8 +175,6 @@ begin
   fCallStackList := TObjectList.Create(True);  // Onwns objects
   // Let the tree know how much data space we need.
   CallStackView.NodeDataSize := SizeOf(TCallStackRec);
-  CallStackView.Header.Height :=
-    MulDiv(CallStackView.Header.Height, Screen.PixelsPerInch, 96);
 end;
 
 procedure TCallStackWindow.FormDestroy(Sender: TObject);
@@ -231,8 +222,19 @@ end;
 procedure TCallStackWindow.ReadFromAppStorage(AppStorage: TJvCustomAppStorage;
   const BasePath: string);
 begin
-  CallStackView.Header.Columns[0].Width := AppStorage.ReadInteger(BasePath+'\Function Width', 100);
-  CallStackView.Header.Columns[2].Width := AppStorage.ReadInteger(BasePath+'\Line Width', 50);
+  CallStackView.Header.Columns[0].Width :=
+    PPIScaled(AppStorage.ReadInteger(BasePath+'\Function Width', 100));
+  CallStackView.Header.Columns[2].Width :=
+    PPIScaled(AppStorage.ReadInteger(BasePath+'\Line Width', 50));
+end;
+
+procedure TCallStackWindow.WriteToAppStorage(AppStorage: TJvCustomAppStorage;
+  const BasePath: string);
+begin
+  AppStorage.WriteInteger(BasePath+'\Function Width',
+   PPIUnScaled(CallStackView.Header.Columns[0].Width));
+  AppStorage.WriteInteger(BasePath+'\Line Width',
+    PPIUnScaled(CallStackView.Header.Columns[2].Width));
 end;
 
 end.

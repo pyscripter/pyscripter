@@ -20,12 +20,10 @@ uses
   Vcl.HTMLHelpViewer,
   Vcl.Themes,
   Vcl.Styles,
-  Vcl.SysStyles,
   Vcl.Forms,
   Vcl.Dialogs,
   VTAccessibility,
   uCmdLine in 'uCmdLine.pas',
-  uDpiAware in 'uDpiAware.pas',
   dlgExceptionMail in 'dlgExceptionMail.pas' {ExceptionDialogMail},
   frmPyIDEMain in 'frmPyIDEMain.pas' {PyIDEMainForm},
   uEditAppIntfs in 'uEditAppIntfs.pas',
@@ -106,18 +104,17 @@ uses
   dlgSynEditOptions in 'dlgSynEditOptions.pas' {fmEditorOptionsDialog: TForm},
   JvDockSupportControl in 'JvDockSupportControl.pas',
   AsyncCalls in 'AsyncCalls.pas',
-  SpTBXItem in 'SpTBXItem.pas',
   TB2Item in 'TB2Item.pas',
   JvDockVIDStyle in 'JvDockVIDStyle.pas',
   JvCreateProcess in 'JvCreateProcess.pas',
   cCodeCompletion in 'cCodeCompletion.pas',
-  SpTBXSkins in 'SpTBXSkins.pas',
   dlgStyleSelector in 'dlgStyleSelector.pas' {StyleSelectorForm},
   cVirtualStringTreeHelper in 'cVirtualStringTreeHelper.pas',
   Synedit,
   Vcl.StdCtrls,
-  VCL.Styles.PyScripter in 'VCL.Styles.PyScripter.pas';
-
+  VCL.Styles.PyScripter in 'VCL.Styles.PyScripter.pas' {/  Vcl.Styles.Utils.Forms;},
+  VCL.Styles.DPIAware in 'VCL.Styles.DPIAware.pas',
+  TB2Toolbar in 'TB2Toolbar.pas';
 
 {$R *.RES}
 {$R WebCopyAvi.RES}
@@ -141,7 +138,8 @@ begin
     end;
   Application.MainFormOnTaskbar := True;
 
-  TStyleManager.TrySetStyle('Windows10');
+  if TStyleManager.TrySetStyle('Windows10') then
+    TStyleSelectorForm.CurrentSkinName := 'Windows10';
 
   Application.Title := 'PyScripter';
   Application.CreateForm(TCommandsDataModule, CommandsDataModule);

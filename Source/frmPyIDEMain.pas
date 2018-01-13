@@ -1,4 +1,4 @@
-{-----------------------------------------------------------------------------
+ï»¿{-----------------------------------------------------------------------------
  Unit Name: frmPyIDEMain
  Author:    Kiriakos Vlahos
  Date:      11-Feb-2005
@@ -284,7 +284,7 @@
             Moved to Rpyc v3.07, now bundled with PyScripter
             IDE Option "Reinitialize before run" was added defaulting to True
             The default Python engine is now the remote engine
-            Spanish translation by Javier Pimás (incomplete) was added
+            Spanish translation by Javier Pimï¿½s (incomplete) was added
           Bug fixes
             Issues  236, 304, 322, 333, 334
  History:   v 2.1.1
@@ -401,6 +401,10 @@
           Issues addressed
             16, 571, 685, 690, 718, 721, 765, 814, 836
 
+  History:   v 3.1
+          New Features
+            Dpi awareness (Issue 769)
+
             { TODO : Issue 311 }
             { TODO : Auto PEP8 tool }
 
@@ -430,15 +434,14 @@ uses
   Variants, dmCommands, ActnList, Menus, uEditAppIntfs,
   JvDockControlForm, JvDockVIDStyle, JvDockVSNetStyle,
   SynEditTypes, SynEditMiscClasses, cPyBaseDebugger,
-  cPyDebugger, JvAppStorage,  JvAppIniStorage, JvLED, SynEdit,
+  cPyDebugger, JvAppStorage,  JvAppIniStorage, SynEdit,
   TB2Dock, TB2Toolbar, TB2Item, ExtCtrls, JvExControls,
-  cRefactoring, dlgCustomShortcuts,
-  TB2ExtItems, JvDockTree,
+  cRefactoring, dlgCustomShortcuts,   TB2ExtItems, JvDockTree,
   JvComponentBase, JvAppInst, uHighlighterProcs, cFileTemplates,
   JvDockVSNetStyleSpTBX, JvFormPlacement, SpTBXCustomizer,
   SpTbxSkins, SpTBXItem, SpTBXEditors, StdCtrls, JvDSADialogs, Dialogs,
   ActiveX, SpTBXMDIMRU, SpTBXTabs, ImgList, SpTBXDkPanels, System.Actions,
-  VCL.Styles;
+  VCL.Styles, Vcl.Styles.DPIAware, Vcl.ComCtrls, AMHLEDVecStd;
 
 const
   WM_FINDDEFINITION  = WM_USER + 100;
@@ -782,10 +785,10 @@ type
     SpTBXSeparatorItem8: TSpTBXSeparatorItem;
     lbStatusCaps: TSpTBXLabelItem;
     SpTBXSeparatorItem9: TSpTBXSeparatorItem;
-    StatusLED: TJvLED;
-    TBControlItem3: TTBControlItem;
-    ExternalToolsLED: TJvLED;
-    TBControlItem1: TTBControlItem;
+    StatusLED: TAMHLEDVecStd;
+    tbciStatusLed: TTBControlItem;
+    ExternalToolsLED: TAMHLEDVecStd;
+    tbciStatusExternal: TTBControlItem;
     SpTBXSeparatorItem10: TSpTBXSeparatorItem;
     mnMainToolbarVisibilityToggle: TSpTBXItem;
     mnDebugtoolbarVisibilityToggle: TSpTBXItem;
@@ -1089,6 +1092,7 @@ type
     procedure NextMRUAdd(S : WideString);
   protected
     fStoredEffect : Longint;
+    OldScreenPPI : Integer;
     // IDropTarget implementation
     function DragEnter(const dataObj: IDataObject; grfKeyState: Longint;
       pt: TPoint; var dwEffect: Longint): HResult; stdcall;
@@ -1098,7 +1102,9 @@ type
     function DragLeave: HResult; stdcall;
     function Drop(const dataObj: IDataObject; grfKeyState: Longint; pt: TPoint;
       var dwEffect: Longint): HResult; stdcall;
+    procedure ScaleForCurrentDpi; override;
   public
+    StyleDPIAwareness : TStyleDPIAwareness;
     ActiveTabControlIndex : integer;
     PythonKeywordHelpRequested : Boolean;
     MenuHelpRequested : Boolean;
@@ -1187,7 +1193,8 @@ uses
   JclStrings, JclSysUtils, frmProjectExplorer, cProjectClasses,
   MPDataObject, JvGnugettext, WideStrUtils, WideStrings,
   SpTBXControls, SynEditKeyCmds, StdActns,
-  PythonEngine, Contnrs, SynCompletionProposal, dlgStyleSelector, Vcl.Themes;
+  PythonEngine, Contnrs, SynCompletionProposal, dlgStyleSelector,
+  Vcl.Themes;
 
 {$R *.DFM}
 
@@ -1330,6 +1337,10 @@ Var
   TabHost : TJvDockTabHostForm;
   OptionsFileName: string;
 begin
+  // Style DPI awareness
+  StyleDPIAwareness := TStyleDPIAwareness.Create(Self);
+  StyleDPIAwareness.Parent := Self;
+
   // App Instances
   ShellExtensionFiles := TStringList.Create;
   if not CmdLineReader.readFlag('NEWINSTANCE') then begin
@@ -1448,25 +1459,24 @@ begin
   // Read Settings from PyScripter.ini
   if FileExists(AppStorage.IniFile.FileName) then begin
     RestoreApplicationData;
-    JvFormStorage.RestoreFormPlacement;
+    if (OldScreenPPI = Screen.PixelsPerInch) then
+      JvFormStorage.RestoreFormPlacement;
   end else
     CommandsDataModule.PyIDEOptions.Changed;
 
-  AppStorage.ReadStringList('Layouts', Layouts, True);
-
-  if AppStorage.PathExists('Layouts\Current\Forms') then begin
+  if (OldScreenPPI = Screen.PixelsPerInch) and
+     AppStorage.PathExists('Layouts\Current\Forms') then
+  begin
     LoadLayout('Current');
-    AppStorage.ReadPersistent('Variables Window Options', VariablesWindow);
   end else
   begin
-
     TabHost := ManualTabDock(DockServer.LeftDockPanel, FileExplorerWindow, ProjectExplorerWindow);
-    DockServer.LeftDockPanel.Width := 200;
+    DockServer.LeftDockPanel.Width := PPIScaled(200);
     ManualTabDockAddPage(TabHost, CodeExplorerWindow);
     ShowDockForm(FileExplorerWindow);
 
     TabHost := ManualTabDock(DockServer.BottomDockPanel, CallStackWindow, VariablesWindow);
-    DockServer.BottomDockPanel.Height := 150;
+    DockServer.BottomDockPanel.Height := PPIScaled(150);
     ManualTabDockAddPage(TabHost, WatchesWindow);
     ManualTabDockAddPage(TabHost, BreakPointsWindow);
     ManualTabDockAddPage(TabHost, OutputWindow);
@@ -2216,22 +2226,22 @@ begin
                         s := 'Running';
                         if CommandsDataModule.PyIDEOptions.PythonEngineType = peInternal then
                           Screen.Cursor := crHourGlass;
-                        StatusLED.ColorOn := clRed;
+                        StatusLED.LEDColorOn := clRed;
                       end;
     dsPaused: begin
                 s := 'Paused';
                 Screen.Cursor := crDefault;
-                StatusLED.ColorOn := clYellow;
+                StatusLED.LEDColorOn := clYellow;
               end;
     dsInactive: begin
                  s := 'Ready';
                  Screen.Cursor := crDefault;
-                 StatusLED.ColorOn := clLime;
+                 StatusLED.LEDColorOn := clGreen;
                end;
     dsPostMortem : begin
                      s := 'Post mortem';
                      Screen.Cursor := crDefault;
-                     StatusLED.ColorOn := clPurple;
+                     StatusLED.LEDColorOn := clPurple;
                    end;
   end;
   StatusLED.Hint := 'Debugger state: ' +s;
@@ -2639,7 +2649,7 @@ begin
   if GetCapsLockKeyState then
     lbStatusCAPS.Caption := 'CAPS'
   else
-    lbStatusCAPS.Caption := '';
+    lbStatusCAPS.Caption := ' ';
 
   ExternalToolsLED.Visible := OutputWindow.JvCreateProcess.State <> psReady;
 end;
@@ -2695,6 +2705,7 @@ begin
     SynCodeCompletion.TimerInterval := PythonIIForm.SynCodeCompletion.TimerInterval;
     Synedit.CodeFolding.Assign(CommandsDataModule.PyIDEOptions.CodeFolding);
     Synedit2.CodeFolding.Assign(CommandsDataModule.PyIDEOptions.CodeFolding);
+
     if CommandsDataModule.PyIDEOptions.CompactLineNumbers then
     begin
       SynEdit.OnGutterGetText := TEditorForm(Editor.Form).SynEditGutterGetText;
@@ -2717,6 +2728,7 @@ begin
   FreeAndNil(fLanguageList);
   FreeAndNil(DSAAppStorage);
   FreeAndNil(ShellExtensionFiles);
+  FreeAndNil(StyleDPIAwareness);
 end;
 
 procedure TPyIDEMainForm.actFileExitExecute(Sender: TObject);
@@ -2898,14 +2910,21 @@ begin
   try
     AppStorage.WriteString('PyScripter Version', ApplicationVersion);
     AppStorage.WriteString('Language', GetCurrentLanguage);
+    AppStorage.WriteInteger('Screen PPI', Screen.PixelsPerInch);
 
     AppStorage.StorageOptions.StoreDefaultValues := True;
+    // UnScale and Scale back
+    CommandsDataModule.PyIDEOptions.CodeFolding.GutterShapeSize :=
+      PPIUnScaled(CommandsDataModule.PyIDEOptions.CodeFolding.GutterShapeSize);
     AppStorage.WritePersistent('IDE Options', CommandsDataModule.PyIDEOptions);
+    CommandsDataModule.PyIDEOptions.CodeFolding.GutterShapeSize :=
+      PPIScaled(CommandsDataModule.PyIDEOptions.CodeFolding.GutterShapeSize);
     AppStorage.StorageOptions.StoreDefaultValues := False;
 
     with CommandsDataModule do begin
       AppStorage.DeleteSubTree('Editor Options');
       AppStorage.WritePersistent('Editor Options', EditorOptions);
+
       AppStorage.DeleteSubTree('Highlighters');
       for i := 0 to Highlighters.Count - 1 do
         AppStorage.WritePersistent('Highlighters\'+Highlighters[i],
@@ -2955,12 +2974,13 @@ begin
     AppStorage.DeleteSubTree('Tools');
     AppStorage.WriteCollection('Tools', ToolsCollection, 'Tool');
     AppStorage.WritePersistent('Tools\External Run', ExternalPython);
-    AppStorage.WritePersistent('Output Window\Font', OutputWindow.lsbConsole.Font);
-    AppStorage.WriteInteger('Output Window\Color', Integer(OutputWindow.lsbConsole.Color));
+    AppStorage.WriteString('Output Window\Font Name', OutputWindow.lsbConsole.Font.Name);
+    AppStorage.WriteInteger('Output Window\Font Size', OutputWindow.lsbConsole.Font.Size);
     AppStorage.WritePersistent('Watches', WatchesWindow);
-    AppStorage.WriteStringList('Layouts', Layouts);
     AppStorage.WriteBoolean('Status Bar', StatusBar.Visible);
-    // Save Theme Name
+    AppStorage.WriteStringList('Layouts', Layouts);
+
+    // Save Style Name
     AppStorage.WriteString('Style Name', TStyleSelectorForm.CurrentSkinName);
 
 
@@ -3011,7 +3031,7 @@ Const
 Var
   ActionProxyCollection : TActionProxyCollection;
   TempStringList : TStringList;
-  i : integer;
+  i : Integer;
   FName : string;
   PyScripterVersion : string;
 begin
@@ -3020,17 +3040,21 @@ begin
   // Change language
   ChangeLanguage(AppStorage.ReadString('Language', GetCurrentLanguage));
 
+  OldScreenPPI := AppStorage.ReadInteger('Screen PPI', 96);
+
   if AppStorage.PathExists('IDE Options') then begin
     AppStorage.ReadPersistent('IDE Options', CommandsDataModule.PyIDEOptions);
+    CommandsDataModule.PyIDEOptions.CodeFolding.GutterShapeSize :=
+      PPIScaled(CommandsDataModule.PyIDEOptions.CodeFolding.GutterShapeSize);
     CommandsDataModule.PyIDEOptions.Changed;
   end;
   if AppStorage.PathExists('Editor Options') then
     with CommandsDataModule do begin
       EditorOptions.Gutter.Gradient := False;  //default value
       AppStorage.ReadPersistent('Editor Options', EditorOptions);
-      if (CompareVersion(PyScripterVersion, '3.1') < 0)
-          and  (EditorOptions.Keystrokes.FindCommand(ecNone) < 0) then
+      if (CompareVersion(PyScripterVersion, '3.1') < 0) then
       begin
+        if  (EditorOptions.Keystrokes.FindCommand(ecNone) < 0) then
         with EditorOptions.Keystrokes do begin
           AddKey(ecFoldAll, VK_OEM_MINUS, [ssCtrl, ssShift]);   {- _}
           AddKey(ecUnfoldAll,  VK_OEM_PLUS, [ssCtrl, ssShift]); {= +}
@@ -3112,12 +3136,14 @@ begin
   AppStorage.ReadPersistent('Tools\External Run', ExternalPython);
   SetupToolsMenu;
   SetupCustomizer;
-  AppStorage.ReadPersistent('Output Window\Font', OutputWindow.lsbConsole.Font);
-  OutputWindow.lsbConsole.Color := TColor(AppStorage.ReadInteger('Output Window\Color', Integer(clWindow)));
+  OutputWindow.lsbConsole.Font.Name := AppStorage.ReadString('Output Window\Font Name', 'Courier New');
+  OutputWindow.lsbConsole.Font.Size := AppStorage.ReadInteger('Output Window\Font Size', 9);
   OutputWindow.FontOrColorUpdated;
   AppStorage.ReadPersistent('Watches', WatchesWindow);
   StatusBar.Visible := AppStorage.ReadBoolean('Status Bar');
 
+  if OldScreenPPI = Screen.PixelsPerInch then
+    AppStorage.ReadStringList('Layouts', Layouts, True);
 
   // Load Style Name
   TStyleSelectorForm.SetStyle(AppStorage.ReadString('Style Name', 'Windows10'));
@@ -3360,6 +3386,32 @@ begin
 
     for i := 0 to GI_EditorFactory.Count - 1 do
       GI_EditorFactory.Editor[i].Retranslate;
+  end;
+end;
+
+procedure TPyIDEMainForm.ScaleForCurrentDpi;
+Var
+  M, D: Integer;
+begin
+  inherited;
+  M := Screen.PixelsPerInch;
+  D := 96;
+  if M <> D then begin
+    ScaleImageList(CommandsDataModule.Images, M, D);
+    ScaleImageList(CommandsDataModule.CodeImages, M, D);
+    // Status bar
+    StatusBar.Toolbar.Items.ViewBeginUpdate;
+    try
+      lbStatusCaret.CustomWidth := PPIScaled(lbStatusCaret.CustomWidth);
+      lbStatusModified.CustomWidth := PPIScaled(lbStatusModified.CustomWidth);
+      lbStatusOverwrite.CustomWidth := PPIScaled(lbStatusOverwrite.CustomWidth);
+      lbStatusCaps.CustomWidth := PPIScaled(lbStatusCaps.CustomWidth);
+    finally
+      StatusBar.ToolBar.Items.ViewEndUpdate;
+    end;
+    // Completion
+    CommandsDataModule.ParameterCompletion.ChangeScale(M, D);
+    CommandsDataModule.ModifierCompletion.ChangeScale(M, D);
   end;
 end;
 
@@ -4163,9 +4215,9 @@ begin
   end;
   PatternColor := CurrentSkin.GetTextColor(skncToolbarItem, State);
   if Editor.Modified then
-    SpDrawGlyphPattern(ACanvas.Handle, ARect, 8, 8, ModClosePattern, PatternColor)
+    SpDrawGlyphPattern(ACanvas.Handle, ARect, PPIScaled(8), PPIScaled(8), ModClosePattern, PatternColor)
   else
-    SpDrawGlyphPattern(ACanvas, ARect, 0, PatternColor);
+    SpDrawGlyphPattern(ACanvas, ARect, 0, PatternColor, PPIScaled(8), PPIScaled(8));
 end;
 
 procedure TPyIDEMainForm.PrevClickHandler(Sender: TObject);

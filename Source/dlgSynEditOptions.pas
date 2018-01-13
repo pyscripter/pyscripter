@@ -324,9 +324,9 @@ type
     destructor Destroy; override;
     procedure Assign(Source : TPersistent); override;
     procedure AssignTo(Dest : TPersistent); override;
+    property BookMarkOptions : TSynBookMarkOpt read FBookmarks write SetBookMarks;
   published
     property Options : TSynEditorOptions read FOptions write SetOptions;
-    property BookMarkOptions : TSynBookMarkOpt read FBookmarks write SetBookMarks;
     property Color : TColor read FColor write FColor;
     property Font : TFont read FFont write SetFont;
     property ExtraLineSpacing : Integer read FExtraLineSpacing write FExtraLineSpacing;
@@ -853,10 +853,10 @@ begin
   with eKeyShort1 do
   begin
     Parent := gbKeystrokes;
-    Left := 154;
-    Top := 55;
-    Width := 185;
-    Height := 21;
+    Left := MulDiv(154, Screen.PixelsPerInch, 96);
+    Top := MulDiv(55, Screen.PixelsPerInch, 96);
+    Width := MulDiv(185, Screen.PixelsPerInch, 96);
+    Height := MulDiv(21, Screen.PixelsPerInch, 96);
     InvalidKeys := [];
     Modifiers := [];
     HotKey := 0;
@@ -869,10 +869,10 @@ begin
   with eKeyShort2 do
   begin
     Parent := gbKeystrokes;
-    Left := 154;
-    Top := 87;
-    Width := 185;
-    Height := 21;
+    Left := MulDiv(154, Screen.PixelsPerInch, 96);
+    Top := MulDiv(87, Screen.PixelsPerInch, 96);
+    Width := MulDiv(185, Screen.PixelsPerInch, 96);
+    Height := MulDiv(21, Screen.PixelsPerInch, 96);
     InvalidKeys := [];
     Modifiers := [];
     HotKey := 0;

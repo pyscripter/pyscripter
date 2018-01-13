@@ -232,10 +232,10 @@ begin
   begin
     Name := 'hkShortCut';
     Parent := GroupBox4;
-    Left := 86;
-    Top := 15;
-    Width := 125;
-    Height := 19;
+    Left := MulDiv(86, Screen.PixelsPerInch, 96);
+    Top := MulDiv(15, Screen.PixelsPerInch, 96);
+    Width := MulDiv(125, Screen.PixelsPerInch, 96);
+    Height := MulDiv(19, Screen.PixelsPerInch, 96);
     Hint := 'Allows you to specify a menu shortcut for the tool';
     HotKey := 0;
     InvalidKeys := [hcNone];

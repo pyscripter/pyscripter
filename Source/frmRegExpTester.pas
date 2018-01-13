@@ -139,8 +139,6 @@ begin
   MatchList := TList<Variant>.Create;
 
   GroupsView.NodeDataSize := 0;
-  GroupsView.Header.Height :=
-    MulDiv(GroupsView.Header.Height, Screen.PixelsPerInch, 96);
 end;
 
 procedure TRegExpTesterWindow.FormDestroy(Sender: TObject);
@@ -176,9 +174,9 @@ begin
   AppStorage.WriteBoolean(BasePath+'\VERBOSE', CI_VERBOSE.Checked);
   AppStorage.WriteInteger(BasePath+'\SearchType', SearchType);
   AppStorage.WriteBoolean(BasePath+'\AutoExec', CI_AutoExecute.Checked);
-  AppStorage.WriteInteger(BasePath+'\RegExpHeight', dpRegExpText.Height);
-  AppStorage.WriteInteger(BasePath+'\GroupsHeight', dpGroupsView.Height);
-  AppStorage.WriteInteger(BasePath+'\SearchHeight', dpSearchText.Height);
+  AppStorage.WriteInteger(BasePath+'\RegExpHeight', PPIUnScaled(dpRegExpText.Height));
+  AppStorage.WriteInteger(BasePath+'\GroupsHeight', PPIUnScaled(dpGroupsView.Height));
+  AppStorage.WriteInteger(BasePath+'\SearchHeight', PPIUnScaled(dpSearchText.Height));
   TJvAppIniStorageOptions(AppStorage.StorageOptions).ReplaceCRLF := False;
 end;
 
@@ -207,9 +205,12 @@ begin
   else
     RI_findall.Checked := True;
   end;
-  dpRegExpText.Height := AppStorage.ReadInteger(BasePath+'\RegExpHeight', dpRegExpText.Height);
-  dpGroupsView.Height := AppStorage.ReadInteger(BasePath+'\GroupsHeight', dpGroupsView.Height);
-  dpSearchText.Height := AppStorage.ReadInteger(BasePath+'\SearchHeight', dpSearchText.Height);
+  dpRegExpText.Height :=
+    PPIScaled(AppStorage.ReadInteger(BasePath+'\RegExpHeight', dpRegExpText.Height));
+  dpGroupsView.Height :=
+    PPIScaled(AppStorage.ReadInteger(BasePath+'\GroupsHeight', dpGroupsView.Height));
+  dpSearchText.Height :=
+    PPIScaled(AppStorage.ReadInteger(BasePath+'\SearchHeight', dpSearchText.Height));
   CI_AutoExecute.Checked := AppStorage.ReadBoolean(BasePath+'\AutoExec', False);
 end;
 

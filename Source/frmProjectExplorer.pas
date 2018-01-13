@@ -1137,6 +1137,8 @@ end;
 procedure TProjectExplorerWindow.FormCreate(Sender: TObject);
 begin
   inherited;
+  ScaleImageList(ProjectImageList, Screen.PixelsPerInch, 96);
+
   // Let the tree know how much data space we need.
   ExplorerTree.NodeDataSize := SizeOf(TNodeDataRec);
   FileImageList := TStringList.Create;

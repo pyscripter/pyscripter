@@ -205,6 +205,8 @@ end;
 procedure TUnitTestWindow.FormCreate(Sender: TObject);
 begin
   inherited;
+  ScaleImageList(RunImages, Screen.PixelsPerInch, 96);
+
   UnitTests.NodeDataSize := SizeOf(TNodeDataRec);
 
   TestClasses := TStringList.Create;

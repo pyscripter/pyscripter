@@ -119,9 +119,6 @@ inherited OutputWindow: TOutputWindow
     object mnFont: TSpTBXItem
       Action = actOutputFont
     end
-    object mnBackgroundColor: TSpTBXItem
-      Action = actSelectColor
-    end
   end
   object OutputActions: TActionList
     Images = CommandsDataModule.Images
@@ -139,12 +136,6 @@ inherited OutputWindow: TOutputWindow
       Hint = 'Select font'
       ImageIndex = 91
       OnExecute = actOutputFontExecute
-    end
-    object actSelectColor: TAction
-      Caption = 'Background Color...'
-      Hint = 'Select background color'
-      ImageIndex = 90
-      OnExecute = actSelectColorExecute
     end
     object actClearOutput: TAction
       Caption = 'Clear'

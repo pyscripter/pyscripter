@@ -41,7 +41,6 @@ Type
     FCustomPPI : integer;
    protected
     procedure CMStyleChanged(var Message: TMessage); message CM_STYLECHANGED;
-    procedure ResizeBitmap(Bitmap: TBitmap; const NewWidth, NewHeight: integer);
     procedure RecreateForms;
   public
     constructor Create(AOwner: TComponent); override;
@@ -59,7 +58,7 @@ Type
 implementation
 
 Uses
-  System.Rtti;
+  System.Rtti, uCommonFunctions;
 
 { TStyleDPIAwareness }
 
@@ -93,22 +92,6 @@ Var
 begin
   for i := 0 to Screen.FormCount - 1 do
     Screen.Forms[i].Perform(CM_RECREATEWND, 0, 0);
-end;
-
-procedure TStyleDPIAwareness.ResizeBitmap(Bitmap: TBitmap; const NewWidth,
-  NewHeight: integer);
-var
-  buffer: TBitmap;
-begin
-  buffer := TBitmap.Create;
-  try
-    buffer.SetSize(NewWidth, NewHeight);
-    buffer.Canvas.StretchDraw(Rect(0, 0, NewWidth, NewHeight), Bitmap);
-    Bitmap.SetSize(NewWidth, NewHeight);
-    Bitmap.Canvas.Draw(0, 0, buffer);
-  finally
-    buffer.Free;
-  end;
 end;
 
 procedure TStyleDPIAwareness.ScaleStyle(Style: TCustomStyleServices);
@@ -235,7 +218,8 @@ begin
    TRttiContext.Create.GetType(SeStyle.ClassType).GetMethod('ResetStyle').Invoke(SeStyle, []);
   end;
   FScaledStyles.Add(Style.Name);
-  RecreateForms;
+  if Style = TStyleManager.ActiveStyle then
+    RecreateForms;
 end;
 
 end.

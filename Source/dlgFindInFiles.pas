@@ -46,34 +46,33 @@ interface
 
 uses
   Classes, Controls, Graphics, Forms, StdCtrls,
-  cFindInFiles, SpTBXControls,
-  SpTBXEditors, dlgPyIDEBase, SpTBXItem;
+  cFindInFiles, dlgPyIDEBase, Vcl.ExtCtrls;
 
 type
   TFindInFilesDialog = class(TPyIDEDlgBase)
-    gbxOptions: TSpTBXGroupBox;
-    gbxWhere: TSpTBXGroupBox;
-    gbxDirectories: TSpTBXGroupBox;
-    btnBrowse: TSpTBXButton;
-    btnOK: TSpTBXButton;
-    btnCancel: TSpTBXButton;
-    btnHelp: TSpTBXButton;
-    cbCaseSensitive: TSpTBXCheckBox;
-    cbNoComments: TSpTBXCheckBox;
-    cbWholeWord: TSpTBXCheckBox;
-    cbRegEx: TSpTBXCheckBox;
-    cbInclude: TSpTBXCheckBox;
-    rbOpenFiles: TSpTBXRadioButton;
-    rbProject: TSpTBXRadioButton;
-    rbCurrentOnly: TSpTBXRadioButton;
-    rbDirectories: TSpTBXRadioButton;
-    cbMasks: TSpTBXComboBox;
-    cbDirectory: TSpTBXComboBox;
-    cbText: TSpTBXComboBox;
-    lblFind: TSpTBXLabel;
-    lblMasks: TSpTBXLabel;
-    lblDirectory: TSpTBXLabel;
-    SpTBXPanel1: TSpTBXPanel;
+    gbxOptions: TGroupBox;
+    gbxWhere: TGroupBox;
+    gbxDirectories: TGroupBox;
+    btnBrowse: TButton;
+    btnOK: TButton;
+    btnCancel: TButton;
+    btnHelp: TButton;
+    cbCaseSensitive: TCheckBox;
+    cbNoComments: TCheckBox;
+    cbWholeWord: TCheckBox;
+    cbRegEx: TCheckBox;
+    cbInclude: TCheckBox;
+    rbOpenFiles: TRadioButton;
+    rbProject: TRadioButton;
+    rbCurrentOnly: TRadioButton;
+    rbDirectories: TRadioButton;
+    cbMasks: TComboBox;
+    cbDirectory: TComboBox;
+    cbText: TComboBox;
+    lblFind: TLabel;
+    lblMasks: TLabel;
+    lblDirectory: TLabel;
+    Panel1: TPanel;
     procedure btnBrowseClick(Sender: TObject);
     procedure rbProjectClick(Sender: TObject);
     procedure btnHelpClick(Sender: TObject);
@@ -122,16 +121,12 @@ begin
   cbMasks.Enabled := New;
   cbInclude.Enabled := New;
   btnBrowse.Enabled := New;
-  if not New then
-  begin
-    cbDirectory.Color := clBtnface;
-    cbMasks.Color := clBtnface;
-  end
-  else
-  begin
-    cbDirectory.Color := clWindow;
-    cbMasks.Color := clWindow;
-  end
+end;
+
+procedure TFindInFilesDialog.FormShow(Sender: TObject);
+begin
+  PostMessage(cbMasks.Handle, CB_SETEDITSEL, 0, 0);
+  PostMessage(cbDirectory.Handle, CB_SETEDITSEL, 0, 0);
 end;
 
 procedure TFindInFilesDialog.rbProjectClick(Sender: TObject);
@@ -340,13 +335,6 @@ begin
     Value.Mask := cbMasks.Text;
     Value.Directories := cbDirectory.Text;
   end;
-end;
-
-procedure TFindInFilesDialog.FormShow(Sender: TObject);
-begin
-  Constraints.MaxHeight := Height;
-  Constraints.MinHeight := Height;
-  Constraints.MinWidth := Width;
 end;
 
 end.

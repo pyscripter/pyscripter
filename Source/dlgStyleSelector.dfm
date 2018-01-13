@@ -1,7 +1,7 @@
 object StyleSelectorForm: TStyleSelectorForm
   Left = 574
   Top = 344
-  BorderStyle = bsSingle
+  BorderStyle = bsDialog
   Caption = 'Select Style'
   ClientHeight = 487
   ClientWidth = 686

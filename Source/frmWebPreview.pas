@@ -66,7 +66,9 @@ implementation
 
 uses
   dmCommands,
-  MSHTML, JvGnugettext,
+  MSHTML,
+  JvGnugettext,
+  uCommonFunctions,
   StringResources;
 
 {$R *.dfm}
@@ -147,6 +149,7 @@ end;
 function TWebPreviewView.CreateForm(Editor: IEditor; AOwner : TComponent): TCustomForm;
 begin
   Result := TWebPreviewForm.Create(AOwner);
+  ScaleImageList(TWebPreviewForm(Result).Images, Screen.PixelsPerInch, 96);
 end;
 
 function TWebPreviewView.GetImageIndex: Integer;
