@@ -40,8 +40,8 @@ type
     procedure actUpdateItemExecute(Sender: TObject);
     procedure actMoveUpExecute(Sender: TObject);
     procedure actMoveDownExecute(Sender: TObject);
-    procedure lvItemsChange(Sender: TObject; Item: TListItem;
-      Change: TItemChange);
+    procedure lvItemsSelectItem(Sender: TObject; Item: TListItem;
+      Selected: Boolean);
   private
     { Private declarations }
   public
@@ -135,6 +135,7 @@ begin
     with lvItems.Items.Add() do begin
       Caption := edName.Text;
       SubItems.Add(SynValue.Text);
+      Selected := True;
       MakeVisible(False);
     end;
   end;
@@ -165,10 +166,10 @@ begin
   end;
 end;
 
-procedure TCustomizeParams.lvItemsChange(Sender: TObject; Item: TListItem;
-      Change: TItemChange);
+procedure TCustomizeParams.lvItemsSelectItem(Sender: TObject; Item: TListItem;
+  Selected: Boolean);
 begin
-  if Item.Selected then begin
+  if Selected then begin
     edName.Text := Item.Caption;
     SynValue.Text := Item.SubItems[0];
   end;

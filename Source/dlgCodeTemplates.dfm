@@ -230,8 +230,8 @@ inherited CodeTemplates: TCodeTemplates
       RowSelect = True
       TabOrder = 0
       ViewStyle = vsReport
-      OnChange = lvItemsChange
       OnDeletion = lvItemsDeletion
+      OnSelectItem = lvItemsSelectItem
     end
   end
   object ActionList: TActionList

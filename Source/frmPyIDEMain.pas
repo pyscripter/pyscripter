@@ -404,7 +404,8 @@
   History:   v 3.1
           New Features
             Dpi awareness (Issue 769)
-
+          Issues addressed
+            #711
             { TODO : Issue 311 }
             { TODO : Auto PEP8 tool }
 

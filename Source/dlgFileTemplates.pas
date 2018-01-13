@@ -47,7 +47,6 @@ type
     edCategory: TEdit;
     edExtension: TEdit;
     procedure FormDestroy(Sender: TObject);
-    procedure edNameKeyPress(Sender: TObject; var Key: Char);
     procedure ActionListUpdate(Action: TBasicAction; var Handled: Boolean);
     procedure actAddItemExecute(Sender: TObject);
     procedure actDeleteItemExecute(Sender: TObject);
@@ -57,8 +56,8 @@ type
     procedure btnHelpClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure CBHighlightersChange(Sender: TObject);
-    procedure lvItemsChange(Sender: TObject; Item: TListItem;
-      Change: TItemChange);
+    procedure lvItemsSelectItem(Sender: TObject; Item: TListItem;
+      Selected: Boolean);
   private
     procedure StoreFieldsToFileTemplate(FileTemplate: TFileTemplate);
     { Private declarations }
@@ -99,13 +98,6 @@ begin
   CommandsDataModule.ModifierCompletion.RemoveEditor(SynTemplate);
   SynTemplate.Highlighter := nil;
   TempFileTemplates.Free;
-end;
-
-procedure TFileTemplatesDialog.edNameKeyPress(Sender: TObject; var Key: Char);
-begin
-  if not CharInSet(Key, ['a'..'z', 'A'..'Z', '0'..'9', #8]) then
-    Key := #0;
-  inherited;
 end;
 
 procedure TFileTemplatesDialog.GetItems;
@@ -230,8 +222,8 @@ begin
       CBHighlighters.Items.Objects[CBHighlighters.ItemIndex] as TSynCustomHighlighter;
 end;
 
-procedure TFileTemplatesDialog.lvItemsChange(Sender: TObject; Item: TListItem;
-      Change: TItemChange);
+procedure TFileTemplatesDialog.lvItemsSelectItem(Sender: TObject;
+  Item: TListItem; Selected: Boolean);
 var
   FileTemplate : TFileTemplate;
 begin

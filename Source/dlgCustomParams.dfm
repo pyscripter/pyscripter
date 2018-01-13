@@ -188,7 +188,7 @@ inherited CustomizeParams: TCustomizeParams
       RowSelect = True
       TabOrder = 0
       ViewStyle = vsReport
-      OnChange = lvItemsChange
+      OnSelectItem = lvItemsSelectItem
     end
   end
   object ActionList: TActionList

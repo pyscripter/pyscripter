@@ -99,8 +99,9 @@ type
     procedure ActionListUpdate(Action: TBasicAction; var Handled: Boolean);
     procedure btnHelpClick(Sender: TObject);
     procedure cbParseMessagesClick(Sender: TObject);
-    procedure lvItemsChange(Sender: TObject; Item: TListItem; Change: TItemChange);
     procedure btnStdFormatsClick(Sender: TObject);
+    procedure lvItemsSelectItem(Sender: TObject; Item: TListItem;
+      Selected: Boolean);
   private
     { Private declarations }
     fEnvStrings : TStrings;
@@ -341,10 +342,10 @@ begin
   end;
 end;
 
-procedure TToolProperties.lvItemsChange(Sender: TObject; Item: TListItem;
-  Change: TItemChange);
+procedure TToolProperties.lvItemsSelectItem(Sender: TObject; Item: TListItem;
+  Selected: Boolean);
 begin
-  if Item.Selected then begin
+  if Selected then begin
     edEnvName.Text := Item.Caption;
     edEnvValue.Text := Item.SubItems[0];
   end;

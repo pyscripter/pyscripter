@@ -129,7 +129,6 @@ inherited FileTemplatesDialog: TFileTemplatesDialog
         Width = 127
         Height = 21
         TabOrder = 0
-        OnKeyPress = edNameKeyPress
       end
       object edCategory: TEdit
         Left = 377
@@ -144,7 +143,6 @@ inherited FileTemplatesDialog: TFileTemplatesDialog
         Width = 38
         Height = 21
         TabOrder = 3
-        OnKeyPress = edNameKeyPress
       end
     end
     object TBXButton1: TButton
@@ -245,7 +243,7 @@ inherited FileTemplatesDialog: TFileTemplatesDialog
       RowSelect = True
       TabOrder = 0
       ViewStyle = vsReport
-      OnChange = lvItemsChange
+      OnSelectItem = lvItemsSelectItem
     end
   end
   object ActionList: TActionList

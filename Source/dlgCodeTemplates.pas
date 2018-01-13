@@ -53,9 +53,9 @@ type
     procedure actMoveUpExecute(Sender: TObject);
     procedure actMoveDownExecute(Sender: TObject);
     procedure btnHelpClick(Sender: TObject);
-    procedure lvItemsChange(Sender: TObject; Item: TListItem;
-      Change: TItemChange);
     procedure lvItemsDeletion(Sender: TObject; Item: TListItem);
+    procedure lvItemsSelectItem(Sender: TObject; Item: TListItem;
+      Selected: Boolean);
   private
     { Private declarations }
   public
@@ -187,6 +187,8 @@ begin
       SubItems.Add(edDescription.Text);
       Data := Pointer(TStringList.Create);
       TStringList(Data).Assign(SynTemplate.Lines);
+      Selected := True;
+      MakeVisible(False);
     end;
   end;
 end;
@@ -278,10 +280,10 @@ begin
     TStringList(Item.Data).Free;
 end;
 
-procedure TCodeTemplates.lvItemsChange(Sender: TObject; Item: TListItem;
-      Change: TItemChange);
+procedure TCodeTemplates.lvItemsSelectItem(Sender: TObject; Item: TListItem;
+  Selected: Boolean);
 begin
-  if Item.Selected then begin
+  if Selected then begin
     edShortCut.Text := Item.Caption;
     edDescription.Text := Item.SubItems[0];
     SynTemplate.Lines.Assign(TStringList(Item.Data));

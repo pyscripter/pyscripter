@@ -62,6 +62,7 @@ inherited ToolProperties: TToolProperties
       Height = 453
       Align = alTop
       ActiveTabIndex = 0
+      ExplicitLeft = 2
       HiddenItems = <>
       object SpTBXTabItem1: TSpTBXTabItem
         Caption = '&Properties'
@@ -174,7 +175,7 @@ inherited ToolProperties: TToolProperties
           SortType = stText
           TabOrder = 0
           ViewStyle = vsReport
-          OnChange = lvItemsChange
+          OnSelectItem = lvItemsSelectItem
         end
       end
       object tabProperties: TSpTBXTabSheet
