@@ -524,7 +524,7 @@ begin
 
   BlockOpenerRE := TRegExpr.Create;
   BlockOpenerRE.Expression := // ':\s*(#.*)?$';
-     '^(def|class|while|for|if|else|elif|try|except|with'+
+     '^(def|class|while|for|if|else|elif|try|except|finally|with'+
      '|(async[ \t]+def)|(async[ \t]+with)|(async[ \t]+for))\b';
 
   fRange := rsUnknown;

@@ -753,7 +753,7 @@ begin
     fForm.DoUpdateHighlighter(HighlighterName);
     fForm.DoUpdateCaption;
     fForm.fOldEditorForm := fForm;
-    fForm.Synedit.UseCodeFolding := CommandsDataModule.PyIDEOptions.UseCodeFolding;
+    fForm.Synedit.UseCodeFolding := CommandsDataModule.PyIDEOptions.CodeFoldingEnabled;
     fForm.Synedit2.UseCodeFolding := fForm.Synedit.UseCodeFolding;
   end;
 end;

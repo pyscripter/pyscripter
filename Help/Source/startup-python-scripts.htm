@@ -1,0 +1,27 @@
+<html><head>
+   <title>Startup Python Scripts</title>
+   <meta name="generator"  content="HelpMaker.net">
+   <meta name="keywords"  content="Customization,Startup,Python Scripts"></head>
+<body bgcolor="#FFFCEA">
+<table width="100%"  border="0"  cellspacing="0"  cellpadding="2"  bgcolor="#C0C0C0">
+  <tr>
+    <td align="left">
+      <div align="left"><font face="Arial"  color="#010101"  size="4"><span style=" font-size:14pt; font-family:Arial; color:#010101">Startup Python Scripts</span></font></div>
+
+    </td>
+    <td align="right">
+      <font face="Arial"  size="2">
+        <a href="commandlineoptions.htm">Previous</a>&nbsp;<a href="pyscripter.htm">Top</a>&nbsp;<a href="unregisteredpython.htm">Next</a>
+      </font>
+    </td>
+  </tr></table>
+<hr><div align="left"><font face="Arial"  size="2"><span style=" font-size:10pt; font-family:Arial; color:#000000">PyScripter users can create two startup python files that can be run at PyScripter startup.</span></font></div><div align="left"><font face="Arial"  size="2"><span style=" font-size:10pt; font-family:Arial; color:#000000"><br></span></font></div><div align="left"  style="margin-left:13mm; margin-right:0mm; text-indent:-6mm; margin-top:0.00mm; margin-bottom:0.00mm;"><font face="Arial"  size="2"><span style=" font-size:10pt; font-family:Arial; color:#000000">1.&nbsp; &nbsp;pyscripter_init.py</span></font></div><div align="left"  style="margin-left:13mm; margin-right:0mm; text-indent:0mm; margin-top:0.00mm; margin-bottom:0.00mm;"><font face="Arial"  size="2"><span style=" font-size:10pt; font-family:Arial; color:#000000">This script is run once in the space of the internal Python engine at start-up.&nbsp; It can be 
+used to set various PyScripter options and to customize the PyScripter user environment.</span></font></div><div align="left"><font face="Arial"  size="2"><span style=" font-size:10pt; font-family:Arial; color:#000000"><br></span></font></div><div align="left"  style="margin-left:13mm; margin-right:0mm; text-indent:-6mm; margin-top:0.00mm; margin-bottom:0.00mm;"><font face="Arial"  size="2"><span style=" font-size:10pt; font-family:Arial; color:#000000">2.&nbsp; &nbsp;python_init.py</span></font></div><div align="left"  style="margin-left:13mm; margin-right:0mm; text-indent:-13mm; margin-top:0.00mm; margin-bottom:0.00mm;"><font face="Arial"  size="2"><span style=" font-size:10pt; font-family:Arial; color:#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This file is executed when a Python engine, internal 
+or remote, is initialized and every 
+time the engine is reinitialized.&nbsp; It can be used to customize the Python engine, for 
+example by always importing certain units.</span></font></div><div align="left"><font face="Arial"  size="2"><span style=" font-size:10pt; font-family:Arial; color:#000000"><br></span></font></div><div align="left"><font face="Arial"  size="2"><span style=" font-size:10pt; font-family:Arial; color:#000000"><br></span></font></div><div align="left"><font face="Arial"  size="2"><span style=" font-size:10pt; font-family:Arial; color:#000000">PyScripter searches for startup python files first at the PyScripter.exe directory, and if it is not 
+found there at %APPDATA%\Pyscripter, where %APPDATA% is the environment variable.&nbsp; The 
+PyScripter installation program places these files without any content at 
+%APPDATA%\Pyscripter, if the files are not there already.</span></font></div><div align="left"><font face="Arial"  size="2"><span style=" font-size:10pt; font-family:Arial; color:#000000"><br></span></font></div><div align="left"><font face="Arial"  size="2"><span style=" font-size:10pt; font-family:Arial; color:#000000">You can edit the startup files by using the </span></font><a href="toolsmenu.htm"><font face="Arial"  color="#0000ff"  size="2"><span style=" font-size:10pt; font-family:Arial; color:#0000ff"><u>Tools Menu</u></span></font></a><font face="Arial"  size="2"><span style=" font-size:10pt; font-family:Arial; color:#000000"> command &quot;Edit Startup Files&quot;.</span></font></div>
+
+</body></html>

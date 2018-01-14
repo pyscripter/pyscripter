@@ -99,7 +99,7 @@ type
     fDisplayPackageNames:Boolean;
     fCheckSyntaxLineLimit : integer;
     fNoOfRecentFiles : integer;
-    fUseCodeFolding : boolean;
+    fCodeFoldingEnabled : boolean;
     fCodeFolding : TSynCodeFolding;
     fInternalInterpreterHidden : boolean;
     fCompactLineNumbers : Boolean;
@@ -243,8 +243,8 @@ type
       write fCheckSyntaxLineLimit default 1000;
     property NoOfRecentFiles : integer read fNoOfRecentFiles
       write fNoOfRecentFiles default 8;
-    property UseCodeFolding : Boolean read fUseCodeFolding
-      write fUseCodeFolding default True;
+    property CodeFoldingEnabled : Boolean read fCodeFoldingEnabled
+      write fCodeFoldingEnabled default True;
     property InternalInterpreterHidden : Boolean read fInternalInterpreterHidden
       write fInternalInterpreterHidden default True;
     property CompactLineNumbers : Boolean read fCompactLineNumbers
@@ -717,7 +717,7 @@ begin
       Self.fDisplayPackageNames := DisplayPackageNames;
       Self.fCheckSyntaxLineLimit := CheckSyntaxLineLimit;
       Self.fNoOfRecentFiles := NoOfRecentFiles;
-      Self.fUseCodeFolding := UseCodeFolding;
+      Self.fCodeFoldingEnabled := CodeFoldingEnabled;
       Self.fInternalInterpreterHidden := InternalInterpreterHidden;
       Self.fCompactLineNumbers := CompactLineNumbers;
     end
@@ -805,7 +805,7 @@ begin
   fDisplayPackageNames := True;
   fCheckSyntaxLineLimit := 1000;
   fNoOfRecentFiles := 8;
-  fUseCodeFolding := True;
+  fCodeFoldingEnabled := True;
   fInternalInterpreterHidden := True;
   fCompactLineNumbers := True;
   fCodeFolding := TSynCodeFolding.Create;
@@ -1083,7 +1083,7 @@ begin
   InterpreterEditorOptions := TSynEditorOptionsContainer.Create(Self);
   InterpreterEditorOptions.Assign(EditorOptions);
   InterpreterEditorOptions.Options := InterpreterEditorOptions.Options -
-    [eoTrimTrailingSpaces];
+    [eoTrimTrailingSpaces, eoScrollPastEol];
   InterpreterEditorOptions.WordWrap := True;
   InterpreterEditorOptions.Gutter.Visible := False;
   InterpreterEditorOptions.RightEdge := 0;
@@ -1696,7 +1696,7 @@ begin
         UpdateHighlighters;
         InterpreterEditorOptions.Assign(TempEditorOptions);
         InterpreterEditorOptions.Options := (InterpreterEditorOptions.Options -
-          [eoTrimTrailingSpaces]) + [eoTabsToSpaces];
+          [eoTrimTrailingSpaces, eoScrollPastEol]) + [eoTabsToSpaces];
         PythonIIForm.SynEdit.Assign(InterpreterEditorOptions);
       end;
       Free;
@@ -2449,7 +2449,7 @@ begin
     Options[16].DisplayName := _('Display package names in editor tabs');
     Options[17].PropertyName := 'CheckSyntaxLineLimit';
     Options[17].DisplayName := _('File line limit for syntax check as you type');
-    Options[18].PropertyName := 'UseCodeFolding';
+    Options[18].PropertyName := 'CodeFoldingEnabled';
     Options[18].DisplayName := _('Code folding enabled by default');
     Options[19].PropertyName := 'CodeFolding';
     Options[19].DisplayName := _('Code folding options');

@@ -1,0 +1,107 @@
+<html>
+
+<head>
+<title>Using PyScripter with Unregistered Python</title>
+<meta content="HelpMaker.net" name="generator">
+<meta content="Unregistered Python,Movable Python,Portable Python,Command line" name="keywords">
+</head>
+
+<body bgcolor="#FFFCEA">
+
+<table bgcolor="#C0C0C0" border="0" cellpadding="2" cellspacing="0" width="100%">
+	<tr>
+		,
+		<td align="left">
+		<div align="left">
+			<font face="Arial" size="4">
+			<span style="font-size: 14pt; font-family: Arial; color: #000000">Using 
+			PyScripter with Unregistered Python</span></font></div>
+		</td>
+		<td align="right"><font face="Arial" size="2">
+		<a href="startup-python-scripts.htm">Previous</a>&nbsp;<a href="pyscripter.htm">Top</a>&nbsp;<a href="filetemplates.htm">Next</a>
+		</font></td>
+	</tr>
+</table>
+<hr>
+<div align="left">
+	<font color="#010101" face="Arial" size="2">
+	<span style="font-size: 10pt; font-family: Arial; color: #010101">You can very 
+	easily setup PyScripter so that it can work with unregistered versions of Python 
+	such as for example </span></font><a href="http://www.portablepython.com/">
+	<font color="#010101" face="Arial" size="2">
+	<span style="font-size: 10pt; font-family: Arial; color: #010101"><u>Portable 
+	Python</u></span></font></a><font color="#010101" face="Arial" size="2"><span style="font-size: 10pt; font-family: Arial; color: #010101"> 
+	and </span></font><a href="http://www.voidspace.org.uk/python/movpy/">
+	<font color="#0000ff" face="Arial" size="2">
+	<span style="font-size: 10pt; font-family: Arial; color: #0000ff"><u>Movable 
+	Python</u></span></font></a><font color="#010101" face="Arial" size="2"><span style="font-size: 10pt; font-family: Arial; color: #010101"> 
+	which are typically residing in a USB stick or a portable hard disk.</span></font></div>
+<div align="left">
+	<font color="#010101" face="Arial" size="2">
+	<span style="font-size: 10pt; font-family: Arial; color: #010101"><br>
+	</span></font></div>
+<div align="left">
+	<font color="#010101" face="Arial" size="2">
+	<span style="font-size: 10pt; font-family: Arial; color: #010101">Steps:</span></font></div>
+<div align="left">
+	<font color="#010101" face="Arial" size="2">
+	<span style="font-size: 10pt; font-family: Arial; color: #010101"><br>
+	</span></font></div>
+<div align="left">
+	<font color="#010101" face="Arial" size="2">
+	<span style="font-size: 10pt; font-family: Arial; color: #010101">a) Download 
+	the zip-only distribution from the </span></font>
+	<a href="http://code.google.com/p/pyscripter/downloads/list">
+	<font color="#0000ff" face="Arial" size="2">
+	<span style="font-size: 10pt; font-family: Arial; color: #0000ff"><u>PyScripter 
+	downloads page</u></span></font></a><font color="#010101" face="Arial" size="2"><span style="font-size: 10pt; font-family: Arial; color: #010101"> 
+	and extract it to a directory of your choice in the portable drive</span></font></div>
+<div align="left">
+	<font color="#010101" face="Arial" size="2">
+	<span style="font-size: 10pt; font-family: Arial; color: #010101"><br>
+	</span></font></div>
+<div align="left">
+	<font color="#010101" face="Arial" size="2">
+	<span style="font-size: 10pt; font-family: Arial; color: #010101">b)&nbsp; From 
+	an existing PyScripter installation copy PyScripter.ini (this file is typically 
+	located in the %APPDATA%\PyScripter directory) to the same directory as the 
+	PyScripter.exe file. </span></font></div>
+<div align="left">
+	<font color="#010101" face="Arial" size="2">
+	<span style="font-size: 10pt; font-family: Arial; color: #010101"><br>
+	</span></font></div>
+<div align="left">
+	<font color="#010101" face="Arial" size="2">
+	<span style="font-size: 10pt; font-family: Arial; color: #010101">c) In the 
+	same directory create a batch file that will set the PYTHONHOME environment 
+	variable and start PyScripter with appropriate </span></font>
+	<a href="commandlineoptions.htm">
+	<font color="#0000ff" face="Arial" size="2">
+	<span style="font-size: 10pt; font-family: Arial; color: #0000ff"><u>command-line 
+	options</u></span></font></a><font color="#010101" face="Arial" size="2"><span style="font-size: 10pt; font-family: Arial; color: #010101"> 
+	e.g.</span></font></div>
+<div align="left">
+	<font color="#010101" face="Arial" size="2">
+	<span style="font-size: 10pt; font-family: Arial; color: #010101"><br>
+	</span></font></div>
+<div align="left">
+	<font color="#010101" face="Arial" size="2">
+	<span style="font-size: 10pt; font-family: Arial; color: #010101">SET PYTHONHOME=E:\PortablePython</span></font></div>
+<div align="left">
+	<font color="#010101" face="Arial" size="2">
+	<span style="font-size: 10pt; font-family: Arial; color: #010101">PyScripter 
+	--PYTHON25 --PYTHONPATHDLL &quot;E:\PortablePython&quot; %1 %2 %3 %4 %5</span></font></div>
+<div align="left">
+	<font color="#010101" face="Arial" size="2">
+	<span style="font-size: 10pt; font-family: Arial; color: #010101"><br>
+	</span></font></div>
+<div align="left">
+	<font color="#010101" face="Arial" size="2">
+	<span style="font-size: 10pt; font-family: Arial; color: #010101">d) Start PyScripter 
+	using the created batch file.</span></font></div>
+<div align="left">
+&nbsp;&nbsp;</div>
+
+</body>
+
+</html>

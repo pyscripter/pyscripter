@@ -1,0 +1,283 @@
+<html>
+
+<head>
+<title>Remote Python Engines</title>
+<meta content="HelpMaker.net" name="generator">
+<meta content="Python engines,Remote debuggingRunning scripts" name="keywords">
+</head>
+
+<body bgcolor="#FFFCEA">
+
+<table bgcolor="#C0C0C0" border="0" cellpadding="2" cellspacing="0" width="100%">
+	<tr>
+		<td align="left">
+		<div align="left">
+			<font color="#010101" face="Arial" size="4">
+			<span style="font-size: 14pt; font-family: Arial; color: #010101">Remote 
+			Python Engines</span></font></div>
+		</td>
+		<td align="right"><font face="Arial" size="2">
+		<a href="runconfigurations.htm">Previous</a>&nbsp;<a href="pyscripter.htm">Top</a>&nbsp;<a href="postmortemanalysis.htm">Next</a>
+		</font></td>
+	</tr>
+</table>
+<hr>
+<div align="left">
+	<font color="#010101" face="Arial" size="2">
+	<span style="font-size: 10pt; font-family: Arial; color: #010101">In addition 
+	to using the internal integrared Python engine, PyScripter offers you the option 
+	to use one of three remote Python engines.&nbsp; These remote engines run in 
+	a separate process, so,&nbsp; when using them, script errors should not affect 
+	the stability of PyScripter.&nbsp; You can select the python engine that will 
+	be active from the Python Engine submenu of the </span></font>
+	<a href="runmenu.htm"><font color="#0000ff" face="Arial" size="2">
+	<span style="font-size: 10pt; font-family: Arial; color: #0000ff"><u>Run menu</u></span></font></a><font color="#010101" face="Arial" size="2"><span style="font-size: 10pt; font-family: Arial; color: #010101">.&nbsp; 
+	Here is a brief explanation of the Python engine options:</span></font></div>
+<div align="left">
+	<font color="#010101" face="Arial" size="2">
+	<span style="font-size: 10pt; font-family: Arial; color: #010101"><br>
+	</span></font></div>
+<div align="left">
+	<font color="#010101" face="Arial" size="2">
+	<span style="font-size: 10pt; font-family: Arial; color: #010101"><b>Python 
+	Engines:</b></span></font></div>
+<div align="left">
+	<font color="#010101" face="Arial" size="2">
+	<span style="font-size: 10pt; font-family: Arial; color: #010101"><br>
+	</span></font></div>
+<div align="left" style="margin-left: 6mm; margin-right: 0mm; text-indent: -6mm; margin-top: 0.00mm; margin-bottom: 0.00mm;">
+	<font color="#010101" face="Symbol" size="2">
+	<span style="font-size: 10pt; font-family: Symbol; color: #010101">&middot;</span></font><font color="#010101" face="Arial" size="2"><span style="font-size: 10pt; font-family: Arial; color: #010101">&nbsp;&nbsp; &nbsp;&nbsp;<b>Internal 
+	(depricated)</b></span></font></div>
+<div align="left">
+	<font color="#010101" face="Arial" size="2">
+	<span style="font-size: 10pt; font-family: Arial; color: #010101"><br>
+	</span></font></div>
+<div align="left">
+	<font color="#010101" face="Arial" size="2">
+	<span style="font-size: 10pt; font-family: Arial; color: #010101">It is faster 
+	than the other options however if there are problems with the scripts you are 
+	running or debugging they could affect the reliability of PyScripter and could 
+	cause crashes. Another limitation of this engine is that it cannot run or debug 
+	GUI scripts nor it can be reinitialized.&nbsp; Since version 3.1 the 
+	internal Python engine is hidden by default.&nbsp; This is controled by an
+	<a href="ideoptions.htm">IDE option</a>.</span></font></div>
+<div align="left">
+	<font color="#010101" face="Arial" size="2">
+	<span style="font-size: 10pt; font-family: Arial; color: #010101"><br>
+	</span></font></div>
+<div align="left" style="margin-left: 6mm; margin-right: 0mm; text-indent: -6mm; margin-top: 0.00mm; margin-bottom: 0.00mm;">
+	<font color="#010101" face="Symbol" size="2">
+	<span style="font-size: 10pt; font-family: Symbol; color: #010101">&middot;</span></font><font color="#010101" face="Arial" size="2"><span style="font-size: 10pt; font-family: Arial; color: #010101">&nbsp;&nbsp; &nbsp;&nbsp;<b>Remote</b></span></font></div>
+<div align="left">
+	<font color="#010101" face="Arial" size="2">
+	<span style="font-size: 10pt; font-family: Arial; color: #010101"><br>
+	</span></font></div>
+<div align="left">
+	<font color="#010101" face="Arial" size="2">
+	<span style="font-size: 10pt; font-family: Arial; color: #010101">This the default 
+	engine of PyScripter and is the recommended engine for most Python development 
+	tasks. It runs in a child process and communicates with PyScripter using
+	</span></font><a href="http://rpyc.sf.net">
+	<font color="#0000ff" face="Arial" size="2">
+	<span style="font-size: 10pt; font-family: Arial; color: #0000ff"><u>rpyc</u></span></font></a><font color="#010101" face="Arial" size="2"><span style="font-size: 10pt; font-family: Arial; color: #010101">.&nbsp; 
+	It can be used to run and debug any kind of script.&nbsp; However <i><u>if you 
+	run or debug GUI scripts you may have to reinitialize the engine after each 
+	run</u>.&nbsp; This is done automatically by default.</i></span></font></div>
+<div align="left">
+	<font color="#010101" face="Arial" size="2">
+	<span style="font-size: 10pt; font-family: Arial; color: #010101"><br>
+	</span></font></div>
+<div align="left" style="margin-left: 6mm; margin-right: 0mm; text-indent: -6mm; margin-top: 0.00mm; margin-bottom: 0.00mm;">
+	<font color="#010101" face="Symbol" size="2">
+	<span style="font-size: 10pt; font-family: Symbol; color: #010101">&middot;</span></font><font color="#010101" face="Arial" size="2"><span style="font-size: 10pt; font-family: Arial; color: #010101">&nbsp;&nbsp; &nbsp;&nbsp;<b>Remote 
+	Tk</b></span></font></div>
+<div align="left">
+	<font color="#010101" face="Arial" size="2">
+	<span style="font-size: 10pt; font-family: Arial; color: #010101"><br>
+	</span></font></div>
+<div align="left">
+	<font color="#010101" face="Arial" size="2">
+	<span style="font-size: 10pt; font-family: Arial; color: #010101">This remote 
+	Python engine is specifically created to run and debug Tkinter applications 
+	including </span></font><a href="http://matplotlib.sourceforge.net/">
+	<font color="#0000ff" face="Arial" size="2">
+	<span style="font-size: 10pt; font-family: Arial; color: #0000ff"><u>pylab</u></span></font></a><font color="#010101" face="Arial" size="2"><span style="font-size: 10pt; font-family: Arial; color: #010101"> 
+	using the Tkagg backend. It also supports running pylab in interactive mode. 
+	The engine activates a Tkinter mainloop and replaces the mainloop with a dummy 
+	function so that the Tkinter scripts you are running or debugging do not block 
+	the engine.&nbsp; You may even develop and test Tkinter widgets using the interactive 
+	console.</span></font></div>
+<div align="left">
+	<font color="#010101" face="Arial" size="2">
+	<span style="font-size: 10pt; font-family: Arial; color: #010101"><br>
+	</span></font></div>
+<div align="left" style="margin-left: 6mm; margin-right: 0mm; text-indent: -6mm; margin-top: 0.00mm; margin-bottom: 0.00mm;">
+	<font color="#010101" face="Symbol" size="2">
+	<span style="font-size: 10pt; font-family: Symbol; color: #010101">&middot;</span></font><font color="#010101" face="Arial" size="2"><span style="font-size: 10pt; font-family: Arial; color: #010101">&nbsp;&nbsp; &nbsp;&nbsp;<b>Remote 
+	Wx</b></span></font></div>
+<div align="left">
+	<font color="#010101" face="Arial" size="2">
+	<span style="font-size: 10pt; font-family: Arial; color: #010101"><br>
+	</span></font></div>
+<div align="left">
+	<font color="#010101" face="Arial" size="2">
+	<span style="font-size: 10pt; font-family: Arial; color: #010101">This remote 
+	Python engine is specifically created to run and debug </span></font>
+	<a href="http://www.wxpython.org/">
+	<font color="#0000ff" face="Arial" size="2">
+	<span style="font-size: 10pt; font-family: Arial; color: #0000ff"><u>wxPython</u></span></font></a><font color="#010101" face="Arial" size="2"><span style="font-size: 10pt; font-family: Arial; color: #010101"> 
+	applications including </span></font>
+	<a href="http://matplotlib.sourceforge.net/">
+	<font color="#0000ff" face="Arial" size="2">
+	<span style="font-size: 10pt; font-family: Arial; color: #0000ff"><u>pylab</u></span></font></a><font color="#010101" face="Arial" size="2"><span style="font-size: 10pt; font-family: Arial; color: #010101"> 
+	using the WX and WXAgg backends. It also supports running pylab in interactive 
+	mode.&nbsp; The engine activates a wx MainLoop and replaces the MainLoop with 
+	a dummy function so that the wxPython scripts you are running or debugging do 
+	not block the engine.&nbsp; You may even develop and test wxPython Frames and 
+	Apps using the interactive console.&nbsp; Please note that this engine prevents 
+	the redirection of wxPython output since that would prevent the communication 
+	with Pyscripter.</span></font></div>
+<div align="left">
+	<font color="#010101" face="Arial" size="2">
+	<span style="font-size: 10pt; font-family: Arial; color: #010101"><br>
+	</span></font></div>
+<div align="left">
+	<font color="#010101" face="Arial" size="2">
+	<span style="font-size: 10pt; font-family: Arial; color: #010101">When using 
+	the Tk and Wx remote engines you can of course run or debug any other non-GUI 
+	Python script.&nbsp; However bear in mind that these engines may be slightly 
+	slower than the standard remote engine since they also contain a GUI main loop.&nbsp; 
+	Also note that these two engines override the sys.exit function with a dummy 
+	procedure.</span></font></div>
+<div align="left">
+	<font color="#010101" face="Arial" size="2">
+	<span style="font-size: 10pt; font-family: Arial; color: #010101"><br>
+	</span></font></div>
+<div align="left">
+	<font color="#010101" face="Arial" size="2">
+	<span style="font-size: 10pt; font-family: Arial; color: #010101"><b>Debugging 
+	Wx and Tkinter scirpts using the remote Wx and Tk engines</b></span></font></div>
+<div align="left">
+	<font color="#010101" face="Arial" size="2">
+	<span style="font-size: 10pt; font-family: Arial; color: #010101"><br>
+	</span></font></div>
+<div align="left">
+	<font color="#010101" face="Arial" size="2">
+	<span style="font-size: 10pt; font-family: Arial; color: #010101">As mentioned 
+	above the Wx and Tk engines activate a main loop and replace the MainLoop with 
+	a dummy function. Therefore, when debugging Gui scripts using these engines, 
+	as soon as you reach the MainLoop statement debugging ends and you can then 
+	test the running application but without further debugging support.&nbsp; This 
+	means two things:</span></font></div>
+<div align="left">
+	<font color="#010101" face="Arial" size="2">
+	<span style="font-size: 10pt; font-family: Arial; color: #010101"><br>
+	</span></font></div>
+<div align="left" style="margin-left: 6mm; margin-right: 0mm; text-indent: -6mm; margin-top: 0.00mm; margin-bottom: 0.00mm;">
+	<font color="#010101" face="Symbol" size="2">
+	<span style="font-size: 10pt; font-family: Symbol; color: #010101">&middot;</span></font><font color="#010101" face="Arial" size="2"><span style="font-size: 10pt; font-family: Arial; color: #010101">&nbsp;&nbsp; &nbsp;&nbsp;Breakpoints 
+	and debugging would work up to the point the script enters the MainLoop routine</span></font></div>
+<div align="left" style="margin-left: 6mm; margin-right: 0mm; text-indent: -6mm; margin-top: 0.00mm; margin-bottom: 0.00mm;">
+	<font color="#010101" face="Symbol" size="2">
+	<span style="font-size: 10pt; font-family: Symbol; color: #010101">&middot;</span></font><font color="#010101" face="Arial" size="2"><span style="font-size: 10pt; font-family: Arial; color: #010101">&nbsp;&nbsp; &nbsp;&nbsp;You 
+	will not be able to debug event triggered code using these two engines.</span></font></div>
+<div align="left">
+	<font color="#010101" face="Arial" size="2">
+	<span style="font-size: 10pt; font-family: Arial; color: #010101"><br>
+	</span></font></div>
+<div align="left">
+	<font color="#010101" face="Arial" size="2">
+	<span style="font-size: 10pt; font-family: Arial; color: #010101">To debug event 
+	code of Wx and Tkinter scripts use the standard remote engine.&nbsp; You may 
+	wonder why should you ever use the Wx and Tk specific remote engines. Here is 
+	a few reasons:</span></font></div>
+<div align="left">
+	<font color="#010101" face="Arial" size="2">
+	<span style="font-size: 10pt; font-family: Arial; color: #010101"><br>
+	</span></font></div>
+<div align="left" style="margin-left: 6mm; margin-right: 0mm; text-indent: -6mm; margin-top: 0.00mm; margin-bottom: 0.00mm;">
+	<font color="#010101" face="Symbol" size="2">
+	<span style="font-size: 10pt; font-family: Symbol; color: #010101">&middot;</span></font><font color="#010101" face="Arial" size="2"><span style="font-size: 10pt; font-family: Arial; color: #010101">&nbsp;&nbsp; &nbsp;&nbsp;These 
+	engine allow you to interactively develop and test frames and widgets.&nbsp; 
+	(possible because they run their own main loop.</span></font></div>
+<div align="left" style="margin-left: 6mm; margin-right: 0mm; text-indent: -6mm; margin-top: 0.00mm; margin-bottom: 0.00mm;">
+	<font color="#010101" face="Symbol" size="2">
+	<span style="font-size: 10pt; font-family: Symbol; color: #010101">&middot;</span></font><font color="#010101" face="Arial" size="2"><span style="font-size: 10pt; font-family: Arial; color: #010101">&nbsp;&nbsp; &nbsp;&nbsp;They 
+	support running pylab in interactive mode like IPython does, which was a request 
+	from many Pyscripter users.&nbsp; </span></font></div>
+<div align="left" style="margin-left: 6mm; margin-right: 0mm; text-indent: -6mm; margin-top: 0.00mm; margin-bottom: 0.00mm;">
+	<font color="#010101" face="Symbol" size="2">
+	<span style="font-size: 10pt; font-family: Symbol; color: #010101">&middot;</span></font><font color="#010101" face="Arial" size="2"><span style="font-size: 10pt; font-family: Arial; color: #010101">&nbsp;&nbsp; &nbsp;&nbsp;There 
+	is no need to reinitialize the engines after running Gui scripts.</span></font></div>
+<div align="left" style="margin-left: 6mm; margin-right: 0mm; text-indent: -6mm; margin-top: 0.00mm; margin-bottom: 0.00mm;">
+	<font color="#010101" face="Symbol" size="2">
+	<span style="font-size: 10pt; font-family: Symbol; color: #010101">&middot;</span></font><font color="#010101" face="Arial" size="2"><span style="font-size: 10pt; font-family: Arial; color: #010101">&nbsp;&nbsp; &nbsp;&nbsp;Pyscripter 
+	does not stay in running mode while the Gui Windows are showing but instead 
+	it returns in ready mode allowing further work and runs.</span></font></div>
+<div align="left">
+	<font color="#010101" face="Arial" size="2">
+	<span style="font-size: 10pt; font-family: Arial; color: #010101"><br>
+	</span></font></div>
+<div align="left">
+	<font color="#010101" face="Arial" size="2">
+	<span style="font-size: 10pt; font-family: Arial; color: #010101"><br>
+	</span></font></div>
+<div align="left">
+	<font color="#010101" face="Arial" size="2">
+	<span style="font-size: 10pt; font-family: Arial; color: #010101"><b>Requirements 
+	for the Remote Engines</b></span></font></div>
+<div align="left">
+	<font color="#010101" face="Arial" size="2">
+	<span style="font-size: 10pt; font-family: Arial; color: #010101"><br>
+	</span></font></div>
+<div align="left">
+	<font color="#010101" face="Arial" size="2">
+	<span style="font-size: 10pt; font-family: Arial; color: #010101">The remote 
+	engines are only available with Python 2.4 or later.&nbsp; They make use of
+	</span></font><a href="http://rpyc.sf.net">
+	<font color="#0000ff" face="Arial" size="2">
+	<span style="font-size: 10pt; font-family: Arial; color: #0000ff"><u>rpyc</u></span></font></a><font color="#010101" face="Arial" size="2"><span style="font-size: 10pt; font-family: Arial; color: #010101">, 
+	which is bundled by PyScripter and so no separate installation is required.
+	</span></font></div>
+<div align="left">
+	<font color="#010101" face="Arial" size="2">
+	<span style="font-size: 10pt; font-family: Arial; color: #010101"><br>
+	</span></font></div>
+<div align="left">
+	<font color="#010101" face="Arial" size="2">
+	<span style="font-size: 10pt; font-family: Arial; color: #010101"><br>
+	</span></font></div>
+<div align="left">
+	<font color="#010101" face="Arial" size="2">
+	<span style="font-size: 10pt; font-family: Arial; color: #010101"><b>Troubleshooting</b></span></font></div>
+<div align="left">
+	<font color="#010101" face="Arial" size="2">
+	<span style="font-size: 10pt; font-family: Arial; color: #010101"><b><br>
+	</b></span></font></div>
+<div align="left" style="margin-left: 6mm; margin-right: 0mm; text-indent: -6mm; margin-top: 0.00mm; margin-bottom: 0.00mm;">
+	<font color="#010101" face="Symbol" size="2">
+	<span style="font-size: 10pt; font-family: Symbol; color: #010101">&middot;</span></font><font color="#010101" face="Arial" size="2"><span style="font-size: 10pt; font-family: Arial; color: #010101">&nbsp;&nbsp; &nbsp;&nbsp;If 
+	the remote Python engine becomes unresponsive you can try to reinitialize the 
+	engine from </span></font><font face="Arial" size="2">
+	<span style="font-size: 10pt; font-family: Arial; color: #000000">the Python 
+	Engine submenu of the </span></font><a href="runmenu.htm">
+	<font color="#0000ff" face="Arial" size="2">
+	<span style="font-size: 10pt; font-family: Arial; color: #0000ff"><u>Run menu</u></span></font></a><font color="#010101" face="Arial" size="2"><span style="font-size: 10pt; font-family: Arial; color: #010101"> 
+	(also available in the context menu of the </span></font>
+	<a href="pythoninteractiveinterpreter.htm">
+	<font color="#0000ff" face="Arial" size="2">
+	<span style="font-size: 10pt; font-family: Arial; color: #0000ff"><u>interactive 
+	interpreter</u></span></font></a><font color="#010101" face="Arial" size="2"><span style="font-size: 10pt; font-family: Arial; color: #010101">).</span></font></div>
+<div align="left" style="margin-left: 6mm; margin-right: 0mm; text-indent: -6mm; margin-top: 0.00mm; margin-bottom: 0.00mm;">
+	<font color="#010101" face="Symbol" size="2">
+	<span style="font-size: 10pt; font-family: Symbol; color: #010101">&middot;</span></font><font color="#010101" face="Arial" size="2"><span style="font-size: 10pt; font-family: Arial; color: #010101">&nbsp;&nbsp; &nbsp;&nbsp;If 
+	Pyscripter fails to start or appears locked when starting this may be due to 
+	remote python engines from earlier runs still being active.&nbsp; This could 
+	happen after a Pyscripter crash.&nbsp; In such cases you should kill the python 
+	engines using the Windows Task Managers.&nbsp; Look in the Processes tab for 
+	processes with image name &quot;pythonw.exe&quot;.</span></font></div>
+
+</body>
+
+</html>

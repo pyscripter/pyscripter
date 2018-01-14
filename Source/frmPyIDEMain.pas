@@ -405,8 +405,8 @@
           New Features
             Dpi awareness (Issue 769)
           Issues addressed
-            #711
-            { TODO : Issue 311 }
+            #705 #711
+            { TODO : Issues 311, 659 }
             { TODO : Auto PEP8 tool }
 
 {------------------------------------------------------------------------------}
@@ -3086,7 +3086,7 @@ begin
         InterpreterEditorOptions.Gutter.Gradient := False;  //default value
         AppStorage.ReadPersistent('Interpreter Editor Options', InterpreterEditorOptions);
         InterpreterEditorOptions.Options := (InterpreterEditorOptions.Options -
-          [eoTrimTrailingSpaces]) + [eoTabsToSpaces];
+          [eoTrimTrailingSpaces, eoScrollPastEol]) + [eoTabsToSpaces];
         PythonIIForm.SynEdit.Assign(InterpreterEditorOptions);
         PythonIIForm.RegisterHistoryCommands;
       end;
