@@ -30,7 +30,7 @@ object PyIDEMainForm: TPyIDEMainForm
       CustomHeight = 21
     end
     object SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem
-      CustomWidth = 0
+      CustomWidth = 417
     end
     object SpTBXSeparatorItem5: TSpTBXSeparatorItem
     end

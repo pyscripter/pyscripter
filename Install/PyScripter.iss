@@ -3,8 +3,8 @@
 
 [Setup]
 AppName=PyScripter
-AppVersion=3.1.0
-AppVerName=PyScripter 3.1.0
+AppVersion=3.2.0
+AppVerName=PyScripter 3.2.0
 AppPublisher=PyScripter
 AppPublisherURL=https://sourceforge.net/projects/pyscripter/
 AppSupportURL=https://github.com/pyscripter/pyscripter
@@ -14,7 +14,7 @@ DefaultGroupName=PyScripter
 InfoBeforeFile=BeforeInstallPyScripter.txt
 InfoAfterFile=AfterInstallPyScripter.txt
 OutputDir=Output
-OutputBaseFilename=PyScripter-v3.1.0-Setup
+OutputBaseFilename=PyScripter-v3.2.0-Setup
 Compression=lzma/Max
 SolidCompression=true
 ChangesAssociations=true
@@ -33,7 +33,7 @@ Name: fileexplorercontextmenu; Description: """Edit with PyScripter"" File Explo
 [Files]
 Source: ..\..\PythonIDE\PyScripter.exe; DestDir: {app}; Flags: ignoreversion
 Source: ..\..\PythonIDE\PyScripter.chm; DestDir: {app}; Flags: ignoreversion
-Source: ..\..\PythonIDE\PyProject.ico; DestDir: {app}
+Source: ..\..\PythonIDE\Source\PyProject.ico; DestDir: {app}
 Source: ..\Lib\rpyc.zip; DestDir: {app}\Lib
 ; localization
 Source: ..\..\PythonIDE\locale\default.po; DestDir: {app}\locale
@@ -83,7 +83,7 @@ Source: ..\..\PythonIDE\locale\ru\LC_MESSAGES\languages.po; DestDir: {app}\local
 Source: ..\..\PythonIDE\locale\kab\LC_MESSAGES\default.mo; DestDir: {app}\locale\kab\LC_MESSAGES\
 Source: ..\..\PythonIDE\locale\kab\LC_MESSAGES\default.po; DestDir: {app}\locale\kab\LC_MESSAGES\
 ;Ini Files
-Source: "PyScripter.ini"; DestDir: "{userappdata}\PyScripter"; Flags: onlyifdoesntexist
+Source: "PyScripter.ini"; DestDir: "{userappdata}\PyScripter"; Flags: uninsneveruninstall onlyifdoesntexist
 ; Startup scripts
 Source: ..\..\PythonIDE\Scripts\pyscripter_init.py; DestDir: {userappdata}\PyScripter; Flags: uninsneveruninstall onlyifdoesntexist
 Source: ..\..\PythonIDE\Scripts\python_init.py; DestDir: {userappdata}\PyScripter; Flags: uninsneveruninstall onlyifdoesntexist

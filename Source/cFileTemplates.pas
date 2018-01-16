@@ -177,7 +177,7 @@ begin
   FileTemplate.Name := _(STextFileTemplateName);
   FileTemplate.Extension := 'txt';
   FileTemplate.Category := _(SFileTemplateCategoryOther);
-  FileTemplate.Highlighter := '';
+  FileTemplate.Highlighter := 'General';
   FileTemplate.Template := '';
   Add(FileTemplate);
 end;

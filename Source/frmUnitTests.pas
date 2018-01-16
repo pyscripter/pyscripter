@@ -190,6 +190,7 @@ begin
       UnitTests.ReinitNode(UnitTests.RootNode, True);
       lbFoundTests.Caption := Format(FoundTestsLabel, [TestCount, Iff(TestCount=1, '', 's')]);
       Status := utwLoaded;
+      actSelectAllExecute(Self);
     end;
   end;
 end;
@@ -269,7 +270,6 @@ begin
     Node.CheckType := ctCheckBox;
     InitialStates := [];
   end;
-  Node.CheckState := csCheckedNormal;
 end;
 
 procedure TUnitTestWindow.UnitTestsInitChildren(Sender: TBaseVirtualTree;
@@ -341,7 +341,7 @@ var
   PyTestCase : PPyObject;
   TestCase : Variant;
 begin
-  if UnitTests.GetNodeLevel(Node) = 1 then begin
+  if (UnitTests.GetNodeLevel(Node) = 1) and (vsInitialized in Node.States) then begin
     PyTestCase := PPyObject(TStringList(TestClasses.Objects[Node.Parent.Index]).Objects[Node.Index]);
     TestCase := VarPythonCreate(PyTestCase);
     TestCase.enabled := Node.CheckState in [csCheckedNormal, csCheckedPressed];

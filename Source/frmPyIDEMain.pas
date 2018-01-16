@@ -401,12 +401,12 @@
           Issues addressed
             16, 571, 685, 690, 718, 721, 765, 814, 836
 
-  History:   v 3.1
+  History:   v 3.2
           New Features
             Dpi awareness (Issue 769)
           Issues addressed
-            #705 #711
-            { TODO : Issues 311, 659 }
+            #705 #711 #717, #748
+            { TODO : Issues 311, 501, 659, 667 }
             { TODO : Auto PEP8 tool }
 
 {------------------------------------------------------------------------------}
@@ -1386,8 +1386,6 @@ begin
   end else  // default location
     AppStorage.FileName :=
       CommandsDataModule.UserDataPath + OptionsFileName;
-
-  AppStorage.StorageOptions.StoreDefaultValues := False;
 
   // DSA stuff
   DSAAppStorage := TDSAAppStorage.Create(AppStorage, 'DSA');

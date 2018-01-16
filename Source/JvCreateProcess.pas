@@ -1340,7 +1340,7 @@ begin
     begin
       { http://support.microsoft.com/default.aspx?scid=kb;en-us;124121 }
       WaitForInputIdle(FProcessInfo.hProcess, INFINITE);
-      GotoRunningState;
+      GoToReadyState;  //GotoRunningState;
     end;
   finally
     { Close pipe handles (do not continue to modify the parent).

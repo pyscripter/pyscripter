@@ -22,9 +22,9 @@ uses
   SynEditTextBuffer, SynEditKeyCmds, JvComponentBase,
   JvProgramVersionCheck, JvPropertyStore,
   SynHighlighterIni, uEditAppIntfs, SynUnicode,
-  JvStringHolder, cPyBaseDebugger,
-  SynEditTypes, VirtualExplorerTree, VirtualShellNotifier, SynHighlighterWeb,
-  SynHighlighterCpp, SynHighlighterYAML, SynEditCodeFolding,
+  JvStringHolder, cPyBaseDebugger, SynEditTypes, VirtualExplorerTree,
+  VirtualShellNotifier, SynHighlighterWeb, SynHighlighterCpp,
+  SynHighlighterYAML, SynHighlighterGeneral, SynEditCodeFolding,
   SpTBXTabs, dlgOptionsEditor, System.Actions, System.ImageList;
 
 type
@@ -434,6 +434,7 @@ type
     actUnfoldClasses: TAction;
     actFoldFunctions: TAction;
     actUnfoldFunctions: TAction;
+    SynGeneralSyn: TSynGeneralSyn;
     function ProgramVersionHTTPLocationLoadFileFromRemote(
       AProgramVersionLocation: TJvProgramVersionHTTPLocation; const ARemotePath,
       ARemoteFileName, ALocalPath, ALocalFileName: string): string;
@@ -1260,7 +1261,7 @@ begin
   with Keystrokes do begin
   AddKey(ecCodeCompletion, VK_SPACE, [ssCtrl]);
   AddKey(ecParamCompletion, VK_SPACE, [ssCtrl, ssShift]);
-  AddKey(ecSelMatchBracket, 221, [ssCtrl, ssShift]);
+  AddKey(ecSelMatchBracket  , 221, [ssCtrl, ssShift]);
   // 221 code for ]
   // Visual studio shortcut for Match Bracket
   Delete(FindCommand(ecMatchBracket));

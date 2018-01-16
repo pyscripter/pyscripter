@@ -221,7 +221,7 @@ begin
   if fTool.CaptureOutput then
     ShowDockForm(Self);
   //Standard Output
-  if JvCreateProcess.ConsoleOptions = [coRedirect] then begin
+  if coRedirect in JvCreateProcess.ConsoleOptions then begin
     case fTool.ProcessOutput of
       poWordAtCursor,
       poCurrentLine,
@@ -371,135 +371,121 @@ begin
     Exit;
   end;
 
-  if Tool.CaptureOutput or Tool.WaitForTerminate or
-     (Tool.ProcessInput <> piNone) or (Tool.ProcessOutput <> poNone) or
-     Tool.ParseMessages or Tool.ParseTraceback
-  then begin
-    // In all the above case we need to wait for termination
-    JvCreateProcess.WaitForTerminate := True;
+  // In all these cases we need to wait for termination
+  JvCreateProcess.WaitForTerminate := Tool.CaptureOutput or Tool.WaitForTerminate or
+    (Tool.ProcessInput <> piNone) or (Tool.ProcessOutput <> poNone) or
+    Tool.ParseMessages or Tool.ParseTraceback;
 
-    // Check / do Save all files.
-    case Tool.SaveFiles of
-      sfActive :  if Assigned(GI_ActiveEditor) then GI_FileCmds.ExecSave;
-      sfAll    :  CommandsDataModule.actFileSaveAllExecute(nil);
+  // Check / do Save all files.
+  case Tool.SaveFiles of
+    sfActive :  if Assigned(GI_ActiveEditor) then GI_FileCmds.ExecSave;
+    sfAll    :  CommandsDataModule.actFileSaveAllExecute(nil);
+  end;
+
+  // Clear old output
+  ClearScreen;
+  JvCreateProcess.ConsoleOutput.Clear;
+  Application.ProcessMessages;
+
+  // Print Command line info
+  AddNewLine(Format(_(SPrintCommandLine), [AppName + ' ' + Arguments]));
+  AddNewLine(_(SPrintWorkingDir) + WorkDir);
+  AddNewLine(Format(_(SPrintTimeOut), [Tool.TimeOut]));
+  AddNewLine('');
+
+
+  with JvCreateProcess do begin
+    // According to the Help file it is more robust to add the appname to the command line
+    // ApplicationName := AppName;
+    CommandLine := Trim(AppName + ' ' + Arguments);
+    CurrentDirectory := WorkDir;
+
+    if Tool.CaptureOutput or (Tool.ProcessOutput <> poNone) or
+      Tool.ParseMessages or Tool.ParseTraceback or
+      (Assigned(GI_ActiveEditor) and (Tool.ProcessInput <> piNone))
+    then begin
+      ConsoleOptions := ConsoleOptions + [coRedirect];
+
+      if Tool.CaptureOutput then
+        OnRead := Self.JvCreateProcessRead
+      else
+        OnRead := nil;
+
+      if (Tool.ParseMessages) or (Tool.ParseTraceback) or
+        (Tool.ProcessOutput <> poNone)
+      then
+        //Keeps console output in JvCreateProcess.ConsoleOutput
+        ConsoleOptions := ConsoleOptions - [coOwnerData]
+      else
+        ConsoleOptions := ConsoleOptions + [coOwnerData];
+
+    end else begin
+      OnRead := nil;
+      ConsoleOptions := ConsoleOptions - [coRedirect];
     end;
 
-    // Clear old output
-    ClearScreen;
-    JvCreateProcess.ConsoleOutput.Clear;
-    Application.ProcessMessages;
+    if Tool.ConsoleHidden then begin
+      StartupInfo.DefaultWindowState := False;
+      StartupInfo.ShowWindow := swHide;
+    end else begin
+      StartupInfo.DefaultWindowState := True;
+      StartupInfo.ShowWindow := swNormal;
+    end;
 
-    // Print Command line info
-    AddNewLine(Format(_(SPrintCommandLine), [AppName + ' ' + Arguments]));
-    AddNewLine(_(SPrintWorkingDir) + WorkDir);
-    AddNewLine(Format(_(SPrintTimeOut), [Tool.TimeOut]));
-    AddNewLine('');
-
-
-    with JvCreateProcess do begin
-      // According to the Help file it is more robust to add the appname to the command line
-      // ApplicationName := AppName;
-      CommandLine := Trim(AppName + ' ' + Arguments);
-      CurrentDirectory := WorkDir;
-
-      if Tool.CaptureOutput or (Tool.ProcessOutput <> poNone) or
-        Tool.ParseMessages or Tool.ParseTraceback
-      then begin
-        if Tool.CaptureOutput then
-          OnRead := Self.JvCreateProcessRead
-        else
-          OnRead := nil;
-
-        ConsoleOptions := ConsoleOptions + [coRedirect];
-        if (Tool.ParseMessages) or (Tool.ParseTraceback) or
-          (Tool.ProcessOutput <> poNone)
-        then
-          //Keeps console output in JvCreateProcess.ConsoleOutput
-          ConsoleOptions := ConsoleOptions - [coOwnerData]
-        else
-          ConsoleOptions := ConsoleOptions + [coOwnerData];
-
-      end else begin
-        OnRead := nil;
-        ConsoleOptions := ConsoleOptions - [coRedirect];
+    // Prepare for ProcessOutput
+    if Tool.ProcessOutput <> poNone then begin
+      fEditor := GI_ActiveEditor;
+      case fTool.ProcessOutput of
+        poWordAtCursor :
+          if Assigned(fEditor) and (fEditor.SynEdit.WordAtCursor <> '') then
+            with fEditor.SynEdit do begin
+              fBlockBegin := WordStart;
+              fBlockEnd := WordEnd;
+            end
+          else
+            fTool.ProcessOutput := poNone;
+        poCurrentLine :
+          if Assigned(fEditor) then
+            with fEditor.SynEdit do begin
+              fBlockBegin := BufferCoord(1, CaretXY.Line);
+              fBlockEnd := BufferCoord(Length(LineText)+1, CaretXY.Line);
+            end
+          else
+            fTool.ProcessOutput := poNone;
+        poSelection :
+          if Assigned(fEditor) then
+            with fEditor.SynEdit do begin
+              fBlockBegin := BlockBegin;
+              fBlockEnd := BlockEnd;
+            end
+          else
+            fTool.ProcessOutput := poNone;
+        poActiveFile :
+          if not Assigned(fEditor) then
+            fTool.ProcessOutput := poNone;
       end;
+    end;
 
-      if Tool.ConsoleHidden then begin
-        StartupInfo.DefaultWindowState := False;
-        StartupInfo.ShowWindow := swHide;
-      end else begin
-        StartupInfo.DefaultWindowState := True;
-        StartupInfo.ShowWindow := swNormal;
-      end;
+    if Tool.UseCustomEnvironment then
+      JvCreateProcess.Environment.Assign(Tool.Environment);
 
-      // Prepare for ProcessOutput
-      if Tool.ProcessOutput <> poNone then begin
-        fEditor := GI_ActiveEditor;
-        case fTool.ProcessOutput of
-          poWordAtCursor :
-            if Assigned(fEditor) and (fEditor.SynEdit.WordAtCursor <> '') then
-              with fEditor.SynEdit do begin
-                fBlockBegin := WordStart;
-                fBlockEnd := WordEnd;
-              end
-            else
-              fTool.ProcessOutput := poNone;
-          poCurrentLine :
-            if Assigned(fEditor) then
-              with fEditor.SynEdit do begin
-                fBlockBegin := BufferCoord(1, CaretXY.Line);
-                fBlockEnd := BufferCoord(Length(LineText)+1, CaretXY.Line);
-              end
-            else
-              fTool.ProcessOutput := poNone;
-          poSelection :
-            if Assigned(fEditor) then
-              with fEditor.SynEdit do begin
-                fBlockBegin := BlockBegin;
-                fBlockEnd := BlockEnd;
-              end
-            else
-              fTool.ProcessOutput := poNone;
-          poActiveFile :
-            if not Assigned(fEditor) then
-              fTool.ProcessOutput := poNone;
-        end;
-      end;
+    // Execute Process
+    Run;
 
-      if Tool.UseCustomEnvironment then
-        JvCreateProcess.Environment.Assign(Tool.Environment);
-
-      // Execute Process
-      Run;
-
-      // Provide standard input
-      if Assigned(GI_ActiveEditor) then begin
-        case Tool.ProcessInput of
-          piWordAtCursor : JvCreateProcess.Write(AnsiString(GI_ActiveEditor.SynEdit.WordAtCursor));
-          piCurrentLine : JvCreateProcess.WriteLn(AnsiString(GI_ActiveEditor.SynEdit.LineText));
-          piSelection :
-            begin
-              S := GI_ActiveEditor.SynEdit.SelText;
-              if Length(S) < CCPS_BufferSize then begin
-                JvCreateProcess.Write(AnsiString(S));
-              end else begin
-                SL := TStringList.Create;
-                try
-                  SL.Text := S;
-                  for i := 0 to SL.Count - 1 do begin
-                    JvCreateProcess.WriteLn(AnsiString(SL[i]));
-                    Sleep(1);  // give some time to process the the input
-                  end;
-                finally
-                  SL.Free;
-                end;
-              end;
-            end;
-          piActiveFile :
-            begin
+    // Provide standard input
+    if Assigned(GI_ActiveEditor) then begin
+      case Tool.ProcessInput of
+        piWordAtCursor : JvCreateProcess.Write(AnsiString(GI_ActiveEditor.SynEdit.WordAtCursor));
+        piCurrentLine : JvCreateProcess.WriteLn(AnsiString(GI_ActiveEditor.SynEdit.LineText));
+        piSelection :
+          begin
+            S := GI_ActiveEditor.SynEdit.SelText;
+            if Length(S) < CCPS_BufferSize then begin
+              JvCreateProcess.Write(AnsiString(S));
+            end else begin
               SL := TStringList.Create;
               try
-                SL.Text := GI_ActiveEditor.SynEdit.Text;
+                SL.Text := S;
                 for i := 0 to SL.Count - 1 do begin
                   JvCreateProcess.WriteLn(AnsiString(SL[i]));
                   Sleep(1);  // give some time to process the the input
@@ -508,24 +494,34 @@ begin
                 SL.Free;
               end;
             end;
-        end;
+          end;
+        piActiveFile :
+          begin
+            SL := TStringList.Create;
+            try
+              SL.Text := GI_ActiveEditor.SynEdit.Text;
+              for i := 0 to SL.Count - 1 do begin
+                JvCreateProcess.WriteLn(AnsiString(SL[i]));
+                Sleep(1);  // give some time to process the the input
+              end;
+            finally
+              SL.Free;
+            end;
+          end;
+      end;
+      if Tool.ProcessInput <> piNone then
         JvCreateProcess.Write(#26); // write EOF character
-      end;
-
-      if Tool.WaitForTerminate and (Tool.TimeOut > 0) then begin
-        TimeoutTimer.Interval := Tool.Timeout;
-        TimeoutTimer.Enabled := True;
-      end;
-
-      if Tool.CaptureOutput then begin
-        ShowDockForm(Self);
-        Application.ProcessMessages;
-      end;
     end;
-  end
-  else begin
-    WideShellExecute(0, 'open', AppName, Arguments,
-      WorkDir, SwCmds[Tool.ConsoleHidden])
+
+    if Tool.WaitForTerminate and (Tool.TimeOut > 0) then begin
+      TimeoutTimer.Interval := Tool.Timeout;
+      TimeoutTimer.Enabled := True;
+    end;
+
+    if Tool.CaptureOutput then begin
+      ShowDockForm(Self);
+      Application.ProcessMessages;
+    end;
   end;
 end;
 
@@ -597,7 +593,7 @@ begin
   begin
     Name := 'ExternalToolProcess';
     ConsoleOptions := [];
-    CreationFlags := [];
+    CreationFlags := [cfUnicode];
     OnTerminate := JvCreateProcessTerminate;
     OnRead := JvCreateProcessRead;
   end;

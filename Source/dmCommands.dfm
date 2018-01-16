@@ -9653,4 +9653,14 @@ object CommandsDataModule: TCommandsDataModule
     Left = 528
     Top = 272
   end
+  object SynGeneralSyn: TSynGeneralSyn
+    DefaultFilter = 'Text Files(*.txt,*.*)|*.txt;*.*'
+    Options.AutoDetectEnabled = False
+    Options.AutoDetectLineLimit = 0
+    Options.Visible = False
+    DetectPreprocessor = False
+    SpaceAttri.Foreground = clSilver
+    Left = 264
+    Top = 328
+  end
 end

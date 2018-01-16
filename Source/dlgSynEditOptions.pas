@@ -64,7 +64,7 @@ uses
   dlgPyIDEBase,
   SpTBXControls,  SpTBXEditors,
   SpTBXItem, SpTBXExtEditors,
-  SpTBXTabs, TB2Item;
+  SpTBXTabs, TB2Item, Vcl.WinXPanels;
 
 type
   TSynEditorOptionsUserCommand = procedure(AUserCommand: Integer;
@@ -114,29 +114,6 @@ type
     ckGutterGradient: TCheckBox;
     ckBookmarkKeys: TCheckBox;
     ckBookmarkVisible: TCheckBox;
-    ckAutoIndent: TCheckBox;
-    ckDragAndDropEditing: TCheckBox;
-    ckWordWrap: TCheckBox;
-    ckHalfPageScroll: TCheckBox;
-    ckScrollByOneLess: TCheckBox;
-    ckScrollPastEOF: TCheckBox;
-    ckScrollPastEOL: TCheckBox;
-    ckShowScrollHint: TCheckBox;
-    ckSmartTabs: TCheckBox;
-    ckTabsToSpaces: TCheckBox;
-    ckTrimTrailingSpaces: TCheckBox;
-    ckTabIndent: TCheckBox;
-    ckAltSetsColumnMode: TCheckBox;
-    ckKeepCaretX: TCheckBox;
-    ckScrollHintFollows: TCheckBox;
-    ckGroupUndo: TCheckBox;
-    ckSmartTabDelete: TCheckBox;
-    ckRightMouseMoves: TCheckBox;
-    ckEnhanceHomeKey: TCheckBox;
-    ckHideShowScrollbars: TCheckBox;
-    ckDisableScrollArrows: TCheckBox;
-    ckShowSpecialChars: TCheckBox;
-    ckEnhanceEndKey: TCheckBox;
     cbxElementBold: TCheckBox;
     cbxElementItalic: TCheckBox;
     cbxElementUnderline: TCheckBox;
@@ -191,6 +168,32 @@ type
     lbColorThemes: TListBox;
     SpTBXLabel2: TLabel;
     btnApplyTheme: TButton;
+    GridPanel1: TGridPanel;
+    StackPanel1: TStackPanel;
+    StackPanel2: TStackPanel;
+    ckRightMouseMoves: TCheckBox;
+    ckEnhanceEndKey: TCheckBox;
+    ckEnhanceHomeKey: TCheckBox;
+    ckTabsToSpaces: TCheckBox;
+    ckSmartTabDelete: TCheckBox;
+    ckSmartTabs: TCheckBox;
+    ckTabIndent: TCheckBox;
+    ckKeepCaretX: TCheckBox;
+    ckAltSetsColumnMode: TCheckBox;
+    ckWordWrap: TCheckBox;
+    ckDragAndDropEditing: TCheckBox;
+    ckAutoIndent: TCheckBox;
+    ckTrimTrailingSpaces: TCheckBox;
+    ckShowSpecialChars: TCheckBox;
+    ckDisableScrollArrows: TCheckBox;
+    ckGroupUndo: TCheckBox;
+    ckHideShowScrollbars: TCheckBox;
+    ckScrollHintFollows: TCheckBox;
+    ckShowScrollHint: TCheckBox;
+    ckScrollPastEOL: TCheckBox;
+    ckScrollPastEOF: TCheckBox;
+    ckScrollByOneLess: TCheckBox;
+    ckHalfPageScroll: TCheckBox;
     procedure SynEdit1Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnFontClick(Sender: TObject);
@@ -880,6 +883,9 @@ begin
     Font.Color := StyleServices.GetSystemColor(clWindowText);
     Color := StyleServices.GetSystemColor(clWindow);
   end;
+
+  StackPanel1.Spacing := MulDiv(StackPanel1.Spacing, Screen.PixelsPerInch, 96);
+  StackPanel2.Spacing := MulDiv(StackPanel2.Spacing, Screen.PixelsPerInch, 96);
 end;
 
 
