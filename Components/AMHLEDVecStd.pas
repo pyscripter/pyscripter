@@ -11,7 +11,8 @@ unit AMHLEDVecStd;
 interface
 
 uses
-  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs;
+  System.Types, System.UITypes, Windows, Messages, SysUtils, Classes,
+  Graphics, Controls, Forms, Dialogs;
 
 type
   TBorderStyle = (bsNone, bsStd, esPro);

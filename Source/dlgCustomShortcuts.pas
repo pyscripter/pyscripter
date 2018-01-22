@@ -12,7 +12,7 @@ interface
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
   StdCtrls, Menus, System.Actions, ActnList, Buttons, dlgPyIDEBase,
-  ExtCtrls, SynEditMiscClasses;
+  ExtCtrls, SynEditMiscClasses, System.Generics.Collections;
 
 type
   TActionProxyItem = class(TCollectionItem)
@@ -39,9 +39,16 @@ type
 
   TActionListArray = array of TActionList;
 
+  TActionProxyCollectionCreateType = (apcctEmpty, apcctAll, apcctChanged); 
+                
   TActionProxyCollection = class(TCollection)
-    constructor Create(ActionListArray : TActionListArray);
-    procedure ApplyShortCuts(ActionListArray : TActionListArray);
+    constructor Create(CreateType : TActionProxyCollectionCreateType);
+    procedure ApplyShortCuts;
+    public
+    class var ActionLists : TActionListArray;
+    class var ChangedActions: TList<TCustomAction>;
+    class constructor Create;
+    class destructor Destroy;
   end;
 
   TfrmCustomKeyboard = class(TPyIDEDlgBase)
@@ -91,8 +98,8 @@ type
     KeyList      : TStringList;
     ActionProxyCollection   : TActionProxyCollection;
 
-    procedure PrepActions(ActionListArray : TActionListArray);
-    function Execute(ActionListArray : TActionListArray) : Boolean;
+    procedure PrepActions;
+    function Execute : Boolean;
 
     property CurrentAction : TActionProxyItem
       read GetCurrentAction;
@@ -110,15 +117,15 @@ uses
 
 { TfrmCustomKeyboard }
 
-function TfrmCustomKeyboard.Execute(ActionListArray: TActionListArray) : Boolean;
+function TfrmCustomKeyboard.Execute : Boolean;
 begin
   Result := False;
   DoneItems;
 
-  PrepActions(ActionListArray);
+  PrepActions;
 
   if ShowModal = mrOk then begin
-    ActionProxyCollection.ApplyShortCuts(ActionListArray);
+    ActionProxyCollection.ApplyShortCuts;
     Result := True;
   end;
 
@@ -303,17 +310,17 @@ var
   CatIdx, CmdIdx : Integer;
   SL : TStringList;
 begin
-  if lbCommands.ItemIndex < 0 then
-    Exit(nil);
+  if lbCommands.ItemIndex < 0 then  Exit(nil);
+  
   CatIdx := FunctionList.IndexOf(lbCategories.Items[lbCategories.ItemIndex]);
   SL     := FunctionList.Objects[CatIdx] as TStringList;
   CmdIdx := SL.IndexOf(lbCommands.Items[lbCommands.ItemIndex]);
   Result := (SL.Objects[CmdIdx] as TActionProxyItem);
 end;
 
-procedure TfrmCustomKeyboard.PrepActions(ActionListArray: TActionListArray);
+procedure TfrmCustomKeyboard.PrepActions;
 begin
-  ActionProxyCollection := TActionProxyCollection.Create(ActionListArray);
+  ActionProxyCollection := TActionProxyCollection.Create(apcctAll);
   FillFunctionList;
   SetCategories;
 end;
@@ -397,27 +404,33 @@ end;
 
 { TActionProxyCollection }
 
-constructor TActionProxyCollection.Create(ActionListArray: TActionListArray);
+constructor TActionProxyCollection.Create(CreateType : TActionProxyCollectionCreateType);
 var
-  i, j : integer;
+  i, j, Index : integer;
   Action : TCustomAction;
   ActionList : TActionList;
   ActionProxyItem : TActionProxyItem;
 begin
   inherited Create(TActionProxyItem);
-  for i := Low(ActionListArray) to High(ActionListArray) do begin
-    ActionList := ActionListArray[i];
+  if CreateType = apcctEmpty then Exit;
+
+  for i := Low(TActionProxyCollection.ActionLists) to High(TActionProxyCollection.ActionLists) do begin
+    ActionList := TActionProxyCollection.ActionLists[i];
     for j := 0 to ActionList.ActionCount - 1 do begin
       Action := ActionList.Actions[j] as TCustomAction;
-      ActionProxyItem := Add as TActionProxyItem;
-      ActionProxyItem.fActionListName := ActionList.Name;
-      ActionProxyItem.fActionName := Action.Name;
-      ActionProxyItem.FShortCut := Action.ShortCut;
-      ActionProxyItem.Category := Action.Category;
-      ActionProxyItem.Caption := Action.Caption;
-      ActionProxyItem.Hint := Action.Hint;
-      if Action.SecondaryShortCuts.Count > 0 then
-        ActionProxyItem.SecondaryShortCuts := Action.SecondaryShortCuts;
+      if TActionProxyCollection.ChangedActions.BinarySearch(Action, Index) or
+        (CreateType = apcctAll) then
+      begin      
+        ActionProxyItem := Add as TActionProxyItem;
+        ActionProxyItem.fActionListName := ActionList.Name;
+        ActionProxyItem.fActionName := Action.Name;
+        ActionProxyItem.FShortCut := Action.ShortCut;
+        ActionProxyItem.Category := Action.Category;
+        ActionProxyItem.Caption := Action.Caption;
+        ActionProxyItem.Hint := Action.Hint;
+        if Action.SecondaryShortCuts.Count > 0 then
+          ActionProxyItem.SecondaryShortCuts := Action.SecondaryShortCuts;
+      end;
     end;
   end;
 end;
@@ -428,7 +441,7 @@ var
   i : integer;
 begin
   Result := nil;
-  for i := Low(ActionListArray) to High(ActionListArray) do
+  for i := Low(TActionProxyCollection.ActionLists) to High(TActionProxyCollection.ActionLists) do
     if ActionListArray[i].Name = Name then begin
       Result := ActionListArray[i];
       break;
@@ -447,24 +460,36 @@ begin
     end;
 end;
 
-procedure TActionProxyCollection.ApplyShortCuts(
-  ActionListArray: TActionListArray);
+function SameShortcuts(Action : TCustomAction; ActionProxy : TActionProxyItem): Boolean;
+begin
+  //  No PyScripter action has secondary shortcuts by default  
+  Result := (Action.ShortCut = ActionProxy.ShortCut) 
+    and (not ActionProxy.IsSecondaryShortCutsStored and (Action.SecondaryShortCuts.Count = 0));
+end;
+
+procedure TActionProxyCollection.ApplyShortCuts();
 var
   i : integer;
+  Index : integer;
   ActionProxyItem : TActionProxyItem;
   ActionList : TActionList;
   Action : TCustomAction;
 begin
   for i := 0 to Count - 1 do begin
     ActionProxyItem := Items[i] as TActionProxyItem;
-    ActionList := FindActionListByName(ActionProxyItem.ActionListName, ActionListArray);
+    ActionList := FindActionListByName(ActionProxyItem.ActionListName, TActionProxyCollection.ActionLists);
     if Assigned(ActionList) then begin
       Action := FindActionByName(ActionProxyItem.ActionName, ActionList);
       if Assigned(Action) then begin
+        if SameShortcuts(Action, ActionProxyItem) then continue;
+
         Action.ShortCut := ActionProxyItem.ShortCut;
         Action.SecondaryShortCuts.Clear;
         if ActionProxyItem.IsSecondaryShortCutsStored then
           Action.SecondaryShortCuts.Assign(ActionProxyItem.SecondaryShortCuts);
+        //  Keep ChangedActions sorted
+        if not TActionProxyCollection.ChangedActions.BinarySearch(Action, Index) then
+          TActionProxyCollection.ChangedActions.Insert(Index, Action);
       end;
     end;
   end;
@@ -473,6 +498,18 @@ end;
 procedure TfrmCustomKeyboard.HelpButtonClick(Sender: TObject);
 begin
   Application.HelpContext(HelpContext);
+end;
+
+class constructor TActionProxyCollection.Create;
+begin
+  SetLength(TActionProxyCollection.ActionLists, 0);
+  TActionProxyCollection.ChangedActions := TList<TCustomAction>.Create;
+end;
+
+class destructor TActionProxyCollection.Destroy;
+begin
+  SetLength(TActionProxyCollection.ActionLists, 0);
+  TActionProxyCollection.ChangedActions.Free;
 end;
 
 end.

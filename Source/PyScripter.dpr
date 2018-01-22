@@ -137,14 +137,14 @@ begin
     end;
   Application.MainFormOnTaskbar := True;
 
-  if TStyleManager.TrySetStyle('Windows10') then
-    TStyleSelectorForm.CurrentSkinName := 'Windows10';
+  if TStyleManager.TrySetStyle('Windows10 Dark') then
+    TStyleSelectorForm.CurrentSkinName := 'Windows10 Dark';
 
   Application.Title := 'PyScripter';
   Application.CreateForm(TCommandsDataModule, CommandsDataModule);
   Application.CreateForm(TPyIDEMainForm, PyIDEMainForm);
   Application.Run;
 
-end.
+ end.
 
 

@@ -1109,7 +1109,6 @@ type
     ActiveTabControlIndex : integer;
     PythonKeywordHelpRequested : Boolean;
     MenuHelpRequested : Boolean;
-    ActionListArray : TActionListArray;
     Layouts : TStringList;
     fLanguageList : TStringList;
     procedure SaveEnvironment;
@@ -1351,15 +1350,6 @@ begin
 
 // Trying to reduce flicker!
   ControlStyle := ControlStyle + [csOpaque];
-//  BGPanel.ControlStyle := BGPanel.ControlStyle + [csOpaque];
-//  DockServer.LeftDockPanel.ControlStyle := DockServer.LeftDockPanel.ControlStyle + [csOpaque];
-//  DockServer.RightDockPanel.ControlStyle := DockServer.LeftDockPanel.ControlStyle + [csOpaque];
-//  DockServer.TopDockPanel.ControlStyle := DockServer.LeftDockPanel.ControlStyle + [csOpaque];
-//  DockServer.BottomDockPanel.ControlStyle := DockServer.LeftDockPanel.ControlStyle + [csOpaque];
-//  StatusBar.ControlStyle := StatusBar.ControlStyle + [csOpaque];
-
-//  SetDesktopIconFonts(Self.Font);  // For Vista
-  //SetDesktopIconFonts(ToolbarFont);
 
   SkinManager.AddSkinNotification(Self);
 
@@ -1444,12 +1434,12 @@ begin
   end;
 
   // ActionLists
-  SetLength(ActionListArray, 5);
-  ActionListArray[0] := actlStandard;
-  ActionListArray[1] := CommandsDataModule.actlMain;
-  ActionListArray[2] := PythonIIForm.InterpreterActionList;
-  ActionListArray[3] := ProjectExplorerWindow.ProjectActionList;
-  ActionListArray[4] := CallStackWindow.actlCallStack;
+  TActionProxyCollection.ActionLists :=
+    [actlStandard,
+     CommandsDataModule.actlMain,
+     PythonIIForm.InterpreterActionList,
+     ProjectExplorerWindow.ProjectActionList,
+     CallStackWindow.actlCallStack];
 
   // Store Factory Settings
   if not AppStorage.PathExists(FactoryToolbarItems) then
@@ -2989,7 +2979,7 @@ begin
     //  Needed since save toolbar Items below does not save secondary shortcuts! Issue 307
     // Save IDE Shortcuts
     AppStorage.DeleteSubTree('IDE Shortcuts');
-    ActionProxyCollection := TActionProxyCollection.Create(ActionListArray);
+    ActionProxyCollection := TActionProxyCollection.Create(apcctChanged);
     try
       AppStorage.WriteCollection('IDE Shortcuts', ActionProxyCollection, 'Action');
     finally
@@ -3072,6 +3062,8 @@ begin
         EditorOptions.MaxScrollWidth := 100;
       end;
 
+//      AppStorage.DeleteSubTree('Editor Options');
+
       for i := 0 to Highlighters.Count - 1 do
         AppStorage.ReadPersistent('Highlighters\'+Highlighters[i],
           TPersistent(Highlighters.Objects[i]));
@@ -3079,6 +3071,8 @@ begin
       if AppStorage.PathExists('Highlighters\Intepreter') then
         AppStorage.ReadPersistent('Highlighters\Intepreter',
           PythonIIForm.SynEdit.Highlighter);
+
+//      AppStorage.DeleteSubTree('Highlighters');
 
       if AppStorage.PathExists('Interpreter Editor Options') then begin
         InterpreterEditorOptions.Gutter.Gradient := False;  //default value
@@ -3088,6 +3082,8 @@ begin
         PythonIIForm.SynEdit.Assign(InterpreterEditorOptions);
         PythonIIForm.RegisterHistoryCommands;
       end;
+
+//      AppStorage.DeleteSubTree('Interpreter Editor Options');
 
       if AppStorage.PathExists('Editor Search Options') then begin
         AppStorage.ReadPersistent('Editor Search Options', EditorSearchOptions);
@@ -3151,10 +3147,10 @@ begin
   LoadToolbarItems('Toolbar Items');
 
   // Load IDE Shortcuts
-  ActionProxyCollection := TActionProxyCollection.Create(ActionListArray);
+  ActionProxyCollection := TActionProxyCollection.Create(apcctEmpty);
   try
     AppStorage.ReadCollection('IDE Shortcuts', ActionProxyCollection, True, 'Action');
-    ActionProxyCollection.ApplyShortCuts(ActionListArray);
+    ActionProxyCollection.ApplyShortCuts;
   finally
     ActionProxyCollection.Free;
   end;
@@ -3185,6 +3181,7 @@ begin
     if FName <> '' then
       ProjectExplorerWindow.DoOpenProjectFile(FName);
   end;
+
 end;
 
 function TPyIDEMainForm.EditorFromTab(Tab : TSpTBXTabItem) : IEditor;
@@ -3734,9 +3731,9 @@ begin
         end;
       end;
     end;
-    for I := Low(ActionListArray) to High(ActionListArray) do
+    for I := Low(TActionProxyCollection.ActionLists) to High(TActionProxyCollection.ActionLists) do
     begin
-      ActionList := ActionListArray[I];
+      ActionList := TActionProxyCollection.ActionLists[I];
       for J := 0 to ActionList.ActionCount - 1 do
       begin
         Action := ActionList.Actions[J];
@@ -4498,11 +4495,11 @@ end;
 //  Result := nil;
 //  ShortCut := Menus.ShortCut(Key, Shift);
 //  if ShortCut <> scNone then
-//    for j := 0 to Length(ActionListArray) do begin
-//      if j = Length(ActionListArray) then
+//    for j := 0 to Length(TActionProxyCollection.ActionLists) do begin
+//      if j = Length(TActionProxyCollection.ActionLists) then
 //        ActionList := actlImmutable
 //      else
-//        ActionList := ActionListArray[j];
+//        ActionList := TActionProxyCollection.ActionLists[j];
 //      for i := 0 to ActionList.ActionCount - 1 do
 //      begin
 //        Action := ActionList[I];

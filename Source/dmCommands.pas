@@ -1895,7 +1895,7 @@ begin
         AppStorage.StorageOptions.StoreDefaultValues := False;
         AppStorage.WriteString('PyScripter\Version', ApplicationVersion);
         AppStorage.DeleteSubTree('IDE Shortcuts');
-        ActionProxyCollection := TActionProxyCollection.Create(PyIDEMainForm.ActionListArray);
+        ActionProxyCollection := TActionProxyCollection.Create(apcctAll);
         try
           AppStorage.WriteCollection('IDE Shortcuts', ActionProxyCollection, 'Action');
         finally
@@ -1958,10 +1958,10 @@ begin
         AppStorage.FileName := FileName;
 
         if AppStorage.PathExists('IDE Shortcuts') then begin
-          ActionProxyCollection := TActionProxyCollection.Create(PyIDEMainForm.ActionListArray);
+          ActionProxyCollection := TActionProxyCollection.Create(apcctEmpty);
           try
             AppStorage.ReadCollection('IDE Shortcuts', ActionProxyCollection, True, 'Action');
-            ActionProxyCollection.ApplyShortCuts(PyIDEMainForm.ActionListArray);
+            ActionProxyCollection.ApplyShortCuts;
           finally
             ActionProxyCollection.Free;
           end;
@@ -2534,7 +2534,7 @@ end;
 procedure TCommandsDataModule.actIDEShortcutsExecute(Sender: TObject);
 begin
   with TfrmCustomKeyboard.Create(Self) do begin
-    if Execute(PyIDEMainForm.ActionListArray) then
+    if Execute then
       PyIDEMainForm.StoreApplicationData;
     Release;
   end;
