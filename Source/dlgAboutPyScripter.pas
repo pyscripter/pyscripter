@@ -94,7 +94,7 @@ resourcestring
    SAboutBoxLinks =
     'The project home, Issue Tracker and source code repository are hosted at Github (www.github.com/pyscripter/pyscripter)'+
     SLineBreak+
-    'Internet group support is avalable at https://groups.google.com/group/PyScripter'+
+    'Internet group support is available at https://groups.google.com/group/PyScripter'+
     SLineBreak +
     'Please submit bug reports and questions about PyScripter to pyscripter@gmail.com.';
 

@@ -175,13 +175,13 @@
             Improved sort order in code completion
             Save modified files dialog on exit
             Finer control on whether the UTF-8 BOM is written
-              - Three file encodings supported (Ansi, UTF-8, UTF-8 without BOM)
+              - Three file encodings supported (ANSI, UTF-8, UTF-8 without BOM)
             IDE option to detect UTF-8 encoding (useful for non-Python files)
-            IDE options for default linebreaks and encoding for new files
+            IDE options for default line breaks and encoding for new files
             Warning when file encoding results in information loss
             IDE option to position the editor tabs at the top
             IDE window navigation shortcuts
-            Pretty print intperpreter output option (on by default)
+            Pretty print interpreter output option (on by default)
             Pyscripter is now Vista ready
             Docking window improvements
             PYTHONDLLPATH command line option so that Pyscripter can work with unregistered Python
@@ -202,7 +202,7 @@
             Command to jump to the first syntax error (Shift+Ctrl+E)
             New Firefox-like search/replace interface
             Incremental Search (Issue 100)
-            New command "Highlight search text" (Shft+Ctrl+H)
+            New command "Highlight search text" (Shift+Ctrl+H)
             New command line option --DEBUG (-B) to use debug version of Python dll (Issue 108)
             New command "Word wrap" visible in the Editor toolbar (Issue 112)
             New command "Go to Debugger Position" (Issue 118)

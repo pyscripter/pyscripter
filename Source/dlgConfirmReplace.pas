@@ -68,7 +68,7 @@ implementation
 {$R *.DFM}
 
 resourcestring
-  SAskReplaceText = 'Replace this occurence of "%s"?';
+  SAskReplaceText = 'Replace this occurrence of "%s"?';
 
 { TConfirmReplaceDialog }
 

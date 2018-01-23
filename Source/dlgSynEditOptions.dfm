@@ -649,7 +649,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
                 Top = 190
                 Width = 233
                 Height = 17
-                Hint = 'Tab indents and Shft-Tab unindents'
+                Hint = 'Tab indents and Shift-Tab unindents'
                 Caption = 'Tab Indent'
                 TabOrder = 6
               end
@@ -752,7 +752,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
                 Top = 57
                 Width = 233
                 Height = 17
-                Hint = 'Shows linebreaks, spaces and tabs using special symbols'
+                Hint = 'Shows line breaks, spaces and tabs using special symbols'
                 Anchors = [akTop, akRight]
                 Caption = 'Show special chars'
                 TabOrder = 1
@@ -797,7 +797,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
                 Width = 233
                 Height = 17
                 Hint = 
-                  'When undoing/redoing actions, handle all continous changes of th' +
+                  'When undoing/redoing actions, handle all continuous changes of th' +
                   'e same kind in one call instead undoing/redoing each command sep' +
                   'arately'
                 Anchors = [akTop, akRight]
