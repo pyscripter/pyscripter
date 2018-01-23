@@ -3922,9 +3922,9 @@ object CommandsDataModule: TCommandsDataModule
     end
     object actEditDedent: TAction
       Category = 'Source Code'
-      Caption = '&Outdent Block'
+      Caption = '&Unindent Block'
       HelpContext = 320
-      Hint = 'Outdent|Outdent selected block of code'
+      Hint = 'Unindent|Unindent selected block of code'
       ImageIndex = 70
       ShortCut = 24661
       OnExecute = actEditDedentExecute

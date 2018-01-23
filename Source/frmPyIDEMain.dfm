@@ -964,7 +964,7 @@ object PyIDEMainForm: TPyIDEMainForm
       DockRow = 1
       Images = CommandsDataModule.Images
       TabOrder = 1
-      Caption = 'Main ToolBar'
+      Caption = 'Main Toolbar'
       object tbiFileNewModule: TSpTBXItem
         Action = actFileNewModule
       end
