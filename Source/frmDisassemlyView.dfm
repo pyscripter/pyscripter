@@ -2,7 +2,7 @@ object DisForm: TDisForm
   Left = 281
   Top = 152
   HelpContext = 860
-  Caption = 'Dissassemby View'
+  Caption = 'Disassembly View'
   ClientHeight = 382
   ClientWidth = 599
   Color = clBtnFace

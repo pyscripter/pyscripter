@@ -3922,9 +3922,9 @@ object CommandsDataModule: TCommandsDataModule
     end
     object actEditDedent: TAction
       Category = 'Source Code'
-      Caption = '&Dedent Block'
+      Caption = '&Unindent Block'
       HelpContext = 320
-      Hint = 'Dedent|Dedent selected block of code'
+      Hint = 'Unindent|Unindent selected block of code'
       ImageIndex = 70
       ShortCut = 24661
       OnExecute = actEditDedentExecute
@@ -4156,7 +4156,7 @@ object CommandsDataModule: TCommandsDataModule
       Caption = '&DOS/Windows'
       Checked = True
       HelpContext = 320
-      Hint = 'DOS/Windows|Convert to DOS Linebreak'
+      Hint = 'DOS/Windows|Convert to DOS line break'
       OnExecute = actEditLBExecute
     end
     object actEditLBUnix: TAction
@@ -4164,7 +4164,7 @@ object CommandsDataModule: TCommandsDataModule
       Category = 'Edit'
       Caption = '&UNIX'
       HelpContext = 320
-      Hint = 'UNIX|Convert to UNIX Linebreak'
+      Hint = 'UNIX|Convert to UNIX line break'
       OnExecute = actEditLBExecute
     end
     object actEditLBMac: TAction
@@ -4172,15 +4172,15 @@ object CommandsDataModule: TCommandsDataModule
       Category = 'Edit'
       Caption = '&Mac'
       HelpContext = 320
-      Hint = 'Mac|Convert to Mac Linebreak'
+      Hint = 'Mac|Convert to Mac line break'
       OnExecute = actEditLBExecute
     end
     object actEditAnsi: TAction
       Category = 'Edit'
-      Caption = 'Ansi'
+      Caption = 'ANSI'
       Checked = True
       HelpContext = 320
-      Hint = 'Use Ansi encoding'
+      Hint = 'Use ANSI encoding'
       OnExecute = actEditFileEncodingExecute
     end
     object actHelpEditorShortcuts: TAction
@@ -4201,7 +4201,7 @@ object CommandsDataModule: TCommandsDataModule
       Category = 'Tools'
       Caption = '&Unit Test Wizard...'
       HelpContext = 930
-      Hint = 'unitest wizard|Create unitests for active module'
+      Hint = 'Unit test wizard|Create unit test for active module'
       ImageIndex = 103
       OnExecute = actUnitTestWizardExecute
     end
@@ -4242,7 +4242,7 @@ object CommandsDataModule: TCommandsDataModule
       Category = 'Edit'
       Caption = 'UTF-8 (No BOM)'
       HelpContext = 320
-      Hint = 'Use UTF-8 enconding without BOM'
+      Hint = 'Use UTF-8 encoding without BOM'
       OnExecute = actEditFileEncodingExecute
     end
     object actEditUTF16LE: TAction
@@ -4250,7 +4250,7 @@ object CommandsDataModule: TCommandsDataModule
       Category = 'Edit'
       Caption = 'UTF-16LE'
       HelpContext = 320
-      Hint = 'Use UTF-16LE enconding'
+      Hint = 'Use UTF-16LE encoding'
       OnExecute = actEditFileEncodingExecute
     end
     object actEditUTF16BE: TAction
@@ -4258,7 +4258,7 @@ object CommandsDataModule: TCommandsDataModule
       Category = 'Edit'
       Caption = 'UTF-16BE'
       HelpContext = 320
-      Hint = 'Use UTF-16BE enconding'
+      Hint = 'Use UTF-16BE encoding'
       OnExecute = actEditFileEncodingExecute
     end
     object actFileReload: TAction
@@ -4325,7 +4325,7 @@ object CommandsDataModule: TCommandsDataModule
       Category = 'Search'
       Caption = 'Go To &Debugger Position'
       HelpContext = 330
-      Hint = 'Go to the curent position of the debugger'
+      Hint = 'Go to the current position of the debugger'
       OnExecute = actSearchGoToDebugLineExecute
     end
     object actHelpWebProjectHome: TAction
@@ -4399,13 +4399,13 @@ object CommandsDataModule: TCommandsDataModule
     object actFoldNearest: TAction
       Category = 'Code Folding'
       Caption = 'Nearest'
-      Hint = 'Collapse nearst fold'
+      Hint = 'Collapse nearest fold'
       OnExecute = actFoldNearestExecute
     end
     object actUnfoldNearest: TAction
       Category = 'Code Folding'
       Caption = 'Nearest'
-      Hint = 'Uncollapse nerest fold'
+      Hint = 'Expand nearest fold'
       OnExecute = actUnfoldNearestExecute
     end
     object actFoldRegions: TAction

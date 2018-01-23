@@ -158,7 +158,7 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
               RadioItem = True
             end
             object RI_findall: TSpTBXItem
-              Caption = 'Findall'
+              Caption = 'Find all'
               Hint = 'Performs re.findall'
               AutoCheck = True
               GroupIndex = 1

@@ -964,7 +964,7 @@ object PyIDEMainForm: TPyIDEMainForm
       DockRow = 1
       Images = CommandsDataModule.Images
       TabOrder = 1
-      Caption = 'Main ToolBar'
+      Caption = 'Main Toolbar'
       object tbiFileNewModule: TSpTBXItem
         Action = actFileNewModule
       end
@@ -2139,8 +2139,8 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpContext = 360
       HelpType = htContext
       Hint = 
-        'Split workspace vertically|Show secondatry editor tabset vertica' +
-        'lly alligned'
+        'Split workspace vertically|Show secondary editor tabset vertica' +
+        'lly aligned'
       ImageIndex = 125
       OnExecute = actViewSplitWorkspaceVerExecute
     end
@@ -2150,8 +2150,8 @@ object PyIDEMainForm: TPyIDEMainForm
       HelpContext = 360
       HelpType = htContext
       Hint = 
-        'Split workspace horizontally|Show secondatry workspace horizonta' +
-        'lly alligned'
+        'Split workspace horizontally|Show secondary workspace horizonta' +
+        'lly aligned'
       ImageIndex = 126
       OnExecute = actViewSplitWorkspaceHorExecute
     end

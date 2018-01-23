@@ -641,14 +641,14 @@ inherited ToolProperties: TToolProperties
     end
     object Linenumber1: TMenuItem
       Tag = 1
-      Caption = 'Linenumber'
-      Hint = 'Placeholder for the Linenumber'
+      Caption = 'Line number'
+      Hint = 'Placeholder for the line number'
       OnClick = Filename1Click
     end
     object Columnnumber1: TMenuItem
       Tag = 2
-      Caption = 'Columnnumber'
-      Hint = 'Placeholder for the Columnnumber'
+      Caption = 'Column number'
+      Hint = 'Placeholder for the column number'
       OnClick = Filename1Click
     end
   end

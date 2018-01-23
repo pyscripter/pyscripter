@@ -56,7 +56,7 @@ Const
   SWrongRpycVersion = 'Wrong Rpyc version.  To use the remote Python Engine '+
         'download version 2.6 Rpyc from http://Rpyc.sf.net and install it.';
   SCouldNotWriteServerFile = 'Could not write file "%s" and cannot use a remote Python engine';
-  SErrorCreatingRemoteEngine = 'Error in creating the remote intepreter: ';
+  SErrorCreatingRemoteEngine = 'Error in creating the remote interpreter: ';
   SCouldNotConnectRemoteEngine = 'Could not connect to the remote Python engine server. '+
         'The remote interpreter and debugger is not available.';
   SRemoteInterpreterInit = '*** Remote Interpreter Reinitialized  ***';
@@ -210,7 +210,7 @@ Const
   // Parameters
   SEnterParameterCaption = 'Parameter replacement';
   SEnterParameterText = 'Enter parameter value';
-  SParamCircularReference = 'Parameter "%s" is referenced circulary';
+  SParamCircularReference = 'Parameter "%s" is referenced circularly';
   SParameterNotFound = 'Parameter with name "%s" is not found';
   SModifierNotFound = 'Modifier with name "%s" is not found';
   SObjectNotFound = 'Object with name "%s" is not found';
@@ -232,7 +232,7 @@ Const
   SCouldNotFindModule = 'Could not find module: "%s"';
   SSelfOutsideClassScope = '"self" used outside a class scope';
   SCouldNotFindIdentInScope = 'Could not find identifier "%s" in scope "%s"';
-  SRefactoryEngineBusy = 'Refactory engine is busy';
+  SRefactoryEngineBusy = 'Refactoring engine is busy';
   SPythonKeyword = 'Python keyword';
 
   // File Templates
