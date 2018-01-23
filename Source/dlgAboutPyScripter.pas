@@ -89,7 +89,7 @@ resourcestring
     'Russian translation by Aleksander Dragunkin'+ SLineBreak +
     'Slovak translation by Marian Denes'+ SLineBreak +
     'Spanish translation by Javier Pimas'+ SLineBreak +
-    'Gernan translation by Daniel Frost'+ SLineBreak;
+    'German translation by Daniel Frost'+ SLineBreak;
 
    SAboutBoxLinks =
     'The project home, Issue Tracker and source code repository are hosted at Github (www.github.com/pyscripter/pyscripter)'+

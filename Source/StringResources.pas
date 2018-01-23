@@ -210,7 +210,7 @@ Const
   // Parameters
   SEnterParameterCaption = 'Parameter replacement';
   SEnterParameterText = 'Enter parameter value';
-  SParamCircularReference = 'Parameter "%s" is referenced circulary';
+  SParamCircularReference = 'Parameter "%s" is referenced circularly';
   SParameterNotFound = 'Parameter with name "%s" is not found';
   SModifierNotFound = 'Modifier with name "%s" is not found';
   SObjectNotFound = 'Object with name "%s" is not found';
