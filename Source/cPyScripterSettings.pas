@@ -708,9 +708,32 @@ Var
     end;
   end;
 
+  procedure ReadRemovedKeystrokes;
+  var
+    iDelKeys: TSynEditKeyStrokes;
+    cKey: Integer;
+    iKey: TSynEditKeyStroke;
+    iToDelete: Integer;
+  begin
+    iDelKeys := TSynEditKeyStrokes.Create(nil);
+    try
+      AStorage.ReadCollection(APath + '\Removed', iDelKeys);
+      for cKey := 0 to iDelKeys.Count -1 do
+      begin
+        iKey := iDelKeys[cKey];
+        iToDelete := Keystrokes.FindShortcut2(iKey.ShortCut, iKey.ShortCut2);
+        if (iToDelete >= 0) and (Keystrokes[iToDelete].Command = iKey.Command) then
+          Keystrokes[iToDelete].Free;
+      end;
+    finally
+      iDelKeys.Free;
+    end;
+  end;
+
 begin
   KeyStrokes := AProperty as TSynEditKeyStrokes;
   ReadAddedKeystrokes;
+  ReadRemovedKeystrokes;
 end;
 
 {$ENDREGION 'AppStorage handlers' }

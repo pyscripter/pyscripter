@@ -3067,7 +3067,7 @@ begin
         EditorOptions.MaxScrollWidth := 100;
       end;
 
-      AppStorage.DeleteSubTree('Editor Options');
+      //AppStorage.DeleteSubTree('Editor Options');
 
       for i := 0 to Highlighters.Count - 1 do
         AppStorage.ReadPersistent('Highlighters\'+Highlighters[i],
@@ -3088,7 +3088,7 @@ begin
         PythonIIForm.RegisterHistoryCommands;
       end;
 
-//      AppStorage.DeleteSubTree('Interpreter Editor Options');
+     //AppStorage.DeleteSubTree('Interpreter Editor Options');
 
       if AppStorage.PathExists('Editor Search Options') then begin
         AppStorage.ReadPersistent('Editor Search Options', EditorSearchOptions);
