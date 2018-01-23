@@ -84,7 +84,8 @@ uses
   frmPythonII, PythonEngine, VarPyth, dmCommands,
   uEditAppIntfs,
   uCommonFunctions, Math, StringResources,
-  cPyDebugger, JvGnugettext, StrUtils, JclStrings, DateUtils, cPyBaseDebugger;
+  cPyDebugger, JvGnugettext, StrUtils, JclStrings, DateUtils, cPyBaseDebugger,
+  cPyScripterSettings;
 
 { TPyScripterRefactor }
 
@@ -223,7 +224,7 @@ begin
   end;
 
   // If module name in special packages then import module
-  fSpecialPackages.CommaText := CommandsDataModule.PyIDEOptions.SpecialPackages;
+  fSpecialPackages.CommaText := PyIDEOptions.SpecialPackages;
   SpecialPackagesIndex := fSpecialPackages.IndexOf(DottedModuleName);
 
   if SpecialPackagesIndex >= 0 then
@@ -810,8 +811,7 @@ begin
       Dir := GetPackageRootDir(Dir);
 
     // Find Python files in this directory
-    GetFilesInPaths(Dir,
-      CommandsDataModule.PyIDEOptions.PythonFileExtensions, FindRefFileList, True);
+    GetFilesInPaths(Dir, PyIDEOptions.PythonFileExtensions, FindRefFileList, True);
 
     CEName := Copy(CE.Name, CharLastPos(CE.Name, WideChar('.')) + 1, MaxInt);
     for i := 0 to FindRefFileList.Count - 1 do begin

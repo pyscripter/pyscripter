@@ -49,7 +49,7 @@ uses
   Graphics,
   cFileSearch,
   JvAppStorage,
-  MPCommonObjects, uCommonFunctions;
+  uCommonFunctions;
 
 type
   TFindInFilesAction = (gaCurrentOnlyGrep, gaOpenFilesGrep, gaProjectGrep, gaDirGrep);
@@ -247,7 +247,8 @@ uses
   SysUtils, Forms, uEditAppIntfs,
   VarPyth, frmPyIDEMain,
   dlgFindResultsOptions, Controls, cProjectClasses,
-  MPCommonUtilities, dmCommands, cParameters, AsyncCalls;
+  MPCommonUtilities, dmCommands, cParameters, AsyncCalls,
+  cPyScripterSettings;
 
 { TLineMatches }
 
@@ -493,8 +494,7 @@ begin
       gaDirGrep:
         begin
           if Length(Trim(FGrepSettings.Mask)) = 0 then
-            GrepDirectories(FGrepSettings.Directories,
-              CommandsDataModule.PyIDEOptions.PythonFileExtensions)
+            GrepDirectories(FGrepSettings.Directories, PyIDEOptions.PythonFileExtensions)
           else
             GrepDirectories(FGrepSettings.Directories, FGrepSettings.Mask);
         end;
@@ -662,7 +662,7 @@ begin
   FGrepMiddle := True;
   FGrepRegEx := False;
 
-  MaskList.Add(CommandsDataModule.PyIDEOptions.PythonFileExtensions);
+  MaskList.Add(PyIDEOptions.PythonFileExtensions);
   PythonPrefix := SysModule.prefix;
   DirList.Add(PythonPrefix + '\Lib');
 end;
@@ -706,7 +706,7 @@ begin
     ReadStringList(BasePath+'\MaskList', MaskList);
     if MaskList.Count = 0 then
     begin
-      MaskList.Add(CommandsDataModule.PyIDEOptions.PythonFileExtensions);
+      MaskList.Add(PyIDEOptions.PythonFileExtensions);
     end;
     if DirList.Count = 0 then
     begin

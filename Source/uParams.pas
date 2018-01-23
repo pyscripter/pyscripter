@@ -55,11 +55,12 @@ Var
 implementation
 
 uses
-  Windows, SysUtils, Dialogs, jclFileUtils, jclDateTime,
+  Windows, SysUtils, Dialogs, //jclFileUtils, jclDateTime,
   cParameters, Registry,  uEditAppIntfs,
   dmCommands, VarPyth, SynRegExpr, uCommonFunctions,
   frmPyIDEMain, StringResources, cPyBaseDebugger, cProjectClasses, JvGnugettext,
-  WideStrUtils, MPShellUtilities, MPCommonUtilities, FileCtrl;
+  MPShellUtilities, MPCommonUtilities, FileCtrl,
+  cPyScripterSettings;
 
 function GetActiveDoc: string;
 Var
@@ -175,7 +176,7 @@ end;
 
 function StrDefQuote(const AText: string): string;
 begin
-  Result:= WideQuotedStr(AText, '"');
+  Result:= AText.QuotedString('"');
 end;
 
 function GetDateTime: string;
@@ -516,8 +517,8 @@ end;
 
 function GetCmdLineArgs: string;
 begin
-  if CommandsDataModule.PyIDEOptions.UseCommandLine then
-    Result := CommandsDataModule.PyIDEOptions.CommandLine
+  if PyIDEOptions.UseCommandLine then
+    Result := PyIDEOptions.CommandLine
   else
     Result := '';
 end;

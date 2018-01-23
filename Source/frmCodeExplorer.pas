@@ -15,7 +15,7 @@ uses
   Windows, Messages, System.UITypes, SysUtils, Variants, Classes, Graphics,
   Controls, Forms, Dialogs, ExtCtrls, JvDockControlForm, JvAppStorage,
   Menus, Contnrs, VirtualTrees, frmIDEDockWin, TB2Item,
-  cPythonSourceScanner, SpTBXItem, SpTBXSkins, JvComponentBase, SpTBXControls;
+  cPythonSourceScanner, SpTBXItem, JvComponentBase, SpTBXControls;
 
 type
   TCESortOrder = (soPosition, soAlpha);
@@ -282,7 +282,7 @@ var
 implementation
 
 uses frmPyIDEMain, dmCommands, uEditAppIntfs, SynEdit,
-  SynEditTypes, uCommonFunctions, Math;
+  SynEditTypes, uCommonFunctions, Math, cPyScripterSettings;
 
 {$R *.dfm}
 
@@ -957,7 +957,7 @@ begin
     CE := Module.Children[i];
     if CE is TParsedClass then begin
       ClassNode := TClassCENode.CreateFromClass(TParsedClass(CE));
-      if CommandsDataModule.PyIDEOptions.ExporerInitiallyExpanded then
+      if PyIDEOptions.ExporerInitiallyExpanded then
         ClassNode.fExpanded := esExpanded;
       AddChild(ClassNode);
     end else if CE is TParsedFunction then

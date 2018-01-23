@@ -163,10 +163,12 @@ var
 
 implementation
 
-uses dmCommands, frmPythonII, Variants, VarPyth, frmMessages, frmPyIDEMain,
+
+uses
+  dmCommands, frmPythonII, Variants, VarPyth, frmMessages, frmPyIDEMain,
   MMSystem, Math, uCommonFunctions,
-  cParameters, StringResources, Dialogs, JvDSADialogs, 
-  JvGnugettext, cRefactoring;
+  cParameters, StringResources, Dialogs, JvDSADialogs,
+  JvGnugettext, cRefactoring, cPyScripterSettings;
 
 { TFrameInfo }
 
@@ -610,7 +612,7 @@ begin
   CanDoPostMortem := False;
 
   // Repeat here to make sure it is set right
-  MaskFPUExceptions(CommandsDataModule.PyIDEOptions.MaskFPUExceptions);
+  MaskFPUExceptions(PyIDEOptions.MaskFPUExceptions);
 
   fDebuggerCommand := dcRun;
   Assert(PyControl.DebuggerState = dsInactive);
@@ -714,7 +716,7 @@ begin
       PyControl.DoStateChange(dsInactive);
       if ReturnFocusToEditor then
         Editor.Activate;
-      if CanDoPostMortem and CommandsDataModule.PyIDEOptions.PostMortemOnException then
+      if CanDoPostMortem and PyIDEOptions.PostMortemOnException then
         EnterPostMortem;
     end;
   end;
@@ -1268,7 +1270,7 @@ begin
   CanDoPostMortem := False;
 
   // Repeat here to make sure it is set right
-  MaskFPUExceptions(CommandsDataModule.PyIDEOptions.MaskFPUExceptions);
+  MaskFPUExceptions(PyIDEOptions.MaskFPUExceptions);
 
   //Compile
   Code := Compile(ARunConfig);
@@ -1308,12 +1310,12 @@ begin
 
     try
       // Set Multimedia Timer
-      if (CommandsDataModule.PyIDEOptions.TimeOut > 0) and
+      if (PyIDEOptions.TimeOut > 0) and
         (timeGetDevCaps(@tc, SizeOf(tc))=TIMERR_NOERROR) then
       begin
         Resolution := Min(Resolution,tc.wPeriodMax);
         TimeBeginPeriod(Resolution);
-        mmResult := TimeSetEvent(CommandsDataModule.PyIDEOptions.TimeOut, resolution,
+        mmResult := TimeSetEvent(PyIDEOptions.TimeOut, resolution,
           @TimeCallBack, DWORD(@mmResult), TIME_PERIODIC or 256);
       end;
 
@@ -1330,7 +1332,7 @@ begin
         end;
       end;
     finally
-      if CommandsDataModule.PyIDEOptions.TimeOut > 0 then begin
+      if PyIDEOptions.TimeOut > 0 then begin
         if (mmResult <> 0) then TimeKillEvent(mmResult);
         TimeEndPeriod(Resolution);
       end;
@@ -1348,7 +1350,7 @@ begin
       PyControl.DoStateChange(dsInactive);
       if ReturnFocusToEditor then
         Editor.Activate;
-      if CanDoPostMortem and CommandsDataModule.PyIDEOptions.PostMortemOnException then
+      if CanDoPostMortem and PyIDEOptions.PostMortemOnException then
         PyControl.ActiveDebugger.EnterPostMortem;
     end;
   end;

@@ -60,7 +60,8 @@ uses
   cRefactoring,
   dmCommands,
   VarPyth,
-  JclStrings, PythonEngine, StringResources, JvGnugettext;
+  JclStrings, PythonEngine, StringResources, JvGnugettext,
+  cPyScripterSettings;
 
 procedure GetModuleList(Path: Variant; out InsertText, DisplayText : string);
 Var
@@ -570,7 +571,7 @@ begin
           // builtins (could add keywords as well)
           ParsedBuiltInModule := PyScripterRefactor.GetParsedModule(GetPythonEngine.BuiltInModuleName, None);
           ParsedBuiltInModule.GetNamespace(NameSpace);
-          if CommandsDataModule.PyIDEOptions.CompleteKeywords then
+          if PyIDEOptions.CompleteKeywords then
           begin
             Keywords := Import('keyword').kwlist;
             Keywords := BuiltinModule.tuple(Keywords);
@@ -777,7 +778,7 @@ begin
       fNameSpace.AddObject(NameSpaceItem.Name, NameSpaceItem);
     end;
   end;
-  if (Index <= 0) and CommandsDataModule.PyIDEOptions.CompleteKeywords then begin
+  if (Index <= 0) and PyIDEOptions.CompleteKeywords then begin
     Keywords := Import('keyword').kwlist;
     Keywords := BuiltinModule.tuple(Keywords);
     KeywordList := TStringList.Create;

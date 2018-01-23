@@ -181,7 +181,6 @@ inherited FindInFilesDialog: TFindInFilesDialog
         Anchors = [akLeft, akTop, akRight]
         DropDownCount = 15
         TabOrder = 2
-        ExplicitWidth = 277
       end
       object cbDirectory: TComboBox
         Left = 78
@@ -192,7 +191,6 @@ inherited FindInFilesDialog: TFindInFilesDialog
         DropDownCount = 15
         TabOrder = 0
         OnDropDown = cbDirectoryDropDown
-        ExplicitWidth = 255
       end
     end
     object btnOK: TButton
@@ -239,7 +237,6 @@ inherited FindInFilesDialog: TFindInFilesDialog
       Anchors = [akLeft, akTop, akRight]
       DropDownCount = 15
       TabOrder = 0
-      ExplicitWidth = 358
     end
   end
 end

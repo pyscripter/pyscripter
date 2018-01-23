@@ -76,36 +76,36 @@ inherited OptionsInspector: TOptionsInspector
     DesignSize = (
       508
       37)
-    object OKButton: TSpTBXButton
+    object OKButton: TButton
       Left = 217
       Top = 6
       Width = 75
       Height = 25
-      Caption = '&OK'
       Anchors = [akRight, akBottom]
-      TabOrder = 0
-      OnClick = OKButtonClick
+      Caption = '&OK'
       Default = True
       ModalResult = 1
+      TabOrder = 0
+      OnClick = OKButtonClick
     end
-    object BitBtn2: TSpTBXButton
+    object BitBtn2: TButton
       Left = 313
       Top = 6
       Width = 75
       Height = 25
-      Caption = '&Cancel'
       Anchors = [akRight, akBottom]
-      TabOrder = 1
       Cancel = True
+      Caption = '&Cancel'
       ModalResult = 2
+      TabOrder = 1
     end
-    object HelpButton: TSpTBXButton
+    object HelpButton: TButton
       Left = 409
       Top = 6
       Width = 75
       Height = 25
-      Caption = '&Help'
       Anchors = [akRight, akBottom]
+      Caption = '&Help'
       TabOrder = 2
       OnClick = HelpButtonClick
     end

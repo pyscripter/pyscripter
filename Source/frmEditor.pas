@@ -313,7 +313,8 @@ uses
   SynEditTextBuffer, cPyDebugger, dlgPickList, JvDockControlForm,
   uSearchHighlighter, VirtualShellNotifier,
   SynHighlighterWebMisc, SynHighlighterWeb, JvGnugettext,
-  SynUnicode, frmIDEDockWin, StrUtils, SynHighlighterPython, Vcl.Themes;
+  SynUnicode, frmIDEDockWin, StrUtils, SynHighlighterPython, Vcl.Themes,
+  cPyScripterSettings;
 
 const
   WM_DELETETHIS = WM_USER + 42;
@@ -634,7 +635,7 @@ function TEditor.GetFileTitle: string;
 begin
   if fFileName <> '' then
   begin
-    if CommandsDataModule.PyIDEOptions.DisplayPackageNames and
+    if PyIDEOptions.DisplayPackageNames and
       FileIsPythonPackage(fFileName)
     then
       Result := FileNameToModuleName(fFileName)
@@ -741,11 +742,11 @@ begin
       if AFileName = '' then
       begin
         // Default settings for new files
-        if CommandsDataModule.PyIDEOptions.NewFileLineBreaks <> sffUnicode then
+        if PyIDEOptions.NewFileLineBreaks <> sffUnicode then
           (fForm.SynEdit.Lines as TSynEditStringList).FileFormat :=
-            CommandsDataModule.PyIDEOptions.NewFileLineBreaks;
+            PyIDEOptions.NewFileLineBreaks;
 
-        fFileEncoding := CommandsDataModule.PyIDEOptions.NewFileEncoding;
+        fFileEncoding := PyIDEOptions.NewFileEncoding;
       end;
     end;
 
@@ -753,7 +754,7 @@ begin
     fForm.DoUpdateHighlighter(HighlighterName);
     fForm.DoUpdateCaption;
     fForm.fOldEditorForm := fForm;
-    fForm.Synedit.UseCodeFolding := CommandsDataModule.PyIDEOptions.CodeFoldingEnabled;
+    fForm.Synedit.UseCodeFolding := PyIDEOptions.CodeFoldingEnabled;
     fForm.Synedit2.UseCodeFolding := fForm.Synedit.UseCodeFolding;
   end;
 end;
@@ -1410,7 +1411,7 @@ begin
   GetCursorPos(ptMouse);
   ptMouse := ASynEdit.ScreenToClient(ptMouse);
   if (ptMouse.X >= ASynEdit.Gutter.Width + 2)
-    and ASynEdit.SelAvail and CommandsDataModule.PyIDEOptions.
+    and ASynEdit.SelAvail and PyIDEOptions.
     HighlightSelectedWord then
     CommandsDataModule.HighlightWordInActiveEditor(ASynEdit.SelText);
 end;
@@ -1485,7 +1486,7 @@ begin
   end;
   if (scCaretY in Changes) and ASynEdit.Gutter.Visible
     and ASynEdit.Gutter.ShowLineNumbers
-    and CommandsDataModule.PyIDEOptions.CompactLineNumbers then
+    and PyIDEOptions.CompactLineNumbers then
   begin
     NewCaretY := ASynEdit.CaretY;
     ASynEdit.InvalidateGutterLine(fOldCaretY);
@@ -1634,12 +1635,12 @@ begin
     end;
   end;
   Result := SaveWideStringsToFile(fEditor.fFileName, SynEdit.Lines,
-    fEditor.fFileEncoding, CommandsDataModule.PyIDEOptions.CreateBackupFiles);
+    fEditor.fFileEncoding, PyIDEOptions.CreateBackupFiles);
   if Result then
   begin
     if not FileAge(fEditor.fFileName, FileTime) then
       FileTime := 0;
-    if not CommandsDataModule.PyIDEOptions.UndoAfterSave then
+    if not PyIDEOptions.UndoAfterSave then
       SynEdit.ClearUndo;
     SynEdit.Modified := False;
   end;
@@ -1923,7 +1924,7 @@ begin
           //end;
         end;
       ecChar: // Autocomplete brackets
-        if not fAutoCompleteActive and CommandsDataModule.PyIDEOptions.
+        if not fAutoCompleteActive and PyIDEOptions.
           AutoCompleteBrackets then
           with ASynEdit do
           begin
@@ -2011,7 +2012,7 @@ begin
             end;
           end;
       ecSelWord:
-        if ASynEdit.SelAvail and CommandsDataModule.PyIDEOptions.
+        if ASynEdit.SelAvail and PyIDEOptions.
           HighlightSelectedWord then
           CommandsDataModule.HighlightWordInActiveEditor(ASynEdit.SelText);
       ecLostFocus:
@@ -2056,7 +2057,7 @@ begin
           ImgIndex := 3
         else if dlDisabledBreakpointLine in LI then
           ImgIndex := 5
-        else if CommandsDataModule.PyIDEOptions.MarkExecutableLines then
+        else if PyIDEOptions.MarkExecutableLines then
           ImgIndex := 0
         else
           ImgIndex := -1
@@ -2124,7 +2125,7 @@ begin
   fSyntaxErrorPos := TEditorPos.Create;
 
   ViewsTabControl.TabVisible := False;
-  case CommandsDataModule.PyIDEOptions.EditorsTabPosition of
+  case PyIDEOptions.EditorsTabPosition of
     ttpTop:
       ViewsTabControl.TabPosition := ttpBottom;
     ttpBottom:
@@ -2225,7 +2226,7 @@ end;
 function TEditorForm.HasSyntaxError: boolean;
 begin
   Result :=
-    CommandsDataModule.PyIDEOptions.CheckSyntaxAsYouType and fEditor.
+    PyIDEOptions.CheckSyntaxAsYouType and fEditor.
     HasPythonFile and fSyntaxErrorPos.IsSyntax and
     (fSyntaxErrorPos.Editor = GetEditor) and
     (fSyntaxErrorPos.Line < SynEdit.Lines.Count);
@@ -2315,9 +2316,9 @@ begin
     // (FindVCLWindow(ASynedit.ClientToScreen(Point(X,Y))) = ASynedit) and
       (((PyControl.DebuggerState in [dsPaused,
           dsPostMortem])
-          and CommandsDataModule.PyIDEOptions.ShowDebuggerHints) or
+          and PyIDEOptions.ShowDebuggerHints) or
         ((PyControl.DebuggerState = dsInactive)
-          and CommandsDataModule.PyIDEOptions.ShowCodeHints)) then
+          and PyIDEOptions.ShowCodeHints)) then
       with ASynEdit do
       begin
         // Code and debugger hints
@@ -2624,7 +2625,7 @@ end;
 
 procedure TEditorForm.SynCodeCompletionClose(Sender: TObject);
 begin
-  CommandsDataModule.PyIDEOptions.CodeCompletionListSize :=
+  PyIDEOptions.CodeCompletionListSize :=
     SynCodeCompletion.NbLinesInWindow;
   CleanupCodeCompletion;
 end;
@@ -2650,8 +2651,8 @@ Var
   BC: TBufferCoord;
   SkipHandler : TBaseCodeCompletionSkipHandler;
 begin
-  if not fEditor.HasPythonFile or PyControl.IsRunning or not CommandsDataModule.
-    PyIDEOptions.EditorCodeCompletion then
+  if not fEditor.HasPythonFile or PyControl.IsRunning or
+    not PyIDEOptions.EditorCodeCompletion then
   begin
     CanExecute := False;
     Exit;
@@ -2695,13 +2696,13 @@ begin
   with TSynCompletionProposal(Sender) do
     if CanExecute then
     begin
-      Font := CommandsDataModule.PyIDEOptions.AutoCompletionFont;
+      Font := PyIDEOptions.AutoCompletionFont;
       ItemList.Text := DisplayText;
       InsertList.Text := InsertText;
-      NbLinesInWindow := CommandsDataModule.PyIDEOptions.CodeCompletionListSize;
+      NbLinesInWindow := PyIDEOptions.CodeCompletionListSize;
 
       // Auto-complete with one entry without showing the form
-      if CommandsDataModule.PyIDEOptions.CompleteWithOneEntry then begin
+      if PyIDEOptions.CompleteWithOneEntry then begin
         CurrentString := CurrentInput;
         if Form.AssignedList.Count = 1 then
         begin
@@ -2748,8 +2749,8 @@ Var
   DummyToken: string;
   BC: TBufferCoord;
 begin
-  if not fEditor.HasPythonFile or PyControl.IsRunning or not CommandsDataModule.
-    PyIDEOptions.EditorCodeCompletion then
+  if not fEditor.HasPythonFile or PyControl.IsRunning or
+    not PyIDEOptions.EditorCodeCompletion then
   begin
     CanExecute := False;
     Exit;
@@ -2904,7 +2905,7 @@ begin
   begin
     with TSynCompletionProposal(Sender) do
     begin
-      Font := CommandsDataModule.PyIDEOptions.AutoCompletionFont;
+      Font := PyIDEOptions.AutoCompletionFont;
       if DisplayText = '' then
       begin
         FormatParams := False;
@@ -2976,7 +2977,7 @@ begin
   SynWebFillCompletionProposal(SynEdit, CommandsDataModule.SynWebHTMLSyn,
     SynWebCompletion, CurrentInput);
   TSynCompletionProposal(Sender).Font :=
-    CommandsDataModule.PyIDEOptions.AutoCompletionFont;
+    PyIDEOptions.AutoCompletionFont;
 end;
 
 procedure TEditorForm.ViewsTabControlActiveTabChange(Sender: TObject;
@@ -3019,7 +3020,7 @@ begin
       CodeHint := 'Syntax Error: ' + fSyntaxErrorPos.ErrorMsg;
     end
     else if (PyControl.DebuggerState in [dsPaused, dsPostMortem])
-      and CommandsDataModule.PyIDEOptions.ShowDebuggerHints then
+      and PyIDEOptions.ShowDebuggerHints then
     begin
       // Debugger hints
       PyControl.ActiveDebugger.Evaluate(fHintIdentInfo.DottedIdent, ObjectType,
@@ -3035,7 +3036,7 @@ begin
         CodeHint := '';
     end
     else if (PyControl.DebuggerState = dsInactive)
-      and CommandsDataModule.PyIDEOptions.ShowCodeHints then
+      and PyIDEOptions.ShowCodeHints then
     begin
       // Code hints
       CE := PyScripterRefactor.FindDefinitionByCoordinates
@@ -3067,9 +3068,8 @@ begin
     SyncCodeExplorer;
 
   if (SynEdit.Highlighter = CommandsDataModule.SynPythonSyn) and
-    fNeedToCheckSyntax and CommandsDataModule.
-    PyIDEOptions.CheckSyntaxAsYouType and
-    (SynEdit.Lines.Count <= CommandsDataModule.PyIDEOptions.CheckSyntaxLineLimit)
+    fNeedToCheckSyntax and  PyIDEOptions.CheckSyntaxAsYouType and
+    (SynEdit.Lines.Count <= PyIDEOptions.CheckSyntaxLineLimit)
   // do not syntax check very long files
   then
   begin

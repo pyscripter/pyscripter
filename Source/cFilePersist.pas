@@ -135,7 +135,7 @@ begin
    AppStorage.ReadObjectList(BasePath+'\BreakPoints', BreakPoints, CreateListItem, True, 'BreakPoint');
    AppStorage.ReadObjectList(BasePath+'\BookMarks', BookMarks, CreateListItem, True, 'BookMarks');
    UseCodeFolding := AppStorage.ReadBoolean(BasePath+'\UseCodeFolding', False);
-   EditorOptions.Assign(CommandsDataModule.EditorOptions);
+   EditorOptions.Assign(EditorOptions);
    AppStorage.ReadPersistent(BasePath+'\Editor Options', EditorOptions, True, True);
 
    SecondEditorVisible := AppStorage.ReadBoolean(BasePath+'\SecondEditorVisible', False);
@@ -144,7 +144,7 @@ begin
        SecondEditorAlign, SecondEditorAlign);
      SecondEditorSize := AppStorage.ReadInteger(BasePath+'Second Editor Size');
      SecondEditorUseCodeFolding := AppStorage.ReadBoolean(BasePath+'\Second Editor UseCodeFolding', False);
-     EditorOptions2.Assign(CommandsDataModule.EditorOptions);
+     EditorOptions2.Assign(EditorOptions);
      AppStorage.ReadPersistent(BasePath+'\Second Editor Options', EditorOptions2, True, True);
    end;
 end;

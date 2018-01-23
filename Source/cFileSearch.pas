@@ -103,7 +103,7 @@ implementation
 
 uses
   Windows, uEditAppIntfs, StringResources,
-  uCommonFunctions, WideStrUtils, JvGnugettext;
+  uCommonFunctions, JvGnugettext;
 
 const
   SearchLineSize = 1024;
@@ -198,7 +198,7 @@ begin
     if BLine = '' then continue;
 
     if FNoComments then begin
-      PPos := WStrScan(PWideChar(BLine), '#');
+      PPos := StrScan(PWideChar(BLine), '#');
       if Assigned(PPos) then begin
         LPos := PPos - PWideChar(BLine) + 1;
         Delete(BLine, LPos, MaxInt);
@@ -234,7 +234,7 @@ begin
     end;
   end else begin
     if not(soCaseSensitive in SearchOptions) then
-      fPattern := WideUpperCase(Value);
+      fPattern := UpperCase(Value);
   end;
 end;
 
@@ -287,12 +287,12 @@ begin
     end;
   end else begin
     if not (soCaseSensitive in SearchOptions) then
-      BLine := WideUpperCase(BLine);
+      BLine := UpperCase(BLine);
     Len := Length(Pattern);
     EndPos := 0;
     FoundPos := PWideChar(BLine);
     Repeat
-      FoundPos := WStrPos(FoundPos, PWideChar(fPattern));
+      FoundPos := StrPos(FoundPos, PWideChar(fPattern));
       Found := Assigned(FoundPos);
       if Found then begin
         LinePos := FoundPos - PWideChar(BLine) + 1;

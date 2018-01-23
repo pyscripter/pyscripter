@@ -179,11 +179,12 @@ var
 
 implementation
 
-uses dmCommands, StringResources, uEditAppIntfs,
+uses
+  dmCommands, StringResources, uEditAppIntfs,
   frmPyIDEMain, uCommonFunctions, JvAppIniStorage, JvAppStorage, JclFileUtils,
   dlgImportDirectory, JclShell, dlgRunConfiguration, cPyBaseDebugger,
   cParameters, MPDataObject, JvJVCLUtils,
-  JvGnugettext, uHighlighterProcs, dlgDirectoryList;
+  JvGnugettext, uHighlighterProcs, dlgDirectoryList, cPyScripterSettings;
 
 {$R *.dfm}
 
@@ -683,7 +684,7 @@ Var
   AppStorage : TJvAppIniFileStorage;
 begin
   // Create Backup
-  if CommandsDataModule.PyIDEOptions.CreateBackupFiles and
+  if PyIDEOptions.CreateBackupFiles and
     FileExists(ActiveProject.FileName) then
   begin
     try
@@ -917,7 +918,7 @@ begin
               with TProjectFilesNode(Data.ProjectNode) do
                 if DirectoryExists(FileName) then
                   ImportDirectory(FileName,
-                    CommandsDataModule.PyIDEOptions.PythonFileExtensions,
+                    PyIDEOptions.PythonFileExtensions,
                     True)
                 else if FileExists(FileName) then begin
                   if not Assigned(FileChild[FileName]) then begin

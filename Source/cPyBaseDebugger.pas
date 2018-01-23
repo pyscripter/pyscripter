@@ -9,8 +9,8 @@ unit cPyBaseDebugger;
 
 interface
 uses
-  Windows, SysUtils, Classes, uEditAppIntfs, PythonEngine, Forms,
-  Contnrs, cTools, cPythonSourceScanner;
+  Windows, SysUtils, Classes, uEditAppIntfs, Forms,
+  Contnrs, cTools, cPythonSourceScanner, PythonEngine;
 
 type
   TPythonEngineType = (peInternal, peRemote, peRemoteTk, peRemoteWx);
@@ -401,11 +401,12 @@ const
 implementation
 
 uses
+  System.UITypes, Dialogs,
   dmCommands, frmPythonII, frmMessages, frmPyIDEMain,
   uCommonFunctions, VarPyth,
   cParameters, StringResources, cPyDebugger,
-  frmCommandOutput, JvGnugettext, cProjectClasses,
-  System.UITypes, Dialogs;
+  frmCommandOutput, JvGnuGettext,
+  cPyScripterSettings;
 
 { TEditorPos }
 
@@ -515,7 +516,7 @@ begin
       Editor := GI_EditorFactory.GetEditorByNameOrTitle(FileName);
       // Check whether the error occurred in the active editor
       if (Assigned(Editor) and (Editor = PyIDEMainForm.GetActiveEditor)) or
-        CommandsDataModule.PyIDEOptions.JumpToErrorOnException then
+        PyIDEOptions.JumpToErrorOnException then
       begin
         if PyIDEMainForm.ShowFilePosition(TI.FileName, TI.LineNo, 1) and
           Assigned(GI_ActiveEditor)
@@ -853,16 +854,16 @@ end;
 
 procedure TPythonControl.PrepareRun;
 begin
-  if CommandsDataModule.PyIDEOptions.SaveFilesBeforeRun then begin
+  if PyIDEOptions.SaveFilesBeforeRun then begin
     PyIDEMainForm.SaveFileModules;
 //    Application.ProcessMessages;
 //    Application.DoApplicationIdle;
 //    Application.ProcessMessages;
     PyIDEMainForm.Refresh;        // To update save flags
   end;
-  if CommandsDataModule.PyIDEOptions.SaveEnvironmentBeforeRun then
+  if PyIDEOptions.SaveEnvironmentBeforeRun then
     PyIDEMainForm.SaveEnvironment;
-  if CommandsDataModule.PyIDEOptions.ClearOutputBeforeRun then
+  if PyIDEOptions.ClearOutputBeforeRun then
     PythonIIForm.actClearContentsExecute(nil);
 
   if fRunConfig.EngineType <> PythonEngineType then

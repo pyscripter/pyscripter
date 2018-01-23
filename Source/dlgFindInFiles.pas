@@ -96,10 +96,10 @@ implementation
 {$R *.dfm}
 
 uses
-  System.UITypes, SysUtils, Windows, Messages, FileCtrl,
-  {GX_GrepResults, GX_GrepOptions,} Math,
-  uEditAppIntfs, frmFindResults, dmCommands,
-  Dialogs, JvGnugettext, StringResources;
+  System.UITypes, SysUtils, Windows, Messages, FileCtrl, Math,
+  uEditAppIntfs, frmFindResults,
+  Dialogs, JvGnugettext, StringResources,
+  cPyScripterSettings;
 
 function GetScrollbarWidth: Integer;
 begin
@@ -265,7 +265,7 @@ procedure TFindInFilesDialog.LoadFormSettings;
     Selection: string;
   begin
     Selection := RetrieveEditorBlockSelection;
-    if (Trim(Selection) = '') and CommandsDataModule.PyIDEOptions.SearchTextAtCaret then begin
+    if (Trim(Selection) = '') and PyIDEOptions.SearchTextAtCaret then begin
       if Assigned(GI_ActiveEditor) then with GI_ActiveEditor.SynEdit do
         Selection := GetWordAtRowCol(CaretXY)
       else

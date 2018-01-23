@@ -166,7 +166,7 @@ Var
 implementation
 
 uses Windows, cParameters, Menus, frmCommandOutput,
-  dmCommands, uCommonFunctions, uEditAppIntfs, WideStrUtils;
+  dmCommands, uCommonFunctions, uEditAppIntfs;
 
 
 function ExpandEnv(const S: string): string;
@@ -181,7 +181,7 @@ function AddQuotesUnless(const S: string): string;
 begin
   Result := Trim(S);
   if (Pos(' ', Result) <> 0) and
-     ((Result[1] <> WideChar('"')) or (WideLastChar(Result)^ <> WideChar('"'))) then
+     ((Result[1] <> '"') or (Result[Length(Result)] <> '"')) then
     Result := '"' + Result + '"';
 end;
 

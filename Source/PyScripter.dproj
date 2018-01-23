@@ -127,13 +127,12 @@
     <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
         <VerInfo_Release>0</VerInfo_Release>
         <VerInfo_MajorVer>3</VerInfo_MajorVer>
-        <DCC_DebugDCUs>true</DCC_DebugDCUs>
         <Icon_MainIcon>PyScripter.ico</Icon_MainIcon>
-        <VerInfo_MinorVer>2</VerInfo_MinorVer>
+        <VerInfo_MinorVer>3</VerInfo_MinorVer>
         <ILINK_FullDebugInfo>true</ILINK_FullDebugInfo>
         <BCC_SourceDebuggingOn>true</BCC_SourceDebuggingOn>
         <BCC_DebugLineNumbers>true</BCC_DebugLineNumbers>
-        <VerInfo_Keys>CompanyName=;FileVersion=3.2.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=PyScripter.exe;ProductName=PyScripter;ProductVersion=3.2.0.0;Comments=;ProgramID=com.embarcadero.$(MSBuildProjectName);FileDescription=$(MSBuildProjectName)</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=;FileVersion=3.3.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=PyScripter.exe;ProductName=PyScripter;ProductVersion=3.2.0.0;Comments=;ProgramID=com.embarcadero.$(MSBuildProjectName);FileDescription=$(MSBuildProjectName)</VerInfo_Keys>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <BT_BuildType>Debug</BT_BuildType>
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
@@ -143,15 +142,13 @@
     <PropertyGroup Condition="'$(Cfg_2_Win64)'!=''">
         <VerInfo_Release>0</VerInfo_Release>
         <VerInfo_MajorVer>3</VerInfo_MajorVer>
-        <DCC_DebugDCUs>true</DCC_DebugDCUs>
-        <VerInfo_MinorVer>2</VerInfo_MinorVer>
-        <VerInfo_Keys>CompanyName=;FileVersion=3.2.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=PyScripter.exe;ProductName=PyScripter;ProductVersion=3.2.0.0;Comments=;ProgramID=com.embarcadero.$(MSBuildProjectName);FileDescription=$(MSBuildProjectName)</VerInfo_Keys>
+        <VerInfo_MinorVer>3</VerInfo_MinorVer>
+        <VerInfo_Keys>CompanyName=;FileVersion=3.3.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=PyScripter.exe;ProductName=PyScripter;ProductVersion=3.2.0.0;Comments=;ProgramID=com.embarcadero.$(MSBuildProjectName);FileDescription=$(MSBuildProjectName)</VerInfo_Keys>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <BT_BuildType>Debug</BT_BuildType>
         <Manifest_File>PyScripter.exe.manifest</Manifest_File>
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
         <DCC_ExeOutput>.\..</DCC_ExeOutput>
-        <DCC_Define>PYTHON25;$(DCC_Define)</DCC_Define>
     </PropertyGroup>
     <ItemGroup>
         <DelphiCompile Include="$(MainSource)">
@@ -349,6 +346,7 @@
         </DCCReference>
         <DCCReference Include="VCL.Styles.DPIAware.pas"/>
         <DCCReference Include="TB2Toolbar.pas"/>
+        <DCCReference Include="cPyScripterSettings.pas"/>
         <None Include="PyScripter.todo"/>
         <None Include="ModelSupport_PyScripter\default.txaPackage"/>
         <BuildConfiguration Include="Debug">

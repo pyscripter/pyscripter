@@ -191,9 +191,9 @@ var
 
 implementation
 
-uses dmCommands, uEditAppIntfs, Math, frmPyIDEMain, dlgToDoOptions,
-  JvJVCLUtils, cProjectClasses, WideStrUtils,
-  cParameters, AsyncCalls, MPCommonUtilities;
+uses
+  dmCommands, uEditAppIntfs, frmPyIDEMain, dlgToDoOptions, cProjectClasses,
+  Math, cParameters, AsyncCalls, MPCommonUtilities, cPyScripterSettings;
 
 {$R *.dfm}
 
@@ -727,7 +727,7 @@ begin
     OldInfo := nil;
     while i < SourceCode.Count do begin
       TokenString := SourceCode[i];
-      PStart := WStrScan(PWideChar(TokenString), '#');
+      PStart := StrScan(PWideChar(TokenString), '#');
       if Assigned(PStart) then begin
         if Assigned(OldInfo) then begin
           if TrimLeft(TokenString)[1] <> WideChar('#') then
@@ -802,7 +802,7 @@ begin
   PreCallBack := GetPreCallBack();
   Async :=  TAsyncCalls.Invoke(procedure begin
     WalkThroughDirectories(Paths,
-      CommandsDataModule.PyIDEOptions.PythonFileExtensions, PreCallBack,
+      PyIDEOptions.PythonFileExtensions, PreCallBack,
       ToDoExpert.FRecurseDirScan);
   end);
   //TAsyncCalls.MsgExec(Async, Application.ProcessMessages);

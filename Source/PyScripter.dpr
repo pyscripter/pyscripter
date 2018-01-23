@@ -114,7 +114,8 @@ uses
   Vcl.StdCtrls,
   VCL.Styles.PyScripter in 'VCL.Styles.PyScripter.pas' {/  Vcl.Styles.Utils.Forms;},
   VCL.Styles.DPIAware in 'VCL.Styles.DPIAware.pas',
-  TB2Toolbar in 'TB2Toolbar.pas';
+  TB2Toolbar in 'TB2Toolbar.pas',
+  cPyScripterSettings in 'cPyScripterSettings.pas';
 
 {$R *.RES}
 {$R WebCopyAvi.RES}

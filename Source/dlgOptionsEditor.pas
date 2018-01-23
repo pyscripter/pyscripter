@@ -12,8 +12,9 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, Buttons, SpTBXControls, dlgPyIDEBase, SpTBXItem, zBase,
-  zObjInspector, Vcl.ExtCtrls, System.Generics.Collections;
+  Dialogs, Buttons, dlgPyIDEBase, zBase,
+  zObjInspector, Vcl.ExtCtrls, System.Generics.Collections,
+  cPyScripterSettings, Vcl.StdCtrls;
 
 type
 
@@ -27,19 +28,13 @@ type
     Options : array of TOption;
   end;
 
-  TBaseOptionsClass = class of TBaseOptions;
-  TBaseOptions = class(TPersistent)
-    public
-    constructor Create; virtual; abstract;
-  end;
-
   TOptionsInspector = class(TPyIDEDlgBase)
     Panel1: TPanel;
     Panel2: TPanel;
-    OKButton: TSpTBXButton;
-    BitBtn2: TSpTBXButton;
-    HelpButton: TSpTBXButton;
     Inspector: TzObjectInspector;
+    OKButton: TButton;
+    BitBtn2: TButton;
+    HelpButton: TButton;
     procedure OKButtonClick(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure HelpButtonClick(Sender: TObject);
@@ -64,6 +59,7 @@ function InspectOptions(OptionsObject : TBaseOptions;
 implementation
 
 {$R *.dfm}
+
 
 { TIDEOptionsWindow }
 

@@ -201,9 +201,9 @@ implementation
 Uses
   SynEditTypes, Math, frmPyIDEMain, dmCommands, VarPyth, Registry,
   frmMessages, uCommonFunctions, frmVariables, StringResources,
-  frmUnitTests, SynRegExpr,
-  cPyDebugger, cPyRemoteDebugger, JvJVCLUtils, uCmdLine,
-  JclStrings, JvGnugettext, cRefactoring, cPythonSourceScanner, cProjectClasses;
+  frmUnitTests, SynRegExpr,  JvJVCLUtils, uCmdLine,
+  cPyDebugger, cPyRemoteDebugger, JclStrings, JvGnugettext,
+  cProjectClasses, cPyScripterSettings;
 
 {$R *.dfm}
 
@@ -449,7 +449,7 @@ begin
       begin
         PyControl.ActiveInterpreter := InternalInterpreter;
         PyControl.ActiveDebugger := TPyInternalDebugger.Create;
-        CommandsDataModule.PyIDEOptions.PythonEngineType := peInternal;
+        PyIDEOptions.PythonEngineType := peInternal;
       end;
     peRemote, peRemoteTk, peRemoteWx:
       begin
@@ -467,7 +467,7 @@ begin
         if Connected then begin
           PyControl.ActiveInterpreter := RemoteInterpreter;
           PyControl.ActiveDebugger := TPyRemDebugger.Create(RemoteInterpreter);
-          CommandsDataModule.PyIDEOptions.PythonEngineType := PythonEngineType;
+          PyIDEOptions.PythonEngineType := PythonEngineType;
 
           // Add extra project paths
           if Assigned(ActiveProject) then
@@ -477,11 +477,11 @@ begin
           FreeAndNil(RemoteInterpreter);
           PyControl.ActiveInterpreter := InternalInterpreter;
           PyControl.ActiveDebugger := TPyInternalDebugger.Create;
-          CommandsDataModule.PyIDEOptions.PythonEngineType := peInternal;
+          PyIDEOptions.PythonEngineType := peInternal;
         end;
       end;
   end;
-  case CommandsDataModule.PyIDEOptions.PythonEngineType of
+  case PyIDEOptions.PythonEngineType of
     peInternal :  Msg := Format(_(SEngineActive), ['Internal','']);
     peRemote : Msg := Format(_(SEngineActive), ['Remote','']);
     peRemoteTk : Msg := Format(_(SEngineActive), ['Remote','(Tkinter) ']);
@@ -603,7 +603,7 @@ begin
   SynEdit.Highlighter := TSynPythonInterpreterSyn.Create(Self);
   SynEdit.Highlighter.Assign(CommandsDataModule.SynPythonSyn);
 
-  SynEdit.Assign(CommandsDataModule.InterpreterEditorOptions);
+  SynEdit.Assign(InterpreterEditorOptions);
   RegisterHistoryCommands;
 
   // IO
@@ -638,7 +638,7 @@ begin
   PythonEngine.ExecString('del _II');
 
   // Wrap IDE Options
-  p := PyDelphiWrapper.Wrap(CommandsDataModule.PyIDEOptions);
+  p := PyDelphiWrapper.Wrap(PyIDEOptions);
   PyscripterModule.SetVar('IDEOptions', p);
   PythonEngine.Py_XDECREF(p);
 
@@ -779,7 +779,7 @@ begin
             else
               break;
 
-            if CommandsDataModule.PyIDEOptions.UTF8inInterpreter then
+            if PyIDEOptions.UTF8inInterpreter then
               EncodedSource := UTF8BOMString + Utf8Encode(Source)
             else
               EncodedSource := AnsiString(Source);
@@ -963,7 +963,7 @@ Var
   DummyToken : string;
   BC : TBufferCoord;
 begin
-  if (Command = ecChar) and CommandsDataModule.PyIDEOptions.AutoCompleteBrackets then
+  if (Command = ecChar) and PyIDEOptions.AutoCompleteBrackets then
   with SynEdit do begin
     Line := LineText;
     Len := Length(LineText);
@@ -1249,7 +1249,7 @@ end;
 
 procedure TPythonIIForm.SynCodeCompletionClose(Sender: TObject);
 begin
-  CommandsDataModule.PyIDEOptions.CodeCompletionListSize :=
+  PyIDEOptions.CodeCompletionListSize :=
     SynCodeCompletion.NbLinesInWindow;
   //  Clean-up
   CleanupCodeCompletion;
@@ -1272,7 +1272,7 @@ Var
   BC: TBufferCoord;
   SkipHandler : TBaseCodeCompletionSkipHandler;
 begin
-  if PyControl.IsRunning or not CommandsDataModule.PyIDEOptions.InterpreterCodeCompletion
+  if PyControl.IsRunning or not PyIDEOptions.InterpreterCodeCompletion
   then
     // No code completion while Python is running
     Exit;
@@ -1321,14 +1321,14 @@ begin
 
   with TSynCompletionProposal(Sender) do
     if CanExecute then begin
-      Font := CommandsDataModule.PyIDEOptions.AutoCompletionFont;
+      Font := PyIDEOptions.AutoCompletionFont;
       ItemList.Text := DisplayText;
       InsertList.Text := InsertText;
       NbLinesInWindow :=
-        CommandsDataModule.PyIDEOptions.CodeCompletionListSize;
+        PyIDEOptions.CodeCompletionListSize;
 
       // Auto-complete with one entry without showing the form
-      if CommandsDataModule.PyIDEOptions.CompleteWithOneEntry then begin
+      if PyIDEOptions.CompleteWithOneEntry then begin
         CurrentString := CurrentInput;
         if Form.AssignedList.Count = 1 then begin
           CanExecute := False;
@@ -1364,7 +1364,7 @@ var locline, lookup: string;
     DummyToken : string;
     BC : TBufferCoord;
 begin
-  if PyControl.IsRunning or not CommandsDataModule.PyIDEOptions.InterpreterCodeCompletion
+  if PyControl.IsRunning or not PyIDEOptions.InterpreterCodeCompletion
   then
     Exit;
   with TSynCompletionProposal(Sender).Editor do
@@ -1446,7 +1446,7 @@ begin
 
   if CanExecute then begin
     with TSynCompletionProposal(Sender) do begin
-      Font := CommandsDataModule.PyIDEOptions.AutoCompletionFont;
+      Font := PyIDEOptions.AutoCompletionFont;
       FormatParams := not (DisplayText = '');
       if not FormatParams then
         DisplayText :=  '\style{~B}' + _(SNoParameters) + '\style{~B}';
@@ -1622,7 +1622,7 @@ procedure TPythonIIForm.UnMaskFPUExceptionsExecute(Sender: TObject; PSelf,
   Args: PPyObject; var Result: PPyObject);
 begin
   MaskFPUExceptions(False);
-  CommandsDataModule.PyIDEOptions.MaskFPUExceptions := False;
+  PyIDEOptions.MaskFPUExceptions := False;
   Result := GetPythonEngine.ReturnNone;
 end;
 
@@ -1676,7 +1676,7 @@ procedure TPythonIIForm.MaskFPUExceptionsExecute(Sender: TObject; PSelf,
   Args: PPyObject; var Result: PPyObject);
 begin
   MaskFPUExceptions(True);
-  CommandsDataModule.PyIDEOptions.MaskFPUExceptions := True;
+  PyIDEOptions.MaskFPUExceptions := True;
   Result := GetPythonEngine.ReturnNone;
 end;
 

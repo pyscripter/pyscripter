@@ -259,7 +259,8 @@ Uses
   StrUtils, PythonEngine, dmCommands, Dialogs,
   StringResources, frmPythonII, JvGnugettext, MPCommonUtilities,
   MPCommonObjects, MPShellUtilities, IOUtils, Vcl.Themes, System.AnsiStrings,
-  System.UITypes, Winapi.CommCtrl, JclStrings, JvAppStorage, SynEditMiscClasses;
+  System.UITypes, Winapi.CommCtrl, JclStrings, SynEditMiscClasses,
+  cPyScripterSettings;
 
 function GetIconIndexFromFile(const AFileName: string;
   const ASmall: boolean): integer;
@@ -1425,7 +1426,7 @@ begin
 //                  // File will still be read as UTF8 if it has an encoding comment
 //                  Encoding := sf_Ansi
 //                else begin
-                  if CommandsDataModule.PyIDEOptions.DetectUTF8Encoding then
+                  if PyIDEOptions.DetectUTF8Encoding then
                     Encoding := sf_UTF8_NoBOM
                   else
                     Encoding := sf_Ansi;
@@ -2002,125 +2003,4 @@ begin
   Result := MulDiv(I, 96, Screen.PixelsPerInch);
 end;
 
-
-type
-// Modify JvAppStorage handling of Fonts
-// We want to store Font.Size and not Font.Height
-TJvAppStorageFontPropertyEngine = class(TJvAppStoragePropertyBaseEngine)
-  private
-    class var FFontIgnoreProperties: TStringList;
-public
-  function Supports(AObject: TObject; AProperty: TObject): Boolean; override;
-  procedure ReadProperty(AStorage: TJvCustomAppStorage; const APath: string; AObject: TObject; AProperty: TObject; const Recursive,
-    ClearFirst: Boolean; const IgnoreProperties: TStrings = nil); override;
-  procedure WriteProperty(AStorage: TJvCustomAppStorage; const APath: string; AObject: TObject; AProperty: TObject; const
-    Recursive: Boolean; const IgnoreProperties: TStrings = nil); override;
-  class property FontIgnoreProperties : TStringList read FFontIgnoreProperties;
-strict private
-  class constructor Create;
-  class destructor Destroy;
-end;
-
-
-{ TJvAppStorageFontPropertyEngine }
-
-function TJvAppStorageFontPropertyEngine.Supports(AObject,
-  AProperty: TObject): Boolean;
-begin
-  Result := AProperty is TFont;
-end;
-
-class constructor TJvAppStorageFontPropertyEngine.Create;
-begin
-  TJvAppStorageFontPropertyEngine.FFontIgnoreProperties := TStringList.Create;
-  with TJvAppStorageFontPropertyEngine.FFontIgnoreProperties do begin
-    Add('Height');
-    Add('Charset');
-    Add('Orientation');
-    Add('Pitch');
-    Add('Quality');
-  end;
-end;
-
-class destructor TJvAppStorageFontPropertyEngine.Destroy;
-begin
-  TJvAppStorageFontPropertyEngine.FFontIgnoreProperties.Free;
-end;
-
-procedure TJvAppStorageFontPropertyEngine.ReadProperty(
-  AStorage: TJvCustomAppStorage; const APath: string; AObject,
-  AProperty: TObject; const Recursive, ClearFirst: Boolean;
-  const IgnoreProperties: TStrings);
-begin
-  // Font Size is a published property and is read
-  AStorage.ReadPersistent(APath, AProperty as TFont, Recursive, ClearFirst,
-    TJvAppStorageFontPropertyEngine.FFontIgnoreProperties);
-end;
-
-procedure TJvAppStorageFontPropertyEngine.WriteProperty(
-  AStorage: TJvCustomAppStorage; const APath: string; AObject,
-  AProperty: TObject; const Recursive: Boolean;
-  const IgnoreProperties: TStrings);
-begin
-  AStorage.WritePersistent(APath, AProperty as TFont, Recursive,
-    TJvAppStorageFontPropertyEngine.FFontIgnoreProperties);
-  AStorage.WriteInteger(APath + '\Size', (AProperty as TFont).Size);
-end;
-
-
-type
-// Modify JvAppStorage handling of TSynGutter
-// We want to PPI scale size properties
-TJvAppStorageGutterPropertyEngine = class(TJvAppStoragePropertyBaseEngine)
-public
-  function Supports(AObject: TObject; AProperty: TObject): Boolean; override;
-  procedure ReadProperty(AStorage: TJvCustomAppStorage; const APath: string; AObject: TObject; AProperty: TObject; const Recursive,
-    ClearFirst: Boolean; const IgnoreProperties: TStrings = nil); override;
-  procedure WriteProperty(AStorage: TJvCustomAppStorage; const APath: string; AObject: TObject; AProperty: TObject; const
-    Recursive: Boolean; const IgnoreProperties: TStrings = nil); override;
-end;
-
-{ TJvAppStorageGutterPropertyEngine }
-
-function TJvAppStorageGutterPropertyEngine.Supports(AObject,
-  AProperty: TObject): Boolean;
-begin
-  Result := AProperty is TSynGutter;
-end;
-
-procedure TJvAppStorageGutterPropertyEngine.ReadProperty(
-  AStorage: TJvCustomAppStorage; const APath: string; AObject,
-  AProperty: TObject; const Recursive, ClearFirst: Boolean;
-  const IgnoreProperties: TStrings);
-Var
-  FontSize : Integer;
-begin
-  AStorage.ReadPersistent(APath, AProperty as TSynGutter, Recursive, ClearFirst,
-    IgnoreProperties);
-  FontSize := TSynGutter(AProperty).Font.Size;
-  TSynGutter(AProperty).ChangeScale(Screen.PixelsPerInch, 96);
-  TSynGutter(AProperty).Font.Size := FontSize;
-end;
-
-procedure TJvAppStorageGutterPropertyEngine.WriteProperty(
-  AStorage: TJvCustomAppStorage; const APath: string; AObject,
-  AProperty: TObject; const Recursive: Boolean;
-  const IgnoreProperties: TStrings);
-Var
-  FontSize : Integer;
-begin
-  FontSize := TSynGutter(AProperty).Font.Size;
-  TSynGutter(AProperty).ChangeScale(96, Screen.PixelsPerInch);
-  TSynGutter(AProperty).Font.Size := FontSize;
-  AStorage.StorageOptions.StoreDefaultValues := True;
-  AStorage.WritePersistent(APath, AProperty as TSynGutter, Recursive,
-    IgnoreProperties);
-  AStorage.StorageOptions.StoreDefaultValues := False;
-  TSynGutter(AProperty).ChangeScale(Screen.PixelsPerInch, 96);
-  TSynGutter(AProperty).Font.Size := FontSize;
-end;
-
-initialization
-  RegisterAppStoragePropertyEngine(TJvAppStorageFontPropertyEngine);
-  RegisterAppStoragePropertyEngine(TJvAppStorageGutterPropertyEngine);
 end.

@@ -95,9 +95,9 @@ implementation
 {$R *.dfm}
 
 uses
-  ClipBrd, Math,
-  JclBase, JclFileUtils, JclHookExcept, JclPeImage, JclStrings, JclSysInfo, JclWin32,
-  uCommonFunctions, PythonEngine, dmCommands, TypInfo, cPyBaseDebugger;
+  ClipBrd, Math, JclBase, JclFileUtils, JclHookExcept, JclPeImage, JclStrings,
+  JclSysInfo, JclWin32, uCommonFunctions, PythonEngine, TypInfo, cPyBaseDebugger,
+  cPyScripterSettings;
 
 resourcestring
   RsAppError = '%s - application error';
@@ -328,7 +328,7 @@ begin
     DetailsMemo.Lines.Add(Format('Python DLL : %s', [GetPythonEngine.DllName]));
     DetailsMemo.Lines.Add(Format('Python Engine : %s',
       [GetEnumName(System.TypeInfo(TPythonEngineType),
-      ord(CommandsDataModule.PyIDEOptions.PythonEngineType))]));
+      Ord(PyIDEOptions.PythonEngineType))]));
     NextDetailBlock;
     // Stack list
     StackList := JclGetExceptStackList(FThreadID);

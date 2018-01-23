@@ -12,16 +12,15 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ExtCtrls, JvDockControlForm, VirtualTrees,
+  Dialogs, Vcl.ExtCtrls, JvComponentBase, JvDockControlForm, VirtualTrees,
   MPShellUtilities, VirtualExplorerTree, Menus, frmIDEDockWin,
   ActnList, VirtualShellHistory,  TB2Item, TB2Dock,
-  TB2Toolbar, JvComponentBase, SpTBXItem,
-  SpTBXSkins, System.Actions, SpTBXControls;
+  TB2Toolbar, SpTBXItem, System.Actions, SpTBXControls;
 
 const
   WM_EXPLOREHERE = WM_USER + 1000;
-                                                                      
-type         
+
+type
   TFileExplorerWindow = class(TIDEDockWindow)
     FileExplorerTree: TVirtualExplorerTree;
     VirtualShellHistory: TVirtualShellHistory;
@@ -137,10 +136,10 @@ var
 
 implementation
 
-uses frmPyIDEMain, uEditAppIntfs, dmCommands, SHlObj,
-  frmFindResults,
+uses
+  frmPyIDEMain, uEditAppIntfs, dmCommands, SHlObj, frmFindResults,
   MPCommonObjects, dlgDirectoryList, StringResources, cPyBaseDebugger,
-  cFindInFiles, JvGnugettext;
+  cPyScripterSettings, cFindInFiles, JvGnugettext;
 
 {$R *.dfm}
 
@@ -157,7 +156,7 @@ begin
   AllowAsChild := True;
   if actEnableFilter.Checked and not Namespace.Folder  { Don't filter folders } then begin
     FileExt := UpperCase(ExtractFileExt(Namespace.NameParseAddress));
-    if Pos(FileExt, UpperCase(CommandsDataModule.PyIDEOptions.FileExplorerFilter)) = 0 then
+    if Pos(FileExt, UpperCase(PyIDEOptions.FileExplorerFilter)) = 0 then
       AllowAsChild := False;
   end;
 end;
@@ -197,9 +196,8 @@ end;
 
 procedure TFileExplorerWindow.mnChangeFilterClick(Sender: TObject);
 begin
-  CommandsDataModule.PyIDEOptions.FileExplorerFilter :=
-    InputBox('File Explorer Filter', 'Enter Filter:',
-    CommandsDataModule.PyIDEOptions.FileExplorerFilter);
+  PyIDEOptions.FileExplorerFilter :=
+    InputBox('File Explorer Filter', 'Enter Filter:', PyIDEOptions.FileExplorerFilter);
   FileExplorerTree.RefreshTree;
 end;
 

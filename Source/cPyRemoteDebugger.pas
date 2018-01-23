@@ -162,7 +162,8 @@ uses
   cParameters, uCommonFunctions, frmMessages, frmPyIDEMain,
   frmVariables, frmCallStack, frmUnitTests, JvDSADialogs,
   JvGnugettext, JclStrings, JclSysUtils, cProjectClasses, JvJCLUtils,
-  cRefactoring;
+  cRefactoring,
+  cPyScripterSettings;
 
 { TRemNameSpaceItem }
 constructor TRemNameSpaceItem.Create(aName : string; aPyObject : Variant;
@@ -672,7 +673,7 @@ begin
     Editor := GI_EditorFactory.GetEditorByNameOrTitle(FileName);
     // Check whether the error occurred in the active editor
     if (Assigned(Editor) and (Editor = PyIDEMainForm.GetActiveEditor)) or
-      CommandsDataModule.PyIDEOptions.JumpToErrorOnException then
+      PyIDEOptions.JumpToErrorOnException then
     begin
       if PyIDEMainForm.ShowFilePosition(FileName, LineNo, 1) and
         Assigned(GI_ActiveEditor)
@@ -962,7 +963,7 @@ begin
         PythonPathAdder := nil;
         PythonIIForm.ClearPendingMessages;
         ReInitialize;
-      end else if CanDoPostMortem and CommandsDataModule.PyIDEOptions.PostMortemOnException then
+      end else if CanDoPostMortem and PyIDEOptions.PostMortemOnException then
         PyControl.ActiveDebugger.EnterPostMortem;
     end;
   end;
@@ -1004,7 +1005,7 @@ begin
   ServerProcess.WaitForTerminate := RemoteServer.WaitForTerminate;
 
   // Repeat here to make sure it is set right
-  MaskFPUExceptions(CommandsDataModule.PyIDEOptions.MaskFPUExceptions);
+  MaskFPUExceptions(PyIDEOptions.MaskFPUExceptions);
 
   // Check whether a process is still running
   Assert(ServerProcess.State = psReady, Format(_(SInternalError), ['StartServer']));
@@ -1686,7 +1687,7 @@ begin
         // Reinitialize destroys the debugger which executes this method!
         // So handle with a PostMessage
         PostMessage(PythonIIForm.Handle, WM_REINITINTERPRETER, 0, 0);
-      end else if CanDoPostMortem and CommandsDataModule.PyIDEOptions.PostMortemOnException then
+      end else if CanDoPostMortem and PyIDEOptions.PostMortemOnException then
         PyControl.ActiveDebugger.EnterPostMortem;
     end;
   end;

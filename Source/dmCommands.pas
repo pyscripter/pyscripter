@@ -13,247 +13,22 @@ unit dmCommands;
 interface
 
 uses
-  System.Types, System.UITypes,
+  System.Types, System.UITypes, System.Actions, StdActns, System.ImageList,
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
   ActnList, SynEdit, SynEditHighlighter, SynHighlighterPython, SynRegExpr,
-  ImgList, dlgSynEditOptions, SynEditPrint, StdActns,
-  SynCompletionProposal, TB2Item,
-  SynEditRegexSearch, SynEditMiscClasses, SynEditSearch, VirtualTrees,
-  SynEditTextBuffer, SynEditKeyCmds, JvComponentBase,
-  JvProgramVersionCheck, JvPropertyStore,
-  SynHighlighterIni, uEditAppIntfs, SynUnicode,
-  JvStringHolder, cPyBaseDebugger, SynEditTypes, VirtualExplorerTree,
+  ImgList, dlgSynEditOptions, SynEditPrint, SynUnicode,
+  SynCompletionProposal, SynEditRegexSearch, SynEditMiscClasses, SynEditSearch,
+  SynEditTextBuffer, SynEditKeyCmds, SynEditCodeFolding, SynEditTypes,
+  JvComponentBase, JvProgramVersionCheck, JvPropertyStore,
+  JvStringHolder, cPyBaseDebugger, VirtualExplorerTree,
+  SynHighlighterIni, uEditAppIntfs,
   VirtualShellNotifier, SynHighlighterWeb, SynHighlighterCpp,
-  SynHighlighterYAML, SynHighlighterGeneral, SynEditCodeFolding,
-  SpTBXTabs, dlgOptionsEditor, System.Actions, System.ImageList;
+  SynHighlighterYAML, SynHighlighterGeneral,
+  dlgOptionsEditor;
 
 type
-  TFileChangeNotificationType = (fcnFull, fcnNoMappedDrives, fcnDisabled);
-
-{$METHODINFO ON}
-  TPythonIDEOptions = class(TBaseOptions)
-  private
-    fTimeOut : integer;
-    fUndoAfterSave : Boolean;
-    fSaveFilesBeforeRun : Boolean;
-    fSaveEnvironmentBeforeRun : Boolean;
-    fRestoreOpenFiles : Boolean;
-    fCreateBackupFiles : Boolean;
-    fExporerInitiallyExpanded : Boolean;
-    fSearchTextAtCaret : Boolean;
-    fPythonFileFilter : string;
-    fCythonFileFilter : string;
-    fHTMLFileFilter : string;
-    fXMLFileFilter : string;
-    fCSSFileFilter : string;
-    fCPPFileFilter : string;
-    fYAMLFileFilter : string;
-    fJSFileFilter : string;
-    fPHPFileFilter : string;
-    fFileExplorerFilter : string;
-    fDateLastCheckedForUpdates : TDateTime;
-    fAutoCheckForUpdates : boolean;
-    fDaysBetweenChecks : integer;
-    fMaskFPUExceptions : boolean;
-    fSpecialPackages : string;
-    fUTF8inInterpreter : boolean;
-    fShowCodeHints : boolean;
-    fShowDebuggerHints : boolean;
-    fAutoCompleteBrackets : boolean;
-    fCommandLine : string;
-    fUseCommandLine : Boolean;
-    fMarkExecutableLines : Boolean;
-    fCheckSyntaxAsYouType : Boolean;
-    fFileExplorerContextMenu : Boolean;
-    fNewFileLineBreaks : TSynEditFileFormat;
-    fNewFileEncoding : TFileSaveFormat;
-    fDetectUTF8Encoding: Boolean;
-    fEditorsTabPosition : TSpTBXTabPosition;
-    fPythonEngineType : TPythonEngineType;
-    fPrettyPrintOutput : Boolean;
-    fSmartNextPrevPage : Boolean;
-    fAutoReloadChangedFiles : Boolean;
-    fClearOutputBeforeRun : Boolean;
-    fAutoHideFindToolbar : Boolean;
-    fCodeCompletionListSize : integer;
-    fEditorCodeCompletion : Boolean;
-    fInterpreterCodeCompletion : Boolean;
-    fShowTabCloseButton : Boolean;
-    fPostMortemOnException : Boolean;
-    fDockAnimationInterval : integer;
-    fDockAnimationMoveWidth : integer;
-    fInterpreterHistorySize : integer;
-    fSaveInterpreterHistory : Boolean;
-    fReinitializeBeforeRun: Boolean;
-    fJumpToErrorOnException : Boolean;
-    fFileTemplateForNewScripts : string;
-    fAutoCompletionFont : TFont;
-    fHighlightSelectedWord : Boolean;
-    fHighlightSelectedWordColor : TColor;
-    fFileChangeNotification : TFileChangeNotificationType;
-    fCodeCompletionCaseSensitive : Boolean;
-    fCompleteKeywords : Boolean;
-    fCompleteAsYouType: Boolean;
-    fCompleteWithWordBreakChars: Boolean;
-    fCompleteWithOneEntry:Boolean;
-    fDisplayPackageNames:Boolean;
-    fCheckSyntaxLineLimit : integer;
-    fNoOfRecentFiles : integer;
-    fCodeFoldingEnabled : boolean;
-    fCodeFolding : TSynCodeFolding;
-    fInternalInterpreterHidden : boolean;
-    fCompactLineNumbers : Boolean;
-    function GetPythonFileExtensions: string;
-    procedure SetAutoCompletionFont(const Value: TFont);
-  public
-    constructor Create; override;
-    destructor Destroy; override;
-    procedure Assign(Source: TPersistent); override;
-    property PythonFileExtensions : string read GetPythonFileExtensions;
-  published
-    procedure Changed;
-    property CodeFolding : TSynCodeFolding read fCodeFolding
-      write fCodeFolding;
-    property TimeOut : integer read fTimeOut write fTimeOut default 0;
-    property UndoAfterSave : boolean read fUndoAfterSave
-      write fUndoAfterSave default True;
-    property SaveFilesBeforeRun : boolean read fSaveFilesBeforeRun
-      write fSaveFilesBeforeRun default True;
-    property SaveEnvironmentBeforeRun : boolean read fSaveEnvironmentBeforeRun
-      write fSaveEnvironmentBeforeRun default False;
-    property RestoreOpenFiles : Boolean read fRestoreOpenFiles
-      write fRestoreOpenFiles default True;
-    property CreateBackupFiles : boolean read fCreateBackupFiles
-      write fCreateBackupFiles default False;
-    property ExporerInitiallyExpanded : boolean read fExporerInitiallyExpanded
-      write fExporerInitiallyExpanded default False;
-    property SearchTextAtCaret : Boolean read fSearchTextAtCaret
-      write fSearchTextAtCaret stored False;
-    property PythonFileFilter : string read fPythonFileFilter
-      write fPythonFileFilter;
-    property CythonFileFilter : string read fCythonFileFilter
-      write fCythonFileFilter;
-    property HTMLFileFilter : string read fHTMLFileFilter
-      write fHTMLFileFilter;
-    property XMLFileFilter : string read fXMLFileFilter
-      write fXMLFileFilter;
-    property CSSFileFilter : string read fCSSFileFilter
-      write fCSSFileFilter;
-    property CPPFileFilter : string read fCPPFileFilter
-      write fCPPFileFilter;
-    property YAMLFileFilter : string read fYAMLFileFilter
-      write fYAMLFileFilter;
-    property JSFileFilter : string read fJSFileFilter
-      write fJSFileFilter;
-    property PHPFileFilter : string read fPHPFileFilter
-      write fPHPFileFilter;
-    property FileExplorerFilter : string read fFileExplorerFilter
-      write fFileExplorerFilter;
-    property DateLastCheckedForUpdates : TDateTime read fDateLastCheckedForUpdates
-      write fDateLastCheckedForUpdates;
-    property AutoCheckForUpdates : boolean read fAutoCheckForUpdates
-      write fAutoCheckForUpdates default True;
-    property DaysBetweenChecks : integer read fDaysBetweenChecks
-      write fDaysBetweenChecks default 7;
-    property MaskFPUExceptions : Boolean read fMaskFPUExceptions
-      write fMaskFPUExceptions default True;
-    property SpecialPackages : string read fSpecialPackages write fSpecialPackages;
-    property UTF8inInterpreter : boolean read fUTF8inInterpreter
-      write fUTF8inInterpreter default True;
-    property ShowCodeHints : boolean read fShowCodeHints
-      write fShowCodeHints default True;
-    property ShowDebuggerHints : boolean read fShowDebuggerHints
-      write fShowDebuggerHints default True;
-    property AutoCompleteBrackets : boolean read fAutoCompleteBrackets
-      write fAutoCompleteBrackets default True;
-    property CommandLine : string read fCommandLine write fCommandLine;
-    property UseCommandLine : Boolean read fUseCommandLine
-      write fUseCommandLine default False;
-    property MarkExecutableLines : Boolean read fMarkExecutableLines
-      write fMarkExecutableLines default True;
-    property CheckSyntaxAsYouType : Boolean read fCheckSyntaxAsYouType
-      write fCheckSyntaxAsYouType default True;
-    property FileExplorerContextMenu : Boolean read fFileExplorerContextMenu
-      write fFileExplorerContextMenu default True;
-    property NewFileLineBreaks : TSynEditFileFormat read fNewFileLineBreaks
-      write fNewFileLineBreaks default sffDos;
-    property NewFileEncoding : TFileSaveFormat read fNewFileEncoding
-      write fNewFileEncoding default sf_Ansi;
-    property DetectUTF8Encoding : Boolean read fDetectUTF8Encoding
-      write fDetectUTF8Encoding default True;
-    property EditorsTabPosition : TSpTBXTabPosition read fEditorsTabPosition
-      write fEditorsTabPosition default ttpBottom;
-    property PythonEngineType : TPythonEngineType read fPythonEngineType
-      write fPythonEngineType default peRemote;
-    property PrettyPrintOutput : Boolean read fPrettyPrintOutput
-      write fPrettyPrintOutput default True;
-    property SmartNextPrevPage : Boolean read fSmartNextPrevPage
-      write fSmartNextPrevPage default True;
-    property AutoReloadChangedFiles : Boolean read fAutoReloadChangedFiles
-      write fAutoReloadChangedFiles default True;
-    property ClearOutputBeforeRun : Boolean read fClearOutputBeforeRun
-      write fClearOutputBeforeRun default False;
-    property AutoHideFindToolbar : Boolean read fAutoHideFindToolbar
-      write fAutoHideFindToolbar default False;
-    property EditorCodeCompletion : Boolean read fEditorCodeCompletion
-      write fEditorCodeCompletion default True;
-    property InterpreterCodeCompletion : Boolean read fInterpreterCodeCompletion
-      write fInterpreterCodeCompletion default True;
-    property CodeCompletionListSize : integer read fCodeCompletionListSize
-      write fCodeCompletionListSize default 8;
-    property ShowTabCloseButton : Boolean read fShowTabCloseButton
-      write fShowTabCloseButton default True;
-    property PostMortemOnException : Boolean read fPostMortemOnException
-      write fPostMortemOnException default False;
-    property DockAnimationInterval : integer read fDockAnimationInterval
-      write fDockAnimationInterval;
-    property DockAnimationMoveWidth : integer read fDockAnimationMoveWidth
-      write fDockAnimationMoveWidth;
-    property InterpreterHistorySize : integer read fInterpreterHistorySize
-      write fInterpreterHistorySize;
-    property SaveInterpreterHistory : Boolean read fSaveInterpreterHistory
-      write fSaveInterpreterHistory default True;
-    property ReinitializeBeforeRun : Boolean read fReinitializeBeforeRun
-      write fReinitializeBeforeRun default True;
-    property JumpToErrorOnException : Boolean read fJumpToErrorOnException
-      write fJumpToErrorOnException default True;
-    property FileTemplateForNewScripts: string read fFileTemplateForNewScripts
-      write fFileTemplateForNewScripts;
-    property AutoCompletionFont : TFont read fAutoCompletionFont
-      write SetAutoCompletionFont;
-    property HighlightSelectedWord : boolean read fHighlightSelectedWord
-      write fHighlightSelectedWord default True;
-    property HighlightSelectedWordColor : TColor read fHighlightSelectedWordColor
-      write fHighlightSelectedWordColor default clOlive;
-    property FileChangeNotification : TFileChangeNotificationType read fFileChangeNotification
-      write fFileChangeNotification;
-    property CodeCompletionCaseSensitive : Boolean read fCodeCompletionCaseSensitive
-      write fCodeCompletionCaseSensitive default True;
-    property CompleteKeywords : Boolean read fCompleteKeywords
-      write fCompleteKeywords default True;
-    property CompleteAsYouType : Boolean read fCompleteAsYouType
-      write fCompleteAsYouType default True;
-    property CompleteWithWordBreakChars : Boolean read fCompleteWithWordBreakChars
-      write fCompleteWithWordBreakChars default False;
-    property CompleteWithOneEntry : Boolean read fCompleteWithOneEntry
-      write fCompleteWithOneEntry default False;
-    property DisplayPackageNames : Boolean read fDisplayPackageNames
-      write fDisplayPackageNames default True;
-    property CheckSyntaxLineLimit : integer read fCheckSyntaxLineLimit
-      write fCheckSyntaxLineLimit default 1000;
-    property NoOfRecentFiles : integer read fNoOfRecentFiles
-      write fNoOfRecentFiles default 8;
-    property CodeFoldingEnabled : Boolean read fCodeFoldingEnabled
-      write fCodeFoldingEnabled default True;
-    property InternalInterpreterHidden : Boolean read fInternalInterpreterHidden
-      write fInternalInterpreterHidden default True;
-    property CompactLineNumbers : Boolean read fCompactLineNumbers
-      write fCompactLineNumbers default True;
-  end;
-
   TSearchCaseSensitiveType = (scsAuto, scsNotCaseSenitive, scsCaseSensitive);
 
-{$METHODINFO OFF}
   TEditorSearchOptions = class(TPersistent)
   private
     fSearchBackwards: boolean;
@@ -548,13 +323,9 @@ type
     CommentLineRE : TRegExpr;
     NumberOfOriginalImages : integer;
     NonExecutableLineRE : TRegExpr;
-    EditorOptions : TSynEditorOptionsContainer;
-    InterpreterEditorOptions : TSynEditorOptionsContainer;
-    PyIDEOptions : TPythonIDEOptions;
     UserDataPath : string;
     ColorThemesFilesDir : string;
     StylesFilesDir : string;
-    procedure RegisterEditorUserCommands(Keystrokes : TSynEditKeyStrokes);
     function IsBlockOpener(S : string) : Boolean;
     function IsBlockCloser(S : string) : Boolean;
     function IsExecutableLine(Line : string) : Boolean;
@@ -631,203 +402,20 @@ implementation
 {$R *.DFM}
 
 uses
-  PythonEngine, dlgSynPageSetup, uHighlighterProcs,
-  frmPythonII, dlgDirectoryList,
-  dlgAboutPyScripter, frmPyIDEMain, JclFileUtils, Variants,
-  frmEditor, frmFindResults, cParameters, dlgCustomParams,
-  uParams, dlgCodeTemplates, dlgConfigureTools, cTools,
+  System.Win.Registry, System.Variants,
+  WinApi.WinInet, WinApi.ShlObj, WinApi.ShellAPI,
+  dlgSynPageSetup, uHighlighterProcs, frmPythonII, dlgDirectoryList,
+  dlgAboutPyScripter, frmPyIDEMain, frmEditor, frmFindResults, cParameters,
+  dlgCustomParams, uParams, dlgCodeTemplates, dlgConfigureTools, cTools,
   frmFunctionList, StringResources, uCommonFunctions,
-  {uMMMXP_MainService, }JvJCLUtils, SynEditStrConst,
-  dlgConfirmReplace, dlgCustomShortcuts,
-  dlgUnitTestWizard, WinInet, Registry, ShlObj, ShellAPI,
-  dlgFileTemplates, JclSysUtils, dlgPickList, JvAppIniStorage,
+  dlgConfirmReplace, dlgCustomShortcuts, dlgUnitTestWizard,
+  dlgFileTemplates, dlgPickList, JvAppIniStorage,
   JvAppStorage, JvDSADialogs, uSearchHighlighter,
-  MPShellUtilities, JvGnugettext, SpTBXSkins, SpTBXMDIMRU, StrUtils, JclStrings,
-  DateUtils, JclDebug, Clipbrd, MPCommonUtilities, JclSysInfo, JvDynControlEngineVCL;
+  MPShellUtilities, MPCommonUtilities, JvGnugettext, SpTBXMDIMRU, StrUtils,
+  DateUtils, Clipbrd, PythonEngine,
+  JclSysUtils, JclSysInfo, JclStrings, JclFileUtils, JclDebug, JvJCLUtils,
+  JvDynControlEngineVCL, cPyScripterSettings;
 
-{ TPythonIDEOptions }
-
-procedure TPythonIDEOptions.Assign(Source: TPersistent);
-begin
-  if Source is TPythonIDEOptions then
-    with TPythonIDEOptions(Source) do begin
-      Self.fCodeFolding.Assign(CodeFolding);
-      Self.fTimeOut := TimeOut;
-      Self.fUndoAfterSave := UndoAfterSave;
-      Self.fSaveFilesBeforeRun := SaveFilesBeforeRun;
-      Self.fSaveEnvironmentBeforeRun := SaveEnvironmentBeforeRun;
-      Self.fRestoreOpenFiles := fRestoreOpenFiles;
-      Self.fCreateBackUpFiles := CreateBackUpFiles;
-      Self.fExporerInitiallyExpanded := ExporerInitiallyExpanded;
-      Self.fSearchTextAtCaret := SearchTextAtCaret;
-      Self.fPythonFileFilter := PythonFileFilter;
-      Self.fCythonFileFilter := CythonFileFilter;
-      Self.fHTMLFileFilter := HTMLFileFilter;
-      Self.fXMLFileFilter := XMLFileFilter;
-      Self.fCSSFileFilter := CSSFileFilter;
-      Self.fCPPFileFilter := CPPFileFilter;
-      Self.fYAMLFileFilter := YAMLFileFilter;
-      Self.fJSFileFilter := JSFileFilter;
-      Self.fPHPFileFilter := PHPFileFilter;
-      Self.fFileExplorerFilter := FileExplorerFilter;
-      Self.fDateLastCheckedForUpdates := DateLastCheckedForUpdates;
-      Self.fAutoCheckForUpdates := AutoCheckForUpdates;
-      Self.fDaysBetweenChecks := DaysBetweenChecks;
-      Self.fMaskFPUExceptions := MaskFPUExceptions;
-      Self.fSpecialPackages := SpecialPackages;
-      Self.fUTF8inInterpreter := UTF8inInterpreter;
-      Self.fShowCodeHints := ShowCodeHints;
-      Self.fShowDebuggerHints := ShowDebuggerHints;
-      Self.fAutoCompleteBrackets := AutoCompleteBrackets;
-      Self.fUseCommandLine := UseCommandLine;
-      Self.fCommandLine := CommandLine;
-      Self.fMarkExecutableLines := MarkExecutableLines;
-      Self.fCheckSyntaxAsYouType := CheckSyntaxAsYouType;
-      Self.fFileExplorerContextMenu := FileExplorerContextMenu;
-      Self.fNewFileLineBreaks := NewFileLineBreaks;
-      Self.fNewFileEncoding := NewFileEncoding;
-      Self.fDetectUTF8Encoding := DetectUTF8Encoding;
-      Self.fEditorsTabPosition := EditorsTabPosition;
-      Self.fPythonEngineType := PythonEngineType;
-      Self.fPrettyPrintOutput := PrettyPrintOutput;
-      Self.fSmartNextPrevPage := SmartNextPrevPage;
-      Self.fAutoReloadChangedFiles := AutoReloadChangedFiles;
-      Self.fClearOutputBeforeRun := ClearOutputBeforeRun;
-      Self.fAutoHideFindToolbar := AutoHideFindToolbar;
-      Self.fEditorCodeCompletion := EditorCodeCompletion;
-      Self.fInterpreterCodeCompletion := InterpreterCodeCompletion;
-      Self.fCodeCompletionListSize := CodeCompletionListSize;
-      Self.fShowTabCloseButton := ShowTabCloseButton;
-      Self.fPostMortemOnException := PostMortemOnException;
-      Self.fDockAnimationInterval := DockAnimationInterval;
-      Self.fDockAnimationMoveWidth := DockAnimationMoveWidth;
-      Self.fInterpreterHistorySize := InterpreterHistorySize;
-      Self.fSaveInterpreterHistory := SaveInterpreterHistory;
-      Self.fReinitializeBeforeRun := ReinitializeBeforeRun;
-      Self.fJumpToErrorOnException := JumpToErrorOnException;
-      Self.fFileTemplateForNewScripts := FileTemplateForNewScripts;
-      Self.fAutoCompletionFont.Assign(AutoCompletionFont);
-      Self.fHighlightSelectedWord := HighlightSelectedWord;
-      Self.fHighlightSelectedWordColor := HighlightSelectedWordColor;
-      Self.fFileChangeNotification := FileChangeNotification;
-      Self.fCodeCompletionCaseSensitive := CodeCompletionCaseSensitive;
-      Self.fCompleteKeywords := CompleteKeywords;
-      Self.fCompleteAsYouType := CompleteAsYouType;
-      Self.fCompleteWithWordBreakChars := CompleteWithWordBreakChars;
-      Self.fCompleteWithOneEntry := CompleteWithOneEntry;
-      Self.fDisplayPackageNames := DisplayPackageNames;
-      Self.fCheckSyntaxLineLimit := CheckSyntaxLineLimit;
-      Self.fNoOfRecentFiles := NoOfRecentFiles;
-      Self.fCodeFoldingEnabled := CodeFoldingEnabled;
-      Self.fInternalInterpreterHidden := InternalInterpreterHidden;
-      Self.fCompactLineNumbers := CompactLineNumbers;
-    end
-  else
-    inherited;
-end;
-
-procedure TPythonIDEOptions.Changed;
-begin
-  CommandsDataModule.ParameterCompletion.Font.Assign(AutoCompletionFont);
-  CommandsDataModule.ParameterCompletion.TitleFont.Assign(AutoCompletionFont);
-  CommandsDataModule.ParameterCompletion.TitleFont.Style := [fsBold];
-  CommandsDataModule.ModifierCompletion.Font.Assign(AutoCompletionFont);
-  CommandsDataModule.ModifierCompletion.TitleFont.Assign(AutoCompletionFont);
-  CommandsDataModule.ModifierCompletion.TitleFont.Style := [fsBold];
-  if Assigned(CommandsDataModule.CodeTemplatesCompletion.GetCompletionProposal()) then
-    CommandsDataModule.CodeTemplatesCompletion.GetCompletionProposal().Font.Assign(AutoCompletionFont);
-  PyIDEMainForm.PyIDEOptionsChanged;
-end;
-
-constructor TPythonIDEOptions.Create;
-begin
-  fTimeOut := 0; // 5000;
-  fUndoAfterSave := True;
-  fSaveFilesBeforeRun := True;
-  fSaveEnvironmentBeforeRun := False;
-  fCreateBackupFiles := False;
-  fExporerInitiallyExpanded := False;
-  fPythonFileFilter := 'Python Files (*.py;*.pyw)|*.py;*.pyw';
-  fCythonFileFilter := SYNS_FilterCython;
-  fHTMLFileFilter := SYNS_FilterHTML;
-  fXMLFileFilter := SYNS_FilterXML;
-  fCSSFileFilter := SYNS_FilterCSS;
-  fCPPFileFilter := SYNS_FilterCPP;
-  fYAMLFileFilter := SYNS_FilterYAML;
-  fJSFileFilter := SYNS_FilterJScript;
-  fPHPFileFilter := SYNS_FilterPHP;
-  fFileExplorerFilter := '*.py;*.pyw';
-  fSearchTextAtCaret := True;
-  fRestoreOpenFiles := True;
-  fDateLastCheckedForUpdates := MinDateTime;
-  fAutoCheckForUpdates := True;
-  fDaysBetweenChecks := 7;
-  fMaskFPUExceptions := True;
-  fSpecialPackages := 'os, wx, scipy';
-  fUTF8inInterpreter := True;
-  fShowCodeHints := True;
-  fShowDebuggerHints := True;
-  fAutoCompleteBrackets := True;
-  fMarkExecutableLines := True;
-  fCheckSyntaxAsYouType := True;
-  fFileExplorerContextMenu := True;
-  fNewFileLineBreaks := sffDos;
-  fNewFileEncoding := sf_Ansi;
-  fDetectUTF8Encoding := True;
-  fEditorsTabPosition := ttpBottom;
-  fPythonEngineType := peRemote;
-  fPrettyPrintOutput := True;
-  fSmartNextPrevPage := True;
-  fAutoReloadChangedFiles := True;
-  fClearOutputBeforeRun := False;
-  fAutoHideFindToolbar := False;
-  fEditorCodeCompletion := True;
-  fInterpreterCodeCompletion := True;
-  fCodeCompletionListSize := 8;
-  fShowTabCloseButton := True;
-  fPostMortemOnException := False;
-  fDockAnimationInterval := 20;
-  fDockAnimationMoveWidth := 20;
-  fInterpreterHistorySize := 50;
-  fSaveInterpreterHistory := True;
-  fReinitializeBeforeRun := True;
-  fJumpToErrorOnException := True;
-  fFileTemplateForNewScripts := _(SPythonTemplateName);
-  fAutoCompletionFont := TFont.Create;
-  fAutoCompletionFont.Assign(Application.DefaultFont);
-  fHighlightSelectedWord := True;
-  fHighlightSelectedWordColor := clOlive;
-  fFileChangeNotification := fcnNoMappedDrives;
-  fCodeCompletionCaseSensitive := True;
-  fCompleteKeywords := True;
-  fCompleteAsYouType := True;
-  fCompleteWithWordBreakChars := False;
-  fCompleteWithOneEntry := False;
-  fDisplayPackageNames := True;
-  fCheckSyntaxLineLimit := 1000;
-  fNoOfRecentFiles := 8;
-  fCodeFoldingEnabled := True;
-  fInternalInterpreterHidden := True;
-  fCompactLineNumbers := True;
-  fCodeFolding := TSynCodeFolding.Create;
-end;
-
-destructor TPythonIDEOptions.Destroy;
-begin
-  FreeAndNil(fAutoCompletionFont);
-  FreeAndNil(fCodeFolding);
-  inherited;
-end;
-
-function TPythonIDEOptions.GetPythonFileExtensions: string;
-begin
-  Result := FileMaskFromFileFilter(PythonFileFilter);
-end;
-
-procedure TPythonIDEOptions.SetAutoCompletionFont(const Value: TFont);
-begin
-  fAutoCompletionFont.Assign(Value);
-end;
 
 { TEditorSearchOptions }
 
@@ -999,10 +587,6 @@ begin
     except
     end;
 
-  // DefaultOptions
-  PyIDEOptions := TPythonIDEOptions.Create;
-  PyIDEOptions.CodeFolding.GutterShapeSize := PPIScaled(PyIDEOptions.CodeFolding.GutterShapeSize);
-
   // Setup Highlighters
   SynYAMLSyn := TSynYAMLSyn.Create(Self);
   SynCythonSyn := TSynCythonSyn.Create(Self);
@@ -1038,7 +622,7 @@ begin
   SynWebEsSyn.DefaultFilter := PyIDEOptions.JSFileFilter;
   SynWebPhpPlainSyn.DefaultFilter := PyIDEOptions.PHPFileFilter;
 
-  MaskFPUExceptions(PyIDEOptions.fMaskFPUExceptions);
+  MaskFPUExceptions(PyIDEOptions.MaskFPUExceptions);
   dlgFileOpen.Filter := PyIDEOptions.PythonFileFilter;
 
   BlockOpenerRE := TRegExpr.Create;
@@ -1050,44 +634,6 @@ begin
   CommentLineRE := TRegExpr.Create;
   CommentLineRE.Expression := '^([ \t]*)##';
   CommentLineRE.ModifierM := True;
-
-  EditorOptions := TSynEditorOptionsContainer.Create(Self);
-  with EditorOptions do begin
-    Font.Size := 10;
-    if CheckWin32Version(6) then
-      Font.Name := 'Consolas'
-    else
-      Font.Name := 'Courier New';
-    Gutter.Font.Name := Font.Name;
-    Gutter.Font.Color := clGrayText;
-    Gutter.Gradient := True;
-    Gutter.LeftOffset := 25;
-    Gutter.RightOffset := 1;
-    Gutter.Width := 27;
-    Gutter.DigitCount := 2;
-    Gutter.Autosize := True;
-    Gutter.ChangeScale(Screen.PixelsPerInch, 96);
-    Gutter.Font.Size := 9;
-
-    Options := [eoAutoSizeMaxScrollWidth, eoDragDropEditing, eoEnhanceHomeKey,
-                eoEnhanceEndKey, eoGroupUndo, eoHideShowScrollbars, eoKeepCaretX,
-                eoShowScrollHint, eoSmartTabDelete, eoTabsToSpaces, eoTabIndent,
-                eoTrimTrailingSpaces, eoAutoIndent, eoScrollPastEol];
-    MaxScrollWidth := 100;
-    WantTabs := True;
-    TabWidth := 4;
-    RegisterEditorUserCommands(EditorOptions.Keystrokes);
-    // Scale BookmarkOptions
-    BookMarkOptions.ChangeScale(Screen.PixelsPerInch, 96);
- end;
-
-  InterpreterEditorOptions := TSynEditorOptionsContainer.Create(Self);
-  InterpreterEditorOptions.Assign(EditorOptions);
-  InterpreterEditorOptions.Options := InterpreterEditorOptions.Options -
-    [eoTrimTrailingSpaces, eoScrollPastEol];
-  InterpreterEditorOptions.WordWrap := True;
-  InterpreterEditorOptions.Gutter.Visible := False;
-  InterpreterEditorOptions.RightEdge := 0;
 
   with SynEditPrint.Header do begin
     Add('$TITLE$', nil, taCenter, 2);
@@ -1131,7 +677,6 @@ begin
   BlockCloserRE.Free;
   NonExecutableLineRE.Free;
   CommentLineRE.Free;
-  PyIDEOptions.Free;
   imlShellIcon.Handle := 0;
 end;
 
@@ -1253,20 +798,6 @@ begin
 
   EditorSearchOptions.SearchWholeWords := OldWholeWords;
   EditorSearchOptions.SearchText := OldSearchText;
-end;
-
-procedure TCommandsDataModule.RegisterEditorUserCommands(Keystrokes : TSynEditKeyStrokes);
-// Register User Commands and shortcuts
-begin
-  with Keystrokes do begin
-  AddKey(ecCodeCompletion, VK_SPACE, [ssCtrl]);
-  AddKey(ecParamCompletion, VK_SPACE, [ssCtrl, ssShift]);
-  AddKey(ecSelMatchBracket  , 221, [ssCtrl, ssShift]);
-  // 221 code for ]
-  // Visual studio shortcut for Match Bracket
-  Delete(FindCommand(ecMatchBracket));
-  AddKey(ecMatchBracket, 221, [ssCtrl]);
-  end;
 end;
 
 procedure TCommandsDataModule.ReleaseUntitledNumber(ANumber: integer);
@@ -2213,7 +1744,7 @@ begin
   try
     NS.FreePIDLOnDestroy := False;
     Dir := NS.NameForParsing;
-    if CommandsDataModule.PyIDEOptions.FileChangeNotification = fcnNoMappedDrives then begin
+    if PyIDEOptions.FileChangeNotification = fcnNoMappedDrives then begin
       // Do not process mapped drive
       WS := WideExtractFileDrive(Dir);
       if WideIsDrive(WS) and (GetDriveTypeW_MP(PWideChar(WS)) = DRIVE_REMOTE)then Exit;
