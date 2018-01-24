@@ -1,22 +1,20 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
-#, fuzzy
+# Lübbe Onken <l.onken@rac.de>, 2018.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2018-01-23 16:26\n"
-"PO-Revision-Date: 2018-01-23 16:26\n"
+"PO-Revision-Date: 2018-01-24 14:05+0200\n"
 "Last-Translator: Lübbe Onken <luebbe.opensource@gmail.com>, 2018\n"
 "Language-Team: German (https://www.transifex.com/luebbe/teams/82736/de/)\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: dxgettext 1.2.2\n"
+"X-Generator: Virtaal 0.7.1\n"
 
 #. AboutBox..Caption
 #: dlgAboutPyScripter.dfm:5
@@ -46,7 +44,7 @@ msgstr "Links"
 #. AboutBox..SpTBXTabControl1..SpTBXTabSheet1..Panel1..Copyright..Caption
 #: dlgAboutPyScripter.dfm:1518
 msgid "(C) Kiriakos Vlahos  2005-2018"
-msgstr ""
+msgstr "(C) Kiriakos Vlahos  2005-2018"
 
 #. AboutBox..SpTBXTabControl1..SpTBXTabSheet1..Panel1..Comments....Caption
 #: dlgAboutPyScripter.dfm:1572
@@ -587,7 +585,7 @@ msgstr "&Hervorhebung:"
 #. FileTemplatesDialog..Panel..lvItems......Caption
 #: dlgFileTemplates.dfm:237
 msgid "Category"
-msgstr ""
+msgstr "Kategorie"
 
 #. FindInFilesDialog..Caption
 #: dlgFindInFiles.dfm:5
@@ -788,17 +786,17 @@ msgstr "Verwalten der Dateivorlagen..."
 #. OptionsInspector..Panel1..Inspector..Text
 #: dlgOptionsEditor.dfm:27
 msgid "Inspector"
-msgstr ""
+msgstr "Inspektor"
 
 #. OptionsInspector..Panel1..Inspector..DefaultCategoryName
 #: dlgOptionsEditor.dfm:34
 msgid "Miscellaneous"
-msgstr ""
+msgstr "Verschiedenes"
 
 #. OptionsInspector..Panel1..Inspector..HeaderPropText
 #: dlgOptionsEditor.dfm:57
 msgid "Property"
-msgstr ""
+msgstr "Eigenschaft"
 
 #. PickListDialog..Panel2..btnSelectAll..Caption
 #. PickListDialog..PickListPopUp..mnSelectAll..Caption
@@ -1084,12 +1082,12 @@ msgstr "&Gestrichen"
 #. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel2..Caption
 #: dlgSynEditOptions.dfm:281
 msgid "Available Themes"
-msgstr ""
+msgstr "Verfügbare Designs"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..btnApplyTheme..Caption
 #: dlgSynEditOptions.dfm:327
 msgid "Apply Theme"
-msgstr "Thema anwenden"
+msgstr "Design anwenden"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Caption
 #: dlgSynEditOptions.dfm:347
@@ -1104,12 +1102,12 @@ msgstr "Befehl:"
 #. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label6..Caption
 #: dlgSynEditOptions.dfm:361
 msgid "Keystroke 2:"
-msgstr ""
+msgstr "Tastenkürzel 2:"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label7..Caption
 #: dlgSynEditOptions.dfm:368
 msgid "Keystroke 1:"
-msgstr ""
+msgstr "Tastenkürzel 2:"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..Panel2..KeyList......Caption
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox2..Caption
@@ -1120,7 +1118,7 @@ msgstr "Befehl"
 #. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..Panel2..KeyList......Caption
 #: dlgSynEditOptions.dfm:430
 msgid "Keystroke"
-msgstr ""
+msgstr "Tastenkürzel"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckAutoIndent....Hint
 #: dlgSynEditOptions.dfm:554
@@ -1239,12 +1237,12 @@ msgstr "Intelligentes Tabulatorlöschen"
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckTabIndent..Hint
 #: dlgSynEditOptions.dfm:652
 msgid "Tab indents and Shift-Tab unindents"
-msgstr ""
+msgstr "Tab rückt ein und Shift-Tab rückt aus "
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckTabIndent..Caption
 #: dlgSynEditOptions.dfm:653
 msgid "Tab Indent"
-msgstr "TAB Einrückung"
+msgstr "Tab Einrückung"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckSmartTabs....Hint
 #: dlgSynEditOptions.dfm:663
@@ -1298,6 +1296,8 @@ msgstr "Scrollen um eins reduziert"
 #: dlgSynEditOptions.dfm:755
 msgid "Shows line breaks, spaces and tabs using special symbols"
 msgstr ""
+"Stellt Zeilenumbruch, Tabulatoren und Leerzeichen mit speziellen Symbolen "
+"dar"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowSpecialChars..Caption
 #: dlgSynEditOptions.dfm:757
@@ -1346,6 +1346,8 @@ msgid ""
 "When undoing/redoing actions, handle all continuous changes of the same kind"
 " in one call instead undoing/redoing each command separately"
 msgstr ""
+"Beim Rückgängigmachen oder Wiederholen werden alle aufeinanderfolgenden "
+"Änderungen des selben Typs als ein Befehl behandelt"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckGroupUndo..Caption
 #: dlgSynEditOptions.dfm:804
@@ -2197,6 +2199,8 @@ msgid ""
 "If set to a value <> 0 then you will be prompted \n"
 "to abort the program after the specified time (ms)."
 msgstr ""
+"Bei einem Wert ungleich Null, erfolgt die Aufforderung\n"
+"zum Abbruch nach Ablauf der Zeit (ms)."
 
 #. ToolProperties..FormatsPopup..Filename1..Caption
 #: dlgToolProperties.dfm:638
@@ -2211,22 +2215,22 @@ msgstr "Platzhalter für den Dateinamen"
 #. ToolProperties..FormatsPopup..Linenumber1..Caption
 #: dlgToolProperties.dfm:644
 msgid "Line number"
-msgstr ""
+msgstr "Zeilennummer"
 
 #. ToolProperties..FormatsPopup..Linenumber1..Hint
 #: dlgToolProperties.dfm:645
 msgid "Placeholder for the line number"
-msgstr ""
+msgstr "Platzhalter für die Zeilennummer"
 
 #. ToolProperties..FormatsPopup..Columnnumber1..Caption
 #: dlgToolProperties.dfm:650
 msgid "Column number"
-msgstr ""
+msgstr "Spaltennummer"
 
 #. ToolProperties..FormatsPopup..Columnnumber1..Hint
 #: dlgToolProperties.dfm:651
 msgid "Placeholder for the column number"
-msgstr ""
+msgstr "Platzhalter für die Spaltennummer"
 
 #. UnitTestWizard..Caption
 #: dlgUnitTestWizard.dfm:3
@@ -2694,22 +2698,22 @@ msgstr "Quellcode"
 #. CommandsDataModule..actlMain..actEditIndent..Caption
 #: dmCommands.dfm:3916
 msgid "&Indent Block"
-msgstr "&Block einrücken"
+msgstr "Block &einrücken"
 
 #. CommandsDataModule..actlMain..actEditIndent..Hint
 #: dmCommands.dfm:3918
 msgid "Indent block|Indent selected block of code"
-msgstr "Block einrücken|Rückt den gewählten Codeblock ein"
+msgstr "Block einrücken|Rückt den gewählten Block ein"
 
 #. CommandsDataModule..actlMain..actEditDedent..Caption
 #: dmCommands.dfm:3925
 msgid "&Unindent Block"
-msgstr ""
+msgstr "Block &ausrücken"
 
 #. CommandsDataModule..actlMain..actEditDedent..Hint
 #: dmCommands.dfm:3927
 msgid "Unindent|Unindent selected block of code"
-msgstr ""
+msgstr "Block ausrücken|Rückt den gewählte Block aus"
 
 #. CommandsDataModule..actlMain..actEditCommentOut..Caption
 #: dmCommands.dfm:3934
@@ -2729,7 +2733,7 @@ msgstr "&Kommentierung entfernen"
 #. CommandsDataModule..actlMain..actEditUncomment..Hint
 #: dmCommands.dfm:3945
 msgid "Uncomment| Uncomment block of code"
-msgstr "Kommentierung entfernen|Entfernt eine bestehende Auskommentierung"
+msgstr "Kommentierung entfernen|Entfernt einen bestehenden Kommentar"
 
 #. CommandsDataModule..actlMain..actSearchMatchingBrace..Caption
 #: dmCommands.dfm:3952
@@ -3018,27 +3022,27 @@ msgstr "Suche nächste Referenz der Variablen"
 #. CommandsDataModule..actlMain..actEditLBDos..Hint
 #: dmCommands.dfm:4159
 msgid "DOS/Windows|Convert to DOS line break"
-msgstr ""
+msgstr "DOS/Windows|Umwandeln zu DOS Zeilenumbruch"
 
 #. CommandsDataModule..actlMain..actEditLBUnix..Hint
 #: dmCommands.dfm:4167
 msgid "UNIX|Convert to UNIX line break"
-msgstr ""
+msgstr "UNIX|Umwandeln zu UNIX Zeilenumbruch"
 
 #. CommandsDataModule..actlMain..actEditLBMac..Hint
 #: dmCommands.dfm:4175
 msgid "Mac|Convert to Mac line break"
-msgstr ""
+msgstr "Mac|Umwandeln zu Mac Zeilenumbruch"
 
 #. CommandsDataModule..actlMain..actEditAnsi..Caption
 #: dmCommands.dfm:4180
 msgid "ANSI"
-msgstr ""
+msgstr "ANSI"
 
 #. CommandsDataModule..actlMain..actEditAnsi..Hint
 #: dmCommands.dfm:4183
 msgid "Use ANSI encoding"
-msgstr ""
+msgstr "ANSI Zeichensatz verwenden"
 
 #. CommandsDataModule..actlMain..actHelpEditorShortcuts..Caption
 #: dmCommands.dfm:4188
@@ -3068,7 +3072,7 @@ msgstr "&Einheit Test Assistent..."
 #. CommandsDataModule..actlMain..actUnitTestWizard..Hint
 #: dmCommands.dfm:4204
 msgid "Unit test wizard|Create unit test for active module"
-msgstr ""
+msgstr "Unittest Assistent|Erstellt Unittests für das aktive Modul"
 
 #. CommandsDataModule..actlMain..actInterpreterEditorOptions..Caption
 #: dmCommands.dfm:4210
@@ -3108,17 +3112,17 @@ msgstr "Verwende UTF-8 Zeichensatz beim Speichern der Datei"
 #. CommandsDataModule..actlMain..actEditUTF8NoBOM..Hint
 #: dmCommands.dfm:4245
 msgid "Use UTF-8 encoding without BOM"
-msgstr ""
+msgstr "Verwende UTF-8 Zeichensatz ohne BOM"
 
 #. CommandsDataModule..actlMain..actEditUTF16LE..Hint
 #: dmCommands.dfm:4253
 msgid "Use UTF-16LE encoding"
-msgstr ""
+msgstr "Verwende UTF-16LE Zeichensatz"
 
 #. CommandsDataModule..actlMain..actEditUTF16BE..Hint
 #: dmCommands.dfm:4261
 msgid "Use UTF-16BE encoding"
-msgstr ""
+msgstr "Verwende UTF-16BE Zeichensatz"
 
 #. CommandsDataModule..actlMain..actFileReload..Caption
 #: dmCommands.dfm:4266
@@ -3209,7 +3213,7 @@ msgstr "Gehe zu &Debuggerposition"
 #. CommandsDataModule..actlMain..actSearchGoToDebugLine..Hint
 #: dmCommands.dfm:4328
 msgid "Go to the current position of the debugger"
-msgstr ""
+msgstr "Gehe zur aktuellen Debuggerposition"
 
 #. CommandsDataModule..actlMain..actHelpWebProjectHome..Caption
 #: dmCommands.dfm:4333
@@ -3328,12 +3332,12 @@ msgstr "Nächster"
 #. CommandsDataModule..actlMain..actFoldNearest..Hint
 #: dmCommands.dfm:4402
 msgid "Collapse nearest fold"
-msgstr ""
+msgstr "Den nächsten Knoten einklappen"
 
 #. CommandsDataModule..actlMain..actUnfoldNearest..Hint
 #: dmCommands.dfm:4408
 msgid "Expand nearest fold"
-msgstr ""
+msgstr "Den nächsten Knoten ausklappen"
 
 #. CommandsDataModule..actlMain..actFoldRegions..Caption
 #. CommandsDataModule..actlMain..actUnfoldRegions..Caption
@@ -3434,7 +3438,7 @@ msgstr "Funktionen ausklappen"
 #. CommandsDataModule..SynGeneralSyn..DefaultFilter
 #: dmCommands.dfm:9657
 msgid "Text Files(*.txt,*.*)|*.txt;*.*"
-msgstr ""
+msgstr "Textdateien(*.txt,*.*)|*.txt;*.*"
 
 #. BreakPointsWindow..Caption
 #: frmBreakPoints.dfm:5
@@ -3720,7 +3724,7 @@ msgstr "Beendet das warten auf das laufende Werkzeug"
 #. DisForm..Caption
 #: frmDisassemlyView.dfm:5
 msgid "Disassembly View"
-msgstr ""
+msgstr "Dissassembly Anzeige"
 
 #. DocForm..Caption
 #. WebPreviewForm..Caption
@@ -4185,7 +4189,7 @@ msgstr "Funktionsliste"
 #. FunctionListWindow..pnHolder..lvProcs......Caption
 #: frmFunctionList.dfm:79
 msgid "Function"
-msgstr ""
+msgstr "Funktion"
 
 #. FunctionListWindow..pnlHeader..pnlHeaderLeft..lblMethods..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..SearchMenu..Caption
@@ -4815,7 +4819,7 @@ msgstr "Internetsupport"
 #. PyIDEMainForm..TBXDockTop..MainToolBar..Caption
 #: frmPyIDEMain.dfm:967
 msgid "Main Toolbar"
-msgstr ""
+msgstr "Haupwerkzeugleiste"
 
 #. PyIDEMainForm..TBXDockTop..DebugToolbar..Caption
 #: frmPyIDEMain.dfm:1034
@@ -5630,6 +5634,8 @@ msgstr "Arbeitsbereich vertikal teilen"
 msgid ""
 "Split workspace vertically|Show secondary editor tabset vertically aligned"
 msgstr ""
+"Arbeitsbereich vertikal teilen|Untergeordnete Tabulatorgruppe vertikal "
+"ausrichten"
 
 #. PyIDEMainForm..actlStandard..actViewSplitWorkspaceHor..Caption
 #: frmPyIDEMain.dfm:2149
@@ -5641,6 +5647,8 @@ msgstr "Arbeitsbereich horizontal teilen"
 msgid ""
 "Split workspace horizontally|Show secondary workspace horizontally aligned"
 msgstr ""
+"Arbeitsbereich horizontal teilen|Untergeordnete Tabulatorgruppe horizontal "
+"ausrichten"
 
 #. PyIDEMainForm..actlStandard..actViewHideSecondaryWorkspace..Caption
 #: frmPyIDEMain.dfm:2160
@@ -5650,7 +5658,7 @@ msgstr "Zweiten Arbeitsbereich ausblenden"
 #. PyIDEMainForm..actlStandard..actViewHideSecondaryWorkspace..Hint
 #: frmPyIDEMain.dfm:2163
 msgid "Hide secondary workspace"
-msgstr ""
+msgstr "Zweiten Arbeitsbereich ausblenden"
 
 #. PythonIIForm..Caption
 #: frmPythonII.dfm:5 dmCommands.pas:1886
@@ -5769,7 +5777,7 @@ msgstr "Neusuchen"
 #. RegExpTesterWindow..BGPanel..FGPanel..TBXDock..RegExpTesterToolbar..TBXSubmenuItem2..RI_findall..Caption
 #: frmRegExpTester.dfm:161
 msgid "Find all"
-msgstr ""
+msgstr "Alles finden"
 
 #. RegExpTesterWindow..BGPanel..FGPanel..TBXDock..RegExpTesterToolbar..TBXSubmenuItem2..RI_findall..Hint
 #: frmRegExpTester.dfm:162
@@ -6040,6 +6048,19 @@ msgid ""
 "TCommandLineReader(www.benibela.de)\n"
 "Silk icons(www.famfamfam.com)\n"
 msgstr ""
+"Python für Delphi (www.github.com/pyscripter/python4delphi)\n"
+"Rpyc (www.github.com/tomerfiliba/rpyc)\n"
+"JVCL (www.github.com/project-jedi/jvcl)\n"
+"SynEdit (www.sourceforge.net/projects/synedit)\n"
+"VirtualTreeView (www.github.com/Virtual-TreeView/)\n"
+"VirtualShellTools (www.github.com/pyscripter/mustangpeakvirtualshelltools)\n"
+"GExperts (www.gexperts.org)\n"
+"Syn Editor (www.sourceforge.net/projects/syn)\n"
+"Syn Web highlighters (www.github.com/KrystianBigaj/synweb)\n"
+"Toolbar2000 (www.jrsoftware.org/tb2k.php)\n"
+"SpTBXLib(www.silverpointdevelopment.com)\n"
+"TCommandLineReader(www.benibela.de)\n"
+"Silk icons(www.famfamfam.com)\n"
 
 #: dlgAboutPyScripter.pas:92
 msgid ""
@@ -6061,16 +6082,16 @@ msgstr ""
 
 #: dlgAboutPyScripter.pas:187
 msgid "Translations"
-msgstr ""
+msgstr "Übersetzungen"
 
 #. Programmer's name for it: SAskReplaceText
 #: dlgConfirmReplace.pas:71
 msgid "Replace this occurrence of \"%s\"?"
-msgstr ""
+msgstr "Diese Fundstelle von \"%s\" ersetzten?"
 
 #: dlgCustomShortcuts.pas:152
 msgid "Unassigned"
-msgstr ""
+msgstr "nicht zugewiesen"
 
 #. Programmer's name for it: RsSendBugReportSubject
 #: dlgExceptionMail.pas:120
@@ -6089,7 +6110,7 @@ msgstr "Das Suche in Dateiergebnissen-Fenster ist nicht aktiv"
 
 #: dlgRunConfiguration.pas:167 dlgToolProperties.pas:269
 msgid "Select working directory:"
-msgstr ""
+msgstr "Arbeitsverzeichnis wählen:"
 
 #: dmCommands.pas:1860
 msgid "IDE"
@@ -6238,7 +6259,7 @@ msgstr "Dateiexplorerfilter"
 
 #: dmCommands.pas:1943
 msgid "Open dialog Cython filter"
-msgstr ""
+msgstr "Dialog Cython-Filter öffnen"
 
 #: dmCommands.pas:1949
 msgid "Restore open files"
@@ -6346,15 +6367,15 @@ msgstr "Interpreter Autovervollständigung"
 
 #: dmCommands.pas:2003
 msgid "Case sensitive"
-msgstr ""
+msgstr "Groß-/Kleinschreibung beachten"
 
 #: dmCommands.pas:2005
 msgid "Complete Python keywords"
-msgstr ""
+msgstr "Python Schlüsselwörter vervollständigen"
 
 #: dmCommands.pas:2007
 msgid "Complete as you type"
-msgstr ""
+msgstr "Beim Schreiben vervollständigen"
 
 #: dmCommands.pas:2009
 msgid "Auto completion font"
@@ -6399,7 +6420,7 @@ msgstr "Modul in %g Sekunden bearbeitet"
 #. Programmer's name for it: SInvalidIndex
 #: frmFunctionList.pas:390
 msgid "Invalid index number"
-msgstr ""
+msgstr "Ungültige Indexzahl"
 
 #: frmModSpTBXCustomize.pas:189
 msgid ""
@@ -6415,7 +6436,7 @@ msgstr "Fehlerbehandlung"
 
 #: frmRegExpTester.pas:242 frmRegExpTester.pas:352
 msgid "Match %d of %d"
-msgstr ""
+msgstr "Treffer %d von %d"
 
 #. Programmer's name for it: SDone
 #. Programmer's name for it: SDoneTodoDesignation
@@ -6643,7 +6664,7 @@ msgstr ""
 #. Programmer's name for it: SErrorCreatingRemoteEngine
 #: StringResources.pas:59
 msgid "Error in creating the remote interpreter: "
-msgstr ""
+msgstr "Fehler beim Erstellen des externen Interpreters"
 
 #. Programmer's name for it: SCouldNotConnectRemoteEngine
 #: StringResources.pas:61
@@ -7328,7 +7349,7 @@ msgstr "Parameterwert eingeben"
 #. Programmer's name for it: SParamCircularReference
 #: StringResources.pas:213
 msgid "Parameter \"%s\" is referenced circularly"
-msgstr ""
+msgstr "Der Parameter \"%s\" ist zyklisch referenziert"
 
 #. Programmer's name for it: SParameterNotFound
 #: StringResources.pas:214
@@ -7436,7 +7457,7 @@ msgstr ""
 #. Programmer's name for it: SPythonKeyword
 #: StringResources.pas:236
 msgid "Python keyword"
-msgstr ""
+msgstr "Python Schlüsselwort"
 
 #. File Templates
 #. Programmer's name for it: SFileTemplateCategoryInternet
@@ -7452,7 +7473,7 @@ msgstr "Andere"
 #. Programmer's name for it: SCythonTemplateName
 #: StringResources.pas:242
 msgid "Cython Script"
-msgstr ""
+msgstr "Cython Skript"
 
 #. Programmer's name for it: SCSSFileTemplateName
 #: StringResources.pas:243
@@ -7487,7 +7508,7 @@ msgstr "PHP Code"
 #. Programmer's name for it: SYNS_FriendlyMatchingBrace
 #: SynHighlighterPython.pas:252
 msgid "Matching Brace"
-msgstr ""
+msgstr "Zugehörige Klammer"
 
 #. Programmer's name for it: SYNS_FriendlyUnbalancedBrace
 #: SynHighlighterPython.pas:253
@@ -7497,7 +7518,7 @@ msgstr ""
 #. Programmer's name for it: SYNS_FriendlyMultiLineString
 #: SynHighlighterPython.pas:254
 msgid "Multi-Line String"
-msgstr ""
+msgstr "Mehrzeiliger String"
 
 #. Programmer's name for it: SYNS_FilterYAML
 #: SynHighlighterYAML.pas:160

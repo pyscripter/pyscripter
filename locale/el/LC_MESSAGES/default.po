@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2018-01-23 16:26\n"
 "PO-Revision-Date: 2018-01-23 16:26\n"
-"Last-Translator: Lübbe Onken <luebbe.opensource@gmail.com>, 2018\n"
+"Last-Translator: Kiriakos Vlahos <pyscripter@gmail.com>, 2018\n"
 "Language-Team: Greek (https://www.transifex.com/luebbe/teams/82736/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -46,7 +46,7 @@ msgstr "Σχετικοί δικτυακοί τόποι"
 #. AboutBox..SpTBXTabControl1..SpTBXTabSheet1..Panel1..Copyright..Caption
 #: dlgAboutPyScripter.dfm:1518
 msgid "(C) Kiriakos Vlahos  2005-2018"
-msgstr ""
+msgstr "(C) Κυριάκος Βλάχος  2005-2018"
 
 #. AboutBox..SpTBXTabControl1..SpTBXTabSheet1..Panel1..Comments....Caption
 #: dlgAboutPyScripter.dfm:1572
@@ -482,7 +482,7 @@ msgstr ""
 #. frmCustomKeyboard..ActionList1..actRemoveShortcut..Hint
 #: dlgCustomShortcuts.dfm:202
 msgid "Remove shortcut"
-msgstr ""
+msgstr "Αφαίρεση Πλήκτρου Συντ."
 
 #. DirectoryListDialog..Caption
 #: dlgDirectoryList.dfm:6
@@ -587,7 +587,7 @@ msgstr "Τονιστής &Σύνταξης:"
 #. FileTemplatesDialog..Panel..lvItems......Caption
 #: dlgFileTemplates.dfm:237
 msgid "Category"
-msgstr ""
+msgstr "Κατηγορία"
 
 #. FindInFilesDialog..Caption
 #: dlgFindInFiles.dfm:5
@@ -798,7 +798,7 @@ msgstr ""
 #. OptionsInspector..Panel1..Inspector..HeaderPropText
 #: dlgOptionsEditor.dfm:57
 msgid "Property"
-msgstr ""
+msgstr "Ιδιότητα"
 
 #. PickListDialog..Panel2..btnSelectAll..Caption
 #. PickListDialog..PickListPopUp..mnSelectAll..Caption
@@ -979,7 +979,7 @@ msgstr ""
 #. StyleSelectorForm..Label2..Caption
 #: dlgStyleSelector.dfm:1875
 msgid "Preview"
-msgstr ""
+msgstr "Προεπισκόπηση"
 
 #. StyleSelectorForm..Button1..Caption
 #: dlgStyleSelector.dfm:1889
@@ -3031,7 +3031,7 @@ msgstr ""
 #. CommandsDataModule..actlMain..actEditAnsi..Caption
 #: dmCommands.dfm:4180
 msgid "ANSI"
-msgstr ""
+msgstr "ANSI"
 
 #. CommandsDataModule..actlMain..actEditAnsi..Hint
 #: dmCommands.dfm:4183
@@ -3625,13 +3625,13 @@ msgstr ""
 #. CodeExplorerWindow..CENodePopUpMenu..mnFindDefinition..Hint
 #: frmCodeExplorer.dfm:152 frmCodeExplorer.dfm:153
 msgid "Find Definition"
-msgstr ""
+msgstr "Εύρεση Ορισμού"
 
 #. CodeExplorerWindow..CENodePopUpMenu..mnFindReferences..Caption
 #. CodeExplorerWindow..CENodePopUpMenu..mnFindReferences..Hint
 #: frmCodeExplorer.dfm:158 frmCodeExplorer.dfm:159
 msgid "Find References"
-msgstr ""
+msgstr "Εύρεση Αναφορών"
 
 #. CodeExplorerWindow..CENodePopUpMenu..mnHighlight..Caption
 #: frmCodeExplorer.dfm:166
@@ -6042,6 +6042,19 @@ msgid ""
 "TCommandLineReader(www.benibela.de)\n"
 "Silk icons(www.famfamfam.com)\n"
 msgstr ""
+"Python for Delphi (www.github.com/pyscripter/python4delphi)\n"
+"Rpyc (www.github.com/tomerfiliba/rpyc)\n"
+"JVCL (www.github.com/project-jedi/jvcl)\n"
+"SynEdit (www.sourceforge.net/projects/synedit)\n"
+"VirtualTreeView (www.github.com/Virtual-TreeView/)\n"
+"VirtualShellTools (www.github.com/pyscripter/mustangpeakvirtualshelltools)\n"
+"GExperts (www.gexperts.org)\n"
+"Syn Editor (www.sourceforge.net/projects/syn)\n"
+"Syn Web highlighters (www.github.com/KrystianBigaj/synweb)\n"
+"Toolbar2000 (www.jrsoftware.org/tb2k.php)\n"
+"SpTBXLib(www.silverpointdevelopment.com)\n"
+"TCommandLineReader(www.benibela.de)\n"
+"Silk icons(www.famfamfam.com)\n"
 
 #: dlgAboutPyScripter.pas:92
 msgid ""
@@ -6063,7 +6076,7 @@ msgstr ""
 
 #: dlgAboutPyScripter.pas:187
 msgid "Translations"
-msgstr ""
+msgstr "Μεταφράσεις"
 
 #. Programmer's name for it: SAskReplaceText
 #: dlgConfirmReplace.pas:71
