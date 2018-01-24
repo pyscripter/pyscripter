@@ -1,0 +1,17 @@
+[main]
+host = https://www.transifex.com
+
+[pyscripter.user-interface]
+file_filter = <lang>/LC_MESSAGES/default.po
+minimum_perc = 0
+source_file = default.pot
+source_lang = en
+type = PO
+
+[pyscripter.language-list]
+file_filter = <lang>/LC_MESSAGES/languages.po
+minimum_perc = 0
+source_file = languages.pot
+source_lang = en
+type = PO
+
