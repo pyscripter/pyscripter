@@ -3,8 +3,8 @@
 
 [Setup]
 AppName=PyScripter
-AppVersion=3.2.0
-AppVerName=PyScripter 3.2.0
+AppVersion=3.2.1
+AppVerName=PyScripter 3.2.1
 AppPublisher=PyScripter
 AppPublisherURL=https://sourceforge.net/projects/pyscripter/
 AppSupportURL=https://github.com/pyscripter/pyscripter
@@ -14,7 +14,7 @@ DefaultGroupName=PyScripter
 InfoBeforeFile=BeforeInstallPyScripter.txt
 InfoAfterFile=AfterInstallPyScripter.txt
 OutputDir=Output
-OutputBaseFilename=PyScripter-v3.2.0-Setup
+OutputBaseFilename=PyScripter-v3.2.1-Setup
 Compression=lzma/Max
 SolidCompression=true
 ChangesAssociations=true
@@ -36,10 +36,10 @@ Source: ..\..\PythonIDE\PyScripter.chm; DestDir: {app}; Flags: ignoreversion
 Source: ..\..\PythonIDE\Source\PyProject.ico; DestDir: {app}
 Source: ..\Lib\rpyc.zip; DestDir: {app}\Lib
 ; localization
-Source: ..\..\PythonIDE\locale\default.po; DestDir: {app}\locale
+Source: ..\..\PythonIDE\locale\default.pot; DestDir: {app}\locale
 Source: ..\..\PythonIDE\locale\languagecodes.mo; DestDir: {app}\locale
 Source: ..\..\PythonIDE\locale\languagecodes.po; DestDir: {app}\locale
-Source: ..\..\PythonIDE\locale\languages.po; DestDir: {app}\locale
+Source: ..\..\PythonIDE\locale\languages.pot; DestDir: {app}\locale
 Source: ..\..\PythonIDE\locale\de\LC_MESSAGES\default.mo; DestDir: {app}\locale\de\LC_MESSAGES\
 Source: ..\..\PythonIDE\locale\de\LC_MESSAGES\default.po; DestDir: {app}\locale\de\LC_MESSAGES\
 Source: ..\..\PythonIDE\locale\de\LC_MESSAGES\languages.mo; DestDir: {app}\locale\de\LC_MESSAGES\

@@ -178,7 +178,7 @@ type
     property NewFileLineBreaks : TSynEditFileFormat read fNewFileLineBreaks
       write fNewFileLineBreaks default sffDos;
     property NewFileEncoding : TFileSaveFormat read fNewFileEncoding
-      write fNewFileEncoding default sf_Ansi;
+      write fNewFileEncoding default sf_UTF8_NoBOM;
     property DetectUTF8Encoding : Boolean read fDetectUTF8Encoding
       write fDetectUTF8Encoding default True;
     property EditorsTabPosition : TSpTBXTabPosition read fEditorsTabPosition
@@ -422,7 +422,7 @@ begin
   fCheckSyntaxAsYouType := True;
   fFileExplorerContextMenu := True;
   fNewFileLineBreaks := sffDos;
-  fNewFileEncoding := sf_Ansi;
+  fNewFileEncoding := sf_UTF8_NoBOM;
   fDetectUTF8Encoding := True;
   fEditorsTabPosition := ttpBottom;
   fPythonEngineType := peRemote;

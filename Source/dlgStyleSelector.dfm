@@ -1916,7 +1916,7 @@ object StyleSelectorForm: TStyleSelectorForm
     Top = 344
     StyleName = 'Platform Default'
     object ActionApplyStyle: TAction
-      Caption = 'ActionApplyStyle'
+      Caption = 'Apply Style'
       OnExecute = ActionApplyStyleExecute
       OnUpdate = ActionApplyStyleUpdate
     end

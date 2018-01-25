@@ -1102,11 +1102,6 @@ msgstr ""
 msgid "Platform Default"
 msgstr ""
 
-#. StyleSelectorForm..ActionManager1..ActionApplyStyle..Caption
-#: dlgStyleSelector.dfm:1919
-msgid "ActionApplyStyle"
-msgstr ""
-
 #. fmEditorOptionsDialog..Caption
 #: dlgSynEditOptions.dfm:6
 msgid "Editor Options"
@@ -2432,80 +2427,6 @@ msgstr ""
 #. CommandsDataModule..CodeTemplatesCompletion....AutoCompleteList.Strings
 #: dmCommands.dfm:579
 msgid "|File encoding comment"
-msgstr ""
-
-#. CommandsDataModule..CodeTemplatesCompletion....AutoCompleteList.Strings
-#: dmCommands.dfm:584
-msgid "=#!/usr/bin/env python$[($[PythonVersion]>='3.0')'3':'']"
-msgstr ""
-
-#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
-#: dmCommands.dfm:1947
-#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
-#: dmCommands.dfm:2634
-msgid "            #yield processing every 1000 "
-"calls"
-msgstr ""
-
-#. CommandsDataModule..JvMultiStringHolder..........Strings.Strings
-#: dmCommands.dfm:1950
-#. CommandsDataModule..JvMultiStringHolder..........Strings.Strings
-#: dmCommands.dfm:2637
-msgid "            if (self.tracecount > 1000) and not "
-"__import__('sys').stdout.writing and not "
-"__import__('sys').stderr.writing:"
-msgstr ""
-
-#. CommandsDataModule..JvMultiStringHolder..........Strings.Strings
-#: dmCommands.dfm:1954
-#. CommandsDataModule..JvMultiStringHolder..........Strings.Strings
-#: dmCommands.dfm:2641
-msgid "                self.conn = object.__getattribute__(self.debugIDE, "
-"\"____conn__\")()"
-msgstr ""
-
-#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
-#: dmCommands.dfm:1955
-#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
-#: dmCommands.dfm:2642
-msgid "                while len(self.conn._async_callbacks) > 0 "
-":"
-msgstr ""
-
-#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
-#: dmCommands.dfm:1956
-#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
-#: dmCommands.dfm:2643
-msgid "                    self.conn.poll_all(0.01)"
-msgstr ""
-
-#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
-#: dmCommands.dfm:2511
-#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
-#: dmCommands.dfm:2529
-#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
-#: dmCommands.dfm:3176
-#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
-#: dmCommands.dfm:3194
-msgid "            self.writing = False"
-msgstr ""
-
-#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
-#: dmCommands.dfm:2523
-#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
-#: dmCommands.dfm:3188
-msgid "            self.writing = True"
-msgstr ""
-
-#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
-#: dmCommands.dfm:2622
-msgid "            return super().stop_here(frame)"
-msgstr ""
-
-#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
-#: dmCommands.dfm:2649
-msgid "            res = super().dispatch_call(frame, "
-"arg)"
 msgstr ""
 
 #. CommandsDataModule..actlMain..actFileSave..Category

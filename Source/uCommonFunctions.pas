@@ -247,10 +247,12 @@ function PPIUnScaled(I : Integer): Integer;
   DottedIdentRE = '[A-Za-z_][A-Za-z0-9_.]*';
 
 Type
-  {  TStringlist that preserves the LineBreak of a read File }
+  {  TStringlist that preserves the LineBreak and BOM of a read File }
   TLineBreakStringList = class(TStringList)
   protected
     procedure SetTextStr(const Value: string); override;
+  public
+    procedure LoadFromStream(Stream: TStream); override;
   end;
 
 implementation
@@ -260,7 +262,8 @@ Uses
   StringResources, frmPythonII, JvGnugettext, MPCommonUtilities,
   MPCommonObjects, MPShellUtilities, IOUtils, Vcl.Themes, System.AnsiStrings,
   System.UITypes, Winapi.CommCtrl, JclStrings, SynEditMiscClasses,
-  cPyScripterSettings;
+  cPyScripterSettings,
+  SynEditTextBuffer;
 
 function GetIconIndexFromFile(const AFileName: string;
   const ASmall: boolean): integer;
@@ -1416,7 +1419,36 @@ begin
         // This routine detects UTF8 text even if there is no BOM
         FileEncoding := GetEncoding(FileStream, HasBOM);
         case FileEncoding of
-          seAnsi : Encoding := sf_Ansi;
+          seAnsi :
+            // if it is a Pytyhon file detect an encoding spec
+            if IsPythonFile then
+            begin
+              PyEncoding := '';
+              S := ReadLnFromStream(FileStream);
+              PyEncoding := AnsiString(ParsePySourceEncoding(string(S)));
+              if PyEncoding = '' then begin
+                S := ReadLnFromStream(FileStream);
+                PyEncoding := AnsiString(ParsePySourceEncoding(string(S)));
+              end;
+              FileStream.Seek(0, soFromBeginning);
+              if PyEncoding <> '' then
+              begin
+                if (LowerCase(PyEncoding) = 'utf-8') or (LowerCase(PyEncoding) = 'utf8')
+                then
+                  Encoding := sf_UTF8_NoBOM
+                else
+                  Encoding := sf_Ansi;
+              end
+              else
+              begin
+                if GetPythonEngine.IsPython3000 then
+                  Encoding := sf_UTF8_NoBOM
+                else
+                  Encoding := sf_Ansi;
+              end;
+            end else
+              Encoding := sf_Ansi;
+
           seUTF8 :
             begin
               if not HasBOM then begin
@@ -1443,38 +1475,26 @@ begin
         case Encoding of
           sf_Ansi :
             // if it is a Pytyhon file detect an encoding spec
-            if IsPythonFile then begin
-              PyEncoding := '';
-              S := ReadLnFromStream(FileStream);
-              PyEncoding := AnsiString(ParsePySourceEncoding(string(S)));
-              if PyEncoding = '' then begin
-                S := ReadLnFromStream(FileStream);
-                PyEncoding := AnsiString(ParsePySourceEncoding(string(S)));
-              end;
-              FileStream.Seek(0, soFromBeginning);
-              if PyEncoding <> '' then begin
-                if PyEncoding = 'utf-8' then
-                  Encoding := sf_UTF8_NoBOM;
-                PyWstr := nil;
-                try
-                  with GetPythonEngine do begin
-                    try
-                        PyWstr := GetPythonEngine.PyUnicode_Decode(PAnsiChar(FileText),
-                          Length(FileText),
-                          PAnsiChar(PyEncoding), 'replace');
-                        CheckError;
-                        Lines.Text := PyUnicode_AsWideString(PyWstr);
-                    finally
-                      Py_XDECREF(PyWstr);
-                    end;
+            if IsPythonFile and (PyEncoding <> '') then
+            begin
+              PyWstr := nil;
+              try
+                with GetPythonEngine do begin
+                  try
+                      PyWstr := GetPythonEngine.PyUnicode_Decode(PAnsiChar(FileText),
+                        Length(FileText),
+                        PAnsiChar(PyEncoding), 'replace');
+                      CheckError;
+                      Lines.Text := PyUnicode_AsWideString(PyWstr);
+                  finally
+                    Py_XDECREF(PyWstr);
                   end;
-                except
-                  Dialogs.MessageDlg(Format(_(SDecodingError),
-                     [AFileName, PyEncoding]), mtWarning, [mbOK], 0);
-                  Lines.Text := string(FileText);
                 end;
-              end else
-                Lines.LoadFromStream(FileStream);
+              except
+                Dialogs.MessageDlg(Format(_(SDecodingError),
+                   [AFileName, PyEncoding]), mtWarning, [mbOK], 0);
+                Lines.Text := string(FileText);
+              end;
             end else
               Lines.LoadFromStream(FileStream);
           sf_UTF8, sf_UTF8_NoBOM :
@@ -1497,6 +1517,9 @@ begin
     Result := False;
 end;
 
+type
+  TSynEditStringListAccess = class(TSynEditStringList);
+
 (* Save WideStrings to file taking into account Python file encodings *)
 function SaveWideStringsToFile(const AFileName: string;
   Lines : TStrings; Encoding : TFileSaveFormat;
@@ -1504,6 +1527,8 @@ function SaveWideStringsToFile(const AFileName: string;
 Var
   FileStream : TFileStream;
   S : AnsiString;
+  IsPythonFile : boolean;
+  SaveFStreaming: Boolean;
 begin
   try
     // Create Backup
@@ -1520,8 +1545,20 @@ begin
 
     Result := True;
 
-    if Encoding = sf_Ansi then
+    IsPythonFile :=  CommandsDataModule.FileIsPythonSource(AFileName);
+
+    if Encoding = sf_Ansi then begin
+      if Lines is TSynEditStringList then
+      begin
+        SaveFStreaming := TSynEditStringListAccess(Lines).FStreaming;
+        TSynEditStringListAccess(Lines).FStreaming := True;
+      end;
+
       Result := WideStringsToEncodedText(AFileName, Lines, S, True);
+
+      if Lines is TSynEditStringList then
+        TSynEditStringListAccess(Lines).FStreaming := SaveFStreaming;
+    end;
 
     if Result then begin
       FileStream := TFileStream.Create(AFileName, fmCreate);
@@ -1822,6 +1859,18 @@ begin
 end;
 
 { TLineBreakeStingList }
+
+procedure TLineBreakStringList.LoadFromStream(Stream: TStream);
+Var
+  HasBOM : Boolean;
+begin
+  if IsUTF8(Stream, HasBOM) then begin
+    WriteBOM := HasBOM;
+    LoadFromStream(Stream, Encoding.UTF8);
+  end
+  else
+    inherited;
+end;
 
 procedure TLineBreakStringList.SetTextStr(const Value: string);
 var

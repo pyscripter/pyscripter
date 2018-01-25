@@ -45,7 +45,7 @@ inherited AboutBox: TAboutBox
       Left = 0
       Top = 0
       Width = 382
-      Height = 236
+      Height = 235
       Caption = 'Links'
       ImageIndex = -1
       TabItem = 'tbLinks'
@@ -53,7 +53,7 @@ inherited AboutBox: TAboutBox
         Left = 2
         Top = 4
         Width = 376
-        Height = 232
+        Height = 231
         Align = alClient
         Font.Charset = ANSI_CHARSET
         Font.Color = clWindowText
@@ -69,7 +69,7 @@ inherited AboutBox: TAboutBox
       Left = 0
       Top = 0
       Width = 382
-      Height = 236
+      Height = 235
       Caption = 'Credits'
       ImageIndex = -1
       TabItem = 'tbCredits'
@@ -77,7 +77,7 @@ inherited AboutBox: TAboutBox
         Left = 2
         Top = 4
         Width = 376
-        Height = 232
+        Height = 231
         Align = alClient
         ButtonSize = 14
         Color = clBtnFace
@@ -121,7 +121,7 @@ inherited AboutBox: TAboutBox
       Left = 0
       Top = 0
       Width = 382
-      Height = 236
+      Height = 235
       Caption = 'About'
       ImageIndex = -1
       TabItem = 'tbAbout'
