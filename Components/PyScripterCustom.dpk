@@ -1,10 +1,8 @@
-// JCL_DEBUG_EXPERT_GENERATEJDBG OFF
-// JCL_DEBUG_EXPERT_INSERTJDBG OFF
-// JCL_DEBUG_EXPERT_DELETEMAPFILE OFF
+// JCL_DEBUG_EXPERT_GENERATEJDBG ON
+// JCL_DEBUG_EXPERT_INSERTJDBG ON
+// JCL_DEBUG_EXPERT_DELETEMAPFILE ON
 package PyScripterCustom;
 
-{{$R *.res}
-{$R '*'}
 {$R 'JvDockVSNetStyleSpTBX.dcr'}
 {$IFDEF IMPLICITBUILDING This IFDEF should not be used by users}
 {$ALIGN 8}
@@ -48,6 +46,9 @@ requires
   Jcl;
 
 contains
-  JvDockVSNetStyleSpTBX in 'JvDockVSNetStyleSpTBX.pas';
+  JvDockVSNetStyleSpTBX in 'JvDockVSNetStyleSpTBX.pas',
+  AMHLEDVecStd in 'AMHLEDVecStd.pas';
+end.
+
 
 

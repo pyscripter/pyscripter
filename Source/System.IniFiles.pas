@@ -470,8 +470,8 @@ begin
 end;
 
 constructor TStringHash.Create(Size: Cardinal);
-var
-  i:integer;
+//var
+//  i:integer;
 begin
   inherited Create;
   SetLength(Buckets, Size);
