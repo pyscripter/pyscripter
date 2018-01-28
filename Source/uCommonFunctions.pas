@@ -245,6 +245,8 @@ function PPIUnScaled(I : Integer): Integer;
 (* Returns string with Desktop size *)
 function DesktopSizeString: string;
 
+(* Downlads a file from the Interent *)
+function DownloadUrlToFile(const URL, Filename: string): Boolean;
 
 Const
   IdentRE = '[A-Za-z_][A-Za-z0-9_]*';
@@ -267,7 +269,7 @@ Uses
   StringResources, frmPythonII, JvGnugettext, MPCommonUtilities,
   MPCommonObjects, MPShellUtilities, IOUtils, Vcl.Themes, System.AnsiStrings,
   System.UITypes, Winapi.CommCtrl, JclStrings, SynEditMiscClasses,
-  cPyScripterSettings,
+  cPyScripterSettings,   Winapi.UrlMon,
   SynEditTextBuffer;
 
 function GetIconIndexFromFile(const AFileName: string;
@@ -1532,7 +1534,6 @@ function SaveWideStringsToFile(const AFileName: string;
 Var
   FileStream : TFileStream;
   S : AnsiString;
-  IsPythonFile : boolean;
   SaveFStreaming: Boolean;
 begin
   try
@@ -1549,8 +1550,6 @@ begin
     end;
 
     Result := True;
-
-    IsPythonFile :=  CommandsDataModule.FileIsPythonSource(AFileName);
 
     if Encoding = sf_Ansi then begin
       if Lines is TSynEditStringList then
@@ -2060,6 +2059,12 @@ end;
 function DesktopSizeString: string;
 begin
   Result := Format('(%dx%d)', [Screen.DesktopWidth, Screen.DesktopHeight]);
+end;
+
+
+function DownloadUrlToFile(const URL, Filename: string): Boolean;
+begin
+  Result := Succeeded(URLDownloadToFile(nil, PWideChar(URL), PWideChar(Filename), 0, nil));
 end;
 
 end.

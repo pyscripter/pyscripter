@@ -1481,11 +1481,20 @@ var
   GroupParameter: TJvGroupBoxParameter;
   Parameter: TJvBaseParameter;
   I: TJvProgramReleaseType;
+  PPI : Integer;
+
+  function PPIScale(Value: Integer): Integer;
+  begin
+    Result := MulDiv(Value, PPI, 96);
+  end;
+
 begin
+  PPI := Screen.PixelsPerInch;
+
   Result := rvoIgnore;
   ParameterList := TJvParameterList.Create(Self);
   try
-    ParameterList.MaxWidth := 460;
+    ParameterList.MaxWidth := PPIScale(460);
     ParameterList.Messages.Caption :=
       Format(RsPVCDialogCaption, [CurrentApplicationName]);
     ParameterList.Messages.OkButton := RsPVCDialogExecuteButton;
@@ -1494,15 +1503,15 @@ begin
     Parameter.SearchName := SParamNameNewVersionLabel;
     Parameter.Caption := Format(RsPVCNewVersionAvailable,
       [GetAllowedRemoteProgramVersionReleaseType, CurrentApplicationName]);
-    Parameter.Width := 350;
-    Parameter.Height := 45;
+    Parameter.Width := PPIScale(350);
+    Parameter.Height := PPIScale(45);
     ParameterList.AddParameter(Parameter);
 
     GroupParameter := TJvGroupBoxParameter.Create(ParameterList);
     GroupParameter.SearchName := SParamNameGroupBox;
     GroupParameter.Caption := RsPVCChooseWhichVersion;
-    GroupParameter.Width := 350;
-    GroupParameter.Height := 10;
+    GroupParameter.Width := PPIScale(350);
+    GroupParameter.Height := PPIScale(10);
     ParameterList.AddParameter(GroupParameter);
 
     for I := High(I) downto Low(I) do
@@ -1515,20 +1524,20 @@ begin
           Parameter.ParentParameterName := SParamNameGroupBox;
           Parameter.SearchName := SParamNameRadioButton + IntToStr(Ord(I));
           Parameter.Caption := RemoteProgramVersionHistory.CurrentProgramVersion[I].ProgramVersionInfo;
-          Parameter.Width := 250;
-          Parameter.AsBoolean := GroupParameter.Height <= 10;
+          Parameter.Width := PPIScale(250);
+          Parameter.AsBoolean := GroupParameter.Height <= PPIScale(10);
           ParameterList.AddParameter(Parameter);
 
           Parameter := TJvBaseParameter(TJvButtonParameter.Create(ParameterList));
           Parameter.ParentParameterName := SParamNameGroupBox;
           Parameter.SearchName := SParamNameVersionButtonInfo + IntToStr(Ord(I));
           Parameter.Caption := RsPVInfoButtonCaption;
-          Parameter.Width := 80;
+          Parameter.Width := PPIScale(80);
           Parameter.Tag := Ord(I);
           TJvButtonParameter(Parameter).OnClick := VersionInfoButtonClick;
           ParameterList.AddParameter(Parameter);
 
-          GroupParameter.Height := GroupParameter.Height + 25;
+          GroupParameter.Height := GroupParameter.Height + PPIScale(25);
         end;
     Parameter := TJvBaseParameter(TJvRadioGroupParameter.Create(ParameterList));
     Parameter.SearchName := SParamNameOperation;
@@ -1537,8 +1546,8 @@ begin
     TJvRadioGroupParameter(Parameter).ItemList.Add(RsPVCOperationDownloadOnly);
     TJvRadioGroupParameter(Parameter).ItemList.Add(RsPVCOperationDownloadInstall);
     TJvRadioGroupParameter(Parameter).ItemIndex := 2;
-    Parameter.Width := 350;
-    Parameter.Height := 79;
+    Parameter.Width := PPIScale(350);
+    Parameter.Height := PPIScale(79);
     ParameterList.AddParameter(Parameter);
 
     if ParameterList.ShowParameterDialog then
@@ -1678,6 +1687,12 @@ procedure TJvProgramVersionCheck.ShowProgramVersionsDescription(const AFromVersi
 var
   ParameterList: TJvParameterList;
   Parameter: TJvMemoParameter;
+
+  function PPIScale(Value: Integer): Integer;
+  begin
+    Result := MulDiv(Value, Screen.PixelsPerInch, 96);
+  end;
+
 begin
   ParameterList := TJvParameterList.Create(Self);
   try
@@ -1686,8 +1701,8 @@ begin
     Parameter := TJvMemoParameter.Create(ParameterList);
     Parameter.SearchName := SParamNameMemo;
     Parameter.Caption := Format(RsPVCChangesBetween, [AFromVersion, AToVersion]);
-    Parameter.Width := 340;
-    Parameter.Height := 200;
+    Parameter.Width := PPIScale(340);
+    Parameter.Height := PPIScale(200);
     Parameter.AsString := RemoteProgramVersionHistory.GetVersionsDescription(AFromVersion, AToVersion);
     Parameter.Scrollbars := ssBoth;
     Parameter.ReadOnly := True;

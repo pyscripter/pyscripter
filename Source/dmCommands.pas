@@ -2904,53 +2904,11 @@ begin
     Inc(EditorSearchOptions.fNoReplaceCount);
 end;
 
-resourcestring
-  S_ERROR_NO_ERROR_STRING = 'Unspecified WinInet error';
-
 function TCommandsDataModule.ProgramVersionHTTPLocationLoadFileFromRemote(
   AProgramVersionLocation: TJvProgramVersionHTTPLocation; const ARemotePath,
   ARemoteFileName, ALocalPath, ALocalFileName: string): string;
-
-  function FileExistsNoDir(AFileName: string): Boolean;
-  begin
-    Result := FileExists(AFileName) and not DirectoryExists(AFileName);
-  end;
-
-  function GetLastErrorString: string;
-  {
-    Returns last error string, strangely enough.
-  }
-  var
-    nLastError,
-    nBufLength:   DWORD;
-    pLastError:   PChar;
-  begin
-    nBufLength := INTERNET_MAX_PATH_LENGTH;
-    pLastError := StrAlloc(INTERNET_MAX_PATH_LENGTH);
-    try
-      If not(InternetGetLastResponseInfo(nLastError, pLastError, nBufLength))
-      or (StrLen(pLastError) = 0) then
-        result := S_ERROR_NO_ERROR_STRING
-      else
-        result := StrPas(pLastError);
-    finally
-      StrDispose(pLastError);
-    end;
-  end;
-
-  procedure CheckWinInetError(Error: Boolean);
-  begin
-    if Error then
-      raise Exception.Create(GetLastErrorString);
-  end;
-
 var
-  ResultStream: TFileStream;
   LocalFileName, URL : string;
-  hNet, hUrl: HINTERNET;
-  dwBytesAvail,
-  dwBytesRead:  DWORD;
-  Buffer: string;
 begin
   Result := '';
   if (DirectoryExists(ALocalPath) or (ALocalPath = '')) then
@@ -2966,59 +2924,14 @@ begin
   else
     URL := ARemotePath + ARemoteFileName;
 
-  try
-    ResultStream := TFileStream.Create(LocalFileName, fmCreate);
-    try
-      // initialize WinInet
-      hNet := InternetOpen(
-        'PyScripter',
-        INTERNET_OPEN_TYPE_PRECONFIG,
-        nil, nil, 0);
-      CheckWinInetError(hNet = nil);
-
-      try
-        // open the file
-        hUrl := InternetOpenUrl(hNet,
-          PChar(URL), nil, 0,
-          INTERNET_FLAG_PRAGMA_NOCACHE, 0);
-        CheckWinInetError(hUrl = nil);
-
-        try
-          repeat
-            CheckWinInetError(not InternetQueryDataAvailable(
-              hUrl, dwBytesAvail, 0, 0));
-            if dwBytesAvail <> 0 then begin
-              SetLength(Buffer, dwBytesAvail);
-              CheckWinInetError(not InternetReadFile(hUrl,
-                PChar(Buffer),
-                dwBytesAvail, dwBytesRead));
-              CheckWinInetError(dwBytesAvail <> dwBytesRead);
-              ResultStream.write(Buffer[1], dwBytesRead);
-            end;
-          until (dwBytesAvail = 0) or ((ProgramVersionCheck.Thread.Count > 0) and
-            ProgramVersionCheck.Thread.Terminated);
-        finally
-          InternetCloseHandle(hUrl);
-        end;
-
-      finally
-        InternetCloseHandle(hNet);
-      end;
-    finally
-      ResultStream.Free;
-    end;
-  except
-    on E: Exception do
-      ProgramVersionHTTPLocation.DownloadError := E.Message;
+  if DownloadUrlToFile(URL, LocalFileName) and  FileExists(LocalFileName) then
+    Result := LocalFileName
+  else
+  begin
+    if FileExists(LocalFileName) then
+      FileDelete(LocalFileName);
+    ProgramVersionHTTPLocation.DownloadError := _('File download failed');
   end;
-
-  if FileExists(LocalFileName) then
-    if (ProgramVersionHTTPLocation.DownloadError <> '') or
-         ((ProgramVersionCheck.Thread.Count > 0) and
-            ProgramVersionCheck.Thread.Terminated)
-    then
-      FileDelete(LocalFileName)
-    else
       Result := LocalFileName;
 end;
 
@@ -3028,8 +2941,8 @@ initialization
   EditorSearchOptions.fSearchFromCaret := True;
   EditorSearchOptions.fIncrementalSearch := True;
   EditorSearchOptions.InitSearch;
-  // getText stuff
-  // Things that cannot be translated
+  // gettext stuff
+  // Classes that should not be translated
   TP_GlobalIgnoreClass(TJvMultiStringHolder);
   TP_GlobalIgnoreClass(TSynEdit);
   TP_GlobalIgnoreClass(TSynCompletionProposal);

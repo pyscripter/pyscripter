@@ -115,7 +115,9 @@ uses
   VCL.Styles.PyScripter in 'VCL.Styles.PyScripter.pas' {/  Vcl.Styles.Utils.Forms;},
   VCL.Styles.DPIAware in 'VCL.Styles.DPIAware.pas',
   TB2Toolbar in 'TB2Toolbar.pas',
-  cPyScripterSettings in 'cPyScripterSettings.pas';
+  cPyScripterSettings in 'cPyScripterSettings.pas',
+  JvParameterList in 'JvParameterList.pas',
+  JvParameterListParameter in 'JvParameterListParameter.pas';
 
 {$R *.RES}
 {$R WebCopyAvi.RES}
