@@ -211,40 +211,45 @@ function GetHotColor(OptionEntry : TSpTBXSkinOptionEntry) : TColor;
 (* Improved CanFocus *)
 function CanActuallyFocus(WinControl: TWinControl): Boolean;
 
-{ Create a Regular Expression and compile it}
+(* Create a Regular Expression and compile it *)
 function CompiledRegExpr(Expr : string): TRegExpr;
 
-{ Checks whether S contains digits only }
+(* Checks whether S contains digits only *)
 function IsDigits(S : string): Boolean;
 
-{ Remove the white space in front of the first line from all lines }
+(* Remove the white space in front of the first line from all lines *)
 function Dedent (const S : string) : string;
 
-{ Returns true for dark colors }
+(* Returns true for dark colors *)
 function IsColorDark(AColor : TColor) : boolean;
 
-{ Returns true if the styled clWindows system oolor is dark }
+(* Returns true if the styled clWindows system oolor is dark *)
 function IsStyledWindowsColorDark : boolean;
 
-{ Adds formated text to a Richedit control }
+(* Adds formated text to a Richedit control *)
 procedure AddFormatText(RE : TRichEdit; const S: string;  FontStyle: TFontStyles = [];
  const FontColor: TColor = clDefault; FontSize: Integer = 0);
 
-{ Scales the images of an ImageList }
+(* Scales the images of an ImageList *)
 procedure ScaleImageList(const ImgList: TImageList; M, D: Integer);
 
-{ Resize Bitmap }
+(* Resize Bitmap *)
 procedure ResizeBitmap(Bitmap: TBitmap; const NewWidth, NewHeight: integer);
 
-{ Scale a value according to the Screen.PixelperInch }
+(* Scale a value according to the Screen.PixelperInch *)
 function PPIScaled(I : Integer): Integer;
 
-{ Reverse PPI Scaling  }
+(* Reverse PPI Scaling  *)
 function PPIUnScaled(I : Integer): Integer;
 
- Const
+(* Returns string with Desktop size *)
+function DesktopSizeString: string;
+
+
+Const
   IdentRE = '[A-Za-z_][A-Za-z0-9_]*';
   DottedIdentRE = '[A-Za-z_][A-Za-z0-9_.]*';
+
 
 Type
   {  TStringlist that preserves the LineBreak and BOM of a read File }
@@ -2050,6 +2055,11 @@ end;
 function PPIUnScaled(I : Integer): Integer;
 begin
   Result := MulDiv(I, 96, Screen.PixelsPerInch);
+end;
+
+function DesktopSizeString: string;
+begin
+  Result := Format('(%dx%d)', [Screen.DesktopWidth, Screen.DesktopHeight]);
 end;
 
 end.

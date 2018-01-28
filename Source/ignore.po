@@ -478,6 +478,13 @@ msgstr ""
 #. CommandsDataModule..JvMultiStringHolder........Strings.Strings
 #: dmCommands.dfm:1956
 #. CommandsDataModule..JvMultiStringHolder........Strings.Strings
+#: dmCommands.dfm:2643
+msgid "                    self.conn.poll_all(0.01)"
+msgstr ""
+
+#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
+#: dmCommands.dfm:1956
+#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
 #: dmCommands.dfm:2642
 msgid "                    self.debugIDE.user_yield()"
 msgstr ""
@@ -1520,6 +1527,14 @@ msgstr ""
 msgid "                self.clear_bpbynumber(i)"
 msgstr ""
 
+#. CommandsDataModule..JvMultiStringHolder..........Strings.Strings
+#: dmCommands.dfm:1954
+#. CommandsDataModule..JvMultiStringHolder..........Strings.Strings
+#: dmCommands.dfm:2641
+msgid "                self.conn = object.__getattribute__(self.debugIDE, "
+"\"____conn__\")()"
+msgstr ""
+
 #. CommandsDataModule..JvMultiStringHolder........Strings.Strings
 #: dmCommands.dfm:1942
 #. CommandsDataModule..JvMultiStringHolder........Strings.Strings
@@ -1680,6 +1695,14 @@ msgstr ""
 #. CommandsDataModule..JvMultiStringHolder........Strings.Strings
 #: dmCommands.dfm:3022
 msgid "                try:"
+msgstr ""
+
+#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
+#: dmCommands.dfm:1955
+#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
+#: dmCommands.dfm:2642
+msgid "                while len(self.conn._async_callbacks) > 0 "
+":"
 msgstr ""
 
 #. CommandsDataModule..JvMultiStringHolder........Strings.Strings
@@ -2056,6 +2079,14 @@ msgstr ""
 #: dmCommands.dfm:3020
 msgid "            # Try and build one for Python defined "
 "functions"
+msgstr ""
+
+#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
+#: dmCommands.dfm:1947
+#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
+#: dmCommands.dfm:2634
+msgid "            #yield processing every 1000 "
+"calls"
 msgstr ""
 
 #. CommandsDataModule..JvMultiStringHolder........Strings.Strings
@@ -2837,6 +2868,15 @@ msgstr ""
 msgid "            globals[\"__name__\"] = '__main__'"
 msgstr ""
 
+#. CommandsDataModule..JvMultiStringHolder..........Strings.Strings
+#: dmCommands.dfm:1950
+#. CommandsDataModule..JvMultiStringHolder..........Strings.Strings
+#: dmCommands.dfm:2637
+msgid "            if (self.tracecount > 1000) and not "
+"__import__('sys').stdout.writing and not "
+"__import__('sys').stderr.writing:"
+msgstr ""
+
 #. CommandsDataModule..JvMultiStringHolder........Strings.Strings
 #: dmCommands.dfm:942
 #. CommandsDataModule..JvMultiStringHolder........Strings.Strings
@@ -3566,6 +3606,12 @@ msgid "            res = __import__('bdb').Bdb.dispatch_call(self, frame, "
 msgstr ""
 
 #. CommandsDataModule..JvMultiStringHolder........Strings.Strings
+#: dmCommands.dfm:2649
+msgid "            res = super().dispatch_call(frame, "
+"arg)"
+msgstr ""
+
+#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
 #: dmCommands.dfm:973
 #. CommandsDataModule..JvMultiStringHolder........Strings.Strings
 #: dmCommands.dfm:1607
@@ -3981,6 +4027,11 @@ msgstr ""
 #. CommandsDataModule..JvMultiStringHolder........Strings.Strings
 #: dmCommands.dfm:2887
 msgid "            return str(value)"
+msgstr ""
+
+#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
+#: dmCommands.dfm:2622
+msgid "            return super().stop_here(frame)"
 msgstr ""
 
 #. CommandsDataModule..JvMultiStringHolder........Strings.Strings
@@ -4500,6 +4551,24 @@ msgstr ""
 #. CommandsDataModule..JvMultiStringHolder........Strings.Strings
 #: dmCommands.dfm:2633
 msgid "            self.tracecount += 1"
+msgstr ""
+
+#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
+#: dmCommands.dfm:2511
+#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
+#: dmCommands.dfm:2529
+#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
+#: dmCommands.dfm:3176
+#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
+#: dmCommands.dfm:3194
+msgid "            self.writing = False"
+msgstr ""
+
+#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
+#: dmCommands.dfm:2523
+#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
+#: dmCommands.dfm:3188
+msgid "            self.writing = True"
 msgstr ""
 
 #. CommandsDataModule..JvMultiStringHolder........Strings.Strings
@@ -8219,6 +8288,11 @@ msgstr ""
 msgid "=#!/usr/bin/env python"
 msgstr ""
 
+#. CommandsDataModule..CodeTemplatesCompletion....AutoCompleteList.Strings
+#: dmCommands.dfm:584
+msgid "=#!/usr/bin/env python$[($[PythonVersion]>='3.0')'3':'']"
+msgstr ""
+
 #  Doesn't have any letters
 #. CommandsDataModule..CodeTemplatesCompletion....AutoCompleteList.Strings
 #: dmCommands.dfm:561
@@ -9061,6 +9135,13 @@ msgstr ""
 msgid "MainMenu"
 msgstr ""
 
+#. PyIDEMainForm..BGPanel..TabControl1..tbiScrollRight..FontSettings.Name
+#: frmPyIDEMain.dfm:165
+#. PyIDEMainForm..BGPanel..TabControl2..tbiScrollRight2..FontSettings.Name
+#: frmPyIDEMain.dfm:214
+msgid "Marlett"
+msgstr ""
+
 #  Seems like a component name
 #. PythonIIForm..DebugIDE......Name
 #: frmPythonII.dfm:201
@@ -9892,79 +9973,5 @@ msgstr ""
 #. Programmer's name for it: SYNS_FriendlyLangYAML
 #: SynHighlighterYAML.pas:161
 msgid "YAML"
-msgstr ""
-
-#. CommandsDataModule..CodeTemplatesCompletion....AutoCompleteList.Strings
-#: dmCommands.dfm:584
-msgid "=#!/usr/bin/env python$[($[PythonVersion]>='3.0')'3':'']"
-msgstr ""
-
-#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
-#: dmCommands.dfm:1947
-#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
-#: dmCommands.dfm:2634
-msgid "            #yield processing every 1000 "
-"calls"
-msgstr ""
-
-#. CommandsDataModule..JvMultiStringHolder..........Strings.Strings
-#: dmCommands.dfm:1950
-#. CommandsDataModule..JvMultiStringHolder..........Strings.Strings
-#: dmCommands.dfm:2637
-msgid "            if (self.tracecount > 1000) and not "
-"__import__('sys').stdout.writing and not "
-"__import__('sys').stderr.writing:"
-msgstr ""
-
-#. CommandsDataModule..JvMultiStringHolder..........Strings.Strings
-#: dmCommands.dfm:1954
-#. CommandsDataModule..JvMultiStringHolder..........Strings.Strings
-#: dmCommands.dfm:2641
-msgid "                self.conn = object.__getattribute__(self.debugIDE, "
-"\"____conn__\")()"
-msgstr ""
-
-#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
-#: dmCommands.dfm:1955
-#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
-#: dmCommands.dfm:2642
-msgid "                while len(self.conn._async_callbacks) > 0 "
-":"
-msgstr ""
-
-#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
-#: dmCommands.dfm:1956
-#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
-#: dmCommands.dfm:2643
-msgid "                    self.conn.poll_all(0.01)"
-msgstr ""
-
-#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
-#: dmCommands.dfm:2511
-#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
-#: dmCommands.dfm:2529
-#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
-#: dmCommands.dfm:3176
-#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
-#: dmCommands.dfm:3194
-msgid "            self.writing = False"
-msgstr ""
-
-#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
-#: dmCommands.dfm:2523
-#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
-#: dmCommands.dfm:3188
-msgid "            self.writing = True"
-msgstr ""
-
-#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
-#: dmCommands.dfm:2622
-msgid "            return super().stop_here(frame)"
-msgstr ""
-
-#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
-#: dmCommands.dfm:2649
-msgid "            res = super().dispatch_call(frame, "
-"arg)"
 msgstr ""
 

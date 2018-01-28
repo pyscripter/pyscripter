@@ -1878,7 +1878,7 @@ begin
     Options[8].PropertyName := 'FileTemplateForNewScripts';
     Options[8].DisplayName := _('File template for new python scripts');
     Options[9].PropertyName := 'NoOfRecentFiles';
-    Options[9].DisplayName := _('Number of recent file');
+    Options[9].DisplayName := _('Number of recent files');
     Options[10].PropertyName := 'FileChangeNotification';
     Options[10].DisplayName := _('File Change Notification');
   end;

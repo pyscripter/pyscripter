@@ -1099,6 +1099,7 @@ type
   protected
     fStoredEffect : Longint;
     OldScreenPPI : Integer;
+    OldDesktopSize : string;
     // IDropTarget implementation
     function DragEnter(const dataObj: IDataObject; grfKeyState: Longint;
       pt: TPoint; var dwEffect: Longint): HResult; stdcall;
@@ -1453,12 +1454,15 @@ begin
   // Read Settings from PyScripter.ini
   if FileExists(AppStorage.IniFile.FileName) then begin
     RestoreApplicationData;
-    if (OldScreenPPI = Screen.PixelsPerInch) then
+    if (OldScreenPPI = Screen.PixelsPerInch) and
+       ((OldDesktopSize = '') or (OldDesktopSize = DesktopSizeString))
+    then
       JvFormStorage.RestoreFormPlacement;
   end else
     PyIDEOptions.Changed;
 
   if (OldScreenPPI = Screen.PixelsPerInch) and
+     ((OldDesktopSize = '') or (OldDesktopSize = DesktopSizeString)) and
      AppStorage.PathExists('Layouts\Current\Forms') then
   begin
     LoadLayout('Current');
@@ -2906,6 +2910,7 @@ begin
     AppStorage.WriteString('PyScripter Version', ApplicationVersion);
     AppStorage.WriteString('Language', GetCurrentLanguage);
     AppStorage.WriteInteger('Screen PPI', Screen.PixelsPerInch);
+    AppStorage.WriteString('Desktop size', DeskTopSizeString);
 
     AppStorage.StorageOptions.StoreDefaultValues := True;
     // UnScale and Scale back
@@ -3035,6 +3040,7 @@ begin
   ChangeLanguage(AppStorage.ReadString('Language', GetCurrentLanguage));
 
   OldScreenPPI := AppStorage.ReadInteger('Screen PPI', 96);
+  OldDesktopSize := AppStorage.ReadString('Desktop size');
 
   if AppStorage.PathExists('IDE Options') then begin
     AppStorage.ReadPersistent('IDE Options', PyIDEOptions);
@@ -3142,7 +3148,9 @@ begin
   AppStorage.ReadPersistent('Watches', WatchesWindow);
   StatusBar.Visible := AppStorage.ReadBoolean('Status Bar');
 
-  if OldScreenPPI = Screen.PixelsPerInch then
+  if (OldScreenPPI = Screen.PixelsPerInch) and
+     ((OldDesktopSize = '') or (OldDesktopSize = DesktopSizeString))
+  then
     AppStorage.ReadStringList('Layouts', Layouts, True);
 
   // Load Style Name
