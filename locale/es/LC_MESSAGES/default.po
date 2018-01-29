@@ -47,6 +47,8 @@ msgstr "Enlaces"
 #: dlgAboutPyScripter.dfm:1518
 msgid "(C) Kiriakos Vlahos  2005-2018"
 msgstr ""
+"(C) Kiriakos Vlahos 2005-2018\n"
+"Traducción al Castellano: Juan Carlos Cilleruelo (C) 2018"
 
 #. AboutBox..SpTBXTabControl1..SpTBXTabSheet1..Panel1..Comments....Caption
 #: dlgAboutPyScripter.dfm:1572
@@ -5631,12 +5633,12 @@ msgstr ""
 #. PyIDEMainForm..actlStandard..actViewHideSecondaryWorkspace..Caption
 #: frmPyIDEMain.dfm:2160
 msgid "Hide Secondary Workspace"
-msgstr ""
+msgstr "Ocultar espacio de trabajo secundario"
 
 #. PyIDEMainForm..actlStandard..actViewHideSecondaryWorkspace..Hint
 #: frmPyIDEMain.dfm:2163
 msgid "Hide secondary workspace"
-msgstr ""
+msgstr "Oculta el espacio de trabajo secundario"
 
 #. PythonIIForm..Caption
 #: frmPythonII.dfm:5 dmCommands.pas:1886
@@ -5646,7 +5648,7 @@ msgstr "Intérprete de Python"
 #. PythonIIForm..DebugIDE........DocString.Strings
 #: frmPythonII.dfm:179
 msgid "Return the 8087 CW value"
-msgstr ""
+msgstr "Devolver el valor de 8087 CW"
 
 #. PythonIIForm..InterpreterActionList..actCopyHistory..Category
 #. PythonIIForm..InterpreterActionList..actClearContents..Category
@@ -5685,7 +5687,7 @@ msgstr "Copiar (Si&n preguntar)"
 #. PythonIIForm..InterpreterActionList..actCopyWithoutPrompts..Hint
 #: frmPythonII.dfm:338
 msgid "Copy selected text without the interpreter prompts"
-msgstr ""
+msgstr "Copia el texto seleccionado sin preguntar"
 
 #. PythonIIForm..InterpreterActionList..actPasteAndExecute..Caption
 #: frmPythonII.dfm:345
@@ -6863,37 +6865,37 @@ msgstr ""
 #. Programmer's name for it: SUseSyntax
 #: StringResources.pas:118
 msgid "Use %s syntax"
-msgstr ""
+msgstr "Utilizar %s sintáxis"
 
 #. Programmer's name for it: SThemeHint
 #: StringResources.pas:119
 msgid "Set theme to \"%s\"."
-msgstr ""
+msgstr "Asignar al Esquema  \"%s\"."
 
 #. Programmer's name for it: SSaveCurrentLayout
 #: StringResources.pas:120
 msgid "Save current Layout"
-msgstr ""
+msgstr "Guardar Distribución Actual."
 
 #. Programmer's name for it: SLayoutName
 #: StringResources.pas:121
 msgid "Layout Name:"
-msgstr ""
+msgstr "Nombre de Distribución:"
 
 #. Programmer's name for it: SEditBreakpointCond
 #: StringResources.pas:122
 msgid "Edit Breakpoint Condition"
-msgstr ""
+msgstr "Editar Condición del Breakpoint"
 
 #. Programmer's name for it: SEnterPythonExpression
 #: StringResources.pas:123
 msgid "Enter Python expression:"
-msgstr ""
+msgstr "Introducir Expresión Phyton:"
 
 #. Programmer's name for it: SDeleteLayouts
 #: StringResources.pas:124
 msgid "Delete Layouts"
-msgstr ""
+msgstr "Eliminar Distribuciones"
 
 #. Programmer's name for it: SSelectLayouts
 #: StringResources.pas:125
@@ -6925,12 +6927,12 @@ msgstr "Guardar archivo como"
 #. Programmer's name for it: SIDEOptions
 #: StringResources.pas:136
 msgid "IDE Options"
-msgstr ""
+msgstr "Opciones del IDE"
 
 #. Programmer's name for it: SDisassembly
 #: StringResources.pas:137
 msgid "Dis&assembly"
-msgstr ""
+msgstr "Desens&amblar"
 
 #. Programmer's name for it: SDisassemblyHint
 #: StringResources.pas:138
@@ -6955,7 +6957,7 @@ msgstr "Documentación"
 #. Programmer's name for it: SDocTab
 #: StringResources.pas:142
 msgid "Doc"
-msgstr ""
+msgstr "Docum"
 
 #. Programmer's name for it: SWebPreviewHint
 #: StringResources.pas:143
@@ -7002,7 +7004,7 @@ msgstr "Guardar proyecto como..."
 #. Programmer's name for it: SSaveProjectFileAs
 #: StringResources.pas:154
 msgid "Save Project \"%s\" As"
-msgstr ""
+msgstr "Guardar Proyecto \"%s\" como..."
 
 #. Programmer's name for it: SProjectPythonPath
 #: StringResources.pas:155
@@ -7213,7 +7215,7 @@ msgstr "Sin título"
 #. Programmer's name for it: SNonamePythonFileTitle
 #: StringResources.pas:205
 msgid "module"
-msgstr ""
+msgstr "módulo"
 
 #. Programmer's name for it: SAskSaveChanges
 #: StringResources.pas:206
@@ -7241,17 +7243,17 @@ msgstr ""
 #. Programmer's name for it: SEnterParameterCaption
 #: StringResources.pas:211
 msgid "Parameter replacement"
-msgstr ""
+msgstr "Reemplazo de parámetros"
 
 #. Programmer's name for it: SEnterParameterText
 #: StringResources.pas:212
 msgid "Enter parameter value"
-msgstr ""
+msgstr "Introduzca el valor para el parámetro"
 
 #. Programmer's name for it: SParamCircularReference
 #: StringResources.pas:213
 msgid "Parameter \"%s\" is referenced circularly"
-msgstr ""
+msgstr "El Parametro \"%s\" está referenciado circularmente"
 
 #. Programmer's name for it: SParameterNotFound
 #: StringResources.pas:214
@@ -7332,32 +7334,32 @@ msgstr ""
 #. Programmer's name for it: SCouldNotAnalyseModule
 #: StringResources.pas:231
 msgid "Could not analyse module: \"%s\""
-msgstr ""
+msgstr "No puedo analizar el módulo: \"%s\""
 
 #. Programmer's name for it: SCouldNotFindModule
 #: StringResources.pas:232
 msgid "Could not find module: \"%s\""
-msgstr ""
+msgstr "No puedo encontrar el módulo: \"%s\""
 
 #. Programmer's name for it: SSelfOutsideClassScope
 #: StringResources.pas:233
 msgid "\"self\" used outside a class scope"
-msgstr ""
+msgstr "\"self\" utilizado fuera de una clase"
 
 #. Programmer's name for it: SCouldNotFindIdentInScope
 #: StringResources.pas:234
 msgid "Could not find identifier \"%s\" in scope \"%s\""
-msgstr ""
+msgstr "No puedo encontrar el identificador \"%s\" en \"%s\""
 
 #. Programmer's name for it: SRefactoryEngineBusy
 #: StringResources.pas:235
 msgid "Refactoring engine is busy"
-msgstr ""
+msgstr "El motor de refactorizado está ocupado"
 
 #. Programmer's name for it: SPythonKeyword
 #: StringResources.pas:236
 msgid "Python keyword"
-msgstr ""
+msgstr "Palabra Clave de Python"
 
 #. File Templates
 #. Programmer's name for it: SFileTemplateCategoryInternet
@@ -7373,7 +7375,7 @@ msgstr "Otros"
 #. Programmer's name for it: SCythonTemplateName
 #: StringResources.pas:242
 msgid "Cython Script"
-msgstr ""
+msgstr "Script Cython"
 
 #. Programmer's name for it: SCSSFileTemplateName
 #: StringResources.pas:243
@@ -7393,17 +7395,17 @@ msgstr "Archivo de texto"
 #. Programmer's name for it: SXMLTemplateName
 #: StringResources.pas:246
 msgid "XML Document"
-msgstr ""
+msgstr "Documento XML"
 
 #. Programmer's name for it: SJSTemplateName
 #: StringResources.pas:247
 msgid "JavaScript Code"
-msgstr ""
+msgstr "Código JavaScript"
 
 #. Programmer's name for it: SPHPTemplateName
 #: StringResources.pas:248
 msgid "PHP Code"
-msgstr ""
+msgstr "Código PHP"
 
 #. Programmer's name for it: SYNS_FriendlyMatchingBrace
 #: SynHighlighterPython.pas:252
@@ -7418,18 +7420,18 @@ msgstr ""
 #. Programmer's name for it: SYNS_FriendlyMultiLineString
 #: SynHighlighterPython.pas:254
 msgid "Multi-Line String"
-msgstr ""
+msgstr "Cadena Multilínea"
 
 #. Programmer's name for it: SYNS_FilterYAML
 #: SynHighlighterYAML.pas:160
 msgid "YAML files (*.yaml)|*.yaml"
-msgstr ""
+msgstr "Archivos YAML (*.yaml)|*.yaml"
 
 #. Localizable strings.
 #. Programmer's name for it: SEditLinkIsNil
 #: VirtualTrees.pas:4019
 msgid "Edit link must not be nil."
-msgstr ""
+msgstr "El enlace de edición no puede ser nulo."
 
 #. Programmer's name for it: SClipboardFailed
 #: VirtualTrees.pas:4026

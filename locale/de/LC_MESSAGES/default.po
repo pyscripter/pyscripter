@@ -1,20 +1,22 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# Lübbe Onken <l.onken@rac.de>, 2018.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2018-01-23 16:26\n"
-"PO-Revision-Date: 2018-01-24 14:05+0200\n"
+"PO-Revision-Date: 2018-01-23 16:26\n"
 "Last-Translator: Lübbe Onken <luebbe.opensource@gmail.com>, 2018\n"
 "Language-Team: German (https://www.transifex.com/luebbe/teams/82736/de/)\n"
-"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Virtaal 0.7.1\n"
+"X-Generator: dxgettext 1.2.2\n"
 
 #. AboutBox..Caption
 #: dlgAboutPyScripter.dfm:5

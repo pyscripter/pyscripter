@@ -477,7 +477,7 @@ msgstr "&Πρόσδεση"
 #. frmCustomKeyboard..ActionList1..actAssignShortcut..Hint
 #: dlgCustomShortcuts.dfm:196
 msgid "Assign shortcut to command"
-msgstr ""
+msgstr "Σύνδεση πλήκτρου συντόμευσης με εντολή"
 
 #. frmCustomKeyboard..ActionList1..actRemoveShortcut..Hint
 #: dlgCustomShortcuts.dfm:202
@@ -969,12 +969,12 @@ msgstr "&Όνομα Αρχείου:"
 #. PyIDEMainForm..actlStandard..actSelectStyle..Hint
 #: dlgStyleSelector.dfm:5 frmPyIDEMain.dfm:2168 frmPyIDEMain.dfm:2169
 msgid "Select Style"
-msgstr ""
+msgstr "Επιλογή Στυλ"
 
 #. StyleSelectorForm..Label1..Caption
 #: dlgStyleSelector.dfm:1868
 msgid "Available Styles"
-msgstr ""
+msgstr "Διαθέσιμα Στυλ"
 
 #. StyleSelectorForm..Label2..Caption
 #: dlgStyleSelector.dfm:1875
@@ -984,7 +984,7 @@ msgstr "Προεπισκόπηση"
 #. StyleSelectorForm..Button1..Caption
 #: dlgStyleSelector.dfm:1889
 msgid "&Apply Style"
-msgstr ""
+msgstr "&Εφαρμογή Στυλ"
 
 #. StyleSelectorForm..ActionManager1..StyleName
 #: dlgStyleSelector.dfm:1917
@@ -1022,7 +1022,7 @@ msgstr "Πλήκτρα Συντόμευσης"
 #. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..Caption
 #: dlgSynEditOptions.dfm:89 dlgSynEditOptions.dfm:263
 msgid "Color Theme"
-msgstr ""
+msgstr "Χρωματικό Θέμα"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..SpTBXTabItem4..Caption
 #. fmEditorOptionsDialog..Panel1..TabControl..Color..Caption
@@ -1084,12 +1084,12 @@ msgstr "&Διαγραφή"
 #. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel2..Caption
 #: dlgSynEditOptions.dfm:281
 msgid "Available Themes"
-msgstr ""
+msgstr "Διαθέσιμα Θέματα"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..btnApplyTheme..Caption
 #: dlgSynEditOptions.dfm:327
 msgid "Apply Theme"
-msgstr ""
+msgstr "Εφαρμογή Θέματος"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Caption
 #: dlgSynEditOptions.dfm:347
@@ -1104,12 +1104,12 @@ msgstr "Εντολή:"
 #. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label6..Caption
 #: dlgSynEditOptions.dfm:361
 msgid "Keystroke 2:"
-msgstr ""
+msgstr "Πλήκτρο Συντόμευσης 2"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label7..Caption
 #: dlgSynEditOptions.dfm:368
 msgid "Keystroke 1:"
-msgstr ""
+msgstr "Πλήκτρο Συντόμευσης 1"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..Panel2..KeyList......Caption
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox2..Caption
@@ -1120,7 +1120,7 @@ msgstr "Εντολή"
 #. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..Panel2..KeyList......Caption
 #: dlgSynEditOptions.dfm:430
 msgid "Keystroke"
-msgstr ""
+msgstr "Πλήκτρο Συντόμευσης"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckAutoIndent....Hint
 #: dlgSynEditOptions.dfm:554
@@ -2206,7 +2206,7 @@ msgstr "Κωδικός για όνομα αρχείου"
 #. ToolProperties..FormatsPopup..Linenumber1..Caption
 #: dlgToolProperties.dfm:644
 msgid "Line number"
-msgstr ""
+msgstr "Αριθμοί γραμμών"
 
 #. ToolProperties..FormatsPopup..Linenumber1..Hint
 #: dlgToolProperties.dfm:645
@@ -3242,12 +3242,12 @@ msgstr "Κλείσιμο όλων των αρχείων εκτός από το �
 #. CommandsDataModule..actlMain..actEditCopyFileName..Caption
 #: dmCommands.dfm:4356
 msgid "Copy File Name"
-msgstr ""
+msgstr "Αντιγραφή Ονόματος Αρχείου"
 
 #. CommandsDataModule..actlMain..actEditCopyFileName..Hint
 #: dmCommands.dfm:4359
 msgid "Copy file name of active file to clipboard"
-msgstr ""
+msgstr "Αντιγραφή Ονόματος Ενεργού Αρχείου"
 
 #. CommandsDataModule..actlMain..actToolsEditStartupScripts..Caption
 #: dmCommands.dfm:4365
@@ -3294,7 +3294,7 @@ msgstr ""
 #: dmCommands.dfm:4448 dmCommands.dfm:4454 dmCommands.dfm:4460
 #: dmCommands.dfm:4466 dmCommands.dfm:4472 dmCommands.dfm:4478
 msgid "Code Folding"
-msgstr ""
+msgstr "Σύμπτυξη Κώδικα"
 
 #. CommandsDataModule..actlMain..actFoldVisible..Hint
 #: dmCommands.dfm:4382
@@ -3305,97 +3305,97 @@ msgstr ""
 #. CommandsDataModule..actlMain..actUnfoldAll..Caption
 #: dmCommands.dfm:4387 dmCommands.dfm:4394
 msgid "All"
-msgstr ""
+msgstr "Όλα"
 
 #. CommandsDataModule..actlMain..actFoldAll..Hint
 #: dmCommands.dfm:4388
 msgid "Fold all"
-msgstr ""
+msgstr "Σύμπτυξη όλων"
 
 #. CommandsDataModule..actlMain..actUnfoldAll..Hint
 #: dmCommands.dfm:4395
 msgid "Unfold all"
-msgstr ""
+msgstr "Ανάπτυξη όλων"
 
 #. CommandsDataModule..actlMain..actFoldNearest..Caption
 #. CommandsDataModule..actlMain..actUnfoldNearest..Caption
 #: dmCommands.dfm:4401 dmCommands.dfm:4407
 msgid "Nearest"
-msgstr ""
+msgstr "Πλέον Κοντινό"
 
 #. CommandsDataModule..actlMain..actFoldNearest..Hint
 #: dmCommands.dfm:4402
 msgid "Collapse nearest fold"
-msgstr ""
+msgstr "Σύμπτυξη πλέον κοντινού"
 
 #. CommandsDataModule..actlMain..actUnfoldNearest..Hint
 #: dmCommands.dfm:4408
 msgid "Expand nearest fold"
-msgstr ""
+msgstr "Ανάπτυξη πλέον κοντινού"
 
 #. CommandsDataModule..actlMain..actFoldRegions..Caption
 #. CommandsDataModule..actlMain..actUnfoldRegions..Caption
 #: dmCommands.dfm:4413 dmCommands.dfm:4419
 msgid "Regions"
-msgstr ""
+msgstr "Περιοχές"
 
 #. CommandsDataModule..actlMain..actFoldRegions..Hint
 #: dmCommands.dfm:4414
 msgid "Fold Ranges"
-msgstr ""
+msgstr "Σύμπτυξη περιοχών"
 
 #. CommandsDataModule..actlMain..actUnfoldRegions..Hint
 #: dmCommands.dfm:4420
 msgid "Unfold ranges"
-msgstr ""
+msgstr "Ανάπτυξη περιοχών"
 
 #. CommandsDataModule..actlMain..actFoldLevel1..Caption
 #. CommandsDataModule..actlMain..actUnfoldLevel1..Caption
 #: dmCommands.dfm:4425 dmCommands.dfm:4431
 msgid "Level 1"
-msgstr ""
+msgstr "Επίπεδο 1"
 
 #. CommandsDataModule..actlMain..actFoldLevel1..Hint
 #: dmCommands.dfm:4426
 msgid "Fold level 1"
-msgstr ""
+msgstr "Σύμπτυξη επιπέδου 1"
 
 #. CommandsDataModule..actlMain..actUnfoldLevel1..Hint
 #: dmCommands.dfm:4432
 msgid "Unfold level 1"
-msgstr ""
+msgstr "Ανάπτυξη επιπέδου 1"
 
 #. CommandsDataModule..actlMain..actFoldLevel2..Caption
 #. CommandsDataModule..actlMain..actUnfoldLevel2..Caption
 #: dmCommands.dfm:4437 dmCommands.dfm:4443
 msgid "Level 2"
-msgstr ""
+msgstr "Επίπεδο 2"
 
 #. CommandsDataModule..actlMain..actFoldLevel2..Hint
 #: dmCommands.dfm:4438
 msgid "Fold level 2"
-msgstr ""
+msgstr "Σύμπτυξη επιπέδου 2"
 
 #. CommandsDataModule..actlMain..actUnfoldLevel2..Hint
 #: dmCommands.dfm:4444
 msgid "Unfold level 2"
-msgstr ""
+msgstr "Ανάπτυξη επιπέδου 2"
 
 #. CommandsDataModule..actlMain..actFoldLevel3..Caption
 #. CommandsDataModule..actlMain..actUnfoldLevel3..Caption
 #: dmCommands.dfm:4449 dmCommands.dfm:4455
 msgid "Level 3"
-msgstr ""
+msgstr "Επίπεδο 3"
 
 #. CommandsDataModule..actlMain..actFoldLevel3..Hint
 #: dmCommands.dfm:4450
 msgid "Fold level 3"
-msgstr ""
+msgstr "Σύμπτυξη επιπέδου 3"
 
 #. CommandsDataModule..actlMain..actUnfoldLevel3..Hint
 #: dmCommands.dfm:4456
 msgid "Unfold level 3"
-msgstr ""
+msgstr "Ανάπτυξη επιπέδου 3"
 
 #. CommandsDataModule..actlMain..actFoldClasses..Caption
 #. CommandsDataModule..actlMain..actUnfoldClasses..Caption
@@ -3417,17 +3417,17 @@ msgstr ""
 #. CommandsDataModule..actlMain..actUnfoldFunctions..Caption
 #: dmCommands.dfm:4473 dmCommands.dfm:4479
 msgid "Functions"
-msgstr ""
+msgstr "Συναρτήσεις"
 
 #. CommandsDataModule..actlMain..actFoldFunctions..Hint
 #: dmCommands.dfm:4474
 msgid "Fold functions"
-msgstr ""
+msgstr "Σύμπτυξη συναρτήσεων"
 
 #. CommandsDataModule..actlMain..actUnfoldFunctions..Hint
 #: dmCommands.dfm:4480
 msgid "Unfold functions"
-msgstr ""
+msgstr "Ανάπτυξη συναρτήσεων"
 
 #. CommandsDataModule..SynGeneralSyn..DefaultFilter
 #: dmCommands.dfm:9657
@@ -3594,12 +3594,12 @@ msgstr "Σύμπτηξη óλων των κόμβων"
 #. CodeExplorerWindow..CEPopupMenu..mnAlphaSort..Caption
 #: frmCodeExplorer.dfm:125
 msgid "Alpha Sort"
-msgstr ""
+msgstr "Αλφαβητική Ταξινόμηση"
 
 #. CodeExplorerWindow..CEPopupMenu..mnAlphaSort..Hint
 #: frmCodeExplorer.dfm:126
 msgid "Sort Alphabetically"
-msgstr ""
+msgstr "Αλφαβητική Ταξινόμηση"
 
 #. CodeExplorerWindow..CEPopupMenu..mnFollowEditor..Caption
 #: frmCodeExplorer.dfm:132
@@ -3614,7 +3614,7 @@ msgstr ""
 #. CodeExplorerWindow..CEPopupMenu..mnShowSelection..Caption
 #: frmCodeExplorer.dfm:140
 msgid "Show Selection"
-msgstr ""
+msgstr "Εμφάνιση Επιλογής"
 
 #. CodeExplorerWindow..CEPopupMenu..mnShowSelection..Hint
 #: frmCodeExplorer.dfm:141
@@ -4184,7 +4184,7 @@ msgstr "Λίστα Συναρτήσεων"
 #. FunctionListWindow..pnHolder..lvProcs......Caption
 #: frmFunctionList.dfm:79
 msgid "Function"
-msgstr ""
+msgstr "Συνάρτηση"
 
 #. FunctionListWindow..pnlHeader..pnlHeaderLeft..lblMethods..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..SearchMenu..Caption
@@ -4561,7 +4561,7 @@ msgstr "Εκτελείται Εξωτερικό Εργαλείο "
 #. PyIDEMainForm..BGPanel..TabControl2..tbiTabFiles2..Hint
 #: frmPyIDEMain.dfm:145 frmPyIDEMain.dfm:194
 msgid "Select File"
-msgstr ""
+msgstr "Επιλογή αρχείου"
 
 #. PyIDEMainForm..BGPanel..TabControl1..tbiScrollLeft..Hint
 #. PyIDEMainForm..BGPanel..TabControl2..tbiScrollLeft2..Hint
@@ -5771,12 +5771,12 @@ msgstr "Εκτέλεση re.search"
 #. RegExpTesterWindow..BGPanel..FGPanel..TBXDock..RegExpTesterToolbar..TBXSubmenuItem2..RI_findall..Caption
 #: frmRegExpTester.dfm:161
 msgid "Find all"
-msgstr ""
+msgstr "Εύρεση Όλων"
 
 #. RegExpTesterWindow..BGPanel..FGPanel..TBXDock..RegExpTesterToolbar..TBXSubmenuItem2..RI_findall..Hint
 #: frmRegExpTester.dfm:162
 msgid "Performs re.findall"
-msgstr ""
+msgstr "Εκτέλεση re.findall"
 
 #. RegExpTesterWindow..BGPanel..FGPanel..TBXDock..RegExpTesterToolbar..TBXSubmenuItem2..CI_AutoExecute..Caption
 #: frmRegExpTester.dfm:172
@@ -6112,11 +6112,11 @@ msgstr ""
 
 #: dmCommands.pas:1863
 msgid "Check for updates automatically"
-msgstr ""
+msgstr "Αυτόματος έλεγχος ενημερώσεων"
 
 #: dmCommands.pas:1865
 msgid "Days between update checks"
-msgstr ""
+msgstr "Διάστημα σε ημέρες μεταξύ ελέγχων ενημερώσεων"
 
 #: dmCommands.pas:1867
 msgid "Mask FPU Exceptions"
@@ -6213,39 +6213,39 @@ msgstr ""
 
 #: dmCommands.pas:1922
 msgid "File Filters"
-msgstr ""
+msgstr "Φίλτρα αρχείων "
 
 #: dmCommands.pas:1925
 msgid "Open dialog Python filter"
-msgstr ""
+msgstr "Φίλτρο αρχείων Python"
 
 #: dmCommands.pas:1927
 msgid "Open dialog HTML filter"
-msgstr ""
+msgstr "Φίλτρο αρχείων HTML"
 
 #: dmCommands.pas:1929
 msgid "Open dialog XML filter"
-msgstr ""
+msgstr "Φίλτρο αρχείων XML"
 
 #: dmCommands.pas:1931
 msgid "Open dialog CSS filter"
-msgstr ""
+msgstr "Φίλτρο αρχείων CSS"
 
 #: dmCommands.pas:1933
 msgid "Open dialog CPP filter"
-msgstr ""
+msgstr "Φίλτρο αρχείων CPP"
 
 #: dmCommands.pas:1935
 msgid "Open dialog YAML filter"
-msgstr ""
+msgstr "Φίλτρο αρχείων YAML"
 
 #: dmCommands.pas:1937
 msgid "Open dialog JavaScript filter"
-msgstr ""
+msgstr "Φίλτρο αρχείων JavaScript"
 
 #: dmCommands.pas:1939
 msgid "Open dialog PHP filter"
-msgstr ""
+msgstr "Φίλτρο αρχείων PHP"
 
 #: dmCommands.pas:1941
 msgid "File explorer filter"
@@ -6253,7 +6253,7 @@ msgstr ""
 
 #: dmCommands.pas:1943
 msgid "Open dialog Cython filter"
-msgstr ""
+msgstr "Φίλτρο αρχείων Cython"
 
 #: dmCommands.pas:1949
 msgid "Restore open files"
@@ -6261,7 +6261,7 @@ msgstr ""
 
 #: dmCommands.pas:1951
 msgid "Search text at caret"
-msgstr ""
+msgstr "Αναζήτηση λέξης δρομέα"
 
 #: dmCommands.pas:1953
 msgid "Create backup files"
@@ -6285,7 +6285,7 @@ msgstr ""
 
 #: dmCommands.pas:1963
 msgid "Show executable line marks"
-msgstr ""
+msgstr "Ένδειξη εκτελέσιμων γραμμών κειμένου"
 
 #: dmCommands.pas:1965
 msgid "Check syntax as you type"
@@ -6305,19 +6305,19 @@ msgstr ""
 
 #: dmCommands.pas:1973
 msgid "Auto-reload changed files"
-msgstr ""
+msgstr "Αυτόματη επαναφόρτιση αλλαγμένων αρχείων"
 
 #: dmCommands.pas:1975
 msgid "Auto-hide find toolbar"
-msgstr ""
+msgstr "Αυτόματη απόκρυψη εργαλείου εύρεσης"
 
 #: dmCommands.pas:1977
 msgid "Highlight selected word"
-msgstr ""
+msgstr "Τονισμός επιλεγμένης λέξης"
 
 #: dmCommands.pas:1979
 msgid "Highlight color of selected word"
-msgstr ""
+msgstr "Χρώμα τονισμού επιλεγμένης λέξης"
 
 #: dmCommands.pas:1981
 msgid "Display package names in editor tabs"
@@ -6333,7 +6333,7 @@ msgstr ""
 
 #: dmCommands.pas:1987
 msgid "Code folding options"
-msgstr ""
+msgstr "Επιλογές σύμπτυξης κώδικα"
 
 #: dmCommands.pas:1989
 msgid "Compact Line Numbers"
@@ -7477,7 +7477,7 @@ msgstr "Άλλα"
 #. Programmer's name for it: SCythonTemplateName
 #: StringResources.pas:242
 msgid "Cython Script"
-msgstr ""
+msgstr "Πηγαίος Κώδικας Cython"
 
 #. Programmer's name for it: SCSSFileTemplateName
 #: StringResources.pas:243
@@ -7502,22 +7502,22 @@ msgstr "Αρχείο XML"
 #. Programmer's name for it: SJSTemplateName
 #: StringResources.pas:247
 msgid "JavaScript Code"
-msgstr ""
+msgstr "Πηγαίος Κώδικας Javascript"
 
 #. Programmer's name for it: SPHPTemplateName
 #: StringResources.pas:248
 msgid "PHP Code"
-msgstr ""
+msgstr "Πηγαίος Κώδικας PHP"
 
 #. Programmer's name for it: SYNS_FriendlyMatchingBrace
 #: SynHighlighterPython.pas:252
 msgid "Matching Brace"
-msgstr ""
+msgstr "Ταιριαστή Παρένθεση"
 
 #. Programmer's name for it: SYNS_FriendlyUnbalancedBrace
 #: SynHighlighterPython.pas:253
 msgid "Unbalanced Brace"
-msgstr ""
+msgstr "Αταίριαστη Παρέθενση"
 
 #. Programmer's name for it: SYNS_FriendlyMultiLineString
 #: SynHighlighterPython.pas:254
