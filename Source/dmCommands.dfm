@@ -1277,11 +1277,15 @@ object CommandsDataModule: TCommandsDataModule
           '    pass'
           'sys.path.insert(0, "")'
           ''
+          'import warnings'
+          'warnings.simplefilter("ignore", DeprecationWarning)'
+          ''
           'del DebugOutput'
           'del code'
           'del PythonInteractiveInterpreter'
           'del sys'
-          'del os')
+          'del os'
+          'del warnings')
       end
       item
         Name = 'InitScript3000'
@@ -1885,11 +1889,15 @@ object CommandsDataModule: TCommandsDataModule
           '    pass'
           'sys.path.insert(0, "")'
           ''
+          'import warnings'
+          'warnings.simplefilter("ignore", DeprecationWarning)'
+          ''
           'del DebugOutput'
           'del code'
           'del PythonInteractiveInterpreter'
           'del sys'
-          'del os')
+          'del os'
+          'del warnings')
       end
       item
         Name = 'RpyC_Init'
