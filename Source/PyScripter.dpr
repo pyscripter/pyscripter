@@ -81,7 +81,6 @@ uses
   cFilePersist in 'cFilePersist.pas',
   dlgPickList in 'dlgPickList.pas' {PickListDialog},
   dlgAboutPyScripter in 'dlgAboutPyScripter.pas' {AboutBox},
-  JvProgramVersionCheck in 'JvProgramVersionCheck.pas',
   cPyBaseDebugger in 'cPyBaseDebugger.pas',
   cPyRemoteDebugger in 'cPyRemoteDebugger.pas',
   cFileTemplates in 'cFileTemplates.pas',
@@ -115,9 +114,7 @@ uses
   VCL.Styles.PyScripter in 'VCL.Styles.PyScripter.pas' {/  Vcl.Styles.Utils.Forms;},
   VCL.Styles.DPIAware in 'VCL.Styles.DPIAware.pas',
   TB2Toolbar in 'TB2Toolbar.pas',
-  cPyScripterSettings in 'cPyScripterSettings.pas',
-  JvParameterList in 'JvParameterList.pas',
-  JvParameterListParameter in 'JvParameterListParameter.pas';
+  cPyScripterSettings in 'cPyScripterSettings.pas';
 
 {$R *.RES}
 {$R WebCopyAvi.RES}
