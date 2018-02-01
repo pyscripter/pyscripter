@@ -89,7 +89,7 @@ inherited ToolProperties: TToolProperties
           object Label15: TLabel
             Left = 14
             Top = 28
-            Width = 31
+            Width = 41
             Height = 13
             Caption = '&Name:'
             FocusControl = edEnvName
@@ -97,21 +97,21 @@ inherited ToolProperties: TToolProperties
           object Label16: TLabel
             Left = 14
             Top = 50
-            Width = 30
+            Width = 41
             Height = 13
             Caption = '&Value:'
           end
           object edEnvName: TEdit
-            Left = 61
+            Left = 77
             Top = 23
-            Width = 121
+            Width = 130
             Height = 21
             TabOrder = 0
           end
           object edEnvValue: TEdit
-            Left = 62
+            Left = 77
             Top = 48
-            Width = 308
+            Width = 293
             Height = 21
             Cursor = crIBeam
             HideSelection = False
@@ -492,7 +492,7 @@ inherited ToolProperties: TToolProperties
           object cbCaptureOutput: TCheckBox
             Left = 233
             Top = 13
-            Width = 100
+            Width = 141
             Height = 21
             Caption = '&Capture Output'
             Checked = True
@@ -502,7 +502,7 @@ inherited ToolProperties: TToolProperties
           object cbParseMessages: TCheckBox
             Left = 233
             Top = 30
-            Width = 101
+            Width = 141
             Height = 21
             Hint = 
               'If checked output lines that look like messages '#13#10'will be parsed' +
@@ -516,7 +516,7 @@ inherited ToolProperties: TToolProperties
           object cbParseTraceback: TCheckBox
             Left = 233
             Top = 47
-            Width = 103
+            Width = 141
             Height = 21
             Hint = 
               'If checked output lines that look like messages '#13#10'will be parsed' +
@@ -584,7 +584,7 @@ inherited ToolProperties: TToolProperties
           object Label9: TLabel
             Left = 240
             Top = 18
-            Width = 66
+            Width = 130
             Height = 13
             Caption = '&Timeout (ms):'
             FocusControl = seTimeout
@@ -592,7 +592,7 @@ inherited ToolProperties: TToolProperties
           object cbHideConsole: TCheckBox
             Left = 8
             Top = 16
-            Width = 84
+            Width = 203
             Height = 21
             Hint = 'Check to hide the console.'
             Caption = '&Hide console'
@@ -603,7 +603,7 @@ inherited ToolProperties: TToolProperties
           object cbWaitForTermination: TCheckBox
             Left = 8
             Top = 37
-            Width = 122
+            Width = 208
             Height = 21
             Hint = 
               'If checked will monitor the process '#13#10'and notify you when is ter' +
