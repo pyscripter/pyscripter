@@ -1167,8 +1167,10 @@ end;
 
 procedure TJvCreateProcess.CloseWrite;
 begin
-  if FWaitThread is TJvConsoleThread then
+  if FWaitThread is TJvConsoleThread then begin
+    Sleep(100); // Give TJvConsoleThread time to write the data
     TJvConsoleThread(FWaitThread).CloseWrite;
+  end;
 end;
 
 procedure TJvCreateProcess.HandleThreadTerminated;

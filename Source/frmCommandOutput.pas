@@ -519,11 +519,9 @@ begin
             end;
           end;
       end;
-      if Tool.ProcessInput <> piNone then begin
-      end;
+      if Tool.ProcessInput <> piNone then
         // The following fails in Python 3.x
         // JvCreateProcess.Write(#26); // write EOF character
-        Sleep(100); // Give TJvConsoleThread time to write the data
         JvCreateProcess.CloseWrite;
     end;
 
