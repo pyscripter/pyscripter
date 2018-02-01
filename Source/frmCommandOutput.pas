@@ -81,10 +81,11 @@ var
 
 implementation
 
-uses dmCommands, Clipbrd,
+uses
+  Winapi.ShellAPI,
+  dmCommands, Clipbrd,
   SynEdit, frmPyIDEMain, frmMessages, JclStrings,
-  uCommonFunctions, Math, StringResources, JvGnugettext,
-  MPCommonUtilities;
+  uCommonFunctions, Math, StringResources, JvGnugettext;
 
 {$R *.dfm}
 
@@ -394,6 +395,15 @@ begin
   AddNewLine('');
 
 
+  if not (JvCreateProcess.WaitForTerminate or Tool.UseCustomEnvironment) then
+  // simple case has the advantage of "executing" files
+  begin
+    ShellExecute(0, 'open', PChar(AppName), PChar(Arguments),
+      PChar(WorkDir), SwCmds[Tool.ConsoleHidden]);
+    Exit;
+  end;
+
+
   with JvCreateProcess do begin
     // According to the Help file it is more robust to add the appname to the command line
     // ApplicationName := AppName;
@@ -509,8 +519,12 @@ begin
             end;
           end;
       end;
-      if Tool.ProcessInput <> piNone then
-        JvCreateProcess.Write(#26); // write EOF character
+      if Tool.ProcessInput <> piNone then begin
+      end;
+        // The following fails in Python 3.x
+        // JvCreateProcess.Write(#26); // write EOF character
+        Sleep(100); // Give TJvConsoleThread time to write the data
+        JvCreateProcess.CloseWrite;
     end;
 
     if Tool.WaitForTerminate and (Tool.TimeOut > 0) then begin

@@ -196,7 +196,6 @@ type
     procedure WndProc(var Msg: TMessage);
     property Handle: THandle read GetHandle;
     procedure CloseRead;
-    procedure CloseWrite;
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -212,6 +211,7 @@ type
     property ConsoleOutput: TStrings read GetConsoleOutput;
     property InputReader: TJvBaseReader read FInputReader;
     property ErrorReader: TJvBaseReader read FErrorReader;
+    procedure CloseWrite;
   published
     property ApplicationName: string read FApplicationName write FApplicationName;
     property CommandLine: string read FCommandLine write SetCommandLine;
