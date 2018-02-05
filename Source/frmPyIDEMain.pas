@@ -2101,8 +2101,8 @@ begin
   actStepInto.Enabled := PyFileActive and (DebuggerState in [dsInactive, dsPaused]);
   actStepOut.Enabled := DebuggerState = dsPaused;
   actStepOver.Enabled := DebuggerState = dsPaused;
-  actDebugAbort.Enabled := DebuggerState in [dsPaused, dsRunning, dsRunningNoDebug, dsPostMortem];
-  actDebugPause.Enabled := DebuggerState = dsRunning;
+  actDebugAbort.Enabled := DebuggerState in [dsPaused, dsDebugging, dsRunning, dsPostMortem];
+  actDebugPause.Enabled := DebuggerState = dsDebugging;
   actRunToCursor.Enabled := PyFileActive and (DebuggerState in [dsInactive, dsPaused])
     and PyControl.IsExecutableLine(Editor, Editor.SynEdit.CaretY);
   actToggleBreakPoint.Enabled := PyFileActive;
@@ -2222,8 +2222,8 @@ begin
   if csDestroying in ComponentState then Exit;
 
   case NewState of
-    dsRunning,
-    dsRunningNoDebug: begin
+    dsDebugging,
+    dsRunning: begin
                         s := 'Running';
                         if PyIDEOptions.PythonEngineType = peInternal then
                           Screen.Cursor := crHourGlass;

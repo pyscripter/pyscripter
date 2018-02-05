@@ -74,7 +74,7 @@ begin
   //  Debugger becomes Paused or Inactive
   case DebuggerState of
     dsPaused, dsPostMortem:
-       if OldState = dsRunningNoDebug then begin
+       if OldState = dsRunning then begin
           // This sequence of states happens with RunSource.  No need to update the CallStack - Issue 461
           CallStackView.Enabled := True;
           if Assigned(VariablesWindow) then VariablesWindow.UpdateWindow;
@@ -97,8 +97,8 @@ begin
           if Assigned(CallStackView.RootNode.FirstChild) then
             CallStackView.Selected[CallStackView.RootNode.FirstChild] := True;
         end;
-    dsRunningNoDebug,
-    dsRunning:
+    dsRunning,
+    dsDebugging:
       begin
         CallStackView.Enabled := False;
         if Assigned(VariablesWindow) then VariablesWindow.UpdateWindow;

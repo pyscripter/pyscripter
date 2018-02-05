@@ -113,16 +113,14 @@ object PyIDEMainForm: TPyIDEMainForm
   end
   object BGPanel: TPanel
     Left = 9
-    Top = 77
+    Top = 78
     Width = 762
-    Height = 427
+    Height = 426
     Align = alClient
     BevelOuter = bvNone
     FullRepaint = False
     ParentBackground = False
     TabOrder = 2
-    ExplicitTop = 78
-    ExplicitHeight = 426
     object TabControl1: TSpTBXTabControl
       Left = 0
       Top = 0
@@ -237,7 +235,7 @@ object PyIDEMainForm: TPyIDEMainForm
     Left = 0
     Top = 0
     Width = 780
-    Height = 77
+    Height = 78
     PopupMenu = ToolbarPopupMenu
     object MainMenu: TSpTBXToolbar
       Left = 0
@@ -961,7 +959,7 @@ object PyIDEMainForm: TPyIDEMainForm
     end
     object MainToolBar: TSpTBXToolbar
       Left = 0
-      Top = 25
+      Top = 26
       DockPos = -6
       DockRow = 1
       Images = CommandsDataModule.Images
@@ -1028,7 +1026,7 @@ object PyIDEMainForm: TPyIDEMainForm
     end
     object DebugToolbar: TSpTBXToolbar
       Left = 361
-      Top = 25
+      Top = 26
       DockPos = 361
       DockRow = 1
       Images = CommandsDataModule.Images
@@ -1071,7 +1069,7 @@ object PyIDEMainForm: TPyIDEMainForm
     end
     object ViewToolbar: TSpTBXToolbar
       Left = 728
-      Top = 25
+      Top = 26
       DockPos = 728
       DockRow = 1
       Images = CommandsDataModule.Images
@@ -1090,7 +1088,7 @@ object PyIDEMainForm: TPyIDEMainForm
     end
     object EditorToolbar: TSpTBXToolbar
       Left = 574
-      Top = 25
+      Top = 26
       DockPos = 574
       DockRow = 1
       Images = CommandsDataModule.Images
@@ -1143,7 +1141,7 @@ object PyIDEMainForm: TPyIDEMainForm
     end
     object FindToolbar: TSpTBXToolbar
       Left = 1
-      Top = 51
+      Top = 52
       CloseButtonWhenDocked = True
       DockPos = 1
       DockRow = 2
@@ -1259,7 +1257,7 @@ object PyIDEMainForm: TPyIDEMainForm
     end
     object UserToolbar: TSpTBXToolbar
       Left = 496
-      Top = 51
+      Top = 52
       DockPos = 310
       DockRow = 2
       Images = CommandsDataModule.Images
@@ -1270,25 +1268,21 @@ object PyIDEMainForm: TPyIDEMainForm
   end
   object TBXDockLeft: TSpTBXDock
     Left = 0
-    Top = 77
+    Top = 78
     Width = 9
-    Height = 427
+    Height = 426
     FixAlign = True
     PopupMenu = ToolbarPopupMenu
     Position = dpLeft
-    ExplicitTop = 78
-    ExplicitHeight = 426
   end
   object TBXDockRight: TSpTBXDock
     Left = 771
-    Top = 77
+    Top = 78
     Width = 9
-    Height = 427
+    Height = 426
     FixAlign = True
     PopupMenu = ToolbarPopupMenu
     Position = dpRight
-    ExplicitTop = 78
-    ExplicitHeight = 426
   end
   object TBXDockBottom: TSpTBXDock
     Left = 0

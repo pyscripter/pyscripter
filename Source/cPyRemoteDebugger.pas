@@ -64,7 +64,7 @@ type
     procedure RestoreCommandLine; override;
     // Main interface
     function ImportModule(Editor : IEditor; AddToNameSpace : Boolean = False) : Variant; override;
-    procedure RunNoDebug(ARunConfig : TRunConfiguration); override;
+    procedure Run(ARunConfig : TRunConfiguration); override;
     function RunSource(Const Source, FileName : Variant; symbol : string = 'single') : boolean; override;
     function EvalCode(const Expr : string) : Variant; override;
     function GetObjectType(Ob : Variant) : string; override;
@@ -128,7 +128,7 @@ type
     function SysPathAdd(const Path : string) : boolean; override;
     function SysPathRemove(const Path : string) : boolean; override;
     // Debugging
-    procedure Run(ARunConfig : TRunConfiguration; InitStepIn : Boolean = False;
+    procedure Debug(ARunConfig : TRunConfiguration; InitStepIn : Boolean = False;
       RunToCursorLine : integer = -1); override;
     procedure RunToCursor(Editor : IEditor; ALine: integer); override;
     procedure StepInto; override;
@@ -726,7 +726,7 @@ begin
   else
     NameOfModule := ChangeFileExt(Editor.FileTitle, '');
 
-  PyControl.DoStateChange(dsRunningNoDebug);
+  PyControl.DoStateChange(dsRunning);
   try
     try
       Result := RPI.rem_import(NameOfModule, Code);
@@ -800,7 +800,7 @@ Var
   SuppressOutput : IInterface;
 begin
   case PyControl.DebuggerState of
-    dsRunning, dsRunningNoDebug:
+    dsDebugging, dsRunning:
       begin
         SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
         try
@@ -866,7 +866,7 @@ begin
   Conn.modules.sys.argv := fOldargv;
 end;
 
-procedure TPyRemoteInterpreter.RunNoDebug(ARunConfig: TRunConfiguration);
+procedure TPyRemoteInterpreter.Run(ARunConfig: TRunConfiguration);
 Var
   Code : Variant;
 //  AsyncRunNoDebug : Variant;
@@ -886,7 +886,7 @@ begin
   Code := Compile(ARunConfig);
 
   if VarIsPython(Code) then begin
-    PyControl.DoStateChange(dsRunningNoDebug);
+    PyControl.DoStateChange(dsRunning);
 
     // New Line for output
     PythonIIForm.AppendText(sLineBreak);
@@ -977,7 +977,7 @@ begin
   CheckConnected;
   Assert(not PyControl.IsRunning, 'RunSource called while the Python engine is active');
   OldDebuggerState := PyControl.DebuggerState;
-  PyControl.DoStateChange(dsRunningNoDebug);
+  PyControl.DoStateChange(dsRunning);
   try
     Result := ExecuteInThread(RPI.runsource, VarPythonCreate([Source, FileName, symbol], stTuple));
   finally
@@ -1167,7 +1167,7 @@ begin
       end;
 
     OldState := PyControl.DebuggerState;
-    PyControl.DoStateChange(dsRunning);  // So that we do not reenter run-debug commands
+    PyControl.DoStateChange(dsDebugging);  // So that we do not reenter run-debug commands
     try
       fThreadExecInterrupted := True;
       ServerProcess.TerminateTree;
@@ -1260,8 +1260,8 @@ Var
 begin
   case PyControl.DebuggerState of
     dsPostMortem: ExitPostMortem;
-    dsRunning,
-    dsRunningNoDebug:
+    dsDebugging,
+    dsRunning:
       begin
         AttachConsole := GetProcAddress (GetModuleHandle ('kernel32.dll'), 'AttachConsole');
         if Assigned(AttachConsole) then
@@ -1436,7 +1436,7 @@ begin
      PyControl.CurrentPos.Editor := GI_EditorFactory.GetEditorByNameOrTitle(FName);
      PyControl.CurrentPos.Line := fCurrentFrame.f_lineno;
 
-      if PyControl.DebuggerState = dsRunning then
+      if PyControl.DebuggerState = dsDebugging then
         PyControl.DoStateChange(dsPaused);
      FDebuggerCommand := dcNone;
      While  (FDebuggerCommand = dcNone) and not fRemotePython.fThreadExecInterrupted do
@@ -1447,7 +1447,7 @@ begin
 
      if PyControl.BreakPointsChanged then SetDebuggerBreakpoints;
 
-     PyControl.DoStateChange(dsRunning);
+     PyControl.DoStateChange(dsDebugging);
    end;
 
    case fDebuggerCommand of
@@ -1531,7 +1531,7 @@ begin
   fDebuggerCommand := dcRun;
 end;
 
-procedure TPyRemDebugger.Run(ARunConfig: TRunConfiguration;
+procedure TPyRemDebugger.Debug(ARunConfig: TRunConfiguration;
   InitStepIn: Boolean = False; RunToCursorLine : integer = -1);
 var
   Code : Variant;
@@ -1568,7 +1568,7 @@ begin
       Dialogs.MessageDlg(_(SCouldNotSetCurrentDir), mtWarning, [mbOK], 0);
     end;
 
-    PyControl.DoStateChange(dsRunning);
+    PyControl.DoStateChange(dsDebugging);
 
     MessagesWindow.ClearMessages;
     Editor := GI_ActiveEditor;

@@ -94,7 +94,7 @@ type
     procedure SetCommandLine(ARunConfig : TRunConfiguration); override;
     procedure RestoreCommandLine; override;
     function ImportModule(Editor : IEditor; AddToNameSpace : Boolean = False) : Variant; override;
-    procedure RunNoDebug(ARunConfig : TRunConfiguration); override;
+    procedure Run(ARunConfig : TRunConfiguration); override;
     function SyntaxCheck(Editor : IEditor; Quiet : Boolean = False) : Boolean;
     function RunSource(Const Source, FileName : Variant; symbol : string = 'single') : boolean; override;
     function EvalCode(const Expr : string) : Variant; override;
@@ -131,7 +131,7 @@ type
     function SysPathAdd(const Path : string) : boolean; override;
     function SysPathRemove(const Path : string) : boolean; override;
     // Debugging
-    procedure Run(ARunConfig : TRunConfiguration; InitStepIn : Boolean = False;
+    procedure Debug(ARunConfig : TRunConfiguration; InitStepIn : Boolean = False;
           RunToCursorLine : integer = -1); override;
     procedure RunToCursor(Editor : IEditor; ALine: integer); override;
     procedure StepInto; override;
@@ -599,7 +599,7 @@ begin
   fDebuggerCommand := dcRun;
 end;
 
-procedure TPyInternalDebugger.Run(ARunConfig: TRunConfiguration;
+procedure TPyInternalDebugger.Debug(ARunConfig: TRunConfiguration;
   InitStepIn: Boolean = False; RunToCursorLine : integer = -1);
 var
   Code : Variant;
@@ -637,7 +637,7 @@ begin
       Dialogs.MessageDlg(_(SCouldNotSetDirectory), mtWarning, [mbOK], 0);
     end;
 
-    PyControl.DoStateChange(dsRunning);
+    PyControl.DoStateChange(dsDebugging);
 
     MessagesWindow.ClearMessages;
     Editor := GI_ActiveEditor;
@@ -822,7 +822,7 @@ begin
      PyControl.CurrentPos.Line := Frame.f_lineno;
      FCurrentFrame := Frame;
 
-      if PyControl.DebuggerState = dsRunning then
+      if PyControl.DebuggerState = dsDebugging then
         PyControl.DoStateChange(dsPaused);
      FDebuggerCommand := dcNone;
      While  FDebuggerCommand = dcNone do
@@ -830,7 +830,7 @@ begin
 
      if PyControl.BreakPointsChanged then SetDebuggerBreakpoints;
 
-     PyControl.DoStateChange(dsRunning);
+     PyControl.DoStateChange(dsDebugging);
    end;
 
    case fDebuggerCommand of
@@ -1131,7 +1131,7 @@ begin
   else
     NameOfModule := ChangeFileExt(Editor.FileTitle, '');
 
-  PyControl.DoStateChange(dsRunningNoDebug);
+  PyControl.DoStateChange(dsRunning);
   try
     try
       Result := fII._import(NameOfModule, Code);
@@ -1256,7 +1256,7 @@ begin
   end;
 end;
 
-procedure TPyInternalInterpreter.RunNoDebug(ARunConfig: TRunConfiguration);
+procedure TPyInternalInterpreter.Run(ARunConfig: TRunConfiguration);
 Var
   Code : Variant;
   mmResult,Resolution : LongWord;
@@ -1276,7 +1276,7 @@ begin
   Code := Compile(ARunConfig);
 
   if VarIsPython(Code) then begin
-    PyControl.DoStateChange(dsRunningNoDebug);
+    PyControl.DoStateChange(dsRunning);
 
     // New Line for output
     PythonIIForm.AppendText(sLineBreak);
@@ -1363,7 +1363,7 @@ Var
 begin
   Assert(not PyControl.IsRunning, 'RunSource called while the Python engine is active');
   OldDebuggerState := PyControl.DebuggerState;
-  PyControl.DoStateChange(dsRunningNoDebug);
+  PyControl.DoStateChange(dsRunning);
   try
     // Workaround due to PREFER_UNICODE flag to make sure
     // no conversion to Unicode and back will take place

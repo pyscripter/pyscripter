@@ -448,7 +448,7 @@ begin
 
   Status := utwRunning;
   UpdateActions;
-  PyIDEMainForm.DebuggerStateChange(Self, dsInactive, dsRunningNoDebug);
+  PyIDEMainForm.DebuggerStateChange(Self, dsInactive, dsRunning);
   Application.ProcessMessages;
 
   TestResult := PyControl.ActiveInterpreter.UnitTestResult();
@@ -464,7 +464,7 @@ begin
     VarClear(TestResult);
     VarClear(TempTestSuite);
     Status := utwRun;
-    PyIDEMainForm.DebuggerStateChange(Self, dsRunningNoDebug, dsInactive);
+    PyIDEMainForm.DebuggerStateChange(Self, dsRunning, dsInactive);
     lblRunTests.Caption := Format(RunTestsLabel,
       [TestsRun, Iff(TestsRun=1, '', 's'), Format(ElapsedTimeFormat, [ElapsedTime])]);
   end;
