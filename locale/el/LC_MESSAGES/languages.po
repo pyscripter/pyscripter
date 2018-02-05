@@ -1,12 +1,13 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# PyScripter Languages.
+# 
+# Copyright (C) Kiriakos Vlahos  2005-2018
+# This file is distributed under the same license as PyScripter
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 # 
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: PyScripter Languages\n"
 "POT-Creation-Date: 2018-01-23 16:26\n"
 "PO-Revision-Date: 2018-01-23 16:26\n"
 "Last-Translator: Kiriakos Vlahos <pyscripter@gmail.com>, 2018\n"
