@@ -254,13 +254,26 @@ Const
 
 
 Type
-  {  TStringlist that preserves the LineBreak and BOM of a read File }
+  (*  TStringlist that preserves the LineBreak and BOM of a read File *)
   TLineBreakStringList = class(TStringList)
   protected
     procedure SetTextStr(const Value: string); override;
   public
     procedure LoadFromStream(Stream: TStream); override;
   end;
+
+  (*
+    Interfaced based Timer that can be used with anonymous methods
+     Developed by  : Nuno Picado (https://github.com/nunopicado/Reusable-Objects)
+  *)
+
+  ITimer = interface(IInvokable)
+  ['{1C06BCF6-1C6D-473E-993F-2B231B17D4F5}']
+    function Start(const Action: TProc): ITimer;
+    function Stop: ITimer;
+  end;
+
+  function NewTimer(Interval: Cardinal): ITimer;
 
 implementation
 Uses
@@ -270,7 +283,7 @@ Uses
   MPCommonObjects, MPShellUtilities, IOUtils, Vcl.Themes, System.AnsiStrings,
   System.UITypes, Winapi.CommCtrl, JclStrings, SynEditMiscClasses,
   cPyScripterSettings,   Winapi.UrlMon,
-  SynEditTextBuffer;
+  SynEditTextBuffer, VCL.ExtCtrls;
 
 function GetIconIndexFromFile(const AFileName: string;
   const ASmall: boolean): integer;
@@ -2066,5 +2079,68 @@ function DownloadUrlToFile(const URL, Filename: string): Boolean;
 begin
   Result := Succeeded(URLDownloadToFile(nil, PWideChar(URL), PWideChar(Filename), 0, nil));
 end;
+
+
+{ ITimer implementation }
+type
+  TTimer = class(TInterfacedObject, ITimer)
+  private var
+    FTimer: VCL.ExtCtrls.TTimer;
+    FAction: TProc;
+  private
+    procedure RunAction(Sender: TObject);
+  public
+    constructor Create(const Interval: Cardinal);
+    destructor Destroy; override;
+    class function New(const Interval: Cardinal): ITimer;
+    function Start(const Action: TProc): ITimer;
+    function Stop: ITimer;
+  end;
+
+
+{ TTimer }
+
+constructor TTimer.Create(const Interval: Cardinal);
+begin
+  FTimer          := VCL.ExtCtrls.TTimer.Create(nil);
+  FTimer.Enabled  := False;
+  FTimer.Interval := Interval;
+  FTimer.OnTimer  := RunAction;
+end;
+
+destructor TTimer.Destroy;
+begin
+  FTimer.Free;
+  inherited;
+end;
+
+class function TTimer.New(const Interval: Cardinal): ITimer;
+begin
+  Result := Create(Interval);
+end;
+
+procedure TTimer.RunAction(Sender: TObject);
+begin
+  FAction;
+end;
+
+function TTimer.Start(const Action: TProc): ITimer;
+begin
+  Result         := Self;
+  FAction        := Action;
+  FTimer.Enabled := True;
+end;
+
+function TTimer.Stop: ITimer;
+begin
+  Result         := Self;
+  FTimer.Enabled := False;
+end;
+
+function NewTimer(Interval: Cardinal): ITimer;
+begin
+  Result := TTimer.Create(Interval);
+end;
+
 
 end.

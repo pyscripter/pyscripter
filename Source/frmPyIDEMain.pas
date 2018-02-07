@@ -408,7 +408,7 @@
             #705 #711 #717, #748
   History:   v 3.3
           Issues addressed
-            #848
+            #848 #849
             { TODO : Python Engine change without exiting PyScripter }
             { TODO : Issues 501, 659, 667 }
             { TODO : Review Search and Replace }
