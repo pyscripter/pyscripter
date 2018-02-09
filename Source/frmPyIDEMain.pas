@@ -436,20 +436,64 @@ unit frmPyIDEMain;
 interface
 
 uses
-  System.Types, System.UITypes, WinAPI.Windows, WinAPI.Messages,
-  System.SysUtils, System.Classes, Graphics, Controls, Forms,
-  Variants, dmCommands, ActnList, Menus, uEditAppIntfs,
-  JvDockControlForm, JvDockVIDStyle, JvDockVSNetStyle,
-  SynEditTypes, SynEditMiscClasses, cPyBaseDebugger,
-  cPyDebugger, JvAppStorage,  JvAppIniStorage, SynEdit,
-  TB2Dock, TB2Toolbar, TB2Item, ExtCtrls, JvExControls,
-  cRefactoring, dlgCustomShortcuts,   TB2ExtItems, JvDockTree,
-  JvComponentBase, JvAppInst, uHighlighterProcs, cFileTemplates,
-  JvDockVSNetStyleSpTBX, JvFormPlacement, SpTBXCustomizer,
-  SpTbxSkins, SpTBXItem, SpTBXEditors, StdCtrls, JvDSADialogs, Dialogs,
-  ActiveX, SpTBXMDIMRU, SpTBXTabs, ImgList, SpTBXDkPanels, System.Actions,
-  VCL.Styles, Vcl.Styles.DPIAware, Vcl.ComCtrls, AMHLEDVecStd,
-  cPyScripterSettings;
+  WinAPI.Windows,
+  WinAPI.Messages,
+  WinApi.ActiveX,
+  System.Types,
+  System.UITypes,
+  System.SysUtils,
+  System.Classes,
+  System.Actions,
+  System.Variants,
+  Vcl.Graphics,
+  Vcl.Controls,
+  Vcl.Forms,
+  Vcl.Dialogs,
+  Vcl.ImgList,
+  Vcl.ActnList,
+  Vcl.Menus,
+  Vcl.StdCtrls,
+  Vcl.ExtCtrls,
+  Vcl.ComCtrls,
+  VCL.Styles,
+  Vcl.Styles.DPIAware,
+  AMHLEDVecStd,
+  JvAppInst,
+  JvComponentBase,
+  JvExControls,
+  JvDockTree,
+  JvDockControlForm,
+  JvDockVIDStyle,
+  JvDockVSNetStyle,
+  JvDockVSNetStyleSpTBX,
+  JvAppStorage,
+  JvAppIniStorage,
+  JvFormPlacement,
+  JvDSADialogs,
+  TB2Dock,
+  TB2Toolbar,
+  TB2Item,
+  TB2ExtItems,
+  SpTBXCustomizer,
+  SpTbxSkins,
+  SpTBXItem,
+  SpTBXEditors,
+  SpTBXMDIMRU,
+  SpTBXTabs,
+  SpTBXDkPanels,
+  SynEditTypes,
+  SynEditMiscClasses,
+  SynEdit,
+  uEditAppIntfs,
+  uHighlighterProcs,
+  cFileTemplates,
+  cPySupportTypes,
+  cPyBaseDebugger,
+  cPyDebugger,
+  cRefactoring,
+  cPyScripterSettings,
+  dmCommands,
+  dlgCustomShortcuts;
 
 const
   WM_FINDDEFINITION  = WM_USER + 100;
@@ -1077,7 +1121,7 @@ type
     procedure UpdateStatusBarPanels;
     procedure ApplicationOnHint(Sender: TObject);
     procedure ApplcationOnShowHint(var HintStr: string; var CanShow: Boolean;
-      var HintInfo: Controls.THintInfo);
+      var HintInfo: Vcl.Controls.THintInfo);
     procedure ApplicationActionUpdate(Action: TBasicAction; var Handled: Boolean);
     procedure ApplicationActionExecute(Action: TBasicAction; var Handled: Boolean);
     procedure TabToolBarDragOver(Sender, Source: TObject; X, Y: Integer;
@@ -1187,22 +1231,63 @@ var
 implementation
 
 uses
-  frmPythonII, frmMessages, frmEditor,
-  frmCallStack, frmBreakPoints, frmVariables, frmWatches,
-  frmCodeExplorer, frmFileExplorer, JclFileUtils, frmToDo,
-  frmFindResults, uParams, cTools, cParameters,
-  frmCommandOutput, JvCreateProcess, dlgToolProperties, uCommonFunctions,
-  SynHighlighterPython, SynEditHighlighter, SynRegExpr,
-  JvJVCLUtils, DateUtils, cPythonSourceScanner, frmRegExpTester,
-  StringResources, dlgCommandLine, frmUnitTests, cFilePersist, frmIDEDockWin,
-  dlgPickList, VirtualTrees, VirtualExplorerTree, Math,
-  cCodeHint, dlgNewFile, JclSysInfo, cPyRemoteDebugger,
-  uCmdLine, uSearchHighlighter, frmModSpTBXCustomize, IniFiles,
-  JclStrings, JclSysUtils, frmProjectExplorer, cProjectClasses,
-  MPDataObject, JvGnugettext,
-  SpTBXControls, SynEditKeyCmds, StdActns,
-  PythonEngine, Contnrs, SynCompletionProposal, dlgStyleSelector,
-  Vcl.Themes;
+  System.Contnrs,
+  System.Math,
+  System.IniFiles,
+  System.DateUtils,
+  Vcl.StdActns,
+  Vcl.Themes,
+  JvCreateProcess,
+  JclSysInfo,
+  JclFileUtils,
+  JclStrings,
+  JclSysUtils,
+  JvJVCLUtils,
+  SpTBXControls,
+  VirtualTrees,
+  VirtualExplorerTree,
+  MPDataObject,
+  SynHighlighterPython,
+  SynEditHighlighter,
+  SynRegExpr,
+  SynEditKeyCmds,
+  SynCompletionProposal,
+  PythonEngine,
+  JvGnugettext,
+  StringResources,
+  uCmdLine,
+  uCommonFunctions,
+  uSearchHighlighter,
+  uParams,
+  dlgNewFile,
+  dlgCommandLine,
+  dlgToolProperties,
+  dlgStyleSelector,
+  dlgPickList,
+  frmEditor,
+  frmIDEDockWin,
+  frmCommandOutput,
+  frmPythonII,
+  frmProjectExplorer,
+  frmMessages,
+  frmCallStack,
+  frmBreakPoints,
+  frmVariables,
+  frmWatches,
+  frmCodeExplorer,
+  frmFileExplorer,
+  frmRegExpTester,
+  frmUnitTests,
+  frmToDo,
+  frmFindResults,
+  frmModSpTBXCustomize,
+  cTools,
+  cParameters,
+  cPythonSourceScanner,
+  cFilePersist,
+  cCodeHint,
+  cPyRemoteDebugger,
+  cProjectClasses;
 
 {$R *.DFM}
 
@@ -1553,7 +1638,7 @@ begin
     CloseTimer.Enabled := True;
     Exit;
   end else if PyControl.DebuggerState <> dsInactive then begin
-    if Dialogs.MessageDlg(_(SAbortDebugging), mtWarning, [mbYes, mbNo], 0) = mrYes then
+    if Vcl.Dialogs.MessageDlg(_(SAbortDebugging), mtWarning, [mbYes, mbNo], 0) = mrYes then
     begin
       if (PyControl.DebuggerState in [dsPaused, dsPostMortem]) or
         (PyControl.ActiveDebugger is TPyInternalDebugger) then
@@ -1575,7 +1660,7 @@ begin
   end;
 
   if OutputWindow.JvCreateProcess.State <> psReady then
-    if Dialogs.MessageDlg(_(SKillExternalTool), mtConfirmation, [mbYes, mbCancel], 0) = mrYes
+    if Vcl.Dialogs.MessageDlg(_(SKillExternalTool), mtConfirmation, [mbYes, mbCancel], 0) = mrYes
     then begin
       OutputWindow.actToolTerminateExecute(Self);
       CanClose := True;
@@ -1625,7 +1710,7 @@ begin
       SaveEnvironment;
     except
       on E: EFileStreamError do
-        Dialogs.MessageDlg(Format(_(SFileSaveError), [AppStorage.FullFileName, E.Message]), mtError, [mbOK], 0);
+        Vcl.Dialogs.MessageDlg(Format(_(SFileSaveError), [AppStorage.FullFileName, E.Message]), mtError, [mbOK], 0);
     end;
 
     TabControl1.Toolbar.BeginUpdate;
@@ -1864,7 +1949,7 @@ end;
 procedure TPyIDEMainForm.actPythonReinitializeExecute(Sender: TObject);
 begin
   if PyControl.DebuggerState <> dsInactive then begin
-    if Dialogs.MessageDlg(_(STerminateInterpreter),
+    if Vcl.Dialogs.MessageDlg(_(STerminateInterpreter),
       mtWarning, [mbYes, mbNo], 0) = idNo then Exit;
   end;
   PyControl.ActiveInterpreter.ReInitialize;
@@ -2322,7 +2407,7 @@ begin
 end;
 
 procedure TPyIDEMainForm.ApplcationOnShowHint(var HintStr: string;
-  var CanShow: Boolean; var HintInfo: Controls.THintInfo);
+  var CanShow: Boolean; var HintInfo: Vcl.Controls.THintInfo);
 begin
   if HintInfo.HintControl is TBaseVirtualTree then
     HintInfo.HideTimeout := 5000;
@@ -3707,7 +3792,7 @@ begin
     InternalInterpreter.RunScript(FileName);
   except
     on E: Exception do
-      Dialogs.MessageDlg(Format(_(SErrorInitScript),
+      Vcl.Dialogs.MessageDlg(Format(_(SErrorInitScript),
         [PyScripterInitFile, E.Message]), mtError, [mbOK], 0);
   end;
 end;
@@ -4007,7 +4092,7 @@ begin
         Ord(tkFunctionName), Ord(tkClassName):
           begin
             if not Silent then
-              Dialogs.MessageDlg(Format(_(SFindDefinitionWarning), [Token]),
+              Vcl.Dialogs.MessageDlg(Format(_(SFindDefinitionWarning), [Token]),
                 mtInformation, [mbOK], 0);
             Exit;
           end;
@@ -4050,7 +4135,7 @@ begin
             end;
           end;
       else if not Silent then
-        Dialogs.MessageDlg(_(SPlaceCursorOnName),
+        Vcl.Dialogs.MessageDlg(_(SPlaceCursorOnName),
           mtError, [mbOK], 0);
       end;
     end;
@@ -4130,7 +4215,7 @@ begin
             end;
           end;
       else
-        Dialogs.MessageDlg(_(SPlaceCursorOnName), mtError, [mbOK], 0);
+        Vcl.Dialogs.MessageDlg(_(SPlaceCursorOnName), mtError, [mbOK], 0);
       end;
     end;
   end;

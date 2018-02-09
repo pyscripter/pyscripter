@@ -9,11 +9,17 @@ unit cPyBaseDebugger;
 
 interface
 uses
-  Windows, SysUtils, Classes, uEditAppIntfs, Forms,
-  Contnrs, cTools, cPythonSourceScanner, PythonEngine;
+  WinApi.Windows,
+  System.SysUtils,
+  System.Classes,
+  System.Contnrs,
+  Vcl.Forms,
+  uEditAppIntfs,
+  cPySupportTypes,
+  cPythonSourceScanner,
+  PythonEngine;
 
 type
-  TPythonEngineType = (peInternal, peRemote, peRemoteTk, peRemoteWx);
   TDebuggerState = (dsInactive, dsDebugging, dsPaused, dsRunning, dsPostMortem);
   TDebuggerCommand = (dcNone, dcRun, dcStepInto, dcStepOver, dcStepOut,
                       dcRunToCursor, dcPause, dcAbort);
@@ -35,38 +41,6 @@ type
   TDebuggerStateChangeEvent = procedure(Sender: TObject;
     OldState, NewState: TDebuggerState) of object;
   TDebuggerYieldEvent = procedure(Sender: TObject; DoIdle : Boolean) of object;
-
-  TRunConfiguration = class(TPersistent)
-  private
-    fScriptName: string;
-    fEngineType: TPythonEngineType;
-    fWorkingDir: string;
-    fParameters: string;
-    fReinitializeBeforeRun: Boolean;
-    fOutputFileName: string;
-    fWriteOutputToFile: Boolean;
-    fAppendToFile: Boolean;
-    fExternalRun: TExternalRun;
-    fDescription: string;
-    procedure SetExternalRun(const Value: TExternalRun);
-  public
-    constructor Create;
-    destructor Destroy; override;
-    procedure Assign(Source: TPersistent); override;
-  published
-    property ScriptName : string read fScriptName write fScriptName;
-    property Description : string read fDescription write fDescription;
-    property EngineType : TPythonEngineType read fEngineType write fEngineType;
-    property ReinitializeBeforeRun : Boolean read fReinitializeBeforeRun
-      write fReinitializeBeforeRun;
-    property Parameters : string read fParameters write fParameters;
-    property WorkingDir : string read fWorkingDir write fWorkingDir;
-    property WriteOutputToFile : Boolean read fWriteOutputToFile
-      write fWriteOutputToFile;
-    property OutputFileName : string read fOutputFileName write fOutputFileName;
-    property AppendToFile : Boolean read fAppendToFile write fAppendToFile;
-    property ExternalRun : TExternalRun read fExternalRun write SetExternalRun;
-  end;
 
   TEditorPos = class(TPersistent)
   public
@@ -401,11 +375,19 @@ const
 implementation
 
 uses
-  System.UITypes, Dialogs,
-  dmCommands, frmPythonII, frmMessages, frmPyIDEMain,
-  uCommonFunctions, VarPyth,
-  cParameters, StringResources, cPyDebugger,
-  frmCommandOutput, JvGnuGettext,
+  System.UITypes,
+  Vcl.Dialogs,
+  VarPyth,
+  JvGnuGettext,
+  uCommonFunctions,
+  StringResources,
+  dmCommands,
+  frmPythonII,
+  frmMessages,
+  frmPyIDEMain,
+  frmCommandOutput,
+  cPyDebugger,
+  cParameters,
   cPyScripterSettings;
 
 { TEditorPos }
@@ -541,7 +523,7 @@ begin
     RunScript(FileName);
   except
     on E: Exception do
-      Dialogs.MessageDlg(Format(_(SErrorInitScript),
+      Vcl.Dialogs.MessageDlg(Format(_(SErrorInitScript),
         [EngineInitFile, E.Message]), mtError, [mbOK], 0);
   end;
 end;
@@ -880,9 +862,9 @@ begin
   begin
     fRunConfig.Assign(ARunConfig);
     // Expand Parameters in filename
-    fRunConfig.fScriptName := '';  // to avoid circular substitution
-    fRunConfig.fScriptName := Parameters.ReplaceInText(ARunConfig.fScriptName);
-    PyIDEMainForm.SetRunLastScriptHints(fRunConfig.fScriptName);
+    fRunConfig.ScriptName := '';  // to avoid circular substitution
+    fRunConfig.ScriptName := Parameters.ReplaceInText(ARunConfig.ScriptName);
+    PyIDEMainForm.SetRunLastScriptHints(fRunConfig.ScriptName);
   end;
 end;
 
@@ -916,51 +898,6 @@ function TPyBaseDebugger.AddPathToPythonPath(const Path: string;
   AutoRemove: Boolean): IInterface;
 begin
   Result := TPythonPathAdder.Create(SysPathAdd, SysPathRemove, Path, AutoRemove);
-end;
-
-{ TRunConfiguration }
-
-procedure TRunConfiguration.Assign(Source: TPersistent);
-begin
-  if Source is TRunConfiguration then with TRunConfiguration(Source) do begin
-    Self.fScriptName := ScriptName;
-    Self.fDescription := Description;
-    Self.fEngineType := EngineType;
-    Self.fWorkingDir := WorkingDir;
-    Self.fParameters := fParameters;
-    Self.fReinitializeBeforeRun := ReinitializeBeforeRun;
-    Self.fWriteOutputToFile := WriteOutputToFile;
-    Self.fOutputFileName := OutputFileName;
-    Self.fAppendToFile := AppendToFile;
-    Self.fExternalRun.Assign(fExternalRun);
-  end else
-    inherited;
-end;
-
-constructor TRunConfiguration.Create;
-begin
-  inherited;
-  fEngineType := peRemote;
-  fReinitializeBeforeRun := True;
-  fOutputFileName := '$[ActiveScript-NoExt].log';
-  fWorkingDir := '$[ActiveScript-Dir]';
-  fExternalRun := TExternalRun.Create;
-  fExternalRun.Assign(ExternalPython);
-  fExternalRun.Caption := 'External Run';
-  fExternalRun.Description := 'Run script using an external Python Interpreter';
-  fExternalRun.Parameters := '$[ActiveScript-Short]';
-  fExternalRun.WorkingDirectory := '$[ActiveScript-Dir]';
-end;
-
-destructor TRunConfiguration.Destroy;
-begin
-  fExternalRun.Free;
-  inherited;
-end;
-
-procedure TRunConfiguration.SetExternalRun(const Value: TExternalRun);
-begin
-  fExternalRun.Assign(Value);
 end;
 
 { TModuleProxy }

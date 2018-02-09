@@ -12,12 +12,12 @@ interface
 Uses
   System.Classes,
   Vcl.Graphics,
-  SynEditTextBuffer,
-  uEditAppIntfs,
-  cPyBaseDebugger,
   SpTBXTabs,
+  SynEditTextBuffer,
   SynEditCodeFolding,
   SynEditKeyCmds,
+  uEditAppIntfs,
+  cPySupportTypes,
   dlgSynEditOptions;
 
 

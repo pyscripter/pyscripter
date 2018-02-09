@@ -19,15 +19,41 @@ unit frmPythonII;
 interface
 
 uses
-  Types, System.UITypes, System.Contnrs, Windows, Messages, SysUtils,
-  Variants, Classes, Graphics, Controls, Forms,
-  Dialogs , Menus, PythonEngine, SyncObjs, SynHighlighterPython,
-  SynEditHighlighter, SynEdit,
-  SynEditKeyCmds, SynCompletionProposal, JvDockControlForm,
-  frmIDEDockWin, ExtCtrls, JvComponentBase,
-  TB2Item, ActnList, cPyBaseDebugger, WrapDelphi,
-  SpTBXItem, SpTBXSkins, uEditAppIntfs, cCodeCompletion, System.Actions,
-  SpTBXControls;
+  WinApi.Windows,
+  WinApi.Messages,
+  System.Types,
+  System.UITypes,
+  System.Contnrs,
+  System.SysUtils,
+  System.Classes,
+  System.Variants,
+  System.Actions,
+  System.SyncObjs,
+  Vcl.Graphics,
+  Vcl.Controls,
+  Vcl.ExtCtrls,
+  Vcl.Forms,
+  Vcl.Dialogs ,
+  Vcl.Menus,
+  Vcl.ActnList,
+  JvComponentBase,
+  JvDockControlForm,
+  SynHighlighterPython,
+  SynEditHighlighter,
+  TB2Item,
+  SpTBXItem,
+  SpTBXSkins,
+  SpTBXControls,
+  SynEdit,
+  SynEditKeyCmds,
+  SynCompletionProposal,
+  PythonEngine,
+  WrapDelphi,
+  frmIDEDockWin,
+  uEditAppIntfs,
+  cPySupportTypes,
+  cPyBaseDebugger,
+  cCodeCompletion;
 
 const
   WM_APPENDTEXT = WM_USER + 1020;
@@ -437,7 +463,7 @@ begin
 //    Exit;
 
   if PyControl.DebuggerState <> dsInactive then begin
-    Dialogs.MessageDlg(_(SCannotChangeEngine), mtError, [mbAbort], 0);
+    Vcl.Dialogs.MessageDlg(_(SCannotChangeEngine), mtError, [mbAbort], 0);
     Exit;
   end;
 
@@ -1540,7 +1566,7 @@ begin
       else
         fOutputMirror.Write(UTF8BOMString[1], Length(UTF8BomString));  // save in utf8 encoding
     except
-      Dialogs.MessageDlg(Format(_(SCouldNotOpenOutputFile), [AFileName]), mtWarning, [mbOK], 0);
+      Vcl.Dialogs.MessageDlg(Format(_(SCouldNotOpenOutputFile), [AFileName]), mtWarning, [mbOK], 0);
     end;
   finally
     fCriticalSection.Release;
@@ -1833,17 +1859,17 @@ begin
   // Register the Recall History Command
   with SynEdit.Keystrokes.Add do
   begin
-    ShortCut := Menus.ShortCut(VK_UP, [ssAlt]);
+    ShortCut := Vcl.Menus.ShortCut(VK_UP, [ssAlt]);
     Command := ecRecallCommandPrev;
   end;
   with SynEdit.Keystrokes.Add do
   begin
-    ShortCut := Menus.ShortCut(VK_DOWN, [ssAlt]);
+    ShortCut := Vcl.Menus.ShortCut(VK_DOWN, [ssAlt]);
     Command := ecRecallCommandNext;
   end;
   with SynEdit.Keystrokes.Add do
   begin
-    ShortCut := Menus.ShortCut(VK_ESCAPE, []);
+    ShortCut := Vcl.Menus.ShortCut(VK_ESCAPE, []);
     Command := ecRecallCommandEsc;
   end;
 end;
@@ -1908,10 +1934,10 @@ begin
       expectedVersionIdx := idx;
     if expectedVersionIdx = -1 then
       if idx = -1 then
-        Dialogs.MessageDlg(Format(_(SUnknownPythonVersion),
+        Vcl.Dialogs.MessageDlg(Format(_(SUnknownPythonVersion),
           [StringReplace(expectedVersion, '.', '', [])]), mtWarning, [mbOK], 0)
       else
-        Dialogs.MessageDlg(Format(_(SUnsupportedPythonVersion),
+        Vcl.Dialogs.MessageDlg(Format(_(SUnsupportedPythonVersion),
           [StringReplace(expectedVersion, '.', '', []),
            PYTHON_KNOWN_VERSIONS[COMPILED_FOR_PYTHON_VERSION_INDEX].RegVersion]),
            mtWarning, [mbOK], 0);
@@ -1960,7 +1986,7 @@ begin
         PythonEngine.LoadDll;
         Result := i;
       except on E: EPyImportError do
-        Dialogs.MessageDlg(_(SPythonInitError), mtError, [mbOK], 0);
+        Vcl.Dialogs.MessageDlg(_(SPythonInitError), mtError, [mbOK], 0);
       end;
       if PythonEngine.IsHandleValid then
         // we found a valid version
@@ -1969,7 +1995,7 @@ begin
   end;
 
   if not PythonEngine.IsHandleValid then begin
-    Dialogs.MessageDlg(_(SPythonLoadError), mtError, [mbOK], 0);
+    Vcl.Dialogs.MessageDlg(_(SPythonLoadError), mtError, [mbOK], 0);
     ExitProcess(1);
   end;
 end;

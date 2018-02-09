@@ -96,7 +96,7 @@ implementation
 
 uses
   ClipBrd, Math, JclBase, JclFileUtils, JclHookExcept, JclPeImage, JclStrings,
-  JclSysInfo, JclWin32, uCommonFunctions, PythonEngine, TypInfo, cPyBaseDebugger,
+  JclSysInfo, JclWin32, uCommonFunctions, PythonEngine, TypInfo, cPySupportTypes,
   cPyScripterSettings;
 
 resourcestring

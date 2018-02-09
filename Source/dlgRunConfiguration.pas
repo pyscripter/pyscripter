@@ -3,9 +3,25 @@ unit dlgRunConfiguration;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, cPyBaseDebugger, StdCtrls, SpTBXControls, SynEdit, 
-  ExtCtrls, SpTBXEditors, dlgPyIDEBase, SpTBXItem, System.Generics.Collections;
+  WinApi.Windows,
+  WinApi.Messages,
+  System.SysUtils,
+  System.Variants,
+  System.Classes,
+  System.Generics.Collections,
+  Vcl.Graphics,
+  Vcl.Controls,
+  Vcl.StdCtrls,
+  Vcl.Forms,
+  Vcl.Dialogs,
+  Vcl.ExtCtrls,
+  SpTBXEditors,
+  SpTBXControls,
+  SpTBXItem,
+  cPySupportTypes,
+  cPyBaseDebugger,
+  SynEdit,
+  dlgPyIDEBase;
 
 type
   TRunConfigurationForm = class(TPyIDEDlgBase)

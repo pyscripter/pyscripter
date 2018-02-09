@@ -11,8 +11,16 @@ unit cPyDebugger;
 interface
 
 uses
-  Windows, SysUtils, Classes, System.UITypes,
-  uEditAppIntfs, PythonEngine, Forms, Contnrs, cPyBaseDebugger;
+  WinApi.Windows,
+  System.UITypes,
+  System.SysUtils,
+  System.Classes,
+  System.Contnrs,
+  Vcl.Forms,
+  uEditAppIntfs,
+  PythonEngine,
+  cPySupportTypes,
+  cPyBaseDebugger;
 
 type
   TFrameInfo = class(TBaseFrameInfo)
@@ -311,7 +319,7 @@ begin
     except
       fChildCount := 0;
       Dialogs.MessageDlg(Format(_(SErrorGettingNamespace), [fName]), mtError, [mbAbort], 0);
-      SysUtils.Abort;
+      System.SysUtils.Abort;
     end;
   end;
 end;
@@ -688,7 +696,7 @@ begin
           ReturnFocusToEditor := False;
           Dialogs.MessageDlg(E.Message, mtError, [mbOK], 0);
           CanDoPostMortem := True;
-          SysUtils.Abort;
+          System.SysUtils.Abort;
         end;
       end;
 
@@ -1004,7 +1012,7 @@ begin
   if PyControl.DebuggerState <> dsInactive then begin
     Dialogs.MessageDlg(_(SCannotCompileWhileRunning),
       mtError, [mbAbort], 0);
-    SysUtils.Abort;
+    System.SysUtils.Abort;
   end;
 
   VarClear(Result);
@@ -1025,7 +1033,7 @@ begin
     except
       on E: Exception do begin
         Dialogs.MessageDlg(Format(_(SFileOpenError), [FName, E.Message]), mtError, [mbOK], 0);
-        SysUtils.Abort;
+        System.SysUtils.Abort;
       end;
     end;
   end;
@@ -1051,12 +1059,12 @@ begin
             PyControl.DoErrorPosChanged;
           end;
           Dialogs.MessageDlg(E.Message, mtError, [mbOK], 0);
-          SysUtils.Abort;
+          System.SysUtils.Abort;
         end;
         on E: EPythonError do begin  //may raise OverflowError or ValueError
           HandlePyException(E);
           Dialogs.MessageDlg(E.Message, mtError, [mbOK], 0);
-          SysUtils.Abort;
+          System.SysUtils.Abort;
         end;
       end;
     end else begin
@@ -1144,7 +1152,7 @@ begin
     end;
     if VarIsNone(Result) then begin
       Dialogs.MessageDlg(_(SErrorInImportingModule), mtError, [mbOK], 0);
-      SysUtils.Abort;
+      System.SysUtils.Abort;
     end else if AddToNameSpace then
       // add Module name to the locals() of the interpreter
       GetPythonEngine.ExecString(AnsiString('import ' + NameOfModule));
@@ -1328,7 +1336,7 @@ begin
           ReturnFocusToEditor := False;
           Dialogs.MessageDlg(E.Message, mtError, [mbOK], 0);
           CanDoPostMortem := True;
-          SysUtils.Abort;
+          System.SysUtils.Abort;
         end;
       end;
     finally

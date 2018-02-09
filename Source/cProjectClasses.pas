@@ -13,7 +13,13 @@ unit cProjectClasses;
 interface
 
 uses
-  System.Types, SysUtils, Classes, Contnrs, JvAppStorage, cPyBaseDebugger;
+  System.Types,
+  System.SysUtils,
+  System.Classes,
+  System.Contnrs,
+  JvAppStorage,
+  cPySupportTypes,
+  cPyBaseDebugger;
 
 type
   TAbstractProjectNode = class;

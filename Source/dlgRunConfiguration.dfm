@@ -265,8 +265,8 @@ inherited RunConfigurationForm: TRunConfigurationForm
       object cbReinitializeBeforeRun: TSpTBXCheckBox
         Left = 8
         Top = 44
-        Width = 131
-        Height = 21
+        Width = 133
+        Height = 23
         Caption = 'Reinitiali&ze Before Run'
         Anchors = [akTop, akRight]
         TabOrder = 0
@@ -332,8 +332,8 @@ inherited RunConfigurationForm: TRunConfigurationForm
       object cbAppendToFile: TSpTBXCheckBox
         Left = 8
         Top = 64
-        Width = 91
-        Height = 21
+        Width = 93
+        Height = 23
         Caption = '&Append to file'
         TabOrder = 0
       end
@@ -381,8 +381,8 @@ inherited RunConfigurationForm: TRunConfigurationForm
       object cbSaveOutput: TSpTBXCheckBox
         Left = 8
         Top = 20
-        Width = 85
-        Height = 21
+        Width = 87
+        Height = 23
         Caption = 'Save Output'
         TabOrder = 3
         OnClick = cbSaveOutputClick
