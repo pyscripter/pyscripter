@@ -11,7 +11,12 @@ unit cRefactoring;
 interface
 
 uses
-  SysUtils, Classes, Windows, Variants, cPythonSourceScanner, Contnrs;
+  WinApi.Windows,
+  System.SysUtils,
+  System.Classes,
+  System.Variants,
+  System.Contnrs,
+  cPythonSourceScanner;
 
 type
   {
@@ -81,11 +86,22 @@ Const
 implementation
 
 uses
-  frmPythonII, PythonEngine, VarPyth, dmCommands,
+  System.Math,
+  System.StrUtils,
+  System.DateUtils,
+  PythonEngine,
+  VarPyth,
+  JclStrings,
+  JvGnugettext,
+  StringResources,
+  dmCommands,
+  frmPythonII,
   uEditAppIntfs,
-  uCommonFunctions, Math, StringResources,
-  cPyDebugger, JvGnugettext, StrUtils, JclStrings, DateUtils, cPyBaseDebugger,
-  cPyScripterSettings;
+  uCommonFunctions,
+  cPyBaseDebugger,
+  cPyScripterSettings,
+  cPyDebugger,
+  cPyControl;
 
 { TPyScripterRefactor }
 

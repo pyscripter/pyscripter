@@ -13,12 +13,35 @@ unit frmProjectExplorer;
 interface
 
 uses
- System.Contnrs, Windows, Messages, SysUtils, Variants,
-  Classes, Graphics, Controls, Forms,
-  Dialogs, frmIDEDockWin, JvComponentBase, JvDockControlForm, ExtCtrls,
-  cProjectClasses, VirtualTrees, ImgList, Menus, TB2Item, SpTBXItem,
-  ActnList, TB2Dock, TB2Toolbar, ActiveX, SpTBXSkins, System.Actions,
-  SpTBXControls,  System.UITypes, System.ImageList;
+  WinApi.Windows,
+  WinApi.Messages,
+  WinApi.ActiveX,
+  System.UITypes,
+  System.SysUtils,
+  System.Contnrs,
+  System.Variants,
+  System.Classes,
+  System.Actions,
+  System.ImageList,
+  Vcl.Graphics,
+  Vcl.Controls,
+  Vcl.Forms,
+  Vcl.Dialogs,
+  Vcl.ExtCtrls,
+  Vcl.Menus,
+  Vcl.ImgList,
+  TB2Item,
+  SpTBXItem,
+  ActnList,
+  TB2Dock,
+  TB2Toolbar,
+  SpTBXSkins,
+  SpTBXControls,
+  JvComponentBase,
+  JvDockControlForm,
+  VirtualTrees,
+  frmIDEDockWin,
+  cProjectClasses;
 
 type
   TProjectExplorerWindow = class(TIDEDockWindow)
@@ -180,11 +203,26 @@ var
 implementation
 
 uses
-  dmCommands, StringResources, uEditAppIntfs,
-  frmPyIDEMain, uCommonFunctions, JvAppIniStorage, JvAppStorage, JclFileUtils,
-  dlgImportDirectory, JclShell, dlgRunConfiguration, cPyBaseDebugger,
-  cParameters, MPDataObject, JvJVCLUtils,
-  JvGnugettext, uHighlighterProcs, dlgDirectoryList, cPyScripterSettings;
+  MPDataObject,
+  JclShell,
+  JclFileUtils,
+  JvAppIniStorage,
+  JvAppStorage,
+  JvJVCLUtils,
+  JvGnugettext,
+  StringResources,
+  dmCommands,
+  frmPyIDEMain,
+  uCommonFunctions,
+  dlgImportDirectory,
+  dlgRunConfiguration,
+  dlgDirectoryList,
+  uEditAppIntfs,
+  uHighlighterProcs,
+  cPyBaseDebugger,
+  cParameters,
+  cPyScripterSettings,
+  cPyControl;
 
 {$R *.dfm}
 
@@ -579,7 +617,7 @@ function TProjectExplorerWindow.CanClose: boolean;
 begin
   Result := not ActiveProject.Modified;
   if not Result then begin
-    case Dialogs.MessageDlg(_(SAskSaveProject), mtConfirmation, [mbYes, mbNo, mbCancel], 0) of
+    case Vcl.Dialogs.MessageDlg(_(SAskSaveProject), mtConfirmation, [mbYes, mbNo, mbCancel], 0) of
       mrYes : Result := DoSave;
       mrNo  : Result := True;
       mrCancel :  Result := False;
@@ -690,7 +728,7 @@ begin
     try
       FileBackup(ActiveProject.FileName);
     except
-      Dialogs.MessageDlg(Format(_(SFailedToBackupProject), [ActiveProject.FileName]),
+      Vcl.Dialogs.MessageDlg(Format(_(SFailedToBackupProject), [ActiveProject.FileName]),
         mtWarning, [mbOK], 0);
     end;
   end;
@@ -714,7 +752,7 @@ begin
     ExplorerTree.ReinitNode(ExplorerTree.RootNode, False);
   except
     on E: Exception do begin
-      Dialogs.MessageDlg(Format(_(SErrorInSavingProject) + sLineBreak +
+      Vcl.Dialogs.MessageDlg(Format(_(SErrorInSavingProject) + sLineBreak +
           'Error: %s', [ActiveProject.FileName, E.Message]), mtError, [mbOK], 0);
       Result := False;
     end;

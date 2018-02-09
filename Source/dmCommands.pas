@@ -13,18 +13,50 @@ unit dmCommands;
 interface
 
 uses
-  System.Types, System.UITypes, System.Actions, StdActns, System.ImageList,
-  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
-  ActnList, SynEdit, SynEditHighlighter, SynHighlighterPython, SynRegExpr,
-  ImgList, dlgSynEditOptions, SynEditPrint, SynUnicode,
-  SynCompletionProposal, SynEditRegexSearch, SynEditMiscClasses, SynEditSearch,
-  SynEditTextBuffer, SynEditKeyCmds, SynEditCodeFolding, SynEditTypes,
-  JvComponentBase, JvProgramVersionCheck, JvPropertyStore,
-  JvStringHolder, cPyBaseDebugger, VirtualExplorerTree,
-  SynHighlighterIni, uEditAppIntfs,
-  VirtualShellNotifier, SynHighlighterWeb, SynHighlighterCpp,
-  SynHighlighterYAML, SynHighlighterGeneral,
-  dlgOptionsEditor;
+  WinApi.Windows,
+  WinApi.Messages,
+  System.Types,
+  System.UITypes,
+  System.SysUtils,
+  System.Classes,
+  System.Actions,
+  System.ImageList,
+  Vcl.Graphics,
+  Vcl.Controls,
+  Vcl.Forms,
+  Vcl.Dialogs,
+  Vcl.ActnList,
+  Vcl.StdActns,
+  Vcl.ImgList,
+  SynEdit,
+  SynEditPrint,
+  SynUnicode,
+  SynRegExpr,
+  SynEditRegexSearch,
+  SynEditHighlighter,
+  SynCompletionProposal,
+  SynEditMiscClasses,
+  SynEditSearch,
+  SynEditTextBuffer,
+  SynEditKeyCmds,
+  SynEditCodeFolding,
+  SynEditTypes,
+  SynHighlighterPython,
+  SynHighlighterIni,
+  SynHighlighterWeb,
+  SynHighlighterCpp,
+  SynHighlighterYAML,
+  SynHighlighterGeneral,
+  JvComponentBase,
+  JvProgramVersionCheck,
+  JvPropertyStore,
+  JvStringHolder,
+  VirtualExplorerTree,
+  VirtualShellNotifier,
+  dlgSynEditOptions,
+  dlgOptionsEditor,
+  uEditAppIntfs,
+  cPyBaseDebugger;
 
 type
   TSearchCaseSensitiveType = (scsAuto, scsNotCaseSenitive, scsCaseSensitive);
@@ -318,17 +350,10 @@ type
   public
     SynYAMLSyn: TSynYAMLSyn;
     SynCythonSyn: TSynCythonSyn;
-    BlockOpenerRE : TRegExpr;
-    BlockCloserRE : TRegExpr;
-    CommentLineRE : TRegExpr;
     NumberOfOriginalImages : integer;
-    NonExecutableLineRE : TRegExpr;
     UserDataPath : string;
     ColorThemesFilesDir : string;
     StylesFilesDir : string;
-    function IsBlockOpener(S : string) : Boolean;
-    function IsBlockCloser(S : string) : Boolean;
-    function IsExecutableLine(Line : string) : Boolean;
     function GetHighlighterForFile(AFileName: string): TSynCustomHighlighter;
     procedure SynEditOptionsDialogGetHighlighterCount(Sender: TObject;
                 var Count: Integer);
@@ -402,19 +427,55 @@ implementation
 {$R *.DFM}
 
 uses
-  System.Win.Registry, System.Variants,
-  WinApi.WinInet, WinApi.ShlObj, WinApi.ShellAPI,
-  dlgSynPageSetup, uHighlighterProcs, frmPythonII, dlgDirectoryList,
-  dlgAboutPyScripter, frmPyIDEMain, frmEditor, frmFindResults, cParameters,
-  dlgCustomParams, uParams, dlgCodeTemplates, dlgConfigureTools, cTools,
-  frmFunctionList, StringResources, uCommonFunctions,
-  dlgConfirmReplace, dlgCustomShortcuts, dlgUnitTestWizard,
-  dlgFileTemplates, dlgPickList, JvAppIniStorage,
-  JvAppStorage, JvDSADialogs, uSearchHighlighter,
-  MPShellUtilities, MPCommonUtilities, JvGnugettext, SpTBXMDIMRU, StrUtils,
-  DateUtils, Clipbrd, PythonEngine,
-  JclSysUtils, JclSysInfo, JclStrings, JclFileUtils, JclDebug, JvJCLUtils,
-  JvDynControlEngineVCL, cPyScripterSettings;
+  WinApi.WinInet,
+  WinApi.ShlObj,
+  WinApi.ShellAPI,
+  System.Win.Registry,
+  System.StrUtils,
+  System.DateUtils,
+  System.Variants,
+  Vcl.Clipbrd,
+  MPShellUtilities,
+  MPCommonUtilities,
+  SpTBXMDIMRU,
+  PythonEngine,
+  JclSysUtils,
+  JclSysInfo,
+  JclStrings,
+  JclFileUtils,
+  JclDebug,
+  JvAppIniStorage,
+  JvAppStorage,
+  JvDSADialogs,
+  JvJCLUtils,
+  JvDynControlEngineVCL,
+  JvGnugettext,
+  StringResources,
+  dlgSynPageSetup,
+  dlgDirectoryList,
+  dlgAboutPyScripter,
+  dlgConfirmReplace,
+  dlgCustomShortcuts,
+  dlgUnitTestWizard,
+  dlgFileTemplates,
+  dlgPickList,
+  dlgCodeTemplates,
+  dlgConfigureTools,
+  dlgCustomParams,
+  frmPythonII,
+  frmPyIDEMain,
+  frmEditor,
+  frmFindResults,
+  frmFunctionList,
+  uHighlighterProcs,
+  uParams,
+  uCommonFunctions,
+  uSearchHighlighter,
+  cTools,
+  cPySupportTypes,
+  cPyScripterSettings,
+  cParameters,
+  cPyControl;
 
 
 { TEditorSearchOptions }
@@ -472,7 +533,7 @@ procedure TEditorSearchOptions.NewSearch(SynEdit : TSynEdit; ABackwards : Boolea
 
     // work backwards
     Line := BlockEnd.Line;
-    S := StrUtils.LeftStr(Strings[Line-1], BlockEnd.Char - 1);
+    S := System.StrUtils.LeftStr(Strings[Line-1], BlockEnd.Char - 1);
     Repeat
       Result := SynEdit.SearchEngine.FindAll(S) > 0;
       Dec(Line);
@@ -568,7 +629,7 @@ begin
   else begin
     UserDataPath := IncludeTrailingPathDelimiter(GetAppdataFolder) + 'PyScripter\';
     if not ForceDirectories(UserDataPath) then
-      Dialogs.MessageDlg(Format(SAccessAppDataDir, [UserDataPath]), mtWarning, [mbOK], 0);
+      Vcl.Dialogs.MessageDlg(Format(SAccessAppDataDir, [UserDataPath]), mtWarning, [mbOK], 0);
   end;
 
   // Skins directory
@@ -625,16 +686,6 @@ begin
   MaskFPUExceptions(PyIDEOptions.MaskFPUExceptions);
   dlgFileOpen.Filter := PyIDEOptions.PythonFileFilter;
 
-  BlockOpenerRE := TRegExpr.Create;
-  BlockOpenerRE.Expression := ':\s*(#.*)?$';
-  BlockCloserRE := TRegExpr.Create;
-  BlockCloserRE.Expression := '\s*(return|break|continue|raise|pass)\b';
-  NonExecutableLineRE := TRegExpr.Create;
-  NonExecutableLineRE.Expression := '(^\s*(class|def)\b)|(^\s*#)|(^\s*$)';
-  CommentLineRE := TRegExpr.Create;
-  CommentLineRE.Expression := '^([ \t]*)##';
-  CommentLineRE.ModifierM := True;
-
   with SynEditPrint.Header do begin
     Add('$TITLE$', nil, taCenter, 2);
   end;
@@ -673,10 +724,6 @@ begin
   fHighlighters.Free;
   fUntitledNumbers.Free;
   CommandsDataModule := nil;
-  BlockOpenerRE.Free;
-  BlockCloserRE.Free;
-  NonExecutableLineRE.Free;
-  CommentLineRE.Free;
   imlShellIcon.Handle := 0;
 end;
 
@@ -1016,7 +1063,7 @@ begin
         GI_ActiveEditor.ActiveSynEdit.CaretXY := BufferCoord(1, LineNo);
       except
         on E: EConvertError do begin
-          Dialogs.MessageDlg(Format(_(SNotAValidNumber), [Line]), mtError,
+          Vcl.Dialogs.MessageDlg(Format(_(SNotAValidNumber), [Line]), mtError,
             [mbAbort], 0);
         end;
       end;
@@ -1342,13 +1389,13 @@ begin
       OldBlockBegin := BufferCoord(1, OldBlockBegin.Line);
       BlockBegin := OldBlockBegin;
       BlockEnd := OldBlockEnd;
-      SelText := CommentLineRE.Replace(SelText, '$1', True);
+      SelText := TPyRegExpr.CommentLineRE.Replace(SelText, '$1', True);
       BlockBegin := OldBlockBegin;
       BlockEnd := BufferCoord(OldBlockEnd.Char - 2, OldBlockEnd.Line);
     end else begin
       BlockBegin := BufferCoord(1, CaretY);
       BlockEnd := BufferCoord(Length(LineText)+1, CaretY);
-      SelText := CommentLineRE.Replace(SelText, '$1', True);
+      SelText := TPyRegExpr.CommentLineRE.Replace(SelText, '$1', True);
       CaretXY := BufferCoord(OldBlockEnd.Char - 2, OldBlockEnd.Line);
     end;
     UpdateCaret;
@@ -1527,22 +1574,6 @@ begin
   if Assigned(GI_ActiveEditor) then
     GI_ActiveEditor.ActiveSynEdit.CommandProcessor(ecMatchBracket, #0, nil);
 end;
-
-function TCommandsDataModule.IsBlockCloser(S: string): Boolean;
-begin
-  Result := BlockCloserRE.Exec(S);
-end;
-
-function TCommandsDataModule.IsBlockOpener(S: string): Boolean;
-begin
-  Result := BlockOpenerRE.Exec(S);
-end;
-
-function TCommandsDataModule.IsExecutableLine(Line: string): Boolean;
-begin
-  Result := not ((Line = '') or NonExecutableLineRE.Exec(Line));
-end;
-
 
 procedure GetMatchingBrackets(SynEdit : TSynEdit;
   var BracketPos : TBufferCoord; out MatchingBracketPos : TBufferCoord;
@@ -1770,7 +1801,7 @@ begin
           Editor.SynEdit.Modified := True;
           // Set FileTime to zero to prevent further notifications
           TEditorForm(Editor.Form).FileTime := 0;
-          Dialogs.MessageDlg(Format(_(SFileRenamedOrDeleted), [Editor.FileName]) , mtWarning, [mbOK], 0);
+          Vcl.Dialogs.MessageDlg(Format(_(SFileRenamedOrDeleted), [Editor.FileName]) , mtWarning, [mbOK], 0);
         end;
       end else if not SameDateTime(TEditorForm(Editor.Form).FileTime, FTime) then begin
         ChangedFiles.AddObject(Editor.GetFileNameOrTitle, Editor.Form);
@@ -2055,7 +2086,7 @@ begin
 
         SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_IDLIST, nil, nil);
       except
-        Dialogs.MessageDlg(_(SRegistryAccessDenied), mtError, [mbOK], 0);
+        Vcl.Dialogs.MessageDlg(_(SRegistryAccessDenied), mtError, [mbOK], 0);
       end;
       FreeAndNil(Reg);
     end;
@@ -2611,10 +2642,10 @@ begin
 
   if Assigned(Sender) and not ProgramVersionCheck.IsRemoteProgramVersionNewer then
     if ProgramVersionCheck.DownloadError <> '' then
-      Dialogs.MessageDlg(_(SErrorWhileDownload) +
+      Vcl.Dialogs.MessageDlg(_(SErrorWhileDownload) +
         ProgramVersionCheck.DownloadError, mtError, [mbOK], 0)
     else
-      Dialogs.MessageDlg(_(SCurrentVersionUptodate), mtInformation, [mbOK], 0);
+      Vcl.Dialogs.MessageDlg(_(SCurrentVersionUptodate), mtInformation, [mbOK], 0);
   PyIDEOptions.DateLastCheckedForUpdates := Now;
 end;
 

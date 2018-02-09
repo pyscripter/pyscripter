@@ -11,10 +11,25 @@ unit frmDocView;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, OleCtrls, ActiveX, SHDocVw,
-  ImgList, uEditAppIntfs, TB2Item, TB2Dock, TB2Toolbar, SpTBXItem,
-  System.ImageList;
+  WinApi.Windows,
+  WinApi.Messages,
+  WinApi.ActiveX,
+  System.SysUtils,
+  System.Variants,
+  System.Classes,
+  System.ImageList,
+  Vcl.Graphics,
+  Vcl.Controls,
+  Vcl.Forms,
+  Vcl.Dialogs,
+  Vcl.OleCtrls,
+  Vcl.ImgList,
+  SHDocVw,
+  TB2Item,
+  TB2Dock,
+  TB2Toolbar,
+  SpTBXItem,
+  uEditAppIntfs;
 
 type
   TDocForm = class(TForm, IEditorView)
@@ -71,13 +86,14 @@ implementation
 
 uses
   JclStrings,
-  dmCommands,
+  JclFileUtils,
   JvJVCLUtils,
-  cPyBaseDebugger,
   JvGnugettext,
   StringResources,
+  dmCommands,
   uCommonFunctions,
-  JclFileUtils;
+  cPyBaseDebugger,
+  cPyControl;
 
 {$R *.dfm}
 

@@ -11,8 +11,19 @@ unit frmDisassemlyView;
 interface                          
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, SynEditHighlighter, SynHighlighterPython, SynEdit, uEditAppIntfs;
+  WinApi.Windows,
+  WinApi.Messages,
+  System.SysUtils,
+  System.Variants,
+  System.Classes,
+  Vcl.Graphics,
+  Vcl.Controls,
+  Vcl.Forms,
+  Vcl.Dialogs,
+  SynEditHighlighter,
+  SynHighlighterPython,
+  SynEdit,
+  uEditAppIntfs, SynEditCodeFolding;
 
 type
   TDisForm = class(TForm, IEditorView)
@@ -40,8 +51,12 @@ type
 
 implementation
 
-uses dmCommands, 
-  JvJVCLUtils, cPyBaseDebugger, JvGnugettext, StringResources;
+uses
+  JvJVCLUtils,
+  JvGnugettext,
+  StringResources,
+  dmCommands,
+  cPyControl;
 
 {$R *.dfm}
 

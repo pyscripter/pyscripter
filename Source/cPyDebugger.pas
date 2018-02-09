@@ -17,8 +17,8 @@ uses
   System.Classes,
   System.Contnrs,
   Vcl.Forms,
-  uEditAppIntfs,
   PythonEngine,
+  uEditAppIntfs,
   cPySupportTypes,
   cPyBaseDebugger;
 
@@ -173,10 +173,23 @@ implementation
 
 
 uses
-  dmCommands, frmPythonII, Variants, VarPyth, frmMessages, frmPyIDEMain,
-  MMSystem, Math, uCommonFunctions,
-  cParameters, StringResources, Dialogs, JvDSADialogs,
-  JvGnugettext, cRefactoring, cPyScripterSettings;
+  WinApi.MMSystem,
+  System.Math,
+  System.Variants,
+  Vcl.Dialogs,
+  VarPyth,
+  JvDSADialogs,
+  JvGnugettext,
+  StringResources,
+  dmCommands,
+  frmPythonII,
+  frmMessages,
+  frmPyIDEMain,
+  uCommonFunctions,
+  cRefactoring,
+  cPyScripterSettings,
+  cParameters,
+  cPyControl;
 
 { TFrameInfo }
 
@@ -318,7 +331,7 @@ begin
       end;
     except
       fChildCount := 0;
-      Dialogs.MessageDlg(Format(_(SErrorGettingNamespace), [fName]), mtError, [mbAbort], 0);
+      Vcl.Dialogs.MessageDlg(Format(_(SErrorGettingNamespace), [fName]), mtError, [mbAbort], 0);
       System.SysUtils.Abort;
     end;
   end;
@@ -642,7 +655,7 @@ begin
     try
       SetCurrentDir(Path)
     except
-      Dialogs.MessageDlg(_(SCouldNotSetDirectory), mtWarning, [mbOK], 0);
+      Vcl.Dialogs.MessageDlg(_(SCouldNotSetDirectory), mtWarning, [mbOK], 0);
     end;
 
     PyControl.DoStateChange(dsDebugging);
@@ -694,7 +707,7 @@ begin
         on E: EPythonError do begin
           InternalInterpreter.HandlePyException(E, 2);
           ReturnFocusToEditor := False;
-          Dialogs.MessageDlg(E.Message, mtError, [mbOK], 0);
+          Vcl.Dialogs.MessageDlg(E.Message, mtError, [mbOK], 0);
           CanDoPostMortem := True;
           System.SysUtils.Abort;
         end;
@@ -1010,7 +1023,7 @@ Var
   Editor : IEditor;
 begin
   if PyControl.DebuggerState <> dsInactive then begin
-    Dialogs.MessageDlg(_(SCannotCompileWhileRunning),
+    Vcl.Dialogs.MessageDlg(_(SCannotCompileWhileRunning),
       mtError, [mbAbort], 0);
     System.SysUtils.Abort;
   end;
@@ -1032,7 +1045,7 @@ begin
       Source := CleanEOLs(FileToEncodedStr(string(FName))) + AnsiString(#10);
     except
       on E: Exception do begin
-        Dialogs.MessageDlg(Format(_(SFileOpenError), [FName, E.Message]), mtError, [mbOK], 0);
+        Vcl.Dialogs.MessageDlg(Format(_(SFileOpenError), [FName, E.Message]), mtError, [mbOK], 0);
         System.SysUtils.Abort;
       end;
     end;
@@ -1058,12 +1071,12 @@ begin
             PyControl.ErrorPos.IsSyntax := True;
             PyControl.DoErrorPosChanged;
           end;
-          Dialogs.MessageDlg(E.Message, mtError, [mbOK], 0);
+          Vcl.Dialogs.MessageDlg(E.Message, mtError, [mbOK], 0);
           System.SysUtils.Abort;
         end;
         on E: EPythonError do begin  //may raise OverflowError or ValueError
           HandlePyException(E);
-          Dialogs.MessageDlg(E.Message, mtError, [mbOK], 0);
+          Vcl.Dialogs.MessageDlg(E.Message, mtError, [mbOK], 0);
           System.SysUtils.Abort;
         end;
       end;
@@ -1151,7 +1164,7 @@ begin
       end;
     end;
     if VarIsNone(Result) then begin
-      Dialogs.MessageDlg(_(SErrorInImportingModule), mtError, [mbOK], 0);
+      Vcl.Dialogs.MessageDlg(_(SErrorInImportingModule), mtError, [mbOK], 0);
       System.SysUtils.Abort;
     end else if AddToNameSpace then
       // add Module name to the locals() of the interpreter
@@ -1305,7 +1318,7 @@ begin
     try
       SetCurrentDir(Path)
     except
-      Dialogs.MessageDlg(_(SCouldNotSetDirectory), mtWarning, [mbOK], 0);
+      Vcl.Dialogs.MessageDlg(_(SCouldNotSetDirectory), mtWarning, [mbOK], 0);
     end;
 
 
@@ -1334,7 +1347,7 @@ begin
         on E: EPythonError do begin
           HandlePyException(E);
           ReturnFocusToEditor := False;
-          Dialogs.MessageDlg(E.Message, mtError, [mbOK], 0);
+          Vcl.Dialogs.MessageDlg(E.Message, mtError, [mbOK], 0);
           CanDoPostMortem := True;
           System.SysUtils.Abort;
         end;
@@ -1471,7 +1484,7 @@ begin
             PyControl.ErrorPos.Char := E.EOffset;
             PyControl.ErrorPos.IsSyntax := True;
             PyControl.DoErrorPosChanged;
-            if Not Quiet then Dialogs.MessageDlg(E.Message, mtError, [mbOK], 0);
+            if Not Quiet then Vcl.Dialogs.MessageDlg(E.Message, mtError, [mbOK], 0);
           end;
         end;
       end;

@@ -225,11 +225,27 @@ var
 implementation
 
 Uses
-  SynEditTypes, Math, frmPyIDEMain, dmCommands, VarPyth, Registry,
-  frmMessages, uCommonFunctions, frmVariables, StringResources,
-  frmUnitTests, SynRegExpr,  JvJVCLUtils, uCmdLine,
-  cPyDebugger, cPyRemoteDebugger, JclStrings, JvGnugettext,
-  cProjectClasses, cPyScripterSettings;
+  System.Math,
+  System.Win.Registry,
+  SynEditTypes,
+  SynRegExpr,
+  VarPyth,
+  JclStrings,
+  JvJVCLUtils,
+  JvGnugettext,
+  StringResources,
+  frmPyIDEMain,
+  dmCommands,
+  frmMessages,
+  frmVariables,
+  frmUnitTests,
+  uCommonFunctions,
+  uCmdLine,
+  cPyDebugger,
+  cPyRemoteDebugger,
+  cProjectClasses,
+  cPyScripterSettings,
+  cPyControl;
 
 {$R *.dfm}
 
@@ -862,12 +878,12 @@ begin
                 Inc(Position);
               end;
 
-              if CommandsDataModule.IsBlockOpener(CurLine) then begin
+              if TPyRegExpr.IsBlockOpener(CurLine) then begin
                 if eoTabsToSpaces in SynEdit.Options then
                   Indent := Indent + StringOfChar(' ', SynEdit.TabWidth)
                 else
                   Indent := indent + #9;
-              end else if CommandsDataModule.IsBlockCloser(CurLine) then begin
+              end else if TPyRegExpr.IsBlockCloser(CurLine) then begin
                 if (eoTabsToSpaces in SynEdit.Options) and (Length(Indent) > 0) and
                   (Indent[Length(Indent)] <> #9)
                 then

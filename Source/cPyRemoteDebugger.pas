@@ -17,10 +17,10 @@ uses
   System.Contnrs,
   System.Variants,
   System.SyncObjs,
-  uEditAppIntfs,
   Vcl.Forms,
-  PythonEngine,
   JvCreateProcess,
+  PythonEngine,
+  uEditAppIntfs,
   cTools,
   cPySupportTypes,
   cPyBaseDebugger,
@@ -170,12 +170,27 @@ type
 implementation
 
 uses
-  VarPyth, StringResources, frmPythonII, Dialogs, dmCommands,
-  cParameters, uCommonFunctions, frmMessages, frmPyIDEMain,
-  frmVariables, frmCallStack, frmUnitTests, JvDSADialogs,
-  JvGnugettext, JclStrings, JclSysUtils, cProjectClasses, JvJCLUtils,
+  Vcl.Dialogs,
+  VarPyth,
+  JclStrings,
+  JclSysUtils,
+  JvJCLUtils,
+  JvDSADialogs,
+  JvGnugettext,
+  StringResources,
+  dmCommands,
+  frmPythonII,
+  frmMessages,
+  frmPyIDEMain,
+  frmVariables,
+  frmCallStack,
+  frmUnitTests,
+  uCommonFunctions,
+  cProjectClasses,
+  cParameters,
   cRefactoring,
-  cPyScripterSettings;
+  cPyScripterSettings,
+  cPyControl;
 
 { TRemNameSpaceItem }
 constructor TRemNameSpaceItem.Create(aName : string; aPyObject : Variant;
@@ -264,7 +279,7 @@ begin
       end;
     except
       fChildCount := 0;
-      Dialogs.MessageDlg(Format(_(SErrorGettingNamespace), [fName]), mtError, [mbAbort], 0);
+      Vcl.Dialogs.MessageDlg(Format(_(SErrorGettingNamespace), [fName]), mtError, [mbAbort], 0);
       System.SysUtils.Abort;
     end;
   end;
@@ -378,7 +393,7 @@ begin
   if not (fIsAvailable and fIsConnected and (ServerProcess.State = psWaiting)) then begin
     fIsConnected := False;
     if not Quiet then
-      Dialogs.MessageDlg(_(SRemoteServerNotConnected),
+      Vcl.Dialogs.MessageDlg(_(SRemoteServerNotConnected),
         mtError, [mbAbort], 0);
     VariablesWindow.VariablesTree.Enabled := False;
     fThreadExecInterrupted := True;
@@ -398,7 +413,7 @@ Var
 begin
   CheckConnected;
   if PyControl.DebuggerState <> dsInactive then begin
-    Dialogs.MessageDlg(_(SCannotCompileWhileRunning),
+    Vcl.Dialogs.MessageDlg(_(SCannotCompileWhileRunning),
       mtError, [mbAbort], 0);
     System.SysUtils.Abort;
   end;
@@ -427,7 +442,7 @@ begin
         Source := CleanEOLs(FileToEncodedStr(FName)) + AnsiChar(#10);
     except
       on E: Exception do begin
-        Dialogs.MessageDlg(Format(_(SFileOpenError), [FName, E.Message]), mtError, [mbOK], 0);
+        Vcl.Dialogs.MessageDlg(Format(_(SFileOpenError), [FName, E.Message]), mtError, [mbOK], 0);
         System.SysUtils.Abort;
       end;
     end;
@@ -458,7 +473,7 @@ begin
         end;
       end else
         HandleRemoteException(ExcInfo);
-      Dialogs.MessageDlg(Format('%s: %s',
+      Vcl.Dialogs.MessageDlg(Format('%s: %s',
         [VarPythonAsString(ExcInfo.__getitem__(0)), VarPythonAsString(RPI.safestr(Error))]),
         mtError, [mbOK], 0);
       System.SysUtils.Abort;
@@ -470,7 +485,7 @@ begin
       VarClear(Result);
 
       HandlePyException(E);
-      Dialogs.MessageDlg(E.Message, mtError, [mbOK], 0);
+      Vcl.Dialogs.MessageDlg(E.Message, mtError, [mbOK], 0);
       System.SysUtils.Abort;
     end;
     else begin
@@ -515,7 +530,7 @@ begin
     Rpyc := Import('rpyc');
     fIsAvailable := True;
   except
-    Dialogs.MessageDlg(_(SRpycNotAvailable), mtError, [mbAbort], 0);
+    Vcl.Dialogs.MessageDlg(_(SRpycNotAvailable), mtError, [mbAbort], 0);
     fIsAvailable := False;
   end;
 
@@ -535,7 +550,7 @@ begin
     try
       StringToFile(ServerFile, AnsiString(ServerSource));
     except
-      Dialogs.MessageDlg(Format(_(SCouldNotWriteServerFile), [ServerFile]), mtError, [mbAbort], 0);
+      Vcl.Dialogs.MessageDlg(Format(_(SCouldNotWriteServerFile), [ServerFile]), mtError, [mbAbort], 0);
       fIsAvailable := False;
     end;
   end;
@@ -550,11 +565,11 @@ begin
     except
       on E: Exception do begin
         fIsAvailable := False;
-        Dialogs.MessageDlg(_(SErrorCreatingRemoteEngine) + E.Message, mtError, [mbAbort], 0);
+        Vcl.Dialogs.MessageDlg(_(SErrorCreatingRemoteEngine) + E.Message, mtError, [mbAbort], 0);
       end;
     end;
     if not (fIsAvailable and fIsConnected) then
-      Dialogs.MessageDlg(_(SCouldNotConnectRemoteEngine), mtError, [mbAbort], 0)
+      Vcl.Dialogs.MessageDlg(_(SCouldNotConnectRemoteEngine), mtError, [mbAbort], 0)
   end;
 end;
 
@@ -747,7 +762,7 @@ begin
       if not VarIsNone(RPI.exc_info) then begin
         Result := None;
         HandleRemoteException(ExcInfo);
-        Dialogs.MessageDlg(Format('%s: %s',
+        Vcl.Dialogs.MessageDlg(Format('%s: %s',
           [VarPythonAsString(ExcInfo.__getitem__(0)), VarPythonAsString(RPI.safestr(ExcInfo.__getitem__(1)))]),
           mtError, [mbOK], 0);
         System.SysUtils.Abort;
@@ -759,7 +774,7 @@ begin
       end;
     end;
     if VarIsNone(Result) then begin
-      Dialogs.MessageDlg(_(SErrorInImportingModule), mtError, [mbOK], 0);
+      Vcl.Dialogs.MessageDlg(_(SErrorInImportingModule), mtError, [mbOK], 0);
       System.SysUtils.Abort;
     end else if AddToNameSpace then
       RPI.locals.__setitem__(VarPythonCreate(NameOfModule), Result);
@@ -836,7 +851,7 @@ begin
 //          Conn.close();
           ShutDownServer;
           if ServerProcess.State <> psReady then
-            Dialogs.MessageDlg(_(SCouldNotShutDownRemoteEngine), mtError, [mbAbort], 0)
+            Vcl.Dialogs.MessageDlg(_(SCouldNotShutDownRemoteEngine), mtError, [mbAbort], 0)
           else
             fThreadExecInterrupted := True;
         except
@@ -850,7 +865,7 @@ begin
         if ServerProcess.State = psReady then begin
           fIsAvailable := fIsAvailable and CreateAndConnectToServer;
           if not (fIsAvailable and fIsConnected) then
-            Dialogs.MessageDlg(_(SCouldNotConnectRemoteEngine), mtError, [mbAbort], 0)
+            Vcl.Dialogs.MessageDlg(_(SCouldNotConnectRemoteEngine), mtError, [mbAbort], 0)
           else begin
             PythonIIForm.AppendText(sLineBreak + _(SRemoteInterpreterInit));
             PythonIIForm.AppendPrompt;
@@ -864,7 +879,7 @@ begin
             PyControl.DoStateChange(dsInactive);
           end;
         end else
-          Dialogs.MessageDlg(_(SCouldNotShutDownRemoteEngine), mtError, [mbAbort], 0);
+          Vcl.Dialogs.MessageDlg(_(SCouldNotShutDownRemoteEngine), mtError, [mbAbort], 0);
       end;
     else
       // Should not happen.  Reinitialise is not enabled for other states
@@ -916,7 +931,7 @@ begin
     try
       RPI.rem_chdir(Path)
     except
-      Dialogs.MessageDlg(_(SCouldNotSetCurrentDir), mtWarning, [mbOK], 0);
+      Vcl.Dialogs.MessageDlg(_(SCouldNotSetCurrentDir), mtWarning, [mbOK], 0);
     end;
 
     // Set the command line parameters
@@ -935,7 +950,7 @@ begin
           if not VarIsNone(ExcInfo) then begin
             HandleRemoteException(ExcInfo);
             ReturnFocusToEditor := False;
-            Dialogs.MessageDlg(Format('%s: %s',
+            Vcl.Dialogs.MessageDlg(Format('%s: %s',
               [VarPythonAsString(ExcInfo.__getitem__(0)),
                VarPythonAsString(RPI.safestr(ExcInfo.__getitem__(1)))]),
               mtError, [mbOK], 0);
@@ -948,7 +963,7 @@ begin
           // should not happen
           if not fThreadExecInterrupted then begin
             HandlePyException(E);
-            Dialogs.MessageDlg(E.Message, mtError, [mbOK], 0);
+            Vcl.Dialogs.MessageDlg(E.Message, mtError, [mbOK], 0);
           end;
           System.SysUtils.Abort;
         end;
@@ -1577,7 +1592,7 @@ begin
     try
       fRemotePython.RPI.rem_chdir(Path)
     except
-      Dialogs.MessageDlg(_(SCouldNotSetCurrentDir), mtWarning, [mbOK], 0);
+      Vcl.Dialogs.MessageDlg(_(SCouldNotSetCurrentDir), mtWarning, [mbOK], 0);
     end;
 
     PyControl.DoStateChange(dsDebugging);
@@ -1643,7 +1658,7 @@ begin
           if not VarIsNone(ExcInfo) then begin
             fRemotePython.HandleRemoteException(ExcInfo, 2);
             ReturnFocusToEditor := False;
-            Dialogs.MessageDlg(Format('%s: %s',
+            Vcl.Dialogs.MessageDlg(Format('%s: %s',
               [VarPythonAsString(ExcInfo.__getitem__(0)),
                VarPythonAsString(fRemotePython.RPI.safestr(ExcInfo.__getitem__(1)))]),
                mtError, [mbOK], 0);
@@ -1657,7 +1672,7 @@ begin
           // should not happen
           if not fRemotePython.fThreadExecInterrupted then begin
             fRemotePython.HandlePyException(E);
-            Dialogs.MessageDlg(E.Message, mtError, [mbOK], 0);
+            Vcl.Dialogs.MessageDlg(E.Message, mtError, [mbOK], 0);
           end;
           System.SysUtils.Abort;
         end;

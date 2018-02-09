@@ -11,12 +11,32 @@ unit frmVariables;
 interface
 
 uses
-  System.UITypes, Windows, Messages, SysUtils, Variants, Classes,
-  Graphics, Controls, Forms, Dialogs,
-  JvDockControlForm, Menus, VTHeaderPopup, JvAppStorage,
-  VirtualTrees, frmIDEDockWin, SpTBXDkPanels, cPyBaseDebugger,
-  SpTBXSkins, SpTBXPageScroller, ExtCtrls, SpTBXItem,
-  SpTBXControls, Vcl.StdCtrls, Vcl.ComCtrls, JvComponentBase;
+  WinApi.Windows,
+  WinApi.Messages,
+  System.UITypes,
+  System.SysUtils,
+  System.Variants,
+  System.Classes,
+  Vcl.Graphics,
+  Vcl.Controls,
+  Vcl.Forms,
+  Vcl.Dialogs,
+  Vcl.Menus,
+  Vcl.StdCtrls,
+  Vcl.ExtCtrls,
+  Vcl.ComCtrls,
+  JvComponentBase,
+  JvDockControlForm,
+  JvAppStorage,
+  SpTBXDkPanels,
+  SpTBXSkins,
+  SpTBXPageScroller,
+  SpTBXItem,
+  SpTBXControls,
+  VTHeaderPopup,
+  VirtualTrees,
+  frmIDEDockWin,
+  cPyBaseDebugger;
 
 type
   TVariablesWindow = class(TIDEDockWindow, IJvAppStorageHandler)
@@ -63,9 +83,18 @@ var
 
 implementation
 
-uses frmCallStack, PythonEngine, cVirtualStringTreeHelper,
-  dmCommands, uCommonFunctions, StringResources,
-  JvJVCLUtils, Math, JvGnugettext, Vcl.Themes;
+uses
+  System.Math,
+  Vcl.Themes,
+  JvJVCLUtils,
+  PythonEngine,
+  JvGnugettext,
+  StringResources,
+  dmCommands,
+  frmCallStack,
+  uCommonFunctions,
+  cVirtualStringTreeHelper,
+  cPyControl;
 
 {$R *.dfm}
 Type

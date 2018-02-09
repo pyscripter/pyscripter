@@ -3,11 +3,34 @@ unit frmUnitTests;
 interface
 
 uses
-  System.UITypes, System.ImageList, Windows, Messages, SysUtils, Variants,
-  System.Actions, Classes, Graphics, Controls, Forms, Dialogs, frmIDEDockWin,
-  JvComponentBase, JvDockControlForm, ExtCtrls, ImgList, SpTBXDkPanels, VirtualTrees,
-  TB2Item, TB2Dock, TB2Toolbar, StdCtrls,   ActnList, SpTBXControls, SpTBXItem,
-  ComCtrls, SpTBXSkins;
+  WinApi.Windows,
+  WinApi.Messages,
+  System.UITypes,
+  System.ImageList,
+  System.Actions,
+  System.SysUtils,
+  System.Variants,
+  System.Classes,
+  Vcl.Graphics,
+  Vcl.Controls,
+  Vcl.Forms,
+  Vcl.Dialogs,
+  Vcl.ComCtrls,
+  Vcl.StdCtrls,
+  Vcl.ExtCtrls,
+  Vcl.ImgList,
+  Vcl.ActnList,
+  JvComponentBase,
+  JvDockControlForm,
+  VirtualTrees,
+  TB2Item,
+  TB2Dock,
+  TB2Toolbar,
+  SpTBXDkPanels,
+  SpTBXControls,
+  SpTBXItem,
+  SpTBXSkins,
+  frmIDEDockWin;
 
 type
   TUnitTestWindowStatus = (utwEmpty, utwLoaded, utwRunning, utwRun);
@@ -103,9 +126,20 @@ var
 
 implementation
 
-uses uCommonFunctions, frmPyIDEMain, VarPyth, JvJVCLUtils,
-  uEditAppIntfs, PythonEngine, dmCommands, cPyBaseDebugger, JclSysUtils,
-  cPyDebugger, StringResources, JvGnugettext;
+uses
+  JclSysUtils,
+  JvJVCLUtils,
+  JvGnugettext,
+  PythonEngine,
+  VarPyth,
+  StringResources,
+  dmCommands,
+  frmPyIDEMain,
+  uCommonFunctions,
+  uEditAppIntfs,
+  cPyBaseDebugger,
+  cPyDebugger,
+  cPyControl;
 
 {$R *.dfm}
 
@@ -183,7 +217,7 @@ begin
     end;
 
     if TestCount = 0 then begin
-      Dialogs.MessageDlg(_(SNoTestsFound), mtWarning, [mbOK], 0);
+      Vcl.Dialogs.MessageDlg(_(SNoTestsFound), mtWarning, [mbOK], 0);
       ClearAll;
     end else begin
       UnitTests.RootNodeCount := TestClasses.Count;

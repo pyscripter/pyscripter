@@ -9,9 +9,9 @@ unit cCodeCompletion;
 
 interface
 Uses
-  Types,
-  Classes,
-  Contnrs,
+  System.Types,
+  System.Classes,
+  System.Contnrs,
   SynEditTypes,
   SynEditHighlighter;
 
@@ -49,8 +49,13 @@ type
 implementation
 
 uses
-  SysUtils,
-  StrUtils,
+  System.SysUtils,
+  System.StrUtils,
+  StringResources,
+  VarPyth,
+  JclStrings,
+  JvGnugettext,
+  dmCommands,
   SynHighlighterPython,
   SynRegExpr,
   uCommonFunctions,
@@ -58,10 +63,10 @@ uses
   cPyDebugger,
   cPythonSourceScanner,
   cRefactoring,
-  dmCommands,
-  VarPyth,
-  JclStrings, PythonEngine, StringResources, JvGnugettext,
-  cPyScripterSettings;
+  PythonEngine,
+  cPyScripterSettings,
+  cPySupportTypes,
+  cPyControl;
 
 procedure GetModuleList(Path: Variant; out InsertText, DisplayText : string);
 Var

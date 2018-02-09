@@ -11,12 +11,32 @@ unit frmWatches;
 interface
 
 uses
-  System.Types, System.UITypes, Windows, Messages, ActiveX, SysUtils, Variants,
-  Classes, Graphics, Controls, Forms,
-  Dialogs, Menus, frmIDEDockWin, JvDockControlForm,
-  Contnrs, cPyBaseDebugger, ExtCtrls, TB2Item, VirtualTrees,
-  JvComponentBase, JvAppStorage, SpTBXSkins, SpTBXItem, PythonEngine,
-  SpTBXControls;
+  WinApi.Windows,
+  WinApi.Messages,
+  WinApi.ActiveX,
+  System.Types,
+  System.UITypes,
+  System.SysUtils,
+  System.Variants,
+  System.Classes,
+  System.Contnrs,
+  Vcl.Graphics,
+  Vcl.Controls,
+  Vcl.Forms,
+  Vcl.Dialogs,
+  Vcl.Menus,
+  Vcl.ExtCtrls,
+  frmIDEDockWin,
+  JvComponentBase,
+  JvAppStorage,
+  JvDockControlForm,
+  TB2Item,
+  SpTBXSkins,
+  SpTBXControls,
+  SpTBXItem,
+  VirtualTrees,
+  PythonEngine,
+  cPyControl;
 
 type
   TWatchesWindow = class(TIDEDockWindow, IJvAppStorageHandler)
@@ -80,9 +100,18 @@ var
 
 implementation
 
-uses frmPyIDEMain, dmCommands,
-  Clipbrd, StringResources, JvGnugettext, uCommonFunctions, SynEdit,
-  frmCallStack, cVirtualStringTreeHelper;
+uses
+  Vcl.Clipbrd,
+  SynEdit,
+  JvGnugettext,
+  StringResources,
+  dmCommands,
+  frmPyIDEMain,
+  frmCallStack,
+  uCommonFunctions,
+  cPyBaseDebugger,
+  cVirtualStringTreeHelper;
+
 {$R *.dfm}
 
 Type

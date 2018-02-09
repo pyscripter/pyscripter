@@ -11,11 +11,31 @@ unit frmFileExplorer;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, Vcl.ExtCtrls, JvComponentBase, JvDockControlForm, VirtualTrees,
-  MPShellUtilities, VirtualExplorerTree, Menus, frmIDEDockWin,
-  ActnList, VirtualShellHistory,  TB2Item, TB2Dock,
-  TB2Toolbar, SpTBXItem, System.Actions, SpTBXControls;
+  WinApi.Windows,
+  WinApi.Messages,
+  System.SysUtils,
+  System.Variants,
+  System.Classes,
+  System.Actions,
+  Vcl.Graphics,
+  Vcl.Controls,
+  Vcl.ActnList,
+  Vcl.Menus,
+  Vcl.Forms,
+  Vcl.Dialogs,
+  Vcl.ExtCtrls,
+  TB2Item,
+  TB2Dock,
+  TB2Toolbar,
+  SpTBXItem,
+  SpTBXControls,
+  JvComponentBase,
+  JvDockControlForm,
+  VirtualTrees,
+  VirtualExplorerTree,
+  VirtualShellHistory,
+  MPShellUtilities,
+  frmIDEDockWin;
 
 const
   WM_EXPLOREHERE = WM_USER + 1000;
@@ -137,9 +157,19 @@ var
 implementation
 
 uses
-  frmPyIDEMain, uEditAppIntfs, dmCommands, SHlObj, frmFindResults,
-  MPCommonObjects, dlgDirectoryList, StringResources, cPyBaseDebugger,
-  cPyScripterSettings, cFindInFiles, JvGnugettext;
+  WinApi.SHlObj,
+  MPCommonObjects,
+  JvGnugettext,
+  StringResources,
+  dmCommands,
+  frmPyIDEMain,
+  frmFindResults,
+  dlgDirectoryList,
+  uEditAppIntfs,
+  cPyBaseDebugger,
+  cPyScripterSettings,
+  cFindInFiles,
+  cPyControl;
 
 {$R *.dfm}
 

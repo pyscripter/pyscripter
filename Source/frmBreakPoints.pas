@@ -57,9 +57,15 @@ var
 
 implementation
 
-uses frmPyIDEMain, uEditAppIntfs, dmCommands, Clipbrd,
-  cPyBaseDebugger, JvGnugettext,
-  StringResources, uCommonFunctions;
+uses
+  Vcl.Clipbrd,
+  dmCommands,
+  frmPyIDEMain,
+  uEditAppIntfs,
+  uCommonFunctions,
+  cPyControl,
+  JvGnugettext,
+  StringResources;
 
 {$R *.dfm}
 

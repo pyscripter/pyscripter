@@ -484,6 +484,8 @@ uses
   SynEditTypes,
   SynEditMiscClasses,
   SynEdit,
+  dmCommands,
+  dlgCustomShortcuts,
   uEditAppIntfs,
   uHighlighterProcs,
   cFileTemplates,
@@ -492,8 +494,7 @@ uses
   cPyDebugger,
   cRefactoring,
   cPyScripterSettings,
-  dmCommands,
-  dlgCustomShortcuts;
+  cPyControl;
 
 const
   WM_FINDDEFINITION  = WM_USER + 100;

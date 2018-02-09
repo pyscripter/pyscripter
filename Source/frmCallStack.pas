@@ -10,11 +10,29 @@ unit frmCallStack;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, JvDockControlForm, cPyBaseDebugger, frmIDEDockWin,
-  Contnrs, ExtCtrls, VirtualTrees, JvComponentBase,  SpTBXSkins,
-  JvAppStorage, ActnList, System.Actions, SpTBXItem,
-  SpTBXControls;
+  WinApi.Windows,
+  WinApi.Messages,
+  System.SysUtils,
+  System.Variants,
+  System.Classes,
+  System.Contnrs,
+  System.Actions,
+  Vcl.Graphics,
+  Vcl.Controls,
+  Vcl.Forms,
+  Vcl.Dialogs,
+  Vcl.ExtCtrls,
+  Vcl.ActnList,
+  JvComponentBase,
+  JvDockControlForm,
+  JvAppStorage,
+  SpTBXSkins,
+  SpTBXItem,
+  SpTBXControls,
+  VirtualTrees,
+  frmIDEDockWin,
+  cPyControl,
+  cPyBaseDebugger;
 
 type
   TCallStackWindow = class(TIDEDockWindow, IJvAppStorageHandler)
@@ -54,8 +72,12 @@ var
 
 implementation
 
-uses frmPyIDEMain, frmVariables,
-  dmCommands, frmWatches, uCommonFunctions;
+uses
+  dmCommands,
+  frmPyIDEMain,
+  frmVariables,
+  frmWatches,
+  uCommonFunctions;
 
 {$R *.dfm}
 

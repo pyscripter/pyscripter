@@ -39,7 +39,8 @@ unit uParams;
 interface
 
 Uses
-  System.UITypes, Classes;
+  System.UITypes,
+  System.Classes;
 
 
 (* parameters, valid for current Windows configuration *)
@@ -55,12 +56,26 @@ Var
 implementation
 
 uses
-  Windows, SysUtils, Dialogs, //jclFileUtils, jclDateTime,
-  cParameters, Registry,  uEditAppIntfs,
-  dmCommands, VarPyth, SynRegExpr, uCommonFunctions,
-  frmPyIDEMain, StringResources, cPyBaseDebugger, cProjectClasses, JvGnugettext,
-  MPShellUtilities, MPCommonUtilities, FileCtrl,
-  cPyScripterSettings;
+  WinApi.Windows,
+  System.SysUtils,
+  System.Win.Registry,
+  Vcl.Dialogs,
+  Vcl.FileCtrl,
+  SynRegExpr,
+  MPShellUtilities,
+  MPCommonUtilities,
+  VarPyth,
+  JvGnugettext,
+  StringResources,
+  dmCommands,
+  frmPyIDEMain,
+  uEditAppIntfs,
+  uCommonFunctions,
+  cPyScripterSettings,
+  cParameters,
+  cPyBaseDebugger,
+  cProjectClasses,
+  cPyControl;
 
 function GetActiveDoc: string;
 Var
@@ -307,7 +322,7 @@ begin
         Result := '';
       end
     else begin
-      Dialogs.MessageDlg(Format(_(SInvalidParameterFormat),
+      Vcl.Dialogs.MessageDlg(Format(_(SInvalidParameterFormat),
         [Concat(AText, '-', 'DateFormat')]), mtError, [mbOK], 0);
       Abort;
     end;
@@ -531,13 +546,13 @@ var
   Buffer: array[0..BufSize - 1] of Char;
 begin
   Result := '';
-  Len := Windows.GetEnvironmentVariable(PChar(Name), @Buffer, BufSize);
+  Len := WinApi.Windows.GetEnvironmentVariable(PChar(Name), @Buffer, BufSize);
   if Len < BufSize then
     SetString(Result, PChar(@Buffer), Len)
   else
   begin
     SetLength(Result, Len - 1);
-    Windows.GetEnvironmentVariable(PChar(Name), PChar(Result), Len);
+    WinApi.Windows.GetEnvironmentVariable(PChar(Name), PChar(Result), Len);
   end;
 end;
 
@@ -559,7 +574,7 @@ begin
   Count := 256 + 1; // UNLEN + 1
   // set buffer size to 256 + 2 characters
   SetLength(Result, Count);
-  if Windows.GetUserName(PChar(Result), Count) then
+  if WinApi.Windows.GetUserName(PChar(Result), Count) then
     SetLength(Result, StrLen(PChar(Result)))
   else
     Result := '';
@@ -668,8 +683,8 @@ begin
     RegisterModifier('Param', 'Command line parameter', GetParam);
     RegisterModifier('Reg', 'Value of registry key', GetReg);
     RegisterModifier('Env', 'Value of environment variable', GetEnvironmentVariable);
-    RegisterModifier('UpperCase', 'Upper case of string', SysUtils.UpperCase);
-    RegisterModifier('LowerCase', 'Lower case of string', SysUtils.LowerCase);
+    RegisterModifier('UpperCase', 'Upper case of string', System.SysUtils.UpperCase);
+    RegisterModifier('LowerCase', 'Lower case of string', System.SysUtils.LowerCase);
     RegisterModifier('Quote', 'Quoted string', StrDefQuote);
     RegisterModifier('UnQuote', 'Unquoted string', StrUnquote);
 

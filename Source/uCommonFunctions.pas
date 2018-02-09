@@ -248,11 +248,6 @@ function DesktopSizeString: string;
 (* Downlads a file from the Interent *)
 function DownloadUrlToFile(const URL, Filename: string): Boolean;
 
-Const
-  IdentRE = '[A-Za-z_][A-Za-z0-9_]*';
-  DottedIdentRE = '[A-Za-z_][A-Za-z0-9_.]*';
-
-
 Type
   (*  TStringlist that preserves the LineBreak and BOM of a read File *)
   TLineBreakStringList = class(TStringList)

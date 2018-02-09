@@ -11,11 +11,12 @@ unit cPythonSourceScanner;
 
 interface
 
-uses SysUtils,
-     Classes,
-     Contnrs,
-     SynRegExpr,
-     AsyncCalls;
+uses
+  System.SysUtils,
+  System.Classes,
+  System.Contnrs,
+  SynRegExpr,
+  AsyncCalls;
 
 Type
   TParsedModule = class;
@@ -258,10 +259,19 @@ public
 
 implementation
 
-uses  Windows, uCommonFunctions, VarPyth,
-  StringResources, JclSysUtils, Math,
-  cRefactoring, cPyBaseDebugger, cPyDebugger,
-  JvGnugettext, JclStrings;
+uses
+  WinApi.Windows,
+  System.Math,
+  VarPyth,
+  JclStrings,
+  JclSysUtils,
+  JvGnugettext,
+  StringResources,
+  uCommonFunctions,
+  cRefactoring,
+  cPySupportTypes,
+  cPyBaseDebugger,
+  cPyDebugger;
 
 Const
   MaskChar = WideChar(#96);

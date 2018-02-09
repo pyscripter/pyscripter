@@ -12,16 +12,44 @@ unit frmEditor;
 interface
 
 uses
-  Types, System.UITypes, Windows, Messages, SysUtils, Classes,
-  Graphics, Controls, Contnrs, Forms,
-  StdCtrls, uEditAppIntfs, JclStrings, SynEdit, SynEditTypes,
-  SynEditHighlighter, SynEditMiscClasses,
-  SynEditKeyCmds, ImgList, Dialogs, ExtCtrls,
-  TB2Item, uCommonFunctions,
-  SynCompletionProposal, cPyBaseDebugger, SpTBXItem,
-  VirtualResources, SpTBXSkins, SpTBXDkPanels, Menus, SpTBXTabs, SynRegExpr,
-  cPythonSourceScanner, frmCodeExplorer, cCodeCompletion, SpTBXControls,
-  System.ImageList;
+  WinApi.Windows,
+  WinApi.Messages,
+  System.Types,
+  System.UITypes,
+  System.SysUtils,
+  System.Classes,
+  System.Contnrs,
+  System.ImageList,
+  Vcl.Graphics,
+  Vcl.Controls,
+  Vcl.Menus,
+  Vcl.Forms,
+  Vcl.StdCtrls,
+  Vcl.ExtCtrls,
+  Vcl.ImgList,
+  Vcl.Dialogs,
+  TB2Item,
+  SpTBXItem,
+  SpTBXSkins,
+  SpTBXDkPanels,
+  SpTBXTabs,
+  SpTBXControls,
+  JclStrings,
+  SynRegExpr,
+  SynEdit,
+  SynEditTypes,
+  SynEditHighlighter,
+  SynEditMiscClasses,
+  SynEditKeyCmds,
+  SynCompletionProposal,
+  VirtualResources,
+  uCommonFunctions,
+  frmCodeExplorer,
+  uEditAppIntfs,
+  cPythonSourceScanner,
+  cCodeCompletion,
+  cPyBaseDebugger,
+  cPyControl;
 
 const
   WM_PARAMCOMPLETION = WM_USER +1040;
@@ -305,15 +333,34 @@ implementation
 {$R *.DFM}
 
 uses
-  frmPyIDEMain, dlgSynPrintPreview,
-  frmBreakPoints, Variants, dmCommands,
-  StringResources, VarPyth, cRefactoring,
-  cCodeHint, frmPythonII, Math,
-  frmWatches, PythonEngine,
-  SynEditTextBuffer, cPyDebugger, dlgPickList, JvDockControlForm,
-  uSearchHighlighter, VirtualShellNotifier,
-  SynHighlighterWebMisc, SynHighlighterWeb, JvGnugettext,
-  SynUnicode, frmIDEDockWin, StrUtils, SynHighlighterPython, Vcl.Themes,
+  System.Math,
+  System.StrUtils,
+  System.Variants,
+  VirtualShellNotifier,
+  PythonEngine,
+  VarPyth,
+  Vcl.Themes,
+  SynUnicode,
+  SynEditTextBuffer,
+  SynHighlighterWebMisc,
+  SynHighlighterWeb,
+  SynHighlighterPython,
+  JvDockControlForm,
+  JvGnugettext,
+  StringResources,
+  dmCommands,
+  dlgSynPrintPreview,
+  dlgPickList,
+  frmPyIDEMain,
+  frmBreakPoints,
+  frmPythonII,
+  frmWatches,
+  frmIDEDockWin,
+  uSearchHighlighter,
+  cPySupportTypes,
+  cPyDebugger,
+  cRefactoring,
+  cCodeHint,
   cPyScripterSettings;
 
 const
@@ -413,7 +460,7 @@ Var
 begin
   if fForm.HasSyntaxError then
     with fForm.fSyntaxErrorPos do
-      if Math.InRange(Line, FirstLine, LastLine)
+      if System.Math.InRange(Line, FirstLine, LastLine)
         and not (fForm.SynEdit.UseCodeFolding and
           fForm.SynEdit.AllFoldRanges.FoldHidesLine(Line)) then
       begin
@@ -845,7 +892,7 @@ procedure TEditor.ExecReload(Quiet: boolean = False);
 Var
   P: TBufferCoord;
 begin
-  if Quiet or not GetModified or (Dialogs.MessageDlg(_(SFileReloadingWarning),
+  if Quiet or not GetModified or (Vcl.Dialogs.MessageDlg(_(SFileReloadingWarning),
       mtWarning, [mbYes, mbNo], 0) = mrYes) then
   begin
     P := GetSynEdit.CaretXY;
@@ -1573,7 +1620,7 @@ begin
     Assert(fEditor <> nil);
     S := Format(_(SAskSaveChanges), [ExtractFileName(fEditor.GetFileTitle)]);
 
-    case Dialogs.MessageDlg(S, mtConfirmation, [mbYes, mbNo, mbCancel], 0,
+    case Vcl.Dialogs.MessageDlg(S, mtConfirmation, [mbYes, mbNo, mbCancel], 0,
       mbYes) of
       mrYes:
         Result := DoSave;
@@ -1662,7 +1709,7 @@ begin
     Edit := GI_EditorFactory.GetEditorByName(NewName);
     if Assigned(Edit) and (Edit <> Self.fEditor as IEditor) then
     begin
-      Dialogs.MessageDlg(_(SFileAlreadyOpen), mtError, [mbAbort], 0);
+      Vcl.Dialogs.MessageDlg(_(SFileAlreadyOpen), mtError, [mbAbort], 0);
       Result := False;
       Exit;
     end;
@@ -1916,9 +1963,9 @@ begin
           //    (attr = CommandsDataModule.SynPythonSyn.DocStringAttri) } ) then
           //begin
           ASynEdit.UndoList.BeginBlock;
-            if CommandsDataModule.IsBlockOpener(iPrevLine) then
+            if TPyRegExpr.IsBlockOpener(iPrevLine) then
               ASynEdit.ExecuteCommand(ecTab, #0, nil)
-            else if CommandsDataModule.IsBlockCloser(iPrevLine) then
+            else if TPyRegExpr.IsBlockCloser(iPrevLine) then
               ASynEdit.ExecuteCommand(ecShiftTab, #0, nil);
           ASynEdit.UndoList.EndBlock;
           //end;

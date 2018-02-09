@@ -9,8 +9,13 @@ unit cFilePersist;
 
 interface
 Uses
-  Classes, SysUtils, Contnrs, JvAppStorage, uEditAppIntfs, dlgSynEditOptions,
-  Controls;
+  System.Classes,
+  System.SysUtils,
+  System.Contnrs,
+  Vcl.Controls,
+  JvAppStorage,
+  uEditAppIntfs,
+  dlgSynEditOptions;
 
 Type
   TBookMarkInfo = class(TPersistent)
@@ -76,8 +81,16 @@ Var
 implementation
 
 uses
-  cPyBaseDebugger, frmPyIDEMain, SynEditTypes, dmCommands, uHighlighterProcs,
-  SynEdit, SpTBXTabs, TB2Item, Math;
+  System.Math,
+  SynEditTypes,
+  SynEdit,
+  SpTBXTabs,
+  TB2Item,
+  dmCommands,
+  frmPyIDEMain,
+  uHighlighterProcs,
+  cPyBaseDebugger,
+  cPyControl;
 
 { TFilePersistInfo }
 

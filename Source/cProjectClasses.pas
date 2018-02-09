@@ -157,7 +157,10 @@ Var
 implementation
 
 uses
-  cParameters, uCommonFunctions, cPyDebugger;
+  uCommonFunctions,
+  cPyControl,
+  cPyDebugger,
+  cParameters;
 
 { TAbstractProjectNode }
 
