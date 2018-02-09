@@ -1869,7 +1869,6 @@ var
   versionIdx : Integer;
   expectedVersion : string;
   expectedVersionIdx : Integer;
-  UseDebugVersion : Boolean;
   InstallPath : string;
 begin
   Result := 0;
@@ -1902,7 +1901,6 @@ begin
   else if CmdLineReader.readFlag('PYTHON37') then
     expectedVersion := '3.7';
   PythonEngine.DllPath := CmdLineReader.readString('PYTHONDLLPATH');
-  UseDebugVersion := CmdLineReader.readFlag('DEBUG');
 
   if expectedVersion <> '' then begin
     idx := IndexOfKnownVersion(expectedVersion);
@@ -1944,8 +1942,6 @@ begin
   for i := versionIdx downto COMPILED_FOR_PYTHON_VERSION_INDEX do
   begin
     PythonEngine.DllName := PYTHON_KNOWN_VERSIONS[i].DllName;
-    If UseDebugVersion then
-      PythonEngine.DllName := ChangeFileExt(PythonEngine.DllName, '') + '_d.dll';
     PythonEngine.APIVersion := PYTHON_KNOWN_VERSIONS[i].APIVersion;
     PythonEngine.RegVersion := PYTHON_KNOWN_VERSIONS[i].RegVersion;
 

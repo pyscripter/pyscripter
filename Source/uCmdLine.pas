@@ -488,7 +488,6 @@ initialization
   CmdLineReader.automaticalShowError  :=  True;
   CmdLineReader.declareFlag('HELP','Show PyScripter command line options', Char('H'),False);
   CmdLineReader.declareFlag('NEWINSTANCE','Start a new instance of PyScripter', Char('N'),False);
-  CmdLineReader.declareFlag('DEBUG','Use debug version of Python', Char('B'),False);
   CmdLineReader.declareFlag('PYTHON24','Use Python version 2.4',False);
   CmdLineReader.declareFlag('PYTHON25','Use Python version 2.5',False);
   CmdLineReader.declareFlag('PYTHON26','Use Python version 2.6',False);
