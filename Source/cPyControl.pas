@@ -137,8 +137,7 @@ uses
   frmCommandOutput,
   cPyScripterSettings,
   cParameters,
-  cPyDebugger,
-  dmCommands;
+  cPyDebugger;
 
 { TEditorPos }
 

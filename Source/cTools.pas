@@ -306,7 +306,7 @@ begin
       if FileExists(AppFile) then begin
         Index := GetIconIndexFromFile(AppFile, True);
         ImageIndex :=
-          CommandsDataModule.Images.AddImage(CommandsDataModule.imlShellIcon, Index);
+          CommandsDataModule.Images.AddImage(CommandsDataModule.imlShellIcon, Index) - 1;
       end;
     end;
   end;

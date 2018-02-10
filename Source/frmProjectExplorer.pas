@@ -1066,7 +1066,7 @@ begin
         ImgIndex := GetIconIndexFromFile(FileName, True);
         if ImgIndex >= 0 then begin
           ImageIndex :=
-            ProjectImageList.AddImage(CommandsDataModule.imlShellIcon, ImgIndex);
+            ProjectImageList.AddImage(CommandsDataModule.imlShellIcon, ImgIndex) -1;
           FileImageList.AddObject(Extension, TObject(ImageIndex));
         end;
       end;
