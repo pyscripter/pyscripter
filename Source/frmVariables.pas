@@ -358,6 +358,8 @@ end;
 procedure TVariablesWindow.FormActivate(Sender: TObject);
 begin
   inherited;
+  if not VariablesTree.Enabled then VariablesTree.Clear;
+
   if CanActuallyFocus(VariablesTree) then
     VariablesTree.SetFocus;
   //PostMessage(VariablesTree.Handle, WM_SETFOCUS, 0, 0);
