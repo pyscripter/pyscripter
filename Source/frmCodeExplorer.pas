@@ -343,7 +343,6 @@ begin
 
       if fSourceChanged then
         continue;
-      if True then
 
       if Terminated then
         break;

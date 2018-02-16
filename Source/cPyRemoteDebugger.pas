@@ -59,7 +59,7 @@ type
     procedure HandleRemoteException(ExcInfo : Variant; SkipFrames : integer = 1);
     procedure ReInitialize; override;
     procedure CheckConnected(Quiet : Boolean = False; Abort : Boolean = True);
-    procedure ServeConnection;
+    procedure ServeConnection(MaxCount : integer = 0);
     // Python Path
     function SysPathAdd(const Path : string) : boolean; override;
     function SysPathRemove(const Path : string) : boolean; override;
@@ -126,6 +126,7 @@ type
     procedure RestoreCommandLine; override;
     procedure SetDebuggerBreakpoints; override;
     procedure LoadLineCache;
+    procedure DoDebuggerCommand;
     procedure UserCall(Sender: TObject; PSelf, Args: PPyObject; var Result: PPyObject);
     procedure UserLine(Sender: TObject; PSelf, Args: PPyObject; var Result: PPyObject);
     procedure UserReturn(Sender: TObject; PSelf, Args: PPyObject; var Result: PPyObject);
@@ -185,12 +186,12 @@ uses
   frmVariables,
   frmCallStack,
   frmUnitTests,
-  uCommonFunctions,
   cProjectClasses,
   cParameters,
   cRefactoring,
   cPyScripterSettings,
-  cPyControl;
+  cPyControl,
+  uCommonFunctions;
 
 { TRemNameSpaceItem }
 constructor TRemNameSpaceItem.Create(aName : string; aPyObject : Variant;
@@ -896,51 +897,72 @@ end;
 procedure TPyRemoteInterpreter.Run(ARunConfig: TRunConfiguration);
 Var
   Code : Variant;
-//  AsyncRunNoDebug : Variant;
-//  PyAsyncResult : PPyObject;
-//  PyArgTuple : PPyObject;
+//  AsyncRun : Variant;
 //  AsyncResult : Variant;
+//  AsyncReady : boolean;
   Path, OldPath : string;
   PythonPathAdder : IInterface;
   ExcInfo : Variant;
   ReturnFocusToEditor: Boolean;
   CanDoPostMortem : Boolean;
   Editor : IEditor;
+//  Timer : ITimer;
 begin
   CheckConnected;
   CanDoPostMortem := False;
   //Compile
   Code := Compile(ARunConfig);
+  if not VarIsPython(Code) then Exit;
 
-  if VarIsPython(Code) then begin
-    PyControl.DoStateChange(dsRunning);
+  Path := ExtractFileDir(ARunConfig.ScriptName);
+  SysPathRemove('');
+  if Length(Path) > 1 then
+    // Add the path of the executed file to the Python path - Will be automatically removed
+    PythonPathAdder := AddPathToPythonPath(Path);
+  if ARunConfig.WorkingDir <> '' then
+    Path := Parameters.ReplaceInText(ARunConfig.WorkingDir);
+  OldPath := RPI.rem_getcwdu();
 
-    // New Line for output
-    PythonIIForm.AppendText(sLineBreak);
+  // Change the current path
+  try
+    RPI.rem_chdir(Path)
+  except
+    Vcl.Dialogs.MessageDlg(_(SCouldNotSetCurrentDir), mtWarning, [mbOK], 0);
+  end;
 
-    Path := ExtractFileDir(ARunConfig.ScriptName);
-    SysPathRemove('');
-    if Length(Path) > 1 then
-      // Add the path of the executed file to the Python path - Will be automatically removed
-      PythonPathAdder := AddPathToPythonPath(Path);
-    if ARunConfig.WorkingDir <> '' then
-      Path := Parameters.ReplaceInText(ARunConfig.WorkingDir);
-    OldPath := RPI.rem_getcwdu();
+  PyControl.DoStateChange(dsRunning);
 
-    // Change the current path
-    try
-      RPI.rem_chdir(Path)
-    except
-      Vcl.Dialogs.MessageDlg(_(SCouldNotSetCurrentDir), mtWarning, [mbOK], 0);
-    end;
+  // New Line for output
+  PythonIIForm.AppendText(sLineBreak);
 
-    // Set the command line parameters
-    SetCommandLine(ARunConfig);
+  // Set the command line parameters
+  SetCommandLine(ARunConfig);
 
-    Editor := GI_ActiveEditor;
-    ReturnFocusToEditor := Assigned(Editor);
-    PyIDEMainForm.actNavInterpreterExecute(nil);
+  Editor := GI_ActiveEditor;
+  ReturnFocusToEditor := Assigned(Editor);
+  PyIDEMainForm.actNavInterpreterExecute(nil);
 
+//  AsyncRun := Rpyc.asynch(RPI.run_nodebug);
+//  AsyncResult := AsyncRun.__call__(Code);
+//  GetPythonEngine.CheckError;
+//  Timer := NewTimer(100);
+//  Timer.Start(procedure
+//  begin
+//    try
+//      ServeConnection(500);
+//    except
+//      fThreadExecInterrupted := True;
+//    end;
+//    if not fThreadExecInterrupted then
+//    try
+//      AsyncReady := AsyncResult._is_ready;
+//    except
+//      fThreadExecInterrupted := True;
+//    end;
+//    if fThreadExecInterrupted or AsyncReady then
+//    try
+//      try
+//        Timer.Stop;
     try
       try
         ExecuteInThread(RPI.run_nodebug, VarPythonCreate([Code], stTuple));
@@ -955,7 +977,6 @@ begin
                VarPythonAsString(RPI.safestr(ExcInfo.__getitem__(1)))]),
               mtError, [mbOK], 0);
             CanDoPostMortem := True;
-            System.SysUtils.Abort;
           end;
         end;
       except
@@ -965,7 +986,6 @@ begin
             HandlePyException(E);
             Vcl.Dialogs.MessageDlg(E.Message, mtError, [mbOK], 0);
           end;
-          System.SysUtils.Abort;
         end;
       end;
     finally
@@ -993,7 +1013,10 @@ begin
       end else if CanDoPostMortem and PyIDEOptions.PostMortemOnException then
         PyControl.ActiveDebugger.EnterPostMortem;
     end;
-  end;
+
+//      Timer := nil;
+//    end;
+//  end);
 end;
 
 function TPyRemoteInterpreter.RunSource(Const Source, FileName : Variant; symbol : string = 'single') : boolean;
@@ -1121,10 +1144,16 @@ begin
   fMainModule := TModuleProxy.CreateFromModule(Conn.modules.__main__, self);
 end;
 
-procedure TPyRemoteInterpreter.ServeConnection;
+procedure TPyRemoteInterpreter.ServeConnection(MaxCount : integer);
+Var
+  Count : integer;
 begin
   CheckConnected;
+  Count := 0;
   While Conn.poll() do begin
+    Inc(Count);
+    if (MaxCount > 0) and (Count >= MaxCount) then
+      break;
   end;
 end;
 
@@ -1305,7 +1334,11 @@ begin
         except
         end;
       end;
-    dsPaused: fDebuggerCommand := dcAbort;
+    dsPaused:
+      begin
+        fDebuggerCommand := dcAbort;
+        DoDebuggerCommand;
+      end;
   end;
 end;
 
@@ -1455,7 +1488,6 @@ begin
    FName := fCurrentFrame.f_code.co_filename;
    if (FName[1] ='<') and (FName[Length(FName)] = '>') then
      FName :=  Copy(FName, 2, Length(FName)-2);
-   // PythonIIForm.AppendText('UserLine '+ FName + ' ' + IntToStr(Frame.f_lineno) +sLineBreak);
 
    if PyIDEMainForm.ShowFilePosition(FName, fCurrentFrame.f_lineno, 1, 0, True, False) and
      (fCurrentFrame.f_lineno > 0) then
@@ -1466,30 +1498,30 @@ begin
       if PyControl.DebuggerState = dsDebugging then
         PyControl.DoStateChange(dsPaused);
      FDebuggerCommand := dcNone;
-     While  (FDebuggerCommand = dcNone) and not fRemotePython.fThreadExecInterrupted do
-       PyControl.DoYield(True);
+   end else
+     fRemotePython.Debugger.debug_command := Ord(dcRun);
+end;
 
-     if fRemotePython.fThreadExecInterrupted then
-       Exit;
+procedure TPyRemDebugger.DoDebuggerCommand;
+begin
+   fRemotePython.CheckConnected;
+   if (PyControl.DebuggerState <> dsPaused) or fRemotePython.fThreadExecInterrupted then
+     Exit;
 
-     if PyControl.BreakPointsChanged then SetDebuggerBreakpoints;
+   if PyControl.BreakPointsChanged then SetDebuggerBreakpoints;
 
-     PyControl.DoStateChange(dsDebugging);
-   end;
+   PyControl.DoStateChange(dsDebugging);
 
-   case fDebuggerCommand of
-     dcRun         : fRemotePython.Debugger.set_continue();
-     dcStepInto    : fRemotePython.Debugger.set_step();
-     dcStepOver    : fRemotePython.Debugger.set_next(fCurrentFrame);
-     dcStepOut     : fRemotePython.Debugger.set_return(fCurrentFrame);
-     dcRunToCursor : fRemotePython.Debugger.set_continue;
-     dcPause       : fRemotePython.Debugger.set_step();
-     dcAbort       : begin
-                       fRemotePython.Debugger.set_quit();
-                       MessagesWindow.AddMessage(_(SDebuggingAborted));
-                       MessagesWindow.ShowWindow;
-                     end;
-   end;
+//   case fDebuggerCommand of
+//     dcRun         : fRemotePython.Debugger.set_continue();
+//     dcStepInto    : fRemotePython.Debugger.set_step();
+//     dcStepOver    : fRemotePython.Debugger.set_next(fCurrentFrame);
+//     dcStepOut     : fRemotePython.Debugger.set_return(fCurrentFrame);
+//     dcRunToCursor : fRemotePython.Debugger.set_continue;
+//     dcPause       : fRemotePython.Debugger.set_step();
+//     dcAbort       : fRemotePython.Debugger.set_quit();
+//   end;
+   fRemotePython.Debugger.debug_command := Ord(fDebuggerCommand);
    VarClear(fCurrentFrame);
 end;
 
@@ -1546,6 +1578,7 @@ end;
 procedure TPyRemDebugger.Pause;
 begin
   fDebuggerCommand := dcPause;
+  DoDebuggerCommand;
 end;
 
 procedure TPyRemDebugger.RestoreCommandLine;
@@ -1556,19 +1589,23 @@ end;
 procedure TPyRemDebugger.Resume;
 begin
   fDebuggerCommand := dcRun;
+  DoDebuggerCommand;
 end;
 
 procedure TPyRemDebugger.Debug(ARunConfig: TRunConfiguration;
   InitStepIn: Boolean = False; RunToCursorLine : integer = -1);
 var
   Code : Variant;
-//  AsyncRun, AsyncResult : Variant;
+  AsyncRun : Variant;
+  AsyncResult : Variant;
+  AsyncReady : boolean;
   Path, OldPath : string;
   PythonPathAdder : IInterface;
   ExcInfo : Variant;
   ReturnFocusToEditor: Boolean;
   CanDoPostMortem : Boolean;
   Editor : IEditor;
+  Timer : ITimer;
 begin
   fRemotePython.CheckConnected;
   CanDoPostMortem := False;
@@ -1577,83 +1614,89 @@ begin
 
   //Compile
   Code := fRemotePython.Compile(ARunConfig);
+  if not VarIsPython(Code) then Exit;
 
-  if VarIsPython(Code) then begin
-    Path := ExtractFileDir(ARunConfig.ScriptName);
-    SysPathRemove('');
-    if Length(Path) > 1 then
-      // Add the path of the executed file to the Python path - Will be automatically removed
-      PythonPathAdder := AddPathToPythonPath(Path);
-    if ARunConfig.WorkingDir <> '' then
-      Path := Parameters.ReplaceInText(ARunConfig.WorkingDir);
-    OldPath := fRemotePython.RPI.rem_getcwdu();
+  Path := ExtractFileDir(ARunConfig.ScriptName);
+  SysPathRemove('');
+  if Length(Path) > 1 then
+    // Add the path of the executed file to the Python path - Will be automatically removed
+    PythonPathAdder := AddPathToPythonPath(Path);
+  if ARunConfig.WorkingDir <> '' then
+    Path := Parameters.ReplaceInText(ARunConfig.WorkingDir);
+  OldPath := fRemotePython.RPI.rem_getcwdu();
 
-    // Change the current path
+  // Change the current path
+  try
+    fRemotePython.RPI.rem_chdir(Path)
+  except
+    Vcl.Dialogs.MessageDlg(_(SCouldNotSetCurrentDir), mtWarning, [mbOK], 0);
+  end;
+
+  PyControl.DoStateChange(dsDebugging);
+
+  MessagesWindow.ClearMessages;
+  Editor := GI_ActiveEditor;
+  ReturnFocusToEditor := Assigned(Editor);
+  // Set the layout to the Debug layout is it exists
+  if PyIDEMainForm.Layouts.IndexOf('Debug') >= 0 then begin
+    PyIDEMainForm.SaveLayout('Current');
+    PyIDEMainForm.LoadLayout('Debug');
+    Application.ProcessMessages;
+  end else
+    PyIDEMainForm.actNavInterpreterExecute(nil);
+
+  with PythonIIForm do begin
+    fOldPS1 := PS1;
+    PS1 := DebugPrefix + PS1;
+    fOldPS2 := PS2;
+    PS2 := DebugPrefix + PS2;
+    AppendPrompt;
+  end;
+  //attach debugger callback routines
+  with PythonIIForm.DebugIDE.Events do begin
+    Items[0].OnExecute := UserCall;
+    Items[1].OnExecute := UserLine;
+    Items[2].OnExecute := UserReturn;
+    Items[3].OnExecute := UserException;
+    Items[4].OnExecute := UserYield;
+  end;
+
+  //set breakpoints
+  SetDebuggerBreakPoints;
+  if RunToCursorLine >= 0 then  // add temp breakpoint
+    fRemotePython.Debugger.set_break(Code.co_filename, RunToCursorLine, 1);
+
+  // New Line for output
+  PythonIIForm.AppendText(sLineBreak);
+
+  // Set the command line parameters
+  SetCommandLine(ARunConfig);
+
+  fRemotePython.Debugger.InitStepIn := InitStepIn;
+
+  AsyncRun := fRemotePython.Rpyc.asynch(fRemotePython.Debugger.run);
+  AsyncResult := AsyncRun.__call__(Code);
+  GetPythonEngine.CheckError;
+  Timer := NewTimer(100);
+  Timer.Start(procedure
+  begin
+    if PyControl.DebuggerState = dsPaused then Exit;
     try
-      fRemotePython.RPI.rem_chdir(Path)
+      fRemotePython.ServeConnection(500);
     except
-      Vcl.Dialogs.MessageDlg(_(SCouldNotSetCurrentDir), mtWarning, [mbOK], 0);
+      fRemotePython.fIsConnected := False;
     end;
-
-    PyControl.DoStateChange(dsDebugging);
-
-    MessagesWindow.ClearMessages;
-    Editor := GI_ActiveEditor;
-    ReturnFocusToEditor := Assigned(Editor);
-    // Set the layout to the Debug layout is it exists
-    if PyIDEMainForm.Layouts.IndexOf('Debug') >= 0 then begin
-      PyIDEMainForm.SaveLayout('Current');
-      PyIDEMainForm.LoadLayout('Debug');
-      Application.ProcessMessages;
-    end else
-      PyIDEMainForm.actNavInterpreterExecute(nil);
-
+    if fRemotePython.IsConnected then
     try
-      with PythonIIForm do begin
-        fOldPS1 := PS1;
-        PS1 := DebugPrefix + PS1;
-        fOldPS2 := PS2;
-        PS2 := DebugPrefix + PS2;
-        AppendPrompt;
-      end;
-      //attach debugger callback routines
-      with PythonIIForm.DebugIDE.Events do begin
-        Items[0].OnExecute := UserCall;
-        Items[1].OnExecute := UserLine;
-        Items[2].OnExecute := UserReturn;
-        Items[3].OnExecute := UserException;
-        Items[4].OnExecute := UserYield;
-      end;
-
-      //set breakpoints
-      SetDebuggerBreakPoints;
-      if RunToCursorLine >= 0 then  // add temp breakpoint
-        fRemotePython.Debugger.set_break(Code.co_filename, RunToCursorLine, 1);
-
-      // New Line for output
-      PythonIIForm.AppendText(sLineBreak);
-
-      // Set the command line parameters
-      SetCommandLine(ARunConfig);
-
-      fRemotePython.Debugger.InitStepIn := InitStepIn;
+      AsyncReady := AsyncResult._is_ready;
+    except
+      fRemotePython.fIsConnected := False;
+    end;
+    if not fRemotePython.IsConnected or AsyncReady then
+    try
       try
-        fRemotePython.ExecuteInThread(fRemotePython.Debugger.run, VarPythonCreate([Code], stTuple));
-//        AsyncRun := fRemotePython.Rpyc.async(fRemotePython.Debugger.run);
-//        AsyncResult := AsyncRun.__call__(Code);
-//        try
-//          While not (fRemotePython.fThreadExecInterrupted) do
-//            if  AsyncResult._is_ready then
-//              break
-//            else begin
-//              fRemotePython.Conn.poll(0);
-//              PyControl.DoYield(False);
-//            end;
-//        except
-//        end;
-
-        GetPythonEngine.CheckError;
-        if not fRemotePython.fThreadExecInterrupted then begin
+        Timer.Stop;
+        if fRemotePython.IsConnected then begin
           ExcInfo := fRemotePython.Debugger.exc_info;
           if not VarIsNone(ExcInfo) then begin
             fRemotePython.HandleRemoteException(ExcInfo, 2);
@@ -1663,21 +1706,19 @@ begin
                VarPythonAsString(fRemotePython.RPI.safestr(ExcInfo.__getitem__(1)))]),
                mtError, [mbOK], 0);
             CanDoPostMortem := True;
-            System.SysUtils.Abort;
           end;
         end;
       except
         // CheckError already called by VarPyth
         on E: EPythonError do begin
           // should not happen
-          if not fRemotePython.fThreadExecInterrupted then begin
+          fRemotePython.CheckConnected(True, False);
+          if fRemotePython.IsConnected then begin
             fRemotePython.HandlePyException(E);
             Vcl.Dialogs.MessageDlg(E.Message, mtError, [mbOK], 0);
           end;
-          System.SysUtils.Abort;
         end;
       end;
-
     finally
       VarClear(fCurrentFrame);
       with PythonIIForm do begin
@@ -1687,7 +1728,7 @@ begin
       end;
 
       fRemotePython.CheckConnected(True, False);
-      if not fRemotePython.fThreadExecInterrupted then begin
+      if fRemotePython.IsConnected then begin
         // happpens when the remote server was shutdown
         MakeFrameActive(nil);
 
@@ -1707,7 +1748,7 @@ begin
       PyControl.DoStateChange(dsInactive);
       if ReturnFocusToEditor then
         Editor.Activate;
-      if fRemotePython.fThreadExecInterrupted then begin
+      if not fRemotePython.IsConnected then begin
         PythonPathAdder := nil;
         PythonIIForm.ClearPendingMessages;
         //fRemotePython.ReInitialize;
@@ -1716,12 +1757,13 @@ begin
         PostMessage(PythonIIForm.Handle, WM_REINITINTERPRETER, 0, 0);
       end else if CanDoPostMortem and PyIDEOptions.PostMortemOnException then
         PyControl.ActiveDebugger.EnterPostMortem;
+      Timer := nil;
     end;
-  end;
+  end);
 end;
 
 function TPyRemDebugger.RunSource(Const Source, FileName : Variant; symbol : string = 'single') : boolean;
-// The internal interpreter RunSource calls II.runsource which differs
+// The interpreter RunSource calls II.runsource which differs
 // according to whether we are debugging or not
 Var
   OldCurrentPos : TEditorPos;
@@ -1750,6 +1792,7 @@ begin
   fRemotePython.Debugger.set_break(VarPythonCreate(FName), ALine, 1);
 
   fDebuggerCommand := dcRunToCursor;
+  DoDebuggerCommand;
 end;
 
 procedure TPyRemDebugger.SetCommandLine(ARunConfig : TRunConfiguration);
@@ -1788,16 +1831,19 @@ end;
 procedure TPyRemDebugger.StepInto;
 begin
   fDebuggerCommand := dcStepInto;
+  DoDebuggerCommand;
 end;
 
 procedure TPyRemDebugger.StepOut;
 begin
   fDebuggerCommand := dcStepOut;
+  DoDebuggerCommand;
 end;
 
 procedure TPyRemDebugger.StepOver;
 begin
   fDebuggerCommand := dcStepOver;
+  DoDebuggerCommand;
 end;
 
 function TPyRemDebugger.SysPathAdd(const Path: string): boolean;

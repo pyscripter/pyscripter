@@ -2129,7 +2129,6 @@ end;
 function TTimer.Stop: ITimer;
 begin
   Result         := Self;
-  FAction        := nil;
   FTimer.Enabled := False;
 end;
 

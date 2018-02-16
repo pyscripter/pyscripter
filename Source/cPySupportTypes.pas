@@ -11,6 +11,7 @@ unit cPySupportTypes;
 interface
 
 Uses
+  System.SysUtils,
   System.Classes,
   SynRegExpr,
   cTools;
@@ -72,11 +73,18 @@ type
     class function IsExecutableLine(Line : string) : Boolean;
   end;
 
+{ Executes Python code in a Delphi thread }
+procedure ThreadPythonExec(ExecuteProc : TProc; TerminateProc : TProc = nil);
+
 Const
   IdentRE = '[A-Za-z_][A-Za-z0-9_]*';
   DottedIdentRE = '[A-Za-z_][A-Za-z0-9_.]*';
 
 implementation
+
+Uses
+  Winapi.Windows,
+  PythonEngine;
 
 { TRunConfiguration }
 
@@ -169,5 +177,64 @@ class function TPyRegExpr.IsExecutableLine(Line: string): Boolean;
 begin
   Result := not ((Line = '') or TPyRegExpr.NonExecutableLineRE.Exec(Line));
 end;
+
+{ TAnonymousPythonThread }
+
+type
+TAnonymousPythonThread = class(TPythonThread)
+private
+  fTerminateProc : TProc;
+  fExecuteProc : TProc;
+  fMainThreadState : PPyThreadState;
+  procedure Terminate(Sender: TObject);
+public
+  procedure ExecuteWithPython; override;
+  constructor Create(ExecuteProc : TProc; TerminateProc : TProc = nil);
+end;
+
+
+constructor TAnonymousPythonThread.Create(ExecuteProc, TerminateProc: TProc);
+begin
+  fExecuteProc := ExecuteProc;
+  fTerminateProc := TerminateProc;
+  OnTerminate := Terminate;
+  FreeOnTerminate := True;
+  with GetPythonEngine do
+  begin
+    Self.InterpreterState := InterpreterState;
+    fMainThreadState := PyEval_SaveThread;
+//    fMainThreadState := PyThreadState_Get;
+//    PyEval_ReleaseThread(fMainThreadState);
+  end;
+  inherited Create;
+end;
+
+procedure TAnonymousPythonThread.ExecuteWithPython;
+begin
+  if Assigned(fExecuteProc) then
+    try
+        fExecuteProc();
+    except
+    end;
+end;
+
+procedure TAnonymousPythonThread.Terminate(Sender: TObject);
+begin
+  with GetPythonEngine do
+    PyEval_RestoreThread(fMainThreadState);
+//    GetPythonEngine.PyEval_AcquireThread(fMainThreadState);
+  if Assigned(fTerminateProc) then
+    fTerminateProc();
+end;
+
+{ ThreadPythonExec }
+
+procedure ThreadPythonExec(ExecuteProc : TProc; TerminateProc : TProc = nil);
+begin
+  if GetCurrentThreadId <> MainThreadID then
+    raise Exception.Create('ThreadPythonExec should only be called from the main thread');
+  TAnonymousPythonThread.Create(ExecuteProc, TerminateProc);
+end;
+
 
 end.
