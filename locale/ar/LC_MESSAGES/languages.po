@@ -1,0 +1,65 @@
+# PyScripter Languages.
+# 
+# Copyright (C) Kiriakos Vlahos  2005-2018
+# This file is distributed under the same license as PyScripter
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PyScripter Languages\n"
+"POT-Creation-Date: 2018-01-23 16:26\n"
+"PO-Revision-Date: 2018-01-23 16:26\n"
+"Last-Translator: Mohammed Nasman <mnasman@gmail.com>, 2018\n"
+"Language-Team: Arabic (https://www.transifex.com/luebbe/teams/82736/ar/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ar\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+
+msgid "Chinese"
+msgstr "الصينية"
+
+msgid "English"
+msgstr "الإنجليزية"
+
+#. Language of France
+msgid "French"
+msgstr "الفرنسية"
+
+#. Language of Germany, Austria
+msgid "German"
+msgstr "الألمانية"
+
+#. Language of Greece
+msgid "Greek"
+msgstr "اليونانية"
+
+#. Language of Italy
+msgid "Italian"
+msgstr "الإيطالية"
+
+#. Language of Japan, Asia
+msgid "Japanese"
+msgstr "اليابانية"
+
+#. Language of Kabyle people
+msgid "Taqbaylit"
+msgstr ""
+
+#. Language of Portugal, Europe
+msgid "Portuguese"
+msgstr "البرتغالية"
+
+#. Language of Russia
+msgid "Russian"
+msgstr "الروسية"
+
+#. Language of Slovakia
+msgid "Slovak"
+msgstr "السلوفاكية"
+
+#. Language of Spain
+msgid "Spanish"
+msgstr "الإسبانية"
