@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2018-02-04 12:09\n"
+"POT-Creation-Date: 2018-02-21 10:04\n"
 "PO-Revision-Date: 2018-01-23 16:26\n"
 "Last-Translator: Somebody <your.email@address.com>\n"
 "MIME-Version: 1.0\n"
@@ -1007,55 +1007,10 @@ msgstr ""
 msgid "Syntax Colors"
 msgstr ""
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label11..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Element:"
-msgstr ""
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label12..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Foreground Color:"
-msgstr ""
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label13..Caption
-#: dlgSynEditOptions.dfm
-msgid "B&ackground Color:"
-msgstr ""
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label14..Caption
 #. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel1..Caption
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label14..Caption
 #: dlgSynEditOptions.dfm
 msgid "Code Sample"
-msgstr ""
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label15..Caption
-#: dlgSynEditOptions.dfm
-msgid "Editor Syntax Language"
-msgstr ""
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..Caption
-#: dlgSynEditOptions.dfm
-msgid " Text attributes "
-msgstr ""
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementBold..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Bold"
-msgstr ""
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementItalic..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Italic"
-msgstr ""
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementUnderline..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Underline"
-msgstr ""
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementStrikeout..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Strike Out"
 msgstr ""
 
 #. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel2..Caption
@@ -1500,6 +1455,51 @@ msgstr ""
 #. fmEditorOptionsDialog..Panel1..TabControl..Display..GroupBox2..Caption
 #: dlgSynEditOptions.dfm
 msgid "Active Line Color"
+msgstr ""
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label11..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Element:"
+msgstr ""
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label12..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Foreground Color:"
+msgstr ""
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label13..Caption
+#: dlgSynEditOptions.dfm
+msgid "B&ackground Color:"
+msgstr ""
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label15..Caption
+#: dlgSynEditOptions.dfm
+msgid "Editor Syntax Language"
+msgstr ""
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..Caption
+#: dlgSynEditOptions.dfm
+msgid " Text attributes "
+msgstr ""
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementBold..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Bold"
+msgstr ""
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementItalic..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Italic"
+msgstr ""
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementUnderline..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Underline"
+msgstr ""
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementStrikeout..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Strike Out"
 msgstr ""
 
 #. PageSetupDlg..Caption
@@ -2267,6 +2267,116 @@ msgstr ""
 #. CommandsDataModule..JvMultiStringHolder........Strings.Strings
 #: dmCommands.dfm
 msgid "del warnings"
+msgstr ""
+
+#. CommandsDataModule..JvMultiStringHolder..........Strings.Strings
+#. CommandsDataModule..JvMultiStringHolder..........Strings.Strings
+#: dmCommands.dfm
+msgid ""
+"            dcNone, dcRun, dcStepInto, dcStepOver, dcStepOut, dcRunToCursor, "
+"dcPause, dcAbort = range(8)"
+msgstr ""
+
+#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
+#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
+#: dmCommands.dfm
+msgid "            self.debug_command = dcNone"
+msgstr ""
+
+#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
+#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
+#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
+#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
+#: dmCommands.dfm
+msgid "            if self.debug_command == dcRun:"
+msgstr ""
+
+#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
+#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
+#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
+#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
+#: dmCommands.dfm
+msgid "                self.set_return(frame)"
+msgstr ""
+
+#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
+#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
+#: dmCommands.dfm
+msgid "                return"
+msgstr ""
+
+#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
+#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
+#: dmCommands.dfm
+msgid "            time = __import__(\"time\")"
+msgstr ""
+
+#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
+#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
+#: dmCommands.dfm
+msgid "            while self.debug_command == dcNone:"
+msgstr ""
+
+#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
+#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
+#: dmCommands.dfm
+msgid "            elif self.debug_command == dcStepInto:"
+msgstr ""
+
+#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
+#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
+#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
+#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
+#: dmCommands.dfm
+msgid "                self.set_step()"
+msgstr ""
+
+#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
+#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
+#: dmCommands.dfm
+msgid "            elif self.debug_command == dcStepOver:"
+msgstr ""
+
+#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
+#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
+#: dmCommands.dfm
+msgid "                self.set_next(frame)"
+msgstr ""
+
+#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
+#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
+#: dmCommands.dfm
+msgid "            elif self.debug_command == dcStepOut:"
+msgstr ""
+
+#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
+#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
+#: dmCommands.dfm
+msgid "            elif self.debug_command == dcRunToCursor:"
+msgstr ""
+
+#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
+#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
+#: dmCommands.dfm
+msgid "            elif self.debug_command == dcPause:"
+msgstr ""
+
+#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
+#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
+#: dmCommands.dfm
+msgid "            elif self.debug_command == dcAbort:"
+msgstr ""
+
+#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
+#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
+#: dmCommands.dfm
+msgid "                self.set_quit()"
+msgstr ""
+
+#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
+#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
+#: dmCommands.dfm
+msgid "        def user_call(self, frame, arg):"
 msgstr ""
 
 #. CommandsDataModule..actlMain..actFileSave..Category
@@ -5853,13 +5963,16 @@ msgstr ""
 #: dlgAboutPyScripter.pas
 msgid ""
 "Translation manager: Lübbe Onken\n"
+"Arabic translation by Mohammed Nasman + Raouf Rahiche\n"
 "Chinese translation by \"Love China\"\n"
-"French translation by Groupe AmiensPython\n"
+"French translation by Groupe AmiensPython + Phil Prost\n"
+"German translation by Daniel Frost + Lübbe Onken\n"
+"Greek translation by Kiriakos Vlahos\n"
+"Italian translation by Vincenzo Campanella\n"
 "Japanese translation by Tokibito\n"
 "Russian translation by Aleksander Dragunkin\n"
 "Slovak translation by Marian Denes\n"
-"Spanish translation by Javier Pimas\n"
-"German translation by Daniel Frost\n"
+"Spanish translation by Javier Pimas + Victor Alberto Gil\n"
 msgstr ""
 
 #: dlgAboutPyScripter.pas

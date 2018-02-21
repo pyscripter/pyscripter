@@ -84,13 +84,16 @@ resourcestring
 
   SAboutBoxCreditsTranslations =
     'Translation manager: Lübbe Onken'+ SLineBreak +
+    'Arabic translation by Mohammed Nasman + Raouf Rahiche'+ SLineBreak +
     'Chinese translation by "Love China"'+ SLineBreak +
-    'French translation by Groupe AmiensPython'+ SLineBreak +
+    'French translation by Groupe AmiensPython + Phil Prost'+ SLineBreak +
+    'German translation by Daniel Frost + Lübbe Onken'+ SLineBreak +
+    'Greek translation by Kiriakos Vlahos'+ SLineBreak +
+    'Italian translation by Vincenzo Campanella'+ SLineBreak +
     'Japanese translation by Tokibito'+ SLineBreak +
     'Russian translation by Aleksander Dragunkin'+ SLineBreak +
     'Slovak translation by Marian Denes'+ SLineBreak +
-    'Spanish translation by Javier Pimas'+ SLineBreak +
-    'German translation by Daniel Frost'+ SLineBreak;
+    'Spanish translation by Javier Pimas + Victor Alberto Gil'+ SLineBreak;
 
    SAboutBoxCreditsThemeDesign =
      'Tanmaya Meher (www.github.com/tanmayameher)'+ SLineBreak +
