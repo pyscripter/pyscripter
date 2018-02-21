@@ -18,6 +18,9 @@ msgstr ""
 "Language: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+msgid "Arabic"
+msgstr "Árabe"
+
 msgid "Chinese"
 msgstr "Chino"
 

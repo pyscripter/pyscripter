@@ -17,6 +17,9 @@ msgstr ""
 "Language: kab\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+msgid "Arabic"
+msgstr ""
+
 msgid "Chinese"
 msgstr ""
 

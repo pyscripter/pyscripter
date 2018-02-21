@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
 "POT-Creation-Date: 2018-02-04 12:09\n"
 "PO-Revision-Date: 2018-01-23 16:26\n"
-"Last-Translator: Mohammed Nasman <mnasman@gmail.com>, 2018\n"
+"Last-Translator: raouf rahiche <rraouf30@gmail.com>, 2018\n"
 "Language-Team: Arabic (https://www.transifex.com/luebbe/teams/82736/ar/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -56,7 +56,7 @@ msgstr ""
 #. AskParamForm..Caption
 #: dlgAskParam.dfm
 msgid "Unknown parameter"
-msgstr ""
+msgstr "وسيط مجهول"
 
 #. AskParamForm..SpTBXPanel1..btnOK..Caption
 #. CodeTemplates..Panel..btnOK..Caption
@@ -183,12 +183,12 @@ msgstr "الإ&سم"
 #. FileTemplatesDialog..Panel..GroupBox..Label2..Caption
 #: dlgCodeTemplates.dfm dlgFileTemplates.dfm
 msgid "&Template:"
-msgstr ""
+msgstr "&قالب"
 
 #. CodeTemplates..Panel..GroupBox..Label5..Caption
 #: dlgCodeTemplates.dfm
 msgid "&Description:"
-msgstr "الو&صف"
+msgstr "&الوصف"
 
 #. CodeTemplates..Panel..GroupBox..Label4..Caption
 #. CustomizeParams..Panel..Label4..Caption
@@ -319,7 +319,7 @@ msgstr ""
 #. CommandLineDlg..Panel..TBXButton1..Hint
 #: dlgCommandLine.dfm
 msgid "History"
-msgstr ""
+msgstr "&السجلّ"
 
 #. CommandLineDlg..Panel..cbUseCommandLine..Caption
 #: dlgCommandLine.dfm
@@ -364,7 +364,7 @@ msgstr " إ&ضافة..."
 #: dlgConfigureTools.dfm dlgCustomShortcuts.dfm dlgSynEditOptions.dfm
 #: dlgToDoOptions.dfm frmProjectExplorer.dfm
 msgid "&Remove"
-msgstr ""
+msgstr "&إزالة"
 
 #. ConfigureTools..SpTBXPanel1..ModifyBtn..Caption
 #: dlgConfigureTools.dfm
@@ -432,7 +432,7 @@ msgstr "إ&ختصار جديد"
 #. frmCustomKeyboard..Panel1..lblCategories..Caption
 #: dlgCustomShortcuts.dfm
 msgid "&Categories:"
-msgstr ""
+msgstr "ال&فئات:"
 
 #. frmCustomKeyboard..Panel1..lblCommands..Caption
 #: dlgCustomShortcuts.dfm
@@ -442,12 +442,12 @@ msgstr "الأ&وامر:"
 #. frmCustomKeyboard..Panel1..lblCurrent..Caption
 #: dlgCustomShortcuts.dfm
 msgid "Currently assigned to:"
-msgstr ""
+msgstr "تم تعيينه حالياً إلى:"
 
 #. frmCustomKeyboard..Panel1..lblCurrentKeys..Caption
 #: dlgCustomShortcuts.dfm
 msgid "C&urrent Keys:"
-msgstr ""
+msgstr "ال&مفاتيح الحالية:"
 
 #. frmCustomKeyboard..Panel1..gbDescription..Caption
 #: dlgCustomShortcuts.dfm
@@ -472,7 +472,7 @@ msgstr "الغاء الإختصار"
 #. DirectoryListDialog..Caption
 #: dlgDirectoryList.dfm
 msgid "Directory list"
-msgstr ""
+msgstr "قائمة المجلد"
 
 #. DirectoryListDialog..SpTBXPanel1..btnMoveUp..Hint
 #: dlgDirectoryList.dfm
@@ -557,12 +557,12 @@ msgstr ""
 #. FileTemplatesDialog..Panel..GroupBox..Label5..Caption
 #: dlgFileTemplates.dfm
 msgid "&Category:"
-msgstr ""
+msgstr "ال&فئة:"
 
 #. FileTemplatesDialog..Panel..GroupBox..Label6..Caption
 #: dlgFileTemplates.dfm
 msgid "&Default Extension:"
-msgstr ""
+msgstr "الأمتداد الإفتراضي:"
 
 #. FileTemplatesDialog..Panel..GroupBox..Label7..Caption
 #: dlgFileTemplates.dfm
@@ -572,7 +572,7 @@ msgstr ""
 #. FileTemplatesDialog..Panel..lvItems......Caption
 #: dlgFileTemplates.dfm
 msgid "Category"
-msgstr ""
+msgstr "الفئة"
 
 #. FindInFilesDialog..Caption
 #: dlgFindInFiles.dfm
@@ -582,7 +582,7 @@ msgstr ""
 #. FindInFilesDialog..Panel1..lblFind..Caption
 #: dlgFindInFiles.dfm
 msgid "&Text to find:"
-msgstr ""
+msgstr "ن&ص البحث:"
 
 #. FindInFilesDialog..Panel1..gbxOptions..Caption
 #. fmEditorOptionsDialog..Panel1..TabControl..SpTBXTabItem2..Caption
@@ -602,7 +602,7 @@ msgstr ""
 #: dlgFindInFiles.dfm dlgSynEditOptions.dfm dlgToDoOptions.dfm dmCommands.dfm
 #: frmFunctionList.dfm frmPyIDEMain.dfm frmRegExpTester.dfm frmToDo.dfm
 msgid "Options"
-msgstr ""
+msgstr "الخيارات"
 
 #. FindInFilesDialog..Panel1..gbxOptions..cbCaseSensitive..Caption
 #: dlgFindInFiles.dfm
@@ -612,7 +612,7 @@ msgstr ""
 #. FindInFilesDialog..Panel1..gbxOptions..cbNoComments..Caption
 #: dlgFindInFiles.dfm
 msgid "&Ignore comments"
-msgstr ""
+msgstr "&تجاهل التعليقات"
 
 #. FindInFilesDialog..Panel1..gbxOptions..cbWholeWord..Caption
 #: dlgFindInFiles.dfm
@@ -627,7 +627,7 @@ msgstr ""
 #. FindInFilesDialog..Panel1..gbxWhere..Caption
 #: dlgFindInFiles.dfm
 msgid "Where"
-msgstr ""
+msgstr "أين"
 
 #. FindInFilesDialog..Panel1..gbxWhere..rbOpenFiles..Caption
 #: dlgFindInFiles.dfm
@@ -750,7 +750,7 @@ msgstr "ملف جديد"
 #. SpTBXCustomizeFormMod..SpTBXTabControl1..SpTBXTabSheet3..SpTBXLabel5..Caption
 #: dlgNewFile.dfm frmModSpTBXCustomize.dfm
 msgid "Categories:"
-msgstr ""
+msgstr "الفئات:"
 
 #. NewFileDialog..Panel1..Panel2..Panel4..Label2..Caption
 #: dlgNewFile.dfm
@@ -2242,12 +2242,12 @@ msgstr ""
 #. CommandsDataModule..CodeTemplatesCompletion....AutoCompleteList.Strings
 #: dmCommands.dfm
 msgid "|Python application"
-msgstr ""
+msgstr "| تطبيق بايثون"
 
 #. CommandsDataModule..CodeTemplatesCompletion....AutoCompleteList.Strings
 #: dmCommands.dfm
 msgid "|Python class"
-msgstr ""
+msgstr "| صنف بايثون"
 
 #. CommandsDataModule..CodeTemplatesCompletion....AutoCompleteList.Strings
 #: dmCommands.dfm
@@ -2258,7 +2258,7 @@ msgstr ""
 #. CommandsDataModule..JvMultiStringHolder........Strings.Strings
 #: dmCommands.dfm
 msgid "import warnings"
-msgstr ""
+msgstr "تحذيرات الاستيراد"
 
 #. CommandsDataModule..JvMultiStringHolder........Strings.Strings
 #. CommandsDataModule..JvMultiStringHolder........Strings.Strings
@@ -2303,7 +2303,7 @@ msgstr "ملف"
 #. CommandsDataModule..actlMain..actFileSave..Caption
 #: dmCommands.dfm
 msgid "&Save"
-msgstr ""
+msgstr "&حفظ"
 
 #. CommandsDataModule..actlMain..actFileSave..Hint
 #: dmCommands.dfm
@@ -2313,23 +2313,23 @@ msgstr ""
 #. CommandsDataModule..actlMain..actFileSaveAs..Caption
 #: dmCommands.dfm
 msgid "Save &As..."
-msgstr ""
+msgstr "حفظ &بإسم"
 
 #. CommandsDataModule..actlMain..actFileSaveAs..Hint
 #: dmCommands.dfm
 msgid "Save As|Save active file under different name"
-msgstr ""
+msgstr "حفظ بإسم | احفظ الملف النشط بإسم آخر"
 
 #. CommandsDataModule..actlMain..actFileClose..Caption
 #. OutputWindow..OutputActions..actToolClose..Caption
 #: dmCommands.dfm frmCommandOutput.dfm
 msgid "&Close"
-msgstr ""
+msgstr "إ&غلاق"
 
 #. CommandsDataModule..actlMain..actFileClose..Hint
 #: dmCommands.dfm
 msgid "Close|Close active file"
-msgstr ""
+msgstr "أغلاق | أغلق الملف النشط"
 
 #. CommandsDataModule..actlMain..actEditCut..Category
 #. CommandsDataModule..actlMain..actEditCopy..Category
@@ -2356,7 +2356,7 @@ msgstr ""
 #. ToDoWindow..Actions..actEditCopy..Category
 #: dmCommands.dfm frmFunctionList.dfm frmToDo.dfm
 msgid "Edit"
-msgstr ""
+msgstr "تحرير"
 
 #. CommandsDataModule..actlMain..actEditCut..Caption
 #: dmCommands.dfm
@@ -2366,7 +2366,7 @@ msgstr "&قص"
 #. CommandsDataModule..actlMain..actEditCut..Hint
 #: dmCommands.dfm
 msgid "Cut|Cuts the selection and puts it on the Clipboard"
-msgstr ""
+msgstr "قص | قص النص المحدد وضعه في الحافظة"
 
 #. CommandsDataModule..actlMain..actEditCopy..Caption
 #. FindResultsWindow..Actions..actFileCopy..Caption
@@ -2377,7 +2377,7 @@ msgstr "&نسخ"
 #. CommandsDataModule..actlMain..actEditCopy..Hint
 #: dmCommands.dfm
 msgid "Copy|Copies the selection and puts it on the Clipboard"
-msgstr ""
+msgstr "نسخ | انسخ النص المحدد وضعه في الحافظة"
 
 #. CommandsDataModule..actlMain..actEditPaste..Caption
 #: dmCommands.dfm
@@ -2387,17 +2387,17 @@ msgstr "&لصق"
 #. CommandsDataModule..actlMain..actEditPaste..Hint
 #: dmCommands.dfm
 msgid "Paste|Inserts Clipboard contents"
-msgstr ""
+msgstr "لصق | الصق محتويات الحافظة"
 
 #. CommandsDataModule..actlMain..actEditDelete..Caption
 #: dmCommands.dfm
 msgid "De&lete"
-msgstr ""
+msgstr "ال&غاء"
 
 #. CommandsDataModule..actlMain..actEditDelete..Hint
 #: dmCommands.dfm
 msgid "Delete|Delete selection"
-msgstr ""
+msgstr "الغاء | الغاء التحديد"
 
 #. CommandsDataModule..actlMain..actEditUndo..Caption
 #: dmCommands.dfm
@@ -2407,7 +2407,7 @@ msgstr "&تراجع"
 #. CommandsDataModule..actlMain..actEditUndo..Hint
 #: dmCommands.dfm
 msgid "Undo|Reverts the last action"
-msgstr ""
+msgstr "تراجع | وعد إلى أخر عملية"
 
 #. CommandsDataModule..actlMain..actEditRedo..Caption
 #: dmCommands.dfm
@@ -2428,7 +2428,7 @@ msgstr "&إختيار الكل"
 #. CommandsDataModule..actlMain..actEditSelectAll..Hint
 #: dmCommands.dfm
 msgid "Select All|Selects the entire document"
-msgstr ""
+msgstr "أختيار الكل | اختار كل الملف"
 
 #. CommandsDataModule..actlMain..actSearchFind..Category
 #. CommandsDataModule..actlMain..actSearchFindNext..Category
@@ -2448,37 +2448,37 @@ msgstr ""
 #. RegExpTesterWindow..BGPanel..FGPanel..TBXDock..RegExpTesterToolbar..TBXSubmenuItem2..RI_Search..Caption
 #: dmCommands.dfm frmEditor.dfm frmRegExpTester.dfm
 msgid "Search"
-msgstr ""
+msgstr "بحث"
 
 #. CommandsDataModule..actlMain..actSearchFind..Caption
 #: dmCommands.dfm
 msgid "&Find..."
-msgstr ""
+msgstr "ا&وجد..."
 
 #. CommandsDataModule..actlMain..actSearchFind..Hint
 #: dmCommands.dfm
 msgid "Search|Search for a string"
-msgstr ""
+msgstr "بحث | بحث عن نص"
 
 #. CommandsDataModule..actlMain..actSearchFindNext..Caption
 #: dmCommands.dfm
 msgid "Find &Next"
-msgstr ""
+msgstr "اوجد ال&تالي"
 
 #. CommandsDataModule..actlMain..actSearchFindNext..Hint
 #: dmCommands.dfm
 msgid "Find next|Find next match"
-msgstr ""
+msgstr "اوجد التالي | اوجد التطابق التالي"
 
 #. CommandsDataModule..actlMain..actSearchFindPrev..Caption
 #: dmCommands.dfm
 msgid "Find &Previous"
-msgstr ""
+msgstr "اوجد ال&سابق"
 
 #. CommandsDataModule..actlMain..actSearchFindPrev..Hint
 #: dmCommands.dfm
 msgid "Find previous|Find Previous match"
-msgstr ""
+msgstr "اوجد السابق | بحث عن التطابق السابق"
 
 #. CommandsDataModule..actlMain..actSearchReplace..Caption
 #: dmCommands.dfm
@@ -2493,12 +2493,12 @@ msgstr ""
 #. CommandsDataModule..actlMain..actFileSaveAll..Caption
 #: dmCommands.dfm
 msgid "Save &All"
-msgstr ""
+msgstr "تخزين ال&كل"
 
 #. CommandsDataModule..actlMain..actFileSaveAll..Hint
 #: dmCommands.dfm
 msgid "Save all|Save project and all open files"
-msgstr ""
+msgstr "تخزين الكل | احفظ المشروع وكل الملفات المفتوحة"
 
 #. CommandsDataModule..actlMain..actFilePrint..Caption
 #. FindResultsWindow..Actions..actFilePrint..Caption
@@ -2534,17 +2534,17 @@ msgstr "معاينة الطباعة"
 #. CommandsDataModule..actlMain..actPageSetup..Caption
 #: dmCommands.dfm
 msgid "Pa&ge Setup..."
-msgstr ""
+msgstr "إ&عداد الصفحة"
 
 #. CommandsDataModule..actlMain..actPageSetup..Hint
 #: dmCommands.dfm
 msgid "Page setup"
-msgstr ""
+msgstr "إعداد الصفحة"
 
 #. CommandsDataModule..actlMain..actEditorOptions..Caption
 #: dmCommands.dfm
 msgid "&Editor Options..."
-msgstr ""
+msgstr "&خيارات المحرر"
 
 #. CommandsDataModule..actlMain..actEditorOptions..Hint
 #: dmCommands.dfm
@@ -2554,7 +2554,7 @@ msgstr ""
 #. CommandsDataModule..actlMain..actIDEOptions..Caption
 #: dmCommands.dfm
 msgid "&IDE Options..."
-msgstr ""
+msgstr "خيارات ب&يئة التطوير"
 
 #. CommandsDataModule..actlMain..actIDEOptions..Hint
 #: dmCommands.dfm
@@ -2570,7 +2570,7 @@ msgstr ""
 #. CommandsDataModule..actlMain..actEditToggleComment..Category
 #: dmCommands.dfm
 msgid "Source Code"
-msgstr ""
+msgstr "الكود المصدري"
 
 #. CommandsDataModule..actlMain..actEditIndent..Caption
 #: dmCommands.dfm
@@ -2595,17 +2595,17 @@ msgstr ""
 #. CommandsDataModule..actlMain..actEditCommentOut..Caption
 #: dmCommands.dfm
 msgid "&Comment out"
-msgstr ""
+msgstr "علق"
 
 #. CommandsDataModule..actlMain..actEditCommentOut..Hint
 #: dmCommands.dfm
 msgid "Comment out| Comment out block of code"
-msgstr ""
+msgstr "علق | علق الكود المختار"
 
 #. CommandsDataModule..actlMain..actEditUncomment..Caption
 #: dmCommands.dfm
 msgid "&Uncomment"
-msgstr ""
+msgstr "ال&غي التعليق"
 
 #. CommandsDataModule..actlMain..actEditUncomment..Hint
 #: dmCommands.dfm
@@ -2681,17 +2681,17 @@ msgstr ""
 #: dmCommands.dfm frmFindResults.dfm frmFunctionList.dfm frmRegExpTester.dfm
 #: frmToDo.dfm
 msgid "Help"
-msgstr ""
+msgstr "مساعدة"
 
 #. CommandsDataModule..actlMain..actHelpContents..Caption
 #: dmCommands.dfm
 msgid "&Contents"
-msgstr ""
+msgstr "الم&حتويات"
 
 #. CommandsDataModule..actlMain..actHelpContents..Hint
 #: dmCommands.dfm
 msgid "Help Contents"
-msgstr ""
+msgstr "محتويات المساعدة"
 
 #. CommandsDataModule..actlMain..actPythonManuals..Caption
 #: dmCommands.dfm
@@ -2706,12 +2706,12 @@ msgstr ""
 #. CommandsDataModule..actlMain..actAbout..Caption
 #: dmCommands.dfm
 msgid "About..."
-msgstr ""
+msgstr "حول..."
 
 #. CommandsDataModule..actlMain..actAbout..Hint
 #: dmCommands.dfm
 msgid "About|Info about the application"
-msgstr ""
+msgstr "حول | معلومات حول التطبيق"
 
 #. CommandsDataModule..actlMain..actSearchGoToLine..Caption
 #: dmCommands.dfm
@@ -4237,12 +4237,12 @@ msgstr ""
 #. ProjectExplorerWindow..ProjectActionList..actProjectShowFileExtensions..Caption
 #: frmProjectExplorer.dfm
 msgid "Show File &Extensions"
-msgstr "عرض لوا&حق الملفات"
+msgstr "عرض إ&متداد الملفات"
 
 #. ProjectExplorerWindow..ProjectActionList..actProjectShowFileExtensions..Hint
 #: frmProjectExplorer.dfm
 msgid "Display file extensions"
-msgstr "عرض لواحق الملفات"
+msgstr "عرض إمتداد الملفات"
 
 #. ProjectExplorerWindow..ProjectActionList..actProjectExtraPythonPath..Caption
 #: frmProjectExplorer.dfm

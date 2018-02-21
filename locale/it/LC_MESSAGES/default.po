@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
 "POT-Creation-Date: 2018-02-04 12:09\n"
 "PO-Revision-Date: 2018-01-23 16:26\n"
-"Last-Translator: Lübbe Onken <luebbe.opensource@gmail.com>, 2018\n"
+"Last-Translator: Vincenzo Campanella <vinz65@gmail.com>, 2018\n"
 "Language-Team: Italian (https://www.transifex.com/luebbe/teams/82736/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -43,7 +43,7 @@ msgstr "Link"
 #. AboutBox..SpTBXTabControl1..SpTBXTabSheet1..Panel1..Copyright..Caption
 #: dlgAboutPyScripter.dfm
 msgid "(C) Kiriakos Vlahos  2005-2018"
-msgstr ""
+msgstr "(C) Kiriakos Vlahos 2005-2018"
 
 #. AboutBox..SpTBXTabControl1..SpTBXTabSheet1..Panel1..Comments....Caption
 #: dlgAboutPyScripter.dfm
@@ -129,7 +129,7 @@ msgstr "&Annulla"
 #. AskParamForm..SpTBXPanel1..chkSaveToFile..Caption
 #: dlgAskParam.dfm
 msgid "and save it as a custom parameter"
-msgstr "e  salvalo come un parametro personalizzato"
+msgstr "e  salvalo come parametro personalizzato"
 
 #. AskParamForm..SpTBXPanel1..Label1..Caption
 #: dlgAskParam.dfm
@@ -186,7 +186,7 @@ msgstr "&Nome:"
 #. FileTemplatesDialog..Panel..GroupBox..Label2..Caption
 #: dlgCodeTemplates.dfm dlgFileTemplates.dfm
 msgid "&Template:"
-msgstr "&Modelli:"
+msgstr "&Modello:"
 
 #. CodeTemplates..Panel..GroupBox..Label5..Caption
 #: dlgCodeTemplates.dfm
@@ -198,14 +198,14 @@ msgstr "&Descrizione:"
 #. FileTemplatesDialog..Panel..GroupBox..Label4..Caption
 #: dlgCodeTemplates.dfm dlgCustomParams.dfm dlgFileTemplates.dfm
 msgid "Press Shift+Ctrl+M for Modifier completion"
-msgstr "Shift+Ctrl+M per il completamento dei modificatori"
+msgstr "Premere Maiusc+Ctrl+M per il completamento dei modificatori"
 
 #. CodeTemplates..Panel..GroupBox..Label3..Caption
 #. CustomizeParams..Panel..Label3..Caption
 #. FileTemplatesDialog..Panel..GroupBox..Label3..Caption
 #: dlgCodeTemplates.dfm dlgCustomParams.dfm dlgFileTemplates.dfm
 msgid "Press Shift+Ctrl+P for Parameter completion"
-msgstr "Shift+Ctrl+P per il completamento dei parametri"
+msgstr "Premere Maiusc+Ctrl+P per il completamento dei parametri"
 
 #. CodeTemplates..Panel..lvItems......Caption
 #. CustomizeParams..Panel..lvItems......Caption
@@ -277,7 +277,7 @@ msgstr "&Sù"
 #. FileTemplatesDialog..ActionList..actMoveUp..Hint
 #: dlgCodeTemplates.dfm dlgCustomParams.dfm dlgFileTemplates.dfm
 msgid "Move item up"
-msgstr "Muovi elemento sù"
+msgstr "Sposta l'elemento verso l'alto"
 
 #. CodeTemplates..ActionList..actMoveDown..Caption
 #. ConfigureTools..SpTBXPanel1..MoveDownBtn..Caption
@@ -293,7 +293,7 @@ msgstr "&Giù"
 #. FileTemplatesDialog..ActionList..actMoveDown..Hint
 #: dlgCodeTemplates.dfm dlgCustomParams.dfm dlgFileTemplates.dfm
 msgid "Move item down"
-msgstr "Muovi elemento giù"
+msgstr "Sposta l'elemento verso il basso"
 
 #. CodeTemplates..ActionList..actUpdateItem..Caption
 #. CustomizeParams..ActionList..actUpdateItem..Caption
@@ -335,20 +335,20 @@ msgid ""
 "Please enter parameters to be appended to the command line:\n"
 "Note that the script name is automatically inserted as the first argument."
 msgstr ""
-"Inserisci i parametri da appendere alla riga di comando:\n"
-"Nota che il nome dello script sarà inserito automaticamente come primo argomento."
+"Inserire i parametri da aggiungere alla riga di comando:\n"
+"Notare che il nome dello script sarà inserito automaticamente come primo argomento."
 
 #. CommandLineDlg..Panel..Label3..Caption
 #. RunConfigurationForm..Panel1..GroupBox2..Label3..Caption
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox2..Label3..Caption
 #: dlgCommandLine.dfm dlgRunConfiguration.dfm dlgToolProperties.dfm
 msgid "Parameters : Shift+Ctrl+P, Modifiers : Shift+Ctrl+M "
-msgstr "Parametri: Shift+Ctrl+P, Modificatori: Shift+Ctrl+M"
+msgstr "Parametri: Maiusc+Ctrl+P, Modificatori: Maiusc+Ctrl+M"
 
 #. CommandLineDlg..TBXPopupHistory..EmptyHistoryPopupItem..Caption
 #: dlgCommandLine.dfm
 msgid "(Empty History)"
-msgstr "(Storico Vuoto)"
+msgstr "(Storico vuoto)"
 
 #. ConfigureTools..Caption
 #: dlgConfigureTools.dfm
@@ -427,7 +427,7 @@ msgstr "Valore"
 #. frmCustomKeyboard..Caption
 #: dlgCustomShortcuts.dfm
 msgid "Customize IDE Shortcuts"
-msgstr "Personalizza scorciatoie IDE"
+msgstr "Personalizzare scorciatoie IDE"
 
 #. frmCustomKeyboard..Panel1..lblNewShortcutKey..Caption
 #: dlgCustomShortcuts.dfm
@@ -452,7 +452,7 @@ msgstr "Attualmente assegnato a:"
 #. frmCustomKeyboard..Panel1..lblCurrentKeys..Caption
 #: dlgCustomShortcuts.dfm
 msgid "C&urrent Keys:"
-msgstr "Tasti &correnti:"
+msgstr "Tasti a&ttuali:"
 
 #. frmCustomKeyboard..Panel1..gbDescription..Caption
 #: dlgCustomShortcuts.dfm
@@ -467,12 +467,12 @@ msgstr "&Assegna"
 #. frmCustomKeyboard..ActionList1..actAssignShortcut..Hint
 #: dlgCustomShortcuts.dfm
 msgid "Assign shortcut to command"
-msgstr ""
+msgstr "Assegnare la scorciatoia al comando"
 
 #. frmCustomKeyboard..ActionList1..actRemoveShortcut..Hint
 #: dlgCustomShortcuts.dfm
 msgid "Remove shortcut"
-msgstr ""
+msgstr "Rimuovere la scorciatoia"
 
 #. DirectoryListDialog..Caption
 #: dlgDirectoryList.dfm
@@ -482,12 +482,12 @@ msgstr "Lista delle directory"
 #. DirectoryListDialog..SpTBXPanel1..btnMoveUp..Hint
 #: dlgDirectoryList.dfm
 msgid "Move up"
-msgstr "Muovi sù"
+msgstr "Sposta verso l'alto"
 
 #. DirectoryListDialog..SpTBXPanel1..btnMoveDown..Hint
 #: dlgDirectoryList.dfm
 msgid "Move down"
-msgstr "Muovi giù"
+msgstr "Sposta verso il basso"
 
 #. DirectoryListDialog..SpTBXPanel1..SpTBXLabel1..Caption
 #: dlgDirectoryList.dfm
@@ -502,7 +502,7 @@ msgstr "Aggiungi il percorso del file alla lista"
 #. DirectoryListDialog..SpTBXPanel2..btnReplace..Hint
 #: dlgDirectoryList.dfm
 msgid "Replace the selected file path"
-msgstr "Sostituisci il percorso file selezionato"
+msgstr "Sostituisci il percorso del file selezionato"
 
 #. DirectoryListDialog..SpTBXPanel2..btnReplace..Caption
 #: dlgDirectoryList.dfm
@@ -512,12 +512,12 @@ msgstr "&Sostituisci"
 #. DirectoryListDialog..SpTBXPanel2..edPath..Hint
 #: dlgDirectoryList.dfm
 msgid "Enter file path here"
-msgstr "Inserisci il percorso file qui"
+msgstr "Inserisci il percorso del file qui"
 
 #. DirectoryListDialog..SpTBXPanel2..edPath..EditButton.Hint
 #: dlgDirectoryList.dfm
 msgid "Select file path"
-msgstr "Seleziona percorso file"
+msgstr "Seleziona il percorso del file"
 
 #. DirectoryListDialog..SpTBXPanel2..btnDelete..Hint
 #: dlgDirectoryList.dfm
@@ -527,7 +527,8 @@ msgstr "Elimina il percorso del file selezionato"
 #. ExceptionDialogMail..SendBtn..Hint
 #: dlgExceptionMail.dfm
 msgid "Send bug report using default mail client"
-msgstr "Invia un rapporto di bug usando il client di posta predefinito"
+msgstr ""
+"Invia un rapporto di bug usando il client di posta elettronica predefinito"
 
 #. ExceptionDialogMail..SendBtn..Caption
 #: dlgExceptionMail.dfm
@@ -577,7 +578,7 @@ msgstr "&Evidenziatore:"
 #. FileTemplatesDialog..Panel..lvItems......Caption
 #: dlgFileTemplates.dfm
 msgid "Category"
-msgstr ""
+msgstr "Categoria"
 
 #. FindInFilesDialog..Caption
 #: dlgFindInFiles.dfm
@@ -647,7 +648,7 @@ msgstr "File del &progetto"
 #. FindInFilesDialog..Panel1..gbxWhere..rbCurrentOnly..Caption
 #: dlgFindInFiles.dfm
 msgid "Current &file only"
-msgstr "Solo &file corrente"
+msgstr "Solo &file attuale"
 
 #. FindInFilesDialog..Panel1..gbxWhere..rbDirectories..Caption
 #: dlgFindInFiles.dfm
@@ -662,7 +663,7 @@ msgstr "Directory di ricerca"
 #. FindInFilesDialog..Panel1..gbxDirectories..lblMasks..Caption
 #: dlgFindInFiles.dfm
 msgid "File mas&ks:"
-msgstr "Mas&chera file:"
+msgstr "Mas&chere del file:"
 
 #. FindInFilesDialog..Panel1..gbxDirectories..lblDirectory..Caption
 #: dlgFindInFiles.dfm
@@ -684,12 +685,12 @@ msgstr "Includi so&ttodirectory"
 #. FindResultsOptionsDialog..Caption
 #: dlgFindResultsOptions.dfm
 msgid "Find in Files Options"
-msgstr "Opzioni ricerca nei file"
+msgstr "Opzioni di ricerca nei file"
 
 #. FindResultsOptionsDialog..SpTBXPanel1..gbxMatchList..Caption
 #: dlgFindResultsOptions.dfm
 msgid "Match Results List"
-msgstr "Lista risultati corrispondenze"
+msgstr "Lista dei risultati corrispondenti"
 
 #. FindResultsOptionsDialog..SpTBXPanel1..gbxMatchList..chkGrepMiddle..Caption
 #: dlgFindResultsOptions.dfm
@@ -704,7 +705,7 @@ msgstr "Dopo la ricerca &espandi le corrispondenze"
 #. FindResultsOptionsDialog..SpTBXPanel1..gbxMatchList..pnlListFont..Caption
 #: dlgFindResultsOptions.dfm
 msgid "Match List Font..."
-msgstr "Carattere lista delle corrispondenze..."
+msgstr "Carattere della lista delle corrispondenze..."
 
 #. FindResultsOptionsDialog..SpTBXPanel1..gbxMatchContext..Caption
 #: dlgFindResultsOptions.dfm
@@ -719,7 +720,7 @@ msgstr "Numero delle righe del contesto"
 #. FindResultsOptionsDialog..SpTBXPanel1..gbxMatchContext..pnlContextFont..Caption
 #: dlgFindResultsOptions.dfm
 msgid "Context Font..."
-msgstr "Carattere contesto..."
+msgstr "Carattere del contesto..."
 
 #. FindResultsOptionsDialog..SpTBXPanel1..gbxMatchContext..pnlMatchLineColor..Caption
 #: dlgFindResultsOptions.dfm
@@ -744,7 +745,7 @@ msgstr "Directory da importare:"
 #. ImportDirectoryForm..Panel1..Label2..Caption
 #: dlgImportDirectory.dfm
 msgid "File Masks (e.g. *.py;*.pyw):"
-msgstr "Maschere file (es. *.py;*.pyw):"
+msgstr "Maschere dei file (es. *.py;*.pyw):"
 
 #. NewFileDialog..Caption
 #: dlgNewFile.dfm
@@ -775,17 +776,17 @@ msgstr "Gestione dei modelli dei file..."
 #. OptionsInspector..Panel1..Inspector..Text
 #: dlgOptionsEditor.dfm
 msgid "Inspector"
-msgstr ""
+msgstr "Ispettore"
 
 #. OptionsInspector..Panel1..Inspector..DefaultCategoryName
 #: dlgOptionsEditor.dfm
 msgid "Miscellaneous"
-msgstr ""
+msgstr "Varie"
 
 #. OptionsInspector..Panel1..Inspector..HeaderPropText
 #: dlgOptionsEditor.dfm
 msgid "Property"
-msgstr ""
+msgstr "Proprietà"
 
 #. PickListDialog..Panel2..btnSelectAll..Caption
 #. PickListDialog..PickListPopUp..mnSelectAll..Caption
@@ -808,7 +809,7 @@ msgstr "Seleziona tutti gli elementi"
 #. PickListDialog..PickListPopUp..mnDeselectAll..Hint
 #: dlgPickList.dfm
 msgid "Deselect all items"
-msgstr "Deselezione tutte le voci"
+msgstr "Deseleziona tutti gli elementi"
 
 #. ReplaceInFilesDialog..Caption
 #: dlgReplaceInFiles.dfm
@@ -924,7 +925,7 @@ msgstr "Esecuzione esterna"
 #. RunConfigurationForm..Panel1..GroupBox3..btnExternalRun..Caption
 #: dlgRunConfiguration.dfm
 msgid "&Set External Run properties"
-msgstr ""
+msgstr "&Imposta le proprietà per l'esecuzione esterna"
 
 #. RunConfigurationForm..Panel1..gbSaveOutput..Caption
 #. OutputWindow..Caption
@@ -954,32 +955,32 @@ msgstr "&Nome file:"
 #. PyIDEMainForm..actlStandard..actSelectStyle..Hint
 #: dlgStyleSelector.dfm frmPyIDEMain.dfm
 msgid "Select Style"
-msgstr ""
+msgstr "Selezionare lo stile"
 
 #. StyleSelectorForm..Label1..Caption
 #: dlgStyleSelector.dfm
 msgid "Available Styles"
-msgstr ""
+msgstr "Stili disponibili"
 
 #. StyleSelectorForm..Label2..Caption
 #: dlgStyleSelector.dfm
 msgid "Preview"
-msgstr ""
+msgstr "Anteprima"
 
 #. StyleSelectorForm..Button1..Caption
 #: dlgStyleSelector.dfm
 msgid "&Apply Style"
-msgstr ""
+msgstr "Applicare lo stile"
 
 #. StyleSelectorForm..ActionManager1..StyleName
 #: dlgStyleSelector.dfm
 msgid "Platform Default"
-msgstr ""
+msgstr "Piattaforma predefinita"
 
 #. StyleSelectorForm..ActionManager1..ActionApplyStyle..Caption
 #: dlgStyleSelector.dfm
 msgid "Apply Style"
-msgstr ""
+msgstr "Applicare lo stile"
 
 #. fmEditorOptionsDialog..Caption
 #: dlgSynEditOptions.dfm
@@ -1001,13 +1002,13 @@ msgstr "Aspetto"
 #. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..Caption
 #: dlgSynEditOptions.dfm
 msgid "Keystrokes"
-msgstr "Combinazioni tasti"
+msgstr "Combinazioni dei tasti"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..SpTBXTabItem5..Caption
 #. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..Caption
 #: dlgSynEditOptions.dfm
 msgid "Color Theme"
-msgstr ""
+msgstr "Tema dei colori"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..SpTBXTabItem4..Caption
 #. fmEditorOptionsDialog..Panel1..TabControl..Color..Caption
@@ -1023,12 +1024,12 @@ msgstr "&Elemento:"
 #. fmEditorOptionsDialog..Panel1..TabControl..Color..Label12..Caption
 #: dlgSynEditOptions.dfm
 msgid "&Foreground Color:"
-msgstr "Colore di &primo piano:"
+msgstr "Colore del &primo piano:"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Color..Label13..Caption
 #: dlgSynEditOptions.dfm
 msgid "B&ackground Color:"
-msgstr "Colore di &sfondo:"
+msgstr "Colore dello &sfondo:"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Color..Label14..Caption
 #. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel1..Caption
@@ -1059,7 +1060,7 @@ msgstr "Cors&ivo"
 #. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementUnderline..Caption
 #: dlgSynEditOptions.dfm
 msgid "&Underline"
-msgstr "&Sottolinea"
+msgstr "&Sottolineato"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementStrikeout..Caption
 #: dlgSynEditOptions.dfm
@@ -1069,12 +1070,12 @@ msgstr "&Elimina"
 #. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel2..Caption
 #: dlgSynEditOptions.dfm
 msgid "Available Themes"
-msgstr ""
+msgstr "Temi disponibili"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..btnApplyTheme..Caption
 #: dlgSynEditOptions.dfm
 msgid "Apply Theme"
-msgstr ""
+msgstr "Applica il tema"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Caption
 #: dlgSynEditOptions.dfm
@@ -1089,12 +1090,12 @@ msgstr "Comando:"
 #. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label6..Caption
 #: dlgSynEditOptions.dfm
 msgid "Keystroke 2:"
-msgstr ""
+msgstr "Combinazione 2:"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label7..Caption
 #: dlgSynEditOptions.dfm
 msgid "Keystroke 1:"
-msgstr ""
+msgstr "Combinazione 1:"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..Panel2..KeyList......Caption
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox2..Caption
@@ -1105,7 +1106,7 @@ msgstr "Comando"
 #. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..Panel2..KeyList......Caption
 #: dlgSynEditOptions.dfm
 msgid "Keystroke"
-msgstr ""
+msgstr "Combinazione"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckAutoIndent....Hint
 #: dlgSynEditOptions.dfm
@@ -1113,8 +1114,8 @@ msgid ""
 "Will indent the caret on new lines with the same amount of leading white "
 "space as the preceding line"
 msgstr ""
-"Indenterà il cursore nelle nuove linee con lo steso numero di spazi iniziali"
-" della riga precedente"
+"Indenterà il cursore nelle nuove linee con lo stesso numero di spazi "
+"iniziali della riga precedente"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckAutoIndent..Caption
 #: dlgSynEditOptions.dfm
@@ -1147,12 +1148,12 @@ msgstr ""
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckDragAndDropEditing..Caption
 #: dlgSynEditOptions.dfm
 msgid "Drag and drop editing"
-msgstr "Abilita Drag and Drop"
+msgstr "Abilita il Drag and Drop"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckEnhanceEndKey..Hint
 #: dlgSynEditOptions.dfm
 msgid "Enhances end key similar to JDeveloper"
-msgstr "Migliora l'uso del Tasto Fine come in JDeveloper"
+msgstr "Migliora l'uso del tasto Fine come in JDeveloper"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckEnhanceEndKey..Caption
 #: dlgSynEditOptions.dfm
@@ -1162,17 +1163,17 @@ msgstr "Migliora il tasto Fine"
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckWordWrap..Hint
 #: dlgSynEditOptions.dfm
 msgid "Allows the editor accept OLE file drops"
-msgstr "Consenti all'editor ad accettare il drop di file OLE"
+msgstr "Consenti all'editor di accettare il drop di file OLE"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckWordWrap..Caption
 #: dlgSynEditOptions.dfm
 msgid "Word wrap"
-msgstr "Parole a capo"
+msgstr "Ritorno a capo nelle parole"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckEnhanceHomeKey..Hint
 #: dlgSynEditOptions.dfm
 msgid "enhances home key positioning, similar to visual studio"
-msgstr "Migliora l'uso del Tasto Home come in Visual Studio"
+msgstr "Migliora l'uso del tasto Home come in Visual Studio"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckEnhanceHomeKey..Caption
 #: dlgSynEditOptions.dfm
@@ -1195,7 +1196,7 @@ msgstr "Alt imposta la modalità colonne"
 #: dlgSynEditOptions.dfm
 msgid "Converts a tab character to the number of spaces in Tab Width"
 msgstr ""
-"converte una tabulazione nel numero di spazi specificato da Larghezza "
+"Converte una tabulazione nel numero di spazi specificato da Larghezza "
 "Tabulazione"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckTabsToSpaces..Caption
@@ -1222,17 +1223,17 @@ msgstr ""
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckSmartTabDelete..Caption
 #: dlgSynEditOptions.dfm
 msgid "Smart tab delete"
-msgstr "Eliminaz. intelligente delle tab."
+msgstr "Eliminazione intelligente delle tabulazioni"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckTabIndent..Hint
 #: dlgSynEditOptions.dfm
 msgid "Tab indents and Shift-Tab unindents"
-msgstr ""
+msgstr "Tab per indentare, Maiusc+Tab per togliere l'indentamento"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckTabIndent..Caption
 #: dlgSynEditOptions.dfm
 msgid "Tab Indent"
-msgstr "Tab indenta"
+msgstr "Tab per indentare"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckSmartTabs....Hint
 #: dlgSynEditOptions.dfm
@@ -1241,7 +1242,7 @@ msgid ""
 "the previous line"
 msgstr ""
 "La tabulazione sposta il cursore in corrispondenza del prossimo carattere "
-"della riga precedente diverso da uno spazio"
+"non vuoto della riga precedente"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckSmartTabs..Caption
 #: dlgSynEditOptions.dfm
@@ -1284,11 +1285,13 @@ msgstr "Scorri la pagina meno una riga"
 #: dlgSynEditOptions.dfm
 msgid "Shows line breaks, spaces and tabs using special symbols"
 msgstr ""
+"Mostra le interruzioni di pagina, gli spazi vuoti e i tabulatori con "
+"l'utilizzo dei simboli speciali"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowSpecialChars..Caption
 #: dlgSynEditOptions.dfm
 msgid "Show special chars"
-msgstr "Mostra caratteri speciali"
+msgstr "Mostra i caratteri speciali"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollPastEOF..Hint
 #: dlgSynEditOptions.dfm
@@ -1298,7 +1301,7 @@ msgstr "Consente al cursore di muoversi oltre la fine del file"
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollPastEOF..Caption
 #: dlgSynEditOptions.dfm
 msgid "Scroll past end of file"
-msgstr "Scorrimento dopo il fine file"
+msgstr "Scorrimento dopo la fine del file"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckDisableScrollArrows....Hint
 #: dlgSynEditOptions.dfm
@@ -1306,8 +1309,8 @@ msgid ""
 "Disables the scroll bar arrow buttons when you can't scroll in that "
 "direction any more"
 msgstr ""
-"Disabilita i bottoni delle barre di scorrimento se non è possibile scorrere "
-"ancora nella direzione"
+"Disabilita i pulsanti delle barre di scorrimento se non è possibile scorrere"
+" ulteriormente nella direzione"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckDisableScrollArrows..Caption
 #: dlgSynEditOptions.dfm
@@ -1320,12 +1323,12 @@ msgid ""
 "Allows the cursor to go past the last character into the white space at the "
 "end of a line"
 msgstr ""
-"Consente al cursore di muoversi nello spazio bianco oltre il fine riga"
+"Consente al cursore di muoversi nello spazio vuoto oltre la fine della riga"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollPastEOL..Caption
 #: dlgSynEditOptions.dfm
 msgid "Scroll past end of line"
-msgstr "Scorrimento dopo il fine riga"
+msgstr "Scorrimento dopo la fine della riga"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckGroupUndo....Hint
 #: dlgSynEditOptions.dfm
@@ -1333,17 +1336,20 @@ msgid ""
 "When undoing/redoing actions, handle all continuous changes of the same kind"
 " in one call instead undoing/redoing each command separately"
 msgstr ""
+"Quando si annullano o si ripetono le azioni, gestire tutte le modifiche "
+"continue dello stesso tipo in una sola volta anziché ripetere il comando di "
+"annullamento o ripetizione"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckGroupUndo..Caption
 #: dlgSynEditOptions.dfm
 msgid "Group undo"
-msgstr "Raggruppa annullamenti"
+msgstr "Annulla il raggruppamento"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowScrollHint....Hint
 #: dlgSynEditOptions.dfm
 msgid "Shows a hint of the visible line numbers when scrolling vertically"
 msgstr ""
-"Mostra un suggerimento dei numeri delle linee visibili durante lo "
+"Mostra un suggerimento dei numeri delle righe visibili durante lo "
 "scorrimento verticale"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowScrollHint..Caption
@@ -1358,8 +1364,8 @@ msgid ""
 "ScrollPastEOL, then it the horizontal bar will always be there (it uses "
 "MaxLength instead)"
 msgstr ""
-"Se spuntato, le barre di scorrimento sono mostrate solo se necessario. Se è "
-"abilitato lo scorrimento dopo il fine riga la barra orizzontale è sempre "
+"Se abilitato, le barre di scorrimento sono mostrate solo se necessario. Se è"
+" abilitato lo scorrimento dopo il fine riga, la barra orizzontale è sempre "
 "presente (usa la lunghezza massima)"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckHideShowScrollbars..Caption
@@ -1371,13 +1377,13 @@ msgstr "Nascondi barre di scorrimento"
 #: dlgSynEditOptions.dfm
 msgid "The scroll hint follows the mouse when scrolling vertically"
 msgstr ""
-"I suggerimenti dello scorrimento seguono il mouse durante lo scorrimento "
+"I suggerimenti sullo scorrimento seguono il mouse durante lo scorrimento "
 "verticale"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollHintFollows..Caption
 #: dlgSynEditOptions.dfm
 msgid "Scroll hint follows mouse"
-msgstr "Il suggerimento dello scorrimento segue il mouse"
+msgstr "Il suggerimento sullo scorrimento segue il mouse"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbCaret..Caption
 #: dlgSynEditOptions.dfm
@@ -1426,12 +1432,12 @@ msgstr "Margine destro"
 #. fmEditorOptionsDialog..Panel1..TabControl..Display..gbRightEdge..Label3..Caption
 #: dlgSynEditOptions.dfm
 msgid "Edge color:"
-msgstr "Colore:"
+msgstr "Colore del margine:"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Display..gbRightEdge..Label10..Caption
 #: dlgSynEditOptions.dfm
 msgid "Edge Column:"
-msgstr "Colonna:"
+msgstr "Colonna del margine:"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..Caption
 #. PageSetupDlg..TabControl..tbMargins..Label11..Caption
@@ -1442,7 +1448,7 @@ msgstr "Righello"
 #. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..Label1..Caption
 #: dlgSynEditOptions.dfm
 msgid "Gutter color:"
-msgstr "Colore righello:"
+msgstr "Colore del righello:"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..btnGutterFont..Caption
 #. fmEditorOptionsDialog..Panel1..TabControl..Display..gbEditorFont..btnFont..Caption
@@ -1465,7 +1471,7 @@ msgstr "Mostra i numeri di riga"
 #. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterShowLeaderZeros..Caption
 #: dlgSynEditOptions.dfm
 msgid "Show leading zeros"
-msgstr "Mostra zero di riempimento"
+msgstr "Mostra gli zeri non significativi"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterVisible..Caption
 #: dlgSynEditOptions.dfm
@@ -1475,7 +1481,7 @@ msgstr "Visibile"
 #. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..cbGutterFont..Caption
 #: dlgSynEditOptions.dfm
 msgid "Use Gutter Font"
-msgstr "Carattere righello"
+msgstr "Usa il carattere del righello"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterStartAtZero..Caption
 #: dlgSynEditOptions.dfm
@@ -1490,7 +1496,7 @@ msgstr "Gradiente del righello visibile"
 #. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterGradient..Caption
 #: dlgSynEditOptions.dfm
 msgid "Gutter Gradient"
-msgstr "Gradiente righello"
+msgstr "Gradiente del righello"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Display..gbBookmarks..Caption
 #: dlgSynEditOptions.dfm
@@ -1525,19 +1531,19 @@ msgstr "Righe extra:"
 #. fmEditorOptionsDialog..Panel1..TabControl..Display..gbLineSpacing..Label9..Caption
 #: dlgSynEditOptions.dfm
 msgid "Tab Width:"
-msgstr "Largh. tabulazione:"
+msgstr "Larghezza della tabulazione:"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Display..GroupBox2..Caption
 #: dlgSynEditOptions.dfm
 msgid "Active Line Color"
-msgstr "Colore riga corrente"
+msgstr "Colore della riga attuale"
 
 #. PageSetupDlg..Caption
 #. DocForm..TBXDock1..TBXToolbar1..TBXItem4..Hint
 #. WebPreviewForm..TBXDock1..TBXToolbar1..TBXItem4..Hint
 #: dlgSynPageSetup.dfm frmDocView.dfm frmWebPreview.dfm
 msgid "Page Setup"
-msgstr "Impostazioni pagina"
+msgstr "Impostazioni della pagina"
 
 #. PageSetupDlg..TabControl..SpTBXTabItem1..Caption
 #. PageSetupDlg..TabControl..tbMargins..Caption
@@ -1549,7 +1555,7 @@ msgstr "Margini && Opzioni"
 #. PageSetupDlg..TabControl..tbHeaderFooter..Caption
 #: dlgSynPageSetup.dfm
 msgid "Header && Footer"
-msgstr "Intestazione && piede"
+msgstr "Intestazione && piè di pagina"
 
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox1..Caption
 #: dlgSynPageSetup.dfm
@@ -1578,24 +1584,24 @@ msgstr "Destra"
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox3..GroupBox4..Caption
 #: dlgSynPageSetup.dfm
 msgid "Appearance"
-msgstr "Apparenza"
+msgstr "Aspetto"
 
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox1..GroupBox2..HeaderLineColorBtn..Caption
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox3..GroupBox4..FooterLineColorBtn..Caption
 #: dlgSynPageSetup.dfm
 msgid "Line color"
-msgstr "Colore linea"
+msgstr "Colore della linea"
 
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox1..GroupBox2..HeaderShadowColorBtn..Caption
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox3..GroupBox4..FooterShadowColorBtn..Caption
 #: dlgSynPageSetup.dfm
 msgid "Shadow color"
-msgstr "Colore ombra"
+msgstr "Colore dell'ombra"
 
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox1..GroupBox2..CBHeaderLine..Caption
 #: dlgSynPageSetup.dfm
 msgid "Line under"
-msgstr "Linea sotto"
+msgstr "Riga sotto"
 
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox1..GroupBox2..CBHeaderBox..Caption
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox3..GroupBox4..CBFooterBox..Caption
@@ -1618,12 +1624,12 @@ msgstr "Posizione speculare"
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox3..Caption
 #: dlgSynPageSetup.dfm
 msgid "Footer"
-msgstr "Piede"
+msgstr "Piè di pagina"
 
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox3..GroupBox4..CBFooterLine..Caption
 #: dlgSynPageSetup.dfm
 msgid "Line above"
-msgstr "Linea sopra"
+msgstr "Riga sopra"
 
 #. PageSetupDlg..TabControl..tbMargins..Label1..Caption
 #: dlgSynPageSetup.dfm
@@ -1638,17 +1644,17 @@ msgstr "Destra:"
 #. PageSetupDlg..TabControl..tbMargins..Label3..Caption
 #: dlgSynPageSetup.dfm
 msgid "Top:"
-msgstr "Superiore:"
+msgstr "In alto:"
 
 #. PageSetupDlg..TabControl..tbMargins..Label4..Caption
 #: dlgSynPageSetup.dfm
 msgid "Bottom:"
-msgstr "Fondo:"
+msgstr "In basso:"
 
 #. PageSetupDlg..TabControl..tbMargins..Label5..Caption
 #: dlgSynPageSetup.dfm
 msgid "Units:"
-msgstr "Unit:"
+msgstr "Unità:"
 
 #. PageSetupDlg..TabControl..tbMargins..Label6..Caption
 #: dlgSynPageSetup.dfm
@@ -1658,7 +1664,7 @@ msgstr "Intestazione:"
 #. PageSetupDlg..TabControl..tbMargins..Label7..Caption
 #: dlgSynPageSetup.dfm
 msgid "Footer:"
-msgstr "Piede:"
+msgstr "Piè di pagina:"
 
 #. PageSetupDlg..TabControl..tbMargins..CBMirrorMargins..Caption
 #: dlgSynPageSetup.dfm
@@ -1673,40 +1679,40 @@ msgstr "Numeri di riga"
 #. PageSetupDlg..TabControl..tbMargins..CBLineNumbersInMargin..Caption
 #: dlgSynPageSetup.dfm
 msgid "Print line numbers in margin"
-msgstr "Numeri di riga nei margini"
+msgstr "Stampa i numeri di riga nei margini"
 
 #. PageSetupDlg..TabControl..tbMargins..CBHighlight..Caption
 #: dlgSynPageSetup.dfm
 msgid "Syntax print"
-msgstr "Stampa sintassi"
+msgstr "Stampa la sintassi"
 
 #. PageSetupDlg..TabControl..tbMargins..CBColors..Caption
 #: dlgSynPageSetup.dfm
 msgid "Use colors"
-msgstr "Usa colori"
+msgstr "Usa i colori"
 
 #. PageSetupDlg..TabControl..tbMargins..CBWrap..Caption
 #: dlgSynPageSetup.dfm
 msgid "Wrap lines"
-msgstr "Linee a capo"
+msgstr "Dividi le righe"
 
 #. PageSetupDlg..ActionList1..PageNumCmd..Caption
 #. PageSetupDlg..ActionList1..PageNumCmd..Hint
 #: dlgSynPageSetup.dfm
 msgid "Page number"
-msgstr "Numero pagina"
+msgstr "Numero di pagina"
 
 #. PageSetupDlg..ActionList1..PagesCmd..Caption
 #. PageSetupDlg..ActionList1..PagesCmd..Hint
 #: dlgSynPageSetup.dfm
 msgid "Num. pages"
-msgstr "Num. pagine"
+msgstr "Numero di pagine"
 
 #. PageSetupDlg..ActionList1..TimeCmd..Caption
 #. PageSetupDlg..ActionList1..TimeCmd..Hint
 #: dlgSynPageSetup.dfm
 msgid "Time"
-msgstr "Tempo"
+msgstr "Ora"
 
 #. PageSetupDlg..ActionList1..DateCmd..Caption
 #. PageSetupDlg..ActionList1..DateCmd..Hint
@@ -1724,7 +1730,7 @@ msgstr "Titolo"
 #. PageSetupDlg..ActionList1..BoldCmd..Hint
 #: dlgSynPageSetup.dfm
 msgid "Bold"
-msgstr "Grass."
+msgstr "Grassetto"
 
 #. PageSetupDlg..ActionList1..ItalicCmd..Caption
 #. PageSetupDlg..ActionList1..ItalicCmd..Hint
@@ -1813,12 +1819,12 @@ msgstr "Precedente"
 #. PrintPreviewDlg..ActionList..PrevCmd..Hint
 #: dlgSynPrintPreview.dfm
 msgid "Previous|Go to previous page"
-msgstr "Precedente|Posizionamento nella pagina precedente"
+msgstr "Precedente|Vai alla pagina precedente"
 
 #. PrintPreviewDlg..ActionList..NextCmd..Caption
 #: dlgSynPrintPreview.dfm
 msgid "Next"
-msgstr "Successivo"
+msgstr "Successiva"
 
 #. PrintPreviewDlg..ActionList..NextCmd..Hint
 #: dlgSynPrintPreview.dfm
@@ -1843,7 +1849,7 @@ msgstr "Zoom"
 #. PrintPreviewDlg..ActionList..ZoomCmd..Hint
 #: dlgSynPrintPreview.dfm
 msgid "Zoom|Zoom In/Out"
-msgstr "Zoom|Zoom avanti/indietro"
+msgstr "Zoom|Ingrandisci/diminuisci lo zoom"
 
 #. PrintPreviewDlg..ActionList..PrintCmd..Caption
 #. DocForm..TBXDock1..TBXToolbar1..TBXItem5..Hint
@@ -1855,7 +1861,7 @@ msgstr "Stampa"
 #. PrintPreviewDlg..ActionList..PrintCmd..Hint
 #: dlgSynPrintPreview.dfm
 msgid "Print|Print the document"
-msgstr "Stampa|Stampa il documento corrente"
+msgstr "Stampa|Stampa il documento attuale"
 
 #. PrintPreviewDlg..ActionList..CloseCmd..Caption
 #: dlgSynPrintPreview.dfm
@@ -1918,12 +1924,12 @@ msgstr "To&ken"
 #. fmToDoOptions..pnlBG..gbxOptions..cbShowTokens..Caption
 #: dlgToDoOptions.dfm
 msgid "&Show tokens in description"
-msgstr "&Mostra token nella descrizione"
+msgstr "&Mostra i token nella descrizione"
 
 #. fmToDoOptions..pnlBG..gbxSearchFiles..Caption
 #: dlgToDoOptions.dfm
 msgid "Search for To Do Tokens"
-msgstr "Ricerca token per le cose da fare"
+msgstr "Ricerca i token delle cose da fare"
 
 #. fmToDoOptions..pnlBG..gbxSearchFiles..radScanOpen..Caption
 #: dlgToDoOptions.dfm
@@ -2010,12 +2016,12 @@ msgstr "Sempre abilitato"
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox4..cbContext....Items.Strings
 #: dlgToolProperties.dfm
 msgid "Active editor"
-msgstr "Editor corrente"
+msgstr "Editor attuale"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox4..cbContext....Items.Strings
 #: dlgToolProperties.dfm
 msgid "Active Python file"
-msgstr "File Python corrente"
+msgstr "File Python attuale"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox4..cbContext....Items.Strings
 #: dlgToolProperties.dfm
@@ -2042,17 +2048,17 @@ msgstr "Tutti i file"
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..Caption
 #: dlgToolProperties.dfm
 msgid "Standard Input and Output"
-msgstr "Standard Input e Output"
+msgstr "Input e output standard"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..Label10..Caption
 #: dlgToolProperties.dfm
 msgid "Std. &Input:"
-msgstr "Std. &Input:"
+msgstr "&Input std.:"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..Label11..Caption
 #: dlgToolProperties.dfm
 msgid "Std. &Output:"
-msgstr "Std. &Output:"
+msgstr "&Output std.:"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..Label12..Caption
 #: dlgToolProperties.dfm
@@ -2062,7 +2068,7 @@ msgstr "&Formato dei messaggi:"
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..cbCaptureOutput..Caption
 #: dlgToolProperties.dfm
 msgid "&Capture Output"
-msgstr "&Cattura output"
+msgstr "&Cattura l'output"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..cbParseMessages....Hint
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..cbParseTraceback....Hint
@@ -2071,7 +2077,7 @@ msgid ""
 "If checked output lines that look like messages \n"
 "will be parsed and shown in the messages window."
 msgstr ""
-"Se spuntata le linee di output che sembrano messaggi \n"
+"Se abilitata, le linee di output che sembrano messaggi \n"
 "sono analizzate e mostrate nella finestra dei messaggi."
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..cbParseMessages..Caption
@@ -2092,7 +2098,7 @@ msgid ""
 "predefined grep expressions."
 msgstr ""
 "Un'espressione grep per analizzare l'output.\n"
-"Usa il bottone a destra per inserire \n"
+"Usa il pulsante a destra per inserire \n"
 "le espressioni grep predefinite."
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..cbStandardInput....Hint
@@ -2104,7 +2110,7 @@ msgid ""
 msgstr ""
 "Seleziona un'opzione diversa da Nessuno per\n"
 "inviare le informazioni corrispondenti\n"
-"allo standard input."
+"all'input standard."
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..cbStandardInput....Items.Strings
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..cbStandardOutput....Items.Strings
@@ -2116,7 +2122,7 @@ msgstr "Parola sotto il cursore"
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..cbStandardOutput....Items.Strings
 #: dlgToolProperties.dfm
 msgid "Current line"
-msgstr "Riga corrente"
+msgstr "Riga attuale"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..cbStandardInput....Items.Strings
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..cbStandardOutput....Items.Strings
@@ -2127,7 +2133,7 @@ msgstr "Selezione"
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..cbStandardInput....Items.Strings
 #: dlgToolProperties.dfm
 msgid "ActiveFile"
-msgstr "File  corrente"
+msgstr "File attuale"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..cbStandardOutput....Hint
 #: dlgToolProperties.dfm
@@ -2143,7 +2149,7 @@ msgstr ""
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..cbStandardOutput....Items.Strings
 #: dlgToolProperties.dfm
 msgid "Active file"
-msgstr "File corrente"
+msgstr "File attuale"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..cbStandardOutput....Items.Strings
 #: dlgToolProperties.dfm
@@ -2168,7 +2174,7 @@ msgstr "Spunta per nascondere la console"
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox5..cbHideConsole..Caption
 #: dlgToolProperties.dfm
 msgid "&Hide console"
-msgstr "&Nascondi console"
+msgstr "&Nascondi la console"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox5..cbWaitForTermination....Hint
 #: dlgToolProperties.dfm
@@ -2176,8 +2182,8 @@ msgid ""
 "If checked will monitor the process \n"
 "and notify you when is terminated."
 msgstr ""
-"Se spuntata il processo verrà monitorato \n"
-"e ne sarà data notifica della conclusione."
+"Se abilitata, il processo verrà monitorato \n"
+"e la sua conclusione sarà notificata."
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox5..cbWaitForTermination..Caption
 #: dlgToolProperties.dfm
@@ -2190,41 +2196,43 @@ msgid ""
 "If set to a value <> 0 then you will be prompted \n"
 "to abort the program after the specified time (ms)."
 msgstr ""
+"Se viene impostato un valore diverso da 0 verrà richiesto\n"
+"di interrompere il programma dopo il tempo specificato (ms)."
 
 #. ToolProperties..FormatsPopup..Filename1..Caption
 #: dlgToolProperties.dfm
 msgid "Filename"
-msgstr "Nome file"
+msgstr "Nome del file"
 
 #. ToolProperties..FormatsPopup..Filename1..Hint
 #: dlgToolProperties.dfm
 msgid "Placeholder of the Filename"
-msgstr "Segnaposto per il Nome file"
+msgstr "Segnaposto per il nome del file"
 
 #. ToolProperties..FormatsPopup..Linenumber1..Caption
 #: dlgToolProperties.dfm
 msgid "Line number"
-msgstr ""
+msgstr "Numero di riga"
 
 #. ToolProperties..FormatsPopup..Linenumber1..Hint
 #: dlgToolProperties.dfm
 msgid "Placeholder for the line number"
-msgstr ""
+msgstr "Segnaposto per il numero di riga"
 
 #. ToolProperties..FormatsPopup..Columnnumber1..Caption
 #: dlgToolProperties.dfm
 msgid "Column number"
-msgstr ""
+msgstr "Numero di colonna"
 
 #. ToolProperties..FormatsPopup..Columnnumber1..Hint
 #: dlgToolProperties.dfm
 msgid "Placeholder for the column number"
-msgstr ""
+msgstr "Segnaposto per il numero di colonna"
 
 #. UnitTestWizard..Caption
 #: dlgUnitTestWizard.dfm
 msgid "Unit Test Wizard"
-msgstr "Wizard delle Unit Test"
+msgstr "Wizard delle unit test"
 
 #. UnitTestWizard..Panel1..Label1....Caption
 #: dlgUnitTestWizard.dfm
@@ -2274,45 +2282,45 @@ msgstr "Modificatori"
 #. CommandsDataModule..CodeTemplatesCompletion....AutoCompleteList.Strings
 #: dmCommands.dfm
 msgid "|Python Module header"
-msgstr ""
+msgstr "|Intestazione del modulo Python"
 
 #. CommandsDataModule..CodeTemplatesCompletion....AutoCompleteList.Strings
 #: dmCommands.dfm
 msgid "|Comment Line"
-msgstr ""
+msgstr "|Riga di commento"
 
 #. CommandsDataModule..CodeTemplatesCompletion....AutoCompleteList.Strings
 #: dmCommands.dfm
 msgid "|Python application"
-msgstr ""
+msgstr "|Applicazione Python"
 
 #. CommandsDataModule..CodeTemplatesCompletion....AutoCompleteList.Strings
 #: dmCommands.dfm
 msgid "|Python class"
-msgstr ""
+msgstr "|Class di Python"
 
 #. CommandsDataModule..CodeTemplatesCompletion....AutoCompleteList.Strings
 #: dmCommands.dfm
 msgid "|File encoding comment"
-msgstr ""
+msgstr "|Commenti sulla codifica del file"
 
 #. CommandsDataModule..JvMultiStringHolder........Strings.Strings
 #. CommandsDataModule..JvMultiStringHolder........Strings.Strings
 #: dmCommands.dfm
 msgid "import warnings"
-msgstr ""
+msgstr "avvisi relativi all'importazione"
 
 #. CommandsDataModule..JvMultiStringHolder........Strings.Strings
 #. CommandsDataModule..JvMultiStringHolder........Strings.Strings
 #: dmCommands.dfm
 msgid "warnings.simplefilter(\"ignore\", DeprecationWarning)"
-msgstr ""
+msgstr "warnings.simplefilter(\"ignore\", DeprecationWarning)"
 
 #. CommandsDataModule..JvMultiStringHolder........Strings.Strings
 #. CommandsDataModule..JvMultiStringHolder........Strings.Strings
 #: dmCommands.dfm
 msgid "del warnings"
-msgstr ""
+msgstr "avvisi relativi alla cancellazione"
 
 #. CommandsDataModule..actlMain..actFileSave..Category
 #. CommandsDataModule..actlMain..actFileSaveAs..Category
@@ -2350,7 +2358,7 @@ msgstr "&Salva"
 #. CommandsDataModule..actlMain..actFileSave..Hint
 #: dmCommands.dfm
 msgid "Save|Save active file"
-msgstr "Salva|Salva il file corrente"
+msgstr "Salva|Salva il file attuale"
 
 #. CommandsDataModule..actlMain..actFileSaveAs..Caption
 #: dmCommands.dfm
@@ -2360,7 +2368,7 @@ msgstr "S&alva come..."
 #. CommandsDataModule..actlMain..actFileSaveAs..Hint
 #: dmCommands.dfm
 msgid "Save As|Save active file under different name"
-msgstr "Salva come|Salva il file corrente con un altro nome"
+msgstr "Salva come|Salva il file attuale con un altro nome"
 
 #. CommandsDataModule..actlMain..actFileClose..Caption
 #. OutputWindow..OutputActions..actToolClose..Caption
@@ -2371,7 +2379,7 @@ msgstr "&Chiudi"
 #. CommandsDataModule..actlMain..actFileClose..Hint
 #: dmCommands.dfm
 msgid "Close|Close active file"
-msgstr "Chiudi|Chiudi file corrente"
+msgstr "Chiudi|Chiudi il file attuale"
 
 #. CommandsDataModule..actlMain..actEditCut..Category
 #. CommandsDataModule..actlMain..actEditCopy..Category
@@ -2439,7 +2447,7 @@ msgstr "E&limina"
 #. CommandsDataModule..actlMain..actEditDelete..Hint
 #: dmCommands.dfm
 msgid "Delete|Delete selection"
-msgstr "Elimina|Elimina selezione"
+msgstr "Elimina|Elimina la selezione"
 
 #. CommandsDataModule..actlMain..actEditUndo..Caption
 #: dmCommands.dfm
@@ -2551,12 +2559,12 @@ msgstr "&Stampa..."
 #. CommandsDataModule..actlMain..actFilePrint..Hint
 #: dmCommands.dfm
 msgid "Print|Print active file"
-msgstr "Stampa|Stampa il file corrente"
+msgstr "Stampa|Stampa il file attuale"
 
 #. CommandsDataModule..actlMain..actPrinterSetup..Caption
 #: dmCommands.dfm
 msgid "Printer Set&up..."
-msgstr "Impostazioni &stampante..."
+msgstr "Impostazioni della &stampante..."
 
 #. CommandsDataModule..actlMain..actPrinterSetup..Hint
 #: dmCommands.dfm
@@ -2627,12 +2635,14 @@ msgstr "Indenta blocco|Indenta il blocco di codice selezionato"
 #. CommandsDataModule..actlMain..actEditDedent..Caption
 #: dmCommands.dfm
 msgid "&Unindent Block"
-msgstr ""
+msgstr "&Cancella l'indentazione del blocco"
 
 #. CommandsDataModule..actlMain..actEditDedent..Hint
 #: dmCommands.dfm
 msgid "Unindent|Unindent selected block of code"
 msgstr ""
+"Cancella l'indentazione del blocco/Cancella l'indentazione del codice "
+"selezionato"
 
 #. CommandsDataModule..actlMain..actEditCommentOut..Caption
 #: dmCommands.dfm
@@ -2662,27 +2672,27 @@ msgstr "&Parentesi corrispondente"
 #. CommandsDataModule..actlMain..actSearchMatchingBrace..Hint
 #: dmCommands.dfm
 msgid "Find Matching Brace"
-msgstr "Trova parentesi corrispondente"
+msgstr "Trova la parentesi corrispondente"
 
 #. CommandsDataModule..actlMain..actEditTabify..Caption
 #: dmCommands.dfm
 msgid "&Tabify"
-msgstr "&Tabifica"
+msgstr "Imposta &Tabulazione"
 
 #. CommandsDataModule..actlMain..actEditTabify..Hint
 #: dmCommands.dfm
 msgid "Tabify|Convert spaces to tabs"
-msgstr "Tabifca|Conversione dei tab in spazi"
+msgstr "Imposta tabulazione/Converti gli spazi in tabulazioni"
 
 #. CommandsDataModule..actlMain..actEditUntabify..Caption
 #: dmCommands.dfm
 msgid "U&ntabify"
-msgstr "&Detabifica"
+msgstr "Elimi&na tabulazione"
 
 #. CommandsDataModule..actlMain..actEditUntabify..Hint
 #: dmCommands.dfm
 msgid "Untabify|Convert tabs to spaces"
-msgstr "Detabifica|Conversione degli spazi in tab"
+msgstr "Elimina tabulazione/Coverti le tabulazioni in spazi"
 
 #. CommandsDataModule..actlMain..actPythonPath..Category
 #. CommandsDataModule..actlMain..actConfigureTools..Category
@@ -2728,12 +2738,12 @@ msgstr "Aiuto"
 #. CommandsDataModule..actlMain..actHelpContents..Caption
 #: dmCommands.dfm
 msgid "&Contents"
-msgstr "&Contenuti"
+msgstr "&Contenuto"
 
 #. CommandsDataModule..actlMain..actHelpContents..Hint
 #: dmCommands.dfm
 msgid "Help Contents"
-msgstr "Contenuti di aiuto"
+msgstr "Contenuto di aiuto"
 
 #. CommandsDataModule..actlMain..actPythonManuals..Caption
 #: dmCommands.dfm
@@ -2753,7 +2763,7 @@ msgstr "Informazioni..."
 #. CommandsDataModule..actlMain..actAbout..Hint
 #: dmCommands.dfm
 msgid "About|Info about the application"
-msgstr "Informazioni|Informazioni riguardo l'applicazione"
+msgstr "Informazioni|Informazioni sull'applicazione"
 
 #. CommandsDataModule..actlMain..actSearchGoToLine..Caption
 #: dmCommands.dfm
@@ -2764,7 +2774,7 @@ msgstr "Vai a&lla riga..."
 #. Programmer's name for it: SGoToLineNumber
 #: dmCommands.dfm StringResources.pas
 msgid "Go to line number"
-msgstr "Vai al numero di riga"
+msgstr "Vai al numero di riga specificato"
 
 #. CommandsDataModule..actlMain..actSearchGoToSyntaxError..Caption
 #: dmCommands.dfm
@@ -2845,12 +2855,12 @@ msgstr "Aggiungi/Rimuovi parametri personalizzati"
 #. CommandsDataModule..actlMain..actIDEShortcuts..Caption
 #: dmCommands.dfm
 msgid "IDE &Shortcuts..."
-msgstr "&Scorciatoie IDE..."
+msgstr "&Scorciatoie dell'IDE..."
 
 #. CommandsDataModule..actlMain..actIDEShortcuts..Hint
 #: dmCommands.dfm
 msgid "Customize IDE shortcuts"
-msgstr "Personalizza scorciatoie IDE"
+msgstr "Personalizza le scorciatoie dell'IDE"
 
 #. CommandsDataModule..actlMain..actCodeTemplates..Caption
 #: dmCommands.dfm
@@ -2891,7 +2901,7 @@ msgstr "Trova f&unzione..."
 #. CommandsDataModule..actlMain..actFindFunction..Hint
 #: dmCommands.dfm
 msgid "Find Function|Find function from function list"
-msgstr "Trova funzione|Trova una funzione da una lista di funzioni"
+msgstr "Trova funzione|Trova una funzione da un elenco di funzioni"
 
 #. CommandsDataModule..actlMain..actEditLineNumbers..Caption
 #: dmCommands.dfm
@@ -2906,7 +2916,7 @@ msgstr "Mostra/Nasconde i numeri di riga"
 #. CommandsDataModule..actlMain..actEditShowSpecialChars..Caption
 #: dmCommands.dfm
 msgid "Special &Characters"
-msgstr "&aratteri speciali"
+msgstr "&Caratteri speciali"
 
 #. CommandsDataModule..actlMain..actEditShowSpecialChars..Hint
 #: dmCommands.dfm
@@ -2921,7 +2931,7 @@ msgstr "Trova il riferimento precedente"
 #. CommandsDataModule..actlMain..actFindPreviousReference..Hint
 #: dmCommands.dfm
 msgid "Find previous identifier reference"
-msgstr "Trova il riferimento precedente all'identificatore"
+msgstr "Trova il riferimento precedente dell'identificatore"
 
 #. CommandsDataModule..actlMain..actFindNextReference..Caption
 #: dmCommands.dfm
@@ -2931,32 +2941,32 @@ msgstr "Trova il riferimento successivo"
 #. CommandsDataModule..actlMain..actFindNextReference..Hint
 #: dmCommands.dfm
 msgid "Find next identifier reference"
-msgstr "Trova il riferimento successivo all'identificatore"
+msgstr "Trova il riferimento successivo dell'identificatore"
 
 #. CommandsDataModule..actlMain..actEditLBDos..Hint
 #: dmCommands.dfm
 msgid "DOS/Windows|Convert to DOS line break"
-msgstr ""
+msgstr "DOS/Windows|Converte nelle interruzioni di pagina di DOS"
 
 #. CommandsDataModule..actlMain..actEditLBUnix..Hint
 #: dmCommands.dfm
 msgid "UNIX|Convert to UNIX line break"
-msgstr ""
+msgstr "UNIX|Converte nelle interruzioni di pagina di UNIX"
 
 #. CommandsDataModule..actlMain..actEditLBMac..Hint
 #: dmCommands.dfm
 msgid "Mac|Convert to Mac line break"
-msgstr ""
+msgstr "Mac|Converte nelle interruzioni di pagina di Mac"
 
 #. CommandsDataModule..actlMain..actEditAnsi..Caption
 #: dmCommands.dfm
 msgid "ANSI"
-msgstr ""
+msgstr "ANSI"
 
 #. CommandsDataModule..actlMain..actEditAnsi..Hint
 #: dmCommands.dfm
 msgid "Use ANSI encoding"
-msgstr ""
+msgstr "Utilizza la codifica ANSI"
 
 #. CommandsDataModule..actlMain..actHelpEditorShortcuts..Caption
 #: dmCommands.dfm
@@ -2981,17 +2991,17 @@ msgstr "Verifica se è disponibile una nuova versione di PyScripter"
 #. CommandsDataModule..actlMain..actUnitTestWizard..Caption
 #: dmCommands.dfm
 msgid "&Unit Test Wizard..."
-msgstr "&Wizard delle Unit test..."
+msgstr "&Wizard delle unit test..."
 
 #. CommandsDataModule..actlMain..actUnitTestWizard..Hint
 #: dmCommands.dfm
 msgid "Unit test wizard|Create unit test for active module"
-msgstr ""
+msgstr "Wizard delle unit test/Crea unit test per il modulo attuale"
 
 #. CommandsDataModule..actlMain..actInterpreterEditorOptions..Caption
 #: dmCommands.dfm
 msgid "&Interpreter Editor Options..."
-msgstr "Opzioni editor dell'&interprete..."
+msgstr "Opzioni dell'editor dell'&interprete..."
 
 #. CommandsDataModule..actlMain..actInterpreterEditorOptions..Hint
 #: dmCommands.dfm
@@ -3006,7 +3016,7 @@ msgstr "&Commuta commento"
 #. CommandsDataModule..actlMain..actEditToggleComment..Hint
 #: dmCommands.dfm
 msgid "Toggle Comment| Comment/Uncomment block of code"
-msgstr "Commuta commento|Commenta/Decommenta blocco di codice"
+msgstr "Commuta commento|Commenta/Decommenta il blocco di codice"
 
 #. CommandsDataModule..actlMain..actFileTemplates..Caption
 #: dmCommands.dfm
@@ -3021,22 +3031,22 @@ msgstr "Aggiungi/Rimuovi modelli di file"
 #. CommandsDataModule..actlMain..actEditUTF8..Hint
 #: dmCommands.dfm
 msgid "Use UTF-8 encoding when saving the file"
-msgstr "Usa codifica UTF-8 al salvataggio del file"
+msgstr "Utilizza codifica UTF-8 al salvataggio del file"
 
 #. CommandsDataModule..actlMain..actEditUTF8NoBOM..Hint
 #: dmCommands.dfm
 msgid "Use UTF-8 encoding without BOM"
-msgstr ""
+msgstr "Utilizza codifica UTF-8 senza BOM"
 
 #. CommandsDataModule..actlMain..actEditUTF16LE..Hint
 #: dmCommands.dfm
 msgid "Use UTF-16LE encoding"
-msgstr ""
+msgstr "Utilizza codifica UTF-16LE"
 
 #. CommandsDataModule..actlMain..actEditUTF16BE..Hint
 #: dmCommands.dfm
 msgid "Use UTF-16BE encoding"
-msgstr ""
+msgstr "Utilizza codfica UTF-16BE"
 
 #. CommandsDataModule..actlMain..actFileReload..Caption
 #: dmCommands.dfm
@@ -3046,7 +3056,7 @@ msgstr "&Ricarica"
 #. CommandsDataModule..actlMain..actFileReload..Hint
 #: dmCommands.dfm
 msgid "Reload|Reload active file"
-msgstr "Ricarica|Ricarica il file corrente"
+msgstr "Ricarica|Ricarica il file attuale"
 
 #. CommandsDataModule..actlMain..actImportShortcuts..Category
 #. CommandsDataModule..actlMain..actExportShortCuts..Category
@@ -3080,7 +3090,7 @@ msgstr "Importa evidenziatori"
 #. CommandsDataModule..actlMain..actImportHighlighters..Hint
 #: dmCommands.dfm
 msgid "Import Syntax Highlighters"
-msgstr "Importa evidenziatori sintassi"
+msgstr "Importa evidenziatori di sintassi"
 
 #. CommandsDataModule..actlMain..actExportHighlighters..Caption
 #. Programmer's name for it: SExportHighlighters
@@ -3091,17 +3101,17 @@ msgstr "Esporta evidenziatori"
 #. CommandsDataModule..actlMain..actExportHighlighters..Hint
 #: dmCommands.dfm
 msgid "Export Syntax Highlighters"
-msgstr "Esporta evidenziatori sintassi"
+msgstr "Esporta evidenziatori di sintassi"
 
 #. CommandsDataModule..actlMain..actSearchReplaceNow..Hint
 #: dmCommands.dfm
 msgid "Replace with existing  settings"
-msgstr "Sostituisci con le impostazioni correnti"
+msgstr "Sostituisci con le impostazioni esistenti"
 
 #. CommandsDataModule..actlMain..actSearchHighlight..Caption
 #: dmCommands.dfm
 msgid "&Highlight Search Text"
-msgstr "&Evidenzia testo di ricerca"
+msgstr "&Evidenzia il testo di ricerca"
 
 #. CommandsDataModule..actlMain..actSearchHighlight..Hint
 #: dmCommands.dfm
@@ -3121,17 +3131,17 @@ msgstr "Elimina spazi superflui"
 #. CommandsDataModule..actlMain..actSearchGoToDebugLine..Caption
 #: dmCommands.dfm
 msgid "Go To &Debugger Position"
-msgstr "Vai nella posizione del &Debugger"
+msgstr "Vai alla posizione del &debugger"
 
 #. CommandsDataModule..actlMain..actSearchGoToDebugLine..Hint
 #: dmCommands.dfm
 msgid "Go to the current position of the debugger"
-msgstr ""
+msgstr "Val alla posizione attuale del debugger"
 
 #. CommandsDataModule..actlMain..actHelpWebProjectHome..Caption
 #: dmCommands.dfm
 msgid "&Project Home"
-msgstr "Home &progetto"
+msgstr "Home del &progetto"
 
 #. CommandsDataModule..actlMain..actHelpWebProjectHome..Hint
 #: dmCommands.dfm
@@ -3141,7 +3151,7 @@ msgstr "Apre la home page del progetto"
 #. CommandsDataModule..actlMain..actHelpWebGroupSupport..Caption
 #: dmCommands.dfm
 msgid "&Group Support"
-msgstr "&Gruppo supporto"
+msgstr "&Gruppo di supporto"
 
 #. CommandsDataModule..actlMain..actHelpWebGroupSupport..Hint
 #: dmCommands.dfm
@@ -3161,32 +3171,32 @@ msgstr "Chiudi tutti i file tranne quello attivo"
 #. CommandsDataModule..actlMain..actEditCopyFileName..Caption
 #: dmCommands.dfm
 msgid "Copy File Name"
-msgstr ""
+msgstr "Copia il nome del file"
 
 #. CommandsDataModule..actlMain..actEditCopyFileName..Hint
 #: dmCommands.dfm
 msgid "Copy file name of active file to clipboard"
-msgstr ""
+msgstr "Copia il nome del file attivo negli appunti"
 
 #. CommandsDataModule..actlMain..actToolsEditStartupScripts..Caption
 #: dmCommands.dfm
 msgid "Edit Start&up Scripts"
-msgstr ""
+msgstr "Modifica script Start&up"
 
 #. CommandsDataModule..actlMain..actToolsEditStartupScripts..Hint
 #: dmCommands.dfm
 msgid "Edit PyScripter initialization files"
-msgstr ""
+msgstr "Modifica i file di inizializzazione di PyScripter"
 
 #. CommandsDataModule..actlMain..actHelpWebBlog..Caption
 #: dmCommands.dfm
 msgid "&Blog"
-msgstr ""
+msgstr "&Blog"
 
 #. CommandsDataModule..actlMain..actHelpWebBlog..Hint
 #: dmCommands.dfm
 msgid "Go to the PyScripter Blog"
-msgstr ""
+msgstr "Vai al blog di PyScripter"
 
 #. CommandsDataModule..actlMain..actFoldVisible..Category
 #. CommandsDataModule..actlMain..actFoldVisible..Caption
@@ -3208,150 +3218,150 @@ msgstr ""
 #. CommandsDataModule..actlMain..actUnfoldFunctions..Category
 #: dmCommands.dfm
 msgid "Code Folding"
-msgstr ""
+msgstr "Code Folding"
 
 #. CommandsDataModule..actlMain..actFoldVisible..Hint
 #: dmCommands.dfm
 msgid "Show/Hide Code Folding"
-msgstr ""
+msgstr "Mostra/nascondi il Code Folding"
 
 #. CommandsDataModule..actlMain..actFoldAll..Caption
 #. CommandsDataModule..actlMain..actUnfoldAll..Caption
 #: dmCommands.dfm
 msgid "All"
-msgstr ""
+msgstr "Tutti"
 
 #. CommandsDataModule..actlMain..actFoldAll..Hint
 #: dmCommands.dfm
 msgid "Fold all"
-msgstr ""
+msgstr "Applica il Fold a tutti"
 
 #. CommandsDataModule..actlMain..actUnfoldAll..Hint
 #: dmCommands.dfm
 msgid "Unfold all"
-msgstr ""
+msgstr "Rimuove il Fold da tutti"
 
 #. CommandsDataModule..actlMain..actFoldNearest..Caption
 #. CommandsDataModule..actlMain..actUnfoldNearest..Caption
 #: dmCommands.dfm
 msgid "Nearest"
-msgstr ""
+msgstr "Più vicino"
 
 #. CommandsDataModule..actlMain..actFoldNearest..Hint
 #: dmCommands.dfm
 msgid "Collapse nearest fold"
-msgstr ""
+msgstr "Raggruppa il Fold più vicino"
 
 #. CommandsDataModule..actlMain..actUnfoldNearest..Hint
 #: dmCommands.dfm
 msgid "Expand nearest fold"
-msgstr ""
+msgstr "Espande il Fold più vicino"
 
 #. CommandsDataModule..actlMain..actFoldRegions..Caption
 #. CommandsDataModule..actlMain..actUnfoldRegions..Caption
 #: dmCommands.dfm
 msgid "Regions"
-msgstr ""
+msgstr "Regioni"
 
 #. CommandsDataModule..actlMain..actFoldRegions..Hint
 #: dmCommands.dfm
 msgid "Fold Ranges"
-msgstr ""
+msgstr "Applica il Fold all'intervallo"
 
 #. CommandsDataModule..actlMain..actUnfoldRegions..Hint
 #: dmCommands.dfm
 msgid "Unfold ranges"
-msgstr ""
+msgstr "Elimina il Fold dall'intervallo"
 
 #. CommandsDataModule..actlMain..actFoldLevel1..Caption
 #. CommandsDataModule..actlMain..actUnfoldLevel1..Caption
 #: dmCommands.dfm
 msgid "Level 1"
-msgstr ""
+msgstr "Livello 1"
 
 #. CommandsDataModule..actlMain..actFoldLevel1..Hint
 #: dmCommands.dfm
 msgid "Fold level 1"
-msgstr ""
+msgstr "Applica il Fold al livello 1"
 
 #. CommandsDataModule..actlMain..actUnfoldLevel1..Hint
 #: dmCommands.dfm
 msgid "Unfold level 1"
-msgstr ""
+msgstr "Rimuovi il Fold dal livello 1"
 
 #. CommandsDataModule..actlMain..actFoldLevel2..Caption
 #. CommandsDataModule..actlMain..actUnfoldLevel2..Caption
 #: dmCommands.dfm
 msgid "Level 2"
-msgstr ""
+msgstr "Livello 2"
 
 #. CommandsDataModule..actlMain..actFoldLevel2..Hint
 #: dmCommands.dfm
 msgid "Fold level 2"
-msgstr ""
+msgstr "Applica il Fold al livello 2"
 
 #. CommandsDataModule..actlMain..actUnfoldLevel2..Hint
 #: dmCommands.dfm
 msgid "Unfold level 2"
-msgstr ""
+msgstr "Rimuovi il Fold dal livello 2"
 
 #. CommandsDataModule..actlMain..actFoldLevel3..Caption
 #. CommandsDataModule..actlMain..actUnfoldLevel3..Caption
 #: dmCommands.dfm
 msgid "Level 3"
-msgstr ""
+msgstr "Livello 3"
 
 #. CommandsDataModule..actlMain..actFoldLevel3..Hint
 #: dmCommands.dfm
 msgid "Fold level 3"
-msgstr ""
+msgstr "Applica il Fold al livello 3"
 
 #. CommandsDataModule..actlMain..actUnfoldLevel3..Hint
 #: dmCommands.dfm
 msgid "Unfold level 3"
-msgstr ""
+msgstr "Rimuovi il Fold dal livello 3"
 
 #. CommandsDataModule..actlMain..actFoldClasses..Caption
 #. CommandsDataModule..actlMain..actUnfoldClasses..Caption
 #: dmCommands.dfm
 msgid "Classes"
-msgstr ""
+msgstr "Classi"
 
 #. CommandsDataModule..actlMain..actFoldClasses..Hint
 #: dmCommands.dfm
 msgid "Fold classes"
-msgstr ""
+msgstr "Applica il Fold alle classi"
 
 #. CommandsDataModule..actlMain..actUnfoldClasses..Hint
 #: dmCommands.dfm
 msgid "Unfold classes"
-msgstr ""
+msgstr "Rimuovi il Fold dalle classi"
 
 #. CommandsDataModule..actlMain..actFoldFunctions..Caption
 #. CommandsDataModule..actlMain..actUnfoldFunctions..Caption
 #: dmCommands.dfm
 msgid "Functions"
-msgstr ""
+msgstr "Funzioni"
 
 #. CommandsDataModule..actlMain..actFoldFunctions..Hint
 #: dmCommands.dfm
 msgid "Fold functions"
-msgstr ""
+msgstr "Applica il Fold alle funzioni"
 
 #. CommandsDataModule..actlMain..actUnfoldFunctions..Hint
 #: dmCommands.dfm
 msgid "Unfold functions"
-msgstr ""
+msgstr "Rimuovi il Fold dalle funzioni"
 
 #. CommandsDataModule..SynGeneralSyn..DefaultFilter
 #: dmCommands.dfm
 msgid "Text Files(*.txt,*.*)|*.txt;*.*"
-msgstr ""
+msgstr "File di test(*.txt,*.*)|*.txt;*.*"
 
 #. BreakPointsWindow..Caption
 #: frmBreakPoints.dfm
 msgid "Breakpoints"
-msgstr "Breakpoint"
+msgstr "Punto d'interruzione"
 
 #. BreakPointsWindow..BGPanel..FGPanel..BreakPointsView......WideText
 #. CallStackWindow..BGPanel..FGPanel..CallStackView......WideText
@@ -3359,7 +3369,7 @@ msgstr "Breakpoint"
 #. ToDoWindow..BGPanel..FGPanel..ToDoView......WideText
 #: frmBreakPoints.dfm frmCallStack.dfm frmMessages.dfm frmToDo.dfm
 msgid "File Name"
-msgstr "Nome file"
+msgstr "Nome del file"
 
 #. BreakPointsWindow..BGPanel..FGPanel..BreakPointsView......WideText
 #. CallStackWindow..BGPanel..FGPanel..CallStackView......WideText
@@ -3369,7 +3379,7 @@ msgstr "Nome file"
 #: frmBreakPoints.dfm frmCallStack.dfm frmFunctionList.dfm frmMessages.dfm
 #: frmToDo.dfm
 msgid "Line"
-msgstr "Linea"
+msgstr "Riga"
 
 #. BreakPointsWindow..BGPanel..FGPanel..BreakPointsView......WideText
 #: frmBreakPoints.dfm
@@ -3389,7 +3399,7 @@ msgstr "Pu&lisci"
 #. BreakPointsWindow..TBXPopupMenu..mnClear..Hint
 #: frmBreakPoints.dfm
 msgid "Clear|Clear selected breakpoint"
-msgstr "Pulisci|Pulisce il breakpoint selezionato"
+msgstr "Pulisci|Rimuove il punto d'interruzione selezionato"
 
 #. BreakPointsWindow..TBXPopupMenu..mnCopyToClipboard..Caption
 #. MessagesWindow..MsgsActionList..actCopyToClipboard..Caption
@@ -3450,22 +3460,22 @@ msgstr "Esegui"
 #. CallStackWindow..actlCallStack..actPreviousFrame..Caption
 #: frmCallStack.dfm
 msgid "Previous Frame"
-msgstr ""
+msgstr "Frame precedente"
 
 #. CallStackWindow..actlCallStack..actPreviousFrame..Hint
 #: frmCallStack.dfm
 msgid "Select previous (older) frame"
-msgstr ""
+msgstr "Seleziona il frame precedente (più vecchio)"
 
 #. CallStackWindow..actlCallStack..actNextFrame..Caption
 #: frmCallStack.dfm
 msgid "Next Frame"
-msgstr ""
+msgstr "Frame seguente"
 
 #. CallStackWindow..actlCallStack..actNextFrame..Hint
 #: frmCallStack.dfm
 msgid "Select next (newer) frame"
-msgstr ""
+msgstr "Seleziona il framge seguente (più nuovo)"
 
 #. CodeExplorerWindow..Caption
 #: frmCodeExplorer.dfm dmCommands.pas
@@ -3498,54 +3508,54 @@ msgstr "Comprimi tutti i nodi"
 #. CodeExplorerWindow..CEPopupMenu..mnAlphaSort..Caption
 #: frmCodeExplorer.dfm
 msgid "Alpha Sort"
-msgstr ""
+msgstr "Ordinamento alfabetico"
 
 #. CodeExplorerWindow..CEPopupMenu..mnAlphaSort..Hint
 #: frmCodeExplorer.dfm
 msgid "Sort Alphabetically"
-msgstr ""
+msgstr "Metti in ordine alfabetico"
 
 #. CodeExplorerWindow..CEPopupMenu..mnFollowEditor..Caption
 #: frmCodeExplorer.dfm
 msgid "Follow Editor"
-msgstr ""
+msgstr "Segui l'editor"
 
 #. CodeExplorerWindow..CEPopupMenu..mnFollowEditor..Hint
 #: frmCodeExplorer.dfm
 msgid "Move selection to match the editor position"
-msgstr ""
+msgstr "Sposta la selezione in corrispondenza della posizione dell'editor"
 
 #. CodeExplorerWindow..CEPopupMenu..mnShowSelection..Caption
 #: frmCodeExplorer.dfm
 msgid "Show Selection"
-msgstr ""
+msgstr "Mostra la selezione"
 
 #. CodeExplorerWindow..CEPopupMenu..mnShowSelection..Hint
 #: frmCodeExplorer.dfm
 msgid "Show selected node in editor"
-msgstr ""
+msgstr "Mostra il nodo selezionato nell'editor"
 
 #. CodeExplorerWindow..CENodePopUpMenu..mnFindDefinition..Caption
 #. CodeExplorerWindow..CENodePopUpMenu..mnFindDefinition..Hint
 #: frmCodeExplorer.dfm
 msgid "Find Definition"
-msgstr ""
+msgstr "Trova definizione"
 
 #. CodeExplorerWindow..CENodePopUpMenu..mnFindReferences..Caption
 #. CodeExplorerWindow..CENodePopUpMenu..mnFindReferences..Hint
 #: frmCodeExplorer.dfm
 msgid "Find References"
-msgstr ""
+msgstr "Trova i riferimenti"
 
 #. CodeExplorerWindow..CENodePopUpMenu..mnHighlight..Caption
 #: frmCodeExplorer.dfm
 msgid "Highlight"
-msgstr ""
+msgstr "Evidenzia"
 
 #. CodeExplorerWindow..CENodePopUpMenu..mnHighlight..Hint
 #: frmCodeExplorer.dfm
 msgid "Highlight References"
-msgstr ""
+msgstr "Evidenzia i riferimenti"
 
 #. OutputWindow..OutputPopup..RunningProcess..Caption
 #: frmCommandOutput.dfm
@@ -3582,7 +3592,7 @@ msgstr "Pulisci"
 #. OutputWindow..OutputActions..actClearOutput..Hint
 #: frmCommandOutput.dfm
 msgid "Clear output"
-msgstr "Pulisci output"
+msgstr "Pulisci l'output"
 
 #. OutputWindow..OutputActions..actToolTerminate..Caption
 #: frmCommandOutput.dfm
@@ -3592,12 +3602,12 @@ msgstr "&Termina"
 #. OutputWindow..OutputActions..actToolTerminate..Hint
 #: frmCommandOutput.dfm
 msgid "Terminate running tool (unsafe)"
-msgstr "Termina strumento in esecuzione (non sicuro)"
+msgstr "Termina lo strumento in esecuzione (non sicuro)"
 
 #. OutputWindow..OutputActions..actToolClose..Hint
 #: frmCommandOutput.dfm
 msgid "Close running tool"
-msgstr "Chiudi strumento in esecuzione"
+msgstr "Chiudi lo strumento in esecuzione"
 
 #. OutputWindow..OutputActions..actToolQuit..Caption
 #: frmCommandOutput.dfm
@@ -3607,7 +3617,7 @@ msgstr "&Esci"
 #. OutputWindow..OutputActions..actToolQuit..Hint
 #: frmCommandOutput.dfm
 msgid "Post quit message to running tool"
-msgstr "Invia un messaggio di uscita allo strumento n esecuzione"
+msgstr "Invia un messaggio di uscita allo strumento in esecuzione"
 
 #. OutputWindow..OutputActions..actToolStopWaiting..Caption
 #: frmCommandOutput.dfm
@@ -3617,12 +3627,12 @@ msgstr "&Interrompi attesa"
 #. OutputWindow..OutputActions..actToolStopWaiting..Hint
 #: frmCommandOutput.dfm
 msgid "Stop waiting for running tool"
-msgstr "Interrompi attesa per lo strumento in esecuzione"
+msgstr "Interrompi l'attesa per lo strumento in esecuzione"
 
 #. DisForm..Caption
 #: frmDisassemlyView.dfm
 msgid "Disassembly View"
-msgstr ""
+msgstr "Vista del Disassembly"
 
 #. DocForm..Caption
 #. WebPreviewForm..Caption
@@ -3701,12 +3711,12 @@ msgstr "Codice &sorgente"
 #. EditorForm..pmnuEditor..mnFold..Caption
 #: frmEditor.dfm
 msgid "Fold"
-msgstr ""
+msgstr "Fold"
 
 #. EditorForm..pmnuEditor..mnUnfold..Caption
 #: frmEditor.dfm
 msgid "UnFold"
-msgstr ""
+msgstr "Rimuovi il Fold"
 
 #. FileExplorerWindow..Caption
 #. FileExplorerWindow..BGPanel..FGPanel..FileExplorerTree..ShellContextSubMenuCaption
@@ -3722,7 +3732,7 @@ msgstr ""
 #. FileExplorerWindow..FileExplorerActions..actNewFolder..Category
 #: frmFileExplorer.dfm
 msgid "File Explorer"
-msgstr "File Explorer"
+msgstr "Explorer dei file"
 
 #. FileExplorerWindow..BGPanel..FGPanel..ExplorerDock..ExplorerToolbar..TBXSubmenuItem1..tbiBrowsePath..Caption
 #. FileExplorerWindow..ExplorerPopUp..mnBrowsePath..Caption
@@ -3745,7 +3755,7 @@ msgstr "Aggiungi ai pre&feriti"
 #. FileExplorerWindow..FileExplorerActions..actAddToFavorites..Hint
 #: frmFileExplorer.dfm
 msgid "Add current path to Favorites"
-msgstr "Aggiungi il percorso corrente ai preferiti"
+msgstr "Aggiungi il percorso attuale ai preferiti"
 
 #. FileExplorerWindow..BGPanel..FGPanel..ExplorerDock..ExplorerToolbar..TBXSubmenuItem1..mnFavorites..TBXItem2..Caption
 #. FileExplorerWindow..FileExplorerActions..actManageFavorites..Caption
@@ -3769,7 +3779,7 @@ msgstr "Percorso di Python"
 #. FileExplorerWindow..ExplorerPopUp..mnManagePythonPath..Caption
 #: frmFileExplorer.dfm
 msgid "Manage Python &Path..."
-msgstr "Gestione del &percorso di Python..."
+msgstr "Gestisci il &percorso di Python..."
 
 #. FileExplorerWindow..ExplorerPopUp..mnBrowsePath..Desktop..Caption
 #: frmFileExplorer.dfm
@@ -3789,12 +3799,12 @@ msgstr "&Documenti"
 #. FileExplorerWindow..ExplorerPopUp..mnBrowsePath..CurrentDirectory..Caption
 #: frmFileExplorer.dfm
 msgid "Current Directory"
-msgstr "Directory corrente"
+msgstr "Directory attuale"
 
 #. FileExplorerWindow..ExplorerPopUp..mnBrowsePath..ActiveScript..Caption
 #: frmFileExplorer.dfm
 msgid "Active Script"
-msgstr "Script corrente"
+msgstr "Script attivo"
 
 #. FileExplorerWindow..ExplorerPopUp..TBXSubmenuItem2..Caption
 #: frmFileExplorer.dfm
@@ -3854,7 +3864,7 @@ msgstr "Abilita &filtro"
 #. FileExplorerWindow..FileExplorerActions..actEnableFilter..Hint
 #: frmFileExplorer.dfm
 msgid "Enable Filter|Select to show only Python files"
-msgstr "Abilita filtro|Seleziona per mostrare solo file Python"
+msgstr "Abilita filtro|Selezionare per mostrare solo file Python"
 
 #. FileExplorerWindow..FileExplorerActions..actSearchPath..Caption
 #: frmFileExplorer.dfm
@@ -3874,7 +3884,7 @@ msgstr "Crea &nuova cartella"
 #. FileExplorerWindow..FileExplorerActions..actNewFolder..Hint
 #: frmFileExplorer.dfm
 msgid "Create new folder"
-msgstr "Crea nuova cartella"
+msgstr "Crea una nuova cartella"
 
 #. FindResultsWindow..Caption
 #: frmFindResults.dfm
@@ -3889,7 +3899,7 @@ msgstr "Sostituisci elemento selezionato..."
 #. FindResultsWindow..Actions..actReplaceSelected..Hint
 #: frmFindResults.dfm
 msgid "Replace selected item..."
-msgstr "Sostituisci elemento selezionato..."
+msgstr "Sostituisci l'elemento selezionato..."
 
 #. FindResultsWindow..Actions..actFileSearch..Caption
 #: frmFindResults.dfm
@@ -3927,7 +3937,7 @@ msgstr "Stampa risultati..."
 #. FindResultsWindow..Actions..actListExpand..Category
 #: frmFindResults.dfm
 msgid "List"
-msgstr "Lista"
+msgstr "Elenco"
 
 #. FindResultsWindow..Actions..actListGotoSelected..Caption
 #: frmFindResults.dfm
@@ -3942,7 +3952,7 @@ msgstr "Vai alla corrispondenza"
 #. FindResultsWindow..Actions..actListContract..Caption
 #: frmFindResults.dfm
 msgid "&Contract"
-msgstr "&Contratto"
+msgstr "&Comprimi"
 
 #. FindResultsWindow..Actions..actListContract..Hint
 #: frmFindResults.dfm
@@ -4026,12 +4036,12 @@ msgstr "Copia i risultati negli appunti"
 #. FindResultsWindow..Actions..actViewToolBar..Caption
 #: frmFindResults.dfm
 msgid "Toolbar"
-msgstr "Barra strumenti"
+msgstr "Barra degli strumenti"
 
 #. FindResultsWindow..Actions..actViewToolBar..Hint
 #: frmFindResults.dfm
 msgid "View/Hide Toolbar"
-msgstr "Mostra/Nasconde la barra strumenti"
+msgstr "Mostra/Nasconde la barra degli strumenti"
 
 #. FindResultsWindow..Actions..actViewStatusBar..Caption
 #: frmFindResults.dfm
@@ -4057,22 +4067,22 @@ msgstr "Configura ricerca nei file"
 #. FindResultsWindow..Actions..actReplaceAll..Caption
 #: frmFindResults.dfm
 msgid "Replace All Items..."
-msgstr "Sostituisci tutto..."
+msgstr "Sostituisci tutti gli elementi..."
 
 #. FindResultsWindow..Actions..actReplaceAll..Hint
 #: frmFindResults.dfm
 msgid "Replace all items..."
-msgstr "Sostituisci tutto..."
+msgstr "Sostituisci tutti gli elementi..."
 
 #. FunctionListWindow..Caption
 #: frmFunctionList.dfm
 msgid "Function List"
-msgstr "Lista funzioni"
+msgstr "Elenco delle funzioni"
 
 #. FunctionListWindow..pnHolder..lvProcs......Caption
 #: frmFunctionList.dfm
 msgid "Function"
-msgstr ""
+msgstr "Funzione"
 
 #. FunctionListWindow..pnlHeader..pnlHeaderLeft..lblMethods..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..SearchMenu..Caption
@@ -4095,7 +4105,7 @@ msgstr "&Modifica"
 #. FunctionListWindow..Actions..actEditCopy..Hint
 #: frmFunctionList.dfm
 msgid "Copy procedures to clipboard"
-msgstr "Copia la procedura negli appunti"
+msgstr "Copia le procedure negli appunti"
 
 #. FunctionListWindow..Actions..actOptionsFont..Caption
 #: frmFunctionList.dfm
@@ -4105,7 +4115,7 @@ msgstr "&Carattere"
 #. FunctionListWindow..Actions..actOptionsFont..Hint
 #: frmFunctionList.dfm
 msgid "Configure font"
-msgstr "Configura carattere"
+msgstr "Configura il carattere"
 
 #. FunctionListWindow..Actions..actViewStart..Caption
 #: frmFunctionList.dfm
@@ -4136,7 +4146,7 @@ msgstr "&Vai"
 #. FunctionListWindow..Actions..actViewGoto..Hint
 #: frmFunctionList.dfm
 msgid "Goto implementation"
-msgstr "Si posiziona sull'implementazione"
+msgstr "Vai all'implementazione"
 
 #. MessagesWindow..Caption
 #: frmMessages.dfm
@@ -4194,12 +4204,12 @@ msgstr "Comandi:"
 #. ProjectExplorerWindow..Caption
 #: frmProjectExplorer.dfm
 msgid "Project Explorer"
-msgstr "Explorer progetto"
+msgstr "Explorer del progetto"
 
 #. ProjectExplorerWindow..BGPanel..FGPanel..Panel1..SpTBXDock1..SpTBXToolbar1..Caption
 #: frmProjectExplorer.dfm
 msgid "Project Explorer Toolbar"
-msgstr "Barra strimenti dell'explorer del progetto"
+msgstr "Barra degli strumenti dell'explorer del progetto"
 
 #. ProjectExplorerWindow..ProjectActionList..actProjectNew..Category
 #. ProjectExplorerWindow..ProjectActionList..actProjectOpen..Category
@@ -4270,7 +4280,7 @@ msgstr "Salva il progetto con un altro nome"
 #. ProjectExplorerWindow..ProjectActionList..actProjectRelativePaths..Caption
 #: frmProjectExplorer.dfm
 msgid "Store &Relative Paths"
-msgstr "Salva percorsi &relativi"
+msgstr "Salva i percorsi &relativi"
 
 #. ProjectExplorerWindow..ProjectActionList..actProjectRelativePaths..Hint
 #: frmProjectExplorer.dfm
@@ -4285,7 +4295,7 @@ msgstr "Mostra le &estensioni dei file"
 #. ProjectExplorerWindow..ProjectActionList..actProjectShowFileExtensions..Hint
 #: frmProjectExplorer.dfm
 msgid "Display file extensions"
-msgstr "Mostra estensioni dei file"
+msgstr "Mostra le estensioni dei file"
 
 #. ProjectExplorerWindow..ProjectActionList..actProjectExtraPythonPath..Caption
 #: frmProjectExplorer.dfm
@@ -4310,7 +4320,7 @@ msgstr "&Aggiungi file..."
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddFiles..Hint
 #: frmProjectExplorer.dfm
 msgid "Add file(s) to a project folder"
-msgstr "Aggiungi il/i file alla cartella di un progetto"
+msgstr "Aggiungi uno o più file alla cartella di un progetto"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddFolder..Caption
 #: frmProjectExplorer.dfm
@@ -4347,12 +4357,12 @@ msgstr "Apri il file selezionato nell'editor"
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddActiveFile..Caption
 #: frmProjectExplorer.dfm
 msgid "Add Active File"
-msgstr "Aggiungi file corrente"
+msgstr "Aggiungi il file attuale"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddActiveFile..Hint
 #: frmProjectExplorer.dfm
 msgid "Add the active editor file to the folder"
-msgstr "Aggiungi il file dell'editor corrente alla cartella"
+msgstr "Aggiungi il file attivo nell'editor alla cartella"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectImportDirectory..Caption
 #: frmProjectExplorer.dfm
@@ -4372,7 +4382,7 @@ msgstr "Aggiungi configurazione di esecuzione"
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddRunConfig..Hint
 #: frmProjectExplorer.dfm
 msgid "Add run configuration"
-msgstr "Aggiungi configurazione di esecuzione"
+msgstr "Aggiungi la configurazione di esecuzione"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectEditRunConfig..Caption
 #: frmProjectExplorer.dfm
@@ -4432,25 +4442,25 @@ msgstr "Pronto"
 #. PyIDEMainForm..StatusBar..ExternalToolsLED..Hint
 #: frmPyIDEMain.dfm
 msgid "External Tool Running"
-msgstr "Esecuzione strumento esterno"
+msgstr "Esecuzione dello strumento esterno in corso"
 
 #. PyIDEMainForm..BGPanel..TabControl1..tbiTabFiles..Hint
 #. PyIDEMainForm..BGPanel..TabControl2..tbiTabFiles2..Hint
 #: frmPyIDEMain.dfm
 msgid "Select File"
-msgstr ""
+msgstr "Seleziona file"
 
 #. PyIDEMainForm..BGPanel..TabControl1..tbiScrollLeft..Hint
 #. PyIDEMainForm..BGPanel..TabControl2..tbiScrollLeft2..Hint
 #: frmPyIDEMain.dfm
 msgid "Scroll left"
-msgstr ""
+msgstr "Scorri verso sinistra"
 
 #. PyIDEMainForm..BGPanel..TabControl1..tbiScrollRight..Hint
 #. PyIDEMainForm..BGPanel..TabControl2..tbiScrollRight2..Hint
 #: frmPyIDEMain.dfm
 msgid "Scroll right"
-msgstr ""
+msgstr "Scorri verso destra"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..FileMenu..Caption
 #: frmPyIDEMain.dfm
@@ -4470,7 +4480,7 @@ msgstr "File &recenti"
 #. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..TBXSubmenuItem3..Caption
 #: frmPyIDEMain.dfm
 msgid "File Format"
-msgstr "Formato file"
+msgstr "Formato del file"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..Caption
 #: frmPyIDEMain.dfm
@@ -4485,17 +4495,17 @@ msgstr "Dividi l'editor"
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnSplitWorkspace..Caption
 #: frmPyIDEMain.dfm
 msgid "Split Workspace"
-msgstr ""
+msgstr "Dividi lo spazio di lavoro"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnuToolbars..Caption
 #: frmPyIDEMain.dfm
 msgid "&Toolbars"
-msgstr "&Barre strumenti"
+msgstr "&Barre degli strumenti"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnuToolbars..mnMainToolbarVisibilityToggle..Caption
 #: frmPyIDEMain.dfm
 msgid "&Main Toolbar"
-msgstr "&Barra strumenti principale"
+msgstr "&Barra degli strumenti principale"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnuToolbars..mnMainToolbarVisibilityToggle..Hint
 #: frmPyIDEMain.dfm
@@ -4570,7 +4580,7 @@ msgstr "&Nessuna sintassi"
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnSyntax..mnNoSyntax..Hint
 #: frmPyIDEMain.dfm
 msgid "Do not use syntax highlighting"
-msgstr "Non usare evidenziazione della sintassi"
+msgstr "Non usare l'evidenziazione della sintassi"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnLanguage..Caption
 #: frmPyIDEMain.dfm
@@ -4582,43 +4592,43 @@ msgstr "Lingua"
 #. PyIDEMainForm..TBXDockTop..ViewToolbar..tbiViewLayouts..Hint
 #: frmPyIDEMain.dfm
 msgid "Layouts"
-msgstr "Layout"
+msgstr "Aspetto"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnLayouts..TBXItem47..Caption
 #. PyIDEMainForm..actlStandard..actLayoutSave..Caption
 #: frmPyIDEMain.dfm
 msgid "Save Layout..."
-msgstr "Salva il layout..."
+msgstr "Salva l'aspetto..."
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnLayouts..TBXItem47..Hint
 #. PyIDEMainForm..actlStandard..actLayoutSave..Hint
 #: frmPyIDEMain.dfm
 msgid "Save Current Layout"
-msgstr "Salva il layout corrente"
+msgstr "Salva l'aspetto corrente"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnLayouts..TBXItem48..Caption
 #. PyIDEMainForm..actlStandard..actLayoutsDelete..Caption
 #: frmPyIDEMain.dfm
 msgid "Delete Layouts..."
-msgstr "Elimina i layout..."
+msgstr "Elimina gli aspetti..."
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnLayouts..TBXItem48..Hint
 #. PyIDEMainForm..actlStandard..actLayoutsDelete..Hint
 #: frmPyIDEMain.dfm
 msgid "Delete a layout"
-msgstr "Elimina un layout"
+msgstr "Elimina un aspetto"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnLayouts..TBXItem49..Caption
 #. PyIDEMainForm..actlStandard..actLayoutDebug..Caption
 #: frmPyIDEMain.dfm
 msgid "Set Debug Layout"
-msgstr "Imposta il layout di Debug"
+msgstr "Imposta l'aspetto del debug"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnLayouts..TBXItem49..Hint
 #. PyIDEMainForm..actlStandard..actLayoutDebug..Hint
 #: frmPyIDEMain.dfm
 msgid "Set the current layout as the debug layout"
-msgstr "Imposta il layout corrente come layout di Debug"
+msgstr "Imposta l'aspetto corrente come aspetto del debug"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnLayouts..mnMaximizeEditor..Caption
 #. PyIDEMainForm..actlStandard..actMaximizeEditor..Caption
@@ -4652,7 +4662,7 @@ msgstr "&Progetto"
 #. PyIDEMainForm..TBXDockTop..MainMenu..ProjectMenu..SpTBXSubmenuItem1..Caption
 #: frmPyIDEMain.dfm
 msgid "&Recent Projects"
-msgstr ""
+msgstr "Progetti &recenti"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ToolsMenu..Caption
 #: frmPyIDEMain.dfm
@@ -4682,27 +4692,27 @@ msgstr "Supporto web"
 #. PyIDEMainForm..TBXDockTop..MainToolBar..Caption
 #: frmPyIDEMain.dfm
 msgid "Main Toolbar"
-msgstr ""
+msgstr "Barra degli strumenti principale"
 
 #. PyIDEMainForm..TBXDockTop..DebugToolbar..Caption
 #: frmPyIDEMain.dfm
 msgid "Debug Toolbar"
-msgstr "Barra debug"
+msgstr "Barra degli strumenti del debug"
 
 #. PyIDEMainForm..TBXDockTop..ViewToolbar..Caption
 #: frmPyIDEMain.dfm
 msgid "View Toolbar"
-msgstr "Barra aspetto"
+msgstr "Barra degli strumenti dell'aspetto"
 
 #. PyIDEMainForm..TBXDockTop..EditorToolbar..Caption
 #: frmPyIDEMain.dfm
 msgid "Editor Toolbar"
-msgstr "Barra editor"
+msgstr "Barra degli strumenti dell'editor"
 
 #. PyIDEMainForm..TBXDockTop..FindToolbar..Caption
 #: frmPyIDEMain.dfm
 msgid "Find Toolbar"
-msgstr "Barra di ricerca"
+msgstr "Barra degli strumenti della ricerca"
 
 #. PyIDEMainForm..TBXDockTop..FindToolbar..tbiFindLabel..Caption
 #: frmPyIDEMain.dfm
@@ -4722,22 +4732,24 @@ msgstr "Cerca d&al cursore"
 #. PyIDEMainForm..TBXDockTop..FindToolbar..tbiSearchOptions..tbiAutoCaseSensitive..Caption
 #: frmPyIDEMain.dfm
 msgid "&Auto Case Sensitive"
-msgstr ""
+msgstr "Distinzione delle maiuscole &automatica"
 
 #. PyIDEMainForm..TBXDockTop..FindToolbar..tbiSearchOptions..tbiAutoCaseSensitive..Hint
 #: frmPyIDEMain.dfm
 msgid "Case Sensitive when search text contains upper case characters"
 msgstr ""
+"Distingui le maiuscole durante la ricerca in un testo contentente caratteri "
+"maiuscoli"
 
 #. PyIDEMainForm..TBXDockTop..FindToolbar..tbiSearchOptions..tbiCaseSensitive..Caption
 #: frmPyIDEMain.dfm
 msgid "&Case Sensitive"
-msgstr "MAIUS&COLE/minuscole"
+msgstr "Distinzione delle maius&cole"
 
 #. PyIDEMainForm..TBXDockTop..FindToolbar..tbiSearchOptions..tbiWholeWords..Caption
 #: frmPyIDEMain.dfm
 msgid "&Whole Words Only"
-msgstr "&Solo parola intera"
+msgstr "&Solo parole intere"
 
 #. PyIDEMainForm..TBXDockTop..FindToolbar..tbiSearchOptions..tbiSearchInSelection..Caption
 #: frmPyIDEMain.dfm
@@ -4757,7 +4769,7 @@ msgstr "Ricerca &incrementale"
 #. PyIDEMainForm..TBXDockTop..UserToolbar..Caption
 #: frmPyIDEMain.dfm
 msgid "User Toolbar"
-msgstr "Barra utente"
+msgstr "Barra degli strumenti dell'utente"
 
 #. PyIDEMainForm..TabControlPopupMenu..mnFiles..Caption
 #: frmPyIDEMain.dfm
@@ -4777,7 +4789,7 @@ msgstr "Editor &successivo"
 #. PyIDEMainForm..actlImmutable..actViewNextEditor..Hint
 #: frmPyIDEMain.dfm
 msgid "Next Editor|Move to the next editor"
-msgstr "Editor successivo|Muovi nell'editor successivo"
+msgstr "Editor successivo|Vai all'editor successivo"
 
 #. PyIDEMainForm..actlImmutable..actViewPreviousEditor..Caption
 #: frmPyIDEMain.dfm
@@ -4787,7 +4799,7 @@ msgstr "Editor &precedente"
 #. PyIDEMainForm..actlImmutable..actViewPreviousEditor..Hint
 #: frmPyIDEMain.dfm
 msgid "Previous editor|Move to the previous editor"
-msgstr "Editor precedente|Posizionamento nell'editor precedente"
+msgstr "Editor precedente|Vai all'editor precedente"
 
 #. PyIDEMainForm..actlStandard..actViewMainMenu..Caption
 #: frmPyIDEMain.dfm
@@ -4797,7 +4809,7 @@ msgstr "Men&u principale"
 #. PyIDEMainForm..actlStandard..actViewMainMenu..Hint
 #: frmPyIDEMain.dfm
 msgid "View/Hide main menu"
-msgstr "Mostra/Nascondi menu interattivo"
+msgstr "Mostra/Nascondi il menu interattivo"
 
 #. PyIDEMainForm..actlStandard..actCallStackWin..Category
 #. PyIDEMainForm..actlStandard..actVariablesWin..Category
@@ -4864,7 +4876,7 @@ msgstr "&Importa modulo"
 #. PyIDEMainForm..actlStandard..actImportModule..Hint
 #: frmPyIDEMain.dfm
 msgid "Import module"
-msgstr "Importa modulo"
+msgstr "Importa un modulo"
 
 #. PyIDEMainForm..actlStandard..actFileNewModule..Caption
 #: frmPyIDEMain.dfm
@@ -4914,13 +4926,13 @@ msgstr "Barra di &stato"
 #. PyIDEMainForm..actlStandard..actViewStatusBar..Hint
 #: frmPyIDEMain.dfm
 msgid "View/Hide status bar"
-msgstr "Mostra/Nascondi barra di stato"
+msgstr "Mostra/Nascondi la barra di stato"
 
 #. PyIDEMainForm..actlStandard..actExternalRun..Hint
 #: frmPyIDEMain.dfm
 msgid "External Run|Run active module in external Python interpreter"
 msgstr ""
-"Esecuzione esterna|Esegui il modulo corrente nell'interprete Python esterno"
+"Esecuzione esterna|Esegui il modulo attivo nell'interprete Python esterno"
 
 #. PyIDEMainForm..actlStandard..actExternalRunConfigure..Caption
 #: frmPyIDEMain.dfm
@@ -4930,7 +4942,7 @@ msgstr "&Configura esecuzione esterna..."
 #. PyIDEMainForm..actlStandard..actExternalRunConfigure..Hint
 #: frmPyIDEMain.dfm
 msgid "Configure External Run"
-msgstr "Configura esecuzione esterna"
+msgstr "Configura l'esecuzione esterna"
 
 #. PyIDEMainForm..actlStandard..actRunDebugLastScript..Caption
 #: frmPyIDEMain.dfm
@@ -4947,7 +4959,7 @@ msgstr "Debug dell'ultimo script"
 #. Programmer's name for it: SDebugHint
 #: frmPyIDEMain.dfm StringResources.pas
 msgid "Debug|Debug active script"
-msgstr "Debug|Debug dello script corrente"
+msgstr "Debug|Debug dello script attivo"
 
 #. PyIDEMainForm..actlStandard..actRunToCursor..Caption
 #: frmPyIDEMain.dfm
@@ -4962,27 +4974,27 @@ msgstr "Esegui fino al cursore"
 #. PyIDEMainForm..actlStandard..actStepInto..Caption
 #: frmPyIDEMain.dfm
 msgid "Step &Into"
-msgstr "Passo &interno"
+msgstr "Passa all'&interno"
 
 #. PyIDEMainForm..actlStandard..actStepInto..Hint
 #: frmPyIDEMain.dfm
 msgid "Step into subroutine "
-msgstr "Passo interno alla subroutine"
+msgstr "Passa all'interno della subroutine"
 
 #. PyIDEMainForm..actlStandard..actStepOver..Caption
 #: frmPyIDEMain.dfm
 msgid "Step &Over"
-msgstr "Pass&o con salto"
+msgstr "Passa &oltre"
 
 #. PyIDEMainForm..actlStandard..actStepOver..Hint
 #: frmPyIDEMain.dfm
 msgid "Step over next function call"
-msgstr "Passo fino alla prossima chiamata di funzione"
+msgstr "Passa alla prossima chiamata di funzione"
 
 #. PyIDEMainForm..actlStandard..actStepOut..Caption
 #: frmPyIDEMain.dfm
 msgid "Step O&ut"
-msgstr "Passo &esterno"
+msgstr "&Esci"
 
 #. PyIDEMainForm..actlStandard..actStepOut..Hint
 #: frmPyIDEMain.dfm
@@ -5002,12 +5014,12 @@ msgstr "Sospendi il programma in esecuzione"
 #. PyIDEMainForm..actlStandard..actDebugAbort..Caption
 #: frmPyIDEMain.dfm
 msgid "&Abort Debugging"
-msgstr "&Interrompi debugging"
+msgstr "&Interrompi il debug"
 
 #. PyIDEMainForm..actlStandard..actDebugAbort..Hint
 #: frmPyIDEMain.dfm
 msgid "Abort debugging"
-msgstr "Interrompi debugging"
+msgstr "Interrompi il debug"
 
 #. PyIDEMainForm..actlStandard..actRunLastScriptExternal..Caption
 #: frmPyIDEMain.dfm
@@ -5034,32 +5046,32 @@ msgstr "Esegui l'ultimo script"
 #. PyIDEMainForm..actlStandard..actToggleBreakPoint..Caption
 #: frmPyIDEMain.dfm
 msgid "Toggle &breakpoint"
-msgstr "Commuta &breakpoint"
+msgstr "Commuta &punto d'interruzione"
 
 #. PyIDEMainForm..actlStandard..actToggleBreakPoint..Hint
 #: frmPyIDEMain.dfm
 msgid "Toggle breakpoint"
-msgstr "Commuta breakpoint"
+msgstr "Commuta il punto d'interruzione"
 
 #. PyIDEMainForm..actlStandard..actClearAllBreakpoints..Caption
 #: frmPyIDEMain.dfm
 msgid "&Clear All Breakpoints"
-msgstr "Pulis&ci tutti i breakpoint"
+msgstr "Pulis&ci tutti i punti d'interruzione"
 
 #. PyIDEMainForm..actlStandard..actClearAllBreakpoints..Hint
 #: frmPyIDEMain.dfm
 msgid "Clear all breakpoints"
-msgstr "Pulisce tutti i breackpoint"
+msgstr "Pulisce tutti i punti d'interruzione"
 
 #. PyIDEMainForm..actlStandard..actBreakPointsWin..Caption
 #: frmPyIDEMain.dfm
 msgid "&Breakpoints"
-msgstr "&Breakpoint"
+msgstr "&Punti d'interruzione"
 
 #. PyIDEMainForm..actlStandard..actBreakPointsWin..Hint
 #: frmPyIDEMain.dfm
 msgid "Show/Hide Breakpoints window"
-msgstr "Mostra/Nasconde la finestra dei breakpoint"
+msgstr "Mostra/Nasconde la finestra dei punti d'interruzione"
 
 #. PyIDEMainForm..actlStandard..actWatchesWin..Caption
 #. PyIDEMainForm..actlStandard..actNavWatches..Caption
@@ -5090,7 +5102,7 @@ msgstr "&Interprete interattivo"
 #. PyIDEMainForm..actlStandard..actViewII..Hint
 #: frmPyIDEMain.dfm
 msgid "View/Hide Interactive Interpreter"
-msgstr "Mostra/Nasconda interprete interattivo"
+msgstr "Mostra/Nasconde l'interprete interattivo"
 
 #. PyIDEMainForm..actlStandard..actViewCodeExplorer..Caption
 #. PyIDEMainForm..actlStandard..actNavCodeExplorer..Caption
@@ -5101,7 +5113,7 @@ msgstr "Explorer &codice"
 #. PyIDEMainForm..actlStandard..actViewCodeExplorer..Hint
 #: frmPyIDEMain.dfm
 msgid "View/Hide Code Explorer"
-msgstr "Mostra/Nacondi explorer del codice"
+msgstr "Mostra/Naconde l'explorer del codice"
 
 #. PyIDEMainForm..actlStandard..actViewFileExplorer..Caption
 #: frmPyIDEMain.dfm
@@ -5111,7 +5123,7 @@ msgstr "&File Explorer"
 #. PyIDEMainForm..actlStandard..actViewFileExplorer..Hint
 #: frmPyIDEMain.dfm
 msgid "View/Hide File Explorer"
-msgstr "Mostra/Nascondi File Explorer"
+msgstr "Mostra/Nasconde il File Explorer"
 
 #. PyIDEMainForm..actlStandard..actViewToDoList..Caption
 #: frmPyIDEMain.dfm
@@ -5141,18 +5153,18 @@ msgstr "Finestra &output"
 #. PyIDEMainForm..actlStandard..actViewOutput..Hint
 #: frmPyIDEMain.dfm
 msgid "View/Hide Output Window"
-msgstr "Mostra/Nascondi finestra di output"
+msgstr "Mostra/Nascondi la finestra di output"
 
 #. PyIDEMainForm..actlStandard..actViewUnitTests..Caption
 #. PyIDEMainForm..actlStandard..actNavUnitTests..Caption
 #: frmPyIDEMain.dfm
 msgid "&Unit Tests"
-msgstr "&Unit Test"
+msgstr "&Unit test"
 
 #. PyIDEMainForm..actlStandard..actViewUnitTests..Hint
 #: frmPyIDEMain.dfm
 msgid "View/Hide Unit Tests Window"
-msgstr "Mostra/Nascondi finestra Unit Test"
+msgstr "Mostra/Nascondi finestra dell'unit test"
 
 #. PyIDEMainForm..actlStandard..actFindDefinition..Category
 #. PyIDEMainForm..actlStandard..actFindReferences..Category
@@ -5180,7 +5192,7 @@ msgstr "Trova &riferimenti"
 #. PyIDEMainForm..actlStandard..actFindReferences..Hint
 #: frmPyIDEMain.dfm
 msgid "Find references of an Identifier"
-msgstr "Trova riferimenti di un identificatore"
+msgstr "Trova i riferimenti di un identificatore"
 
 #. PyIDEMainForm..actlStandard..actBrowseBack..Caption
 #: frmPyIDEMain.dfm
@@ -5200,7 +5212,7 @@ msgstr "Naviga &avanti"
 #. PyIDEMainForm..actlStandard..actBrowseForward..Hint
 #: frmPyIDEMain.dfm
 msgid "Browse forward"
-msgstr "Naviga avanti"
+msgstr "Naviga in avanti"
 
 #. PyIDEMainForm..actlStandard..actViewRegExpTester..Caption
 #: frmPyIDEMain.dfm
@@ -5210,22 +5222,22 @@ msgstr "Tester di espressioni &regolari"
 #. PyIDEMainForm..actlStandard..actViewRegExpTester..Hint
 #: frmPyIDEMain.dfm
 msgid "View/Hide Regular Expression Tester"
-msgstr "Mostra/Nascondi tester delle espressioni regolari"
+msgstr "Mostra/Nascondi il tester delle espressioni regolari"
 
 #. PyIDEMainForm..actlStandard..actEditorZoomIn..Caption
 #: frmPyIDEMain.dfm
 msgid "Zoom &In"
-msgstr "Zoom avant&i"
+msgstr "&Ingrandisci zoom"
 
 #. PyIDEMainForm..actlStandard..actEditorZoomIn..Hint
 #: frmPyIDEMain.dfm
 msgid "Increase the font size of the editor"
-msgstr "Incrementa la dimesione dei caratteri dell'editor"
+msgstr "Incrementa la dimensione dei caratteri dell'editor"
 
 #. PyIDEMainForm..actlStandard..actEditorZoomOut..Caption
 #: frmPyIDEMain.dfm
 msgid "Zoom &Out"
-msgstr "Zoom indietr&o"
+msgstr "&Rimpicciolisci zoom"
 
 #. PyIDEMainForm..actlStandard..actEditorZoomOut..Hint
 #: frmPyIDEMain.dfm
@@ -5245,12 +5257,13 @@ msgstr "Divide le finestre dell'editor verticalmente"
 #. PyIDEMainForm..actlStandard..actAddWatchAtCursor..Caption
 #: frmPyIDEMain.dfm
 msgid "Add &Watch At Cursor"
-msgstr "Aggiungi &osservazione sotto il cursore"
+msgstr "Aggiungi &osservazione al cursore"
 
 #. PyIDEMainForm..actlStandard..actAddWatchAtCursor..Hint
 #: frmPyIDEMain.dfm
 msgid "Add the expression at the editor current position as a watch"
-msgstr "Aggiungi l'espressione sotto il cursore come osservazione"
+msgstr ""
+"Aggiungi l'espressione alla posizione attuale dell'editor come osservazione"
 
 #. PyIDEMainForm..actlStandard..actPythonReinitialize..Caption
 #: frmPyIDEMain.dfm
@@ -5332,12 +5345,12 @@ msgstr "Attiva la finestra delle osservazioni"
 #. PyIDEMainForm..actlStandard..actNavBreakpoints..Caption
 #: frmPyIDEMain.dfm
 msgid "&BreakPoints"
-msgstr "&Breakpoint"
+msgstr "&Punti d'interruzione"
 
 #. PyIDEMainForm..actlStandard..actNavBreakpoints..Hint
 #: frmPyIDEMain.dfm
 msgid "Activate the Breakpoints window"
-msgstr "Attiva la finestra dei breakpoint"
+msgstr "Attiva la finestra dei punti d'interruzione"
 
 #. PyIDEMainForm..actlStandard..actNavInterpreter..Caption
 #: frmPyIDEMain.dfm
@@ -5443,7 +5456,7 @@ msgstr "Nascondi il secondo editor"
 #. PyIDEMainForm..actlStandard..actViewHideSecondEditor..Hint
 #: frmPyIDEMain.dfm
 msgid "Clear the editor"
-msgstr "Pulisce l'editor"
+msgstr "Pulisci l'editor"
 
 #. PyIDEMainForm..actlStandard..actPostMortem..Caption
 #: frmPyIDEMain.dfm
@@ -5474,7 +5487,7 @@ msgstr "Explorer del &progetto"
 #. PyIDEMainForm..actlStandard..actViewProjectExplorer..Hint
 #: frmPyIDEMain.dfm
 msgid "View/Hide Project Explorer"
-msgstr "Mostra/Nascondi Explorer del progetto"
+msgstr "Mostra/Nascondi l'explorer del progetto"
 
 #. PyIDEMainForm..actlStandard..actNavProjectExplorer..Hint
 #: frmPyIDEMain.dfm
@@ -5484,34 +5497,38 @@ msgstr "Attiva la finestra di esplorazione del progetto"
 #. PyIDEMainForm..actlStandard..actViewSplitWorkspaceVer..Caption
 #: frmPyIDEMain.dfm
 msgid "Split Workspace Vertically"
-msgstr ""
+msgstr "Dividi spazi di lavoro verticalmente"
 
 #. PyIDEMainForm..actlStandard..actViewSplitWorkspaceVer....Hint
 #: frmPyIDEMain.dfm
 msgid ""
 "Split workspace vertically|Show secondary editor tabset vertically aligned"
 msgstr ""
+"Dividi spazi di lavoro verticalmente|Mostra l'editor secondario allineato "
+"verticalmente"
 
 #. PyIDEMainForm..actlStandard..actViewSplitWorkspaceHor..Caption
 #: frmPyIDEMain.dfm
 msgid "Split Workspace Horizontally"
-msgstr ""
+msgstr "Dividi spazi di lavoro orizzontalmente"
 
 #. PyIDEMainForm..actlStandard..actViewSplitWorkspaceHor....Hint
 #: frmPyIDEMain.dfm
 msgid ""
 "Split workspace horizontally|Show secondary workspace horizontally aligned"
 msgstr ""
+"Dividi spazi di lavoro orizzontalmente|Mostra l'editor secondario allineato "
+"orizzontalmente"
 
 #. PyIDEMainForm..actlStandard..actViewHideSecondaryWorkspace..Caption
 #: frmPyIDEMain.dfm
 msgid "Hide Secondary Workspace"
-msgstr ""
+msgstr "Nascondi spazio di lavoro secondario"
 
 #. PyIDEMainForm..actlStandard..actViewHideSecondaryWorkspace..Hint
 #: frmPyIDEMain.dfm
 msgid "Hide secondary workspace"
-msgstr ""
+msgstr "Nascondi lo spazio di lavoro secondario"
 
 #. PythonIIForm..Caption
 #: frmPythonII.dfm dmCommands.pas
@@ -5539,7 +5556,7 @@ msgstr "Copia &storico"
 #. PythonIIForm..InterpreterActionList..actCopyHistory..Hint
 #: frmPythonII.dfm
 msgid "Copy history to Clipboard"
-msgstr "Copia storico negli appunti"
+msgstr "Copia lo storico negli appunti"
 
 #. PythonIIForm..InterpreterActionList..actClearContents..Caption
 #: frmPythonII.dfm
@@ -5564,7 +5581,7 @@ msgstr "Copia il testo selezionato senza il prompt dell'interprete"
 #. PythonIIForm..InterpreterActionList..actPasteAndExecute..Caption
 #: frmPythonII.dfm
 msgid "Paste && E&xecute"
-msgstr ""
+msgstr "Incolla && e&segui"
 
 #. PythonIIForm..InterpreterActionList..actPasteAndExecute..Hint
 #: frmPythonII.dfm
@@ -5619,22 +5636,22 @@ msgstr "Corrispondenza"
 #. RegExpTesterWindow..BGPanel..FGPanel..TBXDock..RegExpTesterToolbar..TBXSubmenuItem2..RI_Match..Hint
 #: frmRegExpTester.dfm
 msgid "Performs re.match"
-msgstr "Esegui re.match"
+msgstr "Ri-esegui corrispondenza"
 
 #. RegExpTesterWindow..BGPanel..FGPanel..TBXDock..RegExpTesterToolbar..TBXSubmenuItem2..RI_Search..Hint
 #: frmRegExpTester.dfm
 msgid "Performs re.search"
-msgstr "Esegui re.search"
+msgstr "Ri-esegui ricerca"
 
 #. RegExpTesterWindow..BGPanel..FGPanel..TBXDock..RegExpTesterToolbar..TBXSubmenuItem2..RI_findall..Caption
 #: frmRegExpTester.dfm
 msgid "Find all"
-msgstr ""
+msgstr "Trova tutto"
 
 #. RegExpTesterWindow..BGPanel..FGPanel..TBXDock..RegExpTesterToolbar..TBXSubmenuItem2..RI_findall..Hint
 #: frmRegExpTester.dfm
 msgid "Performs re.findall"
-msgstr ""
+msgstr "Ri-esegui trova tutto"
 
 #. RegExpTesterWindow..BGPanel..FGPanel..TBXDock..RegExpTesterToolbar..TBXSubmenuItem2..CI_AutoExecute..Caption
 #: frmRegExpTester.dfm
@@ -5684,7 +5701,7 @@ msgstr "Corrispondenze:"
 #. RegExpTesterWindow..BGPanel..FGPanel..pnlBackground..pnlMiddle..dpMatchText..SpTBXPanel3..SpinMatches..Hint
 #: frmRegExpTester.dfm
 msgid "Show a found match"
-msgstr ""
+msgstr "Mostra corrispondenza trovata"
 
 #. ToDoWindow..Caption
 #: frmToDo.dfm
@@ -5699,7 +5716,7 @@ msgstr "Aggiorna le cose da fare"
 #. ToDoWindow..Actions..actEditGoto..Hint
 #: frmToDo.dfm
 msgid "Goto source line"
-msgstr "Si posiziona alla riga di codice"
+msgstr "Vai alla riga di codice"
 
 #. ToDoWindow..Actions..actFilePrint..Caption
 #: frmToDo.dfm
@@ -5709,7 +5726,7 @@ msgstr "Stam&pa"
 #. ToDoWindow..Actions..actFilePrint..Hint
 #: frmToDo.dfm
 msgid "Print to do items"
-msgstr "Stampa cose da fare"
+msgstr "Stampa le cose da fare"
 
 #. ToDoWindow..Actions..actOptionsConfigure..Caption
 #: frmToDo.dfm
@@ -5734,7 +5751,7 @@ msgstr "Interrompi la rcerca delle cose da fare"
 #. UnitTestWindow..Caption
 #: frmUnitTests.dfm
 msgid "Unit Tests"
-msgstr "Unit Test"
+msgstr "Unit test"
 
 #. UnitTestWindow..BGPanel..FGPanel..Panel2..Label2..Caption
 #: frmUnitTests.dfm
@@ -5749,12 +5766,12 @@ msgstr "Nessun modulo caricato"
 #. UnitTestWindow..BGPanel..FGPanel..Panel2..lbFoundTests..Caption
 #: frmUnitTests.dfm
 msgid "Found 0 tests"
-msgstr "Trovati 0 test"
+msgstr "Nessun test trovato"
 
 #. UnitTestWindow..BGPanel..FGPanel..Panel2..lblRunTests..Caption
 #: frmUnitTests.dfm
 msgid "Run 0 tests"
-msgstr "Eseguiti 0 test"
+msgstr "Nessun test eseguito"
 
 #. UnitTestWindow..BGPanel..FGPanel..Panel2..lblFailures..Caption
 #: frmUnitTests.dfm
@@ -5787,7 +5804,7 @@ msgstr "&Ferma"
 #. UnitTestWindow..DialogActions..actStop..Hint
 #: frmUnitTests.dfm
 msgid "Stop Testing"
-msgstr "Interrompi test"
+msgstr "Interrompi i test"
 
 #. UnitTestWindow..DialogActions..actSelectAll..Hint
 #: frmUnitTests.dfm
@@ -5802,7 +5819,7 @@ msgstr "Deseleziona tutti i test"
 #. UnitTestWindow..DialogActions..actSelectFailed..Caption
 #: frmUnitTests.dfm
 msgid "Select Fai&led"
-msgstr "Seleziona fa&llito"
+msgstr "Seleziona fa&lliti"
 
 #. UnitTestWindow..DialogActions..actSelectFailed..Hint
 #: frmUnitTests.dfm
@@ -5864,7 +5881,7 @@ msgstr "&Rimuovi osservazione"
 #. WatchesWindow..TBXPopupMenu..mnEditWatch..Caption
 #: frmWatches.dfm
 msgid "&Edit Watch"
-msgstr "Modifica oss&ervazioni"
+msgstr "Modifica oss&ervazione"
 
 #. WatchesWindow..TBXPopupMenu..mnClearall..Hint
 #: frmWatches.dfm
@@ -5882,6 +5899,8 @@ msgid ""
 "have made PyScripterpossible.  PyScripter makes use of the "
 "followingcomponents and projects:\n"
 msgstr ""
+"Un ringraziamento speciale a tutti i grandi sviluppatori che, con il loro fantastico lavoro, hanno\n"
+"reso PyScripter possibile. PyScripter utilizza i progetto e i componenti seguenti:\n"
 
 #: dlgAboutPyScripter.pas
 msgid ""
@@ -5899,6 +5918,19 @@ msgid ""
 "TCommandLineReader(www.benibela.de)\n"
 "Silk icons(www.famfamfam.com)\n"
 msgstr ""
+"Python for Delphi (www.github.com/pyscripter/python4delphi)\n"
+"Rpyc (www.github.com/tomerfiliba/rpyc)\n"
+"JVCL (www.github.com/project-jedi/jvcl)\n"
+"SynEdit (www.sourceforge.net/projects/synedit)\n"
+"VirtualTreeView (www.github.com/Virtual-TreeView/)\n"
+"VirtualShellTools (www.github.com/pyscripter/mustangpeakvirtualshelltools)\n"
+"GExperts (www.gexperts.org)\n"
+"Syn Editor (www.sourceforge.net/projects/syn)\n"
+"Syn Web highlighters (www.github.com/KrystianBigaj/synweb)\n"
+"Toolbar2000 (www.jrsoftware.org/tb2k.php)\n"
+"SpTBXLib(www.silverpointdevelopment.com)\n"
+"TCommandLineReader(www.benibela.de)\n"
+"Silk icons(www.famfamfam.com)\n"
 
 #: dlgAboutPyScripter.pas
 msgid ""
@@ -5911,12 +5943,22 @@ msgid ""
 "Spanish translation by Javier Pimas\n"
 "German translation by Daniel Frost\n"
 msgstr ""
+"Gestore delle traduzioni: Lübbe Onken\n"
+"Traduzioni in cinese di \"Love China\"\n"
+"Traduzioni in francese di Groupe AmiensPython\n"
+"Traduzioni in giapponese di Tokibito\n"
+"Traduzioni in russo di Aleksander Dragunkin\n"
+"Traduzioni in slovacco di Marian Denes\n"
+"Traduzioni in spagnolo di Javier Pimas\n"
+"Traduzioni in tedesco di Daniel Frost\n"
 
 #: dlgAboutPyScripter.pas
 msgid ""
 "Tanmaya Meher (www.github.com/tanmayameher)\n"
 "jprzywoski (www.github.com/jprzywoski)\n"
 msgstr ""
+"Tanmaya Meher (www.github.com/tanmayameher)\n"
+"jprzywoski (www.github.com/jprzywoski)\n"
 
 #: dlgAboutPyScripter.pas
 msgid ""
@@ -5924,24 +5966,28 @@ msgid ""
 "Internet group support is available at https://groups.google.com/group/PyScripter\n"
 "Please submit bug reports and questions about PyScripter to pyscripter@gmail.com."
 msgstr ""
+"La home del progetto, l'issue tracker e il repository del codice sono ospitati presso GitHub\n"
+"(www.github.com/pyscripter/pyscripter)\n"
+"Il gruppo di supporto internet è disponibile presso https://groups.google.com/group/PyScripter\n"
+"Si prega di annunciare gli errori e di inviare le domande su PyScripter a pyscripter@gmail.com."
 
 #: dlgAboutPyScripter.pas
 msgid "Translations"
-msgstr ""
+msgstr "Traduzioni"
 
 #: dlgAboutPyScripter.pas
 msgid "Theme design"
-msgstr ""
+msgstr "Design del tema"
 
 #. Programmer's name for it: SAskReplaceText
 #: dlgConfirmReplace.pas
 #, object-pascal-format
 msgid "Replace this occurrence of \"%s\"?"
-msgstr ""
+msgstr "Sostituire questa occorrenza di \" %s\"?"
 
 #: dlgCustomShortcuts.pas
 msgid "Unassigned"
-msgstr ""
+msgstr "Non assegnato"
 
 #. Programmer's name for it: RsSendBugReportSubject
 #: dlgExceptionMail.pas
@@ -5952,7 +5998,7 @@ msgstr "Rapporto errori di PyScripter"
 #: dlgExceptionMail.pas
 #, object-pascal-format
 msgid "No %s mail client is available"
-msgstr ""
+msgstr "Nessun  client di posta elettronica %sdisponibile"
 
 #. Programmer's name for it: SGrepResultsNotActive
 #: dlgReplaceInFiles.pas
@@ -5961,51 +6007,51 @@ msgstr "La finestra dei risultati della ricerca nei file non è attiva"
 
 #: dlgRunConfiguration.pas dlgToolProperties.pas
 msgid "Select working directory:"
-msgstr ""
+msgstr "Seleziona la directory di lavoro:"
 
 #: dmCommands.pas
 msgid "IDE"
-msgstr ""
+msgstr "IDE"
 
 #: dmCommands.pas
 msgid "Check for updates automatically"
-msgstr ""
+msgstr "Ricerca automaticamente gli aggiornamenti"
 
 #: dmCommands.pas
 msgid "Days between update checks"
-msgstr ""
+msgstr "Intervallo in giorni delle ricerche di aggiornamenti"
 
 #: dmCommands.pas
 msgid "Mask FPU Exceptions"
-msgstr ""
+msgstr "Eccezioni alla maschera FPU"
 
 #: dmCommands.pas
 msgid "Editor tab position"
-msgstr ""
+msgstr "Posizione del tabulatore nell'editor"
 
 #: dmCommands.pas
 msgid "Smart Next Previous Page"
-msgstr ""
+msgstr "Prossima/prececedente pagina intelligente"
 
 #: dmCommands.pas
 msgid "Show tab close button"
-msgstr ""
+msgstr "Mostra il pulsante di chiusura della scheda"
 
 #: dmCommands.pas
 msgid "Dock animation interval (ms)"
-msgstr ""
+msgstr "Intervallo dell'animazione nel dock (ms)"
 
 #: dmCommands.pas
 msgid "Dock animation move width (pixels)"
-msgstr ""
+msgstr "Larghezza dell'animazione del dock (pixel)"
 
 #: dmCommands.pas
 msgid "File template for new python scripts"
-msgstr ""
+msgstr "Modello di file per nuovi script Python"
 
 #: dmCommands.pas
 msgid "Number of recent files"
-msgstr ""
+msgstr "Numero di file recenti"
 
 #. Programmer's name for it: SFileChangeNotification
 #: dmCommands.pas StringResources.pas
@@ -6014,243 +6060,245 @@ msgstr "Notifica cambiamento file"
 
 #: dmCommands.pas
 msgid "Save files before run"
-msgstr ""
+msgstr "Salva i file prima dell'esecuzione"
 
 #: dmCommands.pas
 msgid "Save environment before run"
-msgstr ""
+msgstr "Salva l'ambiente prima dell'esecuzione"
 
 #: dmCommands.pas
 msgid "Timeout for running scripts in ms"
-msgstr ""
+msgstr "Timeout per script in esecuzione in ms"
 
 #: dmCommands.pas
 msgid "UTF8 in interactive interpreter"
-msgstr ""
+msgstr "UTF8 nell'interprete interattivo"
 
 #: dmCommands.pas
 msgid "Python engine type"
-msgstr ""
+msgstr "Tipo di engine Python"
 
 #: dmCommands.pas
 msgid "Pretty print output"
-msgstr ""
+msgstr "Output di stampa formattato"
 
 #: dmCommands.pas
 msgid "Clear output before run"
-msgstr ""
+msgstr "Cancella l'output prima dell'esecuzione"
 
 #: dmCommands.pas
 msgid "Post-mortem on exception"
-msgstr ""
+msgstr "Post-mortem alle eccezioni"
 
 #: dmCommands.pas
 msgid "Interpreter history size"
-msgstr ""
+msgstr "Dimensione dello storico dell'interprete"
 
 #: dmCommands.pas
 msgid "Save interpreter history"
-msgstr ""
+msgstr "Salva lo storico dell'interprete"
 
 #: dmCommands.pas
 msgid "Reinitialize before run"
-msgstr ""
+msgstr "Re-inizializza prima dell'esecuzione"
 
 #: dmCommands.pas
 msgid "Jump to error on exception"
-msgstr ""
+msgstr "Vai all'errore in caso di eccezioni"
 
 #: dmCommands.pas
 msgid "Internal Interpreter Hidden"
-msgstr ""
+msgstr "Nascondi l'interprete interno"
 
 #: dmCommands.pas
 msgid "Initially expanded"
-msgstr ""
+msgstr "Espandi all'avvio"
 
 #: dmCommands.pas
 msgid "File Filters"
-msgstr ""
+msgstr "Filtri dei file"
 
 #: dmCommands.pas
 msgid "Open dialog Python filter"
-msgstr ""
+msgstr "Apri il filtro del dialogo di Python"
 
 #: dmCommands.pas
 msgid "Open dialog HTML filter"
-msgstr ""
+msgstr "Apri il filtro del dialogo di HTML"
 
 #: dmCommands.pas
 msgid "Open dialog XML filter"
-msgstr ""
+msgstr "Apri il filtro del dialogo di XML"
 
 #: dmCommands.pas
 msgid "Open dialog CSS filter"
-msgstr ""
+msgstr "Apri il filtro del dialogo di CSS"
 
 #: dmCommands.pas
 msgid "Open dialog CPP filter"
-msgstr ""
+msgstr "Apri il filtro del dialogo di CPP"
 
 #: dmCommands.pas
 msgid "Open dialog YAML filter"
-msgstr ""
+msgstr "Apri il filtro del dialogo di YAML"
 
 #: dmCommands.pas
 msgid "Open dialog JavaScript filter"
-msgstr ""
+msgstr "Apri il filtro del dialogo di Javascript"
 
 #: dmCommands.pas
 msgid "Open dialog PHP filter"
-msgstr ""
+msgstr "Apri il filtro del dialogo di PHP"
 
 #: dmCommands.pas
 msgid "File explorer filter"
-msgstr ""
+msgstr "Filtro dell'explorer dei file"
 
 #: dmCommands.pas
 msgid "Open dialog Cython filter"
-msgstr ""
+msgstr "Apri il filtro del dialogo di Cython"
 
 #: dmCommands.pas
 msgid "Restore open files"
-msgstr ""
+msgstr "Ripristina i file aperti"
 
 #: dmCommands.pas
 msgid "Search text at caret"
-msgstr ""
+msgstr "Cerca il testo alla posizione del cursore"
 
 #: dmCommands.pas
 msgid "Create backup files"
-msgstr ""
+msgstr "Crea file di backup"
 
 #: dmCommands.pas
 msgid "Undo after save"
-msgstr ""
+msgstr "Annulla dopo il salvataggio"
 
 #: dmCommands.pas
 msgid "Show code hints"
-msgstr ""
+msgstr "Mostra i suggerimenti di codice"
 
 #: dmCommands.pas
 msgid "Show debugger hints"
-msgstr ""
+msgstr "Mostra i suggerimenti di debug"
 
 #: dmCommands.pas
 msgid "Auto-complete brackets"
-msgstr ""
+msgstr "Completamento automatico delle parentesi"
 
 #: dmCommands.pas
 msgid "Show executable line marks"
-msgstr ""
+msgstr "Mostra i segnaposto delle righe eseguibili"
 
 #: dmCommands.pas
 msgid "Check syntax as you type"
-msgstr ""
+msgstr "Verifica la sintassi durante la digitazione"
 
 #: dmCommands.pas
 msgid "Default line break format for new files"
-msgstr ""
+msgstr "Formato predefinito dell'interruzione di riga per nuovi file"
 
 #: dmCommands.pas
 msgid "Default file encoding for new files"
-msgstr ""
+msgstr "Codifica predefinita per nuovi file"
 
 #: dmCommands.pas
 msgid "Detect UTF-8 encoding when opening files"
-msgstr ""
+msgstr "Intercetta la codifica UTF-8 all'apertura di file"
 
 #: dmCommands.pas
 msgid "Auto-reload changed files"
-msgstr ""
+msgstr "Ricaricamento automatico dei file modificati"
 
 #: dmCommands.pas
 msgid "Auto-hide find toolbar"
-msgstr ""
+msgstr "Nascondi automaticamente la barra degli strumenti di ricerca"
 
 #: dmCommands.pas
 msgid "Highlight selected word"
-msgstr ""
+msgstr "Evidenzia la parola selezionata"
 
 #: dmCommands.pas
 msgid "Highlight color of selected word"
-msgstr ""
+msgstr "Colore dell'evidenziazione della parola selezionata"
 
 #: dmCommands.pas
 msgid "Display package names in editor tabs"
-msgstr ""
+msgstr "Mostra il nome del package nelle schede dell'editor"
 
 #: dmCommands.pas
 msgid "File line limit for syntax check as you type"
 msgstr ""
+"Limite delle righe del file per il controllo della sintassi durante la "
+"digitazione"
 
 #: dmCommands.pas
 msgid "Code folding enabled by default"
-msgstr ""
+msgstr "Fold del codice abilitato in modo predefinito"
 
 #: dmCommands.pas
 msgid "Code folding options"
-msgstr ""
+msgstr "Opzioni del Fold del codice"
 
 #: dmCommands.pas
 msgid "Compact Line Numbers"
-msgstr ""
+msgstr "Compatta numero di righe"
 
 #: dmCommands.pas
 msgid "Code Completion"
-msgstr ""
+msgstr "Completamento del codice"
 
 #: dmCommands.pas
 msgid "Special packages"
-msgstr ""
+msgstr "Pacchetti speciali"
 
 #: dmCommands.pas
 msgid "Code completion list size"
-msgstr ""
+msgstr "Dimensione dell'elenco del completamento del codice"
 
 #: dmCommands.pas
 msgid "Editor code completion"
-msgstr ""
+msgstr "Editor del completamento del codice"
 
 #: dmCommands.pas
 msgid "Interpreter code completion"
-msgstr ""
+msgstr "Interprete del completamento del codice"
 
 #: dmCommands.pas
 msgid "Case sensitive"
-msgstr ""
+msgstr "Distingui maiuscole da minuscole"
 
 #: dmCommands.pas
 msgid "Complete Python keywords"
-msgstr ""
+msgstr "Completa le parole chiave di Python"
 
 #: dmCommands.pas
 msgid "Complete as you type"
-msgstr ""
+msgstr "Completa durante la digitazione"
 
 #: dmCommands.pas
 msgid "Auto completion font"
-msgstr ""
+msgstr "Carattere per il completamento automatico"
 
 #: dmCommands.pas
 msgid "Complete with word-break characters"
-msgstr ""
+msgstr "Completamento con caratteri di suddivisione delle parole"
 
 #: dmCommands.pas
 msgid "Auto-complete with one entry"
-msgstr ""
+msgstr "Completamento automatico con un'immissione"
 
 #: dmCommands.pas
 msgid "Shell Integration"
-msgstr ""
+msgstr "Integrazione della shell"
 
 #: dmCommands.pas
 msgid "File Explorer context menu"
-msgstr ""
+msgstr "Menù contestuale dell'explorer dei file"
 
 #: dmCommands.pas
 msgid "File download failed"
-msgstr ""
+msgstr "Scaricamento del file non riuscito"
 
 #. Programmer's name for it: SAllString
 #: frmFunctionList.pas
@@ -6271,13 +6319,15 @@ msgstr "Modulo processato in %g secondi"
 #. Programmer's name for it: SInvalidIndex
 #: frmFunctionList.pas
 msgid "Invalid index number"
-msgstr ""
+msgstr "Numero di indice non valido"
 
 #: frmModSpTBXCustomize.pas
 msgid ""
 "This option will reset IDE toolbars and shortcuts to the factory settings.\n"
 "Do you want to proceed?"
 msgstr ""
+"Questa opzione ripristinerà le barre degli strumenti dell'IDE e le scorciatoie ai valori predefiniti.\n"
+"Continuare?"
 
 #: frmPyIDEMain.pas
 msgid "Debug"
@@ -6286,7 +6336,7 @@ msgstr "Debug"
 #: frmRegExpTester.pas
 #, object-pascal-format
 msgid "Match %d of %d"
-msgstr ""
+msgstr "Corrispondenza %ddi %d"
 
 #. Programmer's name for it: SDone
 #. Programmer's name for it: SDoneTodoDesignation
@@ -6301,11 +6351,11 @@ msgstr "Cose da fare"
 
 #: frmVariables.pas
 msgid "Namespace"
-msgstr ""
+msgstr "Namespaces"
 
 #: frmVariables.pas
 msgid "DocString"
-msgstr ""
+msgstr "DocString"
 
 #. Programmer's name for it: SInternalError
 #: StringResources.pas
@@ -6323,7 +6373,7 @@ msgstr "\"%s\" non trovato"
 #: StringResources.pas
 #, object-pascal-format
 msgid "%d items found and %d\" items replaced"
-msgstr "%d voci trovate e %d\" sostituite"
+msgstr "%d voci trovate e %d\" elementi sostituiti"
 
 #. Programmer's name for it: SNotAvailable
 #: StringResources.pas
@@ -6391,13 +6441,13 @@ msgid ""
 "  Do you want to proceed?"
 msgstr ""
 "Codificare il file \"%s\" usando la codifica \"%s\" causerà perdita di "
-"informazione. Vuoi continuare?"
+"informazioni. Continuare?"
 
 #. Programmer's name for it: SDecodingError
 #: StringResources.pas
 #, object-pascal-format
 msgid "Error in decoding file \"%s\" from \"%s\" encoding"
-msgstr "Errore decodificando il file \"%s\" dalla codifica \"%s\""
+msgstr "Errore durante la decodifica del file \"%s\" dalla codifica \"%s\""
 
 #. Programmer's name for it: SFileOpenError
 #: StringResources.pas
@@ -6406,7 +6456,7 @@ msgid ""
 "Error in opening file: \"%s\".\n"
 "Error: %s"
 msgstr ""
-"Errore nell'apertura del file: \"%s\".\n"
+"Errore durante l'apertura del file: \"%s\".\n"
 "Errore: %s"
 
 #. Programmer's name for it: SFileSaveError
@@ -6416,20 +6466,20 @@ msgid ""
 "Error in saving file: \"%s\".\n"
 "Error: %s"
 msgstr ""
-"Errore nel salvataggio del file: \"%s\".\n"
+"Errore durante il salvataggio del file: \"%s\".\n"
 "Errore: %s"
 
 #. Programmer's name for it: SErrorGettingNamespace
 #: StringResources.pas
 #, object-pascal-format
 msgid "Error in getting the namespace of %s"
-msgstr "Errore nel recupero del namespace di %s"
+msgstr "Errore durante il recupero del namespace di %s"
 
 #. Programmer's name for it: SCouldNotSetDirectory
 #. Programmer's name for it: SCouldNotSetCurrentDir
 #: StringResources.pas
 msgid "Could not set the current directory to the script path"
-msgstr "Impossibile impostare la directory corrente per il file script"
+msgstr "Impossibile impostare la directory attuale per il file script"
 
 #. Programmer's name for it: SCannotCompileWhileRunning
 #: StringResources.pas
@@ -6452,7 +6502,7 @@ msgid ""
 "remote  interpreter."
 msgstr ""
 "Il server remoto non è connesso. Reinizializzare o disconnettere "
-"l'interprete remoto"
+"l'interprete remoto."
 
 #. Programmer's name for it: SRpycNotAvailable
 #: StringResources.pas
@@ -6460,8 +6510,8 @@ msgid ""
 "The Rpyc module is not available.  To use the remote Python Engine download "
 "Rpyc from http://Rpyc.sf.net and install it."
 msgstr ""
-"Il modulo Rpyc non è disponibile. Per usare l'engine Python remoto scarica "
-"Rpyc da http://Rpyc.sf.net e installalo."
+"Il modulo Rpyc non è disponibile. Per usare l'engine Python remoto scaricare"
+" Rpyc da http://Rpyc.sf.net e installarlo."
 
 #. Programmer's name for it: SWrongRpycVersion
 #: StringResources.pas
@@ -6476,12 +6526,12 @@ msgstr ""
 #: StringResources.pas
 #, object-pascal-format
 msgid "Could not write file \"%s\" and cannot use a remote Python engine"
-msgstr "Impossibile scrivere il file \"%s\" ed usare un interprete Python remoto"
+msgstr "Impossibile scrivere il file \"%s\" e usare un interprete Python remoto"
 
 #. Programmer's name for it: SErrorCreatingRemoteEngine
 #: StringResources.pas
 msgid "Error in creating the remote interpreter: "
-msgstr ""
+msgstr "Errore durante la creazione dell'interprete remoto:"
 
 #. Programmer's name for it: SCouldNotConnectRemoteEngine
 #: StringResources.pas
@@ -6489,8 +6539,8 @@ msgid ""
 "Could not connect to the remote Python engine server. The remote interpreter"
 " and debugger is not available."
 msgstr ""
-"Impossibile connetersi al server dell'interprete Python remoto. L'interprete"
-" e debugger remoti non disponibili."
+"Impossibile collegarsi al server dell'interprete Python remoto. L'interprete"
+" e idebugger remoto non è disponibile."
 
 #. Programmer's name for it: SRemoteInterpreterInit
 #: StringResources.pas
@@ -6500,15 +6550,14 @@ msgstr "*** Interprete Remoto Reinizializzato ***"
 #. Programmer's name for it: SSameName
 #: StringResources.pas
 msgid "Another item has the same name"
-msgstr "Un altro oggetto ha lo stesso nome"
+msgstr "Un altro elemento ha lo stesso nome"
 
 #. Programmer's name for it: SCodeTemplateModified
 #: StringResources.pas
 msgid ""
 "The template has been modified.  Do you want to update it with the new "
 "definition?"
-msgstr ""
-"Il modello è stato modificato. Vuoi aggiornarlo con la nuova definizione?"
+msgstr "Il modello è stato modificato. Aggiornarlo con la nuova definizione?"
 
 #. Programmer's name for it: SInvalidNumber
 #: StringResources.pas
@@ -6518,7 +6567,7 @@ msgstr "Numero non valido!"
 #. Programmer's name for it: SEmptyTokenTextError
 #: StringResources.pas
 msgid "You cannot insert a token that only consists of white space."
-msgstr "Non puoi inserire un token composto da soli spazi bianchi."
+msgstr "Impossibile inserire un token composto da soli spazi vuoti."
 
 #. Programmer's name for it: SAccessAppDataDir
 #: StringResources.pas
@@ -6529,8 +6578,8 @@ msgid ""
 "otherwise."
 msgstr ""
 "PyScripter necessita dell'accesso alla directory Application Data "
-"dell'utente: \"%s\". Alcune funzionalità come il debugging remoto non "
-"funzioneranno correttamente."
+"dell'utente: \"%s\", altrimenti alcune funzionalità come il debugging remoto"
+" non funzioneranno correttamente."
 
 #. Programmer's name for it: SNotAValidNumber
 #: StringResources.pas
@@ -6563,14 +6612,13 @@ msgstr "Errore durante lo scaricamento:"
 #. Programmer's name for it: SCurrentVersionUptodate
 #: StringResources.pas
 msgid "Current version is up-to-date!"
-msgstr "La versione attuale è aggiornata!"
+msgstr "La versione attuale è aggiornata."
 
 #. Programmer's name for it: SKillExternalTool
 #: StringResources.pas
 msgid ""
 "An External Tool is still running.  Do you want to terminate it and exit?"
-msgstr ""
-"Uno strumento esterno è ancora in esecuzione. Vuoi terminarlo e uscire?"
+msgstr "Uno strumento esterno è ancora in esecuzione. Terminarlo e uscire?"
 
 #. Programmer's name for it: STerminateInterpreter
 #: StringResources.pas
@@ -6598,7 +6646,7 @@ msgstr "Impossibile cambiare l'interprete Python finché è attivo"
 #: StringResources.pas
 #, object-pascal-format
 msgid "Could not open/create output file %s"
-msgstr "Impossibile aprire/creare il file in uscita \"%s\""
+msgstr "Impossibile aprire/creare il file di output \"%s\""
 
 #. Programmer's name for it: SUnknownPythonVersion
 #: StringResources.pas
@@ -6626,18 +6674,17 @@ msgid ""
 "A debugging session is in progress.  Do you want to abort the session and "
 "Exit?"
 msgstr ""
-"Una sessione di debugging è in esecuzione. Vuoi interrompere la sessione e "
-"uscire?"
+"Una sessione di debug è in esecuzione. Interrompere la sessione e uscire?"
 
 #. Programmer's name for it: SInterruptRunningScript
 #: StringResources.pas
 msgid "The Python Script has timed out.  Do you want to interrupt it?"
-msgstr "Lo script Python è in time out. Vuoi interomperlo?"
+msgstr "Lo script Python è in time out. Interromperlo?"
 
 #. Programmer's name for it: SNoTestsFound
 #: StringResources.pas
 msgid "No tests found!"
-msgstr "Test non trovati!"
+msgstr "Nessun test trovato."
 
 #. Programmer's name for it: SDuplicateKey
 #: StringResources.pas
@@ -6657,7 +6704,7 @@ msgid ""
 "changes to these files."
 msgstr ""
 "I file seguenti sono stati modificati sul disco. Seleziona i file da "
-"ricaricare e premi il bottone OK. Considera che saranno perse tutte le "
+"ricaricare e premi il pulsante OK. Considera che saranno perse tutte le "
 "modifiche di questi file."
 
 #. Programmer's name for it: StrScriptRunOK
@@ -6668,7 +6715,7 @@ msgstr "Esecuzione dello script corretta"
 #. Programmer's name for it: SDebuggingAborted
 #: StringResources.pas
 msgid "Debugging Aborted"
-msgstr "Debugging interrotto"
+msgstr "Debug interrotto"
 
 #. Programmer's name for it: SSyntaxError
 #: StringResources.pas
@@ -6684,7 +6731,7 @@ msgstr "  Certezza %s%%"
 #. Programmer's name for it: SReferencesNotFound
 #: StringResources.pas
 msgid "  References not found"
-msgstr "Riferimento non trovato"
+msgstr "Riferimenti non trovati"
 
 #. Programmer's name for it: SReferencesOf
 #: StringResources.pas
@@ -6710,13 +6757,13 @@ msgstr "Definizione non trovata"
 #: StringResources.pas
 #, object-pascal-format
 msgid "Syntax of %s is OK!"
-msgstr "La sintassi di %s è corretta!"
+msgstr "La sintassi di %s è corretta."
 
 #. Programmer's name for it: SModuleImportedOK
 #: StringResources.pas
 #, object-pascal-format
 msgid "Module %s was imported successfully!"
-msgstr "Il modulo %s è stato importato correttamente!"
+msgstr "Il modulo %s è stato importato correttamente."
 
 #. Programmer's name for it: SResumeCaption
 #: StringResources.pas
@@ -6736,7 +6783,7 @@ msgstr "Modificato"
 #. Programmer's name for it: SOpenFile
 #: StringResources.pas
 msgid "Open File"
-msgstr "Apri un file"
+msgstr "Apri file"
 
 #. Programmer's name for it: SSelectPythonScript
 #: StringResources.pas
@@ -6756,18 +6803,18 @@ msgstr "Seleziona un'applicazione o un file da eseguire"
 #. Programmer's name for it: SAddFilesToProject
 #: StringResources.pas
 msgid "Add File(s) to Project"
-msgstr "Aggiungi il/i file al progetto"
+msgstr "Aggiungi file al progetto"
 
 #. Programmer's name for it: SOpenProject
 #: StringResources.pas
 msgid "Open Project"
-msgstr "Apri un progetto"
+msgstr "Apri progetto"
 
 #. Programmer's name for it: SApplyLayout
 #: StringResources.pas
 #, object-pascal-format
 msgid "Apply %s layout"
-msgstr "Applica il layout %s"
+msgstr "Applica l'aspetto %s"
 
 #. Programmer's name for it: SUseSyntax
 #: StringResources.pas
@@ -6784,17 +6831,17 @@ msgstr "Imposta il tema a \"%s\"."
 #. Programmer's name for it: SSaveCurrentLayout
 #: StringResources.pas
 msgid "Save current Layout"
-msgstr "Salva il layout corrente"
+msgstr "Salva l'aspetto attuale"
 
 #. Programmer's name for it: SLayoutName
 #: StringResources.pas
 msgid "Layout Name:"
-msgstr "Nome layout:"
+msgstr "Nome dell'aspetto:"
 
 #. Programmer's name for it: SEditBreakpointCond
 #: StringResources.pas
 msgid "Edit Breakpoint Condition"
-msgstr "Modifica la condizione del breakpoint"
+msgstr "Modifica la condizione del punto d'interruzione"
 
 #. Programmer's name for it: SEnterPythonExpression
 #: StringResources.pas
@@ -6804,12 +6851,12 @@ msgstr "Inserisci un'espressione Python:"
 #. Programmer's name for it: SDeleteLayouts
 #: StringResources.pas
 msgid "Delete Layouts"
-msgstr "Elimina i layout"
+msgstr "Elimina gli aspetti"
 
 #. Programmer's name for it: SSelectLayouts
 #: StringResources.pas
 msgid "Please select the layouts you want to delete and press the OK button:"
-msgstr "Seleziona i layout da eliminare e premi il bottone OK:"
+msgstr "Seleziona gli aspetti da eliminare e premi il pulsante OK:"
 
 #. Programmer's name for it: SSaveModifiedFiles
 #: StringResources.pas
@@ -6874,7 +6921,7 @@ msgstr "Doc"
 #. Programmer's name for it: SWebPreviewHint
 #: StringResources.pas
 msgid "Web Preview|Preview HTML in browser"
-msgstr "Anteprima Web|Mostra un'anteprima nel browser web"
+msgstr "Anteprima Web|Mostra un'anteprima HTML nel browser web"
 
 #. Programmer's name for it: SWebPreview
 #: StringResources.pas
@@ -6890,14 +6937,14 @@ msgstr "Navigatore"
 #: StringResources.pas
 #, object-pascal-format
 msgid "Error in running initialization script %s: \"%s"
-msgstr ""
+msgstr "Errore durante l'esecuzione dello script d'inizializzazione %s: \"%s"
 
 #. Project Manager
 #. Programmer's name for it: SAskSaveProject
 #: StringResources.pas
 msgid ""
 "The active project has not been saved.  Do you want to save the changes?"
-msgstr "Il progetto corrente non è stato salvato. Vuoi salvare le modifiche?"
+msgstr "Il progetto corrente non è stato salvato. Salvare le modifiche?"
 
 #. Programmer's name for it: SFailedToBackupProject
 #: StringResources.pas
@@ -6909,7 +6956,7 @@ msgstr "Copia di backup del progetto \"%s\" fallita"
 #: StringResources.pas
 #, object-pascal-format
 msgid "Error in saving project: \"%s\"."
-msgstr "Errore nel salvataggio del progetto: \"%s\"."
+msgstr "Errore durante il salvataggio del progetto: \"%s\"."
 
 #. Programmer's name for it: SSaveProjectAs
 #: StringResources.pas
@@ -6937,7 +6984,7 @@ msgstr "È stato raggiunto il punto di inizio della ricerca"
 #: StringResources.pas
 #, object-pascal-format
 msgid "Do you want to continue %s %s?"
-msgstr "Vuoi continuare %s %s?"
+msgstr "Continuare %s %s?"
 
 #. Programmer's name for it: STheSearchAndReplace
 #: StringResources.pas
@@ -6963,13 +7010,13 @@ msgstr "dall'inizio"
 #: StringResources.pas
 #, object-pascal-format
 msgid "You reached the start %s"
-msgstr "Hai raggiunto la fine %s"
+msgstr "Hai raggiunto l'inizio %s"
 
 #. Programmer's name for it: SReachedTheEnd
 #: StringResources.pas
 #, object-pascal-format
 msgid "You reached the end %s"
-msgstr "Hai raggiunto l'inizio %s"
+msgstr "Hai raggiunto la fine %s"
 
 #. Programmer's name for it: SOfTheSelection
 #: StringResources.pas
@@ -7016,7 +7063,7 @@ msgid ""
 "A Grep search is currently active; either abort it or wait until it is "
 "finished."
 msgstr ""
-"Una ricerca Grep è attualmente attiva; interrompila oppure attendi che "
+"Una ricerca Grep è attualmente attiva; interromperla oppure attendere che "
 "termini."
 
 #. Programmer's name for it: SGrepSearchStats
@@ -7040,7 +7087,7 @@ msgstr "Impossibile caricare le linee del contesto delle corrispondenze"
 #: StringResources.pas
 #, object-pascal-format
 msgid "Processing %s"
-msgstr "Elaborazione %s"
+msgstr "Elaborazione %s in corso"
 
 #. Programmer's name for it: SFileChangedAbort
 #: StringResources.pas
@@ -7059,31 +7106,29 @@ msgstr ""
 #. Programmer's name for it: SFileSkipped
 #: StringResources.pas
 msgid "The following file will be skipped: "
-msgstr "Il file seguente sarà tralasciato:"
+msgstr "Il file seguente sarà omesso:"
 
 #. Programmer's name for it: SCouldNotBackup
 #: StringResources.pas
 #, object-pascal-format
 msgid "Could not backup file \"%s\" and will skip it"
-msgstr ""
-"Impossibile creare una copia di riserva del file \"%s\" e verrà tralasciata"
+msgstr "Impossibile creare una copia di backup del file \"%s\"; verrà tralasciata"
 
 #. Command Line Options
 #. Programmer's name for it: SParseError
 #: StringResources.pas
 msgid "Parse error at this position: "
-msgstr "Errore in questa posizione:"
+msgstr "Errore di analisi in questa posizione:"
 
 #. Programmer's name for it: SParseErrorOptions
 #: StringResources.pas
 msgid "you are not allowed to use command line options starting with -"
-msgstr ""
-"non è possibile usare opzioni della riga di comando che iniziano con -"
+msgstr "impossibile usare opzioni della riga di comando che iniziano con -"
 
 #. Programmer's name for it: SParseInvalidOptions
 #: StringResources.pas
 msgid "The following command line options are valid: \n"
-msgstr "Le seguenti opzione della riga di comando sono valide: \n"
+msgstr "Le seguenti opzioni della riga di comando sono valide: \n"
 
 #. Programmer's name for it: SCommandLineOptions
 #: StringResources.pas
@@ -7106,7 +7151,7 @@ msgstr "La directory \"%s\" non esiste"
 #. Programmer's name for it: SProcessRunning
 #: StringResources.pas
 msgid "One process is still running, stop it first."
-msgstr "Un processo è in esecuzione, prima fermalo."
+msgstr "Un processo è in esecuzione, prima arrestarlo."
 
 #. Programmer's name for it: SPrintCommandLine
 #: StringResources.pas
@@ -7129,7 +7174,7 @@ msgstr "Timeout: %d ms"
 #: StringResources.pas
 #, object-pascal-format
 msgid "The External Tool \"%s\" is still running  Do you want to terminate it?"
-msgstr "Lo strumento esterno \"%s\" è ancora in esecuzione. Vuoi interromperlo?"
+msgstr "Lo strumento esterno \"%s\" è ancora in esecuzione. Interromperlo?"
 
 #. Editor
 #. Programmer's name for it: SInsert
@@ -7167,7 +7212,7 @@ msgid ""
 msgstr ""
 "Il testo nel file \"%s\" è cambiato. \n"
 "\n"
-"Vuoi salvare le modifiche?"
+"Salvare le modifiche?"
 
 #. Programmer's name for it: SFileReloadingWarning
 #: StringResources.pas
@@ -7175,7 +7220,8 @@ msgid ""
 "Reloading the file will result in the loss of all changes.  Do you want to "
 "proceed?"
 msgstr ""
-"Ricaricare il file comporta perdita di informazione. Continuare ugualmente?"
+"Ricaricare il file comporta la perdita delle modifiche non salvate. "
+"Continuare ugualmente?"
 
 #. Programmer's name for it: SFileAlreadyOpen
 #: StringResources.pas
@@ -7183,7 +7229,7 @@ msgid ""
 "Another editor with the same file is open.  You can not have two editors "
 "with the same file."
 msgstr ""
-"Un editor è aperto con lo stesso file. Non puoi avere due editor con lo "
+"Un editor è aperto con lo stesso file. Impossibile avere due editor con lo "
 "stesso file."
 
 #. Parameters
@@ -7201,37 +7247,37 @@ msgstr "Inserisci il valore del parametro"
 #: StringResources.pas
 #, object-pascal-format
 msgid "Parameter \"%s\" is referenced circularly"
-msgstr ""
+msgstr "Il parametro \"%s\" richiama se stesso"
 
 #. Programmer's name for it: SParameterNotFound
 #: StringResources.pas
 #, object-pascal-format
 msgid "Parameter with name \"%s\" is not found"
-msgstr "Non è stato trovato un parametro con nome \"%s\""
+msgstr "Non è stato trovato alcun parametro con nome \"%s\""
 
 #. Programmer's name for it: SModifierNotFound
 #: StringResources.pas
 #, object-pascal-format
 msgid "Modifier with name \"%s\" is not found"
-msgstr "Non è stato trovato Il modificatore \"%s\" "
+msgstr "Non è stato trovato alcun modificatore con nome \"%s\" "
 
 #. Programmer's name for it: SObjectNotFound
 #: StringResources.pas
 #, object-pascal-format
 msgid "Object with name \"%s\" is not found"
-msgstr "Non è stato trovato un oggetto con nome \"%s\""
+msgstr "Non è stato trovato alcun oggetto con nome \"%s\""
 
 #. Programmer's name for it: SPropertyNotFound
 #: StringResources.pas
 #, object-pascal-format
 msgid "Object \"%s\" does not have registered property with name \"%s\""
-msgstr "L'oggetto \"%s\" no ha registrata la proprietà \"%s\""
+msgstr "L'oggetto \"%s\" non ha alcuna proprietà registrata con nome \"%s\""
 
 #. Programmer's name for it: SInvalidObjectProperty
 #: StringResources.pas
 #, object-pascal-format
 msgid "Object \"%s\" does not have property with name \"%s\""
-msgstr "L'oggetto \"%s\" non possiede la proprietà \"%s\""
+msgstr "L'oggetto \"%s\" non alcuna proprietà con nome \"%s\""
 
 #. Programmer's name for it: SInvalidParameterFormat
 #: StringResources.pas
@@ -7242,13 +7288,13 @@ msgstr "\"%s\" non è un formato di parametro valido"
 #. Programmer's name for it: SInvalidConditionFormat
 #: StringResources.pas
 msgid "Invalid condition format"
-msgstr "Formato condizione non valido"
+msgstr "Formato della condizione non valido"
 
 #. Programmer's name for it: SDuplicateModifier
 #: StringResources.pas
 #, object-pascal-format
 msgid "Duplicate Modifier \"%s\""
-msgstr "Modificatore duplicato \"%s\""
+msgstr "Modificatore \"%s\" duplicato"
 
 #. Refactoring
 #. Programmer's name for it: SCouldNotLoadModule
@@ -7265,7 +7311,7 @@ msgstr "Nessun identificatore alla riga e colonna indicata"
 #. Programmer's name for it: SCouldNotFindScope
 #: StringResources.pas
 msgid "Could not find scope for the given line"
-msgstr "Impossibile trovare il contesto per il file dato"
+msgstr "Impossibile trovare il contesto per questa riga"
 
 #. Programmer's name for it: STypeOfSIsUnknown
 #: StringResources.pas
@@ -7276,12 +7322,12 @@ msgstr "Tipo di \"%s\" sconosciuto"
 #. Programmer's name for it: SCyclicImports
 #: StringResources.pas
 msgid "Cyclic imports encountered!"
-msgstr "Incontrata importazione ciclica"
+msgstr "Riscontrata importazione ciclica"
 
 #. Programmer's name for it: SCyclicTypeDependency
 #: StringResources.pas
 msgid "Cyclic type dependency encountered!"
-msgstr ""
+msgstr "Riscontrata dipendenza ridondante dei tipi"
 
 #. Programmer's name for it: SCouldNotFindIdent
 #: StringResources.pas
@@ -7315,12 +7361,12 @@ msgstr "Impossibile trovare l'identificatore \"%s\" nel contesto \"%s\""
 #. Programmer's name for it: SRefactoryEngineBusy
 #: StringResources.pas
 msgid "Refactoring engine is busy"
-msgstr ""
+msgstr "Il motore di reinizializzazione è occupato"
 
 #. Programmer's name for it: SPythonKeyword
 #: StringResources.pas
 msgid "Python keyword"
-msgstr ""
+msgstr "Parola chiave Python"
 
 #. File Templates
 #. Programmer's name for it: SFileTemplateCategoryInternet
@@ -7336,12 +7382,12 @@ msgstr "Altro"
 #. Programmer's name for it: SCythonTemplateName
 #: StringResources.pas
 msgid "Cython Script"
-msgstr ""
+msgstr "Script Cython"
 
 #. Programmer's name for it: SCSSFileTemplateName
 #: StringResources.pas
 msgid "Cascading Style Sheet"
-msgstr "Fogli di stile"
+msgstr "Fogli di stile CSS"
 
 #. Programmer's name for it: SHTMLFileTemplateName
 #: StringResources.pas
@@ -7351,7 +7397,7 @@ msgstr "Documento HTML"
 #. Programmer's name for it: STextFileTemplateName
 #: StringResources.pas
 msgid "Text File"
-msgstr "File testo"
+msgstr "File di testo"
 
 #. Programmer's name for it: SXMLTemplateName
 #: StringResources.pas
@@ -7361,27 +7407,27 @@ msgstr "Documento XML"
 #. Programmer's name for it: SJSTemplateName
 #: StringResources.pas
 msgid "JavaScript Code"
-msgstr ""
+msgstr "Codice Javascript"
 
 #. Programmer's name for it: SPHPTemplateName
 #: StringResources.pas
 msgid "PHP Code"
-msgstr ""
+msgstr "Codice PHP"
 
 #. Programmer's name for it: SYNS_FriendlyMatchingBrace
 #: SynHighlighterPython.pas
 msgid "Matching Brace"
-msgstr ""
+msgstr "Parentesi corrispondente"
 
 #. Programmer's name for it: SYNS_FriendlyUnbalancedBrace
 #: SynHighlighterPython.pas
 msgid "Unbalanced Brace"
-msgstr ""
+msgstr "Parentesi non chiusa"
 
 #. Programmer's name for it: SYNS_FriendlyMultiLineString
 #: SynHighlighterPython.pas
 msgid "Multi-Line String"
-msgstr ""
+msgstr "Stringa multi-linea"
 
 #. Programmer's name for it: SYNS_FilterYAML
 #: SynHighlighterYAML.pas
@@ -7392,9 +7438,9 @@ msgstr "File YAML (*.yaml)|*.yaml"
 #. Programmer's name for it: SEditLinkIsNil
 #: VirtualTrees.pas
 msgid "Edit link must not be nil."
-msgstr ""
+msgstr "Il collegamento di modifica non deve essere vuoto"
 
 #. Programmer's name for it: SClipboardFailed
 #: VirtualTrees.pas
 msgid "Clipboard operation failed."
-msgstr ""
+msgstr "Operazione nel blocco degli appunti fallita."

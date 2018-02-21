@@ -1529,7 +1529,7 @@ msgstr ""
 #. fmEditorOptionsDialog..Panel1..TabControl..Display..gbLineSpacing..Label8..Caption
 #: dlgSynEditOptions.dfm
 msgid "Extra Lines:"
-msgstr ""
+msgstr "Líneas Extra:"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Display..gbLineSpacing..Label9..Caption
 #: dlgSynEditOptions.dfm
@@ -2144,7 +2144,7 @@ msgstr ""
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..cbStandardOutput....Items.Strings
 #: dlgToolProperties.dfm
 msgid "New file"
-msgstr ""
+msgstr "Nuevo archivo"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox5..Caption
 #: dlgToolProperties.dfm
@@ -6078,11 +6078,11 @@ msgstr "Reinicializar antes de ejecutar"
 
 #: dmCommands.pas
 msgid "Jump to error on exception"
-msgstr ""
+msgstr "Saltar al error en la excepción"
 
 #: dmCommands.pas
 msgid "Internal Interpreter Hidden"
-msgstr ""
+msgstr "Intérprete Interno Oculto"
 
 #: dmCommands.pas
 msgid "Initially expanded"
@@ -6166,7 +6166,7 @@ msgstr ""
 
 #: dmCommands.pas
 msgid "Check syntax as you type"
-msgstr ""
+msgstr "Evaluar sintaxis mientras escribe"
 
 #: dmCommands.pas
 msgid "Default line break format for new files"
@@ -6178,23 +6178,23 @@ msgstr ""
 
 #: dmCommands.pas
 msgid "Detect UTF-8 encoding when opening files"
-msgstr ""
+msgstr "Detectar codificación UTF-8 al abrir archivos"
 
 #: dmCommands.pas
 msgid "Auto-reload changed files"
-msgstr ""
+msgstr "Auto-recargar archivos modificados"
 
 #: dmCommands.pas
 msgid "Auto-hide find toolbar"
-msgstr ""
+msgstr "Auto-Esconder la barra de búsqueda"
 
 #: dmCommands.pas
 msgid "Highlight selected word"
-msgstr ""
+msgstr "Resaltar palabra seleccionada"
 
 #: dmCommands.pas
 msgid "Highlight color of selected word"
-msgstr ""
+msgstr "Resaltar color de la palabra seleccionada"
 
 #: dmCommands.pas
 msgid "Display package names in editor tabs"
@@ -6371,7 +6371,7 @@ msgstr "Todos los archivos|*.*|"
 #. Programmer's name for it: SNoParameters
 #: StringResources.pas
 msgid "** No/Unknown parameters **"
-msgstr ""
+msgstr "** Parámetros desconocidos/ninguno **"
 
 #. Programmer's name for it: SInvalidRegularExpression
 #: StringResources.pas
@@ -6388,7 +6388,7 @@ msgstr "(Lista Vacía)"
 #: StringResources.pas
 #, object-pascal-format
 msgid "Command Line : %s\n"
-msgstr ""
+msgstr "Línea de Comando: %s\n"
 
 #. Programmer's name for it: SEngineActive
 #: StringResources.pas
@@ -6424,6 +6424,8 @@ msgid ""
 "Error in opening file: \"%s\".\n"
 "Error: %s"
 msgstr ""
+"Error al abrir el archivo: \"%s\".\n"
+"Error: %s"
 
 #. Programmer's name for it: SFileSaveError
 #: StringResources.pas
@@ -6432,6 +6434,8 @@ msgid ""
 "Error in saving file: \"%s\".\n"
 "Error: %s"
 msgstr ""
+"Error al guardar el archivo: \"%s\".\n"
+"Error: %s"
 
 #. Programmer's name for it: SErrorGettingNamespace
 #: StringResources.pas
@@ -6443,7 +6447,7 @@ msgstr ""
 #. Programmer's name for it: SCouldNotSetCurrentDir
 #: StringResources.pas
 msgid "Could not set the current directory to the script path"
-msgstr ""
+msgstr "No se pudo establecer la carpeta actual en la ruta del script"
 
 #. Programmer's name for it: SCannotCompileWhileRunning
 #: StringResources.pas
@@ -6451,11 +6455,13 @@ msgid ""
 "You cannot compile, import or run modules while debugging or running "
 "programs"
 msgstr ""
+"No puede compilar, importar o ejecutar módulos mientras depura o ejecuta "
+"programas"
 
 #. Programmer's name for it: SErrorInImportingModule
 #: StringResources.pas
 msgid "Error in importing module"
-msgstr ""
+msgstr "Error al importar módulo"
 
 #. Programmer's name for it: SRemoteServerNotConnected
 #: StringResources.pas
@@ -6463,6 +6469,8 @@ msgid ""
 "Remote Server is not connected.  Please reinitialize or disconnect the "
 "remote  interpreter."
 msgstr ""
+"El servidor remoto no está conectado. Por favor reinicialice o desconecte el"
+" intérprete remoto."
 
 #. Programmer's name for it: SRpycNotAvailable
 #: StringResources.pas
@@ -6470,6 +6478,8 @@ msgid ""
 "The Rpyc module is not available.  To use the remote Python Engine download "
 "Rpyc from http://Rpyc.sf.net and install it."
 msgstr ""
+"El módulo Rpyc no está disponible. Para utilizar el motor Python remoto "
+"descargue Rpyc desde http://Rpyc.sf.net e instálelo."
 
 #. Programmer's name for it: SWrongRpycVersion
 #: StringResources.pas
@@ -6477,12 +6487,16 @@ msgid ""
 "Wrong Rpyc version.  To use the remote Python Engine download version 2.6 "
 "Rpyc from http://Rpyc.sf.net and install it."
 msgstr ""
+"Versión de Rpyc errónea. Para utilizar el motor Python remoto descargue la "
+"versión 2.6 de Rpyc desde http://Rpyc.sf.net e instálelo."
 
 #. Programmer's name for it: SCouldNotWriteServerFile
 #: StringResources.pas
 #, object-pascal-format
 msgid "Could not write file \"%s\" and cannot use a remote Python engine"
 msgstr ""
+"No se pudo escribir el archivo \"%s\" y no se puede usar un motor Python "
+"remoto"
 
 #. Programmer's name for it: SErrorCreatingRemoteEngine
 #: StringResources.pas
@@ -6501,7 +6515,7 @@ msgstr ""
 #. Programmer's name for it: SRemoteInterpreterInit
 #: StringResources.pas
 msgid "*** Remote Interpreter Reinitialized  ***"
-msgstr ""
+msgstr "*** Intérprete Remoto Reinicializado ***"
 
 #. Programmer's name for it: SSameName
 #: StringResources.pas
@@ -6514,6 +6528,8 @@ msgid ""
 "The template has been modified.  Do you want to update it with the new "
 "definition?"
 msgstr ""
+"La plantilla ha sido modificada. ¿Desea actualizarla con la nueva "
+"definición?"
 
 #. Programmer's name for it: SInvalidNumber
 #: StringResources.pas
@@ -6533,6 +6549,9 @@ msgid ""
 "Certain features such as remote debugging  will not function properly "
 "otherwise."
 msgstr ""
+"PyScripter necesita acceso a la carpeta AppData del usuario: \"%s\". Algunas"
+" características tales como depuración remota no funcionarán correctamente "
+"de lo contrario."
 
 #. Programmer's name for it: SNotAValidNumber
 #: StringResources.pas
@@ -6572,34 +6591,38 @@ msgstr "¡Tiene la última versión!"
 msgid ""
 "An External Tool is still running.  Do you want to terminate it and exit?"
 msgstr ""
+"Una herramienta externa todavía está ejecutándose. ¿Desea terminarlo y "
+"salir?"
 
 #. Programmer's name for it: STerminateInterpreter
 #: StringResources.pas
 msgid ""
 "The Python interpreter is busy.  Are you sure you want to terminate it?"
-msgstr ""
+msgstr "El intérprete Python está ocupado. ¿Está seguro que desea terminarlo?"
 
 #. Programmer's name for it: SFindDefinitionWarning
 #: StringResources.pas
 #, object-pascal-format
 msgid "This is the definition of \"%s\""
-msgstr ""
+msgstr "Esta es la definición de \"%s\""
 
 #. Programmer's name for it: SPlaceCursorOnName
 #: StringResources.pas
 msgid "Please place the cursor on a function/class name or identifier"
 msgstr ""
+"Por favor coloque el cursor sobre una función/nombre de clase o "
+"identificador"
 
 #. Programmer's name for it: SCannotChangeEngine
 #: StringResources.pas
 msgid "Cannot change the Python engine while it is active."
-msgstr ""
+msgstr "No se puede cambiar el motor de Python mientras está activo."
 
 #. Programmer's name for it: SCouldNotOpenOutputFile
 #: StringResources.pas
 #, object-pascal-format
 msgid "Could not open/create output file %s"
-msgstr ""
+msgstr "No se pudo abrir/crear el archivo de salida %s"
 
 #. Programmer's name for it: SUnknownPythonVersion
 #: StringResources.pas
@@ -6608,6 +6631,8 @@ msgid ""
 "PyScripter can't use command line parameter PYTHON%s because it doesn't know"
 " this version of Python."
 msgstr ""
+"PyScripter no puede usar el parámetro de línea de comand PYTHON %s porque no"
+" reconoce esta versión de Python."
 
 #. Programmer's name for it: SUnsupportedPythonVersion
 #: StringResources.pas
@@ -6616,6 +6641,8 @@ msgid ""
 "PyScripter can't use command line parameter PYTHON%s because it was compiled"
 " for Python %s or later."
 msgstr ""
+"PyScripter no puede usar el parámetro de línea de comando PYTHON %s porque "
+"fue compilado para Python %s o superior."
 
 #. Programmer's name for it: SAbortDebugging
 #: StringResources.pas
@@ -6623,6 +6650,7 @@ msgid ""
 "A debugging session is in progress.  Do you want to abort the session and "
 "Exit?"
 msgstr ""
+"Una sesión de depuración está en progreso. ¿Desea anular la sesión y Salir?"
 
 #. Programmer's name for it: SInterruptRunningScript
 #: StringResources.pas
@@ -6632,7 +6660,7 @@ msgstr ""
 #. Programmer's name for it: SNoTestsFound
 #: StringResources.pas
 msgid "No tests found!"
-msgstr ""
+msgstr "¡No se encontraron pruebas!"
 
 #. Programmer's name for it: SDuplicateKey
 #: StringResources.pas
@@ -6658,17 +6686,17 @@ msgstr ""
 #. Programmer's name for it: StrScriptRunOK
 #: StringResources.pas
 msgid "Script run OK"
-msgstr ""
+msgstr "Script ejecutado OK"
 
 #. Programmer's name for it: SDebuggingAborted
 #: StringResources.pas
 msgid "Debugging Aborted"
-msgstr ""
+msgstr "Depuración Anulada"
 
 #. Programmer's name for it: SSyntaxError
 #: StringResources.pas
 msgid "Syntax Error"
-msgstr ""
+msgstr "Error de Sintaxis"
 
 #. Programmer's name for it: StrCertainty
 #: StringResources.pas
@@ -6684,12 +6712,12 @@ msgstr "No se encontraron las referencias"
 #. Programmer's name for it: SReferencesOf
 #: StringResources.pas
 msgid "References of \""
-msgstr ""
+msgstr "Referencias de \""
 
 #. Programmer's name for it: SDefinitionsOf
 #: StringResources.pas
 msgid "Definition(s) of \""
-msgstr ""
+msgstr "Definición(es) de \""
 
 #. Programmer's name for it: SDefinitionFound
 #: StringResources.pas
@@ -6721,7 +6749,7 @@ msgstr "Continuar"
 #. Programmer's name for it: SResumeHint
 #: StringResources.pas
 msgid "Resume|Resume the running script"
-msgstr ""
+msgstr "Reanudar|Reanudar el script en ejecución"
 
 #. Programmer's name for it: SModified
 #: StringResources.pas
@@ -6736,7 +6764,7 @@ msgstr "Abrir archivo"
 #. Programmer's name for it: SSelectPythonScript
 #: StringResources.pas
 msgid "Select Python script to run"
-msgstr ""
+msgstr "Elija un script Python para ejecutar"
 
 #. Programmer's name for it: SSelectOutputFile
 #: StringResources.pas
@@ -6817,6 +6845,9 @@ msgid ""
 "The following files have been modified. Please select the files that you "
 "wish to save and press the OK button.  Press Cancel to go back to PyScripter"
 msgstr ""
+"Los siguientes archivos fueron modificados. Por favor elija los archivos que"
+" desea guardar y presione el botón Aceptar. Presione Cancelar para regresar "
+"a PyScripter"
 
 #. Programmer's name for it: SSaveAs
 #: StringResources.pas
@@ -6842,7 +6873,7 @@ msgstr "Desens&amblar"
 #. Programmer's name for it: SDisassemblyHint
 #: StringResources.pas
 msgid "Disassembly|Disassembly View"
-msgstr ""
+msgstr "Desensamblaje|Vista de desensamblaje"
 
 #. Programmer's name for it: SDisassemblyTab
 #: StringResources.pas
@@ -6852,7 +6883,7 @@ msgstr "Desensamblado"
 #. Programmer's name for it: SDocumentationHint
 #: StringResources.pas
 msgid "Documentation|Generate HTML documentation"
-msgstr ""
+msgstr "Documentación|Generar documentación HTML"
 
 #. Programmer's name for it: SDocumentation
 #: StringResources.pas
@@ -6867,7 +6898,7 @@ msgstr "Docum"
 #. Programmer's name for it: SWebPreviewHint
 #: StringResources.pas
 msgid "Web Preview|Preview HTML in browser"
-msgstr ""
+msgstr "Vista Previa Web|Previsualizar HTML en el navegador"
 
 #. Programmer's name for it: SWebPreview
 #: StringResources.pas
@@ -6883,26 +6914,26 @@ msgstr "Navegador"
 #: StringResources.pas
 #, object-pascal-format
 msgid "Error in running initialization script %s: \"%s"
-msgstr ""
+msgstr "Error al ejecutrar el script de inicialización %s:\"%s"
 
 #. Project Manager
 #. Programmer's name for it: SAskSaveProject
 #: StringResources.pas
 msgid ""
 "The active project has not been saved.  Do you want to save the changes?"
-msgstr ""
+msgstr "El proyecto actual no ha sido guardado. ¿Desea guardar los cambios?"
 
 #. Programmer's name for it: SFailedToBackupProject
 #: StringResources.pas
 #, object-pascal-format
 msgid "Failed to backup project \"%s\""
-msgstr ""
+msgstr "Falló al respaldar proyecto \"%s\""
 
 #. Programmer's name for it: SErrorInSavingProject
 #: StringResources.pas
 #, object-pascal-format
 msgid "Error in saving project: \"%s\"."
-msgstr ""
+msgstr "Error al guardar proyecto: \"%s\""
 
 #. Programmer's name for it: SSaveProjectAs
 #: StringResources.pas

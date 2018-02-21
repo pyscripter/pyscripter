@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
 "POT-Creation-Date: 2018-02-04 12:09\n"
 "PO-Revision-Date: 2018-01-23 16:26\n"
-"Last-Translator: Lübbe Onken <luebbe.opensource@gmail.com>, 2018\n"
+"Last-Translator: phil phil <phil.prost@gmail.com>, 2018\n"
 "Language-Team: French (https://www.transifex.com/luebbe/teams/82736/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -43,7 +43,7 @@ msgstr "Liens"
 #. AboutBox..SpTBXTabControl1..SpTBXTabSheet1..Panel1..Copyright..Caption
 #: dlgAboutPyScripter.dfm
 msgid "(C) Kiriakos Vlahos  2005-2018"
-msgstr ""
+msgstr "(C) Kiriakos Vlahos 2005-2018"
 
 #. AboutBox..SpTBXTabControl1..SpTBXTabSheet1..Panel1..Comments....Caption
 #: dlgAboutPyScripter.dfm
@@ -468,12 +468,12 @@ msgstr "&Assigner"
 #. frmCustomKeyboard..ActionList1..actAssignShortcut..Hint
 #: dlgCustomShortcuts.dfm
 msgid "Assign shortcut to command"
-msgstr ""
+msgstr "Associe un raccourci à la commande"
 
 #. frmCustomKeyboard..ActionList1..actRemoveShortcut..Hint
 #: dlgCustomShortcuts.dfm
 msgid "Remove shortcut"
-msgstr ""
+msgstr "Supprime un raccourci"
 
 #. DirectoryListDialog..Caption
 #: dlgDirectoryList.dfm
@@ -580,7 +580,7 @@ msgstr "&Surligneur:"
 #. FileTemplatesDialog..Panel..lvItems......Caption
 #: dlgFileTemplates.dfm
 msgid "Category"
-msgstr ""
+msgstr "Catégorie"
 
 #. FindInFilesDialog..Caption
 #: dlgFindInFiles.dfm
@@ -778,17 +778,17 @@ msgstr "Gérer les modèles de fichiers..."
 #. OptionsInspector..Panel1..Inspector..Text
 #: dlgOptionsEditor.dfm
 msgid "Inspector"
-msgstr ""
+msgstr "Inspecteur"
 
 #. OptionsInspector..Panel1..Inspector..DefaultCategoryName
 #: dlgOptionsEditor.dfm
 msgid "Miscellaneous"
-msgstr ""
+msgstr "Divers"
 
 #. OptionsInspector..Panel1..Inspector..HeaderPropText
 #: dlgOptionsEditor.dfm
 msgid "Property"
-msgstr ""
+msgstr "Propriété"
 
 #. PickListDialog..Panel2..btnSelectAll..Caption
 #. PickListDialog..PickListPopUp..mnSelectAll..Caption
@@ -957,32 +957,32 @@ msgstr "N&om de fichier:"
 #. PyIDEMainForm..actlStandard..actSelectStyle..Hint
 #: dlgStyleSelector.dfm frmPyIDEMain.dfm
 msgid "Select Style"
-msgstr ""
+msgstr "Choisit un style"
 
 #. StyleSelectorForm..Label1..Caption
 #: dlgStyleSelector.dfm
 msgid "Available Styles"
-msgstr ""
+msgstr "Styles disponibles"
 
 #. StyleSelectorForm..Label2..Caption
 #: dlgStyleSelector.dfm
 msgid "Preview"
-msgstr ""
+msgstr "Prévisualisation"
 
 #. StyleSelectorForm..Button1..Caption
 #: dlgStyleSelector.dfm
 msgid "&Apply Style"
-msgstr ""
+msgstr "&Applique le style"
 
 #. StyleSelectorForm..ActionManager1..StyleName
 #: dlgStyleSelector.dfm
 msgid "Platform Default"
-msgstr ""
+msgstr "Plateforme par défaut"
 
 #. StyleSelectorForm..ActionManager1..ActionApplyStyle..Caption
 #: dlgStyleSelector.dfm
 msgid "Apply Style"
-msgstr ""
+msgstr "Applique le style"
 
 #. fmEditorOptionsDialog..Caption
 #: dlgSynEditOptions.dfm
@@ -2962,7 +2962,7 @@ msgstr ""
 #. CommandsDataModule..actlMain..actEditAnsi..Caption
 #: dmCommands.dfm
 msgid "ANSI"
-msgstr ""
+msgstr "ANSI"
 
 #. CommandsDataModule..actlMain..actEditAnsi..Hint
 #: dmCommands.dfm
@@ -3194,12 +3194,12 @@ msgstr "Editer les fichiers d'initialisation de Pyscripter"
 #. CommandsDataModule..actlMain..actHelpWebBlog..Caption
 #: dmCommands.dfm
 msgid "&Blog"
-msgstr ""
+msgstr "&Blog"
 
 #. CommandsDataModule..actlMain..actHelpWebBlog..Hint
 #: dmCommands.dfm
 msgid "Go to the PyScripter Blog"
-msgstr ""
+msgstr "Aller vers le blog PySripter"
 
 #. CommandsDataModule..actlMain..actFoldVisible..Category
 #. CommandsDataModule..actlMain..actFoldVisible..Caption
@@ -3280,7 +3280,7 @@ msgstr ""
 #. CommandsDataModule..actlMain..actUnfoldLevel1..Caption
 #: dmCommands.dfm
 msgid "Level 1"
-msgstr ""
+msgstr "Niveau 1"
 
 #. CommandsDataModule..actlMain..actFoldLevel1..Hint
 #: dmCommands.dfm
@@ -3296,7 +3296,7 @@ msgstr ""
 #. CommandsDataModule..actlMain..actUnfoldLevel2..Caption
 #: dmCommands.dfm
 msgid "Level 2"
-msgstr ""
+msgstr "Niveau 2"
 
 #. CommandsDataModule..actlMain..actFoldLevel2..Hint
 #: dmCommands.dfm
@@ -3312,7 +3312,7 @@ msgstr ""
 #. CommandsDataModule..actlMain..actUnfoldLevel3..Caption
 #: dmCommands.dfm
 msgid "Level 3"
-msgstr ""
+msgstr "Niveau 3"
 
 #. CommandsDataModule..actlMain..actFoldLevel3..Hint
 #: dmCommands.dfm
@@ -3328,7 +3328,7 @@ msgstr ""
 #. CommandsDataModule..actlMain..actUnfoldClasses..Caption
 #: dmCommands.dfm
 msgid "Classes"
-msgstr ""
+msgstr "Classes"
 
 #. CommandsDataModule..actlMain..actFoldClasses..Hint
 #: dmCommands.dfm
@@ -3344,7 +3344,7 @@ msgstr ""
 #. CommandsDataModule..actlMain..actUnfoldFunctions..Caption
 #: dmCommands.dfm
 msgid "Functions"
-msgstr ""
+msgstr "Fonctions"
 
 #. CommandsDataModule..actlMain..actFoldFunctions..Hint
 #: dmCommands.dfm
@@ -3359,7 +3359,7 @@ msgstr ""
 #. CommandsDataModule..SynGeneralSyn..DefaultFilter
 #: dmCommands.dfm
 msgid "Text Files(*.txt,*.*)|*.txt;*.*"
-msgstr ""
+msgstr "Fichiers texte (*.txt,*.*)|*.txt;*.*"
 
 #. BreakPointsWindow..Caption
 #: frmBreakPoints.dfm
@@ -4085,7 +4085,7 @@ msgstr "Liste de fonctions"
 #. FunctionListWindow..pnHolder..lvProcs......Caption
 #: frmFunctionList.dfm
 msgid "Function"
-msgstr ""
+msgstr "Fonction"
 
 #. FunctionListWindow..pnlHeader..pnlHeaderLeft..lblMethods..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..SearchMenu..Caption
@@ -4738,12 +4738,12 @@ msgstr "Rechercher à partir du Caret"
 #. PyIDEMainForm..TBXDockTop..FindToolbar..tbiSearchOptions..tbiAutoCaseSensitive..Caption
 #: frmPyIDEMain.dfm
 msgid "&Auto Case Sensitive"
-msgstr ""
+msgstr "Sensible à la casse &Automatique"
 
 #. PyIDEMainForm..TBXDockTop..FindToolbar..tbiSearchOptions..tbiAutoCaseSensitive..Hint
 #: frmPyIDEMain.dfm
 msgid "Case Sensitive when search text contains upper case characters"
-msgstr ""
+msgstr "Sensible à la casse si la recherche contient des majuscules"
 
 #. PyIDEMainForm..TBXDockTop..FindToolbar..tbiSearchOptions..tbiCaseSensitive..Caption
 #: frmPyIDEMain.dfm
@@ -5945,6 +5945,8 @@ msgid ""
 "Tanmaya Meher (www.github.com/tanmayameher)\n"
 "jprzywoski (www.github.com/jprzywoski)\n"
 msgstr ""
+"Tanmaya Meher (www.github.com/tanmayameher)\n"
+"jprzywoski (www.github.com/jprzywoski)\n"
 
 #: dlgAboutPyScripter.pas
 msgid ""
@@ -5955,7 +5957,7 @@ msgstr ""
 
 #: dlgAboutPyScripter.pas
 msgid "Translations"
-msgstr ""
+msgstr "Traductions"
 
 #: dlgAboutPyScripter.pas
 msgid "Theme design"
@@ -5989,7 +5991,7 @@ msgstr "La fenêtre des résultats de la recherche n'est pas active"
 
 #: dlgRunConfiguration.pas dlgToolProperties.pas
 msgid "Select working directory:"
-msgstr ""
+msgstr "Choisir le répertoire de travail"
 
 #: dmCommands.pas
 msgid "IDE"
@@ -6033,7 +6035,7 @@ msgstr "Modèle de fichier pour les nouveaux scripts python"
 
 #: dmCommands.pas
 msgid "Number of recent files"
-msgstr ""
+msgstr "Nombre de fichiers récents"
 
 #. Programmer's name for it: SFileChangeNotification
 #: dmCommands.pas StringResources.pas
@@ -6238,7 +6240,7 @@ msgstr "Taille de la liste de completion de code"
 
 #: dmCommands.pas
 msgid "Editor code completion"
-msgstr ""
+msgstr "Complétion automatique de l'éditeur de code"
 
 #: dmCommands.pas
 msgid "Interpreter code completion"
@@ -6250,11 +6252,11 @@ msgstr ""
 
 #: dmCommands.pas
 msgid "Complete Python keywords"
-msgstr ""
+msgstr "Complétion des mots clefs Python"
 
 #: dmCommands.pas
 msgid "Complete as you type"
-msgstr ""
+msgstr "Complétion à la saisie"
 
 #: dmCommands.pas
 msgid "Auto completion font"
@@ -6262,11 +6264,11 @@ msgstr "Police d'auto-completion"
 
 #: dmCommands.pas
 msgid "Complete with word-break characters"
-msgstr ""
+msgstr "Complétion avec un caractère de séparation"
 
 #: dmCommands.pas
 msgid "Auto-complete with one entry"
-msgstr ""
+msgstr "Complétion automatique avec un caractère"
 
 #: dmCommands.pas
 msgid "Shell Integration"
@@ -7361,7 +7363,7 @@ msgstr ""
 #. Programmer's name for it: SPythonKeyword
 #: StringResources.pas
 msgid "Python keyword"
-msgstr ""
+msgstr "Mots clefs Python"
 
 #. File Templates
 #. Programmer's name for it: SFileTemplateCategoryInternet
@@ -7377,7 +7379,7 @@ msgstr "Autre"
 #. Programmer's name for it: SCythonTemplateName
 #: StringResources.pas
 msgid "Cython Script"
-msgstr ""
+msgstr " Script Cython"
 
 #. Programmer's name for it: SCSSFileTemplateName
 #: StringResources.pas
@@ -7422,7 +7424,7 @@ msgstr ""
 #. Programmer's name for it: SYNS_FriendlyMultiLineString
 #: SynHighlighterPython.pas
 msgid "Multi-Line String"
-msgstr ""
+msgstr "Chaîne multi-ligne"
 
 #. Programmer's name for it: SYNS_FilterYAML
 #: SynHighlighterYAML.pas
