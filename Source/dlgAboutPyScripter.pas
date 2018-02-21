@@ -64,8 +64,8 @@ uses
 resourcestring
   SAboutBoxCreditsIntro =
     'Special thanks to the many great developers who,'+
-    'with their amazing work, have made PyScripter'+
-    'possible.  PyScripter makes use of the following'+
+    'with their amazing work, have made PyScripter '+
+    'possible.  PyScripter makes use of the following '+
     'components and projects:'+ SLineBreak;
   SAboutBoxCredits =
     'Python for Delphi (www.github.com/pyscripter/python4delphi)'+ SLineBreak +
