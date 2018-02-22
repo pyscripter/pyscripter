@@ -372,9 +372,9 @@ begin
         fOutputMirror.Write(S[1], Length(S));
       end;
 
-      if GetCurrentThreadId = MainThreadId then
-        WritePendingMessages
-      else
+//      if GetCurrentThreadId = MainThreadId then
+//        WritePendingMessages
+//      else
         PostMessage(Handle, WM_APPENDTEXT, 0, 0);
     finally
       fCriticalSection.Release;

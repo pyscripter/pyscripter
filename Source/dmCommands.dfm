@@ -1269,6 +1269,18 @@ object CommandsDataModule: TCommandsDataModule
           'sys.modules['#39'__builtin__'#39'].raw_input=_II.Win32RawInput'
           'sys.modules['#39'__builtin__'#39'].input=_II.Win32Input'
           ''
+          '# write_tuple is used by the remote debugger'
+          'import types'
+          'def write_tuple(self, t):'
+          '    for i in t:'
+          '        self.write(i)'
+          ''
+          
+            'sys.stdout.write_tuple = types.MethodType(write_tuple, sys.stdou' +
+            't)'
+          'del types'
+          'del write_tuple'
+          ''
           'import os'
           'try:'
           '    sys.path.remove(os.path.dirname(sys.executable))'
@@ -1881,6 +1893,18 @@ object CommandsDataModule: TCommandsDataModule
           ''
           'sys.modules['#39'builtins'#39'].input=_II.Win32RawInput'
           ''
+          '# write_tuple is used by the remote debugger'
+          'import types'
+          'def write_tuple(self, t):'
+          '    for i in t:'
+          '        self.write(i)'
+          ''
+          
+            'sys.stdout.write_tuple = types.MethodType(write_tuple, sys.stdou' +
+            't)'
+          'del types'
+          'del write_tuple'
+          ''
           'import os'
           'try:'
           '    sys.path.remove(os.path.dirname(sys.executable))'
@@ -1943,11 +1967,10 @@ object CommandsDataModule: TCommandsDataModule
           '            return __import__('#39'bdb'#39').Bdb.canonic(self, filename)'
           ''
           '        def user_line(self, frame):'
+          '            __import__("sys").stdout.print_queue.join()'
           
             '            self.conn = object.__getattribute__(self.debugIDE, "' +
             '____conn__")()'
-          '            while len(self.conn._async_callbacks) > 0 :'
-          '                self.conn.poll_all(0.01)'
           ''
           
             '            dcNone, dcRun, dcStepInto, dcStepOver, dcStepOut, dc' +
@@ -1985,25 +2008,21 @@ object CommandsDataModule: TCommandsDataModule
             '            if (self.tracecount > 1000) and not __import__('#39'sys'#39 +
             ').stdout.writing and not __import__('#39'sys'#39').stderr.writing:'
           '                self.tracecount = 0'
-          
-            '                self.conn = object.__getattribute__(self.debugID' +
-            'E, "____conn__")()'
-          '                while len(self.conn._async_callbacks) > 0 :'
-          '                    self.conn.poll_all(0.01)'
           '                self.debugIDE.user_yield()'
           ''
           '        def dispatch_call(self, frame, arg):'
           
             '            res = __import__('#39'bdb'#39').Bdb.dispatch_call(self, fram' +
             'e, arg)'
+          '            if res:'
           
-            '            while frame is not None and frame is not self.stopfr' +
-            'ame:'
-          '                if frame is self.botframe:'
-          '                    return res'
-          '                elif self.isTraceable(frame) == 0:'
-          '                    return'
-          '                frame = frame.f_back'
+            '                while frame is not None and frame is not self.st' +
+            'opframe:'
+          '                    if frame is self.botframe:'
+          '                        return res'
+          '                    elif self.isTraceable(frame) == 0:'
+          '                        return'
+          '                    frame = frame.f_back'
           '            return res'
           ''
           '        def run(self, cmd, globals=None, locals=None):'
@@ -2053,6 +2072,7 @@ object CommandsDataModule: TCommandsDataModule
           '                if '#39'__file__'#39' in globals:'
           '                    del globals['#39'__file__'#39']'
           '                __import__("gc").collect()'
+          '                sys.stdout.print_queue.join()'
           ''
           '    class IDETestResult(__import__('#39'unittest'#39').TestResult):'
           ''
@@ -2323,6 +2343,7 @@ object CommandsDataModule: TCommandsDataModule
           '            if softspace(sys.stdout, 0):'
           '                print'
           '        sys.stdin, sys.stdout, sys.stderr = self.saveStdio'
+          '        sys.stdout.print_queue.join()'
           ''
           '    def evalcode(self, code):'
           '        # may raise exceptions'
@@ -2475,6 +2496,7 @@ object CommandsDataModule: TCommandsDataModule
           '            if '#39'__file__'#39' in globals:'
           '                del globals['#39'__file__'#39']'
           '            __import__("gc").collect()'
+          '            sys.stdout.print_queue.join()'
           ''
           '    def objecttype(self, ob):'
           '        try:'
@@ -2523,24 +2545,26 @@ object CommandsDataModule: TCommandsDataModule
           '            return '#39#39
           ''
           '    class AsyncStream(object):'
+          '        softspace=0'
+          '        encoding=None'
           '        def __init__(self, stream):'
-          '            import rpyc'
-          '            from rpyc.core.consts import HANDLE_CALL'
-          '            assert isinstance(stream, rpyc.BaseNetref)'
           '            self._stream = stream'
-          '            self.origwrite = stream.write'
-          
-            '            self.conn = object.__getattribute__(self.origwrite, ' +
-            '"____conn__")'
-          '            self.conn = self.conn()'
-          
-            '            self.oid = object.__getattribute__(self.origwrite, "' +
-            '____oid__")'
-          '            self.HANDLE_CALL = HANDLE_CALL'
           '            self.writing = False'
+          '            import Queue'
+          '            self.print_queue = Queue.Queue()'
           ''
-          '        def __getattr__(self, attr):'
-          '            return getattr(self._stream, attr)'
+          '            import threading'
+          
+            '            print_thread = threading.Thread(target = self.proces' +
+            's_print_queue)'
+          '            print_thread.daemon = True'
+          '            print_thread.start()'
+          ''
+          '##        def __getattr__(self, attr):'
+          '##            return getattr(self._stream, attr)'
+          ''
+          '        def flush(self):'
+          '            pass'
           ''
           '        def readline(self, size=None):'
           '            try:'
@@ -2549,19 +2573,30 @@ object CommandsDataModule: TCommandsDataModule
           '                raise KeyboardInterrupt, "Operation Cancelled"'
           ''
           '        def write(self, message):'
-          '            self.writing = True'
+          '            self.print_queue.put(message)'
+          ''
+          '        def process_print_queue(self):'
+          '            import time'
+          '            while True:'
+          '                time.sleep(0.2)'
+          '                l = [self.print_queue.get()]'
+          '                while not self.print_queue.empty():'
+          '                    l.append(self.print_queue.get())'
+          '                    self.print_queue.task_done()'
+          '                self.writing = True'
+          '                self._stream.write_tuple(tuple(l))'
+          '                self.writing = False'
           
-            '            self.conn._async_request(self.HANDLE_CALL, (self.oid' +
-            ', (message,), ()))'
-          '            while len(self.conn._async_callbacks) > 100 :'
-          '                self.conn.poll_all(0.01)'
-          '            self.writing = False'
+            '                # matches the first get so that join waits for w' +
+            'riting to finesh'
+          '                self.print_queue.task_done()'
+          '                l = []'
           ''
           '    def asyncIO(self):'
           '        import sys'
-          '        sys.stdin = self.AsyncStream(sys.stdin)'
-          '        sys.stdout = self.AsyncStream(sys.stdout)'
-          '        sys.stderr = self.AsyncStream(sys.stderr)'
+          
+            '        sys.stdin = sys.stderr = sys.stdout = self.AsyncStream(s' +
+            'ys.stdout)'
           ''
           '    def setupdisplayhook(self):'
           '        if pyscripter.IDEOptions.PrettyPrintOutput:'
@@ -2617,6 +2652,14 @@ object CommandsDataModule: TCommandsDataModule
         Strings.Strings = (
           'import sys'
           'import code'
+          '#import logging'
+          ''
+          '##logging.basicConfig(level=logging.DEBUG,'
+          
+            '##                    filename = "c:/users/kiriakos/desktop/test' +
+            '.log",'
+          '##                    filemode = "a",'
+          '##                    format='#39'(%(threadName)-10s) %(message)s'#39')'
           ''
           '__import__('#39'bdb'#39').__traceable__ = 0'
           '__import__('#39'rpyc'#39').core.netref.__traceable__ = 0'
@@ -2651,11 +2694,10 @@ object CommandsDataModule: TCommandsDataModule
           '            return super().stop_here(frame)'
           ''
           '        def user_line(self, frame):'
+          '            __import__("sys").stdout.print_queue.join()'
           
             '            self.conn = object.__getattribute__(self.debugIDE, "' +
             '____conn__")()'
-          '            while len(self.conn._async_callbacks) > 0 :'
-          '                self.conn.poll_all(0.01)'
           ''
           
             '            dcNone, dcRun, dcStepInto, dcStepOver, dcStepOut, dc' +
@@ -2693,24 +2735,32 @@ object CommandsDataModule: TCommandsDataModule
             '            if (self.tracecount > 1000) and not __import__('#39'sys'#39 +
             ').stdout.writing and not __import__('#39'sys'#39').stderr.writing:'
           '                self.tracecount = 0'
-          
-            '                self.conn = object.__getattribute__(self.debugID' +
-            'E, "____conn__")()'
-          '                while len(self.conn._async_callbacks) > 0 :'
-          '                    self.conn.poll_all(0.01)'
           '                self.debugIDE.user_yield()'
           ''
           '        def dispatch_call(self, frame, arg):'
           '            res = super().dispatch_call(frame, arg)'
+          '            if res:'
           
-            '            while frame is not None and frame is not self.stopfr' +
-            'ame:'
-          '                if frame is self.botframe:'
-          '                    return res'
-          '                elif self.isTraceable(frame) == 0:'
-          '                    return'
-          '                frame = frame.f_back'
+            '                #logging.debug("dispatch_call " + frame.f_code.c' +
+            'o_filename + " " + frame.f_code.co_name)'
+          
+            '                while frame is not None and frame is not self.st' +
+            'opframe:'
+          '                    if frame is self.botframe:'
+          '                        return res'
+          '                    elif self.isTraceable(frame) == 0:'
+          
+            '                        #logging.debug(frame.f_code.co_filename ' +
+            '+ " not tracebale " + frame.f_code.co_name)'
+          '                        return'
+          '                    frame = frame.f_back'
           '            return res'
+          ''
+          '##        def trace_dispatch(self, frame, event, arg):'
+          
+            '##            logging.debug(frame.f_code.co_filename + " " + eve' +
+            'nt+ " " + frame.f_code.co_name)'
+          '##            return super().trace_dispatch(frame, event, arg)'
           ''
           '        def run(self, cmd, globals=None, locals=None):'
           '            import bdb'
@@ -2759,6 +2809,7 @@ object CommandsDataModule: TCommandsDataModule
           '                if '#39'__file__'#39' in globals:'
           '                    del globals['#39'__file__'#39']'
           '                __import__("gc").collect()'
+          '                sys.stdout.print_queue.join()'
           ''
           '    class IDETestResult(__import__('#39'unittest'#39').TestResult):'
           ''
@@ -3014,6 +3065,7 @@ object CommandsDataModule: TCommandsDataModule
           '            self.showtraceback()'
           ''
           '        sys.stdin, sys.stdout, sys.stderr = self.saveStdio'
+          '        sys.stdout.print_queue.join()'
           ''
           '    def evalcode(self, code):'
           '        # may raise exceptions'
@@ -3166,6 +3218,7 @@ object CommandsDataModule: TCommandsDataModule
           '            if '#39'__file__'#39' in globals:'
           '                del globals['#39'__file__'#39']'
           '            __import__("gc").collect()'
+          '            sys.stdout.print_queue.join()'
           ''
           '    def objecttype(self, ob):'
           '        try:'
@@ -3214,23 +3267,26 @@ object CommandsDataModule: TCommandsDataModule
           '            return '#39#39
           ''
           '    class AsyncStream(object):'
+          '        #softspace=0'
+          '        encoding=None'
           '        def __init__(self, stream):'
-          '            import rpyc'
-          '            from rpyc.core.consts import HANDLE_CALL'
-          '            assert isinstance(stream, rpyc.BaseNetref)'
           '            self._stream = stream'
-          '            self.origwrite = stream.write'
-          
-            '            self.conn = object.__getattribute__(self.origwrite, ' +
-            '"____conn__")()'
-          
-            '            self.oid = object.__getattribute__(self.origwrite, "' +
-            '____oid__")'
-          '            self.HANDLE_CALL = HANDLE_CALL'
           '            self.writing = False'
+          '            import queue'
+          '            self.print_queue = queue.Queue()'
           ''
-          '        def __getattr__(self, attr):'
-          '            return getattr(self._stream, attr)'
+          '            import threading'
+          
+            '            print_thread = threading.Thread(target = self.proces' +
+            's_print_queue)'
+          '            print_thread.daemon = True'
+          '            print_thread.start()'
+          ''
+          '##        def __getattr__(self, attr):'
+          '##            return getattr(self._stream, attr)'
+          ''
+          '        def flush(self):'
+          '            pass'
           ''
           '        def readline(self, size=None):'
           '            try:'
@@ -3239,19 +3295,30 @@ object CommandsDataModule: TCommandsDataModule
           '                raise KeyboardInterrupt("Operation Cancelled")'
           ''
           '        def write(self, message):'
-          '            self.writing = True'
+          '            self.print_queue.put(message)'
+          ''
+          '        def process_print_queue(self):'
+          '            import time'
+          '            while True:'
+          '                time.sleep(0.2)'
+          '                l = [self.print_queue.get()]'
+          '                while not self.print_queue.empty():'
+          '                    l.append(self.print_queue.get())'
+          '                    self.print_queue.task_done()'
+          '                self.writing = True'
+          '                self._stream.write_tuple(tuple(l))'
+          '                self.writing = False'
           
-            '            self.conn._async_request(self.HANDLE_CALL, (self.oid' +
-            ', (message,), ()))'
-          '            while len(self.conn._async_callbacks) > 100 :'
-          '                self.conn.poll_all(0.01)'
-          '            self.writing = False'
+            '                # matches the first get so that join waits for w' +
+            'riting to finesh'
+          '                self.print_queue.task_done()'
+          '                l = []'
           ''
           '    def asyncIO(self):'
           '        import sys'
-          '        sys.stdin = self.AsyncStream(sys.stdin)'
-          '        sys.stdout = self.AsyncStream(sys.stdout)'
-          '        sys.stderr = self.AsyncStream(sys.stderr)'
+          
+            '        sys.stdin = sys.stderr = sys.stdout = self.AsyncStream(s' +
+            'ys.stdout)'
           ''
           '    def setupdisplayhook(self):'
           '        if pyscripter.IDEOptions.PrettyPrintOutput:'

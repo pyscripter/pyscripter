@@ -1677,7 +1677,7 @@ begin
   AsyncRun := fRemotePython.Rpyc.asynch(fRemotePython.Debugger.run);
   AsyncResult := AsyncRun.__call__(Code);
   GetPythonEngine.CheckError;
-  Timer := NewTimer(100);
+  Timer := NewTimer(50);
   Timer.Start(procedure
   begin
     if PyControl.DebuggerState = dsPaused then Exit;
@@ -1724,7 +1724,7 @@ begin
       with PythonIIForm do begin
         PS1 := fOldPS1;
         PS2 := fOldPS2;
-        AppendText(sLineBreak+PS1);
+        AppendPrompt;
       end;
 
       fRemotePython.CheckConnected(True, False);
