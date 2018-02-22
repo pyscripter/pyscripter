@@ -176,72 +176,6 @@ msgstr ""
 msgid "<"
 msgstr ""
 
-#. AboutBox..Panel2..PageControl..CreditsTab..ScrollBox..JvLinkLabel....Caption
-#: dlgAboutPyScripter.dfm:1548
-#. AboutBox..Panel2..PageControl..CreditsTab..ScrollBox..JvLinkLabel......Text.Strings
-#: dlgAboutPyScripter.dfm:1571
-msgid "<b>Credits</b><br>\n"
-"Special thanks to the many great developers who,\n"
-"with their amazing work, have made PyScripter \n"
-"possible.  PyScripter makes use of the following \n"
-"components and projects:\n"
-"<br>\n"
-"<br>\n"
-"- <i>Python for Delphi</i> (<link>www.mmm-experts.com</link>)\n"
-"<br>\n"
-"- <i>Rpyc</i> (<link>rpyc.sf.net</link>)\n"
-"<br>\n"
-"- <i>JVCL</i> (<link>jvcl.sf.net</link>)\n"
-"<br>\n"
-"- <i>SynEdit</i> (<link>synedit.sf.net</link>)\n"
-"<br>\n"
-"- <i>VirtualTreeView </i>(<link>www.delphi-gems.com</link>)\n"
-"<br>\n"
-"- <i>VirtualShellTools</i> (<link>www.mustangpeak.net</link>)\n"
-"<br>\n"
-"- <i>StoHtmlHelp</i> (<link>www.martinstoeckli.ch/delphi</link>)\n"
-"<br>\n"
-"- <i>GExperts</i> (<link>www.gexperts.org</link>)\n"
-"<br>\n"
-"- <i>Syn Editor</i> (<link>syn.sf.net</link>)\n"
-"<br>\n"
-"- <i>Syn Web highlighters</i> (<link>flatdev.ovh.org/</link>)\n"
-"<br>\n"
-"- <i>Toolbar2000</i> (<link>www.jrsoftware.org/tb2k.php</link>)\n"
-"<br>\n"
-"- <i>TBX </i>(<link>www.g32.org/tbx</link>)\n"
-"<br>\n"
-"- <i>Additional TBX Themes</i> (<link>www.rmklever.com</link>)\n"
-"<br>\n"
-"- <i>JvTBXLib </i>(<link>mxs.bergsoft.net</link>)\n"
-"<br>\n"
-"- <i>SpTBXLib</i>(<link>club.telepolis.com/silverpointdev</link>)\n"
-"<br>\n"
-"- <i>TntWare Unicode Controls</i>(<link>www.tntware.com</link>)\n"
-"<br>\n"
-"- <i>TCommandLineReader</i>(<link>www.benibela.de</link>)\n"
-"<br>\n"
-"- <i>Silk icons</i>(<link>www.famfamfam.com</link>)"
-msgstr ""
-
-#. AboutBox..Panel2..PageControl..TabSheet1..ScrollBox1..JvLinkLabel1....Caption
-#: dlgAboutPyScripter.dfm:1618
-#. AboutBox..Panel2..PageControl..TabSheet1..ScrollBox1..JvLinkLabel1......Text.Strings
-#: dlgAboutPyScripter.dfm:1629
-msgid "<b>Links:</b><br><br>\n"
-"-  Official releases of PyScripter are distributed by mmm-experts "
-"(<link>www.mmm-experts.com </link>)<br>\n"
-"-  Unofficial updates (recommended) are available from the PyScripter "
-"development site at <link>pyscripter.googlepages.com </link> )<br>\n"
-"- The Issue Tracker and source code repository are hosted at Google "
-"Code (<link>code.google.com/p/pyscripter</link>)<br>\n"
-"- Internet group support is avalable at "
-"<link>groups.google.com/group/PyScripter</link>)<br>\n"
-"<br>\n"
-"Please submit bug reports and questions about PyScripter to "
-"pyscripter@gmail.com."
-msgstr ""
-
 #. VariablesWindow..BGPanel..FGPanel..DocPanel..HTMLLabel..Caption
 #: frmVariables.dfm:115
 #. VariablesWindow..BGPanel..FGPanel..DocPanel..HTMLLabel....Text.Strings
@@ -1614,4 +1548,3 @@ msgstr ""
 #: SynHighlighterYAML.pas:161
 msgid "YAML"
 msgstr ""
-
