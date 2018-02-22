@@ -7,9 +7,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2018-02-04 12:09\n"
+"POT-Creation-Date: 2018-02-22 09:34\n"
 "PO-Revision-Date: 2018-01-23 16:26\n"
-"Last-Translator: Lübbe Onken <luebbe.opensource@gmail.com>, 2018\n"
+"Last-Translator: luebbe <luebbe.opensource@gmail.com>, 2018\n"
 "Language-Team: Slovak (https://www.transifex.com/luebbe/teams/82736/sk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1016,56 +1016,11 @@ msgstr ""
 msgid "Syntax Colors"
 msgstr "Farby pre zvýraznenie syntaxe"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label11..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Element:"
-msgstr "&Prvok"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label12..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Foreground Color:"
-msgstr "&Farba písma:"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label13..Caption
-#: dlgSynEditOptions.dfm
-msgid "B&ackground Color:"
-msgstr "Farba pozadia:"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label14..Caption
 #. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel1..Caption
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label14..Caption
 #: dlgSynEditOptions.dfm
 msgid "Code Sample"
 msgstr "Vzorový kód"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label15..Caption
-#: dlgSynEditOptions.dfm
-msgid "Editor Syntax Language"
-msgstr "Jazyk syntaxe editora"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..Caption
-#: dlgSynEditOptions.dfm
-msgid " Text attributes "
-msgstr "Štýl"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementBold..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Bold"
-msgstr "&Tučné"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementItalic..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Italic"
-msgstr "&Kurzíva"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementUnderline..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Underline"
-msgstr "&Podčiarknuté"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementStrikeout..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Strike Out"
-msgstr "&Preškrtnuté"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel2..Caption
 #: dlgSynEditOptions.dfm
@@ -1526,6 +1481,51 @@ msgstr "Śírka tabulátora:"
 #: dlgSynEditOptions.dfm
 msgid "Active Line Color"
 msgstr "Farba aktívneho riadka"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label11..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Element:"
+msgstr "&Prvok"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label12..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Foreground Color:"
+msgstr "&Farba písma:"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label13..Caption
+#: dlgSynEditOptions.dfm
+msgid "B&ackground Color:"
+msgstr "Farba pozadia:"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label15..Caption
+#: dlgSynEditOptions.dfm
+msgid "Editor Syntax Language"
+msgstr "Jazyk syntaxe editora"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..Caption
+#: dlgSynEditOptions.dfm
+msgid " Text attributes "
+msgstr "Štýl"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementBold..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Bold"
+msgstr "&Tučné"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementItalic..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Italic"
+msgstr "&Kurzíva"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementUnderline..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Underline"
+msgstr "&Podčiarknuté"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementStrikeout..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Strike Out"
+msgstr "&Preškrtnuté"
 
 #. PageSetupDlg..Caption
 #. DocForm..TBXDock1..TBXToolbar1..TBXItem4..Hint
@@ -2288,24 +2288,6 @@ msgstr ""
 #. CommandsDataModule..CodeTemplatesCompletion....AutoCompleteList.Strings
 #: dmCommands.dfm
 msgid "|File encoding comment"
-msgstr ""
-
-#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
-#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
-#: dmCommands.dfm
-msgid "import warnings"
-msgstr ""
-
-#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
-#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
-#: dmCommands.dfm
-msgid "warnings.simplefilter(\"ignore\", DeprecationWarning)"
-msgstr ""
-
-#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
-#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
-#: dmCommands.dfm
-msgid "del warnings"
 msgstr ""
 
 #. CommandsDataModule..actlMain..actFileSave..Category
@@ -5871,8 +5853,8 @@ msgstr "Momentálne nie je aktívny žiaden editor"
 #: dlgAboutPyScripter.pas
 msgid ""
 "Special thanks to the many great developers who,with their amazing work, "
-"have made PyScripterpossible.  PyScripter makes use of the "
-"followingcomponents and projects:\n"
+"have made PyScripter possible.  PyScripter makes use of the following "
+"components and projects:\n"
 msgstr ""
 
 #: dlgAboutPyScripter.pas
@@ -5895,13 +5877,16 @@ msgstr ""
 #: dlgAboutPyScripter.pas
 msgid ""
 "Translation manager: Lübbe Onken\n"
+"Arabic translation by Mohammed Nasman + Raouf Rahiche\n"
 "Chinese translation by \"Love China\"\n"
-"French translation by Groupe AmiensPython\n"
+"French translation by Groupe AmiensPython + Phil Prost\n"
+"German translation by Daniel Frost + Lübbe Onken\n"
+"Greek translation by Kiriakos Vlahos\n"
+"Italian translation by Vincenzo Campanella\n"
 "Japanese translation by Tokibito\n"
 "Russian translation by Aleksander Dragunkin\n"
 "Slovak translation by Marian Denes\n"
-"Spanish translation by Javier Pimas\n"
-"German translation by Daniel Frost\n"
+"Spanish translation by Javier Pimas + Victor Alberto Gil\n"
 msgstr ""
 
 #: dlgAboutPyScripter.pas

@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2018-02-04 12:09\n"
+"POT-Creation-Date: 2018-02-22 09:34\n"
 "PO-Revision-Date: 2018-01-23 16:26\n"
 "Last-Translator: luebbe <luebbe.opensource@gmail.com>, 2018\n"
 "Language-Team: German (https://www.transifex.com/luebbe/teams/82736/de/)\n"
@@ -980,7 +980,7 @@ msgstr "Plattformstandard"
 #. StyleSelectorForm..ActionManager1..ActionApplyStyle..Caption
 #: dlgStyleSelector.dfm
 msgid "Apply Style"
-msgstr ""
+msgstr "Stil anwenden"
 
 #. fmEditorOptionsDialog..Caption
 #: dlgSynEditOptions.dfm
@@ -1016,56 +1016,11 @@ msgstr "Farbthema"
 msgid "Syntax Colors"
 msgstr "Sytaxfarben"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label11..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Element:"
-msgstr "&Element"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label12..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Foreground Color:"
-msgstr "&Vordergrundfarbe"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label13..Caption
-#: dlgSynEditOptions.dfm
-msgid "B&ackground Color:"
-msgstr "&Hintergrundfarbe"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label14..Caption
 #. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel1..Caption
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label14..Caption
 #: dlgSynEditOptions.dfm
 msgid "Code Sample"
 msgstr "Code Beispiel"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label15..Caption
-#: dlgSynEditOptions.dfm
-msgid "Editor Syntax Language"
-msgstr "Editor Syntaxsprache"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..Caption
-#: dlgSynEditOptions.dfm
-msgid " Text attributes "
-msgstr "Textattribute"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementBold..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Bold"
-msgstr "&Fett"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementItalic..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Italic"
-msgstr "&Kursiv"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementUnderline..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Underline"
-msgstr "&Unterstrichen"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementStrikeout..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Strike Out"
-msgstr "&Durchgestrichen"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel2..Caption
 #: dlgSynEditOptions.dfm
@@ -1529,6 +1484,51 @@ msgstr "Tabulatorbreite:"
 #: dlgSynEditOptions.dfm
 msgid "Active Line Color"
 msgstr "Farbe der aktiven Zeile"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label11..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Element:"
+msgstr "&Element"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label12..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Foreground Color:"
+msgstr "&Vordergrundfarbe"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label13..Caption
+#: dlgSynEditOptions.dfm
+msgid "B&ackground Color:"
+msgstr "&Hintergrundfarbe"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label15..Caption
+#: dlgSynEditOptions.dfm
+msgid "Editor Syntax Language"
+msgstr "Editor Syntaxsprache"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..Caption
+#: dlgSynEditOptions.dfm
+msgid " Text attributes "
+msgstr "Textattribute"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementBold..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Bold"
+msgstr "&Fett"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementItalic..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Italic"
+msgstr "&Kursiv"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementUnderline..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Underline"
+msgstr "&Unterstrichen"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementStrikeout..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Strike Out"
+msgstr "&Durchgestrichen"
 
 #. PageSetupDlg..Caption
 #. DocForm..TBXDock1..TBXToolbar1..TBXItem4..Hint
@@ -2298,24 +2298,6 @@ msgstr "|Python Klasse"
 #: dmCommands.dfm
 msgid "|File encoding comment"
 msgstr "|Zeichencodierungskommentar"
-
-#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
-#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
-#: dmCommands.dfm
-msgid "import warnings"
-msgstr ""
-
-#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
-#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
-#: dmCommands.dfm
-msgid "warnings.simplefilter(\"ignore\", DeprecationWarning)"
-msgstr ""
-
-#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
-#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
-#: dmCommands.dfm
-msgid "del warnings"
-msgstr ""
 
 #. CommandsDataModule..actlMain..actFileSave..Category
 #. CommandsDataModule..actlMain..actFileSaveAs..Category
@@ -5889,9 +5871,11 @@ msgstr "Es ist momentan kein Editor aktiv"
 #: dlgAboutPyScripter.pas
 msgid ""
 "Special thanks to the many great developers who,with their amazing work, "
-"have made PyScripterpossible.  PyScripter makes use of the "
-"followingcomponents and projects:\n"
+"have made PyScripter possible.  PyScripter makes use of the following "
+"components and projects:\n"
 msgstr ""
+"Besonderer Dank an die vielen tollen Entwickler, die mit ihrer großartigen Arbeit PyScripter möglich gemacht haben.\n"
+"PyScripter verwendet folgende Komponenten und Projekte:\n"
 
 #: dlgAboutPyScripter.pas
 msgid ""
@@ -5926,22 +5910,28 @@ msgstr ""
 #: dlgAboutPyScripter.pas
 msgid ""
 "Translation manager: Lübbe Onken\n"
+"Arabic translation by Mohammed Nasman + Raouf Rahiche\n"
 "Chinese translation by \"Love China\"\n"
-"French translation by Groupe AmiensPython\n"
+"French translation by Groupe AmiensPython + Phil Prost\n"
+"German translation by Daniel Frost + Lübbe Onken\n"
+"Greek translation by Kiriakos Vlahos\n"
+"Italian translation by Vincenzo Campanella\n"
 "Japanese translation by Tokibito\n"
 "Russian translation by Aleksander Dragunkin\n"
 "Slovak translation by Marian Denes\n"
-"Spanish translation by Javier Pimas\n"
-"German translation by Daniel Frost\n"
+"Spanish translation by Javier Pimas + Victor Alberto Gil\n"
 msgstr ""
 "Übersetzungsmanager: Lübbe Onken\n"
-"Chinesisch Übersetzung: \"Love China\"\n"
-"Französisch Übersetzung: Groupe AmiensPython\n"
+"Arabische Übersetzung: Mohammed Nasman + Raouf Rahiche\n"
+"Chinesische Übersetzung: \"Love China\"\n"
+"Französische Übersetzung: Groupe AmiensPython + Phil Prost\n"
+"Deutsche Übersetzung: Daniel Frost +Lübbe Onken\n"
+"Griechische Übersetzung: Kiriakos Vlahos\n"
+"Italienische Übersetzung: Vincenzo Campanella\n"
 "Japanische Übersetzung: Tokibito\n"
 "Russische Übersetzung: Aleksander Dragunkin\n"
 "Slowakische Übersetzung: Marian Denes\n"
-"Spanische Übersetzung: Javier Pimas\n"
-"Deutsche Übersetzung: Daniel Frost, Lübbe Onken\n"
+"Spanische Übersetzung: Javier Pimas + Victor Alberto Gil\n"
 
 #: dlgAboutPyScripter.pas
 msgid ""
@@ -6210,7 +6200,7 @@ msgstr "Gewähltes Wort hervorheben"
 
 #: dmCommands.pas
 msgid "Highlight color of selected word"
-msgstr ""
+msgstr "Farbe für die Hervorhebung"
 
 #: dmCommands.pas
 msgid "Display package names in editor tabs"
@@ -6222,11 +6212,11 @@ msgstr ""
 
 #: dmCommands.pas
 msgid "Code folding enabled by default"
-msgstr ""
+msgstr "Codefaltung standardmäßig aktiv"
 
 #: dmCommands.pas
 msgid "Code folding options"
-msgstr ""
+msgstr "Optionen für die Codefaltung"
 
 #: dmCommands.pas
 msgid "Compact Line Numbers"
@@ -7419,7 +7409,7 @@ msgstr "Zugehörige Klammer"
 #. Programmer's name for it: SYNS_FriendlyUnbalancedBrace
 #: SynHighlighterPython.pas
 msgid "Unbalanced Brace"
-msgstr ""
+msgstr "Unsymmetrische Klammer"
 
 #. Programmer's name for it: SYNS_FriendlyMultiLineString
 #: SynHighlighterPython.pas

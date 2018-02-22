@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2018-02-04 12:09\n"
+"POT-Creation-Date: 2018-02-22 09:34\n"
 "PO-Revision-Date: 2018-01-23 16:26\n"
 "Last-Translator: raouf rahiche <rraouf30@gmail.com>, 2018\n"
 "Language-Team: Arabic (https://www.transifex.com/luebbe/teams/82736/ar/)\n"
@@ -188,7 +188,7 @@ msgstr "&قالب"
 #. CodeTemplates..Panel..GroupBox..Label5..Caption
 #: dlgCodeTemplates.dfm
 msgid "&Description:"
-msgstr "&الوصف"
+msgstr "الو&صف"
 
 #. CodeTemplates..Panel..GroupBox..Label4..Caption
 #. CustomizeParams..Panel..Label4..Caption
@@ -1010,55 +1010,10 @@ msgstr ""
 msgid "Syntax Colors"
 msgstr "الوان تركيب الجملة"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label11..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Element:"
-msgstr ""
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label12..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Foreground Color:"
-msgstr ""
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label13..Caption
-#: dlgSynEditOptions.dfm
-msgid "B&ackground Color:"
-msgstr ""
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label14..Caption
 #. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel1..Caption
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label14..Caption
 #: dlgSynEditOptions.dfm
 msgid "Code Sample"
-msgstr ""
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label15..Caption
-#: dlgSynEditOptions.dfm
-msgid "Editor Syntax Language"
-msgstr "محرر تركيب الجملة"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..Caption
-#: dlgSynEditOptions.dfm
-msgid " Text attributes "
-msgstr ""
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementBold..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Bold"
-msgstr "&غامق"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementItalic..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Italic"
-msgstr "&مائل"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementUnderline..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Underline"
-msgstr ""
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementStrikeout..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Strike Out"
 msgstr ""
 
 #. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel2..Caption
@@ -1503,6 +1458,51 @@ msgstr ""
 #. fmEditorOptionsDialog..Panel1..TabControl..Display..GroupBox2..Caption
 #: dlgSynEditOptions.dfm
 msgid "Active Line Color"
+msgstr ""
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label11..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Element:"
+msgstr ""
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label12..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Foreground Color:"
+msgstr ""
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label13..Caption
+#: dlgSynEditOptions.dfm
+msgid "B&ackground Color:"
+msgstr ""
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label15..Caption
+#: dlgSynEditOptions.dfm
+msgid "Editor Syntax Language"
+msgstr "محرر تركيب الجملة"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..Caption
+#: dlgSynEditOptions.dfm
+msgid " Text attributes "
+msgstr ""
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementBold..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Bold"
+msgstr "&غامق"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementItalic..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Italic"
+msgstr "&مائل"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementUnderline..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Underline"
+msgstr ""
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementStrikeout..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Strike Out"
 msgstr ""
 
 #. PageSetupDlg..Caption
@@ -2252,24 +2252,6 @@ msgstr "| صنف بايثون"
 #. CommandsDataModule..CodeTemplatesCompletion....AutoCompleteList.Strings
 #: dmCommands.dfm
 msgid "|File encoding comment"
-msgstr ""
-
-#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
-#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
-#: dmCommands.dfm
-msgid "import warnings"
-msgstr "تحذيرات الاستيراد"
-
-#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
-#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
-#: dmCommands.dfm
-msgid "warnings.simplefilter(\"ignore\", DeprecationWarning)"
-msgstr ""
-
-#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
-#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
-#: dmCommands.dfm
-msgid "del warnings"
 msgstr ""
 
 #. CommandsDataModule..actlMain..actFileSave..Category
@@ -3078,7 +3060,7 @@ msgstr ""
 #. CommandsDataModule..actlMain..actSearchGoToDebugLine..Caption
 #: dmCommands.dfm
 msgid "Go To &Debugger Position"
-msgstr ""
+msgstr "إذهب إلى مكان المنقح"
 
 #. CommandsDataModule..actlMain..actSearchGoToDebugLine..Hint
 #: dmCommands.dfm
@@ -3093,17 +3075,17 @@ msgstr ""
 #. CommandsDataModule..actlMain..actHelpWebProjectHome..Hint
 #: dmCommands.dfm
 msgid "Go to the project home page"
-msgstr ""
+msgstr "إذهب إلى صفحة المشروع الرئيسية"
 
 #. CommandsDataModule..actlMain..actHelpWebGroupSupport..Caption
 #: dmCommands.dfm
 msgid "&Group Support"
-msgstr ""
+msgstr "&دعم المجموعة"
 
 #. CommandsDataModule..actlMain..actHelpWebGroupSupport..Hint
 #: dmCommands.dfm
 msgid "Go to the PyScripter Internet group"
-msgstr ""
+msgstr "إذهب إلى مجموعة الإنترنت الخاصة ببايسكربتر "
 
 #. CommandsDataModule..actlMain..actFileCloseAllOther..Caption
 #: dmCommands.dfm
@@ -3113,7 +3095,7 @@ msgstr ""
 #. CommandsDataModule..actlMain..actFileCloseAllOther..Hint
 #: dmCommands.dfm
 msgid "Close all files except the active one"
-msgstr ""
+msgstr "اغلق جميع الملفات ما عدا النشط"
 
 #. CommandsDataModule..actlMain..actEditCopyFileName..Caption
 #: dmCommands.dfm
@@ -3123,7 +3105,7 @@ msgstr "نسخ اسم الملف"
 #. CommandsDataModule..actlMain..actEditCopyFileName..Hint
 #: dmCommands.dfm
 msgid "Copy file name of active file to clipboard"
-msgstr ""
+msgstr "انسخ اسم الملف النشط الى الحافظة"
 
 #. CommandsDataModule..actlMain..actToolsEditStartupScripts..Caption
 #: dmCommands.dfm
@@ -3138,12 +3120,12 @@ msgstr ""
 #. CommandsDataModule..actlMain..actHelpWebBlog..Caption
 #: dmCommands.dfm
 msgid "&Blog"
-msgstr ""
+msgstr "@مدونة"
 
 #. CommandsDataModule..actlMain..actHelpWebBlog..Hint
 #: dmCommands.dfm
 msgid "Go to the PyScripter Blog"
-msgstr ""
+msgstr "اذهب الى مدونة بايسكربتر"
 
 #. CommandsDataModule..actlMain..actFoldVisible..Category
 #. CommandsDataModule..actlMain..actFoldVisible..Caption
@@ -3176,7 +3158,7 @@ msgstr ""
 #. CommandsDataModule..actlMain..actUnfoldAll..Caption
 #: dmCommands.dfm
 msgid "All"
-msgstr ""
+msgstr "الجميع"
 
 #. CommandsDataModule..actlMain..actFoldAll..Hint
 #: dmCommands.dfm
@@ -3192,7 +3174,7 @@ msgstr ""
 #. CommandsDataModule..actlMain..actUnfoldNearest..Caption
 #: dmCommands.dfm
 msgid "Nearest"
-msgstr ""
+msgstr "الأقرب"
 
 #. CommandsDataModule..actlMain..actFoldNearest..Hint
 #: dmCommands.dfm
@@ -3224,7 +3206,7 @@ msgstr ""
 #. CommandsDataModule..actlMain..actUnfoldLevel1..Caption
 #: dmCommands.dfm
 msgid "Level 1"
-msgstr ""
+msgstr "مستوى 1"
 
 #. CommandsDataModule..actlMain..actFoldLevel1..Hint
 #: dmCommands.dfm
@@ -3240,7 +3222,7 @@ msgstr ""
 #. CommandsDataModule..actlMain..actUnfoldLevel2..Caption
 #: dmCommands.dfm
 msgid "Level 2"
-msgstr ""
+msgstr "مستوى 2"
 
 #. CommandsDataModule..actlMain..actFoldLevel2..Hint
 #: dmCommands.dfm
@@ -3256,7 +3238,7 @@ msgstr ""
 #. CommandsDataModule..actlMain..actUnfoldLevel3..Caption
 #: dmCommands.dfm
 msgid "Level 3"
-msgstr ""
+msgstr "مستوى 3"
 
 #. CommandsDataModule..actlMain..actFoldLevel3..Hint
 #: dmCommands.dfm
@@ -3272,7 +3254,7 @@ msgstr ""
 #. CommandsDataModule..actlMain..actUnfoldClasses..Caption
 #: dmCommands.dfm
 msgid "Classes"
-msgstr ""
+msgstr "الأصناف"
 
 #. CommandsDataModule..actlMain..actFoldClasses..Hint
 #: dmCommands.dfm
@@ -3288,7 +3270,7 @@ msgstr ""
 #. CommandsDataModule..actlMain..actUnfoldFunctions..Caption
 #: dmCommands.dfm
 msgid "Functions"
-msgstr ""
+msgstr "الدوال"
 
 #. CommandsDataModule..actlMain..actFoldFunctions..Hint
 #: dmCommands.dfm
@@ -3308,7 +3290,7 @@ msgstr ""
 #. BreakPointsWindow..Caption
 #: frmBreakPoints.dfm
 msgid "Breakpoints"
-msgstr ""
+msgstr "نقاط التوقف"
 
 #. BreakPointsWindow..BGPanel..FGPanel..BreakPointsView......WideText
 #. CallStackWindow..BGPanel..FGPanel..CallStackView......WideText
@@ -3326,40 +3308,40 @@ msgstr "اسم الملف"
 #: frmBreakPoints.dfm frmCallStack.dfm frmFunctionList.dfm frmMessages.dfm
 #: frmToDo.dfm
 msgid "Line"
-msgstr ""
+msgstr "سطر"
 
 #. BreakPointsWindow..BGPanel..FGPanel..BreakPointsView......WideText
 #: frmBreakPoints.dfm
 msgid "Condition"
-msgstr ""
+msgstr "شرط"
 
 #. BreakPointsWindow..TBXPopupMenu..mnSetCondition..Caption
 #: frmBreakPoints.dfm
 msgid "Set &Condition..."
-msgstr ""
+msgstr "ضع &شرط..."
 
 #. BreakPointsWindow..TBXPopupMenu..mnClear..Caption
 #: frmBreakPoints.dfm
 msgid "C&lear"
-msgstr ""
+msgstr "م&سح"
 
 #. BreakPointsWindow..TBXPopupMenu..mnClear..Hint
 #: frmBreakPoints.dfm
 msgid "Clear|Clear selected breakpoint"
-msgstr ""
+msgstr "مسح |مسح نقطة التوقف المختارة"
 
 #. BreakPointsWindow..TBXPopupMenu..mnCopyToClipboard..Caption
 #. MessagesWindow..MsgsActionList..actCopyToClipboard..Caption
 #. WatchesWindow..TBXPopupMenu..mnCopyToClipboard..Caption
 #: frmBreakPoints.dfm frmMessages.dfm frmWatches.dfm
 msgid "Co&py to Clipboard"
-msgstr ""
+msgstr "@نسخ إلى الحافظة"
 
 #. BreakPointsWindow..TBXPopupMenu..mnCopyToClipboard..Hint
 #. WatchesWindow..TBXPopupMenu..mnCopyToClipboard..Hint
 #: frmBreakPoints.dfm frmWatches.dfm
 msgid "Copy to clipboard"
-msgstr ""
+msgstr "نسخ إلى الحافظة"
 
 #. CallStackWindow..Caption
 #: frmCallStack.dfm
@@ -3370,7 +3352,7 @@ msgstr ""
 #. Programmer's name for it: SYNS_FriendlyFunctionName
 #: frmCallStack.dfm SynHighlighterPython.pas
 msgid "Function Name"
-msgstr ""
+msgstr "اسم الدالة"
 
 #. CallStackWindow..actlCallStack..actPreviousFrame..Category
 #. CallStackWindow..actlCallStack..actNextFrame..Category
@@ -3402,65 +3384,65 @@ msgstr ""
 #. PyIDEMainForm..actlStandard..actPostMortem..Category
 #: frmCallStack.dfm frmPyIDEMain.dfm
 msgid "Run"
-msgstr ""
+msgstr "تشغيل"
 
 #. CallStackWindow..actlCallStack..actPreviousFrame..Caption
 #: frmCallStack.dfm
 msgid "Previous Frame"
-msgstr ""
+msgstr "الإطار السابق"
 
 #. CallStackWindow..actlCallStack..actPreviousFrame..Hint
 #: frmCallStack.dfm
 msgid "Select previous (older) frame"
-msgstr ""
+msgstr "اختر الإطار السابق (الأقدم)"
 
 #. CallStackWindow..actlCallStack..actNextFrame..Caption
 #: frmCallStack.dfm
 msgid "Next Frame"
-msgstr ""
+msgstr "الإطار التالي"
 
 #. CallStackWindow..actlCallStack..actNextFrame..Hint
 #: frmCallStack.dfm
 msgid "Select next (newer) frame"
-msgstr ""
+msgstr "اختر الإطار التالي (الأحدث)"
 
 #. CodeExplorerWindow..Caption
 #: frmCodeExplorer.dfm dmCommands.pas
 msgid "Code Explorer"
-msgstr ""
+msgstr "مستكشف الكود"
 
 #. CodeExplorerWindow..CEPopupMenu..mnExpandAll..Caption
 #. ProjectExplorerWindow..ProjectActionList..actProjectExpandAll..Caption
 #: frmCodeExplorer.dfm frmProjectExplorer.dfm
 msgid "&Expand All"
-msgstr ""
+msgstr "&توسيع الكل"
 
 #. CodeExplorerWindow..CEPopupMenu..mnExpandAll..Hint
 #: frmCodeExplorer.dfm
 msgid "Expand all nodes"
-msgstr ""
+msgstr "توسيع جميع العقد"
 
 #. CodeExplorerWindow..CEPopupMenu..nCollapseAll..Caption
 #. ProjectExplorerWindow..ProjectActionList..actProjectCollapseAll..Caption
 #. UnitTestWindow..DialogActions..actCollapseAll..Caption
 #: frmCodeExplorer.dfm frmProjectExplorer.dfm frmUnitTests.dfm
 msgid "&Collapse All"
-msgstr ""
+msgstr "&طوي الجميع"
 
 #. CodeExplorerWindow..CEPopupMenu..nCollapseAll..Hint
 #: frmCodeExplorer.dfm
 msgid "Collapse all nodes"
-msgstr ""
+msgstr "طوي جميع النقاط"
 
 #. CodeExplorerWindow..CEPopupMenu..mnAlphaSort..Caption
 #: frmCodeExplorer.dfm
 msgid "Alpha Sort"
-msgstr ""
+msgstr "ترتيب أبجدي"
 
 #. CodeExplorerWindow..CEPopupMenu..mnAlphaSort..Hint
 #: frmCodeExplorer.dfm
 msgid "Sort Alphabetically"
-msgstr ""
+msgstr "رتب ابجدياً"
 
 #. CodeExplorerWindow..CEPopupMenu..mnFollowEditor..Caption
 #: frmCodeExplorer.dfm
@@ -3512,23 +3494,23 @@ msgstr ""
 #. OutputWindow..OutputActions..actCopy..Caption
 #: frmCommandOutput.dfm
 msgid "Co&py"
-msgstr ""
+msgstr "&نسخ"
 
 #. OutputWindow..OutputActions..actCopy..Hint
 #. MessagesWindow..MsgsActionList..actCopyToClipboard..Hint
 #: frmCommandOutput.dfm frmMessages.dfm
 msgid "Copy contents to Clipboard"
-msgstr ""
+msgstr "نسخ المحتوى الى الحافظة"
 
 #. OutputWindow..OutputActions..actOutputFont..Caption
 #: frmCommandOutput.dfm
 msgid "Font..."
-msgstr ""
+msgstr "الخط..."
 
 #. OutputWindow..OutputActions..actOutputFont..Hint
 #: frmCommandOutput.dfm
 msgid "Select font"
-msgstr ""
+msgstr "اختر خط"
 
 #. OutputWindow..OutputActions..actClearOutput..Caption
 #. RegExpTesterWindow..BGPanel..FGPanel..TBXDock..RegExpTesterToolbar..TiClear..Caption
@@ -3539,12 +3521,12 @@ msgstr "مسح"
 #. OutputWindow..OutputActions..actClearOutput..Hint
 #: frmCommandOutput.dfm
 msgid "Clear output"
-msgstr ""
+msgstr "مسح المخرجات"
 
 #. OutputWindow..OutputActions..actToolTerminate..Caption
 #: frmCommandOutput.dfm
 msgid "&Terminate"
-msgstr ""
+msgstr "&إنهاء قسري"
 
 #. OutputWindow..OutputActions..actToolTerminate..Hint
 #: frmCommandOutput.dfm
@@ -3554,7 +3536,7 @@ msgstr ""
 #. OutputWindow..OutputActions..actToolClose..Hint
 #: frmCommandOutput.dfm
 msgid "Close running tool"
-msgstr ""
+msgstr "اغلق الاداة الشغالة"
 
 #. OutputWindow..OutputActions..actToolQuit..Caption
 #: frmCommandOutput.dfm
@@ -4372,12 +4354,12 @@ msgstr ""
 #. PyIDEMainForm..actlStandard..actDebug..Caption
 #: frmProjectExplorer.dfm frmPyIDEMain.dfm
 msgid "&Debug"
-msgstr ""
+msgstr "&نقح"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectDebug..Hint
 #: frmProjectExplorer.dfm
 msgid "Debug the selected configuration"
-msgstr ""
+msgstr "نقح حسب  الإعدادات المختارة"
 
 #. PyIDEMainForm..StatusBar..StatusLED..Hint
 #: frmPyIDEMain.dfm
@@ -4399,13 +4381,13 @@ msgstr "اختر ملف"
 #. PyIDEMainForm..BGPanel..TabControl2..tbiScrollLeft2..Hint
 #: frmPyIDEMain.dfm
 msgid "Scroll left"
-msgstr ""
+msgstr "مرر لليمين"
 
 #. PyIDEMainForm..BGPanel..TabControl1..tbiScrollRight..Hint
 #. PyIDEMainForm..BGPanel..TabControl2..tbiScrollRight2..Hint
 #: frmPyIDEMain.dfm
 msgid "Scroll right"
-msgstr ""
+msgstr "مرر لليسار"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..FileMenu..Caption
 #: frmPyIDEMain.dfm
@@ -4415,7 +4397,7 @@ msgstr "&ملف"
 #. PyIDEMainForm..TBXDockTop..MainMenu..FileMenu..TBXSubmenuItem5..Caption
 #: frmPyIDEMain.dfm
 msgid "New"
-msgstr ""
+msgstr "جديد"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..FileMenu..RecentSubmenu..Caption
 #: frmPyIDEMain.dfm
@@ -4425,7 +4407,7 @@ msgstr "الملفات المستخدمة حديثا"
 #. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..TBXSubmenuItem3..Caption
 #: frmPyIDEMain.dfm
 msgid "File Format"
-msgstr ""
+msgstr "صيغة الملف"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..Caption
 #: frmPyIDEMain.dfm
@@ -4455,17 +4437,17 @@ msgstr "شريط الأدوات ال&رئيسي"
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnuToolbars..mnMainToolbarVisibilityToggle..Hint
 #: frmPyIDEMain.dfm
 msgid "Main toolbar|Show/Hide the Main toolbar"
-msgstr ""
+msgstr "شريط الأدوات الرئيسي | عرض / اخفاء شريط الأدوات الرئيسي"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnuToolbars..mnDebugtoolbarVisibilityToggle..Caption
 #: frmPyIDEMain.dfm
 msgid "&Debug Toolbar"
-msgstr ""
+msgstr "&شريط التنقيح"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnuToolbars..mnDebugtoolbarVisibilityToggle..Hint
 #: frmPyIDEMain.dfm
 msgid "Debug toolbar|Show/Hide the Debug toolbar"
-msgstr ""
+msgstr "شريط التنقيح | عرض / اخفاء شريط التنقيح"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnuToolbars..mnEditorToolbarVisibilityToggle..Caption
 #: frmPyIDEMain.dfm
@@ -4475,7 +4457,7 @@ msgstr "شريط المحر&ر"
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnuToolbars..mnEditorToolbarVisibilityToggle..Hint
 #: frmPyIDEMain.dfm
 msgid "Editor toolbar|Show/Hide the Editor toolbar"
-msgstr ""
+msgstr "شريط المحرر | عرض / اخفاء شريط المحرر"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnuToolbars..mnViewToolbarVisibilityToggle..Caption
 #: frmPyIDEMain.dfm
@@ -4485,7 +4467,7 @@ msgstr "&عرض شريط الأدوات"
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnuToolbars..mnViewToolbarVisibilityToggle..Hint
 #: frmPyIDEMain.dfm
 msgid "View toolbar|Show/Hide the View toolbar"
-msgstr ""
+msgstr "عرض شريط الأدوات | عرض / اخفاء شريط الأدوات"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnuToolbars..mnuUserToolbarVisibilityToggle..Caption
 #: frmPyIDEMain.dfm
@@ -4495,7 +4477,7 @@ msgstr "&شريط أدوات المستخدم"
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnuToolbars..mnuUserToolbarVisibilityToggle..Hint
 #: frmPyIDEMain.dfm
 msgid "User toolbar|Show/Hide the User toolbar"
-msgstr ""
+msgstr "شريط أدوات المستخدم | عرض / اخفاء شريط أدوات المستخدم"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..TBXSubmenuItem4..Caption
 #: frmPyIDEMain.dfm
@@ -4505,12 +4487,12 @@ msgstr "&نوافذ بيئة التطوير"
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..DebugWindows1..Caption
 #: frmPyIDEMain.dfm
 msgid "&Debug Windows"
-msgstr ""
+msgstr "&نوافذ المنقح"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..TBXSubmenuItem6..Caption
 #: frmPyIDEMain.dfm
 msgid "&Navigate"
-msgstr ""
+msgstr "&أبحر"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnSyntax..Caption
 #: frmPyIDEMain.dfm
@@ -4537,31 +4519,31 @@ msgstr "اللغة"
 #. PyIDEMainForm..TBXDockTop..ViewToolbar..tbiViewLayouts..Hint
 #: frmPyIDEMain.dfm
 msgid "Layouts"
-msgstr ""
+msgstr "المخططات"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnLayouts..TBXItem47..Caption
 #. PyIDEMainForm..actlStandard..actLayoutSave..Caption
 #: frmPyIDEMain.dfm
 msgid "Save Layout..."
-msgstr ""
+msgstr "حفظ المخطط..."
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnLayouts..TBXItem47..Hint
 #. PyIDEMainForm..actlStandard..actLayoutSave..Hint
 #: frmPyIDEMain.dfm
 msgid "Save Current Layout"
-msgstr ""
+msgstr "احفظ المخطط الحالي"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnLayouts..TBXItem48..Caption
 #. PyIDEMainForm..actlStandard..actLayoutsDelete..Caption
 #: frmPyIDEMain.dfm
 msgid "Delete Layouts..."
-msgstr ""
+msgstr "حذف المخططات..."
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnLayouts..TBXItem48..Hint
 #. PyIDEMainForm..actlStandard..actLayoutsDelete..Hint
 #: frmPyIDEMain.dfm
 msgid "Delete a layout"
-msgstr ""
+msgstr "حذف مخطط"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnLayouts..TBXItem49..Caption
 #. PyIDEMainForm..actlStandard..actLayoutDebug..Caption
@@ -4573,7 +4555,7 @@ msgstr ""
 #. PyIDEMainForm..actlStandard..actLayoutDebug..Hint
 #: frmPyIDEMain.dfm
 msgid "Set the current layout as the debug layout"
-msgstr ""
+msgstr "حفظ المخطط الحالي كمخطط التنقيح"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnLayouts..mnMaximizeEditor..Caption
 #. PyIDEMainForm..actlStandard..actMaximizeEditor..Caption
@@ -5832,11 +5814,9 @@ msgstr ""
 #: dlgAboutPyScripter.pas
 msgid ""
 "Special thanks to the many great developers who,with their amazing work, "
-"have made PyScripterpossible.  PyScripter makes use of the "
-"followingcomponents and projects:\n"
+"have made PyScripter possible.  PyScripter makes use of the following "
+"components and projects:\n"
 msgstr ""
-"شكر خاص لكل المطورين العظماء، والذين من خلال عملهم الرائع جعلو من بايسكربتر "
-"ممكناً، بايسكربتر يقوم بإستخدام هذه المكونات في المشروع:\n"
 
 #: dlgAboutPyScripter.pas
 msgid ""
@@ -5871,22 +5851,17 @@ msgstr ""
 #: dlgAboutPyScripter.pas
 msgid ""
 "Translation manager: Lübbe Onken\n"
+"Arabic translation by Mohammed Nasman + Raouf Rahiche\n"
 "Chinese translation by \"Love China\"\n"
-"French translation by Groupe AmiensPython\n"
+"French translation by Groupe AmiensPython + Phil Prost\n"
+"German translation by Daniel Frost + Lübbe Onken\n"
+"Greek translation by Kiriakos Vlahos\n"
+"Italian translation by Vincenzo Campanella\n"
 "Japanese translation by Tokibito\n"
 "Russian translation by Aleksander Dragunkin\n"
 "Slovak translation by Marian Denes\n"
-"Spanish translation by Javier Pimas\n"
-"German translation by Daniel Frost\n"
+"Spanish translation by Javier Pimas + Victor Alberto Gil\n"
 msgstr ""
-"Translation manager: Lübbe Onken\n"
-"Chinese translation by \"Love China\"\n"
-"French translation by Groupe AmiensPython\n"
-"Japanese translation by Tokibito\n"
-"Russian translation by Aleksander Dragunkin\n"
-"Slovak translation by Marian Denes\n"
-"Spanish translation by Javier Pimas\n"
-"German translation by Daniel Frost\n"
 
 #: dlgAboutPyScripter.pas
 msgid ""
@@ -6460,7 +6435,7 @@ msgstr ""
 #. Programmer's name for it: SSameName
 #: StringResources.pas
 msgid "Another item has the same name"
-msgstr ""
+msgstr "يوجد عنصر أخر بنفس الإسم"
 
 #. Programmer's name for it: SCodeTemplateModified
 #: StringResources.pas
@@ -6472,7 +6447,7 @@ msgstr ""
 #. Programmer's name for it: SInvalidNumber
 #: StringResources.pas
 msgid "Invalid number!"
-msgstr ""
+msgstr "رقم غير صحيح!"
 
 #. Programmer's name for it: SEmptyTokenTextError
 #: StringResources.pas
@@ -6497,13 +6472,13 @@ msgstr ""
 #. Programmer's name for it: SEnterLineNumber
 #: StringResources.pas
 msgid "Enter line number:"
-msgstr ""
+msgstr "ادخل رقم السطر:"
 
 #. Programmer's name for it: SFileRenamedOrDeleted
 #: StringResources.pas
 #, object-pascal-format
 msgid "%s has been renamed or deleted."
-msgstr ""
+msgstr "%s قد تغير اسمه أو حذف."
 
 #. Programmer's name for it: SRegistryAccessDenied
 #: StringResources.pas
@@ -6518,7 +6493,7 @@ msgstr "حصل خطأ اثناء التحميل"
 #. Programmer's name for it: SCurrentVersionUptodate
 #: StringResources.pas
 msgid "Current version is up-to-date!"
-msgstr ""
+msgstr "الإصدار الحالي هو الأحدث"
 
 #. Programmer's name for it: SKillExternalTool
 #: StringResources.pas
@@ -6541,7 +6516,7 @@ msgstr ""
 #. Programmer's name for it: SPlaceCursorOnName
 #: StringResources.pas
 msgid "Please place the cursor on a function/class name or identifier"
-msgstr ""
+msgstr "يرجى وضع المؤشر عند اسم الدالة / الصنف أو المتغير"
 
 #. Programmer's name for it: SCannotChangeEngine
 #: StringResources.pas
@@ -6575,12 +6550,12 @@ msgstr ""
 msgid ""
 "A debugging session is in progress.  Do you want to abort the session and "
 "Exit?"
-msgstr ""
+msgstr "جلسة التنقيح تحت العمل، هل تريد احباط الجلسة والخروج؟"
 
 #. Programmer's name for it: SInterruptRunningScript
 #: StringResources.pas
 msgid "The Python Script has timed out.  Do you want to interrupt it?"
-msgstr ""
+msgstr "أنتهت مدة تنفيذ سكريبت البايثون،  هل تريد مقاطعته؟"
 
 #. Programmer's name for it: SNoTestsFound
 #: StringResources.pas
@@ -6608,12 +6583,12 @@ msgstr ""
 #. Programmer's name for it: StrScriptRunOK
 #: StringResources.pas
 msgid "Script run OK"
-msgstr ""
+msgstr "السكريبت يعمل بشكل صحيح."
 
 #. Programmer's name for it: SDebuggingAborted
 #: StringResources.pas
 msgid "Debugging Aborted"
-msgstr ""
+msgstr "تم احباط التنقيح"
 
 #. Programmer's name for it: SSyntaxError
 #: StringResources.pas
@@ -6712,7 +6687,7 @@ msgstr "فتح المشروغ"
 #: StringResources.pas
 #, object-pascal-format
 msgid "Apply %s layout"
-msgstr ""
+msgstr "تطبيق مخطط %s "
 
 #. Programmer's name for it: SUseSyntax
 #: StringResources.pas
@@ -6729,12 +6704,12 @@ msgstr ""
 #. Programmer's name for it: SSaveCurrentLayout
 #: StringResources.pas
 msgid "Save current Layout"
-msgstr ""
+msgstr "حفظ المخطط الحالي"
 
 #. Programmer's name for it: SLayoutName
 #: StringResources.pas
 msgid "Layout Name:"
-msgstr ""
+msgstr "اسم المخطط:"
 
 #. Programmer's name for it: SEditBreakpointCond
 #: StringResources.pas
@@ -6744,12 +6719,12 @@ msgstr ""
 #. Programmer's name for it: SEnterPythonExpression
 #: StringResources.pas
 msgid "Enter Python expression:"
-msgstr ""
+msgstr "ادخل "
 
 #. Programmer's name for it: SDeleteLayouts
 #: StringResources.pas
 msgid "Delete Layouts"
-msgstr ""
+msgstr "حذف المخططات"
 
 #. Programmer's name for it: SSelectLayouts
 #: StringResources.pas
@@ -6759,7 +6734,7 @@ msgstr ""
 #. Programmer's name for it: SSaveModifiedFiles
 #: StringResources.pas
 msgid "Save modified files"
-msgstr ""
+msgstr "حفظ الملفات المعدلة"
 
 #. Programmer's name for it: SSelectModifiedFiles
 #: StringResources.pas
@@ -6772,7 +6747,7 @@ msgstr ""
 #: StringResources.pas
 #, object-pascal-format
 msgid "Save \"%s\" As"
-msgstr ""
+msgstr "حفظ \"%s\" كـ"
 
 #. Programmer's name for it: SSaveFileAs
 #: StringResources.pas

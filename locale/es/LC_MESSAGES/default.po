@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2018-02-04 12:09\n"
+"POT-Creation-Date: 2018-02-22 09:34\n"
 "PO-Revision-Date: 2018-01-23 16:26\n"
 "Last-Translator: Victor Alberto Gil <vhanla@gmail.com>, 2018\n"
 "Language-Team: Spanish (https://www.transifex.com/luebbe/teams/82736/es/)\n"
@@ -1018,56 +1018,11 @@ msgstr "Esquema de Colores"
 msgid "Syntax Colors"
 msgstr "Colores de resaltado de sintaxis"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label11..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Element:"
-msgstr "&Elemento"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label12..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Foreground Color:"
-msgstr "Color de letra"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label13..Caption
-#: dlgSynEditOptions.dfm
-msgid "B&ackground Color:"
-msgstr "Color de fondo"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label14..Caption
 #. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel1..Caption
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label14..Caption
 #: dlgSynEditOptions.dfm
 msgid "Code Sample"
 msgstr "Ejemplo de Código"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label15..Caption
-#: dlgSynEditOptions.dfm
-msgid "Editor Syntax Language"
-msgstr "Idioma del Editor de Sintaxis"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..Caption
-#: dlgSynEditOptions.dfm
-msgid " Text attributes "
-msgstr "Atributos del texto"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementBold..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Bold"
-msgstr "&Negrita"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementItalic..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Italic"
-msgstr "&Cursiva"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementUnderline..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Underline"
-msgstr "S&ubrayado"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementStrikeout..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Strike Out"
-msgstr "Tac&hado"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel2..Caption
 #: dlgSynEditOptions.dfm
@@ -1540,6 +1495,51 @@ msgstr "Ancho de Tabulación:"
 #: dlgSynEditOptions.dfm
 msgid "Active Line Color"
 msgstr ""
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label11..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Element:"
+msgstr "&Elemento"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label12..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Foreground Color:"
+msgstr "Color de letra"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label13..Caption
+#: dlgSynEditOptions.dfm
+msgid "B&ackground Color:"
+msgstr "Color de fondo"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label15..Caption
+#: dlgSynEditOptions.dfm
+msgid "Editor Syntax Language"
+msgstr "Idioma del Editor de Sintaxis"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..Caption
+#: dlgSynEditOptions.dfm
+msgid " Text attributes "
+msgstr "Atributos del texto"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementBold..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Bold"
+msgstr "&Negrita"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementItalic..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Italic"
+msgstr "&Cursiva"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementUnderline..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Underline"
+msgstr "S&ubrayado"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementStrikeout..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Strike Out"
+msgstr "Tac&hado"
 
 #. PageSetupDlg..Caption
 #. DocForm..TBXDock1..TBXToolbar1..TBXItem4..Hint
@@ -2288,24 +2288,6 @@ msgstr ""
 #. CommandsDataModule..CodeTemplatesCompletion....AutoCompleteList.Strings
 #: dmCommands.dfm
 msgid "|File encoding comment"
-msgstr ""
-
-#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
-#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
-#: dmCommands.dfm
-msgid "import warnings"
-msgstr ""
-
-#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
-#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
-#: dmCommands.dfm
-msgid "warnings.simplefilter(\"ignore\", DeprecationWarning)"
-msgstr ""
-
-#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
-#. CommandsDataModule..JvMultiStringHolder........Strings.Strings
-#: dmCommands.dfm
-msgid "del warnings"
 msgstr ""
 
 #. CommandsDataModule..actlMain..actFileSave..Category
@@ -5883,12 +5865,9 @@ msgstr "Ningún editor está activo actualmente"
 #: dlgAboutPyScripter.pas
 msgid ""
 "Special thanks to the many great developers who,with their amazing work, "
-"have made PyScripterpossible.  PyScripter makes use of the "
-"followingcomponents and projects:\n"
+"have made PyScripter possible.  PyScripter makes use of the following "
+"components and projects:\n"
 msgstr ""
-"Agradecimientos especiales a todos los desarrolladores, que con su magnífico"
-" trabajo, han hecho posible el desarrollo de PyScripter. PyScripter utiliza "
-"los siguientes componentes y proyectos:\n"
 
 #: dlgAboutPyScripter.pas
 msgid ""
@@ -5923,13 +5902,16 @@ msgstr ""
 #: dlgAboutPyScripter.pas
 msgid ""
 "Translation manager: Lübbe Onken\n"
+"Arabic translation by Mohammed Nasman + Raouf Rahiche\n"
 "Chinese translation by \"Love China\"\n"
-"French translation by Groupe AmiensPython\n"
+"French translation by Groupe AmiensPython + Phil Prost\n"
+"German translation by Daniel Frost + Lübbe Onken\n"
+"Greek translation by Kiriakos Vlahos\n"
+"Italian translation by Vincenzo Campanella\n"
 "Japanese translation by Tokibito\n"
 "Russian translation by Aleksander Dragunkin\n"
 "Slovak translation by Marian Denes\n"
-"Spanish translation by Javier Pimas\n"
-"German translation by Daniel Frost\n"
+"Spanish translation by Javier Pimas + Victor Alberto Gil\n"
 msgstr ""
 
 #: dlgAboutPyScripter.pas

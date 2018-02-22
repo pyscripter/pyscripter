@@ -53,7 +53,7 @@ msgstr "Kabylisch"
 
 #. Language of Portugal, Europe
 msgid "Portuguese"
-msgstr "Portugisisch"
+msgstr "Portugiesisch"
 
 #. Language of Russia
 msgid "Russian"
