@@ -65,7 +65,7 @@ resourcestring
   SAboutBoxCreditsIntro =
     'Special thanks to the many great developers who,'+
     'with their amazing work, have made PyScripter '+
-    'possible.  PyScripter makes use of the following '+
+    'possible. PyScripter makes use of the following '+
     'components and projects:'+ SLineBreak;
   SAboutBoxCredits =
     'Python for Delphi (www.github.com/pyscripter/python4delphi)'+ SLineBreak +
@@ -82,33 +82,72 @@ resourcestring
     'TCommandLineReader(www.benibela.de)'+ SLineBreak +
     'Silk icons(www.famfamfam.com)'+ SLineBreak;
 
-  SAboutBoxCreditsTranslations =
-    'Translation manager: Lübbe Onken'+ SLineBreak +
-    'Arabic translation by Mohammed Nasman + Raouf Rahiche'+ SLineBreak +
-    'Chinese translation by "Love China"'+ SLineBreak +
-    'French translation by Groupe AmiensPython + Phil Prost'+ SLineBreak +
-    'German translation by Daniel Frost + Lübbe Onken'+ SLineBreak +
-    'Greek translation by Kiriakos Vlahos'+ SLineBreak +
-    'Italian translation by Vincenzo Campanella'+ SLineBreak +
-    'Japanese translation by Tokibito'+ SLineBreak +
-    'Russian translation by Aleksander Dragunkin'+ SLineBreak +
-    'Slovak translation by Marian Denes'+ SLineBreak +
-    'Spanish translation by Javier Pimas + Victor Alberto Gil'+ SLineBreak;
+  SAboutBoxCreditsTranslationArabic  = 'Arabic: %s';
+  SAboutBoxCreditsTranslationChinese = 'Chinese: %s';
+  SAboutBoxCreditsTranslationFrench  = 'French: %s';
+  SAboutBoxCreditsTranslationGerman  = 'German: %s';
+  SAboutBoxCreditsTranslationGreek   = 'Greek: %s';
+  SAboutBoxCreditsTranslationItalian = 'Italian: %s';
+  SAboutBoxCreditsTranslationJapanese = 'Japanese: %s';
+  SAboutBoxCreditsTranslationKabyle = 'Taqbaylit: %s';
+  SAboutBoxCreditsTranslationPortugueseBR = 'Portuguese (Brazil): %s';
+  SAboutBoxCreditsTranslationPortuguesePT = 'Portuguese (Portugal): %s';
+  SAboutBoxCreditsTranslationRussian = 'Russian: %s';
+  SAboutBoxCreditsTranslationSlovak  = 'Slovak: %s';
+  SAboutBoxCreditsTranslationSpanish = 'Spanish: %s';
 
-   SAboutBoxCreditsThemeDesign =
-     'Tanmaya Meher (www.github.com/tanmayameher)'+ SLineBreak +
-     'jprzywoski (www.github.com/jprzywoski)'+ SLineBreak;
+  SAboutBoxCreditsThemeDesign =
+    'Tanmaya Meher (www.github.com/tanmayameher)'+ SLineBreak +
+    'jprzywoski (www.github.com/jprzywoski)'+ SLineBreak;
 
-   SAboutBoxLinks =
+  SAboutBoxLinks =
     'The project home, Issue Tracker and source code repository are hosted at Github (www.github.com/pyscripter/pyscripter)'+
-    SLineBreak+
+  SLineBreak+
     'Internet group support is available at https://groups.google.com/group/PyScripter'+
-    SLineBreak +
+  SLineBreak +
     'Please submit bug reports and questions about PyScripter to pyscripter@gmail.com.';
 
 const
   AURL_ENABLEURL = 1;
   AURL_ENABLEEAURLS = 8;
+
+type
+  // in alphabetical order of the full English languages names!!
+  // not in order of the gettext abbreviations.
+  ECreditLanguages = (ar,zh,fr,de,el,it,ja,kab,pt_BR,pt_PT,ru,sk,es);
+
+const
+  cAboutLanguages : array[ECreditLanguages] of string = (
+    SAboutBoxCreditsTranslationArabic,
+    SAboutBoxCreditsTranslationChinese,
+    SAboutBoxCreditsTranslationFrench,
+    SAboutBoxCreditsTranslationGerman,
+    SAboutBoxCreditsTranslationGreek,
+    SAboutBoxCreditsTranslationItalian,
+    SAboutBoxCreditsTranslationJapanese,
+    SAboutBoxCreditsTranslationKabyle,
+    SAboutBoxCreditsTranslationPortugueseBR,
+    SAboutBoxCreditsTranslationPortuguesePT,
+    SAboutBoxCreditsTranslationRussian,
+    SAboutBoxCreditsTranslationSlovak,
+    SAboutBoxCreditsTranslationSpanish
+  );
+  cAboutTranslationManager = 'Lübbe Onken';
+  cAboutTranslators : array[ECreditLanguages] of string = (
+    'Mohammed Nasman, Raouf Rahiche',
+    '"Love China"',
+    'Groupe AmiensPython, Phil Prost',
+    'Daniel Frost, Lübbe Onken',
+    'Kiriakos Vlahos',
+    'Vincenzo Campanella',
+    'Tokibito',
+    'Mohammed Belkacem',
+    'Eric Szczepanik',
+    'Gustavo Carreno',
+    'Aleksander Dragunkin, Andrei Aleksandrov, Dmitry Arefiev',
+    'Marian Denes',
+    'Javier Pimas, Victor Alberto Gil'
+  );
 
 procedure TRichEdit.CreateWnd;
 var
@@ -173,6 +212,8 @@ end;
 procedure TAboutBox.FormCreate(Sender: TObject);
 Var
   winplatform : string;
+  AboutBoxCreditsTranslations : string;
+  Language : ECreditLanguages;
 begin
   {$IFDEF WIN64}
   winplatform := 'x64';
@@ -192,9 +233,19 @@ begin
   reCredits.Paragraph.Numbering := nsBullet;
   AddFormatText(reCredits,SAboutBoxCredits);
   reCredits.Paragraph.Numbering := nsNone;
-  AddFormatText(reCredits,_('Translations') + ':' + SLineBreak, [fsItalic]);
+  AddFormatText(reCredits,_('Translation manager') + ':' + SLineBreak, [fsItalic]);
   reCredits.Paragraph.Numbering := nsBullet;
-  AddFormatText(reCredits,SAboutBoxCreditsTranslations);
+  AddFormatText(reCredits,cAboutTranslationManager);
+
+  reCredits.Paragraph.Numbering := nsNone;
+  AddFormatText(reCredits,_('Translators') + ':' + SLineBreak, [fsItalic]);
+
+  for Language := Low(ECreditLanguages) to High(ECreditLanguages) do
+    AboutBoxCreditsTranslations := AboutBoxCreditsTranslations +
+      Format(cAboutLanguages[Language],[cAboutTranslators[Language]]) + sLineBreak;
+  reCredits.Paragraph.Numbering := nsBullet;
+  AddFormatText(reCredits,AboutBoxCreditsTranslations);
+
   reCredits.Paragraph.Numbering := nsNone;
   AddFormatText(reCredits,_('Theme design') + ':' + SLineBreak, [fsItalic]);
   reCredits.Paragraph.Numbering := nsBullet;
