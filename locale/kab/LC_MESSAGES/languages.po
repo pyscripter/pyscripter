@@ -51,7 +51,11 @@ msgid "Taqbaylit"
 msgstr ""
 
 #. Language of Portugal, Europe
-msgid "Portuguese"
+msgid "Portuguese (Portugal)"
+msgstr ""
+
+#. Language of Portugal, Brazil
+msgid "Portuguese (Brazil)"
 msgstr ""
 
 #. Language of Russia

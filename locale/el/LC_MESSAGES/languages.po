@@ -19,7 +19,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid "Arabic"
-msgstr ""
+msgstr "Αραβικά"
 
 msgid "Chinese"
 msgstr "Κινέζικα"
@@ -52,8 +52,12 @@ msgid "Taqbaylit"
 msgstr "Γλώσσα Kabyle"
 
 #. Language of Portugal, Europe
-msgid "Portuguese"
-msgstr "Πορτογαλικά"
+msgid "Portuguese (Portugal)"
+msgstr "Πορτογαλικά (Πορτογαλία)"
+
+#. Language of Portugal, Brazil
+msgid "Portuguese (Brazil)"
+msgstr "Πορτογαλικά (Βραζιλία)"
 
 #. Language of Russia
 msgid "Russian"

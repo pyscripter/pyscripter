@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2018-02-22 09:34\n"
+"POT-Creation-Date: 2018-02-23 09:42\n"
 "PO-Revision-Date: 2018-01-23 16:26\n"
 "Last-Translator: phil phil <phil.prost@gmail.com>, 2018\n"
 "Language-Team: French (https://www.transifex.com/luebbe/teams/82736/fr/)\n"
@@ -5889,7 +5889,7 @@ msgstr "Aucun éditeur n'est actuellement actif"
 #: dlgAboutPyScripter.pas
 msgid ""
 "Special thanks to the many great developers who,with their amazing work, "
-"have made PyScripter possible.  PyScripter makes use of the following "
+"have made PyScripter possible. PyScripter makes use of the following "
 "components and projects:\n"
 msgstr ""
 
@@ -5910,19 +5910,82 @@ msgid ""
 "Silk icons(www.famfamfam.com)\n"
 msgstr ""
 
+#. Programmer's name for it: SAboutBoxCreditsTranslationArabic
 #: dlgAboutPyScripter.pas
-msgid ""
-"Translation manager: Lübbe Onken\n"
-"Arabic translation by Mohammed Nasman + Raouf Rahiche\n"
-"Chinese translation by \"Love China\"\n"
-"French translation by Groupe AmiensPython + Phil Prost\n"
-"German translation by Daniel Frost + Lübbe Onken\n"
-"Greek translation by Kiriakos Vlahos\n"
-"Italian translation by Vincenzo Campanella\n"
-"Japanese translation by Tokibito\n"
-"Russian translation by Aleksander Dragunkin\n"
-"Slovak translation by Marian Denes\n"
-"Spanish translation by Javier Pimas + Victor Alberto Gil\n"
+#, object-pascal-format
+msgid "Arabic: %s"
+msgstr ""
+
+#. Programmer's name for it: SAboutBoxCreditsTranslationChinese
+#: dlgAboutPyScripter.pas
+#, object-pascal-format
+msgid "Chinese: %s"
+msgstr ""
+
+#. Programmer's name for it: SAboutBoxCreditsTranslationFrench
+#: dlgAboutPyScripter.pas
+#, object-pascal-format
+msgid "French: %s"
+msgstr ""
+
+#. Programmer's name for it: SAboutBoxCreditsTranslationGerman
+#: dlgAboutPyScripter.pas
+#, object-pascal-format
+msgid "German: %s"
+msgstr ""
+
+#. Programmer's name for it: SAboutBoxCreditsTranslationGreek
+#: dlgAboutPyScripter.pas
+#, object-pascal-format
+msgid "Greek: %s"
+msgstr ""
+
+#. Programmer's name for it: SAboutBoxCreditsTranslationItalian
+#: dlgAboutPyScripter.pas
+#, object-pascal-format
+msgid "Italian: %s"
+msgstr ""
+
+#. Programmer's name for it: SAboutBoxCreditsTranslationJapanese
+#: dlgAboutPyScripter.pas
+#, object-pascal-format
+msgid "Japanese: %s"
+msgstr ""
+
+#. Programmer's name for it: SAboutBoxCreditsTranslationKabyle
+#: dlgAboutPyScripter.pas
+#, object-pascal-format
+msgid "Taqbaylit: %s"
+msgstr ""
+
+#. Programmer's name for it: SAboutBoxCreditsTranslationPortugueseBR
+#: dlgAboutPyScripter.pas
+#, object-pascal-format
+msgid "Portuguese (Brazil): %s"
+msgstr ""
+
+#. Programmer's name for it: SAboutBoxCreditsTranslationPortuguesePT
+#: dlgAboutPyScripter.pas
+#, object-pascal-format
+msgid "Portuguese (Portugal): %s"
+msgstr ""
+
+#. Programmer's name for it: SAboutBoxCreditsTranslationRussian
+#: dlgAboutPyScripter.pas
+#, object-pascal-format
+msgid "Russian: %s"
+msgstr ""
+
+#. Programmer's name for it: SAboutBoxCreditsTranslationSlovak
+#: dlgAboutPyScripter.pas
+#, object-pascal-format
+msgid "Slovak: %s"
+msgstr ""
+
+#. Programmer's name for it: SAboutBoxCreditsTranslationSpanish
+#: dlgAboutPyScripter.pas
+#, object-pascal-format
+msgid "Spanish: %s"
 msgstr ""
 
 #: dlgAboutPyScripter.pas
@@ -5941,8 +6004,12 @@ msgid ""
 msgstr ""
 
 #: dlgAboutPyScripter.pas
-msgid "Translations"
-msgstr "Traductions"
+msgid "Translation manager"
+msgstr ""
+
+#: dlgAboutPyScripter.pas
+msgid "Translators"
+msgstr ""
 
 #: dlgAboutPyScripter.pas
 msgid "Theme design"

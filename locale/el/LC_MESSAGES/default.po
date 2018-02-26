@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2018-02-22 09:34\n"
+"POT-Creation-Date: 2018-02-23 09:42\n"
 "PO-Revision-Date: 2018-01-23 16:26\n"
 "Last-Translator: Kiriakos Vlahos <pyscripter@gmail.com>, 2018\n"
 "Language-Team: Greek (https://www.transifex.com/luebbe/teams/82736/el/)\n"
@@ -980,7 +980,7 @@ msgstr ""
 #. StyleSelectorForm..ActionManager1..ActionApplyStyle..Caption
 #: dlgStyleSelector.dfm
 msgid "Apply Style"
-msgstr ""
+msgstr "Εφαρμογή Στυλ"
 
 #. fmEditorOptionsDialog..Caption
 #: dlgSynEditOptions.dfm
@@ -2204,7 +2204,7 @@ msgstr ""
 #. ToolProperties..FormatsPopup..Columnnumber1..Caption
 #: dlgToolProperties.dfm
 msgid "Column number"
-msgstr ""
+msgstr "Γραμμή στήλης"
 
 #. ToolProperties..FormatsPopup..Columnnumber1..Hint
 #: dlgToolProperties.dfm
@@ -2278,7 +2278,7 @@ msgstr ""
 #. CommandsDataModule..CodeTemplatesCompletion....AutoCompleteList.Strings
 #: dmCommands.dfm
 msgid "|Python application"
-msgstr ""
+msgstr "Εφαρμογή IPython"
 
 #. CommandsDataModule..CodeTemplatesCompletion....AutoCompleteList.Strings
 #: dmCommands.dfm
@@ -2288,7 +2288,7 @@ msgstr ""
 #. CommandsDataModule..CodeTemplatesCompletion....AutoCompleteList.Strings
 #: dmCommands.dfm
 msgid "|File encoding comment"
-msgstr ""
+msgstr "|Σχόλιο κωδικοποίησης αρχείου"
 
 #. CommandsDataModule..actlMain..actFileSave..Category
 #. CommandsDataModule..actlMain..actFileSaveAs..Category
@@ -2933,7 +2933,7 @@ msgstr "ANSI"
 #. CommandsDataModule..actlMain..actEditAnsi..Hint
 #: dmCommands.dfm
 msgid "Use ANSI encoding"
-msgstr ""
+msgstr "Χρήση κωδικοποίησης ANSI"
 
 #. CommandsDataModule..actlMain..actHelpEditorShortcuts..Caption
 #: dmCommands.dfm
@@ -2964,6 +2964,8 @@ msgstr "Αυτόματος Οδηγός &Μοναδιαίων Ελέγχων..."
 #: dmCommands.dfm
 msgid "Unit test wizard|Create unit test for active module"
 msgstr ""
+"Αυτόματος οδηγός μοναδιαίων ελέγχων|Δημιουργία μοναδιαίων ελέγχων για το "
+"ενεργό αρχείο κώδικα"
 
 #. CommandsDataModule..actlMain..actInterpreterEditorOptions..Caption
 #: dmCommands.dfm
@@ -3003,17 +3005,17 @@ msgstr "Χρήση UTF-8 κωδικοποίησης κατά την αποθήκ
 #. CommandsDataModule..actlMain..actEditUTF8NoBOM..Hint
 #: dmCommands.dfm
 msgid "Use UTF-8 encoding without BOM"
-msgstr ""
+msgstr "Χρήση UTF-8 κωδικοποίησης χωρίς BOM"
 
 #. CommandsDataModule..actlMain..actEditUTF16LE..Hint
 #: dmCommands.dfm
 msgid "Use UTF-16LE encoding"
-msgstr ""
+msgstr "Χρήση κωδικοποίησης UTF-16LE"
 
 #. CommandsDataModule..actlMain..actEditUTF16BE..Hint
 #: dmCommands.dfm
 msgid "Use UTF-16BE encoding"
-msgstr ""
+msgstr "Χρήση κωδικοποίησης UTF-16BE"
 
 #. CommandsDataModule..actlMain..actFileReload..Caption
 #: dmCommands.dfm
@@ -3158,12 +3160,12 @@ msgstr ""
 #. CommandsDataModule..actlMain..actHelpWebBlog..Caption
 #: dmCommands.dfm
 msgid "&Blog"
-msgstr ""
+msgstr "&Ιστολόγιο"
 
 #. CommandsDataModule..actlMain..actHelpWebBlog..Hint
 #: dmCommands.dfm
 msgid "Go to the PyScripter Blog"
-msgstr ""
+msgstr "Μετάβαση στο Ιστολόγιο του PyScripter"
 
 #. CommandsDataModule..actlMain..actFoldVisible..Category
 #. CommandsDataModule..actlMain..actFoldVisible..Caption
@@ -3190,7 +3192,7 @@ msgstr "Σύμπτυξη Κώδικα"
 #. CommandsDataModule..actlMain..actFoldVisible..Hint
 #: dmCommands.dfm
 msgid "Show/Hide Code Folding"
-msgstr ""
+msgstr "Εμφάνιση/Απόκρυψη Σύμπτυξης Κώδικα"
 
 #. CommandsDataModule..actlMain..actFoldAll..Caption
 #. CommandsDataModule..actlMain..actUnfoldAll..Caption
@@ -3522,7 +3524,7 @@ msgstr ""
 #. CodeExplorerWindow..CENodePopUpMenu..mnHighlight..Hint
 #: frmCodeExplorer.dfm
 msgid "Highlight References"
-msgstr ""
+msgstr "Τονισμός Αναφορών"
 
 #. OutputWindow..OutputPopup..RunningProcess..Caption
 #: frmCommandOutput.dfm
@@ -3678,12 +3680,12 @@ msgstr "&Πηγαίος Κώδικας"
 #. EditorForm..pmnuEditor..mnFold..Caption
 #: frmEditor.dfm
 msgid "Fold"
-msgstr ""
+msgstr "Σύμπτυξη"
 
 #. EditorForm..pmnuEditor..mnUnfold..Caption
 #: frmEditor.dfm
 msgid "UnFold"
-msgstr ""
+msgstr "Ανάπτυξη"
 
 #. FileExplorerWindow..Caption
 #. FileExplorerWindow..BGPanel..FGPanel..FileExplorerTree..ShellContextSubMenuCaption
@@ -4422,13 +4424,13 @@ msgstr "Επιλογή αρχείου"
 #. PyIDEMainForm..BGPanel..TabControl2..tbiScrollLeft2..Hint
 #: frmPyIDEMain.dfm
 msgid "Scroll left"
-msgstr ""
+msgstr "Μετακίνηση αριστερά"
 
 #. PyIDEMainForm..BGPanel..TabControl1..tbiScrollRight..Hint
 #. PyIDEMainForm..BGPanel..TabControl2..tbiScrollRight2..Hint
 #: frmPyIDEMain.dfm
 msgid "Scroll right"
-msgstr ""
+msgstr "Μετακίνηση δεξιά"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..FileMenu..Caption
 #: frmPyIDEMain.dfm
@@ -4634,7 +4636,7 @@ msgstr "&Έργο"
 #. PyIDEMainForm..TBXDockTop..MainMenu..ProjectMenu..SpTBXSubmenuItem1..Caption
 #: frmPyIDEMain.dfm
 msgid "&Recent Projects"
-msgstr ""
+msgstr "&Πρόσφατα Έργα"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ToolsMenu..Caption
 #: frmPyIDEMain.dfm
@@ -4664,7 +4666,7 @@ msgstr "Διαδικτυακή Υποστήριξη"
 #. PyIDEMainForm..TBXDockTop..MainToolBar..Caption
 #: frmPyIDEMain.dfm
 msgid "Main Toolbar"
-msgstr ""
+msgstr "Κύρια Γραμμή Εργαλείων"
 
 #. PyIDEMainForm..TBXDockTop..DebugToolbar..Caption
 #: frmPyIDEMain.dfm
@@ -5863,7 +5865,7 @@ msgstr "Κανένα αρχείο δεν είναι ενεργό"
 #: dlgAboutPyScripter.pas
 msgid ""
 "Special thanks to the many great developers who,with their amazing work, "
-"have made PyScripter possible.  PyScripter makes use of the following "
+"have made PyScripter possible. PyScripter makes use of the following "
 "components and projects:\n"
 msgstr ""
 
@@ -5897,19 +5899,82 @@ msgstr ""
 "TCommandLineReader(www.benibela.de)\n"
 "Silk icons(www.famfamfam.com)\n"
 
+#. Programmer's name for it: SAboutBoxCreditsTranslationArabic
 #: dlgAboutPyScripter.pas
-msgid ""
-"Translation manager: Lübbe Onken\n"
-"Arabic translation by Mohammed Nasman + Raouf Rahiche\n"
-"Chinese translation by \"Love China\"\n"
-"French translation by Groupe AmiensPython + Phil Prost\n"
-"German translation by Daniel Frost + Lübbe Onken\n"
-"Greek translation by Kiriakos Vlahos\n"
-"Italian translation by Vincenzo Campanella\n"
-"Japanese translation by Tokibito\n"
-"Russian translation by Aleksander Dragunkin\n"
-"Slovak translation by Marian Denes\n"
-"Spanish translation by Javier Pimas + Victor Alberto Gil\n"
+#, object-pascal-format
+msgid "Arabic: %s"
+msgstr ""
+
+#. Programmer's name for it: SAboutBoxCreditsTranslationChinese
+#: dlgAboutPyScripter.pas
+#, object-pascal-format
+msgid "Chinese: %s"
+msgstr ""
+
+#. Programmer's name for it: SAboutBoxCreditsTranslationFrench
+#: dlgAboutPyScripter.pas
+#, object-pascal-format
+msgid "French: %s"
+msgstr ""
+
+#. Programmer's name for it: SAboutBoxCreditsTranslationGerman
+#: dlgAboutPyScripter.pas
+#, object-pascal-format
+msgid "German: %s"
+msgstr ""
+
+#. Programmer's name for it: SAboutBoxCreditsTranslationGreek
+#: dlgAboutPyScripter.pas
+#, object-pascal-format
+msgid "Greek: %s"
+msgstr ""
+
+#. Programmer's name for it: SAboutBoxCreditsTranslationItalian
+#: dlgAboutPyScripter.pas
+#, object-pascal-format
+msgid "Italian: %s"
+msgstr ""
+
+#. Programmer's name for it: SAboutBoxCreditsTranslationJapanese
+#: dlgAboutPyScripter.pas
+#, object-pascal-format
+msgid "Japanese: %s"
+msgstr ""
+
+#. Programmer's name for it: SAboutBoxCreditsTranslationKabyle
+#: dlgAboutPyScripter.pas
+#, object-pascal-format
+msgid "Taqbaylit: %s"
+msgstr ""
+
+#. Programmer's name for it: SAboutBoxCreditsTranslationPortugueseBR
+#: dlgAboutPyScripter.pas
+#, object-pascal-format
+msgid "Portuguese (Brazil): %s"
+msgstr ""
+
+#. Programmer's name for it: SAboutBoxCreditsTranslationPortuguesePT
+#: dlgAboutPyScripter.pas
+#, object-pascal-format
+msgid "Portuguese (Portugal): %s"
+msgstr ""
+
+#. Programmer's name for it: SAboutBoxCreditsTranslationRussian
+#: dlgAboutPyScripter.pas
+#, object-pascal-format
+msgid "Russian: %s"
+msgstr ""
+
+#. Programmer's name for it: SAboutBoxCreditsTranslationSlovak
+#: dlgAboutPyScripter.pas
+#, object-pascal-format
+msgid "Slovak: %s"
+msgstr ""
+
+#. Programmer's name for it: SAboutBoxCreditsTranslationSpanish
+#: dlgAboutPyScripter.pas
+#, object-pascal-format
+msgid "Spanish: %s"
 msgstr ""
 
 #: dlgAboutPyScripter.pas
@@ -5917,6 +5982,8 @@ msgid ""
 "Tanmaya Meher (www.github.com/tanmayameher)\n"
 "jprzywoski (www.github.com/jprzywoski)\n"
 msgstr ""
+"Tanmaya Meher (www.github.com/tanmayameher)\n"
+"jprzywoski (www.github.com/jprzywoski)\n"
 
 #: dlgAboutPyScripter.pas
 msgid ""
@@ -5926,12 +5993,16 @@ msgid ""
 msgstr ""
 
 #: dlgAboutPyScripter.pas
-msgid "Translations"
-msgstr "Μεταφράσεις"
+msgid "Translation manager"
+msgstr ""
+
+#: dlgAboutPyScripter.pas
+msgid "Translators"
+msgstr ""
 
 #: dlgAboutPyScripter.pas
 msgid "Theme design"
-msgstr ""
+msgstr "Σχεδιασμός θεμάτων"
 
 #. Programmer's name for it: SAskReplaceText
 #: dlgConfirmReplace.pas
@@ -6005,7 +6076,7 @@ msgstr ""
 
 #: dmCommands.pas
 msgid "Number of recent files"
-msgstr ""
+msgstr "Αριθμός προσφάτων αρχείων"
 
 #. Programmer's name for it: SFileChangeNotification
 #: dmCommands.pas StringResources.pas
@@ -6030,7 +6101,7 @@ msgstr ""
 
 #: dmCommands.pas
 msgid "Python engine type"
-msgstr ""
+msgstr "Τύπος μηχανής Python"
 
 #: dmCommands.pas
 msgid "Pretty print output"
@@ -6046,11 +6117,11 @@ msgstr ""
 
 #: dmCommands.pas
 msgid "Interpreter history size"
-msgstr ""
+msgstr "Μέγεθος ιστορικού εντολών διερμηνευτή"
 
 #: dmCommands.pas
 msgid "Save interpreter history"
-msgstr ""
+msgstr "Απόθήκευση ιστορικού εντολών διερμηνευτή"
 
 #: dmCommands.pas
 msgid "Reinitialize before run"
@@ -6062,11 +6133,11 @@ msgstr ""
 
 #: dmCommands.pas
 msgid "Internal Interpreter Hidden"
-msgstr ""
+msgstr "Απόκρυψη εσωτερικού διερμηνευτή"
 
 #: dmCommands.pas
 msgid "Initially expanded"
-msgstr ""
+msgstr "Αρχικά αναπτυγμένο"
 
 #: dmCommands.pas
 msgid "File Filters"
@@ -6106,7 +6177,7 @@ msgstr "Φίλτρο αρχείων PHP"
 
 #: dmCommands.pas
 msgid "File explorer filter"
-msgstr ""
+msgstr "Φίλτρο Εξερευνητή Αρχείων"
 
 #: dmCommands.pas
 msgid "Open dialog Cython filter"
@@ -6122,7 +6193,7 @@ msgstr "Αναζήτηση λέξης δρομέα"
 
 #: dmCommands.pas
 msgid "Create backup files"
-msgstr ""
+msgstr "Δημιουργία αντιγράφων ασφαλείας"
 
 #: dmCommands.pas
 msgid "Undo after save"
@@ -6138,7 +6209,7 @@ msgstr ""
 
 #: dmCommands.pas
 msgid "Auto-complete brackets"
-msgstr ""
+msgstr "Αυτόματη συμπλήρωση παρενθέσεων"
 
 #: dmCommands.pas
 msgid "Show executable line marks"
@@ -6146,7 +6217,7 @@ msgstr "Ένδειξη εκτελέσιμων γραμμών κειμένου"
 
 #: dmCommands.pas
 msgid "Check syntax as you type"
-msgstr ""
+msgstr "Έλεγχος σύνταξης κατά την πληκτρολόγηση"
 
 #: dmCommands.pas
 msgid "Default line break format for new files"
@@ -6186,7 +6257,7 @@ msgstr ""
 
 #: dmCommands.pas
 msgid "Code folding enabled by default"
-msgstr ""
+msgstr "Ενεργοποίηση σύμπτηξης κώδικα από προεπιλογή"
 
 #: dmCommands.pas
 msgid "Code folding options"
@@ -6194,43 +6265,43 @@ msgstr "Επιλογές σύμπτυξης κώδικα"
 
 #: dmCommands.pas
 msgid "Compact Line Numbers"
-msgstr ""
+msgstr "Συμπαγής αρίθμηση γραμμών"
 
 #: dmCommands.pas
 msgid "Code Completion"
-msgstr ""
+msgstr "Συμπλήρωση Κώδικα"
 
 #: dmCommands.pas
 msgid "Special packages"
-msgstr ""
+msgstr "Ειδικά πακέτα Python"
 
 #: dmCommands.pas
 msgid "Code completion list size"
-msgstr ""
+msgstr "Μέγεθος λίστας συμπλήρωσης κώδικα"
 
 #: dmCommands.pas
 msgid "Editor code completion"
-msgstr ""
+msgstr "Συμπλήρωση κώδικα κειμενογράφου"
 
 #: dmCommands.pas
 msgid "Interpreter code completion"
-msgstr ""
+msgstr "Συμπλήρωση κώδικα διερμηνευτή"
 
 #: dmCommands.pas
 msgid "Case sensitive"
-msgstr ""
+msgstr "Διάκριση πεζών/κεφαλαίων"
 
 #: dmCommands.pas
 msgid "Complete Python keywords"
-msgstr ""
+msgstr "Συμπλήρωση λέξεων-κλειδιών Python"
 
 #: dmCommands.pas
 msgid "Complete as you type"
-msgstr ""
+msgstr "Συμπλήρωση κατά την πληκτρολόγηση"
 
 #: dmCommands.pas
 msgid "Auto completion font"
-msgstr ""
+msgstr "Γραμματοσειρά συμπλήρωσης κώδικα"
 
 #: dmCommands.pas
 msgid "Complete with word-break characters"
@@ -6238,7 +6309,7 @@ msgstr ""
 
 #: dmCommands.pas
 msgid "Auto-complete with one entry"
-msgstr ""
+msgstr "Αυτόματη συμπλήρωση με μία εγγραφή"
 
 #: dmCommands.pas
 msgid "Shell Integration"
@@ -6486,7 +6557,7 @@ msgstr ""
 #. Programmer's name for it: SErrorCreatingRemoteEngine
 #: StringResources.pas
 msgid "Error in creating the remote interpreter: "
-msgstr ""
+msgstr "Σφάλμα κατά την δημιουργία του απομακρυσμένου διερμηνευτή:"
 
 #. Programmer's name for it: SCouldNotConnectRemoteEngine
 #: StringResources.pas
@@ -7338,7 +7409,7 @@ msgstr ""
 #. Programmer's name for it: SPythonKeyword
 #: StringResources.pas
 msgid "Python keyword"
-msgstr ""
+msgstr "Λέξη-κλειδί Python"
 
 #. File Templates
 #. Programmer's name for it: SFileTemplateCategoryInternet
@@ -7415,4 +7486,4 @@ msgstr ""
 #. Programmer's name for it: SClipboardFailed
 #: VirtualTrees.pas
 msgid "Clipboard operation failed."
-msgstr ""
+msgstr "Αποτυχία λειτουργίας προχείρου"
