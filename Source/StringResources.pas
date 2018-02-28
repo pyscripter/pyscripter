@@ -253,7 +253,7 @@ Const
   SDebuggerHintFormat  = '<b>Name: </b> <font color="clHotlight">%s</font><br>'+
                          '<b>Type: </b> <font color="clHotlight">%s</font><br>'+
                          '<b>Value:</b><br>%s<br>';
-  SNamespaceFormat = 'Frame(Function: "%s" of module: "%s" at line %d)';
+  SNamespaceFormat = 'Frame(Function: "%s" of module: "%s")';
   SFilePosInfoCodeHint = '<br>Defined in module <a href="%s (%d:%d)"><u>%s (%d)</u></a>';
   SDefinedInModuleCodeHint = '<br>Defined in module <font color="clHotlight">%s</font>';
   SParsedClassCodeHint =  '<b>class <font color="clHotlight">%s</font></b>%s';

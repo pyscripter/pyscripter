@@ -65,8 +65,7 @@ type
     procedure reInfoResizeRequest(Sender: TObject; Rect: TRect);
   private
     { Private declarations }
-    CurrentFrame : TBaseFrameInfo;
-    CurrentFileName, CurrentFunctionName : string;
+    CurrentModule, CurrentFunction : string;
     GlobalsNameSpace, LocalsNameSpace : TBaseNameSpaceItem;
   protected
     // IJvAppStorageHandler implementation
@@ -128,7 +127,7 @@ begin
   Data := VariablesTree.GetNodeData(Node);
   if VariablesTree.GetNodeLevel(Node) = 0 then begin
     Assert(Node.Index <= 1);
-    if Assigned(CurrentFrame) then begin
+    if CurrentModule <> '' then begin
       if Node.Index = 0 then begin
         Assert(Assigned(GlobalsNameSpace));
         Data.NameSpaceItem := GlobalsNameSpace;
@@ -241,6 +240,7 @@ procedure TVariablesWindow.VariablesTreeGetText(Sender: TBaseVirtualTree;
 var
   Data : PPyObjRec;
 begin
+  if TextType <> ttNormal then Exit;
   Data := VariablesTree.GetNodeData(Node);
   if not Assigned(Data) or not Assigned(Data.NameSpaceItem) then
     Exit;
@@ -262,6 +262,7 @@ end;
 
 procedure TVariablesWindow.UpdateWindow;
 Var
+  CurrentFrame : TBaseFrameInfo;
   SameFrame : boolean;
   RootNodeCount : Cardinal;
   OldGlobalsNameSpace, OldLocalsNamespace : TBaseNameSpaceItem;
@@ -285,11 +286,11 @@ begin
   CurrentFrame := CallStackWindow.GetSelectedStackFrame;
 
   SameFrame := (not Assigned(CurrentFrame) and
-                (CurrentFileName = '') and
-                (CurrentFunctionName = '')) or
+                (CurrentModule = '') and
+                (CurrentFunction = '')) or
                 (Assigned(CurrentFrame) and
-                (CurrentFileName = CurrentFrame.FileName) and
-                (CurrentFunctionName = CurrentFrame.FunctionName));
+                (CurrentModule = CurrentFrame.FileName) and
+                (CurrentFunction = CurrentFrame.FunctionName));
 
   OldGlobalsNameSpace := GlobalsNameSpace;
   OldLocalsNamespace := LocalsNameSpace;
@@ -301,8 +302,8 @@ begin
     VariablesTree.TreeOptions.AnimationOptions - [toAnimatedToggle];
 
   if Assigned(CurrentFrame) then begin
-    CurrentFileName := CurrentFrame.FileName;
-    CurrentFunctionName := CurrentFrame.FunctionName;
+    CurrentModule := CurrentFrame.FileName;
+    CurrentFunction := CurrentFrame.FunctionName;
     // Set the initial number of nodes.
     GlobalsNameSpace := PyControl.ActiveDebugger.GetFrameGlobals(CurrentFrame);
     LocalsNameSpace := PyControl.ActiveDebugger.GetFrameLocals(CurrentFrame);
@@ -311,8 +312,8 @@ begin
     else
       RootNodeCount := 0;
   end else begin
-    CurrentFileName := '';
-    CurrentFunctionName := '';
+    CurrentModule := '';
+    CurrentFunction := '';
     try
       GlobalsNameSpace := PyControl.ActiveInterpreter.GetGlobals;
       RootNodeCount := 1;
@@ -349,7 +350,6 @@ end;
 
 procedure TVariablesWindow.ClearAll;
 begin
-  CurrentFrame := nil;
   VariablesTree.Clear;
   FreeAndNil(GlobalsNameSpace);
   FreeAndNil(LocalsNameSpace);
@@ -375,23 +375,17 @@ end;
 procedure TVariablesWindow.VariablesTreeChange(Sender: TBaseVirtualTree;
   Node: PVirtualNode);
 Var
-  FunctionName,
-  ModuleName,
   NameSpace,
   ObjectName,
   ObjectType,
   ObjectValue,
   DocString : string;
-  LineNo : integer;
   Data : PPyObjRec;
 begin
   // Get the selected frame
-  if Assigned(CurrentFrame) then begin
-    FunctionName := CurrentFrame.FunctionName;
-    ModuleName := ChangeFileExt(ExtractFileName(CurrentFrame.FileName), '');
-    LineNo := CurrentFrame.Line;
-    NameSpace := Format(_(SNamespaceFormat), [FunctionName, ModuleName, LineNo]);
-  end else
+  if CurrentModule <> '' then
+    NameSpace := Format(_(SNamespaceFormat), [CurrentFunction, CurrentModule])
+  else
     NameSpace := 'Interpreter globals';
 
   reInfo.Clear;

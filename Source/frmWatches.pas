@@ -379,6 +379,7 @@ procedure TWatchesWindow.WatchesViewGetText(Sender: TBaseVirtualTree;
 var
   Data: PWatchRec;
 begin
+  if TextType <> ttNormal then Exit;
   Data := WatchesView.GetNodeData(Node);
   if not Assigned(Data) then Exit;
 

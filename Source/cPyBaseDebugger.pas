@@ -12,7 +12,7 @@ uses
   WinApi.Windows,
   System.SysUtils,
   System.Classes,
-  System.Contnrs,
+  System.Generics.Collections,
   Vcl.Forms,
   uEditAppIntfs,
   cPySupportTypes,
@@ -29,8 +29,10 @@ type
   TNamespaceItemAttribute = (nsaNew, nsaChanged);
   TNamespaceItemAttributes = set of TNamespaceItemAttribute;
 
-  TBaseFrameInfo = class(TObject)
+  TThreadStatus = (thrdRunning, thrdBroken, thrdFinished);
+
   // Base (abstract) class for Call Stack frame information
+  TBaseFrameInfo = class(TObject)
   protected
     function GetFunctionName : string; virtual; abstract;
     function GetFileName : string; virtual; abstract;
@@ -41,8 +43,18 @@ type
     property Line : integer read GetLine;
   end;
 
-  TBaseNameSpaceItem = class(TObject)
+  // Base (abstract) class for thread information
+  TThreadInfo = class(TObject)
+    Thread_ID : integer;
+    Name : string;
+    Status : TThreadStatus;
+    CallStack : TObjectList<TBaseFrameInfo>;
+    constructor Create;
+    destructor Destroy; override;
+  end;
+
   // Base (abstract) class for Namespace item information
+  TBaseNameSpaceItem = class(TObject)
   protected
     fPyObject : Variant;
     fExpandCommonTypes : Boolean;
@@ -151,8 +163,8 @@ type
     function Evaluate(const Expr : string) : TBaseNamespaceItem; overload; virtual; abstract;
     // Like the InteractiveInterpreter runsource but for the debugger frame
     function RunSource(Const Source, FileName : Variant; symbol : string = 'single') : boolean; virtual; abstract;
-    // Fills in CallStackList with TBaseFrameInfo objects
-    procedure GetCallStack(CallStackList : TObjectList); virtual; abstract;
+    // Returns an array of ThreadInfo
+    procedure GetThreadInfos(out Threads : TArray<TThreadInfo>); virtual; abstract;
     // functions to get TBaseNamespaceItems corresponding to a frame's gloabals and locals
     function GetFrameGlobals(Frame : TBaseFrameInfo) : TBaseNameSpaceItem; virtual; abstract;
     function GetFrameLocals(Frame : TBaseFrameInfo) : TBaseNameSpaceItem; virtual; abstract;
@@ -269,6 +281,7 @@ implementation
 
 uses
   System.UITypes,
+  System.Contnrs,
   Vcl.Dialogs,
   VarPyth,
   JvGnuGettext,
@@ -809,5 +822,18 @@ begin
     Result := '';
 end;
 
+
+{ TThreadInfo }
+
+constructor TThreadInfo.Create;
+begin
+  CallStack := TObjectList<TBaseFrameInfo>.Create(True);
+end;
+
+destructor TThreadInfo.Destroy;
+begin
+  FreeAndNil(CallStack);
+  inherited;
+end;
 
 end.

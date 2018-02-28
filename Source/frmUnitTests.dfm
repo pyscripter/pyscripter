@@ -258,7 +258,7 @@ inherited UnitTestWindow: TUnitTestWindow
             Height = 85
             Align = alClient
             BorderStyle = bsNone
-            Font.Charset = ANSI_CHARSET
+            Font.Charset = GREEK_CHARSET
             Font.Color = clWindowText
             Font.Height = -11
             Font.Name = 'MS Shell Dlg 2'

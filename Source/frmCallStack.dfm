@@ -4,7 +4,7 @@ inherited CallStackWindow: TCallStackWindow
   HelpContext = 470
   Caption = 'Call Stack'
   ClientHeight = 168
-  ClientWidth = 381
+  ClientWidth = 604
   Icon.Data = {
     0000010001001010000001002000280400001600000028000000100000002000
     0000010020000000000000000000000000000000000000000000000000000000
@@ -40,24 +40,33 @@ inherited CallStackWindow: TCallStackWindow
     3EE0D9983EE0D9983EE0D9983EE0D9983EE0D9983EE0D3953FCDC28A455C0000
     0000000000000000000000000000000000000000000000000000000000000000
     000000000000000000000000000000000000000000000000000000000000}
-  ExplicitWidth = 397
+  ExplicitWidth = 620
   ExplicitHeight = 207
   PixelsPerInch = 96
   TextHeight = 13
   inherited BGPanel: TSpTBXPanel
-    Width = 381
+    Width = 604
     Height = 168
-    ExplicitWidth = 381
+    ExplicitWidth = 604
     ExplicitHeight = 168
     inherited FGPanel: TPanel
-      Width = 377
+      Width = 600
       Height = 164
-      ExplicitWidth = 377
+      ExplicitWidth = 600
       ExplicitHeight = 164
-      object CallStackView: TVirtualStringTree
-        Left = 0
+      object Splitter1: TSplitter
+        Left = 140
         Top = 0
-        Width = 377
+        Height = 164
+        ResizeStyle = rsUpdate
+        ExplicitLeft = 296
+        ExplicitTop = 32
+        ExplicitHeight = 100
+      end
+      object CallStackView: TVirtualStringTree
+        Left = 143
+        Top = 0
+        Width = 457
         Height = 164
         Align = alClient
         Alignment = taRightJustify
@@ -65,28 +74,19 @@ inherited CallStackWindow: TCallStackWindow
         BevelOuter = bvNone
         BevelKind = bkFlat
         BorderStyle = bsNone
-        Color = 2500134
-        Colors.FocusedSelectionColor = 3158064
-        Colors.FocusedSelectionBorderColor = 855309
-        Colors.SelectionRectangleBlendColor = 3158064
-        Colors.SelectionRectangleBorderColor = 855309
-        Colors.TreeLineColor = clWhite
-        Colors.UnfocusedSelectionColor = cl3DDkShadow
-        Colors.UnfocusedSelectionBorderColor = 855309
         Header.AutoSizeIndex = 1
         Header.MainColumn = 1
         Header.Options = [hoAutoResize, hoColumnResize, hoDblClickResize, hoHotTrack, hoOwnerDraw, hoVisible]
         HintMode = hmTooltip
+        StateImages = CommandsDataModule.Images
         TabOrder = 0
-        TreeOptions.AnimationOptions = [toAnimatedToggle]
-        TreeOptions.AutoOptions = [toAutoDropExpand, toAutoScrollOnExpand, toAutoTristateTracking, toAutoDeleteMovedNodes, toAutoChangeScale]
         TreeOptions.MiscOptions = [toFullRepaintOnResize, toInitOnSave, toReportMode, toToggleOnDblClick, toWheelPanning]
         TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowDropmark, toShowHorzGridLines, toShowVertGridLines, toThemeAware, toUseBlendedImages, toUseBlendedSelection]
         TreeOptions.SelectionOptions = [toExtendedFocus, toFullRowSelect, toRightClickSelect]
-        TreeOptions.StringOptions = [toAutoAcceptEditChange]
-        OnChange = CallStackViewChange
+        OnAddToSelection = CallStackViewAddToSelection
         OnDblClick = CallStackViewDblClick
         OnGetText = CallStackViewGetText
+        OnGetImageIndex = CallStackViewGetImageIndex
         OnInitNode = CallStackViewInitNode
         Columns = <
           item
@@ -96,7 +96,7 @@ inherited CallStackWindow: TCallStackWindow
           end
           item
             Position = 1
-            Width = 227
+            Width = 307
             WideText = 'File Name'
           end
           item
@@ -105,15 +105,42 @@ inherited CallStackWindow: TCallStackWindow
             WideText = 'Line'
           end>
       end
+      object ThreadView: TVirtualStringTree
+        Left = 0
+        Top = 0
+        Width = 140
+        Height = 164
+        Align = alLeft
+        BevelInner = bvNone
+        BevelOuter = bvNone
+        BevelKind = bkFlat
+        BorderStyle = bsNone
+        Header.AutoSizeIndex = 0
+        Header.Options = [hoAutoResize, hoColumnResize, hoDrag, hoShowSortGlyphs, hoVisible, hoFullRepaintOnResize]
+        Images = CommandsDataModule.Images
+        StateImages = CommandsDataModule.Images
+        TabOrder = 1
+        TreeOptions.MiscOptions = [toFullRepaintOnResize, toInitOnSave, toReportMode, toToggleOnDblClick, toWheelPanning]
+        TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowDropmark, toThemeAware, toUseBlendedImages]
+        OnAddToSelection = ThreadViewAddToSelection
+        OnGetText = ThreadViewGetText
+        OnGetImageIndex = ThreadViewGetImageIndex
+        Columns = <
+          item
+            Position = 0
+            Width = 140
+            WideText = 'Threads'
+          end>
+      end
     end
   end
   inherited DockClient: TJvDockClient
-    Left = 7
-    Top = 25
+    Left = 559
+    Top = 33
   end
   object actlCallStack: TActionList
-    Left = 12
-    Top = 76
+    Left = 492
+    Top = 33
     object actPreviousFrame: TAction
       Category = 'Run'
       Caption = 'Previous Frame'

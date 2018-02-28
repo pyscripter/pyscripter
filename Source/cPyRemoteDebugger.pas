@@ -15,6 +15,7 @@ uses
   System.SysUtils,
   System.Classes,
   System.Contnrs,
+  System.Generics.Collections,
   System.Variants,
   System.SyncObjs,
   Vcl.Forms,
@@ -44,7 +45,6 @@ type
     fOldargv : Variant;
     fOldsysmodules : Variant;
     fThreadExecInterrupted: Boolean;
-    fDebugger : Variant;
     fSocketPort: integer;
     fRpycPath : string;
   protected
@@ -85,7 +85,6 @@ type
 
     property IsAvailable : Boolean read fIsAvailable;
     property IsConnected : Boolean read fIsConnected;
-    property Debugger : Variant read fDebugger;
   end;
 
 
@@ -116,11 +115,13 @@ type
   }
   private
     fRemotePython : TPyRemoteInterpreter;
+    fDebugManager : Variant;
+    fMainDebugger : Variant;
     fDebuggerCommand : TDebuggerCommand;
-    fCurrentFrame : Variant;
     fLineCache : Variant;
+    fMainThread : TThreadInfo;
+    fThreads : TObjectDictionary<integer, TThreadInfo>;
     fOldPS1, fOldPS2 : string;
-    procedure HandleUserLine;
   protected
     procedure SetCommandLine(ARunConfig : TRunConfiguration); override;
     procedure RestoreCommandLine; override;
@@ -132,7 +133,9 @@ type
     procedure UserReturn(Sender: TObject; PSelf, Args: PPyObject; var Result: PPyObject);
     procedure UserException(Sender: TObject; PSelf, Args: PPyObject; var Result: PPyObject);
     procedure UserYield(Sender: TObject; PSelf, Args: PPyObject; var Result: PPyObject);
-    property CurrentFrame : Variant read fCurrentFrame;
+    // Fills in CallStackList with TBaseFrameInfo objects
+    procedure GetCallStack(CallStackList : TObjectList<TBaseFrameInfo>;
+      Frame, Botframe : Variant);
   public
     constructor Create(RemotePython : TPyRemoteInterpreter);
     destructor Destroy; override;
@@ -155,8 +158,8 @@ type
     function Evaluate(const Expr : string) : TBaseNamespaceItem; overload; override;
     // Like the InteractiveInterpreter runsource but for the debugger frame
     function RunSource(Const Source, FileName : Variant; symbol : string = 'single') : boolean; override;
-    // Fills in CallStackList with TBaseFrameInfo objects
-    procedure GetCallStack(CallStackList : TObjectList); override;
+    // Returns an array of ThreadInfo
+    procedure GetThreadInfos(out Threads : TArray<TThreadInfo>); override;
     // functions to get TBaseNamespaceItems corresponding to a frame's gloabals and locals
     function GetFrameGlobals(Frame : TBaseFrameInfo) : TBaseNameSpaceItem; override;
     function GetFrameLocals(Frame : TBaseFrameInfo) : TBaseNameSpaceItem; override;
@@ -1043,7 +1046,7 @@ var
   I: Integer;
   Source : string;
   InitScriptName : string;
-  PyScripterMod, PySource, debugIDE : Variant;
+  PyScripterMod, PySource : Variant;
 begin
   Result := False;
 
@@ -1114,17 +1117,9 @@ begin
     RPI := Conn.namespace.__getitem__('_RPI');
     //  pass a reference to the P4D module DebugIDE
     Conn.namespace.__delitem__('_RPI');
-//    Conn.execute('del _RPI.locals["_RPI"]');
-//    Rpyc.getattr(RPI, '__class__').debugIDE :=
-//      InternalInterpreter.PyInteractiveInterpreter.debugIDE;
-    debugIDE := InternalInterpreter.PyInteractiveInterpreter.debugIDE;
-    RPI.__class__.debugIDE := debugIDE;
 
     // make sys.stdout etc asynchronous when writing
     RPI.asyncIO();
-    // debugger
-    fDebugger := RPI.debugger;
-    fDebugger.__class__.debugIDE := debugIDE;
 //    // Install Rpyc excepthook gets automatically installed
 //    Rpyc.install_rpyc_excepthook;
     // Execute PyscripterSetup.py here
@@ -1210,7 +1205,6 @@ begin
 
   FreeAndNil(fMainModule);
   VarClear(fOldArgv);
-  VarClear(fDebugger);
   VarClear(RPI);
   if VarIsPython(OutputRedirector) then
     OutputRedirector._restored:= True;
@@ -1296,11 +1290,9 @@ begin
     Strings.Add(RemPath.__getitem__(i));
 end;
 
-
 function TPyRemoteInterpreter.UnitTestResult: Variant;
 begin
   Result := RPI.IDETestResult();
-  Result.debugIDE := RPI.debugIDE;
 end;
 
 { TPyRemDebugger }
@@ -1346,6 +1338,19 @@ constructor TPyRemDebugger.Create(RemotePython: TPyRemoteInterpreter);
 begin
   inherited Create;
   fRemotePython := RemotePython;
+  fDebugManager := fRemotePython.RPI.__class__.DebugManager;
+  fDebugManager.debugIDE := InternalInterpreter.PyInteractiveInterpreter.debugIDE;
+
+  fMainDebugger := fRemotePython.RPI.debugger;
+
+  fMainThread := TThreadInfo.Create;
+  fMainThread.Name := 'MainThread';
+  fMainThread.Status := thrdRunning;
+  fMainThread.Thread_ID := fDebugManager.main_thread_id;
+
+  fThreads := TObjectDictionary<integer, TThreadInfo>.Create([doOwnsValues]);
+  fThreads.Add(fMainThread.Thread_ID, fMainThread);
+
   fLineCache := fRemotePython.Conn.modules.linecache;
   fDebuggerCommand := dcNone;
   PyControl.BreakPointsChanged := True;
@@ -1360,13 +1365,13 @@ begin
     Items[3].OnExecute := nil;
     Items[4].OnExecute := nil;
   end;
-
+  FreeAndNil(fThreads);
   inherited;
 end;
 
 procedure TPyRemDebugger.EnterPostMortem;
 Var
-  TraceBack : Variant;
+  Frame, BotFrame, TraceBack : Variant;
 begin
   if not (HaveTraceback and (PyControl.DebuggerState = dsInactive)) then
     Exit;
@@ -1379,10 +1384,13 @@ begin
   end;
 
   TraceBack := fRemotePython.Conn.modules.sys.last_traceback;
-  fRemotePython.Debugger.botframe := TraceBack.tb_frame;
+  Botframe := TraceBack.tb_frame;
   while not VarIsNone(TraceBack.tb_next) do
     TraceBack := TraceBack.tb_next;
-  fCurrentFrame := TraceBack.tb_frame;
+  Frame := TraceBack.tb_frame;
+
+  fMainThread.Status := thrdBroken;
+  GetCallStack(fMainThread.CallStack, Frame, Botframe);
 
   PyControl.DoStateChange(dsPostMortem);
   DSAMessageDlg(dsaPostMortemInfo, 'PyScripter', _(SPostMortemInfo),
@@ -1435,26 +1443,21 @@ begin
     PS2 := fOldPS2;
     AppendText(sLineBreak+PS1);
   end;
-  VarClear(fCurrentFrame);
+  fMainThread.Status := thrdRunning;
+  fMainThread.CallStack.Clear;
   MakeFrameActive(nil);
   PyControl.DoStateChange(dsInactive);
 end;
 
-procedure TPyRemDebugger.GetCallStack(CallStackList: TObjectList);
-Var
-  Frame : Variant;
+procedure TPyRemDebugger.GetCallStack(CallStackList : TObjectList<TBaseFrameInfo>;
+  Frame, Botframe : Variant);
 begin
   CallStackList.Clear;
-  if not (PyControl.DebuggerState in [dsPaused, dsPostMortem]) then
-    Exit;
-
-  Frame := CurrentFrame;
   if VarIsPython(Frame) then
     while not VarIsNone(Frame.f_back) and not VarIsNone(Frame.f_back.f_back) do begin
       CallStackList.Add(TFrameInfo.Create(Frame));
       Frame := Frame.f_back;
-      if VarIsSame(Frame, fRemotePython.Debugger.botframe) then
-        break;
+      if VarIsSame(Frame, Botframe) then break;
     end;
 end;
 
@@ -1476,30 +1479,9 @@ begin
     (Frame as TFrameInfo).PyFrame.f_locals, fRemotePython);
 end;
 
-procedure TPyRemDebugger.HandleUserLine;
-Var
-  FName : string;
+procedure TPyRemDebugger.GetThreadInfos(out Threads: TArray<TThreadInfo>);
 begin
-   fRemotePython.CheckConnected;
-   if fRemotePython.fThreadExecInterrupted then
-     Exit;
-
-   Assert(VarIsPython(fCurrentFrame) and not VarisNone(fCurrentFrame));
-   FName := fCurrentFrame.f_code.co_filename;
-   if (FName[1] ='<') and (FName[Length(FName)] = '>') then
-     FName :=  Copy(FName, 2, Length(FName)-2);
-
-   if PyIDEMainForm.ShowFilePosition(FName, fCurrentFrame.f_lineno, 1, 0, True, False) and
-     (fCurrentFrame.f_lineno > 0) then
-   begin
-     PyControl.CurrentPos.Editor := GI_EditorFactory.GetEditorByNameOrTitle(FName);
-     PyControl.CurrentPos.Line := fCurrentFrame.f_lineno;
-
-      if PyControl.DebuggerState = dsDebugging then
-        PyControl.DoStateChange(dsPaused);
-     FDebuggerCommand := dcNone;
-   end else
-     fRemotePython.Debugger.debug_command := Ord(dcRun);
+  Threads := fThreads.Values.ToArray;
 end;
 
 procedure TPyRemDebugger.DoDebuggerCommand;
@@ -1510,6 +1492,9 @@ begin
 
    if PyControl.BreakPointsChanged then SetDebuggerBreakpoints;
 
+   //TODO: will change
+   fMainThread.Status := thrdRunning;
+   fMainThread.CallStack.Clear;
    PyControl.DoStateChange(dsDebugging);
 
 //   case fDebuggerCommand of
@@ -1521,8 +1506,7 @@ begin
 //     dcPause       : fRemotePython.Debugger.set_step();
 //     dcAbort       : fRemotePython.Debugger.set_quit();
 //   end;
-   fRemotePython.Debugger.debug_command := Ord(fDebuggerCommand);
-   VarClear(fCurrentFrame);
+   fDebugManager.debug_command := Ord(fDebuggerCommand);
 end;
 
 function TPyRemDebugger.HaveTraceback: boolean;
@@ -1563,14 +1547,14 @@ end;
 procedure TPyRemDebugger.MakeFrameActive(Frame: TBaseFrameInfo);
 begin
   if Assigned(Frame) then
-    fRemotePython.Debugger.currentframe := (Frame as TFrameInfo).PyFrame
+    fDebugManager.active_frame := (Frame as TFrameInfo).PyFrame
   else
-    fRemotePython.Debugger.currentframe := None;
+    fDebugManager.active_frame := None;
 end;
 
 function TPyRemDebugger.NameSpaceFromExpression(const Expr: string): TBaseNameSpaceItem;
 //  The internal interpreter knows whether we are debugging and
-//  adjusts accordingly (in II.debugger.evalcode)
+//  adjusts accordingly (in II.evalcode)
 begin
   Result := fRemotePython.NameSpaceFromExpression(Expr);
 end;
@@ -1664,7 +1648,7 @@ begin
   //set breakpoints
   SetDebuggerBreakPoints;
   if RunToCursorLine >= 0 then  // add temp breakpoint
-    fRemotePython.Debugger.set_break(Code.co_filename, RunToCursorLine, 1);
+    fMainDebugger.set_break(Code.co_filename, RunToCursorLine, 1);
 
   // New Line for output
   PythonIIForm.AppendText(sLineBreak);
@@ -1672,9 +1656,9 @@ begin
   // Set the command line parameters
   SetCommandLine(ARunConfig);
 
-  fRemotePython.Debugger.InitStepIn := InitStepIn;
+  fMainDebugger.InitStepIn := InitStepIn;
 
-  AsyncRun := fRemotePython.Rpyc.asynch(fRemotePython.Debugger.run);
+  AsyncRun := fRemotePython.Rpyc.asynch(fMainDebugger.run);
   AsyncResult := AsyncRun.__call__(Code);
   GetPythonEngine.CheckError;
   Timer := NewTimer(50);
@@ -1697,7 +1681,7 @@ begin
       try
         Timer.Stop;
         if fRemotePython.IsConnected then begin
-          ExcInfo := fRemotePython.Debugger.exc_info;
+          ExcInfo := fMainDebugger.exc_info;
           if not VarIsNone(ExcInfo) then begin
             fRemotePython.HandleRemoteException(ExcInfo, 2);
             ReturnFocusToEditor := False;
@@ -1720,7 +1704,6 @@ begin
         end;
       end;
     finally
-      VarClear(fCurrentFrame);
       with PythonIIForm do begin
         PS1 := fOldPS1;
         PS2 := fOldPS2;
@@ -1789,7 +1772,7 @@ begin
   FName := Editor.FileName;
   if FName = '' then
     FName := '<'+Editor.FileTitle+'>';
-  fRemotePython.Debugger.set_break(VarPythonCreate(FName), ALine, 1);
+  fMainDebugger.set_break(VarPythonCreate(FName), ALine, 1);
 
   fDebuggerCommand := dcRunToCursor;
   DoDebuggerCommand;
@@ -1807,7 +1790,7 @@ var
 begin
   if not PyControl.BreakPointsChanged then Exit;
   LoadLineCache;
-  fRemotePython.Debugger.clear_all_breaks();
+  fMainDebugger.clear_all_breaks();
   for i := 0 to GI_EditorFactory.Count - 1 do
     with GI_EditorFactory.Editor[i] do begin
       FName := FileName;
@@ -1816,11 +1799,11 @@ begin
       for j := 0 to BreakPoints.Count - 1 do begin
         if not TBreakPoint(BreakPoints[j]).Disabled then begin
           if TBreakPoint(BreakPoints[j]).Condition <> '' then begin
-            fRemotePython.Debugger.set_break(VarPythonCreate(FName),
+            fMainDebugger.set_break(VarPythonCreate(FName),
               TBreakPoint(BreakPoints[j]).LineNo,
               0, VarPythonCreate(TBreakPoint(BreakPoints[j]).Condition));
           end else
-            fRemotePython.Debugger.set_break(VarPythonCreate(FName),
+            fMainDebugger.set_break(VarPythonCreate(FName),
               TBreakPoint(BreakPoints[j]).LineNo);
         end;
       end;
@@ -1873,23 +1856,36 @@ end;
 procedure TPyRemDebugger.UserLine(Sender: TObject; PSelf, Args: PPyObject;
   var Result: PPyObject);
 Var
-  SaveThreadState: PPyThreadState;
-  NotInMainThread : Boolean;
+  FName : string;
+  Frame : Variant;
+  LineNumber : integer;
 begin
-  fCurrentFrame := VarPythonCreate(Args).__getitem__(0);
-  NotInMainThread := GetCurrentThreadId <> MainThreadID;
-  with GetPythonEngine do begin
-    Result := ReturnNone;
-    if NotInMainThread then begin
-      SaveThreadState := PyEval_SaveThread();
-      try
-        TThread.Synchronize(nil, HandleUserLine);
-      finally
-        PyEval_RestoreThread(SaveThreadState);
-      end;
-    end else
-      HandleUserLine;
-  end;
+  Result := GetPythonEngine.ReturnNone;
+
+  fRemotePython.CheckConnected;
+  if fRemotePython.fThreadExecInterrupted then Exit;
+
+  Frame := VarPythonCreate(Args).__getitem__(0);
+  Assert(VarIsPython(Frame) and not VarisNone(Frame));
+  FName := Frame.f_code.co_filename;
+  LineNumber := Frame.f_lineno;
+  if (FName[1] ='<') and (FName[Length(FName)] = '>') then
+    FName :=  Copy(FName, 2, Length(FName)-2);
+
+  if PyIDEMainForm.ShowFilePosition(FName, LineNumber, 1, 0, True, False) and
+    (LineNumber > 0) then
+  begin
+    PyControl.CurrentPos.Editor := GI_EditorFactory.GetEditorByNameOrTitle(FName);
+    PyControl.CurrentPos.Line := LineNumber;
+    //TODO:  This will change
+    fMainThread.Status := thrdBroken;
+    GetCallStack(fMainThread.CallStack, Frame, fMainDebugger.botframe);
+
+    if PyControl.DebuggerState = dsDebugging then
+      PyControl.DoStateChange(dsPaused);
+   FDebuggerCommand := dcNone;
+  end else
+    fDebugManager.debug_command := Ord(dcRun);
 end;
 
 procedure TPyRemDebugger.UserReturn(Sender: TObject; PSelf, Args: PPyObject;
@@ -1902,11 +1898,7 @@ end;
 procedure TPyRemDebugger.UserYield(Sender: TObject; PSelf, Args: PPyObject;
   var Result: PPyObject);
 begin
-  if fDebuggerCommand = dcAbort then begin
-    fRemotePython.Debugger.set_quit();
-  end else if fDebuggerCommand = dcPause then
-    fRemotePython.Debugger.set_step();
-  Result := GetPythonEngine.ReturnNone;
+  Result := GetPythonEngine.PyInt_FromLong(Ord(fDebuggerCommand));
 end;
 
 end.

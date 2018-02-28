@@ -561,6 +561,7 @@ procedure TCodeExplorerWindow.ExplorerTreeGetText(Sender: TBaseVirtualTree;
 var
   Data : PNodeDataRec;
 begin
+  if TextType <> ttNormal then Exit;
   Data := ExplorerTree.GetNodeData(Node);
   if Assigned(Data) then
     CellText := Data.CENode.Caption;

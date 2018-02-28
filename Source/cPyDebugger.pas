@@ -16,6 +16,7 @@ uses
   System.SysUtils,
   System.Classes,
   System.Contnrs,
+  System.Generics.Collections,
   Vcl.Forms,
   PythonEngine,
   uEditAppIntfs,
@@ -117,8 +118,8 @@ type
   // pdb based internal debugger
   private
     fDebuggerCommand : TDebuggerCommand;
-    fCurrentFrame : Variant;
     fLineCache : Variant;
+    fMainThread : TThreadInfo;
     fOldPS1, fOldPS2 : string;
   protected
     procedure SetCommandLine(ARunConfig : TRunConfiguration); override;
@@ -130,7 +131,9 @@ type
     procedure UserReturn(Sender: TObject; PSelf, Args: PPyObject; var Result: PPyObject);
     procedure UserException(Sender: TObject; PSelf, Args: PPyObject; var Result: PPyObject);
     procedure UserYield(Sender: TObject; PSelf, Args: PPyObject; var Result: PPyObject);
-    property CurrentFrame : Variant read fCurrentFrame;
+    // Fills in CallStackList with TBaseFrameInfo objects
+    procedure GetCallStack(CallStackList : TObjectList<TBaseFrameInfo>;
+      Frame, Botframe : Variant);
   public
     constructor Create;
     destructor Destroy; override;
@@ -153,8 +156,8 @@ type
     function Evaluate(const Expr : string) : TBaseNamespaceItem; overload; override;
     // Like the InteractiveInterpreter runsource but for the debugger frame
     function RunSource(Const Source, FileName : Variant; symbol : string = 'single') : boolean; override;
-    // Fills in CallStackList with TBaseFrameInfo objects
-    procedure GetCallStack(CallStackList : TObjectList); override;
+    // Returns an array of ThreadInfo
+    procedure GetThreadInfos(out Threads : TArray<TThreadInfo>); override;
     // functions to get TBaseNamespaceItems corresponding to a frame's gloabals and locals
     function GetFrameGlobals(Frame : TBaseFrameInfo) : TBaseNameSpaceItem; override;
     function GetFrameLocals(Frame : TBaseFrameInfo) : TBaseNameSpaceItem; override;
@@ -468,6 +471,11 @@ constructor TPyInternalDebugger.Create;
 begin
   inherited Create;
   fLineCache := Import('linecache');
+
+  fMainThread := TThreadInfo.Create;
+  fMainThread.Name := 'MainThread';
+  fMainThread.Status := thrdRunning;
+
   fDebuggerCommand := dcNone;
   PyControl.BreakPointsChanged := True;
 end;
@@ -482,12 +490,13 @@ begin
     Items[4].OnExecute := nil;
   end;
 
+  FreeAndNil(fMainThread);
   inherited;
 end;
 
 procedure TPyInternalDebugger.EnterPostMortem;
 Var
-  TraceBack : Variant;
+  Frame, BotFrame, TraceBack : Variant;
 begin
   if not (HaveTraceback and (PyControl.DebuggerState = dsInactive)) then
     Exit;
@@ -500,10 +509,13 @@ begin
   end;
 
   TraceBack := SysModule.last_traceback;
-  InternalInterpreter.Debugger.botframe := TraceBack.tb_frame;
+  Botframe := TraceBack.tb_frame;
   while not VarIsNone(TraceBack.tb_next) do
     TraceBack := TraceBack.tb_next;
-  fCurrentFrame := TraceBack.tb_frame;
+  Frame := TraceBack.tb_frame;
+
+  fMainThread.Status := thrdBroken;
+  GetCallStack(fMainThread.CallStack, Frame, Botframe);
 
   PyControl.DoStateChange(dsPostMortem);
   DSAMessageDlg(dsaPostMortemInfo, 'PyScripter', _(SPostMortemInfo),
@@ -555,27 +567,21 @@ begin
     PS2 := fOldPS2;
     AppendText(sLineBreak+PS1);
   end;
-  VarClear(fCurrentFrame);
+  fMainThread.Status := thrdRunning;
+  fMainThread.CallStack.Clear;
   MakeFrameActive(nil);
   PyControl.DoStateChange(dsInactive);
 end;
 
-procedure TPyInternalDebugger.GetCallStack(CallStackList: TObjectList);
-Var
-  Frame : Variant;
+procedure TPyInternalDebugger.GetCallStack(CallStackList: TObjectList<TBaseFrameInfo>;
+  Frame, Botframe : Variant);
 begin
   CallStackList.Clear;
-
-  if not (PyControl.DebuggerState in [dsPaused, dsPostMortem]) then
-    Exit;
-
-  Frame := CurrentFrame;
   if VarIsPython(Frame) then
     while not VarIsNone(Frame.f_back) and not VarIsNone(Frame.f_back.f_back) do begin
       CallStackList.Add(TFrameInfo.Create(Frame));
       Frame := Frame.f_back;
-      if VarIsSame(Frame, InternalInterpreter.Debugger.botframe) then
-        break;
+      if VarIsSame(Frame, Botframe) then break;
     end;
 end;
 
@@ -593,6 +599,12 @@ begin
   if not (PyControl.DebuggerState in [dsPaused, dsPostMortem]) then
     Exit;
   Result := TNameSpaceItem.Create('locals', (Frame as TFrameInfo).fPyFrame.f_locals);
+end;
+
+procedure TPyInternalDebugger.GetThreadInfos(out Threads: TArray<TThreadInfo>);
+begin
+  SetLength(Threads, 1);
+  Threads[0] := fMainThread;
 end;
 
 function TPyInternalDebugger.HaveTraceback: boolean;
@@ -714,12 +726,11 @@ begin
       end;
 
     finally
-      VarClear(fCurrentFrame);
       MakeFrameActive(nil);
       with PythonIIForm do begin
         PS1 := fOldPS1;
         PS2 := fOldPS2;
-        AppendText(sLineBreak+PS1);
+        AppendPrompt;
       end;
 
       // Restore the command line parameters
@@ -834,14 +845,15 @@ begin
    FName := Frame.f_code.co_filename;
    if (FName[1] ='<') and (FName[Length(FName)] = '>') then
      FName :=  Copy(FName, 2, Length(FName)-2);
-   // PythonIIForm.AppendText('UserLine '+ FName + ' ' + IntToStr(Frame.f_lineno) +sLineBreak);
 
    if PyIDEMainForm.ShowFilePosition(FName, Frame.f_lineno, 1, 0, True, False) and
      (Frame.f_lineno > 0) then
    begin
      PyControl.CurrentPos.Editor := GI_EditorFactory.GetEditorByNameOrTitle(FName);
      PyControl.CurrentPos.Line := Frame.f_lineno;
-     FCurrentFrame := Frame;
+
+     fMainThread.Status := thrdBroken;
+     GetCallStack(fMainThread.CallStack, Frame, InternalInterpreter.Debugger.botframe);
 
       if PyControl.DebuggerState = dsDebugging then
         PyControl.DoStateChange(dsPaused);
@@ -851,6 +863,8 @@ begin
 
      if PyControl.BreakPointsChanged then SetDebuggerBreakpoints;
 
+     fMainThread.Status := thrdRunning;
+     fMainThread.CallStack.Clear;
      PyControl.DoStateChange(dsDebugging);
    end;
 
@@ -867,7 +881,6 @@ begin
                        MessagesWindow.ShowWindow;
                      end;
    end;
-   VarClear(fCurrentFrame);
 end;
 
 procedure TPyInternalDebugger.UserReturn(Sender: TObject; PSelf, Args: PPyObject;

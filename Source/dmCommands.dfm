@@ -1928,6 +1928,7 @@ object CommandsDataModule: TCommandsDataModule
         Strings.Strings = (
           'import sys'
           'import code'
+          'import threading'
           ''
           '__import__('#39'bdb'#39').__traceable__ = 0'
           '__import__('#39'rpyc'#39').core.netref.__traceable__ = 0'
@@ -1941,10 +1942,59 @@ object CommandsDataModule: TCommandsDataModule
           '__import__('#39'rpyc'#39').utils.server.__traceable__ = 0'
           ''
           'class RemotePythonInterpreter(code.InteractiveInterpreter):'
-          '    debugIDE = None #will be set to P4D module'
+          '    class DebugManager:'
+          '        # Debugger commands'
+          
+            '        dcNone, dcRun, dcStepInto, dcStepOver, dcStepOut, dcRunT' +
+            'oCursor, dcPause, dcAbort = range(8)'
+          '        debug_command = dcNone'
+          ''
+          '        # Thread status'
+          '        thrdRunning, thrdBroken, thrdFinished = range(3)'
+          '        main_thread_id = threading.current_thread().ident'
+          '        threads = {}'
+          '        threads[main_thread_id] = ('#39'MainThread'#39', thrdRunning)'
+          ''
+          '        # module for communication with the IDE'
+          '        debugIDE = None #will be set to P4D module'
+          ''
+          '        #shared debugger breakpoints'
+          '        breakpoints = {}'
+          ''
+          '        #active debugger objects'
+          '        active_thread = active_debugger = active_frame = None'
+          ''
+          '        @classmethod'
+          '        def thread_status(cls, ident, name, status):'
+          '            if status == cls.thrdFinished:'
+          '                cls.threads.pop(ident)'
+          '            else:'
+          '                cls.threads[ident] = (name, status)'
+          ''
+          '    class ThreadWrapper(threading.Thread):'
+          '        """ Wrapper class for threading.Thread. """'
+          '        def _bootstrap(self):'
+          '            self._set_ident()'
+          
+            '            self.debug_manager.thread_status(self.ident, self.na' +
+            'me, self.debug_manager.thrdRunning)'
+          '            try:'
+          '                self._Thread__bootstrap_inner()'
+          '            finally:'
+          
+            '                self.debug_manager.thread_status(self.ident, sel' +
+            'f.name, self.debug_manager.thrdFinished)'
+          '    ThreadWrapper.debug_manager = DebugManager'
           ''
           '    class IDEDebugger(__import__('#39'bdb'#39').Bdb):'
-          '        debugIDE = None  # will be set by PyScripter'
+          '        def __init__(self):'
+          '            __import__('#39'bdb'#39').Bdb.__init__(self)'
+          
+            '            self.locals = {"__name__": "__main__", "__doc__": No' +
+            'ne}'
+          '            self.breaks = self.debug_manager.breakpoints'
+          '            self.InitStepIn = False'
+          '            self.tracecount = 0'
           ''
           '        def do_clear(self, arg):'
           '            numberlist = arg.split()'
@@ -1968,37 +2018,50 @@ object CommandsDataModule: TCommandsDataModule
           ''
           '        def user_line(self, frame):'
           '            __import__("sys").stdout.print_queue.join()'
-          
-            '            self.conn = object.__getattribute__(self.debugIDE, "' +
-            '____conn__")()'
           ''
+          '            dbg_manager = self.debug_manager'
           
-            '            dcNone, dcRun, dcStepInto, dcStepOver, dcStepOut, dc' +
-            'RunToCursor, dcPause, dcAbort = range(8)'
-          '            self.debug_command = dcNone'
-          '            self.debugIDE.user_line(frame)'
-          '            if self.debug_command == dcRun:'
+            '            self.conn = object.__getattribute__(dbg_manager.debu' +
+            'gIDE, "____conn__")()'
+          ''
+          '            dbg_manager.debug_command = dbg_manager.dcNone'
+          '            dbg_manager.debugIDE.user_line(frame)'
+          '            if dbg_manager.debug_command == dbg_manager.dcRun:'
           '                self.set_return(frame)'
           '                return'
           ''
           '            time = __import__("time")'
-          '            while self.debug_command == dcNone:'
+          
+            '            while dbg_manager.debug_command == dbg_manager.dcNon' +
+            'e:'
           '                self.conn.poll_all(0.01)'
           '                time.sleep(0.01)'
           ''
-          '            if self.debug_command == dcRun:'
+          '            if dbg_manager.debug_command == dbg_manager.dcRun:'
           '                self.set_continue()'
-          '            elif self.debug_command == dcStepInto:'
+          
+            '            elif dbg_manager.debug_command == dbg_manager.dcStep' +
+            'Into:'
           '                self.set_step()'
-          '            elif self.debug_command == dcStepOver:'
+          
+            '            elif dbg_manager.debug_command == dbg_manager.dcStep' +
+            'Over:'
           '                self.set_next(frame)'
-          '            elif self.debug_command == dcStepOut:'
+          
+            '            elif dbg_manager.debug_command == dbg_manager.dcStep' +
+            'Out:'
           '                self.set_return(frame)'
-          '            elif self.debug_command == dcRunToCursor:'
+          
+            '            elif dbg_manager.debug_command == dbg_manager.dcRunT' +
+            'oCursor:'
           '                self.set_continue()'
-          '            elif self.debug_command == dcPause:'
+          
+            '            elif dbg_manager.debug_command == dbg_manager.dcPaus' +
+            'e:'
           '                self.set_step()'
-          '            elif self.debug_command == dcAbort:'
+          
+            '            elif dbg_manager.debug_command == dbg_manager.dcAbor' +
+            't:'
           '                self.set_quit()'
           ''
           '        def user_call(self, frame, arg):'
@@ -2008,7 +2071,11 @@ object CommandsDataModule: TCommandsDataModule
             '            if (self.tracecount > 1000) and not __import__('#39'sys'#39 +
             ').stdout.writing and not __import__('#39'sys'#39').stderr.writing:'
           '                self.tracecount = 0'
-          '                self.debugIDE.user_yield()'
+          '                cmd = self.debug_manager.debugIDE.user_yield()'
+          '                if cmd == self.debug_manager.dcAbort:'
+          '                    self.set_quit()'
+          '                elif cmd == self.debug_manager.dcPause:'
+          '                    self.set_step()'
           ''
           '        def dispatch_call(self, frame, arg):'
           
@@ -2029,6 +2096,7 @@ object CommandsDataModule: TCommandsDataModule
           '            import bdb'
           '            import types'
           '            import sys'
+          '            import threading'
           ''
           '            if globals is None:'
           '                globals = self.locals'
@@ -2043,6 +2111,9 @@ object CommandsDataModule: TCommandsDataModule
           '                globals["__file__"] = cmd.co_filename'
           '            else:'
           '                cmd = cmd+'#39'\n'#39
+          ''
+          '            old_thread_class = threading.Thread'
+          '            threading.Thread = self.thread_wrapper'
           ''
           '            self.exc_info = None'
           '            try:'
@@ -2072,7 +2143,10 @@ object CommandsDataModule: TCommandsDataModule
           '                if '#39'__file__'#39' in globals:'
           '                    del globals['#39'__file__'#39']'
           '                __import__("gc").collect()'
+          '                threading.Thread = old_thread_class'
           '                sys.stdout.print_queue.join()'
+          '    IDEDebugger.debug_manager = DebugManager'
+          '    IDEDebugger.thread_wrapper = ThreadWrapper'
           ''
           '    class IDETestResult(__import__('#39'unittest'#39').TestResult):'
           ''
@@ -2080,35 +2154,40 @@ object CommandsDataModule: TCommandsDataModule
           
             '            __import__('#39'unittest'#39').TestResult.startTest(self, te' +
             'st)'
-          '            self.debugIDE.testResultStartTest(test)'
+          
+            '            self.debug_manager.debugIDE.testResultStartTest(test' +
+            ')'
           ''
           '        def stopTest(self, test):'
           
             '            __import__('#39'unittest'#39').TestResult.stopTest(self, tes' +
             't)'
-          '            self.debugIDE.testResultStopTest(test)'
+          '            self.debug_manager.debugIDE.testResultStopTest(test)'
           ''
           '        def addError(self, test, err):'
           
             '            __import__('#39'unittest'#39').TestResult.addError(self, tes' +
             't, err)'
           
-            '            self.debugIDE.testResultAddError(test, self._exc_inf' +
-            'o_to_string(err, test))'
+            '            self.debug_manager.debugIDE.testResultAddError(test,' +
+            ' self._exc_info_to_string(err, test))'
           ''
           '        def addFailure(self, test, err):'
           
             '            __import__('#39'unittest'#39').TestResult.addFailure(self, t' +
             'est, err)'
           
-            '            self.debugIDE.testResultAddFailure(test, self._exc_i' +
-            'nfo_to_string(err, test))'
+            '            self.debug_manager.debugIDE.testResultAddFailure(tes' +
+            't, self._exc_info_to_string(err, test))'
           ''
           '        def addSuccess(self, test):'
-          '            self.debugIDE.testResultAddSuccess(test)'
+          
+            '            self.debug_manager.debugIDE.testResultAddSuccess(tes' +
+            't)'
           
             '            __import__('#39'unittest'#39').TestResult.addSuccess(self, t' +
             'est)'
+          '    IDETestResult.debug_manager = DebugManager'
           ''
           '    def __init__(self, locals = None):'
           '        code.InteractiveInterpreter.__init__(self, locals)'
@@ -2117,11 +2196,7 @@ object CommandsDataModule: TCommandsDataModule
           '        self.exc_info = None'
           ''
           '        self.debugger = self.IDEDebugger()'
-          '        self.debugger.InitStepIn = False'
-          '        self.debugger.locals = self.locals'
-          '        self.debugger.currentframe = None'
           '        self.debugger.showtraceback = self.showtraceback'
-          '        self.debugger.tracecount = 0'
           ''
           '        import repr'
           '        pyrepr = repr.Repr()'
@@ -2317,16 +2392,16 @@ object CommandsDataModule: TCommandsDataModule
           ''
           '        self.saveStdio = (sys.stdin, sys.stdout, sys.stderr)'
           '        try:'
-          '            if self.debugger.currentframe:'
+          '            if self.DebugManager.active_frame:'
           
-            '                exec code in self.debugger.currentframe.f_global' +
-            's, self.debugger.currentframe.f_locals'
+            '                exec code in self.DebugManager.active_frame.f_gl' +
+            'obals, self.DebugManager.active_frame.f_locals'
           '                # save locals'
           '                try:'
           '                    import ctypes'
           
             '                    ctypes.pythonapi.PyFrame_LocalsToFast(ctypes' +
-            '.py_object(self.debugger.currentframe), 0)'
+            '.py_object(self.DebugManager.active_frame), 0)'
           '                except :'
           '                    pass'
           '            else:'
@@ -2348,10 +2423,10 @@ object CommandsDataModule: TCommandsDataModule
           '    def evalcode(self, code):'
           '        # may raise exceptions'
           '        try:'
-          '            if self.debugger.currentframe:'
+          '            if self.DebugManager.active_frame:'
           
-            '                return eval(code, self.debugger.currentframe.f_g' +
-            'lobals, self.debugger.currentframe.f_locals)'
+            '                return eval(code, self.DebugManager.active_frame' +
+            '.f_globals, self.DebugManager.active_frame.f_locals)'
           '            else:'
           '                return eval(code, self.locals)'
           '        except SystemExit:'
@@ -2620,8 +2695,8 @@ object CommandsDataModule: TCommandsDataModule
           '            pass'
           '        if prompt is None: prompt = ""'
           
-            '        ret = self.debugIDE.InputBox(u'#39'Python input'#39', unicode(pr' +
-            'ompt),u"")'
+            '        ret = self.DebugManager.debugIDE.InputBox(u'#39'Python input' +
+            #39', unicode(prompt),u"")'
           '        if ret is None:'
           '            raise KeyboardInterrupt, "Operation cancelled"'
           '        return ret'
@@ -2645,13 +2720,15 @@ object CommandsDataModule: TCommandsDataModule
           'del code'
           'del RemotePythonInterpreter'
           'del sys'
-          'del os')
+          'del os'
+          'del threading')
       end
       item
         Name = 'RpyC_Init3000'
         Strings.Strings = (
           'import sys'
           'import code'
+          'import threading'
           '#import logging'
           ''
           '##logging.basicConfig(level=logging.DEBUG,'
@@ -2673,10 +2750,59 @@ object CommandsDataModule: TCommandsDataModule
           '__import__('#39'rpyc'#39').utils.server.__traceable__ = 0'
           ''
           'class RemotePythonInterpreter(code.InteractiveInterpreter):'
-          '    debugIDE = None #will be set to P4D module'
+          '    class DebugManager:'
+          '        # Debugger commands'
+          
+            '        dcNone, dcRun, dcStepInto, dcStepOver, dcStepOut, dcRunT' +
+            'oCursor, dcPause, dcAbort = range(8)'
+          '        debug_command = dcNone'
+          ''
+          '        # Thread status'
+          '        thrdRunning, thrdBroken, thrdFinished = range(3)'
+          '        main_thread_id = threading.current_thread().ident'
+          '        threads = {}'
+          '        threads[main_thread_id] = ('#39'MainThread'#39', thrdRunning)'
+          ''
+          '        # module for communication with the IDE'
+          '        debugIDE = None #will be set to P4D module'
+          ''
+          '        #shared debugger breakpoints'
+          '        breakpoints = {}'
+          ''
+          '        #active debugger objects'
+          '        active_thread = active_debugger = active_frame = None'
+          ''
+          '        @classmethod'
+          '        def thread_status(cls, ident, name, status):'
+          '            if status == cls.thrdFinished:'
+          '                cls.threads.pop(ident)'
+          '            else:'
+          '                cls.threads[ident] = (name, status)'
+          ''
+          '    class ThreadWrapper(threading.Thread):'
+          '        """ Wrapper class for threading.Thread. """'
+          '        def _bootstrap(self):'
+          '            self._set_ident()'
+          
+            '            self.debug_manager.thread_status(self.ident, self.na' +
+            'me, self.debug_manager.thrdRunning)'
+          '            try:'
+          '                self._bootstrap_inner()'
+          '            finally:'
+          
+            '                self.debug_manager.thread_status(self.ident, sel' +
+            'f.name, self.debug_manager.thrdFinished)'
+          '    ThreadWrapper.debug_manager = DebugManager'
           ''
           '    class IDEDebugger(__import__('#39'bdb'#39').Bdb):'
-          '        debugIDE = None  # will be set by PyScripter'
+          '        def __init__(self):'
+          '            super().__init__()'
+          
+            '            self.locals = {"__name__": "__main__", "__doc__": No' +
+            'ne}'
+          '            self.breaks = self.debug_manager.breakpoints'
+          '            self.InitStepIn = False'
+          '            self.tracecount = 0'
           ''
           '        def do_clear(self, arg):'
           '            numberlist = arg.split()'
@@ -2695,37 +2821,50 @@ object CommandsDataModule: TCommandsDataModule
           ''
           '        def user_line(self, frame):'
           '            __import__("sys").stdout.print_queue.join()'
-          
-            '            self.conn = object.__getattribute__(self.debugIDE, "' +
-            '____conn__")()'
           ''
+          '            dbg_manager = self.debug_manager'
           
-            '            dcNone, dcRun, dcStepInto, dcStepOver, dcStepOut, dc' +
-            'RunToCursor, dcPause, dcAbort = range(8)'
-          '            self.debug_command = dcNone'
-          '            self.debugIDE.user_line(frame)'
-          '            if self.debug_command == dcRun:'
+            '            self.conn = object.__getattribute__(dbg_manager.debu' +
+            'gIDE, "____conn__")()'
+          ''
+          '            dbg_manager.debug_command = dbg_manager.dcNone'
+          '            dbg_manager.debugIDE.user_line(frame)'
+          '            if dbg_manager.debug_command == dbg_manager.dcRun:'
           '                self.set_return(frame)'
           '                return'
           ''
           '            time = __import__("time")'
-          '            while self.debug_command == dcNone:'
+          
+            '            while dbg_manager.debug_command == dbg_manager.dcNon' +
+            'e:'
           '                self.conn.poll_all(0.01)'
           '                time.sleep(0.01)'
           ''
-          '            if self.debug_command == dcRun:'
+          '            if dbg_manager.debug_command == dbg_manager.dcRun:'
           '                self.set_continue()'
-          '            elif self.debug_command == dcStepInto:'
+          
+            '            elif dbg_manager.debug_command == dbg_manager.dcStep' +
+            'Into:'
           '                self.set_step()'
-          '            elif self.debug_command == dcStepOver:'
+          
+            '            elif dbg_manager.debug_command == dbg_manager.dcStep' +
+            'Over:'
           '                self.set_next(frame)'
-          '            elif self.debug_command == dcStepOut:'
+          
+            '            elif dbg_manager.debug_command == dbg_manager.dcStep' +
+            'Out:'
           '                self.set_return(frame)'
-          '            elif self.debug_command == dcRunToCursor:'
+          
+            '            elif dbg_manager.debug_command == dbg_manager.dcRunT' +
+            'oCursor:'
           '                self.set_continue()'
-          '            elif self.debug_command == dcPause:'
+          
+            '            elif dbg_manager.debug_command == dbg_manager.dcPaus' +
+            'e:'
           '                self.set_step()'
-          '            elif self.debug_command == dcAbort:'
+          
+            '            elif dbg_manager.debug_command == dbg_manager.dcAbor' +
+            't:'
           '                self.set_quit()'
           ''
           '        def user_call(self, frame, arg):'
@@ -2735,7 +2874,11 @@ object CommandsDataModule: TCommandsDataModule
             '            if (self.tracecount > 1000) and not __import__('#39'sys'#39 +
             ').stdout.writing and not __import__('#39'sys'#39').stderr.writing:'
           '                self.tracecount = 0'
-          '                self.debugIDE.user_yield()'
+          '                cmd = self.debug_manager.debugIDE.user_yield()'
+          '                if cmd == self.debug_manager.dcAbort:'
+          '                    self.set_quit()'
+          '                elif cmd == self.debug_manager.dcPause:'
+          '                    self.set_step()'
           ''
           '        def dispatch_call(self, frame, arg):'
           '            res = super().dispatch_call(frame, arg)'
@@ -2766,6 +2909,7 @@ object CommandsDataModule: TCommandsDataModule
           '            import bdb'
           '            import types'
           '            import sys'
+          '            import threading'
           ''
           '            if globals is None:'
           '                globals = self.locals'
@@ -2780,6 +2924,9 @@ object CommandsDataModule: TCommandsDataModule
           '                globals["__file__"] = cmd.co_filename'
           '            else:'
           '                cmd = cmd+'#39'\n'#39
+          ''
+          '            old_thread_class = threading.Thread'
+          '            threading.Thread = self.thread_wrapper'
           ''
           '            self.exc_info = None'
           '            try:'
@@ -2809,7 +2956,10 @@ object CommandsDataModule: TCommandsDataModule
           '                if '#39'__file__'#39' in globals:'
           '                    del globals['#39'__file__'#39']'
           '                __import__("gc").collect()'
+          '                threading.Thread = old_thread_class'
           '                sys.stdout.print_queue.join()'
+          '    IDEDebugger.debug_manager = DebugManager'
+          '    IDEDebugger.thread_wrapper = ThreadWrapper'
           ''
           '    class IDETestResult(__import__('#39'unittest'#39').TestResult):'
           ''
@@ -2817,35 +2967,40 @@ object CommandsDataModule: TCommandsDataModule
           
             '            __import__('#39'unittest'#39').TestResult.startTest(self, te' +
             'st)'
-          '            self.debugIDE.testResultStartTest(test)'
+          
+            '            self.debug_manager.debugIDE.testResultStartTest(test' +
+            ')'
           ''
           '        def stopTest(self, test):'
           
             '            __import__('#39'unittest'#39').TestResult.stopTest(self, tes' +
             't)'
-          '            self.debugIDE.testResultStopTest(test)'
+          '            self.debug_manager.debugIDE.testResultStopTest(test)'
           ''
           '        def addError(self, test, err):'
           
             '            __import__('#39'unittest'#39').TestResult.addError(self, tes' +
             't, err)'
           
-            '            self.debugIDE.testResultAddError(test, self._exc_inf' +
-            'o_to_string(err, test))'
+            '            self.debug_manager.debugIDE.testResultAddError(test,' +
+            ' self._exc_info_to_string(err, test))'
           ''
           '        def addFailure(self, test, err):'
           
             '            __import__('#39'unittest'#39').TestResult.addFailure(self, t' +
             'est, err)'
           
-            '            self.debugIDE.testResultAddFailure(test, self._exc_i' +
-            'nfo_to_string(err, test))'
+            '            self.debug_manager.debugIDE.testResultAddFailure(tes' +
+            't, self._exc_info_to_string(err, test))'
           ''
           '        def addSuccess(self, test):'
-          '            self.debugIDE.testResultAddSuccess(test)'
+          
+            '            self.debug_manager.debugIDE.testResultAddSuccess(tes' +
+            't)'
           
             '            __import__('#39'unittest'#39').TestResult.addSuccess(self, t' +
             'est)'
+          '    IDETestResult.debug_manager = DebugManager'
           ''
           '    def __init__(self, locals = None):'
           '        code.InteractiveInterpreter.__init__(self, locals)'
@@ -2854,11 +3009,7 @@ object CommandsDataModule: TCommandsDataModule
           '        self.exc_info = None'
           ''
           '        self.debugger = self.IDEDebugger()'
-          '        self.debugger.InitStepIn = False'
-          '        self.debugger.locals = self.locals'
-          '        self.debugger.currentframe = None'
           '        self.debugger.showtraceback = self.showtraceback'
-          '        self.debugger.tracecount = 0'
           ''
           '        try:'
           '            pyrepr = __import__('#39'repr'#39').Repr()'
@@ -3042,16 +3193,16 @@ object CommandsDataModule: TCommandsDataModule
           ''
           '        self.saveStdio = (sys.stdin, sys.stdout, sys.stderr)'
           '        try:'
-          '            if self.debugger.currentframe:'
+          '            if self.DebugManager.active_frame:'
           
-            '                exec(code, self.debugger.currentframe.f_globals,' +
-            ' self.debugger.currentframe.f_locals)'
+            '                exec(code, self.DebugManager.active_frame.f_glob' +
+            'als, self.DebugManager.active_frame.f_locals)'
           '                # save locals'
           '                try:'
           '                    import ctypes'
           
             '                    ctypes.pythonapi.PyFrame_LocalsToFast(ctypes' +
-            '.py_object(self.debugger.currentframe), 0)'
+            '.py_object(self.DebugManager.active_frame), 0)'
           '                except :'
           '                    pass'
           '            else:'
@@ -3070,10 +3221,10 @@ object CommandsDataModule: TCommandsDataModule
           '    def evalcode(self, code):'
           '        # may raise exceptions'
           '        try:'
-          '            if self.debugger.currentframe:'
+          '            if self.DebugManager.active_frame:'
           
-            '                return eval(code, self.debugger.currentframe.f_g' +
-            'lobals, self.debugger.currentframe.f_locals)'
+            '                return eval(code, self.DebugManager.active_frame' +
+            '.f_globals, self.DebugManager.active_frame.f_locals)'
           '            else:'
           '                return eval(code, self.locals)'
           '        except SystemExit:'
@@ -3342,8 +3493,8 @@ object CommandsDataModule: TCommandsDataModule
           '            pass'
           '        if prompt is None: prompt = ""'
           
-            '        ret = self.debugIDE.InputBox('#39'Python input'#39', str(prompt)' +
-            ', "")'
+            '        ret = self.DebugManager.debugIDE.InputBox('#39'Python input'#39 +
+            ', str(prompt), "")'
           '        if ret is None:'
           '            raise KeyboardInterrupt("Operation cancelled")'
           '        return ret'
@@ -3361,7 +3512,8 @@ object CommandsDataModule: TCommandsDataModule
           'del code'
           'del RemotePythonInterpreter'
           'del sys'
-          'del os')
+          'del os'
+          'del threading')
       end
       item
         Name = 'SimpleServer'
@@ -4607,9 +4759,10 @@ object CommandsDataModule: TCommandsDataModule
     Left = 36
     Top = 194
     Bitmap = {
-      494C010198009D00040010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C01019A009D00040010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000007002000001002000000000000070
       0200000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000000000000001001C010100200000000C000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -4617,113 +4770,112 @@ object CommandsDataModule: TCommandsDataModule
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
+      0000010100201A330AA8346214EA346518E9346418E7356515EC264A0FCB0409
+      0148000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000912
+      0366356515ED4F8D3CFD579E50FF529B4BFF529B4BFF529B4BFF4C913DFF386B
+      1AEF1A320AA80000000C00000000000000000000000000000000000000001A7E
+      A5FF1A7EA5FF1A7EA5FF1A7EA5FF1A7EA5FF000000001A7EA5FF1A7EA5FF1A7E
+      A5FF1A7EA5FF1A7EA5FF00000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000080F025F3768
+      19ED4F9544FF66A55FFFD1E4CEFF5B9E53FF509848FF509848FF509848FF5098
+      48FF3D7224F11B340AAB00000000000000000000000000000000000000001E86
+      AAFFD3F3FBFFB6EBFAFFCCF1FBFF1E86AAFF000000001E86AAFFD3F3FBFFB6EB
+      FAFFCFF2FBFF1E86AAFF00000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000010366814F24D93
+      40FF4E9645FF64A35CFFFFFFFFFFE3EFE2FF6AA662FF4E9645FF4E9645FF4E96
+      45FF4E9645FF396D1BF2050A024F00000000000000000000000000000000228D
+      B0FF98E2F8FF85DDF8FF95E2F9FF228DB0FF00000000228DB0FF98E2F8FF85DD
+      F8FF95E2F9FF228DB0FF00000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000000000000F1E0683417E29FB4C93
+      42FF4C9342FF62A15AFFFFFFFFFFFFFFFFFFF4F8F3FF70A968FF4C9342FF4C93
+      42FF4C9342FF488B36FF2A5010D3000000000000000000000000000000002594
+      B5FF94DEF8FF81D9F8FF91DEF9FF2594B5FF000000002594B5FF94DEF8FF81D9
+      F8FF91DEF9FF2594B5FF00000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000000000002F5A12E1488A36FF4B90
+      3FFF4B903FFF619E57FFFFFFFFFFFFFFFFFFFFFFFFFFF7FAF6FF81B178FF4B90
+      3FFF4B903FFF4B903FFF376B15F6010100200000000000000000000000002798
+      B8FFBBE8F8FFAFE5F8FFB9E8F9FF2798B8FF000000002798B8FFBBE8F8FFAFE5
+      F8FFB9E8F9FF2798B8FF00000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000000000003B7013FD498E3BFF498E
+      3CFF498E3CFF609C54FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF99C0
+      92FF498E3CFF498E3CFF376919EF030701400000000000000000000000002798
+      B8FFDEF1F8FFD9F0F8FFDEF2F9FF2798B8FF000000002798B8FFDEF1F8FFD9F0
+      F8FFDEF2F9FF2798B8FF00000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000000000003B7014FD4E9A49FF4E9A
+      4AFF4E9A4AFF64A761FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEEF5EEFF75B0
+      72FF4E9A4AFF4E9A4AFF386B1BEF030701400000000000000000000000002798
+      B8FFDEF1F8FFD9F0F8FFDEF2F9FF2798B8FF000000002798B8FFDEF1F8FFD9F0
+      F8FFDEF2F9FF2798B8FF00000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000000000002E5812DC4F9C4CFF55A7
+      5BFF55A75BFF6AB26FFFFFFFFFFFFFFFFFFFFFFFFFFFE2F0E3FF6AB26FFF55A7
+      5BFF55A75BFF55A75BFF386D16F6000100180000000000000000000000002798
+      B8FFE1F3FAFFD9F0F8FFE0F3F9FF2798B8FF000000002798B8FFE1F3FAFFD9F0
+      F8FFE0F3F9FF2798B8FF00000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000000000000000000000000000101F0783478836FA5CB4
+      6CFF5CB46CFF70BD7EFFFFFFFFFFFFFFFFFFD4EBD8FF64B873FF5CB46CFF5CB4
+      6CFF5CB46CFF52A052FF2A5212D2000000000000000000000000000000002798
+      B8FFE9F6FBFFD9F0F8FFE6F5FAFF2798B8FF000000002798B8FFE9F6FBFFD9F0
+      F8FFE6F5FAFF2798B8FF00000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000010366818ED5BB5
+      6BFF62C17CFF76C98DFFFFFFFFFFC9EAD2FF67C381FF62C17CFF62C17CFF62C1
+      7CFF61C07AFF3C7320F404090147000000000000000000000000000000002798
+      B8FFFDFEFFFFF1F9FCFFFAFDFEFF2798B8FF000000002798B8FFFDFEFFFFF1F9
+      FCFFFBFEFEFF2798B8FF00000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000060C02533A6E
+      1EF062C27CFF7CD59CFFB5E7C7FF6BD090FF69CF8EFF69CF8EFF69CF8EFF68CD
+      8BFF418032F119300CA100000000000000000000000000000000000000002798
+      B8FF2798B8FF2798B8FF2798B8FF2798B8FF000000002798B8FF2798B8FF2798
+      B8FF2798B8FF2798B8FF00000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000509
+      024B386B1BED54A556FD6BD291FF70DC9EFF70DC9EFF6ED99AFF5CB46AFF3D74
+      21F412240A890000000400000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000C12240A8932601BDF386E1AF339701CF3376A1AED1F3B12AE0102
+      0028000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

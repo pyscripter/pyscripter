@@ -319,6 +319,7 @@ procedure TUnitTestWindow.UnitTestsGetText(Sender: TBaseVirtualTree;
   Node: PVirtualNode; Column: TColumnIndex; TextType: TVSTTextType;
   var CellText: string);
 begin
+  if TextType <> ttNormal then Exit;
   if UnitTests.GetNodeLevel(Node) = 0 then
     CellText := TestClasses[Node.Index]
   else
