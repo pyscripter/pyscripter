@@ -18,7 +18,6 @@ inherited FindInFilesDialog: TFindInFilesDialog
     Height = 301
     Align = alClient
     TabOrder = 0
-    ExplicitWidth = 374
     DesignSize = (
       388
       301)
@@ -27,7 +26,6 @@ inherited FindInFilesDialog: TFindInFilesDialog
       Top = 9
       Width = 60
       Height = 13
-      Alignment = taRightJustify
       Caption = '&Text to find:'
       FocusControl = cbText
     end
@@ -42,7 +40,7 @@ inherited FindInFilesDialog: TFindInFilesDialog
       object cbCaseSensitive: TCheckBox
         Left = 10
         Top = 16
-        Width = 93
+        Width = 156
         Height = 21
         Caption = '&Case sensitive'
         TabOrder = 0
@@ -50,7 +48,7 @@ inherited FindInFilesDialog: TFindInFilesDialog
       object cbNoComments: TCheckBox
         Left = 10
         Top = 79
-        Width = 107
+        Width = 156
         Height = 21
         Caption = '&Ignore comments'
         TabOrder = 3
@@ -58,7 +56,7 @@ inherited FindInFilesDialog: TFindInFilesDialog
       object cbWholeWord: TCheckBox
         Left = 10
         Top = 36
-        Width = 81
+        Width = 156
         Height = 21
         Caption = '&Whole word'
         TabOrder = 1
@@ -66,7 +64,7 @@ inherited FindInFilesDialog: TFindInFilesDialog
       object cbRegEx: TCheckBox
         Left = 10
         Top = 58
-        Width = 116
+        Width = 167
         Height = 21
         Caption = 'Regular e&xpression'
         TabOrder = 2
@@ -83,7 +81,7 @@ inherited FindInFilesDialog: TFindInFilesDialog
       object rbOpenFiles: TRadioButton
         Left = 11
         Top = 36
-        Width = 72
+        Width = 174
         Height = 21
         Caption = '&Open files'
         TabOrder = 1
@@ -92,7 +90,7 @@ inherited FindInFilesDialog: TFindInFilesDialog
       object rbProject: TRadioButton
         Left = 11
         Top = 58
-        Width = 80
+        Width = 166
         Height = 21
         Caption = '&Project files'
         TabOrder = 2
@@ -101,7 +99,7 @@ inherited FindInFilesDialog: TFindInFilesDialog
       object rbCurrentOnly: TRadioButton
         Left = 11
         Top = 16
-        Width = 101
+        Width = 166
         Height = 21
         Caption = 'Current &file only'
         TabOrder = 0
@@ -110,7 +108,7 @@ inherited FindInFilesDialog: TFindInFilesDialog
       object rbDirectories: TRadioButton
         Left = 11
         Top = 79
-        Width = 121
+        Width = 166
         Height = 21
         Caption = 'Search in &directories'
         TabOrder = 3
@@ -125,7 +123,6 @@ inherited FindInFilesDialog: TFindInFilesDialog
       Anchors = [akLeft, akRight, akBottom]
       Caption = 'Directory Search'
       TabOrder = 1
-      ExplicitWidth = 360
       DesignSize = (
         374
         97)
@@ -134,7 +131,6 @@ inherited FindInFilesDialog: TFindInFilesDialog
         Top = 52
         Width = 52
         Height = 13
-        Alignment = taRightJustify
         Caption = 'File mas&ks:'
         FocusControl = cbMasks
       end
@@ -143,7 +139,6 @@ inherited FindInFilesDialog: TFindInFilesDialog
         Top = 26
         Width = 55
         Height = 13
-        Alignment = taRightJustify
         Caption = 'Di&rectories:'
         FocusControl = cbDirectory
       end
@@ -161,31 +156,29 @@ inherited FindInFilesDialog: TFindInFilesDialog
         TabOrder = 1
         TabStop = False
         OnClick = btnBrowseClick
-        ExplicitLeft = 335
       end
       object cbInclude: TCheckBox
-        Left = 78
-        Top = 75
+        Left = 96
+        Top = 73
         Width = 200
         Height = 21
         Anchors = [akLeft, akTop, akRight]
         Caption = 'Include su&bdirectories'
         TabOrder = 3
-        ExplicitWidth = 186
       end
       object cbMasks: TComboBox
-        Left = 78
+        Left = 96
         Top = 48
-        Width = 291
+        Width = 273
         Height = 21
         Anchors = [akLeft, akTop, akRight]
         DropDownCount = 15
         TabOrder = 2
       end
       object cbDirectory: TComboBox
-        Left = 78
+        Left = 96
         Top = 21
-        Width = 269
+        Width = 251
         Height = 21
         Anchors = [akLeft, akTop, akRight]
         DropDownCount = 15
@@ -204,7 +197,6 @@ inherited FindInFilesDialog: TFindInFilesDialog
       ModalResult = 1
       TabOrder = 4
       OnClick = btnOKClick
-      ExplicitLeft = 132
     end
     object btnCancel: TButton
       Left = 227
@@ -216,7 +208,6 @@ inherited FindInFilesDialog: TFindInFilesDialog
       Caption = '&Cancel'
       ModalResult = 2
       TabOrder = 5
-      ExplicitLeft = 213
     end
     object btnHelp: TButton
       Left = 307
@@ -227,7 +218,6 @@ inherited FindInFilesDialog: TFindInFilesDialog
       Caption = '&Help'
       TabOrder = 6
       OnClick = btnHelpClick
-      ExplicitLeft = 293
     end
     object cbText: TComboBox
       Left = 8

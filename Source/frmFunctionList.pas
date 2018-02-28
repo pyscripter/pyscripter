@@ -45,10 +45,25 @@ unit frmFunctionList;
 interface
 
 uses
-  Messages, Windows, Classes, Forms, Dialogs, StdCtrls, ActnList,
-  Controls, SpTBXControls, Graphics,
-  SpTBXEditors, TB2Dock, TB2Toolbar, SpTBXItem, TB2Item,
-  dlgPyIDEBase, System.Actions, Vcl.ComCtrls, Vcl.ExtCtrls;
+  WinApi.Messages,
+  WinApi.Windows,
+  System.Classes,
+  System.Actions,
+  Vcl.Forms,
+  Vcl.Dialogs,
+  Vcl.StdCtrls,
+  Vcl.ActnList,
+  Vcl.Controls,
+  Vcl.ComCtrls,
+  Vcl.ExtCtrls,
+  SpTBXControls,
+  Vcl.Graphics,
+  SpTBXEditors,
+  TB2Dock,
+  TB2Toolbar,
+  SpTBXItem,
+  TB2Item,
+  dlgPyIDEBase;
 
 const
   UM_RESIZECOLS = WM_USER + 523;
@@ -154,9 +169,16 @@ implementation
 {$R *.dfm}
 
 uses
-  SysUtils, Clipbrd, frmPyIDEMain, StrUtils, Math,
-  dmCommands, uEditAppIntfs, cPythonSourceScanner,
-  JvJVCLUtils;
+  System.SysUtils,
+  System.StrUtils,
+  System.Math,
+  Vcl.Clipbrd,
+  JvJVCLUtils,
+  JvGnuGetText,
+  frmPyIDEMain,
+  dmCommands,
+  uEditAppIntfs,
+  cPythonSourceScanner;
 
 resourcestring
   SAllString = '<All>';
@@ -175,7 +197,7 @@ begin
   LoadTime := GetTickCount;
   InitializeForm;
   LoadTime := GetTickCount - LoadTime;
-  RightStatusLabel.Caption := Format(SParseStatistics, [LoadTime / 1000]);
+  RightStatusLabel.Caption := Format(_(SParseStatistics), [LoadTime / 1000]);
   ResizeCols;
 end;
 
@@ -340,7 +362,7 @@ end;
 // before playing with the column widths. We should fix this somehow.
 procedure TFunctionListWindow.ResizeCols;
 begin
-    PostMessage(Self.Handle, UM_RESIZECOLS, 0, 0);
+  PostMessage(Self.Handle, UM_RESIZECOLS, 0, 0);
 end;
 
 procedure TFunctionListWindow.SaveSettings;
@@ -381,7 +403,6 @@ end;
 
 procedure TFunctionListWindow.FormResize(Sender: TObject);
 begin
-  LeftStatusLabel.CustomWidth := StatusBar.Width - 90;
   ResizeCols;
 end;
 

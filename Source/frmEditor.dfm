@@ -88,7 +88,7 @@ object EditorForm: TEditorForm
             Align = alClient
             Ctl3D = False
             ParentCtl3D = False
-            Font.Charset = GREEK_CHARSET
+            Font.Charset = DEFAULT_CHARSET
             Font.Color = clWindowText
             Font.Height = -13
             Font.Name = 'Courier New'

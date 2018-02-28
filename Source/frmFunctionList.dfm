@@ -63,8 +63,6 @@ inherited FunctionListWindow: TFunctionListWindow
     Height = 223
     Align = alClient
     TabOrder = 0
-    ExplicitWidth = 525
-    ExplicitHeight = 218
     object lvProcs: TListView
       Left = 1
       Top = 1
@@ -92,8 +90,6 @@ inherited FunctionListWindow: TFunctionListWindow
       OnChange = lvProcsChange
       OnColumnClick = lvProcsColumnClick
       OnDblClick = actViewGotoExecute
-      ExplicitWidth = 523
-      ExplicitHeight = 216
     end
   end
   object pnlHeader: TPanel
@@ -106,7 +102,6 @@ inherited FunctionListWindow: TFunctionListWindow
     ShowHint = True
     TabOrder = 1
     OnResize = pnlHeaderResize
-    ExplicitWidth = 525
     object pnlHeaderLeft: TPanel
       AlignWithMargins = True
       Left = 4
@@ -143,7 +138,6 @@ inherited FunctionListWindow: TFunctionListWindow
       Height = 35
       Align = alClient
       TabOrder = 1
-      ExplicitWidth = 251
       object lblObjects: TLabel
         Left = 16
         Top = 8
@@ -174,7 +168,6 @@ inherited FunctionListWindow: TFunctionListWindow
     Height = 26
     AllowDrag = False
     LimitToOneRow = True
-    ExplicitWidth = 525
     object Toolbar: TSpTBXToolbar
       Left = 0
       Top = 0
@@ -218,15 +211,14 @@ inherited FunctionListWindow: TFunctionListWindow
     Height = 25
     ParentShowHint = False
     ShowHint = True
-    ExplicitTop = 287
-    ExplicitWidth = 525
     object LeftStatusLabel: TSpTBXLabelItem
       Wrapping = twEndEllipsis
       Options = [tboShowHint]
       CustomHeight = 21
     end
     object SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem
-      CustomWidth = 501
+      Wrapping = twNone
+      CustomWidth = 0
     end
     object SpTBXSeparatorItem5: TSpTBXSeparatorItem
     end

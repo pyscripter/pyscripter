@@ -116,7 +116,7 @@ inherited VariablesWindow: TVariablesWindow
           Align = alTop
           BevelOuter = bvNone
           BorderStyle = bsNone
-          Font.Charset = GREEK_CHARSET
+          Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -11
           Font.Name = 'Tahoma'

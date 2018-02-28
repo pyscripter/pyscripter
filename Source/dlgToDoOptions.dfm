@@ -194,7 +194,7 @@ inherited fmToDoOptions: TfmToDoOptions
         Top = 78
         Width = 208
         Height = 66
-        Font.Charset = GREEK_CHARSET
+        Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
         Font.Height = -11
         Font.Name = 'MS Shell Dlg 2'
