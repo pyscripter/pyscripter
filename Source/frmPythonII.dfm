@@ -172,7 +172,7 @@ inherited PythonIIForm: TPythonIIForm
         Name = 'user_line'
       end
       item
-        Name = 'user_return'
+        Name = 'user_thread'
       end
       item
         Name = 'user_exception'

@@ -137,6 +137,10 @@ type
     property MainModule : TModuleProxy read GetMainModule;
   end;
 
+  TThreadChangeType = (tctAdded, tctRemoved, tctStatusChange);
+  TThreadChangeNotifyEvent = procedure(Thread : TThreadInfo;
+    ChangeType : TThreadChangeType) of object;
+
   TPyBaseDebugger = class(TObject)
   {  Base (abstract) class for implementing Python Debuggers }
   protected
@@ -163,8 +167,6 @@ type
     function Evaluate(const Expr : string) : TBaseNamespaceItem; overload; virtual; abstract;
     // Like the InteractiveInterpreter runsource but for the debugger frame
     function RunSource(Const Source, FileName : Variant; symbol : string = 'single') : boolean; virtual; abstract;
-    // Returns an array of ThreadInfo
-    procedure GetThreadInfos(out Threads : TArray<TThreadInfo>); virtual; abstract;
     // functions to get TBaseNamespaceItems corresponding to a frame's gloabals and locals
     function GetFrameGlobals(Frame : TBaseFrameInfo) : TBaseNameSpaceItem; virtual; abstract;
     function GetFrameLocals(Frame : TBaseFrameInfo) : TBaseNameSpaceItem; virtual; abstract;
@@ -174,6 +176,8 @@ type
     function HaveTraceback : boolean; virtual; abstract;
     procedure EnterPostMortem; virtual; abstract;
     procedure ExitPostMortem; virtual; abstract;
+
+    class var ThreadChangeNotify : TThreadChangeNotifyEvent;
   end;
 
  TModuleProxy = class(TParsedModule)

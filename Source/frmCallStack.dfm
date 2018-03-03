@@ -87,7 +87,6 @@ inherited CallStackWindow: TCallStackWindow
         OnDblClick = CallStackViewDblClick
         OnGetText = CallStackViewGetText
         OnGetImageIndex = CallStackViewGetImageIndex
-        OnInitNode = CallStackViewInitNode
         Columns = <
           item
             Position = 0

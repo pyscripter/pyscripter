@@ -94,7 +94,7 @@ type
     function SysPathRemove(const Path : string) : boolean; override;
     procedure SysPathToStrings(Strings : TStrings); override;
     procedure StringsToSysPath(Strings : TStrings); override;
-    function Compile(ARunConfig : TRunConfiguration) : Variant; 
+    function Compile(ARunConfig : TRunConfiguration) : Variant;
     function GetGlobals : TBaseNameSpaceItem; override;
     procedure GetModulesOnPath(Path : Variant; SL : TStrings); override;
     function NameSpaceFromExpression(const Expr : string) : TBaseNameSpaceItem; override;
@@ -128,7 +128,7 @@ type
     procedure LoadLineCache;
     procedure UserCall(Sender: TObject; PSelf, Args: PPyObject; var Result: PPyObject);
     procedure UserLine(Sender: TObject; PSelf, Args: PPyObject; var Result: PPyObject);
-    procedure UserReturn(Sender: TObject; PSelf, Args: PPyObject; var Result: PPyObject);
+    procedure UserThread(Sender: TObject; PSelf, Args: PPyObject; var Result: PPyObject);
     procedure UserException(Sender: TObject; PSelf, Args: PPyObject; var Result: PPyObject);
     procedure UserYield(Sender: TObject; PSelf, Args: PPyObject; var Result: PPyObject);
     // Fills in CallStackList with TBaseFrameInfo objects
@@ -156,8 +156,6 @@ type
     function Evaluate(const Expr : string) : TBaseNamespaceItem; overload; override;
     // Like the InteractiveInterpreter runsource but for the debugger frame
     function RunSource(Const Source, FileName : Variant; symbol : string = 'single') : boolean; override;
-    // Returns an array of ThreadInfo
-    procedure GetThreadInfos(out Threads : TArray<TThreadInfo>); override;
     // functions to get TBaseNamespaceItems corresponding to a frame's gloabals and locals
     function GetFrameGlobals(Frame : TBaseFrameInfo) : TBaseNameSpaceItem; override;
     function GetFrameLocals(Frame : TBaseFrameInfo) : TBaseNameSpaceItem; override;
@@ -514,10 +512,11 @@ begin
     TraceBack := TraceBack.tb_next;
   Frame := TraceBack.tb_frame;
 
+  PyControl.DoStateChange(dsPostMortem);
   fMainThread.Status := thrdBroken;
   GetCallStack(fMainThread.CallStack, Frame, Botframe);
+  TPyBaseDebugger.ThreadChangeNotify(fMainThread, tctAdded );
 
-  PyControl.DoStateChange(dsPostMortem);
   DSAMessageDlg(dsaPostMortemInfo, 'PyScripter', _(SPostMortemInfo),
      mtInformation, [mbOK], 0, dckActiveForm, 0, mbOK);
 end;
@@ -569,6 +568,7 @@ begin
   end;
   fMainThread.Status := thrdRunning;
   fMainThread.CallStack.Clear;
+  TPyBaseDebugger.ThreadChangeNotify(fMainThread, tctStatusChange);
   MakeFrameActive(nil);
   PyControl.DoStateChange(dsInactive);
 end;
@@ -599,12 +599,6 @@ begin
   if not (PyControl.DebuggerState in [dsPaused, dsPostMortem]) then
     Exit;
   Result := TNameSpaceItem.Create('locals', (Frame as TFrameInfo).fPyFrame.f_locals);
-end;
-
-procedure TPyInternalDebugger.GetThreadInfos(out Threads: TArray<TThreadInfo>);
-begin
-  SetLength(Threads, 1);
-  Threads[0] := fMainThread;
 end;
 
 function TPyInternalDebugger.HaveTraceback: boolean;
@@ -671,6 +665,7 @@ begin
     end;
 
     PyControl.DoStateChange(dsDebugging);
+    TPyBaseDebugger.ThreadChangeNotify(fMainThread, tctAdded );
 
     MessagesWindow.ClearMessages;
     Editor := GI_ActiveEditor;
@@ -695,7 +690,7 @@ begin
       with PythonIIForm.DebugIDE.Events do begin
         Items[0].OnExecute := UserCall;
         Items[1].OnExecute := UserLine;
-        Items[2].OnExecute := UserReturn;
+        Items[2].OnExecute := UserThread;
         Items[3].OnExecute := UserException;
         Items[4].OnExecute := UserYield;
       end;
@@ -852,11 +847,12 @@ begin
      PyControl.CurrentPos.Editor := GI_EditorFactory.GetEditorByNameOrTitle(FName);
      PyControl.CurrentPos.Line := Frame.f_lineno;
 
+     if PyControl.DebuggerState = dsDebugging then
+       PyControl.DoStateChange(dsPaused);
      fMainThread.Status := thrdBroken;
      GetCallStack(fMainThread.CallStack, Frame, InternalInterpreter.Debugger.botframe);
+     TPyBaseDebugger.ThreadChangeNotify(fMainThread, tctStatusChange);
 
-      if PyControl.DebuggerState = dsDebugging then
-        PyControl.DoStateChange(dsPaused);
      FDebuggerCommand := dcNone;
      While  FDebuggerCommand = dcNone do
        PyControl.DoYield(True);
@@ -864,6 +860,7 @@ begin
      if PyControl.BreakPointsChanged then SetDebuggerBreakpoints;
 
      fMainThread.Status := thrdRunning;
+     TPyBaseDebugger.ThreadChangeNotify(fMainThread, tctStatusChange);
      fMainThread.CallStack.Clear;
      PyControl.DoStateChange(dsDebugging);
    end;
@@ -883,10 +880,9 @@ begin
    end;
 end;
 
-procedure TPyInternalDebugger.UserReturn(Sender: TObject; PSelf, Args: PPyObject;
+procedure TPyInternalDebugger.UserThread(Sender: TObject; PSelf, Args: PPyObject;
   var Result: PPyObject);
 begin
-   // PythonIIForm.AppendText('UserReturn'+sLineBreak);
    Result := GetPythonEngine.ReturnNone;
 end;
 
