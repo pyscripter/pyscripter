@@ -1419,17 +1419,17 @@ msgstr "Tipografía"
 #. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterAutosize..Caption
 #: dlgSynEditOptions.dfm
 msgid "Autosize"
-msgstr ""
+msgstr "Autoredimensionado"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterShowLineNumbers..Caption
 #: dlgSynEditOptions.dfm
 msgid "Show line numbers"
-msgstr ""
+msgstr "Mostrar números de línea"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterShowLeaderZeros..Caption
 #: dlgSynEditOptions.dfm
 msgid "Show leading zeros"
-msgstr ""
+msgstr "Mostrar ceros iniciales"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterVisible..Caption
 #: dlgSynEditOptions.dfm
@@ -1444,7 +1444,7 @@ msgstr ""
 #. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterStartAtZero..Caption
 #: dlgSynEditOptions.dfm
 msgid "Start at zero"
-msgstr ""
+msgstr "Iniciar con cero"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterGradient..Hint
 #: dlgSynEditOptions.dfm
@@ -1464,12 +1464,12 @@ msgstr "Marcadores"
 #. fmEditorOptionsDialog..Panel1..TabControl..Display..gbBookmarks..ckBookmarkKeys..Caption
 #: dlgSynEditOptions.dfm
 msgid "Bookmark keys"
-msgstr ""
+msgstr "Claves de marcador"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Display..gbBookmarks..ckBookmarkVisible..Caption
 #: dlgSynEditOptions.dfm
 msgid "Bookmarks visible"
-msgstr ""
+msgstr "Marcadores visible"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Display..gbEditorFont..Caption
 #: dlgSynEditOptions.dfm
@@ -1479,7 +1479,7 @@ msgstr "Tipo de letra del editor"
 #. fmEditorOptionsDialog..Panel1..TabControl..Display..gbLineSpacing..Caption
 #: dlgSynEditOptions.dfm
 msgid "Line spacing / Tab spacing"
-msgstr ""
+msgstr "Espaciado de línea / Espaciado de pestaña"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Display..gbLineSpacing..Label8..Caption
 #: dlgSynEditOptions.dfm
@@ -1494,7 +1494,7 @@ msgstr "Ancho de Tabulación:"
 #. fmEditorOptionsDialog..Panel1..TabControl..Display..GroupBox2..Caption
 #: dlgSynEditOptions.dfm
 msgid "Active Line Color"
-msgstr ""
+msgstr "Color de línea activa"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Color..Label11..Caption
 #: dlgSynEditOptions.dfm
@@ -1552,13 +1552,13 @@ msgstr "Configurar página"
 #. PageSetupDlg..TabControl..tbMargins..Caption
 #: dlgSynPageSetup.dfm
 msgid "Margins && Options"
-msgstr ""
+msgstr "Márgenes && Opciones"
 
 #. PageSetupDlg..TabControl..SpTBXTabItem2..Caption
 #. PageSetupDlg..TabControl..tbHeaderFooter..Caption
 #: dlgSynPageSetup.dfm
 msgid "Header && Footer"
-msgstr ""
+msgstr "Encabezado && Pie de página"
 
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox1..Caption
 #: dlgSynPageSetup.dfm
@@ -1604,13 +1604,13 @@ msgstr "Color de la sombra"
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox1..GroupBox2..CBHeaderLine..Caption
 #: dlgSynPageSetup.dfm
 msgid "Line under"
-msgstr ""
+msgstr "Línea debajo"
 
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox1..GroupBox2..CBHeaderBox..Caption
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox3..GroupBox4..CBFooterBox..Caption
 #: dlgSynPageSetup.dfm
 msgid "Box"
-msgstr ""
+msgstr "Caja"
 
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox1..GroupBox2..CBHeaderShadow..Caption
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox3..GroupBox4..CBFooterShadow..Caption
@@ -1627,12 +1627,12 @@ msgstr ""
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox3..Caption
 #: dlgSynPageSetup.dfm
 msgid "Footer"
-msgstr ""
+msgstr "Pie de página"
 
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox3..GroupBox4..CBFooterLine..Caption
 #: dlgSynPageSetup.dfm
 msgid "Line above"
-msgstr ""
+msgstr "Línea superior"
 
 #. PageSetupDlg..TabControl..tbMargins..Label1..Caption
 #: dlgSynPageSetup.dfm
@@ -1697,7 +1697,7 @@ msgstr "Usar colores"
 #. PageSetupDlg..TabControl..tbMargins..CBWrap..Caption
 #: dlgSynPageSetup.dfm
 msgid "Wrap lines"
-msgstr ""
+msgstr "Ajuste de línea"
 
 #. PageSetupDlg..ActionList1..PageNumCmd..Caption
 #. PageSetupDlg..ActionList1..PageNumCmd..Hint
@@ -1879,12 +1879,12 @@ msgstr "Cerrar|Cerrar vista previa de impresión"
 #. fmToDoOptions..Caption
 #: dlgToDoOptions.dfm
 msgid "To Do Options"
-msgstr ""
+msgstr "Opciones de To Do"
 
 #. fmToDoOptions..pnlBG..gbxTokens..Caption
 #: dlgToDoOptions.dfm
 msgid "To Do Tokens"
-msgstr ""
+msgstr "Tokens de To Do"
 
 #. fmToDoOptions..pnlBG..gbxTokens..btnInsert..Caption
 #: dlgToDoOptions.dfm
@@ -1922,37 +1922,37 @@ msgstr "&Prioridad"
 #. fmToDoOptions..pnlBG..gbxTokens..lblToken..Caption
 #: dlgToDoOptions.dfm
 msgid "To&ken"
-msgstr ""
+msgstr "To&ken"
 
 #. fmToDoOptions..pnlBG..gbxOptions..cbShowTokens..Caption
 #: dlgToDoOptions.dfm
 msgid "&Show tokens in description"
-msgstr ""
+msgstr "Mo&strar tokens en la descripción"
 
 #. fmToDoOptions..pnlBG..gbxSearchFiles..Caption
 #: dlgToDoOptions.dfm
 msgid "Search for To Do Tokens"
-msgstr ""
+msgstr "Buscar Tokens de To Do"
 
 #. fmToDoOptions..pnlBG..gbxSearchFiles..radScanOpen..Caption
 #: dlgToDoOptions.dfm
 msgid "Scan &open files"
-msgstr ""
+msgstr "Escanear archiv&os abiertos"
 
 #. fmToDoOptions..pnlBG..gbxSearchFiles..radScanDir..Caption
 #: dlgToDoOptions.dfm
 msgid "Scan &directories"
-msgstr ""
+msgstr "Escanear carp&etas"
 
 #. fmToDoOptions..pnlBG..gbxSearchFiles..radScanProject..Caption
 #: dlgToDoOptions.dfm
 msgid "Scan &project files"
-msgstr ""
+msgstr "Escanear archivos del &proyecto"
 
 #. ToolProperties..Caption
 #: dlgToolProperties.dfm
 msgid "External Tool Properties"
-msgstr ""
+msgstr "Propiedades de Herramientas Externas"
 
 #. ToolProperties..Panel1..TabControl..SpTBXTabItem1..Caption
 #. ToolProperties..Panel1..TabControl..tabProperties..Caption
@@ -1985,7 +1985,7 @@ msgstr "&Aplicación:"
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox4..Caption
 #: dlgToolProperties.dfm
 msgid "Shortcut and Context"
-msgstr ""
+msgstr "Atajo y Contexto"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox4..lbShortcut..Caption
 #: dlgToolProperties.dfm
@@ -1995,7 +1995,7 @@ msgstr "&Acceso rápido:"
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox4..lbContext..Caption
 #: dlgToolProperties.dfm
 msgid "Conte&xt:"
-msgstr ""
+msgstr "Conte&xto:"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox4..Label13..Caption
 #: dlgToolProperties.dfm
@@ -2008,6 +2008,8 @@ msgid ""
 "Specifies the context in which\n"
 "the tool is enabled."
 msgstr ""
+"Especifica el contexto en el cual\n"
+"la herramienta se habilitada."
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox4..cbContext....Items.Strings
 #: dlgToolProperties.dfm
@@ -2017,17 +2019,17 @@ msgstr "Siempre activado"
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox4..cbContext....Items.Strings
 #: dlgToolProperties.dfm
 msgid "Active editor"
-msgstr ""
+msgstr "Editor activo"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox4..cbContext....Items.Strings
 #: dlgToolProperties.dfm
 msgid "Active Python file"
-msgstr ""
+msgstr "Archivo activo de Python"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox4..cbContext....Items.Strings
 #: dlgToolProperties.dfm
 msgid "Selection available"
-msgstr ""
+msgstr "Selección disponible"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox4..cbSaveFiles....Items.Strings
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..cbStandardInput....Items.Strings
@@ -2039,7 +2041,7 @@ msgstr "Ninguno"
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox4..cbSaveFiles....Items.Strings
 #: dlgToolProperties.dfm
 msgid "Active only"
-msgstr ""
+msgstr "Únicamente activo"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox4..cbSaveFiles....Items.Strings
 #: dlgToolProperties.dfm
@@ -2049,22 +2051,22 @@ msgstr "Todos los archivos"
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..Caption
 #: dlgToolProperties.dfm
 msgid "Standard Input and Output"
-msgstr ""
+msgstr "Entrada y Salida Estándar"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..Label10..Caption
 #: dlgToolProperties.dfm
 msgid "Std. &Input:"
-msgstr ""
+msgstr "&Entrada Estd:"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..Label11..Caption
 #: dlgToolProperties.dfm
 msgid "Std. &Output:"
-msgstr ""
+msgstr "&Salida Estd:"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..Label12..Caption
 #: dlgToolProperties.dfm
 msgid "Messages &Format:"
-msgstr ""
+msgstr "&Formato de Mensajes:"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..cbCaptureOutput..Caption
 #: dlgToolProperties.dfm
@@ -5868,6 +5870,9 @@ msgid ""
 "have made PyScripter possible. PyScripter makes use of the following "
 "components and projects:\n"
 msgstr ""
+"Agradecimientos especiales a todos los desarrolladores quienes con su gran "
+"trabajo han hecho posible el desarrollo de PyScripter. PyScripter utiliza "
+"los siguientes componentes y/o proyectos:\n"
 
 #: dlgAboutPyScripter.pas
 msgid ""
@@ -5903,85 +5908,87 @@ msgstr ""
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "Arabic: %s"
-msgstr ""
+msgstr "Árabe: %s"
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationChinese
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "Chinese: %s"
-msgstr ""
+msgstr "Chino: %s"
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationFrench
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "French: %s"
-msgstr ""
+msgstr "Francés: %s"
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationGerman
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "German: %s"
-msgstr ""
+msgstr "Alemán: %s"
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationGreek
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "Greek: %s"
-msgstr ""
+msgstr "Griego: %s"
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationItalian
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "Italian: %s"
-msgstr ""
+msgstr "Italiano: %s"
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationJapanese
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "Japanese: %s"
-msgstr ""
+msgstr "Japonés: %s"
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationKabyle
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "Taqbaylit: %s"
-msgstr ""
+msgstr "Cabilio: %s"
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationPortugueseBR
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "Portuguese (Brazil): %s"
-msgstr ""
+msgstr "Portugués (Brasil): %s"
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationPortuguesePT
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "Portuguese (Portugal): %s"
-msgstr ""
+msgstr "Portugués (Portugal): %s"
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationRussian
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "Russian: %s"
-msgstr ""
+msgstr "Ruso: %s"
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationSlovak
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "Slovak: %s"
-msgstr ""
+msgstr "Eslovaco: %s"
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationSpanish
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "Spanish: %s"
-msgstr ""
+msgstr "Español: %s"
 
 #: dlgAboutPyScripter.pas
 msgid ""
 "Tanmaya Meher (www.github.com/tanmayameher)\n"
 "jprzywoski (www.github.com/jprzywoski)\n"
 msgstr ""
+"Tanmaya Meher (www.github.com/tanmayameher)\n"
+"jprzywoski (www.github.com/jprzywoski)\n"
 
 #: dlgAboutPyScripter.pas
 msgid ""
@@ -5989,18 +5996,21 @@ msgid ""
 "Internet group support is available at https://groups.google.com/group/PyScripter\n"
 "Please submit bug reports and questions about PyScripter to pyscripter@gmail.com."
 msgstr ""
+"El hogar del proyecto, rastreador de problemas y repositorio de código fuente están hospedados en Github (github.com/pyscripter/pyscripter)\n"
+"Grupo de soporte disponible en https://groups.google.com/group/PyScripter\n"
+"Por favor envíe reportes de bugs y preguntas sobre PyScripter a pyscripter@gmail.com."
 
 #: dlgAboutPyScripter.pas
 msgid "Translation manager"
-msgstr ""
+msgstr "Gestión de Traducción"
 
 #: dlgAboutPyScripter.pas
 msgid "Translators"
-msgstr ""
+msgstr "Traductores"
 
 #: dlgAboutPyScripter.pas
 msgid "Theme design"
-msgstr ""
+msgstr "Diseño de Temas"
 
 #. Programmer's name for it: SAskReplaceText
 #: dlgConfirmReplace.pas
@@ -6015,7 +6025,7 @@ msgstr "No asignado"
 #. Programmer's name for it: RsSendBugReportSubject
 #: dlgExceptionMail.pas
 msgid "PyScripter Bug Report"
-msgstr ""
+msgstr "Reporte de Bugs de PyScripter"
 
 #. Programmer's name for it: RsNoMailClient
 #: dlgExceptionMail.pas
@@ -6030,19 +6040,19 @@ msgstr ""
 
 #: dlgRunConfiguration.pas dlgToolProperties.pas
 msgid "Select working directory:"
-msgstr ""
+msgstr "Elegir carpeta de trabajo:"
 
 #: dmCommands.pas
 msgid "IDE"
-msgstr ""
+msgstr "IDE"
 
 #: dmCommands.pas
 msgid "Check for updates automatically"
-msgstr ""
+msgstr "Buscar actualizaciones automáticamente"
 
 #: dmCommands.pas
 msgid "Days between update checks"
-msgstr ""
+msgstr "Periodo de búsqueda de actualizaciones en días"
 
 #: dmCommands.pas
 msgid "Mask FPU Exceptions"
@@ -6050,7 +6060,7 @@ msgstr ""
 
 #: dmCommands.pas
 msgid "Editor tab position"
-msgstr ""
+msgstr "Posición de pestaña del editor"
 
 #: dmCommands.pas
 msgid "Smart Next Previous Page"
@@ -6143,35 +6153,35 @@ msgstr "Filtros de archivos"
 
 #: dmCommands.pas
 msgid "Open dialog Python filter"
-msgstr ""
+msgstr "Filtro para abrir archivos Python"
 
 #: dmCommands.pas
 msgid "Open dialog HTML filter"
-msgstr ""
+msgstr "Filtro para abrir archivos HTML"
 
 #: dmCommands.pas
 msgid "Open dialog XML filter"
-msgstr ""
+msgstr "Filtro para abrir archivos XML"
 
 #: dmCommands.pas
 msgid "Open dialog CSS filter"
-msgstr ""
+msgstr "Filtro para abrir archivos CSS"
 
 #: dmCommands.pas
 msgid "Open dialog CPP filter"
-msgstr ""
+msgstr "Filtro para abrir archivos CPP"
 
 #: dmCommands.pas
 msgid "Open dialog YAML filter"
-msgstr ""
+msgstr "Filtro para abrir archivos YAML"
 
 #: dmCommands.pas
 msgid "Open dialog JavaScript filter"
-msgstr ""
+msgstr "Filtro para abrir archivos JavaScript"
 
 #: dmCommands.pas
 msgid "Open dialog PHP filter"
-msgstr ""
+msgstr "Filtro para abrir archivos PHP"
 
 #: dmCommands.pas
 msgid "File explorer filter"
@@ -6179,7 +6189,7 @@ msgstr "Filtro del explorador de archivos"
 
 #: dmCommands.pas
 msgid "Open dialog Cython filter"
-msgstr ""
+msgstr "Filtro para abrir archivos Cython"
 
 #: dmCommands.pas
 msgid "Restore open files"
@@ -6372,11 +6382,11 @@ msgstr "Items To Do"
 
 #: frmVariables.pas
 msgid "Namespace"
-msgstr ""
+msgstr "Namespace"
 
 #: frmVariables.pas
 msgid "DocString"
-msgstr ""
+msgstr "DocString"
 
 #. Programmer's name for it: SInternalError
 #: StringResources.pas
@@ -6714,7 +6724,7 @@ msgstr "¡No se encontraron pruebas!"
 #. Programmer's name for it: SDuplicateKey
 #: StringResources.pas
 msgid "Duplicate Key"
-msgstr ""
+msgstr "Clave duplicada"
 
 #. Programmer's name for it: SChangedFilesReloaded
 #: StringResources.pas
@@ -6782,7 +6792,7 @@ msgstr "Definición no encontrada"
 #: StringResources.pas
 #, object-pascal-format
 msgid "Syntax of %s is OK!"
-msgstr ""
+msgstr "¡La sintáxis de %ses correcta!"
 
 #. Programmer's name for it: SModuleImportedOK
 #: StringResources.pas

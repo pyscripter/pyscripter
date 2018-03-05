@@ -52,6 +52,9 @@ msgid ""
 "created with the ambition to bring to the Python community the quality and "
 "functionality available in commercial IDEs available for other languages."
 msgstr ""
+"بيئة عمل متكاملة للغة البايثون مجانية ومفتوحة المصدر، تم تطويرها لمجتمع "
+"بايثون بطموح لجلب الجودة والمميزات الموجودة في بيئات التطوير التجارية "
+"المتوفرة للغات الأخرى."
 
 #. AskParamForm..Caption
 #: dlgAskParam.dfm
@@ -121,12 +124,12 @@ msgstr "&موافق"
 #: dlgSynPageSetup.dfm dlgToDoOptions.dfm dlgToolProperties.dfm
 #: dlgUnitTestWizard.dfm
 msgid "&Cancel"
-msgstr ""
+msgstr "إل&غاء"
 
 #. AskParamForm..SpTBXPanel1..chkSaveToFile..Caption
 #: dlgAskParam.dfm
 msgid "and save it as a custom parameter"
-msgstr ""
+msgstr "واحفظ كمعامل مخصص"
 
 #. AskParamForm..SpTBXPanel1..Label1..Caption
 #: dlgAskParam.dfm
@@ -622,7 +625,7 @@ msgstr "الكلمة &كاملة"
 #. FindInFilesDialog..Panel1..gbxOptions..cbRegEx..Caption
 #: dlgFindInFiles.dfm
 msgid "Regular e&xpression"
-msgstr ""
+msgstr "الت&عابير النمطية"
 
 #. FindInFilesDialog..Panel1..gbxWhere..Caption
 #: dlgFindInFiles.dfm
@@ -684,12 +687,12 @@ msgstr "خيارات البحث في الملفات:"
 #. FindResultsOptionsDialog..SpTBXPanel1..gbxMatchList..Caption
 #: dlgFindResultsOptions.dfm
 msgid "Match Results List"
-msgstr ""
+msgstr "قائمة النتائج التطابق"
 
 #. FindResultsOptionsDialog..SpTBXPanel1..gbxMatchList..chkGrepMiddle..Caption
 #: dlgFindResultsOptions.dfm
 msgid "Jump to matches in the &middle of the editor"
-msgstr ""
+msgstr "انتقل الى المتطابق في &منتصف المحرر"
 
 #. FindResultsOptionsDialog..SpTBXPanel1..gbxMatchList..chkGrepExpandAll..Caption
 #: dlgFindResultsOptions.dfm
@@ -699,7 +702,7 @@ msgstr ""
 #. FindResultsOptionsDialog..SpTBXPanel1..gbxMatchList..pnlListFont..Caption
 #: dlgFindResultsOptions.dfm
 msgid "Match List Font..."
-msgstr ""
+msgstr "خط قائمة التطابق..."
 
 #. FindResultsOptionsDialog..SpTBXPanel1..gbxMatchContext..Caption
 #: dlgFindResultsOptions.dfm
@@ -729,12 +732,12 @@ msgstr ""
 #. ImportDirectoryForm..Panel1..cbRecursive..Caption
 #: dlgImportDirectory.dfm
 msgid "Recursive?"
-msgstr ""
+msgstr "تكراري؟"
 
 #. ImportDirectoryForm..Panel1..Label1..Caption
 #: dlgImportDirectory.dfm
 msgid "Directory to import:"
-msgstr ""
+msgstr "المجلد المراد استيراده:"
 
 #. ImportDirectoryForm..Panel1..Label2..Caption
 #: dlgImportDirectory.dfm
@@ -755,7 +758,7 @@ msgstr "الفئات:"
 #. NewFileDialog..Panel1..Panel2..Panel4..Label2..Caption
 #: dlgNewFile.dfm
 msgid "Templates:"
-msgstr ""
+msgstr "القوالب:"
 
 #. NewFileDialog..Panel1..btnCreate..Caption
 #: dlgNewFile.dfm
@@ -2192,27 +2195,27 @@ msgstr ""
 #. UnitTestWizard..Panel1..lbHeader..Caption
 #: dlgUnitTestWizard.dfm
 msgid "This wizard will generate unit tests for the Python module"
-msgstr ""
+msgstr "المرشد سوف يقوم بتوليد وحدات اختبارات لوحدة بايثون"
 
 #. UnitTestWizard..PopupUnitTestWizard..mnSelectAll..Caption
 #: dlgUnitTestWizard.dfm
 msgid "Select All"
-msgstr ""
+msgstr "اختار الكل"
 
 #. UnitTestWizard..PopupUnitTestWizard..mnSelectAll..Hint
 #: dlgUnitTestWizard.dfm
 msgid "Select all nodes"
-msgstr ""
+msgstr "اختار جميع العقد"
 
 #. UnitTestWizard..PopupUnitTestWizard..mnDeselectAll..Caption
 #: dlgUnitTestWizard.dfm
 msgid "Deselect All"
-msgstr ""
+msgstr "رفع الإختيار"
 
 #. UnitTestWizard..PopupUnitTestWizard..mnDeselectAll..Hint
 #: dlgUnitTestWizard.dfm
 msgid "Deselect all nodes"
-msgstr ""
+msgstr "رفع الاختيار عن جميع العقد"
 
 #. CommandsDataModule..ParameterCompletion..Title
 #. CommandsDataModule..actlMain..actParameterCompletion..Category
@@ -2222,7 +2225,7 @@ msgstr ""
 #. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..Parameters1..Caption
 #: dmCommands.dfm frmPyIDEMain.dfm
 msgid "Parameters"
-msgstr ""
+msgstr "المعاملات"
 
 #. CommandsDataModule..ModifierCompletion..Title
 #: dmCommands.dfm
@@ -2765,27 +2768,27 @@ msgstr ""
 #. CommandsDataModule..actlMain..actInsertTemplate..Caption
 #: dmCommands.dfm
 msgid "Insert &Template"
-msgstr ""
+msgstr "أدرج &قالب"
 
 #. CommandsDataModule..actlMain..actInsertTemplate..Hint
 #: dmCommands.dfm
 msgid "Insert a Code Template"
-msgstr ""
+msgstr "ادرج قالب كود"
 
 #. CommandsDataModule..actlMain..actCustomizeParameters..Caption
 #: dmCommands.dfm
 msgid "Custom &Parameters..."
-msgstr ""
+msgstr "معاملات &مخصصة"
 
 #. CommandsDataModule..actlMain..actCustomizeParameters..Hint
 #: dmCommands.dfm
 msgid "Add/Remove custom parameters"
-msgstr ""
+msgstr "اضافة / حذف معاملات مخصصة"
 
 #. CommandsDataModule..actlMain..actIDEShortcuts..Caption
 #: dmCommands.dfm
 msgid "IDE &Shortcuts..."
-msgstr ""
+msgstr "ا&ختصارات بيئة التطوير..."
 
 #. CommandsDataModule..actlMain..actIDEShortcuts..Hint
 #: dmCommands.dfm
@@ -2795,12 +2798,12 @@ msgstr ""
 #. CommandsDataModule..actlMain..actCodeTemplates..Caption
 #: dmCommands.dfm
 msgid "&Code Templates..."
-msgstr ""
+msgstr "&قوالب الكود..."
 
 #. CommandsDataModule..actlMain..actCodeTemplates..Hint
 #: dmCommands.dfm
 msgid "Add/Remove code templates"
-msgstr ""
+msgstr "اضافة / حذف قوالب الكود"
 
 #. CommandsDataModule..actlMain..actConfigureTools..Caption
 #: dmCommands.dfm
@@ -2815,22 +2818,22 @@ msgstr ""
 #. CommandsDataModule..actlMain..actHelpExternalTools..Caption
 #: dmCommands.dfm
 msgid "External &Tools"
-msgstr ""
+msgstr "الأدوات ال&خارجية"
 
 #. CommandsDataModule..actlMain..actHelpExternalTools..Hint
 #: dmCommands.dfm
 msgid "Help on External Tools"
-msgstr ""
+msgstr "مساعدة الأدوات الخارجية"
 
 #. CommandsDataModule..actlMain..actFindFunction..Caption
 #: dmCommands.dfm
 msgid "Find F&unction..."
-msgstr ""
+msgstr "أبحث عن &دالة"
 
 #. CommandsDataModule..actlMain..actFindFunction..Hint
 #: dmCommands.dfm
 msgid "Find Function|Find function from function list"
-msgstr ""
+msgstr "أبحث عن دالة | البحث عن دالة في قائمة الدوال"
 
 #. CommandsDataModule..actlMain..actEditLineNumbers..Caption
 #: dmCommands.dfm
@@ -4599,7 +4602,7 @@ msgstr "الأ&دوات"
 #. PyIDEMainForm..TBXDockTop..MainMenu..ToolsMenu..EditorViewsMenu..Caption
 #: frmPyIDEMain.dfm
 msgid "Source Code Views"
-msgstr ""
+msgstr "عرض الكود المصدري"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ToolsMenu..mnTools..Hint
 #: frmPyIDEMain.dfm
@@ -4609,7 +4612,7 @@ msgstr "الأدوات الخارجية"
 #. PyIDEMainForm..TBXDockTop..MainMenu..ToolsMenu..OptionsMenu..Caption
 #: frmPyIDEMain.dfm
 msgid "&Options"
-msgstr ""
+msgstr "ال&خيارات"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..HelpMenu..SpTBXSubmenuItem2..Caption
 #: frmPyIDEMain.dfm
@@ -4624,7 +4627,7 @@ msgstr "شريط الأدوات الرئيسي"
 #. PyIDEMainForm..TBXDockTop..DebugToolbar..Caption
 #: frmPyIDEMain.dfm
 msgid "Debug Toolbar"
-msgstr ""
+msgstr "شريط أدوات التنقيح"
 
 #. PyIDEMainForm..TBXDockTop..ViewToolbar..Caption
 #: frmPyIDEMain.dfm
@@ -4654,7 +4657,7 @@ msgstr "بدل مع:"
 #. PyIDEMainForm..TBXDockTop..FindToolbar..tbiSearchOptions..tbiSearchFromCaret..Caption
 #: frmPyIDEMain.dfm
 msgid "Search From C&aret"
-msgstr ""
+msgstr "ابدأ البحث من المؤ&شر"
 
 #. PyIDEMainForm..TBXDockTop..FindToolbar..tbiSearchOptions..tbiAutoCaseSensitive..Caption
 #: frmPyIDEMain.dfm
@@ -4674,22 +4677,22 @@ msgstr "&حالة الأحرف"
 #. PyIDEMainForm..TBXDockTop..FindToolbar..tbiSearchOptions..tbiWholeWords..Caption
 #: frmPyIDEMain.dfm
 msgid "&Whole Words Only"
-msgstr ""
+msgstr "&كل الكلمة فقط"
 
 #. PyIDEMainForm..TBXDockTop..FindToolbar..tbiSearchOptions..tbiSearchInSelection..Caption
 #: frmPyIDEMain.dfm
 msgid "Search in &Selection"
-msgstr ""
+msgstr "البحث في الت&حديد"
 
 #. PyIDEMainForm..TBXDockTop..FindToolbar..tbiSearchOptions..tbiRegExp..Caption
 #: frmPyIDEMain.dfm
 msgid "&Regular Expressions"
-msgstr ""
+msgstr "الت&عابير النمطية"
 
 #. PyIDEMainForm..TBXDockTop..FindToolbar..tbiSearchOptions..tbiIncrementalSearch..Caption
 #: frmPyIDEMain.dfm
 msgid "&Incremental Search"
-msgstr ""
+msgstr "&بحث تزايدي"
 
 #. PyIDEMainForm..TBXDockTop..UserToolbar..Caption
 #: frmPyIDEMain.dfm
@@ -4714,7 +4717,7 @@ msgstr "المحر&ر التالي"
 #. PyIDEMainForm..actlImmutable..actViewNextEditor..Hint
 #: frmPyIDEMain.dfm
 msgid "Next Editor|Move to the next editor"
-msgstr ""
+msgstr "المحرر التالي | انتقل إلى المحرر التالي"
 
 #. PyIDEMainForm..actlImmutable..actViewPreviousEditor..Caption
 #: frmPyIDEMain.dfm
@@ -5140,12 +5143,12 @@ msgstr ""
 #. PyIDEMainForm..actlStandard..actViewRegExpTester..Caption
 #: frmPyIDEMain.dfm
 msgid "&Regular Expression Tester"
-msgstr ""
+msgstr "فاح&ص التعابير النمطية"
 
 #. PyIDEMainForm..actlStandard..actViewRegExpTester..Hint
 #: frmPyIDEMain.dfm
 msgid "View/Hide Regular Expression Tester"
-msgstr ""
+msgstr "عرض / اخفاء التعابير النمطية"
 
 #. PyIDEMainForm..actlStandard..actEditorZoomIn..Caption
 #: frmPyIDEMain.dfm
@@ -5509,7 +5512,7 @@ msgstr ""
 #. RegExpTesterWindow..Caption
 #: frmRegExpTester.dfm
 msgid "Regular Expressions"
-msgstr ""
+msgstr "التعابير النمطية"
 
 #. RegExpTesterWindow..BGPanel..FGPanel..TBXDock..RegExpTesterToolbar..TiClear..Hint
 #: frmRegExpTester.dfm
@@ -5604,7 +5607,7 @@ msgstr "المجموعات:"
 #. RegExpTesterWindow..BGPanel..FGPanel..pnlBackground..dpRegExpText..SpTBXPanel1..TBXLabel3..Caption
 #: frmRegExpTester.dfm
 msgid "Regular Expression"
-msgstr ""
+msgstr "التعابير النمطية"
 
 #. RegExpTesterWindow..BGPanel..FGPanel..pnlBackground..pnlMiddle..dpSearchText..SpTBXPanel2..TBXLabel4..Caption
 #: frmRegExpTester.dfm
@@ -6375,7 +6378,7 @@ msgstr ""
 #: StringResources.pas
 #, object-pascal-format
 msgid "Invalid Regular Expression: %s"
-msgstr ""
+msgstr "تعابير النمطية غير صحيحة: %s"
 
 #. Programmer's name for it: SEmptyList
 #: StringResources.pas
@@ -6809,6 +6812,8 @@ msgid ""
 "The following files have been modified. Please select the files that you "
 "wish to save and press the OK button.  Press Cancel to go back to PyScripter"
 msgstr ""
+"الملفات التالية تم تغيرها، يرجى اختيار الملفات التي تود حفظها والضغط على زر "
+"موافق، أو اضغط زر الغاء وارجع لبايسكربتر"
 
 #. Programmer's name for it: SSaveAs
 #: StringResources.pas
@@ -6844,7 +6849,7 @@ msgstr ""
 #. Programmer's name for it: SDocumentationHint
 #: StringResources.pas
 msgid "Documentation|Generate HTML documentation"
-msgstr ""
+msgstr "التوثيق | إنشاء توثيق HTML"
 
 #. Programmer's name for it: SDocumentation
 #: StringResources.pas
@@ -6859,17 +6864,17 @@ msgstr ""
 #. Programmer's name for it: SWebPreviewHint
 #: StringResources.pas
 msgid "Web Preview|Preview HTML in browser"
-msgstr ""
+msgstr "معاينة الويب | معاينة كود HTML في المتصفح"
 
 #. Programmer's name for it: SWebPreview
 #: StringResources.pas
 msgid "&Web Preview"
-msgstr ""
+msgstr "&معاينة الويب"
 
 #. Programmer's name for it: SWebPreviewTab
 #: StringResources.pas
 msgid "Browser"
-msgstr ""
+msgstr "المتصفح"
 
 #. Programmer's name for it: SErrorInitScript
 #: StringResources.pas
@@ -6882,19 +6887,19 @@ msgstr ""
 #: StringResources.pas
 msgid ""
 "The active project has not been saved.  Do you want to save the changes?"
-msgstr ""
+msgstr "المشروع النشط لم يتم تخزينه، هل تود حفظ التغيرات؟"
 
 #. Programmer's name for it: SFailedToBackupProject
 #: StringResources.pas
 #, object-pascal-format
 msgid "Failed to backup project \"%s\""
-msgstr ""
+msgstr "فشل في عمل نسخة احتياطية من المشروع \"%s\""
 
 #. Programmer's name for it: SErrorInSavingProject
 #: StringResources.pas
 #, object-pascal-format
 msgid "Error in saving project: \"%s\"."
-msgstr ""
+msgstr "حصل خطأ اثناء حفظ مشروع: \"%s\""
 
 #. Programmer's name for it: SSaveProjectAs
 #: StringResources.pas
@@ -6910,7 +6915,7 @@ msgstr "تخزين مشروع %s كـ"
 #. Programmer's name for it: SProjectPythonPath
 #: StringResources.pas
 msgid "Project Python Path"
-msgstr ""
+msgstr "مسار مشروع البايثون"
 
 #. Search and Replace
 #. Programmer's name for it: SStartReached
@@ -6922,7 +6927,7 @@ msgstr ""
 #: StringResources.pas
 #, object-pascal-format
 msgid "Do you want to continue %s %s?"
-msgstr ""
+msgstr "هل تود الاكمال %s %s ؟"
 
 #. Programmer's name for it: STheSearchAndReplace
 #: StringResources.pas
@@ -6987,7 +6992,7 @@ msgstr "جميع الملفات المطابقة"
 #. Programmer's name for it: SOnLine
 #: StringResources.pas
 msgid "On line: "
-msgstr ""
+msgstr "على سطر:"
 
 #. Programmer's name for it: SItemMatch
 #: StringResources.pas
@@ -7012,7 +7017,7 @@ msgstr ""
 #: StringResources.pas
 #, object-pascal-format
 msgid "%d matches"
-msgstr ""
+msgstr "%d مطابقة"
 
 #. Programmer's name for it: SMatchContextNotAvail
 #: StringResources.pas
@@ -7038,34 +7043,34 @@ msgstr ""
 #. Programmer's name for it: SFileSkipped
 #: StringResources.pas
 msgid "The following file will be skipped: "
-msgstr ""
+msgstr "الملف التالي سوف يتم تجاوزه:"
 
 #. Programmer's name for it: SCouldNotBackup
 #: StringResources.pas
 #, object-pascal-format
 msgid "Could not backup file \"%s\" and will skip it"
-msgstr ""
+msgstr "لا يمكن عمل نسخة احتياطية من الملف \"%s\" سوف يتم تجاوزه"
 
 #. Command Line Options
 #. Programmer's name for it: SParseError
 #: StringResources.pas
 msgid "Parse error at this position: "
-msgstr ""
+msgstr "قراءة الخطأ الموجود في موضع:"
 
 #. Programmer's name for it: SParseErrorOptions
 #: StringResources.pas
 msgid "you are not allowed to use command line options starting with -"
-msgstr ""
+msgstr "ليس لديك الصلاحية لإستخدام خيارات ملف الأوامر التي تبدأ ب -"
 
 #. Programmer's name for it: SParseInvalidOptions
 #: StringResources.pas
 msgid "The following command line options are valid: \n"
-msgstr ""
+msgstr "سطر الأمر التالي صالح: \n"
 
 #. Programmer's name for it: SCommandLineOptions
 #: StringResources.pas
 msgid "PyScripter Command Line Options"
-msgstr ""
+msgstr "خيارات أوامر بايسكربتر "
 
 #. Command Window
 #. Programmer's name for it: SProcessTerminated
@@ -7094,7 +7099,7 @@ msgstr ""
 #. Programmer's name for it: SPrintWorkingDir
 #: StringResources.pas
 msgid "Working directory: "
-msgstr ""
+msgstr "مجلد العمل:"
 
 #. Programmer's name for it: SPrintTimeOut
 #: StringResources.pas
@@ -7117,7 +7122,7 @@ msgstr "إدراج"
 #. Programmer's name for it: SOverwrite
 #: StringResources.pas
 msgid "Overwrite"
-msgstr ""
+msgstr "كتابة على"
 
 #. Programmer's name for it: SReadOnly
 #: StringResources.pas
@@ -7132,7 +7137,7 @@ msgstr "غير معنون"
 #. Programmer's name for it: SNonamePythonFileTitle
 #: StringResources.pas
 msgid "module"
-msgstr ""
+msgstr "وحدة"
 
 #. Programmer's name for it: SAskSaveChanges
 #: StringResources.pas
@@ -7231,7 +7236,7 @@ msgstr ""
 #: StringResources.pas
 #, object-pascal-format
 msgid "Could not load and parse module: \"%s\""
-msgstr ""
+msgstr "لا يمكن تحميل ولا قراءة الوحدة: "
 
 #. Programmer's name for it: SNoIdentifier
 #: StringResources.pas
@@ -7269,13 +7274,13 @@ msgstr ""
 #: StringResources.pas
 #, object-pascal-format
 msgid "Could not analyse module: \"%s\""
-msgstr ""
+msgstr "لا يمكن تحليل الوحدة: \"%s\""
 
 #. Programmer's name for it: SCouldNotFindModule
 #: StringResources.pas
 #, object-pascal-format
 msgid "Could not find module: \"%s\""
-msgstr ""
+msgstr "لم يتم إيجاد الوحدة: \"%s\""
 
 #. Programmer's name for it: SSelfOutsideClassScope
 #: StringResources.pas

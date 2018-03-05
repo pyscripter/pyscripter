@@ -53,11 +53,11 @@ msgstr "Cabilio"
 
 #. Language of Portugal, Europe
 msgid "Portuguese (Portugal)"
-msgstr ""
+msgstr "Portugués (Portugal)"
 
 #. Language of Portugal, Brazil
 msgid "Portuguese (Brazil)"
-msgstr ""
+msgstr "Portugués (Brasil)"
 
 #. Language of Russia
 msgid "Russian"
