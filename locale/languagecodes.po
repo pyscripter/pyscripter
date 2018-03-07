@@ -777,8 +777,12 @@ msgstr "Traditional Chinese"
 
 #. Row 192
 msgid "pt_br"
-msgstr "Brazillian Portuguese"
+msgstr "Portuguese (Brazil)"
 
-#. Row 192
+#. Row 193
+msgid "pt_pt"
+msgstr "Portuguese (Portugal)"
+
+#. Row 194
 msgid "kab"
 msgstr "Taqbaylit"
