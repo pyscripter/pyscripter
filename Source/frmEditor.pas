@@ -2157,6 +2157,10 @@ procedure TEditorForm.Retranslate;
 begin
   Assert(ViewsTabControl.PagesCount > 0);
   ViewsTabControl.Pages[0].Caption := _(SSourceTabCaption);
+  mnSearch.Caption := _('Search');
+  mnSourceCode.Caption := _('Source Code');
+  mnFold.Caption := _('Fold');
+  mnUnfold.Caption := _('Unfold');
 end;
 
 procedure TEditorForm.FormCreate(Sender: TObject);

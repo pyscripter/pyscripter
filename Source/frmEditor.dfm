@@ -409,7 +409,7 @@ object EditorForm: TEditorForm
     object TBXSeparatorItem9: TSpTBXSeparatorItem
     end
     object mnSourceCode: TSpTBXSubmenuItem
-      Caption = '&Source Code'
+      Caption = 'Source Code'
       LinkSubitems = PyIDEMainForm.mnSourceCode
     end
     object SpTBXSeparatorItem1: TSpTBXSeparatorItem
@@ -455,7 +455,7 @@ object EditorForm: TEditorForm
       end
     end
     object mnUnfold: TSpTBXSubmenuItem
-      Caption = 'UnFold'
+      Caption = 'Unfold'
       object mnUnfoldAll: TSpTBXItem
         Action = CommandsDataModule.actUnfoldAll
       end
