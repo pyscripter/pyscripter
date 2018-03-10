@@ -407,6 +407,8 @@
           Issues addressed
             #705 #711 #717, #748
   History:   v 3.3
+          New Features
+            Thread debugging (#455)
           Issues addressed
             #659 #848 #849
             { TODO : Python Engine change without exiting PyScripter }

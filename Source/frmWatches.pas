@@ -50,6 +50,7 @@ type
     TBXSeparatorItem2: TSpTBXSeparatorItem;
     mnCopyToClipboard: TSpTBXItem;
     TBXItem1: TSpTBXItem;
+    Panel1: TPanel;
     procedure mnCopyToClipboardClick(Sender: TObject);
     procedure mnAddWatchClick(Sender: TObject);
     procedure mnEditWatchClick(Sender: TObject);

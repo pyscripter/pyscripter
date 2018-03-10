@@ -388,16 +388,16 @@ Var
   OldDebuggerState: TDebuggerState;
 begin
   OldDebuggerState := fDebuggerState;
-  if NewState in [dsInactive, dsDebugging, dsRunning] then
-    CurrentPos.Clear
-  else begin
+  if NewState in [dsInactive, dsDebugging, dsRunning] then begin
+    CurrentPos.Clear;
+    PyControl.DoCurrentPosChanged;
+  end else begin
     ErrorPos.Clear;
     DoErrorPosChanged;
   end;
   fDebuggerState := NewState;
   if Assigned(fOnStateChange) then
     fOnStateChange(Self, OldDebuggerState, NewState);
-  PyControl.DoCurrentPosChanged;
 end;
 
 procedure TPythonControl.DoYield(DoIdle : Boolean);

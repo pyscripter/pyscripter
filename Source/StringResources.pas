@@ -319,13 +319,13 @@ Const
 
 implementation
 
-uses JvGnugettext, SysUtils;
-initialization
-  // GNU Initialization is put here to make sure that
-  // all localized stings get translated
-  // Setup Languages
-  UseLanguage('');
-  UseLanguage(LowerCase(Copy(GetCurrentLanguage,1,2)));  // do not use the country part
+//uses JvGnugettext, SysUtils;
+//initialization
+//  // GNU Initialization is put here to make sure that
+//  // all localized stings get translated
+//  // Setup Languages
+//  UseLanguage('');
+//  UseLanguage(LowerCase(Copy(GetCurrentLanguage,1,2)));  // do not use the country part
 end.
 
 

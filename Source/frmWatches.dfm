@@ -54,52 +54,68 @@ inherited WatchesWindow: TWatchesWindow
       Height = 225
       ExplicitWidth = 756
       ExplicitHeight = 225
-      object WatchesView: TVirtualStringTree
+      object Panel1: TPanel
         Left = 0
         Top = 0
         Width = 756
         Height = 225
         Align = alClient
-        Alignment = taRightJustify
-        BevelInner = bvNone
-        BevelOuter = bvNone
-        BorderStyle = bsNone
-        Header.AutoSizeIndex = -1
-        Header.Options = [hoAutoResize, hoColumnResize, hoDblClickResize, hoHotTrack, hoOwnerDraw, hoVisible]
-        HintMode = hmTooltip
-        Images = CommandsDataModule.CodeImages
-        PopupMenu = TBXPopupMenu
         TabOrder = 0
-        TreeOptions.AnimationOptions = [toAnimatedToggle]
-        TreeOptions.AutoOptions = [toAutoDropExpand, toAutoScrollOnExpand, toAutoTristateTracking, toAutoDeleteMovedNodes, toAutoChangeScale]
-        TreeOptions.MiscOptions = [toFullRepaintOnResize, toInitOnSave, toReportMode, toToggleOnDblClick, toWheelPanning]
-        TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowDropmark, toShowRoot, toShowTreeLines, toShowVertGridLines, toThemeAware, toUseBlendedImages, toUseBlendedSelection]
-        TreeOptions.SelectionOptions = [toExtendedFocus, toFullRowSelect, toRightClickSelect]
-        TreeOptions.StringOptions = [toAutoAcceptEditChange]
-        OnDblClick = WatchesViewDblClick
-        OnDragOver = WatchesViewDragOver
-        OnDragDrop = WatchesViewDragDrop
-        OnGetText = WatchesViewGetText
-        OnGetImageIndex = WatchesViewGetImageIndex
-        OnInitChildren = WatchesViewInitChildren
-        OnInitNode = WatchesViewInitNode
-        OnKeyDown = WatchesViewKeyDown
-        Columns = <
-          item
-            Position = 0
-            Width = 200
-            WideText = 'Watches'
-          end
-          item
-            Position = 1
-            Width = 120
-            WideText = 'Type'
-          end
-          item
-            Position = 2
-            Width = 436
-            WideText = 'Value'
-          end>
+        ExplicitLeft = 176
+        ExplicitTop = 40
+        ExplicitWidth = 297
+        ExplicitHeight = 97
+        object WatchesView: TVirtualStringTree
+          Left = 1
+          Top = 1
+          Width = 754
+          Height = 223
+          Align = alClient
+          Alignment = taRightJustify
+          BevelInner = bvNone
+          BevelOuter = bvNone
+          BorderStyle = bsNone
+          Header.AutoSizeIndex = -1
+          Header.Options = [hoAutoResize, hoColumnResize, hoDblClickResize, hoHotTrack, hoOwnerDraw, hoVisible]
+          HintMode = hmTooltip
+          Images = CommandsDataModule.CodeImages
+          PopupMenu = TBXPopupMenu
+          TabOrder = 0
+          TreeOptions.AnimationOptions = [toAnimatedToggle]
+          TreeOptions.AutoOptions = [toAutoDropExpand, toAutoScrollOnExpand, toAutoTristateTracking, toAutoDeleteMovedNodes, toAutoChangeScale]
+          TreeOptions.MiscOptions = [toFullRepaintOnResize, toInitOnSave, toReportMode, toToggleOnDblClick, toWheelPanning]
+          TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowDropmark, toShowRoot, toShowTreeLines, toShowVertGridLines, toThemeAware, toUseBlendedImages, toUseBlendedSelection]
+          TreeOptions.SelectionOptions = [toExtendedFocus, toFullRowSelect, toRightClickSelect]
+          TreeOptions.StringOptions = [toAutoAcceptEditChange]
+          OnDblClick = WatchesViewDblClick
+          OnDragOver = WatchesViewDragOver
+          OnDragDrop = WatchesViewDragDrop
+          OnGetText = WatchesViewGetText
+          OnGetImageIndex = WatchesViewGetImageIndex
+          OnInitChildren = WatchesViewInitChildren
+          OnInitNode = WatchesViewInitNode
+          OnKeyDown = WatchesViewKeyDown
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 756
+          ExplicitHeight = 225
+          Columns = <
+            item
+              Position = 0
+              Width = 200
+              WideText = 'Watches'
+            end
+            item
+              Position = 1
+              Width = 120
+              WideText = 'Type'
+            end
+            item
+              Position = 2
+              Width = 434
+              WideText = 'Value'
+            end>
+        end
       end
     end
   end

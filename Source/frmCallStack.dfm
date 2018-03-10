@@ -55,81 +55,113 @@ inherited CallStackWindow: TCallStackWindow
       ExplicitWidth = 600
       ExplicitHeight = 164
       object Splitter1: TSplitter
-        Left = 140
+        Left = 185
         Top = 0
         Height = 164
         ResizeStyle = rsUpdate
-        ExplicitLeft = 296
-        ExplicitTop = 32
-        ExplicitHeight = 100
+        ExplicitLeft = 150
+        ExplicitTop = 1
       end
-      object CallStackView: TVirtualStringTree
-        Left = 143
+      object Panel1: TPanel
+        Left = 188
         Top = 0
-        Width = 457
+        Width = 412
         Height = 164
         Align = alClient
-        Alignment = taRightJustify
-        BevelInner = bvNone
-        BevelOuter = bvNone
-        BevelKind = bkFlat
-        BorderStyle = bsNone
-        Header.AutoSizeIndex = 1
-        Header.MainColumn = 1
-        Header.Options = [hoAutoResize, hoColumnResize, hoDblClickResize, hoHotTrack, hoOwnerDraw, hoVisible]
-        HintMode = hmTooltip
-        StateImages = CommandsDataModule.Images
         TabOrder = 0
-        TreeOptions.MiscOptions = [toFullRepaintOnResize, toInitOnSave, toReportMode, toToggleOnDblClick, toWheelPanning]
-        TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowDropmark, toShowHorzGridLines, toShowVertGridLines, toThemeAware, toUseBlendedImages, toUseBlendedSelection]
-        TreeOptions.SelectionOptions = [toExtendedFocus, toFullRowSelect, toRightClickSelect]
-        OnAddToSelection = CallStackViewAddToSelection
-        OnDblClick = CallStackViewDblClick
-        OnGetText = CallStackViewGetText
-        OnGetImageIndex = CallStackViewGetImageIndex
-        Columns = <
-          item
-            Position = 0
-            Width = 100
-            WideText = 'Function Name'
-          end
-          item
-            Position = 1
-            Width = 307
-            WideText = 'File Name'
-          end
-          item
-            Alignment = taRightJustify
-            Position = 2
-            WideText = 'Line'
-          end>
+        ExplicitLeft = 208
+        ExplicitTop = 64
+        ExplicitWidth = 185
+        ExplicitHeight = 41
+        object CallStackView: TVirtualStringTree
+          Left = 1
+          Top = 1
+          Width = 410
+          Height = 162
+          Align = alClient
+          Alignment = taRightJustify
+          BevelInner = bvNone
+          BevelOuter = bvNone
+          BevelKind = bkFlat
+          BorderStyle = bsNone
+          Header.AutoSizeIndex = 1
+          Header.Options = [hoAutoResize, hoColumnResize, hoDblClickResize, hoHotTrack, hoVisible]
+          HintMode = hmTooltip
+          StateImages = CommandsDataModule.Images
+          TabOrder = 0
+          TreeOptions.MiscOptions = [toFullRepaintOnResize, toInitOnSave, toReportMode, toToggleOnDblClick, toWheelPanning]
+          TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowDropmark, toShowHorzGridLines, toShowVertGridLines, toThemeAware, toUseBlendedImages, toUseBlendedSelection]
+          TreeOptions.SelectionOptions = [toExtendedFocus, toFullRowSelect]
+          OnAddToSelection = CallStackViewAddToSelection
+          OnDblClick = CallStackViewDblClick
+          OnFreeNode = CallStackViewFreeNode
+          OnGetText = CallStackViewGetText
+          OnGetImageIndex = CallStackViewGetImageIndex
+          OnInitNode = CallStackViewInitNode
+          ExplicitLeft = 143
+          ExplicitTop = 0
+          ExplicitWidth = 457
+          ExplicitHeight = 164
+          Columns = <
+            item
+              Position = 0
+              Width = 100
+              WideText = 'Function Name'
+            end
+            item
+              Position = 1
+              Width = 260
+              WideText = 'File Name'
+            end
+            item
+              Alignment = taRightJustify
+              Position = 2
+              WideText = 'Line'
+            end>
+        end
       end
-      object ThreadView: TVirtualStringTree
+      object Panel2: TPanel
         Left = 0
         Top = 0
-        Width = 140
+        Width = 185
         Height = 164
         Align = alLeft
-        BevelInner = bvNone
-        BevelOuter = bvNone
-        BevelKind = bkFlat
-        BorderStyle = bsNone
-        Header.AutoSizeIndex = 0
-        Header.Options = [hoAutoResize, hoColumnResize, hoDrag, hoShowSortGlyphs, hoVisible, hoFullRepaintOnResize]
-        Images = CommandsDataModule.Images
-        StateImages = CommandsDataModule.Images
         TabOrder = 1
-        TreeOptions.MiscOptions = [toFullRepaintOnResize, toInitOnSave, toReportMode, toToggleOnDblClick, toWheelPanning]
-        TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowDropmark, toThemeAware, toUseBlendedImages]
-        OnAddToSelection = ThreadViewAddToSelection
-        OnGetText = ThreadViewGetText
-        OnGetImageIndex = ThreadViewGetImageIndex
-        Columns = <
-          item
-            Position = 0
-            Width = 140
-            WideText = 'Threads'
-          end>
+        ExplicitLeft = 208
+        ExplicitTop = 64
+        ExplicitHeight = 41
+        object ThreadView: TVirtualStringTree
+          Left = 1
+          Top = 1
+          Width = 183
+          Height = 162
+          Align = alClient
+          BevelInner = bvNone
+          BevelOuter = bvNone
+          BevelKind = bkFlat
+          BorderStyle = bsNone
+          Header.AutoSizeIndex = 0
+          Header.Options = [hoAutoResize, hoColumnResize, hoDrag, hoShowSortGlyphs, hoVisible, hoFullRepaintOnResize]
+          Images = CommandsDataModule.Images
+          StateImages = CommandsDataModule.Images
+          TabOrder = 0
+          TreeOptions.AutoOptions = [toAutoDropExpand, toAutoScrollOnExpand, toAutoTristateTracking, toAutoDeleteMovedNodes, toAutoChangeScale]
+          TreeOptions.MiscOptions = [toFullRepaintOnResize, toInitOnSave, toReportMode, toToggleOnDblClick, toWheelPanning]
+          TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowDropmark, toThemeAware, toUseBlendedImages]
+          OnAddToSelection = ThreadViewAddToSelection
+          OnGetText = ThreadViewGetText
+          OnGetImageIndex = ThreadViewGetImageIndex
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 140
+          ExplicitHeight = 164
+          Columns = <
+            item
+              Position = 0
+              Width = 183
+              WideText = 'Threads'
+            end>
+        end
       end
     end
   end

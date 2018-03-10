@@ -25,6 +25,7 @@ type
     TBXSeparatorItem1: TSpTBXSeparatorItem;
     TBXSeparatorItem2: TSpTBXSeparatorItem;
     mnCopyToClipboard: TSpTBXItem;
+    Panel1: TPanel;
     procedure TBXPopupMenuPopup(Sender: TObject);
     procedure mnCopyToClipboardClick(Sender: TObject);
     procedure mnSetConditionClick(Sender: TObject);

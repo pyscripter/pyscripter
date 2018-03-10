@@ -160,6 +160,7 @@ type
     function GetFrameGlobals(Frame : TBaseFrameInfo) : TBaseNameSpaceItem; override;
     function GetFrameLocals(Frame : TBaseFrameInfo) : TBaseNameSpaceItem; override;
     function NameSpaceFromExpression(const Expr : string) : TBaseNameSpaceItem; override;
+    procedure MakeThreadActive(Thread : TThreadInfo); override;
     procedure MakeFrameActive(Frame : TBaseFrameInfo); override;
     // post mortem stuff
     function HaveTraceback : boolean; override;
@@ -844,9 +845,6 @@ begin
    if PyIDEMainForm.ShowFilePosition(FName, Frame.f_lineno, 1, 0, True, False) and
      (Frame.f_lineno > 0) then
    begin
-     PyControl.CurrentPos.Editor := GI_EditorFactory.GetEditorByNameOrTitle(FName);
-     PyControl.CurrentPos.Line := Frame.f_lineno;
-
      if PyControl.DebuggerState = dsDebugging then
        PyControl.DoStateChange(dsPaused);
      fMainThread.Status := thrdBroken;
@@ -962,6 +960,11 @@ begin
     InternalInterpreter.Debugger.currentframe := (Frame as TFrameInfo).fPyFrame
   else
     InternalInterpreter.Debugger.currentframe := None;
+end;
+
+procedure TPyInternalDebugger.MakeThreadActive(Thread: TThreadInfo);
+begin
+  // Do nothing - Thread debugging is not supported
 end;
 
 function TPyInternalDebugger.NameSpaceFromExpression(

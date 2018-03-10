@@ -758,9 +758,6 @@ object CommandsDataModule: TCommandsDataModule
           '        def user_line(self, frame):'
           '            self.debugIDE.user_line(frame)'
           ''
-          '        def user_return(self, frame, retval):'
-          '            self.debugIDE.user_return(frame, retval)'
-          ''
           '        def user_exception(self, frame, exc_stuff):'
           '            self.debugIDE.user_exception(frame, exc_stuff)'
           ''
@@ -1194,7 +1191,6 @@ object CommandsDataModule: TCommandsDataModule
             '        from inspect import isclass, isfunction, getargspec, for' +
             'matargspec, getdoc'
           '        argText = ""'
-          '        doc = ""'
           '        if ob is not None:'
           '            argOffset = 0'
           '            if isclass(ob):'
@@ -1405,9 +1401,6 @@ object CommandsDataModule: TCommandsDataModule
           ''
           '        def user_line(self, frame):'
           '            self.debugIDE.user_line(frame)'
-          ''
-          '        def user_return(self, frame, retval):'
-          '            self.debugIDE.user_return(frame, retval)'
           ''
           '        def user_exception(self, frame, exc_stuff):'
           '            self.debugIDE.user_exception(frame, exc_stuff)'
@@ -1940,6 +1933,7 @@ object CommandsDataModule: TCommandsDataModule
           '__import__('#39'rpyc'#39').core.service.__traceable__ = 0'
           '__import__('#39'rpyc'#39').utils.classic.__traceable__ = 0'
           '__import__('#39'rpyc'#39').utils.server.__traceable__ = 0'
+          'threading.__traceable__ = 0'
           ''
           'class RemotePythonInterpreter(code.InteractiveInterpreter):'
           '    class DebugManager:'
@@ -1949,30 +1943,28 @@ object CommandsDataModule: TCommandsDataModule
             'oCursor, dcPause, dcAbort = range(8)'
           '        debug_command = dcNone'
           ''
+          '        _threading = threading'
           '        # IDE synchronization lock'
           '        user_lock = threading.Lock()'
           ''
           '        # Thread status'
           '        thrdRunning, thrdBroken, thrdFinished = range(3)'
-          '        main_thread_id = threading.current_thread().ident'
-          '        threads = {}'
-          '        threads[main_thread_id] = ('#39'MainThread'#39', thrdRunning)'
+          '        main_thread_id = threading.currentThread().ident'
           ''
           '        # module for communication with the IDE'
           '        debugIDE = None #will be set to P4D module'
           ''
-          '        #shared debugger breakpoints'
+          '        # shared debugger breakpoints'
           '        breakpoints = {}'
           ''
+          '        # main debugger will be set below'
+          '        main_debugger = None'
+          ''
           '        #active debugger objects'
-          '        active_thread = active_debugger = active_frame = None'
+          '        active_thread = active_frame = None'
           ''
           '        @classmethod'
           '        def thread_status(cls, ident, name, status):'
-          '            if status == cls.thrdFinished:'
-          '                cls.threads.pop(ident)'
-          '            else:'
-          '                cls.threads[ident] = (name, status)'
           '            with cls.user_lock:'
           '                cls.debugIDE.user_thread(ident, name, status)'
           ''
@@ -1983,12 +1975,23 @@ object CommandsDataModule: TCommandsDataModule
           
             '            self.debug_manager.thread_status(self.ident, self.na' +
             'me, self.debug_manager.thrdRunning)'
+          ''
+          
+            '            self.debugger = self.debug_manager.main_debugger.__c' +
+            'lass__()'
+          '            self.debugger.reset()'
+          
+            '            self.debugger._sys.settrace(self.debugger.trace_disp' +
+            'atch)'
+          ''
           '            try:'
           '                self._Thread__bootstrap_inner()'
           '            finally:'
+          '                self.debugger._sys.settrace(None)'
           
             '                self.debug_manager.thread_status(self.ident, sel' +
             'f.name, self.debug_manager.thrdFinished)'
+          '                self.debugger = None'
           '    ThreadWrapper.debug_manager = DebugManager'
           ''
           '    class IDEDebugger(__import__('#39'bdb'#39').Bdb):'
@@ -2000,6 +2003,33 @@ object CommandsDataModule: TCommandsDataModule
           '            self.breaks = self.debug_manager.breakpoints'
           '            self.InitStepIn = False'
           '            self.tracecount = 0'
+          '            self._sys = __import__("sys")'
+          ''
+          '        def showtraceback(self):'
+          '            """Display the exception that just occurred.'
+          
+            '            We remove the first two stack items because it is ou' +
+            'r own code.'
+          '            """'
+          '            import sys, traceback'
+          '            try:'
+          '                type, value, tb = sys.exc_info()'
+          '                sys.last_type = type'
+          '                sys.last_value = value'
+          '                sys.last_traceback = tb'
+          '                tblist = traceback.extract_tb(tb)'
+          '                del tblist[:2]'
+          '                lines = traceback.format_list(tblist)'
+          '                if lines:'
+          
+            '                    lines.insert(0, "Traceback (most recent call' +
+            ' last):\n")'
+          
+            '                lines.extend(traceback.format_exception_only(typ' +
+            'e, value))'
+          '            finally:'
+          '                tblist = tb = None'
+          '            sys.stderr.write('#39#39'.join(lines))'
           ''
           '        def do_clear(self, arg):'
           '            numberlist = arg.split()'
@@ -2022,29 +2052,40 @@ object CommandsDataModule: TCommandsDataModule
           '            return __import__('#39'bdb'#39').Bdb.canonic(self, filename)'
           ''
           '        def user_line(self, frame):'
-          '            __import__("sys").stdout.print_queue.join()'
+          '            try:'
+          '                self._sys.stdout.print_queue.join()'
+          '            except:'
+          '                pass'
           ''
           '            dbg_manager = self.debug_manager'
           
-            '            self.conn = object.__getattribute__(dbg_manager.debu' +
-            'gIDE, "____conn__")()'
+            '            thread_id = dbg_manager._threading.currentThread().i' +
+            'dent'
           ''
-          '            dbg_manager.debug_command = dbg_manager.dcNone'
           '            with dbg_manager.user_lock:'
-          '                dbg_manager.debugIDE.user_line(frame)'
-          ''
           
-            '                if dbg_manager.debug_command == dbg_manager.dcRu' +
-            'n:'
+            '                if not dbg_manager.debugIDE.user_line(thread_id,' +
+            ' frame, self.botframe):'
           '                    self.set_return(frame)'
           '                    return'
           ''
-          '                time = __import__("time")'
+          '            dbg_manager.debug_command = dbg_manager.dcNone'
           
-            '                while dbg_manager.debug_command == dbg_manager.d' +
-            'cNone:'
-          '                    self.conn.poll_all(0.01)'
-          '                    time.sleep(0.01)'
+            '            conn = object.__getattribute__(dbg_manager.debugIDE,' +
+            ' "____conn__")()'
+          ''
+          '            time = __import__("time")'
+          '            while (((thread_id != dbg_manager.active_thread) or'
+          
+            '                    (dbg_manager.debug_command == dbg_manager.dc' +
+            'None)) and'
+          
+            '                    (dbg_manager.debug_command != dbg_manager.dc' +
+            'Run)):'
+          '                with dbg_manager.user_lock:'
+          '                    conn.poll_all(0.01)'
+          '                if thread_id != dbg_manager.active_thread:'
+          '                    time.sleep(0.1)'
           ''
           '            if dbg_manager.debug_command == dbg_manager.dcRun:'
           '                self.set_continue()'
@@ -2073,12 +2114,18 @@ object CommandsDataModule: TCommandsDataModule
             't:'
           '                self.set_quit()'
           ''
+          '            if dbg_manager.debug_command != dbg_manager.dcRun:'
+          '                dbg_manager.debug_command = dbg_manager.dcNone'
+          
+            '            dbg_manager.thread_status(thread_id, "", dbg_manager' +
+            '.thrdRunning)'
+          ''
           '        def user_call(self, frame, arg):'
           '            self.tracecount += 1'
           '            #yield processing every 1000 calls'
           
-            '            if (self.tracecount > 1000) and not __import__('#39'sys'#39 +
-            ').stdout.writing and not __import__('#39'sys'#39').stderr.writing:'
+            '            if (self.tracecount > 1000) and not (hasattr(self._s' +
+            'ys, "writing") and self._sys.stdout.writing):'
           '                self.tracecount = 0'
           '                cmd = self.debug_manager.debugIDE.user_yield()'
           '                if cmd == self.debug_manager.dcAbort:'
@@ -2091,14 +2138,8 @@ object CommandsDataModule: TCommandsDataModule
             '            res = __import__('#39'bdb'#39').Bdb.dispatch_call(self, fram' +
             'e, arg)'
           '            if res:'
-          
-            '                while frame is not None and frame is not self.st' +
-            'opframe:'
-          '                    if frame is self.botframe:'
-          '                        return res'
-          '                    elif self.isTraceable(frame) == 0:'
-          '                        return'
-          '                    frame = frame.f_back'
+          '                if self.isTraceable(frame) == 0:'
+          '                    return'
           '            return res'
           ''
           '        def run(self, cmd, globals=None, locals=None):'
@@ -2156,6 +2197,7 @@ object CommandsDataModule: TCommandsDataModule
           '                sys.stdout.print_queue.join()'
           '    IDEDebugger.debug_manager = DebugManager'
           '    IDEDebugger.thread_wrapper = ThreadWrapper'
+          '    DebugManager.main_debugger = IDEDebugger()'
           ''
           '    class IDETestResult(__import__('#39'unittest'#39').TestResult):'
           ''
@@ -2203,9 +2245,6 @@ object CommandsDataModule: TCommandsDataModule
           '        self.locals["__name__"] = "__main__"'
           '        self.inspect = __import__("inspect")'
           '        self.exc_info = None'
-          ''
-          '        self.debugger = self.IDEDebugger()'
-          '        self.debugger.showtraceback = self.showtraceback'
           ''
           '        import repr'
           '        pyrepr = repr.Repr()'
@@ -2757,6 +2796,7 @@ object CommandsDataModule: TCommandsDataModule
           '__import__('#39'rpyc'#39').core.service.__traceable__ = 0'
           '__import__('#39'rpyc'#39').utils.classic.__traceable__ = 0'
           '__import__('#39'rpyc'#39').utils.server.__traceable__ = 0'
+          'threading.__traceable__ = 0'
           ''
           'class RemotePythonInterpreter(code.InteractiveInterpreter):'
           '    class DebugManager:'
@@ -2766,30 +2806,28 @@ object CommandsDataModule: TCommandsDataModule
             'oCursor, dcPause, dcAbort = range(8)'
           '        debug_command = dcNone'
           ''
+          '        _threading = threading'
           '        # IDE synchronization lock'
           '        user_lock = threading.Lock()'
           ''
           '        # Thread status'
           '        thrdRunning, thrdBroken, thrdFinished = range(3)'
           '        main_thread_id = threading.current_thread().ident'
-          '        threads = {}'
-          '        threads[main_thread_id] = ('#39'MainThread'#39', thrdRunning)'
           ''
           '        # module for communication with the IDE'
           '        debugIDE = None #will be set to P4D module'
           ''
-          '        #shared debugger breakpoints'
+          '        # shared debugger breakpoints'
           '        breakpoints = {}'
           ''
+          '        # main debugger will be set below'
+          '        main_debugger = None'
+          ''
           '        #active debugger objects'
-          '        active_thread = active_debugger = active_frame = None'
+          '        active_thread = active_frame = None'
           ''
           '        @classmethod'
           '        def thread_status(cls, ident, name, status):'
-          '            if status == cls.thrdFinished:'
-          '                cls.threads.pop(ident)'
-          '            else:'
-          '                cls.threads[ident] = (name, status)'
           '            with cls.user_lock:'
           '                cls.debugIDE.user_thread(ident, name, status)'
           ''
@@ -2800,12 +2838,23 @@ object CommandsDataModule: TCommandsDataModule
           
             '            self.debug_manager.thread_status(self.ident, self.na' +
             'me, self.debug_manager.thrdRunning)'
+          ''
+          
+            '            self.debugger = self.debug_manager.main_debugger.__c' +
+            'lass__()'
+          '            self.debugger.reset()'
+          
+            '            self.debugger._sys.settrace(self.debugger.trace_disp' +
+            'atch)'
+          ''
           '            try:'
           '                self._bootstrap_inner()'
           '            finally:'
+          '                self.debugger._sys.settrace(None)'
           
             '                self.debug_manager.thread_status(self.ident, sel' +
             'f.name, self.debug_manager.thrdFinished)'
+          '                self.debugger = None'
           '    ThreadWrapper.debug_manager = DebugManager'
           ''
           '    class IDEDebugger(__import__('#39'bdb'#39').Bdb):'
@@ -2817,6 +2866,33 @@ object CommandsDataModule: TCommandsDataModule
           '            self.breaks = self.debug_manager.breakpoints'
           '            self.InitStepIn = False'
           '            self.tracecount = 0'
+          '            self._sys = __import__("sys")'
+          ''
+          '        def showtraceback(self):'
+          '            """Display the exception that just occurred.'
+          
+            '            We remove the first two stack items because it is ou' +
+            'r own code.'
+          '            """'
+          '            import sys, traceback'
+          '            try:'
+          '                type, value, tb = sys.exc_info()'
+          '                sys.last_type = type'
+          '                sys.last_value = value'
+          '                sys.last_traceback = tb'
+          '                tblist = traceback.extract_tb(tb)'
+          '                del tblist[:2]'
+          '                lines = traceback.format_list(tblist)'
+          '                if lines:'
+          
+            '                    lines.insert(0, "Traceback (most recent call' +
+            ' last):\n")'
+          
+            '                lines.extend(traceback.format_exception_only(typ' +
+            'e, value))'
+          '            finally:'
+          '                tblist = tb = None'
+          '            sys.stderr.write('#39#39'.join(lines))'
           ''
           '        def do_clear(self, arg):'
           '            numberlist = arg.split()'
@@ -2834,29 +2910,40 @@ object CommandsDataModule: TCommandsDataModule
           '            return super().stop_here(frame)'
           ''
           '        def user_line(self, frame):'
-          '            __import__("sys").stdout.print_queue.join()'
+          '            try:'
+          '                self._sys.stdout.print_queue.join()'
+          '            except:'
+          '                pass'
           ''
           '            dbg_manager = self.debug_manager'
           
-            '            self.conn = object.__getattribute__(dbg_manager.debu' +
-            'gIDE, "____conn__")()'
+            '            thread_id = dbg_manager._threading.current_thread().' +
+            'ident'
           ''
-          '            dbg_manager.debug_command = dbg_manager.dcNone'
           '            with dbg_manager.user_lock:'
-          '                dbg_manager.debugIDE.user_line(frame)'
-          ''
           
-            '                if dbg_manager.debug_command == dbg_manager.dcRu' +
-            'n:'
+            '                if not dbg_manager.debugIDE.user_line(thread_id,' +
+            ' frame, self.botframe):'
           '                    self.set_return(frame)'
           '                    return'
           ''
-          '                time = __import__("time")'
+          '            dbg_manager.debug_command = dbg_manager.dcNone'
           
-            '                while dbg_manager.debug_command == dbg_manager.d' +
-            'cNone:'
-          '                    self.conn.poll_all(0.01)'
-          '                    time.sleep(0.01)'
+            '            conn = object.__getattribute__(dbg_manager.debugIDE,' +
+            ' "____conn__")()'
+          ''
+          '            time = __import__("time")'
+          '            while (((thread_id != dbg_manager.active_thread) or'
+          
+            '                    (dbg_manager.debug_command == dbg_manager.dc' +
+            'None)) and'
+          
+            '                    (dbg_manager.debug_command != dbg_manager.dc' +
+            'Run)):'
+          '                with dbg_manager.user_lock:'
+          '                    conn.poll_all(0.01)'
+          '                if thread_id != dbg_manager.active_thread:'
+          '                    time.sleep(0.1)'
           ''
           '            if dbg_manager.debug_command == dbg_manager.dcRun:'
           '                self.set_continue()'
@@ -2885,12 +2972,18 @@ object CommandsDataModule: TCommandsDataModule
             't:'
           '                self.set_quit()'
           ''
+          '            if dbg_manager.debug_command != dbg_manager.dcRun:'
+          '                dbg_manager.debug_command = dbg_manager.dcNone'
+          
+            '            dbg_manager.thread_status(thread_id, "", dbg_manager' +
+            '.thrdRunning)'
+          ''
           '        def user_call(self, frame, arg):'
           '            self.tracecount += 1'
           '            #yield processing every 1000 calls'
           
-            '            if (self.tracecount > 1000) and not __import__('#39'sys'#39 +
-            ').stdout.writing and not __import__('#39'sys'#39').stderr.writing:'
+            '            if (self.tracecount > 1000) and not (hasattr(self._s' +
+            'ys, "writing") and self._sys.stdout.writing):'
           '                self.tracecount = 0'
           '                cmd = self.debug_manager.debugIDE.user_yield()'
           '                if cmd == self.debug_manager.dcAbort:'
@@ -2901,20 +2994,22 @@ object CommandsDataModule: TCommandsDataModule
           '        def dispatch_call(self, frame, arg):'
           '            res = super().dispatch_call(frame, arg)'
           '            if res:'
+          '                if self.isTraceable(frame) == 0:'
+          '                    return'
           
             '                #logging.debug("dispatch_call " + frame.f_code.c' +
             'o_filename + " " + frame.f_code.co_name)'
           
-            '                while frame is not None and frame is not self.st' +
-            'opframe:'
-          '                    if frame is self.botframe:'
-          '                        return res'
-          '                    elif self.isTraceable(frame) == 0:'
+            '##                while frame is not None and frame is not self.' +
+            'stopframe:'
+          '##                    if frame is self.botframe:'
+          '##                        return res'
+          '##                    elif self.isTraceable(frame) == 0:'
           
-            '                        #logging.debug(frame.f_code.co_filename ' +
-            '+ " not tracebale " + frame.f_code.co_name)'
-          '                        return'
-          '                    frame = frame.f_back'
+            '##                        #logging.debug(frame.f_code.co_filenam' +
+            'e + " not tracebale " + frame.f_code.co_name)'
+          '##                        return'
+          '##                    frame = frame.f_back'
           '            return res'
           ''
           '##        def trace_dispatch(self, frame, event, arg):'
@@ -2978,6 +3073,7 @@ object CommandsDataModule: TCommandsDataModule
           '                sys.stdout.print_queue.join()'
           '    IDEDebugger.debug_manager = DebugManager'
           '    IDEDebugger.thread_wrapper = ThreadWrapper'
+          '    DebugManager.main_debugger = IDEDebugger()'
           ''
           '    class IDETestResult(__import__('#39'unittest'#39').TestResult):'
           ''
@@ -3025,9 +3121,6 @@ object CommandsDataModule: TCommandsDataModule
           '        self.locals["__name__"] = "__main__"'
           '        self.inspect = __import__("inspect")'
           '        self.exc_info = None'
-          ''
-          '        self.debugger = self.IDEDebugger()'
-          '        self.debugger.showtraceback = self.showtraceback'
           ''
           '        try:'
           '            pyrepr = __import__('#39'repr'#39').Repr()'

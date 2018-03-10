@@ -45,6 +45,7 @@ type
     DocPanel: TSpTBXPageScroller;
     SpTBXSplitter: TSpTBXSplitter;
     reInfo: TRichEdit;
+    Panel1: TPanel;
     procedure VariablesTreeChange(Sender: TBaseVirtualTree; Node: PVirtualNode);
     procedure FormCreate(Sender: TObject);
     procedure VariablesTreeInitNode(Sender: TBaseVirtualTree; ParentNode,
@@ -63,6 +64,8 @@ type
     procedure VariablesTreeInitChildren(Sender: TBaseVirtualTree;
       Node: PVirtualNode; var ChildCount: Cardinal);
     procedure reInfoResizeRequest(Sender: TObject; Rect: TRect);
+    procedure VariablesTreeFreeNode(Sender: TBaseVirtualTree;
+      Node: PVirtualNode);
   private
     { Private declarations }
     CurrentModule, CurrentFunction : string;
@@ -97,8 +100,11 @@ uses
 
 {$R *.dfm}
 Type
-  PPyObjRec = ^TPyObjRec;
-  TPyObjRec = record
+  TNodeData = class(TObject)
+    Name : string;
+    ObjectType : string;
+    Value : string;
+    ImageIndex : Integer;
     NameSpaceItem : TBaseNameSpaceItem;
   end;
 
@@ -106,15 +112,15 @@ procedure TVariablesWindow.FormCreate(Sender: TObject);
 begin
   inherited;
   // Let the tree know how much data space we need.
-  VariablesTree.NodeDataSize := SizeOf(TPyObjRec);
+  VariablesTree.NodeDataSize := SizeOf(TNodeData);
 end;
 
 procedure TVariablesWindow.VariablesTreeInitChildren(Sender: TBaseVirtualTree;
   Node: PVirtualNode; var ChildCount: Cardinal);
 var
-  Data: PPyObjRec;
+  Data: TNodeData;
 begin
-  Data := VariablesTree.GetNodeData(Node);
+  Data := Node.GetData<TNodeData>;
   ChildCount := Data.NameSpaceItem.ChildCount;
 end;
 
@@ -122,9 +128,14 @@ procedure TVariablesWindow.VariablesTreeInitNode(Sender: TBaseVirtualTree;
   ParentNode, Node: PVirtualNode;
   var InitialStates: TVirtualNodeInitStates);
 var
-  Data, ParentData: PPyObjRec;
+  Data, ParentData: TNodeData;
 begin
-  Data := VariablesTree.GetNodeData(Node);
+  if ivsReInit in InitialStates then
+    Data := Node.GetData<TNodeData>
+  else begin
+    Data := TNodeData.Create;
+    Node.SetData<TNodeData>(Data);
+  end;
   if VariablesTree.GetNodeLevel(Node) = 0 then begin
     Assert(Node.Index <= 1);
     if CurrentModule <> '' then begin
@@ -144,12 +155,42 @@ begin
       InitialStates := [ivsExpanded, ivsHasChildren];
     end;
   end else begin
-    ParentData := VariablesTree.GetNodeData(ParentNode);
+    ParentData := ParentNode.GetData<TNodeData>;
     Data.NameSpaceItem := ParentData.NameSpaceItem.ChildNode[Node.Index];
     if Data.NameSpaceItem.ChildCount > 0 then
       InitialStates := [ivsHasChildren]
     else
       InitialStates := [];
+  end;
+  // Node Text
+  Data.Name := Data.NameSpaceItem.Name;
+  Data.ObjectType := Data.NameSpaceItem.ObjectType;
+  try
+    Data.Value := Data.NameSpaceItem.Value;
+  except
+    Data.Value := '';
+  end;
+  // ImageIndex
+  if Data.NameSpaceItem.IsDict then
+    Data.ImageIndex := Ord(TCodeImages.Namespace)
+  else if Data.NameSpaceItem.IsModule then
+    Data.ImageIndex := Ord(TCodeImages.Module)
+  else if Data.NameSpaceItem.IsMethod then
+    Data.ImageIndex := Ord(TCodeImages.Method)
+  else if Data.NameSpaceItem.IsFunction then
+    Data.ImageIndex := Ord(TCodeImages.Func)
+  else if Data.NameSpaceItem.IsClass or Data.NameSpaceItem.Has__dict__ then
+     Data.ImageIndex := Ord(TCodeImages.Klass)
+  else if (Data.ObjectType = 'list') or (Data.ObjectType = 'tuple') then
+    Data.ImageIndex := Ord(TCodeImages.List)
+  else begin
+    if Assigned(ParentNode) and
+      (ParentNode.GetData<TNodeData>.NameSpaceItem.IsDict
+        or ParentNode.GetData<TNodeData>.NameSpaceItem.IsModule)
+    then
+      Data.ImageIndex := Ord(TCodeImages.Variable)
+    else
+      Data.ImageIndex := Ord(TCodeImages.Field);
   end;
 end;
 
@@ -157,9 +198,9 @@ procedure TVariablesWindow.VariablesTreePaintText(Sender: TBaseVirtualTree;
   const TargetCanvas: TCanvas; Node: PVirtualNode; Column: TColumnIndex;
   TextType: TVSTTextType);
 var
-  Data : PPyObjRec;
+  Data : TNodeData;
 begin
-  Data := VariablesTree.GetNodeData(Node);
+  Data := Node.GetData<TNodeData>;
   if Assigned(Data) then
     if nsaChanged in Data.NameSpaceItem.Attributes then
       TargetCanvas.Font.Color := clRed
@@ -204,32 +245,9 @@ end;
 procedure TVariablesWindow.VariablesTreeGetImageIndex(
   Sender: TBaseVirtualTree; Node: PVirtualNode; Kind: TVTImageKind;
   Column: TColumnIndex; var Ghosted: Boolean; var ImageIndex: TImageIndex);
-var
-  Data : PPyObjRec;
 begin
   if (Column = 0) and (Kind in [ikNormal, ikSelected]) then begin
-    Data := VariablesTree.GetNodeData(Node);
-    if Data.NameSpaceItem.IsDict then
-      ImageIndex := Integer(TCodeImages.Namespace)
-    else if Data.NameSpaceItem.IsModule then
-      ImageIndex := Integer(TCodeImages.Module)
-    else if Data.NameSpaceItem.IsMethod then
-      ImageIndex := Integer(TCodeImages.Method)
-    else if Data.NameSpaceItem.IsFunction then
-      ImageIndex := Integer(TCodeImages.Func)
-    else if Data.NameSpaceItem.IsClass or Data.NameSpaceItem.Has__dict__ then
-        ImageIndex := Integer(TCodeImages.Klass)
-    else if (Data.NameSpaceItem.ObjectType = 'list') or (Data.NameSpaceItem.ObjectType = 'tuple') then
-      ImageIndex := Integer(TCodeImages.List)
-    else begin
-      if Assigned(Node.Parent) and (Node.Parent <> VariablesTree.RootNode) and
-        (PPyObjRec(VariablesTree.GetNodeData(Node.Parent)).NameSpaceItem.IsDict
-          or PPyObjRec(VariablesTree.GetNodeData(Node.Parent)).NameSpaceItem.IsModule)
-      then
-        ImageIndex := Integer(TCodeImages.Variable)
-      else
-        ImageIndex := Integer(TCodeImages.Field);
-    end;
+    ImageIndex := Node.GetData<TNodeData>.ImageIndex;
   end else
     ImageIndex := -1;
 end;
@@ -238,25 +256,17 @@ procedure TVariablesWindow.VariablesTreeGetText(Sender: TBaseVirtualTree;
   Node: PVirtualNode; Column: TColumnIndex; TextType: TVSTTextType;
   var CellText: string);
 var
-  Data : PPyObjRec;
+  Data : TNodeData;
 begin
   if TextType <> ttNormal then Exit;
-  Data := VariablesTree.GetNodeData(Node);
+  Data := Node.GetData<TNodeData>;
   if not Assigned(Data) or not Assigned(Data.NameSpaceItem) then
     Exit;
 
-  CellText := '';
   case Column of
-    0 : CellText := Data.NameSpaceItem.Name;
-    1 : with GetPythonEngine do
-          CellText := Data.NameSpaceItem.ObjectType;
-    2 : begin
-          try
-            CellText := Data.NameSpaceItem.Value;
-          except
-            CellText := '';
-          end;
-        end;
+    0 : CellText := Data.Name;
+    1 : CellText := Data.ObjectType;
+    2 : CellText := Data.Value;
   end;
 end;
 
@@ -266,7 +276,6 @@ Var
   SameFrame : boolean;
   RootNodeCount : Cardinal;
   OldGlobalsNameSpace, OldLocalsNamespace : TBaseNameSpaceItem;
-  Cursor : IInterface;
 begin
   if not (Assigned(CallStackWindow) and
           Assigned(PyControl.ActiveInterpreter) and
@@ -323,14 +332,18 @@ begin
   end;
 
   if (RootNodeCount > 0) and SameFrame and (RootNodeCount = VariablesTree.RootNodeCount) then begin
-    Cursor := WaitCursor;
     if Assigned(GlobalsNameSpace) and Assigned(OldGlobalsNameSpace) then
       GlobalsNameSpace.CompareToOldItem(OldGlobalsNameSpace);
     if Assigned(LocalsNameSpace) and Assigned(OldLocalsNameSpace) then
       LocalsNameSpace.CompareToOldItem(OldLocalsNameSpace);
     VariablesTree.BeginUpdate;
     try
+      // The following will Reinitialize only initialized nodes
+      // Do not use ReinitNode because it Reinits non-expanded children
+      // potentially leading to deep recursion
       VariablesTree.ReinitInitializedChildren(nil, True);
+      // The following initializes non-initialized nodes without expansion
+      VariablesTree.InitRecursive(nil);
       VariablesTree.InvalidateToBottom(VariablesTree.GetFirstVisible);
     finally
       VariablesTree.EndUpdate;
@@ -338,10 +351,10 @@ begin
   end else begin
     VariablesTree.Clear;
     VariablesTree.RootNodeCount := RootNodeCount;
+    VariablesTree.InitRecursive(nil);
   end;
   FreeAndNil(OldGlobalsNameSpace);
   FreeAndNil(OldLocalsNameSpace);
-
 
   VariablesTree.TreeOptions.AnimationOptions :=
     VariablesTree.TreeOptions.AnimationOptions + [toAnimatedToggle];
@@ -380,7 +393,7 @@ Var
   ObjectType,
   ObjectValue,
   DocString : string;
-  Data : PPyObjRec;
+  Data : TNodeData;
 begin
   // Get the selected frame
   if CurrentModule <> '' then
@@ -392,10 +405,10 @@ begin
   AddFormatText(reInfo, _('Namespace') + ': ', [fsBold]);
   AddFormatText(reInfo, NameSpace, [fsItalic]);
   if Assigned(Node) and (vsSelected in Node.States) then begin
-    Data := VariablesTree.GetNodeData(Node);
-    ObjectName := Data.NameSpaceItem.Name;
-    ObjectType := Data.NameSpaceItem.ObjectType;
-    ObjectValue := Data.NameSpaceItem.Value;
+    Data := Node.GetData<TNodeData>;
+    ObjectName := Data.Name;
+    ObjectType := Data.ObjectType;
+    ObjectValue := Data.Value;
     DocString :=  Data.NameSpaceItem.DocString;
 
     AddFormatText(reInfo, SLineBreak+_('Name')+': ', [fsBold]);
@@ -407,6 +420,12 @@ begin
     AddFormatText(reInfo, SLineBreak + _('DocString') + ':' + SLineBreak, [fsBold]);
     AddFormatText(reInfo, Docstring);
   end;
+end;
+
+procedure TVariablesWindow.VariablesTreeFreeNode(Sender: TBaseVirtualTree;
+  Node: PVirtualNode);
+begin
+  Node.GetData<TNodeData>.Free;
 end;
 
 end.

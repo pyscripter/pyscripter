@@ -54,51 +54,6 @@ inherited VariablesWindow: TVariablesWindow
       Height = 243
       ExplicitWidth = 575
       ExplicitHeight = 243
-      object VariablesTree: TVirtualStringTree
-        Left = 0
-        Top = 0
-        Width = 195
-        Height = 243
-        Align = alClient
-        Alignment = taRightJustify
-        Anchors = [akLeft, akTop, akBottom]
-        BevelInner = bvNone
-        BevelOuter = bvNone
-        BorderStyle = bsNone
-        Header.AutoSizeIndex = 2
-        Header.Options = [hoAutoResize, hoColumnResize, hoDblClickResize, hoHotTrack, hoOwnerDraw, hoVisible]
-        Header.PopupMenu = VTHeaderPopupMenu
-        HintMode = hmTooltip
-        Images = CommandsDataModule.CodeImages
-        IncrementalSearch = isVisibleOnly
-        TabOrder = 0
-        TreeOptions.AnimationOptions = [toAnimatedToggle]
-        TreeOptions.MiscOptions = [toFullRepaintOnResize, toInitOnSave, toToggleOnDblClick, toWheelPanning]
-        TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowDropmark, toShowRoot, toShowTreeLines, toShowVertGridLines, toThemeAware, toUseBlendedImages, toUseBlendedSelection]
-        TreeOptions.StringOptions = [toAutoAcceptEditChange]
-        OnChange = VariablesTreeChange
-        OnGetText = VariablesTreeGetText
-        OnPaintText = VariablesTreePaintText
-        OnGetImageIndex = VariablesTreeGetImageIndex
-        OnInitChildren = VariablesTreeInitChildren
-        OnInitNode = VariablesTreeInitNode
-        Columns = <
-          item
-            Position = 0
-            Width = 160
-            WideText = 'Name'
-          end
-          item
-            Position = 1
-            Width = 100
-            WideText = 'Type'
-          end
-          item
-            Position = 2
-            Width = 10
-            WideText = 'Value'
-          end>
-      end
       object DocPanel: TSpTBXPageScroller
         Left = 200
         Top = 0
@@ -107,16 +62,15 @@ inherited VariablesWindow: TVariablesWindow
         Align = alRight
         Color = clNone
         ParentColor = False
-        TabOrder = 1
+        TabOrder = 0
         object reInfo: TRichEdit
           Left = 0
           Top = 0
           Width = 375
           Height = 89
           Align = alTop
-          BevelOuter = bvNone
           BorderStyle = bsNone
-          Font.Charset = DEFAULT_CHARSET
+          Font.Charset = GREEK_CHARSET
           Font.Color = clWindowText
           Font.Height = -11
           Font.Name = 'Tahoma'
@@ -137,6 +91,59 @@ inherited VariablesWindow: TVariablesWindow
         Color = clNone
         ParentColor = False
         MinSize = 3
+      end
+      object Panel1: TPanel
+        Left = 0
+        Top = 0
+        Width = 195
+        Height = 243
+        Align = alClient
+        TabOrder = 2
+        object VariablesTree: TVirtualStringTree
+          Left = 1
+          Top = 1
+          Width = 193
+          Height = 241
+          Align = alClient
+          Alignment = taRightJustify
+          Anchors = [akLeft, akTop, akBottom]
+          BorderStyle = bsNone
+          Header.AutoSizeIndex = 2
+          Header.Options = [hoAutoResize, hoColumnResize, hoDblClickResize, hoHotTrack, hoOwnerDraw, hoVisible]
+          Header.PopupMenu = VTHeaderPopupMenu
+          HintMode = hmTooltip
+          Images = CommandsDataModule.CodeImages
+          IncrementalSearch = isVisibleOnly
+          TabOrder = 0
+          TreeOptions.AnimationOptions = [toAnimatedToggle]
+          TreeOptions.AutoOptions = [toAutoDropExpand, toAutoScrollOnExpand, toAutoTristateTracking, toAutoDeleteMovedNodes, toAutoChangeScale]
+          TreeOptions.MiscOptions = [toFullRepaintOnResize, toInitOnSave, toToggleOnDblClick, toWheelPanning]
+          TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowDropmark, toShowRoot, toShowTreeLines, toShowVertGridLines, toThemeAware, toUseBlendedImages, toUseBlendedSelection]
+          TreeOptions.StringOptions = [toAutoAcceptEditChange]
+          OnChange = VariablesTreeChange
+          OnFreeNode = VariablesTreeFreeNode
+          OnGetText = VariablesTreeGetText
+          OnPaintText = VariablesTreePaintText
+          OnGetImageIndex = VariablesTreeGetImageIndex
+          OnInitChildren = VariablesTreeInitChildren
+          OnInitNode = VariablesTreeInitNode
+          Columns = <
+            item
+              Position = 0
+              Width = 160
+              WideText = 'Name'
+            end
+            item
+              Position = 1
+              Width = 100
+              WideText = 'Type'
+            end
+            item
+              Position = 2
+              Width = 10
+              WideText = 'Value'
+            end>
+        end
       end
     end
   end

@@ -171,6 +171,7 @@ type
     function GetFrameGlobals(Frame : TBaseFrameInfo) : TBaseNameSpaceItem; virtual; abstract;
     function GetFrameLocals(Frame : TBaseFrameInfo) : TBaseNameSpaceItem; virtual; abstract;
     function NameSpaceFromExpression(const Expr : string) : TBaseNameSpaceItem; virtual; abstract;
+    procedure MakeThreadActive(Thread : TThreadInfo); virtual; abstract;
     procedure MakeFrameActive(Frame : TBaseFrameInfo); virtual; abstract;
     // post mortem stuff
     function HaveTraceback : boolean; virtual; abstract;

@@ -10,8 +10,7 @@ unit cVirtualStringTreeHelper;
 
 interface
 uses
-  Types, Windows, Classes, Graphics, VirtualTrees, VirtualTrees.Utils,
-  SpTBXSkins;
+  VirtualTrees;
 
 type
 
@@ -29,8 +28,6 @@ type
   TCrackedVirtualStringTree = class(TCustomVirtualStringTree)
   end;
 
-
-{ TThemedVirtualStringTree }
 
 procedure TVirtualStringTreeHelper.ReinitInitializedChildren(Node: PVirtualNode;
   Recursive: Boolean);

@@ -162,6 +162,7 @@ type
     function GetFrameGlobals(Frame : TBaseFrameInfo) : TBaseNameSpaceItem; override;
     function GetFrameLocals(Frame : TBaseFrameInfo) : TBaseNameSpaceItem; override;
     function NameSpaceFromExpression(const Expr : string) : TBaseNameSpaceItem; override;
+    procedure MakeThreadActive(Thread : TThreadInfo); override;
     procedure MakeFrameActive(Frame : TBaseFrameInfo); override;
     // post mortem stuff
     function HaveTraceback : boolean; override;
@@ -1340,7 +1341,7 @@ begin
   fDebugManager := fRemotePython.RPI.__class__.DebugManager;
   fDebugManager.debugIDE := InternalInterpreter.PyInteractiveInterpreter.debugIDE;
 
-  fMainDebugger := fRemotePython.RPI.debugger;
+  fMainDebugger := fDebugManager.main_debugger;
 
   fMainThread := TThreadInfo.Create;
   fMainThread.Name := 'MainThread';
@@ -1488,12 +1489,6 @@ begin
 
    if PyControl.BreakPointsChanged then SetDebuggerBreakpoints;
 
-   //TODO: will change
-   fMainThread.Status := thrdRunning;
-   TPyBaseDebugger.ThreadChangeNotify(fMainThread, tctStatusChange);
-   fMainThread.CallStack.Clear;
-   PyControl.DoStateChange(dsDebugging);
-
 //   case fDebuggerCommand of
 //     dcRun         : fRemotePython.Debugger.set_continue();
 //     dcStepInto    : fRemotePython.Debugger.set_step();
@@ -1504,6 +1499,7 @@ begin
 //     dcAbort       : fRemotePython.Debugger.set_quit();
 //   end;
    fDebugManager.debug_command := Ord(fDebuggerCommand);
+   fDebuggerCommand := dcNone;
 end;
 
 function TPyRemDebugger.HaveTraceback: boolean;
@@ -1547,6 +1543,14 @@ begin
     fDebugManager.active_frame := (Frame as TFrameInfo).PyFrame
   else
     fDebugManager.active_frame := None;
+end;
+
+procedure TPyRemDebugger.MakeThreadActive(Thread: TThreadInfo);
+begin
+  if Assigned(Thread) then
+    fDebugManager.active_thread := Thread.Thread_ID
+  else
+    fDebugManager.active_thread := None;
 end;
 
 function TPyRemDebugger.NameSpaceFromExpression(const Expr: string): TBaseNameSpaceItem;
@@ -1663,7 +1667,6 @@ begin
   Timer := NewTimer(50);
   Timer.Start(procedure
   begin
-    if PyControl.DebuggerState = dsPaused then Exit;
     try
       fRemotePython.ServeConnection(500);
     except
@@ -1858,13 +1861,23 @@ Var
   FName : string;
   Frame : Variant;
   LineNumber : integer;
+  Thread_ID : integer;
+  ThreadInfo : TThreadInfo;
+  Arguments : Variant;
+  BotFrame : Variant;
 begin
   Result := GetPythonEngine.ReturnNone;
 
   fRemotePython.CheckConnected;
   if fRemotePython.fThreadExecInterrupted then Exit;
 
-  Frame := VarPythonCreate(Args).__getitem__(0);
+  Arguments := VarPythonCreate(Args);
+  Thread_ID := Arguments.__getitem__(0);
+  if not fThreads.TryGetValue(Thread_ID, ThreadInfo) then
+    Exit;  // Should not happen
+
+  Frame := Arguments.__getitem__(1);
+  BotFrame := Arguments.__getitem__(2);
   Assert(VarIsPython(Frame) and not VarisNone(Frame));
   FName := Frame.f_code.co_filename;
   LineNumber := Frame.f_lineno;
@@ -1874,57 +1887,81 @@ begin
   if PyIDEMainForm.ShowFilePosition(FName, LineNumber, 1, 0, True, False) and
     (LineNumber > 0) then
   begin
-    PyControl.CurrentPos.Editor := GI_EditorFactory.GetEditorByNameOrTitle(FName);
-    PyControl.CurrentPos.Line := LineNumber;
-
     if PyControl.DebuggerState = dsDebugging then
       PyControl.DoStateChange(dsPaused);
 
-    //TODO:  This will change
-    fMainThread.Status := thrdBroken;
-    GetCallStack(fMainThread.CallStack, Frame, fMainDebugger.botframe);
-    TPyBaseDebugger.ThreadChangeNotify(fMainThread, tctStatusChange);
+    ThreadInfo.Status := thrdBroken;
+    GetCallStack(ThreadInfo.CallStack, Frame, BotFrame);
+    TPyBaseDebugger.ThreadChangeNotify(ThreadInfo, tctStatusChange);
 
-   FDebuggerCommand := dcNone;
-  end else
-    fDebugManager.debug_command := Ord(dcRun);
+    FDebuggerCommand := dcNone;
+
+    // Return true if broken
+    with GetPythonEngine do begin
+      Result := PPyObject(Py_True);
+      Py_INCREF(Result);
+    end;
+  end;
 end;
 
 procedure TPyRemDebugger.UserThread(Sender: TObject; PSelf, Args: PPyObject;
   var Result: PPyObject);
+
+  function HaveBrokenThread: Boolean;
+  Var
+    T : TThreadInfo;
+  begin
+    Result := False;
+    for T in fThreads.Values do
+      if T.Status = thrdBroken then
+      begin
+        Result := True;
+        break;
+      end;
+  end;
 Var
   Thread_ID : integer;
   ThreadName : string;
   ThreadStatus : integer;
   Arguments: Variant;
   ThreadInfo : TThreadInfo;
+  OldStatus : TThreadStatus;
 begin
-   Result := GetPythonEngine.ReturnNone;
+  Result := GetPythonEngine.ReturnNone;
 
-   Arguments := VarPythonCreate(Args);
-   Thread_ID := Arguments.__getitem__(0);
-   ThreadName := Arguments.__getitem__(1);
-   ThreadStatus := Arguments.__getitem__(2);
+  Arguments := VarPythonCreate(Args);
+  Thread_ID := Arguments.__getitem__(0);
+  ThreadName := Arguments.__getitem__(1);
+  ThreadStatus := Arguments.__getitem__(2);
 
-   if TThreadStatus(ThreadStatus) = thrdFinished then begin
-     if fThreads.ContainsKey(Thread_ID) then begin
-       TPyBaseDebugger.ThreadChangeNotify(fThreads[Thread_ID], tctRemoved);
-       fThreads.Remove(Thread_ID);
-     end;
-   end else begin
-     if fThreads.TryGetValue(Thread_ID, ThreadInfo) then begin
-       // Should not happen
-       ThreadInfo.Status := TThreadStatus(ThreadStatus);
-       TPyBaseDebugger.ThreadChangeNotify(fThreads[Thread_ID], tctStatusChange);
-     end else begin
-       ThreadInfo := TThreadInfo.Create;
-       ThreadInfo.Thread_ID := Thread_ID;
-       ThreadInfo.Name := ThreadName;
-       ThreadInfo.Status :=  TThreadStatus(ThreadStatus);
-       fThreads.Add(Thread_ID, ThreadInfo);
-       TPyBaseDebugger.ThreadChangeNotify(fThreads[Thread_ID], tctAdded);
-     end;
-   end;
+  if TThreadStatus(ThreadStatus) = thrdFinished then begin
+    if fThreads.ContainsKey(Thread_ID) then begin
+      TPyBaseDebugger.ThreadChangeNotify(fThreads[Thread_ID], tctRemoved);
+      fThreads.Remove(Thread_ID);
+    end;
+  end else begin
+    if fThreads.TryGetValue(Thread_ID, ThreadInfo) then begin
+      OldStatus := ThreadInfo.Status;
+      ThreadInfo.Status := TThreadStatus(ThreadStatus);
+      if OldStatus <> ThreadInfo.Status then
+      begin
+        TPyBaseDebugger.ThreadChangeNotify(fThreads[Thread_ID], tctStatusChange);
+        if OldStatus = thrdBroken then
+        begin
+          ThreadInfo.CallStack.Clear;
+          if not HaveBrokenThread then
+            PyControl.DoStateChange(dsDebugging);
+        end;
+      end;
+    end else begin
+      ThreadInfo := TThreadInfo.Create;
+      ThreadInfo.Thread_ID := Thread_ID;
+      ThreadInfo.Name := ThreadName;
+      ThreadInfo.Status :=  TThreadStatus(ThreadStatus);
+      fThreads.Add(Thread_ID, ThreadInfo);
+      TPyBaseDebugger.ThreadChangeNotify(fThreads[Thread_ID], tctAdded);
+    end;
+  end;
 end;
 
 procedure TPyRemDebugger.UserYield(Sender: TObject; PSelf, Args: PPyObject;

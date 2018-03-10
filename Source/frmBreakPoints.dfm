@@ -54,46 +54,62 @@ inherited BreakPointsWindow: TBreakPointsWindow
       Height = 240
       ExplicitWidth = 375
       ExplicitHeight = 240
-      object BreakPointsView: TVirtualStringTree
+      object Panel1: TPanel
         Left = 0
         Top = 0
         Width = 375
         Height = 240
         Align = alClient
-        Alignment = taRightJustify
-        BevelInner = bvNone
-        BevelOuter = bvNone
-        BorderStyle = bsNone
-        Header.AutoSizeIndex = 2
-        Header.Options = [hoAutoResize, hoColumnResize, hoDblClickResize, hoHotTrack, hoOwnerDraw, hoVisible]
-        HintMode = hmTooltip
-        PopupMenu = TBXPopupMenu
         TabOrder = 0
-        TreeOptions.AnimationOptions = [toAnimatedToggle]
-        TreeOptions.MiscOptions = [toCheckSupport, toFullRepaintOnResize, toInitOnSave, toReportMode, toToggleOnDblClick, toWheelPanning]
-        TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowDropmark, toShowHorzGridLines, toShowVertGridLines, toThemeAware, toUseBlendedImages, toUseBlendedSelection]
-        TreeOptions.SelectionOptions = [toExtendedFocus, toFullRowSelect, toRightClickSelect]
-        TreeOptions.StringOptions = [toAutoAcceptEditChange]
-        OnChecked = BreakPointsViewChecked
-        OnDblClick = BreakPointLVDblClick
-        OnGetText = BreakPointsViewGetText
-        OnInitNode = BreakPointsViewInitNode
-        Columns = <
-          item
-            Position = 0
-            Width = 200
-            WideText = 'File Name'
-          end
-          item
-            Alignment = taRightJustify
-            Position = 1
-            WideText = 'Line'
-          end
-          item
-            Position = 2
-            Width = 125
-            WideText = 'Condition'
-          end>
+        ExplicitLeft = 96
+        ExplicitTop = 104
+        ExplicitWidth = 233
+        ExplicitHeight = 113
+        object BreakPointsView: TVirtualStringTree
+          Left = 1
+          Top = 1
+          Width = 373
+          Height = 238
+          Align = alClient
+          Alignment = taRightJustify
+          BevelInner = bvNone
+          BevelOuter = bvNone
+          BorderStyle = bsNone
+          Header.AutoSizeIndex = 2
+          Header.Options = [hoAutoResize, hoColumnResize, hoDblClickResize, hoHotTrack, hoOwnerDraw, hoVisible]
+          HintMode = hmTooltip
+          PopupMenu = TBXPopupMenu
+          TabOrder = 0
+          TreeOptions.AnimationOptions = [toAnimatedToggle]
+          TreeOptions.MiscOptions = [toCheckSupport, toFullRepaintOnResize, toInitOnSave, toReportMode, toToggleOnDblClick, toWheelPanning]
+          TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowDropmark, toShowHorzGridLines, toShowVertGridLines, toThemeAware, toUseBlendedImages, toUseBlendedSelection]
+          TreeOptions.SelectionOptions = [toExtendedFocus, toFullRowSelect, toRightClickSelect]
+          TreeOptions.StringOptions = [toAutoAcceptEditChange]
+          OnChecked = BreakPointsViewChecked
+          OnDblClick = BreakPointLVDblClick
+          OnGetText = BreakPointsViewGetText
+          OnInitNode = BreakPointsViewInitNode
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 375
+          ExplicitHeight = 240
+          Columns = <
+            item
+              Position = 0
+              Width = 200
+              WideText = 'File Name'
+            end
+            item
+              Alignment = taRightJustify
+              Position = 1
+              WideText = 'Line'
+            end
+            item
+              Position = 2
+              Width = 123
+              WideText = 'Condition'
+            end>
+        end
       end
     end
   end
