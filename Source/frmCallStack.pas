@@ -106,7 +106,8 @@ uses
 
 { CallStackView storage }
 type
-  TFrameStorage = class(TObject)
+  PFrameData = ^TFrameData;
+  TFrameData = record
     Func : string;
     FileName : string;
     Line : integer;
@@ -117,6 +118,8 @@ type
 procedure TCallStackWindow.UpdateCallStack;
 Var
   FirstNode : PVirtualNode;
+  FrameData : PFrameData;
+  FileName : string;
   Editor : IEditor;
 begin
   if Assigned(fActiveThread) and (fActiveThread.CallStack.Count > 0) then begin
@@ -137,10 +140,14 @@ begin
       CallStackView.Selected[FirstNode] := True;
 
       // Now Show the Current debugger position
-      Editor := GI_EditorFactory.GetEditorByNameOrTitle(FirstNode.GetData<TFrameStorage>.FileName);
+      FrameData := FirstNode.GetData;
+      FileName := FrameData.FileName;
+      if (FileName[1] ='<') and (FileName[Length(FileName)] = '>') then
+        FileName :=  Copy(FileName, 2, Length(FileName)-2);
+      Editor := GI_EditorFactory.GetEditorByNameOrTitle(FileName);
       if Assigned(Editor) then begin
         PyControl.CurrentPos.Editor := Editor;
-        PyControl.CurrentPos.Line := FirstNode.GetData<TFrameStorage>.Line;
+        PyControl.CurrentPos.Line := FrameData.Line;
         PyControl.DoCurrentPosChanged;
       end;
     end;
@@ -238,21 +245,25 @@ end;
 procedure TCallStackWindow.CallStackViewDblClick(Sender: TObject);
 Var
   SelectedNode : PVirtualNode;
+  FrameData : PFrameData;
 begin
   SelectedNode := CallStackView.GetFirstSelected;
   if Assigned(SelectedNode) then begin
     Assert(Assigned(fActiveThread));
     Assert(Integer(SelectedNode.Index) < fActiveThread.CallStack.Count);
-    with SelectedNode.GetData<TFrameStorage> do
-      if FileName <> '' then
-        PyIDEMainForm.ShowFilePosition(FileName, Line, 1);
+    FrameData := SelectedNode.GetData;
+      if FrameData.FileName <> '' then
+        PyIDEMainForm.ShowFilePosition(FrameData.FileName, FrameData.Line, 1);
   end;
 end;
 
 procedure TCallStackWindow.CallStackViewFreeNode(Sender: TBaseVirtualTree;
   Node: PVirtualNode);
+Var
+  FrameData : PFrameData;
 begin
-  Node.GetData<TFrameStorage>.Free;
+  FrameData := Node.GetData;
+  Finalize(FrameData^);
 end;
 
 procedure TCallStackWindow.FormActivate(Sender: TObject);
@@ -265,7 +276,7 @@ end;
 procedure TCallStackWindow.FormCreate(Sender: TObject);
 begin
   inherited;
-  CallStackView.NodeDataSize := SizeOf(TFrameStorage);
+  CallStackView.NodeDataSize := SizeOf(TFrameData);
   // Let the tree know how much data space we need.
   fThreads := TList<TThreadInfo>.Create(TComparer<TThreadInfo>.Construct(
     function(const L, R: TThreadInfo): Integer
@@ -304,38 +315,39 @@ end;
 procedure TCallStackWindow.CallStackViewGetText(Sender: TBaseVirtualTree;
   Node: PVirtualNode; Column: TColumnIndex; TextType: TVSTTextType;
   var CellText: string);
+Var
+  FrameData : PFrameData;
 begin
   if TextType <> ttNormal then Exit;
   Assert(CallStackView.GetNodeLevel(Node) = 0);
   Assert(Assigned(fActiveThread));
   Assert(Integer(Node.Index) < fActiveThread.CallStack.Count);
-  with Node.GetData<TFrameStorage> do
-    case Column of
-      0:  CellText := Func;
-      1:  CellText := FileName;
-      2:  if Line > 0
-            then CellText := Line.ToString
-          else
-            CellText := '';
-    end;
+  FrameData := Node.GetData;
+  case Column of
+    0:  CellText := FrameData.Func;
+    1:  CellText := FrameData.FileName;
+    2:  if FrameData.Line > 0
+          then CellText := FrameData.Line.ToString
+        else
+          CellText := '';
+  end;
 end;
 
 procedure TCallStackWindow.CallStackViewInitNode(Sender: TBaseVirtualTree;
   ParentNode, Node: PVirtualNode; var InitialStates: TVirtualNodeInitStates);
 Var
-  FrameStorage : TFrameStorage;
+  FrameData : PFrameData;
 begin
   Assert(CallStackView.GetNodeLevel(Node) = 0);
   Assert(Assigned(fActiveThread));
   Assert(Integer(Node.Index) < fActiveThread.CallStack.Count);
-  FrameStorage := TFrameStorage.Create;
+  FrameData := Node.GetData;
   with fActiveThread.CallStack[Node.Index] do
   begin
-    FrameStorage.Func := FunctionName;
-    FrameStorage.FileName := FileName;
-    FrameStorage.Line := Line;
+    FrameData.Func := FunctionName;
+    FrameData.FileName := FileName;
+    FrameData.Line := Line;
   end;
-  Node.SetData<TFrameStorage>(FrameStorage);
 end;
 
 function TCallStackWindow.GetSelectedStackFrame: TBaseFrameInfo;
