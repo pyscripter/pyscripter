@@ -1890,6 +1890,7 @@ object StyleSelectorForm: TStyleSelectorForm
     Action = ActionApplyStyle
     Anchors = [akLeft, akBottom]
     TabOrder = 0
+    Default = True
     ModalResult = 1
   end
   object Button2: TButton
@@ -1910,6 +1911,7 @@ object StyleSelectorForm: TStyleSelectorForm
     ItemHeight = 13
     TabOrder = 3
     OnClick = LBStyleNamesClick
+    OnDblClick = ActionApplyStyleExecute
   end
   object ActionManager1: TActionManager
     Left = 296

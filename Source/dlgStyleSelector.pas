@@ -188,6 +188,8 @@ begin
     else
       // Resource style
      TStyleSelectorForm.SetStyle(StyleName);
+
+    ModalResult := mrOk;
   end;
 end;
 

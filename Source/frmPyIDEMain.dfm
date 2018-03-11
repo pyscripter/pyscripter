@@ -30,7 +30,7 @@ object PyIDEMainForm: TPyIDEMainForm
       CustomHeight = 21
     end
     object SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem
-      CustomWidth = 0
+      CustomWidth = 417
     end
     object SpTBXSeparatorItem5: TSpTBXSeparatorItem
     end
@@ -121,13 +121,11 @@ object PyIDEMainForm: TPyIDEMainForm
     FullRepaint = False
     ParentBackground = False
     TabOrder = 2
-    ExplicitTop = 78
-    ExplicitHeight = 426
     object TabControl1: TSpTBXTabControl
       Left = 0
       Top = 0
       Width = 758
-      Height = 426
+      Height = 427
       Align = alClient
       PopupMenu = TabControlPopupMenu
       OnContextPopup = TabContolContextPopup
@@ -176,7 +174,7 @@ object PyIDEMainForm: TPyIDEMainForm
       Left = 758
       Top = 0
       Width = 0
-      Height = 426
+      Height = 427
       Align = alRight
       PopupMenu = TabControlPopupMenu
       Visible = False
@@ -225,7 +223,7 @@ object PyIDEMainForm: TPyIDEMainForm
       Left = 758
       Top = 0
       Width = 4
-      Height = 426
+      Height = 427
       Cursor = crSizeWE
       Align = alRight
       Color = clNone
@@ -1276,8 +1274,6 @@ object PyIDEMainForm: TPyIDEMainForm
     FixAlign = True
     PopupMenu = ToolbarPopupMenu
     Position = dpLeft
-    ExplicitTop = 78
-    ExplicitHeight = 426
   end
   object TBXDockRight: TSpTBXDock
     Left = 771
@@ -1287,8 +1283,6 @@ object PyIDEMainForm: TPyIDEMainForm
     FixAlign = True
     PopupMenu = ToolbarPopupMenu
     Position = dpRight
-    ExplicitTop = 78
-    ExplicitHeight = 426
   end
   object TBXDockBottom: TSpTBXDock
     Left = 0
@@ -2171,7 +2165,7 @@ object PyIDEMainForm: TPyIDEMainForm
     end
     object actSelectStyle: TAction
       Category = 'View'
-      Caption = 'Select Style'
+      Caption = 'Styles...'
       Hint = 'Select Style'
       ImageIndex = 107
       OnExecute = actSelectStyleExecute
