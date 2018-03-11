@@ -140,7 +140,7 @@
         <Manifest_File>PyScripter.exe.manifest</Manifest_File>
         <VerInfo_Release>3</VerInfo_Release>
         <Debugger_IncludeSystemVars>true</Debugger_IncludeSystemVars>
-        <Debugger_RunParams>--PYTHON27</Debugger_RunParams>
+        <Debugger_RunParams>--PYTHON36</Debugger_RunParams>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win64)'!=''">
         <VerInfo_MajorVer>3</VerInfo_MajorVer>

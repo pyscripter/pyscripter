@@ -2125,7 +2125,7 @@ object CommandsDataModule: TCommandsDataModule
           '            #yield processing every 1000 calls'
           
             '            if (self.tracecount > 1000) and not (hasattr(self._s' +
-            'ys, "writing") and self._sys.stdout.writing):'
+            'ys.stdout, "writing") and self._sys.stdout.writing):'
           '                self.tracecount = 0'
           '                cmd = self.debug_manager.debugIDE.user_yield()'
           '                if cmd == self.debug_manager.dcAbort:'
@@ -2983,7 +2983,7 @@ object CommandsDataModule: TCommandsDataModule
           '            #yield processing every 1000 calls'
           
             '            if (self.tracecount > 1000) and not (hasattr(self._s' +
-            'ys, "writing") and self._sys.stdout.writing):'
+            'ys.stdout, "writing") and self._sys.stdout.writing):'
           '                self.tracecount = 0'
           '                cmd = self.debug_manager.debugIDE.user_yield()'
           '                if cmd == self.debug_manager.dcAbort:'
@@ -2999,17 +2999,6 @@ object CommandsDataModule: TCommandsDataModule
           
             '                #logging.debug("dispatch_call " + frame.f_code.c' +
             'o_filename + " " + frame.f_code.co_name)'
-          
-            '##                while frame is not None and frame is not self.' +
-            'stopframe:'
-          '##                    if frame is self.botframe:'
-          '##                        return res'
-          '##                    elif self.isTraceable(frame) == 0:'
-          
-            '##                        #logging.debug(frame.f_code.co_filenam' +
-            'e + " not tracebale " + frame.f_code.co_name)'
-          '##                        return'
-          '##                    frame = frame.f_back'
           '            return res'
           ''
           '##        def trace_dispatch(self, frame, event, arg):'

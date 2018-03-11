@@ -79,6 +79,7 @@ type
       var Ghosted: Boolean; var ImageIndex: TImageIndex);
     procedure WatchesViewInitChildren(Sender: TBaseVirtualTree;
       Node: PVirtualNode; var ChildCount: Cardinal);
+    procedure WatchesViewFreeNode(Sender: TBaseVirtualTree; Node: PVirtualNode);
   private
     { Private declarations }
     fWatchesList: TObjectList;
@@ -127,8 +128,11 @@ Type
   end;
 
   PWatchRec = ^TWatchRec;
-
   TWatchRec = record
+    Name : string;
+    ObjectType : string;
+    Value : string;
+    ImageIndex : integer;
     NS: TBaseNameSpaceItem;
   end;
 
@@ -154,7 +158,7 @@ procedure TWatchesWindow.WatchesViewInitChildren(Sender: TBaseVirtualTree;
 var
   Data, ParentData: PWatchRec;
 begin
-  Data := WatchesView.GetNodeData(Node);
+  Data := Node.GetData;
   if WatchesView.GetNodeLevel(Node) = 0 then
   begin
     Assert(Integer(Node.Index) < fWatchesList.Count);
@@ -166,7 +170,7 @@ begin
   end
   else
   begin
-    ParentData := WatchesView.GetNodeData(Node.Parent);
+    ParentData := Node.Parent.GetData;
     Assert(Assigned(ParentData.NS));
     Data.NS := ParentData.NS.ChildNode[Node.Index];
     ChildCount := Data.NS.ChildCount;
@@ -180,7 +184,7 @@ var
   Data, ParentData: PWatchRec;
   ChildCount : integer;
 begin
-  Data := WatchesView.GetNodeData(Node);
+  Data := Node.GetData;
   if WatchesView.GetNodeLevel(Node) = 0 then
   begin
     Assert(Integer(Node.Index) < fWatchesList.Count);
@@ -192,7 +196,7 @@ begin
   end
   else
   begin
-    ParentData := WatchesView.GetNodeData(ParentNode);
+    ParentData := ParentNode.GetData;
     Assert(Assigned(ParentData.NS));
     Data.NS := ParentData.NS.ChildNode[Node.Index];
     ChildCount := Data.NS.ChildCount;
@@ -201,6 +205,44 @@ begin
     InitialStates := [ivsHasChildren]
   else
     InitialStates := [];
+
+  // Node Text
+  if Assigned(Data.NS) then begin
+     Data.Name := Data.NS.Name;
+     Data.ObjectType := Data.NS.ObjectType;
+     Data.Value := Data.NS.Value;
+  end else begin
+    Assert(WatchesView.GetNodeLevel(Node) = 0);
+    Data.Name  := TWatchInfo(fWatchesList[Node.Index]).Watch;
+    Data.ObjectType := _(SNotAvailable);
+    Data.Value := _(SNotAvailable);
+  end;
+
+  // ImageIndex
+  if Assigned(Data.NS) then begin
+    if Data.NS.IsDict then
+      Data.ImageIndex := Ord(TCodeImages.Namespace)
+    else if Data.NS.IsModule then
+      Data.ImageIndex := Ord(TCodeImages.Module)
+    else if Data.NS.IsMethod then
+      Data.ImageIndex := Ord(TCodeImages.Method)
+    else if Data.NS.IsFunction then
+      Data.ImageIndex := Ord(TCodeImages.Func)
+    else if Data.NS.IsClass or Data.NS.Has__dict__ then
+      Data.ImageIndex := Ord(TCodeImages.Klass)
+    else if (Data.ObjectType = 'list') or (Data.ObjectType = 'tuple') then
+      Data.ImageIndex := Ord(TCodeImages.List)
+    else begin
+      if Assigned(ParentNode) and
+        (PWatchRec(ParentNode.GetData).NS.IsDict
+          or PWatchRec(ParentNode.GetData).NS.IsModule)
+      then
+        Data.ImageIndex := Ord(TCodeImages.Variable)
+      else
+        Data.ImageIndex := Ord(TCodeImages.Field);
+    end;
+  end else
+    Data.ImageIndex := -1;
 end;
 
 procedure TWatchesWindow.AddWatch(S: string);
@@ -306,6 +348,15 @@ begin
   Accept := Source is TSynEdit;
 end;
 
+procedure TWatchesWindow.WatchesViewFreeNode(Sender: TBaseVirtualTree;
+  Node: PVirtualNode);
+var
+  Data : PWatchRec;
+begin
+  Data := Node.GetData;
+  Finalize(Data^);
+end;
+
 procedure TWatchesWindow.mnCopyToClipboardClick(Sender: TObject);
 begin
   Clipboard.AsText := string(WatchesView.ContentToText(tstAll, #9));
@@ -343,35 +394,10 @@ var
   Data: PWatchRec;
 begin
   if (Column = 0) and (Kind in [ikNormal, ikSelected]) then begin
-    Data := WatchesView.GetNodeData(Node);
-
-    if not Assigned(Data) or not Assigned(Data.NS) then Exit;
-
-    with GetPythonEngine do begin
-      if Data.NS.IsDict then
-        ImageIndex := Integer(TCodeImages.Namespace)
-      else if Data.NS.IsModule then
-        ImageIndex := Integer(TCodeImages.Module)
-      else if Data.NS.IsMethod then
-        ImageIndex := Integer(TCodeImages.Method)
-      else if Data.NS.IsFunction then
-        ImageIndex := Integer(TCodeImages.Func)
-      else if Data.NS.IsClass or Data.NS.Has__dict__ then
-          ImageIndex := Integer(TCodeImages.Klass)
-      else if (Data.NS.ObjectType = 'list') or (Data.NS.ObjectType = 'tuple') then
-        ImageIndex := Integer(TCodeImages.List)
-      else begin
-        if Assigned(Node.Parent) and (Node.Parent <> WatchesView.RootNode) and
-          (PWatchRec(WatchesView.GetNodeData(Node.Parent)).NS.IsDict
-            or PWatchRec(WatchesView.GetNodeData(Node.Parent)).NS.IsModule)
-        then
-          ImageIndex := Integer(TCodeImages.Variable)
-        else
-          ImageIndex := Integer(TCodeImages.Field);
-      end;
-    end
-  end else
-    ImageIndex := -1;
+    Data := Node.GetData;
+    if Assigned(Data) then
+      ImageIndex := Data.ImageIndex;
+  end;
 end;
 
 procedure TWatchesWindow.WatchesViewGetText(Sender: TBaseVirtualTree;
@@ -381,23 +407,14 @@ var
   Data: PWatchRec;
 begin
   if TextType <> ttNormal then Exit;
-  Data := WatchesView.GetNodeData(Node);
+  Data := Node.GetData;
   if not Assigned(Data) then Exit;
 
-  if Assigned(Data.NS) then
-    case Column of
-      0: CellText := Data.NS.Name;
-      1: CellText := Data.NS.ObjectType;
-      2: CellText := Data.NS.Value;
-    end
-  else begin
-    Assert(WatchesView.GetNodeLevel(Node) = 0);
-    case Column of
-      0: CellText := TWatchInfo(fWatchesList[Node.Index]).Watch;
-      1: CellText := _(SNotAvailable);
-      2: CellText := _(SNotAvailable);
-    end;
-  end;
+  case Column of
+    0: CellText := Data.Name;
+    1: CellText := Data.ObjectType;
+    2: CellText := Data.Value;
+  end
 end;
 
 procedure TWatchesWindow.UpdateWindow(DebuggerState: TDebuggerState);
@@ -426,7 +443,12 @@ begin
   WatchesView.BeginUpdate;
   try
     WatchesView.RootNodeCount := fWatchesList.Count;
+    // The following will Reinitialize only initialized nodes
+    // Do not use ReinitNode because it Reinits non-expanded children
+    // potentially leading to deep recursion
     WatchesView.ReinitInitializedChildren(nil, True);
+    // The following initializes non-initialized nodes without expansion
+    WatchesView.InitRecursive(nil);
     WatchesView.InvalidateToBottom(WatchesView.GetFirstVisible);
  finally
     WatchesView.EndUpdate;

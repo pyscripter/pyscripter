@@ -46,7 +46,6 @@ type
     SpTBXSplitter: TSpTBXSplitter;
     reInfo: TRichEdit;
     Panel1: TPanel;
-    procedure VariablesTreeChange(Sender: TBaseVirtualTree; Node: PVirtualNode);
     procedure FormCreate(Sender: TObject);
     procedure VariablesTreeInitNode(Sender: TBaseVirtualTree; ParentNode,
       Node: PVirtualNode; var InitialStates: TVirtualNodeInitStates);
@@ -65,6 +64,8 @@ type
       Node: PVirtualNode; var ChildCount: Cardinal);
     procedure reInfoResizeRequest(Sender: TObject; Rect: TRect);
     procedure VariablesTreeFreeNode(Sender: TBaseVirtualTree;
+      Node: PVirtualNode);
+    procedure VariablesTreeAddToSelection(Sender: TBaseVirtualTree;
       Node: PVirtualNode);
   private
     { Private declarations }
@@ -100,7 +101,8 @@ uses
 
 {$R *.dfm}
 Type
-  TNodeData = class(TObject)
+  PNodeData = ^TNodeData;
+  TNodeData = record
     Name : string;
     ObjectType : string;
     Value : string;
@@ -118,9 +120,9 @@ end;
 procedure TVariablesWindow.VariablesTreeInitChildren(Sender: TBaseVirtualTree;
   Node: PVirtualNode; var ChildCount: Cardinal);
 var
-  Data: TNodeData;
+  Data: PNodeData;
 begin
-  Data := Node.GetData<TNodeData>;
+  Data := Node.GetData;
   ChildCount := Data.NameSpaceItem.ChildCount;
 end;
 
@@ -128,14 +130,9 @@ procedure TVariablesWindow.VariablesTreeInitNode(Sender: TBaseVirtualTree;
   ParentNode, Node: PVirtualNode;
   var InitialStates: TVirtualNodeInitStates);
 var
-  Data, ParentData: TNodeData;
+  Data, ParentData: PNodeData;
 begin
-  if ivsReInit in InitialStates then
-    Data := Node.GetData<TNodeData>
-  else begin
-    Data := TNodeData.Create;
-    Node.SetData<TNodeData>(Data);
-  end;
+  Data := Node.GetData;
   if VariablesTree.GetNodeLevel(Node) = 0 then begin
     Assert(Node.Index <= 1);
     if CurrentModule <> '' then begin
@@ -155,7 +152,7 @@ begin
       InitialStates := [ivsExpanded, ivsHasChildren];
     end;
   end else begin
-    ParentData := ParentNode.GetData<TNodeData>;
+    ParentData := ParentNode.GetData;
     Data.NameSpaceItem := ParentData.NameSpaceItem.ChildNode[Node.Index];
     if Data.NameSpaceItem.ChildCount > 0 then
       InitialStates := [ivsHasChildren]
@@ -185,8 +182,8 @@ begin
     Data.ImageIndex := Ord(TCodeImages.List)
   else begin
     if Assigned(ParentNode) and
-      (ParentNode.GetData<TNodeData>.NameSpaceItem.IsDict
-        or ParentNode.GetData<TNodeData>.NameSpaceItem.IsModule)
+      (PNodeData(ParentNode.GetData).NameSpaceItem.IsDict
+        or PNodeData(ParentNode.GetData).NameSpaceItem.IsModule)
     then
       Data.ImageIndex := Ord(TCodeImages.Variable)
     else
@@ -198,9 +195,9 @@ procedure TVariablesWindow.VariablesTreePaintText(Sender: TBaseVirtualTree;
   const TargetCanvas: TCanvas; Node: PVirtualNode; Column: TColumnIndex;
   TextType: TVSTTextType);
 var
-  Data : TNodeData;
+  Data : PNodeData;
 begin
-  Data := Node.GetData<TNodeData>;
+  Data := Node.GetData;
   if Assigned(Data) then
     if nsaChanged in Data.NameSpaceItem.Attributes then
       TargetCanvas.Font.Color := clRed
@@ -247,7 +244,7 @@ procedure TVariablesWindow.VariablesTreeGetImageIndex(
   Column: TColumnIndex; var Ghosted: Boolean; var ImageIndex: TImageIndex);
 begin
   if (Column = 0) and (Kind in [ikNormal, ikSelected]) then begin
-    ImageIndex := Node.GetData<TNodeData>.ImageIndex;
+    ImageIndex := PNodeData(Node.GetData).ImageIndex;
   end else
     ImageIndex := -1;
 end;
@@ -256,18 +253,16 @@ procedure TVariablesWindow.VariablesTreeGetText(Sender: TBaseVirtualTree;
   Node: PVirtualNode; Column: TColumnIndex; TextType: TVSTTextType;
   var CellText: string);
 var
-  Data : TNodeData;
+  Data : PNodeData;
 begin
   if TextType <> ttNormal then Exit;
-  Data := Node.GetData<TNodeData>;
-  if not Assigned(Data) or not Assigned(Data.NameSpaceItem) then
-    Exit;
-
-  case Column of
-    0 : CellText := Data.Name;
-    1 : CellText := Data.ObjectType;
-    2 : CellText := Data.Value;
-  end;
+  Data := Node.GetData;
+  if Assigned(Data) then
+    case Column of
+      0 : CellText := Data.Name;
+      1 : CellText := Data.ObjectType;
+      2 : CellText := Data.Value;
+    end;
 end;
 
 procedure TVariablesWindow.UpdateWindow;
@@ -358,7 +353,7 @@ begin
 
   VariablesTree.TreeOptions.AnimationOptions :=
     VariablesTree.TreeOptions.AnimationOptions + [toAnimatedToggle];
-  VariablesTreeChange(VariablesTree, nil);
+  VariablesTreeAddToSelection(VariablesTree, nil);
 end;
 
 procedure TVariablesWindow.ClearAll;
@@ -385,7 +380,7 @@ begin
   inherited;
 end;
 
-procedure TVariablesWindow.VariablesTreeChange(Sender: TBaseVirtualTree;
+procedure TVariablesWindow.VariablesTreeAddToSelection(Sender: TBaseVirtualTree;
   Node: PVirtualNode);
 Var
   NameSpace,
@@ -393,7 +388,7 @@ Var
   ObjectType,
   ObjectValue,
   DocString : string;
-  Data : TNodeData;
+  Data : PNodeData;
 begin
   // Get the selected frame
   if CurrentModule <> '' then
@@ -404,8 +399,8 @@ begin
   reInfo.Clear;
   AddFormatText(reInfo, _('Namespace') + ': ', [fsBold]);
   AddFormatText(reInfo, NameSpace, [fsItalic]);
-  if Assigned(Node) and (vsSelected in Node.States) then begin
-    Data := Node.GetData<TNodeData>;
+  if Assigned(Node) then begin
+    Data := Node.GetData;
     ObjectName := Data.Name;
     ObjectType := Data.ObjectType;
     ObjectValue := Data.Value;
@@ -424,8 +419,11 @@ end;
 
 procedure TVariablesWindow.VariablesTreeFreeNode(Sender: TBaseVirtualTree;
   Node: PVirtualNode);
+Var
+  Data : PNodeData;
 begin
-  Node.GetData<TNodeData>.Free;
+  Data := Node.GetData;
+  Finalize(Data^);
 end;
 
 end.

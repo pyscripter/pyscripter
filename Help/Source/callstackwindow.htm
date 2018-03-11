@@ -25,44 +25,51 @@
 <div align="left">
 	<font color="#010101" face="Arial" size="2">
 	<span style="font-size: 10pt; font-family: Arial; color: #010101">The call stack 
-	window displays the Python interpreter call stack while debugging.&nbsp; It 
+	window includes a list of active threads and displays the Python interpreter call stack while debugging.&nbsp; It 
 	shows the function name and the corresponding source code position for each 
 	stack frame.&nbsp; You can jump to a given code position by double-clicking 
-	on a stack frame line.</span></font></div>
+	on a stack frame line. </span></font></div>
+<div align="left">
+	</div>
 <div align="left">
 	<font color="#010101" face="Arial" size="2">
-	<span style="font-size: 10pt; font-family: Arial; color: #010101"><br>
-	</span></font></div>
-<div align="left">
-	<font color="#010101" face="Arial" size="2">
-	<span style="font-size: 10pt; font-family: Arial; color: #010101">You should 
-	note that the Call Stack window works in tandem with the </span></font>
+	<span style="font-size: 10pt; font-family: Arial; color: #010101">The pinned 
+	thread is the active "broken" thread and the pinned frame is the active 
+	frame of the active thread. You should 
+	note that the Call Stack window works in tandem with the 
 	<a href="variableswindow.htm"><font color="#0000ff" face="Arial" size="2">
 	<span style="font-size: 10pt; font-family: Arial; color: #0000ff"><u>Variables 
-	window</u></span></font></a><font color="#010101" face="Arial" size="2"><span style="font-size: 10pt; font-family: Arial; color: #010101">, 
-	which displays the local and global variables for the selected stack frame in 
-	this window. Initially the top stack frame is selected in the Call Stack window.</span></font></div>
-<div align="left">
-	<font color="#010101" face="Arial" size="2">
-	<span style="font-size: 10pt; font-family: Arial; color: #010101"><br>
+	window</u></span></font></a>, 
+	which displays the local and global variables for the selected (active)stack frame in 
+	this window. Initially the top stack frame is selected in the Call Stack window. 
+	The <a href="watcheswindow.htm"><font color="#0000ff" face="Arial" size="2">
+	<span style="font-size: 10pt; font-family: Arial; color: #0000ff"><u>Watches 
+	window</u></span></font></a> evaluates watch expressions inside the active frame. Also 
+	commands you issue in the <a href="pythoninteractiveinterpreter.htm"><font color="#0000ff" face="Arial" size="2">
+	<span style="font-size: 10pt; font-family: Arial; color: #0000ff"><u>Interpreter window</u></span></font></a> and debugger hints (hovering 
+	the mouse on variable names in the editor) are also evaluated inside the 
+	active frame. You can change the active thread and the active frame by 
+	selecting with the mouse a different one.
 	</span></font></div>
 <div align="left">
 	<font color="#010101" face="Arial" size="2">
 	<span style="font-size: 10pt; font-family: Arial; color: #010101"><br>
 	</span></font></div>
 <div align="left">
-	<img alt="graphic" border="0" src="callstackwindow1.JPG" style="width:41.3em; height:8.88em"></div>
+	<img alt="graphic" border="0" src="callstackwindow1.JPG" style="width:41.3em; height:10em"></div>
 <div align="left">
 	<font color="#010101" face="Arial">
 	<span style="font-size: 12pt; font-family: Arial; color: #010101"><br>
+	<span style="display: inline !important; float: none; background-color: transparent; color: rgb(51, 51, 51); font-family: Arial,Tahoma,Helvetica,FreeSans,sans-serif; font-size: 13px; font-style: normal; font-variant: normal; font-weight: 400; letter-spacing: normal; line-height: 18.2px; orphans: 2; text-align: left; text-decoration: none; text-indent: 0px; text-transform: none; -webkit-text-stroke-width: 0px; white-space: normal; word-spacing: 0px;">
+	<strong>Debugger commands</strong><br><br>The Resume command (F9) resumes 
+	execution of all broken threads.&nbsp; All other debug commands (e.g. Step in, 
+	Step over, Step out) resume execution of the active thread only.</span><br>
 	</span></font></div>
 <div align="left">
 	<font color="#010101" face="Arial" size="2">
 	<span style="font-size: 10pt; font-family: Arial; color: #010101"><b>Commands:</b></span></font></div>
 <div align="left">
-	<font color="#010101" face="Arial" size="2">
-	<span style="font-size: 10pt; font-family: Arial; color: #010101"><br>
-	</span></font></div>
+	</div>
 <div align="left">
 	<font color="#010101" face="Arial" size="2">
 	<span style="font-size: 10pt; font-family: Arial; color: #010101">Two commands 

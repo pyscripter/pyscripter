@@ -61,10 +61,6 @@ inherited WatchesWindow: TWatchesWindow
         Height = 225
         Align = alClient
         TabOrder = 0
-        ExplicitLeft = 176
-        ExplicitTop = 40
-        ExplicitWidth = 297
-        ExplicitHeight = 97
         object WatchesView: TVirtualStringTree
           Left = 1
           Top = 1
@@ -84,21 +80,18 @@ inherited WatchesWindow: TWatchesWindow
           TreeOptions.AnimationOptions = [toAnimatedToggle]
           TreeOptions.AutoOptions = [toAutoDropExpand, toAutoScrollOnExpand, toAutoTristateTracking, toAutoDeleteMovedNodes, toAutoChangeScale]
           TreeOptions.MiscOptions = [toFullRepaintOnResize, toInitOnSave, toReportMode, toToggleOnDblClick, toWheelPanning]
-          TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowDropmark, toShowRoot, toShowTreeLines, toShowVertGridLines, toThemeAware, toUseBlendedImages, toUseBlendedSelection]
+          TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowDropmark, toShowRoot, toShowTreeLines, toThemeAware, toUseBlendedImages, toUseBlendedSelection]
           TreeOptions.SelectionOptions = [toExtendedFocus, toFullRowSelect, toRightClickSelect]
           TreeOptions.StringOptions = [toAutoAcceptEditChange]
           OnDblClick = WatchesViewDblClick
           OnDragOver = WatchesViewDragOver
           OnDragDrop = WatchesViewDragDrop
+          OnFreeNode = WatchesViewFreeNode
           OnGetText = WatchesViewGetText
           OnGetImageIndex = WatchesViewGetImageIndex
           OnInitChildren = WatchesViewInitChildren
           OnInitNode = WatchesViewInitNode
           OnKeyDown = WatchesViewKeyDown
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 756
-          ExplicitHeight = 225
           Columns = <
             item
               Position = 0

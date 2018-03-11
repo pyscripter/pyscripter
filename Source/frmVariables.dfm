@@ -120,7 +120,7 @@ inherited VariablesWindow: TVariablesWindow
           TreeOptions.MiscOptions = [toFullRepaintOnResize, toInitOnSave, toToggleOnDblClick, toWheelPanning]
           TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowDropmark, toShowRoot, toShowTreeLines, toShowVertGridLines, toThemeAware, toUseBlendedImages, toUseBlendedSelection]
           TreeOptions.StringOptions = [toAutoAcceptEditChange]
-          OnChange = VariablesTreeChange
+          OnAddToSelection = VariablesTreeAddToSelection
           OnFreeNode = VariablesTreeFreeNode
           OnGetText = VariablesTreeGetText
           OnPaintText = VariablesTreePaintText
