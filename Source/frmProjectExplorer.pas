@@ -1123,8 +1123,13 @@ begin
     Data.ProjectNode :=
       ParentData.ProjectNode.Children[Node.Index] as TAbstractProjectNode;
   end;
-  if Data.ProjectNode.Children.Count > 0 then
-      InitialStates := [ivsHasChildren, ivsExpanded];
+  if Data.ProjectNode.Children.Count > 0 then begin
+    InitialStates := [ivsHasChildren];
+    if (not (ivsReInit in InitialStates) and PyIDEOptions.ProjectExporerInitiallyExpanded)
+      or (Node.Parent = ExplorerTree.RootNode)
+    then
+      Include(InitialStates, ivsExpanded);
+  end;
 end;
 
 procedure TProjectExplorerWindow.ExplorerTreeKeyPress(Sender: TObject;

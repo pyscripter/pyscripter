@@ -410,7 +410,7 @@
           New Features
             Thread debugging (#455)
           Issues addressed
-            #659, #848, #849
+            #659, #827, #848, #849
             { TODO : Python Engine change without exiting PyScripter }
             { TODO : Issues 501, 667 }
             { TODO : Review Search and Replace }

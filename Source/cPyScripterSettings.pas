@@ -40,6 +40,7 @@ type
     fRestoreOpenFiles : Boolean;
     fCreateBackupFiles : Boolean;
     fExporerInitiallyExpanded : Boolean;
+    fProjectExporerInitiallyExpanded : Boolean;
     fSearchTextAtCaret : Boolean;
     fPythonFileFilter : string;
     fCythonFileFilter : string;
@@ -127,6 +128,8 @@ type
       write fCreateBackupFiles default False;
     property ExporerInitiallyExpanded : boolean read fExporerInitiallyExpanded
       write fExporerInitiallyExpanded default False;
+    property ProjectExporerInitiallyExpanded : boolean read fProjectExporerInitiallyExpanded
+      write fProjectExporerInitiallyExpanded default True;
     property SearchTextAtCaret : Boolean read fSearchTextAtCaret
       write fSearchTextAtCaret stored False;
     property PythonFileFilter : string read fPythonFileFilter
@@ -309,6 +312,7 @@ begin
       Self.fRestoreOpenFiles := fRestoreOpenFiles;
       Self.fCreateBackUpFiles := CreateBackUpFiles;
       Self.fExporerInitiallyExpanded := ExporerInitiallyExpanded;
+      Self.fProjectExporerInitiallyExpanded := ProjectExporerInitiallyExpanded;
       Self.fSearchTextAtCaret := SearchTextAtCaret;
       Self.fPythonFileFilter := PythonFileFilter;
       Self.fCythonFileFilter := CythonFileFilter;
@@ -397,6 +401,7 @@ begin
   fSaveEnvironmentBeforeRun := False;
   fCreateBackupFiles := False;
   fExporerInitiallyExpanded := False;
+  fProjectExporerInitiallyExpanded := True;
   fPythonFileFilter := 'Python Files (*.py;*.pyw)|*.py;*.pyw';
   fCythonFileFilter := SYNS_FilterCython;
   fHTMLFileFilter := SYNS_FilterHTML;

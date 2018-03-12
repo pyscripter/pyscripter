@@ -1950,6 +1950,12 @@ begin
     Options[0].DisplayName := _('Initially expanded');
   end;
   with Categories[3] do begin
+    DisplayName := _('Project Explorer');
+    SetLength(Options, 1);
+    Options[0].PropertyName := 'ProjectExporerInitiallyExpanded';
+    Options[0].DisplayName := _('Initially expanded');
+  end;
+  with Categories[4] do begin
     DisplayName := _('File Filters');
     SetLength(Options, 10);
     Options[0].PropertyName := 'PythonFileFilter';
@@ -1973,7 +1979,7 @@ begin
     Options[9].PropertyName := 'CythonFileFilter';
     Options[9].DisplayName := _('Open dialog Cython filter');
   end;
-  with Categories[4] do begin
+  with Categories[5] do begin
     DisplayName := _('Editor');
     SetLength(Options, 21);
     Options[0].PropertyName := 'RestoreOpenFiles';
@@ -2019,7 +2025,7 @@ begin
     Options[20].PropertyName := 'CompactLineNumbers';
     Options[20].DisplayName := _('Compact Line Numbers');
   end;
-  with Categories[5] do begin
+  with Categories[6] do begin
     DisplayName := _('Code Completion');
     SetLength(Options, 10);
     Options[0].PropertyName := 'SpecialPackages';
@@ -2043,7 +2049,7 @@ begin
     Options[9].PropertyName := 'CompleteWithOneEntry';
     Options[9].DisplayName := _('Auto-complete with one entry');
   end;
-  with Categories[6] do begin
+  with Categories[7] do begin
     DisplayName := _('Shell Integration');
     SetLength(Options, 1);
     Options[0].PropertyName := 'FileExplorerContextMenu';
