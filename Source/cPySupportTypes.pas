@@ -179,13 +179,14 @@ begin
 end;
 
 { TAnonymousPythonThread }
-
+{ Exprerimental - not used }
 type
 TAnonymousPythonThread = class(TPythonThread)
 private
   fTerminateProc : TProc;
   fExecuteProc : TProc;
   fMainThreadState : PPyThreadState;
+  gilstate : PyGILState_STATE;
   procedure Terminate(Sender: TObject);
 public
   procedure ExecuteWithPython; override;
@@ -201,10 +202,9 @@ begin
   FreeOnTerminate := True;
   with GetPythonEngine do
   begin
+    gilstate := PyGILState_Ensure();
     Self.InterpreterState := InterpreterState;
     fMainThreadState := PyEval_SaveThread;
-//    fMainThreadState := PyThreadState_Get;
-//    PyEval_ReleaseThread(fMainThreadState);
   end;
   inherited Create;
 end;
@@ -220,9 +220,10 @@ end;
 
 procedure TAnonymousPythonThread.Terminate(Sender: TObject);
 begin
-  with GetPythonEngine do
+  with GetPythonEngine do begin
     PyEval_RestoreThread(fMainThreadState);
-//    GetPythonEngine.PyEval_AcquireThread(fMainThreadState);
+    PyGILState_Release(gilstate);
+  end;
   if Assigned(fTerminateProc) then
     fTerminateProc();
 end;

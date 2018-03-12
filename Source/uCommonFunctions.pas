@@ -972,13 +972,21 @@ end;
 function SyncWideInputQuery(const ACaption, APrompt: string; var Value: string): Boolean;
 var
   SyncInputQuery : TSyncInputQuery;
+  SaveThreadState: PPyThreadState;
 begin
   if GetCurrentThreadId = MainThreadId then begin
     Result := InputQuery(ACaption, APrompt, Value);
   end else begin
     SyncInputQuery := TSyncInputQuery.Create(ACaption, APrompt, Value);
     try
-      TThread.Synchronize(nil, SyncInputQuery.InputQuery);
+      with GetPythonEngine do begin
+        SaveThreadState := PyEval_SaveThread();
+        try
+          TThread.Synchronize(nil, SyncInputQuery.InputQuery);
+        finally
+          PyEval_RestoreThread(SaveThreadState);
+        end;
+      end;
       Result := SyncInputQuery.Res;
       Value := SyncInputQuery.Value;
     finally

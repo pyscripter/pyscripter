@@ -2127,7 +2127,10 @@ object CommandsDataModule: TCommandsDataModule
             '            if (self.tracecount > 1000) and not (hasattr(self._s' +
             'ys.stdout, "writing") and self._sys.stdout.writing):'
           '                self.tracecount = 0'
-          '                cmd = self.debug_manager.debugIDE.user_yield()'
+          '                with self.debug_manager.user_lock:'
+          
+            '                    cmd = self.debug_manager.debugIDE.user_yield' +
+            '()'
           '                if cmd == self.debug_manager.dcAbort:'
           '                    self.set_quit()'
           '                elif cmd == self.debug_manager.dcPause:'
@@ -2691,6 +2694,7 @@ object CommandsDataModule: TCommandsDataModule
           ''
           '        def readline(self, size=None):'
           '            try:'
+          '                self.print_queue.join()'
           '                return self._stream.readline(size)'
           '            except KeyboardInterrupt:'
           '                raise KeyboardInterrupt, "Operation Cancelled"'
@@ -2742,9 +2746,10 @@ object CommandsDataModule: TCommandsDataModule
           '        except:'
           '            pass'
           '        if prompt is None: prompt = ""'
+          '        with self.DebugManager.user_lock:'
           
-            '        ret = self.DebugManager.debugIDE.InputBox(u'#39'Python input' +
-            #39', unicode(prompt),u"")'
+            '            ret = self.DebugManager.debugIDE.InputBox(u'#39'Python i' +
+            'nput'#39', unicode(prompt),u"")'
           '        if ret is None:'
           '            raise KeyboardInterrupt, "Operation cancelled"'
           '        return ret'
@@ -2985,7 +2990,10 @@ object CommandsDataModule: TCommandsDataModule
             '            if (self.tracecount > 1000) and not (hasattr(self._s' +
             'ys.stdout, "writing") and self._sys.stdout.writing):'
           '                self.tracecount = 0'
-          '                cmd = self.debug_manager.debugIDE.user_yield()'
+          '                with self.debug_manager.user_lock:'
+          
+            '                    cmd = self.debug_manager.debugIDE.user_yield' +
+            '()'
           '                if cmd == self.debug_manager.dcAbort:'
           '                    self.set_quit()'
           '                elif cmd == self.debug_manager.dcPause:'
@@ -3541,6 +3549,7 @@ object CommandsDataModule: TCommandsDataModule
           ''
           '        def readline(self, size=None):'
           '            try:'
+          '                self.print_queue.join()'
           '                return self._stream.readline(size)'
           '            except KeyboardInterrupt:'
           '                raise KeyboardInterrupt("Operation Cancelled")'
@@ -3592,9 +3601,10 @@ object CommandsDataModule: TCommandsDataModule
           '        except:'
           '            pass'
           '        if prompt is None: prompt = ""'
+          '        with self.DebugManager.user_lock:'
           
-            '        ret = self.DebugManager.debugIDE.InputBox('#39'Python input'#39 +
-            ', str(prompt), "")'
+            '            ret = self.DebugManager.debugIDE.InputBox('#39'Python in' +
+            'put'#39', str(prompt), "")'
           '        if ret is None:'
           '            raise KeyboardInterrupt("Operation cancelled")'
           '        return ret'

@@ -1538,22 +1538,13 @@ procedure TPythonIIForm.InputBoxExecute(Sender: TObject; PSelf,
 Var
   PCaption, PPrompt, PDefault : PWideChar;
   WideS : string;
-  SaveThreadState: PPyThreadState;
   Res : Boolean;
 begin
   with GetPythonEngine do
     if PyArg_ParseTuple( args, 'uuu:InputBox', @PCaption, @PPrompt, @PDefault) <> 0 then begin
       WideS := PDefault;
 
-      with GetPythonEngine do begin
-        SaveThreadState := PyEval_SaveThread();
-        try
-          Res := SyncWideInputQuery(PCaption, PPrompt, WideS);
-        finally
-          PyEval_RestoreThread(SaveThreadState);
-        end;
-      end;
-
+      Res := SyncWideInputQuery(PCaption, PPrompt, WideS);
       if Res then
         Result := PyUnicode_FromWideChar(PWideChar(WideS), Length(WideS))
       else
