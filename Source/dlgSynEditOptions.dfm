@@ -5,26 +5,27 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
   Anchors = [akRight, akBottom]
   Caption = 'Editor Options'
   ClientHeight = 421
-  ClientWidth = 492
+  ClientWidth = 501
   OldCreateOrder = True
   ShowHint = True
   OnShow = FormShow
-  ExplicitWidth = 498
+  ExplicitWidth = 507
   ExplicitHeight = 450
   PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 492
+    Width = 501
     Height = 421
     Align = alClient
     TabOrder = 0
+    ExplicitWidth = 492
     DesignSize = (
-      492
+      501
       421)
     object btnOk: TButton
-      Left = 249
+      Left = 258
       Top = 389
       Width = 73
       Height = 25
@@ -34,9 +35,10 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
       ModalResult = 1
       TabOrder = 0
       OnClick = btnOkClick
+      ExplicitLeft = 249
     end
     object btnCancel: TButton
-      Left = 330
+      Left = 339
       Top = 389
       Width = 73
       Height = 25
@@ -45,9 +47,10 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
       Caption = '&Cancel'
       ModalResult = 2
       TabOrder = 1
+      ExplicitLeft = 330
     end
     object btnHelp: TButton
-      Left = 409
+      Left = 418
       Top = 388
       Width = 75
       Height = 25
@@ -55,6 +58,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
       Caption = '&Help'
       TabOrder = 3
       OnClick = btnHelpClick
+      ExplicitLeft = 409
     end
     object cbApplyToAll: TCheckBox
       Left = 19
@@ -70,587 +74,45 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
       AlignWithMargins = True
       Left = 4
       Top = 4
-      Width = 484
+      Width = 493
       Height = 353
       Align = alTop
-      ActiveTabIndex = 0
+      ActiveTabIndex = 2
+      TabAutofit = True
+      ExplicitLeft = 8
+      ExplicitTop = 7
       HiddenItems = <>
       object SpTBXTabItem1: TSpTBXTabItem
         Caption = 'Display'
-        Checked = True
+        CustomWidth = 97
       end
       object SpTBXTabItem2: TSpTBXTabItem
         Caption = 'Options'
+        CustomWidth = 97
       end
       object SpTBXTabItem3: TSpTBXTabItem
         Caption = 'Keystrokes'
+        Checked = True
+        CustomWidth = 97
       end
       object SpTBXTabItem5: TSpTBXTabItem
         Caption = 'Color Theme'
+        CustomWidth = 97
       end
       object SpTBXTabItem4: TSpTBXTabItem
         Caption = 'Syntax Colors'
-      end
-      object KeyStrokes: TSpTBXTabSheet
-        Left = 0
-        Top = 25
-        Width = 484
-        Height = 328
-        Caption = 'Keystrokes'
-        ImageIndex = -1
-        TabItem = 'SpTBXTabItem3'
-        object gbKeyStrokes: TGroupBox
-          AlignWithMargins = True
-          Left = 5
-          Top = 202
-          Width = 472
-          Height = 119
-          Align = alBottom
-          Caption = 'Keystroke Options'
-          TabOrder = 3
-          object Label5: TLabel
-            Left = 50
-            Top = 28
-            Width = 51
-            Height = 13
-            Caption = 'Command:'
-          end
-          object Label6: TLabel
-            Left = 50
-            Top = 91
-            Width = 61
-            Height = 13
-            Caption = 'Keystroke 2:'
-          end
-          object Label7: TLabel
-            Left = 50
-            Top = 59
-            Width = 61
-            Height = 13
-            Caption = 'Keystroke 1:'
-          end
-          object cKeyCommand: TComboBox
-            Left = 154
-            Top = 23
-            Width = 186
-            Height = 21
-            Style = csDropDownList
-            Sorted = True
-            TabOrder = 0
-            OnExit = cKeyCommandExit
-            OnKeyPress = cKeyCommandKeyPress
-            OnKeyUp = cKeyCommandKeyUp
-          end
-        end
-        object btnAddKey: TButton
-          Left = 203
-          Top = 166
-          Width = 75
-          Height = 25
-          Caption = '&Add'
-          TabOrder = 1
-          OnClick = btnAddKeyClick
-        end
-        object btnRemKey: TButton
-          Left = 284
-          Top = 166
-          Width = 75
-          Height = 25
-          Caption = '&Remove'
-          TabOrder = 2
-          OnClick = btnRemKeyClick
-        end
-        object btnUpdateKey: TButton
-          Left = 122
-          Top = 166
-          Width = 75
-          Height = 25
-          Caption = '&Update'
-          TabOrder = 0
-          OnClick = btnUpdateKeyClick
-        end
-        object Panel2: TPanel
-          Left = 2
-          Top = 0
-          Width = 478
-          Height = 158
-          Align = alTop
-          TabOrder = 4
-          object KeyList: TListView
-            Left = 1
-            Top = 1
-            Width = 476
-            Height = 156
-            Align = alClient
-            BorderStyle = bsNone
-            Columns = <
-              item
-                Caption = 'Command'
-                Width = 167
-              end
-              item
-                Caption = 'Keystroke'
-                Width = 142
-              end>
-            ColumnClick = False
-            FlatScrollBars = True
-            HideSelection = False
-            ReadOnly = True
-            RowSelect = True
-            SortType = stText
-            TabOrder = 0
-            ViewStyle = vsReport
-          end
-        end
-      end
-      object Options: TSpTBXTabSheet
-        Left = 0
-        Top = 25
-        Width = 484
-        Height = 328
-        Caption = 'Options'
-        ImageIndex = -1
-        TabItem = 'SpTBXTabItem2'
-        object gbOptions: TGroupBox
-          AlignWithMargins = True
-          Left = 5
-          Top = 3
-          Width = 472
-          Height = 247
-          Align = alTop
-          Caption = 'Options'
-          ParentShowHint = False
-          ShowHint = True
-          TabOrder = 0
-          object GridPanel1: TGridPanel
-            Left = 2
-            Top = 15
-            Width = 468
-            Height = 230
-            Align = alClient
-            ColumnCollection = <
-              item
-                Value = 50.000000000000000000
-              end
-              item
-                Value = 50.000000000000000000
-              end>
-            ControlCollection = <
-              item
-                Column = 0
-                Control = StackPanel1
-                Row = 0
-              end
-              item
-                Column = 1
-                Control = StackPanel2
-                Row = 0
-              end>
-            RowCollection = <
-              item
-                Value = 100.000000000000000000
-              end>
-            TabOrder = 0
-            object StackPanel1: TStackPanel
-              Left = 1
-              Top = 1
-              Width = 233
-              Height = 228
-              Align = alClient
-              BevelOuter = bvNone
-              ControlCollection = <
-                item
-                  Control = ckAutoIndent
-                end
-                item
-                  Control = ckRightMouseMoves
-                end
-                item
-                  Control = ckDragAndDropEditing
-                end
-                item
-                  Control = ckEnhanceEndKey
-                end
-                item
-                  Control = ckWordWrap
-                end
-                item
-                  Control = ckEnhanceHomeKey
-                end
-                item
-                  Control = ckAltSetsColumnMode
-                end
-                item
-                  Control = ckTabsToSpaces
-                end
-                item
-                  Control = ckKeepCaretX
-                end
-                item
-                  Control = ckSmartTabDelete
-                end
-                item
-                  Control = ckTabIndent
-                end
-                item
-                  Control = ckSmartTabs
-                end>
-              HorizontalPositioning = sphpFill
-              TabOrder = 0
-              object ckAutoIndent: TCheckBox
-                Left = 0
-                Top = 0
-                Width = 233
-                Height = 17
-                Hint = 
-                  'Will indent the caret on new lines with the same amount of leadi' +
-                  'ng white space as the preceding line'
-                Caption = 'Auto indent'
-                TabOrder = 11
-              end
-              object ckRightMouseMoves: TCheckBox
-                Left = 0
-                Top = 19
-                Width = 233
-                Height = 17
-                Hint = 
-                  'When clicking with the right mouse for a popup menu, move the cu' +
-                  'rsor to that location'
-                Caption = 'Right mouse moves cursor'
-                TabOrder = 0
-              end
-              object ckDragAndDropEditing: TCheckBox
-                Left = 0
-                Top = 38
-                Width = 233
-                Height = 17
-                Hint = 
-                  'Allows you to select a block of text and drag it within the docu' +
-                  'ment to another location'
-                Caption = 'Drag and drop editing'
-                TabOrder = 10
-              end
-              object ckEnhanceEndKey: TCheckBox
-                Left = 0
-                Top = 57
-                Width = 233
-                Height = 17
-                Hint = 'Enhances end key similar to JDeveloper'
-                Caption = 'Enhance End Key'
-                TabOrder = 1
-              end
-              object ckWordWrap: TCheckBox
-                Left = 0
-                Top = 76
-                Width = 233
-                Height = 17
-                Hint = 'Allows the editor accept OLE file drops'
-                Caption = 'Word wrap'
-                TabOrder = 9
-              end
-              object ckEnhanceHomeKey: TCheckBox
-                Left = 0
-                Top = 95
-                Width = 233
-                Height = 17
-                Hint = 'enhances home key positioning, similar to visual studio'
-                Caption = 'Enhance Home Key'
-                TabOrder = 2
-              end
-              object ckAltSetsColumnMode: TCheckBox
-                Left = 0
-                Top = 114
-                Width = 233
-                Height = 17
-                Hint = 
-                  'Holding down the Alt Key will put the selection mode into column' +
-                  'ar format'
-                Caption = 'Alt sets column mode'
-                TabOrder = 8
-              end
-              object ckTabsToSpaces: TCheckBox
-                Left = 0
-                Top = 133
-                Width = 233
-                Height = 17
-                Hint = 'Converts a tab character to the number of spaces in Tab Width'
-                Caption = 'Tabs to spaces'
-                TabOrder = 3
-              end
-              object ckKeepCaretX: TCheckBox
-                Left = 0
-                Top = 152
-                Width = 233
-                Height = 17
-                Hint = 
-                  'When moving through lines the X position will always stay the sa' +
-                  'me'
-                Caption = 'Maintain caret column'
-                TabOrder = 7
-              end
-              object ckSmartTabDelete: TCheckBox
-                Left = 0
-                Top = 171
-                Width = 233
-                Height = 17
-                Hint = 'similar to Smart Tabs, but when you delete characters'
-                Caption = 'Smart tab delete'
-                TabOrder = 4
-              end
-              object ckTabIndent: TCheckBox
-                Left = 0
-                Top = 190
-                Width = 233
-                Height = 17
-                Hint = 'Tab indents and Shift-Tab unindents'
-                Caption = 'Tab Indent'
-                TabOrder = 6
-              end
-              object ckSmartTabs: TCheckBox
-                Left = 0
-                Top = 209
-                Width = 233
-                Height = 17
-                Hint = 
-                  'When tabbing, the cursor will go to the next non-white space cha' +
-                  'racter of the previous line'
-                Caption = 'Smart tabs'
-                TabOrder = 5
-              end
-            end
-            object StackPanel2: TStackPanel
-              Left = 234
-              Top = 1
-              Width = 233
-              Height = 228
-              Align = alClient
-              BevelOuter = bvNone
-              ControlCollection = <
-                item
-                  Control = ckHalfPageScroll
-                end
-                item
-                  Control = ckTrimTrailingSpaces
-                end
-                item
-                  Control = ckScrollByOneLess
-                end
-                item
-                  Control = ckShowSpecialChars
-                end
-                item
-                  Control = ckScrollPastEOF
-                end
-                item
-                  Control = ckDisableScrollArrows
-                end
-                item
-                  Control = ckScrollPastEOL
-                end
-                item
-                  Control = ckGroupUndo
-                end
-                item
-                  Control = ckShowScrollHint
-                end
-                item
-                  Control = ckHideShowScrollbars
-                end
-                item
-                  Control = ckScrollHintFollows
-                end>
-              HorizontalPositioning = sphpFill
-              TabOrder = 1
-              DesignSize = (
-                233
-                228)
-              object ckHalfPageScroll: TCheckBox
-                Left = 0
-                Top = 0
-                Width = 233
-                Height = 17
-                Hint = 
-                  'When scrolling with page-up and page-down commands, only scroll ' +
-                  'a half page at a time'
-                Anchors = [akTop, akRight]
-                Caption = 'Half page scroll'
-                TabOrder = 10
-              end
-              object ckTrimTrailingSpaces: TCheckBox
-                Left = 0
-                Top = 19
-                Width = 233
-                Height = 17
-                Hint = 'Spaces at the end of lines will be trimmed and not saved'
-                Anchors = [akTop, akRight]
-                Caption = 'Trim trailing spaces'
-                TabOrder = 0
-              end
-              object ckScrollByOneLess: TCheckBox
-                Left = 0
-                Top = 38
-                Width = 233
-                Height = 17
-                Hint = 'Forces scrolling to be one less'
-                Anchors = [akTop, akRight]
-                Caption = 'Scroll by one less'
-                TabOrder = 9
-              end
-              object ckShowSpecialChars: TCheckBox
-                Left = 0
-                Top = 57
-                Width = 233
-                Height = 17
-                Hint = 'Shows line breaks, spaces and tabs using special symbols'
-                Anchors = [akTop, akRight]
-                Caption = 'Show special chars'
-                TabOrder = 1
-              end
-              object ckScrollPastEOF: TCheckBox
-                Left = 0
-                Top = 76
-                Width = 233
-                Height = 17
-                Hint = 'Allows the cursor to go past the end of file marker'
-                Anchors = [akTop, akRight]
-                Caption = 'Scroll past end of file'
-                TabOrder = 8
-              end
-              object ckDisableScrollArrows: TCheckBox
-                Left = 0
-                Top = 95
-                Width = 233
-                Height = 17
-                Hint = 
-                  'Disables the scroll bar arrow buttons when you can'#39't scroll in t' +
-                  'hat direction any more'
-                Anchors = [akTop, akRight]
-                Caption = 'Disable scroll arrows'
-                TabOrder = 2
-              end
-              object ckScrollPastEOL: TCheckBox
-                Left = 0
-                Top = 114
-                Width = 233
-                Height = 17
-                Hint = 
-                  'Allows the cursor to go past the last character into the white s' +
-                  'pace at the end of a line'
-                Anchors = [akTop, akRight]
-                Caption = 'Scroll past end of line'
-                TabOrder = 7
-              end
-              object ckGroupUndo: TCheckBox
-                Left = 0
-                Top = 133
-                Width = 233
-                Height = 17
-                Hint = 
-                  'When undoing/redoing actions, handle all continuous changes of t' +
-                  'he same kind in one call instead undoing/redoing each command se' +
-                  'parately'
-                Anchors = [akTop, akRight]
-                Caption = 'Group undo'
-                TabOrder = 3
-              end
-              object ckShowScrollHint: TCheckBox
-                Left = 0
-                Top = 152
-                Width = 233
-                Height = 17
-                Hint = 
-                  'Shows a hint of the visible line numbers when scrolling vertical' +
-                  'ly'
-                Anchors = [akTop, akRight]
-                Caption = 'Show scroll hint'
-                TabOrder = 6
-              end
-              object ckHideShowScrollbars: TCheckBox
-                Left = 0
-                Top = 171
-                Width = 233
-                Height = 17
-                Hint = 
-                  'if enabled, then the scrollbars will only show when necessary.  ' +
-                  'If you have ScrollPastEOL, then it the horizontal bar will alway' +
-                  's be there (it uses MaxLength instead)'
-                Anchors = [akTop, akRight]
-                Caption = 'Hide scrollbars as necessary'
-                TabOrder = 4
-              end
-              object ckScrollHintFollows: TCheckBox
-                Left = 0
-                Top = 190
-                Width = 233
-                Height = 17
-                Hint = 'The scroll hint follows the mouse when scrolling vertically'
-                Anchors = [akTop, akRight]
-                Caption = 'Scroll hint follows mouse'
-                TabOrder = 5
-              end
-            end
-          end
-        end
-        object gbCaret: TGroupBox
-          AlignWithMargins = True
-          Left = 5
-          Top = 252
-          Width = 472
-          Height = 69
-          Align = alBottom
-          Caption = 'Caret'
-          TabOrder = 1
-          object Label2: TLabel
-            Left = 60
-            Top = 19
-            Width = 61
-            Height = 13
-            Caption = 'Insert caret:'
-          end
-          object Label4: TLabel
-            Left = 60
-            Top = 43
-            Width = 80
-            Height = 13
-            Caption = 'Overwrite caret:'
-          end
-          object cInsertCaret: TComboBox
-            Left = 183
-            Top = 14
-            Width = 176
-            Height = 21
-            Style = csDropDownList
-            TabOrder = 0
-            Items.Strings = (
-              'Vertical Line'
-              'Horizontal Line'
-              'Half Block'
-              'Block')
-          end
-          object cOverwriteCaret: TComboBox
-            Left = 183
-            Top = 38
-            Width = 176
-            Height = 21
-            Style = csDropDownList
-            TabOrder = 1
-            Items.Strings = (
-              'Vertical Line'
-              'Horizontal Line'
-              'Half Block'
-              'Block')
-          end
-        end
+        CustomWidth = 97
       end
       object Color: TSpTBXTabSheet
         Left = 0
         Top = 25
-        Width = 484
+        Width = 493
         Height = 328
         Caption = 'Syntax Colors'
         ImageIndex = -1
+        ExplicitWidth = 484
         DesignSize = (
-          484
+          493
           328)
         TabItem = 'SpTBXTabItem4'
         object Label11: TLabel
@@ -739,7 +201,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
         object SynEdit1: TSynEdit
           Left = 166
           Top = 64
-          Width = 313
+          Width = 322
           Height = 257
           Anchors = [akLeft, akTop, akRight]
           Font.Charset = DEFAULT_CHARSET
@@ -766,16 +228,18 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Gutter.Width = 0
           RightEdge = 0
           FontSmoothing = fsmNone
+          ExplicitWidth = 313
         end
         object cbHighlighters: TComboBox
           Left = 3
           Top = 23
-          Width = 467
+          Width = 476
           Height = 21
           Style = csDropDownList
           Anchors = [akLeft, akTop, akRight]
           TabOrder = 5
           OnChange = cbHighlightersChange
+          ExplicitWidth = 467
         end
         object lbElements: TSpTBXListBox
           Left = 6
@@ -809,12 +273,13 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
       object ColorThemes: TSpTBXTabSheet
         Left = 0
         Top = 25
-        Width = 484
+        Width = 493
         Height = 328
         Caption = 'Color Theme'
         ImageIndex = -1
+        ExplicitWidth = 484
         DesignSize = (
-          484
+          493
           328)
         TabItem = 'SpTBXTabItem5'
         object SpTBXLabel1: TLabel
@@ -833,8 +298,8 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
         end
         object SynThemeSample: TSynEdit
           Left = 169
-          Top = 37
-          Width = 313
+          Top = 41
+          Width = 322
           Height = 276
           Anchors = [akLeft, akTop, akRight]
           Font.Charset = DEFAULT_CHARSET
@@ -863,7 +328,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
         end
         object lbColorThemes: TListBox
           Left = 3
-          Top = 37
+          Top = 41
           Width = 155
           Height = 240
           ItemHeight = 13
@@ -872,34 +337,488 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           OnDblClick = btnApplyThemeClick
         end
         object btnApplyTheme: TButton
-          Left = 49
-          Top = 286
-          Width = 75
+          Left = 15
+          Top = 290
+          Width = 130
           Height = 25
           Caption = 'Apply Theme'
           TabOrder = 1
           OnClick = btnApplyThemeClick
         end
       end
+      object Options: TSpTBXTabSheet
+        Left = 0
+        Top = 25
+        Width = 493
+        Height = 328
+        Caption = 'Options'
+        ImageIndex = -1
+        ExplicitWidth = 484
+        TabItem = 'SpTBXTabItem2'
+        object gbOptions: TGroupBox
+          AlignWithMargins = True
+          Left = 5
+          Top = 3
+          Width = 481
+          Height = 247
+          Align = alTop
+          Caption = 'Options'
+          ParentShowHint = False
+          ShowHint = True
+          TabOrder = 0
+          ExplicitWidth = 472
+          object GridPanel1: TGridPanel
+            Left = 2
+            Top = 15
+            Width = 477
+            Height = 230
+            Align = alClient
+            BevelOuter = bvNone
+            ColumnCollection = <
+              item
+                Value = 50.000000000000000000
+              end
+              item
+                Value = 50.000000000000000000
+              end>
+            ControlCollection = <
+              item
+                Column = 0
+                Control = StackPanel1
+                Row = 0
+              end
+              item
+                Column = 1
+                Control = StackPanel2
+                Row = 0
+              end>
+            RowCollection = <
+              item
+                Value = 100.000000000000000000
+              end>
+            TabOrder = 0
+            ExplicitWidth = 468
+            object StackPanel1: TStackPanel
+              Left = 0
+              Top = 0
+              Width = 238
+              Height = 230
+              Align = alClient
+              BevelOuter = bvNone
+              ControlCollection = <
+                item
+                  Control = ckAutoIndent
+                end
+                item
+                  Control = ckRightMouseMoves
+                end
+                item
+                  Control = ckDragAndDropEditing
+                end
+                item
+                  Control = ckEnhanceEndKey
+                end
+                item
+                  Control = ckWordWrap
+                end
+                item
+                  Control = ckEnhanceHomeKey
+                end
+                item
+                  Control = ckAltSetsColumnMode
+                end
+                item
+                  Control = ckTabsToSpaces
+                end
+                item
+                  Control = ckKeepCaretX
+                end
+                item
+                  Control = ckSmartTabDelete
+                end
+                item
+                  Control = ckTabIndent
+                end
+                item
+                  Control = ckSmartTabs
+                end>
+              HorizontalPositioning = sphpFill
+              TabOrder = 0
+              ExplicitLeft = 1
+              ExplicitTop = 1
+              ExplicitWidth = 233
+              ExplicitHeight = 228
+              object ckAutoIndent: TCheckBox
+                Left = 0
+                Top = 0
+                Width = 238
+                Height = 17
+                Hint = 
+                  'Will indent the caret on new lines with the same amount of leadi' +
+                  'ng white space as the preceding line'
+                Caption = 'Auto indent'
+                TabOrder = 11
+              end
+              object ckRightMouseMoves: TCheckBox
+                Left = 0
+                Top = 19
+                Width = 238
+                Height = 17
+                Hint = 
+                  'When clicking with the right mouse for a popup menu, move the cu' +
+                  'rsor to that location'
+                Caption = 'Right mouse moves cursor'
+                TabOrder = 0
+              end
+              object ckDragAndDropEditing: TCheckBox
+                Left = 0
+                Top = 38
+                Width = 238
+                Height = 17
+                Hint = 
+                  'Allows you to select a block of text and drag it within the docu' +
+                  'ment to another location'
+                Caption = 'Drag and drop editing'
+                TabOrder = 10
+              end
+              object ckEnhanceEndKey: TCheckBox
+                Left = 0
+                Top = 57
+                Width = 238
+                Height = 17
+                Hint = 'Enhances end key similar to JDeveloper'
+                Caption = 'Enhance End Key'
+                TabOrder = 1
+              end
+              object ckWordWrap: TCheckBox
+                Left = 0
+                Top = 76
+                Width = 238
+                Height = 17
+                Hint = 'Allows the editor accept OLE file drops'
+                Caption = 'Word wrap'
+                TabOrder = 9
+              end
+              object ckEnhanceHomeKey: TCheckBox
+                Left = 0
+                Top = 95
+                Width = 238
+                Height = 17
+                Hint = 'enhances home key positioning, similar to visual studio'
+                Caption = 'Enhance Home Key'
+                TabOrder = 2
+              end
+              object ckAltSetsColumnMode: TCheckBox
+                Left = 0
+                Top = 114
+                Width = 238
+                Height = 17
+                Hint = 
+                  'Holding down the Alt Key will put the selection mode into column' +
+                  'ar format'
+                Caption = 'Alt sets column mode'
+                TabOrder = 8
+              end
+              object ckTabsToSpaces: TCheckBox
+                Left = 0
+                Top = 133
+                Width = 238
+                Height = 17
+                Hint = 'Converts a tab character to the number of spaces in Tab Width'
+                Caption = 'Tabs to spaces'
+                TabOrder = 3
+              end
+              object ckKeepCaretX: TCheckBox
+                Left = 0
+                Top = 152
+                Width = 238
+                Height = 17
+                Hint = 
+                  'When moving through lines the X position will always stay the sa' +
+                  'me'
+                Caption = 'Maintain caret column'
+                TabOrder = 7
+              end
+              object ckSmartTabDelete: TCheckBox
+                Left = 0
+                Top = 171
+                Width = 238
+                Height = 17
+                Hint = 'similar to Smart Tabs, but when you delete characters'
+                Caption = 'Smart tab delete'
+                TabOrder = 4
+              end
+              object ckTabIndent: TCheckBox
+                Left = 0
+                Top = 190
+                Width = 238
+                Height = 17
+                Hint = 'Tab indents and Shift-Tab unindents'
+                Caption = 'Tab Indent'
+                TabOrder = 6
+              end
+              object ckSmartTabs: TCheckBox
+                Left = 0
+                Top = 209
+                Width = 238
+                Height = 17
+                Hint = 
+                  'When tabbing, the cursor will go to the next non-white space cha' +
+                  'racter of the previous line'
+                Caption = 'Smart tabs'
+                TabOrder = 5
+              end
+            end
+            object StackPanel2: TStackPanel
+              Left = 238
+              Top = 0
+              Width = 239
+              Height = 230
+              Align = alClient
+              BevelOuter = bvNone
+              ControlCollection = <
+                item
+                  Control = ckHalfPageScroll
+                end
+                item
+                  Control = ckTrimTrailingSpaces
+                end
+                item
+                  Control = ckScrollByOneLess
+                end
+                item
+                  Control = ckShowSpecialChars
+                end
+                item
+                  Control = ckScrollPastEOF
+                end
+                item
+                  Control = ckDisableScrollArrows
+                end
+                item
+                  Control = ckScrollPastEOL
+                end
+                item
+                  Control = ckGroupUndo
+                end
+                item
+                  Control = ckShowScrollHint
+                end
+                item
+                  Control = ckHideShowScrollbars
+                end
+                item
+                  Control = ckScrollHintFollows
+                end>
+              HorizontalPositioning = sphpFill
+              TabOrder = 1
+              ExplicitLeft = 234
+              ExplicitTop = 1
+              ExplicitWidth = 233
+              ExplicitHeight = 228
+              DesignSize = (
+                239
+                230)
+              object ckHalfPageScroll: TCheckBox
+                Left = 0
+                Top = 0
+                Width = 239
+                Height = 17
+                Hint = 
+                  'When scrolling with page-up and page-down commands, only scroll ' +
+                  'a half page at a time'
+                Anchors = [akTop, akRight]
+                Caption = 'Half page scroll'
+                TabOrder = 10
+              end
+              object ckTrimTrailingSpaces: TCheckBox
+                Left = 0
+                Top = 19
+                Width = 239
+                Height = 17
+                Hint = 'Spaces at the end of lines will be trimmed and not saved'
+                Anchors = [akTop, akRight]
+                Caption = 'Trim trailing spaces'
+                TabOrder = 0
+              end
+              object ckScrollByOneLess: TCheckBox
+                Left = 0
+                Top = 38
+                Width = 239
+                Height = 17
+                Hint = 'Forces scrolling to be one less'
+                Anchors = [akTop, akRight]
+                Caption = 'Scroll by one less'
+                TabOrder = 9
+              end
+              object ckShowSpecialChars: TCheckBox
+                Left = 0
+                Top = 57
+                Width = 239
+                Height = 17
+                Hint = 'Shows line breaks, spaces and tabs using special symbols'
+                Anchors = [akTop, akRight]
+                Caption = 'Show special chars'
+                TabOrder = 1
+              end
+              object ckScrollPastEOF: TCheckBox
+                Left = 0
+                Top = 76
+                Width = 239
+                Height = 17
+                Hint = 'Allows the cursor to go past the end of file marker'
+                Anchors = [akTop, akRight]
+                Caption = 'Scroll past end of file'
+                TabOrder = 8
+              end
+              object ckDisableScrollArrows: TCheckBox
+                Left = 0
+                Top = 95
+                Width = 239
+                Height = 17
+                Hint = 
+                  'Disables the scroll bar arrow buttons when you can'#39't scroll in t' +
+                  'hat direction any more'
+                Anchors = [akTop, akRight]
+                Caption = 'Disable scroll arrows'
+                TabOrder = 2
+              end
+              object ckScrollPastEOL: TCheckBox
+                Left = 0
+                Top = 114
+                Width = 239
+                Height = 17
+                Hint = 
+                  'Allows the cursor to go past the last character into the white s' +
+                  'pace at the end of a line'
+                Anchors = [akTop, akRight]
+                Caption = 'Scroll past end of line'
+                TabOrder = 7
+              end
+              object ckGroupUndo: TCheckBox
+                Left = 0
+                Top = 133
+                Width = 239
+                Height = 17
+                Hint = 
+                  'When undoing/redoing actions, handle all continuous changes of t' +
+                  'he same kind in one call instead undoing/redoing each command se' +
+                  'parately'
+                Anchors = [akTop, akRight]
+                Caption = 'Group undo'
+                TabOrder = 3
+              end
+              object ckShowScrollHint: TCheckBox
+                Left = 0
+                Top = 152
+                Width = 239
+                Height = 17
+                Hint = 
+                  'Shows a hint of the visible line numbers when scrolling vertical' +
+                  'ly'
+                Anchors = [akTop, akRight]
+                Caption = 'Show scroll hint'
+                TabOrder = 6
+              end
+              object ckHideShowScrollbars: TCheckBox
+                Left = 0
+                Top = 171
+                Width = 239
+                Height = 17
+                Hint = 
+                  'if enabled, then the scrollbars will only show when necessary.  ' +
+                  'If you have ScrollPastEOL, then it the horizontal bar will alway' +
+                  's be there (it uses MaxLength instead)'
+                Anchors = [akTop, akRight]
+                Caption = 'Hide scrollbars as necessary'
+                TabOrder = 4
+              end
+              object ckScrollHintFollows: TCheckBox
+                Left = 0
+                Top = 190
+                Width = 239
+                Height = 17
+                Hint = 'The scroll hint follows the mouse when scrolling vertically'
+                Anchors = [akTop, akRight]
+                Caption = 'Scroll hint follows mouse'
+                TabOrder = 5
+              end
+            end
+          end
+        end
+        object gbCaret: TGroupBox
+          AlignWithMargins = True
+          Left = 5
+          Top = 252
+          Width = 481
+          Height = 69
+          Align = alBottom
+          Caption = 'Caret'
+          TabOrder = 1
+          ExplicitWidth = 472
+          object Label2: TLabel
+            Left = 60
+            Top = 19
+            Width = 61
+            Height = 13
+            Caption = 'Insert caret:'
+          end
+          object Label4: TLabel
+            Left = 60
+            Top = 43
+            Width = 80
+            Height = 13
+            Caption = 'Overwrite caret:'
+          end
+          object cInsertCaret: TComboBox
+            Left = 183
+            Top = 14
+            Width = 176
+            Height = 21
+            Style = csDropDownList
+            TabOrder = 0
+            Items.Strings = (
+              'Vertical Line'
+              'Horizontal Line'
+              'Half Block'
+              'Block')
+          end
+          object cOverwriteCaret: TComboBox
+            Left = 183
+            Top = 38
+            Width = 176
+            Height = 21
+            Style = csDropDownList
+            TabOrder = 1
+            Items.Strings = (
+              'Vertical Line'
+              'Horizontal Line'
+              'Half Block'
+              'Block')
+          end
+        end
+      end
       object Display: TSpTBXTabSheet
         Left = 0
         Top = 25
-        Width = 484
+        Width = 493
         Height = 328
         Caption = 'Display'
         ImageIndex = -1
+        ExplicitWidth = 484
         DesignSize = (
-          484
+          493
           328)
         TabItem = 'SpTBXTabItem1'
         object gbRightEdge: TGroupBox
-          Left = 240
+          Left = 249
           Top = 116
           Width = 235
           Height = 80
           Anchors = [akTop, akRight]
           Caption = 'Right Edge'
           TabOrder = 1
+          ExplicitLeft = 240
           object Label3: TLabel
             Left = 9
             Top = 45
@@ -915,17 +834,17 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             Caption = 'Edge Column:'
           end
           object eRightEdge: TEdit
-            Left = 82
-            Top = 17
+            Left = 100
+            Top = 18
             Width = 51
             Height = 21
             TabOrder = 0
             Text = '0'
           end
           object cbRightEdgeColor: TSpTBXColorEdit
-            Left = 75
+            Left = 100
             Top = 45
-            Width = 132
+            Width = 129
             Height = 21
             TabOrder = 1
             SelectedColor = clBlack
@@ -935,11 +854,12 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           AlignWithMargins = True
           Left = 5
           Top = 197
-          Width = 472
+          Width = 481
           Height = 124
           Align = alBottom
           Caption = 'Gutter'
           TabOrder = 0
+          ExplicitWidth = 472
           object Label1: TLabel
             Left = 237
             Top = 77
@@ -967,12 +887,11 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
               Font.Name = 'Terminal'
               Font.Style = []
               ParentFont = False
-              ExplicitWidth = 60
-              ExplicitHeight = 12
+              ExplicitWidth = 180
             end
           end
           object btnGutterFont: TButton
-            Left = 346
+            Left = 362
             Top = 13
             Width = 99
             Height = 25
@@ -981,9 +900,9 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             OnClick = btnGutterFontClick
           end
           object ckGutterAutosize: TCheckBox
-            Left = 23
-            Top = 38
-            Width = 65
+            Left = 24
+            Top = 37
+            Width = 189
             Height = 21
             Caption = 'Autosize'
             TabOrder = 1
@@ -991,7 +910,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           object ckGutterShowLineNumbers: TCheckBox
             Left = 23
             Top = 59
-            Width = 113
+            Width = 198
             Height = 21
             Caption = 'Show line numbers'
             TabOrder = 2
@@ -999,7 +918,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           object ckGutterShowLeaderZeros: TCheckBox
             Left = 23
             Top = 100
-            Width = 116
+            Width = 198
             Height = 21
             Caption = 'Show leading zeros'
             TabOrder = 3
@@ -1007,7 +926,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           object ckGutterVisible: TCheckBox
             Left = 23
             Top = 18
-            Width = 53
+            Width = 189
             Height = 21
             Caption = 'Visible'
             Checked = True
@@ -1015,9 +934,9 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             TabOrder = 0
           end
           object cbGutterFont: TCheckBox
-            Left = 233
+            Left = 237
             Top = 17
-            Width = 101
+            Width = 119
             Height = 21
             Caption = 'Use Gutter Font'
             TabOrder = 4
@@ -1026,7 +945,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           object ckGutterStartAtZero: TCheckBox
             Left = 23
             Top = 79
-            Width = 85
+            Width = 198
             Height = 21
             Caption = 'Start at zero'
             TabOrder = 8
@@ -1034,15 +953,15 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           object ckGutterGradient: TCheckBox
             Left = 237
             Top = 98
-            Width = 99
+            Width = 214
             Height = 21
             Hint = 'Gutter gradient visible'
             Caption = 'Gutter Gradient'
             TabOrder = 9
           end
           object cbGutterColor: TSpTBXColorEdit
-            Left = 310
-            Top = 75
+            Left = 326
+            Top = 76
             Width = 132
             Height = 21
             TabOrder = 7
@@ -1050,16 +969,18 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           end
         end
         object gbBookmarks: TGroupBox
-          Left = 238
+          Left = 247
           Top = 50
           Width = 237
           Height = 62
+          Anchors = [akTop, akRight]
           Caption = 'Bookmarks'
           TabOrder = 3
+          ExplicitLeft = 238
           object ckBookmarkKeys: TCheckBox
             Left = 23
             Top = 16
-            Width = 95
+            Width = 170
             Height = 21
             Caption = 'Bookmark keys'
             TabOrder = 0
@@ -1067,7 +988,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           object ckBookmarkVisible: TCheckBox
             Left = 23
             Top = 35
-            Width = 107
+            Width = 170
             Height = 21
             Caption = 'Bookmarks visible'
             TabOrder = 1
@@ -1115,13 +1036,14 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           end
         end
         object gbLineSpacing: TGroupBox
-          Left = 6
+          Left = 8
           Top = 108
           Width = 226
           Height = 88
           Anchors = [akTop]
           Caption = 'Line spacing / Tab spacing'
           TabOrder = 2
+          ExplicitLeft = 6
           object Label8: TLabel
             Left = 23
             Top = 27
@@ -1154,13 +1076,14 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           end
         end
         object GroupBox2: TGroupBox
-          Left = 238
+          Left = 247
           Top = 7
           Width = 237
           Height = 43
           Anchors = [akTop, akRight]
           Caption = 'Active Line Color'
           TabOrder = 5
+          ExplicitLeft = 238
           object cbActiveLineColor: TSpTBXColorEdit
             Left = 41
             Top = 15
@@ -1168,6 +1091,122 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             Height = 21
             TabOrder = 0
             SelectedColor = clBlack
+          end
+        end
+      end
+      object KeyStrokes: TSpTBXTabSheet
+        Left = 0
+        Top = 25
+        Width = 493
+        Height = 328
+        Caption = 'Keystrokes'
+        ImageIndex = -1
+        ExplicitWidth = 484
+        TabItem = 'SpTBXTabItem3'
+        object gbKeyStrokes: TGroupBox
+          AlignWithMargins = True
+          Left = 5
+          Top = 202
+          Width = 481
+          Height = 119
+          Align = alBottom
+          Caption = 'Keystroke Options'
+          TabOrder = 3
+          ExplicitWidth = 472
+          object Label5: TLabel
+            Left = 50
+            Top = 28
+            Width = 51
+            Height = 13
+            Caption = 'Command:'
+          end
+          object Label6: TLabel
+            Left = 50
+            Top = 91
+            Width = 61
+            Height = 13
+            Caption = 'Keystroke 2:'
+          end
+          object Label7: TLabel
+            Left = 50
+            Top = 59
+            Width = 61
+            Height = 13
+            Caption = 'Keystroke 1:'
+          end
+          object cKeyCommand: TComboBox
+            Left = 185
+            Top = 23
+            Width = 185
+            Height = 21
+            Style = csDropDownList
+            Sorted = True
+            TabOrder = 0
+            OnExit = cKeyCommandExit
+            OnKeyPress = cKeyCommandKeyPress
+            OnKeyUp = cKeyCommandKeyUp
+          end
+        end
+        object btnAddKey: TButton
+          Left = 203
+          Top = 166
+          Width = 75
+          Height = 25
+          Caption = '&Add'
+          TabOrder = 1
+          OnClick = btnAddKeyClick
+        end
+        object btnRemKey: TButton
+          Left = 284
+          Top = 166
+          Width = 75
+          Height = 25
+          Caption = '&Remove'
+          TabOrder = 2
+          OnClick = btnRemKeyClick
+        end
+        object btnUpdateKey: TButton
+          Left = 122
+          Top = 166
+          Width = 75
+          Height = 25
+          Caption = '&Update'
+          TabOrder = 0
+          OnClick = btnUpdateKeyClick
+        end
+        object Panel2: TPanel
+          Left = 2
+          Top = 0
+          Width = 487
+          Height = 158
+          Align = alTop
+          TabOrder = 4
+          ExplicitWidth = 478
+          object KeyList: TListView
+            Left = 1
+            Top = 1
+            Width = 485
+            Height = 156
+            Align = alClient
+            BorderStyle = bsNone
+            Columns = <
+              item
+                Caption = 'Command'
+                Width = 167
+              end
+              item
+                Caption = 'Keystroke'
+                Width = 142
+              end>
+            ColumnClick = False
+            FlatScrollBars = True
+            HideSelection = False
+            ReadOnly = True
+            RowSelect = True
+            SortType = stText
+            TabOrder = 0
+            ViewStyle = vsReport
+            ExplicitWidth = 476
           end
         end
       end

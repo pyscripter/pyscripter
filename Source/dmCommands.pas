@@ -118,6 +118,12 @@ type
     property IncrementalSearch: boolean read fIncrementalSearch write fIncrementalSearch;
   end;
 
+  TSynGeneralSyn = class(SynHighlighterGeneral.TSynGeneralSyn)
+  public
+    class function GetFriendlyLanguageName: string; override;
+  end;
+
+
   TCommandsDataModule = class(TDataModule)
     SynPythonSyn: TSynPythonSyn;
     SynEditPrint: TSynEditPrint;
@@ -2970,6 +2976,13 @@ begin
     ProgramVersionHTTPLocation.DownloadError := _('File download failed');
   end;
       Result := LocalFileName;
+end;
+
+{ TSynGeneralSyn }
+
+class function TSynGeneralSyn.GetFriendlyLanguageName: string;
+begin
+  Result := 'General';  // Do not localize
 end;
 
 initialization

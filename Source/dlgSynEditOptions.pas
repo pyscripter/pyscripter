@@ -856,7 +856,7 @@ begin
   with eKeyShort1 do
   begin
     Parent := gbKeystrokes;
-    Left := MulDiv(154, Screen.PixelsPerInch, 96);
+    Left := MulDiv(185, Screen.PixelsPerInch, 96);
     Top := MulDiv(55, Screen.PixelsPerInch, 96);
     Width := MulDiv(185, Screen.PixelsPerInch, 96);
     Height := MulDiv(21, Screen.PixelsPerInch, 96);
@@ -872,7 +872,7 @@ begin
   with eKeyShort2 do
   begin
     Parent := gbKeystrokes;
-    Left := MulDiv(154, Screen.PixelsPerInch, 96);
+    Left := MulDiv(185, Screen.PixelsPerInch, 96);
     Top := MulDiv(87, Screen.PixelsPerInch, 96);
     Width := MulDiv(185, Screen.PixelsPerInch, 96);
     Height := MulDiv(21, Screen.PixelsPerInch, 96);
