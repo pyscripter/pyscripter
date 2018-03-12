@@ -1512,13 +1512,14 @@ begin
   ProjectExplorerWindow := TProjectExplorerWindow.Create(Self);
   ProjectExplorerWindow.PopupParent := Self;
 
-  // Setup Languages
-  fLanguageList := TStringList.Create;
-  SetUpLanguageMenu;
   // And now translate after all the docking forms have been created
   // They will be translated as well
   TP_GlobalIgnoreClass(TJvFormStorage);
   TranslateComponent(Self);
+
+  // Setup Languages
+  fLanguageList := TStringList.Create;
+  SetUpLanguageMenu;
 
   // Assign Debugger Events
   with PyControl do begin
