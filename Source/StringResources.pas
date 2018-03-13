@@ -9,6 +9,7 @@ Const
   SNotAvailable = 'n/a';
   SNotImplented = 'Not implemented';
   SFailedToBackupFile = 'Failed to backup file "%s"';
+  SErrorLoadLayout = 'Failed to load layout from "%s". Please close and restart PyScripter';
   SFilterAllFiles = 'All files|*.*|';
   SNoParameters = '** No/Unknown parameters **';
   SInvalidRegularExpression = 'Invalid Regular Expression: %s';

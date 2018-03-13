@@ -30,7 +30,7 @@ object PyIDEMainForm: TPyIDEMainForm
       CustomHeight = 21
     end
     object SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem
-      CustomWidth = 417
+      CustomWidth = 0
     end
     object SpTBXSeparatorItem5: TSpTBXSeparatorItem
     end
@@ -1400,7 +1400,7 @@ object PyIDEMainForm: TPyIDEMainForm
   end
   object JvFormStorage: TJvFormStorage
     Active = False
-    AppStorage = AppStorage
+    AppStorage = LocalAppStorage
     AppStoragePath = 'Main Form Placement\'
     VersionCheck = fpvcNocheck
     StoredValues = <>
@@ -2187,5 +2187,17 @@ object PyIDEMainForm: TPyIDEMainForm
     TabServerOption.ShowCloseButtonOnTabs = False
     Left = 136
     Top = 158
+  end
+  object LocalAppStorage: TJvAppIniFileStorage
+    StorageOptions.BooleanStringTrueValues = 'TRUE, YES, Y'
+    StorageOptions.BooleanStringFalseValues = 'FALSE, NO, N'
+    StorageOptions.DateTimeAsString = False
+    StorageOptions.DefaultIfReadConvertError = True
+    FlushOnDestroy = False
+    Location = flCustom
+    DefaultSection = 'Other Settings'
+    SubStorages = <>
+    Left = 394
+    Top = 141
   end
 end

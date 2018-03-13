@@ -1197,8 +1197,8 @@ begin
 
   if not (csDestroying in PyIDEMainForm.ComponentState) then begin
     VariablesWindow.ClearAll;
-    CallStackWindow.ClearAll;
     UnitTestWindow.ClearAll;
+    CallStackWindow.ClearAll;
   end;
   // Do not destroy Remote Debugger
   // PyControl.ActiveDebugger := nil;

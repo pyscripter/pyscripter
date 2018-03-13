@@ -409,6 +409,7 @@
   History:   v 3.3
           New Features
             Thread debugging (#455)
+            Form Layout and placement stored in PyScripter.local.ini
           Issues addressed
             #659, #827, #848, #849
             { TODO : Python Engine change without exiting PyScripter }
@@ -416,6 +417,7 @@
             { TODO : Review Search and Replace }
             { TODO : Auto PEP8 tool }
             { TODO: Interpreter raw_input #311 }
+            { TODO: LiveTemplates features for Code Templates }
 
 
 {------------------------------------------------------------------------------}
@@ -974,6 +976,7 @@ type
     actSelectStyle: TAction;
     SpTBXItem4: TSpTBXItem;
     SpTBXItem5: TSpTBXItem;
+    LocalAppStorage: TJvAppIniFileStorage;
     procedure mnFilesClick(Sender: TObject);
     procedure actEditorZoomInExecute(Sender: TObject);
     procedure actEditorZoomOutExecute(Sender: TObject);
@@ -1149,6 +1152,7 @@ type
     fStoredEffect : Longint;
     OldScreenPPI : Integer;
     OldDesktopSize : string;
+    LoadLayoutError : Boolean;
     // IDropTarget implementation
     function DragEnter(const dataObj: IDataObject; grfKeyState: Longint;
       pt: TPoint; var dwEffect: Longint): HResult; stdcall;
@@ -1169,6 +1173,8 @@ type
     procedure SaveEnvironment;
     procedure StoreApplicationData;
     procedure RestoreApplicationData;
+    procedure StoreLocalApplicationData;
+    procedure RestoreLocalApplicationData;
     function DoOpenFile(AFileName: string; HighlighterName : string = '';
        TabControlIndex : integer = 1) : IEditor;
     function NewFileFromTemplate(FileTemplate : TFileTemplate;
@@ -1290,7 +1296,8 @@ uses
   cFilePersist,
   cCodeHint,
   cPyRemoteDebugger,
-  cProjectClasses;
+  cProjectClasses,
+  Winapi.ShellAPI;
 
 {$R *.DFM}
 
@@ -1432,6 +1439,7 @@ procedure TPyIDEMainForm.FormCreate(Sender: TObject);
 Var
   TabHost : TJvDockTabHostForm;
   OptionsFileName: string;
+  LocalOptionsFileName: string;
 begin
   // Style DPI awareness
   StyleDPIAwareness := TStyleDPIAwareness.Create(Self);
@@ -1472,6 +1480,12 @@ begin
   end else  // default location
     AppStorage.FileName :=
       CommandsDataModule.UserDataPath + OptionsFileName;
+
+  // LocalAppStorage
+  LocalOptionsFileName := ChangeFileExt(ExtractFileName(Application.ExeName), '.local.ini');
+  LocalAppStorage.Location := flCustom;
+  LocalAppStorage.FileName :=
+      CommandsDataModule.UserDataPath + LocalOptionsFileName;
 
   // DSA stuff
   DSAAppStorage := TDSAAppStorage.Create(AppStorage, 'DSA');
@@ -1543,22 +1557,35 @@ begin
     SaveToolbarItems(FactoryToolbarItems);
 
   // Read Settings from PyScripter.ini
-  if FileExists(AppStorage.IniFile.FileName) then begin
-    RestoreApplicationData;
-    if (OldScreenPPI = Screen.PixelsPerInch) and
-       ((OldDesktopSize = '') or (OldDesktopSize = DesktopSizeString))
-    then
-      JvFormStorage.RestoreFormPlacement;
-  end else
+  if FileExists(AppStorage.IniFile.FileName) then
+    RestoreApplicationData
+  else
     PyIDEOptions.Changed;
-
-  if (OldScreenPPI = Screen.PixelsPerInch) and
-     ((OldDesktopSize = '') or (OldDesktopSize = DesktopSizeString)) and
-     AppStorage.PathExists('Layouts\Current\Forms') then
+  // Read Settings from PyScripter.local.ini
+  if FileExists(LocalAppStorage.IniFile.FileName) then
   begin
-    LoadLayout('Current');
-    AppStorage.DeleteSubTree('Layouts\Current');
-  end else
+    RestoreLocalApplicationData;
+    if (OldScreenPPI = Screen.PixelsPerInch) and (OldDesktopSize = DesktopSizeString) then
+      JvFormStorage.RestoreFormPlacement;
+  end;
+
+  if (OldScreenPPI = Screen.PixelsPerInch) and (OldDesktopSize = DesktopSizeString) and
+     LocalAppStorage.PathExists('Layouts\Default\Forms') and
+     LocalAppStorage.PathExists('Layouts\Current\Forms') then
+  begin
+    try
+      LoadLayout('Current');
+    except
+      LoadLayoutError := True;
+      LocalAppStorage.DeleteSubTree('Layouts\Default');
+      if Layouts.IndexOf('Default') >= 0 then
+        Layouts.Delete(Layouts.IndexOf('Default'));
+      Vcl.Dialogs.MessageDlg(Format(_(SErrorLoadLayout),
+        [LocalAppStorage.IniFile.FileName]), mtError, [mbOK], 0);
+    end;
+    LocalAppStorage.DeleteSubTree('Layouts\Current');
+  end
+  else
   begin
     TabHost := ManualTabDock(DockServer.LeftDockPanel, FileExplorerWindow, ProjectExplorerWindow);
     DockServer.LeftDockPanel.Width := PPIScaled(200);
@@ -2271,14 +2298,6 @@ begin
    actRunLastScriptExternal.Hint := _(sHintExternalRun) + S;
 end;
 
-procedure TPyIDEMainForm.DebuggerCurrentPosChange(Sender: TObject);
-begin
-  if (PyControl.ActiveDebugger <> nil) and not PyControl.IsRunning then
-    SetCurrentPos(PyControl.CurrentPos.Editor , PyControl.CurrentPos.Line)
-  else
-    SetCurrentPos(PyControl.CurrentPos.Editor, -1);
-end;
-
 procedure TPyIDEMainForm.DebuggerErrorPosChange(Sender: TObject);
 {
   Invalidates old and/or new error line but does not Activate the Editor
@@ -2301,6 +2320,15 @@ begin
     Editor.SynEdit.InvalidateLine(PyControl.ErrorPos.Line);
     Editor.SynEdit2.InvalidateLine(PyControl.ErrorPos.Line);
   end;
+end;
+
+procedure TPyIDEMainForm.DebuggerCurrentPosChange(Sender: TObject);
+begin
+  if csDestroying in ComponentState then Exit;
+  if (PyControl.ActiveDebugger <> nil) and not PyControl.IsRunning then
+    SetCurrentPos(PyControl.CurrentPos.Editor , PyControl.CurrentPos.Line)
+  else
+    SetCurrentPos(PyControl.CurrentPos.Editor, -1);
 end;
 
 procedure TPyIDEMainForm.DebuggerStateChange(Sender: TObject; OldState,
@@ -3000,8 +3028,6 @@ begin
   try
     AppStorage.WriteString('PyScripter Version', ApplicationVersion);
     AppStorage.WriteString('Language', GetCurrentLanguage);
-    AppStorage.WriteInteger('Screen PPI', Screen.PixelsPerInch);
-    AppStorage.WriteString('Desktop size', DeskTopSizeString);
 
     AppStorage.StorageOptions.StoreDefaultValues := True;
     // UnScale and Scale back
@@ -3069,11 +3095,9 @@ begin
     AppStorage.WriteInteger('Output Window\Font Size', OutputWindow.lsbConsole.Font.Size);
     AppStorage.WritePersistent('Watches', WatchesWindow);
     AppStorage.WriteBoolean('Status Bar', StatusBar.Visible);
-    AppStorage.WriteStringList('Layouts', Layouts);
 
     // Save Style Name
     AppStorage.WriteString('Style Name', TStyleSelectorForm.CurrentSkinName);
-
 
     // Save Toolbar Items
     SaveToolbarItems('Toolbar Items');
@@ -3096,8 +3120,8 @@ begin
     AppStorage.WriteStringList('Command History', TempStringList);
     AppStorage.StorageOptions.PreserveLeadingTrailingBlanks := False;
 
-    // Form Placement
-    JvFormStorage.SaveFormPlacement;
+    // Project Filename
+    AppStorage.WriteString('Active Project', ActiveProject.FileName);
 
   finally
     AppStorage.EndUpdate;
@@ -3108,10 +3132,30 @@ begin
   tbiRecentFileList.SaveToIni(AppStorage.IniFile, 'MRU File List');
   tbiRecentProjects.SaveToIni(AppStorage.IniFile, 'MRU Project List');
 
-  // Project Filename
-  AppStorage.WriteString('Active Project', ActiveProject.FileName);
-
   AppStorage.Flush;
+end;
+
+procedure TPyIDEMainForm.StoreLocalApplicationData;
+Var
+  TempCursor : IInterface;
+begin
+  TempCursor := WaitCursor;
+  LocalAppStorage.BeginUpdate;
+  try
+    LocalAppStorage.WriteString('PyScripter Version', ApplicationVersion);
+    LocalAppStorage.WriteInteger('Screen PPI', Screen.PixelsPerInch);
+    LocalAppStorage.WriteString('Desktop size', DeskTopSizeString);
+
+    LocalAppStorage.WriteStringList('Layouts', Layouts);
+
+    // Form Placement
+    JvFormStorage.SaveFormPlacement;
+
+  finally
+    LocalAppStorage.EndUpdate;
+  end;
+
+  LocalAppStorage.Flush;
 end;
 
 procedure TPyIDEMainForm.RestoreApplicationData;
@@ -3121,8 +3165,8 @@ Const
 Var
   ActionProxyCollection : TActionProxyCollection;
   TempStringList : TStringList;
-  i : Integer;
   FName : string;
+  i : Integer;
   PyScripterVersion : string;
 begin
   PyScripterVersion := AppStorage.ReadString('PyScripter Version', '1.0');
@@ -3130,8 +3174,8 @@ begin
   // Change language
   ChangeLanguage(AppStorage.ReadString('Language', GetCurrentLanguage));
 
-  OldScreenPPI := AppStorage.ReadInteger('Screen PPI', 96);
-  OldDesktopSize := AppStorage.ReadString('Desktop size');
+  // Remove since it is now stored in PyScripter.local.ini
+  if AppStorage.PathExists('Layouts') then AppStorage.DeleteSubTree('Layouts');
 
   if AppStorage.PathExists('IDE Options') then begin
     AppStorage.ReadPersistent('IDE Options', PyIDEOptions);
@@ -3145,7 +3189,7 @@ begin
       AppStorage.ReadPersistent('Editor Options', EditorOptions);
       if (CompareVersion(PyScripterVersion, '3.1') < 0) then
       begin
-        if  (EditorOptions.Keystrokes.FindCommand(ecNone) < 0) then
+        if  (EditorOptions.Keystrokes.FindCommand(ecFoldAll) < 0) then
         with EditorOptions.Keystrokes do begin
           AddKey(ecFoldAll, VK_OEM_MINUS, [ssCtrl, ssShift]);   {- _}
           AddKey(ecUnfoldAll,  VK_OEM_PLUS, [ssCtrl, ssShift]); {= +}
@@ -3163,8 +3207,6 @@ begin
           [eoAutoIndent, eoAutoSizeMaxScrollWidth, eoScrollPastEol];
         EditorOptions.MaxScrollWidth := 100;
       end;
-
-      //AppStorage.DeleteSubTree('Editor Options');
 
       for i := 0 to Highlighters.Count - 1 do
         AppStorage.ReadPersistent('Highlighters\'+Highlighters[i],
@@ -3184,8 +3226,6 @@ begin
         PythonIIForm.SynEdit.Assign(InterpreterEditorOptions);
         PythonIIForm.RegisterHistoryCommands;
       end;
-
-     //AppStorage.DeleteSubTree('Interpreter Editor Options');
 
       if AppStorage.PathExists('Editor Search Options') then begin
         AppStorage.ReadPersistent('Editor Search Options', EditorSearchOptions);
@@ -3239,11 +3279,6 @@ begin
   AppStorage.ReadPersistent('Watches', WatchesWindow);
   StatusBar.Visible := AppStorage.ReadBoolean('Status Bar');
 
-  if (OldScreenPPI = Screen.PixelsPerInch) and
-     ((OldDesktopSize = '') or (OldDesktopSize = DesktopSizeString))
-  then
-    AppStorage.ReadStringList('Layouts', Layouts, True);
-
   // Load Style Name
   TStyleSelectorForm.SetStyle(AppStorage.ReadString('Style Name', 'Windows10'));
 
@@ -3274,18 +3309,25 @@ begin
   finally
     TempStringList.Free;
   end;
-
-  // Load MRU Lists
-  tbiRecentFileList.LoadFromIni(AppStorage.IniFile, 'MRU File List');
-  tbiRecentProjects.LoadFromIni(AppStorage.IniFile, 'MRU Project List');
-
-  // Project Filename
+                                                               // Project Filename
   if CmdLineReader.readString('PROJECT') = '' then begin
     FName := AppStorage.ReadString('Active Project');
     if FName <> '' then
       ProjectExplorerWindow.DoOpenProjectFile(FName);
   end;
 
+  // Load MRU Lists
+  tbiRecentFileList.LoadFromIni(AppStorage.IniFile, 'MRU File List');
+  tbiRecentProjects.LoadFromIni(AppStorage.IniFile, 'MRU Project List');
+end;
+
+procedure TPyIDEMainForm.RestoreLocalApplicationData;
+begin
+  OldScreenPPI := LocalAppStorage.ReadInteger('Screen PPI', 96);
+  OldDesktopSize := LocalAppStorage.ReadString('Desktop size');
+
+  if (OldScreenPPI = Screen.PixelsPerInch) and (OldDesktopSize = DesktopSizeString) then
+    LocalAppStorage.ReadStringList('Layouts', Layouts, True);
 end;
 
 function TPyIDEMainForm.EditorFromTab(Tab : TSpTBXTabItem) : IEditor;
@@ -3350,7 +3392,7 @@ begin
     if Assigned(Editor) then
       (Editor as IFileCommands).ExecClose;
   end else if (not Assigned(IV) or (IV.Item is TSpTBXRightAlignSpacerItem)) and (Shift = [ssLeft, ssDouble]) then begin
-    if AppStorage.PathExists('Layouts\BeforeZoom\Forms') then
+    if LocalAppStorage.PathExists('Layouts\BeforeZoom\Forms') then
       actRestoreEditorExecute(Sender)
     else
       actMaximizeEditorExecute(Sender);
@@ -3560,7 +3602,7 @@ begin
   ToolbarLayout := TStringList.Create;
   try
     SpTBXCustomizer.SaveLayout(ToolbarLayout, Layout);
-    AppStorage.WriteStringList('Layouts\' + Layout + '\Toolbars', ToolbarLayout);
+    LocalAppStorage.WriteStringList('Layouts\' + Layout + '\Toolbars', ToolbarLayout);
   finally
     ToolbarLayout.Free;
   end;
@@ -3572,11 +3614,11 @@ var
   Path: string;
 begin
   Path := 'Layouts\'+ Layout;
-  if AppStorage.PathExists(Path + '\Toolbars') then
+  if LocalAppStorage.PathExists(Path + '\Toolbars') then
   begin
     ToolbarLayout := TStringList.Create;
     try
-      AppStorage.ReadStringList(Path + '\Toolbars', ToolbarLayout);
+      LocalAppStorage.ReadStringList(Path + '\Toolbars', ToolbarLayout);
       SpTBXCustomizer.LoadLayout(ToolbarLayout, Layout);
     finally
       ToolbarLayout.Free;
@@ -3869,13 +3911,13 @@ Var
   TempCursor : IInterface;
 begin
   Path := 'Layouts\'+ Layout;
-  if AppStorage.PathExists(Path + '\Forms') then begin
+  if LocalAppStorage.PathExists(Path + '\Forms') then begin
     TempCursor := WaitCursor;
     SaveActiveControl := ActiveControl;
 
     try
       // Now Load the DockTree
-      LoadDockTreeFromAppStorage(AppStorage, Path);
+      LoadDockTreeFromAppStorage(LocalAppStorage, Path);
     finally
       for i := 0 to Screen.FormCount - 1 do begin
         if Screen.Forms[i] is TIDEDockWindow then
@@ -3895,8 +3937,8 @@ end;
 
 procedure TPyIDEMainForm.SaveLayout(const Layout: string);
 begin
-  Appstorage.DeleteSubTree('Layouts\'+Layout);
-  SaveDockTreeToAppStorage(AppStorage, 'Layouts\'+ Layout);
+  LocalAppstorage.DeleteSubTree('Layouts\'+Layout);
+  SaveDockTreeToAppStorage(LocalAppStorage, 'Layouts\'+ Layout);
   SaveToolbarLayout(Layout);
 end;
 
@@ -3924,10 +3966,8 @@ end;
 procedure TPyIDEMainForm.actLayoutsDeleteExecute(Sender: TObject);
 Var
   LayoutName : string;
-  TempCursor : IInterface;
   i : integer;
 begin
-  TempCursor := nil;
   with TPickListDialog.Create(Self) do begin
     Caption := _(SDeleteLayouts);
     lbMessage.Caption := _(SSelectLayouts);
@@ -3936,14 +3976,9 @@ begin
       for i := CheckListBox.Count - 1 downto 0 do begin
         if CheckListBox.Checked[i] then begin
           LayoutName := Layouts[i];
-          if not assigned(TempCursor) then TempCursor := WaitCursor;
-
-          Appstorage.DeleteSubTree('Layouts\'+LayoutName);
-
-          if Layouts.IndexOf(LayoutName) >= 0 then begin
-            Layouts.Delete(Layouts.IndexOf(LayoutName));
-            SetupLayoutsMenu;
-          end;
+          LocalAppstorage.DeleteSubTree('Layouts\'+LayoutName);
+          Layouts.Delete(i);
+          SetupLayoutsMenu;
         end;
       end;
     end;
@@ -4545,7 +4580,7 @@ begin
   // Repeat here to make sure it is set right
   MaskFPUExceptions(PyIDEOptions.MaskFPUExceptions);
 
-  if Layouts.IndexOf('Default') < 0 then begin
+  if not LoadLayoutError and (Layouts.IndexOf('Default') < 0) then begin
     SaveLayout('Default');
     Layouts.Add('Default');
   end;
@@ -4626,6 +4661,7 @@ begin
   SaveLayout('Current');
   // Store other application data and flush AppStorage
   StoreApplicationData;
+  StoreLocalApplicationData;
 end;
 
 procedure TPyIDEMainForm.actMaximizeEditorExecute(Sender: TObject);
@@ -4645,9 +4681,9 @@ end;
 
 procedure TPyIDEMainForm.actRestoreEditorExecute(Sender: TObject);
 begin
-  if AppStorage.PathExists('Layouts\BeforeZoom\Forms') then begin
+  if LocalAppStorage.PathExists('Layouts\BeforeZoom\Forms') then begin
     LoadLayout('BeforeZoom');
-    Appstorage.DeleteSubTree('Layouts\BeforeZoom');
+    LocalAppstorage.DeleteSubTree('Layouts\BeforeZoom');
   end;
 end;
 
