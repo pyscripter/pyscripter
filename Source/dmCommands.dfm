@@ -1997,9 +1997,7 @@ object CommandsDataModule: TCommandsDataModule
           '    class IDEDebugger(__import__('#39'bdb'#39').Bdb):'
           '        def __init__(self):'
           '            __import__('#39'bdb'#39').Bdb.__init__(self)'
-          
-            '            self.locals = {"__name__": "__main__", "__doc__": No' +
-            'ne}'
+          '            self.locals = globals()'
           '            self.breaks = self.debug_manager.breakpoints'
           '            self.InitStepIn = False'
           '            self.tracecount = 0'
@@ -2865,9 +2863,7 @@ object CommandsDataModule: TCommandsDataModule
           '    class IDEDebugger(__import__('#39'bdb'#39').Bdb):'
           '        def __init__(self):'
           '            super().__init__()'
-          
-            '            self.locals = {"__name__": "__main__", "__doc__": No' +
-            'ne}'
+          '            self.locals = globals()'
           '            self.breaks = self.debug_manager.breakpoints'
           '            self.InitStepIn = False'
           '            self.tracecount = 0'
