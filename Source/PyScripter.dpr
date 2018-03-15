@@ -99,7 +99,6 @@ uses
   dlgPyIDEBase in 'dlgPyIDEBase.pas' {PyIDEDlgBase},
   JvDockInfo in 'JvDockInfo.pas',
   SynHighlighterYAML in 'SynHighlighterYAML.pas',
-  VirtualTrees in 'VirtualTrees.pas',
   dlgSynEditOptions in 'dlgSynEditOptions.pas' {fmEditorOptionsDialog: TForm},
   JvDockSupportControl in 'JvDockSupportControl.pas',
   AsyncCalls in 'AsyncCalls.pas',

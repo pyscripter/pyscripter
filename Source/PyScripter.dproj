@@ -329,7 +329,6 @@
         </DCCReference>
         <DCCReference Include="JvDockInfo.pas"/>
         <DCCReference Include="SynHighlighterYAML.pas"/>
-        <DCCReference Include="VirtualTrees.pas"/>
         <DCCReference Include="dlgSynEditOptions.pas">
             <Form>fmEditorOptionsDialog</Form>
             <DesignClass>TForm</DesignClass>
