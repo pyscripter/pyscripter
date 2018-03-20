@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2018-02-23 09:42\n"
+"POT-Creation-Date: 2018-03-12 11:35\n"
 "PO-Revision-Date: 2018-01-23 16:26\n"
 "Last-Translator: luebbe <luebbe.opensource@gmail.com>, 2018\n"
 "Language-Team: German (https://www.transifex.com/luebbe/teams/82736/de/)\n"
@@ -213,7 +213,7 @@ msgstr "Drücke Shift+Strg+P für Parametervervollständigung"
 #. FileTemplatesDialog..Panel..lvItems......Caption
 #. ToolProperties..Panel1..TabControl..tabEnvironment..lvItems......Caption
 #. RegExpTesterWindow..BGPanel..FGPanel..pnlBackground..dpGroupsView..GroupsView......WideText
-#. VariablesWindow..BGPanel..FGPanel..VariablesTree......WideText
+#. VariablesWindow..BGPanel..FGPanel..Panel1..VariablesTree......WideText
 #: dlgCodeTemplates.dfm dlgCustomParams.dfm dlgFileTemplates.dfm
 #: dlgToolProperties.dfm frmRegExpTester.dfm frmVariables.dfm frmVariables.pas
 msgid "Name"
@@ -418,8 +418,8 @@ msgstr "&Wert:"
 #. OptionsInspector..Panel1..Inspector..HeaderValueText
 #. ToolProperties..Panel1..TabControl..tabEnvironment..lvItems......Caption
 #. RegExpTesterWindow..BGPanel..FGPanel..pnlBackground..dpGroupsView..GroupsView......WideText
-#. VariablesWindow..BGPanel..FGPanel..VariablesTree......WideText
-#. WatchesWindow..BGPanel..FGPanel..WatchesView......WideText
+#. VariablesWindow..BGPanel..FGPanel..Panel1..VariablesTree......WideText
+#. WatchesWindow..BGPanel..FGPanel..Panel1..WatchesView......WideText
 #: dlgCustomParams.dfm dlgOptionsEditor.dfm dlgToolProperties.dfm
 #: frmRegExpTester.dfm frmVariables.dfm frmWatches.dfm frmVariables.pas
 msgid "Value"
@@ -468,12 +468,12 @@ msgstr "&Zuweisen"
 #. frmCustomKeyboard..ActionList1..actAssignShortcut..Hint
 #: dlgCustomShortcuts.dfm
 msgid "Assign shortcut to command"
-msgstr ""
+msgstr "Einem Befehl eine Tastenkombination zuweisen"
 
 #. frmCustomKeyboard..ActionList1..actRemoveShortcut..Hint
 #: dlgCustomShortcuts.dfm
 msgid "Remove shortcut"
-msgstr ""
+msgstr "Tastenkombination entfernen"
 
 #. DirectoryListDialog..Caption
 #: dlgDirectoryList.dfm
@@ -951,7 +951,6 @@ msgid "File &Name:"
 msgstr "&Dateiname:"
 
 #. StyleSelectorForm..Caption
-#. PyIDEMainForm..actlStandard..actSelectStyle..Caption
 #. PyIDEMainForm..actlStandard..actSelectStyle..Hint
 #: dlgStyleSelector.dfm frmPyIDEMain.dfm
 msgid "Select Style"
@@ -1015,22 +1014,6 @@ msgstr "Farbschema"
 #: dlgSynEditOptions.dfm
 msgid "Syntax Colors"
 msgstr "Sytaxfarben"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel1..Caption
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label14..Caption
-#: dlgSynEditOptions.dfm
-msgid "Code Sample"
-msgstr "Code Beispiel"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel2..Caption
-#: dlgSynEditOptions.dfm
-msgid "Available Themes"
-msgstr "Verfügbare Farbschemata"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..btnApplyTheme..Caption
-#: dlgSynEditOptions.dfm
-msgid "Apply Theme"
-msgstr "Farbschema verwenden"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Caption
 #: dlgSynEditOptions.dfm
@@ -1371,6 +1354,67 @@ msgstr "Halber Block"
 msgid "Block"
 msgstr "Block"
 
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label11..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Element:"
+msgstr "&Element"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label12..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Foreground Color:"
+msgstr "&Vordergrundfarbe"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label13..Caption
+#: dlgSynEditOptions.dfm
+msgid "B&ackground Color:"
+msgstr "&Hintergrundfarbe"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label14..Caption
+#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel1..Caption
+#: dlgSynEditOptions.dfm
+msgid "Code Sample"
+msgstr "Code Beispiel"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label15..Caption
+#: dlgSynEditOptions.dfm
+msgid "Editor Syntax Language"
+msgstr "Editor Syntaxsprache"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..Caption
+#: dlgSynEditOptions.dfm
+msgid " Text attributes "
+msgstr "Textattribute"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementBold..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Bold"
+msgstr "&Fett"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementItalic..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Italic"
+msgstr "&Kursiv"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementUnderline..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Underline"
+msgstr "&Unterstrichen"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementStrikeout..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Strike Out"
+msgstr "&Durchgestrichen"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel2..Caption
+#: dlgSynEditOptions.dfm
+msgid "Available Themes"
+msgstr "Verfügbare Farbschemata"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..btnApplyTheme..Caption
+#: dlgSynEditOptions.dfm
+msgid "Apply Theme"
+msgstr "Farbschema verwenden"
+
 #. fmEditorOptionsDialog..Panel1..TabControl..Display..gbRightEdge..Caption
 #: dlgSynEditOptions.dfm
 msgid "Right Edge"
@@ -1484,51 +1528,6 @@ msgstr "Tabulatorbreite:"
 #: dlgSynEditOptions.dfm
 msgid "Active Line Color"
 msgstr "Farbe der aktiven Zeile"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label11..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Element:"
-msgstr "&Element"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label12..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Foreground Color:"
-msgstr "&Vordergrundfarbe"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label13..Caption
-#: dlgSynEditOptions.dfm
-msgid "B&ackground Color:"
-msgstr "&Hintergrundfarbe"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label15..Caption
-#: dlgSynEditOptions.dfm
-msgid "Editor Syntax Language"
-msgstr "Editor Syntaxsprache"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..Caption
-#: dlgSynEditOptions.dfm
-msgid " Text attributes "
-msgstr "Textattribute"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementBold..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Bold"
-msgstr "&Fett"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementItalic..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Italic"
-msgstr "&Kursiv"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementUnderline..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Underline"
-msgstr "&Unterstrichen"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementStrikeout..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Strike Out"
-msgstr "&Durchgestrichen"
 
 #. PageSetupDlg..Caption
 #. DocForm..TBXDock1..TBXToolbar1..TBXItem4..Hint
@@ -2473,7 +2472,7 @@ msgstr "Alles auswählen|Selektiert das gesamte Dokument"
 #. CommandsDataModule..actlMain..actSearchGoToDebugLine..Category
 #. EditorForm..pmnuEditor..mnSearch..Caption
 #. RegExpTesterWindow..BGPanel..FGPanel..TBXDock..RegExpTesterToolbar..TBXSubmenuItem2..RI_Search..Caption
-#: dmCommands.dfm frmEditor.dfm frmRegExpTester.dfm
+#: dmCommands.dfm frmEditor.dfm frmRegExpTester.dfm frmEditor.pas
 msgid "Search"
 msgstr "Suchen"
 
@@ -2595,7 +2594,8 @@ msgstr "Setze IDE Optionen"
 #. CommandsDataModule..actlMain..actEditTabify..Category
 #. CommandsDataModule..actlMain..actEditUntabify..Category
 #. CommandsDataModule..actlMain..actEditToggleComment..Category
-#: dmCommands.dfm
+#. EditorForm..pmnuEditor..mnSourceCode..Caption
+#: dmCommands.dfm frmEditor.dfm frmEditor.pas
 msgid "Source Code"
 msgstr "Quellcode"
 
@@ -2946,7 +2946,7 @@ msgstr "ANSI Zeichensatz verwenden"
 #. CommandsDataModule..actlMain..actHelpEditorShortcuts..Caption
 #: dmCommands.dfm
 msgid "Editor &Shortcuts"
-msgstr "Editor &Kürzel"
+msgstr "Editor&kürzel"
 
 #. CommandsDataModule..actlMain..actHelpEditorShortcuts..Hint
 #: dmCommands.dfm
@@ -3047,14 +3047,14 @@ msgstr "Import/Export"
 #. Programmer's name for it: SImportShortcuts
 #: dmCommands.dfm StringResources.pas
 msgid "Import Shortcuts"
-msgstr "Import Kürzel"
+msgstr "Tastenkombinationen importieren"
 
 #. CommandsDataModule..actlMain..actExportShortCuts..Caption
 #. CommandsDataModule..actlMain..actExportShortCuts..Hint
 #. Programmer's name for it: SExportShortcuts
 #: dmCommands.dfm StringResources.pas
 msgid "Export Shortcuts"
-msgstr "Export Kürzel"
+msgstr "Tastenkombinationen exportieren"
 
 #. CommandsDataModule..actlMain..actImportHighlighters..Caption
 #. Programmer's name for it: SImportHighlighters
@@ -3338,16 +3338,16 @@ msgstr "Textdateien(*.txt,*.*)|*.txt;*.*"
 msgid "Breakpoints"
 msgstr "Haltepunkte"
 
-#. BreakPointsWindow..BGPanel..FGPanel..BreakPointsView......WideText
-#. CallStackWindow..BGPanel..FGPanel..CallStackView......WideText
+#. BreakPointsWindow..BGPanel..FGPanel..Panel1..BreakPointsView......WideText
+#. CallStackWindow..BGPanel..FGPanel..Panel1..CallStackView......WideText
 #. MessagesWindow..BGPanel..FGPanel..MessagesView......WideText
 #. ToDoWindow..BGPanel..FGPanel..ToDoView......WideText
 #: frmBreakPoints.dfm frmCallStack.dfm frmMessages.dfm frmToDo.dfm
 msgid "File Name"
 msgstr "Dateiname"
 
-#. BreakPointsWindow..BGPanel..FGPanel..BreakPointsView......WideText
-#. CallStackWindow..BGPanel..FGPanel..CallStackView......WideText
+#. BreakPointsWindow..BGPanel..FGPanel..Panel1..BreakPointsView......WideText
+#. CallStackWindow..BGPanel..FGPanel..Panel1..CallStackView......WideText
 #. FunctionListWindow..pnHolder..lvProcs......Caption
 #. MessagesWindow..BGPanel..FGPanel..MessagesView......WideText
 #. ToDoWindow..BGPanel..FGPanel..ToDoView......WideText
@@ -3356,7 +3356,7 @@ msgstr "Dateiname"
 msgid "Line"
 msgstr "Zeile"
 
-#. BreakPointsWindow..BGPanel..FGPanel..BreakPointsView......WideText
+#. BreakPointsWindow..BGPanel..FGPanel..Panel1..BreakPointsView......WideText
 #: frmBreakPoints.dfm
 msgid "Condition"
 msgstr "Bedingung"
@@ -3394,11 +3394,16 @@ msgstr "Kopiert in die Zwischenablage"
 msgid "Call Stack"
 msgstr "Aufrufhistorie"
 
-#. CallStackWindow..BGPanel..FGPanel..CallStackView......WideText
+#. CallStackWindow..BGPanel..FGPanel..Panel1..CallStackView......WideText
 #. Programmer's name for it: SYNS_FriendlyFunctionName
 #: frmCallStack.dfm SynHighlighterPython.pas
 msgid "Function Name"
 msgstr "Funktionsname"
+
+#. CallStackWindow..BGPanel..FGPanel..Panel2..ThreadView......WideText
+#: frmCallStack.dfm
+msgid "Threads"
+msgstr "Threads"
 
 #. CallStackWindow..actlCallStack..actPreviousFrame..Category
 #. CallStackWindow..actlCallStack..actNextFrame..Category
@@ -3677,20 +3682,14 @@ msgstr "Schließe Tab"
 msgid "Close active tab"
 msgstr "Schließt den aktiven Tab"
 
-#. EditorForm..pmnuEditor..mnSourceCode..Caption
-#. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..mnSourceCode..Caption
-#: frmEditor.dfm frmPyIDEMain.dfm
-msgid "&Source Code"
-msgstr "&Quellcode"
-
 #. EditorForm..pmnuEditor..mnFold..Caption
-#: frmEditor.dfm
+#: frmEditor.dfm frmEditor.pas
 msgid "Fold"
 msgstr "Einklappen"
 
 #. EditorForm..pmnuEditor..mnUnfold..Caption
-#: frmEditor.dfm
-msgid "UnFold"
+#: frmEditor.dfm frmEditor.pas
+msgid "Unfold"
 msgstr "Ausklappen"
 
 #. FileExplorerWindow..Caption
@@ -4177,7 +4176,7 @@ msgid "Commands:"
 msgstr "Befehle:"
 
 #. ProjectExplorerWindow..Caption
-#: frmProjectExplorer.dfm
+#: frmProjectExplorer.dfm dmCommands.pas
 msgid "Project Explorer"
 msgstr "Projektmanager"
 
@@ -4452,6 +4451,11 @@ msgstr "Neu"
 #: frmPyIDEMain.dfm
 msgid "&Recent Files"
 msgstr "Zuletzt ve&rwendet "
+
+#. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..mnSourceCode..Caption
+#: frmPyIDEMain.dfm
+msgid "&Source Code"
+msgstr "&Quellcode"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..TBXSubmenuItem3..Caption
 #: frmPyIDEMain.dfm
@@ -5505,10 +5509,20 @@ msgstr "Zweiten Arbeitsbereich ausblenden"
 msgid "Hide secondary workspace"
 msgstr "Zweiten Arbeitsbereich ausblenden"
 
+#. PyIDEMainForm..actlStandard..actSelectStyle..Caption
+#: frmPyIDEMain.dfm
+msgid "Styles..."
+msgstr "Stile..."
+
 #. PythonIIForm..Caption
 #: frmPythonII.dfm dmCommands.pas
 msgid "Python Interpreter"
 msgstr "Python Interpreter"
+
+#. PythonIIForm..DebugIDE......Name
+#: frmPythonII.dfm
+msgid "user_thread"
+msgstr ""
 
 #. PythonIIForm..DebugIDE........DocString.Strings
 #: frmPythonII.dfm
@@ -5831,14 +5845,14 @@ msgstr "Löscht alle Tests"
 msgid "Variables"
 msgstr "Variablen"
 
-#. VariablesWindow..BGPanel..FGPanel..VariablesTree......WideText
-#. WatchesWindow..BGPanel..FGPanel..WatchesView......WideText
+#. VariablesWindow..BGPanel..FGPanel..Panel1..VariablesTree......WideText
+#. WatchesWindow..BGPanel..FGPanel..Panel1..WatchesView......WideText
 #: frmVariables.dfm frmWatches.dfm frmVariables.pas
 msgid "Type"
 msgstr "Typ"
 
 #. WatchesWindow..Caption
-#. WatchesWindow..BGPanel..FGPanel..WatchesView......WideText
+#. WatchesWindow..BGPanel..FGPanel..Panel1..WatchesView......WideText
 #: frmWatches.dfm
 msgid "Watches"
 msgstr "Überwachungen"

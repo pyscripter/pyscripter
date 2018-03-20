@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2018-02-23 09:42\n"
+"POT-Creation-Date: 2018-03-12 11:35\n"
 "PO-Revision-Date: 2018-01-23 16:26\n"
 "Last-Translator: luebbe <luebbe.opensource@gmail.com>, 2018\n"
 "Language-Team: Japanese (https://www.transifex.com/luebbe/teams/82736/ja/)\n"
@@ -210,7 +210,7 @@ msgstr "Shift+Ctrl+Pを押すとパラメータを補完します"
 #. FileTemplatesDialog..Panel..lvItems......Caption
 #. ToolProperties..Panel1..TabControl..tabEnvironment..lvItems......Caption
 #. RegExpTesterWindow..BGPanel..FGPanel..pnlBackground..dpGroupsView..GroupsView......WideText
-#. VariablesWindow..BGPanel..FGPanel..VariablesTree......WideText
+#. VariablesWindow..BGPanel..FGPanel..Panel1..VariablesTree......WideText
 #: dlgCodeTemplates.dfm dlgCustomParams.dfm dlgFileTemplates.dfm
 #: dlgToolProperties.dfm frmRegExpTester.dfm frmVariables.dfm frmVariables.pas
 msgid "Name"
@@ -415,8 +415,8 @@ msgstr "値(&V):"
 #. OptionsInspector..Panel1..Inspector..HeaderValueText
 #. ToolProperties..Panel1..TabControl..tabEnvironment..lvItems......Caption
 #. RegExpTesterWindow..BGPanel..FGPanel..pnlBackground..dpGroupsView..GroupsView......WideText
-#. VariablesWindow..BGPanel..FGPanel..VariablesTree......WideText
-#. WatchesWindow..BGPanel..FGPanel..WatchesView......WideText
+#. VariablesWindow..BGPanel..FGPanel..Panel1..VariablesTree......WideText
+#. WatchesWindow..BGPanel..FGPanel..Panel1..WatchesView......WideText
 #: dlgCustomParams.dfm dlgOptionsEditor.dfm dlgToolProperties.dfm
 #: frmRegExpTester.dfm frmVariables.dfm frmWatches.dfm frmVariables.pas
 msgid "Value"
@@ -948,7 +948,6 @@ msgid "File &Name:"
 msgstr "ファイル名(&N):"
 
 #. StyleSelectorForm..Caption
-#. PyIDEMainForm..actlStandard..actSelectStyle..Caption
 #. PyIDEMainForm..actlStandard..actSelectStyle..Hint
 #: dlgStyleSelector.dfm frmPyIDEMain.dfm
 msgid "Select Style"
@@ -1012,22 +1011,6 @@ msgstr ""
 #: dlgSynEditOptions.dfm
 msgid "Syntax Colors"
 msgstr "シンタックスの色"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel1..Caption
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label14..Caption
-#: dlgSynEditOptions.dfm
-msgid "Code Sample"
-msgstr "コードのサンプル"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel2..Caption
-#: dlgSynEditOptions.dfm
-msgid "Available Themes"
-msgstr ""
-
-#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..btnApplyTheme..Caption
-#: dlgSynEditOptions.dfm
-msgid "Apply Theme"
-msgstr ""
 
 #. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Caption
 #: dlgSynEditOptions.dfm
@@ -1350,6 +1333,67 @@ msgstr "ブロックの半分"
 msgid "Block"
 msgstr "ブロック"
 
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label11..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Element:"
+msgstr "要素(&E)"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label12..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Foreground Color:"
+msgstr "前景色(&F):"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label13..Caption
+#: dlgSynEditOptions.dfm
+msgid "B&ackground Color:"
+msgstr "背景色(&A):"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label14..Caption
+#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel1..Caption
+#: dlgSynEditOptions.dfm
+msgid "Code Sample"
+msgstr "コードのサンプル"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label15..Caption
+#: dlgSynEditOptions.dfm
+msgid "Editor Syntax Language"
+msgstr "エディタシンタックスの言語"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..Caption
+#: dlgSynEditOptions.dfm
+msgid " Text attributes "
+msgstr "テキスト属性"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementBold..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Bold"
+msgstr "太字(&B)"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementItalic..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Italic"
+msgstr "斜体(&I)"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementUnderline..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Underline"
+msgstr "下線(&U)"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementStrikeout..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Strike Out"
+msgstr "字消し(&S)"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel2..Caption
+#: dlgSynEditOptions.dfm
+msgid "Available Themes"
+msgstr ""
+
+#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..btnApplyTheme..Caption
+#: dlgSynEditOptions.dfm
+msgid "Apply Theme"
+msgstr ""
+
 #. fmEditorOptionsDialog..Panel1..TabControl..Display..gbRightEdge..Caption
 #: dlgSynEditOptions.dfm
 msgid "Right Edge"
@@ -1463,51 +1507,6 @@ msgstr "タブ幅:"
 #: dlgSynEditOptions.dfm
 msgid "Active Line Color"
 msgstr "アクティブな行の色"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label11..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Element:"
-msgstr "要素(&E)"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label12..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Foreground Color:"
-msgstr "前景色(&F):"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label13..Caption
-#: dlgSynEditOptions.dfm
-msgid "B&ackground Color:"
-msgstr "背景色(&A):"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label15..Caption
-#: dlgSynEditOptions.dfm
-msgid "Editor Syntax Language"
-msgstr "エディタシンタックスの言語"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..Caption
-#: dlgSynEditOptions.dfm
-msgid " Text attributes "
-msgstr "テキスト属性"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementBold..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Bold"
-msgstr "太字(&B)"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementItalic..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Italic"
-msgstr "斜体(&I)"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementUnderline..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Underline"
-msgstr "下線(&U)"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementStrikeout..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Strike Out"
-msgstr "字消し(&S)"
 
 #. PageSetupDlg..Caption
 #. DocForm..TBXDock1..TBXToolbar1..TBXItem4..Hint
@@ -2440,7 +2439,7 @@ msgstr "すべて選択|文章すべてを選択します"
 #. CommandsDataModule..actlMain..actSearchGoToDebugLine..Category
 #. EditorForm..pmnuEditor..mnSearch..Caption
 #. RegExpTesterWindow..BGPanel..FGPanel..TBXDock..RegExpTesterToolbar..TBXSubmenuItem2..RI_Search..Caption
-#: dmCommands.dfm frmEditor.dfm frmRegExpTester.dfm
+#: dmCommands.dfm frmEditor.dfm frmRegExpTester.dfm frmEditor.pas
 msgid "Search"
 msgstr "検索"
 
@@ -2562,7 +2561,8 @@ msgstr "IDE オプションを設定します"
 #. CommandsDataModule..actlMain..actEditTabify..Category
 #. CommandsDataModule..actlMain..actEditUntabify..Category
 #. CommandsDataModule..actlMain..actEditToggleComment..Category
-#: dmCommands.dfm
+#. EditorForm..pmnuEditor..mnSourceCode..Caption
+#: dmCommands.dfm frmEditor.dfm frmEditor.pas
 msgid "Source Code"
 msgstr "ソースコード"
 
@@ -3304,16 +3304,16 @@ msgstr ""
 msgid "Breakpoints"
 msgstr "ブレークポイント"
 
-#. BreakPointsWindow..BGPanel..FGPanel..BreakPointsView......WideText
-#. CallStackWindow..BGPanel..FGPanel..CallStackView......WideText
+#. BreakPointsWindow..BGPanel..FGPanel..Panel1..BreakPointsView......WideText
+#. CallStackWindow..BGPanel..FGPanel..Panel1..CallStackView......WideText
 #. MessagesWindow..BGPanel..FGPanel..MessagesView......WideText
 #. ToDoWindow..BGPanel..FGPanel..ToDoView......WideText
 #: frmBreakPoints.dfm frmCallStack.dfm frmMessages.dfm frmToDo.dfm
 msgid "File Name"
 msgstr "ファイル名"
 
-#. BreakPointsWindow..BGPanel..FGPanel..BreakPointsView......WideText
-#. CallStackWindow..BGPanel..FGPanel..CallStackView......WideText
+#. BreakPointsWindow..BGPanel..FGPanel..Panel1..BreakPointsView......WideText
+#. CallStackWindow..BGPanel..FGPanel..Panel1..CallStackView......WideText
 #. FunctionListWindow..pnHolder..lvProcs......Caption
 #. MessagesWindow..BGPanel..FGPanel..MessagesView......WideText
 #. ToDoWindow..BGPanel..FGPanel..ToDoView......WideText
@@ -3322,7 +3322,7 @@ msgstr "ファイル名"
 msgid "Line"
 msgstr "行"
 
-#. BreakPointsWindow..BGPanel..FGPanel..BreakPointsView......WideText
+#. BreakPointsWindow..BGPanel..FGPanel..Panel1..BreakPointsView......WideText
 #: frmBreakPoints.dfm
 msgid "Condition"
 msgstr "条件"
@@ -3360,11 +3360,16 @@ msgstr "クリップボードへコピーします"
 msgid "Call Stack"
 msgstr "コール スタック"
 
-#. CallStackWindow..BGPanel..FGPanel..CallStackView......WideText
+#. CallStackWindow..BGPanel..FGPanel..Panel1..CallStackView......WideText
 #. Programmer's name for it: SYNS_FriendlyFunctionName
 #: frmCallStack.dfm SynHighlighterPython.pas
 msgid "Function Name"
 msgstr "関数名"
+
+#. CallStackWindow..BGPanel..FGPanel..Panel2..ThreadView......WideText
+#: frmCallStack.dfm
+msgid "Threads"
+msgstr ""
 
 #. CallStackWindow..actlCallStack..actPreviousFrame..Category
 #. CallStackWindow..actlCallStack..actNextFrame..Category
@@ -3643,20 +3648,14 @@ msgstr "タブを閉じる"
 msgid "Close active tab"
 msgstr "アクティブなタブを閉じる"
 
-#. EditorForm..pmnuEditor..mnSourceCode..Caption
-#. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..mnSourceCode..Caption
-#: frmEditor.dfm frmPyIDEMain.dfm
-msgid "&Source Code"
-msgstr "ソースコード(&S)"
-
 #. EditorForm..pmnuEditor..mnFold..Caption
-#: frmEditor.dfm
+#: frmEditor.dfm frmEditor.pas
 msgid "Fold"
 msgstr ""
 
 #. EditorForm..pmnuEditor..mnUnfold..Caption
-#: frmEditor.dfm
-msgid "UnFold"
+#: frmEditor.dfm frmEditor.pas
+msgid "Unfold"
 msgstr ""
 
 #. FileExplorerWindow..Caption
@@ -4143,7 +4142,7 @@ msgid "Commands:"
 msgstr "コマンド:"
 
 #. ProjectExplorerWindow..Caption
-#: frmProjectExplorer.dfm
+#: frmProjectExplorer.dfm dmCommands.pas
 msgid "Project Explorer"
 msgstr "プロジェクト エクスプローラ"
 
@@ -4415,6 +4414,11 @@ msgstr "新規作成"
 #: frmPyIDEMain.dfm
 msgid "&Recent Files"
 msgstr "最近開いたファイル(&R)"
+
+#. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..mnSourceCode..Caption
+#: frmPyIDEMain.dfm
+msgid "&Source Code"
+msgstr "ソースコード(&S)"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..TBXSubmenuItem3..Caption
 #: frmPyIDEMain.dfm
@@ -5460,10 +5464,20 @@ msgstr ""
 msgid "Hide secondary workspace"
 msgstr ""
 
+#. PyIDEMainForm..actlStandard..actSelectStyle..Caption
+#: frmPyIDEMain.dfm
+msgid "Styles..."
+msgstr ""
+
 #. PythonIIForm..Caption
 #: frmPythonII.dfm dmCommands.pas
 msgid "Python Interpreter"
 msgstr "Pythonインタプリタ"
+
+#. PythonIIForm..DebugIDE......Name
+#: frmPythonII.dfm
+msgid "user_thread"
+msgstr ""
 
 #. PythonIIForm..DebugIDE........DocString.Strings
 #: frmPythonII.dfm
@@ -5786,14 +5800,14 @@ msgstr "すべてのテストをクリア"
 msgid "Variables"
 msgstr "変数"
 
-#. VariablesWindow..BGPanel..FGPanel..VariablesTree......WideText
-#. WatchesWindow..BGPanel..FGPanel..WatchesView......WideText
+#. VariablesWindow..BGPanel..FGPanel..Panel1..VariablesTree......WideText
+#. WatchesWindow..BGPanel..FGPanel..Panel1..WatchesView......WideText
 #: frmVariables.dfm frmWatches.dfm frmVariables.pas
 msgid "Type"
 msgstr "型"
 
 #. WatchesWindow..Caption
-#. WatchesWindow..BGPanel..FGPanel..WatchesView......WideText
+#. WatchesWindow..BGPanel..FGPanel..Panel1..WatchesView......WideText
 #: frmWatches.dfm
 msgid "Watches"
 msgstr "監視式"

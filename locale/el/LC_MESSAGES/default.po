@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2018-02-23 09:42\n"
+"POT-Creation-Date: 2018-03-12 11:35\n"
 "PO-Revision-Date: 2018-01-23 16:26\n"
 "Last-Translator: Kiriakos Vlahos <pyscripter@gmail.com>, 2018\n"
 "Language-Team: Greek (https://www.transifex.com/luebbe/teams/82736/el/)\n"
@@ -213,7 +213,7 @@ msgstr "Πιέστε Shift+Ctrl+P για συμπλήρωση παραμέτρω
 #. FileTemplatesDialog..Panel..lvItems......Caption
 #. ToolProperties..Panel1..TabControl..tabEnvironment..lvItems......Caption
 #. RegExpTesterWindow..BGPanel..FGPanel..pnlBackground..dpGroupsView..GroupsView......WideText
-#. VariablesWindow..BGPanel..FGPanel..VariablesTree......WideText
+#. VariablesWindow..BGPanel..FGPanel..Panel1..VariablesTree......WideText
 #: dlgCodeTemplates.dfm dlgCustomParams.dfm dlgFileTemplates.dfm
 #: dlgToolProperties.dfm frmRegExpTester.dfm frmVariables.dfm frmVariables.pas
 msgid "Name"
@@ -418,8 +418,8 @@ msgstr "&Τιμή:"
 #. OptionsInspector..Panel1..Inspector..HeaderValueText
 #. ToolProperties..Panel1..TabControl..tabEnvironment..lvItems......Caption
 #. RegExpTesterWindow..BGPanel..FGPanel..pnlBackground..dpGroupsView..GroupsView......WideText
-#. VariablesWindow..BGPanel..FGPanel..VariablesTree......WideText
-#. WatchesWindow..BGPanel..FGPanel..WatchesView......WideText
+#. VariablesWindow..BGPanel..FGPanel..Panel1..VariablesTree......WideText
+#. WatchesWindow..BGPanel..FGPanel..Panel1..WatchesView......WideText
 #: dlgCustomParams.dfm dlgOptionsEditor.dfm dlgToolProperties.dfm
 #: frmRegExpTester.dfm frmVariables.dfm frmWatches.dfm frmVariables.pas
 msgid "Value"
@@ -951,7 +951,6 @@ msgid "File &Name:"
 msgstr "&Όνομα Αρχείου:"
 
 #. StyleSelectorForm..Caption
-#. PyIDEMainForm..actlStandard..actSelectStyle..Caption
 #. PyIDEMainForm..actlStandard..actSelectStyle..Hint
 #: dlgStyleSelector.dfm frmPyIDEMain.dfm
 msgid "Select Style"
@@ -1015,22 +1014,6 @@ msgstr "Χρωματικό Θέμα"
 #: dlgSynEditOptions.dfm
 msgid "Syntax Colors"
 msgstr "Χρώματα Τονισμού"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel1..Caption
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label14..Caption
-#: dlgSynEditOptions.dfm
-msgid "Code Sample"
-msgstr "Δείγμα Πηγαίου Κώδικα:"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel2..Caption
-#: dlgSynEditOptions.dfm
-msgid "Available Themes"
-msgstr "Διαθέσιμα Θέματα"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..btnApplyTheme..Caption
-#: dlgSynEditOptions.dfm
-msgid "Apply Theme"
-msgstr "Εφαρμογή Θέματος"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Caption
 #: dlgSynEditOptions.dfm
@@ -1369,6 +1352,67 @@ msgstr "Μισό μπλοκ"
 msgid "Block"
 msgstr "Μπλόκ"
 
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label11..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Element:"
+msgstr "&Στοιχείο:"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label12..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Foreground Color:"
+msgstr "Χρώμα &Κειμένου"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label13..Caption
+#: dlgSynEditOptions.dfm
+msgid "B&ackground Color:"
+msgstr "Χρώμα &Φόντου:"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label14..Caption
+#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel1..Caption
+#: dlgSynEditOptions.dfm
+msgid "Code Sample"
+msgstr "Δείγμα Πηγαίου Κώδικα:"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label15..Caption
+#: dlgSynEditOptions.dfm
+msgid "Editor Syntax Language"
+msgstr "Γλώσσα Τονισμού Σύνταξης"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..Caption
+#: dlgSynEditOptions.dfm
+msgid " Text attributes "
+msgstr "Ιδιότητες κειμένου"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementBold..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Bold"
+msgstr "&Έντονο"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementItalic..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Italic"
+msgstr "&Πλάγια"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementUnderline..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Underline"
+msgstr "&Υπογράμμιση"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementStrikeout..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Strike Out"
+msgstr "&Διαγραφή"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel2..Caption
+#: dlgSynEditOptions.dfm
+msgid "Available Themes"
+msgstr "Διαθέσιμα Θέματα"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..btnApplyTheme..Caption
+#: dlgSynEditOptions.dfm
+msgid "Apply Theme"
+msgstr "Εφαρμογή Θέματος"
+
 #. fmEditorOptionsDialog..Panel1..TabControl..Display..gbRightEdge..Caption
 #: dlgSynEditOptions.dfm
 msgid "Right Edge"
@@ -1482,51 +1526,6 @@ msgstr "Πλάτος στηλοθέτη:"
 #: dlgSynEditOptions.dfm
 msgid "Active Line Color"
 msgstr "Χρώμα ενεργούς γραμμής"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label11..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Element:"
-msgstr "&Στοιχείο:"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label12..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Foreground Color:"
-msgstr "Χρώμα &Κειμένου"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label13..Caption
-#: dlgSynEditOptions.dfm
-msgid "B&ackground Color:"
-msgstr "Χρώμα &Φόντου:"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label15..Caption
-#: dlgSynEditOptions.dfm
-msgid "Editor Syntax Language"
-msgstr "Γλώσσα Τονισμού Σύνταξης"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..Caption
-#: dlgSynEditOptions.dfm
-msgid " Text attributes "
-msgstr "Ιδιότητες κειμένου"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementBold..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Bold"
-msgstr "&Έντονο"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementItalic..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Italic"
-msgstr "&Πλάγια"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementUnderline..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Underline"
-msgstr "&Υπογράμμιση"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementStrikeout..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Strike Out"
-msgstr "&Διαγραφή"
 
 #. PageSetupDlg..Caption
 #. DocForm..TBXDock1..TBXToolbar1..TBXItem4..Hint
@@ -2464,7 +2463,7 @@ msgstr "Επιλογή όλων|Επιλογή όλου του κειμένου"
 #. CommandsDataModule..actlMain..actSearchGoToDebugLine..Category
 #. EditorForm..pmnuEditor..mnSearch..Caption
 #. RegExpTesterWindow..BGPanel..FGPanel..TBXDock..RegExpTesterToolbar..TBXSubmenuItem2..RI_Search..Caption
-#: dmCommands.dfm frmEditor.dfm frmRegExpTester.dfm
+#: dmCommands.dfm frmEditor.dfm frmRegExpTester.dfm frmEditor.pas
 msgid "Search"
 msgstr "Αναζήτηση"
 
@@ -2586,7 +2585,8 @@ msgstr "Εμφάνιση του διαλόγου επιλογών IDE"
 #. CommandsDataModule..actlMain..actEditTabify..Category
 #. CommandsDataModule..actlMain..actEditUntabify..Category
 #. CommandsDataModule..actlMain..actEditToggleComment..Category
-#: dmCommands.dfm
+#. EditorForm..pmnuEditor..mnSourceCode..Caption
+#: dmCommands.dfm frmEditor.dfm frmEditor.pas
 msgid "Source Code"
 msgstr "Πηγαίοs Κώδικας"
 
@@ -3332,16 +3332,16 @@ msgstr ""
 msgid "Breakpoints"
 msgstr "Σημεία Διακοπής"
 
-#. BreakPointsWindow..BGPanel..FGPanel..BreakPointsView......WideText
-#. CallStackWindow..BGPanel..FGPanel..CallStackView......WideText
+#. BreakPointsWindow..BGPanel..FGPanel..Panel1..BreakPointsView......WideText
+#. CallStackWindow..BGPanel..FGPanel..Panel1..CallStackView......WideText
 #. MessagesWindow..BGPanel..FGPanel..MessagesView......WideText
 #. ToDoWindow..BGPanel..FGPanel..ToDoView......WideText
 #: frmBreakPoints.dfm frmCallStack.dfm frmMessages.dfm frmToDo.dfm
 msgid "File Name"
 msgstr "Όνομα Αρχείου"
 
-#. BreakPointsWindow..BGPanel..FGPanel..BreakPointsView......WideText
-#. CallStackWindow..BGPanel..FGPanel..CallStackView......WideText
+#. BreakPointsWindow..BGPanel..FGPanel..Panel1..BreakPointsView......WideText
+#. CallStackWindow..BGPanel..FGPanel..Panel1..CallStackView......WideText
 #. FunctionListWindow..pnHolder..lvProcs......Caption
 #. MessagesWindow..BGPanel..FGPanel..MessagesView......WideText
 #. ToDoWindow..BGPanel..FGPanel..ToDoView......WideText
@@ -3350,7 +3350,7 @@ msgstr "Όνομα Αρχείου"
 msgid "Line"
 msgstr "Γραμμή"
 
-#. BreakPointsWindow..BGPanel..FGPanel..BreakPointsView......WideText
+#. BreakPointsWindow..BGPanel..FGPanel..Panel1..BreakPointsView......WideText
 #: frmBreakPoints.dfm
 msgid "Condition"
 msgstr "Συνθήκη"
@@ -3388,11 +3388,16 @@ msgstr "Αντιγραφή στο πρόχειρο"
 msgid "Call Stack"
 msgstr "Στοίβα κλήσεων"
 
-#. CallStackWindow..BGPanel..FGPanel..CallStackView......WideText
+#. CallStackWindow..BGPanel..FGPanel..Panel1..CallStackView......WideText
 #. Programmer's name for it: SYNS_FriendlyFunctionName
 #: frmCallStack.dfm SynHighlighterPython.pas
 msgid "Function Name"
 msgstr "Όνομα Συνάρτησης"
+
+#. CallStackWindow..BGPanel..FGPanel..Panel2..ThreadView......WideText
+#: frmCallStack.dfm
+msgid "Threads"
+msgstr ""
 
 #. CallStackWindow..actlCallStack..actPreviousFrame..Category
 #. CallStackWindow..actlCallStack..actNextFrame..Category
@@ -3671,21 +3676,15 @@ msgstr "Κλείσιμο Καρτέλλας"
 msgid "Close active tab"
 msgstr "Κλείσιμο ενεργούς καρτέλλας"
 
-#. EditorForm..pmnuEditor..mnSourceCode..Caption
-#. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..mnSourceCode..Caption
-#: frmEditor.dfm frmPyIDEMain.dfm
-msgid "&Source Code"
-msgstr "&Πηγαίος Κώδικας"
-
 #. EditorForm..pmnuEditor..mnFold..Caption
-#: frmEditor.dfm
+#: frmEditor.dfm frmEditor.pas
 msgid "Fold"
 msgstr "Σύμπτυξη"
 
 #. EditorForm..pmnuEditor..mnUnfold..Caption
-#: frmEditor.dfm
-msgid "UnFold"
-msgstr "Ανάπτυξη"
+#: frmEditor.dfm frmEditor.pas
+msgid "Unfold"
+msgstr ""
 
 #. FileExplorerWindow..Caption
 #. FileExplorerWindow..BGPanel..FGPanel..FileExplorerTree..ShellContextSubMenuCaption
@@ -4172,7 +4171,7 @@ msgid "Commands:"
 msgstr "Εντολές:"
 
 #. ProjectExplorerWindow..Caption
-#: frmProjectExplorer.dfm
+#: frmProjectExplorer.dfm dmCommands.pas
 msgid "Project Explorer"
 msgstr "Εξερευνητής Έργου"
 
@@ -4446,6 +4445,11 @@ msgstr "Νέο"
 #: frmPyIDEMain.dfm
 msgid "&Recent Files"
 msgstr "&Πρόσφατα Αρχεία"
+
+#. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..mnSourceCode..Caption
+#: frmPyIDEMain.dfm
+msgid "&Source Code"
+msgstr "&Πηγαίος Κώδικας"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..TBXSubmenuItem3..Caption
 #: frmPyIDEMain.dfm
@@ -5498,10 +5502,20 @@ msgstr ""
 msgid "Hide secondary workspace"
 msgstr ""
 
+#. PyIDEMainForm..actlStandard..actSelectStyle..Caption
+#: frmPyIDEMain.dfm
+msgid "Styles..."
+msgstr ""
+
 #. PythonIIForm..Caption
 #: frmPythonII.dfm dmCommands.pas
 msgid "Python Interpreter"
 msgstr "Διερμηνευτής Python"
+
+#. PythonIIForm..DebugIDE......Name
+#: frmPythonII.dfm
+msgid "user_thread"
+msgstr ""
 
 #. PythonIIForm..DebugIDE........DocString.Strings
 #: frmPythonII.dfm
@@ -5825,14 +5839,14 @@ msgstr "Καθαρισμός όλων των δοκιμών"
 msgid "Variables"
 msgstr "Μεταβλητές"
 
-#. VariablesWindow..BGPanel..FGPanel..VariablesTree......WideText
-#. WatchesWindow..BGPanel..FGPanel..WatchesView......WideText
+#. VariablesWindow..BGPanel..FGPanel..Panel1..VariablesTree......WideText
+#. WatchesWindow..BGPanel..FGPanel..Panel1..WatchesView......WideText
 #: frmVariables.dfm frmWatches.dfm frmVariables.pas
 msgid "Type"
 msgstr "Τύπος"
 
 #. WatchesWindow..Caption
-#. WatchesWindow..BGPanel..FGPanel..WatchesView......WideText
+#. WatchesWindow..BGPanel..FGPanel..Panel1..WatchesView......WideText
 #: frmWatches.dfm
 msgid "Watches"
 msgstr "Παρατηρητές"
