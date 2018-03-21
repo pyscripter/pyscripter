@@ -3,8 +3,8 @@
 
 [Setup]
 AppName=PyScripter
-AppVersion=3.2.2
-AppVerName=PyScripter 3.2.2
+AppVersion=3.3.0
+AppVerName=PyScripter 3.3.0
 AppPublisher=PyScripter
 AppPublisherURL=https://sourceforge.net/projects/pyscripter/
 AppSupportURL=https://github.com/pyscripter/pyscripter
@@ -14,13 +14,13 @@ DefaultGroupName=PyScripter
 InfoBeforeFile=BeforeInstallPyScripter.txt
 InfoAfterFile=AfterInstallPyScripter.txt
 OutputDir=Output
-OutputBaseFilename=PyScripter-v3.2.2-Setup
+OutputBaseFilename=PyScripter-v3.3.0-Setup
 Compression=lzma/Max
 SolidCompression=true
 ChangesAssociations=true
 UninstallDisplayIcon={app}\PyScripter.exe
 PrivilegesRequired=poweruser
-AppCopyright=© Kiriakos Vlahos
+AppCopyright=(C) Kiriakos Vlahos
 
 [Languages]
 Name: eng; MessagesFile: compiler:Default.isl
@@ -40,6 +40,10 @@ Source: ..\..\PythonIDE\locale\default.pot; DestDir: {app}\locale
 Source: ..\..\PythonIDE\locale\languagecodes.mo; DestDir: {app}\locale
 Source: ..\..\PythonIDE\locale\languagecodes.po; DestDir: {app}\locale
 Source: ..\..\PythonIDE\locale\languages.pot; DestDir: {app}\locale
+Source: ..\..\PythonIDE\locale\ar\LC_MESSAGES\default.mo; DestDir: {app}\locale\ar\LC_MESSAGES\
+Source: ..\..\PythonIDE\locale\ar\LC_MESSAGES\default.po; DestDir: {app}\locale\ar\LC_MESSAGES\
+Source: ..\..\PythonIDE\locale\ar\LC_MESSAGES\languages.mo; DestDir: {app}\locale\ar\LC_MESSAGES\
+Source: ..\..\PythonIDE\locale\ar\LC_MESSAGES\languages.po; DestDir: {app}\locale\ar\LC_MESSAGES\
 Source: ..\..\PythonIDE\locale\de\LC_MESSAGES\default.mo; DestDir: {app}\locale\de\LC_MESSAGES\
 Source: ..\..\PythonIDE\locale\de\LC_MESSAGES\default.po; DestDir: {app}\locale\de\LC_MESSAGES\
 Source: ..\..\PythonIDE\locale\de\LC_MESSAGES\languages.mo; DestDir: {app}\locale\de\LC_MESSAGES\
@@ -72,16 +76,22 @@ Source: ..\..\PythonIDE\locale\it\LC_MESSAGES\default.mo; DestDir: {app}\locale\
 Source: ..\..\PythonIDE\locale\it\LC_MESSAGES\default.po; DestDir: {app}\locale\it\LC_MESSAGES\
 Source: ..\..\PythonIDE\locale\it\LC_MESSAGES\languages.mo; DestDir: {app}\locale\it\LC_MESSAGES\
 Source: ..\..\PythonIDE\locale\it\LC_MESSAGES\languages.po; DestDir: {app}\locale\it\LC_MESSAGES\
-Source: ..\..\PythonIDE\locale\pt\LC_MESSAGES\default.mo; DestDir: {app}\locale\pt\LC_MESSAGES\
-Source: ..\..\PythonIDE\locale\pt\LC_MESSAGES\default.po; DestDir: {app}\locale\pt\LC_MESSAGES\
-Source: ..\..\PythonIDE\locale\pt\LC_MESSAGES\languages.mo; DestDir: {app}\locale\pt\LC_MESSAGES\
-Source: ..\..\PythonIDE\locale\pt\LC_MESSAGES\languages.po; DestDir: {app}\locale\pt\LC_MESSAGES\
+Source: ..\..\PythonIDE\locale\pt_PT\LC_MESSAGES\default.mo; DestDir: {app}\locale\pt_PT\LC_MESSAGES\
+Source: ..\..\PythonIDE\locale\pt_PT\LC_MESSAGES\default.po; DestDir: {app}\locale\pt_PT\LC_MESSAGES\
+Source: ..\..\PythonIDE\locale\pt_PT\LC_MESSAGES\languages.mo; DestDir: {app}\locale\pt_PT\LC_MESSAGES\
+Source: ..\..\PythonIDE\locale\pt_PT\LC_MESSAGES\languages.po; DestDir: {app}\locale\pt_PT\LC_MESSAGES\
+Source: ..\..\PythonIDE\locale\pt_BR\LC_MESSAGES\default.mo; DestDir: {app}\locale\pt_BR\LC_MESSAGES\
+Source: ..\..\PythonIDE\locale\pt_BR\LC_MESSAGES\default.po; DestDir: {app}\locale\pt_BR\LC_MESSAGES\
+Source: ..\..\PythonIDE\locale\pt_BR\LC_MESSAGES\languages.mo; DestDir: {app}\locale\pt_BR\LC_MESSAGES\
+Source: ..\..\PythonIDE\locale\pt_BR\LC_MESSAGES\languages.po; DestDir: {app}\locale\pt_BR\LC_MESSAGES\
 Source: ..\..\PythonIDE\locale\ru\LC_MESSAGES\default.mo; DestDir: {app}\locale\ru\LC_MESSAGES\
 Source: ..\..\PythonIDE\locale\ru\LC_MESSAGES\default.po; DestDir: {app}\locale\ru\LC_MESSAGES\
 Source: ..\..\PythonIDE\locale\ru\LC_MESSAGES\languages.mo; DestDir: {app}\locale\ru\LC_MESSAGES\
 Source: ..\..\PythonIDE\locale\ru\LC_MESSAGES\languages.po; DestDir: {app}\locale\ru\LC_MESSAGES\
 Source: ..\..\PythonIDE\locale\kab\LC_MESSAGES\default.mo; DestDir: {app}\locale\kab\LC_MESSAGES\
 Source: ..\..\PythonIDE\locale\kab\LC_MESSAGES\default.po; DestDir: {app}\locale\kab\LC_MESSAGES\
+Source: ..\..\PythonIDE\locale\kab\LC_MESSAGES\languages.mo; DestDir: {app}\locale\kab\LC_MESSAGES\
+Source: ..\..\PythonIDE\locale\kab\LC_MESSAGES\languages.po; DestDir: {app}\locale\kab\LC_MESSAGES\
 ;Ini Files
 Source: "PyScripter.ini"; DestDir: "{userappdata}\PyScripter"; Flags: uninsneveruninstall onlyifdoesntexist
 ; Startup scripts

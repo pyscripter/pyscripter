@@ -40,7 +40,11 @@ interface
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
   {$IFDEF CLR} TB2OleMarshal, {$ENDIF}
-  StdCtrls, CommCtrl, Menus, ActnList, ImgList, TB2Anim;
+StdCtrls, CommCtrl, Menus, ActnList, ImgList, TB2Anim,
+  {$IF CompilerVersion >= 25}
+  System.UITypes, // Robert XE4
+  {$IFEND}
+  Types;
 
 type
   TTBCustomItem = class;

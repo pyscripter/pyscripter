@@ -409,6 +409,7 @@
   History:   v 3.3
           New Features
             Thread debugging (#455)
+            Much faster python output redirection
             Form Layout and placement stored in PyScripter.local.ini
           Issues addressed
             #659, #827, #848, #849
