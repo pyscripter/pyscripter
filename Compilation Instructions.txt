@@ -1,35 +1,31 @@
 INSTRUCTIONS FOR COMPILIING PyScripter
 ======================================
 
-I am using Borland Delphi XE7 to compile PyScripter but it should compile with other recent versions.
+I am using Delphi 10.2 to compile PyScripter but it should compile with other recent Delphi versions.
 
-Use TortoiseSVN to download the code from pyscripter.googlecode.com
+** Third Party Components: **
+  1. JCL (https://github.com/project-jedi/jcl) - at Github.com or use daily packages from http://jvcl.sourceforge.net/daily/
+  2. JVCL (https://github.com/project-jedi/jvcl) - at Github.com or use daily packages from http://jcl.sourceforge.net/daily/
+  3. Python for Delphi (https://github.com/pyscripter/python4delphi)
+  4. VirtualTreeView - get it from Github.com (https://github.com/Virtual-TreeView/Virtual-TreeView) 
+  5. MustangPeak Components: 
+     - Common Library (https://github.com/pyscripter/MustangpeakCommonLib)
+     - EasyListView (https://github.com/pyscripter/MustangpeakEasyListview)
+     - VirtualShellTools (https://github.com/pyscripter/MustangpeakVirtualshellTools)
+  6. Toolbar2000 (http://www.innosetup.com/tb2k.php)
+  7. SpTBXLib (https://github.com/SilverpointDev/sptbxlib)
+  8. SynEdit - (https://github.com/pyscripter/SynEdit-2)
+  9. SynWeb Highlighters (https://github.com/KrystianBigaj/synweb)
+  10. zControls (https://github.com/MahdiSafsafi/zcontrols)
 
-To compile the PythonIDE.dpr, you first need to install the following components:            
+** Installiing Third Party components: **
+A. Clone the PyScripter project (https://github.com/pyscripter/pyscripter) 
+B. Clone or download JCL and JVCL and use provided installers (run install.bat)
+C. Use Multiinstaller.exe in the Components\ThirdParty folder to download and install 
+   dependencies 2-10 to a folder of your choice in one step.
+D. In MustangPeak\VirtualShellTools\Include\Addins.inc define USE_TOOLBAR_TB2K.
+E. Install the PyScripterCustom package from the Components folder.
 
-   - Python for Delphi (http://python4delphi.googlecode.com/ - use SVN)
+Compiling PyScripter
+-  If you have managed to do all the above then open PythonIDE.dproj and compile :)
 
-   - JCL (jcl.sf.net) - at Github.com or use daily packages from http://jvcl.sourceforge.net/daily/
-   - JVCL (jvcl.sf.net) - at Github.com or use daily packages from http://jcl.sourceforge.net/daily/
-
-   - Toolbar2000 (http://www.innosetup.com/tb2k.php)
-     *** For now download "TB2K with XE7 support.7z" from 
-     https://onedrive.live.com/redir?resid=83A7119830FC7582!2251&authkey=!APLUfnvNQ35oYog&ithint=folder%2cexe ***
-
-   - SpTBXLib (Use GIT from https://github.com/SilverpointDev/sptbxlib)
-  
-   - Install the PyScripterCustom package from the components subdirectory.
-
-   - SynEdit - get it from Github.com (https://github.com/SynEdit/SynEdit)
-   - SynWeb Highlighters - get it from Github.com (https://github.com/KrystianBigaj/synweb)
-
-   - VirtualTreeView - get it from Github.com (https://github.com/Virtual-TreeView/Virtual-TreeView)
-   
-   - MustangPeak Components: 
-     - Common Library (https://github.com/TurboPack/MustangpeakCommonLib) - use SVN
-     - EasyListView (https://github.com/TurboPack/MustangpeakEasyListview) - use SVN
-     - VirtualShellTools (https://github.com/TurboPack/MustangpeakVirtualshellTools) - use SVN  
-
-    - zControls (https://github.com/MahdiSafsafi/zcontrols)
-
-If you have managed to do all the above then you should be able to compile PyScripter! :) 
