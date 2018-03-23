@@ -55,7 +55,7 @@ inherited AboutBox: TAboutBox
         Width = 376
         Height = 232
         Align = alClient
-        Font.Charset = GREEK_CHARSET
+        Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
         Font.Height = -12
         Font.Name = 'Tahoma'
@@ -104,7 +104,7 @@ inherited AboutBox: TAboutBox
             BevelEdges = []
             BevelInner = bvNone
             BevelOuter = bvNone
-            Font.Charset = GREEK_CHARSET
+            Font.Charset = DEFAULT_CHARSET
             Font.Color = clBtnText
             Font.Height = -12
             Font.Name = 'MS Shell Dlg 2'
