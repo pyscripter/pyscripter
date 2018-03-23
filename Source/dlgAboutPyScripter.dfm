@@ -45,7 +45,7 @@ inherited AboutBox: TAboutBox
       Left = 0
       Top = 0
       Width = 382
-      Height = 235
+      Height = 236
       Caption = 'Links'
       ImageIndex = -1
       TabItem = 'tbLinks'
@@ -53,9 +53,9 @@ inherited AboutBox: TAboutBox
         Left = 2
         Top = 4
         Width = 376
-        Height = 231
+        Height = 232
         Align = alClient
-        Font.Charset = ANSI_CHARSET
+        Font.Charset = GREEK_CHARSET
         Font.Color = clWindowText
         Font.Height = -12
         Font.Name = 'Tahoma'
@@ -69,7 +69,7 @@ inherited AboutBox: TAboutBox
       Left = 0
       Top = 0
       Width = 382
-      Height = 235
+      Height = 236
       Caption = 'Credits'
       ImageIndex = -1
       TabItem = 'tbCredits'
@@ -77,7 +77,7 @@ inherited AboutBox: TAboutBox
         Left = 2
         Top = 4
         Width = 376
-        Height = 231
+        Height = 232
         Align = alClient
         ButtonSize = 14
         Color = clBtnFace
@@ -104,7 +104,7 @@ inherited AboutBox: TAboutBox
             BevelEdges = []
             BevelInner = bvNone
             BevelOuter = bvNone
-            Font.Charset = ANSI_CHARSET
+            Font.Charset = GREEK_CHARSET
             Font.Color = clBtnText
             Font.Height = -12
             Font.Name = 'MS Shell Dlg 2'
@@ -121,7 +121,7 @@ inherited AboutBox: TAboutBox
       Left = 0
       Top = 0
       Width = 382
-      Height = 235
+      Height = 236
       Caption = 'About'
       ImageIndex = -1
       TabItem = 'tbAbout'

@@ -1892,7 +1892,7 @@ Var
   IsRegistered : Boolean;
   Key : string;
 begin
-  SetLength(Categories, 7);
+  SetLength(Categories, 8);
   with Categories[0] do begin
     DisplayName := _('IDE');
     SetLength(Options, 11);

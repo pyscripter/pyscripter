@@ -231,24 +231,24 @@ begin
   AddFormatText(reCredits, _('Credits') + SLineBreak, [fsBold]);
   AddFormatText(reCredits,SAboutBoxCreditsIntro + SLineBreak);
   reCredits.Paragraph.Numbering := nsBullet;
-  AddFormatText(reCredits,SAboutBoxCredits + SLineBreak + SLineBreak);
+  AddFormatText(reCredits,SAboutBoxCredits + SLineBreak);
 
   reCredits.Paragraph.Numbering := nsNone;
-  AddFormatText(reCredits,_('Translation manager') + ':' + SLineBreak, [fsItalic]);
+  AddFormatText(reCredits, SLineBreak + _('Translation manager') + ':' + SLineBreak, [fsItalic]);
   reCredits.Paragraph.Numbering := nsBullet;
-  AddFormatText(reCredits,cAboutTranslationManager + SLineBreak + SLineBreak);
+  AddFormatText(reCredits,cAboutTranslationManager + SLineBreak);
 
   reCredits.Paragraph.Numbering := nsNone;
-  AddFormatText(reCredits,_('Translators') + ':' + SLineBreak, [fsItalic]);
+  AddFormatText(reCredits, SLineBreak + _('Translators') + ':' + SLineBreak, [fsItalic]);
 
   for Language := Low(ECreditLanguages) to High(ECreditLanguages) do
     AboutBoxCreditsTranslations := AboutBoxCreditsTranslations +
       Format(cAboutLanguages[Language],[cAboutTranslators[Language]]) + sLineBreak;
   reCredits.Paragraph.Numbering := nsBullet;
-  AddFormatText(reCredits,AboutBoxCreditsTranslations + SLineBreak);
+  AddFormatText(reCredits,AboutBoxCreditsTranslations);
 
   reCredits.Paragraph.Numbering := nsNone;
-  AddFormatText(reCredits,_('Theme design') + ':' + SLineBreak, [fsItalic]);
+  AddFormatText(reCredits, SLineBreak + _('Theme design') + ':' + SLineBreak, [fsItalic]);
   reCredits.Paragraph.Numbering := nsBullet;
   AddFormatText(reCredits,SAboutBoxCreditsThemeDesign + SLineBreak);
   reCredits.Paragraph.Numbering := nsNone;
