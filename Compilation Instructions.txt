@@ -18,14 +18,12 @@ I am using Delphi 10.2 to compile PyScripter but it should compile with other re
   9. SynWeb Highlighters (https://github.com/KrystianBigaj/synweb)
   10. zControls (https://github.com/MahdiSafsafi/zcontrols)
 
-** Installiing Third Party components: **
+** Installiing Third Party components: and compiling PyScripter **
 A. Clone the PyScripter project (https://github.com/pyscripter/pyscripter) 
 B. Clone or download JCL and JVCL and use provided installers (run install.bat)
 C. Use Multiinstaller.exe in the Components\ThirdParty folder to download and install 
    dependencies 2-10 to a folder of your choice in one step.
 D. In MustangPeak\VirtualShellTools\Include\Addins.inc define USE_TOOLBAR_TB2K.
-E. Install the PyScripterCustom package from the Components folder.
-
-Compiling PyScripter
--  If you have managed to do all the above then open PythonIDE.dproj and compile :)
+E. Install the PyScripterCustom package from the Components folder and add the Components folder to the Delphi Library search path.
+F. If you have managed to do all the above then open PythonIDE.dproj and compile :)
 
