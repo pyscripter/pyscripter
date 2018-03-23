@@ -3003,6 +3003,7 @@ initialization
   TP_GlobalIgnoreClass(TJvProgramVersionCheck);
   TP_GlobalIgnoreClass(TJvProgramVersionHTTPLocation);
   TP_GlobalIgnoreClass(TJvCustomAppStorage);
+  TP_GlobalIgnoreClass(TPythonModule);
   // VCL stuff
   TP_GlobalIgnoreClassProperty(TAction,'Category');
   TP_GlobalIgnoreClassProperty(TControl,'HelpKeyword');
