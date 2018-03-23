@@ -36,7 +36,7 @@ requires
   rtl,
   vclx,
   SpTBXLib,
-  tb2k_D25,
+  tb2k_D12,
   vclactnband,
   vcldb,
   dbrtl,
