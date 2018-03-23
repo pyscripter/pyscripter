@@ -66,7 +66,7 @@ resourcestring
     'Special thanks to the many great developers who,'+
     'with their amazing work, have made PyScripter '+
     'possible. PyScripter makes use of the following '+
-    'components and projects:'+ SLineBreak;
+    'components and projects:';
   SAboutBoxCredits =
     'Python for Delphi (www.github.com/pyscripter/python4delphi)'+ SLineBreak +
     'Rpyc (www.github.com/tomerfiliba/rpyc)'+ SLineBreak +
@@ -80,7 +80,7 @@ resourcestring
     'Toolbar2000 (www.jrsoftware.org/tb2k.php)'+ SLineBreak +
     'SpTBXLib(www.silverpointdevelopment.com)' + SLineBreak +
     'TCommandLineReader(www.benibela.de)'+ SLineBreak +
-    'Silk icons(www.famfamfam.com)'+ SLineBreak;
+    'Silk icons(www.famfamfam.com)';
 
   SAboutBoxCreditsTranslationArabic  = 'Arabic: %s';
   SAboutBoxCreditsTranslationChinese = 'Chinese: %s';
@@ -98,7 +98,7 @@ resourcestring
 
   SAboutBoxCreditsThemeDesign =
     'Tanmaya Meher (www.github.com/tanmayameher)'+ SLineBreak +
-    'jprzywoski (www.github.com/jprzywoski)'+ SLineBreak;
+    'jprzywoski (www.github.com/jprzywoski)';
 
   SAboutBoxLinks =
     'The project home, Issue Tracker and source code repository are hosted at Github (www.github.com/pyscripter/pyscripter)'+
@@ -229,13 +229,14 @@ begin
   reLinks.ReadOnly := True;
 
   AddFormatText(reCredits, _('Credits') + SLineBreak, [fsBold]);
-  AddFormatText(reCredits,SAboutBoxCreditsIntro);
+  AddFormatText(reCredits,SAboutBoxCreditsIntro + SLineBreak);
   reCredits.Paragraph.Numbering := nsBullet;
-  AddFormatText(reCredits,SAboutBoxCredits);
+  AddFormatText(reCredits,SAboutBoxCredits + SLineBreak + SLineBreak);
+
   reCredits.Paragraph.Numbering := nsNone;
   AddFormatText(reCredits,_('Translation manager') + ':' + SLineBreak, [fsItalic]);
   reCredits.Paragraph.Numbering := nsBullet;
-  AddFormatText(reCredits,cAboutTranslationManager);
+  AddFormatText(reCredits,cAboutTranslationManager + SLineBreak + SLineBreak);
 
   reCredits.Paragraph.Numbering := nsNone;
   AddFormatText(reCredits,_('Translators') + ':' + SLineBreak, [fsItalic]);
@@ -244,12 +245,12 @@ begin
     AboutBoxCreditsTranslations := AboutBoxCreditsTranslations +
       Format(cAboutLanguages[Language],[cAboutTranslators[Language]]) + sLineBreak;
   reCredits.Paragraph.Numbering := nsBullet;
-  AddFormatText(reCredits,AboutBoxCreditsTranslations);
+  AddFormatText(reCredits,AboutBoxCreditsTranslations + SLineBreak);
 
   reCredits.Paragraph.Numbering := nsNone;
   AddFormatText(reCredits,_('Theme design') + ':' + SLineBreak, [fsItalic]);
   reCredits.Paragraph.Numbering := nsBullet;
-  AddFormatText(reCredits,SAboutBoxCreditsThemeDesign);
+  AddFormatText(reCredits,SAboutBoxCreditsThemeDesign + SLineBreak);
   reCredits.Paragraph.Numbering := nsNone;
 
   reCredits.SelStart := 0;
