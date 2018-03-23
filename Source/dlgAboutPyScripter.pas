@@ -146,7 +146,7 @@ const
     'Gustavo Carreno',
     'Aleksander Dragunkin, Andrei Aleksandrov, Dmitry Arefiev',
     'Marian Denes',
-    'Javier Pimas, Victor Alberto Gil'
+    'Javier Pimas, Victor Alberto Gil, Juan Carlos Cilleruelo'
   );
 
 procedure TRichEdit.CreateWnd;
