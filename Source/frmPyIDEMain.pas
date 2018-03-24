@@ -2758,7 +2758,7 @@ begin
     if GI_ActiveEditor.GetModified then
       lbStatusModified.Caption := _(SModified)
     else
-      lbStatusModified.Caption := '';
+      lbStatusModified.Caption := ' ';
     lbStatusOverwrite.Caption := GI_ActiveEditor.GetEditorState;
   end else begin
     lbStatusCaret.Caption := '';
