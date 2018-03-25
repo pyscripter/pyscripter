@@ -1455,12 +1455,16 @@ procedure TPyRemDebugger.GetCallStack(CallStackList : TObjectList<TBaseFrameInfo
   Frame, Botframe : Variant);
 begin
   CallStackList.Clear;
-  if VarIsPython(Frame) then
+  if VarIsPython(Frame) then begin
     while not VarIsNone(Frame.f_back) and not VarIsNone(Frame.f_back.f_back) do begin
       CallStackList.Add(TFrameInfo.Create(Frame));
       Frame := Frame.f_back;
       if VarIsSame(Frame, Botframe) then break;
     end;
+    // at least one frame
+    if CallStackList.Count = 0  then
+      CallStackList.Add(TFrameInfo.Create(Frame));
+  end;
 end;
 
 function TPyRemDebugger.GetFrameGlobals(Frame: TBaseFrameInfo): TBaseNameSpaceItem;
