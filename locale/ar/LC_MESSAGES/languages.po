@@ -25,7 +25,7 @@ msgid "Chinese"
 msgstr "الصينية"
 
 msgid "English"
-msgstr "الإنجليزية"
+msgstr "الإنجليزية (English)"
 
 #. Language of France
 msgid "French"

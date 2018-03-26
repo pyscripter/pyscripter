@@ -25,7 +25,7 @@ msgid "Chinese"
 msgstr "Chinês"
 
 msgid "English"
-msgstr "Inglês"
+msgstr "Inglês (English)"
 
 #. Language of France
 msgid "French"
@@ -52,8 +52,12 @@ msgid "Taqbaylit"
 msgstr ""
 
 #. Language of Portugal, Europe
-msgid "Portuguese"
-msgstr "Português"
+msgid "Portuguese (Portugal)"
+msgstr ""
+
+#. Language of Portugal, Brazil
+msgid "Portuguese (Brazil)"
+msgstr ""
 
 #. Language of Russia
 msgid "Russian"
