@@ -1671,6 +1671,9 @@ begin
   Timer := NewTimer(50);
   Timer.Start(procedure
   begin
+    // Do not reenter
+    Timer.Stop;
+
     try
       fRemotePython.ServeConnection(500);
     except
@@ -1685,7 +1688,6 @@ begin
     if not fRemotePython.IsConnected or AsyncReady then
     try
       try
-        Timer.Stop;
         if fRemotePython.IsConnected then begin
           ExcInfo := fMainDebugger.exc_info;
           if not VarIsNone(ExcInfo) then begin
@@ -1747,7 +1749,9 @@ begin
       end else if CanDoPostMortem and PyIDEOptions.PostMortemOnException then
         PyControl.ActiveDebugger.EnterPostMortem;
       Timer := nil;
-    end;
+    end
+    else
+      Timer.Restart;
   end);
 end;
 

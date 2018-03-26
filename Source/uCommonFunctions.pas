@@ -266,6 +266,7 @@ Type
   ['{1C06BCF6-1C6D-473E-993F-2B231B17D4F5}']
     function Start(const Action: TProc): ITimer;
     function Stop: ITimer;
+    function Restart: ITimer;
   end;
 
   function NewTimer(Interval: Cardinal): ITimer;
@@ -2098,6 +2099,7 @@ type
     class function New(const Interval: Cardinal): ITimer;
     function Start(const Action: TProc): ITimer;
     function Stop: ITimer;
+    function Restart: ITimer;
   end;
 
 
@@ -2138,6 +2140,12 @@ function TTimer.Stop: ITimer;
 begin
   Result         := Self;
   FTimer.Enabled := False;
+end;
+
+function TTimer.ReStart: ITimer;
+begin
+  Result         := Self;
+  FTimer.Enabled := True;
 end;
 
 function NewTimer(Interval: Cardinal): ITimer;
