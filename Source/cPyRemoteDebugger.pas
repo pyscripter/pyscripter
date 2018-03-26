@@ -477,6 +477,8 @@ begin
         end;
       end else
         HandleRemoteException(ExcInfo);
+
+      PythonIIForm.AppendPrompt;
       Vcl.Dialogs.MessageDlg(Format('%s: %s',
         [VarPythonAsString(ExcInfo.__getitem__(0)), VarPythonAsString(RPI.safestr(Error))]),
         mtError, [mbOK], 0);

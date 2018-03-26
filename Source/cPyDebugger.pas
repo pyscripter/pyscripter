@@ -1086,6 +1086,8 @@ begin
             PyControl.ErrorPos.IsSyntax := True;
             PyControl.DoErrorPosChanged;
           end;
+
+          PythonIIForm.AppendPrompt;
           Vcl.Dialogs.MessageDlg(E.Message, mtError, [mbOK], 0);
           System.SysUtils.Abort;
         end;
