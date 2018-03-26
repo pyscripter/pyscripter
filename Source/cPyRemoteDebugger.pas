@@ -463,16 +463,11 @@ begin
       Error := ExcInfo.__getitem__(1);
       if ExcInfo.__getitem__(3) then begin
         // SyntaxError
-        MessagesWindow.ShowPythonSyntaxError(ExcInfo.__getitem__(0), Error);
-
         ExtractPyErrorInfo(Error, FileName, LineNo, Offset);
         if PyIDEMainForm.ShowFilePosition(FileName, LineNo, Offset) and
           Assigned(GI_ActiveEditor)
         then begin
-          PyControl.ErrorPos.Editor := GI_ActiveEditor;
-          PyControl.ErrorPos.Line := LineNo;
-          PyControl.ErrorPos.Char := Offset;
-          PyControl.ErrorPos.IsSyntax := True;
+          PyControl.ErrorPos.NewPos(GI_ActiveEditor, LineNo, Offset, True);
           PyControl.DoErrorPosChanged;
         end;
       end else
@@ -711,8 +706,7 @@ begin
       if PyIDEMainForm.ShowFilePosition(FileName, LineNo, 1) and
         Assigned(GI_ActiveEditor)
       then begin
-        PyControl.ErrorPos.Editor := GI_ActiveEditor;
-        PyControl.ErrorPos.Line := LineNo;
+        PyControl.ErrorPos.NewPos(GI_ActiveEditor, LineNo);
         PyControl.DoErrorPosChanged;
       end;
     end;
@@ -1763,14 +1757,12 @@ function TPyRemDebugger.RunSource(Const Source, FileName : Variant; symbol : str
 Var
   OldCurrentPos : TEditorPos;
 begin
-  OldCurrentPos := TEditorPos.Create;
-  OldCurrentPos.Assign(PyControl.CurrentPos);
+  OldCurrentPos := PyControl.CurrentPos;
   try
     Result := fRemotePython.RunSource(Source, FileName, symbol);
-    PyControl.CurrentPos.Assign(OldCurrentPos);
-    PyControl.DoCurrentPosChanged;
   finally
-    OldCurrentPos.Free;
+    PyControl.CurrentPos := OldCurrentPos;
+    PyControl.DoCurrentPosChanged;
   end;
 end;
 

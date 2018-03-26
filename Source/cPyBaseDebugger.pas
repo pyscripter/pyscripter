@@ -389,8 +389,7 @@ begin
         if PyIDEMainForm.ShowFilePosition(TI.FileName, TI.LineNo, 1) and
           Assigned(GI_ActiveEditor)
         then begin
-          PyControl.ErrorPos.Editor := GI_ActiveEditor;
-          PyControl.ErrorPos.Line := TI.LineNo;
+          PyControl.ErrorPos.NewPos(GI_ActiveEditor, TI.LineNo);
           PyControl.DoErrorPosChanged;
         end;
       end;

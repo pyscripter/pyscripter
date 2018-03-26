@@ -69,10 +69,6 @@ inherited CallStackWindow: TCallStackWindow
         Height = 164
         Align = alClient
         TabOrder = 0
-        ExplicitLeft = 208
-        ExplicitTop = 64
-        ExplicitWidth = 185
-        ExplicitHeight = 41
         object CallStackView: TVirtualStringTree
           Left = 1
           Top = 1
@@ -98,10 +94,6 @@ inherited CallStackWindow: TCallStackWindow
           OnGetText = CallStackViewGetText
           OnGetImageIndex = CallStackViewGetImageIndex
           OnInitNode = CallStackViewInitNode
-          ExplicitLeft = 143
-          ExplicitTop = 0
-          ExplicitWidth = 457
-          ExplicitHeight = 164
           Columns = <
             item
               Position = 0
@@ -127,9 +119,6 @@ inherited CallStackWindow: TCallStackWindow
         Height = 164
         Align = alLeft
         TabOrder = 1
-        ExplicitLeft = 208
-        ExplicitTop = 64
-        ExplicitHeight = 41
         object ThreadView: TVirtualStringTree
           Left = 1
           Top = 1
@@ -151,10 +140,6 @@ inherited CallStackWindow: TCallStackWindow
           OnAddToSelection = ThreadViewAddToSelection
           OnGetText = ThreadViewGetText
           OnGetImageIndex = ThreadViewGetImageIndex
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 140
-          ExplicitHeight = 164
           Columns = <
             item
               Position = 0
