@@ -2421,7 +2421,7 @@ begin
      (PyControl.DebuggerState = dsInactive)
   then
     with(TPyRemoteInterpreter(PyControl.ActiveInterpreter)) do begin
-      if IsConnected and (EngineType in [peRemoteTk, peRemoteWx]) then
+      if Connected and (EngineType in [peRemoteTk, peRemoteWx]) then
         // Ignore exceptions here
           ServeConnection;
     end;

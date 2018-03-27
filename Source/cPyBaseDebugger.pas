@@ -423,7 +423,6 @@ Var
   Source : string;
   AnsiSource : AnsiString;
 begin
-  // Execute pyscripterEngineSetup.py
   if FileExists(FileName) then begin
     if GetPythonEngine.IsPython3000 then begin
       Source := CleanEOLs(FileToStr(FileName))+#10;

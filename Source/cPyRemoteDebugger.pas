@@ -41,10 +41,9 @@ type
     ServerProcess : TJvCreateProcess;
     RemoteServer : TExternalTool;
     fIsAvailable : Boolean;
-    fIsConnected : Boolean;
+    fConnected : Boolean;
     fOldargv : Variant;
     fOldsysmodules : Variant;
-    fThreadExecInterrupted: Boolean;
     fSocketPort: integer;
     fRpycPath : string;
   protected
@@ -55,7 +54,6 @@ type
     function CreateAndConnectToServer : Boolean;
     procedure ShutDownServer;
     function Compile(ARunConfig : TRunConfiguration) : Variant;
-    function ExecuteInThread(Callable, Arguments: Variant) : Variant;
     procedure HandleRemoteException(ExcInfo : Variant; SkipFrames : integer = 1);
     procedure ReInitialize; override;
     procedure CheckConnected(Quiet : Boolean = False; Abort : Boolean = True);
@@ -84,7 +82,7 @@ type
     function NameSpaceItemFromPyObject(aName : string; aPyObject : Variant): TBaseNameSpaceItem; override;
 
     property IsAvailable : Boolean read fIsAvailable;
-    property IsConnected : Boolean read fIsConnected;
+    property Connected : Boolean read fConnected;
   end;
 
 
@@ -394,13 +392,12 @@ end;
 
 procedure TPyRemoteInterpreter.CheckConnected(Quiet : Boolean = False; Abort : Boolean = True);
 begin
-  if not (fIsAvailable and fIsConnected and (ServerProcess.State = psWaiting)) then begin
-    fIsConnected := False;
+  if not (fIsAvailable and fConnected and (ServerProcess.State = psWaiting)) then begin
+    fConnected := False;
     if not Quiet then
       Vcl.Dialogs.MessageDlg(_(SRemoteServerNotConnected),
         mtError, [mbAbort], 0);
     VariablesWindow.VariablesTree.Enabled := False;
-    fThreadExecInterrupted := True;
     if Abort then
       System.SysUtils.Abort;
   end;
@@ -569,7 +566,7 @@ begin
         Vcl.Dialogs.MessageDlg(_(SErrorCreatingRemoteEngine) + E.Message, mtError, [mbAbort], 0);
       end;
     end;
-    if not (fIsAvailable and fIsConnected) then
+    if not (fIsAvailable and fConnected) then
       Vcl.Dialogs.MessageDlg(_(SCouldNotConnectRemoteEngine), mtError, [mbAbort], 0)
   end;
 end;
@@ -596,56 +593,10 @@ end;
 function TPyRemoteInterpreter.EvalCode(const Expr: string): Variant;
 begin
   // may raise exceptions
-  if not fIsConnected or fThreadExecInterrupted then
+  if not fConnected then
     Result := None
   else
     Result := RPI.evalcode(Expr);
-end;
-
-function TPyRemoteInterpreter.ExecuteInThread(Callable, Arguments : Variant): Variant;
-// Coded in Python.dll calls to avoid VarPyth error printing
-Var
-  PyExecInThread : PPyObject;
-  PyResult : PPyObject;
-  PyArgTuple : PPyObject;
-begin
-  CheckConnected;
-  // Starts the processing
-  fThreadExecInterrupted := False;
-  InternalInterpreter.PyInteractiveInterpreter.thread_id := 0;
-  PyExecInThread := ExtractPythonObjectFrom(
-    InternalInterpreter.PyInteractiveInterpreter.execInThread);
-
-  PyArgTuple := ExtractPythonObjectFrom(VarPythonCreate([Callable, Arguments], stTuple));
-
-  PyResult := nil;
-  with GetPythonEngine do begin
-    Py_XINCREF(PyExecInThread);
-    Py_XINCREF(PyArgTuple);
-    try
-      PyResult :=
-        PyObject_CallObject(PyExecInThread, PyArgTuple);
-
-      if Assigned(PyResult) then
-        Result := VarPythonCreate(PyResult)
-      else
-        Result := None;
-
-    finally
-      Py_XDECREF(PyExecInThread);
-      Py_XDECREF(PyArgTuple);
-      Py_XDECREF(PyResult);
-    end;
-  end;
-
-  if fThreadExecInterrupted then begin
-    GetPythonEngine.PyErr_Clear;
-    PythonIIForm.ClearPendingMessages;
-  end else begin
-    PythonIIForm.WritePendingMessages;
-    GetPythonEngine.CheckError;
-  end;
-  InternalInterpreter.PyInteractiveInterpreter.thread_id := 0;
 end;
 
 function TPyRemoteInterpreter.GetGlobals: TBaseNameSpaceItem;
@@ -831,40 +782,23 @@ begin
       begin
         SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
         try
-          // raise an asynchronous exception in the running thread
-          if InternalInterpreter.PyInteractiveInterpreter.thread_id <> 0 then
-            with GetPythonEngine do begin
-              if PyThreadState_SetAsyncExc(InternalInterpreter.PyInteractiveInterpreter.thread_id,
-                PyExc_KeyboardInterrupt^) > 1
-//                PyExc_SystemExit^) > 1
-              then  // call again with exception set to nil
-                PyThreadState_SetAsyncExc(InternalInterpreter.PyInteractiveInterpreter.thread_id,
-                  nil);
-            end;
-//          // This will cause the running thread to exit
-//          CallStackWindow.ClearAll;
-//          VariablesWindow.ClearAll;
-//          fIsConnected := False;
-//          if VarIsPython(OutputRedirector) then
-//            OutputRedirector._restored := True;
-//          VarClear(OutputRedirector);
-//          Conn.close();
-          ShutDownServer;
+          ShutDownServer;  // sets fIsConnected to False
           if ServerProcess.State <> psReady then
-            Vcl.Dialogs.MessageDlg(_(SCouldNotShutDownRemoteEngine), mtError, [mbAbort], 0)
-          else
-            fThreadExecInterrupted := True;
+            Vcl.Dialogs.MessageDlg(_(SCouldNotShutDownRemoteEngine), mtError, [mbAbort], 0);
         except
           // swalow exceptions
         end;
         GetPythonEngine.PyErr_Clear;
+        //  Running/Debugging will detect that fIsConnected is false and
+        //  finish run/debug orderly and post a WM_REINITINTERPRETER message
+        //  So we should not reinitialize here.
       end;
     dsInactive:
       begin
         ShutDownServer;
         if ServerProcess.State = psReady then begin
           fIsAvailable := fIsAvailable and CreateAndConnectToServer;
-          if not (fIsAvailable and fIsConnected) then
+          if not (fIsAvailable and fConnected) then
             Vcl.Dialogs.MessageDlg(_(SCouldNotConnectRemoteEngine), mtError, [mbAbort], 0)
           else begin
             PythonIIForm.AppendText(sLineBreak + _(SRemoteInterpreterInit));
@@ -896,16 +830,16 @@ end;
 procedure TPyRemoteInterpreter.Run(ARunConfig: TRunConfiguration);
 Var
   Code : Variant;
-//  AsyncRun : Variant;
-//  AsyncResult : Variant;
-//  AsyncReady : boolean;
+  AsyncRun : Variant;
+  AsyncResult : Variant;
+  AsyncReady : boolean;
   Path, OldPath : string;
   PythonPathAdder : IInterface;
   ExcInfo : Variant;
   ReturnFocusToEditor: Boolean;
   CanDoPostMortem : Boolean;
   Editor : IEditor;
-//  Timer : ITimer;
+  Timer : ITimer;
 begin
   CheckConnected;
   CanDoPostMortem := False;
@@ -941,32 +875,30 @@ begin
   ReturnFocusToEditor := Assigned(Editor);
   PyIDEMainForm.actNavInterpreterExecute(nil);
 
-//  AsyncRun := Rpyc.asynch(RPI.run_nodebug);
-//  AsyncResult := AsyncRun.__call__(Code);
-//  GetPythonEngine.CheckError;
-//  Timer := NewTimer(100);
-//  Timer.Start(procedure
-//  begin
-//    try
-//      ServeConnection(500);
-//    except
-//      fThreadExecInterrupted := True;
-//    end;
-//    if not fThreadExecInterrupted then
-//    try
-//      AsyncReady := AsyncResult._is_ready;
-//    except
-//      fThreadExecInterrupted := True;
-//    end;
-//    if fThreadExecInterrupted or AsyncReady then
-//    try
-//      try
-//        Timer.Stop;
+  AsyncRun := Rpyc.asynch(RPI.run_nodebug);
+  AsyncResult := AsyncRun.__call__(Code);
+  GetPythonEngine.CheckError;
+  Timer := NewTimer(50);
+  Timer.Start(procedure
+  begin
+    // Do not reenter
+    Timer.Stop;
+
+    try
+      ServeConnection(500);
+    except
+      fConnected := False;
+    end;
+    if Connected then
+    try
+      AsyncReady := AsyncResult._is_ready;
+    except
+      fConnected := False;
+    end;
+    if not Connected or AsyncReady then
     try
       try
-        ExecuteInThread(RPI.run_nodebug, VarPythonCreate([Code], stTuple));
-        GetPythonEngine.CheckError;
-        if not fThreadExecInterrupted then begin
+        if Connected then begin
           ExcInfo := RPI.exc_info;
           if not VarIsNone(ExcInfo) then begin
             HandleRemoteException(ExcInfo);
@@ -981,7 +913,8 @@ begin
       except
         on E: EPythonError do begin
           // should not happen
-          if not fThreadExecInterrupted then begin
+          CheckConnected(True, False);
+          if Connected then begin
             HandlePyException(E);
             Vcl.Dialogs.MessageDlg(E.Message, mtError, [mbOK], 0);
           end;
@@ -990,7 +923,7 @@ begin
     finally
       PythonIIForm.AppendPrompt;
       CheckConnected(True, False);
-      if not fThreadExecInterrupted then begin
+      if Connected then begin
         // happpens when the remote server was shutdown
 
         // Restore the command line parameters
@@ -1005,30 +938,69 @@ begin
       PyControl.DoStateChange(dsInactive);
       if ReturnFocusToEditor then
         Editor.Activate;
-      if fThreadExecInterrupted then begin
+      if not Connected then begin
         PythonPathAdder := nil;
         PythonIIForm.ClearPendingMessages;
-        ReInitialize;
+        PostMessage(PythonIIForm.Handle, WM_REINITINTERPRETER, 0, 0);
       end else if CanDoPostMortem and PyIDEOptions.PostMortemOnException then
         PyControl.ActiveDebugger.EnterPostMortem;
-    end;
-
-//      Timer := nil;
-//    end;
-//  end);
+      Timer := nil;
+    end
+    else
+      Timer.Restart;
+  end);
 end;
 
 function TPyRemoteInterpreter.RunSource(Const Source, FileName : Variant; symbol : string = 'single') : boolean;
 //  works asynchronously
 Var
+  AsyncRun : Variant;
+  AsyncResult : Variant;
+  AsyncReady : boolean;
   OldDebuggerState : TDebuggerState;
 begin
   CheckConnected;
   Assert(not PyControl.IsRunning, 'RunSource called while the Python engine is active');
   OldDebuggerState := PyControl.DebuggerState;
   PyControl.DoStateChange(dsRunning);
+
+  AsyncRun := Rpyc.asynch(RPI.runsource);
+  AsyncResult := AsyncRun.__call__(VarPythonCreate(Source), VarPythonCreate(FileName), VarPythonCreate(symbol));
+  GetPythonEngine.CheckError;
+  AsyncReady := False;
   try
-    Result := ExecuteInThread(RPI.runsource, VarPythonCreate([Source, FileName, symbol], stTuple));
+    while Connected and not AsyncReady do
+    begin
+      PyControl.DoYield(False);
+      try
+        ServeConnection(500);
+      except
+        fConnected := False;
+      end;
+      if Connected then
+      try
+        AsyncReady := AsyncResult._is_ready;
+      except
+        fConnected := False;
+      end;
+    end;
+
+    if Connected then
+    begin
+      try
+        if AsyncResult.error then
+          Result := False
+        else
+          Result := AsyncResult.value;
+      except
+        Result := False;
+      end;
+    end else
+    begin
+      Result := False;
+      PythonIIForm.ClearPendingMessages;
+      PostMessage(PythonIIForm.Handle, WM_REINITINTERPRETER, 0, 0);
+    end;
   finally
     PyControl.DoStateChange(OldDebuggerState);
   end;
@@ -1079,8 +1051,7 @@ begin
       try
         Conn := Rpyc.classic.connect('localhost', fSocketPort);
         Result := True;
-        fIsConnected := True;
-        fThreadExecInterrupted := False;
+        fConnected := True;
         break;
       except
         // wait and try again
@@ -1139,7 +1110,9 @@ procedure TPyRemoteInterpreter.ServeConnection(MaxCount : integer);
 Var
   Count : integer;
 begin
-  CheckConnected;
+  CheckConnected(False, False);
+  if not Connected then Exit;
+
   Count := 0;
   While Conn.poll() do begin
     Inc(Count);
@@ -1199,23 +1172,28 @@ begin
   // Do not destroy Remote Debugger
   // PyControl.ActiveDebugger := nil;
 
-  FreeAndNil(fMainModule);
-  VarClear(fOldArgv);
-  VarClear(RPI);
   if VarIsPython(OutputRedirector) then
     OutputRedirector._restored:= True;
   VarClear(OutputRedirector);
-  if ServerProcess.State <> psReady then begin
-    if fIsConnected then
-      try
-        Conn.close();
-      except
-      end;
+  FreeAndNil(fMainModule);
+  VarClear(fOldArgv);
+  VarClear(RPI);
+  if fConnected then
+    try
+      fConnected := False;
+      Conn.close();
+    except
+    end;
+  VarClear(Conn);
 
+  // Restore excepthook
+  OldExceptHook := Varpyth.SysModule.__excepthook__;
+  SysModule.excepthook := OldExceptHook;
+
+  if ServerProcess.State <> psReady then begin
     OldState := PyControl.DebuggerState;
     PyControl.DoStateChange(dsDebugging);  // So that we do not reenter run-debug commands
     try
-      fThreadExecInterrupted := True;
       ServerProcess.TerminateTree;
       for i := 0 to 100 do
         if ServerProcess.State <> psReady then begin
@@ -1230,11 +1208,6 @@ begin
       PyControl.DoStateChange(OldState);
     end;
   end;
-  VarClear(Conn);
-  // Restore excepthook
-  OldExceptHook := Varpyth.SysModule.__excepthook__;
-  SysModule.excepthook := OldExceptHook;
-  fIsConnected := False;
 end;
 
 procedure TPyRemoteInterpreter.StringsToSysPath(Strings: TStrings);
@@ -1252,10 +1225,11 @@ end;
 
 function TPyRemoteInterpreter.SysPathAdd(const Path: string): boolean;
 begin
-  CheckConnected;
-  if Conn.modules.sys.path.__contains__(Path) then
-    Result := false
-  else begin
+  Result := False;
+  CheckConnected(True, False);
+  if not Connected then Exit;
+
+  if not Conn.modules.sys.path.__contains__(Path) then begin
     Conn.modules.sys.path.insert(0, Path);
     Result := true;
   end;
@@ -1263,16 +1237,14 @@ end;
 
 function TPyRemoteInterpreter.SysPathRemove(const Path: string): boolean;
 begin
-  if fThreadExecInterrupted then begin
-    Result := False;
-    Exit;
-  end;
-  CheckConnected;
+  Result := False;
+  CheckConnected(True, False);
+  if not Connected then Exit;
+
   if Conn.modules.sys.path.__contains__(Path) then begin
     Result := True;
     Conn.modules.sys.path.remove(Path);
-  end else
-    Result := False;
+  end;
 end;
 
 procedure TPyRemoteInterpreter.SysPathToStrings(Strings: TStrings);
@@ -1281,6 +1253,7 @@ var
   RemPath : Variant;
 begin
   CheckConnected;
+
   RemPath := Rpyc.classic.obtain(Conn.modules.sys.path);
   for i := 0 to Len(RemPath) - 1  do
     Strings.Add(RemPath.__getitem__(i));
@@ -1484,7 +1457,7 @@ end;
 procedure TPyRemDebugger.DoDebuggerCommand;
 begin
    fRemotePython.CheckConnected;
-   if (PyControl.DebuggerState <> dsPaused) or fRemotePython.fThreadExecInterrupted then
+   if (PyControl.DebuggerState <> dsPaused) or not fRemotePython.Connected then
      Exit;
 
    if PyControl.BreakPointsChanged then SetDebuggerBreakpoints;
@@ -1506,7 +1479,7 @@ function TPyRemDebugger.HaveTraceback: boolean;
 begin
   Result := False;
   with fRemotePython do
-    if not (IsAvailable and IsConnected and (ServerProcess.State = psWaiting)) then
+    if not (IsAvailable and Connected and (ServerProcess.State = psWaiting)) then
       Exit;
   try
     Result := fRemotePython.Conn.eval('hasattr(__import__("sys"), "last_traceback")');
@@ -1673,18 +1646,18 @@ begin
     try
       fRemotePython.ServeConnection(500);
     except
-      fRemotePython.fIsConnected := False;
+      fRemotePython.fConnected := False;
     end;
-    if fRemotePython.IsConnected then
+    if fRemotePython.Connected then
     try
       AsyncReady := AsyncResult._is_ready;
     except
-      fRemotePython.fIsConnected := False;
+      fRemotePython.fConnected := False;
     end;
-    if not fRemotePython.IsConnected or AsyncReady then
+    if not fRemotePython.Connected or AsyncReady then
     try
       try
-        if fRemotePython.IsConnected then begin
+        if fRemotePython.Connected then begin
           ExcInfo := fMainDebugger.exc_info;
           if not VarIsNone(ExcInfo) then begin
             fRemotePython.HandleRemoteException(ExcInfo, 2);
@@ -1701,7 +1674,7 @@ begin
         on E: EPythonError do begin
           // should not happen
           fRemotePython.CheckConnected(True, False);
-          if fRemotePython.IsConnected then begin
+          if fRemotePython.Connected then begin
             fRemotePython.HandlePyException(E);
             Vcl.Dialogs.MessageDlg(E.Message, mtError, [mbOK], 0);
           end;
@@ -1715,7 +1688,7 @@ begin
       end;
 
       fRemotePython.CheckConnected(True, False);
-      if fRemotePython.IsConnected then begin
+      if fRemotePython.Connected then begin
         // happpens when the remote server was shutdown
         MakeFrameActive(nil);
 
@@ -1735,7 +1708,7 @@ begin
       PyControl.DoStateChange(dsInactive);
       if ReturnFocusToEditor then
         Editor.Activate;
-      if not fRemotePython.IsConnected then begin
+      if not fRemotePython.Connected then begin
         PythonPathAdder := nil;
         PythonIIForm.ClearPendingMessages;
         //fRemotePython.ReInitialize;
@@ -1871,7 +1844,6 @@ begin
   Result := GetPythonEngine.ReturnNone;
 
   fRemotePython.CheckConnected;
-  if fRemotePython.fThreadExecInterrupted then Exit;
 
   Arguments := VarPythonCreate(Args);
   Thread_ID := Arguments.__getitem__(0);
@@ -1921,6 +1893,7 @@ procedure TPyRemDebugger.UserThread(Sender: TObject; PSelf, Args: PPyObject;
         break;
       end;
   end;
+
 Var
   Thread_ID : integer;
   ThreadName : string;

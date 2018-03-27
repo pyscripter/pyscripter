@@ -502,7 +502,7 @@ begin
         PyControl.ActiveInterpreter := nil;
         try
           RemoteInterpreter := TPyRemoteInterpreter.Create(PythonEngineType);
-          Connected := RemoteInterpreter.IsConnected;
+          Connected := RemoteInterpreter.Connected;
         except
           Connected := False;
         end;
