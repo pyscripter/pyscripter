@@ -4,19 +4,19 @@ inherited frmCustomKeyboard: TfrmCustomKeyboard
   HelpContext = 615
   Caption = 'Customize IDE Shortcuts'
   ClientHeight = 376
-  ClientWidth = 346
+  ClientWidth = 459
   KeyPreview = True
   Position = poOwnerFormCenter
   OnDestroy = FormDestroy
   OnShow = FormShow
-  ExplicitWidth = 352
+  ExplicitWidth = 465
   ExplicitHeight = 405
   PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 346
+    Width = 459
     Height = 376
     Align = alClient
     Caption = 'Panel1'
@@ -25,15 +25,16 @@ inherited frmCustomKeyboard: TfrmCustomKeyboard
     ShowCaption = False
     TabOrder = 0
     DesignSize = (
-      346
+      459
       376)
     object Bevel1: TBevel
       Left = 4
       Top = 330
-      Width = 348
+      Width = 461
       Height = 2
       Anchors = [akLeft, akRight, akBottom]
       Shape = bsTopLine
+      ExplicitWidth = 348
     end
     object lblNewShortcutKey: TLabel
       Left = 8
@@ -45,8 +46,8 @@ inherited frmCustomKeyboard: TfrmCustomKeyboard
       ParentColor = False
     end
     object lblCategories: TLabel
-      Left = 16
-      Top = 8
+      Left = 10
+      Top = 9
       Width = 56
       Height = 13
       Caption = '&Categories:'
@@ -54,8 +55,8 @@ inherited frmCustomKeyboard: TfrmCustomKeyboard
       ParentColor = False
     end
     object lblCommands: TLabel
-      Left = 148
-      Top = 8
+      Left = 200
+      Top = 9
       Width = 56
       Height = 13
       Caption = 'C&ommands:'
@@ -83,7 +84,7 @@ inherited frmCustomKeyboard: TfrmCustomKeyboard
       Visible = False
     end
     object lblCurrentKeys: TLabel
-      Left = 192
+      Left = 200
       Top = 205
       Width = 67
       Height = 13
@@ -92,7 +93,7 @@ inherited frmCustomKeyboard: TfrmCustomKeyboard
       ParentColor = False
     end
     object btnOK: TButton
-      Left = 95
+      Left = 208
       Top = 343
       Width = 75
       Height = 25
@@ -103,7 +104,7 @@ inherited frmCustomKeyboard: TfrmCustomKeyboard
       TabOrder = 3
     end
     object btnCancel: TButton
-      Left = 179
+      Left = 292
       Top = 343
       Width = 75
       Height = 25
@@ -114,7 +115,7 @@ inherited frmCustomKeyboard: TfrmCustomKeyboard
       TabOrder = 4
     end
     object btnHelp: TButton
-      Left = 263
+      Left = 376
       Top = 343
       Width = 75
       Height = 25
@@ -125,33 +126,33 @@ inherited frmCustomKeyboard: TfrmCustomKeyboard
     end
     object btnAssign: TButton
       Left = 8
-      Top = 293
-      Width = 75
+      Top = 287
+      Width = 107
       Height = 25
       Action = actAssignShortcut
       TabOrder = 6
     end
     object btnRemove: TButton
       Left = 192
-      Top = 293
-      Width = 75
+      Top = 287
+      Width = 97
       Height = 25
       Action = actRemoveShortcut
       TabOrder = 7
     end
     object lbCategories: TListBox
-      Left = 8
-      Top = 27
-      Width = 125
+      Left = 10
+      Top = 28
+      Width = 184
       Height = 97
       ItemHeight = 13
       TabOrder = 1
       OnClick = lbCategoriesClick
     end
     object lbCommands: TListBox
-      Left = 148
+      Left = 200
       Top = 28
-      Width = 188
+      Width = 249
       Height = 97
       Anchors = [akLeft, akTop, akRight]
       ItemHeight = 13
@@ -160,9 +161,9 @@ inherited frmCustomKeyboard: TfrmCustomKeyboard
       OnClick = lbCommandsClick
     end
     object lbCurrentKeys: TListBox
-      Left = 192
+      Left = 200
       Top = 224
-      Width = 144
+      Width = 249
       Height = 57
       Anchors = [akLeft, akTop, akRight]
       ItemHeight = 13
@@ -171,7 +172,7 @@ inherited frmCustomKeyboard: TfrmCustomKeyboard
     object gbDescription: TGroupBox
       Left = 10
       Top = 131
-      Width = 328
+      Width = 441
       Height = 61
       Anchors = [akLeft, akTop, akRight]
       Caption = ' Description '
@@ -179,13 +180,14 @@ inherited frmCustomKeyboard: TfrmCustomKeyboard
       object lblDescription: TLabel
         Left = 2
         Top = 15
-        Width = 324
+        Width = 437
         Height = 44
         Align = alClient
         AutoSize = False
         Color = clNone
         ParentColor = False
         Transparent = True
+        ExplicitWidth = 324
       end
     end
   end
