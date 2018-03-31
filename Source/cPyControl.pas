@@ -32,7 +32,7 @@ type
     OldState, NewState: TDebuggerState) of object;
   TDebuggerYieldEvent = procedure(Sender: TObject; DoIdle : Boolean) of object;
 
-  TEditorPos = class(TPersistent)
+  TEditorPos = record
   public
     Editor : IEditor;
     Line : integer;
@@ -40,7 +40,8 @@ type
     IsSyntax : Boolean;
     ErrorMsg : string;
     procedure Clear;
-    procedure Assign(Source: TPersistent); override;
+    procedure NewPos(AEditor : IEditor; ALine : integer; AChar : integer = -1;
+                     IsSyntaxError : Boolean = False; AErrorMsg : string = '');
   end;
 
   TPythonControl = class(Tobject)
@@ -51,8 +52,6 @@ type
   private
     fBreakPointsChanged : Boolean;
     fDebuggerState: TDebuggerState;
-    fErrorPos : TEditorPos;
-    fCurrentPos : TEditorPos;
     fOnBreakpointChange: TBreakpointChangeEvent;
     fOnCurrentPosChange: TNotifyEvent;
     fOnErrorPosChange: TNotifyEvent;
@@ -72,6 +71,8 @@ type
   public
     // ActiveInterpreter and ActiveDebugger are created
     // and destroyed in frmPythonII
+    ErrorPos: TEditorPos;
+    CurrentPos: TEditorPos;
 
     constructor Create;
     destructor Destroy; override;
@@ -110,8 +111,6 @@ type
     property BreakPointsChanged : Boolean read fBreakPointsChanged
       write fBreakPointsChanged;
     property DebuggerState : TDebuggerState read fDebuggerState;
-    property ErrorPos: TEditorPos read fErrorPos;
-    property CurrentPos: TEditorPos read fCurrentPos;
     property RunConfig : TRunConfiguration read fRunConfig;
     property OnBreakpointChange: TBreakpointChangeEvent read fOnBreakpointChange
       write fOnBreakpointChange;
@@ -141,16 +140,14 @@ uses
 
 { TEditorPos }
 
-procedure TEditorPos.Assign(Source: TPersistent);
+procedure TEditorPos.NewPos(AEditor : IEditor; ALine : integer; AChar : integer = -1;
+                 IsSyntaxError : Boolean = False; AErrorMsg : string = '');
 begin
-  if Source is TEditorPos then begin
-    Self.Editor := TEditorPos(Source).Editor;
-    Self.Line := TEditorPos(Source).Line;
-    Self.Char := TEditorPos(Source).Char;
-    Self.IsSyntax := TEditorPos(Source).IsSyntax;
-    Self.ErrorMsg := TEditorPos(Source).ErrorMsg;
-  end else
-    inherited;
+  Editor := AEditor;
+  Line := ALine;
+  Char := AChar;
+  IsSyntax := IsSyntaxError;
+  ErrorMsg := AErrorMsg;
 end;
 
 procedure TEditorPos.Clear;
@@ -168,10 +165,8 @@ end;
 constructor TPythonControl.Create;
 begin
   fDebuggerState := dsInactive;
-  fCurrentPos := TEditorPos.Create;
-  fCurrentPos.Clear;
-  fErrorPos := TEditorPos.Create;
-  fErrorPos.Clear;
+  CurrentPos.Clear;
+  ErrorPos.Clear;
   fRunConfig := TRunConfiguration.Create;
 end;
 
@@ -197,8 +192,6 @@ end;
 
 destructor TPythonControl.Destroy;
 begin
-  fCurrentPos.Free;
-  fErrorPos.Free;
   fRunConfig.Free;
   inherited;
 end;

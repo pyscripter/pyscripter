@@ -389,8 +389,7 @@ begin
         if PyIDEMainForm.ShowFilePosition(TI.FileName, TI.LineNo, 1) and
           Assigned(GI_ActiveEditor)
         then begin
-          PyControl.ErrorPos.Editor := GI_ActiveEditor;
-          PyControl.ErrorPos.Line := TI.LineNo;
+          PyControl.ErrorPos.NewPos(GI_ActiveEditor, TI.LineNo);
           PyControl.DoErrorPosChanged;
         end;
       end;
@@ -424,7 +423,6 @@ Var
   Source : string;
   AnsiSource : AnsiString;
 begin
-  // Execute pyscripterEngineSetup.py
   if FileExists(FileName) then begin
     if GetPythonEngine.IsPython3000 then begin
       Source := CleanEOLs(FileToStr(FileName))+#10;

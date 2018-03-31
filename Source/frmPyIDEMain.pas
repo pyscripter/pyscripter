@@ -2428,7 +2428,7 @@ begin
      (PyControl.DebuggerState = dsInactive)
   then
     with(TPyRemoteInterpreter(PyControl.ActiveInterpreter)) do begin
-      if IsConnected and (EngineType in [peRemoteTk, peRemoteWx]) then
+      if Connected and (EngineType in [peRemoteTk, peRemoteWx]) then
         // Ignore exceptions here
           ServeConnection;
     end;
@@ -2765,7 +2765,7 @@ begin
     if GI_ActiveEditor.GetModified then
       lbStatusModified.Caption := _(SModified)
     else
-      lbStatusModified.Caption := '';
+      lbStatusModified.Caption := ' ';
     lbStatusOverwrite.Caption := GI_ActiveEditor.GetEditorState;
   end else begin
     lbStatusCaret.Caption := '';

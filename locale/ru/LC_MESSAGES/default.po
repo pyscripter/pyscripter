@@ -7,9 +7,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2018-03-12 11:35\n"
+"POT-Creation-Date: 2018-03-23 09:25\n"
 "PO-Revision-Date: 2018-01-23 16:26\n"
-"Last-Translator: luebbe <luebbe.opensource@gmail.com>, 2018\n"
+"Last-Translator: Михаил Духонин <velimudr@yandex.ru>, 2018\n"
 "Language-Team: Russian (https://www.transifex.com/luebbe/teams/82736/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -468,12 +468,12 @@ msgstr "&Назначить"
 #. frmCustomKeyboard..ActionList1..actAssignShortcut..Hint
 #: dlgCustomShortcuts.dfm
 msgid "Assign shortcut to command"
-msgstr ""
+msgstr "Назначить ярлык на команду"
 
 #. frmCustomKeyboard..ActionList1..actRemoveShortcut..Hint
 #: dlgCustomShortcuts.dfm
 msgid "Remove shortcut"
-msgstr ""
+msgstr "Удалить ярлык"
 
 #. DirectoryListDialog..Caption
 #: dlgDirectoryList.dfm
@@ -578,7 +578,7 @@ msgstr "&Маркер:"
 #. FileTemplatesDialog..Panel..lvItems......Caption
 #: dlgFileTemplates.dfm
 msgid "Category"
-msgstr ""
+msgstr "Категория"
 
 #. FindInFilesDialog..Caption
 #: dlgFindInFiles.dfm
@@ -776,7 +776,7 @@ msgstr "Управление шаблонами файлов..."
 #. OptionsInspector..Panel1..Inspector..Text
 #: dlgOptionsEditor.dfm
 msgid "Inspector"
-msgstr ""
+msgstr "Инспектор"
 
 #. OptionsInspector..Panel1..Inspector..DefaultCategoryName
 #: dlgOptionsEditor.dfm
@@ -786,7 +786,7 @@ msgstr ""
 #. OptionsInspector..Panel1..Inspector..HeaderPropText
 #: dlgOptionsEditor.dfm
 msgid "Property"
-msgstr ""
+msgstr "Свойство"
 
 #. PickListDialog..Panel2..btnSelectAll..Caption
 #. PickListDialog..PickListPopUp..mnSelectAll..Caption
@@ -954,17 +954,17 @@ msgstr "&Имя файла:"
 #. PyIDEMainForm..actlStandard..actSelectStyle..Hint
 #: dlgStyleSelector.dfm frmPyIDEMain.dfm
 msgid "Select Style"
-msgstr ""
+msgstr "Выбрать стиль"
 
 #. StyleSelectorForm..Label1..Caption
 #: dlgStyleSelector.dfm
 msgid "Available Styles"
-msgstr ""
+msgstr "Доступные стили"
 
 #. StyleSelectorForm..Label2..Caption
 #: dlgStyleSelector.dfm
 msgid "Preview"
-msgstr ""
+msgstr "Предыдущий"
 
 #. StyleSelectorForm..Button1..Caption
 #: dlgStyleSelector.dfm
@@ -1015,35 +1015,65 @@ msgstr ""
 msgid "Syntax Colors"
 msgstr "Цвета синтаксиса"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Caption
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label11..Caption
 #: dlgSynEditOptions.dfm
-msgid "Keystroke Options"
-msgstr "Параметры сочетаний клавиш"
+msgid "&Element:"
+msgstr "&Элемент:"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label5..Caption
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label12..Caption
 #: dlgSynEditOptions.dfm
-msgid "Command:"
-msgstr "Команда:"
+msgid "&Foreground Color:"
+msgstr "&Основной цвет:"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label6..Caption
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label13..Caption
 #: dlgSynEditOptions.dfm
-msgid "Keystroke 2:"
+msgid "B&ackground Color:"
+msgstr "Цвет фона:"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label14..Caption
+#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel1..Caption
+#: dlgSynEditOptions.dfm
+msgid "Code Sample"
+msgstr "Пример кода"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label15..Caption
+#: dlgSynEditOptions.dfm
+msgid "Editor Syntax Language"
+msgstr "Редактор синтаксиса языка"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..Caption
+#: dlgSynEditOptions.dfm
+msgid " Text attributes "
+msgstr " Текстовые атрибуты "
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementBold..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Bold"
+msgstr "&Полужирный"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementItalic..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Italic"
+msgstr "&Наклонный"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementUnderline..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Underline"
+msgstr "&Подчеркивание"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementStrikeout..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Strike Out"
+msgstr "&Зачеркнуть"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel2..Caption
+#: dlgSynEditOptions.dfm
+msgid "Available Themes"
 msgstr ""
 
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label7..Caption
+#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..btnApplyTheme..Caption
 #: dlgSynEditOptions.dfm
-msgid "Keystroke 1:"
-msgstr ""
-
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..Panel2..KeyList......Caption
-#. ToolProperties..Panel1..TabControl..tabProperties..GroupBox2..Caption
-#: dlgSynEditOptions.dfm dlgToolProperties.dfm
-msgid "Command"
-msgstr "Команда"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..Panel2..KeyList......Caption
-#: dlgSynEditOptions.dfm
-msgid "Keystroke"
+msgid "Apply Theme"
 msgstr ""
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckAutoIndent....Hint
@@ -1350,67 +1380,6 @@ msgstr "Половина Блока"
 msgid "Block"
 msgstr "Блок"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label11..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Element:"
-msgstr "&Элемент:"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label12..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Foreground Color:"
-msgstr "&Основной цвет:"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label13..Caption
-#: dlgSynEditOptions.dfm
-msgid "B&ackground Color:"
-msgstr "Цвет фона:"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label14..Caption
-#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel1..Caption
-#: dlgSynEditOptions.dfm
-msgid "Code Sample"
-msgstr "Пример кода"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label15..Caption
-#: dlgSynEditOptions.dfm
-msgid "Editor Syntax Language"
-msgstr "Редактор синтаксиса языка"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..Caption
-#: dlgSynEditOptions.dfm
-msgid " Text attributes "
-msgstr " Текстовые атрибуты "
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementBold..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Bold"
-msgstr "&Полужирный"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementItalic..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Italic"
-msgstr "&Наклонный"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementUnderline..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Underline"
-msgstr "&Подчеркивание"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementStrikeout..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Strike Out"
-msgstr "&Зачеркнуть"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel2..Caption
-#: dlgSynEditOptions.dfm
-msgid "Available Themes"
-msgstr ""
-
-#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..btnApplyTheme..Caption
-#: dlgSynEditOptions.dfm
-msgid "Apply Theme"
-msgstr ""
-
 #. fmEditorOptionsDialog..Panel1..TabControl..Display..gbRightEdge..Caption
 #: dlgSynEditOptions.dfm
 msgid "Right Edge"
@@ -1524,6 +1493,37 @@ msgstr "Ширина отступа:"
 #: dlgSynEditOptions.dfm
 msgid "Active Line Color"
 msgstr "Цвет активной строки"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Caption
+#: dlgSynEditOptions.dfm
+msgid "Keystroke Options"
+msgstr "Параметры сочетаний клавиш"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label5..Caption
+#: dlgSynEditOptions.dfm
+msgid "Command:"
+msgstr "Команда:"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label6..Caption
+#: dlgSynEditOptions.dfm
+msgid "Keystroke 2:"
+msgstr ""
+
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label7..Caption
+#: dlgSynEditOptions.dfm
+msgid "Keystroke 1:"
+msgstr ""
+
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..Panel2..KeyList......Caption
+#. ToolProperties..Panel1..TabControl..tabProperties..GroupBox2..Caption
+#: dlgSynEditOptions.dfm dlgToolProperties.dfm
+msgid "Command"
+msgstr "Команда"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..Panel2..KeyList......Caption
+#: dlgSynEditOptions.dfm
+msgid "Keystroke"
+msgstr ""
 
 #. PageSetupDlg..Caption
 #. DocForm..TBXDock1..TBXToolbar1..TBXItem4..Hint
@@ -2603,12 +2603,12 @@ msgstr "Добавить отступ|Добавить один отступ в�
 #. CommandsDataModule..actlMain..actEditDedent..Caption
 #: dmCommands.dfm
 msgid "&Unindent Block"
-msgstr ""
+msgstr "&Уменьшить отступ"
 
 #. CommandsDataModule..actlMain..actEditDedent..Hint
 #: dmCommands.dfm
 msgid "Unindent|Unindent selected block of code"
-msgstr ""
+msgstr "уменьшить отступ|Уменьшить отступ выделенного кода"
 
 #. CommandsDataModule..actlMain..actEditCommentOut..Caption
 #: dmCommands.dfm
@@ -3206,23 +3206,23 @@ msgstr ""
 #. CommandsDataModule..actlMain..actUnfoldAll..Hint
 #: dmCommands.dfm
 msgid "Unfold all"
-msgstr ""
+msgstr "Развернуть всё"
 
 #. CommandsDataModule..actlMain..actFoldNearest..Caption
 #. CommandsDataModule..actlMain..actUnfoldNearest..Caption
 #: dmCommands.dfm
 msgid "Nearest"
-msgstr ""
+msgstr "Ближайшее"
 
 #. CommandsDataModule..actlMain..actFoldNearest..Hint
 #: dmCommands.dfm
 msgid "Collapse nearest fold"
-msgstr ""
+msgstr "Свернуть ближайшее"
 
 #. CommandsDataModule..actlMain..actUnfoldNearest..Hint
 #: dmCommands.dfm
 msgid "Expand nearest fold"
-msgstr ""
+msgstr "Развернуть ближайшее"
 
 #. CommandsDataModule..actlMain..actFoldRegions..Caption
 #. CommandsDataModule..actlMain..actUnfoldRegions..Caption
@@ -3233,97 +3233,97 @@ msgstr ""
 #. CommandsDataModule..actlMain..actFoldRegions..Hint
 #: dmCommands.dfm
 msgid "Fold Ranges"
-msgstr ""
+msgstr "Свернуть диапазон"
 
 #. CommandsDataModule..actlMain..actUnfoldRegions..Hint
 #: dmCommands.dfm
 msgid "Unfold ranges"
-msgstr ""
+msgstr "Развернуть диапазон"
 
 #. CommandsDataModule..actlMain..actFoldLevel1..Caption
 #. CommandsDataModule..actlMain..actUnfoldLevel1..Caption
 #: dmCommands.dfm
 msgid "Level 1"
-msgstr ""
+msgstr "Уровень 1"
 
 #. CommandsDataModule..actlMain..actFoldLevel1..Hint
 #: dmCommands.dfm
 msgid "Fold level 1"
-msgstr ""
+msgstr "Свернуть уровень 1"
 
 #. CommandsDataModule..actlMain..actUnfoldLevel1..Hint
 #: dmCommands.dfm
 msgid "Unfold level 1"
-msgstr ""
+msgstr "Развернуть уровень 1"
 
 #. CommandsDataModule..actlMain..actFoldLevel2..Caption
 #. CommandsDataModule..actlMain..actUnfoldLevel2..Caption
 #: dmCommands.dfm
 msgid "Level 2"
-msgstr ""
+msgstr "Уровень 2"
 
 #. CommandsDataModule..actlMain..actFoldLevel2..Hint
 #: dmCommands.dfm
 msgid "Fold level 2"
-msgstr ""
+msgstr "Свернуть уровень 2"
 
 #. CommandsDataModule..actlMain..actUnfoldLevel2..Hint
 #: dmCommands.dfm
 msgid "Unfold level 2"
-msgstr ""
+msgstr "Развернуть уровень 2"
 
 #. CommandsDataModule..actlMain..actFoldLevel3..Caption
 #. CommandsDataModule..actlMain..actUnfoldLevel3..Caption
 #: dmCommands.dfm
 msgid "Level 3"
-msgstr ""
+msgstr "Уровень 3"
 
 #. CommandsDataModule..actlMain..actFoldLevel3..Hint
 #: dmCommands.dfm
 msgid "Fold level 3"
-msgstr ""
+msgstr "Свернуть уровень 3"
 
 #. CommandsDataModule..actlMain..actUnfoldLevel3..Hint
 #: dmCommands.dfm
 msgid "Unfold level 3"
-msgstr ""
+msgstr "Развернуть уровень 3"
 
 #. CommandsDataModule..actlMain..actFoldClasses..Caption
 #. CommandsDataModule..actlMain..actUnfoldClasses..Caption
 #: dmCommands.dfm
 msgid "Classes"
-msgstr ""
+msgstr "Классы"
 
 #. CommandsDataModule..actlMain..actFoldClasses..Hint
 #: dmCommands.dfm
 msgid "Fold classes"
-msgstr ""
+msgstr "Свернуть классы"
 
 #. CommandsDataModule..actlMain..actUnfoldClasses..Hint
 #: dmCommands.dfm
 msgid "Unfold classes"
-msgstr ""
+msgstr "Развернуть классы"
 
 #. CommandsDataModule..actlMain..actFoldFunctions..Caption
 #. CommandsDataModule..actlMain..actUnfoldFunctions..Caption
 #: dmCommands.dfm
 msgid "Functions"
-msgstr ""
+msgstr "Функции"
 
 #. CommandsDataModule..actlMain..actFoldFunctions..Hint
 #: dmCommands.dfm
 msgid "Fold functions"
-msgstr ""
+msgstr "Свернуть функции"
 
 #. CommandsDataModule..actlMain..actUnfoldFunctions..Hint
 #: dmCommands.dfm
 msgid "Unfold functions"
-msgstr ""
+msgstr "Развернуть функции"
 
 #. CommandsDataModule..SynGeneralSyn..DefaultFilter
 #: dmCommands.dfm
 msgid "Text Files(*.txt,*.*)|*.txt;*.*"
-msgstr ""
+msgstr "Текстовые файлы(*.txt,*.*)|*.txt;*.*"
 
 #. BreakPointsWindow..Caption
 #: frmBreakPoints.dfm
@@ -3677,12 +3677,12 @@ msgstr "Закрыть активную вкладку"
 #. EditorForm..pmnuEditor..mnFold..Caption
 #: frmEditor.dfm frmEditor.pas
 msgid "Fold"
-msgstr ""
+msgstr "Свернуть"
 
 #. EditorForm..pmnuEditor..mnUnfold..Caption
 #: frmEditor.dfm frmEditor.pas
 msgid "Unfold"
-msgstr ""
+msgstr "Развернуть"
 
 #. FileExplorerWindow..Caption
 #. FileExplorerWindow..BGPanel..FGPanel..FileExplorerTree..ShellContextSubMenuCaption
@@ -4048,7 +4048,7 @@ msgstr "Список функций"
 #. FunctionListWindow..pnHolder..lvProcs......Caption
 #: frmFunctionList.dfm
 msgid "Function"
-msgstr ""
+msgstr "Функция"
 
 #. FunctionListWindow..pnlHeader..pnlHeaderLeft..lblMethods..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..SearchMenu..Caption
@@ -4464,7 +4464,7 @@ msgstr "Разделить вкладку "
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnSplitWorkspace..Caption
 #: frmPyIDEMain.dfm
 msgid "Split Workspace"
-msgstr ""
+msgstr "Разделить рабочую область"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnuToolbars..Caption
 #: frmPyIDEMain.dfm
@@ -4559,7 +4559,7 @@ msgstr "Не использовать подсветку синтаксиса"
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnLanguage..Caption
 #: frmPyIDEMain.dfm
 msgid "Language"
-msgstr "Язык"
+msgstr "Язык (Language)"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnLayouts..Caption
 #. PyIDEMainForm..TBXDockTop..ViewToolbar..tbiViewLayouts..Caption
@@ -4636,7 +4636,7 @@ msgstr "&Проект "
 #. PyIDEMainForm..TBXDockTop..MainMenu..ProjectMenu..SpTBXSubmenuItem1..Caption
 #: frmPyIDEMain.dfm
 msgid "&Recent Projects"
-msgstr ""
+msgstr "&Последние проекты"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ToolsMenu..Caption
 #: frmPyIDEMain.dfm
@@ -4666,7 +4666,7 @@ msgstr "Веб-поддержка"
 #. PyIDEMainForm..TBXDockTop..MainToolBar..Caption
 #: frmPyIDEMain.dfm
 msgid "Main Toolbar"
-msgstr ""
+msgstr "Основная панель инструментов"
 
 #. PyIDEMainForm..TBXDockTop..DebugToolbar..Caption
 #: frmPyIDEMain.dfm
@@ -4711,7 +4711,7 @@ msgstr ""
 #. PyIDEMainForm..TBXDockTop..FindToolbar..tbiSearchOptions..tbiAutoCaseSensitive..Hint
 #: frmPyIDEMain.dfm
 msgid "Case Sensitive when search text contains upper case characters"
-msgstr ""
+msgstr "Учитывать регистр, если искомый текст содержит заглавные буквы"
 
 #. PyIDEMainForm..TBXDockTop..FindToolbar..tbiSearchOptions..tbiCaseSensitive..Caption
 #: frmPyIDEMain.dfm
@@ -5470,54 +5470,48 @@ msgstr "Активировать окно менеджера проекта"
 #. PyIDEMainForm..actlStandard..actViewSplitWorkspaceVer..Caption
 #: frmPyIDEMain.dfm
 msgid "Split Workspace Vertically"
-msgstr ""
+msgstr "Разделить рабочую область по вертикали"
 
 #. PyIDEMainForm..actlStandard..actViewSplitWorkspaceVer....Hint
 #: frmPyIDEMain.dfm
 msgid ""
 "Split workspace vertically|Show secondary editor tabset vertically aligned"
 msgstr ""
+"Разделить рабочую область по вертикали|Показать второй редактор в "
+"вертикальной вкладке"
 
 #. PyIDEMainForm..actlStandard..actViewSplitWorkspaceHor..Caption
 #: frmPyIDEMain.dfm
 msgid "Split Workspace Horizontally"
-msgstr ""
+msgstr "Разделить рабочую область по горизонтали"
 
 #. PyIDEMainForm..actlStandard..actViewSplitWorkspaceHor....Hint
 #: frmPyIDEMain.dfm
 msgid ""
 "Split workspace horizontally|Show secondary workspace horizontally aligned"
 msgstr ""
+"Разделить рабочую область по горизонтали|выровнять вторую рабочую область по"
+" горизонтали"
 
 #. PyIDEMainForm..actlStandard..actViewHideSecondaryWorkspace..Caption
 #: frmPyIDEMain.dfm
 msgid "Hide Secondary Workspace"
-msgstr ""
+msgstr "Скрыть вторую рабочую область"
 
 #. PyIDEMainForm..actlStandard..actViewHideSecondaryWorkspace..Hint
 #: frmPyIDEMain.dfm
 msgid "Hide secondary workspace"
-msgstr ""
+msgstr "Скрыть вторую рабочую область"
 
 #. PyIDEMainForm..actlStandard..actSelectStyle..Caption
 #: frmPyIDEMain.dfm
 msgid "Styles..."
-msgstr ""
+msgstr "Стили..."
 
 #. PythonIIForm..Caption
 #: frmPythonII.dfm dmCommands.pas
 msgid "Python Interpreter"
 msgstr "Интерпретатор Python"
-
-#. PythonIIForm..DebugIDE......Name
-#: frmPythonII.dfm
-msgid "user_thread"
-msgstr ""
-
-#. PythonIIForm..DebugIDE........DocString.Strings
-#: frmPythonII.dfm
-msgid "Return the 8087 CW value"
-msgstr "Вернуть значение 8087 CW"
 
 #. PythonIIForm..InterpreterActionList..actCopyHistory..Category
 #. PythonIIForm..InterpreterActionList..actClearContents..Category
@@ -5560,7 +5554,7 @@ msgstr "Копировать выделенный текст, игнорируя
 #. PythonIIForm..InterpreterActionList..actPasteAndExecute..Caption
 #: frmPythonII.dfm
 msgid "Paste && E&xecute"
-msgstr ""
+msgstr "вставить && В&ыполнить"
 
 #. PythonIIForm..InterpreterActionList..actPasteAndExecute..Hint
 #: frmPythonII.dfm
@@ -5626,7 +5620,7 @@ msgstr "Выполняет re.search"
 #. RegExpTesterWindow..BGPanel..FGPanel..TBXDock..RegExpTesterToolbar..TBXSubmenuItem2..RI_findall..Caption
 #: frmRegExpTester.dfm
 msgid "Find all"
-msgstr ""
+msgstr "Найти всё"
 
 #. RegExpTesterWindow..BGPanel..FGPanel..TBXDock..RegExpTesterToolbar..TBXSubmenuItem2..RI_findall..Hint
 #: frmRegExpTester.dfm
@@ -5681,7 +5675,7 @@ msgstr "Соответствия:"
 #. RegExpTesterWindow..BGPanel..FGPanel..pnlBackground..pnlMiddle..dpMatchText..SpTBXPanel3..SpinMatches..Hint
 #: frmRegExpTester.dfm
 msgid "Show a found match"
-msgstr ""
+msgstr "Show a found match"
 
 #. ToDoWindow..Caption
 #: frmToDo.dfm
@@ -5877,7 +5871,7 @@ msgstr "В настоящий момент нет активных вкладо�
 msgid ""
 "Special thanks to the many great developers who,with their amazing work, "
 "have made PyScripter possible. PyScripter makes use of the following "
-"components and projects:\n"
+"components and projects:"
 msgstr ""
 
 #: dlgAboutPyScripter.pas
@@ -5894,50 +5888,50 @@ msgid ""
 "Toolbar2000 (www.jrsoftware.org/tb2k.php)\n"
 "SpTBXLib(www.silverpointdevelopment.com)\n"
 "TCommandLineReader(www.benibela.de)\n"
-"Silk icons(www.famfamfam.com)\n"
+"Silk icons(www.famfamfam.com)"
 msgstr ""
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationArabic
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "Arabic: %s"
-msgstr ""
+msgstr "Арабский: %s"
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationChinese
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "Chinese: %s"
-msgstr ""
+msgstr "Китайский: %s"
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationFrench
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "French: %s"
-msgstr ""
+msgstr "Французский: %s"
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationGerman
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "German: %s"
-msgstr ""
+msgstr "German: %s"
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationGreek
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "Greek: %s"
-msgstr ""
+msgstr "Греческий: %s"
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationItalian
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "Italian: %s"
-msgstr ""
+msgstr "Итальянский: %s"
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationJapanese
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "Japanese: %s"
-msgstr ""
+msgstr "Японский: %s"
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationKabyle
 #: dlgAboutPyScripter.pas
@@ -5949,36 +5943,36 @@ msgstr ""
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "Portuguese (Brazil): %s"
-msgstr ""
+msgstr "Португальский (Бразилия): %s"
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationPortuguesePT
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "Portuguese (Portugal): %s"
-msgstr ""
+msgstr "Португальский (Португалия): %s"
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationRussian
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "Russian: %s"
-msgstr ""
+msgstr "Русский: %s"
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationSlovak
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "Slovak: %s"
-msgstr ""
+msgstr "Словакский: %s"
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationSpanish
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "Spanish: %s"
-msgstr ""
+msgstr "Испанский: %s"
 
 #: dlgAboutPyScripter.pas
 msgid ""
 "Tanmaya Meher (www.github.com/tanmayameher)\n"
-"jprzywoski (www.github.com/jprzywoski)\n"
+"jprzywoski (www.github.com/jprzywoski)"
 msgstr ""
 
 #: dlgAboutPyScripter.pas
@@ -6285,7 +6279,7 @@ msgstr "Дополнение кода в интерпретаторе"
 
 #: dmCommands.pas
 msgid "Case sensitive"
-msgstr ""
+msgstr "Учитывать регистр"
 
 #: dmCommands.pas
 msgid "Complete Python keywords"
@@ -6409,6 +6403,12 @@ msgstr "Не реализовано"
 #, object-pascal-format
 msgid "Failed to backup file \"%s\""
 msgstr "Не удалось сделать резервную копию файла \"%s\""
+
+#. Programmer's name for it: SErrorLoadLayout
+#: StringResources.pas
+#, object-pascal-format
+msgid "Failed to load layout from \"%s\". Please close and restart PyScripter"
+msgstr ""
 
 #. Programmer's name for it: SFilterAllFiles
 #: StringResources.pas
@@ -7455,14 +7455,3 @@ msgstr ""
 #: SynHighlighterYAML.pas
 msgid "YAML files (*.yaml)|*.yaml"
 msgstr "YAML файлы (*.yaml)|*.yaml"
-
-#. Localizable strings.
-#. Programmer's name for it: SEditLinkIsNil
-#: VirtualTrees.pas
-msgid "Edit link must not be nil."
-msgstr "Ссылка не должна быть пустой"
-
-#. Programmer's name for it: SClipboardFailed
-#: VirtualTrees.pas
-msgid "Clipboard operation failed."
-msgstr "Не удалось выполнить операцию буфера обмена"

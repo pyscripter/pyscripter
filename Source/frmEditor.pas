@@ -1421,7 +1421,6 @@ begin
     PyIDEMainForm.UpdateCaption;
   BreakPoints.Free;
   FoundSearchItems.Free;
-  fSyntaxErrorPos.Free;
 
   // Unregister kernel notification
   ChangeNotifier.UnRegisterKernelChangeNotify(Self);
@@ -2173,7 +2172,6 @@ begin
   SynEdit.OnReplaceText := CommandsDataModule.SynEditReplaceText;
 
   fHotIdentInfo.HaveHotIdent := False;
-  fSyntaxErrorPos := TEditorPos.Create;
 
   ViewsTabControl.TabVisible := False;
   case PyIDEOptions.EditorsTabPosition of
@@ -3125,7 +3123,7 @@ begin
   then
   begin
     InternalInterpreter.SyntaxCheck(GetEditor, True);
-    fSyntaxErrorPos.Assign(PyControl.ErrorPos);
+    fSyntaxErrorPos := PyControl.ErrorPos;
     PyControl.ErrorPos.Clear;
     fNeedToCheckSyntax := False;
   end;

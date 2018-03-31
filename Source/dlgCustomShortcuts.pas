@@ -24,11 +24,13 @@ type
     function IsSecondaryShortCutsStored: Boolean;
     procedure SetSecondaryShortCuts(const Value: TCustomShortCutList);
     function GetSecondaryShortCuts: TCustomShortCutList;
+    function GetDisplayName : string;
   public
     Category : string;
     Caption : string;
     Hint : string;
     destructor Destroy; override;
+    property DisplayName : string read GetDisplayName;
   published
     property ActionListName : string read fActionListName write fActionListName;
     property ActionName : string read fActionName write fActionName;
@@ -293,7 +295,7 @@ begin
         AssignKeysToActionProxy(CurAction);
 
         { track the keystroke assignment }
-        KeyList.Add(ShortCutToText(ShortCut) + '=' + CurAction.ActionName);
+        KeyList.Add(ShortCutToText(ShortCut) + '=' + CurAction.DisplayName);
 
       end else begin
         MessageBeep(MB_ICONEXCLAMATION);
@@ -306,16 +308,10 @@ begin
 end;
 
 function TfrmCustomKeyboard.GetCurrentAction: TActionProxyItem;
-var
-  CatIdx, CmdIdx : Integer;
-  SL : TStringList;
 begin
   if lbCommands.ItemIndex < 0 then  Exit(nil);
-  
-  CatIdx := FunctionList.IndexOf(lbCategories.Items[lbCategories.ItemIndex]);
-  SL     := FunctionList.Objects[CatIdx] as TStringList;
-  CmdIdx := SL.IndexOf(lbCommands.Items[lbCommands.ItemIndex]);
-  Result := (SL.Objects[CmdIdx] as TActionProxyItem);
+
+  Result := lbCommands.Items.Objects[lbCommands.ItemIndex] as TActionProxyItem;
 end;
 
 procedure TfrmCustomKeyboard.PrepActions;
@@ -334,24 +330,24 @@ begin
     A := TActionProxyItem(ActionProxyCollection.Items[i]);
 
     { get category index }
-    Idx := FunctionList.IndexOf(A.Category);
+    Idx := FunctionList.IndexOf(_(A.Category));
 
     { if category doesn't already exist, add it }
     if Idx < 0 then
-      Idx := FunctionList.AddObject(A.Category, TStringList.Create);
+      Idx := FunctionList.AddObject(_(A.Category), TStringList.Create);
 
     { add keyboard function to list }
-    (FunctionList.Objects[Idx] as TStringList).AddObject(A.ActionName, A);
+    (FunctionList.Objects[Idx] as TStringList).AddObject(A.DisplayName, A);
 
     { shortcut value already assigned }
     if A.ShortCut <> 0 then begin
       { track the keystroke }
-      KeyList.Add(ShortCutToText(A.ShortCut) + '=' + A.ActionName);
+      KeyList.Add(ShortCutToText(A.ShortCut) + '=' + A.DisplayName);
     end;
     { Deal with secondary shortcuts }
     if A.IsSecondaryShortCutsStored then
       for j := 0 to A.SecondaryShortCuts.Count - 1 do
-        KeyList.Add(ShortCutToText(A.SecondaryShortCuts.ShortCuts[j]) + '=' + A.ActionName);
+        KeyList.Add(ShortCutToText(A.SecondaryShortCuts.ShortCuts[j]) + '=' + A.DisplayName);
   end;
 end;
 
@@ -364,7 +360,7 @@ begin
   CurAction := CurrentAction;
   { Remove shortcut from keylist }
   Index := KeyList.IndexOf(lbCurrentKeys.Items[lbCurrentKeys.ItemIndex]
-    + '=' + CurrentAction.ActionName);
+    + '=' + CurrentAction.DisplayName);
   if Index >= 0 then
     KeyList.Delete(Index);
 
@@ -393,6 +389,11 @@ begin
   if Assigned(FSecondaryShortCuts) then
     FreeAndNil(FSecondaryShortCuts);
   inherited;
+end;
+
+function TActionProxyItem.GetDisplayName: string;
+begin
+  Result := StripHotkey(Caption)
 end;
 
 function TActionProxyItem.GetSecondaryShortCuts: TCustomShortCutList;

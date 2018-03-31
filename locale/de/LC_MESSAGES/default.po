@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2018-03-12 11:35\n"
+"POT-Creation-Date: 2018-03-23 09:25\n"
 "PO-Revision-Date: 2018-01-23 16:26\n"
 "Last-Translator: luebbe <luebbe.opensource@gmail.com>, 2018\n"
 "Language-Team: German (https://www.transifex.com/luebbe/teams/82736/de/)\n"
@@ -588,7 +588,7 @@ msgstr "Finde in Dateien Suche"
 #. FindInFilesDialog..Panel1..lblFind..Caption
 #: dlgFindInFiles.dfm
 msgid "&Text to find:"
-msgstr "&Suchtext"
+msgstr "&Suchtext:"
 
 #. FindInFilesDialog..Panel1..gbxOptions..Caption
 #. fmEditorOptionsDialog..Panel1..TabControl..SpTBXTabItem2..Caption
@@ -663,12 +663,12 @@ msgstr "Verzeichnissuche"
 #. FindInFilesDialog..Panel1..gbxDirectories..lblMasks..Caption
 #: dlgFindInFiles.dfm
 msgid "File mas&ks:"
-msgstr "Dateifilter"
+msgstr "Datei&filter:"
 
 #. FindInFilesDialog..Panel1..gbxDirectories..lblDirectory..Caption
 #: dlgFindInFiles.dfm
 msgid "Di&rectories:"
-msgstr "O&rdner"
+msgstr "O&rdner:"
 
 #. FindInFilesDialog..Panel1..gbxDirectories..btnBrowse..Hint
 #. fmToDoOptions..pnlBG..gbxSearchFiles..btnBrowse..Hint
@@ -705,7 +705,7 @@ msgstr "&Alle Treffer nach der Suche erweitern"
 #. FindResultsOptionsDialog..SpTBXPanel1..gbxMatchList..pnlListFont..Caption
 #: dlgFindResultsOptions.dfm
 msgid "Match List Font..."
-msgstr "Trefferliste Schriftart"
+msgstr "Schriftart Trefferliste..."
 
 #. FindResultsOptionsDialog..SpTBXPanel1..gbxMatchContext..Caption
 #: dlgFindResultsOptions.dfm
@@ -725,7 +725,7 @@ msgstr "Hervorhebungsfarbe..."
 #. FindResultsOptionsDialog..SpTBXPanel1..gbxMatchContext..pnlMatchLineColor..Caption
 #: dlgFindResultsOptions.dfm
 msgid "Match Font Color..."
-msgstr "Treffer Schriftfarbe"
+msgstr "Schriftfarbe Trefferliste..."
 
 #. ImportDirectoryForm..Caption
 #: dlgImportDirectory.dfm
@@ -894,7 +894,7 @@ msgstr "Vor Start neu &initialisieren"
 #. RunConfigurationForm..Panel1..gbRemoteEngine..Label1..Caption
 #: dlgRunConfiguration.dfm
 msgid "Engine &Type:"
-msgstr "Compilertyp:"
+msgstr "&Compilertyp:"
 
 #. RunConfigurationForm..Panel1..gbRemoteEngine..cbEngineType..Text
 #. RunConfigurationForm..Panel1..gbRemoteEngine..cbEngineType....Items.Strings
@@ -1013,38 +1013,68 @@ msgstr "Farbschema"
 #. fmEditorOptionsDialog..Panel1..TabControl..Color..Caption
 #: dlgSynEditOptions.dfm
 msgid "Syntax Colors"
-msgstr "Sytaxfarben"
+msgstr "Syntaxfarben"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Caption
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label11..Caption
 #: dlgSynEditOptions.dfm
-msgid "Keystroke Options"
-msgstr "Tastenkürzeloptionen"
+msgid "&Element:"
+msgstr "&Element:"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label5..Caption
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label12..Caption
 #: dlgSynEditOptions.dfm
-msgid "Command:"
-msgstr "Befehl:"
+msgid "&Foreground Color:"
+msgstr "&Vordergrundfarbe:"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label6..Caption
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label13..Caption
 #: dlgSynEditOptions.dfm
-msgid "Keystroke 2:"
-msgstr "Tastenkürzel 2:"
+msgid "B&ackground Color:"
+msgstr "&Hintergrundfarbe:"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label7..Caption
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label14..Caption
+#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel1..Caption
 #: dlgSynEditOptions.dfm
-msgid "Keystroke 1:"
-msgstr "Tastenkürzel 1:"
+msgid "Code Sample"
+msgstr "Code Beispiel"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..Panel2..KeyList......Caption
-#. ToolProperties..Panel1..TabControl..tabProperties..GroupBox2..Caption
-#: dlgSynEditOptions.dfm dlgToolProperties.dfm
-msgid "Command"
-msgstr "Befehl"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..Panel2..KeyList......Caption
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label15..Caption
 #: dlgSynEditOptions.dfm
-msgid "Keystroke"
-msgstr "Tastenkürzel"
+msgid "Editor Syntax Language"
+msgstr "Editor Syntaxsprache"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..Caption
+#: dlgSynEditOptions.dfm
+msgid " Text attributes "
+msgstr "Textattribute"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementBold..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Bold"
+msgstr "&Fett"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementItalic..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Italic"
+msgstr "&Kursiv"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementUnderline..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Underline"
+msgstr "&Unterstrichen"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementStrikeout..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Strike Out"
+msgstr "&Durchgestrichen"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel2..Caption
+#: dlgSynEditOptions.dfm
+msgid "Available Themes"
+msgstr "Verfügbare Farbschemata"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..btnApplyTheme..Caption
+#: dlgSynEditOptions.dfm
+msgid "Apply Theme"
+msgstr "Farbschema verwenden"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckAutoIndent....Hint
 #: dlgSynEditOptions.dfm
@@ -1354,67 +1384,6 @@ msgstr "Halber Block"
 msgid "Block"
 msgstr "Block"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label11..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Element:"
-msgstr "&Element"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label12..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Foreground Color:"
-msgstr "&Vordergrundfarbe"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label13..Caption
-#: dlgSynEditOptions.dfm
-msgid "B&ackground Color:"
-msgstr "&Hintergrundfarbe"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label14..Caption
-#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel1..Caption
-#: dlgSynEditOptions.dfm
-msgid "Code Sample"
-msgstr "Code Beispiel"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label15..Caption
-#: dlgSynEditOptions.dfm
-msgid "Editor Syntax Language"
-msgstr "Editor Syntaxsprache"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..Caption
-#: dlgSynEditOptions.dfm
-msgid " Text attributes "
-msgstr "Textattribute"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementBold..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Bold"
-msgstr "&Fett"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementItalic..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Italic"
-msgstr "&Kursiv"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementUnderline..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Underline"
-msgstr "&Unterstrichen"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementStrikeout..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Strike Out"
-msgstr "&Durchgestrichen"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel2..Caption
-#: dlgSynEditOptions.dfm
-msgid "Available Themes"
-msgstr "Verfügbare Farbschemata"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..btnApplyTheme..Caption
-#: dlgSynEditOptions.dfm
-msgid "Apply Theme"
-msgstr "Farbschema verwenden"
-
 #. fmEditorOptionsDialog..Panel1..TabControl..Display..gbRightEdge..Caption
 #: dlgSynEditOptions.dfm
 msgid "Right Edge"
@@ -1528,6 +1497,37 @@ msgstr "Tabulatorbreite:"
 #: dlgSynEditOptions.dfm
 msgid "Active Line Color"
 msgstr "Farbe der aktiven Zeile"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Caption
+#: dlgSynEditOptions.dfm
+msgid "Keystroke Options"
+msgstr "Tastenkürzeloptionen"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label5..Caption
+#: dlgSynEditOptions.dfm
+msgid "Command:"
+msgstr "Befehl:"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label6..Caption
+#: dlgSynEditOptions.dfm
+msgid "Keystroke 2:"
+msgstr "Tastenkürzel 2:"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label7..Caption
+#: dlgSynEditOptions.dfm
+msgid "Keystroke 1:"
+msgstr "Tastenkürzel 1:"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..Panel2..KeyList......Caption
+#. ToolProperties..Panel1..TabControl..tabProperties..GroupBox2..Caption
+#: dlgSynEditOptions.dfm dlgToolProperties.dfm
+msgid "Command"
+msgstr "Befehl"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..Panel2..KeyList......Caption
+#: dlgSynEditOptions.dfm
+msgid "Keystroke"
+msgstr "Tastenkürzel"
 
 #. PageSetupDlg..Caption
 #. DocForm..TBXDock1..TBXToolbar1..TBXItem4..Hint
@@ -3060,7 +3060,7 @@ msgstr "Tastenkombinationen exportieren"
 #. Programmer's name for it: SImportHighlighters
 #: dmCommands.dfm StringResources.pas
 msgid "Import Highlighters"
-msgstr "Import-Hervorhebung"
+msgstr "Import-Syntaxhervorhebung"
 
 #. CommandsDataModule..actlMain..actImportHighlighters..Hint
 #: dmCommands.dfm
@@ -3071,7 +3071,7 @@ msgstr "Import-Syntaxhervorhebung"
 #. Programmer's name for it: SExportHighlighters
 #: dmCommands.dfm StringResources.pas
 msgid "Export Highlighters"
-msgstr "Export-Hervorhebung"
+msgstr "Export-Syntaxhervorhebung"
 
 #. CommandsDataModule..actlMain..actExportHighlighters..Hint
 #: dmCommands.dfm
@@ -4567,7 +4567,7 @@ msgstr "Keine Syntaxhervorhebung verwendet"
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnLanguage..Caption
 #: frmPyIDEMain.dfm
 msgid "Language"
-msgstr "Sprache"
+msgstr "Sprache (Language)"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnLayouts..Caption
 #. PyIDEMainForm..TBXDockTop..ViewToolbar..tbiViewLayouts..Caption
@@ -5197,12 +5197,12 @@ msgstr "Suche vorwärts"
 #. PyIDEMainForm..actlStandard..actViewRegExpTester..Caption
 #: frmPyIDEMain.dfm
 msgid "&Regular Expression Tester"
-msgstr "&Reduläre Ausdrücke Tester"
+msgstr "&Reguläre Ausdrücke Tester"
 
 #. PyIDEMainForm..actlStandard..actViewRegExpTester..Hint
 #: frmPyIDEMain.dfm
 msgid "View/Hide Regular Expression Tester"
-msgstr "Anzeigen/Verstecken des Reguläre Ausdrücke Tester"
+msgstr "Reguläre Ausdrücke Tester Anzeigen/Verbergen"
 
 #. PyIDEMainForm..actlStandard..actEditorZoomIn..Caption
 #: frmPyIDEMain.dfm
@@ -5518,16 +5518,6 @@ msgstr "Stile..."
 #: frmPythonII.dfm dmCommands.pas
 msgid "Python Interpreter"
 msgstr "Python Interpreter"
-
-#. PythonIIForm..DebugIDE......Name
-#: frmPythonII.dfm
-msgid "user_thread"
-msgstr ""
-
-#. PythonIIForm..DebugIDE........DocString.Strings
-#: frmPythonII.dfm
-msgid "Return the 8087 CW value"
-msgstr "Rückgabe des 8087 CW Werts"
 
 #. PythonIIForm..InterpreterActionList..actCopyHistory..Category
 #. PythonIIForm..InterpreterActionList..actClearContents..Category
@@ -5886,10 +5876,10 @@ msgstr "Es ist momentan kein Editor aktiv"
 msgid ""
 "Special thanks to the many great developers who,with their amazing work, "
 "have made PyScripter possible. PyScripter makes use of the following "
-"components and projects:\n"
+"components and projects:"
 msgstr ""
 "Besonderer Dank an die vielen tollen Entwickler, die mit ihrer großartigen Arbeit PyScripter möglich gemacht haben.\n"
-"PyScripter verwendet folgende Komponenten und Projekte:\n"
+"PyScripter verwendet folgende Komponenten und Projekte:"
 
 #: dlgAboutPyScripter.pas
 msgid ""
@@ -5905,7 +5895,7 @@ msgid ""
 "Toolbar2000 (www.jrsoftware.org/tb2k.php)\n"
 "SpTBXLib(www.silverpointdevelopment.com)\n"
 "TCommandLineReader(www.benibela.de)\n"
-"Silk icons(www.famfamfam.com)\n"
+"Silk icons(www.famfamfam.com)"
 msgstr ""
 "Python für Delphi (www.github.com/pyscripter/python4delphi)\n"
 "Rpyc (www.github.com/tomerfiliba/rpyc)\n"
@@ -5919,7 +5909,7 @@ msgstr ""
 "Toolbar2000 (www.jrsoftware.org/tb2k.php)\n"
 "SpTBXLib(www.silverpointdevelopment.com)\n"
 "TCommandLineReader(www.benibela.de)\n"
-"Silk icons(www.famfamfam.com)\n"
+"Silk icons(www.famfamfam.com)"
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationArabic
 #: dlgAboutPyScripter.pas
@@ -6002,10 +5992,10 @@ msgstr "Spanisch: %s"
 #: dlgAboutPyScripter.pas
 msgid ""
 "Tanmaya Meher (www.github.com/tanmayameher)\n"
-"jprzywoski (www.github.com/jprzywoski)\n"
+"jprzywoski (www.github.com/jprzywoski)"
 msgstr ""
 "Tanmaya Meher (www.github.com/tanmayameher)\n"
-"jprzywoski (www.github.com/jprzywoski)\n"
+"jprzywoski (www.github.com/jprzywoski)"
 
 #: dlgAboutPyScripter.pas
 msgid ""
@@ -6013,7 +6003,7 @@ msgid ""
 "Internet group support is available at https://groups.google.com/group/PyScripter\n"
 "Please submit bug reports and questions about PyScripter to pyscripter@gmail.com."
 msgstr ""
-"Das Projekt, sein Quellcode und das Ticketsystem finden sich auf Github (www.github.com/pyscripter/pyscripterr)\n"
+"Das Projekt, sein Quellcode und das Ticketsystem finden sich auf Github (www.github.com/pyscripter/pyscripter)\n"
 "Für den Support gibt es eine Diskussionsgruppe: https://groups.google.com/group/PyScripter\n"
 "Bitte schicken Sie Fragen zu PyScripter oder Fehlerberichte an pyscripter@gmail.com."
 
@@ -6438,6 +6428,12 @@ msgstr "Nicht implementiert"
 #, object-pascal-format
 msgid "Failed to backup file \"%s\""
 msgstr "Fehler bei Erstellen der Sicherungskopie der Datei \"%s\""
+
+#. Programmer's name for it: SErrorLoadLayout
+#: StringResources.pas
+#, object-pascal-format
+msgid "Failed to load layout from \"%s\". Please close and restart PyScripter"
+msgstr ""
 
 #. Programmer's name for it: SFilterAllFiles
 #: StringResources.pas
@@ -7490,14 +7486,3 @@ msgstr "Mehrzeiliger String"
 #: SynHighlighterYAML.pas
 msgid "YAML files (*.yaml)|*.yaml"
 msgstr "YAML Dateien (*.yaml)|*.yaml"
-
-#. Localizable strings.
-#. Programmer's name for it: SEditLinkIsNil
-#: VirtualTrees.pas
-msgid "Edit link must not be nil."
-msgstr "Der Wert darf nicht Null sein."
-
-#. Programmer's name for it: SClipboardFailed
-#: VirtualTrees.pas
-msgid "Clipboard operation failed."
-msgstr "Fehler beim kopieren in die Zwischenablage."

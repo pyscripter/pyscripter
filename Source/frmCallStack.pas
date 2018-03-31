@@ -146,8 +146,7 @@ begin
         FileName :=  Copy(FileName, 2, Length(FileName)-2);
       Editor := GI_EditorFactory.GetEditorByNameOrTitle(FileName);
       if Assigned(Editor) then begin
-        PyControl.CurrentPos.Editor := Editor;
-        PyControl.CurrentPos.Line := FrameData.Line;
+        PyControl.CurrentPos.NewPos(Editor, FrameData.Line);
         PyControl.DoCurrentPosChanged;
       end;
     end;

@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2018-03-12 11:35\n"
+"POT-Creation-Date: 2018-03-23 09:25\n"
 "PO-Revision-Date: 2018-01-23 16:26\n"
 "Last-Translator: luebbe <luebbe.opensource@gmail.com>, 2018\n"
 "Language-Team: Japanese (https://www.transifex.com/luebbe/teams/82736/ja/)\n"
@@ -1012,35 +1012,65 @@ msgstr ""
 msgid "Syntax Colors"
 msgstr "シンタックスの色"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Caption
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label11..Caption
 #: dlgSynEditOptions.dfm
-msgid "Keystroke Options"
-msgstr "キーストローク オプション"
+msgid "&Element:"
+msgstr "要素(&E)"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label5..Caption
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label12..Caption
 #: dlgSynEditOptions.dfm
-msgid "Command:"
-msgstr "コマンド:"
+msgid "&Foreground Color:"
+msgstr "前景色(&F):"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label6..Caption
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label13..Caption
 #: dlgSynEditOptions.dfm
-msgid "Keystroke 2:"
+msgid "B&ackground Color:"
+msgstr "背景色(&A):"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label14..Caption
+#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel1..Caption
+#: dlgSynEditOptions.dfm
+msgid "Code Sample"
+msgstr "コードのサンプル"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label15..Caption
+#: dlgSynEditOptions.dfm
+msgid "Editor Syntax Language"
+msgstr "エディタシンタックスの言語"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..Caption
+#: dlgSynEditOptions.dfm
+msgid " Text attributes "
+msgstr "テキスト属性"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementBold..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Bold"
+msgstr "太字(&B)"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementItalic..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Italic"
+msgstr "斜体(&I)"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementUnderline..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Underline"
+msgstr "下線(&U)"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementStrikeout..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Strike Out"
+msgstr "字消し(&S)"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel2..Caption
+#: dlgSynEditOptions.dfm
+msgid "Available Themes"
 msgstr ""
 
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label7..Caption
+#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..btnApplyTheme..Caption
 #: dlgSynEditOptions.dfm
-msgid "Keystroke 1:"
-msgstr ""
-
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..Panel2..KeyList......Caption
-#. ToolProperties..Panel1..TabControl..tabProperties..GroupBox2..Caption
-#: dlgSynEditOptions.dfm dlgToolProperties.dfm
-msgid "Command"
-msgstr "コマンド"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..Panel2..KeyList......Caption
-#: dlgSynEditOptions.dfm
-msgid "Keystroke"
+msgid "Apply Theme"
 msgstr ""
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckAutoIndent....Hint
@@ -1333,67 +1363,6 @@ msgstr "ブロックの半分"
 msgid "Block"
 msgstr "ブロック"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label11..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Element:"
-msgstr "要素(&E)"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label12..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Foreground Color:"
-msgstr "前景色(&F):"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label13..Caption
-#: dlgSynEditOptions.dfm
-msgid "B&ackground Color:"
-msgstr "背景色(&A):"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label14..Caption
-#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel1..Caption
-#: dlgSynEditOptions.dfm
-msgid "Code Sample"
-msgstr "コードのサンプル"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label15..Caption
-#: dlgSynEditOptions.dfm
-msgid "Editor Syntax Language"
-msgstr "エディタシンタックスの言語"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..Caption
-#: dlgSynEditOptions.dfm
-msgid " Text attributes "
-msgstr "テキスト属性"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementBold..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Bold"
-msgstr "太字(&B)"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementItalic..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Italic"
-msgstr "斜体(&I)"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementUnderline..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Underline"
-msgstr "下線(&U)"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementStrikeout..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Strike Out"
-msgstr "字消し(&S)"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel2..Caption
-#: dlgSynEditOptions.dfm
-msgid "Available Themes"
-msgstr ""
-
-#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..btnApplyTheme..Caption
-#: dlgSynEditOptions.dfm
-msgid "Apply Theme"
-msgstr ""
-
 #. fmEditorOptionsDialog..Panel1..TabControl..Display..gbRightEdge..Caption
 #: dlgSynEditOptions.dfm
 msgid "Right Edge"
@@ -1507,6 +1476,37 @@ msgstr "タブ幅:"
 #: dlgSynEditOptions.dfm
 msgid "Active Line Color"
 msgstr "アクティブな行の色"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Caption
+#: dlgSynEditOptions.dfm
+msgid "Keystroke Options"
+msgstr "キーストローク オプション"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label5..Caption
+#: dlgSynEditOptions.dfm
+msgid "Command:"
+msgstr "コマンド:"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label6..Caption
+#: dlgSynEditOptions.dfm
+msgid "Keystroke 2:"
+msgstr ""
+
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label7..Caption
+#: dlgSynEditOptions.dfm
+msgid "Keystroke 1:"
+msgstr ""
+
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..Panel2..KeyList......Caption
+#. ToolProperties..Panel1..TabControl..tabProperties..GroupBox2..Caption
+#: dlgSynEditOptions.dfm dlgToolProperties.dfm
+msgid "Command"
+msgstr "コマンド"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..Panel2..KeyList......Caption
+#: dlgSynEditOptions.dfm
+msgid "Keystroke"
+msgstr ""
 
 #. PageSetupDlg..Caption
 #. DocForm..TBXDock1..TBXToolbar1..TBXItem4..Hint
@@ -4528,7 +4528,7 @@ msgstr "シンタックス ハイライトを使用しません"
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnLanguage..Caption
 #: frmPyIDEMain.dfm
 msgid "Language"
-msgstr "言語"
+msgstr "言語 (Language)"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnLayouts..Caption
 #. PyIDEMainForm..TBXDockTop..ViewToolbar..tbiViewLayouts..Caption
@@ -5474,16 +5474,6 @@ msgstr ""
 msgid "Python Interpreter"
 msgstr "Pythonインタプリタ"
 
-#. PythonIIForm..DebugIDE......Name
-#: frmPythonII.dfm
-msgid "user_thread"
-msgstr ""
-
-#. PythonIIForm..DebugIDE........DocString.Strings
-#: frmPythonII.dfm
-msgid "Return the 8087 CW value"
-msgstr "8087 CW 値を返す"
-
 #. PythonIIForm..InterpreterActionList..actCopyHistory..Category
 #. PythonIIForm..InterpreterActionList..actClearContents..Category
 #. PythonIIForm..InterpreterActionList..actCopyWithoutPrompts..Category
@@ -5841,7 +5831,7 @@ msgstr "アクティブなエディタがありません"
 msgid ""
 "Special thanks to the many great developers who,with their amazing work, "
 "have made PyScripter possible. PyScripter makes use of the following "
-"components and projects:\n"
+"components and projects:"
 msgstr ""
 
 #: dlgAboutPyScripter.pas
@@ -5858,7 +5848,7 @@ msgid ""
 "Toolbar2000 (www.jrsoftware.org/tb2k.php)\n"
 "SpTBXLib(www.silverpointdevelopment.com)\n"
 "TCommandLineReader(www.benibela.de)\n"
-"Silk icons(www.famfamfam.com)\n"
+"Silk icons(www.famfamfam.com)"
 msgstr ""
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationArabic
@@ -5942,7 +5932,7 @@ msgstr ""
 #: dlgAboutPyScripter.pas
 msgid ""
 "Tanmaya Meher (www.github.com/tanmayameher)\n"
-"jprzywoski (www.github.com/jprzywoski)\n"
+"jprzywoski (www.github.com/jprzywoski)"
 msgstr ""
 
 #: dlgAboutPyScripter.pas
@@ -6371,6 +6361,12 @@ msgstr "宣言されていません"
 #, object-pascal-format
 msgid "Failed to backup file \"%s\""
 msgstr "ファイル \"%s\" のバックアップに失敗しました"
+
+#. Programmer's name for it: SErrorLoadLayout
+#: StringResources.pas
+#, object-pascal-format
+msgid "Failed to load layout from \"%s\". Please close and restart PyScripter"
+msgstr ""
 
 #. Programmer's name for it: SFilterAllFiles
 #: StringResources.pas
@@ -7387,15 +7383,4 @@ msgstr ""
 #. Programmer's name for it: SYNS_FilterYAML
 #: SynHighlighterYAML.pas
 msgid "YAML files (*.yaml)|*.yaml"
-msgstr ""
-
-#. Localizable strings.
-#. Programmer's name for it: SEditLinkIsNil
-#: VirtualTrees.pas
-msgid "Edit link must not be nil."
-msgstr ""
-
-#. Programmer's name for it: SClipboardFailed
-#: VirtualTrees.pas
-msgid "Clipboard operation failed."
 msgstr ""

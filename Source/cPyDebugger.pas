@@ -578,12 +578,15 @@ procedure TPyInternalDebugger.GetCallStack(CallStackList: TObjectList<TBaseFrame
   Frame, Botframe : Variant);
 begin
   CallStackList.Clear;
-  if VarIsPython(Frame) then
+  if VarIsPython(Frame) then begin
     while not VarIsNone(Frame.f_back) and not VarIsNone(Frame.f_back.f_back) do begin
       CallStackList.Add(TFrameInfo.Create(Frame));
       Frame := Frame.f_back;
       if VarIsSame(Frame, Botframe) then break;
     end;
+    if CallStackList.Count = 0  then
+      CallStackList.Add(TFrameInfo.Create(Frame));
+  end;
 end;
 
 function TPyInternalDebugger.GetFrameGlobals(Frame: TBaseFrameInfo): TBaseNameSpaceItem;
@@ -756,14 +759,12 @@ function TPyInternalDebugger.RunSource(Const Source, FileName : Variant; symbol 
 Var
   OldCurrentPos : TEditorPos;
 begin
-  OldCurrentPos := TEditorPos.Create;
-  OldCurrentPos.Assign(PyControl.CurrentPos);
+  OldCurrentPos := PyControl.CurrentPos;
   try
     Result := InternalInterpreter.RunSource(Source, FileName, symbol);
-    PyControl.CurrentPos.Assign(OldCurrentPos);
-    PyControl.DoCurrentPosChanged;
   finally
-    OldCurrentPos.Free;
+    PyControl.CurrentPos := OldCurrentPos;
+    PyControl.DoCurrentPosChanged;
   end;
 end;
 
@@ -1073,16 +1074,14 @@ begin
         CheckError;
       except
         on E: EPySyntaxError do begin
-          MessagesWindow.ShowPythonSyntaxError(E);
           if PyIDEMainForm.ShowFilePosition(E.EFileName, E.ELineNumber, E.EOffset) and
             Assigned(GI_ActiveEditor)
           then begin
-            PyControl.ErrorPos.Editor := GI_ActiveEditor;
-            PyControl.ErrorPos.Line := E.ELineNumber;
-            PyControl.ErrorPos.Char := E.EOffset;
-            PyControl.ErrorPos.IsSyntax := True;
+            PyControl.ErrorPos.NewPos(GI_ActiveEditor, E.ELineNumber, E.EOffset, True);
             PyControl.DoErrorPosChanged;
           end;
+
+          PythonIIForm.AppendPrompt;
           Vcl.Dialogs.MessageDlg(E.Message, mtError, [mbOK], 0);
           System.SysUtils.Abort;
         end;
@@ -1486,19 +1485,16 @@ begin
         except
           on E: EPySyntaxError do begin
             E.EFileName := FName;  // add the filename
-            MessagesWindow.ShowPythonSyntaxError(E);
             if PyIDEMainForm.ShowFilePosition(E.EFileName, E.ELineNumber, E.EOffset) and
               Assigned(GI_ActiveEditor)
             then begin
-              PyControl.ErrorPos.Editor := GI_ActiveEditor;
+              PyControl.ErrorPos.NewPos(GI_ActiveEditor, E.ELineNumber, E.EOffset, True);
+              PyControl.DoErrorPosChanged;
             end;
-            PyControl.ErrorPos.Line := E.ELineNumber;
-            PyControl.ErrorPos.Char := E.EOffset;
-            PyControl.ErrorPos.IsSyntax := True;
-            PyControl.DoErrorPosChanged;
             if Not Quiet then Vcl.Dialogs.MessageDlg(E.Message, mtError, [mbOK], 0);
           end;
         end;
+        PythonIIForm.AppendPrompt;
       end;
     end;
   end;
