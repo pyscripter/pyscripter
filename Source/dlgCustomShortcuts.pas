@@ -24,13 +24,12 @@ type
     function IsSecondaryShortCutsStored: Boolean;
     procedure SetSecondaryShortCuts(const Value: TCustomShortCutList);
     function GetSecondaryShortCuts: TCustomShortCutList;
-    function GetDisplayName : string;
+    function GetDisplayName : string;  override;
   public
     Category : string;
     Caption : string;
     Hint : string;
     destructor Destroy; override;
-    property DisplayName : string read GetDisplayName;
   published
     property ActionListName : string read fActionListName write fActionListName;
     property ActionName : string read fActionName write fActionName;
