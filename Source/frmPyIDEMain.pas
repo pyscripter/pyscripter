@@ -406,6 +406,7 @@
             Dpi awareness (Issue 769)
           Issues addressed
             #705 #711 #717, #748
+
   History:   v 3.3
           New Features
             Thread debugging (#455)
@@ -413,6 +414,12 @@
             Form Layout and placement stored in PyScripter.local.ini
           Issues addressed
             #659, #827, #848, #849
+
+  History:   v 3.4
+          New Features
+          Issues addressed
+             #627
+
             { TODO : Python Engine change without exiting PyScripter }
             { TODO : Issues 501, 667 }
             { TODO : Review Search and Replace }

@@ -1681,6 +1681,7 @@ begin
       begin
         // go recursive in subdirectories
         if Recursive and (SearchRec.Attr and System.SysUtils.faDirectory <> 0) and
+           (SearchRec.Attr and System.SysUtils.faHidden = 0) and
            (SearchRec.Name <> '.') and
            (SearchRec.Name <> '..') then
           WalkThroughDirectory(PathWithSep + SearchRec.Name,

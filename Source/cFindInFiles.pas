@@ -379,7 +379,9 @@ begin
     begin
       Result := not FAbortSignalled;
 
-      if Result and (FileInfo.Attr and SysUtils.faDirectory = 0) then begin
+      if Result and (FileInfo.Attr and SysUtils.faDirectory = 0) and
+        (FileInfo.Attr and SysUtils.faHidden = 0) then
+      begin
         Name := Path + FileInfo.Name;
         TAsyncCalls.VCLSync(procedure begin
           GrepFile(Name);

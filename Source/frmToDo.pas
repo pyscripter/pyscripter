@@ -247,7 +247,9 @@ begin
     begin
       Result := not FAbortSignalled;
 
-      if Result and (FileInfo.Attr and SysUtils.faDirectory = 0) then begin
+      if Result and (FileInfo.Attr and SysUtils.faDirectory = 0) and
+        (FileInfo.Attr and SysUtils.faHidden = 0) then
+      begin
         Name := Path + FileInfo.Name;
         TAsyncCalls.VCLSync(procedure begin
           LoadFile(Name);
@@ -639,7 +641,6 @@ begin
           <-- Multiline test }
       // Identify owner of TODO item (-o)
       // Identify class of TODO item (-c)
-      OptionChar := WideChar(#0); // Initialize to make compiler happy - redundant
       while Pos(WideChar('-'), ParsingString) > 0 do
       begin
         if Length(ParsingString) > 1 then
