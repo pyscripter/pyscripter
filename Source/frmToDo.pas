@@ -50,7 +50,7 @@ uses
   Controls, Forms, Dialogs, frmIDEDockWin, JvDockControlForm, ExtCtrls, ActnList,
   Contnrs, ImgList, ComCtrls, Menus, JvAppStorage, TB2Item,
   TB2Dock, TB2Toolbar, VirtualTrees, JvComponentBase, SpTBXItem,
-  SynUnicode, MPCommonObjects, SpTBXSkins, uCommonFunctions, System.Actions,
+  SynUnicode, uCommonFunctions, System.Actions,
   SpTBXControls, System.ImageList;
 
 type
@@ -206,7 +206,7 @@ Type
 
 function WideCaseInsensitivePos(const SubString, S: string): Integer;
 begin
-  Result := Pos(WideUpperCase(SubString), WideUpperCase(S));
+  Result := Pos(SubString.ToUpper, S.ToUpper);
 end;
 
 procedure TToDoWindow.actEditCopyExecute(Sender: TObject);
@@ -391,7 +391,7 @@ Var
   TokenInfo: TTokenInfo;
 begin
   TokenInfo := TTokenInfo.Create;
-  TokenInfo.Token := WideUpperCase(Token);
+  TokenInfo.Token := Token.ToUpper;
   TokenInfo.Priority := Priority;
 
   AddObject(Token, TokenInfo);
@@ -582,7 +582,7 @@ var
 begin
   // Token string is alread trimmed and without SComment
   Result := nil;
-  TokenStringUpped := WideUpperCase(TokenString);
+  TokenStringUpped := TokenString.ToUpper;
   for i := 0 to ToDoExpert.FTokenList.Count - 1 do
   begin
     if StrIsLeft(PWideChar(TokenStringUpped),
@@ -645,7 +645,7 @@ begin
       begin
         if Length(ParsingString) > 1 then
         begin
-          OptionChar := WideUpperCase(Copy(ParsingString, 2, 1))[1];
+          OptionChar := Copy(ParsingString, 2, 1).ToUpper[1];
           Delete(ParsingString, 1, 2);
         end
         else

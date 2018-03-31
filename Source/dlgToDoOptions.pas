@@ -148,7 +148,7 @@ begin
   if TokenString <> '' then
   begin
     TokenInfo := TTokenInfo.Create;
-    TokenInfo.Token := WideUpperCase(TokenString);
+    TokenInfo.Token := TokenString.ToUpper;
     TokenInfo.Priority := TTodoPriority(cboPriority.ItemIndex);
     lstTokens.Items.AddObject(TokenInfo.Token, TokenInfo);
   end
@@ -185,7 +185,7 @@ begin
       Items[ItemIndex] := TokenText;
       with TTokeninfo(Items.Objects[ItemIndex]) do
       begin
-        Token := WideUpperCase(TokenText);
+        Token := TokenText.ToUpper;
         Priority := TToDoPriority(cboPriority.ItemIndex);
       end;
     end;
