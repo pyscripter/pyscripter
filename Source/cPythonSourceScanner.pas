@@ -16,7 +16,7 @@ uses
   System.Classes,
   System.Contnrs,
   SynRegExpr,
-  AsyncCalls;
+  System.Threading;
 
 Type
   TParsedModule = class;
@@ -226,10 +226,10 @@ public
   TAsynchSourceScanner = class(TInterfacedObject, IAsyncSourceScanner)
   private
     fStopped : Boolean;
-    fPythonScanner : TPythonScanner;
     fParsedModule : TParsedModule;
-    fAsyncCall : IAsyncCall;
-    procedure ThreadProc(Arg : Integer);
+    fPythonScanner : TPythonScanner;
+    fFuture : IFuture<TParsedModule>;
+    function FutureTask(Sender : TObject) : TParsedModule;
     procedure ScanProgress(CharNo, NoOfChars : integer; var Stop : Boolean);
     // IAsyncSourceScanner implementation
     function Finished : Boolean;
@@ -1701,12 +1701,13 @@ begin
   fParsedModule := TParsedModule.Create(FileName, Source);
   fPythonScanner := TPythonScanner.Create;
   fPythonScanner.OnScannerProgress := ScanProgress;
-//  fAsyncCall := TAsyncCalls.Invoke(ThreadProc);
-  fAsyncCall := AsyncCall(ThreadProc, 0);
+  fFuture := TTask.Future<TParsedModule>(Self, FutureTask);
 end;
 
 destructor TAsynchSourceScanner.Destroy;
 begin
+  inherited;
+  fFuture.Wait;
   FreeAndNil(fParsedModule);
   FreeAndNil(fPythonScanner);
   inherited;
@@ -1714,14 +1715,12 @@ end;
 
 function TAsynchSourceScanner.Finished: Boolean;
 begin
-  Result := fAsyncCall.Finished;
+  Result := fFuture.Status in [TTaskStatus.Completed, TTaskStatus.Exception];
 end;
 
 function TAsynchSourceScanner.GetParsedModule: TParsedModule;
 begin
-  if not fAsyncCall.Finished then
-    fAsyncCall.Sync;
-  Result := fParsedModule;
+  Result := fFuture.Value;
 end;
 
 procedure TAsynchSourceScanner.ScanProgress(CharNo, NoOfChars: integer;
@@ -1735,10 +1734,11 @@ begin
   fStopped := True;
 end;
 
-procedure TAsynchSourceScanner.ThreadProc(Arg : Integer);
+function TAsynchSourceScanner.FutureTask(Sender : TObject) : TParsedModule;
 begin
   if not fPythonScanner.ScanModule(fParsedModule) then
     FreeAndNil(fParsedModule);
+  Result := fParsedModule;
 end;
 
 { TAsynchSourceScannerFactory }

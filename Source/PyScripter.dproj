@@ -4,7 +4,7 @@
         <MainSource>PyScripter.dpr</MainSource>
         <Config Condition="'$(Config)'==''">Debug</Config>
         <DCC_DCCCompiler>DCC32</DCC_DCCCompiler>
-        <ProjectVersion>18.3</ProjectVersion>
+        <ProjectVersion>18.4</ProjectVersion>
         <FrameworkType>VCL</FrameworkType>
         <Base>True</Base>
         <Platform Condition="'$(Platform)'==''">Win64</Platform>
@@ -331,7 +331,6 @@
             <DesignClass>TForm</DesignClass>
         </DCCReference>
         <DCCReference Include="JvDockSupportControl.pas"/>
-        <DCCReference Include="AsyncCalls.pas"/>
         <DCCReference Include="TB2Item.pas"/>
         <DCCReference Include="JvDockVIDStyle.pas"/>
         <DCCReference Include="JvCreateProcess.pas"/>

@@ -101,7 +101,6 @@ uses
   SynHighlighterYAML in 'SynHighlighterYAML.pas',
   dlgSynEditOptions in 'dlgSynEditOptions.pas' {fmEditorOptionsDialog: TForm},
   JvDockSupportControl in 'JvDockSupportControl.pas',
-  AsyncCalls in 'AsyncCalls.pas',
   TB2Item in 'TB2Item.pas',
   JvDockVIDStyle in 'JvDockVIDStyle.pas',
   JvCreateProcess in 'JvCreateProcess.pas',
