@@ -206,9 +206,22 @@ var
 
 implementation
 
-uses System.UITypes, dmCommands, dlgFindInFiles, Math, frmPyIDEMain, uEditAppIntfs,
-  dlgReplaceInFiles, SynEdit, SynEditTypes, JclFileUtils, uCommonFunctions,
-  JvJVCLUtils, JvGnugettext, StringResources, SynRegExpr;
+uses
+  System.UITypes,
+  System.Math,
+  JclFileUtils,
+  JvJVCLUtils,
+  JvGnugettext,
+  SynRegExpr,
+  SynEdit,
+  SynEditTypes,
+  dmCommands,
+  dlgFindInFiles,
+  frmPyIDEMain,
+  uEditAppIntfs,
+  dlgReplaceInFiles,
+  uCommonFunctions,
+  StringResources;
 
 {$R *.dfm}
 
@@ -230,6 +243,7 @@ begin
   inherited;
   FGPanel.Realign;
 //  StatusBar.Panels.Items[0].Size := StatusBar.Width - 70;
+  lbResults.Invalidate;
   lbResults.Refresh;
 end;
 
@@ -333,18 +347,18 @@ begin
     ResultsCanvas.Brush.Style := bsClear;
     i := ResultsCanvas.TextWidth('+');
     FileString := FileResult.RelativeFileName;
-    ResultsCanvas.TextOut(ARect.Left + i + 8, ARect.Top, FileString);
+    ResultsCanvas.TextOut(ARect.Left + i + PPIScaled(8), ARect.Top, FileString);
     //c:=ARect.Top+((ARect.Bottom-ARect.Top) div 2);
 
     if FileResult.Expanded then
-      ResultsCanvas.TextOut(ARect.Left + 3, ARect.Top, '-')
+      ResultsCanvas.TextOut(ARect.Left + PPIScaled(3), ARect.Top, '-')
     else
-      ResultsCanvas.TextOut(ARect.Left + 3, ARect.Top, '+');
+      ResultsCanvas.TextOut(ARect.Left + PPIScaled(3), ARect.Top, '+');
 
     TempString := Format(_(SItemMatch), [FileResult.TotalMatches]);
 
-    p := ResultsCanvas.TextWidth(TempString) + 10;
-    if (ResultsCanvas.TextWidth(FileString) + i + 10) <= ARect.Right - p then
+    p := ResultsCanvas.TextWidth(TempString) + PPIScaled(10);
+    if (ResultsCanvas.TextWidth(FileString) + i + PPIScaled(10)) <= ARect.Right - p then
       ResultsCanvas.TextOut(lbResults.ClientWidth - p, ARect.Top, TempString);
   end
   else
@@ -370,25 +384,25 @@ begin
     ResultsCanvas.Brush.Color := nb;
     ResultsCanvas.Font.Color := nf;
     ResultsCanvas.FillRect(ARect);
-    ResultsCanvas.TextOut(ARect.Left + 10, ARect.Top + 1, IntToStr(ALineResult.LineNo));
+    ResultsCanvas.TextOut(ARect.Left + PPIScaled(10), ARect.Top + PPIScaled(1), IntToStr(ALineResult.LineNo));
 
     TempString := lbResults.Items[Index];
     c := LeftTrimChars(TempString);
 
-    p := ARect.Left + 60;
+    p := ARect.Left + PPIScaled(60);
     i := 1;
     for MIndx := 0 to ALineResult.Matches.Count-1 do begin
       AMatchResult := ALineResult.Matches[MIndx];
       ResultsCanvas.Font.Color := nf;
       ResultsCanvas.Brush.Color := nb;
       S := Copy(TempString, i, AMatchResult.SPos - c - i);
-      ResultsCanvas.TextOut(p, ARect.Top + 1, S);
+      ResultsCanvas.TextOut(p, ARect.Top + PPIScaled(1), S);
       p := ResultsCanvas.PenPos.X;
 
       ResultsCanvas.Font.Color := sf;
       ResultsCanvas.Brush.Color := sb;
       S := Copy(TempString, AMatchResult.SPos - c, AMatchResult.EPos - AMatchResult.SPos + 1);
-      ResultsCanvas.TextOut(p, ARect.Top + 1, S);
+      ResultsCanvas.TextOut(p, ARect.Top + PPIScaled(1), S);
       p := ResultsCanvas.PenPos.X;
 
       i := AMatchResult.EPos - c + 1;
@@ -396,7 +410,7 @@ begin
     ResultsCanvas.Font.Color := nf;
     ResultsCanvas.Brush.Color := nb;
     S := Copy(TempString, i, Length(TempString) -  i + 1);
-    ResultsCanvas.TextOut(p, ARect.Top + 1, S);
+    ResultsCanvas.TextOut(p, ARect.Top + PPIScaled(1), S);
   end;
 end;
 
@@ -619,7 +633,7 @@ begin
   inherited;
   fSearchResults := TStringList.Create;
   FSearchInProgress := False;
-  //lbResults.DoubleBuffered := True;
+//  lbResults.DoubleBuffered := True;
   ShowContext := True;
   ResizeListBox;
   FindInFilesExpert := TFindInFilesExpert.Create;

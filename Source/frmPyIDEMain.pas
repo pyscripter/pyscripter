@@ -417,8 +417,9 @@
 
   History:   v 3.4
           New Features
+            Find in Files and ToDo folders can include parameters (#828)
           Issues addressed
-             #627
+            #627
 
             { TODO : Python Engine change without exiting PyScripter }
             { TODO : Issues 501, 667 }

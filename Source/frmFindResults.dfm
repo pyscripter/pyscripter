@@ -41,6 +41,7 @@ inherited FindResultsWindow: TFindResultsWindow
     0000000000000000000000000000000000000000000000000000000000000000
     000000000000000000000000000000000000000000000000000000000000}
   OnKeyPress = FormKeyPress
+  OnResize = FormResize
   OnShow = FormShow
   ExplicitWidth = 619
   ExplicitHeight = 397
@@ -153,7 +154,13 @@ inherited FindResultsWindow: TFindResultsWindow
           Height = 213
           Align = alClient
           Constraints.MinHeight = 120
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = 'Tahoma'
+          Font.Style = []
           ItemHeight = 17
+          ParentFont = False
           TabOrder = 0
           OnClick = lbResultsClick
           OnDblClick = actListGotoSelectedExecute
@@ -171,7 +178,7 @@ inherited FindResultsWindow: TFindResultsWindow
           BorderStyle = bsNone
           Font.Charset = ANSI_CHARSET
           Font.Color = clWindowText
-          Font.Height = -11
+          Font.Height = -12
           Font.Name = 'Courier New'
           Font.Style = []
           ParentFont = False

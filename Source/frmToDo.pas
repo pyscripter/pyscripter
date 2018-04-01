@@ -192,8 +192,15 @@ var
 implementation
 
 uses
-  dmCommands, uEditAppIntfs, frmPyIDEMain, dlgToDoOptions, cProjectClasses,
-  Math, cParameters, AsyncCalls, MPCommonUtilities, cPyScripterSettings;
+  System.Math,
+  MPCommonUtilities,
+  dmCommands,
+  uEditAppIntfs,
+  frmPyIDEMain,
+  dlgToDoOptions,
+  cProjectClasses,
+  cParameters,
+  cPyScripterSettings;
 
 {$R *.dfm}
 
@@ -251,10 +258,8 @@ begin
         (FileInfo.Attr and SysUtils.faHidden = 0) then
       begin
         Name := Path + FileInfo.Name;
-        TAsyncCalls.VCLSync(procedure begin
-          LoadFile(Name);
-          Application.ProcessMessages;
-        end);
+        LoadFile(Name);
+        Application.ProcessMessages;
       end;
     end;
 end;
@@ -793,7 +798,6 @@ end;
 
 procedure TToDoWindow.EnumerateFilesByDirectory;
 var
-  Async : IAsyncCall;
   PreCallback: TDirectoryWalkProc;
   Paths : string;
 begin
@@ -801,12 +805,9 @@ begin
   if Paths[Length(Paths)] = ';' then
     Delete(Paths, Length(Paths), 1);
   PreCallBack := GetPreCallBack();
-  Async :=  TAsyncCalls.Invoke(procedure begin
-    WalkThroughDirectories(Paths,
-      PyIDEOptions.PythonFileExtensions, PreCallBack,
-      ToDoExpert.FRecurseDirScan);
-  end);
-  //TAsyncCalls.MsgExec(Async, Application.ProcessMessages);
+  WalkThroughDirectories(Paths,
+    PyIDEOptions.PythonFileExtensions, PreCallBack,
+    ToDoExpert.FRecurseDirScan);
 end;
 
 procedure TToDoWindow.EnumerateOpenFiles;

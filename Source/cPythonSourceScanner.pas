@@ -1039,7 +1039,6 @@ begin
       end else if fForRE.Exec(Line) then begin
         AsgnTargetList := Copy(Line, fForRE.MatchPos[1], fForRE.MatchPos[3]-fForRE.MatchPos[1]);
         CharOffset2 := fForRE.MatchPos[1]; // Keeps track of the end of the identifier
-        Variable := nil;
         while AsgnTargetList <> '' do begin
           Token := StrToken(AsgnTargetList, ',');
           CharOffset := CharOffset2;  // Keeps track of the start of the identifier

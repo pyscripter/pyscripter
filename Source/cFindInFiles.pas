@@ -244,10 +244,16 @@ procedure AddMRUString(Text: string; List: TStrings; DeleteTrailingDelimiter: Bo
 implementation
 
 uses
-  SysUtils, Forms, uEditAppIntfs,
-  VarPyth, frmPyIDEMain,
-  dlgFindResultsOptions, Controls, cProjectClasses,
-  MPCommonUtilities, dmCommands, cParameters, AsyncCalls,
+  System.SysUtils,
+  Vcl.Controls,
+  Vcl.Forms,
+  uEditAppIntfs,
+  VarPyth,
+  frmPyIDEMain,
+  dlgFindResultsOptions,
+  cProjectClasses,
+  dmCommands,
+  cParameters,
   cPyScripterSettings;
 
 { TLineMatches }
@@ -379,13 +385,11 @@ begin
     begin
       Result := not FAbortSignalled;
 
-      if Result and (FileInfo.Attr and SysUtils.faDirectory = 0) and
-        (FileInfo.Attr and SysUtils.faHidden = 0) then
+      if Result and (FileInfo.Attr and faDirectory = 0) and
+        (FileInfo.Attr and faHidden = 0) then
       begin
         Name := Path + FileInfo.Name;
-        TAsyncCalls.VCLSync(procedure begin
-          GrepFile(Name);
-        end);
+        GrepFile(Name);
       end;
     end;
 end;
@@ -454,14 +458,10 @@ end;
 
 procedure TGrepSearchRunner.GrepDirectories(const Dir: string; const Mask: string);
 var
-  Async : IAsyncCall;
   PreCallBack : TDirectoryWalkProc;
 begin
   PreCallBack := GetPreCallBack();
-  Async :=  TAsyncCalls.Invoke(procedure begin
-    WalkThroughDirectories(Dir, Mask, PreCallBack, FGrepSettings.IncludeSubdirs);
-  end);
-  //TAsyncCalls.MsgExec(Async, Application.ProcessMessages);
+  WalkThroughDirectories(Dir, Mask, PreCallBack, FGrepSettings.IncludeSubdirs);
 end;
 
 procedure TGrepSearchRunner.Execute;
@@ -485,6 +485,7 @@ begin
     FSearcher.SetPattern(FGrepSettings.Pattern);
 
     FDupeFileList := TStringList.Create;
+    TStringList(FDupeFileList).Sorted := True;
     try
     case FGrepSettings.FindInFilesAction of
       gaCurrentOnlyGrep:
@@ -593,7 +594,7 @@ begin
   if Length(Text) > 300 then Exit;
 
   if DeleteTrailingDelimiter then
-    Text := WideExcludeTrailingBackslash(Text);
+    Text := ExcludeTrailingPathDelimiter(Text);
 
   DeleteStringFromList(List, Text);
 

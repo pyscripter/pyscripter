@@ -99,7 +99,9 @@ uses
   System.UITypes, SysUtils, Windows, Messages, FileCtrl, Math,
   uEditAppIntfs, frmFindResults,
   Dialogs, JvGnugettext, StringResources,
-  cPyScripterSettings;
+  cPyScripterSettings,
+  System.Types,
+  System.StrUtils, cParameters;
 
 function GetScrollbarWidth: Integer;
 begin
@@ -165,30 +167,22 @@ end;
 
 procedure TFindInFilesDialog.btnOKClick(Sender: TObject);
 var
-  i: Integer;
-  Dirs: TStringList;
+  Dirs: TStringDynArray;
+  Dir, DirName : string;
 begin
   if rbDirectories.Checked then
   begin
     if Trim(cbDirectory.Text) = '' then
       cbDirectory.Text := GetCurrentDir;
-    Dirs := TStringList.Create;
-    try
-      Dirs.StrictDelimiter:= True;
-      Dirs.Delimiter := ';';
-      Dirs.DelimitedText := cbDirectory.Text;
-      for i := 0 to Dirs.Count - 1 do
-      begin
-        if Dirs[i] = '' then continue;
-        Dirs[i] := ExpandFileName(IncludeTrailingPathDelimiter(Dirs[i]));
-        if not SysUtils.DirectoryExists(Dirs[i]) then begin
-          Dialogs.MessageDlg(Format(_(SSearchDirectoryDoesNotExist), [Dirs[i]]), mtError, [mbOK], 0);
-          Abort;
-        end;
+    Dirs := SplitString(cbDirectory.Text, ';');
+    for Dir in Dirs do
+    begin
+      if Dir = '' then continue;
+      DirName := ExpandFileName(Parameters.ReplaceInText(Dir));
+      if not SysUtils.DirectoryExists(DirName) then begin
+        Dialogs.MessageDlg(Format(_(SSearchDirectoryDoesNotExist), [DirName]), mtError, [mbOK], 0);
+        Abort;
       end;
-      cbDirectory.Text := Dirs.DelimitedText;
-    finally
-      FreeAndNil(Dirs);
     end;
   end;
 

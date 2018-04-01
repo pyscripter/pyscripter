@@ -279,7 +279,7 @@ Uses
   MPCommonObjects, MPShellUtilities, IOUtils, Vcl.Themes, System.AnsiStrings,
   System.UITypes, Winapi.CommCtrl, JclStrings, SynEditMiscClasses,
   cPyScripterSettings,   Winapi.UrlMon,
-  SynEditTextBuffer, VCL.ExtCtrls;
+  SynEditTextBuffer, VCL.ExtCtrls, cParameters;
 
 function GetIconIndexFromFile(const AFileName: string;
   const ASmall: boolean): integer;
@@ -316,7 +316,7 @@ begin
     if (Result = '') or
        ((Result = APath) and
          not (FileExists(ExcludeTrailingPathDelimiter(APath)) or
-              DirectoryExists(ExcludeTrailingPathDelimiter(APath)))) then
+           System.SysUtils.DirectoryExists(ExcludeTrailingPathDelimiter(APath)))) then
     begin
       Result:= ExtractFilePath(APath);
       // we are up to top level
@@ -709,7 +709,7 @@ end;
 
 function DirIsPythonPackage(Dir : string): boolean;
 begin
-  Result := DirectoryExists(Dir) and
+  Result :=  System.SysUtils.DirectoryExists(Dir) and
     FileExists(IncludeTrailingPathDelimiter(Dir) + '__init__.py');
 end;
 
@@ -1699,13 +1699,17 @@ procedure WalkThroughDirectories(const Paths, Masks: string;
   const PreCallback: TDirectoryWalkProc;
   const Recursive: Boolean);
 Var
-  Path : string;
+  Path, PathName : string;
   PathList, MaskList : TStringDynArray;
 begin
   PathList := SplitString(Paths, ';');
   MaskList := SplitString(Masks, ';');
   for Path in PathList do
-    WalkThroughDirectory(Path, MaskList, PreCallback, Recursive);
+  begin
+    PathName := Parameters.ReplaceInText(Path);
+    if  System.SysUtils.DirectoryExists(PathName) then
+      WalkThroughDirectory(PathName, MaskList, PreCallback, Recursive);
+  end;
 end;
 
 procedure GetFilesInPaths(Paths, Masks : string; FileList: TStrings; Recursive : Boolean = True);
