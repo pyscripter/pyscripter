@@ -1054,7 +1054,7 @@ procedure TCommandsDataModule.actSearchGoToDebugLineExecute(Sender: TObject);
 begin
   with PyControl.CurrentPos do
     if (Line >= 1) and (PyControl.ActiveDebugger <> nil) and not PyControl.IsRunning then
-      PyIDEMainForm.SetCurrentPos(Editor , Line)
+      PyIDEMainForm.ShowFilePosition(Editor.GetFileNameOrTitle , Line, 1, 0, True, True);
 end;
 
 procedure TCommandsDataModule.actSearchGoToLineExecute(Sender: TObject);

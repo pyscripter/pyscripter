@@ -1735,7 +1735,6 @@ begin
     Result := fRemotePython.RunSource(Source, FileName, symbol);
   finally
     PyControl.CurrentPos := OldCurrentPos;
-    PyControl.DoCurrentPosChanged;
   end;
 end;
 
