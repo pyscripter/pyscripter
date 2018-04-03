@@ -93,7 +93,7 @@ inherited CodeExplorerWindow: TCodeExplorerWindow
           OnScroll = ExplorerTreeScroll
           Columns = <
             item
-              Options = [coAllowClick, coDraggable, coEnabled, coParentBidiMode, coParentColor, coResizable, coShowDropMark, coVisible, coSmartResize, coAllowFocus]
+              Options = [coAllowClick, coDraggable, coEnabled, coParentBidiMode, coParentColor, coResizable, coShowDropMark, coVisible, coSmartResize, coAllowFocus, coStyleColor]
               Position = 0
               Width = 245
             end>

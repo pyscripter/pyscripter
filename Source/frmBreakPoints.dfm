@@ -61,10 +61,6 @@ inherited BreakPointsWindow: TBreakPointsWindow
         Height = 240
         Align = alClient
         TabOrder = 0
-        ExplicitLeft = 96
-        ExplicitTop = 104
-        ExplicitWidth = 233
-        ExplicitHeight = 113
         object BreakPointsView: TVirtualStringTree
           Left = 1
           Top = 1
@@ -82,17 +78,13 @@ inherited BreakPointsWindow: TBreakPointsWindow
           TabOrder = 0
           TreeOptions.AnimationOptions = [toAnimatedToggle]
           TreeOptions.MiscOptions = [toCheckSupport, toFullRepaintOnResize, toInitOnSave, toReportMode, toToggleOnDblClick, toWheelPanning]
-          TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowDropmark, toShowHorzGridLines, toShowVertGridLines, toThemeAware, toUseBlendedImages, toUseBlendedSelection]
+          TreeOptions.PaintOptions = [toHideSelection, toHotTrack, toShowButtons, toShowDropmark, toShowHorzGridLines, toShowVertGridLines, toThemeAware, toUseBlendedImages, toUseBlendedSelection]
           TreeOptions.SelectionOptions = [toExtendedFocus, toFullRowSelect, toRightClickSelect]
           TreeOptions.StringOptions = [toAutoAcceptEditChange]
           OnChecked = BreakPointsViewChecked
           OnDblClick = BreakPointLVDblClick
           OnGetText = BreakPointsViewGetText
           OnInitNode = BreakPointsViewInitNode
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 375
-          ExplicitHeight = 240
           Columns = <
             item
               Position = 0
