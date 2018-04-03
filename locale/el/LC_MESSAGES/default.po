@@ -781,7 +781,7 @@ msgstr ""
 #. OptionsInspector..Panel1..Inspector..DefaultCategoryName
 #: dlgOptionsEditor.dfm
 msgid "Miscellaneous"
-msgstr ""
+msgstr "Διάφορα"
 
 #. OptionsInspector..Panel1..Inspector..HeaderPropText
 #: dlgOptionsEditor.dfm
@@ -2282,7 +2282,7 @@ msgstr "Εφαρμογή IPython"
 #. CommandsDataModule..CodeTemplatesCompletion....AutoCompleteList.Strings
 #: dmCommands.dfm
 msgid "|Python class"
-msgstr ""
+msgstr "|Τάξη python"
 
 #. CommandsDataModule..CodeTemplatesCompletion....AutoCompleteList.Strings
 #: dmCommands.dfm
@@ -3150,12 +3150,12 @@ msgstr "Αντιγραφή Ονόματος Ενεργού Αρχείου"
 #. CommandsDataModule..actlMain..actToolsEditStartupScripts..Caption
 #: dmCommands.dfm
 msgid "Edit Start&up Scripts"
-msgstr ""
+msgstr "Επεξεργασία &Προγραμμάτων Εκκίνησης"
 
 #. CommandsDataModule..actlMain..actToolsEditStartupScripts..Hint
 #: dmCommands.dfm
 msgid "Edit PyScripter initialization files"
-msgstr ""
+msgstr "Επεξεργασία προγραμμάτων εκκίνησης του PyScripter"
 
 #. CommandsDataModule..actlMain..actHelpWebBlog..Caption
 #: dmCommands.dfm
@@ -3294,17 +3294,17 @@ msgstr "Ανάπτυξη επιπέδου 3"
 #. CommandsDataModule..actlMain..actUnfoldClasses..Caption
 #: dmCommands.dfm
 msgid "Classes"
-msgstr ""
+msgstr "Τάξεις"
 
 #. CommandsDataModule..actlMain..actFoldClasses..Hint
 #: dmCommands.dfm
 msgid "Fold classes"
-msgstr ""
+msgstr "Σύμπτυξη τάξεων"
 
 #. CommandsDataModule..actlMain..actUnfoldClasses..Hint
 #: dmCommands.dfm
 msgid "Unfold classes"
-msgstr ""
+msgstr "Ανάπτυξη τάξεων"
 
 #. CommandsDataModule..actlMain..actFoldFunctions..Caption
 #. CommandsDataModule..actlMain..actUnfoldFunctions..Caption
@@ -3325,7 +3325,7 @@ msgstr "Ανάπτυξη συναρτήσεων"
 #. CommandsDataModule..SynGeneralSyn..DefaultFilter
 #: dmCommands.dfm
 msgid "Text Files(*.txt,*.*)|*.txt;*.*"
-msgstr ""
+msgstr "Αρχεία Κειμένου(*.txt,*.*)|*.txt;*.*"
 
 #. BreakPointsWindow..Caption
 #: frmBreakPoints.dfm
@@ -3397,7 +3397,7 @@ msgstr "Όνομα Συνάρτησης"
 #. CallStackWindow..BGPanel..FGPanel..Panel2..ThreadView......WideText
 #: frmCallStack.dfm
 msgid "Threads"
-msgstr ""
+msgstr "Νήματα εκτέλεσης"
 
 #. CallStackWindow..actlCallStack..actPreviousFrame..Category
 #. CallStackWindow..actlCallStack..actNextFrame..Category
@@ -3434,22 +3434,22 @@ msgstr "Εκτέλεση"
 #. CallStackWindow..actlCallStack..actPreviousFrame..Caption
 #: frmCallStack.dfm
 msgid "Previous Frame"
-msgstr ""
+msgstr "Προηγούμενο Πλαίσιο"
 
 #. CallStackWindow..actlCallStack..actPreviousFrame..Hint
 #: frmCallStack.dfm
 msgid "Select previous (older) frame"
-msgstr ""
+msgstr "Επιλογή προηγούμενου (παλαιότερου) πλαισίου"
 
 #. CallStackWindow..actlCallStack..actNextFrame..Caption
 #: frmCallStack.dfm
 msgid "Next Frame"
-msgstr ""
+msgstr "Επόμενο Πλαίσιο"
 
 #. CallStackWindow..actlCallStack..actNextFrame..Hint
 #: frmCallStack.dfm
 msgid "Select next (newer) frame"
-msgstr ""
+msgstr "Επιλογή επόμενου (νεότερου) πλαισίου"
 
 #. CodeExplorerWindow..Caption
 #: frmCodeExplorer.dfm dmCommands.pas
@@ -3975,7 +3975,7 @@ msgstr "Ανάπτυξη όλων"
 #. PyIDEMainForm..actlStandard..actSelectStyle..Category
 #: frmFindResults.dfm frmFunctionList.dfm frmPyIDEMain.dfm
 msgid "View"
-msgstr "&Προβολή"
+msgstr "Προβολή"
 
 #. FindResultsWindow..Actions..actViewShowContext..Caption
 #: frmFindResults.dfm
@@ -4710,7 +4710,7 @@ msgstr "Αναζήτηση από Θέση &Δρομέα"
 #. PyIDEMainForm..TBXDockTop..FindToolbar..tbiSearchOptions..tbiAutoCaseSensitive..Caption
 #: frmPyIDEMain.dfm
 msgid "&Auto Case Sensitive"
-msgstr ""
+msgstr "& Αυτόματο Ταίριασμα Πεζών-Κεφαλαίων"
 
 #. PyIDEMainForm..TBXDockTop..FindToolbar..tbiSearchOptions..tbiAutoCaseSensitive..Hint
 #: frmPyIDEMain.dfm
@@ -5553,7 +5553,7 @@ msgstr "Αντιγραφή επιλεγμένου κειμένου με τις �
 #. PythonIIForm..InterpreterActionList..actPasteAndExecute..Caption
 #: frmPythonII.dfm
 msgid "Paste && E&xecute"
-msgstr ""
+msgstr "Επικόλληση && Ε&κτέλεση"
 
 #. PythonIIForm..InterpreterActionList..actPasteAndExecute..Hint
 #: frmPythonII.dfm
@@ -5907,79 +5907,79 @@ msgstr ""
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "Arabic: %s"
-msgstr ""
+msgstr "Αραβικά: %s"
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationChinese
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "Chinese: %s"
-msgstr ""
+msgstr "Κινέζικα: %s"
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationFrench
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "French: %s"
-msgstr ""
+msgstr "Γαλλικά: %s"
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationGerman
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "German: %s"
-msgstr ""
+msgstr "Γερμανικά: %s"
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationGreek
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "Greek: %s"
-msgstr ""
+msgstr "Ελληνικά; %s"
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationItalian
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "Italian: %s"
-msgstr ""
+msgstr "Ιταλικά: %s"
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationJapanese
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "Japanese: %s"
-msgstr ""
+msgstr "Ιαπωνικά: %s"
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationKabyle
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "Taqbaylit: %s"
-msgstr ""
+msgstr "Γλώσσα Kabyle: %s"
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationPortugueseBR
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "Portuguese (Brazil): %s"
-msgstr ""
+msgstr "Πορτογαλικά (Βραζιλία) : %s"
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationPortuguesePT
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "Portuguese (Portugal): %s"
-msgstr ""
+msgstr "Πορτογαλικά (Πορτογαλία) : %s"
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationRussian
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "Russian: %s"
-msgstr ""
+msgstr "Ρωσικά: %s"
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationSlovak
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "Slovak: %s"
-msgstr ""
+msgstr "Σλοβακικά: %s"
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationSpanish
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "Spanish: %s"
-msgstr ""
+msgstr "Ισπανικά: %s"
 
 #: dlgAboutPyScripter.pas
 msgid ""
@@ -5998,11 +5998,11 @@ msgstr ""
 
 #: dlgAboutPyScripter.pas
 msgid "Translation manager"
-msgstr ""
+msgstr "Επόπτης Μεταφράσεων"
 
 #: dlgAboutPyScripter.pas
 msgid "Translators"
-msgstr ""
+msgstr "Μεταφράστες"
 
 #: dlgAboutPyScripter.pas
 msgid "Theme design"
@@ -6036,7 +6036,7 @@ msgstr "Το παράθυρο αποτελεσμάτων της Αναζήτησ
 
 #: dlgRunConfiguration.pas dlgToolProperties.pas
 msgid "Select working directory:"
-msgstr ""
+msgstr "Επιλογή φακέλου εργασίας;"
 
 #: dmCommands.pas
 msgid "IDE"
