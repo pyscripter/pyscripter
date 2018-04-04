@@ -117,12 +117,11 @@ object PyIDEMainForm: TPyIDEMainForm
     Width = 762
     Height = 426
     Align = alClient
+    BevelEdges = []
     BevelOuter = bvNone
     FullRepaint = False
     ParentBackground = False
     TabOrder = 2
-    ExplicitTop = 77
-    ExplicitHeight = 427
     object TabControl1: TSpTBXTabControl
       Left = 0
       Top = 0
@@ -136,7 +135,6 @@ object PyIDEMainForm: TPyIDEMainForm
       TabDragReorder = True
       TabPosition = ttpBottom
       OnActiveTabChange = TabControlActiveTabChange
-      ExplicitHeight = 427
       HiddenItems = <>
       object tbiRightAlign: TSpTBXRightAlignSpacerItem
         CustomWidth = 648
@@ -187,7 +185,6 @@ object PyIDEMainForm: TPyIDEMainForm
       TabDragReorder = True
       TabPosition = ttpBottom
       OnActiveTabChange = TabControlActiveTabChange
-      ExplicitHeight = 427
       HiddenItems = <>
       object SpTBXRightAlignSpacerItem2: TSpTBXRightAlignSpacerItem
       end
@@ -233,7 +230,6 @@ object PyIDEMainForm: TPyIDEMainForm
       Color = clNone
       ParentColor = False
       Visible = False
-      ExplicitHeight = 427
     end
   end
   object TBXDockTop: TSpTBXDock

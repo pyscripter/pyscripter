@@ -417,9 +417,10 @@
 
   History:   v 3.4
           New Features
+            New IDE option "Style Main Window Border"
             Find in Files and ToDo folders can include parameters (#828)
           Issues addressed
-            #627
+            #627, #862
 
             { TODO : Python Engine change without exiting PyScripter }
             { TODO : Issues 501, 667 }
@@ -1483,7 +1484,7 @@ begin
   if FileExists(ChangeFileExt(Application.ExeName, '.ini')) then begin
     AppStorage.Location := flExeFile;
     AppStorage.FileName := OptionsFileName;
-  end else if FileExists(IncludeTrailingPathDelimiter(GetAppdataFolder) + OptionsFileName) then begin
+  end else if FileExists(IncludeTrailingPathDelimiter(GetHomePath) + OptionsFileName) then begin
     AppStorage.Location := flUserFolder;
     AppStorage.FileName := OptionsFileName;
   end else  // default location
@@ -2928,6 +2929,10 @@ var
   CompleteAsYouType,
   CompleteWithWordBreakChars : Boolean;
 begin
+  if PyIDEOptions.StyleMainWindowBorder then
+    Self.StyleElements := Self.StyleElements + [seBorder]
+  else
+    Self.StyleElements := Self.StyleElements - [seBorder];
   FileExplorerWindow.FileExplorerTree.RefreshTree;
   EditorSearchOptions.SearchTextAtCaret :=
     PyIDEOptions.SearchTextAtCaret;

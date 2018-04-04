@@ -308,6 +308,7 @@ type
 constructor TScanCodeThread.Create;
 begin
   inherited Create(True);
+  NameThreadForDebugging('Code Explorer');
   FreeOnTerminate := False;
   Priority := tpLowest;
   fScanEventHandle := CreateEvent(nil, FALSE, FALSE, nil);

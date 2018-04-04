@@ -1,4 +1,4 @@
-{ -----------------------------------------------------------------------------
+﻿{ -----------------------------------------------------------------------------
   Unit Name: frmEditor
   Author:    Kiriakos Vlahos
   Date:      23-Feb-2005
@@ -75,7 +75,6 @@ type
     pmnuEditor: TSpTBXPopupMenu;
     pmnuViewsTab: TSpTBXPopupMenu;
     mnCloseTab: TSpTBXItem;
-    FGPanel: TPanel;
     SynEdit: TSynEdit;
     SynCodeCompletion: TSynCompletionProposal;
     SynParamCompletion: TSynCompletionProposal;
@@ -2233,7 +2232,7 @@ begin
 
   if aLine mod 10 <> 0 then
     if aLine mod 5 <> 0 then
-      aText := '�'
+      aText := '·'
     else
       aText := '-';
 end;

@@ -104,6 +104,7 @@ type
     fCodeFolding : TSynCodeFolding;
     fInternalInterpreterHidden : boolean;
     fCompactLineNumbers : Boolean;
+    fStyleMainWindowBorder : Boolean;
     function GetPythonFileExtensions: string;
     procedure SetAutoCompletionFont(const Value: TFont);
   public
@@ -252,6 +253,8 @@ type
       write fInternalInterpreterHidden default True;
     property CompactLineNumbers : Boolean read fCompactLineNumbers
       write fCompactLineNumbers default True;
+    property StyleMainWindowBorder : Boolean read fStyleMainWindowBorder
+      write fStyleMainWindowBorder default True;
   end;
 {$METHODINFO OFF}
 
@@ -375,6 +378,7 @@ begin
       Self.fCodeFoldingEnabled := CodeFoldingEnabled;
       Self.fInternalInterpreterHidden := InternalInterpreterHidden;
       Self.fCompactLineNumbers := CompactLineNumbers;
+      Self.fStyleMainWindowBorder := StyleMainWindowBorder;
     end
   else
     inherited;
@@ -464,6 +468,7 @@ begin
   fCodeFoldingEnabled := True;
   fInternalInterpreterHidden := True;
   fCompactLineNumbers := True;
+  fStyleMainWindowBorder := True;
   fCodeFolding := TSynCodeFolding.Create;
 end;
 

@@ -446,7 +446,6 @@ uses
   SpTBXMDIMRU,
   PythonEngine,
   JclSysUtils,
-  JclSysInfo,
   JclStrings,
   JclFileUtils,
   JclDebug,
@@ -633,7 +632,7 @@ begin
     // Portable version - nothing is stored in other directories
     UserDataPath :=   ExtractFilePath(Application.ExeName)
   else begin
-    UserDataPath := IncludeTrailingPathDelimiter(GetAppdataFolder) + 'PyScripter\';
+    UserDataPath := IncludeTrailingPathDelimiter(GetHomePath) + 'PyScripter\';
     if not ForceDirectories(UserDataPath) then
       Vcl.Dialogs.MessageDlg(Format(SAccessAppDataDir, [UserDataPath]), mtWarning, [mbOK], 0);
   end;
@@ -1773,8 +1772,9 @@ Var
   FTime : TDateTime;
   WS: WideString;
 begin
-//  if not (ShellEvent.ShellNotifyEvent in [vsneUpdateDir, vsneUpdateItem]) then Exit;
-  if not (ShellEvent.ShellNotifyEvent = vsneUpdateDir) then Exit;
+  if not (ShellEvent.ShellNotifyEvent in [vsneUpdateDir, vsneRenameFolder]) then Exit;
+//  if not (ShellEvent.ShellNotifyEvent in [vsneUpdateDir, vsneUpdateItem, vsneRenameFolder, vsneRenameItem]) then Exit;
+//  if not (ShellEvent.ShellNotifyEvent = vsneUpdateDir) then Exit;
 
   Dir := '';
   NS := TNamespace.Create(ShellEvent.PIDL1, nil);
@@ -1895,7 +1895,7 @@ begin
   SetLength(Categories, 8);
   with Categories[0] do begin
     DisplayName := _('IDE');
-    SetLength(Options, 11);
+    SetLength(Options, 12);
     Options[0].PropertyName := 'AutoCheckForUpdates';
     Options[0].DisplayName := _('Check for updates automatically');
     Options[1].PropertyName := 'DaysBetweenChecks';
@@ -1918,6 +1918,8 @@ begin
     Options[9].DisplayName := _('Number of recent files');
     Options[10].PropertyName := 'FileChangeNotification';
     Options[10].DisplayName := _('File Change Notification');
+    Options[11].PropertyName := 'StyleMainWindowBorder';
+    Options[11].DisplayName := _('Style Main Window Border');
   end;
   with Categories[1] do begin
     DisplayName := _('Python Interpreter');

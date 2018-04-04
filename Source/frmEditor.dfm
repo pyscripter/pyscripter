@@ -1,206 +1,192 @@
 object EditorForm: TEditorForm
   Left = 304
   Top = 173
-  Caption = 'Editor'
-  ClientHeight = 383
-  ClientWidth = 566
+  BorderStyle = bsNone
+  ClientHeight = 422
+  ClientWidth = 582
   Color = clWindow
   Ctl3D = False
   ParentFont = True
-  Padding.Left = 2
-  Padding.Top = 2
-  Padding.Right = 2
-  Padding.Bottom = 2
   OldCreateOrder = False
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   PixelsPerInch = 96
   TextHeight = 13
   object BGPanel: TSpTBXPanel
-    Left = 2
-    Top = 2
-    Width = 562
-    Height = 379
+    Left = 0
+    Top = 0
+    Width = 582
+    Height = 422
     Align = alClient
+    Padding.Left = 2
+    Padding.Top = 2
+    Padding.Right = 2
+    Padding.Bottom = 2
     TabOrder = 0
     Borders = False
-    object FGPanel: TPanel
-      AlignWithMargins = True
+    object ViewsTabControl: TSpTBXTabControl
       Left = 2
       Top = 2
-      Width = 558
-      Height = 375
-      Margins.Left = 2
-      Margins.Top = 2
-      Margins.Right = 2
-      Margins.Bottom = 2
+      Width = 578
+      Height = 418
       Align = alClient
-      BevelOuter = bvNone
-      Ctl3D = False
-      ParentCtl3D = False
-      TabOrder = 0
+      OnContextPopup = ViewsTabControlContextPopup
       OnEnter = FGPanelEnter
       OnExit = FGPanelExit
-      object ViewsTabControl: TSpTBXTabControl
+      ActiveTabIndex = 0
+      Images = CommandsDataModule.Images
+      OnActiveTabChange = ViewsTabControlActiveTabChange
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      HiddenItems = <>
+      object tabSource: TSpTBXTabItem
+        Caption = 'Source'
+        Checked = True
+      end
+      object SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem
+        CustomWidth = 478
+      end
+      object tbiUpdateView: TSpTBXItem
+        Caption = 'Update View'
+        Hint = 'Update View|Update the selected view'
+        ImageIndex = 39
+        OnClick = mnUpdateViewClick
+      end
+      object tbiCloseTab: TSpTBXItem
+        Caption = 'Close Tab'
+        Hint = 'Close active tab'
+        ImageIndex = 52
+        OnClick = mnCloseTabClick
+      end
+      object tbshSource: TSpTBXTabSheet
         Left = 0
-        Top = 0
-        Width = 558
-        Height = 375
-        Align = alClient
-        OnContextPopup = ViewsTabControlContextPopup
-        ActiveTabIndex = 0
-        Images = CommandsDataModule.Images
-        OnActiveTabChange = ViewsTabControlActiveTabChange
-        HiddenItems = <>
-        object tabSource: TSpTBXTabItem
-          Caption = 'Source'
-          Checked = True
+        Top = 26
+        Width = 578
+        Height = 392
+        Caption = 'Source'
+        ImageIndex = -1
+        TabItem = 'tabSource'
+        object SynEdit: TSynEdit
+          Left = 2
+          Top = 0
+          Width = 367
+          Height = 388
+          HelpContext = 510
+          Align = alClient
+          Ctl3D = False
+          ParentCtl3D = False
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'Courier New'
+          Font.Style = []
+          PopupMenu = pmnuEditor
+          TabOrder = 0
+          OnDblClick = SynEditDblClick
+          OnEnter = SynEditEnter
+          OnExit = SynEditExit
+          OnKeyDown = SynEditKeyDown
+          OnKeyUp = SynEditKeyUp
+          OnMouseDown = SynEditMouseDown
+          OnMouseMove = SynEditMouseMove
+          OnMouseWheelDown = SynEditMouseWheelDown
+          OnMouseWheelUp = SynEditMouseWheelUp
+          CodeFolding.GutterShapeSize = 11
+          CodeFolding.CollapsedLineColor = clGrayText
+          CodeFolding.FolderBarLinesColor = clGrayText
+          CodeFolding.IndentGuidesColor = clGray
+          CodeFolding.IndentGuides = True
+          CodeFolding.ShowCollapsedLine = False
+          CodeFolding.ShowHintMark = True
+          UseCodeFolding = False
+          BorderStyle = bsNone
+          Gutter.BorderStyle = gbsNone
+          Gutter.Font.Charset = DEFAULT_CHARSET
+          Gutter.Font.Color = clWindowText
+          Gutter.Font.Height = -11
+          Gutter.Font.Name = 'Courier New'
+          Gutter.Font.Style = []
+          Gutter.Gradient = True
+          Gutter.GradientSteps = 30
+          Options = [eoAutoSizeMaxScrollWidth, eoDragDropEditing, eoEnhanceHomeKey, eoEnhanceEndKey, eoGroupUndo, eoHideShowScrollbars, eoKeepCaretX, eoShowScrollHint, eoTabIndent, eoTabsToSpaces]
+          SelectedColor.Background = clSkyBlue
+          TabWidth = 4
+          WantTabs = True
+          OnChange = SynEditChange
+          OnGutterClick = SynEditGutterClick
+          OnGutterGetText = SynEditGutterGetText
+          OnMouseCursor = SynEditMouseCursor
+          OnSpecialLineColors = SynEditSpecialLineColors
+          OnStatusChange = SynEditStatusChange
+          OnPaintTransient = SynEditPaintTransient
+          FontSmoothing = fsmNone
+          RemovedKeystrokes = <
+            item
+              Command = ecDeleteLastChar
+              ShortCut = 8200
+            end
+            item
+              Command = ecLineBreak
+              ShortCut = 8205
+            end
+            item
+              Command = ecContextHelp
+              ShortCut = 112
+            end>
+          AddedKeystrokes = <>
         end
-        object SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem
-          CustomWidth = 458
+        object SynEdit2: TSynEdit
+          Left = 374
+          Top = 0
+          Width = 200
+          Height = 388
+          Align = alRight
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'Courier New'
+          Font.Style = []
+          PopupMenu = pmnuEditor
+          TabOrder = 1
+          Visible = False
+          OnEnter = SynEditEnter
+          OnExit = SynEditExit
+          OnKeyDown = SynEditKeyDown
+          OnKeyUp = SynEditKeyUp
+          OnMouseDown = SynEditMouseDown
+          OnMouseMove = SynEditMouseMove
+          OnMouseWheelDown = SynEditMouseWheelDown
+          OnMouseWheelUp = SynEditMouseWheelUp
+          CodeFolding.GutterShapeSize = 11
+          CodeFolding.CollapsedLineColor = clGrayText
+          CodeFolding.FolderBarLinesColor = clGrayText
+          CodeFolding.IndentGuidesColor = clGray
+          CodeFolding.IndentGuides = True
+          CodeFolding.ShowCollapsedLine = False
+          CodeFolding.ShowHintMark = True
+          UseCodeFolding = False
+          BorderStyle = bsNone
+          Gutter.Font.Charset = DEFAULT_CHARSET
+          Gutter.Font.Color = clWindowText
+          Gutter.Font.Height = -11
+          Gutter.Font.Name = 'Courier New'
+          Gutter.Font.Style = []
+          OnMouseCursor = SynEditMouseCursor
+          OnSpecialLineColors = SynEditSpecialLineColors
+          OnStatusChange = SynEditStatusChange
+          OnPaintTransient = SynEditPaintTransient
+          FontSmoothing = fsmNone
         end
-        object tbiUpdateView: TSpTBXItem
-          Caption = 'Update View'
-          Hint = 'Update View|Update the selected view'
-          ImageIndex = 39
-          OnClick = mnUpdateViewClick
-        end
-        object tbiCloseTab: TSpTBXItem
-          Caption = 'Close Tab'
-          Hint = 'Close active tab'
-          ImageIndex = 52
-          OnClick = mnCloseTabClick
-        end
-        object tbshSource: TSpTBXTabSheet
-          Left = 0
-          Top = 26
-          Width = 558
-          Height = 349
-          Caption = 'Source'
-          ImageIndex = -1
-          TabItem = 'tabSource'
-          object SynEdit: TSynEdit
-            Left = 2
-            Top = 0
-            Width = 347
-            Height = 345
-            HelpContext = 510
-            Align = alClient
-            Ctl3D = False
-            ParentCtl3D = False
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -13
-            Font.Name = 'Courier New'
-            Font.Style = []
-            PopupMenu = pmnuEditor
-            TabOrder = 0
-            OnDblClick = SynEditDblClick
-            OnEnter = SynEditEnter
-            OnExit = SynEditExit
-            OnKeyDown = SynEditKeyDown
-            OnKeyUp = SynEditKeyUp
-            OnMouseDown = SynEditMouseDown
-            OnMouseMove = SynEditMouseMove
-            OnMouseWheelDown = SynEditMouseWheelDown
-            OnMouseWheelUp = SynEditMouseWheelUp
-            CodeFolding.GutterShapeSize = 11
-            CodeFolding.CollapsedLineColor = clGrayText
-            CodeFolding.FolderBarLinesColor = clGrayText
-            CodeFolding.IndentGuidesColor = clGray
-            CodeFolding.IndentGuides = True
-            CodeFolding.ShowCollapsedLine = False
-            CodeFolding.ShowHintMark = True
-            UseCodeFolding = False
-            BorderStyle = bsNone
-            Gutter.BorderStyle = gbsNone
-            Gutter.Font.Charset = DEFAULT_CHARSET
-            Gutter.Font.Color = clWindowText
-            Gutter.Font.Height = -11
-            Gutter.Font.Name = 'Courier New'
-            Gutter.Font.Style = []
-            Gutter.Gradient = True
-            Gutter.GradientSteps = 30
-            Options = [eoAutoSizeMaxScrollWidth, eoDragDropEditing, eoEnhanceHomeKey, eoEnhanceEndKey, eoGroupUndo, eoHideShowScrollbars, eoKeepCaretX, eoShowScrollHint, eoTabIndent, eoTabsToSpaces]
-            SelectedColor.Background = clSkyBlue
-            TabWidth = 4
-            WantTabs = True
-            OnChange = SynEditChange
-            OnGutterClick = SynEditGutterClick
-            OnGutterGetText = SynEditGutterGetText
-            OnMouseCursor = SynEditMouseCursor
-            OnSpecialLineColors = SynEditSpecialLineColors
-            OnStatusChange = SynEditStatusChange
-            OnPaintTransient = SynEditPaintTransient
-            FontSmoothing = fsmNone
-            RemovedKeystrokes = <
-              item
-                Command = ecDeleteLastChar
-                ShortCut = 8200
-              end
-              item
-                Command = ecLineBreak
-                ShortCut = 8205
-              end
-              item
-                Command = ecContextHelp
-                ShortCut = 112
-              end>
-            AddedKeystrokes = <>
-          end
-          object SynEdit2: TSynEdit
-            Left = 354
-            Top = 0
-            Width = 200
-            Height = 345
-            Align = alRight
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -13
-            Font.Name = 'Courier New'
-            Font.Style = []
-            PopupMenu = pmnuEditor
-            TabOrder = 1
-            Visible = False
-            OnEnter = SynEditEnter
-            OnExit = SynEditExit
-            OnKeyDown = SynEditKeyDown
-            OnKeyUp = SynEditKeyUp
-            OnMouseDown = SynEditMouseDown
-            OnMouseMove = SynEditMouseMove
-            OnMouseWheelDown = SynEditMouseWheelDown
-            OnMouseWheelUp = SynEditMouseWheelUp
-            CodeFolding.GutterShapeSize = 11
-            CodeFolding.CollapsedLineColor = clGrayText
-            CodeFolding.FolderBarLinesColor = clGrayText
-            CodeFolding.IndentGuidesColor = clGray
-            CodeFolding.IndentGuides = True
-            CodeFolding.ShowCollapsedLine = False
-            CodeFolding.ShowHintMark = True
-            UseCodeFolding = False
-            BorderStyle = bsNone
-            Gutter.Font.Charset = DEFAULT_CHARSET
-            Gutter.Font.Color = clWindowText
-            Gutter.Font.Height = -11
-            Gutter.Font.Name = 'Courier New'
-            Gutter.Font.Style = []
-            OnMouseCursor = SynEditMouseCursor
-            OnSpecialLineColors = SynEditSpecialLineColors
-            OnStatusChange = SynEditStatusChange
-            OnPaintTransient = SynEditPaintTransient
-            FontSmoothing = fsmNone
-          end
-          object EditorSplitter: TSpTBXSplitter
-            Left = 349
-            Top = 0
-            Height = 345
-            Cursor = crSizeWE
-            Align = alRight
-            Color = clNone
-            ParentColor = False
-            Visible = False
-            GripSize = 80
-          end
+        object EditorSplitter: TSpTBXSplitter
+          Left = 369
+          Top = 0
+          Height = 388
+          Cursor = crSizeWE
+          Align = alRight
+          Color = clNone
+          ParentColor = False
+          Visible = False
+          GripSize = 80
         end
       end
     end
@@ -211,7 +197,7 @@ object EditorForm: TEditorForm
     Left = 96
     Top = 80
     Bitmap = {
-      494C01010600090004000B000E00FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01010600090010000B000E00FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       00000000000036000000280000002C0000001C00000001002000000000004013
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

@@ -81,7 +81,7 @@ inherited FileExplorerWindow: TFileExplorerWindow
         TreeOptions.VETFolderOptions = [toFoldersExpandable, toForceHideRecycleBin, toNoUseVETColorsProp, toThreadedExpandMark]
         TreeOptions.VETShellOptions = [toRightAlignSizeColumn, toContextMenus, toDragDrop, toShellHints]
         TreeOptions.VETSyncOptions = [toCollapseTargetFirst, toExpandTarget, toSelectTarget]
-        TreeOptions.VETMiscOptions = [toBrowseExecuteFolder, toBrowseExecuteFolderShortcut, toBrowseExecuteZipFolder, toChangeNotifierThread, toAutoScrollHorz, toRestoreTopNodeOnRefresh]
+        TreeOptions.VETMiscOptions = [toBrowseExecuteFolder, toBrowseExecuteFolderShortcut, toBrowseExecuteZipFolder, toAutoScrollHorz, toRestoreTopNodeOnRefresh]
         TreeOptions.VETImageOptions = [toImages, toMarkCutAndCopy]
         OnDblClick = FileExplorerTreeDblClick
         OnEnumFolder = FileExplorerTreeEnumFolder
