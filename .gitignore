@@ -9,6 +9,9 @@
 *.rsm
 *.stat
 *.map
+*.jdbg
+*.mo
+*.chm
 
 # Generated source #
 ###################
@@ -36,6 +39,7 @@
 /Win32
 /Win64
 /OSX32
+/Install/Output
 /__history
 *.bak
 *.Patch

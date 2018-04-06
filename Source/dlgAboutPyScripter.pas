@@ -100,6 +100,11 @@ resourcestring
     'Tanmaya Meher (www.github.com/tanmayameher)'+ SLineBreak +
     'jprzywoski (www.github.com/jprzywoski)';
 
+  SAboutBoxCreditsDonations =
+    'Donations from numerous users have provided a strong incentive to develop this project.  ' +
+    'Generous support from Tranquil IT (https://www.tranquil.it) makers of WAPT (apt-get for Windows) '+
+    '(https://www.wapt.fr) is acknowledged.';
+
   SAboutBoxLinks =
     'The project home, Issue Tracker and source code repository are hosted at Github (www.github.com/pyscripter/pyscripter)'+
   SLineBreak+
@@ -251,6 +256,12 @@ begin
   AddFormatText(reCredits, SLineBreak + _('Theme design') + ':' + SLineBreak, [fsItalic]);
   reCredits.Paragraph.Numbering := nsBullet;
   AddFormatText(reCredits,SAboutBoxCreditsThemeDesign + SLineBreak);
+  reCredits.Paragraph.Numbering := nsNone;
+
+  reCredits.Paragraph.Numbering := nsNone;
+  AddFormatText(reCredits, SLineBreak + _('Donations') + ':' + SLineBreak, [fsItalic]);
+  reCredits.Paragraph.Numbering := nsBullet;
+  AddFormatText(reCredits,SAboutBoxCreditsDonations + SLineBreak);
   reCredits.Paragraph.Numbering := nsNone;
 
   reCredits.SelStart := 0;

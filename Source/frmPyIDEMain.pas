@@ -420,7 +420,7 @@
             New IDE option "Style Main Window Border"
             Find in Files and ToDo folders can include parameters (#828)
           Issues addressed
-            #627, #862
+            #627, #852, #862
 
             { TODO : Python Engine change without exiting PyScripter }
             { TODO : Issues 501, 667 }
@@ -4603,9 +4603,10 @@ begin
   if not FileExists(AppStorage.IniFile.FileName) then begin
     SetupToolsMenu;
     SetupCustomizer;
-    // fix for staturbar appearing above interpreter
-    StatusBar.Top := MaxInt;
   end;
+  // fix for staturbar appearing above interpreter
+  if StatusBar.Visible then StatusBar.Top := MaxInt;
+
   SetupLayoutsMenu;
   SetupSyntaxMenu;
 

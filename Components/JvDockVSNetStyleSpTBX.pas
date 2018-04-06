@@ -1094,9 +1094,9 @@ procedure TJvDockVSNETSplitterSpTBX.Paint;
   begin
     Result := Rect(0, 0, 0, 0);
     if IsVertical then
-      Result := Bounds(0, (Height - GripSize) div 2, Width, GripSize)
+      Result := Bounds(0, (Height - Scaled(GripSize)) div 2, Width, Scaled(GripSize))
     else
-      Result := Bounds((Width - GripSize) div 2, 0, GripSize, Height);
+      Result := Bounds((Width - Scaled(GripSize)) div 2, 0, Scaled(GripSize), Height);
   end;
 
 var

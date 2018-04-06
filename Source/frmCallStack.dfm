@@ -54,25 +54,19 @@ inherited CallStackWindow: TCallStackWindow
       Height = 164
       ExplicitWidth = 600
       ExplicitHeight = 164
-      object Splitter1: TSplitter
-        Left = 185
-        Top = 0
-        Height = 164
-        ResizeStyle = rsUpdate
-        ExplicitLeft = 150
-        ExplicitTop = 1
-      end
       object Panel1: TPanel
-        Left = 188
+        Left = 190
         Top = 0
-        Width = 412
+        Width = 410
         Height = 164
         Align = alClient
         TabOrder = 0
+        ExplicitLeft = 188
+        ExplicitWidth = 412
         object CallStackView: TVirtualStringTree
           Left = 1
           Top = 1
-          Width = 410
+          Width = 408
           Height = 162
           Align = alClient
           Alignment = taRightJustify
@@ -94,6 +88,7 @@ inherited CallStackWindow: TCallStackWindow
           OnGetText = CallStackViewGetText
           OnGetImageIndex = CallStackViewGetImageIndex
           OnInitNode = CallStackViewInitNode
+          ExplicitWidth = 410
           Columns = <
             item
               Position = 0
@@ -102,7 +97,7 @@ inherited CallStackWindow: TCallStackWindow
             end
             item
               Position = 1
-              Width = 260
+              Width = 258
               WideText = 'File Name'
             end
             item
@@ -147,6 +142,15 @@ inherited CallStackWindow: TCallStackWindow
               WideText = 'Threads'
             end>
         end
+      end
+      object Splitter1: TSpTBXSplitter
+        Left = 185
+        Top = 0
+        Height = 164
+        Cursor = crSizeWE
+        Color = clNone
+        ParentColor = False
+        MinSize = 3
       end
     end
   end

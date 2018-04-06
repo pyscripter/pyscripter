@@ -33,7 +33,7 @@ uses
   frmIDEDockWin,
   dmCommands,
   cPyControl,
-  cPyBaseDebugger;
+  cPyBaseDebugger, SpTBXDkPanels;
 
 type
   TCallStackWindow = class(TIDEDockWindow, IJvAppStorageHandler)
@@ -42,9 +42,9 @@ type
     actPreviousFrame: TAction;
     actNextFrame: TAction;
     ThreadView: TVirtualStringTree;
-    Splitter1: TSplitter;
     Panel1: TPanel;
     Panel2: TPanel;
+    Splitter1: TSpTBXSplitter;
     procedure CallStackViewDblClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
