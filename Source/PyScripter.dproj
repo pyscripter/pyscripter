@@ -7,7 +7,7 @@
         <ProjectVersion>18.4</ProjectVersion>
         <FrameworkType>VCL</FrameworkType>
         <Base>True</Base>
-        <Platform Condition="'$(Platform)'==''">Win32</Platform>
+        <Platform Condition="'$(Platform)'==''">Win64</Platform>
         <TargetedPlatforms>3</TargetedPlatforms>
         <AppType>Application</AppType>
     </PropertyGroup>
@@ -348,6 +348,7 @@
         <DCCReference Include="cPySupportTypes.pas"/>
         <DCCReference Include="cPyControl.pas"/>
         <DCCReference Include="JvGnugettext.pas"/>
+        <DCCReference Include="JvDSADialogs.pas"/>
         <None Include="PyScripter.todo"/>
         <None Include="ModelSupport_PyScripter\default.txaPackage"/>
         <BuildConfiguration Include="Debug">

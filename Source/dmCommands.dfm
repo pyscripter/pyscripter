@@ -72,7 +72,7 @@ object CommandsDataModule: TCommandsDataModule
     Left = 32
     Top = 241
     Bitmap = {
-      494C01010A000D00040010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C01010A000D00080010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -1198,8 +1198,7 @@ object CommandsDataModule: TCommandsDataModule
           '# write_tuple is used by the remote debugger'
           'import types'
           'def write_tuple(self, t):'
-          '    for i in t:'
-          '        self.write(i)'
+          '    self.write('#39#39'.join(t))'
           ''
           
             'sys.stdout.write_tuple = types.MethodType(write_tuple, sys.stdou' +
@@ -1749,8 +1748,7 @@ object CommandsDataModule: TCommandsDataModule
           '# write_tuple is used by the remote debugger'
           'import types'
           'def write_tuple(self, t):'
-          '    for i in t:'
-          '        self.write(i)'
+          '    self.write('#39#39'.join(t))'
           ''
           
             'sys.stdout.write_tuple = types.MethodType(write_tuple, sys.stdou' +
@@ -4768,7 +4766,7 @@ object CommandsDataModule: TCommandsDataModule
     Left = 36
     Top = 194
     Bitmap = {
-      494C01019A009D00040010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C01019A009D00080010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000007002000001002000000000000070
       0200000000000000000000000000000000000000000000000000000000000000
       00000000000000000000000000000001001C010100200000000C000000000000

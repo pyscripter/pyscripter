@@ -113,7 +113,8 @@ uses
   cPyScripterSettings in 'cPyScripterSettings.pas',
   cPySupportTypes in 'cPySupportTypes.pas',
   cPyControl in 'cPyControl.pas',
-  JvGnugettext in 'JvGnugettext.pas';
+  JvGnugettext in 'JvGnugettext.pas',
+  JvDSADialogs in 'JvDSADialogs.pas';
 
 {$R *.RES}
 {$R WebCopyAvi.RES}
