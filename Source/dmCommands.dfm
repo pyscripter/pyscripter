@@ -72,7 +72,7 @@ object CommandsDataModule: TCommandsDataModule
     Left = 32
     Top = 241
     Bitmap = {
-      494C01010A000D00080010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C01010A000D00100010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -1195,17 +1195,6 @@ object CommandsDataModule: TCommandsDataModule
           'sys.modules['#39'__builtin__'#39'].raw_input=_II.Win32RawInput'
           'sys.modules['#39'__builtin__'#39'].input=_II.Win32Input'
           ''
-          '# write_tuple is used by the remote debugger'
-          'import types'
-          'def write_tuple(self, t):'
-          '    self.write('#39#39'.join(t))'
-          ''
-          
-            'sys.stdout.write_tuple = types.MethodType(write_tuple, sys.stdou' +
-            't)'
-          'del types'
-          'del write_tuple'
-          ''
           'import os'
           'try:'
           '    sys.path.remove(os.path.dirname(sys.executable))'
@@ -1744,17 +1733,6 @@ object CommandsDataModule: TCommandsDataModule
           '_II = PythonInteractiveInterpreter(globals())'
           ''
           'sys.modules['#39'builtins'#39'].input=_II.Win32RawInput'
-          ''
-          '# write_tuple is used by the remote debugger'
-          'import types'
-          'def write_tuple(self, t):'
-          '    self.write('#39#39'.join(t))'
-          ''
-          
-            'sys.stdout.write_tuple = types.MethodType(write_tuple, sys.stdou' +
-            't)'
-          'del types'
-          'del write_tuple'
           ''
           'import os'
           'try:'
@@ -2583,20 +2561,25 @@ object CommandsDataModule: TCommandsDataModule
           '            self.print_queue.put(message)'
           ''
           '        def process_print_queue(self):'
+          '            def rem_write(l):'
+          '                self.writing = True'
+          '                self._stream.write("".join(l))'
+          '                self.writing = False'
+          '                del l[:]'
+          ''
           '            while True:'
           '                self._sleep(0.2)'
           '                l = [self.print_queue.get()]'
           '                while not self.print_queue.empty():'
+          '                    if len(l) > 10000:'
+          '                        rem_write(l)'
           '                    l.append(self.print_queue.get())'
           '                    self.print_queue.task_done()'
-          '                self.writing = True'
-          '                self._stream.write_tuple(tuple(l))'
-          '                self.writing = False'
+          '                rem_write(l)'
           
             '                # matches the first get so that join waits for w' +
             'riting to finesh'
           '                self.print_queue.task_done()'
-          '                l = []'
           ''
           '    def asyncIO(self):'
           '        import sys'
@@ -3456,20 +3439,25 @@ object CommandsDataModule: TCommandsDataModule
           '            self.print_queue.put(message)'
           ''
           '        def process_print_queue(self):'
+          '            def rem_write(l):'
+          '                self.writing = True'
+          '                self._stream.write("".join(l))'
+          '                self.writing = False'
+          '                del l[:]'
+          ''
           '            while True:'
           '                self._sleep(0.2)'
           '                l = [self.print_queue.get()]'
           '                while not self.print_queue.empty():'
+          '                    if len(l) > 10000:'
+          '                        rem_write(l)'
           '                    l.append(self.print_queue.get())'
           '                    self.print_queue.task_done()'
-          '                self.writing = True'
-          '                self._stream.write_tuple(tuple(l))'
-          '                self.writing = False'
+          '                rem_write(l)'
           
             '                # matches the first get so that join waits for w' +
             'riting to finesh'
           '                self.print_queue.task_done()'
-          '                l = []'
           ''
           '    def asyncIO(self):'
           '        import sys'
@@ -4766,7 +4754,7 @@ object CommandsDataModule: TCommandsDataModule
     Left = 36
     Top = 194
     Bitmap = {
-      494C01019A009D00080010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C01019A009D00100010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000007002000001002000000000000070
       0200000000000000000000000000000000000000000000000000000000000000
       00000000000000000000000000000001001C010100200000000C000000000000

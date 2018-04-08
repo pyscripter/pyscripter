@@ -46,6 +46,7 @@ type
     fOldsysmodules : Variant;
     fSocketPort: integer;
     fRpycPath : string;
+    procedure CreateServerProcess;
   protected
     procedure CreateMainModule; override;
   public
@@ -504,19 +505,8 @@ begin
   fEngineType := AEngineType;
 
   Randomize;
-  fSocketPort := 18000 + Random(1000);  //18888
-
-  ServerProcess := TJvCreateProcess.Create(nil);
-  with ServerProcess do
-  begin
-    Name := 'PyScripterServerProcess';
-    ConsoleOptions := [coRedirect];
-    CreationFlags := CreationFlags +[cfCreateNoWindow];
-    StartupInfo.ForceOnFeedback := False;
-    StartupInfo.ForceOffFeedback := True;
-    StartupInfo.DefaultWindowState := True;
-    StartupInfo.ShowWindow := swNormal;
-  end;
+  fSocketPort := 18000 + Random(1000);
+  CreateServerProcess;
 
   // Import Rpyc
   SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
@@ -773,6 +763,21 @@ begin
   Result := TRemNameSpaceItem.Create(aName, aPyObject, Self);
 end;
 
+procedure TPyRemoteInterpreter.CreateServerProcess;
+begin
+  ServerProcess := TJvCreateProcess.Create(nil);
+  with ServerProcess do
+  begin
+    Name := 'PyScripterServerProcess';
+    ConsoleOptions := [coRedirect];
+    CreationFlags := CreationFlags + [cfCreateNoWindow];
+    StartupInfo.ForceOnFeedback := False;
+    StartupInfo.ForceOffFeedback := True;
+    StartupInfo.DefaultWindowState := True;
+    StartupInfo.ShowWindow := swNormal;
+  end;
+end;
+
 procedure TPyRemoteInterpreter.ReInitialize;
 Var
   SuppressOutput : IInterface;
@@ -815,9 +820,9 @@ begin
         end else
           Vcl.Dialogs.MessageDlg(_(SCouldNotShutDownRemoteEngine), mtError, [mbAbort], 0);
       end;
-    else
-      // Should not happen.  Reinitialise is not enabled for other states
-      Exit;
+//    else
+//      // Should not happen.  Reinitialise is not enabled for other states
+//      Exit;
   end;
 end;
 
@@ -1155,58 +1160,39 @@ end;
 
 procedure TPyRemoteInterpreter.ShutDownServer;
 var
-  i : integer;
-  OldState : TDebuggerState;
   OldExceptHook : Variant;
 begin
-//  if PyControl.DebuggerState <> dsInactive then begin
-//    if Dialogs.MessageDlg('The Python interpreter is busy.  Are you sure you want to terminate it?',
-//      mtWarning, [mbYes, mbNo], 0) = idNo then Exit;
-//  end;
-
-  if not (csDestroying in PyIDEMainForm.ComponentState) then begin
-    VariablesWindow.ClearAll;
-    UnitTestWindow.ClearAll;
-    CallStackWindow.ClearAll;
-  end;
-  // Do not destroy Remote Debugger
-  // PyControl.ActiveDebugger := nil;
-
-  if VarIsPython(OutputRedirector) then
-    OutputRedirector._restored:= True;
-  VarClear(OutputRedirector);
-  FreeAndNil(fMainModule);
-  VarClear(fOldArgv);
-  VarClear(RPI);
-  if fConnected then
-    try
-      fConnected := False;
-      Conn.close();
-    except
-    end;
-  VarClear(Conn);
-
-  // Restore excepthook
-  OldExceptHook := Varpyth.SysModule.__excepthook__;
-  SysModule.excepthook := OldExceptHook;
-
   if ServerProcess.State <> psReady then begin
-    OldState := PyControl.DebuggerState;
-    PyControl.DoStateChange(dsDebugging);  // So that we do not reenter run-debug commands
-    try
-      ServerProcess.TerminateTree;
-      for i := 0 to 100 do
-        if ServerProcess.State <> psReady then begin
-          // Wait for the threads to terminate
-          Application.ProcessMessages;
-          CheckSynchronize;
-          Sleep(20);
-        end else
-          break;
-      ServerProcess.ConsoleOutput.Clear;
-    finally
-      PyControl.DoStateChange(OldState);
+
+    if not (csDestroying in PyIDEMainForm.ComponentState) then begin
+      VariablesWindow.ClearAll;
+      UnitTestWindow.ClearAll;
+      CallStackWindow.ClearAll;
     end;
+    // Do not destroy Remote Debugger
+    // PyControl.ActiveDebugger := nil;
+
+    if VarIsPython(OutputRedirector) then
+      OutputRedirector._restored:= True;
+    VarClear(OutputRedirector);
+    FreeAndNil(fMainModule);
+    VarClear(fOldArgv);
+    VarClear(RPI);
+    if fConnected then
+      try
+        fConnected := False;
+        Conn.close();
+      except
+      end;
+    VarClear(Conn);
+
+    // Restore excepthook
+    OldExceptHook := Varpyth.SysModule.__excepthook__;
+    SysModule.excepthook := OldExceptHook;
+
+    ServerProcess.TerminateTree;
+    ServerProcess.Free;
+    CreateServerProcess;
   end;
 end;
 
