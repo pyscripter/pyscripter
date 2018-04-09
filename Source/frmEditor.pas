@@ -1125,7 +1125,7 @@ type
     function GetEditorByNameOrTitle(const Name: string): IEditor;
     function GetEditor(Index: Integer): IEditor;
     procedure RemoveEditor(AEditor: IEditor);
-    procedure RegisterViewFactory(ViewFactory: IEditorViewFactory);
+    function RegisterViewFactory(ViewFactory: IEditorViewFactory): Integer;
     procedure SetupEditorViewMenu;
     procedure UpdateEditorViewMenu;
     function GetViewFactoryCount: Integer;
@@ -1306,9 +1306,9 @@ begin
     fEditors.Delete(i);
 end;
 
-procedure TEditorFactory.RegisterViewFactory(ViewFactory: IEditorViewFactory);
+function TEditorFactory.RegisterViewFactory(ViewFactory: IEditorViewFactory): integer;
 begin
-  fEditorViewFactories.Add(ViewFactory);
+  Result := fEditorViewFactories.Add(ViewFactory);
 end;
 
 procedure TEditorFactory.OnEditorViewClick(Sender: TObject);

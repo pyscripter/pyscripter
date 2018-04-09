@@ -147,7 +147,7 @@ type
     function GetEditorByName(const Name : string): IEditor;
     function GetEditorByNameOrTitle(const Name : string): IEditor;
     procedure RemoveEditor(AEditor: IEditor);
-    procedure RegisterViewFactory(ViewFactory : IEditorViewFactory);
+    function RegisterViewFactory(ViewFactory : IEditorViewFactory): integer;
     function GetViewFactoryCount: integer;
     function GetViewFactory(Index: integer): IEditorViewFactory;
     procedure SetupEditorViewMenu;

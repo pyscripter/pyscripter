@@ -146,6 +146,10 @@ Const
   SWebPreviewTab = 'Browser';
   SSourceTabCaption = 'Source';
   SErrorInitScript = 'Error in running initialization script %s: "%s';
+  SOpenDialogFilter = 'Open dialog %s filter';
+  SOnlyJupyterFiles  = 'Web preview is only available for Jupyter JSON files';
+  SNoJupyter = 'Jupyter is not available.  Please install jupiter first';
+  SExternalProcessRunning = 'An external process is stil running.  Please terminate it first from the Output Window';
 
   //  Project Manager
   SAskSaveProject = 'The active project has not been saved.  Do you want to save the changes?';
@@ -247,6 +251,7 @@ Const
   SXMLTemplateName = 'XML Document';
   SJSTemplateName = 'JavaScript Code';
   SPHPTemplateName = 'PHP Code';
+  SJupyterTemplateName = 'Jupyter File';
 
   // do not localize further
 
@@ -317,6 +322,31 @@ Const
     '  </body>' + sLineBreak +
     '</html>';
 
+  SJupyterFileTemplate = // do not localize
+    '{' + SLineBreak +
+    ' "cells": [' + SLineBreak +
+    '  {' + SLineBreak +
+    '   "cell_type": "code",' + SLineBreak +
+    '   "execution_count": null,' + SLineBreak +
+    '   "metadata": {},' + SLineBreak +
+    '   "outputs": [],' + SLineBreak +
+    '   "source": []' + SLineBreak +
+    '  }' + SLineBreak +
+    ' ],' + SLineBreak +
+    ' "metadata": {' + SLineBreak +
+    '  "language_info": {' + SLineBreak +
+    '   "codemirror_mode": {' + SLineBreak +
+    '    "name": "ipython"' + SLineBreak +
+    '   },' + SLineBreak +
+    '   "file_extension": ".py",' + SLineBreak +
+    '   "mimetype": "text/x-python",' + SLineBreak +
+    '   "name": "python",' + SLineBreak +
+    '   "nbconvert_exporter": "python"' + SLineBreak +
+    '  }' + SLineBreak +
+    ' },' + SLineBreak +
+    ' "nbformat": 4,' + SLineBreak +
+    ' "nbformat_minor": 2' + SLineBreak+
+    '}';
 
 implementation
 

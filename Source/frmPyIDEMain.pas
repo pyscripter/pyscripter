@@ -417,6 +417,8 @@
 
   History:   v 3.4
           New Features
+            Support for running Jupyter notebooks inside PyScripter
+            Syntax highlighting for JSON files
             New IDE option "Style Main Window Border"
             Find in Files and ToDo folders can include parameters (#828)
           Issues addressed
@@ -2951,6 +2953,8 @@ begin
     PyIDEOptions.CPPFileFilter;
   CommandsDataModule.SynYAMLSyn.DefaultFilter :=
     PyIDEOptions.YAMLFileFilter;
+  CommandsDataModule.SynJSONSyn.DefaultFilter :=
+    PyIDEOptions.JSONFileFilter;
   //  Dock animation parameters
   JvDockVSNetStyleSpTBX.SetAnimationInterval(PyIDEOptions.DockAnimationInterval);
   JvDockVSNetStyleSpTBX.SetAnimationMoveWidth(PyIDEOptions.DockAnimationMoveWidth);

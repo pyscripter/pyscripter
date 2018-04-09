@@ -46,6 +46,7 @@ uses
   SynHighlighterWeb,
   SynHighlighterCpp,
   SynHighlighterYAML,
+  SynHighlighterJSON,
   SynHighlighterGeneral,
   JvComponentBase,
   JvProgramVersionCheck,
@@ -248,6 +249,7 @@ type
     actFoldFunctions: TAction;
     actUnfoldFunctions: TAction;
     SynGeneralSyn: TSynGeneralSyn;
+    SynJSONSyn: TSynJSONSyn;
     function ProgramVersionHTTPLocationLoadFileFromRemote(
       AProgramVersionLocation: TJvProgramVersionHTTPLocation; const ARemotePath,
       ARemoteFileName, ALocalPath, ALocalFileName: string): string;
@@ -667,10 +669,14 @@ begin
   Index := fHighlighters.IndexOf(SynPythonSyn.FriendlyLanguageName);
   if Index >= 0 then fHighlighters.Delete(Index);
   fHighlighters.InsertObject(0, SynPythonSyn.FriendlyLanguageName, SynPythonSyn);
-  //  Place Cython last
+  //  Place Cython before last
   Index := fHighlighters.IndexOf(SynCythonSyn.FriendlyLanguageName);
   if Index >= 0 then fHighlighters.Delete(Index);
   fHighlighters.AddObject(SynCythonSyn.FriendlyLanguageName, SynCythonSyn);
+  //  Place General highlighter last
+  Index := fHighlighters.IndexOf(SynGeneralSyn.FriendlyLanguageName);
+  if Index >= 0 then fHighlighters.Delete(Index);
+  fHighlighters.AddObject(SynGeneralSyn.FriendlyLanguageName, SynCythonSyn);
 
   // this is to save the internal state of highlighter attributes
   // Work around for the reported bug according to which some
@@ -1689,8 +1695,8 @@ begin
       Canvas.Brush.Color := SynEdit.ActiveLineColor
     else if Attri.Background <> clNone then
       Canvas.Brush.Color := Attri.Background
-    else if SynPythonSyn.SpaceAttri.Background <> clNone then
-      Canvas.Brush.Color := SynPythonSyn.SpaceAttri.Background
+    else if SynEdit.Highlighter.WhitespaceAttribute.Background <> clNone then
+      Canvas.Brush.Color := SynEdit.Highlighter.WhitespaceAttribute.Background
     else
       Canvas.Brush.Color := Synedit.Color;
 
@@ -1745,8 +1751,8 @@ begin
         Canvas.Brush.Color := SynEdit.ActiveLineColor
       else if Attri.Background <> clNone then
         Canvas.Brush.Color := Attri.Background
-      else if SynPythonSyn.SpaceAttri.Background <> clNone then
-        Canvas.Brush.Color := SynPythonSyn.SpaceAttri.Background
+      else if SynEdit.Highlighter.WhitespaceAttribute.Background <> clNone then
+        Canvas.Brush.Color := SynEdit.Highlighter.WhitespaceAttribute.Background
       else
         Canvas.Brush.Color := Synedit.Color;
       Pix := SynEdit.RowColumnToPixels(PMD);
@@ -1965,27 +1971,29 @@ begin
   end;
   with Categories[4] do begin
     DisplayName := _('File Filters');
-    SetLength(Options, 10);
+    SetLength(Options, 11);
     Options[0].PropertyName := 'PythonFileFilter';
-    Options[0].DisplayName := _('Open dialog Python filter');
+    Options[0].DisplayName := Format(_(SOpenDialogFilter), ['Python']);
     Options[1].PropertyName := 'HTMLFileFilter';
-    Options[1].DisplayName := _('Open dialog HTML filter');
+    Options[1].DisplayName := Format(_(SOpenDialogFilter), ['HTML']);
     Options[2].PropertyName := 'XMLFileFilter';
-    Options[2].DisplayName := _('Open dialog XML filter');
+    Options[2].DisplayName := Format(_(SOpenDialogFilter), ['XML']);
     Options[3].PropertyName := 'CSSFileFilter';
-    Options[3].DisplayName := _('Open dialog CSS filter');
+    Options[3].DisplayName := Format(_(SOpenDialogFilter), ['CSS']);
     Options[4].PropertyName := 'CPPFileFilter';
-    Options[4].DisplayName := _('Open dialog CPP filter');
+    Options[4].DisplayName := Format(_(SOpenDialogFilter), ['CPP']);
     Options[5].PropertyName := 'YAMLFileFilter';
-    Options[5].DisplayName := _('Open dialog YAML filter');
+    Options[5].DisplayName := Format(_(SOpenDialogFilter), ['YAML']);
     Options[6].PropertyName := 'JSFileFilter';
-    Options[6].DisplayName := _('Open dialog JavaScript filter');
+    Options[6].DisplayName := Format(_(SOpenDialogFilter), ['JavaScript']);
     Options[7].PropertyName := 'PHPFileFilter';
-    Options[7].DisplayName := _('Open dialog PHP filter');
+    Options[7].DisplayName := Format(_(SOpenDialogFilter), ['PHP']);
     Options[8].PropertyName := 'FileExplorerFilter';
     Options[8].DisplayName := _('File explorer filter');
     Options[9].PropertyName := 'CythonFileFilter';
-    Options[9].DisplayName := _('Open dialog Cython filter');
+    Options[9].DisplayName := Format(_(SOpenDialogFilter), ['Cython']);
+    Options[10].PropertyName := 'JSONFileFilter';
+    Options[10].DisplayName := Format(_(SOpenDialogFilter), ['JSON']);
   end;
   with Categories[5] do begin
     DisplayName := _('Editor');

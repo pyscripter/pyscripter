@@ -751,7 +751,7 @@ begin
   end;
 end;
 
-function HTMLSafe(const S : string): string; overload;
+function HTMLSafe(const S : string): string;
 begin
   Result := StringReplace(S, '<', '&lt;', [rfReplaceAll]);
   Result := StringReplace(Result, '>', '&gt;', [rfReplaceAll]);

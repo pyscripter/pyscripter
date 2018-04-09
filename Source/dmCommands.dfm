@@ -9931,4 +9931,11 @@ object CommandsDataModule: TCommandsDataModule
     Left = 264
     Top = 328
   end
+  object SynJSONSyn: TSynJSONSyn
+    Options.AutoDetectEnabled = False
+    Options.AutoDetectLineLimit = 0
+    Options.Visible = False
+    Left = 264
+    Top = 272
+  end
 end

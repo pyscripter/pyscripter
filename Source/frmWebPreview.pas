@@ -13,7 +13,8 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, OleCtrls, ActiveX, SHDocVw, ImgList, uEditAppIntfs, TB2Item, TB2Dock,
-  TB2Toolbar, SpTBXItem, System.ImageList;
+  TB2Toolbar, SpTBXItem, System.ImageList,
+  cTools, JclSysUtils;
 
 type
   TWebPreviewForm = class(TForm, IEditorView)
@@ -44,6 +45,7 @@ type
     { Private declarations }
     fEditor: IEditor;
     SaveFileName : string;
+    IExternalToolGuard : ISafeGuard;
     procedure UpdateView(Editor : IEditor);
   public
     { Public declarations }
@@ -65,11 +67,15 @@ type
 implementation
 
 uses
+  System.UITypes,
   dmCommands,
   MSHTML,
   JvGnugettext,
   uCommonFunctions,
-  StringResources;
+  StringResources,
+  VarPyth,
+  frmCommandOutput, cParameters,
+  JvCreateProcess;
 
 {$R *.dfm}
 
@@ -127,28 +133,92 @@ procedure TWebPreviewForm.UpdateView(Editor: IEditor);
 var
 //  v: Variant;
   HTMLDocument: IHTMLDocument2;
+  FN : string;
 begin
   fEditor := Editor;
+  WebBrowser.RegisterAsBrowser := True;
+  WebBrowser.Silent := True;
   WebBrowser.Navigate('about:blank') ;
-  while WebBrowser.ReadyState < READYSTATE_INTERACTIVE do
+  while WebBrowser.ReadyState < READYSTATE_INTERACTIVE do begin
     Application.ProcessMessages;
+    CheckSynchronize()
+  end;
 
-  HTMLDocument := WebBrowser.Document as IHTMLDocument2;
-  if not Assigned(HTMLDocument) then Exit;
+  if Assigned(Editor.SynEdit.Highlighter) and
+    (Editor.SynEdit.Highlighter = CommandsDataModule.SynJSONSyn) then
+  begin
+    FN := ExtractFileName(Editor.FileName);
+    FN := StringReplace(FN, ' ', '%20%', [rfReplaceAll]);
+    TThread.ForceQueue(nil, procedure
+    begin
+      Sleep(2000);
+      WebBrowser.Navigate('http://localhost:8888/notebooks/'+FN);
+    end);
+  end else begin
+    HTMLDocument := WebBrowser.Document as IHTMLDocument2;
+    if not Assigned(HTMLDocument) then Exit;
 
-//  HTMLDocument.clear;
-  OleVariant(HTMLDocument).Write(Editor.SynEdit.Text);
-//  v := VarArrayCreate([0, 0], varVariant);
-//  v[0] := Editor.SynEdit.Text;
-//  HTMLDocument.Write(PSafeArray(TVarData(v).VArray));
-  HTMLDocument.Close;
+    //  HTMLDocument.clear;
+    OleVariant(HTMLDocument).Write(Editor.SynEdit.Text);
+    //  v := VarArrayCreate([0, 0], varVariant);
+    //  v[0] := Editor.SynEdit.Text;
+    //  HTMLDocument.Write(PSafeArray(TVarData(v).VArray));
+    HTMLDocument.Close;
+  end;
 end;
 
 { TDocView }
 
 function TWebPreviewView.CreateForm(Editor: IEditor; AOwner : TComponent): TCustomForm;
+var
+  ExternalTool : TExternalTool;
 begin
+  ExternalTool := nil;
+
+  if Assigned(Editor.SynEdit.Highlighter) and
+    (Editor.SynEdit.Highlighter = CommandsDataModule.SynJSONSyn) then
+  begin
+    if Editor.FileName = '' then
+      (Editor as IFileCommands).ExecSave;
+    if LowerCase(ExtractFileExt(Editor.FileName)) <> '.ipynb' then begin
+      MessageDlg(_(SOnlyJupyterFiles), mtError, [mbOK], 0);
+      Abort;
+    end;
+    try
+      Import('jupyter');
+    except
+      MessageDlg(_(SNoJupyter), mtError, [mbOK], 0);
+      Abort;
+    end;
+    if OutputWindow.JvCreateProcess.State <> psReady then begin
+      MessageDlg(_(SExternalProcessRunning), mtError, [mbOK], 0);
+      Abort;
+    end;
+
+    ExternalTool := TExternalTool.Create;
+    with ExternalTool do begin
+      Caption := 'Jupyter Server';
+      Description := Caption;
+      ApplicationName := ('$[PythonDir-Short]Scripts\Jupyter-notebook.exe');
+      Parameters := cParameters.Parameters.ReplaceInText('--no-browser --NotebookApp.token=""');
+      WorkingDirectory := cParameters.Parameters.ReplaceInText('$[ActiveDoc-Short-Dir]');
+      SaveFiles := sfActive;
+      Context := tcAlwaysEnabled;
+      ParseTraceback := False;
+      CaptureOutput := True;
+      ConsoleHidden := True;
+      WaitForTerminate := True;
+    end;
+    TThread.ForceQueue(nil, procedure
+      begin
+        OutputWindow.ExecuteTool(ExternalTool);
+      end);
+  end;
+
+
   Result := TWebPreviewForm.Create(AOwner);
+  if Assigned(ExternalTool) then
+    Guard(ExternalTool, TWebPreviewForm(Result).IExternalToolGuard);
   ScaleImageList(TWebPreviewForm(Result).Images, Screen.PixelsPerInch, 96);
 end;
 
@@ -163,6 +233,7 @@ begin
   List.Add(CommandsDataModule.SynWebHtmlSyn);
   List.Add(CommandsDataModule.SynWebXmlSyn);
   List.Add(CommandsDataModule.SynWebCssSyn);
+  List.Add(CommandsDataModule.SynJSONSyn);
 end;
 
 function TWebPreviewView.GetHint: string;

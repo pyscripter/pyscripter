@@ -38,6 +38,7 @@ Type
     procedure AddCSSTemplate;
     procedure AddXMLTemplate;
     procedure AddJSTemplate;
+    procedure AddJupyterTemplate;
     procedure AddPHPTemplate;
     procedure AddPlainTextTemplate;
     procedure Assign(Source: TFileTemplates);
@@ -156,15 +157,28 @@ begin
   Add(FileTemplate);
 end;
 
+procedure TFileTemplates.AddJupyterTemplate;
+Var
+  FileTemplate : TFileTemplate;
+begin
+  FileTemplate := TFileTemplate.Create;
+  FileTemplate.Name := _(SJupyterTemplateName);
+  FileTemplate.Extension := 'ipynb';
+  FileTemplate.Category := 'Python';
+  FileTemplate.Highlighter := 'JSON';
+  FileTemplate.Template := SJupyterFileTemplate;
+  Add(FileTemplate);
+end;
+
 procedure TFileTemplates.AddPHPTemplate;
 Var
   FileTemplate : TFileTemplate;
 begin
   FileTemplate := TFileTemplate.Create;
   FileTemplate.Name := _(SPHPTemplateName);
-  FileTemplate.Extension := 'xml';
+  FileTemplate.Extension := 'php';
   FileTemplate.Category := _(SFileTemplateCategoryOther);
-  FileTemplate.Highlighter := 'XML';
+  FileTemplate.Highlighter := 'PHP';
   FileTemplate.Template := '';
   Add(FileTemplate);
 end;

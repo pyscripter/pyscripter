@@ -51,6 +51,7 @@ type
     fYAMLFileFilter : string;
     fJSFileFilter : string;
     fPHPFileFilter : string;
+    fJSONFileFilter : string;
     fFileExplorerFilter : string;
     fDateLastCheckedForUpdates : TDateTime;
     fAutoCheckForUpdates : boolean;
@@ -151,6 +152,8 @@ type
       write fJSFileFilter;
     property PHPFileFilter : string read fPHPFileFilter
       write fPHPFileFilter;
+    property JSONFileFilter : string read fJSONFileFilter
+      write fJSONFileFilter;
     property FileExplorerFilter : string read fFileExplorerFilter
       write fFileExplorerFilter;
     property DateLastCheckedForUpdates : TDateTime read fDateLastCheckedForUpdates
@@ -326,6 +329,7 @@ begin
       Self.fYAMLFileFilter := YAMLFileFilter;
       Self.fJSFileFilter := JSFileFilter;
       Self.fPHPFileFilter := PHPFileFilter;
+      Self.fJSONFileFilter := JSONFileFilter;
       Self.fFileExplorerFilter := FileExplorerFilter;
       Self.fDateLastCheckedForUpdates := DateLastCheckedForUpdates;
       Self.fAutoCheckForUpdates := AutoCheckForUpdates;
@@ -406,7 +410,7 @@ begin
   fCreateBackupFiles := False;
   fExporerInitiallyExpanded := False;
   fProjectExporerInitiallyExpanded := True;
-  fPythonFileFilter := 'Python Files (*.py;*.pyw)|*.py;*.pyw';
+  fPythonFileFilter := _('Python Files (*.py;*.pyw)|*.py;*.pyw');
   fCythonFileFilter := SYNS_FilterCython;
   fHTMLFileFilter := SYNS_FilterHTML;
   fXMLFileFilter := SYNS_FilterXML;
@@ -415,6 +419,7 @@ begin
   fYAMLFileFilter := SYNS_FilterYAML;
   fJSFileFilter := SYNS_FilterJScript;
   fPHPFileFilter := SYNS_FilterPHP;
+  fJSONFileFilter := _('JSON Files (*.json;*.ipynb)|*.json;*.ipynb');
   fFileExplorerFilter := '*.py;*.pyw';
   fSearchTextAtCaret := True;
   fRestoreOpenFiles := True;
