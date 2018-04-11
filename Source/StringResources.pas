@@ -251,7 +251,7 @@ Const
   SXMLTemplateName = 'XML Document';
   SJSTemplateName = 'JavaScript Code';
   SPHPTemplateName = 'PHP Code';
-  SJupyterTemplateName = 'Jupyter File';
+  SJupyterTemplateName = 'Jupyter Notebook';
 
   // do not localize further
 

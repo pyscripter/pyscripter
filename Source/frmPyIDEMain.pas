@@ -1309,7 +1309,8 @@ uses
   cCodeHint,
   cPyRemoteDebugger,
   cProjectClasses,
-  Winapi.ShellAPI;
+  Winapi.ShellAPI,
+  frmWebPreview;
 
 {$R *.DFM}
 
@@ -4416,6 +4417,8 @@ function TPyIDEMainForm.NewFileFromTemplate(
 Var
   i, j : integer;
   TabCtrl : TSpTBXTabControl;
+  Editor : IEditor;
+  EditorView: IEditorView;
 begin
   // create a new editor, add it to the editor list
   TabCtrl := TabControl(TabControlIndex);
@@ -4446,6 +4449,19 @@ begin
       Result.SynEdit.Modified := False;
 
       TEditorForm(Result.Form).DefaultExtension := FileTemplate.Extension;
+      // Jupyter support
+      if (LowerCase(FileTemplate.Extension) = 'ipynb') and
+        (OutputWindow.JvCreateProcess.State = psReady) then
+      begin
+        Editor := Result;
+        (Editor as IFileCommands).ExecSave;
+        TThread.ForceQueue(nil, procedure
+          begin
+            EditorView := Editor.ActivateView(GI_EditorFactory.ViewFactory[WebPreviewFactoryIndex]);
+            if Assigned(EditorView) then
+              EditorView.UpdateView(Editor);
+          end);
+      end;
     end;
   finally
     TabCtrl.Toolbar.EndUpdate;

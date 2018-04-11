@@ -63,6 +63,8 @@ type
     procedure GetContextHighlighters(List : TList);
   end;
 
+Var
+  WebPreviewFactoryIndex : integer;
 
 implementation
 
@@ -134,6 +136,7 @@ var
 //  v: Variant;
   HTMLDocument: IHTMLDocument2;
   FN : string;
+  vaIn, vaOut: OleVariant;
 begin
   fEditor := Editor;
   WebBrowser.RegisterAsBrowser := True;
@@ -143,12 +146,11 @@ begin
     Application.ProcessMessages;
     CheckSynchronize()
   end;
-
   if Assigned(Editor.SynEdit.Highlighter) and
     (Editor.SynEdit.Highlighter = CommandsDataModule.SynJSONSyn) then
   begin
     FN := ExtractFileName(Editor.FileName);
-    FN := StringReplace(FN, ' ', '%20%', [rfReplaceAll]);
+    FN := StringReplace(FN, ' ', '%20', [rfReplaceAll]);
     TThread.ForceQueue(nil, procedure
     begin
       Sleep(2000);
@@ -209,10 +211,7 @@ begin
       ConsoleHidden := True;
       WaitForTerminate := True;
     end;
-    TThread.ForceQueue(nil, procedure
-      begin
-        OutputWindow.ExecuteTool(ExternalTool);
-      end);
+    OutputWindow.ExecuteTool(ExternalTool);
   end;
 
 
@@ -264,7 +263,7 @@ end;
 initialization
   //  This unit must be initialized after frmEditor
   if Assigned(GI_EditorFactory) then
-    GI_EditorFactory.RegisterViewFactory(TWebPreviewView.Create as IEditorViewFactory);
+    WebPreviewFactoryIndex := GI_EditorFactory.RegisterViewFactory(TWebPreviewView.Create as IEditorViewFactory);
   OleInitialize(nil);
 
 finalization
