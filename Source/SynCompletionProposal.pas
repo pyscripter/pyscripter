@@ -2038,31 +2038,21 @@ begin
   if DisplayType = ctCode then
   begin
     if FTitle <> '' then
-      FHeightBuffer := FTitleFontHeight + 4 {Margin}
+      FHeightBuffer := FTitleFontHeight +  PPIScaled(4) {Margin}
     else
       FHeightBuffer := 0;
 
     if (ClientWidth >= FScrollbar.Width) and (ClientHeight >= FHeightBuffer) then
-    begin
-      Bitmap.Width := ClientWidth - FScrollbar.Width;
-      Bitmap.Height := ClientHeight - FHeightBuffer;
-    end;
+      Bitmap.SetSize(ClientWidth - FScrollbar.Width, ClientHeight - FHeightBuffer);
 
     if (ClientWidth > 0) and (FHeightBuffer > 0) then
-    begin
-      TitleBitmap.Width := ClientWidth;
-      TitleBitmap.Height := FHeightBuffer;
-    end;
+      TitleBitmap.SetSize(ClientWidth, FHeightBuffer);
   end else
   begin
     if (ClientWidth > 0) and (ClientHeight > 0) then
-    begin
-      Bitmap.Width := ClientWidth;
-      Bitmap.Height := ClientHeight;
-    end;
+      Bitmap.SetSize(ClientWidth, ClientHeight);
   end;
 end;
-
 
 procedure TSynBaseCompletionProposalForm.AdjustScrollBarPosition;
 begin

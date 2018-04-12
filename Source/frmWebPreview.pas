@@ -136,7 +136,6 @@ var
 //  v: Variant;
   HTMLDocument: IHTMLDocument2;
   FN : string;
-  vaIn, vaOut: OleVariant;
 begin
   fEditor := Editor;
   WebBrowser.RegisterAsBrowser := True;

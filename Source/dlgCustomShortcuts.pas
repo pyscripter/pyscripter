@@ -24,6 +24,7 @@ type
     function IsSecondaryShortCutsStored: Boolean;
     procedure SetSecondaryShortCuts(const Value: TCustomShortCutList);
     function GetSecondaryShortCuts: TCustomShortCutList;
+  protected
     function GetDisplayName : string;  override;
   public
     Category : string;

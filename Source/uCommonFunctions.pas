@@ -2007,12 +2007,10 @@ begin
       ib := TBitmap.Create;
       mb := TBitmap.Create;
       try
-        ib.Width := TmpImgList.Width;
-        ib.Height := TmpImgList.Height;
+        ib.SetSize(TmpImgList.Width, TmpImgList.Height);
         ib.Canvas.FillRect(ib.Canvas.ClipRect);
 
-        mb.Width := TmpImgList.Width;
-        mb.Height := TmpImgList.Height;
+        mb.SetSize(TmpImgList.Width, TmpImgList.Height);
         mb.Canvas.FillRect(mb.Canvas.ClipRect);
 
         ImageList_DrawEx(TmpImgList.Handle, ii, ib.Canvas.Handle, 0, 0, ib.Width, ib.Height, CLR_NONE, CLR_NONE, ILD_NORMAL);
@@ -2021,11 +2019,9 @@ begin
         sib := TBitmap.Create; //stretched (or centered) image
         smb := TBitmap.Create; //stretched (or centered) mask
         try
-          sib.Width := ImgList.Width;
-          sib.Height := ImgList.Height;
+          sib.SetSize(ImgList.Width, ImgList.Height);
           sib.Canvas.FillRect(sib.Canvas.ClipRect);
-          smb.Width := ImgList.Width;
-          smb.Height := ImgList.Height;
+          smb.SetSize(ImgList.Width, ImgList.Height);
           smb.Canvas.FillRect(smb.Canvas.ClipRect);
 
           if M * 100 / D >= 150 then //stretch if >= 150%

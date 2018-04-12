@@ -1024,8 +1024,6 @@ var
   BytesWritten: Cardinal;
   BytesToWrite: Cardinal;
 begin
-  Result := True;
-
   FWriteLock.Acquire;
   try
     try
