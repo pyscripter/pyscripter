@@ -2777,34 +2777,10 @@ begin
   if FPanel = nil then
     Exit;
   case TabPosition of
-    tpLeft:
-      begin
-        FPanel.Left := 0;
-        FPanel.Width := Panel.FTabHeight;
-        FPanel.Top := 0;
-        FPanel.Height := Height;
-      end;
-    tpRight:
-      begin
-        FPanel.Left := Width - Panel.FTabHeight;
-        FPanel.Top := 0;
-        FPanel.Width := Panel.FTabHeight;
-        FPanel.Height := Height;
-      end;
-    tpTop:
-      begin
-        FPanel.Left := 0;
-        FPanel.Top := 0;
-        FPanel.Width := Width;
-        FPanel.Height := Panel.FTabHeight;
-      end;
-    tpBottom:
-      begin
-        FPanel.Left := 0;
-        FPanel.Top := Height - Panel.FTabHeight;
-        FPanel.Width := Width;
-        FPanel.Height := Panel.FTabHeight;
-      end;
+    tpLeft: FPanel.SetBounds(0, 0, Panel.FTabHeight, Height);
+    tpRight: FPanel.SetBounds(Width - Panel.FTabHeight, 0, Panel.FTabHeight, Height);
+    tpTop: FPanel.SetBounds(0, 0, Width, Panel.FTabHeight);
+    tpBottom: FPanel.SetBounds(0, Height - Panel.FTabHeight, Width, Panel.FTabHeight);
   end;
 end;
 

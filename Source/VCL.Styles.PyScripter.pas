@@ -201,8 +201,7 @@ begin
     LBitmap:=TBitmap.Create;
     LBitmap.PixelFormat:=pf32bit;
     }
-    FBitmap.Width :=ClientRect.Width;
-    FBitmap.Height:=ClientRect.Height;
+    FBitmap.SetSize(ClientRect.Width, ClientRect.Height);
 
     //Draw background
     LDetails.Element := teWindow;

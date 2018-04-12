@@ -3022,10 +3022,7 @@ begin
     assign in that function }
   APanel := CreateConjoinPanelClass(Result);
 
-  Result.BoundsRect := Control1.BoundsRect;
-
-  Result.Width := Control1.UndockWidth;
-  Result.Height := Control1.UndockHeight;
+  Result.SetBounds(Control1.Left, Control1.Top, Control1.UndockWidth, Control1.UndockHeight);
 
   OldDockWidth := Control1.LRDockWidth;
   OldDockHeight := Control1.TBDockHeight;
@@ -3109,10 +3106,7 @@ begin
   Page := CreateTabDockClass(Result);
   Page.Name := Page.ClassName + '_' + Control1.Name + '_' + Control2.Name; // debug!
 
-  Result.BoundsRect := Control1.BoundsRect;
-
-  Result.Width := Control1.UndockWidth;
-  Result.Height := Control1.UndockHeight;
+  Result.SetBounds(Control1.Left, Control1.Top, Control1.UndockWidth, Control1.UndockHeight);
 
   OldDockWidth := Control1.LRDockWidth;
   OldDockHeight := Control1.TBDockHeight;

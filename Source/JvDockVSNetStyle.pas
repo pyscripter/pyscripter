@@ -3861,7 +3861,7 @@ begin
     FMaxWidth := 0;
   end
   else
-    Inc(FCurrentWidth, TJvDockVSNetStyle.GetAnimationMoveWidth);
+    Inc(FCurrentWidth, MulDiv(TJvDockVSNetStyle.GetAnimationMoveWidth, Screen.PixelsPerInch, 96));
 end;
 
 initialization

@@ -2323,10 +2323,7 @@ Var
         tmpY := 0;
     end;
 
-    Form.Width := tmpWidth;
-    Form.Height := tmpHeight;
-    Form.Top := tmpY;
-    Form.Left := tmpX;
+    Form.SetBounds(tmpX, tmpY, tmpWidth, tmpHeight);
   end;
 
 var
