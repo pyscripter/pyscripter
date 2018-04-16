@@ -362,6 +362,7 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
           Height = 190
           Align = alClient
           ParentBackground = False
+          ParentColor = True
           TabOrder = 2
           object dpSearchText: TPanel
             Left = 1

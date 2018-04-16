@@ -13,6 +13,7 @@ interface
 Uses
   System.SysUtils,
   System.Classes,
+  PythonEngine,
   SynRegExpr,
   cTools;
 
@@ -74,7 +75,8 @@ type
   end;
 
 { Executes Python code in a Delphi thread }
-procedure ThreadPythonExec(ExecuteProc : TProc; TerminateProc : TProc = nil);
+procedure ThreadPythonExec(ExecuteProc : TProc; TerminateProc : TProc = nil;
+  ThreadExecMode : TThreadExecMode = emNewState);
 
 Const
   IdentRE = '[A-Za-z_][A-Za-z0-9_]*';
@@ -83,8 +85,7 @@ Const
 implementation
 
 Uses
-  Winapi.Windows,
-  PythonEngine;
+  Winapi.Windows;
 
 { TRunConfiguration }
 
@@ -186,25 +187,23 @@ private
   fTerminateProc : TProc;
   fExecuteProc : TProc;
   fMainThreadState : PPyThreadState;
-  gilstate : PyGILState_STATE;
-  procedure Terminate(Sender: TObject);
+  procedure DoTerminate; override;
 public
   procedure ExecuteWithPython; override;
-  constructor Create(ExecuteProc : TProc; TerminateProc : TProc = nil);
+  constructor Create(ExecuteProc : TProc; TerminateProc : TProc = nil;
+    AThreadExecMode : TThreadExecMode = emNewState);
 end;
 
-
-constructor TAnonymousPythonThread.Create(ExecuteProc, TerminateProc: TProc);
+constructor TAnonymousPythonThread.Create(ExecuteProc : TProc; TerminateProc : TProc = nil;
+    AThreadExecMode : TThreadExecMode = emNewState);
 begin
   fExecuteProc := ExecuteProc;
   fTerminateProc := TerminateProc;
-  OnTerminate := Terminate;
   FreeOnTerminate := True;
+  ThreadExecMode := AThreadExecMode;
   with GetPythonEngine do
   begin
-    gilstate := PyGILState_Ensure();
-    Self.InterpreterState := InterpreterState;
-    fMainThreadState := PyEval_SaveThread;
+   fMainThreadState := PyEval_SaveThread;
   end;
   inherited Create;
 end;
@@ -218,11 +217,10 @@ begin
     end;
 end;
 
-procedure TAnonymousPythonThread.Terminate(Sender: TObject);
+procedure TAnonymousPythonThread.DoTerminate;
 begin
   with GetPythonEngine do begin
     PyEval_RestoreThread(fMainThreadState);
-    PyGILState_Release(gilstate);
   end;
   if Assigned(fTerminateProc) then
     fTerminateProc();
@@ -230,12 +228,14 @@ end;
 
 { ThreadPythonExec }
 
-procedure ThreadPythonExec(ExecuteProc : TProc; TerminateProc : TProc = nil);
+procedure ThreadPythonExec(ExecuteProc : TProc; TerminateProc : TProc = nil;
+  ThreadExecMode : TThreadExecMode = emNewState);
 begin
   if GetCurrentThreadId <> MainThreadID then
     raise Exception.Create('ThreadPythonExec should only be called from the main thread');
-  TAnonymousPythonThread.Create(ExecuteProc, TerminateProc);
+  TAnonymousPythonThread.Create(ExecuteProc, TerminateProc, ThreadExecMode);
 end;
+
 
 
 end.

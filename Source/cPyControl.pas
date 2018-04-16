@@ -126,7 +126,7 @@ type
 var
   PyControl : TPythonControl = nil;
 
-  implementation
+implementation
 
 uses
   System.SysUtils,

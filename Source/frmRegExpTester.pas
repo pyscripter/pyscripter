@@ -95,8 +95,16 @@ var
 
 implementation
 
-uses dmCommands, VarPyth, frmPythonII,
-  PythonEngine, JvGnugettext, JvAppIniStorage, uCommonFunctions, RichEdit;
+uses
+  Vcl.Themes,
+  RichEdit,
+  JvGnugettext,
+  JvAppIniStorage,
+  VarPyth,
+  dmCommands,
+  frmPythonII,
+  PythonEngine,
+  uCommonFunctions;
 
 {$R *.dfm}
 
@@ -115,14 +123,14 @@ begin
   begin
     cbSize := SizeOf(Format);
     dwMask := CFM_BACKCOLOR;
-    crBackColor := ColorToRGB(AColor);
+    crBackColor := ColorToRGB(StyleServices.GetSystemColor(AColor));
     Richedit.Perform(EM_SETCHARFORMAT, WParam, Longint(@Format));
   end;
 end;
 
 procedure TRegExpTesterWindow.ClearHighlight;
 begin
-  RE_SetSelBgColor(SearchText, False, MatchText.Color);
+  RE_SetSelBgColor(SearchText, False, SearchText.Color);
 end;
 
 procedure TRegExpTesterWindow.FormActivate(Sender: TObject);
@@ -416,7 +424,7 @@ begin
     begin
       SearchText.SelStart := VMatch.start();
       SearchText.SelLength := VMatch.end() - SearchText.SelStart;
-      RE_SetSelBgColor(SearchText, True, ColorToRGB(clHighlight));
+      RE_SetSelBgColor(SearchText, True, clHighlight);
     end;
   finally
     SearchText.SelStart := OldSelStart;
