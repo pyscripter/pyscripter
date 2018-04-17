@@ -58,7 +58,7 @@ inherited FileExplorerWindow: TFileExplorerWindow
         DefaultNodeHeight = 17
         DragHeight = 250
         DragWidth = 150
-        FileObjects = [foFolders, foNonFolders, foEnableAsync]
+        FileObjects = [foFolders, foNonFolders]
         FileSizeFormat = fsfExplorer
         FileSort = fsFileType
         Header.AutoSizeIndex = 0
@@ -77,7 +77,7 @@ inherited FileExplorerWindow: TFileExplorerWindow
         TreeOptions.AnimationOptions = [toAnimatedToggle]
         TreeOptions.MiscOptions = [toAcceptOLEDrop, toEditable, toFullRepaintOnResize, toInitOnSave, toToggleOnDblClick, toWheelPanning]
         TreeOptions.PaintOptions = [toHideSelection, toHotTrack, toShowButtons, toShowTreeLines, toThemeAware, toUseBlendedImages, toUseBlendedSelection]
-        TreeOptions.SelectionOptions = [toRightClickSelect]
+        TreeOptions.SelectionOptions = [toRightClickSelect, toCenterScrollIntoView]
         TreeOptions.VETFolderOptions = [toFoldersExpandable, toForceHideRecycleBin, toNoUseVETColorsProp, toThreadedExpandMark]
         TreeOptions.VETShellOptions = [toRightAlignSizeColumn, toContextMenus, toDragDrop, toShellHints]
         TreeOptions.VETSyncOptions = [toCollapseTargetFirst, toExpandTarget, toSelectTarget]

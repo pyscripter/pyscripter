@@ -7,7 +7,7 @@ I am using Delphi 10.2 to compile PyScripter but it should compile with other re
   1. JCL (https://github.com/project-jedi/jcl) - at Github.com or use daily packages from http://jvcl.sourceforge.net/daily/
   2. JVCL (https://github.com/project-jedi/jvcl) - at Github.com or use daily packages from http://jcl.sourceforge.net/daily/
   3. Python for Delphi (https://github.com/pyscripter/python4delphi)
-  4. VirtualTreeView - get it from Github.com (https://github.com/Virtual-TreeView/Virtual-TreeView) 
+  4. VirtualTreeView - (https://github.com/Virtual-TreeView/Virtual-TreeView) 
   5. MustangPeak Components: 
      - Common Library (https://github.com/pyscripter/MustangpeakCommonLib)
      - EasyListView (https://github.com/pyscripter/MustangpeakEasyListview)
@@ -23,7 +23,7 @@ A. Make sure you have git.exe accessible from the command prompt.  If not get fr
 B. Clone the PyScripter project (https://github.com/pyscripter/pyscripter) 
 C. Clone or download JCL and JVCL and use provided installers (run install.bat)
 D. Use Multiinstaller.exe in the Components\ThirdParty folder to download and install 
-   dependencies 2-10 to a folder of your choice in one step.
+   dependencies 3-10 to a folder of your choice in one step.
 E. In MustangPeak\VirtualShellTools\Include\Addins.inc define USE_TOOLBAR_TB2K.
 F. Install the PyScripterCustom package from the Components folder and add the Components folder to the Delphi Library search path.
 G. If you have managed to do all the above then open PythonIDE.dproj and compile :)
