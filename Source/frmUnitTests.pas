@@ -203,7 +203,6 @@ begin
         PyTestCase := ExtractPythonObjectFrom(TestCase); // Store the TestCase PPyObject
         GetPythonEngine.Py_XINCREF(PyTestCase);
 
-        // Python 2.4
         if GetPythonEngine.PyObject_HasAttrString(PyTestCase, '_testMethodName') = 1 then
           //Python 2.5
           TestName := TestCase._testMethodName

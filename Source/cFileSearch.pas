@@ -234,7 +234,7 @@ begin
     end;
   end else begin
     if not(soCaseSensitive in SearchOptions) then
-      fPattern := UpperCase(Value);
+      fPattern := Value.ToUpper;
   end;
 end;
 
@@ -287,7 +287,7 @@ begin
     end;
   end else begin
     if not (soCaseSensitive in SearchOptions) then
-      BLine := UpperCase(BLine);
+      BLine := BLine.ToUpper;
     Len := Length(Pattern);
     EndPos := 0;
     FoundPos := PWideChar(BLine);

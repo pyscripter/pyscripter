@@ -1790,7 +1790,7 @@ begin
     if PyIDEOptions.FileChangeNotification = fcnNoMappedDrives then begin
       // Do not process mapped drive
       WS := WideExtractFileDrive(Dir);
-      if WideIsDrive(WS) and (GetDriveTypeW_MP(PWideChar(WS)) = DRIVE_REMOTE)then Exit;
+      if WideIsDrive(WS) and (GetDriveType(PWideChar(WS)) = DRIVE_REMOTE)then Exit;
     end;
     if not NS.Folder then // UpdateItem notifications
       Dir := ExtractFileDir(Dir);

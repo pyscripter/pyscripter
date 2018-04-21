@@ -1096,7 +1096,7 @@ begin
   Result := -1;
   Data := ExplorerTree.GetNodeData(Node);
   if Assigned(Data)
-    and (AnsiPos(UpperCase(SearchText), UpperCase(Data.ProjectNode.Caption)) > 0)
+    and (Pos(SearchText.ToUpper, Data.ProjectNode.Caption.ToUpper) > 0)
   then
     Result := 0;
 end;

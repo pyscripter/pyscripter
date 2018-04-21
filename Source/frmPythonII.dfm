@@ -115,9 +115,9 @@ inherited PythonIIForm: TPythonIIForm
   end
   object PythonEngine: TPythonEngine
     AutoLoad = False
-    DllName = 'python24.dll'
+    DllName = 'python25.dll'
     APIVersion = 1012
-    RegVersion = '2.4'
+    RegVersion = '2.5'
     FatalAbort = False
     FatalMsgDlg = False
     UseLastKnownVersion = False

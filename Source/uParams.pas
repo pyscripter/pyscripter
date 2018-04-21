@@ -396,7 +396,7 @@ begin
     end
     else AName:= ARegKey;
     (* if key exists, read key data *)
-    if OpenKeyReadOnly(WideExtractFilePath(AName)) then begin
+    if OpenKeyReadOnly(ExtractFilePath(AName)) then begin
       AName:= ExtractFileName(ARegKey);
       if not GetDataInfo(AName, Info) then
         Info.RegData:= rdUnknown;
@@ -453,7 +453,7 @@ begin
     if (Result = '') or
        (Result = APath) and not FileExists(ExcludeTrailingPathDelimiter(APath)) then
     begin
-      Result:= WideExtractFilePath(APath);
+      Result:= ExtractFilePath(APath);
       // we are up to top level
       if (Result = '') or (Result[Length(Result)] = ':') then
         Result:= APath
@@ -620,7 +620,6 @@ begin
   with Parameters do begin
     (* parameters, valid for current Windows configuration *)
     // Python Paths etc.
-    RegisterParameter('Python24Dir', GetPythonDir('2.4'), nil);
     RegisterParameter('Python25Dir', GetPythonDir('2.5'), nil);
     RegisterParameter('Python26Dir', GetPythonDir('2.6'), nil);
     RegisterParameter('Python27Dir', GetPythonDir('2.7'), nil);
@@ -632,7 +631,6 @@ begin
     RegisterParameter('Python35Dir', GetPythonDir('3.5'), nil);
     RegisterParameter('Python36Dir', GetPythonDir('3.6'), nil);
     RegisterParameter('Python37Dir', GetPythonDir('3.7'), nil);
-    RegisterParameter('Python24Exe', '$[PYTHON24DIR]python.exe', nil);
     RegisterParameter('Python25Exe', '$[PYTHON25DIR]python.exe', nil);
     RegisterParameter('Python26Exe', '$[PYTHON26DIR]python.exe', nil);
     RegisterParameter('Python27Exe', '$[PYTHON27DIR]python.exe', nil);
@@ -683,8 +681,8 @@ begin
     RegisterModifier('Param', 'Command line parameter', GetParam);
     RegisterModifier('Reg', 'Value of registry key', GetReg);
     RegisterModifier('Env', 'Value of environment variable', GetEnvironmentVariable);
-    RegisterModifier('UpperCase', 'Upper case of string', System.SysUtils.UpperCase);
-    RegisterModifier('LowerCase', 'Lower case of string', System.SysUtils.LowerCase);
+    RegisterModifier('UpperCase', 'Upper case of string', System.SysUtils.AnsiUpperCase);
+    RegisterModifier('LowerCase', 'Lower case of string', System.SysUtils.AnsiLowerCase);
     RegisterModifier('Quote', 'Quoted string', StrDefQuote);
     RegisterModifier('UnQuote', 'Unquoted string', StrUnquote);
 
@@ -728,7 +726,6 @@ begin
   with Parameters do begin
    (* parameters, valid for current Windows configuration *)
     // Python Paths etc.
-    UnRegisterParameter('Python24Dir');
     UnRegisterParameter('Python25Dir');
     UnRegisterParameter('Python26Dir');
     UnRegisterParameter('Python27Dir');
@@ -740,7 +737,6 @@ begin
     UnRegisterParameter('Python35Dir');
     UnRegisterParameter('Python36Dir');
     UnRegisterParameter('Python37Dir');
-    UnRegisterParameter('Python24Exe');
     UnRegisterParameter('Python25Exe');
     UnRegisterParameter('Python26Exe');
     UnRegisterParameter('Python27Exe');
