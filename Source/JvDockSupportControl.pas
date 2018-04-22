@@ -1127,38 +1127,42 @@ procedure TJvDockCustomPanelSplitter.UpdateControlSize;
 begin
   if FNewSize <> FOldSize then
   begin
-    case Align of
-      alLeft:
-        FControl.Width := FNewSize;
-      alTop:
-        FControl.Height := FNewSize;
-      alRight:
-        begin
-          Parent.DisableAlign;
-          try
-            FControl.Left := FControl.Left + (FControl.Width - FNewSize);
-            FControl.Width := FNewSize;
-          finally
-            Parent.EnableAlign;
+    JvDockLockWindow(nil);
+    try
+      case Align of
+        alLeft:
+          FControl.Width := FNewSize;
+        alTop:
+          FControl.Height := FNewSize;
+        alRight:
+          begin
+            Parent.DisableAlign;
+            try
+              FControl.Left := FControl.Left + (FControl.Width - FNewSize);
+              FControl.Width := FNewSize;
+            finally
+              Parent.EnableAlign;
+            end;
           end;
-        end;
-      alBottom:
-        begin
-          Parent.DisableAlign;
-          try
-            FControl.Top := FControl.Top + (FControl.Height - FNewSize);
-            FControl.Height := FNewSize;
-          finally
-            Parent.EnableAlign;
+        alBottom:
+          begin
+            Parent.DisableAlign;
+            try
+              FControl.Top := FControl.Top + (FControl.Height - FNewSize);
+              FControl.Height := FNewSize;
+            finally
+              Parent.EnableAlign;
+            end;
           end;
-        end;
+      end;
+    finally
+      JvDockUnLockWindow();
     end;
     TControlAccessProtected(FControl).Resize;
     Update;
     if Assigned(FOnMoved) then
       FOnMoved(Self);
     FOldSize := FNewSize;
-
   end;
 end;
 
