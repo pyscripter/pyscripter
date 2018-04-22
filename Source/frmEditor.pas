@@ -7,7 +7,6 @@
   ----------------------------------------------------------------------------- }
 
 unit frmEditor;
-{$I SynEdit.inc}
 
 interface
 
@@ -2300,7 +2299,7 @@ begin
     if fHotIdentInfo.SynAttri.Background <> clNone then
       Canvas.Brush.Color := fHotIdentInfo.SynAttri.Background
     else
-      Canvas.Brush.Color := ASynEdit.Color;
+      Canvas.Brush.Color := ASynEdit.Highlighter.WhitespaceAttribute.Background;
     Canvas.Brush.Style := bsSolid;
     SetTextCharacterExtra(Canvas.Handle,
       ASynEdit.CharWidth - Canvas.TextWidth('W'));
@@ -2494,14 +2493,12 @@ procedure TEditorForm.FGPanelEnter(Sender: TObject);
 begin
   HasFocus := True;
   BGPanel.Color := frmIDEDockWin.BorderHighlight;
-  // FGPanel.Margins.SetBounds(2,2,2,2);
 end;
 
 procedure TEditorForm.FGPanelExit(Sender: TObject);
 begin
   HasFocus := False;
   BGPanel.Color := frmIDEDockWin.BorderNormal;
-  // FGPanel.Margins.SetBounds(0,0,0,0);
 end;
 
 procedure TEditorForm.mnCloseTabClick(Sender: TObject);
@@ -2642,12 +2639,10 @@ begin
   if HasFocus then
   begin
     BGPanel.Color := frmIDEDockWin.BorderHighlight;
-    // FGPanel.Margins.SetBounds(2,2,2,2);
   end
   else
   begin
     BGPanel.Color := frmIDEDockWin.BorderNormal;
-    // FGPanel.Margins.SetBounds(0,0,0,0);
   end;
 
   PyIDEMainForm.ThemeEditorGutter(SynEdit.Gutter);
