@@ -38,8 +38,6 @@ Known Issues:
 
 unit dlgSynEditOptions;
 
-{$I SynEdit.inc}
-
 interface
 
 uses
@@ -545,7 +543,8 @@ begin
     Self.HideSelection := TCustomSynEdit(Source).HideSelection;
     Self.InsertCaret := TCustomSynEdit(Source).InsertCaret;
     Self.OverwriteCaret := TCustomSynEdit(Source).OverwriteCaret;
-    Self.MaxScrollWidth := TCustomSynEdit(Source).MaxScrollWidth;
+    if not (eoAutoSizeMaxScrollWidth in Self.Options) then
+      Self.MaxScrollWidth := TCustomSynEdit(Source).MaxScrollWidth;
     Self.MaxUndo := TCustomSynEdit(Source).MaxUndo;
     Self.RightEdge := TCustomSynEdit(Source).RightEdge;
     Self.RightEdgeColor := TCustomSynEdit(Source).RightEdgeColor;
@@ -593,12 +592,13 @@ begin
       TCustomSynEdit(Dest).SelectedColor.Assign(Self.SelectedColor);
 
       TCustomSynEdit(Dest).Color := Self.Color;
+      if not (eoAutoSizeMaxScrollWidth in TCustomSynEdit(Dest).Options) then
+        TCustomSynEdit(Dest).MaxScrollWidth := Self.MaxScrollWidth;
       TCustomSynEdit(Dest).Options := Self.Options;
       TCustomSynEdit(Dest).ExtraLineSpacing := Self.ExtraLineSpacing;
       TCustomSynEdit(Dest).HideSelection := Self.HideSelection;
       TCustomSynEdit(Dest).InsertCaret := Self.InsertCaret;
       TCustomSynEdit(Dest).OverwriteCaret := Self.OverwriteCaret;
-      TCustomSynEdit(Dest).MaxScrollWidth := Self.MaxScrollWidth;
       TCustomSynEdit(Dest).MaxUndo := Self.MaxUndo;
       TCustomSynEdit(Dest).RightEdge := Self.RightEdge;
       TCustomSynEdit(Dest).RightEdgeColor := Self.RightEdgeColor;

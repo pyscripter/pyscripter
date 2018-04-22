@@ -8,8 +8,6 @@
 
 unit dmCommands;
 
-{$I SynEdit.inc}
-
 interface
 
 uses
@@ -1222,6 +1220,7 @@ var
   TempFileName : string;
 begin
   TempEditorOptions := TSynEditorOptionsContainer.Create(Self);
+  TempEditorOptions.Assign(EditorOptions);  // Initialize with defaults
   // SynWeb attribute changes are taking immediate effect in Web Engine
   // So Cancel does not work.  As a workaround we save the syntax attributes
   // and restore them if the dialog is cancelled.
