@@ -722,7 +722,7 @@ begin
     CreateZoneAndAddInfoFromAppStorage;
     DoFloatAllForm;
     // (rom) this is disputable
-    Application.ProcessMessages;
+    //Application.ProcessMessages;
     try
       FJvDockInfoStyle := isJVCLReadInfo;
       MiddleScanTree(TopTreeZone);
@@ -741,7 +741,7 @@ begin
   DoFloatAllForm;
 
   // (rom) this is disputable
-  Application.ProcessMessages;
+  //Application.ProcessMessages;
 
   FJvDockInfoStyle := isJVCLReadInfo;
   MiddleScanTree(TopTreeZone);
@@ -756,7 +756,7 @@ begin
   DoFloatAllForm;
 
   // (rom) this is disputable
-  Application.ProcessMessages;
+  //Application.ProcessMessages;
 
   FJvDockInfoStyle := isReadRegInfo;
   MiddleScanTree(TopTreeZone);

@@ -11,7 +11,8 @@ unit uCommonFunctions;
 interface
 Uses
   Windows, Classes, System.SysUtils, Graphics, SynEditTypes, SynUnicode,
-  uEditAppIntfs,  SpTBXSkins, Controls, SynEdit, SynRegExpr, Vcl.ComCtrls;
+  uEditAppIntfs,  SpTBXSkins, Controls, SynEdit, SynRegExpr, Vcl.ComCtrls,
+  System.Diagnostics;
 
 const
   UTF8BOMString : RawByteString = AnsiChar($EF) + AnsiChar($BB) + AnsiChar($BF);
@@ -270,6 +271,9 @@ Type
   end;
 
   function NewTimer(Interval: Cardinal): ITimer;
+
+Var
+  StopWatch : TStopWatch;
 
 implementation
 Uses
@@ -2154,5 +2158,6 @@ begin
   Result := TTimer.Create(Interval);
 end;
 
-
+initialization
+  StopWatch := TStopWatch.StartNew;
 end.

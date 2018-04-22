@@ -1538,11 +1538,14 @@ begin
   FindResultsWindow.PopupParent := Self;
   ProjectExplorerWindow := TProjectExplorerWindow.Create(Self);
   ProjectExplorerWindow.PopupParent := Self;
+  //OutputDebugString(PWideChar(Format('%s ElapsedTime %d ms', ['After All Forms', StopWatch.ElapsedMilliseconds])));
 
   // And now translate after all the docking forms have been created
   // They will be translated as well
   TP_GlobalIgnoreClass(TJvFormStorage);
+  TP_GlobalIgnoreClass(TJvAppIniFileStorage);
   TranslateComponent(Self);
+  //(PWideChar(Format('%s ElapsedTime %d ms', ['After Translate', StopWatch.ElapsedMilliseconds])));
 
   // Setup Languages
   fLanguageList := TStringList.Create;
@@ -1565,15 +1568,12 @@ begin
      ProjectExplorerWindow.ProjectActionList,
      CallStackWindow.actlCallStack];
 
-  // Store Factory Settings
-  if not AppStorage.PathExists(FactoryToolbarItems) then
-    SaveToolbarItems(FactoryToolbarItems);
-
   // Read Settings from PyScripter.ini
   if FileExists(AppStorage.IniFile.FileName) then
     RestoreApplicationData
   else
     PyIDEOptions.Changed;
+
   // Read Settings from PyScripter.local.ini
   if FileExists(LocalAppStorage.IniFile.FileName) then
   begin
@@ -1582,12 +1582,18 @@ begin
       JvFormStorage.RestoreFormPlacement;
   end;
 
+  // Store Factory Settings
+  if not AppStorage.PathExists(FactoryToolbarItems) then
+    SaveToolbarItems(FactoryToolbarItems);
+
   if (OldScreenPPI = Screen.PixelsPerInch) and (OldDesktopSize = DesktopSizeString) and
      LocalAppStorage.PathExists('Layouts\Default\Forms') and
      LocalAppStorage.PathExists('Layouts\Current\Forms') then
   begin
     try
+      //OutputDebugString(PWideChar(Format('%s ElapsedTime %d ms', ['Before LoadLayout', StopWatch.ElapsedMilliseconds])));
       LoadLayout('Current');
+      //(PWideChar(Format('%s ElapsedTime %d ms', ['After LoadLayout', StopWatch.ElapsedMilliseconds])));
     except
       LoadLayoutError := True;
       LocalAppStorage.DeleteSubTree('Layouts\Default');
@@ -1627,7 +1633,7 @@ begin
   //  Editor Views Menu
   GI_EditorFactory.SetupEditorViewMenu;
 
-  Update;
+  //Update;
 
   // Tab Conrol Drag Drop
   TabControl1.Toolbar.OnDragOver := TabToolbarDragOver;
@@ -2257,7 +2263,7 @@ begin
   CallStackWindow.actPreviousFrame.Enabled := (DebuggerState = dsPaused);
   CallStackWindow.actNextFrame.Enabled := (DebuggerState = dsPaused);
 
-  Refresh;
+  //Refresh;
 end;
 
 procedure TPyIDEMainForm.SetActiveTabControl(const Value: TSpTBXCustomTabControl);
@@ -2811,9 +2817,7 @@ begin
     fcnNoMappedDrives:
       with FileExplorerWindow.FileExplorerTree do begin
         TreeOptions.VETMiscOptions :=
-          TreeOptions.VETMiscOptions + [toChangeNotifierThread];
-        TreeOptions.VETMiscOptions :=
-          TreeOptions.VETMiscOptions - [toTrackChangesInMappedDrives];
+          TreeOptions.VETMiscOptions + [toChangeNotifierThread] - [toTrackChangesInMappedDrives];
         // Connect ChangeNotify
         OnAfterShellNotify := CommandsDataModule.ProcessShellNotify;
       end;
@@ -2936,7 +2940,7 @@ begin
     Self.StyleElements := Self.StyleElements + [seBorder]
   else
     Self.StyleElements := Self.StyleElements - [seBorder];
-  FileExplorerWindow.FileExplorerTree.RefreshTree;
+
   EditorSearchOptions.SearchTextAtCaret :=
     PyIDEOptions.SearchTextAtCaret;
   MaskFPUExceptions(PyIDEOptions.MaskFPUExceptions);
@@ -2960,14 +2964,21 @@ begin
   JvDockVSNetStyleSpTBX.SetAnimationInterval(PyIDEOptions.DockAnimationInterval);
   JvDockVSNetStyleSpTBX.SetAnimationMoveWidth(PyIDEOptions.DockAnimationMoveWidth);
 
-  // Set Python engine
-  actPythonInternal.Visible := not PyIDEOptions.InternalInterpreterHidden;
-  if not actPythonInternal.Visible and
-     (PyIDEOptions.PythonEngineType = peInternal)
-  then
-    PyIDEOptions.PythonEngineType := peRemote;
+  FileExplorerWindow.FileExplorerTree.RefreshTree;
 
-  PyControl.PythonEngineType := PyIDEOptions.PythonEngineType;
+  TThread.ForceQueue(nil, procedure
+  begin
+    // Set Python engine
+    actPythonInternal.Visible := not PyIDEOptions.InternalInterpreterHidden;
+    if not actPythonInternal.Visible and
+       (PyIDEOptions.PythonEngineType = peInternal)
+    then
+      PyIDEOptions.PythonEngineType := peRemote;
+
+    PyControl.PythonEngineType := PyIDEOptions.PythonEngineType;
+
+    ConfigureFCN(PyIDEOptions.FileChangeNotification);
+  end);
 
   // Command History Size
   PythonIIForm.CommandHistorySize := PyIDEOptions.InterpreterHistorySize;
@@ -2996,8 +3007,6 @@ begin
             TEditorForm(GI_EditorFactory.Editor[i].Form).ViewsTabControl.TabPosition := ttpTop;
         end;
     end;
-
-  ConfigureFCN(PyIDEOptions.FileChangeNotification);
 
   // Code completion
   CaseSensitive := PyIDEOptions.CodeCompletionCaseSensitive;
@@ -4605,6 +4614,7 @@ end;
 
 procedure TPyIDEMainForm.FormShow(Sender: TObject);
 begin
+  //OutputDebugString(PWideChar(Format('%s ElapsedTime %d ms', ['FormShow start', StopWatch.ElapsedMilliseconds])));
   if PyIDEOptions.AutoCheckForUpdates and
     (DaysBetween(Now, PyIDEOptions.DateLastCheckedForUpdates) >=
       PyIDEOptions.DaysBetweenChecks) and ConnectedToInternet
@@ -4623,6 +4633,7 @@ begin
   if not FileExists(AppStorage.IniFile.FileName) then begin
     SetupToolsMenu;
     SetupCustomizer;
+    ConfigureFCN(PyIDEOptions.FileChangeNotification);
   end;
   // fix for staturbar appearing above interpreter
   if StatusBar.Visible then StatusBar.Top := MaxInt;
@@ -4632,7 +4643,6 @@ begin
 
   // Activate File Explorer
   FileExplorerWindow.FileExplorerTree.Active := True;
-  ConfigureFCN(PyIDEOptions.FileChangeNotification);
 
   // Register drop target
   RegisterDragDrop(TabControl1.Handle, Self);
@@ -4640,6 +4650,7 @@ begin
 
   // This is needed to update the variables window
   PyControl.DoStateChange(dsInactive);
+  //OutputDebugString(PWideChar(Format('%s ElapsedTime %d ms', ['FormShow end', StopWatch.ElapsedMilliseconds])));
 end;
 
 procedure TPyIDEMainForm.JvAppInstancesCmdLineReceived(Sender: TObject;
@@ -4692,6 +4703,9 @@ begin
   // Save the list of open files
   AppStorage.DeleteSubTree('Open Files');
   TPersistFileInfo.WriteToAppStorage(AppStorage, 'Open Files');
+  // Delete BeforeZoom layout if it exists
+  if LocalAppStorage.PathExists('Layouts\BeforeZoom\Forms') then
+    LocalAppstorage.DeleteSubTree('Layouts\BeforeZoom');
   // Save Layout
   SaveLayout('Current');
   // Store other application data and flush AppStorage

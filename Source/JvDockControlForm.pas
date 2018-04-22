@@ -1609,16 +1609,14 @@ begin
 	  TWinControlAccess(DockSite).DockManager.InsertControl(Form2, alClient, Form1);
   end;
 
-
-
-
+  {$IFDEF JVDOCK_DEBUG}
   if not Assigned(Form1.Parent) then begin
 	  OutputDebugString('no parent on form 1');
   end;
   if not Assigned(Form2.Parent) then begin
       OutputDebugString('no parent on form 2');
   end;
-
+  {$ENDIF JVDOCK_DEBUG}
 
   { Now find and return the the new tab host object created depp within the bowels
     of the Docking Style code. If anything fails, return EInvalidOperation because its

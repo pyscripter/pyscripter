@@ -9,10 +9,8 @@
 // JCL_DEBUG_EXPERT_INSERTJDBG ON
 // JCL_DEBUG_EXPERT_DELETEMAPFILE ON
 program PyScripter;
-{$IF System.CompilerVersion >= 21}
-  {$WEAKLINKRTTI ON}
-  {$RTTI EXPLICIT METHODS([]) PROPERTIES([]) FIELDS([])}
-{$ENDIF}
+{$WEAKLINKRTTI ON}
+{$RTTI EXPLICIT METHODS([]) PROPERTIES([]) FIELDS([])}
 
 uses
   WinApi.Windows,
@@ -22,6 +20,7 @@ uses
   Vcl.Styles,
   Vcl.Forms,
   Vcl.Dialogs,
+  Vcl.StdCtrls,
   VTAccessibility,
   uCmdLine in 'uCmdLine.pas',
   dlgExceptionMail in 'dlgExceptionMail.pas' {ExceptionDialogMail},
@@ -106,15 +105,14 @@ uses
   cCodeCompletion in 'cCodeCompletion.pas',
   dlgStyleSelector in 'dlgStyleSelector.pas' {StyleSelectorForm},
   cVirtualStringTreeHelper in 'cVirtualStringTreeHelper.pas',
-  Synedit,
-  Vcl.StdCtrls,
   VCL.Styles.PyScripter in 'VCL.Styles.PyScripter.pas' {/  Vcl.Styles.Utils.Forms;},
   VCL.Styles.DPIAware in 'VCL.Styles.DPIAware.pas',
   cPyScripterSettings in 'cPyScripterSettings.pas',
   cPySupportTypes in 'cPySupportTypes.pas',
   cPyControl in 'cPyControl.pas',
   JvGnugettext in 'JvGnugettext.pas',
-  JvDSADialogs in 'JvDSADialogs.pas';
+  JvDSADialogs in 'JvDSADialogs.pas',
+  System.IniFiles in 'System.IniFiles.pas';
 
 {$R *.RES}
 {$R WebCopyAvi.RES}
@@ -126,7 +124,7 @@ uses
 begin
   ReportMemoryLeaksOnShutdown := DebugHook <> 0;
 
-  TStyleManager.SystemHooks := TStyleManager.SystemHooks - [shDialogs];
+  TStyleManager.SystemHooks := TStyleManager.SystemHooks - [shMenus, shDialogs];
 
   Application.Initialize;
 
