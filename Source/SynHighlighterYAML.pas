@@ -36,8 +36,6 @@ located at http://SynEdit.SourceForge.net
 
 unit SynHighlighterYAML;
 
-{$I SynEdit.inc}
-
 interface
 
 uses
@@ -675,7 +673,5 @@ begin
 end;
 
 initialization
-{$IFNDEF SYN_CPPB_1}
   RegisterPlaceableHighlighter(TSynYAMLSyn);
-{$ENDIF}
 end.

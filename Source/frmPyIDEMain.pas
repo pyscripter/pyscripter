@@ -447,8 +447,6 @@
 
 unit frmPyIDEMain;
 
-{$I SynEdit.inc}
-
 interface
 
 uses
@@ -1047,7 +1045,7 @@ type
     procedure tbiBrowsePreviousClick(Sender: TObject);
     procedure NextListClick(Sender: TObject; S : WideString);
     procedure tbiBrowseNextClick(Sender: TObject);
-    function ApplicationHelp(Command: Word; Data: {$IF CompilerVersion >= 23}NativeInt{$ELSE}integer{$IFEND};
+    function ApplicationHelp(Command: Word; Data: NativeInt;
       var CallHelp: Boolean): Boolean;
     procedure FormShow(Sender: TObject);
     procedure actAddWatchAtCursorExecute(Sender: TObject);
@@ -4572,7 +4570,7 @@ begin
   end;
 end;
 
-function TPyIDEMainForm.ApplicationHelp(Command: Word; Data: {$IF CompilerVersion >= 23}NativeInt{$ELSE}integer{$IFEND};
+function TPyIDEMainForm.ApplicationHelp(Command: Word; Data: NativeInt;
   var CallHelp: Boolean): Boolean;
 Var
   KeyWord : string;

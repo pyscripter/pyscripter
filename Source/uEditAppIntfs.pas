@@ -45,8 +45,6 @@ Known Issues:
 
 unit uEditAppIntfs;
 
-{$I SynEdit.inc}
-
 interface
 
 uses

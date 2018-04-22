@@ -45,8 +45,6 @@ The SynHighlighterPython implements a highlighter for Python for the SynEdit pro
 }
 unit SynHighlighterPython;
 
-{$I SynEdit.inc}
-
 interface
 
 uses
@@ -1790,9 +1788,7 @@ begin
 end;
 
 initialization
-{$IFNDEF SYN_CPPB_1}
   RegisterPlaceableHighlighter(TSynPythonSyn);
   RegisterPlaceableHighlighter(TSynCythonSyn);
-{$ENDIF}
 end.
 
