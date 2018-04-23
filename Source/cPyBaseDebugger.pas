@@ -2,8 +2,8 @@
  Unit Name: cPyBaseDebugger
  Author:    Kiriakos Vlahos
  Date:      23-Apr-2006
- Purpose:
- History:   Base debugger classes
+ Purpose:   Base debugger classes
+ History:
 -----------------------------------------------------------------------------}
 unit cPyBaseDebugger;
 

@@ -1573,6 +1573,7 @@ begin
     Result := True;
 
     if Encoding = sf_Ansi then begin
+      SaveFStreaming := False;  // to keep compiler happy
       if Lines is TSynEditStringList then
       begin
         SaveFStreaming := TSynEditStringListAccess(Lines).FStreaming;

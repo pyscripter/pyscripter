@@ -52,7 +52,6 @@ uses
   frmIDEDockWin,
   uEditAppIntfs,
   cPySupportTypes,
-  cPyBaseDebugger,
   cCodeCompletion;
 
 const
@@ -208,7 +207,6 @@ type
     procedure AppendPrompt;
     function IsEmpty : Boolean;
     procedure RegisterHistoryCommands;
-    procedure SetPythonEngineType(PythonEngineType : TPythonEngineType);
     procedure StartOutputMirror(AFileName : string; Append : Boolean);
     procedure StopFileMirror;
     procedure UpdateInterpreterActions;
@@ -237,13 +235,10 @@ Uses
   frmPyIDEMain,
   dmCommands,
   frmMessages,
-  frmVariables,
   frmUnitTests,
   uCommonFunctions,
   uCmdLine,
   cPyDebugger,
-  cPyRemoteDebugger,
-  cProjectClasses,
   cPyScripterSettings,
   cPyControl;
 
@@ -466,75 +461,6 @@ begin
   end;
   if Line > 0 then
     ExecuteBuffer(Buffer, Line);
-end;
-
-procedure TPythonIIForm.SetPythonEngineType(PythonEngineType: TPythonEngineType);
-Var
-  Cursor : IInterface;
-  RemoteInterpreter : TPyRemoteInterpreter;
-  Connected : Boolean;
-  Msg : string;
-begin
-//  if PythonEngineType = CommandsDataModule.PyIDEOptions.PythonEngineType then
-//    Exit;
-
-  if PyControl.DebuggerState <> dsInactive then begin
-    Vcl.Dialogs.MessageDlg(_(SCannotChangeEngine), mtError, [mbAbort], 0);
-    Exit;
-  end;
-
-  VariablesWindow.ClearAll;
-  UnitTestWindow.ClearAll;
-
-  case PythonEngineType of
-    peInternal:
-      begin
-        PyControl.ActiveInterpreter := InternalInterpreter;
-        PyControl.ActiveDebugger := TPyInternalDebugger.Create;
-        PyIDEOptions.PythonEngineType := peInternal;
-      end;
-    peRemote, peRemoteTk, peRemoteWx:
-      begin
-        Application.ProcessMessages;
-        Cursor := WaitCursor;
-        // Destroy any active remote interpeter
-        PyControl.ActiveDebugger := nil;
-        PyControl.ActiveInterpreter := nil;
-        try
-          RemoteInterpreter := TPyRemoteInterpreter.Create(PythonEngineType);
-          Connected := RemoteInterpreter.Connected;
-        except
-          Connected := False;
-        end;
-        if Connected then begin
-          PyControl.ActiveInterpreter := RemoteInterpreter;
-          PyControl.ActiveDebugger := TPyRemDebugger.Create(RemoteInterpreter);
-          PyIDEOptions.PythonEngineType := PythonEngineType;
-
-          // Add extra project paths
-          if Assigned(ActiveProject) then
-            ActiveProject.AppendExtraPaths;
-        end else begin
-          // failed to connect
-          FreeAndNil(RemoteInterpreter);
-          PyControl.ActiveInterpreter := InternalInterpreter;
-          PyControl.ActiveDebugger := TPyInternalDebugger.Create;
-          PyIDEOptions.PythonEngineType := peInternal;
-        end;
-      end;
-  end;
-  case PyIDEOptions.PythonEngineType of
-    peInternal :  Msg := Format(_(SEngineActive), ['Internal','']);
-    peRemote : Msg := Format(_(SEngineActive), ['Remote','']);
-    peRemoteTk : Msg := Format(_(SEngineActive), ['Remote','(Tkinter) ']);
-    peRemoteWx : Msg := Format(_(SEngineActive), ['Remote','(wxPython) ']);
-  end;
-  if SynEdit.Lines[SynEdit.Lines.Count-1] = PS1 then
-    SynEdit.Lines.Delete(SynEdit.Lines.Count -1);
-  AppendText(sLineBreak + Msg);
-  AppendPrompt;
-
-  PyControl.DoStateChange(dsInactive);
 end;
 
 procedure TPythonIIForm.PrintInterpreterBanner;

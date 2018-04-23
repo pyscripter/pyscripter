@@ -2358,11 +2358,11 @@ begin
   case NewState of
     dsDebugging,
     dsRunning: begin
-                        s := 'Running';
-                        if PyIDEOptions.PythonEngineType = peInternal then
-                          Screen.Cursor := crHourGlass;
-                        StatusLED.LEDColorOn := clRed;
-                      end;
+                 s := 'Running';
+                 if PyIDEOptions.PythonEngineType = peInternal then
+                   Screen.Cursor := crHourGlass;
+                 StatusLED.LEDColorOn := clRed;
+               end;
     dsPaused: begin
                 s := 'Paused';
                 Screen.Cursor := crDefault;

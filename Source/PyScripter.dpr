@@ -112,7 +112,8 @@ uses
   cPyControl in 'cPyControl.pas',
   JvGnugettext in 'JvGnugettext.pas',
   JvDSADialogs in 'JvDSADialogs.pas',
-  System.IniFiles in 'System.IniFiles.pas';
+  System.IniFiles in 'System.IniFiles.pas',
+  cInternalPython in 'cInternalPython.pas';
 
 {$R *.RES}
 {$R WebCopyAvi.RES}

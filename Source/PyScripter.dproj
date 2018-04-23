@@ -350,6 +350,7 @@
         <DCCReference Include="JvGnugettext.pas"/>
         <DCCReference Include="JvDSADialogs.pas"/>
         <DCCReference Include="System.IniFiles.pas"/>
+        <DCCReference Include="cInternalPython.pas"/>
         <None Include="PyScripter.todo"/>
         <None Include="ModelSupport_PyScripter\default.txaPackage"/>
         <BuildConfiguration Include="Debug">
