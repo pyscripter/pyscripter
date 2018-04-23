@@ -121,6 +121,7 @@ type
     fLineCache : Variant;
     fMainThread : TThreadInfo;
     fOldPS1, fOldPS2 : string;
+    InternalInterpreter : TPyInternalInterpreter;
   protected
     procedure SetCommandLine(ARunConfig : TRunConfiguration); override;
     procedure RestoreCommandLine; override;
@@ -168,11 +169,7 @@ type
     procedure ExitPostMortem; override;
   end;
 
-var
-  InternalInterpreter : TPyInternalInterpreter = nil;
-
 implementation
-
 
 uses
   WinApi.MMSystem,
@@ -191,7 +188,8 @@ uses
   cRefactoring,
   cPyScripterSettings,
   cParameters,
-  cPyControl;
+  cPyControl,
+  cInternalPython;
 
 { TFrameInfo }
 
@@ -269,7 +267,7 @@ begin
   else begin
     SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
     try
-      Result := InternalInterpreter.PyInteractiveInterpreter.membercount(fPyObject, True,
+      Result := TPyInternalInterpreter(PyControl.InternalInterpreter).PyInteractiveInterpreter.membercount(fPyObject, True,
         ExpandCommonTypes, ExpandSequences);
     except
       Result := 0;
@@ -300,7 +298,7 @@ begin
     GotChildNodes := True;
     SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
     try
-      FullInfoTuple := InternalInterpreter.PyInteractiveInterpreter.safegetmembersfullinfo(fPyObject, True,
+      FullInfoTuple := TPyInternalInterpreter(PyControl.InternalInterpreter).PyInteractiveInterpreter.safegetmembersfullinfo(fPyObject, True,
         ExpandCommonTypes, ExpandSequences);
       fChildCount := len(FullInfoTuple);
 
@@ -363,7 +361,7 @@ var
 begin
   SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
   try
-    PyObjectInfo := ExtractPythonObjectFrom(InternalInterpreter.PyInteractiveInterpreter.objectinfo(fPyObject));
+    PyObjectInfo := ExtractPythonObjectFrom(TPyInternalInterpreter(PyControl.InternalInterpreter).PyInteractiveInterpreter.objectinfo(fPyObject));
   except
     PyObjectInfo := nil;
   end;
@@ -375,7 +373,7 @@ begin
   if fObjectType <> '' then
     Result := fObjectType
   else begin
-    Result := InternalInterpreter.GetObjectType(fPyObject);
+    Result := PyControl.InternalInterpreter.GetObjectType(fPyObject);
     fObjectType := Result;
   end;
 end;
@@ -386,7 +384,7 @@ Var
 begin
   SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
   try
-    Result :=  InternalInterpreter.PyInteractiveInterpreter.saferepr(fPyObject);
+    Result :=  TPyInternalInterpreter(PyControl.InternalInterpreter).PyInteractiveInterpreter.saferepr(fPyObject);
   except
     Result := '';
   end;
@@ -469,6 +467,8 @@ end;
 constructor TPyInternalDebugger.Create;
 begin
   inherited Create;
+  InternalInterpreter := PyControl.InternalInterpreter as TPyInternalInterpreter;
+
   fLineCache := Import('linecache');
 
   fMainThread := TThreadInfo.Create;
@@ -481,12 +481,12 @@ end;
 
 destructor TPyInternalDebugger.Destroy;
 begin
-  with PythonIIForm.DebugIDE.Events do begin
-    Items[0].OnExecute := nil;
-    Items[1].OnExecute := nil;
-    Items[2].OnExecute := nil;
-    Items[3].OnExecute := nil;
-    Items[4].OnExecute := nil;
+  with PyControl.InternalPython.DebugIDE.Events do begin
+    Items[dbie_user_call].OnExecute := nil;
+    Items[dbie_user_line].OnExecute := nil;
+    Items[dbie_user_thread].OnExecute := nil;
+    Items[dbie_user_exception].OnExecute := nil;
+    Items[dbie_user_yield].OnExecute := nil;
   end;
 
   FreeAndNil(fMainThread);
@@ -691,12 +691,12 @@ begin
         AppendPrompt;
       end;
       //attach debugger callback routines
-      with PythonIIForm.DebugIDE.Events do begin
-        Items[0].OnExecute := UserCall;
-        Items[1].OnExecute := UserLine;
-        Items[2].OnExecute := UserThread;
-        Items[3].OnExecute := UserException;
-        Items[4].OnExecute := UserYield;
+      with PyControl.InternalPython.DebugIDE.Events do begin
+        Items[dbie_user_call].OnExecute := UserCall;
+        Items[dbie_user_line].OnExecute := UserLine;
+        Items[dbie_user_thread].OnExecute := UserThread;
+        Items[dbie_user_exception].OnExecute := UserException;
+        Items[dbie_user_yield].OnExecute := UserYield;
       end;
 
       //set breakpoints

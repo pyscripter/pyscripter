@@ -157,7 +157,7 @@ begin
       Exit;
     end;
     // Add the file path to the Python path - Will be automatically removed
-    PythonPathAdder := InternalInterpreter.AddPathToPythonPath(ExtractFileDir(FileName));
+    PythonPathAdder := PyControl.InternalInterpreter.AddPathToPythonPath(ExtractFileDir(FileName));
   end;
 
   // GetParsedModule
@@ -260,7 +260,8 @@ begin
     Editor := GI_EditorFactory.GetEditorByNameOrTitle(DottedModuleName);
     // Find the source file
     if FName = '' then begin  // No filename was provided
-      FNameVar := InternalInterpreter.PyInteractiveInterpreter.findModuleOrPackage(DottedModuleName, PythonPath);
+      FNameVar := TPyInternalInterpreter(PyControl.InternalInterpreter).
+        PyInteractiveInterpreter.findModuleOrPackage(DottedModuleName, PythonPath);
       if not VarIsNone(FNameVar) then
          FName := FNameVar;
     end;
@@ -313,7 +314,7 @@ begin
         if Index < 0 then begin
           Index := fProxyModules.AddObject(DottedModuleName,
             TModuleProxy.CreateFromModule(SysModule.modules.__getitem__(DottedModuleName),
-            InternalInterpreter));
+            PyControl.InternalInterpreter));
           Result := fProxyModules.Objects[Index] as TParsedModule;
         end else
           Result := fProxyModules.Objects[Index] as TParsedModule;
@@ -729,7 +730,7 @@ begin
   end;
 
   // Add the file path to the Python path - Will be automatically removed
-  PythonPathAdder := InternalInterpreter.AddPathToPythonPath(ExtractFileDir(FileName));
+  PythonPathAdder := PyControl.InternalInterpreter.AddPathToPythonPath(ExtractFileDir(FileName));
 
   // GetParsedModule
   ParsedModule := GetParsedModule(FileName, None);

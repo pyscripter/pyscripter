@@ -26,17 +26,6 @@ Const
   dbie_user_thread          = 2;
   dbie_user_exception       = 3;
   dbie_user_yield           = 4;
-  dbie_InputBox             = 5;
-  dbie_statusWrite          = 6;
-  dbie_messageWrite         = 7;
-  dbie_get8087CW            = 8;
-  dbie_maskFPUexceptions    = 9;
-  dbie_unmaskFPUexceptions  = 10;
-  dbie_testResultStartTest  = 11;
-  dbie_testResultStopTest   = 12;
-  dbie_testResultAddSuccess = 13;
-  dbie_testResultAddFailure = 14;
-  dbie_testResultAddError   = 15;
 
 type
 
@@ -83,9 +72,6 @@ type
     property DebugIDE : TPythonModule read fDebugIDE;
     property PythonEngine : TPythonEngine read fPythonEngine;
   end;
-
-Var
-  InternalPython : TInternalPython;
 
 implementation
 
@@ -210,6 +196,7 @@ end;
 
 procedure TInternalPython.DestroyPythonComponents;
 begin
+  if Loaded then PyscripterModule.DeleteVar('IDEOptions');
   FreeAndNil(fPythonEngine);  // Unloads Python Dll
   FreeAndNil(fDebugIDE);
   FreeAndNil(PyDelphiWrapper);
@@ -235,6 +222,8 @@ begin
   p := PyDelphiWrapper.Wrap(PyIDEOptions);
   PyscripterModule.SetVar('IDEOptions', p);
   PythonEngine.Py_XDECREF(p);
+
+  PythonIIForm.PrintInterpreterBanner;
 end;
 
 procedure TInternalPython.InputBoxExecute(Sender: TObject; PSelf,
@@ -267,6 +256,7 @@ begin
      Initialize;
      if Version.InstallPath = '' then
        Version.InstallPath := SysModule.prefix;
+     PythonIIForm.PythonHelpFile := Version.HelpFile;
    end else
      DestroyPythonComponents;
 end;
@@ -404,8 +394,4 @@ begin
   Result := PythonEngine.ReturnNone;
 end;
 
-initialization
-  InternalPython := TInternalPython.Create;
-finalization
-  InternalPython.Free;
 end.

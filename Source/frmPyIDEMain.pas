@@ -1536,7 +1536,7 @@ begin
   FindResultsWindow.PopupParent := Self;
   ProjectExplorerWindow := TProjectExplorerWindow.Create(Self);
   ProjectExplorerWindow.PopupParent := Self;
-  //OutputDebugString(PWideChar(Format('%s ElapsedTime %d ms', ['After All Forms', StopWatch.ElapsedMilliseconds])));
+  OutputDebugString(PWideChar(Format('%s ElapsedTime %d ms', ['After All Forms', StopWatch.ElapsedMilliseconds])));
 
   // And now translate after all the docking forms have been created
   // They will be translated as well
@@ -1548,15 +1548,6 @@ begin
   // Setup Languages
   fLanguageList := TStringList.Create;
   SetUpLanguageMenu;
-
-  // Assign Debugger Events
-  with PyControl do begin
-    OnBreakpointChange := DebuggerBreakpointChange;
-    OnCurrentPosChange := DebuggerCurrentPosChange;
-    OnErrorPosChange := DebuggerErrorPosChange;
-    OnStateChange := DebuggerStateChange;
-    OnYield := DebuggerYield;
-  end;
 
   // ActionLists
   TActionProxyCollection.ActionLists :=
@@ -1571,6 +1562,15 @@ begin
     RestoreApplicationData
   else
     PyIDEOptions.Changed;
+
+  // Assign Debugger Events and Load Python Engine
+  with PyControl do begin
+    OnBreakpointChange := DebuggerBreakpointChange;
+    OnCurrentPosChange := DebuggerCurrentPosChange;
+    OnErrorPosChange := DebuggerErrorPosChange;
+    OnStateChange := DebuggerStateChange;
+    OnYield := DebuggerYield;
+  end;
 
   // Read Settings from PyScripter.local.ini
   if FileExists(LocalAppStorage.IniFile.FileName) then
@@ -1589,7 +1589,7 @@ begin
      LocalAppStorage.PathExists('Layouts\Current\Forms') then
   begin
     try
-      //OutputDebugString(PWideChar(Format('%s ElapsedTime %d ms', ['Before LoadLayout', StopWatch.ElapsedMilliseconds])));
+      OutputDebugString(PWideChar(Format('%s ElapsedTime %d ms', ['Before LoadLayout', StopWatch.ElapsedMilliseconds])));
       LoadLayout('Current');
       //(PWideChar(Format('%s ElapsedTime %d ms', ['After LoadLayout', StopWatch.ElapsedMilliseconds])));
     except
@@ -1670,9 +1670,6 @@ begin
   //Set the HelpFile
   Application.HelpFile := ExtractFilePath(Application.ExeName) + 'PyScripter.chm';
   Application.OnHelp := Self.ApplicationHelp;
-
-  // Execute pyscripter_init.py
-  RunInitScript;
 
   SkinManager.AddSkinNotification(Self);
   SkinManager.BroadcastSkinNotification;
@@ -2010,7 +2007,7 @@ begin
   ActiveEditor := GetActiveEditor;
   if not Assigned(ActiveEditor) then Exit;
 
-  if InternalInterpreter.SyntaxCheck(ActiveEditor) then begin
+  if TPyInternalInterpreter(PyControl.InternalInterpreter).SyntaxCheck(ActiveEditor) then begin
     MessagesWindow.AddMessage(Format(_(SSyntaxIsOK), [ActiveEditor.FileTitle]));
     ShowDockForm(MessagesWindow);
   end;
@@ -2964,17 +2961,17 @@ begin
 
   FileExplorerWindow.FileExplorerTree.RefreshTree;
 
+  // Set Python engine
+  actPythonInternal.Visible := not PyIDEOptions.InternalInterpreterHidden;
+  if not actPythonInternal.Visible and
+     (PyIDEOptions.PythonEngineType = peInternal)
+  then
+    PyIDEOptions.PythonEngineType := peRemote;
+
+  PyControl.PythonEngineType := PyIDEOptions.PythonEngineType;
+
   TThread.ForceQueue(nil, procedure
   begin
-    // Set Python engine
-    actPythonInternal.Visible := not PyIDEOptions.InternalInterpreterHidden;
-    if not actPythonInternal.Visible and
-       (PyIDEOptions.PythonEngineType = peInternal)
-    then
-      PyIDEOptions.PythonEngineType := peRemote;
-
-    PyControl.PythonEngineType := PyIDEOptions.PythonEngineType;
-
     ConfigureFCN(PyIDEOptions.FileChangeNotification);
   end);
 
@@ -3297,7 +3294,7 @@ begin
   RegisterCustomParams;
   AppStorage.ReadCollection('Tools', ToolsCollection, True, 'Tool');
   AppStorage.ReadPersistent('Tools\External Run', ExternalPython);
-  SetupToolsMenu;
+  //SetupToolsMenu;
   SetupCustomizer;
   OutputWindow.lsbConsole.Font.Name := AppStorage.ReadString('Output Window\Font Name', 'Courier New');
   OutputWindow.lsbConsole.Font.Size := AppStorage.ReadInteger('Output Window\Font Size', 9);
@@ -3861,7 +3858,7 @@ begin
   FileName := CommandsDataModule.UserDataPath + PyScripterInitFile;
 
   try
-    InternalInterpreter.RunScript(FileName);
+    PyControl.InternalInterpreter.RunScript(FileName);
   except
     on E: Exception do
       Vcl.Dialogs.MessageDlg(Format(_(SErrorInitScript),
@@ -4612,7 +4609,7 @@ end;
 
 procedure TPyIDEMainForm.FormShow(Sender: TObject);
 begin
-  //OutputDebugString(PWideChar(Format('%s ElapsedTime %d ms', ['FormShow start', StopWatch.ElapsedMilliseconds])));
+  OutputDebugString(PWideChar(Format('%s ElapsedTime %d ms', ['FormShow start', StopWatch.ElapsedMilliseconds])));
   if PyIDEOptions.AutoCheckForUpdates and
     (DaysBetween(Now, PyIDEOptions.DateLastCheckedForUpdates) >=
       PyIDEOptions.DaysBetweenChecks) and ConnectedToInternet
@@ -4629,7 +4626,6 @@ begin
 
   // Update External Tools Syntax and Layouts menu
   if not FileExists(AppStorage.IniFile.FileName) then begin
-    SetupToolsMenu;
     SetupCustomizer;
     ConfigureFCN(PyIDEOptions.FileChangeNotification);
   end;
@@ -4648,7 +4644,19 @@ begin
 
   // This is needed to update the variables window
   PyControl.DoStateChange(dsInactive);
-  //OutputDebugString(PWideChar(Format('%s ElapsedTime %d ms', ['FormShow end', StopWatch.ElapsedMilliseconds])));
+
+
+  TThread.ForceQueue(nil, procedure
+  begin
+    PyControl.LoadPythonEngine;
+    // Execute pyscripter_init.py
+    RunInitScript;
+
+    PyControl.PythonEngineType := PyIDEOptions.PythonEngineType;
+    SetupToolsMenu;
+  end);
+
+  OutputDebugString(PWideChar(Format('%s ElapsedTime %d ms', ['FormShow end', StopWatch.ElapsedMilliseconds])));
 end;
 
 procedure TPyIDEMainForm.JvAppInstancesCmdLineReceived(Sender: TObject;

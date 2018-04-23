@@ -283,7 +283,8 @@ Uses
   MPCommonObjects, MPShellUtilities, IOUtils, Vcl.Themes, System.AnsiStrings,
   System.UITypes, Winapi.CommCtrl, JclStrings, SynEditMiscClasses,
   cPyScripterSettings,   Winapi.UrlMon,
-  SynEditTextBuffer, VCL.ExtCtrls, cParameters;
+  SynEditTextBuffer, VCL.ExtCtrls, cParameters,
+  cPyControl;
 
 function GetIconIndexFromFile(const AFileName: string;
   const ASmall: boolean): integer;
@@ -1469,7 +1470,7 @@ begin
               end
               else
               begin
-                if GetPythonEngine.IsPython3000 then
+                if not PyControl.InternalPython.Loaded or GetPythonEngine.IsPython3000 then
                   Encoding := sf_UTF8_NoBOM
                 else
                   Encoding := sf_Ansi;

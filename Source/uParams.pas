@@ -465,7 +465,7 @@ end;
 
 function GetActivePythonDir : string;
 begin
-  Result := IncludeTrailingPathDelimiter(SysModule.prefix);
+  Result := IncludeTrailingPathDelimiter(PyControl.PythonVersion.InstallPath);
 end;
 
 function GetPythonDir (VersionString : string) : string;
@@ -527,7 +527,7 @@ end;
 
 function GetPythonVersion: string;
 begin
-  Result := SysModule.version;
+  Result := PyControl.PythonVersion.SysVersion;
 end;
 
 function GetCmdLineArgs: string;

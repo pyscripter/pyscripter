@@ -13,10 +13,11 @@ interface
 
 Uses
   System.Classes,
+  PythonVersions,
   uEditAppIntfs,
   cPySupportTypes,
   cPyBaseDebugger,
-  PythonVersions;
+  cInternalPython;
 
 type
   TDebuggerState = (dsInactive, dsDebugging, dsPaused, dsRunning, dsPostMortem);
@@ -61,8 +62,9 @@ type
     fActiveInterpreter : TPyBaseInterpreter;
     fActiveDebugger : TPyBaseDebugger ;
     fRunConfig : TRunConfiguration;
-    FPythonVersionIndex: integer;
     fPythonVersion : TPythonVersion;
+    fInternalPython : TInternalPython;
+    fInternalInterpreter : TPyBaseInterpreter;
     procedure DoOnBreakpointChanged(Editor : IEditor; ALine: integer);
     procedure SetActiveDebugger(const Value: TPyBaseDebugger);
     procedure SetActiveInterpreter(const Value: TPyBaseInterpreter);
@@ -70,6 +72,7 @@ type
     procedure SetPythonEngineType(const Value: TPythonEngineType);
     procedure SetRunConfig(ARunConfig: TRunConfiguration);
     procedure PrepareRun;
+    function GetInternalInterpreter: TPyBaseInterpreter;
   public
     // ActiveInterpreter and ActiveDebugger are created
     // and destroyed in frmPythonII
@@ -107,9 +110,10 @@ type
     // properties and events
     // PythonVersionIndex is the Index of Python version in the PYTHON_KNOWN_VERSIONS array
     property PythonVersion : TPythonVersion read fPythonVersion;
-    property PythonVersionIndex : integer read FPythonVersionIndex write FPythonVersionIndex;
     property PythonEngineType : TPythonEngineType read GetPythonEngineType
       write SetPythonEngineType;
+    property InternalPython : TInternalPython read fInternalPython;
+    property InternalInterpreter : TPyBaseInterpreter read GetInternalInterpreter;
     property ActiveInterpreter : TPyBaseInterpreter read fActiveInterpreter
       write SetActiveInterpreter;
     property ActiveDebugger : TPyBaseDebugger read fActiveDebugger
@@ -153,7 +157,6 @@ uses
   uCmdLine,
   cPyScripterSettings,
   cParameters,
-  cInternalPython,
   cPyDebugger,
   cPyRemoteDebugger,
   cProjectClasses;
@@ -188,6 +191,7 @@ begin
   CurrentPos.Clear;
   ErrorPos.Clear;
   fRunConfig := TRunConfiguration.Create;
+  fInternalPython := TInternalPython.Create;
 end;
 
 procedure TPythonControl.Debug(ARunConfig: TRunConfiguration; InitStepIn : Boolean = False;
@@ -212,8 +216,20 @@ end;
 
 destructor TPythonControl.Destroy;
 begin
+  FreeAndNil(fInternalInterpreter);
+  FreeAndNil(fInternalPython);
   fRunConfig.Free;
   inherited;
+end;
+
+function TPythonControl.GetInternalInterpreter: TPyBaseInterpreter;
+begin
+  Result := fInternalInterpreter;
+  if not (InternalPython.Loaded and Assigned(fInternalInterpreter)) then
+  begin
+    Vcl.Dialogs.MessageDlg(_(SInterpreterNA), mtError, [mbAbort], 0);
+    Abort;
+  end;
 end;
 
 function TPythonControl.GetLineInfos(Editor : IEditor; ALine: integer): TDebuggerLineInfos;
@@ -320,7 +336,7 @@ procedure TPythonControl.SetActiveInterpreter(const Value: TPyBaseInterpreter);
 begin
   if fActiveInterpreter <> Value then begin
     if Assigned(fActiveInterpreter) and
-      (fActiveInterpreter <> InternalInterpreter)
+      (fActiveInterpreter <> fInternalInterpreter)
     then
       FreeAndNil(fActiveInterpreter);
     fActiveInterpreter := Value;
@@ -367,7 +383,7 @@ Var
   Connected : Boolean;
   Msg : string;
 begin
-  if Value = PythonEngineType then Exit;
+  if not InternalPython.Loaded or (Value = PythonEngineType) then Exit;
 
   if DebuggerState <> dsInactive then begin
     Vcl.Dialogs.MessageDlg(_(SCannotChangeEngine), mtError, [mbAbort], 0);
@@ -380,7 +396,7 @@ begin
   case Value of
     peInternal:
       begin
-        ActiveInterpreter := InternalInterpreter;
+        ActiveInterpreter := fInternalInterpreter;
         ActiveDebugger := TPyInternalDebugger.Create;
         PyIDEOptions.PythonEngineType := peInternal;
       end;
@@ -408,7 +424,7 @@ begin
         end else begin
           // failed to connect
           FreeAndNil(RemoteInterpreter);
-          ActiveInterpreter := InternalInterpreter;
+          ActiveInterpreter := fInternalInterpreter;
           ActiveDebugger := TPyInternalDebugger.Create;
           PyIDEOptions.PythonEngineType := peInternal;
         end;
@@ -584,10 +600,11 @@ begin
   II := VarPythonEval('_II');
   InternalPython.PythonEngine.ExecString('del _II');
 
-  InternalInterpreter := TPyInternalInterpreter.Create(II);
-  ActiveInterpreter := InternalInterpreter;
-  ActiveDebugger := TPyInternalDebugger.Create;
-  InternalInterpreter.Initialize;
+  fInternalInterpreter := TPyInternalInterpreter.Create(II);
+  fActiveInterpreter := fInternalInterpreter;
+  fActiveDebugger := TPyInternalDebugger.Create;
+  fInternalInterpreter.Initialize;
+  PythonEngineType := peInternal;
 end;
 
 procedure TPythonControl.Run(ARunConfig: TRunConfiguration);
@@ -613,5 +630,8 @@ end;
 initialization
   PyControl := TPythonControl.Create;
 finalization
+  // Destroy Active debugger outside PyControl.Destory
+  PyControl.ActiveDebugger := nil;
+  PyControl.ActiveInterpreter := nil;
   FreeAndNil(PyControl);
 end.

@@ -27,7 +27,6 @@ type
 
   TProjectNodeAction = function (Node: TAbstractProjectNode; Data : Pointer):boolean;
 
-
   TAbstractProjectNode = class(TInterfacedPersistent, IJvAppStorageHandler, IJvAppStoragePublishedProps)
   private
     fChildren : TObjectList;
@@ -335,8 +334,8 @@ begin
   if not (Assigned(PyControl) and Assigned(PyControl.ActiveInterpreter)) then Exit;
 
   for i := 0 to fExtraPythonPath.Count-1 do begin
-    InternalInterpreter.SysPathAdd(fExtraPythonPath[i]);
-    if PyControl.ActiveInterpreter <> InternalInterpreter then
+    PyControl.InternalInterpreter.SysPathAdd(fExtraPythonPath[i]);
+    if PyControl.ActiveInterpreter <> PyControl.InternalInterpreter then
       PyControl.ActiveInterpreter.SysPathAdd(fExtraPythonPath[i]);
   end;
 end;
@@ -402,8 +401,8 @@ begin
   if not (Assigned(PyControl) and Assigned(PyControl.ActiveInterpreter)) then Exit;
 
   for i := 0 to fExtraPythonPath.Count-1 do begin
-    InternalInterpreter.SysPathRemove(fExtraPythonPath[i]);
-    if PyControl.ActiveInterpreter <> InternalInterpreter then
+    PyControl.InternalInterpreter.SysPathRemove(fExtraPythonPath[i]);
+    if PyControl.ActiveInterpreter <> PyControl.InternalInterpreter then
       PyControl.ActiveInterpreter.SysPathRemove(fExtraPythonPath[i]);
   end;
 end;

@@ -65,10 +65,8 @@ type
 
   TPythonIIForm = class(TIDEDockWindow, ISearchCommands)
     SynEdit: TSynEdit;
-    PythonEngine: TPythonEngine;
     PythonIO: TPythonInputOutput;
     SynCodeCompletion: TSynCompletionProposal;
-    DebugIDE: TPythonModule;
     SynParamCompletion: TSynCompletionProposal;
     InterpreterPopUp: TSpTBXPopupMenu;
     TBXSeparatorItem1: TSpTBXSeparatorItem;
@@ -78,8 +76,6 @@ type
     mnClearAll: TSpTBXItem;
     TBXPythonEngines: TSpTBXSubmenuItem;
     TBXSeparatorItem3: TSpTBXSeparatorItem;
-    PyDelphiWrapper: TPyDelphiWrapper;
-    PyscripterModule: TPythonModule;
     mnEditPaste: TSpTBXItem;
     mnEditCopy: TSpTBXItem;
     mnEditCut: TSpTBXItem;
@@ -91,22 +87,6 @@ type
     actCopyWithoutPrompts: TAction;
     actClearContents: TAction;
     actCopyHistory: TAction;
-    procedure testResultAddError(Sender: TObject; PSelf, Args: PPyObject;
-      var Result: PPyObject);
-    procedure testResultAddFailure(Sender: TObject; PSelf, Args: PPyObject;
-      var Result: PPyObject);
-    procedure testResultAddSuccess(Sender: TObject; PSelf, Args: PPyObject;
-      var Result: PPyObject);
-    procedure testResultStopTestExecute(Sender: TObject; PSelf, Args: PPyObject;
-      var Result: PPyObject);
-    procedure testResultStartTestExecute(Sender: TObject; PSelf,
-      Args: PPyObject; var Result: PPyObject);
-    procedure MaskFPUExceptionsExecute(Sender: TObject; PSelf, Args: PPyObject;
-      var Result: PPyObject);
-    procedure UnMaskFPUExceptionsExecute(Sender: TObject; PSelf,
-      Args: PPyObject; var Result: PPyObject);
-    procedure Get8087CWExecute(Sender: TObject; PSelf, Args: PPyObject;
-      var Result: PPyObject);
     procedure SynEditPaintTransient(Sender: TObject; Canvas: TCanvas;
       TransientType: TTransientType);
     procedure FormCreate(Sender: TObject);
@@ -119,13 +99,7 @@ type
       var CanExecute: Boolean);
     function FormHelp(Command: Word; Data: NativeInt;
       var CallHelp: Boolean): Boolean;
-    procedure InputBoxExecute(Sender: TObject; PSelf,
-      Args: PPyObject; var Result: PPyObject);
     procedure FormActivate(Sender: TObject);
-    procedure StatusWriteExecute(Sender: TObject; PSelf,
-      Args: PPyObject; var Result: PPyObject);
-    procedure MessageWriteExecute(Sender: TObject; PSelf,
-      Args: PPyObject; var Result: PPyObject);
     procedure FormDestroy(Sender: TObject);
     procedure SynParamCompletionExecute(Kind: SynCompletionType;
       Sender: TObject; var CurrentInput: string; var x, y: Integer;
@@ -138,7 +112,6 @@ type
     procedure SynEditMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure SynCodeCompletionClose(Sender: TObject);
-    procedure PythonEngineAfterInit(Sender: TObject);
     procedure actCopyWithoutPromptsExecute(Sender: TObject);
     procedure actPasteAndExecuteExecute(Sender: TObject);
     procedure SynEditEnter(Sender: TObject);
@@ -168,8 +141,6 @@ type
     procedure SetCommandHistorySize(const Value: integer);
     procedure GetBlockCode(var Source: string;
       var Buffer: array of string; EndLineN: Integer; StartLineN: Integer);
-    function LoadPythonEngine : integer;
-    procedure PrintInterpreterBanner;
     // ISearchCommands implementation
     function CanFind: boolean;
     function CanFindNext: boolean;
@@ -180,7 +151,6 @@ type
     procedure ExecFindNext;
     procedure ExecFindPrev;
     procedure ExecReplace;
-    procedure FindPythonHelpFile;
     procedure SynCodeCompletionCodeItemInfo(Sender: TObject;
       AIndex: Integer; var Info : string);
   protected
@@ -194,9 +164,8 @@ type
   public
     { Public declarations }
     PS1, PS2, DebugPrefix, PMPrefix : string;
-    PythonVersionIsRegistered : Boolean;
-    AllUserInstall : Boolean;
     PythonHelpFile : string;
+    procedure PrintInterpreterBanner;
     function OutputSuppressor : IInterface;
     procedure WritePendingMessages;
     procedure ClearPendingMessages;
@@ -283,51 +252,6 @@ begin
   if (not Assigned(SynEdit.Highlighter)) then
     Exit;
   CommandsDataModule.PaintMatchingBrackets(Canvas, SynEdit, TransientType);
-end;
-
-procedure TPythonIIForm.PythonEngineAfterInit(Sender: TObject);
-Var
-  Keywords, Builtins, BuiltInMod : Variant;
-  i : integer;
-begin
-  // Execute initialization script
-  with GetPythonEngine do begin
-    if IsPython3000 then
-      ExecStrings(CommandsDataModule.JvMultiStringHolder.StringsByName['InitScript3000'])
-    else
-      ExecStrings(CommandsDataModule.JvMultiStringHolder.StringsByName['InitScript'])
-  end;
-
-  // Setup Highlighter keywords
-  with CommandsDataModule do begin
-    SynPythonSyn.Keywords.Clear;
-    SynPythonSyn.Keywords.Sorted := False;
-    Keywords := Import('keyword').kwlist;
-    for i := 0 to Len(Keywords) - 1 do
-      SynPythonSyn.Keywords.AddObject(Keywords.__getitem__(i), Pointer(Ord(tkKey)));
-    BuiltInMod := VarPyth.BuiltinModule;
-    Builtins := BuiltinMod.dir(BuiltinMod);
-    for i := 0 to Len(Builtins) - 1 do
-      SynPythonSyn.Keywords.AddObject(Builtins.__getitem__(i), Pointer(Ord(tkNonKeyword)));
-    // add pseudo keyword self
-    SynPythonSyn.Keywords.AddObject('self', Pointer(Ord(tkNonKeyword)));
-    SynPythonSyn.Keywords.Sorted := True;
-
-    with SynCythonSyn do begin
-      Keywords.Clear;
-      Keywords.Sorted := False;
-      Keywords.AddStrings(SynPythonSyn.Keywords);
-      AddCythonKeywords(SynCythonSyn.Keywords);
-      Keywords.Sorted := True;
-    end;
-
-    with (SynEdit.Highlighter as TSynPythonInterpreterSyn) do begin
-      Keywords.Clear;
-      Keywords.Sorted := False;
-      Keywords.AddStrings(SynPythonSyn.Keywords);
-      Keywords.Sorted := True;
-    end;
-  end;
 end;
 
 procedure TPythonIIForm.PythonIOReceiveData(Sender: TObject;
@@ -596,36 +520,11 @@ begin
   DebugPrefix := '[Dbg]';
   PMPrefix := '[PM]';
 
-  PyControl.PythonVersionIndex := LoadPythonEngine;
-
-  PrintInterpreterBanner;
-
-  FindPythonHelpFile;
-
-  // Create internal Interpreter and Debugger
-  II := VarPythonEval('_II');
-  PythonEngine.ExecString('del _II');
-
-  // Wrap IDE Options
-  p := PyDelphiWrapper.Wrap(PyIDEOptions);
-  PyscripterModule.SetVar('IDEOptions', p);
-  PythonEngine.Py_XDECREF(p);
-
-  InternalInterpreter := TPyInternalInterpreter.Create(II);
-  PyControl.ActiveInterpreter := InternalInterpreter;
-  PyControl.ActiveDebugger := TPyInternalDebugger.Create;
-  InternalInterpreter.Initialize;
-
   SynCodeCompletion.OnCodeItemInfo := SynCodeCompletionCodeItemInfo;
 end;
 
 procedure TPythonIIForm.FormDestroy(Sender: TObject);
 begin
-  PyscripterModule.DeleteVar('IDEOptions');
-  PyControl.ActiveDebugger := nil;  // Frees it
-  PyControl.ActiveInterpreter := nil;  // Frees it
-
-  FreeAndNil(InternalInterpreter);
   FreeAndNil(fCommandHistory);
   FreeAndNil(FCriticalSection);
   FreeAndNil(fOutputStream);
@@ -1456,27 +1355,6 @@ begin
   end;
 end;
 
-procedure TPythonIIForm.InputBoxExecute(Sender: TObject; PSelf,
-  Args: PPyObject; var Result: PPyObject);
-// InputBox function
-Var
-  PCaption, PPrompt, PDefault : PWideChar;
-  WideS : string;
-  Res : Boolean;
-begin
-  with GetPythonEngine do
-    if PyArg_ParseTuple( args, 'uuu:InputBox', @PCaption, @PPrompt, @PDefault) <> 0 then begin
-      WideS := PDefault;
-
-      Res := SyncWideInputQuery(PCaption, PPrompt, WideS);
-      if Res then
-        Result := PyUnicode_FromWideChar(PWideChar(WideS), Length(WideS))
-      else
-        Result := ReturnNone;
-    end else
-      Result := nil;
-end;
-
 procedure TPythonIIForm.StartOutputMirror(AFileName: string;
   Append: Boolean);
 Var
@@ -1504,21 +1382,6 @@ begin
   end;
 end;
 
-procedure TPythonIIForm.StatusWriteExecute(Sender: TObject; PSelf,
-  Args: PPyObject; var Result: PPyObject);
-// statusWrite
-Var
-  Msg : PAnsiChar;
-begin
-  with GetPythonEngine do
-    if PyArg_ParseTuple( args, 's:statusWrite', @Msg) <> 0 then begin
-      PyIDEMainForm.WriteStatusMsg(string(Msg));
-      Application.ProcessMessages;
-      Result := ReturnNone;
-    end else
-      Result := nil;
-end;
-
 procedure TPythonIIForm.StopFileMirror;
 begin
   fCriticalSection.Acquire;
@@ -1529,133 +1392,10 @@ begin
   end;
 end;
 
-procedure TPythonIIForm.MessageWriteExecute(Sender: TObject; PSelf,
-  Args: PPyObject; var Result: PPyObject);
-// messageWrite
-Var
-  Msg, FName : PAnsiChar;
-  LineNo, Offset : integer;
-  S : string;
-begin
-  FName := nil;
-  LineNo := 0;
-  Offset := 0;
-  with GetPythonEngine do
-    if PyArg_ParseTuple( args, 's|sii:messageWrite', @Msg, @FName, @LineNo, @Offset) <> 0 then begin
-      if Assigned(FName) then
-        S := string(FName)
-      else
-        S := '';
-      MessagesWindow.AddMessage(string(Msg), S, LineNo, Offset);
-      Application.ProcessMessages;
-      Result := ReturnNone;
-    end else
-      Result := nil;
-end;
-
-procedure TPythonIIForm.Get8087CWExecute(Sender: TObject; PSelf,
-  Args: PPyObject; var Result: PPyObject);
-begin
-  Result := GetPythonEngine.PyLong_FromUnsignedLong(Get8087CW);
-end;
-
-procedure TPythonIIForm.UnMaskFPUExceptionsExecute(Sender: TObject; PSelf,
-  Args: PPyObject; var Result: PPyObject);
-begin
-  MaskFPUExceptions(False);
-  PyIDEOptions.MaskFPUExceptions := False;
-  Result := GetPythonEngine.ReturnNone;
-end;
-
 procedure TPythonIIForm.UpdateInterpreterActions;
 begin
   actCopyWithoutPrompts.Enabled := SynEdit.SelAvail;
   actPasteAndExecute.Enabled := ClipboardProvidesWideText;
-end;
-
-procedure TPythonIIForm.FindPythonHelpFile;
-var
-  Res: Integer;
-  Registry: TRegistry;
-  SR: TSearchRec;
-  RegKey: string;
-  PythonHelpFilePath : string;
-begin
-  if PythonVersionIsRegistered then
-  begin
-    Registry := TRegistry.Create(KEY_READ and not KEY_NOTIFY);
-    try
-      Registry.RootKey := HKEY_LOCAL_MACHINE;
-      // False because we do not want to create it if it doesn't exist
-      RegKey := '\SOFTWARE\Python\PythonCore\' + SysModule.winver + '\Help\Main Python Documentation';
-      if Registry.OpenKey(RegKey, False) then
-        PythonHelpFile := Registry.ReadString('')
-      else
-      begin
-        // try Current User
-        Registry.RootKey := HKEY_CURRENT_USER;
-        if Registry.OpenKey(RegKey, False) then
-          PythonHelpFile := Registry.ReadString('');
-      end;
-    finally
-      Registry.Free;
-    end;
-  end;
-
-  // for unregistered Python
-  if PythonHelpFile = '' then
-  begin
-    PythonHelpFilePath := SysModule.prefix + '\Doc\*.chm';
-    Res := FindFirst(PythonHelpFilePath, faAnyFile, SR);
-    if Res = 0 then
-      PythonHelpFile := SysModule.prefix + '\Doc\' + SR.Name;
-    FindClose(SR);
-  end;
-end;
-
-procedure TPythonIIForm.MaskFPUExceptionsExecute(Sender: TObject; PSelf,
-  Args: PPyObject; var Result: PPyObject);
-begin
-  MaskFPUExceptions(True);
-  PyIDEOptions.MaskFPUExceptions := True;
-  Result := GetPythonEngine.ReturnNone;
-end;
-
-procedure TPythonIIForm.testResultStartTestExecute(Sender: TObject; PSelf,
-  Args: PPyObject; var Result: PPyObject);
-begin
-  UnitTestWindow.StartTest(VarPythonCreate(Args).__getitem__(0));
-  Result := GetPythonEngine.ReturnNone;
-end;
-
-procedure TPythonIIForm.testResultStopTestExecute(Sender: TObject; PSelf,
-  Args: PPyObject; var Result: PPyObject);
-begin
-  UnitTestWindow.StopTest(VarPythonCreate(Args).__getitem__(0));
-  Result := GetPythonEngine.ReturnNone;
-end;
-
-procedure TPythonIIForm.testResultAddSuccess(Sender: TObject; PSelf,
-  Args: PPyObject; var Result: PPyObject);
-begin
-  UnitTestWindow.AddSuccess(VarPythonCreate(Args).__getitem__(0));
-  Result := GetPythonEngine.ReturnNone;
-end;
-
-procedure TPythonIIForm.testResultAddFailure(Sender: TObject; PSelf,
-  Args: PPyObject; var Result: PPyObject);
-begin
-  UnitTestWindow.AddFailure(VarPythonCreate(Args).__getitem__(0),
-    VarPythonCreate(Args).__getitem__(1));
-  Result := GetPythonEngine.ReturnNone;
-end;
-
-procedure TPythonIIForm.testResultAddError(Sender: TObject; PSelf,
-  Args: PPyObject; var Result: PPyObject);
-begin
-  UnitTestWindow.AddError(VarPythonCreate(Args).__getitem__(0),
-    VarPythonCreate(Args).__getitem__(1));
-  Result := GetPythonEngine.ReturnNone;
 end;
 
 procedure TPythonIIForm.FormActivate(Sender: TObject);
@@ -1783,130 +1523,6 @@ begin
   begin
     ShortCut := Vcl.Menus.ShortCut(VK_ESCAPE, []);
     Command := ecRecallCommandEsc;
-  end;
-end;
-
-function TPythonIIForm.LoadPythonEngine : integer;
-
-  function IndexOfKnownVersion(const AVersion : String) : Integer;
-  var
-    i : Integer;
-  begin
-    Result := -1;
-    for i := High(PYTHON_KNOWN_VERSIONS) downto Low(PYTHON_KNOWN_VERSIONS) do
-      if PYTHON_KNOWN_VERSIONS[i].RegVersion = AVersion then
-      begin
-        Result := i;
-        Break;
-      end;
-  end;
-
-var
-  i: Integer;
-  idx : Integer;
-  versionIdx : Integer;
-  expectedVersion : string;
-  expectedVersionIdx : Integer;
-  InstallPath : string;
-begin
-  Result := 0;
-  // first find an optional parameter specifying the expected Python version in the form of -PYTHONXY
-  expectedVersion := '';
-  expectedVersionIdx := -1;
-
-  if CmdLineReader.readFlag('PYTHON25') then
-    expectedVersion := '2.5'
-  else if CmdLineReader.readFlag('PYTHON26') then
-    expectedVersion := '2.6'
-  else if CmdLineReader.readFlag('PYTHON27') then
-    expectedVersion := '2.7'
-  else if CmdLineReader.readFlag('PYTHON30') then
-    expectedVersion := '3.0'
-  else if CmdLineReader.readFlag('PYTHON31') then
-    expectedVersion := '3.1'
-  else if CmdLineReader.readFlag('PYTHON32') then
-    expectedVersion := '3.2'
-  else if CmdLineReader.readFlag('PYTHON33') then
-    expectedVersion := '3.3'
-  else if CmdLineReader.readFlag('PYTHON34') then
-    expectedVersion := '3.4'
-  else if CmdLineReader.readFlag('PYTHON35') then
-    expectedVersion := '3.5'
-  else if CmdLineReader.readFlag('PYTHON36') then
-    expectedVersion := '3.6'
-  else if CmdLineReader.readFlag('PYTHON37') then
-    expectedVersion := '3.7';
-  PythonEngine.DllPath := CmdLineReader.readString('PYTHONDLLPATH');
-
-  if expectedVersion <> '' then begin
-    idx := IndexOfKnownVersion(expectedVersion);
-    if idx >= COMPILED_FOR_PYTHON_VERSION_INDEX then
-      expectedVersionIdx := idx;
-    if expectedVersionIdx = -1 then
-      if idx = -1 then
-        Vcl.Dialogs.MessageDlg(Format(_(SUnknownPythonVersion),
-          [StringReplace(expectedVersion, '.', '', [])]), mtWarning, [mbOK], 0)
-      else
-        Vcl.Dialogs.MessageDlg(Format(_(SUnsupportedPythonVersion),
-          [StringReplace(expectedVersion, '.', '', []),
-           PYTHON_KNOWN_VERSIONS[COMPILED_FOR_PYTHON_VERSION_INDEX].RegVersion]),
-           mtWarning, [mbOK], 0);
-  end;
-
-
-  // disable feature that will try to use the last version of Python because we provide our
-  // own behaviour. Note that this feature would not load the latest version if the python dll
-  // matching the compiled version of P4D was found.
-  PythonEngine.UseLastKnownVersion := False;
-  if expectedVersionIdx > -1 then
-  begin
-    // if we found a parameter requiring a specific version of Python,
-    // then we must immediatly fail if P4D did not find the expected dll.
-    versionIdx := expectedVersionIdx;
-    PythonEngine.FatalMsgDlg := True;
-    PythonEngine.FatalAbort := True;
-  end
-  else
-  begin
-    // otherwise, let's start searching a valid python dll from the latest known version
-    versionIdx := High(PYTHON_KNOWN_VERSIONS);
-    PythonEngine.FatalMsgDlg := False;
-    PythonEngine.FatalAbort := False;
-  end;
-  // try to find an acceptable version of Python, starting from either the specified version,
-  // or the latest know version, but stop when we reach the version targeted on compilation.
-  for i := versionIdx downto COMPILED_FOR_PYTHON_VERSION_INDEX do
-  begin
-    PythonEngine.DllName := PYTHON_KNOWN_VERSIONS[i].DllName;
-    PythonEngine.APIVersion := PYTHON_KNOWN_VERSIONS[i].APIVersion;
-    PythonEngine.RegVersion := PYTHON_KNOWN_VERSIONS[i].RegVersion;
-
-    if i = COMPILED_FOR_PYTHON_VERSION_INDEX then
-    begin
-      // last chance, so raise an error if it goes wrong
-      PythonEngine.FatalMsgDlg := True;
-      PythonEngine.FatalAbort := True;
-    end;
-
-    PythonVersionIsRegistered :=
-      IsPythonVersionRegistered(PythonEngine.RegVersion, InstallPath, AllUserInstall);
-
-    if PythonVersionIsRegistered  or (PythonEngine.DllPath <> '') then begin
-      try
-        PythonEngine.LoadDll;
-        Result := i;
-      except on E: EPyImportError do
-        Vcl.Dialogs.MessageDlg(_(SPythonInitError), mtError, [mbOK], 0);
-      end;
-      if PythonEngine.IsHandleValid then
-        // we found a valid version
-        Break;
-    end;
-  end;
-
-  if not PythonEngine.IsHandleValid then begin
-    Vcl.Dialogs.MessageDlg(_(SPythonLoadError), mtError, [mbOK], 0);
-    ExitProcess(1);
   end;
 end;
 

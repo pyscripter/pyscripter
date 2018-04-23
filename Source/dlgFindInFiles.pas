@@ -101,7 +101,8 @@ uses
   Dialogs, JvGnugettext, StringResources,
   cPyScripterSettings,
   System.Types,
-  System.StrUtils, cParameters;
+  System.StrUtils, cParameters,
+  cPyControl;
 
 function GetScrollbarWidth: Integer;
 begin
@@ -275,6 +276,10 @@ begin
   cbText.Items.Assign(FFindInFilesExpert.SearchList);
   cbDirectory.Items.Assign(FFindInFilesExpert.DirList);
   cbMasks.Items.Assign(FFindInFilesExpert.MaskList);
+
+  if PyControl.InternalPython.Loaded and
+    (cbDirectory.Items.IndexOf(PyControl.PythonVersion.InstallPath) < 0) then
+    cbDirectory.Items. Add(PyControl.PythonVersion.InstallPath);
 
   if FFindInFilesExpert.GrepSave then
   begin

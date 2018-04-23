@@ -652,7 +652,8 @@ end;
 
 function TFunctionProxy.ArgumentsString: string;
 begin
-  Result := InternalInterpreter.PyInteractiveInterpreter.get_arg_text(fPyFunction).__getitem__(0);
+  Result := TPyInternalInterpreter(PyControl.InternalInterpreter).
+    PyInteractiveInterpreter.get_arg_text(fPyFunction).__getitem__(0);
 end;
 
 constructor TFunctionProxy.CreateFromFunction(AName : string; AFunction: Variant);

@@ -2885,7 +2885,7 @@ begin
             begin
               FName := GetEditor.GetFileNameOrTitle;
               // Add the file path to the Python path - Will be automatically removed
-              PythonPathAdder := InternalInterpreter.AddPathToPythonPath
+              PythonPathAdder := PyControl.InternalInterpreter.AddPathToPythonPath
                 (ExtractFileDir(FName));
 
               if PyScripterRefactor.InitializeQuery then
@@ -3116,7 +3116,7 @@ begin
   // do not syntax check very long files
   then
   begin
-    InternalInterpreter.SyntaxCheck(GetEditor, True);
+    TPyInternalInterpreter(PyControl.InternalInterpreter).SyntaxCheck(GetEditor, True);
     fSyntaxErrorPos := PyControl.ErrorPos;
     PyControl.ErrorPos.Clear;
     fNeedToCheckSyntax := False;

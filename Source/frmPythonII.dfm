@@ -113,22 +113,6 @@ inherited PythonIIForm: TPythonIIForm
   inherited DockClient: TJvDockClient
     Left = 40
   end
-  object PythonEngine: TPythonEngine
-    AutoLoad = False
-    DllName = 'python25.dll'
-    APIVersion = 1012
-    RegVersion = '2.5'
-    FatalAbort = False
-    FatalMsgDlg = False
-    UseLastKnownVersion = False
-    AutoFinalize = False
-    InitThreads = True
-    IO = PythonIO
-    PyFlags = [pfInteractive]
-    OnAfterInit = PythonEngineAfterInit
-    Left = 493
-    Top = 54
-  end
   object PythonIO: TPythonInputOutput
     UnicodeIO = False
     RawOutput = False
@@ -161,75 +145,6 @@ inherited PythonIIForm: TPythonIIForm
     OnAfterCodeCompletion = SynCodeCompletionAfterCodeCompletion
     Left = 523
     Top = 1
-  end
-  object DebugIDE: TPythonModule
-    Engine = PythonEngine
-    Events = <
-      item
-        Name = 'user_call'
-      end
-      item
-        Name = 'user_line'
-      end
-      item
-        Name = 'user_thread'
-      end
-      item
-        Name = 'user_exception'
-        DocString.Strings = (
-          'Return the 8087 CW value')
-      end
-      item
-        Name = 'user_yield'
-      end
-      item
-        Name = 'InputBox'
-        OnExecute = InputBoxExecute
-      end
-      item
-        Name = 'statusWrite'
-        OnExecute = StatusWriteExecute
-      end
-      item
-        Name = 'messageWrite'
-        OnExecute = MessageWriteExecute
-      end
-      item
-        Name = 'get8087CW'
-        OnExecute = Get8087CWExecute
-      end
-      item
-        Name = 'maskFPUexceptions'
-        OnExecute = MaskFPUExceptionsExecute
-      end
-      item
-        Name = 'unmaskFPUexceptions'
-        OnExecute = UnMaskFPUExceptionsExecute
-      end
-      item
-        Name = 'testResultStartTest'
-        OnExecute = testResultStartTestExecute
-      end
-      item
-        Name = 'testResultStopTest'
-        OnExecute = testResultStopTestExecute
-      end
-      item
-        Name = 'testResultAddSuccess'
-        OnExecute = testResultAddSuccess
-      end
-      item
-        Name = 'testResultAddFailure'
-        OnExecute = testResultAddFailure
-      end
-      item
-        Name = 'testResultAddError'
-        OnExecute = testResultAddError
-      end>
-    ModuleName = 'DebugIDE'
-    Errors = <>
-    Left = 612
-    Top = 54
   end
   object SynParamCompletion: TSynCompletionProposal
     DefaultType = ctParams
@@ -294,19 +209,6 @@ inherited PythonIIForm: TPythonIIForm
     object mnInterpreterEditorOptions: TSpTBXItem
       Action = CommandsDataModule.actInterpreterEditorOptions
     end
-  end
-  object PyDelphiWrapper: TPyDelphiWrapper
-    Engine = PythonEngine
-    Module = PyscripterModule
-    Left = 636
-    Top = 118
-  end
-  object PyscripterModule: TPythonModule
-    Engine = PythonEngine
-    ModuleName = 'pyscripter'
-    Errors = <>
-    Left = 544
-    Top = 119
   end
   object InterpreterActionList: TActionList
     Images = CommandsDataModule.Images

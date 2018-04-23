@@ -271,7 +271,8 @@ uses
   cRefactoring,
   cPySupportTypes,
   cPyBaseDebugger,
-  cPyDebugger;
+  cPyDebugger,
+  cPyControl;
 
 Const
   MaskChar = WideChar(#96);
@@ -1245,7 +1246,7 @@ begin
   if Length(Path) > 1 then
   begin
     // Add the path of the executed file to the Python path
-    PythonPathAdder :=  InternalInterpreter.AddPathToPythonPath(Path);
+    PythonPathAdder :=  PyControl.InternalInterpreter.AddPathToPythonPath(Path);
   end;
   for i := 0 to fImportedModules.Count - 1 do
   begin

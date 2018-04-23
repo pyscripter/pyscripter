@@ -193,7 +193,8 @@ uses
   cRefactoring,
   cPyScripterSettings,
   cPyControl,
-  uCommonFunctions;
+  uCommonFunctions,
+  cInternalPython;
 
 { TRemNameSpaceItem }
 constructor TRemNameSpaceItem.Create(aName : string; aPyObject : Variant;
@@ -246,7 +247,7 @@ begin
         FullInfoTuple := fRemotePython.RPI.safegetmembersfullinfo(fPyObject, True,
           ExpandCommonTypes, ExpandSequences)
       else
-        FullInfoTuple := InternalInterpreter.PyInteractiveInterpreter.safegetmembersfullinfo(fPyObject, True,
+        FullInfoTuple := TPyInternalInterpreter(PyControl.InternalInterpreter).PyInteractiveInterpreter.safegetmembersfullinfo(fPyObject, True,
           ExpandCommonTypes, ExpandSequences);
       fChildCount := len(FullInfoTuple);
 
@@ -514,7 +515,7 @@ begin
   fOldSysModules := SysModule.modules.copy();
   try
     fRpycPath := Format('%sLib\rpyc.zip', [ExtractFilePath(Application.ExeName)]);
-    InternalInterpreter.SysPathAdd(fRpycPath);
+    PyControl.InternalInterpreter.SysPathAdd(fRpycPath);
     Rpyc := Import('rpyc');
     fIsAvailable := True;
   except
@@ -576,7 +577,7 @@ begin
   FreeAndNil(ServerProcess);
   FreeAndNil(RemoteServer);
 
-  InternalInterpreter.SysPathRemove(fRpycPath);
+  PyControl.InternalInterpreter.SysPathRemove(fRpycPath);
   inherited;
 end;
 
@@ -608,7 +609,7 @@ end;
 
 function TPyRemoteInterpreter.GetObjectType(Ob: Variant): string;
 begin
-  Result := InternalInterpreter.GetObjectType(ob);
+  Result := PyControl.InternalInterpreter.GetObjectType(ob);
 end;
 
 procedure TPyRemoteInterpreter.HandleRemoteException(ExcInfo: Variant; SkipFrames : integer = 1);
@@ -1295,7 +1296,8 @@ begin
   inherited Create;
   fRemotePython := RemotePython;
   fDebugManager := fRemotePython.RPI.__class__.DebugManager;
-  fDebugManager.debugIDE := InternalInterpreter.PyInteractiveInterpreter.debugIDE;
+  fDebugManager.debugIDE :=
+    TPyInternalInterpreter(PyControl.InternalInterpreter).PyInteractiveInterpreter.debugIDE;
 
   fMainDebugger := fDebugManager.main_debugger;
 
@@ -1314,12 +1316,12 @@ end;
 
 destructor TPyRemDebugger.Destroy;
 begin
-  with PythonIIForm.DebugIDE.Events do begin
-    Items[0].OnExecute := nil;
-    Items[1].OnExecute := nil;
-    Items[2].OnExecute := nil;
-    Items[3].OnExecute := nil;
-    Items[4].OnExecute := nil;
+  with PyControl.InternalPython.DebugIDE.Events do begin
+    Items[dbie_user_call].OnExecute := nil;
+    Items[dbie_user_line].OnExecute := nil;
+    Items[dbie_user_thread].OnExecute := nil;
+    Items[dbie_user_exception].OnExecute := nil;
+    Items[dbie_user_yield].OnExecute := nil;
   end;
   FreeAndNil(fThreads);
   inherited;
@@ -1600,12 +1602,12 @@ begin
     AppendPrompt;
   end;
   //attach debugger callback routines
-  with PythonIIForm.DebugIDE.Events do begin
-    Items[0].OnExecute := UserCall;
-    Items[1].OnExecute := UserLine;
-    Items[2].OnExecute := UserThread;
-    Items[3].OnExecute := UserException;
-    Items[4].OnExecute := UserYield;
+  with PyControl.InternalPython.DebugIDE.Events do begin
+    Items[dbie_user_call].OnExecute := UserCall;
+    Items[dbie_user_line].OnExecute := UserLine;
+    Items[dbie_user_thread].OnExecute := UserThread;
+    Items[dbie_user_exception].OnExecute := UserException;
+    Items[dbie_user_yield].OnExecute := UserYield;
   end;
 
   //set breakpoints

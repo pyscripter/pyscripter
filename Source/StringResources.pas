@@ -16,6 +16,7 @@ Const
   SEmptyList = '(Empty List)';
   SCommandLineMsg  = 'Command Line : %s' + sLineBreak;
   SEngineActive = '*** %s Python engine %s is active ***';
+  SInterpreterNA = 'The internal Python interpreter is not available';
   SPythonInitError =
   'PyScripter cannot find the standard Python library modules.' + SLineBreak +
   'This sounds like a Python installation error.  Please check the Windows Registry key ' + SLineBreak +

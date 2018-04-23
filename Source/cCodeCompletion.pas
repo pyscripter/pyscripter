@@ -79,7 +79,7 @@ begin
   SortedNameSpace.Duplicates := dupIgnore; // Remove duplicates
   SortedNameSpace.Sorted := True;
   try
-    InternalInterpreter.GetModulesOnPath(Path, SortedNameSpace);
+    PyControl.InternalInterpreter.GetModulesOnPath(Path, SortedNameSpace);
     InsertText := SortedNameSpace.Text;
     for i := 0 to SortedNameSpace.Count - 1 do
     begin
@@ -301,14 +301,14 @@ begin
     fFileName := FileName;
     // Add the file path to the Python path - Will be automatically removed
     if fFileName <> '' then
-      PythonPathAdder := InternalInterpreter.AddPathToPythonPath
+      PythonPathAdder := PyControl.InternalInterpreter.AddPathToPythonPath
         (ExtractFileDir(fFileName));
 
     DottedModName := TRegExpressions.RE_Import.Match[3];
     if CharPos(DottedModName, '.') > 0 then begin
       fModulePrefix := DottedModName;
       Delete(fModulePrefix, LastDelimiter('.', fModulePrefix), MaxInt);
-      FNameVar := InternalInterpreter.PyInteractiveInterpreter.findModuleOrPackage(fModulePrefix, None);
+      FNameVar := TPyInternalInterpreter(PyControl.InternalInterpreter).PyInteractiveInterpreter.findModuleOrPackage(fModulePrefix, None);
       if not VarIsNone(FNameVar) then begin
         Dir := FNameVar;
         Dir := ExtractFileDir(Dir);
@@ -362,7 +362,7 @@ begin
       Dir := fFileName;
       for i := 1 to fPathDepth do
         Dir := ExtractFileDir(Dir);
-      PythonPathAdder := InternalInterpreter.AddPathToPythonPath(Dir);
+      PythonPathAdder := PyControl.InternalInterpreter.AddPathToPythonPath(Dir);
       if (DottedModName <> '') and (CharPos(DottedModName, '.') > 0) then
       begin
         fModulePrefix := DottedModName;
@@ -377,12 +377,12 @@ begin
     begin
       // Add the file path to the Python path - Will be automatically removed
       if fFileName <> '' then
-        PythonPathAdder := InternalInterpreter.AddPathToPythonPath
+        PythonPathAdder := PyControl.InternalInterpreter.AddPathToPythonPath
           (ExtractFileDir(fFileName));
       if CharPos(DottedModName, '.') > 0 then begin
         fModulePrefix := DottedModName;
         Delete(fModulePrefix, LastDelimiter('.', fModulePrefix), MaxInt);
-        FNameVar := InternalInterpreter.PyInteractiveInterpreter.findModuleOrPackage(fModulePrefix, None);
+        FNameVar := TPyInternalInterpreter(PyControl.InternalInterpreter).PyInteractiveInterpreter.findModuleOrPackage(fModulePrefix, None);
         if not VarIsNone(FNameVar) then begin
           Dir := FNameVar;
           Dir := ExtractFileDir(Dir);
@@ -544,7 +544,7 @@ begin
   Index := CharLastPos(lookup, WideChar('.'));
 
   // Add the file path to the Python path - Will be automatically removed
-  PythonPathAdder := InternalInterpreter.AddPathToPythonPath
+  PythonPathAdder := PyControl.InternalInterpreter.AddPathToPythonPath
     (ExtractFileDir(fFileName));
 
   if PyScripterRefactor.InitializeQuery then
