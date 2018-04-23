@@ -134,8 +134,6 @@ type
       var Command: TSynEditorCommand; var AChar: WideChar; Data: Pointer);
     procedure actCopyHistoryExecute(Sender: TObject);
     procedure SynEditDblClick(Sender: TObject);
-    procedure awakeGUIExecute(Sender: TObject; PSelf, Args: PPyObject;
-      var Result: PPyObject);
     procedure actClearContentsExecute(Sender: TObject);
     procedure SynEditMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
@@ -583,8 +581,6 @@ begin
   PythonIO.UnicodeIO := True;
   PythonIO.RawOutput := True;
 
-  PyControl.PythonVersionIndex := LoadPythonEngine;
-
   fShowOutput := True;
   // For handling output from Python threads
   FCriticalSection := TCriticalSection.Create;
@@ -595,10 +591,12 @@ begin
   fCommandHistorySize := 50;
   fCommandHistoryPointer := 0;
 
-  PS1 := SysModule.ps1;
-  PS2 := SysModule.ps2;
+  PS1 := '>>> ';
+  PS2 := '... ';
   DebugPrefix := '[Dbg]';
   PMPrefix := '[PM]';
+
+  PyControl.PythonVersionIndex := LoadPythonEngine;
 
   PrintInterpreterBanner;
 
@@ -1559,25 +1557,6 @@ procedure TPythonIIForm.Get8087CWExecute(Sender: TObject; PSelf,
   Args: PPyObject; var Result: PPyObject);
 begin
   Result := GetPythonEngine.PyLong_FromUnsignedLong(Get8087CW);
-end;
-
-Var
-  AwakeCount : integer;  //static variable
-procedure TPythonIIForm.awakeGUIExecute(Sender: TObject; PSelf, Args: PPyObject;
-  var Result: PPyObject);
-var
-  Done: Boolean;
-begin
-  //  This routine is called 100 times a second
-  //  Do the Idle handling only twice per second to avoid slow down.
-  PyControl.DoYield(False);
-  if AwakeCount > 50 then begin
-    AwakeCount := 0;
-    PyIDEMainForm.ApplicationOnIdle(Application, Done);
-  end else
-    Inc(AwakeCount);
-  //PostMessage(Application.Handle, WM_NULL, 0, 0);
-  Result := GetPythonEngine.ReturnNone;
 end;
 
 procedure TPythonIIForm.UnMaskFPUExceptionsExecute(Sender: TObject; PSelf,

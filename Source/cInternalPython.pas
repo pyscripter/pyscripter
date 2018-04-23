@@ -15,52 +15,90 @@ Uses
   System.SysUtils,
   System.Classes,
   PythonEngine,
+  PythonVersions,
   WrapDelphi;
 
 
 Const
   // Defined DebugIDE events
-  dbie_user_call            = 0; 
-  dbie_user_line            = 1; 
-  dbie_user_thread          = 2; 
-  dbie_user_exception       = 3; 
-  dbie_user_yield           = 4; 
-  dbie_InputBox             = 5; 
-  dbie_statusWrite          = 6; 
-  dbie_messageWrite         = 7; 
-  dbie_get8087CW            = 8; 
-  dbie_maskFPUexceptions    = 9; 
-  dbie_unmaskFPUexceptions  = 10; 
-  dbie_testResultStartTest  = 11; 
-  dbie_testResultStopTest   = 12; 
-  dbie_testResultAddSuccess = 13; 
-  dbie_testResultAddFailure = 14; 
-  dbie_testResultAddError   = 15; 
-  dbie_awakeGUI             = 16; 
- 
+  dbie_user_call            = 0;
+  dbie_user_line            = 1;
+  dbie_user_thread          = 2;
+  dbie_user_exception       = 3;
+  dbie_user_yield           = 4;
+  dbie_InputBox             = 5;
+  dbie_statusWrite          = 6;
+  dbie_messageWrite         = 7;
+  dbie_get8087CW            = 8;
+  dbie_maskFPUexceptions    = 9;
+  dbie_unmaskFPUexceptions  = 10;
+  dbie_testResultStartTest  = 11;
+  dbie_testResultStopTest   = 12;
+  dbie_testResultAddSuccess = 13;
+  dbie_testResultAddFailure = 14;
+  dbie_testResultAddError   = 15;
+
 type
-TInternalPython = class
-private
-  fPythonEngine : TPythonEngine;
-  fDebugIDE: TPythonModule;
-  PyDelphiWrapper: TPyDelphiWrapper;
-  PyscripterModule: TPythonModule;
-  procedure CreateDebugIDE;
-  procedure CreatePyScripterModule;
-  procedure CreatePythonEngine;
-  procedure PythonEngineAfterInit(Sender: TObject);
-public
-  property DebugIDE : TPythonModule read fDebugIDE;
-  property PythonEngine : TPythonEngine read fPythonEngine;
-end;
+
+  TInternalPython = class
+  private
+    fPythonEngine : TPythonEngine;
+    fDebugIDE: TPythonModule;
+    PyDelphiWrapper: TPyDelphiWrapper;
+    PyscripterModule: TPythonModule;
+    procedure CreateDebugIDE;
+    procedure CreatePyScripterModule;
+    procedure CreatePythonEngine;
+    procedure CreatePythonComponents;
+    procedure DestroyPythonComponents;
+    procedure PythonEngineAfterInit(Sender: TObject);
+    procedure InputBoxExecute(Sender: TObject; PSelf, Args: PPyObject;
+      var Result: PPyObject);
+    procedure StatusWriteExecute(Sender: TObject; PSelf,
+      Args: PPyObject; var Result: PPyObject);
+    procedure MessageWriteExecute(Sender: TObject; PSelf,
+      Args: PPyObject; var Result: PPyObject);
+    procedure testResultAddError(Sender: TObject; PSelf, Args: PPyObject;
+      var Result: PPyObject);
+    procedure testResultAddFailure(Sender: TObject; PSelf, Args: PPyObject;
+      var Result: PPyObject);
+    procedure testResultAddSuccess(Sender: TObject; PSelf, Args: PPyObject;
+      var Result: PPyObject);
+    procedure testResultStopTestExecute(Sender: TObject; PSelf, Args: PPyObject;
+      var Result: PPyObject);
+    procedure testResultStartTestExecute(Sender: TObject; PSelf,
+      Args: PPyObject; var Result: PPyObject);
+    procedure MaskFPUExceptionsExecute(Sender: TObject; PSelf, Args: PPyObject;
+      var Result: PPyObject);
+    procedure UnMaskFPUExceptionsExecute(Sender: TObject; PSelf,
+      Args: PPyObject; var Result: PPyObject);
+    procedure Get8087CWExecute(Sender: TObject; PSelf, Args: PPyObject;
+      var Result: PPyObject);
+    procedure Initialize;
+    function GetLoaded: Boolean;
+  public
+    destructor Destroy; override;
+    function LoadPython(var Version: TPythonVersion): Boolean;
+    property Loaded : Boolean read GetLoaded;
+    property DebugIDE : TPythonModule read fDebugIDE;
+    property PythonEngine : TPythonEngine read fPythonEngine;
+  end;
+
+Var
+  InternalPython : TInternalPython;
 
 implementation
 
 uses
-  cPyScripterSettings, frmPythonII,
-  dmCommands,
   VarPyth,
-  SynHighlighterPython;
+  dmCommands,
+  frmPyIDEMain,
+  frmPythonII,
+  frmMessages,
+  frmUnitTests,
+  SynHighlighterPython,
+  cPyScripterSettings,
+  uCommonFunctions;
 
 { TInternalPython }
 
@@ -77,58 +115,52 @@ begin
   with fDebugIDE.Events.Add do Name := 'user_yield';
   with fDebugIDE.Events.Add do begin
     Name := 'InputBox';
-    //OnExecute := InputBoxExecute;
+    OnExecute := InputBoxExecute;
   end;
   with fDebugIDE.Events.Add do begin
     Name := 'statusWrite';
-    //OnExecute := StatusWriteExecute;
+    OnExecute := StatusWriteExecute;
   end;
   with fDebugIDE.Events.Add do begin
     Name := 'messageWrite';
-    //OnExecute := MessageWriteExecute;
+    OnExecute := MessageWriteExecute;
   end;
   with fDebugIDE.Events.Add do begin
     Name := 'get8087CW';
-    //OnExecute := Get8087CWExecute;
+    OnExecute := Get8087CWExecute;
   end;
   with fDebugIDE.Events.Add do begin
     Name := 'maskFPUexceptions';
-    //OnExecute := MaskFPUExceptionsExecute;
+    OnExecute := MaskFPUExceptionsExecute;
   end;
   with fDebugIDE.Events.Add do begin
     Name := 'unmaskFPUexceptions';
-    //OnExecute := UnMaskFPUExceptionsExecute;
+    OnExecute := UnMaskFPUExceptionsExecute;
   end;
   with fDebugIDE.Events.Add do begin
     Name := 'testResultStartTest';
-    //OnExecute := testResultStartTestExecute;
+    OnExecute := testResultStartTestExecute;
   end;
   with fDebugIDE.Events.Add do begin
     Name := 'testResultStopTest';
-    //OnExecute := testResultStopTestExecute;
+    OnExecute := testResultStopTestExecute;
   end;
   with fDebugIDE.Events.Add do begin
     Name := 'testResultAddSuccess';
-    //OnExecute := testResultAddSuccess;
+    OnExecute := testResultAddSuccess;
   end;
   with fDebugIDE.Events.Add do begin
     Name := 'testResultAddFailure';
-    //OnExecute := testResultAddFailure;
+    OnExecute := testResultAddFailure;
   end;
   with fDebugIDE.Events.Add do begin
     Name := 'testResultAddError';
-    //OnExecute := testResultAddError;
-  end;
-  with fDebugIDE.Events.Add do begin
-    Name := 'awakeGUI';
-    //OnExecute := awakeGUIExecute;
+    OnExecute := testResultAddError;
   end;
   fDebugIDE.ModuleName := 'DebugIDE';
 end;
 
 procedure TInternalPython.CreatePyScripterModule;
-Var
-  P : PPyObject;
 begin
   PyscripterModule := TPythonModule.Create(nil);
 
@@ -141,11 +173,14 @@ begin
   PyDelphiWrapper.Name := 'PyDelphiWrapper';
   PyDelphiWrapper.Engine := PythonEngine;
   PyDelphiWrapper.Module := PyscripterModule;
+end;
 
-  // Wrap IDE Options
-  p := PyDelphiWrapper.Wrap(PyIDEOptions);
-  PyscripterModule.SetVar('IDEOptions', p);
-  PythonEngine.Py_XDECREF(p);
+procedure TInternalPython.CreatePythonComponents;
+begin
+  DestroyPythonComponents;
+  CreatePythonEngine;
+  CreateDebugIDE;
+  CreatePyScripterModule;
 end;
 
 procedure TInternalPython.CreatePythonEngine;
@@ -167,13 +202,112 @@ begin
   fPythonEngine.OnAfterInit := PythonEngineAfterInit;
 end;
 
+destructor TInternalPython.Destroy;
+begin
+  DestroyPythonComponents;
+  inherited;
+end;
+
+procedure TInternalPython.DestroyPythonComponents;
+begin
+  FreeAndNil(fPythonEngine);  // Unloads Python Dll
+  FreeAndNil(fDebugIDE);
+  FreeAndNil(PyDelphiWrapper);
+  FreeAndNil(PyscripterModule);
+end;
+
+procedure TInternalPython.Get8087CWExecute(Sender: TObject; PSelf,
+  Args: PPyObject; var Result: PPyObject);
+begin
+  Result := PythonEngine.PyLong_FromUnsignedLong(Get8087CW);
+end;
+
+function TInternalPython.GetLoaded: Boolean;
+begin
+  Result := Assigned(PythonEngine) and PythonEngine.IsHandleValid;
+end;
+
+procedure TInternalPython.Initialize;
+Var
+  P : PPyObject;
+begin
+  // Wrap IDE Options
+  p := PyDelphiWrapper.Wrap(PyIDEOptions);
+  PyscripterModule.SetVar('IDEOptions', p);
+  PythonEngine.Py_XDECREF(p);
+end;
+
+procedure TInternalPython.InputBoxExecute(Sender: TObject; PSelf,
+  Args: PPyObject; var Result: PPyObject);
+Var
+  PCaption, PPrompt, PDefault : PWideChar;
+  WideS : string;
+  Res : Boolean;
+begin
+  with PythonEngine do
+    if PyArg_ParseTuple( args, 'uuu:InputBox', @PCaption, @PPrompt, @PDefault) <> 0 then begin
+      WideS := PDefault;
+
+      Res := SyncWideInputQuery(PCaption, PPrompt, WideS);
+      if Res then
+        Result := PyUnicode_FromWideChar(PWideChar(WideS), Length(WideS))
+      else
+        Result := ReturnNone;
+    end else
+      Result := nil;
+end;
+
+function TInternalPython.LoadPython(var Version: TPythonVersion): Boolean;
+begin
+   CreatePythonComponents;
+   Version.AssignTo(PythonEngine);
+   PythonEngine.LoadDll;
+   Result := PythonEngine.IsHandleValid;
+   if Result then begin
+     Initialize;
+     if Version.InstallPath = '' then
+       Version.InstallPath := SysModule.prefix;
+   end else
+     DestroyPythonComponents;
+end;
+
+procedure TInternalPython.MaskFPUExceptionsExecute(Sender: TObject; PSelf,
+  Args: PPyObject; var Result: PPyObject);
+begin
+  MaskFPUExceptions(True);
+  PyIDEOptions.MaskFPUExceptions := True;
+  Result := PythonEngine.ReturnNone;
+end;
+
+procedure TInternalPython.MessageWriteExecute(Sender: TObject; PSelf,
+  Args: PPyObject; var Result: PPyObject);
+Var
+  Msg, FName : PAnsiChar;
+  LineNo, Offset : integer;
+  S : string;
+begin
+  FName := nil;
+  LineNo := 0;
+  Offset := 0;
+  with PythonEngine do
+    if PyArg_ParseTuple( args, 's|sii:messageWrite', @Msg, @FName, @LineNo, @Offset) <> 0 then begin
+      if Assigned(FName) then
+        S := string(FName)
+      else
+        S := '';
+      MessagesWindow.AddMessage(string(Msg), S, LineNo, Offset);
+      Result := ReturnNone;
+    end else
+      Result := nil;
+end;
+
 procedure TInternalPython.PythonEngineAfterInit(Sender: TObject);
 Var
   Keywords, Builtins, BuiltInMod : Variant;
   i : integer;
 begin
   // Execute initialization script
-  with GetPythonEngine do begin
+  with PythonEngine do begin
     if IsPython3000 then
       ExecStrings(CommandsDataModule.JvMultiStringHolder.StringsByName['InitScript3000'])
     else
@@ -212,4 +346,66 @@ begin
   end;
 end;
 
+procedure TInternalPython.StatusWriteExecute(Sender: TObject; PSelf,
+  Args: PPyObject; var Result: PPyObject);
+Var
+  Msg : PAnsiChar;
+begin
+  with PythonEngine do
+    if PyArg_ParseTuple( args, 's:statusWrite', @Msg) <> 0 then begin
+      PyIDEMainForm.WriteStatusMsg(string(Msg));
+      Result := ReturnNone;
+    end else
+      Result := nil;
+end;
+
+procedure TInternalPython.testResultAddError(Sender: TObject; PSelf,
+  Args: PPyObject; var Result: PPyObject);
+begin
+  UnitTestWindow.AddError(VarPythonCreate(Args).__getitem__(0),
+    VarPythonCreate(Args).__getitem__(1));
+  Result := PythonEngine.ReturnNone;
+end;
+
+procedure TInternalPython.testResultAddFailure(Sender: TObject; PSelf,
+  Args: PPyObject; var Result: PPyObject);
+begin
+  UnitTestWindow.AddFailure(VarPythonCreate(Args).__getitem__(0),
+    VarPythonCreate(Args).__getitem__(1));
+  Result := PythonEngine.ReturnNone;
+end;
+
+procedure TInternalPython.testResultAddSuccess(Sender: TObject; PSelf,
+  Args: PPyObject; var Result: PPyObject);
+begin
+  UnitTestWindow.AddSuccess(VarPythonCreate(Args).__getitem__(0));
+  Result := PythonEngine.ReturnNone;
+end;
+
+procedure TInternalPython.testResultStartTestExecute(Sender: TObject; PSelf,
+  Args: PPyObject; var Result: PPyObject);
+begin
+  UnitTestWindow.StartTest(VarPythonCreate(Args).__getitem__(0));
+  Result := PythonEngine.ReturnNone;
+end;
+
+procedure TInternalPython.testResultStopTestExecute(Sender: TObject; PSelf,
+  Args: PPyObject; var Result: PPyObject);
+begin
+  UnitTestWindow.StopTest(VarPythonCreate(Args).__getitem__(0));
+  Result := PythonEngine.ReturnNone;
+end;
+
+procedure TInternalPython.UnMaskFPUExceptionsExecute(Sender: TObject; PSelf,
+  Args: PPyObject; var Result: PPyObject);
+begin
+  MaskFPUExceptions(False);
+  PyIDEOptions.MaskFPUExceptions := False;
+  Result := PythonEngine.ReturnNone;
+end;
+
+initialization
+  InternalPython := TInternalPython.Create;
+finalization
+  InternalPython.Free;
 end.

@@ -15,7 +15,8 @@ Uses
   System.Classes,
   uEditAppIntfs,
   cPySupportTypes,
-  cPyBaseDebugger;
+  cPyBaseDebugger,
+  PythonVersions;
 
 type
   TDebuggerState = (dsInactive, dsDebugging, dsPaused, dsRunning, dsPostMortem);
@@ -61,6 +62,7 @@ type
     fActiveDebugger : TPyBaseDebugger ;
     fRunConfig : TRunConfiguration;
     FPythonVersionIndex: integer;
+    fPythonVersion : TPythonVersion;
     procedure DoOnBreakpointChanged(Editor : IEditor; ALine: integer);
     procedure SetActiveDebugger(const Value: TPyBaseDebugger);
     procedure SetActiveInterpreter(const Value: TPyBaseInterpreter);
@@ -99,8 +101,12 @@ type
     procedure Debug(ARunConfig : TRunConfiguration;  InitStepIn : Boolean = False;
       RunToCursorLine : integer = -1);
     procedure ExternalRun(ARunConfig : TRunConfiguration);
+    // InternalPython
+    procedure LoadPythonEngine;
+
     // properties and events
     // PythonVersionIndex is the Index of Python version in the PYTHON_KNOWN_VERSIONS array
+    property PythonVersion : TPythonVersion read fPythonVersion;
     property PythonVersionIndex : integer read FPythonVersionIndex write FPythonVersionIndex;
     property PythonEngineType : TPythonEngineType read GetPythonEngineType
       write SetPythonEngineType;
@@ -129,6 +135,7 @@ var
 implementation
 
 uses
+  WinApi.Windows,
   System.SysUtils,
   System.Contnrs,
   System.UITypes,
@@ -136,14 +143,17 @@ uses
   Vcl.Dialogs,
   JvGnugettext,
   JvJVCLUtils,
+  VarPyth,
   StringResources,
   frmPythonII,
   frmPyIDEMain,
   frmCommandOutput,
   frmVariables,
   frmUnitTests,
+  uCmdLine,
   cPyScripterSettings,
   cParameters,
+  cInternalPython,
   cPyDebugger,
   cPyRemoteDebugger,
   cProjectClasses;
@@ -517,6 +527,67 @@ end;
 function TPythonControl.IsRunning: boolean;
 begin
   Result := fDebuggerState in [dsDebugging, dsRunning];
+end;
+
+procedure TPythonControl.LoadPythonEngine;
+
+  procedure FatalAbort;
+  begin
+      Vcl.Dialogs.MessageDlg(_(SPythonLoadError), mtError, [mbOK], 0);
+      ExitProcess(1);
+  end;
+
+Var
+  expectedVersion : string;
+  II : Variant;   // wrapping sys and code modules
+begin
+  // first find an optional parameter specifying the expected Python version in the form of -PYTHONXY
+  expectedVersion := '';
+
+  if CmdLineReader.readFlag('PYTHON25') then
+    expectedVersion := '2.5'
+  else if CmdLineReader.readFlag('PYTHON26') then
+    expectedVersion := '2.6'
+  else if CmdLineReader.readFlag('PYTHON27') then
+    expectedVersion := '2.7'
+  else if CmdLineReader.readFlag('PYTHON30') then
+    expectedVersion := '3.0'
+  else if CmdLineReader.readFlag('PYTHON31') then
+    expectedVersion := '3.1'
+  else if CmdLineReader.readFlag('PYTHON32') then
+    expectedVersion := '3.2'
+  else if CmdLineReader.readFlag('PYTHON33') then
+    expectedVersion := '3.3'
+  else if CmdLineReader.readFlag('PYTHON34') then
+    expectedVersion := '3.4'
+  else if CmdLineReader.readFlag('PYTHON35') then
+    expectedVersion := '3.5'
+  else if CmdLineReader.readFlag('PYTHON36') then
+    expectedVersion := '3.6'
+  else if CmdLineReader.readFlag('PYTHON37') then
+    expectedVersion := '3.7';
+  fPythonVersion.DllPath := CmdLineReader.readString('PYTHONDLLPATH');
+
+  if (fPythonVersion.DllPath = '') and (expectedVersion = '') then begin
+    if not GetLatestRegisteredPythonVersion(fPythonVersion) then FatalAbort;
+  end else if fPythonVersion.DllPath = '' then begin
+    if not GetRegisteredPythonVersion(expectedVersion, fPythonVersion) then FatalAbort;
+  end else if expectedVersion <> '' then
+    fPythonVersion.SysVersion := expectedVersion
+  else
+    // DLL path without python version
+    // Todo Show more appropriate messsage
+    FatalAbort;
+  if not InternalPython.LoadPython(fPythonVersion) then FatalAbort;
+
+  // Create internal Interpreter and Debugger
+  II := VarPythonEval('_II');
+  InternalPython.PythonEngine.ExecString('del _II');
+
+  InternalInterpreter := TPyInternalInterpreter.Create(II);
+  ActiveInterpreter := InternalInterpreter;
+  ActiveDebugger := TPyInternalDebugger.Create;
+  InternalInterpreter.Initialize;
 end;
 
 procedure TPythonControl.Run(ARunConfig: TRunConfiguration);

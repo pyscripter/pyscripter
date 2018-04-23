@@ -1191,6 +1191,7 @@ begin
     SysModule.excepthook := OldExceptHook;
 
     ServerProcess.TerminateTree;
+    Sleep(500);  // to free the handles
     ServerProcess.Free;
     CreateServerProcess;
   end;

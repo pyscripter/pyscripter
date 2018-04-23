@@ -72,7 +72,7 @@ object CommandsDataModule: TCommandsDataModule
     Left = 32
     Top = 241
     Bitmap = {
-      494C01010A000D00100010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C01010A000D001C0010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -652,12 +652,6 @@ object CommandsDataModule: TCommandsDataModule
           'import code'
           'import pyscripter'
           ''
-          'try:'
-          '    sys.ps1'
-          'except AttributeError:'
-          '    sys.ps1 = '#39'>>> '#39
-          '    sys.ps2 = '#39'... '#39
-          ''
           'class PythonInteractiveInterpreter(code.InteractiveInterpreter):'
           '    debugIDE = __import__("DebugIDE")'
           ''
@@ -1219,12 +1213,6 @@ object CommandsDataModule: TCommandsDataModule
           'import sys'
           'import code'
           'import pyscripter'
-          ''
-          'try:'
-          '    sys.ps1'
-          'except AttributeError:'
-          '    sys.ps1 = '#39'>>> '#39
-          '    sys.ps2 = '#39'... '#39
           ''
           'class PythonInteractiveInterpreter(code.InteractiveInterpreter):'
           '    debugIDE = __import__("DebugIDE")'
@@ -4754,7 +4742,7 @@ object CommandsDataModule: TCommandsDataModule
     Left = 36
     Top = 194
     Bitmap = {
-      494C01019A009D00100010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C01019A009D001C0010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000007002000001002000000000000070
       0200000000000000000000000000000000000000000000000000000000000000
       00000000000000000000000000000001001C010100200000000C000000000000

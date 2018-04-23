@@ -225,10 +225,6 @@ inherited PythonIIForm: TPythonIIForm
       item
         Name = 'testResultAddError'
         OnExecute = testResultAddError
-      end
-      item
-        Name = 'awakeGUI'
-        OnExecute = awakeGUIExecute
       end>
     ModuleName = 'DebugIDE'
     Errors = <>
