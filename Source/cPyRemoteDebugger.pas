@@ -103,7 +103,6 @@ type
   public
     constructor Create(aName : string; aPyObject : Variant;
       RemotePython : TPyRemoteInterpreter);
-    function IsDict : Boolean; override;
     procedure GetChildNodes; override;
     property IsProxy : Boolean read fIsProxy;
   end;
@@ -269,7 +268,7 @@ begin
           NameSpaceItem.BufferedValue := PyString_AsWideString(PyTuple_GetItem(PyFullInfo, 1));
           NameSpaceItem.GotBufferedValue := True;
           NameSpaceItem.fObjectType := PyString_AsWideString(PyTuple_GetItem(PyFullInfo, 2));
-          NameSpaceItem.ExtractObjectInfo(PyTuple_GetItem(PyFullInfo, 3));
+          NameSpaceItem.fObjectInfo := PyInt_AsLong(PyTuple_GetItem(PyFullInfo, 3));
           if NameSpaceItem.IsProxy then
             NameSpaceItem.fChildCount := PyInt_AsLong(PyTuple_GetItem(PyFullInfo, 4))
           else
@@ -308,7 +307,6 @@ end;
 procedure TRemNameSpaceItem.FillObjectInfo;
 var
   SuppressOutput : IInterface;
-  PyObjectInfo : PPyObject;
 begin
   if not IsProxy then
     inherited
@@ -316,11 +314,10 @@ begin
     fRemotePython.CheckConnected;
     SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
     try
-      PyObjectInfo := ExtractPythonObjectFrom(fRemotePython.RPI.objectinfo(fPyObject));
+      fObjectInfo := fRemotePython.RPI.objectinfo(fPyObject);
     except
-      PyObjectInfo := nil;
+      fObjectInfo := 0;
     end;
-    ExtractObjectInfo(PyObjectInfo);
   end;
 end;
 
@@ -349,15 +346,6 @@ begin
       Result := '';
     end;
 end;
-
-function TRemNameSpaceItem.IsDict: Boolean;
-begin
-  if not IsProxy then
-    Result := VarIsPythonDict(fPyObject)
-  else
-    Result := ObjectInfo.IsDict;
-end;
-
 
 { TPyRemoteInterpreter }
 
@@ -547,7 +535,7 @@ begin
   if fIsAvailable then begin
     RemoteServer := TExternalTool.Create;
     RemoteServer.CaptureOutput := False;
-    RemoteServer.ApplicationName := '$[PythonDir]\python.exe';
+    RemoteServer.ApplicationName := '$[PythonDir]python.exe';
     RemoteServer.Parameters := Format('"%s" %d "%s"', [ServerFile, fSocketPort, fRpycPath]);
     try
       fIsAvailable := fIsAvailable and CreateAndConnectToServer;
@@ -733,7 +721,6 @@ var
   LookupObj, ItemsDict: Variant;
   SuppressOutput : IInterface;
 begin
-
   CheckConnected;
   SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
   try
@@ -966,7 +953,7 @@ Var
   OldDebuggerState : TDebuggerState;
 begin
   CheckConnected;
-  Assert(not PyControl.IsRunning, 'RunSource called while the Python engine is active');
+  Assert(not PyControl.Running, 'RunSource called while the Python engine is active');
   OldDebuggerState := PyControl.DebuggerState;
   PyControl.DoStateChange(dsRunning);
 

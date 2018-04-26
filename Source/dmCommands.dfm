@@ -72,7 +72,7 @@ object CommandsDataModule: TCommandsDataModule
     Left = 32
     Top = 241
     Bitmap = {
-      494C01010A000D001C0010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C01010A000D00240010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -784,8 +784,8 @@ object CommandsDataModule: TCommandsDataModule
           ''
           '        import repr'
           '        pyrepr = repr.Repr()'
-          '        pyrepr.maxstring = 160'
-          '        pyrepr.maxother = 160'
+          '        pyrepr.maxstring = 60'
+          '        pyrepr.maxother = 60'
           '        self._repr = pyrepr.repr'
           ''
           '        self.commontypes = frozenset(['
@@ -874,27 +874,28 @@ object CommandsDataModule: TCommandsDataModule
           '            return "Unknown type"'
           ''
           '    def objectinfo(self, ob):'
-          '        res = [False, False, False, False, False, False]'
+          '        res = 1'
           '        try:'
           '            import inspect'
           
             '            if hasattr(ob, "__dict__") and isinstance(ob.__dict_' +
             '_, dict):'
-          '                res[0] = True'
+          '                res = res | 2'
           '            if inspect.ismodule(ob):'
-          '                res[1] = True'
+          '                res = res | 4'
           '            elif inspect.ismethod(ob):'
-          '                res[2] = True'
+          '                res = res | 8'
           
             '            elif inspect.isfunction(ob) or inspect.isbuiltin(ob)' +
             ':'
-          '                res[3] = True'
+          '                res = res | 16'
           '            elif inspect.isclass(ob):'
-          '                res[4] = True'
-          '            res[5] = isinstance(ob, dict)'
-          '            return tuple(res)'
+          '                res = res | 32'
+          '            if isinstance(ob, dict):'
+          '                res = res | 64'
+          '            return res'
           '        except:'
-          '            return tuple(res)'
+          '            return res'
           ''
           '    def saferepr(self, x):'
           '        try:'
@@ -1342,8 +1343,8 @@ object CommandsDataModule: TCommandsDataModule
           '            pyrepr = __import__('#39'repr'#39').Repr()'
           '        except:'
           '            pyrepr = __import__('#39'reprlib'#39').Repr()'
-          '        pyrepr.maxstring = 160'
-          '        pyrepr.maxother = 160'
+          '        pyrepr.maxstring = 60'
+          '        pyrepr.maxother = 60'
           '        self._repr = pyrepr.repr'
           ''
           '        self.commontypes = frozenset(['
@@ -1432,27 +1433,28 @@ object CommandsDataModule: TCommandsDataModule
           '            return "Unknown type"'
           ''
           '    def objectinfo(self, ob):'
-          '        res = [False, False, False, False, False, False]'
+          '        res = 1'
           '        try:'
           '            import inspect'
           
             '            if hasattr(ob, "__dict__") and isinstance(ob.__dict_' +
             '_, dict):'
-          '                res[0] = True'
+          '                res = res | 2'
           '            if inspect.ismodule(ob):'
-          '                res[1] = True'
+          '                res = res | 4'
           '            elif inspect.ismethod(ob):'
-          '                res[2] = True'
+          '                res = res | 8'
           
             '            elif inspect.isfunction(ob) or inspect.isbuiltin(ob)' +
             ':'
-          '                res[3] = True'
+          '                res = res | 16'
           '            elif inspect.isclass(ob):'
-          '                res[4] = True'
-          '            res[5] = isinstance(ob, dict)'
-          '            return tuple(res)'
+          '                res = res | 32'
+          '            if isinstance(ob, dict):'
+          '                res = res | 64'
+          '            return res'
           '        except:'
-          '            return tuple(res)'
+          '            return res'
           ''
           '    def saferepr(self, x):'
           '        try:'
@@ -2074,8 +2076,8 @@ object CommandsDataModule: TCommandsDataModule
           ''
           '        import repr'
           '        pyrepr = repr.Repr()'
-          '        pyrepr.maxstring = 160'
-          '        pyrepr.maxother = 160'
+          '        pyrepr.maxstring = 60'
+          '        pyrepr.maxother = 60'
           '        self._repr = pyrepr.repr'
           ''
           '        self.commontypes = frozenset(['
@@ -2478,27 +2480,28 @@ object CommandsDataModule: TCommandsDataModule
           '            return "Unknown type"'
           ''
           '    def objectinfo(self, ob):'
-          '        res = [False, False, False, False, False, False]'
+          '        res = 1'
           '        try:'
           '            inspect = self.inspect'
           
             '            if hasattr(ob, "__dict__") and isinstance(ob.__dict_' +
             '_, dict):'
-          '                res[0] = True'
+          '                res = res | 2'
           '            if inspect.ismodule(ob):'
-          '                res[1] = True'
+          '                res = res | 4'
           '            elif inspect.ismethod(ob):'
-          '                res[2] = True'
+          '                res = res | 8'
           
             '            elif inspect.isfunction(ob) or inspect.isbuiltin(ob)' +
             ':'
-          '                res[3] = True'
+          '                res = res | 16'
           '            elif inspect.isclass(ob):'
-          '                res[4] = True'
-          '            res[5] = isinstance(ob, dict)'
-          '            return tuple(res)'
+          '                res = res | 32'
+          '            if isinstance(ob, dict):'
+          '                res = res | 64'
+          '            return res'
           '        except:'
-          '            return tuple(res)'
+          '            return res'
           ''
           '    def rem_chdir(self, path):'
           '        import os'
@@ -2972,8 +2975,8 @@ object CommandsDataModule: TCommandsDataModule
           '            pyrepr = __import__('#39'repr'#39').Repr()'
           '        except:'
           '            pyrepr = __import__('#39'reprlib'#39').Repr()'
-          '        pyrepr.maxstring = 160'
-          '        pyrepr.maxother = 160'
+          '        pyrepr.maxstring = 60'
+          '        pyrepr.maxother = 60'
           '        self._repr = pyrepr.repr'
           ''
           '        self.commontypes = frozenset(['
@@ -3356,27 +3359,28 @@ object CommandsDataModule: TCommandsDataModule
           '            return "Unknown type"'
           ''
           '    def objectinfo(self, ob):'
-          '        res = [False, False, False, False, False, False]'
+          '        res = 1'
           '        try:'
           '            inspect = self.inspect'
           
             '            if hasattr(ob, "__dict__") and isinstance(ob.__dict_' +
             '_, dict):'
-          '                res[0] = True'
+          '                res = res | 2'
           '            if inspect.ismodule(ob):'
-          '                res[1] = True'
+          '                res = res | 4'
           '            elif inspect.ismethod(ob):'
-          '                res[2] = True'
+          '                res = res | 8'
           
             '            elif inspect.isfunction(ob) or inspect.isbuiltin(ob)' +
             ':'
-          '                res[3] = True'
+          '                res = res | 16'
           '            elif inspect.isclass(ob):'
-          '                res[4] = True'
-          '            res[5] = isinstance(ob, dict)'
-          '            return tuple(res)'
+          '                res = res | 32'
+          '            if isinstance(ob, dict):'
+          '                res = res | 64'
+          '            return res'
           '        except:'
-          '            return tuple(res)'
+          '            return res'
           ''
           '    def rem_chdir(self, path):'
           '        import os'
@@ -4742,7 +4746,7 @@ object CommandsDataModule: TCommandsDataModule
     Left = 36
     Top = 194
     Bitmap = {
-      494C01019A009D001C0010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C01019A009D00240010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000007002000001002000000000000070
       0200000000000000000000000000000000000000000000000000000000000000
       00000000000000000000000000000001001C010100200000000C000000000000

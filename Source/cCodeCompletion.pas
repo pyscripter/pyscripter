@@ -767,9 +767,9 @@ begin
   end else
     lookup := '';  // Completion from global namespace
   if (Index <= 0) or (lookup <> '') then begin
-    if PyControl.DebuggerState = dsInactive then
+    if PyControl.Inactive then
       fNameSpaceDict := PyControl.ActiveInterpreter.NameSpaceFromExpression(lookup)
-    else
+    else if PyControl.InternalPython.Loaded and not PyControl.Running then
       fNameSpaceDict := PyControl.ActiveDebugger.NameSpaceFromExpression(lookup);
   end;
 

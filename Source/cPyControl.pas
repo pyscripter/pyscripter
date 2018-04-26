@@ -98,7 +98,8 @@ type
     procedure DoStateChange(NewState : TDebuggerState);
     procedure DoYield(DoIdle : Boolean);
     // Other
-    function IsRunning: boolean;
+    function Running: boolean;
+    function Inactive: boolean;
     // Running Python Scripts
     procedure Run(ARunConfig : TRunConfiguration);
     procedure Debug(ARunConfig : TRunConfiguration;  InitStepIn : Boolean = False;
@@ -259,6 +260,11 @@ begin
     Result := ActiveInterpreter.EngineType
   else
     Result := peInternal;
+end;
+
+function TPythonControl.Inactive: boolean;
+begin
+  Result := InternalPython.Loaded and (fDebuggerState = dsInactive);
 end;
 
 function TPythonControl.IsBreakpointLine(Editor: IEditor; ALine: integer;
@@ -540,7 +546,7 @@ begin
   end;
 end;
 
-function TPythonControl.IsRunning: boolean;
+function TPythonControl.Running: boolean;
 begin
   Result := fDebuggerState in [dsDebugging, dsRunning];
 end;
@@ -604,7 +610,6 @@ begin
   fActiveInterpreter := fInternalInterpreter;
   fActiveDebugger := TPyInternalDebugger.Create;
   fInternalInterpreter.Initialize;
-  PythonEngineType := peInternal;
 end;
 
 procedure TPythonControl.Run(ARunConfig: TRunConfiguration);

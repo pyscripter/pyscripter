@@ -479,9 +479,6 @@ begin
 end;
 
 procedure TPythonIIForm.FormCreate(Sender: TObject);
-Var
-  II : Variant;   // wrapping sys and code modules
-  P : PPyObject;
 begin
   inherited;
 //  SynEdit.ControlStyle := SynEdit.ControlStyle + [csOpaque];
@@ -654,26 +651,27 @@ begin
 
             // RunSource
             NeedIndent := False;  // True denotes an incomplete statement
-            case PyControl.DebuggerState of
-              dsInactive :
-                if GetPythonEngine.IsPython3000 then
-                  NeedIndent :=
-                    PyControl.ActiveInterpreter.RunSource(Source, '<interactive input>')
-                else
-                  NeedIndent :=
-                    PyControl.ActiveInterpreter.RunSource(EncodedSource, '<interactive input>');
-              dsPaused, dsPostMortem :
-                if GetPythonEngine.IsPython3000 then
-                  NeedIndent :=
-                    PyControl.ActiveDebugger.RunSource(Source, '<interactive input>')
-                else
-                  NeedIndent :=
-                    PyControl.ActiveDebugger.RunSource(EncodedSource, '<interactive input>');
-              else //dsRunning, dsRunningNoDebug
-                // it is dangerous to execute code while running scripts
-                // so just beep and do nothing
-                MessageBeep(MB_ICONERROR);
-            end;
+            if PyControl.InternalPython.Loaded then
+              case PyControl.DebuggerState of
+                dsInactive :
+                  if GetPythonEngine.IsPython3000 then
+                    NeedIndent :=
+                      PyControl.ActiveInterpreter.RunSource(Source, '<interactive input>')
+                  else
+                    NeedIndent :=
+                      PyControl.ActiveInterpreter.RunSource(EncodedSource, '<interactive input>');
+                dsPaused, dsPostMortem :
+                  if GetPythonEngine.IsPython3000 then
+                    NeedIndent :=
+                      PyControl.ActiveDebugger.RunSource(Source, '<interactive input>')
+                  else
+                    NeedIndent :=
+                      PyControl.ActiveDebugger.RunSource(EncodedSource, '<interactive input>');
+                else //dsRunning, dsRunningNoDebug
+                  // it is dangerous to execute code while running scripts
+                  // so just beep and do nothing
+                  MessageBeep(MB_ICONERROR);
+              end;
 
             if not NeedIndent then begin
               // The source code has been executed
@@ -1140,10 +1138,13 @@ Var
   BC: TBufferCoord;
   SkipHandler : TBaseCodeCompletionSkipHandler;
 begin
-  if PyControl.IsRunning or not PyIDEOptions.InterpreterCodeCompletion
-  then
+  if not (PyControl.InternalPython.Loaded and not PyControl.Running and
+    PyIDEOptions.InterpreterCodeCompletion)
+  then begin
     // No code completion while Python is running
+    CanExecute := False;
     Exit;
+  end;
 
   with TSynCompletionProposal(Sender).Editor do
   begin
@@ -1232,7 +1233,7 @@ var locline, lookup: string;
     DummyToken : string;
     BC : TBufferCoord;
 begin
-  if PyControl.IsRunning or not PyIDEOptions.InterpreterCodeCompletion
+  if PyControl.Running or not PyIDEOptions.InterpreterCodeCompletion
   then
     Exit;
   with TSynCompletionProposal(Sender).Editor do

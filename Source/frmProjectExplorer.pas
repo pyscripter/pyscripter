@@ -764,7 +764,7 @@ Var
   Data : PNodeDataRec;
   SingleNodeSelected : Boolean;
 begin
-   actProjectExtraPythonPath.Enabled := not PyControl.IsRunning;
+   actProjectExtraPythonPath.Enabled := not PyControl.Running;
    // We update project actions here based on selection
    SingleNodeSelected := Assigned(Node) and
      (Length(ExplorerTree.GetSortedSelection(False)) = 1);
@@ -784,7 +784,7 @@ begin
      actProjectFileProperties.Enabled := (Data.ProjectNode is TProjectFileNode) and SingleNodeSelected;
      actProjectAddRunConfig.Enabled := (Data.ProjectNode is TProjectRunConfiguationsNode) and SingleNodeSelected;
      actProjectEditRunConfig.Enabled := (Data.ProjectNode is TProjectRunConfiguationNode) and SingleNodeSelected;
-     actProjectRun.Enabled := (PyControl.DebuggerState = dsInactive) and
+     actProjectRun.Enabled := PyControl.Inactive and
        (Data.ProjectNode is TProjectRunConfiguationNode) and SingleNodeSelected;
      actProjectExternalRun.Enabled := actProjectRun.Enabled;
      actProjectDebug.Enabled := actProjectRun.Enabled;

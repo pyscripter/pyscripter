@@ -417,7 +417,8 @@
 
   History:   v 3.4
           New Features
-            Support for running Jupyter notebooks inside PyScripter
+            Faster loading
+            Initial support for running Jupyter notebooks inside PyScripter
             Syntax highlighting for JSON files
             New IDE option "Style Main Window Border"
             Find in Files and ToDo folders can include parameters (#828)
@@ -1682,7 +1683,7 @@ begin
     CanClose := False;
     CloseTimer.Enabled := True;
     Exit;
-  end else if PyControl.DebuggerState <> dsInactive then begin
+  end else if not PyControl.Inactive then begin
     if Vcl.Dialogs.MessageDlg(_(SAbortDebugging), mtWarning, [mbYes, mbNo], 0) = mrYes then
     begin
       if (PyControl.DebuggerState in [dsPaused, dsPostMortem]) or
@@ -1993,7 +1994,7 @@ end;
 
 procedure TPyIDEMainForm.actPythonReinitializeExecute(Sender: TObject);
 begin
-  if PyControl.DebuggerState <> dsInactive then begin
+  if not PyControl.Inactive then begin
     if Vcl.Dialogs.MessageDlg(_(STerminateInterpreter),
       mtWarning, [mbYes, mbNo], 0) = idNo then Exit;
   end;
@@ -2055,7 +2056,7 @@ end;
 
 procedure TPyIDEMainForm.actRunDebugLastScriptExecute(Sender: TObject);
 begin
-  if PyControl.DebuggerState = dsInactive then
+  if PyControl.Inactive then
     PyControl.Debug(PyControl.RunConfig);
 end;
 
@@ -2082,7 +2083,7 @@ end;
 
 procedure TPyIDEMainForm.actRunLastScriptExecute(Sender: TObject);
 begin
-  if PyControl.DebuggerState = dsInactive then
+  if PyControl.Inactive then
     PyControl.Run(PyControl.RunConfig);
 end;
 
@@ -2095,10 +2096,10 @@ procedure TPyIDEMainForm.actDebugExecute(Sender: TObject);
 var
   ActiveEditor : IEditor;
 begin
-  Assert(not PyControl.IsRunning);
+  Assert(not PyControl.Running);
   ActiveEditor := GetActiveEditor;
   if Assigned(ActiveEditor) then begin
-    if PyControl.DebuggerState = dsInactive then
+    if PyControl.Inactive then
       DebugActiveScript(ActiveEditor)
     else if PyControl.DebuggerState = dsPaused then
       PyControl.ActiveDebugger.Resume;
@@ -2119,10 +2120,10 @@ procedure TPyIDEMainForm.actStepIntoExecute(Sender: TObject);
 var
   ActiveEditor : IEditor;
 begin
-  Assert(not PyControl.IsRunning);
+  Assert(not PyControl.Running);
   ActiveEditor := GetActiveEditor;
   if Assigned(ActiveEditor) then begin
-    if PyControl.DebuggerState = dsInactive then
+    if PyControl.Inactive then
       DebugActiveScript(ActiveEditor, True)
     else if PyControl.DebuggerState = dsPaused then
       PyControl.ActiveDebugger.StepInto;
@@ -2151,7 +2152,7 @@ begin
   Application.ProcessMessages;
   ActiveEditor := GetActiveEditor;
   if Assigned(ActiveEditor) then begin
-    if PyControl.DebuggerState = dsInactive then
+    if PyControl.Inactive then
       DebugActiveScript(ActiveEditor, False, ActiveEditor.SynEdit.CaretY)
     else if PyControl.DebuggerState = dsPaused then
       PyControl.ActiveDebugger.RunToCursor(ActiveEditor, ActiveEditor.SynEdit.CaretY);
@@ -2204,7 +2205,7 @@ procedure TPyIDEMainForm.DebugActiveScript(ActiveEditor: IEditor;
 var
   RunConfig: TRunConfiguration;
 begin
-  Assert(PyControl.DebuggerState = dsInactive);
+  Assert(PyControl.Inactive);
   RunConfig := TRunConfiguration.Create;
   try
     SetupRunConfiguration(RunConfig, ActiveEditor);
@@ -2223,26 +2224,26 @@ begin
   PyFileActive := Assigned(Editor) and
     (Editor.SynEdit.Highlighter = CommandsDataModule.SynPythonSyn);
 
-  actSyntaxCheck.Enabled := PyFileActive and (DebuggerState = dsInactive);
-  actRun.Enabled := PyFileActive and (DebuggerState = dsInactive);
-  actExternalRun.Enabled := PyFileActive and (DebuggerState = dsInactive);
-  actImportModule.Enabled := PyFileActive and (DebuggerState = dsInactive);
-  actDebug.Enabled := PyFileActive and (DebuggerState in [dsInactive, dsPaused]);
-  actStepInto.Enabled := PyFileActive and (DebuggerState in [dsInactive, dsPaused]);
+  actSyntaxCheck.Enabled := PyFileActive and PyControl.Inactive;
+  actRun.Enabled := PyFileActive and PyControl.Inactive;
+  actExternalRun.Enabled := PyFileActive and PyControl.Inactive;
+  actImportModule.Enabled := PyFileActive and PyControl.Inactive;
+  actDebug.Enabled := PyFileActive and (PyControl.Inactive or (DebuggerState = dsPaused));
+  actStepInto.Enabled := PyFileActive and (PyControl.Inactive or (DebuggerState = dsPaused));
   actStepOut.Enabled := DebuggerState = dsPaused;
   actStepOver.Enabled := DebuggerState = dsPaused;
   actDebugAbort.Enabled := DebuggerState in [dsPaused, dsDebugging, dsRunning, dsPostMortem];
   actDebugPause.Enabled := DebuggerState = dsDebugging;
-  actRunToCursor.Enabled := PyFileActive and (DebuggerState in [dsInactive, dsPaused])
+  actRunToCursor.Enabled := PyFileActive and (PyControl.Inactive or (DebuggerState = dsPaused))
     and PyControl.IsExecutableLine(Editor, Editor.SynEdit.CaretY);
   actToggleBreakPoint.Enabled := PyFileActive;
   actClearAllBreakPoints.Enabled := PyFileActive;
   actAddWatchAtCursor.Enabled := PyFileActive;
-  actExecSelection.Enabled := not PyControl.IsRunning and PyFileActive;
+  actExecSelection.Enabled := not PyControl.Running and PyFileActive;
   actPythonReinitialize.Enabled := Assigned(PyControl.ActiveInterpreter) and
     (icReInitialize in PyControl.ActiveInterpreter.InterpreterCapabilities) and
     not (PyControl.DebuggerState in [dsPaused, dsPostMortem]);
-  actPostMortem.Enabled := (PyControl.DebuggerState = dsInactive) and
+  actPostMortem.Enabled := PyControl.Inactive and
     Assigned(PyControl.ActiveDebugger) and PyControl.ActiveDebugger.HaveTraceback;
   if DebuggerState = dsPaused then begin
     actDebug.Caption := _(SResumeCaption);
@@ -2251,7 +2252,7 @@ begin
     actDebug.Caption := _('Debug');
     actDebug.Hint := _(SDebugHint);
   end;
-  actRunLastScript.Enabled := (DebuggerState = dsInactive) and (PyControl.RunConfig.ScriptName <> '');
+  actRunLastScript.Enabled := PyControl.Inactive and (PyControl.RunConfig.ScriptName <> '');
   actRunDebugLastScript.Enabled := actRunLastScript.Enabled;
   actRunLastScriptExternal.Enabled := actRunLastScript.Enabled;
 
@@ -2339,7 +2340,7 @@ end;
 procedure TPyIDEMainForm.DebuggerCurrentPosChange(Sender: TObject);
 begin
   if csDestroying in ComponentState then Exit;
-  if (PyControl.ActiveDebugger <> nil) and not PyControl.IsRunning then
+  if (PyControl.ActiveDebugger <> nil) and not PyControl.Running then
     SetCurrentPos(PyControl.CurrentPos.Editor , PyControl.CurrentPos.Line)
   else
     SetCurrentPos(PyControl.CurrentPos.Editor, -1);
@@ -2352,31 +2353,38 @@ var
 begin
   if csDestroying in ComponentState then Exit;
 
-  case NewState of
-    dsDebugging,
-    dsRunning: begin
-                 s := 'Running';
-                 if PyIDEOptions.PythonEngineType = peInternal then
-                   Screen.Cursor := crHourGlass;
-                 StatusLED.LEDColorOn := clRed;
-               end;
-    dsPaused: begin
-                s := 'Paused';
-                Screen.Cursor := crDefault;
-                StatusLED.LEDColorOn := clYellow;
-              end;
-    dsInactive: begin
-                 s := 'Ready';
-                 Screen.Cursor := crDefault;
-                 StatusLED.LEDColorOn := clGreen;
-               end;
-    dsPostMortem : begin
-                     s := 'Post mortem';
-                     Screen.Cursor := crDefault;
-                     StatusLED.LEDColorOn := clPurple;
-                   end;
+  if PyControl.InternalPython.Loaded then
+    case NewState of
+      dsDebugging,
+      dsRunning: begin
+                   s := _('Running');
+                   if PyIDEOptions.PythonEngineType = peInternal then
+                     Screen.Cursor := crHourGlass;
+                   StatusLED.LEDColorOn := clRed;
+                 end;
+      dsPaused: begin
+                  s := _('Paused');
+                  Screen.Cursor := crDefault;
+                  StatusLED.LEDColorOn := clYellow;
+                end;
+      dsInactive: begin
+                   s := _('Ready');
+                   Screen.Cursor := crDefault;
+                   StatusLED.LEDColorOn := clGreen;
+                 end;
+      dsPostMortem : begin
+                       s := _('Post mortem');
+                       Screen.Cursor := crDefault;
+                       StatusLED.LEDColorOn := clPurple;
+                     end;
+    end
+  else
+  begin
+     s := _('Python not available');
+     Screen.Cursor := crDefault;
+     StatusLED.LEDColorOn := clGray;
   end;
-  StatusLED.Hint := 'Debugger state: ' +s;
+  StatusLED.Hint := _('Debugger state: ') +s;
   lbStatusMessage.Caption := ' ' + s;
   StatusBar.Refresh;
 
@@ -2431,7 +2439,7 @@ begin
   // If a Tk or Wx remote engine is active pump up event handling
   // This is for processing input output coming from event handlers
   if (PyControl.ActiveInterpreter is TPyRemoteInterpreter) and
-     (PyControl.DebuggerState = dsInactive)
+     (PyControl.Inactive)
   then
     with(TPyRemoteInterpreter(PyControl.ActiveInterpreter)) do begin
       if Connected and (EngineType in [peRemoteTk, peRemoteWx]) then
@@ -3011,9 +3019,9 @@ begin
   with PythonIIForm do begin
     with SynCodeCompletion do begin
       if CaseSensitive then Options := Options + [scoCaseSensitive]
-      else Options := Options - [scoCaseSensitive];
+        else Options := Options - [scoCaseSensitive];
       if CompleteWithWordBreakChars then Options := Options + [scoEndCharCompletion]
-      else Options := Options - [scoEndCharCompletion];
+        else Options := Options - [scoEndCharCompletion];
 
       TriggerChars := '.';
       if CompleteAsYouType then begin
@@ -4642,10 +4650,6 @@ begin
   RegisterDragDrop(TabControl1.Handle, Self);
   RegisterDragDrop(TabControl2.Handle, Self);
 
-  // This is needed to update the variables window
-  PyControl.DoStateChange(dsInactive);
-
-
   TThread.ForceQueue(nil, procedure
   begin
     PyControl.LoadPythonEngine;
@@ -4654,6 +4658,9 @@ begin
 
     PyControl.PythonEngineType := PyIDEOptions.PythonEngineType;
     SetupToolsMenu;
+
+    // This is needed to update the variables window
+    PyControl.DoStateChange(dsInactive);
   end);
 
   OutputDebugString(PWideChar(Format('%s ElapsedTime %d ms', ['FormShow end', StopWatch.ElapsedMilliseconds])));

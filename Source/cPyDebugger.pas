@@ -37,17 +37,16 @@ type
     property PyFrame : Variant read fPyFrame;
   end;
 
-  TPyObjectInfo = record
-    Initialized,
-    Has__dict__,
-    IsModule,
-    IsMethod,
-    IsFunction,
-    IsClass : Boolean;
-    IsDict : Boolean;
-  end;
+Const
+  oi_Initialized = 1;
+  oi_Has__dict__ = 2;
+  oi_IsModule    = 4;
+  oi_IsMethod    = 8;
+  oi_IsFunction  = 16;
+  oi_IsClass     = 32;
+  oi_IsDict      = 64;
 
-
+type
   TNameSpaceItem = class(TBaseNameSpaceItem)
   // Implementation of the Base class for the internal debugger
   protected
@@ -55,7 +54,7 @@ type
     fChildNodes : TStringList;
     fName : string;
     fObjectType : string; // for caching ObjectType
-    fObjectInfo : TPyObjectInfo;
+    fObjectInfo : Integer;
   protected
     function GetName : string; override;
     function GetObjectType : string; override;
@@ -63,8 +62,7 @@ type
     function GetDocString : string; override;
     function GetChildCount : integer; override;
     function GetChildNode(Index: integer): TBaseNameSpaceItem; override;
-    function GetObjectInfo : TPyObjectInfo;
-    procedure ExtractObjectInfo(PyObjectInfo : PPyObject);
+    function GetObjectInfo : integer;
     procedure FillObjectInfo; virtual;
   public
     constructor Create(aName : string; aPyObject : Variant);
@@ -77,7 +75,7 @@ type
     function Has__dict__ : Boolean; override;
     function IndexOfChild(AName : string): integer; override;
     procedure GetChildNodes; override;
-    property ObjectInfo : TPyObjectInfo read GetObjectInfo;
+    property ObjectInfo : integer read GetObjectInfo;
   end;
 
   TPyInternalInterpreter = class(TPyBaseInterpreter)
@@ -222,7 +220,7 @@ begin
   fName := aName;
   fPyObject := aPyObject;
   fChildCount := -1;  // unknown
-  fObjectInfo.Initialized := False;
+  fObjectInfo := 0;
   fExpandSequences := True;
 end;
 
@@ -236,24 +234,6 @@ begin
     fChildNodes.Free;
   end;
   inherited;
-end;
-
-procedure TNameSpaceItem.ExtractObjectInfo(PyObjectInfo: PPyObject);
-begin
-  fObjectInfo.Initialized := True;
-  fObjectInfo.Has__dict__ := False;
-  fObjectInfo.IsModule := False;
-  fObjectInfo.IsMethod := False;
-  fObjectInfo.IsFunction := False;
-  fObjectInfo.IsClass := False;
-  if Assigned(PyObjectInfo) then with GetPythonEngine do begin
-    fObjectInfo.Has__dict__ := PyObject_IsTrue(PyTuple_GetItem(PyObjectInfo, 0)) = 1;
-    fObjectInfo.IsModule := PyObject_IsTrue(PyTuple_GetItem(PyObjectInfo, 1)) = 1;
-    fObjectInfo.IsMethod := PyObject_IsTrue(PyTuple_GetItem(PyObjectInfo, 2)) = 1;
-    fObjectInfo.IsFunction := PyObject_IsTrue(PyTuple_GetItem(PyObjectInfo, 3)) = 1;
-    fObjectInfo.IsClass := PyObject_IsTrue(PyTuple_GetItem(PyObjectInfo, 4)) = 1;
-    fObjectInfo.IsDict := PyObject_IsTrue(PyTuple_GetItem(PyObjectInfo, 5)) = 1;
-  end;
 end;
 
 function TNameSpaceItem.GetChildCount: integer;
@@ -320,7 +300,7 @@ begin
           NameSpaceItem.BufferedValue := PyString_AsWideString(PyTuple_GetItem(PyFullInfo, 1));
           NameSpaceItem.GotBufferedValue := True;
           NameSpaceItem.fObjectType := PyString_AsWideString(PyTuple_GetItem(PyFullInfo, 2));
-          NameSpaceItem.ExtractObjectInfo(PyTuple_GetItem(PyFullInfo, 3));
+          NameSpaceItem.fObjectInfo := PyInt_AsLong(PyTuple_GetItem(PyFullInfo, 3));
           NameSpaceItem.fChildCount := PyInt_AsLong(PyTuple_GetItem(PyFullInfo, 4));
 
           fChildNodes.AddObject(ObjName, NameSpaceItem);
@@ -357,15 +337,13 @@ end;
 procedure TNameSpaceItem.FillObjectInfo;
 var
   SuppressOutput : IInterface;
-  PyObjectInfo : PPyObject;
 begin
   SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
   try
-    PyObjectInfo := ExtractPythonObjectFrom(TPyInternalInterpreter(PyControl.InternalInterpreter).PyInteractiveInterpreter.objectinfo(fPyObject));
+    fObjectInfo := TPyInternalInterpreter(PyControl.InternalInterpreter).PyInteractiveInterpreter.objectinfo(fPyObject);
   except
-    PyObjectInfo := nil;
+    fObjectInfo := 0;
   end;
-  ExtractObjectInfo(PyObjectInfo);
 end;
 
 function TNameSpaceItem.GetObjectType: string;
@@ -392,7 +370,7 @@ end;
 
 function TNameSpaceItem.Has__dict__: Boolean;
 begin
-  Result := ObjectInfo.Has__dict__;
+  Result := (ObjectInfo and oi_Has__dict__) = oi_Has__dict__;
 end;
 
 function TNameSpaceItem.IndexOfChild(AName: string): integer;
@@ -432,32 +410,32 @@ end;
 
 function TNameSpaceItem.IsClass: Boolean;
 begin
-  Result := ObjectInfo.IsClass;
+  Result := (ObjectInfo and oi_IsClass) = oi_IsClass;
 end;
 
 function TNameSpaceItem.IsDict: Boolean;
 begin
-  Result := ObjectInfo.IsDict;
+  Result := (ObjectInfo and oi_IsDict) = oi_IsDict;
 end;
 
 function TNameSpaceItem.IsFunction: Boolean;
 begin
-  Result := ObjectInfo.IsFunction;
+  Result := (ObjectInfo and oi_IsFunction) = oi_IsFunction;
 end;
 
 function TNameSpaceItem.IsMethod: Boolean;
 begin
-  Result := ObjectInfo.IsMethod;
+  Result := (ObjectInfo and oi_IsMethod) = oi_IsMethod;
 end;
 
 function TNameSpaceItem.IsModule: Boolean;
 begin
-  Result := ObjectInfo.IsModule;
+  Result := (ObjectInfo and oi_IsModule) = oi_IsModule;
 end;
 
-function TNameSpaceItem.GetObjectInfo: TPyObjectInfo;
+function TNameSpaceItem.GetObjectInfo: integer;
 begin
-  if not fObjectInfo.Initialized then
+  if (fObjectInfo and oi_Initialized) = 0 then
     FillObjectInfo;
   Result := fObjectInfo;
 end;
@@ -1392,7 +1370,7 @@ Var
   OldDebuggerState : TDebuggerState;
   PySource : Variant;
 begin
-  Assert(not PyControl.IsRunning, 'RunSource called while the Python engine is active');
+  Assert(not PyControl.Running, 'RunSource called while the Python engine is active');
   OldDebuggerState := PyControl.DebuggerState;
   PyControl.DoStateChange(dsRunning);
   try

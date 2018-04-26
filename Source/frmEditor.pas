@@ -919,7 +919,7 @@ var
   Source: string;
   Editor: TSynEdit;
 begin
-  if not HasPythonFile or PyControl.IsRunning then
+  if not HasPythonFile or not PyControl.InternalPython.Loaded or PyControl.Running then
   begin
     // it is dangerous to execute code while running scripts
     // so just beep and do nothing
@@ -2361,11 +2361,9 @@ begin
     else if fEditor.HasPythonFile and (HiWord(GetAsyncKeyState(VK_CONTROL))
         = 0) and not ASynEdit.IsPointInSelection(aLineCharPos) and
     // (FindVCLWindow(ASynedit.ClientToScreen(Point(X,Y))) = ASynedit) and
-      (((PyControl.DebuggerState in [dsPaused,
-          dsPostMortem])
-          and PyIDEOptions.ShowDebuggerHints) or
-        ((PyControl.DebuggerState = dsInactive)
-          and PyIDEOptions.ShowCodeHints)) then
+      (((PyControl.DebuggerState in [dsPaused, dsPostMortem])
+           and PyIDEOptions.ShowDebuggerHints) or
+        (PyControl.Inactive and PyIDEOptions.ShowCodeHints)) then
       with ASynEdit do
       begin
         // Code and debugger hints
@@ -2694,8 +2692,9 @@ Var
   BC: TBufferCoord;
   SkipHandler : TBaseCodeCompletionSkipHandler;
 begin
-  if not fEditor.HasPythonFile or PyControl.IsRunning or
-    not PyIDEOptions.EditorCodeCompletion then
+  if not (fEditor.HasPythonFile and
+    PyControl.InternalPython.Loaded and not PyControl.Running and
+    PyIDEOptions.EditorCodeCompletion) then
   begin
     CanExecute := False;
     Exit;
@@ -2792,7 +2791,7 @@ Var
   DummyToken: string;
   BC: TBufferCoord;
 begin
-  if not fEditor.HasPythonFile or PyControl.IsRunning or
+  if not fEditor.HasPythonFile or PyControl.Running or
     not PyIDEOptions.EditorCodeCompletion then
   begin
     CanExecute := False;
@@ -3078,8 +3077,7 @@ begin
       else
         CodeHint := '';
     end
-    else if (PyControl.DebuggerState = dsInactive)
-      and PyIDEOptions.ShowCodeHints then
+    else if PyControl.Inactive and PyIDEOptions.ShowCodeHints then
     begin
       // Code hints
       CE := PyScripterRefactor.FindDefinitionByCoordinates
@@ -3112,7 +3110,8 @@ begin
 
   if (SynEdit.Highlighter = CommandsDataModule.SynPythonSyn) and
     fNeedToCheckSyntax and  PyIDEOptions.CheckSyntaxAsYouType and
-    (SynEdit.Lines.Count <= PyIDEOptions.CheckSyntaxLineLimit)
+    (SynEdit.Lines.Count <= PyIDEOptions.CheckSyntaxLineLimit) and
+    PyControl.Inactive
   // do not syntax check very long files
   then
   begin

@@ -421,7 +421,7 @@ procedure TWatchesWindow.UpdateWindow(DebuggerState: TDebuggerState);
 Var
   i: Integer;
 begin
-  if PyControl.IsRunning then begin
+  if not PyControl.InternalPython.Loaded or PyControl.Running then begin
     WatchesView.Enabled := False;
     Exit;
   end else

@@ -159,33 +159,36 @@ procedure TCallStackWindow.UpdateWindow(DebuggerState, OldState : TDebuggerState
 // The Call Stack is visible only when paused or in Post Mortem
 // The visibility of the Call stack is controlled by ThreadChangeNotify
 begin
-  case DebuggerState of
-    dsPaused, dsPostMortem:
-       begin
-         ThreadView.Enabled := True;
-         if OldState = dsRunning then begin
-            // This sequence of states happens with RunSource.  No need to update the CallStack - Issue 461
-            CallStackView.Enabled := True;
-         end else
-           // The Variables and Watches window will be updated when the 
-           // status of the running thread will be changed to broken
-           Exit;
-       end;
-    dsRunning:
-        begin
-          if OldState in [dsPaused, dsPostMortem] then begin
-          // This sequence of states happens with RunSource.  No need to update the CallStack
-           ThreadView.Enabled := False;
-           CallStackView.Enabled := False;
+  if PyControl.InternalPython.Loaded then
+    case DebuggerState of
+      dsPaused, dsPostMortem:
+         begin
+           ThreadView.Enabled := True;
+           if OldState = dsRunning then begin
+              // This sequence of states happens with RunSource.  No need to update the CallStack - Issue 461
+              CallStackView.Enabled := True;
+           end else
+             // The Variables and Watches window will be updated when the
+             // status of the running thread will be changed to broken
+             Exit;
+         end;
+      dsRunning:
+          begin
+            if OldState in [dsPaused, dsPostMortem] then begin
+            // This sequence of states happens with RunSource.  No need to update the CallStack
+             ThreadView.Enabled := False;
+             CallStackView.Enabled := False;
+            end;
           end;
-        end;
-    dsDebugging:
-        begin
-          ThreadView.Enabled := True;
-          ClearAll(False);
-        end;
-    dsInactive: ClearAll;
-  end;
+      dsDebugging:
+          begin
+            ThreadView.Enabled := True;
+            ClearAll(False);
+          end;
+      dsInactive: ClearAll;
+    end
+  else
+     ClearAll;
   // Now update dependent windows
   if Assigned(VariablesWindow) then VariablesWindow.UpdateWindow;
   if Assigned(WatchesWindow) then WatchesWindow.UpdateWindow(DebuggerState);

@@ -272,14 +272,15 @@ Var
   RootNodeCount : Cardinal;
   OldGlobalsNameSpace, OldLocalsNamespace : TBaseNameSpaceItem;
 begin
-  if not (Assigned(CallStackWindow) and
+  if not (PyControl.InternalPython.Loaded and
+          Assigned(CallStackWindow) and
           Assigned(PyControl.ActiveInterpreter) and
           Assigned(PyControl.ActiveDebugger)) then begin   // Should not happen!
      ClearAll;
      Exit;
   end;
 
-  if PyControl.IsRunning then begin
+  if PyControl.Running then begin
     // should not update
     VariablesTree.Enabled := False;
     Exit;

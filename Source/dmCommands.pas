@@ -1056,7 +1056,7 @@ end;
 procedure TCommandsDataModule.actSearchGoToDebugLineExecute(Sender: TObject);
 begin
   with PyControl.CurrentPos do
-    if (Line >= 1) and (PyControl.ActiveDebugger <> nil) and not PyControl.IsRunning then
+    if (Line >= 1) and (PyControl.ActiveDebugger <> nil) and not PyControl.Running then
       PyIDEMainForm.ShowFilePosition(Editor.GetFileNameOrTitle , Line, 1, 0, True, True);
 end;
 
@@ -2306,7 +2306,7 @@ begin
   actSearchGoToSyntaxError.Enabled := Assigned(GI_ActiveEditor) and
     TEditorForm(GI_ActiveEditor.Form).HasSyntaxError;
   actSearchGoToDebugLine.Enabled := (PyControl.CurrentPos.Line >= 1) and
-    (PyControl.ActiveDebugger <> nil) and not PyControl.IsRunning;
+    (PyControl.ActiveDebugger <> nil) and not PyControl.Running;
   actFindInFiles.Enabled := not FindResultsWindow.DoingSearchOrReplace;
 
   if Assigned(GI_ActiveEditor) and GI_ActiveEditor.HasPythonFile then begin

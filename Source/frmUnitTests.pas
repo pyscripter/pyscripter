@@ -446,7 +446,7 @@ Var
   StartTime, StopTime, Freq : Int64;
 begin
   // Only allow when PyControl.ActiveDebugger is inactive
-  if PyControl.DebuggerState <> dsInactive then Exit;
+  if not PyControl.Inactive then Exit;
 
   // bugfix for Python 2.6 or higher
   //if (PyControl.PythonVersionIndex >= 10) and (PyControl.ActiveInterpreter is TPyRemoteInterpreter) then
@@ -646,7 +646,7 @@ begin
   Count := SelectedTestCount;
 
   actRun.Enabled := (Status in [utwLoaded, utwRun]) and (Count > 0) and
-    (PyControl.DebuggerState = dsInactive);
+    PyControl.Inactive;
 
   actSelectAll.Enabled := Status in [utwLoaded, utwRun];
   actDeselectAll.Enabled := Status in [utwLoaded, utwRun];
