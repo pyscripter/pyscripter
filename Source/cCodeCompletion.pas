@@ -706,7 +706,7 @@ end;
 type
   TLiveNamespaceCompletionHandler = class(TBaseCodeCompletionHandler)
   private
-    fNameSpaceDict : TBaseNameSpaceItem;
+    fPyNameSpace : TBaseNameSpaceItem;
     fNameSpace : TStringList;
   public
     procedure Finalize; override;
@@ -719,7 +719,7 @@ type
 procedure TLiveNamespaceCompletionHandler.Finalize;
 begin
   FreeAndNil(fNameSpace);
-  FreeAndNil(fNameSpaceDict);
+  FreeAndNil(fPyNameSpace);
 end;
 
 function TLiveNamespaceCompletionHandler.GetInfo(CCItem: string): string;
@@ -757,7 +757,7 @@ begin
 
   lookup := GetWordAtPos(Line, TmpX, IdentChars+['.'], True, False, True);
   Index := CharLastPos(lookup, '.');
-  fNameSpaceDict := nil;
+  fPyNameSpace := nil;
   if Index > 0 then begin
     lookup := Copy(lookup, 1, Index-1);
     if CharPos(lookup, ')') > 0 then
@@ -768,22 +768,28 @@ begin
     lookup := '';  // Completion from global namespace
   if (Index <= 0) or (lookup <> '') then begin
     if PyControl.Inactive then
-      fNameSpaceDict := PyControl.ActiveInterpreter.NameSpaceFromExpression(lookup)
+      fPyNameSpace := PyControl.ActiveInterpreter.NameSpaceFromExpression(lookup)
     else if PyControl.InternalPython.Loaded and not PyControl.Running then
-      fNameSpaceDict := PyControl.ActiveDebugger.NameSpaceFromExpression(lookup);
+      fPyNameSpace := PyControl.ActiveDebugger.NameSpaceFromExpression(lookup);
   end;
 
   DisplayText := '';
   InsertText := '';
 
   fNameSpace := TStringList.Create;
-  if Assigned(fNameSpaceDict) then begin
-    for i := 0 to fNameSpaceDict.ChildCount - 1 do begin
-      NameSpaceItem := fNameSpaceDict.ChildNode[i];
+  if Assigned(fPyNameSpace) then begin
+    if lookup <> '' then begin
+      // fNameSpace corresponds to a python object not a dict
+      fPyNameSpace.ExpandCommonTypes := True;
+      fPyNameSpace.ExpandSequences := False;
+    end;
+    for i := 0 to fPyNameSpace.ChildCount - 1 do begin
+      NameSpaceItem := fPyNameSpace.ChildNode[i];
       fNameSpace.AddObject(NameSpaceItem.Name, NameSpaceItem);
     end;
   end;
-  if (Index <= 0) and PyIDEOptions.CompleteKeywords then begin
+  if (lookup = '') and PyIDEOptions.CompleteKeywords then begin
+    // only add keywords to the completion of the global namespace
     Keywords := Import('keyword').kwlist;
     Keywords := BuiltinModule.tuple(Keywords);
     KeywordList := TStringList.Create;

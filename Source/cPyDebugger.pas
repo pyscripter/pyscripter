@@ -247,7 +247,7 @@ begin
   else begin
     SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
     try
-      Result := TPyInternalInterpreter(PyControl.InternalInterpreter).PyInteractiveInterpreter.membercount(fPyObject, True,
+      Result := TPyInternalInterpreter(PyControl.InternalInterpreter).PyInteractiveInterpreter.membercount(fPyObject, ExpandSequences,
         ExpandCommonTypes, ExpandSequences);
     except
       Result := 0;
@@ -278,7 +278,7 @@ begin
     GotChildNodes := True;
     SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
     try
-      FullInfoTuple := TPyInternalInterpreter(PyControl.InternalInterpreter).PyInteractiveInterpreter.safegetmembersfullinfo(fPyObject, True,
+      FullInfoTuple := TPyInternalInterpreter(PyControl.InternalInterpreter).PyInteractiveInterpreter.safegetmembersfullinfo(fPyObject, ExpandSequences,
         ExpandCommonTypes, ExpandSequences);
       fChildCount := len(FullInfoTuple);
 
@@ -1177,9 +1177,9 @@ begin
     if Expr <> '' then begin
       //Evaluate the lookup expression and get the hint text
       LookupObj := fII.evalcode(Expr);
-      //Result := TNameSpaceItem.Create(Expr, LookupObj);
-      ItemsDict := fII.safegetmembers(LookupObj);
-      Result := TNameSpaceItem.Create(Expr, ItemsDict);
+      Result := TNameSpaceItem.Create(Expr, LookupObj);
+//      ItemsDict := fII.safegetmembers(LookupObj);
+//      Result := TNameSpaceItem.Create(Expr, ItemsDict);
     end else begin
       ItemsDict := NewPythonDict;
       ItemsDict.update(BuiltinModule.__dict__);
@@ -1187,8 +1187,7 @@ begin
       Result := TNameSpaceItem.Create(Expr, ItemsDict);
     end;
   except
-    ItemsDict := NewPythonDict;
-    Result := TNameSpaceItem.Create(Expr, ItemsDict);
+    Result := TNameSpaceItem.Create(Expr, None);
   end;
 end;
 

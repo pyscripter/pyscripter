@@ -219,7 +219,7 @@ begin
       fRemotePython.CheckConnected;
       SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
       try
-        Result := fRemotePython.RPI.membercount(fPyObject, True, ExpandCommonTypes, ExpandSequences);
+        Result := fRemotePython.RPI.membercount(fPyObject, ExpandSequences, ExpandCommonTypes, ExpandSequences);
       except
         Result := 0;
       end;
@@ -243,11 +243,11 @@ begin
     SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
     try
       if IsProxy then
-        FullInfoTuple := fRemotePython.RPI.safegetmembersfullinfo(fPyObject, True,
+        FullInfoTuple := fRemotePython.RPI.safegetmembersfullinfo(fPyObject, ExpandSequences,
           ExpandCommonTypes, ExpandSequences)
       else
-        FullInfoTuple := TPyInternalInterpreter(PyControl.InternalInterpreter).PyInteractiveInterpreter.safegetmembersfullinfo(fPyObject, True,
-          ExpandCommonTypes, ExpandSequences);
+        FullInfoTuple := TPyInternalInterpreter(PyControl.InternalInterpreter).PyInteractiveInterpreter.safegetmembersfullinfo(fPyObject,
+          ExpandSequences, ExpandCommonTypes, ExpandSequences);
       fChildCount := len(FullInfoTuple);
 
       if fChildCount > 0 then begin
@@ -727,9 +727,9 @@ begin
     if Expr <> '' then begin
       //Evaluate the lookup expression
       LookupObj := RPI.evalcode(Expr);
-      //Result := TRemNameSpaceItem.Create(Expr, LookupObj, Self);
-      ItemsDict := RPI.safegetmembers(LookUpObj);
-      Result := TRemNameSpaceItem.Create(Expr, ItemsDict, Self);
+      Result := TRemNameSpaceItem.Create(Expr, LookupObj, Self);
+//      ItemsDict := RPI.safegetmembers(LookUpObj);
+//      Result := TRemNameSpaceItem.Create(Expr, ItemsDict, Self);
     end else begin
 //      BuiltinDict := RPI.ImmDict(Conn.modules.__builtin__.__dict__);
 //      BuiltinDict.update(RPI.ImmDict(RPI.evalcode('vars()')));
