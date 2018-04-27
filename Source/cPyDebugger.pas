@@ -297,11 +297,11 @@ begin
           NameSpaceItem.ExpandCommonTypes := ExpandCommonTypes;
           NameSpaceItem.ExpandSequences := ExpandSequences;
 
-          NameSpaceItem.BufferedValue := PyString_AsWideString(PyTuple_GetItem(PyFullInfo, 1));
-          NameSpaceItem.GotBufferedValue := True;
-          NameSpaceItem.fObjectType := PyString_AsWideString(PyTuple_GetItem(PyFullInfo, 2));
-          NameSpaceItem.fObjectInfo := PyInt_AsLong(PyTuple_GetItem(PyFullInfo, 3));
-          NameSpaceItem.fChildCount := PyInt_AsLong(PyTuple_GetItem(PyFullInfo, 4));
+          //NameSpaceItem.BufferedValue := PyString_AsWideString(PyTuple_GetItem(PyFullInfo, 1));
+          //NameSpaceItem.GotBufferedValue := True;
+          NameSpaceItem.fObjectType := PyString_AsWideString(PyTuple_GetItem(PyFullInfo, 1));
+          NameSpaceItem.fObjectInfo := PyInt_AsLong(PyTuple_GetItem(PyFullInfo, 2));
+          NameSpaceItem.fChildCount := PyInt_AsLong(PyTuple_GetItem(PyFullInfo, 3));
 
           fChildNodes.AddObject(ObjName, NameSpaceItem);
         end;

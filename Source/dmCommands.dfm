@@ -72,7 +72,7 @@ object CommandsDataModule: TCommandsDataModule
     Left = 32
     Top = 241
     Bitmap = {
-      494C01010A000D00240010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C01010A000D00280010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -891,7 +891,7 @@ object CommandsDataModule: TCommandsDataModule
           '                res = res | 16'
           '            elif inspect.isclass(ob):'
           '                res = res | 32'
-          '            if isinstance(ob, dict):'
+          '            elif isinstance(ob, dict):'
           '                res = res | 64'
           '            return res'
           '        except:'
@@ -970,8 +970,8 @@ object CommandsDataModule: TCommandsDataModule
           '            d = {}'
           '            for (i,j) in members.items():'
           
-            '                d[i] = (j, self.saferepr(j), self.objecttype(j),' +
-            ' self.objectinfo(j),'
+            '                d[i] = (j, self.objecttype(j), self.objectinfo(j' +
+            '),'
           
             '                            self.membercount(j, dictitems, expan' +
             'dcommontypes, sequenceitems))'
@@ -1450,7 +1450,7 @@ object CommandsDataModule: TCommandsDataModule
           '                res = res | 16'
           '            elif inspect.isclass(ob):'
           '                res = res | 32'
-          '            if isinstance(ob, dict):'
+          '            elif isinstance(ob, dict):'
           '                res = res | 64'
           '            return res'
           '        except:'
@@ -1529,8 +1529,8 @@ object CommandsDataModule: TCommandsDataModule
           '            d = {}'
           '            for (i,j) in members.items():'
           
-            '                d[i] = (j, self.saferepr(j), self.objecttype(j),' +
-            ' self.objectinfo(j),'
+            '                d[i] = (j, self.objecttype(j), self.objectinfo(j' +
+            '),'
           
             '                            self.membercount(j, dictitems, expan' +
             'dcommontypes, sequenceitems))'
@@ -2185,8 +2185,8 @@ object CommandsDataModule: TCommandsDataModule
           '            d = {}'
           '            for (i,j) in members.items():'
           
-            '                d[i] = (j, self.saferepr(j), self.objecttype(j),' +
-            ' self.objectinfo(j),'
+            '                d[i] = (j, self.objecttype(j), self.objectinfo(j' +
+            '),'
           
             '                            self.membercount(j, dictitems, expan' +
             'dcommontypes, sequenceitems))'
@@ -2497,7 +2497,7 @@ object CommandsDataModule: TCommandsDataModule
           '                res = res | 16'
           '            elif inspect.isclass(ob):'
           '                res = res | 32'
-          '            if isinstance(ob, dict):'
+          '            elif isinstance(ob, dict):'
           '                res = res | 64'
           '            return res'
           '        except:'
@@ -3084,8 +3084,8 @@ object CommandsDataModule: TCommandsDataModule
           '            d = {}'
           '            for (i,j) in members.items():'
           
-            '                d[i] = (j, self.saferepr(j), self.objecttype(j),' +
-            ' self.objectinfo(j),'
+            '                d[i] = (j, self.objecttype(j), self.objectinfo(j' +
+            '),'
           
             '                            self.membercount(j, dictitems, expan' +
             'dcommontypes, sequenceitems))'
@@ -3376,7 +3376,7 @@ object CommandsDataModule: TCommandsDataModule
           '                res = res | 16'
           '            elif inspect.isclass(ob):'
           '                res = res | 32'
-          '            if isinstance(ob, dict):'
+          '            elif isinstance(ob, dict):'
           '                res = res | 64'
           '            return res'
           '        except:'
@@ -4746,7 +4746,7 @@ object CommandsDataModule: TCommandsDataModule
     Left = 36
     Top = 194
     Bitmap = {
-      494C01019A009D00240010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C01019A009D00280010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000007002000001002000000000000070
       0200000000000000000000000000000000000000000000000000000000000000
       00000000000000000000000000000001001C010100200000000C000000000000

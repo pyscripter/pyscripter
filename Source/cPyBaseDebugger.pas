@@ -439,20 +439,22 @@ end;
 procedure TBaseNameSpaceItem.CompareToOldItem(OldItem: TBaseNameSpaceItem);
 var
   i, Index : integer;
-  Child : TBaseNameSpaceItem;
+  Child, OldChild : TBaseNameSpaceItem;
 begin
   if OldItem.GotBufferedValue then begin
     if OldItem.BufferedValue <> Value then
       Attributes := [nsaChanged];
   end;
-  if OldItem.GotChildNodes then begin
+  if OldItem.GotBufferedValue and OldItem.GotChildNodes then begin
     GetChildNodes;
     for i := 0 to ChildCount - 1 do begin
       Child := ChildNode[i];
       Index := OldItem.IndexOfChild(Child.Name);
-      if Index >= 0 then
-        Child.CompareToOldItem(OldItem.ChildNode[Index])
-      else
+      if Index >= 0 then begin
+        OldChild := OldItem.ChildNode[Index];
+        if OldChild.GotBufferedValue then
+          Child.CompareToOldItem(OldChild);
+      end else
         Child.Attributes := [nsaNew];
     end;
   end;

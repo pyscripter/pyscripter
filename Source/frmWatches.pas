@@ -447,8 +447,9 @@ begin
     // Do not use ReinitNode because it Reinits non-expanded children
     // potentially leading to deep recursion
     WatchesView.ReinitInitializedChildren(nil, True);
+    // No need to initialize nodes they will be initialized as needed
     // The following initializes non-initialized nodes without expansion
-    WatchesView.InitRecursive(nil);
+    //WatchesView.InitRecursive(nil);
     WatchesView.InvalidateToBottom(WatchesView.GetFirstVisible);
  finally
     WatchesView.EndUpdate;

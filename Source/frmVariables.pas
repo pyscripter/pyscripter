@@ -338,8 +338,9 @@ begin
       // Do not use ReinitNode because it Reinits non-expanded children
       // potentially leading to deep recursion
       VariablesTree.ReinitInitializedChildren(nil, True);
+      // No need to initialize nodes they will be initialized as needed
       // The following initializes non-initialized nodes without expansion
-      VariablesTree.InitRecursive(nil);
+      // VariablesTree.InitRecursive(nil);
       VariablesTree.InvalidateToBottom(VariablesTree.GetFirstVisible);
     finally
       VariablesTree.EndUpdate;
