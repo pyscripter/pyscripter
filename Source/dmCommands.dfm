@@ -72,7 +72,7 @@ object CommandsDataModule: TCommandsDataModule
     Left = 32
     Top = 241
     Bitmap = {
-      494C01010A000D00280010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C01010A000D002C0010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -971,10 +971,7 @@ object CommandsDataModule: TCommandsDataModule
           '            for (i,j) in members.items():'
           
             '                d[i] = (j, self.objecttype(j), self.objectinfo(j' +
-            '),'
-          
-            '                            self.membercount(j, dictitems, expan' +
-            'dcommontypes, sequenceitems))'
+            '))'
           '            if sequenceitems and isinstance(ob, (list, tuple)):'
           
             '                return tuple(sorted(d.items(), key = lambda r: i' +
@@ -1530,10 +1527,7 @@ object CommandsDataModule: TCommandsDataModule
           '            for (i,j) in members.items():'
           
             '                d[i] = (j, self.objecttype(j), self.objectinfo(j' +
-            '),'
-          
-            '                            self.membercount(j, dictitems, expan' +
-            'dcommontypes, sequenceitems))'
+            '))'
           '            if sequenceitems and isinstance(ob, (list, tuple)):'
           
             '                return tuple(sorted(d.items(), key = lambda r: i' +
@@ -2186,10 +2180,7 @@ object CommandsDataModule: TCommandsDataModule
           '            for (i,j) in members.items():'
           
             '                d[i] = (j, self.objecttype(j), self.objectinfo(j' +
-            '),'
-          
-            '                            self.membercount(j, dictitems, expan' +
-            'dcommontypes, sequenceitems))'
+            '))'
           '            if sequenceitems and isinstance(ob, (list, tuple)):'
           
             '                return tuple(sorted(d.items(), key = lambda r: i' +
@@ -2579,15 +2570,14 @@ object CommandsDataModule: TCommandsDataModule
             'ys.stdout)'
           ''
           '    def setupdisplayhook(self):'
-          '        if pyscripter.IDEOptions.PrettyPrintOutput:'
-          '            import sys, pprint, __builtin__'
+          '        import sys, pprint, __builtin__'
           
-            '            def pphook(value, show=pprint.pprint, bltin=__builti' +
-            'n__):'
-          '                if value is not None:'
-          '                    bltin._ = value'
-          '                    show(value)'
-          '            sys.displayhook = pphook'
+            '        def pphook(value, show=pprint.pprint, bltin=__builtin__)' +
+            ':'
+          '            if value is not None:'
+          '                bltin._ = value'
+          '                show(value)'
+          '        sys.displayhook = pphook'
           ''
           '    def Win32RawInput(self, prompt=None):'
           '        "Provide raw_input() for gui apps"'
@@ -3458,15 +3448,12 @@ object CommandsDataModule: TCommandsDataModule
             'ys.stdout)'
           ''
           '    def setupdisplayhook(self):'
-          '        if pyscripter.IDEOptions.PrettyPrintOutput:'
-          '            import sys, pprint, builtins'
-          
-            '            def pphook(value, show=pprint.pprint, bltin=builtins' +
-            '):'
-          '                if value is not None:'
-          '                    bltin._ = value'
-          '                    show(value)'
-          '            sys.displayhook = pphook'
+          '        import sys, pprint, builtins'
+          '        def pphook(value, show=pprint.pprint, bltin=builtins):'
+          '            if value is not None:'
+          '                bltin._ = value'
+          '                show(value)'
+          '        sys.displayhook = pphook'
           ''
           '    def Win32RawInput(self, prompt=None):'
           '        "Provide raw_input() for gui apps"'
@@ -4746,7 +4733,7 @@ object CommandsDataModule: TCommandsDataModule
     Left = 36
     Top = 194
     Bitmap = {
-      494C01019A009D00280010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C01019A009D002C0010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000007002000001002000000000000070
       0200000000000000000000000000000000000000000000000000000000000000
       00000000000000000000000000000001001C010100200000000C000000000000

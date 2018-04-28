@@ -27,16 +27,16 @@ inherited AboutBox: TAboutBox
     Font.Style = []
     ParentColor = True
     ParentFont = False
-    ActiveTabIndex = 0
+    ActiveTabIndex = 1
     TabBackgroundBorders = True
     TabPosition = ttpBottom
     HiddenItems = <>
     object tbAbout: TSpTBXTabItem
       Caption = 'About'
-      Checked = True
     end
     object tbCredits: TSpTBXTabItem
       Caption = 'Credits'
+      Checked = True
     end
     object tbLinks: TSpTBXTabItem
       Caption = 'Links'
@@ -63,58 +63,6 @@ inherited AboutBox: TAboutBox
         ParentFont = False
         TabOrder = 0
         Zoom = 100
-      end
-    end
-    object SpTBXTabSheet2: TSpTBXTabSheet
-      Left = 0
-      Top = 0
-      Width = 382
-      Height = 236
-      Caption = 'Credits'
-      ImageIndex = -1
-      TabItem = 'tbCredits'
-      object ScrollBox: TSpTBXPageScroller
-        Left = 2
-        Top = 4
-        Width = 376
-        Height = 232
-        Align = alClient
-        ButtonSize = 14
-        Color = clBtnFace
-        DoubleBuffered = True
-        Ctl3D = False
-        ParentColor = False
-        ParentCtl3D = False
-        TabOrder = 0
-        object Panel2: TPanel
-          Left = 0
-          Top = 0
-          Width = 376
-          Height = 89
-          Align = alTop
-          AutoSize = True
-          BevelOuter = bvNone
-          TabOrder = 0
-          object reCredits: TRichEdit
-            Left = 0
-            Top = 0
-            Width = 376
-            Height = 89
-            Align = alTop
-            BevelEdges = []
-            BevelInner = bvNone
-            BevelOuter = bvNone
-            Font.Charset = ANSI_CHARSET
-            Font.Color = clBtnText
-            Font.Height = -12
-            Font.Name = 'MS Shell Dlg 2'
-            Font.Style = []
-            ParentFont = False
-            TabOrder = 0
-            Zoom = 100
-            OnResizeRequest = reCreditsResizeRequest
-          end
-        end
       end
     end
     object SpTBXTabSheet1: TSpTBXTabSheet
@@ -1578,6 +1526,57 @@ inherited AboutBox: TAboutBox
           ParentFont = False
           WordWrap = True
           OnClick = Panel1Click
+        end
+      end
+    end
+    object SpTBXTabSheet2: TSpTBXTabSheet
+      Left = 0
+      Top = 0
+      Width = 382
+      Height = 236
+      Caption = 'Credits'
+      ImageIndex = -1
+      TabItem = 'tbCredits'
+      object ScrollBox: TSpTBXPageScroller
+        Left = 2
+        Top = 4
+        Width = 376
+        Height = 232
+        Align = alClient
+        Color = clBtnFace
+        DoubleBuffered = True
+        Ctl3D = False
+        ParentColor = False
+        ParentCtl3D = False
+        TabOrder = 0
+        ExplicitLeft = 3
+        ExplicitTop = 3
+        object Panel2: TPanel
+          Left = 0
+          Top = 0
+          Width = 376
+          Height = 89
+          Align = alTop
+          AutoSize = True
+          BevelOuter = bvNone
+          TabOrder = 0
+          object reCredits: TRichEdit
+            Left = 0
+            Top = 0
+            Width = 376
+            Height = 89
+            Align = alTop
+            BorderStyle = bsNone
+            Font.Charset = ANSI_CHARSET
+            Font.Color = clBtnText
+            Font.Height = -12
+            Font.Name = 'MS Shell Dlg 2'
+            Font.Style = []
+            ParentFont = False
+            TabOrder = 0
+            Zoom = 100
+            OnResizeRequest = reCreditsResizeRequest
+          end
         end
       end
     end

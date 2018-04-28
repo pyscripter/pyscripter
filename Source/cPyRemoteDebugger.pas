@@ -269,10 +269,10 @@ begin
 //          NameSpaceItem.GotBufferedValue := True;
           NameSpaceItem.fObjectType := PyString_AsWideString(PyTuple_GetItem(PyFullInfo, 1));
           NameSpaceItem.fObjectInfo := PyInt_AsLong(PyTuple_GetItem(PyFullInfo, 2));
-          if NameSpaceItem.IsProxy then
-            NameSpaceItem.fChildCount := PyInt_AsLong(PyTuple_GetItem(PyFullInfo, 3))
-          else
-            NameSpaceItem.fChildCount := NameSpaceItem.ChildCount;
+//          if NameSpaceItem.IsProxy then
+//            NameSpaceItem.fChildCount := PyInt_AsLong(PyTuple_GetItem(PyFullInfo, 3))
+//          else
+//            NameSpaceItem.fChildCount := NameSpaceItem.ChildCount;
 
           fChildNodes.AddObject(ObjName, NameSpaceItem);
         end;
@@ -1007,7 +1007,7 @@ var
   I: Integer;
   Source : string;
   InitScriptName : string;
-  PyScripterMod, PySource : Variant;
+  PySource : Variant;
 begin
   Result := False;
 
@@ -1082,12 +1082,13 @@ begin
     RPI.asyncIO();
 //    // Install Rpyc excepthook gets automatically installed
 //    Rpyc.install_rpyc_excepthook;
-    // Execute PyscripterSetup.py here
-    PyScripterMod := Import('pyscripter');
-    Conn.namespace.__setitem__('pyscripter', PyScripterMod);
+
+//    PyScripterMod := Import('pyscripter');
+//    Conn.namespace.__setitem__('pyscripter', PyScripterMod);
 
     // sys.displayhook
-    RPI.setupdisplayhook();
+    if PyIDEOptions.PrettyPrintOutput then
+      RPI.setupdisplayhook();
     GetPythonEngine.CheckError;
 
     Initialize;

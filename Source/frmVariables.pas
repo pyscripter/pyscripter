@@ -123,7 +123,8 @@ var
   Data: PNodeData;
 begin
   Data := Node.GetData;
-  ChildCount := Data.NameSpaceItem.ChildCount;
+  if Assigned(Data.NameSpaceItem) then
+    ChildCount := Data.NameSpaceItem.ChildCount;
 end;
 
 procedure TVariablesWindow.VariablesTreeInitNode(Sender: TBaseVirtualTree;
@@ -133,6 +134,11 @@ var
   Data, ParentData: PNodeData;
 begin
   Data := Node.GetData;
+  if not VariablesTree.Enabled then begin
+    Data.NameSpaceItem := nil;
+    Exit;
+  end;
+
   if VariablesTree.GetNodeLevel(Node) = 0 then begin
     Assert(Node.Index <= 1);
     if CurrentModule <> '' then begin
@@ -198,7 +204,7 @@ var
   Data : PNodeData;
 begin
   Data := Node.GetData;
-  if Assigned(Data) then
+  if VariablesTree.Enabled and Assigned(Data) and Assigned(Data.NameSpaceItem) then
     if nsaChanged in Data.NameSpaceItem.Attributes then
       TargetCanvas.Font.Color := clRed
     else if nsaNew in Data.NameSpaceItem.Attributes then
@@ -242,9 +248,12 @@ end;
 procedure TVariablesWindow.VariablesTreeGetImageIndex(
   Sender: TBaseVirtualTree; Node: PVirtualNode; Kind: TVTImageKind;
   Column: TColumnIndex; var Ghosted: Boolean; var ImageIndex: TImageIndex);
+var
+  Data : PNodeData;
 begin
-  if (Column = 0) and (Kind in [ikNormal, ikSelected]) then begin
-    ImageIndex := PNodeData(Node.GetData).ImageIndex;
+  Data := Node.GetData;
+  if Assigned(Data.NameSpaceItem) and (Column = 0) and (Kind in [ikNormal, ikSelected]) then begin
+    ImageIndex := Data.ImageIndex;
   end else
     ImageIndex := -1;
 end;
@@ -257,12 +266,14 @@ var
 begin
   if TextType <> ttNormal then Exit;
   Data := Node.GetData;
-  if Assigned(Data) then
+  if Assigned(Data) and Assigned(Data.NameSpaceItem) then
     case Column of
       0 : CellText := Data.Name;
       1 : CellText := Data.ObjectType;
       2 : CellText := Data.Value;
-    end;
+    end
+  else
+    CellText := 'NA';
 end;
 
 procedure TVariablesWindow.UpdateWindow;
@@ -275,7 +286,8 @@ begin
   if not (PyControl.InternalPython.Loaded and
           Assigned(CallStackWindow) and
           Assigned(PyControl.ActiveInterpreter) and
-          Assigned(PyControl.ActiveDebugger)) then begin   // Should not happen!
+          Assigned(PyControl.ActiveDebugger)) then
+  begin
      ClearAll;
      Exit;
   end;
@@ -340,7 +352,7 @@ begin
       VariablesTree.ReinitInitializedChildren(nil, True);
       // No need to initialize nodes they will be initialized as needed
       // The following initializes non-initialized nodes without expansion
-      // VariablesTree.InitRecursive(nil);
+      //VariablesTree.InitRecursive(nil);
       VariablesTree.InvalidateToBottom(VariablesTree.GetFirstVisible);
     finally
       VariablesTree.EndUpdate;
@@ -348,7 +360,7 @@ begin
   end else begin
     VariablesTree.Clear;
     VariablesTree.RootNodeCount := RootNodeCount;
-    VariablesTree.InitRecursive(nil);
+    //VariablesTree.InitRecursive(nil);
   end;
   FreeAndNil(OldGlobalsNameSpace);
   FreeAndNil(OldLocalsNameSpace);
@@ -392,6 +404,8 @@ Var
   DocString : string;
   Data : PNodeData;
 begin
+  if not Enabled then Exit;
+
   // Get the selected frame
   if CurrentModule <> '' then
     NameSpace := Format(_(SNamespaceFormat), [CurrentFunction, CurrentModule])

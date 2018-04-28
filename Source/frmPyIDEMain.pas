@@ -1564,15 +1564,6 @@ begin
   else
     PyIDEOptions.Changed;
 
-  // Assign Debugger Events and Load Python Engine
-  with PyControl do begin
-    OnBreakpointChange := DebuggerBreakpointChange;
-    OnCurrentPosChange := DebuggerCurrentPosChange;
-    OnErrorPosChange := DebuggerErrorPosChange;
-    OnStateChange := DebuggerStateChange;
-    OnYield := DebuggerYield;
-  end;
-
   // Read Settings from PyScripter.local.ini
   if FileExists(LocalAppStorage.IniFile.FileName) then
   begin
@@ -4652,12 +4643,21 @@ begin
 
   TThread.ForceQueue(nil, procedure
   begin
+    // Assign Debugger Events and Load Python Engine
     PyControl.LoadPythonEngine;
     // Execute pyscripter_init.py
     RunInitScript;
 
     PyControl.PythonEngineType := PyIDEOptions.PythonEngineType;
     SetupToolsMenu;
+
+    with PyControl do begin
+      OnBreakpointChange := DebuggerBreakpointChange;
+      OnCurrentPosChange := DebuggerCurrentPosChange;
+      OnErrorPosChange := DebuggerErrorPosChange;
+      OnStateChange := DebuggerStateChange;
+      OnYield := DebuggerYield;
+    end;
 
     // This is needed to update the variables window
     PyControl.DoStateChange(dsInactive);
