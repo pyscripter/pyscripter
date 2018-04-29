@@ -46,6 +46,7 @@ type
     fEnvironment : TStrings;
     fUseCustomEnvironment : boolean;
     procedure SetEnvironment(const Value: TStrings);
+    function IsMessageFormatStore: Boolean;
   public
     constructor Create;
     destructor Destroy; override;
@@ -58,7 +59,7 @@ type
     property ApplicationName: string read fApplicationName write fApplicationName;
     property Parameters: string read fParameters write fParameters;
     property WorkingDirectory : string read fWorkingDirectory write fWorkingDirectory;
-    property ShortCut : TShortCut read fShortCut write fShortCut;
+    property ShortCut : TShortCut read fShortCut write fShortCut default 0;
     // External Tool action context (tcAlwaysEnabled, tcActiveFile, tcSelectionAvailable)
     property Context : TToolContext read fContext write fContext
       default tcAlwaysEnabled;
@@ -89,7 +90,8 @@ type
       default False;
     // Grep Expression for the parsing output lines for file/Line/Pos information
     // Can use the parameters $[Filename], $[LineNumber], $[Line], $[Column]
-    property MessagesFormat : string read fMessagesFormat write fMessagesFormat;
+    property MessagesFormat : string read fMessagesFormat write fMessagesFormat
+      stored IsMessageFormatStore;
     // Capture command line output and place it in the Output Window
     property CaptureOutput : Boolean read fCaptureOutput write fCaptureOutput
       default True;
@@ -259,7 +261,7 @@ begin
   fParseMessages := False;
   fContext := tcAlwaysEnabled;
   fSaveFiles := sfNone;
-  fMessagesFormat := GrepFileNameParam + ' '+GrepLineNumberParam;
+  fMessagesFormat := GrepFileNameParam + ' ' + GrepLineNumberParam;
   fEnvironment := TStringList.Create;
 end;
 
@@ -267,6 +269,11 @@ destructor TExternalTool.Destroy;
 begin
   fEnvironment.Free;
   inherited;
+end;
+
+function TExternalTool.IsMessageFormatStore: Boolean;
+begin
+  Result := fParseMessages and (fMessagesFormat <> (GrepFileNameParam + ' ' + GrepLineNumberParam));
 end;
 
 procedure TExternalTool.SetEnvironment(const Value: TStrings);

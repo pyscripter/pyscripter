@@ -184,6 +184,7 @@ type
   published
     property Height stored False;
     property Size stored True;
+    property Style default [];
   end;
 
  TFindInFilesExpert = class(TInterfacedPersistent, IJvAppStorageHandler)

@@ -64,6 +64,7 @@ uses
   SynRegExpr,
   MPShellUtilities,
   MPCommonUtilities,
+  PythonVersions,
   VarPyth,
   JvGnugettext,
   StringResources,
@@ -486,7 +487,7 @@ begin
 
   VersionSuffix := '';
 {$IFDEF CPUX86}
-  if CompareVersion(VersionString, '3.5') >= 0 then
+  if CompareVersions(VersionString, '3.5') <= 0 then
     VersionSuffix := '-32';
 {$ENDIF}
 

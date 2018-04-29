@@ -129,7 +129,7 @@ type
     fCommandHistoryPointer : integer;
     fCommandHistoryPrefix : string;
     fShowOutput : Boolean;
-    FCriticalSection : TCriticalSection;
+    FCriticalSection : TRTLCriticalSection;
     fOutputStream : TMemoryStream;
     fCloseBracketChar: WideChar;
     fOutputMirror : TFileStream;
@@ -280,7 +280,7 @@ Var
   S : AnsiString;
 begin
   if fShowOutput then begin
-    fCriticalSection.Acquire;
+    fCriticalSection.Enter;
     try
       fOutputStream.Write(Data[1], Length (Data) * 2);
       //fOutputStream.Write(sLineBreak[1], Length (sLineBreak) * 2);  RawOutput
@@ -294,7 +294,7 @@ begin
       else
         PostMessage(Handle, WM_APPENDTEXT, 0, 0);
     finally
-      fCriticalSection.Release;
+      fCriticalSection.Leave;
     end;
   end;
 end;
@@ -406,11 +406,11 @@ end;
 
 procedure TPythonIIForm.ClearPendingMessages;
 begin
-  fCriticalSection.Acquire;
+  fCriticalSection.Enter;
   try
     fOutputStream.Clear;
   finally
-    fCriticalSection.Release;
+    fCriticalSection.Leave;
   end;
 end;
 
@@ -430,7 +430,7 @@ var
   WS: string;
 begin
   Assert(GetCurrentThreadId = MainThreadId);
-  fCriticalSection.Acquire;
+  fCriticalSection.Enter;
   try
     if fOutputStream.Size > 0 then begin
       SetLength(WS, fOutputStream.Size div 2);
@@ -440,7 +440,7 @@ begin
       fOutputStream.Size := 0;
     end;
   finally
-    fCriticalSection.Release;
+    fCriticalSection.Leave;
   end;
 end;
 
@@ -504,7 +504,7 @@ begin
 
   fShowOutput := True;
   // For handling output from Python threads
-  FCriticalSection := TCriticalSection.Create;
+  FCriticalSection.Initialize;
   fOutputStream := TMemoryStream.Create;
 
   //  For recalling old commands in Interactive Window;
@@ -523,7 +523,7 @@ end;
 procedure TPythonIIForm.FormDestroy(Sender: TObject);
 begin
   FreeAndNil(fCommandHistory);
-  FreeAndNil(FCriticalSection);
+  FCriticalSection.Destroy;
   FreeAndNil(fOutputStream);
   FreeAndNil(fOutputMirror);
   inherited;
@@ -1361,7 +1361,7 @@ procedure TPythonIIForm.StartOutputMirror(AFileName: string;
 Var
   Mode : integer;
 begin
-  fCriticalSection.Acquire;
+  fCriticalSection.Enter;
   try
     FreeAndNil(fOutputMirror);
     try
@@ -1379,17 +1379,17 @@ begin
       Vcl.Dialogs.MessageDlg(Format(_(SCouldNotOpenOutputFile), [AFileName]), mtWarning, [mbOK], 0);
     end;
   finally
-    fCriticalSection.Release;
+    fCriticalSection.Leave;
   end;
 end;
 
 procedure TPythonIIForm.StopFileMirror;
 begin
-  fCriticalSection.Acquire;
+  fCriticalSection.Enter;
   try
     FreeAndNil(fOutputMirror);
   finally
-    fCriticalSection.Release;
+    fCriticalSection.Leave;
   end;
 end;
 

@@ -263,6 +263,7 @@ initialization
    AddCSSTemplate;
    AddJSTemplate;
    AddPHPTemplate;
+   AddJupyterTemplate;
    AddPlainTextTemplate;
   end
 finalization

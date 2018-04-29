@@ -545,6 +545,7 @@ procedure TJvAppStorageFontPropertyEngine.ReadProperty(
   AProperty: TObject; const Recursive, ClearFirst: Boolean;
   const IgnoreProperties: TStrings);
 begin
+  TFont(AProperty).Style := []; // initialize
   // Font Size is a published property and is read
   AStorage.ReadPersistent(APath, AProperty as TFont, Recursive, ClearFirst,
     TJvAppStorageFontPropertyEngine.FFontIgnoreProperties);
@@ -554,12 +555,19 @@ procedure TJvAppStorageFontPropertyEngine.WriteProperty(
   AStorage: TJvCustomAppStorage; const APath: string; AObject,
   AProperty: TObject; const Recursive: Boolean;
   const IgnoreProperties: TStrings);
+Var
+  Index : Integer;
 begin
+  // Do not save style if empty
+  Index := - 1;
+  if TFont(AProperty).Style = [] then
+    Index := TJvAppStorageFontPropertyEngine.FFontIgnoreProperties.Add('Style');
   AStorage.WritePersistent(APath, AProperty as TFont, Recursive,
     TJvAppStorageFontPropertyEngine.FFontIgnoreProperties);
   AStorage.WriteInteger(APath + '\Size', (AProperty as TFont).Size);
+  if Index >= 0 then
+    TJvAppStorageFontPropertyEngine.FFontIgnoreProperties.Delete(Index);
 end;
-
 
 type
 // Modify JvAppStorage handling of TSynGutter

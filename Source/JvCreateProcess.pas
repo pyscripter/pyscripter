@@ -183,7 +183,7 @@ type
 
     procedure GotoReadyState;
     procedure GotoWaitState(const AThreadCount: Integer);
-    procedure GotoRunningState;
+    //procedure GotoRunningState;
     procedure SetCommandLine(const Value: string);
   protected
     procedure CheckReady;
@@ -280,7 +280,7 @@ type
     FWriteHandle: THandle;
     FWriteEvent: THandle;
     // Critical sections to synchronize access to the buffers
-    FWriteLock: TCriticalSection;
+    FWriteLock: TRTLCriticalSection;
     // Fixed size buffer; maybe change to sizeable
     FOutputBuffer: TJvCPSBuffer;
     FOutputBufferEnd: Cardinal;
@@ -300,7 +300,7 @@ type
     // Read end of the pipe
     FReadHandle: THandle;
     // Critical sections to synchronize access to the buffers
-    FReadLock: TCriticalSection;
+    FReadLock: TRTLCriticalSection;
     // Handle to the TJvCreateProcess
     FDestHandle: THandle;
     FPreBuffer: PAnsiChar;
@@ -818,7 +818,7 @@ begin
   FreeOnTerminate := True;
   Priority := tpLower;
 
-  FReadLock := TCriticalSection.Create;
+  FReadLock.Initialize;
 
   // Note: TJvReadThread is responsible for closing the FReadHandle
   FReadHandle := AReadHandle;
@@ -840,24 +840,24 @@ begin
     thus free them after the destroy.
   }
   FreeMem(FInputBuffer);
-  FReadLock.Free;
+  FReadLock.Destroy;
   FreeMem(FPreBuffer);
 end;
 
 procedure TJvReadThread.CloseRead;
 begin
-  FReadLock.Acquire;
+  FReadLock.Enter;
   try
     SafeCloseHandle(FReadHandle);
   finally
-    FReadLock.Release;
+    FReadLock.Leave;
   end;
 end;
 
 procedure TJvReadThread.CopyToBuffer(Buffer: PAnsiChar; ASize: Cardinal);
 // Copy data in Buffer (with size ASize) to FInputBuffer.
 begin
-  FReadLock.Acquire;
+  FReadLock.Enter;
   try
     if FInputBufferEnd + ASize > FInputBufferSize then
     begin
@@ -877,7 +877,7 @@ begin
     Move(Buffer[0], FInputBuffer[FInputBufferEnd], ASize);
     Inc(FInputBufferEnd, ASize);
   finally
-    FReadLock.Release;
+    FReadLock.Leave;
   end;
 
   // Notify TJvCreateProcess that data has been read from the pipe
@@ -910,7 +910,7 @@ function TJvReadThread.ReadBuffer(var ABuffer: TJvCPSBuffer;
 // This function is executed in the context of the main thread;
 // FReadLock is for synchronization with the read thread.
 begin
-  FReadLock.Acquire;
+  FReadLock.Enter;
   try
     Result := FInputBufferEnd > 0;
     if not Result then
@@ -929,7 +929,7 @@ begin
 
     Dec(FInputBufferEnd, ABufferSize);
   finally
-    FReadLock.Release;
+    FReadLock.Leave;
   end;
 end;
 
@@ -946,7 +946,7 @@ constructor TJvConsoleThread.Create(ProcessHandle: DWORD;
 begin
   inherited Create(ProcessHandle);
 
-  FWriteLock := TCriticalSection.Create;
+  FWriteLock.Initialize;
 
   // Note: TJvConsoleThread is responsible for closing the FWriteHandle
   FWriteHandle := AWriteHandle;
@@ -968,16 +968,16 @@ begin
     OnTerminate event and the following fields can be accessed in the handler,
     thus free them after the destroy.
   }
-  FWriteLock.Free;
+  FWriteLock.Destroy;
 end;
 
 procedure TJvConsoleThread.CloseWrite;
 begin
-  FWriteLock.Acquire;
+  FWriteLock.Enter;
   try
     SafeCloseHandle(FWriteHandle);
   finally
-    FWriteLock.Release;
+    FWriteLock.Leave;
   end;
 end;
 
@@ -1024,7 +1024,7 @@ var
   BytesWritten: Cardinal;
   BytesToWrite: Cardinal;
 begin
-  FWriteLock.Acquire;
+  FWriteLock.Enter;
   try
     try
       { Check handle inside lock, because it can be closed by another thread, by
@@ -1062,7 +1062,7 @@ begin
         ResetEvent(FWriteEvent);
     end;
   finally
-    FWriteLock.Release;
+    FWriteLock.Leave;
   end;
 end;
 
@@ -1077,7 +1077,7 @@ begin
     Exit;
   end;
 
-  FWriteLock.Acquire;
+  FWriteLock.Enter;
   try
     Result := FWriteHandle <> 0;
     if not Result then
@@ -1094,7 +1094,7 @@ begin
       // Notify the TJvConsoleThread that there is some data to write
       SetEvent(FWriteEvent);
   finally
-    FWriteLock.Release;
+    FWriteLock.Leave;
   end;
 end;
 
@@ -1230,12 +1230,12 @@ begin
   FRunningThreadCount := 0;
 end;
 
-procedure TJvCreateProcess.GotoRunningState;
-begin
-  CheckReady;
-  FState := psRunning;
-  CloseProcessHandles;
-end;
+//procedure TJvCreateProcess.GotoRunningState;
+//begin
+//  CheckReady;
+//  FState := psRunning;
+//  CloseProcessHandles;
+//end;
 
 procedure TJvCreateProcess.GotoWaitState(const AThreadCount: Integer);
 begin

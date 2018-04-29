@@ -1273,6 +1273,7 @@ uses
   SynEditKeyCmds,
   SynCompletionProposal,
   PythonEngine,
+  PythonVersions,
   JvGnugettext,
   StringResources,
   uCmdLine,
@@ -3051,14 +3052,12 @@ begin
     AppStorage.WriteString('PyScripter Version', ApplicationVersion);
     AppStorage.WriteString('Language', GetCurrentLanguage);
 
-    AppStorage.StorageOptions.StoreDefaultValues := True;
     // UnScale and Scale back
     PyIDEOptions.CodeFolding.GutterShapeSize :=
       PPIUnScaled(PyIDEOptions.CodeFolding.GutterShapeSize);
     AppStorage.WritePersistent('IDE Options', PyIDEOptions);
     PyIDEOptions.CodeFolding.GutterShapeSize :=
       PPIScaled(PyIDEOptions.CodeFolding.GutterShapeSize);
-    AppStorage.StorageOptions.StoreDefaultValues := False;
 
     with CommandsDataModule do begin
       AppStorage.DeleteSubTree('Editor Options');
@@ -3204,12 +3203,13 @@ begin
     PyIDEOptions.CodeFolding.GutterShapeSize :=
       PPIScaled(PyIDEOptions.CodeFolding.GutterShapeSize);
     PyIDEOptions.Changed;
+    AppStorage.DeleteSubTree('IDE Options');
   end;
   if AppStorage.PathExists('Editor Options') then
     with CommandsDataModule do begin
       EditorOptions.Gutter.Gradient := False;  //default value
       AppStorage.ReadPersistent('Editor Options', EditorOptions);
-      if (CompareVersion(PyScripterVersion, '3.1') < 0) then
+      if (CompareVersions(PyScripterVersion, '3.1') > 0) then
       begin
         if  (EditorOptions.Keystrokes.FindCommand(ecFoldAll) < 0) then
         with EditorOptions.Keystrokes do begin
