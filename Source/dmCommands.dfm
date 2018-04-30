@@ -72,7 +72,7 @@ object CommandsDataModule: TCommandsDataModule
     Left = 32
     Top = 241
     Bitmap = {
-      494C01010A000D002C0010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C01010A000D00300010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -2530,7 +2530,7 @@ object CommandsDataModule: TCommandsDataModule
           '##            return getattr(self._stream, attr)'
           ''
           '        def flush(self):'
-          '            pass'
+          '            self.print_queue.join()'
           ''
           '        def readline(self, size=None):'
           '            try:'
@@ -3075,10 +3075,7 @@ object CommandsDataModule: TCommandsDataModule
           '            for (i,j) in members.items():'
           
             '                d[i] = (j, self.objecttype(j), self.objectinfo(j' +
-            '),'
-          
-            '                            self.membercount(j, dictitems, expan' +
-            'dcommontypes, sequenceitems))'
+            '))'
           '            if sequenceitems and isinstance(ob, (list, tuple)):'
           
             '                return tuple(sorted(d.items(), key = lambda r: i' +
@@ -3408,7 +3405,7 @@ object CommandsDataModule: TCommandsDataModule
           '##            return getattr(self._stream, attr)'
           ''
           '        def flush(self):'
-          '            pass'
+          '            self.print_queue.join()'
           ''
           '        def readline(self, size=None):'
           '            try:'
@@ -4733,7 +4730,7 @@ object CommandsDataModule: TCommandsDataModule
     Left = 36
     Top = 194
     Bitmap = {
-      494C01019A009D002C0010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C01019A009D00300010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000007002000001002000000000000070
       0200000000000000000000000000000000000000000000000000000000000000
       00000000000000000000000000000001001C010100200000000C000000000000
