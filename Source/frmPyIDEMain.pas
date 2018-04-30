@@ -1251,6 +1251,7 @@ var
 implementation
 
 uses
+  Winapi.ShellAPI,
   System.Contnrs,
   System.Math,
   System.IniFiles,
@@ -1301,6 +1302,7 @@ uses
   frmUnitTests,
   frmToDo,
   frmFindResults,
+  frmWebPreview,
   frmModSpTBXCustomize,
   cTools,
   cParameters,
@@ -1308,9 +1310,7 @@ uses
   cFilePersist,
   cCodeHint,
   cPyRemoteDebugger,
-  cProjectClasses,
-  Winapi.ShellAPI,
-  frmWebPreview;
+  cProjectClasses;
 
 {$R *.DFM}
 
@@ -1538,7 +1538,7 @@ begin
   FindResultsWindow.PopupParent := Self;
   ProjectExplorerWindow := TProjectExplorerWindow.Create(Self);
   ProjectExplorerWindow.PopupParent := Self;
-  OutputDebugString(PWideChar(Format('%s ElapsedTime %d ms', ['After All Forms', StopWatch.ElapsedMilliseconds])));
+  //OutputDebugString(PWideChar(Format('%s ElapsedTime %d ms', ['After All Forms', StopWatch.ElapsedMilliseconds])));
 
   // And now translate after all the docking forms have been created
   // They will be translated as well
@@ -1582,7 +1582,7 @@ begin
      LocalAppStorage.PathExists('Layouts\Current\Forms') then
   begin
     try
-      OutputDebugString(PWideChar(Format('%s ElapsedTime %d ms', ['Before LoadLayout', StopWatch.ElapsedMilliseconds])));
+      //OutputDebugString(PWideChar(Format('%s ElapsedTime %d ms', ['Before LoadLayout', StopWatch.ElapsedMilliseconds])));
       LoadLayout('Current');
       //(PWideChar(Format('%s ElapsedTime %d ms', ['After LoadLayout', StopWatch.ElapsedMilliseconds])));
     except
@@ -1620,7 +1620,6 @@ begin
   Application.OnActionUpdate := ApplicationActionUpdate;
   Application.OnActionExecute := ApplicationActionExecute;
 
-  UpdateDebugCommands(PyControl.DebuggerState);
   //  Editor Views Menu
   GI_EditorFactory.SetupEditorViewMenu;
 
@@ -4608,7 +4607,7 @@ end;
 
 procedure TPyIDEMainForm.FormShow(Sender: TObject);
 begin
-  OutputDebugString(PWideChar(Format('%s ElapsedTime %d ms', ['FormShow start', StopWatch.ElapsedMilliseconds])));
+  //OutputDebugString(PWideChar(Format('%s ElapsedTime %d ms', ['FormShow start', StopWatch.ElapsedMilliseconds])));
   if PyIDEOptions.AutoCheckForUpdates and
     (DaysBetween(Now, PyIDEOptions.DateLastCheckedForUpdates) >=
       PyIDEOptions.DaysBetweenChecks) and ConnectedToInternet
@@ -4663,7 +4662,9 @@ begin
     PyControl.DoStateChange(dsInactive);
   end);
 
-  OutputDebugString(PWideChar(Format('%s ElapsedTime %d ms', ['FormShow end', StopWatch.ElapsedMilliseconds])));
+  // Do not execute again
+  OnShow := nil;
+  //OutputDebugString(PWideChar(Format('%s ElapsedTime %d ms', ['FormShow end', StopWatch.ElapsedMilliseconds])));
 end;
 
 procedure TPyIDEMainForm.JvAppInstancesCmdLineReceived(Sender: TObject;

@@ -256,6 +256,24 @@ Type
   end;
 
   (*
+    Multiple Read Exclusive Write lock based on Windows slim reader/writer
+    (SRW) Locks.  Can be also used instead of a critical session.
+    Limitations: non-reentrant, not "fair"
+  *)
+  TSlimMREWSync = record
+  private
+    Lock: TRTLSRWLock;
+  public
+    procedure Create;
+    procedure BeginRead;
+    procedure EndRead;
+    procedure BeginWrite;
+    procedure EndWrite;
+    function TryRead: Boolean;
+    function TryWrite: Boolean;
+  end;
+
+  (*
     Interfaced based Timer that can be used with anonymous methods
      Developed by  : Nuno Picado (https://github.com/nunopicado/Reusable-Objects)
   *)
@@ -2026,6 +2044,43 @@ begin
 end;
 
 
+{ TSMREWSync }
+
+procedure TSlimMREWSync.BeginRead;
+begin
+  AcquireSRWLockShared(Lock);
+end;
+
+procedure TSlimMREWSync.BeginWrite;
+begin
+  AcquireSRWLockExclusive(Lock);
+end;
+
+procedure TSlimMREWSync.Create;
+begin
+  InitializeSRWLock(Lock);
+end;
+
+procedure TSlimMREWSync.EndRead;
+begin
+  ReleaseSRWLockShared(Lock);
+end;
+
+procedure TSlimMREWSync.EndWrite;
+begin
+  ReleaseSRWLockExclusive(Lock);
+end;
+
+function TSlimMREWSync.TryRead: Boolean;
+begin
+  Result := TryAcquireSRWLockShared(Lock);
+end;
+
+function TSlimMREWSync.TryWrite: Boolean;
+begin
+  Result := TryAcquireSRWLockExclusive(Lock);
+end;
+
 { ITimer implementation }
 type
   TTimer = class(TInterfacedObject, ITimer)
@@ -2042,7 +2097,6 @@ type
     function Stop: ITimer;
     function Restart: ITimer;
   end;
-
 
 { TTimer }
 
