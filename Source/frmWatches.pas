@@ -159,10 +159,11 @@ var
   Data, ParentData: PWatchRec;
 begin
   Data := Node.GetData;
+
   if WatchesView.GetNodeLevel(Node) = 0 then
   begin
     Assert(Integer(Node.Index) < fWatchesList.Count);
-    Data.NS := TWatchInfo(fWatchesList[Node.Index]).fNS;
+    //Data.NS := TWatchInfo(fWatchesList[Node.Index]).fNS;
     if Assigned(Data.NS) then
       ChildCount := Data.NS.ChildCount
     else
@@ -185,6 +186,12 @@ var
   ChildCount : integer;
 begin
   Data := Node.GetData;
+  if not WatchesView.Enabled then
+  begin
+    Data.NS := nil;
+    ChildCount := 0;
+  end
+  else
   if WatchesView.GetNodeLevel(Node) = 0 then
   begin
     Assert(Integer(Node.Index) < fWatchesList.Count);
@@ -212,8 +219,10 @@ begin
      Data.ObjectType := Data.NS.ObjectType;
      Data.Value := Data.NS.Value;
   end else begin
-    Assert(WatchesView.GetNodeLevel(Node) = 0);
-    Data.Name  := TWatchInfo(fWatchesList[Node.Index]).Watch;
+    if WatchesView.GetNodeLevel(Node) = 0 then
+      Data.Name  := TWatchInfo(fWatchesList[Node.Index]).Watch
+    else
+      Data.Name := _(SNotAvailable);
     Data.ObjectType := _(SNotAvailable);
     Data.Value := _(SNotAvailable);
   end;
@@ -395,8 +404,7 @@ var
 begin
   if (Column = 0) and (Kind in [ikNormal, ikSelected]) then begin
     Data := Node.GetData;
-    if Assigned(Data) then
-      ImageIndex := Data.ImageIndex;
+    ImageIndex := Data.ImageIndex;
   end;
 end;
 

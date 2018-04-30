@@ -764,7 +764,7 @@ Var
   Data : PNodeDataRec;
   SingleNodeSelected : Boolean;
 begin
-   actProjectExtraPythonPath.Enabled := not PyControl.Running;
+   actProjectExtraPythonPath.Enabled := PyControl.InternalPython.Loaded and not PyControl.Running;
    // We update project actions here based on selection
    SingleNodeSelected := Assigned(Node) and
      (Length(ExplorerTree.GetSortedSelection(False)) = 1);

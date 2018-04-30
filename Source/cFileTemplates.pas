@@ -43,6 +43,8 @@ Type
     procedure AddPlainTextTemplate;
     procedure Assign(Source: TFileTemplates);
     function TemplateByName(const Name : string) : TFileTemplate;
+    function TemplateByExt(const Ext : string) : TFileTemplate;
+    procedure AddDefaultTemplates(NoCheck: Boolean= False);
   end;
 
 var
@@ -129,6 +131,19 @@ begin
   FileTemplate.Highlighter := 'Cython';
   FileTemplate.Template := _(SPythonFileTemplate);
   Add(FileTemplate);
+end;
+
+procedure TFileTemplates.AddDefaultTemplates(NoCheck: Boolean);
+begin
+   if NoCheck or not Assigned(TemplateByExt('py')) then AddPythonTemplate;
+   if NoCheck or not Assigned(TemplateByExt('pyx')) then AddCythonTemplate;
+   if NoCheck or not Assigned(TemplateByExt('htm')) then AddHTMLTemplate;
+   if NoCheck or not Assigned(TemplateByExt('xml')) then AddXMLTemplate;
+   if NoCheck or not Assigned(TemplateByExt('css')) then AddCSSTemplate;
+   if NoCheck or not Assigned(TemplateByExt('js')) then AddJSTemplate;
+   if NoCheck or not Assigned(TemplateByExt('php')) then AddPHPTemplate;
+   if NoCheck or not Assigned(TemplateByExt('ipynb')) then AddJupyterTemplate;
+   if NoCheck or not Assigned(TemplateByExt('txt')) then AddPlainTextTemplate;
 end;
 
 procedure TFileTemplates.AddHTMLTemplate;
@@ -241,6 +256,18 @@ begin
   Result := TFileTemplate.Create;
 end;
 
+function TFileTemplates.TemplateByExt(const Ext: string): TFileTemplate;
+var
+  i: Integer;
+begin
+ Result := nil;
+ for i := 0 to Count - 1 do
+   if TFileTemplate(Items[i]).Extension = Ext then begin
+     Result := TFileTemplate(Items[i]);
+     break;
+   end;
+end;
+
 function TFileTemplates.TemplateByName(const Name: string): TFileTemplate;
 var
   i: Integer;
@@ -255,17 +282,7 @@ end;
 
 initialization
   FileTemplates := TFileTemplates.Create(True);
-  with FileTemplates do begin
-   AddPythonTemplate;
-   AddCythonTemplate;
-   AddHTMLTemplate;
-   AddXMLTemplate;
-   AddCSSTemplate;
-   AddJSTemplate;
-   AddPHPTemplate;
-   AddJupyterTemplate;
-   AddPlainTextTemplate;
-  end
+  FileTemplates.AddDefaultTemplates(True);
 finalization
   FileTemplates.Free;
 end.

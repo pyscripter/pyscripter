@@ -45,10 +45,10 @@ uses
   uCommonFunctions,
   frmCodeExplorer,
   uEditAppIntfs,
+  cPyControl,
   cPythonSourceScanner,
   cCodeCompletion,
-  cPyBaseDebugger,
-  cPyControl;
+  cPyBaseDebugger;
 
 const
   WM_PARAMCOMPLETION = WM_USER +1040;
@@ -2791,8 +2791,8 @@ Var
   DummyToken: string;
   BC: TBufferCoord;
 begin
-  if not fEditor.HasPythonFile or PyControl.Running or
-    not PyIDEOptions.EditorCodeCompletion then
+  if not fEditor.HasPythonFile or not PyControl.InternalPython.Loaded or
+    PyControl.Running or not PyIDEOptions.EditorCodeCompletion then
   begin
     CanExecute := False;
     Exit;

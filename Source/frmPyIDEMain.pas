@@ -2087,7 +2087,7 @@ procedure TPyIDEMainForm.actDebugExecute(Sender: TObject);
 var
   ActiveEditor : IEditor;
 begin
-  Assert(not PyControl.Running);
+  Assert(PyControl.InternalPython.Loaded and not PyControl.Running);
   ActiveEditor := GetActiveEditor;
   if Assigned(ActiveEditor) then begin
     if PyControl.Inactive then
@@ -2111,7 +2111,7 @@ procedure TPyIDEMainForm.actStepIntoExecute(Sender: TObject);
 var
   ActiveEditor : IEditor;
 begin
-  Assert(not PyControl.Running);
+  Assert(PyControl.InternalPython.Loaded and not PyControl.Running);
   ActiveEditor := GetActiveEditor;
   if Assigned(ActiveEditor) then begin
     if PyControl.Inactive then
@@ -2230,7 +2230,7 @@ begin
   actToggleBreakPoint.Enabled := PyFileActive;
   actClearAllBreakPoints.Enabled := PyFileActive;
   actAddWatchAtCursor.Enabled := PyFileActive;
-  actExecSelection.Enabled := not PyControl.Running and PyFileActive;
+  actExecSelection.Enabled := PyControl.InternalPython.Loaded and not PyControl.Running and PyFileActive;
   actPythonReinitialize.Enabled := Assigned(PyControl.ActiveInterpreter) and
     (icReInitialize in PyControl.ActiveInterpreter.InterpreterCapabilities) and
     not (PyControl.DebuggerState in [dsPaused, dsPostMortem]);
@@ -3260,8 +3260,10 @@ begin
 
       AppStorage.StorageOptions.PreserveLeadingTrailingBlanks := True;
       if AppStorage.PathExists('File Templates') then
-        AppStorage.ReadObjectList('File Templates', FileTemplates,
-          FileTemplates.CreateListItem);
+      begin
+        AppStorage.ReadObjectList('File Templates', FileTemplates, FileTemplates.CreateListItem);
+        FileTemplates.AddDefaultTemplates;
+      end;
 
       TempStringList := TStringList.Create;
       try
@@ -4608,6 +4610,9 @@ end;
 procedure TPyIDEMainForm.FormShow(Sender: TObject);
 begin
   //OutputDebugString(PWideChar(Format('%s ElapsedTime %d ms', ['FormShow start', StopWatch.ElapsedMilliseconds])));
+  // Do not execute again
+  OnShow := nil;
+
   if PyIDEOptions.AutoCheckForUpdates and
     (DaysBetween(Now, PyIDEOptions.DateLastCheckedForUpdates) >=
       PyIDEOptions.DaysBetweenChecks) and ConnectedToInternet
@@ -4661,9 +4666,6 @@ begin
     // This is needed to update the variables window
     PyControl.DoStateChange(dsInactive);
   end);
-
-  // Do not execute again
-  OnShow := nil;
   //OutputDebugString(PWideChar(Format('%s ElapsedTime %d ms', ['FormShow end', StopWatch.ElapsedMilliseconds])));
 end;
 

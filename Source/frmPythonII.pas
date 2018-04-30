@@ -1233,7 +1233,7 @@ var locline, lookup: string;
     DummyToken : string;
     BC : TBufferCoord;
 begin
-  if PyControl.Running or not PyIDEOptions.InterpreterCodeCompletion
+  if not PyControl.InternalPython.Loaded or PyControl.Running or not PyIDEOptions.InterpreterCodeCompletion
   then
     Exit;
   with TSynCompletionProposal(Sender).Editor do
