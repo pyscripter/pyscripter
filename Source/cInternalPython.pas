@@ -67,7 +67,7 @@ type
     function GetLoaded: Boolean;
   public
     destructor Destroy; override;
-    function LoadPython(var Version: TPythonVersion): Boolean;
+    function LoadPython(const Version: TPythonVersion): Boolean;
     property Loaded : Boolean read GetLoaded;
     property DebugIDE : TPythonModule read fDebugIDE;
     property PythonEngine : TPythonEngine read fPythonEngine;
@@ -222,8 +222,6 @@ begin
   p := PyDelphiWrapper.Wrap(PyIDEOptions);
   PyscripterModule.SetVar('IDEOptions', p);
   PythonEngine.Py_XDECREF(p);
-
-  PythonIIForm.PrintInterpreterBanner;
 end;
 
 procedure TInternalPython.InputBoxExecute(Sender: TObject; PSelf,
@@ -246,7 +244,7 @@ begin
       Result := nil;
 end;
 
-function TInternalPython.LoadPython(var Version: TPythonVersion): Boolean;
+function TInternalPython.LoadPython(const Version: TPythonVersion): Boolean;
 begin
    CreatePythonComponents;
    Version.AssignTo(PythonEngine);
@@ -254,9 +252,6 @@ begin
    Result := PythonEngine.IsHandleValid;
    if Result then begin
      Initialize;
-     if Version.InstallPath = '' then
-       Version.InstallPath := SysModule.prefix;
-     PythonIIForm.PythonHelpFile := Version.HelpFile;
    end else
      DestroyPythonComponents;
 end;

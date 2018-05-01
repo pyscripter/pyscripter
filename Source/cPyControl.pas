@@ -63,8 +63,10 @@ type
     fActiveDebugger : TPyBaseDebugger ;
     fRunConfig : TRunConfiguration;
     fPythonVersion : TPythonVersion;
+    fRegPythonVersions : TPythonVersions;
     fInternalPython : TInternalPython;
     fInternalInterpreter : TPyBaseInterpreter;
+    function InitPythonVersions : Boolean;
     procedure DoOnBreakpointChanged(Editor : IEditor; ALine: integer);
     procedure SetActiveDebugger(const Value: TPyBaseDebugger);
     procedure SetActiveInterpreter(const Value: TPyBaseInterpreter);
@@ -106,11 +108,13 @@ type
       RunToCursorLine : integer = -1);
     procedure ExternalRun(ARunConfig : TRunConfiguration);
     // InternalPython
-    procedure LoadPythonEngine;
+    procedure LoadPythonEngine; overload;
+    procedure LoadPythonEngine(const APythonVersion : TPythonVersion); overload;
 
     // properties and events
     // PythonVersionIndex is the Index of Python version in the PYTHON_KNOWN_VERSIONS array
     property PythonVersion : TPythonVersion read fPythonVersion;
+    property RegPythonVersion : TPythonVersions read fRegPythonVersions;
     property PythonEngineType : TPythonEngineType read GetPythonEngineType
       write SetPythonEngineType;
     property InternalPython : TInternalPython read fInternalPython;
@@ -160,7 +164,8 @@ uses
   cParameters,
   cPyDebugger,
   cPyRemoteDebugger,
-  cProjectClasses;
+  cProjectClasses,
+  dmCommands;
 
 { TEditorPos }
 
@@ -193,6 +198,7 @@ begin
   ErrorPos.Clear;
   fRunConfig := TRunConfiguration.Create;
   fInternalPython := TInternalPython.Create;
+  fRegPythonVersions := GetRegisteredPythonVersions;
 end;
 
 procedure TPythonControl.Debug(ARunConfig: TRunConfiguration; InitStepIn : Boolean = False;
@@ -265,6 +271,62 @@ end;
 function TPythonControl.Inactive: boolean;
 begin
   Result := InternalPython.Loaded and (fDebuggerState = dsInactive);
+end;
+
+function TPythonControl.InitPythonVersions: Boolean;
+Var
+  expectedVersion : string;
+  Version : TPythonVersion;
+begin
+  // first find an optional parameter specifying the expected Python version in the form of -PYTHONXY
+  expectedVersion := '';
+
+  if CmdLineReader.readFlag('PYTHON25') then
+    expectedVersion := '2.5'
+  else if CmdLineReader.readFlag('PYTHON26') then
+    expectedVersion := '2.6'
+  else if CmdLineReader.readFlag('PYTHON27') then
+    expectedVersion := '2.7'
+  else if CmdLineReader.readFlag('PYTHON30') then
+    expectedVersion := '3.0'
+  else if CmdLineReader.readFlag('PYTHON31') then
+    expectedVersion := '3.1'
+  else if CmdLineReader.readFlag('PYTHON32') then
+    expectedVersion := '3.2'
+  else if CmdLineReader.readFlag('PYTHON33') then
+    expectedVersion := '3.3'
+  else if CmdLineReader.readFlag('PYTHON34') then
+    expectedVersion := '3.4'
+  else if CmdLineReader.readFlag('PYTHON35') then
+    expectedVersion := '3.5'
+  else if CmdLineReader.readFlag('PYTHON36') then
+    expectedVersion := '3.6'
+  else if CmdLineReader.readFlag('PYTHON37') then
+    expectedVersion := '3.7';
+  fPythonVersion.DllPath := CmdLineReader.readString('PYTHONDLLPATH');
+
+  Result := False;
+  if (fPythonVersion.DllPath = '') and (expectedVersion = '') then begin
+    if Length(fRegPythonVersions) > 0 then begin
+      fPythonVersion := fRegPythonVersions[0];
+      Result := True;
+    end;
+  end else if fPythonVersion.DllPath = '' then begin
+    for Version in fRegPythonVersions do
+      if Version.SysVersion = expectedVersion then
+      begin
+        fPythonVersion := Version;
+        Result := True;
+        break;
+      end;
+  end else if expectedVersion <> '' then begin
+    fPythonVersion.InstallPath := fPythonVersion.DLLPath;
+    fPythonVersion.SysVersion := expectedVersion;
+    Result := True;
+  end;
+//  else
+    // DLL path without python version
+    // Todo Show more appropriate messsage
 end;
 
 function TPythonControl.IsBreakpointLine(Editor: IEditor; ALine: integer;
@@ -552,64 +614,44 @@ begin
 end;
 
 procedure TPythonControl.LoadPythonEngine;
-
-  procedure FatalAbort;
-  begin
-      Vcl.Dialogs.MessageDlg(_(SPythonLoadError), mtError, [mbOK], 0);
-      ExitProcess(1);
-  end;
-
-Var
-  expectedVersion : string;
-  II : Variant;   // wrapping sys and code modules
 begin
-  // first find an optional parameter specifying the expected Python version in the form of -PYTHONXY
-  expectedVersion := '';
-
-  if CmdLineReader.readFlag('PYTHON25') then
-    expectedVersion := '2.5'
-  else if CmdLineReader.readFlag('PYTHON26') then
-    expectedVersion := '2.6'
-  else if CmdLineReader.readFlag('PYTHON27') then
-    expectedVersion := '2.7'
-  else if CmdLineReader.readFlag('PYTHON30') then
-    expectedVersion := '3.0'
-  else if CmdLineReader.readFlag('PYTHON31') then
-    expectedVersion := '3.1'
-  else if CmdLineReader.readFlag('PYTHON32') then
-    expectedVersion := '3.2'
-  else if CmdLineReader.readFlag('PYTHON33') then
-    expectedVersion := '3.3'
-  else if CmdLineReader.readFlag('PYTHON34') then
-    expectedVersion := '3.4'
-  else if CmdLineReader.readFlag('PYTHON35') then
-    expectedVersion := '3.5'
-  else if CmdLineReader.readFlag('PYTHON36') then
-    expectedVersion := '3.6'
-  else if CmdLineReader.readFlag('PYTHON37') then
-    expectedVersion := '3.7';
-  fPythonVersion.DllPath := CmdLineReader.readString('PYTHONDLLPATH');
-
-  if (fPythonVersion.DllPath = '') and (expectedVersion = '') then begin
-    if not GetLatestRegisteredPythonVersion(fPythonVersion) then FatalAbort;
-  end else if fPythonVersion.DllPath = '' then begin
-    if not GetRegisteredPythonVersion(expectedVersion, fPythonVersion) then FatalAbort;
-  end else if expectedVersion <> '' then
-    fPythonVersion.SysVersion := expectedVersion
+  if InitPythonVersions then
+    LoadPythonEngine(fPythonVersion)
   else
-    // DLL path without python version
-    // Todo Show more appropriate messsage
-    FatalAbort;
-  if not InternalPython.LoadPython(fPythonVersion) then FatalAbort;
+    Vcl.Dialogs.MessageDlg(_(SPythonLoadError), mtError, [mbOK], 0);
+end;
 
-  // Create internal Interpreter and Debugger
-  II := VarPythonEval('_II');
-  InternalPython.PythonEngine.ExecString('del _II');
 
-  fInternalInterpreter := TPyInternalInterpreter.Create(II);
-  fActiveInterpreter := fInternalInterpreter;
-  fActiveDebugger := TPyInternalDebugger.Create;
-  fInternalInterpreter.Initialize;
+procedure TPythonControl.LoadPythonEngine(const APythonVersion : TPythonVersion);
+Var
+  II : Variant;   // wrapping sys and code modules
+  FileName : String;
+begin
+  if InternalPython.LoadPython(APythonVersion) then
+  begin
+    PythonIIForm.PythonHelpFile := APythonVersion.HelpFile;
+    PythonIIForm.PrintInterpreterBanner;
+
+    // Create internal Interpreter and Debugger
+    II := VarPythonEval('_II');
+    InternalPython.PythonEngine.ExecString('del _II');
+
+    fInternalInterpreter := TPyInternalInterpreter.Create(II);
+    fActiveInterpreter := fInternalInterpreter;
+    fActiveDebugger := TPyInternalDebugger.Create;
+    fInternalInterpreter.Initialize;
+
+    // Execute pyscripter_init.py
+    FileName := CommandsDataModule.UserDataPath + PyScripterInitFile;
+    try
+     fInternalInterpreter.RunScript(FileName);
+    except
+      on E: Exception do
+        Vcl.Dialogs.MessageDlg(Format(_(SErrorInitScript),
+          [PyScripterInitFile, E.Message]), mtError, [mbOK], 0);
+    end;
+  end else
+    Vcl.Dialogs.MessageDlg(_(SPythonLoadError), mtError, [mbOK], 0);
 end;
 
 procedure TPythonControl.Run(ARunConfig: TRunConfiguration);

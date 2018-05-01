@@ -257,7 +257,7 @@ type
     property CompactLineNumbers : Boolean read fCompactLineNumbers
       write fCompactLineNumbers default True;
     property StyleMainWindowBorder : Boolean read fStyleMainWindowBorder
-      write fStyleMainWindowBorder default True;
+      write fStyleMainWindowBorder default False;
   end;
 {$METHODINFO OFF}
 
@@ -473,7 +473,7 @@ begin
   fCodeFoldingEnabled := True;
   fInternalInterpreterHidden := True;
   fCompactLineNumbers := True;
-  fStyleMainWindowBorder := True;
+  fStyleMainWindowBorder := False;
   fCodeFolding := TSynCodeFolding.Create;
 end;
 

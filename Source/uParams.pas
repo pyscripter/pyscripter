@@ -471,56 +471,14 @@ end;
 
 function GetPythonDir (VersionString : string) : string;
 var
-  key : String;
-  CurrentUserInstall : Boolean;
-  VersionSuffix : string;
+  PythonVersion : TPythonVersion;
 begin
-  Result := '';
-
-  // Python provides for All user and Current user installations
-  // All User installations place the Python DLL in the Windows System directory
-  // and write registry info to HKEY_LOCAL_MACHINE
-  // Current User installations place the DLL in the install path and
-  // the registry info in HKEY_CURRENT_USER.
-  // Hence, for Current user installations we need to try and find the install path
-  // since it may not be on the system path.
-
-  VersionSuffix := '';
-{$IFDEF CPUX86}
-  if CompareVersions(VersionString, '3.5') <= 0 then
-    VersionSuffix := '-32';
-{$ENDIF}
-
-  CurrentUserInstall := False;
-  key := Format('\Software\Python\PythonCore\%s%s\InstallPath', [VersionString, VersionSuffix]);
-  with TRegistry.Create(KEY_READ and not KEY_NOTIFY) do
-    try
-      RootKey := HKEY_CURRENT_USER;
-      if KeyExists(Key) and  OpenKey(Key, False) then begin
-        Result := ReadString('');
-        CurrentUserInstall := True;
-      end;
-    finally
-      Free;
+  for PythonVersion in PyControl.RegPythonVersion do
+    if PythonVersion.SysVersion = VersionString then
+    begin
+      Result := PythonVersion.InstallPath;
+      break;
     end;
-
-  // We do not seem to have an Current User Python Installation.
-  // Check whether we have an All User installation
-  if not CurrentUserInstall then
-  try
-    with TRegistry.Create(KEY_READ and not KEY_NOTIFY) do
-      try
-        RootKey := HKEY_LOCAL_MACHINE;
-        if KeyExists(Key) and  OpenKey(Key, False) then begin
-          Result := ReadString('');
-        end;
-      finally
-        Free;
-      end;
-  except
-    // under WinNT, with a user without admin rights, the access to the
-    // LocalMachine keys would raise an exception.
-  end;
 
   if Result <> '' then
     Result := IncludeTrailingPathDelimiter(Result);

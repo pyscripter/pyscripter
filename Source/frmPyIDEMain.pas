@@ -1120,7 +1120,6 @@ type
         var AImageList: TCustomImageList; var AImageIndex: Integer;
         var ARect: TRect; var PaintDefault: Boolean);
     procedure SetupCustomizer;
-    procedure RunInitScript;
     function GetActiveTabControl: TSpTBXCustomTabControl;
     procedure SetActiveTabControl(const Value: TSpTBXCustomTabControl);
     procedure WMEraseBkgnd(var Message: TWMEraseBkgnd); message WM_ERASEBKGND;
@@ -1674,7 +1673,7 @@ begin
     CanClose := False;
     CloseTimer.Enabled := True;
     Exit;
-  end else if not PyControl.Inactive then begin
+  end else if PyControl.DebuggerState <> dsInactive then begin
     if Vcl.Dialogs.MessageDlg(_(SAbortDebugging), mtWarning, [mbYes, mbNo], 0) = mrYes then
     begin
       if (PyControl.DebuggerState in [dsPaused, dsPostMortem]) or
@@ -3847,25 +3846,6 @@ begin
   end;
 end;
 
-procedure TPyIDEMainForm.RunInitScript;
-// Execute pyscripter_init.py
-Var
-  FileName : String;
-begin
-  // Search first in the Exe directory and then in the user directory
-  // Needs to be done after PyScripter loading is finished
-
-  FileName := CommandsDataModule.UserDataPath + PyScripterInitFile;
-
-  try
-    PyControl.InternalInterpreter.RunScript(FileName);
-  except
-    on E: Exception do
-      Vcl.Dialogs.MessageDlg(Format(_(SErrorInitScript),
-        [PyScripterInitFile, E.Message]), mtError, [mbOK], 0);
-  end;
-end;
-
 procedure TPyIDEMainForm.SetupCustomizer;
 var
   K: Integer;
@@ -4647,10 +4627,8 @@ begin
 
   TThread.ForceQueue(nil, procedure
   begin
-    // Assign Debugger Events and Load Python Engine
+    // Load Python Engine and Assign Debugger Events
     PyControl.LoadPythonEngine;
-    // Execute pyscripter_init.py
-    RunInitScript;
 
     PyControl.PythonEngineType := PyIDEOptions.PythonEngineType;
     SetupToolsMenu;
