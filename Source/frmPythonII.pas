@@ -87,6 +87,7 @@ type
     actCopyWithoutPrompts: TAction;
     actClearContents: TAction;
     actCopyHistory: TAction;
+    mnPythonVersions: TSpTBXSubmenuItem;
     procedure SynEditPaintTransient(Sender: TObject; Canvas: TCanvas;
       TransientType: TTransientType);
     procedure FormCreate(Sender: TObject);
@@ -392,6 +393,7 @@ begin
   SVersion := SysModule.version;
   SPlatform := SysModule.platform;
   S := Format('*** Python %s on %s. ***' + sLineBreak, [SVersion, SPlatform]);
+  if SynEdit.Lines.Count > 0 then AppendText(sLineBreak);
   AppendText(S);
   AppendText(PS1);
 end;

@@ -246,14 +246,15 @@ end;
 
 function TInternalPython.LoadPython(const Version: TPythonVersion): Boolean;
 begin
-   CreatePythonComponents;
-   Version.AssignTo(PythonEngine);
-   PythonEngine.LoadDll;
-   Result := PythonEngine.IsHandleValid;
-   if Result then begin
-     Initialize;
-   end else
-     DestroyPythonComponents;
+  DestroyPythonComponents;
+  CreatePythonComponents;
+  Version.AssignTo(PythonEngine);
+  PythonEngine.LoadDll;
+  Result := PythonEngine.IsHandleValid;
+  if Result then begin
+    Initialize;
+  end else
+    DestroyPythonComponents;
 end;
 
 procedure TInternalPython.MaskFPUExceptionsExecute(Sender: TObject; PSelf,

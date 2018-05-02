@@ -118,6 +118,7 @@ Const
   SOpenProject = 'Open Project';
   SApplyLayout = 'Apply %s layout';
   SUseSyntax = 'Use %s syntax';
+  SSwitchtoVersion = 'Switch to %s';
   SThemeHint = 'Set theme to "%s".';
   SSaveCurrentLayout = 'Save current Layout';
   SLayoutName = 'Layout Name:';

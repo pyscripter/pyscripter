@@ -775,26 +775,6 @@ object PyIDEMainForm: TPyIDEMainForm
         object mnCommandLineParams: TSpTBXItem
           Action = actCommandLine
         end
-        object mnPythonEngines: TSpTBXSubmenuItem
-          Caption = 'Python Engine'
-          object mnEngineInternal: TSpTBXItem
-            Action = actPythonInternal
-          end
-          object mnEngineRemote: TSpTBXItem
-            Action = actPythonRemote
-          end
-          object mnEngineRemoteTk: TSpTBXItem
-            Action = actPythonRemoteTk
-          end
-          object mnEngineRemoteWx: TSpTBXItem
-            Action = actPythonRemoteWx
-          end
-          object TBXSeparatorItem26: TSpTBXSeparatorItem
-          end
-          object mnReinitEngine: TSpTBXItem
-            Action = actPythonReinitialize
-          end
-        end
         object N22: TSpTBXSeparatorItem
         end
         object mnExternalRun: TSpTBXItem
@@ -841,6 +821,33 @@ object PyIDEMainForm: TPyIDEMainForm
         end
         object mnAddWatchAtCursor: TSpTBXItem
           Action = actAddWatchAtCursor
+        end
+        object SpTBXSeparatorItem17: TSpTBXSeparatorItem
+        end
+        object mnPythonVersions: TSpTBXSubmenuItem
+          Caption = 'Python Versions'
+          ImageIndex = 128
+          OnPopup = mnPythonVersionsPopup
+        end
+        object mnPythonEngines: TSpTBXSubmenuItem
+          Caption = 'Python Engine'
+          object mnEngineInternal: TSpTBXItem
+            Action = actPythonInternal
+          end
+          object mnEngineRemote: TSpTBXItem
+            Action = actPythonRemote
+          end
+          object mnEngineRemoteTk: TSpTBXItem
+            Action = actPythonRemoteTk
+          end
+          object mnEngineRemoteWx: TSpTBXItem
+            Action = actPythonRemoteWx
+          end
+          object TBXSeparatorItem26: TSpTBXSeparatorItem
+          end
+          object mnReinitEngine: TSpTBXItem
+            Action = actPythonReinitialize
+          end
         end
       end
       object ToolsMenu: TSpTBXSubmenuItem

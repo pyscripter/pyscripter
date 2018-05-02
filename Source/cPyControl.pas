@@ -62,8 +62,9 @@ type
     fActiveInterpreter : TPyBaseInterpreter;
     fActiveDebugger : TPyBaseDebugger ;
     fRunConfig : TRunConfiguration;
-    fPythonVersion : TPythonVersion;
+    fPythonVersionIndex : integer;
     fRegPythonVersions : TPythonVersions;
+    fCustomPythonVersions: TPythonVersions;
     fInternalPython : TInternalPython;
     fInternalInterpreter : TPyBaseInterpreter;
     function InitPythonVersions : Boolean;
@@ -75,6 +76,8 @@ type
     procedure SetRunConfig(ARunConfig: TRunConfiguration);
     procedure PrepareRun;
     function GetInternalInterpreter: TPyBaseInterpreter;
+    function GetPythonVersion: TPythonVersion;
+    procedure SetPythonVersionIndex(const Value: integer);
   public
     // ActiveInterpreter and ActiveDebugger are created
     // and destroyed in frmPythonII
@@ -113,8 +116,10 @@ type
 
     // properties and events
     // PythonVersionIndex is the Index of Python version in the PYTHON_KNOWN_VERSIONS array
-    property PythonVersion : TPythonVersion read fPythonVersion;
-    property RegPythonVersion : TPythonVersions read fRegPythonVersions;
+    property PythonVersion : TPythonVersion read GetPythonVersion;
+    property PythonVersionIndex : integer read fPythonVersionIndex write SetPythonVersionIndex;
+    property RegPythonVersions : TPythonVersions read fRegPythonVersions;
+    property CustomPythonVersions : TPythonVersions read fCustomPythonVersions;
     property PythonEngineType : TPythonEngineType read GetPythonEngineType
       write SetPythonEngineType;
     property InternalPython : TInternalPython read fInternalPython;
@@ -268,6 +273,16 @@ begin
     Result := peInternal;
 end;
 
+function TPythonControl.GetPythonVersion: TPythonVersion;
+begin
+  if (fPythonVersionIndex >= 0) and (fPythonVersionIndex < Length(fRegPythonVersions)) then
+    Result := fRegPythonVersions[fPythonVersionIndex]
+  else if (fPythonVersionIndex < 0) and (-fPythonVersionIndex <= Length(fCustomPythonVersions)) then
+    Result := fCustomPythonVersions[-fPythonVersionIndex -1]
+  else
+    Assert(False, 'Invalide PythonVersionIndex');
+end;
+
 function TPythonControl.Inactive: boolean;
 begin
   Result := InternalPython.Loaded and (fDebuggerState = dsInactive);
@@ -276,7 +291,9 @@ end;
 function TPythonControl.InitPythonVersions: Boolean;
 Var
   expectedVersion : string;
+  DLLPath : string;
   Version : TPythonVersion;
+  I : integer;
 begin
   // first find an optional parameter specifying the expected Python version in the form of -PYTHONXY
   expectedVersion := '';
@@ -303,30 +320,37 @@ begin
     expectedVersion := '3.6'
   else if CmdLineReader.readFlag('PYTHON37') then
     expectedVersion := '3.7';
-  fPythonVersion.DllPath := CmdLineReader.readString('PYTHONDLLPATH');
+  DllPath := CmdLineReader.readString('PYTHONDLLPATH');
 
   Result := False;
-  if (fPythonVersion.DllPath = '') and (expectedVersion = '') then begin
+  if (DllPath = '') and (expectedVersion = '') then begin
     if Length(fRegPythonVersions) > 0 then begin
-      fPythonVersion := fRegPythonVersions[0];
+      fPythonVersionIndex := 0;
       Result := True;
     end;
-  end else if fPythonVersion.DllPath = '' then begin
-    for Version in fRegPythonVersions do
-      if Version.SysVersion = expectedVersion then
+  end else if DllPath = '' then begin
+    for I := 0 to Length(fRegPythonVersions) - 1 do
+      if fRegPythonVersions[I].SysVersion = expectedVersion then
       begin
-        fPythonVersion := Version;
+        fPythonVersionIndex := I;
         Result := True;
         break;
       end;
   end else if expectedVersion <> '' then begin
-    fPythonVersion.InstallPath := fPythonVersion.DLLPath;
-    fPythonVersion.SysVersion := expectedVersion;
+    SetLength(fCustomPythonVersions, Length(fCustomPythonVersions) + 1);
+    fCustomPythonVersions[Length(fCustomPythonVersions)-1].InstallPath := DLLPath;
+    fCustomPythonVersions[Length(fCustomPythonVersions)-1].SysVersion := expectedVersion;
+    fPythonVersionIndex := - Length(fCustomPythonVersions);
     Result := True;
+  end
+  else begin
+    Result := PythonVersionFromPath(DLLPath, Version);
+    if Result then begin
+      SetLength(fCustomPythonVersions, Length(fCustomPythonVersions) + 1);
+      fCustomPythonVersions[Length(fCustomPythonVersions)-1] := Version;
+      fPythonVersionIndex := - Length(fCustomPythonVersions);
+    end;
   end;
-//  else
-    // DLL path without python version
-    // Todo Show more appropriate messsage
 end;
 
 function TPythonControl.IsBreakpointLine(Editor: IEditor; ALine: integer;
@@ -515,6 +539,14 @@ begin
   DoStateChange(dsInactive);
 end;
 
+procedure TPythonControl.SetPythonVersionIndex(const Value: integer);
+begin
+  if (Value <> fPythonVersionIndex) and (DebuggerState = dsInactive) then begin
+    fPythonVersionIndex := Value;
+    LoadPythonEngine(PythonVersion);
+  end;
+end;
+
 procedure TPythonControl.ClearAllBreakpoints;
 Var
   i : integer;
@@ -616,7 +648,7 @@ end;
 procedure TPythonControl.LoadPythonEngine;
 begin
   if InitPythonVersions then
-    LoadPythonEngine(fPythonVersion)
+    LoadPythonEngine(PythonVersion)
   else
     Vcl.Dialogs.MessageDlg(_(SPythonLoadError), mtError, [mbOK], 0);
 end;
@@ -627,6 +659,11 @@ Var
   II : Variant;   // wrapping sys and code modules
   FileName : String;
 begin
+  // Destroy Active debugger and interpreter
+  PyControl.ActiveDebugger := nil;
+  PyControl.ActiveInterpreter := nil;
+  FreeAndNil(fInternalInterpreter);
+
   if InternalPython.LoadPython(APythonVersion) then
   begin
     PythonIIForm.PythonHelpFile := APythonVersion.HelpFile;
@@ -650,6 +687,8 @@ begin
         Vcl.Dialogs.MessageDlg(Format(_(SErrorInitScript),
           [PyScripterInitFile, E.Message]), mtError, [mbOK], 0);
     end;
+    //  Set the current PythonEngine
+    PyControl.PythonEngineType := PyIDEOptions.PythonEngineType;
   end else
     Vcl.Dialogs.MessageDlg(_(SPythonLoadError), mtError, [mbOK], 0);
 end;

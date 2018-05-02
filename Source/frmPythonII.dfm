@@ -173,6 +173,11 @@ inherited PythonIIForm: TPythonIIForm
     Images = CommandsDataModule.Images
     Left = 37
     Top = 60
+    object mnPythonVersions: TSpTBXSubmenuItem
+      Caption = 'Python Versions'
+      ImageIndex = 128
+      LinkSubitems = PyIDEMainForm.mnPythonVersions
+    end
     object TBXPythonEngines: TSpTBXSubmenuItem
       Caption = 'Python Engine'
       LinkSubitems = PyIDEMainForm.mnPythonEngines

@@ -988,6 +988,8 @@ type
     SpTBXItem4: TSpTBXItem;
     SpTBXItem5: TSpTBXItem;
     LocalAppStorage: TJvAppIniFileStorage;
+    SpTBXSeparatorItem17: TSpTBXSeparatorItem;
+    mnPythonVersions: TSpTBXSubmenuItem;
     procedure mnFilesClick(Sender: TObject);
     procedure actEditorZoomInExecute(Sender: TObject);
     procedure actEditorZoomOutExecute(Sender: TObject);
@@ -1106,6 +1108,8 @@ type
     procedure tbiRecentProjectsClick(Sender: TObject;
       const Filename: WideString);
     procedure actSelectStyleExecute(Sender: TObject);
+    procedure mnPythonVersionsPopup(Sender: TTBCustomItem; FromLink: Boolean);
+    procedure PythonVersionsClick(Sender: TObject);
   private
     DSAAppStorage: TDSAAppStorage;
     ShellExtensionFiles : TStringList;
@@ -1206,6 +1210,7 @@ type
     procedure SetupToolsMenu;
     procedure SetupLayoutsMenu;
     procedure SetupSyntaxMenu;
+    procedure SetupPythonVersionsMenu;
     procedure LayoutClick(Sender : TObject);
     procedure LoadLayout(const Layout : string);
     procedure LoadToolbarLayout(const Layout: string);
@@ -3813,6 +3818,23 @@ begin
   end;
 end;
 
+procedure TPyIDEMainForm.PythonVersionsClick(Sender: TObject);
+begin
+   PyControl.PythonVersionIndex := (Sender as TTBCustomItem).Tag;
+end;
+
+procedure TPyIDEMainForm.mnPythonVersionsPopup(Sender: TTBCustomItem;
+  FromLink: Boolean);
+Var
+  i : integer;
+begin
+  for i := 0 to mnPythonVersions.Count -1 do begin
+    mnPythonVersions.Items[i].Enabled := PyControl.DebuggerState = dsInactive;
+    mnPythonVersions.Items[i].Checked :=
+      PyControl.PythonVersionIndex = mnPythonVersions.Items[i].Tag;
+  end;
+end;
+
 procedure TPyIDEMainForm.SetupSyntaxMenu;
 Var
   i : integer;
@@ -3825,6 +3847,36 @@ begin
     MenuItem.GroupIndex := 3;
     MenuItem.OnClick := SyntaxClick;
     MenuItem.Hint := Format(_(SUseSyntax), [MenuItem.Caption]);
+  end;
+end;
+
+procedure TPyIDEMainForm.SetupPythonVersionsMenu;
+Var
+  i : Integer;
+  MenuItem : TTBCustomItem;
+begin
+  for i := 0 to Length(PyControl.RegPythonVersions) - 1 do begin
+    MenuItem := TSpTBXItem.Create(Self);
+    mnPythonVersions.Add(MenuItem);
+    MenuItem.Caption := PyControl.RegPythonVersions[i].DisplayName;
+    MenuItem.GroupIndex := 3;
+    MenuItem.Tag := i;
+    MenuItem.OnClick := PythonVersionsClick;
+    MenuItem.Hint := Format(_(SSwitchtoVersion), [MenuItem.Caption]);
+  end;
+  if Length(PyControl.CustomPythonVersions) > 0 then begin
+    MenuItem := TSpTBXSeparatorItem.Create(Self);
+    MenuItem.Tag := MenuItem.Tag.MaxValue;
+    mnPythonVersions.Add(MenuItem);
+  end;
+  for i := 0 to Length(PyControl.CustomPythonVersions) - 1 do begin
+    MenuItem := TSpTBXItem.Create(Self);
+    mnPythonVersions.Add(MenuItem);
+    MenuItem.Caption := PyControl.CustomPythonVersions[i].DisplayName;
+    MenuItem.GroupIndex := 3;
+    MenuItem.Tag := -(i + 1);
+    MenuItem.OnClick := PythonVersionsClick;
+    MenuItem.Hint := Format(_(SSwitchtoVersion), [MenuItem.Caption]);
   end;
 end;
 
@@ -4629,8 +4681,8 @@ begin
   begin
     // Load Python Engine and Assign Debugger Events
     PyControl.LoadPythonEngine;
+    SetupPythonVersionsMenu;
 
-    PyControl.PythonEngineType := PyIDEOptions.PythonEngineType;
     SetupToolsMenu;
 
     with PyControl do begin

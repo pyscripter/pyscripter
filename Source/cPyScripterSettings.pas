@@ -288,13 +288,13 @@ Var
 implementation
 
 uses
+  System.UITypes,
   System.SysUtils,
   Vcl.Forms,
   uHighlighterProcs,
   StringResources,
   frmPyIDEMain,
   SynEditStrConst,
-
   SynHighlighterPython,
   SynHighlighterYAML,
   JvGnuGettext,

@@ -535,7 +535,7 @@ begin
   if fIsAvailable then begin
     RemoteServer := TExternalTool.Create;
     RemoteServer.CaptureOutput := False;
-    RemoteServer.ApplicationName := '$[PythonDir]python.exe';
+    RemoteServer.ApplicationName := '$[PythonExe]';
     RemoteServer.Parameters := Format('"%s" %d "%s"', [ServerFile, fSocketPort, fRpycPath]);
     try
       fIsAvailable := fIsAvailable and CreateAndConnectToServer;

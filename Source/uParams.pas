@@ -469,11 +469,16 @@ begin
   Result := IncludeTrailingPathDelimiter(PyControl.PythonVersion.InstallPath);
 end;
 
+function GetActivePythonExe : string;
+begin
+  Result := PyControl.PythonVersion.PythonExecutable;
+end;
+
 function GetPythonDir (VersionString : string) : string;
 var
   PythonVersion : TPythonVersion;
 begin
-  for PythonVersion in PyControl.RegPythonVersion do
+  for PythonVersion in PyControl.RegPythonVersions do
     if PythonVersion.SysVersion = VersionString then
     begin
       Result := PythonVersion.InstallPath;
@@ -602,7 +607,7 @@ begin
     RegisterParameter('Python36Exe', '$[PYTHON36DIR]python.exe', nil);
     RegisterParameter('Python37Exe', '$[PYTHON37DIR]python.exe', nil);
     RegisterParameter('PythonDir', 'Directory of active python version', GetActivePythonDir);
-    RegisterParameter('PythonExe', '$[PYTHONDIR]python.exe', nil);
+    RegisterParameter('PythonExe', 'Executable of active Python', GetActivePythonExe);
     RegisterParameter('PythonVersion', 'Version of active Python', GetPythonVersion);
 
     // register system paths and parameters
