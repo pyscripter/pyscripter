@@ -828,6 +828,11 @@ object PyIDEMainForm: TPyIDEMainForm
           Caption = 'Python Versions'
           ImageIndex = 128
           OnPopup = mnPythonVersionsPopup
+          object SpTBXSeparatorItem18: TSpTBXSeparatorItem
+          end
+          object SpTBXItem4: TSpTBXItem
+            Action = actPythonSetup
+          end
         end
         object mnPythonEngines: TSpTBXSubmenuItem
           Caption = 'Python Engine'
@@ -1086,7 +1091,12 @@ object PyIDEMainForm: TPyIDEMainForm
       Images = CommandsDataModule.Images
       TabOrder = 4
       Caption = 'View Toolbar'
-      object SpTBXItem4: TSpTBXItem
+      object tbiSelectPythonVersion: TSpTBXSubmenuItem
+        Caption = 'Python Versions'
+        ImageIndex = 128
+        LinkSubitems = mnPythonVersions
+      end
+      object tbiSelectStyle: TSpTBXItem
         Action = actSelectStyle
       end
       object tbiViewLayouts: TSpTBXSubmenuItem
@@ -2180,6 +2190,12 @@ object PyIDEMainForm: TPyIDEMainForm
       Hint = 'Select Style'
       ImageIndex = 107
       OnExecute = actSelectStyleExecute
+    end
+    object actPythonSetup: TAction
+      Category = 'Run'
+      Caption = 'Setup Python...'
+      Hint = 'Setup python engine'
+      ImageIndex = 154
     end
   end
   object JvDockVSNetStyleSpTBX: TJvDockVSNetStyleSpTBX

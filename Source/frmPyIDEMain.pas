@@ -985,11 +985,15 @@ type
     tbiRecentProjects: TSpTBXMRUListItem;
     tbiAutoCaseSensitive: TSpTBXItem;
     actSelectStyle: TAction;
-    SpTBXItem4: TSpTBXItem;
+    tbiSelectStyle: TSpTBXItem;
     SpTBXItem5: TSpTBXItem;
     LocalAppStorage: TJvAppIniFileStorage;
     SpTBXSeparatorItem17: TSpTBXSeparatorItem;
     mnPythonVersions: TSpTBXSubmenuItem;
+    tbiSelectPythonVersion: TSpTBXSubmenuItem;
+    actPythonSetup: TAction;
+    SpTBXSeparatorItem18: TSpTBXSeparatorItem;
+    SpTBXItem4: TSpTBXItem;
     procedure mnFilesClick(Sender: TObject);
     procedure actEditorZoomInExecute(Sender: TObject);
     procedure actEditorZoomOutExecute(Sender: TObject);
@@ -3160,10 +3164,7 @@ begin
 end;
 
 procedure TPyIDEMainForm.StoreLocalApplicationData;
-Var
-  TempCursor : IInterface;
 begin
-  TempCursor := WaitCursor;
   LocalAppStorage.BeginUpdate;
   try
     LocalAppStorage.WriteString('PyScripter Version', ApplicationVersion);
@@ -3175,10 +3176,11 @@ begin
     // Form Placement
     JvFormStorage.SaveFormPlacement;
 
+    // Store Python Versions
+    PyControl.WriteToAppStorage(LocalAppStorage);
   finally
     LocalAppStorage.EndUpdate;
   end;
-
   LocalAppStorage.Flush;
 end;
 
@@ -3828,7 +3830,7 @@ procedure TPyIDEMainForm.mnPythonVersionsPopup(Sender: TTBCustomItem;
 Var
   i : integer;
 begin
-  for i := 0 to mnPythonVersions.Count -1 do begin
+  for i := 0 to mnPythonVersions.Count - 3 do begin
     mnPythonVersions.Items[i].Enabled := PyControl.DebuggerState = dsInactive;
     mnPythonVersions.Items[i].Checked :=
       PyControl.PythonVersionIndex = mnPythonVersions.Items[i].Tag;
@@ -3855,26 +3857,30 @@ Var
   i : Integer;
   MenuItem : TTBCustomItem;
 begin
-  for i := 0 to Length(PyControl.RegPythonVersions) - 1 do begin
+  // remove previous versions
+  while mnPythonVersions.Count > 2 do
+    mnPythonVersions.Items[0].Free;
+  // Add versions in reverse order
+  for i := Length(PyControl.CustomPythonVersions) - 1 downto 0 do begin
     MenuItem := TSpTBXItem.Create(Self);
-    mnPythonVersions.Add(MenuItem);
-    MenuItem.Caption := PyControl.RegPythonVersions[i].DisplayName;
+    mnPythonVersions.Insert(0, MenuItem);
+    MenuItem.Caption := PyControl.CustomPythonVersions[i].DisplayName;
     MenuItem.GroupIndex := 3;
-    MenuItem.Tag := i;
+    MenuItem.Tag := -(i + 1);
     MenuItem.OnClick := PythonVersionsClick;
     MenuItem.Hint := Format(_(SSwitchtoVersion), [MenuItem.Caption]);
   end;
   if Length(PyControl.CustomPythonVersions) > 0 then begin
     MenuItem := TSpTBXSeparatorItem.Create(Self);
     MenuItem.Tag := MenuItem.Tag.MaxValue;
-    mnPythonVersions.Add(MenuItem);
+    mnPythonVersions.Insert(0, MenuItem);
   end;
-  for i := 0 to Length(PyControl.CustomPythonVersions) - 1 do begin
+  for i := Length(PyControl.RegPythonVersions) - 1 downto 0 do begin
     MenuItem := TSpTBXItem.Create(Self);
-    mnPythonVersions.Add(MenuItem);
-    MenuItem.Caption := PyControl.CustomPythonVersions[i].DisplayName;
+    mnPythonVersions.Insert(0, MenuItem);
+    MenuItem.Caption := PyControl.RegPythonVersions[i].DisplayName;
     MenuItem.GroupIndex := 3;
-    MenuItem.Tag := -(i + 1);
+    MenuItem.Tag := i;
     MenuItem.OnClick := PythonVersionsClick;
     MenuItem.Hint := Format(_(SSwitchtoVersion), [MenuItem.Caption]);
   end;

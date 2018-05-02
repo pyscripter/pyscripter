@@ -13,6 +13,7 @@ interface
 
 Uses
   System.Classes,
+  jvAppStorage,
   PythonVersions,
   uEditAppIntfs,
   cPySupportTypes,
@@ -46,7 +47,7 @@ type
                      IsSyntaxError : Boolean = False; AErrorMsg : string = '');
   end;
 
-  TPythonControl = class(Tobject)
+  TPythonControl = class(TObject)
   {
     Interface between PyScripter and the Interpreter/Debugger.
     Holds information Breakpoints, ErrorPos, CurrentPos
@@ -113,6 +114,10 @@ type
     // InternalPython
     procedure LoadPythonEngine; overload;
     procedure LoadPythonEngine(const APythonVersion : TPythonVersion); overload;
+    // (Re)storing PythonVersions
+    procedure ReadFromAppStorage(AppStorage: TJvCustomAppStorage;
+      out SysVersion, InstallPath: string);
+    procedure WriteToAppStorage(AppStorage: TJvCustomAppStorage);
 
     // properties and events
     // PythonVersionIndex is the Index of Python version in the PYTHON_KNOWN_VERSIONS array
@@ -290,7 +295,9 @@ end;
 
 function TPythonControl.InitPythonVersions: Boolean;
 Var
-  expectedVersion : string;
+  expectedVersion,
+  LastVersion,
+  LastInstallPath,
   DLLPath : string;
   Version : TPythonVersion;
   I : integer;
@@ -322,13 +329,23 @@ begin
     expectedVersion := '3.7';
   DllPath := CmdLineReader.readString('PYTHONDLLPATH');
 
+  ReadFromAppStorage(PyIDEMainForm.LocalAppStorage, LastVersion, LastInstallPath);
+  if (DllPath = '') and (expectedVersion = '') then
+  begin
+    expectedVersion := LastVersion;
+    DLLPath := LastInstallPath;
+  end;
+
   Result := False;
-  if (DllPath = '') and (expectedVersion = '') then begin
+  if (DllPath = '') and (expectedVersion = '') then
+  begin
     if Length(fRegPythonVersions) > 0 then begin
       fPythonVersionIndex := 0;
       Result := True;
     end;
-  end else if DllPath = '' then begin
+  end
+  else if DllPath = '' then
+  begin
     for I := 0 to Length(fRegPythonVersions) - 1 do
       if fRegPythonVersions[I].SysVersion = expectedVersion then
       begin
@@ -336,19 +353,24 @@ begin
         Result := True;
         break;
       end;
-  end else if expectedVersion <> '' then begin
-    SetLength(fCustomPythonVersions, Length(fCustomPythonVersions) + 1);
-    fCustomPythonVersions[Length(fCustomPythonVersions)-1].InstallPath := DLLPath;
-    fCustomPythonVersions[Length(fCustomPythonVersions)-1].SysVersion := expectedVersion;
-    fPythonVersionIndex := - Length(fCustomPythonVersions);
-    Result := True;
   end
-  else begin
-    Result := PythonVersionFromPath(DLLPath, Version);
-    if Result then begin
-      SetLength(fCustomPythonVersions, Length(fCustomPythonVersions) + 1);
-      fCustomPythonVersions[Length(fCustomPythonVersions)-1] := Version;
-      fPythonVersionIndex := - Length(fCustomPythonVersions);
+  else
+  begin
+    for I := 0 to Length(fCustomPythonVersions) -1 do
+      if (fCustomPythonVersions[I].DLLPath = DLLPath) or
+         (fCustomPythonVersions[I].InstallPath = DLLPath) then
+      begin
+        Result := True;
+        fPythonVersionIndex := -(I + 1);
+        break;
+      end;
+    if not Result then begin
+      Result := PythonVersionFromPath(DLLPath, Version);
+      if Result then begin
+        SetLength(fCustomPythonVersions, Length(fCustomPythonVersions) + 1);
+        fCustomPythonVersions[Length(fCustomPythonVersions)-1] := Version;
+        fPythonVersionIndex := - Length(fCustomPythonVersions);
+      end;
     end;
   end;
 end;
@@ -709,6 +731,69 @@ begin
   finally
     if fRunConfig.WriteOutputToFile then
       PythonIIForm.StopFileMirror;
+  end;
+end;
+
+// IJvAppStorageHandler implementation
+function PythonVersionsKey: string;
+begin
+  {$IFDEF CPUX64}
+     Result := 'PythonVersions-x64';
+  {$ELSE}
+     Result := 'PythonVersions-x86';
+  {$ENDIF}
+end;
+
+procedure TPythonControl.ReadFromAppStorage(AppStorage: TJvCustomAppStorage;
+  out SysVersion, InstallPath: string);
+Var
+  CustomVersions : TStringList;
+  Version : TPythonVersion;
+  Path : string;
+  Count : integer;
+begin
+  if not AppStorage.PathExists(PythonVersionsKey) then Exit;
+  CustomVersions := TStringList.Create;
+  try
+    AppStorage.ReadStringList(PythonVersionsKey+'\Custom Versions', CustomVersions, True, 'Path');
+    Count := 0;
+    SetLength(fCustomPythonVersions, CustomVersions.Count);
+    for Path in CustomVersions do
+    begin
+       if PythonVersionFromPath(Path, Version) then
+       begin
+         fCustomPythonVersions[Count] := Version;
+         Inc(Count);
+       end;
+    end;
+    SetLength(fCustomPythonVersions, Count);
+  finally
+    CustomVersions.Free;
+  end;
+  SysVersion := AppStorage.ReadString(PythonVersionsKey+'\SysVerion');
+  InstallPath := AppStorage.ReadString(PythonVersionsKey+'\InstallPath');
+end;
+
+procedure TPythonControl.WriteToAppStorage(AppStorage: TJvCustomAppStorage);
+Var
+  CustomVersions : TStringList;
+  Version : TPythonVersion;
+begin
+  AppStorage.DeleteSubTree(PythonVersionsKey);
+  CustomVersions := TStringList.Create;
+  try
+    for Version in CustomPythonVersions do
+      CustomVersions.Add(Version.InstallPath);
+    AppStorage.WriteStringList(PythonVersionsKey+'\Custom Versions', CustomVersions, 'Path');
+  finally
+    CustomVersions.Free;
+  end;
+
+  if InternalPython.Loaded then begin
+    if fPythonVersionIndex >= 0 then
+      AppStorage.WriteString(PythonVersionsKey+'\SysVerion', PythonVersion.SysVersion)
+    else
+      AppStorage.WriteString(PythonVersionsKey+'\InstallPath', PythonVersion.InstallPath);
   end;
 end;
 
