@@ -2279,7 +2279,6 @@ end;
 
 procedure TEditorForm.HandlePythonVersionChange(Sender: TObject);
 begin
-  fSyntaxErrorPos.Clear;
   fNeedToCheckSyntax := True;
 end;
 
