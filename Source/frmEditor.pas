@@ -193,6 +193,7 @@ type
     fCloseBracketChar: WideChar;
     fCompletionHandler : TBaseCodeCompletionHandler;
     fOldCaretY : Integer;
+    procedure HandlePythonVersionChange(Sender: TObject);
     procedure CleanupCodeCompletion;
     function DoAskSaveChanges: boolean;
     procedure DoAssignInterfacePointer(AActive: boolean);
@@ -1423,6 +1424,9 @@ begin
   // Unregister kernel notification
   ChangeNotifier.UnRegisterKernelChangeNotify(Self);
 
+  // Remove Python Version Change Handler
+  PyControl.OnPythonVersionChange.RemoveHandler(HandlePythonVersionChange);
+
   SkinManager.RemoveSkinNotification(Self);
 end;
 
@@ -2208,6 +2212,9 @@ begin
   SynParamCompletion.ChangeScale(Screen.PixelsPerInch, 96);
   SynWebCompletion.ChangeScale(Screen.PixelsPerInch, 96);
 
+  // Add Python Version Change Notifier
+  PyControl.OnPythonVersionChange.AddHandler(HandlePythonVersionChange);
+
   Retranslate;
 end;
 
@@ -2268,6 +2275,12 @@ procedure TEditorForm.GoToSyntaxError;
 begin
   if HasSyntaxError then
     SynEdit.CaretXY := BufferCoord(fSyntaxErrorPos.Char, fSyntaxErrorPos.Line);
+end;
+
+procedure TEditorForm.HandlePythonVersionChange(Sender: TObject);
+begin
+  fSyntaxErrorPos.Clear;
+  fNeedToCheckSyntax := True;
 end;
 
 function TEditorForm.HasSyntaxError: boolean;

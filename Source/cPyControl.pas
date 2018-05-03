@@ -13,7 +13,8 @@ interface
 
 Uses
   System.Classes,
-  jvAppStorage,
+  JclNotify,
+  JvAppStorage,
   PythonVersions,
   uEditAppIntfs,
   cPySupportTypes,
@@ -60,6 +61,7 @@ type
     fOnErrorPosChange: TNotifyEvent;
     fOnStateChange: TDebuggerStateChangeEvent;
     fOnYield: TDebuggerYieldEvent;
+    fOnPythonVersionChange: TJclNotifyEventBroadcast;
     fActiveInterpreter : TPyBaseInterpreter;
     fActiveDebugger : TPyBaseDebugger ;
     fRunConfig : TRunConfiguration;
@@ -146,6 +148,7 @@ type
     property OnStateChange: TDebuggerStateChangeEvent read fOnStateChange
       write fOnStateChange;
     property OnYield: TDebuggerYieldEvent read fOnYield write fOnYield;
+    property OnPythonVersionChange: TJclNotifyEventBroadcast read fOnPythonVersionChange;
   end;
 
 var
@@ -209,6 +212,7 @@ begin
   fRunConfig := TRunConfiguration.Create;
   fInternalPython := TInternalPython.Create;
   fRegPythonVersions := GetRegisteredPythonVersions;
+  fOnPythonVersionChange := TJclNotifyEventBroadcast.Create;
 end;
 
 procedure TPythonControl.Debug(ARunConfig: TRunConfiguration; InitStepIn : Boolean = False;
@@ -235,6 +239,7 @@ destructor TPythonControl.Destroy;
 begin
   FreeAndNil(fInternalInterpreter);
   FreeAndNil(fInternalPython);
+  FreeAndNil(fOnPythonVersionChange);
   fRunConfig.Free;
   inherited;
 end;
@@ -709,6 +714,10 @@ begin
         Vcl.Dialogs.MessageDlg(Format(_(SErrorInitScript),
           [PyScripterInitFile, E.Message]), mtError, [mbOK], 0);
     end;
+
+    // Notify Python Version Change
+    fOnPythonVersionChange.Notify(Self);
+
     //  Set the current PythonEngine
     PyControl.PythonEngineType := PyIDEOptions.PythonEngineType;
   end else
