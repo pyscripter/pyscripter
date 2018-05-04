@@ -29,6 +29,7 @@ uses
   System.Variants,
   System.Actions,
   System.SyncObjs,
+  Vcl.Clipbrd,
   Vcl.Graphics,
   Vcl.Controls,
   Vcl.ExtCtrls,
@@ -308,7 +309,7 @@ end;
 
 procedure TPythonIIForm.actCopyHistoryExecute(Sender: TObject);
 begin
-  SetClipboardWideText(fCommandHistory.Text);
+  Clipboard.AsText :=  fCommandHistory.Text;
 end;
 
 procedure TPythonIIForm.actCopyWithoutPromptsExecute(Sender: TObject);
@@ -328,7 +329,7 @@ begin
     RegExpr.Free;
   end;
 
-  SetClipboardWideText(SelText);
+  Clipboard.AsText := SelText;
 end;
 
 procedure TPythonIIForm.actPasteAndExecuteExecute(Sender: TObject);
@@ -351,7 +352,7 @@ Var
   SL : TStringList;
   i, Line: Integer;
 begin
-  Text := GetClipboardWideText;
+  Text := Clipboard.AsText;
   if Text = '' then Exit;
 
   // Untabify
@@ -1398,7 +1399,7 @@ end;
 procedure TPythonIIForm.UpdateInterpreterActions;
 begin
   actCopyWithoutPrompts.Enabled := SynEdit.SelAvail;
-  actPasteAndExecute.Enabled := ClipboardProvidesWideText;
+  actPasteAndExecute.Enabled := Clipboard.HasFormat(CF_UNICODETEXT);
 end;
 
 procedure TPythonIIForm.FormActivate(Sender: TObject);

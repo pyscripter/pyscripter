@@ -177,6 +177,7 @@ uses
   VarPyth,
   JvDSADialogs,
   JvGnugettext,
+  MPCommonUtilities,
   StringResources,
   dmCommands,
   frmPythonII,
@@ -637,6 +638,8 @@ begin
       PythonPathAdder := AddPathToPythonPath(Path);
     if ARunConfig.WorkingDir <> '' then
       Path := Parameters.ReplaceInText(ARunConfig.WorkingDir);
+    if Length(Path) <= 1 then
+      Path := WideGetTempDir;
     OldPath := GetCurrentDir;
 
     // Change the current path
@@ -1299,6 +1302,8 @@ begin
       PythonPathAdder := AddPathToPythonPath(Path);
     if ARunConfig.WorkingDir <> '' then
       Path := Parameters.ReplaceInText(ARunConfig.WorkingDir);
+    if Length(Path) <= 1 then
+      Path := WideGetTempDir;
     OldPath := GetCurrentDir;
 
     // Change the current path

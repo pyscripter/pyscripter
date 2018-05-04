@@ -2522,7 +2522,7 @@ Var
 begin
   Editor := PyIDEMainForm.GetActiveEditor;
   if Assigned(Editor) then
-    SetClipboardWideText(Editor.GetFileNameOrTitle);
+    Clipboard.AsText := Editor.GetFileNameOrTitle;
 end;
 
 procedure TCommandsDataModule.actFindFunctionExecute(Sender: TObject);

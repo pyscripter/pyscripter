@@ -180,6 +180,7 @@ uses
   JvDSADialogs,
   JvGnugettext,
   StringResources,
+  MPCommonUtilities,
   dmCommands,
   frmPythonII,
   frmMessages,
@@ -847,6 +848,8 @@ begin
     PythonPathAdder := AddPathToPythonPath(Path);
   if ARunConfig.WorkingDir <> '' then
     Path := Parameters.ReplaceInText(ARunConfig.WorkingDir);
+  if Length(Path) <= 1 then
+    Path := WideGetTempDir;
   OldPath := RPI.rem_getcwdu();
 
   // Change the current path
@@ -1558,6 +1561,8 @@ begin
     PythonPathAdder := AddPathToPythonPath(Path);
   if ARunConfig.WorkingDir <> '' then
     Path := Parameters.ReplaceInText(ARunConfig.WorkingDir);
+  if Length(Path) <= 1 then
+    Path := WideGetTempDir;
   OldPath := fRemotePython.RPI.rem_getcwdu();
 
   // Change the current path

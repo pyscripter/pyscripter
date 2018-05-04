@@ -193,6 +193,7 @@ implementation
 
 uses
   System.Math,
+  Vcl.Clipbrd,
   MPCommonUtilities,
   dmCommands,
   uEditAppIntfs,
@@ -232,7 +233,7 @@ begin
         ExtractFileName(FileName) + #9 +
         IntToStr(LineNo));
     end;
-    SetClipboardWideText(ClipText.Text);
+    Clipboard.AsText := ClipText.Text;
   finally
     FreeAndNil(ClipText);
   end;

@@ -194,15 +194,6 @@ function StrTrimCharsRight(const S: string; const Chars: TSysCharSet): string;
 (* Extracts a token and returns the remainder of a string *)
 function StrToken(var S: String; Separator: Char): string;
 
-(* Gets the Clipboard contents as Unicode string *)
-function GetClipboardWideText : string;
-
-(* Sets the Clipboard contents as Unicode string *)
-procedure SetClipboardWideText(AText : string);
-
-(* Check whether the Clipboard can provide Unicode string *)
-function ClipboardProvidesWideText : Boolean;
-
 (* Get Hot Color from SpTBX Skin option entry *)
 function GetHotColor(OptionEntry : TSpTBXSkinOptionEntry) : TColor;
 
@@ -1737,21 +1728,6 @@ begin
     Result := S;
     S := '';
   end;
-end;
-
-function GetClipboardWideText : string;
-begin
-  Result := GetClipboardText;
-end;
-
-procedure SetClipboardWideText(AText : string);
-begin
-  SetClipboardText(AText);
-end;
-
-function ClipboardProvidesWideText : Boolean;
-begin
-  Result := ClipboardProvidesText;
 end;
 
 //function WideStrReplaceChars(const S: WideString; const Chars: TSysCharSet; Replace: WideChar): WideString;

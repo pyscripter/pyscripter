@@ -86,9 +86,9 @@ implementation
 
 uses
   JclStrings,
-  JclFileUtils,
   JvJVCLUtils,
   JvGnugettext,
+  MPCommonUtilities,
   StringResources,
   dmCommands,
   uCommonFunctions,
@@ -165,7 +165,8 @@ begin
   HTML := HTMLDoc.page(pydoc.describe(module), HTMLDoc.document(module));
 
   SaveFileName := ChangeFileExt(Editor.FileName, '') + '.html';
-  TempFileName := PathGetTempPath + ChangeFileExt(Editor.FileTitle, '') + '.html';
+  TempFileName := IncludeTrailingPathDelimiter(WideGetTempDir)
+     + ChangeFileExt(Editor.FileTitle, '') + '.html';
   StringToFile(TempFileName, AnsiString(HTML));
   WebBrowser.Navigate(TempFileName);
 end;

@@ -113,7 +113,8 @@ uses
   JvGnugettext in 'JvGnugettext.pas',
   JvDSADialogs in 'JvDSADialogs.pas',
   System.IniFiles in 'System.IniFiles.pas',
-  cInternalPython in 'cInternalPython.pas';
+  cInternalPython in 'cInternalPython.pas',
+  dlgPythonVersions in 'dlgPythonVersions.pas' {PythonVersionsDialog};
 
 {$R *.RES}
 {$R WebCopyAvi.RES}

@@ -2196,6 +2196,7 @@ object PyIDEMainForm: TPyIDEMainForm
       Caption = 'Setup Python...'
       Hint = 'Setup python engine'
       ImageIndex = 154
+      OnExecute = actPythonSetupExecute
     end
   end
   object JvDockVSNetStyleSpTBX: TJvDockVSNetStyleSpTBX

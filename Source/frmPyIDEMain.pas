@@ -417,6 +417,7 @@
 
   History:   v 3.4
           New Features
+            Python Engine change without exiting PyScripter
             Faster loading
             Initial support for running Jupyter notebooks inside PyScripter
             Syntax highlighting for JSON files
@@ -425,7 +426,6 @@
           Issues addressed
             #627, #852, #858, #862
 
-            { TODO : Python Engine change without exiting PyScripter }
             { TODO : Issues 501, 667 }
             { TODO : Review Search and Replace }
             { TODO : Auto PEP8 tool }
@@ -1112,6 +1112,7 @@ type
     procedure actSelectStyleExecute(Sender: TObject);
     procedure mnPythonVersionsPopup(Sender: TTBCustomItem; FromLink: Boolean);
     procedure PythonVersionsClick(Sender: TObject);
+    procedure actPythonSetupExecute(Sender: TObject);
   private
     DSAAppStorage: TDSAAppStorage;
     ShellExtensionFiles : TStringList;
@@ -1260,6 +1261,7 @@ uses
   System.Math,
   System.IniFiles,
   System.DateUtils,
+  Vcl.Clipbrd,
   Vcl.StdActns,
   Vcl.Themes,
   JvCreateProcess,
@@ -1314,7 +1316,8 @@ uses
   cFilePersist,
   cCodeHint,
   cPyRemoteDebugger,
-  cProjectClasses;
+  cProjectClasses,
+  dlgPythonVersions;
 
 {$R *.DFM}
 
@@ -1994,6 +1997,15 @@ begin
       mtWarning, [mbYes, mbNo], 0) = idNo then Exit;
   end;
   PyControl.ActiveInterpreter.ReInitialize;
+end;
+
+procedure TPyIDEMainForm.actPythonSetupExecute(Sender: TObject);
+begin
+  with TPythonVersionsDialog.Create(Self) do
+  begin
+    ShowModal;
+    Release;
+  end;
 end;
 
 procedure TPyIDEMainForm.actSyntaxCheckExecute(Sender: TObject);
@@ -4596,7 +4608,7 @@ begin
       TEditAction(Action).Enabled :=
        (Action is TEditCut) and (TComboBox(Screen.ActiveControl).SelLength > 0) or
        (Action is TEditCopy) and (TComboBox(Screen.ActiveControl).SelLength > 0) or
-       (Action is TEditPaste) and ClipboardProvidesWideText;
+       (Action is TEditPaste) and Clipboard.HasFormat(CF_UNICODETEXT);
       Handled := (Action is TEditCut) or (Action is TEditCopy) or (Action is TEditPaste);
     end
     else if ((Action is TEditCopy) or (Action is TEditCut)) and Assigned(GI_ActiveEditor) then

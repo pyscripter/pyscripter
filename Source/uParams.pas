@@ -59,6 +59,7 @@ uses
   WinApi.Windows,
   System.SysUtils,
   System.Win.Registry,
+  Vcl.Clipbrd,
   Vcl.Dialogs,
   Vcl.FileCtrl,
   SynRegExpr,
@@ -133,7 +134,7 @@ var
   AEditor: IEditor;
 begin
   Result:= '';
-  if (AFileName = '') or WideSameText('ActiveDoc', AFileName) then
+  if (AFileName = '') or SameText('ActiveDoc', AFileName) then
     AEditor:= GI_ActiveEditor
   else AEditor := GI_EditorFactory.GetEditorByName(AFileName);
   if Assigned(AEditor) then
@@ -145,7 +146,7 @@ var
   AEditor: IEditor;
 begin
   Result:= '';
-  if (AFileName = '') or WideSameText('ActiveDoc', AFileName) then
+  if (AFileName = '') or SameText('ActiveDoc', AFileName) then
     AEditor:= GI_ActiveEditor
   else AEditor:= GI_EditorFactory.GetEditorByNameOrTitle(AFileName);
   if Assigned(AEditor) then
@@ -157,7 +158,7 @@ var
   AEditor: IEditor;
 begin
   Result:= '';
-  if (AFileName = '') or WideSameText('ActiveDoc', AFileName) then
+  if (AFileName = '') or SameText('ActiveDoc', AFileName) then
     AEditor:= GI_ActiveEditor
   else AEditor:= GI_EditorFactory.GetEditorByName(AFileName);
   if Assigned(AEditor) then
@@ -352,7 +353,7 @@ end;
 function GetClipboard: string;
 (* returns clipboard as text *)
 begin
-  Result:= GetClipboardWideText;
+  Result:= Clipboard.AsText;
 end;
 
 function GetFileExt(const AFileName: string): string;
@@ -566,17 +567,17 @@ end;
 
 function WindowsDirectory : string;
 begin
-  Result := string(MPCommonUtilities.WindowsDirectory);
+  Result := MPCommonUtilities.WindowsDirectory;
 end;
 
 function SystemDirectory : string;
 begin
-  Result := string(MPCommonUtilities.SystemDirectory);
+  Result := MPCommonUtilities.SystemDirectory;
 end;
 
 function GetTempDir : string;
 begin
-  Result := string(MPCommonUtilities.WideGetTempDir);
+  Result := MPCommonUtilities.WideGetTempDir;
 end;
 
 procedure RegisterStandardParametersAndModifiers;
