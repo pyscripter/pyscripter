@@ -52,9 +52,6 @@ type
     procedure VariablesTreeGetImageIndex(Sender: TBaseVirtualTree;
       Node: PVirtualNode; Kind: TVTImageKind; Column: TColumnIndex;
       var Ghosted: Boolean; var ImageIndex: TImageIndex);
-    procedure VariablesTreeGetText(Sender: TBaseVirtualTree;
-      Node: PVirtualNode; Column: TColumnIndex; TextType: TVSTTextType;
-      var CellText: string);
     procedure FormActivate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure VariablesTreePaintText(Sender: TBaseVirtualTree;
@@ -67,6 +64,8 @@ type
       Node: PVirtualNode);
     procedure VariablesTreeAddToSelection(Sender: TBaseVirtualTree;
       Node: PVirtualNode);
+    procedure VariablesTreeGetCellText(Sender: TCustomVirtualStringTree;
+      var E: TVSTGetCellTextEventArgs);
   private
     { Private declarations }
     CurrentModule, CurrentFunction : string;
@@ -258,22 +257,20 @@ begin
     ImageIndex := -1;
 end;
 
-procedure TVariablesWindow.VariablesTreeGetText(Sender: TBaseVirtualTree;
-  Node: PVirtualNode; Column: TColumnIndex; TextType: TVSTTextType;
-  var CellText: string);
+procedure TVariablesWindow.VariablesTreeGetCellText(
+  Sender: TCustomVirtualStringTree; var E: TVSTGetCellTextEventArgs);
 var
   Data : PNodeData;
 begin
-  if TextType <> ttNormal then Exit;
-  Data := Node.GetData;
+  Data := E.Node.GetData;
   if Assigned(Data) and Assigned(Data.NameSpaceItem) then
-    case Column of
-      0 : CellText := Data.Name;
-      1 : CellText := Data.ObjectType;
-      2 : CellText := Data.Value;
+    case E.Column of
+      0 : E.CellText := Data.Name;
+      1 : E.CellText := Data.ObjectType;
+      2 : E.CellText := Data.Value;
     end
   else
-    CellText := 'NA';
+    E.CellText := 'NA';
 end;
 
 procedure TVariablesWindow.UpdateWindow;

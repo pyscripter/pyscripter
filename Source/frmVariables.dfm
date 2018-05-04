@@ -70,7 +70,7 @@ inherited VariablesWindow: TVariablesWindow
           Height = 89
           Align = alTop
           BorderStyle = bsNone
-          Font.Charset = DEFAULT_CHARSET
+          Font.Charset = ANSI_CHARSET
           Font.Color = clWindowText
           Font.Height = -11
           Font.Name = 'Tahoma'
@@ -122,7 +122,7 @@ inherited VariablesWindow: TVariablesWindow
           TreeOptions.StringOptions = [toAutoAcceptEditChange]
           OnAddToSelection = VariablesTreeAddToSelection
           OnFreeNode = VariablesTreeFreeNode
-          OnGetText = VariablesTreeGetText
+          OnGetCellText = VariablesTreeGetCellText
           OnPaintText = VariablesTreePaintText
           OnGetImageIndex = VariablesTreeGetImageIndex
           OnInitChildren = VariablesTreeInitChildren
