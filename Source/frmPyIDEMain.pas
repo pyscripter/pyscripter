@@ -423,7 +423,7 @@
             New IDE option "Style Main Window Border"
             Find in Files and ToDo folders can include parameters (#828)
           Issues addressed
-            #627, #852, #862
+            #627, #852, #858, #862
 
             { TODO : Python Engine change without exiting PyScripter }
             { TODO : Issues 501, 667 }
@@ -514,9 +514,7 @@ uses
 const
   WM_FINDDEFINITION  = WM_USER + 100;
   WM_CHECKFORUPDATES = WM_USER + 110;
-  WM_UPDATEBREAKPOINTS  = WM_USER + 120;
   WM_SEARCHREPLACEACTION  = WM_USER + 130;
-  WM_EXECCLOSE  = WM_USER + 140;
 
 type
   { Trick to add functionality to TTSpTBXTabControl}
@@ -1152,9 +1150,7 @@ type
       State: TDragState; var Accept: Boolean);
     procedure TabToolbarlDragDrop(Sender, Source: TObject; X, Y: Integer);
     procedure WMFindDefinition(var Msg: TMessage); message WM_FINDDEFINITION;
-    procedure WMUpdateBreakPoints(var Msg: TMessage); message WM_UPDATEBREAKPOINTS;
     procedure WMSearchReplaceAction(var Msg: TMessage); message WM_SEARCHREPLACEACTION;
-    procedure WMExecCLose(var Msg: TMessage); message WM_EXECCLOSE;
     procedure WMCheckForUpdates(var Msg: TMessage); message WM_CHECKFORUPDATES;
     procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
     procedure CMStyleChanged(var Message: TMessage); message CM_STYLECHANGED;
@@ -1517,6 +1513,7 @@ begin
   RegisterDSA(dsaSearchStartReached, 'SearchStartReached', 'Information: search start reached', DSAAppStorage, ctkShow);
   RegisterDSA(dsaPostMortemInfo, 'PostMortemInfo', 'Instructions: Post Mortem', DSAAppStorage, ctkShow);
 
+  //OutputDebugString(PWideChar(Format('%s ElapsedTime %d ms', ['Before All Forms', StopWatch.ElapsedMilliseconds])));
   // Create and layout IDE windows
   PythonIIForm := TPythonIIForm.Create(self);
   PythonIIForm.PopupParent := Self;
@@ -1546,7 +1543,6 @@ begin
   FindResultsWindow.PopupParent := Self;
   ProjectExplorerWindow := TProjectExplorerWindow.Create(Self);
   ProjectExplorerWindow.PopupParent := Self;
-  //OutputDebugString(PWideChar(Format('%s ElapsedTime %d ms', ['After All Forms', StopWatch.ElapsedMilliseconds])));
 
   // And now translate after all the docking forms have been created
   // They will be translated as well
@@ -2161,7 +2157,6 @@ end;
 procedure TPyIDEMainForm.DebuggerBreakpointChange(Sender: TObject; Editor : IEditor;
   ALine: integer);
 begin
-  PostMessage(Handle, WM_UPDATEBREAKPOINTS, 0, 0);
   if not Assigned(Editor) then Exit;
   if (ALine >= 1) and (ALine <= Editor.SynEdit.Lines.Count) then
   begin
@@ -2172,6 +2167,11 @@ begin
   end
   else
     Editor.SynEdit.Invalidate;
+
+  TThread.ForceQueue(nil, procedure
+  begin
+    BreakPointsWindow.UpdateWindow;
+  end);
 end;
 
 procedure TPyIDEMainForm.UpdateCaption;
@@ -3435,8 +3435,10 @@ begin
   Editor := EditorFromTab(Sender as TSpTBXTabItem);
   if Assigned(Editor) then begin
     Allow := False;
-    PostMessage(Handle, WM_EXECCLOSE, WPARAM(Editor), 0);
-    //(Editor as IFileCommands).ExecClose;
+    TThread.ForceQueue(nil, procedure
+    begin
+      (Editor as IFileCommands).ExecClose;
+    end);
   end;
 end;
 
@@ -4640,22 +4642,11 @@ begin
   Message.Result := 1;
 end;
 
-procedure TPyIDEMainForm.WMExecCLose(var Msg: TMessage);
-begin
-  (IEditor(Pointer(Msg.WParam)) as IFileCommands).ExecClose;
-end;
-
 procedure TPyIDEMainForm.FormShow(Sender: TObject);
 begin
   //OutputDebugString(PWideChar(Format('%s ElapsedTime %d ms', ['FormShow start', StopWatch.ElapsedMilliseconds])));
   // Do not execute again
   OnShow := nil;
-
-  if PyIDEOptions.AutoCheckForUpdates and
-    (DaysBetween(Now, PyIDEOptions.DateLastCheckedForUpdates) >=
-      PyIDEOptions.DaysBetweenChecks) and ConnectedToInternet
-  then
-    PostMessage(Handle, WM_CHECKFORUPDATES, 0, 0);
 
   // Repeat here to make sure it is set right
   MaskFPUExceptions(PyIDEOptions.MaskFPUExceptions);
@@ -4701,6 +4692,12 @@ begin
 
     // This is needed to update the variables window
     PyControl.DoStateChange(dsInactive);
+
+    if PyIDEOptions.AutoCheckForUpdates and
+      (DaysBetween(Now, PyIDEOptions.DateLastCheckedForUpdates) >=
+        PyIDEOptions.DaysBetweenChecks) and ConnectedToInternet
+    then
+      PostMessage(Handle, WM_CHECKFORUPDATES, 0, 0);
   end);
   //OutputDebugString(PWideChar(Format('%s ElapsedTime %d ms', ['FormShow end', StopWatch.ElapsedMilliseconds])));
 end;
@@ -4715,11 +4712,6 @@ begin
     if (CmdLine[i][1] <> '-') then
       //DoOpenFile(CmdLine[i]);
       ShellExtensionFiles.Add(CmdLine[i])
-end;
-
-procedure TPyIDEMainForm.WMUpdateBreakPoints(var Msg: TMessage);
-begin
-  BreakPointsWindow.UpdateWindow;
 end;
 
 //function TPyIDEMainForm.FindAction(var Key: Word; Shift: TShiftState) : TCustomAction;

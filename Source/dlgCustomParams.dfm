@@ -4,23 +4,23 @@ inherited CustomizeParams: TCustomizeParams
   HelpContext = 720
   Caption = 'Custom Parameters'
   ClientHeight = 343
-  ClientWidth = 435
+  ClientWidth = 557
   ShowHint = True
   OnDestroy = FormDestroy
   OnShow = FormShow
-  ExplicitWidth = 441
+  ExplicitWidth = 563
   ExplicitHeight = 372
   PixelsPerInch = 96
   TextHeight = 13
   object Panel: TPanel
     Left = 0
     Top = 0
-    Width = 435
+    Width = 557
     Height = 343
     Align = alClient
     TabOrder = 0
     DesignSize = (
-      435
+      557
       343)
     object Label3: TLabel
       Left = 12
@@ -39,52 +39,52 @@ inherited CustomizeParams: TCustomizeParams
       Enabled = False
     end
     object TBXButton1: TButton
-      Left = 5
+      Left = 8
       Top = 183
-      Width = 84
+      Width = 100
       Height = 24
       Action = actAddItem
       Images = CommandsDataModule.Images
       TabOrder = 3
     end
     object TBXButton3: TButton
-      Left = 89
+      Left = 117
       Top = 183
-      Width = 84
+      Width = 100
       Height = 24
       Action = actDeleteItem
       Images = CommandsDataModule.Images
       TabOrder = 4
     end
     object TBXButton4: TButton
-      Left = 174
+      Left = 227
       Top = 183
-      Width = 84
+      Width = 100
       Height = 24
       Action = actMoveUp
       Images = CommandsDataModule.Images
       TabOrder = 5
     end
     object TBXButton5: TButton
-      Left = 258
+      Left = 336
       Top = 183
-      Width = 84
+      Width = 100
       Height = 24
       Action = actMoveDown
       Images = CommandsDataModule.Images
       TabOrder = 6
     end
     object TBXButton2: TButton
-      Left = 343
+      Left = 446
       Top = 183
-      Width = 84
+      Width = 100
       Height = 24
       Action = actUpdateItem
       Images = CommandsDataModule.Images
       TabOrder = 7
     end
     object btnOK: TButton
-      Left = 260
+      Left = 382
       Top = 308
       Width = 75
       Height = 25
@@ -95,7 +95,7 @@ inherited CustomizeParams: TCustomizeParams
       TabOrder = 1
     end
     object btnCancel: TButton
-      Left = 340
+      Left = 462
       Top = 308
       Width = 75
       Height = 25
@@ -108,8 +108,9 @@ inherited CustomizeParams: TCustomizeParams
     object GroupBox1: TGroupBox
       Left = 10
       Top = 215
-      Width = 414
+      Width = 536
       Height = 83
+      Anchors = [akLeft, akTop, akRight, akBottom]
       Caption = 'Name-Value Pair'
       TabOrder = 2
       object Label1: TLabel
@@ -127,9 +128,9 @@ inherited CustomizeParams: TCustomizeParams
         Caption = '&Value:'
       end
       object SynValue: TSynEdit
-        Left = 61
+        Left = 133
         Top = 48
-        Width = 330
+        Width = 380
         Height = 20
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
@@ -159,9 +160,9 @@ inherited CustomizeParams: TCustomizeParams
         FontSmoothing = fsmNone
       end
       object edName: TEdit
-        Left = 61
+        Left = 133
         Top = 23
-        Width = 121
+        Width = 155
         Height = 21
         TabOrder = 0
         OnKeyPress = edNameKeyPress
@@ -170,7 +171,7 @@ inherited CustomizeParams: TCustomizeParams
     object lvItems: TListView
       Left = 1
       Top = 1
-      Width = 433
+      Width = 555
       Height = 171
       Align = alTop
       Columns = <
