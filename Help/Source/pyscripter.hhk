@@ -587,6 +587,10 @@
 		</OBJECT>
 	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="Python">
+		<param name="Local" value="setuppythonversions.htm">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Python">
 		<param name="Local" value="pythoninteractiveinterpreter.htm">
 		</OBJECT>
 	<LI> <OBJECT type="text/sitemap">

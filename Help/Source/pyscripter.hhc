@@ -171,16 +171,20 @@
 		</OBJECT>
 	<UL>
 		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Python Versions">
+			<param name="Local" value="setuppythonversions.htm">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Remote Python Engines">
+			<param name="Local" value="remotepythonengines.htm">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
 			<param name="Name" value="Running Scripts">
 			<param name="Local" value="runningscripts.htm">
 			</OBJECT>
 		<LI> <OBJECT type="text/sitemap">
 			<param name="Name" value="Run Configurations">
 			<param name="Local" value="runconfigurations.htm">
-			</OBJECT>
-		<LI> <OBJECT type="text/sitemap">
-			<param name="Name" value="Remote Python Engines">
-			<param name="Local" value="remotepythonengines.htm">
 			</OBJECT>
 		<LI> <OBJECT type="text/sitemap">
 			<param name="Name" value="Post Mortem Analysis">

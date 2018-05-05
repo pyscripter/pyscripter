@@ -132,6 +132,8 @@ pythoninteractiveinterpreter1.JPG
 pythoninteractiveinterpreter2.PNG
 pythonpath.htm
 pythonpath1.JPG
+pythonversions.JPG
+pythonversionspopup.JPG
 regularexpressiontesting.htm
 regularexpressiontesting1.JPG
 regularexpressiontesting2.JPG
@@ -148,6 +150,7 @@ searchmenu2.JPG
 searchmenu3.PNG
 SelectStyle.JPG
 SelectTheme.JPG
+setuppythonversions.htm
 side-by-side-file-editing.htm
 side-by-side-file-editing1.JPG
 startup-python-scripts.htm
@@ -255,6 +258,7 @@ IDH_850 = documentationview.htm
 IDH_860 = disassemblyview.htm
 IDH_865 = regularexpressiontesting.htm
 IDH_870 = pythonpath.htm
+IDH_880 = setuppythonversions.htm
 IDH_605 = persistentoptions.htm
 IDH_610 = ideoptions.htm
 IDH_615 = ideshortcuts.htm
@@ -330,6 +334,7 @@ IDH_720 = parameters.htm
 #define IDH_860 860
 #define IDH_865 865
 #define IDH_870 870
+#define IDH_880 880
 #define IDH_605 605
 #define IDH_610 610
 #define IDH_615 615
