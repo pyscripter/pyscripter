@@ -67,7 +67,6 @@ type
     fRunConfig : TRunConfiguration;
     fPythonVersionIndex : integer;
     fRegPythonVersions : TPythonVersions;
-    fCustomPythonVersions: TPythonVersions;
     fInternalPython : TInternalPython;
     fInternalInterpreter : TPyBaseInterpreter;
     function InitPythonVersions : Boolean;
@@ -86,6 +85,7 @@ type
     // and destroyed in frmPythonII
     ErrorPos: TEditorPos;
     CurrentPos: TEditorPos;
+    CustomPythonVersions: TPythonVersions;
 
     constructor Create;
     destructor Destroy; override;
@@ -126,7 +126,6 @@ type
     property PythonVersion : TPythonVersion read GetPythonVersion;
     property PythonVersionIndex : integer read fPythonVersionIndex write SetPythonVersionIndex;
     property RegPythonVersions : TPythonVersions read fRegPythonVersions;
-    property CustomPythonVersions : TPythonVersions read fCustomPythonVersions;
     property PythonEngineType : TPythonEngineType read GetPythonEngineType
       write SetPythonEngineType;
     property InternalPython : TInternalPython read fInternalPython;
@@ -167,6 +166,7 @@ uses
   JvJVCLUtils,
   VarPyth,
   StringResources,
+  dmCommands,
   frmPythonII,
   frmPyIDEMain,
   frmCommandOutput,
@@ -178,7 +178,7 @@ uses
   cPyDebugger,
   cPyRemoteDebugger,
   cProjectClasses,
-  dmCommands;
+  cRefactoring;
 
 { TEditorPos }
 
@@ -287,8 +287,8 @@ function TPythonControl.GetPythonVersion: TPythonVersion;
 begin
   if (fPythonVersionIndex >= 0) and (fPythonVersionIndex < Length(fRegPythonVersions)) then
     Result := fRegPythonVersions[fPythonVersionIndex]
-  else if (fPythonVersionIndex < 0) and (-fPythonVersionIndex <= Length(fCustomPythonVersions)) then
-    Result := fCustomPythonVersions[-fPythonVersionIndex -1]
+  else if (fPythonVersionIndex < 0) and (-fPythonVersionIndex <= Length(CustomPythonVersions)) then
+    Result := CustomPythonVersions[-fPythonVersionIndex -1]
   else
     Assert(False, 'Invalide PythonVersionIndex');
 end;
@@ -361,9 +361,9 @@ begin
   end
   else
   begin
-    for I := 0 to Length(fCustomPythonVersions) -1 do
-      if (fCustomPythonVersions[I].DLLPath = DLLPath) or
-         (fCustomPythonVersions[I].InstallPath = DLLPath) then
+    for I := 0 to Length(CustomPythonVersions) -1 do
+      if (CustomPythonVersions[I].DLLPath = DLLPath) or
+         (CustomPythonVersions[I].InstallPath = DLLPath) then
       begin
         Result := True;
         fPythonVersionIndex := -(I + 1);
@@ -372,9 +372,9 @@ begin
     if not Result then begin
       Result := PythonVersionFromPath(DLLPath, Version);
       if Result then begin
-        SetLength(fCustomPythonVersions, Length(fCustomPythonVersions) + 1);
-        fCustomPythonVersions[Length(fCustomPythonVersions)-1] := Version;
-        fPythonVersionIndex := - Length(fCustomPythonVersions);
+        SetLength(CustomPythonVersions, Length(CustomPythonVersions) + 1);
+        CustomPythonVersions[Length(CustomPythonVersions)-1] := Version;
+        fPythonVersionIndex := - Length(CustomPythonVersions);
       end;
     end;
   end;
@@ -680,12 +680,17 @@ begin
     Vcl.Dialogs.MessageDlg(_(SPythonLoadError), mtError, [mbOK], 0);
 end;
 
-
 procedure TPythonControl.LoadPythonEngine(const APythonVersion : TPythonVersion);
 Var
   II : Variant;   // wrapping sys and code modules
   FileName : String;
 begin
+  if InternalPython.Loaded then
+  begin
+    VariablesWindow.ClearAll;
+    PyScripterRefactor.ClearProxyModules;
+  end;
+
   // Destroy Active debugger and interpreter
   PyControl.ActiveDebugger := nil;
   PyControl.ActiveInterpreter := nil;
@@ -766,16 +771,16 @@ begin
   try
     AppStorage.ReadStringList(PythonVersionsKey+'\Custom Versions', CustomVersions, True, 'Path');
     Count := 0;
-    SetLength(fCustomPythonVersions, CustomVersions.Count);
+    SetLength(CustomPythonVersions, CustomVersions.Count);
     for Path in CustomVersions do
     begin
        if PythonVersionFromPath(Path, Version) then
        begin
-         fCustomPythonVersions[Count] := Version;
+         CustomPythonVersions[Count] := Version;
          Inc(Count);
        end;
     end;
-    SetLength(fCustomPythonVersions, Count);
+    SetLength(CustomPythonVersions, Count);
   finally
     CustomVersions.Free;
   end;

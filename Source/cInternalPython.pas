@@ -76,6 +76,7 @@ type
 implementation
 
 uses
+  WinApi.Windows,
   VarPyth,
   dmCommands,
   frmPyIDEMain,
@@ -195,12 +196,39 @@ begin
 end;
 
 procedure TInternalPython.DestroyPythonComponents;
+
+  procedure UnloadPythonDLL(DLL: PWideChar);
+  Var
+    Module : HMODULE;
+  begin
+    MODULE := GetModuleHandle(DLL);
+    if MODULE >= 32 then
+      FreeLibrary(Module);
+  end;
+
+Var
+  WasLoaded: Boolean;
 begin
-  if Loaded then PyscripterModule.DeleteVar('IDEOptions');
+  WasLoaded := Loaded;
+  if WasLoaded then PyscripterModule.DeleteVar('IDEOptions');
   FreeAndNil(fPythonEngine);  // Unloads Python Dll
   FreeAndNil(fDebugIDE);
   FreeAndNil(PyDelphiWrapper);
   FreeAndNil(PyscripterModule);
+
+  if WasLoaded then
+  begin
+    UnloadPythonDLL('select.pyd');
+    UnloadPythonDLL('_socket.pyd');
+    UnloadPythonDLL('python3.dll');
+    UnloadPythonDLL('_ssl.pyd');
+    UnloadPythonDLL('win32file.pyd');
+    UnloadPythonDLL('win32pipe.pyd');
+    UnloadPythonDLL('unicodedata.pyd');
+    UnloadPythonDLL('_ctypes.pyd');
+    UnloadPythonDLL('_hashlib.pyd');
+    //UnloadPythonDLL('pywintypes36.dll');
+  end;
 end;
 
 procedure TInternalPython.Get8087CWExecute(Sender: TObject; PSelf,
@@ -247,6 +275,11 @@ end;
 function TInternalPython.LoadPython(const Version: TPythonVersion): Boolean;
 begin
   DestroyPythonComponents;
+  // set environment variables
+  SetEnvironmentVariable('PYTHONHOME', '');
+  if not (Version.IsRegistered or Version.Is_venv) then
+    SetEnvironmentVariable('PYTHONHOME', PWideChar(Version.InstallPath));
+
   CreatePythonComponents;
   Version.AssignTo(PythonEngine);
   PythonEngine.LoadDll;

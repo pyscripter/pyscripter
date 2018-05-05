@@ -255,6 +255,11 @@ Const
   SPHPTemplateName = 'PHP Code';
   SJupyterTemplateName = 'Jupyter Notebook';
 
+  // Python Versions
+  SRegisteredVersions = 'Registered Versions';
+  SUnRegisteredVersions = 'Unregistered Versions';
+
+
   // do not localize further
 
 {gnugettext: reset }

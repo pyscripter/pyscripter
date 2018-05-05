@@ -48,14 +48,9 @@ type
     procedure CallStackViewDblClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
-    procedure CallStackViewGetText(Sender: TBaseVirtualTree;
-      Node: PVirtualNode; Column: TColumnIndex; TextType: TVSTTextType;
-      var CellText: string);
     procedure FormActivate(Sender: TObject);
     procedure actPreviousFrameExecute(Sender: TObject);
     procedure actNextFrameExecute(Sender: TObject);
-    procedure ThreadViewGetText(Sender: TBaseVirtualTree; Node: PVirtualNode;
-      Column: TColumnIndex; TextType: TVSTTextType; var CellText: string);
     procedure ThreadViewGetImageIndex(Sender: TBaseVirtualTree;
       Node: PVirtualNode; Kind: TVTImageKind; Column: TColumnIndex;
       var Ghosted: Boolean; var ImageIndex: TImageIndex);
@@ -70,6 +65,10 @@ type
       Node: PVirtualNode; var InitialStates: TVirtualNodeInitStates);
     procedure CallStackViewFreeNode(Sender: TBaseVirtualTree;
       Node: PVirtualNode);
+    procedure CallStackViewGetCellText(Sender: TCustomVirtualStringTree;
+      var E: TVSTGetCellTextEventArgs);
+    procedure ThreadViewGetCellText(Sender: TCustomVirtualStringTree;
+      var E: TVSTGetCellTextEventArgs);
   private
     { Private declarations }
     fActiveThread : TThreadInfo;
@@ -306,33 +305,31 @@ begin
   inherited;
 end;
 
+procedure TCallStackWindow.CallStackViewGetCellText(
+  Sender: TCustomVirtualStringTree; var E: TVSTGetCellTextEventArgs);
+Var
+  FrameData : PFrameData;
+begin
+  Assert(CallStackView.GetNodeLevel(E.Node) = 0);
+  Assert(Assigned(fActiveThread));
+  Assert(Integer(E.Node.Index) < fActiveThread.CallStack.Count);
+  FrameData := E.Node.GetData;
+  case E.Column of
+    0:  E.CellText := FrameData.Func;
+    1:  E.CellText := FrameData.FileName;
+    2:  if FrameData.Line > 0
+          then E.CellText := FrameData.Line.ToString
+        else
+          E.CellText := '';
+  end;
+end;
+
 procedure TCallStackWindow.CallStackViewGetImageIndex(Sender: TBaseVirtualTree;
   Node: PVirtualNode; Kind: TVTImageKind; Column: TColumnIndex;
   var Ghosted: Boolean; var ImageIndex: TImageIndex);
 begin
   if (Kind = ikState) and (vsSelected in Node.States) and (Column = 0) then
     ImageIndex := 41;
-end;
-
-procedure TCallStackWindow.CallStackViewGetText(Sender: TBaseVirtualTree;
-  Node: PVirtualNode; Column: TColumnIndex; TextType: TVSTTextType;
-  var CellText: string);
-Var
-  FrameData : PFrameData;
-begin
-  if TextType <> ttNormal then Exit;
-  Assert(CallStackView.GetNodeLevel(Node) = 0);
-  Assert(Assigned(fActiveThread));
-  Assert(Integer(Node.Index) < fActiveThread.CallStack.Count);
-  FrameData := Node.GetData;
-  case Column of
-    0:  CellText := FrameData.Func;
-    1:  CellText := FrameData.FileName;
-    2:  if FrameData.Line > 0
-          then CellText := FrameData.Line.ToString
-        else
-          CellText := '';
-  end;
 end;
 
 procedure TCallStackWindow.CallStackViewInitNode(Sender: TBaseVirtualTree;
@@ -468,6 +465,14 @@ begin
   end;
 end;
 
+procedure TCallStackWindow.ThreadViewGetCellText(
+  Sender: TCustomVirtualStringTree; var E: TVSTGetCellTextEventArgs);
+begin
+  Assert(ThreadView.GetNodeLevel(E.Node) = 0);
+  Assert(Integer(E.Node.Index) < fThreads.Count);
+  E.CellText := fThreads[E.Node.Index].Name;
+end;
+
 procedure TCallStackWindow.ThreadViewGetImageIndex(Sender: TBaseVirtualTree;
   Node: PVirtualNode; Kind: TVTImageKind; Column: TColumnIndex;
   var Ghosted: Boolean; var ImageIndex: TImageIndex);
@@ -481,16 +486,6 @@ begin
       ImageIndex := 153
   end else if (Kind = ikState) and (fThreads[Node.Index] = fActiveThread) then
     ImageIndex := 41;
-end;
-
-procedure TCallStackWindow.ThreadViewGetText(Sender: TBaseVirtualTree;
-  Node: PVirtualNode; Column: TColumnIndex; TextType: TVSTTextType;
-  var CellText: string);
-begin
-  if TextType <> ttNormal then Exit;
-  Assert(ThreadView.GetNodeLevel(Node) = 0);
-  Assert(Integer(Node.Index) < fThreads.Count);
-  CellText := fThreads[Node.Index].Name;
 end;
 
 procedure TCallStackWindow.WriteToAppStorage(AppStorage: TJvCustomAppStorage;

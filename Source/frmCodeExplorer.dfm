@@ -84,7 +84,7 @@ inherited CodeExplorerWindow: TCodeExplorerWindow
           OnContextPopup = ExplorerTreeContextPopup
           OnDblClick = ExplorerTreeDblClick
           OnExpanded = ExplorerTreeExpanded
-          OnGetText = ExplorerTreeGetText
+          OnGetCellText = ExplorerTreeGetCellText
           OnGetImageIndex = ExplorerTreeGetImageIndex
           OnGetHint = ExplorerTreeGetHint
           OnInitChildren = ExplorerTreeInitChildren

@@ -2001,11 +2001,15 @@ end;
 
 procedure TPyIDEMainForm.actPythonSetupExecute(Sender: TObject);
 begin
-  with TPythonVersionsDialog.Create(Self) do
+  TThread.ForceQueue(nil, procedure
   begin
-    ShowModal;
-    Release;
-  end;
+    with TPythonVersionsDialog.Create(Self) do
+    begin
+      ShowModal;
+      Release;
+      SetupPythonVersionsMenu;
+    end;
+  end);
 end;
 
 procedure TPyIDEMainForm.actSyntaxCheckExecute(Sender: TObject);
@@ -2467,8 +2471,11 @@ begin
 end;
 
 procedure TPyIDEMainForm.ApplicationOnHint(Sender: TObject);
+Var
+  S : string;
 begin
-  WriteStatusMsg(GetLongHint(Application.Hint));
+  S := StringReplace(GetLongHint(Application.Hint), #13#10, ' ', [rfReplaceAll]);
+  WriteStatusMsg(S);
 end;
 
 procedure TPyIDEMainForm.ApplcationOnShowHint(var HintStr: string;

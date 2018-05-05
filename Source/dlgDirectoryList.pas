@@ -52,8 +52,11 @@ function EditFolderList(Folders: TStrings; FormCaption : string = 'Directory Lis
 implementation
 
 uses
+  Math,
   JVBoxProcs,
-  dmCommands, Math, FileCtrl;
+  JvGnuGetText,
+  dmCommands,
+  FileCtrl;
 
 {$R *.dfm}
 
@@ -108,7 +111,7 @@ var
   NewDir: string;
 begin
   NewDir := edPath.Text;
-  if SelectDirectory('Select Directory:', '', NewDir) then
+  if SelectDirectory(_('Select Directory:'), '', NewDir) then
     edPath.Text := NewDir;
 end;
 

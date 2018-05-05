@@ -32,7 +32,9 @@ type
 
 implementation
 
-uses FileCtrl;
+uses
+  JvGnuGetText,
+  FileCtrl;
 
 {$R *.dfm}
 
@@ -43,7 +45,7 @@ var
   NewDir: string;
 begin
   NewDir := DirectoryEdit.Text;
-  if SelectDirectory('Select Directory:', '', NewDir) then
+  if SelectDirectory(_('Select Directory'), '', NewDir) then
     DirectoryEdit.Text := NewDir;
 end;
 

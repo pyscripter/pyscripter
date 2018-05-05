@@ -125,8 +125,6 @@ type
     mnProjectSaveAs: TSpTBXItem;
     mnExtraPythonPath: TSpTBXItem;
     procedure FormCreate(Sender: TObject);
-    procedure ExplorerTreeGetText(Sender: TBaseVirtualTree; Node: PVirtualNode;
-      Column: TColumnIndex; TextType: TVSTTextType; var CellText: string);
     procedure ExplorerTreeInitChildren(Sender: TBaseVirtualTree;
       Node: PVirtualNode; var ChildCount: Cardinal);
     procedure ExplorerTreeInitNode(Sender: TBaseVirtualTree; ParentNode,
@@ -181,6 +179,8 @@ type
     procedure actProjectExtraPythonPathExecute(Sender: TObject);
     procedure ExplorerTreeIncrementalSearch(Sender: TBaseVirtualTree;
       Node: PVirtualNode; const SearchText: string; var Result: Integer);
+    procedure ExplorerTreeGetCellText(Sender: TCustomVirtualStringTree;
+      var E: TVSTGetCellTextEventArgs);
   private
     procedure ProjectFileNodeEdit(Node: PVirtualNode);
     procedure UpdatePopupActions(Node : PVirtualNode);
@@ -1076,15 +1076,14 @@ begin
       ImageIndex := 2;
 end;
 
-procedure TProjectExplorerWindow.ExplorerTreeGetText(Sender: TBaseVirtualTree;
-  Node: PVirtualNode; Column: TColumnIndex; TextType: TVSTTextType;
-  var CellText: string);
+procedure TProjectExplorerWindow.ExplorerTreeGetCellText(
+  Sender: TCustomVirtualStringTree; var E: TVSTGetCellTextEventArgs);
 var
   Data : PNodeDataRec;
 begin
-  Data := ExplorerTree.GetNodeData(Node);
+  Data := ExplorerTree.GetNodeData(E.Node);
   if Assigned(Data) then
-    CellText := Data.ProjectNode.Caption;
+    E.CellText := Data.ProjectNode.Caption;
 end;
 
 procedure TProjectExplorerWindow.ExplorerTreeIncrementalSearch(

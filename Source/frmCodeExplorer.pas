@@ -235,9 +235,6 @@ type
     procedure ExplorerTreeGetImageIndex(Sender: TBaseVirtualTree;
       Node: PVirtualNode; Kind: TVTImageKind; Column: TColumnIndex;
       var Ghosted: Boolean; var ImageIndex: TImageIndex);
-    procedure ExplorerTreeGetText(Sender: TBaseVirtualTree;
-      Node: PVirtualNode; Column: TColumnIndex; TextType: TVSTTextType;
-      var CellText: string);
     procedure FormDestroy(Sender: TObject);
     procedure ExplorerTreeInitChildren(Sender: TBaseVirtualTree;
       Node: PVirtualNode; var ChildCount: Cardinal);
@@ -260,6 +257,8 @@ type
     procedure ExplorerTreeScroll(Sender: TBaseVirtualTree; DeltaX,
       DeltaY: Integer);
     procedure mnFollowEditorClick(Sender: TObject);
+    procedure ExplorerTreeGetCellText(Sender: TCustomVirtualStringTree;
+      var E: TVSTGetCellTextEventArgs);
   private
     procedure NavigateToNodeElement(Node: PVirtualNode;
       ForceToMiddle : Boolean = True; Activate : Boolean = True);
@@ -556,16 +555,14 @@ begin
   end;
 end;
 
-procedure TCodeExplorerWindow.ExplorerTreeGetText(Sender: TBaseVirtualTree;
-  Node: PVirtualNode; Column: TColumnIndex; TextType: TVSTTextType;
-  var CellText: string);
+procedure TCodeExplorerWindow.ExplorerTreeGetCellText(
+  Sender: TCustomVirtualStringTree; var E: TVSTGetCellTextEventArgs);
 var
   Data : PNodeDataRec;
 begin
-  if TextType <> ttNormal then Exit;
-  Data := ExplorerTree.GetNodeData(Node);
+  Data := ExplorerTree.GetNodeData(E.Node);
   if Assigned(Data) then
-    CellText := Data.CENode.Caption;
+    E.CellText := Data.CENode.Caption;
 end;
 
 procedure TCodeExplorerWindow.ExplorerTreeGetHint(Sender: TBaseVirtualTree;

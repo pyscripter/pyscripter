@@ -1,120 +1,157 @@
 inherited PythonVersionsDialog: TPythonVersionsDialog
   Caption = 'Python Versions'
-  ClientHeight = 370
+  ClientHeight = 315
   ClientWidth = 630
   ExplicitWidth = 636
-  ExplicitHeight = 399
+  ExplicitHeight = 344
   PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TPanel
     Left = 0
+    Top = 26
+    Width = 630
+    Height = 289
+    Align = alClient
+    TabOrder = 0
+    ExplicitTop = 0
+    ExplicitHeight = 321
+    object gbPythonVersions: TGroupBox
+      AlignWithMargins = True
+      Left = 4
+      Top = 4
+      Width = 622
+      Height = 281
+      Align = alClient
+      Caption = 'Python Versions'
+      TabOrder = 0
+      ExplicitWidth = 620
+      ExplicitHeight = 128
+      object vtPythonVersions: TVirtualStringTree
+        Left = 2
+        Top = 15
+        Width = 618
+        Height = 264
+        Align = alClient
+        Header.AutoSizeIndex = 0
+        Header.Options = [hoColumnResize, hoDrag, hoShowSortGlyphs, hoVisible]
+        Images = CommandsDataModule.Images
+        TabOrder = 0
+        OnGetCellText = vtPythonVersionsGetCellText
+        OnGetImageIndex = vtPythonVersionsGetImageIndex
+        OnInitChildren = vtPythonVersionsInitChildren
+        OnInitNode = vtPythonVersionsInitNode
+        ExplicitLeft = 1
+        Columns = <
+          item
+            MinWidth = 200
+            Options = [coEnabled, coParentBidiMode, coParentColor, coResizable, coShowDropMark, coVisible, coAllowFocus, coStyleColor]
+            Position = 0
+            Width = 200
+            WideText = 'Name'
+          end
+          item
+            MinWidth = 200
+            Options = [coEnabled, coParentBidiMode, coParentColor, coResizable, coShowDropMark, coVisible, coAllowFocus, coStyleColor]
+            Position = 1
+            Width = 300
+            WideText = 'Folder'
+          end>
+      end
+    end
+  end
+  object SpTBXDock: TSpTBXDock
+    Left = 0
     Top = 0
     Width = 630
-    Height = 321
-    Align = alTop
-    TabOrder = 0
-    object Panel2: TPanel
-      Left = 1
-      Top = 137
-      Width = 628
-      Height = 183
-      Align = alClient
+    Height = 26
+    object SpTBXToolbar: TSpTBXToolbar
+      Left = 0
+      Top = 0
+      DockMode = dmCannotFloatOrChangeDocks
+      DockPos = 0
+      DragHandleStyle = dhNone
+      FullSize = True
+      Images = CommandsDataModule.Images
+      Options = [tboShowHint, tboToolbarStyle]
+      ParentShowHint = False
+      ShowHint = True
       TabOrder = 0
-      ExplicitTop = 136
-      ExplicitHeight = 192
-      object gbNonRegisteredVersions: TGroupBox
-        AlignWithMargins = True
-        Left = 4
-        Top = 4
-        Width = 620
-        Height = 175
-        Align = alClient
-        Caption = 'Non-Registered Versions'
-        TabOrder = 0
-        ExplicitLeft = 8
-        ExplicitTop = 12
-        ExplicitHeight = 129
-        object VirtualStringTree1: TVirtualStringTree
-          Left = 2
-          Top = 15
-          Width = 616
-          Height = 112
-          Align = alTop
-          Header.AutoSizeIndex = 0
-          Header.MainColumn = -1
-          TabOrder = 0
-          ExplicitHeight = 114
-          Columns = <>
-        end
+      DisplayMode = tbdmImageOnly
+      object tbiActivate: TSpTBXItem
+        Action = actPVActivate
       end
-    end
-    object pnlNoRegisteredVersions: TPanel
-      Left = 1
-      Top = 1
-      Width = 628
-      Height = 136
-      Align = alTop
-      Caption = 'No registered python versions'
-      TabOrder = 1
-      object gbRegisteredVersions: TGroupBox
-        AlignWithMargins = True
-        Left = 4
-        Top = 4
-        Width = 620
-        Height = 128
-        Align = alClient
-        Caption = 'Registered Versions'
-        TabOrder = 0
-        ExplicitTop = -88
-        ExplicitHeight = 129
-        object vstRegisteredVersions: TVirtualStringTree
-          Left = 2
-          Top = 15
-          Width = 616
-          Height = 111
-          Align = alClient
-          Header.AutoSizeIndex = 0
-          Header.MainColumn = -1
-          TabOrder = 0
-          ExplicitWidth = 620
-          ExplicitHeight = 112
-          Columns = <>
-        end
+      object SpTBXSeparatorItem1: TSpTBXSeparatorItem
+      end
+      object tbiPVAdd: TSpTBXItem
+        Action = actPVAdd
+      end
+      object tbiPVRemove: TSpTBXItem
+        Action = actPVRemove
+      end
+      object TBSeparatorItem1: TTBSeparatorItem
+      end
+      object tbiPVTest: TSpTBXItem
+        Action = actPVTest
+      end
+      object tbiPVShow: TSpTBXItem
+        Action = actPVShow
+      end
+      object tbiPVCommandPrompt: TSpTBXItem
+        Wrapping = twEndEllipsis
+        Action = actPVCommandShell
+      end
+      object SpTBXSeparatorItem2: TSpTBXSeparatorItem
+      end
+      object tbiPVHelp: TSpTBXItem
+        Action = actPVHelp
       end
     end
   end
-  object btnHelp: TButton
-    Left = 517
-    Top = 331
-    Width = 94
-    Height = 25
-    Anchors = [akRight, akBottom]
-    Caption = '&Help'
-    TabOrder = 1
-    ExplicitTop = 338
-  end
-  object btnCancel: TButton
-    Left = 413
-    Top = 331
-    Width = 94
-    Height = 25
-    Anchors = [akRight, akBottom]
-    Cancel = True
-    Caption = '&Cancel'
-    ModalResult = 2
-    TabOrder = 2
-    ExplicitTop = 338
-  end
-  object btnOk: TButton
-    Left = 309
-    Top = 331
-    Width = 94
-    Height = 25
-    Anchors = [akRight, akBottom]
-    Caption = '&OK'
-    Default = True
-    ModalResult = 1
-    TabOrder = 3
-    ExplicitTop = 338
+  object actlPythonVersions: TActionList
+    Images = CommandsDataModule.Images
+    OnUpdate = actlPythonVersionsUpdate
+    Left = 560
+    Top = 64
+    object actPVActivate: TAction
+      Caption = 'Activate'
+      Hint = 'Activate selected python version'
+      ImageIndex = 159
+      OnExecute = actPVActivateExecute
+    end
+    object actPVAdd: TAction
+      Caption = 'Add'
+      Hint = 'Add a new python version'
+      ImageIndex = 49
+      OnExecute = actPVAddExecute
+    end
+    object actPVRemove: TAction
+      Caption = 'Remove'
+      Hint = 'Remove selected python version'
+      ImageIndex = 52
+      OnExecute = actPVRemoveExecute
+    end
+    object actPVTest: TAction
+      Caption = 'Test'
+      Hint = 'Test selected python version'
+      ImageIndex = 130
+      OnExecute = actPVTestExecute
+    end
+    object actPVShow: TAction
+      Caption = 'Show'
+      Hint = 'Show selected python version in Explorer'
+      ImageIndex = 2
+      OnExecute = actPVShowExecute
+    end
+    object actPVCommandShell: TAction
+      Caption = 'Shell'
+      Hint = 'Open command prompt for the selected python version'
+      ImageIndex = 89
+      OnExecute = actPVCommandShellExecute
+    end
+    object actPVHelp: TAction
+      Caption = 'Help'
+      Hint = 'Show Help'
+      ImageIndex = 71
+    end
   end
 end

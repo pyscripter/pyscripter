@@ -61,8 +61,6 @@ inherited CallStackWindow: TCallStackWindow
         Height = 164
         Align = alClient
         TabOrder = 0
-        ExplicitLeft = 188
-        ExplicitWidth = 412
         object CallStackView: TVirtualStringTree
           Left = 1
           Top = 1
@@ -85,10 +83,9 @@ inherited CallStackWindow: TCallStackWindow
           OnAddToSelection = CallStackViewAddToSelection
           OnDblClick = CallStackViewDblClick
           OnFreeNode = CallStackViewFreeNode
-          OnGetText = CallStackViewGetText
+          OnGetCellText = CallStackViewGetCellText
           OnGetImageIndex = CallStackViewGetImageIndex
           OnInitNode = CallStackViewInitNode
-          ExplicitWidth = 410
           Columns = <
             item
               Position = 0
@@ -133,7 +130,7 @@ inherited CallStackWindow: TCallStackWindow
           TreeOptions.MiscOptions = [toFullRepaintOnResize, toInitOnSave, toReportMode, toToggleOnDblClick, toWheelPanning]
           TreeOptions.PaintOptions = [toHotTrack, toShowButtons, toShowDropmark, toThemeAware, toUseBlendedImages]
           OnAddToSelection = ThreadViewAddToSelection
-          OnGetText = ThreadViewGetText
+          OnGetCellText = ThreadViewGetCellText
           OnGetImageIndex = ThreadViewGetImageIndex
           Columns = <
             item

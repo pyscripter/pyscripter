@@ -114,7 +114,7 @@ var
   NewDir : string;
 begin
   NewDir := cbDirectory.Text;
-  if SelectDirectory('Directory To Search', '', NewDir) then
+  if SelectDirectory(_('Directory To Search:'), '', NewDir) then
     cbDirectory.Text := NewDir;
 end;
 
