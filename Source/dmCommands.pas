@@ -2127,6 +2127,8 @@ procedure TCommandsDataModule.actPythonPathExecute(Sender: TObject);
 Var
   Paths : TStringList;
 begin
+  if not PyControl.InternalPython.Loaded then Exit;
+
   Paths := TStringList.Create;
   try
     PyControl.ActiveInterpreter.SysPathToStrings(Paths);
@@ -2329,6 +2331,8 @@ begin
     actReplaceParameters.Enabled := False;
     actInsertTemplate.Enabled := False;
   end;
+  // Other actions
+  actPythonPath.Enabled := PyControl.InternalPython.Loaded;
 end;
 
 procedure TCommandsDataModule.actHelpContentsExecute(Sender: TObject);
