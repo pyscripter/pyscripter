@@ -24,7 +24,7 @@ type
   end;
 
   TAboutBox = class(TPyIDEDlgBase)
-    SpTBXTabControl1: TSpTBXTabControl;
+    SpTBXTabControl: TSpTBXTabControl;
     tbAbout: TSpTBXTabItem;
     SpTBXTabSheet1: TSpTBXTabSheet;
     tbCredits: TSpTBXTabItem;

@@ -1,4 +1,5 @@
 inherited PythonVersionsDialog: TPythonVersionsDialog
+  HelpContext = 880
   Caption = 'Python Versions'
   ClientHeight = 315
   ClientWidth = 630
@@ -13,8 +14,6 @@ inherited PythonVersionsDialog: TPythonVersionsDialog
     Height = 289
     Align = alClient
     TabOrder = 0
-    ExplicitTop = 0
-    ExplicitHeight = 321
     object gbPythonVersions: TGroupBox
       AlignWithMargins = True
       Left = 4
@@ -24,8 +23,6 @@ inherited PythonVersionsDialog: TPythonVersionsDialog
       Align = alClient
       Caption = 'Python Versions'
       TabOrder = 0
-      ExplicitWidth = 620
-      ExplicitHeight = 128
       object vtPythonVersions: TVirtualStringTree
         Left = 2
         Top = 15
@@ -40,13 +37,12 @@ inherited PythonVersionsDialog: TPythonVersionsDialog
         OnGetImageIndex = vtPythonVersionsGetImageIndex
         OnInitChildren = vtPythonVersionsInitChildren
         OnInitNode = vtPythonVersionsInitNode
-        ExplicitLeft = 1
         Columns = <
           item
-            MinWidth = 200
+            MinWidth = 250
             Options = [coEnabled, coParentBidiMode, coParentColor, coResizable, coShowDropMark, coVisible, coAllowFocus, coStyleColor]
             Position = 0
-            Width = 200
+            Width = 250
             WideText = 'Name'
           end
           item
@@ -152,6 +148,7 @@ inherited PythonVersionsDialog: TPythonVersionsDialog
       Caption = 'Help'
       Hint = 'Show Help'
       ImageIndex = 71
+      OnExecute = actPVHelpExecute
     end
   end
 end

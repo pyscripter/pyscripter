@@ -60,6 +60,7 @@ type
     procedure actPVTestExecute(Sender: TObject);
     procedure actPVShowExecute(Sender: TObject);
     procedure actPVCommandShellExecute(Sender: TObject);
+    procedure actPVHelpExecute(Sender: TObject);
   private
     { Private declarations }
   public
@@ -156,6 +157,11 @@ begin
         PWideChar(Version.InstallPath), SW_SHOWNORMAL);
     end;
   end;
+end;
+
+procedure TPythonVersionsDialog.actPVHelpExecute(Sender: TObject);
+begin
+  Application.HelpContext(HelpContext);
 end;
 
 procedure TPythonVersionsDialog.actPVRemoveExecute(Sender: TObject);
@@ -263,7 +269,7 @@ begin
   ImageIndex := -1;
   if not (Kind in [ikNormal, ikSelected]) or (Column <> 0) then Exit;
   Level := vtPythonVersions.GetNodeLevel(Node);
-  if (Level = 1) and
+  if (Level = 1) and PyControl.InternalPython.Loaded and
      (((Node.Parent.Index = 0) and (PyControl.PythonVersionIndex = integer(Node.Index))) or
       ((Node.Parent.Index = 1) and (PyControl.PythonVersionIndex = - (Node.Index + 1))))
   then

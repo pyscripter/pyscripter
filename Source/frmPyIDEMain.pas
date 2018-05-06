@@ -417,14 +417,14 @@
 
   History:   v 3.4
           New Features
-            Python Engine change without exiting PyScripter
-            Faster loading
+            Switch Python Engines without exiting PyScripter
+            Faster loading times
             Initial support for running Jupyter notebooks inside PyScripter
             Syntax highlighting for JSON files
             New IDE option "Style Main Window Border"
             Find in Files and ToDo folders can include parameters (#828)
           Issues addressed
-            #627, #852, #858, #862
+            #627, #852, #858, #862, #868, #872
 
             { TODO : Issues 501, 667 }
             { TODO : Review Search and Replace }
@@ -3850,11 +3850,13 @@ procedure TPyIDEMainForm.mnPythonVersionsPopup(Sender: TTBCustomItem;
   FromLink: Boolean);
 Var
   i : integer;
+  PythonLoaded: Boolean;
 begin
+  PythonLoaded := PyControl.InternalPython.Loaded;
   for i := 0 to mnPythonVersions.Count - 3 do begin
     mnPythonVersions.Items[i].Enabled := PyControl.DebuggerState = dsInactive;
-    mnPythonVersions.Items[i].Checked :=
-      PyControl.PythonVersionIndex = mnPythonVersions.Items[i].Tag;
+    mnPythonVersions.Items[i].Checked := PythonLoaded and
+      (PyControl.PythonVersionIndex = mnPythonVersions.Items[i].Tag);
   end;
 end;
 
@@ -4717,6 +4719,9 @@ begin
         PyIDEOptions.DaysBetweenChecks) and ConnectedToInternet
     then
       PostMessage(Handle, WM_CHECKFORUPDATES, 0, 0);
+
+    if not PyControl.InternalPython.Loaded then
+      actPythonSetupExecute(Self);
   end);
   //OutputDebugString(PWideChar(Format('%s ElapsedTime %d ms', ['FormShow end', StopWatch.ElapsedMilliseconds])));
 end;

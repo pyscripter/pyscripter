@@ -18,8 +18,6 @@ inherited OptionsInspector: TOptionsInspector
     ParentColor = True
     ShowCaption = False
     TabOrder = 0
-    ExplicitWidth = 508
-    ExplicitHeight = 312
     object Inspector: TzObjectInspector
       Left = 1
       Top = 1
@@ -62,8 +60,6 @@ inherited OptionsInspector: TOptionsInspector
       FloatPreference.MaxDigits = 2
       FloatPreference.ExpPrecision = 6
       OnGetItemFriendlyName = InspectorGetItemFriendlyName
-      ExplicitWidth = 506
-      ExplicitHeight = 310
     end
   end
   object Panel2: TPanel
@@ -77,8 +73,6 @@ inherited OptionsInspector: TOptionsInspector
     ParentColor = True
     ShowCaption = False
     TabOrder = 1
-    ExplicitTop = 312
-    ExplicitWidth = 508
     DesignSize = (
       592
       37)
@@ -89,11 +83,9 @@ inherited OptionsInspector: TOptionsInspector
       Height = 25
       Anchors = [akRight, akBottom]
       Caption = '&OK'
-      Default = True
       ModalResult = 1
       TabOrder = 0
       OnClick = OKButtonClick
-      ExplicitLeft = 217
     end
     object BitBtn2: TButton
       Left = 397
@@ -105,7 +97,6 @@ inherited OptionsInspector: TOptionsInspector
       Caption = '&Cancel'
       ModalResult = 2
       TabOrder = 1
-      ExplicitLeft = 313
     end
     object HelpButton: TButton
       Left = 493
@@ -116,7 +107,6 @@ inherited OptionsInspector: TOptionsInspector
       Caption = '&Help'
       TabOrder = 2
       OnClick = HelpButtonClick
-      ExplicitLeft = 409
     end
   end
 end

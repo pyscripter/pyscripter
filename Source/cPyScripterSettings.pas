@@ -427,7 +427,7 @@ begin
   fAutoCheckForUpdates := True;
   fDaysBetweenChecks := 7;
   fMaskFPUExceptions := True;
-  fSpecialPackages := 'os, wx, scipy';
+  fSpecialPackages := 'os';
   fUTF8inInterpreter := True;
   fShowCodeHints := True;
   fShowDebuggerHints := True;

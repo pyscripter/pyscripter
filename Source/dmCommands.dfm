@@ -72,7 +72,7 @@ object CommandsDataModule: TCommandsDataModule
     Left = 32
     Top = 241
     Bitmap = {
-      494C01010A000D00380010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C01010A000D003C0010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -3856,7 +3856,7 @@ object CommandsDataModule: TCommandsDataModule
           '        wx.CallAfter(self.setupPeriodicCall)'
           ''
           '    def setupPeriodicCall(self):'
-          '        self.calllater = wx.FutureCall(1, self.periodicCall)'
+          '        self.calllater = wx.CallLater(1, self.periodicCall)'
           ''
           '    def periodicCall(self):'
           '        """'
@@ -3902,13 +3902,13 @@ object CommandsDataModule: TCommandsDataModule
           '    sys.exit = dummy_exit'
           ''
           'def main():'
-          '    app = wx.PySimpleApp()'
+          '    app = wx.App()'
           '    frame = wx.Frame(None, title='#39'PyScripter Debug Server'#39')'
           '    app.SetTopWindow(frame)'
           '    #frame.Show()'
           '    hijack_wx()'
           '    server = GuiServer(app)'
-          '    app.OldMainLoop()'
+          '    app.OldMainLoop(app)'
           ''
           'if __name__ == "__main__":'
           '    main()')
@@ -4730,7 +4730,7 @@ object CommandsDataModule: TCommandsDataModule
     Left = 36
     Top = 194
     Bitmap = {
-      494C0101A000E000440010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C0101A000E000480010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000009002000001002000000000000090
       0200000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

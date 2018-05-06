@@ -766,7 +766,7 @@ Var
   Path : string;
   Count : integer;
 begin
-  if not AppStorage.PathExists(PythonVersionsKey) then Exit;
+  if not AppStorage.PathExists(PythonVersionsKey+'\Custom Versions') then Exit;
   CustomVersions := TStringList.Create;
   try
     AppStorage.ReadStringList(PythonVersionsKey+'\Custom Versions', CustomVersions, True, 'Path');
