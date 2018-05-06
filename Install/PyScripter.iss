@@ -3,8 +3,8 @@
 
 [Setup]
 AppName=PyScripter
-AppVersion=3.3.2
-AppVerName=PyScripter 3.3.2
+AppVersion=3.4.0
+AppVerName=PyScripter 3.4.0
 AppPublisher=PyScripter
 AppPublisherURL=https://sourceforge.net/projects/pyscripter/
 AppSupportURL=https://github.com/pyscripter/pyscripter
@@ -14,7 +14,7 @@ DefaultGroupName=PyScripter
 InfoBeforeFile=BeforeInstallPyScripter.txt
 InfoAfterFile=AfterInstallPyScripter.txt
 OutputDir=Output
-OutputBaseFilename=PyScripter-v3.3.2-Setup
+OutputBaseFilename=PyScripter-v3.4.0-Setup
 Compression=lzma/Max
 SolidCompression=true
 ChangesAssociations=true
@@ -200,16 +200,9 @@ Source: "..\Styles\Windows10SlateGray.vsf"; DestDir: "{userappdata}\PyScripter\S
 
 [Icons]
 Name: {group}\PyScripter (Latest Python Version); Filename: {app}\PyScripter.exe
-;Name: {group}\PyScripter Help; Filename: {app}\PyScripter.chm
-;Name: {group}\PyScripter for Python 2.5; Filename: {app}\PyScripter.exe; Parameters: --PYTHON25
-;Name: {group}\PyScripter for Python 2.6; Filename: {app}\PyScripter.exe; Parameters: --PYTHON26
-Name: {group}\PyScripter for Python 2.7; Filename: {app}\PyScripter.exe; Parameters: --PYTHON27
-;Name: {group}\PyScripter for Python 3.0; Filename: {app}\PyScripter.exe; Parameters: --PYTHON30
-;Name: {group}\PyScripter for Python 3.1; Filename: {app}\PyScripter.exe; Parameters: --PYTHON31
-;Name: {group}\PyScripter for Python 3.2; Filename: {app}\PyScripter.exe; Parameters: --PYTHON32
-;Name: {group}\PyScripter for Python 3.3; Filename: {app}\PyScripter.exe; Parameters: --PYTHON33
-;Name: {group}\PyScripter for Python 3.4; Filename: {app}\PyScripter.exe; Parameters: --PYTHON34
-Name: {group}\PyScripter for Python 3.6; Filename: {app}\PyScripter.exe; Parameters: --PYTHON36
+Name: {group}\PyScripter Help; Filename: {app}\PyScripter.chm
+;Name: {group}\PyScripter for Python 2.7; Filename: {app}\PyScripter.exe; Parameters: --PYTHON27
+;Name: {group}\PyScripter for Python 3.6; Filename: {app}\PyScripter.exe; Parameters: --PYTHON36
 Name: {group}\{cm:UninstallProgram,PyScripter}; Filename: {uninstallexe}
 Name: {userdesktop}\PyScripter; Filename: {app}\PyScripter.exe; Tasks: desktopicon
 Name: {userappdata}\Microsoft\Internet Explorer\Quick Launch\PyScripter; Filename: {app}\PyScripter.exe; Tasks: quicklaunchicon
