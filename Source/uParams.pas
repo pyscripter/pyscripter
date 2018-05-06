@@ -467,12 +467,17 @@ end;
 
 function GetActivePythonDir : string;
 begin
-  Result := IncludeTrailingPathDelimiter(PyControl.PythonVersion.InstallPath);
+  Result := '';
+  if PyControl.InternalPython.Loaded then
+    Result := IncludeTrailingPathDelimiter(PyControl.PythonVersion.InstallPath);
 end;
 
 function GetActivePythonExe : string;
 begin
-  Result := PyControl.PythonVersion.PythonExecutable;
+  if PyControl.InternalPython.Loaded then
+    Result := PyControl.PythonVersion.PythonExecutable
+  else
+    Result := 'python.exe';
 end;
 
 function GetPythonDir (VersionString : string) : string;
@@ -492,7 +497,9 @@ end;
 
 function GetPythonVersion: string;
 begin
-  Result := PyControl.PythonVersion.SysVersion;
+  Result := '';
+  if PyControl.InternalPython.Loaded then
+    Result := PyControl.PythonVersion.SysVersion;
 end;
 
 function GetCmdLineArgs: string;

@@ -308,6 +308,7 @@ begin
       Name := 'actTools' + S;
     Category := 'External Tools';
     Hint := fExternalTool.Description;
+    ImageIndex := -1;
     if (fExternalTool.ApplicationName <> '') then begin
       AppFile := PrepareCommandLine(fExternalTool.ApplicationName);
       if FileExists(AppFile) then begin

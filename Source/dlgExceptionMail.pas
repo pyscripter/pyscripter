@@ -97,7 +97,8 @@ implementation
 uses
   ClipBrd, Math, JclBase, JclFileUtils, JclHookExcept, JclPeImage, JclStrings,
   JclSysInfo, JclWin32, uCommonFunctions, PythonEngine, TypInfo, cPySupportTypes,
-  cPyScripterSettings;
+  cPyScripterSettings,
+  cPyControl;
 
 resourcestring
   RsAppError = '%s - application error';
@@ -325,10 +326,13 @@ begin
     // Version Info
     DetailsMemo.Lines.Add(Format('%s version : %s %s', [Application.Title,
       ApplicationVersion, WinPlatform]));
-    DetailsMemo.Lines.Add(Format('Python DLL : %s', [GetPythonEngine.DllName]));
-    DetailsMemo.Lines.Add(Format('Python Engine : %s',
-      [GetEnumName(System.TypeInfo(TPythonEngineType),
-      Ord(PyIDEOptions.PythonEngineType))]));
+    if PyControl.InternalPython.Loaded then
+    begin
+      DetailsMemo.Lines.Add(Format('Python DLL : %s', [GetPythonEngine.DllName]));
+      DetailsMemo.Lines.Add(Format('Python Engine : %s',
+        [GetEnumName(System.TypeInfo(TPythonEngineType),
+        Ord(PyIDEOptions.PythonEngineType))]));
+    end;
     NextDetailBlock;
     // Stack list
     StackList := JclGetExceptStackList(FThreadID);
