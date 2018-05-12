@@ -72,7 +72,7 @@ object CommandsDataModule: TCommandsDataModule
     Left = 32
     Top = 241
     Bitmap = {
-      494C01010A000D003C0010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C01010A000D00440010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -2550,7 +2550,7 @@ object CommandsDataModule: TCommandsDataModule
           '                del l[:]'
           ''
           '            while True:'
-          '                self._sleep(0.2)'
+          '                self._sleep(0.01)'
           '                l = [self.print_queue.get()]'
           '                while not self.print_queue.empty():'
           '                    if len(l) > 10000:'
@@ -3425,7 +3425,7 @@ object CommandsDataModule: TCommandsDataModule
           '                del l[:]'
           ''
           '            while True:'
-          '                self._sleep(0.2)'
+          '                self._sleep(0.01)'
           '                l = [self.print_queue.get()]'
           '                while not self.print_queue.empty():'
           '                    if len(l) > 10000:'
@@ -4730,7 +4730,7 @@ object CommandsDataModule: TCommandsDataModule
     Left = 36
     Top = 194
     Bitmap = {
-      494C0101A000E000480010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C0101A000E000500010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000009002000001002000000000000090
       0200000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
