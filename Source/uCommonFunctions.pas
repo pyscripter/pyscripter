@@ -1299,7 +1299,9 @@ begin
   wStr := Lines.Text;
   Lines.LineBreak := OldLineBreak;
 
-  if IsPython or CommandsDataModule.FileIsPythonSource(AFileName) then begin
+  if PyControl.InternalPython.Loaded and
+    (IsPython or CommandsDataModule.FileIsPythonSource(AFileName)) then
+  begin
     PyEncoding := '';
     if Lines.Count > 0 then
       PyEncoding := ParsePySourceEncoding(Lines[0]);
@@ -1447,13 +1449,13 @@ begin
         case Encoding of
           sf_Ansi :
             // if it is a Pytyhon file detect an encoding spec
-            if IsPythonFile and (PyEncoding <> '') then
+            if PyControl.InternalPython.Loaded and IsPythonFile and (PyEncoding <> '') then
             begin
               PyWstr := nil;
               try
                 with GetPythonEngine do begin
                   try
-                      PyWstr := GetPythonEngine.PyUnicode_Decode(PAnsiChar(FileText),
+                      PyWstr := PyUnicode_Decode(PAnsiChar(FileText),
                         Length(FileText),
                         PAnsiChar(PyEncoding), 'replace');
                       CheckError;

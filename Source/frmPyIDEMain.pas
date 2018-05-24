@@ -426,6 +426,11 @@
           Issues addressed
             #627, #852, #858, #862, #868, #872
 
+  History:   v 3.4
+          New Features
+          Issues addressed
+            #879
+
             { TODO : Issues 501, 667 }
             { TODO : Review Search and Replace }
             { TODO : Auto PEP8 tool }
@@ -1131,6 +1136,7 @@ type
     procedure SetActiveTabControl(const Value: TSpTBXCustomTabControl);
     procedure WMEraseBkgnd(var Message: TWMEraseBkgnd); message WM_ERASEBKGND;
     procedure ApplyIDEOptionsToEditor(Editor: IEditor);
+    procedure OpenInitialFiles;
   protected
     fCurrentLine : integer;
     fErrorLine : integer;
@@ -1632,37 +1638,11 @@ begin
 
   //Update;
 
-  // Tab Conrol Drag Drop
+  // Tab Conrol Drag Drop and other TabControl events
   TabControl1.Toolbar.OnDragOver := TabToolbarDragOver;
   TabControl1.Toolbar.OnDragDrop := TabToolbarlDragDrop;
   TabControl2.Toolbar.OnDragOver := TabToolbarDragOver;
   TabControl2.Toolbar.OnDragDrop := TabToolbarlDragDrop;
-
-  TabControl1.Toolbar.BeginUpdate;
-  TabControl2.Toolbar.BeginUpdate;
-  try
-    // Open Files on the command line
-    // if there was no file on the command line try restoring open files
-    if not CmdLineOpenFiles() and PyIDEOptions.RestoreOpenFiles then
-      TPersistFileInfo.ReadFromAppStorage(AppStorage, 'Open Files');
-
-    // If we still have no open file then open an empty file
-    if GI_EditorFactory.GetEditorCount = 0 then
-      actFileNewModuleExecute(Self);
-  finally
-    TabControl1.Toolbar.EndUpdate;
-    TabControl2.Toolbar.EndUpdate;
-    if Assigned(TabControl1.ActiveTab) then
-      TabControl1.MakeVisible(TabControl1.ActiveTab);
-    if Assigned(TabControl2.ActiveTab) then
-      TabControl2.MakeVisible(TabControl2.ActiveTab);
-
-    if Assigned(GetActiveEditor()) then
-      GetActiveEditor.Activate;
-    UpdateCaption;
-    // Start the Python Code scanning thread
-    CodeExplorerWindow.WorkerThread.Start;
-  end;
 
   TabControl1.Toolbar.OnMouseDown := TabControlMouseDown;
   TabControl2.Toolbar.OnMouseDown := TabControlMouseDown;
@@ -2849,6 +2829,33 @@ begin
         // Connect ChangeNotify
         OnAfterShellNotify := nil;
       end;
+  end;
+end;
+
+procedure TPyIDEMainForm.OpenInitialFiles;
+begin
+  TabControl1.Toolbar.BeginUpdate;
+  TabControl2.Toolbar.BeginUpdate;
+  try
+    // Open Files on the command line
+    // if there was no file on the command line try restoring open files
+    if not CmdLineOpenFiles and PyIDEOptions.RestoreOpenFiles then
+      TPersistFileInfo.ReadFromAppStorage(AppStorage, 'Open Files');
+    // If we still have no open file then open an empty file
+    if GI_EditorFactory.GetEditorCount = 0 then
+      actFileNewModuleExecute(Self);
+  finally
+    TabControl1.Toolbar.EndUpdate;
+    TabControl2.Toolbar.EndUpdate;
+    if Assigned(TabControl1.ActiveTab) then
+      TabControl1.MakeVisible(TabControl1.ActiveTab);
+    if Assigned(TabControl2.ActiveTab) then
+      TabControl2.MakeVisible(TabControl2.ActiveTab);
+    if Assigned(GetActiveEditor()) then
+      GetActiveEditor.Activate;
+    UpdateCaption;
+    // Start the Python Code scanning thread
+    CodeExplorerWindow.WorkerThread.Start;
   end;
 end;
 
@@ -4713,6 +4720,9 @@ begin
 
     // This is needed to update the variables window
     PyControl.DoStateChange(dsInactive);
+
+    // Open initial files after loading python (#879)
+    OpenInitialFiles;
 
     if PyIDEOptions.AutoCheckForUpdates and
       (DaysBetween(Now, PyIDEOptions.DateLastCheckedForUpdates) >=
