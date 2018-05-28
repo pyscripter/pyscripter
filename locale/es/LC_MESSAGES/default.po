@@ -5889,6 +5889,19 @@ msgid ""
 "TCommandLineReader(www.benibela.de)\n"
 "Silk icons(www.famfamfam.com)"
 msgstr ""
+"Python for Delphi (www.github.com/pyscripter/python4delphi)\n"
+"Rpyc (www.github.com/tomerfiliba/rpyc)\n"
+"JVCL (www.github.com/project-jedi/jvcl)\n"
+"SynEdit (www.sourceforge.net/projects/synedit)\n"
+"VirtualTreeView (www.github.com/Virtual-TreeView/)\n"
+"VirtualShellTools (www.github.com/pyscripter/mustangpeakvirtualshelltools)\n"
+"GExperts (www.gexperts.org)\n"
+"Syn Editor (www.sourceforge.net/projects/syn)\n"
+"Syn Web highlighters (www.github.com/KrystianBigaj/synweb)\n"
+"Toolbar2000 (www.jrsoftware.org/tb2k.php)\n"
+"SpTBXLib(www.silverpointdevelopment.com)\n"
+"TCommandLineReader(www.benibela.de)\n"
+"Silk icons(www.famfamfam.com)"
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationArabic
 #: dlgAboutPyScripter.pas
@@ -5973,6 +5986,8 @@ msgid ""
 "Tanmaya Meher (www.github.com/tanmayameher)\n"
 "jprzywoski (www.github.com/jprzywoski)"
 msgstr ""
+"Tanmaya Meher (www.github.com/tanmayameher)\n"
+"jprzywoski (www.github.com/jprzywoski)"
 
 #: dlgAboutPyScripter.pas
 msgid ""
@@ -6588,7 +6603,7 @@ msgstr "¡Número no válido!"
 #. Programmer's name for it: SEmptyTokenTextError
 #: StringResources.pas
 msgid "You cannot insert a token that only consists of white space."
-msgstr ""
+msgstr "No puede insertar un token que sólo consista en espacios."
 
 #. Programmer's name for it: SAccessAppDataDir
 #: StringResources.pas

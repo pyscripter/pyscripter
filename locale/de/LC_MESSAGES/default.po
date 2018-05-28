@@ -6264,7 +6264,7 @@ msgstr "Farbe für die Hervorhebung"
 
 #: dmCommands.pas
 msgid "Display package names in editor tabs"
-msgstr ""
+msgstr "Paketnamen in Editortabs anzeigen"
 
 #: dmCommands.pas
 msgid "File line limit for syntax check as you type"
@@ -6433,7 +6433,7 @@ msgstr "Fehler bei Erstellen der Sicherungskopie der Datei \"%s\""
 #: StringResources.pas
 #, object-pascal-format
 msgid "Failed to load layout from \"%s\". Please close and restart PyScripter"
-msgstr ""
+msgstr "Konnte Layout nicht aus \"%s\" laden. Bitte starten Sie PyScripter neu."
 
 #. Programmer's name for it: SFilterAllFiles
 #: StringResources.pas
