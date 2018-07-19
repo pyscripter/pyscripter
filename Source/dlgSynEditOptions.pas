@@ -301,7 +301,6 @@ type
     FMaxUndo: Integer;
     FExtraLineSpacing: Integer;
     FTabWidth: Integer;
-    FMaxScrollWidth: Integer;
     FRightEdge: Integer;
     FSelectedColor: TSynSelectedColor;
     FRightEdgeColor: TColor;
@@ -339,7 +338,6 @@ type
     property InsertCaret : TSynEditCaretType read FInsertCaret write FInsertCaret;
     property OverwriteCaret : TSynEditCaretType read FOverwriteCaret write FOverwriteCaret;
     property HideSelection : Boolean read FHideSelection write FHideSelection;
-    property MaxScrollWidth : Integer read FMaxScrollWidth write FMaxScrollWidth;
     property MaxUndo : Integer read FMaxUndo write FMaxUndo;
     property SelectedColor : TSynSelectedColor read FSelectedColor write FSelectedColor;
     property TabWidth : Integer read FTabWidth write FTabWidth;
@@ -543,8 +541,6 @@ begin
     Self.HideSelection := TCustomSynEdit(Source).HideSelection;
     Self.InsertCaret := TCustomSynEdit(Source).InsertCaret;
     Self.OverwriteCaret := TCustomSynEdit(Source).OverwriteCaret;
-    if not (eoAutoSizeMaxScrollWidth in Self.Options) then
-      Self.MaxScrollWidth := TCustomSynEdit(Source).MaxScrollWidth;
     Self.MaxUndo := TCustomSynEdit(Source).MaxUndo;
     Self.RightEdge := TCustomSynEdit(Source).RightEdge;
     Self.RightEdgeColor := TCustomSynEdit(Source).RightEdgeColor;
@@ -567,7 +563,6 @@ begin
     Self.HideSelection := TSynEditorOptionsContainer(Source).HideSelection;
     Self.InsertCaret := TSynEditorOptionsContainer(Source).InsertCaret;
     Self.OverwriteCaret := TSynEditorOptionsContainer(Source).OverwriteCaret;
-    Self.MaxScrollWidth := TSynEditorOptionsContainer(Source).MaxScrollWidth;
     Self.MaxUndo := TSynEditorOptionsContainer(Source).MaxUndo;
     Self.RightEdge := TSynEditorOptionsContainer(Source).RightEdge;
     Self.RightEdgeColor := TSynEditorOptionsContainer(Source).RightEdgeColor;
@@ -592,8 +587,6 @@ begin
       TCustomSynEdit(Dest).SelectedColor.Assign(Self.SelectedColor);
 
       TCustomSynEdit(Dest).Color := Self.Color;
-      if not (eoAutoSizeMaxScrollWidth in TCustomSynEdit(Dest).Options) then
-        TCustomSynEdit(Dest).MaxScrollWidth := Self.MaxScrollWidth;
       TCustomSynEdit(Dest).Options := Self.Options;
       TCustomSynEdit(Dest).ExtraLineSpacing := Self.ExtraLineSpacing;
       TCustomSynEdit(Dest).HideSelection := Self.HideSelection;
@@ -635,7 +628,6 @@ begin
   HideSelection := False;
   InsertCaret := ctVerticalLine;
   OverwriteCaret := ctBlock;
-  MaxScrollWidth := 1024;
   MaxUndo := 1024;
   RightEdge := 80;
   RightEdgeColor := clSilver;

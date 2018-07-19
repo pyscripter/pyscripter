@@ -18,7 +18,6 @@ inherited FileTemplatesDialog: TFileTemplatesDialog
     Height = 451
     Align = alClient
     TabOrder = 0
-    ExplicitWidth = 528
     DesignSize = (
       554
       451)
@@ -30,7 +29,6 @@ inherited FileTemplatesDialog: TFileTemplatesDialog
       Anchors = [akLeft, akTop, akRight]
       Caption = 'File Template:'
       TabOrder = 2
-      ExplicitWidth = 518
       DesignSize = (
         544
         264)
@@ -116,10 +114,8 @@ inherited FileTemplatesDialog: TFileTemplatesDialog
         Gutter.Font.Name = 'Courier New'
         Gutter.Font.Style = []
         Gutter.Width = 0
-        Options = [eoAutoIndent, eoAutoSizeMaxScrollWidth, eoDragDropEditing, eoEnhanceHomeKey, eoGroupUndo, eoHideShowScrollbars, eoKeepCaretX, eoShowScrollHint, eoTrimTrailingSpaces]
         TabWidth = 4
         FontSmoothing = fsmNone
-        ExplicitWidth = 498
       end
       object CBHighlighters: TComboBox
         Left = 400
@@ -209,7 +205,6 @@ inherited FileTemplatesDialog: TFileTemplatesDialog
       Caption = '&Cancel'
       ModalResult = 2
       TabOrder = 9
-      ExplicitLeft = 356
     end
     object btnOK: TButton
       Left = 294
@@ -221,7 +216,6 @@ inherited FileTemplatesDialog: TFileTemplatesDialog
       Default = True
       ModalResult = 1
       TabOrder = 1
-      ExplicitLeft = 268
     end
     object btnHelp: TButton
       Left = 470
@@ -232,7 +226,6 @@ inherited FileTemplatesDialog: TFileTemplatesDialog
       Caption = '&Help'
       TabOrder = 8
       OnClick = btnHelpClick
-      ExplicitLeft = 444
     end
     object lvItems: TListView
       Left = 1
@@ -256,8 +249,6 @@ inherited FileTemplatesDialog: TFileTemplatesDialog
       TabOrder = 0
       ViewStyle = vsReport
       OnSelectItem = lvItemsSelectItem
-      ExplicitLeft = 2
-      ExplicitTop = 3
     end
   end
   object ActionList: TActionList

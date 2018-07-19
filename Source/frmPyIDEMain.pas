@@ -3256,9 +3256,6 @@ begin
           AddKey(ecUnfoldLevel3, ord('K'), [ssCtrl, ssShift], Ord('3'), [ssCtrl, ssShift]);
         end;
         EditorOptions.Gutter.DigitCount := 2;
-        EditorOptions.Options := EditorOptions.Options +
-          [eoAutoIndent, eoAutoSizeMaxScrollWidth, eoScrollPastEol];
-        EditorOptions.MaxScrollWidth := 100;
       end;
 
       for i := 0 to Highlighters.Count - 1 do

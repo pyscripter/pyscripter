@@ -20,7 +20,6 @@ inherited CodeTemplates: TCodeTemplates
     Height = 426
     Align = alClient
     TabOrder = 0
-    ExplicitWidth = 430
     DesignSize = (
       554
       426)
@@ -79,7 +78,6 @@ inherited CodeTemplates: TCodeTemplates
       Caption = '&Cancel'
       ModalResult = 2
       TabOrder = 9
-      ExplicitLeft = 263
     end
     object btnOK: TButton
       Left = 303
@@ -91,7 +89,6 @@ inherited CodeTemplates: TCodeTemplates
       Default = True
       ModalResult = 1
       TabOrder = 1
-      ExplicitLeft = 179
     end
     object btnHelp: TButton
       Left = 471
@@ -102,7 +99,6 @@ inherited CodeTemplates: TCodeTemplates
       Caption = '&Help'
       TabOrder = 8
       OnClick = btnHelpClick
-      ExplicitLeft = 347
     end
     object GroupBox: TGroupBox
       AlignWithMargins = True
@@ -113,7 +109,6 @@ inherited CodeTemplates: TCodeTemplates
       Anchors = [akLeft, akTop, akRight]
       Caption = 'Code Template:'
       TabOrder = 2
-      ExplicitWidth = 424
       DesignSize = (
         548
         239)
@@ -193,7 +188,6 @@ inherited CodeTemplates: TCodeTemplates
         Gutter.Font.Name = 'Courier New'
         Gutter.Font.Style = []
         Gutter.Width = 0
-        Options = [eoAutoIndent, eoAutoSizeMaxScrollWidth, eoDragDropEditing, eoEnhanceHomeKey, eoGroupUndo, eoHideShowScrollbars, eoKeepCaretX, eoShowScrollHint, eoTrimTrailingSpaces]
         TabWidth = 4
         FontSmoothing = fsmNone
       end
@@ -237,7 +231,6 @@ inherited CodeTemplates: TCodeTemplates
       ViewStyle = vsReport
       OnDeletion = lvItemsDeletion
       OnSelectItem = lvItemsSelectItem
-      ExplicitWidth = 428
     end
   end
   object ActionList: TActionList

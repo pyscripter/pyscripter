@@ -36,8 +36,6 @@ object EditorForm: TEditorForm
       ActiveTabIndex = 0
       Images = CommandsDataModule.Images
       OnActiveTabChange = ViewsTabControlActiveTabChange
-      ExplicitLeft = 0
-      ExplicitTop = 0
       HiddenItems = <>
       object tabSource: TSpTBXTabItem
         Caption = 'Source'
@@ -108,7 +106,6 @@ object EditorForm: TEditorForm
           Gutter.Font.Style = []
           Gutter.Gradient = True
           Gutter.GradientSteps = 30
-          Options = [eoAutoSizeMaxScrollWidth, eoDragDropEditing, eoEnhanceHomeKey, eoEnhanceEndKey, eoGroupUndo, eoHideShowScrollbars, eoKeepCaretX, eoShowScrollHint, eoTabIndent, eoTabsToSpaces]
           SelectedColor.Background = clSkyBlue
           TabWidth = 4
           WantTabs = True
@@ -197,7 +194,7 @@ object EditorForm: TEditorForm
     Left = 96
     Top = 80
     Bitmap = {
-      494C01010600090010000B000E00FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01010600090014000B000E00FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       00000000000036000000280000002C0000001C00000001002000000000004013
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

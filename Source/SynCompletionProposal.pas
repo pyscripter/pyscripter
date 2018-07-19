@@ -917,9 +917,9 @@ begin
       fcNoCommand:
         begin
           if not Invisible then
-            TextOut(TargetCanvas, X, Rect.Top, C^.Str);
+            TargetCanvas.TextOut(X, Rect.Top, C^.Str);
 
-          inc(X, TextWidth(TargetCanvas, C^.Str));
+          inc(X, TargetCanvas.TextWidth(C^.Str));
           if X > Rect.Right then
             break;
         end;
@@ -1235,7 +1235,7 @@ begin
   RecalcItemHeight;
 
   Canvas.Font.Assign(FTitleFont);
-  FTitleFontHeight := TextHeight(Canvas, TextHeightString);
+  FTitleFontHeight := Canvas.TextHeight(TextHeightString);
   FHeightBuffer := 0;
 
   FTitleFont.OnChange := TitleFontChange;
@@ -1582,7 +1582,7 @@ begin
           end
           else
           begin
-            TextOut(Canvas, FMargin, FEffectiveItemHeight * i,
+            Canvas.TextOut(FMargin, FEffectiveItemHeight * i,
               FAssignedList[FScrollbar.Position + i]);
           end;
 
@@ -1611,14 +1611,14 @@ begin
 
         if CenterTitle then
         begin
-          TmpX := (Width - TextWidth(Canvas, Title)) div 2;
+          TmpX := (Width - Canvas.TextWidth(Title)) div 2;
           if TmpX < TitleMargin then
             TmpX := TitleMargin;  //We still want to be able to read it, even if it does go over the edge
         end else
         begin
           TmpX := TitleMargin;
         end;
-        TextRect(Canvas, TmpRect, TmpX, TitleMargin - 1, FTitle); // -1 because TmpRect.Top is already 1
+        Canvas.TextRect(TmpRect, TmpX, TitleMargin - 1, FTitle); // -1 because TmpRect.Top is already 1
       end;
       Canvas.Draw(0, 0, TitleBitmap);
     end;
@@ -1898,7 +1898,7 @@ end;
 procedure TSynBaseCompletionProposalForm.RecalcItemHeight;
 begin
   Canvas.Font.Assign(FFont);
-  FFontHeight := TextHeight(Canvas, TextHeightString);
+  FFontHeight := Canvas.TextHeight(TextHeightString);
   if FItemHeight > 0 then
     FEffectiveItemHeight := FItemHeight
   else
@@ -2100,7 +2100,7 @@ end;
 procedure TSynBaseCompletionProposalForm.SetTitleFont(const Value: TFont);
 begin
   FTitleFont.Assign(Value);
-  FTitleFontHeight := TextHeight(Canvas, TextHeightString);
+  FTitleFontHeight := Canvas.TextHeight(TextHeightString);
   AdjustMetrics;
 end;
 
@@ -2153,7 +2153,7 @@ end;
 procedure TSynBaseCompletionProposalForm.TitleFontChange(Sender: TObject);
 begin
   Canvas.Font.Assign(FTitleFont);
-  FTitleFontHeight := TextHeight(Canvas, TextHeightString);
+  FTitleFontHeight := Canvas.TextHeight(TextHeightString);
   AdjustMetrics;
 end;
 
@@ -2347,7 +2347,7 @@ begin
 
   if Assigned(Form.CurrentEditor) then
   begin
-    TmpOffset := TextWidth((Form.CurrentEditor as TCustomSynEdit).Canvas, Copy(s, 1, DotOffset));
+    TmpOffset := (Form.CurrentEditor as TCustomSynEdit).Canvas.TextWidth(Copy(s, 1, DotOffset));
     if DotOffset > 1 then
       TmpOffset := TmpOffset + (3 * (DotOffset -1));
     Form.PopupParent := GetParentForm(Form.CurrentEditor);
@@ -3588,7 +3588,7 @@ begin
   i := 0;
   while (i < AutoCompleteList.Count) do begin
     if (length(AutoCompleteList[i]) > 0) and (AutoCompleteList[i][1] <> '=') then
-      List.Add(WideTrim(AutoCompleteList[i]));
+      List.Add(Trim(AutoCompleteList[i]));
     inc(i);
   end;
   Result := List.Text;

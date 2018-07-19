@@ -805,11 +805,10 @@ begin
     Gutter.ChangeScale(Screen.PixelsPerInch, 96);
     Gutter.Font.Size := 9;
 
-    Options := [eoAutoSizeMaxScrollWidth, eoDragDropEditing, eoEnhanceHomeKey,
+    Options := [eoDragDropEditing, eoEnhanceHomeKey,
                 eoEnhanceEndKey, eoGroupUndo, eoHideShowScrollbars, eoKeepCaretX,
                 eoShowScrollHint, eoSmartTabDelete, eoTabsToSpaces, eoTabIndent,
-                eoTrimTrailingSpaces, eoAutoIndent, eoScrollPastEol];
-    MaxScrollWidth := 100;
+                eoTrimTrailingSpaces, eoAutoIndent];
     WantTabs := True;
     TabWidth := 4;
     // Scale BookmarkOptions
