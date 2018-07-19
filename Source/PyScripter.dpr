@@ -21,7 +21,7 @@ uses
   Vcl.Forms,
   Vcl.Dialogs,
   Vcl.StdCtrls,
-  VTAccessibility,
+  VirtualTrees.Accessibility,
   uCmdLine in 'uCmdLine.pas',
   dlgExceptionMail in 'dlgExceptionMail.pas' {ExceptionDialogMail},
   frmPyIDEMain in 'frmPyIDEMain.pas' {PyIDEMainForm},

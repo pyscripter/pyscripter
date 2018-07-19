@@ -33,7 +33,7 @@ uses
   SpTBXPageScroller,
   SpTBXItem,
   SpTBXControls,
-  VTHeaderPopup,
+  VirtualTrees.HeaderPopup,
   VirtualTrees,
   frmIDEDockWin,
   cPyBaseDebugger;
