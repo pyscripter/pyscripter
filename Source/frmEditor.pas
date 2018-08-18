@@ -1794,9 +1794,9 @@ end;
 
 procedure TEditorForm.EditorZoom(theZoom: Integer);
 begin
-  if not((theZoom < 1) and (SynEdit.Font.Size <= 2)) then
+  if not((theZoom > 1) and (SynEdit.Font.Size <= 2)) then
   begin
-    SynEdit.Font.Size := SynEdit.Font.Size + theZoom;
+    SynEdit.Font.Size := SynEdit.Font.Size - theZoom;
     SynEdit.Gutter.Font.Size := Max(SynEdit.Font.Size - 2, 1);
     SynEdit2.Font.Size := SynEdit.Font.Size;
     SynEdit2.Gutter.Font.Size := SynEdit2.Gutter.Font.Size;

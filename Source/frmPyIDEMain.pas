@@ -426,10 +426,10 @@
           Issues addressed
             #627, #852, #858, #862, #868, #872
 
-  History:   v 3.4
+  History:   v 3.4.2
           New Features
           Issues addressed
-            #879
+            #879, #899
 
             { TODO : Issues 501, 667 }
             { TODO : Review Search and Replace }

@@ -940,14 +940,14 @@ end;
 procedure TPythonIIForm.SynEditMouseWheelDown(Sender: TObject;
   Shift: TShiftState; MousePos: TPoint; var Handled: Boolean);
 begin
-  EditorMouseWheel( +1, Shift );
+  EditorMouseWheel(+1, Shift );
   Handled := True;
 end;
 
 procedure TPythonIIForm.SynEditMouseWheelUp(Sender: TObject; Shift: TShiftState;
   MousePos: TPoint; var Handled: Boolean);
 begin
-  EditorMouseWheel( -1, Shift );
+  EditorMouseWheel(-1, Shift );
   Handled := True;
 end;
 
@@ -1478,8 +1478,8 @@ begin
 *}
   if ssCtrl in Shift then
   begin
-    if not ( (theDirection < 1) and (SynEdit.Font.Size <= 2) ) then begin
-      SynEdit.Font.Size        := SynEdit.Font.Size        + theDirection;
+    if not ( (theDirection > 1) and (SynEdit.Font.Size <= 2) ) then begin
+      SynEdit.Font.Size := SynEdit.Font.Size  - theDirection;
       SynEdit.Gutter.Font.Size := Max(SynEdit.Font.Size -2, 1);
     end;
   end
