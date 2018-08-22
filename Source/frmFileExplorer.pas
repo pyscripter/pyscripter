@@ -445,10 +445,12 @@ var
   Item : TSpTBXItem;
   Paths : TStringList;
 begin
+  mnPythonPath.Clear;
+  if not (Assigned(PyControl) and Assigned(PyControl.ActiveInterpreter)) then Exit;
+
   Paths := TStringList.Create;
   try
     PyControl.ActiveInterpreter.SysPathToStrings(Paths);
-    mnPythonPath.Clear;
     for i := 0 to Paths.Count - 1  do begin
       if Paths[i] <> '' then begin
         Item := TSpTBXItem.Create(mnPythonPath);
