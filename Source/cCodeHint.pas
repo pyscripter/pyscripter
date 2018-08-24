@@ -263,7 +263,7 @@ begin
   HtLabel.SetBounds(2, 2, 0, 0);
 
   { TODO : Allow customization of these colors }
-  HtLabel.Font.Name := 'Courier New';
+  HtLabel.Font.Name := 'Consolas';
   HtLabel.Font.Size := 10;
   HtLabel.Transparent := True;
 end;
@@ -276,7 +276,8 @@ end;
 function TCodeHintWindow.CalcHintRect(MaxWidth: Integer;
   const AHint: THintString; AData: Pointer): TRect;
 begin
-  HtLabel.Font.Color := StyleServices.GetSystemColor(Screen.HintFont.Color);
+  // HtLabel.Font.Color := StyleServices.GetSystemColor(Screen.HintFont.Color);   // #898
+  HtLabel.Font.Color := StyleServices.GetSystemColor(clWindowText);
   HtLabel.Caption := AHint;
   Result := Bounds(0, 0, HtLabel.Width + 6, HtLabel.Height + 2);
 end;

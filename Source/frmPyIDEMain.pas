@@ -429,7 +429,7 @@
   History:   v 3.4.2
           New Features
           Issues addressed
-            #879, #899
+            #879, #898, #899
 
             { TODO : Issues 501, 667 }
             { TODO : Review Search and Replace }
