@@ -8,14 +8,22 @@ uses
   System.SysUtils,
   System.Variants,
   System.Classes,
+  System.UITypes,
+  System.Actions,
   Vcl.Graphics,
   Vcl.Controls,
   Vcl.Forms,
   Vcl.Dialogs,
   Vcl.StdCtrls,
+  Vcl.ExtCtrls,
+  Vcl.ActnList,
   dlgPyIDEBase,
-  dmCommands, VirtualTrees, Vcl.ExtCtrls, TB2Dock, TB2Toolbar, SpTBXItem,
-  TB2Item, System.Actions, Vcl.ActnList;
+  dmCommands,
+  VirtualTrees,
+  TB2Dock,
+  TB2Toolbar,
+  SpTBXItem,
+  TB2Item;
 
 type
   TPythonVersionsDialog = class(TPyIDEDlgBase)
@@ -128,13 +136,16 @@ Var
   Folder: string;
   PythonVersion: TPythonVersion;
 begin
-  if SelectDirectory('Select folder with python installation (inlcuding virtualenv and venv)', '', Folder, [sdNewUI], Self) and
-    PythonVersionFromPath(Folder, PythonVersion) then
-  begin
-    SetLength(PyControl.CustomPythonVersions, Length(PyControl.CustomPythonVersions) + 1);
-    PyControl.CustomPythonVersions[Length(PyControl.CustomPythonVersions)-1] := PythonVersion;
-    vtPythonVersions.ReinitChildren(nil, True);
-    vtPythonVersions.Selected[vtPythonVersions.GetLast] := True;
+  if SelectDirectory('Select folder with python installation (inlcuding virtualenv and venv)', '', Folder, [sdNewUI], Self)
+  then begin
+    if PythonVersionFromPath(Folder, PythonVersion) then
+      begin
+      SetLength(PyControl.CustomPythonVersions, Length(PyControl.CustomPythonVersions) + 1);
+      PyControl.CustomPythonVersions[Length(PyControl.CustomPythonVersions)-1] := PythonVersion;
+      vtPythonVersions.ReinitChildren(nil, True);
+      vtPythonVersions.Selected[vtPythonVersions.GetLast] := True;
+    end else
+      Vcl.Dialogs.MessageDlg(_(SPythonFindError), mtError, [mbOK], 0);
   end;
 end;
 

@@ -33,6 +33,11 @@ Const
   'The 64-bit version of PyScripter (x64) works only on 64-bit Windows **and**' + SLineBreak +
   'with 64-bit versions of Python.  The 32-bit version of PyScripter works on both' + SLineBreak +
   '32-bit and 64-bit Windows with 32-bit versions of Python';
+  SPythonFindError =
+  'PyScripter could not find a usable Python installation at the specified path.' + SLineBreak +
+  'Note that the 64-bit version of PyScripter (x64) works only on 64-bit Windows **and**' + SLineBreak +
+  'with 64-bit versions of Python.  The 32-bit version of PyScripter works on both' + SLineBreak +
+  '32-bit and 64-bit Windows with 32-bit versions of Python';
   SCouldNotShutDownRemoteEngine =
   'PyScripter is waiting for the remote engine to shut-down for a long time without success.' + SLineBreak +
   'This might mean that either the system is very busy or more likely something is preventing' + SLineBreak +
