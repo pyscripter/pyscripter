@@ -429,7 +429,7 @@
   History:   v 3.4.2
           New Features
           Issues addressed
-            #879, #898, #899
+            #879, #898, #899, #906
 
             { TODO : Issues 501, 667 }
             { TODO : Review Search and Replace }
@@ -2992,7 +2992,8 @@ begin
   JvDockVSNetStyleSpTBX.SetAnimationInterval(PyIDEOptions.DockAnimationInterval);
   JvDockVSNetStyleSpTBX.SetAnimationMoveWidth(PyIDEOptions.DockAnimationMoveWidth);
 
-  FileExplorerWindow.FileExplorerTree.RefreshTree;
+  if FileExplorerWindow.FileExplorerTree.Active then
+    FileExplorerWindow.FileExplorerTree.RefreshTree;
 
   // Set Python engine
   actPythonInternal.Visible := not PyIDEOptions.InternalInterpreterHidden;
@@ -3323,8 +3324,6 @@ begin
   RegisterCustomParams;
   AppStorage.ReadCollection('Tools', ToolsCollection, True, 'Tool');
   AppStorage.ReadPersistent('Tools\External Run', ExternalPython);
-  //SetupToolsMenu;
-  SetupCustomizer;
   OutputWindow.lsbConsole.Font.Name := AppStorage.ReadString('Output Window\Font Name', 'Courier New');
   OutputWindow.lsbConsole.Font.Size := AppStorage.ReadInteger('Output Window\Font Size', 9);
   OutputWindow.FontOrColorUpdated;
@@ -3333,9 +3332,6 @@ begin
 
   // Load Style Name
   TStyleSelectorForm.SetStyle(AppStorage.ReadString('Style Name', 'Windows10'));
-
-  // Load Toolbar Items
-  LoadToolbarItems('Toolbar Items');
 
   // Load IDE Shortcuts
   ActionProxyCollection := TActionProxyCollection.Create(apcctEmpty);
@@ -4681,19 +4677,16 @@ begin
     Layouts.Add('Default');
   end;
 
-  // Update External Tools Syntax and Layouts menu
-  if not FileExists(AppStorage.IniFile.FileName) then begin
-    SetupCustomizer;
+  // Configure File Change Notification
+  if not FileExists(AppStorage.IniFile.FileName) then
     ConfigureFCN(PyIDEOptions.FileChangeNotification);
-  end;
+
   // fix for staturbar appearing above interpreter
   if StatusBar.Visible then StatusBar.Top := MaxInt;
 
+  // Update Syntax and Layouts menu
   SetupLayoutsMenu;
   SetupSyntaxMenu;
-
-  // Activate File Explorer
-  FileExplorerWindow.FileExplorerTree.Active := True;
 
   // Register drop target
   RegisterDragDrop(TabControl1.Handle, Self);
@@ -4701,11 +4694,20 @@ begin
 
   TThread.ForceQueue(nil, procedure
   begin
+    // Activate File Explorer
+    FileExplorerWindow.FileExplorerTree.Active := True;
+
     // Load Python Engine and Assign Debugger Events
     PyControl.LoadPythonEngine;
     SetupPythonVersionsMenu;
 
-    SetupToolsMenu;
+    // Update External Tools
+    SetupToolsMenu;  // After creating internal interpreter
+    SetupCustomizer; // After setting up the Tools menu
+    // Load Toolbar Items after setting up the Tools menu
+    if FileExists(AppStorage.IniFile.FileName) then
+      LoadToolbarItems('Toolbar Items');
+
 
     with PyControl do begin
       OnBreakpointChange := DebuggerBreakpointChange;
