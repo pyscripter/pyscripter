@@ -699,7 +699,6 @@ begin
         on E: EPythonError do begin
           InternalInterpreter.HandlePyException(E, 2);
           ReturnFocusToEditor := False;
-          Vcl.Dialogs.MessageDlg(E.Message, mtError, [mbOK], 0);
           CanDoPostMortem := True;
           System.SysUtils.Abort;
         end;
@@ -1067,7 +1066,6 @@ begin
         end;
         on E: EPythonError do begin  //may raise OverflowError or ValueError
           HandlePyException(E);
-          Vcl.Dialogs.MessageDlg(E.Message, mtError, [mbOK], 0);
           System.SysUtils.Abort;
         end;
       end;
@@ -1339,7 +1337,6 @@ begin
         on E: EPythonError do begin
           HandlePyException(E);
           ReturnFocusToEditor := False;
-          Vcl.Dialogs.MessageDlg(E.Message, mtError, [mbOK], 0);
           CanDoPostMortem := True;
           System.SysUtils.Abort;
         end;

@@ -462,9 +462,6 @@ begin
         HandleRemoteException(ExcInfo);
 
       PythonIIForm.AppendPrompt;
-      Vcl.Dialogs.MessageDlg(Format('%s: %s',
-        [VarPythonAsString(ExcInfo.__getitem__(0)), VarPythonAsString(RPI.safestr(Error))]),
-        mtError, [mbOK], 0);
       System.SysUtils.Abort;
     end;
   except
@@ -474,7 +471,6 @@ begin
       VarClear(Result);
 
       HandlePyException(E);
-      Vcl.Dialogs.MessageDlg(E.Message, mtError, [mbOK], 0);
       System.SysUtils.Abort;
     end;
     else begin
@@ -693,9 +689,6 @@ begin
       if not VarIsNone(RPI.exc_info) then begin
         Result := None;
         HandleRemoteException(ExcInfo);
-        Vcl.Dialogs.MessageDlg(Format('%s: %s',
-          [VarPythonAsString(ExcInfo.__getitem__(0)), VarPythonAsString(RPI.safestr(ExcInfo.__getitem__(1)))]),
-          mtError, [mbOK], 0);
         System.SysUtils.Abort;
       end;
     except
@@ -899,10 +892,6 @@ begin
           if not VarIsNone(ExcInfo) then begin
             HandleRemoteException(ExcInfo);
             ReturnFocusToEditor := False;
-            Vcl.Dialogs.MessageDlg(Format('%s: %s',
-              [VarPythonAsString(ExcInfo.__getitem__(0)),
-               VarPythonAsString(RPI.safestr(ExcInfo.__getitem__(1)))]),
-              mtError, [mbOK], 0);
             CanDoPostMortem := True;
           end;
         end;
@@ -910,10 +899,7 @@ begin
         on E: EPythonError do begin
           // should not happen
           CheckConnected(True, False);
-          if Connected then begin
-            HandlePyException(E);
-            Vcl.Dialogs.MessageDlg(E.Message, mtError, [mbOK], 0);
-          end;
+          if Connected then HandlePyException(E);
         end;
       end;
     finally
@@ -1644,10 +1630,6 @@ begin
           if not VarIsNone(ExcInfo) then begin
             fRemotePython.HandleRemoteException(ExcInfo, 2);
             ReturnFocusToEditor := False;
-            Vcl.Dialogs.MessageDlg(Format('%s: %s',
-              [VarPythonAsString(ExcInfo.__getitem__(0)),
-               VarPythonAsString(fRemotePython.RPI.safestr(ExcInfo.__getitem__(1)))]),
-               mtError, [mbOK], 0);
             CanDoPostMortem := True;
           end;
         end;
@@ -1658,7 +1640,6 @@ begin
           fRemotePython.CheckConnected(True, False);
           if fRemotePython.Connected then begin
             fRemotePython.HandlePyException(E);
-            Vcl.Dialogs.MessageDlg(E.Message, mtError, [mbOK], 0);
           end;
         end;
       end;
