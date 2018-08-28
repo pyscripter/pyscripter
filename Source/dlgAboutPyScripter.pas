@@ -141,7 +141,7 @@ const
   cAboutTranslators : array[ECreditLanguages] of string = (
     'Mohammed Nasman, Raouf Rahiche',
     '"Love China"',
-    'Groupe AmiensPython, Phil Prost',
+    'Groupe AmiensPython, Vincent Maille, Phil Prost',
     'Daniel Frost, Lübbe Onken',
     'Kiriakos Vlahos',
     'Vincenzo Campanella',
