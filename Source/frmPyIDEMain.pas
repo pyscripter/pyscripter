@@ -4677,10 +4677,6 @@ begin
     Layouts.Add('Default');
   end;
 
-  // Configure File Change Notification
-  if not FileExists(AppStorage.IniFile.FileName) then
-    ConfigureFCN(PyIDEOptions.FileChangeNotification);
-
   // fix for staturbar appearing above interpreter
   if StatusBar.Visible then StatusBar.Top := MaxInt;
 
