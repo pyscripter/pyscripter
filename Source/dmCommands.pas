@@ -248,6 +248,7 @@ type
     actUnfoldFunctions: TAction;
     SynGeneralSyn: TSynGeneralSyn;
     SynJSONSyn: TSynJSONSyn;
+    actFileCloseAllToTheRight: TAction;
     function ProgramVersionHTTPLocationLoadFileFromRemote(
       AProgramVersionLocation: TJvProgramVersionHTTPLocation; const ARemotePath,
       ARemoteFileName, ALocalPath, ALocalFileName: string): string;
@@ -349,6 +350,7 @@ type
     procedure actUnfoldClassesExecute(Sender: TObject);
     procedure actFoldFunctionsExecute(Sender: TObject);
     procedure actUnfoldFunctionsExecute(Sender: TObject);
+    procedure actFileCloseAllToTheRightExecute(Sender: TObject);
   private
     fHighlighters: TStrings;
     fUntitledNumbers: TBits;
@@ -444,6 +446,8 @@ uses
   MPShellUtilities,
   MPCommonUtilities,
   SpTBXMDIMRU,
+  SpTBXItem,
+  SpTBXTabs,
   PythonEngine,
   JclSysUtils,
   JclStrings,
@@ -933,6 +937,27 @@ begin
   for i := GI_EditorFactory.Count -1 downto 0 do
     if GI_EditorFactory.Editor[i] <> Editor then
       GI_EditorFactory.Editor[i].Close;
+
+  Editor.Activate;
+end;
+
+procedure TCommandsDataModule.actFileCloseAllToTheRightExecute(Sender: TObject);
+Var
+  Editor, NextEditor : IEditor;
+  Index, i : integer;
+  NextTab : TSpTBXTabItem;
+begin
+  Editor := PyIDEMainForm.GetActiveEditor;
+  if not Assigned(Editor) then Exit;
+
+  Repeat
+    NextTab := TEditorForm(Editor.Form).ParentTabItem.GetNextTab(True, sivtNormal);
+    if Assigned(NextTab) then begin
+      NextEditor := PyIDEMainForm.EditorFromTab(NextTab);
+      if Assigned(NextEditor) then
+        NextEditor.Close;
+    End;
+  Until not Assigned(NextTab);
 
   Editor.Activate;
 end;

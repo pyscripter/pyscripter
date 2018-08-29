@@ -428,6 +428,7 @@
 
   History:   v 3.4.2
           New Features
+            Close All to he Right Editor command added (#866)
           Issues addressed
             #879, #893, #898, #899, #906
 
@@ -997,6 +998,7 @@ type
     actPythonSetup: TAction;
     SpTBXSeparatorItem18: TSpTBXSeparatorItem;
     SpTBXItem4: TSpTBXItem;
+    SpTBXItem6: TSpTBXItem;
     procedure mnFilesClick(Sender: TObject);
     procedure actEditorZoomInExecute(Sender: TObject);
     procedure actEditorZoomOutExecute(Sender: TObject);

@@ -32,7 +32,7 @@ object PyIDEMainForm: TPyIDEMainForm
     end
     object SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem
       Wrapping = twNone
-      CustomWidth = 0
+      CustomWidth = 417
     end
     object SpTBXSeparatorItem5: TSpTBXSeparatorItem
     end
@@ -1369,6 +1369,9 @@ object PyIDEMainForm: TPyIDEMainForm
     end
     object mnFileCloseAllOther: TSpTBXItem
       Action = CommandsDataModule.actFileCloseAllOther
+    end
+    object SpTBXItem6: TSpTBXItem
+      Action = CommandsDataModule.actFileCloseAllToTheRight
     end
     object TBXSeparatorItem28: TSpTBXSeparatorItem
     end
