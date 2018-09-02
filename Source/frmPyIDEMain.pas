@@ -431,7 +431,7 @@
             Close All to he Right Editor command added (#866)
             New editor parameter [$-CurLineNumber] (#864)
           Issues addressed
-            #762, #879, #893, #896, #898, #899, #906
+            #762, #879, #890, #893, #896, #898, #899, #906
 
             { TODO : Issues 501, 667 }
             { TODO : Review Search and Replace }
