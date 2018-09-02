@@ -1220,8 +1220,8 @@ begin
     SysMod.argv.append(VarPythonCreate(ARunConfig.ScriptName))
   else
     SysMod.argv.append(VarPythonCreate(AnsiString(ARunConfig.ScriptName)));
-  S := ARunConfig.Parameters;
-  if Trim(S) <> '' then begin
+  S := Trim(ARunConfig.Parameters);
+  if S <> '' then begin
     S := Parameters.ReplaceInText(S);
     P := PChar(S);
     while P[0] <> #0 do begin
