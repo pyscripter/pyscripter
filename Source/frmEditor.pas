@@ -459,8 +459,8 @@ Var
 begin
   if fForm.HasSyntaxError then
     with fForm.fSyntaxErrorPos do
-      if System.Math.InRange(Line, FirstLine, LastLine)
-        and not (fForm.SynEdit.UseCodeFolding and
+      if System.Math.InRange(Line, fForm.SynEdit.RowToLine(FirstLine),
+        fForm.SynEdit.RowToLine(LastLine)) and not (fForm.SynEdit.UseCodeFolding and
           fForm.SynEdit.AllFoldRanges.FoldHidesLine(Line)) then
       begin
         LH := fForm.SynEdit.LineHeight;

@@ -21,7 +21,6 @@ type
 
   THighlightSearchPlugin = class(TSynEditPlugin)
   private
-    fSynEdit : TSynEdit;
     fFoundItems: TObjectList;
   protected
     procedure AfterPaint(ACanvas: TCanvas; const AClip: TRect;
@@ -55,11 +54,11 @@ procedure THighlightSearchPlugin.AfterPaint(ACanvas: TCanvas;
     S : string;
   begin
     if StartXY.Char < EndXY.Char then begin
-      Pix := fSynEdit.RowColumnToPixels(fSynEdit.BufferToDisplayPos(StartXY));
+      Pix := Editor.RowColumnToPixels(Editor.BufferToDisplayPos(StartXY));
       ACanvas.Brush.Color := PyIDEOptions.HighlightSelectedWordColor;
       ACanvas.Brush.Style := bsSolid;
-      SetTextCharacterExtra(ACanvas.Handle, fSynEdit.CharWidth - ACanvas.TextWidth('W'));
-      S := Copy(fSynEdit.Lines[StartXY.Line-1],
+      SetTextCharacterExtra(ACanvas.Handle, Editor.CharWidth - ACanvas.TextWidth('W'));
+      S := Copy(Editor.Lines[StartXY.Line-1],
              StartXY.Char, EndXY.Char - StartXY.Char);
       ACanvas.TextOut(Pix.X, Pix.Y, S);
     end;
@@ -71,14 +70,18 @@ var
   FoundItem : TFoundItem;
   StartXY, EndXY : TBufferCoord;
 begin
+  FirstLine := Editor.RowToLine(FirstLine);
+  LastLine := Editor.RowToLine(LastLine);
   for i := 0 to fFoundItems.Count - 1 do begin
     FoundItem := fFoundItems[i] as TFoundItem;
-    if InRange(FoundItem.Start.Line, FirstLine, LastLine) then begin
+    if InRange(FoundItem.Start.Line, FirstLine, LastLine) and not
+      (Editor.UseCodefolding and Editor.AllFoldRanges.FoldHidesLine(FoundItem.Start.Line)) then
+    begin
       // do not highlight selection
       // Highlight front part
       StartXY := FoundItem.Start;
       EndXY := StartXY;
-      while not fSynEdit.IsPointInSelection(EndXY) and
+      while not Editor.IsPointInSelection(EndXY) and
         (EndXY.Char < FoundItem.Start.Char + FoundItem.Length)
       do
         Inc(EndXY.Char);
@@ -87,7 +90,7 @@ begin
       StartXY.Char := EndXY.Char;
       EndXY.Char := FoundItem.Start.Char + FoundItem.Length;
       // Skip Selection
-      while fSynEdit.IsPointInSelection(StartXY) and (StartXY.Char < EndXY.Char) do
+      while Editor.IsPointInSelection(StartXY) and (StartXY.Char < EndXY.Char) do
         Inc(StartXY.Char);
       // Highlight end part
        PaintHightlight(StartXY, EndXY);
@@ -99,7 +102,6 @@ constructor THighlightSearchPlugin.Create(ASynEdit: TSynEdit;
   AFoundItems: TObjectList);
 begin
   inherited Create(ASynEdit);
-  fSynEdit := ASynEdit;
   fFoundItems := AFoundItems;
 end;
 
