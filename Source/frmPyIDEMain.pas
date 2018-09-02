@@ -429,6 +429,7 @@
   History:   v 3.4.2
           New Features
             Close All to he Right Editor command added (#866)
+            New editor parameter [$-CurLineNumber] (#864)
           Issues addressed
             #879, #893, #896, #898, #899, #906
 

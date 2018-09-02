@@ -153,6 +153,18 @@ begin
     Result:= AEditor.GetSynEdit.LineText;
 end;
 
+function GetCurLineNumber(const AFileName: string): string;
+var
+  AEditor: IEditor;
+begin
+  Result:= '0';
+  if (AFileName = '') or SameText('ActiveDoc', AFileName) then
+    AEditor:= GI_ActiveEditor
+  else AEditor:= GI_EditorFactory.GetEditorByNameOrTitle(AFileName);
+  if Assigned(AEditor) then
+    Result:= AEditor.GetSynEdit.CaretY.ToString;
+end;
+
 function GetSelText(const AFileName: string): string;
 var
   AEditor: IEditor;
@@ -677,16 +689,18 @@ begin
     (* parameters, that change often in one PyScripter session *)
     (* editor related *)
     RegisterParameter('ActiveDoc', 'Active document name', GetActiveDoc);
-    RegisterParameter('ActiveScript', 'The running or last run script', GetActiveScript);
+    RegisterParameter('ActiveScript', 'The name or last run script', GetActiveScript);
     RegisterParameter('Project', 'Project File Name', GetProjectFile);
     RegisterParameter('ModFiles', 'Modified Files', GetModFiles);
     RegisterParameter('OpenFiles', 'Open Files', GetOpenFiles);
     RegisterParameter('CurWord', '$[-CurWord]', nil);
     RegisterParameter('CurLine', '$[-CurLine]', nil);
+    RegisterParameter('CurLineNumber', '$[-CurLineNumber]', nil);
     RegisterParameter('SelText', '$[-SelText]', nil);
     RegisterModifier('EdText', 'Text of the active document or a file', GetFileText);
     RegisterModifier('CurWord', 'Current word in the active document', GetCurWord);
     RegisterModifier('CurLine', 'Current line in the active document', GetCurLine);
+    RegisterModifier('CurLineNumber', 'Current line number in the active document', GetCurLineNumber);
     RegisterModifier('SelText', 'Selected text in the active document', GetSelText);
   end;
 
@@ -789,10 +803,12 @@ begin
     UnRegisterParameter('OpenFiles');
     UnRegisterParameter('CurWord');
     UnRegisterParameter('CurLine');
+    UnRegisterParameter('CurLineNumber');
     UnRegisterParameter('SelText');
     UnRegisterModifier('EdText');
     UnRegisterModifier('CurWord');
     UnRegisterModifier('CurLine');
+    UnRegisterModifier('CurLineNumber');
     UnRegisterModifier('SelText');
   end;
 end;
