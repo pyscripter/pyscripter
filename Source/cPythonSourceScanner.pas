@@ -1599,7 +1599,11 @@ begin
             break;
         end;
       end;
-    '{' : Result := 'dict';
+    '{' :
+      if (CharPos(Expr, ',') = 0) or (CharPos(Expr, ':') <> 0) then
+        Result := 'dict'
+      else
+        Result := 'set';
     '[': Result := 'list';
   else
     if (Expr[1] = '(') and (CharPos(Expr, ',') <> 0) then
