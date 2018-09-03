@@ -163,6 +163,7 @@ public
     constructor Create;
     destructor Destroy; override;
     function ArgumentsString : string; virtual;
+    function HasArgument(Name : string): Boolean;
     procedure GetNameSpace(SList : TStringList); override;
     property Arguments : TObjectList read fArguments;
     property Locals : TObjectList read fLocals;
@@ -205,6 +206,7 @@ public
     fGlobalRE : TRegExpr;
     fAliasRE : TRegExpr;
     fListRE : TRegExpr;
+    fCommentLineRE : TRegExpr;
   protected
     procedure DoScannerProgress(CharNo, NoOfChars : integer; var Stop : Boolean);
   public
@@ -277,47 +279,24 @@ uses
 Const
   MaskChar = WideChar(#96);
 
-  NoOfImplicitContinuationBraces = 3;
-  ImplicitContinuationBraces : array[0..NoOfImplicitContinuationBraces-1] of
-    array [0..1] of WideChar = (('(', ')'), ('[', ']'), ('{', '}'));
-
-Type
-  ImplicitContinuationBracesCount = array [0..NoOfImplicitContinuationBraces-1] of integer;
-
 Var
   DocStringRE : TRegExpr;
 
-
-procedure HangingBraces(S : string; OpenBrace, CloseBrace : WideChar; var Count : integer);
+function HaveImplicitContinuation(S : string; var BracesCount : integer) : Boolean;
 var
   I: Integer;
 begin
   for I := 1 to Length(S) do
-    if S[I] = OpenBrace then
-      Inc(Count)
-    else if S[I] = CloseBrace then
-      Dec(Count);
+    if (Ord(S[i]) < 128) then begin
+      if AnsiChar(S[i]) in ['(', '[', '{'] then
+        Inc(BracesCount)
+      else if AnsiChar(S[i]) in [')', ']', '}'] then
+         Dec(BracesCount);
+    end;
+  Result := BracesCount > 0;
 end;
 
-function HaveImplicitContinuation(S : string;
-  var CountArray : ImplicitContinuationBracesCount; InitCount : boolean = false) : boolean;
-Var
-  i : integer;
-begin
-  if InitCount then
-    for i := 0 to NoOfImplicitContinuationBraces - 1 do
-      CountArray[i] := 0;
-  for i := 0 to NoOfImplicitContinuationBraces - 1 do
-    HangingBraces(S, ImplicitContinuationBraces[i][0],
-      ImplicitContinuationBraces[i][1], CountArray[i]);
-  Result := False;
-  for i := 0 to NoOfImplicitContinuationBraces - 1 do
-    // Code would be incorrect if Count < 0 but we ignore it
-    if CountArray[i] > 0 then begin
-      Result := True;
-      break;
-    end;
-end;
+
 { Code Ellement }
 
 constructor TCodeElement.Create;
@@ -508,6 +487,8 @@ begin
       [DottedIdentRE, IdentRE]));
   fListRE :=
     CompiledRegExpr('\[(.*)\]');
+  fCommentLineRE :=
+    CompiledRegExpr('^([ \t]*)#');
 end;
 
 destructor TPythonScanner.Destroy;
@@ -526,6 +507,7 @@ begin
   fGlobalRE.Free;
   fAliasRE.Free;
   fListRE.Free;
+  fCommentLineRE.Free;
   inherited;
 end;
 
@@ -604,15 +586,18 @@ Var
   // Process continuation lines
   var
     ExplicitContinuation, ImplicitContinuation : boolean;
-    CountArray : ImplicitContinuationBracesCount;
     NewLine : string;
     TrimmedLine : string;
+    BracesCount : integer;
   begin
+    BracesCount := 0;
     LineStarts.Clear;
     RemoveComment(Line);
     ExplicitContinuation := fLineContinueRE.Exec(Line);
-    ImplicitContinuation := HaveImplicitContinuation(Line, CountArray, True);
+    ImplicitContinuation := not ExplicitContinuation  and
+      HaveImplicitContinuation(Line, BracesCount);
     Result := ExplicitContinuation or ImplicitContinuation;
+
     while (ExplicitContinuation or ImplicitContinuation) and (P^ <> WideChar(#0)) do begin
       if ExplicitContinuation then
         // Drop the continuation char
@@ -628,7 +613,7 @@ Var
       Line := Line + WideChar(' ') + NewLine;
       ExplicitContinuation := fLineContinueRE.Exec(Line);
       ImplicitContinuation := not ExplicitContinuation  and
-        HaveImplicitContinuation(Line, CountArray, True);
+        HaveImplicitContinuation(NewLine, BracesCount);
     end;
   end;
 
@@ -746,7 +731,7 @@ Var
   end;
 
 var
-  P : PWideChar;
+  P, CodeStartP : PWideChar;
   LineNo, Indent, Index, CharOffset, CharOffset2, LastLength : integer;
   CodeStart : integer;
   Line, Token, AsgnTargetList, S, SourceLine : string;
@@ -789,15 +774,21 @@ begin
   LastCodeElement := Module;
   while not Stop and (P^ <> #0) do begin
     GetLine(P, Line, LineNo);
-    if (Length(Line) = 0) or fBlankLineRE.Exec(Line) then begin
-      // skip blank lines and comment lines
-    end else if fCodeRE.Exec(Line) then begin
+
+
+    // skip blank lines and comment lines
+    if (Length(Line) = 0) or fBlankLineRE.Exec(Line) then continue;
+    // skip comments
+    if fCommentLineRE.Exec(Line) then continue;
+
+    CodeStartP := P;
+    CodeStart := LineNo;
+    // Process continuation lines
+    ProcessLineContinuation(P, Line, LineNo, LineStarts);
+
+    if fCodeRE.Exec(Line) then begin
       // found class or function definition
       GlobalList.Clear;
-      CodeStart := LineNo;
-      // Process continuation lines
-      if ProcessLineContinuation(P, Line, LineNo, LineStarts) then
-        fCodeRE.Exec(Line);  // reparse
 
       S := StrReplaceChars(fCodeRE.Match[4], ['(', ')'], ' ');
       if fCodeRE.Match[2] = 'class' then begin
@@ -894,9 +885,6 @@ begin
       // search for imports
       if fImportRE.Exec(Line) then begin
         // Import statement
-        CodeStart := LineNo;
-        if ProcessLineContinuation(P, Line, LineNo, LineStarts) then
-          fImportRE.Exec(Line);  // reparse
         S := fImportRE.Match[1];
         CharOffset := fImportRE.MatchPos[1];
         LastLength := Length(S);
@@ -923,9 +911,6 @@ begin
         end;
       end else if fFromImportRE.Exec(Line) then begin
         // From Import statement
-        CodeStart := LineNo;
-        if ProcessLineContinuation(P, Line, LineNo, LineStarts) then
-          fFromImportRE.Exec(Line);  // reparse
         ModuleImport := TModuleImport.Create(fFromImportRE.Match[2],
           CodeBlock(CodeStart, LineNo));
         ModuleImport.fPrefixDotCount := fFromImportRE.MatchLen[1];
@@ -991,8 +976,7 @@ begin
                 Variable := TVariable.Create;
                 Variable.Name := Token;
                 Variable.Parent := Klass;
-                Variable.fCodePos.LineNo := LineNo;
-                Variable.fCodePos.CharOffset := CharOffset;
+                CharOffsetToCodePos(CharOffset, CodeStart, LineStarts, Variable.fCodePos);
                 Klass.fAttributes.Add(Variable);
                 Inc(AsgnTargetCount);
               end;
@@ -1001,19 +985,21 @@ begin
               Variable := TVariable.Create;
               Variable.Name := Token;
               Variable.Parent := LastCodeElement;
-              Variable.fCodePos.LineNo := LineNo;
-              Variable.fCodePos.CharOffset := CharOffset;
-              if LastCodeElement.ClassType = TParsedFunction then
-                TParsedFunction(LastCodeElement).Locals.Add(Variable)
-              else if LastCodeElement.ClassType = TParsedClass then begin
+              CharOffsetToCodePos(CharOffset, CodeStart, LineStarts, Variable.fCodePos);
+              if LastCodeElement.ClassType = TParsedFunction then begin
+                if TParsedFunction(LastCodeElement).HasArgument(Variable.Name) then
+                  FreeAndNil(Variable)
+                else
+                  TParsedFunction(LastCodeElement).Locals.Add(Variable);
+              end else if LastCodeElement.ClassType = TParsedClass then begin
                 Include(Variable.Attributes, vaClassAttribute);
                 TParsedClass(LastCodeElement).Attributes.Add(Variable)
               end else begin
                 Module.Globals.Add(Variable);
                 if Variable.Name = '__all__' then begin
-                  Line := GetNthSourceLine(LineNo);
+                  Line := GetNthSourceLine(CodeStart);
                   UseModifiedSource := False;
-                  ProcessLineContinuation(P, Line, LineNo, LineStarts);
+                  ProcessLineContinuation(CodeStartP, Line, CodeStart, LineStarts);
                   if fListRE.Exec(Line) then
                     Module.fAllExportsVar := fListRE.Match[1];
                   UseModifiedSource := True;
@@ -1023,7 +1009,7 @@ begin
             end;
           end;
           // Variable Type if the assignment has a single target
-          if AsgnTargetCount = 1 then begin
+          if Assigned(Variable) and (AsgnTargetCount = 1) then begin
             if fAssignmentRE.MatchLen[7] > 0 then begin
               Variable.ObjType := fAssignmentRE.Match[7];
               if fAssignmentRE.MatchLen[8] > 0 then  //= '('
@@ -1051,8 +1037,7 @@ begin
             Variable := TVariable.Create;
             Variable.Name := Token;
             Variable.Parent := LastCodeElement;
-            Variable.fCodePos.LineNo := LineNo;
-            Variable.fCodePos.CharOffset := CharOffset;
+            CharOffsetToCodePos(CharOffset, CodeStart, LineStarts, Variable.fCodePos);
             if LastCodeElement.ClassType = TParsedFunction then
               TParsedFunction(LastCodeElement).Locals.Add(Variable)
             else if LastCodeElement.ClassType = TParsedClass then begin
@@ -1413,6 +1398,18 @@ begin
   // Add arguments
   for i := 0 to fArguments.Count - 1 do
     SList.AddObject(TVariable(fArguments[i]).Name, fArguments[i]);
+end;
+
+function TParsedFunction.HasArgument(Name: string): Boolean;
+var
+  Variable : TObject;
+begin
+  Result := False;
+  for Variable in fArguments do
+    if (Variable as TVariable).Name = Name then begin
+      Result := True;
+      Exit;
+    end;
 end;
 
 { TParsedClass }

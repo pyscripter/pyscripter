@@ -1424,13 +1424,13 @@ begin
       OldBlockBegin := BufferCoord(1, OldBlockBegin.Line);
       BlockBegin := OldBlockBegin;
       BlockEnd := OldBlockEnd;
-      SelText := TPyRegExpr.CommentLineRE.Replace(SelText, '$1', True);
+      SelText := TPyRegExpr.CodeCommentLineRE.Replace(SelText, '$1', True);
       BlockBegin := OldBlockBegin;
       BlockEnd := BufferCoord(OldBlockEnd.Char - 2, OldBlockEnd.Line);
     end else begin
       BlockBegin := BufferCoord(1, CaretY);
       BlockEnd := BufferCoord(Length(LineText)+1, CaretY);
-      SelText := TPyRegExpr.CommentLineRE.Replace(SelText, '$1', True);
+      SelText := TPyRegExpr.CodeCommentLineRE.Replace(SelText, '$1', True);
       CaretXY := BufferCoord(OldBlockEnd.Char - 2, OldBlockEnd.Line);
     end;
     UpdateCaret;

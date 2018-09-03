@@ -65,7 +65,7 @@ type
   TPyRegExpr = class
     class var BlockOpenerRE : TRegExpr;
     class var BlockCloserRE : TRegExpr;
-    class var CommentLineRE : TRegExpr;
+    class var CodeCommentLineRE : TRegExpr;
     class var NonExecutableLineRE : TRegExpr;
     class constructor Create;
     class destructor Destroy;
@@ -151,9 +151,9 @@ begin
   TPyRegExpr.BlockCloserRE.Expression := '\s*(return|break|continue|raise|pass)\b';
   TPyRegExpr.NonExecutableLineRE := TRegExpr.Create;
   TPyRegExpr.NonExecutableLineRE.Expression := '(^\s*(class|def)\b)|(^\s*#)|(^\s*$)';
-  TPyRegExpr.CommentLineRE := TRegExpr.Create;
-  TPyRegExpr.CommentLineRE.Expression := '^([ \t]*)##';
-  TPyRegExpr.CommentLineRE.ModifierM := True;
+  TPyRegExpr.CodeCommentLineRE := TRegExpr.Create;
+  TPyRegExpr.CodeCommentLineRE.Expression := '^([ \t]*)##';
+  TPyRegExpr.CodeCommentLineRE.ModifierM := True;
 end;
 
 class destructor TPyRegExpr.Destroy;
@@ -161,7 +161,7 @@ begin
   TPyRegExpr.BlockOpenerRE.Free;
   TPyRegExpr.BlockCloserRE.Free;
   TPyRegExpr.NonExecutableLineRE.Free;
-  TPyRegExpr.CommentLineRE.Free;
+  TPyRegExpr.CodeCommentLineRE.Free;
 end;
 
 class function TPyRegExpr.IsBlockCloser(S: string): Boolean;
