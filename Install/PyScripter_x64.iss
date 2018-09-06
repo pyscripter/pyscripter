@@ -201,7 +201,7 @@ Source: "..\Styles\Windows10Purple.vsf"; DestDir: "{userappdata}\PyScripter\Styl
 Source: "..\Styles\Windows10SlateGray.vsf"; DestDir: "{userappdata}\PyScripter\Styles"
 
 [Icons]
-Name: {group}\PyScripter (Latest Python Version); Filename: {app}\PyScripter.exe
+Name: {group}\PyScripter; Filename: {app}\PyScripter.exe
 Name: {group}\PyScripter Help; Filename: {app}\PyScripter.chm
 ;Name: {group}\PyScripter for Python 2.7; Filename: {app}\PyScripter.exe; Parameters: --PYTHON27
 ;Name: {group}\PyScripter for Python 3.6; Filename: {app}\PyScripter.exe; Parameters: --PYTHON36
