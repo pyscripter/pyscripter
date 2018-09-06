@@ -572,6 +572,9 @@ begin
           begin
             Scope.GetNamespace(NameSpace);
             Scope := Scope.Parent as TCodeElement;
+            while Assigned(Scope) and (Scope is TParsedClass) do
+              // Class namespace not visible to class functions and nested classes  #672
+              Scope := Scope.Parent as TCodeElement;
           end;
           // builtins (could add keywords as well)
           ParsedBuiltInModule := PyScripterRefactor.GetParsedModule(GetPythonEngine.BuiltInModuleName, None);

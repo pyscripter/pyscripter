@@ -67,8 +67,6 @@ type
     SynAttri: TSynHighlighterAttributes;
   end;
 
-  TCodeCompletionType = (cctNone, cctModule, cctFrom, cctNameSpace);
-
   TEditorForm = class(TForm)
     imglGutterGlyphs: TImageList;
     pmnuEditor: TSpTBXPopupMenu;

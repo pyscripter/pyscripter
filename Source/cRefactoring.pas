@@ -415,7 +415,7 @@ Var
   CodeElement : TCodeElement;
 begin
   Result := nil;
-  if Ident = 'self' then begin
+  if (Ident = 'self') or (Ident = 'cls') then begin
     Result := Scope;
     while not (Result is TParsedClass) and Assigned(TCodeElement(Result).Parent) do
       Result := TCodeElement(Result).Parent;
@@ -440,6 +440,9 @@ begin
         break;
       end;
       CodeElement := CodeElement.Parent as TCodeElement;
+      while Assigned(CodeElement) and (CodeElement is TParsedClass) do
+        // Class namespace not visible to class functions and nested classes  #672
+        CodeElement := CodeElement.Parent as TCodeElement;
     end;
   finally
     NameSpace.Free;

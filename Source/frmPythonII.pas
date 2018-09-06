@@ -62,8 +62,6 @@ const
 
 type
 
-  TCodeCompletionType = (cctNone, cctModule, cctFrom, cctNameSpace);
-
   TPythonIIForm = class(TIDEDockWindow, ISearchCommands)
     SynEdit: TSynEdit;
     PythonIO: TPythonInputOutput;

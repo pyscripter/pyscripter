@@ -242,7 +242,7 @@ Const
   SCouldNotFindIdent = 'Could not find identifier "%s" in module "%s"';
   SCouldNotAnalyseModule = 'Could not analyse module: "%s"';
   SCouldNotFindModule = 'Could not find module: "%s"';
-  SSelfOutsideClassScope = '"self" used outside a class scope';
+  SSelfOutsideClassScope = '"self" or "cls" used outside a class scope';
   SCouldNotFindIdentInScope = 'Could not find identifier "%s" in scope "%s"';
   SRefactoryEngineBusy = 'Refactoring engine is busy';
   SPythonKeyword = 'Python keyword';
