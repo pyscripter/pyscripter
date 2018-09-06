@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
 "POT-Creation-Date: 2018-03-23 09:25\n"
 "PO-Revision-Date: 2018-01-23 16:26\n"
-"Last-Translator: phil phil <phil.prost@gmail.com>, 2018\n"
+"Last-Translator: Thomas LEDOS <thomas.ledos92@gmail.com>, 2018\n"
 "Language-Team: French (https://www.transifex.com/luebbe/teams/82736/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1071,12 +1071,12 @@ msgstr "&Barré"
 #. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel2..Caption
 #: dlgSynEditOptions.dfm
 msgid "Available Themes"
-msgstr ""
+msgstr "Thèmes disponibles"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..btnApplyTheme..Caption
 #: dlgSynEditOptions.dfm
 msgid "Apply Theme"
-msgstr ""
+msgstr "Appliquer le thème"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckAutoIndent....Hint
 #: dlgSynEditOptions.dfm
@@ -1261,6 +1261,7 @@ msgstr "Défiler par par page"
 #: dlgSynEditOptions.dfm
 msgid "Shows line breaks, spaces and tabs using special symbols"
 msgstr ""
+"Affiche les fin de lignes, les espaces et sauts avec des caractères spéciaux"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowSpecialChars..Caption
 #: dlgSynEditOptions.dfm
@@ -2210,7 +2211,7 @@ msgstr "Paramètre facultatif du nom de fichier"
 #. ToolProperties..FormatsPopup..Linenumber1..Caption
 #: dlgToolProperties.dfm
 msgid "Line number"
-msgstr ""
+msgstr "Numéro de ligne"
 
 #. ToolProperties..FormatsPopup..Linenumber1..Hint
 #: dlgToolProperties.dfm
@@ -2220,7 +2221,7 @@ msgstr ""
 #. ToolProperties..FormatsPopup..Columnnumber1..Caption
 #: dlgToolProperties.dfm
 msgid "Column number"
-msgstr ""
+msgstr "Numéro de colonne"
 
 #. ToolProperties..FormatsPopup..Columnnumber1..Hint
 #: dlgToolProperties.dfm
@@ -2949,7 +2950,7 @@ msgstr "ANSI"
 #. CommandsDataModule..actlMain..actEditAnsi..Hint
 #: dmCommands.dfm
 msgid "Use ANSI encoding"
-msgstr ""
+msgstr "Utiliser l'encodage ANSI"
 
 #. CommandsDataModule..actlMain..actHelpEditorShortcuts..Caption
 #: dmCommands.dfm
@@ -3021,17 +3022,17 @@ msgstr "Utiliser le codage de norme UTF-8 quand on sauvegarde le fichier"
 #. CommandsDataModule..actlMain..actEditUTF8NoBOM..Hint
 #: dmCommands.dfm
 msgid "Use UTF-8 encoding without BOM"
-msgstr ""
+msgstr "Utiliser l'encodage UTF-8 sans BOM"
 
 #. CommandsDataModule..actlMain..actEditUTF16LE..Hint
 #: dmCommands.dfm
 msgid "Use UTF-16LE encoding"
-msgstr ""
+msgstr "Utiliser l'encodage UTF-16LE"
 
 #. CommandsDataModule..actlMain..actEditUTF16BE..Hint
 #: dmCommands.dfm
 msgid "Use UTF-16BE encoding"
-msgstr ""
+msgstr "Utiliser l'encodage UTF-16BE"
 
 #. CommandsDataModule..actlMain..actFileReload..Caption
 #: dmCommands.dfm
@@ -3214,7 +3215,7 @@ msgstr ""
 #. CommandsDataModule..actlMain..actUnfoldAll..Caption
 #: dmCommands.dfm
 msgid "All"
-msgstr ""
+msgstr "Tout"
 
 #. CommandsDataModule..actlMain..actFoldAll..Hint
 #: dmCommands.dfm
@@ -4684,7 +4685,7 @@ msgstr "Support Web"
 #. PyIDEMainForm..TBXDockTop..MainToolBar..Caption
 #: frmPyIDEMain.dfm
 msgid "Main Toolbar"
-msgstr ""
+msgstr "Barre d'outils principale"
 
 #. PyIDEMainForm..TBXDockTop..DebugToolbar..Caption
 #: frmPyIDEMain.dfm
@@ -5489,7 +5490,7 @@ msgstr "Activer la fenêtre de l'explorateur de projets."
 #. PyIDEMainForm..actlStandard..actViewSplitWorkspaceVer..Caption
 #: frmPyIDEMain.dfm
 msgid "Split Workspace Vertically"
-msgstr ""
+msgstr "Séparer l'espace verticalement"
 
 #. PyIDEMainForm..actlStandard..actViewSplitWorkspaceVer....Hint
 #: frmPyIDEMain.dfm
@@ -5500,7 +5501,7 @@ msgstr ""
 #. PyIDEMainForm..actlStandard..actViewSplitWorkspaceHor..Caption
 #: frmPyIDEMain.dfm
 msgid "Split Workspace Horizontally"
-msgstr ""
+msgstr "Séparer l'espace horizontalement"
 
 #. PyIDEMainForm..actlStandard..actViewSplitWorkspaceHor....Hint
 #: frmPyIDEMain.dfm
@@ -5521,7 +5522,7 @@ msgstr ""
 #. PyIDEMainForm..actlStandard..actSelectStyle..Caption
 #: frmPyIDEMain.dfm
 msgid "Styles..."
-msgstr ""
+msgstr "Styles..."
 
 #. PythonIIForm..Caption
 #: frmPythonII.dfm dmCommands.pas
@@ -5643,7 +5644,7 @@ msgstr "Exécuter à nouveau la recherche"
 #. RegExpTesterWindow..BGPanel..FGPanel..TBXDock..RegExpTesterToolbar..TBXSubmenuItem2..RI_findall..Caption
 #: frmRegExpTester.dfm
 msgid "Find all"
-msgstr ""
+msgstr "Trouver tout"
 
 #. RegExpTesterWindow..BGPanel..FGPanel..TBXDock..RegExpTesterToolbar..TBXSubmenuItem2..RI_findall..Hint
 #: frmRegExpTester.dfm
