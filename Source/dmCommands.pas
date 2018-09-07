@@ -1921,7 +1921,7 @@ Var
   IsRegistered : Boolean;
   Key : string;
 begin
-  SetLength(Categories, 8);
+  SetLength(Categories, 9);
   with Categories[0] do begin
     DisplayName := _('IDE');
     SetLength(Options, 12);
@@ -2093,6 +2093,12 @@ begin
     SetLength(Options, 1);
     Options[0].PropertyName := 'FileExplorerContextMenu';
     Options[0].DisplayName := _('File Explorer context menu');
+  end;
+  with Categories[8] do begin
+    DisplayName := _('File Explorer');
+    SetLength(Options, 1);
+    Options[0].PropertyName := 'FileExplorerBackgroundProcessing';
+    Options[0].DisplayName := _('File Explorer background processing');
   end;
 
   // Shell Integration

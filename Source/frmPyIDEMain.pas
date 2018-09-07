@@ -430,6 +430,8 @@
           New Features
             Close All to he Right Editor command added (#866)
             New editor parameter [$-CurLineNumber] (#864)
+            New IDE Option "File Explorer background processing'. Set to false
+              if you get File Explorer errors
           Issues addressed
             #645, #672, #762, #793, #869, #879, #889, #890, #893, #896,
             #898, #899, #906
@@ -1245,7 +1247,8 @@ type
       Index : integer = -1);
     function TabControl(TabControlIndex : integer = 1) : TSpTBXTabControl;
     function TabControlIndex(TabControl : TSpTBXCustomTabControl) : integer;
-    procedure ConfigureFCN(FCN : TFileChangeNotificationType);
+    procedure ConfigureFileExplorer(FCN : TFileChangeNotificationType;
+      BackgroundProcessing : Boolean);
     property ActiveTabControl : TSpTBXCustomTabControl read GetActiveTabControl
       write SetActiveTabControl;
   end;
@@ -1708,7 +1711,7 @@ begin
 
     // Disconnect ChangeNotify
     FileExplorerWindow.FileExplorerTree.Active := False;
-    ConfigureFCN(fcnDisabled);
+    ConfigureFileExplorer(fcnDisabled, False);
 
     // Disable CodeHint timer
     CodeHint.CancelHint;
@@ -2809,7 +2812,8 @@ begin
     ProjectExplorerWindow.DoOpenProjectFile(CmdLineReader.readString('PROJECT'));
 end;
 
-procedure TPyIDEMainForm.ConfigureFCN(FCN: TFileChangeNotificationType);
+procedure TPyIDEMainForm.ConfigureFileExplorer(FCN: TFileChangeNotificationType;
+      BackgroundProcessing : Boolean);
 begin
   case FCN of
     fcnFull:
@@ -2833,6 +2837,15 @@ begin
         // Connect ChangeNotify
         OnAfterShellNotify := nil;
       end;
+  end;
+  with FileExplorerWindow.FileExplorerTree do begin
+    if BackgroundProcessing then begin
+      TreeOptions.VETImageOptions := TreeOptions.VETImageOptions + [toThreadedImages];
+      TreeOptions.VETFolderOptions := TreeOptions.VETFolderOptions + [toThreadedExpandMark];
+    end else begin
+      TreeOptions.VETImageOptions := TreeOptions.VETImageOptions - [toThreadedImages];
+      TreeOptions.VETFolderOptions := TreeOptions.VETFolderOptions - [toThreadedExpandMark];
+    end;
   end;
 end;
 
@@ -3010,7 +3023,8 @@ begin
 
   TThread.ForceQueue(nil, procedure
   begin
-    ConfigureFCN(PyIDEOptions.FileChangeNotification);
+    ConfigureFileExplorer(PyIDEOptions.FileChangeNotification,
+      PyIDEOptions.FileExplorerBackgroundProcessing);
   end);
 
   // Command History Size

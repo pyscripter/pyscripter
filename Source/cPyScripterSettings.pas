@@ -106,6 +106,7 @@ type
     fInternalInterpreterHidden : boolean;
     fCompactLineNumbers : Boolean;
     fStyleMainWindowBorder : Boolean;
+    fFileExplorerBackgroundProcessing : Boolean;
     function GetPythonFileExtensions: string;
     procedure SetAutoCompletionFont(const Value: TFont);
   public
@@ -258,6 +259,8 @@ type
       write fCompactLineNumbers default True;
     property StyleMainWindowBorder : Boolean read fStyleMainWindowBorder
       write fStyleMainWindowBorder default False;
+    property FileExplorerBackgroundProcessing : Boolean read fFileExplorerBackgroundProcessing
+      write fFileExplorerBackgroundProcessing default True;
   end;
 {$METHODINFO OFF}
 
@@ -383,6 +386,7 @@ begin
       Self.fInternalInterpreterHidden := InternalInterpreterHidden;
       Self.fCompactLineNumbers := CompactLineNumbers;
       Self.fStyleMainWindowBorder := StyleMainWindowBorder;
+      Self.fFileExplorerBackgroundProcessing := FileExplorerBackgroundProcessing;
     end
   else
     inherited;
@@ -474,6 +478,7 @@ begin
   fInternalInterpreterHidden := True;
   fCompactLineNumbers := True;
   fStyleMainWindowBorder := False;
+  fFileExplorerBackgroundProcessing := True;
   fCodeFolding := TSynCodeFolding.Create;
 end;
 
