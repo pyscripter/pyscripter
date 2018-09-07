@@ -2562,7 +2562,6 @@ end;
 
 procedure TEditorForm.AddWatchAtCursor;
 var
-  TokenType, Start: Integer;
   Token, LineTxt, DottedIdent: string;
   Attri: TSynHighlighterAttributes;
   aLineCharPos: TBufferCoord;
@@ -2571,8 +2570,7 @@ begin
   if SynEdit.Highlighter = CommandsDataModule.SynPythonSyn then
     with SynEdit do
     begin
-      GetHighlighterAttriAtRowColEx(aLineCharPos, Token, TokenType, Start,
-        Attri);
+      GetHighlighterAttriAtRowCol(aLineCharPos, Token, Attri);
       if (Attri = CommandsDataModule.SynPythonSyn.IdentifierAttri) or
         (Attri = CommandsDataModule.SynPythonSyn.NonKeyAttri) or
         (Attri = CommandsDataModule.SynPythonSyn.SystemAttri) or
@@ -2785,7 +2783,7 @@ procedure TEditorForm.SynParamCompletionExecute(Kind: SynCompletionType;
   var CanExecute: boolean);
 Var
   locline, lookup: string;
-  TmpX, StartX, ParenCounter, TmpLocation: Integer;
+  TmpX, StartX, ParenCounter, BracketCounter, ArgIndex: Integer;
   FoundMatch: boolean;
   FName, DisplayText, ErrMsg, Doc: string;
   P: TPoint;
@@ -2793,7 +2791,6 @@ Var
   Def: TBaseCodeElement;
   ParsedModule: TParsedModule;
   PythonPathAdder: IInterface;
-  TokenType, Start: Integer;
   Token: string;
   Attri: TSynHighlighterAttributes;
   AlreadyActive: boolean;
@@ -2835,15 +2832,14 @@ begin
     else
       Dec(TmpX);
     FoundMatch := False;
-    TmpLocation := 0;
 
     while (TmpX > 0) and not(FoundMatch) do
     begin
-      if locline[TmpX] = ',' then
-      begin
-        Inc(TmpLocation);
-        Dec(TmpX);
-      end
+      GetHighlighterAttriAtRowCol(BufferCoord(TmpX, CaretY), Token, Attri);
+      if (Attri = TSynPythonSyn(Highlighter).StringAttri) or
+        (Attri = TSynPythonSyn(Highlighter).SpaceAttri)
+      then
+        Dec(TmpX)
       else if locline[TmpX] = ')' then
       begin
         // We found a close, go till it's opening paren
@@ -2869,8 +2865,7 @@ begin
         begin
           DisplayText := '';
 
-          GetHighlighterAttriAtRowColEx(BufferCoord(TmpX, CaretY), Token,
-            TokenType, Start, Attri);
+          GetHighlighterAttriAtRowCol(BufferCoord(TmpX, CaretY), Token, Attri);
           if (Attri = TSynPythonSyn(Highlighter).IdentifierAttri) or
             (Attri = TSynPythonSyn(Highlighter).NonKeyAttri) or
             (Attri = TSynPythonSyn(Highlighter).SystemAttri) then
@@ -2973,7 +2968,35 @@ begin
         Doc := GetLineRange(Doc, 1, 20) // 20 lines max
       end;
 
-      Form.CurrentIndex := TmpLocation;
+      // Determine active argument
+      TmpX := Succ(StartX);
+      BracketCounter := 1;
+      ArgIndex := 0;
+      with TSynCompletionProposal(Sender).Editor do
+      begin
+        while TmpX < TSynCompletionProposal(Sender).Editor.CaretX do
+        begin
+          GetHighlighterAttriAtRowCol(BufferCoord(TmpX, CaretY), Token, Attri);
+          if (Attri = TSynPythonSyn(Highlighter).StringAttri) or
+            (Attri = TSynPythonSyn(Highlighter).SpaceAttri) then
+          begin
+            Inc(TmpX);
+            Continue;
+          end;
+          if Ord(locline[TmpX]) < 128  then
+          begin
+            if AnsiChar(locline[TmpX]) in ['(','{','['] then
+              Inc(BracketCounter)
+            else if AnsiChar(locline[TmpX]) in [')','}',']'] then
+              Dec(BracketCounter)
+            else if (BracketCounter = 1) and (locline[TmpX] = ',') then
+              Inc(ArgIndex)
+          end;
+          Inc(TmpX);
+        end;
+      end;
+
+      Form.CurrentIndex := ArgIndex;
       ItemList.Text := DisplayText + Doc;
     end;
 

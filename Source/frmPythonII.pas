@@ -1226,13 +1226,16 @@ procedure TPythonIIForm.SynParamCompletionExecute(Kind: SynCompletionType;
 var locline, lookup: string;
     TmpX, StartX,
     ParenCounter,
-    TmpLocation : Integer;
+    BracketCounter,
+    ArgIndex : Integer;
     FoundMatch : Boolean;
     DisplayText, DocString : string;
     p : TPoint;
     Attr: TSynHighlighterAttributes;
     DummyToken : string;
     BC : TBufferCoord;
+    Attri: TSynHighlighterAttributes;
+    Token: string;
 begin
   if not PyControl.InternalPython.Loaded or PyControl.Running or not PyIDEOptions.InterpreterCodeCompletion
   then
@@ -1261,15 +1264,15 @@ begin
       TmpX := length(locLine)
     else dec(TmpX);
     FoundMatch := False;
-    TmpLocation := 0;
 
     while (TmpX > 0) and not(FoundMatch) do
     begin
-      if LocLine[TmpX] = ',' then
-      begin
-        inc(TmpLocation);
-        dec(TmpX);
-      end else if LocLine[TmpX] = ')' then
+      GetHighlighterAttriAtRowCol(BufferCoord(TmpX, CaretY), Token, Attri);
+      if (Attri = TSynPythonSyn(Highlighter).StringAttri) or
+        (Attri = TSynPythonSyn(Highlighter).SpaceAttri)
+      then
+        Dec(TmpX)
+      else if LocLine[TmpX] = ')' then
       begin
         //We found a close, go till it's opening paren
         ParenCounter := 1;
@@ -1323,8 +1326,35 @@ begin
 
       if (DocString <> '') then
         DisplayText := DisplayText + sLineBreak;
+      // Determine active argument
+      TmpX := Succ(StartX);
+      BracketCounter := 1;
+      ArgIndex := 0;
+      with TSynCompletionProposal(Sender).Editor do
+      begin
+        while TmpX < TSynCompletionProposal(Sender).Editor.CaretX do
+        begin
+          GetHighlighterAttriAtRowCol(BufferCoord(TmpX, CaretY), Token, Attri);
+          if (Attri = TSynPythonSyn(Highlighter).StringAttri) or
+            (Attri = TSynPythonSyn(Highlighter).SpaceAttri) then
+          begin
+            Inc(TmpX);
+            Continue;
+          end;
+          if Ord(locline[TmpX]) < 128  then
+          begin
+            if AnsiChar(locline[TmpX]) in ['(','{','['] then
+              Inc(BracketCounter)
+            else if AnsiChar(locline[TmpX]) in [')','}',']'] then
+              Dec(BracketCounter)
+            else if (BracketCounter = 1) and (locline[TmpX] = ',') then
+              Inc(ArgIndex)
+          end;
+          Inc(TmpX);
+        end;
+      end;
 
-      Form.CurrentIndex := TmpLocation;
+      Form.CurrentIndex := ArgIndex;
       ItemList.Text := DisplayText + DocString;
     end;
 
