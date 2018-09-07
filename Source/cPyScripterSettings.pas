@@ -839,13 +839,16 @@ class procedure TPyScripterSettings.RegisterEditorUserCommands(
 // Register User Commands and shortcuts
 begin
   with Keystrokes do begin
-  AddKey(ecCodeCompletion, VK_SPACE, [ssCtrl]);
-  AddKey(ecParamCompletion, VK_SPACE, [ssCtrl, ssShift]);
-  AddKey(ecSelMatchBracket  , 221, [ssCtrl, ssShift]);
-  // 221 code for ]
-  // Visual studio shortcut for Match Bracket
-  Delete(FindCommand(ecMatchBracket));
-  AddKey(ecMatchBracket, 221, [ssCtrl]);
+    AddKey(ecCodeCompletion, VK_SPACE, [ssCtrl]);
+    AddKey(ecParamCompletion, VK_SPACE, [ssCtrl, ssShift]);
+    AddKey(ecSelMatchBracket  , 221, [ssCtrl, ssShift]);
+    // 221 code for ]
+    // Visual studio shortcut for Match Bracket
+    Delete(FindCommand(ecMatchBracket));
+    AddKey(ecMatchBracket, 221, [ssCtrl]);
+    // #869
+    Delete(FindCommand(ecDeleteLine));
+    AddKey(ecDeleteLine, Ord('D'), [ssCtrl, ssShift]);
   end;
 end;
 

@@ -944,7 +944,6 @@ end;
 procedure TCommandsDataModule.actFileCloseAllToTheRightExecute(Sender: TObject);
 Var
   Editor, NextEditor : IEditor;
-  Index, i : integer;
   NextTab : TSpTBXTabItem;
 begin
   Editor := PyIDEMainForm.GetActiveEditor;
