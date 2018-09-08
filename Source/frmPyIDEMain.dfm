@@ -25,7 +25,7 @@ object PyIDEMainForm: TPyIDEMainForm
     Top = 513
     Width = 780
     Height = 25
-    ExplicitTop = 528
+    ExplicitTop = 510
     object lbStatusMessage: TSpTBXLabelItem
       Wrapping = twEndEllipsis
       Options = [tboNoAutoHint]
@@ -343,6 +343,11 @@ object PyIDEMainForm: TPyIDEMainForm
         end
         object mnEditSelectAll: TSpTBXItem
           Action = CommandsDataModule.actEditSelectAll
+        end
+        object SpTBXSeparatorItem19: TSpTBXSeparatorItem
+        end
+        object SpTBXItem10: TSpTBXItem
+          Action = CommandsDataModule.actEditReadOnly
         end
         object TBXSeparatorItem9: TSpTBXSeparatorItem
         end
@@ -1372,6 +1377,11 @@ object PyIDEMainForm: TPyIDEMainForm
     end
     object SpTBXItem6: TSpTBXItem
       Action = CommandsDataModule.actFileCloseAllToTheRight
+    end
+    object SpTBXSeparatorItem20: TSpTBXSeparatorItem
+    end
+    object SpTBXItem11: TSpTBXItem
+      Action = CommandsDataModule.actEditReadOnly
     end
     object TBXSeparatorItem28: TSpTBXSeparatorItem
     end

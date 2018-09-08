@@ -113,6 +113,8 @@ type
     function GetSourceScanner : IAsyncSourceScanner;
     function GetCodeExplorerData : ICodeExplorerData;
     function GetTabControlIndex : integer;
+    function GetReadOnly : Boolean;
+    procedure SetReadOnly(Value : Boolean);
     procedure SetFileEncoding(FileEncoding : TFileSaveFormat);
     procedure OpenFile(const AFileName: string; HighlighterName : string = '');
     function HasPythonFile : Boolean;
@@ -133,6 +135,7 @@ type
     property SourceScanner : IAsyncSourceScanner read GetSourceScanner;
     property CodeExplorerData : ICodeExplorerData read GetCodeExplorerdata;
     property TabControlIndex : integer read GetTabControlIndex;
+    property ReadOnly : Boolean read GetReadOnly write SetReadOnly;
   end;
 
   IEditorFactory = interface

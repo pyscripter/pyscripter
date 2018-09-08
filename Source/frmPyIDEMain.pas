@@ -428,7 +428,10 @@
 
   History:   v 3.4.2
           New Features
-            Close All to he Right Editor command added (#866)
+            New Edit Command Read Only (#883)
+            Files opened by PyScripter from the Python directory during debugging
+              are read only by default to prevent accidental changes.
+            Close All to the Right Editor command added (#866)
             New editor parameter [$-CurLineNumber] (#864)
             New IDE Option "File Explorer background processing'. Set to false
               if you get File Explorer errors
@@ -1003,6 +1006,10 @@ type
     SpTBXSeparatorItem18: TSpTBXSeparatorItem;
     SpTBXItem4: TSpTBXItem;
     SpTBXItem6: TSpTBXItem;
+    SpTBXSeparatorItem19: TSpTBXSeparatorItem;
+    SpTBXItem10: TSpTBXItem;
+    SpTBXSeparatorItem20: TSpTBXSeparatorItem;
+    SpTBXItem11: TSpTBXItem;
     procedure mnFilesClick(Sender: TObject);
     procedure actEditorZoomInExecute(Sender: TObject);
     procedure actEditorZoomOutExecute(Sender: TObject);
@@ -1294,6 +1301,7 @@ uses
   SynCompletionProposal,
   PythonEngine,
   PythonVersions,
+  VarPyth,
   JvGnugettext,
   StringResources,
   uCmdLine,
@@ -2489,6 +2497,12 @@ begin
       except
       end;
       Editor := GI_EditorFactory.GetEditorByNameOrTitle(FileName);
+
+      if PyControl.InternalPython.Loaded and
+        Editor.FileName.StartsWith(SysModule.prefix, True)
+      then
+        Editor.ReadOnly := True;
+
     end;
     if Assigned(Editor) then begin
       Result := True;
@@ -2774,9 +2788,11 @@ end;
 procedure TPyIDEMainForm.UpdateStatusBarPanels;
 var
   ptCaret: TPoint;
+  Editor : IEditor;
 begin
-  if GI_ActiveEditor <> nil then begin
-    ptCaret := GI_ActiveEditor.GetCaretPos;
+  Editor := GI_ActiveEditor;
+  if Editor <> nil then begin
+    ptCaret := Editor.GetCaretPos;
     if (ptCaret.X > 0) and (ptCaret.Y > 0) then
       lbStatusCaret.Caption := Format(' %6d:%3d ', [ptCaret.Y, ptCaret.X])
     else
@@ -2785,7 +2801,7 @@ begin
       lbStatusModified.Caption := _(SModified)
     else
       lbStatusModified.Caption := ' ';
-    lbStatusOverwrite.Caption := GI_ActiveEditor.GetEditorState;
+    lbStatusOverwrite.Caption := Editor.GetEditorState;
   end else begin
     lbStatusCaret.Caption := '';
     lbStatusModified.Caption := '';

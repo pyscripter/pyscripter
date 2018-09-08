@@ -265,6 +265,8 @@ type
     function GetEncodedText: AnsiString;
     procedure OpenFile(const AFileName: string; HighlighterName: string = '');
     function HasPythonFile: boolean;
+    function GetReadOnly : Boolean;
+    procedure SetReadOnly(Value : Boolean);
     procedure ExecuteSelection;
     procedure SplitEditorHorizontally;
     procedure SplitEditorVertrically;
@@ -314,7 +316,6 @@ type
     fFileName: string;
     fForm: TEditorForm;
     fHasSelection: boolean;
-    fIsReadOnly: boolean;
     fUntitledNumber: Integer;
     fFileEncoding: TFileSaveFormat;
     fCodeExplorerData: ICodeExplorerData;
@@ -713,6 +714,11 @@ begin
     Result := False;
 end;
 
+function TEditor.GetReadOnly: Boolean;
+begin
+  Result := GetSynEdit.ReadOnly;
+end;
+
 function TEditor.GetSourceScanner: IAsyncSourceScanner;
 begin
   fForm.ReparseIfNeeded;
@@ -727,6 +733,12 @@ end;
 procedure TEditor.SetFileEncoding(FileEncoding: TFileSaveFormat);
 begin
   fFileEncoding := FileEncoding;
+end;
+
+procedure TEditor.SetReadOnly(Value: Boolean);
+begin
+  GetSynEdit.ReadOnly := Value;
+  GetSynEdit2.ReadOnly := Value;
 end;
 
 procedure TEditor.SplitEditorHorizontally;
@@ -827,7 +839,7 @@ end;
 
 function TEditor.CanCut: boolean;
 begin
-  Result := (fForm <> nil) and not fIsReadOnly;
+  Result := (fForm <> nil) and not GetReadOnly;
 end;
 
 function TEditor.CanPaste: boolean;
@@ -1076,7 +1088,7 @@ end;
 
 function TEditor.CanReplace: boolean;
 begin
-  Result := (fForm <> nil) and not fIsReadOnly and not IsEmpty;
+  Result := (fForm <> nil) and not GetReadOnly and not IsEmpty;
 end;
 
 procedure TEditor.ExecFind;
@@ -1519,8 +1531,6 @@ begin
   Assert(fEditor <> nil);
   if Changes * [scAll, scSelection] <> [] then
     fEditor.fHasSelection := ASynEdit.SelAvail;
-  if Changes * [scAll, scReadOnly] <> [] then
-    fEditor.fIsReadOnly := ASynEdit.ReadOnly;
   if scModified in Changes then
   begin
     PyIDEMainForm.UpdateCaption;

@@ -43,6 +43,7 @@ Type
     SecondEditorSize : integer;
     SecondEditorUseCodeFolding: Boolean;
     EditorOptions2 : TSynEditorOptionsContainer;
+    ReadOnly : Boolean;
   protected
     // IJvAppStorageHandler implementation
     procedure ReadFromAppStorage(AppStorage: TJvCustomAppStorage; const BasePath: string); virtual;
@@ -118,6 +119,7 @@ begin
    AppStorage.WriteObjectList(BasePath+'\BreakPoints', BreakPoints, 'BreakPoint');
    AppStorage.WriteObjectList(BasePath+'\BookMarks', BookMarks, 'BookMarks');
    AppStorage.WriteBoolean(BasePath+'\UseCodeFolding', UseCodeFolding);
+   AppStorage.WriteBoolean(BasePath+'\ReadOnly', ReadOnly);
 
    AppStorage.WriteBoolean(BasePath+'\SecondEditorVisible', SecondEditorVisible);
    IgnoreProperties := TStringList.Create;
@@ -149,6 +151,7 @@ begin
    AppStorage.ReadObjectList(BasePath+'\BreakPoints', BreakPoints, CreateListItem, True, 'BreakPoint');
    AppStorage.ReadObjectList(BasePath+'\BookMarks', BookMarks, CreateListItem, True, 'BookMarks');
    UseCodeFolding := AppStorage.ReadBoolean(BasePath+'\UseCodeFolding', False);
+   ReadOnly := AppStorage.ReadBoolean(BasePath+'\ReadOnly', False);
    EditorOptions.Assign(cPyScripterSettings.EditorOptions);
    AppStorage.ReadPersistent(BasePath+'\Editor Options', EditorOptions, True, True);
 
@@ -218,6 +221,7 @@ begin
   end;
   EditorOptions.Assign(Editor.SynEdit);
   UseCodeFolding := Editor.SynEdit.UseCodeFolding;
+  ReadOnly := Editor.ReadOnly;
 
   SecondEditorVisible := Editor.SynEdit2.Visible;
   if SecondEditorVisible then begin
@@ -271,6 +275,7 @@ begin
         end;
         Editor.SynEdit.Assign(FilePersistInfo.EditorOptions);
         Editor.SynEdit.UseCodeFolding := FilePersistInfo.UseCodeFolding;
+        Editor.ReadOnly := FilePersistInfo.ReadOnly;
 
         if FilePersistInfo.SecondEditorVisible then begin
           Editor.SynEdit2.Assign(FilePersistInfo.EditorOptions2);

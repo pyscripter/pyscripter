@@ -249,6 +249,7 @@ type
     SynGeneralSyn: TSynGeneralSyn;
     SynJSONSyn: TSynJSONSyn;
     actFileCloseAllToTheRight: TAction;
+    actEditReadOnly: TAction;
     function ProgramVersionHTTPLocationLoadFileFromRemote(
       AProgramVersionLocation: TJvProgramVersionHTTPLocation; const ARemotePath,
       ARemoteFileName, ALocalPath, ALocalFileName: string): string;
@@ -351,6 +352,7 @@ type
     procedure actFoldFunctionsExecute(Sender: TObject);
     procedure actUnfoldFunctionsExecute(Sender: TObject);
     procedure actFileCloseAllToTheRightExecute(Sender: TObject);
+    procedure actEditReadOnlyExecute(Sender: TObject);
   private
     fHighlighters: TStrings;
     fUntitledNumbers: TBits;
@@ -998,6 +1000,12 @@ procedure TCommandsDataModule.actEditSelectAllExecute(Sender: TObject);
 begin
   if GI_EditCmds <> nil then
     GI_EditCmds.ExecSelectAll;
+end;
+
+procedure TCommandsDataModule.actEditReadOnlyExecute(Sender: TObject);
+begin
+  if Assigned(GI_ActiveEditor) then
+    GI_ActiveEditor.ReadOnly := not GI_ActiveEditor.ReadOnly;
 end;
 
 procedure TCommandsDataModule.actEditRedoExecute(Sender: TObject);
@@ -2287,6 +2295,8 @@ begin
   actEditUncomment.Enabled := Assigned(GI_ActiveEditor);
   actEditLineNumbers.Enabled := Assigned(GI_ActiveEditor);
   actEditWordWrap.Enabled := Assigned(GI_ActiveEditor);
+  actEditReadOnly.Enabled := Assigned(GI_ActiveEditor);
+  actEditReadOnly.Checked := Assigned(GI_ActiveEditor) and GI_ActiveEditor.ReadOnly;
   actEditShowSpecialChars.Enabled := Assigned(GI_ActiveEditor);
   if Assigned(GI_ActiveEditor) then begin
     actEditLineNumbers.Checked := GI_ActiveEditor.ActiveSynEdit.Gutter.ShowLineNumbers;
