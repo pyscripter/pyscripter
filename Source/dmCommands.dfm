@@ -72,7 +72,7 @@ object CommandsDataModule: TCommandsDataModule
     Left = 32
     Top = 241
     Bitmap = {
-      494C01010A000D004C0010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C01010A000D00500010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -2073,6 +2073,7 @@ object CommandsDataModule: TCommandsDataModule
           '        pyrepr.maxstring = 60'
           '        pyrepr.maxother = 60'
           '        self._repr = pyrepr.repr'
+          '        self._str = str'
           ''
           '        self.commontypes = frozenset(['
           '              '#39'NoneType'#39','
@@ -2141,7 +2142,7 @@ object CommandsDataModule: TCommandsDataModule
           '        if sequenceitems and isinstance(ob, (list, tuple)):'
           '            result = {}'
           '            for i in range(len(ob)):'
-          '                result[str(i)] = ob[i]'
+          '                result[self._str(i)] = ob[i]'
           '        elif dictitems and isinstance(ob, dict):'
           '            result = {}'
           '            for (i,j) in ob.items():'
@@ -2192,7 +2193,7 @@ object CommandsDataModule: TCommandsDataModule
           ''
           '    def safestr(self, value):'
           '        try:'
-          '            return str(value)'
+          '            return self._str(value)'
           '        except:'
           '            return self.saferepr(value)'
           ''
@@ -4744,7 +4745,7 @@ object CommandsDataModule: TCommandsDataModule
     Left = 36
     Top = 194
     Bitmap = {
-      494C0101A000E000580010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C0101A000E0005C0010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000009002000001002000000000000090
       0200000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
