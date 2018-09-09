@@ -88,6 +88,7 @@ type
   public
     constructor Create(II : Variant);
 
+    procedure Initialize; override;
     function SysPathAdd(const Path : string) : boolean; override;
     function SysPathRemove(const Path : string) : boolean; override;
     procedure SysPathToStrings(Strings : TStrings); override;
@@ -1164,6 +1165,13 @@ begin
 
     PyControl.DoStateChange(dsInactive);
   end;
+end;
+
+procedure TPyInternalInterpreter.Initialize;
+begin
+  // do not run Python_Init if this is not our main engine
+  if PyIDEOptions.PythonEngineType <> peInternal then Exit;
+  inherited;
 end;
 
 function TPyInternalInterpreter.NameSpaceFromExpression(

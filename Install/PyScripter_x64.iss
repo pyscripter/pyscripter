@@ -3,8 +3,8 @@
 
 [Setup]
 AppName=PyScripter
-AppVersion=3.4.1
-AppVerName=PyScripter 3.4.1
+AppVersion=3.4.2
+AppVerName=PyScripter 3.4.2
 AppPublisher=PyScripter
 AppPublisherURL=https://sourceforge.net/projects/pyscripter/
 AppSupportURL=https://github.com/pyscripter/pyscripter
@@ -14,7 +14,7 @@ DefaultGroupName=PyScripter-x64
 InfoBeforeFile=BeforeInstallPyScripter-x64.txt
 InfoAfterFile=AfterInstallPyScripter-x64.txt
 OutputDir=Output
-OutputBaseFilename=PyScripter-v3.4.1-x64-Setup
+OutputBaseFilename=PyScripter-v3.4.2-x64-Setup
 Compression=lzma/Max
 SolidCompression=true
 ChangesAssociations=true
