@@ -435,9 +435,10 @@
             New editor parameter [$-CurLineNumber] (#864)
             New IDE Option "File Explorer background processing'. Set to false
               if you get File Explorer errors
+            Console output including multiprocessing is now shown in interpreter #891
           Issues addressed
-            #645, #672, #762, #793, #869, #879, #889, #890, #893, #896,
-            #898, #899, #906
+            #645, #672, #722, #762, #793, #869, #879, #889, #890, #893,
+            #896, #898, #899, #906
 
             { TODO : Issues 501, 667 }
             { TODO : Review Search and Replace }

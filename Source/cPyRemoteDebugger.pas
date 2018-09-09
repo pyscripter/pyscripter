@@ -49,6 +49,7 @@ type
     procedure CreateServerProcess;
   protected
     procedure CreateMainModule; override;
+    procedure ProcessServerOuput(Sender: TObject; const S: string);
   public
     constructor Create(AEngineType : TPythonEngineType = peRemote);
     destructor Destroy; override;
@@ -745,6 +746,17 @@ begin
   Result := TRemNameSpaceItem.Create(aName, aPyObject, Self);
 end;
 
+procedure TPyRemoteInterpreter.ProcessServerOuput(Sender: TObject;
+  const S: string);
+begin
+//  TThread.Queue(nil, procedure
+//  begin
+    PythonIIForm.PythonIOSendData(Sender, S);
+//    CheckConnected(True);
+//    Conn.modules('sys').stdout.write(S);
+//  end);
+end;
+
 procedure TPyRemoteInterpreter.CreateServerProcess;
 begin
   ServerProcess := TJvCreateProcess.Create(nil);
@@ -757,6 +769,8 @@ begin
     StartupInfo.ForceOffFeedback := True;
     StartupInfo.DefaultWindowState := True;
     StartupInfo.ShowWindow := swNormal;
+    OnRawRead := ProcessServerOuput;
+    OnErrorRawRead := ProcessServerOuput;
   end;
 end;
 

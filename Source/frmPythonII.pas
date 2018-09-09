@@ -154,7 +154,6 @@ type
     procedure SynCodeCompletionCodeItemInfo(Sender: TObject;
       AIndex: Integer; var Info : string);
   protected
-    procedure PythonIOSendData(Sender: TObject; const Data: string);
     procedure PythonIOReceiveData(Sender: TObject; var Data: string);
     procedure EditorMouseWheel(theDirection: Integer; Shift: TShiftState );
     procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
@@ -165,6 +164,7 @@ type
     { Public declarations }
     PS1, PS2, DebugPrefix, PMPrefix : string;
     PythonHelpFile : string;
+    procedure PythonIOSendData(Sender: TObject; const Data: string);
     procedure PrintInterpreterBanner;
     function OutputSuppressor : IInterface;
     procedure WritePendingMessages;
