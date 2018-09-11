@@ -761,9 +761,11 @@ end;
 procedure TPythonControl.ReadFromAppStorage(AppStorage: TJvCustomAppStorage;
   out SysVersion, InstallPath: string);
 Var
+  Index : integer;
   CustomVersions : TStringList;
   Version : TPythonVersion;
   Path : string;
+  Name : string;
   Count : integer;
 begin
   if not AppStorage.PathExists(PythonVersionsKey+'\Custom Versions') then Exit;
@@ -772,13 +774,20 @@ begin
     AppStorage.ReadStringList(PythonVersionsKey+'\Custom Versions', CustomVersions, True, 'Path');
     Count := 0;
     SetLength(CustomPythonVersions, CustomVersions.Count);
-    for Path in CustomVersions do
+    for Index := 0 to  CustomVersions.Count -1  do
     begin
-       if PythonVersionFromPath(Path, Version) then
-       begin
-         CustomPythonVersions[Count] := Version;
-         Inc(Count);
-       end;
+      Name := CustomVersions.Names[Index];
+      if Name = '' then
+        Path := CustomVersions[Index]
+      else
+         Path := CustomVersions.ValueFromIndex[Index];
+      if PythonVersionFromPath(Path, Version) then
+      begin
+        CustomPythonVersions[Count] := Version;
+        if Name <> '' then
+          CustomPythonVersions[Count].DisplayName := Name;
+        Inc(Count);
+      end;
     end;
     SetLength(CustomPythonVersions, Count);
   finally
@@ -797,7 +806,7 @@ begin
   CustomVersions := TStringList.Create;
   try
     for Version in CustomPythonVersions do
-      CustomVersions.Add(Version.InstallPath);
+      CustomVersions.Add(Version.DisplayName + CustomVersions.NameValueSeparator +  Version.InstallPath);
     AppStorage.WriteStringList(PythonVersionsKey+'\Custom Versions', CustomVersions, 'Path');
   finally
     CustomVersions.Free;

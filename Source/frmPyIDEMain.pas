@@ -440,6 +440,11 @@
             #645, #672, #722, #762, #793, #800, #869, #879, #889, #890,
             #893, #896, #898, #899, #906
 
+  History:   v 3.5
+          New Features
+          Issues addressed
+            #907
+
             { TODO : Issues 501, 667 }
             { TODO : Review Search and Replace }
             { TODO : Auto PEP8 tool }

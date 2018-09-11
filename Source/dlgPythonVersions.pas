@@ -50,6 +50,8 @@ type
     actPVHelp: TAction;
     SpTBXSeparatorItem2: TSpTBXSeparatorItem;
     tbiPVHelp: TSpTBXItem;
+    actPVRename: TAction;
+    SpTBXItem1: TSpTBXItem;
     procedure vtPythonVersionsGetCellText(Sender: TCustomVirtualStringTree;
       var E: TVSTGetCellTextEventArgs);
     procedure FormCreate(Sender: TObject);
@@ -69,6 +71,7 @@ type
     procedure actPVShowExecute(Sender: TObject);
     procedure actPVCommandShellExecute(Sender: TObject);
     procedure actPVHelpExecute(Sender: TObject);
+    procedure actPVRenameExecute(Sender: TObject);
   private
     { Private declarations }
   public
@@ -105,6 +108,7 @@ begin
 
   actPVRemove.Enabled := Assigned(Node) and (Level = 1) and (Node.Parent.Index = 1) and
     not (PyControl.PythonVersionIndex = -(Node.Index + 1));
+  actPVRename.Enabled := Assigned(Node) and (Level = 1) and (Node.Parent.Index = 1);
   actPVTest.Enabled :=Assigned(Node) and (Level = 1);
   actPVShow.Enabled :=Assigned(Node) and (Level = 1);
   actPVCommandShell.Enabled :=Assigned(Node) and (Level = 1);
@@ -188,6 +192,26 @@ begin
     begin
       Delete(PyControl.CustomPythonVersions, Node.Index, 1);
       vtPythonVersions.ReinitNode(Node.Parent, True);
+    end;
+  end;
+end;
+
+procedure TPythonVersionsDialog.actPVRenameExecute(Sender: TObject);
+var
+  Node: PVirtualNode;
+  Level: integer;
+begin
+  Node := vtPythonVersions.GetFirstSelected;
+  if Assigned(Node) then begin
+     Level := vtPythonVersions.GetNodeLevel(Node);
+    if (Level = 1) then
+    begin
+      if Node.Parent.Index = 1 then begin
+        PyControl.CustomPythonVersions[Node.Index].DisplayName :=
+          InputBox(_('Rename Python Version'), _('New name:'),
+          PyControl.CustomPythonVersions[Node.Index].DisplayName);
+        vtPythonVersions.ReinitNode(Node.Parent, True);
+      end;
     end;
   end;
 end;

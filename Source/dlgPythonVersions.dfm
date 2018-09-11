@@ -84,6 +84,9 @@ inherited PythonVersionsDialog: TPythonVersionsDialog
       object tbiPVRemove: TSpTBXItem
         Action = actPVRemove
       end
+      object SpTBXItem1: TSpTBXItem
+        Action = actPVRename
+      end
       object TBSeparatorItem1: TTBSeparatorItem
       end
       object tbiPVTest: TSpTBXItem
@@ -110,45 +113,59 @@ inherited PythonVersionsDialog: TPythonVersionsDialog
     Top = 64
     object actPVActivate: TAction
       Caption = 'Activate'
+      HelpContext = 880
       Hint = 'Activate selected python version'
       ImageIndex = 159
       OnExecute = actPVActivateExecute
     end
     object actPVAdd: TAction
       Caption = 'Add'
+      HelpContext = 880
       Hint = 'Add a new python version'
       ImageIndex = 49
       OnExecute = actPVAddExecute
     end
     object actPVRemove: TAction
       Caption = 'Remove'
+      HelpContext = 880
       Hint = 'Remove selected python version'
       ImageIndex = 52
       OnExecute = actPVRemoveExecute
     end
     object actPVTest: TAction
       Caption = 'Test'
+      HelpContext = 880
       Hint = 'Test selected python version'
       ImageIndex = 130
       OnExecute = actPVTestExecute
     end
     object actPVShow: TAction
       Caption = 'Show'
+      HelpContext = 880
       Hint = 'Show selected python version in Explorer'
       ImageIndex = 2
       OnExecute = actPVShowExecute
     end
     object actPVCommandShell: TAction
       Caption = 'Shell'
+      HelpContext = 880
       Hint = 'Open command prompt for the selected python version'
       ImageIndex = 89
       OnExecute = actPVCommandShellExecute
     end
     object actPVHelp: TAction
       Caption = 'Help'
+      HelpContext = 880
       Hint = 'Show Help'
       ImageIndex = 71
       OnExecute = actPVHelpExecute
+    end
+    object actPVRename: TAction
+      Caption = 'Rename'
+      HelpContext = 880
+      Hint = 'Rename selected python version'
+      ImageIndex = 160
+      OnExecute = actPVRenameExecute
     end
   end
 end
