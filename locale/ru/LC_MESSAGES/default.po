@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2018-03-23 09:25\n"
+"POT-Creation-Date: 2018-09-06 07:00\n"
 "PO-Revision-Date: 2018-01-23 16:26\n"
 "Last-Translator: Михаил Духонин <velimudr@yandex.ru>, 2018\n"
 "Language-Team: Russian (https://www.transifex.com/luebbe/teams/82736/ru/)\n"
@@ -22,30 +22,30 @@ msgstr ""
 msgid "About PyScripter"
 msgstr "О PyScripter"
 
-#. AboutBox..SpTBXTabControl1..tbAbout..Caption
-#. AboutBox..SpTBXTabControl1..SpTBXTabSheet1..Caption
+#. AboutBox..SpTBXTabControl..tbAbout..Caption
+#. AboutBox..SpTBXTabControl..SpTBXTabSheet1..Caption
 #: dlgAboutPyScripter.dfm
 msgid "About"
 msgstr "О программе"
 
-#. AboutBox..SpTBXTabControl1..tbCredits..Caption
-#. AboutBox..SpTBXTabControl1..SpTBXTabSheet2..Caption
+#. AboutBox..SpTBXTabControl..tbCredits..Caption
+#. AboutBox..SpTBXTabControl..SpTBXTabSheet2..Caption
 #: dlgAboutPyScripter.dfm dlgAboutPyScripter.pas
 msgid "Credits"
 msgstr "Благодарности"
 
-#. AboutBox..SpTBXTabControl1..tbLinks..Caption
-#. AboutBox..SpTBXTabControl1..SpTBXTabSheet3..Caption
+#. AboutBox..SpTBXTabControl..tbLinks..Caption
+#. AboutBox..SpTBXTabControl..SpTBXTabSheet3..Caption
 #: dlgAboutPyScripter.dfm dlgAboutPyScripter.pas
 msgid "Links"
 msgstr "Ссылки"
 
-#. AboutBox..SpTBXTabControl1..SpTBXTabSheet1..Panel1..Copyright..Caption
+#. AboutBox..SpTBXTabControl..SpTBXTabSheet1..Panel1..Copyright..Caption
 #: dlgAboutPyScripter.dfm
 msgid "(C) Kiriakos Vlahos  2005-2018"
 msgstr ""
 
-#. AboutBox..SpTBXTabControl1..SpTBXTabSheet1..Panel1..Comments....Caption
+#. AboutBox..SpTBXTabControl..SpTBXTabSheet1..Panel1..Comments....Caption
 #: dlgAboutPyScripter.dfm
 msgid ""
 "A freeware, open source Python scripting integrated development environment "
@@ -211,11 +211,13 @@ msgstr "Параметр: Shift+Ctrl+P"
 #. CodeTemplates..Panel..lvItems......Caption
 #. CustomizeParams..Panel..lvItems......Caption
 #. FileTemplatesDialog..Panel..lvItems......Caption
+#. PythonVersionsDialog..Panel1..gbPythonVersions..vtPythonVersions......WideText
 #. ToolProperties..Panel1..TabControl..tabEnvironment..lvItems......Caption
 #. RegExpTesterWindow..BGPanel..FGPanel..pnlBackground..dpGroupsView..GroupsView......WideText
 #. VariablesWindow..BGPanel..FGPanel..Panel1..VariablesTree......WideText
 #: dlgCodeTemplates.dfm dlgCustomParams.dfm dlgFileTemplates.dfm
-#: dlgToolProperties.dfm frmRegExpTester.dfm frmVariables.dfm frmVariables.pas
+#: dlgPythonVersions.dfm dlgToolProperties.dfm frmRegExpTester.dfm
+#: frmVariables.dfm frmVariables.pas
 msgid "Name"
 msgstr "Имя"
 
@@ -672,7 +674,7 @@ msgstr "Ка&талоги:"
 
 #. FindInFilesDialog..Panel1..gbxDirectories..btnBrowse..Hint
 #. fmToDoOptions..pnlBG..gbxSearchFiles..btnBrowse..Hint
-#: dlgFindInFiles.dfm dlgToDoOptions.dfm
+#: dlgFindInFiles.dfm dlgToDoOptions.dfm dlgImportDirectory.pas
 msgid "Select Directory"
 msgstr "Выберите каталог"
 
@@ -810,6 +812,107 @@ msgstr "Выделить все элементы"
 #: dlgPickList.dfm
 msgid "Deselect all items"
 msgstr "Отмена выбора всех элементов"
+
+#. PythonVersionsDialog..Caption
+#. PythonVersionsDialog..Panel1..gbPythonVersions..Caption
+#. PyIDEMainForm..TBXDockTop..MainMenu..RunMenu..mnPythonVersions..Caption
+#. PyIDEMainForm..TBXDockTop..ViewToolbar..tbiSelectPythonVersion..Caption
+#. PythonIIForm..InterpreterPopUp..mnPythonVersions..Caption
+#: dlgPythonVersions.dfm frmPyIDEMain.dfm frmPythonII.dfm
+msgid "Python Versions"
+msgstr ""
+
+#. PythonVersionsDialog..Panel1..gbPythonVersions..vtPythonVersions......WideText
+#: dlgPythonVersions.dfm
+msgid "Folder"
+msgstr ""
+
+#. PythonVersionsDialog..actlPythonVersions..actPVActivate..Caption
+#: dlgPythonVersions.dfm
+msgid "Activate"
+msgstr ""
+
+#. PythonVersionsDialog..actlPythonVersions..actPVActivate..Hint
+#: dlgPythonVersions.dfm
+msgid "Activate selected python version"
+msgstr ""
+
+#. PythonVersionsDialog..actlPythonVersions..actPVAdd..Caption
+#: dlgPythonVersions.dfm
+msgid "Add"
+msgstr ""
+
+#. PythonVersionsDialog..actlPythonVersions..actPVAdd..Hint
+#: dlgPythonVersions.dfm
+msgid "Add a new python version"
+msgstr ""
+
+#. PythonVersionsDialog..actlPythonVersions..actPVRemove..Caption
+#: dlgPythonVersions.dfm
+msgid "Remove"
+msgstr ""
+
+#. PythonVersionsDialog..actlPythonVersions..actPVRemove..Hint
+#: dlgPythonVersions.dfm
+msgid "Remove selected python version"
+msgstr ""
+
+#. PythonVersionsDialog..actlPythonVersions..actPVTest..Caption
+#: dlgPythonVersions.dfm
+msgid "Test"
+msgstr ""
+
+#. PythonVersionsDialog..actlPythonVersions..actPVTest..Hint
+#: dlgPythonVersions.dfm
+msgid "Test selected python version"
+msgstr ""
+
+#. PythonVersionsDialog..actlPythonVersions..actPVShow..Caption
+#: dlgPythonVersions.dfm
+msgid "Show"
+msgstr ""
+
+#. PythonVersionsDialog..actlPythonVersions..actPVShow..Hint
+#: dlgPythonVersions.dfm
+msgid "Show selected python version in Explorer"
+msgstr ""
+
+#. PythonVersionsDialog..actlPythonVersions..actPVCommandShell..Caption
+#: dlgPythonVersions.dfm
+msgid "Shell"
+msgstr ""
+
+#. PythonVersionsDialog..actlPythonVersions..actPVCommandShell..Hint
+#: dlgPythonVersions.dfm
+msgid "Open command prompt for the selected python version"
+msgstr ""
+
+#. PythonVersionsDialog..actlPythonVersions..actPVHelp..Caption
+#. CommandsDataModule..actlMain..actHelpContents..Category
+#. CommandsDataModule..actlMain..actPythonManuals..Category
+#. CommandsDataModule..actlMain..actAbout..Category
+#. CommandsDataModule..actlMain..actHelpParameters..Category
+#. CommandsDataModule..actlMain..actHelpExternalTools..Category
+#. CommandsDataModule..actlMain..actHelpEditorShortcuts..Category
+#. CommandsDataModule..actlMain..actHelpWebProjectHome..Category
+#. CommandsDataModule..actlMain..actHelpWebGroupSupport..Category
+#. CommandsDataModule..actlMain..actHelpWebBlog..Category
+#. FindResultsWindow..Actions..actHelpHelp..Category
+#. FindResultsWindow..Actions..actHelpHelp..Hint
+#. FunctionListWindow..Actions..actHelpHelp..Category
+#. FunctionListWindow..Actions..actHelpHelp..Hint
+#. RegExpTesterWindow..BGPanel..FGPanel..TBXDock..RegExpTesterToolbar..tiHelp..Caption
+#. ToDoWindow..Actions..actHelpHelp..Category
+#. ToDoWindow..Actions..actHelpHelp..Hint
+#: dlgPythonVersions.dfm dmCommands.dfm frmFindResults.dfm frmFunctionList.dfm
+#: frmRegExpTester.dfm frmToDo.dfm
+msgid "Help"
+msgstr "Помощь"
+
+#. PythonVersionsDialog..actlPythonVersions..actPVHelp..Hint
+#: dlgPythonVersions.dfm
+msgid "Show Help"
+msgstr ""
 
 #. ReplaceInFilesDialog..Caption
 #: dlgReplaceInFiles.dfm
@@ -1014,67 +1117,6 @@ msgstr ""
 #: dlgSynEditOptions.dfm
 msgid "Syntax Colors"
 msgstr "Цвета синтаксиса"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label11..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Element:"
-msgstr "&Элемент:"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label12..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Foreground Color:"
-msgstr "&Основной цвет:"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label13..Caption
-#: dlgSynEditOptions.dfm
-msgid "B&ackground Color:"
-msgstr "Цвет фона:"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label14..Caption
-#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel1..Caption
-#: dlgSynEditOptions.dfm
-msgid "Code Sample"
-msgstr "Пример кода"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label15..Caption
-#: dlgSynEditOptions.dfm
-msgid "Editor Syntax Language"
-msgstr "Редактор синтаксиса языка"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..Caption
-#: dlgSynEditOptions.dfm
-msgid " Text attributes "
-msgstr " Текстовые атрибуты "
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementBold..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Bold"
-msgstr "&Полужирный"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementItalic..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Italic"
-msgstr "&Наклонный"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementUnderline..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Underline"
-msgstr "&Подчеркивание"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementStrikeout..Caption
-#: dlgSynEditOptions.dfm
-msgid "&Strike Out"
-msgstr "&Зачеркнуть"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel2..Caption
-#: dlgSynEditOptions.dfm
-msgid "Available Themes"
-msgstr ""
-
-#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..btnApplyTheme..Caption
-#: dlgSynEditOptions.dfm
-msgid "Apply Theme"
-msgstr ""
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckAutoIndent....Hint
 #: dlgSynEditOptions.dfm
@@ -1380,6 +1422,98 @@ msgstr "Половина Блока"
 msgid "Block"
 msgstr "Блок"
 
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Caption
+#: dlgSynEditOptions.dfm
+msgid "Keystroke Options"
+msgstr "Параметры сочетаний клавиш"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label5..Caption
+#: dlgSynEditOptions.dfm
+msgid "Command:"
+msgstr "Команда:"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label6..Caption
+#: dlgSynEditOptions.dfm
+msgid "Keystroke 2:"
+msgstr ""
+
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label7..Caption
+#: dlgSynEditOptions.dfm
+msgid "Keystroke 1:"
+msgstr ""
+
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..Panel2..KeyList......Caption
+#. ToolProperties..Panel1..TabControl..tabProperties..GroupBox2..Caption
+#: dlgSynEditOptions.dfm dlgToolProperties.dfm
+msgid "Command"
+msgstr "Команда"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..Panel2..KeyList......Caption
+#: dlgSynEditOptions.dfm
+msgid "Keystroke"
+msgstr ""
+
+#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel1..Caption
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label14..Caption
+#: dlgSynEditOptions.dfm
+msgid "Code Sample"
+msgstr "Пример кода"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel2..Caption
+#: dlgSynEditOptions.dfm
+msgid "Available Themes"
+msgstr ""
+
+#. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..btnApplyTheme..Caption
+#: dlgSynEditOptions.dfm
+msgid "Apply Theme"
+msgstr ""
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label11..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Element:"
+msgstr "&Элемент:"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label12..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Foreground Color:"
+msgstr "&Основной цвет:"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label13..Caption
+#: dlgSynEditOptions.dfm
+msgid "B&ackground Color:"
+msgstr "Цвет фона:"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..Label15..Caption
+#: dlgSynEditOptions.dfm
+msgid "Editor Syntax Language"
+msgstr "Редактор синтаксиса языка"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..Caption
+#: dlgSynEditOptions.dfm
+msgid " Text attributes "
+msgstr " Текстовые атрибуты "
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementBold..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Bold"
+msgstr "&Полужирный"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementItalic..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Italic"
+msgstr "&Наклонный"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementUnderline..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Underline"
+msgstr "&Подчеркивание"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Color..GroupBox1..cbxElementStrikeout..Caption
+#: dlgSynEditOptions.dfm
+msgid "&Strike Out"
+msgstr "&Зачеркнуть"
+
 #. fmEditorOptionsDialog..Panel1..TabControl..Display..gbRightEdge..Caption
 #: dlgSynEditOptions.dfm
 msgid "Right Edge"
@@ -1493,37 +1627,6 @@ msgstr "Ширина отступа:"
 #: dlgSynEditOptions.dfm
 msgid "Active Line Color"
 msgstr "Цвет активной строки"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Caption
-#: dlgSynEditOptions.dfm
-msgid "Keystroke Options"
-msgstr "Параметры сочетаний клавиш"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label5..Caption
-#: dlgSynEditOptions.dfm
-msgid "Command:"
-msgstr "Команда:"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label6..Caption
-#: dlgSynEditOptions.dfm
-msgid "Keystroke 2:"
-msgstr ""
-
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label7..Caption
-#: dlgSynEditOptions.dfm
-msgid "Keystroke 1:"
-msgstr ""
-
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..Panel2..KeyList......Caption
-#. ToolProperties..Panel1..TabControl..tabProperties..GroupBox2..Caption
-#: dlgSynEditOptions.dfm dlgToolProperties.dfm
-msgid "Command"
-msgstr "Команда"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..Panel2..KeyList......Caption
-#: dlgSynEditOptions.dfm
-msgid "Keystroke"
-msgstr ""
 
 #. PageSetupDlg..Caption
 #. DocForm..TBXDock1..TBXToolbar1..TBXItem4..Hint
@@ -2299,6 +2402,7 @@ msgstr "|Комментарий с кодировокой файла"
 #. CommandsDataModule..actlMain..actPageSetup..Category
 #. CommandsDataModule..actlMain..actFileReload..Category
 #. CommandsDataModule..actlMain..actFileCloseAllOther..Category
+#. CommandsDataModule..actlMain..actFileCloseAllToTheRight..Category
 #. FindResultsWindow..Actions..actFileSearch..Category
 #. FindResultsWindow..Actions..actFileRefresh..Category
 #. FindResultsWindow..Actions..actFileAbort..Category
@@ -2679,27 +2783,6 @@ msgstr "&PYTHONPATH"
 #: dmCommands.dfm
 msgid "Python Path|View or edit the Python path"
 msgstr "PYTHONPATH|Просмотр и редактирование PYTHONPATH"
-
-#. CommandsDataModule..actlMain..actHelpContents..Category
-#. CommandsDataModule..actlMain..actPythonManuals..Category
-#. CommandsDataModule..actlMain..actAbout..Category
-#. CommandsDataModule..actlMain..actHelpParameters..Category
-#. CommandsDataModule..actlMain..actHelpExternalTools..Category
-#. CommandsDataModule..actlMain..actHelpEditorShortcuts..Category
-#. CommandsDataModule..actlMain..actHelpWebProjectHome..Category
-#. CommandsDataModule..actlMain..actHelpWebGroupSupport..Category
-#. CommandsDataModule..actlMain..actHelpWebBlog..Category
-#. FindResultsWindow..Actions..actHelpHelp..Category
-#. FindResultsWindow..Actions..actHelpHelp..Hint
-#. FunctionListWindow..Actions..actHelpHelp..Category
-#. FunctionListWindow..Actions..actHelpHelp..Hint
-#. RegExpTesterWindow..BGPanel..FGPanel..TBXDock..RegExpTesterToolbar..tiHelp..Caption
-#. ToDoWindow..Actions..actHelpHelp..Category
-#. ToDoWindow..Actions..actHelpHelp..Hint
-#: dmCommands.dfm frmFindResults.dfm frmFunctionList.dfm frmRegExpTester.dfm
-#: frmToDo.dfm
-msgid "Help"
-msgstr "Помощь"
 
 #. CommandsDataModule..actlMain..actHelpContents..Caption
 #: dmCommands.dfm
@@ -3135,6 +3218,16 @@ msgstr "Закрыть всё &остальное"
 msgid "Close all files except the active one"
 msgstr "Закройтыть все файлы, кроме активного "
 
+#. CommandsDataModule..actlMain..actFileCloseAllToTheRight..Caption
+#: dmCommands.dfm
+msgid "Close All to the &Right"
+msgstr ""
+
+#. CommandsDataModule..actlMain..actFileCloseAllToTheRight..Hint
+#: dmCommands.dfm
+msgid "Close all files to the right"
+msgstr ""
+
 #. CommandsDataModule..actlMain..actEditCopyFileName..Caption
 #: dmCommands.dfm
 msgid "Copy File Name"
@@ -3425,6 +3518,7 @@ msgstr ""
 #. PyIDEMainForm..actlStandard..actPythonRemoteWx..Category
 #. PyIDEMainForm..actlStandard..actExecSelection..Category
 #. PyIDEMainForm..actlStandard..actPostMortem..Category
+#. PyIDEMainForm..actlStandard..actPythonSetup..Category
 #: frmCallStack.dfm frmPyIDEMain.dfm
 msgid "Run"
 msgstr "Пуск"
@@ -3638,37 +3732,32 @@ msgstr "Стоп"
 msgid "Save"
 msgstr "Сохранить"
 
-#. EditorForm..Caption
-#: frmEditor.dfm dmCommands.pas
-msgid "Editor"
-msgstr "&Редактор"
-
-#. EditorForm..BGPanel..FGPanel..ViewsTabControl..tabSource..Caption
-#. EditorForm..BGPanel..FGPanel..ViewsTabControl..tbshSource..Caption
+#. EditorForm..BGPanel..ViewsTabControl..tabSource..Caption
+#. EditorForm..BGPanel..ViewsTabControl..tbshSource..Caption
 #. Programmer's name for it: SSourceTabCaption
 #: frmEditor.dfm StringResources.pas
 msgid "Source"
 msgstr "Источник"
 
-#. EditorForm..BGPanel..FGPanel..ViewsTabControl..tbiUpdateView..Caption
+#. EditorForm..BGPanel..ViewsTabControl..tbiUpdateView..Caption
 #. EditorForm..pmnuViewsTab..mnUpdateView..Caption
 #: frmEditor.dfm
 msgid "Update View"
 msgstr "Обновить просмотр"
 
-#. EditorForm..BGPanel..FGPanel..ViewsTabControl..tbiUpdateView..Hint
+#. EditorForm..BGPanel..ViewsTabControl..tbiUpdateView..Hint
 #. EditorForm..pmnuViewsTab..mnUpdateView..Hint
 #: frmEditor.dfm
 msgid "Update View|Update the selected view"
 msgstr "Обновить просмотр|Обновляет выбранный просмотр"
 
-#. EditorForm..BGPanel..FGPanel..ViewsTabControl..tbiCloseTab..Caption
+#. EditorForm..BGPanel..ViewsTabControl..tbiCloseTab..Caption
 #. EditorForm..pmnuViewsTab..mnCloseTab..Caption
 #: frmEditor.dfm
 msgid "Close Tab"
 msgstr "Закрыть вкладку"
 
-#. EditorForm..BGPanel..FGPanel..ViewsTabControl..tbiCloseTab..Hint
+#. EditorForm..BGPanel..ViewsTabControl..tbiCloseTab..Hint
 #. EditorForm..pmnuViewsTab..mnCloseTab..Hint
 #: frmEditor.dfm
 msgid "Close active tab"
@@ -4398,8 +4487,13 @@ msgstr "&Отладчик"
 msgid "Debug the selected configuration"
 msgstr "Отладьте выбранную конфигурацию"
 
-#. PyIDEMainForm..StatusBar..StatusLED..Hint
+#. PyIDEMainForm..StatusBar..lbStatusModified..Caption
 #: frmPyIDEMain.dfm
+msgid " "
+msgstr ""
+
+#. PyIDEMainForm..StatusBar..StatusLED..Hint
+#: frmPyIDEMain.dfm frmPyIDEMain.pas
 msgid "Ready"
 msgstr "Читать"
 
@@ -5508,6 +5602,16 @@ msgstr "Скрыть вторую рабочую область"
 msgid "Styles..."
 msgstr "Стили..."
 
+#. PyIDEMainForm..actlStandard..actPythonSetup..Caption
+#: frmPyIDEMain.dfm
+msgid "Setup Python..."
+msgstr ""
+
+#. PyIDEMainForm..actlStandard..actPythonSetup..Hint
+#: frmPyIDEMain.dfm
+msgid "Setup python engine"
+msgstr ""
+
 #. PythonIIForm..Caption
 #: frmPythonII.dfm dmCommands.pas
 msgid "Python Interpreter"
@@ -5867,6 +5971,10 @@ msgstr "Очистить все выражения"
 msgid "No editor is currently active"
 msgstr "В настоящий момент нет активных вкладок"
 
+#: cPyScripterSettings.pas
+msgid "JSON Files (*.json;*.ipynb)|*.json;*.ipynb"
+msgstr ""
+
 #: dlgAboutPyScripter.pas
 msgid ""
 "Special thanks to the many great developers who,with their amazing work, "
@@ -5977,6 +6085,13 @@ msgstr ""
 
 #: dlgAboutPyScripter.pas
 msgid ""
+"Donations from numerous users have provided a strong incentive to develop "
+"this project.  Generous support from Tranquil IT (https://www.tranquil.it) "
+"makers of WAPT (apt-get for Windows) (https://www.wapt.fr) is acknowledged."
+msgstr ""
+
+#: dlgAboutPyScripter.pas
+msgid ""
 "The project home, Issue Tracker and source code repository are hosted at Github (www.github.com/pyscripter/pyscripter)\n"
 "Internet group support is available at https://groups.google.com/group/PyScripter\n"
 "Please submit bug reports and questions about PyScripter to pyscripter@gmail.com."
@@ -5994,6 +6109,10 @@ msgstr ""
 msgid "Theme design"
 msgstr ""
 
+#: dlgAboutPyScripter.pas
+msgid "Donations"
+msgstr ""
+
 #. Programmer's name for it: SAskReplaceText
 #: dlgConfirmReplace.pas
 #, object-pascal-format
@@ -6002,6 +6121,10 @@ msgstr ""
 
 #: dlgCustomShortcuts.pas
 msgid "Unassigned"
+msgstr ""
+
+#: dlgDirectoryList.pas
+msgid "Select Directory:"
 msgstr ""
 
 #. Programmer's name for it: RsSendBugReportSubject
@@ -6013,6 +6136,10 @@ msgstr "PyScripter об ошибках"
 #: dlgExceptionMail.pas
 #, object-pascal-format
 msgid "No %s mail client is available"
+msgstr ""
+
+#: dlgFindInFiles.pas
+msgid "Directory To Search:"
 msgstr ""
 
 #. Programmer's name for it: SGrepResultsNotActive
@@ -6072,6 +6199,10 @@ msgstr ""
 #: dmCommands.pas StringResources.pas
 msgid "File Change Notification"
 msgstr "Уведомление об изменении файла"
+
+#: dmCommands.pas
+msgid "Style Main Window Border"
+msgstr ""
 
 #: dmCommands.pas
 msgid "Save files before run"
@@ -6134,44 +6265,12 @@ msgid "File Filters"
 msgstr "Файловые фильтры"
 
 #: dmCommands.pas
-msgid "Open dialog Python filter"
-msgstr "Python"
-
-#: dmCommands.pas
-msgid "Open dialog HTML filter"
-msgstr "HTML"
-
-#: dmCommands.pas
-msgid "Open dialog XML filter"
-msgstr "XML"
-
-#: dmCommands.pas
-msgid "Open dialog CSS filter"
-msgstr "CSS"
-
-#: dmCommands.pas
-msgid "Open dialog CPP filter"
-msgstr "CPP"
-
-#: dmCommands.pas
-msgid "Open dialog YAML filter"
-msgstr "YAML"
-
-#: dmCommands.pas
-msgid "Open dialog JavaScript filter"
-msgstr "JavaScript"
-
-#: dmCommands.pas
-msgid "Open dialog PHP filter"
-msgstr "PHP"
-
-#: dmCommands.pas
 msgid "File explorer filter"
 msgstr "Панель обзора файлов"
 
 #: dmCommands.pas
-msgid "Open dialog Cython filter"
-msgstr ""
+msgid "Editor"
+msgstr "&Редактор"
 
 #: dmCommands.pas
 msgid "Restore open files"
@@ -6346,6 +6445,26 @@ msgstr ""
 msgid "Debug"
 msgstr "Отладка"
 
+#: frmPyIDEMain.pas
+msgid "Running"
+msgstr ""
+
+#: frmPyIDEMain.pas
+msgid "Paused"
+msgstr ""
+
+#: frmPyIDEMain.pas
+msgid "Post mortem"
+msgstr ""
+
+#: frmPyIDEMain.pas
+msgid "Python not available"
+msgstr ""
+
+#: frmPyIDEMain.pas
+msgid "Debugger state: "
+msgstr ""
+
 #: frmRegExpTester.pas
 #, object-pascal-format
 msgid "Match %d of %d"
@@ -6442,6 +6561,11 @@ msgstr "Командная строка: %s\n"
 #, object-pascal-format
 msgid "*** %s Python engine %s is active ***"
 msgstr "*** %s механизм Python %s является активным ***"
+
+#. Programmer's name for it: SInterpreterNA
+#: StringResources.pas
+msgid "The internal Python interpreter is not available"
+msgstr ""
 
 #. Programmer's name for it: SPostMortemInfo
 #: StringResources.pas
@@ -6843,6 +6967,12 @@ msgstr "Применить %s раскладку "
 msgid "Use %s syntax"
 msgstr "Использовать %s синтаксис"
 
+#. Programmer's name for it: SSwitchtoVersion
+#: StringResources.pas
+#, object-pascal-format
+msgid "Switch to %s"
+msgstr ""
+
 #. Programmer's name for it: SThemeHint
 #: StringResources.pas
 #, object-pascal-format
@@ -6959,6 +7089,29 @@ msgstr "Браузер"
 #: StringResources.pas
 #, object-pascal-format
 msgid "Error in running initialization script %s: \"%s"
+msgstr ""
+
+#. Programmer's name for it: SOpenDialogFilter
+#: StringResources.pas
+#, object-pascal-format
+msgid "Open dialog %s filter"
+msgstr ""
+
+#. Programmer's name for it: SOnlyJupyterFiles
+#: StringResources.pas
+msgid "Web preview is only available for Jupyter JSON files"
+msgstr ""
+
+#. Programmer's name for it: SNoJupyter
+#: StringResources.pas
+msgid "Jupyter is not available.  Please install jupiter first"
+msgstr ""
+
+#. Programmer's name for it: SExternalProcessRunning
+#: StringResources.pas
+msgid ""
+"An external process is stil running.  Please terminate it first from the "
+"Output Window"
 msgstr ""
 
 #. Project Manager
@@ -7371,8 +7524,8 @@ msgstr "Не удалось найти модуль:  \"%s\" "
 
 #. Programmer's name for it: SSelfOutsideClassScope
 #: StringResources.pas
-msgid "\"self\" used outside a class scope"
-msgstr "\"self\" используемый вне контекста класса"
+msgid "\"self\" or \"cls\" used outside a class scope"
+msgstr ""
 
 #. Programmer's name for it: SCouldNotFindIdentInScope
 #: StringResources.pas
@@ -7435,6 +7588,22 @@ msgstr "JavaScript-код"
 #: StringResources.pas
 msgid "PHP Code"
 msgstr "PHP-код"
+
+#. Programmer's name for it: SJupyterTemplateName
+#: StringResources.pas
+msgid "Jupyter Notebook"
+msgstr ""
+
+#. Python Versions
+#. Programmer's name for it: SRegisteredVersions
+#: StringResources.pas
+msgid "Registered Versions"
+msgstr ""
+
+#. Programmer's name for it: SUnRegisteredVersions
+#: StringResources.pas
+msgid "Unregistered Versions"
+msgstr ""
 
 #. Programmer's name for it: SYNS_FriendlyMatchingBrace
 #: SynHighlighterPython.pas

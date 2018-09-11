@@ -152,7 +152,7 @@ Const
   SWebPreview = '&Web Preview';
   SWebPreviewTab = 'Browser';
   SSourceTabCaption = 'Source';
-  SErrorInitScript = 'Error in running initialization script %s: "%s';
+  SErrorInitScript = 'Error in running initialization script %s: "%s"';
   SOpenDialogFilter = 'Open dialog %s filter';
   SOnlyJupyterFiles  = 'Web preview is only available for Jupyter JSON files';
   SNoJupyter = 'Jupyter is not available.  Please install jupiter first';
