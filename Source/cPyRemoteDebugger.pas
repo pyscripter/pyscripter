@@ -519,9 +519,6 @@ begin
       raise Exception.Create('Invalid Engine type in TPyRemoteInterpreter constructor');
     end;
     ServerSource := CommandsDataModule.JvMultiStringHolder.StringsByName[ServerName].Text;
-    //  Python 3000 fix
-    if (FEngineType = peRemoteTk) and GetPythonEngine.IsPython3000 then
-      ServerSource :=	 StringReplace(ServerSource, 'Tkinter', 'tkinter', [rfReplaceAll]);
     try
       StringToFile(ServerFile, AnsiString(ServerSource));
     except
@@ -878,7 +875,7 @@ begin
   ReturnFocusToEditor := Assigned(Editor);
   PyIDEMainForm.actNavInterpreterExecute(nil);
 
-  AsyncRun := Rpyc.asynch(RPI.run_nodebug);
+  AsyncRun := Rpyc.async_(RPI.run_nodebug);
   AsyncResult := AsyncRun.__call__(Code);
   GetPythonEngine.CheckError;
   Timer := NewTimer(50);
@@ -960,7 +957,7 @@ begin
   OldDebuggerState := PyControl.DebuggerState;
   PyControl.DoStateChange(dsRunning);
 
-  AsyncRun := Rpyc.asynch(RPI.runsource);
+  AsyncRun := Rpyc.async_(RPI.runsource);
   AsyncResult := AsyncRun.__call__(VarPythonCreate(Source), VarPythonCreate(FileName), VarPythonCreate(symbol));
   GetPythonEngine.CheckError;
   AsyncReady := False;
@@ -1058,6 +1055,7 @@ begin
   if Result then begin
     // Redirect Output
     OutputRedirector := Rpyc.classic.redirected_stdio(Conn);
+    OutputRedirector.__enter__();
 /////////////////////////////////////////////////////
 //    Conn.modules('sys').modules.__setitem__('__oldmain__', Conn.modules('sys').modules.__getitem__('__main__'));
 //    Conn.modules('sys').modules.__setitem__('__main__', Conn.modules('imp').new_module('__main__'));
@@ -1164,8 +1162,8 @@ begin
     // Do not destroy Remote Debugger
     // PyControl.ActiveDebugger := nil;
 
-    if VarIsPython(OutputRedirector) then
-      OutputRedirector._restored:= True;
+//    if VarIsPython(OutputRedirector) then
+//      OutputRedirector._restored:= True;
     VarClear(OutputRedirector);
     FreeAndNil(fMainModule);
     VarClear(fOldArgv);
@@ -1286,7 +1284,7 @@ constructor TPyRemDebugger.Create(RemotePython: TPyRemoteInterpreter);
 begin
   inherited Create;
   fRemotePython := RemotePython;
-  fDebugManager := fRemotePython.RPI.__class__.DebugManager;
+  fDebugManager := fRemotePython.RPI.DebugManager;
   fDebugManager.debugIDE :=
     TPyInternalInterpreter(PyControl.InternalInterpreter).PyInteractiveInterpreter.debugIDE;
 
@@ -1616,7 +1614,7 @@ begin
 
   fMainDebugger.InitStepIn := InitStepIn;
 
-  AsyncRun := fRemotePython.Rpyc.asynch(fMainDebugger.run);
+  AsyncRun := fRemotePython.Rpyc.async_(fMainDebugger.run);
   AsyncResult := AsyncRun.__call__(Code);
   GetPythonEngine.CheckError;
   Timer := NewTimer(50);

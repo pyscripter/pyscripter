@@ -442,6 +442,7 @@
 
   History:   v 3.5
           New Features
+            Upgraded rpyc to 4.x
           Issues addressed
             #907
 
@@ -2505,7 +2506,7 @@ begin
       Editor := GI_EditorFactory.GetEditorByNameOrTitle(FileName);
 
       if PyControl.InternalPython.Loaded and
-        Editor.FileName.StartsWith(SysModule.prefix, True)
+        Editor.FileName.StartsWith(PyControl.PythonVersion.InstallPath, True)
       then
         Editor.ReadOnly := True;
 

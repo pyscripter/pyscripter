@@ -72,7 +72,7 @@ object CommandsDataModule: TCommandsDataModule
     Left = 32
     Top = 241
     Bitmap = {
-      494C01010A000D00540010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C01010A000D00600010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -1894,7 +1894,7 @@ object CommandsDataModule: TCommandsDataModule
           '            dbg_manager.debug_command = dbg_manager.dcNone'
           
             '            conn = object.__getattribute__(dbg_manager.debugIDE,' +
-            ' "____conn__")()'
+            ' "____conn__")'
           ''
           '            while (((thread_id != dbg_manager.active_thread) or'
           
@@ -2781,7 +2781,7 @@ object CommandsDataModule: TCommandsDataModule
           '            dbg_manager.debug_command = dbg_manager.dcNone'
           
             '            conn = object.__getattribute__(dbg_manager.debugIDE,' +
-            ' "____conn__")()'
+            ' "____conn__")'
           ''
           '            while (((thread_id != dbg_manager.active_thread) or'
           
@@ -3508,37 +3508,34 @@ object CommandsDataModule: TCommandsDataModule
           'class ModSlaveService(SlaveService):'
           '    __slots__ = []'
           ''
-          '    def on_connect(self):'
+          '    def on_connect(self, conn):'
           '        import imp'
           '        from rpyc.core.service import ModuleNamespace'
           ''
           '        sys.modules["__oldmain__"] = sys.modules["__main__"]'
           '        sys.modules["__main__"] = imp.new_module("__main__")'
-          
-            '        self.exposed_namespace = sys.modules["__main__"].__dict_' +
-            '_'
+          '        self.namespace = sys.modules["__main__"].__dict__'
           ''
-          '        self._conn._config.update(dict('
+          '        conn._config.update(dict('
           '            allow_all_attrs = True,'
           '            allow_pickle = True,'
           '            allow_getattr = True,'
           '            allow_setattr = True,'
           '            allow_delattr = True,'
+          '            allow_exposed_attrs = False,'
           '            import_custom_exceptions = True,'
           '            instantiate_custom_exceptions = True,'
           '            instantiate_oldstyle_exceptions = True,'
           '        ))'
           '        # shortcuts'
-          
-            '        self._conn.modules = ModuleNamespace(self._conn.root.get' +
-            'module)'
-          '        self._conn.eval = self._conn.root.eval'
-          '        self._conn.execute = self._conn.root.execute'
-          '        self._conn.namespace = self._conn.root.namespace'
+          '        conn.modules = ModuleNamespace(conn.root.getmodule)'
+          '        conn.eval = conn.root.eval'
+          '        conn.execute = conn.root.execute'
+          '        conn.namespace = conn.root.namespace'
           '        if sys.version_info[0] > 2:'
-          '            self._conn.builtin = self._conn.modules.builtins'
+          '            conn.builtin = conn.modules.builtins'
           '        else:'
-          '            self._conn.builtin = self._conn.modules.__builtin__'
+          '            conn.builtin = conn.modules.__builtin__'
           ''
           'def main():'
           '    import warnings'
@@ -3564,7 +3561,10 @@ object CommandsDataModule: TCommandsDataModule
           'if len(sys.argv) > 2:'
           '    sys.path.insert(0, sys.argv[2])'
           ''
-          'import Tkinter'
+          'try:'
+          '    import tkinter'
+          'except:'
+          '    import Tkinter as tkinter'
           'import threading'
           'import gc'
           ''
@@ -3579,45 +3579,40 @@ object CommandsDataModule: TCommandsDataModule
           '        from rpyc.core import SocketStream, Channel, Connection'
           '        config = dict(self.protocol_config, credentials = None)'
           
-            '        self.conn = Connection(self.service, Channel(SocketStrea' +
-            'm(sock)),'
-          '            config = config, _lazy = True)'
-          '        self.conn._init_service()'
+            '        self.conn = self.service._connect(Channel(SocketStream(s' +
+            'ock)), config)'
           ''
           'class ModSlaveService(SlaveService):'
           '    __slots__ = []'
           ''
-          '    def on_connect(self):'
+          '    def on_connect(self, conn):'
           '        import imp'
           '        from rpyc.core.service import ModuleNamespace'
           ''
           '        sys.modules["__oldmain__"] = sys.modules["__main__"]'
           '        sys.modules["__main__"] = imp.new_module("__main__")'
-          
-            '        self.exposed_namespace = sys.modules["__main__"].__dict_' +
-            '_'
+          '        self.namespace = sys.modules["__main__"].__dict__'
           ''
-          '        self._conn._config.update(dict('
+          '        conn._config.update(dict('
           '            allow_all_attrs = True,'
           '            allow_pickle = True,'
           '            allow_getattr = True,'
           '            allow_setattr = True,'
           '            allow_delattr = True,'
+          '            allow_exposed_attrs = False,'
           '            import_custom_exceptions = True,'
           '            instantiate_custom_exceptions = True,'
           '            instantiate_oldstyle_exceptions = True,'
           '        ))'
           '        # shortcuts'
-          
-            '        self._conn.modules = ModuleNamespace(self._conn.root.get' +
-            'module)'
-          '        self._conn.eval = self._conn.root.eval'
-          '        self._conn.execute = self._conn.root.execute'
-          '        self._conn.namespace = self._conn.root.namespace'
+          '        conn.modules = ModuleNamespace(conn.root.getmodule)'
+          '        conn.eval = conn.root.eval'
+          '        conn.execute = conn.root.execute'
+          '        conn.namespace = conn.root.namespace'
           '        if sys.version_info[0] > 2:'
-          '            self._conn.builtin = self._conn.modules.builtins'
+          '            conn.builtin = conn.modules.builtins'
           '        else:'
-          '            self._conn.builtin = self._conn.modules.__builtin__'
+          '            conn.builtin = conn.modules.__builtin__'
           ''
           'running = False'
           ''
@@ -3694,14 +3689,14 @@ object CommandsDataModule: TCommandsDataModule
           ''
           'def hijack_tk():'
           
-            '    """Modifies Tkinter'#39's mainloop with a dummy so when a module' +
+            '    """Modifies tkinter'#39's mainloop with a dummy so when a module' +
             ' calls'
           '    mainloop, it does not block.'
           ''
           '    """'
           '    def misc_mainloop(self, n=0):'
           '        pass'
-          '    def Tkinter_mainloop(n=0):'
+          '    def tkinter_mainloop(n=0):'
           '        pass'
           '    def dummy_exit(arg=0):'
           '        pass'
@@ -3711,17 +3706,17 @@ object CommandsDataModule: TCommandsDataModule
           '        else:'
           '            self.destroy()'
           ''
-          '    Tkinter.oldmainloop = Tkinter.mainloop'
-          '    Tkinter.Misc.oldmainloop = Tkinter.Misc.mainloop'
-          '    Tkinter.Misc.mainloop = misc_mainloop'
-          '    Tkinter.mainloop = Tkinter_mainloop'
-          '    Tkinter.Misc.oldquit = Tkinter.Misc.quit'
-          '    Tkinter.Misc.quit = dummy_quit'
+          '    tkinter.oldmainloop = tkinter.mainloop'
+          '    tkinter.Misc.oldmainloop = tkinter.Misc.mainloop'
+          '    tkinter.Misc.mainloop = misc_mainloop'
+          '    tkinter.mainloop = tkinter_mainloop'
+          '    tkinter.Misc.oldquit = tkinter.Misc.quit'
+          '    tkinter.Misc.quit = dummy_quit'
           '    import sys'
           '    sys.exit = dummy_exit'
           ''
           'def main():'
-          '    root = Tkinter.Tk()'
+          '    root = tkinter.Tk()'
           '    server = GuiServer(root)'
           '    root.withdraw()'
           '    hijack_tk()'
@@ -3755,45 +3750,40 @@ object CommandsDataModule: TCommandsDataModule
           '        from rpyc.core import SocketStream, Channel, Connection'
           '        config = dict(self.protocol_config, credentials = None)'
           
-            '        self.conn = Connection(self.service, Channel(SocketStrea' +
-            'm(sock)),'
-          '            config = config, _lazy = True)'
-          '        self.conn._init_service()'
+            '        self.conn = self.service._connect(Channel(SocketStream(s' +
+            'ock)), config)'
           ''
           'class ModSlaveService(SlaveService):'
           '    __slots__ = []'
           ''
-          '    def on_connect(self):'
+          '    def on_connect(self, conn):'
           '        import imp'
           '        from rpyc.core.service import ModuleNamespace'
           ''
           '        sys.modules["__oldmain__"] = sys.modules["__main__"]'
           '        sys.modules["__main__"] = imp.new_module("__main__")'
-          
-            '        self.exposed_namespace = sys.modules["__main__"].__dict_' +
-            '_'
+          '        self.namespace = sys.modules["__main__"].__dict__'
           ''
-          '        self._conn._config.update(dict('
+          '        conn._config.update(dict('
           '            allow_all_attrs = True,'
           '            allow_pickle = True,'
           '            allow_getattr = True,'
           '            allow_setattr = True,'
           '            allow_delattr = True,'
+          '            allow_exposed_attrs = False,'
           '            import_custom_exceptions = True,'
           '            instantiate_custom_exceptions = True,'
           '            instantiate_oldstyle_exceptions = True,'
           '        ))'
           '        # shortcuts'
-          
-            '        self._conn.modules = ModuleNamespace(self._conn.root.get' +
-            'module)'
-          '        self._conn.eval = self._conn.root.eval'
-          '        self._conn.execute = self._conn.root.execute'
-          '        self._conn.namespace = self._conn.root.namespace'
+          '        conn.modules = ModuleNamespace(conn.root.getmodule)'
+          '        conn.eval = conn.root.eval'
+          '        conn.execute = conn.root.execute'
+          '        conn.namespace = conn.root.namespace'
           '        if sys.version_info[0] > 2:'
-          '            self._conn.builtin = self._conn.modules.builtins'
+          '            conn.builtin = conn.modules.builtins'
           '        else:'
-          '            self._conn.builtin = self._conn.modules.__builtin__'
+          '            conn.builtin = conn.modules.__builtin__'
           ''
           'class GuiPart:'
           '    def __init__(self, master):'
@@ -4745,7 +4735,7 @@ object CommandsDataModule: TCommandsDataModule
     Left = 36
     Top = 194
     Bitmap = {
-      494C0101A100E0006C0010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C0101A100E000780010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000009002000001002000000000000090
       0200000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
