@@ -114,7 +114,8 @@ uses
   JvDSADialogs in 'JvDSADialogs.pas',
   System.IniFiles in 'System.IniFiles.pas',
   cInternalPython in 'cInternalPython.pas',
-  dlgPythonVersions in 'dlgPythonVersions.pas' {PythonVersionsDialog};
+  dlgPythonVersions in 'dlgPythonVersions.pas' {PythonVersionsDialog},
+  cSSHSupport in 'cSSHSupport.pas';
 
 {$R *.RES}
 {$R WebCopyAvi.RES}
