@@ -149,6 +149,58 @@ begin
   Result := MulDiv(i, Screen.PixelsPerInch, 96);
 end;
 
+procedure ResizeBitmap(Bitmap: TBitmap; const NewWidth, NewHeight: integer);
+var
+  buffer: TBitmap;
+begin
+  buffer := TBitmap.Create;
+  try
+    buffer.SetSize(NewWidth, NewHeight);
+    buffer.Canvas.StretchDraw(Rect(0, 0, NewWidth, NewHeight), Bitmap);
+    Bitmap.SetSize(NewWidth, NewHeight);
+    Bitmap.Canvas.Draw(0, 0, buffer);
+  finally
+    buffer.Free;
+  end;
+end;
+
+procedure DrawGlyphPattern(DC: HDC; const R: TRect; Width, Height: Integer;
+  const PatternBits; PatternColor: TColor);
+const
+  ROP_DSPDxax = $00E20746;
+var
+  B: TBitmap;
+  OldTextColor, OldBkColor: Longword;
+  OldBrush, Brush: HBrush;
+  BitmapWidth, BitmapHeight: Integer;
+begin
+  OldTextColor := SetTextColor(DC, clBlack);
+  OldBkColor := SetBkColor(DC, clWhite);
+  B := TBitmap.Create;
+  try
+    BitmapWidth := 8;
+//    if Width > BitmapWidth then BitmapWidth := Width;
+    BitmapHeight := 8;
+//    if Height > BitmapHeight then BitmapHeight := Height;
+    B.Handle := CreateBitmap(BitmapWidth, BitmapHeight, 1, 1, @PatternBits);
+
+    if (Width > 8) or (Height > 8) then
+      ResizeBitmap(B, Max(Width, Height), Max(Width, Height));
+    if PatternColor < 0 then Brush := GetSysColorBrush(PatternColor and $FF)
+    else Brush := CreateSolidBrush(PatternColor);
+    OldBrush := SelectObject(DC, Brush);
+    BitBlt(DC, (R.Left + R.Right + 1 - Width) div 2, (R.Top + R.Bottom  + 1 - Height) div 2,
+      Width, Height, B.Canvas.Handle, 0, 0, ROP_DSPDxax);
+    SelectObject(DC, OldBrush);
+    if PatternColor >= 0 then DeleteObject(Brush);
+  finally
+    SetTextColor(DC, OldTextColor);
+    SetBkColor(DC, OldBkColor);
+    B.Free;
+  end;
+end;
+
+
 { TJvDockVSNETTreeSpTBX }
 
 constructor TJvDockVSNETTreeSpTBX.Create(DockSite: TWinControl;
@@ -220,10 +272,10 @@ begin
     end;
 
     if DockSite.Align in [alLeft, alRight, alTop, alBottom] then
-      SpDrawGlyphPattern(Canvas.Handle, R, Scaled(8),
+      DrawGlyphPattern(Canvas.Handle, R, Scaled(8),
         Scaled(8), AutoHidePattern1[0], PatternColor)
     else if DockSite.Align in [alNone] then
-      SpDrawGlyphPattern(Canvas.Handle, R, Scaled(8),
+      DrawGlyphPattern(Canvas.Handle, R, Scaled(8),
         Scaled(8), AutoHidePattern2[0], PatternColor);
   end;
 end;
@@ -271,7 +323,7 @@ begin
       PatternColor := CurrentSkin.GetTextColor(skncToolbarItem, SkinState);
     end;
 
-    SpDrawGlyphPattern(Canvas, R, 0, PatternColor, Scaled(8), Scaled(8));
+    SpDrawGlyphPattern(Canvas, R, gptClose, PatternColor);
   end;
 end;
 

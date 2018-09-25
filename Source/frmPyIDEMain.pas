@@ -1071,9 +1071,9 @@ type
     procedure actExternalRunConfigureExecute(Sender: TObject);
     procedure actFindDefinitionExecute(Sender: TObject);
     procedure actFindReferencesExecute(Sender: TObject);
-    procedure PreviousListClick(Sender: TObject; S : WideString);
+    procedure PreviousListClick(Sender: TObject; S : string);
     procedure tbiBrowsePreviousClick(Sender: TObject);
-    procedure NextListClick(Sender: TObject; S : WideString);
+    procedure NextListClick(Sender: TObject; S : string);
     procedure tbiBrowseNextClick(Sender: TObject);
     function ApplicationHelp(Command: Word; Data: NativeInt;
       var CallHelp: Boolean): Boolean;
@@ -1122,8 +1122,7 @@ type
     procedure actRunLastScriptExecute(Sender: TObject);
     procedure actRunDebugLastScriptExecute(Sender: TObject);
     procedure EditorViewsMenuClick(Sender: TObject);
-    procedure tbiRecentFileListClick(Sender: TObject;
-      const Filename: WideString);
+    procedure tbiRecentFileListClick(Sender: TObject; const Filename: string);
     procedure tbiSearchTextExit(Sender: TObject);
     procedure tbiReplaceTextKeyPress(Sender: TObject; var Key: Char);
     procedure TabControlActiveTabChange(Sender: TObject; TabIndex: Integer);
@@ -1132,8 +1131,7 @@ type
     procedure actViewSplitWorkspaceVerExecute(Sender: TObject);
     procedure actViewSplitWorkspaceHorExecute(Sender: TObject);
     procedure actViewHideSecondaryWorkspaceExecute(Sender: TObject);
-    procedure tbiRecentProjectsClick(Sender: TObject;
-      const Filename: WideString);
+    procedure tbiRecentProjectsClick(Sender: TObject; const Filename: string);
     procedure actSelectStyleExecute(Sender: TObject);
     procedure mnPythonVersionsPopup(Sender: TTBCustomItem; FromLink: Boolean);
     procedure PythonVersionsClick(Sender: TObject);
@@ -4475,9 +4473,9 @@ begin
   end;
   PatternColor := CurrentSkin.GetTextColor(skncToolbarItem, State);
   if Editor.Modified then
-    SpDrawGlyphPattern(ACanvas.Handle, ARect, PPIScaled(8), PPIScaled(8), ModClosePattern, PatternColor)
+    DrawGlyphPattern(ACanvas.Handle, ARect, PPIScaled(8), PPIScaled(8), ModClosePattern, PatternColor)
   else
-    SpDrawGlyphPattern(ACanvas, ARect, 0, PatternColor, PPIScaled(8), PPIScaled(8));
+    SpDrawGlyphPattern(ACanvas, ARect, gptClose, PatternColor);
 end;
 
 procedure TPyIDEMainForm.PrevClickHandler(Sender: TObject);
@@ -4490,7 +4488,7 @@ begin
   end;
 end;
 
-procedure TPyIDEMainForm.PreviousListClick(Sender: TObject; S : WideString);
+procedure TPyIDEMainForm.PreviousListClick(Sender: TObject; S : string);
 Var
   i, Index : integer;
 begin
@@ -4587,7 +4585,7 @@ begin
   end;
 end;
 
-procedure TPyIDEMainForm.NextListClick(Sender: TObject; S : WideString);
+procedure TPyIDEMainForm.NextListClick(Sender: TObject; S : string);
 Var
   i, Index : integer;
 begin
@@ -4997,7 +4995,7 @@ begin
 end;
 
 procedure TPyIDEMainForm.tbiRecentFileListClick(Sender: TObject;
-  const Filename: WideString);
+  const Filename: string);
 Var
   S : string;
 begin
@@ -5008,7 +5006,7 @@ begin
 end;
 
 procedure TPyIDEMainForm.tbiRecentProjectsClick(Sender: TObject;
-  const Filename: WideString);
+  const Filename: string);
 begin
   ProjectExplorerWindow.DoOpenProjectFile(FileName);
   tbiRecentProjects.MRURemove(Filename);

@@ -7,8 +7,6 @@ inherited ToolProperties: TToolProperties
   ClientWidth = 406
   OnDestroy = FormDestroy
   OnShow = FormShow
-  ExplicitWidth = 412
-  ExplicitHeight = 527
   PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TPanel
@@ -62,7 +60,6 @@ inherited ToolProperties: TToolProperties
       Height = 453
       Align = alTop
       ActiveTabIndex = 0
-      ExplicitLeft = 2
       HiddenItems = <>
       object SpTBXTabItem1: TSpTBXTabItem
         Caption = '&Properties'
@@ -613,7 +610,7 @@ inherited ToolProperties: TToolProperties
             State = cbChecked
             TabOrder = 1
           end
-          object seTimeout: TSpinEdit
+          object seTimeout: TSpTBXSpinEdit
             Left = 240
             Top = 37
             Width = 79
@@ -621,11 +618,14 @@ inherited ToolProperties: TToolProperties
             Hint = 
               'If set to a value <> 0 then you will be prompted '#13#10'to abort the ' +
               'program after the specified time (ms).'
-            Increment = 100
-            MaxValue = 10000
-            MinValue = 0
             TabOrder = 2
-            Value = 0
+            SpinButton.Left = 61
+            SpinButton.Top = 0
+            SpinButton.Width = 14
+            SpinButton.Height = 18
+            SpinButton.Align = alRight
+            SpinOptions.Increment = 100.000000000000000000
+            SpinOptions.MaxValue = 1000.000000000000000000
           end
         end
       end

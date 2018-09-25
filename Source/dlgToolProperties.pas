@@ -68,7 +68,6 @@ type
     Label9: TLabel;
     Label15: TLabel;
     Label16: TLabel;
-    seTimeout: TSpinEdit;
     edName: TEdit;
     edDescription: TEdit;
     edMessagesFormat: TEdit;
@@ -84,6 +83,7 @@ type
     SpTBXTabItem2: TSpTBXTabItem;
     tabEnvironment: TSpTBXTabSheet;
     lvItems: TListview;
+    seTimeout: TSpTBXSpinEdit;
     procedure FormShow(Sender: TObject);
     procedure Filename1Click(Sender: TObject);
     procedure SynApplicationEnter(Sender: TObject);
