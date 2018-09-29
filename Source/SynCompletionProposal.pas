@@ -2805,24 +2805,26 @@ end;
 procedure TSynCompletionProposal.HandleOnCancel(Sender: TObject);
 var
   F: TSynBaseCompletionProposalForm;
+  CurrentEditor : TCustomSynedit;
 begin
   F := Sender as TSynBaseCompletionProposalForm;
   FNoNextKey := False;
-  if F.CurrentEditor <> nil then
+  CurrentEditor := F.CurrentEditor;
+  if CurrentEditor <> nil then
   begin
     if Assigned(FTimer) then
       FTimer.Enabled := False;
 
     F.Hide;
 
-    if ((F.CurrentEditor as TCustomSynEdit).Owner is TWinControl) and
-       (((F.CurrentEditor as TCustomSynEdit).Owner as TWinControl).Visible) then
+    if ((CurrentEditor as TCustomSynEdit).Owner is TWinControl) and
+       (((CurrentEditor as TCustomSynEdit).Owner as TWinControl).Visible) then
     begin
-      ((F.CurrentEditor as TCustomSynEdit).Owner as TWinControl).SetFocus;
+      ((CurrentEditor as TCustomSynEdit).Owner as TWinControl).SetFocus;
     end;
 
-    if (F.CurrentEditor as TCustomSynEdit).CanFocus then //KV added line
-      (F.CurrentEditor as TCustomSynEdit).SetFocus;
+    if (CurrentEditor as TCustomSynEdit).CanFocus then //KV added line
+      (CurrentEditor as TCustomSynEdit).SetFocus;
 
     if Assigned(OnCancelled) then
       OnCancelled(Self);
