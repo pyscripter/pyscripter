@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
 "POT-Creation-Date: 2018-09-06 07:00\n"
 "PO-Revision-Date: 2018-01-23 16:26\n"
-"Last-Translator: Victor Alberto Gil <vhanla@gmail.com>, 2018\n"
+"Last-Translator: Juan Carlos Cilleruelo <juanc.cilleruelo@gmail.com>, 2018\n"
 "Language-Team: Spanish (https://www.transifex.com/luebbe/teams/82736/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -820,62 +820,62 @@ msgstr "Deseleccionar todos los ítems"
 #. PythonIIForm..InterpreterPopUp..mnPythonVersions..Caption
 #: dlgPythonVersions.dfm frmPyIDEMain.dfm frmPythonII.dfm
 msgid "Python Versions"
-msgstr ""
+msgstr "Versiones de Python"
 
 #. PythonVersionsDialog..Panel1..gbPythonVersions..vtPythonVersions......WideText
 #: dlgPythonVersions.dfm
 msgid "Folder"
-msgstr ""
+msgstr "Carpeta"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVActivate..Caption
 #: dlgPythonVersions.dfm
 msgid "Activate"
-msgstr ""
+msgstr "Activar"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVActivate..Hint
 #: dlgPythonVersions.dfm
 msgid "Activate selected python version"
-msgstr ""
+msgstr "Activar versión de python seleccionada"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVAdd..Caption
 #: dlgPythonVersions.dfm
 msgid "Add"
-msgstr ""
+msgstr "Agregar"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVAdd..Hint
 #: dlgPythonVersions.dfm
 msgid "Add a new python version"
-msgstr ""
+msgstr "Agregar nueva versión de python"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVRemove..Caption
 #: dlgPythonVersions.dfm
 msgid "Remove"
-msgstr ""
+msgstr "Eliminar"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVRemove..Hint
 #: dlgPythonVersions.dfm
 msgid "Remove selected python version"
-msgstr ""
+msgstr "Eliminar versión de python seleccionada"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVTest..Caption
 #: dlgPythonVersions.dfm
 msgid "Test"
-msgstr ""
+msgstr "Prueba"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVTest..Hint
 #: dlgPythonVersions.dfm
 msgid "Test selected python version"
-msgstr ""
+msgstr "Probar versión de python seleccionada"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVShow..Caption
 #: dlgPythonVersions.dfm
 msgid "Show"
-msgstr ""
+msgstr "Mostrar"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVShow..Hint
 #: dlgPythonVersions.dfm
 msgid "Show selected python version in Explorer"
-msgstr ""
+msgstr "Mostrar versión de python seleccionada en el Explorador"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVCommandShell..Caption
 #: dlgPythonVersions.dfm
@@ -885,7 +885,7 @@ msgstr ""
 #. PythonVersionsDialog..actlPythonVersions..actPVCommandShell..Hint
 #: dlgPythonVersions.dfm
 msgid "Open command prompt for the selected python version"
-msgstr ""
+msgstr "Abrir línea de comandos para la versión de python seleccionada"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVHelp..Caption
 #. CommandsDataModule..actlMain..actHelpContents..Category
@@ -912,7 +912,7 @@ msgstr "Ayuda"
 #. PythonVersionsDialog..actlPythonVersions..actPVHelp..Hint
 #: dlgPythonVersions.dfm
 msgid "Show Help"
-msgstr ""
+msgstr "Mostrar Ayuda"
 
 #. ReplaceInFilesDialog..Caption
 #: dlgReplaceInFiles.dfm
@@ -2310,7 +2310,7 @@ msgstr ""
 #. ToolProperties..FormatsPopup..Columnnumber1..Caption
 #: dlgToolProperties.dfm
 msgid "Column number"
-msgstr ""
+msgstr "Número de columna"
 
 #. ToolProperties..FormatsPopup..Columnnumber1..Hint
 #: dlgToolProperties.dfm
@@ -2320,7 +2320,7 @@ msgstr ""
 #. UnitTestWizard..Caption
 #: dlgUnitTestWizard.dfm
 msgid "Unit Test Wizard"
-msgstr ""
+msgstr "Asistente de Pruebas Unitarias"
 
 #. UnitTestWizard..Panel1..Label1....Caption
 #: dlgUnitTestWizard.dfm
@@ -2330,7 +2330,7 @@ msgstr ""
 #. UnitTestWizard..Panel1..lbHeader..Caption
 #: dlgUnitTestWizard.dfm
 msgid "This wizard will generate unit tests for the Python module"
-msgstr ""
+msgstr "Esto generará pruebas unitarias para el módulo Python"
 
 #. UnitTestWizard..PopupUnitTestWizard..mnSelectAll..Caption
 #: dlgUnitTestWizard.dfm
@@ -2697,22 +2697,22 @@ msgstr "Código fuente"
 #. CommandsDataModule..actlMain..actEditIndent..Caption
 #: dmCommands.dfm
 msgid "&Indent Block"
-msgstr "&Indentar Bloque"
+msgstr "Agregar sangr&ia"
 
 #. CommandsDataModule..actlMain..actEditIndent..Hint
 #: dmCommands.dfm
 msgid "Indent block|Indent selected block of code"
-msgstr "Indentar bloque|Aumenta la sangría del bloque de código seleccionado"
+msgstr "Sangría|Aumenta la sangría del bloque de código seleccionado"
 
 #. CommandsDataModule..actlMain..actEditDedent..Caption
 #: dmCommands.dfm
 msgid "&Unindent Block"
-msgstr ""
+msgstr "Q&uitar sangría"
 
 #. CommandsDataModule..actlMain..actEditDedent..Hint
 #: dmCommands.dfm
 msgid "Unindent|Unindent selected block of code"
-msgstr ""
+msgstr "Quitar sangría|Quita sangría al bloque de código seleccionado"
 
 #. CommandsDataModule..actlMain..actEditCommentOut..Caption
 #: dmCommands.dfm
@@ -3041,12 +3041,13 @@ msgstr ""
 #. CommandsDataModule..actlMain..actUnitTestWizard..Caption
 #: dmCommands.dfm
 msgid "&Unit Test Wizard..."
-msgstr ""
+msgstr "Asistente de Pruebas &Unitarias"
 
 #. CommandsDataModule..actlMain..actUnitTestWizard..Hint
 #: dmCommands.dfm
 msgid "Unit test wizard|Create unit test for active module"
 msgstr ""
+"Asistente de pruebas unitarias|Crear prueba unitaria para el módulo activo"
 
 #. CommandsDataModule..actlMain..actInterpreterEditorOptions..Caption
 #: dmCommands.dfm
@@ -4559,7 +4560,7 @@ msgstr "Dividir el editor"
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnSplitWorkspace..Caption
 #: frmPyIDEMain.dfm
 msgid "Split Workspace"
-msgstr ""
+msgstr "Dividir Área de Trabajo"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnuToolbars..Caption
 #: frmPyIDEMain.dfm
@@ -5324,7 +5325,7 @@ msgstr "Dividir el editor verticalemente"
 #. PyIDEMainForm..actlStandard..actViewSplitEditorVer..Hint
 #: frmPyIDEMain.dfm
 msgid "Split the editor Windows vertically"
-msgstr "Dividir las ventanas del editor verticalemente"
+msgstr "Dividir las ventanas del editor verticalmente"
 
 #. PyIDEMainForm..actlStandard..actAddWatchAtCursor..Caption
 #: frmPyIDEMain.dfm
@@ -5568,24 +5569,28 @@ msgstr "Activar la ventana del explorador del proyecto"
 #. PyIDEMainForm..actlStandard..actViewSplitWorkspaceVer..Caption
 #: frmPyIDEMain.dfm
 msgid "Split Workspace Vertically"
-msgstr ""
+msgstr "Dividir Área de Trabajo Verticalmente"
 
 #. PyIDEMainForm..actlStandard..actViewSplitWorkspaceVer....Hint
 #: frmPyIDEMain.dfm
 msgid ""
 "Split workspace vertically|Show secondary editor tabset vertically aligned"
 msgstr ""
+"Dividir área de trabajo verticalmente|Mostrar el conjunto de editor "
+"secundario alineado verticalmente"
 
 #. PyIDEMainForm..actlStandard..actViewSplitWorkspaceHor..Caption
 #: frmPyIDEMain.dfm
 msgid "Split Workspace Horizontally"
-msgstr ""
+msgstr "Dividir Área de Trabajo Horizontalmente"
 
 #. PyIDEMainForm..actlStandard..actViewSplitWorkspaceHor....Hint
 #: frmPyIDEMain.dfm
 msgid ""
 "Split workspace horizontally|Show secondary workspace horizontally aligned"
 msgstr ""
+"Dividir área de trabajo horizontalmente|Mostrar área de trabajo secundario "
+"alineado horizontalmente"
 
 #. PyIDEMainForm..actlStandard..actViewHideSecondaryWorkspace..Caption
 #: frmPyIDEMain.dfm
@@ -5600,17 +5605,17 @@ msgstr "Oculta el espacio de trabajo secundario"
 #. PyIDEMainForm..actlStandard..actSelectStyle..Caption
 #: frmPyIDEMain.dfm
 msgid "Styles..."
-msgstr ""
+msgstr "Estilos..."
 
 #. PyIDEMainForm..actlStandard..actPythonSetup..Caption
 #: frmPyIDEMain.dfm
 msgid "Setup Python..."
-msgstr ""
+msgstr "Configurar Python"
 
 #. PyIDEMainForm..actlStandard..actPythonSetup..Hint
 #: frmPyIDEMain.dfm
 msgid "Setup python engine"
-msgstr ""
+msgstr "Configurar motor de python"
 
 #. PythonIIForm..Caption
 #: frmPythonII.dfm dmCommands.pas
@@ -5828,7 +5833,7 @@ msgstr ""
 #. UnitTestWindow..Caption
 #: frmUnitTests.dfm
 msgid "Unit Tests"
-msgstr ""
+msgstr "Pruebas Unitarias"
 
 #. UnitTestWindow..BGPanel..FGPanel..Panel2..Label2..Caption
 #: frmUnitTests.dfm
@@ -5980,6 +5985,9 @@ msgid ""
 "have made PyScripter possible. PyScripter makes use of the following "
 "components and projects:"
 msgstr ""
+"Agradecimientos especiales a los diferentes grandes desarrolladores quienes,"
+" con su trabajo impresionante, han hecho posible PyScripter. PyScripter hace"
+" el uso de los siguientes componentes y proyectos:"
 
 #: dlgAboutPyScripter.pas
 msgid ""
@@ -6103,6 +6111,10 @@ msgid ""
 "this project.  Generous support from Tranquil IT (https://www.tranquil.it) "
 "makers of WAPT (apt-get for Windows) (https://www.wapt.fr) is acknowledged."
 msgstr ""
+"Las donaciones de numerosos usuarios han sido un gran incentivo para "
+"desarrollar este proyecto. Reconocimiento especial por su generoso aporte "
+"para Tranquil IT (https://www.tranquil.it) creadores de WAPT (apt-get for "
+"Windows) (https://www.wapt.fr)."
 
 #: dlgAboutPyScripter.pas
 msgid ""
@@ -6128,7 +6140,7 @@ msgstr "Diseño de Temas"
 
 #: dlgAboutPyScripter.pas
 msgid "Donations"
-msgstr ""
+msgstr "Donaciones"
 
 #. Programmer's name for it: SAskReplaceText
 #: dlgConfirmReplace.pas
@@ -6142,7 +6154,7 @@ msgstr "No asignado"
 
 #: dlgDirectoryList.pas
 msgid "Select Directory:"
-msgstr ""
+msgstr "Elegir Directorio:"
 
 #. Programmer's name for it: RsSendBugReportSubject
 #: dlgExceptionMail.pas
@@ -6157,7 +6169,7 @@ msgstr ""
 
 #: dlgFindInFiles.pas
 msgid "Directory To Search:"
-msgstr ""
+msgstr "Directorio para Buscar:"
 
 #. Programmer's name for it: SGrepResultsNotActive
 #: dlgReplaceInFiles.pas
@@ -6464,11 +6476,11 @@ msgstr "Depurar"
 
 #: frmPyIDEMain.pas
 msgid "Running"
-msgstr ""
+msgstr "En ejecución"
 
 #: frmPyIDEMain.pas
 msgid "Paused"
-msgstr ""
+msgstr "En pausa"
 
 #: frmPyIDEMain.pas
 msgid "Post mortem"
@@ -6476,11 +6488,11 @@ msgstr ""
 
 #: frmPyIDEMain.pas
 msgid "Python not available"
-msgstr ""
+msgstr "Python no disponible"
 
 #: frmPyIDEMain.pas
 msgid "Debugger state: "
-msgstr ""
+msgstr "Estado de depuración:"
 
 #: frmRegExpTester.pas
 #, object-pascal-format
@@ -6582,7 +6594,7 @@ msgstr ""
 #. Programmer's name for it: SInterpreterNA
 #: StringResources.pas
 msgid "The internal Python interpreter is not available"
-msgstr ""
+msgstr "El intérprete Python interno no está disponible"
 
 #. Programmer's name for it: SPostMortemInfo
 #: StringResources.pas
@@ -7132,6 +7144,8 @@ msgid ""
 "An external process is stil running.  Please terminate it first from the "
 "Output Window"
 msgstr ""
+"Un proceso externo aún está ejecutándose. Por favor deténlo en la Ventana de"
+" Salida"
 
 #. Project Manager
 #. Programmer's name for it: SAskSaveProject
@@ -7619,12 +7633,12 @@ msgstr ""
 #. Programmer's name for it: SRegisteredVersions
 #: StringResources.pas
 msgid "Registered Versions"
-msgstr ""
+msgstr "Versiones Registradas"
 
 #. Programmer's name for it: SUnRegisteredVersions
 #: StringResources.pas
 msgid "Unregistered Versions"
-msgstr ""
+msgstr "Versiones no Registradas"
 
 #. Programmer's name for it: SYNS_FriendlyMatchingBrace
 #: SynHighlighterPython.pas
