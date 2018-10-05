@@ -930,7 +930,7 @@ end;
 
 function TModuleCENode.GetCaption: string;
 begin
-  Result := ExtractFileName(Module.Name);
+  Result := XtractFileName(Module.Name);
 end;
 
 function TModuleCENode.GetImageIndex: integer;

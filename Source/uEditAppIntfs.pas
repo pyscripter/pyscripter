@@ -114,15 +114,21 @@ type
     function GetCodeExplorerData : ICodeExplorerData;
     function GetTabControlIndex : integer;
     function GetReadOnly : Boolean;
+    function GetRemoteFileName: string;
+    function GetSSHServer: string;
     procedure SetReadOnly(Value : Boolean);
     procedure SetFileEncoding(FileEncoding : TFileSaveFormat);
     procedure OpenFile(const AFileName: string; HighlighterName : string = '');
+    procedure OpenRemoteFile(const FileName, ServerName: string);
+    function SaveToRemoteFile(const FileName, ServerName: string) : boolean;
     function HasPythonFile : Boolean;
     procedure ExecuteSelection;
     procedure SplitEditorHorizontally;
     procedure SplitEditorVertrically;
     procedure Retranslate;
     property FileName : string read GetFileName;
+    property RemoteFileName : string read GetRemoteFileName;
+    property SSHServer : string read GetSSHServer;
     property FileTitle : string read GetFileTitle;
     property Modified : boolean read GetModified;
     property SynEdit : TSynEdit read GetSynEdit;
@@ -190,6 +196,7 @@ type
     procedure ExecPrintPreview;
     procedure ExecSave;
     procedure ExecSaveAs;
+    procedure ExecSaveAsRemote;
     procedure ExecReload(Quiet : Boolean = False);
   end;
 

@@ -124,6 +124,8 @@ type
     mnProjectSave: TSpTBXItem;
     mnProjectSaveAs: TSpTBXItem;
     mnExtraPythonPath: TSpTBXItem;
+    actProjectAddRemoteFile: TAction;
+    SpTBXItem1: TSpTBXItem;
     procedure FormCreate(Sender: TObject);
     procedure ExplorerTreeInitChildren(Sender: TBaseVirtualTree;
       Node: PVirtualNode; var ChildCount: Cardinal);
@@ -181,6 +183,7 @@ type
       Node: PVirtualNode; const SearchText: string; var Result: Integer);
     procedure ExplorerTreeGetCellText(Sender: TCustomVirtualStringTree;
       var E: TVSTGetCellTextEventArgs);
+    procedure actProjectAddRemoteFileExecute(Sender: TObject);
   private
     procedure ProjectFileNodeEdit(Node: PVirtualNode);
     procedure UpdatePopupActions(Node : PVirtualNode);
@@ -222,7 +225,9 @@ uses
   cPyBaseDebugger,
   cParameters,
   cPyScripterSettings,
-  cPyControl;
+  cPyControl,
+  cSSHSupport,
+  dlgRemoteFile;
 
 {$R *.dfm}
 
@@ -233,6 +238,32 @@ Type
   end;
 
 
+procedure TProjectExplorerWindow.actProjectAddRemoteFileExecute(Sender: TObject);
+Var
+  Data : PNodeDataRec;
+  Node: PVirtualNode;
+  ProjectNode : TProjectFileNode;
+  FileName, FName, Server : string;
+begin
+  Node := ExplorerTree.GetFirstSelected;
+  if not Assigned(Node) then Exit;
+
+  if not ExecuteRemoteFileDialog(FileName, Server, rfdAdd) then Exit;
+  FName := TUnc.Format(Server, FileName);
+
+  if not ActiveProject.HasFile(FName) then
+  begin
+    Data := ExplorerTree.GetNodeData(Node);
+    if Data.ProjectNode is TProjectFilesNode then
+    begin
+      ProjectNode := TProjectFileNode.Create;
+      ProjectNode.FileName := FName;
+      Data.ProjectNode.AddChild(ProjectNode);
+    end;
+    ExplorerTree.ReinitNode(Node, True);
+  end;
+end;
+
 procedure TProjectExplorerWindow.actProjectAddActiveFileExecute(
   Sender: TObject);
 Var
@@ -240,17 +271,26 @@ Var
   Data : PNodeDataRec;
   Node: PVirtualNode;
   ProjectNode : TProjectFileNode;
+  FName : string;
 begin
   Node := ExplorerTree.GetFirstSelected;
   Editor := PyIDEMainForm.GetActiveEditor;
-  if Assigned(Node) and Assigned(Editor) and (Editor.FileName <> '') and
-    not ActiveProject.HasFile(Editor.FileName) then
+  if not Assigned(Node) or not Assigned(Editor) then Exit;
+
+  if Editor.FileName <> '' then
+    FName := Editor.FileName
+  else if Editor.RemoteFileName <> '' then
+    FName := TUnc.Format(Editor.SSHServer, Editor.RemoteFileName)
+  else
+    Exit;
+
+  if not ActiveProject.HasFile(FName) then
   begin
     Data := ExplorerTree.GetNodeData(Node);
     if Data.ProjectNode is TProjectFilesNode then
     begin
       ProjectNode := TProjectFileNode.Create;
-      ProjectNode.FileName := Editor.FileName;
+      ProjectNode.FileName := FName;
       Data.ProjectNode.AddChild(ProjectNode);
     end;
     ExplorerTree.ReinitNode(Node, True);
@@ -449,12 +489,15 @@ procedure TProjectExplorerWindow.actProjectFilePropertiesExecute(
 var
   Data : PNodeDataRec;
   Node: PVirtualNode;
+  Server, FName: string;
 begin
   Node := ExplorerTree.GetFirstSelected;
   if Assigned(Node) then begin
     Data := ExplorerTree.GetNodeData(Node);
     if Data.ProjectNode is TProjectFileNode then begin
-      if TProjectFilenode(Data.ProjectNode).FileName <> '' then
+      if (TProjectFilenode(Data.ProjectNode).FileName <> '') and not
+        TUnc.Parse(TProjectFilenode(Data.ProjectNode).FileName, Server, FName)
+      then
         DisplayPropDialog(Handle,
           Parameters.ReplaceInText(TProjectFilenode(Data.ProjectNode).FileName));
     end;
@@ -772,13 +815,14 @@ begin
      Data := ExplorerTree.GetNodeData(Node);
      Assert(Assigned(Data.ProjectNode));
      actProjectAddFiles.Enabled := (Data.ProjectNode is TProjectFilesNode) and SingleNodeSelected;
-     actProjectAddActiveFile.Enabled := Data.ProjectNode is TProjectFilesNode and SingleNodeSelected;
+     actProjectAddActiveFile.Enabled := actProjectAddFiles.Enabled;
+     actProjectAddRemoteFile.Enabled := actProjectAddFiles.Enabled;
+     actProjectAddFolder.Enabled := actProjectAddFiles.Enabled;
      actProjectRemove.Enabled := (Data.ProjectNode is TProjectFolderNode) or
        (Data.ProjectNode is TProjectFileNode) or
        (Data.ProjectNode is TProjectRunConfiguationNode);
      actProjectRename.Enabled := ((Data.ProjectNode is TProjectFolderNode) or
        (Data.ProjectNode is TProjectRunConfiguationNode)) and SingleNodeSelected;
-     actProjectAddFolder.Enabled := (Data.ProjectNode is TProjectFilesNode) and SingleNodeSelected;;
      actProjectImportDirectory.Enabled := (Data.ProjectNode is TProjectFilesNode) and SingleNodeSelected;
      actProjectFileEdit.Enabled := Data.ProjectNode is TProjectFileNode;
      actProjectFileProperties.Enabled := (Data.ProjectNode is TProjectFileNode) and SingleNodeSelected;
@@ -791,6 +835,7 @@ begin
    end else begin
      actProjectAddFiles.Enabled := False;
      actProjectAddActiveFile.Enabled := False;
+     actProjectAddRemoteFile.Enabled := False;
      actProjectRemove.Enabled := False;
      actProjectRename.Enabled := False;
      actProjectAddFolder.Enabled := False;

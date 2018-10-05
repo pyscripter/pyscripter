@@ -193,7 +193,10 @@ Var
   BreakPoint : TBreakPoint;
 begin
   Create;
-  FileName := Editor.FileName;
+  if Editor.FileName <> '' then
+    FileName := Editor.FileName
+  else
+    FileName := Editor.GetFileNameOrTitle;
   TabControlIndex := Editor.TabControlIndex;
   Char := Editor.SynEdit.CaretX;
   Line := Editor.SynEdit.CaretY;
@@ -255,9 +258,12 @@ begin
       PersistFileInfo.CreateListItem,  True, 'File');
     for i := 0 to PersistFileInfo.fFileInfoList.Count - 1 do begin
       FilePersistInfo := TFilePersistInfo(PersistFileInfo.fFileInfoList[i]);
-      if FileExists(FilePersistInfo.FileName) then
+      try
         Editor := PyIDEMainForm.DoOpenFile(FilePersistInfo.FileName, '',
           FilePersistInfo.TabControlIndex);
+      except
+        Continue; // to the next file
+      end;
       if Assigned(Editor) then begin
         Editor.SynEdit.TopLine := FilePersistInfo.TopLine;
         Editor.SynEdit.CaretXY := BufferCoord(FilePersistInfo.Char, FilePersistInfo.Line);
@@ -351,7 +357,7 @@ procedure TPersistFileInfo.GetFileInfo;
       IV := TabControl.View.Viewers[I];
       if IV.Item is TSpTBXTabItem then begin
         Editor := PyIDEMainForm.EditorFromTab(TSpTBXTabItem(IV.Item));
-        if Assigned(Editor) and (Editor.FileName <> '') then begin
+        if Assigned(Editor) and ((Editor.FileName <> '') or (Editor.RemoteFileName <> '')) then begin
           FilePersistInfo := TFilePersistInfo.CreateFromEditor(Editor);
           fFileInfoList.Add(FilePersistInfo)
         end;

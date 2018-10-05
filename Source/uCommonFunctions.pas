@@ -241,6 +241,9 @@ function DownloadUrlToFile(const URL, Filename: string): Boolean;
 procedure DrawGlyphPattern(DC: HDC; const R: TRect; Width, Height: Integer;
   const PatternBits; PatternColor: TColor);
 
+(* Extract File Name that works with both Windows and Unix file names *)
+function XtractFileName(const FileName: string): string;
+
 type
   (*  TStringlist that preserves the LineBreak and BOM of a read File *)
   TLineBreakStringList = class(TStringList)
@@ -294,7 +297,8 @@ Uses
   System.UITypes, Winapi.CommCtrl, JclStrings, SynEditMiscClasses,
   cPyScripterSettings,   Winapi.UrlMon,
   SynEditTextBuffer, VCL.ExtCtrls, cParameters,
-  cPyControl;
+  cPyControl,
+  cSSHSupport;
 
 function GetIconIndexFromFile(const AFileName: string;
   const ASmall: boolean): integer;
@@ -688,7 +692,7 @@ function FileNameToModuleName(const FileName : string): string;
 Var
   Path, Dir : string;
 begin
-  Result := ChangeFileExt(ExtractFileName(FileName), '');
+  Result := ChangeFileExt(XtractFileName(FileName), '');
   Path := ExtractFileDir(FileName);
   Dir := ExtractFileName(Path);
 
@@ -1595,13 +1599,35 @@ function FileToStr(const AFileName : string) : string;
 Var
   SL : TStrings;
   Encoding : TFileSaveFormat;
+  Server, FName, TempFileName, ErrorMsg : string;
 begin
-  SL := TStringList.Create;
-  try
-    LoadFileIntoWideStrings(AFileName, SL, Encoding);
-    Result := SL.Text;
-  finally
-    SL.Free;
+  if TUnc.Parse(AFileName, Server, FName) then
+  begin
+    TempFileName := FileGetTempName('PyScripter');
+    if not ScpDownload(Server, FName, TempFileName, ErrorMsg) then
+    begin
+      Dialogs.MessageDlg(Format(_(SFileSaveError), [FName, ErrorMsg]), mtError, [mbOK], 0);
+      Abort;
+    end;
+    SL := TStringList.Create;
+    try
+      if not LoadFileIntoWideStrings(TempFileName, SL, Encoding) then
+        Abort;
+      Result := SL.Text;
+    finally
+      SL.Free;
+    end;
+  end
+  else
+  begin
+    SL := TStringList.Create;
+    try
+      if not LoadFileIntoWideStrings(AFileName, SL, Encoding) then
+        Abort;
+      Result := SL.Text;
+    finally
+      SL.Free;
+    end;
   end;
 end;
 
@@ -2164,6 +2190,14 @@ begin
     SetBkColor(DC, OldBkColor);
     B.Free;
   end;
+end;
+
+function XtractFileName(const FileName: string): string;
+var
+  I: Integer;
+begin
+  I := FileName.LastDelimiter(PathDelim + DriveDelim + '/');
+  Result := FileName.SubString(I + 1);
 end;
 
 initialization

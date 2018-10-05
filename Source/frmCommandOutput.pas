@@ -66,14 +66,17 @@ type
     fBlockEnd : TBufferCoord;
     fRegExpr : TRegExpr;
     fItemMaxWidth : integer;  // Calculating max width to show hor scrollbar
+    fLastExitCode : integer;
   public
     { Public declarations }
     JvCreateProcess: TJvCreateProcess;
+    function IsRunning: Boolean;
     procedure AddNewLine(const S: string);
     procedure ChangeLastLine(const S: string);
     procedure ClearScreen;
     procedure FontOrColorUpdated;
     procedure ExecuteTool(Tool : TExternalTool);
+    property LastExitCode : integer read fLastExitCode;
   end;
 
 var
@@ -215,6 +218,7 @@ begin
   TimeoutTimer.Enabled := False;
   Assert(Assigned(fTool));
 
+  fLastExitCode := ExitCode;
   ErrorMsg := Format(_(sProcessTerminated), [StrRemoveChars(fTool.Caption, ['&']), ExitCode]);
   AddNewLine(ErrorMsg);
   PyIDEMainForm.WriteStatusMsg(ErrorMsg);
@@ -357,7 +361,7 @@ const
 
 begin
   // Check whether a process is still running
-  if jvCreateProcess.State <> psReady then begin
+  if IsRunning then begin
     Dialogs.MessageDlg(_(SProcessRunning), mtError, [mbOK], 0);
     Exit;
   end;
@@ -616,6 +620,11 @@ begin
   fTool.Free;
   fRegExpr.Free;
   inherited;
+end;
+
+function TOutputWindow.IsRunning: Boolean;
+begin
+  Result := jvCreateProcess.State <> psReady;
 end;
 
 procedure TOutputWindow.TimeoutTimerTimer(Sender: TObject);

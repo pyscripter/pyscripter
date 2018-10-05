@@ -35,8 +35,6 @@ type
     SynFileName: TSynEdit;
     SynParameters: TSynEdit;
     SynWorkDir: TSynEdit;
-    btnFileName: TSpTBXButton;
-    btnWorkDir: TSpTBXButton;
     gbRemoteEngine: TSpTBXGroupBox;
     cbReinitializeBeforeRun: TSpTBXCheckBox;
     GroupBox3: TSpTBXGroupBox;
@@ -44,7 +42,6 @@ type
     gbSaveOutput: TSpTBXGroupBox;
     cbAppendToFile: TSpTBXCheckBox;
     SynOutputFileName: TSynEdit;
-    btnOutputFileName: TSpTBXButton;
     cbSaveOutput: TSpTBXCheckBox;
     Label5: TSpTBXLabel;
     Label2: TSpTBXLabel;
@@ -55,6 +52,10 @@ type
     Label4: TSpTBXLabel;
     cbEngineType: TSpTBXComboBox;
     edDescription: TSpTBXEdit;
+    btnFileName: TButton;
+    btnWorkDir: TButton;
+    btnOutputFileName: TButton;
+    btnRemoteFileName: TButton;
     procedure btnExternalRunClick(Sender: TObject);
     procedure SynEditEnter(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -65,6 +66,7 @@ type
     procedure btnOutputFileNameClick(Sender: TObject);
     procedure cbEngineTypeChange(Sender: TObject);
     procedure cbSaveOutputClick(Sender: TObject);
+    procedure btnRemoteFileNameClick(Sender: TObject);
   private
     { Private declarations }
     fRunConfig : TRunConfiguration;
@@ -78,7 +80,9 @@ implementation
 
 uses
   Math, dlgToolProperties, dmCommands, uHighlighterProcs, cProjectClasses,
-  StringResources, JvGnugettext, Vcl.Themes, Vcl.FileCtrl;
+  StringResources, JvGnugettext, Vcl.Themes, Vcl.FileCtrl,
+  dlgRemoteFile,
+  cSSHSupport;
 
 {$R *.dfm}
 
@@ -171,6 +175,17 @@ begin
     finally
       Options := OldOpenOptions;
     end;
+  end;
+end;
+
+procedure TRunConfigurationForm.btnRemoteFileNameClick(Sender: TObject);
+Var
+  Server, FileName: string;
+begin
+  if ExecuteRemoteFileDialog(FileName, Server, rfdSelect) then begin
+    SynFileName.SelectAll;
+    SynFileName.Text := TUnc.Format(Server, FileName);
+    SynFileName.SetFocus;
   end;
 end;
 

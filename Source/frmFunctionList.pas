@@ -178,7 +178,8 @@ uses
   frmPyIDEMain,
   dmCommands,
   uEditAppIntfs,
-  cPythonSourceScanner;
+  cPythonSourceScanner,
+  uCommonFunctions;
 
 resourcestring
   SAllString = '<All>';
@@ -239,7 +240,7 @@ var
   Module : TParsedModule;
   PythonScanner : TPythonScanner;
 begin
-  Caption := Caption + ' - ' + ExtractFileName(FFileName);
+  Caption := Caption + ' - ' + XtractFileName(FFileName);
   Editor := GI_EditorFactory.GetEditorByNameOrTitle(Self.FFileName);
   if not Assigned(Editor) then Exit;
   Module := TParsedModule.Create(Editor.SynEdit.Lines.Text);

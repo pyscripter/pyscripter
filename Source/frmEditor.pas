@@ -198,6 +198,7 @@ type
     function DoSave: boolean;
     function DoSaveFile: boolean;
     function DoSaveAs: boolean;
+    function DoSaveAsRemote: boolean;
     procedure DoUpdateCaption;
     procedure DoUpdateHighlighter(HighlighterName: string = '');
     procedure AutoCompleteBeforeExecute(Sender: TObject);
@@ -264,6 +265,8 @@ type
     procedure SetFileEncoding(FileEncoding: TFileSaveFormat);
     function GetEncodedText: AnsiString;
     procedure OpenFile(const AFileName: string; HighlighterName: string = '');
+    procedure OpenRemoteFile(const FileName, ServerName: string);
+    function SaveToRemoteFile(const FileName, ServerName: string) : boolean;
     function HasPythonFile: boolean;
     function GetReadOnly : Boolean;
     procedure SetReadOnly(Value : Boolean);
@@ -275,6 +278,8 @@ type
     function GetSourceScanner: IAsyncSourceScanner;
     function GetCodeExplorerData: ICodeExplorerData;
     function GetTabControlIndex: Integer;
+    function GetRemoteFileName: string;
+    function GetSSHServer: string;
     // IEditCommands implementation
     function CanCopy: boolean;
     function CanCut: boolean;
@@ -301,6 +306,7 @@ type
     procedure ExecPrintPreview;
     procedure ExecSave;
     procedure ExecSaveAs;
+    procedure ExecSaveAsRemote;
     procedure ExecReload(Quiet: boolean = False);
     // ISearchCommands implementation
     function CanFind: boolean;
@@ -314,6 +320,8 @@ type
     procedure ExecReplace;
   private
     fFileName: string;
+    fRemoteFileName : string;
+    fSSHServer : string;
     fForm: TEditorForm;
     fHasSelection: boolean;
     fUntitledNumber: Integer;
@@ -338,6 +346,7 @@ uses
   PythonEngine,
   VarPyth,
   Vcl.Themes,
+  JclFileUtils,
   SynUnicode,
   SynEditTextBuffer,
   SynHighlighterWebMisc,
@@ -359,7 +368,9 @@ uses
   cPyDebugger,
   cRefactoring,
   cCodeHint,
-  cPyScripterSettings;
+  cPyScripterSettings,
+  cSSHSupport,
+  dlgRemoteFile;
 
 const
   WM_DELETETHIS = WM_USER + 42;
@@ -560,7 +571,9 @@ begin
     CodeExplorerWindow.UpdateWindow(ceuExit);
 
     if (fFileName <> '') and (CommandsDataModule <> nil) then
-      PyIDEMainForm.tbiRecentFileList.MRUAdd(fFileName);
+      PyIDEMainForm.tbiRecentFileList.MRUAdd(fFileName)
+    else if (fRemoteFileName <> '') and (CommandsDataModule <> nil) then
+      PyIDEMainForm.tbiRecentFileList.MRUAdd(TUnc.Format(fSSHServer,fRemoteFileName));
     if fUntitledNumber <> -1 then
       CommandsDataModule.ReleaseUntitledNumber(fUntitledNumber);
 
@@ -586,6 +599,8 @@ begin
   if AFileName <> fFileName then
   begin
     fFileName := AFileName;
+    fRemoteFileName := '';
+    fSSHServer := '';
     if fUntitledNumber <> -1 then
     begin
       CommandsDataModule.ReleaseUntitledNumber(fUntitledNumber);
@@ -596,9 +611,8 @@ begin
       ChangeNotifier.NotifyWatchFolder(fForm, ExtractFileDir(fFileName))
     else
       ChangeNotifier.NotifyWatchFolder(fForm, '');
-
-    fForm.fNeedToParseModule := True;
   end;
+  fForm.fNeedToParseModule := True;
 end;
 
 function TEditor.GetSynEdit: TSynEdit;
@@ -687,6 +701,8 @@ begin
     else
       Result := ExtractFileName(fFileName);
   end
+  else if fSSHServer <> '' then
+    Result := TUnc.Format(fSSHServer, fRemoteFileName)
   else
   begin
     if fUntitledNumber = -1 then
@@ -719,10 +735,20 @@ begin
   Result := GetSynEdit.ReadOnly;
 end;
 
+function TEditor.GetRemoteFileName: string;
+begin
+  Result := fRemoteFileName;
+end;
+
 function TEditor.GetSourceScanner: IAsyncSourceScanner;
 begin
   fForm.ReparseIfNeeded;
   Result := fForm.SourceScanner;
+end;
+
+function TEditor.GetSSHServer: string;
+begin
+  Result := fSSHServer;
 end;
 
 function TEditor.GetFileEncoding: TFileSaveFormat;
@@ -778,8 +804,6 @@ begin
   begin
     if (AFileName <> '') and FileExists(AFileName) then
     begin
-      fForm.SynEdit2.RemoveLinesPointer;
-      try
         if LoadFileIntoWideStrings(AFileName, fForm.SynEdit.Lines,
           fFileEncoding) then
         begin
@@ -788,9 +812,6 @@ begin
         end
         else
           Abort;
-      finally
-        fForm.SynEdit2.SetLinesPointer(fForm.SynEdit);
-      end;
     end
     else
     begin
@@ -812,6 +833,55 @@ begin
     fForm.fOldEditorForm := fForm;
     fForm.Synedit.UseCodeFolding := PyIDEOptions.CodeFoldingEnabled;
     fForm.Synedit2.UseCodeFolding := fForm.Synedit.UseCodeFolding;
+  end;
+end;
+
+procedure TEditor.OpenRemoteFile(const FileName, ServerName: string);
+Var
+  TempFileName : string;
+  ErrorMsg : string;
+begin
+  if (fForm = nil)  or (FileName = '') or (ServerName = '') then  Abort;
+
+  DoSetFileName('');
+
+  TempFileName := FileGetTempName('PyScripter');
+  if not ScpDownload(ServerName, FileName, TempFileName, ErrorMsg) then begin
+    Vcl.Dialogs.MessageDlg(Format(_(SFileOpenError), [FileName, ErrorMsg]), mtError, [mbOK], 0);
+    Abort;
+  end else begin
+    if not LoadFileIntoWideStrings(TempFileName, fForm.SynEdit.Lines, fFileEncoding) then
+      Abort
+    else
+      DeleteFile(TempFileName);
+  end;
+
+  fRemoteFileName := FileName;
+  fSSHServer := ServerName;
+
+  fForm.SynEdit.Modified := False;
+  fForm.DoUpdateHighlighter('');
+  fForm.DoUpdateCaption;
+  fForm.fOldEditorForm := fForm;
+  fForm.Synedit.UseCodeFolding := PyIDEOptions.CodeFoldingEnabled;
+  fForm.Synedit2.UseCodeFolding := fForm.Synedit.UseCodeFolding;
+end;
+
+
+function TEditor.SaveToRemoteFile(const FileName, ServerName: string): boolean;
+Var
+  TempFileName : string;
+  ErrorMsg : string;
+begin
+  if (fForm = nil)  or (FileName = '') or (ServerName = '') then  Abort;
+
+  TempFileName := FileGetTempName('PyScripter');
+  Result := SaveWideStringsToFile(TempFileName, fForm.SynEdit.Lines, fFileEncoding, False);
+  if Result then begin
+    Result := ScpUpload(ServerName, TempFileName, FileName, ErrorMsg);
+    DeleteFile(TempFileName);
+    if not Result then
+      Vcl.Dialogs.MessageDlg(Format(_(SFileSaveError), [FileName, ErrorMsg]), mtError, [mbOK], 0);
   end;
 end;
 
@@ -1004,7 +1074,7 @@ end;
 
 function TEditor.CanSave: boolean;
 begin
-  Result := (fForm <> nil) and (GetModified or (fFileName = ''));
+  Result := (fForm <> nil) and (GetModified or ((fFileName = '') and (fRemoteFileName = '')));
 end;
 
 function TEditor.CanSaveAs: boolean;
@@ -1060,7 +1130,7 @@ procedure TEditor.ExecSave;
 begin
   if fForm <> nil then
   begin
-    if fFileName <> '' then
+    if (fFileName <> '') or (fRemoteFileName <> '') then
       fForm.DoSave
     else
       fForm.DoSaveAs
@@ -1071,6 +1141,12 @@ procedure TEditor.ExecSaveAs;
 begin
   if fForm <> nil then
     fForm.DoSaveAs;
+end;
+
+procedure TEditor.ExecSaveAsRemote;
+begin
+  if fForm <> nil then
+    fForm.DoSaveAsRemote;
 end;
 
 // ISearchCommands implementation
@@ -1621,13 +1697,13 @@ function TEditorForm.DoAskSaveChanges: boolean;
 var
   S: string;
 begin
-  // this is necessary to prevent second confirmation when closing MDI childs
+  // this is necessary to prevent second confirmation when closing tabs
   if SynEdit.Modified then
   begin
     DoActivateEditor;
     MessageBeep(MB_ICONQUESTION);
     Assert(fEditor <> nil);
-    S := Format(_(SAskSaveChanges), [ExtractFileName(fEditor.GetFileTitle)]);
+    S := Format(_(SAskSaveChanges), [XtractFileName(fEditor.GetFileTitle)]);
 
     case Vcl.Dialogs.MessageDlg(S, mtConfirmation, [mbYes, mbNo, mbCancel], 0,
       mbYes) of
@@ -1668,7 +1744,7 @@ end;
 function TEditorForm.DoSave: boolean;
 begin
   Assert(fEditor <> nil);
-  if fEditor.fFileName <> '' then
+  if (fEditor.fFileName <> '') or (fEditor.fRemoteFileName <> '') then
     Result := DoSaveFile
   else
     Result := DoSaveAs;
@@ -1690,12 +1766,17 @@ begin
       SynEdit.EndUpdate;
     end;
   end;
-  Result := SaveWideStringsToFile(fEditor.fFileName, SynEdit.Lines,
-    fEditor.fFileEncoding, PyIDEOptions.CreateBackupFiles);
+  Result := False;
+  if fEditor.fFileName <> '' then begin
+    Result := SaveWideStringsToFile(fEditor.fFileName, SynEdit.Lines,
+      fEditor.fFileEncoding, PyIDEOptions.CreateBackupFiles);
+    if Result then
+      if not FileAge(fEditor.fFileName, FileTime) then
+        FileTime := 0;
+  end else if fEditor.fRemoteFileName <> '' then
+     Result := fEditor.SaveToRemoteFile(fEditor.fRemoteFileName, fEditor.fSSHServer);
   if Result then
   begin
-    if not FileAge(fEditor.fFileName, FileTime) then
-      FileTime := 0;
     if not PyIDEOptions.UndoAfterSave then
       SynEdit.ClearUndo;
     SynEdit.Modified := False;
@@ -1732,13 +1813,47 @@ begin
     Result := False;
 end;
 
-procedure TEditorForm.DoUpdateCaption;
+function TEditorForm.DoSaveAsRemote: boolean;
+Var
+  FileName, Server : string;
+  Edit : IEditor;
 begin
   Assert(fEditor <> nil);
+  if ExecuteRemoteFileDialog(FileName, Server, rfdSave) then
+  begin
+    Edit := GI_EditorFactory.GetEditorByName(TUnc.Format(Server, FileName));
+    if Assigned(Edit) and (Edit <> Self.fEditor as IEditor) then
+    begin
+      Vcl.Dialogs.MessageDlg(_(SFileAlreadyOpen), mtError, [mbAbort], 0);
+      Result := False;
+      Exit;
+    end;
+    fEditor.DoSetFileName('');
+    fEditor.fRemoteFileName := FileName;
+    fEditor.fSSHServer := Server;
+    DoUpdateHighlighter;
+    DoUpdateCaption; // Do it twice in case the following statement fails
+    Result := DoSaveFile;
+    DoUpdateCaption;
+  end
+  else
+    Result := False;
+end;
+
+procedure TEditorForm.DoUpdateCaption;
+Var
+  TabCaption : string;
+begin
+  Assert(fEditor <> nil);
+  if fEditor.fRemoteFileName <> '' then
+    TabCaption := XtractFileName(fEditor.fRemoteFileName)
+  else
+    TabCaption := fEditor.GetFileTitle;
+
   with ParentTabItem do
   begin
-    Caption := StringReplace(fEditor.GetFileTitle, '&', '&&', [rfReplaceAll]);
-    Hint := fEditor.GetFileName;
+    Caption := StringReplace(TabCaption, '&', '&&', [rfReplaceAll]);
+    Hint := fEditor.GetFileNameOrTitle;
   end;
   PyIDEMainForm.UpdateCaption;
 end;
@@ -1751,6 +1866,9 @@ begin
   if fEditor.fFileName <> '' then
     SynEdit.Highlighter := CommandsDataModule.GetHighlighterForFile
       (fEditor.fFileName)
+  else if fEditor.fRemoteFileName <> '' then
+    SynEdit.Highlighter := CommandsDataModule.GetHighlighterForFile
+      (fEditor.fRemoteFileName)
   else if HighlighterName <> '' then
   begin
     Index := CommandsDataModule.Highlighters.IndexOf(HighlighterName);
@@ -1763,7 +1881,6 @@ begin
   else // No highlighter otherwise
     SynEdit.Highlighter := nil;
   SynEdit2.Highlighter := SynEdit.Highlighter;
-  SynEdit.RegisterCommandHandler(EditorCommandHandler, nil);
 end;
 
 procedure TEditorForm.EditorMouseWheel(theDirection: Integer;
@@ -2192,6 +2309,10 @@ begin
   end;
 
   SynEdit2.SetLinesPointer(SynEdit);
+
+  //  Custom command handling
+  SynEdit.RegisterCommandHandler(EditorCommandHandler, nil);
+  SynEdit2.RegisterCommandHandler(EditorCommandHandler, nil);
 
   FoundSearchItems := TObjectList.Create(True);
   THighlightSearchPlugin.Create(SynEdit, FoundSearchItems); // No need to free

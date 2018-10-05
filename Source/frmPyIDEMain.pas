@@ -442,6 +442,7 @@
 
   History:   v 3.5
           New Features
+            Open and work with remote files from Windows and Linux using SSH
             Upgraded rpyc to 4.x
           Issues addressed
             #907
@@ -1017,6 +1018,10 @@ type
     SpTBXItem10: TSpTBXItem;
     SpTBXSeparatorItem20: TSpTBXSeparatorItem;
     SpTBXItem11: TSpTBXItem;
+    actRemoteFileOpen: TAction;
+    SpTBXSeparatorItem21: TSpTBXSeparatorItem;
+    SpTBXItem12: TSpTBXItem;
+    SpTBXItem13: TSpTBXItem;
     procedure mnFilesClick(Sender: TObject);
     procedure actEditorZoomInExecute(Sender: TObject);
     procedure actEditorZoomOutExecute(Sender: TObject);
@@ -1136,6 +1141,7 @@ type
     procedure mnPythonVersionsPopup(Sender: TTBCustomItem; FromLink: Boolean);
     procedure PythonVersionsClick(Sender: TObject);
     procedure actPythonSetupExecute(Sender: TObject);
+    procedure actRemoteFileOpenExecute(Sender: TObject);
   private
     DSAAppStorage: TDSAAppStorage;
     ShellExtensionFiles : TStringList;
@@ -1343,7 +1349,9 @@ uses
   cCodeHint,
   cPyRemoteDebugger,
   cProjectClasses,
-  dlgPythonVersions;
+  dlgPythonVersions,
+  dlgRemoteFile,
+  cSSHSupport;
 
 {$R *.DFM}
 
@@ -1365,13 +1373,25 @@ end;
 function TPyIDEMainForm.DoOpenFile(AFileName: string; HighlighterName : string = '';
        TabControlIndex : integer = 1) : IEditor;
 Var
+  IsRemote : Boolean;
+  Server, FName : string;
   TabCtrl : TSpTBXTabControl;
 begin
   Result := nil;
-  AFileName := GetLongFileName(ExpandFileName(AFileName));
-  if AFileName <> '' then begin
-    // activate the editor if already open
-    Assert(GI_EditorFactory <> nil);
+  IsRemote :=  TUnc.Parse(AFileName, Server, FName);
+
+  // activate the editor if already open
+  if IsRemote then
+  begin
+    Result :=  GI_EditorFactory.GetEditorByNameOrTitle(AFileName);
+    if Assigned(Result) then begin
+      Result.Activate;
+      Exit;
+    end;
+  end
+  else if AFileName <> '' then
+  begin
+    AFileName := GetLongFileName(ExpandFileName(AFileName));
     Result :=  GI_EditorFactory.GetEditorByName(AFileName);
     if Assigned(Result) then begin
       Result.Activate;
@@ -1385,7 +1405,10 @@ begin
     Result := DoCreateEditor(TabCtrl);
     if Result <> nil then begin
       try
-        Result.OpenFile(AFileName, HighlighterName);
+        if IsRemote then
+          Result.OpenRemoteFile(FName, Server)
+        else
+          Result.OpenFile(AFileName, HighlighterName);
         tbiRecentFileList.MRURemove(AFileName);
         Result.Activate;
       except
@@ -1394,6 +1417,7 @@ begin
       end;
       if (AFileName <> '') and (GI_EditorFactory.Count = 2) and
         (GI_EditorFactory.Editor[0].FileName = '') and
+        (GI_EditorFactory.Editor[0].RemoteFileName = '') and
         not GI_EditorFactory.Editor[0].Modified
       then
         GI_EditorFactory.Editor[0].Close;
@@ -2320,7 +2344,7 @@ procedure TPyIDEMainForm.SetRunLastScriptHints(ScriptName: string);
 Var
   S : string;
 begin
-   S := ExtractFileName(ScriptName);
+   S := XtractFileName(ScriptName);
    if S <> '' then
      S := Format(' - %s ', [S]);
    actRunLastScript.Hint := _(sHintRun) + S;
@@ -3184,6 +3208,7 @@ begin
     AppStorage.WriteStringList('Custom Params', CustomParams);
     AppStorage.DeleteSubTree('Tools');
     AppStorage.WriteCollection('Tools', ToolsCollection, 'Tool');
+    AppStorage.WriteCollection('SSH', SSHServers, 'Server');
     AppStorage.WritePersistent('Tools\External Run', ExternalPython);
     AppStorage.WriteString('Output Window\Font Name', OutputWindow.lsbConsole.Font.Name);
     AppStorage.WriteInteger('Output Window\Font Size', OutputWindow.lsbConsole.Font.Size);
@@ -3362,6 +3387,7 @@ begin
   AppStorage.ReadStringList('Custom Params', CustomParams);
   RegisterCustomParams;
   AppStorage.ReadCollection('Tools', ToolsCollection, True, 'Tool');
+  AppStorage.ReadCollection('SSH', SSHServers, True, 'Server');
   AppStorage.ReadPersistent('Tools\External Run', ExternalPython);
   OutputWindow.lsbConsole.Font.Name := AppStorage.ReadString('Output Window\Font Name', 'Courier New');
   OutputWindow.lsbConsole.Font.Size := AppStorage.ReadInteger('Output Window\Font Size', 9);
@@ -4837,6 +4863,16 @@ begin
     while Panel.DockClientCount >0 do
       TJvDockVSNETPanel(Panel).DoAutoHideControl(
           Panel.DockClients[Panel.DockClientCount-1] as TWinControl);
+  end;
+end;
+
+procedure TPyIDEMainForm.actRemoteFileOpenExecute(Sender: TObject);
+Var
+  FileName, Server : string;
+begin
+  if ExecuteRemoteFileDialog(FileName, Server, rfdOpen) then
+  begin
+    DoOpenFile(TUnc.Format(Server, FileName), '', TabControlIndex(ActiveTabControl));
   end;
 end;
 

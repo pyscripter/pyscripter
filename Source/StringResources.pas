@@ -264,6 +264,17 @@ Const
   SRegisteredVersions = 'Registered Versions';
   SUnRegisteredVersions = 'Unregistered Versions';
 
+  //  SSH File and Remote engine
+  SRemoteFileOpen = 'Open Remote File';
+  SRemoteFIleSave = 'Save to Remote File';
+  SRemoteFileAdd = 'Add Remote File';
+  SRemoteFileSelect = 'Select Remote File';
+  SErrorEmptyPath = 'File Path cannot be empty';
+  SErrorEmptySSH =  'The SSH server name cannot be empty';
+  SScpError4 = 'Scp Error: Connecting to host failed';
+  SScpError5 = 'Scp Error: Connection lost for some reason';
+  SScpOtherError = 'Scp Error: Unspecified failure';
+  SSSHUnknownServer = 'Unknown server "%s"';
 
   // do not localize further
 

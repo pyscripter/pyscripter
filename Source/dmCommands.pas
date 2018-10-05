@@ -250,6 +250,7 @@ type
     SynJSONSyn: TSynJSONSyn;
     actFileCloseAllToTheRight: TAction;
     actEditReadOnly: TAction;
+    actFileSaveToRemote: TAction;
     function ProgramVersionHTTPLocationLoadFileFromRemote(
       AProgramVersionLocation: TJvProgramVersionHTTPLocation; const ARemotePath,
       ARemoteFileName, ALocalPath, ALocalFileName: string): string;
@@ -353,6 +354,7 @@ type
     procedure actUnfoldFunctionsExecute(Sender: TObject);
     procedure actFileCloseAllToTheRightExecute(Sender: TObject);
     procedure actEditReadOnlyExecute(Sender: TObject);
+    procedure actFileSaveToRemoteExecute(Sender: TObject);
   private
     fHighlighters: TStrings;
     fUntitledNumbers: TBits;
@@ -471,7 +473,8 @@ uses
   dlgFileTemplates,
   dlgPickList,
   dlgCodeTemplates,
-  dlgConfigureTools,
+  dlgCollectionEditor,
+  dlgToolProperties,
   dlgCustomParams,
   frmPythonII,
   frmPyIDEMain,
@@ -808,7 +811,7 @@ begin
   with dlgFileSave do begin
     if ANewName <> '' then begin
       InitialDir := ExtractFileDir(ANewName);
-      FileName := ExtractFileName(ANewName);
+      FileName := XtractFileName(ANewName);
       Title := Format(_(SSaveAs), [FileName]);
     end else begin
       InitialDir := '';
@@ -875,6 +878,12 @@ procedure TCommandsDataModule.actFileSaveExecute(Sender: TObject);
 begin
   if GI_FileCmds <> nil then
     GI_FileCmds.ExecSave;
+end;
+
+procedure TCommandsDataModule.actFileSaveToRemoteExecute(Sender: TObject);
+begin
+  if GI_FileCmds <> nil then
+    GI_FileCmds.ExecSaveAsRemote;
 end;
 
 procedure TCommandsDataModule.actFileSaveAsExecute(Sender: TObject);
@@ -2315,6 +2324,7 @@ begin
   actPrintPreview.Enabled := actFilePrint.Enabled;
   actFileSave.Enabled := (GI_FileCmds <> nil) and GI_FileCmds.CanSave;
   actFileSaveAs.Enabled := (GI_FileCmds <> nil) and GI_FileCmds.CanSaveAs;
+  actFileSaveToRemote.Enabled := actFileSaveAs.Enabled;
   // Lesson to remember do not change the Enabled state of an Action from false to true
   // within an Update or OnIdle handler. The result is 100% CPU utilisation.
   // Therefore I introduced here a new boolean variable.
@@ -2556,7 +2566,7 @@ end;
 
 procedure TCommandsDataModule.actConfigureToolsExecute(Sender: TObject);
 begin
-  if ConfigureTools(ToolsCollection) then
+  if EditCollection(ToolsCollection, TToolItem, _('Configure Tools'), EditToolItem, 710) then
     PyIDEMainForm.SetupToolsMenu;
 end;
 

@@ -230,7 +230,7 @@ begin
     with TToDoInfo(fDataList[i]) do begin
       ClipText.Add(IntToStr(Ord(Priority)) + #9 +
         Display + #9 +
-        ExtractFileName(FileName) + #9 +
+        XtractFileName(FileName) + #9 +
         IntToStr(LineNo));
     end;
     Clipboard.AsText := ClipText.Text;
@@ -346,7 +346,7 @@ begin
           end;
           Size := 10;
         end;
-        RichEdit.Lines.Add(ExtractFileName(FileName) + ' (' + IntToStr(LineNo) + ')' +
+        RichEdit.Lines.Add(XtractFileName(FileName) + ' (' + IntToStr(LineNo) + ')' +
           #09 + PriorityText[Priority] + #9 + Display);
       end;
     end;
@@ -955,9 +955,9 @@ begin
   case Column of
     -1: Result := 0;
     0: Result := Ord(ToDoInfo1.Priority) - Ord(ToDoInfo2.Priority);
-    1: Result := WideCompareStr(ToDoInfo1.Display, ToDoInfo2.Display);
-    2: Result := AnsiCompareStr(ExtractFileName(ToDoInfo1.FileName),
-                    ExtractFileName(ToDoInfo2.FileName));
+    1: Result := AnsiCompareStr(ToDoInfo1.Display, ToDoInfo2.Display);
+    2: Result := AnsiCompareStr(XtractFileName(ToDoInfo1.FileName),
+                    XtractFileName(ToDoInfo2.FileName));
     3: Result := ToDoInfo1.LineNo - ToDoInfo2.LineNo;
   end;
 end;

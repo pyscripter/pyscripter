@@ -325,6 +325,14 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
       ImageIndex = 53
       OnExecute = actProjectDebugExecute
     end
+    object actProjectAddRemoteFile: TAction
+      Category = 'Project'
+      Caption = 'Add Remote File'
+      HelpContext = 435
+      Hint = 'Add a remote file to the folder'
+      ImageIndex = 161
+      OnExecute = actProjectAddRemoteFileExecute
+    end
   end
   inherited DockClient: TJvDockClient
     Top = 46
@@ -373,7 +381,7 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
     Left = 8
     Top = 156
     Bitmap = {
-      494C010104000900080010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C010104000900100010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000002000000001002000000000000020
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -653,6 +661,9 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
     end
     object mnAddActiveFile: TSpTBXItem
       Action = actProjectAddActiveFile
+    end
+    object SpTBXItem1: TSpTBXItem
+      Action = actProjectAddRemoteFile
     end
     object SpTBXItem6: TSpTBXItem
       Action = actProjectAddFolder

@@ -5,7 +5,7 @@ Compiled file=PyScripter.chm
 Contents file=pyscripter.hhc
 Default Window=Main
 Default topic=pyscripter.htm
-Display compile progress=No
+Display compile progress=Yes
 Enhanced decompilation=Yes
 Full text search stop list file=SearchStopList.stp
 Full-text search=Yes
@@ -153,6 +153,10 @@ SelectTheme.JPG
 setuppythonversions.htm
 side-by-side-file-editing.htm
 side-by-side-file-editing1.JPG
+remotefiles.htm
+editsshserverdialog.JPG
+SSHserversdialog.JPG
+remotefiledialog.JPG
 startup-python-scripts.htm
 themesupport.htm
 theprojectexplorer.htm
@@ -250,6 +254,7 @@ IDH_545 = codeanddebuggerhints.htm
 IDH_550 = encodedsourcefiles.htm
 IDH_560 = editorfonts.htm
 IDH_570 = side-by-side-file-editing.htm
+IDH_580 = remotefiles.htm
 IDH_810 = findinfiles.htm
 IDH_820 = findfunction.htm
 IDH_830 = finddefinition.htm
@@ -326,6 +331,7 @@ IDH_720 = parameters.htm
 #define IDH_550 550
 #define IDH_560 560
 #define IDH_570 570
+#define IDH_580 580
 #define IDH_810 810
 #define IDH_820 820
 #define IDH_830 830

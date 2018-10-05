@@ -5,8 +5,6 @@ inherited OptionsInspector: TOptionsInspector
   ClientHeight = 360
   ClientWidth = 592
   OnDestroy = FormDestroy
-  ExplicitWidth = 598
-  ExplicitHeight = 389
   PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TPanel
@@ -87,7 +85,7 @@ inherited OptionsInspector: TOptionsInspector
       TabOrder = 0
       OnClick = OKButtonClick
     end
-    object BitBtn2: TButton
+    object CancelButton: TButton
       Left = 397
       Top = 6
       Width = 75

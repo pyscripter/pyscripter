@@ -33,7 +33,7 @@ type
     Panel2: TPanel;
     Inspector: TzObjectInspector;
     OKButton: TButton;
-    BitBtn2: TButton;
+    CancelButton: TButton;
     HelpButton: TButton;
     procedure OKButtonClick(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
@@ -54,7 +54,7 @@ type
 
 function InspectOptions(OptionsObject : TBaseOptions;
   Categories : array of TOptionCategory; FormCaption : string;
-  HelpCntxt : integer = 0): boolean;
+  HelpCntxt : integer = 0; ShowCategories: boolean = True): boolean;
 
 implementation
 
@@ -102,11 +102,12 @@ end;
 
 function InspectOptions(OptionsObject : TBaseOptions;
   Categories : array of TOptionCategory; FormCaption : string;
-  HelpCntxt : integer = 0): boolean;
+  HelpCntxt : integer = 0; ShowCategories: boolean = True): boolean;
 begin
   with TOptionsInspector.Create(Application) do begin
     Caption := FormCaption;
     HelpContext := HelpCntxt;
+    Inspector.SortByCategory := ShowCategories;
     Setup(OptionsObject, Categories);
     Result := ShowModal = mrOK;
     Release;

@@ -38,7 +38,8 @@ unit uHighlighterProcs;
 interface
 
 uses
-  Classes, SynEditHighlighter;
+  System.Classes,
+  SynEditHighlighter;
 
 procedure GetHighlighters(AOwner: TComponent; AHighlighters: TStrings;
   AppendToList: boolean);
@@ -54,8 +55,10 @@ function FileMaskFromFileFilter(Filter : string) : string;
 implementation
 
 uses
-  SysUtils, JclStrings;
-  
+  System.SysUtils,
+  JclStrings,
+  uCommonFunctions;
+
 procedure GetHighlighters(AOwner: TComponent; AHighlighters: TStrings;
   AppendToList: boolean);
 var
@@ -154,7 +157,7 @@ begin
             Mask := Trim(Filter);
             Filter := '';
           end;
-          if StrMatches(Mask, LowerCase(ExtractFileName(FileName))) then begin
+          if StrMatches(Mask, LowerCase(XtractFileName(FileName))) then begin
             Result := Highlighter;
             exit;
           end;

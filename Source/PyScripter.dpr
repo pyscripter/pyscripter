@@ -62,7 +62,7 @@ uses
   dlgAskParam in 'dlgAskParam.pas' {AskParamForm},
   dlgFileTemplates in 'dlgFileTemplates.pas' {FileTemplatesDialog},
   cTools in 'cTools.pas',
-  dlgConfigureTools in 'dlgConfigureTools.pas' {ConfigureTools},
+  dlgCollectionEditor in 'dlgCollectionEditor.pas' {CollectionEditor},
   dlgToolProperties in 'dlgToolProperties.pas' {ToolProperties},
   frmCommandOutput in 'frmCommandOutput.pas' {OutputWindow},
   frmFunctionList in 'frmFunctionList.pas' {FunctionListWindow},
@@ -115,7 +115,8 @@ uses
   System.IniFiles in 'System.IniFiles.pas',
   cInternalPython in 'cInternalPython.pas',
   dlgPythonVersions in 'dlgPythonVersions.pas' {PythonVersionsDialog},
-  cSSHSupport in 'cSSHSupport.pas';
+  cSSHSupport in 'cSSHSupport.pas',
+  dlgRemoteFile in 'dlgRemoteFile.pas' {RemoteFileDialog};
 
 {$R *.RES}
 {$R WebCopyAvi.RES}

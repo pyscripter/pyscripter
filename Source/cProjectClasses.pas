@@ -551,7 +551,7 @@ end;
 function TProjectFileNode.GetName: string;
 begin
   if fFileName <> '' then  begin
-    Result := ExtractFileName(Parameters.ReplaceInText(fFileName));
+    Result := XtractFileName(Parameters.ReplaceInText(fFileName));
     if not ActiveProject.ShowFileExtensions then
       Result := ChangeFileExt(Result, '');
   end else

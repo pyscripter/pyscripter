@@ -111,6 +111,7 @@ type
   end;
 
   function EditTool(Tool : TExternalTool; IsExternalRun : Boolean = False) : Boolean;
+  function EditToolItem(Item : TCollectionItem) : Boolean;
 
 implementation
 
@@ -195,7 +196,12 @@ begin
   end;
 end;
 
-procedure TToolProperties.Filename1Click(Sender: TObject);  
+function EditToolItem(Item : TCollectionItem) : Boolean;
+begin
+  Result := EditTool((Item as TToolItem).ExternalTool);
+end;
+
+procedure TToolProperties.Filename1Click(Sender: TObject);
 begin
   case (Sender as TMenuItem).Tag of
     0: edMessagesFormat.SelText := GrepFileNameParam;

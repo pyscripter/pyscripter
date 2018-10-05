@@ -91,7 +91,7 @@ inherited RunConfigurationForm: TRunConfigurationForm
       OnClick = btnHelpClick
     end
     object GroupBox2: TSpTBXGroupBox
-      Left = 7
+      Left = 11
       Top = 59
       Width = 385
       Height = 106
@@ -101,7 +101,7 @@ inherited RunConfigurationForm: TRunConfigurationForm
       object SynFileName: TSynEdit
         Left = 92
         Top = 16
-        Width = 259
+        Width = 237
         Height = 18
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
@@ -194,24 +194,6 @@ inherited RunConfigurationForm: TRunConfigurationForm
         WantReturns = False
         FontSmoothing = fsmNone
       end
-      object btnFileName: TSpTBXButton
-        Left = 357
-        Top = 14
-        Width = 19
-        Height = 20
-        Caption = '...'
-        TabOrder = 1
-        OnClick = btnFileNameClick
-      end
-      object btnWorkDir: TSpTBXButton
-        Left = 357
-        Top = 62
-        Width = 19
-        Height = 20
-        Caption = '...'
-        TabOrder = 4
-        OnClick = btnWorkDirClick
-      end
       object Label2: TSpTBXLabel
         Left = 8
         Top = 18
@@ -250,6 +232,36 @@ inherited RunConfigurationForm: TRunConfigurationForm
         Font.Style = []
         ParentFont = False
       end
+      object btnFileName: TButton
+        Left = 335
+        Top = 14
+        Width = 19
+        Height = 20
+        ImageIndex = 1
+        Images = CommandsDataModule.Images
+        TabOrder = 1
+        OnClick = btnFileNameClick
+      end
+      object btnWorkDir: TButton
+        Left = 357
+        Top = 62
+        Width = 19
+        Height = 20
+        ImageIndex = 1
+        Images = CommandsDataModule.Images
+        TabOrder = 4
+        OnClick = btnWorkDirClick
+      end
+      object btnRemoteFileName: TButton
+        Left = 357
+        Top = 14
+        Width = 19
+        Height = 20
+        ImageIndex = 161
+        Images = CommandsDataModule.Images
+        TabOrder = 9
+        OnClick = btnRemoteFileNameClick
+      end
     end
     object gbRemoteEngine: TSpTBXGroupBox
       Left = 7
@@ -265,8 +277,8 @@ inherited RunConfigurationForm: TRunConfigurationForm
       object cbReinitializeBeforeRun: TSpTBXCheckBox
         Left = 8
         Top = 44
-        Width = 133
-        Height = 23
+        Width = 131
+        Height = 21
         Caption = 'Reinitiali&ze Before Run'
         Anchors = [akTop, akRight]
         TabOrder = 0
@@ -332,8 +344,8 @@ inherited RunConfigurationForm: TRunConfigurationForm
       object cbAppendToFile: TSpTBXCheckBox
         Left = 8
         Top = 64
-        Width = 93
-        Height = 23
+        Width = 91
+        Height = 21
         Caption = '&Append to file'
         TabOrder = 0
       end
@@ -369,20 +381,11 @@ inherited RunConfigurationForm: TRunConfigurationForm
         WantReturns = False
         FontSmoothing = fsmNone
       end
-      object btnOutputFileName: TSpTBXButton
-        Left = 357
-        Top = 41
-        Width = 19
-        Height = 20
-        Caption = '...'
-        TabOrder = 2
-        OnClick = btnOutputFileNameClick
-      end
       object cbSaveOutput: TSpTBXCheckBox
         Left = 8
         Top = 20
-        Width = 87
-        Height = 23
+        Width = 85
+        Height = 21
         Caption = 'Save Output'
         TabOrder = 3
         OnClick = cbSaveOutputClick
@@ -394,6 +397,16 @@ inherited RunConfigurationForm: TRunConfigurationForm
         Height = 19
         Caption = 'File &Name:'
         FocusControl = SynOutputFileName
+      end
+      object btnOutputFileName: TButton
+        Left = 357
+        Top = 41
+        Width = 19
+        Height = 20
+        ImageIndex = 2
+        Images = CommandsDataModule.Images
+        TabOrder = 2
+        OnClick = btnOutputFileNameClick
       end
     end
   end

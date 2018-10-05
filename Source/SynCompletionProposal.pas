@@ -1766,9 +1766,9 @@ procedure TSynBaseCompletionProposalForm.SetCurrentString(const Value: UnicodeSt
     CompareString := Copy(CompareString, 1, Length(Value));
 
     if FCase then
-      Result := WideCompareStr(CompareString, Value) = 0
+      Result := AnsiCompareStr(CompareString, Value) = 0
     else
-      Result := WideCompareText(CompareString, Value) = 0;
+      Result := AnsiCompareText(CompareString, Value) = 0;
   end;
 
   procedure RecalcList;

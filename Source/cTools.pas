@@ -304,6 +304,7 @@ begin
     Caption := fExternalTool.Caption;
     S := StringReplace(Caption, ' ', '', [rfReplaceAll]);
     S := StringReplace(S, '&', '', [rfReplaceAll]);
+    S := StringReplace(S, '.', '', [rfReplaceAll]);  // Fix error reported by David Funtowiez
     if IsValidIdent(S) then
       Name := 'actTools' + S;
     Category := 'External Tools';

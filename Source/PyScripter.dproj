@@ -273,8 +273,8 @@
             <Form>FileTemplatesDialog</Form>
         </DCCReference>
         <DCCReference Include="cTools.pas"/>
-        <DCCReference Include="dlgConfigureTools.pas">
-            <Form>ConfigureTools</Form>
+        <DCCReference Include="dlgCollectionEditor.pas">
+            <Form>CollectionEditor</Form>
         </DCCReference>
         <DCCReference Include="dlgToolProperties.pas">
             <Form>ToolProperties</Form>
@@ -371,6 +371,10 @@
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="cSSHSupport.pas"/>
+        <DCCReference Include="dlgRemoteFile.pas">
+            <Form>RemoteFileDialog</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <None Include="PyScripter.todo"/>
         <None Include="ModelSupport_PyScripter\default.txaPackage"/>
         <BuildConfiguration Include="Debug">

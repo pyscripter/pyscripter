@@ -25,7 +25,6 @@ object PyIDEMainForm: TPyIDEMainForm
     Top = 513
     Width = 780
     Height = 25
-    ExplicitTop = 510
     object lbStatusMessage: TSpTBXLabelItem
       Wrapping = twEndEllipsis
       Options = [tboNoAutoHint]
@@ -230,7 +229,6 @@ object PyIDEMainForm: TPyIDEMainForm
       Height = 427
       Cursor = crSizeWE
       Align = alRight
-      Color = clNone
       ParentColor = False
       Visible = False
     end
@@ -276,6 +274,14 @@ object PyIDEMainForm: TPyIDEMainForm
             MaxItems = 6
             OnClick = tbiRecentFileListClick
           end
+        end
+        object SpTBXSeparatorItem21: TSpTBXSeparatorItem
+        end
+        object SpTBXItem12: TSpTBXItem
+          Action = actRemoteFileOpen
+        end
+        object SpTBXItem13: TSpTBXItem
+          Action = CommandsDataModule.actFileSaveToRemote
         end
         object N14: TSpTBXSeparatorItem
         end
@@ -2210,6 +2216,13 @@ object PyIDEMainForm: TPyIDEMainForm
       Hint = 'Setup python engine'
       ImageIndex = 154
       OnExecute = actPythonSetupExecute
+    end
+    object actRemoteFileOpen: TAction
+      Category = 'File'
+      Caption = 'Open Remote File'
+      Hint = 'Open Remote File with SSH'
+      ImageIndex = 161
+      OnExecute = actRemoteFileOpenExecute
     end
   end
   object JvDockVSNetStyleSpTBX: TJvDockVSNetStyleSpTBX
