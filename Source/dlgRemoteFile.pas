@@ -81,7 +81,7 @@ end;
 
 procedure TRemoteFileDialog.btnSSHServersSetupClick(Sender: TObject);
 begin
-  if EditSSHConfigurations then
+  if EditSSHServers then
     FillSSHConfigNames(cbSSHConfigs.Items);
 end;
 

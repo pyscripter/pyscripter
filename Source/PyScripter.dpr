@@ -116,7 +116,8 @@ uses
   cInternalPython in 'cInternalPython.pas',
   dlgPythonVersions in 'dlgPythonVersions.pas' {PythonVersionsDialog},
   cSSHSupport in 'cSSHSupport.pas',
-  dlgRemoteFile in 'dlgRemoteFile.pas' {RemoteFileDialog};
+  dlgRemoteFile in 'dlgRemoteFile.pas' {RemoteFileDialog},
+  cPySSHDebugger in 'cPySSHDebugger.pas';
 
 {$R *.RES}
 {$R WebCopyAvi.RES}

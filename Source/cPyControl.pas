@@ -69,6 +69,7 @@ type
     fRegPythonVersions : TPythonVersions;
     fInternalPython : TInternalPython;
     fInternalInterpreter : TPyBaseInterpreter;
+    fActiveSSHServerName : string;
     function InitPythonVersions : Boolean;
     procedure DoOnBreakpointChanged(Editor : IEditor; ALine: integer);
     procedure SetActiveDebugger(const Value: TPyBaseDebugger);
@@ -128,6 +129,7 @@ type
     property RegPythonVersions : TPythonVersions read fRegPythonVersions;
     property PythonEngineType : TPythonEngineType read GetPythonEngineType
       write SetPythonEngineType;
+    property ActiveSSHServerName : string read fActiveSSHServerName write fActiveSSHServerName;
     property InternalPython : TInternalPython read fInternalPython;
     property InternalInterpreter : TPyBaseInterpreter read GetInternalInterpreter;
     property ActiveInterpreter : TPyBaseInterpreter read fActiveInterpreter
@@ -178,7 +180,9 @@ uses
   cPyDebugger,
   cPyRemoteDebugger,
   cProjectClasses,
-  cRefactoring;
+  cRefactoring,
+  cSSHSupport,
+  cPySSHDebugger;
 
 { TEditorPos }
 
@@ -501,6 +505,7 @@ Var
   RemoteInterpreter : TPyRemoteInterpreter;
   Connected : Boolean;
   Msg : string;
+  SSHServer: TSSHServer;
 begin
   if not InternalPython.Loaded or (Value = PythonEngineType) then Exit;
 
@@ -548,6 +553,15 @@ begin
           PyIDEOptions.PythonEngineType := peInternal;
         end;
       end;
+    peSSH:
+      begin
+        SSHServer := ServerFromName(ActiveSSHServerName);
+        if Assigned(SSHServer) then
+        begin
+          with TPySSHInterpreter.Create(SSHServer) do
+            Free;
+        end;
+      end;
   end;
 
   case PyIDEOptions.PythonEngineType of
@@ -555,6 +569,7 @@ begin
     peRemote : Msg := Format(_(SEngineActive), ['Remote','']);
     peRemoteTk : Msg := Format(_(SEngineActive), ['Remote','(Tkinter) ']);
     peRemoteWx : Msg := Format(_(SEngineActive), ['Remote','(wxPython) ']);
+    peSSH : Msg := Format(_(SEngineActive), ['SSH', ActiveSSHServerName +' ']);
   end;
   with PythonIIForm do begin
     if SynEdit.Lines[SynEdit.Lines.Count-1] = PS1 then
@@ -795,6 +810,8 @@ begin
   end;
   SysVersion := AppStorage.ReadString(PythonVersionsKey+'\SysVerion');
   InstallPath := AppStorage.ReadString(PythonVersionsKey+'\InstallPath');
+
+  ActiveSSHServerName  := AppStorage.ReadString('SSHServer');
 end;
 
 procedure TPythonControl.WriteToAppStorage(AppStorage: TJvCustomAppStorage);
@@ -818,6 +835,8 @@ begin
     else
       AppStorage.WriteString(PythonVersionsKey+'\InstallPath', PythonVersion.InstallPath);
   end;
+
+  AppStorage.WriteString('SSHServer', ActiveSSHServerName);
 end;
 
 

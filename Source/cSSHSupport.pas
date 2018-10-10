@@ -23,7 +23,6 @@ type
     fName : string;
     fHostName : string;
     fUserName : string;
-    fUsePython2 : boolean;
     fPythonCommand : string;
   public
     constructor Create; override;
@@ -33,7 +32,6 @@ type
     property Name : string read fName write fName;
     property HostName : string read fHostName write fHostName;
     property UserName : string read fUserName write fUserName;
-    property UsePython2 : boolean read fUsePython2 write fUsePython2;
     property PythonCommand : string read fPythonCommand write fPythonCommand;
   end;
 
@@ -59,28 +57,34 @@ type
   end;
 
   function ServerFromName(ServerName: string): TSSHServer;
-  function EditSSHConfigurations : boolean;
+  function EditSSHServers : boolean;
+  function SelectSSHServer : TSSHServer;
   function EditSSHConfiguration(Item : TCollectionItem) : boolean;
   procedure FillSSHConfigNames(Strings: TStrings);
+
 
   // SCP
   function Scp(const FromFile, ToFile: string; out ErrorMsg: string): boolean;
   function ScpUpload(const ServerName, LocalFile, RemoteFile: string; out ErrorMsg: string): boolean;
   function ScpDownload(const ServerName, RemoteFile, LocalFile: string; out ErrorMsg: string): boolean;
 
+Const
+  SshCommandOptions = '-o PasswordAuthentication=no -o StrictHostKeyChecking=no';
 Var
+  ScpTimeout : integer = 30000; // 30 seconds
   SSHServers : TCollection;
 
 implementation
 
 uses
+  System.Threading,
   Vcl.Forms,
+  jclSysUtils,
   JvGnugettext,
   dlgCollectionEditor,
   dlgOptionsEditor,
-  cTools,
-  frmCommandOutput,
-  StringResources;
+  StringResources,
+  frmCommandOutput;
 
 { TSSHConfig }
 
@@ -90,7 +94,6 @@ begin
     Self.fName := Name;
     Self.fHostName := HostName;
     Self.UserName := UserName;
-    Self.fUsePython2 := UsePython2;
     Self.fPythonCommand := PythonCommand;
   end else
     inherited;
@@ -137,10 +140,21 @@ begin
     Result := SSHServer.DefaultName;
 end;
 
-function EditSSHConfigurations : boolean;
+function EditSSHServers : boolean;
 begin
   Result := EditCollection(SSHServers,
     TSSHServerItem, _('SSH Servers'), EditSSHConfiguration, 580);
+end;
+
+function SelectSSHServer : TSSHServer;
+Var
+  Index : integer;
+begin
+  Result := nil;
+  if SelectFromCollection(SSHServers,
+    TSSHServerItem, _('Select SSH Server'), EditSSHConfiguration, 580, Index)
+  then
+    Result := TSSHServerItem(SSHServers.Items[Index]).SSHServer;
 end;
 
 function EditSSHConfiguration(Item : TCollectionItem) : boolean;
@@ -150,17 +164,15 @@ begin
   SetLength(Categories, 1);
   with Categories[0] do begin
     DisplayName :='SSH';
-    SetLength(Options, 5);
+    SetLength(Options, 4);
     Options[0].PropertyName := 'Name';
     Options[0].DisplayName := _('SSH Server name');
     Options[1].PropertyName := 'HostName';
     Options[1].DisplayName := _('Host name');
     Options[2].PropertyName := 'UserName';
     Options[2].DisplayName := _('User name');
-    Options[3].PropertyName := 'UsePython2';
-    Options[3].DisplayName := _('Use python 2.x');
-    Options[4].PropertyName := 'PythonCommand';
-    Options[4].DisplayName := _('Command to execute python');
+    Options[3].PropertyName := 'PythonCommand';
+    Options[3].DisplayName := _('Command to execute python');
   end;
 
   Result := InspectOptions((Item as TSSHServerItem).fSSHServer,
@@ -189,34 +201,33 @@ end;
 
 function Scp(const FromFile, ToFile: string; out ErrorMsg: string): Boolean;
 Var
-  ExternalTool : TExternalTool;
+  Task : ITask;
+  Command, Output: string;
+  ExitCode : integer;
 begin
-  ExternalTool := TExternalTool.Create;
-  try
-    ExternalTool.ApplicationName := 'scp';
-    ExternalTool.Parameters :=
-      Format('-o PasswordAuthentication=no -o StrictHostKeyChecking=no %s %s',
-      [FromFile, ToFile]);
-    ExternalTool.TimeOut := 2000;
-    ExternalTool.CaptureOutput := False;
+  Command :=
+    Format('scp %s %s %s',
+    [SshCommandOptions, FromFile, ToFile]);
 
-    OutputWindow.ExecuteTool(ExternalTool);
+  Task := TTask.Create(procedure
+  begin
+    ExitCode := JclSysUtils.Execute(Command, Output);
+  end);
+  Task.Start;
+  if not Task.Wait(ScpTimeout) then
+  begin
+    ErrorMsg := SScpOtherError;
+    Exit(False);
+  end;
 
-    while OutputWindow.IsRunning do
-      Application.ProcessMessages;
+  Result :=  ExitCode = 0;
 
-    Result :=  OutputWindow.LastExitCode = 0;
-
-    case OutputWindow.LastExitCode of
-      0: ErrorMsg :=  '';
-      4: ErrorMsg := SScpError4;
-      5: ErrorMsg := SScpError5;
-      else
-        ErrorMsg := SScpOtherError;
-    end;
-
-  finally
-    ExternalTool.Free;
+  case ExitCode of
+    0: ErrorMsg :=  '';
+    4: ErrorMsg := SScpError4;
+    5: ErrorMsg := SScpError5;
+    else
+      ErrorMsg := SScpOtherError;
   end;
 end;
 

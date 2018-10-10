@@ -23,7 +23,8 @@ type
      (peInternal,   // always available - used to communicate with external ones
       peRemote,     // rpyc based external python - default
       peRemoteTk,   // specialized engines used to run GUI scripts
-      peRemoteWx);
+      peRemoteWx,
+      peSSH);       // SSH python engine
 
   {
      Container of all info needed to run a given file

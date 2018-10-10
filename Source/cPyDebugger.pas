@@ -175,10 +175,10 @@ uses
   System.Math,
   System.Variants,
   Vcl.Dialogs,
-  VarPyth,
   JvDSADialogs,
   JvGnugettext,
-  MPCommonUtilities,
+  JclSysInfo,
+  VarPyth,
   StringResources,
   dmCommands,
   frmPythonII,
@@ -640,7 +640,7 @@ begin
     if ARunConfig.WorkingDir <> '' then
       Path := Parameters.ReplaceInText(ARunConfig.WorkingDir);
     if Length(Path) <= 1 then
-      Path := WideGetTempDir;
+      Path := GetWindowsTempFolder;
     OldPath := GetCurrentDir;
 
     // Change the current path
@@ -923,7 +923,7 @@ begin
     with GI_EditorFactory.Editor[i] do
       if HasPythonfile and (FileName = '') then
       begin
-        if GetPythonEngine.IsPython3000 then
+        if InternalInterpreter.IsPython3000 then
           Source := CleanEOLs(SynEdit.Text)+WideLF
         else
           Source := CleanEOLs(EncodedText)+#10;
@@ -1224,7 +1224,7 @@ begin
   SysMod.argv := NewPythonList;
   // Workaround due to PREFER_UNICODE flag to make sure
   // no conversion to Unicode and back will take place
-  if GetPythonEngine.IsPython3000 then        // Issue 425
+  if IsPython3000 then        // Issue 425
     SysMod.argv.append(VarPythonCreate(ARunConfig.ScriptName))
   else
     SysMod.argv.append(VarPythonCreate(AnsiString(ARunConfig.ScriptName)));
@@ -1234,7 +1234,7 @@ begin
     P := PChar(S);
     while P[0] <> #0 do begin
       P := GetParamStr(P, Param);
-      if GetPythonEngine.IsPython3000 then        // Issue 425
+      if IsPython3000 then        // Issue 425
        SysMod.argv.append(VarPythonCreate(Param))
       else
        SysMod.argv.append(VarPythonCreate(AnsiString(Param)));
@@ -1309,7 +1309,7 @@ begin
     if ARunConfig.WorkingDir <> '' then
       Path := Parameters.ReplaceInText(ARunConfig.WorkingDir);
     if Length(Path) <= 1 then
-      Path := WideGetTempDir;
+      Path := GetWindowsTempFolder;
     OldPath := GetCurrentDir;
 
     // Change the current path

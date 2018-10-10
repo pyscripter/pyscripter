@@ -240,11 +240,11 @@ object PyIDEMainForm: TPyIDEMainForm
     Height = 77
     PopupMenu = ToolbarPopupMenu
     object MainMenu: TSpTBXToolbar
-      Left = 0
+      Left = 8
       Top = 0
       CloseButton = False
       DockMode = dmCannotFloatOrChangeDocks
-      DockPos = 0
+      DockPos = 8
       Images = CommandsDataModule.Images
       ProcessShortCuts = True
       ShrinkMode = tbsmWrap
@@ -858,6 +858,9 @@ object PyIDEMainForm: TPyIDEMainForm
           end
           object mnEngineRemoteWx: TSpTBXItem
             Action = actPythonRemoteWx
+          end
+          object mnPythonEngineSSH: TSpTBXItem
+            Action = actPythonSSH
           end
           object TBXSeparatorItem26: TSpTBXSeparatorItem
           end
@@ -2110,6 +2113,17 @@ object PyIDEMainForm: TPyIDEMainForm
       ShortCut = 123
       OnExecute = actNavEditorExecute
     end
+    object actPythonSSH: TAction
+      Tag = 4
+      Category = 'Run'
+      AutoCheck = True
+      Caption = '&SSH'
+      GroupIndex = 1
+      HelpContext = 340
+      HelpType = htContext
+      Hint = 'Use an SSH remote Python engine'
+      OnExecute = actPythonEngineExecute
+    end
     object actExecSelection: TAction
       Category = 'Run'
       Caption = 'E&xecute selection'
@@ -2212,7 +2226,7 @@ object PyIDEMainForm: TPyIDEMainForm
     end
     object actPythonSetup: TAction
       Category = 'Run'
-      Caption = 'Setup Python...'
+      Caption = 'Setup Python Versions...'
       Hint = 'Setup python engine'
       ImageIndex = 154
       OnExecute = actPythonSetupExecute

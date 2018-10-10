@@ -12,6 +12,7 @@ interface
 uses
   WinApi.Windows,
   System.Types,
+  System.UITypes,
   System.SysUtils,
   System.Classes,
   Vcl.Controls,
@@ -22,6 +23,8 @@ uses
 
 type
   TItemEditFunction = function(Item : TCollectionItem): Boolean;
+
+  TCEDialogType = (cetEdit, cetSelect);
 
   TCollectionEditor = class(TPyIDEDlgBase)
     Panel1: TPanel;
@@ -44,11 +47,15 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure MoveDownBtnClick(Sender: TObject);
     procedure MoveUpBtnClick(Sender: TObject);
+    procedure ItemDoubleClick(Sender: TObject);
+    procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
   private
     fCollection : TCollection;
     fItemEdit : TItemEditFunction;
     procedure CheckButtons;
     procedure UpdateList;
+  public
+    DialogType : TCEDialogType;
   end;
 
  function EditCollection(ACollection: TCollection;
@@ -56,11 +63,19 @@ type
    ItemEditFunction: TItemEditFunction;
    AHelpContext: integer): Boolean;
 
+function SelectFromCollection(ACollection: TCollection;
+   ItemClass: TCollectionItemClass; ACaption : string;
+   ItemEditFunction: TItemEditFunction;
+   AHelpContext: integer; var SelectedIndex : integer;
+   ADialogType : TCEDialogType = cetSelect): Boolean;
+
 implementation
 
 uses
   System.Math,
-  JVBoxProcs;
+  Vcl.Dialogs,
+  JVBoxProcs,
+  JvGnugettext;
 
 {$R *.dfm}
 
@@ -68,13 +83,29 @@ function EditCollection(ACollection: TCollection;
    ItemClass: TCollectionItemClass; ACaption : string;
    ItemEditFunction: TItemEditFunction;
    AHelpContext: integer): Boolean;
+Var
+  SelectedIndex : integer;
+begin
+  Result := SelectFromCollection(ACollection, ItemClass, ACaption,
+    ItemEditFunction, AHelpContext, SelectedIndex, cetEdit);
+end;
+
+function SelectFromCollection(ACollection: TCollection;
+   ItemClass: TCollectionItemClass; ACaption : string;
+   ItemEditFunction: TItemEditFunction;
+   AHelpContext: integer; var SelectedIndex : integer;
+   ADialogType : TCEDialogType = cetSelect): Boolean;
 begin
   Result := False;
+  SelectedIndex := -1;
   if not (Assigned(ACollection) and Assigned(ItemEditFunction)) then Exit;
 
   with TCollectionEditor.Create(Application) do
   try
     fCollection := TCollection.Create(ItemClass);
+    DialogType := ADialogType;
+    if DialogType = cetSelect then
+      ItemList.OnDblClick := ItemDoubleClick;
     Caption := ACaption;
     HelpContext := AHelpContext;
     fItemEdit := ItemEditFunction;
@@ -82,13 +113,18 @@ begin
     UpdateList;
     Result := ShowModal = mrOK;
     if Result then
+    begin
       ACollection.Assign(fCollection);
+      SelectedIndex := ItemList.ItemIndex;
+      Assert((ADialogType = cetEdit) or (SelectedIndex >= 0));
+    end;
   finally
     Release;
   end;
+
 end;
 
-//=== { TConfigureTools } =============================================
+//=== { TCollectionEditor } =============================================
 
 procedure TCollectionEditor.CheckButtons;
 begin
@@ -132,6 +168,11 @@ begin
   end;
 end;
 
+procedure TCollectionEditor.ItemDoubleClick(Sender: TObject);
+begin
+  if ItemList.ItemIndex >= 0 then ModalResult := mrOk;
+end;
+
 procedure TCollectionEditor.ItemListClick(Sender: TObject);
 begin
   CheckButtons;
@@ -157,6 +198,14 @@ procedure TCollectionEditor.ItemListDragOver(Sender, Source: TObject;
 begin
   BoxDragOver(ItemList, Source, X, Y, State, Accept, ItemList.Sorted);
   CheckButtons;
+end;
+
+procedure TCollectionEditor.FormCloseQuery(Sender: TObject;
+  var CanClose: Boolean);
+begin
+   CanClose := (DialogType = cetEdit) or (ModalResult = mrCancel) or (ItemList.ItemIndex >= 0);
+   if not CanClose then
+      Vcl.Dialogs.MessageDlg(_('Please make a selection'), mtError, [mbOK], 0);
 end;
 
 procedure TCollectionEditor.FormDestroy(Sender: TObject);

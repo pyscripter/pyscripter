@@ -5,6 +5,7 @@ inherited CollectionEditor: TCollectionEditor
   ClientHeight = 267
   ClientWidth = 301
   OldCreateOrder = True
+  OnCloseQuery = FormCloseQuery
   OnDestroy = FormDestroy
   OnShow = FormShow
   ExplicitWidth = 307

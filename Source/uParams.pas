@@ -62,9 +62,9 @@ uses
   Vcl.Clipbrd,
   Vcl.Dialogs,
   Vcl.FileCtrl,
+  JclSysInfo,
   SynRegExpr,
   MPShellUtilities,
-  MPCommonUtilities,
   PythonVersions,
   VarPyth,
   JvGnugettext,
@@ -586,17 +586,17 @@ end;
 
 function WindowsDirectory : string;
 begin
-  Result := MPCommonUtilities.WindowsDirectory;
+  Result := GetWindowsFolder;
 end;
 
 function SystemDirectory : string;
 begin
-  Result := MPCommonUtilities.SystemDirectory;
+  Result := GetWindowsSystemFolder;
 end;
 
 function GetTempDir : string;
 begin
-  Result := MPCommonUtilities.WideGetTempDir;
+  Result := GetWindowsTempFolder;
 end;
 
 procedure RegisterStandardParametersAndModifiers;

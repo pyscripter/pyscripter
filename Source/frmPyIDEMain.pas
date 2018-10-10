@@ -1022,6 +1022,8 @@ type
     SpTBXSeparatorItem21: TSpTBXSeparatorItem;
     SpTBXItem12: TSpTBXItem;
     SpTBXItem13: TSpTBXItem;
+    actPythonSSH: TAction;
+    mnPythonEngineSSH: TSpTBXItem;
     procedure mnFilesClick(Sender: TObject);
     procedure actEditorZoomInExecute(Sender: TObject);
     procedure actEditorZoomOutExecute(Sender: TObject);
@@ -2010,8 +2012,19 @@ begin
 end;
 
 procedure TPyIDEMainForm.actPythonEngineExecute(Sender: TObject);
+Var
+  EngineType : TPythonEngineType;
+  SSHServer: TSSHServer;
 begin
-  PyControl.PythonEngineType := TPythonEngineType((Sender as TAction).Tag);
+  EngineType := TPythonEngineType((Sender as TAction).Tag);
+  if EngineType = peSSH then begin
+    SSHServer := SelectSSHServer;
+    if Assigned(SSHServer) then
+      PyControl.ActiveSSHServerName := SSHServer.Name
+    else
+      Exit;
+  end;
+  PyControl.PythonEngineType := EngineType;
 end;
 
 procedure TPyIDEMainForm.actPythonReinitializeExecute(Sender: TObject);
@@ -2434,11 +2447,9 @@ end;
 procedure TPyIDEMainForm.DebuggerYield(Sender: TObject; DoIdle : Boolean);
 begin
   Application.ProcessMessages;
-  // HandleMessage calls Application.Idle which yields control to other applications
   if DoIdle then
-    // HandleMessage calls Application.Idle which yields control to other applications
+    // Application.Idle yields control to other applications
     // and calls CheckSynchronize which runs synchronized methods initiated in threads
-    //Application.HandleMessage
     Application.DoApplicationIdle
   else
     CheckSynchronize;
@@ -3611,6 +3622,7 @@ begin
     peRemote : actPythonRemote.Checked := True;
     peRemoteTk : actPythonRemoteTk.Checked := True;
     peRemoteWx : actPythonRemoteWx.Checked := True;
+    peSSH : actPythonSSH.Checked := True;
   end;
 
   // Scroll Buttons
@@ -4768,7 +4780,6 @@ begin
     // Load Toolbar Items after setting up the Tools menu
     if FileExists(AppStorage.IniFile.FileName) then
       LoadToolbarItems('Toolbar Items');
-
 
     with PyControl do begin
       OnBreakpointChange := DebuggerBreakpointChange;

@@ -27,34 +27,37 @@ uses
   cPyBaseDebugger,
   cPyDebugger;
 
+
 type
 
-  {
-    Rpyc based remote Python Interpreter
-  }
+  { Rpyc based remote Python Interpreter  }
   TPyRemoteInterpreter = class(TPyBaseInterpreter)
   private
+    procedure CreateAndConnectToServer;
+  protected
+    const RemoteServerBaseName = 'remserver.py';
+    const RpycZipModule = 'rpyc.zip';
+  protected
     Rpyc : Variant;
     Conn : Variant;
     RPI : Variant; // RemotePythonInterpreter
     OutputRedirector : Variant;
-    ServerProcess : TJvCreateProcess;
-    RemoteServer : TExternalTool;
-    fIsAvailable : Boolean;
-    fConnected : Boolean;
+    fServerIsAvailable : Boolean;
     fOldargv : Variant;
     fOldsysmodules : Variant;
+    fConnected : Boolean;
     fSocketPort: integer;
+    fServerFile: string;
     fRpycPath : string;
-    procedure CreateServerProcess;
-  protected
+    ServerProcess : TJvCreateProcess;
+    procedure CreateAndRunServerProcess; virtual;
+    procedure ConnectToServer;
+    procedure ShutDownServer;  virtual;
     procedure CreateMainModule; override;
     procedure ProcessServerOuput(Sender: TObject; const S: string);
   public
     constructor Create(AEngineType : TPythonEngineType = peRemote);
     destructor Destroy; override;
-    function CreateAndConnectToServer : Boolean;
-    procedure ShutDownServer;
     function Compile(ARunConfig : TRunConfiguration) : Variant;
     procedure HandleRemoteException(ExcInfo : Variant; SkipFrames : integer = 1);
     procedure ReInitialize; override;
@@ -83,15 +86,13 @@ type
     function UnitTestResult : Variant; override;
     function NameSpaceItemFromPyObject(aName : string; aPyObject : Variant): TBaseNameSpaceItem; override;
 
-    property IsAvailable : Boolean read fIsAvailable;
+    property IsAvailable : Boolean read fServerIsAvailable;
     property Connected : Boolean read fConnected;
   end;
 
 
   TRemNameSpaceItem = class(TNameSpaceItem)
-  {
-    Implementation of the Base class for the remote debugger
-  }
+  { Implementation of the Base class for the remote debugger }
   private
     fRemotePython : TPyRemoteInterpreter;
     fIsProxy : Boolean;
@@ -109,9 +110,7 @@ type
   end;
 
   TPyRemDebugger = class(TPyBaseDebugger)
-  {
-    Remote debugger using Rpyc for communication with the server
-  }
+  { Remote debugger using Rpyc for communication with the server }
   private
     fRemotePython : TPyRemoteInterpreter;
     fDebugManager : Variant;
@@ -177,11 +176,11 @@ uses
   VarPyth,
   JclStrings,
   JclSysUtils,
+  JclSysInfo,
   JvJCLUtils,
   JvDSADialogs,
   JvGnugettext,
   StringResources,
-  MPCommonUtilities,
   dmCommands,
   frmPythonII,
   frmMessages,
@@ -384,7 +383,7 @@ end;
 
 procedure TPyRemoteInterpreter.CheckConnected(Quiet : Boolean = False; Abort : Boolean = True);
 begin
-  if not (fIsAvailable and fConnected and (ServerProcess.State = psWaiting)) then begin
+  if not (Assigned(ServerProcess) and fServerIsAvailable and fConnected and (ServerProcess.State = psWaiting)) then begin
     fConnected := False;
     if not Quiet then
       Vcl.Dialogs.MessageDlg(_(SRemoteServerNotConnected),
@@ -422,14 +421,14 @@ begin
   if Assigned(Editor) then begin
     FName := Editor.FileName;
     if FName = '' then FName := '<'+Editor.FileTitle+'>';
-    if GetPythonEngine.IsPython3000 then
+    if IsPython3000 then
       Source := CleanEOLs(Editor.SynEdit.Text) + WideLF
     else
       Source := CleanEOLs(Editor.EncodedText)+#10;
   end else begin
     try
       FName := ARunConfig.ScriptName;
-      if GetPythonEngine.IsPython3000 then
+      if IsPython3000 then
         Source := CleanEOLs(FileToStr(FName)) + WideLF
       else
         Source := CleanEOLs(FileToEncodedStr(FName)) + AnsiChar(#10);
@@ -484,7 +483,6 @@ end;
 constructor TPyRemoteInterpreter.Create(AEngineType : TPythonEngineType = peRemote);
 Var
   SuppressOutput : IInterface;
-  ServerFile: string;
   ServerSource: string;
   ServerName: string;
 begin
@@ -493,26 +491,25 @@ begin
 
   Randomize;
   fSocketPort := 18000 + Random(1000);
-  CreateServerProcess;
 
   // Import Rpyc
   SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
 
   fOldSysModules := SysModule.modules.copy();
   try
-    fRpycPath := Format('%sLib\rpyc.zip', [ExtractFilePath(Application.ExeName)]);
+    fRpycPath := Format('%sLib\%s', [ExtractFilePath(Application.ExeName), RpycZipModule]);
     PyControl.InternalInterpreter.SysPathAdd(fRpycPath);
     Rpyc := Import('rpyc');
-    fIsAvailable := True;
+    fServerIsAvailable := True;
   except
     Vcl.Dialogs.MessageDlg(_(SRpycNotAvailable), mtError, [mbAbort], 0);
-    fIsAvailable := False;
+    fServerIsAvailable := False;
   end;
 
-  if fIsAvailable then begin
-    ServerFile := CommandsDataModule.UserDataPath + 'remserver.py';
+  if fServerIsAvailable then begin
+    fServerFile := CommandsDataModule.UserDataPath + RemoteServerBaseName;
     case fEngineType of
-      peRemote: ServerName := 'SimpleServer';
+      peRemote, peSSH: ServerName := 'SimpleServer';
       peRemoteTk: ServerName := 'TkServer';
       peRemoteWx: ServerName := 'WxServer';
     else
@@ -520,29 +517,14 @@ begin
     end;
     ServerSource := CommandsDataModule.JvMultiStringHolder.StringsByName[ServerName].Text;
     try
-      StringToFile(ServerFile, AnsiString(ServerSource));
+      StringToFile(fServerFile, AnsiString(ServerSource));
     except
-      Vcl.Dialogs.MessageDlg(Format(_(SCouldNotWriteServerFile), [ServerFile]), mtError, [mbAbort], 0);
-      fIsAvailable := False;
+      Vcl.Dialogs.MessageDlg(Format(_(SCouldNotWriteServerFile), [fServerFile]), mtError, [mbAbort], 0);
+      fServerIsAvailable := False;
     end;
   end;
 
-  if fIsAvailable then begin
-    RemoteServer := TExternalTool.Create;
-    RemoteServer.CaptureOutput := False;
-    RemoteServer.ApplicationName := '$[PythonExe]';
-    RemoteServer.Parameters := Format('"%s" %d "%s"', [ServerFile, fSocketPort, fRpycPath]);
-    try
-      fIsAvailable := fIsAvailable and CreateAndConnectToServer;
-    except
-      on E: Exception do begin
-        fIsAvailable := False;
-        Vcl.Dialogs.MessageDlg(_(SErrorCreatingRemoteEngine) + E.Message, mtError, [mbAbort], 0);
-      end;
-    end;
-    if not (fIsAvailable and fConnected) then
-      Vcl.Dialogs.MessageDlg(_(SCouldNotConnectRemoteEngine), mtError, [mbAbort], 0)
-  end;
+  CreateAndConnectToServer;
 end;
 
 destructor TPyRemoteInterpreter.Destroy;
@@ -558,7 +540,6 @@ begin
   end;
   VarClear(fOldSysModules);
   FreeAndNil(ServerProcess);
-  FreeAndNil(RemoteServer);
 
   PyControl.InternalInterpreter.SysPathRemove(fRpycPath);
   inherited;
@@ -743,6 +724,25 @@ begin
   Result := TRemNameSpaceItem.Create(aName, aPyObject, Self);
 end;
 
+procedure TPyRemoteInterpreter.CreateAndConnectToServer;
+begin
+  try
+    CreateAndRunServerProcess;  // Sets fServerIsAvailable to true
+    if FServerIsAvailable then ConnectToServer;  // Sets fConnected to true
+  except
+    on E: Exception do
+    begin
+      fConnected := False;
+      Vcl.Dialogs.MessageDlg(_(SErrorCreatingRemoteEngine) + E.Message, mtError, [mbAbort], 0);
+    end;
+  end;
+  if not (fServerIsAvailable and fConnected) then
+  begin
+    Vcl.Dialogs.MessageDlg(_(SCouldNotConnectRemoteEngine), mtError, [mbAbort], 0);
+    ShutDownServer;
+  end;
+end;
+
 procedure TPyRemoteInterpreter.ProcessServerOuput(Sender: TObject;
   const S: string);
 begin
@@ -754,21 +754,32 @@ begin
 //  end);
 end;
 
-procedure TPyRemoteInterpreter.CreateServerProcess;
+procedure TPyRemoteInterpreter.CreateAndRunServerProcess;
 begin
+  fServerIsAvailable := False;
   ServerProcess := TJvCreateProcess.Create(nil);
   with ServerProcess do
   begin
     Name := 'PyScripterServerProcess';
-    ConsoleOptions := [coRedirect];
+    CommandLine := AddQuotesUnless(PrepareCommandLine('$[PythonExe]')) +
+      Format(' "%s" %d "%s"', [fServerFile, fSocketPort, fRpycPath]);
+    ConsoleOptions := [coOwnerData, coRedirect];
     CreationFlags := CreationFlags + [cfCreateNoWindow];
-    StartupInfo.ForceOnFeedback := False;
     StartupInfo.ForceOffFeedback := True;
-    StartupInfo.DefaultWindowState := True;
-    StartupInfo.ShowWindow := swNormal;
     OnRawRead := ProcessServerOuput;
     OnErrorRawRead := ProcessServerOuput;
+
+    // Repeat here to make sure it is set right
+    MaskFPUExceptions(PyIDEOptions.MaskFPUExceptions);
+
+    // Execute Process
+    ServerProcess.Run;
+
+    Sleep(100);  // give it some time
+
+    fServerIsAvailable := State = psWaiting;
   end;
+  if not fServerIsAvailable then FreeAndNil(ServerProcess);
 end;
 
 procedure TPyRemoteInterpreter.ReInitialize;
@@ -779,13 +790,7 @@ begin
     dsDebugging, dsRunning:
       begin
         SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
-        try
-          ShutDownServer;  // sets fIsConnected to False
-          if ServerProcess.State <> psReady then
-            Vcl.Dialogs.MessageDlg(_(SCouldNotShutDownRemoteEngine), mtError, [mbAbort], 0);
-        except
-          // swalow exceptions
-        end;
+        ShutDownServer;  // sets fIsConnected to False
         GetPythonEngine.PyErr_Clear;
         //  Running/Debugging will detect that fIsConnected is false and
         //  finish run/debug orderly and post a WM_REINITINTERPRETER message
@@ -794,28 +799,23 @@ begin
     dsInactive:
       begin
         ShutDownServer;
-        if ServerProcess.State = psReady then begin
-          fIsAvailable := fIsAvailable and CreateAndConnectToServer;
-          if not (fIsAvailable and fConnected) then
-            Vcl.Dialogs.MessageDlg(_(SCouldNotConnectRemoteEngine), mtError, [mbAbort], 0)
-          else begin
-            PythonIIForm.AppendText(sLineBreak + _(SRemoteInterpreterInit));
-            PythonIIForm.AppendPrompt;
-            // Recreate the Active debugger
-            PyControl.ActiveDebugger := TPyRemDebugger.Create(Self);
+        CreateAndConnectToServer;
+        if fServerIsAvailable and fConnected then begin
+          PythonIIForm.AppendText(sLineBreak + _(SRemoteInterpreterInit));
+          PythonIIForm.AppendPrompt;
+          // Recreate the Active debugger
+          PyControl.ActiveDebugger := TPyRemDebugger.Create(Self);
 
-            // Add extra project paths
-            if Assigned(ActiveProject) then
-              ActiveProject.AppendExtraPaths;
+          // Add extra project paths
+          if Assigned(ActiveProject) then
+            ActiveProject.AppendExtraPaths;
 
-            PyControl.DoStateChange(dsInactive);
-          end;
-        end else
-          Vcl.Dialogs.MessageDlg(_(SCouldNotShutDownRemoteEngine), mtError, [mbAbort], 0);
+          PyControl.DoStateChange(dsInactive);
+        end;
       end;
-//    else
-//      // Should not happen.  Reinitialise is not enabled for other states
-//      Exit;
+    else
+      // Should not happen.  Reinitialise is not enabled for other states
+      Assert(False, Format(SInternalError, ['ShutdownServer']));
   end;
 end;
 
@@ -853,7 +853,7 @@ begin
   if ARunConfig.WorkingDir <> '' then
     Path := Parameters.ReplaceInText(ARunConfig.WorkingDir);
   if Length(Path) <= 1 then
-    Path := WideGetTempDir;
+    Path := GetWindowsTempFolder;
   OldPath := RPI.rem_getcwdu();
 
   // Change the current path
@@ -885,7 +885,7 @@ begin
     Timer.Stop;
 
     try
-      ServeConnection(500);
+      if Connected then ServeConnection(500);
     except
       fConnected := False;
     end;
@@ -917,8 +917,6 @@ begin
       PythonIIForm.AppendPrompt;
       CheckConnected(True, False);
       if Connected then begin
-        // happpens when the remote server was shutdown
-
         // Restore the command line parameters
         RestoreCommandLine;
 
@@ -966,7 +964,7 @@ begin
     begin
       PyControl.DoYield(False);
       try
-        ServeConnection(500);
+        if Connected then ServeConnection(500);
       except
         fConnected := False;
       end;
@@ -999,51 +997,21 @@ begin
   end;
 end;
 
-function TPyRemoteInterpreter.CreateAndConnectToServer : Boolean;
+procedure TPyRemoteInterpreter.ConnectToServer;
 var
-  Arguments: string;
-  AppName: string;
   SuppressOutput : IInterface;
   I: Integer;
   Source : string;
   InitScriptName : string;
   PySource : Variant;
 begin
-  Result := False;
+  fConnected := False;
 
-  Assert(ServerProcess.State = psReady,
-    'Trying to create servrer when the server process is busy');
-
-  AppName := AddQuotesUnless(PrepareCommandLine(RemoteServer.ApplicationName));
-  Arguments := PrepareCommandLine(RemoteServer.Parameters);
-  ServerProcess.WaitForTerminate := RemoteServer.WaitForTerminate;
-
-  // Repeat here to make sure it is set right
-  MaskFPUExceptions(PyIDEOptions.MaskFPUExceptions);
-
-  // Check whether a process is still running
-  Assert(ServerProcess.State = psReady, Format(_(SInternalError), ['StartServer']));
-  with ServerProcess do
-  begin
-    // According to the Help file it is more robust to add the appname to the command line
-    // ApplicationName := AppName;
-    CommandLine := Trim(AppName + ' ' + Arguments);
-    if RemoteServer.UseCustomEnvironment then
-      Environment.Assign(RemoteServer.Environment);
-    // Execute Process
-    Run;
-  end;
-  Sleep(100);  // give it sometime
-
-  // Now try to connect to it
   SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
-  if ServerProcess.State = psReady then
-    Result := False // S
-  else
+  if ServerProcess.State = psWaiting then
     for i := 1 to 10 do begin
       try
         Conn := Rpyc.classic.connect('localhost', fSocketPort);
-        Result := True;
         fConnected := True;
         break;
       except
@@ -1052,7 +1020,7 @@ begin
       end;
     end;
 
-  if Result then begin
+  if fConnected then begin
     // Redirect Output
     OutputRedirector := Rpyc.classic.redirected_stdio(Conn);
     OutputRedirector.__enter__();
@@ -1064,12 +1032,10 @@ begin
 /////////////////////////////////////////////////////
 //    Conn.namespace.__name__ := '__main__';
     // Create the remote interpreter
-    with GetPythonEngine do begin
-      if IsPython3000 then
-        InitScriptName := 'Rpyc_Init3000'
-      else
-        InitScriptName := 'Rpyc_Init';
-    end;
+    if IsPython3000 then
+      InitScriptName := 'Rpyc_Init3000'
+    else
+      InitScriptName := 'Rpyc_Init';
 
     Source := CleanEOLs(
       CommandsDataModule.JvMultiStringHolder.StringsByName[InitScriptName].Text)+#10;
@@ -1128,7 +1094,7 @@ begin
   Argv := Conn.modules.sys.argv;
   // Workaround due to PREFER_UNICODE flag to make sure
   // no conversion to Unicode and back will take place
-  if GetPythonEngine.IsPython3000 then        // Issue 425
+  if IsPython3000 then        // Issue 425
     Argv.append(VarPythonCreate(ARunConfig.ScriptName))
   else
     Argv.append(VarPythonCreate(AnsiString(ARunConfig.ScriptName)));
@@ -1139,7 +1105,7 @@ begin
     P := PChar(S);
     while P[0] <> #0 do begin
       P := GetParamStr(P, Param);
-      if GetPythonEngine.IsPython3000 then
+      if IsPython3000 then
         Argv.append(VarPythonCreate(Param))
       else
         Argv.append(VarPythonCreate(AnsiString(Param)))
@@ -1152,39 +1118,49 @@ procedure TPyRemoteInterpreter.ShutDownServer;
 var
   OldExceptHook : Variant;
 begin
-  if ServerProcess.State <> psReady then begin
-
-    if not (csDestroying in PyIDEMainForm.ComponentState) then begin
-      VariablesWindow.ClearAll;
-      UnitTestWindow.ClearAll;
-      CallStackWindow.ClearAll;
-    end;
-    // Do not destroy Remote Debugger
-    // PyControl.ActiveDebugger := nil;
-
-//    if VarIsPython(OutputRedirector) then
-//      OutputRedirector._restored:= True;
-    VarClear(OutputRedirector);
-    FreeAndNil(fMainModule);
-    VarClear(fOldArgv);
-    VarClear(RPI);
-    if fConnected then
-      try
-        fConnected := False;
-        Conn.close();
-      except
+  if Assigned(ServerProcess) and fServerIsAvailable and  (ServerProcess.State <> psReady) then begin
+    try
+      if not (csDestroying in PyIDEMainForm.ComponentState) then begin
+        VariablesWindow.ClearAll;
+        UnitTestWindow.ClearAll;
+        CallStackWindow.ClearAll;
       end;
-    VarClear(Conn);
+      // Do not destroy Remote Debugger
+      // PyControl.ActiveDebugger := nil;
 
-    // Restore excepthook
-    OldExceptHook := Varpyth.SysModule.__excepthook__;
-    SysModule.excepthook := OldExceptHook;
+      // if VarIsPython(OutputRedirector) then
+      //    OutputRedirector._restored:= True;
+      VarClear(OutputRedirector);
+      FreeAndNil(fMainModule);
+      VarClear(fOldArgv);
+      VarClear(RPI);
+      if fConnected then
+        try
+          Conn.close();  // closes and shuts down SimpleServer
+        except
+        end;
+      VarClear(Conn);
+      fConnected := False;
 
-    ServerProcess.TerminateTree;
-    Sleep(500);  // to free the handles
-    ServerProcess.Free;
-    CreateServerProcess;
+      // Restore excepthook
+      OldExceptHook := Varpyth.SysModule.__excepthook__;
+      SysModule.excepthook := OldExceptHook;
+
+      Sleep(100);   // for the JvCreateProcess threads to run
+      CheckSynchronize(100);  // DoThreadTerminated is called by a thread via Synchronize
+      Application.ProcessMessages; // To handle CM_THREADTERMINATED messages
+      if ServerProcess.State <> psReady then
+      begin
+        ServerProcess.TerminateTree;
+        Sleep(500);  // to free the handles
+      end;
+    except
+     // swallow exceptions
+    end;
   end;
+  FreeAndNil(ServerProcess);
+  fServerIsAvailable := False;
+  fConnected := False;
 end;
 
 procedure TPyRemoteInterpreter.StringsToSysPath(Strings: TStrings);
@@ -1476,7 +1452,7 @@ begin
     with GI_EditorFactory.Editor[i] do
       if HasPythonfile and (FileName = '') then
       begin
-        if GetPythonEngine.IsPython3000 then
+        if fRemotePython.IsPython3000 then
           Source := CleanEOLs(SynEdit.Text)+WideLF
         else
           Source := CleanEOLs(EncodedText)+#10;
@@ -1560,7 +1536,7 @@ begin
   if ARunConfig.WorkingDir <> '' then
     Path := Parameters.ReplaceInText(ARunConfig.WorkingDir);
   if Length(Path) <= 1 then
-    Path := WideGetTempDir;
+    Path := GetWindowsTempFolder;
   OldPath := fRemotePython.RPI.rem_getcwdu();
 
   // Change the current path
@@ -1624,7 +1600,7 @@ begin
     Timer.Stop;
 
     try
-      fRemotePython.ServeConnection(500);
+      if fRemotePython.Connected then fRemotePython.ServeConnection(500);
     except
       fRemotePython.fConnected := False;
     end;
@@ -1664,7 +1640,6 @@ begin
 
       fRemotePython.CheckConnected(True, False);
       if fRemotePython.Connected then begin
-        // happpens when the remote server was shutdown
         MakeFrameActive(nil);
 
         // Restore the command line parameters

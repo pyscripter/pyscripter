@@ -275,6 +275,9 @@ Const
   SScpError5 = 'Scp Error: Connection lost for some reason';
   SScpOtherError = 'Scp Error: Unspecified failure';
   SSSHUnknownServer = 'Unknown server "%s"';
+  SSSHPythonError = 'Failed to execute Python ("%s") on the SSH server';
+  SSHVersionMismatch = 'Local python version is %s and remote python version is %s. '+
+    'To use this SSH server please switch to python version %1:s';
 
   // do not localize further
 
