@@ -6,9 +6,6 @@
             connected via an SSH tunnel
  History:
  -----------------------------------------------------------------------------}
-//  ssh username@hostname -L 127.0.0.1:port:127.0.0.1:port -N
-//  ssh kiria@192.168.1.5 /c/python/python36/python -c '"import tempfile;print(tempfile.gettempdir())"'
-
 
 unit cPySSHDebugger;
 
@@ -19,9 +16,9 @@ uses
   System.UITypes,
   System.SysUtils,
   System.Classes,
-  JvCreateProcess,
+  System.Threading,
+  JclSysUtils,
   PythonEngine,
-  uEditAppIntfs,
   cPyBaseDebugger,
   cPyDebugger,
   cPyRemoteDebugger,
@@ -35,9 +32,15 @@ type
     fIs3K : Boolean;
     fRemServerFile : string;
     fRemRpycFile : string;
+    TunnelProcessOptions : TJclExecuteCmdProcessOptions;
+    TunnelProcessInfo: TProcessInformation;
+    TunnelTask : ITask;
+    fShuttingDown : Boolean;
     function ProcessPlatformInfo(Info: string; out Is3k: Boolean;
       out Sep: Char; out TempDir: string): boolean;
+    procedure StoreTunnelProcessInfo(const ProcessInfo: TProcessInformation);
   protected
+    function SystemTempFolder: string; override;
     procedure CreateAndRunServerProcess; override;
     procedure ShutDownServer;  override;
   public
@@ -47,28 +50,33 @@ type
     PythonCommand : string;
     PathSeparator : Char;
     TempDir : string;
-
+    PythonVersion : string;
+    RemotePlatform : string;
     function IsPython3000 : Boolean; override;
+    function ToPythonFileName(const FileName: string): string; override;
+    function FromPythonFileName(const FileName: string): string; override;
 
     constructor Create(SSHServer : TSSHServer);
     destructor Destroy; override;
   end;
 
   TPySSHDebugger = class(TPyRemDebugger)
-  { Remote debugger using Rpyc for communication with an SSH server }
+  { Rpyc based remote Python Debugger running on an SSH server }
+  public
+    procedure Abort; override;
   end;
-
 
 implementation
 
 Uses
-  System.Threading,
   Vcl.Dialogs,
-  JclSysUtils,
+  Vcl.Forms,
   StringResources,
   cPySupportTypes,
   cPyScripterSettings,
-  System.StrUtils;
+  System.StrUtils,
+  uCommonFunctions,
+  cPyControl;
 
 { TPySSHInterpreter }
 
@@ -100,9 +108,9 @@ begin
   Task.Start;
 
   if Task.Wait(3000) and fServerIsAvailable then
-    fServerIsAvailable := ProcessPlatformInfo(CommandOutput, fIs3K, PathSeparator, TempDir)
-  else
-  begin
+    fServerIsAvailable := ProcessPlatformInfo(CommandOutput, fIs3K, PathSeparator, TempDir);
+
+  if not fServerIsAvailable then begin
     Vcl.Dialogs.MessageDlg(Format(SSSHPythonError, [PythonCommand]), mtError, [mbAbort], 0);
     Exit;
   end;
@@ -116,14 +124,25 @@ begin
     Exit;
   end;
 
+  TunnelProcessOptions := TJclExecuteCmdProcessOptions.Create('');
+  TunnelProcessOptions.BeforeResume := StoreTunnelProcessInfo;
+  TunnelProcessOptions.MergeError := True;
+  TunnelProcessOptions.CreateProcessFlags := 
+    TunnelProcessOptions.CreateProcessFlags and CREATE_NO_WINDOW;
 
   inherited Create(peSSH);
+  DebuggerClass := TPySSHDebugger;
+  if fConnected then begin
+    PythonVersion := Conn.modules.sys.version;
+    RemotePlatform := Conn.modules.sys.platform;
+  end;
 end;
 
 procedure TPySSHInterpreter.CreateAndRunServerProcess;
 Var
   ErrorMsg : string;
 begin
+  fShuttingDown := False;
   fServerIsAvailable := False;
   // Upload server and rpyc files
   fRemServerFile := TempDir + PathSeparator + RemoteServerBaseName;
@@ -141,39 +160,38 @@ begin
     Exit;
   end;
 
+  // Find a new port
+  Randomize;
+  fSocketPort := 18000 + Random(1000);
+
   // Create and Run Server process
-  ServerProcess := TJvCreateProcess.Create(nil);
-  with ServerProcess do
-  begin
-    Name := 'PyScripterServerProcess';
-    CommandLine := Format('ssh %s %s@%s %s ',
-                    [SshCommandOptions, UserName, HostName, PythonCommand]) +
-                   Format('"%s" %d "%s"', [fRemServerFile, fSocketPort, fRemRpycFile]) ;
-    ConsoleOptions := [coOwnerData, coRedirect];
-    CreationFlags := CreationFlags + [cfCreateNoWindow];
-    StartupInfo.ForceOffFeedback := True;
-    OnRawRead := ProcessServerOuput;
-    OnErrorRawRead := ProcessServerOuput;
+  ServerProcessOptions.CommandLine := Format('ssh -n %s %s@%s %s ',
+    [SshCommandOptions, UserName, HostName, PythonCommand]) +
+    Format('"%s" %d "%s"', [fRemServerFile, fSocketPort, fRemRpycFile]);
+  ServerTask := TTask.Create(procedure
+    begin
+      ExecuteCmdProcess(ServerProcessOptions);
+    end).Start;
+  Sleep(100);
+  fServerIsAvailable := ServerTask.Status = TTaskStatus.Running;
 
-    // Repeat here to make sure it is set right
-    MaskFPUExceptions(PyIDEOptions.MaskFPUExceptions);
+  Application.ProcessMessages;
+  if not fServerIsAvailable then Exit;
 
-    // Execute Process
-    ServerProcess.Run;
-
-    Sleep(100);  // give it some time
-
-    fServerIsAvailable := State = psWaiting;
-  end;
-  if not fServerIsAvailable then FreeAndNil(ServerProcess);
-
-  // TODO: Create and run Tunnel Process
-
+  TunnelProcessOptions.CommandLine := Format('ssh -n %s %s@%s -L 127.0.0.1:%d:127.0.0.1:%3:d -N',
+    [SshCommandOptions, UserName, HostName, fSocketPort]);
+  TunnelTask := TTask.Create(procedure
+    begin
+      ExecuteCmdProcess(TunnelProcessOptions);
+    end).Start;
+  Sleep(100);
+  fServerIsAvailable := TunnelTask.Status = TTaskStatus.Running;
 end;
 
 destructor TPySSHInterpreter.Destroy;
 begin
   inherited;
+  FreeAndNil(TunnelProcessOptions);
 end;
 
 function TPySSHInterpreter.IsPython3000: Boolean;
@@ -215,16 +233,80 @@ end;
 procedure TPySSHInterpreter.ShutDownServer;
 Var
   CommandOutput : string;
-var
-  OldExceptHook : Variant;
 begin
+  fShuttingDown := True;
   inherited;
-  if fRemServerFile <> '' then
-    Execute(Format('ssh %s %s@%s %s rm %s',
-      [SshCommandOptions, UserName, HostName, PythonCommand, fRemServerFile]), CommandOutput);
-  if fRemRpycFile <> '' then
-    Execute(Format('ssh %s %s@%s %s rm %s',
-      [SshCommandOptions, UserName, HostName, PythonCommand, fRemServerFile]), CommandOutput);
+  // Delete temp files
+  if (fRemServerFile <> '') and (Execute(Format('ssh %s %s@%s rm %s',
+      [SshCommandOptions, UserName, HostName, fRemServerFile]), CommandOutput) = 0) 
+  then
+    fRemServerFile := '';
+  if (fRemRpycFile <> '')  and (Execute(Format('ssh %s %s@%s rm %s',
+      [SshCommandOptions, UserName, HostName, fRemRpycFile]), CommandOutput) = 0)
+  then
+    fRemRpycFile := '';
+  // shut down tunnel
+  if Assigned(TunnelTask) and (TunnelTask.Status = TTaskStatus.Running) then begin
+    RaiseKeyboardInterrupt(TunnelProcessInfo.dwProcessId);
+    Sleep(100);
+    if TunnelTask.Status = TTaskStatus.Running then
+      TerminateProcessTree(TunnelProcessInfo.dwProcessId);
+  end;
+  TunnelTask := nil;
+end;
+
+procedure TPySSHInterpreter.StoreTunnelProcessInfo(
+  const ProcessInfo: TProcessInformation);
+begin
+  TunnelProcessInfo := ProcessInfo;
+end;
+
+function TPySSHInterpreter.SystemTempFolder: string;
+begin
+  Result := TempDir;
+end;
+
+function TPySSHInterpreter.ToPythonFileName(const FileName: string): string;
+Var
+  Server, FName : string;
+begin
+  if TUnc.Parse(FileName, Server, FName) and (Server = SSHServerName) then
+    Result := FName
+  else
+    Result := '<' + FileName + '>';
+end;
+
+function TPySSHInterpreter.FromPythonFileName(const FileName: string): string;
+begin
+  if FileName = '' then
+    Result := ''
+  else if FileName[1] ='<' then
+    Result := FileName
+  else
+    Result := TUnc.Format(SSHServerName, FileName);
+end;
+
+{ TPySSHDebugger }
+
+procedure TPySSHDebugger.Abort;
+begin
+  case PyControl.DebuggerState of
+    dsPostMortem: ExitPostMortem;
+    dsDebugging,
+    dsRunning: 
+      begin
+        if not TPySSHInterpreter(fRemotePython).fShuttingDown then
+          TThread.ForceQueue(nil, procedure
+          begin
+            TPySSHInterpreter(fRemotePython).Reinitialize;
+          end);
+      end;
+    dsPaused:
+      begin
+        fDebuggerCommand := dcAbort;
+        DoDebuggerCommand;
+      end;
+  end;
 end;
 
 end.

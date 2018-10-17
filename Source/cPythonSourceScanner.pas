@@ -274,7 +274,8 @@ uses
   cPySupportTypes,
   cPyBaseDebugger,
   cPyDebugger,
-  cPyControl;
+  cPyControl,
+  cSSHSupport;
 
 Const
   MaskChar = WideChar(#96);
@@ -1209,7 +1210,7 @@ var
   CurrentCount: Integer;
   j: Integer;
   Index: Integer;
-  Path: string;
+  Server, Path: string;
   PackageRootName: string;
   i: Integer;
   PythonPathAdder: IInterface;
@@ -1226,13 +1227,16 @@ begin
   //  Add from Globals
   for i := 0 to fGlobals.Count - 1 do
     SList.AddObject(TVariable(fGlobals[i]).Name, fGlobals[i]);
-  //  Add from imported modules
-  Path := ExtractFileDir(Self.fFileName);
+  // Add the path of the executed file to the Python path
+  if not TUnc.Parse(Self.FileName, Server, Path) then
+    Path := ExtractFileDir(Self.fFileName)
+  else
+    Path := '';
   if Length(Path) > 1 then
   begin
-    // Add the path of the executed file to the Python path
     PythonPathAdder :=  PyControl.InternalInterpreter.AddPathToPythonPath(Path);
   end;
+  //  Add from imported modules
   for i := 0 to fImportedModules.Count - 1 do
   begin
     ModuleImport := TModuleImport(fImportedModules[i]);

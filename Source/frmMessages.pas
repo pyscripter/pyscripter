@@ -83,7 +83,8 @@ implementation
 
 uses
   frmPyIDEMain, dmCommands, uCommonFunctions,
-  Clipbrd, VarPyth, JvGnugettext, StringResources;
+  Clipbrd, VarPyth, JvGnugettext, StringResources,
+  cPyControl;
 
 {$R *.dfm}
 Type
@@ -209,7 +210,7 @@ begin
         end;
         CodeObject := CurrentTraceback.tb_frame.f_code;
         AddMessage('    '+CodeObject.co_name,
-          CodeObject.co_filename, LineNo);
+          PyControl.ActiveInterpreter.FromPythonFileName(CodeObject.co_filename), LineNo);
         CurrentTraceback := CurrentTraceback.tb_next;
       end;
       ShowDockForm(Self);

@@ -442,7 +442,8 @@
 
   History:   v 3.5
           New Features
-            Open and work with remote files from Windows and Linux using SSH
+            Open and work with remote files from Windows and Linux machines as if they were local
+            Run and Debug files on remote Windows and Linux machines using SSH
             Upgraded rpyc to 4.x
           Issues addressed
             #907
@@ -2014,13 +2015,13 @@ end;
 procedure TPyIDEMainForm.actPythonEngineExecute(Sender: TObject);
 Var
   EngineType : TPythonEngineType;
-  SSHServer: TSSHServer;
+  SSHServer: string;
 begin
   EngineType := TPythonEngineType((Sender as TAction).Tag);
   if EngineType = peSSH then begin
     SSHServer := SelectSSHServer;
-    if Assigned(SSHServer) then
-      PyControl.ActiveSSHServerName := SSHServer.Name
+    if SSHServer <> '' then
+      PyControl.ActiveSSHServerName := SSHServer
     else
       Exit;
   end;
@@ -2250,6 +2251,7 @@ begin
   RunConfig.ExternalRun.Assign(ExternalPython);
   RunConfig.ExternalRun.Parameters := Parameters.ReplaceInText(RunConfig.ExternalRun.Parameters);
   RunConfig.ReinitializeBeforeRun := PyIDEOptions.ReinitializeBeforeRun;
+  RunConfig.WorkingDir := '';
 end;
 
 procedure TPyIDEMainForm.DebugActiveScript(ActiveEditor: IEditor;
@@ -2461,7 +2463,9 @@ var
   FileCommands : IFileCommands;
 begin
   for i := 0 to GI_EditorFactory.Count -1 do
-    if (GI_EditorFactory[i].FileName <> '') and GI_EditorFactory[i].Modified then begin
+    if ((GI_EditorFactory[i].FileName <> '') or (GI_EditorFactory[i].RemoteFileName <> ''))
+      and GI_EditorFactory[i].Modified then
+    begin
       FileCommands := GI_EditorFactory[i] as IFileCommands;
       if Assigned(FileCommands) then
         FileCommands.ExecSave;
@@ -2531,10 +2535,11 @@ begin
     if (FileName[1] ='<') and (FileName[Length(FileName)] = '>') then
       FileName :=  Copy(FileName, 2, Length(FileName)-2);
     Editor := GI_EditorFactory.GetEditorByNameOrTitle(FileName);
-    if not Assigned(Editor) and FileExists(FileName) then begin
+    if not Assigned(Editor) and (FileExists(FileName) or FileName.StartsWith('\\')) then begin
       try
         DoOpenFile(FileName, '', TabControlIndex(ActiveTabControl));
       except
+        Exit;
       end;
       Editor := GI_EditorFactory.GetEditorByNameOrTitle(FileName);
 
@@ -2542,7 +2547,6 @@ begin
         Editor.FileName.StartsWith(PyControl.PythonVersion.InstallPath, True)
       then
         Editor.ReadOnly := True;
-
     end;
     if Assigned(Editor) then begin
       Result := True;

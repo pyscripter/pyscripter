@@ -253,8 +253,8 @@ begin
     Assert(Assigned(fActiveThread));
     Assert(Integer(SelectedNode.Index) < fActiveThread.CallStack.Count);
     FrameData := SelectedNode.GetData;
-      if FrameData.FileName <> '' then
-        PyIDEMainForm.ShowFilePosition(FrameData.FileName, FrameData.Line, 1);
+    if FrameData.FileName <> '' then
+      PyIDEMainForm.ShowFilePosition(FrameData.FileName, FrameData.Line, 1);
   end;
 end;
 
@@ -344,7 +344,7 @@ begin
   with fActiveThread.CallStack[Node.Index] do
   begin
     FrameData.Func := FunctionName;
-    FrameData.FileName := FileName;
+    FrameData.FileName := PyControl.ActiveInterpreter.FromPythonFileName(FileName);
     FrameData.Line := Line;
   end;
 end;

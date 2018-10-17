@@ -165,7 +165,7 @@ type
     PS1, PS2, DebugPrefix, PMPrefix : string;
     PythonHelpFile : string;
     procedure PythonIOSendData(Sender: TObject; const Data: string);
-    procedure PrintInterpreterBanner;
+    procedure PrintInterpreterBanner(AVersion: string = ''; APlatform: string = '');
     function OutputSuppressor : IInterface;
     procedure WritePendingMessages;
     procedure ClearPendingMessages;
@@ -385,13 +385,14 @@ begin
     ExecuteBuffer(Buffer, Line);
 end;
 
-procedure TPythonIIForm.PrintInterpreterBanner;
+procedure TPythonIIForm.PrintInterpreterBanner(AVersion: string = ''; APlatform: string = '');
 var
-  SVersion, SPlatform, S: string;
+  S: string;
 begin
-  SVersion := SysModule.version;
-  SPlatform := SysModule.platform;
-  S := Format('*** Python %s on %s. ***' + sLineBreak, [SVersion, SPlatform]);
+  if AVersion = '' then AVersion := SysModule.version;
+  if APlatform = '' then APlatform := SysModule.platform;
+  AVersion := AVersion.Replace(Char($A), ' ');
+  S := Format('*** Python %s on %s. ***' + sLineBreak, [AVersion, APlatform]);
   if SynEdit.Lines.Count > 0 then AppendText(sLineBreak);
   AppendText(S);
   AppendText(PS1);
@@ -899,6 +900,8 @@ begin
       ErrLineNo := StrToIntDef(RegExpr.Match[3], 0);
       FileName := RegExpr.Match[1];
       //FileName := GetLongFileName(ExpandFileName(RegExpr.Match[1]));
+      if Assigned(PyControl.ActiveInterpreter) then
+        FileName := PyControl.ActiveInterpreter.FromPythonFileName(FileName);
       PyIDEMainForm.ShowFilePosition(FileName, ErrLineNo, 1);
     end else begin
       RegExpr.Expression := SWarningFilePosExpr;

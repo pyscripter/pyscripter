@@ -632,15 +632,22 @@ begin
   Code := InternalInterpreter.Compile(ARunConfig);
 
   if VarIsPython(Code) then begin
-    Path := ExtractFileDir(ARunConfig.ScriptName);
+
+    // Add the path of the script to the Python Path - Will be automatically removed
+    Path := InternalInterpreter.ToPythonFileName(ARunConfig.ScriptName);
+    if (Path.Length > 0) and (Path[1] <> '<') then
+      Path := ExtractFileDir(Path)
+    else
+      Path := '';
     SysPathRemove('');
-    if Length(Path) > 1 then
-      // Add the path of the executed file to the Python path - Will be automatically removed
+    if Path.Length > 1 then
       PythonPathAdder := AddPathToPythonPath(Path);
+
+    // Set the Working directory
     if ARunConfig.WorkingDir <> '' then
       Path := Parameters.ReplaceInText(ARunConfig.WorkingDir);
-    if Length(Path) <= 1 then
-      Path := GetWindowsTempFolder;
+    if Path.Length <= 1 then
+      Path := InternalInterpreter.SystemTempFolder;
     OldPath := GetCurrentDir;
 
     // Change the current path
@@ -893,8 +900,9 @@ begin
   InternalInterpreter.Debugger.clear_all_breaks();
   for i := 0 to GI_EditorFactory.Count - 1 do
     with GI_EditorFactory.Editor[i] do begin
-      FName := FileName;
-      if FName = '' then
+      if FileName <> '' then
+        FName := FileName
+      else
         FName := '<'+FileTitle+'>';
       for j := 0 to BreakPoints.Count - 1 do begin
         if not TBreakPoint(BreakPoints[j]).Disabled then begin
@@ -921,7 +929,7 @@ begin
   fLineCache.cache.clear();
   for i := 0 to GI_EditorFactory.Count - 1 do
     with GI_EditorFactory.Editor[i] do
-      if HasPythonfile and (FileName = '') then
+      if HasPythonfile and (FileName = '') and (RemoteFileName = '') then
       begin
         if InternalInterpreter.IsPython3000 then
           Source := CleanEOLs(SynEdit.Text)+WideLF
@@ -1029,16 +1037,16 @@ begin
 
   Editor := GI_EditorFactory.GetEditorByNameOrTitle(ARunConfig.ScriptName);
   if Assigned(Editor) then begin
-    FName := AnsiString(Editor.FileName);
-    if FName = '' then FName := AnsiString('<'+Editor.FileTitle+'>');
+    FName :=  GetPythonEngine.EncodeWindowsFilePath(Editor.FileName);
+    if FName = '' then FName := GetPythonEngine.EncodeWindowsFilePath('<'+Editor.FileTitle+'>');
     Source := CleanEOLs(Editor.EncodedText) + AnsiString(#10);
   end else begin
     try
-      FName := AnsiString(ARunConfig.ScriptName);
-      Source := CleanEOLs(FileToEncodedStr(string(FName))) + AnsiString(#10);
+      FName := GetPythonEngine.EncodeWindowsFilePath(ToPythonFileName(ARunConfig.ScriptName));
+      Source := CleanEOLs(FileToEncodedStr(ARunConfig.ScriptName)) + AnsiString(#10);
     except
       on E: Exception do begin
-        Vcl.Dialogs.MessageDlg(Format(_(SFileOpenError), [FName, E.Message]), mtError, [mbOK], 0);
+        Vcl.Dialogs.MessageDlg(Format(_(SFileOpenError), [ARunConfig.ScriptName, E.Message]), mtError, [mbOK], 0);
         System.SysUtils.Abort;
       end;
     end;
@@ -1130,9 +1138,9 @@ begin
     RunConfiguration.Free;
   end;
 
+  // Add the path of the imported script to the Python Path
   Path := ExtractFileDir(Editor.FileName);
-  if Length(Path) > 1 then begin
-    // Add the path of the executed file to the Python path
+  if Path.Length > 1 then begin
     PythonPathAdder := AddPathToPythonPath(Path, False);
     SysPathRemove('');
   end;
@@ -1216,18 +1224,18 @@ var
   SysMod : Variant;
   S, Param : string;
   P : PChar;
-//  List : TStringList;
-//  I: integer;
 begin
   SysMod := SysModule;
   fOldargv := SysMod.argv;
   SysMod.argv := NewPythonList;
   // Workaround due to PREFER_UNICODE flag to make sure
   // no conversion to Unicode and back will take place
+  S := ToPythonFileName(ARunConfig.ScriptName);
   if IsPython3000 then        // Issue 425
-    SysMod.argv.append(VarPythonCreate(ARunConfig.ScriptName))
+    SysMod.argv.append(VarPythonCreate(S))
   else
-    SysMod.argv.append(VarPythonCreate(AnsiString(ARunConfig.ScriptName)));
+    SysMod.argv.append(VarPythonCreate(AnsiString(S)));
+
   S := Trim(ARunConfig.Parameters);
   if S <> '' then begin
     S := Parameters.ReplaceInText(S);
@@ -1241,14 +1249,6 @@ begin
     end;
     PythonIIForm.AppendText(Format(_(SCommandLineMsg), [S]));
   end;
-//  List := TStringList.Create;
-//  try
-//    ExtractStrings([' '], [' '], PChar(S), List);
-//    for I := 0 to List.Count - 1 do
-//      SysMod.argv.append(AnsiDequotedStr(List[i], '"'));
-//  finally
-//    List.Free;
-//  end;
 end;
 
 procedure TPyInternalInterpreter.StringsToSysPath(Strings: TStrings);
@@ -1301,18 +1301,23 @@ begin
     mmResult := 0;
     Resolution := 100;
 
-    Path := ExtractFileDir(ARunConfig.ScriptName);
+    // Add the path of the executed file to the Python path - Will be automatically removed
+    Path := ToPythonFileName(ARunConfig.ScriptName);
+    if (Path.Length > 0) and (Path[1] <> '<') then
+      Path := ExtractFileDir(Path)
+    else
+      Path := '';
     SysPathRemove('');
     if Length(Path) > 1 then
-      // Add the path of the executed file to the Python path - Will be automatically removed
       PythonPathAdder := AddPathToPythonPath(Path);
+
+  // Set the Working directory
     if ARunConfig.WorkingDir <> '' then
       Path := Parameters.ReplaceInText(ARunConfig.WorkingDir);
-    if Length(Path) <= 1 then
-      Path := GetWindowsTempFolder;
+    if Path.Length <= 1 then
+      Path := SystemTempFolder;
     OldPath := GetCurrentDir;
 
-    // Change the current path
     try
       SetCurrentDir(Path)
     except

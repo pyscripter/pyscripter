@@ -15,7 +15,7 @@ Const
   SInvalidRegularExpression = 'Invalid Regular Expression: %s';
   SEmptyList = '(Empty List)';
   SCommandLineMsg  = 'Command Line : %s' + sLineBreak;
-  SEngineActive = '*** %s Python engine %s is active ***';
+  SEngineActive = '*** %s Python engine %sis active ***';
   SInterpreterNA = 'The internal Python interpreter is not available';
   SPythonInitError =
   'PyScripter cannot find the standard Python library modules.' + SLineBreak +
@@ -278,6 +278,7 @@ Const
   SSSHPythonError = 'Failed to execute Python ("%s") on the SSH server';
   SSHVersionMismatch = 'Local python version is %s and remote python version is %s. '+
     'To use this SSH server please switch to python version %1:s';
+  SSHUnknownServer = 'Unknown SSH server: "%s"';
 
   // do not localize further
 

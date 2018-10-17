@@ -101,7 +101,8 @@ uses
   cPyBaseDebugger,
   cPyScripterSettings,
   cPyDebugger,
-  cPyControl;
+  cPyControl,
+  cSSHSupport;
 
 { TPyScripterRefactor }
 
@@ -149,6 +150,7 @@ var
   ParsedModule : TParsedModule;
   Scope : TCodeElement;
   PythonPathAdder : IInterface;
+  Server, Path : string;
 begin
   Result := nil;
   if Initialize then begin
@@ -157,7 +159,14 @@ begin
       Exit;
     end;
     // Add the file path to the Python path - Will be automatically removed
-    PythonPathAdder := PyControl.InternalInterpreter.AddPathToPythonPath(ExtractFileDir(FileName));
+    if not TUnc.Parse(FileName, Server, Path) then
+      Path := ExtractFileDir(FileName)
+    else
+      Path := '';
+    if Length(Path) > 1 then
+    begin
+      PythonPathAdder :=  PyControl.InternalInterpreter.AddPathToPythonPath(Path);
+    end;
   end;
 
   // GetParsedModule
@@ -726,6 +735,7 @@ Var
   Scope : TCodeElement;
   PythonPathAdder : IInterface;
   Def : TBaseCodeElement;
+  Path, Server: string;
 begin
   if not InitializeQuery then begin
     ErrMsg := _(SRefactoryEngineBusy);
@@ -733,7 +743,14 @@ begin
   end;
 
   // Add the file path to the Python path - Will be automatically removed
-  PythonPathAdder := PyControl.InternalInterpreter.AddPathToPythonPath(ExtractFileDir(FileName));
+  if not TUnc.Parse(FileName, Server, Path) then
+    Path := ExtractFileDir(FileName)
+  else
+    Path := '';
+  if Length(Path) > 1 then
+  begin
+    PythonPathAdder :=  PyControl.InternalInterpreter.AddPathToPythonPath(Path);
+  end;
 
   // GetParsedModule
   ParsedModule := GetParsedModule(FileName, None);

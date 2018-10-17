@@ -524,22 +524,42 @@ begin
         ActiveDebugger := TPyInternalDebugger.Create;
         PyIDEOptions.PythonEngineType := peInternal;
       end;
-    peRemote, peRemoteTk, peRemoteWx:
+    peRemote, peRemoteTk, peRemoteWx, peSSH:
       begin
+        SSHServer := nil;
+        if Value = peSSH then begin
+          if ActiveSSHServerName = '' then begin
+            ActiveSSHServerName := SelectSSHServer;
+            if ActiveSSHServerName = '' then Exit;
+          end;
+          SSHServer := ServerFromName(ActiveSSHServerName);
+          if not Assigned(SSHServer) then
+          begin
+            Vcl.Dialogs.MessageDlg(Format(_(SSHUnknownServer), [ActiveSSHServerName]),
+              mtError, [mbAbort],0);
+            Exit;
+          end;
+        end;
         Application.ProcessMessages;
         Cursor := WaitCursor;
         // Destroy any active remote interpeter
         ActiveDebugger := nil;
         ActiveInterpreter := nil;
         try
-          RemoteInterpreter := TPyRemoteInterpreter.Create(Value);
+          if Value = peSSH then
+            RemoteInterpreter := TPySSHInterpreter.Create(SSHServer)
+          else
+            RemoteInterpreter := TPyRemoteInterpreter.Create(Value);
           Connected := RemoteInterpreter.Connected;
         except
           Connected := False;
         end;
         if Connected then begin
           ActiveInterpreter := RemoteInterpreter;
-          ActiveDebugger := TPyRemDebugger.Create(RemoteInterpreter);
+          if Value = peSSH then
+            ActiveDebugger := TPySSHDebugger.Create(RemoteInterpreter)
+          else
+            ActiveDebugger := TPyRemDebugger.Create(RemoteInterpreter);
           PyIDEOptions.PythonEngineType := Value;
 
           // Add extra project paths
@@ -553,15 +573,6 @@ begin
           PyIDEOptions.PythonEngineType := peInternal;
         end;
       end;
-    peSSH:
-      begin
-        SSHServer := ServerFromName(ActiveSSHServerName);
-        if Assigned(SSHServer) then
-        begin
-          with TPySSHInterpreter.Create(SSHServer) do
-            Free;
-        end;
-      end;
   end;
 
   case PyIDEOptions.PythonEngineType of
@@ -569,12 +580,14 @@ begin
     peRemote : Msg := Format(_(SEngineActive), ['Remote','']);
     peRemoteTk : Msg := Format(_(SEngineActive), ['Remote','(Tkinter) ']);
     peRemoteWx : Msg := Format(_(SEngineActive), ['Remote','(wxPython) ']);
-    peSSH : Msg := Format(_(SEngineActive), ['SSH', ActiveSSHServerName +' ']);
+    peSSH : Msg := Format(_(SEngineActive), ['SSH', Format('"%s" ', [ActiveSSHServerName])]);
   end;
   with PythonIIForm do begin
     if SynEdit.Lines[SynEdit.Lines.Count-1] = PS1 then
       SynEdit.Lines.Delete(SynEdit.Lines.Count -1);
     AppendText(sLineBreak + Msg);
+    if PyIDEOptions.PythonEngineType = peSSH then with ActiveInterpreter as TPySSHInterpreter do
+      PrintInterpreterBanner(PythonVersion, RemotePlatform);
     AppendPrompt;
   end;
 

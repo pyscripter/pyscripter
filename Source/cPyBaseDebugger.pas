@@ -45,7 +45,7 @@ type
 
   // Base (abstract) class for thread information
   TThreadInfo = class(TObject)
-    Thread_ID : integer;
+    Thread_ID : Int64;
     Name : string;
     Status : TThreadStatus;
     CallStack : TObjectList<TBaseFrameInfo>;
@@ -103,6 +103,7 @@ type
     fEngineType : TPythonEngineType;
     fMainModule : TModuleProxy;
     procedure CreateMainModule; virtual; abstract;
+    function SystemTempFolder: string; virtual;
   public
     destructor Destroy; override;
     procedure Initialize; virtual;
@@ -124,6 +125,9 @@ type
     procedure SetCommandLine(ARunConfig : TRunConfiguration); virtual; abstract;
     procedure RestoreCommandLine; virtual; abstract;
     procedure ReInitialize; virtual;
+    // FileName conversion
+    function ToPythonFileName(const FileName: string): string; virtual;
+    function FromPythonFileName(const FileName: string): string; virtual;
     // Main interface
     function ImportModule(Editor : IEditor; AddToNameSpace : Boolean = False) : Variant; virtual; abstract;
     procedure Run(ARunConfig : TRunConfiguration); virtual; abstract;
@@ -291,6 +295,7 @@ uses
   Vcl.Dialogs,
   VarPyth,
   JvGnuGettext,
+  JclSysInfo,
   StringResources,
   dmCommands,
   frmMessages,
@@ -298,7 +303,8 @@ uses
   uCommonFunctions,
   cPyControl,
   cPyDebugger,
-  cPyScripterSettings;
+  cPyScripterSettings,
+  cSSHSupport;
 
 { TPythonPathAdder }
 type
@@ -438,6 +444,26 @@ begin
       RunSource(AnsiSource, FileName, 'exec');
     end;
   end;
+end;
+
+function TPyBaseInterpreter.SystemTempFolder: string;
+begin
+  Result := GetWindowsTempFolder;
+end;
+
+function TPyBaseInterpreter.FromPythonFileName(const FileName: string): string;
+begin
+  Result := FileName;
+end;
+
+function TPyBaseInterpreter.ToPythonFileName(const FileName: string): string;
+Var
+  Server, FName : string;
+begin
+  if TUnc.Parse(FileName, Server, FName) then
+    Result := '<' + FileName + '>'
+  else
+    Result := FileName;
 end;
 
 { TBaseNameSpaceItem }

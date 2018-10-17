@@ -58,7 +58,7 @@ type
 
   function ServerFromName(ServerName: string): TSSHServer;
   function EditSSHServers : boolean;
-  function SelectSSHServer : TSSHServer;
+  function SelectSSHServer : string;
   function EditSSHConfiguration(Item : TCollectionItem) : boolean;
   procedure FillSSHConfigNames(Strings: TStrings);
 
@@ -146,15 +146,15 @@ begin
     TSSHServerItem, _('SSH Servers'), EditSSHConfiguration, 580);
 end;
 
-function SelectSSHServer : TSSHServer;
+function SelectSSHServer : string;
 Var
   Index : integer;
 begin
-  Result := nil;
+  Result := '';
   if SelectFromCollection(SSHServers,
     TSSHServerItem, _('Select SSH Server'), EditSSHConfiguration, 580, Index)
   then
-    Result := TSSHServerItem(SSHServers.Items[Index]).SSHServer;
+    Result := TSSHServerItem(SSHServers.Items[Index]).SSHServer.Name;
 end;
 
 function EditSSHConfiguration(Item : TCollectionItem) : boolean;
@@ -279,6 +279,8 @@ end;
 class function TUnc.Parse(const Unc: string; out Server,
   FileName: string): boolean;
 begin
+  Server := '';
+  FileName := '';
   Result := UncRE.Exec(Unc);
   if Result then begin
     Server := UncRE.Match[1];

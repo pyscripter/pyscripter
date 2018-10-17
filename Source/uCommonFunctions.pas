@@ -241,8 +241,17 @@ function DownloadUrlToFile(const URL, Filename: string): Boolean;
 procedure DrawGlyphPattern(DC: HDC; const R: TRect; Width, Height: Integer;
   const PatternBits; PatternColor: TColor);
 
-(* Extract File Name that works with both Windows and Unix file names *)
+(* ExtracFileName that works with both Windows and Unix file names *)
 function XtractFileName(const FileName: string): string;
+
+(* ExtractFileDir that works with both Windows and Unix file names *)
+function XtractFileDir(const FileName: string): string;
+
+(* Raises a keyword interrupt in another process *)
+procedure RaiseKeyboardInterrupt(ProcessId: DWORD);
+
+(* Terminates a process and all child processes *)
+function TerminateProcessTree(ProcessID: DWORD): Boolean;
 
 type
   (*  TStringlist that preserves the LineBreak and BOM of a read File *)
@@ -290,13 +299,36 @@ Var
 
 implementation
 Uses
-  Types, Forms, JclFileUtils, Math, VarPyth, JclBase,
-  StrUtils, PythonEngine, dmCommands, Dialogs,
-  StringResources, frmPythonII, JvGnugettext, MPCommonUtilities,
-  MPCommonObjects, MPShellUtilities, IOUtils, Vcl.Themes, System.AnsiStrings,
-  System.UITypes, Winapi.CommCtrl, JclStrings, SynEditMiscClasses,
-  cPyScripterSettings,   Winapi.UrlMon,
-  SynEditTextBuffer, VCL.ExtCtrls, cParameters,
+  Winapi.UrlMon,
+  Winapi.CommCtrl,
+  Winapi.TlHelp32,
+  System.Types,
+  System.StrUtils,
+  System.AnsiStrings,
+  System.UITypes,
+  System.IOUtils,
+  System.Math,
+  Vcl.Forms,
+  Vcl.Dialogs,
+  Vcl.ExtCtrls,
+  Vcl.Themes,
+  JclFileUtils,
+  JclBase,
+  JclStrings,
+  JvJCLUtils,
+  JvGnugettext,
+  MPCommonUtilities,
+  MPCommonObjects,
+  MPShellUtilities,
+  SynEditMiscClasses,
+  SynEditTextBuffer,
+  VarPyth,
+  PythonEngine,
+  dmCommands,
+  frmPythonII,
+  StringResources,
+  cPyScripterSettings,
+  cParameters,
   cPyControl,
   cSSHSupport;
 
@@ -690,9 +722,11 @@ end;
 
 function FileNameToModuleName(const FileName : string): string;
 Var
-  Path, Dir : string;
+  Path, Dir, Server : string;
 begin
   Result := ChangeFileExt(XtractFileName(FileName), '');
+  if TUnc.Parse(FileName, Server, Path) then Exit;
+
   Path := ExtractFileDir(FileName);
   Dir := ExtractFileName(Path);
 
@@ -923,7 +957,7 @@ end;
 
 procedure TSyncInputQuery.InputQuery;
 begin
-  Res := Dialogs.InputQuery(Caption, Prompt, Value);
+  Res := Vcl.Dialogs.InputQuery(Caption, Prompt, Value);
 end;
 
 function SyncWideInputQuery(const ACaption, APrompt: string; var Value: string): Boolean;
@@ -1139,7 +1173,7 @@ begin
 
   // work backwards
   Line := BlockEnd.Line;
-  Result := StrUtils.LeftStr(Strings[Line-1], BlockEnd.Char - 1);
+  Result := System.StrUtils.LeftStr(Strings[Line-1], BlockEnd.Char - 1);
   While (Line > BlockBegin.Line) and (Line > 1) do begin
     Dec(Line);
     Result := Strings[Line-1] + WideCRLF + Result;
@@ -1335,7 +1369,7 @@ begin
             except
               on UnicodeEncodeError do begin
                 Result :=
-                  Dialogs.MessageDlg(Format(_(SFileEncodingWarning),
+                  Vcl.Dialogs.MessageDlg(Format(_(SFileEncodingWarning),
                     [AFileName, PyEncoding]), mtWarning, [mbYes, mbCancel], 0)= mrYes;
                 if Result then begin
                   EncodedString := PyUnicode_AsEncodedString(UniPy,
@@ -1361,7 +1395,7 @@ begin
         EncodedText := AnsiString(wStr);
         if InformationLossWarning then
           Result :=
-            Dialogs.MessageDlg(Format(_(SFileEncodingWarning),
+            Vcl.Dialogs.MessageDlg(Format(_(SFileEncodingWarning),
               [AFileName, PyEncoding]), mtWarning, [mbYes, mbCancel], 0)= mrYes ;
       end;
     end;
@@ -1369,7 +1403,7 @@ begin
     EncodedText := AnsiString(wStr);
     if InformationLossWarning and not IsAnsiOnly(wStr) then begin
       Result :=
-        Dialogs.MessageDlg(Format(_(SFileEncodingWarning),
+        Vcl.Dialogs.MessageDlg(Format(_(SFileEncodingWarning),
         [AFileName, 'ANSI']), mtWarning, [mbYes, mbCancel], 0)= mrYes ;
     end;
   end;
@@ -1473,7 +1507,7 @@ begin
                   end;
                 end;
               except
-                Dialogs.MessageDlg(Format(_(SDecodingError),
+                Vcl.Dialogs.MessageDlg(Format(_(SDecodingError),
                    [AFileName, PyEncoding]), mtWarning, [mbOK], 0);
                 Lines.Text := string(FileText);
               end;
@@ -1491,7 +1525,7 @@ begin
       end;
     except
       on E: Exception do begin
-        Dialogs.MessageDlg(Format(_(SFileOpenError), [AFileName, E.Message]), mtError, [mbOK], 0);
+        Vcl.Dialogs.MessageDlg(Format(_(SFileOpenError), [AFileName, E.Message]), mtError, [mbOK], 0);
         Result := False;
       end;
     end;
@@ -1519,7 +1553,7 @@ begin
       try
         FileBackup(AFileName);
       except
-        Dialogs.MessageDlg(Format(_(SFailedToBackupFile), [AFileName]),
+        Vcl.Dialogs.MessageDlg(Format(_(SFailedToBackupFile), [AFileName]),
           mtWarning, [mbOK], 0);
       end;
     end;
@@ -1557,7 +1591,7 @@ begin
     end;
   except
     on E: Exception do begin
-      Dialogs.MessageDlg(Format(_(SFileSaveError), [AFileName, E.Message]), mtError, [mbOK], 0);
+      Vcl.Dialogs.MessageDlg(Format(_(SFileSaveError), [AFileName, E.Message]), mtError, [mbOK], 0);
       Result := False;
     end;
   end;
@@ -1584,14 +1618,28 @@ function FileToEncodedStr(const AFileName : string) : AnsiString;
 Var
   SL : TStrings;
   Encoding: TFileSaveFormat;
+  Server, FName, TempFileName, ErrorMsg : string;
 begin
+  if TUnc.Parse(AFileName, Server, FName) then
+  begin
+    TempFileName := ChangeFileExt(FileGetTempName('PyScripter'), ExtractFileExt(AFileName));
+    if not ScpDownload(Server, FName, TempFileName, ErrorMsg) then
+    begin
+      Vcl.Dialogs.MessageDlg(Format(_(SFileSaveError), [FName, ErrorMsg]), mtError, [mbOK], 0);
+      Abort;
+    end;
+  end
+  else
+     TempFileName := AFileName;
+
   SL := TStringList.Create;
   try
-    LoadFileIntoWideStrings(AFileName, SL, Encoding);
+    if not LoadFileIntoWideStrings(TempFileName, SL, Encoding) then Abort;
     WideStringsToEncodedText(AFileName, SL, Result, False);
   finally
     SL.Free;
   end;
+  if Server <> '' then DeleteFile(TempFileName);
 end;
 
 
@@ -1603,32 +1651,24 @@ Var
 begin
   if TUnc.Parse(AFileName, Server, FName) then
   begin
-    TempFileName := FileGetTempName('PyScripter');
+    TempFileName := ChangeFileExt(FileGetTempName('PyScripter'), ExtractFileExt(AFileName));
     if not ScpDownload(Server, FName, TempFileName, ErrorMsg) then
     begin
-      Dialogs.MessageDlg(Format(_(SFileSaveError), [FName, ErrorMsg]), mtError, [mbOK], 0);
+      Vcl.Dialogs.MessageDlg(Format(_(SFileSaveError), [FName, ErrorMsg]), mtError, [mbOK], 0);
       Abort;
-    end;
-    SL := TStringList.Create;
-    try
-      if not LoadFileIntoWideStrings(TempFileName, SL, Encoding) then
-        Abort;
-      Result := SL.Text;
-    finally
-      SL.Free;
     end;
   end
   else
-  begin
-    SL := TStringList.Create;
-    try
-      if not LoadFileIntoWideStrings(AFileName, SL, Encoding) then
-        Abort;
-      Result := SL.Text;
-    finally
-      SL.Free;
-    end;
+     TempFileName := AFileName;
+
+  SL := TStringList.Create;
+  try
+    if not LoadFileIntoWideStrings(TempFileName, SL, Encoding) then Abort;
+    Result := SL.Text;
+  finally
+    SL.Free;
   end;
+  if Server <> '' then DeleteFile(TempFileName);
 end;
 
 (*
@@ -2198,6 +2238,88 @@ var
 begin
   I := FileName.LastDelimiter(PathDelim + DriveDelim + '/');
   Result := FileName.SubString(I + 1);
+end;
+
+function XtractFileDir(const FileName: string): string;
+var
+  I: Integer;
+begin
+  I := FileName.LastDelimiter(PathDelim + DriveDelim + '/');
+  if (I > 0) and ((FileName.Chars[I] = PathDelim) or (FileName.Chars[I] = '/')) and
+    (not FileName.IsDelimiter(PathDelim + DriveDelim + '/', I-1)) then Dec(I);
+  Result := FileName.SubString(0, I + 1);
+end;
+
+function CtrlHandler( fdwCtrlType : DWORD): LongBool; stdcall;
+begin
+  Result := True;
+end;
+
+procedure RaiseKeyboardInterrupt(ProcessId: DWORD);
+Var
+  AttachConsole: Function (dwProcessId: DWORD): LongBool; stdCall;
+begin
+  AttachConsole := GetProcAddress (GetModuleHandle ('kernel32.dll'), 'AttachConsole');
+  if Assigned(AttachConsole) then
+  try
+    OSCheck(AttachConsole(ProcessId));
+    OSCheck(SetConsoleCtrlHandler(@CtrlHandler, True));
+    try
+      OSCheck(GenerateConsoleCtrlEvent(CTRL_C_EVENT, 0));
+      Sleep(100);
+    finally
+      OSCheck(SetConsoleCtrlHandler(@CtrlHandler, False));
+      OSCheck(FreeConsole);
+    end;
+  except
+  end;
+end;
+
+type
+  TProcessArray = array of DWORD;
+
+ function TerminateProcessTree(ProcessID: DWORD): Boolean;
+
+  function GetChildrenProcesses(const Process: DWORD; const IncludeParent: Boolean): TProcessArray;
+  var
+    Snapshot: Cardinal;
+    ProcessList: PROCESSENTRY32;
+    Current: Integer;
+  begin
+    Current := 0;
+    SetLength(Result, 1);
+    Result[0] := Process;
+    repeat
+      ProcessList.dwSize := SizeOf(PROCESSENTRY32);
+      Snapshot := CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+      if (Snapshot = INVALID_HANDLE_VALUE) or not Process32First(Snapshot, ProcessList) then
+        Continue;
+      repeat
+        if ProcessList.th32ParentProcessID = Result[Current] then
+        begin
+          SetLength(Result, Length(Result) + 1);
+          Result[Length(Result) - 1] := ProcessList.th32ProcessID;
+        end;
+      until Process32Next(Snapshot, ProcessList) = False;
+      Inc(Current);
+    until Current >= Length(Result);
+    if not IncludeParent then
+      Result := Copy(Result, 2, Length(Result));
+  end;
+
+var
+  Handle: THandle;
+  List: TProcessArray;
+  I: Integer;
+begin
+  Result := True;
+  List := GetChildrenProcesses(ProcessID, True);
+  for I := Length(List) - 1 downto 0 do
+    if Result then
+    begin
+      Handle := OpenProcess(PROCESS_TERMINATE, false, List[I]);
+      Result := (Handle <> 0) and TerminateProcess(Handle, 0) and CloseHandle(Handle);
+    end;
 end;
 
 initialization

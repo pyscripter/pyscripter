@@ -845,7 +845,7 @@ begin
 
   DoSetFileName('');
 
-  TempFileName := FileGetTempName('PyScripter');
+  TempFileName := ChangeFileExt(FileGetTempName('PyScripter'), ExtractFileExt(FileName));
   if not ScpDownload(ServerName, FileName, TempFileName, ErrorMsg) then begin
     Vcl.Dialogs.MessageDlg(Format(_(SFileOpenError), [FileName, ErrorMsg]), mtError, [mbOK], 0);
     Abort;
@@ -3020,8 +3020,9 @@ begin
             begin
               FName := GetEditor.GetFileNameOrTitle;
               // Add the file path to the Python path - Will be automatically removed
-              PythonPathAdder := PyControl.InternalInterpreter.AddPathToPythonPath
-                (ExtractFileDir(FName));
+              if GetEditor.FileName <> '' then
+                PythonPathAdder := PyControl.InternalInterpreter.AddPathToPythonPath
+                  (ExtractFileDir(FName));
 
               if PyScripterRefactor.InitializeQuery then
               begin

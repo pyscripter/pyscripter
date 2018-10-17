@@ -66,7 +66,8 @@ uses
   PythonEngine,
   cPyScripterSettings,
   cPySupportTypes,
-  cPyControl;
+  cPyControl,
+  cSSHSupport;
 
 procedure GetModuleList(Path: Variant; out InsertText, DisplayText : string);
 Var
@@ -292,7 +293,7 @@ function TImportStatementHandler.HandleCodeCompletion(const Line,
   DisplayText: string): Boolean;
 Var
   FNameVar : Variant;
-  Dir, DottedModName : string;
+  Dir, DottedModName, Server : string;
 begin
   Result := TRegExpressions.RE_Import.Exec(Copy(Line, 1, Caret.Char - 1));
   if Result then
@@ -300,9 +301,14 @@ begin
     // autocomplete import statement
     fFileName := FileName;
     // Add the file path to the Python path - Will be automatically removed
-    if fFileName <> '' then
-      PythonPathAdder := PyControl.InternalInterpreter.AddPathToPythonPath
-        (ExtractFileDir(fFileName));
+    if not TUnc.Parse(fFileName, Server, Dir) then
+      Dir := ExtractFileDir(fFileName)
+    else
+      Dir := '';
+    if Length(Dir) > 1 then
+    begin
+      PythonPathAdder :=  PyControl.InternalInterpreter.AddPathToPythonPath(Dir);
+    end;
 
     DottedModName := TRegExpressions.RE_Import.Match[3];
     if CharPos(DottedModName, '.') > 0 then begin
@@ -339,7 +345,7 @@ function TFromStatementHandler.HandleCodeCompletion(const Line,
 Var
   i : integer;
   FNameVar : Variant;
-  Dir, DottedModName : string;
+  Dir, DottedModName, Server : string;
   SArray : TStringDynArray;
 begin
   Result := TRegExpressions.RE_From.Exec(Copy(Line, 1, Caret.Char - 1));
@@ -353,7 +359,7 @@ begin
     DottedModName := TRegExpressions.RE_From.Match[2];
     if fPathDepth > 0 then
     begin
-      if FileName = '' then begin
+      if (FileName = '') or TUnc.Parse(FileName, Server, Dir) then begin
         Result := True;  // No completion
         Exit;
       end;
@@ -376,7 +382,7 @@ begin
     else
     begin
       // Add the file path to the Python path - Will be automatically removed
-      if fFileName <> '' then
+      if (fFileName <> '') and not TUnc.Parse(fFileName, Server, Dir) then
         PythonPathAdder := PyControl.InternalInterpreter.AddPathToPythonPath
           (ExtractFileDir(fFileName));
       if CharPos(DottedModName, '.') > 0 then begin
@@ -522,7 +528,7 @@ function TNamespaceCompletionHandler.HandleCodeCompletion(const Line,
   DisplayText: string): Boolean;
 Var
   TmpX, Index : Integer;
-  lookup, ErrMsg: string;
+  lookup, ErrMsg, Server, Dir: string;
   ParsedModule, ParsedBuiltInModule: TParsedModule;
   Scope: TCodeElement;
   Def: TBaseCodeElement;
@@ -544,8 +550,14 @@ begin
   Index := CharLastPos(lookup, WideChar('.'));
 
   // Add the file path to the Python path - Will be automatically removed
-  PythonPathAdder := PyControl.InternalInterpreter.AddPathToPythonPath
-    (ExtractFileDir(fFileName));
+  if not TUnc.Parse(fFileName, Server, Dir) then
+    Dir := ExtractFileDir(fFileName)
+  else
+    Dir := '';
+  if Length(Dir) > 1 then
+  begin
+    PythonPathAdder :=  PyControl.InternalInterpreter.AddPathToPythonPath(Dir);
+  end;
 
   if PyScripterRefactor.InitializeQuery then
   begin

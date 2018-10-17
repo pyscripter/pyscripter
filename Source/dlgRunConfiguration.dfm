@@ -50,9 +50,9 @@ inherited RunConfigurationForm: TRunConfigurationForm
         FocusControl = edDescription
       end
       object edDescription: TSpTBXEdit
-        Left = 92
+        Left = 96
         Top = 19
-        Width = 281
+        Width = 277
         Height = 21
         Anchors = [akLeft, akRight, akBottom]
         TabOrder = 0
@@ -196,7 +196,7 @@ inherited RunConfigurationForm: TRunConfigurationForm
       end
       object Label2: TSpTBXLabel
         Left = 8
-        Top = 18
+        Top = 16
         Width = 56
         Height = 19
         Caption = '&File Name:'
@@ -204,7 +204,7 @@ inherited RunConfigurationForm: TRunConfigurationForm
       end
       object Label6: TSpTBXLabel
         Left = 8
-        Top = 42
+        Top = 38
         Width = 65
         Height = 19
         Caption = '&Parameters:'
@@ -212,7 +212,7 @@ inherited RunConfigurationForm: TRunConfigurationForm
       end
       object Label7: TSpTBXLabel
         Left = 8
-        Top = 66
+        Top = 62
         Width = 95
         Height = 19
         Caption = 'Working &directory:'
@@ -284,8 +284,8 @@ inherited RunConfigurationForm: TRunConfigurationForm
         TabOrder = 0
       end
       object Label1: TSpTBXLabel
-        Left = 8
-        Top = 21
+        Left = 12
+        Top = 18
         Width = 69
         Height = 19
         Caption = 'Engine &Type:'
@@ -293,7 +293,7 @@ inherited RunConfigurationForm: TRunConfigurationForm
       end
       object cbEngineType: TSpTBXComboBox
         Left = 103
-        Top = 17
+        Top = 22
         Width = 103
         Height = 21
         Style = csDropDownList
@@ -312,7 +312,8 @@ inherited RunConfigurationForm: TRunConfigurationForm
           'Internal'
           'Remote'
           'Remote (Tk)'
-          'Remote (Wx)')
+          'Remote (Wx)'
+          'SSH')
       end
     end
     object GroupBox3: TSpTBXGroupBox
@@ -350,9 +351,9 @@ inherited RunConfigurationForm: TRunConfigurationForm
         TabOrder = 0
       end
       object SynOutputFileName: TSynEdit
-        Left = 92
-        Top = 43
-        Width = 259
+        Left = 96
+        Top = 45
+        Width = 255
         Height = 18
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
@@ -392,7 +393,7 @@ inherited RunConfigurationForm: TRunConfigurationForm
       end
       object Label4: TSpTBXLabel
         Left = 8
-        Top = 45
+        Top = 42
         Width = 56
         Height = 19
         Caption = 'File &Name:'

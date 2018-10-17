@@ -145,7 +145,6 @@ inherited CallStackWindow: TCallStackWindow
         Top = 0
         Height = 164
         Cursor = crSizeWE
-        Color = clNone
         ParentColor = False
         MinSize = 3
       end
