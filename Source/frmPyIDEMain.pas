@@ -444,7 +444,7 @@
           New Features
             Open and work with remote files from Windows and Linux machines as if they were local
             Run and Debug files on remote Windows and Linux machines using SSH
-            Upgraded rpyc to 4.x
+            Upgraded rpyc to 4.x.  As a result Python 2.5 is no longer supported.
           Issues addressed
             #907
 

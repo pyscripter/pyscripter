@@ -29,8 +29,6 @@ replace them with the notice and other provisions required by the GPL.
 If you do not delete the provisions above, a recipient may use your version
 of this file under either the MPL or the GPL.
 
-$Id: SynHighlighterPython.pas,v 1.18.2.5 2005/11/27 22:22:45 maelh Exp $
-
 You may retrieve the latest version of this file at the SynEdit home page,
 located at http://SynEdit.SourceForge.net
 
@@ -1660,7 +1658,7 @@ end;
 function TSynPythonInterpreterSyn.GetSampleSource: UnicodeString;
 begin
   Result :=
-    '*** Python 2.5.1 (r251:54863, Apr 18 2007, 08:51:08) [MSC v.1310 32 bit (Intel)] on win32. ***'#13#10 +
+    '*** Python 3.6.4 (v3.6.4:d48eceb, Dec 19 2017, 06:54:40) [MSC v.1900 64 bit (AMD64)] on win32. ***'#13#10 +
     '>>> def Greet(person):'#13#10 +
     '...     return "Hi "+ person'#13#10 +
     '>>> Greet("John")'#13#10 +

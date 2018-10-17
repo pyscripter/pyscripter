@@ -314,9 +314,7 @@ begin
   // first find an optional parameter specifying the expected Python version in the form of -PYTHONXY
   expectedVersion := '';
 
-  if CmdLineReader.readFlag('PYTHON25') then
-    expectedVersion := '2.5'
-  else if CmdLineReader.readFlag('PYTHON26') then
+  if CmdLineReader.readFlag('PYTHON26') then
     expectedVersion := '2.6'
   else if CmdLineReader.readFlag('PYTHON27') then
     expectedVersion := '2.7'
@@ -507,7 +505,11 @@ Var
   Msg : string;
   SSHServer: TSSHServer;
 begin
-  if not InternalPython.Loaded or (Value = PythonEngineType) then Exit;
+  if not InternalPython.Loaded or ((Value = PythonEngineType) and not
+   ((Value = peSSH) and (ActiveInterpreter is TPySSHInterpreter) and
+    (ActiveSSHServerName <> TPySSHInterpreter(ActiveInterpreter).SSHServerName)))
+  then
+    Exit;
 
   if DebuggerState <> dsInactive then begin
     Vcl.Dialogs.MessageDlg(_(SCannotChangeEngine), mtError, [mbAbort], 0);

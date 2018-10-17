@@ -113,7 +113,6 @@ inherited UnitTestWindow: TUnitTestWindow
         Height = 5
         Cursor = crSizeNS
         Align = alBottom
-        Color = clNone
         ParentColor = False
         MinSize = 1
       end
@@ -258,7 +257,7 @@ inherited UnitTestWindow: TUnitTestWindow
             Height = 85
             Align = alClient
             BorderStyle = bsNone
-            Font.Charset = DEFAULT_CHARSET
+            Font.Charset = ANSI_CHARSET
             Font.Color = clWindowText
             Font.Height = -11
             Font.Name = 'MS Shell Dlg 2'
@@ -286,7 +285,7 @@ inherited UnitTestWindow: TUnitTestWindow
     Left = 88
     Top = 48
     Bitmap = {
-      494C010107000900080010001000FFFFFF00FF10FFFFFFFFFFFFFFFF424D3600
+      494C0101070009000C0010001000FFFFFF00FF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000002000000001002000000000000020
       000000000000000000000000000000000000FFFFFF00FFFFFF00FFFFFF00FFFF
       FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF

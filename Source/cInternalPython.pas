@@ -176,9 +176,9 @@ begin
 
   fPythonEngine.Name := 'PythonEngine';
   fPythonEngine.AutoLoad := False;
-  fPythonEngine.DllName := 'python25.dll';
+  fPythonEngine.DllName := 'python27.dll';
   fPythonEngine.APIVersion := 1012;
-  fPythonEngine.RegVersion := '2.5';
+  fPythonEngine.RegVersion := '2.7';
   fPythonEngine.FatalAbort := False;
   fPythonEngine.FatalMsgDlg := False;
   fPythonEngine.UseLastKnownVersion := False;

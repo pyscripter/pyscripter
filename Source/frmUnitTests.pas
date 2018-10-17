@@ -202,13 +202,7 @@ begin
         end;
         PyTestCase := ExtractPythonObjectFrom(TestCase); // Store the TestCase PPyObject
         GetPythonEngine.Py_XINCREF(PyTestCase);
-
-        if GetPythonEngine.PyObject_HasAttrString(PyTestCase, '_testMethodName') = 1 then
-          //Python 2.5
-          TestName := TestCase._testMethodName
-        else
-          // earlier versions - hack to access a private variable!
-          TestName := TestCase._TestCase__testMethodName;
+        TestName := TestCase._testMethodName;
 
         TStringList(TestClasses.Objects[Index]).AddObject(TestName, TObject(PyTestCase));
         Inc(TestCount);
@@ -689,12 +683,7 @@ begin
     if NodeLevel = 0 then
       PythonObject := TestCase.__class__
     else begin
-      if GetPythonEngine.PyObject_HasAttrString(PyTestCase, '_testMethodName') = 1 then
-        //Python 2.5
-        TestName := TestCase._testMethodName
-      else
-        // earlier versions - hack to access a private variable!
-        TestName := TestCase._TestCase__testMethodName;
+      TestName := TestCase._testMethodName;
       PythonObject := BuiltinModule.getattr(TestCase, TestName);
     end;
     if VarIsPython(PythonObject) then begin
