@@ -76,7 +76,8 @@ Uses
   cPyScripterSettings,
   System.StrUtils,
   uCommonFunctions,
-  cPyControl;
+  cPyControl,
+  MPCommonUtilities;
 
 { TPySSHInterpreter }
 
@@ -100,12 +101,25 @@ begin
   PythonCommand := SSHServer.PythonCommand;
   //  Test SSH connection and get information about the server
   Task := TTask.Create(procedure
+  {$IFDEF CPUX86}
+  Var
+    IsWow64: LongBool;
+  {$ENDIF CPUX86}
   begin
+  {$IFDEF CPUX86}
+  IsWow64 := IsWow64Process(GetCurrentProcess, IsWow64) and IsWow64;
+  if IsWow64 then Wow64EnableWow64FsRedirection_MP(False);
+  try
+  {$ENDIF CPUX86}
     fServerIsAvailable := Execute(Format('ssh %s %s@%s %s -c ' +
     '''"import sys,os,tempfile;print(sys.version[0]);print(os.sep);print(tempfile.gettempdir())"''',
     [SshCommandOptions, UserName, HostName, PythonCommand]), CommandOutput) = 0
-  end);
-  Task.Start;
+  {$IFDEF CPUX86}
+  finally
+    if IsWow64 then Wow64EnableWow64FsRedirection_MP(True);
+  end;
+  {$ENDIF CPUX86}
+  end).Start;
 
   if Task.Wait(3000) and fServerIsAvailable then
     fServerIsAvailable := ProcessPlatformInfo(CommandOutput, fIs3K, PathSeparator, TempDir);
@@ -141,6 +155,9 @@ end;
 procedure TPySSHInterpreter.CreateAndRunServerProcess;
 Var
   ErrorMsg : string;
+  {$IFDEF CPUX86}
+  IsWow64: LongBool;
+  {$ENDIF CPUX86}
 begin
   fShuttingDown := False;
   fServerIsAvailable := False;
@@ -169,20 +186,47 @@ begin
     [SshCommandOptions, UserName, HostName, PythonCommand]) +
     Format('"%s" %d "%s"', [fRemServerFile, fSocketPort, fRemRpycFile]);
   ServerTask := TTask.Create(procedure
+    {$IFDEF CPUX86}
+    Var
+      IsWow64: LongBool;
+   {$ENDIF CPUX86}
     begin
+    {$IFDEF CPUX86}
+    IsWow64 := IsWow64Process(GetCurrentProcess, IsWow64) and IsWow64;
+    if IsWow64 then Wow64EnableWow64FsRedirection_MP(False);
+    try
+    {$ENDIF CPUX86}
       ExecuteCmdProcess(ServerProcessOptions);
+    {$IFDEF CPUX86}
+    finally
+      if IsWow64 then Wow64EnableWow64FsRedirection_MP(True);
+    end;
+  {$ENDIF CPUX86}
     end).Start;
   Sleep(100);
   fServerIsAvailable := ServerTask.Status = TTaskStatus.Running;
 
-  Application.ProcessMessages;
   if not fServerIsAvailable then Exit;
 
   TunnelProcessOptions.CommandLine := Format('ssh -n %s %s@%s -L 127.0.0.1:%d:127.0.0.1:%3:d -N',
     [SshCommandOptions, UserName, HostName, fSocketPort]);
   TunnelTask := TTask.Create(procedure
+    {$IFDEF CPUX86}
+    Var
+      IsWow64: LongBool;
+   {$ENDIF CPUX86}
     begin
+    {$IFDEF CPUX86}
+    IsWow64 := IsWow64Process(GetCurrentProcess, IsWow64) and IsWow64;
+    if IsWow64 then Wow64EnableWow64FsRedirection_MP(False);
+    try
+    {$ENDIF CPUX86}
       ExecuteCmdProcess(TunnelProcessOptions);
+    {$IFDEF CPUX86}
+    finally
+      if IsWow64 then Wow64EnableWow64FsRedirection_MP(True);
+    end;
+  {$ENDIF CPUX86}
     end).Start;
   Sleep(100);
   fServerIsAvailable := TunnelTask.Status = TTaskStatus.Running;
@@ -233,18 +277,31 @@ end;
 procedure TPySSHInterpreter.ShutDownServer;
 Var
   CommandOutput : string;
+  {$IFDEF CPUX86}
+  IsWow64: LongBool;
+  {$ENDIF CPUX86}
 begin
   fShuttingDown := True;
   inherited;
   // Delete temp files
+  {$IFDEF CPUX86}
+  IsWow64 := IsWow64Process(GetCurrentProcess, IsWow64) and IsWow64;
+  if IsWow64 then Wow64EnableWow64FsRedirection_MP(False);
+  try
+  {$ENDIF CPUX86}
   if (fRemServerFile <> '') and (Execute(Format('ssh %s %s@%s rm %s',
-      [SshCommandOptions, UserName, HostName, fRemServerFile]), CommandOutput) = 0) 
+      [SshCommandOptions, UserName, HostName, fRemServerFile]), CommandOutput) = 0)
   then
     fRemServerFile := '';
   if (fRemRpycFile <> '')  and (Execute(Format('ssh %s %s@%s rm %s',
       [SshCommandOptions, UserName, HostName, fRemRpycFile]), CommandOutput) = 0)
   then
     fRemRpycFile := '';
+  {$IFDEF CPUX86}
+  finally
+    if IsWow64 then Wow64EnableWow64FsRedirection_MP(True);
+  end;
+  {$ENDIF CPUX86}
   // shut down tunnel
   if Assigned(TunnelTask) and (TunnelTask.Status = TTaskStatus.Running) then begin
     RaiseKeyboardInterrupt(TunnelProcessInfo.dwProcessId);

@@ -77,6 +77,7 @@ Var
 implementation
 
 uses
+  WinApi.Windows,
   System.Threading,
   Vcl.Forms,
   jclSysUtils,
@@ -84,7 +85,8 @@ uses
   dlgCollectionEditor,
   dlgOptionsEditor,
   StringResources,
-  frmCommandOutput;
+  frmCommandOutput,
+  MPCommonUtilities;
 
 { TSSHConfig }
 
@@ -210,8 +212,22 @@ begin
     [SshCommandOptions, FromFile, ToFile]);
 
   Task := TTask.Create(procedure
+  {$IFDEF CPUX86}
+  Var
+    IsWow64: LongBool;
+  {$ENDIF CPUX86}
   begin
+  {$IFDEF CPUX86}
+  IsWow64 := IsWow64Process(GetCurrentProcess, IsWow64) and IsWow64;
+  if IsWow64 then Wow64EnableWow64FsRedirection_MP(False);
+  try
+  {$ENDIF CPUX86}
     ExitCode := JclSysUtils.Execute(Command, Output);
+  {$IFDEF CPUX86}
+  finally
+    if IsWow64 then Wow64EnableWow64FsRedirection_MP(True);
+  end;
+  {$ENDIF CPUX86}
   end);
   Task.Start;
   if not Task.Wait(ScpTimeout) then
