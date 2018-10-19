@@ -16,6 +16,7 @@ Uses
   SynEditTextBuffer,
   SynEditCodeFolding,
   SynEditKeyCmds,
+  WrapDelphi,
   uEditAppIntfs,
   cPySupportTypes,
   dlgSynEditOptions;
@@ -26,13 +27,14 @@ type
 
 {$METHODINFO ON}
   TBaseOptionsClass = class of TBaseOptions;
-  TBaseOptions = class(TPersistent)
+  TBaseOptions = class(TInterfacedPersistent)
     public
     constructor Create; virtual; abstract;
   end;
 
-  TPythonIDEOptions = class(TBaseOptions)
+  TPythonIDEOptions = class(TBaseOptions, IFreeNotification)
   private
+    fFreeNotifImpl : IFreeNotification;
     fTimeOut : integer;
     fUndoAfterSave : Boolean;
     fSaveFilesBeforeRun : Boolean;
@@ -109,6 +111,8 @@ type
     fFileExplorerBackgroundProcessing : Boolean;
     function GetPythonFileExtensions: string;
     procedure SetAutoCompletionFont(const Value: TFont);
+  protected
+    property FreeNotifImpl : IFreeNotification read fFreeNotifImpl implements IFreeNotification;
   public
     constructor Create; override;
     destructor Destroy; override;
@@ -407,6 +411,8 @@ end;
 
 constructor TPythonIDEOptions.Create;
 begin
+  fFreeNotifImpl := TFreeNotificationImpl.Create(Self);
+
   fTimeOut := 0; // 5000;
   fUndoAfterSave := True;
   fSaveFilesBeforeRun := True;

@@ -79,15 +79,34 @@ Uses
   cPyControl,
   MPCommonUtilities;
 
+function ExecuteCmd(Command : string; out CmdOutput: string): cardinal;
+Var
+  ProcessOptions : TJclExecuteCmdProcessOptions;
+begin
+  ProcessOptions := TJclExecuteCmdProcessOptions.Create(Command);
+  try
+    ProcessOptions.MergeError := False;
+    ProcessOptions.CreateProcessFlags :=
+      ProcessOptions.CreateProcessFlags and CREATE_NO_WINDOW and CREATE_NEW_CONSOLE;
+    ExecuteCmdProcess(ProcessOptions);
+    OutputDebugString(PChar(ProcessOptions.Error));
+    Result := ProcessOptions.ExitCode;
+    CmdOutput := ProcessOptions.Output;
+  finally
+    ProcessOptions.Free;
+  end;
+end;
+
+
 { TPySSHInterpreter }
 
 constructor TPySSHInterpreter.Create(SSHServer : TSSHServer);
 {
-   1. ssh kiria@192.168.1.5 pythoncommand -c '"import sys,os,tempfile;print(sys.version[0]);print(os.sep);print(tempfile.gettempdir())"'
-   2. scp server script, rpyc.zip
+   1. ssh user@host pythoncommand 'import sys,os,tempfile;print(sys.version[0]);print(os.sep);print(tempfile.gettempdir())'
+   2. Upload with scp server script and rpyc.zip
    3. Start python server process
-   4. start port tunneling process ssh username@hostname -L 127.0.0.1:port:127.0.0.1:port -N
-   5. connect to server
+   4. Start port tunneling process ssh user@host -L 127.0.0.1:port:127.0.0.1:port -N
+   5. Connect to server
 }
 Var
   CommandOutput : string;
@@ -111,8 +130,8 @@ begin
   if IsWow64 then Wow64EnableWow64FsRedirection_MP(False);
   try
   {$ENDIF CPUX86}
-    fServerIsAvailable := Execute(Format('ssh %s %s@%s %s -c ' +
-    '''"import sys,os,tempfile;print(sys.version[0]);print(os.sep);print(tempfile.gettempdir())"''',
+     fServerIsAvailable := Execute(Format('ssh %s %s@%s %s -c ' +
+      '''import sys,os,tempfile;print(sys.version[0]);print(os.sep);print(tempfile.gettempdir())''',
     [SshCommandOptions, UserName, HostName, PythonCommand]), CommandOutput) = 0
   {$IFDEF CPUX86}
   finally
@@ -124,7 +143,7 @@ begin
   if Task.Wait(3000) and fServerIsAvailable then
     fServerIsAvailable := ProcessPlatformInfo(CommandOutput, fIs3K, PathSeparator, TempDir);
 
-  if not fServerIsAvailable then begin
+  if Task.Wait(3000) and not fServerIsAvailable then begin
     Vcl.Dialogs.MessageDlg(Format(SSSHPythonError, [PythonCommand]), mtError, [mbAbort], 0);
     Exit;
   end;
@@ -141,8 +160,8 @@ begin
   TunnelProcessOptions := TJclExecuteCmdProcessOptions.Create('');
   TunnelProcessOptions.BeforeResume := StoreTunnelProcessInfo;
   TunnelProcessOptions.MergeError := True;
-  TunnelProcessOptions.CreateProcessFlags := 
-    TunnelProcessOptions.CreateProcessFlags and CREATE_NO_WINDOW;
+  TunnelProcessOptions.CreateProcessFlags :=
+    TunnelProcessOptions.CreateProcessFlags and CREATE_NO_WINDOW and CREATE_NEW_CONSOLE;
 
   inherited Create(peSSH);
   DebuggerClass := TPySSHDebugger;
@@ -205,8 +224,6 @@ begin
     end).Start;
   Sleep(100);
   fServerIsAvailable := ServerTask.Status = TTaskStatus.Running;
-
-  if not fServerIsAvailable then Exit;
 
   TunnelProcessOptions.CommandLine := Format('ssh -n %s %s@%s -L 127.0.0.1:%d:127.0.0.1:%3:d -N',
     [SshCommandOptions, UserName, HostName, fSocketPort]);
@@ -271,7 +288,6 @@ begin
   finally
     SL.Free;
   end;
-
 end;
 
 procedure TPySSHInterpreter.ShutDownServer;
@@ -289,11 +305,11 @@ begin
   if IsWow64 then Wow64EnableWow64FsRedirection_MP(False);
   try
   {$ENDIF CPUX86}
-  if (fRemServerFile <> '') and (Execute(Format('ssh %s %s@%s rm %s',
+  if (fRemServerFile <> '') and (ExecuteCmd(Format('ssh %s %s@%s rm %s',
       [SshCommandOptions, UserName, HostName, fRemServerFile]), CommandOutput) = 0)
   then
     fRemServerFile := '';
-  if (fRemRpycFile <> '')  and (Execute(Format('ssh %s %s@%s rm %s',
+  if (fRemRpycFile <> '')  and (ExecuteCmd(Format('ssh %s %s@%s rm %s',
       [SshCommandOptions, UserName, HostName, fRemRpycFile]), CommandOutput) = 0)
   then
     fRemRpycFile := '';
@@ -303,12 +319,8 @@ begin
   end;
   {$ENDIF CPUX86}
   // shut down tunnel
-  if Assigned(TunnelTask) and (TunnelTask.Status = TTaskStatus.Running) then begin
-    RaiseKeyboardInterrupt(TunnelProcessInfo.dwProcessId);
-    Sleep(100);
-    if TunnelTask.Status = TTaskStatus.Running then
-      TerminateProcessTree(TunnelProcessInfo.dwProcessId);
-  end;
+  if Assigned(TunnelTask) and (TunnelTask.Status = TTaskStatus.Running) then
+    TerminateProcessTree(TunnelProcessInfo.dwProcessId);
   TunnelTask := nil;
 end;
 

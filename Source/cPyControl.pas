@@ -664,12 +664,11 @@ begin
 end;
 
 procedure TPythonControl.PrepareRun;
+Var
+  Server, FName: string;
 begin
   if PyIDEOptions.SaveFilesBeforeRun then begin
     PyIDEMainForm.SaveFileModules;
-//    Application.ProcessMessages;
-//    Application.DoApplicationIdle;
-//    Application.ProcessMessages;
     PyIDEMainForm.Refresh;        // To update save flags
   end;
   if PyIDEOptions.SaveEnvironmentBeforeRun then
@@ -677,9 +676,13 @@ begin
   if PyIDEOptions.ClearOutputBeforeRun then
     PythonIIForm.actClearContentsExecute(nil);
 
-  if fRunConfig.EngineType <> PythonEngineType then
+  if (fRunConfig.EngineType <> PythonEngineType) or ((PythonEngineType = peSSH) and
+    TUnc.Parse(fRunConfig.ScriptName, Server, FName) and (Server <> ActiveSSHServerName))
+  then begin
+    if Server <> '' then
+      ActiveSSHServerName := Server;
     PythonEngineType := fRunConfig.EngineType
-  else if (icReInitialize in ActiveInterpreter.InterpreterCapabilities) and
+  end else if (icReInitialize in ActiveInterpreter.InterpreterCapabilities) and
     fRunConfig.ReinitializeBeforeRun
   then
     ActiveInterpreter.ReInitialize;

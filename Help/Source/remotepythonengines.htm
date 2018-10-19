@@ -2,8 +2,9 @@
 
 <head>
 <title>Remote Python Engines</title>
-<meta content="HelpMaker.net" name="generator">
 <meta content="Python engines,Remote debugging,Running scripts" name="keywords">
+<meta name="MS-HKWD" content="SSH Engine">
+<meta name="MS-HKWD" content="SSH">
 </head>
 
 <body bgcolor="#FFFCEA">
@@ -32,11 +33,9 @@
 	be active from the Python Engine submenu of the </span></font>
 	<a href="runmenu.htm"><font color="#0000ff" face="Arial" size="2">
 	<span style="font-size: 10pt; font-family: Arial; color: #0000ff"><u>Run menu</u></span></font></a><font color="#010101" face="Arial" size="2"><span style="font-size: 10pt; font-family: Arial; color: #010101">.&nbsp; 
-	Here is a brief explanation of the Python engine options:</span></font></div>
+	Here is a brief explanation of the Python engine options:<br></span></font></div>
 <div align="left">
-	<font color="#010101" face="Arial" size="2">
-	<span style="font-size: 10pt; font-family: Arial; color: #010101"><br>
-	</span></font></div>
+	</div>
 <div align="left">
 	<font color="#010101" face="Arial" size="2">
 	<span style="font-size: 10pt; font-family: Arial; color: #010101"><b>Python 
@@ -48,58 +47,49 @@
 <div align="left" style="margin-left: 6mm; margin-right: 0mm; text-indent: -6mm; margin-top: 0.00mm; margin-bottom: 0.00mm;">
 	<font color="#010101" face="Symbol" size="2">
 	<span style="font-size: 10pt; font-family: Symbol; color: #010101">&middot;</span></font><font color="#010101" face="Arial" size="2"><span style="font-size: 10pt; font-family: Arial; color: #010101">&nbsp;&nbsp; &nbsp;&nbsp;<b>Internal 
-	(depricated)</b></span></font></div>
-<div align="left">
-	<font color="#010101" face="Arial" size="2">
-	<span style="font-size: 10pt; font-family: Arial; color: #010101"><br>
-	</span></font></div>
+	(depricated)</b><br></span></font></div>
 <div align="left">
 	<font color="#010101" face="Arial" size="2">
 	<span style="font-size: 10pt; font-family: Arial; color: #010101">It is faster 
 	than the other options however if there are problems with the scripts you are 
-	running or debugging they could affect the reliability of PyScripter and could 
+	running or debugging they could affect the stability of PyScripter and could 
 	cause crashes. Another limitation of this engine is that it cannot run or debug 
-	GUI scripts nor it can be reinitialized.&nbsp; Since version 3.1 the 
-	internal Python engine is hidden by default.&nbsp; This is controled by an
+	GUI scripts nor it can be reinitialized.&nbsp; Since version 3.1 the internal 
+	Python engine is hidden by default.&nbsp; This is controled by an
 	<a href="ideoptions.htm">IDE option</a>.</span></font></div>
 <div align="left">
-	<font color="#010101" face="Arial" size="2">
-	<span style="font-size: 10pt; font-family: Arial; color: #010101"><br>
-	</span></font></div>
+	<br>
+	</div>
 <div align="left" style="margin-left: 6mm; margin-right: 0mm; text-indent: -6mm; margin-top: 0.00mm; margin-bottom: 0.00mm;">
 	<font color="#010101" face="Symbol" size="2">
 	<span style="font-size: 10pt; font-family: Symbol; color: #010101">&middot;</span></font><font color="#010101" face="Arial" size="2"><span style="font-size: 10pt; font-family: Arial; color: #010101">&nbsp;&nbsp; &nbsp;&nbsp;<b>Remote</b></span></font></div>
 <div align="left">
-	<font color="#010101" face="Arial" size="2">
-	<span style="font-size: 10pt; font-family: Arial; color: #010101"><br>
-	</span></font></div>
+	</div>
 <div align="left">
 	<font color="#010101" face="Arial" size="2">
 	<span style="font-size: 10pt; font-family: Arial; color: #010101">This the default 
 	engine of PyScripter and is the recommended engine for most Python development 
 	tasks. It runs in a child process and communicates with PyScripter using
-	</span></font><a href="http://rpyc.sf.net">
+	</span></font><a href="https://github.com/tomerfiliba/rpyc">
 	<font color="#0000ff" face="Arial" size="2">
 	<span style="font-size: 10pt; font-family: Arial; color: #0000ff"><u>rpyc</u></span></font></a><font color="#010101" face="Arial" size="2"><span style="font-size: 10pt; font-family: Arial; color: #010101">.&nbsp; 
-	It can be used to run and debug any kind of script.&nbsp; However <i><u>if you 
-	run or debug GUI scripts you may have to reinitialize the engine after each 
+	Rpyc is bundled with the PyScripter destribution and no separate 
+	installation is required.&nbsp; It can be used to run and debug any kind of script.&nbsp; However <i><u>if you 
+	run or debug GUI scripts it is a good idea to reinitialize the engine after each 
 	run</u>.&nbsp; This is done automatically by default.</i></span></font></div>
 <div align="left">
-	<font color="#010101" face="Arial" size="2">
-	<span style="font-size: 10pt; font-family: Arial; color: #010101"><br>
-	</span></font></div>
+	<br>
+	</div>
 <div align="left" style="margin-left: 6mm; margin-right: 0mm; text-indent: -6mm; margin-top: 0.00mm; margin-bottom: 0.00mm;">
 	<font color="#010101" face="Symbol" size="2">
 	<span style="font-size: 10pt; font-family: Symbol; color: #010101">&middot;</span></font><font color="#010101" face="Arial" size="2"><span style="font-size: 10pt; font-family: Arial; color: #010101">&nbsp;&nbsp; &nbsp;&nbsp;<b>Remote 
 	Tk</b></span></font></div>
 <div align="left">
-	<font color="#010101" face="Arial" size="2">
-	<span style="font-size: 10pt; font-family: Arial; color: #010101"><br>
-	</span></font></div>
+	</div>
 <div align="left">
 	<font color="#010101" face="Arial" size="2">
-	<span style="font-size: 10pt; font-family: Arial; color: #010101">This remote 
-	Python engine is specifically created to run and debug Tkinter applications 
+	<span style="font-size: 10pt; font-family: Arial; color: #010101">This Python engine is specifically 
+	designed to run and debug Tkinter applications 
 	including </span></font><a href="http://matplotlib.sourceforge.net/">
 	<font color="#0000ff" face="Arial" size="2">
 	<span style="font-size: 10pt; font-family: Arial; color: #0000ff"><u>pylab</u></span></font></a><font color="#010101" face="Arial" size="2"><span style="font-size: 10pt; font-family: Arial; color: #010101"> 
@@ -109,21 +99,18 @@
 	the engine.&nbsp; You may even develop and test Tkinter widgets using the interactive 
 	console.</span></font></div>
 <div align="left">
-	<font color="#010101" face="Arial" size="2">
-	<span style="font-size: 10pt; font-family: Arial; color: #010101"><br>
-	</span></font></div>
+	<br>
+	</div>
 <div align="left" style="margin-left: 6mm; margin-right: 0mm; text-indent: -6mm; margin-top: 0.00mm; margin-bottom: 0.00mm;">
 	<font color="#010101" face="Symbol" size="2">
 	<span style="font-size: 10pt; font-family: Symbol; color: #010101">&middot;</span></font><font color="#010101" face="Arial" size="2"><span style="font-size: 10pt; font-family: Arial; color: #010101">&nbsp;&nbsp; &nbsp;&nbsp;<b>Remote 
 	Wx</b></span></font></div>
 <div align="left">
-	<font color="#010101" face="Arial" size="2">
-	<span style="font-size: 10pt; font-family: Arial; color: #010101"><br>
-	</span></font></div>
+	</div>
 <div align="left">
 	<font color="#010101" face="Arial" size="2">
-	<span style="font-size: 10pt; font-family: Arial; color: #010101">This remote 
-	Python engine is specifically created to run and debug </span></font>
+	<span style="font-size: 10pt; font-family: Arial; color: #010101">This Python engine is specifically 
+	designed to run and debug </span></font>
 	<a href="http://www.wxpython.org/">
 	<font color="#0000ff" face="Arial" size="2">
 	<span style="font-size: 10pt; font-family: Arial; color: #0000ff"><u>wxPython</u></span></font></a><font color="#010101" face="Arial" size="2"><span style="font-size: 10pt; font-family: Arial; color: #010101"> 
@@ -139,29 +126,56 @@
 	the redirection of wxPython output since that would prevent the communication 
 	with Pyscripter.</span></font></div>
 <div align="left">
-	<font color="#010101" face="Arial" size="2">
-	<span style="font-size: 10pt; font-family: Arial; color: #010101"><br>
-	</span></font></div>
+	<br>
+	</div>
+<div align="left" style="margin-left: 6mm; margin-right: 0mm; text-indent: -6mm; margin-top: 0.00mm; margin-bottom: 0.00mm;">
+	<font color="#010101" face="Symbol" size="2">
+	<span style="font-size: 10pt; font-family: Symbol; color: #010101">&middot;</span></font><font color="#010101" face="Arial" size="2">
+	<span style="font-size: 10pt; font-family: Arial; color: #010101">&nbsp;&nbsp; &nbsp;&nbsp;
+	<a name="sshengine" id="sshengine"><b>SSH Engine</b></a></span></font></div>
+<div align="left">
+	</div>
 <div align="left">
 	<font color="#010101" face="Arial" size="2">
-	<span style="font-size: 10pt; font-family: Arial; color: #010101">When using 
+	<span style="font-size: 10pt; font-family: Arial; color: #010101">This 
+	engine type runs a python interpreter in a remote Windows or Linux machine 
+	or inside a virtual environment (servers).&nbsp; You first need to define 
+	one or more SSH servers as explained in the topic <a href="remotefiles.htm">
+	Working with Remote Files</a>.&nbsp; This topic also describes the 
+	requirements for using SSH with PyScripter.&nbsp; Once you choose this type 
+	of engine you need to select a defined SSH server. PyScripter starts a 
+	python engine on the remote server using SSH and communicates with it using <a href="https://github.com/tomerfiliba/rpyc">
+	<font color="#0000ff" face="Arial" size="2">
+	<span style="font-size: 10pt; font-family: Arial; color: #0000ff"><u>rpyc</u></span></font></a>.&nbsp; 
+	You can then run and debug remote or local scripts on the SSH server as if the scripts 
+	were running locally.&nbsp; You can also use python running inside the SSH 
+	server with the <a href="pythoninteractiveinterpreter.htm">Python 
+	Interactive Interpreter</a>. While debugging tracing into remote modules 
+	works transparently for the user.&nbsp; If you are running python 2.x locally the remote 
+	version also needs to be 2.x and similarly if you run python version 3.x 
+	locally the remote version needs to be 3.x.&nbsp; Beyond this constraint, 
+	the local and remote versions do not need to be the same.</span></font></div>
+<div align="left">
+	<br>
+	</div>
+<div align="left">
+	<font color="#010101" face="Arial" size="2">
+	<span style="font-size: 10pt; font-family: Arial; color: #010101"><strong>
+	Note: </strong>When using 
 	the Tk and Wx remote engines you can of course run or debug any other non-GUI 
 	Python script.&nbsp; However bear in mind that these engines may be slightly 
 	slower than the standard remote engine since they also contain a GUI main loop.&nbsp; 
 	Also note that these two engines override the sys.exit function with a dummy 
 	procedure.</span></font></div>
 <div align="left">
-	<font color="#010101" face="Arial" size="2">
-	<span style="font-size: 10pt; font-family: Arial; color: #010101"><br>
-	</span></font></div>
+	<br>
+	</div>
 <div align="left">
 	<font color="#010101" face="Arial" size="2">
 	<span style="font-size: 10pt; font-family: Arial; color: #010101"><b>Debugging 
 	Wx and Tkinter scirpts using the remote Wx and Tk engines</b></span></font></div>
 <div align="left">
-	<font color="#010101" face="Arial" size="2">
-	<span style="font-size: 10pt; font-family: Arial; color: #010101"><br>
-	</span></font></div>
+	</div>
 <div align="left">
 	<font color="#010101" face="Arial" size="2">
 	<span style="font-size: 10pt; font-family: Arial; color: #010101">As mentioned 
@@ -171,9 +185,7 @@
 	test the running application but without further debugging support.&nbsp; This 
 	means two things:</span></font></div>
 <div align="left">
-	<font color="#010101" face="Arial" size="2">
-	<span style="font-size: 10pt; font-family: Arial; color: #010101"><br>
-	</span></font></div>
+	</div>
 <div align="left" style="margin-left: 6mm; margin-right: 0mm; text-indent: -6mm; margin-top: 0.00mm; margin-bottom: 0.00mm;">
 	<font color="#010101" face="Symbol" size="2">
 	<span style="font-size: 10pt; font-family: Symbol; color: #010101">&middot;</span></font><font color="#010101" face="Arial" size="2"><span style="font-size: 10pt; font-family: Arial; color: #010101">&nbsp;&nbsp; &nbsp;&nbsp;Breakpoints 
@@ -183,9 +195,8 @@
 	<span style="font-size: 10pt; font-family: Symbol; color: #010101">&middot;</span></font><font color="#010101" face="Arial" size="2"><span style="font-size: 10pt; font-family: Arial; color: #010101">&nbsp;&nbsp; &nbsp;&nbsp;You 
 	will not be able to debug event triggered code using these two engines.</span></font></div>
 <div align="left">
-	<font color="#010101" face="Arial" size="2">
-	<span style="font-size: 10pt; font-family: Arial; color: #010101"><br>
-	</span></font></div>
+	<br>
+	</div>
 <div align="left">
 	<font color="#010101" face="Arial" size="2">
 	<span style="font-size: 10pt; font-family: Arial; color: #010101">To debug event 
@@ -193,9 +204,7 @@
 	wonder why should you ever use the Wx and Tk specific remote engines. Here is 
 	a few reasons:</span></font></div>
 <div align="left">
-	<font color="#010101" face="Arial" size="2">
-	<span style="font-size: 10pt; font-family: Arial; color: #010101"><br>
-	</span></font></div>
+	</div>
 <div align="left" style="margin-left: 6mm; margin-right: 0mm; text-indent: -6mm; margin-top: 0.00mm; margin-bottom: 0.00mm;">
 	<font color="#010101" face="Symbol" size="2">
 	<span style="font-size: 10pt; font-family: Symbol; color: #010101">&middot;</span></font><font color="#010101" face="Arial" size="2"><span style="font-size: 10pt; font-family: Arial; color: #010101">&nbsp;&nbsp; &nbsp;&nbsp;These 
@@ -221,40 +230,9 @@
 	</span></font></div>
 <div align="left">
 	<font color="#010101" face="Arial" size="2">
-	<span style="font-size: 10pt; font-family: Arial; color: #010101"><br>
-	</span></font></div>
-<div align="left">
-	<font color="#010101" face="Arial" size="2">
-	<span style="font-size: 10pt; font-family: Arial; color: #010101"><b>Requirements 
-	for the Remote Engines</b></span></font></div>
-<div align="left">
-	<font color="#010101" face="Arial" size="2">
-	<span style="font-size: 10pt; font-family: Arial; color: #010101"><br>
-	</span></font></div>
-<div align="left">
-	<font color="#010101" face="Arial" size="2">
-	<span style="font-size: 10pt; font-family: Arial; color: #010101">The remote 
-	engines are only available with Python 2.4 or later.&nbsp; They make use of
-	</span></font><a href="http://rpyc.sf.net">
-	<font color="#0000ff" face="Arial" size="2">
-	<span style="font-size: 10pt; font-family: Arial; color: #0000ff"><u>rpyc</u></span></font></a><font color="#010101" face="Arial" size="2"><span style="font-size: 10pt; font-family: Arial; color: #010101">, 
-	which is bundled by PyScripter and so no separate installation is required.
-	</span></font></div>
-<div align="left">
-	<font color="#010101" face="Arial" size="2">
-	<span style="font-size: 10pt; font-family: Arial; color: #010101"><br>
-	</span></font></div>
-<div align="left">
-	<font color="#010101" face="Arial" size="2">
-	<span style="font-size: 10pt; font-family: Arial; color: #010101"><br>
-	</span></font></div>
-<div align="left">
-	<font color="#010101" face="Arial" size="2">
 	<span style="font-size: 10pt; font-family: Arial; color: #010101"><b>Troubleshooting</b></span></font></div>
 <div align="left">
-	<font color="#010101" face="Arial" size="2">
-	<span style="font-size: 10pt; font-family: Arial; color: #010101"><b><br>
-	</b></span></font></div>
+	</div>
 <div align="left" style="margin-left: 6mm; margin-right: 0mm; text-indent: -6mm; margin-top: 0.00mm; margin-bottom: 0.00mm;">
 	<font color="#010101" face="Symbol" size="2">
 	<span style="font-size: 10pt; font-family: Symbol; color: #010101">&middot;</span></font><font color="#010101" face="Arial" size="2"><span style="font-size: 10pt; font-family: Arial; color: #010101">&nbsp;&nbsp; &nbsp;&nbsp;If 

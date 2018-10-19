@@ -545,7 +545,7 @@ begin
   ServerProcessOptions.OutputLineCallback := ProcessServerOuput;
   ServerProcessOptions.BeforeResume := StoreServerProcessInfo;
   ServerProcessOptions.CreateProcessFlags :=
-    ServerProcessOptions.CreateProcessFlags and CREATE_NO_WINDOW;
+    ServerProcessOptions.CreateProcessFlags and CREATE_NO_WINDOW and CREATE_NEW_CONSOLE;
   ServerProcessOptions.MergeError := False;
 
   if fServerIsAvailable then CreateAndConnectToServer;
