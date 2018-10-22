@@ -72,7 +72,7 @@ object CommandsDataModule: TCommandsDataModule
     Left = 32
     Top = 241
     Bitmap = {
-      494C01010A000D00700010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C01010A000D00740010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -1870,7 +1870,9 @@ object CommandsDataModule: TCommandsDataModule
           ''
           '        def canonic(self, filename):'
           '            if type(filename) is unicode:'
-          '                filename = filename.encode("mbcs")'
+          
+            '                filename = filename.encode(self._sys.getfilesyst' +
+            'emencoding())'
           '            return __import__('#39'bdb'#39').Bdb.canonic(self, filename)'
           ''
           '        def user_line(self, frame):'
@@ -4745,7 +4747,7 @@ object CommandsDataModule: TCommandsDataModule
     Left = 36
     Top = 194
     Bitmap = {
-      494C0101A300E000A00010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C0101A300E000A40010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000009002000001002000000000000090
       0200000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

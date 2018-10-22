@@ -201,7 +201,7 @@ begin
   fSocketPort := 18000 + Random(1000);
 
   // Create and Run Server process
-  ServerProcessOptions.CommandLine := Format('ssh -n %s %s@%s %s ',
+  ServerProcessOptions.CommandLine := Format('ssh %s %s@%s %s ',
     [SshCommandOptions, UserName, HostName, PythonCommand]) +
     Format('"%s" %d "%s"', [fRemServerFile, fSocketPort, fRemRpycFile]);
   ServerTask := TTask.Create(procedure
@@ -225,7 +225,7 @@ begin
   Sleep(100);
   fServerIsAvailable := ServerTask.Status = TTaskStatus.Running;
 
-  TunnelProcessOptions.CommandLine := Format('ssh -n %s %s@%s -L 127.0.0.1:%d:127.0.0.1:%3:d -N',
+  TunnelProcessOptions.CommandLine := Format('ssh %s %s@%s -L 127.0.0.1:%d:127.0.0.1:%3:d -N',
     [SshCommandOptions, UserName, HostName, fSocketPort]);
   TunnelTask := TTask.Create(procedure
     {$IFDEF CPUX86}
