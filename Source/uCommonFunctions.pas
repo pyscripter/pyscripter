@@ -315,6 +315,7 @@ Uses
   JclFileUtils,
   JclBase,
   JclStrings,
+  JclPeImage,
   JvJCLUtils,
   JvGnugettext,
   MPCommonUtilities,
@@ -2322,6 +2323,42 @@ begin
     end;
 end;
 
+{https://stackoverflow.com/questions/20142166/explain-errors-from-getkeystate-getcursorpos}
+
+function PatchedGetCursorPos(var lpPoint: TPoint): BOOL; stdcall;
+(* The GetCursorPos API in user32 fails if it is passed a memory address >2GB
+   which breaks LARGEADDRESSAWARE apps.  We counter this by calling GetCursorInfo
+   instead which does not suffer from the same problem.
+
+   In addition we have had problems with GetCursorPos failing when called
+   immediately after a password protected screensaver or a locked workstation
+   re-authenticates. This problem initially appeared with XP SP1 and is brought
+   about because TMouse.GetCursorPos checks the return value of the GetCursorPos
+   API call and raises an OS exception if the API has failed.
+*)
+var
+  CursorInfo: TCursorInfo;
+begin
+  CursorInfo.cbSize := SizeOf(CursorInfo);
+  Result := GetCursorInfo(CursorInfo);
+  if Result then begin
+    lpPoint := CursorInfo.ptScreenPos;
+  end else begin
+    lpPoint := Point(0, 0);
+  end;
+end;
+
+var
+  PeImportHooks: TJclPeMapImgHooks;
+  OldGetCursorPos: function(var lpPoint: TPoint): BOOL; stdcall = nil;
+
 initialization
   StopWatch := TStopWatch.StartNew;
+  PeImportHooks := TJclPeMapImgHooks.Create;
+  PeImportHooks.HookImport(Pointer(HInstance), user32, 'GetCursorPos',
+    @PatchedGetCursorPos, @OldGetCursorPos);
+
+finalization
+  PeImportHooks.UnhookByNewAddress(@PatchedGetCursorPos);
+  FreeAndNil(PeImportHooks);
 end.
