@@ -2707,7 +2707,13 @@ begin
     PlatformSuffix + '.ini';
   try
     ProgramVersionCheck.LocalDirectory := UserDataPath + 'Updates';
-    ProgramVersionCheck.Execute;
+    try
+      FormatSettings.DateSeparator := '/';
+      FormatSettings.ShortDateFormat := 'dd/MM/yyyy';
+      ProgramVersionCheck.Execute;
+    finally
+      GetFormatSettings;
+    end;
   except
     if Assigned(Sender) then
       raise

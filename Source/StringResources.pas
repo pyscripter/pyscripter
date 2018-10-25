@@ -161,6 +161,7 @@ Const
   //  Project Manager
   SAskSaveProject = 'The active project has not been saved.  Do you want to save the changes?';
   SFailedToBackupProject = 'Failed to backup project "%s"';
+  SErrorInOpeningProject = 'Error in opening project: "%s".';
   SErrorInSavingProject = 'Error in saving project: "%s".';
   SSaveProjectAs = 'Save Project As';
   SSaveProjectFileAs = 'Save Project "%s" As';

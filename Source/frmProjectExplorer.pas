@@ -702,16 +702,23 @@ begin
   ActiveProject.FileName := FileName;
   AppStorage := TJvAppIniFileStorage.Create(nil);
   try
-    AppStorage.Encoding := TEncoding.UTF8;
-    AppStorage.FlushOnDestroy := False;
-    AppStorage.Location := flCustom;
-    AppStorage.FileName := ActiveProject.FileName;
-    AppStorage.ReadPersistent('Project', ActiveProject);
-    ActiveProject.Modified := False;
-    ExplorerTree.RootNodeCount := 1;
-    PyIDEMainForm.tbiRecentProjects.MRURemove(FileName);
-  finally
-    AppStorage.Free;
+    try
+      AppStorage.Encoding := TEncoding.UTF8;
+      AppStorage.FlushOnDestroy := False;
+      AppStorage.Location := flCustom;
+      AppStorage.FileName := ActiveProject.FileName;
+      AppStorage.ReadPersistent('Project', ActiveProject);
+      ActiveProject.Modified := False;
+      ExplorerTree.RootNodeCount := 1;
+      PyIDEMainForm.tbiRecentProjects.MRURemove(FileName);
+    finally
+      AppStorage.Free;
+    end;
+  except
+    on E: Exception do begin
+      Vcl.Dialogs.MessageDlg(Format(_(SErrorInOpeningProject) + sLineBreak +
+          'Error: %s', [ActiveProject.FileName, E.Message]), mtError, [mbOK], 0);
+    end;
   end;
 end;
 
