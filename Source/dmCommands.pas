@@ -1938,7 +1938,7 @@ Var
   IsRegistered : Boolean;
   Key : string;
 begin
-  SetLength(Categories, 9);
+  SetLength(Categories, 10);
   with Categories[0] do begin
     DisplayName := _('IDE');
     SetLength(Options, 12);
@@ -2116,6 +2116,14 @@ begin
     SetLength(Options, 1);
     Options[0].PropertyName := 'FileExplorerBackgroundProcessing';
     Options[0].DisplayName := _('File Explorer background processing');
+  end;
+  with Categories[9] do begin
+    DisplayName := 'SSH';
+    SetLength(Options, 2);
+    Options[0].PropertyName := 'SSHCommand';
+    Options[0].DisplayName := _('SSH Command');
+    Options[1].PropertyName := 'ScpCommand';
+    Options[1].DisplayName := _('Scp Command');
   end;
 
   // Shell Integration

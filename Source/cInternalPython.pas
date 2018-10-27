@@ -275,13 +275,16 @@ end;
 function TInternalPython.LoadPython(const Version: TPythonVersion): Boolean;
 begin
   DestroyPythonComponents;
-  // set environment variables
-  SetEnvironmentVariable('PYTHONHOME', '');
-  if not (Version.IsRegistered or Version.Is_venv) then
-    SetEnvironmentVariable('PYTHONHOME', PWideChar(Version.InstallPath));
 
   CreatePythonComponents;
   Version.AssignTo(PythonEngine);
+  // set environment variables
+  SetEnvironmentVariable('PYTHONHOME', '');
+  if not (Version.IsRegistered or Version.Is_venv) then begin
+    PythonEngine.SetPythonHome(Version.InstallPath);
+    SetEnvironmentVariable('PYTHONHOME', PWideChar(Version.InstallPath));
+  end;
+
   PythonEngine.LoadDll;
   Result := PythonEngine.IsHandleValid;
   if Result then begin

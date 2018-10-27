@@ -24,6 +24,7 @@ type
     fHostName : string;
     fUserName : string;
     fPythonCommand : string;
+    fExtraSSHOptions :string;
   public
     constructor Create; override;
     procedure Assign(Source: TPersistent); override;
@@ -33,6 +34,7 @@ type
     property HostName : string read fHostName write fHostName;
     property UserName : string read fUserName write fUserName;
     property PythonCommand : string read fPythonCommand write fPythonCommand;
+    property ExtraSSHOptions : string read fExtraSSHOptions write fExtraSSHOptions;
   end;
 
   TSSHServerItem = class(TCollectionItem)
@@ -64,7 +66,8 @@ type
 
 
   // SCP
-  function Scp(const FromFile, ToFile: string; out ErrorMsg: string): boolean;
+  function Scp(const FromFile, ToFile: string; out ErrorMsg: string;
+      ExtraSSHOptions : string = ''): Boolean;
   function ScpUpload(const ServerName, LocalFile, RemoteFile: string; out ErrorMsg: string): boolean;
   function ScpDownload(const ServerName, RemoteFile, LocalFile: string; out ErrorMsg: string): boolean;
 
@@ -97,6 +100,7 @@ begin
     Self.fHostName := HostName;
     Self.UserName := UserName;
     Self.fPythonCommand := PythonCommand;
+    Self.fExtraSSHOptions := ExtraSSHOptions;
   end else
     inherited;
 end;
@@ -166,7 +170,7 @@ begin
   SetLength(Categories, 1);
   with Categories[0] do begin
     DisplayName :='SSH';
-    SetLength(Options, 4);
+    SetLength(Options, 5);
     Options[0].PropertyName := 'Name';
     Options[0].DisplayName := _('SSH Server name');
     Options[1].PropertyName := 'HostName';
@@ -174,7 +178,9 @@ begin
     Options[2].PropertyName := 'UserName';
     Options[2].DisplayName := _('User name');
     Options[3].PropertyName := 'PythonCommand';
-    Options[3].DisplayName := _('Command to execute python');
+    Options[3].DisplayName := _('Command to execute python (no spaces)');
+    Options[4].PropertyName := 'ExtraSSHOptions';
+    Options[4].DisplayName := _('Additional SSH -o options (optional)');
   end;
 
   Result := InspectOptions((Item as TSSHServerItem).fSSHServer,
@@ -201,15 +207,16 @@ begin
       Result := TSSHServerItem(Item).SSHServer;
 end;
 
-function Scp(const FromFile, ToFile: string; out ErrorMsg: string): Boolean;
+function Scp(const FromFile, ToFile: string; out ErrorMsg: string;
+  ExtraSSHOptions : string = ''): Boolean;
 Var
   Task : ITask;
   Command, Output: string;
   ExitCode : integer;
 begin
   Command :=
-    Format('scp %s %s %s',
-    [SshCommandOptions, FromFile, ToFile]);
+    Format('"%s" %s %s "%s" "%s"',
+    [PyIDEOptions.ScpCommand, SshCommandOptions, ExtraSSHOptions, FromFile, ToFile]);
 
   Task := TTask.Create(procedure
   {$IFDEF CPUX86}
@@ -257,7 +264,8 @@ begin
     Exit(False);
   end;
 
-  Result := scp(LocalFile, Format('%s:%s', [SSHServer.DefaultName, RemoteFile]), ErrorMsg);
+  Result := scp(LocalFile, Format('%s:''%s''', [SSHServer.DefaultName, RemoteFile]),
+    ErrorMsg, SSHServer.ExtraSSHOptions);
 end;
 
 function ScpDownload(const ServerName, RemoteFile, LocalFile: string; out ErrorMsg: string): boolean;
@@ -270,7 +278,8 @@ begin
     Exit(False);
   end;
 
-  Result := scp(Format('%s:%s', [SSHServer.DefaultName, RemoteFile]), LocalFile, ErrorMsg);
+  Result := scp(Format('%s:''%s''', [SSHServer.DefaultName, RemoteFile]), LocalFile,
+    ErrorMsg, SSHServer.ExtraSSHOptions);
 end;
 
 { Unc }

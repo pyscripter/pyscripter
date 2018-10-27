@@ -109,6 +109,8 @@ type
     fCompactLineNumbers : Boolean;
     fStyleMainWindowBorder : Boolean;
     fFileExplorerBackgroundProcessing : Boolean;
+    fSSHCommand : string;
+    fScpCommand : string;
     function GetPythonFileExtensions: string;
     procedure SetAutoCompletionFont(const Value: TFont);
   protected
@@ -265,6 +267,8 @@ type
       write fStyleMainWindowBorder default False;
     property FileExplorerBackgroundProcessing : Boolean read fFileExplorerBackgroundProcessing
       write fFileExplorerBackgroundProcessing default True;
+    property SSHCommand : string read fSSHCommand write fSSHCommand;
+    property ScpCommand : string read fScpCommand write fScpCommand;
   end;
 {$METHODINFO OFF}
 
@@ -391,6 +395,8 @@ begin
       Self.fCompactLineNumbers := CompactLineNumbers;
       Self.fStyleMainWindowBorder := StyleMainWindowBorder;
       Self.fFileExplorerBackgroundProcessing := FileExplorerBackgroundProcessing;
+      Self.fSSHCommand := SSHCommand;
+      Self.fScpCommand := ScpCommand;
     end
   else
     inherited;
@@ -485,6 +491,8 @@ begin
   fCompactLineNumbers := True;
   fStyleMainWindowBorder := False;
   fFileExplorerBackgroundProcessing := True;
+  fSSHCommand := 'ssh';
+  fScpCommand := 'scp';
   fCodeFolding := TSynCodeFolding.Create;
 end;
 
