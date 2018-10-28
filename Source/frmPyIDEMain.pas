@@ -446,7 +446,7 @@
             Run and Debug files on remote Windows and Linux machines using SSH
             Upgraded rpyc to 4.x.  As a result Python 2.5 is no longer supported.
           Issues addressed
-            #907
+            #682, #907
 
             { TODO : Issues 501, 667 }
             { TODO : Review Search and Replace }
@@ -2907,6 +2907,8 @@ begin
       TreeOptions.VETFolderOptions := TreeOptions.VETFolderOptions - [toThreadedExpandMark];
     end;
   end;
+  if FileExplorerWindow.FileExplorerTree.Active then
+    FileExplorerWindow.FileExplorerTree.RefreshTree;
 end;
 
 procedure TPyIDEMainForm.OpenInitialFiles;
@@ -3068,9 +3070,6 @@ begin
   //  Dock animation parameters
   JvDockVSNetStyleSpTBX.SetAnimationInterval(PyIDEOptions.DockAnimationInterval);
   JvDockVSNetStyleSpTBX.SetAnimationMoveWidth(PyIDEOptions.DockAnimationMoveWidth);
-
-  if FileExplorerWindow.FileExplorerTree.Active then
-    FileExplorerWindow.FileExplorerTree.RefreshTree;
 
   // Set Python engine
   actPythonInternal.Visible := not PyIDEOptions.InternalInterpreterHidden;
@@ -4773,6 +4772,7 @@ begin
   begin
     // Activate File Explorer
     FileExplorerWindow.FileExplorerTree.Active := True;
+    Application.ProcessMessages;
 
     // Load Python Engine and Assign Debugger Events
     PyControl.LoadPythonEngine;

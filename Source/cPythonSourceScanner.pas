@@ -200,6 +200,7 @@ public
     fImportRE : TRegExpr;
     fFromImportRE : TRegExpr;
     fAssignmentRE : TRegExpr;
+    fFunctionCallRE : TRegExpr;
     fForRE : TRegExpr;
     fReturnRE : TRegExpr;
     fWithRE : TRegExpr;
@@ -216,6 +217,7 @@ public
     constructor Create;
     destructor Destroy; override;
     function ScanModule(Module : TParsedModule) : boolean;
+    function GetExpressionType(Expr : string; Var VarAtts : TVariableAttributes) : string;
   end;
 
   IAsyncSourceScanner = interface
@@ -471,12 +473,11 @@ begin
   fFromImportRE :=
     CompiledRegExpr(Format('^[ \t]*from[ \t]+(\.*)(%s)?[ \t]+import[ \t]+([^#;]+)', [DottedIdentRE]));
   fAssignmentRE :=
-    CompiledRegExpr(Format('^([ \t]*(self.)?%s[ \t]*(,[ \t]*(self.)?%s[ \t]*)*(=))+[ \t]*((%s)(\(?))?',
-      [IdentRE, IdentRE, DottedIdentRE]));
+    CompiledRegExpr(Format('^([ \t]*(self.)?%s[ \t]*(,[ \t]*(self.)?%s[ \t]*)*(=))+(.*)',
+      [IdentRE, IdentRE]));
+  fFunctionCallRE := CompiledRegExpr(Format('^[ \t]*(%s)(\(?)', [DottedIdentRE]));
   fForRE := CompiledRegExpr(Format('^\s*for +(%s)( *, *%s)* *(in)', [IdentRe, IdentRe]));
-  fReturnRE :=
-    CompiledRegExpr(Format('^([ \t]*return[ \t]*)((%s)(\(?))?',
-      [DottedIdentRE]));
+  fReturnRE := CompiledRegExpr('^[ \t]*return[ \t]+(.*)');
   fWithRE :=
     CompiledRegExpr(Format('^[ \t]*with +(%s) *(\(?).*as +(%s)',
       [DottedIdentRE, IdentRE]));
@@ -502,6 +503,7 @@ begin
   fImportRE.Free;
   fFromImportRE.Free;
   fAssignmentRE.Free;
+  fFunctionCallRE.Free;
   fForRE.Free;
   fReturnRE.Free;
   fWithRE.Free;
@@ -517,6 +519,24 @@ procedure TPythonScanner.DoScannerProgress(CharNo, NoOfChars : integer;
 begin
   if Assigned(fOnScannerProgress) then
     fOnScannerProgress(CharNo, NoOfChars, Stop);
+end;
+
+function TPythonScanner.GetExpressionType(Expr: string;
+  var VarAtts: TVariableAttributes): string;
+Var
+  IsBuiltInType : Boolean;
+begin
+  if Expr.Length = 0 then Exit('');
+
+  if fFunctionCallRE.Exec(Expr) then begin
+    Result := fFunctionCallRE.Match[1];
+    if fFunctionCallRE.MatchLen[2] > 0 then  //= '('
+    Include(VarAtts, vaCall);
+  end else begin
+    Result := GetExpressionBuiltInType(Expr, IsBuiltInType);
+    if IsBuiltInType then
+      Include(VarAtts, vaBuiltIn);
+  end;
 end;
 
 function TPythonScanner.ScanModule(Module : TParsedModule): boolean;
@@ -741,7 +761,6 @@ var
   ModuleImport : TModuleImport;
   Variable : TVariable;
   Klass : TParsedClass;
-  IsBuiltInType : Boolean;
   LineStarts: TList;
   LineStartsGuard: ISafeGuard;
   GlobalList : TStringList;
@@ -808,6 +827,7 @@ begin
         While Token <> '' do begin
           Variable := TVariable.Create;
           Variable.Parent := CodeElement;
+          CharOffsetToCodePos(CharOffset + CharOffset2, CodeStart, LineStarts, Variable.fCodePos);
           if StrIsLeft(PWideChar(Token), '**') then begin
             Variable.Name := Copy(Token, 3, Length(Token) -2);
             Include(Variable.Attributes, vaStarStarArgument);
@@ -819,27 +839,28 @@ begin
             if Index > 0 then begin
               Variable.Name := Trim(Copy(Token, 1, Index - 1));
               Variable.DefaultValue := Copy(Token, Index + 1, Length(Token) - Index);
-              Include(Variable.Attributes, vaArgumentWithDefault);
+              if Variable.DefaultValue.Length > 0 then begin
+                // Deal with string arguments (Issue 32)
+                if CharPos(Variable.DefaultValue, MaskChar) > 0 then begin
+                  SourceLine := GetNthSourceLine(Variable.fCodePos.LineNo);
+                  Variable.DefaultValue :=
+                    Copy(SourceLine, Variable.CodePos.CharOffset + Index, Length(Variable.DefaultValue));
+                end;
+                Variable.DefaultValue := Trim(Variable.DefaultValue);
+
+                Include(Variable.Attributes, vaArgumentWithDefault);
+                Variable.ObjType := GetExpressionType(Variable.DefaultValue, Variable.Attributes);
+              end;
             end else begin
               Variable.Name := Token;
               Include(Variable.Attributes, vaArgument);
             end;
           end;
-          CharOffsetToCodePos(CharOffset + CharOffset2, CodeStart, LineStarts, Variable.fCodePos);
           // Deal with string annotations (Issue 511)
           if CharPos(Variable.Name, MaskChar) > 0 then begin
             SourceLine := GetNthSourceLine(Variable.fCodePos.LineNo);
             Variable.Name :=
               Copy(SourceLine, Variable.CodePos.CharOffset, Length(Variable.Name));
-          end;
-          // Deal with string arguments (Issue 32)
-          if  (Variable.DefaultValue <> '') then begin
-            if CharPos(Variable.DefaultValue, MaskChar) > 0 then begin
-              SourceLine := GetNthSourceLine(Variable.fCodePos.LineNo);
-              Variable.DefaultValue :=
-                Copy(SourceLine, Variable.CodePos.CharOffset + Index, Length(Variable.DefaultValue));
-            end;
-            Variable.DefaultValue := Trim(Variable.DefaultValue);
           end;
 
           TParsedFunction(CodeElement).fArguments.Add(Variable);
@@ -1010,18 +1031,9 @@ begin
             end;
           end;
           // Variable Type if the assignment has a single target
-          if Assigned(Variable) and (AsgnTargetCount = 1) then begin
-            if fAssignmentRE.MatchLen[7] > 0 then begin
-              Variable.ObjType := fAssignmentRE.Match[7];
-              if fAssignmentRE.MatchLen[8] > 0 then  //= '('
-                Include(Variable.Attributes, vaCall);
-            end else begin
-              Variable.ObjType := GetExpressionBuiltInType(
-                Copy(Line, fAssignmentRE.MatchPos[5]+1, MaxInt), IsBuiltInType);
-              if IsBuiltInType then
-                Include(Variable.Attributes, vaBuiltIn);
-            end;
-          end;
+          if Assigned(Variable) and (AsgnTargetCount = 1) then
+            Variable.ObjType := GetExpressionType(fAssignmentRE.Match[6], Variable.Attributes);
+
           AsgnTargetList := StrToken(S, '=');
         end;
       end else if fForRE.Exec(Line) then begin
@@ -1052,22 +1064,10 @@ begin
       end else if fReturnRE.Exec(Line) then begin
         // only process first return statement
         if (LastCodeElement is TParsedFunction) and
-          (TParsedFunction(LastCodeElement).ReturnType = '') then
-        begin
-          // same code as for variables
-          if fReturnRE.MatchLen[3] > 0 then begin
-            TParsedFunction(LastCodeElement).ReturnType := fReturnRE.Match[3];
-            if fReturnRE.MatchLen[4] > 0 then  //= '('
-              Include(TParsedFunction(LastCodeElement).ReturnAttributes, vaCall);
-          end else begin
-            TParsedFunction(LastCodeElement).ReturnType := GetExpressionBuiltInType(
-              Copy(Line, fReturnRE.MatchPos[1] + fReturnRE.MatchLen[1], MaxInt),
-              IsBuiltInType);
-            if IsBuiltInType then
-              Include(TParsedFunction(LastCodeElement).ReturnAttributes, vaBuiltIn);
-            //else not a dotted name so we can't do much with it
-          end;
-        end;
+          (TParsedFunction(LastCodeElement).ReturnType = '')
+        then
+          TParsedFunction(LastCodeElement).ReturnType := GetExpressionType(fReturnRE.Match[1],
+            TParsedFunction(LastCodeElement).ReturnAttributes);
       end else if fWithRE.Exec(Line) then begin
         Variable := TVariable.Create;
         Variable.Name := fWithRE.Match[3];

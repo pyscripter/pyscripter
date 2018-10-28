@@ -72,7 +72,7 @@ object CommandsDataModule: TCommandsDataModule
     Left = 32
     Top = 241
     Bitmap = {
-      494C01010A000D00740010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C01010A000D00840010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -883,7 +883,9 @@ object CommandsDataModule: TCommandsDataModule
           '                res = res | 2'
           '            if inspect.ismodule(ob):'
           '                res = res | 4'
-          '            elif inspect.ismethod(ob):'
+          
+            '            elif inspect.ismethod(ob) or inspect.ismethoddescrip' +
+            'tor(ob):'
           '                res = res | 8'
           
             '            elif inspect.isfunction(ob) or inspect.isbuiltin(ob)' +
@@ -1089,41 +1091,23 @@ object CommandsDataModule: TCommandsDataModule
           '        except SystemExit:'
           '            return None'
           ''
-          '    def _find_constructor(self, class_ob):'
-          
-            '        # Given a class object, return a function object used fo' +
-            'r the'
-          
-            '        # constructor (ie, __init__() ) or None if we can'#39't find' +
-            ' one.  (from IDLE)'
-          '        try:'
-          '            return class_ob.__init__.im_func'
-          '        except AttributeError:'
-          '            for base in class_ob.__bases__:'
-          '                rc = self._find_constructor(base)'
-          '                if rc is not None: return rc'
-          '        return None'
-          ''
           '    def get_arg_text(self, ob):'
           
             '        "Get a string describing the arguments for the given obj' +
             'ect - From IDLE"'
           '        import types'
           
-            '        from inspect import isclass, isfunction, getargspec, for' +
-            'matargspec, getdoc'
+            '        from inspect import isclass, isroutine, getargspec, form' +
+            'atargspec, getdoc'
           '        argText = ""'
           '        if ob is not None:'
           '            argOffset = 0'
-          '            if isclass(ob):'
+          '            if isclass(ob) and (ob.__module__ != '#39'__builtin__'#39'):'
           
             '                # Look for the highest __init__ in the class cha' +
             'in.'
-          '                fob = self._find_constructor(ob)'
-          '                if fob is None:'
-          '                    fob = lambda: None'
-          '                else:'
-          '                    argOffset = 1'
+          '                fob = getattr(ob, '#39'__init__'#39', ob)'
+          '                argOffset = 1'
           '            elif type(ob)==types.MethodType:'
           
             '                # bit of a hack for methods - turn it into a fun' +
@@ -1134,7 +1118,7 @@ object CommandsDataModule: TCommandsDataModule
           '            else:'
           '                fob = ob'
           '            # Try and build one for Python defined functions'
-          '            if isfunction(fob):'
+          '            if isroutine(fob):'
           '                try:'
           
             '                    args, varargs, varkw, defaults = getargspec(' +
@@ -1439,7 +1423,9 @@ object CommandsDataModule: TCommandsDataModule
           '                res = res | 2'
           '            if inspect.ismodule(ob):'
           '                res = res | 4'
-          '            elif inspect.ismethod(ob):'
+          
+            '            elif inspect.ismethod(ob) or inspect.ismethoddescrip' +
+            'tor(ob):'
           '                res = res | 8'
           
             '            elif inspect.isfunction(ob) or inspect.isbuiltin(ob)' +
@@ -1627,41 +1613,23 @@ object CommandsDataModule: TCommandsDataModule
           '        except SystemExit:'
           '            return None'
           ''
-          '    def _find_constructor(self, class_ob):'
-          
-            '        # Given a class object, return a function object used fo' +
-            'r the'
-          
-            '        # constructor (ie, __init__() ) or None if we can'#39't find' +
-            ' one.  (from IDLE)'
-          '        try:'
-          '            return class_ob.__init__.__func__'
-          '        except AttributeError:'
-          '            for base in class_ob.__bases__:'
-          '                rc = self._find_constructor(base)'
-          '                if rc is not None: return rc'
-          '        return None'
-          ''
           '    def get_arg_text(self, ob):'
           
             '        "Get a string describing the arguments for the given obj' +
             'ect - From IDLE"'
           '        import types'
           
-            '        from inspect import isclass, isfunction, getfullargspec,' +
-            ' formatargspec, getdoc'
+            '        from inspect import isclass, isroutine, getfullargspec, ' +
+            'formatargspec, getdoc'
           '        argText = ""'
           '        if ob is not None:'
           '            argOffset = 0'
-          '            if isclass(ob):'
+          '            if isclass(ob) and (ob.__module__ != '#39'builtins'#39'):'
           
             '                # Look for the highest __init__ in the class cha' +
             'in.'
-          '                fob = self._find_constructor(ob)'
-          '                if fob is None:'
-          '                    fob = lambda: None'
-          '                else:'
-          '                    argOffset = 1'
+          '                fob = getattr(ob, '#39'__init__'#39', ob)'
+          '                argOffset = 1'
           '            elif type(ob)==types.MethodType:'
           
             '                # bit of a hack for methods - turn it into a fun' +
@@ -1672,7 +1640,7 @@ object CommandsDataModule: TCommandsDataModule
           '            else:'
           '                fob = ob'
           '            # Try and build one for Python defined functions'
-          '            if isfunction(fob):'
+          '            if isroutine(fob):'
           '                try:'
           
             '                    args, varargs, varkw, defaults, kwonlyargs, ' +
@@ -2323,41 +2291,23 @@ object CommandsDataModule: TCommandsDataModule
           '        except SystemExit:'
           '            return None'
           ''
-          '    def _find_constructor(self, class_ob):'
-          
-            '        # Given a class object, return a function object used fo' +
-            'r the'
-          
-            '        # constructor (ie, __init__() ) or None if we can'#39't find' +
-            ' one.  (from IDLE)'
-          '        try:'
-          '            return class_ob.__init__.im_func'
-          '        except AttributeError:'
-          '            for base in class_ob.__bases__:'
-          '                rc = self._find_constructor(base)'
-          '                if rc is not None: return rc'
-          '        return None'
-          ''
           '    def get_arg_text(self, ob):'
           
             '        "Get a string describing the arguments for the given obj' +
             'ect - From IDLE"'
           '        import types'
           
-            '        from inspect import isclass, isfunction, getargspec, for' +
-            'matargspec, getdoc'
+            '        from inspect import isclass, isroutine, getargspec, form' +
+            'atargspec, getdoc'
           '        argText = ""'
           '        if ob is not None:'
           '            argOffset = 0'
-          '            if isclass(ob):'
+          '            if isclass(ob) and (ob.__module__ != '#39'__builtin__'#39'):'
           
             '                # Look for the highest __init__ in the class cha' +
             'in.'
-          '                fob = self._find_constructor(ob)'
-          '                if fob is None:'
-          '                    fob = lambda: None'
-          '                else:'
-          '                    argOffset = 1'
+          '                fob = getattr(ob, '#39'__init__'#39', ob)'
+          '                argOffset = 1'
           '            elif type(ob)==types.MethodType:'
           
             '                # bit of a hack for methods - turn it into a fun' +
@@ -2368,7 +2318,7 @@ object CommandsDataModule: TCommandsDataModule
           '            else:'
           '                fob = ob'
           '            # Try and build one for Python defined functions'
-          '            if isfunction(fob):'
+          '            if isroutine(fob):'
           '                try:'
           
             '                    args, varargs, varkw, defaults = getargspec(' +
@@ -2483,7 +2433,7 @@ object CommandsDataModule: TCommandsDataModule
           '                res = res | 2'
           '            if inspect.ismodule(ob):'
           '                res = res | 4'
-          '            elif inspect.ismethod(ob):'
+          '            elif inspect.ismethod(ob) or inspect.isbuiltin(ob):'
           '                res = res | 8'
           
             '            elif inspect.isfunction(ob) or inspect.isbuiltin(ob)' +
@@ -3198,41 +3148,23 @@ object CommandsDataModule: TCommandsDataModule
           '        except SystemExit:'
           '            return None'
           ''
-          '    def _find_constructor(self, class_ob):'
-          
-            '        # Given a class object, return a function object used fo' +
-            'r the'
-          
-            '        # constructor (ie, __init__() ) or None if we can'#39't find' +
-            ' one.  (from IDLE)'
-          '        try:'
-          '            return class_ob.__init__.__func__'
-          '        except AttributeError:'
-          '            for base in class_ob.__bases__:'
-          '                rc = self._find_constructor(base)'
-          '                if rc is not None: return rc'
-          '        return None'
-          ''
           '    def get_arg_text(self, ob):'
           
             '        "Get a string describing the arguments for the given obj' +
             'ect - From IDLE"'
           '        import types'
           
-            '        from inspect import isclass, isfunction, getfullargspec,' +
-            ' formatargspec, getdoc'
+            '        from inspect import isclass, isroutine, getfullargspec, ' +
+            'formatargspec, getdoc'
           '        argText = ""'
           '        if ob is not None:'
           '            argOffset = 0'
-          '            if isclass(ob):'
+          '            if isclass(ob) and (ob.__module__ != '#39'builtins'#39'):'
           
             '                # Look for the highest __init__ in the class cha' +
             'in.'
-          '                fob = self._find_constructor(ob)'
-          '                if fob is None:'
-          '                    fob = lambda: None'
-          '                else:'
-          '                    argOffset = 1'
+          '                fob = getattr(ob, '#39'__init__'#39', ob)'
+          '                argOffset = 1'
           '            elif type(ob)==types.MethodType:'
           
             '                # bit of a hack for methods - turn it into a fun' +
@@ -3243,7 +3175,7 @@ object CommandsDataModule: TCommandsDataModule
           '            else:'
           '                fob = ob'
           '            # Try and build one for Python defined functions'
-          '            if isfunction(fob):'
+          '            if isroutine(fob):'
           '                try:'
           
             '                    args, varargs, varkw, defaults, kwonlyargs, ' +
@@ -3358,7 +3290,9 @@ object CommandsDataModule: TCommandsDataModule
           '                res = res | 2'
           '            if inspect.ismodule(ob):'
           '                res = res | 4'
-          '            elif inspect.ismethod(ob):'
+          
+            '            elif inspect.ismethod(ob) or inspect.ismethoddescrip' +
+            'tor(ob):'
           '                res = res | 8'
           
             '            elif inspect.isfunction(ob) or inspect.isbuiltin(ob)' +
@@ -4747,7 +4681,7 @@ object CommandsDataModule: TCommandsDataModule
     Left = 36
     Top = 194
     Bitmap = {
-      494C0101A300E000A40010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C0101A300E000B40010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000009002000001002000000000000090
       0200000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

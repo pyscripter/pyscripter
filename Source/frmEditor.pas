@@ -3036,18 +3036,25 @@ begin
                   Def := PyScripterRefactor.FindDottedDefinition(lookup,
                     ParsedModule, Scope, ErrMsg);
 
-                  if Assigned(Def) and (Def is TParsedClass) then
+                  if Assigned(Def) and (Def is TParsedClass) and
+                    not (Def.GetModule.Name = GetPythonEngine.BuiltInModuleName)
+                  then
                     Def := TParsedClass(Def).GetConstructor;
 
-                  if Assigned(Def) and (Def is TParsedFunction) then
+                  if Assigned(Def) and ((Def is TParsedFunction) or (Def is TParsedClass)) then
                   begin
-                    DisplayText := TParsedFunction(Def).ArgumentsString;
-                    // Remove self arguments from methods
-                    if StrIsLeft(PWideChar(DisplayText), 'self') then
-                      Delete(DisplayText, 1, 4);
-                    if StrIsLeft(PWideChar(DisplayText), ', ') then
-                      Delete(DisplayText, 1, 2);
-                    Doc := TParsedFunction(Def).DocString;
+                    if Def is TParsedFunction then begin
+                      DisplayText := TParsedFunction(Def).ArgumentsString;
+                      // Remove self arguments from methods
+                      if StrIsLeft(PWideChar(DisplayText), 'self') then
+                        Delete(DisplayText, 1, 4);
+                      if StrIsLeft(PWideChar(DisplayText), ', ') then
+                        Delete(DisplayText, 1, 2);
+                      Doc := TParsedFunction(Def).DocString;
+                    end else if Def is TParsedClass then begin
+                       DisplayText := '';
+                       Doc := TParsedClass(Def).DocString;
+                    end;
 
                     OldParamCompetionData.lookup := lookup;
                     OldParamCompetionData.DisplayText := DisplayText;

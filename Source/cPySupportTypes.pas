@@ -81,7 +81,7 @@ procedure ThreadPythonExec(ExecuteProc : TProc; TerminateProc : TProc = nil;
 
 Const
   IdentRE = '[A-Za-z_][A-Za-z0-9_]*';
-  DottedIdentRE = '[A-Za-z_][A-Za-z0-9_.]*';
+  DottedIdentRE = '[A-Za-z_][A-Za-z0-9_\.]*';
 
 implementation
 
