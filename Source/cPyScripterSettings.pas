@@ -111,6 +111,7 @@ type
     fFileExplorerBackgroundProcessing : Boolean;
     fSSHCommand : string;
     fScpCommand : string;
+    fSSHDisableVariablesWin : Boolean;
     function GetPythonFileExtensions: string;
     procedure SetAutoCompletionFont(const Value: TFont);
   protected
@@ -269,6 +270,8 @@ type
       write fFileExplorerBackgroundProcessing default True;
     property SSHCommand : string read fSSHCommand write fSSHCommand;
     property ScpCommand : string read fScpCommand write fScpCommand;
+    property SSHDisableVariablesWin : boolean read fSSHDisableVariablesWin
+      write fSSHDisableVariablesWin default True;
   end;
 {$METHODINFO OFF}
 
@@ -397,6 +400,7 @@ begin
       Self.fFileExplorerBackgroundProcessing := FileExplorerBackgroundProcessing;
       Self.fSSHCommand := SSHCommand;
       Self.fScpCommand := ScpCommand;
+      Self.fSSHDisableVariablesWin := SSHDisableVariablesWin;
     end
   else
     inherited;
@@ -493,6 +497,7 @@ begin
   fFileExplorerBackgroundProcessing := True;
   fSSHCommand := 'ssh';
   fScpCommand := 'scp';
+  fSSHDisableVariablesWin := True;
   fCodeFolding := TSynCodeFolding.Create;
 end;
 
