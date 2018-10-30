@@ -2011,7 +2011,9 @@ end;
 
 procedure TSynBaseCompletionProposalForm.WMChar(var Msg: TWMChar);
 begin
-  DoKeyPressW(WideChar(Msg.CharCode));
+  // Process only if Ctrl or Alt are not pressed
+  if (KeyDataToShiftState(Msg.KeyData) + [ssShift]) = [ssShift] then
+    DoKeyPressW(WideChar(Msg.CharCode));
 end;
 
 procedure TSynBaseCompletionProposalForm.DoFormHide(Sender: TObject);
