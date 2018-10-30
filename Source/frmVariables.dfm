@@ -88,7 +88,6 @@ inherited VariablesWindow: TVariablesWindow
         Height = 243
         Cursor = crSizeWE
         Align = alRight
-        Color = clNone
         ParentColor = False
         MinSize = 3
       end

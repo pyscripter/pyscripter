@@ -96,7 +96,9 @@ uses
   frmCallStack,
   uCommonFunctions,
   cVirtualStringTreeHelper,
-  cPyControl;
+  cPyControl,
+  cPySupportTypes,
+  cPyScripterSettings;
 
 {$R *.dfm}
 Type
@@ -280,7 +282,8 @@ Var
   RootNodeCount : Cardinal;
   OldGlobalsNameSpace, OldLocalsNamespace : TBaseNameSpaceItem;
 begin
-  if not (PyControl.InternalPython.Loaded and
+  if ((PyControl.PythonEngineType = peSSH) and (PyIDEOptions.SSHDisableVariablesWin)) or
+     not (PyControl.InternalPython.Loaded and
           Assigned(CallStackWindow) and
           Assigned(PyControl.ActiveInterpreter) and
           Assigned(PyControl.ActiveDebugger)) then
