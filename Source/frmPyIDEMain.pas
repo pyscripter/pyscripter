@@ -444,11 +444,12 @@
           New Features
             Open and work with remote files from Windows and Linux machines as if they were local
             Run and Debug files on remote Windows and Linux machines using SSH
+            Python 3 type hints used in code completion
             Upgraded rpyc to 4.x.  As a result Python 2.5 is no longer supported.
           Issues addressed
             #682, #907
 
-            { TODO : Issues 501, 667 }
+            { TODO : Issues 501, 667, 698 }
             { TODO : Review Search and Replace }
             { TODO : Auto PEP8 tool }
             { TODO: Interpreter raw_input #311 }
@@ -1381,7 +1382,7 @@ Var
   TabCtrl : TSpTBXTabControl;
 begin
   Result := nil;
-  IsRemote :=  TUnc.Parse(AFileName, Server, FName);
+  IsRemote :=  TSSHFileName.Parse(AFileName, Server, FName);
 
   // activate the editor if already open
   if IsRemote then
@@ -2298,7 +2299,7 @@ begin
     (icReInitialize in PyControl.ActiveInterpreter.InterpreterCapabilities) and
     not (PyControl.DebuggerState in [dsPaused, dsPostMortem]);
   actPostMortem.Enabled := PyControl.Inactive and
-    Assigned(PyControl.ActiveDebugger) and PyControl.ActiveDebugger.HaveTraceback;
+    Assigned(PyControl.ActiveDebugger) and PyControl.ActiveDebugger.PostMortemEnabled;
   if DebuggerState = dsPaused then begin
     actDebug.Caption := _(SResumeCaption);
     actDebug.Hint := _(SResumeHint);
@@ -2535,7 +2536,7 @@ begin
     if (FileName[1] ='<') and (FileName[Length(FileName)] = '>') then
       FileName :=  Copy(FileName, 2, Length(FileName)-2);
     Editor := GI_EditorFactory.GetEditorByNameOrTitle(FileName);
-    if not Assigned(Editor) and (FileExists(FileName) or FileName.StartsWith('\\')) then begin
+    if not Assigned(Editor) and (FileName.StartsWith('ssh') or FileExists(FileName)) then begin
       try
         DoOpenFile(FileName, '', TabControlIndex(ActiveTabControl));
       except
@@ -3127,13 +3128,13 @@ begin
         else Options := Options - [scoEndCharCompletion];
 
       TriggerChars := '.';
+      TimerInterval := 200;
       if CompleteAsYouType then begin
         for i := ord('a') to ord('z') do TriggerChars := TriggerChars + Chr(i);
         for i := ord('A') to ord('Z') do TriggerChars := TriggerChars + Chr(i);
-        TimerInterval := 10;
-      end
-      else
-        TimerInterval := 300;
+        if CompleteWithWordBreakChars or PyIDEOptions.CompleteWithOneEntry then
+          TimerInterval := 600;
+      end;
     end;
   end;
 
@@ -4887,7 +4888,7 @@ Var
 begin
   if ExecuteRemoteFileDialog(FileName, Server, rfdOpen) then
   begin
-    DoOpenFile(TUnc.Format(Server, FileName), '', TabControlIndex(ActiveTabControl));
+    DoOpenFile(TSSHFileName.Format(Server, FileName), '', TabControlIndex(ActiveTabControl));
   end;
 end;
 

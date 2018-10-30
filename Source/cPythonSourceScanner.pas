@@ -270,6 +270,7 @@ uses
   JclStrings,
   JclSysUtils,
   JvGnugettext,
+  SynCompletionProposal,
   StringResources,
   uCommonFunctions,
   cRefactoring,
@@ -463,7 +464,7 @@ end;
 constructor TPythonScanner.Create;
 begin
   inherited;
-  fCodeRE := CompiledRegExpr('^([ \t]*)(class|def)[ \t]+([^ \t\(\)\[\]\{\}:;\.,@]+)[ \t]*(\(.*\))?');
+  fCodeRE := CompiledRegExpr('^([ \t]*)(class|def)[ \t]+([^ \t\(\)\[\]\{\}:;\.,@]+)[ \t]*(\(([^>]*)\))?[ \t]*(->[ \t]*([^ \t:][^:]*))?:');
   fBlankLineRE := CompiledRegExpr('^[ \t]*($|\$|\#|\"\"\"|''''''|' + MaskChar +')');
   //fEscapedQuotesRE := CompiledRegExpr('(\\\\|\\\"|\\\'')');
   fStringsAndCommentsRE :=
@@ -755,7 +756,7 @@ var
   P, CodeStartP : PWideChar;
   LineNo, Indent, Index, CharOffset, CharOffset2, LastLength : integer;
   CodeStart : integer;
-  Line, Token, AsgnTargetList, S, SourceLine : string;
+  Line, Param, AsgnTargetList, S, SourceLine, LeftS, RightS : string;
   Stop : Boolean;
   CodeElement, LastCodeElement, Parent : TCodeElement;
   ModuleImport : TModuleImport;
@@ -810,7 +811,7 @@ begin
       // found class or function definition
       GlobalList.Clear;
 
-      S := StrReplaceChars(fCodeRE.Match[4], ['(', ')'], ' ');
+      S := fCodeRE.Match[5];
       if fCodeRE.Match[2] = 'class' then begin
         // class definition
         CodeElement := TParsedClass.Create;
@@ -818,27 +819,29 @@ begin
       end else begin
         // function or method definition
         CodeElement := TParsedFunction.Create;
-        CharOffset := fCodeRE.MatchPos[4];
+        TParsedFunction(CodeElement).ReturnType := fCodeRE.Match[7];
+
+        CharOffset := fCodeRE.MatchPos[5];
         LastLength := Length(S);
-        Token := StrToken(S, WideChar(','));
-        CharOffset2 := CalcIndent(Token);
-        Token := Trim(Token);
+        Param := GetParameter(S);
+        CharOffset2 := CalcIndent(Param);
+        Param := Trim(Param);
         Index := 0;
-        While Token <> '' do begin
+        While Param <> '' do begin
           Variable := TVariable.Create;
           Variable.Parent := CodeElement;
           CharOffsetToCodePos(CharOffset + CharOffset2, CodeStart, LineStarts, Variable.fCodePos);
-          if StrIsLeft(PWideChar(Token), '**') then begin
-            Variable.Name := Copy(Token, 3, Length(Token) -2);
+          if StrIsLeft(PWideChar(Param), '**') then begin
+            Variable.Name := Copy(Param, 3, Length(Param) -2);
             Include(Variable.Attributes, vaStarStarArgument);
-          end else if Token[1] = '*' then begin
-            Variable.Name := Copy(Token, 2, Length(Token) - 1);
+          end else if Param[1] = '*' then begin
+            Variable.Name := Copy(Param, 2, Length(Param) - 1);
             Include(Variable.Attributes, vaStarArgument);
           end else begin
-            Index := CharPos(Token, WideChar('='));
+            Index := CharPos(Param, WideChar('='));
             if Index > 0 then begin
-              Variable.Name := Trim(Copy(Token, 1, Index - 1));
-              Variable.DefaultValue := Copy(Token, Index + 1, Length(Token) - Index);
+              Variable.Name := Trim(Copy(Param, 1, Index - 1));
+              Variable.DefaultValue := Copy(Param, Index + 1, Length(Param) - Index);
               if Variable.DefaultValue.Length > 0 then begin
                 // Deal with string arguments (Issue 32)
                 if CharPos(Variable.DefaultValue, MaskChar) > 0 then begin
@@ -852,7 +855,7 @@ begin
                 Variable.ObjType := GetExpressionType(Variable.DefaultValue, Variable.Attributes);
               end;
             end else begin
-              Variable.Name := Token;
+              Variable.Name := Param;
               Include(Variable.Attributes, vaArgument);
             end;
           end;
@@ -862,14 +865,17 @@ begin
             Variable.Name :=
               Copy(SourceLine, Variable.CodePos.CharOffset, Length(Variable.Name));
           end;
-
+          if StrSplit(':', Variable.Name, LeftS, RightS) then begin
+            Variable.Name := TrimRight(LeftS);
+            Variable.ObjType := Trim(RightS);
+          end;
           TParsedFunction(CodeElement).fArguments.Add(Variable);
 
           Inc(CharOffset,  LastLength - Length(S));
           LastLength := Length(S);
-          Token := StrToken(S, ',');
-          CharOffset2 := CalcIndent(Token);
-          Token := Trim(Token);
+          Param := GetParameter(S);
+          CharOffset2 := CalcIndent(Param);
+          Param := Trim(Param);
         end;
       end;
       CodeElement.Name := fCodeRE.Match[3];
@@ -910,17 +916,17 @@ begin
         S := fImportRE.Match[1];
         CharOffset := fImportRE.MatchPos[1];
         LastLength := Length(S);
-        Token := StrToken(S, ',');
-        While Token <> '' do begin
-          if fAliasRE.Exec(Token) then begin
+        Param := StrToken(S, ',');
+        While Param <> '' do begin
+          if fAliasRE.Exec(Param) then begin
             if fAliasRE.MatchLen[3] > 0 then begin
-              Token := fAliasRE.Match[3];
+              Param := fAliasRE.Match[3];
               CharOffset2 := fAliasRE.MatchPos[3] - 1;
             end else begin
-              Token := fAliasRE.Match[1];
+              Param := fAliasRE.Match[1];
               CharOffset2 := fAliasRE.MatchPos[1] - 1;
             end;
-            ModuleImport := TModuleImport.Create(Token, CodeBlock(CodeStart, LineNo));
+            ModuleImport := TModuleImport.Create(Param, CodeBlock(CodeStart, LineNo));
             CharOffsetToCodePos(CharOffset + CharOffset2, CodeStart, LineStarts, ModuleImport.fCodePos);
             ModuleImport.Parent := Module;
             if fAliasRE.MatchLen[3] > 0 then
@@ -929,7 +935,7 @@ begin
           end;
           Inc(CharOffset,  LastLength - Length(S));
           LastLength := Length(S);
-          Token := StrToken(S, ',');
+          Param := StrToken(S, ',');
         end;
       end else if fFromImportRE.Exec(Line) then begin
         // From Import statement
@@ -949,18 +955,18 @@ begin
             S := StrRemoveChars(S, ['(',')']); //from module import (a,b,c) form
           end;
           LastLength := Length(S);
-          Token := StrToken(S, ',');
-          While Token <> '' do begin
-            if fAliasRE.Exec(Token) then begin
+          Param := StrToken(S, ',');
+          While Param <> '' do begin
+            if fAliasRE.Exec(Param) then begin
               if fAliasRE.MatchLen[3] > 0 then begin
-                Token := fAliasRE.Match[3];
+                Param := fAliasRE.Match[3];
                 CharOffset2 := fAliasRE.MatchPos[3] - 1;
               end else begin
-                Token := fAliasRE.Match[1];
+                Param := fAliasRE.Match[1];
                 CharOffset2 := fAliasRE.MatchPos[1] - 1;
               end;
               Variable := TVariable.Create;
-              Variable.Name := Token;
+              Variable.Name := Param;
               CharOffsetToCodePos(CharOffset + CharOffset2, CodeStart, LineStarts, Variable.fCodePos);
               Variable.Parent := ModuleImport;
               Include(Variable.Attributes, vaImported);
@@ -970,7 +976,7 @@ begin
             end;
             Inc(CharOffset,  LastLength - Length(S));
             LastLength := Length(S);
-            Token := StrToken(S, ',');
+            Param := StrToken(S, ',');
           end;
         end;
         ModuleImport.Parent := Module;
@@ -983,29 +989,29 @@ begin
           AsgnTargetCount := 0;
           Variable := nil;
           while AsgnTargetList <> '' do begin
-            Token := StrToken(AsgnTargetList, ',');
+            Param := StrToken(AsgnTargetList, ',');
             CharOffset := CharOffset2;  // Keeps track of the start of the identifier
-            Inc(CharOffset, CalcIndent(Token, 1)); // do not expand tabs
-            Inc(CharOffset2, Succ(Length(Token))); // account for ,
-            Token := Trim(Token);
-            if StrIsLeft(PWideChar(Token), 'self.') then begin
+            Inc(CharOffset, CalcIndent(Param, 1)); // do not expand tabs
+            Inc(CharOffset2, Succ(Length(Param))); // account for ,
+            Param := Trim(Param);
+            if StrIsLeft(PWideChar(Param), 'self.') then begin
               // class variable
-              Token := Copy(Token, 6, Length(Token) - 5);
+              Param := Copy(Param, 6, Length(Param) - 5);
               Inc(CharOffset, 5);  // Length of "self."
               // search for class attributes
               Klass := GetActiveClass(LastCodeElement);
               if Assigned(Klass) then begin
                 Variable := TVariable.Create;
-                Variable.Name := Token;
+                Variable.Name := Param;
                 Variable.Parent := Klass;
                 CharOffsetToCodePos(CharOffset, CodeStart, LineStarts, Variable.fCodePos);
                 Klass.fAttributes.Add(Variable);
                 Inc(AsgnTargetCount);
               end;
-            end else if (GlobalList.IndexOf(Token) < 0) then begin
+            end else if (GlobalList.IndexOf(Param) < 0) then begin
               // search for local/global variables
               Variable := TVariable.Create;
-              Variable.Name := Token;
+              Variable.Name := Param;
               Variable.Parent := LastCodeElement;
               CharOffsetToCodePos(CharOffset, CodeStart, LineStarts, Variable.fCodePos);
               if LastCodeElement.ClassType = TParsedFunction then begin
@@ -1040,15 +1046,15 @@ begin
         AsgnTargetList := Copy(Line, fForRE.MatchPos[1], fForRE.MatchPos[3]-fForRE.MatchPos[1]);
         CharOffset2 := fForRE.MatchPos[1]; // Keeps track of the end of the identifier
         while AsgnTargetList <> '' do begin
-          Token := StrToken(AsgnTargetList, ',');
+          Param := StrToken(AsgnTargetList, ',');
           CharOffset := CharOffset2;  // Keeps track of the start of the identifier
-          Inc(CharOffset, CalcIndent(Token, 1)); // do not expand tabs
-          Inc(CharOffset2, Succ(Length(Token))); // account for ,
-          Token := Trim(Token);
-          if (GlobalList.IndexOf(Token) < 0) then begin
+          Inc(CharOffset, CalcIndent(Param, 1)); // do not expand tabs
+          Inc(CharOffset2, Succ(Length(Param))); // account for ,
+          Param := Trim(Param);
+          if (GlobalList.IndexOf(Param) < 0) then begin
             // search for local/global variables
             Variable := TVariable.Create;
-            Variable.Name := Token;
+            Variable.Name := Param;
             Variable.Parent := LastCodeElement;
             CharOffsetToCodePos(CharOffset, CodeStart, LineStarts, Variable.fCodePos);
             if LastCodeElement.ClassType = TParsedFunction then
@@ -1228,7 +1234,7 @@ begin
   for i := 0 to fGlobals.Count - 1 do
     SList.AddObject(TVariable(fGlobals[i]).Name, fGlobals[i]);
   // Add the path of the executed file to the Python path
-  if not TUnc.Parse(Self.FileName, Server, Path) then
+  if not TSSHFileName.Parse(Self.FileName, Server, Path) then
     Path := ExtractFileDir(Self.fFileName)
   else
     Path := '';
@@ -1339,10 +1345,12 @@ function TParsedFunction.ArgumentsString: string;
       Result := '*' + Variable.Name
     else if vaStarStarArgument in Variable.Attributes then
       Result := '**' + Variable.Name
-    else if vaArgumentWithDefault in Variable.Attributes then
-      Result := Format('%s=%s', [Variable.Name, Variable.DefaultValue])
     else
       Result := Variable.Name;
+    if Variable.ObjType <> '' then
+       Result := Result + ': ' +Variable.ObjType;
+    if vaArgumentWithDefault in Variable.Attributes then
+      Result := Result + '=' + Variable.DefaultValue;
   end;
 
 Var
@@ -1423,6 +1431,7 @@ begin
   inherited;
   fSuperClasses := TStringList.Create;
   fSuperClasses.CaseSensitive := True;
+  fSuperClasses.StrictDelimiter := True;
   fAttributes := TObjectList.Create(True);
 end;
 
@@ -1620,7 +1629,7 @@ function TBaseCodeElement.GetDottedName: string;
 // Unique name in dotted notation;
 begin
   if Assigned(Parent) then
-    Result := Parent.GetDottedName + Name
+    Result := Parent.GetDottedName + '.' + Name
   else
     Result := Name;
 end;

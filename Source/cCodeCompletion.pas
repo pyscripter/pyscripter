@@ -301,7 +301,7 @@ begin
     // autocomplete import statement
     fFileName := FileName;
     // Add the file path to the Python path - Will be automatically removed
-    if not TUnc.Parse(fFileName, Server, Dir) then
+    if not TSSHFileName.Parse(fFileName, Server, Dir) then
       Dir := ExtractFileDir(fFileName)
     else
       Dir := '';
@@ -359,7 +359,7 @@ begin
     DottedModName := TRegExpressions.RE_From.Match[2];
     if fPathDepth > 0 then
     begin
-      if (FileName = '') or TUnc.Parse(FileName, Server, Dir) then begin
+      if (FileName = '') or TSSHFileName.Parse(FileName, Server, Dir) then begin
         Result := True;  // No completion
         Exit;
       end;
@@ -382,7 +382,7 @@ begin
     else
     begin
       // Add the file path to the Python path - Will be automatically removed
-      if (fFileName <> '') and not TUnc.Parse(fFileName, Server, Dir) then
+      if (fFileName <> '') and not TSSHFileName.Parse(fFileName, Server, Dir) then
         PythonPathAdder := PyControl.InternalInterpreter.AddPathToPythonPath
           (ExtractFileDir(fFileName));
       if CharPos(DottedModName, '.') > 0 then begin
@@ -550,7 +550,7 @@ begin
   Index := CharLastPos(lookup, WideChar('.'));
 
   // Add the file path to the Python path - Will be automatically removed
-  if not TUnc.Parse(fFileName, Server, Dir) then
+  if not TSSHFileName.Parse(fFileName, Server, Dir) then
     Dir := ExtractFileDir(fFileName)
   else
     Dir := '';

@@ -72,7 +72,7 @@ object CommandsDataModule: TCommandsDataModule
     Left = 32
     Top = 241
     Bitmap = {
-      494C01010A000D00840010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C01010A000D008C0010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -1126,9 +1126,6 @@ object CommandsDataModule: TCommandsDataModule
           
             '                    argText = formatargspec(args[argOffset:], va' +
             'rargs, varkw, defaults)[1:-1]'
-          
-            '                    #argText = "%s(%s)" % (fob.func_name, argTex' +
-            't)'
           '                except:'
           '                    pass'
           '            return (argText, getdoc(fob))'
@@ -1619,8 +1616,8 @@ object CommandsDataModule: TCommandsDataModule
             'ect - From IDLE"'
           '        import types'
           
-            '        from inspect import isclass, isroutine, getfullargspec, ' +
-            'formatargspec, getdoc'
+            '        from inspect import isclass, isroutine, signature, getdo' +
+            'c'
           '        argText = ""'
           '        if ob is not None:'
           '            argOffset = 0'
@@ -1642,15 +1639,11 @@ object CommandsDataModule: TCommandsDataModule
           '            # Try and build one for Python defined functions'
           '            if isroutine(fob):'
           '                try:'
-          
-            '                    args, varargs, varkw, defaults, kwonlyargs, ' +
-            'kwonlydefaults, ann =  getfullargspec(fob)'
-          
-            '                    argText = formatargspec(args[argOffset:], va' +
-            'rargs, varkw, defaults, kwonlyargs, kwonlydefaults, ann)[1:-1]'
-          
-            '                    #argText = "%s(%s)" % (fob.func_name, argTex' +
-            't)'
+          '                    argText = str(signature(fob))[1:]'
+          '                    idx = argText.rfind(") ->")'
+          '                    if idx < 0:'
+          '                        idx = argText.rfind(")")'
+          '                    argText = argText[0:idx]'
           '                except:'
           '                    pass'
           '            return (argText, getdoc(fob))'
@@ -2326,9 +2319,6 @@ object CommandsDataModule: TCommandsDataModule
           
             '                    argText = formatargspec(args[argOffset:], va' +
             'rargs, varkw, defaults)[1:-1]'
-          
-            '                    #argText = "%s(%s)" % (fob.func_name, argTex' +
-            't)'
           '                except:'
           '                    pass'
           '            return (argText, getdoc(fob))'
@@ -3154,8 +3144,8 @@ object CommandsDataModule: TCommandsDataModule
             'ect - From IDLE"'
           '        import types'
           
-            '        from inspect import isclass, isroutine, getfullargspec, ' +
-            'formatargspec, getdoc'
+            '        from inspect import isclass, isroutine, signature, getdo' +
+            'c'
           '        argText = ""'
           '        if ob is not None:'
           '            argOffset = 0'
@@ -3177,15 +3167,11 @@ object CommandsDataModule: TCommandsDataModule
           '            # Try and build one for Python defined functions'
           '            if isroutine(fob):'
           '                try:'
-          
-            '                    args, varargs, varkw, defaults, kwonlyargs, ' +
-            'kwonlydefaults, ann =  getfullargspec(fob)'
-          
-            '                    argText = formatargspec(args[argOffset:], va' +
-            'rargs, varkw, defaults, kwonlyargs, kwonlydefaults, ann)[1:-1]'
-          
-            '                    #argText = "%s(%s)" % (fob.func_name, argTex' +
-            't)'
+          '                    argText = str(signature(fob))[1:]'
+          '                    idx = argText.rfind(") ->")'
+          '                    if idx < 0:'
+          '                        idx = argText.rfind(")")'
+          '                    argText = argText[0:idx]'
           '                except:'
           '                    pass'
           '            return (argText, getdoc(fob))'
@@ -4681,7 +4667,7 @@ object CommandsDataModule: TCommandsDataModule
     Left = 36
     Top = 194
     Bitmap = {
-      494C0101A300E000B40010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C0101A300E000BC0010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000009002000001002000000000000090
       0200000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

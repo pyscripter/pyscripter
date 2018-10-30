@@ -79,21 +79,21 @@ type
   TSynBaseCompletionProposalMeasureItem = procedure(Sender: TObject;
     Index: Integer; TargetCanvas: TCanvas; var ItemWidth: Integer) of object;
 
-  TCodeCompletionEvent = procedure(Sender: TObject; var Value: UnicodeString;
+  TCodeCompletionEvent = procedure(Sender: TObject; var Value: string;
     Shift: TShiftState; Index: Integer; EndToken: WideChar) of object;
 
-  TAfterCodeCompletionEvent = procedure(Sender: TObject; const Value: UnicodeString;
+  TAfterCodeCompletionEvent = procedure(Sender: TObject; const Value: string;
     Shift: TShiftState; Index: Integer; EndToken: WideChar) of object;
 
   TValidateEvent = procedure(Sender: TObject; Shift: TShiftState;
-    EndToken: WideChar) of object; 
+    EndToken: WideChar) of object;
 
   TCompletionParameter = procedure(Sender: TObject; CurrentIndex: Integer;
     var Level, IndexToDisplay: Integer; var Key: WideChar;
-    var DisplayString: UnicodeString) of object;
+    var DisplayString: string) of object;
 
   TCompletionExecute = procedure(Kind: SynCompletionType; Sender: TObject;
-    var CurrentInput: UnicodeString; var x, y: Integer; var CanExecute: Boolean) of object;
+    var CurrentInput: string; var x, y: Integer; var CanExecute: Boolean) of object;
 
   TCompletionChange = procedure(Sender: TObject; AIndex: Integer) of object;
 
@@ -122,7 +122,7 @@ type
 
   TSynBaseCompletionProposalForm = class(TSynForm)
   private
-    FCurrentString: UnicodeString;
+    FCurrentString: string;
     FOnKeyPress: TKeyPressWEvent;
     FOnPaintItem: TSynBaseCompletionProposalPaintItem;
     FOnMeasureItem: TSynBaseCompletionProposalMeasureItem;
@@ -145,7 +145,7 @@ type
     Bitmap: TBitmap; // used for drawing
     TitleBitmap: TBitmap; // used for title-drawing
     FCurrentEditor: TCustomSynEdit;
-    FTitle: UnicodeString;
+    FTitle: string;
     FTitleFont: TFont;
     FFont: TFont;
     FResizeable: Boolean;
@@ -169,12 +169,12 @@ type
     FCurrentIndex: Integer;
     FCurrentLevel: Integer;
     FDefaultKind: SynCompletionType;
-    FEndOfTokenChr: UnicodeString;
-    FTriggerChars: UnicodeString;
+    FEndOfTokenChr: string;
+    FTriggerChars: string;
     OldShowCaret: Boolean;
     FHeightBuffer: Integer;
     FColumns: TProposalColumns;
-    procedure SetCurrentString(const Value: UnicodeString);
+    procedure SetCurrentString(const Value: string);
     procedure MoveLine(cnt: Integer);
     procedure ScrollbarOnChange(Sender: TObject);
     procedure ScrollbarOnScroll(Sender: TObject; ScrollCode: TScrollCode; var ScrollPos: Integer);
@@ -192,7 +192,7 @@ type
     procedure DoFormHide(Sender: TObject);
     procedure AdjustScrollBarPosition;
     procedure AdjustMetrics;
-    procedure SetTitle(const Value: UnicodeString);
+    procedure SetTitle(const Value: string);
     procedure SetFont(const Value: TFont);
     procedure SetTitleFont(const Value: TFont);
     procedure SetColumns(Value: TProposalColumns);
@@ -230,7 +230,7 @@ type
 
     property DisplayType: SynCompletionType read FDisplayKind write FDisplayKind;
     property DefaultType: SynCompletionType read FDefaultKind write FDefaultKind default ctCode;
-    property CurrentString: UnicodeString read FCurrentString write SetCurrentString;
+    property CurrentString: string read FCurrentString write SetCurrentString;
     property CurrentIndex: Integer read FCurrentIndex write FCurrentIndex;
     property CurrentLevel: Integer read FCurrentLevel write FCurrentLevel;
     property OnParameterToken: TCompletionParameter read FParameterToken write FParameterToken;
@@ -243,7 +243,7 @@ type
     property InsertList: TStrings read FInsertList write SetInsertList;
     property AssignedList: TStrings read FAssignedList write FAssignedList;
     property Position: Integer read FPosition write SetPosition;
-    property Title: UnicodeString read fTitle write SetTitle;
+    property Title: string read fTitle write SetTitle;
     property ClSelect: TColor read FClSelect write FClSelect default clHighlight;
     property ClSelectedText: TColor read FClSelectText write FClSelectText default clHighlightText;
     property ClBackground: TColor read FClBackGround write FClBackGround default clWindow;
@@ -257,8 +257,8 @@ type
     property CaseSensitive: Boolean read fCase write fCase default False;
     property CurrentEditor: TCustomSynEdit read fCurrentEditor write fCurrentEditor;
     property MatchText: Boolean read fMatchText write fMatchText;
-    property EndOfTokenChr: UnicodeString read FEndOfTokenChr write FEndOfTokenChr;
-    property TriggerChars: UnicodeString read FTriggerChars write FTriggerChars;
+    property EndOfTokenChr: string read FEndOfTokenChr write FEndOfTokenChr;
+    property TriggerChars: string read FTriggerChars write FTriggerChars;
     property CompleteWithTab: Boolean read FCompleteWithTab write FCompleteWithTab;
     property CompleteWithEnter: Boolean read FCompleteWithEnter write FCompleteWithEnter;
 
@@ -276,7 +276,7 @@ type
     FOnClose: TNotifyEvent;
     FOnShow: TNotifyEvent;
     FWidth: Integer;
-    FPreviousToken: UnicodeString;
+    FPreviousToken: string;
     FDotOffset: Integer;
     FOptions: TSynCompletionOptions;
     FNbLinesInWindow: Integer;
@@ -285,7 +285,7 @@ type
     FCanExecute: Boolean;
     function GetClSelect: TColor;
     procedure SetClSelect(const Value: TColor);
-    function GetCurrentString: UnicodeString;
+    function GetCurrentString: string;
     function GetItemList: TStrings;
     function GetInsertList: TStrings;
     function GetOnCancel: TNotifyEvent;
@@ -294,7 +294,7 @@ type
     function GetOnMeasureItem: TSynBaseCompletionProposalMeasureItem;
     function GetOnValidate: TValidateEvent;
     function GetPosition: Integer;
-    procedure SetCurrentString(const Value: UnicodeString);
+    procedure SetCurrentString(const Value: string);
     procedure SetItemList(const Value: TStrings);
     procedure SetInsertList(const Value: TStrings);
     procedure SetNbLinesInWindow(const Value: Integer);
@@ -316,19 +316,19 @@ type
     procedure SetClBack(const Value: TColor);
     function GetClSelectedText: TColor;
     procedure SetClSelectedText(const Value: TColor);
-    function GetEndOfTokenChar: UnicodeString;
-    procedure SetEndOfTokenChar(const Value: UnicodeString);
+    function GetEndOfTokenChar: string;
+    procedure SetEndOfTokenChar(const Value: string);
     function GetClTitleBackground: TColor;
     procedure SetClTitleBackground(const Value: TColor);
-    procedure SetTitle(const Value: UnicodeString);
-    function GetTitle: UnicodeString;
+    procedure SetTitle(const Value: string);
+    function GetTitle: string;
     function GetFont: TFont;
     function GetTitleFont: TFont;
     procedure SetFont(const Value: TFont);
     procedure SetTitleFont(const Value: TFont);
     function GetOptions: TSynCompletionOptions;
-    function GetTriggerChars: UnicodeString;
-    procedure SetTriggerChars(const Value: UnicodeString);
+    function GetTriggerChars: string;
+    procedure SetTriggerChars(const Value: string);
     function GetOnChange: TCompletionChange;
     procedure SetOnChange(const Value: TCompletionChange);
     function GetOnCodeItemInfo: TCodeItemInfo;
@@ -346,33 +346,33 @@ type
   protected
     procedure DefineProperties(Filer: TFiler); override;
     procedure SetOptions(const Value: TSynCompletionOptions); virtual;
-    procedure EditorCancelMode(Sender: TObject); virtual;                       
+    procedure EditorCancelMode(Sender: TObject); virtual;
     procedure HookedEditorCommand(Sender: TObject; AfterProcessing: Boolean;
       var Handled: Boolean; var Command: TSynEditorCommand; var AChar: WideChar;
       Data: Pointer; HandlerData: Pointer); virtual;
   public
     constructor Create(Aowner: TComponent); override;
-    procedure Execute(s: UnicodeString; x, y: Integer);
-    procedure ExecuteEx(s: UnicodeString; x, y: Integer; Kind: SynCompletionType = ctCode); virtual;
+    procedure Execute(s: string; x, y: Integer);
+    procedure ExecuteEx(s: string; x, y: Integer; Kind: SynCompletionType = ctCode); virtual;
     procedure Activate;
     procedure Deactivate;
     procedure ChangeScale(M, D: Integer); virtual;
 
     procedure ClearList;
-    function DisplayItem(AIndex: Integer): UnicodeString;
-    function InsertItem(AIndex: Integer): UnicodeString;
-    procedure AddItemAt(Where: Integer; ADisplayText, AInsertText: UnicodeString);
-    procedure AddItem(ADisplayText, AInsertText: UnicodeString);
+    function DisplayItem(AIndex: Integer): string;
+    function InsertItem(AIndex: Integer): string;
+    procedure AddItemAt(Where: Integer; ADisplayText, AInsertText: string);
+    procedure AddItem(ADisplayText, AInsertText: string);
     procedure ResetAssignedList;
 
     property OnKeyPress: TKeyPressWEvent read GetOnKeyPress write SetOnKeyPress;
     property OnValidate: TValidateEvent read GetOnValidate write SetOnValidate;
     property OnCancel: TNotifyEvent read GetOnCancel write SetOnCancel;
-    property CurrentString: UnicodeString read GetCurrentString write SetCurrentString;
+    property CurrentString: string read GetCurrentString write SetCurrentString;
     property DotOffset: Integer read FDotOffset write FDotOffset;
     property DisplayType: SynCompletionType read GetDisplayKind write SetDisplayKind;
     property Form: TSynBaseCompletionProposalForm read FForm;
-    property PreviousToken: UnicodeString read FPreviousToken;
+    property PreviousToken: string read FPreviousToken;
     property Position: Integer read GetPosition write SetPosition;
     property FormatParams : boolean read fFormatParams write fFormatParams;
   published
@@ -387,9 +387,9 @@ type
     property ClBackground: TColor read GetClBack write SetClBack default clWindow;
     property ClTitleBackground: TColor read GetClTitleBackground write SetClTitleBackground default clBtnFace;
     property Width: Integer read FWidth write SetWidth default 260;
-    property EndOfTokenChr: UnicodeString read GetEndOfTokenChar write SetEndOfTokenChar;
-    property TriggerChars: UnicodeString read GetTriggerChars write SetTriggerChars;
-    property Title: UnicodeString read GetTitle write SetTitle;
+    property EndOfTokenChr: string read GetEndOfTokenChar write SetEndOfTokenChar;
+    property TriggerChars: string read GetTriggerChars write SetTriggerChars;
+    property Title: string read GetTitle write SetTitle;
     property Font: TFont read GetFont write SetFont;
     property TitleFont: TFont read GetTitleFont write SetTitleFont;
     property Columns: TProposalColumns read GetColumns write SetColumns;
@@ -429,12 +429,12 @@ type
     procedure EditorKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure EditorKeyPress(Sender: TObject; var Key: WideChar);
     procedure TimerExecute(Sender: TObject);
-    function GetPreviousToken(AEditor: TCustomSynEdit): UnicodeString;
-    function GetCurrentInput(AEditor: TCustomSynEdit): UnicodeString;
+    function GetPreviousToken(AEditor: TCustomSynEdit): string;
+    function GetCurrentInput(AEditor: TCustomSynEdit): string;
     function GetTimerInterval: Integer;
     procedure SetTimerInterval(const Value: Integer);
     function GetEditor(i: Integer): TCustomSynEdit;
-    procedure InternalCancelCompletion; 
+    procedure InternalCancelCompletion;
   protected
     procedure DoExecute(AEditor: TCustomSynEdit); virtual;
     procedure Notification(AComponent: TComponent; Operation: TOperation); override;
@@ -450,7 +450,7 @@ type
     procedure AddEditor(AEditor: TCustomSynEdit);
     function RemoveEditor(AEditor: TCustomSynEdit): boolean;
     function EditorsCount: integer;
-    procedure ExecuteEx(s: UnicodeString; x, y: Integer; Kind : SynCompletionType = ctCode); override;
+    procedure ExecuteEx(s: string; x, y: Integer; Kind : SynCompletionType = ctCode); override;
     procedure ActivateCompletion;
     procedure CancelCompletion;
     procedure ActivateTimer(ACurrentEditor: TCustomSynEdit);
@@ -473,7 +473,7 @@ type
     fEditor: TCustomSynEdit;
     fAutoCompleteList: TStrings;
     fNoNextKey : Boolean;
-    FEndOfTokenChr: UnicodeString;
+    FEndOfTokenChr: string;
     FOnBeforeExecute: TNotifyEvent;
     FOnAfterExecute: TNotifyEvent;
     FInternalCompletion: TSynCompletionProposal;
@@ -486,7 +486,7 @@ type
     function GetOptions: TSynCompletionOptions;
     procedure SetOptions(const Value: TSynCompletionOptions);
     procedure DoInternalAutoCompletion(Sender: TObject;
-      const Value: UnicodeString; Shift: TShiftState; Index: Integer;
+      const Value: string; Shift: TShiftState; Index: Integer;
       EndToken: WideChar);
     function GetExecuting: Boolean;
   protected
@@ -496,21 +496,21 @@ type
     procedure EditorKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
       virtual;
     procedure EditorKeyPress(Sender: TObject; var Key: WideChar); virtual;
-    function GetPreviousToken(Editor: TCustomSynEdit): UnicodeString;
+    function GetPreviousToken(Editor: TCustomSynEdit): string;
   public
     function GetCompletionProposal : TSynCompletionProposal;
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
-    procedure Execute(Token: UnicodeString; Editor: TCustomSynEdit);
-    procedure ExecuteEx(Token: UnicodeString; Editor: TCustomSynEdit; LookupIfNotExact: Boolean);
-    function GetTokenList: UnicodeString;
-    function GetTokenValue(Token: UnicodeString): UnicodeString;
+    procedure Execute(Token: string; Editor: TCustomSynEdit);
+    procedure ExecuteEx(Token: string; Editor: TCustomSynEdit; LookupIfNotExact: Boolean);
+    function GetTokenList: string;
+    function GetTokenValue(Token: string): string;
     procedure CancelCompletion;
     property Executing: Boolean read GetExecuting;
   published
     property AutoCompleteList: TStrings read fAutoCompleteList
       write SetAutoCompleteList;
-    property EndOfTokenChr: UnicodeString read FEndOfTokenChr write FEndOfTokenChr;
+    property EndOfTokenChr: string read FEndOfTokenChr write FEndOfTokenChr;
     property Editor: TCustomSynEdit read fEditor write SetEditor;
     property ShortCut: TShortCut read FShortCut write SetShortCut;
     property OnBeforeExecute: TNotifyEvent read FOnBeforeExecute write FOnBeforeExecute;
@@ -525,7 +525,7 @@ type
     FInternalWidth: Integer;
     FFontStyle: TFontStyles;
   protected
-    procedure DefineProperties(Filer: TFiler); override;    
+    procedure DefineProperties(Filer: TFiler); override;
   public
     constructor Create(Collection: TCollection); override;
     destructor Destroy; override;
@@ -552,11 +552,18 @@ type
 
 
 procedure FormattedTextOut(TargetCanvas: TCanvas; const Rect: TRect;
-  const Text: UnicodeString; Selected: Boolean; Columns: TProposalColumns; Images: TImageList);
-function FormattedTextWidth(TargetCanvas: TCanvas; const Text: UnicodeString;
+  const Text: string; Selected: Boolean; Columns: TProposalColumns; Images: TImageList);
+function FormattedTextWidth(TargetCanvas: TCanvas; const Text: string;
   Columns: TProposalColumns; Images: TImageList): Integer;
-function PrettyTextToFormattedString(const APrettyText: UnicodeString;
-  AlternateBoldStyle: Boolean = False): UnicodeString;
+function PrettyTextToFormattedString(const APrettyText: string;
+  AlternateBoldStyle: Boolean = False): string;
+(*
+   GetParameter extracts a parameter from a formatted function parameter string
+   Parameter lists can contain default values which may  be strings
+   Ignores commas in strings and brackets
+   Python parameter lists can contain type hints which are arbitrary expressions
+*)
+function GetParameter(var S: string): string;
 
 implementation
 
@@ -578,7 +585,7 @@ type
 
   PFormatChunk = ^TFormatChunk;
   TFormatChunk = record
-    Str: UnicodeString;
+    Str: string;
     Command: TFormatCommand;
     Data: Pointer;
   end;
@@ -659,12 +666,12 @@ begin
 end;
 
 
-function ParseFormatChunks(const FormattedString: UnicodeString; ChunkList: TFormatChunkList;
+function ParseFormatChunks(const FormattedString: string; ChunkList: TFormatChunkList;
   const StripCommands: TFormatCommands): Boolean;
 var
   CurChar: WideChar;
   CurPos: Integer;
-  CurrentChunk: UnicodeString;
+  CurrentChunk: string;
   PossibleErrorPos: Integer;
   ErrorFound: Boolean;
 
@@ -707,8 +714,8 @@ var
 
   procedure ParseEscapeSequence;
   var
-    Command: UnicodeString;
-    Parameter: UnicodeString;
+    Command: string;
+    Parameter: string;
     CommandType: TFormatCommand;
     Data: Pointer;
   begin
@@ -857,7 +864,7 @@ begin
 end;
 
 
-function StripFormatCommands(const FormattedString: UnicodeString): UnicodeString;
+function StripFormatCommands(const FormattedString: string): string;
 var
   Chunks: TFormatChunkList;
   i: Integer;
@@ -992,7 +999,7 @@ begin
 end;
 
 procedure FormattedTextOut(TargetCanvas: TCanvas; const Rect: TRect;
-  const Text: UnicodeString; Selected: Boolean; Columns: TProposalColumns; Images: TImageList);
+  const Text: string; Selected: Boolean; Columns: TProposalColumns; Images: TImageList);
 var
   Chunks: TFormatChunkList;
   StripCommands: TFormatCommands;
@@ -1011,7 +1018,7 @@ begin
   end;
 end;
 
-function FormattedTextWidth(TargetCanvas: TCanvas; const Text: UnicodeString;
+function FormattedTextWidth(TargetCanvas: TCanvas; const Text: string;
   Columns: TProposalColumns; Images: TImageList): Integer;
 var
   Chunks: TFormatChunkList;
@@ -1028,8 +1035,8 @@ begin
   end;
 end;
 
-function PrettyTextToFormattedString(const APrettyText: UnicodeString;
-  AlternateBoldStyle: Boolean = False): UnicodeString;
+function PrettyTextToFormattedString(const APrettyText: string;
+  AlternateBoldStyle: Boolean = False): string;
 var
   i: Integer;
   Color: TColor;
@@ -1152,35 +1159,55 @@ end;
 
 
 //============================================================================
-
-
-//Moved from completion component
-function FormatParamList(const S: UnicodeString; CurrentIndex: Integer): UnicodeString;
+function GetParameter(var S: string): string;
 var
+  Idx : integer;
+  BracketCounter : integer;
+  StringOpener : WideChar;
+begin
+  BracketCounter := 0;
+  StringOpener := WideChar(0);
+  for Idx := 1 to Length(S) do begin
+    if StringOpener <> WideChar(0) then begin
+      if S[Idx] = StringOpener then
+        StringOpener := WideChar(0);
+    end else if  Ord(S[Idx]) < 128 then begin
+      if AnsiChar(S[Idx]) in ['''','"'] then
+        StringOpener := S[Idx]
+      else if AnsiChar(S[Idx]) in ['(','{','['] then
+        Inc(BracketCounter)
+      else if AnsiChar(S[Idx]) in [')','}',']'] then
+        Dec(BracketCounter)
+      else if (BracketCounter = 0) and (S[Idx] = ',') then begin
+        Result := Copy (S, 1, Idx - 1);
+        Delete(S, 1, Idx);
+        Exit;
+      end;
+    end;
+  end;
+  Result := S;
+  S := '';
+end;
+
+function FormatParamList(const Params: string; CurrentIndex: Integer): string;
+var
+  S, Param: string;
   i: Integer;
-  List: TStrings;
 begin
   Result := '';
-  List := TStringList.Create;
-  try
-    List.StrictDelimiter := True;
-    List.CommaText := S;
-    for i := 0 to List.Count - 1 do
-    begin
-      if i = CurrentIndex then
-        Result := Result + '\style{~B}' + List[i] + '\style{~B}'
-      else
-        Result := Result + List[i];
-
-      if i < List.Count - 1 then
-        Result := Result + ', ';
-// KV        Result := Result + ' ';
-    end;
-  finally
-    List.Free;
-  end;
+  i := 0;
+  S := Params.Trim;
+  Repeat
+    Param := GetParameter(S);
+    if i = CurrentIndex then
+      Result := Result + '\style{~B}' + Param + '\style{~B}'
+    else
+      Result := Result + Param;
+      if S.Length > 0 then
+        Result := Result + ',';
+    Inc(i);
+  Until S.Length = 0;
 end;
-// End GBN 10/11/2001
 
 { TSynBaseCompletionProposalForm }
 
@@ -1457,7 +1484,7 @@ begin
           OnCancel(Self);
     end;
   end;
-  Invalidate; 
+  Invalidate;
 end;
 
 procedure TSynBaseCompletionProposalForm.MouseDown(Button: TMouseButton;
@@ -1538,7 +1565,7 @@ var
   TmpRect: TRect;
   TmpX: Integer;
   AlreadyDrawn: boolean;
-  TmpString: UnicodeString;
+  TmpString: string;
   i: Integer;
 begin
   if FDisplayKind = ctCode then
@@ -1678,7 +1705,7 @@ end;
 
 procedure TSynBaseCompletionProposalForm.ScrollbarOnScroll(Sender: TObject;
   ScrollCode: TScrollCode; var ScrollPos: Integer);
-begin  
+begin
   with CurrentEditor as TCustomSynEdit do
   begin
     SetFocus;
@@ -1714,7 +1741,7 @@ begin
   if FMatchText and (Index >= 0) and (Index < FAssignedList.Count) then
     Result := Integer(FAssignedList.Objects[Index])
   else
-    Result := Index;
+    Result := -1;
 end;
 
 function TSynBaseCompletionProposalForm.PhysicalToLogicalIndex(Index: Integer): Integer;
@@ -1733,11 +1760,11 @@ begin
     Result := Index;
 end;
 
-procedure TSynBaseCompletionProposalForm.SetCurrentString(const Value: UnicodeString);
+procedure TSynBaseCompletionProposalForm.SetCurrentString(const Value: string);
 
   function MatchItem(AIndex: Integer; UseItemList: Boolean): Boolean;
   var
-    CompareString: UnicodeString;
+    CompareString: string;
   begin
 {    if UseInsertList then
       CompareString := FInsertList[AIndex]
@@ -1798,7 +1825,7 @@ begin
     if Visible and Assigned(FOnChangePosition) and (DisplayType = ctCode) then
       FOnChangePosition(Owner as TSynBaseCompletionProposal,
         LogicalToPhysicalIndex(FPosition));
-        
+
     Repaint;
   end
   else
@@ -1840,8 +1867,11 @@ begin
 //  if ((Value <= 0) and (FPosition = 0)) or (FPosition = Value) then
 //    exit;
 
-  if Value < 0 then
+  if (Value < 0) or (Value > AssignedList.Count - 1) then
+  begin
+    ShowCodeItemInfo('');  // Destroys the Info window
     exit;
+  end;
 
   if Value <= FAssignedList.Count - 1 then
   begin
@@ -2082,7 +2112,7 @@ begin
   end;
 end;
 
-procedure TSynBaseCompletionProposalForm.SetTitle(const Value: UnicodeString);
+procedure TSynBaseCompletionProposalForm.SetTitle(const Value: string);
 begin
   FTitle := Value;
   AdjustMetrics;
@@ -2192,12 +2222,12 @@ begin
   DefaultType := ctCode;
 end;
 
-procedure TSynBaseCompletionProposal.Execute(s: UnicodeString; x, y: integer);
+procedure TSynBaseCompletionProposal.Execute(s: string; x, y: integer);
 begin
   ExecuteEx(s, x, y, DefaultType);
 end;
 
-procedure TSynBaseCompletionProposal.ExecuteEx(s: UnicodeString; x, y: integer; Kind : SynCompletionType);
+procedure TSynBaseCompletionProposal.ExecuteEx(s: string; x, y: integer; Kind : SynCompletionType);
 Var
   WorkArea : TRect;
   Monitor: TMonitor;
@@ -2212,7 +2242,7 @@ Var
     Result := WorkArea.Bottom;
   end;
 
-  function GetParamWidth(const S: UnicodeString): Integer;
+  function GetParamWidth(const S: string): Integer;
   var
     i: Integer;
     List: TStringList;
@@ -2226,7 +2256,7 @@ Var
       for i := -1 to List.Count -1 do
       begin
         NewWidth := FormattedTextWidth(Form.Canvas,
-          FormatParamList(S, i), Columns, FForm.Images);
+        FormatParamList(S, i), Columns, FForm.Images);
 
         if NewWidth > Result then
           Result := NewWidth;
@@ -2243,7 +2273,7 @@ Var
     tmpHeight: Integer;
     tmpX: Integer;
     tmpY: Integer;
-    tmpStr: UnicodeString;
+    tmpStr: string;
     BorderWidth: Integer;
     NewWidth: Integer;
   begin
@@ -2387,7 +2417,7 @@ begin
   end;
 end;
 
-function TSynBaseCompletionProposal.GetCurrentString: UnicodeString;
+function TSynBaseCompletionProposal.GetCurrentString: string;
 begin
   Result := Form.CurrentString;
 end;
@@ -2432,7 +2462,7 @@ begin
   Result := Form.Position;
 end;
 
-procedure TSynBaseCompletionProposal.SetCurrentString(const Value: UnicodeString);
+procedure TSynBaseCompletionProposal.SetCurrentString(const Value: string);
 begin
   Form.CurrentString := Value;
 end;
@@ -2537,17 +2567,17 @@ begin
   Form.ClSelectedText := Value;
 end;
 
-procedure TSynBaseCompletionProposal.AddItem(ADisplayText, AInsertText: UnicodeString);
+procedure TSynBaseCompletionProposal.AddItem(ADisplayText, AInsertText: string);
 begin
   GetInsertList.Add(AInsertText);
   GetItemList.Add(ADisplayText);
 end;
 
-procedure TSynBaseCompletionProposal.AddItemAt(Where: Integer; ADisplayText, AInsertText: UnicodeString);
+procedure TSynBaseCompletionProposal.AddItemAt(Where: Integer; ADisplayText, AInsertText: string);
 begin
   try
     GetInsertList.Insert(Where, AInsertText);
-    GetItemList.Insert(Where, ADisplayText);                 
+    GetItemList.Insert(Where, ADisplayText);
   except
     raise Exception.Create('Cannot insert item at position ' + IntToStr(Where) + '.');
   end;
@@ -2569,12 +2599,12 @@ begin
   GetItemList.Clear;
 end;
 
-function TSynBaseCompletionProposal.DisplayItem(AIndex : Integer): UnicodeString;
+function TSynBaseCompletionProposal.DisplayItem(AIndex : Integer): string;
 begin
   Result := GetItemList[AIndex];
 end;
 
-function TSynBaseCompletionProposal.InsertItem(AIndex : Integer): UnicodeString;
+function TSynBaseCompletionProposal.InsertItem(AIndex : Integer): string;
 begin
   Result := GetInsertList[AIndex];
 end;
@@ -2676,7 +2706,7 @@ begin
 end;
 
 procedure TSynBaseCompletionProposal.SetEndOfTokenChar(
-  const Value: UnicodeString);
+  const Value: string);
 begin
   if Form.FEndOfTokenChr <> Value then
   begin
@@ -2695,12 +2725,12 @@ begin
   Form.ClTitleBackground := Value;
 end;
 
-function TSynBaseCompletionProposal.GetTitle: UnicodeString;
+function TSynBaseCompletionProposal.GetTitle: string;
 begin
   Result := Form.Title;
 end;
 
-procedure TSynBaseCompletionProposal.SetTitle(const Value: UnicodeString);
+procedure TSynBaseCompletionProposal.SetTitle(const Value: string);
 begin
   Form.Title := Value;
 end;
@@ -2725,7 +2755,7 @@ begin
   Form.TitleFont := Value;
 end;
 
-function TSynBaseCompletionProposal.GetEndOfTokenChar: UnicodeString;
+function TSynBaseCompletionProposal.GetEndOfTokenChar: string;
 begin
   Result := Form.EndOfTokenChr;
 end;
@@ -2751,12 +2781,12 @@ begin
   end;
 end;
 
-function TSynBaseCompletionProposal.GetTriggerChars: UnicodeString;
+function TSynBaseCompletionProposal.GetTriggerChars: string;
 begin
   Result := Form.TriggerChars;
 end;
 
-procedure TSynBaseCompletionProposal.SetTriggerChars(const Value: UnicodeString);
+procedure TSynBaseCompletionProposal.SetTriggerChars(const Value: string);
 begin
   Form.TriggerChars := Value;
 end;
@@ -2835,7 +2865,7 @@ procedure TSynCompletionProposal.HandleOnValidate(Sender: TObject;
   Shift: TShiftState; EndToken: WideChar);
 var
   F: TSynBaseCompletionProposalForm;
-  Value: UnicodeString;
+  Value: string;
   Index: Integer;
 begin
   F := Sender as TSynBaseCompletionProposalForm;
@@ -3008,9 +3038,9 @@ begin
   end;
 end;
 
-function TSynCompletionProposal.GetCurrentInput(AEditor: TCustomSynEdit): UnicodeString;
+function TSynCompletionProposal.GetCurrentInput(AEditor: TCustomSynEdit): string;
 var
-  s: UnicodeString;
+  s: string;
   i: integer;
 begin
   Result := '';
@@ -3019,7 +3049,7 @@ begin
     s := AEditor.LineText;
     i := AEditor.CaretX - 1;
     if i <= Length(s) then
-    begin                                 
+    begin
       FAdjustCompletionStart := False;
       while (i > 0) and (s[i] > #32) and not Self.IsWordBreakChar(s[i]) do
         dec(i);
@@ -3031,12 +3061,12 @@ begin
       FAdjustCompletionStart := True;
 
     FCompletionStart := i + 1;
-  end;       
+  end;
 end;
 
-function TSynCompletionProposal.GetPreviousToken(AEditor: TCustomSynEdit): UnicodeString;
+function TSynCompletionProposal.GetPreviousToken(AEditor: TCustomSynEdit): string;
 var
-  Line: UnicodeString;
+  Line: string;
   X: Integer;
 begin
   Result := '';
@@ -3068,10 +3098,11 @@ begin
   else
   if Assigned(FTimer) then
   begin
+    DeactivateTimer;
     if Pos(Key, TriggerChars) <> 0 then
-      ActivateTimer(Sender as TCustomSynEdit)
-    else
-      DeactivateTimer;
+      ActivateTimer(Sender as TCustomSynEdit);
+//    else
+//      DeactivateTimer;
   end;
 end;
 
@@ -3114,7 +3145,7 @@ end;
 procedure TSynCompletionProposal.TimerExecute(Sender: TObject);
 begin
   if not Assigned(FTimer) then exit;
-  FTimer.Enabled := False; //GBN 13/11/2001  
+  FTimer.Enabled := False; //GBN 13/11/2001
   if Application.Active then
   begin
     DoExecute(Form.CurrentEditor as TCustomSynEdit);
@@ -3159,7 +3190,7 @@ begin
 
 end;
 
-procedure TSynCompletionProposal.ExecuteEx(s: UnicodeString; x, y: integer;
+procedure TSynCompletionProposal.ExecuteEx(s: string; x, y: integer;
   Kind: SynCompletionType);
 begin
     inherited;
@@ -3241,7 +3272,7 @@ begin
         ExecuteEx(GetCurrentInput(AEditor), p.x, p.y, DefaultType);
         FNoNextKey := (DefaultType = ctCode) and FCanExecute and Form.Visible;
       end;
-    end;  
+    end;
 end;
 
 procedure TSynCompletionProposal.InternalCancelCompletion;
@@ -3398,15 +3429,15 @@ begin
   end;
 end;
 
-procedure TSynAutoComplete.Execute(Token: UnicodeString; Editor: TCustomSynEdit);
+procedure TSynAutoComplete.Execute(Token: string; Editor: TCustomSynEdit);
 begin
   ExecuteEx(Token, Editor, FDoLookup);
 end;
 
-procedure TSynAutoComplete.ExecuteEx(Token: UnicodeString; Editor: TCustomSynEdit;
+procedure TSynAutoComplete.ExecuteEx(Token: string; Editor: TCustomSynEdit;
   LookupIfNotExact: Boolean);
 var
-  Temp: UnicodeString;
+  Temp: string;
   i, j: integer;
   StartOfBlock: TBufferCoord;
   ChangedIndent: Boolean;
@@ -3414,7 +3445,7 @@ var
   TmpOptions: TSynEditorOptions;
   OrigOptions: TSynEditorOptions;
   BeginningSpaceCount : Integer;
-  Spacing: UnicodeString;
+  Spacing: string;
 begin
   if Assigned(OnBeforeExecute) then OnBeforeExecute(Self);
   try
@@ -3438,7 +3469,7 @@ begin
       fNoNextKey := True;
       for j := 1 to Length(Token) do
         Editor.CommandProcessor(ecDeleteLastChar, ' ', nil);
-      BeginningSpaceCount := Editor.DisplayX - 1;  
+      BeginningSpaceCount := Editor.DisplayX - 1;
       if not(eoTabsToSpaces in Editor.Options) and
         (BeginningSpaceCount >= Editor.TabWidth)
       then
@@ -3493,7 +3524,7 @@ begin
 
       Editor.UndoList.AddChange(crAutoCompleteEnd, StartOfBlock, StartOfBlock,
         '', smNormal);
-      fNoNextKey := False;  
+      fNoNextKey := False;
     end
     else if LookupIfNotExact and Assigned(FInternalCompletion) then
     begin
@@ -3518,19 +3549,19 @@ begin
     end;
   finally
     if Assigned(OnAfterExecute) then OnAfterExecute(Self);
-  end;    
+  end;
 end;
 
 procedure TSynAutoComplete.DoInternalAutoCompletion(Sender: TObject;
-  const Value: UnicodeString; Shift: TShiftState; Index: Integer; EndToken: WideChar);
+  const Value: string; Shift: TShiftState; Index: Integer; EndToken: WideChar);
 begin
   ExecuteEx(GetPreviousToken(Editor), Editor, False);
   FInternalCompletion.Editor := nil;
 end;
 
-function TSynAutoComplete.GetPreviousToken(Editor: TCustomSynEdit): UnicodeString;
+function TSynAutoComplete.GetPreviousToken(Editor: TCustomSynEdit): string;
 var
-  s: UnicodeString;
+  s: string;
   i: Integer;
 begin
   Result := '';
@@ -3579,7 +3610,7 @@ begin
   end;
 end;
 
-function TSynAutoComplete.GetTokenList: UnicodeString;
+function TSynAutoComplete.GetTokenList: string;
 var
   List: TStringList;
   i: integer;
@@ -3597,7 +3628,7 @@ begin
   List.Free;
 end;
 
-function TSynAutoComplete.GetTokenValue(Token: UnicodeString): UnicodeString;
+function TSynAutoComplete.GetTokenValue(Token: string): string;
 var
   i: integer;
   List: TStringList;

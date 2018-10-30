@@ -152,6 +152,7 @@ type
     procedure SetCommandLine(ARunConfig : TRunConfiguration); virtual; abstract;
     procedure RestoreCommandLine; virtual; abstract;
     procedure SetDebuggerBreakpoints; virtual; abstract;
+    function GetPostMortemEnabled: boolean; virtual;
   public
     // Python Path
     function SysPathAdd(const Path : string) : boolean; virtual; abstract;
@@ -179,6 +180,7 @@ type
     procedure MakeThreadActive(Thread : TThreadInfo); virtual; abstract;
     procedure MakeFrameActive(Frame : TBaseFrameInfo); virtual; abstract;
     // post mortem stuff
+    property PostMortemEnabled: boolean read GetPostMortemEnabled;
     function HaveTraceback : boolean; virtual; abstract;
     procedure EnterPostMortem; virtual; abstract;
     procedure ExitPostMortem; virtual; abstract;
@@ -460,7 +462,7 @@ function TPyBaseInterpreter.ToPythonFileName(const FileName: string): string;
 Var
   Server, FName : string;
 begin
-  if TUnc.Parse(FileName, Server, FName) then
+  if TSSHFileName.Parse(FileName, Server, FName) then
     Result := '<' + FileName + '>'
   else
     Result := FileName;
@@ -509,6 +511,11 @@ function TPyBaseDebugger.AddPathToPythonPath(const Path: string;
   AutoRemove: Boolean): IInterface;
 begin
   Result := TPythonPathAdder.Create(SysPathAdd, SysPathRemove, Path, AutoRemove);
+end;
+
+function TPyBaseDebugger.GetPostMortemEnabled: boolean;
+begin
+  Result := HaveTraceback;
 end;
 
 { TModuleProxy }

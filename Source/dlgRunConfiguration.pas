@@ -184,7 +184,7 @@ Var
 begin
   if ExecuteRemoteFileDialog(FileName, Server, rfdSelect) then begin
     SynFileName.SelectAll;
-    SynFileName.Text := TUnc.Format(Server, FileName);
+    SynFileName.Text := TSSHFileName.Format(Server, FileName);
     SynFileName.SetFocus;
   end;
 end;

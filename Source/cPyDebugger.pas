@@ -1204,7 +1204,8 @@ begin
       Result := TNameSpaceItem.Create(Expr, ItemsDict);
     end;
   except
-    Result := TNameSpaceItem.Create(Expr, None);
+    Result := nil;
+    //Result := TNameSpaceItem.Create(Expr, None);
   end;
 end;
 

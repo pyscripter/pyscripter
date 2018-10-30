@@ -573,7 +573,7 @@ begin
     if (fFileName <> '') and (CommandsDataModule <> nil) then
       PyIDEMainForm.tbiRecentFileList.MRUAdd(fFileName)
     else if (fRemoteFileName <> '') and (CommandsDataModule <> nil) then
-      PyIDEMainForm.tbiRecentFileList.MRUAdd(TUnc.Format(fSSHServer,fRemoteFileName));
+      PyIDEMainForm.tbiRecentFileList.MRUAdd(TSSHFileName.Format(fSSHServer,fRemoteFileName));
     if fUntitledNumber <> -1 then
       CommandsDataModule.ReleaseUntitledNumber(fUntitledNumber);
 
@@ -702,7 +702,7 @@ begin
       Result := ExtractFileName(fFileName);
   end
   else if fSSHServer <> '' then
-    Result := TUnc.Format(fSSHServer, fRemoteFileName)
+    Result := TSSHFileName.Format(fSSHServer, fRemoteFileName)
   else
   begin
     if fUntitledNumber = -1 then
@@ -1366,16 +1366,18 @@ end;
 function TEditorFactory.GetEditorByNameOrTitle(const Name: string): IEditor;
 Var
   i: Integer;
+  Editor : IEditor;
 begin
   Result := GetEditorByName(Name);
   if not Assigned(Result) then
-    for i := 0 to fEditors.Count - 1 do
-      if (IEditor(fEditors[i]).FileName = '') and AnsiSameText
-        (IEditor(fEditors[i]).GetFileTitle, Name) then
+    for i := 0 to fEditors.Count - 1 do begin
+      Editor := IEditor(fEditors[i]);
+      if (Editor.FileName = '') and AnsiSameText(Editor.GetFileTitle, Name) then
       begin
-        Result := IEditor(fEditors[i]);
+        Result := Editor;
         break;
       end;
+   end;
 end;
 
 function TEditorFactory.GetEditor(Index: Integer): IEditor;
@@ -1821,7 +1823,7 @@ begin
   Assert(fEditor <> nil);
   if ExecuteRemoteFileDialog(FileName, Server, rfdSave) then
   begin
-    Edit := GI_EditorFactory.GetEditorByName(TUnc.Format(Server, FileName));
+    Edit := GI_EditorFactory.GetEditorByName(TSSHFileName.Format(Server, FileName));
     if Assigned(Edit) and (Edit <> Self.fEditor as IEditor) then
     begin
       Vcl.Dialogs.MessageDlg(_(SFileAlreadyOpen), mtError, [mbAbort], 0);
@@ -2881,16 +2883,20 @@ begin
       ItemList.Text := DisplayText;
       InsertList.Text := InsertText;
       NbLinesInWindow := PyIDEOptions.CodeCompletionListSize;
+      CurrentString := CurrentInput;
 
-      // Auto-complete with one entry without showing the form
-      if PyIDEOptions.CompleteWithOneEntry then begin
-        CurrentString := CurrentInput;
-        if Form.AssignedList.Count = 1 then
-        begin
-          CanExecute := False;
-          OnValidate(Form, [], #0);
-          CleanupCodeCompletion;
-        end;
+      if Form.AssignedList.Count = 0 then
+      begin
+        CanExecute := False;
+        CleanupCodeCompletion;
+      end
+      else
+      if PyIDEOptions.CompleteWithOneEntry and (Form.AssignedList.Count = 1) then
+      begin
+        // Auto-complete with one entry without showing the form
+        CanExecute := False;
+        OnValidate(Form, [], #0);
+        CleanupCodeCompletion;
       end;
     end
     else

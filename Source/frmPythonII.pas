@@ -1128,9 +1128,6 @@ end;
 procedure TPythonIIForm.SynCodeCompletionExecute(Kind: SynCompletionType;
   Sender: TObject; var CurrentInput: string; var x, y: Integer;
   var CanExecute: Boolean);
-{-----------------------------------------------------------------------------
-  Based on code from Syendit Demo
------------------------------------------------------------------------------}
 Var
   i : integer;
   Skipped, Handled : Boolean;
@@ -1197,17 +1194,21 @@ begin
       Font := PyIDEOptions.AutoCompletionFont;
       ItemList.Text := DisplayText;
       InsertList.Text := InsertText;
-      NbLinesInWindow :=
-        PyIDEOptions.CodeCompletionListSize;
+      NbLinesInWindow := PyIDEOptions.CodeCompletionListSize;
+      CurrentString := CurrentInput;
 
-      // Auto-complete with one entry without showing the form
-      if PyIDEOptions.CompleteWithOneEntry then begin
-        CurrentString := CurrentInput;
-        if Form.AssignedList.Count = 1 then begin
-          CanExecute := False;
-          OnValidate(Form, [], #0);
-          CleanupCodeCompletion;
-        end;
+      if Form.AssignedList.Count = 0 then
+      begin
+        CanExecute := False;
+        CleanupCodeCompletion;
+      end
+      else
+      if PyIDEOptions.CompleteWithOneEntry and (Form.AssignedList.Count = 1) then
+      begin
+        // Auto-complete with one entry without showing the form
+        CanExecute := False;
+        OnValidate(Form, [], #0);
+        CleanupCodeCompletion;
       end;
     end else begin
       ItemList.Clear;

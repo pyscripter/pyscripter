@@ -726,7 +726,7 @@ Var
   Path, Dir, Server : string;
 begin
   Result := ChangeFileExt(XtractFileName(FileName), '');
-  if TUnc.Parse(FileName, Server, Path) then Exit;
+  if TSSHFileName.Parse(FileName, Server, Path) then Exit;
 
   Path := ExtractFileDir(FileName);
   Dir := ExtractFileName(Path);
@@ -1621,7 +1621,7 @@ Var
   Encoding: TFileSaveFormat;
   Server, FName, TempFileName, ErrorMsg : string;
 begin
-  if TUnc.Parse(AFileName, Server, FName) then
+  if TSSHFileName.Parse(AFileName, Server, FName) then
   begin
     TempFileName := ChangeFileExt(FileGetTempName('PyScripter'), ExtractFileExt(AFileName));
     if not ScpDownload(Server, FName, TempFileName, ErrorMsg) then
@@ -1650,7 +1650,7 @@ Var
   Encoding : TFileSaveFormat;
   Server, FName, TempFileName, ErrorMsg : string;
 begin
-  if TUnc.Parse(AFileName, Server, FName) then
+  if TSSHFileName.Parse(AFileName, Server, FName) then
   begin
     TempFileName := ChangeFileExt(FileGetTempName('PyScripter'), ExtractFileExt(AFileName));
     if not ScpDownload(Server, FName, TempFileName, ErrorMsg) then

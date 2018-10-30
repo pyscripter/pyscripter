@@ -677,7 +677,7 @@ begin
     PythonIIForm.actClearContentsExecute(nil);
 
   if (fRunConfig.EngineType <> PythonEngineType) or ((PythonEngineType = peSSH) and
-    TUnc.Parse(fRunConfig.ScriptName, Server, FName) and (Server <> ActiveSSHServerName))
+    TSSHFileName.Parse(fRunConfig.ScriptName, Server, FName) and (Server <> ActiveSSHServerName))
   then begin
     if Server <> '' then
       ActiveSSHServerName := Server;

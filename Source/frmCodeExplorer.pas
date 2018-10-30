@@ -280,8 +280,16 @@ var
 
 implementation
 
-uses frmPyIDEMain, dmCommands, uEditAppIntfs, SynEdit,
-  SynEditTypes, uCommonFunctions, Math, cPyScripterSettings;
+uses
+  System.Math,
+  JvGNUGetText,
+  SynEdit,
+  SynEditTypes,
+  frmPyIDEMain,
+  dmCommands,
+  uEditAppIntfs,
+  uCommonFunctions,
+  cPyScripterSettings;
 
 {$R *.dfm}
 
@@ -965,7 +973,7 @@ end;
 
 function TModuleCENode.GetHint: string;
 begin
-  Result := Format('Python Module "%s"', [Module.Name]);
+  Result := Format(_('Python Module "%s"'), [Module.Name]);
 end;
 
 function TModuleCENode.GetParsedModule: TParsedModule;
@@ -978,7 +986,7 @@ end;
 
 function TImportsCENode.GetCaption: string;
 begin
-  Result := 'Imports';
+  Result := _('Imports');
 end;
 
 function TImportsCENode.GetImageIndex: integer;
@@ -1005,7 +1013,7 @@ end;
 
 function TImportsCENode.GetHint: string;
 begin
-  Result := 'Imported modules';
+  Result := _('Imported modules');
 end;
 
 { TImportCENode }
@@ -1034,11 +1042,11 @@ end;
 function TImportCENode.GetHint: string;
 begin
   if ModuleImport.RealName <> ModuleImport.Name then
-    Result := Format('Imported Module "%s" as %s at line %d',
+    Result := Format(_('Imported Module "%s" as %s at line %d'),
                     [ModuleImport.RealName, ModuleImport.Name,
                      fCodeElement.CodePos.LineNo])
   else
-    Result := Format('Imported Module "%s" at line %d',
+    Result := Format(_('Imported Module "%s" at line %d'),
                     [ModuleImport.Name, fCodeElement.CodePos.LineNo]);
   if ModuleImport.ImportAll then
     Result := Result + ' (* import)';
@@ -1064,11 +1072,11 @@ end;
 function TImportNameCENode.GetHint: string;
 begin
   if Variable.RealName = Variable.Name then
-    Result := Format('Imported identifier "%s" from module "%s"',
+    Result := Format(_('Imported identifier "%s" from module "%s"'),
                 [Variable.Name,
                 (Variable.Parent as TModuleImport).Name])
   else
-    Result := Format('Imported identifier "%s" as "%s" from module "%s"',
+    Result := Format(_('Imported identifier "%s" as "%s" from module "%s"'),
                 [Variable.RealName, Variable.Name,
                 (Variable.Parent as TModuleImport).Name]);
 end;
@@ -1114,7 +1122,7 @@ end;
 
 function TGlobalsCENode.GetHint: string;
 begin
-  Result := 'Global variables';
+  Result := _('Global variables');
 end;
 
 { TVariableCENode }
@@ -1144,7 +1152,7 @@ end;
 
 function TGlobalCENode.GetHint: string;
 begin
-  Result := Format('Global variable "%s" defined at line %d',
+  Result := Format(_('Global variable "%s" defined at line %d'),
                     [Caption, fCodeElement.CodePos.LineNo]);
 end;
 
@@ -1182,9 +1190,9 @@ function TClassCENode.GetHint: string;
 Var
   FormatString, Doc : string;
 begin
-  FormatString := 'Class "%s" defined in line %d';
+  FormatString := _('Class "%s" defined in line %d');
   if ParsedClass.SuperClasses.CommaText <> '' then
-    Result := Format(FormatString + #13#10'Inherits from: %s',
+    Result := Format(FormatString + #13#10 + _('Inherits from') + ': %s',
               [Caption, fCodeElement.CodePos.LineNo, ParsedClass.SuperClasses.CommaText])
   else
     Result := Format(FormatString , [Caption, fCodeElement.CodePos.LineNo]);
@@ -1202,7 +1210,7 @@ end;
 
 function TAtrributesCENode.GetCaption: string;
 begin
-  Result := 'Attributes';
+  Result := _('Attributes');
 end;
 
 function TAtrributesCENode.GetImageIndex: integer;
@@ -1229,7 +1237,7 @@ end;
 
 function TAtrributesCENode.GetHint: string;
 begin
-  Result := 'Class attributes';
+  Result := _('Class attributes');
 end;
 
 { TAttributeCENode }
@@ -1241,7 +1249,7 @@ end;
 
 function TAttributeCENode.GetHint: string;
 begin
-  Result := Format('Class attribute "%s" defined at line %d',
+  Result := Format(_('Class attribute "%s" defined at line %d'),
                     [Caption, fCodeElement.CodePos.LineNo]);
 end;
 
@@ -1277,11 +1285,13 @@ function TFunctionCENode.GetHint: string;
 Var
   Doc : string;
 begin
-  Result := Format('Function "%s" defined at line %d'#13#10'Arguments: %s',
+  Result := Format(_('Function "%s" defined at line %d'#13#10'Arguments: %s'),
               [Caption, fCodeElement.CodePos.LineNo, ParsedFunction.ArgumentsString]);
+  if ParsedFunction.ReturnType <> '' then
+    Result := Result + #13#10 + Format('Returns %s', [ParsedFunction.ReturnType]);
   Doc := ParsedFunction.DocString;
   if Doc <> '' then
-    Result := Result + #13#10#13#10 + Doc;
+    Result := Result + #13#10 + Doc;
 end;
 
 function TFunctionCENode.GetParsedFunction: TParsedFunction;
@@ -1300,7 +1310,7 @@ function TMethodCENode.GetHint: string;
 Var
   Doc : string;
 begin
-  Result := Format('Method %s defined at line %d'#13#10'Arguments: %s',
+  Result := Format(_('Method %s defined at line %d'#13#10'Arguments: %s'),
               [Caption, fCodeElement.CodePos.LineNo, ParsedFunction.ArgumentsString]);
   Doc := ParsedFunction.DocString;
   if Doc <> '' then

@@ -52,6 +52,7 @@ type
     fSocketPort: integer;
     fServerFile: string;
     fRpycPath : string;
+    CanDoPostMortem : Boolean;
     DebuggerClass : TRemoteDebuggerClass;
     ServerProcessOptions : TJclExecuteCmdProcessOptions;
     ServerProcessInfo: TProcessInformation;
@@ -140,6 +141,7 @@ type
     // Fills in CallStackList with TBaseFrameInfo objects
     procedure GetCallStack(CallStackList : TObjectList<TBaseFrameInfo>;
       Frame, Botframe : Variant);
+    function GetPostMortemEnabled: boolean; override;
   public
     constructor Create(RemotePython : TPyRemoteInterpreter);
     destructor Destroy; override;
@@ -547,6 +549,7 @@ begin
   ServerProcessOptions.CreateProcessFlags :=
     ServerProcessOptions.CreateProcessFlags and CREATE_NO_WINDOW and CREATE_NEW_CONSOLE;
   ServerProcessOptions.MergeError := False;
+  ServerProcessOptions.RawError := True;
 
   if fServerIsAvailable then CreateAndConnectToServer;
 end;
@@ -745,8 +748,8 @@ begin
       Result := TRemNameSpaceItem.Create(Expr, ItemsDict, Self);
     end;
   except
-    ItemsDict := NewPythonDict;
-    Result := TRemNameSpaceItem.Create(Expr, ItemsDict, Self);
+    Result := nil;
+    //Result := TRemNameSpaceItem.Create(Expr, None, Self);
   end;
 end;
 
@@ -845,6 +848,7 @@ begin
   Conn.modules.sys.argv := fOldargv;
 end;
 
+
 procedure TPyRemoteInterpreter.Run(ARunConfig: TRunConfiguration);
 Var
   Code : Variant;
@@ -855,7 +859,6 @@ Var
   PythonPathAdder : IInterface;
   ExcInfo : Variant;
   ReturnFocusToEditor: Boolean;
-  CanDoPostMortem : Boolean;
   Editor : IEditor;
   Timer : ITimer;
 begin
@@ -1365,7 +1368,7 @@ begin
       ObjType := fRemotePython.RPI.objecttype(V);
       Value := fRemotePython.RPI.saferepr(V);
     except
-      // fail quitely
+      // fail quietly
     end;
   end;
 end;
@@ -1416,6 +1419,11 @@ begin
     Exit;
   Result := TRemNameSpaceItem.Create('locals',
     (Frame as TFrameInfo).PyFrame.f_locals, fRemotePython);
+end;
+
+function TPyRemDebugger.GetPostMortemEnabled: boolean;
+begin
+  Result := fRemotePython.CanDoPostMortem;
 end;
 
 procedure TPyRemDebugger.DoDebuggerCommand;
@@ -1534,12 +1542,11 @@ var
   PythonPathAdder : IInterface;
   ExcInfo : Variant;
   ReturnFocusToEditor: Boolean;
-  CanDoPostMortem : Boolean;
   Editor : IEditor;
   Timer : ITimer;
 begin
   fRemotePython.CheckConnected;
-  CanDoPostMortem := False;
+  fRemotePython.CanDoPostMortem := False;
   fDebuggerCommand := dcRun;
   Assert(PyControl.DebuggerState = dsInactive);
 
@@ -1643,7 +1650,7 @@ begin
           if not VarIsNone(ExcInfo) then begin
             fRemotePython.HandleRemoteException(ExcInfo, 2);
             ReturnFocusToEditor := False;
-            CanDoPostMortem := True;
+            fRemotePython.CanDoPostMortem := True;
           end;
         end;
       except
@@ -1690,7 +1697,7 @@ begin
         // Reinitialize destroys the debugger which executes this method!
         // So handle with a PostMessage
         PostMessage(PythonIIForm.Handle, WM_REINITINTERPRETER, 0, 0);
-      end else if CanDoPostMortem and PyIDEOptions.PostMortemOnException then
+      end else if fRemotePython.CanDoPostMortem and PyIDEOptions.PostMortemOnException then
         PyControl.ActiveDebugger.EnterPostMortem;
       Timer := nil;
     end

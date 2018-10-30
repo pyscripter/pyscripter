@@ -50,7 +50,7 @@ type
     property SSHServer : TSSHServer read fSSHServer write fSSHServer;
   end;
 
-  TUnc = class
+  TSSHFileName = class
     class var UncRE: TRegExpr;
     class constructor Create;
     class destructor Destroy;
@@ -211,7 +211,7 @@ function Scp(const FromFile, ToFile: string; out ErrorMsg: string;
   ExtraSSHOptions : string = ''): Boolean;
 Var
   Task : ITask;
-  Command, Output: string;
+  Command, Output, Error: string;
   ExitCode : integer;
 begin
   Command :=
@@ -229,7 +229,7 @@ begin
   if IsWow64 then Wow64EnableWow64FsRedirection_MP(False);
   try
   {$ENDIF CPUX86}
-    ExitCode := JclSysUtils.Execute(Command, Output);
+    ExitCode := JclSysUtils.Execute(Command, Output, Error, True, True);
   {$IFDEF CPUX86}
   finally
     if IsWow64 then Wow64EnableWow64FsRedirection_MP(True);
@@ -284,24 +284,24 @@ end;
 
 { Unc }
 
-class constructor TUnc.Create;
+class constructor TSSHFileName.Create;
 begin
   UNCRE := TRegExpr.Create;
-  UncRE.Expression := '^\\\\([^\\]+)\\(.+)';
+  UncRE.Expression := '^ssh://([^/]+)/(.+)';
   UncRe.Compile;
 end;
 
-class destructor TUnc.Destroy;
+class destructor TSSHFileName.Destroy;
 begin
   UncRe.Free;
 end;
 
-class function TUnc.Format(Server, FileName: string): string;
+class function TSSHFileName.Format(Server, FileName: string): string;
 begin
-  Result := System.SysUtils.Format('\\%s\%s', [Server, FileName]);
+  Result := System.SysUtils.Format('ssh://%s/%s', [Server, FileName]);
 end;
 
-class function TUnc.Parse(const Unc: string; out Server,
+class function TSSHFileName.Parse(const Unc: string; out Server,
   FileName: string): boolean;
 begin
   Server := '';

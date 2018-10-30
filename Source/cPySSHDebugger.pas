@@ -88,6 +88,7 @@ begin
   ProcessOptions := TJclExecuteCmdProcessOptions.Create(Command);
   try
     ProcessOptions.MergeError := False;
+    ProcessOptions.RawError := True;
     ProcessOptions.CreateProcessFlags :=
       ProcessOptions.CreateProcessFlags and CREATE_NO_WINDOW and CREATE_NEW_CONSOLE;
     ExecuteCmdProcess(ProcessOptions);
@@ -111,7 +112,7 @@ constructor TPySSHInterpreter.Create(SSHServer : TSSHServer);
    5. Connect to server
 }
 Var
-  CommandOutput : string;
+  CommandOutput, ErrorOutput : string;
   Task : ITask;
 begin
   fSSHCommand := PyIDEOptions.SSHCommand;
@@ -137,7 +138,8 @@ begin
   {$ENDIF CPUX86}
      fServerIsAvailable := Execute(Format('"%s" %s %s %s@%s %s -c ' +
       '''import sys,os,tempfile;print(sys.version[0]);print(os.sep);print(tempfile.gettempdir())''',
-    [fSSHCommand, SshCommandOptions, fExtraSSHOptions, UserName, HostName, PythonCommand]), CommandOutput) = 0
+    [fSSHCommand, SshCommandOptions, fExtraSSHOptions, UserName, HostName, PythonCommand]),
+    CommandOutput, ErrorOutput, False, True) = 0
   {$IFDEF CPUX86}
   finally
     if IsWow64 then Wow64EnableWow64FsRedirection_MP(True);
@@ -148,7 +150,7 @@ begin
   if Task.Wait(3000) and fServerIsAvailable then
     fServerIsAvailable := ProcessPlatformInfo(CommandOutput, fIs3K, PathSeparator, TempDir);
 
-  if Task.Wait(3000) and not fServerIsAvailable then begin
+  if not fServerIsAvailable then begin
     Vcl.Dialogs.MessageDlg(Format(SSSHPythonError, [PythonCommand]), mtError, [mbAbort], 0);
     Exit;
   end;
@@ -164,7 +166,9 @@ begin
 
   TunnelProcessOptions := TJclExecuteCmdProcessOptions.Create('');
   TunnelProcessOptions.BeforeResume := StoreTunnelProcessInfo;
-  TunnelProcessOptions.MergeError := True;
+  TunnelProcessOptions.MergeError := False;
+  TunnelProcessOptions.RawOutput := True;
+  TunnelProcessOptions.RawError := True;
   TunnelProcessOptions.CreateProcessFlags :=
     TunnelProcessOptions.CreateProcessFlags and CREATE_NO_WINDOW and CREATE_NEW_CONSOLE;
 
@@ -344,7 +348,7 @@ function TPySSHInterpreter.ToPythonFileName(const FileName: string): string;
 Var
   Server, FName : string;
 begin
-  if TUnc.Parse(FileName, Server, FName) and (Server = SSHServerName) then
+  if TSSHFileName.Parse(FileName, Server, FName) and (Server = SSHServerName) then
     Result := FName
   else
     Result := '<' + FileName + '>';
@@ -357,7 +361,7 @@ begin
   else if FileName[1] ='<' then
     Result := FileName
   else
-    Result := TUnc.Format(SSHServerName, FileName);
+    Result := TSSHFileName.Format(SSHServerName, FileName);
 end;
 
 { TPySSHDebugger }

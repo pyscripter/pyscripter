@@ -249,7 +249,7 @@ begin
   if not Assigned(Node) then Exit;
 
   if not ExecuteRemoteFileDialog(FileName, Server, rfdAdd) then Exit;
-  FName := TUnc.Format(Server, FileName);
+  FName := TSSHFileName.Format(Server, FileName);
 
   if not ActiveProject.HasFile(FName) then
   begin
@@ -280,7 +280,7 @@ begin
   if Editor.FileName <> '' then
     FName := Editor.FileName
   else if Editor.RemoteFileName <> '' then
-    FName := TUnc.Format(Editor.SSHServer, Editor.RemoteFileName)
+    FName := TSSHFileName.Format(Editor.SSHServer, Editor.RemoteFileName)
   else
     Exit;
 
@@ -496,7 +496,7 @@ begin
     Data := ExplorerTree.GetNodeData(Node);
     if Data.ProjectNode is TProjectFileNode then begin
       if (TProjectFilenode(Data.ProjectNode).FileName <> '') and not
-        TUnc.Parse(TProjectFilenode(Data.ProjectNode).FileName, Server, FName)
+        TSSHFileName.Parse(TProjectFilenode(Data.ProjectNode).FileName, Server, FName)
       then
         DisplayPropDialog(Handle,
           Parameters.ReplaceInText(TProjectFilenode(Data.ProjectNode).FileName));

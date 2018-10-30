@@ -159,7 +159,7 @@ begin
       Exit;
     end;
     // Add the file path to the Python path - Will be automatically removed
-    if not TUnc.Parse(FileName, Server, Path) then
+    if not TSSHFileName.Parse(FileName, Server, Path) then
       Path := ExtractFileDir(FileName)
     else
       Path := '';
@@ -743,7 +743,7 @@ begin
   end;
 
   // Add the file path to the Python path - Will be automatically removed
-  if not TUnc.Parse(FileName, Server, Path) then
+  if not TSSHFileName.Parse(FileName, Server, Path) then
     Path := ExtractFileDir(FileName)
   else
     Path := '';
