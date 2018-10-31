@@ -169,11 +169,15 @@ begin
   // Node Text
   Data.Name := Data.NameSpaceItem.Name;
   Data.ObjectType := Data.NameSpaceItem.ObjectType;
-  try
-    Data.Value := Data.NameSpaceItem.Value;
-  except
-    Data.Value := '';
-  end;
+  if not (Data.NameSpaceItem.IsClass or Data.NameSpaceItem.IsFunction
+    or Data.NameSpaceItem.IsModule or Data.NameSpaceItem.IsMethod
+    or Data.NameSpaceItem.IsDict)
+  then
+    try
+      Data.Value := Data.NameSpaceItem.Value;
+    except
+      Data.Value := '';
+    end;
   // ImageIndex
   if Data.NameSpaceItem.IsDict then
     Data.ImageIndex := Ord(TCodeImages.Namespace)
@@ -426,8 +430,10 @@ begin
     AddFormatText(reInfo, ObjectName, [fsItalic]);
     AddFormatText(reInfo, SLineBreak + _('Type') + ': ', [fsBold]);
     AddFormatText(reInfo, ObjectType);
-    AddFormatText(reInfo, SLineBreak + _('Value') + ':' + SLineBreak, [fsBold]);
-    AddFormatText(reInfo, ObjectValue);
+    if ObjectValue <> '' then begin
+      AddFormatText(reInfo, SLineBreak + _('Value') + ':' + SLineBreak, [fsBold]);
+      AddFormatText(reInfo, ObjectValue);
+    end;
     AddFormatText(reInfo, SLineBreak + _('DocString') + ':' + SLineBreak, [fsBold]);
     AddFormatText(reInfo, Docstring);
   end;

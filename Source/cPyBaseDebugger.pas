@@ -188,7 +188,7 @@ type
     class var ThreadChangeNotify : TThreadChangeNotifyEvent;
   end;
 
- TModuleProxy = class(TParsedModule)
+  TModuleProxy = class(TParsedModule)
   private
     fPyModule : Variant;
     fIsExpanded : boolean;
@@ -479,7 +479,7 @@ begin
     if OldItem.BufferedValue <> Value then
       Attributes := [nsaChanged];
   end;
-  if OldItem.GotBufferedValue and OldItem.GotChildNodes then begin
+  if OldItem.GotChildNodes then begin
     GetChildNodes;
     for i := 0 to ChildCount - 1 do begin
       Child := ChildNode[i];
