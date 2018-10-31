@@ -1969,7 +1969,7 @@ begin
   end;
   with Categories[1] do begin
     DisplayName := _('Python Interpreter');
-    SetLength(Options, 13);
+    SetLength(Options, 14);
     Options[0].PropertyName := 'SaveFilesBeforeRun';
     Options[0].DisplayName := _('Save files before run');
     Options[1].PropertyName := 'SaveEnvironmentBeforeRun';
@@ -1996,6 +1996,8 @@ begin
     Options[11].DisplayName := _('Jump to error on exception');
     Options[12].PropertyName := 'InternalInterpreterHidden';
     Options[12].DisplayName := _('Internal Interpreter Hidden');
+    Options[13].PropertyName := 'AlwaysUseSockets';
+    Options[13].DisplayName := _('Always use sockets');
   end;
   with Categories[2] do begin
     DisplayName := _('Code Explorer');

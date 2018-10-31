@@ -72,7 +72,7 @@ object CommandsDataModule: TCommandsDataModule
     Left = 32
     Top = 241
     Bitmap = {
-      494C01010A000D008C0010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C01010A000D00900010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -3419,6 +3419,8 @@ object CommandsDataModule: TCommandsDataModule
           'from rpyc.utils.server import Server'
           'from rpyc.utils.classic import DEFAULT_SERVER_PORT'
           'from rpyc.core import SlaveService'
+          'from rpyc.core.stream import NamedPipeStream'
+          'from rpyc.utils.factory import connect_stream'
           'import threading'
           ''
           '__traceable__ = 0'
@@ -3471,10 +3473,27 @@ object CommandsDataModule: TCommandsDataModule
           '    except:'
           '        port = DEFAULT_SERVER_PORT'
           ''
+          '    server = None'
+          '    if port > 19000:'
+          '        # Named server'
+          '        try:'
+          '            __import__("win32file")'
+          '            np_server = NamedPipeStream.create_server(str(port))'
+          '            server = connect_stream(np_server, ModSlaveService)'
+          '            try:'
+          '                server.serve_all()'
+          '            finally:'
+          '                if server is not None:'
+          '                    server.close()'
+          '                exit()'
+          '        except:'
+          '            server = None'
+          ''
+          '    if server is None:'
           
-            '    t = SimpleServer(ModSlaveService, port = port, auto_register' +
-            ' = False)'
-          '    t.start()'
+            '        t = SimpleServer(ModSlaveService, port = port, auto_regi' +
+            'ster = False)'
+          '        t.start()'
           ''
           'if __name__ == "__main__":'
           '    main()')
@@ -4667,7 +4686,7 @@ object CommandsDataModule: TCommandsDataModule
     Left = 36
     Top = 194
     Bitmap = {
-      494C0101A300E000BC0010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C0101A300E000C00010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000009002000001002000000000000090
       0200000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

@@ -112,6 +112,7 @@ type
     fSSHCommand : string;
     fScpCommand : string;
     fSSHDisableVariablesWin : Boolean;
+    fAlwaysUseSockets : Boolean;
     function GetPythonFileExtensions: string;
     procedure SetAutoCompletionFont(const Value: TFont);
   protected
@@ -272,6 +273,7 @@ type
     property ScpCommand : string read fScpCommand write fScpCommand;
     property SSHDisableVariablesWin : boolean read fSSHDisableVariablesWin
       write fSSHDisableVariablesWin default True;
+    property AlwaysUseSockets : Boolean read fAlwaysUseSockets write fAlwaysUseSockets;
   end;
 {$METHODINFO OFF}
 
@@ -401,6 +403,7 @@ begin
       Self.fSSHCommand := SSHCommand;
       Self.fScpCommand := ScpCommand;
       Self.fSSHDisableVariablesWin := SSHDisableVariablesWin;
+      Self.fAlwaysUseSockets := AlwaysUseSockets;
     end
   else
     inherited;
@@ -498,6 +501,7 @@ begin
   fSSHCommand := 'ssh';
   fScpCommand := 'scp';
   fSSHDisableVariablesWin := True;
+  fAlwaysUseSockets := False;
   fCodeFolding := TSynCodeFolding.Create;
 end;
 

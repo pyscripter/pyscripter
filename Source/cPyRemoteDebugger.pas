@@ -35,6 +35,8 @@ type
   { Rpyc based remote Python Interpreter  }
   TPyRemoteInterpreter = class(TPyBaseInterpreter)
   private
+    fUseNamedPipes : boolean;
+    fNamedPipeStream : Variant;
     procedure CreateAndConnectToServer;
     procedure StoreServerProcessInfo(const ProcessInfo: TProcessInformation);
   protected
@@ -499,6 +501,25 @@ begin
 end;
 
 constructor TPyRemoteInterpreter.Create(AEngineType : TPythonEngineType = peRemote);
+  function IsPyWinAvailable: Boolean;
+  var
+    _module : PPyObject;
+  begin
+    with GetPythonEngine do begin
+      _module := PyImport_ImportModule('win32file');
+      try
+        if Assigned(_module) then
+          Result := True
+        else begin
+          PyErr_Clear;
+          Result := False;
+        end;
+      finally
+        Py_XDecRef(_module);
+      end;
+    end;
+  end;
+
 Var
   SuppressOutput : IInterface;
   ServerSource: string;
@@ -510,6 +531,13 @@ begin
 
   Randomize;
   fSocketPort := 18000 + Random(1000);
+
+  if (fEngineType = peRemote) and not PyIDEOptions.AlwaysUseSockets and IsPyWinAvailable then
+  begin
+    fUseNamedPipes := True;
+    Inc(fSocketPort, 1000);
+  end else
+    fUseNamedPipes := False;
 
   // Import Rpyc
   SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
@@ -801,7 +829,10 @@ begin
     begin
       ExecuteCmdProcess(ServerProcessOptions);
     end).Start;
-  Sleep(100);
+  if fUseNamedPipes then
+    Sleep(500)
+  else
+    Sleep(100);
   fServerIsAvailable := ServerTask.Status = TTaskStatus.Running;
 end;
 
@@ -1037,14 +1068,29 @@ begin
   fConnected := False;
 
   SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
+
+  if fUseNamedPipes then
+    try
+      fNamedPipeStream := Rpyc.core.stream.NamedPipeStream.create_client(fSocketPort.ToString);
+      Assert(VarIsPython(fNamedPipeStream));
+      fUseNamedPipes := True;
+    except
+      with GetPythonEngine do if PyErr_Occurred <> nil then PyErr_Clear;
+      fUseNamedPipes := False;
+    end;
+
   // Try to connect a few times
   for i := 1 to 5 do begin
     try
-      Conn := Rpyc.classic.connect('localhost', fSocketPort);
+      if fUseNamedPipes then
+        Conn := Rpyc.classic.connect_stream(fNamedPipeStream)
+      else
+        Conn := Rpyc.classic.connect('localhost', fSocketPort);
       fConnected := True;
       break;
     except
       // wait and try again
+      with GetPythonEngine do if PyErr_Occurred <> nil then PyErr_Clear;
       Sleep(100);
     end;
   end;
@@ -1160,6 +1206,7 @@ begin
     end;
     fConnected := False;
     try
+      VarClear(fNamedPipeStream);
       VarClear(OutputRedirector);
     except
     end;

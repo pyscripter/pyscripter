@@ -420,10 +420,8 @@ procedure TPythonIIForm.DoOnIdle;
 begin
   if not Application.Active then
   begin
-    if SynCodeCompletion.Form.Visible then
-      SynCodeCompletion.CancelCompletion;
-    if SynParamCompletion.Form.Visible then
-      SynParamCompletion.CancelCompletion;
+    SynCodeCompletion.CancelCompletion;
+    SynParamCompletion.CancelCompletion;
   end;
 end;
 
@@ -616,8 +614,8 @@ begin
 
         fCommandHistoryPrefix := '';
 
-        if SynParamCompletion.Form.Visible then
-          SynParamCompletion.CancelCompletion;
+        SynParamCompletion.CancelCompletion;
+        SynCodeCompletion.CancelCompletion;
 
         LineN := SynEdit.CaretY - 1;  // Caret is 1 based
         GetBlockBoundary(LineN, StartLineN, EndLineN, IsCode);

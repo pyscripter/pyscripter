@@ -224,6 +224,7 @@ begin
     UnloadPythonDLL('_ssl.pyd');
     UnloadPythonDLL('win32file.pyd');
     UnloadPythonDLL('win32pipe.pyd');
+    UnloadPythonDLL('win32event.pyd');
     UnloadPythonDLL('unicodedata.pyd');
     UnloadPythonDLL('_ctypes.pyd');
     UnloadPythonDLL('_hashlib.pyd');
