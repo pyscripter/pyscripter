@@ -61,7 +61,7 @@
     <PropertyGroup Condition="'$(Base)'!=''">
         <VCL_Custom_Styles>Carbon|VCLSTYLE|$(PUBLIC)\Documents\Embarcadero\Studio\15.0\Styles\Carbon.vsf;Coral|VCLSTYLE|$(PUBLIC)\Documents\Embarcadero\Studio\15.0\Styles\Coral.vsf;Jet|VCLSTYLE|$(PUBLIC)\Documents\Embarcadero\Studio\15.0\Styles\Jet.vsf;Luna|VCLSTYLE|$(PUBLIC)\Documents\Embarcadero\Studio\15.0\Styles\Luna.vsf;Windows10|VCLSTYLE|$(PUBLIC)\Documents\Embarcadero\Studio\15.0\Styles\Windows10.vsf</VCL_Custom_Styles>
         <SanitizedProjectName>PyScripter</SanitizedProjectName>
-        <Icon_MainIcon>PyScripter_Icon1.ico</Icon_MainIcon>
+        <Icon_MainIcon>PyScripter_Icon.ico</Icon_MainIcon>
         <Manifest_File>None</Manifest_File>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_MinorVer>5</VerInfo_MinorVer>
@@ -119,7 +119,7 @@
         <DCC_Define>DEBUG;$(DCC_Define)</DCC_Define>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
-        <Icon_MainIcon>PyScripter.ico</Icon_MainIcon>
+        <Icon_MainIcon>PyScripter_Icon.ico</Icon_MainIcon>
         <ILINK_FullDebugInfo>true</ILINK_FullDebugInfo>
         <BCC_SourceDebuggingOn>true</BCC_SourceDebuggingOn>
         <BCC_DebugLineNumbers>true</BCC_DebugLineNumbers>
