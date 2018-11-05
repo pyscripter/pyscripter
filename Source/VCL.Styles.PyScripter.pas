@@ -381,10 +381,8 @@ begin
 end;
 
 initialization
-  TStyleManager.Engine.RegisterStyleHook(TCustomSynEdit, TScrollingStyleHook);
+  TCustomStyleEngine.RegisterStyleHook(TCustomSynEdit, TScrollingStyleHook);
 
 finalization
-  TStyleManager.Engine.UnRegisterStyleHook(TCustomSynEdit, TScrollingStyleHook);
-
-
+  TCustomStyleEngine.UnRegisterStyleHook(TCustomSynEdit, TScrollingStyleHook);
 end.
