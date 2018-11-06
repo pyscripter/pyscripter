@@ -97,6 +97,7 @@ resourcestring
   SAboutBoxCreditsTranslationSpanish = 'Spanish: %s';
 
   SAboutBoxCreditsThemeDesign =
+    'Salim Saddaquzzaman (https://github.com/sk-Prime)'+ SLineBreak +
     'Tanmaya Meher (www.github.com/tanmayameher)'+ SLineBreak +
     'jprzywoski (www.github.com/jprzywoski)';
 
@@ -253,7 +254,7 @@ begin
   AddFormatText(reCredits,AboutBoxCreditsTranslations);
 
   reCredits.Paragraph.Numbering := nsNone;
-  AddFormatText(reCredits, SLineBreak + _('Theme design') + ':' + SLineBreak, [fsItalic]);
+  AddFormatText(reCredits, SLineBreak + _('Artwork and theme design') + ':' + SLineBreak, [fsItalic]);
   reCredits.Paragraph.Numbering := nsBullet;
   AddFormatText(reCredits,SAboutBoxCreditsThemeDesign + SLineBreak);
   reCredits.Paragraph.Numbering := nsNone;
