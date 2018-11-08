@@ -451,7 +451,7 @@
             New Editor commands Copy Line Up/Down (Shift+Alt+Up/Down) as in Visual Studio
             Upgraded rpyc to 4.x.  As a result Python 2.5 is no longer supported.
           Issues addressed
-            #682, #907
+            #501 #682, #907
 
             { TODO : Issues 501, 667, 698 }
             { TODO : Review Search and Replace }
@@ -1030,6 +1030,7 @@ type
     SpTBXItem13: TSpTBXItem;
     actPythonSSH: TAction;
     mnPythonEngineSSH: TSpTBXItem;
+    SpTBXItem14: TSpTBXItem;
     procedure mnFilesClick(Sender: TObject);
     procedure actEditorZoomInExecute(Sender: TObject);
     procedure actEditorZoomOutExecute(Sender: TObject);

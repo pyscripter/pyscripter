@@ -4,6 +4,13 @@
 <title>IDE Options</title>
 <meta content="HelpMaker.net" name="generator" />
 <meta content="IDE options,IDECustomization" name="keywords" />
+<style type="text/css">
+.auto-style1 {
+	font-family: Arial;
+	font-size: 10pt;
+	color: #010101;
+}
+</style>
 </head>
 
 <body bgcolor="#FFFCEA">
@@ -643,6 +650,22 @@
 	</div>
 <div align="left">
 	<font color="#010101" face="Arial" size="2">
+	<span style="font-size: 10pt; font-family: Arial; color: #010101"><i>Always 
+	use sockets</i></span></font></div>
+<div align="left">
+	<font color="#010101" face="Arial" size="2">
+	<span style="font-size: 10pt; font-family: Arial; color: #010101">Pyscripter 
+	can use sockets or Windows named pipes for communicating with server.&nbsp; 
+	Named pipes can only be used in
+	<a href="https://github.com/mhammond/pywin32">pywin32</a> is installed in 
+	the active python version.&nbsp; The main advantage of named pipes is that 
+	it avoids firewall issues related to socket connections.&nbsp; If this 
+	option is checked sockets are used in preference to named pipes. (default 
+	true)</span></font></div>
+<div align="left">
+	</div>
+<div align="left">
+	<font color="#010101" face="Arial" size="2">
 	<span style="font-size: 10pt; font-family: Arial; color: #010101"><i>Clear output 
 	before run</i></span></font></div>
 <div align="left">
@@ -795,6 +818,48 @@
 	it adds a menu item &quot;Edit with Pyscripter&quot; to the Windows File Explorer 
 	context menu for Python files.&nbsp; If unchecked this option removes such context 
 	menu if it is present.</span></font></div>
+<div align="left">
+	</div>
+<div align="left">
+	<font color="#010101" face="Arial" size="2">
+	<span style="font-size: 10pt; font-family: Arial; color: #010101"><b>SSH</b></span></font></div>
+<div align="left">
+	</div>
+<div align="left">
+	<font color="#010101" face="Arial" size="2">
+	<span style="font-size: 10pt; font-family: Arial; color: #010101"><i>Disable 
+	Variables Window with SSH</i></span></font></div>
+<div align="left">
+	<font color="#010101" face="Arial" size="2">
+	<span style="font-size: 10pt; font-family: Arial; color: #010101">The 
+	updating of the <a href="variableswindow.htm">Variables window</a> requires 
+	data transers between PyScripter and remote Python Engines.&nbsp; With slow 
+	SSH connections this could slow down PyScipter.&nbsp; If checked, 
+	the Variables Window is desabled while using an SSH engine.</span></font></div>
+<div align="left">
+	</div>
+<div align="left">
+	<font color="#010101" face="Arial" size="2">
+	<span style="font-size: 10pt; font-family: Arial; color: #010101"><i>Scp 
+	command</i></span></font></div>
+<div align="left" class="auto-style1">
+	This option allows you to specify a path to an scp command.&nbsp; This could 
+	be useful if you have multiple versions of scp installed and want to specify 
+	which one to use.&nbsp; The defalut value 'scp' assumes scp can be found on 
+	the system path.</div>
+<div align="left">
+	</div>
+<div align="left">
+	<font color="#010101" face="Arial" size="2">
+	<span style="font-size: 10pt; font-family: Arial; color: #010101"><i>SSH 
+	command</i></span></font></div>
+<div align="left" class="auto-style1">
+	This option allows you to specify a path to an ssh command.&nbsp; This could 
+	be useful if you have multiple versions of ssh installed and want to specify 
+	which one to use.&nbsp; The defalut value 'ssh' assumes ssh can be found on 
+	the system path.</div>
+<div align="left">
+	</div>
 
 </body>
 

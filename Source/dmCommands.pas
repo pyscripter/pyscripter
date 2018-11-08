@@ -251,6 +251,7 @@ type
     actFileCloseAllToTheRight: TAction;
     actEditReadOnly: TAction;
     actFileSaveToRemote: TAction;
+    actDonate: TAction;
     function ProgramVersionHTTPLocationLoadFileFromRemote(
       AProgramVersionLocation: TJvProgramVersionHTTPLocation; const ARemotePath,
       ARemoteFileName, ALocalPath, ALocalFileName: string): string;
@@ -355,6 +356,7 @@ type
     procedure actFileCloseAllToTheRightExecute(Sender: TObject);
     procedure actEditReadOnlyExecute(Sender: TObject);
     procedure actFileSaveToRemoteExecute(Sender: TObject);
+    procedure actDonateExecute(Sender: TObject);
   private
     fHighlighters: TStrings;
     fUntitledNumbers: TBits;
@@ -2525,6 +2527,11 @@ end;
 procedure TCommandsDataModule.actHelpWebProjectHomeExecute(Sender: TObject);
 begin
   OpenObject('https://github.com/pyscripter/pyscripter');
+end;
+
+procedure TCommandsDataModule.actDonateExecute(Sender: TObject);
+begin
+  OpenObject('https://www.paypal.com/donate/?token=OxAAcdhdzEPqUFGG6E6bh57ufgUS7d04XtDX1y0_g6zAVrisNkFIcL33z19LsSOLhG74Z0');
 end;
 
 procedure TCommandsDataModule.actHelpExternalToolsExecute(Sender: TObject);
