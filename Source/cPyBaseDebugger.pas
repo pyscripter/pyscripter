@@ -154,10 +154,6 @@ type
     procedure SetDebuggerBreakpoints; virtual; abstract;
     function GetPostMortemEnabled: boolean; virtual;
   public
-    // Python Path
-    function SysPathAdd(const Path : string) : boolean; virtual; abstract;
-    function SysPathRemove(const Path : string) : boolean; virtual; abstract;
-    function AddPathToPythonPath(const Path : string; AutoRemove : Boolean = True) : IInterface;
     // Debugging
     procedure Debug(ARunConfig : TRunConfiguration; InitStepIn : Boolean = False;
             RunToCursorLine : integer = -1); virtual; abstract;
@@ -509,12 +505,6 @@ begin
 end;
 
 { TPyBaseDebugger }
-
-function TPyBaseDebugger.AddPathToPythonPath(const Path: string;
-  AutoRemove: Boolean): IInterface;
-begin
-  Result := TPythonPathAdder.Create(SysPathAdd, SysPathRemove, Path, AutoRemove);
-end;
 
 function TPyBaseDebugger.GetPostMortemEnabled: boolean;
 begin
