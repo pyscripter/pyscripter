@@ -335,7 +335,7 @@ begin
   fPath := ExcludeTrailingPathDelimiter(Path);
   fAutoRemove := AutoRemove;
   fSysPathRemove := SysPathRemove;
-  if (fPath <> '') and DirectoryExists(fPath) then begin
+  if (fPath <> '') then begin
     // Add parent directory of the root of the package first
     if DirIsPythonPackage(fPath) then begin
       S := ExtractFileDir(GetPackageRootDir(fPath));
@@ -360,7 +360,10 @@ end;
 function TPyBaseInterpreter.AddPathToPythonPath(const Path: string;
   AutoRemove: Boolean): IInterface;
 begin
-  Result := TPythonPathAdder.Create(SysPathAdd, SysPathRemove, Path, AutoRemove);
+  Result := nil;
+  // DirectoryExists would fail when TPythonPathAdder is used with the SSH engine.
+  if (fEngineType = peSSH) or DirectoryExists(Path)  then
+    Result := TPythonPathAdder.Create(SysPathAdd, SysPathRemove, Path, AutoRemove)
 end;
 
 destructor TPyBaseInterpreter.Destroy;
