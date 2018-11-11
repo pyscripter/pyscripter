@@ -1541,23 +1541,27 @@ begin
 end;
 
 procedure TPythonIIForm.RegisterHistoryCommands;
+  procedure AddEditorCommand(Cmd: TSynEditorCommand; SC: TShortcut);
+  Var
+    Index : integer;
+  begin
+    // Remove if it exists
+    Index :=  SynEdit.Keystrokes.FindShortcut(SC);
+    if Index >= 0 then
+      SynEdit.Keystrokes.Delete(Index);
+    // Addit
+    with SynEdit.Keystrokes.Add do
+    begin
+      ShortCut := SC;
+      Command := Cmd;
+    end;
+  end;
+
 begin
   // Register the Recall History Command
-  with SynEdit.Keystrokes.Add do
-  begin
-    ShortCut := Vcl.Menus.ShortCut(VK_UP, [ssAlt]);
-    Command := ecRecallCommandPrev;
-  end;
-  with SynEdit.Keystrokes.Add do
-  begin
-    ShortCut := Vcl.Menus.ShortCut(VK_DOWN, [ssAlt]);
-    Command := ecRecallCommandNext;
-  end;
-  with SynEdit.Keystrokes.Add do
-  begin
-    ShortCut := Vcl.Menus.ShortCut(VK_ESCAPE, []);
-    Command := ecRecallCommandEsc;
-  end;
+  AddEditorCommand(ecRecallCommandPrev, Vcl.Menus.ShortCut(VK_UP, [ssAlt]));
+  AddEditorCommand(ecRecallCommandNext, Vcl.Menus.ShortCut(VK_DOWN, [ssAlt]));
+  AddEditorCommand(ecRecallCommandEsc, Vcl.Menus.ShortCut(VK_ESCAPE, []));
 end;
 
 procedure TPythonIIForm.GetBlockCode(var Source: string;
