@@ -3,10 +3,28 @@ unit frmModSpTBXCustomize;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, SpTBXCustomizer, SpTBXCustomizerForm, CheckLst, SpTBXEditors,
-  SpTBXControls, StdCtrls, ComCtrls, ExtCtrls,
-  TB2Item, SpTBXItem, SpTBXSkins,  SpTBXTabs;
+  WinApi.Windows, 
+  WinApi.Messages,
+  System.UITypes,
+  System.SysUtils, 
+  System.Variants, 
+  System.Classes, 
+  Vcl.Graphics, 
+  Vcl.Controls, 
+  Vcl.Forms,
+  Vcl.Dialogs, 
+  Vcl.StdCtrls, 
+  Vcl.ComCtrls, 
+  Vcl.ExtCtrls,
+  Vcl.CheckLst, 
+  TB2Item, 
+  SpTBXCustomizer,
+  SpTBXCustomizerForm, 
+  SpTBXEditors,
+  SpTBXControls,
+  SpTBXItem, 
+  SpTBXSkins, 
+  SpTBXTabs;
 
 type
   TSpTBXCustomizeFormMod = class(TSpTBXCustomizeForm)
@@ -42,7 +60,9 @@ implementation
 {$R *.dfm}
 
 Uses
-  ActnList, frmPyIDEMain, JvGnugettext;
+  Vcl.ActnList, 
+  JvGnugettext,
+  frmPyIDEMain;
 
 { TSpTBXCustomizeFormMod }
 
@@ -186,7 +206,7 @@ end;
 
 procedure TSpTBXCustomizeFormMod.ResetButtonClick(Sender: TObject);
 begin
-  if Dialogs.MessageDlg(_('This option will reset IDE toolbars and shortcuts to the factory settings.'+#13+#10+'Do you want to proceed?'),
+  if Vcl.Dialogs.MessageDlg(_('This option will reset IDE toolbars and shortcuts to the factory settings.'+#13+#10+'Do you want to proceed?'),
     mtWarning, [mbOK, mbCancel], 0) = mrOk
   then
     PyIDEMainForm.LoadToolbarItems(FactoryToolbarItems);

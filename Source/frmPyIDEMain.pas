@@ -454,7 +454,7 @@
           Issues addressed
             #501 #682, #907
 
-            { TODO : Issues 501, 667, 698 }
+            { TODO : Issues 667 }
             { TODO : Review Search and Replace }
             { TODO : Auto PEP8 tool }
             { TODO: Interpreter raw_input #311 }
