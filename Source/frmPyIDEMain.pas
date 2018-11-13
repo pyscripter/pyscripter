@@ -449,7 +449,7 @@
               Requires the installation of pywin32 (pip install pywin32).
             IDE option to force the use of sockets for connection to the python server.  (default True)
             New Editor commands Copy Line Up/Down (Shift+Alt+Up/Down) as in Visual Studio
-            Updated icons thanks to Salim Saddaquzzaman
+            PyScripter icons given a facelift by Salim Saddaquzzaman
             Upgraded rpyc to 4.x.  As a result Python 2.5 is no longer supported.
           Issues addressed
             #501 #682, #907
