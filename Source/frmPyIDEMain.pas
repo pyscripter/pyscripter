@@ -447,10 +447,11 @@
             Python 3 type hints used in code completion
             Connection to python server with Windows named pipes. Faster and avoids firewall issues.
               Requires the installation of pywin32 (pip install pywin32).
-            IDE option to force the use of sockets for connection to the python server.  (default False)
+            IDE option to force the use of sockets for connection to the python server.  (default True)
+            New Editor commands Copy Line Up/Down (Shift+Alt+Up/Down) as in Visual Studio
             Upgraded rpyc to 4.x.  As a result Python 2.5 is no longer supported.
           Issues addressed
-            #682, #907
+            #501 #682, #907
 
             { TODO : Issues 501, 667, 698 }
             { TODO : Review Search and Replace }
@@ -1029,6 +1030,7 @@ type
     SpTBXItem13: TSpTBXItem;
     actPythonSSH: TAction;
     mnPythonEngineSSH: TSpTBXItem;
+    SpTBXItem14: TSpTBXItem;
     procedure mnFilesClick(Sender: TObject);
     procedure actEditorZoomInExecute(Sender: TObject);
     procedure actEditorZoomOutExecute(Sender: TObject);

@@ -80,7 +80,6 @@ inherited AboutBox: TAboutBox
         Height = 232
         Align = alClient
         Color = clBtnFace
-        DoubleBuffered = True
         Ctl3D = False
         ParentColor = False
         ParentCtl3D = False

@@ -980,6 +980,9 @@ object PyIDEMainForm: TPyIDEMainForm
             Action = CommandsDataModule.actHelpWebBlog
           end
         end
+        object SpTBXItem14: TSpTBXItem
+          Action = CommandsDataModule.actDonate
+        end
         object N17: TSpTBXSeparatorItem
         end
         object mnHelpAbout: TSpTBXItem

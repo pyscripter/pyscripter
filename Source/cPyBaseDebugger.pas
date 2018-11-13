@@ -154,10 +154,6 @@ type
     procedure SetDebuggerBreakpoints; virtual; abstract;
     function GetPostMortemEnabled: boolean; virtual;
   public
-    // Python Path
-    function SysPathAdd(const Path : string) : boolean; virtual; abstract;
-    function SysPathRemove(const Path : string) : boolean; virtual; abstract;
-    function AddPathToPythonPath(const Path : string; AutoRemove : Boolean = True) : IInterface;
     // Debugging
     procedure Debug(ARunConfig : TRunConfiguration; InitStepIn : Boolean = False;
             RunToCursorLine : integer = -1); virtual; abstract;
@@ -335,7 +331,7 @@ begin
   fPath := ExcludeTrailingPathDelimiter(Path);
   fAutoRemove := AutoRemove;
   fSysPathRemove := SysPathRemove;
-  if (fPath <> '') and DirectoryExists(fPath) then begin
+  if (fPath <> '') then begin
     // Add parent directory of the root of the package first
     if DirIsPythonPackage(fPath) then begin
       S := ExtractFileDir(GetPackageRootDir(fPath));
@@ -360,7 +356,10 @@ end;
 function TPyBaseInterpreter.AddPathToPythonPath(const Path: string;
   AutoRemove: Boolean): IInterface;
 begin
-  Result := TPythonPathAdder.Create(SysPathAdd, SysPathRemove, Path, AutoRemove);
+  Result := nil;
+  // DirectoryExists would fail when TPythonPathAdder is used with the SSH engine.
+  if (fEngineType = peSSH) or DirectoryExists(Path)  then
+    Result := TPythonPathAdder.Create(SysPathAdd, SysPathRemove, Path, AutoRemove)
 end;
 
 destructor TPyBaseInterpreter.Destroy;
@@ -506,12 +505,6 @@ begin
 end;
 
 { TPyBaseDebugger }
-
-function TPyBaseDebugger.AddPathToPythonPath(const Path: string;
-  AutoRemove: Boolean): IInterface;
-begin
-  Result := TPythonPathAdder.Create(SysPathAdd, SysPathRemove, Path, AutoRemove);
-end;
 
 function TPyBaseDebugger.GetPostMortemEnabled: boolean;
 begin

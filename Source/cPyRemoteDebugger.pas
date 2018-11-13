@@ -148,9 +148,6 @@ type
     constructor Create(RemotePython : TPyRemoteInterpreter);
     destructor Destroy; override;
 
-    // Python Path
-    function SysPathAdd(const Path : string) : boolean; override;
-    function SysPathRemove(const Path : string) : boolean; override;
     // Debugging
     procedure Debug(ARunConfig : TRunConfiguration; InitStepIn : Boolean = False;
       RunToCursorLine : integer = -1); override;
@@ -1607,9 +1604,9 @@ begin
     Path := XtractFileDir(Path)
   else
     Path := '';
-  SysPathRemove('');
+  fRemotePython.SysPathRemove('');
   if Path.Length > 1 then
-    PythonPathAdder := AddPathToPythonPath(Path);
+    PythonPathAdder := fRemotePython.AddPathToPythonPath(Path);
 
   // Set the Working directory
   if ARunConfig.WorkingDir <> '' then
@@ -1725,7 +1722,7 @@ begin
         RestoreCommandLine;
 
         //  Add again the empty path
-        SysPathAdd('');
+        fRemotePython.SysPathAdd('');
 
         // Change the back current path
         fRemotePython.RPI.rem_chdir(OldPath);
@@ -1835,16 +1832,6 @@ procedure TPyRemDebugger.StepOver;
 begin
   fDebuggerCommand := dcStepOver;
   DoDebuggerCommand;
-end;
-
-function TPyRemDebugger.SysPathAdd(const Path: string): boolean;
-begin
-  Result := fRemotePython.SysPathAdd(Path);
-end;
-
-function TPyRemDebugger.SysPathRemove(const Path: string): boolean;
-begin
-  Result := fRemotePython.SysPathRemove(Path);
 end;
 
 procedure TPyRemDebugger.UserCall(Sender: TObject; PSelf, Args: PPyObject;

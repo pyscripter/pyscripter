@@ -138,9 +138,6 @@ type
     constructor Create;
     destructor Destroy; override;
 
-    // Python Path
-    function SysPathAdd(const Path : string) : boolean; override;
-    function SysPathRemove(const Path : string) : boolean; override;
     // Debugging
     procedure Debug(ARunConfig : TRunConfiguration; InitStepIn : Boolean = False;
           RunToCursorLine : integer = -1); override;
@@ -639,9 +636,9 @@ begin
       Path := ExtractFileDir(Path)
     else
       Path := '';
-    SysPathRemove('');
+    InternalInterpreter.SysPathRemove('');
     if Path.Length > 1 then
-      PythonPathAdder := AddPathToPythonPath(Path);
+      PythonPathAdder := InternalInterpreter.AddPathToPythonPath(Path);
 
     // Set the Working directory
     if ARunConfig.WorkingDir <> '' then
@@ -724,7 +721,7 @@ begin
       RestoreCommandLine;
 
       //  Add again the empty path
-      SysPathAdd('');
+      InternalInterpreter.SysPathAdd('');
 
       // Change the back current path
       SetCurrentDir(OldPath);
@@ -778,16 +775,6 @@ end;
 procedure TPyInternalDebugger.StepOver;
 begin
   fDebuggerCommand := dcStepOver;
-end;
-
-function TPyInternalDebugger.SysPathAdd(const Path: string): boolean;
-begin
-  Result := InternalInterpreter.SysPathAdd(Path);
-end;
-
-function TPyInternalDebugger.SysPathRemove(const Path: string): boolean;
-begin
-  Result := InternalInterpreter.SysPathRemove(Path);
 end;
 
 procedure TPyInternalDebugger.StepOut;
