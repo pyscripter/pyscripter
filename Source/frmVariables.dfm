@@ -44,7 +44,7 @@ inherited VariablesWindow: TVariablesWindow
   ExplicitHeight = 286
   PixelsPerInch = 96
   TextHeight = 13
-  inherited BGPanel: TSpTBXPanel
+  inherited BGPanel: TPanel
     Width = 579
     Height = 247
     ExplicitWidth = 579

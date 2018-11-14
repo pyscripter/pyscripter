@@ -5,70 +5,66 @@ inherited AskParamForm: TAskParamForm
   Caption = 'Unknown parameter'
   ClientHeight = 113
   ClientWidth = 385
-  Font.Name = 'MS Shell Dlg 2'
   Position = poScreenCenter
   ExplicitWidth = 391
-  ExplicitHeight = 139
+  ExplicitHeight = 142
   PixelsPerInch = 96
   TextHeight = 13
-  object SpTBXPanel1: TSpTBXPanel
+  object Panel1: TPanel
     Left = 0
     Top = 0
     Width = 385
     Height = 113
-    Caption = 'SpTBXPanel1'
     Align = alClient
     TabOrder = 0
-    TBXStyleBackground = True
     DesignSize = (
       385
       113)
-    object btnOK: TSpTBXButton
+    object Label1: TLabel
+      Left = 8
+      Top = 5
+      Width = 128
+      Height = 13
+      Caption = 'Enter value for parameter '
+      FocusControl = txtParamValue
+    end
+    object btnOK: TButton
       Left = 221
       Top = 80
       Width = 75
       Height = 25
-      Caption = '&OK'
       Anchors = [akRight, akBottom]
-      TabOrder = 2
+      Caption = '&OK'
       Default = True
       ModalResult = 1
+      TabOrder = 2
     end
-    object btnCancel: TSpTBXButton
+    object btnCancel: TButton
       Left = 302
       Top = 80
       Width = 75
       Height = 25
-      Caption = '&Cancel'
       Anchors = [akRight, akBottom]
-      TabOrder = 3
       Cancel = True
+      Caption = '&Cancel'
       ModalResult = 2
+      TabOrder = 3
     end
-    object chkSaveToFile: TSpTBXCheckBox
+    object chkSaveToFile: TCheckBox
       Left = 8
       Top = 55
       Width = 190
       Height = 21
       Caption = 'and save it as a custom parameter'
-      ParentColor = True
       TabOrder = 1
     end
-    object txtParamValue: TSpTBXEdit
+    object txtParamValue: TEdit
       Left = 8
       Top = 24
       Width = 367
       Height = 21
       Anchors = [akLeft, akTop, akRight]
       TabOrder = 0
-    end
-    object Label1: TSpTBXLabel
-      Left = 8
-      Top = 2
-      Width = 134
-      Height = 19
-      Caption = 'Enter value for parameter '
-      FocusControl = txtParamValue
     end
   end
 end

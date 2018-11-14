@@ -445,10 +445,11 @@
             Open and work with remote files from Windows and Linux machines as if they were local
             Run and Debug files on remote Windows and Linux machines using SSH
             Python 3 type hints used in code completion
-            Connection to python server with Windows named pipes. Faster and avoids firewall issues.
+            Connection to python server with Windows named pipes. Avoids firewall issues.
               Requires the installation of pywin32 (pip install pywin32).
             IDE option to force the use of sockets for connection to the python server.  (default True)
-            New Editor commands Copy Line Up/Down (Shift+Alt+Up/Down) as in Visual Studio
+            New Editor commands Copy Line Up/Down (Shift+Alt+Up/Down) and
+              Move Line Up/Down (Alt + Up/Down) as in Visual Studio
             PyScripter icons given a facelift by Salim Saddaquzzaman
             Upgraded rpyc to 4.x.  As a result Python 2.5 is no longer supported.
           Issues addressed

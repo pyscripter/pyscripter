@@ -48,7 +48,7 @@ inherited PythonIIForm: TPythonIIForm
   ExplicitHeight = 490
   PixelsPerInch = 96
   TextHeight = 13
-  inherited BGPanel: TSpTBXPanel
+  inherited BGPanel: TPanel
     Width = 701
     Height = 451
     ExplicitWidth = 701

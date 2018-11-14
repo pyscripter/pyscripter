@@ -12,18 +12,19 @@ object EditorForm: TEditorForm
   OnDestroy = FormDestroy
   PixelsPerInch = 96
   TextHeight = 13
-  object BGPanel: TSpTBXPanel
+  object BGPanel: TPanel
     Left = 0
     Top = 0
     Width = 582
     Height = 422
     Align = alClient
+    BevelOuter = bvNone
     Padding.Left = 2
     Padding.Top = 2
     Padding.Right = 2
     Padding.Bottom = 2
     TabOrder = 0
-    Borders = False
+    StyleElements = [seFont]
     object ViewsTabControl: TSpTBXTabControl
       Left = 2
       Top = 2
@@ -36,6 +37,10 @@ object EditorForm: TEditorForm
       ActiveTabIndex = 0
       Images = CommandsDataModule.Images
       OnActiveTabChange = ViewsTabControlActiveTabChange
+      ExplicitLeft = 3
+      ExplicitTop = 3
+      ExplicitWidth = 576
+      ExplicitHeight = 416
       HiddenItems = <>
       object tabSource: TSpTBXTabItem
         Caption = 'Source'
@@ -63,6 +68,8 @@ object EditorForm: TEditorForm
         Height = 392
         Caption = 'Source'
         ImageIndex = -1
+        ExplicitWidth = 576
+        ExplicitHeight = 390
         TabItem = 'tabSource'
         object SynEdit: TSynEdit
           Left = 2
@@ -117,6 +124,8 @@ object EditorForm: TEditorForm
           OnStatusChange = SynEditStatusChange
           OnPaintTransient = SynEditPaintTransient
           FontSmoothing = fsmNone
+          ExplicitWidth = 365
+          ExplicitHeight = 386
           RemovedKeystrokes = <
             item
               Command = ecUp
@@ -535,6 +544,8 @@ object EditorForm: TEditorForm
           OnStatusChange = SynEditStatusChange
           OnPaintTransient = SynEditPaintTransient
           FontSmoothing = fsmNone
+          ExplicitLeft = 372
+          ExplicitHeight = 386
           RemovedKeystrokes = <
             item
               Command = ecUp
@@ -921,6 +932,8 @@ object EditorForm: TEditorForm
           ParentColor = False
           Visible = False
           GripSize = 80
+          ExplicitLeft = 367
+          ExplicitHeight = 386
         end
       end
     end
@@ -933,7 +946,7 @@ object EditorForm: TEditorForm
     Left = 96
     Top = 80
     Bitmap = {
-      494C01010600080014000B000E00FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C01010600080018000B000E00FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       00000000000036000000280000002C0000001C00000001002000000000004013
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

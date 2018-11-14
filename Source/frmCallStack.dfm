@@ -44,7 +44,7 @@ inherited CallStackWindow: TCallStackWindow
   ExplicitHeight = 207
   PixelsPerInch = 96
   TextHeight = 13
-  inherited BGPanel: TSpTBXPanel
+  inherited BGPanel: TPanel
     Width = 604
     Height = 168
     ExplicitWidth = 604

@@ -21,24 +21,24 @@ object IDEDockWindow: TIDEDockWindow
   OnDeactivate = FormDeactivate
   PixelsPerInch = 96
   TextHeight = 13
-  object BGPanel: TSpTBXPanel
+  object BGPanel: TPanel
     Left = 0
     Top = 0
     Width = 227
     Height = 408
     Align = alClient
+    BevelOuter = bvNone
+    Padding.Left = 2
+    Padding.Top = 2
+    Padding.Right = 2
+    Padding.Bottom = 2
     TabOrder = 0
-    Borders = False
+    StyleElements = [seFont]
     object FGPanel: TPanel
-      AlignWithMargins = True
       Left = 2
       Top = 2
       Width = 223
       Height = 404
-      Margins.Left = 2
-      Margins.Top = 2
-      Margins.Right = 2
-      Margins.Bottom = 2
       Align = alClient
       BevelOuter = bvNone
       Ctl3D = False
