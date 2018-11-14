@@ -443,7 +443,7 @@
   History:   v 3.5
           New Features
             Open and work with remote files from Windows and Linux machines as if they were local
-            Run and Debug files on remote Windows and Linux machines using SSH
+            Run and Debug scripts on remote Windows and Linux machines using SSH
             Python 3 type hints used in code completion
             Connection to python server with Windows named pipes. Avoids firewall issues.
               Requires the installation of pywin32 (pip install pywin32).
