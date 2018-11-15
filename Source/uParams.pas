@@ -492,6 +492,12 @@ begin
     Result := 'python.exe';
 end;
 
+function GetActivePythonwExe : string;
+begin
+  Result :=  GetActivePythonExe;
+  Result := Copy(Result, 1, Length(Result)- 4) + 'w.exe';
+end;
+
 function GetPythonDir (VersionString : string) : string;
 var
   PythonVersion : TPythonVersion;
@@ -626,6 +632,7 @@ begin
     RegisterParameter('Python37Exe', '$[PYTHON37DIR]python.exe', nil);
     RegisterParameter('PythonDir', 'Directory of active python version', GetActivePythonDir);
     RegisterParameter('PythonExe', 'Executable of active Python', GetActivePythonExe);
+    RegisterParameter('PythonwExe', 'Executable of active Python', GetActivePythonwExe);
     RegisterParameter('PythonVersion', 'Version of active Python', GetPythonVersion);
 
     // register system paths and parameters
@@ -732,6 +739,7 @@ begin
     UnRegisterParameter('Python37Exe');
     UnRegisterParameter('PythonDir');
     UnRegisterParameter('PythonExe');
+    UnRegisterParameter('PythonwExe');
     UnRegisterParameter('PythonVersion');
 
     // unregister system paths and parameters

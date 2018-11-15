@@ -139,7 +139,7 @@ object PyIDEMainForm: TPyIDEMainForm
       OnActiveTabChange = TabControlActiveTabChange
       HiddenItems = <>
       object tbiRightAlign: TSpTBXRightAlignSpacerItem
-        CustomWidth = 648
+        CustomWidth = 0
       end
       object tbiTabSep: TSpTBXSeparatorItem
       end
@@ -1366,7 +1366,6 @@ object PyIDEMainForm: TPyIDEMainForm
   end
   object CloseTimer: TTimer
     Enabled = False
-    Interval = 500
     OnTimer = CloseTimerTimer
     Left = 39
     Top = 219

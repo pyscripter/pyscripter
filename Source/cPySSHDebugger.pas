@@ -90,7 +90,8 @@ begin
     ProcessOptions.MergeError := False;
     ProcessOptions.RawError := True;
     ProcessOptions.CreateProcessFlags :=
-      ProcessOptions.CreateProcessFlags and CREATE_NO_WINDOW and CREATE_NEW_CONSOLE;
+      ProcessOptions.CreateProcessFlags or
+       CREATE_UNICODE_ENVIRONMENT or CREATE_NO_WINDOW or CREATE_NEW_CONSOLE;
     ExecuteCmdProcess(ProcessOptions);
     OutputDebugString(PChar(ProcessOptions.Error));
     Result := ProcessOptions.ExitCode;
@@ -170,7 +171,8 @@ begin
   TunnelProcessOptions.RawOutput := True;
   TunnelProcessOptions.RawError := True;
   TunnelProcessOptions.CreateProcessFlags :=
-    TunnelProcessOptions.CreateProcessFlags and CREATE_NO_WINDOW and CREATE_NEW_CONSOLE;
+    TunnelProcessOptions.CreateProcessFlags or
+     CREATE_UNICODE_ENVIRONMENT or CREATE_NO_WINDOW or CREATE_NEW_CONSOLE;
 
   inherited Create(peSSH);
   DebuggerClass := TPySSHDebugger;

@@ -572,7 +572,8 @@ begin
   ServerProcessOptions.OutputLineCallback := ProcessServerOuput;
   ServerProcessOptions.BeforeResume := StoreServerProcessInfo;
   ServerProcessOptions.CreateProcessFlags :=
-    ServerProcessOptions.CreateProcessFlags and CREATE_NO_WINDOW and CREATE_NEW_CONSOLE;
+    ServerProcessOptions.CreateProcessFlags or CREATE_NO_WINDOW or CREATE_UNICODE_ENVIRONMENT;
+  ServerProcessOptions.StartupVisibility := svNotSet;
   ServerProcessOptions.MergeError := False;
   ServerProcessOptions.RawError := True;
 
