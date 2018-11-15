@@ -44,7 +44,7 @@ inherited BreakPointsWindow: TBreakPointsWindow
   ExplicitHeight = 283
   PixelsPerInch = 96
   TextHeight = 13
-  inherited BGPanel: TSpTBXPanel
+  inherited BGPanel: TPanel
     Width = 379
     Height = 244
     ExplicitWidth = 379

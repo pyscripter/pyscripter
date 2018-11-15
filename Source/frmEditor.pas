@@ -102,7 +102,7 @@ type
     mnRestoreEditor2: TSpTBXItem;
     N12: TSpTBXSeparatorItem;
     mnEditorOptions: TSpTBXItem;
-    BGPanel: TSpTBXPanel;
+    BGPanel: TPanel;
     mnFoldVisible: TSpTBXItem;
     SpTBXSeparatorItem4: TSpTBXSeparatorItem;
     mnFold: TSpTBXSubmenuItem;

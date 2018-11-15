@@ -44,7 +44,7 @@ inherited ToDoWindow: TToDoWindow
   ExplicitHeight = 332
   PixelsPerInch = 96
   TextHeight = 13
-  inherited BGPanel: TSpTBXPanel
+  inherited BGPanel: TPanel
     Width = 492
     Height = 293
     ExplicitWidth = 492

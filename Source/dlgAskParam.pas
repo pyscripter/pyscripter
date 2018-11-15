@@ -1,6 +1,6 @@
-{
+ï»¿{
   Syn
-  Copyright © 2002, Danail Traichev. All rights reserved.
+  Copyright 2002, Danail Traichev. All rights reserved.
   neum@developer.bg,
 
   The contents of this file are subject to the Mozilla Public License
@@ -15,10 +15,8 @@
   The Original Code is dlgAskParam.pas, released Thu, 19 Sep 2002 21:38:36 UTC.
 
   The Initial Developer of the Original Code is Danail Traichev.
-  Portions created by Danail Traichev are Copyright © 2002 Danail Traichev.
+  Portions created by Danail Traichev are Copyright ï¿½ 2002 Danail Traichev.
   All Rights Reserved.
-
-  Contributor(s): .
 
   Alternatively, the contents of this file may be used under the terms of the
   GNU General Public License Version 2 or later (the "GPL"), in which case
@@ -32,26 +30,24 @@
 
   You may retrieve the latest version of this file at the Syn home page,
   located at http://syn.sourceforge.net/
-
- $Id: dlgAskParam.pas,v 1.8 2004/03/02 13:20:33 seier Exp $
- }
+}
 unit dlgAskParam;
 
 interface
 
 uses
   Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, 
-  StdCtrls, SpTBXControls, dlgPyIDEBase, SpTBXEditors, SpTBXItem;
+  StdCtrls, ExtCtrls, dlgPyIDEBase;
 
 type
   (* asks for parameter value and optionally stores parameter to file *)
   TAskParamForm = class(TPyIDEDlgBase)
-    btnOK: TSpTBXButton;
-    btnCancel: TSpTBXButton;
-    chkSaveToFile: TSpTBXCheckBox;
-    txtParamValue: TSpTBXEdit;
-    Label1: TSpTBXLabel;
-    SpTBXPanel1: TSpTBXPanel;
+    btnOK: TButton;
+    btnCancel: TButton;
+    chkSaveToFile: TCheckBox;
+    txtParamValue: TEdit;
+    Label1: TLabel;
+    Panel1: TPanel;
   private
     FParamName: string;
     procedure SetParamName(const Value: string);

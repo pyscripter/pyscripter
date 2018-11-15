@@ -13,13 +13,13 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, JvDockControlForm, ExtCtrls, SpTBXSkins,
-  JvComponentBase, SpTBXItem, SpTBXControls;
+  JvComponentBase, SpTBXItem;
 
 type
   TIDEDockWindow = class(TForm)
     DockClient: TJvDockClient;
     FGPanel: TPanel;
-    BGPanel: TSpTBXPanel;
+    BGPanel: TPanel;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure DockClientTabHostFormCreated(DockClient: TJvDockClient;

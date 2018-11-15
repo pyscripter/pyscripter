@@ -44,7 +44,7 @@ inherited UnitTestWindow: TUnitTestWindow
   ExplicitHeight = 490
   PixelsPerInch = 96
   TextHeight = 13
-  inherited BGPanel: TSpTBXPanel
+  inherited BGPanel: TPanel
     Width = 262
     Height = 451
     ExplicitWidth = 262

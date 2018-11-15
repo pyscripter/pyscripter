@@ -44,7 +44,7 @@ inherited CodeExplorerWindow: TCodeExplorerWindow
   ExplicitHeight = 345
   PixelsPerInch = 96
   TextHeight = 13
-  inherited BGPanel: TSpTBXPanel
+  inherited BGPanel: TPanel
     Width = 249
     Height = 306
     ExplicitWidth = 249

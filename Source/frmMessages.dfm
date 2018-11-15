@@ -44,7 +44,7 @@ inherited MessagesWindow: TMessagesWindow
   ExplicitHeight = 225
   PixelsPerInch = 96
   TextHeight = 13
-  inherited BGPanel: TSpTBXPanel
+  inherited BGPanel: TPanel
     Width = 693
     Height = 186
     ExplicitWidth = 693

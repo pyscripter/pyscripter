@@ -52,7 +52,7 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
   ExplicitHeight = 517
   PixelsPerInch = 96
   TextHeight = 13
-  inherited BGPanel: TSpTBXPanel
+  inherited BGPanel: TPanel
     Width = 384
     Height = 478
     ExplicitWidth = 384

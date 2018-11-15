@@ -44,7 +44,7 @@ inherited WatchesWindow: TWatchesWindow
   ExplicitHeight = 268
   PixelsPerInch = 96
   TextHeight = 13
-  inherited BGPanel: TSpTBXPanel
+  inherited BGPanel: TPanel
     Width = 760
     Height = 229
     ExplicitWidth = 760

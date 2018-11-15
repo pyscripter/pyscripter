@@ -47,7 +47,7 @@ inherited FindResultsWindow: TFindResultsWindow
   ExplicitHeight = 397
   PixelsPerInch = 96
   TextHeight = 13
-  inherited BGPanel: TSpTBXPanel
+  inherited BGPanel: TPanel
     Width = 603
     Height = 358
     ExplicitWidth = 603

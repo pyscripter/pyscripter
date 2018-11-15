@@ -24,17 +24,27 @@
 
 <div>
 <span style="font-size: 10pt; font-family: Arial">
-<h4>Version 3.5 (October 20, 2018)</h4>
+<h4>Version 3.5 (November 15, 2018)</h4>
 <ul>
 	<li><i>New features:</i>
 	<ul>
 		<li><a href="remotefiles.htm">Work with remote files</a> from Windows and Linux machines as if they were local</li>
 		<li><a href="remotepythonengines.htm#sshengine">Run/debug 
 	scipts remotely on Windows and Linux servers</a></li>
+		<li>Python 3 type hints used in code completion</li>
+		<li>Connection to python server with Windows named pipes. Avoids 
+		firewall issues. Requires the installation of pywin32 (pip install 
+		pywin32).</li>
+		<li>IDE option to force the use of sockets for connection to the python 
+		server. (default True)</li>
+		<li>New Editor commands Copy Line Up/Down (Shift+Alt+Up/Down) and Move 
+		Line Up/Down (Alt + Up/Down) as in Visual Studio</li>
+		<li>PyScripter icons given a facelift by Salim Saddaquzzaman</li>
+		<li>Upgraded rpyc to 4.x. As a result Python 2.5 is no longer supported.</li>
 	</ul>
 	</li>
 	<li><i>Issues addressed:</i><ul>
-		<li><i>#907</i></li>
+		<li><i>#501</i>, <i>#682</i>, <i>#907</i></li>
 	</ul>
 	</li>
 </ul>
