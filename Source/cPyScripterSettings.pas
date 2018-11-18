@@ -274,7 +274,7 @@ type
     property SSHDisableVariablesWin : boolean read fSSHDisableVariablesWin
       write fSSHDisableVariablesWin default True;
     property AlwaysUseSockets : Boolean read fAlwaysUseSockets
-      write fAlwaysUseSockets default True;
+      write fAlwaysUseSockets default False;
   end;
 {$METHODINFO OFF}
 
@@ -502,7 +502,7 @@ begin
   fSSHCommand := 'ssh';
   fScpCommand := 'scp';
   fSSHDisableVariablesWin := True;
-  fAlwaysUseSockets := True;
+  fAlwaysUseSockets := False;
   fCodeFolding := TSynCodeFolding.Create;
 end;
 

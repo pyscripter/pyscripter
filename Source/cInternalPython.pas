@@ -208,9 +208,14 @@ procedure TInternalPython.DestroyPythonComponents;
 
 Var
   WasLoaded: Boolean;
+  RegVersion : string;
 begin
   WasLoaded := Loaded;
-  if WasLoaded then PyscripterModule.DeleteVar('IDEOptions');
+  if WasLoaded then begin
+    PyscripterModule.DeleteVar('IDEOptions');
+    RegVersion := fPythonEngine.RegVersion;
+    Delete(RegVersion, 2, 1);
+  end;
   FreeAndNil(fPythonEngine);  // Unloads Python Dll
   FreeAndNil(fDebugIDE);
   FreeAndNil(PyDelphiWrapper);
@@ -225,10 +230,12 @@ begin
     UnloadPythonDLL('win32file.pyd');
     UnloadPythonDLL('win32pipe.pyd');
     UnloadPythonDLL('win32event.pyd');
+    UnloadPythonDLL('_win32sysloader.pyd');
     UnloadPythonDLL('unicodedata.pyd');
     UnloadPythonDLL('_ctypes.pyd');
     UnloadPythonDLL('_hashlib.pyd');
-    //UnloadPythonDLL('pywintypes36.dll');
+    UnloadPythonDLL('_queue.pyd');
+    UnloadPythonDLL(PChar('pywintypes' + RegVersion + '.dll'));
   end;
 end;
 

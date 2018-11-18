@@ -972,6 +972,7 @@ begin
         end;
       end;
     finally
+      PythonIIForm.WritePendingMessages;
       PythonIIForm.AppendPrompt;
       CheckConnected(True, False);
       if Connected then begin
@@ -1710,6 +1711,7 @@ begin
       end;
     finally
       with PythonIIForm do begin
+        WritePendingMessages;
         PS1 := fOldPS1;
         PS2 := fOldPS2;
         AppendPrompt;

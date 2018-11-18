@@ -455,6 +455,14 @@
           Issues addressed
             #501 #682, #907
 
+  History:   v 3.5.2
+          New Features
+            Much faster Remote Engine using asynchronous Windows named pipes.
+            IDE option to force the use of sockets for connection to the python
+              server now defaults to False
+          Issues addressed
+
+
             { TODO : Issues 667 }
             { TODO : Review Search and Replace }
             { TODO : Auto PEP8 tool }
