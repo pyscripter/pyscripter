@@ -8,7 +8,7 @@ languages.
 * [Screenshots](https://github.com/pyscripter/pyscripter/wiki/Screenshots)
 * [Blog](https://pyscripter.blogspot.com/)
 * [Support](https://groups.google.com/forum/#!forum/pyscripter)
-* [![paypal](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=SX9B6G2GF5K4U)
+* [![paypal](https://img.shields.io/badge/Donate-PayPal-brightgreen.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=SX9B6G2GF5K4U)
 
 Licence: MIT
 
