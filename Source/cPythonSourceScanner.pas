@@ -192,30 +192,30 @@ public
   TPythonScanner = class
   private
     fOnScannerProgress : TScannerProgressEvent;
-    class var fCodeRE : TRegExpr;
-    class var fBlankLineRE : TRegExpr;
-    //class var fEscapedQuotesRE : TRegExpr;
-    class var fStringsAndCommentsRE : TRegExpr;
-    class var fLineContinueRE : TRegExpr;
-    class var fImportRE : TRegExpr;
-    class var fFromImportRE : TRegExpr;
-    class var fAssignmentRE : TRegExpr;
-    class var fFunctionCallRE : TRegExpr;
-    class var fForRE : TRegExpr;
-    class var fReturnRE : TRegExpr;
-    class var fWithRE : TRegExpr;
-    class var fGlobalRE : TRegExpr;
-    class var fAliasRE : TRegExpr;
-    class var fListRE : TRegExpr;
-    class var fCommentLineRE : TRegExpr;
+    fCodeRE : TRegExpr;
+    fBlankLineRE : TRegExpr;
+    //fEscapedQuotesRE : TRegExpr;
+    fStringsAndCommentsRE : TRegExpr;
+    fLineContinueRE : TRegExpr;
+    fImportRE : TRegExpr;
+    fFromImportRE : TRegExpr;
+    fAssignmentRE : TRegExpr;
+    fFunctionCallRE : TRegExpr;
+    fForRE : TRegExpr;
+    fReturnRE : TRegExpr;
+    fWithRE : TRegExpr;
+    fGlobalRE : TRegExpr;
+    fAliasRE : TRegExpr;
+    fListRE : TRegExpr;
+    fCommentLineRE : TRegExpr;
   protected
     procedure DoScannerProgress(CharNo, NoOfChars : integer; var Stop : Boolean);
   public
     property OnScannerProgress : TScannerProgressEvent
       read fOnScannerProgress write fOnScannerProgress;
 
-    class constructor Create;
-    class destructor Destroy;
+    constructor Create;
+    destructor Destroy; override;
     function ScanModule(Module : TParsedModule) : boolean;
     function GetExpressionType(Expr : string; Var VarAtts : TVariableAttributes) : string;
   end;
@@ -461,8 +461,9 @@ end;
 
 { TPythonScanner }
 
-class constructor TPythonScanner.Create;
+constructor TPythonScanner.Create;
 begin
+  inherited;
   fCodeRE := CompiledRegExpr('^([ \t]*)(class|def)[ \t]+([^ \t\(\)\[\]\{\}:;\.,@]+)[ \t]*(\(([^>]*)\))?[ \t]*(->[ \t]*([^ \t:][^:]*))?:');
   fBlankLineRE := CompiledRegExpr('^[ \t]*($|\$|\#|\"\"\"|''''''|' + MaskChar +')');
   //fEscapedQuotesRE := CompiledRegExpr('(\\\\|\\\"|\\\'')');
@@ -493,7 +494,7 @@ begin
     CompiledRegExpr('^([ \t]*)#');
 end;
 
-class destructor TPythonScanner.Destroy;
+destructor TPythonScanner.Destroy;
 begin
   fCodeRE.Free;
   fBlankLineRE.Free;
@@ -511,6 +512,7 @@ begin
   fAliasRE.Free;
   fListRE.Free;
   fCommentLineRE.Free;
+  inherited;
 end;
 
 procedure TPythonScanner.DoScannerProgress(CharNo, NoOfChars : integer;

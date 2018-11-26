@@ -91,9 +91,8 @@ begin
     ProcessOptions.RawError := True;
     ProcessOptions.CreateProcessFlags :=
       ProcessOptions.CreateProcessFlags or
-       CREATE_UNICODE_ENVIRONMENT or CREATE_NO_WINDOW or CREATE_NEW_CONSOLE;
+       CREATE_UNICODE_ENVIRONMENT or CREATE_NEW_CONSOLE;
     ExecuteCmdProcess(ProcessOptions);
-    OutputDebugString(PChar(ProcessOptions.Error));
     Result := ProcessOptions.ExitCode;
     CmdOutput := ProcessOptions.Output;
   finally
