@@ -3,12 +3,16 @@
 # Copyright (C) Kiriakos Vlahos  2005-2018
 # This file is distributed under the same license as PyScripter
 # 
+# Translators:
+# luebbe <luebbe.opensource@gmail.com>, 2018
+# Edwin Yip <edwin.yip@innovationgear.com>, 2018
+# 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2018-09-06 07:00\n"
-"PO-Revision-Date: 2018-01-23 16:26\n"
+"POT-Creation-Date: 2018-11-08 05:09\n"
+"PO-Revision-Date: 2018-01-24 08:21+0000\n"
 "Last-Translator: Edwin Yip <edwin.yip@innovationgear.com>, 2018\n"
 "Language-Team: Chinese (https://www.transifex.com/luebbe/teams/82736/zh/)\n"
 "MIME-Version: 1.0\n"
@@ -60,8 +64,8 @@ msgstr "不明的参数"
 
 #. AskParamForm..SpTBXPanel1..btnOK..Caption
 #. CodeTemplates..Panel..btnOK..Caption
+#. CollectionEditor..Panel1..OKBtn..Caption
 #. CommandLineDlg..Panel..OKButton..Caption
-#. ConfigureTools..SpTBXPanel1..OKBtn..Caption
 #. CustomizeParams..Panel..btnOK..Caption
 #. frmCustomKeyboard..Panel1..btnOK..Caption
 #. DirectoryListDialog..SpTBXPanel2..SpTBXPanel3..OKBtn..Caption
@@ -72,6 +76,7 @@ msgstr "不明的参数"
 #. ImportDirectoryForm..Panel1..Button1..Caption
 #. OptionsInspector..Panel2..OKButton..Caption
 #. PickListDialog..Panel2..btnOk..Caption
+#. RemoteFileDialog..Panel2..OKButton..Caption
 #. ReplaceInFilesDialog..SpTBXPanel1..btnOK..Caption
 #. RunConfigurationForm..Panel1..btnOK..Caption
 #. fmEditorOptionsDialog..Panel1..btnOk..Caption
@@ -79,20 +84,21 @@ msgstr "不明的参数"
 #. fmToDoOptions..pnlBG..btnOK..Caption
 #. ToolProperties..Panel1..btnOK..Caption
 #. UnitTestWizard..Panel1..OKButton..Caption
-#: dlgAskParam.dfm dlgCodeTemplates.dfm dlgCommandLine.dfm
-#: dlgConfigureTools.dfm dlgCustomParams.dfm dlgCustomShortcuts.dfm
+#: dlgAskParam.dfm dlgCodeTemplates.dfm dlgCollectionEditor.dfm
+#: dlgCommandLine.dfm dlgCustomParams.dfm dlgCustomShortcuts.dfm
 #: dlgDirectoryList.dfm dlgExceptionMail.dfm dlgFileTemplates.dfm
 #: dlgFindInFiles.dfm dlgFindResultsOptions.dfm dlgImportDirectory.dfm
-#: dlgOptionsEditor.dfm dlgPickList.dfm dlgReplaceInFiles.dfm
-#: dlgRunConfiguration.dfm dlgSynEditOptions.dfm dlgSynPageSetup.dfm
-#: dlgToDoOptions.dfm dlgToolProperties.dfm dlgUnitTestWizard.dfm
+#: dlgOptionsEditor.dfm dlgPickList.dfm dlgRemoteFile.dfm
+#: dlgReplaceInFiles.dfm dlgRunConfiguration.dfm dlgSynEditOptions.dfm
+#: dlgSynPageSetup.dfm dlgToDoOptions.dfm dlgToolProperties.dfm
+#: dlgUnitTestWizard.dfm
 msgid "&OK"
 msgstr "&OK"
 
 #. AskParamForm..SpTBXPanel1..btnCancel..Caption
 #. CodeTemplates..Panel..btnCancel..Caption
+#. CollectionEditor..Panel1..CancelBtn..Caption
 #. CommandLineDlg..Panel..BitBtn2..Caption
-#. ConfigureTools..SpTBXPanel1..CancelBtn..Caption
 #. ConfirmReplaceDialog..SpTBXPanel1..btnCancel..Caption
 #. CustomizeParams..Panel..btnCancel..Caption
 #. frmCustomKeyboard..Panel1..btnCancel..Caption
@@ -102,8 +108,9 @@ msgstr "&OK"
 #. FindResultsOptionsDialog..SpTBXPanel1..btnCancel..Caption
 #. ImportDirectoryForm..Panel1..Button2..Caption
 #. NewFileDialog..Panel1..btnCancel..Caption
-#. OptionsInspector..Panel2..BitBtn2..Caption
+#. OptionsInspector..Panel2..CancelButton..Caption
 #. PickListDialog..Panel2..btnCancel..Caption
+#. RemoteFileDialog..Panel2..CancelButton..Caption
 #. ReplaceInFilesDialog..SpTBXPanel1..btnCancel..Caption
 #. RunConfigurationForm..Panel1..btnCancel..Caption
 #. StyleSelectorForm..Button2..Caption
@@ -112,14 +119,14 @@ msgstr "&OK"
 #. fmToDoOptions..pnlBG..btnCancel..Caption
 #. ToolProperties..Panel1..btnCancel..Caption
 #. UnitTestWizard..Panel1..BitBtn2..Caption
-#: dlgAskParam.dfm dlgCodeTemplates.dfm dlgCommandLine.dfm
-#: dlgConfigureTools.dfm dlgConfirmReplace.dfm dlgCustomParams.dfm
+#: dlgAskParam.dfm dlgCodeTemplates.dfm dlgCollectionEditor.dfm
+#: dlgCommandLine.dfm dlgConfirmReplace.dfm dlgCustomParams.dfm
 #: dlgCustomShortcuts.dfm dlgDirectoryList.dfm dlgFileTemplates.dfm
 #: dlgFindInFiles.dfm dlgFindResultsOptions.dfm dlgImportDirectory.dfm
-#: dlgNewFile.dfm dlgOptionsEditor.dfm dlgPickList.dfm dlgReplaceInFiles.dfm
-#: dlgRunConfiguration.dfm dlgStyleSelector.dfm dlgSynEditOptions.dfm
-#: dlgSynPageSetup.dfm dlgToDoOptions.dfm dlgToolProperties.dfm
-#: dlgUnitTestWizard.dfm
+#: dlgNewFile.dfm dlgOptionsEditor.dfm dlgPickList.dfm dlgRemoteFile.dfm
+#: dlgReplaceInFiles.dfm dlgRunConfiguration.dfm dlgStyleSelector.dfm
+#: dlgSynEditOptions.dfm dlgSynPageSetup.dfm dlgToDoOptions.dfm
+#: dlgToolProperties.dfm dlgUnitTestWizard.dfm
 msgid "&Cancel"
 msgstr "取消(&C)"
 
@@ -145,6 +152,7 @@ msgstr "代码模板"
 #. FindInFilesDialog..Panel1..btnHelp..Caption
 #. FindResultsOptionsDialog..SpTBXPanel1..btnHelp..Caption
 #. OptionsInspector..Panel2..HelpButton..Caption
+#. RemoteFileDialog..Panel2..HelpButton..Caption
 #. ReplaceInFilesDialog..SpTBXPanel1..btnHelp..Caption
 #. RunConfigurationForm..Panel1..btnHelp..Caption
 #. fmEditorOptionsDialog..Panel1..btnHelp..Caption
@@ -157,10 +165,10 @@ msgstr "代码模板"
 #. ToDoWindow..Actions..actHelpHelp..Caption
 #: dlgCodeTemplates.dfm dlgCommandLine.dfm dlgCustomShortcuts.dfm
 #: dlgFileTemplates.dfm dlgFindInFiles.dfm dlgFindResultsOptions.dfm
-#: dlgOptionsEditor.dfm dlgReplaceInFiles.dfm dlgRunConfiguration.dfm
-#: dlgSynEditOptions.dfm dlgToDoOptions.dfm dlgToolProperties.dfm
-#: dlgUnitTestWizard.dfm frmFindResults.dfm frmFunctionList.dfm
-#: frmPyIDEMain.dfm frmToDo.dfm
+#: dlgOptionsEditor.dfm dlgRemoteFile.dfm dlgReplaceInFiles.dfm
+#: dlgRunConfiguration.dfm dlgSynEditOptions.dfm dlgToDoOptions.dfm
+#: dlgToolProperties.dfm dlgUnitTestWizard.dfm frmFindResults.dfm
+#: frmFunctionList.dfm frmPyIDEMain.dfm frmToDo.dfm
 msgid "&Help"
 msgstr "帮助(&H)"
 
@@ -262,11 +270,11 @@ msgid "Delete item"
 msgstr "删除项目"
 
 #. CodeTemplates..ActionList..actMoveUp..Caption
-#. ConfigureTools..SpTBXPanel1..MoveUpBtn..Caption
+#. CollectionEditor..Panel1..MoveUpBtn..Caption
 #. CustomizeParams..ActionList..actMoveUp..Caption
 #. FileTemplatesDialog..ActionList..actMoveUp..Caption
 #. FileExplorerWindow..FileExplorerActions..actGoUp..Caption
-#: dlgCodeTemplates.dfm dlgConfigureTools.dfm dlgCustomParams.dfm
+#: dlgCodeTemplates.dfm dlgCollectionEditor.dfm dlgCustomParams.dfm
 #: dlgFileTemplates.dfm frmFileExplorer.dfm
 msgid "&Up"
 msgstr "向上(&U)"
@@ -279,10 +287,10 @@ msgid "Move item up"
 msgstr "向上移动项目"
 
 #. CodeTemplates..ActionList..actMoveDown..Caption
-#. ConfigureTools..SpTBXPanel1..MoveDownBtn..Caption
+#. CollectionEditor..Panel1..MoveDownBtn..Caption
 #. CustomizeParams..ActionList..actMoveDown..Caption
 #. FileTemplatesDialog..ActionList..actMoveDown..Caption
-#: dlgCodeTemplates.dfm dlgConfigureTools.dfm dlgCustomParams.dfm
+#: dlgCodeTemplates.dfm dlgCollectionEditor.dfm dlgCustomParams.dfm
 #: dlgFileTemplates.dfm
 msgid "&Down"
 msgstr "向下(&D)"
@@ -312,6 +320,27 @@ msgstr "更新(&U)"
 #: dlgToolProperties.dfm
 msgid "Update item"
 msgstr "更新项目"
+
+#. CollectionEditor..Panel1..AddBtn..Caption
+#. DirectoryListDialog..SpTBXPanel2..btnAdd..Caption
+#: dlgCollectionEditor.dfm dlgDirectoryList.dfm
+msgid "&Add..."
+msgstr "追加(&A)..."
+
+#. CollectionEditor..Panel1..RemoveBtn..Caption
+#. frmCustomKeyboard..ActionList1..actRemoveShortcut..Caption
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..btnRemKey..Caption
+#. fmToDoOptions..pnlBG..gbxTokens..btnRemove..Caption
+#. ProjectExplorerWindow..ImmutableProjectActionList..actProjectRemove..Caption
+#: dlgCollectionEditor.dfm dlgCustomShortcuts.dfm dlgSynEditOptions.dfm
+#: dlgToDoOptions.dfm frmProjectExplorer.dfm
+msgid "&Remove"
+msgstr "删除(&R)"
+
+#. CollectionEditor..Panel1..ModifyBtn..Caption
+#: dlgCollectionEditor.dfm
+msgid "&Modify.."
+msgstr "修正(&M)..."
 
 #. CommandLineDlg..Caption
 #: dlgCommandLine.dfm
@@ -348,32 +377,6 @@ msgstr "参数 : Shift+Ctrl+P, 修饰符 : Shift+Ctrl+M "
 #: dlgCommandLine.dfm
 msgid "(Empty History)"
 msgstr "(空的历史日志)"
-
-#. ConfigureTools..Caption
-#: dlgConfigureTools.dfm
-msgid "Configure Tools"
-msgstr "设定工具"
-
-#. ConfigureTools..SpTBXPanel1..AddBtn..Caption
-#. DirectoryListDialog..SpTBXPanel2..btnAdd..Caption
-#: dlgConfigureTools.dfm dlgDirectoryList.dfm
-msgid "&Add..."
-msgstr "追加(&A)..."
-
-#. ConfigureTools..SpTBXPanel1..RemoveBtn..Caption
-#. frmCustomKeyboard..ActionList1..actRemoveShortcut..Caption
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..btnRemKey..Caption
-#. fmToDoOptions..pnlBG..gbxTokens..btnRemove..Caption
-#. ProjectExplorerWindow..ImmutableProjectActionList..actProjectRemove..Caption
-#: dlgConfigureTools.dfm dlgCustomShortcuts.dfm dlgSynEditOptions.dfm
-#: dlgToDoOptions.dfm frmProjectExplorer.dfm
-msgid "&Remove"
-msgstr "删除(&R)"
-
-#. ConfigureTools..SpTBXPanel1..ModifyBtn..Caption
-#: dlgConfigureTools.dfm
-msgid "&Modify.."
-msgstr "修正(&M)..."
 
 #. ConfirmReplaceDialog..Caption
 #: dlgConfirmReplace.dfm
@@ -893,6 +896,7 @@ msgstr ""
 #. CommandsDataModule..actlMain..actHelpWebProjectHome..Category
 #. CommandsDataModule..actlMain..actHelpWebGroupSupport..Category
 #. CommandsDataModule..actlMain..actHelpWebBlog..Category
+#. CommandsDataModule..actlMain..actDonate..Category
 #. FindResultsWindow..Actions..actHelpHelp..Category
 #. FindResultsWindow..Actions..actHelpHelp..Hint
 #. FunctionListWindow..Actions..actHelpHelp..Category
@@ -908,6 +912,26 @@ msgstr "帮助"
 #. PythonVersionsDialog..actlPythonVersions..actPVHelp..Hint
 #: dlgPythonVersions.dfm
 msgid "Show Help"
+msgstr ""
+
+#. PythonVersionsDialog..actlPythonVersions..actPVRename..Caption
+#: dlgPythonVersions.dfm
+msgid "Rename"
+msgstr ""
+
+#. PythonVersionsDialog..actlPythonVersions..actPVRename..Hint
+#: dlgPythonVersions.dfm
+msgid "Rename selected python version"
+msgstr ""
+
+#. RemoteFileDialog..Panel1..Label1..Caption
+#: dlgRemoteFile.dfm
+msgid "File Path:"
+msgstr ""
+
+#. RemoteFileDialog..Panel1..Label2..Caption
+#: dlgRemoteFile.dfm
+msgid "SSH Server:"
 msgstr ""
 
 #. ReplaceInFilesDialog..Caption
@@ -1015,6 +1039,11 @@ msgstr "远程(Tk)"
 #: dlgRunConfiguration.dfm
 msgid "Remote (Wx)"
 msgstr "远程(Wx)"
+
+#. RunConfigurationForm..Panel1..gbRemoteEngine..cbEngineType....Items.Strings
+#: dlgRunConfiguration.dfm
+msgid "SSH"
+msgstr ""
 
 #. RunConfigurationForm..Panel1..GroupBox3..Caption
 #: dlgRunConfiguration.dfm
@@ -2382,6 +2411,7 @@ msgstr ""
 #. CommandsDataModule..actlMain..actFileReload..Category
 #. CommandsDataModule..actlMain..actFileCloseAllOther..Category
 #. CommandsDataModule..actlMain..actFileCloseAllToTheRight..Category
+#. CommandsDataModule..actlMain..actFileSaveToRemote..Category
 #. FindResultsWindow..Actions..actFileSearch..Category
 #. FindResultsWindow..Actions..actFileRefresh..Category
 #. FindResultsWindow..Actions..actFileAbort..Category
@@ -2393,6 +2423,7 @@ msgstr ""
 #. PyIDEMainForm..actlStandard..actFileCloseAll..Category
 #. PyIDEMainForm..actlStandard..actFileExit..Category
 #. PyIDEMainForm..actlStandard..actNewFile..Category
+#. PyIDEMainForm..actlStandard..actRemoteFileOpen..Category
 #. ToDoWindow..Actions..actFileRefresh..Category
 #. ToDoWindow..Actions..actFilePrint..Category
 #. ToDoWindow..Actions..actFileAbort..Category
@@ -2438,6 +2469,7 @@ msgstr "关闭|关闭激活的文件"
 #. CommandsDataModule..actlMain..actEditUndo..Category
 #. CommandsDataModule..actlMain..actEditRedo..Category
 #. CommandsDataModule..actlMain..actEditSelectAll..Category
+#. CommandsDataModule..actlMain..actEditReadOnly..Category
 #. CommandsDataModule..actlMain..actInsertTemplate..Category
 #. CommandsDataModule..actlMain..actEditLineNumbers..Category
 #. CommandsDataModule..actlMain..actEditShowSpecialChars..Category
@@ -2529,6 +2561,17 @@ msgstr "全选(&A)"
 #: dmCommands.dfm
 msgid "Select All|Selects the entire document"
 msgstr "全选|选择整个文档"
+
+#. CommandsDataModule..actlMain..actEditReadOnly..Caption
+#. Programmer's name for it: SReadOnly
+#: dmCommands.dfm StringResources.pas
+msgid "Read Only"
+msgstr "只读"
+
+#. CommandsDataModule..actlMain..actEditReadOnly..Hint
+#: dmCommands.dfm
+msgid "Enable/disable editing"
+msgstr ""
 
 #. CommandsDataModule..actlMain..actSearchFind..Category
 #. CommandsDataModule..actlMain..actSearchFindNext..Category
@@ -3390,6 +3433,27 @@ msgstr ""
 msgid "Unfold functions"
 msgstr ""
 
+#. CommandsDataModule..actlMain..actFileSaveToRemote..Caption
+#. Programmer's name for it: SRemoteFIleSave
+#: dmCommands.dfm StringResources.pas
+msgid "Save to Remote File"
+msgstr ""
+
+#. CommandsDataModule..actlMain..actFileSaveToRemote..Hint
+#: dmCommands.dfm
+msgid "Save to remote file with SSH"
+msgstr ""
+
+#. CommandsDataModule..actlMain..actDonate..Caption
+#: dmCommands.dfm
+msgid "&Donate"
+msgstr ""
+
+#. CommandsDataModule..actlMain..actDonate..Hint
+#: dmCommands.dfm
+msgid "Donate to the PyScripter project"
+msgstr ""
+
 #. CommandsDataModule..SynGeneralSyn..DefaultFilter
 #: dmCommands.dfm
 msgid "Text Files(*.txt,*.*)|*.txt;*.*"
@@ -3493,6 +3557,7 @@ msgstr ""
 #. PyIDEMainForm..actlStandard..actPythonRemote..Category
 #. PyIDEMainForm..actlStandard..actPythonRemoteTk..Category
 #. PyIDEMainForm..actlStandard..actPythonRemoteWx..Category
+#. PyIDEMainForm..actlStandard..actPythonSSH..Category
 #. PyIDEMainForm..actlStandard..actExecSelection..Category
 #. PyIDEMainForm..actlStandard..actPostMortem..Category
 #. PyIDEMainForm..actlStandard..actPythonSetup..Category
@@ -3762,7 +3827,7 @@ msgstr ""
 #. FileExplorerWindow..FileExplorerActions..actManageFavorites..Category
 #. FileExplorerWindow..FileExplorerActions..actAddToFavorites..Category
 #. FileExplorerWindow..FileExplorerActions..actNewFolder..Category
-#: frmFileExplorer.dfm
+#: frmFileExplorer.dfm dmCommands.pas
 msgid "File Explorer"
 msgstr "文件浏览器"
 
@@ -4265,6 +4330,7 @@ msgstr "工程浏览器工具条"
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectRun..Category
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectExternalRun..Category
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectDebug..Category
+#. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddRemoteFile..Category
 #: frmProjectExplorer.dfm
 msgid "Project"
 msgstr "工程"
@@ -4463,6 +4529,17 @@ msgstr "调试(&D)"
 #: frmProjectExplorer.dfm
 msgid "Debug the selected configuration"
 msgstr "调试选择的配置"
+
+#. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddRemoteFile..Caption
+#. Programmer's name for it: SRemoteFileAdd
+#: frmProjectExplorer.dfm StringResources.pas
+msgid "Add Remote File"
+msgstr ""
+
+#. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddRemoteFile..Hint
+#: frmProjectExplorer.dfm
+msgid "Add a remote file to the folder"
+msgstr ""
 
 #. PyIDEMainForm..StatusBar..lbStatusModified..Caption
 #: frmPyIDEMain.dfm
@@ -5463,6 +5540,16 @@ msgstr "编辑器(&E)"
 msgid "Activate the Editor"
 msgstr "激活编辑器"
 
+#. PyIDEMainForm..actlStandard..actPythonSSH..Caption
+#: frmPyIDEMain.dfm
+msgid "&SSH"
+msgstr ""
+
+#. PyIDEMainForm..actlStandard..actPythonSSH..Hint
+#: frmPyIDEMain.dfm
+msgid "Use an SSH remote Python engine"
+msgstr ""
+
 #. PyIDEMainForm..actlStandard..actExecSelection..Caption
 #: frmPyIDEMain.dfm
 msgid "E&xecute selection"
@@ -5568,12 +5655,24 @@ msgstr ""
 
 #. PyIDEMainForm..actlStandard..actPythonSetup..Caption
 #: frmPyIDEMain.dfm
-msgid "Setup Python..."
+msgid "Setup Python Versions..."
 msgstr ""
 
 #. PyIDEMainForm..actlStandard..actPythonSetup..Hint
 #: frmPyIDEMain.dfm
 msgid "Setup python engine"
+msgstr ""
+
+#. PyIDEMainForm..actlStandard..actRemoteFileOpen..Caption
+#. SSH File and Remote engine
+#. Programmer's name for it: SRemoteFileOpen
+#: frmPyIDEMain.dfm StringResources.pas
+msgid "Open Remote File"
+msgstr ""
+
+#. PyIDEMainForm..actlStandard..actRemoteFileOpen..Hint
+#: frmPyIDEMain.dfm
+msgid "Open Remote File with SSH"
 msgstr ""
 
 #. PythonIIForm..Caption
@@ -5938,6 +6037,38 @@ msgstr "现在没有激活的编辑器"
 msgid "JSON Files (*.json;*.ipynb)|*.json;*.ipynb"
 msgstr ""
 
+#: cSSHSupport.pas
+msgid "SSH Servers"
+msgstr ""
+
+#: cSSHSupport.pas
+msgid "Select SSH Server"
+msgstr ""
+
+#: cSSHSupport.pas
+msgid "SSH Server name"
+msgstr ""
+
+#: cSSHSupport.pas
+msgid "Host name"
+msgstr ""
+
+#: cSSHSupport.pas
+msgid "User name"
+msgstr ""
+
+#: cSSHSupport.pas
+msgid "Command to execute python (no spaces)"
+msgstr ""
+
+#: cSSHSupport.pas
+msgid "Additional SSH -o options (optional)"
+msgstr ""
+
+#: cSSHSupport.pas
+msgid "Edit SSH Server"
+msgstr ""
+
 #: dlgAboutPyScripter.pas
 msgid ""
 "Special thanks to the many great developers who,with their amazing work, "
@@ -6042,6 +6173,7 @@ msgstr ""
 
 #: dlgAboutPyScripter.pas
 msgid ""
+"Salim Saddaquzzaman (https://github.com/sk-Prime)\n"
 "Tanmaya Meher (www.github.com/tanmayameher)\n"
 "jprzywoski (www.github.com/jprzywoski)"
 msgstr ""
@@ -6069,11 +6201,15 @@ msgid "Translators"
 msgstr ""
 
 #: dlgAboutPyScripter.pas
-msgid "Theme design"
+msgid "Artwork and theme design"
 msgstr ""
 
 #: dlgAboutPyScripter.pas
 msgid "Donations"
+msgstr ""
+
+#: dlgCollectionEditor.pas
+msgid "Please make a selection"
 msgstr ""
 
 #. Programmer's name for it: SAskReplaceText
@@ -6103,6 +6239,14 @@ msgstr ""
 
 #: dlgFindInFiles.pas
 msgid "Directory To Search:"
+msgstr ""
+
+#: dlgPythonVersions.pas
+msgid "Rename Python Version"
+msgstr ""
+
+#: dlgPythonVersions.pas
+msgid "New name:"
 msgstr ""
 
 #. Programmer's name for it: SGrepResultsNotActive
@@ -6217,6 +6361,10 @@ msgstr "异常时跳转到错误代码处"
 
 #: dmCommands.pas
 msgid "Internal Interpreter Hidden"
+msgstr ""
+
+#: dmCommands.pas
+msgid "Always use sockets"
 msgstr ""
 
 #: dmCommands.pas
@@ -6372,7 +6520,105 @@ msgid "File Explorer context menu"
 msgstr ""
 
 #: dmCommands.pas
+msgid "File Explorer background processing"
+msgstr ""
+
+#: dmCommands.pas
+msgid "SSH Command"
+msgstr ""
+
+#: dmCommands.pas
+msgid "Scp Command"
+msgstr ""
+
+#: dmCommands.pas
+msgid "Disable Variables Windows with SSH"
+msgstr ""
+
+#: dmCommands.pas
+msgid "Configure Tools"
+msgstr "设定工具"
+
+#: dmCommands.pas
 msgid "File download failed"
+msgstr ""
+
+#: frmCodeExplorer.pas
+#, object-pascal-format
+msgid "Python Module \"%s\""
+msgstr ""
+
+#: frmCodeExplorer.pas
+msgid "Imports"
+msgstr ""
+
+#: frmCodeExplorer.pas
+msgid "Imported modules"
+msgstr ""
+
+#: frmCodeExplorer.pas
+#, object-pascal-format
+msgid "Imported Module \"%s\" as %s at line %d"
+msgstr ""
+
+#: frmCodeExplorer.pas
+#, object-pascal-format
+msgid "Imported Module \"%s\" at line %d"
+msgstr ""
+
+#: frmCodeExplorer.pas
+#, object-pascal-format
+msgid "Imported identifier \"%s\" from module \"%s\""
+msgstr ""
+
+#: frmCodeExplorer.pas
+#, object-pascal-format
+msgid "Imported identifier \"%s\" as \"%s\" from module \"%s\""
+msgstr ""
+
+#: frmCodeExplorer.pas
+msgid "Global variables"
+msgstr ""
+
+#: frmCodeExplorer.pas
+#, object-pascal-format
+msgid "Global variable \"%s\" defined at line %d"
+msgstr ""
+
+#: frmCodeExplorer.pas
+#, object-pascal-format
+msgid "Class \"%s\" defined in line %d"
+msgstr ""
+
+#: frmCodeExplorer.pas
+msgid "Inherits from"
+msgstr ""
+
+#: frmCodeExplorer.pas
+msgid "Attributes"
+msgstr ""
+
+#: frmCodeExplorer.pas
+msgid "Class attributes"
+msgstr ""
+
+#: frmCodeExplorer.pas
+#, object-pascal-format
+msgid "Class attribute \"%s\" defined at line %d"
+msgstr ""
+
+#: frmCodeExplorer.pas
+#, object-pascal-format
+msgid ""
+"Function \"%s\" defined at line %d\n"
+"Arguments: %s"
+msgstr ""
+
+#: frmCodeExplorer.pas
+#, object-pascal-format
+msgid ""
+"Method %s defined at line %d\n"
+"Arguments: %s"
 msgstr ""
 
 #. Programmer's name for it: SAllString
@@ -6520,8 +6766,8 @@ msgstr "命令行 : %s\n"
 #. Programmer's name for it: SEngineActive
 #: StringResources.pas
 #, object-pascal-format
-msgid "*** %s Python engine %s is active ***"
-msgstr "*** %s Python引擎 %s 处于激活状态 ***"
+msgid "*** %s Python engine %sis active ***"
+msgstr ""
 
 #. Programmer's name for it: SInterpreterNA
 #: StringResources.pas
@@ -7020,7 +7266,7 @@ msgstr "浏览器"
 #. Programmer's name for it: SErrorInitScript
 #: StringResources.pas
 #, object-pascal-format
-msgid "Error in running initialization script %s: \"%s"
+msgid "Error in running initialization script %s: \"%s\""
 msgstr ""
 
 #. Programmer's name for it: SOpenDialogFilter
@@ -7058,6 +7304,12 @@ msgstr "当前的工程未保存。想保存变更吗?"
 #, object-pascal-format
 msgid "Failed to backup project \"%s\""
 msgstr "备份工程\"%s\"失败了"
+
+#. Programmer's name for it: SErrorInOpeningProject
+#: StringResources.pas
+#, object-pascal-format
+msgid "Error in opening project: \"%s\"."
+msgstr ""
 
 #. Programmer's name for it: SErrorInSavingProject
 #: StringResources.pas
@@ -7292,11 +7544,6 @@ msgstr "插入"
 msgid "Overwrite"
 msgstr "覆盖"
 
-#. Programmer's name for it: SReadOnly
-#: StringResources.pas
-msgid "Read Only"
-msgstr "只读"
-
 #. Programmer's name for it: SNonameFileTitle
 #: StringResources.pas
 msgid "Untitled"
@@ -7529,6 +7776,62 @@ msgstr ""
 #. Programmer's name for it: SUnRegisteredVersions
 #: StringResources.pas
 msgid "Unregistered Versions"
+msgstr ""
+
+#. Programmer's name for it: SRemoteFileSelect
+#: StringResources.pas
+msgid "Select Remote File"
+msgstr ""
+
+#. Programmer's name for it: SErrorEmptyPath
+#: StringResources.pas
+msgid "File Path cannot be empty"
+msgstr ""
+
+#. Programmer's name for it: SErrorEmptySSH
+#: StringResources.pas
+msgid "The SSH server name cannot be empty"
+msgstr ""
+
+#. Programmer's name for it: SScpError4
+#: StringResources.pas
+msgid "Scp Error: Connecting to host failed"
+msgstr ""
+
+#. Programmer's name for it: SScpError5
+#: StringResources.pas
+msgid "Scp Error: Connection lost for some reason"
+msgstr ""
+
+#. Programmer's name for it: SScpOtherError
+#: StringResources.pas
+msgid "Scp Error: Unspecified failure"
+msgstr ""
+
+#. Programmer's name for it: SSSHUnknownServer
+#: StringResources.pas
+#, object-pascal-format
+msgid "Unknown server \"%s\""
+msgstr ""
+
+#. Programmer's name for it: SSSHPythonError
+#: StringResources.pas
+#, object-pascal-format
+msgid "Failed to execute Python (\"%s\") on the SSH server"
+msgstr ""
+
+#. Programmer's name for it: SSHVersionMismatch
+#: StringResources.pas
+#, object-pascal-format
+msgid ""
+"Local python version is %s and remote python version is %s. To use this SSH "
+"server please switch to python version %1:s"
+msgstr ""
+
+#. Programmer's name for it: SSHUnknownServer
+#: StringResources.pas
+#, object-pascal-format
+msgid "Unknown SSH server: \"%s\""
 msgstr ""
 
 #. Programmer's name for it: SYNS_FriendlyMatchingBrace
