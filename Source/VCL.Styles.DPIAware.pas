@@ -22,7 +22,11 @@
   StyleDPIAwareness.RoundScalingFactor := False;
   
   With this statement styles are scaled to whatever scaling factor results for Screen.PixelsPerInch. 
-  Most of the styles would work fine, but a few may show some visual defects.  
+  Most of the styles would work fine, but a few may show some visual defects.
+
+  Limitations:
+    Does not support perMonitor DPI Awareness.
+    You need to set DPI Awareness to System.
 }
 
 unit VCL.Styles.DPIAware;
@@ -58,7 +62,11 @@ Type
 implementation
 
 Uses
-  System.Rtti, uCommonFunctions;
+  System.Rtti,
+  {$IFDEF VER330} // RAD Studio 10.3
+  DDetours,
+  {$ENDIF VER330}
+  uCommonFunctions;
 
 { TStyleDPIAwareness }
 
@@ -216,10 +224,60 @@ begin
       ProcessStyleObject(StyleObject);
     end;
    TRttiContext.Create.GetType(SeStyle.ClassType).GetMethod('ResetStyle').Invoke(SeStyle, []);
+
   end;
   FScaledStyles.Add(Style.Name);
   if Style = TStyleManager.ActiveStyle then
     RecreateForms;
 end;
+{$IFDEF VER330} // RAD Studio 10.3
+  type
+   TGetBorderSize = function: TRect of object;
 
+   TFormStyleHookFix = class helper for TFormStyleHook
+     procedure SetStretchedCaptionInc(Value : Integer);
+     function GetBorderSizeAddr: Pointer;
+     function Detour_GetBorderSize: TRect;
+   end;
+
+var
+  Trampoline_TFormStyleHook_GetBorderSize : TGetBorderSize;
+  Detour_TFormStyleHook_GetBorderSize : TGetBorderSize;
+
+
+{ TFormStyleHookFix }
+
+function TFormStyleHookFix.GetBorderSizeAddr: Pointer;
+var
+  MethodPtr: TGetBorderSize;
+begin
+  with Self do MethodPtr := GetBorderSize;
+  Result := TMethod(MethodPtr).Code;
+end;
+
+procedure TFormStyleHookFix.SetStretchedCaptionInc(Value: Integer);
+begin
+  with Self do FStretchedCaptionInc := Value;
+end;
+
+function TFormStyleHookFix.Detour_GetBorderSize: TRect;
+var
+  MethodPtr: TGetBorderSize;
+begin
+  TMethod(MethodPtr).Code := TMethod(Trampoline_TFormStyleHook_GetBorderSize).Code;
+  TMethod(MethodPtr).Data := Pointer(Self);
+  Result := MethodPtr;
+  Self.SetStretchedCaptionInc(0);
+  if (Screen.PixelsPerInch > 96) then
+    Result.Top := MulDiv(Result.Top, 96, Screen.PixelsPerInch);
+end;
+
+initialization
+ Detour_TFormStyleHook_GetBorderSize := TFormStyleHook(nil).Detour_GetBorderSize;
+ TMethod(Trampoline_TFormStyleHook_GetBorderSize).Code :=
+   InterceptCreate(TFormStyleHook(nil).GetBorderSizeAddr,
+   TMethod(Detour_TFormStyleHook_GetBorderSize).Code)
+finalization
+ InterceptRemove(TMethod(Trampoline_TFormStyleHook_GetBorderSize).Code);
+{$ENDIF VER330}
 end.

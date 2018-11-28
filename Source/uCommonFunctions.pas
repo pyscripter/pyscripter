@@ -10,9 +10,22 @@ unit uCommonFunctions;
 
 interface
 Uses
-  Windows, Classes, System.SysUtils, Graphics, SynEditTypes, SynUnicode,
-  uEditAppIntfs,  SpTBXSkins, Controls, SynEdit, SynRegExpr, Vcl.ComCtrls,
-  System.Diagnostics;
+  Winapi.Windows,
+  System.Classes,
+  System.SysUtils,
+  System.Diagnostics,
+  System.RegularExpressionsAPI,
+  System.RegularExpressionsCore,
+  System.RegularExpressions,
+  Vcl.Controls,
+  Vcl.ComCtrls,
+  Vcl.Graphics,
+  SynEditTypes,
+  SynUnicode,
+  uEditAppIntfs,
+  SpTBXSkins,
+  SynEdit,
+  SynRegExpr;
 
 const
   UTF8BOMString : RawByteString = AnsiChar($EF) + AnsiChar($BB) + AnsiChar($BF);
@@ -254,6 +267,13 @@ procedure RaiseKeyboardInterrupt(ProcessId: DWORD);
 function TerminateProcessTree(ProcessID: DWORD): Boolean;
 
 type
+  (*  Extends System.RegularExperssions.TRegEx *)
+  TRegExHelper = record helper for TRegEx
+  public
+    procedure Study;
+    procedure SetAdditionalPCREOptions(PCREOptions : Integer);
+  end;
+
   (*  TStringlist that preserves the LineBreak and BOM of a read File *)
   TLineBreakStringList = class(TStringList)
   protected
@@ -2322,6 +2342,30 @@ begin
       Result := (Handle <> 0) and TerminateProcess(Handle, 0) and CloseHandle(Handle);
     end;
 end;
+
+//  Regular Expressions Start
+type
+  { TPerlRegExHelper }
+  TPerlRegExHelper = class helper for TPerlRegEx
+    procedure SetAdditionalPCREOptions(PCREOptions : Integer);
+  end;
+
+procedure TPerlRegExHelper.SetAdditionalPCREOptions(PCREOptions: Integer);
+begin
+  with Self do FPCREOptions := FPCREOptions or PCREOptions;
+end;
+
+{ TRegExHelper }
+procedure TRegExHelper.Study;
+begin
+  with Self do FRegEx.Study;
+end;
+
+procedure TRegExHelper.SetAdditionalPCREOptions(PCREOptions: Integer);
+begin
+  with Self do FRegEx.SetAdditionalPCREOptions(PCREOptions);
+end;
+//  Regular Expressions End
 
 {https://stackoverflow.com/questions/20142166/explain-errors-from-getkeystate-getcursorpos}
 

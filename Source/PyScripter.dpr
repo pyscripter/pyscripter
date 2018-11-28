@@ -112,7 +112,6 @@ uses
   cPyControl in 'cPyControl.pas',
   JvGnugettext in 'JvGnugettext.pas',
   JvDSADialogs in 'JvDSADialogs.pas',
-  System.IniFiles in 'System.IniFiles.pas',
   cInternalPython in 'cInternalPython.pas',
   dlgPythonVersions in 'dlgPythonVersions.pas' {PythonVersionsDialog},
   cSSHSupport in 'cSSHSupport.pas',

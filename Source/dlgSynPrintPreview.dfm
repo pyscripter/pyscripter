@@ -6,10 +6,9 @@ inherited PrintPreviewDlg: TPrintPreviewDlg
   Caption = 'Print Preview'
   ClientHeight = 374
   ClientWidth = 490
-  OldCreateOrder = True
-  Position = poScreenCenter
+  Position = poDefault
   ShowHint = True
-  WindowState = wsMaximized
+  StyleElements = [seFont, seClient]
   OnShow = FormShow
   ExplicitWidth = 506
   ExplicitHeight = 413
@@ -23,8 +22,6 @@ inherited PrintPreviewDlg: TPrintPreviewDlg
     ScaleMode = pscWholePage
     OnMouseDown = SynEditPrintPreviewMouseDown
     OnPreviewPage = SynEditPrintPreviewPreviewPage
-    ExplicitTop = 27
-    ExplicitHeight = 322
   end
   object ToolbarDock: TSpTBXDock
     Left = 0
@@ -136,7 +133,7 @@ inherited PrintPreviewDlg: TPrintPreviewDlg
     Left = 242
     Top = 174
     Bitmap = {
-      494C010107001800140010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C010107001800040010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000002000000001002000000000000020
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

@@ -1,7 +1,7 @@
 INSTRUCTIONS FOR COMPILIING PyScripter
 ======================================
 
-I am using Delphi 10.2 to compile PyScripter but it should compile with other recent Delphi versions.
+I am using Delphi 10.3 to compile PyScripter.  You can use the free Delphi Community edition to compile PyScripter.
 
 ** Third Party Components: **
   1. JCL (https://github.com/project-jedi/jcl) - at Github.com or use daily packages from http://jvcl.sourceforge.net/daily/
@@ -17,7 +17,9 @@ I am using Delphi 10.2 to compile PyScripter but it should compile with other re
   8. SynEdit - (https://github.com/pyscripter/SynEdit-2)
   9. SynWeb Highlighters (https://github.com/KrystianBigaj/synweb)
   10. zControls (https://github.com/MahdiSafsafi/zcontrols)
+  11. Delphi Detours Library (https://github.com/MahdiSafsafi/delphi-detours-library)
 
+  
 ** Installiing Third Party components: and compiling PyScripter **
 A. Make sure you have git.exe accessible from the command prompt.  If not get from https://gitforwindows.org/ and install.
 B. Clone the PyScripter project (https://github.com/pyscripter/pyscripter) 
