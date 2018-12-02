@@ -29,7 +29,6 @@ uses
   SynEdit,
   SynEditPrint,
   SynUnicode,
-  SynRegExpr,
   SynEditRegexSearch,
   SynEditHighlighter,
   SynCompletionProposal,
@@ -617,7 +616,7 @@ begin
       else
         CanWrapSearch := FindTextInBlock(SynEdit.Lines, InitBlockBegin, InitCaretXY);
     except
-      on E: ERegExpr do begin
+      on E: ESynRegEx do begin
         CanWrapSearch := False;
       end;
     end;
@@ -1156,7 +1155,7 @@ begin
         FindSearchTerm(EditorSearchOptions.SearchText, Editor.SynEdit,
           TEditorForm(Editor.Form).FoundSearchItems, SearchEngine, SearchOptions);
       except
-        on E: ERegExpr do begin
+        on E: ESynRegEx do begin
           MessageBeep(MB_ICONERROR);
           PyIDEMainForm.WriteStatusMsg(Format(_(SInvalidRegularExpression), [E.Message]));
           Exit;
@@ -1442,13 +1441,13 @@ begin
       OldBlockBegin := BufferCoord(1, OldBlockBegin.Line);
       BlockBegin := OldBlockBegin;
       BlockEnd := OldBlockEnd;
-      SelText := TPyRegExpr.CodeCommentLineRE.Replace(SelText, '$1', True);
+      SelText := TPyRegExpr.CodeCommentLineRE.Replace(SelText, '$1');
       BlockBegin := OldBlockBegin;
       BlockEnd := BufferCoord(OldBlockEnd.Char - 2, OldBlockEnd.Line);
     end else begin
       BlockBegin := BufferCoord(1, CaretY);
       BlockEnd := BufferCoord(Length(LineText)+1, CaretY);
-      SelText := TPyRegExpr.CodeCommentLineRE.Replace(SelText, '$1', True);
+      SelText := TPyRegExpr.CodeCommentLineRE.Replace(SelText, '$1');
       CaretXY := BufferCoord(OldBlockEnd.Char - 2, OldBlockEnd.Line);
     end;
     UpdateCaret;
@@ -2868,7 +2867,7 @@ begin
         Result := SynEdit.SearchReplace(EditorSearchOptions.SearchText,
          EditorSearchOptions.ReplaceText, Options);
     except
-      on E: ERegExpr do begin
+      on E: ESynRegEx do begin
         Result := 0;
         MessageBeep(MB_ICONERROR);
         PyIDEMainForm.WriteStatusMsg(Format(_(SInvalidRegularExpression), [E.Message]));

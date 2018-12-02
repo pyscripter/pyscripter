@@ -1311,6 +1311,7 @@ uses
   System.Math,
   System.IniFiles,
   System.DateUtils,
+  System.RegularExpressions,
   Vcl.Clipbrd,
   Vcl.StdActns,
   Vcl.Themes,
@@ -1326,7 +1327,6 @@ uses
   MPDataObject,
   SynHighlighterPython,
   SynEditHighlighter,
-  SynRegExpr,
   SynEditKeyCmds,
   SynCompletionProposal,
   PythonEngine,
@@ -4383,7 +4383,7 @@ var
   TempCursor : IInterface;
   FoundReferences : Boolean;
   ResultsList : TStringList;
-  RegExpr : TRegExpr;
+  RegEx : TRegEx;
 begin
   Application.ProcessMessages;
   TempCursor := WaitCursor;
@@ -4406,22 +4406,18 @@ begin
               PyScripterRefactor.FindReferencesByCoordinates(FName,
                 CaretY, CaretX, ErrMsg, ResultsList);
               FoundReferences := ResultsList.Count > 0;
-              RegExpr := TRegExpr.Create;
-              RegExpr.Expression := FilePosInfoRegExpr;
-              try
-                i := 0;
-                while i  < ResultsList.Count -1 do begin
-                  if RegExpr.Exec(ResultsList[i]) then begin
-                    FileName := RegExpr.Match[1];
-                    Line := StrToInt(RegExpr.Match[2]);
-                    Col := StrToInt(RegExpr.Match[3]);
+              RegEx.Create(FilePosInfoRegExpr);
+              i := 0;
+              while i  < ResultsList.Count -1 do begin
+                with RegEx.Match(ResultsList[i]) do
+                  if Success then begin
+                    FileName := GroupValue(1);
+                    Line := StrToInt(GroupValue(2));
+                    Col := StrToInt(GroupValue(3));
                     MessagesWindow.AddMessage(ResultsList[i+1],
-                      Filename, Line, Col, Length(Token));
+                      Filename, Line, Col, Token.Length);
                   end;
-                  Inc(i, 2);
-                end;
-              finally
-                RegExpr.Free;
+                Inc(i, 2);
               end;
             finally
               ResultsList.Free;
@@ -4488,22 +4484,16 @@ function TPyIDEMainForm.JumpToFilePosInfo(FilePosInfo: string): boolean;
 Var
   FileName : string;
   Line, Col : integer;
-  RegExpr : TRegExpr;
 begin
   Result := False;
-  RegExpr := TRegExpr.Create;
-  try
-    RegExpr.Expression := FilePosInfoRegExpr;
-    if RegExpr.Exec(FilePosInfo) then begin
-      FileName := RegExpr.Match[1];
-      Line := StrToInt(RegExpr.Match[2]);
-      Col := StrToInt(RegExpr.Match[3]);
+  with TRegEx.Match(FilePosInfo, FilePosInfoRegExpr) do
+    if Success then begin
+      FileName := GroupValue(1);
+      Line := StrToInt(GroupValue(2));
+      Col := StrToInt(GroupValue(3));
 
-      Result := ShowFilePosition(FileName, Line, Col);
+      Exit(ShowFilePosition(FileName, Line, Col));
     end;
-  finally
-    RegExpr.Free;
-  end;
 end;
 
 procedure TPyIDEMainForm.DrawCloseButton(Sender: TObject; ACanvas: TCanvas;

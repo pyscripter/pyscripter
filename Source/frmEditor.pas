@@ -34,7 +34,6 @@ uses
   SpTBXTabs,
   SpTBXControls,
   JclStrings,
-  SynRegExpr,
   SynEdit,
   SynEditTypes,
   SynEditHighlighter,

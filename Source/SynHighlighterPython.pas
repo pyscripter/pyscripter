@@ -46,12 +46,12 @@ unit SynHighlighterPython;
 interface
 
 uses
-  Graphics,
+  System.SysUtils,
+  System.Classes,
+  System.RegularExpressions,
+  Vcl.Graphics,
   SynEditHighlighter,
-  SynEditCodeFolding,
-  SynRegExpr,
-  SysUtils,
-  Classes;
+  SynEditCodeFolding;
 
 type
   TtkTokenKind = (tkComment, tkIdentifier, tkKey, tkNull, tkNumber, tkSpace,
@@ -94,7 +94,7 @@ type
     fMatchingBraceAttri : TSynHighlighterAttributes;
     fUnbalancedBraceAttri : TSynHighlighterAttributes;
     fTempSpaceAttri: TSynHighlighterAttributes;
-    BlockOpenerRE : TRegExpr;
+    BlockOpenerRE : TRegEx;
     function IdentKind(MayBe: PWideChar): TtkTokenKind;
     procedure SymbolProc;
     procedure CRProc;
@@ -192,8 +192,8 @@ type
     fOutputAttri: TSynHighlighterAttributes;
     fTracebackAttri: TSynHighlighterAttributes;
     fPromptAttri: TSynHighlighterAttributes;
-    fTracebackStartRE : TRegExpr;
-    fTracebackEndRE : TRegExpr;
+    fTracebackStartRE : TRegEx;
+    fTracebackEndRE : TRegEx;
     procedure BannerProc;
     procedure OutputProc;
     procedure TracebackProc;
@@ -206,7 +206,6 @@ type
     class function GetFriendlyLanguageName: UnicodeString; override;
   public
     constructor Create(AOwner: TComponent); override;
-    destructor Destroy; override;
     function GetTokenAttribute: TSynHighlighterAttributes; override;
   published
     property BannerAttri: TSynHighlighterAttributes read fBannerAttri
@@ -253,8 +252,9 @@ resourcestring
 implementation
 
 uses
-  StrUtils,
-  SynEditStrConst;
+  System.StrUtils,
+  SynEditStrConst,
+  uCommonFunctions;
 
 function TSynPythonSyn.GetKeyWords(TokenKind: Integer): UnicodeString;
 begin
@@ -518,10 +518,10 @@ begin
   FKeywords.Duplicates := dupIgnore;
   FKeywords.Sorted := True;
 
-  BlockOpenerRE := TRegExpr.Create;
-  BlockOpenerRE.Expression := // ':\s*(#.*)?$';
+  BlockOpenerRE.Create(
      '^(def|class|while|for|if|else|elif|try|except|finally|with'+
-     '|(async[ \t]+def)|(async[ \t]+with)|(async[ \t]+for))\b';
+     '|(async[ \t]+def)|(async[ \t]+with)|(async[ \t]+for))\b');
+  BlockOpenerRE.Study;
 
   fRange := rsUnknown;
   fCommentAttri := TSynHighlighterAttributes.Create(SYNS_AttrComment, SYNS_FriendlyAttrComment);
@@ -601,7 +601,6 @@ end; { Create }
 
 destructor TSynPythonSyn.Destroy;
 begin
-  BlockOpenerRE.Free;
   FKeywords.Free;
   fTempSpaceAttri.Free;
   inherited;
@@ -1486,18 +1485,19 @@ begin
     Indent := LeftSpaces;
 
     // find fold openers
-    if BlockOpenerRE.Exec(LeftTrimmedLine) then
-    begin
-      if BlockOpenerRE.Match[1] = 'class' then
-        FoldType := ClassDefType
-      else if Pos('def', BlockOpenerRE.Match[1]) >= 1 then
-        FoldType := FunctionDefType
-      else
-        FoldType := 1;
+    with BlockOpenerRE.Match(LeftTrimmedLine) do
+      if Success then
+      begin
+        if GroupValue(1) = 'class' then
+          FoldType := ClassDefType
+        else if Pos('def', GroupValue(1)) >= 1 then
+          FoldType := FunctionDefType
+        else
+          FoldType := 1;
 
-      FoldRanges.StartFoldRange(Line + 1, FoldType, Indent);
-      Continue;
-    end;
+        FoldRanges.StartFoldRange(Line + 1, FoldType, Indent);
+        Continue;
+      end;
 
     FoldRanges.StopFoldRange(Line + 1, 1, Indent)
   end;
@@ -1598,10 +1598,10 @@ begin
   fPromptAttri := TSynHighlighterAttributes.Create(SYNS_AttrPrompt, SYNS_FriendlyAttrPrompt);
   fPromptAttri.Foreground := clGreen;
   AddAttribute(fPromptAttri);
-  fTracebackStartRE := TRegExpr.Create;
-  fTracebackStartRE.Expression := '^Traceback \(|File ".*line';
-  fTracebackEndRE := TRegExpr.Create;
-  fTracebackEndRE.Expression := '^\w*(Error|Exception|Warning|KeyboardInterrupt):';
+  fTracebackStartRE.Create('^Traceback \(|File ".*line');
+  fTracebackStartRE.Study;
+  fTracebackEndRE.Create('^\w*(Error|Exception|Warning|KeyboardInterrupt):');
+  fTracebackEndRE.Study;
 
   SetAttributesOnChange(DefHighlightChange);
 end;
@@ -1636,9 +1636,9 @@ begin
     BannerProc
   else if fRange = rsTraceback then begin
     TracebackProc;
-    if fTracebackEndRE.Exec(fLineStr) then
+    if fTracebackEndRE.IsMatch(fLineStr) then
       fRange := rsUnknown;
-  end else if (fLineLen < 100) and fTracebackStartRE.Exec(fLineStr) then begin
+  end else if (fLineLen < 100) and fTracebackStartRE.IsMatch(fLineStr) then begin
     fRange := rsTraceback;
     TracebackProc;
   end else
@@ -1700,13 +1700,6 @@ begin
   fTokenID := tkOutput;
   while not IsLineEnd(Run) do
     inc(Run);
-end;
-
-destructor TSynPythonInterpreterSyn.Destroy;
-begin
-  fTracebackStartRE.Free;
-  fTracebackEndRE.Free;
-  inherited;
 end;
 
 procedure TSynPythonInterpreterSyn.TracebackProc;

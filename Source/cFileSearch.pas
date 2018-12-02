@@ -45,7 +45,11 @@ unit cFileSearch;
 interface
 
 uses
-  SysUtils, Classes, SynRegExpr, SynUnicode;
+  System.SysUtils,
+  System.Classes,
+  System.RegularExpressionsCore,
+  System.RegularExpressions,
+  SynUnicode;
 
 type
 
@@ -73,7 +77,7 @@ type
     FSearchOptions: TSearchOptions;
     FPattern: string;
     FFileName: string;
-    FRegExpr : TRegExpr;
+    FRegExpr : TRegEx;
     procedure DoSearch;
     procedure PatternMatch;
   public
@@ -102,8 +106,13 @@ type
 implementation
 
 uses
-  Windows, uEditAppIntfs, StringResources,
-  uCommonFunctions, JvGnugettext;
+  Winapi.Windows,
+  System.UITypes,
+  Vcl.Dialogs,
+  uEditAppIntfs,
+  StringResources,
+  uCommonFunctions,
+  JvGnugettext;
 
 const
   SearchLineSize = 1024;
@@ -170,13 +179,11 @@ constructor TBaseSearcher.Create;
 begin
   inherited Create;
   FSearchLines := TStringList.Create;
-  FRegExpr := nil;
 end;
 
 destructor TBaseSearcher.Destroy;
 begin
   FreeAndNil(FSearchLines);
-  FreeAndNil(FRegExpr);
 
   inherited Destroy;
 end;
@@ -219,19 +226,15 @@ begin
 end;
 
 procedure TBaseSearcher.SetPattern(const Value: string);
+var
+  Options: TRegExOptions;
 begin
   fPattern := Value;
   if soRegEx in SearchOptions then begin
-    if not Assigned(fRegExpr) then
-      fRegExpr := TRegExpr.Create();
-    fRegExpr.ModifierI := not (soCaseSensitive in SearchOptions);
-    try
-      fRegExpr.Expression := Value;
-      fRegExpr.Compile;
-    except
-      on E: ERegExpr do
-        raise Exception.CreateFmt(_(SInvalidRegularExpression), [E.Message]);
-    end;
+    Options := [roNotEmpty];
+    if not (soCaseSensitive in SearchOptions) then
+      Include(Options, roIgnoreCase);
+    fRegExpr := CompiledRegEx(Value, Options);
   end else begin
     if not(soCaseSensitive in SearchOptions) then
       fPattern := Value.ToUpper;
@@ -247,6 +250,7 @@ procedure TBaseSearcher.PatternMatch;
 var
   LinePos: Integer;
   Found : Boolean;
+  Match : TMatch;
   EndPos : integer;
   FoundPos : PWideChar;
   Len : integer;
@@ -278,12 +282,12 @@ var
 
 begin
   if soRegEx in SearchOptions then begin
-    Found := fRegExpr.Exec(BLine);
-    while Found do begin
-      LinePos := fRegExpr.MatchPos[0];
-      EndPos := LinePos + fRegExpr.MatchLen[0] - 1;
+    Match := fRegExpr.Match(BLine);
+    while Match.Success do begin
+      LinePos := Match.Index;
+      EndPos := LinePos + Match.Length - 1;
       IsFound;
-      Found := fRegExpr.ExecNext;
+      Match := Match.NextMatch;
     end;
   end else begin
     if not (soCaseSensitive in SearchOptions) then

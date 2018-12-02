@@ -15,7 +15,7 @@ uses
   System.SysUtils,
   System.Classes,
   System.Contnrs,
-  SynRegExpr,
+  System.RegularExpressions,
   System.Threading;
 
 Type
@@ -192,22 +192,22 @@ public
   TPythonScanner = class
   private
     fOnScannerProgress : TScannerProgressEvent;
-    fCodeRE : TRegExpr;
-    fBlankLineRE : TRegExpr;
-    //fEscapedQuotesRE : TRegExpr;
-    fStringsAndCommentsRE : TRegExpr;
-    fLineContinueRE : TRegExpr;
-    fImportRE : TRegExpr;
-    fFromImportRE : TRegExpr;
-    fAssignmentRE : TRegExpr;
-    fFunctionCallRE : TRegExpr;
-    fForRE : TRegExpr;
-    fReturnRE : TRegExpr;
-    fWithRE : TRegExpr;
-    fGlobalRE : TRegExpr;
-    fAliasRE : TRegExpr;
-    fListRE : TRegExpr;
-    fCommentLineRE : TRegExpr;
+    fCodeRE : TRegEx;
+    fBlankLineRE : TRegEx;
+    //fEscapedQuotesRE : TRegEx;
+    //fStringsAndCommentsRE : TRegEx;
+    fLineContinueRE : TRegEx;
+    fImportRE : TRegEx;
+    fFromImportRE : TRegEx;
+    fAssignmentRE : TRegEx;
+    fFunctionCallRE : TRegEx;
+    fForRE : TRegEx;
+    fReturnRE : TRegEx;
+    fWithRE : TRegEx;
+    fGlobalRE : TRegEx;
+    fAliasRE : TRegEx;
+    fListRE : TRegEx;
+    fCommentLineRE : TRegEx;
   protected
     procedure DoScannerProgress(CharNo, NoOfChars : integer; var Stop : Boolean);
   public
@@ -215,7 +215,6 @@ public
       read fOnScannerProgress write fOnScannerProgress;
 
     constructor Create;
-    destructor Destroy; override;
     function ScanModule(Module : TParsedModule) : boolean;
     function GetExpressionType(Expr : string; Var VarAtts : TVariableAttributes) : string;
   end;
@@ -284,7 +283,7 @@ Const
   MaskChar = WideChar(#96);
 
 Var
-  DocStringRE : TRegExpr;
+  DocStringRE : TRegEx;
 
 function HaveImplicitContinuation(S : string; var BracesCount : integer) : Boolean;
 var
@@ -442,11 +441,10 @@ begin
   DocStringSource := GetLineRange(ModuleSource, CB.StartLine, CB.EndLine);
   if DocStringSource = '' then Exit;
 
-  if DocStringRE.Exec(DocStringSource) then begin
-    if DocStringRE.MatchPos[2] >= 0 then
-      fDocString := DocStringRE.Match[2]
-    else
-      fDocString := DocStringRE.Match[3];
+  if DocStringRE.IsMatch(DocStringSource) then begin
+    fDocString := DocStringRE.PerlRegEx.Groups[2];
+    if fDocString = '' then
+      fDocString := DocStringRE.PerlRegEx.Groups[3];
 
     fDocString := FormatDocString(fDocString);
   end;
@@ -464,55 +462,37 @@ end;
 constructor TPythonScanner.Create;
 begin
   inherited;
-  fCodeRE := CompiledRegExpr('^([ \t]*)(class|def)[ \t]+([^ \t\(\)\[\]\{\}:;\.,@]+)[ \t]*(\(([^>]*)\))?[ \t]*(->[ \t]*([^ \t:][^:]*))?:');
-  fBlankLineRE := CompiledRegExpr('^[ \t]*($|\$|\#|\"\"\"|''''''|' + MaskChar +')');
-  //fEscapedQuotesRE := CompiledRegExpr('(\\\\|\\\"|\\\'')');
-  fStringsAndCommentsRE :=
-    CompiledRegExpr('(?sm)(\"\"\".*?\"\"\"|''''''.*?''''''|\"[^\"]*\"|\''[^\'']*\''|#.*?\n)');
-  fLineContinueRE := CompiledRegExpr('\\[ \t]*(#.*)?$');
-  fImportRE := CompiledRegExpr('^[ \t]*import[ \t]+([^#;]+)');
+  fCodeRE := CompiledRegEx(Format('^([ \t]*)(class|def)[ \t]+(%s)[ \t]*(\(([^>]*)\))?[ \t]*(->[ \t]*([^ \t:][^:]*))?:',
+    [IdentRE]));
+  fBlankLineRE := CompiledRegEx('^[ \t]*($|\$|\#|\"\"\"|''''''|' + MaskChar +')');
+  //fEscapedQuotesRE := CompiledRegEx('(\\\\|\\\"|\\\'')');
+  //fStringsAndCommentsRE :=
+  //  CompiledRegEx('(?sm)(\"\"\".*?\"\"\"|''''''.*?''''''|\"[^\"]*\"|\''[^\'']*\''|#.*?\n)');
+  fLineContinueRE := CompiledRegEx('\\[ \t]*(#.*)?$');
+  fImportRE := CompiledRegEx('^[ \t]*import[ \t]+([^#;]+)');
   fFromImportRE :=
-    CompiledRegExpr(Format('^[ \t]*from[ \t]+(\.*)(%s)?[ \t]+import[ \t]+([^#;]+)', [DottedIdentRE]));
+    CompiledRegEx(Format('^[ \t]*from[ \t]+(\.*)(%s)[ \t]+import[ \t]+([^#;]+)', [DottedIdentRE]));
+    { TODO : Deal with form . import module as module  syntax }
+    //CompiledRegEx(Format('^[ \t]*from[ \t]+(\.*)(%s)?[ \t]+import[ \t]+([^#;]+)', [DottedIdentRE]));
   fAssignmentRE :=
-    CompiledRegExpr(Format('^([ \t]*(self.)?%s[ \t]*(,[ \t]*(self.)?%s[ \t]*)*(=))+(.*)',
+    CompiledRegEx(Format('^([ \t]*(self.)?%s[ \t]*(,[ \t]*(self.)?%s[ \t]*)*(=))+(.*)',
       [IdentRE, IdentRE]));
-  fFunctionCallRE := CompiledRegExpr(Format('^[ \t]*(%s)(\(?)', [DottedIdentRE]));
-  fForRE := CompiledRegExpr(Format('^\s*for +(%s)( *, *%s)* *(in)', [IdentRe, IdentRe]));
-  fReturnRE := CompiledRegExpr('^[ \t]*return[ \t]+(.*)');
+  fFunctionCallRE := CompiledRegEx(Format('^[ \t]*(%s)(\(?)', [DottedIdentRE]));
+  fForRE := CompiledRegEx(Format('^\s*for +(%s)( *, *%s)* *(in)', [IdentRe, IdentRe]));
+  fReturnRE := CompiledRegEx('^[ \t]*return[ \t]+(.*)');
   fWithRE :=
-    CompiledRegExpr(Format('^[ \t]*with +(%s) *(\(?).*as +(%s)',
+    CompiledRegEx(Format('^[ \t]*with +(%s) *(\(?).*as +(%s)',
       [DottedIdentRE, IdentRE]));
   fGlobalRE :=
-    CompiledRegExpr(Format('^[ \t]*global +((%s)( *, *%s)*)',
+    CompiledRegEx(Format('^[ \t]*global +((%s)( *, *%s)*)',
       [IdentRE, IdentRE]));
   fAliasRE :=
-    CompiledRegExpr(Format('^[ \t]*(%s)([ \t]+as[ \t]+(%s))?',
+    CompiledRegEx(Format('^[ \t]*(%s)([ \t]+as[ \t]+(%s))?',
       [DottedIdentRE, IdentRE]));
   fListRE :=
-    CompiledRegExpr('\[(.*)\]');
+    CompiledRegEx('\[(.*)\]');
   fCommentLineRE :=
-    CompiledRegExpr('^([ \t]*)#');
-end;
-
-destructor TPythonScanner.Destroy;
-begin
-  fCodeRE.Free;
-  fBlankLineRE.Free;
-  //fEscapedQuotesRE.Free;
-  fStringsAndCommentsRE.Free;
-  fLineContinueRE.Free;
-  fImportRE.Free;
-  fFromImportRE.Free;
-  fAssignmentRE.Free;
-  fFunctionCallRE.Free;
-  fForRE.Free;
-  fReturnRE.Free;
-  fWithRE.Free;
-  fGlobalRE.Free;
-  fAliasRE.Free;
-  fListRE.Free;
-  fCommentLineRE.Free;
-  inherited;
+    CompiledRegEx('^([ \t]*)#');
 end;
 
 procedure TPythonScanner.DoScannerProgress(CharNo, NoOfChars : integer;
@@ -529,9 +509,9 @@ Var
 begin
   if Expr.Length = 0 then Exit('');
 
-  if fFunctionCallRE.Exec(Expr) then begin
-    Result := fFunctionCallRE.Match[1];
-    if fFunctionCallRE.MatchLen[2] > 0 then  //= '('
+  if fFunctionCallRE.IsMatch(Expr) then begin
+    Result := fFunctionCallRE.PerlRegEx.Groups[1];
+    if fFunctionCallRE.PerlRegEx.Groups[2] <> '' then  //= '('
     Include(VarAtts, vaCall);
   end else begin
     Result := GetExpressionBuiltInType(Expr, IsBuiltInType);
@@ -615,7 +595,7 @@ Var
     BracesCount := 0;
     LineStarts.Clear;
     RemoveComment(Line);
-    ExplicitContinuation := fLineContinueRE.Exec(Line);
+    ExplicitContinuation := fLineContinueRE.IsMatch(Line);
     ImplicitContinuation := not ExplicitContinuation  and
       HaveImplicitContinuation(Line, BracesCount);
     Result := ExplicitContinuation or ImplicitContinuation;
@@ -623,7 +603,7 @@ Var
     while (ExplicitContinuation or ImplicitContinuation) and (P^ <> WideChar(#0)) do begin
       if ExplicitContinuation then
         // Drop the continuation char
-        Line := Copy(Line, 1, fLineContinueRE.MatchPos[0] - 1);
+        Line := Copy(Line, 1, fLineContinueRE.PerlRegEx.GroupOffsets[0] - 1);
       LineStarts.Add(Pointer(Length(Line)+2));
       GetLine(P, NewLine, LineNo);
       RemoveComment(NewLine);
@@ -633,7 +613,7 @@ Var
       if StrIsLeft(PWideChar(TrimmedLine), 'class ') or StrIsLeft(PWideChar(TrimmedLine), 'def ') then break;
 
       Line := Line + WideChar(' ') + NewLine;
-      ExplicitContinuation := fLineContinueRE.Exec(Line);
+      ExplicitContinuation := fLineContinueRE.IsMatch(Line);
       ImplicitContinuation := not ExplicitContinuation  and
         HaveImplicitContinuation(NewLine, BracesCount);
     end;
@@ -798,91 +778,93 @@ begin
 
 
     // skip blank lines and comment lines
-    if (Length(Line) = 0) or fBlankLineRE.Exec(Line) then continue;
+    if (Length(Line) = 0) or fBlankLineRE.IsMatch(Line) then continue;
     // skip comments
-    if fCommentLineRE.Exec(Line) then continue;
+    if fCommentLineRE.IsMatch(Line) then continue;
 
     CodeStartP := P;
     CodeStart := LineNo;
     // Process continuation lines
     ProcessLineContinuation(P, Line, LineNo, LineStarts);
 
-    if fCodeRE.Exec(Line) then begin
+    if fCodeRE.IsMatch(Line) then begin
       // found class or function definition
       GlobalList.Clear;
 
-      S := fCodeRE.Match[5];
-      if fCodeRE.Match[2] = 'class' then begin
+      S := fCodeRE.PerlRegEx.Groups[5];
+      if fCodeRE.PerlRegEx.Groups[2] = 'class' then begin
         // class definition
         CodeElement := TParsedClass.Create;
         TParsedClass(CodeElement).fSuperClasses.CommaText := S;
       end else begin
         // function or method definition
         CodeElement := TParsedFunction.Create;
-        TParsedFunction(CodeElement).ReturnType := fCodeRE.Match[7];
+        TParsedFunction(CodeElement).ReturnType := fCodeRE.PerlRegEx.Groups[7];
 
-        CharOffset := fCodeRE.MatchPos[5];
-        LastLength := Length(S);
-        Param := GetParameter(S);
-        CharOffset2 := CalcIndent(Param);
-        Param := Trim(Param);
-        Index := 0;
-        While Param <> '' do begin
-          Variable := TVariable.Create;
-          Variable.Parent := CodeElement;
-          CharOffsetToCodePos(CharOffset + CharOffset2, CodeStart, LineStarts, Variable.fCodePos);
-          if StrIsLeft(PWideChar(Param), '**') then begin
-            Variable.Name := Copy(Param, 3, Length(Param) -2);
-            Include(Variable.Attributes, vaStarStarArgument);
-          end else if Param[1] = '*' then begin
-            Variable.Name := Copy(Param, 2, Length(Param) - 1);
-            Include(Variable.Attributes, vaStarArgument);
-          end else begin
-            Index := CharPos(Param, WideChar('='));
-            if Index > 0 then begin
-              Variable.Name := Trim(Copy(Param, 1, Index - 1));
-              Variable.DefaultValue := Copy(Param, Index + 1, Length(Param) - Index);
-              if Variable.DefaultValue.Length > 0 then begin
-                // Deal with string arguments (Issue 32)
-                if CharPos(Variable.DefaultValue, MaskChar) > 0 then begin
-                  SourceLine := GetNthSourceLine(Variable.fCodePos.LineNo);
-                  Variable.DefaultValue :=
-                    Copy(SourceLine, Variable.CodePos.CharOffset + Index, Length(Variable.DefaultValue));
-                end;
-                Variable.DefaultValue := Trim(Variable.DefaultValue);
-
-                Include(Variable.Attributes, vaArgumentWithDefault);
-                Variable.ObjType := GetExpressionType(Variable.DefaultValue, Variable.Attributes);
-              end;
-            end else begin
-              Variable.Name := Param;
-              Include(Variable.Attributes, vaArgument);
-            end;
-          end;
-          // Deal with string annotations (Issue 511)
-          if CharPos(Variable.Name, MaskChar) > 0 then begin
-            SourceLine := GetNthSourceLine(Variable.fCodePos.LineNo);
-            Variable.Name :=
-              Copy(SourceLine, Variable.CodePos.CharOffset, Length(Variable.Name));
-          end;
-          if StrSplit(':', Variable.Name, LeftS, RightS) then begin
-            Variable.Name := TrimRight(LeftS);
-            Variable.ObjType := Trim(RightS);
-          end;
-          TParsedFunction(CodeElement).fArguments.Add(Variable);
-
-          Inc(CharOffset,  LastLength - Length(S));
+        if S <> '' then begin
+          CharOffset := fCodeRE.PerlRegEx.GroupOffsets[5];
           LastLength := Length(S);
           Param := GetParameter(S);
           CharOffset2 := CalcIndent(Param);
           Param := Trim(Param);
+          Index := 0;
+          While Param <> '' do begin
+            Variable := TVariable.Create;
+            Variable.Parent := CodeElement;
+            CharOffsetToCodePos(CharOffset + CharOffset2, CodeStart, LineStarts, Variable.fCodePos);
+            if StrIsLeft(PWideChar(Param), '**') then begin
+              Variable.Name := Copy(Param, 3, Length(Param) -2);
+              Include(Variable.Attributes, vaStarStarArgument);
+            end else if Param[1] = '*' then begin
+              Variable.Name := Copy(Param, 2, Length(Param) - 1);
+              Include(Variable.Attributes, vaStarArgument);
+            end else begin
+              Index := CharPos(Param, WideChar('='));
+              if Index > 0 then begin
+                Variable.Name := Trim(Copy(Param, 1, Index - 1));
+                Variable.DefaultValue := Copy(Param, Index + 1, Length(Param) - Index);
+                if Variable.DefaultValue.Length > 0 then begin
+                  // Deal with string arguments (Issue 32)
+                  if CharPos(Variable.DefaultValue, MaskChar) > 0 then begin
+                    SourceLine := GetNthSourceLine(Variable.fCodePos.LineNo);
+                    Variable.DefaultValue :=
+                      Copy(SourceLine, Variable.CodePos.CharOffset + Index, Length(Variable.DefaultValue));
+                  end;
+                  Variable.DefaultValue := Trim(Variable.DefaultValue);
+
+                  Include(Variable.Attributes, vaArgumentWithDefault);
+                  Variable.ObjType := GetExpressionType(Variable.DefaultValue, Variable.Attributes);
+                end;
+              end else begin
+                Variable.Name := Param;
+                Include(Variable.Attributes, vaArgument);
+              end;
+            end;
+            // Deal with string annotations (Issue 511)
+            if CharPos(Variable.Name, MaskChar) > 0 then begin
+              SourceLine := GetNthSourceLine(Variable.fCodePos.LineNo);
+              Variable.Name :=
+                Copy(SourceLine, Variable.CodePos.CharOffset, Length(Variable.Name));
+            end;
+            if StrSplit(':', Variable.Name, LeftS, RightS) then begin
+              Variable.Name := TrimRight(LeftS);
+              Variable.ObjType := Trim(RightS);
+            end;
+            TParsedFunction(CodeElement).fArguments.Add(Variable);
+
+            Inc(CharOffset,  LastLength - Length(S));
+            LastLength := Length(S);
+            Param := GetParameter(S);
+            CharOffset2 := CalcIndent(Param);
+            Param := Trim(Param);
+          end;
         end;
       end;
-      CodeElement.Name := fCodeRE.Match[3];
+      CodeElement.Name := fCodeRE.PerlRegEx.Groups[3];
       CodeElement.fCodePos.LineNo := CodeStart;
-      CodeElement.fCodePos.CharOffset := fCodeRe.MatchPos[3];
+      CodeElement.fCodePos.CharOffset := fCodeRe.PerlRegEx.GroupOffsets[3];
 
-      CodeElement.fIndent := CalcIndent(fCodeRE.Match[1]);
+      CodeElement.fIndent := CalcIndent(fCodeRE.PerlRegEx.Groups[1]);
       CodeElement.fCodeBlock.StartLine := CodeStart;
 
       // Decide where to insert CodeElement
@@ -911,45 +893,45 @@ begin
         LastCodeElement := LastCodeElement.Parent as TCodeElement;
       end;
       // search for imports
-      if fImportRE.Exec(Line) then begin
+      if fImportRE.IsMatch(Line) then begin
         // Import statement
-        S := fImportRE.Match[1];
-        CharOffset := fImportRE.MatchPos[1];
+        S := fImportRE.PerlRegEx.Groups[1];
+        CharOffset := fImportRE.PerlRegEx.GroupOffsets[1];
         LastLength := Length(S);
         Param := StrToken(S, ',');
         While Param <> '' do begin
-          if fAliasRE.Exec(Param) then begin
-            if fAliasRE.MatchLen[3] > 0 then begin
-              Param := fAliasRE.Match[3];
-              CharOffset2 := fAliasRE.MatchPos[3] - 1;
+          if fAliasRE.IsMatch(Param) then begin
+            if fAliasRE.PerlRegEx.Groups[3] <> '' then begin
+              Param := fAliasRE.PerlRegEx.Groups[3];
+              CharOffset2 := fAliasRE.PerlRegEx.GroupOffsets[3] - 1;
             end else begin
-              Param := fAliasRE.Match[1];
-              CharOffset2 := fAliasRE.MatchPos[1] - 1;
+              Param := fAliasRE.PerlRegEx.Groups[1];
+              CharOffset2 := fAliasRE.PerlRegEx.GroupOffsets[1] - 1;
             end;
             ModuleImport := TModuleImport.Create(Param, CodeBlock(CodeStart, LineNo));
             CharOffsetToCodePos(CharOffset + CharOffset2, CodeStart, LineStarts, ModuleImport.fCodePos);
             ModuleImport.Parent := Module;
-            if fAliasRE.MatchLen[3] > 0 then
-              ModuleImport.fRealName := fAliasRE.Match[1];
+            if fAliasRE.PerlRegEx.Groups[3] <> '' then
+              ModuleImport.fRealName := fAliasRE.PerlRegEx.Groups[1];
             Module.fImportedModules.Add(ModuleImport);
           end;
           Inc(CharOffset,  LastLength - Length(S));
           LastLength := Length(S);
           Param := StrToken(S, ',');
         end;
-      end else if fFromImportRE.Exec(Line) then begin
+      end else if fFromImportRE.IsMatch(Line) then begin
         // From Import statement
-        ModuleImport := TModuleImport.Create(fFromImportRE.Match[2],
+        ModuleImport := TModuleImport.Create(fFromImportRE.PerlRegEx.Groups[2],
           CodeBlock(CodeStart, LineNo));
-        ModuleImport.fPrefixDotCount := fFromImportRE.MatchLen[1];
+        ModuleImport.fPrefixDotCount := fFromImportRE.PerlRegEx.Groups[1].Length;
         ModuleImport.fCodePos.LineNo := CodeStart;
-        ModuleImport.fCodePos.CharOffset := fFromImportRE.MatchPos[2];
-        S := fFromImportRE.Match[3];
+        ModuleImport.fCodePos.CharOffset := fFromImportRE.PerlRegEx.GroupOffsets[2];
+        S := fFromImportRE.PerlRegEx.Groups[3];
         if Trim(S) = '*' then
           ModuleImport.ImportAll := True
         else begin
           ModuleImport.ImportedNames := TObjectList.Create(True);
-          CharOffset := fFromImportRE.MatchPos[3];
+          CharOffset := fFromImportRE.PerlRegEx.GroupOffsets[3];
           if Pos('(', S) > 0 then begin
             Inc(CharOffset);
             S := StrRemoveChars(S, ['(',')']); //from module import (a,b,c) form
@@ -957,21 +939,21 @@ begin
           LastLength := Length(S);
           Param := StrToken(S, ',');
           While Param <> '' do begin
-            if fAliasRE.Exec(Param) then begin
-              if fAliasRE.MatchLen[3] > 0 then begin
-                Param := fAliasRE.Match[3];
-                CharOffset2 := fAliasRE.MatchPos[3] - 1;
+            if fAliasRE.IsMatch(Param) then begin
+              if fAliasRE.PerlRegEx.Groups[3] <> '' then begin
+                Param := fAliasRE.PerlRegEx.Groups[3];
+                CharOffset2 := fAliasRE.PerlRegEx.GroupOffsets[3] - 1;
               end else begin
-                Param := fAliasRE.Match[1];
-                CharOffset2 := fAliasRE.MatchPos[1] - 1;
+                Param := fAliasRE.PerlRegEx.Groups[1];
+                CharOffset2 := fAliasRE.PerlRegEx.GroupOffsets[1] - 1;
               end;
               Variable := TVariable.Create;
               Variable.Name := Param;
               CharOffsetToCodePos(CharOffset + CharOffset2, CodeStart, LineStarts, Variable.fCodePos);
               Variable.Parent := ModuleImport;
               Include(Variable.Attributes, vaImported);
-              if fAliasRE.MatchLen[3] > 0 then
-                Variable.fRealName := fAliasRE.Match[1];
+              if fAliasRE.PerlRegEx.Groups[3] <> '' then
+                Variable.fRealName := fAliasRE.PerlRegEx.Groups[1];
               ModuleImport.ImportedNames.Add(Variable);
             end;
             Inc(CharOffset,  LastLength - Length(S));
@@ -981,8 +963,8 @@ begin
         end;
         ModuleImport.Parent := Module;
         Module.fImportedModules.Add(ModuleImport);
-      end else if fAssignmentRE.Exec(Line) then begin
-        S := Copy(Line, 1, fAssignmentRE.MatchPos[5]-1);
+      end else if fAssignmentRE.IsMatch(Line) then begin
+        S := Copy(Line, 1, fAssignmentRE.PerlRegEx.GroupOffsets[5]-1);
         AsgnTargetList := StrToken(S, '=');
         CharOffset2 := 1; // Keeps track of the end of the identifier
         while AsgnTargetList <> '' do begin
@@ -1028,8 +1010,8 @@ begin
                   Line := GetNthSourceLine(CodeStart);
                   UseModifiedSource := False;
                   ProcessLineContinuation(CodeStartP, Line, CodeStart, LineStarts);
-                  if fListRE.Exec(Line) then
-                    Module.fAllExportsVar := fListRE.Match[1];
+                  if fListRE.IsMatch(Line) then
+                    Module.fAllExportsVar := fListRE.PerlRegEx.Groups[1];
                   UseModifiedSource := True;
                 end;
               end;
@@ -1038,13 +1020,15 @@ begin
           end;
           // Variable Type if the assignment has a single target
           if Assigned(Variable) and (AsgnTargetCount = 1) then
-            Variable.ObjType := GetExpressionType(fAssignmentRE.Match[6], Variable.Attributes);
+            Variable.ObjType := GetExpressionType(fAssignmentRE.PerlRegEx.Groups[6],
+              Variable.Attributes);
 
           AsgnTargetList := StrToken(S, '=');
         end;
-      end else if fForRE.Exec(Line) then begin
-        AsgnTargetList := Copy(Line, fForRE.MatchPos[1], fForRE.MatchPos[3]-fForRE.MatchPos[1]);
-        CharOffset2 := fForRE.MatchPos[1]; // Keeps track of the end of the identifier
+      end else if fForRE.IsMatch(Line) then begin
+        AsgnTargetList := Copy(Line, fForRE.PerlRegEx.GroupOffsets[1],
+          fForRE.PerlRegEx.GroupOffsets[3]-fForRE.PerlRegEx.GroupOffsets[1]);
+        CharOffset2 := fForRE.PerlRegEx.GroupOffsets[1]; // Keeps track of the end of the identifier
         while AsgnTargetList <> '' do begin
           Param := StrToken(AsgnTargetList, ',');
           CharOffset := CharOffset2;  // Keeps track of the start of the identifier
@@ -1067,21 +1051,22 @@ begin
             end;
           end;
         end;
-      end else if fReturnRE.Exec(Line) then begin
+      end else if fReturnRE.IsMatch(Line) then begin
         // only process first return statement
         if (LastCodeElement is TParsedFunction) and
           (TParsedFunction(LastCodeElement).ReturnType = '')
         then
-          TParsedFunction(LastCodeElement).ReturnType := GetExpressionType(fReturnRE.Match[1],
+          TParsedFunction(LastCodeElement).ReturnType :=
+            GetExpressionType(fReturnRE.PerlRegEx.Groups[1],
             TParsedFunction(LastCodeElement).ReturnAttributes);
-      end else if fWithRE.Exec(Line) then begin
+      end else if fWithRE.IsMatch(Line) then begin
         Variable := TVariable.Create;
-        Variable.Name := fWithRE.Match[3];
+        Variable.Name := fWithRE.PerlRegEx.Groups[3];
         Variable.Parent := LastCodeElement;
         Variable.fCodePos.LineNo := LineNo;
-        Variable.fCodePos.CharOffset := fWithRE.MatchPos[3];
-        Variable.ObjType := fWithRE.Match[1];
-        if fWithRE.MatchLen[2] > 0 then
+        Variable.fCodePos.CharOffset := fWithRE.PerlRegEx.GroupOffsets[3];
+        Variable.ObjType := fWithRE.PerlRegEx.Groups[1];
+        if fWithRE.PerlRegEx.Groups[2] <> '' then
           Include(Variable.Attributes, vaCall);
         if LastCodeElement.ClassType = TParsedFunction then
           TParsedFunction(LastCodeElement).Locals.Add(Variable)
@@ -1090,8 +1075,8 @@ begin
           TParsedClass(LastCodeElement).Attributes.Add(Variable)
         end else
           Module.Globals.Add(Variable);
-      end else if fGlobalRE.Exec(Line) then begin
-        S := fGlobalRE.Match[1];
+      end else if fGlobalRE.IsMatch(Line) then begin
+        S := fGlobalRE.PerlRegEx.Groups[1];
         while S <> '' do
           GlobalList.Add(Trim(StrToken(S, ',')));
       end;
@@ -1810,12 +1795,10 @@ begin
 end;
 
 initialization
-  DocStringRE := TRegExpr.Create;
-  DocStringRE.Expression := '(?sm)^[ \t]*[ur]?(\"\"\"(.*?)\"\"\"|''''''(.*?)'''''')';
-  DocStringRE.Compile;
+  DocStringRE.Create('(?sm)^[ \t]*[ur]?(\"\"\"(.*?)\"\"\"|''''''(.*?)'''''')');
+  DocStringRE.Study;
 
   AsynchSourceScannerFactory := TAsynchSourceScannerFactory.Create;
 finalization
-  FreeAndNil(DocStringRE);
   FreeAndNil(AsynchSourceScannerFactory);
 end.

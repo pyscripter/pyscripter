@@ -59,11 +59,11 @@ uses
   WinApi.Windows,
   System.SysUtils,
   System.Win.Registry,
+  System.RegularExpressions,
   Vcl.Clipbrd,
   Vcl.Dialogs,
   Vcl.FileCtrl,
   JclSysInfo,
-  SynRegExpr,
   MPShellUtilities,
   PythonVersions,
   VarPyth,
@@ -320,29 +320,22 @@ function GetDateFormated(const AText: string): string;
 // Delphi's string to date conversion fails when the date contains month names
 // so use variant conversion instead
 var
-//  i: Integer;
-  RegExpr : TRegExpr;
   V : Variant;
 begin
-  RegExpr := TRegExpr.Create;
-  try
-    RegExpr.Expression := '([^'']+)-''([^'']+)''';
-    if RegExpr.Exec(AText)then
+  with TRegEx.Match(AText, '([^'']+)-''([^'']+)''') do
+    if Success then
       try
-        V := RegExpr.Match[1];
+        V := GroupValue(1);
         VarCast(V, V, varDate);
-        Result:= FormatDateTime(RegExpr.Match[2],  V)
+        Exit(FormatDateTime(GroupValue(2),  V));
       except
-        Result := '';
+        Exit('');
       end
     else begin
       Vcl.Dialogs.MessageDlg(Format(_(SInvalidParameterFormat),
         [Concat(AText, '-', 'DateFormat')]), mtError, [mbOK], 0);
       Abort;
     end;
-  finally
-    RegExpr.Free;
-  end;
 end;
 
 function GetExe: string;

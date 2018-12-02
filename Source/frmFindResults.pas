@@ -46,12 +46,35 @@ unit frmFindResults;
 interface
 
 uses
-  Windows, Messages, Types, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, frmIDEDockWin, JvDockControlForm, ExtCtrls, Menus,
-  ActnList, ComCtrls, StdCtrls, cFindInFiles, JvAppStorage,
-  TB2Item, TB2Dock, TB2Toolbar, JvComponentBase,  SpTBXSkins,
-  SpTBXItem, SpTBXEditors, SpTBXDkPanels, System.Actions,
-  SpTBXControls;
+  Winapi.Windows,
+  Winapi.Messages,
+  System.Types,
+  System.SysUtils,
+  System.Variants,
+  System.Classes,
+  System.Actions,
+  Vcl.Graphics,
+  Vcl.Controls,
+  Vcl.Forms,
+  Vcl.Dialogs,
+  Vcl.ExtCtrls,
+  Vcl.Menus,
+  Vcl.ActnList,
+  Vcl.ComCtrls,
+  Vcl.StdCtrls,
+  JvAppStorage,
+  JvDockControlForm,
+  TB2Item,
+  TB2Dock,
+  TB2Toolbar,
+  JvComponentBase,
+  SpTBXSkins,
+  SpTBXItem,
+  SpTBXEditors,
+  SpTBXDkPanels,
+  SpTBXControls,
+  frmIDEDockWin,
+  cFindInFiles;
 
 type
   TFindResultsWindow = class(TIDEDockWindow, IJvAppStorageHandler)
@@ -208,20 +231,20 @@ implementation
 
 uses
   System.UITypes,
+  System.RegularExpressions,
   System.Math,
   JclFileUtils,
   JvJVCLUtils,
   JvGnugettext,
-  SynRegExpr,
   SynEdit,
   SynEditTypes,
+  StringResources,
   dmCommands,
   dlgFindInFiles,
+  dlgReplaceInFiles,
   frmPyIDEMain,
   uEditAppIntfs,
-  dlgReplaceInFiles,
-  uCommonFunctions,
-  StringResources;
+  uCommonFunctions;
 
 {$R *.dfm}
 
@@ -665,7 +688,7 @@ var
   //Cursor: IInterface;
 begin
   if DoingSearchOrReplace then begin
-    Dialogs.MessageDlg(_(SGrepActive), mtError, [mbOK], 0);
+    Vcl.Dialogs.MessageDlg(_(SGrepActive), mtError, [mbOK], 0);
     Exit;
   end;
 
@@ -1014,7 +1037,7 @@ type
   ESkipFileReplaceException = class(Exception);
 
 // Replaces the string between SPos and EPos with the replace string from TGrepSettings
-function ReplacePatternInString(CurrentLine: TLineResult; GrepSettings: TGrepSettings; RegEx: TRegExpr): string;
+function ReplacePatternInString(CurrentLine: TLineResult; GrepSettings: TGrepSettings; RegEx: TRegEx): string;
 var
   i: Integer;
   FindPos: Integer;
@@ -1022,7 +1045,7 @@ var
   CurrentMatch: TMatchResult;
 begin
   if GrepSettings.RegEx then begin
-    Result := RegEx.Replace(CurrentLine.Line, GrepSettings.Replace, True);
+    Result := RegEx.Replace(CurrentLine.Line, GrepSettings.Replace);
    	for i := CurrentLine.Matches.Count - 1 downto 0 do
      	CurrentLine.Matches[i].ShowBold := False;
   end else begin
@@ -1062,7 +1085,8 @@ var
   TempFile: TStrings;
   LineResult : TLineResult;
   Encoding : TFileSaveFormat;
-  RegEx: TRegExpr;
+  RegEx: TRegEx;
+  Options: TRegExOptions;
 
   procedure DoReplacement;
   var
@@ -1075,7 +1099,7 @@ var
         Assert(TempFile.Count >= (LineResult.LineNo - 1));
       FileLine := TempFile[LineResult.LineNo - 1];
       if LineResult.Line <> FileLine then begin
-        Dialogs.MessageDlg(Format(_(SFileChangedAbort), [MatchFile, LineResult.Line, FileLine]),
+        Vcl.Dialogs.MessageDlg(Format(_(SFileChangedAbort), [MatchFile, LineResult.Line, FileLine]),
           mtError, [mbAbort], 0);
         Abort;
       end;
@@ -1093,7 +1117,7 @@ var
         Assert(TempFile.Count >= (LineResult.LineNo - 1));
         FileLine := TempFile[LineResult.LineNo - 1];
         if LineResult.Line <> FileLine then begin
-          Dialogs.MessageDlg(Format(_(SFileChangedAbort), [MatchFile, LineResult.Line, FileLine]),
+          Vcl.Dialogs.MessageDlg(Format(_(SFileChangedAbort), [MatchFile, LineResult.Line, FileLine]),
             mtError, [mbAbort], 0);
           Abort;
         end;
@@ -1121,7 +1145,7 @@ var
         try
           FileBackup(MatchFile);
         except
-          if Dialogs.MessageDlg(Format(_(SCouldNotBackup), [MatchFile]), mtWarning, [mbOK, mbCancel], 0) = mrCancel then
+          if Vcl.Dialogs.MessageDlg(Format(_(SCouldNotBackup), [MatchFile]), mtWarning, [mbOK, mbCancel], 0) = mrCancel then
             Abort
           else
             Exit;
@@ -1140,20 +1164,18 @@ begin
   else
     MatchFile := AFileResult.FileName;
 
-  RegEx := nil;
   TempFile := TLineBreakStringList.Create;
   try
-   if GrepSettings.RegEx then
-   begin
-     RegEx := TRegExpr.Create;
-     RegEx.Expression := GrepSettings.Pattern;
-     RegEx.ModifierG := True;
-     RegEx.ModifierI := not GrepSettings.CaseSensitive;
-     RegEx.Compile;
-   end;
+    if GrepSettings.RegEx then
+    begin
+      Options := [roNotEmpty];
+      if not GrepSettings.CaseSensitive then
+        Include(Options, roIgnoreCase);
+      RegEx := CompiledRegEx(GrepSettings.Pattern, Options);
+    end;
 
     if not GetFileAsText(MatchFile, TempFile, Encoding) then begin
-      if Dialogs.MessageDlg(_(SFileSkipped) + MatchFile, mtWarning, [mbOK, mbCancel], 0) = mrCancel then
+      if Vcl.Dialogs.MessageDlg(_(SFileSkipped) + MatchFile, mtWarning, [mbOK, mbCancel], 0) = mrCancel then
         Abort
       else
         Exit;
@@ -1161,7 +1183,6 @@ begin
     DoReplacement;
     WriteResults;
   finally
-    FreeAndNil(RegEx);
     FreeAndNil(TempFile);
   end;
 end;

@@ -13,8 +13,8 @@ interface
 Uses
   System.SysUtils,
   System.Classes,
-  cPyScripterSettings,
-  SynRegExpr;
+  System.RegularExpressions,
+  cPyScripterSettings;
 
 type
 
@@ -51,9 +51,8 @@ type
   end;
 
   TSSHFileName = class
-    class var UncRE: TRegExpr;
+    class var UncRE: TRegEx;
     class constructor Create;
-    class destructor Destroy;
     class function Format(Server, FileName : string): string;
     class function Parse(Const Unc : string; out Server, FileName : string): boolean;
   end;
@@ -85,11 +84,12 @@ uses
   Vcl.Forms,
   jclSysUtils,
   JvGnugettext,
+  MPCommonUtilities,
   dlgCollectionEditor,
   dlgOptionsEditor,
   StringResources,
   frmCommandOutput,
-  MPCommonUtilities;
+  uCommonFunctions;
 
 { TSSHConfig }
 
@@ -286,14 +286,7 @@ end;
 
 class constructor TSSHFileName.Create;
 begin
-  UNCRE := TRegExpr.Create;
-  UncRE.Expression := '^ssh://([^/]+)/(.+)';
-  UncRe.Compile;
-end;
-
-class destructor TSSHFileName.Destroy;
-begin
-  UncRe.Free;
+  UNCRE := CompiledRegEx('^ssh://([^/]+)/(.+)');
 end;
 
 class function TSSHFileName.Format(Server, FileName: string): string;
@@ -306,10 +299,13 @@ class function TSSHFileName.Parse(const Unc: string; out Server,
 begin
   Server := '';
   FileName := '';
-  Result := UncRE.Exec(Unc);
-  if Result then begin
-    Server := UncRE.Match[1];
-    FileName := UncRE.Match[2];
+  with UncRE.Match(Unc) do
+  begin
+    if Success then begin
+      Server := GroupValue(1);
+      FileName := GroupValue(2);
+    end;
+    Exit(Success)
   end;
 end;
 

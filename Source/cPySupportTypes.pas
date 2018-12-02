@@ -13,8 +13,8 @@ interface
 Uses
   System.SysUtils,
   System.Classes,
+  System.RegularExpressions,
   PythonEngine,
-  SynRegExpr,
   cTools;
 
 type
@@ -64,12 +64,11 @@ type
 
   { Python related regular expressions }
   TPyRegExpr = class
-    class var BlockOpenerRE : TRegExpr;
-    class var BlockCloserRE : TRegExpr;
-    class var CodeCommentLineRE : TRegExpr;
-    class var NonExecutableLineRE : TRegExpr;
+    class var BlockOpenerRE : TRegEx;
+    class var BlockCloserRE : TRegEx;
+    class var CodeCommentLineRE : TRegEx;
+    class var NonExecutableLineRE : TRegEx;
     class constructor Create;
-    class destructor Destroy;
     class function IsBlockOpener(S : string) : Boolean;
     class function IsBlockCloser(S : string) : Boolean;
     class function IsExecutableLine(Line : string) : Boolean;
@@ -80,8 +79,8 @@ procedure ThreadPythonExec(ExecuteProc : TProc; TerminateProc : TProc = nil;
   ThreadExecMode : TThreadExecMode = emNewState);
 
 Const
-  IdentRE = '[A-Za-z_][A-Za-z0-9_]*';
-  DottedIdentRE = '[A-Za-z_][A-Za-z0-9_\.]*';
+  IdentRE = '\w[\w0-9]*';
+  DottedIdentRE = '\w[\w0-9\.]*';
 
 implementation
 
@@ -146,38 +145,25 @@ end;
 
 class constructor TPyRegExpr.Create;
 begin
-  TPyRegExpr.BlockOpenerRE := TRegExpr.Create;
-  TPyRegExpr.BlockOpenerRE.Expression := ':\s*(#.*)?$';
-  TPyRegExpr.BlockCloserRE := TRegExpr.Create;
-  TPyRegExpr.BlockCloserRE.Expression := '\s*(return|break|continue|raise|pass)\b';
-  TPyRegExpr.NonExecutableLineRE := TRegExpr.Create;
-  TPyRegExpr.NonExecutableLineRE.Expression := '(^\s*(class|def)\b)|(^\s*#)|(^\s*$)';
-  TPyRegExpr.CodeCommentLineRE := TRegExpr.Create;
-  TPyRegExpr.CodeCommentLineRE.Expression := '^([ \t]*)##';
-  TPyRegExpr.CodeCommentLineRE.ModifierM := True;
-end;
-
-class destructor TPyRegExpr.Destroy;
-begin
-  TPyRegExpr.BlockOpenerRE.Free;
-  TPyRegExpr.BlockCloserRE.Free;
-  TPyRegExpr.NonExecutableLineRE.Free;
-  TPyRegExpr.CodeCommentLineRE.Free;
+  TPyRegExpr.BlockOpenerRE.Create(':\s*(#.*)?$');
+  TPyRegExpr.BlockCloserRE.Create('\s*(return|break|continue|raise|pass)\b');
+  TPyRegExpr.NonExecutableLineRE.Create('(^\s*(class|def)\b)|(^\s*#)|(^\s*$)');
+  TPyRegExpr.CodeCommentLineRE.Create('^([ \t]*)##', [roNotEmpty, roMultiLine]);
 end;
 
 class function TPyRegExpr.IsBlockCloser(S: string): Boolean;
 begin
-  Result := TPyRegExpr.BlockCloserRE.Exec(S);
+  Result := TPyRegExpr.BlockCloserRE.IsMatch(S);
 end;
 
 class function TPyRegExpr.IsBlockOpener(S: string): Boolean;
 begin
-  Result := TPyRegExpr.BlockOpenerRE.Exec(S);
+  Result := TPyRegExpr.BlockOpenerRE.IsMatch(S);
 end;
 
 class function TPyRegExpr.IsExecutableLine(Line: string): Boolean;
 begin
-  Result := not ((Line = '') or TPyRegExpr.NonExecutableLineRE.Exec(Line));
+  Result := not ((Line = '') or TPyRegExpr.NonExecutableLineRE.IsMatch(Line));
 end;
 
 { TAnonymousPythonThread }

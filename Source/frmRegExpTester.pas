@@ -195,7 +195,9 @@ Var
 begin
   TJvAppIniStorageOptions(AppStorage.StorageOptions).ReplaceCRLF := True;
   TJvAppIniStorageOptions(AppStorage.StorageOptions).PreserveLeadingTrailingBlanks := True;
+  RegExpText.HandleNeeded;
   RegExpText.Text := AppStorage.ReadString(BasePath+'\Regular Expression');
+  SearchText.HandleNeeded;
   SearchText.Text := AppStorage.ReadString(BasePath+'\Search Text');
   TJvAppIniStorageOptions(AppStorage.StorageOptions).ReplaceCRLF := False;
   TJvAppIniStorageOptions(AppStorage.StorageOptions).PreserveLeadingTrailingBlanks := False;

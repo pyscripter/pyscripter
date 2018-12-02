@@ -192,8 +192,8 @@ implementation
 Uses
   System.Math,
   System.Win.Registry,
+  System.RegularExpressions,
   SynEditTypes,
-  SynRegExpr,
   VarPyth,
   JclStrings,
   JvJVCLUtils,
@@ -313,19 +313,12 @@ end;
 procedure TPythonIIForm.actCopyWithoutPromptsExecute(Sender: TObject);
 Var
   SelText : string;
-  RegExpr : TRegExpr;
 begin
   SelText := SynEdit.SelText;
   if SelText = '' then Exit;
 
-  RegExpr := TRegExpr.Create;
-  try
-    RegExpr.ModifierM := True;
-    RegExpr.Expression := '^((\[(Dbg|PM)\])?(>>>\ |\.\.\.\ ))';
-    SelText := RegExpr.Replace(SelText, '')
-  finally
-    RegExpr.Free;
-  end;
+  SelText := TRegEx.Replace(SelText,
+     '^((\[(Dbg|PM)\])?(>>>\ |\.\.\.\ ))', '', [roNotEmpty, roMultiLine]);
 
   Clipboard.AsText := SelText;
 end;
@@ -887,32 +880,29 @@ end;
 
 procedure TPythonIIForm.SynEditDblClick(Sender: TObject);
 var
-   RegExpr : TRegExpr;
+   RegEx : TRegEx;
+   Match : TMatch;
    ErrLineNo : integer;
    FileName : string;
 begin
-  RegExpr := TRegExpr.Create;
-  try
-    RegExpr.Expression := STracebackFilePosExpr;
-    if RegExpr.Exec(Synedit.LineText) then begin
-      ErrLineNo := StrToIntDef(RegExpr.Match[3], 0);
-      FileName := RegExpr.Match[1];
-      //FileName := GetLongFileName(ExpandFileName(RegExpr.Match[1]));
-      if Assigned(PyControl.ActiveInterpreter) then
-        FileName := PyControl.ActiveInterpreter.FromPythonFileName(FileName);
+  RegEx := CompiledRegEx(STracebackFilePosExpr);
+  Match := RegEx.Match(Synedit.LineText);
+  if Match.Success then begin
+    ErrLineNo := StrToIntDef(Match.GroupValue(3), 0);
+    FileName := Match.GroupValue(1);
+    //FileName := GetLongFileName(ExpandFileName(RegExpr.Match[1]));
+    if Assigned(PyControl.ActiveInterpreter) then
+      FileName := PyControl.ActiveInterpreter.FromPythonFileName(FileName);
+    PyIDEMainForm.ShowFilePosition(FileName, ErrLineNo, 1);
+  end else begin
+    RegEx := CompiledRegEx(SWarningFilePosExpr);
+    Match := RegEx.Match(Synedit.LineText);
+    if Match.Success then begin
+      ErrLineNo := StrToIntDef(Match.GroupValue(3), 0);
+      FileName := Match.GroupValue(1);
       PyIDEMainForm.ShowFilePosition(FileName, ErrLineNo, 1);
-    end else begin
-      RegExpr.Expression := SWarningFilePosExpr;
-      if RegExpr.Exec(Synedit.LineText) then begin
-        ErrLineNo := StrToIntDef(RegExpr.Match[3], 0);
-        FileName := RegExpr.Match[1];
-        PyIDEMainForm.ShowFilePosition(FileName, ErrLineNo, 1);
-      end;
     end;
-  finally
-    RegExpr.Free;
   end;
-
 end;
 
 procedure TPythonIIForm.SynEditEnter(Sender: TObject);

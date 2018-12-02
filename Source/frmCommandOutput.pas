@@ -11,11 +11,32 @@ unit frmCommandOutput;
 interface
 
 uses
-  System.UITypes, Windows, Messages, SysUtils, Variants, Classes, Graphics,
-  Controls, Forms, Dialogs, frmIDEDockWin, JvDockControlForm, ExtCtrls,
-  StdCtrls, JvCreateProcess, Menus, ActnList, uEditAppIntfs, cTools,
-  SynEditTypes, SynRegExpr, TB2Item, JvComponentBase, SpTBXItem, System.Actions,
-  SpTBXControls;
+  Winapi.Windows,
+  Winapi.Messages,
+  System.UITypes,
+  System.SysUtils,
+  System.Variants,
+  System.Classes,
+  System.Actions,
+  System.RegularExpressions,
+  Vcl.Graphics,
+  Vcl.Controls,
+  Vcl.Forms,
+  Vcl.Dialogs,
+  Vcl.ExtCtrls,
+  Vcl.StdCtrls,
+  Vcl.Menus,
+  Vcl.ActnList,
+  TB2Item,
+  SpTBXItem,
+  SpTBXControls,
+  JvComponentBase,
+  JvDockControlForm,
+  JvCreateProcess,
+  SynEditTypes,
+  frmIDEDockWin,
+  uEditAppIntfs,
+  cTools;
 
 type
   TOutputWindow = class(TIDEDockWindow)
@@ -64,7 +85,7 @@ type
     fEditor : IEditor;
     fBlockBegin : TBufferCoord;
     fBlockEnd : TBufferCoord;
-    fRegExpr : TRegExpr;
+    fRegEx : TRegEx;
     fItemMaxWidth : integer;  // Calculating max width to show hor scrollbar
     fLastExitCode : integer;
   public
@@ -86,9 +107,16 @@ implementation
 
 uses
   Winapi.ShellAPI,
-  dmCommands, Clipbrd,
-  SynEdit, frmPyIDEMain, frmMessages, JclStrings,
-  uCommonFunctions, Math, StringResources, JvGnugettext;
+  System.Math,
+  Vcl.Clipbrd,
+  JclStrings,
+  JvGnugettext,
+  SynEdit,
+  StringResources,
+  dmCommands,
+  frmPyIDEMain,
+  frmMessages,
+  uCommonFunctions;
 
 {$R *.dfm}
 
@@ -195,24 +223,21 @@ Var
            Copy(S, Result + Length(FromText), MaxInt);
   end;
 
-  function RegExMatch(APos: integer): string;
+  function MatchIndex(APos: integer): integer;
   // find pos of Match
-  Var
-    MatchPos : integer;
   begin
     if APos = 0 then
-      Result:= ''
+      Result:= 0
     else begin
-      MatchPos := 1 +                                        // whole text
+      Result := 1 +                                        // whole text
            (Ord((FilePos > 0) and (APos > FilePos)) shl 1) + // file name
            Ord((LinePos > 0) and (APos > LinePos)) +         // line number
            Ord((ColPos > 0) and (APos > ColPos));            // col number
-      Result:= fRegExpr.Match[MatchPos];
     end;
   end;
 
  Var
-  LineNo, ErrLineNo, ColNo : integer;
+  LineNo, ErrLineNo, ColNo, Indx : integer;
   ErrorMsg, RE, FileName, OutStr, OldCurrentDir : string;
 begin
   TimeoutTimer.Enabled := False;
@@ -257,7 +282,7 @@ begin
     if fTool.ParseTraceback then with JvCreateProcess.ConsoleOutput do begin
       MessagesWindow.ClearMessages;
       //  Parse TraceBack and Syntax Errors from Python output
-      fRegExpr.Expression := STracebackFilePosExpr;
+      fRegEx := CompiledRegEx(STracebackFilePosExpr);
       LineNo := 0;
       while LineNo < Count do begin
         if StrIsLeft(PChar(Strings[LineNo]), 'Traceback') then begin
@@ -265,19 +290,19 @@ begin
           MessagesWindow.AddMessage('Traceback');
           Inc(LineNo);
           while (LineNo < Count) and (Strings[LineNo][1] = ' ') do begin
-            if fRegExpr.Exec(Strings[LineNo]) then begin
-              ErrLineNo := StrToIntDef(fRegExpr.Match[3], 0);
-              // add traceback info (function name, filename, linenumber)
-              MessagesWindow.AddMessage('    ' + fRegExpr.Match[5],
-                GetLongFileName(ExpandFileName(fRegExpr.Match[1])), ErrLineNo);
-            end;
+            with fRegEx.Match(Strings[LineNo]) do
+              if Success then begin
+                ErrLineNo := StrToIntDef(GroupValue(3), 0);
+                // add traceback info (function name, filename, linenumber)
+                MessagesWindow.AddMessage('    ' + GroupValue(5),
+                  GetLongFileName(ExpandFileName(GroupValue(1))), ErrLineNo);
+              end;
             Inc(LineNo);
           end;
           // Add the actual Error line
           if LineNo < Count then
             MessagesWindow.AddMessage(Strings[LineNo]);
           ShowDockForm(MessagesWindow);
-          MessageBeep(MB_ICONEXCLAMATION);
           break;  // finished processing traceback
         end else if StrIsLeft(PChar(Strings[LineNo]), 'SyntaxError:')
           and (LineNo > 2) then
@@ -287,12 +312,13 @@ begin
           Dec(LineNo);
           ColNo := Pos('^', Strings[LineNo]) - 4; // line indented by 4 spaces
           Dec(LineNo, 2);
-          if fRegExpr.Exec(Strings[LineNo]) then begin
-            ErrLineNo := StrToIntDef(fRegExpr.Match[3], 0);
+          with fRegEx.Match(Strings[LineNo]) do
+          if Success then begin
+            ErrLineNo := StrToIntDef(GroupValue(3), 0);
             // add Syntax error info (error message, filename, linenumber)
             MessagesWindow.AddMessage(_(SSyntaxError));
-            MessagesWindow.AddMessage(ErrorMsg + fRegExpr.Match[5],
-              GetLongFileName(ExpandFileName(fRegExpr.Match[1])), ErrLineNo, ColNo);
+            MessagesWindow.AddMessage(ErrorMsg + GroupValue(5),
+              GetLongFileName(ExpandFileName(GroupValue(1))), ErrLineNo, ColNo);
           end;
           ShowDockForm(MessagesWindow);
           MessageBeep(MB_ICONEXCLAMATION);
@@ -312,15 +338,8 @@ begin
       FilePos:= ReplacePos(RE, GrepFileNameParam, SFileExpr);
       LinePos:= ReplacePos(RE, GrepLineNumberParam, '(\d+)');
       ColPos:=  ReplacePos(RE, GrepColumnNumberParam, '(\d+)');
-      try
-        fRegExpr.Expression := RE+'(.*)';
-        fRegExpr.Compile;
-      except
-        on E: ERegExpr do begin
-          Dialogs.MessageDlg(Format(_(SInvalidRegularExpression), [E.Message]), mtError, [mbOK], 0);
-          Exit;
-        end;
-      end;
+
+      fRegEx := CompiledRegEx(RE+'(.*)');
 
       if JvCreateProcess.CurrentDirectory <> '' then begin
          OldCurrentDir := GetCurrentDir;
@@ -330,15 +349,27 @@ begin
       try
         LineNo := 0;
         while LineNo < Count do begin
-          if fRegExpr.Exec(Strings[LineNo]) then begin
-            FileName := RegExMatch(FilePos);
-            StringReplace(FileName, '/', '\', [rfReplaceAll]); // fix for filenames with '/'
-            FileName := GetLongFileName(ExpandFileName(FileName)); // always full filename
-            ErrLineNo := StrToIntDef(RegExMatch(LinePos), -1);
-            ColNo :=  StrToIntDef(RegExMatch(ColPos), -1);
-           // add Message info (message, filename, linenumber)
-            MessagesWindow.AddMessage(fRegExpr.Match[fRegExpr.SubExprMatchCount], FileName, ErrLineNo, ColNo);
-          end;
+          with fRegEx.Match(Strings[LineNo]) do
+            if Success then begin
+              Indx := MatchIndex(FilePos);
+              if Indx > 0 then begin
+                FileName := Groups[Indx].Value;
+                StringReplace(FileName, '/', '\', [rfReplaceAll]); // fix for filenames with '/'
+                FileName := GetLongFileName(ExpandFileName(FileName)); // always full filename
+              end;
+              Indx := MatchIndex(LinePos);
+              if Indx > 0 then
+                ErrLineNo := StrToIntDef(Groups[Indx].Value, -1)
+              else
+                ErrLineNo := -1;
+              Indx := MatchIndex(ColPos);
+              if Indx > 0 then
+                ColNo := StrToIntDef(Groups[Indx].Value, -1)
+              else
+                ColNo := -1;
+             // add Message info (message, filename, linenumber)
+              MessagesWindow.AddMessage(Groups[Groups.Count-1].Value, FileName, ErrLineNo, ColNo);
+            end;
           Inc(LineNo);
         end;
         ShowDockForm(MessagesWindow);
@@ -362,7 +393,7 @@ const
 begin
   // Check whether a process is still running
   if IsRunning then begin
-    Dialogs.MessageDlg(_(SProcessRunning), mtError, [mbOK], 0);
+    Vcl.Dialogs.MessageDlg(_(SProcessRunning), mtError, [mbOK], 0);
     Exit;
   end;
 
@@ -372,7 +403,7 @@ begin
   WorkDir := PrepareCommandLine(Tool.WorkingDirectory);
 
   if (Workdir <> '') and not DirectoryExists(WorkDir) then begin
-    Dialogs.MessageDlg(Format(_(SDirNotFound), [WorkDir]), mtError, [mbOK], 0);
+    Vcl.Dialogs.MessageDlg(Format(_(SDirNotFound), [WorkDir]), mtError, [mbOK], 0);
     Exit;
   end;
 
@@ -602,7 +633,6 @@ procedure TOutputWindow.FormCreate(Sender: TObject);
 begin
   inherited;
   fTool := TExternalTool.Create;
-  fRegExpr := TRegExpr.Create;
 
   JvCreateProcess := TJvCreateProcess.Create(Self);
   with JvCreateProcess do
@@ -618,7 +648,6 @@ end;
 procedure TOutputWindow.FormDestroy(Sender: TObject);
 begin
   fTool.Free;
-  fRegExpr.Free;
   inherited;
 end;
 
@@ -631,7 +660,7 @@ procedure TOutputWindow.TimeoutTimerTimer(Sender: TObject);
 begin
   if (JvCreateProcess.State <> psReady) and Assigned(fTool) then begin
     TimeoutTimer.Enabled := False;
-    if Dialogs.MessageDlg(Format(_(SExternalToolStillRunning),
+    if Vcl.Dialogs.MessageDlg(Format(_(SExternalToolStillRunning),
       [fTool.Caption]), mtConfirmation, [mbYes, mbNo], 0) = mrYes
     then
       actToolTerminateExecute(Sender)

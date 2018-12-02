@@ -24,15 +24,14 @@ Uses
   SynUnicode,
   uEditAppIntfs,
   SpTBXSkins,
-  SynEdit,
-  SynRegExpr;
+  SynEdit;
 
 const
   UTF8BOMString : RawByteString = AnsiChar($EF) + AnsiChar($BB) + AnsiChar($BF);
   IdentChars: TSysCharSet = ['_', '0'..'9', 'A'..'Z', 'a'..'z'];
   SFileExpr = '(([a-zA-Z]:)?[^\*\?="<>|:,;\+\^]+)'; // fwd slash (/) is allowed
   STracebackFilePosExpr =  '"\<?' + SFileExpr + '\>?", line (\d+)(, in ([\<\>\?\w]+))?';
-  SWarningFilePosExpr = SFileExpr + ':(\d+):';
+  SWarningFilePosExpr = '\<?' +SFileExpr + '\>?:(\d+):';
   WideLF = WideChar(#10);
   WideNull = WideChar(#0);
   AnsiLineFeed       = AnsiChar(#10);
@@ -213,8 +212,9 @@ function GetHotColor(OptionEntry : TSpTBXSkinOptionEntry) : TColor;
 (* Improved CanFocus *)
 function CanActuallyFocus(WinControl: TWinControl): Boolean;
 
-(* Create a Regular Expression and compile it *)
-function CompiledRegExpr(Expr : string): TRegExpr;
+(* Create a PCRE Regular Expression and compile it *)
+function CompiledRegEx(Expr : string; Options: TRegExOptions = [roNotEmpty];
+  UCP : Boolean = True): TRegEx;
 
 (* Checks whether S contains digits only *)
 function IsDigits(S : string): Boolean;
@@ -272,6 +272,14 @@ type
   public
     procedure Study;
     procedure SetAdditionalPCREOptions(PCREOptions : Integer);
+    function PerlRegEx : TPerlRegEx;
+  end;
+
+  TMatchHelper = record helper for TMatch
+  public
+    function GroupIndex(Index: integer): integer;
+    function GroupLength(Index: integer): integer;
+    function GroupValue(Index: integer): string;
   end;
 
   (*  TStringlist that preserves the LineBreak and BOM of a read File *)
@@ -930,18 +938,11 @@ End;//ReadLn
 
 
 function ParsePySourceEncoding(Textline : string): string;
-var
-  RegExpr : TRegExpr;
 begin
   Result := '';
-  RegExpr := TRegExpr.Create;
-  try
-    RegExpr.Expression := 'coding[:=]\s*([-\w.]+)';
-    if RegExpr.Exec(TextLine) then
-      Result := RegExpr.Match[1];
-  finally
-    RegExpr.Free;
-  end;
+  with TRegEx.Match(TextLine, 'coding[:=]\s*([-\w.]+)') do
+    if Success then
+      Exit(Groups[1].Value);
 end;
 
 function GetAveCharSize(Canvas: TCanvas): TPoint;
@@ -1868,33 +1869,33 @@ begin
     end;
 end;
 
-function Dedent (const S : string) : string;
-Var
-  LeadWhiteSpace: string;
-  RegExpr: TRegExpr;
+function Dedent(const S : string) : string;
 begin
-  RegExpr := TRegExpr.Create;
-  try
-    RegExpr.ModifierM := False;
-    RegExpr.Expression := '^\s*';
-    if RegExpr.Exec(S) then
-    begin
-      LeadWhiteSpace := RegExpr.Match[0];
-      RegExpr.ModifierM := True;
-      RegExpr.Expression := '^' + LeadWhiteSpace;
-      Result := RegExpr.Replace(S, '');
-    end else
-      Result := S;
-  finally
-    RegExpr.Free;
-  end;
+  with TRegEx.Match(S, '^\s+') do
+    if Success then
+      Exit(TRegEx.Replace(S, '^'+Groups[0].Value , '', [roNotEmpty, roMultiLine]))
+    else
+      Exit(S)
 end;
 
-function CompiledRegExpr(Expr : string): TRegExpr;
+function CompiledRegEx(Expr : string; Options: TRegExOptions = [roNotEmpty];
+  UCP : Boolean = True): TRegEx;
 begin
-  Result := TRegExpr.Create;
-  Result.Expression := Expr;
-  Result.Compile;
+  try
+    Result.Create(Expr, Options);
+    if UCP then
+      Result.SetAdditionalPCREOptions(PCRE_UCP);
+    Result.Study
+  except
+    on E: ERegularExpressionError do
+      begin
+        Vcl.Dialogs.MessageDlg(Format(_(SInvalidRegularExpression), [E.Message]),
+          mtError, [mbOK], 0);
+        Abort;
+      end
+    else
+      raise;
+  end;
 end;
 
 function IsColorDark(AColor : TColor) : boolean;
@@ -2361,9 +2362,41 @@ begin
   with Self do FRegEx.Study;
 end;
 
+function TRegExHelper.PerlRegEx: TPerlRegEx;
+begin
+  with Self do
+    Result := FregEx;
+end;
+
 procedure TRegExHelper.SetAdditionalPCREOptions(PCREOptions: Integer);
 begin
   with Self do FRegEx.SetAdditionalPCREOptions(PCREOptions);
+end;
+
+{ TMatchHelper }
+
+function TMatchHelper.GroupIndex(Index: integer): integer;
+begin
+  if Index < Groups.Count then
+    Result := Groups[Index].Index
+  else
+    Result := -1;
+end;
+
+function TMatchHelper.GroupLength(Index: integer): integer;
+begin
+  if Index < Groups.Count then
+    Result := Groups[Index].Length
+  else
+    Result := 0;
+end;
+
+function TMatchHelper.GroupValue(Index: integer): string;
+begin
+  if Index < Groups.Count then
+    Result := Groups[Index].Value
+  else
+    Result := '';
 end;
 //  Regular Expressions End
 

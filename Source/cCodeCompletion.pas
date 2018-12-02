@@ -51,13 +51,13 @@ implementation
 uses
   System.SysUtils,
   System.StrUtils,
-  StringResources,
+  System.RegularExpressions,
   VarPyth,
   JclStrings,
   JvGnugettext,
   dmCommands,
   SynHighlighterPython,
-  SynRegExpr,
+  StringResources,
   uCommonFunctions,
   cPyBaseDebugger,
   cPyDebugger,
@@ -148,48 +148,36 @@ end;
 { TRegExpressions }
 type
 TRegExpressions = class
-  class var RE_Import : TRegExpr;
-  class var RE_From : TRegExpr;
-  class var RE_FromImport : TRegExpr;
-  class var RE_For : TRegExpr;
-  class var RE_ImportAs : TRegExpr;
-  class var RE_FromImportAs : TRegExpr;
-  class var RE_String : TRegExpr;
+  class var RE_Import : TRegEx;
+  class var RE_From : TRegEx;
+  class var RE_FromImport : TRegEx;
+  class var RE_For : TRegEx;
+  class var RE_ImportAs : TRegEx;
+  class var RE_FromImportAs : TRegEx;
+  class var RE_String : TRegEx;
   class constructor Create;
-  class destructor Destroy;
 end;
 
 class constructor TRegExpressions.Create;
 begin
-  RE_Import := CompiledRegExpr(
+  RE_Import := CompiledRegEx(
     Format('^\s*import +(%s( +as +%s)? *, *)*(%s)?$',
-    [DottedIdentRe, IdentRE, DottedIdentRE]));
-  RE_From := CompiledRegExpr(
+    [DottedIdentRE, IdentRE, DottedIdentRE]));
+  RE_From := CompiledRegEx(
     Format('^\s*from +(\.*)(%s)?$', [DottedIdentRE]));
-  RE_FromImport := CompiledRegExpr(
+  RE_FromImport := CompiledRegEx(
     Format('^\s*from +(\.*)(%s)? +import +\(? *(%s( +as +%s)? *, *)*(%s)?$',
-      [DottedIdentRe, IdentRE, IdentRe, IdentRe]));
-  RE_For := CompiledRegExpr(
-    Format('^\s*for +(%s *, *)*(%s)?$', [IdentRe, IdentRe]));
-  RE_ImportAs := CompiledRegExpr(
+      [DottedIdentRE, IdentRE, IdentRE, IdentRE]));
+  RE_For := CompiledRegEx(
+    Format('^\s*for +(%s *, *)*(%s)?$', [IdentRE, IdentRE]));
+  RE_ImportAs := CompiledRegEx(
     Format('^\s*import +(%s( +as +%s)? *, *)*%s +as +(%s)?$',
-    [DottedIdentRe, IdentRE, DottedIdentRE, IdentRE]));
-  RE_FromImportAs := CompiledRegExpr(
+    [DottedIdentRE, IdentRE, DottedIdentRE, IdentRE]));
+  RE_FromImportAs := CompiledRegEx(
     Format('^\s*from +(\.*)(%s)? +import +\(? *(%s( +as +%s)? *, *)*%s +as +(%s)?$',
-      [DottedIdentRe, IdentRE, IdentRe, IdentRe, IdentRE]));
-  RE_String := CompiledRegExpr(
-    Format('[''"]\.(%s)?$', [IdentRe, IdentRe]));
-end;
-
-class destructor TRegExpressions.Destroy;
-begin
-  RE_Import.Free;
-  RE_From.Free;
-  RE_FromImport.Free;
-  RE_For.Free;
-  RE_ImportAs.Free;
-  RE_FromImportAs.Free;
-  RE_String.Free;
+      [DottedIdentRE, IdentRE, IdentRE, IdentRE, IdentRE]));
+  RE_String := CompiledRegEx(
+    Format('[''"]\.(%s)?$', [IdentRE, IdentRE]));
 end;
 
 { TStringAndCommentSkipHandler }
@@ -224,7 +212,7 @@ function TForStatementSkipHandler.SkipCodeCompletion(const Line,
   FileName: string; Caret: TBufferCoord; Highlighter: TSynCustomHighlighter;
   HighlighterAttr: TSynHighlighterAttributes): Boolean;
 begin
-  Result := TRegExpressions.RE_For.Exec(Copy(Line, 1, Caret.Char - 1));
+  Result := TRegExpressions.RE_For.IsMatch(Copy(Line, 1, Caret.Char - 1));
 end;
 
 
@@ -239,8 +227,8 @@ function TImportAsStatementSkipHandler.SkipCodeCompletion(const Line,
   FileName: string; Caret: TBufferCoord; Highlighter: TSynCustomHighlighter;
   HighlighterAttr: TSynHighlighterAttributes): Boolean;
 begin
-  Result := TRegExpressions.RE_ImportAs.Exec(Copy(Line, 1, Caret.Char - 1)) or
-    TRegExpressions.RE_FromImportAs.Exec(Copy(Line, 1, Caret.Char - 1));
+  Result := TRegExpressions.RE_ImportAs.IsMatch(Copy(Line, 1, Caret.Char - 1)) or
+    TRegExpressions.RE_FromImportAs.IsMatch(Copy(Line, 1, Caret.Char - 1));
 end;
 
 { TImportStatementHandler }
@@ -294,8 +282,10 @@ function TImportStatementHandler.HandleCodeCompletion(const Line,
 Var
   FNameVar : Variant;
   Dir, DottedModName, Server : string;
+  Match : TMatch;
 begin
-  Result := TRegExpressions.RE_Import.Exec(Copy(Line, 1, Caret.Char - 1));
+  Match := TRegExpressions.RE_Import.Match(Copy(Line, 1, Caret.Char - 1));
+  Result := Match.Success;
   if Result then
   begin
     // autocomplete import statement
@@ -310,7 +300,7 @@ begin
       PythonPathAdder :=  PyControl.InternalInterpreter.AddPathToPythonPath(Dir);
     end;
 
-    DottedModName := TRegExpressions.RE_Import.Match[3];
+    DottedModName := Match.GroupValue(3);
     if CharPos(DottedModName, '.') > 0 then begin
       fModulePrefix := DottedModName;
       Delete(fModulePrefix, LastDelimiter('.', fModulePrefix), MaxInt);
@@ -347,16 +337,18 @@ Var
   FNameVar : Variant;
   Dir, DottedModName, Server : string;
   SArray : TStringDynArray;
+  Match : TMatch;
 begin
-  Result := TRegExpressions.RE_From.Exec(Copy(Line, 1, Caret.Char - 1));
+  Match := TRegExpressions.RE_From.Match(Copy(Line, 1, Caret.Char - 1));
+  Result := Match.Success;
 
   if Result then
   begin
     // autocomplete from statement
     fModulePrefix := '';
     fFileName := FileName;
-    fPathDepth := TRegExpressions.RE_From.MatchLen[1];
-    DottedModName := TRegExpressions.RE_From.Match[2];
+    fPathDepth := Match.GroupLength(1);
+    DottedModName := Match.GroupValue(2);
     if fPathDepth > 0 then
     begin
       if (FileName = '') or TSSHFileName.Parse(FileName, Server, Dir) then begin
@@ -420,20 +412,23 @@ Var
   Dir : string;
   i : integer;
   ParsedModule : TParsedModule;
+  Match : TMatch;
 begin
-  Result :=  TRegExpressions.RE_FromImport.Exec(Copy(Line, 1, Caret.Char - 1));
+  Match :=  TRegExpressions.RE_FromImport.Match(Copy(Line, 1, Caret.Char - 1));
+  Result := Match.Success;
+
   if Result then
   begin
     // autocomplete from statement
-    fPathDepth := TRegExpressions.RE_FromImport.MatchLen[1];
-    if TRegExpressions.RE_FromImport.MatchLen[2] > 0 then
+    fPathDepth := Match.GroupLength(1);
+    if Match.GroupLength(2) > 0 then
     begin
       // from ...module import identifiers
       fFileName := FileName;
       if PyScripterRefactor.InitializeQuery then
       begin
         ParsedModule := PyScripterRefactor.ResolveModuleImport
-          (TRegExpressions.RE_FromImport.Match[2], fFileName, fPathDepth);
+          (Match.GroupValue(2), fFileName, fPathDepth);
         if Assigned(ParsedModule) then
         begin
           if (fPathDepth > 0) and ParsedModule.IsPackage then
@@ -632,7 +627,7 @@ Var
   Index : integer;
   CE : TCodeElement;
 begin
-  Result :=  TRegExpressions.RE_String.Exec(Copy(Line, 1, Caret.Char - 1));
+  Result :=  TRegExpressions.RE_String.IsMatch(Copy(Line, 1, Caret.Char - 1));
   if Result then begin
     if PyScripterRefactor.InitializeQuery then
     begin
@@ -674,24 +669,27 @@ Var
   ParsedModule : TParsedModule;
   NameSpace : TStringList;
   fPathDepth : integer;
+  Match : TMatch;
 begin
-  Result :=  TRegExpressions.RE_FromImport.Exec(Copy(Line, 1, Caret.Char - 1));
+  Match :=  TRegExpressions.RE_FromImport.Match(Copy(Line, 1, Caret.Char - 1));
+  Result := Match.Success;
+
   if Result then
   begin
     // autocomplete from statement
-    fPathDepth := TRegExpressions.RE_FromImport.MatchLen[1];
+    fPathDepth := Match.GroupLength(1);
     if (fPathDepth > 0) and (FileName = '') then begin
       Result := True; // No Completion
       Exit;
     end;
-    if TRegExpressions.RE_FromImport.MatchLen[2] > 0 then
+    if Match.GroupLength(2) > 0 then
     begin
       // from ...module import identifiers
       fFileName := FileName;
       if PyScripterRefactor.InitializeQuery then
       begin
         ParsedModule := PyScripterRefactor.ResolveModuleImport
-          (TRegExpressions.RE_FromImport.Match[2], fFileName, fPathDepth);
+          (Match.GroupValue(2), fFileName, fPathDepth);
         if Assigned(ParsedModule) then
         begin
           if (fPathDepth > 0) and ParsedModule.IsPackage then
