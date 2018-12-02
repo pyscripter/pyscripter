@@ -2855,7 +2855,11 @@ begin
     begin
       SkipHandler := TIDECompletion.EditorCodeCompletion.SkipHandlers[i] as
         TBaseCodeCompletionSkipHandler;
-      Skipped := SkipHandler.SkipCodeCompletion(locline, FileName, CaretXY, Highlighter, Attr);
+      try
+        Skipped := SkipHandler.SkipCodeCompletion(locline, FileName, CaretXY, Highlighter, Attr);
+      except
+        Skipped := False;
+      end;
       if Skipped then Break;
     end;
 
@@ -2866,8 +2870,12 @@ begin
       begin
         fCompletionHandler := TIDECompletion.EditorCodeCompletion.CompletionHandlers[i] as
           TBaseCodeCompletionHandler;
-        Handled := fCompletionHandler.HandleCodeCompletion(locline, FileName,
-          CaretXY, Highlighter, Attr, InsertText, DisplayText);
+        try
+          Handled := fCompletionHandler.HandleCodeCompletion(locline, FileName,
+            CaretXY, Highlighter, Attr, InsertText, DisplayText);
+        except
+          Handled := False;
+        end;
         if Handled then Break;
       end;
     end;
