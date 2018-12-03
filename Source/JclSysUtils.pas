@@ -3011,7 +3011,7 @@ var
   Flags: DWORD;
   // for stdin
   StdInSA:TSecurityAttributes;
-  hReadHandle, hWriteHandle: THandle;
+  ReadHandle, WriteHandle: THandle;
 begin
   Result := False;
 
@@ -3057,16 +3057,16 @@ begin
     StartupInfo.dwFlags := StartupInfo.dwFlags or STARTF_USESHOWWINDOW;
     StartupInfo.wShowWindow := StartupVisibilityFlags[Options.StartupVisibility];
   end;
-  hWriteHandle := 0;  // initialize so that we know whether it was created
-  hReadHandle := GetStdHandle(STD_INPUT_HANDLE);
-  if (hReadHandle=INVALID_HANDLE_VALUE) or (hReadHandle=0) then
+  WriteHandle := 0;  // initialize so that we know whether it was created
+  ReadHandle := GetStdHandle(STD_INPUT_HANDLE);
+  if (ReadHandle=INVALID_HANDLE_VALUE) or (ReadHandle=0) then
   begin
     StdInSA.lpSecurityDescriptor := nil;
     StdInSA.nLength := sizeof(SECURITY_ATTRIBUTES);
     StdInSA.bInheritHandle := true;
-    CreatePipe(hReadHandle, hWriteHandle, @StdInSA,0);
+    CreatePipe(ReadHandle, WriteHandle, @StdInSA,0);
   end;
-  StartupInfo.hStdInput :=  hReadHandle;
+  StartupInfo.hStdInput :=  ReadHandle;
   StartupInfo.hStdOutput := OutPipeInfo.PipeWrite;
   if Options.MergeError then
     StartupInfo.hStdError := OutPipeInfo.PipeWrite
@@ -3206,9 +3206,9 @@ begin
   finally
     LastError := GetLastError;
     try
-      if hWriteHandle <>0  then begin
-        CloseHandle(hReadHandle);
-        CloseHandle(hWriteHandle);
+      if WriteHandle <>0  then begin
+        CloseHandle(ReadHandle);
+        CloseHandle(WriteHandle);
       end;
       if OutPipeInfo.PipeRead <> 0 then
         CloseHandle(OutPipeInfo.PipeRead);
