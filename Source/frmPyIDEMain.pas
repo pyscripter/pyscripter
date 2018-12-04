@@ -461,6 +461,7 @@
             IDE option to force the use of sockets for connection to the python
               server now defaults to False
             Enhancements to SSH Engine.  Now compatible with PuTTY.
+            Clickable status panels with Python version and engine type
           Issues addressed
 
 
@@ -1042,6 +1043,10 @@ type
     actPythonSSH: TAction;
     mnPythonEngineSSH: TSpTBXItem;
     SpTBXItem14: TSpTBXItem;
+    SpTBXSeparatorItem22: TSpTBXSeparatorItem;
+    lbPythonVersion: TSpTBXLabelItem;
+    SpTBXSeparatorItem23: TSpTBXSeparatorItem;
+    lbPythonEngine: TSpTBXLabelItem;
     procedure mnFilesClick(Sender: TObject);
     procedure actEditorZoomInExecute(Sender: TObject);
     procedure actEditorZoomOutExecute(Sender: TObject);
@@ -1162,6 +1167,8 @@ type
     procedure PythonVersionsClick(Sender: TObject);
     procedure actPythonSetupExecute(Sender: TObject);
     procedure actRemoteFileOpenExecute(Sender: TObject);
+    procedure lbPythonVersionClick(Sender: TObject);
+    procedure lbPythonEngineClick(Sender: TObject);
   private
     DSAAppStorage: TDSAAppStorage;
     ShellExtensionFiles : TStringList;
@@ -2873,6 +2880,14 @@ begin
   else
     lbStatusCAPS.Caption := ' ';
 
+  if PyControl.InternalPython.Loaded then begin
+    lbPythonVersion.Caption := PyControl.PythonVersion.DisplayName;
+    lbPythonEngine.Caption := _(EngineTypeName[PyControl.PythonEngineType]);
+  end else begin
+    lbPythonVersion.Caption := _('Python Not Available');
+    lbPythonEngine.Caption := ' ';
+  end;
+
   ExternalToolsLED.Visible := OutputWindow.JvCreateProcess.State <> psReady;
 end;
 
@@ -3694,6 +3709,8 @@ begin
     // Status bar
     StatusBar.Toolbar.Items.ViewBeginUpdate;
     try
+      lbPythonVersion.MinWidth := PPIScaled(lbPythonVersion.MinWidth);
+      lbPythonEngine.MinWidth := PPIScaled(lbPythonEngine.MinWidth);
       lbStatusCaret.CustomWidth := PPIScaled(lbStatusCaret.CustomWidth);
       lbStatusModified.CustomWidth := PPIScaled(lbStatusModified.CustomWidth);
       lbStatusOverwrite.CustomWidth := PPIScaled(lbStatusOverwrite.CustomWidth);
@@ -4130,6 +4147,20 @@ procedure TPyIDEMainForm.LayoutClick(Sender: TObject);
 begin
   LoadLayout(TSpTBXItem(Sender).Caption);
   TSpTBXItem(Sender).Checked := True;
+end;
+
+procedure TPyIDEMainForm.lbPythonEngineClick(Sender: TObject);
+var
+  MousePos : TPoint;
+begin
+  GetCursorPos(MousePos);
+  MousePos := ScreenToClient(MousePos);
+  mnPythonEngines.Popup(MousePos.X, MousePos.Y, True);
+end;
+
+procedure TPyIDEMainForm.lbPythonVersionClick(Sender: TObject);
+begin
+  actPythonSetup.Execute;
 end;
 
 procedure TPyIDEMainForm.actLayoutSaveExecute(Sender: TObject);

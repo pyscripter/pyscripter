@@ -29,10 +29,12 @@ inherited PythonVersionsDialog: TPythonVersionsDialog
         Width = 618
         Height = 264
         Align = alClient
+        DefaultText = 'Node'
         Header.AutoSizeIndex = 0
         Header.Options = [hoColumnResize, hoDrag, hoShowSortGlyphs, hoVisible]
         Images = CommandsDataModule.Images
         TabOrder = 0
+        OnDblClick = actPVActivateExecute
         OnGetCellText = vtPythonVersionsGetCellText
         OnGetImageIndex = vtPythonVersionsGetImageIndex
         OnInitChildren = vtPythonVersionsInitChildren
@@ -42,15 +44,15 @@ inherited PythonVersionsDialog: TPythonVersionsDialog
             MinWidth = 250
             Options = [coEnabled, coParentBidiMode, coParentColor, coResizable, coShowDropMark, coVisible, coAllowFocus, coStyleColor]
             Position = 0
+            Text = 'Name'
             Width = 250
-            WideText = 'Name'
           end
           item
             MinWidth = 200
             Options = [coEnabled, coParentBidiMode, coParentColor, coResizable, coShowDropMark, coVisible, coAllowFocus, coStyleColor]
             Position = 1
+            Text = 'Folder'
             Width = 300
-            WideText = 'Folder'
           end>
       end
     end

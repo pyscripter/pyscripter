@@ -26,6 +26,11 @@ type
       peRemoteWx,
       peSSH);       // SSH python engine
 
+const
+  EngineTypeName : array [TPythonEngineType] of string =
+    ('Internal', 'Remote', 'Remote TK', 'Remote Wx', 'SSH');
+
+type
   {
      Container of all info needed to run a given file
      Projects can contain multiple run configurations

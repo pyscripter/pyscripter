@@ -3,7 +3,7 @@ object PyIDEMainForm: TPyIDEMainForm
   Top = 115
   HelpContext = 100
   Caption = 'Python Scripter'
-  ClientHeight = 538
+  ClientHeight = 537
   ClientWidth = 780
   Color = clWindow
   Ctl3D = False
@@ -22,16 +22,33 @@ object PyIDEMainForm: TPyIDEMainForm
   TextHeight = 13
   object StatusBar: TSpTBXStatusBar
     Left = 0
-    Top = 513
+    Top = 512
     Width = 780
     Height = 25
+    ExplicitLeft = 1
+    ExplicitTop = 509
     object lbStatusMessage: TSpTBXLabelItem
       Wrapping = twEndEllipsis
       Options = [tboNoAutoHint]
     end
     object SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem
       Wrapping = twNone
-      CustomWidth = 0
+    end
+    object SpTBXSeparatorItem22: TSpTBXSeparatorItem
+    end
+    object lbPythonVersion: TSpTBXLabelItem
+      Hint = 'Python version'
+      OnClick = lbPythonVersionClick
+      Alignment = taCenter
+      MinWidth = 120
+    end
+    object SpTBXSeparatorItem23: TSpTBXSeparatorItem
+    end
+    object lbPythonEngine: TSpTBXLabelItem
+      Hint = 'Python engine type'
+      OnClick = lbPythonEngineClick
+      Alignment = taCenter
+      MinWidth = 90
     end
     object SpTBXSeparatorItem5: TSpTBXSeparatorItem
     end
@@ -117,18 +134,19 @@ object PyIDEMainForm: TPyIDEMainForm
     Left = 9
     Top = 77
     Width = 762
-    Height = 427
+    Height = 426
     Align = alClient
     BevelEdges = []
     BevelOuter = bvNone
     FullRepaint = False
     ParentBackground = False
     TabOrder = 2
+    ExplicitHeight = 427
     object TabControl1: TSpTBXTabControl
       Left = 0
       Top = 0
       Width = 758
-      Height = 427
+      Height = 426
       Align = alClient
       PopupMenu = TabControlPopupMenu
       OnContextPopup = TabContolContextPopup
@@ -137,9 +155,9 @@ object PyIDEMainForm: TPyIDEMainForm
       TabDragReorder = True
       TabPosition = ttpBottom
       OnActiveTabChange = TabControlActiveTabChange
+      ExplicitHeight = 427
       HiddenItems = <>
       object tbiRightAlign: TSpTBXRightAlignSpacerItem
-        CustomWidth = 0
       end
       object tbiTabSep: TSpTBXSeparatorItem
       end
@@ -177,7 +195,7 @@ object PyIDEMainForm: TPyIDEMainForm
       Left = 758
       Top = 0
       Width = 0
-      Height = 427
+      Height = 426
       Align = alRight
       PopupMenu = TabControlPopupMenu
       Visible = False
@@ -187,6 +205,7 @@ object PyIDEMainForm: TPyIDEMainForm
       TabDragReorder = True
       TabPosition = ttpBottom
       OnActiveTabChange = TabControlActiveTabChange
+      ExplicitHeight = 427
       HiddenItems = <>
       object SpTBXRightAlignSpacerItem2: TSpTBXRightAlignSpacerItem
       end
@@ -226,11 +245,12 @@ object PyIDEMainForm: TPyIDEMainForm
       Left = 758
       Top = 0
       Width = 4
-      Height = 427
+      Height = 426
       Cursor = crSizeWE
       Align = alRight
       ParentColor = False
       Visible = False
+      ExplicitHeight = 427
     end
   end
   object TBXDockTop: TSpTBXDock
@@ -1308,28 +1328,31 @@ object PyIDEMainForm: TPyIDEMainForm
     Left = 0
     Top = 77
     Width = 9
-    Height = 427
+    Height = 426
     FixAlign = True
     PopupMenu = ToolbarPopupMenu
     Position = dpLeft
+    ExplicitHeight = 427
   end
   object TBXDockRight: TSpTBXDock
     Left = 771
     Top = 77
     Width = 9
-    Height = 427
+    Height = 426
     FixAlign = True
     PopupMenu = ToolbarPopupMenu
     Position = dpRight
+    ExplicitHeight = 427
   end
   object TBXDockBottom: TSpTBXDock
     Left = 0
-    Top = 504
+    Top = 503
     Width = 780
     Height = 9
     FixAlign = True
     PopupMenu = ToolbarPopupMenu
     Position = dpBottom
+    ExplicitTop = 504
   end
   object DockServer: TJvDockServer
     LeftSplitterStyle.Cursor = crHSplit
