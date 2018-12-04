@@ -24,17 +24,24 @@ type
     fHostName : string;
     fUserName : string;
     fPythonCommand : string;
-    fExtraSSHOptions :string;
+    fSSHCommand: string;
+    fSSHOptions :string;
+    fScpCommand: string;
+    fScpOptions: string;
   public
     constructor Create; override;
     procedure Assign(Source: TPersistent); override;
-    function DefaultName : string;
+    function Destination: string;
+    function IsClientPutty: boolean;
   published
     property Name : string read fName write fName;
     property HostName : string read fHostName write fHostName;
     property UserName : string read fUserName write fUserName;
     property PythonCommand : string read fPythonCommand write fPythonCommand;
-    property ExtraSSHOptions : string read fExtraSSHOptions write fExtraSSHOptions;
+    property SSHCommand : string read fSSHCommand write fSSHCommand;
+    property SSHOptions : string read fSSHOptions write fSSHOptions;
+    property ScpCommand : string read fScpCommand write fScpCommand;
+    property ScpOptions : string read fScpOptions write fScpOptions;
   end;
 
   TSSHServerItem = class(TCollectionItem)
@@ -65,14 +72,13 @@ type
 
 
   // SCP
-  function Scp(const FromFile, ToFile: string; out ErrorMsg: string;
-      ExtraSSHOptions : string = ''): Boolean;
+  function Scp(const ScpCommand, FromFile, ToFile: string; out ErrorMsg: string;
+     ScpOptions : string = ''): Boolean;
   function ScpUpload(const ServerName, LocalFile, RemoteFile: string; out ErrorMsg: string): boolean;
   function ScpDownload(const ServerName, RemoteFile, LocalFile: string; out ErrorMsg: string): boolean;
 
-Const
-  SshCommandOptions = '-o PasswordAuthentication=no -o StrictHostKeyChecking=no';
 Var
+  SSHTimeout : integer = 10000; // 10 seconds
   ScpTimeout : integer = 30000; // 30 seconds
   SSHServers : TCollection;
 
@@ -100,7 +106,10 @@ begin
     Self.fHostName := HostName;
     Self.UserName := UserName;
     Self.fPythonCommand := PythonCommand;
-    Self.fExtraSSHOptions := ExtraSSHOptions;
+    Self.fSSHCommand := SSHCommand;
+    Self.fSSHOptions := SSHOptions;
+    Self.fScpCommand := ScpCommand;
+    Self.fScpOptions := ScpOptions;
   end else
     inherited;
 end;
@@ -109,13 +118,22 @@ constructor TSSHServer.Create;
 begin
   inherited;
   PythonCommand := 'python';
+  SSHCommand := PyIDEOptions.SSHCommand;
+  SSHOptions := PyIDEOptions.SSHOptions;
+  ScpCommand := PyIDEOptions.ScpCommand;
+  ScpOptions := PyIDEOptions.ScpOptions;
 end;
 
-function TSSHServer.DefaultName: string;
+function TSSHServer.Destination: string;
 begin
   Result := HostName;
   if UserName <> '' then
     Result := UserName + '@' + HostName;
+end;
+
+function TSSHServer.IsClientPutty: boolean;
+begin
+  Result := fScpCommand.ToLower.Contains('pscp')
 end;
 
 procedure TSSHServerItem.Assign(Source: TPersistent);
@@ -143,7 +161,7 @@ begin
   if SSHServer.Name <> '' then
     Result := SSHServer.Name
   else
-    Result := SSHServer.DefaultName;
+    Result := SSHServer.Destination;
 end;
 
 function EditSSHServers : boolean;
@@ -170,7 +188,7 @@ begin
   SetLength(Categories, 1);
   with Categories[0] do begin
     DisplayName :='SSH';
-    SetLength(Options, 5);
+    SetLength(Options, 8);
     Options[0].PropertyName := 'Name';
     Options[0].DisplayName := _('SSH Server name');
     Options[1].PropertyName := 'HostName';
@@ -179,8 +197,14 @@ begin
     Options[2].DisplayName := _('User name');
     Options[3].PropertyName := 'PythonCommand';
     Options[3].DisplayName := _('Command to execute python (no spaces)');
-    Options[4].PropertyName := 'ExtraSSHOptions';
-    Options[4].DisplayName := _('Additional SSH -o options (optional)');
+    Options[4].PropertyName := 'SSHCommand';
+    Options[4].DisplayName := _('Path to SSH Command');
+    Options[5].PropertyName := 'SSHOptions';
+    Options[5].DisplayName := _('SSH options (optional)');
+    Options[6].PropertyName := 'ScpCommand';
+    Options[6].DisplayName := _('Path to Scp Command');
+    Options[7].PropertyName := 'ScpOptions';
+    Options[7].DisplayName := _('Scp options (optional)');
   end;
 
   Result := InspectOptions((Item as TSSHServerItem).fSSHServer,
@@ -207,16 +231,15 @@ begin
       Result := TSSHServerItem(Item).SSHServer;
 end;
 
-function Scp(const FromFile, ToFile: string; out ErrorMsg: string;
-  ExtraSSHOptions : string = ''): Boolean;
+function Scp(const ScpCommand, FromFile, ToFile: string; out ErrorMsg: string;
+  ScpOptions : string = ''): Boolean;
 Var
   Task : ITask;
   Command, Output, Error: string;
   ExitCode : integer;
 begin
-  Command :=
-    Format('"%s" %s %s "%s" "%s"',
-    [PyIDEOptions.ScpCommand, SshCommandOptions, ExtraSSHOptions, FromFile, ToFile]);
+  Command := Format('"%s" %s %s %s', [ScpCommand, ScpOptions, FromFile, ToFile]);
+  OutputDebugString(PWideChar(Command));
 
   Task := TTask.Create(procedure
   {$IFDEF CPUX86}
@@ -257,29 +280,36 @@ end;
 function ScpUpload(const ServerName, LocalFile, RemoteFile: string; out ErrorMsg: string): boolean;
 Var
   SSHServer : TSSHServer;
+  SFormat : string;
 begin
   SSHServer := ServerFromName(ServerName);
   if not Assigned(SSHServer) then begin
-    ErrorMsg := Format(SSSHUnknownServer, [ServerName]);
+    ErrorMsg := Format(SSHUnknownServer, [ServerName]);
     Exit(False);
   end;
 
-  Result := scp(LocalFile, Format('%s:''%s''', [SSHServer.DefaultName, RemoteFile]),
-    ErrorMsg, SSHServer.ExtraSSHOptions);
+  SFormat := iff(SSHServer.IsClientPutty, '%s:"%s"', '"%s:''%s''"');
+  Result := scp(SSHServer.ScpCommand, Format('"%s"', [LocalFile]),
+    Format(SFormat, [SSHServer.Destination, RemoteFile]),
+    ErrorMsg, SSHServer.ScpOptions);
 end;
 
 function ScpDownload(const ServerName, RemoteFile, LocalFile: string; out ErrorMsg: string): boolean;
 Var
   SSHServer : TSSHServer;
+  SFormat : string;
 begin
   SSHServer := ServerFromName(ServerName);
   if not Assigned(SSHServer) then begin
-    ErrorMsg := Format(SSSHUnknownServer, [ServerName]);
+    ErrorMsg := Format(SSHUnknownServer, [ServerName]);
     Exit(False);
   end;
 
-  Result := scp(Format('%s:''%s''', [SSHServer.DefaultName, RemoteFile]), LocalFile,
-    ErrorMsg, SSHServer.ExtraSSHOptions);
+  SFormat := iff(SSHServer.IsClientPutty, '%s:"%s"', '"%s:''%s''"');
+  OutputDebugString(PWideChar(SSHServer.ScpOptions));
+  Result := scp(SSHServer.ScpCommand,
+    Format(SFormat, [SSHServer.Destination, RemoteFile]),
+    Format('"%s"', [LocalFile]), ErrorMsg, SSHServer.ScpOptions);
 end;
 
 { Unc }

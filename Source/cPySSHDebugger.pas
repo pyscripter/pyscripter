@@ -37,7 +37,7 @@ type
     TunnelTask : ITask;
     fShuttingDown : Boolean;
     fSSHCommand : string;
-    fExtraSSHOptions : string;
+    fSSHOptions : string;
     function ProcessPlatformInfo(Info: string; out Is3k: Boolean;
       out Sep: Char; out TempDir: string): boolean;
     procedure StoreTunnelProcessInfo(const ProcessInfo: TProcessInformation);
@@ -47,8 +47,7 @@ type
     procedure ShutDownServer;  override;
   public
     SSHServerName : string;
-    HostName : string;
-    UserName : string;
+    SSHDestination : string;
     PythonCommand : string;
     PathSeparator : Char;
     TempDir : string;
@@ -88,6 +87,7 @@ begin
   ProcessOptions := TJclExecuteCmdProcessOptions.Create(Command);
   try
     ProcessOptions.MergeError := False;
+    ProcessOptions.RawOutput := True;
     ProcessOptions.RawError := True;
     ProcessOptions.CreateProcessFlags :=
       ProcessOptions.CreateProcessFlags or
@@ -114,16 +114,16 @@ constructor TPySSHInterpreter.Create(SSHServer : TSSHServer);
 Var
   CommandOutput, ErrorOutput : string;
   Task : ITask;
+  ReturnCode:Integer;
 begin
-  fSSHCommand := PyIDEOptions.SSHCommand;
+  fSSHCommand := SSHServer.SSHCommand;
+  fSSHOptions := SSHServer.SSHOptions;
 
   fServerIsAvailable := False;
   fConnected := False;
   SSHServerName := SSHServer.Name;
-  UserName := SSHServer.UserName;
-  HostName := SSHServer.HostName;
+  SSHDestination := SSHServer.Destination;
   PythonCommand := SSHServer.PythonCommand;
-  fExtraSSHOptions := SSHServer.ExtraSSHOptions;
   //  Test SSH connection and get information about the server
   Task := TTask.Create(procedure
   {$IFDEF CPUX86}
@@ -136,10 +136,11 @@ begin
   if IsWow64 then Wow64EnableWow64FsRedirection_MP(False);
   try
   {$ENDIF CPUX86}
-     fServerIsAvailable := Execute(Format('"%s" %s %s %s@%s %s -c ' +
+    ReturnCode := Execute(Format('"%s" %s %s %s -c ' +
       '''import sys,os,tempfile;print(sys.version[0]);print(os.sep);print(tempfile.gettempdir())''',
-    [fSSHCommand, SshCommandOptions, fExtraSSHOptions, UserName, HostName, PythonCommand]),
-    CommandOutput, ErrorOutput, False, True) = 0
+      [fSSHCommand, fSSHOptions, SSHDestination, PythonCommand]),
+      CommandOutput, ErrorOutput, True, True);
+    fServerIsAvailable :=  ReturnCode = 0;
   {$IFDEF CPUX86}
   finally
     if IsWow64 then Wow64EnableWow64FsRedirection_MP(True);
@@ -147,11 +148,18 @@ begin
   {$ENDIF CPUX86}
   end).Start;
 
-  if Task.Wait(3000) and fServerIsAvailable then
-    fServerIsAvailable := ProcessPlatformInfo(CommandOutput, fIs3K, PathSeparator, TempDir);
+  if Task.Wait(SSHTimeout) then begin
+    if fServerIsAvailable then
+      fServerIsAvailable := ProcessPlatformInfo(CommandOutput, fIs3K, PathSeparator, TempDir);
+  end else begin
+    // Timeout
+    Vcl.Dialogs.MessageDlg(Format(SSHPythonTimeout, [PythonCommand]), mtError, [mbAbort], 0);
+    Exit;
+  end;
 
   if not fServerIsAvailable then begin
-    Vcl.Dialogs.MessageDlg(Format(SSSHPythonError, [PythonCommand]), mtError, [mbAbort], 0);
+    Vcl.Dialogs.MessageDlg(Format(SSHPythonError,
+      [PythonCommand, ReturnCode, CommandOutput, ErrorOutput]), mtError, [mbAbort], 0);
     Exit;
   end;
 
@@ -211,8 +219,8 @@ begin
   fSocketPort := 18000 + Random(1000);
 
   // Create and Run Server process
-  ServerProcessOptions.CommandLine := Format('"%s" %s %s %s@%s %s ',
-    [fSSHCommand, SshCommandOptions, fExtraSSHOptions, UserName, HostName, PythonCommand]) +
+  ServerProcessOptions.CommandLine := Format('"%s" %s %s %s ',
+    [fSSHCommand, fSSHOptions, SSHDestination, PythonCommand]) +
     Format('"%s" %d "%s"', [fRemServerFile, fSocketPort, fRemRpycFile]);
   ServerTask := TTask.Create(procedure
     {$IFDEF CPUX86}
@@ -235,8 +243,8 @@ begin
   Sleep(100);
   fServerIsAvailable := ServerTask.Status = TTaskStatus.Running;
 
-  TunnelProcessOptions.CommandLine := Format('"%s" %s %s %s@%s -L 127.0.0.1:%d:127.0.0.1:%5:d -N',
-    [fSSHCommand, SshCommandOptions, fExtraSSHOptions, UserName, HostName, fSocketPort]);
+  TunnelProcessOptions.CommandLine := Format('"%s" %s %s -L 127.0.0.1:%d:127.0.0.1:%3:d -N',
+    [fSSHCommand, fSSHOptions, SSHDestination, fSocketPort]);
   TunnelTask := TTask.Create(procedure
     {$IFDEF CPUX86}
     Var
@@ -315,12 +323,12 @@ begin
   if IsWow64 then Wow64EnableWow64FsRedirection_MP(False);
   try
   {$ENDIF CPUX86}
-  if (fRemServerFile <> '') and (ExecuteCmd(Format('"%s" %s %s %s@%s rm ''%s''',
-      [fSSHCommand, SshCommandOptions, fExtraSSHOptions, UserName, HostName, fRemServerFile]), CommandOutput) = 0)
+  if (fRemServerFile <> '') and (ExecuteCmd(Format('"%s" %s %s rm ''%s''',
+      [fSSHCommand, fSSHOptions, SSHDestination, fRemServerFile]), CommandOutput) = 0)
   then
     fRemServerFile := '';
-  if (fRemRpycFile <> '')  and (ExecuteCmd(Format('"%s" %s %s %s@%s rm ''%s''',
-      [fSSHCommand, SshCommandOptions, fExtraSSHOptions, UserName, HostName, fRemRpycFile]), CommandOutput) = 0)
+  if (fRemRpycFile <> '')  and (ExecuteCmd(Format('"%s" %s %s rm ''%s''',
+      [fSSHCommand, fSSHOptions, SSHDestination, fRemRpycFile]), CommandOutput) = 0)
   then
     fRemRpycFile := '';
   {$IFDEF CPUX86}

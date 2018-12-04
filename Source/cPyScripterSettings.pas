@@ -110,7 +110,9 @@ type
     fStyleMainWindowBorder : Boolean;
     fFileExplorerBackgroundProcessing : Boolean;
     fSSHCommand : string;
+    fSSHOptions: string;
     fScpCommand : string;
+    fScpOptions: string;
     fSSHDisableVariablesWin : Boolean;
     fAlwaysUseSockets : Boolean;
     function GetPythonFileExtensions: string;
@@ -270,7 +272,9 @@ type
     property FileExplorerBackgroundProcessing : Boolean read fFileExplorerBackgroundProcessing
       write fFileExplorerBackgroundProcessing default True;
     property SSHCommand : string read fSSHCommand write fSSHCommand;
+    property SSHOptions : string read fSSHOptions write fSSHOptions;
     property ScpCommand : string read fScpCommand write fScpCommand;
+     property ScpOptions : string read fScpOptions write fScpOptions;
     property SSHDisableVariablesWin : boolean read fSSHDisableVariablesWin
       write fSSHDisableVariablesWin default True;
     property AlwaysUseSockets : Boolean read fAlwaysUseSockets
@@ -402,7 +406,9 @@ begin
       Self.fStyleMainWindowBorder := StyleMainWindowBorder;
       Self.fFileExplorerBackgroundProcessing := FileExplorerBackgroundProcessing;
       Self.fSSHCommand := SSHCommand;
+      Self.fSSHOptions := SSHOptions;
       Self.fScpCommand := ScpCommand;
+      Self.fScpOptions := ScpOptions;
       Self.fSSHDisableVariablesWin := SSHDisableVariablesWin;
       Self.fAlwaysUseSockets := AlwaysUseSockets;
     end
@@ -500,7 +506,9 @@ begin
   fStyleMainWindowBorder := False;
   fFileExplorerBackgroundProcessing := True;
   fSSHCommand := 'ssh';
+  fSSHOptions := '-o PasswordAuthentication=no -o StrictHostKeyChecking=no';
   fScpCommand := 'scp';
+  fScpOptions := '-o PasswordAuthentication=no -o StrictHostKeyChecking=no';
   fSSHDisableVariablesWin := True;
   fAlwaysUseSockets := False;
   fCodeFolding := TSynCodeFolding.Create;

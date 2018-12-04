@@ -2122,13 +2122,17 @@ begin
   end;
   with Categories[9] do begin
     DisplayName := 'SSH';
-    SetLength(Options, 3);
+    SetLength(Options, 5);
     Options[0].PropertyName := 'SSHCommand';
-    Options[0].DisplayName := _('SSH Command');
-    Options[1].PropertyName := 'ScpCommand';
-    Options[1].DisplayName := _('Scp Command');
-    Options[2].PropertyName := 'SSHDisableVariablesWin';
-    Options[2].DisplayName := _('Disable Variables Windows with SSH');
+    Options[0].DisplayName := _('SSH command');
+    Options[1].PropertyName := 'SSHOptions';
+    Options[1].DisplayName := _('SSH options');
+    Options[2].PropertyName := 'ScpCommand';
+    Options[2].DisplayName := _('Scp command');
+    Options[3].PropertyName := 'ScpOptions';
+    Options[3].DisplayName := _('Scp options');
+    Options[4].PropertyName := 'SSHDisableVariablesWin';
+    Options[4].DisplayName := _('Disable Variables Window with SSH');
   end;
 
   // Shell Integration
