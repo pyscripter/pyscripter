@@ -2460,16 +2460,16 @@ begin
 end;
 
 var
-  PeImportHooks: TJclPeMapImgHooks;
   OldGetCursorPos: function(var lpPoint: TPoint): BOOL; stdcall = nil;
 
 initialization
   StopWatch := TStopWatch.StartNew;
-  PeImportHooks := TJclPeMapImgHooks.Create;
-  PeImportHooks.HookImport(Pointer(HInstance), user32, 'GetCursorPos',
-    @PatchedGetCursorPos, @OldGetCursorPos);
+
+  @OldGetCursorPos := GetProcAddress(GetModuleHandle(user32), 'GetCursorPos');
+  with TJclPeMapImgHooks do
+    ReplaceImport(SystemBase, user32, @OldGetCursorPos, @PatchedGetCursorPos);
 
 finalization
-  PeImportHooks.UnhookByNewAddress(@PatchedGetCursorPos);
-  FreeAndNil(PeImportHooks);
+ with TJclPeMapImgHooks do
+   ReplaceImport(SystemBase, user32, @PatchedGetCursorPos, @OldGetCursorPos);
 end.

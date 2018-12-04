@@ -457,9 +457,10 @@
 
   History:   v 3.5.2
           New Features
-            Much faster Remote Engine using asynchronous Windows named pipes.
+            Much faster Remote Engine using asynchronous Windows named pipes if pywin32 is available.
             IDE option to force the use of sockets for connection to the python
               server now defaults to False
+            Enhancements to SSH Engine.  Now compatible with PuTTY.
           Issues addressed
 
 
