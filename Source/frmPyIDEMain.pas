@@ -3238,7 +3238,10 @@ begin
     AppStorage.WriteStringList('Custom Params', CustomParams);
     AppStorage.DeleteSubTree('Tools');
     AppStorage.WriteCollection('Tools', ToolsCollection, 'Tool');
+    AppStorage.DeleteSubTree('SSH');
+    AppStorage.StorageOptions.StoreDefaultValues := True;
     AppStorage.WriteCollection('SSH', SSHServers, 'Server');
+    AppStorage.StorageOptions.StoreDefaultValues := False;
     AppStorage.WritePersistent('Tools\External Run', ExternalPython);
     AppStorage.WriteString('Output Window\Font Name', OutputWindow.lsbConsole.Font.Name);
     AppStorage.WriteInteger('Output Window\Font Size', OutputWindow.lsbConsole.Font.Size);

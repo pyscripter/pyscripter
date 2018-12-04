@@ -80,27 +80,6 @@ Uses
   cPyControl,
   MPCommonUtilities;
 
-function ExecuteCmd(Command : string; out CmdOutput: string): cardinal;
-Var
-  ProcessOptions : TJclExecuteCmdProcessOptions;
-begin
-  ProcessOptions := TJclExecuteCmdProcessOptions.Create(Command);
-  try
-    ProcessOptions.MergeError := False;
-    ProcessOptions.RawOutput := True;
-    ProcessOptions.RawError := True;
-    ProcessOptions.CreateProcessFlags :=
-      ProcessOptions.CreateProcessFlags or
-       CREATE_UNICODE_ENVIRONMENT or CREATE_NEW_CONSOLE;
-    ExecuteCmdProcess(ProcessOptions);
-    Result := ProcessOptions.ExitCode;
-    CmdOutput := ProcessOptions.Output;
-  finally
-    ProcessOptions.Free;
-  end;
-end;
-
-
 { TPySSHInterpreter }
 
 constructor TPySSHInterpreter.Create(SSHServer : TSSHServer);
@@ -136,10 +115,10 @@ begin
   if IsWow64 then Wow64EnableWow64FsRedirection_MP(False);
   try
   {$ENDIF CPUX86}
-    ReturnCode := Execute(Format('"%s" %s %s %s -c ' +
+    ReturnCode := ExecuteCmd(Format('"%s" %s %s %s -c ' +
       '''import sys,os,tempfile;print(sys.version[0]);print(os.sep);print(tempfile.gettempdir())''',
       [fSSHCommand, fSSHOptions, SSHDestination, PythonCommand]),
-      CommandOutput, ErrorOutput, True, True);
+      CommandOutput, ErrorOutput);
     fServerIsAvailable :=  ReturnCode = 0;
   {$IFDEF CPUX86}
   finally

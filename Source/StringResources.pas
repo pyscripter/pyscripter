@@ -274,7 +274,8 @@ Const
   SErrorEmptySSH =  'The SSH server name cannot be empty';
   SScpError4 = 'Scp Error: Connecting to host failed';
   SScpError5 = 'Scp Error: Connection lost for some reason';
-  SScpOtherError = 'Scp Error: Unspecified failure';
+  SScpErrorTimeout = 'Scp Error: Timeout';
+  SScpErrorOther = 'Scp Error:'+#13#10+'Output: %s+'+#13#10+'Error Output: %s+';
   SSHUnknownServer = 'Unknown SSH server "%s"';
   SSHPythonTimeout = 'Execution of Python ("%s") on the SSH server timed out';
   SSHPythonError = 'Failed to execute Python ("%s") on the SSH server:'+#13#10+

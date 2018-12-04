@@ -288,7 +288,7 @@ begin
   if IsWow64 then Wow64EnableWow64FsRedirection_MP(False);
   try
   {$ENDIF CPUX86}
-    ExitCode := JclSysUtils.Execute(Command, Output, Error, True, True);
+    ExitCode := ExecuteCmd(Command, Output, Error);
   {$IFDEF CPUX86}
   finally
     if IsWow64 then Wow64EnableWow64FsRedirection_MP(True);
@@ -298,7 +298,7 @@ begin
   Task.Start;
   if not Task.Wait(ScpTimeout) then
   begin
-    ErrorMsg := SScpOtherError;
+    ErrorMsg := SScpErrorTimeout;
     Exit(False);
   end;
 
@@ -309,7 +309,7 @@ begin
     4: ErrorMsg := SScpError4;
     5: ErrorMsg := SScpError5;
     else
-      ErrorMsg := SScpOtherError;
+      ErrorMsg := Format(SScpErrorOther,[Output, Error]);
   end;
 end;
 

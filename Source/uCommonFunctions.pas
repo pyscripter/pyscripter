@@ -266,6 +266,11 @@ procedure RaiseKeyboardInterrupt(ProcessId: DWORD);
 (* Terminates a process and all child processes *)
 function TerminateProcessTree(ProcessID: DWORD): Boolean;
 
+(* Executes a Command using CreateProcess and captures output *)
+function ExecuteCmd(Command : string; out CmdOutput: string): cardinal; overload;
+function ExecuteCmd(Command : string; out CmdOutput, CmdError: string): cardinal; overload;
+
+
 type
   (*  Extends System.RegularExperssions.TRegEx *)
   TRegExHelper = record helper for TRegEx
@@ -344,6 +349,7 @@ Uses
   JclBase,
   JclStrings,
   JclPeImage,
+  JclSysUtils,
   JvJCLUtils,
   JvGnugettext,
   MPCommonUtilities,
@@ -2342,6 +2348,34 @@ begin
       Handle := OpenProcess(PROCESS_TERMINATE, false, List[I]);
       Result := (Handle <> 0) and TerminateProcess(Handle, 0) and CloseHandle(Handle);
     end;
+end;
+
+function ExecuteCmd(Command : string; out CmdOutput, CmdError: string): cardinal; overload;
+Var
+  ProcessOptions : TJclExecuteCmdProcessOptions;
+begin
+  ProcessOptions := TJclExecuteCmdProcessOptions.Create(Command);
+  try
+    ProcessOptions.MergeError := False;
+    ProcessOptions.RawOutput := True;
+    ProcessOptions.RawError := True;
+    ProcessOptions.CreateProcessFlags :=
+      ProcessOptions.CreateProcessFlags or
+       CREATE_UNICODE_ENVIRONMENT or CREATE_NEW_CONSOLE;
+    ExecuteCmdProcess(ProcessOptions);
+    Result := ProcessOptions.ExitCode;
+    CmdOutput := ProcessOptions.Output;
+    CmdError := ProcessOptions.Error;
+  finally
+    ProcessOptions.Free;
+  end;
+end;
+
+function ExecuteCmd(Command : string; out CmdOutput: string): cardinal; overload;
+Var
+  CmdError: string;
+begin
+  Result := ExecuteCmd(Command, CmdOutput, CmdError);
 end;
 
 //  Regular Expressions Start
