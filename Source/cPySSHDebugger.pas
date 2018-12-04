@@ -117,7 +117,7 @@ Var
   ReturnCode:Integer;
 begin
   fSSHCommand := SSHServer.SSHCommand;
-  fSSHOptions := SSHServer.SSHOptions;
+  fSSHOptions := SSHServer.SSHOptionsPW;
 
   fServerIsAvailable := False;
   fConnected := False;
