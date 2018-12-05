@@ -72,6 +72,7 @@ implementation
 Uses
   Vcl.Dialogs,
   Vcl.Forms,
+  JvGNUGetText,
   StringResources,
   cPySupportTypes,
   cPyScripterSettings,
@@ -94,6 +95,34 @@ Var
   CommandOutput, ErrorOutput : string;
   Task : ITask;
   ReturnCode:Integer;
+
+  procedure CreatePythonTask;
+  begin
+    //  Test SSH connection and get information about the server
+    Task := TTask.Create(procedure
+    {$IFDEF CPUX86}
+    Var
+      IsWow64: LongBool;
+    {$ENDIF CPUX86}
+    begin
+    {$IFDEF CPUX86}
+    IsWow64 := IsWow64Process(GetCurrentProcess, IsWow64) and IsWow64;
+    if IsWow64 then Wow64EnableWow64FsRedirection_MP(False);
+    try
+    {$ENDIF CPUX86}
+      ReturnCode := ExecuteCmd(Format('"%s" %s %s %s -c ' +
+        '''import sys,os,tempfile;print(sys.version[0]);print(os.sep);print(tempfile.gettempdir())''',
+        [fSSHCommand, fSSHOptions, SSHDestination, PythonCommand]),
+        CommandOutput, ErrorOutput);
+      fServerIsAvailable :=  ReturnCode = 0;
+    {$IFDEF CPUX86}
+    finally
+      if IsWow64 then Wow64EnableWow64FsRedirection_MP(True);
+    end;
+    {$ENDIF CPUX86}
+    end).Start;
+  end;
+
 begin
   fSSHCommand := SSHServer.SSHCommand;
   fSSHOptions := SSHServer.SSHOptionsPW;
@@ -103,41 +132,39 @@ begin
   SSHServerName := SSHServer.Name;
   SSHDestination := SSHServer.Destination;
   PythonCommand := SSHServer.PythonCommand;
-  //  Test SSH connection and get information about the server
-  Task := TTask.Create(procedure
-  {$IFDEF CPUX86}
-  Var
-    IsWow64: LongBool;
-  {$ENDIF CPUX86}
-  begin
-  {$IFDEF CPUX86}
-  IsWow64 := IsWow64Process(GetCurrentProcess, IsWow64) and IsWow64;
-  if IsWow64 then Wow64EnableWow64FsRedirection_MP(False);
-  try
-  {$ENDIF CPUX86}
-    ReturnCode := ExecuteCmd(Format('"%s" %s %s %s -c ' +
-      '''import sys,os,tempfile;print(sys.version[0]);print(os.sep);print(tempfile.gettempdir())''',
-      [fSSHCommand, fSSHOptions, SSHDestination, PythonCommand]),
-      CommandOutput, ErrorOutput);
-    fServerIsAvailable :=  ReturnCode = 0;
-  {$IFDEF CPUX86}
-  finally
-    if IsWow64 then Wow64EnableWow64FsRedirection_MP(True);
-  end;
-  {$ENDIF CPUX86}
-  end).Start;
 
+  CreatePythonTask;
   if Task.Wait(SSHTimeout) then begin
+    if SSHServer.IsClientPutty and (ErrorOutput <> '') and
+      SSHServer.ExtractHostKey(ErrorOutput) then
+    begin
+      // Unknown hostkey failure
+      if Vcl.Dialogs.MessageDlg(Format(_(SSHUnknownServerQuery), [SSHServer.HostKey]),
+        mtConfirmation, [mbYes, mbCancel], 0) = mrYes then
+      begin
+        fSSHOptions := SSHServer.SSHOptionsPW;
+        CreatePythonTask;
+        if not Task.Wait(SSHTimeout) then begin
+          // Timeout
+          Vcl.Dialogs.MessageDlg(Format(_(SSHPythonTimeout), [PythonCommand]), mtError, [mbAbort], 0);
+          Exit;
+        end;
+      end else begin
+        SSHServer.HostKey := '';
+        Exit;
+      end;
+    end;
     if fServerIsAvailable then
       fServerIsAvailable := ProcessPlatformInfo(CommandOutput, fIs3K, PathSeparator, TempDir);
   end else begin
     // Timeout
-    Vcl.Dialogs.MessageDlg(Format(SSHPythonTimeout, [PythonCommand]), mtError, [mbAbort], 0);
+    Vcl.Dialogs.MessageDlg(Format(_(SSHPythonTimeout), [PythonCommand]), mtError, [mbAbort], 0);
     Exit;
   end;
 
   if not fServerIsAvailable then begin
-    Vcl.Dialogs.MessageDlg(Format(SSHPythonError,
+    SSHServer.ExtractHostKey(ErrorOutput);
+    Vcl.Dialogs.MessageDlg(Format(_(SSHPythonError),
       [PythonCommand, ReturnCode, CommandOutput, ErrorOutput]), mtError, [mbAbort], 0);
     Exit;
   end;
@@ -145,7 +172,7 @@ begin
   // Check for version mismatch
   if IsPython3000 <> GetPythonEngine.IsPython3000 then
   begin
-    Vcl.Dialogs.MessageDlg(Format(SSHVersionMismatch,
+    Vcl.Dialogs.MessageDlg(Format(_(SSHVersionMismatch),
       [IfThen(GetPythonEngine.IsPython3000, '3.x', '2,x'), IfThen(IsPython3000, '3.x', '2,x')]),
       mtError, [mbAbort], 0);
     Exit;

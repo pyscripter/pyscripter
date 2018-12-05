@@ -32,12 +32,14 @@ type
     fPasswordNeeded : boolean;
     procedure GetPassword;
   public
+    HostKey : string;
     constructor Create; override;
     procedure Assign(Source: TPersistent); override;
     function Destination: string;
     function IsClientPutty: boolean;
     function SSHOptionsPW: string;
     function ScpOptionsPW: string;
+    function ExtractHostKey(ErrorOutput: string): Boolean;
   published
     property Name : string read fName write fName;
     property HostName : string read fHostName write fHostName;
@@ -109,6 +111,7 @@ uses
 procedure TSSHServer.Assign(Source: TPersistent);
 begin
   fPassword := '';
+  HostKey := '';
   if Source is TSSHServer then with TSSHServer(Source) do begin
     Self.fName := Name;
     Self.fHostName := HostName;
@@ -140,6 +143,16 @@ begin
     Result := UserName + '@' + HostName;
 end;
 
+function TSSHServer.ExtractHostKey(ErrorOutput: string): Boolean;
+Var
+  Match : TMatch;
+begin
+  Match := TRegEx.Match(ErrorOutput, '[\w\d][\w\d](:[\w\d][\w\d])+');
+  Result := Match.Success;
+  if Result then
+    HostKey := Match.Value;
+end;
+
 procedure TSSHServer.GetPassword;
 begin
   if fPasswordNeeded and (fPassword = '') then
@@ -154,20 +167,26 @@ end;
 
 function TSSHServer.ScpOptionsPW: string;
 begin
+  Result := fScpOptions;
+  if not IsClientPutty then Exit;
+
   GetPassword;
   if fPassword <> '' then
-    Result := Format('-pw %s %s', [fPassword, fScpOptions])
-  else
-    Result := fScpOptions;
+    Result := Format('-pw %s %s', [fPassword, Result]);
+  if HostKey <> '' then
+    Result := Format('-hostkey %s %s', [HostKey, Result]);
 end;
 
 function TSSHServer.SSHOptionsPW: string;
 begin
+  Result := fSSHOptions;
+  if not IsClientPutty then Exit;
+
   GetPassword;
   if fPassword <> '' then
-    Result := Format('-pw %s %s', [fPassword, fSSHOptions])
-  else
-    Result := fSSHOptions;
+    Result := Format('-pw %s %s', [fPassword, Result]);
+  if HostKey <> '' then
+    Result := Format('-hostkey %s %s', [HostKey, Result]);
 end;
 
 procedure TSSHServerItem.Assign(Source: TPersistent);
@@ -306,10 +325,10 @@ begin
 
   case ExitCode of
     0: ErrorMsg :=  '';
-    4: ErrorMsg := SScpError4;
-    5: ErrorMsg := SScpError5;
+    4: ErrorMsg := _(SScpError4);
+    5: ErrorMsg := _(SScpError5);
     else
-      ErrorMsg := Format(SScpErrorOther,[Output, Error]);
+      ErrorMsg := Format(_(SScpErrorOther), [Output, Error]);
   end;
 end;
 
@@ -320,7 +339,7 @@ Var
 begin
   SSHServer := ServerFromName(ServerName);
   if not Assigned(SSHServer) then begin
-    ErrorMsg := Format(SSHUnknownServer, [ServerName]);
+    ErrorMsg := Format(_(SSHUnknownServer), [ServerName]);
     Exit(False);
   end;
 
@@ -337,7 +356,7 @@ Var
 begin
   SSHServer := ServerFromName(ServerName);
   if not Assigned(SSHServer) then begin
-    ErrorMsg := Format(SSHUnknownServer, [ServerName]);
+    ErrorMsg := Format(_(SSHUnknownServer), [ServerName]);
     Exit(False);
   end;
 

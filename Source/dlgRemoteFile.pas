@@ -61,10 +61,10 @@ begin
     if SSHServerName <> '' then
       cbSSHConfigs.ItemIndex := cbSSHConfigs.Items.IndexOf(SSHServerName);
     case DialogType of
-      rfdOpen: Caption := SRemoteFileOpen;
-      rfdSave: Caption := SRemoteFileSave;
-      rfdAdd: Caption := SRemoteFileAdd;
-      rfdSelect: Caption := SRemoteFileSelect;
+      rfdOpen: Caption := _(SRemoteFileOpen);
+      rfdSave: Caption := _(SRemoteFileSave);
+      rfdAdd: Caption := _(SRemoteFileAdd);
+      rfdSelect: Caption := _(SRemoteFileSelect);
     end;
 
     Result := ShowModal = mrOK;
