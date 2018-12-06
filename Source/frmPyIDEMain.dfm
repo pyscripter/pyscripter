@@ -11,7 +11,6 @@ object PyIDEMainForm: TPyIDEMainForm
   OldCreateOrder = False
   Position = poDefault
   ShowHint = True
-  WindowState = wsMaximized
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   OnDestroy = FormDestroy
@@ -25,14 +24,13 @@ object PyIDEMainForm: TPyIDEMainForm
     Top = 512
     Width = 780
     Height = 25
-    ExplicitLeft = 1
-    ExplicitTop = 509
     object lbStatusMessage: TSpTBXLabelItem
       Wrapping = twEndEllipsis
       Options = [tboNoAutoHint]
     end
     object SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem
       Wrapping = twNone
+      CustomWidth = 0
     end
     object SpTBXSeparatorItem22: TSpTBXSeparatorItem
     end
@@ -141,7 +139,6 @@ object PyIDEMainForm: TPyIDEMainForm
     FullRepaint = False
     ParentBackground = False
     TabOrder = 2
-    ExplicitHeight = 427
     object TabControl1: TSpTBXTabControl
       Left = 0
       Top = 0
@@ -155,9 +152,9 @@ object PyIDEMainForm: TPyIDEMainForm
       TabDragReorder = True
       TabPosition = ttpBottom
       OnActiveTabChange = TabControlActiveTabChange
-      ExplicitHeight = 427
       HiddenItems = <>
       object tbiRightAlign: TSpTBXRightAlignSpacerItem
+        CustomWidth = 648
       end
       object tbiTabSep: TSpTBXSeparatorItem
       end
@@ -205,7 +202,6 @@ object PyIDEMainForm: TPyIDEMainForm
       TabDragReorder = True
       TabPosition = ttpBottom
       OnActiveTabChange = TabControlActiveTabChange
-      ExplicitHeight = 427
       HiddenItems = <>
       object SpTBXRightAlignSpacerItem2: TSpTBXRightAlignSpacerItem
       end
@@ -250,7 +246,6 @@ object PyIDEMainForm: TPyIDEMainForm
       Align = alRight
       ParentColor = False
       Visible = False
-      ExplicitHeight = 427
     end
   end
   object TBXDockTop: TSpTBXDock
@@ -1332,7 +1327,6 @@ object PyIDEMainForm: TPyIDEMainForm
     FixAlign = True
     PopupMenu = ToolbarPopupMenu
     Position = dpLeft
-    ExplicitHeight = 427
   end
   object TBXDockRight: TSpTBXDock
     Left = 771
@@ -1342,7 +1336,6 @@ object PyIDEMainForm: TPyIDEMainForm
     FixAlign = True
     PopupMenu = ToolbarPopupMenu
     Position = dpRight
-    ExplicitHeight = 427
   end
   object TBXDockBottom: TSpTBXDock
     Left = 0
@@ -1352,7 +1345,6 @@ object PyIDEMainForm: TPyIDEMainForm
     FixAlign = True
     PopupMenu = ToolbarPopupMenu
     Position = dpBottom
-    ExplicitTop = 504
   end
   object DockServer: TJvDockServer
     LeftSplitterStyle.Cursor = crHSplit

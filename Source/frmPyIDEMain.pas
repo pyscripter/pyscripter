@@ -1629,7 +1629,7 @@ begin
   TP_GlobalIgnoreClass(TJvFormStorage);
   TP_GlobalIgnoreClass(TJvAppIniFileStorage);
   TranslateComponent(Self);
-  //(PWideChar(Format('%s ElapsedTime %d ms', ['After Translate', StopWatch.ElapsedMilliseconds])));
+  //OutputDebugString(PWideChar(Format('%s ElapsedTime %d ms', ['After Translate', StopWatch.ElapsedMilliseconds])));
 
   // Setup Languages
   fLanguageList := TStringList.Create;
@@ -1668,7 +1668,7 @@ begin
     try
       //OutputDebugString(PWideChar(Format('%s ElapsedTime %d ms', ['Before LoadLayout', StopWatch.ElapsedMilliseconds])));
       LoadLayout('Current');
-      //(PWideChar(Format('%s ElapsedTime %d ms', ['After LoadLayout', StopWatch.ElapsedMilliseconds])));
+      //OutputDebugString(PWideChar(Format('%s ElapsedTime %d ms', ['After LoadLayout', StopWatch.ElapsedMilliseconds])));
     except
       LoadLayoutError := True;
       LocalAppStorage.DeleteSubTree('Layouts\Default');
