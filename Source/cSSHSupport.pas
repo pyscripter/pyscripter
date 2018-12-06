@@ -259,7 +259,7 @@ begin
     Options[7].PropertyName := 'ScpOptions';
     Options[7].DisplayName := _('Scp options (optional)');
     Options[8].PropertyName := 'PasswordNeeded';
-    Options[8].DisplayName := _('Password Neede (PyTTY only)');
+    Options[8].DisplayName := _('Password Needed (PyTTY only)');
   end;
 
   Result := InspectOptions((Item as TSSHServerItem).fSSHServer,
