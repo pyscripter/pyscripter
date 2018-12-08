@@ -73,7 +73,7 @@ object CommandsDataModule: TCommandsDataModule
     Left = 32
     Top = 241
     Bitmap = {
-      494C01010A00B000BC0010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C01010A00B000040010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
       000000000000000000000000000000000000161616193E3A3A583E3A3A583E3A
       3A583E3A3A583E3A3A583E3939583E3939583E3939583E3939583E3939583E39
@@ -1164,6 +1164,15 @@ object CommandsDataModule: TCommandsDataModule
           '                    show(value)'
           '            sys.displayhook = pphook'
           ''
+          '    def system_command(self, cmd):'
+          '        import subprocess'
+          
+            '        process = subprocess.Popen(cmd, stdout=subprocess.PIPE, ' +
+            'shell=True)'
+          '        print process.communicate()[0]'
+          '        if process.returncode != 0:'
+          '            print '#39'Error code: '#39', process.returncode'
+          ''
           '_II = PythonInteractiveInterpreter(globals())'
           ''
           'sys.modules['#39'__builtin__'#39'].raw_input=_II.Win32RawInput'
@@ -1675,6 +1684,15 @@ object CommandsDataModule: TCommandsDataModule
           '                    bltin._ = value'
           '                    show(value)'
           '            sys.displayhook = pphook'
+          ''
+          '    def system_command(self, cmd):'
+          '        import subprocess'
+          
+            '        process = subprocess.Popen(cmd, stdout=subprocess.PIPE, ' +
+            'shell=True)'
+          '        print(process.communicate()[0].decode())'
+          '        if process.returncode != 0:'
+          '            print('#39'Error code: '#39', process.returncode)'
           ''
           '_II = PythonInteractiveInterpreter(globals())'
           ''
@@ -2522,6 +2540,13 @@ object CommandsDataModule: TCommandsDataModule
           '                bltin._ = value'
           '                show(value)'
           '        sys.displayhook = pphook'
+          ''
+          '    def system_command(self, cmd):'
+          '        import sys, os'
+          '        res = os.system(cmd)'
+          '        if res != 0:'
+          '            print '#39'Error code: '#39', res'
+          '        sys.stdout.print_queue.join()'
           ''
           '    def Win32RawInput(self, prompt=None):'
           '        "Provide raw_input() for gui apps"'
@@ -3375,6 +3400,13 @@ object CommandsDataModule: TCommandsDataModule
           '                bltin._ = value'
           '                show(value)'
           '        sys.displayhook = pphook'
+          ''
+          '    def system_command(self, cmd):'
+          '        import sys, os'
+          '        res = os.system(cmd)'
+          '        if res != 0:'
+          '            print ('#39'Error code: '#39', res)'
+          '        sys.stdout.print_queue.join()'
           ''
           '    def Win32RawInput(self, prompt=None):'
           '        "Provide raw_input() for gui apps"'
@@ -4696,7 +4728,7 @@ object CommandsDataModule: TCommandsDataModule
     Left = 36
     Top = 194
     Bitmap = {
-      494C0101A30014011C0110001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C0101A3001401040010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000009002000001002000000000000090
       0200000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

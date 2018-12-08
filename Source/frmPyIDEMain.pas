@@ -461,9 +461,10 @@
             IDE option to force the use of sockets for connection to the python
               server now defaults to False
             Enhancements to SSH Engine.  Now compatible with PuTTY.
+            Execute system commands in the interpreter with !. Supports parameter substitution.
             Clickable status panels with Python version and engine type
           Issues addressed
-
+            #904
 
             { TODO : Issues 667 }
             { TODO : Review Search and Replace }

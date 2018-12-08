@@ -91,6 +91,7 @@ type
     procedure Run(ARunConfig : TRunConfiguration); override;
     function RunSource(Const Source, FileName : Variant; symbol : string = 'single') : boolean; override;
     function EvalCode(const Expr : string) : Variant; override;
+    procedure SystemCommand(const Cmd : string); override;
     function GetObjectType(Ob : Variant) : string; override;
     function UnitTestResult : Variant; override;
     function NameSpaceItemFromPyObject(aName : string; aPyObject : Variant): TBaseNameSpaceItem; override;
@@ -1292,6 +1293,11 @@ begin
   RemPath := Rpyc.classic.obtain(Conn.modules.sys.path);
   for i := 0 to Len(RemPath) - 1  do
     Strings.Add(RemPath.__getitem__(i));
+end;
+
+procedure TPyRemoteInterpreter.SystemCommand(const Cmd: string);
+begin
+  RPI.system_command(Cmd);
 end;
 
 function TPyRemoteInterpreter.UnitTestResult: Variant;

@@ -207,6 +207,7 @@ Uses
   uCmdLine,
   cPyDebugger,
   cPyScripterSettings,
+  cParameters,
   cPyControl;
 
 {$R *.dfm}
@@ -597,6 +598,7 @@ Var
   NewCommand : TSynEditorCommand;
   WChar : WideChar;
   BC : TBufferCoord;
+  Match : TMatch;
 begin
   if (Command <> ecLostFocus) and (Command <> ecGotFocus) then
     EditorSearchOptions.InitSearch;
@@ -645,26 +647,39 @@ begin
             // RunSource
             NeedIndent := False;  // True denotes an incomplete statement
             if PyControl.InternalPython.Loaded then
-              case PyControl.DebuggerState of
-                dsInactive :
-                  if GetPythonEngine.IsPython3000 then
-                    NeedIndent :=
-                      PyControl.ActiveInterpreter.RunSource(Source, '<interactive input>')
-                  else
-                    NeedIndent :=
-                      PyControl.ActiveInterpreter.RunSource(EncodedSource, '<interactive input>');
-                dsPaused, dsPostMortem :
-                  if GetPythonEngine.IsPython3000 then
-                    NeedIndent :=
-                      PyControl.ActiveDebugger.RunSource(Source, '<interactive input>')
-                  else
-                    NeedIndent :=
-                      PyControl.ActiveDebugger.RunSource(EncodedSource, '<interactive input>');
-                else //dsRunning, dsRunningNoDebug
-                  // it is dangerous to execute code while running scripts
-                  // so just beep and do nothing
-                  MessageBeep(MB_ICONERROR);
+            begin
+              if PyControl.Running then
+                // it is dangerous to execute code while running scripts
+                // so just beep and do nothing
+                MessageBeep(MB_ICONERROR)
+              else begin
+                Match := TRegEx.Match(Source, '^\s*!(.+)');
+                if Match.Success and (EndLineN = StartLineN) then
+                begin
+                  // System Command
+                  PyControl.ActiveInterpreter.SystemCommand(Parameters.ReplaceInText( Match.Groups[1].Value));
+                end
+                else
+                begin
+                  case PyControl.DebuggerState of
+                    dsInactive :
+                      if GetPythonEngine.IsPython3000 then
+                        NeedIndent :=
+                          PyControl.ActiveInterpreter.RunSource(Source, '<interactive input>')
+                      else
+                        NeedIndent :=
+                          PyControl.ActiveInterpreter.RunSource(EncodedSource, '<interactive input>');
+                    dsPaused, dsPostMortem :
+                      if GetPythonEngine.IsPython3000 then
+                        NeedIndent :=
+                          PyControl.ActiveDebugger.RunSource(Source, '<interactive input>')
+                      else
+                        NeedIndent :=
+                          PyControl.ActiveDebugger.RunSource(EncodedSource, '<interactive input>');
+                  end;
+                end;
               end;
+            end;
 
             if not NeedIndent then begin
               // The source code has been executed
@@ -1127,21 +1142,23 @@ Var
   BC: TBufferCoord;
   SkipHandler : TBaseCodeCompletionSkipHandler;
 begin
+  CanExecute := False;
+  // No code completion while Python is running
   if not (PyControl.InternalPython.Loaded and not PyControl.Running and
     PyIDEOptions.InterpreterCodeCompletion)
-  then begin
-    // No code completion while Python is running
-    CanExecute := False;
+  then
     Exit;
-  end;
 
   with TSynCompletionProposal(Sender).Editor do
   begin
     locLine := StrPadRight(LineText, CaretX - 1, ' '); // to deal with trim trailing spaces
     Prompt := GetPromptPrefix(locLine);
-    if Prompt <> '' then
-      locLine := Copy(locLine, Length(Prompt) + 1, MaxInt)
-    else
+    if Prompt <> '' then begin
+      locLine := Copy(locLine, Length(Prompt) + 1, MaxInt);
+      // Exit if it is a system command
+      if TRegEx.IsMatch(locLine, '^\s*!') then
+        Exit;
+    end else
       Exit;  // This is not a code line
 
     BC := CaretXY;

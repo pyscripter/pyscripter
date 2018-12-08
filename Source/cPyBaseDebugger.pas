@@ -134,6 +134,7 @@ type
     function RunSource(Const Source, FileName : Variant; symbol : string = 'single') : boolean; virtual; abstract;
     procedure RunScript(FileName : string); virtual;
     function EvalCode(const Expr : string) : Variant; virtual; abstract;
+    procedure SystemCommand(const Cmd : string); virtual; abstract;
     function GetObjectType(Ob : Variant) : string; virtual; abstract;
     function UnitTestResult : Variant; virtual; abstract;
     function NameSpaceItemFromPyObject(aName : string; aPyObject : Variant): TBaseNameSpaceItem; virtual; abstract;

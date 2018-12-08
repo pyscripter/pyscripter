@@ -57,8 +57,10 @@ type
   TtkTokenKind = (tkComment, tkIdentifier, tkKey, tkNull, tkNumber, tkSpace,
     tkString, tkSymbol, tkNonKeyword, tkCodeComment, tkTrippleQuotedString,
     tkTrippleQuotedString2, tkFunctionName, tkClassName, tkSystemDefined, tkHex,
-    tkOct, tkFloat, tkUnknown, tkBanner, tkOutput, tkTraceback,
-    tkPrompt);  // used in the interpreter
+    tkOct, tkFloat, tkUnknown,
+    // used in the interpreter
+    tkBanner, tkOutput, tkTraceback,
+    tkPrompt, tkSystemCmd);
 
   TRangeState = (rsANil, rsComment, rsUnKnown, rsMultilineString, rsMultilineString2,
                  rsMultilineString3, //this is to indicate if a string is made multiline by backslash char at line end (as in C++ highlighter)
@@ -192,12 +194,15 @@ type
     fOutputAttri: TSynHighlighterAttributes;
     fTracebackAttri: TSynHighlighterAttributes;
     fPromptAttri: TSynHighlighterAttributes;
-    fTracebackStartRE : TRegEx;
-    fTracebackEndRE : TRegEx;
+    fSystemCmdAttri: TSynHighlighterAttributes;
+    fTracebackStartRE: TRegEx;
+    fTracebackEndRE: TRegEx;
+    fSystemCmdRE: TRegEx;
     procedure BannerProc;
     procedure OutputProc;
     procedure TracebackProc;
     procedure PromptProc(Len : integer);
+    procedure SystemCmdProc;
   protected
     procedure DispatchProc; override;
     function GetSampleSource: UnicodeString; override;
@@ -216,6 +221,8 @@ type
       write fTracebackAttri;
     property PromptAttri: TSynHighlighterAttributes read fPromptAttri
       write fPromptAttri;
+    //property SystemCmdAttri: TSynHighlighterAttributes read fSystemCmdAttri
+    //  write fSystemCmdAttri;
     property PS1 : string read fPS1 write fPS1;
     property PS2 : string read fPS2 write fPS2;
     property Dbg : string read fDbg write fDbg;
@@ -1561,6 +1568,8 @@ resourcestring
   SYNS_FriendlyAttrTraceback = 'Traceback';
   SYNS_AttrPrompt = 'Prompt';
   SYNS_FriendlyAttrPrompt = 'Prompt';
+  //SYNS_AttrSystemCmd = 'System Command';
+  //SYNS_FriendlyAttrSystemCmd = 'System Command';
   SYNS_LangCython = 'Cython';
   SYNS_FriendlyLangCython = 'Cython';
 
@@ -1598,10 +1607,15 @@ begin
   fPromptAttri := TSynHighlighterAttributes.Create(SYNS_AttrPrompt, SYNS_FriendlyAttrPrompt);
   fPromptAttri.Foreground := clGreen;
   AddAttribute(fPromptAttri);
+  //fSystemCmdAttri := TSynHighlighterAttributes.Create(SYNS_AttrSystemCmd, SYNS_FriendlyAttrSystemCmd);
+  //fSystemCmdAttri.Foreground := clBlack;
+  //AddAttribute(fSystemCmdAttri);
   fTracebackStartRE.Create('^Traceback \(|File ".*line');
   fTracebackStartRE.Study;
   fTracebackEndRE.Create('^\w*(Error|Exception|Warning|KeyboardInterrupt):');
   fTracebackEndRE.Study;
+  fSystemCmdRE.Create(Format('^(%s)?%s\s*!', [fDbg, fPS1]));
+  fSystemCmdRE.Study;
 
   SetAttributesOnChange(DefHighlightChange);
 end;
@@ -1628,9 +1642,11 @@ begin
   if (Prompt <> '') then begin
     if fRange = rsTraceback then
       fRange := rsUnknown;
-    if Run < Length(Prompt) then begin
+    if Run < Length(Prompt) then
       PromptProc(Length(Prompt))
-    end else
+    else if fSystemCmdRe.IsMatch(Line) then
+       SystemCmdProc
+    else
       inherited; //Normal Python syntax
   end else if AnsiStartsStr('***', Line) then
     BannerProc
@@ -1681,6 +1697,7 @@ begin
     tkOutput: Result := fOutputAttri;
     tkTraceback: Result := fTracebackAttri;
     tkPrompt: Result := fPromptAttri;
+    tkSystemCmd: Result := fIdentifierAttri;
   else
     Result := inherited GetTokenAttribute;
   end;
@@ -1691,6 +1708,14 @@ begin
   inc(Run);
   fTokenID := tkPrompt;
   while Run < Len do
+    inc(Run);
+end;
+
+procedure TSynPythonInterpreterSyn.SystemCmdProc;
+begin
+  inc(Run);
+  fTokenID := tkSystemCmd;
+  while not IsLineEnd(Run) do
     inc(Run);
 end;
 

@@ -106,6 +106,7 @@ type
     function SyntaxCheck(Editor : IEditor; Quiet : Boolean = False) : Boolean;
     function RunSource(Const Source, FileName : Variant; symbol : string = 'single') : boolean; override;
     function EvalCode(const Expr : string) : Variant; override;
+    procedure SystemCommand(const Cmd : string); override;
     function GetObjectType(Ob : Variant) : string; override;
     function UnitTestResult : Variant; override;
     function NameSpaceItemFromPyObject(aName : string; aPyObject : Variant): TBaseNameSpaceItem; override;
@@ -1504,6 +1505,11 @@ var
 begin
   for i := 0 to Len(SysModule.path) - 1  do
     Strings.Add(SysModule.path.__getitem__(i));
+end;
+
+procedure TPyInternalInterpreter.SystemCommand(const Cmd: string);
+begin
+  fII.system_command(Cmd);
 end;
 
 function TPyInternalInterpreter.UnitTestResult: Variant;
