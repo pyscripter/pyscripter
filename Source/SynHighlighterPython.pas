@@ -194,7 +194,7 @@ type
     fOutputAttri: TSynHighlighterAttributes;
     fTracebackAttri: TSynHighlighterAttributes;
     fPromptAttri: TSynHighlighterAttributes;
-    fSystemCmdAttri: TSynHighlighterAttributes;
+    //fSystemCmdAttri: TSynHighlighterAttributes;
     fTracebackStartRE: TRegEx;
     fTracebackEndRE: TRegEx;
     fSystemCmdRE: TRegEx;

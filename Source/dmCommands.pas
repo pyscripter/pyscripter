@@ -2534,7 +2534,7 @@ end;
 
 procedure TCommandsDataModule.actDonateExecute(Sender: TObject);
 begin
-  OpenObject('https://www.paypal.com/donate/?token=OxAAcdhdzEPqUFGG6E6bh57ufgUS7d04XtDX1y0_g6zAVrisNkFIcL33z19LsSOLhG74Z0');
+  OpenObject('https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=SX9B6G2GF5K4U');
 end;
 
 procedure TCommandsDataModule.actHelpExternalToolsExecute(Sender: TObject);

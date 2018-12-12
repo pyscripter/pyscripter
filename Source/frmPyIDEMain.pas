@@ -463,8 +463,10 @@
             Enhancements to SSH Engine.  Now compatible with PuTTY.
             Execute system commands in the interpreter with !. Supports parameter substitution.
             Clickable status panels with Python version and engine type
+            Text drag & drop between PyScripter and other applications (#554)
+            Triple-click selects line and Quadraple-click selects all.
           Issues addressed
-            #904
+            #904, #922
 
             { TODO : Issues 667 }
             { TODO : Review Search and Replace }

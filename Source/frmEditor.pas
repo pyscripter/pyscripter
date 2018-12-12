@@ -2355,8 +2355,8 @@ Var
 begin
   ASynEdit := Sender as TSynEdit;
   if (ASynEdit.Highlighter = CommandsDataModule.SynPythonSyn) and
-    (PyControl.ActiveDebugger <> nil) and not
-    (sfGutterDragging in ASynEdit.StateFlags) then
+    (PyControl.ActiveDebugger <> nil)
+  then
     PyControl.ToggleBreakpoint(fEditor, Line, GetKeyState(VK_CONTROL) < 0);
 end;
 
