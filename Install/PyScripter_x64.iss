@@ -30,7 +30,7 @@ Name: ita; MessagesFile: compiler:Italian.isl
 [Tasks]
 Name: desktopicon; Description: {cm:CreateDesktopIcon}; GroupDescription: {cm:AdditionalIcons}; Flags: unchecked
 Name: quicklaunchicon; Description: {cm:CreateQuickLaunchIcon}; GroupDescription: {cm:AdditionalIcons}; Flags: unchecked
-Name: fileexplorercontextmenu; Description: """Edit with PyScripter"" File Explorer context menu"; GroupDescription: Shell Integration:
+Name: fileexplorercontextmenu; Description: """{EditwithPyScripter}"" File Explorer context menu"; GroupDescription: Shell Integration:
 
 [Files]
 Source: ..\PyScripter.exe; DestDir: {app}; Flags: ignoreversion
@@ -211,8 +211,8 @@ Name: {userdesktop}\PyScripter; Filename: {app}\PyScripter.exe; Tasks: desktopic
 Name: {userappdata}\Microsoft\Internet Explorer\Quick Launch\PyScripter; Filename: {app}\PyScripter.exe; Tasks: quicklaunchicon
 
 [Registry]
-Root: HKCR; Subkey: Python.File\shell\Edit with Pyscripter; ValueType: string; ValueData: {EditwithPyScripter}; Flags: uninsdeletekey; Tasks: " fileexplorercontextmenu"; Languages: 
-Root: HKCR; Subkey: Python.File\shell\Edit with Pyscripter\command; ValueType: string; ValueData: """{app}\PyScripter.exe"" ""%1"""; Flags: uninsdeletekey; Tasks: " fileexplorercontextmenu"; Languages: 
+Root: HKCR; Subkey: Python.File\shell\{EditwithPyScripter}; ValueType: string; ValueData: {EditwithPyScripter}; Flags: uninsdeletekey; Tasks: " fileexplorercontextmenu"; Languages: 
+Root: HKCR; Subkey: Python.File\shell\{EditwithPyScripter}\command; ValueType: string; ValueData: """{app}\PyScripter.exe"" ""%1"""; Flags: uninsdeletekey; Tasks: " fileexplorercontextmenu"; Languages: 
 Root: HKCR; SubKey: .psproj; ValueType: string; ValueData: PyScripter project; Flags: uninsdeletekey
 Root: HKCR; SubKey: PyScripter project; ValueType: string; ValueData: PyScripter project file; Flags: uninsdeletekey
 Root: HKCR; SubKey: PyScripter project\Shell\Open\Command; ValueType: string; ValueData: """{app}\PyScripter.exe"" --PROJECT ""%1"""; Flags: uninsdeletekey
