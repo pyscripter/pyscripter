@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2018-11-08 05:09\n"
+"POT-Creation-Date: 2018-12-14 18:12\n"
 "PO-Revision-Date: 2018-01-23 16:26\n"
 "Last-Translator: Somebody <your.email@address.com>\n"
 "MIME-Version: 1.0\n"
@@ -55,7 +55,12 @@ msgstr ""
 msgid "Unknown parameter"
 msgstr ""
 
-#. AskParamForm..SpTBXPanel1..btnOK..Caption
+#. AskParamForm..Panel1..Label1..Caption
+#: dlgAskParam.dfm
+msgid "Enter value for parameter "
+msgstr ""
+
+#. AskParamForm..Panel1..btnOK..Caption
 #. CodeTemplates..Panel..btnOK..Caption
 #. CollectionEditor..Panel1..OKBtn..Caption
 #. CommandLineDlg..Panel..OKButton..Caption
@@ -88,7 +93,7 @@ msgstr ""
 msgid "&OK"
 msgstr ""
 
-#. AskParamForm..SpTBXPanel1..btnCancel..Caption
+#. AskParamForm..Panel1..btnCancel..Caption
 #. CodeTemplates..Panel..btnCancel..Caption
 #. CollectionEditor..Panel1..CancelBtn..Caption
 #. CommandLineDlg..Panel..BitBtn2..Caption
@@ -123,14 +128,9 @@ msgstr ""
 msgid "&Cancel"
 msgstr ""
 
-#. AskParamForm..SpTBXPanel1..chkSaveToFile..Caption
+#. AskParamForm..Panel1..chkSaveToFile..Caption
 #: dlgAskParam.dfm
 msgid "and save it as a custom parameter"
-msgstr ""
-
-#. AskParamForm..SpTBXPanel1..Label1..Caption
-#: dlgAskParam.dfm
-msgid "Enter value for parameter "
 msgstr ""
 
 #. CodeTemplates..Caption
@@ -208,9 +208,9 @@ msgstr ""
 #. CodeTemplates..Panel..lvItems......Caption
 #. CustomizeParams..Panel..lvItems......Caption
 #. FileTemplatesDialog..Panel..lvItems......Caption
-#. PythonVersionsDialog..Panel1..gbPythonVersions..vtPythonVersions......WideText
+#. PythonVersionsDialog..Panel1..gbPythonVersions..vtPythonVersions......Text
 #. ToolProperties..Panel1..TabControl..tabEnvironment..lvItems......Caption
-#. RegExpTesterWindow..BGPanel..FGPanel..pnlBackground..dpGroupsView..GroupsView......WideText
+#. RegExpTesterWindow..BGPanel..FGPanel..pnlBackground..dpGroupsView..GroupsView......Text
 #. VariablesWindow..BGPanel..FGPanel..Panel1..VariablesTree......WideText
 #: dlgCodeTemplates.dfm dlgCustomParams.dfm dlgFileTemplates.dfm
 #: dlgPythonVersions.dfm dlgToolProperties.dfm frmRegExpTester.dfm
@@ -409,7 +409,7 @@ msgstr ""
 #. CustomizeParams..Panel..lvItems......Caption
 #. OptionsInspector..Panel1..Inspector..HeaderValueText
 #. ToolProperties..Panel1..TabControl..tabEnvironment..lvItems......Caption
-#. RegExpTesterWindow..BGPanel..FGPanel..pnlBackground..dpGroupsView..GroupsView......WideText
+#. RegExpTesterWindow..BGPanel..FGPanel..pnlBackground..dpGroupsView..GroupsView......Text
 #. VariablesWindow..BGPanel..FGPanel..Panel1..VariablesTree......WideText
 #. WatchesWindow..BGPanel..FGPanel..Panel1..WatchesView......WideText
 #: dlgCustomParams.dfm dlgOptionsEditor.dfm dlgToolProperties.dfm
@@ -812,7 +812,13 @@ msgstr ""
 msgid "Python Versions"
 msgstr ""
 
-#. PythonVersionsDialog..Panel1..gbPythonVersions..vtPythonVersions......WideText
+#. PythonVersionsDialog..Panel1..gbPythonVersions..vtPythonVersions..DefaultText
+#. RegExpTesterWindow..BGPanel..FGPanel..pnlBackground..dpGroupsView..GroupsView..DefaultText
+#: dlgPythonVersions.dfm frmRegExpTester.dfm
+msgid "Node"
+msgstr ""
+
+#. PythonVersionsDialog..Panel1..gbPythonVersions..vtPythonVersions......Text
 #: dlgPythonVersions.dfm
 msgid "Folder"
 msgstr ""
@@ -4519,9 +4525,14 @@ msgstr ""
 msgid "Add a remote file to the folder"
 msgstr ""
 
-#. PyIDEMainForm..StatusBar..lbStatusModified..Caption
+#. PyIDEMainForm..StatusBar..lbPythonVersion..Hint
 #: frmPyIDEMain.dfm
-msgid " "
+msgid "Python version"
+msgstr ""
+
+#. PyIDEMainForm..StatusBar..lbPythonEngine..Hint
+#: frmPyIDEMain.dfm dmCommands.pas
+msgid "Python engine type"
 msgstr ""
 
 #. PyIDEMainForm..StatusBar..StatusLED..Hint
@@ -6016,6 +6027,15 @@ msgid "JSON Files (*.json;*.ipynb)|*.json;*.ipynb"
 msgstr ""
 
 #: cSSHSupport.pas
+#, object-pascal-format
+msgid "Enter SSH Password for %s"
+msgstr ""
+
+#: cSSHSupport.pas
+msgid "Password:"
+msgstr ""
+
+#: cSSHSupport.pas
 msgid "SSH Servers"
 msgstr ""
 
@@ -6040,7 +6060,23 @@ msgid "Command to execute python (no spaces)"
 msgstr ""
 
 #: cSSHSupport.pas
-msgid "Additional SSH -o options (optional)"
+msgid "Path to SSH Command"
+msgstr ""
+
+#: cSSHSupport.pas
+msgid "SSH options (optional)"
+msgstr ""
+
+#: cSSHSupport.pas
+msgid "Path to Scp Command"
+msgstr ""
+
+#: cSSHSupport.pas
+msgid "Scp options (optional)"
+msgstr ""
+
+#: cSSHSupport.pas
+msgid "Password Needed (PyTTY only)"
 msgstr ""
 
 #: cSSHSupport.pas
@@ -6309,10 +6345,6 @@ msgid "UTF8 in interactive interpreter"
 msgstr ""
 
 #: dmCommands.pas
-msgid "Python engine type"
-msgstr ""
-
-#: dmCommands.pas
 msgid "Pretty print output"
 msgstr ""
 
@@ -6505,15 +6537,23 @@ msgid "File Explorer background processing"
 msgstr ""
 
 #: dmCommands.pas
-msgid "SSH Command"
+msgid "SSH command"
 msgstr ""
 
 #: dmCommands.pas
-msgid "Scp Command"
+msgid "SSH options"
 msgstr ""
 
 #: dmCommands.pas
-msgid "Disable Variables Windows with SSH"
+msgid "Scp command"
+msgstr ""
+
+#: dmCommands.pas
+msgid "Scp options"
+msgstr ""
+
+#: dmCommands.pas
+msgid "Disable Variables Window with SSH"
 msgstr ""
 
 #: dmCommands.pas
@@ -6651,6 +6691,10 @@ msgstr ""
 
 #: frmPyIDEMain.pas
 msgid "Debugger state: "
+msgstr ""
+
+#: frmPyIDEMain.pas
+msgid "Python Not Available"
 msgstr ""
 
 #: frmRegExpTester.pas
@@ -7770,21 +7814,46 @@ msgstr ""
 msgid "Scp Error: Connection lost for some reason"
 msgstr ""
 
-#. Programmer's name for it: SScpOtherError
+#. Programmer's name for it: SScpErrorTimeout
 #: StringResources.pas
-msgid "Scp Error: Unspecified failure"
+msgid "Scp Error: Timeout"
 msgstr ""
 
-#. Programmer's name for it: SSSHUnknownServer
+#. Programmer's name for it: SScpErrorOther
 #: StringResources.pas
 #, object-pascal-format
-msgid "Unknown server \"%s\""
+msgid ""
+"Scp Error:\n"
+"Output: %s+\n"
+"Error Output: %s+"
 msgstr ""
 
-#. Programmer's name for it: SSSHPythonError
+#. Programmer's name for it: SSHUnknownServer
 #: StringResources.pas
 #, object-pascal-format
-msgid "Failed to execute Python (\"%s\") on the SSH server"
+msgid "Unknown SSH server \"%s\""
+msgstr ""
+
+#. Programmer's name for it: SSHUnknownServerQuery
+#: StringResources.pas
+#, object-pascal-format
+msgid "Unknown SSH server with fingerpring \"%s\". Do you want to proceed?"
+msgstr ""
+
+#. Programmer's name for it: SSHPythonTimeout
+#: StringResources.pas
+#, object-pascal-format
+msgid "Execution of Python (\"%s\") on the SSH server timed out"
+msgstr ""
+
+#. Programmer's name for it: SSHPythonError
+#: StringResources.pas
+#, object-pascal-format
+msgid ""
+"Failed to execute Python (\"%s\") on the SSH server:\n"
+"ReturnCode: %d\n"
+"Output: %s\n"
+"ErrorOutput: %s"
 msgstr ""
 
 #. Programmer's name for it: SSHVersionMismatch
@@ -7793,12 +7862,6 @@ msgstr ""
 msgid ""
 "Local python version is %s and remote python version is %s. To use this SSH "
 "server please switch to python version %1:s"
-msgstr ""
-
-#. Programmer's name for it: SSHUnknownServer
-#: StringResources.pas
-#, object-pascal-format
-msgid "Unknown SSH server: \"%s\""
 msgstr ""
 
 #. Programmer's name for it: SYNS_FriendlyMatchingBrace

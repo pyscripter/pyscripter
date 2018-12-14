@@ -142,7 +142,7 @@ msgstr ""
 #. CommandsDataModule..ProgramVersionCheck..VersionHistoryFileOptions.XMLOptions.WhiteSpaceReplacement
 #: dmCommands.dfm:626
 #. CommandsDataModule..ProgramVersionCheck..VersionHistoryFileOptions.XMLOptions.InvalidCharReplacement
-#: dmCommands.dfm:627
+#: dmComm\ands.dfm:627
 msgid "_"
 msgstr ""
 
@@ -1547,4 +1547,9 @@ msgstr ""
 #. Programmer's name for it: SYNS_FriendlyLangYAML
 #: SynHighlighterYAML.pas:161
 msgid "YAML"
+msgstr ""
+
+#. PyIDEMainForm..StatusBar..lbStatusModified..Caption
+#: frmPyIDEMain.dfm
+msgid " "
 msgstr ""
