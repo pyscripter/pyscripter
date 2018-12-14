@@ -25,6 +25,7 @@ ArchitecturesInstallIn64BitMode=x64
 
 [Languages]
 Name: eng; MessagesFile: compiler:Default.isl
+Name: ita; MessagesFile: compiler:Italian.isl
 
 [Tasks]
 Name: desktopicon; Description: {cm:CreateDesktopIcon}; GroupDescription: {cm:AdditionalIcons}; Flags: unchecked
@@ -202,15 +203,15 @@ Source: "..\Styles\Windows10SlateGray.vsf"; DestDir: "{userappdata}\PyScripter\S
 
 [Icons]
 Name: {group}\PyScripter; Filename: {app}\PyScripter.exe
-Name: {group}\PyScripter Help; Filename: {app}\PyScripter.chm
-;Name: {group}\PyScripter for Python 2.7; Filename: {app}\PyScripter.exe; Parameters: --PYTHON27
-;Name: {group}\PyScripter for Python 3.6; Filename: {app}\PyScripter.exe; Parameters: --PYTHON36
+Name: {group}\{PyScripterHelp}; Filename: {app}\PyScripter.chm
+;Name: {group}\{PyScripterPython2}; Filename: {app}\PyScripter.exe; Parameters: --PYTHON27
+;Name: {group}\{PyScripterPython3}; Filename: {app}\PyScripter.exe; Parameters: --PYTHON36
 Name: {group}\{cm:UninstallProgram,PyScripter}; Filename: {uninstallexe}
 Name: {userdesktop}\PyScripter; Filename: {app}\PyScripter.exe; Tasks: desktopicon
 Name: {userappdata}\Microsoft\Internet Explorer\Quick Launch\PyScripter; Filename: {app}\PyScripter.exe; Tasks: quicklaunchicon
 
 [Registry]
-Root: HKCR; Subkey: Python.File\shell\Edit with Pyscripter; ValueType: string; ValueData: Edit with PyScripter; Flags: uninsdeletekey; Tasks: " fileexplorercontextmenu"; Languages: 
+Root: HKCR; Subkey: Python.File\shell\Edit with Pyscripter; ValueType: string; ValueData: {EditwithPyScripter}; Flags: uninsdeletekey; Tasks: " fileexplorercontextmenu"; Languages: 
 Root: HKCR; Subkey: Python.File\shell\Edit with Pyscripter\command; ValueType: string; ValueData: """{app}\PyScripter.exe"" ""%1"""; Flags: uninsdeletekey; Tasks: " fileexplorercontextmenu"; Languages: 
 Root: HKCR; SubKey: .psproj; ValueType: string; ValueData: PyScripter project; Flags: uninsdeletekey
 Root: HKCR; SubKey: PyScripter project; ValueType: string; ValueData: PyScripter project file; Flags: uninsdeletekey
@@ -219,3 +220,13 @@ Root: HKCR; Subkey: PyScripter project\DefaultIcon; ValueType: string; ValueData
 
 [Run]
 Filename: {app}\PyScripter.exe; Description: {cm:LaunchProgram,PyScripter}; Flags: nowait postinstall skipifsilent
+
+[CustomMessages]
+eng.PyScripterHelp=PyScripter Help
+eng.PyScripterPython2=PyScripter for Python 2.7
+eng.PyScripterPython3=PyScripter for Python 3.6
+eng.EditwithPyScripter=Edit with PyScripter
+ita.PyScripterHelp=Guida in linea PyScripter
+ita.PyScripterPython2=PyScripter per Python 2.7
+ita.PyScripterPython3=PyScripter per Python 3.6
+ita.EditwithPyScripter=Modifica con PyScripter
