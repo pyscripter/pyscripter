@@ -14,7 +14,7 @@ DefaultGroupName=PyScripter-x64
 InfoBeforeFile=BeforeInstallPyScripter-x64.txt
 InfoAfterFile=AfterInstallPyScripter-x64.txt
 OutputDir=Output
-OutputBaseFilename=PyScripter-v3.5.1-x64-Setup
+OutputBaseFilename=PyScripter-3.5.1-x64-Setup
 Compression=lzma/Max
 SolidCompression=true
 ChangesAssociations=true
@@ -25,12 +25,12 @@ ArchitecturesInstallIn64BitMode=x64
 
 [Languages]
 Name: eng; MessagesFile: compiler:Default.isl
-Name: ita; MessagesFile: compiler:Italian.isl
+Name: ita; MessagesFile: compiler:\Languages\Italian.isl
 
 [Tasks]
 Name: desktopicon; Description: {cm:CreateDesktopIcon}; GroupDescription: {cm:AdditionalIcons}; Flags: unchecked
 Name: quicklaunchicon; Description: {cm:CreateQuickLaunchIcon}; GroupDescription: {cm:AdditionalIcons}; Flags: unchecked
-Name: fileexplorercontextmenu; Description: """{EditwithPyScripter}"" File Explorer context menu"; GroupDescription: Shell Integration:
+Name: fileexplorercontextmenu; Description: {cm:ShellIntegrationEditwithPyScripter}; GroupDescription: Shell Integration:
 
 [Files]
 Source: ..\PyScripter.exe; DestDir: {app}; Flags: ignoreversion
@@ -203,9 +203,9 @@ Source: "..\Styles\Windows10SlateGray.vsf"; DestDir: "{userappdata}\PyScripter\S
 
 [Icons]
 Name: {group}\PyScripter; Filename: {app}\PyScripter.exe
-Name: {group}\{PyScripterHelp}; Filename: {app}\PyScripter.chm
-;Name: {group}\{PyScripterPython2}; Filename: {app}\PyScripter.exe; Parameters: --PYTHON27
-;Name: {group}\{PyScripterPython3}; Filename: {app}\PyScripter.exe; Parameters: --PYTHON36
+Name: {group}\{cm:PyScripterHelp}; Filename: {app}\PyScripter.chm
+;Name: {group}\{cm:PyScripterPython2}; Filename: {app}\PyScripter.exe; Parameters: --PYTHON27
+;Name: {group}\{cm:PyScripterPython3}; Filename: {app}\PyScripter.exe; Parameters: --PYTHON36
 Name: {group}\{cm:UninstallProgram,PyScripter}; Filename: {uninstallexe}
 Name: {userdesktop}\PyScripter; Filename: {app}\PyScripter.exe; Tasks: desktopicon
 Name: {userappdata}\Microsoft\Internet Explorer\Quick Launch\PyScripter; Filename: {app}\PyScripter.exe; Tasks: quicklaunchicon
@@ -226,7 +226,9 @@ eng.PyScripterHelp=PyScripter Help
 eng.PyScripterPython2=PyScripter for Python 2.7
 eng.PyScripterPython3=PyScripter for Python 3.6
 eng.EditwithPyScripter=Edit with PyScripter
+eng.ShellIntegrationEditwithPyScripter=Add 'Edit with PyScripter' to File Explorer context menu
 ita.PyScripterHelp=Guida in linea PyScripter
 ita.PyScripterPython2=PyScripter per Python 2.7
 ita.PyScripterPython3=PyScripter per Python 3.6
 ita.EditwithPyScripter=Modifica con PyScripter
+ita.ShellIntegrationEditwithPyScripter=Aggiungi 'Modifica con Pyscripter' al menu conetstuale di File Explorer
