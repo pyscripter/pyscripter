@@ -3,7 +3,7 @@
 
 #define MyAppName "PyScripter"
 #define MyAppVersion "3.5.1"
-#define OSPlatform "x86"
+#define OSPlatform "x64"
 #define MyAppPublisherURL="https://sourceforge.net/projects/pyscripter/"
 #define MyAppSupportURL="https://github.com/pyscripter/pyscripter"
 #define MyAppUpdatesURL="https://github.com/pyscripter/pyscripter"
@@ -16,21 +16,22 @@ AppPublisher={#MyAppName}
 AppPublisherURL={#MyAppPublisherURL}
 AppUpdatesURL={#MyAppUpdatesURL}
 DefaultDirName={pf}\{#MyAppName}
-DefaultGroupName={#MyAppName}
-InfoBeforeFile=BeforeInstallPyScripter.txt
-InfoAfterFile=AfterInstallPyScripter.txt
+DefaultGroupName={#MyAppName}-{#OSPlatform}
+InfoBeforeFile=BeforeInstallPyScripter-x64-eng.txt
+InfoAfterFile=AfterInstallPyScripter-x64-eng.txt
 OutputDir=Output
-OutputBaseFilename={#MyAppName}-3.5.1-{#OSPlatform}
+OutputBaseFilename={#MyAppName}-3.5.1-x64-Setup
 Compression=lzma/Max
 SolidCompression=true
 ChangesAssociations=true
 UninstallDisplayIcon={app}\{#MyAppName}.exe
 PrivilegesRequired=poweruser
 AppCopyright=(C) Kiriakos Vlahos
+ArchitecturesInstallIn64BitMode=x64
 
 [Languages]
-Name: eng; MessagesFile: compiler:Default.isl
-Name: "ita"; MessagesFile: "compiler:\Languages\Italian.isl"; InfoBeforeFile: "BeforeInstallPyScripter-ita.txt"; InfoAfterFile: "AfterInstallPyScripter-ita.txt"
+Name: "eng"; MessagesFile: "compiler:Default.isl"
+Name: "ita"; MessagesFile: "compiler:\Languages\Italian.isl"; InfoBeforeFile: "BeforeInstallPyScripter-x64-ita.txt"; InfoAfterFile: "AfterInstallPyScripter-x64-ita.txt"
 
 [Tasks]
 Name: desktopicon; Description: {cm:CreateDesktopIcon}; GroupDescription: {cm:AdditionalIcons}; Flags: unchecked
@@ -99,6 +100,7 @@ Source: ..\locale\kab\LC_MESSAGES\default.mo; DestDir: {app}\locale\kab\LC_MESSA
 Source: ..\locale\kab\LC_MESSAGES\default.po; DestDir: {app}\locale\kab\LC_MESSAGES\
 Source: ..\locale\kab\LC_MESSAGES\languages.mo; DestDir: {app}\locale\kab\LC_MESSAGES\
 Source: ..\locale\kab\LC_MESSAGES\languages.po; DestDir: {app}\locale\kab\LC_MESSAGES\
+
 ;Ini Files
 Source: "PyScripter.ini"; DestDir: "{userappdata}\PyScripter"; Flags: uninsneveruninstall onlyifdoesntexist
 ; Startup scripts
@@ -215,8 +217,8 @@ Name: {userdesktop}\PyScripter; Filename: {app}\PyScripter.exe; Tasks: desktopic
 Name: {userappdata}\Microsoft\Internet Explorer\Quick Launch\PyScripter; Filename: {app}\PyScripter.exe; Tasks: quicklaunchicon
 
 [Registry]
-Root: HKCR; Subkey: Python.File\shell{cm:EditwithPyScripter}; ValueType: string; ValueData: {cm:EditwithPyScripter}; Flags: uninsdeletekey; Tasks: " fileexplorercontextmenu"; Languages: 
-Root: HKCR; Subkey: Python.File\shell\{cm:EditwithPyScripter}\command; ValueType: string; ValueData: """{app}\PyScripter.exe"" ""%1"""; Flags: uninsdeletekey; Tasks: " fileexplorercontextmenu"; Languages: 
+Root: HKCR; Subkey: Python.File\shell\{EditwithPyScripter}; ValueType: string; ValueData: {EditwithPyScripter}; Flags: uninsdeletekey; Tasks: " fileexplorercontextmenu"; Languages: 
+Root: HKCR; Subkey: Python.File\shell\{EditwithPyScripter}\command; ValueType: string; ValueData: """{app}\PyScripter.exe"" ""%1"""; Flags: uninsdeletekey; Tasks: " fileexplorercontextmenu"; Languages: 
 Root: HKCR; SubKey: .psproj; ValueType: string; ValueData: PyScripter project; Flags: uninsdeletekey
 Root: HKCR; SubKey: PyScripter project; ValueType: string; ValueData: PyScripter project file; Flags: uninsdeletekey
 Root: HKCR; SubKey: PyScripter project\Shell\Open\Command; ValueType: string; ValueData: """{app}\PyScripter.exe"" --PROJECT ""%1"""; Flags: uninsdeletekey
@@ -236,6 +238,5 @@ ita.PyScripterHelp=Guida in linea PyScripter
 ita.PyScripterPython2=PyScripter per Python 2.7
 ita.PyScripterPython3=PyScripter per Python 3.6
 ita.EditwithPyScripter=Modifica con PyScripter
-ita.ShellIntegrationEditwithPyScripter=Aggiungi 'Modifica con Pyscripter' al menu contestuale di File Explorer
+ita.ShellIntegrationEditwithPyScripter=Aggiungi 'Modifica con Pyscripter' al menu conetstuale di File Explorer
 ita.ShellIntegration=Integrazione shell
-
