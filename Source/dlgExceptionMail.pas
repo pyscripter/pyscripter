@@ -340,7 +340,7 @@ begin
     begin
       DetailsMemo.Lines.Add(Format(LoadResString(PResStringRec(@RsStackList)),
         [DateTimeToStr(StackList.TimeStamp)]));
-      StackList.AddToStrings(DetailsMemo.Lines, True, True, True, True);
+      StackList.AddToStrings(DetailsMemo.Lines, True, False, True, False);
       NextDetailBlock;
     end;
     // System and OS information

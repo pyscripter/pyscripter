@@ -465,6 +465,7 @@
             Clickable status panels with Python version and engine type
             Text drag & drop between PyScripter and other applications (#554)
             Triple-click selects line and Quadraple-click selects all.
+            Double-click drag selects whole words - Triple-click drag selects wholle lines.
           Issues addressed
             #904, #922
 
