@@ -17,8 +17,8 @@ AppPublisherURL={#MyAppPublisherURL}
 AppUpdatesURL={#MyAppUpdatesURL}
 DefaultDirName={pf}\{#MyAppName}
 DefaultGroupName={#MyAppName}
-InfoBeforeFile=BeforeInstallPyScripter.txt
-InfoAfterFile=AfterInstallPyScripter.txt
+InfoBeforeFile=BeforeInstallPyScripter-x86-eng.txt
+InfoAfterFile=AfterInstallPyScripter-x86-eng.txt
 OutputDir=Output
 OutputBaseFilename={#MyAppName}-3.5.1-{#OSPlatform}
 Compression=lzma/Max
@@ -30,7 +30,7 @@ AppCopyright=(C) Kiriakos Vlahos
 
 [Languages]
 Name: eng; MessagesFile: compiler:Default.isl
-Name: "ita"; MessagesFile: "compiler:\Languages\Italian.isl"; InfoBeforeFile: "BeforeInstallPyScripter-ita.txt"; InfoAfterFile: "AfterInstallPyScripter-ita.txt"
+Name: "ita"; MessagesFile: "compiler:\Languages\Italian.isl"; InfoBeforeFile: "BeforeInstallPyScripter-x86-ita.txt"; InfoAfterFile: "AfterInstallPyScripter-x86-ita.txt"
 
 [Tasks]
 Name: desktopicon; Description: {cm:CreateDesktopIcon}; GroupDescription: {cm:AdditionalIcons}; Flags: unchecked
