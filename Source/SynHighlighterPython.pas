@@ -1085,7 +1085,7 @@ procedure TSynPythonSyn.PreStringProc;
 var
   temp: WideChar;
 begin
-  // Handle python raw strings
+  // Handle Python raw strings
   // r""
   temp := FLine[Run + 1];
   if temp = '''' then
@@ -1107,7 +1107,7 @@ end;
 
 procedure TSynPythonSyn.BUStringProc;
 begin
-  // Handle python raw, bytes, and unicode strings
+  // Handle Python raw, bytes, and unicode strings
   // Valid syntax: u"", or ur""
   if CharInSet(FLine[Run + 1], [WideChar('r'), WideChar('R')]) and
     CharInSet(FLine[Run + 2], [WideChar(''''), WideChar('"')]) then

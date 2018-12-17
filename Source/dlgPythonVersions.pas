@@ -140,7 +140,7 @@ Var
   Folder: string;
   PythonVersion: TPythonVersion;
 begin
-  if SelectDirectory('Select folder with python installation (inlcuding virtualenv and venv)', '', Folder, [sdNewUI], Self)
+  if SelectDirectory(_('Select folder with Python installation (inlcuding virtualenv and venv)'), '', Folder, [sdNewUI], Self)
   then begin
     if PythonVersionFromPath(Folder, PythonVersion) then
       begin

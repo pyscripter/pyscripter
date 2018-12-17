@@ -291,7 +291,7 @@
           New Features
             Support for Python 3.2
             New IDE Option added "Jump to error on Exception"  (Issue 130)
-            New IDE Option added "File template for new python scirpts"  (Issue 385)
+            New IDE Option added "File template for new Python scirpts"  (Issue 385)
             New IDE Option added "Auto completion font"  (Issue 365)
             French translation by Groupe AmiensPython added
           Bug fixes
@@ -302,10 +302,10 @@
             Native unicode strings throught (speed improvements on XP)
             Revamped Code Explorer (Issues 192, 163, 213, 225)
             Improvements to Code completion
-            -  Auto-completion for the import statement in python 2.5 and later (Issue 230)
+            -  Auto-completion for the import statement in Python 2.5 and later (Issue 230)
             -  Processing of function return statements
             -  Background module parsing and caching of parsed modules
-            Start-up python scripts pyscripter_init.py and python_init.py. See help file for details.
+            Start-up Python scripts pyscripter_init.py and python_init.py. See help file for details.
             Imporved "Match Brace" (Issue 426) and New Editor Command "Select to brace"
             Italian translation by Vincenzo Demasi added
             Russian translation by Aleksander Dragunkin added
@@ -410,7 +410,7 @@
   History:   v 3.3
           New Features
             Thread debugging (#455)
-            Much faster python output redirection
+            Much faster Python output redirection
             Form Layout and placement stored in PyScripter.local.ini
           Issues addressed
             #659, #827, #848, #849
@@ -445,9 +445,9 @@
             Open and work with remote files from Windows and Linux machines as if they were local
             Run and Debug scripts on remote Windows and Linux machines using SSH
             Python 3 type hints used in code completion
-            Connection to python server with Windows named pipes. Avoids firewall issues.
+            Connection to Python server with Windows named pipes. Avoids firewall issues.
               Requires the installation of pywin32 (pip install pywin32).
-            IDE option to force the use of sockets for connection to the python server.  (default True)
+            IDE option to force the use of sockets for connection to the Python server.  (default True)
             New Editor commands Copy Line Up/Down (Shift+Alt+Up/Down) and
               Move Line Up/Down (Alt + Up/Down) as in Visual Studio
             PyScripter icons given a facelift by Salim Saddaquzzaman
@@ -458,7 +458,7 @@
   History:   v 3.5.2
           New Features
             Much faster Remote Engine using asynchronous Windows named pipes if pywin32 is available.
-            IDE option to force the use of sockets for connection to the python
+            IDE option to force the use of sockets for connection to the Python
               server now defaults to False
             Enhancements to SSH Engine.  Now compatible with PuTTY.
             Execute system commands in the interpreter with !. Supports parameter substitution.
@@ -4841,7 +4841,7 @@ begin
     // This is needed to update the variables window
     PyControl.DoStateChange(dsInactive);
 
-    // Open initial files after loading python (#879)
+    // Open initial files after loading Python (#879)
     OpenInitialFiles;
 
     if PyIDEOptions.AutoCheckForUpdates and

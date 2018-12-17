@@ -792,7 +792,7 @@ begin
   fNameSpace := TStringList.Create;
   if Assigned(fPyNameSpace) then begin
     if lookup <> '' then begin
-      // fNameSpace corresponds to a python object not a dict
+      // fNameSpace corresponds to a Python object not a dict
       fPyNameSpace.ExpandCommonTypes := True;
       fPyNameSpace.ExpandSequences := False;
     end;

@@ -87,7 +87,7 @@ constructor TPySSHInterpreter.Create(SSHServer : TSSHServer);
 {
    1. ssh user@host pythoncommand 'import sys,os,tempfile;print(sys.version[0]);print(os.sep);print(tempfile.gettempdir())'
    2. Upload with scp server script and rpyc.zip
-   3. Start python server process
+   3. Start Python server process
    4. Start port tunneling process ssh user@host -L 127.0.0.1:port:127.0.0.1:port -N
    5. Connect to server
 }

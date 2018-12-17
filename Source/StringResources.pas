@@ -272,10 +272,10 @@ Const
   SRemoteFileSelect = 'Select Remote File';
   SErrorEmptyPath = 'File Path cannot be empty';
   SErrorEmptySSH =  'The SSH server name cannot be empty';
-  SScpError4 = 'Scp Error: Connecting to host failed';
-  SScpError5 = 'Scp Error: Connection lost for some reason';
-  SScpErrorTimeout = 'Scp Error: Timeout';
-  SScpErrorOther = 'Scp Error:'+#13#10+'Output: %s+'+#13#10+'Error Output: %s+';
+  SScpError4 = 'SCP Error: Connecting to host failed';
+  SScpError5 = 'SCP Error: Connection lost for some reason';
+  SScpErrorTimeout = 'SCP Error: Timeout';
+  SScpErrorOther = 'SCP Error:'+#13#10+'Output: %s+'+#13#10+'Error Output: %s+';
   SSHUnknownServer = 'Unknown SSH server "%s"';
   SSHUnknownServerQuery = 'Unknown SSH server with fingerpring "%s". Do you want to proceed?';
   SSHPythonTimeout = 'Execution of Python ("%s") on the SSH server timed out';
@@ -283,8 +283,8 @@ Const
      'ReturnCode: %d'+#13#10+
      'Output: %s'+#13#10+
      'ErrorOutput: %s';
-  SSHVersionMismatch = 'Local python version is %s and remote python version is %s. '+
-    'To use this SSH server please switch to python version %1:s';
+  SSHVersionMismatch = 'Local Python version is %s and remote Python version is %s. '+
+    'To use this SSH server please switch to Python version %1:s';
 
   // do not localize further
 

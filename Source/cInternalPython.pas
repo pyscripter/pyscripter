@@ -3,7 +3,7 @@
  Author:    Kiriakos Vlahos
  Date:      23-Apr-20018
  Purpose:   Encapsulate the creation of the internal Python engine.
-            Support multiple python versions and virtual environments.
+            Support multiple Python versions and virtual environments.
  History:
 -----------------------------------------------------------------------------}
 

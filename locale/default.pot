@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2018-12-14 18:12\n"
+"POT-Creation-Date: 2018-12-17 16:08\n"
 "PO-Revision-Date: 2018-01-23 16:26\n"
 "Last-Translator: Somebody <your.email@address.com>\n"
 "MIME-Version: 1.0\n"
@@ -830,7 +830,7 @@ msgstr ""
 
 #. PythonVersionsDialog..actlPythonVersions..actPVActivate..Hint
 #: dlgPythonVersions.dfm
-msgid "Activate selected python version"
+msgid "Activate selected Python version"
 msgstr ""
 
 #. PythonVersionsDialog..actlPythonVersions..actPVAdd..Caption
@@ -840,7 +840,7 @@ msgstr ""
 
 #. PythonVersionsDialog..actlPythonVersions..actPVAdd..Hint
 #: dlgPythonVersions.dfm
-msgid "Add a new python version"
+msgid "Add a new Python version"
 msgstr ""
 
 #. PythonVersionsDialog..actlPythonVersions..actPVRemove..Caption
@@ -850,7 +850,7 @@ msgstr ""
 
 #. PythonVersionsDialog..actlPythonVersions..actPVRemove..Hint
 #: dlgPythonVersions.dfm
-msgid "Remove selected python version"
+msgid "Remove selected Python version"
 msgstr ""
 
 #. PythonVersionsDialog..actlPythonVersions..actPVTest..Caption
@@ -860,7 +860,7 @@ msgstr ""
 
 #. PythonVersionsDialog..actlPythonVersions..actPVTest..Hint
 #: dlgPythonVersions.dfm
-msgid "Test selected python version"
+msgid "Test selected Python version"
 msgstr ""
 
 #. PythonVersionsDialog..actlPythonVersions..actPVShow..Caption
@@ -870,7 +870,7 @@ msgstr ""
 
 #. PythonVersionsDialog..actlPythonVersions..actPVShow..Hint
 #: dlgPythonVersions.dfm
-msgid "Show selected python version in Explorer"
+msgid "Show selected Python version in Explorer"
 msgstr ""
 
 #. PythonVersionsDialog..actlPythonVersions..actPVCommandShell..Caption
@@ -880,7 +880,7 @@ msgstr ""
 
 #. PythonVersionsDialog..actlPythonVersions..actPVCommandShell..Hint
 #: dlgPythonVersions.dfm
-msgid "Open command prompt for the selected python version"
+msgid "Open command prompt for the selected Python version"
 msgstr ""
 
 #. PythonVersionsDialog..actlPythonVersions..actPVHelp..Caption
@@ -918,7 +918,7 @@ msgstr ""
 
 #. PythonVersionsDialog..actlPythonVersions..actPVRename..Hint
 #: dlgPythonVersions.dfm
-msgid "Rename selected python version"
+msgid "Rename selected Python version"
 msgstr ""
 
 #. RemoteFileDialog..Panel1..Label1..Caption
@@ -3878,7 +3878,7 @@ msgid "My &Documents"
 msgstr ""
 
 #. FileExplorerWindow..ExplorerPopUp..mnBrowsePath..CurrentDirectory..Caption
-#: frmFileExplorer.dfm
+#: frmFileExplorer.dfm uParams.pas
 msgid "Current Directory"
 msgstr ""
 
@@ -4881,7 +4881,7 @@ msgid "&Files"
 msgstr ""
 
 #. PyIDEMainForm..TabControlPopupMenu..mnFiles..Hint
-#: frmPyIDEMain.dfm
+#: frmPyIDEMain.dfm uParams.pas
 msgid "Open Files"
 msgstr ""
 
@@ -5649,7 +5649,7 @@ msgstr ""
 
 #. PyIDEMainForm..actlStandard..actPythonSetup..Hint
 #: frmPyIDEMain.dfm
-msgid "Setup python engine"
+msgid "Setup Python engine"
 msgstr ""
 
 #. PyIDEMainForm..actlStandard..actRemoteFileOpen..Caption
@@ -5665,7 +5665,8 @@ msgid "Open Remote File with SSH"
 msgstr ""
 
 #. PythonIIForm..Caption
-#: frmPythonII.dfm dmCommands.pas
+#. Create a Python External Run tool which is used in the run menu
+#: frmPythonII.dfm cTools.pas dmCommands.pas
 msgid "Python Interpreter"
 msgstr ""
 
@@ -6056,23 +6057,23 @@ msgid "User name"
 msgstr ""
 
 #: cSSHSupport.pas
-msgid "Command to execute python (no spaces)"
+msgid "Command to execute Python (no spaces)"
 msgstr ""
 
 #: cSSHSupport.pas
 msgid "Path to SSH Command"
 msgstr ""
 
-#: cSSHSupport.pas
-msgid "SSH options (optional)"
+#: cSSHSupport.pas dmCommands.pas
+msgid "SSH options"
 msgstr ""
 
 #: cSSHSupport.pas
-msgid "Path to Scp Command"
+msgid "Path to SCP Command"
 msgstr ""
 
-#: cSSHSupport.pas
-msgid "Scp options (optional)"
+#: cSSHSupport.pas dmCommands.pas
+msgid "SCP options"
 msgstr ""
 
 #: cSSHSupport.pas
@@ -6081,6 +6082,83 @@ msgstr ""
 
 #: cSSHSupport.pas
 msgid "Edit SSH Server"
+msgstr ""
+
+#. Add a few standard tools to the collection
+#: cTools.pas
+msgid "Python &Interpreter"
+msgstr ""
+
+#: cTools.pas
+msgid "External Python Interpreter"
+msgstr ""
+
+#: cTools.pas
+msgid "Install Packages with pip"
+msgstr ""
+
+#: cTools.pas
+msgid "Install Python packages"
+msgstr ""
+
+#: cTools.pas
+msgid "Python&Win help"
+msgstr ""
+
+#: cTools.pas
+msgid "Show PythonWin Help"
+msgstr ""
+
+#: cTools.pas
+msgid "Check &Indentation"
+msgstr ""
+
+#: cTools.pas
+msgid "Check the indentation of the Python program"
+msgstr ""
+
+#: cTools.pas
+msgid "Command Prompt"
+msgstr ""
+
+#: cTools.pas
+msgid "Start a console at the directory of the active file"
+msgstr ""
+
+#: cTools.pas
+msgid "Profile"
+msgstr ""
+
+#: cTools.pas
+msgid "Profile active file"
+msgstr ""
+
+#: cTools.pas
+msgid "PyLint tool (www.logilab.org/projects/pylint)"
+msgstr ""
+
+#: cTools.pas
+msgid "Advanced Replace"
+msgstr ""
+
+#: cTools.pas
+msgid "Advanced Search and replace"
+msgstr ""
+
+#: cTools.pas
+msgid "Sort Selection"
+msgstr ""
+
+#: cTools.pas
+msgid "Sort the selected editor block (\"one-liner\" demo)"
+msgstr ""
+
+#: cTools.pas
+msgid "&Re-indent"
+msgstr ""
+
+#: cTools.pas
+msgid "Re-indent the active file"
 msgstr ""
 
 #: dlgAboutPyScripter.pas
@@ -6259,6 +6337,10 @@ msgid "Directory To Search:"
 msgstr ""
 
 #: dlgPythonVersions.pas
+msgid "Select folder with Python installation (inlcuding virtualenv and venv)"
+msgstr ""
+
+#: dlgPythonVersions.pas
 msgid "Rename Python Version"
 msgstr ""
 
@@ -6312,7 +6394,7 @@ msgid "Dock animation move width (pixels)"
 msgstr ""
 
 #: dmCommands.pas
-msgid "File template for new python scripts"
+msgid "File template for new Python scripts"
 msgstr ""
 
 #: dmCommands.pas
@@ -6541,15 +6623,7 @@ msgid "SSH command"
 msgstr ""
 
 #: dmCommands.pas
-msgid "SSH options"
-msgstr ""
-
-#: dmCommands.pas
-msgid "Scp command"
-msgstr ""
-
-#: dmCommands.pas
-msgid "Scp options"
+msgid "SCP command"
 msgstr ""
 
 #: dmCommands.pas
@@ -7806,24 +7880,24 @@ msgstr ""
 
 #. Programmer's name for it: SScpError4
 #: StringResources.pas
-msgid "Scp Error: Connecting to host failed"
+msgid "SCP Error: Connecting to host failed"
 msgstr ""
 
 #. Programmer's name for it: SScpError5
 #: StringResources.pas
-msgid "Scp Error: Connection lost for some reason"
+msgid "SCP Error: Connection lost for some reason"
 msgstr ""
 
 #. Programmer's name for it: SScpErrorTimeout
 #: StringResources.pas
-msgid "Scp Error: Timeout"
+msgid "SCP Error: Timeout"
 msgstr ""
 
 #. Programmer's name for it: SScpErrorOther
 #: StringResources.pas
 #, object-pascal-format
 msgid ""
-"Scp Error:\n"
+"SCP Error:\n"
 "Output: %s+\n"
 "Error Output: %s+"
 msgstr ""
@@ -7860,8 +7934,8 @@ msgstr ""
 #: StringResources.pas
 #, object-pascal-format
 msgid ""
-"Local python version is %s and remote python version is %s. To use this SSH "
-"server please switch to python version %1:s"
+"Local Python version is %s and remote Python version is %s. To use this SSH "
+"server please switch to Python version %1:s"
 msgstr ""
 
 #. Programmer's name for it: SYNS_FriendlyMatchingBrace
@@ -7882,4 +7956,228 @@ msgstr ""
 #. Programmer's name for it: SYNS_FilterYAML
 #: SynHighlighterYAML.pas
 msgid "YAML files (*.yaml)|*.yaml"
+msgstr ""
+
+#. Python Paths etc.
+#: uParams.pas
+msgid "Directory of active Python version"
+msgstr ""
+
+#: uParams.pas
+msgid "Executable of active Python"
+msgstr ""
+
+#: uParams.pas
+msgid "Version of active Python"
+msgstr ""
+
+#. register system paths and parameters
+#: uParams.pas
+msgid "Program Files directory"
+msgstr ""
+
+#: uParams.pas
+msgid "Common Files directory"
+msgstr ""
+
+#: uParams.pas
+msgid "Windows installation directory"
+msgstr ""
+
+#: uParams.pas
+msgid "Windows System directory"
+msgstr ""
+
+#: uParams.pas
+msgid "Windows Temp Directory"
+msgstr ""
+
+#: uParams.pas
+msgid "MyDocuments directory"
+msgstr ""
+
+#: uParams.pas
+msgid "Desktop Directory"
+msgstr ""
+
+#. register parameters
+#: uParams.pas
+msgid "Clipboard As Text"
+msgstr ""
+
+#: uParams.pas
+msgid "User Name"
+msgstr ""
+
+#: uParams.pas
+msgid "Executable Name"
+msgstr ""
+
+#: uParams.pas
+msgid "Python Command Line Arguments"
+msgstr ""
+
+#. register parameter modifiers
+#: uParams.pas
+msgid "Path of file"
+msgstr ""
+
+#: uParams.pas
+msgid "Path without delimeter"
+msgstr ""
+
+#: uParams.pas
+msgid "File name"
+msgstr ""
+
+#: uParams.pas
+msgid "File Extension"
+msgstr ""
+
+#: uParams.pas
+msgid "File extension without \".\""
+msgstr ""
+
+#: uParams.pas
+msgid "File name without extension"
+msgstr ""
+
+#: uParams.pas
+msgid "File drive"
+msgstr ""
+
+#: uParams.pas
+msgid "Expanded file name"
+msgstr ""
+
+#: uParams.pas
+msgid "Expanded UNC file name"
+msgstr ""
+
+#: uParams.pas
+msgid "Long file name"
+msgstr ""
+
+#: uParams.pas
+msgid "Short file name"
+msgstr ""
+
+#: uParams.pas
+msgid "Path with final path delimiter added"
+msgstr ""
+
+#: uParams.pas
+msgid "Path with final path delimiter removed"
+msgstr ""
+
+#: uParams.pas
+msgid "File type"
+msgstr ""
+
+#: uParams.pas
+msgid "Contents of text file"
+msgstr ""
+
+#: uParams.pas
+msgid "Command line parameter"
+msgstr ""
+
+#: uParams.pas
+msgid "Value of registry key"
+msgstr ""
+
+#: uParams.pas
+msgid "Value of environment variable"
+msgstr ""
+
+#: uParams.pas
+msgid "Upper case of string"
+msgstr ""
+
+#: uParams.pas
+msgid "Lower case of string"
+msgstr ""
+
+#: uParams.pas
+msgid "Quoted string"
+msgstr ""
+
+#: uParams.pas
+msgid "Unquoted string"
+msgstr ""
+
+#: uParams.pas
+msgid "Current date and time"
+msgstr ""
+
+#: uParams.pas
+msgid "Select file"
+msgstr ""
+
+#: uParams.pas
+msgid "Select directory"
+msgstr ""
+
+#: uParams.pas
+msgid "Date of a date-time value"
+msgstr ""
+
+#: uParams.pas
+msgid "Time of a date-time value"
+msgstr ""
+
+#: uParams.pas
+msgid "Date of a file"
+msgstr ""
+
+#: uParams.pas
+msgid "Creation date of a file"
+msgstr ""
+
+#: uParams.pas
+msgid "Last modification date of a file"
+msgstr ""
+
+#: uParams.pas
+msgid "Last access date of a file"
+msgstr ""
+
+#: uParams.pas
+msgid "Formatted date"
+msgstr ""
+
+#: uParams.pas
+msgid "Active document name"
+msgstr ""
+
+#: uParams.pas
+msgid "The name or last run script"
+msgstr ""
+
+#: uParams.pas
+msgid "Project file name"
+msgstr ""
+
+#: uParams.pas
+msgid "Modified Files"
+msgstr ""
+
+#: uParams.pas
+msgid "Text of the active document or a file"
+msgstr ""
+
+#: uParams.pas
+msgid "Current word in the active document"
+msgstr ""
+
+#: uParams.pas
+msgid "Current line in the active document"
+msgstr ""
+
+#: uParams.pas
+msgid "Current line number in the active document"
+msgstr ""
+
+#: uParams.pas
+msgid "Selected text in the active document"
 msgstr ""

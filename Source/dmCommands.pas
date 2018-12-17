@@ -1960,7 +1960,7 @@ begin
     Options[7].PropertyName := 'DockAnimationMoveWidth';
     Options[7].DisplayName := _('Dock animation move width (pixels)');
     Options[8].PropertyName := 'FileTemplateForNewScripts';
-    Options[8].DisplayName := _('File template for new python scripts');
+    Options[8].DisplayName := _('File template for new Python scripts');
     Options[9].PropertyName := 'NoOfRecentFiles';
     Options[9].DisplayName := _('Number of recent files');
     Options[10].PropertyName := 'FileChangeNotification';
@@ -2128,9 +2128,9 @@ begin
     Options[1].PropertyName := 'SSHOptions';
     Options[1].DisplayName := _('SSH options');
     Options[2].PropertyName := 'ScpCommand';
-    Options[2].DisplayName := _('Scp command');
+    Options[2].DisplayName := _('SCP command');
     Options[3].PropertyName := 'ScpOptions';
-    Options[3].DisplayName := _('Scp options');
+    Options[3].DisplayName := _('SCP options');
     Options[4].PropertyName := 'SSHDisableVariablesWin';
     Options[4].DisplayName := _('Disable Variables Window with SSH');
   end;

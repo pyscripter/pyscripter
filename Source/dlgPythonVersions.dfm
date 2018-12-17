@@ -116,42 +116,42 @@ inherited PythonVersionsDialog: TPythonVersionsDialog
     object actPVActivate: TAction
       Caption = 'Activate'
       HelpContext = 880
-      Hint = 'Activate selected python version'
+      Hint = 'Activate selected Python version'
       ImageIndex = 159
       OnExecute = actPVActivateExecute
     end
     object actPVAdd: TAction
       Caption = 'Add'
       HelpContext = 880
-      Hint = 'Add a new python version'
+      Hint = 'Add a new Python version'
       ImageIndex = 49
       OnExecute = actPVAddExecute
     end
     object actPVRemove: TAction
       Caption = 'Remove'
       HelpContext = 880
-      Hint = 'Remove selected python version'
+      Hint = 'Remove selected Python version'
       ImageIndex = 52
       OnExecute = actPVRemoveExecute
     end
     object actPVTest: TAction
       Caption = 'Test'
       HelpContext = 880
-      Hint = 'Test selected python version'
+      Hint = 'Test selected Python version'
       ImageIndex = 130
       OnExecute = actPVTestExecute
     end
     object actPVShow: TAction
       Caption = 'Show'
       HelpContext = 880
-      Hint = 'Show selected python version in Explorer'
+      Hint = 'Show selected Python version in Explorer'
       ImageIndex = 2
       OnExecute = actPVShowExecute
     end
     object actPVCommandShell: TAction
       Caption = 'Shell'
       HelpContext = 880
-      Hint = 'Open command prompt for the selected python version'
+      Hint = 'Open command prompt for the selected Python version'
       ImageIndex = 89
       OnExecute = actPVCommandShellExecute
     end
@@ -165,7 +165,7 @@ inherited PythonVersionsDialog: TPythonVersionsDialog
     object actPVRename: TAction
       Caption = 'Rename'
       HelpContext = 880
-      Hint = 'Rename selected python version'
+      Hint = 'Rename selected Python version'
       ImageIndex = 160
       OnExecute = actPVRenameExecute
     end

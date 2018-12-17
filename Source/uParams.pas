@@ -623,85 +623,84 @@ begin
     RegisterParameter('Python35Exe', '$[PYTHON35DIR]python.exe', nil);
     RegisterParameter('Python36Exe', '$[PYTHON36DIR]python.exe', nil);
     RegisterParameter('Python37Exe', '$[PYTHON37DIR]python.exe', nil);
-    RegisterParameter('PythonDir', 'Directory of active python version', GetActivePythonDir);
-    RegisterParameter('PythonExe', 'Executable of active Python', GetActivePythonExe);
-    RegisterParameter('PythonwExe', 'Executable of active Python', GetActivePythonwExe);
-    RegisterParameter('PythonVersion', 'Version of active Python', GetPythonVersion);
+    RegisterParameter('PythonDir', _('Directory of active Python version'), GetActivePythonDir);
+    RegisterParameter('PythonExe', _('Executable of active Python'), GetActivePythonExe);
+    RegisterParameter('PythonwExe', _('Executable of active Python'), GetActivePythonwExe);
+    RegisterParameter('PythonVersion', _('Version of active Python'), GetPythonVersion);
 
     // register system paths and parameters
-    RegisterParameter('ProgramFiles', 'Program Files directory', GetProgramFilesFolder);
-    RegisterParameter('CommonFiles', 'Common Files directory', GetCommonFilesFolder);
-    RegisterParameter('Windows', 'Windows installation directory', WindowsDirectory);
-    RegisterParameter('WindowsSystem', 'Windows System directory', SystemDirectory);
-    RegisterParameter('WindowsTemp', 'Windows Temp Directory', GetTempDir);
-    RegisterParameter('MyDocuments', 'MyDocuments directory', GetPersonalFolder);
-    RegisterParameter('Desktop', 'Desktop Directory', GetPhysicalDesktopFolder);
+    RegisterParameter('ProgramFiles', _('Program Files directory'), GetProgramFilesFolder);
+    RegisterParameter('CommonFiles', _('Common Files directory'), GetCommonFilesFolder);
+    RegisterParameter('Windows', _('Windows installation directory'), WindowsDirectory);
+    RegisterParameter('WindowsSystem', _('Windows System directory'), SystemDirectory);
+    RegisterParameter('WindowsTemp', _('Windows Temp Directory'), GetTempDir);
+    RegisterParameter('MyDocuments', _('MyDocuments directory'), GetPersonalFolder);
+    RegisterParameter('Desktop', _('Desktop Directory'), GetPhysicalDesktopFolder);
 
     // register parameters
-    RegisterParameter('Paste', 'Clipboard As Text', GetClipboard);
-    RegisterParameter('UserName', 'User Name', GetUserName);
-    RegisterParameter('CurrentDir', 'Current Directory', GetCurrentDir);
-    RegisterParameter('Exe', 'Executable Name', GetExe);
-    RegisterParameter('CmdLineArgs', 'Python Command Line Arguments', GetCmdLineArgs);
+    RegisterParameter('Paste', _('Clipboard As Text'), GetClipboard);
+    RegisterParameter('UserName', _('User Name'), GetUserName);
+    RegisterParameter('CurrentDir', _('Current Directory'), GetCurrentDir);
+    RegisterParameter('Exe', _('Executable Name'), GetExe);
+    RegisterParameter('CmdLineArgs', _('Python Command Line Arguments'), GetCmdLineArgs);
 
     // register parameter modifiers
-    RegisterModifier('Path', 'Path of file', ExtractFilePath);
-    RegisterModifier('Dir', 'Path without delimeter', ExtractFileDir);
-    RegisterModifier('Name', 'File name', ExtractFileName);
-    RegisterModifier('Ext', 'File Extension', ExtractFileExt);
-    RegisterModifier('ExtOnly', 'File extension without "."', GetFileExt);
-    RegisterModifier('NoExt', 'File name without extension', StripExtension);
-    RegisterModifier('Drive', 'File drive', ExtractFileDrive);
-    RegisterModifier('Full', 'Expanded file name', ExpandFileName);
-    RegisterModifier('UNC', 'Expanded UNC file name', ExpandUNCFileName);
-    RegisterModifier('Long', 'Long file name', GetLongFileName);
-    RegisterModifier('Short', 'Short file name', GetShortFileName);
-    RegisterModifier('Sep', 'Path with final path delimiter added', IncludeTrailingPathDelimiter);
-    RegisterModifier('NoSep', 'Path with final path delimiter removed', ExcludeTrailingPathDelimiter);
-    RegisterModifier('Type', 'File type', GetFileType);
-    RegisterModifier('Text', 'Contents of text file', FileToStr);
-    RegisterModifier('Param', 'Command line parameter', GetParam);
-    RegisterModifier('Reg', 'Value of registry key', GetReg);
-    RegisterModifier('Env', 'Value of environment variable', GetEnvironmentVariable);
-    RegisterModifier('UpperCase', 'Upper case of string', System.SysUtils.AnsiUpperCase);
-    RegisterModifier('LowerCase', 'Lower case of string', System.SysUtils.AnsiLowerCase);
-    RegisterModifier('Quote', 'Quoted string', StrDefQuote);
-    RegisterModifier('UnQuote', 'Unquoted string', StrUnquote);
+    RegisterModifier('Path', _('Path of file'), ExtractFilePath);
+    RegisterModifier('Dir', _('Path without delimeter'), ExtractFileDir);
+    RegisterModifier('Name', _('File name'), ExtractFileName);
+    RegisterModifier('Ext', _('File Extension'), ExtractFileExt);
+    RegisterModifier('ExtOnly', _('File extension without "."'), GetFileExt);
+    RegisterModifier('NoExt', _('File name without extension'), StripExtension);
+    RegisterModifier('Drive', _('File drive'), ExtractFileDrive);
+    RegisterModifier('Full', _('Expanded file name'), ExpandFileName);
+    RegisterModifier('UNC', _('Expanded UNC file name'), ExpandUNCFileName);
+    RegisterModifier('Long', _('Long file name'), GetLongFileName);
+    RegisterModifier('Short', _('Short file name'), GetShortFileName);
+    RegisterModifier('Sep', _('Path with final path delimiter added'), IncludeTrailingPathDelimiter);
+    RegisterModifier('NoSep', _('Path with final path delimiter removed'), ExcludeTrailingPathDelimiter);
+    RegisterModifier('Type', _('File type'), GetFileType);
+    RegisterModifier('Text', _('Contents of text file'), FileToStr);
+    RegisterModifier('Param', _('Command line parameter'), GetParam);
+    RegisterModifier('Reg', _('Value of registry key'), GetReg);
+    RegisterModifier('Env', _('Value of environment variable'), GetEnvironmentVariable);
+    RegisterModifier('UpperCase', _('Upper case of string'), System.SysUtils.AnsiUpperCase);
+    RegisterModifier('LowerCase', _('Lower case of string'), System.SysUtils.AnsiLowerCase);
+    RegisterModifier('Quote', _('Quoted string'), StrDefQuote);
+    RegisterModifier('UnQuote', _('Unquoted string'), StrUnquote);
 
    (* parameters, specific for PyScripter *)
     RegisterParameter('SelectFile', '$[-SelectFile]', nil);
     RegisterParameter('SelectedFile', '', nil);
     RegisterParameter('SelectDir', '$[-SelectDir]', nil);
     RegisterParameter('SelectedDir', '', nil);
-    RegisterParameter('DateTime', 'Current Date and Time', GetDateTime);
-    RegisterModifier('SelectFile', 'Select file', SelectFile);
-    RegisterModifier('SelectDir', 'Select directory', SelectDir);
-    RegisterModifier('Date', 'Date of a datetime value', GetDate);
-    RegisterModifier('Time', 'Time of a datetime value', GetTime);
-    RegisterModifier('FileDate', 'Date of a file', GetFileDate);
-    RegisterModifier('DateCreate', 'Creation date of a file', GetFileDateCreate);
-    RegisterModifier('DateWrite',  'Last modification date of a file', GetFileDateWrite);
-    RegisterModifier('DateAccess', 'Last access date of a file', GetFileDateAccess);
-    RegisterModifier('DateFormat', 'Formatted date', GetDateFormated);
+    RegisterParameter('DateTime', _('Current date and time'), GetDateTime);
+    RegisterModifier('SelectFile', _('Select file'), SelectFile);
+    RegisterModifier('SelectDir', _('Select directory'), SelectDir);
+    RegisterModifier('Date', _('Date of a date-time value'), GetDate);
+    RegisterModifier('Time', _('Time of a date-time value'), GetTime);
+    RegisterModifier('FileDate', _('Date of a file'), GetFileDate);
+    RegisterModifier('DateCreate', _('Creation date of a file'), GetFileDateCreate);
+    RegisterModifier('DateWrite',  _('Last modification date of a file'), GetFileDateWrite);
+    RegisterModifier('DateAccess', _('Last access date of a file'), GetFileDateAccess);
+    RegisterModifier('DateFormat', _('Formatted date'), GetDateFormated);
 
     (* parameters, that change often in one PyScripter session *)
     (* editor related *)
-    RegisterParameter('ActiveDoc', 'Active document name', GetActiveDoc);
-    RegisterParameter('ActiveScript', 'The name or last run script', GetActiveScript);
-    RegisterParameter('Project', 'Project File Name', GetProjectFile);
-    RegisterParameter('ModFiles', 'Modified Files', GetModFiles);
-    RegisterParameter('OpenFiles', 'Open Files', GetOpenFiles);
+    RegisterParameter('ActiveDoc', _('Active document name'), GetActiveDoc);
+    RegisterParameter('ActiveScript', _('The name or last run script'), GetActiveScript);
+    RegisterParameter('Project', _('Project file name'), GetProjectFile);
+    RegisterParameter('ModFiles', _('Modified Files'), GetModFiles);
+    RegisterParameter('OpenFiles', _('Open Files'), GetOpenFiles);
     RegisterParameter('CurWord', '$[-CurWord]', nil);
     RegisterParameter('CurLine', '$[-CurLine]', nil);
     RegisterParameter('CurLineNumber', '$[-CurLineNumber]', nil);
     RegisterParameter('SelText', '$[-SelText]', nil);
-    RegisterModifier('EdText', 'Text of the active document or a file', GetFileText);
-    RegisterModifier('CurWord', 'Current word in the active document', GetCurWord);
-    RegisterModifier('CurLine', 'Current line in the active document', GetCurLine);
-    RegisterModifier('CurLineNumber', 'Current line number in the active document', GetCurLineNumber);
-    RegisterModifier('SelText', 'Selected text in the active document', GetSelText);
+    RegisterModifier('EdText', _('Text of the active document or a file'), GetFileText);
+    RegisterModifier('CurWord', _('Current word in the active document'), GetCurWord);
+    RegisterModifier('CurLine', _('Current line in the active document'), GetCurLine);
+    RegisterModifier('CurLineNumber', _('Current line number in the active document'), GetCurLineNumber);
+    RegisterModifier('SelText', _('Selected text in the active document'), GetSelText);
   end;
-
 end;
 
 procedure UnRegisterStandardParametersAndModifiers;

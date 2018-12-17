@@ -21,10 +21,10 @@ type
    { The available types of PythonEngines }
    TPythonEngineType =
      (peInternal,   // always available - used to communicate with external ones
-      peRemote,     // rpyc based external python - default
+      peRemote,     // rpyc based external Python - default
       peRemoteTk,   // specialized engines used to run GUI scripts
       peRemoteWx,
-      peSSH);       // SSH python engine
+      peSSH);       // SSH Python engine
 
 const
   EngineTypeName : array [TPythonEngineType] of string =
