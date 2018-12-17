@@ -11,7 +11,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2018-11-08 05:09\n"
+"POT-Creation-Date: 2018-12-14 18:12\n"
 "PO-Revision-Date: 2018-01-24 08:21+0000\n"
 "Last-Translator: luebbe <luebbe.opensource@gmail.com>, 2018\n"
 "Language-Team: German (https://www.transifex.com/luebbe/teams/82736/de/)\n"
@@ -66,7 +66,12 @@ msgstr ""
 msgid "Unknown parameter"
 msgstr "Unbekannter Parameter"
 
-#. AskParamForm..SpTBXPanel1..btnOK..Caption
+#. AskParamForm..Panel1..Label1..Caption
+#: dlgAskParam.dfm
+msgid "Enter value for parameter "
+msgstr "Einen Parameterwert eingeben"
+
+#. AskParamForm..Panel1..btnOK..Caption
 #. CodeTemplates..Panel..btnOK..Caption
 #. CollectionEditor..Panel1..OKBtn..Caption
 #. CommandLineDlg..Panel..OKButton..Caption
@@ -99,7 +104,7 @@ msgstr "Unbekannter Parameter"
 msgid "&OK"
 msgstr "&OK"
 
-#. AskParamForm..SpTBXPanel1..btnCancel..Caption
+#. AskParamForm..Panel1..btnCancel..Caption
 #. CodeTemplates..Panel..btnCancel..Caption
 #. CollectionEditor..Panel1..CancelBtn..Caption
 #. CommandLineDlg..Panel..BitBtn2..Caption
@@ -134,15 +139,10 @@ msgstr "&OK"
 msgid "&Cancel"
 msgstr "&Abbruch"
 
-#. AskParamForm..SpTBXPanel1..chkSaveToFile..Caption
+#. AskParamForm..Panel1..chkSaveToFile..Caption
 #: dlgAskParam.dfm
 msgid "and save it as a custom parameter"
 msgstr "und speichere es als nutzerdefinierten Parameter"
-
-#. AskParamForm..SpTBXPanel1..Label1..Caption
-#: dlgAskParam.dfm
-msgid "Enter value for parameter "
-msgstr "Einen Parameterwert eingeben"
 
 #. CodeTemplates..Caption
 #: dlgCodeTemplates.dfm
@@ -219,9 +219,9 @@ msgstr "Drücke Shift+Strg+P für Parametervervollständigung"
 #. CodeTemplates..Panel..lvItems......Caption
 #. CustomizeParams..Panel..lvItems......Caption
 #. FileTemplatesDialog..Panel..lvItems......Caption
-#. PythonVersionsDialog..Panel1..gbPythonVersions..vtPythonVersions......WideText
+#. PythonVersionsDialog..Panel1..gbPythonVersions..vtPythonVersions......Text
 #. ToolProperties..Panel1..TabControl..tabEnvironment..lvItems......Caption
-#. RegExpTesterWindow..BGPanel..FGPanel..pnlBackground..dpGroupsView..GroupsView......WideText
+#. RegExpTesterWindow..BGPanel..FGPanel..pnlBackground..dpGroupsView..GroupsView......Text
 #. VariablesWindow..BGPanel..FGPanel..Panel1..VariablesTree......WideText
 #: dlgCodeTemplates.dfm dlgCustomParams.dfm dlgFileTemplates.dfm
 #: dlgPythonVersions.dfm dlgToolProperties.dfm frmRegExpTester.dfm
@@ -422,7 +422,7 @@ msgstr "&Wert:"
 #. CustomizeParams..Panel..lvItems......Caption
 #. OptionsInspector..Panel1..Inspector..HeaderValueText
 #. ToolProperties..Panel1..TabControl..tabEnvironment..lvItems......Caption
-#. RegExpTesterWindow..BGPanel..FGPanel..pnlBackground..dpGroupsView..GroupsView......WideText
+#. RegExpTesterWindow..BGPanel..FGPanel..pnlBackground..dpGroupsView..GroupsView......Text
 #. VariablesWindow..BGPanel..FGPanel..Panel1..VariablesTree......WideText
 #. WatchesWindow..BGPanel..FGPanel..Panel1..WatchesView......WideText
 #: dlgCustomParams.dfm dlgOptionsEditor.dfm dlgToolProperties.dfm
@@ -823,9 +823,15 @@ msgstr "Alle Einträge abwählen"
 #. PythonIIForm..InterpreterPopUp..mnPythonVersions..Caption
 #: dlgPythonVersions.dfm frmPyIDEMain.dfm frmPythonII.dfm
 msgid "Python Versions"
-msgstr "Python-Versionen"
+msgstr "Pythonversionen"
 
-#. PythonVersionsDialog..Panel1..gbPythonVersions..vtPythonVersions......WideText
+#. PythonVersionsDialog..Panel1..gbPythonVersions..vtPythonVersions..DefaultText
+#. RegExpTesterWindow..BGPanel..FGPanel..pnlBackground..dpGroupsView..GroupsView..DefaultText
+#: dlgPythonVersions.dfm frmRegExpTester.dfm
+msgid "Node"
+msgstr "Knoten"
+
+#. PythonVersionsDialog..Panel1..gbPythonVersions..vtPythonVersions......Text
 #: dlgPythonVersions.dfm
 msgid "Folder"
 msgstr "Ordner"
@@ -838,7 +844,7 @@ msgstr "Aktivieren"
 #. PythonVersionsDialog..actlPythonVersions..actPVActivate..Hint
 #: dlgPythonVersions.dfm
 msgid "Activate selected python version"
-msgstr "Die gewählte Python-Version aktivieren"
+msgstr "Die gewählte Pythonversion aktivieren"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVAdd..Caption
 #: dlgPythonVersions.dfm
@@ -848,7 +854,7 @@ msgstr "Hinzufügen"
 #. PythonVersionsDialog..actlPythonVersions..actPVAdd..Hint
 #: dlgPythonVersions.dfm
 msgid "Add a new python version"
-msgstr "Eine neue Python-Version hinzufügen"
+msgstr "Eine neue Pythonversion hinzufügen"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVRemove..Caption
 #: dlgPythonVersions.dfm
@@ -858,7 +864,7 @@ msgstr "Entfernen"
 #. PythonVersionsDialog..actlPythonVersions..actPVRemove..Hint
 #: dlgPythonVersions.dfm
 msgid "Remove selected python version"
-msgstr "Die gewählte Python-Version entfernen"
+msgstr "Die gewählte Pythonversion entfernen"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVTest..Caption
 #: dlgPythonVersions.dfm
@@ -868,7 +874,7 @@ msgstr "Testen"
 #. PythonVersionsDialog..actlPythonVersions..actPVTest..Hint
 #: dlgPythonVersions.dfm
 msgid "Test selected python version"
-msgstr "Python-Version testen"
+msgstr "Pythonversion testen"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVShow..Caption
 #: dlgPythonVersions.dfm
@@ -878,7 +884,7 @@ msgstr "Anzeigen"
 #. PythonVersionsDialog..actlPythonVersions..actPVShow..Hint
 #: dlgPythonVersions.dfm
 msgid "Show selected python version in Explorer"
-msgstr "Die gewählte Python-Version im Explorer anzeigen"
+msgstr "Die gewählte Pythonversion im Explorer anzeigen"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVCommandShell..Caption
 #: dlgPythonVersions.dfm
@@ -888,7 +894,7 @@ msgstr "Shell"
 #. PythonVersionsDialog..actlPythonVersions..actPVCommandShell..Hint
 #: dlgPythonVersions.dfm
 msgid "Open command prompt for the selected python version"
-msgstr "Die gewählte Python-Version in der Kommandozeile öffnen"
+msgstr "Die gewählte Pythonversion in der Kommandozeile öffnen"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVHelp..Caption
 #. CommandsDataModule..actlMain..actHelpContents..Category
@@ -4575,10 +4581,15 @@ msgstr "Entfernte Datei hinzufügen"
 msgid "Add a remote file to the folder"
 msgstr "Entfernte Datei zum Ordner hinzufügen"
 
-#. PyIDEMainForm..StatusBar..lbStatusModified..Caption
+#. PyIDEMainForm..StatusBar..lbPythonVersion..Hint
 #: frmPyIDEMain.dfm
-msgid " "
-msgstr ""
+msgid "Python version"
+msgstr "Pythonversion"
+
+#. PyIDEMainForm..StatusBar..lbPythonEngine..Hint
+#: frmPyIDEMain.dfm dmCommands.pas
+msgid "Python engine type"
+msgstr "Typ der Pythonumgebung"
 
 #. PyIDEMainForm..StatusBar..StatusLED..Hint
 #: frmPyIDEMain.dfm frmPyIDEMain.pas
@@ -5698,7 +5709,7 @@ msgstr "Stile..."
 #. PyIDEMainForm..actlStandard..actPythonSetup..Caption
 #: frmPyIDEMain.dfm
 msgid "Setup Python Versions..."
-msgstr "Pythonversionen einrichten..."
+msgstr "Pythonversion einrichten..."
 
 #. PyIDEMainForm..actlStandard..actPythonSetup..Hint
 #: frmPyIDEMain.dfm
@@ -6080,6 +6091,15 @@ msgid "JSON Files (*.json;*.ipynb)|*.json;*.ipynb"
 msgstr "JSON Dateien (*.json;*.ipynb)|*.json;*.ipynb"
 
 #: cSSHSupport.pas
+#, object-pascal-format
+msgid "Enter SSH Password for %s"
+msgstr "Geben Sie das SSH Passwort für %s an"
+
+#: cSSHSupport.pas
+msgid "Password:"
+msgstr "Passwort:"
+
+#: cSSHSupport.pas
 msgid "SSH Servers"
 msgstr "SSH Server"
 
@@ -6104,8 +6124,24 @@ msgid "Command to execute python (no spaces)"
 msgstr "Befehl zum Ausführen von Python (ohne Leerzeichen)"
 
 #: cSSHSupport.pas
-msgid "Additional SSH -o options (optional)"
-msgstr "Weitere SSH -o Optionen (optional)"
+msgid "Path to SSH Command"
+msgstr "Pfad zum SSH Befehl"
+
+#: cSSHSupport.pas
+msgid "SSH options (optional)"
+msgstr "SSH Optionen (optional)"
+
+#: cSSHSupport.pas
+msgid "Path to Scp Command"
+msgstr "Pfad zum Scp Befehl"
+
+#: cSSHSupport.pas
+msgid "Scp options (optional)"
+msgstr "Scp Optionen (optional)"
+
+#: cSSHSupport.pas
+msgid "Password Needed (PyTTY only)"
+msgstr ""
 
 #: cSSHSupport.pas
 msgid "Edit SSH Server"
@@ -6310,11 +6346,11 @@ msgstr "Zu suchendes Verzeichnis:"
 
 #: dlgPythonVersions.pas
 msgid "Rename Python Version"
-msgstr ""
+msgstr "Pythonversion umbenennen"
 
 #: dlgPythonVersions.pas
 msgid "New name:"
-msgstr ""
+msgstr "Neuer Name:"
 
 #. Programmer's name for it: SGrepResultsNotActive
 #: dlgReplaceInFiles.pas
@@ -6393,10 +6429,6 @@ msgstr "Timeout für laufende Skripte in ms"
 #: dmCommands.pas
 msgid "UTF8 in interactive interpreter"
 msgstr "UTF8 im interaktiven Interpreter"
-
-#: dmCommands.pas
-msgid "Python engine type"
-msgstr "Typ der Pythonumgebung"
 
 #: dmCommands.pas
 msgid "Pretty print output"
@@ -6591,15 +6623,23 @@ msgid "File Explorer background processing"
 msgstr ""
 
 #: dmCommands.pas
-msgid "SSH Command"
+msgid "SSH command"
 msgstr "SSH Befehl"
 
 #: dmCommands.pas
-msgid "Scp Command"
-msgstr "SCP Befehl"
+msgid "SSH options"
+msgstr "SSH Optionen"
 
 #: dmCommands.pas
-msgid "Disable Variables Windows with SSH"
+msgid "Scp command"
+msgstr "Scp Befehl"
+
+#: dmCommands.pas
+msgid "Scp options"
+msgstr "Scp Optionen"
+
+#: dmCommands.pas
+msgid "Disable Variables Window with SSH"
 msgstr ""
 
 #: dmCommands.pas
@@ -6740,6 +6780,10 @@ msgstr "Python nicht verfügbar"
 #: frmPyIDEMain.pas
 msgid "Debugger state: "
 msgstr "Debuggerstatus:"
+
+#: frmPyIDEMain.pas
+msgid "Python Not Available"
+msgstr ""
 
 #: frmRegExpTester.pas
 #, object-pascal-format
@@ -7915,21 +7959,46 @@ msgstr ""
 msgid "Scp Error: Connection lost for some reason"
 msgstr ""
 
-#. Programmer's name for it: SScpOtherError
+#. Programmer's name for it: SScpErrorTimeout
 #: StringResources.pas
-msgid "Scp Error: Unspecified failure"
+msgid "Scp Error: Timeout"
 msgstr ""
 
-#. Programmer's name for it: SSSHUnknownServer
+#. Programmer's name for it: SScpErrorOther
 #: StringResources.pas
 #, object-pascal-format
-msgid "Unknown server \"%s\""
+msgid ""
+"Scp Error:\n"
+"Output: %s+\n"
+"Error Output: %s+"
 msgstr ""
 
-#. Programmer's name for it: SSSHPythonError
+#. Programmer's name for it: SSHUnknownServer
 #: StringResources.pas
 #, object-pascal-format
-msgid "Failed to execute Python (\"%s\") on the SSH server"
+msgid "Unknown SSH server \"%s\""
+msgstr ""
+
+#. Programmer's name for it: SSHUnknownServerQuery
+#: StringResources.pas
+#, object-pascal-format
+msgid "Unknown SSH server with fingerpring \"%s\". Do you want to proceed?"
+msgstr ""
+
+#. Programmer's name for it: SSHPythonTimeout
+#: StringResources.pas
+#, object-pascal-format
+msgid "Execution of Python (\"%s\") on the SSH server timed out"
+msgstr ""
+
+#. Programmer's name for it: SSHPythonError
+#: StringResources.pas
+#, object-pascal-format
+msgid ""
+"Failed to execute Python (\"%s\") on the SSH server:\n"
+"ReturnCode: %d\n"
+"Output: %s\n"
+"ErrorOutput: %s"
 msgstr ""
 
 #. Programmer's name for it: SSHVersionMismatch
@@ -7939,12 +8008,8 @@ msgid ""
 "Local python version is %s and remote python version is %s. To use this SSH "
 "server please switch to python version %1:s"
 msgstr ""
-
-#. Programmer's name for it: SSHUnknownServer
-#: StringResources.pas
-#, object-pascal-format
-msgid "Unknown SSH server: \"%s\""
-msgstr ""
+"Lokale Pythonversion ist %s. Entfernte Pythonversion ist %s. Um diesen SSH "
+"Server zu verwenden, wechseln Sie bitte zu Pythonversion %1:s"
 
 #. Programmer's name for it: SYNS_FriendlyMatchingBrace
 #: SynHighlighterPython.pas
