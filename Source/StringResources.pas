@@ -277,7 +277,7 @@ Const
   SScpErrorTimeout = 'SCP Error: Timeout';
   SScpErrorOther = 'SCP Error:'+#13#10+'Output: %s+'+#13#10+'Error Output: %s+';
   SSHUnknownServer = 'Unknown SSH server "%s"';
-  SSHUnknownServerQuery = 'Unknown SSH server with fingerpring "%s". Do you want to proceed?';
+  SSHUnknownServerQuery = 'Unknown SSH server with fingerprint "%s". Do you want to proceed?';
   SSHPythonTimeout = 'Execution of Python ("%s") on the SSH server timed out';
   SSHPythonError = 'Failed to execute Python ("%s") on the SSH server:'+#13#10+
      'ReturnCode: %d'+#13#10+

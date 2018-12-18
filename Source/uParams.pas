@@ -633,9 +633,9 @@ begin
     RegisterParameter('CommonFiles', _('Common Files directory'), GetCommonFilesFolder);
     RegisterParameter('Windows', _('Windows installation directory'), WindowsDirectory);
     RegisterParameter('WindowsSystem', _('Windows System directory'), SystemDirectory);
-    RegisterParameter('WindowsTemp', _('Windows Temp Directory'), GetTempDir);
+    RegisterParameter('WindowsTemp', _('Windows Temp directory'), GetTempDir);
     RegisterParameter('MyDocuments', _('MyDocuments directory'), GetPersonalFolder);
-    RegisterParameter('Desktop', _('Desktop Directory'), GetPhysicalDesktopFolder);
+    RegisterParameter('Desktop', _('Desktop directory'), GetPhysicalDesktopFolder);
 
     // register parameters
     RegisterParameter('Paste', _('Clipboard As Text'), GetClipboard);
