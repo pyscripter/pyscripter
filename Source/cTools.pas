@@ -172,6 +172,7 @@ implementation
 uses
   Winapi.Windows,
   Vcl.Menus,
+  JclStrings,
   JvGnuGetText,
   cParameters,
   frmCommandOutput,
@@ -227,7 +228,7 @@ end;
 
 function TToolItem.GetDisplayName: string;
 begin
-  Result := fExternalTool.Caption;
+  Result := StrRemoveChars(fExternalTool.Caption, ['&']);
 end;
 
 { TExternalTool }
@@ -311,9 +312,7 @@ begin
   if Assigned(fExternalTool) then begin
     ShortCut := fExternalTool.ShortCut;
     Caption := fExternalTool.Caption;
-    S := StringReplace(Caption, ' ', '', [rfReplaceAll]);
-    S := StringReplace(S, '&', '', [rfReplaceAll]);
-    S := StringReplace(S, '.', '', [rfReplaceAll]);  // Fix error reported by David Funtowiez
+    S := StrRemoveChars(Caption , [' ', '&', '.']);  // Fix error reported by David Funtowiez
     if IsValidIdent(S) then
       Name := 'actTools' + S;
     Category := 'External Tools';
@@ -333,7 +332,10 @@ end;
 function TExternalToolAction.Execute: Boolean;
 begin
   if Assigned(fExternalTool) then begin
-    OutputWindow.ExecuteTool(fExternalTool);
+    TThread.ForceQueue(nil, procedure
+    begin
+      OutputWindow.ExecuteTool(fExternalTool);
+    end);
   end;
   Result := True;
 end;
@@ -438,7 +440,7 @@ initialization
     Description := _('PyLint tool (www.logilab.org/projects/pylint)');
     ApplicationName := '$[PythonExe-Short]';
     Parameters := '$[PythonDir-Short]Lib\site-packages\pylint\lint.py $[ActiveDoc-Short] -f parseable';
-    ShortCut := Vcl.Menus.Shortcut(Ord('L'), [ssCtrl]);
+    ShortCut := Vcl.Menus.Shortcut(Ord('L'), [ssShift, ssCtrl]);
     Context := tcActivePythonFile;
     SaveFiles := sfAll;
     ParseTraceback := True;

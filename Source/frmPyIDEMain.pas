@@ -1186,7 +1186,6 @@ type
         State: TSpTBXSkinStatesType; const PaintStage: TSpTBXPaintStage;
         var AImageList: TCustomImageList; var AImageIndex: Integer;
         var ARect: TRect; var PaintDefault: Boolean);
-    procedure SetupCustomizer;
     function GetActiveTabControl: TSpTBXCustomTabControl;
     procedure SetActiveTabControl(const Value: TSpTBXCustomTabControl);
     procedure WMEraseBkgnd(var Message: TWMEraseBkgnd); message WM_ERASEBKGND;
@@ -1268,6 +1267,7 @@ type
     procedure DebuggerErrorPosChange(Sender: TObject);
     procedure SetCurrentPos(Editor : IEditor; ALine: integer);
     procedure PyIDEOptionsChanged;
+    procedure SetupCustomizer;
     procedure SetupLanguageMenu;
     procedure SetupToolsMenu;
     procedure SetupLayoutsMenu;
@@ -4096,10 +4096,14 @@ begin
           end;
         if Assigned(Action) then
         begin
-          Item := TSpTBXItem.Create(Self);
+          // Find items of External actions on UserToolbars
+          Item := FindComponent('tb' + Action.Name) as TTBCustomItem;
+          if not Assigned(Item) then begin
+            Item := TSpTBXItem.Create(Self);
+            Item.Name := 'tb' + Action.Name;
+            SpTBXCustomizer.Items.Add(Item);
+          end;
           Item.Action := Action;
-          Item.Name := 'tb' + Action.Name;
-          SpTBXCustomizer.Items.Add(Item);
         end;
       end;
     end;

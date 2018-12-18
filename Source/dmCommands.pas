@@ -2589,7 +2589,10 @@ end;
 procedure TCommandsDataModule.actConfigureToolsExecute(Sender: TObject);
 begin
   if EditCollection(ToolsCollection, TToolItem, _('Configure Tools'), EditToolItem, 710) then
+  begin
     PyIDEMainForm.SetupToolsMenu;
+    PyIDEMainForm.SetupCustomizer;
+  end;
 end;
 
 procedure TCommandsDataModule.actEditCopyFileNameExecute(Sender: TObject);
