@@ -66,32 +66,18 @@ Known limitations:
 The SynHighlighterWeb unit provides SynEdit with a Multi Html/XHtml/Wml/Xml/Xslt/Css/ECMAScript/Php highlighter.
 }
 
-{$IFNDEF QSYNHIGHLIGHTERWEB}
 unit SynHighlighterWeb;
-{$ENDIF}
 
 {$I SynWeb.inc}
 
 interface
 
 uses
-{$IFDEF SYN_CLX}
-  QGraphics,
-{$IFDEF UNISYNEDIT}
-  QSynUnicode,
-{$ENDIF}
-  QSynEditTypes,
-  QSynEditHighlighter,
-  QSynHighlighterWebData,
-{$ELSE}
   Graphics,
-{$IFDEF UNISYNEDIT}
   SynUnicode,
-{$ENDIF}
   SynEditTypes,
   SynEditHighlighter,
   SynHighlighterWebData,
-{$ENDIF}
   Classes,
   SysUtils;
 
@@ -1203,15 +1189,11 @@ type
 implementation
 
 uses
-{$IFDEF SYN_COMPILER_12_UP}
   AnsiStrings,
-{$ENDIF}
-
-{$IFDEF SYN_CLX}
-  QSynEditStrConst, StrUtils;
-{$ELSE}
-  SynEditStrConst, StrUtils, Controls;
-{$ENDIF}
+  Types,
+  SynEditStrConst,
+  StrUtils,
+  Controls;
 
 { TSynWebOptionsBase }
 
@@ -3871,7 +3853,7 @@ begin
       else
         FInstance^.FTokenID := stkMLTagKeyValue;
       if GetRangeBit(27) then
-        SetRangeBit(28, UpperCase(GetToken) = 'PHP');
+        SetRangeBit(28, AnsiStrings.UpperCase(GetToken) = 'PHP');
       MLSetRange(srsMLTagKey);
     end;
   end;
@@ -3905,7 +3887,7 @@ begin
         Inc(FInstance^.FRun);
         FInstance^.FTokenID := stkMLTagKeyValueQuoted;
         if GetRangeBit(27) then
-          SetRangeBit(28, UpperCase(GetToken) = #39'PHP'#39);
+          SetRangeBit(28, AnsiStrings.UpperCase(GetToken) = #39'PHP'#39);
         Break;
       end;
     end;
@@ -3943,7 +3925,7 @@ begin
         Inc(FInstance^.FRun);
         FInstance^.FTokenID := stkMLTagKeyValueQuoted;
         if GetRangeBit(27) then
-          SetRangeBit(28, UpperCase(GetToken) = '"PHP"');
+          SetRangeBit(28, AnsiStrings.UpperCase(GetToken) = '"PHP"');
         Break;
       end;
     end;
@@ -5626,7 +5608,7 @@ begin
           begin
             SetRangeInt(3, 8, 0);
             case FInstance^.FTokenLastID of
-            CssValID_Rgb:
+            CssValID_Rgb, CssValID_Rgba, CssValID_Hsl, CssValID_Hsla:
               CssSetRange(srsCssPropValRgb);
             CssValID_Url:
               CssSetRange(srsCssPropValUrl);
@@ -5695,6 +5677,9 @@ procedure TSynWebEngine.CssRangePropValRgbProc;
         if FInstance^.FLine[FInstance^.FRun] = '%' then
           Exit;
       end;
+      if FInstance^.FOptions.FCssVersion = scvCss3 then
+        FInstance^.FTokenID := stkCssValNumber
+      else
       FInstance^.FTokenID := stkCssError;
     end;
   end;

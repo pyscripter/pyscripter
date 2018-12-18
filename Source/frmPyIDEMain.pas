@@ -467,7 +467,7 @@
             Triple-click selects line and Quadraple-click selects all.
             Double-click drag selects whole words - Triple-click drag selects wholle lines.
           Issues addressed
-            #904, #922
+            #904, #922, #936
 
             { TODO : Issues 667 }
             { TODO : Review Search and Replace }

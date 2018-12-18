@@ -198,9 +198,6 @@ end;
 procedure TPySSHInterpreter.CreateAndRunServerProcess;
 Var
   ErrorMsg : string;
-  {$IFDEF CPUX86}
-  IsWow64: LongBool;
-  {$ENDIF CPUX86}
 begin
   fShuttingDown := False;
   fServerIsAvailable := False;

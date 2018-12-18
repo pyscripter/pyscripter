@@ -8,17 +8,6 @@ Software distributed under the License is distributed on an "AS IS" basis,
 WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License for
 the specific language governing rights and limitations under the License.
 
-The Original Code is: SynCompletionProposal.pas, released 2000-04-11.
-The Original Code is based on mwCompletionProposal.pas by Cyrille de Brebisson,
-part of the mwEdit component suite.
-Portions created by Cyrille de Brebisson are Copyright (C) 1999
-Cyrille de Brebisson.
-Unicode translation by Maël Hörz.
-All Rights Reserved.
-
-Contributors to the SynEdit and mwEdit projects are listed in the
-Contributors.txt file.
-
 Alternatively, the contents of this file may be used under the terms of the
 GNU General Public License Version 2 or later (the "GPL"), in which case
 the provisions of the GPL are applicable instead of those above.
@@ -28,19 +17,6 @@ under the MPL, indicate your decision by deleting the provisions above and
 replace them with the notice and other provisions required by the GPL.
 If you do not delete the provisions above, a recipient may use your version
 of this file under either the MPL or the GPL.
-
-$Id: SynCompletionProposal.pas,v 1.80.1.1 2013/06/25 10:31:19 codehunterworks Exp $
-
-You may retrieve the latest version of this file at the SynEdit home page,
-located at http://SynEdit.SourceForge.net
-
-Last Changes:
-  1.80.1.1 - Removed TProposalColumn.BiggestWord and
-             added TProposalColumn.ColumnWidth (Static Column Width in Pixels)
-
-Modified by KV to
-  - apply FormatParams to only the first line of the ItemList
-  - to show the commas between parameters in parameter completion
 -------------------------------------------------------------------------------}
 
 unit SynCompletionProposal;
@@ -751,7 +727,7 @@ var
 
       if CurChar = '}' then
       begin
-        Command := SynWideUpperCase(Command);
+        Command := SysUtils.AnsiUpperCase(Command);
 
         Data := nil;
         CommandType := fcNoCommand;
@@ -799,14 +775,14 @@ var
         begin
           if (Length(Parameter) = 2)
             and CharInSet(Parameter[1], ['+', '-', '~'])
-            and CharInSet(SynWideUpperCase(Parameter[2])[1],
+            and CharInSet(SysUtils.AnsiUpperCase(Parameter[2])[1],
               ['B', 'I', 'U', 'S']) then
           begin
             CommandType := fcStyle;
             if not (fcStyle in StripCommands) then
             begin
               Data := New(PFormatStyleData);
-              PFormatStyleData(Data)^.Style := SynWideUpperCase(Parameter[2])[1];
+              PFormatStyleData(Data)^.Style := SysUtils.AnsiUpperCase(Parameter[2])[1];
               case Parameter[1] of
               '+': PFormatStyleData(Data)^.Action := 1;
               '-': PFormatStyleData(Data)^.Action := -1;
@@ -1057,7 +1033,7 @@ Begin
         end;
       #3:
         begin
-          if CharInSet(SynWideUpperCase(APrettyText[i + 1])[1], ['B', 'I', 'U']) then
+          if CharInSet(SysUtils.AnsiUpperCase(APrettyText[i + 1])[1], ['B', 'I', 'U']) then
           begin
             Result := Result + '\style{';
 
@@ -2011,8 +1987,10 @@ end;
 
 procedure TSynBaseCompletionProposalForm.WMChar(var Msg: TWMChar);
 begin
+
   // Process only if Ctrl or Alt are not pressed
-  if (KeyDataToShiftState(Msg.KeyData) + [ssShift]) = [ssShift] then
+  // !! Commented out to resolve #936
+  //if (KeyDataToShiftState(Msg.KeyData) + [ssShift]) = [ssShift] then
     DoKeyPressW(WideChar(Msg.CharCode));
 end;
 

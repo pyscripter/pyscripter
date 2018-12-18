@@ -1267,7 +1267,7 @@ var
   function DoLowerStr(const AStr: TSynWebString): TSynWebString;
   begin
     {$IFDEF UNISYNEDIT}
-    Result := SynUnicode.SynWideLowerCase(AStr);
+    Result := SysUtils.AnsiLowerCase(AStr);
     {$ELSE}
     Result := LowerCase(AStr);
     {$ENDIF}
