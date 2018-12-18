@@ -93,8 +93,6 @@ uses
   frmProjectExplorer in 'frmProjectExplorer.pas' {ProjectExplorerWindow},
   dlgImportDirectory in 'dlgImportDirectory.pas' {ImportDirectoryForm},
   dlgRunConfiguration in 'dlgRunConfiguration.pas' {RunConfigurationForm},
-  SynHighlighterWeb in 'SynHighlighterWeb.pas',
-  SynHighlighterWebMisc in 'SynHighlighterWebMisc.pas',
   dlgPyIDEBase in 'dlgPyIDEBase.pas' {PyIDEDlgBase},
   JvDockInfo in 'JvDockInfo.pas',
   SynHighlighterYAML in 'SynHighlighterYAML.pas',

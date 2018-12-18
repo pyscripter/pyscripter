@@ -307,8 +307,6 @@
         <DCCReference Include="dlgRunConfiguration.pas">
             <Form>RunConfigurationForm</Form>
         </DCCReference>
-        <DCCReference Include="SynHighlighterWeb.pas"/>
-        <DCCReference Include="SynHighlighterWebMisc.pas"/>
         <DCCReference Include="dlgPyIDEBase.pas">
             <Form>PyIDEDlgBase</Form>
         </DCCReference>
