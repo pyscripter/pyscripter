@@ -294,7 +294,6 @@ Var
   ExitCode : integer;
 begin
   Command := Format('"%s" %s %s %s', [ScpCommand, ScpOptions, FromFile, ToFile]);
-  OutputDebugString(PWideChar(Command));
 
   Task := TTask.Create(procedure
   {$IFDEF CPUX86}
@@ -361,7 +360,6 @@ begin
   end;
 
   SFormat := iff(SSHServer.IsClientPutty, '%s:"%s"', '"%s:''%s''"');
-  OutputDebugString(PWideChar(SSHServer.ScpOptions));
   Result := scp(SSHServer.ScpCommand,
     Format(SFormat, [SSHServer.Destination, RemoteFile]),
     Format('"%s"', [LocalFile]), ErrorMsg, SSHServer.ScpOptionsPW);
