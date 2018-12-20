@@ -145,7 +145,7 @@ const
     'Groupe AmiensPython, Vincent Maille, Phil Prost',
     'Daniel Frost, Lübbe Onken',
     'Kiriakos Vlahos',
-    'Vincenzo Campanella',
+    'Vincenzo Campanella, bovirus (bovirus@gmail.com)',
     'Tokibito',
     'Mohammed Belkacem',
     'Eric Szczepanik',
