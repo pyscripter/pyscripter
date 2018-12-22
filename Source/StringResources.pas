@@ -15,7 +15,7 @@ Const
   SInvalidRegularExpression = 'Invalid Regular Expression: %s';
   SEmptyList = '(Empty List)';
   SCommandLineMsg  = 'Command Line : %s' + sLineBreak;
-  SEngineActive = '*** %s Python engine %sis active ***';
+  SEngineActive = '*** %s Python engine is active ***';
   SInterpreterNA = 'The internal Python interpreter is not available';
   SPythonInitError =
   'PyScripter cannot find the standard Python library modules.' + SLineBreak +
@@ -32,18 +32,18 @@ Const
   'installed, you can download one from http://www.python.org/.' + SLineBreak +  SLineBreak +
   'The 64-bit version of PyScripter (x64) works only on 64-bit Windows **and**' + SLineBreak +
   'with 64-bit versions of Python.  The 32-bit version of PyScripter works on both' + SLineBreak +
-  '32-bit and 64-bit Windows with 32-bit versions of Python';
+  '32-bit and 64-bit Windows with 32-bit versions of Python.';
   SPythonFindError =
   'PyScripter could not find a usable Python installation at the specified path.' + SLineBreak +
   'Note that the 64-bit version of PyScripter (x64) works only on 64-bit Windows **and**' + SLineBreak +
   'with 64-bit versions of Python.  The 32-bit version of PyScripter works on both' + SLineBreak +
-  '32-bit and 64-bit Windows with 32-bit versions of Python';
+  '32-bit and 64-bit Windows with 32-bit versions of Python.';
   SCouldNotShutDownRemoteEngine =
   'PyScripter is waiting for the remote engine to shut-down for a long time without success.' + SLineBreak +
   'This might mean that either the system is very busy or more likely something is preventing' + SLineBreak +
   'the remote engine from shutting down, such as waiting in a blocked state.' + SLineBreak +
   'You can use the task manager to kill the engine (appears as a process "python.exe")' + SLineBreak +
-  'and then reinitialize the remote engine.  Alternatively, you can close down and restart PyScripter';
+  'and then reinitialize the remote engine.  Alternatively, you can close down and restart PyScripter.';
   SPostMortemInfo = 'You are now in post-mortem analysis mode.  You can examine the Call Stack, ' +
                     'Variables and Watches windows, evaluate expressions etc.' + SLineBreak +
                     'To exit the post-mortem analysis select the Abort Debugging command.';
@@ -57,10 +57,10 @@ Const
   SCannotCompileWhileRunning = 'You cannot compile, import or run modules while debugging or running programs';
   SErrorInImportingModule = 'Error in importing module';
   SCouldNotSetCurrentDir = 'Could not set the current directory to the script path';
-  SRemoteServerNotConnected = 'Remote Server is not connected.  Please reinitialize or disconnect the remote  interpreter.';
-  SRpycNotAvailable = 'The Rpyc module is not available.  To use the remote Python Engine '+
+  SRemoteServerNotConnected = 'Remote Server is not connected.  Please reinitialize or disconnect the remote interpreter.';
+  SRpycNotAvailable = 'The Rpyc module is not available.  To use the remote Python engine '+
     'download Rpyc from http://Rpyc.sf.net and install it.';
-  SWrongRpycVersion = 'Wrong Rpyc version.  To use the remote Python Engine '+
+  SWrongRpycVersion = 'Wrong Rpyc version.  To use the remote Python engine '+
         'download version 2.6 Rpyc from http://Rpyc.sf.net and install it.';
   SCouldNotWriteServerFile = 'Could not write file "%s" and cannot use a remote Python engine';
   SErrorCreatingRemoteEngine = 'Error in creating the remote interpreter: ';
@@ -134,7 +134,7 @@ Const
   SSaveModifiedFiles = 'Save modified files';
   SSelectModifiedFiles = 'The following files have been modified.'+
     ' Please select the files that you wish to save and press the OK button. '+
-    ' Press Cancel to go back to PyScripter';
+    ' Press Cancel to go back to PyScripter.';
   SImportHighlighters = 'Import Highlighters';
   SImportShortcuts = 'Import Shortcuts';
   SSaveAs = 'Save "%s" As';

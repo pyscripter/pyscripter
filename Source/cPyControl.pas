@@ -578,11 +578,11 @@ begin
   end;
 
   case PyIDEOptions.PythonEngineType of
-    peInternal :  Msg := Format(_(SEngineActive), ['Internal','']);
-    peRemote : Msg := Format(_(SEngineActive), ['Remote','']);
-    peRemoteTk : Msg := Format(_(SEngineActive), ['Remote','(Tkinter) ']);
-    peRemoteWx : Msg := Format(_(SEngineActive), ['Remote','(wxPython) ']);
-    peSSH : Msg := Format(_(SEngineActive), ['SSH', Format('"%s" ', [ActiveSSHServerName])]);
+    peInternal :  Msg := Format(_(SEngineActive), [_('Internal')]);
+    peRemote : Msg := Format(_(SEngineActive), [_('Remote')]);
+    peRemoteTk : Msg := Format(_(SEngineActive), [_('Remote (Tk)')]);
+    peRemoteWx : Msg := Format(_(SEngineActive), ['Remote (Wx)']);
+    peSSH : Msg := Format(_(SEngineActive), [Format('"%s" SSH', [ActiveSSHServerName])]);
   end;
   with PythonIIForm do begin
     if SynEdit.Lines[SynEdit.Lines.Count-1] = PS1 then

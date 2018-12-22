@@ -156,6 +156,7 @@ Var
 implementation
 
 uses
+  JvGnuGetText,
   uCommonFunctions,
   cPyControl,
   cPyDebugger,
@@ -367,7 +368,7 @@ begin
   if fFileName <> '' then
     Result := ChangeFileExt(ExtractFileName(fFileName), '')
   else
-    Result := 'Untitled';
+    Result := _('Untitled');
 end;
 
 function NodeHasFile(Node: TAbstractProjectNode; Data : Pointer):boolean;
@@ -425,7 +426,7 @@ end;
 
 function TProjectFilesNode.GetCaption: string;
 begin
-  Result := 'Files';
+  Result := _('Files');
 end;
 
 function CompareFolderChildren(P1, P2: Pointer): integer;
@@ -538,7 +539,7 @@ end;
 
 function TProjectRunConfiguationsNode.GetCaption: string;
 begin
-  Result := 'Run Configurations';
+  Result := _('Run Configurations');
 end;
 
 { TProjectFileNode }
@@ -555,7 +556,7 @@ begin
     if not ActiveProject.ShowFileExtensions then
       Result := ChangeFileExt(Result, '');
   end else
-    Result := 'Untitled';
+    Result := _('Untitled');
 end;
 
 procedure TProjectFileNode.ReadFromAppStorage(AppStorage: TJvCustomAppStorage;

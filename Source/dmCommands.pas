@@ -1496,7 +1496,7 @@ begin
         AppStorage.WriteString('PyScripter\Version', ApplicationVersion);
         AppStorage.DeleteSubTree('Highlighters');
         for i := 0 to Highlighters.Count - 1 do
-          AppStorage.WritePersistent('Highlighters\'+Highlighters[i],
+          AppStorage.WritePersistent('Highlighters\'+ Highlighters[i],
             TPersistent(Highlighters.Objects[i]));
         AppStorage.WritePersistent('Highlighters\Python Interpreter',
           PythonIIForm.SynEdit.Highlighter);

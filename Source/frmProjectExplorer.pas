@@ -379,7 +379,7 @@ begin
     if Data.ProjectNode is TProjectRunConfiguationsNode then
     begin
       ProjectNode := TProjectRunConfiguationNode.Create;
-      ProjectNode.Name := 'Untitled';
+      ProjectNode.Name := _('Untitled');
       Data.ProjectNode.AddChild(ProjectNode);
       ExplorerTree.ReinitNode(Node, True);
       Node := ExplorerTree.GetFirstChild(Node);
