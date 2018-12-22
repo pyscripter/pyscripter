@@ -28,7 +28,7 @@ type
     procedure OKButtonClick(Sender: TObject);
     procedure TBXPopupHistoryPopup(Sender: TObject);
     procedure mnCommandHistoryMRUClick(Sender: TObject;
-      const Filename: WideString);
+      const Filename: string);
   public
     { Public declarations }
   end;
@@ -65,7 +65,7 @@ begin
 end;
 
 procedure TCommandLineDlg.mnCommandHistoryMRUClick(Sender: TObject;
-  const Filename: WideString);
+  const Filename: string);
 begin
   SynParameters.Text := Filename;
   SynParameters.SetFocus;

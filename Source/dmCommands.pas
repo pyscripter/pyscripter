@@ -1817,7 +1817,7 @@ Var
   NS: TNamespace;
   Dir : string;
   FTime : TDateTime;
-  WS: WideString;
+  WS: string;
 begin
   if not (ShellEvent.ShellNotifyEvent in [vsneUpdateDir, vsneRenameFolder]) then Exit;
 //  if not (ShellEvent.ShellNotifyEvent in [vsneUpdateDir, vsneUpdateItem, vsneRenameFolder, vsneRenameItem]) then Exit;

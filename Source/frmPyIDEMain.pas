@@ -1180,8 +1180,8 @@ type
     procedure DebugActiveScript(ActiveEditor: IEditor;
       InitStepIn : Boolean = False; RunToCursorLine : integer = -1);
     procedure SetupRunConfiguration(var RunConfig: TRunConfiguration; ActiveEditor: IEditor);
-    procedure tbiSearchTextAcceptText(const NewText: WideString);
-    procedure tbiReplaceTextAcceptText(const NewText: WideString);
+    procedure tbiSearchTextAcceptText(const NewText: string);
+    procedure tbiReplaceTextAcceptText(const NewText: string);
     procedure DrawCloseButton(Sender: TObject; ACanvas: TCanvas;
         State: TSpTBXSkinStatesType; const PaintStage: TSpTBXPaintStage;
         var AImageList: TCustomImageList; var AImageIndex: Integer;
@@ -1221,8 +1221,8 @@ type
     // Browse MRU stuff
     procedure PrevClickHandler(Sender: TObject);
     procedure NextClickHandler(Sender: TObject);
-    procedure PrevMRUAdd(S : WideString);
-    procedure NextMRUAdd(S : WideString);
+    procedure PrevMRUAdd(S : string);
+    procedure NextMRUAdd(S : string);
   protected
     fStoredEffect : Longint;
     OldScreenPPI : Integer;
@@ -4594,7 +4594,7 @@ begin
   end;
 end;
 
-procedure TPyIDEMainForm.PrevMRUAdd(S: WideString);
+procedure TPyIDEMainForm.PrevMRUAdd(S : string);
 begin
   mnPreviousList.MRUAdd(S);
   mnPreviousList.Items[0].OnClick := PrevClickHandler;
@@ -4691,7 +4691,7 @@ begin
   end;
 end;
 
-procedure TPyIDEMainForm.NextMRUAdd(S: WideString);
+procedure TPyIDEMainForm.NextMRUAdd(S : string);
 begin
   mnNextList.MRUAdd(S);
   mnNextList.Items[0].OnClick := NextClickHandler;
@@ -5032,7 +5032,7 @@ begin
   end;
 end;
 
-procedure TPyIDEMainForm.tbiSearchTextAcceptText(const NewText: WideString);
+procedure TPyIDEMainForm.tbiSearchTextAcceptText(const NewText: string);
 Var
   S : string;
   i: integer;
@@ -5112,7 +5112,7 @@ begin
   tbiRecentProjects.MRURemove(Filename);
 end;
 
-procedure TPyIDEMainForm.tbiReplaceTextAcceptText(const NewText: WideString);
+procedure TPyIDEMainForm.tbiReplaceTextAcceptText(const NewText: string);
 Var
   S : string;
   i: integer;
