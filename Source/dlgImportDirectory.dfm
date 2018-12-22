@@ -5,7 +5,7 @@ inherited ImportDirectoryForm: TImportDirectoryForm
   PopupMode = pmAuto
   Position = poOwnerFormCenter
   ExplicitWidth = 442
-  ExplicitHeight = 173
+  ExplicitHeight = 174
   PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TSpTBXPanel

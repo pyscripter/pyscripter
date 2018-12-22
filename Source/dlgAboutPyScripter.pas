@@ -96,11 +96,6 @@ resourcestring
   SAboutBoxCreditsTranslationSlovak  = 'Slovak: %s';
   SAboutBoxCreditsTranslationSpanish = 'Spanish: %s';
 
-  SAboutBoxCreditsThemeDesign =
-    'Salim Saddaquzzaman (https://github.com/sk-Prime)'+ SLineBreak +
-    'Tanmaya Meher (www.github.com/tanmayameher)'+ SLineBreak +
-    'jprzywoski (www.github.com/jprzywoski)';
-
   SAboutBoxCreditsDonations =
     'Donations from numerous users have provided a strong incentive to develop this project.  ' +
     'Generous support from Tranquil IT (https://www.tranquil.it) makers of WAPT (apt-get for Windows) '+
@@ -154,6 +149,11 @@ const
     'Marian Denes',
     'Javier Pimas, Victor Alberto Gil, Juan Carlos Cilleruelo'
   );
+
+  cAboutBoxCreditsThemeDesign =
+    'Salim Saddaquzzaman (https://github.com/sk-Prime)'+ SLineBreak +
+    'Tanmaya Meher (www.github.com/tanmayameher)'+ SLineBreak +
+    'jprzywoski (www.github.com/jprzywoski)';
 
 procedure TRichEdit.CreateWnd;
 var
@@ -256,7 +256,7 @@ begin
   reCredits.Paragraph.Numbering := nsNone;
   AddFormatText(reCredits, SLineBreak + _('Artwork and theme design') + ':' + SLineBreak, [fsItalic]);
   reCredits.Paragraph.Numbering := nsBullet;
-  AddFormatText(reCredits,SAboutBoxCreditsThemeDesign + SLineBreak);
+  AddFormatText(reCredits, cAboutBoxCreditsThemeDesign + SLineBreak);
   reCredits.Paragraph.Numbering := nsNone;
 
   reCredits.Paragraph.Numbering := nsNone;

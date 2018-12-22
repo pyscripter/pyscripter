@@ -638,17 +638,17 @@ begin
     RegisterParameter('Desktop', _('Desktop directory'), GetPhysicalDesktopFolder);
 
     // register parameters
-    RegisterParameter('Paste', _('Clipboard As Text'), GetClipboard);
-    RegisterParameter('UserName', _('User Name'), GetUserName);
-    RegisterParameter('CurrentDir', _('Current Directory'), GetCurrentDir);
-    RegisterParameter('Exe', _('Executable Name'), GetExe);
+    RegisterParameter('Paste', _('Clipboard as text'), GetClipboard);
+    RegisterParameter('UserName', _('User name'), GetUserName);
+    RegisterParameter('CurrentDir', _('Current directory'), GetCurrentDir);
+    RegisterParameter('Exe', _('Executable name'), GetExe);
     RegisterParameter('CmdLineArgs', _('Python Command Line Arguments'), GetCmdLineArgs);
 
     // register parameter modifiers
     RegisterModifier('Path', _('Path of file'), ExtractFilePath);
     RegisterModifier('Dir', _('Path without delimeter'), ExtractFileDir);
     RegisterModifier('Name', _('File name'), ExtractFileName);
-    RegisterModifier('Ext', _('File Extension'), ExtractFileExt);
+    RegisterModifier('Ext', _('File extension'), ExtractFileExt);
     RegisterModifier('ExtOnly', _('File extension without "."'), GetFileExt);
     RegisterModifier('NoExt', _('File name without extension'), StripExtension);
     RegisterModifier('Drive', _('File drive'), ExtractFileDrive);
@@ -689,8 +689,8 @@ begin
     RegisterParameter('ActiveDoc', _('Active document name'), GetActiveDoc);
     RegisterParameter('ActiveScript', _('The name or last run script'), GetActiveScript);
     RegisterParameter('Project', _('Project file name'), GetProjectFile);
-    RegisterParameter('ModFiles', _('Modified Files'), GetModFiles);
-    RegisterParameter('OpenFiles', _('Open Files'), GetOpenFiles);
+    RegisterParameter('ModFiles', _('Modified files'), GetModFiles);
+    RegisterParameter('OpenFiles', _('Open files'), GetOpenFiles);
     RegisterParameter('CurWord', '$[-CurWord]', nil);
     RegisterParameter('CurLine', '$[-CurLine]', nil);
     RegisterParameter('CurLineNumber', '$[-CurLineNumber]', nil);

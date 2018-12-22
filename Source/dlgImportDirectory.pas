@@ -45,7 +45,7 @@ var
   NewDir: string;
 begin
   NewDir := DirectoryEdit.Text;
-  if SelectDirectory(_('Select Directory'), '', NewDir) then
+  if SelectDirectory(_('Select directory')+':', '', NewDir) then
     DirectoryEdit.Text := NewDir;
 end;
 

@@ -9,7 +9,7 @@ inherited fmToDoOptions: TfmToDoOptions
   Position = poScreenCenter
   OnShow = FormShow
   ExplicitWidth = 518
-  ExplicitHeight = 298
+  ExplicitHeight = 299
   PixelsPerInch = 96
   TextHeight = 13
   object pnlBG: TSpTBXPanel
@@ -140,7 +140,7 @@ inherited fmToDoOptions: TfmToDoOptions
         Top = 76
         Width = 20
         Height = 20
-        Hint = 'Select Directory'
+        Hint = 'Select directory'
         Caption = '...'
         ParentShowHint = False
         ShowHint = True
@@ -194,7 +194,7 @@ inherited fmToDoOptions: TfmToDoOptions
         Top = 78
         Width = 208
         Height = 66
-        Font.Charset = DEFAULT_CHARSET
+        Font.Charset = ANSI_CHARSET
         Font.Color = clWindowText
         Font.Height = -11
         Font.Name = 'MS Shell Dlg 2'

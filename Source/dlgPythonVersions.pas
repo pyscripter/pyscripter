@@ -28,7 +28,6 @@ uses
 type
   TPythonVersionsDialog = class(TPyIDEDlgBase)
     Panel1: TPanel;
-    gbPythonVersions: TGroupBox;
     vtPythonVersions: TVirtualStringTree;
     SpTBXDock: TSpTBXDock;
     SpTBXToolbar: TSpTBXToolbar;
@@ -260,6 +259,7 @@ end;
 
 procedure TPythonVersionsDialog.FormCreate(Sender: TObject);
 begin
+  inherited;
   vtPythonVersions.DefaultText := '';
   vtPythonVersions.RootNodeCount := 2;
 end;

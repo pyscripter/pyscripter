@@ -14,47 +14,41 @@ inherited PythonVersionsDialog: TPythonVersionsDialog
     Height = 289
     Align = alClient
     TabOrder = 0
-    object gbPythonVersions: TGroupBox
-      AlignWithMargins = True
-      Left = 4
-      Top = 4
-      Width = 622
-      Height = 281
+    object vtPythonVersions: TVirtualStringTree
+      Left = 1
+      Top = 1
+      Width = 628
+      Height = 287
       Align = alClient
-      Caption = 'Python Versions'
+      DefaultText = 'Node'
+      Header.AutoSizeIndex = 0
+      Header.Options = [hoColumnResize, hoDrag, hoShowSortGlyphs, hoVisible]
+      Images = CommandsDataModule.Images
       TabOrder = 0
-      object vtPythonVersions: TVirtualStringTree
-        Left = 2
-        Top = 15
-        Width = 618
-        Height = 264
-        Align = alClient
-        DefaultText = 'Node'
-        Header.AutoSizeIndex = 0
-        Header.Options = [hoColumnResize, hoDrag, hoShowSortGlyphs, hoVisible]
-        Images = CommandsDataModule.Images
-        TabOrder = 0
-        OnDblClick = actPVActivateExecute
-        OnGetCellText = vtPythonVersionsGetCellText
-        OnGetImageIndex = vtPythonVersionsGetImageIndex
-        OnInitChildren = vtPythonVersionsInitChildren
-        OnInitNode = vtPythonVersionsInitNode
-        Columns = <
-          item
-            MinWidth = 250
-            Options = [coEnabled, coParentBidiMode, coParentColor, coResizable, coShowDropMark, coVisible, coAllowFocus, coStyleColor]
-            Position = 0
-            Text = 'Name'
-            Width = 250
-          end
-          item
-            MinWidth = 200
-            Options = [coEnabled, coParentBidiMode, coParentColor, coResizable, coShowDropMark, coVisible, coAllowFocus, coStyleColor]
-            Position = 1
-            Text = 'Folder'
-            Width = 300
-          end>
-      end
+      OnDblClick = actPVActivateExecute
+      OnGetCellText = vtPythonVersionsGetCellText
+      OnGetImageIndex = vtPythonVersionsGetImageIndex
+      OnInitChildren = vtPythonVersionsInitChildren
+      OnInitNode = vtPythonVersionsInitNode
+      ExplicitLeft = 2
+      ExplicitTop = 15
+      ExplicitWidth = 618
+      ExplicitHeight = 264
+      Columns = <
+        item
+          MinWidth = 250
+          Options = [coEnabled, coParentBidiMode, coParentColor, coResizable, coShowDropMark, coVisible, coAllowFocus, coStyleColor]
+          Position = 0
+          Text = 'Name'
+          Width = 250
+        end
+        item
+          MinWidth = 200
+          Options = [coEnabled, coParentBidiMode, coParentColor, coResizable, coShowDropMark, coVisible, coAllowFocus, coStyleColor]
+          Position = 1
+          Text = 'Folder'
+          Width = 300
+        end>
     end
   end
   object SpTBXDock: TSpTBXDock

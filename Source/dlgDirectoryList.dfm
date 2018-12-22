@@ -11,7 +11,7 @@ inherited DirectoryListDialog: TDirectoryListDialog
   OldCreateOrder = True
   OnShow = FormShow
   ExplicitWidth = 395
-  ExplicitHeight = 380
+  ExplicitHeight = 381
   PixelsPerInch = 96
   TextHeight = 13
   object SpTBXPanel1: TSpTBXPanel

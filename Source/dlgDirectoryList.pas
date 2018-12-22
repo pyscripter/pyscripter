@@ -111,7 +111,7 @@ var
   NewDir: string;
 begin
   NewDir := edPath.Text;
-  if SelectDirectory(_('Select Directory:'), '', NewDir) then
+  if SelectDirectory(_('Select directory')+':', '', NewDir) then
     edPath.Text := NewDir;
 end;
 
