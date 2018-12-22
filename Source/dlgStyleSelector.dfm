@@ -1886,7 +1886,6 @@ object StyleSelectorForm: TStyleSelectorForm
     Top = 446
     Width = 105
     Height = 25
-    Caption = '&Apply Style'
     Action = ActionApplyStyle
     Anchors = [akLeft, akBottom]
     TabOrder = 0
@@ -1918,7 +1917,7 @@ object StyleSelectorForm: TStyleSelectorForm
     Top = 344
     StyleName = 'Platform Default'
     object ActionApplyStyle: TAction
-      Caption = 'Apply Style'
+      Caption = '&Apply Style'
       OnExecute = ActionApplyStyleExecute
       OnUpdate = ActionApplyStyleUpdate
     end

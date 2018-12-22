@@ -371,7 +371,7 @@ end;
 
 procedure TFileExplorerWindow.actManageFavoritesExecute(Sender: TObject);
 begin
-  EditFolderList(fFavorites, 'File Explorer Favorites');
+  EditFolderList(fFavorites, _('File Explorer favorites'));
 end;
 
 procedure TFileExplorerWindow.actNewFolderExecute(Sender: TObject);

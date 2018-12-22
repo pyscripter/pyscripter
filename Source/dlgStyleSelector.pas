@@ -48,7 +48,6 @@ uses
   dmCommands,
   frmPyIDEMain;
 
-
 type
  TVclStylesPreviewClass = class(TVclStylesPreview);
 
@@ -56,22 +55,23 @@ type
 
 procedure TStyleSelectorForm.FormCreate(Sender: TObject);
 begin
-   Loading:=False;
-   LBStyleNames.Sorted := True;
-   ExternalStyleFilesDict := TDictionary<string, string>.Create;
-   FStylesPath := CommandsDataModule.StylesFilesDir;
-   FPreview:=TVclStylesPreview.Create(Self);
-   FPreview.Parent:=Panel1;
-   FPreview.Icon := Application.Icon.Handle;
-   FPreview.BoundsRect := Panel1.ClientRect;
-   FillVclStylesList;
+  inherited;
+  Loading:=False;
+  LBStyleNames.Sorted := True;
+  ExternalStyleFilesDict := TDictionary<string, string>.Create;
+  FStylesPath := CommandsDataModule.StylesFilesDir;
+  FPreview:=TVclStylesPreview.Create(Self);
+  FPreview.Parent:=Panel1;
+  FPreview.Icon := Application.Icon.Handle;
+  FPreview.BoundsRect := Panel1.ClientRect;
+  FillVclStylesList;
 end;
 
 procedure TStyleSelectorForm.FormDestroy(Sender: TObject);
 begin
   ExternalStyleFilesDict.Free;
   FPreview.Free;
-  end;
+end;
 
 procedure TStyleSelectorForm.FormShow(Sender: TObject);
 //  Todo Select active style
@@ -117,7 +117,6 @@ begin
          // Resource style
         LStyle := TStyleManager.Style[StyleName];
     end;
-
   end;
 
   if Assigned(LStyle) and not Loading  then
@@ -130,9 +129,8 @@ begin
 
 end;
 
-
 class procedure TStyleSelectorForm.SetStyle(StyleName: string);
-// StyleName can be either a reousrce of a file name
+// StyleName can be either a resource of a file name
 var
   SName : string;
   StyleInfo : TStyleInfo;

@@ -2196,7 +2196,7 @@ begin
   Paths := TStringList.Create;
   try
     PyControl.ActiveInterpreter.SysPathToStrings(Paths);
-    if EditFolderList(Paths, 'Python Path', 870) then
+    if EditFolderList(Paths, _('Python Path'), 870) then
       PyControl.ActiveInterpreter.StringsToSysPath(Paths);
   finally
     Paths.Free;

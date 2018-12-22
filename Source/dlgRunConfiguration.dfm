@@ -213,9 +213,9 @@ inherited RunConfigurationForm: TRunConfigurationForm
       object Label7: TSpTBXLabel
         Left = 8
         Top = 62
-        Width = 95
+        Width = 96
         Height = 19
-        Caption = 'Working &directory:'
+        Caption = 'Working &Directory:'
         FocusControl = SynWorkDir
       end
       object Label3: TSpTBXLabel
