@@ -684,7 +684,7 @@ begin
   //  Place General highlighter last
   Index := fHighlighters.IndexOf(SynGeneralSyn.FriendlyLanguageName);
   if Index >= 0 then fHighlighters.Delete(Index);
-  fHighlighters.AddObject(SynGeneralSyn.FriendlyLanguageName, SynCythonSyn);
+  fHighlighters.AddObject(SynGeneralSyn.FriendlyLanguageName, SynGeneralSyn);
 
   // this is to save the internal state of highlighter attributes
   // Work around for the reported bug according to which some

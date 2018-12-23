@@ -1273,18 +1273,6 @@ begin
     end;
     Free;
   end;
-
-  // i := fEditors.Count - 1;
-  // while i >= 0 do begin
-  // LEditor := IEditor(fEditors[i]);
-  // if not LEditor.AskSaveChanges then begin
-  // Result := FALSE;
-  // exit;
-  // end;
-  // Dec(i);
-  // end;
-  // Result := TRUE;
-
 end;
 
 procedure TEditorFactory.CloseAll;

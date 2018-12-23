@@ -2509,11 +2509,6 @@ begin
   PythonIIForm.UpdateInterpreterActions;
   UpdateStatusBarPanels;
   UpdateDebugCommands(PyControl.DebuggerState);
-  // TODO Modified stuff
-//  for i := 0 to TabControl.PagesCount - 1 do
-//    if i < TabControl.Tabs.Count then
-//      TabControl.Tabs[i].Modified :=
-//        TEditorForm(TJvStandardPage(TabControl.Tabs[i].Data).Components[0]).GetEditor.Modified;
   if Assigned(GI_ActiveEditor) then
     TEditorForm(GI_ActiveEditor.Form).DoOnIdle;
   PythonIIForm.DoOnIdle;

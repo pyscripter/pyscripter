@@ -3,6 +3,25 @@ unit StringResources;
 interface
 {gnugettext: scan-all}
 Const
+  // Delphi dialogs (from Vcl.Consts)
+  SDlgWarning = 'Warning';
+  SDlgError = 'Error';
+  SDlgInformation = 'Information';
+  SDlgConfirm = 'Confirm';
+  SDlgYes = '&Yes';
+  SDlgNo = '&No';
+  SDlgOK = 'OK';
+  SDlgCancel = 'Cancel';
+  SDlgHelp = '&Help';
+  SDlgHelpHelp = 'Help';
+  SDlgAbort = '&Abort';
+  SDlgRetry = '&Retry';
+  SDlgIgnore = '&Ignore';
+  SDlgAll = '&All';
+  SDlgNoToAll = 'N&o to All';
+  SDlgYesToAll = 'Yes to &All';
+  SDlgClose = '&Close';
+
   SInternalError = 'Internal Error in %s';
   SNotFound = '"%s" not found';
   SItemsReplaced = '%d items found and %d" items replaced';
