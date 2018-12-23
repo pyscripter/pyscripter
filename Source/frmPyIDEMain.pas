@@ -453,7 +453,7 @@
             PyScripter icons given a facelift by Salim Saddaquzzaman
             Upgraded rpyc to 4.x.  As a result Python 2.5 is no longer supported.
           Issues addressed
-            #501 #682, #907
+            #501, #682, #907
 
   History:   v 3.5.2
           New Features
@@ -467,7 +467,7 @@
             Triple-click selects line and Quadraple-click selects all.
             Double-click drag selects whole words - Triple-click drag selects wholle lines.
           Issues addressed
-            #904, #922, #936
+            #904, #922, #927, 928, #929, #936
 
             { TODO : Issues 667 }
             { TODO : Review Search and Replace }
@@ -3933,14 +3933,11 @@ end;
 procedure TPyIDEMainForm.SyntaxClick(Sender: TObject);
 Var
   Editor : IEditor;
-  Syntax : string;
 begin
   // Change Syntax sheme
   Editor := GetActiveEditor;
   if Assigned(Editor) then begin
-    Syntax := (Sender as TTBCustomItem).Caption;
-    Editor.SynEdit.Highlighter :=
-      GetHighlighterFromLanguageName(Syntax,CommandsDataModule.Highlighters);
+    Editor.SynEdit.Highlighter := TSynCustomHighlighter((Sender as TTBCustomItem).Tag);
     Editor.SynEdit2.Highlighter := Editor.SynEdit.Highlighter;
     TEditorForm(Editor.Form).DefaultExtension := '';
   end;
@@ -3981,10 +3978,13 @@ Var
   i : integer;
   MenuItem : TSpTBXItem;
 begin
+  while mnSyntax.Count > 2 do
+    mnSyntax.Delete(0);
   for i := CommandsDataModule.Highlighters.Count - 1 downto 0 do begin
     MenuItem := TSpTBXItem.Create(Self);
     mnSyntax.Insert(0, MenuItem);
-    MenuItem.Caption := CommandsDataModule.Highlighters[i];
+    MenuItem.Caption := _(CommandsDataModule.Highlighters[i]);
+    MenuItem.Tag := Integer(CommandsDataModule.Highlighters.Objects[i]);
     MenuItem.GroupIndex := 3;
     MenuItem.OnClick := SyntaxClick;
     MenuItem.Hint := Format(_(SUseSyntax), [MenuItem.Caption]);
@@ -5000,6 +5000,8 @@ end;
 procedure TPyIDEMainForm.mnLanguageClick(Sender: TObject);
 begin
   ChangeLanguage(fLanguageList[(Sender as TSpTBXItem).Tag]);
+  SetupSyntaxMenu;
+  SetupToolsMenu;
 end;
 
 procedure TPyIDEMainForm.tbiScrollLeftClick(Sender: TObject);

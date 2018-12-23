@@ -30,7 +30,7 @@ inherited RunConfigurationForm: TRunConfigurationForm
       ExplicitWidth = 418
     end
     object GroupBox1: TSpTBXGroupBox
-      Left = 7
+      Left = 8
       Top = 5
       Width = 385
       Height = 48
@@ -50,9 +50,9 @@ inherited RunConfigurationForm: TRunConfigurationForm
         FocusControl = edDescription
       end
       object edDescription: TSpTBXEdit
-        Left = 96
+        Left = 105
         Top = 19
-        Width = 277
+        Width = 268
         Height = 21
         Anchors = [akLeft, akRight, akBottom]
         TabOrder = 0
@@ -91,7 +91,7 @@ inherited RunConfigurationForm: TRunConfigurationForm
       OnClick = btnHelpClick
     end
     object GroupBox2: TSpTBXGroupBox
-      Left = 11
+      Left = 8
       Top = 59
       Width = 385
       Height = 106
@@ -99,9 +99,9 @@ inherited RunConfigurationForm: TRunConfigurationForm
       TabOrder = 1
       TBXStyleBackground = True
       object SynFileName: TSynEdit
-        Left = 92
+        Left = 105
         Top = 16
-        Width = 237
+        Width = 224
         Height = 18
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
@@ -131,9 +131,9 @@ inherited RunConfigurationForm: TRunConfigurationForm
         FontSmoothing = fsmNone
       end
       object SynParameters: TSynEdit
-        Left = 92
+        Left = 105
         Top = 40
-        Width = 281
+        Width = 268
         Height = 18
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
@@ -264,7 +264,7 @@ inherited RunConfigurationForm: TRunConfigurationForm
       end
     end
     object gbRemoteEngine: TSpTBXGroupBox
-      Left = 7
+      Left = 8
       Top = 171
       Width = 385
       Height = 68
@@ -284,7 +284,7 @@ inherited RunConfigurationForm: TRunConfigurationForm
         TabOrder = 0
       end
       object Label1: TSpTBXLabel
-        Left = 12
+        Left = 8
         Top = 18
         Width = 69
         Height = 19
@@ -292,8 +292,8 @@ inherited RunConfigurationForm: TRunConfigurationForm
         FocusControl = cbEngineType
       end
       object cbEngineType: TSpTBXComboBox
-        Left = 103
-        Top = 22
+        Left = 120
+        Top = 17
         Width = 103
         Height = 21
         Style = csDropDownList
@@ -335,7 +335,7 @@ inherited RunConfigurationForm: TRunConfigurationForm
       end
     end
     object gbSaveOutput: TSpTBXGroupBox
-      Left = 7
+      Left = 8
       Top = 298
       Width = 385
       Height = 88
@@ -351,9 +351,9 @@ inherited RunConfigurationForm: TRunConfigurationForm
         TabOrder = 0
       end
       object SynOutputFileName: TSynEdit
-        Left = 96
+        Left = 105
         Top = 45
-        Width = 255
+        Width = 246
         Height = 18
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText

@@ -7,6 +7,8 @@ inherited ToolProperties: TToolProperties
   ClientWidth = 406
   OnDestroy = FormDestroy
   OnShow = FormShow
+  ExplicitWidth = 412
+  ExplicitHeight = 527
   PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TPanel
@@ -86,7 +88,7 @@ inherited ToolProperties: TToolProperties
           object Label15: TLabel
             Left = 14
             Top = 28
-            Width = 41
+            Width = 31
             Height = 13
             Caption = '&Name:'
             FocusControl = edEnvName
@@ -94,7 +96,7 @@ inherited ToolProperties: TToolProperties
           object Label16: TLabel
             Left = 14
             Top = 50
-            Width = 41
+            Width = 30
             Height = 13
             Caption = '&Value:'
           end
@@ -116,9 +118,9 @@ inherited ToolProperties: TToolProperties
           end
         end
         object cbUseCustomEnv: TCheckBox
-          Left = 123
-          Top = 401
-          Width = 163
+          Left = 21
+          Top = 396
+          Width = 356
           Height = 21
           Caption = 'Use Customized Environment'
           TabOrder = 2
@@ -184,14 +186,14 @@ inherited ToolProperties: TToolProperties
         ImageIndex = -1
         TabItem = 'SpTBXTabItem1'
         object GroupBox1: TGroupBox
-          Left = 7
+          Left = 6
           Top = 5
-          Width = 384
+          Width = 390
           Height = 65
           Caption = 'General'
           TabOrder = 0
           object Label1: TLabel
-            Left = 8
+            Left = 6
             Top = 16
             Width = 31
             Height = 13
@@ -199,7 +201,7 @@ inherited ToolProperties: TToolProperties
             FocusControl = edName
           end
           object Label5: TLabel
-            Left = 8
+            Left = 6
             Top = 39
             Width = 57
             Height = 13
@@ -207,7 +209,7 @@ inherited ToolProperties: TToolProperties
             FocusControl = edDescription
           end
           object Label17: TLabel
-            Left = 212
+            Left = 240
             Top = 16
             Width = 48
             Height = 13
@@ -222,7 +224,7 @@ inherited ToolProperties: TToolProperties
           object edName: TEdit
             Left = 77
             Top = 13
-            Width = 124
+            Width = 155
             Height = 21
             TabOrder = 0
           end
@@ -235,9 +237,9 @@ inherited ToolProperties: TToolProperties
           end
         end
         object GroupBox2: TGroupBox
-          Left = 7
+          Left = 6
           Top = 73
-          Width = 385
+          Width = 390
           Height = 108
           Caption = 'Command'
           TabOrder = 1
@@ -389,21 +391,21 @@ inherited ToolProperties: TToolProperties
           end
         end
         object GroupBox4: TGroupBox
-          Left = 7
+          Left = 6
           Top = 187
-          Width = 385
+          Width = 390
           Height = 64
           Caption = 'Shortcut and Context'
           TabOrder = 2
           object lbShortcut: TLabel
-            Left = 11
+            Left = 6
             Top = 18
             Width = 45
             Height = 13
             Caption = '&Shortcut:'
           end
           object lbContext: TLabel
-            Left = 13
+            Left = 6
             Top = 40
             Width = 43
             Height = 13
@@ -446,9 +448,9 @@ inherited ToolProperties: TToolProperties
           end
         end
         object GroupBox3: TGroupBox
-          Left = 3
+          Left = 6
           Top = 257
-          Width = 383
+          Width = 390
           Height = 94
           Caption = 'Standard Input and Output'
           TabOrder = 3
@@ -572,16 +574,16 @@ inherited ToolProperties: TToolProperties
           end
         end
         object GroupBox5: TGroupBox
-          Left = 7
+          Left = 6
           Top = 357
-          Width = 384
+          Width = 390
           Height = 65
           Caption = 'Console'
           TabOrder = 4
           object Label9: TLabel
             Left = 240
             Top = 18
-            Width = 130
+            Width = 66
             Height = 13
             Caption = '&Timeout (ms):'
             FocusControl = seTimeout
@@ -614,7 +616,7 @@ inherited ToolProperties: TToolProperties
             Left = 240
             Top = 37
             Width = 79
-            Height = 22
+            Height = 21
             Hint = 
               'If set to a value <> 0 then you will be prompted '#13#10'to abort the ' +
               'program after the specified time (ms).'
@@ -622,7 +624,7 @@ inherited ToolProperties: TToolProperties
             SpinButton.Left = 61
             SpinButton.Top = 0
             SpinButton.Width = 14
-            SpinButton.Height = 18
+            SpinButton.Height = 17
             SpinButton.Align = alRight
             SpinOptions.Increment = 100.000000000000000000
             SpinOptions.MaxValue = 1000.000000000000000000

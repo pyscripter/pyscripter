@@ -1548,3 +1548,9 @@ msgstr ""
 #: frmPyIDEMain.dfm
 msgid " "
 msgstr ""
+
+#. CommandLineDlg..Panel..SynParameters..Font.Name
+#: dlgCommandLine.dfm
+msgid "Consolas"
+msgstr ""
+

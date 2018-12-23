@@ -422,7 +422,7 @@ begin
                  wInternalSynH := wSynHClass.Create(nil);
                  wInternalSynH.assign(wHighlighter);
                  fHighlighters.add(wInternalSynH);
-                 FForm.cbHighlighters.Items.AddObject(wInternalSynH.FriendlyLanguageName, wInternalSynH);
+                 FForm.cbHighlighters.Items.AddObject(_(wInternalSynH.FriendlyLanguageName), wInternalSynH);
 
                  if (wInternalSynH.FriendlyLanguageName = 'Python') or
                     ((wInternalSynH.FriendlyLanguageName = 'Python Interpreter') and
@@ -1239,7 +1239,6 @@ end;
 function TfmEditorOptionsDialog.SelectedHighlighter : TSynCustomHighlighter;
 begin
   Result := nil;
-
   if cbHighlighters.ItemIndex > -1 then
     Result := cbHighlighters.Items.Objects[cbHighlighters.ItemIndex] as TSynCustomHighlighter;
 end;

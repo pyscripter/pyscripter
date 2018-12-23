@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2018-12-17 16:08\n"
+"POT-Creation-Date: 2018-12-23 17:37\n"
 "PO-Revision-Date: 2018-01-23 16:26\n"
 "Last-Translator: Somebody <your.email@address.com>\n"
 "MIME-Version: 1.0\n"
@@ -156,12 +156,13 @@ msgstr ""
 #. FunctionListWindow..Actions..actHelpHelp..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..HelpMenu..Caption
 #. ToDoWindow..Actions..actHelpHelp..Caption
+#. Programmer's name for it: SDlgHelp
 #: dlgCodeTemplates.dfm dlgCommandLine.dfm dlgCustomShortcuts.dfm
 #: dlgFileTemplates.dfm dlgFindInFiles.dfm dlgFindResultsOptions.dfm
 #: dlgOptionsEditor.dfm dlgRemoteFile.dfm dlgReplaceInFiles.dfm
 #: dlgRunConfiguration.dfm dlgSynEditOptions.dfm dlgToDoOptions.dfm
 #: dlgToolProperties.dfm dlgUnitTestWizard.dfm frmFindResults.dfm
-#: frmFunctionList.dfm frmPyIDEMain.dfm frmToDo.dfm
+#: frmFunctionList.dfm frmPyIDEMain.dfm frmToDo.dfm StringResources.pas
 msgid "&Help"
 msgstr ""
 
@@ -208,7 +209,7 @@ msgstr ""
 #. CodeTemplates..Panel..lvItems......Caption
 #. CustomizeParams..Panel..lvItems......Caption
 #. FileTemplatesDialog..Panel..lvItems......Caption
-#. PythonVersionsDialog..Panel1..gbPythonVersions..vtPythonVersions......Text
+#. PythonVersionsDialog..Panel1..vtPythonVersions......Text
 #. ToolProperties..Panel1..TabControl..tabEnvironment..lvItems......Caption
 #. RegExpTesterWindow..BGPanel..FGPanel..pnlBackground..dpGroupsView..GroupsView......Text
 #. VariablesWindow..BGPanel..FGPanel..Panel1..VariablesTree......WideText
@@ -375,12 +376,14 @@ msgid "Confirm replace"
 msgstr ""
 
 #. ConfirmReplaceDialog..SpTBXPanel1..btnReplace..Caption
-#: dlgConfirmReplace.dfm
+#. Programmer's name for it: SDlgYes
+#: dlgConfirmReplace.dfm StringResources.pas
 msgid "&Yes"
 msgstr ""
 
 #. ConfirmReplaceDialog..SpTBXPanel1..btnSkip..Caption
-#: dlgConfirmReplace.dfm
+#. Programmer's name for it: SDlgNo
+#: dlgConfirmReplace.dfm StringResources.pas
 msgid "&No"
 msgstr ""
 
@@ -664,8 +667,9 @@ msgstr ""
 
 #. FindInFilesDialog..Panel1..gbxDirectories..btnBrowse..Hint
 #. fmToDoOptions..pnlBG..gbxSearchFiles..btnBrowse..Hint
-#: dlgFindInFiles.dfm dlgToDoOptions.dfm dlgImportDirectory.pas
-msgid "Select Directory"
+#: dlgFindInFiles.dfm dlgToDoOptions.dfm dlgDirectoryList.pas
+#: dlgImportDirectory.pas uParams.pas
+msgid "Select directory"
 msgstr ""
 
 #. FindInFilesDialog..Panel1..gbxDirectories..cbInclude..Caption
@@ -804,7 +808,6 @@ msgid "Deselect all items"
 msgstr ""
 
 #. PythonVersionsDialog..Caption
-#. PythonVersionsDialog..Panel1..gbPythonVersions..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..RunMenu..mnPythonVersions..Caption
 #. PyIDEMainForm..TBXDockTop..ViewToolbar..tbiSelectPythonVersion..Caption
 #. PythonIIForm..InterpreterPopUp..mnPythonVersions..Caption
@@ -812,13 +815,14 @@ msgstr ""
 msgid "Python Versions"
 msgstr ""
 
-#. PythonVersionsDialog..Panel1..gbPythonVersions..vtPythonVersions..DefaultText
+#. PythonVersionsDialog..Panel1..vtPythonVersions..DefaultText
+#. ProjectExplorerWindow..BGPanel..FGPanel..Panel1..ExplorerTree..DefaultText
 #. RegExpTesterWindow..BGPanel..FGPanel..pnlBackground..dpGroupsView..GroupsView..DefaultText
-#: dlgPythonVersions.dfm frmRegExpTester.dfm
+#: dlgPythonVersions.dfm frmProjectExplorer.dfm frmRegExpTester.dfm
 msgid "Node"
 msgstr ""
 
-#. PythonVersionsDialog..Panel1..gbPythonVersions..vtPythonVersions......Text
+#. PythonVersionsDialog..Panel1..vtPythonVersions......Text
 #: dlgPythonVersions.dfm
 msgid "Folder"
 msgstr ""
@@ -901,8 +905,9 @@ msgstr ""
 #. RegExpTesterWindow..BGPanel..FGPanel..TBXDock..RegExpTesterToolbar..tiHelp..Caption
 #. ToDoWindow..Actions..actHelpHelp..Category
 #. ToDoWindow..Actions..actHelpHelp..Hint
+#. Programmer's name for it: SDlgHelpHelp
 #: dlgPythonVersions.dfm dmCommands.dfm frmFindResults.dfm frmFunctionList.dfm
-#: frmRegExpTester.dfm frmToDo.dfm
+#: frmRegExpTester.dfm frmToDo.dfm StringResources.pas
 msgid "Help"
 msgstr ""
 
@@ -994,9 +999,8 @@ msgid "&Parameters:"
 msgstr ""
 
 #. RunConfigurationForm..Panel1..GroupBox2..Label7..Caption
-#. ToolProperties..Panel1..TabControl..tabProperties..GroupBox2..Label7..Caption
-#: dlgRunConfiguration.dfm dlgToolProperties.dfm
-msgid "Working &directory:"
+#: dlgRunConfiguration.dfm
+msgid "Working &Directory:"
 msgstr ""
 
 #. RunConfigurationForm..Panel1..gbRemoteEngine..Caption
@@ -1018,17 +1022,17 @@ msgstr ""
 
 #. RunConfigurationForm..Panel1..gbRemoteEngine..cbEngineType..Text
 #. RunConfigurationForm..Panel1..gbRemoteEngine..cbEngineType....Items.Strings
-#: dlgRunConfiguration.dfm
+#: dlgRunConfiguration.dfm cPyControl.pas
 msgid "Remote"
 msgstr ""
 
 #. RunConfigurationForm..Panel1..gbRemoteEngine..cbEngineType....Items.Strings
-#: dlgRunConfiguration.dfm
+#: dlgRunConfiguration.dfm cPyControl.pas
 msgid "Internal"
 msgstr ""
 
 #. RunConfigurationForm..Panel1..gbRemoteEngine..cbEngineType....Items.Strings
-#: dlgRunConfiguration.dfm
+#: dlgRunConfiguration.dfm cPyControl.pas
 msgid "Remote (Tk)"
 msgstr ""
 
@@ -1091,11 +1095,6 @@ msgstr ""
 msgid "Preview"
 msgstr ""
 
-#. StyleSelectorForm..Button1..Caption
-#: dlgStyleSelector.dfm
-msgid "&Apply Style"
-msgstr ""
-
 #. StyleSelectorForm..ActionManager1..StyleName
 #: dlgStyleSelector.dfm
 msgid "Platform Default"
@@ -1103,7 +1102,7 @@ msgstr ""
 
 #. StyleSelectorForm..ActionManager1..ActionApplyStyle..Caption
 #: dlgStyleSelector.dfm
-msgid "Apply Style"
+msgid "&Apply Style"
 msgstr ""
 
 #. fmEditorOptionsDialog..Caption
@@ -2076,6 +2075,11 @@ msgstr ""
 msgid "&Application:"
 msgstr ""
 
+#. ToolProperties..Panel1..TabControl..tabProperties..GroupBox2..Label7..Caption
+#: dlgToolProperties.dfm
+msgid "Working &directory:"
+msgstr ""
+
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox4..Caption
 #: dlgToolProperties.dfm
 msgid "Shortcut and Context"
@@ -2344,6 +2348,12 @@ msgstr ""
 msgid "Deselect all nodes"
 msgstr ""
 
+#. CommandsDataModule..SynPythonSyn..DefaultFilter
+#. 5000;
+#: dmCommands.dfm cPyScripterSettings.pas
+msgid "Python Files (*.py;*.pyw)|*.py;*.pyw"
+msgstr ""
+
 #. CommandsDataModule..ParameterCompletion..Title
 #. CommandsDataModule..actlMain..actParameterCompletion..Category
 #. CommandsDataModule..actlMain..actModifierCompletion..Category
@@ -2437,7 +2447,8 @@ msgstr ""
 
 #. CommandsDataModule..actlMain..actFileClose..Caption
 #. OutputWindow..OutputActions..actToolClose..Caption
-#: dmCommands.dfm frmCommandOutput.dfm
+#. Programmer's name for it: SDlgClose
+#: dmCommands.dfm frmCommandOutput.dfm StringResources.pas
 msgid "&Close"
 msgstr ""
 
@@ -3852,7 +3863,7 @@ msgstr ""
 
 #. FileExplorerWindow..BGPanel..FGPanel..ExplorerDock..ExplorerToolbar..TBXSubmenuItem1..TBXSubmenuItem3..Caption
 #. FileExplorerWindow..ExplorerPopUp..mnPythonPath..Caption
-#: frmFileExplorer.dfm
+#: frmFileExplorer.dfm dmCommands.pas
 msgid "Python Path"
 msgstr ""
 
@@ -3878,7 +3889,7 @@ msgid "My &Documents"
 msgstr ""
 
 #. FileExplorerWindow..ExplorerPopUp..mnBrowsePath..CurrentDirectory..Caption
-#: frmFileExplorer.dfm uParams.pas
+#: frmFileExplorer.dfm
 msgid "Current Directory"
 msgstr ""
 
@@ -3999,7 +4010,8 @@ msgstr ""
 
 #. FindResultsWindow..Actions..actFileAbort..Caption
 #. ToDoWindow..Actions..actFileAbort..Caption
-#: frmFindResults.dfm frmToDo.dfm
+#. Programmer's name for it: SDlgAbort
+#: frmFindResults.dfm frmToDo.dfm StringResources.pas
 msgid "&Abort"
 msgstr ""
 
@@ -4881,7 +4893,7 @@ msgid "&Files"
 msgstr ""
 
 #. PyIDEMainForm..TabControlPopupMenu..mnFiles..Hint
-#: frmPyIDEMain.dfm uParams.pas
+#: frmPyIDEMain.dfm
 msgid "Open Files"
 msgstr ""
 
@@ -6023,6 +6035,19 @@ msgstr ""
 msgid "No editor is currently active"
 msgstr ""
 
+#. Programmer's name for it: SNonameFileTitle
+#: cProjectClasses.pas frmProjectExplorer.pas StringResources.pas
+msgid "Untitled"
+msgstr ""
+
+#: cProjectClasses.pas
+msgid "Files"
+msgstr ""
+
+#: cProjectClasses.pas
+msgid "Run Configurations"
+msgstr ""
+
 #: cPyScripterSettings.pas
 msgid "JSON Files (*.json;*.ipynb)|*.json;*.ipynb"
 msgstr ""
@@ -6052,7 +6077,7 @@ msgstr ""
 msgid "Host name"
 msgstr ""
 
-#: cSSHSupport.pas
+#: cSSHSupport.pas uParams.pas
 msgid "User name"
 msgstr ""
 
@@ -6265,13 +6290,6 @@ msgstr ""
 
 #: dlgAboutPyScripter.pas
 msgid ""
-"Salim Saddaquzzaman (https://github.com/sk-Prime)\n"
-"Tanmaya Meher (www.github.com/tanmayameher)\n"
-"jprzywoski (www.github.com/jprzywoski)"
-msgstr ""
-
-#: dlgAboutPyScripter.pas
-msgid ""
 "Donations from numerous users have provided a strong incentive to develop "
 "this project.  Generous support from Tranquil IT (https://www.tranquil.it) "
 "makers of WAPT (apt-get for Windows) (https://www.wapt.fr) is acknowledged."
@@ -6317,10 +6335,6 @@ msgstr ""
 msgid "Unassigned"
 msgstr ""
 
-#: dlgDirectoryList.pas
-msgid "Select Directory:"
-msgstr ""
-
 #. Programmer's name for it: RsSendBugReportSubject
 #: dlgExceptionMail.pas
 msgid "PyScripter Bug Report"
@@ -6355,6 +6369,10 @@ msgstr ""
 
 #: dlgRunConfiguration.pas dlgToolProperties.pas
 msgid "Select working directory:"
+msgstr ""
+
+#: dlgToDoOptions.pas
+msgid "To Do search path"
 msgstr ""
 
 #: dmCommands.pas
@@ -6716,6 +6734,10 @@ msgid ""
 "Arguments: %s"
 msgstr ""
 
+#: frmFileExplorer.pas
+msgid "File Explorer favorites"
+msgstr ""
+
 #. Programmer's name for it: SAllString
 #: frmFunctionList.pas
 msgid "<All>"
@@ -6741,6 +6763,12 @@ msgstr ""
 msgid ""
 "This option will reset IDE toolbars and shortcuts to the factory settings.\n"
 "Do you want to proceed?"
+msgstr ""
+
+#. Programmer's name for it: ProjectFilter
+#: frmProjectExplorer.pas
+#, object-pascal-format
+msgid "PyScripter project files (*.%s)|*.%0:s"
 msgstr ""
 
 #: frmPyIDEMain.pas
@@ -6793,6 +6821,62 @@ msgstr ""
 
 #: frmVariables.pas
 msgid "DocString"
+msgstr ""
+
+#. Delphi dialogs (from Vcl.Consts)
+#. Programmer's name for it: SDlgWarning
+#: StringResources.pas
+msgid "Warning"
+msgstr ""
+
+#. Programmer's name for it: SDlgError
+#: StringResources.pas
+msgid "Error"
+msgstr ""
+
+#. Programmer's name for it: SDlgInformation
+#: StringResources.pas
+msgid "Information"
+msgstr ""
+
+#. Programmer's name for it: SDlgConfirm
+#: StringResources.pas
+msgid "Confirm"
+msgstr ""
+
+#. Programmer's name for it: SDlgOK
+#: StringResources.pas
+msgid "OK"
+msgstr ""
+
+#. Programmer's name for it: SDlgCancel
+#: StringResources.pas
+msgid "Cancel"
+msgstr ""
+
+#. Programmer's name for it: SDlgRetry
+#: StringResources.pas
+msgid "&Retry"
+msgstr ""
+
+#. Programmer's name for it: SDlgIgnore
+#: StringResources.pas
+msgid "&Ignore"
+msgstr ""
+
+#. Programmer's name for it: SDlgAll
+#: StringResources.pas
+msgid "&All"
+msgstr ""
+
+#. Programmer's name for it: SDlgNoToAll
+#: StringResources.pas
+msgid "N&o to All"
+msgstr ""
+
+#. Programmer's name for it: SDlgYesToAll
+#: StringResources.pas
+msgid "Yes to &All"
 msgstr ""
 
 #. Programmer's name for it: SInternalError
@@ -6865,7 +6949,7 @@ msgstr ""
 #. Programmer's name for it: SEngineActive
 #: StringResources.pas
 #, object-pascal-format
-msgid "*** %s Python engine %sis active ***"
+msgid "*** %s Python engine is active ***"
 msgstr ""
 
 #. Programmer's name for it: SInterpreterNA
@@ -6938,20 +7022,20 @@ msgstr ""
 #: StringResources.pas
 msgid ""
 "Remote Server is not connected.  Please reinitialize or disconnect the "
-"remote  interpreter."
+"remote interpreter."
 msgstr ""
 
 #. Programmer's name for it: SRpycNotAvailable
 #: StringResources.pas
 msgid ""
-"The Rpyc module is not available.  To use the remote Python Engine download "
+"The Rpyc module is not available.  To use the remote Python engine download "
 "Rpyc from http://Rpyc.sf.net and install it."
 msgstr ""
 
 #. Programmer's name for it: SWrongRpycVersion
 #: StringResources.pas
 msgid ""
-"Wrong Rpyc version.  To use the remote Python Engine download version 2.6 "
+"Wrong Rpyc version.  To use the remote Python engine download version 2.6 "
 "Rpyc from http://Rpyc.sf.net and install it."
 msgstr ""
 
@@ -7291,7 +7375,7 @@ msgstr ""
 #: StringResources.pas
 msgid ""
 "The following files have been modified. Please select the files that you "
-"wish to save and press the OK button.  Press Cancel to go back to PyScripter"
+"wish to save and press the OK button. Press Cancel to go back to PyScripter."
 msgstr ""
 
 #. Programmer's name for it: SSaveAs
@@ -7632,11 +7716,6 @@ msgstr ""
 msgid "Overwrite"
 msgstr ""
 
-#. Programmer's name for it: SNonameFileTitle
-#: StringResources.pas
-msgid "Untitled"
-msgstr ""
-
 #. Programmer's name for it: SNonamePythonFileTitle
 #: StringResources.pas
 msgid "module"
@@ -7911,7 +7990,7 @@ msgstr ""
 #. Programmer's name for it: SSHUnknownServerQuery
 #: StringResources.pas
 #, object-pascal-format
-msgid "Unknown SSH server with fingerpring \"%s\". Do you want to proceed?"
+msgid "Unknown SSH server with fingerprint \"%s\". Do you want to proceed?"
 msgstr ""
 
 #. Programmer's name for it: SSHPythonTimeout
@@ -7935,7 +8014,7 @@ msgstr ""
 #, object-pascal-format
 msgid ""
 "Local Python version is %s and remote Python version is %s. To use this SSH "
-"server please switch to Python version %1:s"
+"server please switch to Python version %1:s."
 msgstr ""
 
 #. Programmer's name for it: SYNS_FriendlyMatchingBrace
@@ -7989,7 +8068,7 @@ msgid "Windows System directory"
 msgstr ""
 
 #: uParams.pas
-msgid "Windows Temp Directory"
+msgid "Windows Temp directory"
 msgstr ""
 
 #: uParams.pas
@@ -7997,20 +8076,20 @@ msgid "MyDocuments directory"
 msgstr ""
 
 #: uParams.pas
-msgid "Desktop Directory"
+msgid "Desktop directory"
 msgstr ""
 
 #. register parameters
 #: uParams.pas
-msgid "Clipboard As Text"
+msgid "Clipboard as text"
 msgstr ""
 
 #: uParams.pas
-msgid "User Name"
+msgid "Current directory"
 msgstr ""
 
 #: uParams.pas
-msgid "Executable Name"
+msgid "Executable name"
 msgstr ""
 
 #: uParams.pas
@@ -8031,7 +8110,7 @@ msgid "File name"
 msgstr ""
 
 #: uParams.pas
-msgid "File Extension"
+msgid "File extension"
 msgstr ""
 
 #: uParams.pas
@@ -8115,10 +8194,6 @@ msgid "Select file"
 msgstr ""
 
 #: uParams.pas
-msgid "Select directory"
-msgstr ""
-
-#: uParams.pas
 msgid "Date of a date-time value"
 msgstr ""
 
@@ -8159,7 +8234,11 @@ msgid "Project file name"
 msgstr ""
 
 #: uParams.pas
-msgid "Modified Files"
+msgid "Modified files"
+msgstr ""
+
+#: uParams.pas
+msgid "Open files"
 msgstr ""
 
 #: uParams.pas
