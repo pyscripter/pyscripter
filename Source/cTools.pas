@@ -228,7 +228,7 @@ end;
 
 function TToolItem.GetDisplayName: string;
 begin
-  Result := StrRemoveChars(fExternalTool.Caption, ['&']);
+  Result := StrRemoveChars(_(fExternalTool.Caption), ['&']);
 end;
 
 { TExternalTool }
@@ -311,7 +311,7 @@ begin
   fExternalTool := ExternalTool;
   if Assigned(fExternalTool) then begin
     ShortCut := fExternalTool.ShortCut;
-    Caption := fExternalTool.Caption;
+    Caption := _(fExternalTool.Caption);
     S := StrRemoveChars(Caption , [' ', '&', '.']);  // Fix error reported by David Funtowiez
     if IsValidIdent(S) then
       Name := 'actTools' + S;

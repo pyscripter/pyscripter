@@ -152,7 +152,7 @@ Const
   SSelectLayouts = 'Please select the layouts you want to delete and press the OK button:';
   SSaveModifiedFiles = 'Save modified files';
   SSelectModifiedFiles = 'The following files have been modified.'+
-    ' Please select the files that you wish to save and press the OK button. '+
+    ' Please select the files that you wish to save and press the OK button.'+
     ' Press Cancel to go back to PyScripter.';
   SImportHighlighters = 'Import Highlighters';
   SImportShortcuts = 'Import Shortcuts';
@@ -303,7 +303,7 @@ Const
      'Output: %s'+#13#10+
      'ErrorOutput: %s';
   SSHVersionMismatch = 'Local Python version is %s and remote Python version is %s. '+
-    'To use this SSH server please switch to Python version %1:s';
+    'To use this SSH server please switch to Python version %1:s.';
 
   // do not localize further
 

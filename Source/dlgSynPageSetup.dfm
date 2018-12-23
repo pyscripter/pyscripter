@@ -114,7 +114,7 @@ inherited PageSetupDlg: TPageSetupDlg
         end
         object GroupBox2: TGroupBox
           Left = 10
-          Top = 90
+          Top = 95
           Width = 391
           Height = 61
           Caption = 'Appearance'
@@ -154,7 +154,7 @@ inherited PageSetupDlg: TPageSetupDlg
           object CBHeaderLine: TCheckBox
             Left = 8
             Top = 19
-            Width = 74
+            Width = 87
             Height = 21
             Caption = 'Line under'
             TabOrder = 0
@@ -162,7 +162,7 @@ inherited PageSetupDlg: TPageSetupDlg
           object CBHeaderBox: TCheckBox
             Left = 8
             Top = 39
-            Width = 42
+            Width = 87
             Height = 21
             Caption = 'Box'
             TabOrder = 1
@@ -179,14 +179,14 @@ inherited PageSetupDlg: TPageSetupDlg
         object CBHeaderMirror: TCheckBox
           Left = 410
           Top = 95
-          Width = 92
+          Width = 191
           Height = 21
           Caption = 'Mirror position'
           TabOrder = 4
         end
         object REHeaderLeft: TRichEdit
           Left = 10
-          Top = 30
+          Top = 32
           Width = 191
           Height = 56
           Font.Charset = ANSI_CHARSET
@@ -204,7 +204,7 @@ inherited PageSetupDlg: TPageSetupDlg
         end
         object REHeaderCenter: TRichEdit
           Left = 210
-          Top = 30
+          Top = 32
           Width = 191
           Height = 56
           Alignment = taCenter
@@ -223,7 +223,7 @@ inherited PageSetupDlg: TPageSetupDlg
         end
         object REHeaderRight: TRichEdit
           Left = 410
-          Top = 30
+          Top = 32
           Width = 191
           Height = 56
           Alignment = taRightJustify
@@ -311,7 +311,7 @@ inherited PageSetupDlg: TPageSetupDlg
           object CBFooterLine: TCheckBox
             Left = 8
             Top = 19
-            Width = 76
+            Width = 88
             Height = 21
             Caption = 'Line above'
             TabOrder = 0
@@ -319,7 +319,7 @@ inherited PageSetupDlg: TPageSetupDlg
           object CBFooterBox: TCheckBox
             Left = 8
             Top = 39
-            Width = 42
+            Width = 82
             Height = 21
             Caption = 'Box'
             TabOrder = 1
@@ -336,14 +336,14 @@ inherited PageSetupDlg: TPageSetupDlg
         object CBFooterMirror: TCheckBox
           Left = 410
           Top = 95
-          Width = 92
+          Width = 119
           Height = 21
           Caption = 'Mirror position'
           TabOrder = 4
         end
         object REFooterLeft: TRichEdit
           Left = 10
-          Top = 30
+          Top = 32
           Width = 191
           Height = 56
           Font.Charset = ANSI_CHARSET
@@ -361,7 +361,7 @@ inherited PageSetupDlg: TPageSetupDlg
         end
         object REFooterCenter: TRichEdit
           Left = 210
-          Top = 30
+          Top = 32
           Width = 191
           Height = 56
           Alignment = taCenter
@@ -380,7 +380,7 @@ inherited PageSetupDlg: TPageSetupDlg
         end
         object REFooterRight: TRichEdit
           Left = 410
-          Top = 30
+          Top = 32
           Width = 191
           Height = 56
           Alignment = taRightJustify
@@ -406,12 +406,13 @@ inherited PageSetupDlg: TPageSetupDlg
       Height = 372
       Caption = 'Margins && Options'
       ImageIndex = -1
+      ExplicitLeft = 130
       DesignSize = (
         632
         372)
       TabItem = 'SpTBXTabItem1'
       object Image1: TImage
-        Left = 275
+        Left = 300
         Top = 10
         Width = 223
         Height = 292
@@ -1525,125 +1526,125 @@ inherited PageSetupDlg: TPageSetupDlg
         Caption = 'Gutter'
       end
       object CBMirrorMargins: TCheckBox
-        Left = 10
-        Top = 300
-        Width = 155
+        Left = 3
+        Top = 303
+        Width = 200
         Height = 21
         Caption = 'Mirror margins'
         TabOrder = 0
       end
       object CBLineNumbers: TCheckBox
-        Left = 10
-        Top = 320
-        Width = 155
+        Left = 3
+        Top = 323
+        Width = 200
         Height = 21
         Caption = 'Line numbers'
         TabOrder = 12
       end
       object CBLineNumbersInMargin: TCheckBox
-        Left = 10
-        Top = 340
-        Width = 169
+        Left = 3
+        Top = 343
+        Width = 200
         Height = 21
         Caption = 'Print line numbers in margin'
         TabOrder = 13
       end
       object CBHighlight: TCheckBox
-        Left = 185
+        Left = 220
         Top = 300
-        Width = 83
+        Width = 200
         Height = 21
         Caption = 'Syntax print'
         TabOrder = 14
       end
       object CBColors: TCheckBox
-        Left = 185
-        Top = 320
-        Width = 73
+        Left = 220
+        Top = 321
+        Width = 200
         Height = 21
         Caption = 'Use colors'
         TabOrder = 15
       end
       object CBWrap: TCheckBox
-        Left = 185
-        Top = 339
-        Width = 74
+        Left = 220
+        Top = 343
+        Width = 200
         Height = 21
         Caption = 'Wrap lines'
         TabOrder = 16
       end
       object EditLeft: TEdit
-        Left = 110
+        Left = 130
         Top = 40
         Width = 151
         Height = 21
         TabOrder = 1
       end
       object EditRight: TEdit
-        Left = 110
+        Left = 130
         Top = 65
         Width = 151
         Height = 21
         TabOrder = 2
       end
       object EditTop: TEdit
-        Left = 110
+        Left = 130
         Top = 90
         Width = 151
         Height = 21
         TabOrder = 3
       end
       object EditBottom: TEdit
-        Left = 110
+        Left = 130
         Top = 115
         Width = 151
         Height = 21
         TabOrder = 4
       end
       object EditGutter: TEdit
-        Left = 110
+        Left = 130
         Top = 140
         Width = 151
         Height = 21
         TabOrder = 5
       end
       object EditHeader: TEdit
-        Left = 110
+        Left = 130
         Top = 170
         Width = 151
         Height = 21
         TabOrder = 6
       end
       object EditFooter: TEdit
-        Left = 110
+        Left = 130
         Top = 195
         Width = 151
         Height = 21
         TabOrder = 7
       end
       object EditHFInternalMargin: TEdit
-        Left = 110
+        Left = 130
         Top = 220
         Width = 151
         Height = 21
         TabOrder = 8
       end
       object EditLeftHFTextIndent: TEdit
-        Left = 110
+        Left = 130
         Top = 245
         Width = 151
         Height = 21
         TabOrder = 9
       end
       object EditRightHFTextIndent: TEdit
-        Left = 110
+        Left = 130
         Top = 270
         Width = 151
         Height = 21
         TabOrder = 10
       end
       object CBUnits: TSpTBXComboBox
-        Left = 110
+        Left = 130
         Top = 10
         Width = 151
         Height = 21
@@ -1660,7 +1661,7 @@ inherited PageSetupDlg: TPageSetupDlg
     end
   end
   object OKBtn: TButton
-    Left = 534
+    Left = 540
     Top = 320
     Width = 75
     Height = 25
@@ -1670,7 +1671,7 @@ inherited PageSetupDlg: TPageSetupDlg
     TabOrder = 0
   end
   object CancelBtn: TButton
-    Left = 534
+    Left = 540
     Top = 351
     Width = 75
     Height = 25
@@ -1685,7 +1686,7 @@ inherited PageSetupDlg: TPageSetupDlg
     Left = 269
     Top = 4
     Bitmap = {
-      494C010109001800140010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C010109001800040010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000003000000001002000000000000030
       00000000000000000000000000000000000000000000060606076C6C6CA47373
       73BD737373BE737373BE737373BE737373BE737373BE737373BE737373BE7373

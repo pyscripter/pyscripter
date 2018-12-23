@@ -51,7 +51,6 @@ type
     procedure Setup(OptionsObject : TBaseOptions; Categories : array of TOptionCategory);
   end;
 
-
 function InspectOptions(OptionsObject : TBaseOptions;
   Categories : array of TOptionCategory; FormCaption : string;
   HelpCntxt : integer = 0; ShowCategories: boolean = True): boolean;
@@ -59,7 +58,6 @@ function InspectOptions(OptionsObject : TBaseOptions;
 implementation
 
 {$R *.dfm}
-
 
 { TIDEOptionsWindow }
 

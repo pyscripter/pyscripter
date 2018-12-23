@@ -197,9 +197,11 @@ type
     function CanClose: boolean;
   end;
 
-Const
-  ProjectDefaultExtension = 'psproj';
+resourcestring
   ProjectFilter = 'PyScripter project files (*.%s)|*.%0:s';
+
+const
+  ProjectDefaultExtension = 'psproj';
 var
   ProjectExplorerWindow: TProjectExplorerWindow;
 

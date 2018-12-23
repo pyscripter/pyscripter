@@ -1026,11 +1026,6 @@ msgstr ""
 msgid "PyScripterVersionInfo.ini"
 msgstr ""
 
-#. CommandsDataModule..SynPythonSyn..DefaultFilter
-#: dmCommands.dfm:8
-msgid "Python Files (*.py;*.pyw)|*.py;*.pyw"
-msgstr ""
-
 #. PyIDEMainForm..Caption
 #: frmPyIDEMain.dfm:5
 msgid "Python Scripter"
