@@ -57,6 +57,7 @@ implementation
 uses
   System.SysUtils,
   JclStrings,
+  JvGNUGetText,
   uCommonFunctions;
 
 procedure GetHighlighters(AOwner: TComponent; AHighlighters: TStrings;
@@ -92,7 +93,7 @@ begin
       Highlighter := TSynCustomHighlighter(AHighlighters.Objects[i]);
       if Highlighter.DefaultFilter = '' then
         continue;
-      Result := Result + Highlighter.DefaultFilter;
+      Result := Result + _(Highlighter.DefaultFilter);
       if Result[Length(Result)] <> '|' then
         Result := Result + '|';
     end;

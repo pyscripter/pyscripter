@@ -368,6 +368,7 @@ type
     ColorThemesFilesDir : string;
     StylesFilesDir : string;
     function GetHighlighterForFile(AFileName: string): TSynCustomHighlighter;
+    class function IsHighlighterStored(Highlighter: TObject): Boolean;
     procedure SynEditOptionsDialogGetHighlighterCount(Sender: TObject;
                 var Count: Integer);
     procedure SynEditOptionsDialogGetHighlighter(Sender: TObject;
@@ -404,6 +405,8 @@ type
     procedure HighlightWordInActiveEditor(SearchWord : string);
     property Highlighters : TStrings read fHighlighters;
   end;
+
+
 
 {$SCOPEDENUMS ON}
   TCodeImages =(
@@ -1078,6 +1081,13 @@ begin
   end;
 end;
 
+class function TCommandsDataModule.IsHighlighterStored(
+  Highlighter: TObject): Boolean;
+begin
+  Result :=  not (Highlighter is TSynCythonSyn) and
+    (not (Highlighter is TSynWebBase) or (Highlighter is TSynWebHtmlSyn));
+end;
+
 procedure TCommandsDataModule.actSearchReplaceNowExecute(Sender: TObject);
 Var
   SearchCmds : ISearchCommands;
@@ -1493,11 +1503,14 @@ begin
         AppStorage.FlushOnDestroy := True;
         AppStorage.Location := flCustom;
         AppStorage.FileName := FileName;
+        AppStorage.StorageOptions.SetAsString := True;
         AppStorage.WriteString('PyScripter\Version', ApplicationVersion);
+        AppStorage.WriteBoolean('PyScripter\SetAsString', True);
         AppStorage.DeleteSubTree('Highlighters');
         for i := 0 to Highlighters.Count - 1 do
-          AppStorage.WritePersistent('Highlighters\'+ Highlighters[i],
-            TPersistent(Highlighters.Objects[i]));
+          if IsHighlighterStored(Highlighters.Objects[i]) then
+            AppStorage.WritePersistent('Highlighters\'+ Highlighters[i],
+              TPersistent(Highlighters.Objects[i]));
         AppStorage.WritePersistent('Highlighters\Python Interpreter',
           PythonIIForm.SynEdit.Highlighter);
     finally
@@ -1555,6 +1568,8 @@ begin
         AppStorage.FlushOnDestroy := False;
         AppStorage.Location := flCustom;
         AppStorage.FileName := FileName;
+        AppStorage.StorageOptions.SetAsString :=
+          AppStorage.ReadBoolean('PyScripter\SetAsString', False);
         for i := 0 to Highlighters.Count - 1 do
           AppStorage.ReadPersistent('Highlighters\'+Highlighters[i],
             TPersistent(Highlighters.Objects[i]));
@@ -2014,7 +2029,7 @@ begin
   end;
   with Categories[4] do begin
     DisplayName := _('File Filters');
-    SetLength(Options, 11);
+    SetLength(Options, 12);
     Options[0].PropertyName := 'PythonFileFilter';
     Options[0].DisplayName := Format(_(SOpenDialogFilter), ['Python']);
     Options[1].PropertyName := 'HTMLFileFilter';
@@ -2037,6 +2052,8 @@ begin
     Options[9].DisplayName := Format(_(SOpenDialogFilter), ['Cython']);
     Options[10].PropertyName := 'JSONFileFilter';
     Options[10].DisplayName := Format(_(SOpenDialogFilter), ['JSON']);
+    Options[11].PropertyName := 'GeneralFileFilter';
+    Options[11].DisplayName := Format(_(SOpenDialogFilter), [_('text file')]);
   end;
   with Categories[5] do begin
     DisplayName := _('Editor');

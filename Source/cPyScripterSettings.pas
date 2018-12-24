@@ -54,6 +54,7 @@ type
     fJSFileFilter : string;
     fPHPFileFilter : string;
     fJSONFileFilter : string;
+    fGeneralFileFilter : string;
     fFileExplorerFilter : string;
     fDateLastCheckedForUpdates : TDateTime;
     fAutoCheckForUpdates : boolean;
@@ -165,6 +166,8 @@ type
       write fPHPFileFilter;
     property JSONFileFilter : string read fJSONFileFilter
       write fJSONFileFilter;
+    property GeneralFileFilter : string read fGeneralFileFilter
+      write fGeneralFileFilter;
     property FileExplorerFilter : string read fFileExplorerFilter
       write fFileExplorerFilter;
     property DateLastCheckedForUpdates : TDateTime read fDateLastCheckedForUpdates
@@ -351,6 +354,7 @@ begin
       Self.fJSFileFilter := JSFileFilter;
       Self.fPHPFileFilter := PHPFileFilter;
       Self.fJSONFileFilter := JSONFileFilter;
+      Self.fGeneralFileFilter := GeneralFileFilter;
       Self.fFileExplorerFilter := FileExplorerFilter;
       Self.fDateLastCheckedForUpdates := DateLastCheckedForUpdates;
       Self.fAutoCheckForUpdates := AutoCheckForUpdates;
@@ -450,6 +454,7 @@ begin
   fJSFileFilter := SYNS_FilterJScript;
   fPHPFileFilter := SYNS_FilterPHP;
   fJSONFileFilter := _('JSON Files (*.json;*.ipynb)|*.json;*.ipynb');
+  fGeneralFileFilter := _('Text Files(*.txt,*.*)|*.txt;*.*');
   fFileExplorerFilter := '*.py;*.pyw';
   fSearchTextAtCaret := True;
   fRestoreOpenFiles := True;
@@ -659,8 +664,6 @@ begin
 end;
 
 type
-// Modify JvAppStorage handling of TSynGutter
-// We want to PPI scale size properties
 TJvAppStorageKeyStrokesPropertyEngine = class(TJvAppStoragePropertyBaseEngine)
 public
   function Supports(AObject: TObject; AProperty: TObject): Boolean; override;
