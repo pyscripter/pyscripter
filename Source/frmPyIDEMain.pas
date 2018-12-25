@@ -460,12 +460,12 @@
             Much faster Remote Engine using asynchronous Windows named pipes if pywin32 is available.
             IDE option to force the use of sockets for connection to the Python
               server now defaults to False
-            Enhancements to the SSH Engine.  Now compatible with PuTTY.
+            Enhancements to the SSH Engine - now compatible with PuTTY
             Execute system commands in the interpreter with !. Supports parameter substitution.
             Clickable status panels with Python version and engine type
             Text drag & drop between PyScripter and other applications (#554)
-            Triple-click selects line and Quadraple-click selects all.
-            Double-click drag selects whole words - Triple-click drag selects whole lines.
+            Triple-click selects line and Quadraple-click selects all
+            Double-click drag selects whole words - triple-click drag selects whole lines
           Issues addressed
             #904, #922, #927, 928, #929, #936
 

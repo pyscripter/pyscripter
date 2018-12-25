@@ -1,0 +1,4 @@
+﻿el.PyScripterHelp=Βοήθεια PyScripter
+el.EditwithPyScripter=Επεξεργασία με PyScripter
+el.ShellIntegrationEditwithPyScripter=Προσθήκη 'Επεξεργασία με PyScripter' στο σχετικό μενού του Περιηγητή Αρχείων
+el.ShellIntegration=Ενσωμάτωση στον Περιηγητή Αρχείων

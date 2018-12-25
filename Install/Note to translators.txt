@@ -1,0 +1,2 @@
+Note to PyScripter Setup translators
+You need to save your translation files as UTF8 with BOM

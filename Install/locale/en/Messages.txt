@@ -1,0 +1,4 @@
+﻿en.PyScripterHelp=PyScripter Help
+en.EditwithPyScripter=Edit with PyScripter
+en.ShellIntegrationEditwithPyScripter=Add 'Edit with PyScripter' to File Explorer context menu
+en.ShellIntegration=Shell Integration
