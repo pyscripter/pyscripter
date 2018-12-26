@@ -22,6 +22,9 @@ Const
   SDlgYesToAll = 'Yes to &All';
   SDlgClose = '&Close';
 
+  STrueValue = 'True';
+  SFalseValue = 'False';
+
   SInternalError = 'Internal Error in %s';
   SNotFound = '"%s" not found';
   SItemsReplaced = '%d items found and %d" items replaced';
@@ -77,10 +80,7 @@ Const
   SErrorInImportingModule = 'Error in importing module';
   SCouldNotSetCurrentDir = 'Could not set the current directory to the script path';
   SRemoteServerNotConnected = 'Remote Server is not connected.  Please reinitialize or disconnect the remote interpreter.';
-  SRpycNotAvailable = 'The Rpyc module is not available.  To use the remote Python engine '+
-    'download Rpyc from http://Rpyc.sf.net and install it.';
-  SWrongRpycVersion = 'Wrong Rpyc version.  To use the remote Python engine '+
-        'download version 2.6 Rpyc from http://Rpyc.sf.net and install it.';
+  SRpycNotAvailable = 'The Rpyc module is not available.  Please exit and reinstall PyScripter.';
   SCouldNotWriteServerFile = 'Could not write file "%s" and cannot use a remote Python engine';
   SErrorCreatingRemoteEngine = 'Error in creating the remote interpreter: ';
   SCouldNotConnectRemoteEngine = 'Could not connect to the remote Python engine server. '+

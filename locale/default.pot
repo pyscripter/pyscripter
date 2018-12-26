@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2018-12-23 17:37\n"
+"POT-Creation-Date: 2018-12-26 06:53\n"
 "PO-Revision-Date: 2018-01-23 16:26\n"
 "Last-Translator: Somebody <your.email@address.com>\n"
 "MIME-Version: 1.0\n"
@@ -3450,7 +3450,7 @@ msgid "Donate to the PyScripter project"
 msgstr ""
 
 #. CommandsDataModule..SynGeneralSyn..DefaultFilter
-#: dmCommands.dfm
+#: dmCommands.dfm cPyScripterSettings.pas
 msgid "Text Files(*.txt,*.*)|*.txt;*.*"
 msgstr ""
 
@@ -6493,6 +6493,10 @@ msgid "File explorer filter"
 msgstr ""
 
 #: dmCommands.pas
+msgid "text file"
+msgstr ""
+
+#: dmCommands.pas
 msgid "Editor"
 msgstr ""
 
@@ -6879,6 +6883,16 @@ msgstr ""
 msgid "Yes to &All"
 msgstr ""
 
+#. Programmer's name for it: STrueValue
+#: StringResources.pas
+msgid "True"
+msgstr ""
+
+#. Programmer's name for it: SFalseValue
+#: StringResources.pas
+msgid "False"
+msgstr ""
+
 #. Programmer's name for it: SInternalError
 #: StringResources.pas
 #, object-pascal-format
@@ -7028,15 +7042,7 @@ msgstr ""
 #. Programmer's name for it: SRpycNotAvailable
 #: StringResources.pas
 msgid ""
-"The Rpyc module is not available.  To use the remote Python engine download "
-"Rpyc from http://Rpyc.sf.net and install it."
-msgstr ""
-
-#. Programmer's name for it: SWrongRpycVersion
-#: StringResources.pas
-msgid ""
-"Wrong Rpyc version.  To use the remote Python engine download version 2.6 "
-"Rpyc from http://Rpyc.sf.net and install it."
+"The Rpyc module is not available.  Please exit and reinstall PyScripter."
 msgstr ""
 
 #. Programmer's name for it: SCouldNotWriteServerFile
