@@ -270,6 +270,12 @@ function TerminateProcessTree(ProcessID: DWORD): Boolean;
 function ExecuteCmd(Command : string; out CmdOutput: string): cardinal; overload;
 function ExecuteCmd(Command : string; out CmdOutput, CmdError: string): cardinal; overload;
 
+(* Checks if a file extension is contained in a file filter *)
+function FileExtInFileFilter(FileExt, FileFilter: string): Boolean;
+
+(* Checks if a file name is indicates a Python source file *)
+function FileIsPythonSource(FileName: string): Boolean;
+
 
 type
   (*  Extends System.RegularExperssions.TRegEx *)
@@ -317,7 +323,6 @@ type
     Interfaced based Timer that can be used with anonymous methods
      Developed by  : Nuno Picado (https://github.com/nunopicado/Reusable-Objects)
   *)
-
   ITimer = interface(IInvokable)
   ['{1C06BCF6-1C6D-473E-993F-2B231B17D4F5}']
     function Start(const Action: TProc): ITimer;
@@ -359,7 +364,6 @@ Uses
   SynEditTextBuffer,
   VarPyth,
   PythonEngine,
-  dmCommands,
   frmPythonII,
   StringResources,
   cPyScripterSettings,
@@ -1370,7 +1374,7 @@ begin
   Lines.LineBreak := OldLineBreak;
 
   if PyControl.InternalPython.Loaded and
-    (IsPython or CommandsDataModule.FileIsPythonSource(AFileName)) then
+    (IsPython or FileIsPythonSource(AFileName)) then
   begin
     PyEncoding := '';
     if Lines.Count > 0 then
@@ -1450,7 +1454,7 @@ Var
 begin
   Result := True;
   if (AFileName <> '') and FileExists(AFileName) then begin
-    IsPythonFile :=  CommandsDataModule.FileIsPythonSource(AFileName);
+    IsPythonFile :=  FileIsPythonSource(AFileName);
     try
       FileStream := TFileStream.Create(AFileName, fmOpenRead or fmShareDenyNone);
       try
@@ -2376,6 +2380,37 @@ Var
   CmdError: string;
 begin
   Result := ExecuteCmd(Command, CmdOutput, CmdError);
+end;
+
+function FileExtInFileFilter(FileExt, FileFilter: string): Boolean;
+var
+  j, ExtLen: Integer;
+begin
+  Result := False;
+  ExtLen := FileExt.Length;
+  if ExtLen = 0 then
+    Exit;
+  FileExt := LowerCase(FileExt);
+  FileFilter := LowerCase(FileFilter);
+  j := Pos('|', FileFilter);
+  if j > 0 then begin
+    Delete(FileFilter, 1, j);
+    j := Pos(FileExt, FileFilter);
+    if (j > 0) and
+       ((j + ExtLen > Length(FileFilter)) or (FileFilter[j + ExtLen] = ';'))
+    then
+      Exit(True);
+  end;
+end;
+
+function FileIsPythonSource(FileName: string): Boolean;
+Var
+  Ext: string;
+begin
+  Ext := ExtractFileExt(FileName);
+  if Ext = '' then
+    Exit(False);
+  Result := FileExtInFileFilter(Ext, PyIDEOptions.PythonFileFilter);
 end;
 
 //  Regular Expressions Start

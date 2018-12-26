@@ -400,7 +400,6 @@ type
     procedure IncrementalSearch;
     procedure ApplyEditorOptions;
     procedure ProcessShellNotify(Sender: TCustomVirtualExplorerTree; ShellEvent: TVirtualShellEvent);
-    function FileIsPythonSource(FileName : string): Boolean;
     function FindSearchTarget : ISearchCommands;
     procedure HighlightWordInActiveEditor(SearchWord : string);
     property Highlighters : TStrings read fHighlighters;
@@ -706,7 +705,6 @@ begin
   SynWebPhpPlainSyn.DefaultFilter := PyIDEOptions.PHPFileFilter;
 
   MaskFPUExceptions(PyIDEOptions.MaskFPUExceptions);
-  dlgFileOpen.Filter := PyIDEOptions.PythonFileFilter;
 
   with SynEditPrint.Header do begin
     Add('$TITLE$', nil, taCenter, 2);
@@ -2953,11 +2951,6 @@ begin
 
   if ConfirmReplaceDialog <> nil then
     ConfirmReplaceDialog.Free;
-end;
-
-function TCommandsDataModule.FileIsPythonSource(FileName: string): Boolean;
-begin
-  Result := GetHighlighterForFile(FileName) is TSynPythonSyn;
 end;
 
 function TCommandsDataModule.FindSearchTarget: ISearchCommands;

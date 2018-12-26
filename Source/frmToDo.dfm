@@ -106,6 +106,7 @@ inherited ToDoWindow: TToDoWindow
         BevelInner = bvNone
         BevelOuter = bvNone
         BorderStyle = bsNone
+        DefaultText = 'Node'
         Header.AutoSizeIndex = 1
         Header.MainColumn = 1
         Header.Options = [hoAutoResize, hoColumnResize, hoHotTrack, hoOwnerDraw, hoShowSortGlyphs, hoVisible]
@@ -135,30 +136,30 @@ inherited ToDoWindow: TToDoWindow
             Options = [coAllowClick, coDraggable, coEnabled, coParentBidiMode, coParentColor, coShowDropMark, coVisible]
             Position = 0
             Spacing = 0
+            Text = '!'
             Width = 25
-            WideText = '!'
           end
           item
             Layout = blGlyphRight
             MinWidth = 100
             Position = 1
+            Text = 'Description'
             Width = 203
-            WideText = 'Description'
           end
           item
             Layout = blGlyphRight
             MinWidth = 50
             Position = 2
+            Text = 'File Name'
             Width = 200
-            WideText = 'File Name'
           end
           item
             Alignment = taRightJustify
             Layout = blGlyphRight
             MinWidth = 20
             Position = 3
+            Text = 'Line'
             Width = 60
-            WideText = 'Line'
           end>
       end
     end
@@ -173,7 +174,7 @@ inherited ToDoWindow: TToDoWindow
     Left = 24
     Top = 56
     Bitmap = {
-      494C010104000800140010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C010104000800040010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000002000000001002000000000000020
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

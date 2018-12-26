@@ -94,7 +94,6 @@ uses
   JclStrings,
   JvGnugettext,
   StringResources,
-  dmCommands,
   frmPythonII,
   uEditAppIntfs,
   uCommonFunctions,
@@ -286,8 +285,7 @@ begin
   end;
 
   // Next try to find the source
-  if (Result = nil) and (FName <> '') and
-     CommandsDataModule.FileIsPythonSource(FName) then
+  if (Result = nil) and (FName <> '') and FileIsPythonSource(FName) then
   begin
     DottedModuleName := FileNameToModuleName(FName);
     Index := fParsedModules.IndexOf(DottedModuleName);

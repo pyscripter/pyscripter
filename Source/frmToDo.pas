@@ -195,7 +195,6 @@ uses
   System.Math,
   Vcl.Clipbrd,
   MPCommonUtilities,
-  dmCommands,
   uEditAppIntfs,
   frmPyIDEMain,
   dlgToDoOptions,
@@ -841,7 +840,7 @@ begin
    end;
    if (Node is TProjectFileNode) and (TProjectFileNode(Node).FileName <> '') then begin
      FileName := Parameters.ReplaceInText(TProjectFileNode(Node).FileName);
-     if CommandsDataModule.FileIsPythonSource(FileName)
+     if FileIsPythonSource(FileName)
      then
        TToDoWindow(Data).LoadFile(FileName);
    end;

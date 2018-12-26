@@ -102,30 +102,16 @@ end;
 function GetHighlighterFromFileExt(AHighlighters: TStrings;
   Extension: string): TSynCustomHighlighter;
 var
-  ExtLen: integer;
-  i, j: integer;
+  i: integer;
   Highlighter: TSynCustomHighlighter;
-  Filter: string;
 begin
-  Extension := LowerCase(Extension);
-  ExtLen := Length(Extension);
-  if Assigned(AHighlighters) and (ExtLen > 0) then begin
+  if Assigned(AHighlighters) and (Extension.Length > 0) then begin
     for i := 0 to AHighlighters.Count - 1 do begin
       if not (AHighlighters.Objects[i] is TSynCustomHighlighter) then
         continue;
       Highlighter := TSynCustomHighlighter(AHighlighters.Objects[i]);
-      Filter := LowerCase(Highlighter.DefaultFilter);
-      j := Pos('|', Filter);
-      if j > 0 then begin
-        Delete(Filter, 1, j);
-        j := Pos(Extension, Filter);
-        if (j > 0) and
-           ((j + ExtLen > Length(Filter)) or (Filter[j + ExtLen] = ';'))
-        then begin
-          Result := Highlighter;
-          exit;
-        end;
-      end;
+      if FileExtInFileFilter(Extension, Highlighter.DefaultFilter) then
+        Exit(Highlighter);
     end;
   end;
   Result := nil;
