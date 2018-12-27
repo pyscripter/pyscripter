@@ -39,38 +39,25 @@ Const
   SCommandLineMsg  = 'Command Line : %s' + sLineBreak;
   SEngineActive = '*** %s Python engine is active ***';
   SInterpreterNA = 'The internal Python interpreter is not available';
-  SPythonInitError =
-  'PyScripter cannot find the standard Python library modules.' + SLineBreak +
-  'This sounds like a Python installation error.  Please check the Windows Registry key ' + SLineBreak +
-  '    HKEY_LOCAL_MACHINE\SOFTWARE\Python\PythonCore\x.y  or ' + SLineBreak +
-  '    HKEY_CURRENT_USER\SOFTWARE\Python\PythonCore\x.y' + SLineBreak +
-  'for a single user installation of Python.  ("x.y" stands for the version of Python).' + SLineBreak +
-  'In a proper installation the key should exist and the "InstallPath" and "PythonPath" variables defined.' + SLineBreak +
-  'Also check the PYTHONHOME and PYTHONPATH environment variables to see whether they conflict with the Python version used.' ;
   SPythonLoadError =
   'PyScripter could not load a Python engine' + SLineBreak +
   '**Before** using PyScripter, you must ensure that a version of Python' + SLineBreak +
   'greater or equal to 2.6 is installed on your machine. If you do not have one' + SLineBreak +
   'installed, you can download one from http://www.python.org/.' + SLineBreak +  SLineBreak +
   'The 64-bit version of PyScripter (x64) works only on 64-bit Windows **and**' + SLineBreak +
-  'with 64-bit versions of Python.  The 32-bit version of PyScripter works on both' + SLineBreak +
+  'with 64-bit versions of Python. The 32-bit version of PyScripter works on both' + SLineBreak +
   '32-bit and 64-bit Windows with 32-bit versions of Python.';
   SPythonFindError =
   'PyScripter could not find a usable Python installation at the specified path.' + SLineBreak +
   'Note that the 64-bit version of PyScripter (x64) works only on 64-bit Windows **and**' + SLineBreak +
-  'with 64-bit versions of Python.  The 32-bit version of PyScripter works on both' + SLineBreak +
+  'with 64-bit versions of Python. The 32-bit version of PyScripter works on both' + SLineBreak +
   '32-bit and 64-bit Windows with 32-bit versions of Python.';
-  SCouldNotShutDownRemoteEngine =
-  'PyScripter is waiting for the remote engine to shut-down for a long time without success.' + SLineBreak +
-  'This might mean that either the system is very busy or more likely something is preventing' + SLineBreak +
-  'the remote engine from shutting down, such as waiting in a blocked state.' + SLineBreak +
-  'You can use the task manager to kill the engine (appears as a process "python.exe")' + SLineBreak +
-  'and then reinitialize the remote engine.  Alternatively, you can close down and restart PyScripter.';
-  SPostMortemInfo = 'You are now in post-mortem analysis mode.  You can examine the Call Stack, ' +
+  SPostMortemInfo = 'You are now in post-mortem analysis mode.' + SLineBreak +
+                    'You can examine the Call Stack, ' +
                     'Variables and Watches windows, evaluate expressions etc.' + SLineBreak +
                     'To exit the post-mortem analysis select the Abort Debugging command.';
   SFileEncodingWarning = 'Encoding file "%s" using "%s" encoding will ' +
-                        'result in information loss.  Do you want to proceed?';
+                        'result in information loss.' + SLineBreak + 'Do you want to proceed?';
   SDecodingError = 'Error in decoding file "%s" from "%s" encoding';
   SFileOpenError = 'Error in opening file: "%s".' + sLineBreak + 'Error: %s';
   SFileSaveError = 'Error in saving file: "%s".' + sLineBreak +'Error: %s';
@@ -79,15 +66,18 @@ Const
   SCannotCompileWhileRunning = 'You cannot compile, import or run modules while debugging or running programs';
   SErrorInImportingModule = 'Error in importing module';
   SCouldNotSetCurrentDir = 'Could not set the current directory to the script path';
-  SRemoteServerNotConnected = 'Remote Server is not connected.  Please reinitialize or disconnect the remote interpreter.';
-  SRpycNotAvailable = 'The Rpyc module is not available.  Please exit and reinstall PyScripter.';
+  SRemoteServerNotConnected = 'Remote Server is not connected.' + SLineBreak +
+                              'Please reinitialize or disconnect the remote interpreter.';
+  SRpycNotAvailable = 'The ''Rpyc'' module is not available.' + SLineBreak +
+                      'Please exit and reinstall PyScripter.';
   SCouldNotWriteServerFile = 'Could not write file "%s" and cannot use a remote Python engine';
   SErrorCreatingRemoteEngine = 'Error in creating the remote interpreter: ';
   SCouldNotConnectRemoteEngine = 'Could not connect to the remote Python engine server. '+
         'The remote interpreter and debugger is not available.';
   SRemoteInterpreterInit = '*** Remote Interpreter Reinitialized  ***';
   SSameName = 'Another item has the same name';
-  SCodeTemplateModified = 'The template has been modified.  Do you want to update it with the new definition?';
+  SCodeTemplateModified = 'The template has been modified.' + SLineBreak +
+                          'Do you want to update it with the new definition?';
   SInvalidNumber = 'Invalid number!';
   SEmptyTokenTextError = 'You cannot insert a token that only consists of white space.';
   SAccessAppDataDir = 'Pyscripter needs access to the User Application Data directory: "%s". '+
@@ -99,16 +89,20 @@ Const
   SRegistryAccessDenied = 'Registry access denied. Could not change the file association.';
   SErrorWhileDownload = 'Error while downloading: ';
   SCurrentVersionUptodate = 'Current version is up-to-date!';
-  SKillExternalTool = 'An External Tool is still running.  Do you want to terminate it and exit?';
-  STerminateInterpreter = 'The Python interpreter is busy.  Are you sure you want to terminate it?';
+  SKillExternalTool = 'An External Tool is still running.' + SLineBreak +
+                      'Do you want to terminate it and exit?';
+  STerminateInterpreter = 'The Python interpreter is busy.' + SLineBreak +
+                          'Are you sure you want to terminate it?';
   SFindDefinitionWarning = 'This is the definition of "%s"';
   SPlaceCursorOnName = 'Please place the cursor on a function/class name or identifier';
   SCannotChangeEngine = 'Cannot change the Python engine while it is active.';
   SCouldNotOpenOutputFile = 'Could not open/create output file %s';
   SUnknownPythonVersion = 'PyScripter can''t use command line parameter PYTHON%s because it doesn''t know this version of Python.';
   SUnsupportedPythonVersion = 'PyScripter can''t use command line parameter PYTHON%s because it was compiled for Python %s or later.';
-  SAbortDebugging = 'A debugging session is in progress.  Do you want to abort the session and Exit?';
-  SInterruptRunningScript = 'The Python Script has timed out.  Do you want to interrupt it?';
+  SAbortDebugging = 'A debugging session is in progress.' + SLineBreak +
+                    'Do you want to abort the session and Exit?';
+  SInterruptRunningScript = 'The Python Script has timed out.' + SLineBreak +
+                            'Do you want to interrupt it?';
   SNoTestsFound = 'No tests found!';
   SDuplicateKey = 'Duplicate Key';
   SChangedFilesReloaded = 'Changed files have been reloaded';
@@ -151,9 +145,9 @@ Const
   SDeleteLayouts = 'Delete Layouts';
   SSelectLayouts = 'Please select the layouts you want to delete and press the OK button:';
   SSaveModifiedFiles = 'Save modified files';
-  SSelectModifiedFiles = 'The following files have been modified.'+
-    ' Please select the files that you wish to save and press the OK button.'+
-    ' Press Cancel to go back to PyScripter.';
+  SSelectModifiedFiles = 'The following files have been modified.' + SLineBreak +
+    'Press ''OK'' to save selected files and exit.'+ SLineBreak +
+    'Press ''Cancel'' to return to PyScripter without saving files.';
   SImportHighlighters = 'Import Highlighters';
   SImportShortcuts = 'Import Shortcuts';
   SSaveAs = 'Save "%s" As';
@@ -174,11 +168,13 @@ Const
   SErrorInitScript = 'Error in running initialization script %s: "%s"';
   SOpenDialogFilter = 'Open dialog %s filter';
   SOnlyJupyterFiles  = 'Web preview is only available for Jupyter JSON files';
-  SNoJupyter = 'Jupyter is not available.  Please install jupiter first';
-  SExternalProcessRunning = 'An external process is stil running.  Please terminate it first from the Output Window';
+  SNoJupyter = 'Jupyter is not available. Please install jupiter first';
+  SExternalProcessRunning = 'An external process is stil running.' + SLineBreak +
+                            'Please terminate it first from the Output Window';
 
   //  Project Manager
-  SAskSaveProject = 'The active project has not been saved.  Do you want to save the changes?';
+  SAskSaveProject = 'The active project has not been saved.' + SLineBreak +
+                    'Do you want to save the changes?';
   SFailedToBackupProject = 'Failed to backup project "%s"';
   SErrorInOpeningProject = 'Error in opening project: "%s".';
   SErrorInSavingProject = 'Error in saving project: "%s".';
@@ -209,7 +205,7 @@ Const
   SMatches = '%d matches';
   SMatchContextNotAvail = 'Unable to load match context lines';
   SProcessing = 'Processing %s';
-  SFileChangedAbort = '%s' + sLineBreak + 'has changed since it was searched.  Replacement aborted.'
+  SFileChangedAbort = '%s' + sLineBreak + 'has changed since it was searched. Replacement aborted.'
     + sLineBreak + 'Expected: %s' + sLineBreak + 'Found: %s';
   SFileSkipped   = 'The following file will be skipped: ';
   SCouldNotBackup= 'Could not backup file "%s" and will skip it';
@@ -236,8 +232,10 @@ Const
   SNonameFileTitle = 'Untitled';
   SNonamePythonFileTitle = 'module';
   SAskSaveChanges = 'The text in the "%s" file has changed.'#13#10#13#10 + 'Do you want to save the modifications?';
-  SFileReloadingWarning = 'Reloading the file will result in the loss of all changes.  Do you want to proceed?';
-  SFileAlreadyOpen = 'Another editor with the same file is open.  You can not have two editors with the same file.';
+  SFileReloadingWarning = 'Reloading the file will result in the loss of all changes.' + SLineBreak +
+                          'Do you want to proceed?';
+  SFileAlreadyOpen = 'Another editor with the same file is open.' + SLineBreak +
+                     'You can not have two editors with the same file.';
 
   // Parameters
   SEnterParameterCaption = 'Parameter replacement';

@@ -125,7 +125,7 @@ end;
 
 procedure TfmToDoOptions.btnBrowseClick(Sender: TObject);
 begin
-  EditFolderList(meDirectories.Lines, _('To Do search path'))
+  EditFolderList(meDirectories.Lines, _('''To Do'' search path'))
 end;
 
 procedure TfmToDoOptions.DirEnable(New: Boolean);

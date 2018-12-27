@@ -227,8 +227,8 @@ Root: HKCR; Subkey: PyScripter project\DefaultIcon; ValueType: string; ValueData
 Filename: {app}\PyScripter.exe; Description: {cm:LaunchProgram,PyScripter}; Flags: nowait postinstall skipifsilent
 
 [CustomMessages]
-#include "locale\en\Messages.txt"
-#include "locale\el\Messages.txt"
-#include "locale\it\Messages.txt"
+#include "locale\en\InstallMessages.txt"
+#include "locale\el\InstallMessages.txt"
+#include "locale\it\InstallMessages.txt"
 
 ;#expr SaveToFile(AddBackslash(SourcePath) + "Preprocessed.iss")

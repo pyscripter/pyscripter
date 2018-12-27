@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2018-12-26 06:53\n"
+"POT-Creation-Date: 2018-12-27 03:29\n"
 "PO-Revision-Date: 2018-01-23 16:26\n"
 "Last-Translator: Somebody <your.email@address.com>\n"
 "MIME-Version: 1.0\n"
@@ -220,7 +220,7 @@ msgid "Name"
 msgstr ""
 
 #. CodeTemplates..Panel..lvItems......Caption
-#. ToDoWindow..BGPanel..FGPanel..ToDoView......WideText
+#. ToDoWindow..BGPanel..FGPanel..ToDoView......Text
 #: dlgCodeTemplates.dfm frmToDo.dfm
 msgid "Description"
 msgstr ""
@@ -818,7 +818,9 @@ msgstr ""
 #. PythonVersionsDialog..Panel1..vtPythonVersions..DefaultText
 #. ProjectExplorerWindow..BGPanel..FGPanel..Panel1..ExplorerTree..DefaultText
 #. RegExpTesterWindow..BGPanel..FGPanel..pnlBackground..dpGroupsView..GroupsView..DefaultText
+#. ToDoWindow..BGPanel..FGPanel..ToDoView..DefaultText
 #: dlgPythonVersions.dfm frmProjectExplorer.dfm frmRegExpTester.dfm
+#: frmToDo.dfm
 msgid "Node"
 msgstr ""
 
@@ -3462,7 +3464,7 @@ msgstr ""
 #. BreakPointsWindow..BGPanel..FGPanel..Panel1..BreakPointsView......WideText
 #. CallStackWindow..BGPanel..FGPanel..Panel1..CallStackView......WideText
 #. MessagesWindow..BGPanel..FGPanel..MessagesView......WideText
-#. ToDoWindow..BGPanel..FGPanel..ToDoView......WideText
+#. ToDoWindow..BGPanel..FGPanel..ToDoView......Text
 #: frmBreakPoints.dfm frmCallStack.dfm frmMessages.dfm frmToDo.dfm
 msgid "File Name"
 msgstr ""
@@ -3471,7 +3473,7 @@ msgstr ""
 #. CallStackWindow..BGPanel..FGPanel..Panel1..CallStackView......WideText
 #. FunctionListWindow..pnHolder..lvProcs......Caption
 #. MessagesWindow..BGPanel..FGPanel..MessagesView......WideText
-#. ToDoWindow..BGPanel..FGPanel..ToDoView......WideText
+#. ToDoWindow..BGPanel..FGPanel..ToDoView......Text
 #: frmBreakPoints.dfm frmCallStack.dfm frmFunctionList.dfm frmMessages.dfm
 #: frmToDo.dfm
 msgid "Line"
@@ -6291,8 +6293,9 @@ msgstr ""
 #: dlgAboutPyScripter.pas
 msgid ""
 "Donations from numerous users have provided a strong incentive to develop "
-"this project.  Generous support from Tranquil IT (https://www.tranquil.it) "
-"makers of WAPT (apt-get for Windows) (https://www.wapt.fr) is acknowledged."
+"this project.\n"
+"Generous support from Tranquil IT (https://www.tranquil.it) makers of WAPT "
+"(apt-get for Windows) (https://www.wapt.fr) is acknowledged."
 msgstr ""
 
 #: dlgAboutPyScripter.pas
@@ -6372,7 +6375,7 @@ msgid "Select working directory:"
 msgstr ""
 
 #: dlgToDoOptions.pas
-msgid "To Do search path"
+msgid "'To Do' search path"
 msgstr ""
 
 #: dmCommands.pas
@@ -6974,8 +6977,9 @@ msgstr ""
 #. Programmer's name for it: SPostMortemInfo
 #: StringResources.pas
 msgid ""
-"You are now in post-mortem analysis mode.  You can examine the Call Stack, "
-"Variables and Watches windows, evaluate expressions etc.\n"
+"You are now in post-mortem analysis mode.\n"
+"You can examine the Call Stack, Variables and Watches windows, evaluate "
+"expressions etc.\n"
 "To exit the post-mortem analysis select the Abort Debugging command."
 msgstr ""
 
@@ -6983,7 +6987,7 @@ msgstr ""
 #: StringResources.pas
 #, object-pascal-format
 msgid ""
-"Encoding file \"%s\" using \"%s\" encoding will result in information loss.  "
+"Encoding file \"%s\" using \"%s\" encoding will result in information loss.\n"
 "Do you want to proceed?"
 msgstr ""
 
@@ -7035,14 +7039,15 @@ msgstr ""
 #. Programmer's name for it: SRemoteServerNotConnected
 #: StringResources.pas
 msgid ""
-"Remote Server is not connected.  Please reinitialize or disconnect the "
-"remote interpreter."
+"Remote Server is not connected.\n"
+"Please reinitialize or disconnect the remote interpreter."
 msgstr ""
 
 #. Programmer's name for it: SRpycNotAvailable
 #: StringResources.pas
 msgid ""
-"The Rpyc module is not available.  Please exit and reinstall PyScripter."
+"The 'Rpyc' module is not available.\n"
+"Please exit and reinstall PyScripter."
 msgstr ""
 
 #. Programmer's name for it: SCouldNotWriteServerFile
@@ -7076,8 +7081,8 @@ msgstr ""
 #. Programmer's name for it: SCodeTemplateModified
 #: StringResources.pas
 msgid ""
-"The template has been modified.  Do you want to update it with the new "
-"definition?"
+"The template has been modified.\n"
+"Do you want to update it with the new definition?"
 msgstr ""
 
 #. Programmer's name for it: SInvalidNumber
@@ -7134,12 +7139,15 @@ msgstr ""
 #. Programmer's name for it: SKillExternalTool
 #: StringResources.pas
 msgid ""
-"An External Tool is still running.  Do you want to terminate it and exit?"
+"An External Tool is still running.\n"
+"Do you want to terminate it and exit?"
 msgstr ""
 
 #. Programmer's name for it: STerminateInterpreter
 #: StringResources.pas
-msgid "The Python interpreter is busy.  Are you sure you want to terminate it?"
+msgid ""
+"The Python interpreter is busy.\n"
+"Are you sure you want to terminate it?"
 msgstr ""
 
 #. Programmer's name for it: SFindDefinitionWarning
@@ -7183,13 +7191,15 @@ msgstr ""
 #. Programmer's name for it: SAbortDebugging
 #: StringResources.pas
 msgid ""
-"A debugging session is in progress.  Do you want to abort the session and "
-"Exit?"
+"A debugging session is in progress.\n"
+"Do you want to abort the session and Exit?"
 msgstr ""
 
 #. Programmer's name for it: SInterruptRunningScript
 #: StringResources.pas
-msgid "The Python Script has timed out.  Do you want to interrupt it?"
+msgid ""
+"The Python Script has timed out.\n"
+"Do you want to interrupt it?"
 msgstr ""
 
 #. Programmer's name for it: SNoTestsFound
@@ -7380,8 +7390,9 @@ msgstr ""
 #. Programmer's name for it: SSelectModifiedFiles
 #: StringResources.pas
 msgid ""
-"The following files have been modified. Please select the files that you "
-"wish to save and press the OK button. Press Cancel to go back to PyScripter."
+"The following files have been modified.\n"
+"Press 'OK' to save selected files and exit.\n"
+"Press 'Cancel' to return to PyScripter without saving files."
 msgstr ""
 
 #. Programmer's name for it: SSaveAs
@@ -7464,21 +7475,22 @@ msgstr ""
 
 #. Programmer's name for it: SNoJupyter
 #: StringResources.pas
-msgid "Jupyter is not available.  Please install jupiter first"
+msgid "Jupyter is not available. Please install jupiter first"
 msgstr ""
 
 #. Programmer's name for it: SExternalProcessRunning
 #: StringResources.pas
 msgid ""
-"An external process is stil running.  Please terminate it first from the "
-"Output Window"
+"An external process is stil running.\n"
+"Please terminate it first from the Output Window"
 msgstr ""
 
 #. Project Manager
 #. Programmer's name for it: SAskSaveProject
 #: StringResources.pas
 msgid ""
-"The active project has not been saved.  Do you want to save the changes?"
+"The active project has not been saved.\n"
+"Do you want to save the changes?"
 msgstr ""
 
 #. Programmer's name for it: SFailedToBackupProject
@@ -7633,7 +7645,7 @@ msgstr ""
 #, object-pascal-format
 msgid ""
 "%s\n"
-"has changed since it was searched.  Replacement aborted.\n"
+"has changed since it was searched. Replacement aborted.\n"
 "Expected: %s\n"
 "Found: %s"
 msgstr ""
@@ -7739,15 +7751,15 @@ msgstr ""
 #. Programmer's name for it: SFileReloadingWarning
 #: StringResources.pas
 msgid ""
-"Reloading the file will result in the loss of all changes.  Do you want to "
-"proceed?"
+"Reloading the file will result in the loss of all changes.\n"
+"Do you want to proceed?"
 msgstr ""
 
 #. Programmer's name for it: SFileAlreadyOpen
 #: StringResources.pas
 msgid ""
-"Another editor with the same file is open.  You can not have two editors "
-"with the same file."
+"Another editor with the same file is open.\n"
+"You can not have two editors with the same file."
 msgstr ""
 
 #. Parameters

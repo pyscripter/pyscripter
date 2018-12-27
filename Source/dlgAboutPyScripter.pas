@@ -97,7 +97,7 @@ resourcestring
   SAboutBoxCreditsTranslationSpanish = 'Spanish: %s';
 
   SAboutBoxCreditsDonations =
-    'Donations from numerous users have provided a strong incentive to develop this project.  ' +
+    'Donations from numerous users have provided a strong incentive to develop this project.' + SLineBreak +
     'Generous support from Tranquil IT (https://www.tranquil.it) makers of WAPT (apt-get for Windows) '+
     '(https://www.wapt.fr) is acknowledged.';
 
