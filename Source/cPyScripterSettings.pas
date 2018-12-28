@@ -12,6 +12,7 @@ interface
 Uses
   System.Classes,
   Vcl.Graphics,
+  JclNotify,
   SpTBXTabs,
   SynEditTextBuffer,
   SynEditCodeFolding,
@@ -36,7 +37,8 @@ type
   // by Python after its destruction (ser WrapDelphi for details)
   TPythonIDEOptions = class(TBaseOptions, IFreeNotification)
   private
-    fFreeNotifImpl : IFreeNotification;
+    fFreeNotifyImpl : IFreeNotification;
+    fOnChange: TJclNotifyEventBroadcast;
     fTimeOut : integer;
     fUndoAfterSave : Boolean;
     fSaveFilesBeforeRun : Boolean;
@@ -121,7 +123,7 @@ type
     function GetPythonFileExtensions: string;
     procedure SetAutoCompletionFont(const Value: TFont);
   protected
-    property FreeNotifImpl : IFreeNotification read fFreeNotifImpl implements IFreeNotification;
+    property FreeNotifyImpl : IFreeNotification read fFreeNotifyImpl implements IFreeNotification;
   public
     constructor Create; override;
     destructor Destroy; override;
@@ -284,6 +286,8 @@ type
       write fSSHDisableVariablesWin default True;
     property AlwaysUseSockets : Boolean read fAlwaysUseSockets
       write fAlwaysUseSockets default False;
+
+    property OnChange: TJclNotifyEventBroadcast read fOnChange;
   end;
 {$METHODINFO OFF}
 
@@ -327,9 +331,7 @@ uses
   SynHighlighterPython,
   SynHighlighterYAML,
   StringResources,
-  uCommonFunctions,
-  dmCommands,
-  frmPyIDEMain;
+  uCommonFunctions;
 
 { TPythonIDEOptions }
 
@@ -425,20 +427,13 @@ end;
 
 procedure TPythonIDEOptions.Changed;
 begin
-  CommandsDataModule.ParameterCompletion.Font.Assign(AutoCompletionFont);
-  CommandsDataModule.ParameterCompletion.TitleFont.Assign(AutoCompletionFont);
-  CommandsDataModule.ParameterCompletion.TitleFont.Style := [fsBold];
-  CommandsDataModule.ModifierCompletion.Font.Assign(AutoCompletionFont);
-  CommandsDataModule.ModifierCompletion.TitleFont.Assign(AutoCompletionFont);
-  CommandsDataModule.ModifierCompletion.TitleFont.Style := [fsBold];
-  if Assigned(CommandsDataModule.CodeTemplatesCompletion.GetCompletionProposal()) then
-    CommandsDataModule.CodeTemplatesCompletion.GetCompletionProposal().Font.Assign(AutoCompletionFont);
-  PyIDEMainForm.PyIDEOptionsChanged;
+  fOnChange.Notify(Self);
 end;
 
 constructor TPythonIDEOptions.Create;
 begin
-  fFreeNotifImpl := TFreeNotificationImpl.Create(Self);
+  fFreeNotifyImpl := TFreeNotificationImpl.Create(Self);
+  fOnChange := TJclNotifyEventBroadcast.Create;
 
   fTimeOut := 0; // 5000;
   fUndoAfterSave := True;
@@ -526,6 +521,7 @@ destructor TPythonIDEOptions.Destroy;
 begin
   FreeAndNil(fAutoCompletionFont);
   FreeAndNil(fCodeFolding);
+  FreeAndNil(fOnChange);
   inherited;
 end;
 

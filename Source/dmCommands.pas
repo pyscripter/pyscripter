@@ -360,6 +360,7 @@ type
     fHighlighters: TStrings;
     fUntitledNumbers: TBits;
     fConfirmReplaceDialogRect: TRect;
+    procedure PyIDEOptionsChanged(Sender: TObject);
   public
     SynYAMLSyn: TSynYAMLSyn;
     SynCythonSyn: TSynCythonSyn;
@@ -404,8 +405,6 @@ type
     procedure HighlightWordInActiveEditor(SearchWord : string);
     property Highlighters : TStrings read fHighlighters;
   end;
-
-
 
 {$SCOPEDENUMS ON}
   TCodeImages =(
@@ -735,6 +734,8 @@ begin
   ProgramVersionHTTPLocation.VersionInfoFileName := 'PyScripterVersionInfo.ini';
   {$ENDIF}
 
+  PyIDEOptions.OnChange.AddHandler(PyIDEOptionsChanged);
+
   // Translate
   TranslateComponent(Self);
 end;
@@ -745,6 +746,7 @@ begin
   fUntitledNumbers.Free;
   CommandsDataModule := nil;
   imlShellIcon.Handle := 0;
+  PyIDEOptions.OnChange.RemoveHandler(PyIDEOptionsChanged);
 end;
 
 // implementation
@@ -2178,9 +2180,7 @@ begin
           Reg.OpenKey(Key, True);
           Reg.CloseKey;
           Reg.OpenKey(Key + '\command', True);
-          Reg.WriteString('', '"'+ Application.ExeName+ '" --PYTHON' +
-              StringReplace(GetPythonEngine.RegVersion, '.', '', []) +
-             ' "%1"') ;
+          Reg.WriteString('', '"'+ Application.ExeName + ' "%1"');
           Reg.CloseKey;
         end;
 
@@ -3080,6 +3080,18 @@ begin
     ProgramVersionHTTPLocation.DownloadError := _('File download failed');
   end;
       Result := LocalFileName;
+end;
+
+procedure TCommandsDataModule.PyIDEOptionsChanged(Sender: TObject);
+begin
+  ParameterCompletion.Font.Assign(PyIDEOptions.AutoCompletionFont);
+  ParameterCompletion.TitleFont.Assign(PyIDEOptions.AutoCompletionFont);
+  ParameterCompletion.TitleFont.Style := [fsBold];
+  ModifierCompletion.Font.Assign(PyIDEOptions.AutoCompletionFont);
+  ModifierCompletion.TitleFont.Assign(PyIDEOptions.AutoCompletionFont);
+  ModifierCompletion.TitleFont.Style := [fsBold];
+  if Assigned(CodeTemplatesCompletion.GetCompletionProposal()) then
+    CodeTemplatesCompletion.GetCompletionProposal().Font.Assign(PyIDEOptions.AutoCompletionFont);
 end;
 
 { TSynGeneralSyn }

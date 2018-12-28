@@ -1266,7 +1266,7 @@ type
     procedure DebuggerYield(Sender: TObject; DoIdle : Boolean);
     procedure DebuggerErrorPosChange(Sender: TObject);
     procedure SetCurrentPos(Editor : IEditor; ALine: integer);
-    procedure PyIDEOptionsChanged;
+    procedure PyIDEOptionsChanged(Sender: TObject);
     procedure SetupCustomizer;
     procedure SetupLanguageMenu;
     procedure SetupToolsMenu;
@@ -1553,10 +1553,12 @@ begin
     JvAppInstances.Check;
   end;
 
-// Trying to reduce flicker!
+  // Trying to reduce flicker!
   ControlStyle := ControlStyle + [csOpaque];
 
+  // Notifications
   SkinManager.AddSkinNotification(Self);
+  PyIDEOptions.OnChange.AddHandler(PyIDEOptionsChanged);
 
   // JvDocking Fonts
   with JvDockVSNetStyleSpTBX.TabServerOption as TJvDockVIDTabServerOption do begin
@@ -2997,6 +2999,7 @@ end;
 procedure TPyIDEMainForm.FormDestroy(Sender: TObject);
 begin
   SkinManager.RemoveSkinNotification(Self);
+  PyIDEOptions.OnChange.RemoveHandler(PyIDEOptionsChanged);
   FreeAndNil(Layouts);
   FreeAndNil(fLanguageList);
   FreeAndNil(DSAAppStorage);
@@ -3066,7 +3069,7 @@ begin
   end;
 end;
 
-procedure TPyIDEMainForm.PyIDEOptionsChanged;
+procedure TPyIDEMainForm.PyIDEOptionsChanged(Sender: TObject);
 var
   Editor : IEditor;
   i : integer;
