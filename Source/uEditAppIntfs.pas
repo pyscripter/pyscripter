@@ -43,8 +43,11 @@ unit uEditAppIntfs;
 interface
 
 uses
-  Windows, Classes, Forms, SynEdit, SpTBXTabs, Contnrs, cPythonSourceScanner,
-  frmCodeExplorer;
+  Winapi.Windows,
+  System.Classes,
+  Vcl.Forms, SynEdit,
+  System.Contnrs,
+  SpTBXTabs;
 
 type
   TBreakPoint = class(TPersistent)
@@ -105,8 +108,8 @@ type
     function GetFileEncoding : TFileSaveFormat;
     function GetForm : TForm;
     function GetEncodedText : AnsiString;
-    function GetSourceScanner : IAsyncSourceScanner;
-    function GetCodeExplorerData : ICodeExplorerData;
+    function GetSourceScanner : IInterface;
+    function GetCodeExplorerData : IInterface;
     function GetTabControlIndex : integer;
     function GetReadOnly : Boolean;
     function GetRemoteFileName: string;
@@ -133,8 +136,8 @@ type
     property FileEncoding : TFileSaveFormat read GetFileEncoding write SetFileEncoding;
     property EncodedText : AnsiString read GetEncodedText;
     property Form : TForm read GetForm;
-    property SourceScanner : IAsyncSourceScanner read GetSourceScanner;
-    property CodeExplorerData : ICodeExplorerData read GetCodeExplorerdata;
+    property SourceScanner : IInterface read GetSourceScanner;  // IAsyncSourceScanner
+    property CodeExplorerData : IInterface read GetCodeExplorerdata; //ICodeExplorerData
     property TabControlIndex : integer read GetTabControlIndex;
     property ReadOnly : Boolean read GetReadOnly write SetReadOnly;
   end;

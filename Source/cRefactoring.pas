@@ -278,7 +278,7 @@ begin
 
     if Assigned(Editor) and Editor.HasPythonFile and Assigned(Editor.SourceScanner) then
     begin
-      SourceScanner := Editor.SourceScanner;
+      SourceScanner := Editor.SourceScanner as IAsyncSourceScanner;
       fSourceScanners.Add(SourceScanner);
       Result := SourceScanner.ParsedModule;
     end;

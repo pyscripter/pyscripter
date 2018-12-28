@@ -220,6 +220,7 @@ public
   end;
 
   IAsyncSourceScanner = interface
+  ['{B9406B98-FEF9-4D18-AFC6-A6E4DCE37979}']
     function GetParsedModule : TParsedModule;
     function Finished : Boolean;
     procedure StopScanning;

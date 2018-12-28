@@ -746,7 +746,7 @@ begin
     // Execute pyscripter_init.py
     FileName := CommandsDataModule.UserDataPath + PyScripterInitFile;
     try
-     fInternalInterpreter.RunScript(FileName);
+      fInternalInterpreter.RunScript(FileName);
     except
       on E: Exception do
         Vcl.Dialogs.MessageDlg(Format(_(SErrorInitScript),

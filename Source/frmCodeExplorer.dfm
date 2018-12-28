@@ -69,6 +69,7 @@ inherited CodeExplorerWindow: TCodeExplorerWindow
           Height = 302
           Align = alClient
           BorderStyle = bsNone
+          DefaultText = 'Node'
           Header.AutoSizeIndex = -1
           Header.Options = [hoAutoResize, hoColumnResize, hoDrag]
           HintMode = hmHint

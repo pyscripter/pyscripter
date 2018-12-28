@@ -182,6 +182,7 @@ type
 
   // for storing and restoring code explorer data
   ICodeExplorerData = interface
+  ['{9349A5A2-EF7B-4203-9D01-BF3F21F096C2}']
     function GetSourceScanner : IAsyncSourceScanner;
     procedure SetSourceScanner(SC : IAsyncSourceScanner);
     function GetNewSourceScanner : IAsyncSourceScanner;
@@ -375,8 +376,8 @@ Var
 begin
   Editor := PyIDEMainForm.GetActiveEditor;
   if Assigned(Editor) then begin
-    fNewCEData := Editor.CodeExplorerData;
-    fNewCEData.NewSourceScanner := Editor.SourceScanner;
+    fNewCEData := Editor.CodeExplorerData as ICodeExplorerData;
+    fNewCEData.NewSourceScanner := Editor.SourceScanner as IAsyncSourceScanner;
   end else begin
     fNewCEData := nil;
   end;

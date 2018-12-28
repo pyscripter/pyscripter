@@ -274,8 +274,8 @@ type
     procedure SplitEditorVertrically;
     procedure Retranslate;
     function GetForm: TForm;
-    function GetSourceScanner: IAsyncSourceScanner;
-    function GetCodeExplorerData: ICodeExplorerData;
+    function GetSourceScanner: IInterface;
+    function GetCodeExplorerData: IInterface;
     function GetTabControlIndex: Integer;
     function GetRemoteFileName: string;
     function GetSSHServer: string;
@@ -652,7 +652,7 @@ begin
     Result := Point(-1, -1);
 end;
 
-function TEditor.GetCodeExplorerData: ICodeExplorerData;
+function TEditor.GetCodeExplorerData: IInterface;
 begin
   Result := fCodeExplorerData;
 end;
@@ -739,7 +739,7 @@ begin
   Result := fRemoteFileName;
 end;
 
-function TEditor.GetSourceScanner: IAsyncSourceScanner;
+function TEditor.GetSourceScanner: IInterface;
 begin
   fForm.ReparseIfNeeded;
   Result := fForm.SourceScanner;

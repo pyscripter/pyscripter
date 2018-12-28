@@ -21,7 +21,6 @@ Uses
   cPySupportTypes,
   dlgSynEditOptions;
 
-
 type
   TFileChangeNotificationType = (fcnFull, fcnNoMappedDrives, fcnDisabled);
 
@@ -32,6 +31,9 @@ type
     constructor Create; virtual; abstract;
   end;
 
+  // TPythonIDEOptions is exposed to Python.
+  // IFreeNotification is implemented to make sure the object is not used
+  // by Python after its destruction (ser WrapDelphi for details)
   TPythonIDEOptions = class(TBaseOptions, IFreeNotification)
   private
     fFreeNotifImpl : IFreeNotification;
@@ -312,21 +314,22 @@ Var
 implementation
 
 uses
+  Winapi.Windows,
   System.UITypes,
   System.SysUtils,
   Vcl.Forms,
   uHighlighterProcs,
-  StringResources,
-  frmPyIDEMain,
+  JvAppStorage,
+  JvGnuGettext,
+  SynEdit,
   SynEditStrConst,
+  SynEditMiscClasses,
   SynHighlighterPython,
   SynHighlighterYAML,
-  JvGnuGettext,
+  StringResources,
   uCommonFunctions,
   dmCommands,
-  SynEdit,
-  Winapi.Windows, JvAppStorage,
-  SynEditMiscClasses;
+  frmPyIDEMain;
 
 { TPythonIDEOptions }
 
