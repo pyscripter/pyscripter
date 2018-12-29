@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2018-12-27 03:29\n"
+"POT-Creation-Date: 2018-12-29 04:02\n"
 "PO-Revision-Date: 2018-01-23 16:26\n"
 "Last-Translator: Somebody <your.email@address.com>\n"
 "MIME-Version: 1.0\n"
@@ -6980,7 +6980,7 @@ msgid ""
 "You are now in post-mortem analysis mode.\n"
 "You can examine the Call Stack, Variables and Watches windows, evaluate "
 "expressions etc.\n"
-"To exit the post-mortem analysis select the Abort Debugging command."
+"To exit the post-mortem analysis select the 'Abort Debugging' command."
 msgstr ""
 
 #. Programmer's name for it: SFileEncodingWarning
@@ -7046,7 +7046,7 @@ msgstr ""
 #. Programmer's name for it: SRpycNotAvailable
 #: StringResources.pas
 msgid ""
-"The 'Rpyc' module is not available.\n"
+"The 'rpyc' package is not available.\n"
 "Please exit and reinstall PyScripter."
 msgstr ""
 
@@ -7475,14 +7475,16 @@ msgstr ""
 
 #. Programmer's name for it: SNoJupyter
 #: StringResources.pas
-msgid "Jupyter is not available. Please install jupiter first"
+msgid ""
+"The 'jupyter' package is not available.\n"
+"Please install 'jupiter' first"
 msgstr ""
 
 #. Programmer's name for it: SExternalProcessRunning
 #: StringResources.pas
 msgid ""
-"An external process is stil running.\n"
-"Please terminate it first from the Output Window"
+"An external process is still running.\n"
+"Please terminate it first from the 'Output' window"
 msgstr ""
 
 #. Project Manager

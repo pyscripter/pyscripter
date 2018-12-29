@@ -55,7 +55,7 @@ Const
   SPostMortemInfo = 'You are now in post-mortem analysis mode.' + SLineBreak +
                     'You can examine the Call Stack, ' +
                     'Variables and Watches windows, evaluate expressions etc.' + SLineBreak +
-                    'To exit the post-mortem analysis select the Abort Debugging command.';
+                    'To exit the post-mortem analysis select the ''Abort Debugging'' command.';
   SFileEncodingWarning = 'Encoding file "%s" using "%s" encoding will ' +
                         'result in information loss.' + SLineBreak + 'Do you want to proceed?';
   SDecodingError = 'Error in decoding file "%s" from "%s" encoding';
@@ -68,7 +68,7 @@ Const
   SCouldNotSetCurrentDir = 'Could not set the current directory to the script path';
   SRemoteServerNotConnected = 'Remote Server is not connected.' + SLineBreak +
                               'Please reinitialize or disconnect the remote interpreter.';
-  SRpycNotAvailable = 'The ''Rpyc'' module is not available.' + SLineBreak +
+  SRpycNotAvailable = 'The ''rpyc'' package is not available.' + SLineBreak +
                       'Please exit and reinstall PyScripter.';
   SCouldNotWriteServerFile = 'Could not write file "%s" and cannot use a remote Python engine';
   SErrorCreatingRemoteEngine = 'Error in creating the remote interpreter: ';
@@ -168,9 +168,9 @@ Const
   SErrorInitScript = 'Error in running initialization script %s: "%s"';
   SOpenDialogFilter = 'Open dialog %s filter';
   SOnlyJupyterFiles  = 'Web preview is only available for Jupyter JSON files';
-  SNoJupyter = 'Jupyter is not available. Please install jupiter first';
-  SExternalProcessRunning = 'An external process is stil running.' + SLineBreak +
-                            'Please terminate it first from the Output Window';
+  SNoJupyter = 'The ''jupyter'' package is not available.' + SLineBreak + 'Please install ''jupiter'' first';
+  SExternalProcessRunning = 'An external process is still running.' + SLineBreak +
+                            'Please terminate it first from the ''Output'' window';
 
   //  Project Manager
   SAskSaveProject = 'The active project has not been saved.' + SLineBreak +
