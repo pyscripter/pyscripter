@@ -72,6 +72,9 @@ inherited CallStackWindow: TCallStackWindow
           BevelOuter = bvNone
           BevelKind = bkFlat
           BorderStyle = bsNone
+          Colors.UnfocusedColor = clHighlightText
+          Colors.UnfocusedSelectionColor = clGray
+          Colors.UnfocusedSelectionBorderColor = clGray
           Header.AutoSizeIndex = 1
           Header.Options = [hoAutoResize, hoColumnResize, hoDblClickResize, hoHotTrack, hoVisible]
           HintMode = hmTooltip
@@ -89,18 +92,18 @@ inherited CallStackWindow: TCallStackWindow
           Columns = <
             item
               Position = 0
+              Text = 'Function Name'
               Width = 100
-              WideText = 'Function Name'
             end
             item
               Position = 1
+              Text = 'File Name'
               Width = 258
-              WideText = 'File Name'
             end
             item
               Alignment = taRightJustify
               Position = 2
-              WideText = 'Line'
+              Text = 'Line'
             end>
         end
       end
@@ -121,6 +124,9 @@ inherited CallStackWindow: TCallStackWindow
           BevelOuter = bvNone
           BevelKind = bkFlat
           BorderStyle = bsNone
+          Colors.UnfocusedColor = clHighlightText
+          Colors.UnfocusedSelectionColor = clGray
+          Colors.UnfocusedSelectionBorderColor = clGray
           Header.AutoSizeIndex = 0
           Header.Options = [hoAutoResize, hoColumnResize, hoDrag, hoShowSortGlyphs, hoVisible, hoFullRepaintOnResize]
           Images = CommandsDataModule.Images
@@ -135,8 +141,8 @@ inherited CallStackWindow: TCallStackWindow
           Columns = <
             item
               Position = 0
+              Text = 'Threads'
               Width = 183
-              WideText = 'Threads'
             end>
         end
       end

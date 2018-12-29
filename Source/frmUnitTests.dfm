@@ -140,7 +140,7 @@ inherited UnitTestWindow: TUnitTestWindow
           ShowHint = True
           TabOrder = 0
           TreeOptions.MiscOptions = [toCheckSupport, toFullRepaintOnResize, toInitOnSave, toWheelPanning]
-          TreeOptions.PaintOptions = [toHideFocusRect, toHotTrack, toShowButtons, toShowDropmark, toShowRoot, toShowTreeLines, toShowVertGridLines, toThemeAware, toUseBlendedImages, toUseBlendedSelection]
+          TreeOptions.PaintOptions = [toHideFocusRect, toHideSelection, toHotTrack, toShowButtons, toShowDropmark, toShowRoot, toShowTreeLines, toShowVertGridLines, toThemeAware, toUseBlendedImages, toUseBlendedSelection]
           TreeOptions.StringOptions = [toAutoAcceptEditChange]
           OnChange = UnitTestsChange
           OnChecked = UnitTestsChecked
@@ -287,7 +287,7 @@ inherited UnitTestWindow: TUnitTestWindow
     Left = 88
     Top = 48
     Bitmap = {
-      494C010106000800140010001000FFFFFF002110FFFFFFFFFFFFFFFF424D3600
+      494C010106000800050010001000FFFFFF002110FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000002000000001002000000000000020
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

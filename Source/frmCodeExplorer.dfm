@@ -69,7 +69,9 @@ inherited CodeExplorerWindow: TCodeExplorerWindow
           Height = 302
           Align = alClient
           BorderStyle = bsNone
-          DefaultText = 'Node'
+          Colors.UnfocusedColor = clHighlightText
+          Colors.UnfocusedSelectionColor = clGray
+          Colors.UnfocusedSelectionBorderColor = clGray
           Header.AutoSizeIndex = -1
           Header.Options = [hoAutoResize, hoColumnResize, hoDrag]
           HintMode = hmHint
