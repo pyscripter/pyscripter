@@ -590,7 +590,7 @@ object CommandsDataModule: TCommandsDataModule
     Left = 340
     Top = 108
   end
-  object imlShellIcon: TImageList
+  object ShellImages: TImageList
     DrawingStyle = dsTransparent
     ShareImages = True
     Left = 104

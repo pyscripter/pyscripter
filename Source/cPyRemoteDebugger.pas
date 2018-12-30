@@ -190,7 +190,6 @@ uses
   StringResources,
   dmCommands,
   frmPythonII,
-  frmMessages,
   frmPyIDEMain,
   frmVariables,
   frmCallStack,
@@ -226,7 +225,7 @@ begin
       Result := inherited GetChildCount
     else begin
       fRemotePython.CheckConnected;
-      SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
+      SuppressOutput := GI_PyInterpreter.OutputSuppressor; // Do not show errors
       try
         Result := fRemotePython.RPI.membercount(fPyObject, ExpandSequences, ExpandCommonTypes, ExpandSequences);
       except
@@ -249,7 +248,7 @@ begin
   if not (Assigned(fChildNodes) or GotChildNodes) then begin
     fRemotePython.CheckConnected;
     GotChildNodes := True;  //Do not try again
-    SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
+    SuppressOutput := GI_PyInterpreter.OutputSuppressor; // Do not show errors
     try
       if IsProxy then
         FullInfoTuple := fRemotePython.RPI.safegetmembersfullinfo(fPyObject, ExpandSequences,
@@ -302,7 +301,7 @@ Var
   SuppressOutput : IInterface;
 begin
   fRemotePython.CheckConnected;
-  SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
+  SuppressOutput := GI_PyInterpreter.OutputSuppressor; // Do not show errors
   if not IsProxy then
     Result := inherited GetDocString
   else
@@ -321,7 +320,7 @@ begin
     inherited
   else begin
     fRemotePython.CheckConnected;
-    SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
+    SuppressOutput := GI_PyInterpreter.OutputSuppressor; // Do not show errors
     try
       fObjectInfo := fRemotePython.RPI.objectinfo(fPyObject);
     except
@@ -345,7 +344,7 @@ Var
   SuppressOutput : IInterface;
 begin
   fRemotePython.CheckConnected;
-  SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
+  SuppressOutput := GI_PyInterpreter.OutputSuppressor; // Do not show errors
   if not IsProxy then
     Result := inherited GetValue
   else
@@ -370,7 +369,7 @@ begin
   DocString := '';
   if Expr = '' then Exit;
 
-  SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
+  SuppressOutput := GI_PyInterpreter.OutputSuppressor; // Do not show errors
   try
     //Evaluate the lookup expression and get the hint text
     LookupObj := RPI.evalcode(Expr);
@@ -424,7 +423,7 @@ begin
   PyControl.ErrorPos.Clear;
   PyControl.DoErrorPosChanged;
 
-  MessagesWindow.ClearMessages;
+  GI_PyIDEServices.Messages.ClearMessages;
 
   Editor := GI_EditorFactory.GetEditorByNameOrTitle(ARunConfig.ScriptName);
 
@@ -470,7 +469,7 @@ begin
           FileName :=  Copy(FileName, 2, Length(FileName)-2)
         else
           FileName := FromPythonFileName(FileName);
-        if PyIDEMainForm.ShowFilePosition(FileName, LineNo, Offset) and
+        if GI_PyIDEServices.ShowFilePosition(FileName, LineNo, Offset) and
           Assigned(GI_ActiveEditor)
         then begin
           PyControl.ErrorPos.NewPos(GI_ActiveEditor, LineNo, Offset, True);
@@ -538,7 +537,7 @@ begin
     fUseNamedPipes := False;
 
   // Import Rpyc
-  SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
+  SuppressOutput := GI_PyInterpreter.OutputSuppressor; // Do not show errors
 
   fOldSysModules := SysModule.modules.copy();
   try
@@ -552,7 +551,7 @@ begin
   end;
 
   if fServerIsAvailable then begin
-    fServerFile := CommandsDataModule.UserDataPath + RemoteServerBaseName;
+    fServerFile := TPyScripterSettings.UserDataPath + RemoteServerBaseName;
     case fEngineType of
       peRemote, peSSH: ServerName := 'SimpleServer';
       peRemoteTk: ServerName := 'TkServer';
@@ -640,8 +639,8 @@ begin
   if not VarIsPython(ExcInfo) or VarIsNone(ExcInfo) then Exit;
 
   Traceback := ExcInfo.__getitem__(2);
-  MessagesWindow.ShowTraceback(Traceback, SkipFrames);
-  MessagesWindow.AddMessage(Format('%s: %s',
+  GI_PyIDEServices.Messages.ShowTraceback(Traceback, SkipFrames);
+  GI_PyIDEServices.Messages.AddMessage(Format('%s: %s',
             [VarPythonAsString(ExcInfo.__getitem__(0)),
              VarPythonAsString(RPI.safestr(ExcInfo.__getitem__(1)))]));
 
@@ -661,10 +660,10 @@ begin
       FileName := FromPythonFileName(FileName);
     Editor := GI_EditorFactory.GetEditorByNameOrTitle(FileName);
     // Check whether the error occurred in the active editor
-    if (Assigned(Editor) and (Editor = PyIDEMainForm.GetActiveEditor)) or
+    if (Assigned(Editor) and (Editor = GI_PyIDEServices.GetActiveEditor)) or
       PyIDEOptions.JumpToErrorOnException then
     begin
-      if PyIDEMainForm.ShowFilePosition(FileName, LineNo, 1) and
+      if GI_PyIDEServices.ShowFilePosition(FileName, LineNo, 1) and
         Assigned(GI_ActiveEditor)
       then begin
         PyControl.ErrorPos.NewPos(GI_ActiveEditor, LineNo);
@@ -757,7 +756,7 @@ var
   SuppressOutput : IInterface;
 begin
   CheckConnected;
-  SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
+  SuppressOutput := GI_PyInterpreter.OutputSuppressor; // Do not show errors
   try
     if Expr <> '' then begin
       //Evaluate the lookup expression
@@ -842,7 +841,7 @@ begin
   case PyControl.DebuggerState of
     dsDebugging, dsRunning:
       begin
-        SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
+        SuppressOutput := GI_PyInterpreter.OutputSuppressor; // Do not show errors
         ShutDownServer;  // sets fIsConnected to False
         GetPythonEngine.PyErr_Clear;
         //  Running/Debugging will detect that fIsConnected is false and
@@ -1011,7 +1010,7 @@ Var
   OldDebuggerState : TDebuggerState;
 begin
   CheckConnected;
-  Assert(not PyControl.Running, 'RunSource called while the Python engine is active');
+  Assert(not GI_PyControl.Running, 'RunSource called while the Python engine is active');
   OldDebuggerState := PyControl.DebuggerState;
   PyControl.DoStateChange(dsRunning);
 
@@ -1067,7 +1066,7 @@ var
 begin
   fConnected := False;
 
-  SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
+  SuppressOutput := GI_PyInterpreter.OutputSuppressor; // Do not show errors
 
   if fUseNamedPipes then
     try
@@ -1393,7 +1392,7 @@ Var
 begin
   Result := nil;
   if PyControl.DebuggerState in [dsPaused, dsPostMortem] then begin
-    SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
+    SuppressOutput := GI_PyInterpreter.OutputSuppressor; // Do not show errors
     try
       // evalcode knows we are in the debugger and uses current frame locals/globals
       V := fRemotePython.RPI.evalcode(Expr);
@@ -1413,7 +1412,7 @@ begin
   ObjType := _(SNotAvailable);
   Value := _(SNotAvailable);
   if PyControl.DebuggerState in [dsPaused, dsPostMortem] then begin
-    SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
+    SuppressOutput := GI_PyInterpreter.OutputSuppressor; // Do not show errors
     try
       // evalcode knows we are in the debugger and uses current frame locals/globals
       V := fRemotePython.RPI.evalcode(Expr);
@@ -1634,7 +1633,7 @@ begin
   TPyBaseDebugger.ThreadChangeNotify(fMainThread, tctAdded );
 
 
-  MessagesWindow.ClearMessages;
+  GI_PyIDEServices.Messages.ClearMessages;
   Editor := GI_ActiveEditor;
   ReturnFocusToEditor := Assigned(Editor);
   // Set the layout to the Debug layout is it exists
@@ -1887,7 +1886,7 @@ begin
   else
     FName := fRemotePython.FromPythonFileName(FName);
 
-  if PyIDEMainForm.ShowFilePosition(FName, LineNumber, 1, 0, True, False) and
+  if GI_PyIDEServices.ShowFilePosition(FName, LineNumber, 1, 0, True, False) and
     (LineNumber > 0) then
   begin
     if PyControl.DebuggerState = dsDebugging then

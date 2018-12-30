@@ -103,7 +103,6 @@ uses
   dlgCollectionEditor,
   dlgOptionsEditor,
   StringResources,
-  frmCommandOutput,
   uCommonFunctions;
 
 { TSSHConfig }

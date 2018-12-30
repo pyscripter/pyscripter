@@ -145,7 +145,6 @@ begin
   fExternalRun.Assign(Value);
 end;
 
-
 { TPyRegExpr }
 
 class constructor TPyRegExpr.Create;

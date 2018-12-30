@@ -572,7 +572,7 @@ type
   end;
 
 
-  TPyIDEMainForm = class(TForm, IDropTarget)
+  TPyIDEMainForm = class(TForm, IDropTarget, IPyIDEServices)
     DockServer: TJvDockServer;
     AppStorage: TJvAppIniFileStorage;
     BGPanel: TPanel;
@@ -1195,6 +1195,7 @@ type
     fCurrentLine : integer;
     fErrorLine : integer;
     fCurrentBrowseInfo : string;
+    procedure ScaleForCurrentDpi; override;
     function DoCreateEditor(TabControl : TSpTBXTabControl): IEditor;
     function CmdLineOpenFiles(): boolean;
     function OpenCmdLineFile(FileName : string) : Boolean;
@@ -1223,7 +1224,7 @@ type
     procedure NextClickHandler(Sender: TObject);
     procedure PrevMRUAdd(S : string);
     procedure NextMRUAdd(S : string);
-  protected
+  private
     fStoredEffect : Longint;
     OldScreenPPI : Integer;
     OldDesktopSize : string;
@@ -1237,7 +1238,12 @@ type
     function DragLeave: HResult; stdcall;
     function Drop(const dataObj: IDataObject; grfKeyState: Longint; pt: TPoint;
       var dwEffect: Longint): HResult; stdcall;
-    procedure ScaleForCurrentDpi; override;
+    // IPyIDEServices implementation
+    function GetActiveEditor : IEditor;
+    procedure WriteStatusMsg(S : string);
+    function ShowFilePosition(FileName : string; Line, Offset : integer; SelLen : integer = 0;
+         ForceToMiddle : boolean = True; FocusEditor : boolean = True) : boolean;
+    function GetMessageServices: IMessageServices;
   public
     StyleDPIAwareness : TStyleDPIAwareness;
     ActiveTabControlIndex : integer;
@@ -1254,12 +1260,9 @@ type
        TabControlIndex : integer = 1) : IEditor;
     function NewFileFromTemplate(FileTemplate : TFileTemplate;
        TabControlIndex : integer = 1) : IEditor;
-    function GetActiveEditor : IEditor;
     procedure SaveFileModules;
     procedure UpdateDebugCommands(DebuggerState : TDebuggerState);
     procedure SetRunLastScriptHints(ScriptName : string);
-    function ShowFilePosition(FileName : string; Line, Offset : integer; SelLen : integer = 0;
-         ForceToMiddle : boolean = True; FocusEditor : boolean = True) : boolean;
     procedure DebuggerStateChange(Sender: TObject; OldState,
       NewState: TDebuggerState);
     procedure ApplicationOnIdle(Sender: TObject; var Done: Boolean);
@@ -1280,7 +1283,6 @@ type
     procedure SaveLayout(const Layout : string);
     procedure SaveToolbarLayout(const Layout: string);
     procedure SaveToolbarItems(const Path : string);
-    procedure WriteStatusMsg(S : string);
     function JumpToFilePosInfo(FilePosInfo : string) : boolean;
     procedure FindDefinition(Editor : IEditor; TextCoord : TBufferCoord;
       ShowMessages, Silent, JumpToFirstMatch : Boolean; var FilePosInfo : string);
@@ -1571,6 +1573,9 @@ begin
   Layouts.Sorted := True;
   Layouts.Duplicates := dupError;
 
+  // GI_PyIDEServices
+  GI_PyIDEServices := Self;
+
   // Application Storage
   OptionsFileName := ChangeFileExt(ExtractFileName(Application.ExeName), '.ini');
   AppStorage.Encoding := TEncoding.UTF8;
@@ -1582,13 +1587,13 @@ begin
     AppStorage.FileName := OptionsFileName;
   end else  // default location
     AppStorage.FileName :=
-      CommandsDataModule.UserDataPath + OptionsFileName;
+      TPyScripterSettings.UserDataPath + OptionsFileName;
 
   // LocalAppStorage
   LocalOptionsFileName := ChangeFileExt(ExtractFileName(Application.ExeName), '.local.ini');
   LocalAppStorage.Location := flCustom;
   LocalAppStorage.FileName :=
-      CommandsDataModule.UserDataPath + LocalOptionsFileName;
+      TPyScripterSettings.UserDataPath + LocalOptionsFileName;
 
   // DSA stuff
   DSAAppStorage := TDSAAppStorage.Create(AppStorage, 'DSA');
@@ -2060,7 +2065,7 @@ end;
 
 procedure TPyIDEMainForm.actPythonReinitializeExecute(Sender: TObject);
 begin
-  if not PyControl.Inactive then begin
+  if not GI_PyControl.Inactive then begin
     if Vcl.Dialogs.MessageDlg(_(STerminateInterpreter),
       mtWarning, [mbYes, mbNo], 0) = idNo then Exit;
   end;
@@ -2088,7 +2093,7 @@ begin
   if not Assigned(ActiveEditor) then Exit;
 
   if TPyInternalInterpreter(PyControl.InternalInterpreter).SyntaxCheck(ActiveEditor) then begin
-    MessagesWindow.AddMessage(Format(_(SSyntaxIsOK), [ActiveEditor.FileTitle]));
+    GI_PyIDEServices.Messages.AddMessage(Format(_(SSyntaxIsOK), [ActiveEditor.FileTitle]));
     ShowDockForm(MessagesWindow);
   end;
 end;
@@ -2102,7 +2107,7 @@ begin
 
   PyControl.ActiveInterpreter.ImportModule(ActiveEditor, True);
 
-  MessagesWindow.AddMessage(Format(_(SModuleImportedOK), [ActiveEditor.FileTitle]));
+  GI_PyIDEServices.Messages.AddMessage(Format(_(SModuleImportedOK), [ActiveEditor.FileTitle]));
   ShowDockForm(MessagesWindow);
 end;
 
@@ -2135,7 +2140,7 @@ end;
 
 procedure TPyIDEMainForm.actRunDebugLastScriptExecute(Sender: TObject);
 begin
-  if PyControl.Inactive then
+  if GI_PyControl.Inactive then
     PyControl.Debug(PyControl.RunConfig);
 end;
 
@@ -2162,7 +2167,7 @@ end;
 
 procedure TPyIDEMainForm.actRunLastScriptExecute(Sender: TObject);
 begin
-  if PyControl.Inactive then
+  if GI_PyControl.Inactive then
     PyControl.Run(PyControl.RunConfig);
 end;
 
@@ -2175,10 +2180,10 @@ procedure TPyIDEMainForm.actDebugExecute(Sender: TObject);
 var
   ActiveEditor : IEditor;
 begin
-  Assert(PyControl.InternalPython.Loaded and not PyControl.Running);
+  Assert(GI_PyControl.PythonLoaded and not GI_PyControl.Running);
   ActiveEditor := GetActiveEditor;
   if Assigned(ActiveEditor) then begin
-    if PyControl.Inactive then
+    if GI_PyControl.Inactive then
       DebugActiveScript(ActiveEditor)
     else if PyControl.DebuggerState = dsPaused then
       PyControl.ActiveDebugger.Resume;
@@ -2199,10 +2204,10 @@ procedure TPyIDEMainForm.actStepIntoExecute(Sender: TObject);
 var
   ActiveEditor : IEditor;
 begin
-  Assert(PyControl.InternalPython.Loaded and not PyControl.Running);
+  Assert(GI_PyControl.PythonLoaded and not GI_PyControl.Running);
   ActiveEditor := GetActiveEditor;
   if Assigned(ActiveEditor) then begin
-    if PyControl.Inactive then
+    if GI_PyControl.Inactive then
       DebugActiveScript(ActiveEditor, True)
     else if PyControl.DebuggerState = dsPaused then
       PyControl.ActiveDebugger.StepInto;
@@ -2231,7 +2236,7 @@ begin
   Application.ProcessMessages;
   ActiveEditor := GetActiveEditor;
   if Assigned(ActiveEditor) then begin
-    if PyControl.Inactive then
+    if GI_PyControl.Inactive then
       DebugActiveScript(ActiveEditor, False, ActiveEditor.SynEdit.CaretY)
     else if PyControl.DebuggerState = dsPaused then
       PyControl.ActiveDebugger.RunToCursor(ActiveEditor, ActiveEditor.SynEdit.CaretY);
@@ -2289,7 +2294,7 @@ procedure TPyIDEMainForm.DebugActiveScript(ActiveEditor: IEditor;
 var
   RunConfig: TRunConfiguration;
 begin
-  Assert(PyControl.Inactive);
+  Assert(GI_PyControl.Inactive);
   RunConfig := TRunConfiguration.Create;
   try
     SetupRunConfiguration(RunConfig, ActiveEditor);
@@ -2308,26 +2313,26 @@ begin
   PyFileActive := Assigned(Editor) and
     (Editor.SynEdit.Highlighter = CommandsDataModule.SynPythonSyn);
 
-  actSyntaxCheck.Enabled := PyFileActive and PyControl.Inactive;
-  actRun.Enabled := PyFileActive and PyControl.Inactive;
-  actExternalRun.Enabled := PyFileActive and PyControl.Inactive;
-  actImportModule.Enabled := PyFileActive and PyControl.Inactive;
-  actDebug.Enabled := PyFileActive and (PyControl.Inactive or (DebuggerState = dsPaused));
-  actStepInto.Enabled := PyFileActive and (PyControl.Inactive or (DebuggerState = dsPaused));
+  actSyntaxCheck.Enabled := PyFileActive and GI_PyControl.Inactive;
+  actRun.Enabled := PyFileActive and GI_PyControl.Inactive;
+  actExternalRun.Enabled := PyFileActive and GI_PyControl.Inactive;
+  actImportModule.Enabled := PyFileActive and GI_PyControl.Inactive;
+  actDebug.Enabled := PyFileActive and (GI_PyControl.Inactive or (DebuggerState = dsPaused));
+  actStepInto.Enabled := PyFileActive and (GI_PyControl.Inactive or (DebuggerState = dsPaused));
   actStepOut.Enabled := DebuggerState = dsPaused;
   actStepOver.Enabled := DebuggerState = dsPaused;
   actDebugAbort.Enabled := DebuggerState in [dsPaused, dsDebugging, dsRunning, dsPostMortem];
   actDebugPause.Enabled := DebuggerState = dsDebugging;
-  actRunToCursor.Enabled := PyFileActive and (PyControl.Inactive or (DebuggerState = dsPaused))
+  actRunToCursor.Enabled := PyFileActive and (GI_PyControl.Inactive or (DebuggerState = dsPaused))
     and PyControl.IsExecutableLine(Editor, Editor.SynEdit.CaretY);
   actToggleBreakPoint.Enabled := PyFileActive;
   actClearAllBreakPoints.Enabled := PyFileActive;
   actAddWatchAtCursor.Enabled := PyFileActive;
-  actExecSelection.Enabled := PyControl.InternalPython.Loaded and not PyControl.Running and PyFileActive;
+  actExecSelection.Enabled := GI_PyControl.PythonLoaded and not GI_PyControl.Running and PyFileActive;
   actPythonReinitialize.Enabled := Assigned(PyControl.ActiveInterpreter) and
     (icReInitialize in PyControl.ActiveInterpreter.InterpreterCapabilities) and
     not (PyControl.DebuggerState in [dsPaused, dsPostMortem]);
-  actPostMortem.Enabled := PyControl.Inactive and
+  actPostMortem.Enabled := GI_PyControl.Inactive and
     Assigned(PyControl.ActiveDebugger) and PyControl.ActiveDebugger.PostMortemEnabled;
   if DebuggerState = dsPaused then begin
     actDebug.Caption := _(SResumeCaption);
@@ -2336,7 +2341,7 @@ begin
     actDebug.Caption := _('Debug');
     actDebug.Hint := _(SDebugHint);
   end;
-  actRunLastScript.Enabled := PyControl.Inactive and (PyControl.RunConfig.ScriptName <> '');
+  actRunLastScript.Enabled := GI_PyControl.Inactive and (PyControl.RunConfig.ScriptName <> '');
   actRunDebugLastScript.Enabled := actRunLastScript.Enabled;
   actRunLastScriptExternal.Enabled := actRunLastScript.Enabled;
 
@@ -2424,7 +2429,7 @@ end;
 procedure TPyIDEMainForm.DebuggerCurrentPosChange(Sender: TObject);
 begin
   if csDestroying in ComponentState then Exit;
-  if (PyControl.ActiveDebugger <> nil) and not PyControl.Running then
+  if (PyControl.ActiveDebugger <> nil) and not GI_PyControl.Running then
     SetCurrentPos(PyControl.CurrentPos.Editor , PyControl.CurrentPos.Line)
   else
     SetCurrentPos(PyControl.CurrentPos.Editor, -1);
@@ -2437,7 +2442,7 @@ var
 begin
   if csDestroying in ComponentState then Exit;
 
-  if PyControl.InternalPython.Loaded then
+  if GI_PyControl.PythonLoaded then
     case NewState of
       dsDebugging,
       dsRunning: begin
@@ -2518,7 +2523,7 @@ begin
   // If a Tk or Wx remote engine is active pump up event handling
   // This is for processing input output coming from event handlers
   if (PyControl.ActiveInterpreter is TPyRemoteInterpreter) and
-     (PyControl.Inactive)
+     (GI_PyControl.Inactive)
   then
     with(TPyRemoteInterpreter(PyControl.ActiveInterpreter)) do begin
       if Connected and (EngineType in [peRemoteTk, peRemoteWx]) then
@@ -2568,7 +2573,7 @@ begin
       end;
       Editor := GI_EditorFactory.GetEditorByNameOrTitle(FileName);
 
-      if PyControl.InternalPython.Loaded and
+      if GI_PyControl.PythonLoaded and
         Editor.FileName.StartsWith(PyControl.PythonVersion.InstallPath, True)
       then
         Editor.ReadOnly := True;
@@ -2837,6 +2842,11 @@ begin
      Result := TabControl1;
 end;
 
+function TPyIDEMainForm.GetMessageServices: IMessageServices;
+begin
+  Result := MessagesWindow;
+end;
+
 function TPyIDEMainForm.TabControl(TabControlIndex: integer): TSpTBXTabControl;
 begin
   if TabControlIndex = 2 then
@@ -2881,7 +2891,7 @@ begin
   else
     lbStatusCAPS.Caption := ' ';
 
-  if PyControl.InternalPython.Loaded then begin
+  if GI_PyControl.PythonLoaded then begin
     lbPythonVersion.Caption := PyControl.PythonVersion.DisplayName;
     lbPythonEngine.Caption := _(EngineTypeName[PyControl.PythonEngineType]);
   end else begin
@@ -2998,6 +3008,7 @@ end;
 
 procedure TPyIDEMainForm.FormDestroy(Sender: TObject);
 begin
+  GI_PyIDEServices := nil;
   SkinManager.RemoveSkinNotification(Self);
   PyIDEOptions.OnChange.RemoveHandler(PyIDEOptionsChanged);
   FreeAndNil(Layouts);
@@ -3962,7 +3973,7 @@ Var
   i : integer;
   PythonLoaded: Boolean;
 begin
-  PythonLoaded := PyControl.InternalPython.Loaded;
+  PythonLoaded := GI_PyControl.PythonLoaded;
   for i := 0 to mnPythonVersions.Count - 3 do begin
     mnPythonVersions.Items[i].Enabled := PyControl.DebuggerState = dsInactive;
     mnPythonVersions.Items[i].Checked := PythonLoaded and
@@ -4357,8 +4368,8 @@ begin
             FName := Editor.GetFileNameOrTitle;
 
             if ShowMessages then begin
-              MessagesWindow.ClearMessages;
-              MessagesWindow.AddMessage(_(SDefinitionsOf) + Token + '"');
+              GI_PyIDEServices.Messages.ClearMessages;
+              GI_PyIDEServices.Messages.AddMessage(_(SDefinitionsOf) + Token + '"');
             end;
 
             FileName := '';
@@ -4373,7 +4384,7 @@ begin
               Line := CE.CodePos.LineNo;
               Col := CE.CodePos.CharOffset;
               if ShowMessages then
-                MessagesWindow.AddMessage(_(SDefinitionFound), FileName, Line, Col);
+                GI_PyIDEServices.Messages.AddMessage(_(SDefinitionFound), FileName, Line, Col);
             end;
 
             if ShowMessages then
@@ -4384,7 +4395,7 @@ begin
                 ShowFilePosition(Filename, Line, Col);
             end else begin
               if ShowMessages then
-                MessagesWindow.AddMessage(_(SDefinitionNotFound));
+                GI_PyIDEServices.Messages.AddMessage(_(SDefinitionNotFound));
               MessageBeep(MB_ICONASTERISK);
             end;
           end;
@@ -4433,8 +4444,8 @@ begin
             if FName = '' then
               FName := GI_ActiveEditor.FileTitle;
 
-            MessagesWindow.ClearMessages;
-            MessagesWindow.AddMessage(_(SReferencesOf) + Token + '"');
+            GI_PyIDEServices.Messages.ClearMessages;
+            GI_PyIDEServices.Messages.AddMessage(_(SReferencesOf) + Token + '"');
 
             ResultsList := TStringList.Create;
             try
@@ -4449,7 +4460,7 @@ begin
                     FileName := GroupValue(1);
                     Line := StrToInt(GroupValue(2));
                     Col := StrToInt(GroupValue(3));
-                    MessagesWindow.AddMessage(ResultsList[i+1],
+                    GI_PyIDEServices.Messages.AddMessage(ResultsList[i+1],
                       Filename, Line, Col, Token.Length);
                   end;
                 Inc(i, 2);
@@ -4460,7 +4471,7 @@ begin
 
             ShowDockForm(MessagesWindow);
             if not FoundReferences then begin
-              MessagesWindow.AddMessage(_(SReferencesNotFound));
+              GI_PyIDEServices.Messages.AddMessage(_(SReferencesNotFound));
               MessageBeep(MB_ICONASTERISK);
             end;
           end;
@@ -4846,7 +4857,7 @@ begin
     then
       PostMessage(Handle, WM_CHECKFORUPDATES, 0, 0);
 
-    if not PyControl.InternalPython.Loaded then
+    if not GI_PyControl.PythonLoaded then
       actPythonSetupExecute(Self);
   end);
   //OutputDebugString(PWideChar(Format('%s ElapsedTime %d ms', ['FormShow end', StopWatch.ElapsedMilliseconds])));

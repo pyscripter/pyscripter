@@ -129,18 +129,18 @@ inherited VariablesWindow: TVariablesWindow
           Columns = <
             item
               Position = 0
+              Text = 'Name'
               Width = 160
-              WideText = 'Name'
             end
             item
               Position = 1
+              Text = 'Type'
               Width = 100
-              WideText = 'Type'
             end
             item
               Position = 2
+              Text = 'Value'
               Width = 10
-              WideText = 'Value'
             end>
         end
       end

@@ -58,7 +58,6 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
           Height = 378
           Align = alClient
           BorderStyle = bsNone
-          DefaultText = 'Node'
           Header.AutoSizeIndex = -1
           Header.MainColumn = -1
           Header.Options = [hoColumnResize, hoDrag]

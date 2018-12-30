@@ -88,18 +88,18 @@ inherited BreakPointsWindow: TBreakPointsWindow
           Columns = <
             item
               Position = 0
+              Text = 'File Name'
               Width = 200
-              WideText = 'File Name'
             end
             item
               Alignment = taRightJustify
               Position = 1
-              WideText = 'Line'
+              Text = 'Line'
             end
             item
               Position = 2
+              Text = 'Condition'
               Width = 123
-              WideText = 'Condition'
             end>
         end
       end

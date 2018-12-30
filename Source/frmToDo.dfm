@@ -106,7 +106,6 @@ inherited ToDoWindow: TToDoWindow
         BevelInner = bvNone
         BevelOuter = bvNone
         BorderStyle = bsNone
-        DefaultText = 'Node'
         Header.AutoSizeIndex = 1
         Header.MainColumn = 1
         Header.Options = [hoAutoResize, hoColumnResize, hoHotTrack, hoOwnerDraw, hoShowSortGlyphs, hoVisible]

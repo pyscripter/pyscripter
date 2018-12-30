@@ -250,7 +250,6 @@ uses
   Vcl.Forms,
   uEditAppIntfs,
   VarPyth,
-  frmPyIDEMain,
   dlgFindResultsOptions,
   cProjectClasses,
   dmCommands,
@@ -402,7 +401,7 @@ var
   CurrentFile: string;
   Editor : IEditor;
 begin
-  Editor := PyIDEMainForm.GetActiveEditor;
+  Editor := GI_PyIDEServices.GetActiveEditor;
   if Assigned(Editor) then begin
     CurrentFile := Editor.FileName;
     if CurrentFile = '' then

@@ -254,7 +254,7 @@ begin
   if SpecialPackagesIndex >= 0 then
     // only import if it is not available
     try
-      SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
+      SuppressOutput := GI_PyInterpreter.OutputSuppressor; // Do not show errors
       if SysModule.modules.__contains__(DottedModuleName) then
       else
         Import(AnsiString(DottedModuleName));

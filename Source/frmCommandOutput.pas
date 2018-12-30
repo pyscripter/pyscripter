@@ -115,7 +115,6 @@ uses
   StringResources,
   dmCommands,
   frmPyIDEMain,
-  frmMessages,
   uCommonFunctions;
 
 {$R *.dfm}
@@ -246,7 +245,7 @@ begin
   fLastExitCode := ExitCode;
   ErrorMsg := Format(_(sProcessTerminated), [StrRemoveChars(fTool.Caption, ['&']), ExitCode]);
   AddNewLine(ErrorMsg);
-  PyIDEMainForm.WriteStatusMsg(ErrorMsg);
+  GI_PyIDEServices.WriteStatusMsg(ErrorMsg);
 
   if fTool.CaptureOutput then
     ShowDockForm(Self);
@@ -280,29 +279,29 @@ begin
     end;
 
     if fTool.ParseTraceback then with JvCreateProcess.ConsoleOutput do begin
-      MessagesWindow.ClearMessages;
+      GI_PyIDEServices.Messages.ClearMessages;
       //  Parse TraceBack and Syntax Errors from Python output
       fRegEx := CompiledRegEx(STracebackFilePosExpr);
       LineNo := 0;
       while LineNo < Count do begin
         if StrIsLeft(PChar(Strings[LineNo]), 'Traceback') then begin
           // Traceback found
-          MessagesWindow.AddMessage('Traceback');
+          GI_PyIDEServices.Messages.AddMessage('Traceback');
           Inc(LineNo);
           while (LineNo < Count) and (Strings[LineNo][1] = ' ') do begin
             with fRegEx.Match(Strings[LineNo]) do
               if Success then begin
                 ErrLineNo := StrToIntDef(GroupValue(3), 0);
                 // add traceback info (function name, filename, linenumber)
-                MessagesWindow.AddMessage('    ' + GroupValue(5),
+                GI_PyIDEServices.Messages.AddMessage('    ' + GroupValue(5),
                   GetLongFileName(ExpandFileName(GroupValue(1))), ErrLineNo);
               end;
             Inc(LineNo);
           end;
           // Add the actual Error line
           if LineNo < Count then
-            MessagesWindow.AddMessage(Strings[LineNo]);
-          ShowDockForm(MessagesWindow);
+            GI_PyIDEServices.Messages.AddMessage(Strings[LineNo]);
+          GI_PyIDEServices.Messages.ShowWindow;
           break;  // finished processing traceback
         end else if StrIsLeft(PChar(Strings[LineNo]), 'SyntaxError:')
           and (LineNo > 2) then
@@ -316,11 +315,11 @@ begin
           if Success then begin
             ErrLineNo := StrToIntDef(GroupValue(3), 0);
             // add Syntax error info (error message, filename, linenumber)
-            MessagesWindow.AddMessage(_(SSyntaxError));
-            MessagesWindow.AddMessage(ErrorMsg + GroupValue(5),
+            GI_PyIDEServices.Messages.AddMessage(_(SSyntaxError));
+            GI_PyIDEServices.Messages.AddMessage(ErrorMsg + GroupValue(5),
               GetLongFileName(ExpandFileName(GroupValue(1))), ErrLineNo, ColNo);
           end;
-          ShowDockForm(MessagesWindow);
+          GI_PyIDEServices.Messages.ShowWindow;
           MessageBeep(MB_ICONEXCLAMATION);
           break;  // finished processing Syntax Error
         end;
@@ -330,7 +329,7 @@ begin
 
     // ParseMessages
     if fTool.ParseMessages then with JvCreateProcess.ConsoleOutput do begin
-      MessagesWindow.ClearMessages;
+      GI_PyIDEServices.Messages.ClearMessages;
       //  Parse TraceBack and Syntax Errors from Python output
 
       RE := fTool.MessagesFormat;
@@ -368,11 +367,11 @@ begin
               else
                 ColNo := -1;
              // add Message info (message, filename, linenumber)
-              MessagesWindow.AddMessage(Groups[Groups.Count-1].Value, FileName, ErrLineNo, ColNo);
+              GI_PyIDEServices.Messages.AddMessage(Groups[Groups.Count-1].Value, FileName, ErrLineNo, ColNo);
             end;
           Inc(LineNo);
         end;
-        ShowDockForm(MessagesWindow);
+        GI_PyIDEServices.Messages.ShowWindow;
       finally
         if JvCreateProcess.CurrentDirectory <> '' then
          SetCurrentDir(OldCurrentDir);
@@ -643,6 +642,7 @@ begin
     OnTerminate := JvCreateProcessTerminate;
     OnRead := JvCreateProcessRead;
   end;
+  TExternalToolAction.ExternalToolExecute := ExecuteTool;
 end;
 
 procedure TOutputWindow.FormDestroy(Sender: TObject);

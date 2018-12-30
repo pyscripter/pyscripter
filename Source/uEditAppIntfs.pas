@@ -2,41 +2,9 @@
  Unit Name: uEditAppIntfs
  Author:    Kiriakos Vlahos
  Date:      09-Mar-2005
- Purpose:   Editor interfaces
-            Based on SynEdit demo
+ Purpose:   Editor and IDE interfaces
  History:
 -----------------------------------------------------------------------------}
-
-{-------------------------------------------------------------------------------
-The contents of this file are subject to the Mozilla Public License
-Version 1.1 (the "License"); you may not use this file except in compliance
-with the License. You may obtain a copy of the License at
-http://www.mozilla.org/MPL/
-
-Software distributed under the License is distributed on an "AS IS" basis,
-WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License for
-the specific language governing rights and limitations under the License.
-
-The Original Code is: uEditAppIntfs.pas, released 2000-09-08.
-
-The Original Code is part of the EditAppDemos project, written by
-Michael Hieke for the SynEdit component suite.
-All Rights Reserved.
-
-Contributors to the SynEdit project are listed in the Contributors.txt file.
-
-Alternatively, the contents of this file may be used under the terms of the
-GNU General Public License Version 2 or later (the "GPL"), in which case
-the provisions of the GPL are applicable instead of those above.
-If you wish to allow use of your version of this file only under the terms
-of the GPL and not to allow others to use your version of this file
-under the MPL, indicate your decision by deleting the provisions above and
-replace them with the notice and other provisions required by the GPL.
-If you do not delete the provisions above, a recipient may use your version
-of this file under either the MPL or the GPL.
-
-Known Issues:
--------------------------------------------------------------------------------}
 
 unit uEditAppIntfs;
 
@@ -45,8 +13,9 @@ interface
 uses
   Winapi.Windows,
   System.Classes,
-  Vcl.Forms, SynEdit,
   System.Contnrs,
+  Vcl.Forms,
+  SynEdit,
   SpTBXTabs;
 
 type
@@ -92,8 +61,8 @@ type
   ['{15E8BD28-6E18-4D49-8499-1DB594AB88F7}']
     procedure Activate(Primary : Boolean = True);
     function ActivateView(ViewFactory : IEditorViewFactory) : IEditorView;
-    function AskSaveChanges: boolean;
-    function CanClose: boolean;
+    function AskSaveChanges: Boolean;
+    function CanClose: Boolean;
     procedure Close;
     function GetSynEdit : TSynEdit;
     function GetSynEdit2 : TSynEdit;
@@ -104,7 +73,7 @@ type
     function GetFileName: string;
     function GetFileTitle: string;
     function GetFileNameOrTitle: string;
-    function GetModified: boolean;
+    function GetModified: Boolean;
     function GetFileEncoding : TFileSaveFormat;
     function GetForm : TForm;
     function GetEncodedText : AnsiString;
@@ -118,7 +87,7 @@ type
     procedure SetFileEncoding(FileEncoding : TFileSaveFormat);
     procedure OpenFile(const AFileName: string; HighlighterName : string = '');
     procedure OpenRemoteFile(const FileName, ServerName: string);
-    function SaveToRemoteFile(const FileName, ServerName: string) : boolean;
+    function SaveToRemoteFile(const FileName, ServerName: string) : Boolean;
     function HasPythonFile : Boolean;
     procedure ExecuteSelection;
     procedure SplitEditorHorizontally;
@@ -128,7 +97,7 @@ type
     property RemoteFileName : string read GetRemoteFileName;
     property SSHServer : string read GetSSHServer;
     property FileTitle : string read GetFileTitle;
-    property Modified : boolean read GetModified;
+    property Modified : Boolean read GetModified;
     property SynEdit : TSynEdit read GetSynEdit;
     property SynEdit2 : TSynEdit read GetSynEdit2;
     property ActiveSynEdit : TSynEdit read GetActiveSynEdit;
@@ -144,7 +113,7 @@ type
 
   IEditorFactory = interface
   ['{FDAE7FBD-4B61-4D7C-BEE6-DB7740A225E8}']
-    function CanCloseAll: boolean;
+    function CanCloseAll: Boolean;
     procedure CloseAll;
     function CreateTabSheet(AOwner: TSpTBXCustomTabControl): IEditor;
     function GetEditorCount: integer;
@@ -166,13 +135,13 @@ type
 
   IEditCommands = interface
   ['{64397AD0-BA45-4F4A-B72E-2E4647B8ACB9}']
-    function CanCopy: boolean;
-    function CanCut: boolean;
-    function CanDelete: boolean;
-    function CanPaste: boolean;
-    function CanRedo: boolean;
-    function CanSelectAll: boolean;
-    function CanUndo: boolean;
+    function CanCopy: Boolean;
+    function CanCut: Boolean;
+    function CanDelete: Boolean;
+    function CanPaste: Boolean;
+    function CanRedo: Boolean;
+    function CanSelectAll: Boolean;
+    function CanUndo: Boolean;
     procedure ExecCopy;
     procedure ExecCut;
     procedure ExecDelete;
@@ -184,11 +153,11 @@ type
 
   IFileCommands = interface
   ['{C10F67B6-BE8D-4A0D-8FDA-05BBF8DEA08A}']
-    function CanClose: boolean;
-    function CanPrint: boolean;
-    function CanSave: boolean;
-    function CanSaveAs: boolean;
-    function CanReload: boolean;
+    function CanClose: Boolean;
+    function CanPrint: Boolean;
+    function CanSave: Boolean;
+    function CanSaveAs: Boolean;
+    function CanReload: Boolean;
     procedure ExecClose;
     procedure ExecPrint;
     procedure ExecPrintPreview;
@@ -200,10 +169,10 @@ type
 
   ISearchCommands = interface
     ['{490F145F-01EB-486F-A326-07281AA86BFD}']
-    function CanFind: boolean;
-    function CanFindNext: boolean;
-    function CanFindPrev: boolean;
-    function CanReplace: boolean;
+    function CanFind: Boolean;
+    function CanFindNext: Boolean;
+    function CanFindPrev: Boolean;
+    function CanReplace: Boolean;
     function GetSearchTarget : TSynEdit;
     procedure ExecFind;
     procedure ExecFindNext;
@@ -212,14 +181,55 @@ type
     property SearchTarget : TSynEdit read GetSearchTarget;
   end;
 
+  IMessageServices = interface
+  ['{CF747CB1-A5C0-48DC-BE8E-7857074887AD}']
+    procedure ShowWindow;
+    procedure AddMessage(Msg: string; FileName : string = '';
+       Line : integer = 0; Offset : integer = 0; SelLen : integer = 0);
+    procedure ClearMessages;
+    procedure ShowPythonTraceback(SkipFrames : integer = 1);
+    procedure ShowTraceback(Traceback : Variant; SkipFrames : integer = 0);
+  end;
+
+
+  IPyIDEServices = interface
+  ['{F6E853D8-9527-4AF2-BF15-76DB1FF75F7A}']
+    {
+      Returns the active editor irrespective of whether it is has the focus
+      If want the active editor with focus then use GI_ActiveEditor
+    }
+    function GetActiveEditor : IEditor;
+    procedure WriteStatusMsg(S: string);
+    function ShowFilePosition(FileName: string; Line,
+      Offset: integer; SelLen : integer = 0; ForceToMiddle : Boolean = True;
+      FocusEditor : Boolean = True): Boolean;
+    function GetMessageServices: IMessageServices;
+    property Messages: IMessageServices read GetMessageServices;
+  end;
+
+  IPyControl = interface
+  ['{DE1C1145-DC0F-4829-B36B-74EC818E168E}']
+    function PythonLoaded: Boolean;
+    function Running: boolean;
+    function Inactive: boolean;
+  end;
+
+  IPyInterpreter = interface
+  ['{6BAAD187-B00E-4E2A-B01D-C47EED922E59}']
+    function OutputSuppressor : IInterface;
+  end;
+
 var
   GI_EditorFactory: IEditorFactory;
-
   GI_ActiveEditor: IEditor;
 
   GI_EditCmds: IEditCommands;
   GI_FileCmds: IFileCommands;
   GI_SearchCmds: ISearchCommands;
+
+  GI_PyIDEServices: IPyIDEServices;
+  GI_PyControl: IPyControl;
+  GI_PyInterpreter: IPyInterpreter;
 
 implementation
 

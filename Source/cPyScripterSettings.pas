@@ -11,6 +11,7 @@ unit cPyScripterSettings;
 interface
 Uses
   System.Classes,
+  Vcl.ImgList,
   Vcl.Graphics,
   JclNotify,
   SpTBXTabs,
@@ -32,9 +33,12 @@ type
     constructor Create; virtual; abstract;
   end;
 
-  // TPythonIDEOptions is exposed to Python.
-  // IFreeNotification is implemented to make sure the object is not used
-  // by Python after its destruction (ser WrapDelphi for details)
+  {
+    Persistent IDE Settings
+    Note: TPythonIDEOptions is exposed to Python.
+    IFreeNotification is implemented to make sure the object is not used
+    by Python after its destruction (ser WrapDelphi for details)
+  }
   TPythonIDEOptions = class(TBaseOptions, IFreeNotification)
   private
     fFreeNotifyImpl : IFreeNotification;
@@ -292,6 +296,11 @@ type
 {$METHODINFO OFF}
 
   TPyScripterSettings = class
+    class var UserDataPath : string;
+    class var ColorThemesFilesDir : string;
+    class var StylesFilesDir : string;
+    class var Images: TCustomImageList;
+    class var ShellImages: TCustomImageList;
     class var DefaultEditorKeyStrokes: TSynEditKeyStrokes;
     class procedure RegisterEditorUserCommands(Keystrokes : TSynEditKeyStrokes);
     class procedure CreateIDEOptions;
@@ -322,6 +331,7 @@ uses
   System.UITypes,
   System.SysUtils,
   Vcl.Forms,
+  Vcl.Dialogs,
   uHighlighterProcs,
   JvAppStorage,
   JvGnuGettext,
@@ -817,6 +827,32 @@ end;
 
 class constructor TPyScripterSettings.CreateSettings;
 begin
+  // User Data directory for storing the ini file etc.
+  if FileExists(ChangeFileExt(Application.ExeName, '.ini')) then
+    // Portable version - nothing is stored in other directories
+    UserDataPath :=   ExtractFilePath(Application.ExeName)
+  else begin
+    UserDataPath := IncludeTrailingPathDelimiter(GetHomePath) + 'PyScripter\';
+    if not ForceDirectories(UserDataPath) then
+      Vcl.Dialogs.MessageDlg(Format(SAccessAppDataDir, [UserDataPath]), mtWarning, [mbOK], 0);
+  end;
+
+  // Skins directory
+  ColorThemesFilesDir := UserDataPath + 'Highlighters';
+  if not DirectoryExists(ColorThemesFilesDir) then
+    try
+      CreateDir(ColorThemesFilesDir);
+    except
+    end;
+
+  // Styles directory
+  StylesFilesDir := UserDataPath + 'Styles';
+  if not DirectoryExists(StylesFilesDir) then
+    try
+      CreateDir(StylesFilesDir);
+    except
+    end;
+
   TPyScripterSettings.CreateIDEOptions;
   TPyScripterSettings.CreateEditorOptions;
   // Save Default editor keystrokes
@@ -892,13 +928,4 @@ begin
   end;
 end;
 
-Var
-  PyScripterSettings: TPyScripterSettings;
-
-
-initialization
-  // To make sure the class constructor destructor are called
-  PyScripterSettings:= TPyScripterSettings.Create();
-finalization
-  PyScripterSettings.Free;
 end.

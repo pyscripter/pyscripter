@@ -62,7 +62,7 @@ const
 
 type
 
-  TPythonIIForm = class(TIDEDockWindow, ISearchCommands)
+  TPythonIIForm = class(TIDEDockWindow, ISearchCommands, IPyInterpreter)
     SynEdit: TSynEdit;
     PythonIO: TPythonInputOutput;
     SynCodeCompletion: TSynCompletionProposal;
@@ -153,6 +153,8 @@ type
     procedure ExecReplace;
     procedure SynCodeCompletionCodeItemInfo(Sender: TObject;
       AIndex: Integer; var Info : string);
+    // Implementation of IPyInterpreter
+    function OutputSuppressor : IInterface;
   protected
     procedure PythonIOReceiveData(Sender: TObject; var Data: string);
     procedure EditorMouseWheel(theDirection: Integer; Shift: TShiftState );
@@ -163,10 +165,8 @@ type
   public
     { Public declarations }
     PS1, PS2, DebugPrefix, PMPrefix : string;
-    PythonHelpFile : string;
     procedure PythonIOSendData(Sender: TObject; const Data: string);
     procedure PrintInterpreterBanner(AVersion: string = ''; APlatform: string = '');
-    function OutputSuppressor : IInterface;
     procedure WritePendingMessages;
     procedure ClearPendingMessages;
     procedure AppendText(S: string);
@@ -201,7 +201,6 @@ Uses
   StringResources,
   frmPyIDEMain,
   dmCommands,
-  frmMessages,
   frmUnitTests,
   uCommonFunctions,
   uCmdLine,
@@ -512,10 +511,13 @@ begin
   PMPrefix := '[PM]';
 
   SynCodeCompletion.OnCodeItemInfo := SynCodeCompletionCodeItemInfo;
+
+  GI_PyInterpreter := Self;
 end;
 
 procedure TPythonIIForm.FormDestroy(Sender: TObject);
 begin
+  GI_PyInterpreter := nil;
   FreeAndNil(fCommandHistory);
   FCriticalSection.Destroy;
   FreeAndNil(fOutputStream);
@@ -646,9 +648,9 @@ begin
 
             // RunSource
             NeedIndent := False;  // True denotes an incomplete statement
-            if PyControl.InternalPython.Loaded then
+            if GI_PyControl.PythonLoaded then
             begin
-              if PyControl.Running then
+              if GI_PyControl.Running then
                 // it is dangerous to execute code while running scripts
                 // so just beep and do nothing
                 MessageBeep(MB_ICONERROR)
@@ -908,14 +910,14 @@ begin
     //FileName := GetLongFileName(ExpandFileName(RegExpr.Match[1]));
     if Assigned(PyControl.ActiveInterpreter) then
       FileName := PyControl.ActiveInterpreter.FromPythonFileName(FileName);
-    PyIDEMainForm.ShowFilePosition(FileName, ErrLineNo, 1);
+    GI_PyIDEServices.ShowFilePosition(FileName, ErrLineNo, 1);
   end else begin
     RegEx := CompiledRegEx(SWarningFilePosExpr);
     Match := RegEx.Match(Synedit.LineText);
     if Match.Success then begin
       ErrLineNo := StrToIntDef(Match.GroupValue(3), 0);
       FileName := Match.GroupValue(1);
-      PyIDEMainForm.ShowFilePosition(FileName, ErrLineNo, 1);
+      GI_PyIDEServices.ShowFilePosition(FileName, ErrLineNo, 1);
     end;
   end;
 end;
@@ -1144,7 +1146,7 @@ Var
 begin
   CanExecute := False;
   // No code completion while Python is running
-  if not (PyControl.InternalPython.Loaded and not PyControl.Running and
+  if not (GI_PyControl.PythonLoaded and not GI_PyControl.Running and
     PyIDEOptions.InterpreterCodeCompletion)
   then
     Exit;
@@ -1246,7 +1248,7 @@ var locline, lookup: string;
     Attri: TSynHighlighterAttributes;
     Token: string;
 begin
-  if not PyControl.InternalPython.Loaded or PyControl.Running or not PyIDEOptions.InterpreterCodeCompletion
+  if not GI_PyControl.PythonLoaded or GI_PyControl.Running or not PyIDEOptions.InterpreterCodeCompletion
   then
     Exit;
   with TSynCompletionProposal(Sender).Editor do

@@ -48,13 +48,13 @@ type
                      IsSyntaxError : Boolean = False; AErrorMsg : string = '');
   end;
 
-  TPythonControl = class(TObject)
+  TPythonControl = class(TComponent, IPyControl)
   {
     Interface between PyScripter and the Interpreter/Debugger.
     Holds information Breakpoints, ErrorPos, CurrentPos
   }
   private
-    fBreakPointsChanged : Boolean;
+    fBreakPointsChanged: Boolean;
     fDebuggerState: TDebuggerState;
     fOnBreakpointChange: TBreakpointChangeEvent;
     fOnCurrentPosChange: TNotifyEvent;
@@ -62,14 +62,15 @@ type
     fOnStateChange: TDebuggerStateChangeEvent;
     fOnYield: TDebuggerYieldEvent;
     fOnPythonVersionChange: TJclNotifyEventBroadcast;
-    fActiveInterpreter : TPyBaseInterpreter;
-    fActiveDebugger : TPyBaseDebugger ;
-    fRunConfig : TRunConfiguration;
-    fPythonVersionIndex : integer;
-    fRegPythonVersions : TPythonVersions;
-    fInternalPython : TInternalPython;
-    fInternalInterpreter : TPyBaseInterpreter;
-    fActiveSSHServerName : string;
+    fActiveInterpreter: TPyBaseInterpreter;
+    fActiveDebugger: TPyBaseDebugger ;
+    fRunConfig: TRunConfiguration;
+    fPythonVersionIndex: integer;
+    fRegPythonVersions: TPythonVersions;
+    fInternalPython: TInternalPython;
+    fInternalInterpreter: TPyBaseInterpreter;
+    fActiveSSHServerName: string;
+    fPythonHelpFile: string;
     function InitPythonVersions : Boolean;
     procedure DoOnBreakpointChanged(Editor : IEditor; ALine: integer);
     procedure SetActiveDebugger(const Value: TPyBaseDebugger);
@@ -81,6 +82,10 @@ type
     function GetInternalInterpreter: TPyBaseInterpreter;
     function GetPythonVersion: TPythonVersion;
     procedure SetPythonVersionIndex(const Value: integer);
+    // IPyControl implementation
+    function PythonLoaded: Boolean;
+    function Running: boolean;
+    function Inactive: boolean;
   public
     // ActiveInterpreter and ActiveDebugger are created
     // and destroyed in frmPythonII
@@ -88,7 +93,7 @@ type
     CurrentPos: TEditorPos;
     CustomPythonVersions: TPythonVersions;
 
-    constructor Create;
+    constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
     // Breakpoint related
     procedure ToggleBreakpoint(Editor : IEditor; ALine: integer;
@@ -106,9 +111,6 @@ type
     procedure DoErrorPosChanged;
     procedure DoStateChange(NewState : TDebuggerState);
     procedure DoYield(DoIdle : Boolean);
-    // Other
-    function Running: boolean;
-    function Inactive: boolean;
     // Running Python Scripts
     procedure Run(ARunConfig : TRunConfiguration);
     procedure Debug(ARunConfig : TRunConfiguration;  InitStepIn : Boolean = False;
@@ -121,25 +123,25 @@ type
     procedure ReadFromAppStorage(AppStorage: TJvCustomAppStorage;
       out SysVersion, InstallPath: string);
     procedure WriteToAppStorage(AppStorage: TJvCustomAppStorage);
-
     // properties and events
     // PythonVersionIndex is the Index of Python version in the PYTHON_KNOWN_VERSIONS array
-    property PythonVersion : TPythonVersion read GetPythonVersion;
-    property PythonVersionIndex : integer read fPythonVersionIndex write SetPythonVersionIndex;
-    property RegPythonVersions : TPythonVersions read fRegPythonVersions;
-    property PythonEngineType : TPythonEngineType read GetPythonEngineType
+    property PythonVersion: TPythonVersion read GetPythonVersion;
+    property PythonVersionIndex: integer read fPythonVersionIndex write SetPythonVersionIndex;
+    property RegPythonVersions: TPythonVersions read fRegPythonVersions;
+    property PythonEngineType: TPythonEngineType read GetPythonEngineType
       write SetPythonEngineType;
-    property ActiveSSHServerName : string read fActiveSSHServerName write fActiveSSHServerName;
-    property InternalPython : TInternalPython read fInternalPython;
-    property InternalInterpreter : TPyBaseInterpreter read GetInternalInterpreter;
-    property ActiveInterpreter : TPyBaseInterpreter read fActiveInterpreter
+    property ActiveSSHServerName: string read fActiveSSHServerName write fActiveSSHServerName;
+    property InternalPython: TInternalPython read fInternalPython;
+    property InternalInterpreter: TPyBaseInterpreter read GetInternalInterpreter;
+    property ActiveInterpreter: TPyBaseInterpreter read fActiveInterpreter
       write SetActiveInterpreter;
-    property ActiveDebugger : TPyBaseDebugger read fActiveDebugger
+    property PythonHelpFile: string read fPythonHelpFile;
+    property ActiveDebugger: TPyBaseDebugger read fActiveDebugger
       write SetActiveDebugger;
     property BreakPointsChanged : Boolean read fBreakPointsChanged
       write fBreakPointsChanged;
-    property DebuggerState : TDebuggerState read fDebuggerState;
-    property RunConfig : TRunConfiguration read fRunConfig;
+    property DebuggerState: TDebuggerState read fDebuggerState;
+    property RunConfig: TRunConfiguration read fRunConfig;
     property OnBreakpointChange: TBreakpointChangeEvent read fOnBreakpointChange
       write fOnBreakpointChange;
     property OnCurrentPosChange: TNotifyEvent read fOnCurrentPosChange
@@ -168,7 +170,6 @@ uses
   JvJVCLUtils,
   VarPyth,
   StringResources,
-  dmCommands,
   frmPythonII,
   frmPyIDEMain,
   frmCommandOutput,
@@ -205,11 +206,12 @@ begin
   ErrorMsg := '';
 end;
 
-
 { TPythonControl }
 
-constructor TPythonControl.Create;
+constructor TPythonControl.Create(AOwner: TComponent);
 begin
+  inherited;
+  GI_PyControl := Self;
   fDebuggerState := dsInactive;
   CurrentPos.Clear;
   ErrorPos.Clear;
@@ -241,6 +243,7 @@ end;
 
 destructor TPythonControl.Destroy;
 begin
+  GI_PyControl := nil;
   FreeAndNil(fInternalInterpreter);
   FreeAndNil(fInternalPython);
   FreeAndNil(fOnPythonVersionChange);
@@ -688,6 +691,11 @@ begin
     ActiveInterpreter.ReInitialize;
 end;
 
+function TPythonControl.PythonLoaded: Boolean;
+begin
+  Result := InternalPython.Loaded;
+end;
+
 procedure TPythonControl.SetRunConfig(ARunConfig: TRunConfiguration);
 begin
   if ARunConfig <> fRunConfig then
@@ -731,7 +739,7 @@ begin
 
   if InternalPython.LoadPython(APythonVersion) then
   begin
-    PythonIIForm.PythonHelpFile := APythonVersion.HelpFile;
+    fPythonHelpFile := APythonVersion.HelpFile;
     PythonIIForm.PrintInterpreterBanner;
 
     // Create internal Interpreter and Debugger
@@ -744,7 +752,7 @@ begin
     fInternalInterpreter.Initialize;
 
     // Execute pyscripter_init.py
-    FileName := CommandsDataModule.UserDataPath + PyScripterInitFile;
+    FileName := TPyScripterSettings.UserDataPath + PyScripterInitFile;
     try
       fInternalInterpreter.RunScript(FileName);
     except
@@ -859,7 +867,7 @@ end;
 
 
 initialization
-  PyControl := TPythonControl.Create;
+  PyControl := TPythonControl.Create(nil);
 finalization
   // Destroy Active debugger outside PyControl.Destory
   PyControl.ActiveDebugger := nil;

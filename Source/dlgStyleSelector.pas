@@ -3,12 +3,30 @@ unit dlgStyleSelector;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
-  System.Types, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ComCtrls, Vcl.ExtCtrls,
-  Vcl.ActnList, Vcl.PlatformDefaultStyleActnCtrls, Vcl.ActnMan, Vcl.ToolWin,
-  System.Actions, dlgPyIDEBase, SpTBXItem, SpTBXControls,
-  System.Generics.Collections, Vcl.Themes, Vcl.Styles,
+  Winapi.Windows,
+  Winapi.Messages,
+  System.SysUtils,
+  System.Variants,
+  System.Types,
+  System.Classes,
+  System.Actions,
+  System.Generics.Collections,
+  Vcl.Graphics,
+  Vcl.Controls,
+  Vcl.Forms,
+  Vcl.Dialogs,
+  Vcl.StdCtrls,
+  Vcl.ComCtrls,
+  Vcl.ExtCtrls,
+  Vcl.ActnList,
+  Vcl.PlatformDefaultStyleActnCtrls,
+  Vcl.ActnMan,
+  Vcl.ToolWin,
+  Vcl.Themes,
+  Vcl.Styles,
+  SpTBXItem,
+  SpTBXControls,
+  dlgPyIDEBase,
   Vcl.Styles.PyScripter;
 
 type
@@ -45,7 +63,7 @@ implementation
 
 uses
   System.IOUtils,
-  dmCommands,
+  cPyScripterSettings,
   frmPyIDEMain;
 
 type
@@ -59,7 +77,7 @@ begin
   Loading:=False;
   LBStyleNames.Sorted := True;
   ExternalStyleFilesDict := TDictionary<string, string>.Create;
-  FStylesPath := CommandsDataModule.StylesFilesDir;
+  FStylesPath := TPyScripterSettings.StylesFilesDir;
   FPreview:=TVclStylesPreview.Create(Self);
   FPreview.Parent:=Panel1;
   FPreview.Icon := Application.Icon.Handle;

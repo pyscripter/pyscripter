@@ -180,7 +180,6 @@ uses
   StringResources,
   dmCommands,
   frmPythonII,
-  frmMessages,
   frmPyIDEMain,
   uCommonFunctions,
   cRefactoring,
@@ -245,7 +244,7 @@ begin
   else if fChildCount >= 0 then
     Result := fChildCount
   else begin
-    SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
+    SuppressOutput := GI_PyInterpreter.OutputSuppressor; // Do not show errors
     try
       Result := TPyInternalInterpreter(PyControl.InternalInterpreter).PyInteractiveInterpreter.membercount(fPyObject, ExpandSequences,
         ExpandCommonTypes, ExpandSequences);
@@ -276,7 +275,7 @@ Var
 begin
   if not (Assigned(fChildNodes) or GotChildNodes) then begin
     GotChildNodes := True;
-    SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
+    SuppressOutput := GI_PyInterpreter.OutputSuppressor; // Do not show errors
     try
       FullInfoTuple := TPyInternalInterpreter(PyControl.InternalInterpreter).PyInteractiveInterpreter.safegetmembersfullinfo(fPyObject, ExpandSequences,
         ExpandCommonTypes, ExpandSequences);
@@ -321,7 +320,7 @@ function TNameSpaceItem.GetDocString: string;
 Var
   SuppressOutput : IInterface;
 begin
-  SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
+  SuppressOutput := GI_PyInterpreter.OutputSuppressor; // Do not show errors
   try
     Result := Import('inspect').getdoc(fPyObject);
   except
@@ -338,7 +337,7 @@ procedure TNameSpaceItem.FillObjectInfo;
 var
   SuppressOutput : IInterface;
 begin
-  SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
+  SuppressOutput := GI_PyInterpreter.OutputSuppressor; // Do not show errors
   try
     fObjectInfo := TPyInternalInterpreter(PyControl.InternalInterpreter).PyInteractiveInterpreter.objectinfo(fPyObject);
   except
@@ -360,7 +359,7 @@ function TNameSpaceItem.GetValue: string;
 Var
   SuppressOutput : IInterface;
 begin
-  SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
+  SuppressOutput := GI_PyInterpreter.OutputSuppressor; // Do not show errors
   try
     Result :=  TPyInternalInterpreter(PyControl.InternalInterpreter).PyInteractiveInterpreter.saferepr(fPyObject);
   except
@@ -507,7 +506,7 @@ Var
 begin
   Result := nil;
   if PyControl.DebuggerState in [dsPaused, dsPostMortem] then begin
-    SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
+    SuppressOutput := GI_PyInterpreter.OutputSuppressor; // Do not show errors
     try
       // evalcode knows we are in the debugger and uses current frame locals/globals
       V := InternalInterpreter.PyInteractiveInterpreter.evalcode(Expr);
@@ -526,7 +525,7 @@ begin
   ObjType := _(SNotAvailable);
   Value := _(SNotAvailable);
   if PyControl.DebuggerState in [dsPaused, dsPostMortem] then begin
-    SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
+    SuppressOutput := GI_PyInterpreter.OutputSuppressor; // Do not show errors
     try
       // evalcode knows we are in the debugger and uses current frame locals/globals
       V := InternalInterpreter.PyInteractiveInterpreter.evalcode(Expr);
@@ -658,7 +657,7 @@ begin
     PyControl.DoStateChange(dsDebugging);
     TPyBaseDebugger.ThreadChangeNotify(fMainThread, tctAdded );
 
-    MessagesWindow.ClearMessages;
+    GI_PyIDEServices.Messages.ClearMessages;
     Editor := GI_ActiveEditor;
     ReturnFocusToEditor := Assigned(Editor);
     // Set the layout to the Debug layout is it exists
@@ -818,7 +817,7 @@ begin
    if (FName[1] ='<') and (FName[Length(FName)] = '>') then
      FName :=  Copy(FName, 2, Length(FName)-2);
 
-   if PyIDEMainForm.ShowFilePosition(FName, Frame.f_lineno, 1, 0, True, False) and
+   if GI_PyIDEServices.ShowFilePosition(FName, Frame.f_lineno, 1, 0, True, False) and
      (Frame.f_lineno > 0) then
    begin
      if PyControl.DebuggerState = dsDebugging then
@@ -848,8 +847,8 @@ begin
      dcPause       : InternalInterpreter.Debugger.set_step();
      dcAbort       : begin
                        InternalInterpreter.Debugger.set_quit();
-                       MessagesWindow.AddMessage(_(SDebuggingAborted));
-                       MessagesWindow.ShowWindow;
+                       GI_PyIDEServices.Messages.AddMessage(_(SDebuggingAborted));
+                       GI_PyIDEServices.Messages.ShowWindow;
                      end;
    end;
 end;
@@ -866,8 +865,8 @@ begin
   PyControl.DoYield(False);
   if fDebuggerCommand = dcAbort then begin
     InternalInterpreter.Debugger.set_quit();
-    MessagesWindow.AddMessage(_(SDebuggingAborted));
-    MessagesWindow.ShowWindow;
+    GI_PyIDEServices.Messages.AddMessage(_(SDebuggingAborted));
+    GI_PyIDEServices.Messages.ShowWindow;
   end else if fDebuggerCommand = dcPause then
     InternalInterpreter.Debugger.set_step();
   Result := GetPythonEngine.ReturnNone;
@@ -986,7 +985,7 @@ begin
   DocString := '';
   if Expr = '' then Exit;
 
-  SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
+  SuppressOutput := GI_PyInterpreter.OutputSuppressor; // Do not show errors
   try
     //Evaluate the lookup expression and get the hint text
     LookupObj := fII.evalcode(Expr);
@@ -1021,7 +1020,7 @@ begin
   PyControl.ErrorPos.Clear;
   PyControl.DoErrorPosChanged;
 
-  MessagesWindow.ClearMessages;
+  GI_PyIDEServices.Messages.ClearMessages;
 
   Editor := GI_EditorFactory.GetEditorByNameOrTitle(ARunConfig.ScriptName);
   if Assigned(Editor) then begin
@@ -1050,7 +1049,7 @@ begin
         CheckError;
       except
         on E: EPySyntaxError do begin
-          if PyIDEMainForm.ShowFilePosition(E.EFileName, E.ELineNumber, E.EOffset) and
+          if GI_PyIDEServices.ShowFilePosition(E.EFileName, E.ELineNumber, E.EOffset) and
             Assigned(GI_ActiveEditor)
           then begin
             PyControl.ErrorPos.NewPos(GI_ActiveEditor, E.ELineNumber, E.EOffset, True);
@@ -1093,7 +1092,7 @@ function TPyInternalInterpreter.GetObjectType(Ob: Variant): string;
 Var
   SuppressOutput : IInterface;
 begin
-  SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
+  SuppressOutput := GI_PyInterpreter.OutputSuppressor; // Do not show errors
   try
     Result := fII.objecttype(Ob);
   except
@@ -1176,7 +1175,7 @@ var
   InspectModule, LookupObj, ItemsDict: Variant;
   SuppressOutput : IInterface;
 begin
-  SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
+  SuppressOutput := GI_PyInterpreter.OutputSuppressor; // Do not show errors
   InspectModule := Import('inspect');
   try
     if Expr <> '' then begin
@@ -1373,7 +1372,7 @@ Var
   OldDebuggerState : TDebuggerState;
   PySource : Variant;
 begin
-  Assert(not PyControl.Running, 'RunSource called while the Python engine is active');
+  Assert(not GI_PyControl.Running, 'RunSource called while the Python engine is active');
   OldDebuggerState := PyControl.DebuggerState;
   PyControl.DoStateChange(dsRunning);
   try
@@ -1403,7 +1402,7 @@ begin
 
   with GetPythonEngine do begin
     if Quiet then
-      SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
+      SuppressOutput := GI_PyInterpreter.OutputSuppressor; // Do not show errors
     Result := CheckExecSyntax(Source);
     if not Result then begin
       if Quiet then begin
@@ -1456,7 +1455,7 @@ begin
       end else begin
         // Display error
         // New Line for output
-        MessagesWindow.ClearMessages;
+        GI_PyIDEServices.Messages.ClearMessages;
 
         PythonIIForm.AppendText(sLineBreak);
         try
@@ -1465,7 +1464,7 @@ begin
         except
           on E: EPySyntaxError do begin
             E.EFileName := FName;  // add the filename
-            if PyIDEMainForm.ShowFilePosition(E.EFileName, E.ELineNumber, E.EOffset) and
+            if GI_PyIDEServices.ShowFilePosition(E.EFileName, E.ELineNumber, E.EOffset) and
               Assigned(GI_ActiveEditor)
             then begin
               PyControl.ErrorPos.NewPos(GI_ActiveEditor, E.ELineNumber, E.EOffset, True);

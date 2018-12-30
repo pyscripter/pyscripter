@@ -276,7 +276,7 @@ Var
   FName : string;
 begin
   Node := ExplorerTree.GetFirstSelected;
-  Editor := PyIDEMainForm.GetActiveEditor;
+  Editor := GI_PyIDEServices.GetActiveEditor;
   if not Assigned(Node) or not Assigned(Editor) then Exit;
 
   if Editor.FileName <> '' then
@@ -317,7 +317,7 @@ begin
         Title := _(SAddFilesToProject);
         FileName := '';
         Filter := GetHighlightersFilter(CommandsDataModule.Highlighters) + _(SFilterAllFiles);
-        Editor := PyIDEMainForm.GetActiveEditor;
+        Editor := GI_PyIDEServices.GetActiveEditor;
         if Assigned(Editor) and (Editor.FileName <> '') and
           (ExtractFileDir(Editor.FileName) <> '')
         then
@@ -549,7 +549,7 @@ begin
       Title := _(SOpenProject);
       FileName := '';
       Filter := Format(ProjectFilter, [ProjectDefaultExtension]);
-      Editor := PyIDEMainForm.GetActiveEditor;
+      Editor := GI_PyIDEServices.GetActiveEditor;
       if Assigned(Editor) and (Editor.FileName <> '') and
         (ExtractFileDir(Editor.FileName) <> '')
       then
@@ -816,7 +816,7 @@ Var
   Data : PNodeDataRec;
   SingleNodeSelected : Boolean;
 begin
-   actProjectExtraPythonPath.Enabled := PyControl.InternalPython.Loaded and not PyControl.Running;
+   actProjectExtraPythonPath.Enabled := GI_PyControl.PythonLoaded and not GI_PyControl.Running;
    // We update project actions here based on selection
    SingleNodeSelected := Assigned(Node) and
      (Length(ExplorerTree.GetSortedSelection(False)) = 1);
@@ -837,7 +837,7 @@ begin
      actProjectFileProperties.Enabled := (Data.ProjectNode is TProjectFileNode) and SingleNodeSelected;
      actProjectAddRunConfig.Enabled := (Data.ProjectNode is TProjectRunConfiguationsNode) and SingleNodeSelected;
      actProjectEditRunConfig.Enabled := (Data.ProjectNode is TProjectRunConfiguationNode) and SingleNodeSelected;
-     actProjectRun.Enabled := PyControl.Inactive and
+     actProjectRun.Enabled := GI_PyControl.Inactive and
        (Data.ProjectNode is TProjectRunConfiguationNode) and SingleNodeSelected;
      actProjectExternalRun.Enabled := actProjectRun.Enabled;
      actProjectDebug.Enabled := actProjectRun.Enabled;
@@ -1120,7 +1120,7 @@ begin
         ImgIndex := GetIconIndexFromFile(FileName, True);
         if ImgIndex >= 0 then begin
           ImageIndex :=
-            ProjectImageList.AddImage(CommandsDataModule.imlShellIcon, ImgIndex) -1;
+            ProjectImageList.AddImage(CommandsDataModule.ShellImages, ImgIndex) -1;
           FileImageList.AddObject(Extension, TObject(ImageIndex));
         end;
       end;

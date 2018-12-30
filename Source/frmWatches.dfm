@@ -95,18 +95,18 @@ inherited WatchesWindow: TWatchesWindow
           Columns = <
             item
               Position = 0
+              Text = 'Watches'
               Width = 200
-              WideText = 'Watches'
             end
             item
               Position = 1
+              Text = 'Type'
               Width = 120
-              WideText = 'Type'
             end
             item
               Position = 2
+              Text = 'Value'
               Width = 434
-              WideText = 'Value'
             end>
         end
       end

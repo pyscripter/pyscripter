@@ -216,7 +216,7 @@ var
   Editor : IEditor;
   FileName : string;
 begin
-  Editor := PyIDEMainForm.GetActiveEditor;
+  Editor := GI_PyIDEServices.GetActiveEditor;
   if Assigned(Editor) then begin
     FileName := Editor.FileName;
     if FileName <> '' then

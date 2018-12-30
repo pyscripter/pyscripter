@@ -46,12 +46,36 @@ unit frmToDo;
 interface
 
 uses
-  System.UITypes, Windows, Messages, SysUtils, Variants, Classes, Graphics,
-  Controls, Forms, Dialogs, frmIDEDockWin, JvDockControlForm, ExtCtrls, ActnList,
-  Contnrs, ImgList, ComCtrls, Menus, JvAppStorage, TB2Item,
-  TB2Dock, TB2Toolbar, VirtualTrees, JvComponentBase, SpTBXItem,
-  SynUnicode, uCommonFunctions, System.Actions,
-  SpTBXControls, System.ImageList;
+  Winapi.Windows,
+  Winapi.Messages,
+  System.UITypes,
+  System.SysUtils,
+  System.Variants,
+  System.Classes,
+  System.ImageList,
+  System.Contnrs,
+  System.Actions,
+  Vcl.Graphics,
+  Vcl.Controls,
+  Vcl.Forms,
+  Vcl.Dialogs,
+  Vcl.ExtCtrls,
+  Vcl.ActnList,
+  Vcl.ImgList,
+  Vcl.ComCtrls,
+  Vcl.Menus,
+  TB2Item,
+  TB2Dock,
+  TB2Toolbar,
+  SpTBXItem,
+  SpTBXControls,
+  JvDockControlForm,
+  JvAppStorage,
+  JvComponentBase,
+  VirtualTrees,
+  SynUnicode,
+  uCommonFunctions,
+  frmIDEDockWin;
 
 type
   TToDoPriority = (tpHigh, tpMed, tpLow, tpDone);
@@ -196,7 +220,6 @@ uses
   Vcl.Clipbrd,
   MPCommonUtilities,
   uEditAppIntfs,
-  frmPyIDEMain,
   dlgToDoOptions,
   cProjectClasses,
   cParameters,
@@ -254,8 +277,8 @@ begin
     begin
       Result := not FAbortSignalled;
 
-      if Result and (FileInfo.Attr and SysUtils.faDirectory = 0) and
-        (FileInfo.Attr and SysUtils.faHidden = 0) then
+      if Result and (FileInfo.Attr and System.SysUtils.faDirectory = 0) and
+        (FileInfo.Attr and System.SysUtils.faHidden = 0) then
       begin
         Name := Path + FileInfo.Name;
         LoadFile(Name);
@@ -286,7 +309,7 @@ begin
   SelectedItem := GetSelectedItem;
   if SelectedItem = nil then Exit;
 
-  PyIDEMainForm.ShowFilePosition(SelectedItem.FileName, SelectedItem.LineNo+1, 1);
+  GI_PyIDEServices.ShowFilePosition(SelectedItem.FileName, SelectedItem.LineNo+1, 1);
 end;
 
 resourcestring

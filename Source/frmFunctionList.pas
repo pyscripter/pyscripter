@@ -611,7 +611,7 @@ begin
     ProcInfo := lvProcs.Selected.Data;
     if ProcInfo <> nil then
     begin
-      PyIDEMainForm.ShowFilePosition(fFileName, ProcInfo.LineNo, 1);
+      GI_PyIDEServices.ShowFilePosition(fFileName, ProcInfo.LineNo, 1);
       ModalResult := mrOk;
     end;
   end;

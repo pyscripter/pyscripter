@@ -137,12 +137,15 @@ type
       write fExternalTool;
   end;
 
+  TExternalToolExecute = procedure(Tool: TExternalTool) of object;
+
   TExternalToolAction = class(TAction)
   private
     fExternalTool : TExternalTool;
   protected
     procedure Change; override;
   public
+    class var ExternalToolExecute: TExternalToolExecute;
     function Execute: Boolean; override;
     function Update: Boolean; override;
     constructor CreateExtToolAction(AOwner: TComponent; ExternalTool : TExternalTool);
@@ -175,10 +178,9 @@ uses
   JclStrings,
   JvGnuGetText,
   cParameters,
-  frmCommandOutput,
-  dmCommands,
+  uEditAppIntfs,
   uCommonFunctions,
-  uEditAppIntfs;
+  cPyScripterSettings;
 
 
 function ExpandEnv(const S: string): string;
@@ -323,7 +325,7 @@ begin
       if FileExists(AppFile) then begin
         Index := GetIconIndexFromFile(AppFile, True);
         ImageIndex :=
-          CommandsDataModule.Images.AddImage(CommandsDataModule.imlShellIcon, Index) - 1;
+          TPyScripterSettings.Images.AddImage(TPyScripterSettings.ShellImages, Index) - 1;
       end;
     end;
   end;
@@ -331,10 +333,10 @@ end;
 
 function TExternalToolAction.Execute: Boolean;
 begin
-  if Assigned(fExternalTool) then begin
+  if Assigned(fExternalTool) and Assigned(ExternalToolExecute) then begin
     TThread.ForceQueue(nil, procedure
     begin
-      OutputWindow.ExecuteTool(fExternalTool);
+      ExternalToolExecute(fExternalTool);
     end);
   end;
   Result := True;

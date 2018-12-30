@@ -20,7 +20,6 @@ inherited PythonVersionsDialog: TPythonVersionsDialog
       Width = 628
       Height = 287
       Align = alClient
-      DefaultText = 'Node'
       Header.AutoSizeIndex = 0
       Header.Options = [hoColumnResize, hoDrag, hoShowSortGlyphs, hoVisible]
       Images = CommandsDataModule.Images

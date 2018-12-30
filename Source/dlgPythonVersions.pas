@@ -84,12 +84,13 @@ implementation
 {$R *.dfm}
 
 Uses
+  Winapi.ShellAPI,
+  Vcl.FileCtrl,
   JvGnuGetText,
   StringResources,
+  uEditAppIntfs,
   cPyControl,
-  Vcl.FileCtrl,
-  PythonVersions,
-  Winapi.ShellAPI;
+  PythonVersions;
 
 procedure TPythonVersionsDialog.actlPythonVersionsUpdate(Action: TBasicAction;
   var Handled: Boolean);
@@ -304,7 +305,7 @@ begin
   ImageIndex := -1;
   if not (Kind in [ikNormal, ikSelected]) or (Column <> 0) then Exit;
   Level := vtPythonVersions.GetNodeLevel(Node);
-  if (Level = 1) and PyControl.InternalPython.Loaded and
+  if (Level = 1) and GI_PyControl.PythonLoaded and
      (((Node.Parent.Index = 0) and (PyControl.PythonVersionIndex = integer(Node.Index))) or
       ((Node.Parent.Index = 1) and (PyControl.PythonVersionIndex = - (Node.Index + 1))))
   then

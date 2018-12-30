@@ -96,9 +96,8 @@ implementation
 
 uses
   ClipBrd, Math, JclBase, JclFileUtils, JclHookExcept, JclPeImage, JclStrings,
-  JclSysInfo, JclWin32, uCommonFunctions, PythonEngine, TypInfo, cPySupportTypes,
-  cPyScripterSettings,
-  cPyControl;
+  JclSysInfo, JclWin32, uCommonFunctions, PythonEngine, TypInfo,
+  uEditAppIntfs, cPySupportTypes, cPyScripterSettings;
 
 resourcestring
   RsAppError = '%s - application error';
@@ -326,7 +325,7 @@ begin
     // Version Info
     DetailsMemo.Lines.Add(Format('%s version : %s %s', [Application.Title,
       ApplicationVersion, WinPlatform]));
-    if PyControl.InternalPython.Loaded then
+    if GI_PyControl.PythonLoaded then
     begin
       DetailsMemo.Lines.Add(Format('Python DLL : %s', [GetPythonEngine.DllName]));
       DetailsMemo.Lines.Add(Format('Python Engine : %s',

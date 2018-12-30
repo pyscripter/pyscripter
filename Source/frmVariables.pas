@@ -92,9 +92,10 @@ uses
   PythonEngine,
   JvGnugettext,
   StringResources,
+  uEditAppIntfs,
+  uCommonFunctions,
   dmCommands,
   frmCallStack,
-  uCommonFunctions,
   cVirtualStringTreeHelper,
   cPyControl,
   cPySupportTypes,
@@ -287,7 +288,7 @@ Var
   OldGlobalsNameSpace, OldLocalsNamespace : TBaseNameSpaceItem;
 begin
   if ((PyControl.PythonEngineType = peSSH) and (PyIDEOptions.SSHDisableVariablesWin)) or
-     not (PyControl.InternalPython.Loaded and
+     not (GI_PyControl.PythonLoaded and
           Assigned(CallStackWindow) and
           Assigned(PyControl.ActiveInterpreter) and
           Assigned(PyControl.ActiveDebugger)) then
@@ -296,7 +297,7 @@ begin
      Exit;
   end;
 
-  if PyControl.Running then begin
+  if GI_PyControl.Running then begin
     // should not update
     VariablesTree.Enabled := False;
     Exit;

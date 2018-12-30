@@ -296,9 +296,6 @@ uses
   JvGnuGettext,
   JclSysInfo,
   StringResources,
-  dmCommands,
-  frmMessages,
-  frmPyIDEMain,
   uCommonFunctions,
   cPyControl,
   cPyDebugger,
@@ -382,8 +379,8 @@ Var
   FileName : string;
   Editor : IEditor;
 begin
-  MessagesWindow.ShowPythonTraceback(SkipFrames);
-  MessagesWindow.AddMessage(E.Message);
+  GI_PyIDEServices.Messages.ShowPythonTraceback(SkipFrames);
+  GI_PyIDEServices.Messages.AddMessage(E.Message);
   with GetPythonEngine.Traceback do begin
     if ItemCount > 0 then begin
       TI := Items[ItemCount -1];
@@ -392,10 +389,10 @@ begin
         FileName :=  Copy(FileName, 2, Length(FileName)-2);
       Editor := GI_EditorFactory.GetEditorByNameOrTitle(FileName);
       // Check whether the error occurred in the active editor
-      if (Assigned(Editor) and (Editor = PyIDEMainForm.GetActiveEditor)) or
+      if (Assigned(Editor) and (Editor = GI_PyIDEServices.GetActiveEditor)) or
         PyIDEOptions.JumpToErrorOnException then
       begin
-        if PyIDEMainForm.ShowFilePosition(TI.FileName, TI.LineNo, 1) and
+        if GI_PyIDEServices.ShowFilePosition(TI.FileName, TI.LineNo, 1) and
           Assigned(GI_ActiveEditor)
         then begin
           PyControl.ErrorPos.NewPos(GI_ActiveEditor, TI.LineNo);
@@ -411,7 +408,7 @@ procedure TPyBaseInterpreter.Initialize;
 Var
   FileName : String;
 begin
-  FileName := CommandsDataModule.UserDataPath + EngineInitFile;
+  FileName := TPyScripterSettings.UserDataPath + EngineInitFile;
 
   try
     RunScript(FileName);

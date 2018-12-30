@@ -334,7 +334,7 @@ begin
   finally
     PersistFileInfo.Free;
   end;
-  ActiveEditor := PyIDEMainForm.GetActiveEditor;
+  ActiveEditor := GI_PyIDEServices.GetActiveEditor;
   if Assigned(ActiveEditor) then
     FName := ActiveEditor.FileName
   else

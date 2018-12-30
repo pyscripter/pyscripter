@@ -64,8 +64,6 @@ object EditorForm: TEditorForm
         Height = 392
         Caption = 'Source'
         ImageIndex = -1
-        ExplicitWidth = 576
-        ExplicitHeight = 390
         TabItem = 'tabSource'
         object SynEdit: TSynEdit
           Left = 2
@@ -120,8 +118,6 @@ object EditorForm: TEditorForm
           OnStatusChange = SynEditStatusChange
           OnPaintTransient = SynEditPaintTransient
           FontSmoothing = fsmNone
-          ExplicitWidth = 365
-          ExplicitHeight = 386
           RemovedKeystrokes = <
             item
               Command = ecUp
@@ -540,8 +536,6 @@ object EditorForm: TEditorForm
           OnStatusChange = SynEditStatusChange
           OnPaintTransient = SynEditPaintTransient
           FontSmoothing = fsmNone
-          ExplicitLeft = 372
-          ExplicitHeight = 386
           RemovedKeystrokes = <
             item
               Command = ecUp
@@ -928,8 +922,6 @@ object EditorForm: TEditorForm
           ParentColor = False
           Visible = False
           GripSize = 80
-          ExplicitLeft = 367
-          ExplicitHeight = 386
         end
       end
     end

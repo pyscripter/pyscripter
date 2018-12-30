@@ -79,12 +79,11 @@ uses
   WinApi.Windows,
   VarPyth,
   dmCommands,
-  frmPyIDEMain,
   frmPythonII,
-  frmMessages,
   frmUnitTests,
   SynHighlighterPython,
   cPyScripterSettings,
+  uEditAppIntfs,
   uCommonFunctions;
 
 { TInternalPython }
@@ -325,7 +324,7 @@ begin
         S := string(FName)
       else
         S := '';
-      MessagesWindow.AddMessage(string(Msg), S, LineNo, Offset);
+      GI_PyIDEServices.Messages.AddMessage(string(Msg), S, LineNo, Offset);
       Result := ReturnNone;
     end else
       Result := nil;
@@ -383,7 +382,7 @@ Var
 begin
   with PythonEngine do
     if PyArg_ParseTuple( args, 's:statusWrite', @Msg) <> 0 then begin
-      PyIDEMainForm.WriteStatusMsg(string(Msg));
+      GI_PyIDEServices.WriteStatusMsg(string(Msg));
       Result := ReturnNone;
     end else
       Result := nil;

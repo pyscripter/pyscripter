@@ -22,9 +22,9 @@ Uses
   Vcl.Graphics,
   SynEditTypes,
   SynUnicode,
-  uEditAppIntfs,
   SpTBXSkins,
-  SynEdit;
+  SynEdit,
+  uEditAppIntfs;
 
 const
   UTF8BOMString : RawByteString = AnsiChar($EF) + AnsiChar($BB) + AnsiChar($BF);
@@ -364,11 +364,9 @@ Uses
   SynEditTextBuffer,
   VarPyth,
   PythonEngine,
-  frmPythonII,
   StringResources,
   cPyScripterSettings,
   cParameters,
-  cPyControl,
   cSSHSupport;
 
 function GetIconIndexFromFile(const AFileName: string;
@@ -1373,7 +1371,7 @@ begin
   wStr := Lines.Text;
   Lines.LineBreak := OldLineBreak;
 
-  if PyControl.InternalPython.Loaded and
+  if GI_PyControl.PythonLoaded and
     (IsPython or FileIsPythonSource(AFileName)) then
   begin
     PyEncoding := '';
@@ -1385,7 +1383,7 @@ begin
     with GetPythonEngine do begin
       if PyEncoding = '' then
         PyEncoding := SysModule.getdefaultencoding();
-      SuppressOutput := PythonIIForm.OutputSuppressor; // Do not show errors
+      SuppressOutput := GI_PyInterpreter.OutputSuppressor; // Do not show errors
       UniPy := nil;
       EncodedString := nil;
       try
@@ -1489,7 +1487,7 @@ begin
               end
               else
               begin
-                if not PyControl.InternalPython.Loaded or GetPythonEngine.IsPython3000 then
+                if not GI_PyControl.PythonLoaded or GetPythonEngine.IsPython3000 then
                   Encoding := sf_UTF8_NoBOM
                 else
                   Encoding := sf_Ansi;
@@ -1523,7 +1521,7 @@ begin
         case Encoding of
           sf_Ansi :
             // if it is a Pytyhon file detect an encoding spec
-            if PyControl.InternalPython.Loaded and IsPythonFile and (PyEncoding <> '') then
+            if GI_PyControl.PythonLoaded and IsPythonFile and (PyEncoding <> '') then
             begin
               PyWstr := nil;
               try

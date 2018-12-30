@@ -95,7 +95,6 @@ implementation
 uses
   System.Generics.Defaults,
   System.Math,
-  frmPyIDEMain,
   frmVariables,
   frmWatches,
   uCommonFunctions,
@@ -158,7 +157,7 @@ procedure TCallStackWindow.UpdateWindow(DebuggerState, OldState : TDebuggerState
 // The Call Stack is visible only when paused or in Post Mortem
 // The visibility of the Call stack is controlled by ThreadChangeNotify
 begin
-  if PyControl.InternalPython.Loaded then
+  if GI_PyControl.PythonLoaded then
     case DebuggerState of
       dsPaused, dsPostMortem:
          begin
@@ -254,7 +253,7 @@ begin
     Assert(Integer(SelectedNode.Index) < fActiveThread.CallStack.Count);
     FrameData := SelectedNode.GetData;
     if FrameData.FileName <> '' then
-      PyIDEMainForm.ShowFilePosition(FrameData.FileName, FrameData.Line, 1);
+      GI_PyIDEServices.ShowFilePosition(FrameData.FileName, FrameData.Line, 1);
   end;
 end;
 

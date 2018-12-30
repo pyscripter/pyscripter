@@ -70,7 +70,6 @@ uses
   JvGnugettext,
   StringResources,
   dmCommands,
-  frmPyIDEMain,
   uEditAppIntfs,
   uCommonFunctions,
   cPyScripterSettings,
@@ -84,7 +83,7 @@ Var
   Editor : IEditor;
 begin
   Result:= '';
-  Editor := PyIDEMainForm.GetActiveEditor;
+  Editor := GI_PyIDEServices.GetActiveEditor;
   if Assigned(Editor) then
     Result:= Editor.GetFileNameOrTitle;
 end;
@@ -473,13 +472,13 @@ end;
 function GetActivePythonDir : string;
 begin
   Result := '';
-  if PyControl.InternalPython.Loaded then
+  if GI_PyControl.PythonLoaded then
     Result := IncludeTrailingPathDelimiter(PyControl.PythonVersion.InstallPath);
 end;
 
 function GetActivePythonExe : string;
 begin
-  if PyControl.InternalPython.Loaded then
+  if GI_PyControl.PythonLoaded then
     Result := PyControl.PythonVersion.PythonExecutable
   else
     Result := 'python.exe';
@@ -509,7 +508,7 @@ end;
 function GetPythonVersion: string;
 begin
   Result := '';
-  if PyControl.InternalPython.Loaded then
+  if GI_PyControl.PythonLoaded then
     Result := PyControl.PythonVersion.SysVersion;
 end;
 

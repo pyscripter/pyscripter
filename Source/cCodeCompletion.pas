@@ -58,6 +58,7 @@ uses
   dmCommands,
   SynHighlighterPython,
   StringResources,
+  uEditAppIntfs,
   uCommonFunctions,
   cPyBaseDebugger,
   cPyDebugger,
@@ -780,9 +781,9 @@ begin
   end else
     lookup := '';  // Completion from global namespace
   if (Index <= 0) or (lookup <> '') then begin
-    if PyControl.Inactive then
+    if GI_PyControl.Inactive then
       fPyNameSpace := PyControl.ActiveInterpreter.NameSpaceFromExpression(lookup)
-    else if PyControl.InternalPython.Loaded and not PyControl.Running then
+    else if GI_PyControl.PythonLoaded and not GI_PyControl.Running then
       fPyNameSpace := PyControl.ActiveDebugger.NameSpaceFromExpression(lookup);
   end;
 
