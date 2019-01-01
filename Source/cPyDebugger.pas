@@ -120,7 +120,6 @@ type
     fDebuggerCommand : TDebuggerCommand;
     fLineCache : Variant;
     fMainThread : TThreadInfo;
-    fOldPS1, fOldPS2 : string;
     InternalInterpreter : TPyInternalInterpreter;
   protected
     procedure SetCommandLine(ARunConfig : TRunConfiguration); override;
@@ -178,9 +177,6 @@ uses
   JclSysInfo,
   VarPyth,
   StringResources,
-  dmCommands,
-  frmPythonII,
-  frmPyIDEMain,
   uCommonFunctions,
   cRefactoring,
   cPyScripterSettings,
@@ -476,13 +472,9 @@ Var
 begin
   if not (HaveTraceback and (PyControl.DebuggerState = dsInactive)) then
     Exit;
-  with PythonIIForm do begin
-    fOldPS1 := PS1;
-    PS1 := PMPrefix + PS1;
-    fOldPS2 := PS2;
-    PS2 := PMPrefix + PS2;
-    AppendPrompt;
-  end;
+
+  GI_PyInterpreter.SetPyInterpreterPrompt(pipPostMortem);
+  GI_PyInterpreter.AppendPrompt;
 
   TraceBack := SysModule.last_traceback;
   Botframe := TraceBack.tb_frame;
@@ -539,11 +531,9 @@ end;
 
 procedure TPyInternalDebugger.ExitPostMortem;
 begin
-  with PythonIIForm do begin
-    PS1 := fOldPS1;
-    PS2 := fOldPS2;
-    AppendText(sLineBreak+PS1);
-  end;
+  GI_PyInterpreter.SetPyInterpreterPrompt(pipNormal);
+  GI_PyInterpreter.AppendPrompt;
+
   fMainThread.Status := thrdRunning;
   fMainThread.CallStack.Clear;
   TPyBaseDebugger.ThreadChangeNotify(fMainThread, tctStatusChange);
@@ -661,21 +651,16 @@ begin
     Editor := GI_ActiveEditor;
     ReturnFocusToEditor := Assigned(Editor);
     // Set the layout to the Debug layout is it exists
-    if PyIDEMainForm.Layouts.IndexOf('Debug') >= 0 then begin
-      PyIDEMainForm.SaveLayout('Current');
-      PyIDEMainForm.LoadLayout('Debug');
+    if GI_PyIDEServices.Layouts.LayoutExists('Debug') then begin
+      GI_PyIDEServices.Layouts.SaveLayout('Current');
+      GI_PyIDEServices.Layouts.LoadLayout('Debug');
       Application.ProcessMessages;
     end else
-      PyIDEMainForm.actNavInterpreterExecute(nil);
+      GI_PyInterpreter.ShowWindow;
 
     try
-      with PythonIIForm do begin
-        fOldPS1 := PS1;
-        PS1 := DebugPrefix + PS1;
-        fOldPS2 := PS2;
-        PS2 := DebugPrefix + PS2;
-        AppendPrompt;
-      end;
+      GI_PyInterpreter.SetPyInterpreterPrompt(pipDebug);
+      GI_PyInterpreter.AppendPrompt;
       //attach debugger callback routines
       with PyControl.InternalPython.DebugIDE.Events do begin
         Items[dbie_user_call].OnExecute := UserCall;
@@ -691,7 +676,7 @@ begin
         InternalInterpreter.Debugger.set_break(Code.co_filename, RunToCursorLine, 1);
 
       // New Line for output
-      PythonIIForm.AppendText(sLineBreak);
+      GI_PyInterpreter.AppendText(sLineBreak);
 
       // Set the command line parameters
       SetCommandLine(ARunConfig);
@@ -711,11 +696,8 @@ begin
 
     finally
       MakeFrameActive(nil);
-      with PythonIIForm do begin
-        PS1 := fOldPS1;
-        PS2 := fOldPS2;
-        AppendPrompt;
-      end;
+      GI_PyInterpreter.SetPyInterpreterPrompt(pipNormal);
+      GI_PyInterpreter.AppendPrompt;
 
       // Restore the command line parameters
       RestoreCommandLine;
@@ -726,8 +708,8 @@ begin
       // Change the back current path
       SetCurrentDir(OldPath);
 
-      if PyIDEMainForm.Layouts.IndexOf('Debug') >= 0 then
-        PyIDEMainForm.LoadLayout('Current');
+      if GI_PyIDEServices.Layouts.LayoutExists('Debug') then
+        GI_PyIDEServices.Layouts.LoadLayout('Current');
 
       PyControl.DoStateChange(dsInactive);
       if ReturnFocusToEditor then
@@ -793,14 +775,14 @@ end;
 procedure TPyInternalDebugger.UserCall(Sender: TObject; PSelf, Args: PPyObject;
   var Result: PPyObject);
 begin
-   // PythonIIForm.AppendText('UserCall'+sLineBreak);
+   // GI_PyInterpreter.AppendText('UserCall'+sLineBreak);
    Result := GetPythonEngine.ReturnNone;
 end;
 
 procedure TPyInternalDebugger.UserException(Sender: TObject; PSelf,
   Args: PPyObject; var Result: PPyObject);
 begin
-   // PythonIIForm.AppendText('UserException'+sLineBreak);
+   // GI_PyInterpreter.AppendText('UserException'+sLineBreak);
    Result := GetPythonEngine.ReturnNone;
 end;
 
@@ -1043,7 +1025,7 @@ begin
     co := Py_CompileString(PAnsiChar(Source), PAnsiChar(FName), file_input );
     if not Assigned( co ) then begin
       // New Line for output
-      PythonIIForm.AppendText(sLineBreak);
+      GI_PyInterpreter.AppendText(sLineBreak);
       try
         // Print and throw exception for the error
         CheckError;
@@ -1056,7 +1038,7 @@ begin
             PyControl.DoErrorPosChanged;
           end;
 
-          PythonIIForm.AppendPrompt;
+          GI_PyInterpreter.AppendPrompt;
           Vcl.Dialogs.MessageDlg(E.Message, mtError, [mbOK], 0);
           System.SysUtils.Abort;
         end;
@@ -1235,7 +1217,7 @@ begin
       else
        SysMod.argv.append(VarPythonCreate(AnsiString(Param)));
     end;
-    PythonIIForm.AppendText(Format(_(SCommandLineMsg), [S]));
+    GI_PyInterpreter.AppendText(Format(_(SCommandLineMsg), [S]));
   end;
 end;
 
@@ -1284,7 +1266,7 @@ begin
     PyControl.DoStateChange(dsRunning);
 
     // New Line for output
-    PythonIIForm.AppendText(sLineBreak);
+    GI_PyInterpreter.AppendText(sLineBreak);
 
     mmResult := 0;
     Resolution := 100;
@@ -1318,7 +1300,7 @@ begin
 
     Editor := GI_ActiveEditor;
     ReturnFocusToEditor := Assigned(Editor);
-    PyIDEMainForm.actNavInterpreterExecute(nil);
+    GI_PyInterpreter.ShowWindow;
 
     try
       // Set Multimedia Timer
@@ -1347,7 +1329,7 @@ begin
         if (mmResult <> 0) then TimeKillEvent(mmResult);
         TimeEndPeriod(Resolution);
       end;
-      PythonIIForm.AppendPrompt;
+      GI_PyInterpreter.AppendPrompt;
 
       // Restore the command line parameters
       RestoreCommandLine;
@@ -1457,7 +1439,7 @@ begin
         // New Line for output
         GI_PyIDEServices.Messages.ClearMessages;
 
-        PythonIIForm.AppendText(sLineBreak);
+        GI_PyInterpreter.AppendText(sLineBreak);
         try
           // Print and throw exception for the error
           CheckError;
@@ -1473,7 +1455,7 @@ begin
             if Not Quiet then Vcl.Dialogs.MessageDlg(E.Message, mtError, [mbOK], 0);
           end;
         end;
-        PythonIIForm.AppendPrompt;
+        GI_PyInterpreter.AppendPrompt;
       end;
     end;
   end;

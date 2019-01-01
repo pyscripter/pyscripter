@@ -272,12 +272,11 @@ uses
   JvGnugettext,
   SynCompletionProposal,
   StringResources,
+  uEditAppIntfs,
   uCommonFunctions,
   cRefactoring,
   cPySupportTypes,
   cPyBaseDebugger,
-  cPyDebugger,
-  cPyControl,
   cSSHSupport;
 
 Const
@@ -1225,9 +1224,7 @@ begin
   else
     Path := '';
   if Length(Path) > 1 then
-  begin
-    PythonPathAdder :=  PyControl.InternalInterpreter.AddPathToPythonPath(Path);
-  end;
+    PythonPathAdder :=  GI_PyControl.AddPathToInternalPythonPath(Path);
   //  Add from imported modules
   for i := 0 to fImportedModules.Count - 1 do
   begin

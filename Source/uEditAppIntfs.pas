@@ -15,6 +15,8 @@ uses
   System.Classes,
   System.Contnrs,
   Vcl.Forms,
+  JvAppStorage,
+  PythonEngine,
   SynEdit,
   SpTBXTabs;
 
@@ -184,13 +186,28 @@ type
   IMessageServices = interface
   ['{CF747CB1-A5C0-48DC-BE8E-7857074887AD}']
     procedure ShowWindow;
-    procedure AddMessage(Msg: string; FileName : string = '';
+    procedure AddMessage(const Msg: string; const FileName : string = '';
        Line : integer = 0; Offset : integer = 0; SelLen : integer = 0);
     procedure ClearMessages;
     procedure ShowPythonTraceback(SkipFrames : integer = 1);
     procedure ShowTraceback(Traceback : Variant; SkipFrames : integer = 0);
   end;
 
+  IUnitTestServices = interface
+  ['{E78B808E-5BFA-4480-BC22-72DC5069BB8A}']
+    procedure StartTest(Test: Variant);
+    procedure StopTest(Test: Variant);
+    procedure AddError(Test, Err: Variant);
+    procedure AddFailure(Test, Err: Variant);
+    procedure AddSuccess(Test: Variant);
+  end;
+
+  IIDELayouts = interface
+  ['{506187EB-6438-4B0B-92B0-07112F812EE8}']
+    function LayoutExists(const Layout: string): Boolean;
+    procedure LoadLayout(const Layout: string);
+    procedure SaveLayout(const Layout: string);
+  end;
 
   IPyIDEServices = interface
   ['{F6E853D8-9527-4AF2-BF15-76DB1FF75F7A}']
@@ -199,12 +216,25 @@ type
       If want the active editor with focus then use GI_ActiveEditor
     }
     function GetActiveEditor : IEditor;
-    procedure WriteStatusMsg(S: string);
+    procedure WriteStatusMsg(const S: string);
     function ShowFilePosition(FileName: string; Line,
       Offset: integer; SelLen : integer = 0; ForceToMiddle : Boolean = True;
       FocusEditor : Boolean = True): Boolean;
+    procedure ClearPythonWindows;
+    procedure SaveEnvironment;
+    procedure SaveFileModules;
+    procedure SetRunLastScriptHints(const ScriptName : string);
+    function GetStoredScript(const Name: string): TStrings;
     function GetMessageServices: IMessageServices;
+    function GetUnitTestServices: IUnitTestServices;
+    function GetIDELayouts: IIDELayouts;
+    function GetAppStorage: TJvCustomAppStorage;
+    function GetLocalAppStorage: TJvCustomAppStorage;
     property Messages: IMessageServices read GetMessageServices;
+    property UnitTests: IUnitTestServices read GetUnitTestServices;
+    property Layouts: IIDELayouts read GetIDELayouts;
+    property AppStorage: TJvCustomAppStorage read GetAppStorage;
+    property LocalAppStorage: TJvCustomAppStorage read GetLocalAppStorage;
   end;
 
   IPyControl = interface
@@ -212,11 +242,28 @@ type
     function PythonLoaded: Boolean;
     function Running: boolean;
     function Inactive: boolean;
+    function AddPathToInternalPythonPath(const Path: string): IInterface;
   end;
 
+  TPyInterpreterPropmpt = (pipNormal, pipDebug, pipPostMortem);
   IPyInterpreter = interface
   ['{6BAAD187-B00E-4E2A-B01D-C47EED922E59}']
+    procedure ShowWindow;
+    procedure AppendPrompt;
+    procedure AppendText(const S: string);
+    procedure PrintInterpreterBanner(AVersion: string = ''; APlatform: string = '');
+    procedure WritePendingMessages;
+    procedure ClearPendingMessages;
+    procedure ClearDisplay;
+    procedure ClearLastPrompt;
     function OutputSuppressor : IInterface;
+    procedure StartOutputMirror(const AFileName : string; Append : Boolean);
+    procedure StopFileMirror;
+    procedure UpdatePythonKeywords;
+    procedure SetPyInterpreterPrompt(Pip: TPyInterpreterPropmpt);
+    procedure ReinitInterpreter;
+    function GetPythonIO: TPythonInputOutput;
+    property PythonIO: TPythonInputOutput read GetPythonIO;
   end;
 
 var

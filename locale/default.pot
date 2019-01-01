@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2018-12-29 04:02\n"
+"POT-Creation-Date: 2019-01-01 05:22\n"
 "PO-Revision-Date: 2018-01-23 16:26\n"
 "Last-Translator: Somebody <your.email@address.com>\n"
 "MIME-Version: 1.0\n"
@@ -212,7 +212,7 @@ msgstr ""
 #. PythonVersionsDialog..Panel1..vtPythonVersions......Text
 #. ToolProperties..Panel1..TabControl..tabEnvironment..lvItems......Caption
 #. RegExpTesterWindow..BGPanel..FGPanel..pnlBackground..dpGroupsView..GroupsView......Text
-#. VariablesWindow..BGPanel..FGPanel..Panel1..VariablesTree......WideText
+#. VariablesWindow..BGPanel..FGPanel..Panel1..VariablesTree......Text
 #: dlgCodeTemplates.dfm dlgCustomParams.dfm dlgFileTemplates.dfm
 #: dlgPythonVersions.dfm dlgToolProperties.dfm frmRegExpTester.dfm
 #: frmVariables.dfm frmVariables.pas
@@ -413,8 +413,8 @@ msgstr ""
 #. OptionsInspector..Panel1..Inspector..HeaderValueText
 #. ToolProperties..Panel1..TabControl..tabEnvironment..lvItems......Caption
 #. RegExpTesterWindow..BGPanel..FGPanel..pnlBackground..dpGroupsView..GroupsView......Text
-#. VariablesWindow..BGPanel..FGPanel..Panel1..VariablesTree......WideText
-#. WatchesWindow..BGPanel..FGPanel..Panel1..WatchesView......WideText
+#. VariablesWindow..BGPanel..FGPanel..Panel1..VariablesTree......Text
+#. WatchesWindow..BGPanel..FGPanel..Panel1..WatchesView......Text
 #: dlgCustomParams.dfm dlgOptionsEditor.dfm dlgToolProperties.dfm
 #: frmRegExpTester.dfm frmVariables.dfm frmWatches.dfm frmVariables.pas
 msgid "Value"
@@ -813,15 +813,6 @@ msgstr ""
 #. PythonIIForm..InterpreterPopUp..mnPythonVersions..Caption
 #: dlgPythonVersions.dfm frmPyIDEMain.dfm frmPythonII.dfm
 msgid "Python Versions"
-msgstr ""
-
-#. PythonVersionsDialog..Panel1..vtPythonVersions..DefaultText
-#. ProjectExplorerWindow..BGPanel..FGPanel..Panel1..ExplorerTree..DefaultText
-#. RegExpTesterWindow..BGPanel..FGPanel..pnlBackground..dpGroupsView..GroupsView..DefaultText
-#. ToDoWindow..BGPanel..FGPanel..ToDoView..DefaultText
-#: dlgPythonVersions.dfm frmProjectExplorer.dfm frmRegExpTester.dfm
-#: frmToDo.dfm
-msgid "Node"
 msgstr ""
 
 #. PythonVersionsDialog..Panel1..vtPythonVersions......Text
@@ -3461,25 +3452,25 @@ msgstr ""
 msgid "Breakpoints"
 msgstr ""
 
-#. BreakPointsWindow..BGPanel..FGPanel..Panel1..BreakPointsView......WideText
-#. CallStackWindow..BGPanel..FGPanel..Panel1..CallStackView......WideText
-#. MessagesWindow..BGPanel..FGPanel..MessagesView......WideText
+#. BreakPointsWindow..BGPanel..FGPanel..Panel1..BreakPointsView......Text
+#. CallStackWindow..BGPanel..FGPanel..Panel1..CallStackView......Text
+#. MessagesWindow..BGPanel..FGPanel..MessagesView......Text
 #. ToDoWindow..BGPanel..FGPanel..ToDoView......Text
 #: frmBreakPoints.dfm frmCallStack.dfm frmMessages.dfm frmToDo.dfm
 msgid "File Name"
 msgstr ""
 
-#. BreakPointsWindow..BGPanel..FGPanel..Panel1..BreakPointsView......WideText
-#. CallStackWindow..BGPanel..FGPanel..Panel1..CallStackView......WideText
+#. BreakPointsWindow..BGPanel..FGPanel..Panel1..BreakPointsView......Text
+#. CallStackWindow..BGPanel..FGPanel..Panel1..CallStackView......Text
 #. FunctionListWindow..pnHolder..lvProcs......Caption
-#. MessagesWindow..BGPanel..FGPanel..MessagesView......WideText
+#. MessagesWindow..BGPanel..FGPanel..MessagesView......Text
 #. ToDoWindow..BGPanel..FGPanel..ToDoView......Text
 #: frmBreakPoints.dfm frmCallStack.dfm frmFunctionList.dfm frmMessages.dfm
 #: frmToDo.dfm
 msgid "Line"
 msgstr ""
 
-#. BreakPointsWindow..BGPanel..FGPanel..Panel1..BreakPointsView......WideText
+#. BreakPointsWindow..BGPanel..FGPanel..Panel1..BreakPointsView......Text
 #: frmBreakPoints.dfm
 msgid "Condition"
 msgstr ""
@@ -3517,13 +3508,13 @@ msgstr ""
 msgid "Call Stack"
 msgstr ""
 
-#. CallStackWindow..BGPanel..FGPanel..Panel1..CallStackView......WideText
+#. CallStackWindow..BGPanel..FGPanel..Panel1..CallStackView......Text
 #. Programmer's name for it: SYNS_FriendlyFunctionName
 #: frmCallStack.dfm SynHighlighterPython.pas
 msgid "Function Name"
 msgstr ""
 
-#. CallStackWindow..BGPanel..FGPanel..Panel2..ThreadView......WideText
+#. CallStackWindow..BGPanel..FGPanel..Panel2..ThreadView......Text
 #: frmCallStack.dfm
 msgid "Threads"
 msgstr ""
@@ -4248,12 +4239,12 @@ msgstr ""
 msgid "Messages"
 msgstr ""
 
-#. MessagesWindow..BGPanel..FGPanel..MessagesView......WideText
+#. MessagesWindow..BGPanel..FGPanel..MessagesView......Text
 #: frmMessages.dfm
 msgid "Message"
 msgstr ""
 
-#. MessagesWindow..BGPanel..FGPanel..MessagesView......WideText
+#. MessagesWindow..BGPanel..FGPanel..MessagesView......Text
 #: frmMessages.dfm
 msgid "Position"
 msgstr ""
@@ -5827,6 +5818,11 @@ msgstr ""
 msgid "Groups:"
 msgstr ""
 
+#. RegExpTesterWindow..BGPanel..FGPanel..pnlBackground..dpGroupsView..GroupsView..DefaultText
+#: frmRegExpTester.dfm
+msgid "Node"
+msgstr ""
+
 #. RegExpTesterWindow..BGPanel..FGPanel..pnlBackground..dpRegExpText..SpTBXPanel1..TBXLabel3..Caption
 #: frmRegExpTester.dfm
 msgid "Regular Expression"
@@ -6000,14 +5996,14 @@ msgstr ""
 msgid "Variables"
 msgstr ""
 
-#. VariablesWindow..BGPanel..FGPanel..Panel1..VariablesTree......WideText
-#. WatchesWindow..BGPanel..FGPanel..Panel1..WatchesView......WideText
+#. VariablesWindow..BGPanel..FGPanel..Panel1..VariablesTree......Text
+#. WatchesWindow..BGPanel..FGPanel..Panel1..WatchesView......Text
 #: frmVariables.dfm frmWatches.dfm frmVariables.pas
 msgid "Type"
 msgstr ""
 
 #. WatchesWindow..Caption
-#. WatchesWindow..BGPanel..FGPanel..Panel1..WatchesView......WideText
+#. WatchesWindow..BGPanel..FGPanel..Panel1..WatchesView......Text
 #: frmWatches.dfm
 msgid "Watches"
 msgstr ""
@@ -6896,6 +6892,16 @@ msgstr ""
 msgid "False"
 msgstr ""
 
+#. Programmer's name for it: SDSActkShowText
+#: StringResources.pas
+msgid "Do not show this dialog again"
+msgstr ""
+
+#. Programmer's name for it: SDSActkRememberText
+#: StringResources.pas
+msgid "Remember answer and do not show again"
+msgstr ""
+
 #. Programmer's name for it: SInternalError
 #: StringResources.pas
 #, object-pascal-format
@@ -7477,14 +7483,14 @@ msgstr ""
 #: StringResources.pas
 msgid ""
 "The 'jupyter' package is not available.\n"
-"Please install 'jupiter' first"
+"Please install 'jupyter' first."
 msgstr ""
 
 #. Programmer's name for it: SExternalProcessRunning
 #: StringResources.pas
 msgid ""
 "An external process is still running.\n"
-"Please terminate it first from the 'Output' window"
+"Please terminate it first from the 'Output' window."
 msgstr ""
 
 #. Project Manager

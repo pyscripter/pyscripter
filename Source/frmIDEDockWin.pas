@@ -11,9 +11,20 @@ unit frmIDEDockWin;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, JvDockControlForm, ExtCtrls, SpTBXSkins,
-  JvComponentBase, SpTBXItem;
+  Winapi.Windows,
+  Winapi.Messages,
+  System.SysUtils,
+  System.Variants,
+  System.Classes,
+  Vcl.Graphics,
+  Vcl.Controls,
+  Vcl.Forms,
+  Vcl.Dialogs,
+  Vcl.ExtCtrls,
+  JvComponentBase,
+  JvDockControlForm,
+  SpTBXSkins,
+  SpTBXItem;
 
 type
   TIDEDockWindow = class(TForm)
@@ -44,7 +55,10 @@ var
 
 implementation
 
-uses frmPyIDEMain, uCommonFunctions, Vcl.Themes;
+uses
+  Vcl.Themes,
+  frmPyIDEMain,
+  uCommonFunctions;
 
 {$R *.dfm}
 

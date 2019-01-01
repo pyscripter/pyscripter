@@ -94,7 +94,6 @@ uses
   JclStrings,
   JvGnugettext,
   StringResources,
-  frmPythonII,
   uEditAppIntfs,
   uCommonFunctions,
   cPyBaseDebugger,
@@ -164,7 +163,7 @@ begin
       Path := '';
     if Length(Path) > 1 then
     begin
-      PythonPathAdder :=  PyControl.InternalInterpreter.AddPathToPythonPath(Path);
+      PythonPathAdder :=  GI_PyControl.AddPathToInternalPythonPath(Path);
     end;
   end;
 
@@ -747,7 +746,7 @@ begin
     Path := '';
   if Length(Path) > 1 then
   begin
-    PythonPathAdder :=  PyControl.InternalInterpreter.AddPathToPythonPath(Path);
+    PythonPathAdder :=  GI_PyControl.AddPathToInternalPythonPath(Path);
   end;
 
   // GetParsedModule

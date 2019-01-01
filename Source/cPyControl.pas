@@ -54,6 +54,7 @@ type
     Holds information Breakpoints, ErrorPos, CurrentPos
   }
   private
+    fFinalizing: Boolean;
     fBreakPointsChanged: Boolean;
     fDebuggerState: TDebuggerState;
     fOnBreakpointChange: TBreakpointChangeEvent;
@@ -86,6 +87,7 @@ type
     function PythonLoaded: Boolean;
     function Running: boolean;
     function Inactive: boolean;
+    function AddPathToInternalPythonPath(const Path: string): IInterface;
   public
     // ActiveInterpreter and ActiveDebugger are created
     // and destroyed in frmPythonII
@@ -142,6 +144,7 @@ type
       write fBreakPointsChanged;
     property DebuggerState: TDebuggerState read fDebuggerState;
     property RunConfig: TRunConfiguration read fRunConfig;
+    property Finalizing: Boolean read fFinalizing;
     property OnBreakpointChange: TBreakpointChangeEvent read fOnBreakpointChange
       write fOnBreakpointChange;
     property OnCurrentPosChange: TNotifyEvent read fOnCurrentPosChange
@@ -170,11 +173,6 @@ uses
   JvJVCLUtils,
   VarPyth,
   StringResources,
-  frmPythonII,
-  frmPyIDEMain,
-  frmCommandOutput,
-  frmVariables,
-  frmUnitTests,
   uCmdLine,
   cPyScripterSettings,
   cParameters,
@@ -231,13 +229,13 @@ begin
   PrepareRun;
 
   if fRunConfig.WriteOutputToFile then
-    PythonIIForm.StartOutputMirror(Parameters.ReplaceInText(fRunConfig.OutputFileName),
+    GI_PyInterpreter.StartOutputMirror(Parameters.ReplaceInText(fRunConfig.OutputFileName),
       fRunConfig.AppendToFile);
   try
     ActiveDebugger.Debug(fRunConfig, InitStepIn, RunToCursorLine);
   finally
     if fRunConfig.WriteOutputToFile then
-      PythonIIForm.StopFileMirror;
+      GI_PyInterpreter.StopFileMirror;
   end;
 end;
 
@@ -339,7 +337,7 @@ begin
     expectedVersion := '3.7';
   DllPath := CmdLineReader.readString('PYTHONDLLPATH');
 
-  ReadFromAppStorage(PyIDEMainForm.LocalAppStorage, LastVersion, LastInstallPath);
+  ReadFromAppStorage(GI_PyIDEServices.LocalAppStorage, LastVersion, LastInstallPath);
   if (DllPath = '') and (expectedVersion = '') then
   begin
     expectedVersion := LastVersion;
@@ -519,8 +517,7 @@ begin
     Exit;
   end;
 
-  VariablesWindow.ClearAll;
-  UnitTestWindow.ClearAll;
+  GI_PyIDEServices.ClearPythonWindows;
 
   case Value of
     peInternal:
@@ -587,14 +584,11 @@ begin
     peRemoteWx : Msg := Format(_(SEngineActive), ['Remote (Wx)']);
     peSSH : Msg := Format(_(SEngineActive), [Format('"%s" SSH', [ActiveSSHServerName])]);
   end;
-  with PythonIIForm do begin
-    if SynEdit.Lines[SynEdit.Lines.Count-1] = PS1 then
-      SynEdit.Lines.Delete(SynEdit.Lines.Count -1);
-    AppendText(sLineBreak + Msg);
-    if PyIDEOptions.PythonEngineType = peSSH then with ActiveInterpreter as TPySSHInterpreter do
-      PrintInterpreterBanner(PythonVersion, RemotePlatform);
-    AppendPrompt;
-  end;
+  GI_PyInterpreter.ClearLastPrompt;
+  GI_PyInterpreter.AppendText(sLineBreak + Msg);
+  if PyIDEOptions.PythonEngineType = peSSH then with ActiveInterpreter as TPySSHInterpreter do
+    GI_PyInterpreter.PrintInterpreterBanner(PythonVersion, RemotePlatform);
+  GI_PyInterpreter.AppendPrompt;
 
   DoStateChange(dsInactive);
 end;
@@ -605,6 +599,11 @@ begin
     fPythonVersionIndex := Value;
     LoadPythonEngine(PythonVersion);
   end;
+end;
+
+function TPythonControl.AddPathToInternalPythonPath(const Path: string): IInterface;
+begin
+  Result := InternalInterpreter.AddPathToPythonPath(Path);
 end;
 
 procedure TPythonControl.ClearAllBreakpoints;
@@ -663,7 +662,7 @@ end;
 procedure TPythonControl.ExternalRun(ARunConfig: TRunConfiguration);
 begin
   SetRunConfig(ARunConfig);
-  OutputWindow.ExecuteTool(fRunConfig.ExternalRun);
+  fRunConfig.ExternalRun.Execute;
 end;
 
 procedure TPythonControl.PrepareRun;
@@ -671,13 +670,13 @@ Var
   Server, FName: string;
 begin
   if PyIDEOptions.SaveFilesBeforeRun then begin
-    PyIDEMainForm.SaveFileModules;
-    PyIDEMainForm.Refresh;        // To update save flags
+    GI_PyIDEServices.SaveFileModules;
+    Application.MainForm.Refresh;        // To update save flags
   end;
   if PyIDEOptions.SaveEnvironmentBeforeRun then
-    PyIDEMainForm.SaveEnvironment;
+    GI_PyIDEServices.SaveEnvironment;
   if PyIDEOptions.ClearOutputBeforeRun then
-    PythonIIForm.actClearContentsExecute(nil);
+    GI_PyInterpreter.ClearDisplay;
 
   if (fRunConfig.EngineType <> PythonEngineType) or ((PythonEngineType = peSSH) and
     TSSHFileName.Parse(fRunConfig.ScriptName, Server, FName) and (Server <> ActiveSSHServerName))
@@ -687,8 +686,10 @@ begin
     PythonEngineType := fRunConfig.EngineType
   end else if (icReInitialize in ActiveInterpreter.InterpreterCapabilities) and
     fRunConfig.ReinitializeBeforeRun
-  then
+  then begin
     ActiveInterpreter.ReInitialize;
+    GI_PyInterpreter.ClearLastPrompt;
+  end;
 end;
 
 function TPythonControl.PythonLoaded: Boolean;
@@ -704,7 +705,7 @@ begin
     // Expand Parameters in filename
     fRunConfig.ScriptName := '';  // to avoid circular substitution
     fRunConfig.ScriptName := Parameters.ReplaceInText(ARunConfig.ScriptName);
-    PyIDEMainForm.SetRunLastScriptHints(fRunConfig.ScriptName);
+    GI_PyIDEServices.SetRunLastScriptHints(fRunConfig.ScriptName);
   end;
 end;
 
@@ -728,7 +729,7 @@ Var
 begin
   if InternalPython.Loaded then
   begin
-    VariablesWindow.ClearAll;
+    GI_PyIDEServices.ClearPythonWindows;
     PyScripterRefactor.ClearProxyModules;
   end;
 
@@ -740,7 +741,7 @@ begin
   if InternalPython.LoadPython(APythonVersion) then
   begin
     fPythonHelpFile := APythonVersion.HelpFile;
-    PythonIIForm.PrintInterpreterBanner;
+    GI_PyInterpreter.PrintInterpreterBanner;
 
     // Create internal Interpreter and Debugger
     II := VarPythonEval('_II');
@@ -779,13 +780,13 @@ begin
   PrepareRun;
 
   if fRunConfig.WriteOutputToFile then
-    PythonIIForm.StartOutputMirror(Parameters.ReplaceInText(fRunConfig.OutputFileName),
+    GI_PyInterpreter.StartOutputMirror(Parameters.ReplaceInText(fRunConfig.OutputFileName),
       fRunConfig.AppendToFile);
   try
     ActiveInterpreter.Run(fRunConfig);
   finally
     if fRunConfig.WriteOutputToFile then
-      PythonIIForm.StopFileMirror;
+      GI_PyInterpreter.StopFileMirror;
   end;
 end;
 
@@ -869,6 +870,7 @@ end;
 initialization
   PyControl := TPythonControl.Create(nil);
 finalization
+  PyControl.fFinalizing := True;
   // Destroy Active debugger outside PyControl.Destory
   PyControl.ActiveDebugger := nil;
   PyControl.ActiveInterpreter := nil;

@@ -2,6 +2,7 @@ unit StringResources;
 
 interface
 {gnugettext: scan-all}
+
 Const
   // Delphi dialogs (from Vcl.Consts)
   SDlgWarning = 'Warning';
@@ -24,6 +25,9 @@ Const
 
   STrueValue = 'True';
   SFalseValue = 'False';
+
+  SDSActkShowText = 'Do not show this dialog again';
+  SDSActkRememberText = 'Remember answer and do not show again';
 
   SInternalError = 'Internal Error in %s';
   SNotFound = '"%s" not found';
@@ -168,9 +172,9 @@ Const
   SErrorInitScript = 'Error in running initialization script %s: "%s"';
   SOpenDialogFilter = 'Open dialog %s filter';
   SOnlyJupyterFiles  = 'Web preview is only available for Jupyter JSON files';
-  SNoJupyter = 'The ''jupyter'' package is not available.' + SLineBreak + 'Please install ''jupiter'' first';
+  SNoJupyter = 'The ''jupyter'' package is not available.' + SLineBreak + 'Please install ''jupyter'' first.';
   SExternalProcessRunning = 'An external process is still running.' + SLineBreak +
-                            'Please terminate it first from the ''Output'' window';
+                            'Please terminate it first from the ''Output'' window.';
 
   //  Project Manager
   SAskSaveProject = 'The active project has not been saved.' + SLineBreak +

@@ -572,7 +572,7 @@ type
   end;
 
 
-  TPyIDEMainForm = class(TForm, IDropTarget, IPyIDEServices)
+  TPyIDEMainForm = class(TForm, IDropTarget, IIDELayouts, IPyIDEServices)
     DockServer: TJvDockServer;
     AppStorage: TJvAppIniFileStorage;
     BGPanel: TPanel;
@@ -1238,12 +1238,25 @@ type
     function DragLeave: HResult; stdcall;
     function Drop(const dataObj: IDataObject; grfKeyState: Longint; pt: TPoint;
       var dwEffect: Longint): HResult; stdcall;
-    // IPyIDEServices implementation
+    // IIDELayouts implementation
+    function LayoutExists(const Layout: string): Boolean;
+    procedure LoadLayout(const Layout : string);
+    procedure SaveLayout(const Layout : string);
+   // IPyIDEServices implementation
     function GetActiveEditor : IEditor;
-    procedure WriteStatusMsg(S : string);
+    procedure WriteStatusMsg(const S : string);
     function ShowFilePosition(FileName : string; Line, Offset : integer; SelLen : integer = 0;
          ForceToMiddle : boolean = True; FocusEditor : boolean = True) : boolean;
+    procedure ClearPythonWindows;
+    procedure SaveEnvironment;
+    procedure SaveFileModules;
+    procedure SetRunLastScriptHints(const ScriptName : string);
+    function GetStoredScript(const Name: string): TStrings;
     function GetMessageServices: IMessageServices;
+    function GetUnitTestServices: IUnitTestServices;
+    function GetIDELayouts: IIDELayouts;
+    function GetAppStorage: TJvCustomAppStorage;
+    function GetLocalAppStorage: TJvCustomAppStorage;
   public
     StyleDPIAwareness : TStyleDPIAwareness;
     ActiveTabControlIndex : integer;
@@ -1251,7 +1264,6 @@ type
     MenuHelpRequested : Boolean;
     Layouts : TStringList;
     fLanguageList : TStringList;
-    procedure SaveEnvironment;
     procedure StoreApplicationData;
     procedure RestoreApplicationData;
     procedure StoreLocalApplicationData;
@@ -1260,9 +1272,7 @@ type
        TabControlIndex : integer = 1) : IEditor;
     function NewFileFromTemplate(FileTemplate : TFileTemplate;
        TabControlIndex : integer = 1) : IEditor;
-    procedure SaveFileModules;
     procedure UpdateDebugCommands(DebuggerState : TDebuggerState);
-    procedure SetRunLastScriptHints(ScriptName : string);
     procedure DebuggerStateChange(Sender: TObject; OldState,
       NewState: TDebuggerState);
     procedure ApplicationOnIdle(Sender: TObject; var Done: Boolean);
@@ -1277,10 +1287,8 @@ type
     procedure SetupSyntaxMenu;
     procedure SetupPythonVersionsMenu;
     procedure LayoutClick(Sender : TObject);
-    procedure LoadLayout(const Layout : string);
     procedure LoadToolbarLayout(const Layout: string);
     procedure LoadToolbarItems(const Path : string);
-    procedure SaveLayout(const Layout : string);
     procedure SaveToolbarLayout(const Layout: string);
     procedure SaveToolbarItems(const Path : string);
     function JumpToFilePosInfo(FilePosInfo : string) : boolean;
@@ -1300,18 +1308,13 @@ type
     function TabControlIndex(TabControl : TSpTBXCustomTabControl) : integer;
     procedure ConfigureFileExplorer(FCN : TFileChangeNotificationType;
       BackgroundProcessing : Boolean);
+    procedure ShowIDEDockForm(Form: TForm);
     property ActiveTabControl : TSpTBXCustomTabControl read GetActiveTabControl
       write SetActiveTabControl;
   end;
 
 Const
   ctkRemember : TDSACheckTextKind = 100;
-  dsaSearchFromStart = 1;
-  dsaReplaceFromStart = 2;
-  dsaReplaceNumber = 3;
-  dsaSearchStartReached = 4;
-  dsaPostMortemInfo = 5;
-
   FactoryToolbarItems = 'Factory Toolbar Items v1.0';
 
 var
@@ -1595,15 +1598,6 @@ begin
   LocalAppStorage.FileName :=
       TPyScripterSettings.UserDataPath + LocalOptionsFileName;
 
-  // DSA stuff
-  DSAAppStorage := TDSAAppStorage.Create(AppStorage, 'DSA');
-  RegisterDSACheckMarkText(ctkRemember, 'Remember answer and do not show again');
-  RegisterDSA(dsaSearchFromStart, 'SearchFromStart', 'Search from start question', DSAAppStorage, ctkRemember);
-  RegisterDSA(dsaReplaceFromStart, 'ReplaceFromStart', 'Replace srom start question', DSAAppStorage, ctkRemember);
-  RegisterDSA(dsaReplaceNumber, 'ReplaceNumber', 'Information about number of replacements', DSAAppStorage, ctkShow);
-  RegisterDSA(dsaSearchStartReached, 'SearchStartReached', 'Information: search start reached', DSAAppStorage, ctkShow);
-  RegisterDSA(dsaPostMortemInfo, 'PostMortemInfo', 'Instructions: Post Mortem', DSAAppStorage, ctkShow);
-
   //OutputDebugString(PWideChar(Format('%s ElapsedTime %d ms', ['Before All Forms', StopWatch.ElapsedMilliseconds])));
   // Create and layout IDE windows
   PythonIIForm := TPythonIIForm.Create(self);
@@ -1667,6 +1661,15 @@ begin
     if (OldScreenPPI = Screen.PixelsPerInch) and (OldDesktopSize = DesktopSizeString) then
       JvFormStorage.RestoreFormPlacement;
   end;
+
+  // DSA stuff
+  DSAAppStorage := TDSAAppStorage.Create(AppStorage, 'DSA');
+  RegisterDSACheckMarkText(ctkRemember, _(SDSActkRememberText));
+  RegisterDSA(dsaSearchFromStart, 'SearchFromStart', 'Search from start question', DSAAppStorage, ctkRemember);
+  RegisterDSA(dsaReplaceFromStart, 'ReplaceFromStart', 'Replace srom start question', DSAAppStorage, ctkRemember);
+  RegisterDSA(dsaReplaceNumber, 'ReplaceNumber', 'Information about number of replacements', DSAAppStorage, ctkShow);
+  RegisterDSA(dsaSearchStartReached, 'SearchStartReached', 'Information: search start reached', DSAAppStorage, ctkShow);
+  RegisterDSA(dsaPostMortemInfo, 'PostMortemInfo', 'Instructions: Post Mortem', DSAAppStorage, ctkShow);
 
   // Store Factory Settings
   if not AppStorage.PathExists(FactoryToolbarItems) then
@@ -1802,11 +1805,7 @@ begin
     // Stop DropTarget to make sure is unregistered
     RevokeDragDrop(TabControl1.Handle);
     RevokeDragDrop(TabControl2.Handle);
-
-
-    VariablesWindow.ClearAll;
-    UnitTestWindow.ClearAll;
-    CallStackWindow.ClearAll;
+    ClearPythonWindows;
 
     // Give the time to the treads to terminate
     Sleep(200);
@@ -1879,84 +1878,70 @@ begin
     Editor.Activate;
 end;
 
-procedure TPyIDEMainForm.actNavFileExplorerExecute(Sender: TObject);
+procedure TPyIDEMainForm.ShowIDEDockForm(Form: TForm);
 begin
-  ShowDockForm(FileExplorerWindow);
-  FileExplorerWindow.FormActivate(Sender);
+  ShowDockForm(Form as TIDEDockWindow);
+  if Assigned(Form.OnActivate) then
+    Form.OnActivate(Self);
   // only when activated by the menu or the keyboard - Will be reset by frmIDEDockWin
   PyIDEMainForm.JvDockVSNetStyleSpTBX.ChannelOption.MouseleaveHide := False;
+end;
+
+procedure TPyIDEMainForm.ClearPythonWindows;
+begin
+  VariablesWindow.ClearAll;
+  UnitTestWindow.ClearAll;
+  CallStackWindow.ClearAll;
+end;
+
+procedure TPyIDEMainForm.actNavFileExplorerExecute(Sender: TObject);
+begin
+  ShowIDEDockForm(FileExplorerWindow);
 end;
 
 procedure TPyIDEMainForm.actNavInterpreterExecute(Sender: TObject);
 begin
-  ShowDockForm(PythonIIForm);
-  PythonIIForm.FormActivate(Sender);
-  // only when activated by the menu or the keyboard - Will be reset by frmIDEDockWin
-  PyIDEMainForm.JvDockVSNetStyleSpTBX.ChannelOption.MouseleaveHide := False;
+  ShowIDEDockForm(PythonIIForm);
 end;
 
 procedure TPyIDEMainForm.actNavMessagesExecute(Sender: TObject);
 begin
-  ShowDockForm(MessagesWindow);
-  MessagesWindow.FormActivate(Sender);
-  // only when activated by the menu or the keyboard - Will be reset by frmIDEDockWin
-  PyIDEMainForm.JvDockVSNetStyleSpTBX.ChannelOption.MouseleaveHide := False;
+  ShowIDEDockForm(MessagesWindow);
 end;
 
 procedure TPyIDEMainForm.actNavOutputExecute(Sender: TObject);
 begin
-  ShowDockForm(OutputWindow);
-  OutputWindow.FormActivate(Sender);
-  // only when activated by the menu or the keyboard - Will be reset by frmIDEDockWin
-  PyIDEMainForm.JvDockVSNetStyleSpTBX.ChannelOption.MouseleaveHide := False;
+  ShowIDEDockForm(OutputWindow);
 end;
 
 procedure TPyIDEMainForm.actNavProjectExplorerExecute(Sender: TObject);
 begin
-  ShowDockForm(ProjectExplorerWindow);
-  ProjectExplorerWindow.FormActivate(Sender);
-  // only when activated by the menu or the keyboard - Will be reset by frmIDEDockWin
-  PyIDEMainForm.JvDockVSNetStyleSpTBX.ChannelOption.MouseleaveHide := False;
+  ShowIDEDockForm(ProjectExplorerWindow);
 end;
 
 procedure TPyIDEMainForm.actNavRETesterExecute(Sender: TObject);
 begin
-  ShowDockForm(RegExpTesterWindow);
-  RegExpTesterWindow.FormActivate(Sender);
-  // only when activated by the menu or the keyboard - Will be reset by frmIDEDockWin
-  PyIDEMainForm.JvDockVSNetStyleSpTBX.ChannelOption.MouseleaveHide := False;
+  ShowIDEDockForm(RegExpTesterWindow);
 end;
 
 procedure TPyIDEMainForm.actNavTodoExecute(Sender: TObject);
 begin
-  ShowDockForm(ToDoWindow);
-  ToDoWindow.FormActivate(Sender);
-  // only when activated by the menu or the keyboard - Will be reset by frmIDEDockWin
-  PyIDEMainForm.JvDockVSNetStyleSpTBX.ChannelOption.MouseleaveHide := False;
+  ShowIDEDockForm(ToDoWindow);
 end;
 
 procedure TPyIDEMainForm.actNavUnitTestsExecute(Sender: TObject);
 begin
-  ShowDockForm(UnitTestWindow);
-  UnitTestWindow.FormActivate(Sender);
-  // only when activated by the menu or the keyboard - Will be reset by frmIDEDockWin
-  PyIDEMainForm.JvDockVSNetStyleSpTBX.ChannelOption.MouseleaveHide := False;
+  ShowIDEDockForm(UnitTestWindow);
 end;
 
 procedure TPyIDEMainForm.actNavVariablesExecute(Sender: TObject);
 begin
-  ShowDockForm(VariablesWindow);
-  VariablesWindow.FormActivate(Sender);
-  // only when activated by the menu or the keyboard - Will be reset by frmIDEDockWin
-  PyIDEMainForm.JvDockVSNetStyleSpTBX.ChannelOption.MouseleaveHide := False;
+  ShowIDEDockForm(VariablesWindow);
 end;
 
 procedure TPyIDEMainForm.actNavWatchesExecute(Sender: TObject);
 begin
-  ShowDockForm(WatchesWindow);
-  WatchesWindow.FormActivate(Sender);
-  // only when activated by the menu or the keyboard - Will be reset by frmIDEDockWin
-  PyIDEMainForm.JvDockVSNetStyleSpTBX.ChannelOption.MouseleaveHide := False;
+  ShowIDEDockForm(WatchesWindow);
 end;
 
 procedure TPyIDEMainForm.actNewFileExecute(Sender: TObject);
@@ -2390,7 +2375,7 @@ begin
   Editor.SynEdit2.InvalidateLine(ALine);
 end;
 
-procedure TPyIDEMainForm.SetRunLastScriptHints(ScriptName: string);
+procedure TPyIDEMainForm.SetRunLastScriptHints(const ScriptName: string);
 Var
   S : string;
 begin
@@ -2842,9 +2827,34 @@ begin
      Result := TabControl1;
 end;
 
+function TPyIDEMainForm.GetAppStorage: TJvCustomAppStorage;
+begin
+  Result := AppStorage;
+end;
+
+function TPyIDEMainForm.GetIDELayouts: IIDELayouts;
+begin
+  Result := Self;
+end;
+
+function TPyIDEMainForm.GetLocalAppStorage: TJvCustomAppStorage;
+begin
+  Result := LocalAppStorage;
+end;
+
 function TPyIDEMainForm.GetMessageServices: IMessageServices;
 begin
   Result := MessagesWindow;
+end;
+
+function TPyIDEMainForm.GetStoredScript(const Name: string): TStrings;
+begin
+  Result := CommandsDataModule.JvMultiStringHolder.StringsByName[Name];
+end;
+
+function TPyIDEMainForm.GetUnitTestServices: IUnitTestServices;
+begin
+  Result := UnitTestWindow;
 end;
 
 function TPyIDEMainForm.TabControl(TabControlIndex: integer): TSpTBXTabControl;
@@ -4160,6 +4170,11 @@ begin
   TSpTBXItem(Sender).Checked := True;
 end;
 
+function TPyIDEMainForm.LayoutExists(const Layout: string): Boolean;
+begin
+  Result := Layouts.IndexOf(Name) >= 0;
+end;
+
 procedure TPyIDEMainForm.lbPythonEngineClick(Sender: TObject);
 var
   MousePos : TPoint;
@@ -4251,7 +4266,7 @@ begin
   EditTool(ExternalPython, True);
 end;
 
-procedure TPyIDEMainForm.WriteStatusMsg(S: string);
+procedure TPyIDEMainForm.WriteStatusMsg(const S: string);
 begin
   lbStatusMessage.Caption := S;
 end;

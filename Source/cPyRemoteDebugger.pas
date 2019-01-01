@@ -127,7 +127,6 @@ type
     fLineCache : Variant;
     fMainThread : TThreadInfo;
     fThreads : TObjectDictionary<Int64, TThreadInfo>;
-    fOldPS1, fOldPS2 : string;
   protected
     fDebuggerCommand : TDebuggerCommand;
     fRemotePython : TPyRemoteInterpreter;
@@ -188,12 +187,7 @@ uses
   JvDSADialogs,
   JvGnugettext,
   StringResources,
-  dmCommands,
-  frmPythonII,
-  frmPyIDEMain,
-  frmVariables,
-  frmCallStack,
-  frmUnitTests,
+  //frmVariables,
   cProjectClasses,
   cParameters,
   cRefactoring,
@@ -397,7 +391,7 @@ begin
     if not Quiet then
       Vcl.Dialogs.MessageDlg(_(SRemoteServerNotConnected),
         mtError, [mbAbort], 0);
-    VariablesWindow.VariablesTree.Enabled := False;
+    //VariablesWindow.VariablesTree.Enabled := False;
     if Abort then
       System.SysUtils.Abort;
   end;
@@ -478,13 +472,13 @@ begin
       end else
         HandleRemoteException(ExcInfo);
 
-      PythonIIForm.AppendPrompt;
+      GI_PyInterpreter.AppendPrompt;
       System.SysUtils.Abort;
     end;
   except
     on E: EPythonError do begin  //may raise OverflowError or ValueError
       // New Line for output
-      PythonIIForm.AppendText(sLineBreak);
+      GI_PyInterpreter.AppendText(sLineBreak);
       VarClear(Result);
 
       HandlePyException(E);
@@ -559,7 +553,7 @@ begin
     else
       raise Exception.Create('Invalid Engine type in TPyRemoteInterpreter constructor');
     end;
-    ServerSource := CommandsDataModule.JvMultiStringHolder.StringsByName[ServerName].Text;
+    ServerSource := GI_PyIDEServices.GetStoredScript(ServerName).Text;
     try
       StringToFile(fServerFile, AnsiString(ServerSource));
     except
@@ -808,7 +802,7 @@ procedure TPyRemoteInterpreter.ProcessServerOuput(const S: string);
 begin
 //  TThread.Queue(nil, procedure
 //  begin
-    PythonIIForm.PythonIOSendData({Sender,} Self, S + sLineBreak);
+    GI_PyInterpreter.PythonIO.OnSendUniData(Self, S + sLineBreak);
 //    CheckConnected(True);
 //    Conn.modules('sys').stdout.write(S);
 //  end);
@@ -853,8 +847,8 @@ begin
         ShutDownServer;
         CreateAndConnectToServer;
         if fServerIsAvailable and fConnected then begin
-          PythonIIForm.AppendText(sLineBreak + _(SRemoteInterpreterInit));
-          PythonIIForm.AppendPrompt;
+          GI_PyInterpreter.AppendText(sLineBreak + _(SRemoteInterpreterInit));
+          GI_PyInterpreter.AppendPrompt;
           // Recreate the Active debugger
           PyControl.ActiveDebugger := DebuggerClass.Create(Self);
 
@@ -924,14 +918,14 @@ begin
   PyControl.DoStateChange(dsRunning);
 
   // New Line for output
-  PythonIIForm.AppendText(sLineBreak);
+  GI_PyInterpreter.AppendText(sLineBreak);
 
   // Set the command line parameters
   SetCommandLine(ARunConfig);
 
   Editor := GI_ActiveEditor;
   ReturnFocusToEditor := Assigned(Editor);
-  PyIDEMainForm.actNavInterpreterExecute(nil);
+  GI_PyInterpreter.ShowWindow;
 
   AsyncRun := Rpyc.async_(RPI.run_nodebug);
   AsyncResult := AsyncRun.__call__(Code);
@@ -972,8 +966,8 @@ begin
         end;
       end;
     finally
-      PythonIIForm.WritePendingMessages;
-      PythonIIForm.AppendPrompt;
+      GI_PyInterpreter.WritePendingMessages;
+      GI_PyInterpreter.AppendPrompt;
       CheckConnected(True, False);
       if Connected then begin
         // Restore the command line parameters
@@ -990,8 +984,8 @@ begin
         Editor.Activate;
       if not Connected then begin
         PythonPathAdder := nil;
-        PythonIIForm.ClearPendingMessages;
-        PostMessage(PythonIIForm.Handle, WM_REINITINTERPRETER, 0, 0);
+        GI_PyInterpreter.ClearPendingMessages;
+        GI_PyInterpreter.ReinitInterpreter;
       end else if CanDoPostMortem and PyIDEOptions.PostMortemOnException then
         PyControl.ActiveDebugger.EnterPostMortem;
       Timer := nil;
@@ -1048,8 +1042,8 @@ begin
     end else
     begin
       Result := False;
-      PythonIIForm.ClearPendingMessages;
-      PostMessage(PythonIIForm.Handle, WM_REINITINTERPRETER, 0, 0);
+      GI_PyInterpreter.ClearPendingMessages;
+      GI_PyInterpreter.ReinitInterpreter;
     end;
   finally
     PyControl.DoStateChange(OldDebuggerState);
@@ -1111,8 +1105,7 @@ begin
     else
       InitScriptName := 'Rpyc_Init';
 
-    Source := CleanEOLs(
-      CommandsDataModule.JvMultiStringHolder.StringsByName[InitScriptName].Text)+#10;
+    Source := CleanEOLs(GI_PyIDEServices.GetStoredScript(InitScriptName).Text)+#10;
     PySource := VarPythonCreate(Source);
     Conn.execute(PySource);
     RPI := Conn.namespace.__getitem__('_RPI');
@@ -1185,7 +1178,7 @@ begin
       else
         Argv.append(VarPythonCreate(AnsiString(Param)))
     end;
-    PythonIIForm.AppendText(Format(_(SCommandLineMsg), [S]));
+    GI_PyInterpreter.AppendText(Format(_(SCommandLineMsg), [S]));
   end;
 end;
 
@@ -1210,11 +1203,9 @@ begin
     except
     end;
     try
-      if not (csDestroying in PyIDEMainForm.ComponentState) then begin
-        VariablesWindow.ClearAll;
-        UnitTestWindow.ClearAll;
-        CallStackWindow.ClearAll;
-      end;
+      if not PyControl.Finalizing then
+        GI_PyIDEServices.ClearPythonWindows;
+
       // Do not destroy Remote Debugger
       // PyControl.ActiveDebugger := nil;
 
@@ -1362,13 +1353,9 @@ Var
 begin
   if not (HaveTraceback and (PyControl.DebuggerState = dsInactive)) then
     Exit;
-  with PythonIIForm do begin
-    fOldPS1 := PS1;
-    PS1 := PMPrefix + PS1;
-    fOldPS2 := PS2;
-    PS2 := PMPrefix + PS2;
-    AppendPrompt;
-  end;
+
+  GI_PyInterpreter.SetPyInterpreterPrompt(pipPostMortem);
+  GI_PyInterpreter.AppendPrompt;
 
   TraceBack := fRemotePython.Conn.modules.sys.last_traceback;
   Botframe := TraceBack.tb_frame;
@@ -1426,11 +1413,9 @@ end;
 
 procedure TPyRemDebugger.ExitPostMortem;
 begin
-  with PythonIIForm do begin
-    PS1 := fOldPS1;
-    PS2 := fOldPS2;
-    AppendText(sLineBreak+PS1);
-  end;
+  GI_PyInterpreter.SetPyInterpreterPrompt(pipNormal);
+  GI_PyInterpreter.AppendPrompt;
+
   fMainThread.Status := thrdRunning;
   fMainThread.CallStack.Clear;
   TPyBaseDebugger.ThreadChangeNotify(fMainThread, tctStatusChange);
@@ -1637,20 +1622,15 @@ begin
   Editor := GI_ActiveEditor;
   ReturnFocusToEditor := Assigned(Editor);
   // Set the layout to the Debug layout is it exists
-  if PyIDEMainForm.Layouts.IndexOf('Debug') >= 0 then begin
-    PyIDEMainForm.SaveLayout('Current');
-    PyIDEMainForm.LoadLayout('Debug');
+  if GI_PyIDEServices.Layouts.LayoutExists('Debug') then begin
+    GI_PyIDEServices.Layouts.SaveLayout('Current');
+    GI_PyIDEServices.Layouts.LoadLayout('Debug');
     Application.ProcessMessages;
   end else
-    PyIDEMainForm.actNavInterpreterExecute(nil);
+    GI_PyInterpreter.ShowWindow;
 
-  with PythonIIForm do begin
-    fOldPS1 := PS1;
-    PS1 := DebugPrefix + PS1;
-    fOldPS2 := PS2;
-    PS2 := DebugPrefix + PS2;
-    AppendPrompt;
-  end;
+  GI_PyInterpreter.SetPyInterpreterPrompt(pipDebug);
+  GI_PyInterpreter.AppendPrompt;
   //attach debugger callback routines
   with PyControl.InternalPython.DebugIDE.Events do begin
     Items[dbie_user_call].OnExecute := UserCall;
@@ -1666,7 +1646,7 @@ begin
     fMainDebugger.set_break(Code.co_filename, RunToCursorLine, 1);
 
   // New Line for output
-  PythonIIForm.AppendText(sLineBreak);
+  GI_PyInterpreter.AppendText(sLineBreak);
 
   // Set the command line parameters
   SetCommandLine(ARunConfig);
@@ -1715,12 +1695,9 @@ begin
         end;
       end;
     finally
-      with PythonIIForm do begin
-        WritePendingMessages;
-        PS1 := fOldPS1;
-        PS2 := fOldPS2;
-        AppendPrompt;
-      end;
+      GI_PyInterpreter.WritePendingMessages;
+      GI_PyInterpreter.SetPyInterpreterPrompt(pipNormal);
+      GI_PyInterpreter.AppendPrompt;
 
       fRemotePython.CheckConnected(True, False);
       if fRemotePython.Connected then begin
@@ -1736,19 +1713,19 @@ begin
         fRemotePython.RPI.rem_chdir(OldPath);
       end;
 
-      if PyIDEMainForm.Layouts.IndexOf('Debug') >= 0 then
-        PyIDEMainForm.LoadLayout('Current');
+      if GI_PyIDEServices.Layouts.LayoutExists('Debug') then
+        GI_PyIDEServices.Layouts.LoadLayout('Current');
 
       PyControl.DoStateChange(dsInactive);
       if ReturnFocusToEditor then
         Editor.Activate;
       if not fRemotePython.Connected then begin
         PythonPathAdder := nil;
-        PythonIIForm.ClearPendingMessages;
+        GI_PyInterpreter.ClearPendingMessages;
         //fRemotePython.ReInitialize;
         // Reinitialize destroys the debugger which executes this method!
         // So handle with a PostMessage
-        PostMessage(PythonIIForm.Handle, WM_REINITINTERPRETER, 0, 0);
+        GI_PyInterpreter.ReinitInterpreter;
       end else if fRemotePython.CanDoPostMortem and PyIDEOptions.PostMortemOnException then
         PyControl.ActiveDebugger.EnterPostMortem;
       Timer := nil;

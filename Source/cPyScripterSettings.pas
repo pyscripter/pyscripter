@@ -23,6 +23,13 @@ Uses
   cPySupportTypes,
   dlgSynEditOptions;
 
+Const
+  dsaSearchFromStart = 1;
+  dsaReplaceFromStart = 2;
+  dsaReplaceNumber = 3;
+  dsaSearchStartReached = 4;
+  dsaPostMortemInfo = 5;
+
 type
   TFileChangeNotificationType = (fcnFull, fcnNoMappedDrives, fcnDisabled);
 

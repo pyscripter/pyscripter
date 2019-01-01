@@ -23,6 +23,10 @@ type
 
   TSaveFiles = (sfNone, sfActive, sfAll);
 
+  TExternalTool = class;
+
+  TExternalToolExecute = procedure(Tool: TExternalTool) of object;
+
   {
      Describes the properties of a command line tool
   }
@@ -50,8 +54,10 @@ type
     procedure SetEnvironment(const Value: TStrings);
     function IsMessageFormatStore: Boolean;
   public
+    class var ExternalToolExecute: TExternalToolExecute;
     constructor Create;
     destructor Destroy; override;
+    procedure Execute;
     procedure Assign(Source: TPersistent); override;
   published
     // The caption of the Menu Item corresponding to this tool
@@ -137,20 +143,16 @@ type
       write fExternalTool;
   end;
 
-  TExternalToolExecute = procedure(Tool: TExternalTool) of object;
-
   TExternalToolAction = class(TAction)
   private
     fExternalTool : TExternalTool;
   protected
     procedure Change; override;
   public
-    class var ExternalToolExecute: TExternalToolExecute;
     function Execute: Boolean; override;
     function Update: Boolean; override;
     constructor CreateExtToolAction(AOwner: TComponent; ExternalTool : TExternalTool);
   end;
-
 
 { Expands environment variables }
 function ExpandEnv(const S: string): string;
@@ -283,6 +285,12 @@ begin
   inherited;
 end;
 
+procedure TExternalTool.Execute;
+begin
+  if Assigned(ExternalToolExecute) then
+    ExternalToolExecute(Self);
+end;
+
 function TExternalTool.IsMessageFormatStore: Boolean;
 begin
   Result := fParseMessages and (fMessagesFormat <> (GrepFileNameParam + ' ' + GrepLineNumberParam));
@@ -333,10 +341,10 @@ end;
 
 function TExternalToolAction.Execute: Boolean;
 begin
-  if Assigned(fExternalTool) and Assigned(ExternalToolExecute) then begin
+  if Assigned(fExternalTool) and Assigned(fExternalTool.ExternalToolExecute) then begin
     TThread.ForceQueue(nil, procedure
     begin
-      ExternalToolExecute(fExternalTool);
+      fExternalTool.Execute;
     end);
   end;
   Result := True;

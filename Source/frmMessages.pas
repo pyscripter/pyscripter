@@ -79,7 +79,7 @@ type
     fHistorySize : integer;
     // IMessageServices implementation
     procedure ShowWindow;
-    procedure AddMessage(Msg: string; FileName : string = '';
+    procedure AddMessage(const Msg: string; const FileName : string = '';
        Line : integer = 0; Offset : integer = 0; SelLen : integer = 0);
     procedure ClearMessages;
     procedure ShowPythonTraceback(SkipFrames : integer = 1);
@@ -108,6 +108,7 @@ uses
   Vcl.Clipbrd,
   VarPyth,
   dmCommands,
+  frmPyIDEMain,
   uCommonFunctions,
   JvGnugettext,
   StringResources,
@@ -137,7 +138,7 @@ Type
 
 { TMessagesWindow }
 
-procedure TMessagesWindow.AddMessage(Msg, FileName: string;
+procedure TMessagesWindow.AddMessage(const Msg, FileName: string;
    Line, Offset, SelLen : integer);
 Var
   NewMsg : TMsg;
@@ -272,7 +273,7 @@ end;
 
 procedure TMessagesWindow.ShowWindow;
 begin
-    ShowDockForm(Self);
+  PyIDEMainForm.ShowIDEDockForm(Self);
 end;
 
 procedure TMessagesWindow.StoreTopNodeIndex;

@@ -642,7 +642,7 @@ begin
     OnTerminate := JvCreateProcessTerminate;
     OnRead := JvCreateProcessRead;
   end;
-  TExternalToolAction.ExternalToolExecute := ExecuteTool;
+  TExternalTool.ExternalToolExecute := ExecuteTool;
 end;
 
 procedure TOutputWindow.FormDestroy(Sender: TObject);

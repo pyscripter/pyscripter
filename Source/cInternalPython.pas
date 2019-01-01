@@ -78,9 +78,6 @@ implementation
 uses
   WinApi.Windows,
   VarPyth,
-  dmCommands,
-  frmPythonII,
-  frmUnitTests,
   SynHighlighterPython,
   cPyScripterSettings,
   uEditAppIntfs,
@@ -183,7 +180,7 @@ begin
   fPythonEngine.UseLastKnownVersion := False;
   fPythonEngine.AutoFinalize := False;
   fPythonEngine.InitThreads := True;
-  fPythonEngine.IO := PythonIIForm.PythonIO;
+  fPythonEngine.IO := GI_PyInterpreter.PythonIO;
   fPythonEngine.PyFlags := [pfInteractive];
   fPythonEngine.OnAfterInit := PythonEngineAfterInit;
 end;
@@ -331,48 +328,17 @@ begin
 end;
 
 procedure TInternalPython.PythonEngineAfterInit(Sender: TObject);
-Var
-  Keywords, Builtins, BuiltInMod : Variant;
-  i : integer;
 begin
   // Execute initialization script
   with PythonEngine do begin
     if IsPython3000 then
-      ExecStrings(CommandsDataModule.JvMultiStringHolder.StringsByName['InitScript3000'])
+      ExecStrings(GI_PyIDEServices.GetStoredScript('InitScript3000'))
     else
-      ExecStrings(CommandsDataModule.JvMultiStringHolder.StringsByName['InitScript'])
+      ExecStrings(GI_PyIDEServices.GetStoredScript('InitScript'));
   end;
 
-  // Setup Highlighter keywords
-  with CommandsDataModule do begin
-    SynPythonSyn.Keywords.Clear;
-    SynPythonSyn.Keywords.Sorted := False;
-    Keywords := Import('keyword').kwlist;
-    for i := 0 to Len(Keywords) - 1 do
-      SynPythonSyn.Keywords.AddObject(Keywords.__getitem__(i), Pointer(Ord(tkKey)));
-    BuiltInMod := VarPyth.BuiltinModule;
-    Builtins := BuiltinMod.dir(BuiltinMod);
-    for i := 0 to Len(Builtins) - 1 do
-      SynPythonSyn.Keywords.AddObject(Builtins.__getitem__(i), Pointer(Ord(tkNonKeyword)));
-    // add pseudo keyword self
-    SynPythonSyn.Keywords.AddObject('self', Pointer(Ord(tkNonKeyword)));
-    SynPythonSyn.Keywords.Sorted := True;
-
-    with SynCythonSyn do begin
-      Keywords.Clear;
-      Keywords.Sorted := False;
-      Keywords.AddStrings(SynPythonSyn.Keywords);
-      AddCythonKeywords(SynCythonSyn.Keywords);
-      Keywords.Sorted := True;
-    end;
-
-    with (PythonIIForm.SynEdit.Highlighter as TSynPythonInterpreterSyn) do begin
-      Keywords.Clear;
-      Keywords.Sorted := False;
-      Keywords.AddStrings(SynPythonSyn.Keywords);
-      Keywords.Sorted := True;
-    end;
-  end;
+  // Update Highlighter keywords
+  GI_PyInterpreter.UpdatePythonKeywords;
 end;
 
 procedure TInternalPython.StatusWriteExecute(Sender: TObject; PSelf,
@@ -391,7 +357,7 @@ end;
 procedure TInternalPython.testResultAddError(Sender: TObject; PSelf,
   Args: PPyObject; var Result: PPyObject);
 begin
-  UnitTestWindow.AddError(VarPythonCreate(Args).__getitem__(0),
+  GI_PyIDEServices.UnitTests.AddError(VarPythonCreate(Args).__getitem__(0),
     VarPythonCreate(Args).__getitem__(1));
   Result := PythonEngine.ReturnNone;
 end;
@@ -399,7 +365,7 @@ end;
 procedure TInternalPython.testResultAddFailure(Sender: TObject; PSelf,
   Args: PPyObject; var Result: PPyObject);
 begin
-  UnitTestWindow.AddFailure(VarPythonCreate(Args).__getitem__(0),
+  GI_PyIDEServices.UnitTests.AddFailure(VarPythonCreate(Args).__getitem__(0),
     VarPythonCreate(Args).__getitem__(1));
   Result := PythonEngine.ReturnNone;
 end;
@@ -407,21 +373,21 @@ end;
 procedure TInternalPython.testResultAddSuccess(Sender: TObject; PSelf,
   Args: PPyObject; var Result: PPyObject);
 begin
-  UnitTestWindow.AddSuccess(VarPythonCreate(Args).__getitem__(0));
+  GI_PyIDEServices.UnitTests.AddSuccess(VarPythonCreate(Args).__getitem__(0));
   Result := PythonEngine.ReturnNone;
 end;
 
 procedure TInternalPython.testResultStartTestExecute(Sender: TObject; PSelf,
   Args: PPyObject; var Result: PPyObject);
 begin
-  UnitTestWindow.StartTest(VarPythonCreate(Args).__getitem__(0));
+  GI_PyIDEServices.UnitTests.StartTest(VarPythonCreate(Args).__getitem__(0));
   Result := PythonEngine.ReturnNone;
 end;
 
 procedure TInternalPython.testResultStopTestExecute(Sender: TObject; PSelf,
   Args: PPyObject; var Result: PPyObject);
 begin
-  UnitTestWindow.StopTest(VarPythonCreate(Args).__getitem__(0));
+  GI_PyIDEServices.UnitTests.StopTest(VarPythonCreate(Args).__getitem__(0));
   Result := PythonEngine.ReturnNone;
 end;
 

@@ -298,7 +298,7 @@ begin
       Dir := '';
     if Length(Dir) > 1 then
     begin
-      PythonPathAdder :=  PyControl.InternalInterpreter.AddPathToPythonPath(Dir);
+      PythonPathAdder :=  GI_PyControl.AddPathToInternalPythonPath(Dir);
     end;
 
     DottedModName := Match.GroupValue(3);
@@ -361,7 +361,7 @@ begin
       Dir := fFileName;
       for i := 1 to fPathDepth do
         Dir := ExtractFileDir(Dir);
-      PythonPathAdder := PyControl.InternalInterpreter.AddPathToPythonPath(Dir);
+      PythonPathAdder := GI_PyControl.AddPathToInternalPythonPath(Dir);
       if (DottedModName <> '') and (CharPos(DottedModName, '.') > 0) then
       begin
         fModulePrefix := DottedModName;
@@ -376,7 +376,7 @@ begin
     begin
       // Add the file path to the Python path - Will be automatically removed
       if (fFileName <> '') and not TSSHFileName.Parse(fFileName, Server, Dir) then
-        PythonPathAdder := PyControl.InternalInterpreter.AddPathToPythonPath
+        PythonPathAdder := GI_PyControl.AddPathToInternalPythonPath
           (ExtractFileDir(fFileName));
       if CharPos(DottedModName, '.') > 0 then begin
         fModulePrefix := DottedModName;
@@ -552,7 +552,7 @@ begin
     Dir := '';
   if Length(Dir) > 1 then
   begin
-    PythonPathAdder :=  PyControl.InternalInterpreter.AddPathToPythonPath(Dir);
+    PythonPathAdder :=  GI_PyControl.AddPathToInternalPythonPath(Dir);
   end;
 
   if PyScripterRefactor.InitializeQuery then

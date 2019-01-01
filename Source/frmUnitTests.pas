@@ -30,12 +30,13 @@ uses
   SpTBXControls,
   SpTBXItem,
   SpTBXSkins,
+  uEditAppIntfs,
   frmIDEDockWin;
 
 type
   TUnitTestWindowStatus = (utwEmpty, utwLoaded, utwRunning, utwRun);
 
-  TUnitTestWindow = class(TIDEDockWindow)
+  TUnitTestWindow = class(TIDEDockWindow, IUnitTestServices)
     ExplorerDock: TSpTBXDock;
     ExplorerToolbar: TSpTBXToolbar;
     RunImages: TImageList;
@@ -104,6 +105,12 @@ type
     { Private declarations }
     TestClasses : TStringList;
     TestSuite, TestResult : Variant;
+  // IUnitTestServices implementaton
+    procedure StartTest(Test: Variant);
+    procedure StopTest(Test: Variant);
+    procedure AddError(Test, Err: Variant);
+    procedure AddFailure(Test, Err: Variant);
+    procedure AddSuccess(Test: Variant);
   protected
     procedure UpdateActions; override;
   public
@@ -112,11 +119,6 @@ type
     TestsRun, TestsFailed, TestErrors : integer;
     ElapsedTime : double;
     procedure ClearAll;
-    procedure StartTest(Test: Variant);
-    procedure StopTest(Test: Variant);
-    procedure AddError(Test, Err: Variant);
-    procedure AddFailure(Test, Err: Variant);
-    procedure AddSuccess(Test: Variant);
     function SelectedTestCount : integer;
     function FindTestNode(Test : Variant) : PVirtualNode;
   end;
@@ -133,9 +135,7 @@ uses
   PythonEngine,
   VarPyth,
   StringResources,
-  dmCommands,
   uCommonFunctions,
-  uEditAppIntfs,
   cPyBaseDebugger,
   cPyDebugger,
   cPyControl;

@@ -1033,9 +1033,9 @@ begin
   // Dedent the selection
   Source := Dedent(Source);
 
-  ShowDockForm(PythonIIForm);
+  GI_PyInterpreter.ShowWindow;
+  GI_PyInterpreter.AppendText(sLineBreak);
   PythonIIForm.SynEdit.ExecuteCommand(ecEditorBottom, ' ', nil);
-  PythonIIForm.AppendText(sLineBreak);
   Source := CleanEOLs(Source);
   EncodedSource := UTF8BOMString + Utf8Encode(Source);
 
@@ -1059,8 +1059,8 @@ begin
           ExecType);
   end;
 
-  PythonIIForm.WritePendingMessages;
-  PythonIIForm.AppendPrompt;
+  GI_PyInterpreter.WritePendingMessages;
+  GI_PyInterpreter.AppendPrompt;
   Activate(False);
 end;
 
@@ -3022,7 +3022,7 @@ begin
               FName := GetEditor.GetFileNameOrTitle;
               // Add the file path to the Python path - Will be automatically removed
               if GetEditor.FileName <> '' then
-                PythonPathAdder := PyControl.InternalInterpreter.AddPathToPythonPath
+                PythonPathAdder := GI_PyControl.AddPathToInternalPythonPath
                   (ExtractFileDir(FName));
 
               if PyScripterRefactor.InitializeQuery then

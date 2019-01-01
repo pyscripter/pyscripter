@@ -154,7 +154,21 @@ type
     procedure SynCodeCompletionCodeItemInfo(Sender: TObject;
       AIndex: Integer; var Info : string);
     // Implementation of IPyInterpreter
+    procedure ShowWindow;
+    procedure AppendPrompt;
+    procedure AppendText(const S: string);
+    procedure PrintInterpreterBanner(AVersion: string = ''; APlatform: string = '');
+    procedure WritePendingMessages;
+    procedure ClearPendingMessages;
+    procedure ClearDisplay;
+    procedure ClearLastPrompt;
     function OutputSuppressor : IInterface;
+    procedure StartOutputMirror(const AFileName : string; Append : Boolean);
+    procedure StopFileMirror;
+    procedure UpdatePythonKeywords;
+    procedure SetPyInterpreterPrompt(Pip: TPyInterpreterPropmpt);
+    procedure ReinitInterpreter;
+    function GetPythonIO: TPythonInputOutput;
   protected
     procedure PythonIOReceiveData(Sender: TObject; var Data: string);
     procedure EditorMouseWheel(theDirection: Integer; Shift: TShiftState );
@@ -164,18 +178,11 @@ type
     procedure WMPARAMCOMPLETION(var Message: TMessage); message WM_PARAMCOMPLETION;
   public
     { Public declarations }
-    PS1, PS2, DebugPrefix, PMPrefix : string;
+    PS1, PS2 : string;
     procedure PythonIOSendData(Sender: TObject; const Data: string);
-    procedure PrintInterpreterBanner(AVersion: string = ''; APlatform: string = '');
-    procedure WritePendingMessages;
-    procedure ClearPendingMessages;
-    procedure AppendText(S: string);
     procedure AppendToPrompt(const Buffer : array of string);
-    procedure AppendPrompt;
     function IsEmpty : Boolean;
     procedure RegisterHistoryCommands;
-    procedure StartOutputMirror(AFileName : string; Append : Boolean);
-    procedure StopFileMirror;
     procedure UpdateInterpreterActions;
     procedure DoOnIdle;
     property ShowOutput : boolean read fShowOutput write fShowOutput;
@@ -301,8 +308,7 @@ end;
 
 procedure TPythonIIForm.actClearContentsExecute(Sender: TObject);
 begin
-  Synedit.ClearAll;
-  PrintInterpreterBanner;
+  ClearDisplay;
 end;
 
 procedure TPythonIIForm.actCopyHistoryExecute(Sender: TObject);
@@ -418,6 +424,18 @@ begin
   end;
 end;
 
+procedure TPythonIIForm.ClearDisplay;
+begin
+  Synedit.ClearAll;
+  PrintInterpreterBanner;
+end;
+
+procedure TPythonIIForm.ClearLastPrompt;
+begin
+  if SynEdit.Lines[SynEdit.Lines.Count-1] = PS1 then
+    SynEdit.Lines.Delete(SynEdit.Lines.Count -1);
+end;
+
 procedure TPythonIIForm.WritePendingMessages;
 var
   WS: string;
@@ -437,7 +455,7 @@ begin
   end;
 end;
 
-procedure TPythonIIForm.AppendText(S: string);
+procedure TPythonIIForm.AppendText(const S: string);
 begin
   SynEdit.BeginUpdate;
   try
@@ -505,11 +523,7 @@ begin
   fCommandHistorySize := 50;
   fCommandHistoryPointer := 0;
 
-  PS1 := '>>> ';
-  PS2 := '... ';
-  DebugPrefix := '[Dbg]';
-  PMPrefix := '[PM]';
-
+  SetPyInterpreterPrompt(pipNormal);
   SynCodeCompletion.OnCodeItemInfo := SynCodeCompletionCodeItemInfo;
 
   GI_PyInterpreter := Self;
@@ -581,6 +595,11 @@ begin
     Result := PS2
   else
     Result := '';
+end;
+
+function TPythonIIForm.GetPythonIO: TPythonInputOutput;
+begin
+  Result := PythonIO;
 end;
 
 function TPythonIIForm.GetSearchTarget: TSynEdit;
@@ -1108,6 +1127,37 @@ begin
   end;
 end;
 
+procedure TPythonIIForm.SetPyInterpreterPrompt(Pip: TPyInterpreterPropmpt);
+const
+  NormalPS1 = '>>> ';
+  NormalPS2 = '... ';
+  DebugPrefix = '[Dbg]';
+  PMPrefix = '[PM]';
+begin
+  case Pip of
+    pipNormal:
+      begin
+        PS1 := NormalPS1;
+        PS2 := NormalPS2;
+      end;
+    pipDebug:
+      begin
+        PS1 := DebugPrefix + NormalPS1;
+        PS2 := DebugPrefix + NormalPS2;
+      end;
+    pipPostMortem:
+      begin
+        PS1 := PMPrefix + NormalPS1;
+        PS2 := PMPrefix + NormalPS2;
+      end;
+  end;
+end;
+
+procedure TPythonIIForm.ShowWindow;
+begin
+  PyIDEMainForm.ShowIDEDockForm(Self);
+end;
+
 procedure TPythonIIForm.SynCodeCompletionAfterCodeCompletion(Sender: TObject;
   const Value: string; Shift: TShiftState; Index: Integer; EndToken: Char);
 begin
@@ -1398,7 +1448,7 @@ begin
   end;
 end;
 
-procedure TPythonIIForm.StartOutputMirror(AFileName: string;
+procedure TPythonIIForm.StartOutputMirror(const AFileName: string;
   Append: Boolean);
 Var
   Mode : integer;
@@ -1439,6 +1489,42 @@ procedure TPythonIIForm.UpdateInterpreterActions;
 begin
   actCopyWithoutPrompts.Enabled := SynEdit.SelAvail;
   actPasteAndExecute.Enabled := Clipboard.HasFormat(CF_UNICODETEXT);
+end;
+
+procedure TPythonIIForm.UpdatePythonKeywords;
+Var
+  Keywords, Builtins, BuiltInMod : Variant;
+  i : integer;
+begin
+  with CommandsDataModule do begin
+    SynPythonSyn.Keywords.Clear;
+    SynPythonSyn.Keywords.Sorted := False;
+    Keywords := Import('keyword').kwlist;
+    for i := 0 to Len(Keywords) - 1 do
+      SynPythonSyn.Keywords.AddObject(Keywords.__getitem__(i), Pointer(Ord(tkKey)));
+    BuiltInMod := VarPyth.BuiltinModule;
+    Builtins := BuiltinMod.dir(BuiltinMod);
+    for i := 0 to Len(Builtins) - 1 do
+      SynPythonSyn.Keywords.AddObject(Builtins.__getitem__(i), Pointer(Ord(tkNonKeyword)));
+    // add pseudo keyword self
+    SynPythonSyn.Keywords.AddObject('self', Pointer(Ord(tkNonKeyword)));
+    SynPythonSyn.Keywords.Sorted := True;
+
+    with SynCythonSyn do begin
+      Keywords.Clear;
+      Keywords.Sorted := False;
+      Keywords.AddStrings(SynPythonSyn.Keywords);
+      AddCythonKeywords(SynCythonSyn.Keywords);
+      Keywords.Sorted := True;
+    end;
+
+    with (SynEdit.Highlighter as TSynPythonInterpreterSyn) do begin
+      Keywords.Clear;
+      Keywords.Sorted := False;
+      Keywords.AddStrings(SynPythonSyn.Keywords);
+      Keywords.Sorted := True;
+    end;
+  end;
 end;
 
 procedure TPythonIIForm.FormActivate(Sender: TObject);
@@ -1571,6 +1657,11 @@ begin
   AddEditorCommand(ecRecallCommandPrev, Vcl.Menus.ShortCut(VK_UP, [ssAlt]));
   AddEditorCommand(ecRecallCommandNext, Vcl.Menus.ShortCut(VK_DOWN, [ssAlt]));
   AddEditorCommand(ecRecallCommandEsc, Vcl.Menus.ShortCut(VK_ESCAPE, []));
+end;
+
+procedure TPythonIIForm.ReinitInterpreter;
+begin
+  PostMessage(Handle, WM_REINITINTERPRETER, 0, 0);
 end;
 
 procedure TPythonIIForm.GetBlockCode(var Source: string;
