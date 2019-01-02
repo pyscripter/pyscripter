@@ -121,7 +121,6 @@ type
     class function GetFriendlyLanguageName: string; override;
   end;
 
-
   TCommandsDataModule = class(TDataModule)
     SynPythonSyn: TSynPythonSyn;
     SynEditPrint: TSynEditPrint;
@@ -1465,12 +1464,15 @@ procedure TCommandsDataModule.actExportHighlightersExecute(Sender: TObject);
 Var
   i : integer;
   AppStorage : TJvAppIniFileStorage;
+  IP : TStringList;
 begin
   with dlgFileSave do begin
     Title := _(SExportHighlighters);
     Filter := SynIniSyn.DefaultFilter;
     DefaultExt := 'ini';
     if Execute then begin
+      IP := TStringList.Create;
+      IP.Add('Name'); IP.Add('DefaultFilter'); IP.Add('DefaultExtension');
       AppStorage := TJvAppIniFileStorage.Create(nil);
       try
         AppStorage.FlushOnDestroy := True;
@@ -1483,11 +1485,12 @@ begin
         for i := 0 to Highlighters.Count - 1 do
           if IsHighlighterStored(Highlighters.Objects[i]) then
             AppStorage.WritePersistent('Highlighters\'+ Highlighters[i],
-              TPersistent(Highlighters.Objects[i]));
+              TPersistent(Highlighters.Objects[i]), True, IP);
         AppStorage.WritePersistent('Highlighters\Python Interpreter',
-          PythonIIForm.SynEdit.Highlighter);
+          PythonIIForm.SynEdit.Highlighter, True, IP);
     finally
         AppStorage.Free;
+        IP.Free;
       end;
     end;
   end;

@@ -466,6 +466,7 @@
             Text drag & drop between PyScripter and other applications (#554)
             Triple-click selects line and Quadraple-click selects all
             Double-click drag selects whole words - triple-click drag selects whole lines
+            Consistent syntax color themes accross supported languages (#855)
           Issues addressed
             #904, #922, #927, 928, #929, #936
 

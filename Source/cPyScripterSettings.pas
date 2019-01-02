@@ -139,9 +139,10 @@ type
     constructor Create; override;
     destructor Destroy; override;
     procedure Assign(Source: TPersistent); override;
-    property PythonFileExtensions : string read GetPythonFileExtensions;
-  published
     procedure Changed;
+    property PythonFileExtensions : string read GetPythonFileExtensions;
+    property OnChange: TJclNotifyEventBroadcast read fOnChange;
+  published
     property CodeFolding : TSynCodeFolding read fCodeFolding
       write fCodeFolding;
     property TimeOut : integer read fTimeOut write fTimeOut default 0;
@@ -297,8 +298,6 @@ type
       write fSSHDisableVariablesWin default True;
     property AlwaysUseSockets : Boolean read fAlwaysUseSockets
       write fAlwaysUseSockets default False;
-
-    property OnChange: TJclNotifyEventBroadcast read fOnChange;
   end;
 {$METHODINFO OFF}
 

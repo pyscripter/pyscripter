@@ -93,10 +93,10 @@ type
     fIdentifierAttri: TSynHighlighterAttributes;
     fSpaceAttri: TSynHighlighterAttributes;
     fErrorAttri: TSynHighlighterAttributes;
-    fMatchingBraceAttri : TSynHighlighterAttributes;
-    fUnbalancedBraceAttri : TSynHighlighterAttributes;
+    fMatchingBraceAttri: TSynHighlighterAttributes;
+    fUnbalancedBraceAttri: TSynHighlighterAttributes;
     fTempSpaceAttri: TSynHighlighterAttributes;
-    BlockOpenerRE : TRegEx;
+    BlockOpenerRE: TRegEx;
     function IdentKind(MayBe: PWideChar): TtkTokenKind;
     procedure SymbolProc;
     procedure CRProc;
@@ -194,7 +194,7 @@ type
     fOutputAttri: TSynHighlighterAttributes;
     fTracebackAttri: TSynHighlighterAttributes;
     fPromptAttri: TSynHighlighterAttributes;
-    //fSystemCmdAttri: TSynHighlighterAttributes;
+    fSystemCmdAttri: TSynHighlighterAttributes;
     fTracebackStartRE: TRegEx;
     fTracebackEndRE: TRegEx;
     fSystemCmdRE: TRegEx;
@@ -221,8 +221,8 @@ type
       write fTracebackAttri;
     property PromptAttri: TSynHighlighterAttributes read fPromptAttri
       write fPromptAttri;
-    //property SystemCmdAttri: TSynHighlighterAttributes read fSystemCmdAttri
-    //  write fSystemCmdAttri;
+    property SystemCmdAttri: TSynHighlighterAttributes read fSystemCmdAttri
+      write fSystemCmdAttri;
     property PS1 : string read fPS1 write fPS1;
     property PS2 : string read fPS2 write fPS2;
     property Dbg : string read fDbg write fDbg;
@@ -1568,8 +1568,8 @@ resourcestring
   SYNS_FriendlyAttrTraceback = 'Traceback';
   SYNS_AttrPrompt = 'Prompt';
   SYNS_FriendlyAttrPrompt = 'Prompt';
-  //SYNS_AttrSystemCmd = 'System Command';
-  //SYNS_FriendlyAttrSystemCmd = 'System Command';
+  SYNS_AttrSystemCmd = 'System Command';
+  SYNS_FriendlyAttrSystemCmd = 'System Command';
   SYNS_LangCython = 'Cython';
   SYNS_FriendlyLangCython = 'Cython';
 
@@ -1577,8 +1577,6 @@ Const
   // Do not localise
   SYNS_LangPythonInterpreter = 'Python Interpreter';
   SYNS_FriendlyLangPythonInterpreter = 'Python Interpreter';
-
-
 
 procedure TSynPythonInterpreterSyn.BannerProc;
 begin
@@ -1607,9 +1605,9 @@ begin
   fPromptAttri := TSynHighlighterAttributes.Create(SYNS_AttrPrompt, SYNS_FriendlyAttrPrompt);
   fPromptAttri.Foreground := clGreen;
   AddAttribute(fPromptAttri);
-  //fSystemCmdAttri := TSynHighlighterAttributes.Create(SYNS_AttrSystemCmd, SYNS_FriendlyAttrSystemCmd);
-  //fSystemCmdAttri.Foreground := clBlack;
-  //AddAttribute(fSystemCmdAttri);
+  fSystemCmdAttri := TSynHighlighterAttributes.Create(SYNS_AttrSystemCmd, SYNS_FriendlyAttrSystemCmd);
+  fSystemCmdAttri.Foreground := clFuchsia;
+  AddAttribute(fSystemCmdAttri);
   fTracebackStartRE.Create('^Traceback \(|File ".*line');
   fTracebackStartRE.Study;
   fTracebackEndRE.Create('^\w*(Error|Exception|Warning|KeyboardInterrupt):');
@@ -1697,7 +1695,7 @@ begin
     tkOutput: Result := fOutputAttri;
     tkTraceback: Result := fTracebackAttri;
     tkPrompt: Result := fPromptAttri;
-    tkSystemCmd: Result := fIdentifierAttri;
+    tkSystemCmd: Result := fSystemCmdAttri;
   else
     Result := inherited GetTokenAttribute;
   end;
