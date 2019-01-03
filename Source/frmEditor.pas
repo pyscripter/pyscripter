@@ -3173,7 +3173,7 @@ Var
 
 begin
   SynEdit := TSynCompletionProposal(Sender).Editor;
-  if Pos('>>', SynEdit.Lines[SynEdit.CaretY]) >= 0 then
+  if Pos('>>', SynEdit.Lines[SynEdit.CaretY-1]) >= 1 then
     SynEdit.ExecuteCommand(ecDeleteChar, ' ', nil);
 
   if not CaretBetween('()') then
