@@ -111,7 +111,6 @@ Const
   SEdCmdUnfoldRanges = 'Unfold Ranges';
   SEdCmdUp = 'Up';
   SEdCmdUpperCase = 'Upper Case';
-  SEdCmdUserFirst = 'User First';
   SEdCmdWordLeft = 'Word Left';
   SEdCmdWordRight = 'Word Right';
   // User editor commands

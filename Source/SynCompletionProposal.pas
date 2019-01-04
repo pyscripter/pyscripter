@@ -1314,9 +1314,27 @@ end;
 procedure TSynBaseCompletionProposalForm.KeyDown(var Key: Word; Shift: TShiftState);
 var
   C: WideChar;
+  Cmd: TSynEditorCommand;
+  i: integer;
+
+  procedure ExecuteCmdAndCancel;
+  begin
+    if Cmd <> ecNone then begin
+      if Assigned(CurrentEditor) then
+        (CurrentEditor as TCustomSynEdit).CommandProcessor(Cmd, #0, nil);
+
+      if Assigned(OnCancel) then
+        OnCancel(Self);
+    end;
+  end;
 begin
   if DisplayType = ctCode then
   begin
+    i := (CurrentEditor as TCustomSynEdit).Keystrokes.FindKeycode(Key, Shift);
+    if i >= 0 then
+      Cmd := TCustomSynEdit(CurrentEditor).Keystrokes[i].Command
+    else
+      Cmd := ecNone;
     case Key of
       SYNEDIT_RETURN:
         if (FCompleteWithEnter) and Assigned(OnValidate) then
@@ -1330,6 +1348,7 @@ begin
           OnCancel(Self);
       end;
       SYNEDIT_LEFT:
+        if (Shift = []) then
         begin
           if Length(FCurrentString) > 0 then
           begin
@@ -1347,8 +1366,10 @@ begin
             if Assigned(OnCancel) then
               OnCancel(Self);
           end;
-        end;
+        end else
+          ExecuteCmdAndCancel;
       SYNEDIT_RIGHT:
+        if (Shift = []) then
         begin
           if Assigned(CurrentEditor) then
             with CurrentEditor as TCustomSynEdit do
@@ -1367,7 +1388,8 @@ begin
 
               CommandProcessor(ecRight, #0, nil);
             end;
-        end;
+        end else
+          ExecuteCmdAndCancel;
       SYNEDIT_PRIOR:
         MoveLine(-FLinesInWindow);
       SYNEDIT_NEXT:
@@ -1406,9 +1428,13 @@ begin
             if Assigned(OnCancel) then
               OnCancel(Self);
           end;
-        end;
-      SYNEDIT_DELETE: if Assigned(CurrentEditor) then
-                      (CurrentEditor as TCustomSynEdit).CommandProcessor(ecDeleteChar, #0, nil);
+        end else
+          ExecuteCmdAndCancel;
+      SYNEDIT_DELETE:
+        if Assigned(CurrentEditor) then
+          (CurrentEditor as TCustomSynEdit).CommandProcessor(ecDeleteChar, #0, nil);
+    else
+      ExecuteCmdAndCancel;
     end;
   end;
   Invalidate;
