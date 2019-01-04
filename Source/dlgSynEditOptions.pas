@@ -42,27 +42,31 @@ interface
 
 uses
   System.Types,
-  Windows,
-  Messages,
-  Graphics,
-  Controls,
-  Forms,
-  Dialogs,
-  StdCtrls,
+  System.Classes,
+  System.SysUtils,
+  Winapi.Windows,
+  Winapi.Messages,
+  Vcl.Graphics,
+  Vcl.Controls,
+  Vcl.Forms,
+  Vcl.Dialogs,
+  Vcl.StdCtrls,
   Vcl.ComCtrls,
   Vcl.ExtCtrls,
-  Buttons,
-  Menus,
+  Vcl.WinXPanels,
+  Vcl.Buttons,
+  Vcl.Menus,
+  TB2Item,
+  SpTBXControls,
+  SpTBXEditors,
+  SpTBXItem,
+  SpTBXExtEditors,
+  SpTBXTabs,
   SynEdit,
   SynEditHighlighter,
   SynEditMiscClasses,
   SynEditKeyCmds,
-  Classes,
-  SysUtils,
-  dlgPyIDEBase,
-  SpTBXControls,  SpTBXEditors,
-  SpTBXItem, SpTBXExtEditors,
-  SpTBXTabs, TB2Item, Vcl.WinXPanels;
+  dlgPyIDEBase;
 
 type
   TSynEditorOptionsUserCommand = procedure(AUserCommand: Integer;
@@ -202,8 +206,6 @@ type
     procedure btnOkClick(Sender: TObject);
     procedure btnGutterFontClick(Sender: TObject);
     procedure cbGutterFontClick(Sender: TObject);
-    procedure cKeyCommandExit(Sender: TObject);
-    procedure cKeyCommandKeyPress(Sender: TObject; var Key: Char);
     procedure cKeyCommandKeyUp(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure cbHighlightersChange(Sender: TObject);
@@ -968,6 +970,7 @@ var
   Item : TListItem;
   S : String;
 begin
+  if cKeyCommand.ItemIndex < 0 then Exit;
   Item:= KeyList.Items.Add;
   try
     Item.Data:= FSynEdit.Keystrokes.Add;
@@ -996,7 +999,7 @@ procedure TfmEditorOptionsDialog.EditStrCallback(const S: string);
 begin
   //Add the Item
   if FExtended then
-    cKeyCommand.Items.AddObject(S, TObject(ConvertExtendedToCommand(S)))
+    cKeyCommand.Items.AddObject(_(S), TObject(ConvertExtendedToCommand(S)))
   else cKeyCommand.Items.AddObject(S, TObject(ConvertCodeStringToCommand(S)));
 end;
 
@@ -1078,7 +1081,6 @@ begin
   btnGutterFont.Enabled := cbGutterFont.Checked;
 end;
 
-
 procedure TfmEditorOptionsDialog.FillInKeystrokeInfo(
   AKey: TSynEditKeystroke; AItem: TListItem);
 var TmpString: String;      begin
@@ -1091,7 +1093,7 @@ var TmpString: String;      begin
         GetUserCommandNames(Command, TmpString);
     end else begin
       if FExtended then
-        TmpString := ConvertCodeStringToExtended(EditorCommandToCodeString(Command))
+        TmpString := _(ConvertCodeStringToExtended(EditorCommandToCodeString(Command)))
       else TmpString := EditorCommandToCodeString(Command);
     end;
 
@@ -1107,41 +1109,6 @@ var TmpString: String;      begin
 
     AItem.SubItems.Add(TmpString);
   end;
-end;
-
-procedure TfmEditorOptionsDialog.cKeyCommandExit(Sender: TObject);
-var TmpIndex : Integer;
-begin
-  TmpIndex := cKeyCommand.Items.IndexOf(cKeyCommand.Text);
-  if TmpIndex = -1 then
-  begin
-    if FExtended then
-      cKeyCommand.ItemIndex := cKeyCommand.Items.IndexOf(ConvertCodeStringToExtended('ecNone'))
-    else cKeyCommand.ItemIndex := cKeyCommand.Items.IndexOf('ecNone');
-  end else cKeyCommand.ItemIndex := TmpIndex;  //need to force it incase they just typed something in
-
-end;
-
-procedure TfmEditorOptionsDialog.cKeyCommandKeyPress(Sender: TObject;
-  var Key: Char);
-var WorkStr : String;
-    i       : Integer;
-begin
-//This would be better if componentized, but oh well...
-  WorkStr := AnsiUppercase(Copy(cKeyCommand.Text, 1, cKeyCommand.SelStart) + Key);
-  i := 0;
-  While i < cKeyCommand.Items.Count do
-  begin
-    if pos(WorkStr, AnsiUppercase(cKeyCommand.Items[i])) = 1 then
-    begin
-      cKeyCommand.Text := cKeyCommand.Items[i];
-      cKeyCommand.SelStart := length(WorkStr);
-      cKeyCommand.SelLength := Length(cKeyCommand.Text) - cKeyCommand.SelStart;
-      Key := #0;
-      break;
-    end else inc(i);
-  end;
-
 end;
 
 procedure TfmEditorOptionsDialog.cKeyCommandKeyUp(Sender: TObject;

@@ -59,7 +59,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
     object cbApplyToAll: TCheckBox
       Left = 19
       Top = 366
-      Width = 113
+      Width = 310
       Height = 21
       Caption = 'Apply to all editors'
       Checked = True
@@ -537,118 +537,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           end
         end
       end
-      object KeyStrokes: TSpTBXTabSheet
-        Left = 0
-        Top = 25
-        Width = 559
-        Height = 328
-        Caption = 'Keystrokes'
-        ImageIndex = -1
-        TabItem = 'SpTBXTabItem3'
-        object gbKeyStrokes: TGroupBox
-          AlignWithMargins = True
-          Left = 5
-          Top = 202
-          Width = 547
-          Height = 119
-          Align = alBottom
-          Caption = 'Keystroke Options'
-          TabOrder = 3
-          object Label5: TLabel
-            Left = 50
-            Top = 28
-            Width = 51
-            Height = 13
-            Caption = 'Command:'
-          end
-          object Label6: TLabel
-            Left = 50
-            Top = 91
-            Width = 61
-            Height = 13
-            Caption = 'Keystroke 2:'
-          end
-          object Label7: TLabel
-            Left = 50
-            Top = 59
-            Width = 61
-            Height = 13
-            Caption = 'Keystroke 1:'
-          end
-          object cKeyCommand: TComboBox
-            Left = 185
-            Top = 23
-            Width = 185
-            Height = 21
-            Style = csDropDownList
-            Sorted = True
-            TabOrder = 0
-            OnExit = cKeyCommandExit
-            OnKeyPress = cKeyCommandKeyPress
-            OnKeyUp = cKeyCommandKeyUp
-          end
-        end
-        object btnAddKey: TButton
-          Left = 245
-          Top = 166
-          Width = 102
-          Height = 25
-          Caption = '&Add'
-          TabOrder = 1
-          OnClick = btnAddKeyClick
-        end
-        object btnRemKey: TButton
-          Left = 353
-          Top = 166
-          Width = 102
-          Height = 25
-          Caption = '&Remove'
-          TabOrder = 2
-          OnClick = btnRemKeyClick
-        end
-        object btnUpdateKey: TButton
-          Left = 138
-          Top = 166
-          Width = 102
-          Height = 25
-          Caption = '&Update'
-          TabOrder = 0
-          OnClick = btnUpdateKeyClick
-        end
-        object Panel2: TPanel
-          Left = 2
-          Top = 0
-          Width = 553
-          Height = 158
-          Align = alTop
-          TabOrder = 4
-          object KeyList: TListView
-            Left = 1
-            Top = 1
-            Width = 551
-            Height = 156
-            Align = alClient
-            BorderStyle = bsNone
-            Columns = <
-              item
-                Caption = 'Command'
-                Width = 167
-              end
-              item
-                Caption = 'Keystroke'
-                Width = 142
-              end>
-            ColumnClick = False
-            FlatScrollBars = True
-            HideSelection = False
-            ReadOnly = True
-            RowSelect = True
-            SortType = stText
-            TabOrder = 0
-            ViewStyle = vsReport
-          end
-        end
-      end
       object ColorThemes: TSpTBXTabSheet
         Left = 0
         Top = 25
@@ -891,6 +779,116 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           TabOrder = 2
           SelectedColor = clBlack
           OnSelectedColorChanged = cbElementBackgroundChange
+        end
+      end
+      object KeyStrokes: TSpTBXTabSheet
+        Left = 0
+        Top = 25
+        Width = 559
+        Height = 328
+        Caption = 'Keystrokes'
+        ImageIndex = -1
+        TabItem = 'SpTBXTabItem3'
+        object gbKeyStrokes: TGroupBox
+          AlignWithMargins = True
+          Left = 5
+          Top = 202
+          Width = 547
+          Height = 119
+          Align = alBottom
+          Caption = 'Keystroke Options'
+          TabOrder = 3
+          object Label5: TLabel
+            Left = 50
+            Top = 28
+            Width = 51
+            Height = 13
+            Caption = 'Command:'
+          end
+          object Label6: TLabel
+            Left = 50
+            Top = 91
+            Width = 61
+            Height = 13
+            Caption = 'Keystroke 2:'
+          end
+          object Label7: TLabel
+            Left = 50
+            Top = 59
+            Width = 61
+            Height = 13
+            Caption = 'Keystroke 1:'
+          end
+          object cKeyCommand: TComboBox
+            Left = 185
+            Top = 23
+            Width = 185
+            Height = 21
+            Style = csDropDownList
+            Sorted = True
+            TabOrder = 0
+            OnKeyUp = cKeyCommandKeyUp
+          end
+        end
+        object btnAddKey: TButton
+          Left = 245
+          Top = 166
+          Width = 102
+          Height = 25
+          Caption = '&Add'
+          TabOrder = 1
+          OnClick = btnAddKeyClick
+        end
+        object btnRemKey: TButton
+          Left = 353
+          Top = 166
+          Width = 102
+          Height = 25
+          Caption = '&Remove'
+          TabOrder = 2
+          OnClick = btnRemKeyClick
+        end
+        object btnUpdateKey: TButton
+          Left = 138
+          Top = 166
+          Width = 102
+          Height = 25
+          Caption = '&Update'
+          TabOrder = 0
+          OnClick = btnUpdateKeyClick
+        end
+        object Panel2: TPanel
+          Left = 2
+          Top = 0
+          Width = 553
+          Height = 158
+          Align = alTop
+          TabOrder = 4
+          object KeyList: TListView
+            Left = 1
+            Top = 1
+            Width = 551
+            Height = 156
+            Align = alClient
+            BorderStyle = bsNone
+            Columns = <
+              item
+                Caption = 'Command'
+                Width = 167
+              end
+              item
+                Caption = 'Keystroke'
+                Width = 142
+              end>
+            ColumnClick = False
+            FlatScrollBars = True
+            HideSelection = False
+            ReadOnly = True
+            RowSelect = True
+            SortType = stText
+            TabOrder = 0
+            ViewStyle = vsReport
+          end
         end
       end
       object Display: TSpTBXTabSheet

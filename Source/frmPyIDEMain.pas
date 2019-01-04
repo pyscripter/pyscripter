@@ -468,7 +468,7 @@
             Double-click drag selects whole words - triple-click drag selects whole lines
             Consistent syntax color themes accross supported languages (#855)
           Issues addressed
-            #904, #922, #927, 928, #929, #936
+            #857, #904, #922, #927, 928, #929, #936
 
             { TODO : Issues 667 }
             { TODO : Review Search and Replace }

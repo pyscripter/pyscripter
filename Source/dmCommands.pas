@@ -2750,18 +2750,18 @@ procedure TCommandsDataModule.GetEditorUserCommand(AUserCommand: Integer;
   var ADescription: String);
 begin
   if AUserCommand = ecCodeCompletion then
-    ADescription := 'Code Completion'
+    ADescription := _(SEdCmdCodeCompletion)
   else if AUserCommand = ecParamCompletion then
-    ADescription := 'Param Completion'
+    ADescription := _(SEdCmdParameterCompletion)
   else if AUserCommand = ecSelMatchBracket then
-    ADescription := 'Select to Bracket';
+    ADescription := _(SEdCmdSelectToBracket);
 end;
 
 procedure TCommandsDataModule.GetEditorAllUserCommands(ACommands: TStrings);
 begin
-  ACommands.AddObject('Code Completion', TObject(ecCodeCompletion));
-  ACommands.AddObject('Param Completion', TObject(ecParamCompletion));
-  ACommands.AddObject('Select to Bracket', TObject(ecSelMatchBracket));
+  ACommands.AddObject(_(SEdCmdCodeCompletion), TObject(ecCodeCompletion));
+  ACommands.AddObject(_(SEdCmdParameterCompletion), TObject(ecParamCompletion));
+  ACommands.AddObject(_(SEdCmdSelectToBracket), TObject(ecSelMatchBracket));
 end;
 
 function TCommandsDataModule.DoSearchReplaceText(SynEdit : TSynEdit;
