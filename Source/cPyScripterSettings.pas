@@ -131,6 +131,7 @@ type
     fScpOptions: string;
     fSSHDisableVariablesWin : Boolean;
     fAlwaysUseSockets : Boolean;
+    fTrimTrailingSpacesOnSave : Boolean;
     function GetPythonFileExtensions: string;
     procedure SetAutoCompletionFont(const Value: TFont);
   protected
@@ -298,6 +299,8 @@ type
       write fSSHDisableVariablesWin default True;
     property AlwaysUseSockets : Boolean read fAlwaysUseSockets
       write fAlwaysUseSockets default False;
+    property TrimTrailingSpacesOnSave : Boolean read fTrimTrailingSpacesOnSave
+      write fTrimTrailingSpacesOnSave default True;
   end;
 {$METHODINFO OFF}
 
@@ -436,6 +439,7 @@ begin
       Self.fScpOptions := ScpOptions;
       Self.fSSHDisableVariablesWin := SSHDisableVariablesWin;
       Self.fAlwaysUseSockets := AlwaysUseSockets;
+      Self.fTrimTrailingSpacesOnSave := TrimTrailingSpacesOnSave;
     end
   else
     inherited;
@@ -530,6 +534,7 @@ begin
   fScpOptions := '-o PasswordAuthentication=no -o StrictHostKeyChecking=no';
   fSSHDisableVariablesWin := True;
   fAlwaysUseSockets := False;
+  fTrimTrailingSpacesOnSave := True;
   fCodeFolding := TSynCodeFolding.Create;
 end;
 

@@ -467,6 +467,7 @@
             Triple-click selects line and Quadraple-click selects all
             Double-click drag selects whole words - triple-click drag selects whole lines
             Consistent syntax color themes accross supported languages (#855)
+            New IDE option "Trim trailing spaces when saving files" (#667)
           Issues addressed
             #624, #857, #904, #922, #927, 928, #929, #936
 

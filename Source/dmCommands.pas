@@ -2033,7 +2033,7 @@ begin
   end;
   with Categories[5] do begin
     DisplayName := _('Editor');
-    SetLength(Options, 21);
+    SetLength(Options, 22);
     Options[0].PropertyName := 'RestoreOpenFiles';
     Options[0].DisplayName := _('Restore open files');
     Options[1].PropertyName := 'SearchTextAtCaret';
@@ -2076,6 +2076,8 @@ begin
     Options[19].DisplayName := _('Code folding options');
     Options[20].PropertyName := 'CompactLineNumbers';
     Options[20].DisplayName := _('Compact Line Numbers');
+    Options[21].PropertyName := 'TrimTrailingSpacesOnSave';
+    Options[21].DisplayName := _('Trim trailing spaces when files are saved');
   end;
   with Categories[6] do begin
     DisplayName := _('Code Completion');

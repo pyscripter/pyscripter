@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2019-01-04 06:33\n"
+"POT-Creation-Date: 2019-01-05 02:19\n"
 "PO-Revision-Date: 2018-01-23 16:26\n"
 "Last-Translator: Somebody <your.email@address.com>\n"
 "MIME-Version: 1.0\n"
@@ -6585,6 +6585,10 @@ msgstr ""
 
 #: dmCommands.pas
 msgid "Compact Line Numbers"
+msgstr ""
+
+#: dmCommands.pas
+msgid "Trim trailing spaces when files are saved"
 msgstr ""
 
 #. User editor commands

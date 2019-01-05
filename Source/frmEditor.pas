@@ -1744,8 +1744,8 @@ var
   i: Integer;
 begin
   // Trim all lines just in case (Issue 196)
-  if (eoTrimTrailingSpaces in SynEdit.Options) and (SynEdit.Lines.Count > 0)
-    then
+  if (SynEdit.Lines.Count > 0) and ((eoTrimTrailingSpaces in SynEdit.Options) or
+    PyIDEOptions.TrimTrailingSpacesOnSave)  then
   begin
     SynEdit.BeginUpdate;
     try
