@@ -3458,10 +3458,10 @@ begin
       if not(eoTabsToSpaces in Editor.Options) and
         (BeginningSpaceCount >= Editor.TabWidth)
       then
-        Spacing := UnicodeStringOfChar(#9, BeginningSpaceCount div Editor.TabWidth)
-          + UnicodeStringOfChar(' ', BeginningSpaceCount mod Editor.TabWidth)
+        Spacing := StringofChar(#9, BeginningSpaceCount div Editor.TabWidth)
+          + StringofChar(' ', BeginningSpaceCount mod Editor.TabWidth)
       else
-        Spacing := UnicodeStringOfChar(' ', BeginningSpaceCount);
+        Spacing := StringofChar(' ', BeginningSpaceCount);
 
       inc(i);
       if (i < AutoCompleteList.Count) and

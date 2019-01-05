@@ -267,13 +267,13 @@ var
       if (Start >= 0) then
       begin
         TestChar := BLine[Start];
-        if SynIsCharAlphaNumeric(TestChar) or (TestChar = '_') then
+        if IsCharAlphaNumeric(TestChar) or (TestChar = '_') then
           Exit;
       end;
       TestChar := BLine[EndPos+1];  // Next Character
       if TestChar <> #0 then
       begin
-        if SynIsCharAlphaNumeric(TestChar) or (TestChar = '_') then
+        if IsCharAlphaNumeric(TestChar) or (TestChar = '_') then
           Exit;
       end;
     end;
