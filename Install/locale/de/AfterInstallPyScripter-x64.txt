@@ -1,4 +1,4 @@
-***********  Dies ist die 64-Bit Version von PyScripter. *************
+﻿***********  Dies ist die 64-Bit Version von PyScripter. *************
 Sie erfordert eine 64-Bit Version von Windows. Bitte beachten Sie, dass PyScripter
 nur funktioniert, wenn eine 64-Bit Version von Python installiert ist.
 

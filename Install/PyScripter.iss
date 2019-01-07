@@ -34,6 +34,7 @@ ArchitecturesInstallIn64BitMode={#OSPlatform}
 Name: "en"; MessagesFile: "compiler:Default.isl"; InfoBeforeFile: "locale\en\BeforeInstallPyScripter-{#OSPlatform}.txt"; InfoAfterFile: "locale\en\AfterInstallPyScripter-{#OSPlatform}.txt"
 Name: "el"; MessagesFile: "compiler:\Languages\Greek.isl"; InfoBeforeFile: "locale\el\BeforeInstallPyScripter-{#OSPlatform}.txt"; InfoAfterFile: "locale\el\AfterInstallPyScripter-{#OSPlatform}.txt"
 Name: "it"; MessagesFile: "compiler:\Languages\Italian.isl"; InfoBeforeFile: "locale\it\BeforeInstallPyScripter-{#OSPlatform}.txt"; InfoAfterFile: "locale\it\AfterInstallPyScripter-{#OSPlatform}.txt"
+Name: "de"; MessagesFile: "compiler:\Languages\German.isl"; InfoBeforeFile: "locale\de\BeforeInstallPyScripter-{#OSPlatform}.txt"; InfoAfterFile: "locale\de\AfterInstallPyScripter-{#OSPlatform}.txt"
 
 [Tasks]
 Name: desktopicon; Description: {cm:CreateDesktopIcon}; GroupDescription: {cm:AdditionalIcons}; Flags: unchecked
@@ -230,5 +231,6 @@ Filename: {app}\PyScripter.exe; Description: {cm:LaunchProgram,PyScripter}; Flag
 #include "locale\en\InstallMessages.txt"
 #include "locale\el\InstallMessages.txt"
 #include "locale\it\InstallMessages.txt"
+#include "locale\de\InstallMessages.txt"
 
 ;#expr SaveToFile(AddBackslash(SourcePath) + "Preprocessed.iss")
