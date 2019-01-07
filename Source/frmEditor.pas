@@ -1339,11 +1339,12 @@ end;
 function TEditorFactory.GetEditorByName(const Name: string): IEditor;
 Var
   i: Integer;
+  FullName: string;
 begin
   Result := nil;
+  FullName := GetLongFileName(ExpandFileName(Name));
   for i := 0 to fEditors.Count - 1 do
-    if AnsiSameText(IEditor(fEditors[i]).GetFileName,
-      GetLongFileName(ExpandFileName(Name))) then
+    if AnsiSameText(IEditor(fEditors[i]).GetFileName, FullName) then
     begin
       Result := IEditor(fEditors[i]);
       break;

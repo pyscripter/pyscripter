@@ -187,7 +187,8 @@ Const
   SRemoteServerNotConnected = 'Remote Server is not connected.' + SLineBreak +
                               'Please reinitialize or disconnect the remote interpreter.';
   SRpycNotAvailable = 'The ''rpyc'' package is not available.' + SLineBreak +
-                      'Please exit and reinstall PyScripter.';
+                      'Please restart PyScripter and try again.' + SLineBreak +
+                      'If the error persists reinstall PyScripter.';
   SCouldNotWriteServerFile = 'Could not write file "%s" and cannot use a remote Python engine';
   SErrorCreatingRemoteEngine = 'Error in creating the remote interpreter: ';
   SCouldNotConnectRemoteEngine = 'Could not connect to the remote Python engine server. '+

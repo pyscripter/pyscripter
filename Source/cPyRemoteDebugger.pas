@@ -63,7 +63,7 @@ type
     procedure ConnectToServer;
     procedure ShutDownServer;  virtual;
     procedure CreateMainModule; override;
-    procedure ProcessServerOuput(const S: string);
+    procedure ProcessServerOutput(const S: string);
   public
     constructor Create(AEngineType : TPythonEngineType = peRemote);
     destructor Destroy; override;
@@ -497,7 +497,7 @@ constructor TPyRemoteInterpreter.Create(AEngineType : TPythonEngineType = peRemo
     _module : PPyObject;
   begin
     with GetPythonEngine do begin
-      _module := PyImport_ImportModule('win32file');
+      _module := PyImport_ImportModule('pywintypes');
       try
         if Assigned(_module) then
           Result := True
@@ -563,12 +563,13 @@ begin
   end;
 
   ServerProcessOptions := TJclExecuteCmdProcessOptions.Create('');
-  ServerProcessOptions.OutputLineCallback := ProcessServerOuput;
+  ServerProcessOptions.OutputLineCallback := ProcessServerOutput;
   ServerProcessOptions.BeforeResume := StoreServerProcessInfo;
   ServerProcessOptions.CreateProcessFlags :=
     ServerProcessOptions.CreateProcessFlags or CREATE_NO_WINDOW or CREATE_UNICODE_ENVIRONMENT;
   ServerProcessOptions.StartupVisibility := svNotSet;
   ServerProcessOptions.MergeError := False;
+  ServerProcessOptions.RawOutput := True;
   ServerProcessOptions.RawError := True;
 
   if fServerIsAvailable then CreateAndConnectToServer;
@@ -798,7 +799,7 @@ begin
   end;
 end;
 
-procedure TPyRemoteInterpreter.ProcessServerOuput(const S: string);
+procedure TPyRemoteInterpreter.ProcessServerOutput(const S: string);
 begin
 //  TThread.Queue(nil, procedure
 //  begin
