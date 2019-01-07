@@ -11,7 +11,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2018-12-14 18:12\n"
+"POT-Creation-Date: 2019-01-05 02:19\n"
 "PO-Revision-Date: 2018-01-24 08:21+0000\n"
 "Last-Translator: Михаил Духонин <velimudr@yandex.ru>, 2018\n"
 "Language-Team: Russian (https://www.transifex.com/luebbe/teams/82736/ru/)\n"
@@ -167,12 +167,13 @@ msgstr "Шаблоны кода"
 #. FunctionListWindow..Actions..actHelpHelp..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..HelpMenu..Caption
 #. ToDoWindow..Actions..actHelpHelp..Caption
+#. Programmer's name for it: SDlgHelp
 #: dlgCodeTemplates.dfm dlgCommandLine.dfm dlgCustomShortcuts.dfm
 #: dlgFileTemplates.dfm dlgFindInFiles.dfm dlgFindResultsOptions.dfm
 #: dlgOptionsEditor.dfm dlgRemoteFile.dfm dlgReplaceInFiles.dfm
 #: dlgRunConfiguration.dfm dlgSynEditOptions.dfm dlgToDoOptions.dfm
 #: dlgToolProperties.dfm dlgUnitTestWizard.dfm frmFindResults.dfm
-#: frmFunctionList.dfm frmPyIDEMain.dfm frmToDo.dfm
+#: frmFunctionList.dfm frmPyIDEMain.dfm frmToDo.dfm StringResources.pas
 msgid "&Help"
 msgstr "&Помощь"
 
@@ -219,10 +220,10 @@ msgstr "Параметр: Shift+Ctrl+P"
 #. CodeTemplates..Panel..lvItems......Caption
 #. CustomizeParams..Panel..lvItems......Caption
 #. FileTemplatesDialog..Panel..lvItems......Caption
-#. PythonVersionsDialog..Panel1..gbPythonVersions..vtPythonVersions......Text
+#. PythonVersionsDialog..Panel1..vtPythonVersions......Text
 #. ToolProperties..Panel1..TabControl..tabEnvironment..lvItems......Caption
 #. RegExpTesterWindow..BGPanel..FGPanel..pnlBackground..dpGroupsView..GroupsView......Text
-#. VariablesWindow..BGPanel..FGPanel..Panel1..VariablesTree......WideText
+#. VariablesWindow..BGPanel..FGPanel..Panel1..VariablesTree......Text
 #: dlgCodeTemplates.dfm dlgCustomParams.dfm dlgFileTemplates.dfm
 #: dlgPythonVersions.dfm dlgToolProperties.dfm frmRegExpTester.dfm
 #: frmVariables.dfm frmVariables.pas
@@ -230,7 +231,7 @@ msgid "Name"
 msgstr "Имя"
 
 #. CodeTemplates..Panel..lvItems......Caption
-#. ToDoWindow..BGPanel..FGPanel..ToDoView......WideText
+#. ToDoWindow..BGPanel..FGPanel..ToDoView......Text
 #: dlgCodeTemplates.dfm frmToDo.dfm
 msgid "Description"
 msgstr "Описание"
@@ -388,12 +389,14 @@ msgid "Confirm replace"
 msgstr "Подтвердить замену"
 
 #. ConfirmReplaceDialog..SpTBXPanel1..btnReplace..Caption
-#: dlgConfirmReplace.dfm
+#. Programmer's name for it: SDlgYes
+#: dlgConfirmReplace.dfm StringResources.pas
 msgid "&Yes"
 msgstr "&Да "
 
 #. ConfirmReplaceDialog..SpTBXPanel1..btnSkip..Caption
-#: dlgConfirmReplace.dfm
+#. Programmer's name for it: SDlgNo
+#: dlgConfirmReplace.dfm StringResources.pas
 msgid "&No"
 msgstr "&Нет"
 
@@ -423,8 +426,8 @@ msgstr "&Значение:"
 #. OptionsInspector..Panel1..Inspector..HeaderValueText
 #. ToolProperties..Panel1..TabControl..tabEnvironment..lvItems......Caption
 #. RegExpTesterWindow..BGPanel..FGPanel..pnlBackground..dpGroupsView..GroupsView......Text
-#. VariablesWindow..BGPanel..FGPanel..Panel1..VariablesTree......WideText
-#. WatchesWindow..BGPanel..FGPanel..Panel1..WatchesView......WideText
+#. VariablesWindow..BGPanel..FGPanel..Panel1..VariablesTree......Text
+#. WatchesWindow..BGPanel..FGPanel..Panel1..WatchesView......Text
 #: dlgCustomParams.dfm dlgOptionsEditor.dfm dlgToolProperties.dfm
 #: frmRegExpTester.dfm frmVariables.dfm frmWatches.dfm frmVariables.pas
 msgid "Value"
@@ -677,9 +680,10 @@ msgstr "Ка&талоги:"
 
 #. FindInFilesDialog..Panel1..gbxDirectories..btnBrowse..Hint
 #. fmToDoOptions..pnlBG..gbxSearchFiles..btnBrowse..Hint
-#: dlgFindInFiles.dfm dlgToDoOptions.dfm dlgImportDirectory.pas
-msgid "Select Directory"
-msgstr "Выберите каталог"
+#: dlgFindInFiles.dfm dlgToDoOptions.dfm dlgDirectoryList.pas
+#: dlgImportDirectory.pas uParams.pas
+msgid "Select directory"
+msgstr ""
 
 #. FindInFilesDialog..Panel1..gbxDirectories..cbInclude..Caption
 #. fmToDoOptions..pnlBG..gbxSearchFiles..chkInclude..Caption
@@ -817,7 +821,6 @@ msgid "Deselect all items"
 msgstr "Отмена выбора всех элементов"
 
 #. PythonVersionsDialog..Caption
-#. PythonVersionsDialog..Panel1..gbPythonVersions..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..RunMenu..mnPythonVersions..Caption
 #. PyIDEMainForm..TBXDockTop..ViewToolbar..tbiSelectPythonVersion..Caption
 #. PythonIIForm..InterpreterPopUp..mnPythonVersions..Caption
@@ -825,13 +828,7 @@ msgstr "Отмена выбора всех элементов"
 msgid "Python Versions"
 msgstr ""
 
-#. PythonVersionsDialog..Panel1..gbPythonVersions..vtPythonVersions..DefaultText
-#. RegExpTesterWindow..BGPanel..FGPanel..pnlBackground..dpGroupsView..GroupsView..DefaultText
-#: dlgPythonVersions.dfm frmRegExpTester.dfm
-msgid "Node"
-msgstr ""
-
-#. PythonVersionsDialog..Panel1..gbPythonVersions..vtPythonVersions......Text
+#. PythonVersionsDialog..Panel1..vtPythonVersions......Text
 #: dlgPythonVersions.dfm
 msgid "Folder"
 msgstr ""
@@ -843,7 +840,7 @@ msgstr ""
 
 #. PythonVersionsDialog..actlPythonVersions..actPVActivate..Hint
 #: dlgPythonVersions.dfm
-msgid "Activate selected python version"
+msgid "Activate selected Python version"
 msgstr ""
 
 #. PythonVersionsDialog..actlPythonVersions..actPVAdd..Caption
@@ -853,7 +850,7 @@ msgstr ""
 
 #. PythonVersionsDialog..actlPythonVersions..actPVAdd..Hint
 #: dlgPythonVersions.dfm
-msgid "Add a new python version"
+msgid "Add a new Python version"
 msgstr ""
 
 #. PythonVersionsDialog..actlPythonVersions..actPVRemove..Caption
@@ -863,7 +860,7 @@ msgstr ""
 
 #. PythonVersionsDialog..actlPythonVersions..actPVRemove..Hint
 #: dlgPythonVersions.dfm
-msgid "Remove selected python version"
+msgid "Remove selected Python version"
 msgstr ""
 
 #. PythonVersionsDialog..actlPythonVersions..actPVTest..Caption
@@ -873,7 +870,7 @@ msgstr ""
 
 #. PythonVersionsDialog..actlPythonVersions..actPVTest..Hint
 #: dlgPythonVersions.dfm
-msgid "Test selected python version"
+msgid "Test selected Python version"
 msgstr ""
 
 #. PythonVersionsDialog..actlPythonVersions..actPVShow..Caption
@@ -883,7 +880,7 @@ msgstr ""
 
 #. PythonVersionsDialog..actlPythonVersions..actPVShow..Hint
 #: dlgPythonVersions.dfm
-msgid "Show selected python version in Explorer"
+msgid "Show selected Python version in Explorer"
 msgstr ""
 
 #. PythonVersionsDialog..actlPythonVersions..actPVCommandShell..Caption
@@ -893,7 +890,7 @@ msgstr ""
 
 #. PythonVersionsDialog..actlPythonVersions..actPVCommandShell..Hint
 #: dlgPythonVersions.dfm
-msgid "Open command prompt for the selected python version"
+msgid "Open command prompt for the selected Python version"
 msgstr ""
 
 #. PythonVersionsDialog..actlPythonVersions..actPVHelp..Caption
@@ -914,8 +911,9 @@ msgstr ""
 #. RegExpTesterWindow..BGPanel..FGPanel..TBXDock..RegExpTesterToolbar..tiHelp..Caption
 #. ToDoWindow..Actions..actHelpHelp..Category
 #. ToDoWindow..Actions..actHelpHelp..Hint
+#. Programmer's name for it: SDlgHelpHelp
 #: dlgPythonVersions.dfm dmCommands.dfm frmFindResults.dfm frmFunctionList.dfm
-#: frmRegExpTester.dfm frmToDo.dfm
+#: frmRegExpTester.dfm frmToDo.dfm StringResources.pas
 msgid "Help"
 msgstr "Помощь"
 
@@ -931,7 +929,7 @@ msgstr ""
 
 #. PythonVersionsDialog..actlPythonVersions..actPVRename..Hint
 #: dlgPythonVersions.dfm
-msgid "Rename selected python version"
+msgid "Rename selected Python version"
 msgstr ""
 
 #. RemoteFileDialog..Panel1..Label1..Caption
@@ -1007,10 +1005,9 @@ msgid "&Parameters:"
 msgstr "&Параметры:"
 
 #. RunConfigurationForm..Panel1..GroupBox2..Label7..Caption
-#. ToolProperties..Panel1..TabControl..tabProperties..GroupBox2..Label7..Caption
-#: dlgRunConfiguration.dfm dlgToolProperties.dfm
-msgid "Working &directory:"
-msgstr "Рабочий &каталог:"
+#: dlgRunConfiguration.dfm
+msgid "Working &Directory:"
+msgstr ""
 
 #. RunConfigurationForm..Panel1..gbRemoteEngine..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..RunMenu..mnPythonEngines..Caption
@@ -1031,17 +1028,17 @@ msgstr "Механизм &Тип:"
 
 #. RunConfigurationForm..Panel1..gbRemoteEngine..cbEngineType..Text
 #. RunConfigurationForm..Panel1..gbRemoteEngine..cbEngineType....Items.Strings
-#: dlgRunConfiguration.dfm
+#: dlgRunConfiguration.dfm cPyControl.pas
 msgid "Remote"
 msgstr "Удаленный"
 
 #. RunConfigurationForm..Panel1..gbRemoteEngine..cbEngineType....Items.Strings
-#: dlgRunConfiguration.dfm
+#: dlgRunConfiguration.dfm cPyControl.pas
 msgid "Internal"
 msgstr "Внутренний"
 
 #. RunConfigurationForm..Panel1..gbRemoteEngine..cbEngineType....Items.Strings
-#: dlgRunConfiguration.dfm
+#: dlgRunConfiguration.dfm cPyControl.pas
 msgid "Remote (Tk)"
 msgstr "Удаленный (Tk)"
 
@@ -1104,11 +1101,6 @@ msgstr "Доступные стили"
 msgid "Preview"
 msgstr "Предыдущий"
 
-#. StyleSelectorForm..Button1..Caption
-#: dlgStyleSelector.dfm
-msgid "&Apply Style"
-msgstr ""
-
 #. StyleSelectorForm..ActionManager1..StyleName
 #: dlgStyleSelector.dfm
 msgid "Platform Default"
@@ -1116,7 +1108,7 @@ msgstr ""
 
 #. StyleSelectorForm..ActionManager1..ActionApplyStyle..Caption
 #: dlgStyleSelector.dfm
-msgid "Apply Style"
+msgid "&Apply Style"
 msgstr ""
 
 #. fmEditorOptionsDialog..Caption
@@ -1457,37 +1449,6 @@ msgstr "Половина Блока"
 msgid "Block"
 msgstr "Блок"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Caption
-#: dlgSynEditOptions.dfm
-msgid "Keystroke Options"
-msgstr "Параметры сочетаний клавиш"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label5..Caption
-#: dlgSynEditOptions.dfm
-msgid "Command:"
-msgstr "Команда:"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label6..Caption
-#: dlgSynEditOptions.dfm
-msgid "Keystroke 2:"
-msgstr ""
-
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label7..Caption
-#: dlgSynEditOptions.dfm
-msgid "Keystroke 1:"
-msgstr ""
-
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..Panel2..KeyList......Caption
-#. ToolProperties..Panel1..TabControl..tabProperties..GroupBox2..Caption
-#: dlgSynEditOptions.dfm dlgToolProperties.dfm
-msgid "Command"
-msgstr "Команда"
-
-#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..Panel2..KeyList......Caption
-#: dlgSynEditOptions.dfm
-msgid "Keystroke"
-msgstr ""
-
 #. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel1..Caption
 #. fmEditorOptionsDialog..Panel1..TabControl..Color..Label14..Caption
 #: dlgSynEditOptions.dfm
@@ -1548,6 +1509,37 @@ msgstr "&Подчеркивание"
 #: dlgSynEditOptions.dfm
 msgid "&Strike Out"
 msgstr "&Зачеркнуть"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Caption
+#: dlgSynEditOptions.dfm
+msgid "Keystroke Options"
+msgstr "Параметры сочетаний клавиш"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label5..Caption
+#: dlgSynEditOptions.dfm
+msgid "Command:"
+msgstr "Команда:"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label6..Caption
+#: dlgSynEditOptions.dfm
+msgid "Keystroke 2:"
+msgstr ""
+
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label7..Caption
+#: dlgSynEditOptions.dfm
+msgid "Keystroke 1:"
+msgstr ""
+
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..Panel2..KeyList......Caption
+#. ToolProperties..Panel1..TabControl..tabProperties..GroupBox2..Caption
+#: dlgSynEditOptions.dfm dlgToolProperties.dfm
+msgid "Command"
+msgstr "Команда"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..Panel2..KeyList......Caption
+#: dlgSynEditOptions.dfm
+msgid "Keystroke"
+msgstr ""
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Display..gbRightEdge..Caption
 #: dlgSynEditOptions.dfm
@@ -1689,7 +1681,8 @@ msgstr "Заголовок"
 
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox1..Label12..Caption
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox3..Label15..Caption
-#: dlgSynPageSetup.dfm
+#. Programmer's name for it: SEdCmdLeft
+#: dlgSynPageSetup.dfm StringResources.pas
 msgid "Left"
 msgstr "Влево"
 
@@ -1701,7 +1694,8 @@ msgstr "Центр"
 
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox1..Label14..Caption
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox3..Label17..Caption
-#: dlgSynPageSetup.dfm
+#. Programmer's name for it: SEdCmdRight
+#: dlgSynPageSetup.dfm StringResources.pas
 msgid "Right"
 msgstr "Правое"
 
@@ -2104,6 +2098,11 @@ msgstr "(Обязательно)"
 msgid "&Application:"
 msgstr "&Назначение:"
 
+#. ToolProperties..Panel1..TabControl..tabProperties..GroupBox2..Label7..Caption
+#: dlgToolProperties.dfm
+msgid "Working &directory:"
+msgstr "Рабочий &каталог:"
+
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox4..Caption
 #: dlgToolProperties.dfm
 msgid "Shortcut and Context"
@@ -2368,7 +2367,8 @@ msgid "This wizard will generate unit tests for the Python module"
 msgstr "Этот мастер создаст тесты для данного модуля"
 
 #. UnitTestWizard..PopupUnitTestWizard..mnSelectAll..Caption
-#: dlgUnitTestWizard.dfm
+#. Programmer's name for it: SEdCmdSelectAll
+#: dlgUnitTestWizard.dfm StringResources.pas
 msgid "Select All"
 msgstr "Выбрать все"
 
@@ -2386,6 +2386,12 @@ msgstr "Отменить все"
 #: dlgUnitTestWizard.dfm
 msgid "Deselect all nodes"
 msgstr "Отмена выбора всех узлов"
+
+#. CommandsDataModule..SynPythonSyn..DefaultFilter
+#. 5000;
+#: dmCommands.dfm cPyScripterSettings.pas
+msgid "Python Files (*.py;*.pyw)|*.py;*.pyw"
+msgstr ""
 
 #. CommandsDataModule..ParameterCompletion..Title
 #. CommandsDataModule..actlMain..actParameterCompletion..Category
@@ -2480,7 +2486,8 @@ msgstr "Сохранить как|Сохранить активный файл �
 
 #. CommandsDataModule..actlMain..actFileClose..Caption
 #. OutputWindow..OutputActions..actToolClose..Caption
-#: dmCommands.dfm frmCommandOutput.dfm
+#. Programmer's name for it: SDlgClose
+#: dmCommands.dfm frmCommandOutput.dfm StringResources.pas
 msgid "&Close"
 msgstr "&Закрыть"
 
@@ -3373,7 +3380,8 @@ msgid "Regions"
 msgstr ""
 
 #. CommandsDataModule..actlMain..actFoldRegions..Hint
-#: dmCommands.dfm
+#. Programmer's name for it: SEdCmdFoldRanges
+#: dmCommands.dfm StringResources.pas
 msgid "Fold Ranges"
 msgstr "Свернуть диапазон"
 
@@ -3484,7 +3492,7 @@ msgid "Donate to the PyScripter project"
 msgstr ""
 
 #. CommandsDataModule..SynGeneralSyn..DefaultFilter
-#: dmCommands.dfm
+#: dmCommands.dfm cPyScripterSettings.pas
 msgid "Text Files(*.txt,*.*)|*.txt;*.*"
 msgstr "Текстовые файлы(*.txt,*.*)|*.txt;*.*"
 
@@ -3493,25 +3501,25 @@ msgstr "Текстовые файлы(*.txt,*.*)|*.txt;*.*"
 msgid "Breakpoints"
 msgstr "Точки останова"
 
-#. BreakPointsWindow..BGPanel..FGPanel..Panel1..BreakPointsView......WideText
-#. CallStackWindow..BGPanel..FGPanel..Panel1..CallStackView......WideText
-#. MessagesWindow..BGPanel..FGPanel..MessagesView......WideText
-#. ToDoWindow..BGPanel..FGPanel..ToDoView......WideText
+#. BreakPointsWindow..BGPanel..FGPanel..Panel1..BreakPointsView......Text
+#. CallStackWindow..BGPanel..FGPanel..Panel1..CallStackView......Text
+#. MessagesWindow..BGPanel..FGPanel..MessagesView......Text
+#. ToDoWindow..BGPanel..FGPanel..ToDoView......Text
 #: frmBreakPoints.dfm frmCallStack.dfm frmMessages.dfm frmToDo.dfm
 msgid "File Name"
 msgstr "Имя файла"
 
-#. BreakPointsWindow..BGPanel..FGPanel..Panel1..BreakPointsView......WideText
-#. CallStackWindow..BGPanel..FGPanel..Panel1..CallStackView......WideText
+#. BreakPointsWindow..BGPanel..FGPanel..Panel1..BreakPointsView......Text
+#. CallStackWindow..BGPanel..FGPanel..Panel1..CallStackView......Text
 #. FunctionListWindow..pnHolder..lvProcs......Caption
-#. MessagesWindow..BGPanel..FGPanel..MessagesView......WideText
-#. ToDoWindow..BGPanel..FGPanel..ToDoView......WideText
+#. MessagesWindow..BGPanel..FGPanel..MessagesView......Text
+#. ToDoWindow..BGPanel..FGPanel..ToDoView......Text
 #: frmBreakPoints.dfm frmCallStack.dfm frmFunctionList.dfm frmMessages.dfm
 #: frmToDo.dfm
 msgid "Line"
 msgstr "Линия"
 
-#. BreakPointsWindow..BGPanel..FGPanel..Panel1..BreakPointsView......WideText
+#. BreakPointsWindow..BGPanel..FGPanel..Panel1..BreakPointsView......Text
 #: frmBreakPoints.dfm
 msgid "Condition"
 msgstr "Условие"
@@ -3549,13 +3557,13 @@ msgstr "Копировать в буфер обмена"
 msgid "Call Stack"
 msgstr "Стек вызовов"
 
-#. CallStackWindow..BGPanel..FGPanel..Panel1..CallStackView......WideText
+#. CallStackWindow..BGPanel..FGPanel..Panel1..CallStackView......Text
 #. Programmer's name for it: SYNS_FriendlyFunctionName
 #: frmCallStack.dfm SynHighlighterPython.pas
 msgid "Function Name"
 msgstr "Наименование функции"
 
-#. CallStackWindow..BGPanel..FGPanel..Panel2..ThreadView......WideText
+#. CallStackWindow..BGPanel..FGPanel..Panel2..ThreadView......Text
 #: frmCallStack.dfm
 msgid "Threads"
 msgstr ""
@@ -3897,7 +3905,7 @@ msgstr "Управление избранными путями"
 
 #. FileExplorerWindow..BGPanel..FGPanel..ExplorerDock..ExplorerToolbar..TBXSubmenuItem1..TBXSubmenuItem3..Caption
 #. FileExplorerWindow..ExplorerPopUp..mnPythonPath..Caption
-#: frmFileExplorer.dfm
+#: frmFileExplorer.dfm dmCommands.pas
 msgid "Python Path"
 msgstr "PYTHONPATH"
 
@@ -4044,7 +4052,8 @@ msgstr "Поиск обновления"
 
 #. FindResultsWindow..Actions..actFileAbort..Caption
 #. ToDoWindow..Actions..actFileAbort..Caption
-#: frmFindResults.dfm frmToDo.dfm
+#. Programmer's name for it: SDlgAbort
+#: frmFindResults.dfm frmToDo.dfm StringResources.pas
 msgid "&Abort"
 msgstr "&аварийное прекращение работы"
 
@@ -4279,12 +4288,12 @@ msgstr "Перейти к реализации"
 msgid "Messages"
 msgstr "Сообщения"
 
-#. MessagesWindow..BGPanel..FGPanel..MessagesView......WideText
+#. MessagesWindow..BGPanel..FGPanel..MessagesView......Text
 #: frmMessages.dfm
 msgid "Message"
 msgstr "Сообщение"
 
-#. MessagesWindow..BGPanel..FGPanel..MessagesView......WideText
+#. MessagesWindow..BGPanel..FGPanel..MessagesView......Text
 #: frmMessages.dfm
 msgid "Position"
 msgstr "Позиция"
@@ -5707,7 +5716,7 @@ msgstr ""
 
 #. PyIDEMainForm..actlStandard..actPythonSetup..Hint
 #: frmPyIDEMain.dfm
-msgid "Setup python engine"
+msgid "Setup Python engine"
 msgstr ""
 
 #. PyIDEMainForm..actlStandard..actRemoteFileOpen..Caption
@@ -5723,7 +5732,8 @@ msgid "Open Remote File with SSH"
 msgstr ""
 
 #. PythonIIForm..Caption
-#: frmPythonII.dfm dmCommands.pas
+#. Create a Python External Run tool which is used in the run menu
+#: frmPythonII.dfm cTools.pas dmCommands.pas
 msgid "Python Interpreter"
 msgstr "Интерпретатор Python"
 
@@ -5870,6 +5880,11 @@ msgstr "Не выполнено"
 #: frmRegExpTester.dfm
 msgid "Groups:"
 msgstr "Группы:"
+
+#. RegExpTesterWindow..BGPanel..FGPanel..pnlBackground..dpGroupsView..GroupsView..DefaultText
+#: frmRegExpTester.dfm
+msgid "Node"
+msgstr ""
 
 #. RegExpTesterWindow..BGPanel..FGPanel..pnlBackground..dpRegExpText..SpTBXPanel1..TBXLabel3..Caption
 #: frmRegExpTester.dfm
@@ -6044,14 +6059,14 @@ msgstr "Очистить все тесты"
 msgid "Variables"
 msgstr "Переменные"
 
-#. VariablesWindow..BGPanel..FGPanel..Panel1..VariablesTree......WideText
-#. WatchesWindow..BGPanel..FGPanel..Panel1..WatchesView......WideText
+#. VariablesWindow..BGPanel..FGPanel..Panel1..VariablesTree......Text
+#. WatchesWindow..BGPanel..FGPanel..Panel1..WatchesView......Text
 #: frmVariables.dfm frmWatches.dfm frmVariables.pas
 msgid "Type"
 msgstr "Тип"
 
 #. WatchesWindow..Caption
-#. WatchesWindow..BGPanel..FGPanel..Panel1..WatchesView......WideText
+#. WatchesWindow..BGPanel..FGPanel..Panel1..WatchesView......Text
 #: frmWatches.dfm
 msgid "Watches"
 msgstr "Выражения"
@@ -6080,6 +6095,19 @@ msgstr "Очистить все выражения"
 #: cFindInFiles.pas
 msgid "No editor is currently active"
 msgstr "В настоящий момент нет активных вкладок"
+
+#. Programmer's name for it: SNonameFileTitle
+#: cProjectClasses.pas frmProjectExplorer.pas StringResources.pas
+msgid "Untitled"
+msgstr "Неназванный"
+
+#: cProjectClasses.pas
+msgid "Files"
+msgstr ""
+
+#: cProjectClasses.pas
+msgid "Run Configurations"
+msgstr ""
 
 #: cPyScripterSettings.pas
 msgid "JSON Files (*.json;*.ipynb)|*.json;*.ipynb"
@@ -6110,28 +6138,28 @@ msgstr ""
 msgid "Host name"
 msgstr ""
 
-#: cSSHSupport.pas
+#: cSSHSupport.pas uParams.pas
 msgid "User name"
 msgstr ""
 
 #: cSSHSupport.pas
-msgid "Command to execute python (no spaces)"
+msgid "Command to execute Python (no spaces)"
 msgstr ""
 
 #: cSSHSupport.pas
 msgid "Path to SSH Command"
 msgstr ""
 
-#: cSSHSupport.pas
-msgid "SSH options (optional)"
+#: cSSHSupport.pas dmCommands.pas
+msgid "SSH options"
 msgstr ""
 
 #: cSSHSupport.pas
-msgid "Path to Scp Command"
+msgid "Path to SCP Command"
 msgstr ""
 
-#: cSSHSupport.pas
-msgid "Scp options (optional)"
+#: cSSHSupport.pas dmCommands.pas
+msgid "SCP options"
 msgstr ""
 
 #: cSSHSupport.pas
@@ -6140,6 +6168,83 @@ msgstr ""
 
 #: cSSHSupport.pas
 msgid "Edit SSH Server"
+msgstr ""
+
+#. Add a few standard tools to the collection
+#: cTools.pas
+msgid "Python &Interpreter"
+msgstr ""
+
+#: cTools.pas
+msgid "External Python Interpreter"
+msgstr ""
+
+#: cTools.pas
+msgid "Install Packages with pip"
+msgstr ""
+
+#: cTools.pas
+msgid "Install Python packages"
+msgstr ""
+
+#: cTools.pas
+msgid "Python&Win help"
+msgstr ""
+
+#: cTools.pas
+msgid "Show PythonWin Help"
+msgstr ""
+
+#: cTools.pas
+msgid "Check &Indentation"
+msgstr ""
+
+#: cTools.pas
+msgid "Check the indentation of the Python program"
+msgstr ""
+
+#: cTools.pas
+msgid "Command Prompt"
+msgstr ""
+
+#: cTools.pas
+msgid "Start a console at the directory of the active file"
+msgstr ""
+
+#: cTools.pas
+msgid "Profile"
+msgstr ""
+
+#: cTools.pas
+msgid "Profile active file"
+msgstr ""
+
+#: cTools.pas
+msgid "PyLint tool (www.logilab.org/projects/pylint)"
+msgstr ""
+
+#: cTools.pas
+msgid "Advanced Replace"
+msgstr ""
+
+#: cTools.pas
+msgid "Advanced Search and replace"
+msgstr ""
+
+#: cTools.pas
+msgid "Sort Selection"
+msgstr ""
+
+#: cTools.pas
+msgid "Sort the selected editor block (\"one-liner\" demo)"
+msgstr ""
+
+#: cTools.pas
+msgid "&Re-indent"
+msgstr ""
+
+#: cTools.pas
+msgid "Re-indent the active file"
 msgstr ""
 
 #: dlgAboutPyScripter.pas
@@ -6246,16 +6351,8 @@ msgstr "Испанский: %s"
 
 #: dlgAboutPyScripter.pas
 msgid ""
-"Salim Saddaquzzaman (https://github.com/sk-Prime)\n"
-"Tanmaya Meher (www.github.com/tanmayameher)\n"
-"jprzywoski (www.github.com/jprzywoski)"
-msgstr ""
-
-#: dlgAboutPyScripter.pas
-msgid ""
-"Donations from numerous users have provided a strong incentive to develop "
-"this project.  Generous support from Tranquil IT (https://www.tranquil.it) "
-"makers of WAPT (apt-get for Windows) (https://www.wapt.fr) is acknowledged."
+"Donations from numerous users have provided a strong incentive to develop this project.\n"
+"Generous support from Tranquil IT (https://www.tranquil.it) makers of WAPT (apt-get for Windows) (https://www.wapt.fr) is acknowledged."
 msgstr ""
 
 #: dlgAboutPyScripter.pas
@@ -6295,10 +6392,6 @@ msgstr ""
 msgid "Unassigned"
 msgstr ""
 
-#: dlgDirectoryList.pas
-msgid "Select Directory:"
-msgstr ""
-
 #. Programmer's name for it: RsSendBugReportSubject
 #: dlgExceptionMail.pas
 msgid "PyScripter Bug Report"
@@ -6312,6 +6405,10 @@ msgstr ""
 
 #: dlgFindInFiles.pas
 msgid "Directory To Search:"
+msgstr ""
+
+#: dlgPythonVersions.pas
+msgid "Select folder with Python installation (inlcuding virtualenv and venv)"
 msgstr ""
 
 #: dlgPythonVersions.pas
@@ -6329,6 +6426,10 @@ msgstr "Окно результатов поиска в файлах неакт�
 
 #: dlgRunConfiguration.pas dlgToolProperties.pas
 msgid "Select working directory:"
+msgstr ""
+
+#: dlgToDoOptions.pas
+msgid "'To Do' search path"
 msgstr ""
 
 #: dmCommands.pas
@@ -6368,8 +6469,8 @@ msgid "Dock animation move width (pixels)"
 msgstr ""
 
 #: dmCommands.pas
-msgid "File template for new python scripts"
-msgstr "Шаблон для новых файлов Python"
+msgid "File template for new Python scripts"
+msgstr ""
 
 #: dmCommands.pas
 msgid "Number of recent files"
@@ -6447,6 +6548,10 @@ msgstr "Файловые фильтры"
 #: dmCommands.pas
 msgid "File explorer filter"
 msgstr "Панель обзора файлов"
+
+#: dmCommands.pas
+msgid "text file"
+msgstr ""
 
 #: dmCommands.pas
 msgid "Editor"
@@ -6537,6 +6642,12 @@ msgid "Compact Line Numbers"
 msgstr ""
 
 #: dmCommands.pas
+msgid "Trim trailing spaces when files are saved"
+msgstr ""
+
+#. User editor commands
+#. Programmer's name for it: SEdCmdCodeCompletion
+#: dmCommands.pas StringResources.pas
 msgid "Code Completion"
 msgstr "Автодополнение кода"
 
@@ -6597,15 +6708,7 @@ msgid "SSH command"
 msgstr ""
 
 #: dmCommands.pas
-msgid "SSH options"
-msgstr ""
-
-#: dmCommands.pas
-msgid "Scp command"
-msgstr ""
-
-#: dmCommands.pas
-msgid "Scp options"
+msgid "SCP command"
 msgstr ""
 
 #: dmCommands.pas
@@ -6698,6 +6801,10 @@ msgid ""
 "Arguments: %s"
 msgstr ""
 
+#: frmFileExplorer.pas
+msgid "File Explorer favorites"
+msgstr ""
+
 #. Programmer's name for it: SAllString
 #: frmFunctionList.pas
 msgid "<All>"
@@ -6726,6 +6833,12 @@ msgid ""
 msgstr ""
 "Данное действие приведет настройки панелей инструментов и сочетаний клавиш в исходное состояние. \n"
 "Продолжить?"
+
+#. Programmer's name for it: ProjectFilter
+#: frmProjectExplorer.pas
+#, object-pascal-format
+msgid "PyScripter project files (*.%s)|*.%0:s"
+msgstr ""
 
 #: frmPyIDEMain.pas
 msgid "Debug"
@@ -6777,6 +6890,608 @@ msgstr ""
 
 #: frmVariables.pas
 msgid "DocString"
+msgstr ""
+
+#. Needs to be manually updated as new editor commands are added
+#. Programmer's name for it: SEdCmdAutoCompletion
+#: StringResources.pas
+msgid "Auto Completion"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdBlockIndent
+#: StringResources.pas
+msgid "Block Indent"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdBlockUnindent
+#: StringResources.pas
+msgid "Block Unindent"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdClearAll
+#: StringResources.pas
+msgid "Clear All"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdColumnSelect
+#: StringResources.pas
+msgid "Column Select"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdCommentBlock
+#: StringResources.pas
+msgid "Comment Block"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdContextHelp
+#: StringResources.pas
+msgid "Context Help"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdCopy
+#: StringResources.pas
+msgid "Copy"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdCopyLineDown
+#: StringResources.pas
+msgid "Copy Line Down"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdCopyLineUp
+#: StringResources.pas
+msgid "Copy Line Up"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdCut
+#: StringResources.pas
+msgid "Cut"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdDeleteBOL
+#: StringResources.pas
+msgid "Delete BOL"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdDeleteChar
+#: StringResources.pas
+msgid "Delete Char"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdDeleteEOL
+#: StringResources.pas
+msgid "Delete EOL"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdDeleteLastChar
+#: StringResources.pas
+msgid "Delete Last Char"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdDeleteLastWord
+#: StringResources.pas
+msgid "Delete Last Word"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdDeleteLine
+#: StringResources.pas
+msgid "Delete Line"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdDeleteWord
+#: StringResources.pas
+msgid "Delete Word"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdDown
+#: StringResources.pas
+msgid "Down"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdEditorBottom
+#: StringResources.pas
+msgid "Editor Bottom"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdEditorTop
+#: StringResources.pas
+msgid "Editor Top"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdFoldAll
+#: StringResources.pas
+msgid "Fold All"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdFoldLevel1
+#: StringResources.pas
+msgid "Fold Level 1"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdFoldLevel2
+#: StringResources.pas
+msgid "Fold Level 2"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdFoldLevel3
+#: StringResources.pas
+msgid "Fold Level 3"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdFoldNearest
+#: StringResources.pas
+msgid "Fold Nearest"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdGotoBookmark0
+#: StringResources.pas
+msgid "Goto Bookmark 0"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdGotoBookmark1
+#: StringResources.pas
+msgid "Goto Bookmark 1"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdGotoBookmark2
+#: StringResources.pas
+msgid "Goto Bookmark 2"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdGotoBookmark3
+#: StringResources.pas
+msgid "Goto Bookmark 3"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdGotoBookmark4
+#: StringResources.pas
+msgid "Goto Bookmark 4"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdGotoBookmark5
+#: StringResources.pas
+msgid "Goto Bookmark 5"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdGotoBookmark6
+#: StringResources.pas
+msgid "Goto Bookmark 6"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdGotoBookmark7
+#: StringResources.pas
+msgid "Goto Bookmark 7"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdGotoBookmark8
+#: StringResources.pas
+msgid "Goto Bookmark 8"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdGotoBookmark9
+#: StringResources.pas
+msgid "Goto Bookmark 9"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdInsertLine
+#: StringResources.pas
+msgid "Insert Line"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdInsertMode
+#: StringResources.pas
+msgid "Insert Mode"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdLineBreak
+#: StringResources.pas
+msgid "Line Break"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdLineEnd
+#: StringResources.pas
+msgid "Line End"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdLineSelect
+#: StringResources.pas
+msgid "Line Select"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdLineStart
+#: StringResources.pas
+msgid "Line Start"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdLowerCase
+#: StringResources.pas
+msgid "Lower Case"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdMatchBracket
+#: StringResources.pas
+msgid "Match Bracket"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdMoveLineDown
+#: StringResources.pas
+msgid "Move Line Down"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdMoveLineUp
+#: StringResources.pas
+msgid "Move Line Up"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdNormalSelect
+#: StringResources.pas
+msgid "Normal Select"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdOverwriteMode
+#: StringResources.pas
+msgid "Overwrite Mode"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdPageBottom
+#: StringResources.pas
+msgid "Page Bottom"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdPageDown
+#: StringResources.pas
+msgid "Page Down"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdPageLeft
+#: StringResources.pas
+msgid "Page Left"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdPageRight
+#: StringResources.pas
+msgid "Page Right"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdPageTop
+#: StringResources.pas
+msgid "Page Top"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdPageUp
+#: StringResources.pas
+msgid "Page Up"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdPaste
+#: StringResources.pas
+msgid "Paste"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdRedo
+#: StringResources.pas
+msgid "Redo"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdScrollDown
+#: StringResources.pas
+msgid "Scroll Down"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdScrollLeft
+#: StringResources.pas
+msgid "Scroll Left"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdScrollRight
+#: StringResources.pas
+msgid "Scroll Right"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdScrollUp
+#: StringResources.pas
+msgid "Scroll Up"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdSelectDown
+#: StringResources.pas
+msgid "Select Down"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdSelectEditorBottom
+#: StringResources.pas
+msgid "Select Editor Bottom"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdSelectEditorTop
+#: StringResources.pas
+msgid "Select Editor Top"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdSelectLeft
+#: StringResources.pas
+msgid "Select Left"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdSelectLineEnd
+#: StringResources.pas
+msgid "Select Line End"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdSelectLineStart
+#: StringResources.pas
+msgid "Select Line Start"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdSelectPageBottom
+#: StringResources.pas
+msgid "Select Page Bottom"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdSelectPageDown
+#: StringResources.pas
+msgid "Select Page Down"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdSelectPageLeft
+#: StringResources.pas
+msgid "Select Page Left"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdSelectPageRight
+#: StringResources.pas
+msgid "Select Page Right"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdSelectPageTop
+#: StringResources.pas
+msgid "Select Page Top"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdSelectPageUp
+#: StringResources.pas
+msgid "Select Page Up"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdSelectRight
+#: StringResources.pas
+msgid "Select Right"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdSelectUp
+#: StringResources.pas
+msgid "Select Up"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdSelectWord
+#: StringResources.pas
+msgid "Select Word"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdSelectWordLeft
+#: StringResources.pas
+msgid "Select Word Left"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdSelectWordRight
+#: StringResources.pas
+msgid "Select Word Right"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdSetBookmark0
+#: StringResources.pas
+msgid "Set Bookmark 0"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdSetBookmark1
+#: StringResources.pas
+msgid "Set Bookmark 1"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdSetBookmark2
+#: StringResources.pas
+msgid "Set Bookmark 2"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdSetBookmark3
+#: StringResources.pas
+msgid "Set Bookmark 3"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdSetBookmark4
+#: StringResources.pas
+msgid "Set Bookmark 4"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdSetBookmark5
+#: StringResources.pas
+msgid "Set Bookmark 5"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdSetBookmark6
+#: StringResources.pas
+msgid "Set Bookmark 6"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdSetBookmark7
+#: StringResources.pas
+msgid "Set Bookmark 7"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdSetBookmark8
+#: StringResources.pas
+msgid "Set Bookmark 8"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdSetBookmark9
+#: StringResources.pas
+msgid "Set Bookmark 9"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdShiftTab
+#: StringResources.pas
+msgid "Shift Tab"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdTab
+#: StringResources.pas
+msgid "Tab"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdTitleCase
+#: StringResources.pas
+msgid "Title Case"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdToggleCase
+#: StringResources.pas
+msgid "Toggle Case"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdToggleInsertMode
+#: StringResources.pas
+msgid "Toggle Mode"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdUndo
+#: StringResources.pas
+msgid "Undo"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdUnfoldAll
+#: StringResources.pas
+msgid "Unfold All"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdUnfoldLevel1
+#: StringResources.pas
+msgid "Unfold Level 1"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdUnfoldLevel2
+#: StringResources.pas
+msgid "Unfold Level 2"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdUnfoldLevel3
+#: StringResources.pas
+msgid "Unfold Level 3"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdUnfoldNearest
+#: StringResources.pas
+msgid "Unfold Nearest"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdUnfoldRanges
+#: StringResources.pas
+msgid "Unfold Ranges"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdUp
+#: StringResources.pas
+msgid "Up"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdUpperCase
+#: StringResources.pas
+msgid "Upper Case"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdWordLeft
+#: StringResources.pas
+msgid "Word Left"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdWordRight
+#: StringResources.pas
+msgid "Word Right"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdParameterCompletion
+#: StringResources.pas
+msgid "Parameter Completion"
+msgstr ""
+
+#. Programmer's name for it: SEdCmdSelectToBracket
+#: StringResources.pas
+msgid "Select to Bracket"
+msgstr ""
+
+#. Delphi dialogs (from Vcl.Consts)
+#. Programmer's name for it: SDlgWarning
+#: StringResources.pas
+msgid "Warning"
+msgstr ""
+
+#. Programmer's name for it: SDlgError
+#: StringResources.pas
+msgid "Error"
+msgstr ""
+
+#. Programmer's name for it: SDlgInformation
+#: StringResources.pas
+msgid "Information"
+msgstr ""
+
+#. Programmer's name for it: SDlgConfirm
+#: StringResources.pas
+msgid "Confirm"
+msgstr ""
+
+#. Programmer's name for it: SDlgOK
+#: StringResources.pas
+msgid "OK"
+msgstr ""
+
+#. Programmer's name for it: SDlgCancel
+#: StringResources.pas
+msgid "Cancel"
+msgstr ""
+
+#. Programmer's name for it: SDlgRetry
+#: StringResources.pas
+msgid "&Retry"
+msgstr ""
+
+#. Programmer's name for it: SDlgIgnore
+#: StringResources.pas
+msgid "&Ignore"
+msgstr ""
+
+#. Programmer's name for it: SDlgAll
+#: StringResources.pas
+msgid "&All"
+msgstr ""
+
+#. Programmer's name for it: SDlgNoToAll
+#: StringResources.pas
+msgid "N&o to All"
+msgstr ""
+
+#. Programmer's name for it: SDlgYesToAll
+#: StringResources.pas
+msgid "Yes to &All"
+msgstr ""
+
+#. Programmer's name for it: STrueValue
+#: StringResources.pas
+msgid "True"
+msgstr ""
+
+#. Programmer's name for it: SFalseValue
+#: StringResources.pas
+msgid "False"
+msgstr ""
+
+#. Programmer's name for it: SDSActkShowText
+#: StringResources.pas
+msgid "Do not show this dialog again"
+msgstr ""
+
+#. Programmer's name for it: SDSActkRememberText
+#: StringResources.pas
+msgid "Remember answer and do not show again"
 msgstr ""
 
 #. Programmer's name for it: SInternalError
@@ -6849,7 +7564,7 @@ msgstr "Командная строка: %s\n"
 #. Programmer's name for it: SEngineActive
 #: StringResources.pas
 #, object-pascal-format
-msgid "*** %s Python engine %sis active ***"
+msgid "*** %s Python engine is active ***"
 msgstr ""
 
 #. Programmer's name for it: SInterpreterNA
@@ -6860,21 +7575,18 @@ msgstr ""
 #. Programmer's name for it: SPostMortemInfo
 #: StringResources.pas
 msgid ""
-"You are now in post-mortem analysis mode.  You can examine the Call Stack, Variables and Watches windows, evaluate expressions etc.\n"
-"To exit the post-mortem analysis select the Abort Debugging command."
+"You are now in post-mortem analysis mode.\n"
+"You can examine the Call Stack, Variables and Watches windows, evaluate expressions etc.\n"
+"To exit the post-mortem analysis select the 'Abort Debugging' command."
 msgstr ""
-"Вы находитесь в аварийном аналитическом режиме. Вы можете исследовать Стек вызовов, Переменные и временные значения, оценить выражения и т.д. \n"
-"Чтобы выйти из аварийного анализа выберите команду Abort Debugging."
 
 #. Programmer's name for it: SFileEncodingWarning
 #: StringResources.pas
 #, object-pascal-format
 msgid ""
-"Encoding file \"%s\" using \"%s\" encoding will result in information loss."
-"  Do you want to proceed?"
+"Encoding file \"%s\" using \"%s\" encoding will result in information loss.\n"
+"Do you want to proceed?"
 msgstr ""
-"Кодировка файла  \"%s\" с помощью \"%s\"  приведет к потере информации. Вы "
-"хотите продолжить?"
 
 #. Programmer's name for it: SDecodingError
 #: StringResources.pas
@@ -6931,29 +7643,16 @@ msgstr "Ошибка в модуле импорта"
 #. Programmer's name for it: SRemoteServerNotConnected
 #: StringResources.pas
 msgid ""
-"Remote Server is not connected.  Please reinitialize or disconnect the "
-"remote  interpreter."
+"Remote Server is not connected.\n"
+"Please reinitialize or disconnect the remote interpreter."
 msgstr ""
-"Удаленный сервер не подсоединён. Пожалуйста, повторно инициализируйте "
-"удаленный интерпретатор или отсоединитесь."
 
 #. Programmer's name for it: SRpycNotAvailable
 #: StringResources.pas
 msgid ""
-"The Rpyc module is not available.  To use the remote Python Engine download "
-"Rpyc from http://Rpyc.sf.net and install it."
+"The 'rpyc' package is not available.\n"
+"Please exit and reinstall PyScripter."
 msgstr ""
-"Модуль RPyC не доступен. Для использования удаленного Python-движка скачать "
-"RPyC от http://Rpyc.sf.net и установить его."
-
-#. Programmer's name for it: SWrongRpycVersion
-#: StringResources.pas
-msgid ""
-"Wrong Rpyc version.  To use the remote Python Engine download version 2.6 "
-"Rpyc from http://Rpyc.sf.net and install it."
-msgstr ""
-"Неправильная версия Rpyc. Для использовать удаленный Python-движок загрузите"
-" версию 2.6 Rpyc с http://Rpyc.sf.net и установить его."
 
 #. Programmer's name for it: SCouldNotWriteServerFile
 #: StringResources.pas
@@ -6988,9 +7687,9 @@ msgstr "У другого элемента есть то же самое имя"
 #. Programmer's name for it: SCodeTemplateModified
 #: StringResources.pas
 msgid ""
-"The template has been modified.  Do you want to update it with the new "
-"definition?"
-msgstr "Шаблон был изменен. Вы хотите обновить это с новым определением?"
+"The template has been modified.\n"
+"Do you want to update it with the new definition?"
+msgstr ""
 
 #. Programmer's name for it: SInvalidNumber
 #: StringResources.pas
@@ -7049,18 +7748,16 @@ msgstr "Обновлений не обнаружено."
 #. Programmer's name for it: SKillExternalTool
 #: StringResources.pas
 msgid ""
-"An External Tool is still running.  Do you want to terminate it and exit?"
+"An External Tool is still running.\n"
+"Do you want to terminate it and exit?"
 msgstr ""
-"Внешний инструмент всё ещё работает. Вы хотите  прекратить его выполнение и "
-"выйти?"
 
 #. Programmer's name for it: STerminateInterpreter
 #: StringResources.pas
 msgid ""
-"The Python interpreter is busy.  Are you sure you want to terminate it?"
+"The Python interpreter is busy.\n"
+"Are you sure you want to terminate it?"
 msgstr ""
-"Интерпретатор Python занят. Вы уверены, что хотите  завершить его "
-"выполнение?"
 
 #. Programmer's name for it: SFindDefinitionWarning
 #: StringResources.pas
@@ -7107,14 +7804,16 @@ msgstr ""
 #. Programmer's name for it: SAbortDebugging
 #: StringResources.pas
 msgid ""
-"A debugging session is in progress.  Do you want to abort the session and "
-"Exit?"
-msgstr "Выполняется отладка. Вы хотите прервать отладку и выйти?"
+"A debugging session is in progress.\n"
+"Do you want to abort the session and Exit?"
+msgstr ""
 
 #. Programmer's name for it: SInterruptRunningScript
 #: StringResources.pas
-msgid "The Python Script has timed out.  Do you want to interrupt it?"
-msgstr "Время выполнения Python-скрипта истекло. Прервать?"
+msgid ""
+"The Python Script has timed out.\n"
+"Do you want to interrupt it?"
+msgstr ""
 
 #. Programmer's name for it: SNoTestsFound
 #: StringResources.pas
@@ -7308,11 +8007,10 @@ msgstr "Сохранить измененные файлы"
 #. Programmer's name for it: SSelectModifiedFiles
 #: StringResources.pas
 msgid ""
-"The following files have been modified. Please select the files that you "
-"wish to save and press the OK button.  Press Cancel to go back to PyScripter"
+"The following files have been modified.\n"
+"Press 'OK' to save selected files and exit.\n"
+"Press 'Cancel' to return to PyScripter without saving files."
 msgstr ""
-"Пожалуйста, выберите файлы, которые вы хотите сохранить и нажмите кнопку ОК."
-" Нажмите Отмена, чтобы вернуться к PyScripter"
 
 #. Programmer's name for it: SSaveAs
 #: StringResources.pas
@@ -7394,22 +8092,25 @@ msgstr ""
 
 #. Programmer's name for it: SNoJupyter
 #: StringResources.pas
-msgid "Jupyter is not available.  Please install jupiter first"
+msgid ""
+"The 'jupyter' package is not available.\n"
+"Please install 'jupyter' first."
 msgstr ""
 
 #. Programmer's name for it: SExternalProcessRunning
 #: StringResources.pas
 msgid ""
-"An external process is stil running.  Please terminate it first from the "
-"Output Window"
+"An external process is still running.\n"
+"Please terminate it first from the 'Output' window."
 msgstr ""
 
 #. Project Manager
 #. Programmer's name for it: SAskSaveProject
 #: StringResources.pas
 msgid ""
-"The active project has not been saved.  Do you want to save the changes?"
-msgstr "Активный проект не был сохранен. Вы хотите сохранить изменения?"
+"The active project has not been saved.\n"
+"Do you want to save the changes?"
+msgstr ""
 
 #. Programmer's name for it: SFailedToBackupProject
 #: StringResources.pas
@@ -7565,14 +8266,10 @@ msgstr "Процессы %s"
 #, object-pascal-format
 msgid ""
 "%s\n"
-"has changed since it was searched.  Replacement aborted.\n"
+"has changed since it was searched. Replacement aborted.\n"
 "Expected: %s\n"
 "Found: %s"
 msgstr ""
-"%s\n"
-"изменено в найденом. Операция замены прервалась \n"
-"Запрошено: %s\n"
-"Найдено: %s"
 
 #. Programmer's name for it: SFileSkipped
 #: StringResources.pas
@@ -7661,11 +8358,6 @@ msgstr "Вставить"
 msgid "Overwrite"
 msgstr "Перезаписать"
 
-#. Programmer's name for it: SNonameFileTitle
-#: StringResources.pas
-msgid "Untitled"
-msgstr "Неназванный"
-
 #. Programmer's name for it: SNonamePythonFileTitle
 #: StringResources.pas
 msgid "module"
@@ -7686,17 +8378,16 @@ msgstr ""
 #. Programmer's name for it: SFileReloadingWarning
 #: StringResources.pas
 msgid ""
-"Reloading the file will result in the loss of all changes.  Do you want to "
-"proceed?"
+"Reloading the file will result in the loss of all changes.\n"
+"Do you want to proceed?"
 msgstr ""
-"Перезагрузка файла приведет к потере всех изменений. Вы хотите продолжить?"
 
 #. Programmer's name for it: SFileAlreadyOpen
 #: StringResources.pas
 msgid ""
-"Another editor with the same file is open.  You can not have two editors "
-"with the same file."
-msgstr "Файл уже открыт в другом редакторе. Нельзя открыть файл два раза."
+"Another editor with the same file is open.\n"
+"You can not have two editors with the same file."
+msgstr ""
 
 #. Parameters
 #. Programmer's name for it: SEnterParameterCaption
@@ -7913,24 +8604,24 @@ msgstr ""
 
 #. Programmer's name for it: SScpError4
 #: StringResources.pas
-msgid "Scp Error: Connecting to host failed"
+msgid "SCP Error: Connecting to host failed"
 msgstr ""
 
 #. Programmer's name for it: SScpError5
 #: StringResources.pas
-msgid "Scp Error: Connection lost for some reason"
+msgid "SCP Error: Connection lost for some reason"
 msgstr ""
 
 #. Programmer's name for it: SScpErrorTimeout
 #: StringResources.pas
-msgid "Scp Error: Timeout"
+msgid "SCP Error: Timeout"
 msgstr ""
 
 #. Programmer's name for it: SScpErrorOther
 #: StringResources.pas
 #, object-pascal-format
 msgid ""
-"Scp Error:\n"
+"SCP Error:\n"
 "Output: %s+\n"
 "Error Output: %s+"
 msgstr ""
@@ -7944,7 +8635,7 @@ msgstr ""
 #. Programmer's name for it: SSHUnknownServerQuery
 #: StringResources.pas
 #, object-pascal-format
-msgid "Unknown SSH server with fingerpring \"%s\". Do you want to proceed?"
+msgid "Unknown SSH server with fingerprint \"%s\". Do you want to proceed?"
 msgstr ""
 
 #. Programmer's name for it: SSHPythonTimeout
@@ -7967,8 +8658,8 @@ msgstr ""
 #: StringResources.pas
 #, object-pascal-format
 msgid ""
-"Local python version is %s and remote python version is %s. To use this SSH "
-"server please switch to python version %1:s"
+"Local Python version is %s and remote Python version is %s. To use this SSH "
+"server please switch to Python version %1:s."
 msgstr ""
 
 #. Programmer's name for it: SYNS_FriendlyMatchingBrace
@@ -7986,7 +8677,237 @@ msgstr ""
 msgid "Multi-Line String"
 msgstr ""
 
+#. Programmer's name for it: SYNS_AttrSystemCmd
+#. Programmer's name for it: SYNS_FriendlyAttrSystemCmd
+#: SynHighlighterPython.pas
+msgid "System Command"
+msgstr ""
+
 #. Programmer's name for it: SYNS_FilterYAML
 #: SynHighlighterYAML.pas
 msgid "YAML files (*.yaml)|*.yaml"
 msgstr "YAML файлы (*.yaml)|*.yaml"
+
+#. Python Paths etc.
+#: uParams.pas
+msgid "Directory of active Python version"
+msgstr ""
+
+#: uParams.pas
+msgid "Executable of active Python"
+msgstr ""
+
+#: uParams.pas
+msgid "Version of active Python"
+msgstr ""
+
+#. register system paths and parameters
+#: uParams.pas
+msgid "Program Files directory"
+msgstr ""
+
+#: uParams.pas
+msgid "Common Files directory"
+msgstr ""
+
+#: uParams.pas
+msgid "Windows installation directory"
+msgstr ""
+
+#: uParams.pas
+msgid "Windows System directory"
+msgstr ""
+
+#: uParams.pas
+msgid "Windows Temp directory"
+msgstr ""
+
+#: uParams.pas
+msgid "MyDocuments directory"
+msgstr ""
+
+#: uParams.pas
+msgid "Desktop directory"
+msgstr ""
+
+#. register parameters
+#: uParams.pas
+msgid "Clipboard as text"
+msgstr ""
+
+#: uParams.pas
+msgid "Current directory"
+msgstr ""
+
+#: uParams.pas
+msgid "Executable name"
+msgstr ""
+
+#: uParams.pas
+msgid "Python Command Line Arguments"
+msgstr ""
+
+#. register parameter modifiers
+#: uParams.pas
+msgid "Path of file"
+msgstr ""
+
+#: uParams.pas
+msgid "Path without delimeter"
+msgstr ""
+
+#: uParams.pas
+msgid "File name"
+msgstr ""
+
+#: uParams.pas
+msgid "File extension"
+msgstr ""
+
+#: uParams.pas
+msgid "File extension without \".\""
+msgstr ""
+
+#: uParams.pas
+msgid "File name without extension"
+msgstr ""
+
+#: uParams.pas
+msgid "File drive"
+msgstr ""
+
+#: uParams.pas
+msgid "Expanded file name"
+msgstr ""
+
+#: uParams.pas
+msgid "Expanded UNC file name"
+msgstr ""
+
+#: uParams.pas
+msgid "Long file name"
+msgstr ""
+
+#: uParams.pas
+msgid "Short file name"
+msgstr ""
+
+#: uParams.pas
+msgid "Path with final path delimiter added"
+msgstr ""
+
+#: uParams.pas
+msgid "Path with final path delimiter removed"
+msgstr ""
+
+#: uParams.pas
+msgid "File type"
+msgstr ""
+
+#: uParams.pas
+msgid "Contents of text file"
+msgstr ""
+
+#: uParams.pas
+msgid "Command line parameter"
+msgstr ""
+
+#: uParams.pas
+msgid "Value of registry key"
+msgstr ""
+
+#: uParams.pas
+msgid "Value of environment variable"
+msgstr ""
+
+#: uParams.pas
+msgid "Upper case of string"
+msgstr ""
+
+#: uParams.pas
+msgid "Lower case of string"
+msgstr ""
+
+#: uParams.pas
+msgid "Quoted string"
+msgstr ""
+
+#: uParams.pas
+msgid "Unquoted string"
+msgstr ""
+
+#: uParams.pas
+msgid "Current date and time"
+msgstr ""
+
+#: uParams.pas
+msgid "Select file"
+msgstr ""
+
+#: uParams.pas
+msgid "Date of a date-time value"
+msgstr ""
+
+#: uParams.pas
+msgid "Time of a date-time value"
+msgstr ""
+
+#: uParams.pas
+msgid "Date of a file"
+msgstr ""
+
+#: uParams.pas
+msgid "Creation date of a file"
+msgstr ""
+
+#: uParams.pas
+msgid "Last modification date of a file"
+msgstr ""
+
+#: uParams.pas
+msgid "Last access date of a file"
+msgstr ""
+
+#: uParams.pas
+msgid "Formatted date"
+msgstr ""
+
+#: uParams.pas
+msgid "Active document name"
+msgstr ""
+
+#: uParams.pas
+msgid "The name or last run script"
+msgstr ""
+
+#: uParams.pas
+msgid "Project file name"
+msgstr ""
+
+#: uParams.pas
+msgid "Modified files"
+msgstr ""
+
+#: uParams.pas
+msgid "Open files"
+msgstr ""
+
+#: uParams.pas
+msgid "Text of the active document or a file"
+msgstr ""
+
+#: uParams.pas
+msgid "Current word in the active document"
+msgstr ""
+
+#: uParams.pas
+msgid "Current line in the active document"
+msgstr ""
+
+#: uParams.pas
+msgid "Current line number in the active document"
+msgstr ""
+
+#: uParams.pas
+msgid "Selected text in the active document"
+msgstr ""
