@@ -384,9 +384,7 @@ begin
   with GetPythonEngine.Traceback do begin
     if ItemCount > 0 then begin
       TI := Items[ItemCount -1];
-      FileName := TI.FileName;
-      if (FileName[1] ='<') and (FileName[Length(FileName)] = '>') then
-        FileName :=  Copy(FileName, 2, Length(FileName)-2);
+      FileName := FromPythonFileName(TI.FileName);
       Editor := GI_EditorFactory.GetEditorByNameOrTitle(FileName);
       // Check whether the error occurred in the active editor
       if (Assigned(Editor) and (Editor = GI_PyIDEServices.GetActiveEditor)) or
@@ -452,6 +450,11 @@ end;
 
 function TPyBaseInterpreter.FromPythonFileName(const FileName: string): string;
 begin
+  if FileName = '' then
+    Result := ''
+ else if (FileName[1] ='<') and (FileName[Length(FileName)] = '>') then
+   Result :=  Copy(FileName, 2, Length(FileName)-2)
+ else
   Result := FileName;
 end;
 
@@ -459,7 +462,8 @@ function TPyBaseInterpreter.ToPythonFileName(const FileName: string): string;
 Var
   Server, FName : string;
 begin
-  if TSSHFileName.Parse(FileName, Server, FName) then
+  // check for untitled or remote files
+  if (FileName.IndexOfAny(['\', '/', '.']) < 0) or TSSHFileName.Parse(FileName, Server, FName) then
     Result := '<' + FileName + '>'
   else
     Result := FileName;

@@ -129,9 +129,10 @@ type
     fSSHOptions: string;
     fScpCommand : string;
     fScpOptions: string;
-    fSSHDisableVariablesWin : Boolean;
-    fAlwaysUseSockets : Boolean;
-    fTrimTrailingSpacesOnSave : Boolean;
+    fSSHDisableVariablesWin: Boolean;
+    fAlwaysUseSockets: Boolean;
+    fTrimTrailingSpacesOnSave: Boolean;
+    fTraceOnlyIntoOpenFiles: Boolean;
     function GetPythonFileExtensions: string;
     procedure SetAutoCompletionFont(const Value: TFont);
   protected
@@ -301,6 +302,8 @@ type
       write fAlwaysUseSockets default False;
     property TrimTrailingSpacesOnSave : Boolean read fTrimTrailingSpacesOnSave
       write fTrimTrailingSpacesOnSave default True;
+    property TraceOnlyIntoOpenFiles : Boolean read fTraceOnlyIntoOpenFiles
+      write fTraceOnlyIntoOpenFiles default False;
   end;
 {$METHODINFO OFF}
 
@@ -440,6 +443,7 @@ begin
       Self.fSSHDisableVariablesWin := SSHDisableVariablesWin;
       Self.fAlwaysUseSockets := AlwaysUseSockets;
       Self.fTrimTrailingSpacesOnSave := TrimTrailingSpacesOnSave;
+      Self.fTraceOnlyIntoOpenFiles := TraceOnlyIntoOpenFiles;
     end
   else
     inherited;
@@ -535,6 +539,7 @@ begin
   fSSHDisableVariablesWin := True;
   fAlwaysUseSockets := False;
   fTrimTrailingSpacesOnSave := True;
+  fTraceOnlyIntoOpenFiles := False;
   fCodeFolding := TSynCodeFolding.Create;
 end;
 

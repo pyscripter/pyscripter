@@ -171,6 +171,7 @@ uses
   WinApi.MMSystem,
   System.Math,
   System.Variants,
+  System.StrUtils,
   Vcl.Dialogs,
   JvDSADialogs,
   JvGnugettext,
@@ -622,12 +623,10 @@ begin
 
     // Add the path of the script to the Python Path - Will be automatically removed
     Path := InternalInterpreter.ToPythonFileName(ARunConfig.ScriptName);
-    if (Path.Length > 0) and (Path[1] <> '<') then
-      Path := ExtractFileDir(Path)
-    else
-      Path := '';
+    Path := IfThen(Path.StartsWith('<'), '', ExtractFileDir(Path));
+
     InternalInterpreter.SysPathRemove('');
-    if Path.Length > 1 then
+    if Length(Path) > 1 then
       PythonPathAdder := InternalInterpreter.AddPathToPythonPath(Path);
 
     // Set the Working directory
@@ -741,9 +740,7 @@ begin
   Assert(PyControl.DebuggerState = dsPaused);
   // Set Temporary breakpoint
   SetDebuggerBreakPoints;  // So that this one is not cleared
-  FName := Editor.FileName;
-  if FName = '' then
-    FName := '<'+Editor.FileTitle+'>';
+  FName := InternalInterpreter.ToPythonFileName(Editor.GetFileNameOrTitle);
   InternalInterpreter.Debugger.set_break(VarPythonCreate(FName), ALine, 1);
 
   fDebuggerCommand := dcRunToCursor;
@@ -795,12 +792,13 @@ begin
    Result := GetPythonEngine.ReturnNone;
 
    Frame := VarPythonCreate(Args).__getitem__(0);
-   FName := Frame.f_code.co_filename;
-   if (FName[1] ='<') and (FName[Length(FName)] = '>') then
-     FName :=  Copy(FName, 2, Length(FName)-2);
+   FName := InternalInterpreter.FromPythonFileName(Frame.f_code.co_filename);
 
-   if GI_PyIDEServices.ShowFilePosition(FName, Frame.f_lineno, 1, 0, True, False) and
-     (Frame.f_lineno > 0) then
+  if (Frame.f_lineno > 0) and
+     (not PyIDEOptions.TraceOnlyIntoOpenFiles or
+        Assigned(GI_EditorFactory.GetEditorByNameOrTitle(FName))) and
+     GI_PyIDEServices.ShowFilePosition(FName, Frame.f_lineno, 1, 0, True, False)
+   then
    begin
      if PyControl.DebuggerState = dsDebugging then
        PyControl.DoStateChange(dsPaused);
@@ -869,10 +867,7 @@ begin
   InternalInterpreter.Debugger.clear_all_breaks();
   for i := 0 to GI_EditorFactory.Count - 1 do
     with GI_EditorFactory.Editor[i] do begin
-      if FileName <> '' then
-        FName := FileName
-      else
-        FName := '<'+FileTitle+'>';
+      FName := InternalInterpreter.ToPythonFileName(GetFileNameOrTitle);
       for j := 0 to BreakPoints.Count - 1 do begin
         if not TBreakPoint(BreakPoints[j]).Disabled then begin
           if TBreakPoint(BreakPoints[j]).Condition <> '' then begin
@@ -891,25 +886,29 @@ end;
 
 procedure TPyInternalDebugger.LoadLineCache;
 Var
-  i : integer;
-  FName, Source, LineList : Variant;
+  i: integer;
+  FName, Source, LineList: Variant;
+  SFName: string;
 begin
   // inject unsaved code into LineCache
   fLineCache.cache.clear();
   for i := 0 to GI_EditorFactory.Count - 1 do
-    with GI_EditorFactory.Editor[i] do
-      if HasPythonfile and (FileName = '') and (RemoteFileName = '') then
+    with GI_EditorFactory.Editor[i] do begin
+      if not HasPythonFile then continue;
+      SFName := InternalInterpreter.ToPythonFileName(GetFileNameOrTitle);
+      if SFName.StartsWith('<') then
       begin
+        FName := SFName;
         if InternalInterpreter.IsPython3000 then
           Source := CleanEOLs(SynEdit.Text)+WideLF
         else
           Source := CleanEOLs(EncodedText)+#10;
         LineList := VarPythonCreate(Source);
         LineList := LineList.splitlines(True);
-        FName := '<'+FileTitle+'>';
         fLineCache.cache.SetItem(VarPythonCreate(FName),
           VarPythonCreate([Length(Source), None, LineList, FName], stTuple));
       end;
+    end;
 end;
 
 procedure TPyInternalDebugger.MakeFrameActive(Frame: TBaseFrameInfo);
@@ -1006,12 +1005,9 @@ begin
 
   Editor := GI_EditorFactory.GetEditorByNameOrTitle(ARunConfig.ScriptName);
   if Assigned(Editor) then begin
-    FName :=  GetPythonEngine.EncodeWindowsFilePath(Editor.FileName);
-    if FName = '' then FName := GetPythonEngine.EncodeWindowsFilePath('<'+Editor.FileTitle+'>');
     Source := CleanEOLs(Editor.EncodedText) + AnsiString(#10);
   end else begin
     try
-      FName := GetPythonEngine.EncodeWindowsFilePath(ToPythonFileName(ARunConfig.ScriptName));
       Source := CleanEOLs(FileToEncodedStr(ARunConfig.ScriptName)) + AnsiString(#10);
     except
       on E: Exception do begin
@@ -1020,6 +1016,7 @@ begin
       end;
     end;
   end;
+  FName := GetPythonEngine.EncodeWindowsFilePath(ToPythonFileName(ARunConfig.ScriptName));
 
   with GetPythonEngine do begin
     co := Py_CompileString(PAnsiChar(Source), PAnsiChar(FName), file_input );
@@ -1108,7 +1105,8 @@ begin
   end;
 
   // Add the path of the imported script to the Python Path
-  Path := ExtractFileDir(Editor.FileName);
+  Path := ToPythonFileName(Editor.GetFileNameOrTitle);
+  Path := IfThen(Path.StartsWith('<'), '', ExtractFileDir(Path));
   if Path.Length > 1 then begin
     PythonPathAdder := AddPathToPythonPath(Path, False);
     SysPathRemove('');
@@ -1273,10 +1271,8 @@ begin
 
     // Add the path of the executed file to the Python path - Will be automatically removed
     Path := ToPythonFileName(ARunConfig.ScriptName);
-    if (Path.Length > 0) and (Path[1] <> '<') then
-      Path := ExtractFileDir(Path)
-    else
-      Path := '';
+    Path := IfThen(Path.StartsWith('<'), '', ExtractFileDir(Path));
+
     SysPathRemove('');
     if Length(Path) > 1 then
       PythonPathAdder := AddPathToPythonPath(Path);
@@ -1378,8 +1374,7 @@ begin
   PyControl.ErrorPos.Clear;
   PyControl.DoErrorPosChanged;
 
-  FName := Editor.FileName;
-  if FName = '' then FName := '<'+Editor.FileTitle+'>';
+  FName := ToPythonFileName(Editor.GetFileNameOrTitle);
   Source := CleanEOLs(Editor.EncodedText)+AnsiString(#10);
 
   with GetPythonEngine do begin

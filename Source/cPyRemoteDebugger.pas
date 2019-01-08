@@ -179,6 +179,7 @@ implementation
 
 uses
   System.Generics.Defaults,
+  System.StrUtils,
   Vcl.Dialogs,
   VarPyth,
   JclStrings,
@@ -420,21 +421,13 @@ begin
   GI_PyIDEServices.Messages.ClearMessages;
 
   Editor := GI_EditorFactory.GetEditorByNameOrTitle(ARunConfig.ScriptName);
-
   if Assigned(Editor) then begin
-    if Editor.FileName <> '' then
-      FName := ToPythonFileName(Editor.FileName)
-    else if Editor.RemoteFileName <> '' then
-      FName := ToPythonFileName(Editor.FileTitle)
-    else
-      FName := '<'+Editor.FileTitle+'>';
     if IsPython3000 then
       Source := CleanEOLs(Editor.SynEdit.Text) + WideLF
     else
       Source := CleanEOLs(Editor.EncodedText)+#10;
   end else begin
     try
-      FName := ToPythonFileName(ARunConfig.ScriptName);
       if IsPython3000 then
         Source := CleanEOLs(FileToStr(ARunConfig.ScriptName)) + WideLF
       else
@@ -446,6 +439,7 @@ begin
       end;
     end;
   end;
+  FName := ToPythonFileName(ARunConfig.ScriptName);
 
   try
     // if IsPython3000 then Source is a WideStrings else it is an encoded string
@@ -459,10 +453,7 @@ begin
       if ExcInfo.__getitem__(3) then begin
         // SyntaxError
         ExtractPyErrorInfo(Error, FileName, LineNo, Offset);
-        if (FileName[1] ='<') and (FileName[Length(FileName)] = '>') then
-          FileName :=  Copy(FileName, 2, Length(FileName)-2)
-        else
-          FileName := FromPythonFileName(FileName);
+        FileName := FromPythonFileName(FileName);
         if GI_PyIDEServices.ShowFilePosition(FileName, LineNo, Offset) and
           Assigned(GI_ActiveEditor)
         then begin
@@ -649,10 +640,7 @@ begin
       LineNo := 0;
     end;
 
-    if (FileName[1] ='<') and (FileName[Length(FileName)] = '>') then
-      FileName :=  Copy(FileName, 2, Length(FileName)-2)
-    else
-      FileName := FromPythonFileName(FileName);
+    FileName := FromPythonFileName(FileName);
     Editor := GI_EditorFactory.GetEditorByNameOrTitle(FileName);
     // Check whether the error occurred in the active editor
     if (Assigned(Editor) and (Editor = GI_PyIDEServices.GetActiveEditor)) or
@@ -697,15 +685,9 @@ begin
   Assert(VarIsPython(Code));  // an exception should have been raised if failed
 
   // Add the path of the imported script to the Python path
-  if Editor.FileName <> '' then
-    Path := ToPythonFileName(Editor.FileName)
-  else if Editor.RemoteFileName <> '' then
-    Path := ToPythonFileName(Editor.RemoteFileName)
-  else
-    Path := '';
-  if (Path.Length > 0) and (Path[1] <> '<')  then
-    Path := XtractFileDir(Path);
-  if Path.Length > 1 then begin
+  Path := ToPythonFileName(Editor.GetFileNameOrTitle);
+  Path := IfThen(Path.StartsWith('<'), '', XtractFileDir(Path));
+  if Length(Path) > 1 then begin
     PythonPathAdder := AddPathToPythonPath(Path, False);
     SysPathRemove('');
   end;
@@ -894,10 +876,7 @@ begin
 
   // Add the path of the script to the Python Path - Will be automatically removed
   Path := ToPythonFileName(ARunConfig.ScriptName);
-  if (Path.Length > 0) and (Path[1] <> '<') then
-    Path := XtractFileDir(Path)
-  else
-    Path := '';
+  Path := IfThen(Path.StartsWith('<'), '', XtractFileDir(Path));
   SysPathRemove('');
   if Path.Length > 1 then
     PythonPathAdder := AddPathToPythonPath(Path);
@@ -1498,34 +1477,32 @@ end;
 
 procedure TPyRemDebugger.LoadLineCache;
 Var
-  i : integer;
-  FName, Source, LineList : Variant;
-  PyName: string;
+  i: integer;
+  FName, Source, LineList: Variant;
+  SFName: string;
 begin
   // inject unsaved code into LineCache
   fLineCache.cache.clear();
   for i := 0 to GI_EditorFactory.Count - 1 do
     with GI_EditorFactory.Editor[i] do begin
-      PyName := fRemotePython.ToPythonFileName(GetFileNameOrTitle);
-      if HasPythonfile and (((FileName = '') and (RemoteFileName = '')) or
-        ((PyControl.RunConfig.ScriptName = GetFileNameOrTitle) and
-         (PyName[1] = '<')))
+      if not HasPythonFile then continue;
+      SFName := fRemotePython.ToPythonFileName(GetFileNameOrTitle);
+      if SFName.StartsWith('<') and
+        // so that we do not push to ssh engine linecache all local open files
+        (PyControl.RunConfig.ScriptName = GetFileNameOrTitle)
       then
       begin
+        FName := SFName;
         if fRemotePython.IsPython3000 then
           Source := CleanEOLs(SynEdit.Text)+WideLF
         else
           Source := CleanEOLs(EncodedText)+#10;
         LineList := VarPythonCreate(Source);
         LineList := fRemotePython.Rpyc.classic.deliver(fRemotePython.Conn, LineList.splitlines(True));
-        if PyName[1] = '<' then
-          FName := PyName
-        else
-          FName := '<'+FileTitle+'>';
         fLineCache.cache.__setitem__(VarPythonCreate(FName),
           VarPythonCreate([0, None, LineList, FName], stTuple));
       end;
-  end;
+    end;
 end;
 
 procedure TPyRemDebugger.MakeFrameActive(Frame: TBaseFrameInfo);
@@ -1593,10 +1570,7 @@ begin
 
   // Add the path of the script to the Python Path - Will be automatically removed
   Path := fRemotePython.ToPythonFileName(ARunConfig.ScriptName);
-  if (Path.Length > 0) and (Path[1] <> '<') then
-    Path := XtractFileDir(Path)
-  else
-    Path := '';
+  Path := IfThen(Path.StartsWith('<'), '', XtractFileDir(Path));
   fRemotePython.SysPathRemove('');
   if Path.Length > 1 then
     PythonPathAdder := fRemotePython.AddPathToPythonPath(Path);
@@ -1757,9 +1731,7 @@ begin
   Assert(PyControl.DebuggerState = dsPaused);
   // Set Temporary breakpoint
   SetDebuggerBreakPoints;  // So that this one is not cleared
-  FName := Editor.FileName;
-  if FName = '' then
-    FName := '<'+Editor.FileTitle+'>';
+  FName := fRemotePython.ToPythonFileName(Editor.GetFileNameOrTitle);
   fMainDebugger.set_break(VarPythonCreate(FName), ALine, 1);
 
   fDebuggerCommand := dcRunToCursor;
@@ -1781,12 +1753,7 @@ begin
   fMainDebugger.clear_all_breaks();
   for i := 0 to GI_EditorFactory.Count - 1 do
     with GI_EditorFactory.Editor[i] do begin
-      if FileName <> '' then
-        FName := fRemotePython.ToPythonFileName(FileName)
-      else if RemoteFileName <> '' then
-        FName := fRemotePython.ToPythonFileName(FileTitle)
-      else
-        FName := '<'+FileTitle+'>';
+      FName := fRemotePython.ToPythonFileName(GetFileNameOrTitle);
       for j := 0 to BreakPoints.Count - 1 do begin
         if not TBreakPoint(BreakPoints[j]).Disabled then begin
           if TBreakPoint(BreakPoints[j]).Condition <> '' then begin
@@ -1857,15 +1824,14 @@ begin
   Frame := Arguments.__getitem__(1);
   BotFrame := Arguments.__getitem__(2);
   Assert(VarIsPython(Frame) and not VarisNone(Frame));
-  FName := Frame.f_code.co_filename;
+  FName := fRemotePython.FromPythonFileName(Frame.f_code.co_filename);
   LineNumber := Frame.f_lineno;
-  if (FName[1] ='<') and (FName[Length(FName)] = '>') then
-    FName :=  Copy(FName, 2, Length(FName)-2)
-  else
-    FName := fRemotePython.FromPythonFileName(FName);
 
-  if GI_PyIDEServices.ShowFilePosition(FName, LineNumber, 1, 0, True, False) and
-    (LineNumber > 0) then
+  if (LineNumber > 0) and
+     (not PyIDEOptions.TraceOnlyIntoOpenFiles or
+        Assigned(GI_EditorFactory.GetEditorByNameOrTitle(FName))) and
+     GI_PyIDEServices.ShowFilePosition(FName, LineNumber, 1, 0, True, False)
+  then
   begin
     if PyControl.DebuggerState = dsDebugging then
       PyControl.DoStateChange(dsPaused);

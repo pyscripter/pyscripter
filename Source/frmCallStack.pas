@@ -139,9 +139,7 @@ begin
 
       // Now Show the Current debugger position
       FrameData := FirstNode.GetData;
-      FileName := FrameData.FileName;
-      if (FileName[1] ='<') and (FileName[Length(FileName)] = '>') then
-        FileName :=  Copy(FileName, 2, Length(FileName)-2);
+      FileName := PyControl.ActiveInterpreter.FromPythonFileName(FrameData.FileName);
       Editor := GI_EditorFactory.GetEditorByNameOrTitle(FileName);
       if Assigned(Editor) then begin
         PyControl.CurrentPos.NewPos(Editor, FrameData.Line);

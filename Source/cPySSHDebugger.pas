@@ -370,8 +370,8 @@ function TPySSHInterpreter.FromPythonFileName(const FileName: string): string;
 begin
   if FileName = '' then
     Result := ''
-  else if FileName[1] ='<' then
-    Result := FileName
+  else if (FileName[1] ='<') and (FileName[Length(FileName)] = '>') then
+     Result :=  Copy(FileName, 2, Length(FileName)-2)
   else
     Result := TSSHFileName.Format(SSHServerName, FileName);
 end;
