@@ -1394,7 +1394,7 @@ Var
   Editor: IEditor;
   Index: Integer;
 begin
-  Editor := GI_ActiveEditor;
+  Editor := GI_PyIDEServices.GetActiveEditor;
   if not Assigned(Editor) then
     Exit;
   Index := (Sender as TSpTBXItem).Tag;
@@ -1440,6 +1440,7 @@ end;
 procedure TEditorFactory.UpdateEditorViewMenu;
 Var
   i, j: Integer;
+  Editor: IEditor;
   ViewFactory: IEditorViewFactory;
   List: TList;
   Enabled: boolean;
@@ -1449,7 +1450,8 @@ begin
   try
     for i := 0 to fEditorViewFactories.Count - 1 do
     begin
-      Enabled := Assigned(GI_ActiveEditor);
+      Editor := GI_PyIDEServices.GetActiveEditor;
+      Enabled := Assigned(Editor);
       if Enabled then
       begin
         ViewFactory := fEditorViewFactories[i] as IEditorViewFactory;
@@ -1459,7 +1461,7 @@ begin
           Enabled := False;
           for j := 0 to List.Count - 1 do
           begin
-            if List[j] = GI_ActiveEditor.SynEdit.Highlighter then
+            if List[j] = Editor.SynEdit.Highlighter then
             begin
               Enabled := True;
               break;

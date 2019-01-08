@@ -470,7 +470,7 @@
             New IDE option "Trim trailing spaces when saving files" (#667)
             New IDE Option 'Step into open files only'.  Defaults to False. (#510)
           Issues addressed
-            #624, #857, #904, #922, #927, 928, #929, #936
+            #624, #743, #857, #904, #922, #927, 928, #929, #936
 
             { TODO : Review Search and Replace }
             { TODO : Auto PEP8 tool }

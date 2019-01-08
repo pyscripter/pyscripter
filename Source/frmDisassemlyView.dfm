@@ -8,6 +8,7 @@ object DisForm: TDisForm
   Color = clBtnFace
   ParentFont = True
   OldCreateOrder = False
+  OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
   object DisSynEdit: TSynEdit
@@ -37,21 +38,6 @@ object DisForm: TDisForm
     Gutter.Font.Style = []
     Gutter.Visible = False
     Gutter.Width = 0
-    Highlighter = SynPythonSyn
     FontSmoothing = fsmNone
-  end
-  object SynPythonSyn: TSynPythonSyn
-    Options.AutoDetectEnabled = False
-    Options.AutoDetectLineLimit = 0
-    Options.Visible = False
-    CommentAttri.Foreground = clMaroon
-    CommentAttri.Style = []
-    KeyAttri.Foreground = clHotLight
-    NumberAttri.Foreground = clTeal
-    SpaceAttri.Background = clWhite
-    StringAttri.Foreground = clPurple
-    DocStringAttri.Foreground = clMaroon
-    Left = 537
-    Top = 11
   end
 end
