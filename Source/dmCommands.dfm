@@ -1815,11 +1815,10 @@ object CommandsDataModule: TCommandsDataModule
           '            """'
           '            import sys, traceback'
           '            try:'
-          '                type, value, tb = sys.exc_info()'
-          '                sys.last_type = type'
-          '                sys.last_value = value'
-          '                sys.last_traceback = tb'
-          '                tblist = traceback.extract_tb(tb)'
+          
+            '                sys.last_type, sys.last_value, last_tb = ei = sy' +
+            's.exc_info()'
+          '                tblist = traceback.extract_tb(ei[2])'
           '                del tblist[:2]'
           '                lines = traceback.format_list(tblist)'
           '                if lines:'
@@ -1827,8 +1826,8 @@ object CommandsDataModule: TCommandsDataModule
             '                    lines.insert(0, "Traceback (most recent call' +
             ' last):\n")'
           
-            '                lines.extend(traceback.format_exception_only(typ' +
-            'e, value))'
+            '                lines.extend(traceback.format_exception_only(ei[' +
+            '0], ei[1]))'
           '            finally:'
           '                tblist = tb = None'
           '            sys.stderr.write('#39#39'.join(lines))'
@@ -2695,11 +2694,10 @@ object CommandsDataModule: TCommandsDataModule
           '            """'
           '            import sys, traceback'
           '            try:'
-          '                type, value, tb = sys.exc_info()'
-          '                sys.last_type = type'
-          '                sys.last_value = value'
-          '                sys.last_traceback = tb'
-          '                tblist = traceback.extract_tb(tb)'
+          
+            '                sys.last_type, sys.last_value, last_tb = ei = sy' +
+            's.exc_info()'
+          '                tblist = traceback.extract_tb(ei[2])'
           '                del tblist[:2]'
           '                lines = traceback.format_list(tblist)'
           '                if lines:'
@@ -2707,8 +2705,8 @@ object CommandsDataModule: TCommandsDataModule
             '                    lines.insert(0, "Traceback (most recent call' +
             ' last):\n")'
           
-            '                lines.extend(traceback.format_exception_only(typ' +
-            'e, value))'
+            '                lines.extend(traceback.format_exception_only(ei[' +
+            '0], ei[1]))'
           '            finally:'
           '                tblist = tb = None'
           '            sys.stderr.write('#39#39'.join(lines))'

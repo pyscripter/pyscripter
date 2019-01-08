@@ -472,7 +472,6 @@
           Issues addressed
             #624, #857, #904, #922, #927, 928, #929, #936
 
-            { TODO : Issues 667 }
             { TODO : Review Search and Replace }
             { TODO : Auto PEP8 tool }
             { TODO: Interpreter raw_input #311 }
