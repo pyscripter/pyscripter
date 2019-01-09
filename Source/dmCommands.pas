@@ -923,7 +923,10 @@ begin
 
   for i := GI_EditorFactory.Count -1 downto 0 do
     if GI_EditorFactory.Editor[i] <> Editor then
-      GI_EditorFactory.Editor[i].Close;
+      if GI_EditorFactory.Editor[i].AskSaveChanges then
+        GI_EditorFactory.Editor[i].Close
+      else
+        break;
 
   Editor.Activate;
 end;
@@ -941,7 +944,10 @@ begin
     if Assigned(NextTab) then begin
       NextEditor := PyIDEMainForm.EditorFromTab(NextTab);
       if Assigned(NextEditor) then
-        NextEditor.Close;
+        if NextEditor.AskSaveChanges then
+          NextEditor.Close
+        else
+          break;
     End;
   Until not Assigned(NextTab);
 
