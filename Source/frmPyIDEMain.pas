@@ -3251,8 +3251,8 @@ begin
       AppStorage.DeleteSubTree('File Templates');
       AppStorage.WriteObjectList('File Templates', FileTemplates);
 
-      TempStringList.Assign(CodeTemplatesCompletion.AutoCompleteList);
-      AppStorage.WriteStringList('Code Templates', TempStringList);
+      AppStorage.DeleteSubTree('Code Templates');
+      AppStorage.WriteStringList('Code Templates', CodeTemplatesCompletion.AutoCompleteList);
       AppStorage.StorageOptions.PreserveLeadingTrailingBlanks := False;
     end;
     AppStorage.WritePersistent('Secondary Tabs', TabsPersistsInfo);
@@ -3427,13 +3427,8 @@ begin
         FileTemplates.AddDefaultTemplates;
       end;
 
-      TempStringList := TStringList.Create;
-      try
-        AppStorage.ReadStringList('Code Templates', TempStringList);
-        CodeTemplatesCompletion.AutoCompleteList.Assign(TempStringList);
-      finally
-        TempStringList.Free;
-      end;
+      if AppStorage.PathExists('Code Templates') then
+        AppStorage.ReadStringList('Code Templates', CodeTemplatesCompletion.AutoCompleteList);
       AppStorage.StorageOptions.PreserveLeadingTrailingBlanks := False;
 
     end;
