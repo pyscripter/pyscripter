@@ -444,6 +444,8 @@ uses
   System.StrUtils,
   System.DateUtils,
   System.Variants,
+  System.IOUtils,
+  System.IniFiles,
   Vcl.Clipbrd,
   MPShellUtilities,
   MPCommonUtilities,
@@ -453,7 +455,6 @@ uses
   PythonEngine,
   JclSysUtils,
   JclStrings,
-  JclFileUtils,
   JclDebug,
   JvAppIniStorage,
   JvAppStorage,
@@ -1246,16 +1247,18 @@ end;
 
 procedure TCommandsDataModule.actEditorOptionsExecute(Sender: TObject);
 var
-  TempEditorOptions : TSynEditorOptionsContainer;
-  TempFileName : string;
+  TempEditorOptions: TSynEditorOptionsContainer;
+  TempStream: TMemoryStream;
+  TempIniFile: TMemIniFile;
 begin
   TempEditorOptions := TSynEditorOptionsContainer.Create(Self);
   TempEditorOptions.Assign(EditorOptions);  // Initialize with defaults
   // SynWeb attribute changes are taking immediate effect in Web Engine
   // So Cancel does not work.  As a workaround we save the syntax attributes
   // and restore them if the dialog is cancelled.
-  TempFileName := FileGetTempName('PyScripter');
-  SynWebHtmlSyn.SaveToFile(TempFileName);
+  TempStream := TMemoryStream.Create;
+  TempIniFile := TMemIniFile.Create(TempStream);
+  SynWebHtmlSyn.SaveToIniFile(TempIniFile);
   try
     with TSynEditOptionsDialog.Create(Self) do begin
       if Assigned(GI_ActiveEditor) then begin
@@ -1285,12 +1288,13 @@ begin
           GI_ActiveEditor.ActiveSynEdit.Assign(TempEditorOptions);
       end else
         //  If canceled restore original settings
-        SynWebHtmlSyn.LoadFromFile(TempFileName);
+        SynWebHtmlSyn.LoadFromIniFile(TempIniFile);
       Free;
     end;
   finally
     TempEditorOptions.Free;
-    DeleteFile(TempFileName);
+    TempIniFile.Free;
+    TempStream.Free;
   end;
 end;
 
@@ -3046,9 +3050,9 @@ begin
   Result := '';
   if (DirectoryExists(ALocalPath) or (ALocalPath = '')) then
     if ALocalFileName = '' then
-      LocalFileName := PathAppend(ALocalPath, ARemoteFileName)
+      LocalFileName := TPath.Combine(ALocalPath, ARemoteFileName)
     else
-      LocalFileName := PathAppend(ALocalPath, ALocalFileName)
+      LocalFileName := TPath.Combine(ALocalPath, ALocalFileName)
   else
     Exit;
 
@@ -3062,7 +3066,7 @@ begin
   else
   begin
     if FileExists(LocalFileName) then
-      FileDelete(LocalFileName);
+      DeleteFile(LocalFileName);
     ProgramVersionHTTPLocation.DownloadError := _('File download failed');
   end;
       Result := LocalFileName;
