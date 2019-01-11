@@ -100,7 +100,7 @@ end;
 procedure TIDEDockWindow.FormCreate(Sender: TObject);
 begin
   //SetVistaContentFonts(FGPanel.Font);
-  FGPanel.ControlStyle := FGPanel.ControlStyle + [csOpaque];
+  //FGPanel.ControlStyle := FGPanel.ControlStyle + [csOpaque];
 
   //FGPanelExit(Self);
   BorderHighlight := StyleServices.GetSystemColor(clBtnHighlight);

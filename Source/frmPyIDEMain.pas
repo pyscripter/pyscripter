@@ -1485,7 +1485,7 @@ begin
   end;
 
   // Trying to reduce flicker!
-  ControlStyle := ControlStyle + [csOpaque];
+  // ControlStyle := ControlStyle + [csOpaque];
 
   // Notifications
   SkinManager.AddSkinNotification(Self);
