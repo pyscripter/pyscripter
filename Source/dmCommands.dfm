@@ -4571,18 +4571,19 @@ object CommandsDataModule: TCommandsDataModule
       OnExecute = actHelpWebGroupSupportExecute
     end
     object actFileCloseAllOther: TAction
+      Tag = 1
       Category = 'File'
       Caption = 'Close All &Other'
       HelpContext = 310
       Hint = 'Close all files except the active one'
-      OnExecute = actFileCloseAllOtherExecute
+      OnExecute = actFileCloseWorkspaceTabsExecute
     end
     object actFileCloseAllToTheRight: TAction
       Category = 'File'
       Caption = 'Close All to the &Right'
       HelpContext = 310
       Hint = 'Close all files to the right'
-      OnExecute = actFileCloseAllToTheRightExecute
+      OnExecute = actFileCloseWorkspaceTabsExecute
     end
     object actEditCopyFileName: TAction
       Category = 'Edit'

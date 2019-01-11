@@ -574,7 +574,6 @@ type
     destructor Destroy; override;
   end;
 
-
   TPyIDEMainForm = class(TForm, IIDELayouts, IPyIDEServices)
     DockServer: TJvDockServer;
     AppStorage: TJvAppIniFileStorage;
@@ -1228,7 +1227,6 @@ type
     procedure PrevMRUAdd(S : string);
     procedure NextMRUAdd(S : string);
   private
-    fStoredEffect : Longint;
     OldScreenPPI : Integer;
     OldDesktopSize : string;
     LoadLayoutError : Boolean;

@@ -330,7 +330,7 @@ type
     procedure actSearchGoToDebugLineExecute(Sender: TObject);
     procedure actHelpWebProjectHomeExecute(Sender: TObject);
     procedure actHelpWebGroupSupportExecute(Sender: TObject);
-    procedure actFileCloseAllOtherExecute(Sender: TObject);
+    procedure actFileCloseWorkspaceTabsExecute(Sender: TObject);
     procedure actEditCopyFileNameExecute(Sender: TObject);
     procedure actToolsEditStartupScriptsExecute(Sender: TObject);
     procedure actHelpWebBlogExecute(Sender: TObject);
@@ -351,7 +351,6 @@ type
     procedure actUnfoldClassesExecute(Sender: TObject);
     procedure actFoldFunctionsExecute(Sender: TObject);
     procedure actUnfoldFunctionsExecute(Sender: TObject);
-    procedure actFileCloseAllToTheRightExecute(Sender: TObject);
     procedure actEditReadOnlyExecute(Sender: TObject);
     procedure actFileSaveToRemoteExecute(Sender: TObject);
     procedure actDonateExecute(Sender: TObject);
@@ -914,43 +913,36 @@ begin
   end;
 end;
 
-procedure TCommandsDataModule.actFileCloseAllOtherExecute(Sender: TObject);
+procedure TCommandsDataModule.actFileCloseWorkspaceTabsExecute(Sender: TObject);
+
+  procedure WorkspaceCloseOtherTabs(Editor: IEditor; Backwards: Boolean);
+  var
+    NextTab: TSpTBXTabItem;
+    NextEditor: IEditor;
+  begin
+    repeat
+      NextTab := TEditorForm(Editor.Form).ParentTabItem.GetNextTab(not BackWards, sivtNormal);
+      if Assigned(NextTab) then
+      begin
+        NextEditor := PyIDEMainForm.EditorFromTab(NextTab);
+        if Assigned(NextEditor) then
+          if NextEditor.AskSaveChanges then
+            NextEditor.Close
+          else
+            break;
+      end;
+    until not Assigned(NextTab);
+  end;
+
 Var
   Editor : IEditor;
-  i : integer;
 begin
   Editor := GI_PyIDEServices.GetActiveEditor;
   if not Assigned(Editor) then Exit;
 
-  for i := GI_EditorFactory.Count -1 downto 0 do
-    if GI_EditorFactory.Editor[i] <> Editor then
-      if GI_EditorFactory.Editor[i].AskSaveChanges then
-        GI_EditorFactory.Editor[i].Close
-      else
-        break;
-
-  Editor.Activate;
-end;
-
-procedure TCommandsDataModule.actFileCloseAllToTheRightExecute(Sender: TObject);
-Var
-  Editor, NextEditor : IEditor;
-  NextTab : TSpTBXTabItem;
-begin
-  Editor := GI_PyIDEServices.GetActiveEditor;
-  if not Assigned(Editor) then Exit;
-
-  Repeat
-    NextTab := TEditorForm(Editor.Form).ParentTabItem.GetNextTab(True, sivtNormal);
-    if Assigned(NextTab) then begin
-      NextEditor := PyIDEMainForm.EditorFromTab(NextTab);
-      if Assigned(NextEditor) then
-        if NextEditor.AskSaveChanges then
-          NextEditor.Close
-        else
-          break;
-    End;
-  Until not Assigned(NextTab);
+  WorkspaceCloseOtherTabs(Editor, False);
+  if (Sender as TBasicAction).Tag > 0 then
+    WorkspaceCloseOtherTabs(Editor, True);
 
   Editor.Activate;
 end;
