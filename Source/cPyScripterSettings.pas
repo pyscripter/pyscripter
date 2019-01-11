@@ -291,7 +291,7 @@ type
     property StyleMainWindowBorder : Boolean read fStyleMainWindowBorder
       write fStyleMainWindowBorder default False;
     property FileExplorerBackgroundProcessing : Boolean read fFileExplorerBackgroundProcessing
-      write fFileExplorerBackgroundProcessing default True;
+      write fFileExplorerBackgroundProcessing default False;
     property SSHCommand : string read fSSHCommand write fSSHCommand;
     property SSHOptions : string read fSSHOptions write fSSHOptions;
     property ScpCommand : string read fScpCommand write fScpCommand;
@@ -531,7 +531,7 @@ begin
   fInternalInterpreterHidden := True;
   fCompactLineNumbers := True;
   fStyleMainWindowBorder := False;
-  fFileExplorerBackgroundProcessing := True;
+  fFileExplorerBackgroundProcessing := False;
   fSSHCommand := 'ssh';
   fSSHOptions := '-o PasswordAuthentication=no -o StrictHostKeyChecking=no';
   fScpCommand := 'scp';
