@@ -1190,7 +1190,6 @@ type
         var ARect: TRect; var PaintDefault: Boolean);
     function GetActiveTabControl: TSpTBXCustomTabControl;
     procedure SetActiveTabControl(const Value: TSpTBXCustomTabControl);
-    procedure WMEraseBkgnd(var Message: TWMEraseBkgnd); message WM_ERASEBKGND;
     procedure ApplyIDEOptionsToEditor(Editor: IEditor);
     procedure OpenInitialFiles;
   protected
@@ -4725,11 +4724,6 @@ begin
   except
     // fail silently
   end;
-end;
-
-procedure TPyIDEMainForm.WMEraseBkgnd(var Message: TWMEraseBkgnd);
-begin
-  Message.Result := 1;
 end;
 
 procedure TPyIDEMainForm.FormShow(Sender: TObject);
