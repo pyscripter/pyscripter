@@ -569,12 +569,13 @@ type
     zOrderProcessing : Boolean;
   public
     zOrder : TList;
+    procedure WMDropFiles(var Msg: TMessage); message WM_DROPFILES;
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
   end;
 
 
-  TPyIDEMainForm = class(TForm, IDropTarget, IIDELayouts, IPyIDEServices)
+  TPyIDEMainForm = class(TForm, IIDELayouts, IPyIDEServices)
     DockServer: TJvDockServer;
     AppStorage: TJvAppIniFileStorage;
     BGPanel: TPanel;
@@ -1231,15 +1232,6 @@ type
     OldScreenPPI : Integer;
     OldDesktopSize : string;
     LoadLayoutError : Boolean;
-    // IDropTarget implementation
-    function DragEnter(const dataObj: IDataObject; grfKeyState: Longint;
-      pt: TPoint; var dwEffect: Longint): HResult; stdcall;
-    function DropTargetDragOver(grfKeyState: Longint; pt: TPoint;
-      var dwEffect: Longint): HResult; stdcall;
-    function IDropTarget.DragOver= DropTargetDragOver;
-    function DragLeave: HResult; stdcall;
-    function Drop(const dataObj: IDataObject; grfKeyState: Longint; pt: TPoint;
-      var dwEffect: Longint): HResult; stdcall;
     // IIDELayouts implementation
     function LayoutExists(const Layout: string): Boolean;
     procedure LoadLayout(const Layout : string);
@@ -1470,74 +1462,9 @@ begin
   end;
 end;
 
-function TPyIDEMainForm.DragEnter(const dataObj: IDataObject;
-  grfKeyState: Integer; pt: TPoint; var dwEffect: Integer): HResult;
-
-  function GetFormatEtc: TFormatEtc;
-  begin
-    Result.cfFormat := CF_HDROP; // This guy is always registered for all applications
-    Result.ptd := nil;
-    Result.dwAspect := DVASPECT_CONTENT;
-    Result.lindex := -1;
-    Result.tymed := TYMED_HGLOBAL
-  end;
-
-begin
-  if Succeeded(dataObj.QueryGetData(GetFormatEtc)) then
-    dwEffect := DROPEFFECT_COPY
-  else
-    dwEffect := DROPEFFECT_NONE;
-  fStoredEffect := dwEffect;
-  Result := S_OK;
-end;
-
-function TPyIDEMainForm.DragLeave: HResult;
-begin
-    Result := S_OK;
-end;
-
-function TPyIDEMainForm.DropTargetDragOver(grfKeyState: Integer; pt: TPoint;
-  var dwEffect: Integer): HResult;
-begin
-  dwEffect := fStoredEffect;
-  Result := S_OK;
-end;
-
 procedure TPyIDEMainForm.EditorViewsMenuClick(Sender: TObject);
 begin
   GI_EditorFactory.UpdateEditorViewMenu;
-end;
-
-function TPyIDEMainForm.Drop(const dataObj: IDataObject; grfKeyState: Integer;
-  pt: TPoint; var dwEffect: Integer): HResult;
-Var
-  CommonHDrop : TCommonHDrop;
-  FileName : string;
-  i : integer;
-  TabCtrlIndx : integer;
-begin
-  Result := S_OK;
-  if TabControl2.Visible then
-    TabCtrlIndx :=
-      IfThen(PtInRect(TabControl2.ClientRect, TabControl2.ScreenToClient(pt)), 2, 1)
-  else
-    TabCtrlIndx := 1;
-
-  CommonHDrop := TCommonHDrop.Create;
-  try
-    if CommonHDrop.LoadFromDataObject(dataObj) then begin
-      for i := 0 to CommonHDrop.FileCount - 1 do begin
-        FileName := CommonHDrop.FileName(i);
-        if FileExists(FileName) then  // checks it is not a directory
-          try
-            DoOpenFile(FileName, '', TabCtrlIndx);
-          except
-          end;
-      end;
-    end;
-  finally
-    CommonHDrop.Free;
-  end;
 end;
 
 type
@@ -1804,9 +1731,9 @@ begin
     except
     end;
 
-    // Stop DropTarget to make sure is unregistered
-    RevokeDragDrop(TabControl1.Handle);
-    RevokeDragDrop(TabControl2.Handle);
+    // Stop accepting files
+    DragAcceptFiles(TabControl1.Handle, False);
+    DragAcceptFiles(TabControl2.Handle, False);
     ClearPythonWindows;
 
     // Give the time to the treads to terminate
@@ -4828,9 +4755,9 @@ begin
   SetupLayoutsMenu;
   SetupSyntaxMenu;
 
-  // Register drop target
-  RegisterDragDrop(TabControl1.Handle, Self);
-  RegisterDragDrop(TabControl2.Handle, Self);
+  // Start accepting files
+  DragAcceptFiles(TabControl1.Handle, True);
+  DragAcceptFiles(TabControl2.Handle, True);
 
   TThread.ForceQueue(nil, procedure
   begin
@@ -5205,6 +5132,26 @@ begin
 end;
 
 { TTSpTBXTabControl }
+
+procedure TSpTBXTabControl.WMDropFiles(var Msg: TMessage);
+var
+  i, iNumberDropped: Integer;
+  FileName: array[0..MAX_PATH - 1] of Char;
+begin
+  try
+    iNumberDropped := DragQueryFile(THandle(Msg.wParam), Cardinal(-1),
+      nil, 0);
+
+    for i := 0 to iNumberDropped - 1 do
+    begin
+      DragQueryFile(THandle(Msg.wParam), i, FileName, MAX_PATH);
+      PyIDEMainForm.DoOpenFile(FileName, '', PyIDEMainForm.TabControlIndex(Self));
+    end;
+  finally
+    Msg.Result := 0;
+    DragFinish(THandle(Msg.wParam));
+  end;
+end;
 
 constructor TSpTBXTabControl.Create(AOwner: TComponent);
 begin
