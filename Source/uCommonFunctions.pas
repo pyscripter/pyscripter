@@ -1881,7 +1881,10 @@ function Dedent(const S : string) : string;
 begin
   with TRegEx.Match(S, '^\s+') do
     if Success then
-      Exit(TRegEx.Replace(S, '^'+Groups[0].Value , '', [roNotEmpty, roMultiLine]))
+      // to avoid repeated replacements of initial space
+      Exit(TRegEx.Replace(TRegEx.Replace(S,
+         '^'+Groups[0].Value , '!', [roNotEmpty, roMultiLine]),
+         '^!' , '', [roNotEmpty, roMultiLine]))
     else
       Exit(S)
 end;
