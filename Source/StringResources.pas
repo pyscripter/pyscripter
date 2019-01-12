@@ -393,6 +393,8 @@ Const
   SHTMLFileTemplateName = 'HTML Document';
   STextFileTemplateName = 'Text File';
   SXMLTemplateName = 'XML Document';
+  SJSONTemplateName = 'JSON File';
+  SYAMLTemplateName = 'YAML File';
   SJSTemplateName = 'JavaScript Code';
   SPHPTemplateName = 'PHP Code';
   SJupyterTemplateName = 'Jupyter Notebook';
@@ -473,6 +475,8 @@ Const
     '    main()';
   SXMLFileTemplate =
     '<?xml version="1.0" encoding="UTF-8"?>' + sLineBreak;
+  SJSONFileTemplate ='{'+ SLineBreak + SLineBreak + '}';
+  SYAMLFileTemplate = '---'+ SLineBreak + SLineBreak + '...';
   SCSSFileTemplate = // do not localize
     'BODY {' + sLineBreak +
     '' + sLineBreak +

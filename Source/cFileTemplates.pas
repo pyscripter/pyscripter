@@ -37,6 +37,8 @@ Type
     procedure AddHTMLTemplate;
     procedure AddCSSTemplate;
     procedure AddXMLTemplate;
+    procedure AddJSONTemplate;
+    procedure AddYAMLTemplate;
     procedure AddJSTemplate;
     procedure AddJupyterTemplate;
     procedure AddPHPTemplate;
@@ -104,7 +106,6 @@ begin
   end;
 end;
 
-
 { TFileTemplates }
 
 procedure TFileTemplates.AddCSSTemplate;
@@ -139,6 +140,8 @@ begin
    if NoCheck or not Assigned(TemplateByExt('pyx')) then AddCythonTemplate;
    if NoCheck or not Assigned(TemplateByExt('htm')) then AddHTMLTemplate;
    if NoCheck or not Assigned(TemplateByExt('xml')) then AddXMLTemplate;
+   if NoCheck or not Assigned(TemplateByExt('json')) then AddJSONTemplate;
+   if NoCheck or not Assigned(TemplateByExt('yaml')) then AddYAMLTemplate;
    if NoCheck or not Assigned(TemplateByExt('css')) then AddCSSTemplate;
    if NoCheck or not Assigned(TemplateByExt('js')) then AddJSTemplate;
    if NoCheck or not Assigned(TemplateByExt('php')) then AddPHPTemplate;
@@ -234,6 +237,32 @@ begin
   FileTemplate.Category := _(SFileTemplateCategoryInternet);
   FileTemplate.Highlighter := 'XML';
   FileTemplate.Template := SXMLFileTemplate;
+  Add(FileTemplate);
+end;
+
+procedure TFileTemplates.AddJSONTemplate;
+Var
+  FileTemplate : TFileTemplate;
+begin
+  FileTemplate := TFileTemplate.Create;
+  FileTemplate.Name := _(SJSONTemplateName);
+  FileTemplate.Extension := 'json';
+  FileTemplate.Category := _(SFileTemplateCategoryOther);
+  FileTemplate.Highlighter := 'JSON';
+  FileTemplate.Template := SJSONFileTemplate;
+  Add(FileTemplate);
+end;
+
+procedure TFileTemplates.AddYAMLTemplate;
+Var
+  FileTemplate : TFileTemplate;
+begin
+  FileTemplate := TFileTemplate.Create;
+  FileTemplate.Name := _(SYAMLTemplateName);
+  FileTemplate.Extension := 'yaml';
+  FileTemplate.Category := _(SFileTemplateCategoryOther);
+  FileTemplate.Highlighter := 'YAML';
+  FileTemplate.Template := SYAMLFileTemplate;
   Add(FileTemplate);
 end;
 
