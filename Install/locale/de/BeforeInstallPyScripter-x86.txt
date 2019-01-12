@@ -9,4 +9,4 @@ Wenn nicht, finden Sie eine passende Version auf: http://www.python.org/
 Die neuesete Version von PyScripter finden Sie hier:
 https://sourceforge.net/projects/pyscripter/files/
 
-Danke f�r Ihr Interesse an PyScripter.
+Danke für Ihr Interesse an PyScripter.

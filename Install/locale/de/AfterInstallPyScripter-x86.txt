@@ -8,5 +8,5 @@ von Python 2.6, 2.7 und 3.x installiert.  Wenn Sie keine dieser Versionen instal
 haben, m�ssen Sie das Paket manuell herunterladen und installieren:
 https://www.microsoft.com/en-us/download/details.aspx?id=29.
 
-Bitte besuchen Sie https://github.com/pyscripter/pyscripter/wiki f�r Informationen
+Bitte besuchen Sie https://github.com/pyscripter/pyscripter/wiki für Informationen
 zum Remote-Debugging und andere PyScripter-spezifische Themen.

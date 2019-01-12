@@ -455,7 +455,7 @@
           Issues addressed
             #501, #682, #907
 
-  History:   v 3.5.2
+  History:   v 3.6
           New Features
             Much faster Remote Engine using asynchronous Windows named pipes if pywin32 is available.
             IDE option to force the use of sockets for connection to the Python
@@ -469,6 +469,7 @@
             Consistent syntax color themes accross supported languages (#855)
             New IDE option "Trim trailing spaces when saving files" (#667)
             New IDE Option 'Step into open files only'.  Defaults to False. (#510)
+            Localization of the installer
           Issues addressed
             #624, #743, #857, #904, #922, #927, 928, #929, #936
 
@@ -1621,6 +1622,8 @@ begin
   end
   else
   begin
+    WindowState := wsMaximized;
+
     TabHost := ManualTabDock(DockServer.LeftDockPanel, FileExplorerWindow, ProjectExplorerWindow);
     DockServer.LeftDockPanel.Width := PPIScaled(200);
     ManualTabDockAddPage(TabHost, CodeExplorerWindow);

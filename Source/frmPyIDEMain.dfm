@@ -11,6 +11,7 @@ object PyIDEMainForm: TPyIDEMainForm
   OldCreateOrder = False
   Position = poDefault
   ShowHint = True
+  StyleElements = [seFont, seClient]
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   OnDestroy = FormDestroy
