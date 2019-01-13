@@ -84,8 +84,8 @@ procedure ThreadPythonExec(ExecuteProc : TProc; TerminateProc : TProc = nil;
   ThreadExecMode : TThreadExecMode = emNewState);
 
 Const
-  IdentRE = '\w[\w0-9]*';
-  DottedIdentRE = '\w[\w0-9\.]*';
+  IdentRE = '[_\p{L}]\w*';
+  DottedIdentRE = '[_\p{L}][\w\.]*';
 
 implementation
 

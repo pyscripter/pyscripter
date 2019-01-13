@@ -473,6 +473,10 @@
           Issues addressed
             #624, #743, #857, #904, #922, #927, 928, #929, #936
 
+  History:   v 3.6.1
+          New Features
+             JSON and YAML file templates added
+
             { TODO : Review Search and Replace }
             { TODO : Auto PEP8 tool }
             { TODO: Interpreter raw_input #311 }
