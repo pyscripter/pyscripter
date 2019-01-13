@@ -702,13 +702,14 @@ begin
 
     //  Remove left margin and clear empty lines
     for i := 1 to SL.Count - 1 do
-      Margin := Min(Margin, CalcIndent(SL[i]));
-    for i := 1 to SL.Count - 1 do begin
-      if Margin < MaxInt then
-        SL[i] := Copy(SL[i], Margin+1, Length(SL[i]) - Margin);
       if Trim(SL[i]) = '' then
-        SL[i] := '';
-    end;
+        SL[i] := ''
+      else
+        Margin := Min(Margin, CalcIndent(SL[i]));
+    if (Margin > 0) and (Margin < MaxInt) then
+      for i := 1 to SL.Count - 1 do
+        if SL[i] <> '' then
+          SL[i] := Copy(SL[i], Margin+1, Length(SL[i]) - Margin);
     Result := SL.Text;
     // Remove any trailing or leading blank lines.
     Result := StrTrimCharsRight(Result, [#10, #13]);

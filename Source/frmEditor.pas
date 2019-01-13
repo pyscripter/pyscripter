@@ -3094,15 +3094,10 @@ begin
     with TSynCompletionProposal(Sender) do
     begin
       Font := PyIDEOptions.AutoCompletionFont;
-      if DisplayText = '' then
-      begin
-        FormatParams := False;
-        DisplayText := '\style{~B}' + _(SNoParameters) + '\style{~B}';
-      end
-      else
-      begin
-        FormatParams := True;
-      end;
+      FormatParams := not (DisplayText = '');
+      if not FormatParams then
+        DisplayText :=  '\style{~B}' + _(SNoParameters) + '\style{~B}';
+
       if (Doc <> '') then
       begin
         DisplayText := DisplayText + sLineBreak;
