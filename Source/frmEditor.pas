@@ -339,8 +339,6 @@ implementation
 
 uses
   System.Math,
-  System.StrUtils,
-  System.Variants,
   VirtualShellNotifier,
   PythonEngine,
   VarPyth,
@@ -2918,7 +2916,7 @@ procedure TEditorForm.SynParamCompletionExecute(Kind: SynCompletionType;
   var CanExecute: boolean);
 Var
   locline, lookup: string;
-  TmpX, StartX, ParenCounter, BracketCounter, ArgIndex: Integer;
+  TmpX, StartX, ParenCounter, ArgIndex: Integer;
   FoundMatch: boolean;
   FName, DisplayText, ErrMsg, Doc: string;
   P: TPoint;
@@ -3112,31 +3110,13 @@ begin
       end;
 
       // Determine active argument
-      TmpX := Succ(StartX);
-      BracketCounter := 1;
-      ArgIndex := 0;
-      with TSynCompletionProposal(Sender).Editor do
-      begin
-        while TmpX < TSynCompletionProposal(Sender).Editor.CaretX do
-        begin
-          GetHighlighterAttriAtRowCol(BufferCoord(TmpX, CaretY), Token, Attri);
-          if (Attri = TSynPythonSyn(Highlighter).StringAttri) or
-            (Attri = TSynPythonSyn(Highlighter).SpaceAttri) then
-          begin
-            Inc(TmpX);
-            Continue;
-          end;
-          if Ord(locline[TmpX]) < 128  then
-          begin
-            if AnsiChar(locline[TmpX]) in ['(','{','['] then
-              Inc(BracketCounter)
-            else if AnsiChar(locline[TmpX]) in [')','}',']'] then
-              Dec(BracketCounter)
-            else if (BracketCounter = 1) and (locline[TmpX] = ',') then
-              Inc(ArgIndex)
-          end;
-          Inc(TmpX);
-        end;
+      DummyToken := Copy(locline, Succ(StartX),
+        TSynCompletionProposal(Sender).Editor.CaretX - Succ(StartX));
+      ArgIndex := IfThen(DummyToken.EndsWith(','), 1, 0);
+      GetParameter(DummyToken);
+      While DummyToken <> '' do begin
+        Inc(ArgIndex);
+        GetParameter(DummyToken);
       end;
 
       Form.CurrentIndex := ArgIndex;

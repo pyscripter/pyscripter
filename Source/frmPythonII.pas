@@ -1284,19 +1284,19 @@ end;
 procedure TPythonIIForm.SynParamCompletionExecute(Kind: SynCompletionType;
   Sender: TObject; var CurrentInput: string; var x, y: Integer;
   var CanExecute: Boolean);
-var locline, lookup: string;
-    TmpX, StartX,
-    ParenCounter,
-    BracketCounter,
-    ArgIndex : Integer;
-    FoundMatch : Boolean;
-    DisplayText, DocString : string;
-    p : TPoint;
-    Attr: TSynHighlighterAttributes;
-    DummyToken : string;
-    BC : TBufferCoord;
-    Attri: TSynHighlighterAttributes;
-    Token: string;
+var
+  locline, lookup: string;
+  TmpX, StartX,
+  ParenCounter,
+  ArgIndex : Integer;
+  FoundMatch : Boolean;
+  DisplayText, DocString : string;
+  p : TPoint;
+  Attr: TSynHighlighterAttributes;
+  DummyToken : string;
+  BC : TBufferCoord;
+  Attri: TSynHighlighterAttributes;
+  Token: string;
 begin
   if not GI_PyControl.PythonLoaded or GI_PyControl.Running or not PyIDEOptions.InterpreterCodeCompletion
   then
@@ -1387,32 +1387,15 @@ begin
 
       if (DocString <> '') then
         DisplayText := DisplayText + sLineBreak;
+
       // Determine active argument
-      TmpX := Succ(StartX);
-      BracketCounter := 1;
-      ArgIndex := 0;
-      with TSynCompletionProposal(Sender).Editor do
-      begin
-        while TmpX < TSynCompletionProposal(Sender).Editor.CaretX do
-        begin
-          GetHighlighterAttriAtRowCol(BufferCoord(TmpX, CaretY), Token, Attri);
-          if (Attri = TSynPythonSyn(Highlighter).StringAttri) or
-            (Attri = TSynPythonSyn(Highlighter).SpaceAttri) then
-          begin
-            Inc(TmpX);
-            Continue;
-          end;
-          if Ord(locline[TmpX]) < 128  then
-          begin
-            if AnsiChar(locline[TmpX]) in ['(','{','['] then
-              Inc(BracketCounter)
-            else if AnsiChar(locline[TmpX]) in [')','}',']'] then
-              Dec(BracketCounter)
-            else if (BracketCounter = 1) and (locline[TmpX] = ',') then
-              Inc(ArgIndex)
-          end;
-          Inc(TmpX);
-        end;
+      DummyToken := Copy(locline, Succ(StartX),
+        TSynCompletionProposal(Sender).Editor.CaretX - Succ(StartX));
+      ArgIndex := IfThen(DummyToken.EndsWith(','), 1, 0);
+      GetParameter(DummyToken);
+      While DummyToken <> '' do begin
+        Inc(ArgIndex);
+        GetParameter(DummyToken);
       end;
 
       Form.CurrentIndex := ArgIndex;
