@@ -11,7 +11,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2019-01-05 02:19\n"
+"POT-Creation-Date: 2019-01-08 03:51\n"
 "PO-Revision-Date: 2018-01-24 08:21+0000\n"
 "Last-Translator: Kiriakos Vlahos <pyscripter@gmail.com>, 2018\n"
 "Language-Team: Greek (https://www.transifex.com/luebbe/teams/82736/el/)\n"
@@ -6542,11 +6542,15 @@ msgid "Jump to error on exception"
 msgstr ""
 
 #: dmCommands.pas
-msgid "Internal Interpreter Hidden"
-msgstr "Απόκρυψη εσωτερικού διερμηνευτή"
+msgid "Internal Interpreter hidden"
+msgstr ""
 
 #: dmCommands.pas
 msgid "Always use sockets"
+msgstr ""
+
+#: dmCommands.pas
+msgid "Step into open files only"
 msgstr ""
 
 #: dmCommands.pas
@@ -7662,7 +7666,8 @@ msgstr ""
 #: StringResources.pas
 msgid ""
 "The 'rpyc' package is not available.\n"
-"Please exit and reinstall PyScripter."
+"Please restart PyScripter and try again.\n"
+"If the error persists reinstall PyScripter."
 msgstr ""
 
 #. Programmer's name for it: SCouldNotWriteServerFile
