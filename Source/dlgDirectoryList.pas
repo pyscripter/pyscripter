@@ -53,6 +53,7 @@ implementation
 
 uses
   Math,
+  ShLwApi,
   JVBoxProcs,
   JvGnuGetText,
   dmCommands,
@@ -69,6 +70,8 @@ begin
     Caption := FormCaption;
     HelpContext := HelpCntxt;
     DirectoryList.Items.Assign(Folders);
+    SHAutoComplete(edPath.Handle, SHACF_FILESYSTEM or SHACF_AUTOAPPEND_FORCE_ON or
+      SHACF_AUTOSUGGEST_FORCE_OFF);
     Result := ShowModal = mrOK;
     if Result then
       Folders.Assign(DirectoryList.Items);

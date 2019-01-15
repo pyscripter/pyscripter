@@ -33,6 +33,7 @@ type
 implementation
 
 uses
+  ShLwApi,
   JvGnuGetText,
   FileCtrl;
 
@@ -62,6 +63,8 @@ begin
     DirectoryEdit.Text := Directory;
     ebMask.Text := FileMasks;
     cbRecursive.Checked := Recursive;
+    SHAutoComplete(DirectoryEdit.Handle, SHACF_FILESYSTEM or SHACF_AUTOAPPEND_FORCE_ON or
+      SHACF_AUTOSUGGEST_FORCE_OFF);
     if ShowModal = mrOK then begin
       Result := True;
       FileMasks := ebMask.Text;
