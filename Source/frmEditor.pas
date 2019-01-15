@@ -2918,7 +2918,7 @@ Var
   locline, lookup: string;
   TmpX, StartX, ParenCounter, ArgIndex: Integer;
   FoundMatch: boolean;
-  FName, DisplayText, ErrMsg, Doc: string;
+  FName, DisplayText, ErrMsg, DocString: string;
   P: TPoint;
   Scope: TCodeElement;
   Def: TBaseCodeElement;
@@ -3015,7 +3015,7 @@ begin
             if AlreadyActive and (lookup = OldParamCompetionData.lookup) then
             begin
               DisplayText := OldParamCompetionData.DisplayText;
-              Doc := OldParamCompetionData.Doc;
+              DocString := OldParamCompetionData.Doc;
               FoundMatch := True;
             end
             else
@@ -3052,15 +3052,15 @@ begin
                         Delete(DisplayText, 1, 4);
                       if StrIsLeft(PWideChar(DisplayText), ', ') then
                         Delete(DisplayText, 1, 2);
-                      Doc := TParsedFunction(Def).DocString;
+                      DocString := TParsedFunction(Def).DocString;
                     end else if Def is TParsedClass then begin
                        DisplayText := '';
-                       Doc := TParsedClass(Def).DocString;
+                       DocString := TParsedClass(Def).DocString;
                     end;
 
                     OldParamCompetionData.lookup := lookup;
                     OldParamCompetionData.DisplayText := DisplayText;
-                    OldParamCompetionData.Doc := Doc;
+                    OldParamCompetionData.Doc := DocString;
                     FoundMatch := True;
                   end;
                 end;
@@ -3098,10 +3098,10 @@ begin
       if not FormatParams then
         DisplayText :=  '\style{~B}' + _(SNoParameters) + '\style{~B}';
 
-      if (Doc <> '') then
+      if (DocString <> '') then
       begin
         DisplayText := DisplayText + sLineBreak;
-        Doc := GetLineRange(Doc, 1, 20) // 20 lines max
+        DocString := GetLineRange(DocString, 1, 20) // 20 lines max
       end;
 
       // Determine active argument
@@ -3115,7 +3115,7 @@ begin
       end;
 
       Form.CurrentIndex := ArgIndex;
-      ItemList.Text := DisplayText + Doc;
+      ItemList.Text := DisplayText + DocString;
     end;
 
     // position the hint window at and just below the opening bracket

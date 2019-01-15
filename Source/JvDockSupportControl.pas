@@ -788,7 +788,7 @@ constructor TJvDockCustomPanel.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
   ControlStyle := [csAcceptsControls, csCaptureMouse, csClickEvents,
-    csSetCaption, csOpaque, csDoubleClicks, csReplicatable];
+    csSetCaption, csParentBackground, csOpaque, csDoubleClicks, csReplicatable];
   Color := clBtnFace;
   UseDockManager := True;
 end;
@@ -2789,7 +2789,7 @@ end;
 constructor TJvDockPageControl.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
-  ControlStyle := [csDoubleClicks, csOpaque];
+  ControlStyle := [csDoubleClicks, csParentBackground, csOpaque];
   FPages := TList.Create;
   FTabSheetClass := TJvDockTabSheet;
 end;
