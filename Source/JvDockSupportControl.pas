@@ -147,6 +147,7 @@ type
 
   TJvDockCustomPanel = class(TJvDockCustomControl)
   protected
+    procedure WMEraseBkgnd(var Message: TWmEraseBkgnd); message WM_ERASEBKGND;
     function CreateDockManager: IDockManager; override;
   public
     constructor Create(AOwner: TComponent); override;
@@ -787,6 +788,7 @@ end;
 constructor TJvDockCustomPanel.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
+  // csParentBackground will be removed after the initial drawaing of the control
   ControlStyle := [csAcceptsControls, csCaptureMouse, csClickEvents,
     csSetCaption, csParentBackground, csOpaque, csDoubleClicks, csReplicatable];
   Color := clBtnFace;
@@ -797,6 +799,15 @@ destructor TJvDockCustomPanel.Destroy;
 begin
   SetDockSite(Self, False);
   inherited Destroy;
+end;
+
+procedure TJvDockCustomPanel.WMEraseBkgnd(var Message: TWmEraseBkgnd);
+begin
+  if ParentBackground then begin
+    inherited;
+    ParentBackground := False;
+  end;
+  Message.Result := 1;
 end;
 
 function TJvDockCustomPanel.CreateDockManager: IDockManager;
@@ -2789,7 +2800,7 @@ end;
 constructor TJvDockPageControl.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
-  ControlStyle := [csDoubleClicks, csParentBackground, csOpaque];
+  ControlStyle := [csDoubleClicks, csOpaque];
   FPages := TList.Create;
   FTabSheetClass := TJvDockTabSheet;
 end;
