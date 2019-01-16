@@ -12,7 +12,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2019-01-05 02:19\n"
+"POT-Creation-Date: 2019-01-08 03:51\n"
 "PO-Revision-Date: 2018-01-24 08:21+0000\n"
 "Last-Translator: bovirus <roberto.boriotti@canon-europe.com>, 2019\n"
 "Language-Team: Italian (https://www.transifex.com/luebbe/teams/82736/it/)\n"
@@ -6568,12 +6568,16 @@ msgid "Jump to error on exception"
 msgstr "Vai all'errore in caso di eccezioni"
 
 #: dmCommands.pas
-msgid "Internal Interpreter Hidden"
-msgstr "Nascondi l'interprete interno"
+msgid "Internal Interpreter hidden"
+msgstr "Interprete interno nascosto"
 
 #: dmCommands.pas
 msgid "Always use sockets"
 msgstr "Usa sempre socket"
+
+#: dmCommands.pas
+msgid "Step into open files only"
+msgstr "Step nei soli file aperti"
 
 #: dmCommands.pas
 msgid "Initially expanded"
@@ -7701,10 +7705,12 @@ msgstr ""
 #: StringResources.pas
 msgid ""
 "The 'rpyc' package is not available.\n"
-"Please exit and reinstall PyScripter."
+"Please restart PyScripter and try again.\n"
+"If the error persists reinstall PyScripter."
 msgstr ""
 "Il pacchetto 'rpyc' non è disponibile.\n"
-"Esci e reinstalla PyScripter."
+"Riavvia PyScripter e riprova.\n"
+"Se l'errore persiste reinstalla PyScripter."
 
 #. Programmer's name for it: SCouldNotWriteServerFile
 #: StringResources.pas
