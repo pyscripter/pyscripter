@@ -542,7 +542,7 @@ begin
             Exit;
           end;
         end;
-        Application.ProcessMessages;
+        //Application.ProcessMessages;
         Cursor := WaitCursor;
         // Destroy any active remote interpeter
         ActiveDebugger := nil;

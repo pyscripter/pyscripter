@@ -4762,7 +4762,7 @@ begin
   begin
     // Activate File Explorer
     FileExplorerWindow.FileExplorerTree.Active := True;
-    Application.ProcessMessages;
+    //Application.ProcessMessages;
 
     // Load Python Engine and Assign Debugger Events
     PyControl.LoadPythonEngine;
