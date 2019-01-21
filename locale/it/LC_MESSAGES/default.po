@@ -1421,7 +1421,7 @@ msgstr ""
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckScrollHintFollows..Caption
 #: dlgSynEditOptions.dfm
 msgid "Scroll hint follows mouse"
-msgstr "Il suggerimento sullo scorrimento segue il mouse"
+msgstr "Suggerimento su scorrimento segue il mouse"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbCaret..Caption
 #: dlgSynEditOptions.dfm
@@ -1476,7 +1476,7 @@ msgstr "Temi disponibili"
 #. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..btnApplyTheme..Caption
 #: dlgSynEditOptions.dfm
 msgid "Apply Theme"
-msgstr "Applica il tema"
+msgstr "Applica tema"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Color..Label11..Caption
 #: dlgSynEditOptions.dfm
@@ -1936,42 +1936,42 @@ msgstr "Zoom 400%"
 #. PrintPreviewDlg..ActionList..FirstCmd..Caption
 #: dlgSynPrintPreview.dfm
 msgid "First"
-msgstr "Primo"
+msgstr "Pagina iniziale"
 
 #. PrintPreviewDlg..ActionList..FirstCmd..Hint
 #: dlgSynPrintPreview.dfm
 msgid "First|Go to first page"
-msgstr "Prima|Vai alla prima pagina"
+msgstr "Pagina iniziale|Vai alla pagina iniziale"
 
 #. PrintPreviewDlg..ActionList..PrevCmd..Caption
 #: dlgSynPrintPreview.dfm
 msgid "Previous"
-msgstr "Precedente"
+msgstr "Pagina precedente"
 
 #. PrintPreviewDlg..ActionList..PrevCmd..Hint
 #: dlgSynPrintPreview.dfm
 msgid "Previous|Go to previous page"
-msgstr "Precedente|Vai alla pagina precedente"
+msgstr "Pagina precedente|Vai alla pagina precedente"
 
 #. PrintPreviewDlg..ActionList..NextCmd..Caption
 #: dlgSynPrintPreview.dfm
 msgid "Next"
-msgstr "Successiva"
+msgstr "Pagina Successiva"
 
 #. PrintPreviewDlg..ActionList..NextCmd..Hint
 #: dlgSynPrintPreview.dfm
 msgid "Next|Go to next page"
-msgstr "Successiva|Vai alla pagina successiva"
+msgstr "pagina successiva|Vai alla pagina successiva"
 
 #. PrintPreviewDlg..ActionList..LastCmd..Caption
 #: dlgSynPrintPreview.dfm
 msgid "Last"
-msgstr "Ultima"
+msgstr "Ultima pagina"
 
 #. PrintPreviewDlg..ActionList..LastCmd..Hint
 #: dlgSynPrintPreview.dfm
 msgid "Last|Go to last page"
-msgstr "Ultima|Vai all'ultima pagina"
+msgstr "Ultima pagina|Vai all'ultima pagina"
 
 #. PrintPreviewDlg..ActionList..ZoomCmd..Caption
 #: dlgSynPrintPreview.dfm
@@ -2200,7 +2200,7 @@ msgstr "&Output std.:"
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..Label12..Caption
 #: dlgToolProperties.dfm
 msgid "Messages &Format:"
-msgstr "&Formato dei messaggi:"
+msgstr "&Formato messaggi:"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..cbCaptureOutput..Caption
 #: dlgToolProperties.dfm
@@ -2859,7 +2859,7 @@ msgstr "Percorso Python|Visualizza/modifica percorso Python"
 #. CommandsDataModule..actlMain..actHelpContents..Caption
 #: dmCommands.dfm
 msgid "&Contents"
-msgstr "&Contenuti"
+msgstr "&Guida in linea (Ingelse)"
 
 #. CommandsDataModule..actlMain..actHelpContents..Hint
 #: dmCommands.dfm
@@ -3092,7 +3092,7 @@ msgstr "Usa la codifica ANSI"
 #. CommandsDataModule..actlMain..actHelpEditorShortcuts..Caption
 #: dmCommands.dfm
 msgid "Editor &Shortcuts"
-msgstr "&Scorciatoie editor"
+msgstr "&Scorciatoie editor (guida inglese)"
 
 #. CommandsDataModule..actlMain..actHelpEditorShortcuts..Hint
 #: dmCommands.dfm
@@ -3635,12 +3635,12 @@ msgstr "Frame seguente"
 #. CallStackWindow..actlCallStack..actNextFrame..Hint
 #: frmCallStack.dfm
 msgid "Select next (newer) frame"
-msgstr "Seleziona il framge seguente (più nuovo)"
+msgstr "Seleziona il frame seguente (più recente)"
 
 #. CodeExplorerWindow..Caption
 #: frmCodeExplorer.dfm dmCommands.pas
 msgid "Code Explorer"
-msgstr "Explorer codice"
+msgstr "Codice"
 
 #. CodeExplorerWindow..CEPopupMenu..mnExpandAll..Caption
 #. ProjectExplorerWindow..ProjectActionList..actProjectExpandAll..Caption
@@ -3881,7 +3881,7 @@ msgstr "Espandi"
 #. FileExplorerWindow..FileExplorerActions..actNewFolder..Category
 #: frmFileExplorer.dfm dmCommands.pas
 msgid "File Explorer"
-msgstr "Explorer file"
+msgstr "File"
 
 #. FileExplorerWindow..BGPanel..FGPanel..ExplorerDock..ExplorerToolbar..TBXSubmenuItem1..tbiBrowsePath..Caption
 #. FileExplorerWindow..ExplorerPopUp..mnBrowsePath..Caption
@@ -4354,12 +4354,12 @@ msgstr "Comandi:"
 #. ProjectExplorerWindow..Caption
 #: frmProjectExplorer.dfm dmCommands.pas
 msgid "Project Explorer"
-msgstr "Explorer del progetto"
+msgstr "Progetto"
 
 #. ProjectExplorerWindow..BGPanel..FGPanel..Panel1..SpTBXDock1..SpTBXToolbar1..Caption
 #: frmProjectExplorer.dfm
 msgid "Project Explorer Toolbar"
-msgstr "Barra degli strumenti dell'explorer del progetto"
+msgstr "Barra strumenti Explorer progetto"
 
 #. ProjectExplorerWindow..ProjectActionList..actProjectNew..Category
 #. ProjectExplorerWindow..ProjectActionList..actProjectOpen..Category
@@ -4856,7 +4856,7 @@ msgstr "Viste codice sorgente"
 #. PyIDEMainForm..TBXDockTop..MainMenu..ToolsMenu..mnTools..Hint
 #: frmPyIDEMain.dfm
 msgid "External Tools"
-msgstr "Strumenti esterni"
+msgstr "Strumenti esterni (guida inglese)"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ToolsMenu..OptionsMenu..Caption
 #: frmPyIDEMain.dfm
@@ -4948,7 +4948,7 @@ msgstr "Ricerca &incrementale"
 #. PyIDEMainForm..TBXDockTop..UserToolbar..Caption
 #: frmPyIDEMain.dfm
 msgid "User Toolbar"
-msgstr "Barra degli strumenti dell'utente"
+msgstr "Barra strumenti utente"
 
 #. PyIDEMainForm..TabControlPopupMenu..mnFiles..Caption
 #: frmPyIDEMain.dfm
@@ -5255,7 +5255,7 @@ msgstr "Visualizza/nascondi finestra punti interruzione"
 #. PyIDEMainForm..actlStandard..actNavWatches..Caption
 #: frmPyIDEMain.dfm
 msgid "&Watches"
-msgstr "&Osservazioni"
+msgstr "&Monitoraggi"
 
 #. PyIDEMainForm..actlStandard..actWatchesWin..Hint
 #: frmPyIDEMain.dfm
@@ -5291,7 +5291,7 @@ msgstr "Explorer &codice"
 #. PyIDEMainForm..actlStandard..actViewCodeExplorer..Hint
 #: frmPyIDEMain.dfm
 msgid "View/Hide Code Explorer"
-msgstr "Visualizza/nascondi explorer codice"
+msgstr "Visualizza/nascondi Explorer codice"
 
 #. PyIDEMainForm..actlStandard..actViewFileExplorer..Caption
 #: frmPyIDEMain.dfm
@@ -5301,7 +5301,7 @@ msgstr "&File Explorer"
 #. PyIDEMainForm..actlStandard..actViewFileExplorer..Hint
 #: frmPyIDEMain.dfm
 msgid "View/Hide File Explorer"
-msgstr "Visualizza/nasconde Explorer file"
+msgstr "Visualizza/nascondi Explorer file"
 
 #. PyIDEMainForm..actlStandard..actViewToDoList..Caption
 #: frmPyIDEMain.dfm
@@ -5311,7 +5311,7 @@ msgstr "Elenco cose da fare"
 #. PyIDEMainForm..actlStandard..actViewToDoList..Hint
 #: frmPyIDEMain.dfm
 msgid "View/Hide To Do List"
-msgstr "Visualizza/nascondi elenco cose da fare"
+msgstr "Visualizza/nascondi Elenco cose da fare"
 
 #. PyIDEMainForm..actlStandard..actViewFindResults..Caption
 #: frmPyIDEMain.dfm
@@ -5568,12 +5568,12 @@ msgstr "File E&xplorer"
 #. PyIDEMainForm..actlStandard..actNavFileExplorer..Hint
 #: frmPyIDEMain.dfm
 msgid "Activate the File Explorer window"
-msgstr "Attiva finestra esplorazione file"
+msgstr "Attiva finestra Explorer file"
 
 #. PyIDEMainForm..actlStandard..actNavCodeExplorer..Hint
 #: frmPyIDEMain.dfm
 msgid "Activate the Code Explorer window"
-msgstr "Attiva la finestra di esplorazione del codice"
+msgstr "Attiva finestra Explorer codice"
 
 #. PyIDEMainForm..actlStandard..actNavTodo..Caption
 #: frmPyIDEMain.dfm
@@ -5670,17 +5670,17 @@ msgstr "Personalizza le barre degli strumenti"
 #. PyIDEMainForm..actlStandard..actNavProjectExplorer..Caption
 #: frmPyIDEMain.dfm
 msgid "&Project Explorer"
-msgstr "Explorer del &progetto"
+msgstr "Explorer &progetto"
 
 #. PyIDEMainForm..actlStandard..actViewProjectExplorer..Hint
 #: frmPyIDEMain.dfm
 msgid "View/Hide Project Explorer"
-msgstr "Visualizza/nascondi l'explorer del progetto"
+msgstr "Visualizza/nascondi Explorer progetto"
 
 #. PyIDEMainForm..actlStandard..actNavProjectExplorer..Hint
 #: frmPyIDEMain.dfm
 msgid "Activate the Project Explorer window"
-msgstr "Attiva la finestra di esplorazione del progetto"
+msgstr "Attiva finestra Explorer progetto"
 
 #. PyIDEMainForm..actlStandard..actViewSplitWorkspaceVer..Caption
 #: frmPyIDEMain.dfm
@@ -6082,7 +6082,7 @@ msgstr "Tipo"
 #. WatchesWindow..BGPanel..FGPanel..Panel1..WatchesView......Text
 #: frmWatches.dfm
 msgid "Watches"
-msgstr "Osservazioni"
+msgstr "Monitoraggi"
 
 #. WatchesWindow..TBXPopupMenu..mnAddWatch..Caption
 #: frmWatches.dfm
@@ -6393,10 +6393,8 @@ msgid ""
 msgstr ""
 "Il progetto, il tracker di sviluppo e il repository del codice sono ospitati su GitHub\n"
 "(www.github.com/pyscripter/pyscripter)\n"
-"Il gruppo di supporto internet è disponibile all'indirizzo \n"
-"https://groups.google.com/group/PyScripter\n"
-"Segnala gli errori e posta le domande su PyScripter via email a \n"
-"pyscripter@gmail.com."
+"Il gruppo di supporto internet è disponibile all'indirizzo https://groups.google.com/group/PyScripter\n"
+"Segnala gli errori e posta le domande su PyScripter via email a pyscripter@gmail.com."
 
 #: dlgAboutPyScripter.pas
 msgid "Translation manager"
@@ -6740,11 +6738,11 @@ msgstr "Integrazione shell"
 
 #: dmCommands.pas
 msgid "File Explorer context menu"
-msgstr "Menù contestuale explorer file"
+msgstr "Menù contestuale Explorer file"
 
 #: dmCommands.pas
 msgid "File Explorer background processing"
-msgstr "Elaborazione in background explorer file"
+msgstr "Elaborazione in background Explorer file"
 
 #: dmCommands.pas
 msgid "SSH command"

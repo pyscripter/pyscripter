@@ -5,7 +5,7 @@
 # 
 # Translators:
 # luebbe <luebbe.opensource@gmail.com>, 2018
-# Kiriakos Vlahos <pyscripter@gmail.com>, 2018
+# Kiriakos Vlahos <pyscripter@gmail.com>, 2019
 # 
 #, fuzzy
 msgid ""
@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
 "POT-Creation-Date: 2019-01-08 03:51\n"
 "PO-Revision-Date: 2018-01-24 08:21+0000\n"
-"Last-Translator: Kiriakos Vlahos <pyscripter@gmail.com>, 2018\n"
+"Last-Translator: Kiriakos Vlahos <pyscripter@gmail.com>, 2019\n"
 "Language-Team: Greek (https://www.transifex.com/luebbe/teams/82736/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -683,7 +683,7 @@ msgstr "&Κατάλογοι:"
 #: dlgFindInFiles.dfm dlgToDoOptions.dfm dlgDirectoryList.pas
 #: dlgImportDirectory.pas uParams.pas
 msgid "Select directory"
-msgstr ""
+msgstr "Επιλογή καταλόγου αρχείων"
 
 #. FindInFilesDialog..Panel1..gbxDirectories..cbInclude..Caption
 #. fmToDoOptions..pnlBG..gbxSearchFiles..chkInclude..Caption
@@ -6535,7 +6535,7 @@ msgstr "Απόθήκευση ιστορικού εντολών διερμηνε�
 
 #: dmCommands.pas
 msgid "Reinitialize before run"
-msgstr ""
+msgstr "&Επαναρχικοποίηση πριν την εκτέλεση"
 
 #: dmCommands.pas
 msgid "Jump to error on exception"
@@ -6543,7 +6543,7 @@ msgstr ""
 
 #: dmCommands.pas
 msgid "Internal Interpreter hidden"
-msgstr ""
+msgstr "Απόκρυψη εσωτερικού διερμηνευτή"
 
 #: dmCommands.pas
 msgid "Always use sockets"
