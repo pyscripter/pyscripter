@@ -77,6 +77,8 @@ implementation
 
 uses
   WinApi.Windows,
+  System.UITypes,
+  Vcl.Dialogs,
   VarPyth,
   SynHighlighterPython,
   cPyScripterSettings,
@@ -297,8 +299,11 @@ begin
     end else
       DestroyPythonComponents;
   except
-    DestroyPythonComponents;
-    Result := False;
+    on E: Exception do begin
+      DestroyPythonComponents;
+      Vcl.Dialogs.MessageDlg(E.Message, mtError, [mbOK], 0);
+      Result := False;
+    end;
   end;
 end;
 
