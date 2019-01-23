@@ -83,6 +83,7 @@ inherited FindResultsWindow: TFindResultsWindow
           Width = 599
           Height = 26
           AllowDrag = False
+          DoubleBuffered = True
           object ToolBar: TSpTBXToolbar
             Left = 0
             Top = 0
@@ -198,7 +199,7 @@ inherited FindResultsWindow: TFindResultsWindow
           MinHeight = 20
         end
         object SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem
-          CustomWidth = 0
+          CustomWidth = 570
         end
         object StatusRightLabel: TSpTBXLabelItem
           Alignment = taRightJustify

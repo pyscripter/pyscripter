@@ -60,6 +60,7 @@ inherited ToDoWindow: TToDoWindow
         Width = 488
         Height = 26
         AllowDrag = False
+        DoubleBuffered = True
         object Toolbar: TSpTBXToolbar
           Left = 0
           Top = 0

@@ -32,7 +32,7 @@ object PyIDEMainForm: TPyIDEMainForm
     end
     object SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem
       Wrapping = twNone
-      CustomWidth = 0
+      CustomWidth = 195
     end
     object SpTBXSeparatorItem22: TSpTBXSeparatorItem
     end
@@ -1328,6 +1328,7 @@ object PyIDEMainForm: TPyIDEMainForm
     FixAlign = True
     PopupMenu = ToolbarPopupMenu
     Position = dpLeft
+    DoubleBuffered = True
   end
   object TBXDockRight: TSpTBXDock
     Left = 771
@@ -1337,6 +1338,7 @@ object PyIDEMainForm: TPyIDEMainForm
     FixAlign = True
     PopupMenu = ToolbarPopupMenu
     Position = dpRight
+    DoubleBuffered = True
   end
   object TBXDockBottom: TSpTBXDock
     Left = 0
@@ -1346,6 +1348,8 @@ object PyIDEMainForm: TPyIDEMainForm
     FixAlign = True
     PopupMenu = ToolbarPopupMenu
     Position = dpBottom
+    DoubleBuffered = True
+    ExplicitLeft = 1
   end
   object DockServer: TJvDockServer
     LeftSplitterStyle.Cursor = crHSplit

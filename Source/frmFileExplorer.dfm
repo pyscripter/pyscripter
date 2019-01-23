@@ -94,6 +94,7 @@ inherited FileExplorerWindow: TFileExplorerWindow
         Width = 223
         Height = 26
         AllowDrag = False
+        DoubleBuffered = True
         object ExplorerToolbar: TSpTBXToolbar
           Left = 0
           Top = 0

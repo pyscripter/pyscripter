@@ -92,6 +92,7 @@ inherited ProjectExplorerWindow: TProjectExplorerWindow
           Width = 223
           Height = 26
           AllowDrag = False
+          DoubleBuffered = True
           object SpTBXToolbar1: TSpTBXToolbar
             Left = 0
             Top = 0

@@ -69,6 +69,7 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
         Width = 380
         Height = 26
         AllowDrag = False
+        DoubleBuffered = True
         object RegExpTesterToolbar: TSpTBXToolbar
           Left = 0
           Top = 0
@@ -247,7 +248,6 @@ inherited RegExpTesterWindow: TRegExpTesterWindow
             BevelInner = bvNone
             BevelOuter = bvNone
             BorderStyle = bsNone
-            DefaultText = 'Node'
             Header.AutoSizeIndex = 2
             Header.Options = [hoAutoResize, hoColumnResize, hoDblClickResize, hoHotTrack, hoOwnerDraw, hoVisible]
             HintMode = hmTooltip
