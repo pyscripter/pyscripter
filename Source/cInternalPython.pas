@@ -281,20 +281,25 @@ begin
   DestroyPythonComponents;
 
   CreatePythonComponents;
-  Version.AssignTo(PythonEngine);
-  // set environment variables
-  SetEnvironmentVariable('PYTHONHOME', '');
-  if not (Version.IsRegistered or Version.Is_venv) then begin
-    PythonEngine.SetPythonHome(Version.InstallPath);
-    SetEnvironmentVariable('PYTHONHOME', PWideChar(Version.InstallPath));
-  end;
+  try
+    Version.AssignTo(PythonEngine);
+    // set environment variables
+    SetEnvironmentVariable('PYTHONHOME', '');
+    if not (Version.IsRegistered or Version.Is_venv) then begin
+      PythonEngine.SetPythonHome(Version.InstallPath);
+      SetEnvironmentVariable('PYTHONHOME', PWideChar(Version.InstallPath));
+    end;
 
-  PythonEngine.LoadDll;
-  Result := PythonEngine.IsHandleValid;
-  if Result then begin
-    Initialize;
-  end else
+    PythonEngine.LoadDll;
+    Result := PythonEngine.IsHandleValid;
+    if Result then begin
+      Initialize;
+    end else
+      DestroyPythonComponents;
+  except
     DestroyPythonComponents;
+    Result := False;
+  end;
 end;
 
 procedure TInternalPython.MaskFPUExceptionsExecute(Sender: TObject; PSelf,
