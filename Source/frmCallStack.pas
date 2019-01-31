@@ -98,7 +98,7 @@ uses
   frmVariables,
   frmWatches,
   uCommonFunctions,
-  uEditAppIntfs;
+  uEditAppIntfs, cPySupportTypes;
 
 {$R *.dfm}
 
@@ -141,10 +141,8 @@ begin
       FrameData := FirstNode.GetData;
       FileName := PyControl.ActiveInterpreter.FromPythonFileName(FrameData.FileName);
       Editor := GI_EditorFactory.GetEditorByNameOrTitle(FileName);
-      if Assigned(Editor) then begin
-        PyControl.CurrentPos.NewPos(Editor, FrameData.Line);
-        PyControl.DoCurrentPosChanged;
-      end;
+      if Assigned(Editor) then
+        PyControl.DoCurrentPosChanged(TEditorPos.NPos(Editor, FrameData.Line));
     end;
   end else
     ClearAll(False);

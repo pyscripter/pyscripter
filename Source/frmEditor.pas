@@ -47,7 +47,8 @@ uses
   cPyControl,
   cPythonSourceScanner,
   cCodeCompletion,
-  cPyBaseDebugger;
+  cPyBaseDebugger,
+  cPySupportTypes;
 
 const
   WM_PARAMCOMPLETION = WM_USER +1040;
@@ -361,7 +362,7 @@ uses
   frmWatches,
   frmIDEDockWin,
   uSearchHighlighter,
-  cPySupportTypes,
+
   cPyDebugger,
   cRefactoring,
   cCodeHint,
@@ -1513,12 +1514,8 @@ end;
 
 procedure TEditorForm.SynEditChange(Sender: TObject);
 begin
-  with PyControl.ErrorPos do
-    if Editor = GetEditor then
-    begin
-      Clear;
-      PyIDEMainForm.DebuggerErrorPosChange(Self);
-    end;
+  if PyControl.ErrorPos.Editor = GetEditor then
+    PyControl.DoErrorPosChanged(TEditorPos.EmptyPos);
   fSyntaxErrorPos.Clear;
   fNeedToCheckSyntax := True;
 
@@ -2601,12 +2598,8 @@ procedure TEditorForm.SynEditMouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
   EditorSearchOptions.InitSearch;
-  with PyControl.ErrorPos do
-    if Editor = GetEditor then
-    begin
-      Clear;
-      PyIDEMainForm.DebuggerErrorPosChange(Self);
-    end;
+  if PyControl.ErrorPos.Editor = GetEditor then
+    PyControl.DoErrorPosChanged(TEditorPos.EmptyPos);
 
   if fHotIdentInfo.HaveHotIdent then
   begin

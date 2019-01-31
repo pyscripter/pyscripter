@@ -32,21 +32,9 @@ type
   TDebuggerLineInfos = set of TDebuggerLineInfo;
 
   TBreakpointChangeEvent = procedure(Sender: TObject; Editor : IEditor; ALine: integer) of object;
-  TDebuggerStateChangeEvent = procedure(Sender: TObject;
-    OldState, NewState: TDebuggerState) of object;
+  TDebuggerStateChangeEvent = procedure(Sender: TObject; OldState, NewState: TDebuggerState) of object;
   TDebuggerYieldEvent = procedure(Sender: TObject; DoIdle : Boolean) of object;
-
-  TEditorPos = record
-  public
-    Editor : IEditor;
-    Line : integer;
-    Char : integer;
-    IsSyntax : Boolean;
-    ErrorMsg : string;
-    procedure Clear;
-    procedure NewPos(AEditor : IEditor; ALine : integer; AChar : integer = -1;
-                     IsSyntaxError : Boolean = False; AErrorMsg : string = '');
-  end;
+  TDebuggerPosChangeEvent = procedure(Sender: TObject; const OldPos, NewPos: TEditorPos) of object;
 
   TPythonControl = class(TComponent, IPyControl)
   {
@@ -58,8 +46,8 @@ type
     fBreakPointsChanged: Boolean;
     fDebuggerState: TDebuggerState;
     fOnBreakpointChange: TBreakpointChangeEvent;
-    fOnCurrentPosChange: TNotifyEvent;
-    fOnErrorPosChange: TNotifyEvent;
+    fOnCurrentPosChange: TDebuggerPosChangeEvent;
+    fOnErrorPosChange: TDebuggerPosChangeEvent;
     fOnStateChange: TDebuggerStateChangeEvent;
     fOnYield: TDebuggerYieldEvent;
     fOnPythonVersionChange: TJclNotifyEventBroadcast;
@@ -109,8 +97,8 @@ type
       var Disabled : boolean): boolean;
     function IsExecutableLine(Editor: IEditor; ALine: integer): boolean;
     // Event processing
-    procedure DoCurrentPosChanged;
-    procedure DoErrorPosChanged;
+    procedure DoCurrentPosChanged(NewPos : TEditorPos);
+    procedure DoErrorPosChanged(NewPos : TEditorPos);
     procedure DoStateChange(NewState : TDebuggerState);
     procedure DoYield(DoIdle : Boolean);
     // Running Python Scripts
@@ -147,9 +135,9 @@ type
     property Finalizing: Boolean read fFinalizing;
     property OnBreakpointChange: TBreakpointChangeEvent read fOnBreakpointChange
       write fOnBreakpointChange;
-    property OnCurrentPosChange: TNotifyEvent read fOnCurrentPosChange
+    property OnCurrentPosChange: TDebuggerPosChangeEvent read fOnCurrentPosChange
       write fOnCurrentPosChange;
-    property OnErrorPosChange: TNotifyEvent read fOnErrorPosChange
+    property OnErrorPosChange: TDebuggerPosChangeEvent read fOnErrorPosChange
       write fOnErrorPosChange;
     property OnStateChange: TDebuggerStateChangeEvent read fOnStateChange
       write fOnStateChange;
@@ -182,27 +170,6 @@ uses
   cRefactoring,
   cSSHSupport,
   cPySSHDebugger;
-
-{ TEditorPos }
-
-procedure TEditorPos.NewPos(AEditor : IEditor; ALine : integer; AChar : integer = -1;
-                 IsSyntaxError : Boolean = False; AErrorMsg : string = '');
-begin
-  Editor := AEditor;
-  Line := ALine;
-  Char := AChar;
-  IsSyntax := IsSyntaxError;
-  ErrorMsg := AErrorMsg;
-end;
-
-procedure TEditorPos.Clear;
-begin
-  Editor := nil;
-  Line := -1;
-  Char := -1;
-  IsSyntax := False;
-  ErrorMsg := '';
-end;
 
 { TPythonControl }
 
@@ -617,16 +584,18 @@ begin
     end;
 end;
 
-procedure TPythonControl.DoCurrentPosChanged;
+procedure TPythonControl.DoCurrentPosChanged(NewPos : TEditorPos);
 begin
   if Assigned(fOnCurrentPosChange) then
-    fOnCurrentPosChange(Self);
+    fOnCurrentPosChange(Self, CurrentPos, NewPos);
+  CurrentPos := NewPos;
 end;
 
-procedure TPythonControl.DoErrorPosChanged;
+procedure TPythonControl.DoErrorPosChanged(NewPos : TEditorPos);
 begin
   if Assigned(fOnErrorPosChange) then
-    fOnErrorPosChange(Self);
+    fOnErrorPosChange(Self, ErrorPos, NewPos);
+  ErrorPos := NewPos;
 end;
 
 procedure TPythonControl.DoOnBreakpointChanged(Editor : IEditor; ALine: integer);
@@ -641,13 +610,10 @@ Var
   OldDebuggerState: TDebuggerState;
 begin
   OldDebuggerState := fDebuggerState;
-  if NewState in [dsInactive, dsDebugging, dsRunning] then begin
-    CurrentPos.Clear;
-    PyControl.DoCurrentPosChanged;
-  end else begin
-    ErrorPos.Clear;
-    DoErrorPosChanged;
-  end;
+  if NewState in [dsInactive, dsDebugging, dsRunning] then
+    DoCurrentPosChanged(TEditorPos.EmptyPos)
+  else
+    DoErrorPosChanged(TEditorPos.EmptyPos);
   fDebuggerState := NewState;
   if Assigned(fOnStateChange) then
     fOnStateChange(Self, OldDebuggerState, NewState);

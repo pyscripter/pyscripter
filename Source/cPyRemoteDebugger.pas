@@ -415,8 +415,7 @@ begin
   end;
 
   VarClear(Result);
-  PyControl.ErrorPos.Clear;
-  PyControl.DoErrorPosChanged;
+  PyControl.DoErrorPosChanged(TEditorPos.EmptyPos);
 
   GI_PyIDEServices.Messages.ClearMessages;
 
@@ -456,10 +455,9 @@ begin
         FileName := FromPythonFileName(FileName);
         if GI_PyIDEServices.ShowFilePosition(FileName, LineNo, Offset) and
           Assigned(GI_ActiveEditor)
-        then begin
-          PyControl.ErrorPos.NewPos(GI_ActiveEditor, LineNo, Offset, True);
-          PyControl.DoErrorPosChanged;
-        end;
+        then
+          PyControl.DoErrorPosChanged(
+            TEditorPos.NPos(GI_ActiveEditor, LineNo, Offset, True));
       end else
         HandleRemoteException(ExcInfo);
 
@@ -648,10 +646,8 @@ begin
     begin
       if GI_PyIDEServices.ShowFilePosition(FileName, LineNo, 1) and
         Assigned(GI_ActiveEditor)
-      then begin
-        PyControl.ErrorPos.NewPos(GI_ActiveEditor, LineNo);
-        PyControl.DoErrorPosChanged;
-      end;
+      then
+        PyControl.DoErrorPosChanged(TEditorPos.NPos(GI_ActiveEditor, LineNo));
     end;
   end;
 end;
@@ -865,8 +861,8 @@ Var
   PythonPathAdder : IInterface;
   ExcInfo : Variant;
   ReturnFocusToEditor: Boolean;
-  Editor : IEditor;
   Timer : ITimer;
+  [weak] Editor : IEditor;
 begin
   CheckConnected;
   CanDoPostMortem := False;
@@ -960,7 +956,7 @@ begin
         RPI.rem_chdir(OldPath);
       end;
       PyControl.DoStateChange(dsInactive);
-      if ReturnFocusToEditor then
+      if ReturnFocusToEditor and Assigned(Editor) then
         Editor.Activate;
       if not Connected then begin
         PythonPathAdder := nil;
@@ -1556,8 +1552,8 @@ var
   PythonPathAdder : IInterface;
   ExcInfo : Variant;
   ReturnFocusToEditor: Boolean;
-  Editor : IEditor;
   Timer : ITimer;
+  [weak] Editor : IEditor;
 begin
   fRemotePython.CheckConnected;
   fRemotePython.CanDoPostMortem := False;
@@ -1692,7 +1688,7 @@ begin
         GI_PyIDEServices.Layouts.LoadLayout('Current');
 
       PyControl.DoStateChange(dsInactive);
-      if ReturnFocusToEditor then
+      if ReturnFocusToEditor and Assigned(Editor) then
         Editor.Activate;
       if not fRemotePython.Connected then begin
         PythonPathAdder := nil;

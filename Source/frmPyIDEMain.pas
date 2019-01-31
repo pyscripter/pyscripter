@@ -1200,15 +1200,14 @@ type
     procedure ApplyIDEOptionsToEditor(Editor: IEditor);
     procedure OpenInitialFiles;
   protected
-    fCurrentLine : integer;
-    fErrorLine : integer;
     fCurrentBrowseInfo : string;
     procedure ScaleForCurrentDpi; override;
     function DoCreateEditor(TabControl : TSpTBXTabControl): IEditor;
     function CmdLineOpenFiles(): boolean;
     function OpenCmdLineFile(FileName : string) : Boolean;
     procedure DebuggerBreakpointChange(Sender: TObject; Editor : IEditor; ALine: integer);
-    procedure DebuggerCurrentPosChange(Sender: TObject);
+    procedure DebuggerCurrentPosChange(Sender: TObject; const OldPos, NewPos: TEditorPos);
+    procedure DebuggerErrorPosChange(Sender: TObject; const OldPos, NewPos: TEditorPos);
     procedure UpdateStandardActions;
     procedure UpdateStatusBarPanels;
     procedure ApplicationOnHint(Sender: TObject);
@@ -1275,8 +1274,6 @@ type
       NewState: TDebuggerState);
     procedure ApplicationOnIdle(Sender: TObject; var Done: Boolean);
     procedure DebuggerYield(Sender: TObject; DoIdle : Boolean);
-    procedure DebuggerErrorPosChange(Sender: TObject);
-    procedure SetCurrentPos(Editor : IEditor; ALine: integer);
     procedure PyIDEOptionsChanged(Sender: TObject);
     procedure SetupCustomizer;
     procedure SetupLanguageMenu;
@@ -2276,40 +2273,6 @@ begin
   ActiveTabControlIndex := TabControlIndex(Value);
 end;
 
-procedure TPyIDEMainForm.SetCurrentPos(Editor : IEditor; ALine: integer);
-Var
-  ActiveEditor : IEditor;
-begin
-  ActiveEditor := GetActiveEditor;
-  if not Assigned(ActiveEditor) then Exit;  //No editors!
-
-  if (not Assigned(Editor) or (ActiveEditor = Editor)) and (fCurrentLine > 0) then
-    // Remove possible current lines
-    with ActiveEditor do begin
-      SynEdit.InvalidateGutterLine(fCurrentLine);
-      SynEdit.InvalidateLine(fCurrentLine);
-      SynEdit2.InvalidateGutterLine(fCurrentLine);
-      SynEdit2.InvalidateLine(fCurrentLine);
-    end;
-
-  fCurrentLine := ALine;  // Store
-  if not Assigned(Editor) then Exit;
-
-  if Editor <> ActiveEditor then
-    Editor.Activate;
-
-  with Editor.SynEdit do begin
-    if (ALine > 0) and (CaretY <> ALine) then begin
-      CaretXY := BufferCoord(1, ALine);
-      EnsureCursorPosVisible;
-    end;
-    InvalidateGutterLine(ALine);
-    InvalidateLine(ALine);
-  end;
-  Editor.SynEdit2.InvalidateGutterLine(ALine);
-  Editor.SynEdit2.InvalidateLine(ALine);
-end;
-
 procedure TPyIDEMainForm.SetRunLastScriptHints(const ScriptName: string);
 Var
   S : string;
@@ -2322,37 +2285,50 @@ begin
    actRunLastScriptExternal.Hint := _(sHintExternalRun) + S;
 end;
 
-procedure TPyIDEMainForm.DebuggerErrorPosChange(Sender: TObject);
-{
-  Invalidates old and/or new error line but does not Activate the Editor
-}
-var
-  Editor : IEditor;
+procedure TPyIDEMainForm.DebuggerErrorPosChange(Sender: TObject;
+  const OldPos, NewPos: TEditorPos);
+{  Invalidates old and/or new error line but does not Activate the Editor }
 begin
-  Editor := GetActiveEditor;
-  if not Assigned(Editor) then Exit;  //No editors!
+  if csDestroying in ComponentState then Exit;
 
-  if (not Assigned(PyControl.ErrorPos.Editor) or (PyControl.ErrorPos.Editor = Editor)) and
-    (fErrorLine > 0)
-  then begin
+  if Assigned(OldPos.Editor)  and (OldPos.Line > 0) then begin
     // Remove possible error line
-    Editor.SynEdit.InvalidateLine(fErrorLine);
-    Editor.SynEdit2.InvalidateLine(fErrorLine);
+    OldPos.Editor.SynEdit.InvalidateLine(OldPos.Line);
+    OldPos.Editor.SynEdit2.InvalidateLine(OldPos.Line);
   end;
-  fErrorLine := PyControl.ErrorPos.Line;  // Store
-  if (Editor = PyControl.ErrorPos.Editor) and (PyControl.ErrorPos.Line > 0) then begin
-    Editor.SynEdit.InvalidateLine(PyControl.ErrorPos.Line);
-    Editor.SynEdit2.InvalidateLine(PyControl.ErrorPos.Line);
+  if Assigned(NewPos.Editor)  and (NewPos.Line > 0) then begin
+    NewPos.Editor.SynEdit.InvalidateLine(NewPos.Line);
+    NewPos.Editor.SynEdit2.InvalidateLine(NewPos.Line);
   end;
 end;
 
-procedure TPyIDEMainForm.DebuggerCurrentPosChange(Sender: TObject);
+procedure TPyIDEMainForm.DebuggerCurrentPosChange(Sender: TObject;
+  const OldPos, NewPos: TEditorPos);
 begin
   if csDestroying in ComponentState then Exit;
-  if (PyControl.ActiveDebugger <> nil) and not GI_PyControl.Running then
-    SetCurrentPos(PyControl.CurrentPos.Editor , PyControl.CurrentPos.Line)
-  else
-    SetCurrentPos(PyControl.CurrentPos.Editor, -1);
+
+  if Assigned(OldPos.Editor)  and (OldPos.Line > 0) then
+    // Remove possible current lines
+    with OldPos.Editor do begin
+      SynEdit.InvalidateGutterLine(OldPos.Line);
+      SynEdit.InvalidateLine(OldPos.Line);
+      SynEdit2.InvalidateGutterLine(OldPos.Line);
+      SynEdit2.InvalidateLine(OldPos.Line);
+    end;
+
+  if not Assigned(NewPos.Editor) then Exit;
+
+  NewPos.Editor.Activate;
+  with NewPos.Editor.SynEdit do begin
+    if (NewPos.Line > 0) and (CaretY <> NewPos.Line) then begin
+      CaretXY := BufferCoord(1, NewPos.Line);
+      EnsureCursorPosVisible;
+    end;
+    InvalidateGutterLine(NewPos.Line);
+    InvalidateLine(NewPos.Line);
+  end;
+  NewPos.Editor.SynEdit2.InvalidateGutterLine(NewPos.Line);
+  NewPos.Editor.SynEdit2.InvalidateLine(NewPos.Line);
 end;
 
 procedure TPyIDEMainForm.DebuggerStateChange(Sender: TObject; OldState,

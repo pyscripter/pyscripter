@@ -606,7 +606,7 @@ var
   PythonPathAdder : IInterface;
   ReturnFocusToEditor: Boolean;
   CanDoPostMortem : Boolean;
-  Editor : IEditor;
+  [weak] Editor : IEditor;
 begin
   CanDoPostMortem := False;
 
@@ -711,7 +711,7 @@ begin
         GI_PyIDEServices.Layouts.LoadLayout('Current');
 
       PyControl.DoStateChange(dsInactive);
-      if ReturnFocusToEditor then
+      if ReturnFocusToEditor and Assigned(Editor) then
         Editor.Activate;
       if CanDoPostMortem and PyIDEOptions.PostMortemOnException then
         EnterPostMortem;
@@ -998,8 +998,7 @@ begin
   end;
 
   VarClear(Result);
-  PyControl.ErrorPos.Clear;
-  PyControl.DoErrorPosChanged;
+  PyControl.DoErrorPosChanged(TEditorPos.EmptyPos);
 
   GI_PyIDEServices.Messages.ClearMessages;
 
@@ -1030,10 +1029,9 @@ begin
         on E: EPySyntaxError do begin
           if GI_PyIDEServices.ShowFilePosition(E.EFileName, E.ELineNumber, E.EOffset) and
             Assigned(GI_ActiveEditor)
-          then begin
-            PyControl.ErrorPos.NewPos(GI_ActiveEditor, E.ELineNumber, E.EOffset, True);
-            PyControl.DoErrorPosChanged;
-          end;
+          then
+            PyControl.DoErrorPosChanged(
+              TEditorPos.NPos(GI_ActiveEditor, E.ELineNumber, E.EOffset, True));
 
           GI_PyInterpreter.AppendPrompt;
           Vcl.Dialogs.MessageDlg(E.Message, mtError, [mbOK], 0);
@@ -1250,7 +1248,7 @@ Var
   PythonPathAdder : IInterface;
   ReturnFocusToEditor : Boolean;
   CanDoPostMortem : Boolean;
-  Editor : IEditor;
+  [weak] Editor : IEditor;
 begin
   CanDoPostMortem := False;
 
@@ -1337,7 +1335,7 @@ begin
       SetCurrentDir(OldPath);
 
       PyControl.DoStateChange(dsInactive);
-      if ReturnFocusToEditor then
+      if ReturnFocusToEditor and Assigned(Editor) then
         Editor.Activate;
       if CanDoPostMortem and PyIDEOptions.PostMortemOnException then
         PyControl.ActiveDebugger.EnterPostMortem;
@@ -1365,14 +1363,14 @@ end;
 
 function TPyInternalInterpreter.SyntaxCheck(Editor: IEditor; Quiet : Boolean = False): Boolean;
 Var
-  FName : string;
-  Source : AnsiString;
-  tmp: PPyObject;
-  PyErrType, PyErrValue, PyErrTraceback, PyErrValueTuple : PPyObject;
-  SuppressOutput : IInterface;
+  FName: string;
+  Source: AnsiString;
+  tmp:PPyObject;
+  PyErrType, PyErrValue, PyErrTraceback, PyErrValueTuple: PPyObject;
+  ErrorPos: TEditorPos;
+  SuppressOutput: IInterface;
 begin
-  PyControl.ErrorPos.Clear;
-  PyControl.DoErrorPosChanged;
+  PyControl.DoErrorPosChanged(TEditorPos.EmptyPos);
 
   FName := ToPythonFileName(Editor.GetFileNameOrTitle);
   Source := CleanEOLs(Editor.EncodedText)+AnsiString(#10);
@@ -1390,12 +1388,12 @@ begin
             // Sometimes there's a tuple instead of instance...
               if PyTuple_Check( PyErrValue )  and (PyTuple_Size( PyErrValue) >= 2) then
               begin
-                PyControl.ErrorPos.ErrorMsg := PyString_AsDelphiString(PyTuple_GetItem( PyErrValue, 0));
+                ErrorPos.ErrorMsg := PyString_AsDelphiString(PyTuple_GetItem( PyErrValue, 0));
                 PyErrValueTuple := PyTuple_GetItem( PyErrValue, 1);
                 if PyTuple_Check( PyErrValueTuple )  and (PyTuple_Size( PyErrValueTuple) >= 4) then
                 begin
-                  PyControl.ErrorPos.Line := PyInt_AsLong(PyTuple_GetItem( PyErrValueTuple, 1));
-                  PyControl.ErrorPos.Char := PyInt_AsLong(PyTuple_GetItem( PyErrValueTuple, 2));
+                  ErrorPos.Line := PyInt_AsLong(PyTuple_GetItem( PyErrValueTuple, 1));
+                  ErrorPos.Char := PyInt_AsLong(PyTuple_GetItem( PyErrValueTuple, 2));
                 end;
               end else
                 // Is it an instance of the SyntaxError class ?
@@ -1405,23 +1403,23 @@ begin
                 // Get the text containing the error, cut of carriage return
                 tmp := PyObject_GetAttrString(PyErrValue, 'text');
                 if Assigned(tmp) and PyString_Check(tmp) then
-                  PyControl.ErrorPos.ErrorMsg := Trim(PyString_AsDelphiString(tmp));
+                  ErrorPos.ErrorMsg := Trim(PyString_AsDelphiString(tmp));
                 Py_XDECREF(tmp);
                 // Get the offset where the error should appear
                 tmp := PyObject_GetAttrString(PyErrValue, 'offset' );
                 if Assigned(tmp) and PyInt_Check(tmp) then
-                  PyControl.ErrorPos.Char := PyInt_AsLong(tmp);
+                  ErrorPos.Char := PyInt_AsLong(tmp);
                 Py_XDECREF(tmp);
                 // Get the line number of the error
                 tmp := PyObject_GetAttrString(PyErrValue, 'lineno' );
                 if Assigned(tmp) and PyInt_Check(tmp) then
-                  PyControl.ErrorPos.Line := PyInt_AsLong(tmp);
+                  ErrorPos.Line := PyInt_AsLong(tmp);
                 Py_XDECREF(tmp);
                 PyErr_Clear;
               end;
-              PyControl.ErrorPos.Editor := Editor;
-              PyControl.ErrorPos.IsSyntax := True;
-              PyControl.DoErrorPosChanged;
+              ErrorPos.Editor := Editor;
+              ErrorPos.IsSyntax := True;
+              PyControl.DoErrorPosChanged(ErrorPos);
             end;
             Py_XDECREF(PyErrType);
             Py_XDECREF(PyErrValue);
@@ -1443,11 +1441,9 @@ begin
             E.EFileName := FName;  // add the filename
             if GI_PyIDEServices.ShowFilePosition(E.EFileName, E.ELineNumber, E.EOffset) and
               Assigned(GI_ActiveEditor)
-            then begin
-              PyControl.ErrorPos.NewPos(GI_ActiveEditor, E.ELineNumber, E.EOffset, True);
-              PyControl.DoErrorPosChanged;
-            end;
-            if Not Quiet then Vcl.Dialogs.MessageDlg(E.Message, mtError, [mbOK], 0);
+            then
+              PyControl.DoErrorPosChanged(TEditorPos.NPos(GI_ActiveEditor, E.ELineNumber, E.EOffset, True));
+            if not Quiet then Vcl.Dialogs.MessageDlg(E.Message, mtError, [mbOK], 0);
           end;
         end;
         GI_PyInterpreter.AppendPrompt;

@@ -15,6 +15,7 @@ Uses
   System.Classes,
   System.RegularExpressions,
   PythonEngine,
+  uEditAppIntfs,
   cTools;
 
 type
@@ -31,6 +32,21 @@ const
     ('Internal', 'Remote', 'Remote TK', 'Remote Wx', 'SSH');
 
 type
+  TEditorPos = record
+  public
+    [weak] Editor : IEditor;
+    Line : integer;
+    Char : integer;
+    IsSyntax : Boolean;
+    ErrorMsg : string;
+    procedure Clear;
+    procedure NewPos(AEditor : IEditor; ALine : integer; AChar : integer = -1;
+      IsSyntaxError : Boolean = False; AErrorMsg : string = '');
+    class function EmptyPos: TEditorPos; static;
+    class function NPos(AEditor : IEditor; ALine : integer; AChar : integer = -1;
+      IsSyntaxError : Boolean = False; AErrorMsg : string = ''): TEditorPos; static;
+  end;
+
   {
      Container of all info needed to run a given file
      Projects can contain multiple run configurations
@@ -228,5 +244,48 @@ begin
 end;
 
 
+{ TEditorPos }
+
+class function TEditorPos.EmptyPos: TEditorPos;
+begin
+  with Result do begin
+    Editor := nil;
+    Line := -1;
+    Char := -1;
+    IsSyntax := False;
+    ErrorMsg := '';
+  end;
+end;
+
+procedure TEditorPos.NewPos(AEditor : IEditor; ALine : integer; AChar : integer = -1;
+                 IsSyntaxError : Boolean = False; AErrorMsg : string = '');
+begin
+  Editor := AEditor;
+  Line := ALine;
+  Char := AChar;
+  IsSyntax := IsSyntaxError;
+  ErrorMsg := AErrorMsg;
+end;
+
+class function TEditorPos.NPos(AEditor: IEditor; ALine, AChar: integer;
+  IsSyntaxError: Boolean; AErrorMsg: string): TEditorPos;
+begin
+  with Result do begin
+    Editor := AEditor;
+    Line := ALine;
+    Char := AChar;
+    IsSyntax := IsSyntaxError;
+    ErrorMsg := AErrorMsg;
+  end;
+end;
+
+procedure TEditorPos.Clear;
+begin
+  Editor := nil;
+  Line := -1;
+  Char := -1;
+  IsSyntax := False;
+  ErrorMsg := '';
+end;
 
 end.
