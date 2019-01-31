@@ -475,7 +475,9 @@
 
   History:   v 3.6.1
           New Features
-             JSON and YAML file templates added
+            JSON and YAML file templates added
+          Issues addressed
+            #941
 
             { TODO : Review Search and Replace }
             { TODO : Auto PEP8 tool }
@@ -3452,20 +3454,13 @@ end;
 procedure TPyIDEMainForm.TabControlActiveTabChange(Sender: TObject;
   TabIndex: Integer);
 Var
-  EditorForm : TEditorForm;
   Index : integer;
   TabCtrl : TSpTBXTabControl;
 begin
   EditorSearchOptions.InitSearch;
   UpdateCaption;
   TabCtrl := Sender as TSpTBXTabControl;
-  if Assigned(TabCtrl.ActivePage) and not (csDestroying in ComponentState) then begin
-    if TabCtrl.ActivePage.ControlCount > 0 then
-    begin
-      EditorForm := TabCtrl.ActivePage.Controls[0] as TEditorForm;
-      // Code hint stuff
-      EditorForm.SetUpCodeHints;
-    end;
+  if Assigned(TabCtrl.ActivePage) and not (csDestroying in ComponentState) then
     // zOrder
     with TabCtrl do
       if not zOrderProcessing then begin
@@ -3476,10 +3471,6 @@ begin
           zOrder.Move(Index, 0);
         zOrderPos := 0;
       end;
-  end else begin
-    CodeHint.OnGetCodeHint := nil;
-    CodeHint.OnHyperLinkClick := nil;
-  end;
 end;
 
 procedure TPyIDEMainForm.TabControlMouseDown(Sender: TObject; Button: TMouseButton;

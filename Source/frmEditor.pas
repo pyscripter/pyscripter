@@ -57,6 +57,7 @@ type
 
   THotIdentInfo = record
     SynEdit: TSynEdit;
+    Editor : TEditor;
     HaveHotIdent: boolean;
     IdentArea: TRect;
     Ident: string;
@@ -160,7 +161,6 @@ type
       MousePos: TPoint; var Handled: boolean);
     procedure SynEditMouseWheelUp(Sender: TObject; Shift: TShiftState;
       MousePos: TPoint; var Handled: boolean);
-    procedure EditorViewsChange(Sender: TObject);
     procedure SynCodeCompletionClose(Sender: TObject);
     procedure SynWebCompletionExecute(Kind: SynCompletionType; Sender: TObject;
       var CurrentInput: string; var X, Y: Integer; var CanExecute: boolean);
@@ -182,7 +182,6 @@ type
     fActiveSynEdit: TSynEdit;
     fAutoCompleteActive: boolean;
     fHotIdentInfo: THotIdentInfo;
-    fHintIdentInfo: THotIdentInfo;
     fNeedToCheckSyntax: boolean;
     fNeedToParseModule: boolean;
     fNeedToSyncCodeExplorer: boolean;
@@ -203,17 +202,19 @@ type
     procedure AutoCompleteBeforeExecute(Sender: TObject);
     procedure AutoCompleteAfterExecute(Sender: TObject);
     procedure WMShellNotify(var Msg: TMessage); message WM_SHELLNOTIFY;
-    class var fOldEditorForm: TEditorForm;
     procedure SynCodeCompletionCodeItemInfo(Sender: TObject;
       AIndex: Integer; var Info : string);
+    class var fOldEditorForm: TEditorForm;
+    class var fHintIdentInfo: THotIdentInfo;
+    class procedure CodeHintEventHandler(Sender: TObject; AArea: TRect;
+      var CodeHint: string);
+    class procedure CodeHintLinkHandler(Sender: TObject; LinkName: string);
+    class procedure SetUpCodeHints;
   protected
     procedure Retranslate;
     procedure WMSpSkinChange(var Message: TMessage); message WM_SPSKINCHANGE;
     procedure EditorZoom(theZoom: Integer);
     procedure EditorMouseWheel(theDirection: Integer; Shift: TShiftState);
-    procedure CodeHintEventHandler(Sender: TObject; AArea: TRect;
-      var CodeHint: string);
-    procedure CodeHintLinkHandler(Sender: TObject; LinkName: string);
     procedure WMPARAMCOMPLETION(var Message: TMessage); message WM_PARAMCOMPLETION;
   public
     BreakPoints: TObjectList;
@@ -237,7 +238,6 @@ type
     function ReparseIfNeeded: boolean;
     procedure SyncCodeExplorer;
     procedure AddWatchAtCursor;
-    procedure SetUpCodeHints;
     function HasSyntaxError: boolean;
     procedure GoToSyntaxError;
   end;
@@ -1907,11 +1907,6 @@ begin
   end;
 end;
 
-procedure TEditorForm.EditorViewsChange(Sender: TObject);
-begin
-  SetUpCodeHints;
-end;
-
 procedure TEditorForm.EditorZoom(theZoom: Integer);
 begin
   if not((theZoom > 1) and (SynEdit.Font.Size <= 2)) then
@@ -2409,9 +2404,8 @@ end;
 function TEditorForm.HasSyntaxError: boolean;
 begin
   Result :=
-    PyIDEOptions.CheckSyntaxAsYouType and fEditor.
-    HasPythonFile and fSyntaxErrorPos.IsSyntax and
-    (fSyntaxErrorPos.Editor = GetEditor) and
+    PyIDEOptions.CheckSyntaxAsYouType and fEditor.HasPythonFile and
+    fSyntaxErrorPos.IsSyntax and (fSyntaxErrorPos.Editor = GetEditor) and
     (fSyntaxErrorPos.Line < SynEdit.Lines.Count);
 end;
 
@@ -2492,6 +2486,7 @@ begin
         );
       Pix.Y := Pix.Y + LineHeight;
       fHintIdentInfo.SynToken := 'Syntax Error';
+      fHintIdentInfo.Editor := fEditor;
       CodeHint.ActivateHintAt(fHintIdentInfo.IdentArea, Pix);
     end
     else if fEditor.HasPythonFile and (HiWord(GetAsyncKeyState(VK_CONTROL))
@@ -2541,6 +2536,7 @@ begin
             Pix := ClientToScreen
               (RowColumnToPixels(BufferToDisplayPos(aLineCharPos)));
             Pix.Y := Pix.Y + LineHeight;
+            Editor := fEditor;
             // Activate the hint
             CodeHint.ActivateHintAt(IdentArea, Pix);
           end;
@@ -2713,18 +2709,10 @@ begin
     end;
 end;
 
-procedure TEditorForm.SetUpCodeHints;
+class procedure TEditorForm.SetUpCodeHints;
 begin
-  if (ViewsTabControl.ActivePage = tbshSource) and fEditor.HasPythonFile then
-  begin
-    CodeHint.OnGetCodeHint := CodeHintEventHandler;
-    CodeHint.OnHyperLinkClick := CodeHintLinkHandler;
-  end
-  else
-  begin
-    CodeHint.OnGetCodeHint := nil;
-    CodeHint.OnHyperLinkClick := nil;
-  end;
+  CodeHint.OnGetCodeHint := CodeHintEventHandler;
+  CodeHint.OnHyperLinkClick := CodeHintLinkHandler;
 end;
 
 procedure TEditorForm.mnUpdateViewClick(Sender: TObject);
@@ -3203,7 +3191,7 @@ begin
   Handled := True;
 end;
 
-procedure TEditorForm.CodeHintEventHandler(Sender: TObject; AArea: TRect;
+class procedure TEditorForm.CodeHintEventHandler(Sender: TObject; AArea: TRect;
   var CodeHint: string);
 Var
   ObjectValue, ObjectType: string;
@@ -3212,10 +3200,10 @@ Var
 begin
   if CompareMem(@fHintIdentInfo.IdentArea, @AArea, SizeOf(TRect)) then
   begin
-    if (fHintIdentInfo.SynToken = 'Syntax Error') and HasSyntaxError then
+    if (fHintIdentInfo.SynToken = 'Syntax Error') and fHintIdentInfo.Editor.fForm.HasSyntaxError then
     begin
       // Syntax hint
-      CodeHint := 'Syntax Error: ' + fSyntaxErrorPos.ErrorMsg;
+      CodeHint := 'Syntax Error: ' + fHintIdentInfo.Editor.fForm.fSyntaxErrorPos.ErrorMsg;
     end
     else if (PyControl.DebuggerState in [dsPaused, dsPostMortem])
       and PyIDEOptions.ShowDebuggerHints then
@@ -3237,7 +3225,7 @@ begin
     begin
       // Code hints
       CE := PyScripterRefactor.FindDefinitionByCoordinates
-        (fEditor.GetFileNameOrTitle, fHintIdentInfo.StartCoord.Line,
+        (fHintIdentInfo.Editor.GetFileNameOrTitle, fHintIdentInfo.StartCoord.Line,
         fHintIdentInfo.StartCoord.Char, ErrMsg);
       if Assigned(CE) then
       begin
@@ -3251,11 +3239,11 @@ begin
     CodeHint := '';
 end;
 
-procedure TEditorForm.CodeHintLinkHandler(Sender: TObject; LinkName: string);
+class procedure TEditorForm.CodeHintLinkHandler(Sender: TObject; LinkName: string);
 begin
   CodeHint.CancelHint;
   PyIDEMainForm.JumpToFilePosInfo(LinkName);
-  PyIDEMainForm.AdjustBrowserLists(fEditor.GetFileNameOrTitle,
+  PyIDEMainForm.AdjustBrowserLists(fHintIdentInfo.Editor.GetFileNameOrTitle,
     fHintIdentInfo.StartCoord.Line, fHintIdentInfo.StartCoord.Char, LinkName);
 end;
 
@@ -3291,11 +3279,9 @@ begin
 end;
 
 initialization
-
-GI_EditorFactory := TEditorFactory.Create;
+  GI_EditorFactory := TEditorFactory.Create;
+  TEditorForm.SetUpCodeHints;
 
 finalization
-
-GI_EditorFactory := nil;
-
+  GI_EditorFactory := nil;
 end.
