@@ -190,7 +190,6 @@ type
     procedure WMEraseBackgrnd(var Message: TMessage); message WM_ERASEBKGND;
     procedure WMGetDlgCode(var Message: TWMGetDlgCode); message WM_GETDLGCODE;
     procedure CreateParams(var Params: TCreateParams); override;
-    procedure CreateWnd; override;
     function CanResize(var NewWidth, NewHeight: Integer): Boolean; override;
     procedure ShowCodeItemInfo(Info: string);
   public
@@ -1265,18 +1264,6 @@ begin
         Style := Style or WS_THICKFRAME
       else
        Style := Style or WS_DLGFRAME;
-  end;
-end;
-
-procedure TSynBaseCompletionProposalForm.CreateWnd;
-begin
-  inherited;
-
-  if not (csDesigning in ComponentState) then
-  begin
-    // "redefine" window-procedure to get Unicode messages
-    if Win32Platform = VER_PLATFORM_WIN32_NT then
-      SetWindowLongW(Handle, GWL_WNDPROC, Integer(GetWindowLongA(Handle, GWL_WNDPROC)));
   end;
 end;
 
