@@ -109,7 +109,6 @@ uses
   cPySupportTypes in 'cPySupportTypes.pas',
   cPyControl in 'cPyControl.pas',
   JvGnugettext in 'JvGnugettext.pas',
-  JvDSADialogs in 'JvDSADialogs.pas',
   cInternalPython in 'cInternalPython.pas',
   dlgPythonVersions in 'dlgPythonVersions.pas' {PythonVersionsDialog},
   cSSHSupport in 'cSSHSupport.pas',

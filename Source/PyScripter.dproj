@@ -330,7 +330,6 @@
         <DCCReference Include="cPySupportTypes.pas"/>
         <DCCReference Include="cPyControl.pas"/>
         <DCCReference Include="JvGnugettext.pas"/>
-        <DCCReference Include="JvDSADialogs.pas"/>
         <DCCReference Include="cInternalPython.pas"/>
         <DCCReference Include="dlgPythonVersions.pas">
             <Form>PythonVersionsDialog</Form>
