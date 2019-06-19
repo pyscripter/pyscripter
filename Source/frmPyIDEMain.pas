@@ -476,6 +476,7 @@
   History:   v 3.6.1
           New Features
             JSON and YAML file templates added
+            "Always Use Sockets" IDE option is True by default (#938)
           Issues addressed
             #941
 

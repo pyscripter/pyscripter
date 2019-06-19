@@ -537,7 +537,7 @@ begin
   fScpCommand := 'scp';
   fScpOptions := '-o PasswordAuthentication=no -o StrictHostKeyChecking=no';
   fSSHDisableVariablesWin := True;
-  fAlwaysUseSockets := False;
+  fAlwaysUseSockets := True;
   fTrimTrailingSpacesOnSave := True;
   fTraceOnlyIntoOpenFiles := False;
   fCodeFolding := TSynCodeFolding.Create;
