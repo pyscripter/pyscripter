@@ -301,7 +301,9 @@ begin
   else if CmdLineReader.readFlag('PYTHON36') then
     expectedVersion := '3.6'
   else if CmdLineReader.readFlag('PYTHON37') then
-    expectedVersion := '3.7';
+    expectedVersion := '3.7'
+  else if CmdLineReader.readFlag('PYTHON38') then
+    expectedVersion := '3.8';
   DllPath := CmdLineReader.readString('PYTHONDLLPATH');
 
   ReadFromAppStorage(GI_PyIDEServices.LocalAppStorage, LastVersion, LastInstallPath);
