@@ -2506,7 +2506,12 @@ object CommandsDataModule: TCommandsDataModule
           '        def process_print_queue(self):'
           '            def rem_write(l):'
           '                self.writing = True'
-          '                self._stream.write("".join(l))'
+          '                try:'
+          '                    self._stream.write("".join(l))'
+          '                except UnicodeDecodeError:'
+          
+            '                    self._stream.write("".join([s.decode(errors=' +
+            #39'replace'#39') if type(s) == str else s for s in l]))'
           '                self.writing = False'
           '                del l[:]'
           ''

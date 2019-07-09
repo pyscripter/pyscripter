@@ -2391,7 +2391,7 @@ msgstr "Αποεπιλογή όλων των κόμβων"
 #. 5000;
 #: dmCommands.dfm cPyScripterSettings.pas
 msgid "Python Files (*.py;*.pyw)|*.py;*.pyw"
-msgstr ""
+msgstr "Αρχεία Python (*.py;*.pyw)|*.py;*.pyw"
 
 #. CommandsDataModule..ParameterCompletion..Title
 #. CommandsDataModule..actlMain..actParameterCompletion..Category
