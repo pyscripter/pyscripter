@@ -4,6 +4,19 @@ interface
 {gnugettext: scan-all}
 
 Const
+  // File Filters
+  sPythonFileFilter = 'Python Files (*.py;*.pyw)|*.py;*.pyw';
+  sCythonFileFilter = 'Cython Files (*.pyx*.pxd;*.pxi)|*.pyx;*.pxd;*.pxi';
+  sHTMLFileFilter = 'HTML Documents (*.htm;*.html)|*.htm;*.html';
+  sXMLFileFilter = 'XML Files (*.xml;*.xsd;*.xsl;*.xslt;*.dtd)|*.xml;*.xsd;*.xsl;*.xslt;*.dtd';
+  sCSSFileFilter = 'Cascading Stylesheets (*.css)|*.css';
+  sCPPFileFilter = 'C/C++ Files (*.c;*.cpp;*.cc;*.h;*.hpp;*.hh;*.cxx;*.hxx;*.cu)|*.c;*.cpp;*.cc;*.h;*.hpp;*.hh;*.cxx;*.hxx;*.cu';
+  sYAMLFileFilter = 'YAML files (*.yaml)|*.yaml';
+  sJSFileFilter = 'Javascript Files (*.js)|*.js';
+  sPHPFileFilter = 'PHP Files (*.php;*.php3;*.phtml;*.inc)|*.php;*.php3;*.phtml;*.inc';
+  sJSONFileFilter = 'JSON Files (*.json;*.ipynb)|*.json;*.ipynb';
+  sGeneralFileFilter = 'Text Files(*.txt,*.*)|*.txt;*.*';
+
   // Editor commands
   //Needs to be manually updated as new editor commands are added
   SEdCmdAutoCompletion = 'Auto Completion';

@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2019-06-19 08:23\n"
+"POT-Creation-Date: 2019-07-10 23:12\n"
 "PO-Revision-Date: 2018-01-23 16:26\n"
 "Last-Translator: Somebody <your.email@address.com>\n"
 "MIME-Version: 1.0\n"
@@ -2346,7 +2346,9 @@ msgstr ""
 
 #. CommandsDataModule..SynPythonSyn..DefaultFilter
 #. 5000;
-#: dmCommands.dfm cPyScripterSettings.pas
+#. File Filters
+#. Programmer's name for it: sPythonFileFilter
+#: dmCommands.dfm cPyScripterSettings.pas StringResources.pas
 msgid "Python Files (*.py;*.pyw)|*.py;*.pyw"
 msgstr ""
 
@@ -3447,7 +3449,8 @@ msgid "Donate to the PyScripter project"
 msgstr ""
 
 #. CommandsDataModule..SynGeneralSyn..DefaultFilter
-#: dmCommands.dfm cPyScripterSettings.pas
+#. Programmer's name for it: sGeneralFileFilter
+#: dmCommands.dfm cPyScripterSettings.pas StringResources.pas
 msgid "Text Files(*.txt,*.*)|*.txt;*.*"
 msgstr ""
 
@@ -6045,7 +6048,8 @@ msgstr ""
 msgid "Run Configurations"
 msgstr ""
 
-#: cPyScripterSettings.pas
+#. Programmer's name for it: sJSONFileFilter
+#: cPyScripterSettings.pas StringResources.pas
 msgid "JSON Files (*.json;*.ipynb)|*.json;*.ipynb"
 msgstr ""
 
@@ -6833,6 +6837,49 @@ msgstr ""
 
 #: frmVariables.pas
 msgid "DocString"
+msgstr ""
+
+#. Programmer's name for it: sCythonFileFilter
+#: StringResources.pas
+msgid "Cython Files (*.pyx*.pxd;*.pxi)|*.pyx;*.pxd;*.pxi"
+msgstr ""
+
+#. Programmer's name for it: sHTMLFileFilter
+#: StringResources.pas
+msgid "HTML Documents (*.htm;*.html)|*.htm;*.html"
+msgstr ""
+
+#. Programmer's name for it: sXMLFileFilter
+#: StringResources.pas
+msgid ""
+"XML Files (*.xml;*.xsd;*.xsl;*.xslt;*.dtd)|*.xml;*.xsd;*.xsl;*.xslt;*.dtd"
+msgstr ""
+
+#. Programmer's name for it: sCSSFileFilter
+#: StringResources.pas
+msgid "Cascading Stylesheets (*.css)|*.css"
+msgstr ""
+
+#. Programmer's name for it: sCPPFileFilter
+#: StringResources.pas
+msgid ""
+"C/C++ Files (*.c;*.cpp;*.cc;*.h;*.hpp;*.hh;*.cxx;*.hxx;*.cu)|*.c;*.cpp;*.cc;"
+"*.h;*.hpp;*.hh;*.cxx;*.hxx;*.cu"
+msgstr ""
+
+#. Programmer's name for it: sYAMLFileFilter
+#: StringResources.pas
+msgid "YAML files (*.yaml)|*.yaml"
+msgstr ""
+
+#. Programmer's name for it: sJSFileFilter
+#: StringResources.pas
+msgid "Javascript Files (*.js)|*.js"
+msgstr ""
+
+#. Programmer's name for it: sPHPFileFilter
+#: StringResources.pas
+msgid "PHP Files (*.php;*.php3;*.phtml;*.inc)|*.php;*.php3;*.phtml;*.inc"
 msgstr ""
 
 #. Needs to be manually updated as new editor commands are added
@@ -8610,9 +8657,24 @@ msgstr ""
 msgid "System Command"
 msgstr ""
 
-#. Programmer's name for it: SYNS_FilterYAML
+#. Programmer's name for it: SYNS_FriendlyAttrDocumentDelimiter
 #: SynHighlighterYAML.pas
-msgid "YAML files (*.yaml)|*.yaml"
+msgid "Document Delimiter"
+msgstr ""
+
+#. Programmer's name for it: SYNS_FriendlyAttrKey
+#: SynHighlighterYAML.pas
+msgid "Key"
+msgstr ""
+
+#. Programmer's name for it: SYNS_FriendlyAttrNumericValue
+#: SynHighlighterYAML.pas
+msgid "Numeric Value"
+msgstr ""
+
+#. Programmer's name for it: SYNS_FriendlyAttrTextValue
+#: SynHighlighterYAML.pas
+msgid "Text Value"
 msgstr ""
 
 #. Python Paths etc.

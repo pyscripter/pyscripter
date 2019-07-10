@@ -42,7 +42,8 @@ uses
   Graphics,
   SynEditHighlighter,
   SysUtils,
-  Classes;
+  Classes,
+  StringResources;
 
 //State constants
 Const
@@ -153,9 +154,9 @@ const
   SYNS_AttrTextValue = 'TextValue';
   SYNS_AttrAnchor = 'Anchor';
   SYNS_AttrTag = 'Tag';
+  SYNS_FilterYAML = sYAMLFileFilter;
 
 resourcestring
-  SYNS_FilterYAML = 'YAML files (*.yaml)|*.yaml';
   SYNS_FriendlyLangYAML = 'YAML';
   SYNS_FriendlyAttrDocumentDelimiter = 'Document Delimiter';
   SYNS_FriendlyAttrKey = 'Key';

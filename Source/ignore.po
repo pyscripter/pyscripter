@@ -176,13 +176,6 @@ msgstr ""
 msgid "<"
 msgstr ""
 
-#. VariablesWindow..BGPanel..FGPanel..DocPanel..HTMLLabel..Caption
-#: frmVariables.dfm:115
-#. VariablesWindow..BGPanel..FGPanel..DocPanel..HTMLLabel....Text.Strings
-#: frmVariables.dfm:117
-msgid "<b>NameSpace"
-msgstr ""
-
 #  Doesn't have any letters
 #. CommandsDataModule..CodeTemplatesCompletion....AutoCompleteList.Strings
 #: dmCommands.dfm:566
@@ -409,11 +402,6 @@ msgid "Both operands of an integer division must be of type "
 "integer"
 msgstr ""
 
-#. ReplaceInFilesDialog..SpTBXPanel1..lblInString..Caption
-#: dlgReplaceInFiles.dfm:80
-msgid "C:\\test\\dir\\TestFile.pas"
-msgstr ""
-
 #. Programmer's name for it: SCannotSetUserData
 #: VirtualTrees.pas:3945
 msgid "Cannot set initial user data because there is not enough user data "
@@ -577,29 +565,14 @@ msgstr ""
 msgid "Cython"
 msgstr ""
 
-#. Programmer's name for it: SYNS_FilterCython
-#: SynHighlighterPython.pas:255
-msgid "Cython Files (*.pyx*.pxd;*.pxi)|*.pyx;*.pxd;*.pxi"
-msgstr ""
-
 #. PythonIIForm..DebugIDE..ModuleName
 #: frmPythonII.dfm:232
 msgid "DebugIDE"
 msgstr ""
 
-#. PyIDEMainForm..TBXSwitcher..Theme
-#: frmPyIDEMain.dfm:1931
-msgid "Default"
-msgstr ""
-
 #. Programmer's name for it: RsScreenRes
 #: dlgExceptionMail.pas:112
 msgid "Display  : %dx%d pixels, %d bpp"
-msgstr ""
-
-#. Programmer's name for it: SYNS_FriendlyAttrDocumentDelimiter
-#: SynHighlighterYAML.pas:162
-msgid "Document Delimiter"
 msgstr ""
 
 #. RegExpTesterWindow..BGPanel..FGPanel..TBXDock..RegExpTesterToolbar..TBXSubmenuItem2..CI_DOTALL..Caption
@@ -776,11 +749,6 @@ msgstr ""
 msgid "Invalid property type: %s"
 msgstr ""
 
-#. Programmer's name for it: SYNS_FriendlyAttrKey
-#: SynHighlighterYAML.pas:163
-msgid "Key"
-msgstr ""
-
 #  Doesn't look like text
 #. ToolProperties..Panel1..PageControl..tsProperties..GroupBox3..Label14..Caption
 #: dlgToolProperties.dfm:348
@@ -952,11 +920,6 @@ msgstr ""
 #. RegExpTesterWindow..BGPanel..FGPanel..TBXDock..RegExpTesterToolbar..TBXSubmenuItem2..CI_MULTILINE..Caption
 #: frmRegExpTester.dfm:116
 msgid "MULTILINE"
-msgstr ""
-
-#. Programmer's name for it: SYNS_FriendlyAttrNumericValue
-#: SynHighlighterYAML.pas:164
-msgid "Numeric Value"
 msgstr ""
 
 #. OptionsInspector..Caption
@@ -1323,11 +1286,6 @@ msgstr ""
 #. UnitTestWindow..DialogActions..actCollapseAll..Category
 #: frmUnitTests.dfm:614
 msgid "TestTree"
-msgstr ""
-
-#. Programmer's name for it: SYNS_FriendlyAttrTextValue
-#: SynHighlighterYAML.pas:165
-msgid "Text Value"
 msgstr ""
 
 #. CommandsDataModule..ParameterCompletion......BiggestWord

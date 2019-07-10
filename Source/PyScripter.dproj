@@ -136,7 +136,6 @@
         <DCC_ExeOutput>.\..</DCC_ExeOutput>
         <MapFile>3</MapFile>
         <ILINK_MapFileType>DetailedSegments</ILINK_MapFileType>
-        <Debugger_RunParams>--PYTHON27</Debugger_RunParams>
     </PropertyGroup>
     <ItemGroup>
         <DelphiCompile Include="$(MainSource)">

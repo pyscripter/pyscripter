@@ -7,7 +7,7 @@ inherited ReplaceInFilesDialog: TReplaceInFilesDialog
   ClientWidth = 401
   Position = poScreenCenter
   ExplicitWidth = 407
-  ExplicitHeight = 186
+  ExplicitHeight = 187
   PixelsPerInch = 96
   TextHeight = 13
   object SpTBXPanel1: TSpTBXPanel
@@ -76,8 +76,7 @@ inherited ReplaceInFilesDialog: TReplaceInFilesDialog
       Left = 92
       Top = 57
       Width = 332
-      Height = 19
-      Caption = 'C:\test\dir\TestFile.pas'
+      Height = 6
       Anchors = [akLeft, akTop, akRight]
       ShowAccelChar = False
       Wrapping = twWrap

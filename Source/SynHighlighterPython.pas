@@ -51,7 +51,8 @@ uses
   System.RegularExpressions,
   Vcl.Graphics,
   SynEditHighlighter,
-  SynEditCodeFolding;
+  SynEditCodeFolding,
+  StringResources;
 
 type
   TtkTokenKind = (tkComment, tkIdentifier, tkKey, tkNull, tkNumber, tkSpace,
@@ -246,6 +247,7 @@ Const
   SYNS_MatchingBrace = 'Matching Brace';
   SYNS_UnbalancedBrace = 'Unbalanced Brace';
   SYNS_MultiLineString = 'Multi-Line String';
+  SYNS_FilterCython =  sCythonFileFilter;
 
 resourcestring
   SYNS_FriendlyCommentedCode = 'Commented Code';
@@ -254,7 +256,6 @@ resourcestring
   SYNS_FriendlyMatchingBrace = 'Matching Brace';
   SYNS_FriendlyUnbalancedBrace = 'Unbalanced Brace';
   SYNS_FriendlyMultiLineString = 'Multi-Line String';
-  SYNS_FilterCython =  'Cython Files (*.pyx*.pxd;*.pxi)|*.pyx;*.pxd;*.pxi';
 
 implementation
 
