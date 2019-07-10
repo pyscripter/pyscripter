@@ -795,7 +795,7 @@ begin
       Title := _(SSaveFileAs);
     end;
     if AHighlighter <> nil then
-      Filter := AHighlighter.DefaultFilter
+      Filter := _(AHighlighter.DefaultFilter)
     else
       Filter := _(SFilterAllFiles);
 
