@@ -18,10 +18,11 @@ inherited PrintPreviewDlg: TPrintPreviewDlg
     Left = 0
     Top = 26
     Width = 490
-    Height = 323
+    Height = 338
     ScaleMode = pscWholePage
     OnMouseDown = SynEditPrintPreviewMouseDown
     OnPreviewPage = SynEditPrintPreviewPreviewPage
+    ExplicitHeight = 323
   end
   object ToolbarDock: TSpTBXDock
     Left = 0
@@ -113,11 +114,10 @@ inherited PrintPreviewDlg: TPrintPreviewDlg
   end
   object StatusBar: TSpTBXStatusBar
     Left = 0
-    Top = 349
+    Top = 364
     Width = 490
-    Height = 25
+    Height = 10
     object LeftStatusLabel: TSpTBXLabelItem
-      CustomHeight = 21
     end
     object SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem
       CustomWidth = 455

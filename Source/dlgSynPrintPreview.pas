@@ -114,14 +114,19 @@ uses
 
 {$R *.DFM}
 
+resourcestring
+  SPrint = 'Print';
+  SPrintDoc = 'Print the document on';
+  SPage = 'Page';
+
 procedure TPrintPreviewDlg.FormShow(Sender: TObject);
 begin
   ScaleImageList(ImageList, Screen.PixelsPerInch, 96);
   SynEditPrintPreview.UpdatePreview;
   SynEditPrintPreview.FirstPage;
   if Printer.PrinterIndex >= 0 then
-    PrintCmd.Hint := 'Print (' + Printer.Printers[Printer.PrinterIndex] +
-      ')|Print the document on ' + Printer.Printers[Printer.PrinterIndex];
+    PrintCmd.Hint := Format('%s (%s)|%s %1:s',
+      [SPrint, Printer.Printers[Printer.PrinterIndex], SPrintDoc]);
 end;
 
 procedure TPrintPreviewDlg.FirstCmdExecute(Sender: TObject);
@@ -204,7 +209,7 @@ end;
 procedure TPrintPreviewDlg.SynEditPrintPreviewPreviewPage(
   Sender: TObject; PageNumber: Integer);
 begin
-  RightStatusLabel.Caption := ' Page: ' + IntToStr(SynEditPrintPreview.PageNumber);
+  RightStatusLabel.Caption := Format(' %s: %d', [SPage, SynEditPrintPreview.PageNumber]);
 end;
 
 end.
