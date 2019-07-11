@@ -476,6 +476,8 @@
   History:   v 3.6.1
           New Features
             JSON and YAML file templates added
+            Three new styles added (Windows10BlackPearl, Windows10BlueWhale, Windows10ClearDay)
+            Translation improvements
             "Always Use Sockets" IDE option is True by default (#938)
           Issues addressed
             #941
