@@ -478,7 +478,7 @@ object CommandsDataModule: TCommandsDataModule
   end
   object ParameterCompletion: TSynCompletionProposal
     Options = [scoLimitToMatchedText, scoUseInsertList, scoUsePrettyText, scoCompleteWithTab, scoCompleteWithEnter]
-    Width = 300
+    Width = 350
     EndOfTokenChr = '()[]. '
     TriggerChars = '.'
     Title = 'Parameters'
@@ -494,11 +494,11 @@ object CommandsDataModule: TCommandsDataModule
     TitleFont.Style = [fsBold]
     Columns = <
       item
-        ColumnWidth = 100
+        ColumnWidth = 120
         DefaultFontStyle = [fsBold]
       end
       item
-        ColumnWidth = 300
+        ColumnWidth = 230
       end>
     Resizeable = False
     ShortCut = 24656
@@ -508,7 +508,7 @@ object CommandsDataModule: TCommandsDataModule
   end
   object ModifierCompletion: TSynCompletionProposal
     Options = [scoLimitToMatchedText, scoUseInsertList, scoUsePrettyText, scoCompleteWithTab, scoCompleteWithEnter]
-    Width = 300
+    Width = 400
     EndOfTokenChr = '()[].- '
     TriggerChars = '.'
     Title = 'Modifiers'
@@ -524,11 +524,11 @@ object CommandsDataModule: TCommandsDataModule
     TitleFont.Style = [fsBold]
     Columns = <
       item
-        ColumnWidth = 100
+        ColumnWidth = 120
         DefaultFontStyle = [fsBold]
       end
       item
-        ColumnWidth = 400
+        ColumnWidth = 280
       end>
     Resizeable = False
     ShortCut = 24653

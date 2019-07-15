@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2019-07-11 03:12\n"
+"POT-Creation-Date: 2019-07-16 02:38\n"
 "PO-Revision-Date: 2018-01-23 16:26\n"
 "Last-Translator: Somebody <your.email@address.com>\n"
 "MIME-Version: 1.0\n"
@@ -2359,12 +2359,12 @@ msgstr ""
 #. CommandsDataModule..actlMain..actReplaceParameters..Category
 #. CommandsDataModule..actlMain..actCustomizeParameters..Category
 #. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..Parameters1..Caption
-#: dmCommands.dfm frmPyIDEMain.dfm
+#: dmCommands.dfm frmPyIDEMain.dfm dmCommands.pas
 msgid "Parameters"
 msgstr ""
 
 #. CommandsDataModule..ModifierCompletion..Title
-#: dmCommands.dfm
+#: dmCommands.dfm dmCommands.pas
 msgid "Modifiers"
 msgstr ""
 
@@ -2391,6 +2391,11 @@ msgstr ""
 #. CommandsDataModule..CodeTemplatesCompletion....AutoCompleteList.Strings
 #: dmCommands.dfm
 msgid "|File encoding comment"
+msgstr ""
+
+#. CommandsDataModule..CodeTemplatesCompletion....AutoCompleteList.Strings
+#: dmCommands.dfm
+msgid "|Sheband"
 msgstr ""
 
 #. CommandsDataModule..actlMain..actFileSave..Category
@@ -6383,6 +6388,10 @@ msgstr ""
 msgid "'To Do' search path"
 msgstr ""
 
+#: dlgToolProperties.pas
+msgid "External Run Properties"
+msgstr ""
+
 #: dmCommands.pas
 msgid "IDE"
 msgstr ""
@@ -6779,6 +6788,11 @@ msgstr ""
 #. Programmer's name for it: SInvalidIndex
 #: frmFunctionList.pas
 msgid "Invalid index number"
+msgstr ""
+
+#. Programmer's name for it: SFileTemplateCategoryOther
+#: frmModSpTBXCustomize.pas StringResources.pas
+msgid "Other"
 msgstr ""
 
 #: frmModSpTBXCustomize.pas
@@ -7420,6 +7434,11 @@ msgid "Select to Bracket"
 msgstr ""
 
 #. Delphi dialogs (from Vcl.Consts)
+#. Programmer's name for it: srNone
+#: StringResources.pas
+msgid "(None)"
+msgstr ""
+
 #. Programmer's name for it: SDlgWarning
 #: StringResources.pas
 msgid "Warning"
@@ -8506,11 +8525,6 @@ msgstr ""
 msgid "Internet"
 msgstr ""
 
-#. Programmer's name for it: SFileTemplateCategoryOther
-#: StringResources.pas
-msgid "Other"
-msgstr ""
-
 #. Programmer's name for it: SCythonTemplateName
 #: StringResources.pas
 msgid "Cython Script"
@@ -8647,6 +8661,16 @@ msgid ""
 "server please switch to Python version %1:s."
 msgstr ""
 
+#. Programmer's name for it: SYNS_FriendlyCommentedCode
+#: SynHighlighterPython.pas
+msgid "Commented Code"
+msgstr ""
+
+#. Programmer's name for it: SYNS_FriendlyClassName
+#: SynHighlighterPython.pas
+msgid "Class Name"
+msgstr ""
+
 #. Programmer's name for it: SYNS_FriendlyMatchingBrace
 #: SynHighlighterPython.pas
 msgid "Matching Brace"
@@ -8660,6 +8684,24 @@ msgstr ""
 #. Programmer's name for it: SYNS_FriendlyMultiLineString
 #: SynHighlighterPython.pas
 msgid "Multi-Line String"
+msgstr ""
+
+#. Programmer's name for it: SYNS_AttrBanner
+#. Programmer's name for it: SYNS_FriendlyAttrBanner
+#: SynHighlighterPython.pas
+msgid "Banner"
+msgstr ""
+
+#. Programmer's name for it: SYNS_AttrTraceback
+#. Programmer's name for it: SYNS_FriendlyAttrTraceback
+#: SynHighlighterPython.pas
+msgid "Traceback"
+msgstr ""
+
+#. Programmer's name for it: SYNS_AttrPrompt
+#. Programmer's name for it: SYNS_FriendlyAttrPrompt
+#: SynHighlighterPython.pas
+msgid "Prompt"
 msgstr ""
 
 #. Programmer's name for it: SYNS_AttrSystemCmd
@@ -8686,6 +8728,16 @@ msgstr ""
 #. Programmer's name for it: SYNS_FriendlyAttrTextValue
 #: SynHighlighterYAML.pas
 msgid "Text Value"
+msgstr ""
+
+#. Programmer's name for it: SYNS_FriendlyAttrTag
+#: SynHighlighterYAML.pas
+msgid "Tag"
+msgstr ""
+
+#. Programmer's name for it: SYNS_FriendlyAttrAnchor
+#: SynHighlighterYAML.pas
+msgid "Anchor"
 msgstr ""
 
 #. Python Paths etc.
@@ -8911,3 +8963,50 @@ msgstr ""
 #: uParams.pas
 msgid "Selected text in the active document"
 msgstr ""
+
+#. SpTBXCustomizeForm..SpTBXTabControl1..tabToolbars..Caption
+#: SpTBXCustomizerForm.dfm:34
+#. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..Caption
+#: SpTBXCustomizerForm.dfm:150
+msgid "Toolbars"
+msgstr ""
+
+#. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet3..SpTBXLabel3....Caption
+#: SpTBXCustomizerForm.dfm:125
+msgid ""
+"To add command buttons, drag and drop commands onto a toolbar. To "
+"remove command buttons, drag them off the toolbar and drop them on "
+"the commands list."
+msgstr ""
+
+#. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..SpTBXGroupBox1..cbText....Items.Strings
+#: SpTBXCustomizerForm.dfm:174
+msgid "Icons + Selective Text"
+msgstr ""
+
+#. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..SpTBXGroupBox1..cbText....Items.Strings
+#: SpTBXCustomizerForm.dfm:175
+msgid "Icons"
+msgstr ""
+
+#. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..SpTBXGroupBox1..cbText....Items.Strings
+#: SpTBXCustomizerForm.dfm:176
+msgid "Icons + Text"
+msgstr ""
+
+#. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..SpTBXGroupBox1..cbText....Items.Strings
+#: SpTBXCustomizerForm.dfm:177
+msgid "Text"
+msgstr ""
+
+
+#. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..SpTBXGroupBox1..cbTextLabel..Caption
+#: SpTBXCustomizerForm.dfm:196
+msgid "T&ext Options"
+msgstr ""
+
+#. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..SpTBXGroupBox1..checkVisible..Caption
+#: SpTBXCustomizerForm.dfm:212
+msgid "&Visible"
+msgstr ""
+

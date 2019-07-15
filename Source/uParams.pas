@@ -600,6 +600,8 @@ end;
 procedure RegisterStandardParametersAndModifiers;
 begin
   with Parameters do begin
+    Sorted := False;
+
     (* parameters, valid for current Windows configuration *)
     // Python Paths etc.
     RegisterParameter('Python26Dir', GetPythonDir('2.6'), nil);
@@ -701,6 +703,8 @@ begin
     RegisterModifier('CurLine', _('Current line in the active document'), GetCurLine);
     RegisterModifier('CurLineNumber', _('Current line number in the active document'), GetCurLineNumber);
     RegisterModifier('SelText', _('Selected text in the active document'), GetSelText);
+
+    Sorted := True;
   end;
 end;
 
@@ -708,7 +712,7 @@ procedure UnRegisterStandardParametersAndModifiers;
 begin
   // unregister parameter modifiers
   with Parameters do begin
-   (* parameters, valid for current Windows configuration *)
+    (* parameters, valid for current Windows configuration *)
     // Python Paths etc.
     UnRegisterParameter('Python26Dir');
     UnRegisterParameter('Python27Dir');
@@ -826,9 +830,7 @@ begin
       if ParamName <> '' then
         RegisterParameter(ParamName, CustomParams.Values[ParamName], nil);
     end;
-    Sort;
   end;
-  CommandsDataModule.PrepareParameterCompletion;
 end;
 
 procedure UnRegisterCustomParams;
@@ -836,14 +838,12 @@ begin
   Parameters.Clear;
   Parameters.Modifiers.Clear;
   RegisterStandardParametersAndModifiers;
-  Parameters.Sort;
 end;
 
 
 initialization
   CustomParams := TStringList.Create;
   RegisterStandardParametersAndModifiers;
-  Parameters.Sort;
 
 finalization
   FreeAndNil(CustomParams);

@@ -1,0 +1,47 @@
+
+#. SpTBXCustomizeForm..SpTBXTabControl1..tabToolbars..Caption
+#: SpTBXCustomizerForm.dfm:34
+#. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..Caption
+#: SpTBXCustomizerForm.dfm:150
+msgid "Toolbars"
+msgstr ""
+
+#. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet3..SpTBXLabel3....Caption
+#: SpTBXCustomizerForm.dfm:125
+msgid ""
+"To add command buttons, drag and drop commands onto a toolbar. To "
+"remove command buttons, drag them off the toolbar and drop them on "
+"the commands list."
+msgstr ""
+
+#. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..SpTBXGroupBox1..cbText....Items.Strings
+#: SpTBXCustomizerForm.dfm:174
+msgid "Icons + Selective Text"
+msgstr ""
+
+#. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..SpTBXGroupBox1..cbText....Items.Strings
+#: SpTBXCustomizerForm.dfm:175
+msgid "Icons"
+msgstr ""
+
+#. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..SpTBXGroupBox1..cbText....Items.Strings
+#: SpTBXCustomizerForm.dfm:176
+msgid "Icons + Text"
+msgstr ""
+
+#. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..SpTBXGroupBox1..cbText....Items.Strings
+#: SpTBXCustomizerForm.dfm:177
+msgid "Text"
+msgstr ""
+
+
+#. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..SpTBXGroupBox1..cbTextLabel..Caption
+#: SpTBXCustomizerForm.dfm:196
+msgid "T&ext Options"
+msgstr ""
+
+#. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..SpTBXGroupBox1..checkVisible..Caption
+#: SpTBXCustomizerForm.dfm:212
+msgid "&Visible"
+msgstr ""
+

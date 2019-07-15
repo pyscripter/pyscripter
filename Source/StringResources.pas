@@ -132,6 +132,7 @@ Const
   SEdCmdSelectToBracket = 'Select to Bracket';
 
   // Delphi dialogs (from Vcl.Consts)
+  srNone = '(None)';
   SDlgWarning = 'Warning';
   SDlgError = 'Error';
   SDlgInformation = 'Information';

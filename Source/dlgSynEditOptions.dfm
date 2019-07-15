@@ -29,9 +29,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
       Align = alTop
       ActiveTabIndex = 0
       TabAutofit = True
-      ExplicitLeft = 4
-      ExplicitTop = 4
-      ExplicitWidth = 559
       HiddenItems = <>
       object SpTBXTabItem1: TSpTBXTabItem
         Caption = 'Display'
@@ -61,7 +58,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
         Height = 328
         Caption = 'Options'
         ImageIndex = -1
-        ExplicitWidth = 559
         TabItem = 'SpTBXTabItem2'
         object gbOptions: TGroupBox
           AlignWithMargins = True
@@ -74,7 +70,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           ParentShowHint = False
           ShowHint = True
           TabOrder = 0
-          ExplicitWidth = 547
           object GridPanel1: TGridPanel
             Left = 2
             Top = 15
@@ -105,7 +100,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
                 Value = 100.000000000000000000
               end>
             TabOrder = 0
-            ExplicitWidth = 543
             object StackPanel1: TStackPanel
               Left = 0
               Top = 0
@@ -152,7 +146,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
                 end>
               HorizontalPositioning = sphpFill
               TabOrder = 0
-              ExplicitWidth = 271
               object ckAutoIndent: TCheckBox
                 Left = 0
                 Top = 0
@@ -317,8 +310,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
                 end>
               HorizontalPositioning = sphpFill
               TabOrder = 1
-              ExplicitLeft = 271
-              ExplicitWidth = 272
               DesignSize = (
                 275
                 230)
@@ -458,7 +449,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Align = alBottom
           Caption = 'Caret'
           TabOrder = 1
-          ExplicitWidth = 547
           object Label2: TLabel
             Left = 60
             Top = 19
@@ -508,7 +498,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
         Height = 328
         Caption = 'Color Theme'
         ImageIndex = -1
-        ExplicitWidth = 559
         DesignSize = (
           565
           328)
@@ -556,7 +545,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Gutter.Width = 0
           RightEdge = 0
           FontSmoothing = fsmNone
-          ExplicitWidth = 388
         end
         object lbColorThemes: TListBox
           Left = 3
@@ -585,7 +573,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
         Height = 328
         Caption = 'Syntax Colors'
         ImageIndex = -1
-        ExplicitWidth = 559
         DesignSize = (
           565
           328)
@@ -708,7 +695,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Gutter.Width = 0
           RightEdge = 0
           FontSmoothing = fsmNone
-          ExplicitWidth = 366
         end
         object cbHighlighters: TComboBox
           Left = 3
@@ -719,7 +705,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Anchors = [akLeft, akTop, akRight]
           TabOrder = 5
           OnChange = cbHighlightersChange
-          ExplicitWidth = 542
         end
         object lbElements: TSpTBXListBox
           Left = 5
@@ -732,12 +717,13 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           OnClick = lbElementsClick
         end
         object cbElementForeground: TSpTBXColorEdit
-          Left = 3
+          Left = 7
           Top = 181
           Width = 177
           Height = 21
           TabOrder = 1
           SelectedColor = clBlack
+          SelectedFormat = cttHTML
           OnSelectedColorChanged = cbElementForegroundChange
         end
         object cbElementBackground: TSpTBXColorEdit
@@ -747,6 +733,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Height = 21
           TabOrder = 2
           SelectedColor = clBlack
+          SelectedFormat = cttHTML
           OnSelectedColorChanged = cbElementBackgroundChange
         end
       end
@@ -757,7 +744,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
         Height = 328
         Caption = 'Keystrokes'
         ImageIndex = -1
-        ExplicitWidth = 559
         TabItem = 'SpTBXTabItem3'
         object gbKeyStrokes: TGroupBox
           AlignWithMargins = True
@@ -768,7 +754,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Align = alBottom
           Caption = 'Keystroke Options'
           TabOrder = 3
-          ExplicitWidth = 547
           object Label5: TLabel
             Left = 50
             Top = 28
@@ -835,7 +820,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Height = 158
           Align = alTop
           TabOrder = 4
-          ExplicitWidth = 553
           object KeyList: TListView
             Left = 1
             Top = 1
@@ -846,7 +830,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             Columns = <
               item
                 Caption = 'Command'
-                Width = 167
+                Width = 200
               end
               item
                 Caption = 'Keystroke'
@@ -860,7 +844,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             SortType = stText
             TabOrder = 0
             ViewStyle = vsReport
-            ExplicitWidth = 551
           end
         end
       end
@@ -871,7 +854,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
         Height = 328
         Caption = 'Display'
         ImageIndex = -1
-        ExplicitWidth = 559
         DesignSize = (
           565
           328)
@@ -884,7 +866,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Anchors = [akTop, akRight]
           Caption = 'Right Edge'
           TabOrder = 1
-          ExplicitLeft = 284
           DesignSize = (
             266
             80)
@@ -919,6 +900,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             Anchors = [akTop, akRight]
             TabOrder = 1
             SelectedColor = clBlack
+            SelectedFormat = cttHTML
           end
         end
         object gbGutter: TGroupBox
@@ -930,7 +912,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Align = alBottom
           Caption = 'Gutter'
           TabOrder = 0
-          ExplicitWidth = 547
           DesignSize = (
             553
             124)
@@ -948,7 +929,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             Height = 27
             Anchors = [akTop, akRight]
             TabOrder = 6
-            ExplicitLeft = 355
             object lblGutterFont: TLabel
               Left = 1
               Top = 1
@@ -974,6 +954,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             Height = 21
             TabOrder = 7
             SelectedColor = clBlack
+            SelectedFormat = cttHTML
           end
           object btnGutterFont: TSpTBXButton
             Left = 447
@@ -1060,7 +1041,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Anchors = [akTop, akRight]
           Caption = 'Bookmarks'
           TabOrder = 3
-          ExplicitLeft = 284
           object ckBookmarkKeys: TSpTBXCheckBox
             Left = 23
             Top = 16
@@ -1129,7 +1109,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Anchors = [akTop]
           Caption = 'Line spacing / Tab spacing'
           TabOrder = 2
-          ExplicitLeft = 6
           DesignSize = (
             266
             88)
@@ -1174,7 +1153,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Anchors = [akTop, akRight]
           Caption = 'Active Line Color'
           TabOrder = 5
-          ExplicitLeft = 284
           object cbActiveLineColor: TSpTBXColorEdit
             Left = 48
             Top = 16
@@ -1182,6 +1160,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             Height = 21
             TabOrder = 0
             SelectedColor = clBlack
+            SelectedFormat = cttHTML
           end
         end
       end

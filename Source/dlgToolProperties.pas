@@ -159,7 +159,7 @@ begin
         GetEnvironmentVars(fEnvStrings);
     end;
     if IsExternalRun then begin
-      Caption := 'External Run Properties';
+      Caption := _('External Run Properties');
       hkShortCut.Enabled := False;
       lbShortcut.Enabled := False;
       cbContext.Enabled := False;

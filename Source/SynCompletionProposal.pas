@@ -543,7 +543,9 @@ uses
   SynEditTextBuffer,
   SynEditMiscProcs,
   SynEditKeyConst,
-  Vcl.Themes, uCommonFunctions;
+  Vcl.Themes,
+  JvGnugettext,
+  uCommonFunctions;
 
 const
   TextHeightString = 'CompletionProposal';
@@ -3508,7 +3510,7 @@ begin
           if (i + 1 < AutoCompleteList.Count) and (length(AutoCompleteList[i + 1]) > 0) and
             (AutoCompleteList[i + 1][1] = '|') then
           begin
-            Temp := AutoCompleteList[i + 1];
+            Temp := _(AutoCompleteList[i + 1]);
             Delete(Temp, 1, 1);
           end
           else
@@ -3644,6 +3646,7 @@ begin
   FInternalCompletion.ShortCut := 0;
   FInternalCompletion.OnAfterCodeCompletion := DoInternalAutoCompletion;
   FInternalCompletion.Columns.Add;
+  FInternalCompletion.Width := 350;
   FInternalCompletion.ChangeScale(Screen.PixelsPerInch, 96);
 end;
 

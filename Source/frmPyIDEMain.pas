@@ -475,6 +475,7 @@
 
   History:   v 3.6.1
           New Features
+            Python 3.8 support
             JSON and YAML file templates added
             Three new styles added (Windows10BlackPearl, Windows10BlueWhale, Windows10ClearDay)
             Translation improvements
@@ -3608,6 +3609,8 @@ begin
 
     for i := 0 to GI_EditorFactory.Count - 1 do
       GI_EditorFactory.Editor[i].Retranslate;
+
+    RegisterCustomParams;  // To get tranlations of descriptions
   end;
 end;
 

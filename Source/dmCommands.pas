@@ -681,10 +681,6 @@ begin
     Add('$PAGENUM$/$PAGECOUNT$', nil, taCenter, 1);
   end;
 
-  // Parameter Completion
-  PrepareParameterCompletion;
-  PrepareModifierCompletion;
-
   // Setup the ShellIcon imagelist
   ShellImages.Handle := SHGetFileInfo('', 0, SHFileInfo, SizeOf(SHFileInfo),
     SHGFI_SYSICONINDEX or SHGFI_SMALLICON);
@@ -2441,6 +2437,9 @@ procedure TCommandsDataModule.actParameterCompletionExecute(
   Sender: TObject);
 begin
   if Assigned(Screen.ActiveControl) and (Screen.ActiveControl is TSynedit) then begin
+    PrepareParameterCompletion;
+    ParameterCompletion.Title := _('Parameters');
+    ParameterCompletion.NbLinesInWindow := PyIDEOptions.CodeCompletionListSize;
     ParameterCompletion.Editor := TSynEdit(Screen.ActiveControl);
     ParameterCompletion.ActivateCompletion;
   end;
@@ -2450,6 +2449,9 @@ procedure TCommandsDataModule.actModifierCompletionExecute(
   Sender: TObject);
 begin
   if Assigned(Screen.ActiveControl) and (Screen.ActiveControl is TSynedit) then begin
+    PrepareModifierCompletion;
+    ModifierCompletion.Title := _('Modifiers');
+    ModifierCompletion.NbLinesInWindow := PyIDEOptions.CodeCompletionListSize;
     ModifierCompletion.Editor := TSynEdit(Screen.ActiveControl);
     ModifierCompletion.ActivateCompletion;
   end;

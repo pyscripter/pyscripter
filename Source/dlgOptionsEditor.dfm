@@ -2,27 +2,29 @@ inherited OptionsInspector: TOptionsInspector
   Left = 437
   Top = 134
   Caption = 'Options Inspector'
-  ClientHeight = 360
-  ClientWidth = 628
+  ClientHeight = 374
+  ClientWidth = 654
   OnDestroy = FormDestroy
-  ExplicitWidth = 634
-  ExplicitHeight = 389
+  ExplicitWidth = 660
+  ExplicitHeight = 403
   PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 628
-    Height = 323
+    Width = 654
+    Height = 337
     Align = alClient
     ParentColor = True
     ShowCaption = False
     TabOrder = 0
+    ExplicitWidth = 628
+    ExplicitHeight = 323
     object Inspector: TzObjectInspector
       Left = 1
       Top = 1
-      Width = 626
-      Height = 321
+      Width = 652
+      Height = 335
       Align = alClient
       Text = 'Inspector'
       Color = clWhite
@@ -53,19 +55,21 @@ inherited OptionsInspector: TOptionsInspector
       GutterWidth = 12
       ShowItemHint = True
       SortByCategory = True
-      SplitterPos = 330
+      SplitterPos = 360
       HeaderPropText = 'Property'
       HeaderValueText = 'Value'
       ObjectVisibility = mvPublished
       FloatPreference.MaxDigits = 2
       FloatPreference.ExpPrecision = 6
       OnGetItemFriendlyName = InspectorGetItemFriendlyName
+      ExplicitWidth = 626
+      ExplicitHeight = 321
     end
   end
   object Panel2: TPanel
     Left = 0
-    Top = 323
-    Width = 628
+    Top = 337
+    Width = 654
     Height = 37
     Align = alBottom
     Anchors = [akLeft, akBottom]
@@ -73,11 +77,13 @@ inherited OptionsInspector: TOptionsInspector
     ParentColor = True
     ShowCaption = False
     TabOrder = 1
+    ExplicitTop = 323
+    ExplicitWidth = 628
     DesignSize = (
-      628
+      654
       37)
     object OKButton: TButton
-      Left = 337
+      Left = 363
       Top = 6
       Width = 75
       Height = 25
@@ -86,9 +92,10 @@ inherited OptionsInspector: TOptionsInspector
       ModalResult = 1
       TabOrder = 0
       OnClick = OKButtonClick
+      ExplicitLeft = 337
     end
     object CancelButton: TButton
-      Left = 433
+      Left = 459
       Top = 6
       Width = 75
       Height = 25
@@ -97,9 +104,10 @@ inherited OptionsInspector: TOptionsInspector
       Caption = '&Cancel'
       ModalResult = 2
       TabOrder = 1
+      ExplicitLeft = 433
     end
     object HelpButton: TButton
-      Left = 529
+      Left = 555
       Top = 6
       Width = 75
       Height = 25
@@ -107,6 +115,7 @@ inherited OptionsInspector: TOptionsInspector
       Caption = '&Help'
       TabOrder = 2
       OnClick = HelpButtonClick
+      ExplicitLeft = 529
     end
   end
 end
