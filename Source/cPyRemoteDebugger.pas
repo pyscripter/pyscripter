@@ -978,10 +978,13 @@ Var
   AsyncResult : Variant;
   AsyncReady : boolean;
   OldDebuggerState : TDebuggerState;
+  OldPos : TEditorPos;
 begin
   CheckConnected;
   Assert(not GI_PyControl.Running, 'RunSource called while the Python engine is active');
   OldDebuggerState := PyControl.DebuggerState;
+  OldPos := PyControl.CurrentPos;
+
   PyControl.DoStateChange(dsRunning);
 
   AsyncRun := Rpyc.async_(RPI.runsource);
@@ -1023,6 +1026,8 @@ begin
     end;
   finally
     PyControl.DoStateChange(OldDebuggerState);
+    if OldDebuggerState = dsPaused then
+      PyControl.DoCurrentPosChanged(OldPos);
   end;
 end;
 

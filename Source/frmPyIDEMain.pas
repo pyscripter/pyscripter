@@ -481,7 +481,7 @@
             Translation improvements
             "Always Use Sockets" IDE option is True by default (#938)
           Issues addressed
-            #941
+            #941, #955
 
             { TODO : Review Search and Replace }
             { TODO : Auto PEP8 tool }
@@ -2322,7 +2322,8 @@ begin
 
   if not Assigned(NewPos.Editor) then Exit;
 
-  NewPos.Editor.Activate;
+  if GetActiveEditor <> NewPos.Editor then
+    NewPos.Editor.Activate;
   with NewPos.Editor.SynEdit do begin
     if (NewPos.Line > 0) and (CaretY <> NewPos.Line) then begin
       CaretXY := BufferCoord(1, NewPos.Line);

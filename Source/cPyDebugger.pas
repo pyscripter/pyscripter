@@ -1346,10 +1346,12 @@ end;
 function TPyInternalInterpreter.RunSource(Const Source, FileName : Variant; symbol : string = 'single') : boolean;
 Var
   OldDebuggerState : TDebuggerState;
+  OldPos : TEditorPos;
   PySource : Variant;
 begin
   Assert(not GI_PyControl.Running, 'RunSource called while the Python engine is active');
   OldDebuggerState := PyControl.DebuggerState;
+  OldPos := PyControl.CurrentPos;
   PyControl.DoStateChange(dsRunning);
   try
     // Workaround due to PREFER_UNICODE flag to make sure
@@ -1358,6 +1360,8 @@ begin
     Result := fII.runsource(PySource, FileName, symbol);
   finally
     PyControl.DoStateChange(OldDebuggerState);
+    if OldDebuggerState = dsPaused then
+      PyControl.DoCurrentPosChanged(OldPos);
   end;
 end;
 
