@@ -31,10 +31,11 @@ type
 
   TInternalPython = class
   private
-    fPythonEngine : TPythonEngine;
+    fPythonEngine: TPythonEngine;
     fDebugIDE: TPythonModule;
     PyDelphiWrapper: TPyDelphiWrapper;
     PyscripterModule: TPythonModule;
+    fOldPath: String;
     procedure CreateDebugIDE;
     procedure CreatePyScripterModule;
     procedure CreatePythonEngine;
@@ -78,6 +79,7 @@ implementation
 uses
   WinApi.Windows,
   System.UITypes,
+  System.StrUtils,
   Vcl.Dialogs,
   VarPyth,
   SynHighlighterPython,
@@ -279,6 +281,8 @@ begin
 end;
 
 function TInternalPython.LoadPython(const Version: TPythonVersion): Boolean;
+Var
+  Path, NewPath : string;
 begin
   DestroyPythonComponents;
 
@@ -286,8 +290,20 @@ begin
   try
     Version.AssignTo(PythonEngine);
     // set environment variables
-    SetEnvironmentVariable('PYTHONHOME', '');
-    if not (Version.IsRegistered or Version.Is_venv) then begin
+    if fOldPath <> '' then begin
+      SetEnvironmentVariable('PATH', PWideChar(fOldPath));
+      fOldPath := '';
+    end;
+
+    SetEnvironmentVariable('PYTHONHOME', nil);  // delete it
+    if Version.Is_conda then begin
+      PythonEngine.SetPythonHome(Version.InstallPath);
+      fOldPath := System.SysUtils.GetEnvironmentVariable('PATH');
+      if not ContainsText(Path, Version.InstallPath) then begin
+        NewPath := Format('%s;%0:s\Library\bin;', [Version.InstallPath]) + fOldPath;
+        SetEnvironmentVariable('PATH', PWideChar(NewPath));
+      end;
+    end else if not (Version.IsRegistered or Version.Is_venv) then begin
       PythonEngine.SetPythonHome(Version.InstallPath);
       SetEnvironmentVariable('PYTHONHOME', PWideChar(Version.InstallPath));
     end;
