@@ -11,7 +11,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2019-01-08 03:51\n"
+"POT-Creation-Date: 2019-07-16 02:38\n"
 "PO-Revision-Date: 2018-01-24 08:21+0000\n"
 "Last-Translator: luebbe <luebbe.opensource@gmail.com>, 2019\n"
 "Language-Team: German (https://www.transifex.com/luebbe/teams/82736/de/)\n"
@@ -1116,11 +1116,6 @@ msgstr "&Stil anwenden"
 msgid "Editor Options"
 msgstr "Editor Optionen"
 
-#. fmEditorOptionsDialog..Panel1..cbApplyToAll..Caption
-#: dlgSynEditOptions.dfm
-msgid "Apply to all editors"
-msgstr "Für alle Editoren zuweisen"
-
 #. fmEditorOptionsDialog..Panel1..TabControl..SpTBXTabItem1..Caption
 #. fmEditorOptionsDialog..Panel1..TabControl..Display..Caption
 #: dlgSynEditOptions.dfm
@@ -1599,15 +1594,15 @@ msgstr "Anzeigen der führenden Nullen"
 msgid "Visible"
 msgstr "Sichtbar"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..cbGutterFont..Caption
-#: dlgSynEditOptions.dfm
-msgid "Use Gutter Font"
-msgstr "andere Schriftart"
-
 #. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterStartAtZero..Caption
 #: dlgSynEditOptions.dfm
 msgid "Start at zero"
 msgstr "Mit Null beginnen"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..cbGutterFont..Caption
+#: dlgSynEditOptions.dfm
+msgid "Use Gutter Font"
+msgstr "andere Schriftart"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterGradient..Hint
 #: dlgSynEditOptions.dfm
@@ -1659,6 +1654,11 @@ msgstr "Tabulatorbreite:"
 msgid "Active Line Color"
 msgstr "Farbe der aktiven Zeile"
 
+#. fmEditorOptionsDialog..Panel1..cbApplyToAll..Caption
+#: dlgSynEditOptions.dfm
+msgid "Apply to all editors"
+msgstr "Für alle Editoren zuweisen"
+
 #. PageSetupDlg..Caption
 #. DocForm..TBXDock1..TBXToolbar1..TBXItem4..Hint
 #. WebPreviewForm..TBXDock1..TBXToolbar1..TBXItem4..Hint
@@ -1677,6 +1677,71 @@ msgstr "Seitenränder && Optionen"
 #: dlgSynPageSetup.dfm
 msgid "Header && Footer"
 msgstr "Kopfzeile &&Fußzeile"
+
+#. PageSetupDlg..TabControl..tbMargins..Label1..Caption
+#: dlgSynPageSetup.dfm
+msgid "Left:"
+msgstr "Links:"
+
+#. PageSetupDlg..TabControl..tbMargins..Label2..Caption
+#: dlgSynPageSetup.dfm
+msgid "Right:"
+msgstr "Rechts:"
+
+#. PageSetupDlg..TabControl..tbMargins..Label3..Caption
+#: dlgSynPageSetup.dfm
+msgid "Top:"
+msgstr "Oben:"
+
+#. PageSetupDlg..TabControl..tbMargins..Label4..Caption
+#: dlgSynPageSetup.dfm
+msgid "Bottom:"
+msgstr "Unten:"
+
+#. PageSetupDlg..TabControl..tbMargins..Label5..Caption
+#: dlgSynPageSetup.dfm
+msgid "Units:"
+msgstr "Einheiten:"
+
+#. PageSetupDlg..TabControl..tbMargins..Label6..Caption
+#: dlgSynPageSetup.dfm
+msgid "Header:"
+msgstr "Kopfzeile:"
+
+#. PageSetupDlg..TabControl..tbMargins..Label7..Caption
+#: dlgSynPageSetup.dfm
+msgid "Footer:"
+msgstr "Fußzeile:"
+
+#. PageSetupDlg..TabControl..tbMargins..CBMirrorMargins..Caption
+#: dlgSynPageSetup.dfm
+msgid "Mirror margins"
+msgstr "Ränder spiegeln"
+
+#. PageSetupDlg..TabControl..tbMargins..CBLineNumbers..Caption
+#: dlgSynPageSetup.dfm
+msgid "Line numbers"
+msgstr "Zeilennummern"
+
+#. PageSetupDlg..TabControl..tbMargins..CBLineNumbersInMargin..Caption
+#: dlgSynPageSetup.dfm
+msgid "Print line numbers in margin"
+msgstr "Zeilennr. im Rand drucken"
+
+#. PageSetupDlg..TabControl..tbMargins..CBHighlight..Caption
+#: dlgSynPageSetup.dfm
+msgid "Syntax print"
+msgstr "Syntaxdruck"
+
+#. PageSetupDlg..TabControl..tbMargins..CBColors..Caption
+#: dlgSynPageSetup.dfm
+msgid "Use colors"
+msgstr "Farben verwenden"
+
+#. PageSetupDlg..TabControl..tbMargins..CBWrap..Caption
+#: dlgSynPageSetup.dfm
+msgid "Wrap lines"
+msgstr "Zeilenumbruch"
 
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox1..Caption
 #: dlgSynPageSetup.dfm
@@ -1753,71 +1818,6 @@ msgstr "Fußzeile"
 #: dlgSynPageSetup.dfm
 msgid "Line above"
 msgstr "Linie oben"
-
-#. PageSetupDlg..TabControl..tbMargins..Label1..Caption
-#: dlgSynPageSetup.dfm
-msgid "Left:"
-msgstr "Links:"
-
-#. PageSetupDlg..TabControl..tbMargins..Label2..Caption
-#: dlgSynPageSetup.dfm
-msgid "Right:"
-msgstr "Rechts:"
-
-#. PageSetupDlg..TabControl..tbMargins..Label3..Caption
-#: dlgSynPageSetup.dfm
-msgid "Top:"
-msgstr "Oben:"
-
-#. PageSetupDlg..TabControl..tbMargins..Label4..Caption
-#: dlgSynPageSetup.dfm
-msgid "Bottom:"
-msgstr "Unten:"
-
-#. PageSetupDlg..TabControl..tbMargins..Label5..Caption
-#: dlgSynPageSetup.dfm
-msgid "Units:"
-msgstr "Einheiten:"
-
-#. PageSetupDlg..TabControl..tbMargins..Label6..Caption
-#: dlgSynPageSetup.dfm
-msgid "Header:"
-msgstr "Kopfzeile:"
-
-#. PageSetupDlg..TabControl..tbMargins..Label7..Caption
-#: dlgSynPageSetup.dfm
-msgid "Footer:"
-msgstr "Fußzeile:"
-
-#. PageSetupDlg..TabControl..tbMargins..CBMirrorMargins..Caption
-#: dlgSynPageSetup.dfm
-msgid "Mirror margins"
-msgstr "Ränder spiegeln"
-
-#. PageSetupDlg..TabControl..tbMargins..CBLineNumbers..Caption
-#: dlgSynPageSetup.dfm
-msgid "Line numbers"
-msgstr "Zeilennummern"
-
-#. PageSetupDlg..TabControl..tbMargins..CBLineNumbersInMargin..Caption
-#: dlgSynPageSetup.dfm
-msgid "Print line numbers in margin"
-msgstr "Zeilennr. im Rand drucken"
-
-#. PageSetupDlg..TabControl..tbMargins..CBHighlight..Caption
-#: dlgSynPageSetup.dfm
-msgid "Syntax print"
-msgstr "Syntaxdruck"
-
-#. PageSetupDlg..TabControl..tbMargins..CBColors..Caption
-#: dlgSynPageSetup.dfm
-msgid "Use colors"
-msgstr "Farben verwenden"
-
-#. PageSetupDlg..TabControl..tbMargins..CBWrap..Caption
-#: dlgSynPageSetup.dfm
-msgid "Wrap lines"
-msgstr "Zeilenumbruch"
 
 #. PageSetupDlg..ActionList1..PageNumCmd..Caption
 #. PageSetupDlg..ActionList1..PageNumCmd..Hint
@@ -1977,7 +1977,9 @@ msgstr "Zoom|Herein-/Herauszoomen"
 #. PrintPreviewDlg..ActionList..PrintCmd..Caption
 #. DocForm..TBXDock1..TBXToolbar1..TBXItem5..Hint
 #. WebPreviewForm..TBXDock1..TBXToolbar1..TBXItem5..Hint
+#. Programmer's name for it: SPrint
 #: dlgSynPrintPreview.dfm frmDocView.dfm frmWebPreview.dfm
+#: dlgSynPrintPreview.pas
 msgid "Print"
 msgstr "Drucken"
 
@@ -2397,8 +2399,9 @@ msgid "Deselect all nodes"
 msgstr "Alle Knoten abwählen"
 
 #. CommandsDataModule..SynPythonSyn..DefaultFilter
-#. 5000;
-#: dmCommands.dfm cPyScripterSettings.pas
+#. File Filters
+#. Programmer's name for it: sPythonFileFilter
+#: dmCommands.dfm StringResources.pas
 msgid "Python Files (*.py;*.pyw)|*.py;*.pyw"
 msgstr "Python-Dateien (*.py;*.pyw)|*.py;*.pyw"
 
@@ -2408,12 +2411,12 @@ msgstr "Python-Dateien (*.py;*.pyw)|*.py;*.pyw"
 #. CommandsDataModule..actlMain..actReplaceParameters..Category
 #. CommandsDataModule..actlMain..actCustomizeParameters..Category
 #. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..Parameters1..Caption
-#: dmCommands.dfm frmPyIDEMain.dfm
+#: dmCommands.dfm frmPyIDEMain.dfm dmCommands.pas
 msgid "Parameters"
 msgstr "Parameter"
 
 #. CommandsDataModule..ModifierCompletion..Title
-#: dmCommands.dfm
+#: dmCommands.dfm dmCommands.pas
 msgid "Modifiers"
 msgstr "Modifikator"
 
@@ -2441,6 +2444,11 @@ msgstr "|Python Klasse"
 #: dmCommands.dfm
 msgid "|File encoding comment"
 msgstr "|Zeichencodierungskommentar"
+
+#. CommandsDataModule..CodeTemplatesCompletion....AutoCompleteList.Strings
+#: dmCommands.dfm
+msgid "|Sheband"
+msgstr ""
 
 #. CommandsDataModule..actlMain..actFileSave..Category
 #. CommandsDataModule..actlMain..actFileSaveAs..Category
@@ -3500,7 +3508,8 @@ msgid "Donate to the PyScripter project"
 msgstr "Dem PyScripter Projekt spenden"
 
 #. CommandsDataModule..SynGeneralSyn..DefaultFilter
-#: dmCommands.dfm cPyScripterSettings.pas
+#. Programmer's name for it: sGeneralFileFilter
+#: dmCommands.dfm StringResources.pas
 msgid "Text Files(*.txt,*.*)|*.txt;*.*"
 msgstr "Textdateien(*.txt,*.*)|*.txt;*.*"
 
@@ -5886,11 +5895,6 @@ msgstr "Nicht ausgeführt"
 msgid "Groups:"
 msgstr "Gruppen:"
 
-#. RegExpTesterWindow..BGPanel..FGPanel..pnlBackground..dpGroupsView..GroupsView..DefaultText
-#: frmRegExpTester.dfm
-msgid "Node"
-msgstr "Knoten"
-
 #. RegExpTesterWindow..BGPanel..FGPanel..pnlBackground..dpRegExpText..SpTBXPanel1..TBXLabel3..Caption
 #: frmRegExpTester.dfm
 msgid "Regular Expression"
@@ -6113,10 +6117,6 @@ msgstr "Dateien"
 #: cProjectClasses.pas
 msgid "Run Configurations"
 msgstr ""
-
-#: cPyScripterSettings.pas
-msgid "JSON Files (*.json;*.ipynb)|*.json;*.ipynb"
-msgstr "JSON Dateien (*.json;*.ipynb)|*.json;*.ipynb"
 
 #: cSSHSupport.pas
 #, object-pascal-format
@@ -6453,8 +6453,22 @@ msgstr "Das Suche in Dateiergebnissen-Fenster ist nicht aktiv"
 msgid "Select working directory:"
 msgstr "Arbeitsverzeichnis wählen:"
 
+#. Programmer's name for it: SPrintDoc
+#: dlgSynPrintPreview.pas
+msgid "Print the document on"
+msgstr ""
+
+#. Programmer's name for it: SPage
+#: dlgSynPrintPreview.pas
+msgid "Page"
+msgstr ""
+
 #: dlgToDoOptions.pas
 msgid "'To Do' search path"
+msgstr ""
+
+#: dlgToolProperties.pas
+msgid "External Run Properties"
 msgstr ""
 
 #: dmCommands.pas
@@ -6859,6 +6873,11 @@ msgstr "Modul in %g Sekunden bearbeitet"
 msgid "Invalid index number"
 msgstr "Ungültige Indexzahl"
 
+#. Programmer's name for it: SFileTemplateCategoryOther
+#: frmModSpTBXCustomize.pas StringResources.pas
+msgid "Other"
+msgstr "Andere"
+
 #: frmModSpTBXCustomize.pas
 msgid ""
 "This option will reset IDE toolbars and shortcuts to the factory settings.\n"
@@ -6924,6 +6943,54 @@ msgstr "Namensraum"
 #: frmVariables.pas
 msgid "DocString"
 msgstr ""
+
+#. Programmer's name for it: sCythonFileFilter
+#: StringResources.pas
+msgid "Cython Files (*.pyx*.pxd;*.pxi)|*.pyx;*.pxd;*.pxi"
+msgstr ""
+
+#. Programmer's name for it: sHTMLFileFilter
+#: StringResources.pas
+msgid "HTML Documents (*.htm;*.html)|*.htm;*.html"
+msgstr ""
+
+#. Programmer's name for it: sXMLFileFilter
+#: StringResources.pas
+msgid ""
+"XML Files (*.xml;*.xsd;*.xsl;*.xslt;*.dtd)|*.xml;*.xsd;*.xsl;*.xslt;*.dtd"
+msgstr ""
+
+#. Programmer's name for it: sCSSFileFilter
+#: StringResources.pas
+msgid "Cascading Stylesheets (*.css)|*.css"
+msgstr ""
+
+#. Programmer's name for it: sCPPFileFilter
+#: StringResources.pas
+msgid ""
+"C/C++ Files "
+"(*.c;*.cpp;*.cc;*.h;*.hpp;*.hh;*.cxx;*.hxx;*.cu)|*.c;*.cpp;*.cc;*.h;*.hpp;*.hh;*.cxx;*.hxx;*.cu"
+msgstr ""
+
+#. Programmer's name for it: sYAMLFileFilter
+#: StringResources.pas
+msgid "YAML files (*.yaml)|*.yaml"
+msgstr "YAML Dateien (*.yaml)|*.yaml"
+
+#. Programmer's name for it: sJSFileFilter
+#: StringResources.pas
+msgid "Javascript Files (*.js)|*.js"
+msgstr ""
+
+#. Programmer's name for it: sPHPFileFilter
+#: StringResources.pas
+msgid "PHP Files (*.php;*.php3;*.phtml;*.inc)|*.php;*.php3;*.phtml;*.inc"
+msgstr ""
+
+#. Programmer's name for it: sJSONFileFilter
+#: StringResources.pas
+msgid "JSON Files (*.json;*.ipynb)|*.json;*.ipynb"
+msgstr "JSON Dateien (*.json;*.ipynb)|*.json;*.ipynb"
 
 #. Needs to be manually updated as new editor commands are added
 #. Programmer's name for it: SEdCmdAutoCompletion
@@ -7452,6 +7519,11 @@ msgid "Select to Bracket"
 msgstr ""
 
 #. Delphi dialogs (from Vcl.Consts)
+#. Programmer's name for it: srNone
+#: StringResources.pas
+msgid "(None)"
+msgstr ""
+
 #. Programmer's name for it: SDlgWarning
 #: StringResources.pas
 msgid "Warning"
@@ -8603,11 +8675,6 @@ msgstr "Python Schlüsselwort"
 msgid "Internet"
 msgstr "Internet"
 
-#. Programmer's name for it: SFileTemplateCategoryOther
-#: StringResources.pas
-msgid "Other"
-msgstr "Andere"
-
 #. Programmer's name for it: SCythonTemplateName
 #: StringResources.pas
 msgid "Cython Script"
@@ -8632,6 +8699,16 @@ msgstr "Textdatei"
 #: StringResources.pas
 msgid "XML Document"
 msgstr "XML Dokument"
+
+#. Programmer's name for it: SJSONTemplateName
+#: StringResources.pas
+msgid "JSON File"
+msgstr ""
+
+#. Programmer's name for it: SYAMLTemplateName
+#: StringResources.pas
+msgid "YAML File"
+msgstr ""
 
 #. Programmer's name for it: SJSTemplateName
 #: StringResources.pas
@@ -8743,6 +8820,16 @@ msgstr ""
 "Lokale Pythonversion ist %s. Entfernte Pythonversion ist %s. Um diesen SSH "
 "Server zu verwenden, wechseln Sie bitte zu Pythonversion %1:s."
 
+#. Programmer's name for it: SYNS_FriendlyCommentedCode
+#: SynHighlighterPython.pas
+msgid "Commented Code"
+msgstr ""
+
+#. Programmer's name for it: SYNS_FriendlyClassName
+#: SynHighlighterPython.pas
+msgid "Class Name"
+msgstr ""
+
 #. Programmer's name for it: SYNS_FriendlyMatchingBrace
 #: SynHighlighterPython.pas
 msgid "Matching Brace"
@@ -8758,16 +8845,59 @@ msgstr "Unsymmetrische Klammer"
 msgid "Multi-Line String"
 msgstr "Mehrzeiliger String"
 
+#. Programmer's name for it: SYNS_AttrBanner
+#. Programmer's name for it: SYNS_FriendlyAttrBanner
+#: SynHighlighterPython.pas
+msgid "Banner"
+msgstr ""
+
+#. Programmer's name for it: SYNS_AttrTraceback
+#. Programmer's name for it: SYNS_FriendlyAttrTraceback
+#: SynHighlighterPython.pas
+msgid "Traceback"
+msgstr ""
+
+#. Programmer's name for it: SYNS_AttrPrompt
+#. Programmer's name for it: SYNS_FriendlyAttrPrompt
+#: SynHighlighterPython.pas
+msgid "Prompt"
+msgstr ""
+
 #. Programmer's name for it: SYNS_AttrSystemCmd
 #. Programmer's name for it: SYNS_FriendlyAttrSystemCmd
 #: SynHighlighterPython.pas
 msgid "System Command"
 msgstr "Systembefehl"
 
-#. Programmer's name for it: SYNS_FilterYAML
+#. Programmer's name for it: SYNS_FriendlyAttrDocumentDelimiter
 #: SynHighlighterYAML.pas
-msgid "YAML files (*.yaml)|*.yaml"
-msgstr "YAML Dateien (*.yaml)|*.yaml"
+msgid "Document Delimiter"
+msgstr ""
+
+#. Programmer's name for it: SYNS_FriendlyAttrKey
+#: SynHighlighterYAML.pas
+msgid "Key"
+msgstr ""
+
+#. Programmer's name for it: SYNS_FriendlyAttrNumericValue
+#: SynHighlighterYAML.pas
+msgid "Numeric Value"
+msgstr ""
+
+#. Programmer's name for it: SYNS_FriendlyAttrTextValue
+#: SynHighlighterYAML.pas
+msgid "Text Value"
+msgstr ""
+
+#. Programmer's name for it: SYNS_FriendlyAttrTag
+#: SynHighlighterYAML.pas
+msgid "Tag"
+msgstr ""
+
+#. Programmer's name for it: SYNS_FriendlyAttrAnchor
+#: SynHighlighterYAML.pas
+msgid "Anchor"
+msgstr ""
 
 #. Python Paths etc.
 #: uParams.pas
@@ -8992,3 +9122,47 @@ msgstr "Aktuelle Zeilennummer im aktiven Dokument"
 #: uParams.pas
 msgid "Selected text in the active document"
 msgstr "Markierter Text im aktiven Dokument"
+
+#. SpTBXCustomizeForm..SpTBXTabControl1..tabToolbars..Caption
+#. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..Caption
+#: SpTBXCustomizerForm.dfm:34 SpTBXCustomizerForm.dfm:150
+msgid "Toolbars"
+msgstr ""
+
+#. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet3..SpTBXLabel3....Caption
+#: SpTBXCustomizerForm.dfm:125
+msgid ""
+"To add command buttons, drag and drop commands onto a toolbar. To remove "
+"command buttons, drag them off the toolbar and drop them on the commands "
+"list."
+msgstr ""
+
+#. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..SpTBXGroupBox1..cbText....Items.Strings
+#: SpTBXCustomizerForm.dfm:174
+msgid "Icons + Selective Text"
+msgstr ""
+
+#. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..SpTBXGroupBox1..cbText....Items.Strings
+#: SpTBXCustomizerForm.dfm:175
+msgid "Icons"
+msgstr ""
+
+#. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..SpTBXGroupBox1..cbText....Items.Strings
+#: SpTBXCustomizerForm.dfm:176
+msgid "Icons + Text"
+msgstr ""
+
+#. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..SpTBXGroupBox1..cbText....Items.Strings
+#: SpTBXCustomizerForm.dfm:177
+msgid "Text"
+msgstr ""
+
+#. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..SpTBXGroupBox1..cbTextLabel..Caption
+#: SpTBXCustomizerForm.dfm:196
+msgid "T&ext Options"
+msgstr ""
+
+#. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..SpTBXGroupBox1..checkVisible..Caption
+#: SpTBXCustomizerForm.dfm:212
+msgid "&Visible"
+msgstr ""

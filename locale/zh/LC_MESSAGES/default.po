@@ -7,14 +7,15 @@
 # luebbe <luebbe.opensource@gmail.com>, 2018
 # Edwin Yip <edwin.yip@innovationgear.com>, 2018
 # Bob Cao <yongbo_cao@163.com>, 2019
+# forest Ren <rzg_cn@163.com>, 2019
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2019-01-08 03:51\n"
+"POT-Creation-Date: 2019-07-16 02:38\n"
 "PO-Revision-Date: 2018-01-24 08:21+0000\n"
-"Last-Translator: Bob Cao <yongbo_cao@163.com>, 2019\n"
+"Last-Translator: forest Ren <rzg_cn@163.com>, 2019\n"
 "Language-Team: Chinese (https://www.transifex.com/luebbe/teams/82736/zh/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -680,7 +681,7 @@ msgstr "目录(&R):"
 #: dlgFindInFiles.dfm dlgToDoOptions.dfm dlgDirectoryList.pas
 #: dlgImportDirectory.pas uParams.pas
 msgid "Select directory"
-msgstr ""
+msgstr "选择目录"
 
 #. FindInFilesDialog..Panel1..gbxDirectories..cbInclude..Caption
 #. fmToDoOptions..pnlBG..gbxSearchFiles..chkInclude..Caption
@@ -863,7 +864,7 @@ msgstr "移除所选的Python版本"
 #. PythonVersionsDialog..actlPythonVersions..actPVTest..Caption
 #: dlgPythonVersions.dfm
 msgid "Test"
-msgstr ""
+msgstr "测试"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVTest..Hint
 #: dlgPythonVersions.dfm
@@ -873,7 +874,7 @@ msgstr "验证所选Python版本"
 #. PythonVersionsDialog..actlPythonVersions..actPVShow..Caption
 #: dlgPythonVersions.dfm
 msgid "Show"
-msgstr ""
+msgstr "显示"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVShow..Hint
 #: dlgPythonVersions.dfm
@@ -1057,7 +1058,7 @@ msgstr "外部运行"
 #. RunConfigurationForm..Panel1..GroupBox3..btnExternalRun..Caption
 #: dlgRunConfiguration.dfm
 msgid "&Set External Run properties"
-msgstr ""
+msgstr "设置外部运行属性"
 
 #. RunConfigurationForm..Panel1..gbSaveOutput..Caption
 #. OutputWindow..Caption
@@ -1112,11 +1113,6 @@ msgstr "应用"
 #: dlgSynEditOptions.dfm
 msgid "Editor Options"
 msgstr "编辑器选项"
-
-#. fmEditorOptionsDialog..Panel1..cbApplyToAll..Caption
-#: dlgSynEditOptions.dfm
-msgid "Apply to all editors"
-msgstr "应用到所有编辑器"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..SpTBXTabItem1..Caption
 #. fmEditorOptionsDialog..Panel1..TabControl..Display..Caption
@@ -1252,7 +1248,7 @@ msgstr "灵巧TAB删除"
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckTabIndent..Hint
 #: dlgSynEditOptions.dfm
 msgid "Tab indents and Shift-Tab unindents"
-msgstr ""
+msgstr "Tab缩进&Shift-Tab取消缩进"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckTabIndent..Caption
 #: dlgSynEditOptions.dfm
@@ -1306,7 +1302,7 @@ msgstr "只滚动一行"
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowSpecialChars..Hint
 #: dlgSynEditOptions.dfm
 msgid "Shows line breaks, spaces and tabs using special symbols"
-msgstr ""
+msgstr "使用特殊的符号表示换行符，空格符和制表符"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowSpecialChars..Caption
 #: dlgSynEditOptions.dfm
@@ -1352,7 +1348,7 @@ msgstr "滚动过行尾"
 msgid ""
 "When undoing/redoing actions, handle all continuous changes of the same kind"
 " in one call instead undoing/redoing each command separately"
-msgstr ""
+msgstr "恢复/重放action时，在一个call里运行所有连续的同类action，而不是单独运行"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckGroupUndo..Caption
 #: dlgSynEditOptions.dfm
@@ -1440,7 +1436,7 @@ msgstr "代码样例"
 #. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel2..Caption
 #: dlgSynEditOptions.dfm
 msgid "Available Themes"
-msgstr ""
+msgstr "可用的主题"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..btnApplyTheme..Caption
 #: dlgSynEditOptions.dfm
@@ -1505,12 +1501,12 @@ msgstr "命令:"
 #. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label6..Caption
 #: dlgSynEditOptions.dfm
 msgid "Keystroke 2:"
-msgstr ""
+msgstr "按键2"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label7..Caption
 #: dlgSynEditOptions.dfm
 msgid "Keystroke 1:"
-msgstr ""
+msgstr "按键1"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..Panel2..KeyList......Caption
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox2..Caption
@@ -1521,7 +1517,7 @@ msgstr "命令"
 #. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..Panel2..KeyList......Caption
 #: dlgSynEditOptions.dfm
 msgid "Keystroke"
-msgstr ""
+msgstr "按键"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Display..gbRightEdge..Caption
 #: dlgSynEditOptions.dfm
@@ -1577,15 +1573,15 @@ msgstr "显示先头的零"
 msgid "Visible"
 msgstr "可视的"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..cbGutterFont..Caption
-#: dlgSynEditOptions.dfm
-msgid "Use Gutter Font"
-msgstr "使用装订线字体"
-
 #. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterStartAtZero..Caption
 #: dlgSynEditOptions.dfm
 msgid "Start at zero"
 msgstr "从零开始"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..cbGutterFont..Caption
+#: dlgSynEditOptions.dfm
+msgid "Use Gutter Font"
+msgstr "使用装订线字体"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterGradient..Hint
 #: dlgSynEditOptions.dfm
@@ -1637,6 +1633,11 @@ msgstr "TAB幅:"
 msgid "Active Line Color"
 msgstr "激活行的颜色"
 
+#. fmEditorOptionsDialog..Panel1..cbApplyToAll..Caption
+#: dlgSynEditOptions.dfm
+msgid "Apply to all editors"
+msgstr "应用到所有编辑器"
+
 #. PageSetupDlg..Caption
 #. DocForm..TBXDock1..TBXToolbar1..TBXItem4..Hint
 #. WebPreviewForm..TBXDock1..TBXToolbar1..TBXItem4..Hint
@@ -1655,6 +1656,71 @@ msgstr "边界和选项"
 #: dlgSynPageSetup.dfm
 msgid "Header && Footer"
 msgstr "页头与页脚"
+
+#. PageSetupDlg..TabControl..tbMargins..Label1..Caption
+#: dlgSynPageSetup.dfm
+msgid "Left:"
+msgstr "左(Left):"
+
+#. PageSetupDlg..TabControl..tbMargins..Label2..Caption
+#: dlgSynPageSetup.dfm
+msgid "Right:"
+msgstr "右(Right):"
+
+#. PageSetupDlg..TabControl..tbMargins..Label3..Caption
+#: dlgSynPageSetup.dfm
+msgid "Top:"
+msgstr "上(Top):"
+
+#. PageSetupDlg..TabControl..tbMargins..Label4..Caption
+#: dlgSynPageSetup.dfm
+msgid "Bottom:"
+msgstr "下(Bottom):"
+
+#. PageSetupDlg..TabControl..tbMargins..Label5..Caption
+#: dlgSynPageSetup.dfm
+msgid "Units:"
+msgstr "单位:"
+
+#. PageSetupDlg..TabControl..tbMargins..Label6..Caption
+#: dlgSynPageSetup.dfm
+msgid "Header:"
+msgstr "页头(Header):"
+
+#. PageSetupDlg..TabControl..tbMargins..Label7..Caption
+#: dlgSynPageSetup.dfm
+msgid "Footer:"
+msgstr "页脚(Footer):"
+
+#. PageSetupDlg..TabControl..tbMargins..CBMirrorMargins..Caption
+#: dlgSynPageSetup.dfm
+msgid "Mirror margins"
+msgstr "镜像边界"
+
+#. PageSetupDlg..TabControl..tbMargins..CBLineNumbers..Caption
+#: dlgSynPageSetup.dfm
+msgid "Line numbers"
+msgstr "行号"
+
+#. PageSetupDlg..TabControl..tbMargins..CBLineNumbersInMargin..Caption
+#: dlgSynPageSetup.dfm
+msgid "Print line numbers in margin"
+msgstr "在边界打印行号"
+
+#. PageSetupDlg..TabControl..tbMargins..CBHighlight..Caption
+#: dlgSynPageSetup.dfm
+msgid "Syntax print"
+msgstr "语法打印"
+
+#. PageSetupDlg..TabControl..tbMargins..CBColors..Caption
+#: dlgSynPageSetup.dfm
+msgid "Use colors"
+msgstr "使用颜色"
+
+#. PageSetupDlg..TabControl..tbMargins..CBWrap..Caption
+#: dlgSynPageSetup.dfm
+msgid "Wrap lines"
+msgstr "折行"
 
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox1..Caption
 #: dlgSynPageSetup.dfm
@@ -1731,71 +1797,6 @@ msgstr "页脚"
 #: dlgSynPageSetup.dfm
 msgid "Line above"
 msgstr "线上"
-
-#. PageSetupDlg..TabControl..tbMargins..Label1..Caption
-#: dlgSynPageSetup.dfm
-msgid "Left:"
-msgstr "左(Left):"
-
-#. PageSetupDlg..TabControl..tbMargins..Label2..Caption
-#: dlgSynPageSetup.dfm
-msgid "Right:"
-msgstr "右(Right):"
-
-#. PageSetupDlg..TabControl..tbMargins..Label3..Caption
-#: dlgSynPageSetup.dfm
-msgid "Top:"
-msgstr "上(Top):"
-
-#. PageSetupDlg..TabControl..tbMargins..Label4..Caption
-#: dlgSynPageSetup.dfm
-msgid "Bottom:"
-msgstr "下(Bottom):"
-
-#. PageSetupDlg..TabControl..tbMargins..Label5..Caption
-#: dlgSynPageSetup.dfm
-msgid "Units:"
-msgstr "单位:"
-
-#. PageSetupDlg..TabControl..tbMargins..Label6..Caption
-#: dlgSynPageSetup.dfm
-msgid "Header:"
-msgstr "页头(Header):"
-
-#. PageSetupDlg..TabControl..tbMargins..Label7..Caption
-#: dlgSynPageSetup.dfm
-msgid "Footer:"
-msgstr "页脚(Footer):"
-
-#. PageSetupDlg..TabControl..tbMargins..CBMirrorMargins..Caption
-#: dlgSynPageSetup.dfm
-msgid "Mirror margins"
-msgstr "镜像边界"
-
-#. PageSetupDlg..TabControl..tbMargins..CBLineNumbers..Caption
-#: dlgSynPageSetup.dfm
-msgid "Line numbers"
-msgstr "行号"
-
-#. PageSetupDlg..TabControl..tbMargins..CBLineNumbersInMargin..Caption
-#: dlgSynPageSetup.dfm
-msgid "Print line numbers in margin"
-msgstr "在边界打印行号"
-
-#. PageSetupDlg..TabControl..tbMargins..CBHighlight..Caption
-#: dlgSynPageSetup.dfm
-msgid "Syntax print"
-msgstr "语法打印"
-
-#. PageSetupDlg..TabControl..tbMargins..CBColors..Caption
-#: dlgSynPageSetup.dfm
-msgid "Use colors"
-msgstr "使用颜色"
-
-#. PageSetupDlg..TabControl..tbMargins..CBWrap..Caption
-#: dlgSynPageSetup.dfm
-msgid "Wrap lines"
-msgstr "折行"
 
 #. PageSetupDlg..ActionList1..PageNumCmd..Caption
 #. PageSetupDlg..ActionList1..PageNumCmd..Hint
@@ -1955,7 +1956,9 @@ msgstr "缩放|放大/缩小"
 #. PrintPreviewDlg..ActionList..PrintCmd..Caption
 #. DocForm..TBXDock1..TBXToolbar1..TBXItem5..Hint
 #. WebPreviewForm..TBXDock1..TBXToolbar1..TBXItem5..Hint
+#. Programmer's name for it: SPrint
 #: dlgSynPrintPreview.dfm frmDocView.dfm frmWebPreview.dfm
+#: dlgSynPrintPreview.pas
 msgid "Print"
 msgstr "打印"
 
@@ -2299,7 +2302,7 @@ msgstr "等待终止(&W)"
 msgid ""
 "If set to a value <> 0 then you will be prompted \n"
 "to abort the program after the specified time (ms)."
-msgstr ""
+msgstr "如果value设置为非0的值则会提示在指定的时间内退出程序（毫秒）"
 
 #. ToolProperties..FormatsPopup..Filename1..Caption
 #: dlgToolProperties.dfm
@@ -2314,12 +2317,12 @@ msgstr "文件名的占位符"
 #. ToolProperties..FormatsPopup..Linenumber1..Caption
 #: dlgToolProperties.dfm
 msgid "Line number"
-msgstr ""
+msgstr "行号"
 
 #. ToolProperties..FormatsPopup..Linenumber1..Hint
 #: dlgToolProperties.dfm
 msgid "Placeholder for the line number"
-msgstr ""
+msgstr "行号占位符"
 
 #. ToolProperties..FormatsPopup..Columnnumber1..Caption
 #: dlgToolProperties.dfm
@@ -2329,7 +2332,7 @@ msgstr "列号"
 #. ToolProperties..FormatsPopup..Columnnumber1..Hint
 #: dlgToolProperties.dfm
 msgid "Placeholder for the column number"
-msgstr ""
+msgstr "列号占位符"
 
 #. UnitTestWizard..Caption
 #: dlgUnitTestWizard.dfm
@@ -2368,8 +2371,9 @@ msgid "Deselect all nodes"
 msgstr "全选择解除所有的节点"
 
 #. CommandsDataModule..SynPythonSyn..DefaultFilter
-#. 5000;
-#: dmCommands.dfm cPyScripterSettings.pas
+#. File Filters
+#. Programmer's name for it: sPythonFileFilter
+#: dmCommands.dfm StringResources.pas
 msgid "Python Files (*.py;*.pyw)|*.py;*.pyw"
 msgstr "Python Files (*.py;*.pyw)|*.py;*.pyw"
 
@@ -2379,12 +2383,12 @@ msgstr "Python Files (*.py;*.pyw)|*.py;*.pyw"
 #. CommandsDataModule..actlMain..actReplaceParameters..Category
 #. CommandsDataModule..actlMain..actCustomizeParameters..Category
 #. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..Parameters1..Caption
-#: dmCommands.dfm frmPyIDEMain.dfm
+#: dmCommands.dfm frmPyIDEMain.dfm dmCommands.pas
 msgid "Parameters"
 msgstr "参数"
 
 #. CommandsDataModule..ModifierCompletion..Title
-#: dmCommands.dfm
+#: dmCommands.dfm dmCommands.pas
 msgid "Modifiers"
 msgstr "修饰符"
 
@@ -2401,16 +2405,21 @@ msgstr "命令行"
 #. CommandsDataModule..CodeTemplatesCompletion....AutoCompleteList.Strings
 #: dmCommands.dfm
 msgid "|Python application"
-msgstr ""
+msgstr "IPython 应用"
 
 #. CommandsDataModule..CodeTemplatesCompletion....AutoCompleteList.Strings
 #: dmCommands.dfm
 msgid "|Python class"
-msgstr ""
+msgstr "IPython类"
 
 #. CommandsDataModule..CodeTemplatesCompletion....AutoCompleteList.Strings
 #: dmCommands.dfm
 msgid "|File encoding comment"
+msgstr "IFile编码注释"
+
+#. CommandsDataModule..CodeTemplatesCompletion....AutoCompleteList.Strings
+#: dmCommands.dfm
+msgid "|Sheband"
 msgstr ""
 
 #. CommandsDataModule..actlMain..actFileSave..Category
@@ -2585,7 +2594,7 @@ msgstr "只读"
 #. CommandsDataModule..actlMain..actEditReadOnly..Hint
 #: dmCommands.dfm
 msgid "Enable/disable editing"
-msgstr ""
+msgstr "允许/禁止编辑"
 
 #. CommandsDataModule..actlMain..actSearchFind..Category
 #. CommandsDataModule..actlMain..actSearchFindNext..Category
@@ -2743,12 +2752,12 @@ msgstr "缩进块|缩进选择的代码"
 #. CommandsDataModule..actlMain..actEditDedent..Caption
 #: dmCommands.dfm
 msgid "&Unindent Block"
-msgstr ""
+msgstr "取消段落缩进"
 
 #. CommandsDataModule..actlMain..actEditDedent..Hint
 #: dmCommands.dfm
 msgid "Unindent|Unindent selected block of code"
-msgstr ""
+msgstr "取消代码段落缩进"
 
 #. CommandsDataModule..actlMain..actEditCommentOut..Caption
 #: dmCommands.dfm
@@ -3030,22 +3039,22 @@ msgstr "查找下一识别符调用"
 #. CommandsDataModule..actlMain..actEditLBDos..Hint
 #: dmCommands.dfm
 msgid "DOS/Windows|Convert to DOS line break"
-msgstr ""
+msgstr "DOS/Windows|转换为DOS换行符"
 
 #. CommandsDataModule..actlMain..actEditLBUnix..Hint
 #: dmCommands.dfm
 msgid "UNIX|Convert to UNIX line break"
-msgstr ""
+msgstr "UNIX|转换为UNIX换行符"
 
 #. CommandsDataModule..actlMain..actEditLBMac..Hint
 #: dmCommands.dfm
 msgid "Mac|Convert to Mac line break"
-msgstr ""
+msgstr "Mac|转换为Mac换行符"
 
 #. CommandsDataModule..actlMain..actEditAnsi..Caption
 #: dmCommands.dfm
 msgid "ANSI"
-msgstr ""
+msgstr "ANSI"
 
 #. CommandsDataModule..actlMain..actEditAnsi..Hint
 #: dmCommands.dfm
@@ -3120,7 +3129,7 @@ msgstr "保存文件时使用UTF-8编码"
 #. CommandsDataModule..actlMain..actEditUTF8NoBOM..Hint
 #: dmCommands.dfm
 msgid "Use UTF-8 encoding without BOM"
-msgstr ""
+msgstr "使用无BOM的UTF-8编码"
 
 #. CommandsDataModule..actlMain..actEditUTF16LE..Hint
 #: dmCommands.dfm
@@ -3220,7 +3229,7 @@ msgstr "跳到调试器位置"
 #. CommandsDataModule..actlMain..actSearchGoToDebugLine..Hint
 #: dmCommands.dfm
 msgid "Go to the current position of the debugger"
-msgstr ""
+msgstr "在调试器中跳转到当前位置"
 
 #. CommandsDataModule..actlMain..actHelpWebProjectHome..Caption
 #: dmCommands.dfm
@@ -3290,7 +3299,7 @@ msgstr "博客(&B)"
 #. CommandsDataModule..actlMain..actHelpWebBlog..Hint
 #: dmCommands.dfm
 msgid "Go to the PyScripter Blog"
-msgstr ""
+msgstr "访问PyScripter的博客"
 
 #. CommandsDataModule..actlMain..actFoldVisible..Category
 #. CommandsDataModule..actlMain..actFoldVisible..Caption
@@ -3323,7 +3332,7 @@ msgstr "显示/隐藏 折叠代码"
 #. CommandsDataModule..actlMain..actUnfoldAll..Caption
 #: dmCommands.dfm
 msgid "All"
-msgstr ""
+msgstr "所有的"
 
 #. CommandsDataModule..actlMain..actFoldAll..Hint
 #: dmCommands.dfm
@@ -3339,82 +3348,82 @@ msgstr "展开所有"
 #. CommandsDataModule..actlMain..actUnfoldNearest..Caption
 #: dmCommands.dfm
 msgid "Nearest"
-msgstr ""
+msgstr "最近的"
 
 #. CommandsDataModule..actlMain..actFoldNearest..Hint
 #: dmCommands.dfm
 msgid "Collapse nearest fold"
-msgstr ""
+msgstr "折叠最近的折叠项"
 
 #. CommandsDataModule..actlMain..actUnfoldNearest..Hint
 #: dmCommands.dfm
 msgid "Expand nearest fold"
-msgstr ""
+msgstr "展开最近的折叠项"
 
 #. CommandsDataModule..actlMain..actFoldRegions..Caption
 #. CommandsDataModule..actlMain..actUnfoldRegions..Caption
 #: dmCommands.dfm
 msgid "Regions"
-msgstr ""
+msgstr "区域"
 
 #. CommandsDataModule..actlMain..actFoldRegions..Hint
 #. Programmer's name for it: SEdCmdFoldRanges
 #: dmCommands.dfm StringResources.pas
 msgid "Fold Ranges"
-msgstr ""
+msgstr "区域折叠"
 
 #. CommandsDataModule..actlMain..actUnfoldRegions..Hint
 #: dmCommands.dfm
 msgid "Unfold ranges"
-msgstr ""
+msgstr "区域展开"
 
 #. CommandsDataModule..actlMain..actFoldLevel1..Caption
 #. CommandsDataModule..actlMain..actUnfoldLevel1..Caption
 #: dmCommands.dfm
 msgid "Level 1"
-msgstr ""
+msgstr "级别1"
 
 #. CommandsDataModule..actlMain..actFoldLevel1..Hint
 #: dmCommands.dfm
 msgid "Fold level 1"
-msgstr ""
+msgstr "折叠级别1"
 
 #. CommandsDataModule..actlMain..actUnfoldLevel1..Hint
 #: dmCommands.dfm
 msgid "Unfold level 1"
-msgstr ""
+msgstr "展开级别1"
 
 #. CommandsDataModule..actlMain..actFoldLevel2..Caption
 #. CommandsDataModule..actlMain..actUnfoldLevel2..Caption
 #: dmCommands.dfm
 msgid "Level 2"
-msgstr ""
+msgstr "级别2"
 
 #. CommandsDataModule..actlMain..actFoldLevel2..Hint
 #: dmCommands.dfm
 msgid "Fold level 2"
-msgstr ""
+msgstr "折叠级别2"
 
 #. CommandsDataModule..actlMain..actUnfoldLevel2..Hint
 #: dmCommands.dfm
 msgid "Unfold level 2"
-msgstr ""
+msgstr "展开级别2"
 
 #. CommandsDataModule..actlMain..actFoldLevel3..Caption
 #. CommandsDataModule..actlMain..actUnfoldLevel3..Caption
 #: dmCommands.dfm
 msgid "Level 3"
-msgstr ""
+msgstr "级别3"
 
 #. CommandsDataModule..actlMain..actFoldLevel3..Hint
 #: dmCommands.dfm
 msgid "Fold level 3"
-msgstr ""
+msgstr "折叠级别3"
 
 #. CommandsDataModule..actlMain..actUnfoldLevel3..Hint
 #: dmCommands.dfm
 msgid "Unfold level 3"
-msgstr ""
+msgstr "展开级别3"
 
 #. CommandsDataModule..actlMain..actFoldClasses..Caption
 #. CommandsDataModule..actlMain..actUnfoldClasses..Caption
@@ -3470,7 +3479,8 @@ msgid "Donate to the PyScripter project"
 msgstr "捐赠 PyScripter 项目"
 
 #. CommandsDataModule..SynGeneralSyn..DefaultFilter
-#: dmCommands.dfm cPyScripterSettings.pas
+#. Programmer's name for it: sGeneralFileFilter
+#: dmCommands.dfm StringResources.pas
 msgid "Text Files(*.txt,*.*)|*.txt;*.*"
 msgstr "Text Files(*.txt,*.*)|*.txt;*.*"
 
@@ -3651,12 +3661,12 @@ msgstr "移动选择的范围以适合编辑器的位置"
 #. CodeExplorerWindow..CEPopupMenu..mnShowSelection..Caption
 #: frmCodeExplorer.dfm
 msgid "Show Selection"
-msgstr ""
+msgstr "显示选择区域"
 
 #. CodeExplorerWindow..CEPopupMenu..mnShowSelection..Hint
 #: frmCodeExplorer.dfm
 msgid "Show selected node in editor"
-msgstr ""
+msgstr "在编辑器里显示选中的节点"
 
 #. CodeExplorerWindow..CENodePopUpMenu..mnFindDefinition..Caption
 #. CodeExplorerWindow..CENodePopUpMenu..mnFindDefinition..Hint
@@ -4550,12 +4560,12 @@ msgstr "调试选择的配置"
 #. Programmer's name for it: SRemoteFileAdd
 #: frmProjectExplorer.dfm StringResources.pas
 msgid "Add Remote File"
-msgstr ""
+msgstr "添加远程文件"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddRemoteFile..Hint
 #: frmProjectExplorer.dfm
 msgid "Add a remote file to the folder"
-msgstr ""
+msgstr "向目录添加一个远程文件"
 
 #. PyIDEMainForm..StatusBar..lbPythonVersion..Hint
 #: frmPyIDEMain.dfm
@@ -4870,12 +4880,12 @@ msgstr "从插入符位置开始查找(&A)"
 #. PyIDEMainForm..TBXDockTop..FindToolbar..tbiSearchOptions..tbiAutoCaseSensitive..Caption
 #: frmPyIDEMain.dfm
 msgid "&Auto Case Sensitive"
-msgstr ""
+msgstr "自动大小写敏感"
 
 #. PyIDEMainForm..TBXDockTop..FindToolbar..tbiSearchOptions..tbiAutoCaseSensitive..Hint
 #: frmPyIDEMain.dfm
 msgid "Case Sensitive when search text contains upper case characters"
-msgstr ""
+msgstr "搜索关键字包含大写字符时大小写敏感"
 
 #. PyIDEMainForm..TBXDockTop..FindToolbar..tbiSearchOptions..tbiCaseSensitive..Caption
 #: frmPyIDEMain.dfm
@@ -5646,7 +5656,7 @@ msgstr "垂直分隔工作空间"
 #: frmPyIDEMain.dfm
 msgid ""
 "Split workspace vertically|Show secondary editor tabset vertically aligned"
-msgstr ""
+msgstr "垂直拆分工作区|辅助编辑器选项卡集垂直对齐 "
 
 #. PyIDEMainForm..actlStandard..actViewSplitWorkspaceHor..Caption
 #: frmPyIDEMain.dfm
@@ -5657,44 +5667,44 @@ msgstr "水平分割工作空间"
 #: frmPyIDEMain.dfm
 msgid ""
 "Split workspace horizontally|Show secondary workspace horizontally aligned"
-msgstr ""
+msgstr "垂直拆分工作区|辅助编辑器选项卡集水平对齐 "
 
 #. PyIDEMainForm..actlStandard..actViewHideSecondaryWorkspace..Caption
 #: frmPyIDEMain.dfm
 msgid "Hide Secondary Workspace"
-msgstr ""
+msgstr "隐藏辅助编辑器"
 
 #. PyIDEMainForm..actlStandard..actViewHideSecondaryWorkspace..Hint
 #: frmPyIDEMain.dfm
 msgid "Hide secondary workspace"
-msgstr ""
+msgstr "隐藏辅助编辑器"
 
 #. PyIDEMainForm..actlStandard..actSelectStyle..Caption
 #: frmPyIDEMain.dfm
 msgid "Styles..."
-msgstr ""
+msgstr "风格..."
 
 #. PyIDEMainForm..actlStandard..actPythonSetup..Caption
 #: frmPyIDEMain.dfm
 msgid "Setup Python Versions..."
-msgstr ""
+msgstr "设置Python版本"
 
 #. PyIDEMainForm..actlStandard..actPythonSetup..Hint
 #: frmPyIDEMain.dfm
 msgid "Setup Python engine"
-msgstr ""
+msgstr "设置Python引擎"
 
 #. PyIDEMainForm..actlStandard..actRemoteFileOpen..Caption
 #. SSH File and Remote engine
 #. Programmer's name for it: SRemoteFileOpen
 #: frmPyIDEMain.dfm StringResources.pas
 msgid "Open Remote File"
-msgstr ""
+msgstr "打开远程文件"
 
 #. PyIDEMainForm..actlStandard..actRemoteFileOpen..Hint
 #: frmPyIDEMain.dfm
 msgid "Open Remote File with SSH"
-msgstr ""
+msgstr "使用SSH打开远程文件"
 
 #. PythonIIForm..Caption
 #. Create a Python External Run tool which is used in the run menu
@@ -5813,7 +5823,7 @@ msgstr "查找所有"
 #. RegExpTesterWindow..BGPanel..FGPanel..TBXDock..RegExpTesterToolbar..TBXSubmenuItem2..RI_findall..Hint
 #: frmRegExpTester.dfm
 msgid "Performs re.findall"
-msgstr ""
+msgstr "执行re.findall"
 
 #. RegExpTesterWindow..BGPanel..FGPanel..TBXDock..RegExpTesterToolbar..TBXSubmenuItem2..CI_AutoExecute..Caption
 #: frmRegExpTester.dfm
@@ -5845,11 +5855,6 @@ msgstr "不执行"
 msgid "Groups:"
 msgstr "组:"
 
-#. RegExpTesterWindow..BGPanel..FGPanel..pnlBackground..dpGroupsView..GroupsView..DefaultText
-#: frmRegExpTester.dfm
-msgid "Node"
-msgstr ""
-
 #. RegExpTesterWindow..BGPanel..FGPanel..pnlBackground..dpRegExpText..SpTBXPanel1..TBXLabel3..Caption
 #: frmRegExpTester.dfm
 msgid "Regular Expression"
@@ -5868,7 +5873,7 @@ msgstr "匹配:"
 #. RegExpTesterWindow..BGPanel..FGPanel..pnlBackground..pnlMiddle..dpMatchText..SpTBXPanel3..SpinMatches..Hint
 #: frmRegExpTester.dfm
 msgid "Show a found match"
-msgstr ""
+msgstr "显示一个匹配"
 
 #. ToDoWindow..Caption
 #: frmToDo.dfm
@@ -6071,16 +6076,12 @@ msgstr "文件"
 
 #: cProjectClasses.pas
 msgid "Run Configurations"
-msgstr ""
-
-#: cPyScripterSettings.pas
-msgid "JSON Files (*.json;*.ipynb)|*.json;*.ipynb"
-msgstr "JSON Files (*.json;*.ipynb)|*.json;*.ipynb"
+msgstr "运行设置"
 
 #: cSSHSupport.pas
 #, object-pascal-format
 msgid "Enter SSH Password for %s"
-msgstr ""
+msgstr "输入SSH密码 %s"
 
 #: cSSHSupport.pas
 msgid "Password:"
@@ -6092,11 +6093,11 @@ msgstr "SSH 服务器"
 
 #: cSSHSupport.pas
 msgid "Select SSH Server"
-msgstr ""
+msgstr "选择SSH服务器"
 
 #: cSSHSupport.pas
 msgid "SSH Server name"
-msgstr ""
+msgstr "SSH服务器名"
 
 #: cSSHSupport.pas
 msgid "Host name"
@@ -6108,19 +6109,19 @@ msgstr "用户名"
 
 #: cSSHSupport.pas
 msgid "Command to execute Python (no spaces)"
-msgstr ""
+msgstr "运行Python的命令行（不含空格）"
 
 #: cSSHSupport.pas
 msgid "Path to SSH Command"
-msgstr ""
+msgstr "ssh命令的路径"
 
 #: cSSHSupport.pas dmCommands.pas
 msgid "SSH options"
-msgstr ""
+msgstr "SSH选项"
 
 #: cSSHSupport.pas
 msgid "Path to SCP Command"
-msgstr ""
+msgstr "SCP命令的路径"
 
 #: cSSHSupport.pas dmCommands.pas
 msgid "SCP options"
@@ -6128,11 +6129,11 @@ msgstr "SCP选项"
 
 #: cSSHSupport.pas
 msgid "Password Needed (PyTTY only)"
-msgstr ""
+msgstr "需要的密码（仅PyTTY ）"
 
 #: cSSHSupport.pas
 msgid "Edit SSH Server"
-msgstr ""
+msgstr "编辑SSH服务器"
 
 #. Add a few standard tools to the collection
 #: cTools.pas
@@ -6149,59 +6150,59 @@ msgstr "使用pip命令安装包"
 
 #: cTools.pas
 msgid "Install Python packages"
-msgstr ""
+msgstr "安装Python包"
 
 #: cTools.pas
 msgid "Python&Win help"
-msgstr ""
+msgstr "Python＆Win帮助"
 
 #: cTools.pas
 msgid "Show PythonWin Help"
-msgstr ""
+msgstr "显示PythonWin帮助"
 
 #: cTools.pas
 msgid "Check &Indentation"
-msgstr ""
+msgstr "缩进检查"
 
 #: cTools.pas
 msgid "Check the indentation of the Python program"
-msgstr ""
+msgstr "Python程序缩进检查"
 
 #: cTools.pas
 msgid "Command Prompt"
-msgstr ""
+msgstr "命令提示符"
 
 #: cTools.pas
 msgid "Start a console at the directory of the active file"
-msgstr ""
+msgstr "在活动文件的目录中启动控制台"
 
 #: cTools.pas
 msgid "Profile"
-msgstr ""
+msgstr "Profile"
 
 #: cTools.pas
 msgid "Profile active file"
-msgstr ""
+msgstr "活动文件Profile"
 
 #: cTools.pas
 msgid "PyLint tool (www.logilab.org/projects/pylint)"
-msgstr ""
+msgstr "PyLint工具(www.logilab.org/projects/pylint)"
 
 #: cTools.pas
 msgid "Advanced Replace"
-msgstr ""
+msgstr "高级替换"
 
 #: cTools.pas
 msgid "Advanced Search and replace"
-msgstr ""
+msgstr "高级查找替换"
 
 #: cTools.pas
 msgid "Sort Selection"
-msgstr ""
+msgstr "排序选择的区域"
 
 #: cTools.pas
 msgid "Sort the selected editor block (\"one-liner\" demo)"
-msgstr ""
+msgstr "排序编辑器里选择的区域(\"one-liner\" 示例)"
 
 #: cTools.pas
 msgid "&Re-indent"
@@ -6209,14 +6210,14 @@ msgstr "重新缩进"
 
 #: cTools.pas
 msgid "Re-indent the active file"
-msgstr ""
+msgstr "重新缩进活动文件"
 
 #: dlgAboutPyScripter.pas
 msgid ""
 "Special thanks to the many great developers who,with their amazing work, "
 "have made PyScripter possible. PyScripter makes use of the following "
 "components and projects:"
-msgstr ""
+msgstr "特别要感谢许多伟大的开发人员，他们的出色工作，使pyscripter成为可能。pyscripter使用以下组件和项目："
 
 #: dlgAboutPyScripter.pas
 msgid ""
@@ -6234,90 +6235,106 @@ msgid ""
 "TCommandLineReader(www.benibela.de)\n"
 "Silk icons(www.famfamfam.com)"
 msgstr ""
+"Python for Delphi (www.github.com/pyscripter/python4delphi)\n"
+"Rpyc (www.github.com/tomerfiliba/rpyc)\n"
+"JVCL (www.github.com/project-jedi/jvcl)\n"
+"SynEdit (www.sourceforge.net/projects/synedit)\n"
+"VirtualTreeView (www.github.com/Virtual-TreeView/)\n"
+"VirtualShellTools (www.github.com/pyscripter/mustangpeakvirtualshelltools)\n"
+"GExperts (www.gexperts.org)\n"
+"Syn Editor (www.sourceforge.net/projects/syn)\n"
+"Syn Web highlighters (www.github.com/KrystianBigaj/synweb)\n"
+"Toolbar2000 (www.jrsoftware.org/tb2k.php)\n"
+"SpTBXLib(www.silverpointdevelopment.com)\n"
+"TCommandLineReader(www.benibela.de)\n"
+"Silk icons(www.famfamfam.com)"
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationArabic
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "Arabic: %s"
-msgstr ""
+msgstr "阿拉伯语%s"
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationChinese
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "Chinese: %s"
-msgstr ""
+msgstr "中文%s"
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationFrench
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "French: %s"
-msgstr ""
+msgstr "法语%s"
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationGerman
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "German: %s"
-msgstr ""
+msgstr "德语%s"
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationGreek
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "Greek: %s"
-msgstr ""
+msgstr "希腊语%s"
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationItalian
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "Italian: %s"
-msgstr ""
+msgstr "意大利语%s"
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationJapanese
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "Japanese: %s"
-msgstr ""
+msgstr "日本语%s"
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationKabyle
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "Taqbaylit: %s"
-msgstr ""
+msgstr "卡布列语%s"
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationPortugueseBR
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "Portuguese (Brazil): %s"
-msgstr ""
+msgstr "葡萄牙语（巴西）%s"
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationPortuguesePT
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "Portuguese (Portugal): %s"
-msgstr ""
+msgstr "葡萄牙语（葡萄牙）%s"
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationRussian
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "Russian: %s"
-msgstr ""
+msgstr "俄语%s"
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationSlovak
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "Slovak: %s"
-msgstr ""
+msgstr "斯洛伐克语%s"
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationSpanish
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "Spanish: %s"
-msgstr ""
+msgstr "西班牙语%s"
 
 #: dlgAboutPyScripter.pas
 msgid ""
 "Donations from numerous users have provided a strong incentive to develop this project.\n"
 "Generous support from Tranquil IT (https://www.tranquil.it) makers of WAPT (apt-get for Windows) (https://www.wapt.fr) is acknowledged."
 msgstr ""
+"许许多多的捐赠给了这个项目强大的激励\n"
+"特别感谢Tranquil IT (https://www.tranquil.it) 连续不断地支持\n"
+"还有WAPT(apt-get for Windows) (https://www.wapt.fr) 的作者"
 
 #: dlgAboutPyScripter.pas
 msgid ""
@@ -6325,36 +6342,38 @@ msgid ""
 "Internet group support is available at https://groups.google.com/group/PyScripter\n"
 "Please submit bug reports and questions about PyScripter to pyscripter@gmail.com."
 msgstr ""
+"项目主页、问题跟踪程序和源代码仓库位于github（www.github.com/pyscripter/pyscripter） 网址为https://groups.google.com/group/pyscripter\n"
+"请将有关pyscripter的错误报告和问题提交到pyscripter@gmail.com"
 
 #: dlgAboutPyScripter.pas
 msgid "Translation manager"
-msgstr ""
+msgstr "翻译管理器"
 
 #: dlgAboutPyScripter.pas
 msgid "Translators"
-msgstr ""
+msgstr "翻译者"
 
 #: dlgAboutPyScripter.pas
 msgid "Artwork and theme design"
-msgstr ""
+msgstr "Artwork 和 theme 设计"
 
 #: dlgAboutPyScripter.pas
 msgid "Donations"
-msgstr ""
+msgstr "捐赠"
 
 #: dlgCollectionEditor.pas
 msgid "Please make a selection"
-msgstr ""
+msgstr "请选择"
 
 #. Programmer's name for it: SAskReplaceText
 #: dlgConfirmReplace.pas
 #, object-pascal-format
 msgid "Replace this occurrence of \"%s\"?"
-msgstr ""
+msgstr "是否替换出现的\"%s\"?"
 
 #: dlgCustomShortcuts.pas
 msgid "Unassigned"
-msgstr ""
+msgstr "未分配"
 
 #. Programmer's name for it: RsSendBugReportSubject
 #: dlgExceptionMail.pas
@@ -6365,23 +6384,23 @@ msgstr "PyScripter的BUG报告"
 #: dlgExceptionMail.pas
 #, object-pascal-format
 msgid "No %s mail client is available"
-msgstr ""
+msgstr "没有可用的%s邮件客户端"
 
 #: dlgFindInFiles.pas
 msgid "Directory To Search:"
-msgstr ""
+msgstr "搜索的目录："
 
 #: dlgPythonVersions.pas
 msgid "Select folder with Python installation (inlcuding virtualenv and venv)"
-msgstr ""
+msgstr "选择安装了python的文件夹（包括virtualenv和venv）"
 
 #: dlgPythonVersions.pas
 msgid "Rename Python Version"
-msgstr ""
+msgstr "重命名Python版本"
 
 #: dlgPythonVersions.pas
 msgid "New name:"
-msgstr ""
+msgstr "新命名"
 
 #. Programmer's name for it: SGrepResultsNotActive
 #: dlgReplaceInFiles.pas
@@ -6390,10 +6409,24 @@ msgstr "文件查找结果窗口没激活"
 
 #: dlgRunConfiguration.pas dlgToolProperties.pas
 msgid "Select working directory:"
+msgstr "选择工作目录"
+
+#. Programmer's name for it: SPrintDoc
+#: dlgSynPrintPreview.pas
+msgid "Print the document on"
+msgstr ""
+
+#. Programmer's name for it: SPage
+#: dlgSynPrintPreview.pas
+msgid "Page"
 msgstr ""
 
 #: dlgToDoOptions.pas
 msgid "'To Do' search path"
+msgstr "“To Do”搜索路径"
+
+#: dlgToolProperties.pas
+msgid "External Run Properties"
 msgstr ""
 
 #: dmCommands.pas
@@ -6402,7 +6435,7 @@ msgstr "IDE"
 
 #: dmCommands.pas
 msgid "Check for updates automatically"
-msgstr ""
+msgstr "自动检查更新"
 
 #: dmCommands.pas
 msgid "Days between update checks"
@@ -6414,7 +6447,7 @@ msgstr "隐藏FPU异常"
 
 #: dmCommands.pas
 msgid "Editor tab position"
-msgstr ""
+msgstr "编辑器选项卡位置"
 
 #: dmCommands.pas
 msgid "Smart Next Previous Page"
@@ -6434,11 +6467,11 @@ msgstr "停靠窗动态移动的宽度 (像素)"
 
 #: dmCommands.pas
 msgid "File template for new Python scripts"
-msgstr ""
+msgstr "新Python脚本的模板"
 
 #: dmCommands.pas
 msgid "Number of recent files"
-msgstr ""
+msgstr "最近使用的文件数"
 
 #. Programmer's name for it: SFileChangeNotification
 #: dmCommands.pas StringResources.pas
@@ -6447,11 +6480,11 @@ msgstr "文件变更通知"
 
 #: dmCommands.pas
 msgid "Style Main Window Border"
-msgstr ""
+msgstr "主窗口边框样式"
 
 #: dmCommands.pas
 msgid "Save files before run"
-msgstr ""
+msgstr "运行前保存"
 
 #: dmCommands.pas
 msgid "Save environment before run"
@@ -6471,7 +6504,7 @@ msgstr "Pretty print输出"
 
 #: dmCommands.pas
 msgid "Clear output before run"
-msgstr ""
+msgstr "运行前清除输出"
 
 #: dmCommands.pas
 msgid "Post-mortem on exception"
@@ -6479,15 +6512,15 @@ msgstr "事后解析异常"
 
 #: dmCommands.pas
 msgid "Interpreter history size"
-msgstr ""
+msgstr "解释器历史记录个数"
 
 #: dmCommands.pas
 msgid "Save interpreter history"
-msgstr ""
+msgstr "保存解释器历史记录"
 
 #: dmCommands.pas
 msgid "Reinitialize before run"
-msgstr ""
+msgstr "运行前重新初始化"
 
 #: dmCommands.pas
 msgid "Jump to error on exception"
@@ -6495,15 +6528,15 @@ msgstr "异常时跳转到错误代码处"
 
 #: dmCommands.pas
 msgid "Internal Interpreter hidden"
-msgstr ""
+msgstr "隐藏内部解释器"
 
 #: dmCommands.pas
 msgid "Always use sockets"
-msgstr ""
+msgstr "始终使用套接字"
 
 #: dmCommands.pas
 msgid "Step into open files only"
-msgstr ""
+msgstr "始终单步执行打开的文件"
 
 #: dmCommands.pas
 msgid "Initially expanded"
@@ -6511,15 +6544,15 @@ msgstr "初始为展开状态"
 
 #: dmCommands.pas
 msgid "File Filters"
-msgstr ""
+msgstr "文件筛选"
 
 #: dmCommands.pas
 msgid "File explorer filter"
-msgstr ""
+msgstr "文件资源管理器筛选"
 
 #: dmCommands.pas
 msgid "text file"
-msgstr ""
+msgstr "文本文件"
 
 #: dmCommands.pas
 msgid "Editor"
@@ -6527,15 +6560,15 @@ msgstr "编辑器"
 
 #: dmCommands.pas
 msgid "Restore open files"
-msgstr ""
+msgstr "还原打开的文件"
 
 #: dmCommands.pas
 msgid "Search text at caret"
-msgstr ""
+msgstr "在插入符号处搜索"
 
 #: dmCommands.pas
 msgid "Create backup files"
-msgstr ""
+msgstr "创建备份文件"
 
 #: dmCommands.pas
 msgid "Undo after save"
@@ -6543,11 +6576,11 @@ msgstr "保存后仍然能撤消操作"
 
 #: dmCommands.pas
 msgid "Show code hints"
-msgstr ""
+msgstr "显示代码提示"
 
 #: dmCommands.pas
 msgid "Show debugger hints"
-msgstr ""
+msgstr "显示调试器提示"
 
 #: dmCommands.pas
 msgid "Auto-complete brackets"
@@ -6555,7 +6588,7 @@ msgstr "自动补全括号"
 
 #: dmCommands.pas
 msgid "Show executable line marks"
-msgstr ""
+msgstr "显示可执行标记"
 
 #: dmCommands.pas
 msgid "Check syntax as you type"
@@ -6571,47 +6604,47 @@ msgstr "新建文件的默认编码"
 
 #: dmCommands.pas
 msgid "Detect UTF-8 encoding when opening files"
-msgstr ""
+msgstr "打开文件时检测UTF-8编码"
 
 #: dmCommands.pas
 msgid "Auto-reload changed files"
-msgstr ""
+msgstr "自动重新加载更改的文件"
 
 #: dmCommands.pas
 msgid "Auto-hide find toolbar"
-msgstr ""
+msgstr "自动隐藏查找工具栏"
 
 #: dmCommands.pas
 msgid "Highlight selected word"
-msgstr ""
+msgstr "选择区域高亮"
 
 #: dmCommands.pas
 msgid "Highlight color of selected word"
-msgstr ""
+msgstr "选择区域高亮颜色"
 
 #: dmCommands.pas
 msgid "Display package names in editor tabs"
-msgstr ""
+msgstr "在编辑器选项卡中显示包名称"
 
 #: dmCommands.pas
 msgid "File line limit for syntax check as you type"
-msgstr ""
+msgstr "语法检查的文件行限制"
 
 #: dmCommands.pas
 msgid "Code folding enabled by default"
-msgstr ""
+msgstr "默认启用代码折叠"
 
 #: dmCommands.pas
 msgid "Code folding options"
-msgstr ""
+msgstr "代码折叠选项"
 
 #: dmCommands.pas
 msgid "Compact Line Numbers"
-msgstr ""
+msgstr "紧凑行号"
 
 #: dmCommands.pas
 msgid "Trim trailing spaces when files are saved"
-msgstr ""
+msgstr "保存文件时去除尾随空格"
 
 #. User editor commands
 #. Programmer's name for it: SEdCmdCodeCompletion
@@ -6621,7 +6654,7 @@ msgstr "代码补齐"
 
 #: dmCommands.pas
 msgid "Special packages"
-msgstr ""
+msgstr "特殊包"
 
 #: dmCommands.pas
 msgid "Code completion list size"
@@ -6645,7 +6678,7 @@ msgstr "Python关键字自动补齐"
 
 #: dmCommands.pas
 msgid "Complete as you type"
-msgstr ""
+msgstr "自动完成"
 
 #: dmCommands.pas
 msgid "Auto completion font"
@@ -6653,35 +6686,35 @@ msgstr "自动完成使用的字体"
 
 #: dmCommands.pas
 msgid "Complete with word-break characters"
-msgstr ""
+msgstr "自动完成分词"
 
 #: dmCommands.pas
 msgid "Auto-complete with one entry"
-msgstr ""
+msgstr "自动完成条目"
 
 #: dmCommands.pas
 msgid "Shell Integration"
-msgstr ""
+msgstr "Shell集成"
 
 #: dmCommands.pas
 msgid "File Explorer context menu"
-msgstr ""
+msgstr "在资源管理器中关联上下文菜单"
 
 #: dmCommands.pas
 msgid "File Explorer background processing"
-msgstr ""
+msgstr "资源管理器中后台处理"
 
 #: dmCommands.pas
 msgid "SSH command"
-msgstr ""
+msgstr "SSH指令"
 
 #: dmCommands.pas
 msgid "SCP command"
-msgstr ""
+msgstr "SCP指令"
 
 #: dmCommands.pas
 msgid "Disable Variables Window with SSH"
-msgstr ""
+msgstr "允许通过SSH关闭变量窗口"
 
 #: dmCommands.pas
 msgid "Configure Tools"
@@ -6694,7 +6727,7 @@ msgstr "文件下载失败"
 #: frmCodeExplorer.pas
 #, object-pascal-format
 msgid "Python Module \"%s\""
-msgstr ""
+msgstr "Python 模块\"%s\""
 
 #: frmCodeExplorer.pas
 msgid "Imports"
@@ -6707,22 +6740,22 @@ msgstr "已导入模块"
 #: frmCodeExplorer.pas
 #, object-pascal-format
 msgid "Imported Module \"%s\" as %s at line %d"
-msgstr ""
+msgstr "已导入模块 \"%s\" 别名 %s 行号%d"
 
 #: frmCodeExplorer.pas
 #, object-pascal-format
 msgid "Imported Module \"%s\" at line %d"
-msgstr ""
+msgstr "已导入模块 \"%s\" 行号 %d"
 
 #: frmCodeExplorer.pas
 #, object-pascal-format
 msgid "Imported identifier \"%s\" from module \"%s\""
-msgstr ""
+msgstr "已导入标识符 \"%s\" 模块 \"%s\""
 
 #: frmCodeExplorer.pas
 #, object-pascal-format
 msgid "Imported identifier \"%s\" as \"%s\" from module \"%s\""
-msgstr ""
+msgstr "已导入标识符 \"%s\" 别名 \"%s\" 模块 \"%s\""
 
 #: frmCodeExplorer.pas
 msgid "Global variables"
@@ -6731,12 +6764,12 @@ msgstr "全局变量"
 #: frmCodeExplorer.pas
 #, object-pascal-format
 msgid "Global variable \"%s\" defined at line %d"
-msgstr ""
+msgstr "已定义全局变量 \"%s\" 行号 %d"
 
 #: frmCodeExplorer.pas
 #, object-pascal-format
 msgid "Class \"%s\" defined in line %d"
-msgstr ""
+msgstr "已定义类 \"%s\" 行号 %d"
 
 #: frmCodeExplorer.pas
 msgid "Inherits from"
@@ -6753,7 +6786,7 @@ msgstr "类属性"
 #: frmCodeExplorer.pas
 #, object-pascal-format
 msgid "Class attribute \"%s\" defined at line %d"
-msgstr ""
+msgstr "已定义类属性 \"%s\" 行号 %d"
 
 #: frmCodeExplorer.pas
 #, object-pascal-format
@@ -6761,6 +6794,8 @@ msgid ""
 "Function \"%s\" defined at line %d\n"
 "Arguments: %s"
 msgstr ""
+"已定义函数 \"%s\" 行号 %d\n"
+"参数: %s"
 
 #: frmCodeExplorer.pas
 #, object-pascal-format
@@ -6768,10 +6803,12 @@ msgid ""
 "Method %s defined at line %d\n"
 "Arguments: %s"
 msgstr ""
+"已定义方法 %s 行号 %d\n"
+"参数: %s"
 
 #: frmFileExplorer.pas
 msgid "File Explorer favorites"
-msgstr ""
+msgstr "文件资源管理器收藏夹"
 
 #. Programmer's name for it: SAllString
 #: frmFunctionList.pas
@@ -6794,17 +6831,24 @@ msgstr "模块用%g秒处理完了"
 msgid "Invalid index number"
 msgstr "无效的索引值"
 
+#. Programmer's name for it: SFileTemplateCategoryOther
+#: frmModSpTBXCustomize.pas StringResources.pas
+msgid "Other"
+msgstr "其它"
+
 #: frmModSpTBXCustomize.pas
 msgid ""
 "This option will reset IDE toolbars and shortcuts to the factory settings.\n"
 "Do you want to proceed?"
 msgstr ""
+"此选项将重置IDE工具栏和工厂设置的快捷方式\n"
+"是否继续?"
 
 #. Programmer's name for it: ProjectFilter
 #: frmProjectExplorer.pas
 #, object-pascal-format
 msgid "PyScripter project files (*.%s)|*.%0:s"
-msgstr ""
+msgstr "PyScripter 项目文件 (*.%s)|*.%0:s"
 
 #: frmPyIDEMain.pas
 msgid "Debug"
@@ -6820,24 +6864,24 @@ msgstr "暂停"
 
 #: frmPyIDEMain.pas
 msgid "Post mortem"
-msgstr ""
+msgstr "程序崩溃后，发往外部调试工具"
 
 #: frmPyIDEMain.pas
 msgid "Python not available"
-msgstr ""
+msgstr "Python 不可用"
 
 #: frmPyIDEMain.pas
 msgid "Debugger state: "
-msgstr ""
+msgstr "Debugger状态"
 
 #: frmPyIDEMain.pas
 msgid "Python Not Available"
-msgstr ""
+msgstr "Python 不可用"
 
 #: frmRegExpTester.pas
 #, object-pascal-format
 msgid "Match %d of %d"
-msgstr ""
+msgstr "匹配 %d 的 %d"
 
 #. Programmer's name for it: SDone
 #. Programmer's name for it: SDoneTodoDesignation
@@ -6856,7 +6900,55 @@ msgstr "命名空间"
 
 #: frmVariables.pas
 msgid "DocString"
+msgstr "文档字符串"
+
+#. Programmer's name for it: sCythonFileFilter
+#: StringResources.pas
+msgid "Cython Files (*.pyx*.pxd;*.pxi)|*.pyx;*.pxd;*.pxi"
 msgstr ""
+
+#. Programmer's name for it: sHTMLFileFilter
+#: StringResources.pas
+msgid "HTML Documents (*.htm;*.html)|*.htm;*.html"
+msgstr ""
+
+#. Programmer's name for it: sXMLFileFilter
+#: StringResources.pas
+msgid ""
+"XML Files (*.xml;*.xsd;*.xsl;*.xslt;*.dtd)|*.xml;*.xsd;*.xsl;*.xslt;*.dtd"
+msgstr ""
+
+#. Programmer's name for it: sCSSFileFilter
+#: StringResources.pas
+msgid "Cascading Stylesheets (*.css)|*.css"
+msgstr ""
+
+#. Programmer's name for it: sCPPFileFilter
+#: StringResources.pas
+msgid ""
+"C/C++ Files "
+"(*.c;*.cpp;*.cc;*.h;*.hpp;*.hh;*.cxx;*.hxx;*.cu)|*.c;*.cpp;*.cc;*.h;*.hpp;*.hh;*.cxx;*.hxx;*.cu"
+msgstr ""
+
+#. Programmer's name for it: sYAMLFileFilter
+#: StringResources.pas
+msgid "YAML files (*.yaml)|*.yaml"
+msgstr "YAML文件 (*.yaml)|*.yaml"
+
+#. Programmer's name for it: sJSFileFilter
+#: StringResources.pas
+msgid "Javascript Files (*.js)|*.js"
+msgstr ""
+
+#. Programmer's name for it: sPHPFileFilter
+#: StringResources.pas
+msgid "PHP Files (*.php;*.php3;*.phtml;*.inc)|*.php;*.php3;*.phtml;*.inc"
+msgstr ""
+
+#. Programmer's name for it: sJSONFileFilter
+#: StringResources.pas
+msgid "JSON Files (*.json;*.ipynb)|*.json;*.ipynb"
+msgstr "JSON Files (*.json;*.ipynb)|*.json;*.ipynb"
 
 #. Needs to be manually updated as new editor commands are added
 #. Programmer's name for it: SEdCmdAutoCompletion
@@ -6892,7 +6984,7 @@ msgstr "区块注释"
 #. Programmer's name for it: SEdCmdContextHelp
 #: StringResources.pas
 msgid "Context Help"
-msgstr ""
+msgstr "内容帮助"
 
 #. Programmer's name for it: SEdCmdCopy
 #: StringResources.pas
@@ -6902,12 +6994,12 @@ msgstr "复制"
 #. Programmer's name for it: SEdCmdCopyLineDown
 #: StringResources.pas
 msgid "Copy Line Down"
-msgstr ""
+msgstr "下复制行"
 
 #. Programmer's name for it: SEdCmdCopyLineUp
 #: StringResources.pas
 msgid "Copy Line Up"
-msgstr ""
+msgstr "上复制行"
 
 #. Programmer's name for it: SEdCmdCut
 #: StringResources.pas
@@ -6917,27 +7009,27 @@ msgstr "剪切"
 #. Programmer's name for it: SEdCmdDeleteBOL
 #: StringResources.pas
 msgid "Delete BOL"
-msgstr ""
+msgstr "删除波浪线"
 
 #. Programmer's name for it: SEdCmdDeleteChar
 #: StringResources.pas
 msgid "Delete Char"
-msgstr ""
+msgstr "删除字符"
 
 #. Programmer's name for it: SEdCmdDeleteEOL
 #: StringResources.pas
 msgid "Delete EOL"
-msgstr ""
+msgstr "删除行结束符"
 
 #. Programmer's name for it: SEdCmdDeleteLastChar
 #: StringResources.pas
 msgid "Delete Last Char"
-msgstr ""
+msgstr "删除最后一个字符"
 
 #. Programmer's name for it: SEdCmdDeleteLastWord
 #: StringResources.pas
 msgid "Delete Last Word"
-msgstr ""
+msgstr "删除最后一个词"
 
 #. Programmer's name for it: SEdCmdDeleteLine
 #: StringResources.pas
@@ -6952,42 +7044,42 @@ msgstr "删除单词"
 #. Programmer's name for it: SEdCmdDown
 #: StringResources.pas
 msgid "Down"
-msgstr ""
+msgstr "下"
 
 #. Programmer's name for it: SEdCmdEditorBottom
 #: StringResources.pas
 msgid "Editor Bottom"
-msgstr ""
+msgstr "编辑器底部"
 
 #. Programmer's name for it: SEdCmdEditorTop
 #: StringResources.pas
 msgid "Editor Top"
-msgstr ""
+msgstr "编辑器顶部"
 
 #. Programmer's name for it: SEdCmdFoldAll
 #: StringResources.pas
 msgid "Fold All"
-msgstr ""
+msgstr "折叠所有"
 
 #. Programmer's name for it: SEdCmdFoldLevel1
 #: StringResources.pas
 msgid "Fold Level 1"
-msgstr ""
+msgstr "折叠级别1"
 
 #. Programmer's name for it: SEdCmdFoldLevel2
 #: StringResources.pas
 msgid "Fold Level 2"
-msgstr ""
+msgstr "折叠级别2"
 
 #. Programmer's name for it: SEdCmdFoldLevel3
 #: StringResources.pas
 msgid "Fold Level 3"
-msgstr ""
+msgstr "折叠级别3"
 
 #. Programmer's name for it: SEdCmdFoldNearest
 #: StringResources.pas
 msgid "Fold Nearest"
-msgstr ""
+msgstr "折叠最近的"
 
 #. Programmer's name for it: SEdCmdGotoBookmark0
 #: StringResources.pas
@@ -7052,7 +7144,7 @@ msgstr "插入模式"
 #. Programmer's name for it: SEdCmdLineBreak
 #: StringResources.pas
 msgid "Line Break"
-msgstr ""
+msgstr "换行"
 
 #. Programmer's name for it: SEdCmdLineEnd
 #: StringResources.pas
@@ -7092,7 +7184,7 @@ msgstr "向上移动一行"
 #. Programmer's name for it: SEdCmdNormalSelect
 #: StringResources.pas
 msgid "Normal Select"
-msgstr ""
+msgstr "正常选择"
 
 #. Programmer's name for it: SEdCmdOverwriteMode
 #: StringResources.pas
@@ -7112,22 +7204,22 @@ msgstr "向下翻页"
 #. Programmer's name for it: SEdCmdPageLeft
 #: StringResources.pas
 msgid "Page Left"
-msgstr ""
+msgstr "左翻一页"
 
 #. Programmer's name for it: SEdCmdPageRight
 #: StringResources.pas
 msgid "Page Right"
-msgstr ""
+msgstr "右翻一页"
 
 #. Programmer's name for it: SEdCmdPageTop
 #: StringResources.pas
 msgid "Page Top"
-msgstr ""
+msgstr "上翻一页"
 
 #. Programmer's name for it: SEdCmdPageUp
 #: StringResources.pas
 msgid "Page Up"
-msgstr ""
+msgstr "下翻一页"
 
 #. Programmer's name for it: SEdCmdPaste
 #: StringResources.pas
@@ -7162,87 +7254,87 @@ msgstr "向上滚动"
 #. Programmer's name for it: SEdCmdSelectDown
 #: StringResources.pas
 msgid "Select Down"
-msgstr ""
+msgstr "向下选择"
 
 #. Programmer's name for it: SEdCmdSelectEditorBottom
 #: StringResources.pas
 msgid "Select Editor Bottom"
-msgstr ""
+msgstr "选择编辑器底部"
 
 #. Programmer's name for it: SEdCmdSelectEditorTop
 #: StringResources.pas
 msgid "Select Editor Top"
-msgstr ""
+msgstr "选择编辑器顶部"
 
 #. Programmer's name for it: SEdCmdSelectLeft
 #: StringResources.pas
 msgid "Select Left"
-msgstr ""
+msgstr "向左选择"
 
 #. Programmer's name for it: SEdCmdSelectLineEnd
 #: StringResources.pas
 msgid "Select Line End"
-msgstr ""
+msgstr "选择本行结尾"
 
 #. Programmer's name for it: SEdCmdSelectLineStart
 #: StringResources.pas
 msgid "Select Line Start"
-msgstr ""
+msgstr "选择本行开头"
 
 #. Programmer's name for it: SEdCmdSelectPageBottom
 #: StringResources.pas
 msgid "Select Page Bottom"
-msgstr ""
+msgstr "选择页面底部"
 
 #. Programmer's name for it: SEdCmdSelectPageDown
 #: StringResources.pas
 msgid "Select Page Down"
-msgstr ""
+msgstr "选择向下翻页"
 
 #. Programmer's name for it: SEdCmdSelectPageLeft
 #: StringResources.pas
 msgid "Select Page Left"
-msgstr ""
+msgstr "选择向左翻页"
 
 #. Programmer's name for it: SEdCmdSelectPageRight
 #: StringResources.pas
 msgid "Select Page Right"
-msgstr ""
+msgstr "选择向右翻页"
 
 #. Programmer's name for it: SEdCmdSelectPageTop
 #: StringResources.pas
 msgid "Select Page Top"
-msgstr ""
+msgstr "选择页面顶部"
 
 #. Programmer's name for it: SEdCmdSelectPageUp
 #: StringResources.pas
 msgid "Select Page Up"
-msgstr ""
+msgstr "选择向下翻页"
 
 #. Programmer's name for it: SEdCmdSelectRight
 #: StringResources.pas
 msgid "Select Right"
-msgstr ""
+msgstr "向右选择"
 
 #. Programmer's name for it: SEdCmdSelectUp
 #: StringResources.pas
 msgid "Select Up"
-msgstr ""
+msgstr "向上选择"
 
 #. Programmer's name for it: SEdCmdSelectWord
 #: StringResources.pas
 msgid "Select Word"
-msgstr ""
+msgstr "选择单词"
 
 #. Programmer's name for it: SEdCmdSelectWordLeft
 #: StringResources.pas
 msgid "Select Word Left"
-msgstr ""
+msgstr "向左选择单词"
 
 #. Programmer's name for it: SEdCmdSelectWordRight
 #: StringResources.pas
 msgid "Select Word Right"
-msgstr ""
+msgstr "向右选择单词"
 
 #. Programmer's name for it: SEdCmdSetBookmark0
 #: StringResources.pas
@@ -7297,94 +7389,99 @@ msgstr "设置标签9"
 #. Programmer's name for it: SEdCmdShiftTab
 #: StringResources.pas
 msgid "Shift Tab"
-msgstr ""
+msgstr "选项卡切换"
 
 #. Programmer's name for it: SEdCmdTab
 #: StringResources.pas
 msgid "Tab"
-msgstr ""
+msgstr "选项卡"
 
 #. Programmer's name for it: SEdCmdTitleCase
 #: StringResources.pas
 msgid "Title Case"
-msgstr ""
+msgstr "标题大小写"
 
 #. Programmer's name for it: SEdCmdToggleCase
 #: StringResources.pas
 msgid "Toggle Case"
-msgstr ""
+msgstr "切换大小写"
 
 #. Programmer's name for it: SEdCmdToggleInsertMode
 #: StringResources.pas
 msgid "Toggle Mode"
-msgstr ""
+msgstr "切换模式"
 
 #. Programmer's name for it: SEdCmdUndo
 #: StringResources.pas
 msgid "Undo"
-msgstr ""
+msgstr "撤销"
 
 #. Programmer's name for it: SEdCmdUnfoldAll
 #: StringResources.pas
 msgid "Unfold All"
-msgstr ""
+msgstr "展开所有"
 
 #. Programmer's name for it: SEdCmdUnfoldLevel1
 #: StringResources.pas
 msgid "Unfold Level 1"
-msgstr ""
+msgstr "展开级别1"
 
 #. Programmer's name for it: SEdCmdUnfoldLevel2
 #: StringResources.pas
 msgid "Unfold Level 2"
-msgstr ""
+msgstr "展开级别2"
 
 #. Programmer's name for it: SEdCmdUnfoldLevel3
 #: StringResources.pas
 msgid "Unfold Level 3"
-msgstr ""
+msgstr "展开级别3"
 
 #. Programmer's name for it: SEdCmdUnfoldNearest
 #: StringResources.pas
 msgid "Unfold Nearest"
-msgstr ""
+msgstr "展开最新的"
 
 #. Programmer's name for it: SEdCmdUnfoldRanges
 #: StringResources.pas
 msgid "Unfold Ranges"
-msgstr ""
+msgstr "展开范围"
 
 #. Programmer's name for it: SEdCmdUp
 #: StringResources.pas
 msgid "Up"
-msgstr ""
+msgstr "上"
 
 #. Programmer's name for it: SEdCmdUpperCase
 #: StringResources.pas
 msgid "Upper Case"
-msgstr ""
+msgstr "大写"
 
 #. Programmer's name for it: SEdCmdWordLeft
 #: StringResources.pas
 msgid "Word Left"
-msgstr ""
+msgstr "跳转到单词左边"
 
 #. Programmer's name for it: SEdCmdWordRight
 #: StringResources.pas
 msgid "Word Right"
-msgstr ""
+msgstr "跳转到单词右边"
 
 #. Programmer's name for it: SEdCmdParameterCompletion
 #: StringResources.pas
 msgid "Parameter Completion"
-msgstr ""
+msgstr "参数完成"
 
 #. Programmer's name for it: SEdCmdSelectToBracket
 #: StringResources.pas
 msgid "Select to Bracket"
-msgstr ""
+msgstr "选择到括号"
 
 #. Delphi dialogs (from Vcl.Consts)
+#. Programmer's name for it: srNone
+#: StringResources.pas
+msgid "(None)"
+msgstr ""
+
 #. Programmer's name for it: SDlgWarning
 #: StringResources.pas
 msgid "Warning"
@@ -7428,37 +7525,37 @@ msgstr "忽略"
 #. Programmer's name for it: SDlgAll
 #: StringResources.pas
 msgid "&All"
-msgstr ""
+msgstr "全部选中"
 
 #. Programmer's name for it: SDlgNoToAll
 #: StringResources.pas
 msgid "N&o to All"
-msgstr ""
+msgstr "全部选否"
 
 #. Programmer's name for it: SDlgYesToAll
 #: StringResources.pas
 msgid "Yes to &All"
-msgstr ""
+msgstr "全部选是"
 
 #. Programmer's name for it: STrueValue
 #: StringResources.pas
 msgid "True"
-msgstr ""
+msgstr "对"
 
 #. Programmer's name for it: SFalseValue
 #: StringResources.pas
 msgid "False"
-msgstr ""
+msgstr "错"
 
 #. Programmer's name for it: SDSActkShowText
 #: StringResources.pas
 msgid "Do not show this dialog again"
-msgstr ""
+msgstr "不再提示"
 
 #. Programmer's name for it: SDSActkRememberText
 #: StringResources.pas
 msgid "Remember answer and do not show again"
-msgstr ""
+msgstr "记住我的选择"
 
 #. Programmer's name for it: SInternalError
 #: StringResources.pas
@@ -7498,7 +7595,7 @@ msgstr "备份文件 \"%s\" 时失败了"
 #: StringResources.pas
 #, object-pascal-format
 msgid "Failed to load layout from \"%s\". Please close and restart PyScripter"
-msgstr ""
+msgstr "无法从“%s”加载布局。请关闭并重新启动pyscripter"
 
 #. Programmer's name for it: SFilterAllFiles
 #: StringResources.pas
@@ -7531,12 +7628,12 @@ msgstr "命令行 : %s\n"
 #: StringResources.pas
 #, object-pascal-format
 msgid "*** %s Python engine is active ***"
-msgstr ""
+msgstr "*** %s Python 引擎启动 ***"
 
 #. Programmer's name for it: SInterpreterNA
 #: StringResources.pas
 msgid "The internal Python interpreter is not available"
-msgstr ""
+msgstr "内部Python解释器不可用"
 
 #. Programmer's name for it: SPostMortemInfo
 #: StringResources.pas
@@ -7544,7 +7641,7 @@ msgid ""
 "You are now in post-mortem analysis mode.\n"
 "You can examine the Call Stack, Variables and Watches windows, evaluate expressions etc.\n"
 "To exit the post-mortem analysis select the 'Abort Debugging' command."
-msgstr ""
+msgstr "您现在处于事后分析模式。 您可以检查调用堆栈、变量和监视窗口、计算表达式等。 要退出事后分析，请选择“中止调试”命令。"
 
 #. Programmer's name for it: SFileEncodingWarning
 #: StringResources.pas
@@ -7552,7 +7649,7 @@ msgstr ""
 msgid ""
 "Encoding file \"%s\" using \"%s\" encoding will result in information loss.\n"
 "Do you want to proceed?"
-msgstr ""
+msgstr "使用“%s”编码对文件“%s”进行编码将导致信息丢失。 是否要继续？"
 
 #. Programmer's name for it: SDecodingError
 #: StringResources.pas
@@ -7609,7 +7706,7 @@ msgstr "模块导入错误"
 msgid ""
 "Remote Server is not connected.\n"
 "Please reinitialize or disconnect the remote interpreter."
-msgstr ""
+msgstr "远程服务器未连接。 请重新初始化或断开远程解释器。"
 
 #. Programmer's name for it: SRpycNotAvailable
 #: StringResources.pas
@@ -7617,7 +7714,7 @@ msgid ""
 "The 'rpyc' package is not available.\n"
 "Please restart PyScripter and try again.\n"
 "If the error persists reinstall PyScripter."
-msgstr ""
+msgstr "“rpyc”包不可用。 请重新启动pyscripter并重试。 如果错误仍然存在，请重新安装pyscripter。"
 
 #. Programmer's name for it: SCouldNotWriteServerFile
 #: StringResources.pas
@@ -7628,7 +7725,7 @@ msgstr "不能写入文件 \"%s\" 、远程的Python引擎也不能使用"
 #. Programmer's name for it: SErrorCreatingRemoteEngine
 #: StringResources.pas
 msgid "Error in creating the remote interpreter: "
-msgstr ""
+msgstr "创建远程解释器时出错："
 
 #. Programmer's name for it: SCouldNotConnectRemoteEngine
 #: StringResources.pas
@@ -7653,6 +7750,8 @@ msgid ""
 "The template has been modified.\n"
 "Do you want to update it with the new definition?"
 msgstr ""
+"模板已修改。\n"
+" 是否用新定义更新它？"
 
 #. Programmer's name for it: SInvalidNumber
 #: StringResources.pas
@@ -7711,6 +7810,8 @@ msgid ""
 "An External Tool is still running.\n"
 "Do you want to terminate it and exit?"
 msgstr ""
+"外部工具仍在运行。 \n"
+"是否要终止并退出？"
 
 #. Programmer's name for it: STerminateInterpreter
 #: StringResources.pas
@@ -7718,6 +7819,8 @@ msgid ""
 "The Python interpreter is busy.\n"
 "Are you sure you want to terminate it?"
 msgstr ""
+"python解释器正忙。 \n"
+"您确定要终止它吗？"
 
 #. Programmer's name for it: SFindDefinitionWarning
 #: StringResources.pas
@@ -7763,6 +7866,8 @@ msgid ""
 "A debugging session is in progress.\n"
 "Do you want to abort the session and Exit?"
 msgstr ""
+"正在进行调试会话。 \n"
+"是否要中止会话并退出？"
 
 #. Programmer's name for it: SInterruptRunningScript
 #: StringResources.pas
@@ -7770,6 +7875,8 @@ msgid ""
 "The Python Script has timed out.\n"
 "Do you want to interrupt it?"
 msgstr ""
+"python脚本已超时。 \n"
+"你想打断一下吗？"
 
 #. Programmer's name for it: SNoTestsFound
 #: StringResources.pas
@@ -7913,7 +8020,7 @@ msgstr "使用%s的语法"
 #: StringResources.pas
 #, object-pascal-format
 msgid "Switch to %s"
-msgstr ""
+msgstr "切换到 %s"
 
 #. Programmer's name for it: SThemeHint
 #: StringResources.pas
@@ -7963,6 +8070,9 @@ msgid ""
 "Press 'OK' to save selected files and exit.\n"
 "Press 'Cancel' to return to PyScripter without saving files."
 msgstr ""
+"以下文件已被修改。 \n"
+"按“确定”保存所选文件并退出。 \n"
+"按“取消”返回PyScripter并取消保存文件。"
 
 #. Programmer's name for it: SSaveAs
 #: StringResources.pas
@@ -8029,18 +8139,18 @@ msgstr "浏览器"
 #: StringResources.pas
 #, object-pascal-format
 msgid "Error in running initialization script %s: \"%s\""
-msgstr ""
+msgstr "运行初始化脚本时出错 %s: \"%s\""
 
 #. Programmer's name for it: SOpenDialogFilter
 #: StringResources.pas
 #, object-pascal-format
 msgid "Open dialog %s filter"
-msgstr ""
+msgstr "打开对话框%s筛选器"
 
 #. Programmer's name for it: SOnlyJupyterFiles
 #: StringResources.pas
 msgid "Web preview is only available for Jupyter JSON files"
-msgstr ""
+msgstr "Web预览仅适用于Jupyter JSON文件"
 
 #. Programmer's name for it: SNoJupyter
 #: StringResources.pas
@@ -8048,6 +8158,8 @@ msgid ""
 "The 'jupyter' package is not available.\n"
 "Please install 'jupyter' first."
 msgstr ""
+"“jupyter”包不可用。 \n"
+"请先安装“jupyter”。"
 
 #. Programmer's name for it: SExternalProcessRunning
 #: StringResources.pas
@@ -8055,6 +8167,8 @@ msgid ""
 "An external process is still running.\n"
 "Please terminate it first from the 'Output' window."
 msgstr ""
+"外部进程仍在运行。 \n"
+"请先从“输出”窗口终止它。"
 
 #. Project Manager
 #. Programmer's name for it: SAskSaveProject
@@ -8063,6 +8177,8 @@ msgid ""
 "The active project has not been saved.\n"
 "Do you want to save the changes?"
 msgstr ""
+"活动项目尚未保存。 \n"
+"是否要保存更改？"
 
 #. Programmer's name for it: SFailedToBackupProject
 #: StringResources.pas
@@ -8074,7 +8190,7 @@ msgstr "备份工程\"%s\"失败了"
 #: StringResources.pas
 #, object-pascal-format
 msgid "Error in opening project: \"%s\"."
-msgstr ""
+msgstr "打开项目时出错：“%s”。"
 
 #. Programmer's name for it: SErrorInSavingProject
 #: StringResources.pas
@@ -8096,7 +8212,7 @@ msgstr "保存工程\"%s\"为"
 #. Programmer's name for it: SProjectPythonPath
 #: StringResources.pas
 msgid "Project Python Path"
-msgstr ""
+msgstr "项目Python路径"
 
 #. Search and Replace
 #. Programmer's name for it: SStartReached
@@ -8220,6 +8336,10 @@ msgid ""
 "Expected: %s\n"
 "Found: %s"
 msgstr ""
+"%s\n"
+"在被搜索后发生了更改。替换中止。\n"
+"预期：%s\n"
+"发现：%s"
 
 #. Programmer's name for it: SFileSkipped
 #: StringResources.pas
@@ -8328,6 +8448,8 @@ msgid ""
 "Reloading the file will result in the loss of all changes.\n"
 "Do you want to proceed?"
 msgstr ""
+"重新加载文件将导致丢失所有更改。 \n"
+"是否继续？"
 
 #. Programmer's name for it: SFileAlreadyOpen
 #: StringResources.pas
@@ -8335,6 +8457,8 @@ msgid ""
 "Another editor with the same file is open.\n"
 "You can not have two editors with the same file."
 msgstr ""
+"打开了另一个具有相同文件的编辑器。\n"
+"不能有两个编辑器具有相同的文件。"
 
 #. Parameters
 #. Programmer's name for it: SEnterParameterCaption
@@ -8351,7 +8475,7 @@ msgstr "输入参数值"
 #: StringResources.pas
 #, object-pascal-format
 msgid "Parameter \"%s\" is referenced circularly"
-msgstr ""
+msgstr "参数“%s”被循环引用"
 
 #. Programmer's name for it: SParameterNotFound
 #: StringResources.pas
@@ -8431,7 +8555,7 @@ msgstr "遇到了循环导入!"
 #. Programmer's name for it: SCyclicTypeDependency
 #: StringResources.pas
 msgid "Cyclic type dependency encountered!"
-msgstr ""
+msgstr "遇到循环类型依赖项！"
 
 #. Programmer's name for it: SCouldNotFindIdent
 #: StringResources.pas
@@ -8454,7 +8578,7 @@ msgstr "模块\"%s\"没发现"
 #. Programmer's name for it: SSelfOutsideClassScope
 #: StringResources.pas
 msgid "\"self\" or \"cls\" used outside a class scope"
-msgstr ""
+msgstr "在类作用域之外使用的“self”或“cls”"
 
 #. Programmer's name for it: SCouldNotFindIdentInScope
 #: StringResources.pas
@@ -8465,12 +8589,12 @@ msgstr "识别符\"%s\"在作用域\"%s\"内不存在"
 #. Programmer's name for it: SRefactoryEngineBusy
 #: StringResources.pas
 msgid "Refactoring engine is busy"
-msgstr ""
+msgstr "重构引擎正忙"
 
 #. Programmer's name for it: SPythonKeyword
 #: StringResources.pas
 msgid "Python keyword"
-msgstr ""
+msgstr "Python关键字"
 
 #. File Templates
 #. Programmer's name for it: SFileTemplateCategoryInternet
@@ -8478,15 +8602,10 @@ msgstr ""
 msgid "Internet"
 msgstr "互联网"
 
-#. Programmer's name for it: SFileTemplateCategoryOther
-#: StringResources.pas
-msgid "Other"
-msgstr "其它"
-
 #. Programmer's name for it: SCythonTemplateName
 #: StringResources.pas
 msgid "Cython Script"
-msgstr ""
+msgstr "Cython脚本"
 
 #. Programmer's name for it: SCSSFileTemplateName
 #: StringResources.pas
@@ -8508,6 +8627,16 @@ msgstr "文本文件"
 msgid "XML Document"
 msgstr "XML文档"
 
+#. Programmer's name for it: SJSONTemplateName
+#: StringResources.pas
+msgid "JSON File"
+msgstr ""
+
+#. Programmer's name for it: SYAMLTemplateName
+#: StringResources.pas
+msgid "YAML File"
+msgstr ""
+
 #. Programmer's name for it: SJSTemplateName
 #: StringResources.pas
 msgid "JavaScript Code"
@@ -8521,48 +8650,48 @@ msgstr "PHP代码"
 #. Programmer's name for it: SJupyterTemplateName
 #: StringResources.pas
 msgid "Jupyter Notebook"
-msgstr ""
+msgstr "Jupyter Notebook"
 
 #. Python Versions
 #. Programmer's name for it: SRegisteredVersions
 #: StringResources.pas
 msgid "Registered Versions"
-msgstr ""
+msgstr "已注册版本"
 
 #. Programmer's name for it: SUnRegisteredVersions
 #: StringResources.pas
 msgid "Unregistered Versions"
-msgstr ""
+msgstr "未注册版本"
 
 #. Programmer's name for it: SRemoteFileSelect
 #: StringResources.pas
 msgid "Select Remote File"
-msgstr ""
+msgstr "选择远程文件"
 
 #. Programmer's name for it: SErrorEmptyPath
 #: StringResources.pas
 msgid "File Path cannot be empty"
-msgstr ""
+msgstr "文件路径不能为空"
 
 #. Programmer's name for it: SErrorEmptySSH
 #: StringResources.pas
 msgid "The SSH server name cannot be empty"
-msgstr ""
+msgstr "SSH服务器名不能为空"
 
 #. Programmer's name for it: SScpError4
 #: StringResources.pas
 msgid "SCP Error: Connecting to host failed"
-msgstr ""
+msgstr "SCP错误：连接不到服务器"
 
 #. Programmer's name for it: SScpError5
 #: StringResources.pas
 msgid "SCP Error: Connection lost for some reason"
-msgstr ""
+msgstr "SCP错误：由于某种原因失去连接"
 
 #. Programmer's name for it: SScpErrorTimeout
 #: StringResources.pas
 msgid "SCP Error: Timeout"
-msgstr ""
+msgstr "SCP错误：超时"
 
 #. Programmer's name for it: SScpErrorOther
 #: StringResources.pas
@@ -8572,24 +8701,27 @@ msgid ""
 "Output: %s+\n"
 "Error Output: %s+"
 msgstr ""
+"SCP错误：\n"
+"输出： %s+\n"
+"错误输出： %s+"
 
 #. Programmer's name for it: SSHUnknownServer
 #: StringResources.pas
 #, object-pascal-format
 msgid "Unknown SSH server \"%s\""
-msgstr ""
+msgstr "未知的ssh服务器 \"%s\""
 
 #. Programmer's name for it: SSHUnknownServerQuery
 #: StringResources.pas
 #, object-pascal-format
 msgid "Unknown SSH server with fingerprint \"%s\". Do you want to proceed?"
-msgstr ""
+msgstr "指纹为“%s”的ssh服务器未知。是否继续？"
 
 #. Programmer's name for it: SSHPythonTimeout
 #: StringResources.pas
 #, object-pascal-format
 msgid "Execution of Python (\"%s\") on the SSH server timed out"
-msgstr ""
+msgstr "在SSH服务器上执行Python（“%s”）超时"
 
 #. Programmer's name for it: SSHPythonError
 #: StringResources.pas
@@ -8600,6 +8732,10 @@ msgid ""
 "Output: %s\n"
 "ErrorOutput: %s"
 msgstr ""
+"未能在ssh服务器上执行python (\"%s\") ：\n"
+"返回值： %d\n"
+"输出 ：%s\n"
+"错误信息： %s"
 
 #. Programmer's name for it: SSHVersionMismatch
 #: StringResources.pas
@@ -8607,233 +8743,286 @@ msgstr ""
 msgid ""
 "Local Python version is %s and remote Python version is %s. To use this SSH "
 "server please switch to Python version %1:s."
+msgstr "本地Python版本是%s远程 Python版本是%s。连接SSH服务器请切换Python版本至%1:s。"
+
+#. Programmer's name for it: SYNS_FriendlyCommentedCode
+#: SynHighlighterPython.pas
+msgid "Commented Code"
+msgstr ""
+
+#. Programmer's name for it: SYNS_FriendlyClassName
+#: SynHighlighterPython.pas
+msgid "Class Name"
 msgstr ""
 
 #. Programmer's name for it: SYNS_FriendlyMatchingBrace
 #: SynHighlighterPython.pas
 msgid "Matching Brace"
-msgstr ""
+msgstr "匹配大括号"
 
 #. Programmer's name for it: SYNS_FriendlyUnbalancedBrace
 #: SynHighlighterPython.pas
 msgid "Unbalanced Brace"
-msgstr ""
+msgstr "大括号不平衡"
 
 #. Programmer's name for it: SYNS_FriendlyMultiLineString
 #: SynHighlighterPython.pas
 msgid "Multi-Line String"
+msgstr "多行字符串"
+
+#. Programmer's name for it: SYNS_AttrBanner
+#. Programmer's name for it: SYNS_FriendlyAttrBanner
+#: SynHighlighterPython.pas
+msgid "Banner"
+msgstr ""
+
+#. Programmer's name for it: SYNS_AttrTraceback
+#. Programmer's name for it: SYNS_FriendlyAttrTraceback
+#: SynHighlighterPython.pas
+msgid "Traceback"
+msgstr ""
+
+#. Programmer's name for it: SYNS_AttrPrompt
+#. Programmer's name for it: SYNS_FriendlyAttrPrompt
+#: SynHighlighterPython.pas
+msgid "Prompt"
 msgstr ""
 
 #. Programmer's name for it: SYNS_AttrSystemCmd
 #. Programmer's name for it: SYNS_FriendlyAttrSystemCmd
 #: SynHighlighterPython.pas
 msgid "System Command"
+msgstr "系统命令"
+
+#. Programmer's name for it: SYNS_FriendlyAttrDocumentDelimiter
+#: SynHighlighterYAML.pas
+msgid "Document Delimiter"
 msgstr ""
 
-#. Programmer's name for it: SYNS_FilterYAML
+#. Programmer's name for it: SYNS_FriendlyAttrKey
 #: SynHighlighterYAML.pas
-msgid "YAML files (*.yaml)|*.yaml"
-msgstr "YAML文件 (*.yaml)|*.yaml"
+msgid "Key"
+msgstr ""
+
+#. Programmer's name for it: SYNS_FriendlyAttrNumericValue
+#: SynHighlighterYAML.pas
+msgid "Numeric Value"
+msgstr ""
+
+#. Programmer's name for it: SYNS_FriendlyAttrTextValue
+#: SynHighlighterYAML.pas
+msgid "Text Value"
+msgstr ""
+
+#. Programmer's name for it: SYNS_FriendlyAttrTag
+#: SynHighlighterYAML.pas
+msgid "Tag"
+msgstr ""
+
+#. Programmer's name for it: SYNS_FriendlyAttrAnchor
+#: SynHighlighterYAML.pas
+msgid "Anchor"
+msgstr ""
 
 #. Python Paths etc.
 #: uParams.pas
 msgid "Directory of active Python version"
-msgstr ""
+msgstr "活动Python版本目录"
 
 #: uParams.pas
 msgid "Executable of active Python"
-msgstr ""
+msgstr "活动Python的可执行文件"
 
 #: uParams.pas
 msgid "Version of active Python"
-msgstr ""
+msgstr "活动Python的版本"
 
 #. register system paths and parameters
 #: uParams.pas
 msgid "Program Files directory"
-msgstr ""
+msgstr "程序文件目录"
 
 #: uParams.pas
 msgid "Common Files directory"
-msgstr ""
+msgstr "公用文件目录"
 
 #: uParams.pas
 msgid "Windows installation directory"
-msgstr ""
+msgstr "Windows安装目录"
 
 #: uParams.pas
 msgid "Windows System directory"
-msgstr ""
+msgstr "Windows系统目录"
 
 #: uParams.pas
 msgid "Windows Temp directory"
-msgstr ""
+msgstr "Windows临时文件目录"
 
 #: uParams.pas
 msgid "MyDocuments directory"
-msgstr ""
+msgstr "\"我的文档\"目录"
 
 #: uParams.pas
 msgid "Desktop directory"
-msgstr ""
+msgstr "桌面目录"
 
 #. register parameters
 #: uParams.pas
 msgid "Clipboard as text"
-msgstr ""
+msgstr "剪贴板作为文本"
 
 #: uParams.pas
 msgid "Current directory"
-msgstr ""
+msgstr "当前目录"
 
 #: uParams.pas
 msgid "Executable name"
-msgstr ""
+msgstr "可执行文件名"
 
 #: uParams.pas
 msgid "Python Command Line Arguments"
-msgstr ""
+msgstr "Python命令行参数"
 
 #. register parameter modifiers
 #: uParams.pas
 msgid "Path of file"
-msgstr ""
+msgstr "文件路径"
 
 #: uParams.pas
 msgid "Path without delimeter"
-msgstr ""
+msgstr "不包括分隔符的路径"
 
 #: uParams.pas
 msgid "File name"
-msgstr ""
+msgstr "文件名"
 
 #: uParams.pas
 msgid "File extension"
-msgstr ""
+msgstr "文件扩展名"
 
 #: uParams.pas
 msgid "File extension without \".\""
-msgstr ""
+msgstr "不包括\".\"的文件扩展名"
 
 #: uParams.pas
 msgid "File name without extension"
-msgstr ""
+msgstr "不包括扩展名的文件名"
 
 #: uParams.pas
 msgid "File drive"
-msgstr ""
+msgstr "文件所在驱动器"
 
 #: uParams.pas
 msgid "Expanded file name"
-msgstr ""
+msgstr "扩展的文件名"
 
 #: uParams.pas
 msgid "Expanded UNC file name"
-msgstr ""
+msgstr "扩展的UNC文件名"
 
 #: uParams.pas
 msgid "Long file name"
-msgstr ""
+msgstr "长文件名"
 
 #: uParams.pas
 msgid "Short file name"
-msgstr ""
+msgstr "短文件名"
 
 #: uParams.pas
 msgid "Path with final path delimiter added"
-msgstr ""
+msgstr "添加了最终路径分隔符的路径"
 
 #: uParams.pas
 msgid "Path with final path delimiter removed"
-msgstr ""
+msgstr "删除了最终路径分隔符的路径"
 
 #: uParams.pas
 msgid "File type"
-msgstr ""
+msgstr "文件类型"
 
 #: uParams.pas
 msgid "Contents of text file"
-msgstr ""
+msgstr "文本文件内容"
 
 #: uParams.pas
 msgid "Command line parameter"
-msgstr ""
+msgstr "命令行参数"
 
 #: uParams.pas
 msgid "Value of registry key"
-msgstr ""
+msgstr "注册表项的值"
 
 #: uParams.pas
 msgid "Value of environment variable"
-msgstr ""
+msgstr "环境变量值"
 
 #: uParams.pas
 msgid "Upper case of string"
-msgstr ""
+msgstr "字符串大写"
 
 #: uParams.pas
 msgid "Lower case of string"
-msgstr ""
+msgstr "字符串小号"
 
 #: uParams.pas
 msgid "Quoted string"
-msgstr ""
+msgstr "加引号的字符串"
 
 #: uParams.pas
 msgid "Unquoted string"
-msgstr ""
+msgstr "不加引号的字符串"
 
 #: uParams.pas
 msgid "Current date and time"
-msgstr ""
+msgstr "当前日期时间"
 
 #: uParams.pas
 msgid "Select file"
-msgstr ""
+msgstr "选择文件"
 
 #: uParams.pas
 msgid "Date of a date-time value"
-msgstr ""
+msgstr "date-time值的日期"
 
 #: uParams.pas
 msgid "Time of a date-time value"
-msgstr ""
+msgstr "date-time值的时间"
 
 #: uParams.pas
 msgid "Date of a file"
-msgstr ""
+msgstr "文件的日期"
 
 #: uParams.pas
 msgid "Creation date of a file"
-msgstr ""
+msgstr "文件建立日期"
 
 #: uParams.pas
 msgid "Last modification date of a file"
-msgstr ""
+msgstr "文件最后修改日期"
 
 #: uParams.pas
 msgid "Last access date of a file"
-msgstr ""
+msgstr "文件最后访问日期"
 
 #: uParams.pas
 msgid "Formatted date"
-msgstr ""
+msgstr "格式化日期"
 
 #: uParams.pas
 msgid "Active document name"
-msgstr ""
+msgstr "活动文档名称"
 
 #: uParams.pas
 msgid "The name or last run script"
-msgstr ""
+msgstr "上次运行脚本的名称"
 
 #: uParams.pas
 msgid "Project file name"
-msgstr ""
+msgstr "项目文件名"
 
 #: uParams.pas
 msgid "Modified files"
-msgstr ""
+msgstr "已修改的文件"
 
 #: uParams.pas
 msgid "Open files"
@@ -8841,20 +9030,64 @@ msgstr "打开文件(&O)"
 
 #: uParams.pas
 msgid "Text of the active document or a file"
-msgstr ""
+msgstr "活动文档或文件的文本"
 
 #: uParams.pas
 msgid "Current word in the active document"
-msgstr ""
+msgstr "活动文档中的当前单词"
 
 #: uParams.pas
 msgid "Current line in the active document"
-msgstr ""
+msgstr "活动文档中的当前行"
 
 #: uParams.pas
 msgid "Current line number in the active document"
-msgstr ""
+msgstr "活动文档中的当前行号"
 
 #: uParams.pas
 msgid "Selected text in the active document"
+msgstr "活动文档中的已选定文本"
+
+#. SpTBXCustomizeForm..SpTBXTabControl1..tabToolbars..Caption
+#. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..Caption
+#: SpTBXCustomizerForm.dfm:34 SpTBXCustomizerForm.dfm:150
+msgid "Toolbars"
+msgstr ""
+
+#. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet3..SpTBXLabel3....Caption
+#: SpTBXCustomizerForm.dfm:125
+msgid ""
+"To add command buttons, drag and drop commands onto a toolbar. To remove "
+"command buttons, drag them off the toolbar and drop them on the commands "
+"list."
+msgstr ""
+
+#. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..SpTBXGroupBox1..cbText....Items.Strings
+#: SpTBXCustomizerForm.dfm:174
+msgid "Icons + Selective Text"
+msgstr ""
+
+#. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..SpTBXGroupBox1..cbText....Items.Strings
+#: SpTBXCustomizerForm.dfm:175
+msgid "Icons"
+msgstr ""
+
+#. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..SpTBXGroupBox1..cbText....Items.Strings
+#: SpTBXCustomizerForm.dfm:176
+msgid "Icons + Text"
+msgstr ""
+
+#. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..SpTBXGroupBox1..cbText....Items.Strings
+#: SpTBXCustomizerForm.dfm:177
+msgid "Text"
+msgstr ""
+
+#. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..SpTBXGroupBox1..cbTextLabel..Caption
+#: SpTBXCustomizerForm.dfm:196
+msgid "T&ext Options"
+msgstr ""
+
+#. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..SpTBXGroupBox1..checkVisible..Caption
+#: SpTBXCustomizerForm.dfm:212
+msgid "&Visible"
 msgstr ""

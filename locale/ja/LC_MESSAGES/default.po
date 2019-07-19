@@ -5,14 +5,15 @@
 # 
 # Translators:
 # luebbe <luebbe.opensource@gmail.com>, 2018
+# 松原 薪之介 <sinnosuke5524@gmail.com>, 2019
 # 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
-"POT-Creation-Date: 2019-01-08 03:51\n"
+"POT-Creation-Date: 2019-07-16 02:38\n"
 "PO-Revision-Date: 2018-01-24 08:21+0000\n"
-"Last-Translator: luebbe <luebbe.opensource@gmail.com>, 2018\n"
+"Last-Translator: 松原 薪之介 <sinnosuke5524@gmail.com>, 2019\n"
 "Language-Team: Japanese (https://www.transifex.com/luebbe/teams/82736/ja/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -46,7 +47,7 @@ msgstr "リンク"
 #. AboutBox..SpTBXTabControl..SpTBXTabSheet1..Panel1..Copyright..Caption
 #: dlgAboutPyScripter.dfm
 msgid "(C) Kiriakos Vlahos  2005-2018"
-msgstr ""
+msgstr "(C)Kiriakos Vlahos 2005-2018"
 
 #. AboutBox..SpTBXTabControl..SpTBXTabSheet1..Panel1..Comments....Caption
 #: dlgAboutPyScripter.dfm
@@ -472,12 +473,12 @@ msgstr "適用(&A)"
 #. frmCustomKeyboard..ActionList1..actAssignShortcut..Hint
 #: dlgCustomShortcuts.dfm
 msgid "Assign shortcut to command"
-msgstr ""
+msgstr "コマンドへのショートカットの割り当て"
 
 #. frmCustomKeyboard..ActionList1..actRemoveShortcut..Hint
 #: dlgCustomShortcuts.dfm
 msgid "Remove shortcut"
-msgstr ""
+msgstr "ショートカットを削除"
 
 #. DirectoryListDialog..Caption
 #: dlgDirectoryList.dfm
@@ -582,7 +583,7 @@ msgstr "ハイライター(&H):"
 #. FileTemplatesDialog..Panel..lvItems......Caption
 #: dlgFileTemplates.dfm
 msgid "Category"
-msgstr ""
+msgstr "カテゴリー"
 
 #. FindInFilesDialog..Caption
 #: dlgFindInFiles.dfm
@@ -679,7 +680,7 @@ msgstr "ディレクトリ(&R):"
 #: dlgFindInFiles.dfm dlgToDoOptions.dfm dlgDirectoryList.pas
 #: dlgImportDirectory.pas uParams.pas
 msgid "Select directory"
-msgstr ""
+msgstr "ディレクトリを選択"
 
 #. FindInFilesDialog..Panel1..gbxDirectories..cbInclude..Caption
 #. fmToDoOptions..pnlBG..gbxSearchFiles..chkInclude..Caption
@@ -781,17 +782,17 @@ msgstr "ファイル テンプレートの管理..."
 #. OptionsInspector..Panel1..Inspector..Text
 #: dlgOptionsEditor.dfm
 msgid "Inspector"
-msgstr ""
+msgstr "インスペクター"
 
 #. OptionsInspector..Panel1..Inspector..DefaultCategoryName
 #: dlgOptionsEditor.dfm
 msgid "Miscellaneous"
-msgstr ""
+msgstr "その他"
 
 #. OptionsInspector..Panel1..Inspector..HeaderPropText
 #: dlgOptionsEditor.dfm
 msgid "Property"
-msgstr ""
+msgstr "プロパティ"
 
 #. PickListDialog..Panel2..btnSelectAll..Caption
 #. PickListDialog..PickListPopUp..mnSelectAll..Caption
@@ -822,72 +823,72 @@ msgstr "すべてのアイテムの選択を解除"
 #. PythonIIForm..InterpreterPopUp..mnPythonVersions..Caption
 #: dlgPythonVersions.dfm frmPyIDEMain.dfm frmPythonII.dfm
 msgid "Python Versions"
-msgstr ""
+msgstr "Python バージョン"
 
 #. PythonVersionsDialog..Panel1..vtPythonVersions......Text
 #: dlgPythonVersions.dfm
 msgid "Folder"
-msgstr ""
+msgstr "フォルダ"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVActivate..Caption
 #: dlgPythonVersions.dfm
 msgid "Activate"
-msgstr ""
+msgstr "有効化"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVActivate..Hint
 #: dlgPythonVersions.dfm
 msgid "Activate selected Python version"
-msgstr ""
+msgstr "選択したバージョンのPythonを有効化"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVAdd..Caption
 #: dlgPythonVersions.dfm
 msgid "Add"
-msgstr ""
+msgstr "追加"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVAdd..Hint
 #: dlgPythonVersions.dfm
 msgid "Add a new Python version"
-msgstr ""
+msgstr "新しいバージョンのPythonを追加"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVRemove..Caption
 #: dlgPythonVersions.dfm
 msgid "Remove"
-msgstr ""
+msgstr "削除"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVRemove..Hint
 #: dlgPythonVersions.dfm
 msgid "Remove selected Python version"
-msgstr ""
+msgstr "選択したバージョンのPythonを削除"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVTest..Caption
 #: dlgPythonVersions.dfm
 msgid "Test"
-msgstr ""
+msgstr "テスト"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVTest..Hint
 #: dlgPythonVersions.dfm
 msgid "Test selected Python version"
-msgstr ""
+msgstr "選択したバージョンのPythonのテスト"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVShow..Caption
 #: dlgPythonVersions.dfm
 msgid "Show"
-msgstr ""
+msgstr "表示"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVShow..Hint
 #: dlgPythonVersions.dfm
 msgid "Show selected Python version in Explorer"
-msgstr ""
+msgstr "選択したバージョンのPythonをエクスプローラーで表示"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVCommandShell..Caption
 #: dlgPythonVersions.dfm
 msgid "Shell"
-msgstr ""
+msgstr "シェル"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVCommandShell..Hint
 #: dlgPythonVersions.dfm
 msgid "Open command prompt for the selected Python version"
-msgstr ""
+msgstr "選択されたバージョンのPythonのコマンドプロンプトを起動"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVHelp..Caption
 #. CommandsDataModule..actlMain..actHelpContents..Category
@@ -916,27 +917,27 @@ msgstr "ヘルプ"
 #. PythonVersionsDialog..actlPythonVersions..actPVHelp..Hint
 #: dlgPythonVersions.dfm
 msgid "Show Help"
-msgstr ""
+msgstr "ヘルプを表示"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVRename..Caption
 #: dlgPythonVersions.dfm
 msgid "Rename"
-msgstr ""
+msgstr "名前の変更"
 
 #. PythonVersionsDialog..actlPythonVersions..actPVRename..Hint
 #: dlgPythonVersions.dfm
 msgid "Rename selected Python version"
-msgstr ""
+msgstr "選択されたバージョンのPythonの名前の変更"
 
 #. RemoteFileDialog..Panel1..Label1..Caption
 #: dlgRemoteFile.dfm
 msgid "File Path:"
-msgstr ""
+msgstr "ファイルパス"
 
 #. RemoteFileDialog..Panel1..Label2..Caption
 #: dlgRemoteFile.dfm
 msgid "SSH Server:"
-msgstr ""
+msgstr "SSHサーバ"
 
 #. ReplaceInFilesDialog..Caption
 #: dlgReplaceInFiles.dfm
@@ -1003,7 +1004,7 @@ msgstr "パラメータ(&P):"
 #. RunConfigurationForm..Panel1..GroupBox2..Label7..Caption
 #: dlgRunConfiguration.dfm
 msgid "Working &Directory:"
-msgstr ""
+msgstr "ワーキング＆ディレクトリ"
 
 #. RunConfigurationForm..Panel1..gbRemoteEngine..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..RunMenu..mnPythonEngines..Caption
@@ -1046,7 +1047,7 @@ msgstr "リモート (Wx)"
 #. RunConfigurationForm..Panel1..gbRemoteEngine..cbEngineType....Items.Strings
 #: dlgRunConfiguration.dfm
 msgid "SSH"
-msgstr ""
+msgstr "SSH"
 
 #. RunConfigurationForm..Panel1..GroupBox3..Caption
 #: dlgRunConfiguration.dfm
@@ -1056,7 +1057,7 @@ msgstr "外部実行"
 #. RunConfigurationForm..Panel1..GroupBox3..btnExternalRun..Caption
 #: dlgRunConfiguration.dfm
 msgid "&Set External Run properties"
-msgstr ""
+msgstr "外部実行プロパティを設定"
 
 #. RunConfigurationForm..Panel1..gbSaveOutput..Caption
 #. OutputWindow..Caption
@@ -1085,37 +1086,32 @@ msgstr "ファイル名(&N):"
 #. PyIDEMainForm..actlStandard..actSelectStyle..Hint
 #: dlgStyleSelector.dfm frmPyIDEMain.dfm
 msgid "Select Style"
-msgstr ""
+msgstr "スタイルの選択"
 
 #. StyleSelectorForm..Label1..Caption
 #: dlgStyleSelector.dfm
 msgid "Available Styles"
-msgstr ""
+msgstr "選択可能なスタイル"
 
 #. StyleSelectorForm..Label2..Caption
 #: dlgStyleSelector.dfm
 msgid "Preview"
-msgstr ""
+msgstr "プレビュー"
 
 #. StyleSelectorForm..ActionManager1..StyleName
 #: dlgStyleSelector.dfm
 msgid "Platform Default"
-msgstr ""
+msgstr "デフォルトのプラットフォーム"
 
 #. StyleSelectorForm..ActionManager1..ActionApplyStyle..Caption
 #: dlgStyleSelector.dfm
 msgid "&Apply Style"
-msgstr ""
+msgstr "スタイルを適用"
 
 #. fmEditorOptionsDialog..Caption
 #: dlgSynEditOptions.dfm
 msgid "Editor Options"
 msgstr "エディタ オプション"
-
-#. fmEditorOptionsDialog..Panel1..cbApplyToAll..Caption
-#: dlgSynEditOptions.dfm
-msgid "Apply to all editors"
-msgstr "すべてのエディタに適用"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..SpTBXTabItem1..Caption
 #. fmEditorOptionsDialog..Panel1..TabControl..Display..Caption
@@ -1133,7 +1129,7 @@ msgstr "キーストローク"
 #. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..Caption
 #: dlgSynEditOptions.dfm
 msgid "Color Theme"
-msgstr ""
+msgstr "テーマカラー"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..SpTBXTabItem4..Caption
 #. fmEditorOptionsDialog..Panel1..TabControl..Color..Caption
@@ -1251,7 +1247,7 @@ msgstr "スマートタブ削除"
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckTabIndent..Hint
 #: dlgSynEditOptions.dfm
 msgid "Tab indents and Shift-Tab unindents"
-msgstr ""
+msgstr "タブでのインデント　と　Shift+Tab でのインデント解除"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckTabIndent..Caption
 #: dlgSynEditOptions.dfm
@@ -1305,7 +1301,7 @@ msgstr "1行でスクロール"
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowSpecialChars..Hint
 #: dlgSynEditOptions.dfm
 msgid "Shows line breaks, spaces and tabs using special symbols"
-msgstr ""
+msgstr "改行、スペース、タブ、を特殊記号で表示する"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel2..ckShowSpecialChars..Caption
 #: dlgSynEditOptions.dfm
@@ -1440,12 +1436,12 @@ msgstr "コードのサンプル"
 #. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..SpTBXLabel2..Caption
 #: dlgSynEditOptions.dfm
 msgid "Available Themes"
-msgstr ""
+msgstr "使用可能なテーマ"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..ColorThemes..btnApplyTheme..Caption
 #: dlgSynEditOptions.dfm
 msgid "Apply Theme"
-msgstr ""
+msgstr "テーマを適用"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Color..Label11..Caption
 #: dlgSynEditOptions.dfm
@@ -1505,12 +1501,12 @@ msgstr "コマンド:"
 #. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label6..Caption
 #: dlgSynEditOptions.dfm
 msgid "Keystroke 2:"
-msgstr ""
+msgstr "キー：２"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..gbKeyStrokes..Label7..Caption
 #: dlgSynEditOptions.dfm
 msgid "Keystroke 1:"
-msgstr ""
+msgstr "キー：１"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..Panel2..KeyList......Caption
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox2..Caption
@@ -1521,7 +1517,7 @@ msgstr "コマンド"
 #. fmEditorOptionsDialog..Panel1..TabControl..KeyStrokes..Panel2..KeyList......Caption
 #: dlgSynEditOptions.dfm
 msgid "Keystroke"
-msgstr ""
+msgstr "キー"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Display..gbRightEdge..Caption
 #: dlgSynEditOptions.dfm
@@ -1577,15 +1573,15 @@ msgstr "先頭にゼロを付ける"
 msgid "Visible"
 msgstr "表示"
 
-#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..cbGutterFont..Caption
-#: dlgSynEditOptions.dfm
-msgid "Use Gutter Font"
-msgstr "ガターのフォントを使用"
-
 #. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterStartAtZero..Caption
 #: dlgSynEditOptions.dfm
 msgid "Start at zero"
 msgstr "ゼロから開始"
+
+#. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..cbGutterFont..Caption
+#: dlgSynEditOptions.dfm
+msgid "Use Gutter Font"
+msgstr "ガターのフォントを使用"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterGradient..Hint
 #: dlgSynEditOptions.dfm
@@ -1637,6 +1633,11 @@ msgstr "タブ幅:"
 msgid "Active Line Color"
 msgstr "アクティブな行の色"
 
+#. fmEditorOptionsDialog..Panel1..cbApplyToAll..Caption
+#: dlgSynEditOptions.dfm
+msgid "Apply to all editors"
+msgstr "すべてのエディタに適用"
+
 #. PageSetupDlg..Caption
 #. DocForm..TBXDock1..TBXToolbar1..TBXItem4..Hint
 #. WebPreviewForm..TBXDock1..TBXToolbar1..TBXItem4..Hint
@@ -1655,6 +1656,71 @@ msgstr "マージンとオプション"
 #: dlgSynPageSetup.dfm
 msgid "Header && Footer"
 msgstr "ヘッダとフッタ"
+
+#. PageSetupDlg..TabControl..tbMargins..Label1..Caption
+#: dlgSynPageSetup.dfm
+msgid "Left:"
+msgstr "左(Left):"
+
+#. PageSetupDlg..TabControl..tbMargins..Label2..Caption
+#: dlgSynPageSetup.dfm
+msgid "Right:"
+msgstr "右(Right):"
+
+#. PageSetupDlg..TabControl..tbMargins..Label3..Caption
+#: dlgSynPageSetup.dfm
+msgid "Top:"
+msgstr "上(Top):"
+
+#. PageSetupDlg..TabControl..tbMargins..Label4..Caption
+#: dlgSynPageSetup.dfm
+msgid "Bottom:"
+msgstr "下(Bottom):"
+
+#. PageSetupDlg..TabControl..tbMargins..Label5..Caption
+#: dlgSynPageSetup.dfm
+msgid "Units:"
+msgstr "単位:"
+
+#. PageSetupDlg..TabControl..tbMargins..Label6..Caption
+#: dlgSynPageSetup.dfm
+msgid "Header:"
+msgstr "ヘッダ(Header):"
+
+#. PageSetupDlg..TabControl..tbMargins..Label7..Caption
+#: dlgSynPageSetup.dfm
+msgid "Footer:"
+msgstr "フッタ(Footer):"
+
+#. PageSetupDlg..TabControl..tbMargins..CBMirrorMargins..Caption
+#: dlgSynPageSetup.dfm
+msgid "Mirror margins"
+msgstr "マージンをミラー"
+
+#. PageSetupDlg..TabControl..tbMargins..CBLineNumbers..Caption
+#: dlgSynPageSetup.dfm
+msgid "Line numbers"
+msgstr "行番号"
+
+#. PageSetupDlg..TabControl..tbMargins..CBLineNumbersInMargin..Caption
+#: dlgSynPageSetup.dfm
+msgid "Print line numbers in margin"
+msgstr "印刷行番号のマージン"
+
+#. PageSetupDlg..TabControl..tbMargins..CBHighlight..Caption
+#: dlgSynPageSetup.dfm
+msgid "Syntax print"
+msgstr "シンタックスの印刷"
+
+#. PageSetupDlg..TabControl..tbMargins..CBColors..Caption
+#: dlgSynPageSetup.dfm
+msgid "Use colors"
+msgstr "色の使用"
+
+#. PageSetupDlg..TabControl..tbMargins..CBWrap..Caption
+#: dlgSynPageSetup.dfm
+msgid "Wrap lines"
+msgstr "行を折り返す"
 
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox1..Caption
 #: dlgSynPageSetup.dfm
@@ -1731,71 +1797,6 @@ msgstr "フッタ"
 #: dlgSynPageSetup.dfm
 msgid "Line above"
 msgstr "上線"
-
-#. PageSetupDlg..TabControl..tbMargins..Label1..Caption
-#: dlgSynPageSetup.dfm
-msgid "Left:"
-msgstr "左(Left):"
-
-#. PageSetupDlg..TabControl..tbMargins..Label2..Caption
-#: dlgSynPageSetup.dfm
-msgid "Right:"
-msgstr "右(Right):"
-
-#. PageSetupDlg..TabControl..tbMargins..Label3..Caption
-#: dlgSynPageSetup.dfm
-msgid "Top:"
-msgstr "上(Top):"
-
-#. PageSetupDlg..TabControl..tbMargins..Label4..Caption
-#: dlgSynPageSetup.dfm
-msgid "Bottom:"
-msgstr "下(Bottom):"
-
-#. PageSetupDlg..TabControl..tbMargins..Label5..Caption
-#: dlgSynPageSetup.dfm
-msgid "Units:"
-msgstr "単位:"
-
-#. PageSetupDlg..TabControl..tbMargins..Label6..Caption
-#: dlgSynPageSetup.dfm
-msgid "Header:"
-msgstr "ヘッダ(Header):"
-
-#. PageSetupDlg..TabControl..tbMargins..Label7..Caption
-#: dlgSynPageSetup.dfm
-msgid "Footer:"
-msgstr "フッタ(Footer):"
-
-#. PageSetupDlg..TabControl..tbMargins..CBMirrorMargins..Caption
-#: dlgSynPageSetup.dfm
-msgid "Mirror margins"
-msgstr "マージンをミラー"
-
-#. PageSetupDlg..TabControl..tbMargins..CBLineNumbers..Caption
-#: dlgSynPageSetup.dfm
-msgid "Line numbers"
-msgstr "行番号"
-
-#. PageSetupDlg..TabControl..tbMargins..CBLineNumbersInMargin..Caption
-#: dlgSynPageSetup.dfm
-msgid "Print line numbers in margin"
-msgstr "印刷行番号のマージン"
-
-#. PageSetupDlg..TabControl..tbMargins..CBHighlight..Caption
-#: dlgSynPageSetup.dfm
-msgid "Syntax print"
-msgstr "シンタックスの印刷"
-
-#. PageSetupDlg..TabControl..tbMargins..CBColors..Caption
-#: dlgSynPageSetup.dfm
-msgid "Use colors"
-msgstr "色の使用"
-
-#. PageSetupDlg..TabControl..tbMargins..CBWrap..Caption
-#: dlgSynPageSetup.dfm
-msgid "Wrap lines"
-msgstr "行を折り返す"
 
 #. PageSetupDlg..ActionList1..PageNumCmd..Caption
 #. PageSetupDlg..ActionList1..PageNumCmd..Hint
@@ -1955,7 +1956,9 @@ msgstr "ズーム|拡大/縮小します"
 #. PrintPreviewDlg..ActionList..PrintCmd..Caption
 #. DocForm..TBXDock1..TBXToolbar1..TBXItem5..Hint
 #. WebPreviewForm..TBXDock1..TBXToolbar1..TBXItem5..Hint
+#. Programmer's name for it: SPrint
 #: dlgSynPrintPreview.dfm frmDocView.dfm frmWebPreview.dfm
+#: dlgSynPrintPreview.pas
 msgid "Print"
 msgstr "印刷"
 
@@ -2309,7 +2312,7 @@ msgstr "ファイル名のプレースホルダ"
 #. ToolProperties..FormatsPopup..Linenumber1..Caption
 #: dlgToolProperties.dfm
 msgid "Line number"
-msgstr ""
+msgstr "行番号"
 
 #. ToolProperties..FormatsPopup..Linenumber1..Hint
 #: dlgToolProperties.dfm
@@ -2319,7 +2322,7 @@ msgstr ""
 #. ToolProperties..FormatsPopup..Columnnumber1..Caption
 #: dlgToolProperties.dfm
 msgid "Column number"
-msgstr ""
+msgstr "列番号"
 
 #. ToolProperties..FormatsPopup..Columnnumber1..Hint
 #: dlgToolProperties.dfm
@@ -2363,10 +2366,11 @@ msgid "Deselect all nodes"
 msgstr "すべてのノードの選択を解除"
 
 #. CommandsDataModule..SynPythonSyn..DefaultFilter
-#. 5000;
-#: dmCommands.dfm cPyScripterSettings.pas
+#. File Filters
+#. Programmer's name for it: sPythonFileFilter
+#: dmCommands.dfm StringResources.pas
 msgid "Python Files (*.py;*.pyw)|*.py;*.pyw"
-msgstr ""
+msgstr "Python ファイル(*.py;*.pyw)|*.py;*.pyw"
 
 #. CommandsDataModule..ParameterCompletion..Title
 #. CommandsDataModule..actlMain..actParameterCompletion..Category
@@ -2374,12 +2378,12 @@ msgstr ""
 #. CommandsDataModule..actlMain..actReplaceParameters..Category
 #. CommandsDataModule..actlMain..actCustomizeParameters..Category
 #. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..Parameters1..Caption
-#: dmCommands.dfm frmPyIDEMain.dfm
+#: dmCommands.dfm frmPyIDEMain.dfm dmCommands.pas
 msgid "Parameters"
 msgstr "パラメータ"
 
 #. CommandsDataModule..ModifierCompletion..Title
-#: dmCommands.dfm
+#: dmCommands.dfm dmCommands.pas
 msgid "Modifiers"
 msgstr "修正子"
 
@@ -2401,11 +2405,16 @@ msgstr ""
 #. CommandsDataModule..CodeTemplatesCompletion....AutoCompleteList.Strings
 #: dmCommands.dfm
 msgid "|Python class"
-msgstr ""
+msgstr "|Python クラス"
 
 #. CommandsDataModule..CodeTemplatesCompletion....AutoCompleteList.Strings
 #: dmCommands.dfm
 msgid "|File encoding comment"
+msgstr "|File エンコーディング コメント"
+
+#. CommandsDataModule..CodeTemplatesCompletion....AutoCompleteList.Strings
+#: dmCommands.dfm
+msgid "|Sheband"
 msgstr ""
 
 #. CommandsDataModule..actlMain..actFileSave..Category
@@ -2580,7 +2589,7 @@ msgstr "読み取り専用"
 #. CommandsDataModule..actlMain..actEditReadOnly..Hint
 #: dmCommands.dfm
 msgid "Enable/disable editing"
-msgstr ""
+msgstr "編集 可/不可"
 
 #. CommandsDataModule..actlMain..actSearchFind..Category
 #. CommandsDataModule..actlMain..actSearchFindNext..Category
@@ -2666,7 +2675,7 @@ msgstr "印刷|アクティブなファイルを印刷します"
 #. CommandsDataModule..actlMain..actPrinterSetup..Caption
 #: dmCommands.dfm
 msgid "Printer Set&up..."
-msgstr ""
+msgstr "プリンタ設定"
 
 #. CommandsDataModule..actlMain..actPrinterSetup..Hint
 #: dmCommands.dfm
@@ -3040,12 +3049,12 @@ msgstr ""
 #. CommandsDataModule..actlMain..actEditAnsi..Caption
 #: dmCommands.dfm
 msgid "ANSI"
-msgstr ""
+msgstr "ANSI"
 
 #. CommandsDataModule..actlMain..actEditAnsi..Hint
 #: dmCommands.dfm
 msgid "Use ANSI encoding"
-msgstr ""
+msgstr "ANSI エンコーディングを使用"
 
 #. CommandsDataModule..actlMain..actHelpEditorShortcuts..Caption
 #: dmCommands.dfm
@@ -3120,12 +3129,12 @@ msgstr ""
 #. CommandsDataModule..actlMain..actEditUTF16LE..Hint
 #: dmCommands.dfm
 msgid "Use UTF-16LE encoding"
-msgstr ""
+msgstr "UTF-16LE エンコーディングを使用"
 
 #. CommandsDataModule..actlMain..actEditUTF16BE..Hint
 #: dmCommands.dfm
 msgid "Use UTF-16BE encoding"
-msgstr ""
+msgstr "UTF-16BE エンコーディングを使用"
 
 #. CommandsDataModule..actlMain..actFileReload..Caption
 #: dmCommands.dfm
@@ -3215,7 +3224,7 @@ msgstr "デバッグ位置へ移動"
 #. CommandsDataModule..actlMain..actSearchGoToDebugLine..Hint
 #: dmCommands.dfm
 msgid "Go to the current position of the debugger"
-msgstr ""
+msgstr "現在のデバッグポイントへ移動"
 
 #. CommandsDataModule..actlMain..actHelpWebProjectHome..Caption
 #: dmCommands.dfm
@@ -3250,42 +3259,42 @@ msgstr "アクティブなファイル以外を閉じます"
 #. CommandsDataModule..actlMain..actFileCloseAllToTheRight..Caption
 #: dmCommands.dfm
 msgid "Close All to the &Right"
-msgstr ""
+msgstr "全てを右へ閉じる"
 
 #. CommandsDataModule..actlMain..actFileCloseAllToTheRight..Hint
 #: dmCommands.dfm
 msgid "Close all files to the right"
-msgstr ""
+msgstr "すべてのファイルを右へ閉じる"
 
 #. CommandsDataModule..actlMain..actEditCopyFileName..Caption
 #: dmCommands.dfm
 msgid "Copy File Name"
-msgstr ""
+msgstr "ファイル名をコピー"
 
 #. CommandsDataModule..actlMain..actEditCopyFileName..Hint
 #: dmCommands.dfm
 msgid "Copy file name of active file to clipboard"
-msgstr ""
+msgstr "アクティブなファイルのファイル名をクリップボードにコピー"
 
 #. CommandsDataModule..actlMain..actToolsEditStartupScripts..Caption
 #: dmCommands.dfm
 msgid "Edit Start&up Scripts"
-msgstr ""
+msgstr "スタートアップスクリプトを編集"
 
 #. CommandsDataModule..actlMain..actToolsEditStartupScripts..Hint
 #: dmCommands.dfm
 msgid "Edit PyScripter initialization files"
-msgstr ""
+msgstr "PyScripter初期化ファイルを編集"
 
 #. CommandsDataModule..actlMain..actHelpWebBlog..Caption
 #: dmCommands.dfm
 msgid "&Blog"
-msgstr ""
+msgstr "ブログ"
 
 #. CommandsDataModule..actlMain..actHelpWebBlog..Hint
 #: dmCommands.dfm
 msgid "Go to the PyScripter Blog"
-msgstr ""
+msgstr "PyScripter ブログへジャンプ"
 
 #. CommandsDataModule..actlMain..actFoldVisible..Category
 #. CommandsDataModule..actlMain..actFoldVisible..Caption
@@ -3307,167 +3316,168 @@ msgstr ""
 #. CommandsDataModule..actlMain..actUnfoldFunctions..Category
 #: dmCommands.dfm
 msgid "Code Folding"
-msgstr ""
+msgstr "コードを折りたたむ"
 
 #. CommandsDataModule..actlMain..actFoldVisible..Hint
 #: dmCommands.dfm
 msgid "Show/Hide Code Folding"
-msgstr ""
+msgstr "表示/隠す (コードを折りたたむ)"
 
 #. CommandsDataModule..actlMain..actFoldAll..Caption
 #. CommandsDataModule..actlMain..actUnfoldAll..Caption
 #: dmCommands.dfm
 msgid "All"
-msgstr ""
+msgstr "全て"
 
 #. CommandsDataModule..actlMain..actFoldAll..Hint
 #: dmCommands.dfm
 msgid "Fold all"
-msgstr ""
+msgstr "全て折りたたむ"
 
 #. CommandsDataModule..actlMain..actUnfoldAll..Hint
 #: dmCommands.dfm
 msgid "Unfold all"
-msgstr ""
+msgstr "全て展開"
 
 #. CommandsDataModule..actlMain..actFoldNearest..Caption
 #. CommandsDataModule..actlMain..actUnfoldNearest..Caption
 #: dmCommands.dfm
 msgid "Nearest"
-msgstr ""
+msgstr "一番近いもの"
 
 #. CommandsDataModule..actlMain..actFoldNearest..Hint
 #: dmCommands.dfm
 msgid "Collapse nearest fold"
-msgstr ""
+msgstr "一番最近たたまれたものを閉じる"
 
 #. CommandsDataModule..actlMain..actUnfoldNearest..Hint
 #: dmCommands.dfm
 msgid "Expand nearest fold"
-msgstr ""
+msgstr "一番最近たたまれたものを展開"
 
 #. CommandsDataModule..actlMain..actFoldRegions..Caption
 #. CommandsDataModule..actlMain..actUnfoldRegions..Caption
 #: dmCommands.dfm
 msgid "Regions"
-msgstr ""
+msgstr "リージョン"
 
 #. CommandsDataModule..actlMain..actFoldRegions..Hint
 #. Programmer's name for it: SEdCmdFoldRanges
 #: dmCommands.dfm StringResources.pas
 msgid "Fold Ranges"
-msgstr ""
+msgstr "レンジを折りたたむ"
 
 #. CommandsDataModule..actlMain..actUnfoldRegions..Hint
 #: dmCommands.dfm
 msgid "Unfold ranges"
-msgstr ""
+msgstr "レンジを展開"
 
 #. CommandsDataModule..actlMain..actFoldLevel1..Caption
 #. CommandsDataModule..actlMain..actUnfoldLevel1..Caption
 #: dmCommands.dfm
 msgid "Level 1"
-msgstr ""
+msgstr "レベル1"
 
 #. CommandsDataModule..actlMain..actFoldLevel1..Hint
 #: dmCommands.dfm
 msgid "Fold level 1"
-msgstr ""
+msgstr "レベル1を折りたたむ"
 
 #. CommandsDataModule..actlMain..actUnfoldLevel1..Hint
 #: dmCommands.dfm
 msgid "Unfold level 1"
-msgstr ""
+msgstr "レベル1を展開"
 
 #. CommandsDataModule..actlMain..actFoldLevel2..Caption
 #. CommandsDataModule..actlMain..actUnfoldLevel2..Caption
 #: dmCommands.dfm
 msgid "Level 2"
-msgstr ""
+msgstr "レベル2"
 
 #. CommandsDataModule..actlMain..actFoldLevel2..Hint
 #: dmCommands.dfm
 msgid "Fold level 2"
-msgstr ""
+msgstr "レベル2を折りたたむ"
 
 #. CommandsDataModule..actlMain..actUnfoldLevel2..Hint
 #: dmCommands.dfm
 msgid "Unfold level 2"
-msgstr ""
+msgstr "レベル2を展開"
 
 #. CommandsDataModule..actlMain..actFoldLevel3..Caption
 #. CommandsDataModule..actlMain..actUnfoldLevel3..Caption
 #: dmCommands.dfm
 msgid "Level 3"
-msgstr ""
+msgstr "レベル3"
 
 #. CommandsDataModule..actlMain..actFoldLevel3..Hint
 #: dmCommands.dfm
 msgid "Fold level 3"
-msgstr ""
+msgstr "レベル3を折りたたむ"
 
 #. CommandsDataModule..actlMain..actUnfoldLevel3..Hint
 #: dmCommands.dfm
 msgid "Unfold level 3"
-msgstr ""
+msgstr "レベル3を展開"
 
 #. CommandsDataModule..actlMain..actFoldClasses..Caption
 #. CommandsDataModule..actlMain..actUnfoldClasses..Caption
 #: dmCommands.dfm
 msgid "Classes"
-msgstr ""
+msgstr "クラス"
 
 #. CommandsDataModule..actlMain..actFoldClasses..Hint
 #: dmCommands.dfm
 msgid "Fold classes"
-msgstr ""
+msgstr "クラスを折りたたむ"
 
 #. CommandsDataModule..actlMain..actUnfoldClasses..Hint
 #: dmCommands.dfm
 msgid "Unfold classes"
-msgstr ""
+msgstr "クラスを展開"
 
 #. CommandsDataModule..actlMain..actFoldFunctions..Caption
 #. CommandsDataModule..actlMain..actUnfoldFunctions..Caption
 #: dmCommands.dfm
 msgid "Functions"
-msgstr ""
+msgstr "関数"
 
 #. CommandsDataModule..actlMain..actFoldFunctions..Hint
 #: dmCommands.dfm
 msgid "Fold functions"
-msgstr ""
+msgstr "関数を折りたたむ"
 
 #. CommandsDataModule..actlMain..actUnfoldFunctions..Hint
 #: dmCommands.dfm
 msgid "Unfold functions"
-msgstr ""
+msgstr "関数を展開する"
 
 #. CommandsDataModule..actlMain..actFileSaveToRemote..Caption
 #. Programmer's name for it: SRemoteFIleSave
 #: dmCommands.dfm StringResources.pas
 msgid "Save to Remote File"
-msgstr ""
+msgstr "リモートファイルに保存"
 
 #. CommandsDataModule..actlMain..actFileSaveToRemote..Hint
 #: dmCommands.dfm
 msgid "Save to remote file with SSH"
-msgstr ""
+msgstr "SSHでリモートファイルに保存"
 
 #. CommandsDataModule..actlMain..actDonate..Caption
 #: dmCommands.dfm
 msgid "&Donate"
-msgstr ""
+msgstr "寄付"
 
 #. CommandsDataModule..actlMain..actDonate..Hint
 #: dmCommands.dfm
 msgid "Donate to the PyScripter project"
-msgstr ""
+msgstr " PyScripterプロジェクトへの寄付"
 
 #. CommandsDataModule..SynGeneralSyn..DefaultFilter
-#: dmCommands.dfm cPyScripterSettings.pas
+#. Programmer's name for it: sGeneralFileFilter
+#: dmCommands.dfm StringResources.pas
 msgid "Text Files(*.txt,*.*)|*.txt;*.*"
-msgstr ""
+msgstr "テキストファイル(*.txt,*.*)|*.txt;*.*"
 
 #. BreakPointsWindow..Caption
 #: frmBreakPoints.dfm
@@ -3539,7 +3549,7 @@ msgstr "関数名"
 #. CallStackWindow..BGPanel..FGPanel..Panel2..ThreadView......Text
 #: frmCallStack.dfm
 msgid "Threads"
-msgstr ""
+msgstr "スレッド"
 
 #. CallStackWindow..actlCallStack..actPreviousFrame..Category
 #. CallStackWindow..actlCallStack..actNextFrame..Category
@@ -3578,22 +3588,22 @@ msgstr "実行"
 #. CallStackWindow..actlCallStack..actPreviousFrame..Caption
 #: frmCallStack.dfm
 msgid "Previous Frame"
-msgstr ""
+msgstr "前のフレーム"
 
 #. CallStackWindow..actlCallStack..actPreviousFrame..Hint
 #: frmCallStack.dfm
 msgid "Select previous (older) frame"
-msgstr ""
+msgstr "前の（古い）フレームを選択"
 
 #. CallStackWindow..actlCallStack..actNextFrame..Caption
 #: frmCallStack.dfm
 msgid "Next Frame"
-msgstr ""
+msgstr "次のフレーム"
 
 #. CallStackWindow..actlCallStack..actNextFrame..Hint
 #: frmCallStack.dfm
 msgid "Select next (newer) frame"
-msgstr ""
+msgstr "前の（古い）次のフレームを選択"
 
 #. CodeExplorerWindow..Caption
 #: frmCodeExplorer.dfm dmCommands.pas
@@ -3626,12 +3636,12 @@ msgstr "すべてのノードを畳みます"
 #. CodeExplorerWindow..CEPopupMenu..mnAlphaSort..Caption
 #: frmCodeExplorer.dfm
 msgid "Alpha Sort"
-msgstr ""
+msgstr "アルファベット順ソート"
 
 #. CodeExplorerWindow..CEPopupMenu..mnAlphaSort..Hint
 #: frmCodeExplorer.dfm
 msgid "Sort Alphabetically"
-msgstr ""
+msgstr "アルファベット順でソート"
 
 #. CodeExplorerWindow..CEPopupMenu..mnFollowEditor..Caption
 #: frmCodeExplorer.dfm
@@ -3657,23 +3667,23 @@ msgstr ""
 #. CodeExplorerWindow..CENodePopUpMenu..mnFindDefinition..Hint
 #: frmCodeExplorer.dfm
 msgid "Find Definition"
-msgstr ""
+msgstr "定義を検索"
 
 #. CodeExplorerWindow..CENodePopUpMenu..mnFindReferences..Caption
 #. CodeExplorerWindow..CENodePopUpMenu..mnFindReferences..Hint
 #: frmCodeExplorer.dfm
 msgid "Find References"
-msgstr ""
+msgstr "参照を検索"
 
 #. CodeExplorerWindow..CENodePopUpMenu..mnHighlight..Caption
 #: frmCodeExplorer.dfm
 msgid "Highlight"
-msgstr ""
+msgstr "ハイライト"
 
 #. CodeExplorerWindow..CENodePopUpMenu..mnHighlight..Hint
 #: frmCodeExplorer.dfm
 msgid "Highlight References"
-msgstr ""
+msgstr "参照をハイライト"
 
 #. OutputWindow..OutputPopup..RunningProcess..Caption
 #: frmCommandOutput.dfm
@@ -3818,12 +3828,12 @@ msgstr "アクティブなタブを閉じる"
 #. EditorForm..pmnuEditor..mnFold..Caption
 #: frmEditor.dfm frmEditor.pas
 msgid "Fold"
-msgstr ""
+msgstr "折りたたむ"
 
 #. EditorForm..pmnuEditor..mnUnfold..Caption
 #: frmEditor.dfm frmEditor.pas
 msgid "Unfold"
-msgstr ""
+msgstr "展開する"
 
 #. FileExplorerWindow..Caption
 #. FileExplorerWindow..BGPanel..FGPanel..FileExplorerTree..ShellContextSubMenuCaption
@@ -4190,7 +4200,7 @@ msgstr "関数一覧"
 #. FunctionListWindow..pnHolder..lvProcs......Caption
 #: frmFunctionList.dfm
 msgid "Function"
-msgstr ""
+msgstr "関数"
 
 #. FunctionListWindow..pnlHeader..pnlHeaderLeft..lblMethods..Caption
 #. PyIDEMainForm..TBXDockTop..MainMenu..SearchMenu..Caption
@@ -4545,22 +4555,22 @@ msgstr "設定を選択してデバッグします"
 #. Programmer's name for it: SRemoteFileAdd
 #: frmProjectExplorer.dfm StringResources.pas
 msgid "Add Remote File"
-msgstr ""
+msgstr "リモートファイルを追加"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddRemoteFile..Hint
 #: frmProjectExplorer.dfm
 msgid "Add a remote file to the folder"
-msgstr ""
+msgstr "フォルダにリモートファイルを追加"
 
 #. PyIDEMainForm..StatusBar..lbPythonVersion..Hint
 #: frmPyIDEMain.dfm
 msgid "Python version"
-msgstr ""
+msgstr "Pythonバージョン"
 
 #. PyIDEMainForm..StatusBar..lbPythonEngine..Hint
 #: frmPyIDEMain.dfm dmCommands.pas
 msgid "Python engine type"
-msgstr ""
+msgstr "Pythonエンジンタイプ"
 
 #. PyIDEMainForm..StatusBar..StatusLED..Hint
 #: frmPyIDEMain.dfm frmPyIDEMain.pas
@@ -4576,19 +4586,19 @@ msgstr "外部ツールを実行中"
 #. PyIDEMainForm..BGPanel..TabControl2..tbiTabFiles2..Hint
 #: frmPyIDEMain.dfm
 msgid "Select File"
-msgstr ""
+msgstr "ファイル選択"
 
 #. PyIDEMainForm..BGPanel..TabControl1..tbiScrollLeft..Hint
 #. PyIDEMainForm..BGPanel..TabControl2..tbiScrollLeft2..Hint
 #: frmPyIDEMain.dfm
 msgid "Scroll left"
-msgstr ""
+msgstr "左スクロール"
 
 #. PyIDEMainForm..BGPanel..TabControl1..tbiScrollRight..Hint
 #. PyIDEMainForm..BGPanel..TabControl2..tbiScrollRight2..Hint
 #: frmPyIDEMain.dfm
 msgid "Scroll right"
-msgstr ""
+msgstr "右スクロール"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..FileMenu..Caption
 #: frmPyIDEMain.dfm
@@ -4628,7 +4638,7 @@ msgstr "エディタを分割"
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnSplitWorkspace..Caption
 #: frmPyIDEMain.dfm
 msgid "Split Workspace"
-msgstr ""
+msgstr "ワークスペースを分割"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnuToolbars..Caption
 #: frmPyIDEMain.dfm
@@ -4795,7 +4805,7 @@ msgstr "プロジェクト(&P)"
 #. PyIDEMainForm..TBXDockTop..MainMenu..ProjectMenu..SpTBXSubmenuItem1..Caption
 #: frmPyIDEMain.dfm
 msgid "&Recent Projects"
-msgstr ""
+msgstr "最近のプロジェクト"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ToolsMenu..Caption
 #: frmPyIDEMain.dfm
@@ -4825,7 +4835,7 @@ msgstr "Webサポート"
 #. PyIDEMainForm..TBXDockTop..MainToolBar..Caption
 #: frmPyIDEMain.dfm
 msgid "Main Toolbar"
-msgstr ""
+msgstr "メイン・ツールバー"
 
 #. PyIDEMainForm..TBXDockTop..DebugToolbar..Caption
 #: frmPyIDEMain.dfm
@@ -5559,12 +5569,12 @@ msgstr "エディタをアクティブにします"
 #. PyIDEMainForm..actlStandard..actPythonSSH..Caption
 #: frmPyIDEMain.dfm
 msgid "&SSH"
-msgstr ""
+msgstr "SSH"
 
 #. PyIDEMainForm..actlStandard..actPythonSSH..Hint
 #: frmPyIDEMain.dfm
 msgid "Use an SSH remote Python engine"
-msgstr ""
+msgstr "SSHリモートPythonエンジンを使用"
 
 #. PyIDEMainForm..actlStandard..actExecSelection..Caption
 #: frmPyIDEMain.dfm
@@ -5635,7 +5645,7 @@ msgstr "プロジェクト エクスプローラ ウィンドウをアクティ�
 #. PyIDEMainForm..actlStandard..actViewSplitWorkspaceVer..Caption
 #: frmPyIDEMain.dfm
 msgid "Split Workspace Vertically"
-msgstr ""
+msgstr "ワークスペースを垂直に分割"
 
 #. PyIDEMainForm..actlStandard..actViewSplitWorkspaceVer....Hint
 #: frmPyIDEMain.dfm
@@ -5646,7 +5656,7 @@ msgstr ""
 #. PyIDEMainForm..actlStandard..actViewSplitWorkspaceHor..Caption
 #: frmPyIDEMain.dfm
 msgid "Split Workspace Horizontally"
-msgstr ""
+msgstr "ワークスペースを水平に分割"
 
 #. PyIDEMainForm..actlStandard..actViewSplitWorkspaceHor....Hint
 #: frmPyIDEMain.dfm
@@ -5657,39 +5667,39 @@ msgstr ""
 #. PyIDEMainForm..actlStandard..actViewHideSecondaryWorkspace..Caption
 #: frmPyIDEMain.dfm
 msgid "Hide Secondary Workspace"
-msgstr ""
+msgstr "2番目のワークスペースを隠す"
 
 #. PyIDEMainForm..actlStandard..actViewHideSecondaryWorkspace..Hint
 #: frmPyIDEMain.dfm
 msgid "Hide secondary workspace"
-msgstr ""
+msgstr "2番目のワークスペースを隠す"
 
 #. PyIDEMainForm..actlStandard..actSelectStyle..Caption
 #: frmPyIDEMain.dfm
 msgid "Styles..."
-msgstr ""
+msgstr "スタイル......"
 
 #. PyIDEMainForm..actlStandard..actPythonSetup..Caption
 #: frmPyIDEMain.dfm
 msgid "Setup Python Versions..."
-msgstr ""
+msgstr "Pythonバージョンを設定......"
 
 #. PyIDEMainForm..actlStandard..actPythonSetup..Hint
 #: frmPyIDEMain.dfm
 msgid "Setup Python engine"
-msgstr ""
+msgstr "Pythonエンジンを設定"
 
 #. PyIDEMainForm..actlStandard..actRemoteFileOpen..Caption
 #. SSH File and Remote engine
 #. Programmer's name for it: SRemoteFileOpen
 #: frmPyIDEMain.dfm StringResources.pas
 msgid "Open Remote File"
-msgstr ""
+msgstr "リモートファイルを開く"
 
 #. PyIDEMainForm..actlStandard..actRemoteFileOpen..Hint
 #: frmPyIDEMain.dfm
 msgid "Open Remote File with SSH"
-msgstr ""
+msgstr "SSHでリモートファイルを開く"
 
 #. PythonIIForm..Caption
 #. Create a Python External Run tool which is used in the run menu
@@ -5803,7 +5813,7 @@ msgstr "re.search を実行します"
 #. RegExpTesterWindow..BGPanel..FGPanel..TBXDock..RegExpTesterToolbar..TBXSubmenuItem2..RI_findall..Caption
 #: frmRegExpTester.dfm
 msgid "Find all"
-msgstr ""
+msgstr "全て探す"
 
 #. RegExpTesterWindow..BGPanel..FGPanel..TBXDock..RegExpTesterToolbar..TBXSubmenuItem2..RI_findall..Hint
 #: frmRegExpTester.dfm
@@ -5839,11 +5849,6 @@ msgstr "実行しない"
 #: frmRegExpTester.dfm
 msgid "Groups:"
 msgstr "グループ:"
-
-#. RegExpTesterWindow..BGPanel..FGPanel..pnlBackground..dpGroupsView..GroupsView..DefaultText
-#: frmRegExpTester.dfm
-msgid "Node"
-msgstr ""
 
 #. RegExpTesterWindow..BGPanel..FGPanel..pnlBackground..dpRegExpText..SpTBXPanel1..TBXLabel3..Caption
 #: frmRegExpTester.dfm
@@ -6062,117 +6067,113 @@ msgstr "Untitled"
 
 #: cProjectClasses.pas
 msgid "Files"
-msgstr ""
+msgstr "ファイル"
 
 #: cProjectClasses.pas
 msgid "Run Configurations"
-msgstr ""
-
-#: cPyScripterSettings.pas
-msgid "JSON Files (*.json;*.ipynb)|*.json;*.ipynb"
-msgstr ""
+msgstr "設定を実行"
 
 #: cSSHSupport.pas
 #, object-pascal-format
 msgid "Enter SSH Password for %s"
-msgstr ""
+msgstr "%sのSSHのパスワードを入力してください"
 
 #: cSSHSupport.pas
 msgid "Password:"
-msgstr ""
+msgstr "パスワード:"
 
 #: cSSHSupport.pas
 msgid "SSH Servers"
-msgstr ""
+msgstr "SSHサーバ"
 
 #: cSSHSupport.pas
 msgid "Select SSH Server"
-msgstr ""
+msgstr "SSHサーバを選択"
 
 #: cSSHSupport.pas
 msgid "SSH Server name"
-msgstr ""
+msgstr "SSHサーバ名"
 
 #: cSSHSupport.pas
 msgid "Host name"
-msgstr ""
+msgstr "ホスト名"
 
 #: cSSHSupport.pas uParams.pas
 msgid "User name"
-msgstr ""
+msgstr "ユーザー名"
 
 #: cSSHSupport.pas
 msgid "Command to execute Python (no spaces)"
-msgstr ""
+msgstr "Pythonを実行するためのコマンド(スペース無し)"
 
 #: cSSHSupport.pas
 msgid "Path to SSH Command"
-msgstr ""
+msgstr "SSHコマンドへのパス"
 
 #: cSSHSupport.pas dmCommands.pas
 msgid "SSH options"
-msgstr ""
+msgstr "SSHオプション"
 
 #: cSSHSupport.pas
 msgid "Path to SCP Command"
-msgstr ""
+msgstr "SCPコマンドへのパス"
 
 #: cSSHSupport.pas dmCommands.pas
 msgid "SCP options"
-msgstr ""
+msgstr "SCPオプション"
 
 #: cSSHSupport.pas
 msgid "Password Needed (PyTTY only)"
-msgstr ""
+msgstr "パスワードが必要です(PyTTY のみ)"
 
 #: cSSHSupport.pas
 msgid "Edit SSH Server"
-msgstr ""
+msgstr "SSHサーバを編集"
 
 #. Add a few standard tools to the collection
 #: cTools.pas
 msgid "Python &Interpreter"
-msgstr ""
+msgstr "Python インタープリター"
 
 #: cTools.pas
 msgid "External Python Interpreter"
-msgstr ""
+msgstr "外部Pythonインタープリター"
 
 #: cTools.pas
 msgid "Install Packages with pip"
-msgstr ""
+msgstr "pipでパッケージをインストール"
 
 #: cTools.pas
 msgid "Install Python packages"
-msgstr ""
+msgstr "Pythonパッケージをインストール"
 
 #: cTools.pas
 msgid "Python&Win help"
-msgstr ""
+msgstr "Python&Win ヘルプ"
 
 #: cTools.pas
 msgid "Show PythonWin Help"
-msgstr ""
+msgstr "PythonWin ヘルプを表示"
 
 #: cTools.pas
 msgid "Check &Indentation"
-msgstr ""
+msgstr "インデント付けのチェック"
 
 #: cTools.pas
 msgid "Check the indentation of the Python program"
-msgstr ""
+msgstr "Pythonプログラムのインデント付けをチェック"
 
 #: cTools.pas
 msgid "Command Prompt"
-msgstr ""
+msgstr "コマンドプロンプト"
 
 #: cTools.pas
 msgid "Start a console at the directory of the active file"
-msgstr ""
+msgstr "アクティブファイルのディレクトリでコンソールを開く"
 
 #: cTools.pas
 msgid "Profile"
-msgstr ""
+msgstr "プロファイル"
 
 #: cTools.pas
 msgid "Profile active file"
@@ -6180,19 +6181,19 @@ msgstr ""
 
 #: cTools.pas
 msgid "PyLint tool (www.logilab.org/projects/pylint)"
-msgstr ""
+msgstr "PyLint ツール(www.logilab.org/projects/pylint)"
 
 #: cTools.pas
 msgid "Advanced Replace"
-msgstr ""
+msgstr "高度な置換"
 
 #: cTools.pas
 msgid "Advanced Search and replace"
-msgstr ""
+msgstr "高度な検索と置換"
 
 #: cTools.pas
 msgid "Sort Selection"
-msgstr ""
+msgstr "ソート選択"
 
 #: cTools.pas
 msgid "Sort the selected editor block (\"one-liner\" demo)"
@@ -6200,11 +6201,11 @@ msgstr ""
 
 #: cTools.pas
 msgid "&Re-indent"
-msgstr ""
+msgstr "再インデント"
 
 #: cTools.pas
 msgid "Re-indent the active file"
-msgstr ""
+msgstr "アクティブなファイルを再インデント"
 
 #: dlgAboutPyScripter.pas
 msgid ""
@@ -6212,6 +6213,7 @@ msgid ""
 "have made PyScripter possible. PyScripter makes use of the following "
 "components and projects:"
 msgstr ""
+"PyScripterの開発に関わって頂いたすべての開発者へ感謝の意を表したいと思います。PyScripterは以下のプロジェクトとコンポーネントを使用しています。"
 
 #: dlgAboutPyScripter.pas
 msgid ""
@@ -6229,90 +6231,105 @@ msgid ""
 "TCommandLineReader(www.benibela.de)\n"
 "Silk icons(www.famfamfam.com)"
 msgstr ""
+"Python for Delphi (www.github.com/pyscripter/python4delphi)\n"
+"Rpyc (www.github.com/tomerfiliba/rpyc)\n"
+"JVCL (www.github.com/project-jedi/jvcl)\n"
+"SynEdit (www.sourceforge.net/projects/synedit)\n"
+"VirtualTreeView (www.github.com/Virtual-TreeView/)\n"
+"VirtualShellTools (www.github.com/pyscripter/mustangpeakvirtualshelltools)\n"
+"GExperts (www.gexperts.org)\n"
+"Syn Editor (www.sourceforge.net/projects/syn)\n"
+"Syn Web highlighters (www.github.com/KrystianBigaj/synweb)\n"
+"Toolbar2000 (www.jrsoftware.org/tb2k.php)\n"
+"SpTBXLib(www.silverpointdevelopment.com)\n"
+"TCommandLineReader(www.benibela.de)\n"
+"Silk icons(www.famfamfam.com)"
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationArabic
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "Arabic: %s"
-msgstr ""
+msgstr "アラビア語：%s"
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationChinese
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "Chinese: %s"
-msgstr ""
+msgstr "中国語：%s"
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationFrench
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "French: %s"
-msgstr ""
+msgstr "フランス語：%s"
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationGerman
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "German: %s"
-msgstr ""
+msgstr "ドイツ語：%s"
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationGreek
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "Greek: %s"
-msgstr ""
+msgstr "ギリシャ語：%s"
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationItalian
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "Italian: %s"
-msgstr ""
+msgstr "イタリア語：%s"
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationJapanese
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "Japanese: %s"
-msgstr ""
+msgstr "日本語：%s"
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationKabyle
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "Taqbaylit: %s"
-msgstr ""
+msgstr "カビル語：%s"
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationPortugueseBR
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "Portuguese (Brazil): %s"
-msgstr ""
+msgstr "ポルトガル語（ブラジル）：%s"
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationPortuguesePT
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "Portuguese (Portugal): %s"
-msgstr ""
+msgstr "ポルトガル語（ポルトガル）：%s"
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationRussian
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "Russian: %s"
-msgstr ""
+msgstr "ロシア語：%s"
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationSlovak
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "Slovak: %s"
-msgstr ""
+msgstr "スロバキア語：%s"
 
 #. Programmer's name for it: SAboutBoxCreditsTranslationSpanish
 #: dlgAboutPyScripter.pas
 #, object-pascal-format
 msgid "Spanish: %s"
-msgstr ""
+msgstr "スペイン語：%s"
 
 #: dlgAboutPyScripter.pas
 msgid ""
 "Donations from numerous users have provided a strong incentive to develop this project.\n"
 "Generous support from Tranquil IT (https://www.tranquil.it) makers of WAPT (apt-get for Windows) (https://www.wapt.fr) is acknowledged."
 msgstr ""
+"多くのユーザーからの寄付によって、この開発プロジェクトの強力なライセンスが提供されています。\n"
+"Tranquil IT (https://www.tranquil.it) や、WAPT (apt-get for Windows) (https://www.wapt.fr) の作成者達からの手厚い支援があります。"
 
 #: dlgAboutPyScripter.pas
 msgid ""
@@ -6327,19 +6344,19 @@ msgstr ""
 
 #: dlgAboutPyScripter.pas
 msgid "Translators"
-msgstr ""
+msgstr "翻訳者"
 
 #: dlgAboutPyScripter.pas
 msgid "Artwork and theme design"
-msgstr ""
+msgstr "アートワークとテーマデザイン"
 
 #: dlgAboutPyScripter.pas
 msgid "Donations"
-msgstr ""
+msgstr "寄付"
 
 #: dlgCollectionEditor.pas
 msgid "Please make a selection"
-msgstr ""
+msgstr "選択してください"
 
 #. Programmer's name for it: SAskReplaceText
 #: dlgConfirmReplace.pas
@@ -6364,7 +6381,7 @@ msgstr ""
 
 #: dlgFindInFiles.pas
 msgid "Directory To Search:"
-msgstr ""
+msgstr "検索するディレクトリ："
 
 #: dlgPythonVersions.pas
 msgid "Select folder with Python installation (inlcuding virtualenv and venv)"
@@ -6372,11 +6389,11 @@ msgstr ""
 
 #: dlgPythonVersions.pas
 msgid "Rename Python Version"
-msgstr ""
+msgstr "Pythonバージョンをリネーム"
 
 #: dlgPythonVersions.pas
 msgid "New name:"
-msgstr ""
+msgstr "新しい名前："
 
 #. Programmer's name for it: SGrepResultsNotActive
 #: dlgReplaceInFiles.pas
@@ -6385,23 +6402,37 @@ msgstr "ファイル内検索の結果ウィンドウが非アクティブです
 
 #: dlgRunConfiguration.pas dlgToolProperties.pas
 msgid "Select working directory:"
+msgstr "ワーキングディレクトリを選択"
+
+#. Programmer's name for it: SPrintDoc
+#: dlgSynPrintPreview.pas
+msgid "Print the document on"
 msgstr ""
+
+#. Programmer's name for it: SPage
+#: dlgSynPrintPreview.pas
+msgid "Page"
+msgstr "ページ"
 
 #: dlgToDoOptions.pas
 msgid "'To Do' search path"
+msgstr "TODOを検索するパス"
+
+#: dlgToolProperties.pas
+msgid "External Run Properties"
 msgstr ""
 
 #: dmCommands.pas
 msgid "IDE"
-msgstr ""
+msgstr "IDE"
 
 #: dmCommands.pas
 msgid "Check for updates automatically"
-msgstr ""
+msgstr "アップデートを自動で確認"
 
 #: dmCommands.pas
 msgid "Days between update checks"
-msgstr ""
+msgstr "アップデート確認の間隔（日）"
 
 #: dmCommands.pas
 msgid "Mask FPU Exceptions"
@@ -6446,11 +6477,11 @@ msgstr ""
 
 #: dmCommands.pas
 msgid "Save files before run"
-msgstr ""
+msgstr "実行前にファイルを保存"
 
 #: dmCommands.pas
 msgid "Save environment before run"
-msgstr ""
+msgstr "実行前に環境を保存"
 
 #: dmCommands.pas
 msgid "Timeout for running scripts in ms"
@@ -6506,15 +6537,15 @@ msgstr ""
 
 #: dmCommands.pas
 msgid "File Filters"
-msgstr ""
+msgstr "ファイルフィルター"
 
 #: dmCommands.pas
 msgid "File explorer filter"
-msgstr ""
+msgstr "ファイルエクスプローラーフィルター"
 
 #: dmCommands.pas
 msgid "text file"
-msgstr ""
+msgstr "テキストファイル"
 
 #: dmCommands.pas
 msgid "Editor"
@@ -6530,31 +6561,31 @@ msgstr ""
 
 #: dmCommands.pas
 msgid "Create backup files"
-msgstr ""
+msgstr "バックアップファイルを作成"
 
 #: dmCommands.pas
 msgid "Undo after save"
-msgstr ""
+msgstr "保存した後操作戻し"
 
 #: dmCommands.pas
 msgid "Show code hints"
-msgstr ""
+msgstr "コードヒントを表示"
 
 #: dmCommands.pas
 msgid "Show debugger hints"
-msgstr ""
+msgstr "デバッガヒントを表示"
 
 #: dmCommands.pas
 msgid "Auto-complete brackets"
-msgstr ""
+msgstr "カギかっこを自動補完"
 
 #: dmCommands.pas
 msgid "Show executable line marks"
-msgstr ""
+msgstr "実行可能ラインマークを表示"
 
 #: dmCommands.pas
 msgid "Check syntax as you type"
-msgstr ""
+msgstr "入力文字の構文チェック"
 
 #: dmCommands.pas
 msgid "Default line break format for new files"
@@ -6612,23 +6643,23 @@ msgstr ""
 #. Programmer's name for it: SEdCmdCodeCompletion
 #: dmCommands.pas StringResources.pas
 msgid "Code Completion"
-msgstr ""
+msgstr "コード補完"
 
 #: dmCommands.pas
 msgid "Special packages"
-msgstr ""
+msgstr "特別パッケージ"
 
 #: dmCommands.pas
 msgid "Code completion list size"
-msgstr ""
+msgstr "コード補完リストサイズ"
 
 #: dmCommands.pas
 msgid "Editor code completion"
-msgstr ""
+msgstr "コードエディタ補完"
 
 #: dmCommands.pas
 msgid "Interpreter code completion"
-msgstr ""
+msgstr "インタープリターコード補完"
 
 #: dmCommands.pas
 msgid "Case sensitive"
@@ -6636,7 +6667,7 @@ msgstr ""
 
 #: dmCommands.pas
 msgid "Complete Python keywords"
-msgstr ""
+msgstr "Pythonのキーワード補完"
 
 #: dmCommands.pas
 msgid "Complete as you type"
@@ -6693,7 +6724,7 @@ msgstr ""
 
 #: frmCodeExplorer.pas
 msgid "Imports"
-msgstr ""
+msgstr "インポート"
 
 #: frmCodeExplorer.pas
 msgid "Imported modules"
@@ -6739,16 +6770,16 @@ msgstr ""
 
 #: frmCodeExplorer.pas
 msgid "Attributes"
-msgstr ""
+msgstr "属性"
 
 #: frmCodeExplorer.pas
 msgid "Class attributes"
-msgstr ""
+msgstr "クラス属性"
 
 #: frmCodeExplorer.pas
 #, object-pascal-format
 msgid "Class attribute \"%s\" defined at line %d"
-msgstr ""
+msgstr "クラス属性\"%s\"は%d行目で定義されています"
 
 #: frmCodeExplorer.pas
 #, object-pascal-format
@@ -6789,6 +6820,11 @@ msgstr "モジュールは %g 秒で処理されました"
 msgid "Invalid index number"
 msgstr ""
 
+#. Programmer's name for it: SFileTemplateCategoryOther
+#: frmModSpTBXCustomize.pas StringResources.pas
+msgid "Other"
+msgstr "その他"
+
 #: frmModSpTBXCustomize.pas
 msgid ""
 "This option will reset IDE toolbars and shortcuts to the factory settings.\n"
@@ -6807,11 +6843,11 @@ msgstr "デバッグ"
 
 #: frmPyIDEMain.pas
 msgid "Running"
-msgstr ""
+msgstr "実行中"
 
 #: frmPyIDEMain.pas
 msgid "Paused"
-msgstr ""
+msgstr "停止中"
 
 #: frmPyIDEMain.pas
 msgid "Post mortem"
@@ -6819,20 +6855,20 @@ msgstr ""
 
 #: frmPyIDEMain.pas
 msgid "Python not available"
-msgstr ""
+msgstr "Pythonが使用できません"
 
 #: frmPyIDEMain.pas
 msgid "Debugger state: "
-msgstr ""
+msgstr "デバッガ状態："
 
 #: frmPyIDEMain.pas
 msgid "Python Not Available"
-msgstr ""
+msgstr "Pythonが使用できません"
 
 #: frmRegExpTester.pas
 #, object-pascal-format
 msgid "Match %d of %d"
-msgstr ""
+msgstr "一致%d中の%d"
 
 #. Programmer's name for it: SDone
 #. Programmer's name for it: SDoneTodoDesignation
@@ -6847,42 +6883,90 @@ msgstr "To Do アイテム"
 
 #: frmVariables.pas
 msgid "Namespace"
-msgstr ""
+msgstr "名前空間"
 
 #: frmVariables.pas
 msgid "DocString"
 msgstr ""
 
+#. Programmer's name for it: sCythonFileFilter
+#: StringResources.pas
+msgid "Cython Files (*.pyx*.pxd;*.pxi)|*.pyx;*.pxd;*.pxi"
+msgstr ""
+
+#. Programmer's name for it: sHTMLFileFilter
+#: StringResources.pas
+msgid "HTML Documents (*.htm;*.html)|*.htm;*.html"
+msgstr ""
+
+#. Programmer's name for it: sXMLFileFilter
+#: StringResources.pas
+msgid ""
+"XML Files (*.xml;*.xsd;*.xsl;*.xslt;*.dtd)|*.xml;*.xsd;*.xsl;*.xslt;*.dtd"
+msgstr ""
+
+#. Programmer's name for it: sCSSFileFilter
+#: StringResources.pas
+msgid "Cascading Stylesheets (*.css)|*.css"
+msgstr ""
+
+#. Programmer's name for it: sCPPFileFilter
+#: StringResources.pas
+msgid ""
+"C/C++ Files "
+"(*.c;*.cpp;*.cc;*.h;*.hpp;*.hh;*.cxx;*.hxx;*.cu)|*.c;*.cpp;*.cc;*.h;*.hpp;*.hh;*.cxx;*.hxx;*.cu"
+msgstr ""
+
+#. Programmer's name for it: sYAMLFileFilter
+#: StringResources.pas
+msgid "YAML files (*.yaml)|*.yaml"
+msgstr ""
+
+#. Programmer's name for it: sJSFileFilter
+#: StringResources.pas
+msgid "Javascript Files (*.js)|*.js"
+msgstr "Javascript ファイル (*.js)|*.js"
+
+#. Programmer's name for it: sPHPFileFilter
+#: StringResources.pas
+msgid "PHP Files (*.php;*.php3;*.phtml;*.inc)|*.php;*.php3;*.phtml;*.inc"
+msgstr "PHP ファイル(*.php;*.php3;*.phtml;*.inc)|*.php;*.php3;*.phtml;*.inc"
+
+#. Programmer's name for it: sJSONFileFilter
+#: StringResources.pas
+msgid "JSON Files (*.json;*.ipynb)|*.json;*.ipynb"
+msgstr "JSON ファイル(*.json;*.ipynb)|*.json;*.ipynb"
+
 #. Needs to be manually updated as new editor commands are added
 #. Programmer's name for it: SEdCmdAutoCompletion
 #: StringResources.pas
 msgid "Auto Completion"
-msgstr ""
+msgstr "自動補完"
 
 #. Programmer's name for it: SEdCmdBlockIndent
 #: StringResources.pas
 msgid "Block Indent"
-msgstr ""
+msgstr "ブロックインデント"
 
 #. Programmer's name for it: SEdCmdBlockUnindent
 #: StringResources.pas
 msgid "Block Unindent"
-msgstr ""
+msgstr "ブロックインデント解除"
 
 #. Programmer's name for it: SEdCmdClearAll
 #: StringResources.pas
 msgid "Clear All"
-msgstr ""
+msgstr "すべてクリア"
 
 #. Programmer's name for it: SEdCmdColumnSelect
 #: StringResources.pas
 msgid "Column Select"
-msgstr ""
+msgstr "行選択"
 
 #. Programmer's name for it: SEdCmdCommentBlock
 #: StringResources.pas
 msgid "Comment Block"
-msgstr ""
+msgstr "コメントブロック"
 
 #. Programmer's name for it: SEdCmdContextHelp
 #: StringResources.pas
@@ -6892,77 +6976,77 @@ msgstr ""
 #. Programmer's name for it: SEdCmdCopy
 #: StringResources.pas
 msgid "Copy"
-msgstr ""
+msgstr "コピー"
 
 #. Programmer's name for it: SEdCmdCopyLineDown
 #: StringResources.pas
 msgid "Copy Line Down"
-msgstr ""
+msgstr "下の行にコピー"
 
 #. Programmer's name for it: SEdCmdCopyLineUp
 #: StringResources.pas
 msgid "Copy Line Up"
-msgstr ""
+msgstr "上の行にコピー"
 
 #. Programmer's name for it: SEdCmdCut
 #: StringResources.pas
 msgid "Cut"
-msgstr ""
+msgstr "切り取り"
 
 #. Programmer's name for it: SEdCmdDeleteBOL
 #: StringResources.pas
 msgid "Delete BOL"
-msgstr ""
+msgstr "行頭を削除"
 
 #. Programmer's name for it: SEdCmdDeleteChar
 #: StringResources.pas
 msgid "Delete Char"
-msgstr ""
+msgstr "文字を削除"
 
 #. Programmer's name for it: SEdCmdDeleteEOL
 #: StringResources.pas
 msgid "Delete EOL"
-msgstr ""
+msgstr "改行を削除"
 
 #. Programmer's name for it: SEdCmdDeleteLastChar
 #: StringResources.pas
 msgid "Delete Last Char"
-msgstr ""
+msgstr "最後の文字を削除"
 
 #. Programmer's name for it: SEdCmdDeleteLastWord
 #: StringResources.pas
 msgid "Delete Last Word"
-msgstr ""
+msgstr "最後の単語を削除"
 
 #. Programmer's name for it: SEdCmdDeleteLine
 #: StringResources.pas
 msgid "Delete Line"
-msgstr ""
+msgstr "行を削除"
 
 #. Programmer's name for it: SEdCmdDeleteWord
 #: StringResources.pas
 msgid "Delete Word"
-msgstr ""
+msgstr "語を削除"
 
 #. Programmer's name for it: SEdCmdDown
 #: StringResources.pas
 msgid "Down"
-msgstr ""
+msgstr "下へ"
 
 #. Programmer's name for it: SEdCmdEditorBottom
 #: StringResources.pas
 msgid "Editor Bottom"
-msgstr ""
+msgstr "エディタボタン"
 
 #. Programmer's name for it: SEdCmdEditorTop
 #: StringResources.pas
 msgid "Editor Top"
-msgstr ""
+msgstr "エディタトップ"
 
 #. Programmer's name for it: SEdCmdFoldAll
 #: StringResources.pas
 msgid "Fold All"
-msgstr ""
+msgstr "全て探す"
 
 #. Programmer's name for it: SEdCmdFoldLevel1
 #: StringResources.pas
@@ -7037,12 +7121,12 @@ msgstr ""
 #. Programmer's name for it: SEdCmdInsertLine
 #: StringResources.pas
 msgid "Insert Line"
-msgstr ""
+msgstr "行を挿入"
 
 #. Programmer's name for it: SEdCmdInsertMode
 #: StringResources.pas
 msgid "Insert Mode"
-msgstr ""
+msgstr "挿入モード"
 
 #. Programmer's name for it: SEdCmdLineBreak
 #: StringResources.pas
@@ -7052,22 +7136,22 @@ msgstr ""
 #. Programmer's name for it: SEdCmdLineEnd
 #: StringResources.pas
 msgid "Line End"
-msgstr ""
+msgstr "行終わり"
 
 #. Programmer's name for it: SEdCmdLineSelect
 #: StringResources.pas
 msgid "Line Select"
-msgstr ""
+msgstr "行選択"
 
 #. Programmer's name for it: SEdCmdLineStart
 #: StringResources.pas
 msgid "Line Start"
-msgstr ""
+msgstr "行始まり"
 
 #. Programmer's name for it: SEdCmdLowerCase
 #: StringResources.pas
 msgid "Lower Case"
-msgstr ""
+msgstr "小文字"
 
 #. Programmer's name for it: SEdCmdMatchBracket
 #: StringResources.pas
@@ -7117,17 +7201,17 @@ msgstr ""
 #. Programmer's name for it: SEdCmdPageTop
 #: StringResources.pas
 msgid "Page Top"
-msgstr ""
+msgstr "ページトップへ"
 
 #. Programmer's name for it: SEdCmdPageUp
 #: StringResources.pas
 msgid "Page Up"
-msgstr ""
+msgstr "上のページへ"
 
 #. Programmer's name for it: SEdCmdPaste
 #: StringResources.pas
 msgid "Paste"
-msgstr ""
+msgstr "貼り付け"
 
 #. Programmer's name for it: SEdCmdRedo
 #: StringResources.pas
@@ -7142,52 +7226,52 @@ msgstr ""
 #. Programmer's name for it: SEdCmdScrollLeft
 #: StringResources.pas
 msgid "Scroll Left"
-msgstr ""
+msgstr "左にスクロール"
 
 #. Programmer's name for it: SEdCmdScrollRight
 #: StringResources.pas
 msgid "Scroll Right"
-msgstr ""
+msgstr "右にスクロール"
 
 #. Programmer's name for it: SEdCmdScrollUp
 #: StringResources.pas
 msgid "Scroll Up"
-msgstr ""
+msgstr "上にスクロール"
 
 #. Programmer's name for it: SEdCmdSelectDown
 #: StringResources.pas
 msgid "Select Down"
-msgstr ""
+msgstr "下を選択"
 
 #. Programmer's name for it: SEdCmdSelectEditorBottom
 #: StringResources.pas
 msgid "Select Editor Bottom"
-msgstr ""
+msgstr "エディターボタンを選択"
 
 #. Programmer's name for it: SEdCmdSelectEditorTop
 #: StringResources.pas
 msgid "Select Editor Top"
-msgstr ""
+msgstr "エディタトップを選択"
 
 #. Programmer's name for it: SEdCmdSelectLeft
 #: StringResources.pas
 msgid "Select Left"
-msgstr ""
+msgstr "左を選択"
 
 #. Programmer's name for it: SEdCmdSelectLineEnd
 #: StringResources.pas
 msgid "Select Line End"
-msgstr ""
+msgstr "行の終わりを選択"
 
 #. Programmer's name for it: SEdCmdSelectLineStart
 #: StringResources.pas
 msgid "Select Line Start"
-msgstr ""
+msgstr "行の始まりを選択"
 
 #. Programmer's name for it: SEdCmdSelectPageBottom
 #: StringResources.pas
 msgid "Select Page Bottom"
-msgstr ""
+msgstr "ページボタンを選択"
 
 #. Programmer's name for it: SEdCmdSelectPageDown
 #: StringResources.pas
@@ -7217,17 +7301,17 @@ msgstr ""
 #. Programmer's name for it: SEdCmdSelectRight
 #: StringResources.pas
 msgid "Select Right"
-msgstr ""
+msgstr "右を選択"
 
 #. Programmer's name for it: SEdCmdSelectUp
 #: StringResources.pas
 msgid "Select Up"
-msgstr ""
+msgstr "上を選択"
 
 #. Programmer's name for it: SEdCmdSelectWord
 #: StringResources.pas
 msgid "Select Word"
-msgstr ""
+msgstr "単語を選択"
 
 #. Programmer's name for it: SEdCmdSelectWordLeft
 #: StringResources.pas
@@ -7247,57 +7331,57 @@ msgstr ""
 #. Programmer's name for it: SEdCmdSetBookmark1
 #: StringResources.pas
 msgid "Set Bookmark 1"
-msgstr ""
+msgstr "ブックマーク1を設定"
 
 #. Programmer's name for it: SEdCmdSetBookmark2
 #: StringResources.pas
 msgid "Set Bookmark 2"
-msgstr ""
+msgstr "ブックマーク2を設定"
 
 #. Programmer's name for it: SEdCmdSetBookmark3
 #: StringResources.pas
 msgid "Set Bookmark 3"
-msgstr ""
+msgstr "ブックマーク3を設定"
 
 #. Programmer's name for it: SEdCmdSetBookmark4
 #: StringResources.pas
 msgid "Set Bookmark 4"
-msgstr ""
+msgstr "ブックマーク4を設定"
 
 #. Programmer's name for it: SEdCmdSetBookmark5
 #: StringResources.pas
 msgid "Set Bookmark 5"
-msgstr ""
+msgstr "ブックマーク5を設定"
 
 #. Programmer's name for it: SEdCmdSetBookmark6
 #: StringResources.pas
 msgid "Set Bookmark 6"
-msgstr ""
+msgstr "ブックマーク6を設定"
 
 #. Programmer's name for it: SEdCmdSetBookmark7
 #: StringResources.pas
 msgid "Set Bookmark 7"
-msgstr ""
+msgstr "ブックマーク7を設定"
 
 #. Programmer's name for it: SEdCmdSetBookmark8
 #: StringResources.pas
 msgid "Set Bookmark 8"
-msgstr ""
+msgstr "ブックマーク8を設定"
 
 #. Programmer's name for it: SEdCmdSetBookmark9
 #: StringResources.pas
 msgid "Set Bookmark 9"
-msgstr ""
+msgstr "ブックマーク9を設定"
 
 #. Programmer's name for it: SEdCmdShiftTab
 #: StringResources.pas
 msgid "Shift Tab"
-msgstr ""
+msgstr "シフトタブ"
 
 #. Programmer's name for it: SEdCmdTab
 #: StringResources.pas
 msgid "Tab"
-msgstr ""
+msgstr "タブ"
 
 #. Programmer's name for it: SEdCmdTitleCase
 #: StringResources.pas
@@ -7317,47 +7401,47 @@ msgstr ""
 #. Programmer's name for it: SEdCmdUndo
 #: StringResources.pas
 msgid "Undo"
-msgstr ""
+msgstr "元に戻す"
 
 #. Programmer's name for it: SEdCmdUnfoldAll
 #: StringResources.pas
 msgid "Unfold All"
-msgstr ""
+msgstr "全て展開"
 
 #. Programmer's name for it: SEdCmdUnfoldLevel1
 #: StringResources.pas
 msgid "Unfold Level 1"
-msgstr ""
+msgstr "レベル1を展開"
 
 #. Programmer's name for it: SEdCmdUnfoldLevel2
 #: StringResources.pas
 msgid "Unfold Level 2"
-msgstr ""
+msgstr "レベル2を展開"
 
 #. Programmer's name for it: SEdCmdUnfoldLevel3
 #: StringResources.pas
 msgid "Unfold Level 3"
-msgstr ""
+msgstr "レベル3を展開"
 
 #. Programmer's name for it: SEdCmdUnfoldNearest
 #: StringResources.pas
 msgid "Unfold Nearest"
-msgstr ""
+msgstr "一番近くを展開"
 
 #. Programmer's name for it: SEdCmdUnfoldRanges
 #: StringResources.pas
 msgid "Unfold Ranges"
-msgstr ""
+msgstr "レンジを展開"
 
 #. Programmer's name for it: SEdCmdUp
 #: StringResources.pas
 msgid "Up"
-msgstr ""
+msgstr "上へ"
 
 #. Programmer's name for it: SEdCmdUpperCase
 #: StringResources.pas
 msgid "Upper Case"
-msgstr ""
+msgstr "大文字"
 
 #. Programmer's name for it: SEdCmdWordLeft
 #: StringResources.pas
@@ -7380,80 +7464,85 @@ msgid "Select to Bracket"
 msgstr ""
 
 #. Delphi dialogs (from Vcl.Consts)
+#. Programmer's name for it: srNone
+#: StringResources.pas
+msgid "(None)"
+msgstr ""
+
 #. Programmer's name for it: SDlgWarning
 #: StringResources.pas
 msgid "Warning"
-msgstr ""
+msgstr "警告"
 
 #. Programmer's name for it: SDlgError
 #: StringResources.pas
 msgid "Error"
-msgstr ""
+msgstr "エラー"
 
 #. Programmer's name for it: SDlgInformation
 #: StringResources.pas
 msgid "Information"
-msgstr ""
+msgstr "情報"
 
 #. Programmer's name for it: SDlgConfirm
 #: StringResources.pas
 msgid "Confirm"
-msgstr ""
+msgstr "確認"
 
 #. Programmer's name for it: SDlgOK
 #: StringResources.pas
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #. Programmer's name for it: SDlgCancel
 #: StringResources.pas
 msgid "Cancel"
-msgstr ""
+msgstr "キャンセル"
 
 #. Programmer's name for it: SDlgRetry
 #: StringResources.pas
 msgid "&Retry"
-msgstr ""
+msgstr "リトライ"
 
 #. Programmer's name for it: SDlgIgnore
 #: StringResources.pas
 msgid "&Ignore"
-msgstr ""
+msgstr "無視"
 
 #. Programmer's name for it: SDlgAll
 #: StringResources.pas
 msgid "&All"
-msgstr ""
+msgstr "全て"
 
 #. Programmer's name for it: SDlgNoToAll
 #: StringResources.pas
 msgid "N&o to All"
-msgstr ""
+msgstr "全てNo"
 
 #. Programmer's name for it: SDlgYesToAll
 #: StringResources.pas
 msgid "Yes to &All"
-msgstr ""
+msgstr "全てYes"
 
 #. Programmer's name for it: STrueValue
 #: StringResources.pas
 msgid "True"
-msgstr ""
+msgstr "真"
 
 #. Programmer's name for it: SFalseValue
 #: StringResources.pas
 msgid "False"
-msgstr ""
+msgstr "偽"
 
 #. Programmer's name for it: SDSActkShowText
 #: StringResources.pas
 msgid "Do not show this dialog again"
-msgstr ""
+msgstr "このダイアログを次から表示しない"
 
 #. Programmer's name for it: SDSActkRememberText
 #: StringResources.pas
 msgid "Remember answer and do not show again"
-msgstr ""
+msgstr "答えを保存して次から表示しない"
 
 #. Programmer's name for it: SInternalError
 #: StringResources.pas
@@ -7493,7 +7582,7 @@ msgstr "ファイル \"%s\" のバックアップに失敗しました"
 #: StringResources.pas
 #, object-pascal-format
 msgid "Failed to load layout from \"%s\". Please close and restart PyScripter"
-msgstr ""
+msgstr "\"%s\"からのレイアウトの読み込みに失敗しました。PyScripterを閉じて再起動してください。"
 
 #. Programmer's name for it: SFilterAllFiles
 #: StringResources.pas
@@ -7526,12 +7615,12 @@ msgstr "コマンドライン : %s\n"
 #: StringResources.pas
 #, object-pascal-format
 msgid "*** %s Python engine is active ***"
-msgstr ""
+msgstr "*** %s Pythonエンジンはアクティブです ***"
 
 #. Programmer's name for it: SInterpreterNA
 #: StringResources.pas
 msgid "The internal Python interpreter is not available"
-msgstr ""
+msgstr "この内部Pythonインタープリターは利用できません"
 
 #. Programmer's name for it: SPostMortemInfo
 #: StringResources.pas
@@ -7540,6 +7629,9 @@ msgid ""
 "You can examine the Call Stack, Variables and Watches windows, evaluate expressions etc.\n"
 "To exit the post-mortem analysis select the 'Abort Debugging' command."
 msgstr ""
+"今は事後分析モードです。\n"
+"コールスタックや、変数、ウィンドウや評価表現などを検証することができます。\n"
+"事後分析モードを出るには'デバッグについて'コマンドを選択してください。"
 
 #. Programmer's name for it: SFileEncodingWarning
 #: StringResources.pas
@@ -8475,11 +8567,6 @@ msgstr ""
 msgid "Internet"
 msgstr "インターネット"
 
-#. Programmer's name for it: SFileTemplateCategoryOther
-#: StringResources.pas
-msgid "Other"
-msgstr "その他"
-
 #. Programmer's name for it: SCythonTemplateName
 #: StringResources.pas
 msgid "Cython Script"
@@ -8505,6 +8592,16 @@ msgstr "テキストファイル"
 msgid "XML Document"
 msgstr "XML ドキュメント"
 
+#. Programmer's name for it: SJSONTemplateName
+#: StringResources.pas
+msgid "JSON File"
+msgstr ""
+
+#. Programmer's name for it: SYAMLTemplateName
+#: StringResources.pas
+msgid "YAML File"
+msgstr ""
+
 #. Programmer's name for it: SJSTemplateName
 #: StringResources.pas
 msgid "JavaScript Code"
@@ -8513,38 +8610,38 @@ msgstr ""
 #. Programmer's name for it: SPHPTemplateName
 #: StringResources.pas
 msgid "PHP Code"
-msgstr ""
+msgstr "PHP コード"
 
 #. Programmer's name for it: SJupyterTemplateName
 #: StringResources.pas
 msgid "Jupyter Notebook"
-msgstr ""
+msgstr "Jupyter Notebook"
 
 #. Python Versions
 #. Programmer's name for it: SRegisteredVersions
 #: StringResources.pas
 msgid "Registered Versions"
-msgstr ""
+msgstr "登録されたバージョン"
 
 #. Programmer's name for it: SUnRegisteredVersions
 #: StringResources.pas
 msgid "Unregistered Versions"
-msgstr ""
+msgstr "登録されていないバージョン"
 
 #. Programmer's name for it: SRemoteFileSelect
 #: StringResources.pas
 msgid "Select Remote File"
-msgstr ""
+msgstr "リモートファイルを選択"
 
 #. Programmer's name for it: SErrorEmptyPath
 #: StringResources.pas
 msgid "File Path cannot be empty"
-msgstr ""
+msgstr "ファイルパスは空にできません"
 
 #. Programmer's name for it: SErrorEmptySSH
 #: StringResources.pas
 msgid "The SSH server name cannot be empty"
-msgstr ""
+msgstr "SSHサーバ名は空にできません"
 
 #. Programmer's name for it: SScpError4
 #: StringResources.pas
@@ -8559,7 +8656,7 @@ msgstr ""
 #. Programmer's name for it: SScpErrorTimeout
 #: StringResources.pas
 msgid "SCP Error: Timeout"
-msgstr ""
+msgstr "SCP エラー: タイムアウト"
 
 #. Programmer's name for it: SScpErrorOther
 #: StringResources.pas
@@ -8606,73 +8703,126 @@ msgid ""
 "server please switch to Python version %1:s."
 msgstr ""
 
+#. Programmer's name for it: SYNS_FriendlyCommentedCode
+#: SynHighlighterPython.pas
+msgid "Commented Code"
+msgstr ""
+
+#. Programmer's name for it: SYNS_FriendlyClassName
+#: SynHighlighterPython.pas
+msgid "Class Name"
+msgstr ""
+
 #. Programmer's name for it: SYNS_FriendlyMatchingBrace
 #: SynHighlighterPython.pas
 msgid "Matching Brace"
-msgstr ""
+msgstr "対応する括弧"
 
 #. Programmer's name for it: SYNS_FriendlyUnbalancedBrace
 #: SynHighlighterPython.pas
 msgid "Unbalanced Brace"
-msgstr ""
+msgstr "対応のない括弧"
 
 #. Programmer's name for it: SYNS_FriendlyMultiLineString
 #: SynHighlighterPython.pas
 msgid "Multi-Line String"
+msgstr "複数行の文字列"
+
+#. Programmer's name for it: SYNS_AttrBanner
+#. Programmer's name for it: SYNS_FriendlyAttrBanner
+#: SynHighlighterPython.pas
+msgid "Banner"
+msgstr ""
+
+#. Programmer's name for it: SYNS_AttrTraceback
+#. Programmer's name for it: SYNS_FriendlyAttrTraceback
+#: SynHighlighterPython.pas
+msgid "Traceback"
+msgstr ""
+
+#. Programmer's name for it: SYNS_AttrPrompt
+#. Programmer's name for it: SYNS_FriendlyAttrPrompt
+#: SynHighlighterPython.pas
+msgid "Prompt"
 msgstr ""
 
 #. Programmer's name for it: SYNS_AttrSystemCmd
 #. Programmer's name for it: SYNS_FriendlyAttrSystemCmd
 #: SynHighlighterPython.pas
 msgid "System Command"
+msgstr "システムコマンド"
+
+#. Programmer's name for it: SYNS_FriendlyAttrDocumentDelimiter
+#: SynHighlighterYAML.pas
+msgid "Document Delimiter"
 msgstr ""
 
-#. Programmer's name for it: SYNS_FilterYAML
+#. Programmer's name for it: SYNS_FriendlyAttrKey
 #: SynHighlighterYAML.pas
-msgid "YAML files (*.yaml)|*.yaml"
+msgid "Key"
+msgstr "キー"
+
+#. Programmer's name for it: SYNS_FriendlyAttrNumericValue
+#: SynHighlighterYAML.pas
+msgid "Numeric Value"
+msgstr "数値"
+
+#. Programmer's name for it: SYNS_FriendlyAttrTextValue
+#: SynHighlighterYAML.pas
+msgid "Text Value"
+msgstr "文字列値"
+
+#. Programmer's name for it: SYNS_FriendlyAttrTag
+#: SynHighlighterYAML.pas
+msgid "Tag"
+msgstr ""
+
+#. Programmer's name for it: SYNS_FriendlyAttrAnchor
+#: SynHighlighterYAML.pas
+msgid "Anchor"
 msgstr ""
 
 #. Python Paths etc.
 #: uParams.pas
 msgid "Directory of active Python version"
-msgstr ""
+msgstr "有効なPythonバージョンのディレクトリ"
 
 #: uParams.pas
 msgid "Executable of active Python"
-msgstr ""
+msgstr "実行可能な有効Python"
 
 #: uParams.pas
 msgid "Version of active Python"
-msgstr ""
+msgstr "有効なPythonのバージョン"
 
 #. register system paths and parameters
 #: uParams.pas
 msgid "Program Files directory"
-msgstr ""
+msgstr "プログラムファイルのディレクトリ"
 
 #: uParams.pas
 msgid "Common Files directory"
-msgstr ""
+msgstr "コモンファイルのディレクトリ"
 
 #: uParams.pas
 msgid "Windows installation directory"
-msgstr ""
+msgstr "ウィンドウズのインストールディレクトリ"
 
 #: uParams.pas
 msgid "Windows System directory"
-msgstr ""
+msgstr "ウィンドウシステムのディレクトリ"
 
 #: uParams.pas
 msgid "Windows Temp directory"
-msgstr ""
+msgstr "ウィンドウズのTempディレクトリ"
 
 #: uParams.pas
 msgid "MyDocuments directory"
-msgstr ""
+msgstr "マイドキュメントのディレクトリ"
 
 #: uParams.pas
 msgid "Desktop directory"
-msgstr ""
+msgstr "デスクトップのディレクトリ"
 
 #. register parameters
 #: uParams.pas
@@ -8681,60 +8831,60 @@ msgstr ""
 
 #: uParams.pas
 msgid "Current directory"
-msgstr ""
+msgstr "カレントディレクトリ"
 
 #: uParams.pas
 msgid "Executable name"
-msgstr ""
+msgstr "実行可能な名前"
 
 #: uParams.pas
 msgid "Python Command Line Arguments"
-msgstr ""
+msgstr "Pythonコマンドライン引数"
 
 #. register parameter modifiers
 #: uParams.pas
 msgid "Path of file"
-msgstr ""
+msgstr "ファイルのパス"
 
 #: uParams.pas
 msgid "Path without delimeter"
-msgstr ""
+msgstr "区切り文字なしのパス"
 
 #: uParams.pas
 msgid "File name"
-msgstr ""
+msgstr "ファイル名"
 
 #: uParams.pas
 msgid "File extension"
-msgstr ""
+msgstr "ファイル拡張子"
 
 #: uParams.pas
 msgid "File extension without \".\""
-msgstr ""
+msgstr "\".\"なしのファイル拡張子"
 
 #: uParams.pas
 msgid "File name without extension"
-msgstr ""
+msgstr "拡張子なしのファイル名"
 
 #: uParams.pas
 msgid "File drive"
-msgstr ""
+msgstr "ドライブ"
 
 #: uParams.pas
 msgid "Expanded file name"
-msgstr ""
+msgstr "拡張ファイル名"
 
 #: uParams.pas
 msgid "Expanded UNC file name"
-msgstr ""
+msgstr "拡張UNCファイル名"
 
 #: uParams.pas
 msgid "Long file name"
-msgstr ""
+msgstr "ロングファイル名"
 
 #: uParams.pas
 msgid "Short file name"
-msgstr ""
+msgstr "ショートファイル名"
 
 #: uParams.pas
 msgid "Path with final path delimiter added"
@@ -8746,95 +8896,95 @@ msgstr ""
 
 #: uParams.pas
 msgid "File type"
-msgstr ""
+msgstr "ファイルタイプ"
 
 #: uParams.pas
 msgid "Contents of text file"
-msgstr ""
+msgstr "ファイルタイプの中身"
 
 #: uParams.pas
 msgid "Command line parameter"
-msgstr ""
+msgstr "コマンドラインパラメータ"
 
 #: uParams.pas
 msgid "Value of registry key"
-msgstr ""
+msgstr "レジストリキーの値"
 
 #: uParams.pas
 msgid "Value of environment variable"
-msgstr ""
+msgstr "環境変数の値"
 
 #: uParams.pas
 msgid "Upper case of string"
-msgstr ""
+msgstr "文字列の大文字"
 
 #: uParams.pas
 msgid "Lower case of string"
-msgstr ""
+msgstr "文字列の小文字"
 
 #: uParams.pas
 msgid "Quoted string"
-msgstr ""
+msgstr "クオートで囲まれた文字列"
 
 #: uParams.pas
 msgid "Unquoted string"
-msgstr ""
+msgstr "クオートを取り除いた文字列"
 
 #: uParams.pas
 msgid "Current date and time"
-msgstr ""
+msgstr "最近の日時"
 
 #: uParams.pas
 msgid "Select file"
-msgstr ""
+msgstr "ファイル選択"
 
 #: uParams.pas
 msgid "Date of a date-time value"
-msgstr ""
+msgstr "date-timeの値のDate"
 
 #: uParams.pas
 msgid "Time of a date-time value"
-msgstr ""
+msgstr "date-timeの値のTime"
 
 #: uParams.pas
 msgid "Date of a file"
-msgstr ""
+msgstr "ファイル日時"
 
 #: uParams.pas
 msgid "Creation date of a file"
-msgstr ""
+msgstr "ファイルの作成日"
 
 #: uParams.pas
 msgid "Last modification date of a file"
-msgstr ""
+msgstr "ファイルの最終修正日"
 
 #: uParams.pas
 msgid "Last access date of a file"
-msgstr ""
+msgstr "ファイルの最終アクセス日"
 
 #: uParams.pas
 msgid "Formatted date"
-msgstr ""
+msgstr "フォーマットされた日"
 
 #: uParams.pas
 msgid "Active document name"
-msgstr ""
+msgstr "有効ドキュメント名"
 
 #: uParams.pas
 msgid "The name or last run script"
-msgstr ""
+msgstr "最終実行スクリプト名"
 
 #: uParams.pas
 msgid "Project file name"
-msgstr ""
+msgstr "プロジェクトファイル名"
 
 #: uParams.pas
 msgid "Modified files"
-msgstr ""
+msgstr "修正されたファイル"
 
 #: uParams.pas
 msgid "Open files"
-msgstr ""
+msgstr "ファイルを開く"
 
 #: uParams.pas
 msgid "Text of the active document or a file"
@@ -8854,4 +9004,48 @@ msgstr ""
 
 #: uParams.pas
 msgid "Selected text in the active document"
+msgstr ""
+
+#. SpTBXCustomizeForm..SpTBXTabControl1..tabToolbars..Caption
+#. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..Caption
+#: SpTBXCustomizerForm.dfm:34 SpTBXCustomizerForm.dfm:150
+msgid "Toolbars"
+msgstr ""
+
+#. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet3..SpTBXLabel3....Caption
+#: SpTBXCustomizerForm.dfm:125
+msgid ""
+"To add command buttons, drag and drop commands onto a toolbar. To remove "
+"command buttons, drag them off the toolbar and drop them on the commands "
+"list."
+msgstr ""
+
+#. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..SpTBXGroupBox1..cbText....Items.Strings
+#: SpTBXCustomizerForm.dfm:174
+msgid "Icons + Selective Text"
+msgstr ""
+
+#. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..SpTBXGroupBox1..cbText....Items.Strings
+#: SpTBXCustomizerForm.dfm:175
+msgid "Icons"
+msgstr ""
+
+#. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..SpTBXGroupBox1..cbText....Items.Strings
+#: SpTBXCustomizerForm.dfm:176
+msgid "Icons + Text"
+msgstr ""
+
+#. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..SpTBXGroupBox1..cbText....Items.Strings
+#: SpTBXCustomizerForm.dfm:177
+msgid "Text"
+msgstr ""
+
+#. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..SpTBXGroupBox1..cbTextLabel..Caption
+#: SpTBXCustomizerForm.dfm:196
+msgid "T&ext Options"
+msgstr ""
+
+#. SpTBXCustomizeForm..SpTBXTabControl1..SpTBXTabSheet1..SpTBXGroupBox1..checkVisible..Caption
+#: SpTBXCustomizerForm.dfm:212
+msgid "&Visible"
 msgstr ""
