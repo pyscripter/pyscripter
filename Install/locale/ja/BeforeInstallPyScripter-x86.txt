@@ -1,0 +1,13 @@
+﻿***********  これは32bitバージョンのPyScripterです *************
+もし64-bitバージョンのWindowsを使っているのであればこのPyScripterは32-bit
+バージョンのPythonがインストールされている環境でのみ動くことに注意してください。
+
+PyScripterを使う前に、あなたの端末に 2.6 以降のバージョンのPythonが
+インストールされていることを確認してください。
+もしインストールされていないのならば http://www.python.org/
+からダウンロードできます。
+
+PyScripter の最新バージョンは以下をチェックしてください。
+https://sourceforge.net/projects/pyscripter/files/
+
+PyScripterを使ってくれてありがとう！
