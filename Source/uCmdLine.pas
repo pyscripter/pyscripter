@@ -490,8 +490,6 @@ initialization
   CmdLineReader.declareFlag('NEWINSTANCE','Start a new instance of PyScripter', Char('N'),False);
   CmdLineReader.declareFlag('PYTHON26','Use Python version 2.6',False);
   CmdLineReader.declareFlag('PYTHON27','Use Python version 2.7',False);
-  CmdLineReader.declareFlag('PYTHON30','Use Python version 3.0',False);
-  CmdLineReader.declareFlag('PYTHON31','Use Python version 3.1',False);
   CmdLineReader.declareFlag('PYTHON32','Use Python version 3.2',False);
   CmdLineReader.declareFlag('PYTHON33','Use Python version 3.3',False);
   CmdLineReader.declareFlag('PYTHON34','Use Python version 3.4',False);

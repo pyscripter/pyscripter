@@ -475,7 +475,7 @@
 
   History:   v 3.6.1
           New Features
-            Python 3.8 support
+            Python 3.8 support.  Dropped support for Python 3.0 and 3.1.
             Compatibility with conda distributions
             JSON and YAML file templates added
             Three new styles added (Windows10BlackPearl, Windows10BlueWhale, Windows10ClearDay)

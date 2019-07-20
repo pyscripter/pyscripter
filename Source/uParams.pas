@@ -606,8 +606,6 @@ begin
     // Python Paths etc.
     RegisterParameter('Python26Dir', GetPythonDir('2.6'), nil);
     RegisterParameter('Python27Dir', GetPythonDir('2.7'), nil);
-    RegisterParameter('Python30Dir', GetPythonDir('3.0'), nil);
-    RegisterParameter('Python31Dir', GetPythonDir('3.1'), nil);
     RegisterParameter('Python32Dir', GetPythonDir('3.2'), nil);
     RegisterParameter('Python33Dir', GetPythonDir('3.3'), nil);
     RegisterParameter('Python34Dir', GetPythonDir('3.4'), nil);
@@ -617,8 +615,6 @@ begin
     RegisterParameter('Python38Dir', GetPythonDir('3.8'), nil);
     RegisterParameter('Python26Exe', '$[PYTHON26DIR]python.exe', nil);
     RegisterParameter('Python27Exe', '$[PYTHON27DIR]python.exe', nil);
-    RegisterParameter('Python30Exe', '$[PYTHON30DIR]python.exe', nil);
-    RegisterParameter('Python31Exe', '$[PYTHON31DIR]python.exe', nil);
     RegisterParameter('Python32Exe', '$[PYTHON32DIR]python.exe', nil);
     RegisterParameter('Python33Exe', '$[PYTHON33DIR]python.exe', nil);
     RegisterParameter('Python34Exe', '$[PYTHON34DIR]python.exe', nil);
@@ -716,8 +712,6 @@ begin
     // Python Paths etc.
     UnRegisterParameter('Python26Dir');
     UnRegisterParameter('Python27Dir');
-    UnRegisterParameter('Python30Dir');
-    UnRegisterParameter('Python31Dir');
     UnRegisterParameter('Python32Dir');
     UnRegisterParameter('Python33Dir');
     UnRegisterParameter('Python34Dir');
@@ -727,8 +721,6 @@ begin
     UnRegisterParameter('Python38Dir');
     UnRegisterParameter('Python26Exe');
     UnRegisterParameter('Python27Exe');
-    UnRegisterParameter('Python30Exe');
-    UnRegisterParameter('Python31Exe');
     UnRegisterParameter('Python32Exe');
     UnRegisterParameter('Python33Exe');
     UnRegisterParameter('Python34Exe');
