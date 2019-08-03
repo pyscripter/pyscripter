@@ -484,6 +484,11 @@
           Issues addressed
             #311, #941, #955
 
+  History:   v 3.6.2
+          New Features
+          Issues addressed
+            #962
+
             { TODO : Review Search and Replace }
             { TODO : Auto PEP8 tool }
             { TODO: Interpreter raw_input #311 }
