@@ -487,7 +487,7 @@
   History:   v 3.6.2
           New Features
           Issues addressed
-            #962
+            #962, #968
 
             { TODO : Review Search and Replace }
             { TODO : Auto PEP8 tool }

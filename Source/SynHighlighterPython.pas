@@ -481,7 +481,7 @@ begin
   if ((Run <= 0) or (FLine[Run-1]<> '.')) and (fLastIdentifier <> 'class') and
     (fLastIdentifier <> 'def') and FKeywords.Find(s, i) then
   begin
-//    // TStringList is not case sensitive!  KV Not now using Delphi's WideStringList
+//    // TStringList is not case sensitive!  KV Not now using Delphi's StringList
 //    if s <> FKeywords[i] then
 //      i := -1;
   end

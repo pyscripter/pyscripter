@@ -950,7 +950,7 @@ begin
   // the following if for seaching for sub-modules and sub-packages
   CEName := Copy(CE.Name, CharLastPos(CE.Name, WideChar('.')) + 1, MaxInt);
   ModuleIsImported := False;
-  if not WideSameText(CE.GetModule.FileName, Module.FileName) then begin
+  if not AnsiSameText(CE.GetModule.FileName, Module.FileName) then begin
     // Check (approximately!) whether CE.GetModule gets imported in Module
     CEModuleName := CE.GetModule.Name;
     if CharPos(CE.GetModule.Name, WideChar('.')) > 0 then
@@ -980,7 +980,7 @@ begin
 
   if not ModuleIsImported then Exit; // no need to process further
 
-  // if Module is TModuleProxy then MaskedSource will be '' and Cadeblock.StartLine will be 0
+  // if Module is TModuleProxy then MaskedSource will be '' and Codeblock.StartLine will be 0
   // so no searching will take place.
 
   SL := TStringList.Create;

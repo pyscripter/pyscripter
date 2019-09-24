@@ -1485,13 +1485,14 @@ begin
     Keywords := Import('keyword').kwlist;
     for i := 0 to Len(Keywords) - 1 do
       SynPythonSyn.Keywords.AddObject(Keywords.__getitem__(i), Pointer(Ord(tkKey)));
+    // Avoid adding duplicates (None, True, False)
+    SynPythonSyn.Keywords.Sorted := True;
     BuiltInMod := VarPyth.BuiltinModule;
     Builtins := BuiltinMod.dir(BuiltinMod);
     for i := 0 to Len(Builtins) - 1 do
       SynPythonSyn.Keywords.AddObject(Builtins.__getitem__(i), Pointer(Ord(tkNonKeyword)));
     // add pseudo keyword self
     SynPythonSyn.Keywords.AddObject('self', Pointer(Ord(tkNonKeyword)));
-    SynPythonSyn.Keywords.Sorted := True;
 
     with SynCythonSyn do begin
       Keywords.Clear;
