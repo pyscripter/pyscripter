@@ -82,8 +82,8 @@ type
     procedure AddMessage(const Msg: string; const FileName : string = '';
        Line : integer = 0; Offset : integer = 0; SelLen : integer = 0);
     procedure ClearMessages;
-    procedure ShowPythonTraceback(SkipFrames : integer = 1);
-    procedure ShowTraceback(Traceback : Variant; SkipFrames : integer = 0);
+    procedure ShowPythonTraceback(SkipFrames : integer = 1; ShowWindow : Boolean = False);
+    procedure ShowTraceback(Traceback : Variant; SkipFrames : integer = 0; ShowWindow : Boolean = False);
   protected
     procedure StoreTopNodeIndex;
     procedure RestoreTopNodeIndex;
@@ -199,7 +199,7 @@ begin
   Clipboard.AsText := string(MessagesView.ContentToText(tstAll, #9));
 end;
 
-procedure TMessagesWindow.ShowPythonTraceback(SkipFrames : integer = 1);
+procedure TMessagesWindow.ShowPythonTraceback(SkipFrames : integer; ShowWindow : Boolean);
 Var
   i : integer;
 begin
@@ -210,12 +210,12 @@ begin
         with Items[i] do
           AddMessage('    '+Context, FileName, LineNo);
       end;
-      ShowDockForm(Self);
+      if ShowWindow then ShowDockForm(Self);
     end;
 end;
 
 procedure TMessagesWindow.ShowTraceback(Traceback: Variant;
-  SkipFrames: integer);
+  SkipFrames: integer; ShowWindow : Boolean);
 Var
   i : integer;
   CurrentTraceback : Variant;
@@ -241,7 +241,7 @@ begin
           PyControl.ActiveInterpreter.FromPythonFileName(CodeObject.co_filename), LineNo);
         CurrentTraceback := CurrentTraceback.tb_next;
       end;
-      ShowDockForm(Self);
+      if ShowWindow then ShowDockForm(Self);
     end;
   end;
 end;

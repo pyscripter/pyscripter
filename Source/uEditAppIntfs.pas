@@ -189,8 +189,8 @@ type
     procedure AddMessage(const Msg: string; const FileName : string = '';
        Line : integer = 0; Offset : integer = 0; SelLen : integer = 0);
     procedure ClearMessages;
-    procedure ShowPythonTraceback(SkipFrames : integer = 1);
-    procedure ShowTraceback(Traceback : Variant; SkipFrames : integer = 0);
+    procedure ShowPythonTraceback(SkipFrames : integer = 1; ShowWindow : Boolean = False);
+    procedure ShowTraceback(Traceback : Variant; SkipFrames : integer = 0; ShowWindow : Boolean = False);
   end;
 
   IUnitTestServices = interface
