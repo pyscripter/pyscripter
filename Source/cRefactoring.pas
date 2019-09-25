@@ -190,6 +190,8 @@ begin
   Scope := ParsedModule.GetScopeForLine(Line);
   if not assigned(Scope) then
     ErrMsg := _(SCouldNotFindScope)
+  else if (DottedIdent = Scope.Name) and (Scope.CodeBlock.StartLine = Line) then
+    Result := Scope
   else
     // Find identifier in the module and scope
     Result := FindDottedDefinition(DottedIdent, ParsedModule, Scope, ErrMsg);
@@ -773,6 +775,9 @@ begin
   Def := nil;
   if not assigned(Scope) then
     ErrMsg := _(SCouldNotFindScope)
+  else if (DottedIdent = Scope.Name) and (Scope.CodeBlock.StartLine = Line) then
+    // Issue 967
+    Def := Scope
   else
     // Find identifier in the module and scope
     Def := FindDottedDefinition(DottedIdent, ParsedModule, Scope, ErrMsg);
