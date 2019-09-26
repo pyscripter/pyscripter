@@ -616,11 +616,11 @@ function GetWordAtPos(const LineText : string; Start : Integer; WordChars : TSys
   ScanBackwards : boolean = True; ScanForward : boolean = True;
   HandleBrackets : Boolean = False) : string;
 Var
-  i, j : integer;
+  i : integer;
   L, WordStart, WordEnd, ParenCounter, NewStart : integer;
   Bracket, MatchingBracket : WideChar;
 Const
-  AllBrackets: array[0..5] of WideChar = ('(', ')', '[', ']','{', '}');
+  AllBrackets = '()[]{}';
   CloseBrackets = [')', ']', '}'];
   OpenBrackets = ['(', '[', '{'];
 begin
@@ -655,12 +655,7 @@ begin
       //We found a close, go till it's opening paren
 
       Bracket := LineText[NewStart];
-      MatchingBracket := '(';  // Just to avoid warning
-      for j := Low(AllBrackets) to High(AllBrackets) do
-        if Bracket = AllBrackets[j] then begin
-          MatchingBracket := AllBrackets[j xor 1]; // 0 -> 1, 1 -> 0, ...
-          break;
-        end;
+      MatchingBracket := AllBrackets[AllBrackets.IndexOf(Bracket)]; // IndexOf is zero based!
 
       ParenCounter := 1;
       i := NewStart - 1;

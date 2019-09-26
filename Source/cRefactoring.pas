@@ -177,7 +177,7 @@ begin
 
   // Extract the identifier
   LineS := GetNthLine(ParsedModule.Source, Line);
-  DottedIdent := GetWordAtPos(LineS, Col, IdentChars+['.'], True, False);
+  DottedIdent := GetWordAtPos(LineS, Col, IdentChars+['.'], True, False, True);
   DottedIdent := DottedIdent + GetWordAtPos(LineS, Col + 1, IdentChars, False, True);
 
   if DottedIdent = '' then begin
@@ -413,7 +413,8 @@ function TPyScripterRefactor.FindUnDottedDefinition(const Ident: string;
 {
   Look for an undotted (root) identifier in a given CodeElement (scope)
   of a ParsedModule
-  First it checks the Scope and Parent scopes
+  First it checks whether it is an expression
+  Second it checks the Scope and Parent scopes
   Then it checks the builtin module
   Finally it looks for implicitely imported modules and from * imports
 }
@@ -421,8 +422,11 @@ Var
   NameSpace : TStringList;
   Index: integer;
   CodeElement : TCodeElement;
+  Identifier : string;
+  VarAtts: TVariableAttributes;
 begin
   Result := nil;
+  // Special case for self or cls
   if (Ident = 'self') or (Ident = 'cls') then begin
     Result := Scope;
     while not (Result is TParsedClass) and Assigned(TCodeElement(Result).Parent) do
@@ -434,15 +438,25 @@ begin
     Exit;
   end;
 
+  Identifier := Ident;
+  // First check for brackets
+  if Ident.IndexOfAny([')', ']', '}']) >= 0 then begin
+    Identifier := GetExpressionType(Ident, VarAtts);
+    if Identifier = ''  then  begin
+      Result := nil;
+      ErrMsg := Format(_(SCouldNotInferType), [Ident]);
+    end;
+  end;
+
   NameSpace := TStringList.Create;
   NameSpace.CaseSensitive := True;
   try
-    // First check the Scope and Parent scopes
+    // Second check the Scope and Parent scopes
     CodeElement := Scope;
     while Assigned(CodeElement) do begin
       NameSpace.Clear;
       CodeElement.GetNameSpace(NameSpace);
-      Index := NameSpace.IndexOf(Ident);
+      Index := NameSpace.IndexOf(Identifier);
       if Index >= 0 then begin
         Result := NameSpace.Objects[Index] as TBaseCodeElement;
         break;
@@ -458,7 +472,7 @@ begin
 
   // then check the builtin module
   if not Assigned(Result) then
-    Result := GetBuiltInName(Ident);
+    Result := GetBuiltInName(Identifier);
 
   if Assigned(Result) and (Result is TVariable)
     and (TVariable(Result).Parent is TModuleImport)
@@ -470,10 +484,9 @@ begin
   if Assigned(Result) and (Result is TModuleImport) then
     Result := ResolveModuleImport(TModuleImport(Result));
 
-
   if not Assigned(Result) then
     ErrMsg := Format(_(SCouldNotFindIdent),
-      [Ident, ParsedModule.Name]);
+      [Identifier, ParsedModule.Name]);
 end;
 
 function TPyScripterRefactor.ResolveModuleImport(const ModuleName,
@@ -680,6 +693,21 @@ begin
   Suffix := DottedIdent;
   Prefix := StrToken(Suffix, '.');
   Def := nil;
+
+  if (Scope is TParsedFunction) and (Suffix <> '') then begin
+    if True then
+    if TParsedFunction(Scope).ReturnType = '' then begin
+      ErrMsg := Format(_(SCouldInferFunctionReturnType), [Scope.Name]);
+      Exit;
+    end;
+    Scope := FindDottedIdentInScope(TParsedFunction(Scope).ReturnType, Scope, ErrMsg) as TCodeElement;
+    if Scope = nil then begin
+      ErrMsg := Format(_(SCouldNotFindIdentInScope),
+          [TParsedFunction(Scope).ReturnType, Scope.Name]);
+      Exit;
+    end;
+  end;
+
   NameSpace := TStringList.Create;
   NameSpace.CaseSensitive := True;
   try

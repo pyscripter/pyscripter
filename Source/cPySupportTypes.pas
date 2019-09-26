@@ -89,6 +89,7 @@ type
     class var BlockCloserRE : TRegEx;
     class var CodeCommentLineRE : TRegEx;
     class var NonExecutableLineRE : TRegEx;
+    class var FunctionCallRE : TRegEx;
     class constructor Create;
     class function IsBlockOpener(S : string) : Boolean;
     class function IsBlockCloser(S : string) : Boolean;
@@ -106,7 +107,8 @@ Const
 implementation
 
 Uses
-  Winapi.Windows;
+  Winapi.Windows,
+  uCommonFunctions;
 
 { TRunConfiguration }
 
@@ -165,10 +167,11 @@ end;
 
 class constructor TPyRegExpr.Create;
 begin
-  TPyRegExpr.BlockOpenerRE.Create(':\s*(#.*)?$');
-  TPyRegExpr.BlockCloserRE.Create('\s*(return|break|continue|raise|pass)\b');
-  TPyRegExpr.NonExecutableLineRE.Create('(^\s*(class|def)\b)|(^\s*#)|(^\s*$)');
-  TPyRegExpr.CodeCommentLineRE.Create('^([ \t]*)##', [roNotEmpty, roMultiLine]);
+  BlockOpenerRE.Create(':\s*(#.*)?$');
+  BlockCloserRE.Create('\s*(return|break|continue|raise|pass)\b');
+  CodeCommentLineRE.Create('^([ \t]*)##', [roNotEmpty, roMultiLine]);
+  NonExecutableLineRE.Create('(^\s*(class|def)\b)|(^\s*#)|(^\s*$)');
+  FunctionCallRE := CompiledRegEx(Format('^[ \t]*(%s)(\(?)', [DottedIdentRE]));
 end;
 
 class function TPyRegExpr.IsBlockCloser(S: string): Boolean;

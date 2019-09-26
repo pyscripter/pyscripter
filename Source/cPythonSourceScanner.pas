@@ -200,7 +200,6 @@ public
     fImportRE : TRegEx;
     fFromImportRE : TRegEx;
     fAssignmentRE : TRegEx;
-    fFunctionCallRE : TRegEx;
     fForRE : TRegEx;
     fReturnRE : TRegEx;
     fWithRE : TRegEx;
@@ -216,7 +215,6 @@ public
 
     constructor Create;
     function ScanModule(Module : TParsedModule) : boolean;
-    function GetExpressionType(Expr : string; Var VarAtts : TVariableAttributes) : string;
   end;
 
   IAsyncSourceScanner = interface
@@ -260,6 +258,7 @@ public
 
   function CodeBlock(StartLine, EndLine : integer) : TCodeBlock;
   function GetExpressionBuiltInType(Expr : string; Var IsBuiltIn : boolean) : string;
+  function GetExpressionType(Expr: string; var VarAtts: TVariableAttributes): string;
 
 implementation
 
@@ -477,7 +476,6 @@ begin
   fAssignmentRE :=
     CompiledRegEx(Format('^([ \t]*(self.)?%s[ \t]*(,[ \t]*(self.)?%s[ \t]*)*(=))+(.*)',
       [IdentRE, IdentRE]));
-  fFunctionCallRE := CompiledRegEx(Format('^[ \t]*(%s)(\(?)', [DottedIdentRE]));
   fForRE := CompiledRegEx(Format('^\s*for +(%s)( *, *%s)* *(in)', [IdentRe, IdentRe]));
   fReturnRE := CompiledRegEx('^[ \t]*return[ \t]+(.*)');
   fWithRE :=
@@ -500,24 +498,6 @@ procedure TPythonScanner.DoScannerProgress(CharNo, NoOfChars : integer;
 begin
   if Assigned(fOnScannerProgress) then
     fOnScannerProgress(CharNo, NoOfChars, Stop);
-end;
-
-function TPythonScanner.GetExpressionType(Expr: string;
-  var VarAtts: TVariableAttributes): string;
-Var
-  IsBuiltInType : Boolean;
-begin
-  if Expr.Length = 0 then Exit('');
-
-  if fFunctionCallRE.IsMatch(Expr) then begin
-    Result := fFunctionCallRE.PerlRegEx.Groups[1];
-    if fFunctionCallRE.PerlRegEx.Groups[2] <> '' then  //= '('
-    Include(VarAtts, vaCall);
-  end else begin
-    Result := GetExpressionBuiltInType(Expr, IsBuiltInType);
-    if IsBuiltInType then
-      Include(VarAtts, vaBuiltIn);
-  end;
 end;
 
 function TPythonScanner.ScanModule(Module : TParsedModule): boolean;
@@ -1566,6 +1546,23 @@ function CodeBlock(StartLine, EndLine : integer) : TCodeBlock;
 begin
   Result.StartLine := StartLine;
   Result.EndLine := EndLine;
+end;
+
+function GetExpressionType(Expr: string; var VarAtts: TVariableAttributes): string;
+Var
+  IsBuiltInType : Boolean;
+begin
+  if Expr.Length = 0 then Exit('');
+
+  if TPyRegExpr.FunctionCallRE.IsMatch(Expr) then begin
+    Result := TPyRegExpr.FunctionCallRE.PerlRegEx.Groups[1];
+    if TPyRegExpr.FunctionCallRE.PerlRegEx.Groups[2] <> '' then  //= '('
+    Include(VarAtts, vaCall);
+  end else begin
+    Result := GetExpressionBuiltInType(Expr, IsBuiltInType);
+    if IsBuiltInType then
+      Include(VarAtts, vaBuiltIn);
+  end;
 end;
 
 function GetExpressionBuiltInType(Expr : string; Var IsBuiltIn : boolean) : string;
