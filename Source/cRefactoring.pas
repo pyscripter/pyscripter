@@ -443,8 +443,8 @@ begin
   if Ident.IndexOfAny([')', ']', '}']) >= 0 then begin
     Identifier := GetExpressionType(Ident, VarAtts);
     if Identifier = ''  then  begin
-      Result := nil;
       ErrMsg := Format(_(SCouldNotInferType), [Ident]);
+      Exit;
     end;
   end;
 
@@ -688,22 +688,23 @@ Var
   NameSpace : TStringList;
   Def : TBaseCodeElement;
   Index : integer;
+  VarAtts: TVariableAttributes;
 begin
   Result := nil;
   Suffix := DottedIdent;
   Prefix := StrToken(Suffix, '.');
   Def := nil;
 
-  if (Scope is TParsedFunction) and (Suffix <> '') then begin
-    if True then
-    if TParsedFunction(Scope).ReturnType = '' then begin
-      ErrMsg := Format(_(SCouldInferFunctionReturnType), [Scope.Name]);
+  if Scope is TParsedFunction then begin
+    Scope := GetFuncReturnType(TParsedFunction(Scope), ErrMsg);
+    if Scope = nil then
       Exit;
-    end;
-    Scope := FindDottedIdentInScope(TParsedFunction(Scope).ReturnType, Scope, ErrMsg) as TCodeElement;
-    if Scope = nil then begin
-      ErrMsg := Format(_(SCouldNotFindIdentInScope),
-          [TParsedFunction(Scope).ReturnType, Scope.Name]);
+  end;
+
+  if Prefix.IndexOfAny([')', ']', '}']) >= 0 then begin
+    Prefix := GetExpressionType(Prefix, VarAtts);
+    if Prefix = ''  then  begin
+      ErrMsg := Format(_(SCouldNotInferType), [Prefix]);
       Exit;
     end;
   end;
@@ -789,7 +790,7 @@ begin
 
   // Extract the identifier
   LineS := GetNthLine(ParsedModule.Source, Line);
-  DottedIdent := GetWordAtPos(LineS, Col, IdentChars+['.'], True, False);
+  DottedIdent := GetWordAtPos(LineS, Col, IdentChars+['.'], True, False, True);
   DottedIdent := DottedIdent + GetWordAtPos(LineS, Col + 1, IdentChars, False, True);
 
   if DottedIdent = '' then begin
@@ -934,7 +935,10 @@ begin
 
   // Exit if no return type is given
   // Functions from Module proxies will have Return type = ''
-  if FunctionCE.ReturnType = '' then Exit;
+  if FunctionCE.ReturnType = '' then begin
+    ErrMsg := Format(_(SCouldInferFunctionReturnType), [FunctionCE.Name]);
+    Exit;
+  end;
 
   S := FunctionCE.GetDottedName;
   if fGetTypeCache.IndexOf(S) >= 0 then

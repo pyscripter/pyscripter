@@ -2990,7 +2990,7 @@ begin
             (Attri = TSynPythonSyn(Highlighter).SystemAttri) then
           begin
             lookup := GetWordAtPos(locline, TmpX, IdentChars + ['.'], True,
-              False);
+              False, True);
             // string constant completion
             if (lookup <> '') and (lookup[1] = '.') and
                (TmpX > Length(lookup)) and

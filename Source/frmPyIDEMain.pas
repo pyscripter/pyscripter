@@ -482,7 +482,7 @@
             Translation improvements
             "Always Use Sockets" IDE option is True by default (#938)
           Issues addressed
-            #311, #941, #955, #967
+            #311, #941, #955, #966, #967
 
   History:   v 3.6.2
           New Features

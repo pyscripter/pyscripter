@@ -542,7 +542,7 @@ begin
   else
     Dec(TmpX);
 
-  lookup := GetWordAtPos(Line, TmpX, IdentChars + ['.'], True, False);
+  lookup := GetWordAtPos(Line, TmpX, IdentChars + ['.'], True, False, True);
   Index := CharLastPos(lookup, WideChar('.'));
 
   // Add the file path to the Python path - Will be automatically removed
@@ -573,6 +573,8 @@ begin
             ParsedModule, Scope, ErrMsg);
           if Assigned(Def) and (Def.ClassType = TVariable) then
             Def := PyScripterRefactor.GetVarType(TVariable(Def), ErrMsg);
+          if Assigned(Def) and (Def.ClassType = TParsedFunction) then
+            Def := PyScripterRefactor.GetFuncReturnType(TParsedFunction(Def), ErrMsg);
           if Assigned(Def) then (Def as TCodeElement).GetNamespace(NameSpace);
         end else begin
           // extract namespace from current scope and its parents
