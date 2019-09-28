@@ -2507,7 +2507,11 @@ object CommandsDataModule: TCommandsDataModule
           '##            return getattr(self._stream, attr)'
           ''
           '        def flush(self):'
-          '            self.print_queue.join()'
+          '            import sys'
+          
+            '            if sys._getframe(1).f_globals["__name__"] != "loggin' +
+            'g":'
+          '                self.print_queue.join()'
           ''
           '        def readline(self, size=None):'
           '            try:'
@@ -3386,7 +3390,11 @@ object CommandsDataModule: TCommandsDataModule
           '##            return getattr(self._stream, attr)'
           ''
           '        def flush(self):'
-          '            self.print_queue.join()'
+          '            import sys'
+          
+            '            if sys._getframe(1).f_globals["__name__"] != "loggin' +
+            'g":'
+          '                self.print_queue.join()'
           ''
           '        def readline(self, size=None):'
           '            try:'
