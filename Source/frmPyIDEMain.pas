@@ -482,12 +482,12 @@
             Translation improvements
             "Always Use Sockets" IDE option is True by default (#938)
           Issues addressed
-            #311, #941, #955, #966, #967
+            #311, #941, #955
 
   History:   v 3.6.2
           New Features
           Issues addressed
-            #962, #968
+            #962, #948, #966, #967, #968
 
             { TODO : Review Search and Replace }
             { TODO : Auto PEP8 tool }
