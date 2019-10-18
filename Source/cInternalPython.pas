@@ -234,6 +234,10 @@ begin
     UnloadPythonDLL('unicodedata.pyd');
     UnloadPythonDLL('_ctypes.pyd');
     UnloadPythonDLL('_hashlib.pyd');
+    UnloadPythonDLL('_asyncio.pyd');
+    UnloadPythonDLL('_overlapped.pyd');
+    UnloadPythonDLL('_bz2.pyd');
+    UnloadPythonDLL('_lzma.pyd');
     UnloadPythonDLL('_queue.pyd');
     UnloadPythonDLL(PChar('pywintypes' + RegVersion + '.dll'));
   end;
@@ -297,15 +301,11 @@ begin
 
     SetEnvironmentVariable('PYTHONHOME', nil);  // delete it
     if Version.Is_conda then begin
-      PythonEngine.SetPythonHome(Version.InstallPath);
       fOldPath := System.SysUtils.GetEnvironmentVariable('PATH');
       if not ContainsText(Path, Version.InstallPath) then begin
         NewPath := Format('%s;%0:s\Library\bin;', [Version.InstallPath]) + fOldPath;
         SetEnvironmentVariable('PATH', PWideChar(NewPath));
       end;
-    end else if not (Version.IsRegistered or Version.Is_venv) then begin
-      PythonEngine.SetPythonHome(Version.InstallPath);
-      SetEnvironmentVariable('PYTHONHOME', PWideChar(Version.InstallPath));
     end;
 
     PythonEngine.LoadDll;

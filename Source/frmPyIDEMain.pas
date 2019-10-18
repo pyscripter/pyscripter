@@ -486,6 +486,7 @@
 
   History:   v 3.6.2
           New Features
+            Improved compatibility with venv virtual environments
           Issues addressed
             #962, #948, #966, #967, #968
 
