@@ -44,7 +44,7 @@ type
     Persistent IDE Settings
     Note: TPythonIDEOptions is exposed to Python.
     IFreeNotification is implemented to make sure the object is not used
-    by Python after its destruction (ser WrapDelphi for details)
+    by Python after its destruction (see WrapDelphi for details)
   }
   TPythonIDEOptions = class(TBaseOptions, IFreeNotification)
   private
@@ -582,7 +582,8 @@ strict private
   class destructor Destroy;
 end;
 
-{ TJvAppStorageFontPropertyEngine }
+
+{ TJvAppStorageFontPropertyEngine }
 
 function TJvAppStorageFontPropertyEngine.Supports(AObject,
   AProperty: TObject): Boolean;
