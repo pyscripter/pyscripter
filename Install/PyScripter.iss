@@ -227,6 +227,8 @@ Root: HKCR; SubKey: .psproj; ValueType: string; ValueData: PyScripter project; F
 Root: HKCR; SubKey: PyScripter project; ValueType: string; ValueData: PyScripter project file; Flags: uninsdeletekey
 Root: HKCR; SubKey: PyScripter project\Shell\Open\Command; ValueType: string; ValueData: """{app}\PyScripter.exe"" --PROJECT ""%1"""; Flags: uninsdeletekey
 Root: HKCR; Subkey: PyScripter project\DefaultIcon; ValueType: string; ValueData: {app}\PyProject.ico,-1; Flags: uninsdeletevalue
+; IE 11 mode (https://weblog.west-wind.com/posts/2011/may/21/web-browser-control-specifying-the-ie-version)
+Root: HKCU; Subkey: "Software\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION"; ValueType: dword; ValueName: "PyScripter.exe"; ValueData: "11001"; Flags: createvalueifdoesntexist
 
 [Run]
 Filename: {app}\PyScripter.exe; Description: {cm:LaunchProgram,PyScripter}; Flags: nowait postinstall skipifsilent
