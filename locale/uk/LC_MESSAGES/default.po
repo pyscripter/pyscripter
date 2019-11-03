@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PyScripter GUI translation\n"
 "POT-Creation-Date: 2019-07-16 02:38\n"
-"PO-Revision-Date: 2019-11-03 13:38+0200\n"
+"PO-Revision-Date: 2019-11-03 17:23+0200\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -553,17 +553,17 @@ msgstr ""
 #. FileTemplatesDialog..Caption
 #: dlgFileTemplates.dfm
 msgid "File Templates"
-msgstr ""
+msgstr "Шаблони файлу"
 
 #. FileTemplatesDialog..Panel..GroupBox..Caption
 #: dlgFileTemplates.dfm
 msgid "File Template:"
-msgstr ""
+msgstr "Шаблон файлу:"
 
 #. FileTemplatesDialog..Panel..GroupBox..Label5..Caption
 #: dlgFileTemplates.dfm
 msgid "&Category:"
-msgstr ""
+msgstr "&Категорія:"
 
 #. FileTemplatesDialog..Panel..GroupBox..Label6..Caption
 #: dlgFileTemplates.dfm
@@ -578,17 +578,17 @@ msgstr ""
 #. FileTemplatesDialog..Panel..lvItems......Caption
 #: dlgFileTemplates.dfm
 msgid "Category"
-msgstr ""
+msgstr "Категорія"
 
 #. FindInFilesDialog..Caption
 #: dlgFindInFiles.dfm
 msgid "Find in Files Search"
-msgstr ""
+msgstr "Знайти у файлах"
 
 #. FindInFilesDialog..Panel1..lblFind..Caption
 #: dlgFindInFiles.dfm
 msgid "&Text to find:"
-msgstr ""
+msgstr "&Текст для пошуку:"
 
 #. FindInFilesDialog..Panel1..gbxOptions..Caption
 #. fmEditorOptionsDialog..Panel1..TabControl..SpTBXTabItem2..Caption
@@ -608,80 +608,80 @@ msgstr ""
 #: dlgFindInFiles.dfm dlgSynEditOptions.dfm dlgToDoOptions.dfm dmCommands.dfm
 #: frmFunctionList.dfm frmPyIDEMain.dfm frmRegExpTester.dfm frmToDo.dfm
 msgid "Options"
-msgstr ""
+msgstr "Параметри"
 
 #. FindInFilesDialog..Panel1..gbxOptions..cbCaseSensitive..Caption
 #: dlgFindInFiles.dfm
 msgid "&Case sensitive"
-msgstr ""
+msgstr "&Чутливе до реєстру"
 
 #. FindInFilesDialog..Panel1..gbxOptions..cbNoComments..Caption
 #: dlgFindInFiles.dfm
 msgid "&Ignore comments"
-msgstr ""
+msgstr "&Ігнорувати коментарі"
 
 #. FindInFilesDialog..Panel1..gbxOptions..cbWholeWord..Caption
 #: dlgFindInFiles.dfm
 msgid "&Whole word"
-msgstr ""
+msgstr "&Усе слово"
 
 #. FindInFilesDialog..Panel1..gbxOptions..cbRegEx..Caption
 #: dlgFindInFiles.dfm
 msgid "Regular e&xpression"
-msgstr ""
+msgstr "&Регулярний вираз"
 
 #. FindInFilesDialog..Panel1..gbxWhere..Caption
 #: dlgFindInFiles.dfm
 msgid "Where"
-msgstr ""
+msgstr "Де"
 
 #. FindInFilesDialog..Panel1..gbxWhere..rbOpenFiles..Caption
 #: dlgFindInFiles.dfm
 msgid "&Open files"
-msgstr ""
+msgstr "&Відкриті файли"
 
 #. FindInFilesDialog..Panel1..gbxWhere..rbProject..Caption
 #: dlgFindInFiles.dfm
 msgid "&Project files"
-msgstr ""
+msgstr "&Файли проєкту"
 
 #. FindInFilesDialog..Panel1..gbxWhere..rbCurrentOnly..Caption
 #: dlgFindInFiles.dfm
 msgid "Current &file only"
-msgstr ""
+msgstr "Лише &поточний файл"
 
 #. FindInFilesDialog..Panel1..gbxWhere..rbDirectories..Caption
 #: dlgFindInFiles.dfm
 msgid "Search in &directories"
-msgstr ""
+msgstr "Пошук в &каталогах"
 
 #. FindInFilesDialog..Panel1..gbxDirectories..Caption
 #: dlgFindInFiles.dfm
 msgid "Directory Search"
-msgstr ""
+msgstr "Пошук в каталогах"
 
 #. FindInFilesDialog..Panel1..gbxDirectories..lblMasks..Caption
 #: dlgFindInFiles.dfm
 msgid "File mas&ks:"
-msgstr ""
+msgstr "&Маска файлу:"
 
 #. FindInFilesDialog..Panel1..gbxDirectories..lblDirectory..Caption
 #: dlgFindInFiles.dfm
 msgid "Di&rectories:"
-msgstr ""
+msgstr "&Каталоги:"
 
 #. FindInFilesDialog..Panel1..gbxDirectories..btnBrowse..Hint
 #. fmToDoOptions..pnlBG..gbxSearchFiles..btnBrowse..Hint
 #: dlgFindInFiles.dfm dlgToDoOptions.dfm dlgDirectoryList.pas
 #: dlgImportDirectory.pas uParams.pas
 msgid "Select directory"
-msgstr ""
+msgstr "Виберіть каталог"
 
 #. FindInFilesDialog..Panel1..gbxDirectories..cbInclude..Caption
 #. fmToDoOptions..pnlBG..gbxSearchFiles..chkInclude..Caption
 #: dlgFindInFiles.dfm dlgToDoOptions.dfm
 msgid "Include su&bdirectories"
-msgstr ""
+msgstr "Включаючи &підкаталоги"
 
 #. FindResultsOptionsDialog..Caption
 #: dlgFindResultsOptions.dfm
@@ -731,17 +731,17 @@ msgstr ""
 #. ImportDirectoryForm..Caption
 #: dlgImportDirectory.dfm
 msgid "Import Directory"
-msgstr ""
+msgstr "Імпортувати каталог"
 
 #. ImportDirectoryForm..Panel1..cbRecursive..Caption
 #: dlgImportDirectory.dfm
 msgid "Recursive?"
-msgstr ""
+msgstr "Рекурсивно?"
 
 #. ImportDirectoryForm..Panel1..Label1..Caption
 #: dlgImportDirectory.dfm
 msgid "Directory to import:"
-msgstr ""
+msgstr "Каталог для імпотрування:"
 
 #. ImportDirectoryForm..Panel1..Label2..Caption
 #: dlgImportDirectory.dfm
@@ -751,38 +751,38 @@ msgstr ""
 #. NewFileDialog..Caption
 #: dlgNewFile.dfm
 msgid "New File"
-msgstr ""
+msgstr "Новий файл"
 
 #. NewFileDialog..Panel1..Panel2..Panel3..Label1..Caption
 #. SpTBXCustomizeFormMod..SpTBXTabControl1..SpTBXTabSheet3..SpTBXLabel5..Caption
 #: dlgNewFile.dfm frmModSpTBXCustomize.dfm
 msgid "Categories:"
-msgstr ""
+msgstr "Категорії:"
 
 #. NewFileDialog..Panel1..Panel2..Panel4..Label2..Caption
 #: dlgNewFile.dfm
 msgid "Templates:"
-msgstr ""
+msgstr "Шаблони:"
 
 #. NewFileDialog..Panel1..btnCreate..Caption
 #: dlgNewFile.dfm
 msgid "C&reate"
-msgstr ""
+msgstr "С&творити"
 
 #. NewFileDialog..Panel1..btnManageTemplates..Caption
 #: dlgNewFile.dfm
 msgid "Manage File Templates..."
-msgstr ""
+msgstr "Керувати шаблонами файлу..."
 
 #. OptionsInspector..Panel1..Inspector..Text
 #: dlgOptionsEditor.dfm
 msgid "Inspector"
-msgstr ""
+msgstr "Оглядач"
 
 #. OptionsInspector..Panel1..Inspector..DefaultCategoryName
 #: dlgOptionsEditor.dfm
 msgid "Miscellaneous"
-msgstr ""
+msgstr "Різне"
 
 #. OptionsInspector..Panel1..Inspector..HeaderPropText
 #: dlgOptionsEditor.dfm
@@ -793,7 +793,7 @@ msgstr ""
 #. PickListDialog..PickListPopUp..mnSelectAll..Caption
 #: dlgPickList.dfm
 msgid "&Select All"
-msgstr ""
+msgstr "&Вибрати все"
 
 #. PickListDialog..Panel2..btnDeselectAll..Caption
 #. PickListDialog..PickListPopUp..mnDeselectAll..Caption
@@ -805,7 +805,7 @@ msgstr ""
 #. PickListDialog..PickListPopUp..mnSelectAll..Hint
 #: dlgPickList.dfm
 msgid "Select all items"
-msgstr ""
+msgstr "Вибрати усі елементи"
 
 #. PickListDialog..PickListPopUp..mnDeselectAll..Hint
 #: dlgPickList.dfm
@@ -927,17 +927,17 @@ msgstr ""
 #. RemoteFileDialog..Panel1..Label1..Caption
 #: dlgRemoteFile.dfm
 msgid "File Path:"
-msgstr ""
+msgstr "Шлях до файлу:"
 
 #. RemoteFileDialog..Panel1..Label2..Caption
 #: dlgRemoteFile.dfm
 msgid "SSH Server:"
-msgstr ""
+msgstr "SSH-сервер:"
 
 #. ReplaceInFilesDialog..Caption
 #: dlgReplaceInFiles.dfm
 msgid "Replace Matches"
-msgstr ""
+msgstr "Замінити співпадіння"
 
 #. ReplaceInFilesDialog..SpTBXPanel1..cbBackup..Caption
 #: dlgReplaceInFiles.dfm
@@ -960,7 +960,7 @@ msgstr ""
 #. FindResultsWindow..Actions..actReplaceAll..Category
 #: dlgReplaceInFiles.dfm dmCommands.dfm frmFindResults.dfm
 msgid "Replace"
-msgstr ""
+msgstr "Замінити"
 
 #. RunConfigurationForm..Caption
 #: dlgRunConfiguration.dfm
@@ -988,7 +988,7 @@ msgstr ""
 #. RunConfigurationForm..Panel1..GroupBox2..Label2..Caption
 #: dlgRunConfiguration.dfm
 msgid "&File Name:"
-msgstr ""
+msgstr "Ім'я &файлу:"
 
 #. RunConfigurationForm..Panel1..GroupBox2..Label6..Caption
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox2..Label6..Caption
@@ -1022,7 +1022,7 @@ msgstr ""
 #. RunConfigurationForm..Panel1..gbRemoteEngine..cbEngineType....Items.Strings
 #: dlgRunConfiguration.dfm cPyControl.pas
 msgid "Remote"
-msgstr ""
+msgstr "Віддалений"
 
 #. RunConfigurationForm..Panel1..gbRemoteEngine..cbEngineType....Items.Strings
 #: dlgRunConfiguration.dfm cPyControl.pas
@@ -1075,7 +1075,7 @@ msgstr ""
 #. RunConfigurationForm..Panel1..gbSaveOutput..Label4..Caption
 #: dlgRunConfiguration.dfm
 msgid "File &Name:"
-msgstr ""
+msgstr "Ім'я &файлу:"
 
 #. StyleSelectorForm..Caption
 #. PyIDEMainForm..actlStandard..actSelectStyle..Hint
@@ -1130,7 +1130,7 @@ msgstr ""
 #. fmEditorOptionsDialog..Panel1..TabControl..Color..Caption
 #: dlgSynEditOptions.dfm
 msgid "Syntax Colors"
-msgstr ""
+msgstr "Кольори синтаксису"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Options..gbOptions..GridPanel1..StackPanel1..ckAutoIndent....Hint
 #: dlgSynEditOptions.dfm
@@ -1545,7 +1545,7 @@ msgstr ""
 #. PageSetupDlg..ActionList1..FontCmd..Hint
 #: dlgSynEditOptions.dfm dlgSynPageSetup.dfm
 msgid "Font"
-msgstr ""
+msgstr "Шрифе"
 
 #. fmEditorOptionsDialog..Panel1..TabControl..Display..gbGutter..ckGutterAutosize..Caption
 #: dlgSynEditOptions.dfm
@@ -1637,315 +1637,315 @@ msgstr ""
 #. WebPreviewForm..TBXDock1..TBXToolbar1..TBXItem4..Hint
 #: dlgSynPageSetup.dfm frmDocView.dfm frmWebPreview.dfm
 msgid "Page Setup"
-msgstr ""
+msgstr "Налаштування сторінки"
 
 #. PageSetupDlg..TabControl..SpTBXTabItem1..Caption
 #. PageSetupDlg..TabControl..tbMargins..Caption
 #: dlgSynPageSetup.dfm
 msgid "Margins && Options"
-msgstr ""
+msgstr "Поля та параметри"
 
 #. PageSetupDlg..TabControl..SpTBXTabItem2..Caption
 #. PageSetupDlg..TabControl..tbHeaderFooter..Caption
 #: dlgSynPageSetup.dfm
 msgid "Header && Footer"
-msgstr ""
+msgstr "Заголовок та нижній колонтитул"
 
 #. PageSetupDlg..TabControl..tbMargins..Label1..Caption
 #: dlgSynPageSetup.dfm
 msgid "Left:"
-msgstr ""
+msgstr "Ліве:"
 
 #. PageSetupDlg..TabControl..tbMargins..Label2..Caption
 #: dlgSynPageSetup.dfm
 msgid "Right:"
-msgstr ""
+msgstr "Праве:"
 
 #. PageSetupDlg..TabControl..tbMargins..Label3..Caption
 #: dlgSynPageSetup.dfm
 msgid "Top:"
-msgstr ""
+msgstr "Верхнє:"
 
 #. PageSetupDlg..TabControl..tbMargins..Label4..Caption
 #: dlgSynPageSetup.dfm
 msgid "Bottom:"
-msgstr ""
+msgstr "Нижнє:"
 
 #. PageSetupDlg..TabControl..tbMargins..Label5..Caption
 #: dlgSynPageSetup.dfm
 msgid "Units:"
-msgstr ""
+msgstr "Одиниці:"
 
 #. PageSetupDlg..TabControl..tbMargins..Label6..Caption
 #: dlgSynPageSetup.dfm
 msgid "Header:"
-msgstr ""
+msgstr "Заголовок:"
 
 #. PageSetupDlg..TabControl..tbMargins..Label7..Caption
 #: dlgSynPageSetup.dfm
 msgid "Footer:"
-msgstr ""
+msgstr "Колонтитул:"
 
 #. PageSetupDlg..TabControl..tbMargins..CBMirrorMargins..Caption
 #: dlgSynPageSetup.dfm
 msgid "Mirror margins"
-msgstr ""
+msgstr "Дзеркальні поля"
 
 #. PageSetupDlg..TabControl..tbMargins..CBLineNumbers..Caption
 #: dlgSynPageSetup.dfm
 msgid "Line numbers"
-msgstr ""
+msgstr "Номери рядків"
 
 #. PageSetupDlg..TabControl..tbMargins..CBLineNumbersInMargin..Caption
 #: dlgSynPageSetup.dfm
 msgid "Print line numbers in margin"
-msgstr ""
+msgstr "Друкувати номери рядків на полях"
 
 #. PageSetupDlg..TabControl..tbMargins..CBHighlight..Caption
 #: dlgSynPageSetup.dfm
 msgid "Syntax print"
-msgstr ""
+msgstr "Друк синтаксису"
 
 #. PageSetupDlg..TabControl..tbMargins..CBColors..Caption
 #: dlgSynPageSetup.dfm
 msgid "Use colors"
-msgstr ""
+msgstr "Використовувати кольори"
 
 #. PageSetupDlg..TabControl..tbMargins..CBWrap..Caption
 #: dlgSynPageSetup.dfm
 msgid "Wrap lines"
-msgstr ""
+msgstr "Переносити рядки"
 
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox1..Caption
 #: dlgSynPageSetup.dfm
 msgid "Header"
-msgstr ""
+msgstr "Заголовок"
 
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox1..Label12..Caption
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox3..Label15..Caption
 #. Programmer's name for it: SEdCmdLeft
 #: dlgSynPageSetup.dfm StringResources.pas
 msgid "Left"
-msgstr ""
+msgstr "Зліва"
 
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox1..Label13..Caption
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox3..Label16..Caption
 #: dlgSynPageSetup.dfm
 msgid "Center"
-msgstr ""
+msgstr "По центру"
 
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox1..Label14..Caption
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox3..Label17..Caption
 #. Programmer's name for it: SEdCmdRight
 #: dlgSynPageSetup.dfm StringResources.pas
 msgid "Right"
-msgstr ""
+msgstr "Справа"
 
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox1..GroupBox2..Caption
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox3..GroupBox4..Caption
 #: dlgSynPageSetup.dfm
 msgid "Appearance"
-msgstr ""
+msgstr "Вигляд"
 
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox1..GroupBox2..HeaderLineColorBtn..Caption
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox3..GroupBox4..FooterLineColorBtn..Caption
 #: dlgSynPageSetup.dfm
 msgid "Line color"
-msgstr ""
+msgstr "Колір лінії"
 
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox1..GroupBox2..HeaderShadowColorBtn..Caption
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox3..GroupBox4..FooterShadowColorBtn..Caption
 #: dlgSynPageSetup.dfm
 msgid "Shadow color"
-msgstr ""
+msgstr "Колір тіні"
 
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox1..GroupBox2..CBHeaderLine..Caption
 #: dlgSynPageSetup.dfm
 msgid "Line under"
-msgstr ""
+msgstr "Лінія під"
 
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox1..GroupBox2..CBHeaderBox..Caption
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox3..GroupBox4..CBFooterBox..Caption
 #: dlgSynPageSetup.dfm
 msgid "Box"
-msgstr ""
+msgstr "Рамка"
 
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox1..GroupBox2..CBHeaderShadow..Caption
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox3..GroupBox4..CBFooterShadow..Caption
 #: dlgSynPageSetup.dfm
 msgid "Shadow"
-msgstr ""
+msgstr "Тінь"
 
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox1..CBHeaderMirror..Caption
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox3..CBFooterMirror..Caption
 #: dlgSynPageSetup.dfm
 msgid "Mirror position"
-msgstr ""
+msgstr "Дзеркальне розміщення"
 
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox3..Caption
 #: dlgSynPageSetup.dfm
 msgid "Footer"
-msgstr ""
+msgstr "Нижній колонтитул"
 
 #. PageSetupDlg..TabControl..tbHeaderFooter..GroupBox3..GroupBox4..CBFooterLine..Caption
 #: dlgSynPageSetup.dfm
 msgid "Line above"
-msgstr ""
+msgstr "Лінія над"
 
 #. PageSetupDlg..ActionList1..PageNumCmd..Caption
 #. PageSetupDlg..ActionList1..PageNumCmd..Hint
 #: dlgSynPageSetup.dfm
 msgid "Page number"
-msgstr ""
+msgstr "Номер сторінки"
 
 #. PageSetupDlg..ActionList1..PagesCmd..Caption
 #. PageSetupDlg..ActionList1..PagesCmd..Hint
 #: dlgSynPageSetup.dfm
 msgid "Num. pages"
-msgstr ""
+msgstr "Кількість сторінок"
 
 #. PageSetupDlg..ActionList1..TimeCmd..Caption
 #. PageSetupDlg..ActionList1..TimeCmd..Hint
 #: dlgSynPageSetup.dfm
 msgid "Time"
-msgstr ""
+msgstr "Час"
 
 #. PageSetupDlg..ActionList1..DateCmd..Caption
 #. PageSetupDlg..ActionList1..DateCmd..Hint
 #: dlgSynPageSetup.dfm
 msgid "Date"
-msgstr ""
+msgstr "Дата"
 
 #. PageSetupDlg..ActionList1..TitleCmd..Caption
 #. PageSetupDlg..ActionList1..TitleCmd..Hint
 #: dlgSynPageSetup.dfm
 msgid "Title"
-msgstr ""
+msgstr "Заголовок"
 
 #. PageSetupDlg..ActionList1..BoldCmd..Caption
 #. PageSetupDlg..ActionList1..BoldCmd..Hint
 #: dlgSynPageSetup.dfm
 msgid "Bold"
-msgstr ""
+msgstr "Напівжирний"
 
 #. PageSetupDlg..ActionList1..ItalicCmd..Caption
 #. PageSetupDlg..ActionList1..ItalicCmd..Hint
 #: dlgSynPageSetup.dfm
 msgid "Italic"
-msgstr ""
+msgstr "Курсив"
 
 #. PageSetupDlg..ActionList1..UnderlineCmd..Caption
 #. PageSetupDlg..ActionList1..UnderlineCmd..Hint
 #: dlgSynPageSetup.dfm
 msgid "Underline"
-msgstr ""
+msgstr "Підкреслений"
 
 #. PrintPreviewDlg..Caption
 #. DocForm..TBXDock1..TBXToolbar1..TBXItem6..Hint
 #. WebPreviewForm..TBXDock1..TBXToolbar1..TBXItem6..Hint
 #: dlgSynPrintPreview.dfm frmDocView.dfm frmWebPreview.dfm
 msgid "Print Preview"
-msgstr ""
+msgstr "Попередній перегляд"
 
 #. PrintPreviewDlg..ToolbarDock..SpTBXToolbar1..tbiZoom..tbiWholePage..Caption
 #: dlgSynPrintPreview.dfm
 msgid "Whole page"
-msgstr ""
+msgstr "Уся сторінка"
 
 #. PrintPreviewDlg..ToolbarDock..SpTBXToolbar1..tbiZoom..tbiWholePage..Hint
 #: dlgSynPrintPreview.dfm
 msgid "Show whole page"
-msgstr ""
+msgstr "Показати усю сторінку"
 
 #. PrintPreviewDlg..ToolbarDock..SpTBXToolbar1..tbiZoom..tbiPageWidth..Caption
 #: dlgSynPrintPreview.dfm
 msgid "Page width"
-msgstr ""
+msgstr "Ширина сторінки"
 
 #. PrintPreviewDlg..ToolbarDock..SpTBXToolbar1..tbiZoom..tbiPageWidth..Hint
 #: dlgSynPrintPreview.dfm
 msgid "Fit page width into window"
-msgstr ""
+msgstr "Вирівняти ширину сторінки до вікна"
 
 #. PrintPreviewDlg..ToolbarDock..SpTBXToolbar1..tbiZoom..tbi25..Hint
 #: dlgSynPrintPreview.dfm
 #, no-object-pascal-format
 msgid "25% zoom"
-msgstr ""
+msgstr "25% збільшення"
 
 #. PrintPreviewDlg..ToolbarDock..SpTBXToolbar1..tbiZoom..tbi50..Hint
 #: dlgSynPrintPreview.dfm
 #, no-object-pascal-format
 msgid "50% zoom"
-msgstr ""
+msgstr "50% збільшення"
 
 #. PrintPreviewDlg..ToolbarDock..SpTBXToolbar1..tbiZoom..tbi100..Hint
 #: dlgSynPrintPreview.dfm
 #, no-object-pascal-format
 msgid "100% zoom"
-msgstr ""
+msgstr "100% збільшення"
 
 #. PrintPreviewDlg..ToolbarDock..SpTBXToolbar1..tbiZoom..tbi200..Hint
 #: dlgSynPrintPreview.dfm
 #, no-object-pascal-format
 msgid "200% zoom"
-msgstr ""
+msgstr "200% збільшення"
 
 #. PrintPreviewDlg..ToolbarDock..SpTBXToolbar1..tbiZoom..tbi400..Hint
 #: dlgSynPrintPreview.dfm
 #, no-object-pascal-format
 msgid "400% zoom"
-msgstr ""
+msgstr "400% збільшення"
 
 #. PrintPreviewDlg..ActionList..FirstCmd..Caption
 #: dlgSynPrintPreview.dfm
 msgid "First"
-msgstr ""
+msgstr "Перша"
 
 #. PrintPreviewDlg..ActionList..FirstCmd..Hint
 #: dlgSynPrintPreview.dfm
 msgid "First|Go to first page"
-msgstr ""
+msgstr "Перша|Перейти до першої сторінки"
 
 #. PrintPreviewDlg..ActionList..PrevCmd..Caption
 #: dlgSynPrintPreview.dfm
 msgid "Previous"
-msgstr ""
+msgstr "Попередній"
 
 #. PrintPreviewDlg..ActionList..PrevCmd..Hint
 #: dlgSynPrintPreview.dfm
 msgid "Previous|Go to previous page"
-msgstr ""
+msgstr "Попередня|Перейти до попередньої сторінки"
 
 #. PrintPreviewDlg..ActionList..NextCmd..Caption
 #: dlgSynPrintPreview.dfm
 msgid "Next"
-msgstr ""
+msgstr "Наступна"
 
 #. PrintPreviewDlg..ActionList..NextCmd..Hint
 #: dlgSynPrintPreview.dfm
 msgid "Next|Go to next page"
-msgstr ""
+msgstr "Наступна|Перейти до наступної сторінки"
 
 #. PrintPreviewDlg..ActionList..LastCmd..Caption
 #: dlgSynPrintPreview.dfm
 msgid "Last"
-msgstr ""
+msgstr "Остання"
 
 #. PrintPreviewDlg..ActionList..LastCmd..Hint
 #: dlgSynPrintPreview.dfm
 msgid "Last|Go to last page"
-msgstr ""
+msgstr "Остання|Перейти до останньої сторінки"
 
 #. PrintPreviewDlg..ActionList..ZoomCmd..Caption
 #: dlgSynPrintPreview.dfm
 msgid "Zoom"
-msgstr ""
+msgstr "Збільшення"
 
 #. PrintPreviewDlg..ActionList..ZoomCmd..Hint
 #: dlgSynPrintPreview.dfm
 msgid "Zoom|Zoom In/Out"
-msgstr ""
+msgstr "Збільшення|Збільшити/Зменшити"
 
 #. PrintPreviewDlg..ActionList..PrintCmd..Caption
 #. DocForm..TBXDock1..TBXToolbar1..TBXItem5..Hint
@@ -1954,22 +1954,22 @@ msgstr ""
 #: dlgSynPrintPreview.dfm frmDocView.dfm frmWebPreview.dfm
 #: dlgSynPrintPreview.pas
 msgid "Print"
-msgstr ""
+msgstr "Друкувати"
 
 #. PrintPreviewDlg..ActionList..PrintCmd..Hint
 #: dlgSynPrintPreview.dfm
 msgid "Print|Print the document"
-msgstr ""
+msgstr "Друкувати|Друкувати документ"
 
 #. PrintPreviewDlg..ActionList..CloseCmd..Caption
 #: dlgSynPrintPreview.dfm
 msgid "Close"
-msgstr ""
+msgstr "Закрити"
 
 #. PrintPreviewDlg..ActionList..CloseCmd..Hint
 #: dlgSynPrintPreview.dfm
 msgid "Close|Close Print Preview"
-msgstr ""
+msgstr "Закрити|Закрити попередній перегляд"
 
 #. fmToDoOptions..Caption
 #: dlgToDoOptions.dfm
@@ -2012,7 +2012,7 @@ msgstr ""
 #. fmToDoOptions..pnlBG..gbxTokens..lblPriority..Caption
 #: dlgToDoOptions.dfm
 msgid "&Priority"
-msgstr ""
+msgstr "&Пріортет"
 
 #. fmToDoOptions..pnlBG..gbxTokens..lblToken..Caption
 #: dlgToDoOptions.dfm
@@ -2244,7 +2244,7 @@ msgstr ""
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox3..cbStandardOutput....Items.Strings
 #: dlgToolProperties.dfm
 msgid "New file"
-msgstr ""
+msgstr "Новий файл"
 
 #. ToolProperties..Panel1..TabControl..tabProperties..GroupBox5..Caption
 #: dlgToolProperties.dfm
@@ -2288,7 +2288,7 @@ msgstr ""
 #. ToolProperties..FormatsPopup..Filename1..Caption
 #: dlgToolProperties.dfm
 msgid "Filename"
-msgstr ""
+msgstr "Ім'я файлу"
 
 #. ToolProperties..FormatsPopup..Filename1..Hint
 #: dlgToolProperties.dfm
@@ -2334,7 +2334,7 @@ msgstr ""
 #. Programmer's name for it: SEdCmdSelectAll
 #: dlgUnitTestWizard.dfm StringResources.pas
 msgid "Select All"
-msgstr ""
+msgstr "Вибрати все"
 
 #. UnitTestWizard..PopupUnitTestWizard..mnSelectAll..Hint
 #: dlgUnitTestWizard.dfm
@@ -2600,7 +2600,7 @@ msgstr "Пошук"
 #. CommandsDataModule..actlMain..actSearchFind..Caption
 #: dmCommands.dfm
 msgid "&Find..."
-msgstr ""
+msgstr "&Знайти..."
 
 #. CommandsDataModule..actlMain..actSearchFind..Hint
 #: dmCommands.dfm
@@ -2610,83 +2610,83 @@ msgstr ""
 #. CommandsDataModule..actlMain..actSearchFindNext..Caption
 #: dmCommands.dfm
 msgid "Find &Next"
-msgstr ""
+msgstr "Знайти &наступне"
 
 #. CommandsDataModule..actlMain..actSearchFindNext..Hint
 #: dmCommands.dfm
 msgid "Find next|Find next match"
-msgstr ""
+msgstr "Знайти наступне|Знайти наступне співпадіння"
 
 #. CommandsDataModule..actlMain..actSearchFindPrev..Caption
 #: dmCommands.dfm
 msgid "Find &Previous"
-msgstr ""
+msgstr "Знайти &попереднє"
 
 #. CommandsDataModule..actlMain..actSearchFindPrev..Hint
 #: dmCommands.dfm
 msgid "Find previous|Find Previous match"
-msgstr ""
+msgstr "Знайти попереднє|Знайти попереднє співпадіння"
 
 #. CommandsDataModule..actlMain..actSearchReplace..Caption
 #: dmCommands.dfm
 msgid "&Replace..."
-msgstr ""
+msgstr "&Замінити..."
 
 #. CommandsDataModule..actlMain..actSearchReplace..Hint
 #: dmCommands.dfm
 msgid "Replace|Search  & Replace"
-msgstr ""
+msgstr "Замінити|Знайти та замінити"
 
 #. CommandsDataModule..actlMain..actFileSaveAll..Caption
 #: dmCommands.dfm
 msgid "Save &All"
-msgstr ""
+msgstr "Зберегти &все"
 
 #. CommandsDataModule..actlMain..actFileSaveAll..Hint
 #: dmCommands.dfm
 msgid "Save all|Save project and all open files"
-msgstr ""
+msgstr "Зберегти все|Зберігає проєкт та усі відкриті файли"
 
 #. CommandsDataModule..actlMain..actFilePrint..Caption
 #. FindResultsWindow..Actions..actFilePrint..Caption
 #: dmCommands.dfm frmFindResults.dfm
 msgid "&Print..."
-msgstr ""
+msgstr "&Друкувати..."
 
 #. CommandsDataModule..actlMain..actFilePrint..Hint
 #: dmCommands.dfm
 msgid "Print|Print active file"
-msgstr ""
+msgstr "Друкувати|Друкувати активний файл"
 
 #. CommandsDataModule..actlMain..actPrinterSetup..Caption
 #: dmCommands.dfm
 msgid "Printer Set&up..."
-msgstr ""
+msgstr "Налаштування дру&карки..."
 
 #. CommandsDataModule..actlMain..actPrinterSetup..Hint
 #: dmCommands.dfm
 msgid "Printer setup"
-msgstr ""
+msgstr "Налаштування друкарки"
 
 #. CommandsDataModule..actlMain..actPrintPreview..Caption
 #: dmCommands.dfm
 msgid "Print Pre&view"
-msgstr ""
+msgstr "Попередній пере&гляд"
 
 #. CommandsDataModule..actlMain..actPrintPreview..Hint
 #: dmCommands.dfm
 msgid "Print preview"
-msgstr ""
+msgstr "Попередній перегляд"
 
 #. CommandsDataModule..actlMain..actPageSetup..Caption
 #: dmCommands.dfm
 msgid "Pa&ge Setup..."
-msgstr ""
+msgstr "&Налаштування сторінки..."
 
 #. CommandsDataModule..actlMain..actPageSetup..Hint
 #: dmCommands.dfm
 msgid "Page setup"
-msgstr ""
+msgstr "Налаштування сторінки"
 
 #. CommandsDataModule..actlMain..actEditorOptions..Caption
 #: dmCommands.dfm
@@ -2843,18 +2843,18 @@ msgstr ""
 #. CommandsDataModule..actlMain..actSearchGoToLine..Caption
 #: dmCommands.dfm
 msgid "Go To &Line..."
-msgstr ""
+msgstr "Перейти до &строки..."
 
 #. CommandsDataModule..actlMain..actSearchGoToLine..Hint
 #. Programmer's name for it: SGoToLineNumber
 #: dmCommands.dfm StringResources.pas
 msgid "Go to line number"
-msgstr ""
+msgstr "Перейти до строки з номером"
 
 #. CommandsDataModule..actlMain..actSearchGoToSyntaxError..Caption
 #: dmCommands.dfm
 msgid "Go To Syntax &Error"
-msgstr ""
+msgstr "Перейти до синтаксичної &помилки"
 
 #. CommandsDataModule..actlMain..actSearchGoToSyntaxError..Hint
 #: dmCommands.dfm
@@ -2864,12 +2864,12 @@ msgstr ""
 #. CommandsDataModule..actlMain..actFindInFiles..Caption
 #: dmCommands.dfm
 msgid "&Find in Files..."
-msgstr ""
+msgstr "&Знайти у файлах..."
 
 #. CommandsDataModule..actlMain..actFindInFiles..Hint
 #: dmCommands.dfm
 msgid "Search in Files|Search for a string in Files"
-msgstr ""
+msgstr "Пошук в файлах|Пошук тексту у файлах"
 
 #. CommandsDataModule..actlMain..actParameterCompletion..Caption
 #: dmCommands.dfm
@@ -2971,12 +2971,12 @@ msgstr ""
 #. CommandsDataModule..actlMain..actFindFunction..Caption
 #: dmCommands.dfm
 msgid "Find F&unction..."
-msgstr ""
+msgstr "Знайти ф&ункцію..."
 
 #. CommandsDataModule..actlMain..actFindFunction..Hint
 #: dmCommands.dfm
 msgid "Find Function|Find function from function list"
-msgstr ""
+msgstr "Знайти функцію|Знайти функцію зі списку функцій"
 
 #. CommandsDataModule..actlMain..actEditLineNumbers..Caption
 #: dmCommands.dfm
@@ -3001,22 +3001,22 @@ msgstr ""
 #. CommandsDataModule..actlMain..actFindPreviousReference..Caption
 #: dmCommands.dfm
 msgid "Find Previous Reference"
-msgstr ""
+msgstr "Знайти попереднє посилання"
 
 #. CommandsDataModule..actlMain..actFindPreviousReference..Hint
 #: dmCommands.dfm
 msgid "Find previous identifier reference"
-msgstr ""
+msgstr "Знайти попереднє посилання ідентифікатора"
 
 #. CommandsDataModule..actlMain..actFindNextReference..Caption
 #: dmCommands.dfm
 msgid "Find Next Reference"
-msgstr ""
+msgstr "Знайти наступне посилання"
 
 #. CommandsDataModule..actlMain..actFindNextReference..Hint
 #: dmCommands.dfm
 msgid "Find next identifier reference"
-msgstr ""
+msgstr "Знайти наступне посилання ідентифікатора"
 
 #. CommandsDataModule..actlMain..actEditLBDos..Hint
 #: dmCommands.dfm
@@ -3086,17 +3086,17 @@ msgstr ""
 #. CommandsDataModule..actlMain..actEditToggleComment..Caption
 #: dmCommands.dfm
 msgid "Toggle &Comment"
-msgstr ""
+msgstr "Перемикнути &коментар"
 
 #. CommandsDataModule..actlMain..actEditToggleComment..Hint
 #: dmCommands.dfm
 msgid "Toggle Comment| Comment/Uncomment block of code"
-msgstr ""
+msgstr "Перемикнути коментар| Закоментовує/розкоментовує блок коду"
 
 #. CommandsDataModule..actlMain..actFileTemplates..Caption
 #: dmCommands.dfm
 msgid "&File Templates..."
-msgstr ""
+msgstr "&Шаблони файлу..."
 
 #. CommandsDataModule..actlMain..actFileTemplates..Hint
 #: dmCommands.dfm
@@ -3126,12 +3126,12 @@ msgstr ""
 #. CommandsDataModule..actlMain..actFileReload..Caption
 #: dmCommands.dfm
 msgid "&Reload"
-msgstr ""
+msgstr "&Перезавантажити"
 
 #. CommandsDataModule..actlMain..actFileReload..Hint
 #: dmCommands.dfm
 msgid "Reload|Reload active file"
-msgstr ""
+msgstr "Перезавантажити|Перезавантажує активний файл"
 
 #. CommandsDataModule..actlMain..actImportShortcuts..Category
 #. CommandsDataModule..actlMain..actExportShortCuts..Category
@@ -3186,12 +3186,12 @@ msgstr ""
 #. CommandsDataModule..actlMain..actSearchHighlight..Caption
 #: dmCommands.dfm
 msgid "&Highlight Search Text"
-msgstr ""
+msgstr "&Підсвітити текст пошуку"
 
 #. CommandsDataModule..actlMain..actSearchHighlight..Hint
 #: dmCommands.dfm
 msgid "Highlight the search text in the current editor"
-msgstr ""
+msgstr "Підсвітити текст пошуку у редакторі"
 
 #. CommandsDataModule..actlMain..actEditWordWrap..Caption
 #: dmCommands.dfm
@@ -3206,7 +3206,7 @@ msgstr ""
 #. CommandsDataModule..actlMain..actSearchGoToDebugLine..Caption
 #: dmCommands.dfm
 msgid "Go To &Debugger Position"
-msgstr ""
+msgstr "Перейти до позиції &зневаджувача"
 
 #. CommandsDataModule..actlMain..actSearchGoToDebugLine..Hint
 #: dmCommands.dfm
@@ -3216,7 +3216,7 @@ msgstr ""
 #. CommandsDataModule..actlMain..actHelpWebProjectHome..Caption
 #: dmCommands.dfm
 msgid "&Project Home"
-msgstr ""
+msgstr "&Домівка проєкту"
 
 #. CommandsDataModule..actlMain..actHelpWebProjectHome..Hint
 #: dmCommands.dfm
@@ -3236,22 +3236,22 @@ msgstr ""
 #. CommandsDataModule..actlMain..actFileCloseAllOther..Caption
 #: dmCommands.dfm
 msgid "Close All &Other"
-msgstr ""
+msgstr "Закрити усі &інші"
 
 #. CommandsDataModule..actlMain..actFileCloseAllOther..Hint
 #: dmCommands.dfm
 msgid "Close all files except the active one"
-msgstr ""
+msgstr "Закрити усі файли окрім активного"
 
 #. CommandsDataModule..actlMain..actFileCloseAllToTheRight..Caption
 #: dmCommands.dfm
 msgid "Close All to the &Right"
-msgstr ""
+msgstr "Закрити усі файли &справа"
 
 #. CommandsDataModule..actlMain..actFileCloseAllToTheRight..Hint
 #: dmCommands.dfm
 msgid "Close all files to the right"
-msgstr ""
+msgstr "Закрити усі файли справа"
 
 #. CommandsDataModule..actlMain..actEditCopyFileName..Caption
 #: dmCommands.dfm
@@ -3443,12 +3443,12 @@ msgstr ""
 #. Programmer's name for it: SRemoteFIleSave
 #: dmCommands.dfm StringResources.pas
 msgid "Save to Remote File"
-msgstr ""
+msgstr "Зберегти до віддаленого файлу"
 
 #. CommandsDataModule..actlMain..actFileSaveToRemote..Hint
 #: dmCommands.dfm
 msgid "Save to remote file with SSH"
-msgstr ""
+msgstr "Зберегти до віддаленого файлу через SSH"
 
 #. CommandsDataModule..actlMain..actDonate..Caption
 #: dmCommands.dfm
@@ -3477,7 +3477,7 @@ msgstr ""
 #. ToDoWindow..BGPanel..FGPanel..ToDoView......Text
 #: frmBreakPoints.dfm frmCallStack.dfm frmMessages.dfm frmToDo.dfm
 msgid "File Name"
-msgstr ""
+msgstr "Ім'я файлу"
 
 #. BreakPointsWindow..BGPanel..FGPanel..Panel1..BreakPointsView......Text
 #. CallStackWindow..BGPanel..FGPanel..Panel1..CallStackView......Text
@@ -3570,7 +3570,7 @@ msgstr ""
 #. PyIDEMainForm..actlStandard..actPythonSetup..Category
 #: frmCallStack.dfm frmPyIDEMain.dfm
 msgid "Run"
-msgstr ""
+msgstr "Виконати"
 
 #. CallStackWindow..actlCallStack..actPreviousFrame..Caption
 #: frmCallStack.dfm
@@ -3595,7 +3595,7 @@ msgstr ""
 #. CodeExplorerWindow..Caption
 #: frmCodeExplorer.dfm dmCommands.pas
 msgid "Code Explorer"
-msgstr ""
+msgstr "Оглядач коду"
 
 #. CodeExplorerWindow..CEPopupMenu..mnExpandAll..Caption
 #. ProjectExplorerWindow..ProjectActionList..actProjectExpandAll..Caption
@@ -3654,23 +3654,23 @@ msgstr ""
 #. CodeExplorerWindow..CENodePopUpMenu..mnFindDefinition..Hint
 #: frmCodeExplorer.dfm
 msgid "Find Definition"
-msgstr ""
+msgstr "Знайти означення"
 
 #. CodeExplorerWindow..CENodePopUpMenu..mnFindReferences..Caption
 #. CodeExplorerWindow..CENodePopUpMenu..mnFindReferences..Hint
 #: frmCodeExplorer.dfm
 msgid "Find References"
-msgstr ""
+msgstr "Знайти посилання"
 
 #. CodeExplorerWindow..CENodePopUpMenu..mnHighlight..Caption
 #: frmCodeExplorer.dfm
 msgid "Highlight"
-msgstr ""
+msgstr "Підсвітити"
 
 #. CodeExplorerWindow..CENodePopUpMenu..mnHighlight..Hint
 #: frmCodeExplorer.dfm
 msgid "Highlight References"
-msgstr ""
+msgstr "Підсвітити посилання"
 
 #. OutputWindow..OutputPopup..RunningProcess..Caption
 #: frmCommandOutput.dfm
@@ -3691,7 +3691,7 @@ msgstr ""
 #. OutputWindow..OutputActions..actOutputFont..Caption
 #: frmCommandOutput.dfm
 msgid "Font..."
-msgstr ""
+msgstr "Шрифт..."
 
 #. OutputWindow..OutputActions..actOutputFont..Hint
 #: frmCommandOutput.dfm
@@ -3760,14 +3760,14 @@ msgstr ""
 #. WebPreviewForm..TBXDock1..TBXToolbar1..ToolButtonBack..Hint
 #: frmDocView.dfm frmFileExplorer.dfm frmWebPreview.dfm
 msgid "Go Back"
-msgstr ""
+msgstr "Повернутись назад"
 
 #. DocForm..TBXDock1..TBXToolbar1..ToolButtonForward..Hint
 #. FileExplorerWindow..FileExplorerActions..actGoForward..Hint
 #. WebPreviewForm..TBXDock1..TBXToolbar1..ToolButtonForward..Hint
 #: frmDocView.dfm frmFileExplorer.dfm frmWebPreview.dfm
 msgid "Go Forward"
-msgstr ""
+msgstr "Перейти далі"
 
 #. DocForm..TBXDock1..TBXToolbar1..TBXItem3..Hint
 #. WebPreviewForm..TBXDock1..TBXToolbar1..TBXItem3..Hint
@@ -3779,7 +3779,7 @@ msgstr ""
 #. WebPreviewForm..TBXDock1..TBXToolbar1..TBXItem7..Hint
 #: frmDocView.dfm frmWebPreview.dfm
 msgid "Save"
-msgstr ""
+msgstr "Зберегти"
 
 #. EditorForm..BGPanel..ViewsTabControl..tabSource..Caption
 #. EditorForm..BGPanel..ViewsTabControl..tbshSource..Caption
@@ -3804,7 +3804,7 @@ msgstr ""
 #. EditorForm..pmnuViewsTab..mnCloseTab..Caption
 #: frmEditor.dfm
 msgid "Close Tab"
-msgstr ""
+msgstr "Закрити вкладку"
 
 #. EditorForm..BGPanel..ViewsTabControl..tbiCloseTab..Hint
 #. EditorForm..pmnuViewsTab..mnCloseTab..Hint
@@ -3836,7 +3836,7 @@ msgstr ""
 #. FileExplorerWindow..FileExplorerActions..actNewFolder..Category
 #: frmFileExplorer.dfm dmCommands.pas
 msgid "File Explorer"
-msgstr ""
+msgstr "Оглядач файлів"
 
 #. FileExplorerWindow..BGPanel..FGPanel..ExplorerDock..ExplorerToolbar..TBXSubmenuItem1..tbiBrowsePath..Caption
 #. FileExplorerWindow..ExplorerPopUp..mnBrowsePath..Caption
@@ -3998,12 +3998,12 @@ msgstr ""
 #. FindResultsWindow..Actions..actReplaceSelected..Caption
 #: frmFindResults.dfm
 msgid "Replace Selected Item..."
-msgstr ""
+msgstr "Замінити вибрані елементи..."
 
 #. FindResultsWindow..Actions..actReplaceSelected..Hint
 #: frmFindResults.dfm
 msgid "Replace selected item..."
-msgstr ""
+msgstr "Замінити вибрані елементи..."
 
 #. FindResultsWindow..Actions..actFileSearch..Caption
 #: frmFindResults.dfm
@@ -4126,12 +4126,12 @@ msgstr ""
 #. FindResultsWindow..Actions..actFileSave..Caption
 #: frmFindResults.dfm
 msgid "&Save..."
-msgstr ""
+msgstr "&Зберегти..."
 
 #. FindResultsWindow..Actions..actFileSave..Hint
 #: frmFindResults.dfm
 msgid "Save results to file..."
-msgstr ""
+msgstr "Зберегти результати до файлу..."
 
 #. FindResultsWindow..Actions..actFileCopy..Hint
 #: frmFindResults.dfm
@@ -4162,7 +4162,7 @@ msgstr ""
 #. ToDoWindow..Actions..actOptionsConfigure..Hint
 #: frmFindResults.dfm frmToDo.dfm
 msgid "Options..."
-msgstr ""
+msgstr "Параметри..."
 
 #. FindResultsWindow..Actions..actViewOptions..Hint
 #: frmFindResults.dfm
@@ -4172,12 +4172,12 @@ msgstr ""
 #. FindResultsWindow..Actions..actReplaceAll..Caption
 #: frmFindResults.dfm
 msgid "Replace All Items..."
-msgstr ""
+msgstr "Замінити усі елементи..."
 
 #. FindResultsWindow..Actions..actReplaceAll..Hint
 #: frmFindResults.dfm
 msgid "Replace all items..."
-msgstr ""
+msgstr "Замінити усі елементи..."
 
 #. FunctionListWindow..Caption
 #: frmFunctionList.dfm
@@ -4193,7 +4193,7 @@ msgstr ""
 #. PyIDEMainForm..TBXDockTop..MainMenu..SearchMenu..Caption
 #: frmFunctionList.dfm frmPyIDEMain.dfm
 msgid "&Search"
-msgstr ""
+msgstr "&Пошук"
 
 #. FunctionListWindow..pnlHeader..pnlHeaderRight..lblObjects..Caption
 #: frmFunctionList.dfm
@@ -4205,7 +4205,7 @@ msgstr ""
 #. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..Caption
 #: frmFunctionList.dfm frmProjectExplorer.dfm frmPyIDEMain.dfm
 msgid "&Edit"
-msgstr ""
+msgstr "&Редагування"
 
 #. FunctionListWindow..Actions..actEditCopy..Hint
 #: frmFunctionList.dfm
@@ -4215,7 +4215,7 @@ msgstr ""
 #. FunctionListWindow..Actions..actOptionsFont..Caption
 #: frmFunctionList.dfm
 msgid "&Font.."
-msgstr ""
+msgstr "&Шрифт.."
 
 #. FunctionListWindow..Actions..actOptionsFont..Hint
 #: frmFunctionList.dfm
@@ -4246,22 +4246,22 @@ msgstr ""
 #. ToDoWindow..Actions..actEditGoto..Caption
 #: frmFunctionList.dfm frmToDo.dfm
 msgid "&Goto"
-msgstr ""
+msgstr "&Перейти"
 
 #. FunctionListWindow..Actions..actViewGoto..Hint
 #: frmFunctionList.dfm
 msgid "Goto implementation"
-msgstr ""
+msgstr "Перейти до реалізації"
 
 #. MessagesWindow..Caption
 #: frmMessages.dfm
 msgid "Messages"
-msgstr ""
+msgstr "Повідомлення"
 
 #. MessagesWindow..BGPanel..FGPanel..MessagesView......Text
 #: frmMessages.dfm
 msgid "Message"
-msgstr ""
+msgstr "Повідомлення"
 
 #. MessagesWindow..BGPanel..FGPanel..MessagesView......Text
 #: frmMessages.dfm
@@ -4304,17 +4304,17 @@ msgstr ""
 #. SpTBXCustomizeFormMod..SpTBXTabControl1..SpTBXTabSheet3..SpTBXLabel2..Caption
 #: frmModSpTBXCustomize.dfm
 msgid "Commands:"
-msgstr ""
+msgstr "Команди:"
 
 #. ProjectExplorerWindow..Caption
 #: frmProjectExplorer.dfm dmCommands.pas
 msgid "Project Explorer"
-msgstr ""
+msgstr "Оглядач проєкту"
 
 #. ProjectExplorerWindow..BGPanel..FGPanel..Panel1..SpTBXDock1..SpTBXToolbar1..Caption
 #: frmProjectExplorer.dfm
 msgid "Project Explorer Toolbar"
-msgstr ""
+msgstr "Панель оглядача проєкту"
 
 #. ProjectExplorerWindow..ProjectActionList..actProjectNew..Category
 #. ProjectExplorerWindow..ProjectActionList..actProjectOpen..Category
@@ -4456,7 +4456,7 @@ msgstr ""
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectFileEdit..Hint
 #: frmProjectExplorer.dfm
 msgid "Open the selected file in the editor"
-msgstr ""
+msgstr "Відкрити вибраний файл в редакторі"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectAddActiveFile..Caption
 #: frmProjectExplorer.dfm
@@ -4509,7 +4509,7 @@ msgstr ""
 #. UnitTestWindow..DialogActions..actRun..Caption
 #: frmProjectExplorer.dfm frmPyIDEMain.dfm frmUnitTests.dfm
 msgid "&Run"
-msgstr ""
+msgstr "&Виконати"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectRun..Hint
 #: frmProjectExplorer.dfm
@@ -4531,7 +4531,7 @@ msgstr ""
 #. PyIDEMainForm..actlStandard..actDebug..Caption
 #: frmProjectExplorer.dfm frmPyIDEMain.dfm
 msgid "&Debug"
-msgstr ""
+msgstr "&Зневаджувати"
 
 #. ProjectExplorerWindow..ImmutableProjectActionList..actProjectDebug..Hint
 #: frmProjectExplorer.dfm
@@ -4600,7 +4600,7 @@ msgstr "Новий"
 #. PyIDEMainForm..TBXDockTop..MainMenu..FileMenu..RecentSubmenu..Caption
 #: frmPyIDEMain.dfm
 msgid "&Recent Files"
-msgstr "&Останні файли"
+msgstr "&Недавні файли"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..EditMenu..mnSourceCode..Caption
 #: frmPyIDEMain.dfm
@@ -4665,139 +4665,139 @@ msgstr "Панель редагування|Показує/Ховає панел
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnuToolbars..mnViewToolbarVisibilityToggle..Caption
 #: frmPyIDEMain.dfm
 msgid "&View Toolbar"
-msgstr ""
+msgstr "Панель &вигляду"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnuToolbars..mnViewToolbarVisibilityToggle..Hint
 #: frmPyIDEMain.dfm
 msgid "View toolbar|Show/Hide the View toolbar"
-msgstr ""
+msgstr "Панель вигляду|Показує/Ховає панель вигляду"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnuToolbars..mnuUserToolbarVisibilityToggle..Caption
 #: frmPyIDEMain.dfm
 msgid "Use&r Toolbar"
-msgstr ""
+msgstr "Панель &користувача"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnuToolbars..mnuUserToolbarVisibilityToggle..Hint
 #: frmPyIDEMain.dfm
 msgid "User toolbar|Show/Hide the User toolbar"
-msgstr ""
+msgstr "Панель користувача|Показує/Ховає панель користувача"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..TBXSubmenuItem4..Caption
 #: frmPyIDEMain.dfm
 msgid "&IDE Windows"
-msgstr ""
+msgstr "Вікно &IDE"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..DebugWindows1..Caption
 #: frmPyIDEMain.dfm
 msgid "&Debug Windows"
-msgstr ""
+msgstr "Вікно &зневадження"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..TBXSubmenuItem6..Caption
 #: frmPyIDEMain.dfm
 msgid "&Navigate"
-msgstr ""
+msgstr "&Навігація"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnSyntax..Caption
 #: frmPyIDEMain.dfm
 msgid "&Syntax"
-msgstr ""
+msgstr "&Синтаксис"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnSyntax..mnNoSyntax..Caption
 #: frmPyIDEMain.dfm
 msgid "&No Syntax"
-msgstr ""
+msgstr "&Без синтаксису"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnSyntax..mnNoSyntax..Hint
 #: frmPyIDEMain.dfm
 msgid "Do not use syntax highlighting"
-msgstr ""
+msgstr "Не використовувати підсвічування синтаксису"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnLanguage..Caption
 #: frmPyIDEMain.dfm
 msgid "Language"
-msgstr ""
+msgstr "Мова"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnLayouts..Caption
 #. PyIDEMainForm..TBXDockTop..ViewToolbar..tbiViewLayouts..Caption
 #. PyIDEMainForm..TBXDockTop..ViewToolbar..tbiViewLayouts..Hint
 #: frmPyIDEMain.dfm
 msgid "Layouts"
-msgstr ""
+msgstr "Розміщення"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnLayouts..TBXItem47..Caption
 #. PyIDEMainForm..actlStandard..actLayoutSave..Caption
 #: frmPyIDEMain.dfm
 msgid "Save Layout..."
-msgstr ""
+msgstr "Зберегти розміщення..."
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnLayouts..TBXItem47..Hint
 #. PyIDEMainForm..actlStandard..actLayoutSave..Hint
 #: frmPyIDEMain.dfm
 msgid "Save Current Layout"
-msgstr ""
+msgstr "Зберегти поточне розміщення"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnLayouts..TBXItem48..Caption
 #. PyIDEMainForm..actlStandard..actLayoutsDelete..Caption
 #: frmPyIDEMain.dfm
 msgid "Delete Layouts..."
-msgstr ""
+msgstr "Видалити розміщення..."
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnLayouts..TBXItem48..Hint
 #. PyIDEMainForm..actlStandard..actLayoutsDelete..Hint
 #: frmPyIDEMain.dfm
 msgid "Delete a layout"
-msgstr ""
+msgstr "Видалити розміщення"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnLayouts..TBXItem49..Caption
 #. PyIDEMainForm..actlStandard..actLayoutDebug..Caption
 #: frmPyIDEMain.dfm
 msgid "Set Debug Layout"
-msgstr ""
+msgstr "Встановити як розміщення для зневадження"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnLayouts..TBXItem49..Hint
 #. PyIDEMainForm..actlStandard..actLayoutDebug..Hint
 #: frmPyIDEMain.dfm
 msgid "Set the current layout as the debug layout"
-msgstr ""
+msgstr "Встановити поточне розміщення як розміщення для зневадження"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnLayouts..mnMaximizeEditor..Caption
 #. PyIDEMainForm..actlStandard..actMaximizeEditor..Caption
 #: frmPyIDEMain.dfm
 msgid "&Maximize Editor"
-msgstr ""
+msgstr "&Розгорнути редактор"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnLayouts..mnMaximizeEditor..Hint
 #. PyIDEMainForm..actlStandard..actMaximizeEditor..Hint
 #: frmPyIDEMain.dfm
 msgid "Maximize editor window"
-msgstr ""
+msgstr "Розгорнути вікно редактора"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnLayouts..TBXItem77..Caption
 #. PyIDEMainForm..actlStandard..actRestoreEditor..Caption
 #: frmPyIDEMain.dfm
 msgid "&Restore Editor"
-msgstr ""
+msgstr "&Відновити редактор"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ViewMenu..mnLayouts..TBXItem77..Hint
 #. PyIDEMainForm..actlStandard..actRestoreEditor..Hint
 #: frmPyIDEMain.dfm
 msgid "Restore editor window"
-msgstr ""
+msgstr "Відновити вікно редактора"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ProjectMenu..Caption
 #: frmPyIDEMain.dfm
 msgid "&Project"
-msgstr ""
+msgstr "&Проєкт"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ProjectMenu..SpTBXSubmenuItem1..Caption
 #: frmPyIDEMain.dfm
 msgid "&Recent Projects"
-msgstr ""
+msgstr "&Недавні проєкти"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ToolsMenu..Caption
 #: frmPyIDEMain.dfm
 msgid "&Tools"
-msgstr ""
+msgstr "&Засоби"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..ToolsMenu..EditorViewsMenu..Caption
 #: frmPyIDEMain.dfm
@@ -4812,7 +4812,7 @@ msgstr ""
 #. PyIDEMainForm..TBXDockTop..MainMenu..ToolsMenu..OptionsMenu..Caption
 #: frmPyIDEMain.dfm
 msgid "&Options"
-msgstr ""
+msgstr "&Параметри"
 
 #. PyIDEMainForm..TBXDockTop..MainMenu..HelpMenu..SpTBXSubmenuItem2..Caption
 #: frmPyIDEMain.dfm
@@ -4822,37 +4822,37 @@ msgstr ""
 #. PyIDEMainForm..TBXDockTop..MainToolBar..Caption
 #: frmPyIDEMain.dfm
 msgid "Main Toolbar"
-msgstr ""
+msgstr "Головна панель"
 
 #. PyIDEMainForm..TBXDockTop..DebugToolbar..Caption
 #: frmPyIDEMain.dfm
 msgid "Debug Toolbar"
-msgstr ""
+msgstr "Панель зневадження"
 
 #. PyIDEMainForm..TBXDockTop..ViewToolbar..Caption
 #: frmPyIDEMain.dfm
 msgid "View Toolbar"
-msgstr ""
+msgstr "Панель вигляду"
 
 #. PyIDEMainForm..TBXDockTop..EditorToolbar..Caption
 #: frmPyIDEMain.dfm
 msgid "Editor Toolbar"
-msgstr ""
+msgstr "Панель редагування"
 
 #. PyIDEMainForm..TBXDockTop..FindToolbar..Caption
 #: frmPyIDEMain.dfm
 msgid "Find Toolbar"
-msgstr ""
+msgstr "Знайти панель"
 
 #. PyIDEMainForm..TBXDockTop..FindToolbar..tbiFindLabel..Caption
 #: frmPyIDEMain.dfm
 msgid "Find:"
-msgstr ""
+msgstr "Знайти:"
 
 #. PyIDEMainForm..TBXDockTop..FindToolbar..tbiReplaceLabel..Caption
 #: frmPyIDEMain.dfm
 msgid "Replace with:"
-msgstr ""
+msgstr "Замінити на:"
 
 #. PyIDEMainForm..TBXDockTop..FindToolbar..tbiSearchOptions..tbiSearchFromCaret..Caption
 #: frmPyIDEMain.dfm
@@ -4882,7 +4882,7 @@ msgstr ""
 #. PyIDEMainForm..TBXDockTop..FindToolbar..tbiSearchOptions..tbiSearchInSelection..Caption
 #: frmPyIDEMain.dfm
 msgid "Search in &Selection"
-msgstr ""
+msgstr "Пошук у &вибраному"
 
 #. PyIDEMainForm..TBXDockTop..FindToolbar..tbiSearchOptions..tbiRegExp..Caption
 #: frmPyIDEMain.dfm
@@ -4902,7 +4902,7 @@ msgstr ""
 #. PyIDEMainForm..TabControlPopupMenu..mnFiles..Caption
 #: frmPyIDEMain.dfm
 msgid "&Files"
-msgstr ""
+msgstr "&Файли"
 
 #. PyIDEMainForm..TabControlPopupMenu..mnFiles..Hint
 #: frmPyIDEMain.dfm
@@ -4912,32 +4912,32 @@ msgstr ""
 #. PyIDEMainForm..actlImmutable..actViewNextEditor..Caption
 #: frmPyIDEMain.dfm
 msgid "&Next Editor"
-msgstr ""
+msgstr "&Наступний редактор"
 
 #. PyIDEMainForm..actlImmutable..actViewNextEditor..Hint
 #: frmPyIDEMain.dfm
 msgid "Next Editor|Move to the next editor"
-msgstr ""
+msgstr "Наступний редактор|Перейти до наступного редактору"
 
 #. PyIDEMainForm..actlImmutable..actViewPreviousEditor..Caption
 #: frmPyIDEMain.dfm
 msgid "&Previous Editor"
-msgstr ""
+msgstr "&Попередній редактор"
 
 #. PyIDEMainForm..actlImmutable..actViewPreviousEditor..Hint
 #: frmPyIDEMain.dfm
 msgid "Previous editor|Move to the previous editor"
-msgstr ""
+msgstr "Попередній редактор|Перейти до попереднього редактору"
 
 #. PyIDEMainForm..actlStandard..actViewMainMenu..Caption
 #: frmPyIDEMain.dfm
 msgid "Main Men&u"
-msgstr ""
+msgstr "Головне мен&ю"
 
 #. PyIDEMainForm..actlStandard..actViewMainMenu..Hint
 #: frmPyIDEMain.dfm
 msgid "View/Hide main menu"
-msgstr ""
+msgstr "Показати/Сховати головне меню"
 
 #. PyIDEMainForm..actlStandard..actCallStackWin..Category
 #. PyIDEMainForm..actlStandard..actVariablesWin..Category
@@ -4946,49 +4946,50 @@ msgstr ""
 #. PyIDEMainForm..actlStandard..actMessagesWin..Category
 #: frmPyIDEMain.dfm
 msgid "Debug Windows"
-msgstr ""
+msgstr "Вікно зневадження"
 
 #. PyIDEMainForm..actlStandard..actCallStackWin..Caption
 #. PyIDEMainForm..actlStandard..actNavCallStack..Caption
 #: frmPyIDEMain.dfm
 msgid "&Call Stack"
-msgstr ""
+msgstr "&Стек викликів"
 
 #. PyIDEMainForm..actlStandard..actCallStackWin..Hint
 #: frmPyIDEMain.dfm
 msgid "Show/Hide Call Stack window"
-msgstr ""
+msgstr "Показати/Сховати стек викликів"
 
 #. PyIDEMainForm..actlStandard..actVariablesWin..Caption
 #. PyIDEMainForm..actlStandard..actNavVariables..Caption
 #: frmPyIDEMain.dfm
 msgid "&Variables"
-msgstr ""
+msgstr "&Змінні"
 
 #. PyIDEMainForm..actlStandard..actVariablesWin..Hint
 #: frmPyIDEMain.dfm
 msgid "Show/Hide Variables window"
-msgstr ""
+msgstr "Показати/Сховати вікно змінних"
 
 #. PyIDEMainForm..actlStandard..actSyntaxCheck..Caption
 #: frmPyIDEMain.dfm
 msgid "&Syntax Check"
-msgstr ""
+msgstr "&Перевірка синтаксису"
 
 #. PyIDEMainForm..actlStandard..actSyntaxCheck..Hint
 #: frmPyIDEMain.dfm
 msgid "Syntax Check|Perform syntax check and load scripts"
 msgstr ""
+"Перевірка синтаксису|Виконати перевірку синтаксису та завантажити скрипти"
 
 #. PyIDEMainForm..actlStandard..actRun..Hint
 #: frmPyIDEMain.dfm
 msgid "Run|Run active module"
-msgstr ""
+msgstr "Виконати|Виконати активний модуль"
 
 #. PyIDEMainForm..actlStandard..actCommandLine..Caption
 #: frmPyIDEMain.dfm
 msgid "Command Line &Parameters..."
-msgstr ""
+msgstr "&Параметри командного рядка..."
 
 #. PyIDEMainForm..actlStandard..actCommandLine..Hint
 #: frmPyIDEMain.dfm
@@ -5008,47 +5009,47 @@ msgstr ""
 #. PyIDEMainForm..actlStandard..actFileNewModule..Caption
 #: frmPyIDEMain.dfm
 msgid "&New Python module"
-msgstr ""
+msgstr "&Новий модуль Python"
 
 #. PyIDEMainForm..actlStandard..actFileNewModule..Hint
 #: frmPyIDEMain.dfm
 msgid "New Python module"
-msgstr ""
+msgstr "Новий модуль Python"
 
 #. PyIDEMainForm..actlStandard..actFileOpen..Caption
 #: frmPyIDEMain.dfm
 msgid "&Open..."
-msgstr ""
+msgstr "&Відкрити..."
 
 #. PyIDEMainForm..actlStandard..actFileOpen..Hint
 #: frmPyIDEMain.dfm
 msgid "Select a file to open"
-msgstr ""
+msgstr "Виберіть файл, щоб відкрити"
 
 #. PyIDEMainForm..actlStandard..actFileCloseAll..Caption
 #: frmPyIDEMain.dfm
 msgid "Close A&ll"
-msgstr ""
+msgstr "Закрити в&се"
 
 #. PyIDEMainForm..actlStandard..actFileCloseAll..Hint
 #: frmPyIDEMain.dfm
 msgid "Close all files"
-msgstr ""
+msgstr "Закрити усі файли"
 
 #. PyIDEMainForm..actlStandard..actFileExit..Caption
 #: frmPyIDEMain.dfm
 msgid "E&xit"
-msgstr ""
+msgstr "Ви&йти"
 
 #. PyIDEMainForm..actlStandard..actFileExit..Hint
 #: frmPyIDEMain.dfm
 msgid "Exit"
-msgstr ""
+msgstr "Вийти"
 
 #. PyIDEMainForm..actlStandard..actViewStatusBar..Caption
 #: frmPyIDEMain.dfm
 msgid "&Status Bar"
-msgstr ""
+msgstr "&Рядок стану"
 
 #. PyIDEMainForm..actlStandard..actViewStatusBar..Hint
 #: frmPyIDEMain.dfm
@@ -5090,12 +5091,12 @@ msgstr ""
 #. PyIDEMainForm..actlStandard..actRunToCursor..Caption
 #: frmPyIDEMain.dfm
 msgid "Run To &Cursor"
-msgstr ""
+msgstr "Виконати до &курсора"
 
 #. PyIDEMainForm..actlStandard..actRunToCursor..Hint
 #: frmPyIDEMain.dfm
 msgid "Run to cursor"
-msgstr ""
+msgstr "Виконати до курсора"
 
 #. PyIDEMainForm..actlStandard..actStepInto..Caption
 #: frmPyIDEMain.dfm
@@ -5130,22 +5131,22 @@ msgstr ""
 #. PyIDEMainForm..actlStandard..actDebugPause..Caption
 #: frmPyIDEMain.dfm
 msgid "&Pause"
-msgstr ""
+msgstr "&Призупинити"
 
 #. PyIDEMainForm..actlStandard..actDebugPause..Hint
 #: frmPyIDEMain.dfm
 msgid "Pause running program"
-msgstr ""
+msgstr "Призупинити програму, що виконується"
 
 #. PyIDEMainForm..actlStandard..actDebugAbort..Caption
 #: frmPyIDEMain.dfm
 msgid "&Abort Debugging"
-msgstr ""
+msgstr "&Завершити зневадження"
 
 #. PyIDEMainForm..actlStandard..actDebugAbort..Hint
 #: frmPyIDEMain.dfm
 msgid "Abort debugging"
-msgstr ""
+msgstr "Завершити зневадження"
 
 #. PyIDEMainForm..actlStandard..actRunLastScriptExternal..Caption
 #: frmPyIDEMain.dfm
@@ -5161,13 +5162,13 @@ msgstr ""
 #. PyIDEMainForm..actlStandard..actRunLastScript..Caption
 #: frmPyIDEMain.dfm
 msgid "Run Last Script"
-msgstr ""
+msgstr "Виконати останній скрипт"
 
 #. PyIDEMainForm..actlStandard..actRunLastScript..Hint
 #. Programmer's name for it: SHintRun
 #: frmPyIDEMain.dfm StringResources.pas
 msgid "Run last script"
-msgstr ""
+msgstr "Виконати останній скрипт"
 
 #. PyIDEMainForm..actlStandard..actToggleBreakPoint..Caption
 #: frmPyIDEMain.dfm
@@ -5234,7 +5235,7 @@ msgstr ""
 #. PyIDEMainForm..actlStandard..actNavCodeExplorer..Caption
 #: frmPyIDEMain.dfm
 msgid "&Code Explorer"
-msgstr ""
+msgstr "&Оглядач коду"
 
 #. PyIDEMainForm..actlStandard..actViewCodeExplorer..Hint
 #: frmPyIDEMain.dfm
@@ -5244,7 +5245,7 @@ msgstr ""
 #. PyIDEMainForm..actlStandard..actViewFileExplorer..Caption
 #: frmPyIDEMain.dfm
 msgid "&File Explorer"
-msgstr ""
+msgstr "Оглядач &файлів"
 
 #. PyIDEMainForm..actlStandard..actViewFileExplorer..Hint
 #: frmPyIDEMain.dfm
@@ -5303,22 +5304,22 @@ msgstr ""
 #. PyIDEMainForm..actlStandard..actFindDefinition..Caption
 #: frmPyIDEMain.dfm
 msgid "Find &Definition"
-msgstr ""
+msgstr "Знайти &означення"
 
 #. PyIDEMainForm..actlStandard..actFindDefinition..Hint
 #: frmPyIDEMain.dfm
 msgid "Find definition of an Identifier"
-msgstr ""
+msgstr "Знайти означення ідентифікатора"
 
 #. PyIDEMainForm..actlStandard..actFindReferences..Caption
 #: frmPyIDEMain.dfm
 msgid "Find &References"
-msgstr ""
+msgstr "Знайти по&силання"
 
 #. PyIDEMainForm..actlStandard..actFindReferences..Hint
 #: frmPyIDEMain.dfm
 msgid "Find references of an Identifier"
-msgstr ""
+msgstr "Знайти посилання ідентифікатора"
 
 #. PyIDEMainForm..actlStandard..actBrowseBack..Caption
 #: frmPyIDEMain.dfm
@@ -5353,32 +5354,32 @@ msgstr ""
 #. PyIDEMainForm..actlStandard..actEditorZoomIn..Caption
 #: frmPyIDEMain.dfm
 msgid "Zoom &In"
-msgstr ""
+msgstr "З&більшити"
 
 #. PyIDEMainForm..actlStandard..actEditorZoomIn..Hint
 #: frmPyIDEMain.dfm
 msgid "Increase the font size of the editor"
-msgstr ""
+msgstr "Збільшити розмір шрифту редактора"
 
 #. PyIDEMainForm..actlStandard..actEditorZoomOut..Caption
 #: frmPyIDEMain.dfm
 msgid "Zoom &Out"
-msgstr ""
+msgstr "З&меншити"
 
 #. PyIDEMainForm..actlStandard..actEditorZoomOut..Hint
 #: frmPyIDEMain.dfm
 msgid "Decrease the font size of the editor"
-msgstr ""
+msgstr "Зменшити розмір шрифту редактора"
 
 #. PyIDEMainForm..actlStandard..actViewSplitEditorVer..Caption
 #: frmPyIDEMain.dfm
 msgid "Split Editor Vertically"
-msgstr ""
+msgstr "Розділити редактор вертикально"
 
 #. PyIDEMainForm..actlStandard..actViewSplitEditorVer..Hint
 #: frmPyIDEMain.dfm
 msgid "Split the editor Windows vertically"
-msgstr ""
+msgstr "Розділити вікно редактора вертикально"
 
 #. PyIDEMainForm..actlStandard..actAddWatchAtCursor..Caption
 #: frmPyIDEMain.dfm
@@ -5408,7 +5409,7 @@ msgstr ""
 #. PyIDEMainForm..actlStandard..actPythonRemote..Caption
 #: frmPyIDEMain.dfm
 msgid "&Remote"
-msgstr ""
+msgstr "&Віддалений"
 
 #. PyIDEMainForm..actlStandard..actPythonRemote..Hint
 #: frmPyIDEMain.dfm
@@ -5438,12 +5439,12 @@ msgstr ""
 #. PyIDEMainForm..actlStandard..actNewFile..Caption
 #: frmPyIDEMain.dfm
 msgid "New File..."
-msgstr ""
+msgstr "Новий файл..."
 
 #. PyIDEMainForm..actlStandard..actNewFile..Hint
 #: frmPyIDEMain.dfm
 msgid "New file from template"
-msgstr ""
+msgstr "Новий файл з шаблону"
 
 #. PyIDEMainForm..actlStandard..actNavWatches..Category
 #. PyIDEMainForm..actlStandard..actNavBreakpoints..Category
@@ -5510,7 +5511,7 @@ msgstr ""
 #. PyIDEMainForm..actlStandard..actNavFileExplorer..Caption
 #: frmPyIDEMain.dfm
 msgid "File E&xplorer"
-msgstr ""
+msgstr "О&глядач файлів"
 
 #. PyIDEMainForm..actlStandard..actNavFileExplorer..Hint
 #: frmPyIDEMain.dfm
@@ -5566,32 +5567,32 @@ msgstr ""
 #. PyIDEMainForm..actlStandard..actExecSelection..Caption
 #: frmPyIDEMain.dfm
 msgid "E&xecute selection"
-msgstr ""
+msgstr "Ви&конати вибране"
 
 #. PyIDEMainForm..actlStandard..actExecSelection..Hint
 #: frmPyIDEMain.dfm
 msgid "Execute the editor selection"
-msgstr ""
+msgstr "Виконати вибране в редакторі"
 
 #. PyIDEMainForm..actlStandard..actViewSplitEditorHor..Caption
 #: frmPyIDEMain.dfm
 msgid "Split Editor Horizontally"
-msgstr ""
+msgstr "Розділити редактор горизонтально"
 
 #. PyIDEMainForm..actlStandard..actViewSplitEditorHor..Hint
 #: frmPyIDEMain.dfm
 msgid "Split the editor Windows horizontally"
-msgstr ""
+msgstr "Розділити вікно редактора горизонтально"
 
 #. PyIDEMainForm..actlStandard..actViewHideSecondEditor..Caption
 #: frmPyIDEMain.dfm
 msgid "Hide Second Editor"
-msgstr ""
+msgstr "Сховати другий редактор"
 
 #. PyIDEMainForm..actlStandard..actViewHideSecondEditor..Hint
 #: frmPyIDEMain.dfm
 msgid "Clear the editor"
-msgstr ""
+msgstr "Очистити редактор"
 
 #. PyIDEMainForm..actlStandard..actPostMortem..Caption
 #: frmPyIDEMain.dfm
@@ -5606,60 +5607,64 @@ msgstr ""
 #. PyIDEMainForm..actlStandard..actViewCustomizeToolbars..Caption
 #: frmPyIDEMain.dfm
 msgid "Customize..."
-msgstr ""
+msgstr "Налаштувати..."
 
 #. PyIDEMainForm..actlStandard..actViewCustomizeToolbars..Hint
 #: frmPyIDEMain.dfm
 msgid "Customize the toolbars"
-msgstr ""
+msgstr "Налаштувати панелі інструментів"
 
 #. PyIDEMainForm..actlStandard..actViewProjectExplorer..Caption
 #. PyIDEMainForm..actlStandard..actNavProjectExplorer..Caption
 #: frmPyIDEMain.dfm
 msgid "&Project Explorer"
-msgstr ""
+msgstr "&Оглядач проєкту"
 
 #. PyIDEMainForm..actlStandard..actViewProjectExplorer..Hint
 #: frmPyIDEMain.dfm
 msgid "View/Hide Project Explorer"
-msgstr ""
+msgstr "Показати/Сховати оглядач проєкту"
 
 #. PyIDEMainForm..actlStandard..actNavProjectExplorer..Hint
 #: frmPyIDEMain.dfm
 msgid "Activate the Project Explorer window"
-msgstr ""
+msgstr "Активувати вікно оглядати проєкту"
 
 #. PyIDEMainForm..actlStandard..actViewSplitWorkspaceVer..Caption
 #: frmPyIDEMain.dfm
 msgid "Split Workspace Vertically"
-msgstr ""
+msgstr "Розділити робочий простір вертикально"
 
 #. PyIDEMainForm..actlStandard..actViewSplitWorkspaceVer....Hint
 #: frmPyIDEMain.dfm
 msgid ""
 "Split workspace vertically|Show secondary editor tabset vertically aligned"
 msgstr ""
+"Розділити робочий простір вертикально|Показати другий робочий простір "
+"вирівняно по-вертикалі"
 
 #. PyIDEMainForm..actlStandard..actViewSplitWorkspaceHor..Caption
 #: frmPyIDEMain.dfm
 msgid "Split Workspace Horizontally"
-msgstr ""
+msgstr "Розділити робочий простір горизонтально"
 
 #. PyIDEMainForm..actlStandard..actViewSplitWorkspaceHor....Hint
 #: frmPyIDEMain.dfm
 msgid ""
 "Split workspace horizontally|Show secondary workspace horizontally aligned"
 msgstr ""
+"Розділити робочий простір горизонтально|Показати другий робочий простір "
+"вирівняно по-горизонталі"
 
 #. PyIDEMainForm..actlStandard..actViewHideSecondaryWorkspace..Caption
 #: frmPyIDEMain.dfm
 msgid "Hide Secondary Workspace"
-msgstr ""
+msgstr "Сховати другий робочий простір"
 
 #. PyIDEMainForm..actlStandard..actViewHideSecondaryWorkspace..Hint
 #: frmPyIDEMain.dfm
 msgid "Hide secondary workspace"
-msgstr ""
+msgstr "Сховати другий робочий простір"
 
 #. PyIDEMainForm..actlStandard..actSelectStyle..Caption
 #: frmPyIDEMain.dfm
@@ -5681,18 +5686,18 @@ msgstr ""
 #. Programmer's name for it: SRemoteFileOpen
 #: frmPyIDEMain.dfm StringResources.pas
 msgid "Open Remote File"
-msgstr ""
+msgstr "Відкрити віддалений файл"
 
 #. PyIDEMainForm..actlStandard..actRemoteFileOpen..Hint
 #: frmPyIDEMain.dfm
 msgid "Open Remote File with SSH"
-msgstr ""
+msgstr "Відкрити віддалений файл через SSH"
 
 #. PythonIIForm..Caption
 #. Create a Python External Run tool which is used in the run menu
 #: frmPythonII.dfm cTools.pas dmCommands.pas
 msgid "Python Interpreter"
-msgstr ""
+msgstr "Інтерпретатор Python"
 
 #. PythonIIForm..InterpreterActionList..actCopyHistory..Category
 #. PythonIIForm..InterpreterActionList..actClearContents..Category
@@ -5700,7 +5705,7 @@ msgstr ""
 #. PythonIIForm..InterpreterActionList..actPasteAndExecute..Category
 #: frmPythonII.dfm
 msgid "Interpreter"
-msgstr ""
+msgstr "Інтерпретатор"
 
 #. PythonIIForm..InterpreterActionList..actCopyHistory..Caption
 #: frmPythonII.dfm
@@ -5800,7 +5805,7 @@ msgstr ""
 #. RegExpTesterWindow..BGPanel..FGPanel..TBXDock..RegExpTesterToolbar..TBXSubmenuItem2..RI_findall..Caption
 #: frmRegExpTester.dfm
 msgid "Find all"
-msgstr ""
+msgstr "Знайти все"
 
 #. RegExpTesterWindow..BGPanel..FGPanel..TBXDock..RegExpTesterToolbar..TBXSubmenuItem2..RI_findall..Hint
 #: frmRegExpTester.dfm
@@ -5875,17 +5880,17 @@ msgstr ""
 #. ToDoWindow..Actions..actFilePrint..Caption
 #: frmToDo.dfm
 msgid "&Print"
-msgstr ""
+msgstr "&Друкувати"
 
 #. ToDoWindow..Actions..actFilePrint..Hint
 #: frmToDo.dfm
 msgid "Print to do items"
-msgstr ""
+msgstr "Друкувати елементи to do"
 
 #. ToDoWindow..Actions..actOptionsConfigure..Caption
 #: frmToDo.dfm
 msgid "&Options..."
-msgstr ""
+msgstr "&Параметри..."
 
 #. ToDoWindow..Actions..actEditCopy..Caption
 #: frmToDo.dfm
@@ -5963,7 +5968,7 @@ msgstr ""
 #. UnitTestWindow..DialogActions..actSelectAll..Hint
 #: frmUnitTests.dfm
 msgid "Select all tests"
-msgstr ""
+msgstr "Вибрати усі тести"
 
 #. UnitTestWindow..DialogActions..actDeselectAll..Hint
 #: frmUnitTests.dfm
@@ -6054,7 +6059,7 @@ msgstr ""
 
 #: cProjectClasses.pas
 msgid "Files"
-msgstr ""
+msgstr "Файли"
 
 #: cProjectClasses.pas
 msgid "Run Configurations"
@@ -6071,7 +6076,7 @@ msgstr ""
 
 #: cSSHSupport.pas
 msgid "SSH Servers"
-msgstr ""
+msgstr "SSH-сервери"
 
 #: cSSHSupport.pas
 msgid "Select SSH Server"
@@ -6079,7 +6084,7 @@ msgstr ""
 
 #: cSSHSupport.pas
 msgid "SSH Server name"
-msgstr ""
+msgstr "Ім'я SSH-серверу"
 
 #: cSSHSupport.pas
 msgid "Host name"
@@ -6099,7 +6104,7 @@ msgstr ""
 
 #: cSSHSupport.pas dmCommands.pas
 msgid "SSH options"
-msgstr ""
+msgstr "Параметри SSH"
 
 #: cSSHSupport.pas
 msgid "Path to SCP Command"
@@ -6328,7 +6333,7 @@ msgstr ""
 
 #: dlgAboutPyScripter.pas
 msgid "Donations"
-msgstr ""
+msgstr "Внески"
 
 #: dlgCollectionEditor.pas
 msgid "Please make a selection"
@@ -6369,7 +6374,7 @@ msgstr ""
 
 #: dlgPythonVersions.pas
 msgid "New name:"
-msgstr ""
+msgstr "Нове ім'я:"
 
 #. Programmer's name for it: SGrepResultsNotActive
 #: dlgReplaceInFiles.pas
@@ -6383,12 +6388,12 @@ msgstr ""
 #. Programmer's name for it: SPrintDoc
 #: dlgSynPrintPreview.pas
 msgid "Print the document on"
-msgstr ""
+msgstr "Друкувати документ на"
 
 #. Programmer's name for it: SPage
 #: dlgSynPrintPreview.pas
 msgid "Page"
-msgstr ""
+msgstr "Сторінка"
 
 #: dlgToDoOptions.pas
 msgid "'To Do' search path"
@@ -6436,7 +6441,7 @@ msgstr ""
 
 #: dmCommands.pas
 msgid "File template for new Python scripts"
-msgstr ""
+msgstr "Шаблон файлу для нового скрипту Python"
 
 #: dmCommands.pas
 msgid "Number of recent files"
@@ -6529,7 +6534,7 @@ msgstr ""
 
 #: dmCommands.pas
 msgid "Restore open files"
-msgstr ""
+msgstr "Відновити відкриті файли"
 
 #: dmCommands.pas
 msgid "Search text at caret"
@@ -6585,11 +6590,11 @@ msgstr ""
 
 #: dmCommands.pas
 msgid "Highlight selected word"
-msgstr ""
+msgstr "Підсвітити вибране слово"
 
 #: dmCommands.pas
 msgid "Highlight color of selected word"
-msgstr ""
+msgstr "Колір підсвічування вибраного слова"
 
 #: dmCommands.pas
 msgid "Display package names in editor tabs"
@@ -6619,7 +6624,7 @@ msgstr ""
 #. Programmer's name for it: SEdCmdCodeCompletion
 #: dmCommands.pas StringResources.pas
 msgid "Code Completion"
-msgstr ""
+msgstr "Автодоповнення коду"
 
 #: dmCommands.pas
 msgid "Special packages"
@@ -6627,7 +6632,7 @@ msgstr ""
 
 #: dmCommands.pas
 msgid "Code completion list size"
-msgstr ""
+msgstr "Розмір списку автодоповнення коду"
 
 #: dmCommands.pas
 msgid "Editor code completion"
@@ -6675,7 +6680,7 @@ msgstr ""
 
 #: dmCommands.pas
 msgid "SSH command"
-msgstr ""
+msgstr "SSH-команда"
 
 #: dmCommands.pas
 msgid "SCP command"
@@ -6728,7 +6733,7 @@ msgstr ""
 
 #: frmCodeExplorer.pas
 msgid "Global variables"
-msgstr ""
+msgstr "Глобальні змінні"
 
 #: frmCodeExplorer.pas
 #, object-pascal-format
@@ -6815,11 +6820,11 @@ msgstr ""
 
 #: frmPyIDEMain.pas
 msgid "Debug"
-msgstr ""
+msgstr "Зневадження"
 
 #: frmPyIDEMain.pas
 msgid "Running"
-msgstr ""
+msgstr "Виконується"
 
 #: frmPyIDEMain.pas
 msgid "Paused"
@@ -6850,7 +6855,7 @@ msgstr ""
 #. Programmer's name for it: SDoneTodoDesignation
 #: frmToDo.pas
 msgid "Done"
-msgstr ""
+msgstr "Виконано"
 
 #. Programmer's name for it: STodoItems
 #: frmToDo.pas
@@ -7372,7 +7377,7 @@ msgstr ""
 #. Programmer's name for it: SEdCmdToggleInsertMode
 #: StringResources.pas
 msgid "Toggle Mode"
-msgstr ""
+msgstr "Перемикнути режим"
 
 #. Programmer's name for it: SEdCmdUndo
 #: StringResources.pas
@@ -7478,7 +7483,7 @@ msgstr ""
 #. Programmer's name for it: SDlgRetry
 #: StringResources.pas
 msgid "&Retry"
-msgstr ""
+msgstr "&Спробувати знову"
 
 #. Programmer's name for it: SDlgIgnore
 #: StringResources.pas
@@ -7518,7 +7523,7 @@ msgstr ""
 #. Programmer's name for it: SDSActkRememberText
 #: StringResources.pas
 msgid "Remember answer and do not show again"
-msgstr ""
+msgstr "Запам'ятати відповідь і не запитувати знову"
 
 #. Programmer's name for it: SInternalError
 #: StringResources.pas
@@ -7863,7 +7868,7 @@ msgstr ""
 #. Programmer's name for it: SSyntaxError
 #: StringResources.pas
 msgid "Syntax Error"
-msgstr ""
+msgstr "Помилка синтаксису"
 
 #. Programmer's name for it: StrCertainty
 #: StringResources.pas
@@ -7900,7 +7905,7 @@ msgstr ""
 #: StringResources.pas
 #, object-pascal-format
 msgid "Syntax of %s is OK!"
-msgstr ""
+msgstr "Із синтаксисом %s все гаразд!"
 
 #. Programmer's name for it: SModuleImportedOK
 #: StringResources.pas
@@ -7911,12 +7916,12 @@ msgstr ""
 #. Programmer's name for it: SResumeCaption
 #: StringResources.pas
 msgid "Resume"
-msgstr ""
+msgstr "Продовжити"
 
 #. Programmer's name for it: SResumeHint
 #: StringResources.pas
 msgid "Resume|Resume the running script"
-msgstr ""
+msgstr "Продовжити|Відновити виконання скрипту"
 
 #. Programmer's name for it: SModified
 #: StringResources.pas
@@ -7941,7 +7946,7 @@ msgstr ""
 #. Programmer's name for it: SSelectApplication
 #: StringResources.pas
 msgid "Select application or file to execute"
-msgstr ""
+msgstr "Вибрати програму чи файл для виконання"
 
 #. Programmer's name for it: SAddFilesToProject
 #: StringResources.pas
@@ -7951,7 +7956,7 @@ msgstr ""
 #. Programmer's name for it: SOpenProject
 #: StringResources.pas
 msgid "Open Project"
-msgstr ""
+msgstr "Відкрити проєкт"
 
 #. Programmer's name for it: SApplyLayout
 #: StringResources.pas
@@ -8024,12 +8029,12 @@ msgstr ""
 #: StringResources.pas
 #, object-pascal-format
 msgid "Save \"%s\" As"
-msgstr ""
+msgstr "Зберегти \"%s\" як"
 
 #. Programmer's name for it: SSaveFileAs
 #: StringResources.pas
 msgid "Save File As"
-msgstr ""
+msgstr "Зберегти файл як"
 
 #. Programmer's name for it: SIDEOptions
 #: StringResources.pas
@@ -8141,13 +8146,13 @@ msgstr ""
 #. Programmer's name for it: SSaveProjectAs
 #: StringResources.pas
 msgid "Save Project As"
-msgstr ""
+msgstr "Зберегти проєкт як"
 
 #. Programmer's name for it: SSaveProjectFileAs
 #: StringResources.pas
 #, object-pascal-format
 msgid "Save Project \"%s\" As"
-msgstr ""
+msgstr "Зберегти проєкт \"%s\" як"
 
 #. Programmer's name for it: SProjectPythonPath
 #: StringResources.pas
@@ -8359,7 +8364,7 @@ msgstr ""
 #. Programmer's name for it: SOverwrite
 #: StringResources.pas
 msgid "Overwrite"
-msgstr ""
+msgstr "Перезаписати"
 
 #. Programmer's name for it: SNonamePythonFileTitle
 #: StringResources.pas
@@ -8381,6 +8386,8 @@ msgid ""
 "Reloading the file will result in the loss of all changes.\n"
 "Do you want to proceed?"
 msgstr ""
+"Перезавантаження файлу призведе до втрати всіх змін.\n"
+"Ви дійсно хочете продовжити?"
 
 #. Programmer's name for it: SFileAlreadyOpen
 #: StringResources.pas
@@ -8600,7 +8607,7 @@ msgstr ""
 #. Programmer's name for it: SErrorEmptyPath
 #: StringResources.pas
 msgid "File Path cannot be empty"
-msgstr ""
+msgstr "Шлях до файлу не може бути порожнім"
 
 #. Programmer's name for it: SErrorEmptySSH
 #: StringResources.pas
@@ -8714,7 +8721,7 @@ msgstr ""
 #. Programmer's name for it: SYNS_FriendlyAttrSystemCmd
 #: SynHighlighterPython.pas
 msgid "System Command"
-msgstr ""
+msgstr "Системна команда"
 
 #. Programmer's name for it: SYNS_FriendlyAttrDocumentDelimiter
 #: SynHighlighterYAML.pas
@@ -8816,19 +8823,19 @@ msgstr ""
 
 #: uParams.pas
 msgid "File name"
-msgstr ""
+msgstr "Ім'я файлу"
 
 #: uParams.pas
 msgid "File extension"
-msgstr ""
+msgstr "Розширення файлу"
 
 #: uParams.pas
 msgid "File extension without \".\""
-msgstr ""
+msgstr "Розширення файлу без \".\""
 
 #: uParams.pas
 msgid "File name without extension"
-msgstr ""
+msgstr "Ім'я файлу без розширення"
 
 #: uParams.pas
 msgid "File drive"
@@ -8860,7 +8867,7 @@ msgstr ""
 
 #: uParams.pas
 msgid "File type"
-msgstr ""
+msgstr "Тип файлу"
 
 #: uParams.pas
 msgid "Contents of text file"
@@ -8940,7 +8947,7 @@ msgstr ""
 
 #: uParams.pas
 msgid "Project file name"
-msgstr ""
+msgstr "Ім'я файлу проєкту"
 
 #: uParams.pas
 msgid "Modified files"
