@@ -71,3 +71,7 @@ msgstr ""
 #. Language of Spain
 msgid "Spanish"
 msgstr ""
+
+#. Language of Ukraine
+msgid "Ukrainian"
+msgstr ""
