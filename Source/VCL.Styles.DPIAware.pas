@@ -6,9 +6,9 @@
  History:
 -----------------------------------------------------------------------------}
 {
-  To use the unit just add it to the implementation uses statement of the main form and add 
+  To use the unit just add it to the implementation uses statement of the main form and add
   the following code to the FormCreate handler.
-  
+
   procedure TFrmMain.FormCreate(Sender: TObject);
   Var
     StyleDPIAwareness : TStyleDPIAwareness;
@@ -16,13 +16,11 @@
     StyleDPIAwareness := TStyleDPIAwareness.Create(Self);
     StyleDPIAwareness.Parent := Self;
 
-  By default the component scales the styles at multiples of 100%. You can change that, 
-  by adding the line:
-  
-  StyleDPIAwareness.RoundScalingFactor := False;
-  
-  With this statement styles are scaled to whatever scaling factor results for Screen.PixelsPerInch. 
+  By default, styles are scaled to whatever scaling factor results for Screen.PixelsPerInch.
   Most of the styles would work fine, but a few may show some visual defects.
+  You can scale the styles at multiples of 100% by adding the line, before created the control:
+
+  TStyleDPIAwareness.RoundScalingFactor := True;
 
   Limitations:
     Does not support perMonitor DPI Awareness.
@@ -40,9 +38,6 @@ Type
   TStyleDPIAwareness = class(TControl)
   private
     FScaledStyles : TStringList;
-    FRoundScalingFactor : Boolean;
-    FUseCustomScalingFactor : Boolean;
-    FCustomPPI : integer;
    protected
     procedure CMStyleChanged(var Message: TMessage); message CM_STYLECHANGED;
     procedure RecreateForms;
@@ -50,19 +45,17 @@ Type
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
     procedure ScaleStyle(Style : TCustomStyleServices);
-  published
     {Rounds the scaling factorto the nearest 100%}
-    property  RoundScalingFactor : Boolean read FRoundScalingFactor
-      write FRoundScalingFactor default True;
-    property  UseCustomScalingFactor : Boolean read FUseCustomScalingFactor
-      write FUseCustomScalingFactor default False;
-    property CustomPPI : integer read FCustomPPI write FCustomPPI default 96;
+    class var  RoundScalingFactor : Boolean;
+    class var UseCustomScalingFactor : Boolean;
+    class var CustomPPI : integer;
   end;
 
 implementation
 
 Uses
   System.Rtti,
+  Vcl.SysStyles,
   {$IFDEF VER330} // RAD Studio 10.3
   DDetours,
   {$ENDIF VER330}
@@ -78,10 +71,6 @@ end;
 constructor TStyleDPIAwareness.Create(AOwner: TComponent);
 begin
   inherited;
-  FRoundScalingFactor := True;
-  FUseCustomScalingFactor := False;
-  FCustomPPI :=96;
-
   FScaledStyles := TStringList.Create;
   FScaledStyles.Sorted := False;
 
@@ -203,8 +192,9 @@ begin
     DPI := CustomPPI
   else begin
     DPI := Screen.PixelsPerInch;
-    if FRoundScalingFactor then
+    if RoundScalingFactor then
       DPI := Round(DPI / 96) * 96;
+//      DPI := Round(Pred(DPI) / 96) * 96;
   end;
 
   if (Style = TStyleManager.SystemStyle) or  (DPI <= 120) then
@@ -272,12 +262,63 @@ begin
     Result.Top := MulDiv(Result.Top, 96, Screen.PixelsPerInch);
 end;
 
+type
+   TSysDialogStyleHookFix = class helper for TSysDialogStyleHook
+     procedure SetStretchedCaptionInc(Value : Integer);
+     function GetBorderSizeAddr: Pointer;
+     function Detour_GetBorderSize: TRect;
+   end;
+
+var
+  Trampoline_TSysDialogStyleHook_GetBorderSize : TGetBorderSize;
+  Detour_TSysDialogStyleHook_GetBorderSize : TGetBorderSize;
+
+
+{ TSysDialogStyleHookFix }
+
+function TSysDialogStyleHookFix.GetBorderSizeAddr: Pointer;
+var
+  VMT : NativeInt;
+  MethodPtr: TGetBorderSize;
+begin
+  //  GetBorderSize is virtual
+  //  Adjust Self to point to the VMT
+  VMT := NativeInt(TSysDialogStyleHook);
+  Self := TSysDialogStyleHook(@VMT);
+
+  with Self do MethodPtr := GetBorderSize;
+  Result := TMethod(MethodPtr).Code;
+end;
+
+procedure TSysDialogStyleHookFix.SetStretchedCaptionInc(Value: Integer);
+begin
+  with Self do FStretchedCaptionInc := Value;
+end;
+
+function TSysDialogStyleHookFix.Detour_GetBorderSize: TRect;
+var
+  MethodPtr: TGetBorderSize;
+begin
+  TMethod(MethodPtr).Code := TMethod(Trampoline_TSysDialogStyleHook_GetBorderSize).Code;
+  TMethod(MethodPtr).Data := Pointer(Self);
+  Result := MethodPtr;
+  Self.SetStretchedCaptionInc(0);
+  if (Screen.PixelsPerInch > 96) then
+    Result.Top := MulDiv(Result.Top, 96, Screen.PixelsPerInch);
+end;
+
 initialization
  Detour_TFormStyleHook_GetBorderSize := TFormStyleHook(nil).Detour_GetBorderSize;
  TMethod(Trampoline_TFormStyleHook_GetBorderSize).Code :=
    InterceptCreate(TFormStyleHook(nil).GetBorderSizeAddr,
-   TMethod(Detour_TFormStyleHook_GetBorderSize).Code)
+   TMethod(Detour_TFormStyleHook_GetBorderSize).Code);
+
+ Detour_TSysDialogStyleHook_GetBorderSize := TSysDialogStyleHook(nil).Detour_GetBorderSize;
+ TMethod(Trampoline_TSysDialogStyleHook_GetBorderSize).Code :=
+   InterceptCreate(TSysDialogStyleHook(nil).GetBorderSizeAddr,
+   TMethod(Detour_TSysDialogStyleHook_GetBorderSize).Code);
 finalization
  InterceptRemove(TMethod(Trampoline_TFormStyleHook_GetBorderSize).Code);
+ InterceptRemove(TMethod(Trampoline_TSysDialogStyleHook_GetBorderSize).Code);
 {$ENDIF VER330}
 end.

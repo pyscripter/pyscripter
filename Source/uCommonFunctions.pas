@@ -340,6 +340,7 @@ Uses
   Winapi.UrlMon,
   Winapi.CommCtrl,
   Winapi.TlHelp32,
+  Winapi.Wincodec,
   System.Types,
   System.StrUtils,
   System.AnsiStrings,
@@ -2086,16 +2087,27 @@ end;
 
 procedure ResizeBitmap(Bitmap: TBitmap; const NewWidth, NewHeight: integer);
 var
-  buffer: TBitmap;
+  Factory: IWICImagingFactory;
+  Scaler: IWICBitmapScaler;
+  Source : TWICImage;
 begin
-  buffer := TBitmap.Create;
+  Bitmap.AlphaFormat := afDefined;
+  Source := TWICImage.Create;
   try
-    buffer.SetSize(NewWidth, NewHeight);
-    buffer.Canvas.StretchDraw(Rect(0, 0, NewWidth, NewHeight), Bitmap);
-    Bitmap.SetSize(NewWidth, NewHeight);
-    Bitmap.Canvas.Draw(0, 0, buffer);
+    Source.Assign(Bitmap);
+    Factory := TWICImage.ImagingFactory;
+    Factory.CreateBitmapScaler(Scaler);
+    try
+      Scaler.Initialize(Source.Handle, NewWidth, NewHeight,
+        WICBitmapInterpolationModeHighQualityCubic);
+      Source.Handle := IWICBitmap(Scaler);
+    finally
+      Scaler := nil;
+      Factory := nil;
+    end;
+    Bitmap.Assign(Source);
   finally
-    buffer.Free;
+    Source.Free;
   end;
 end;
 

@@ -2,29 +2,28 @@ inherited CommandLineDlg: TCommandLineDlg
   HelpContext = 910
   ActiveControl = SynParameters
   Caption = 'Command Line Parameters'
-  ClientHeight = 170
+  ClientHeight = 172
   ClientWidth = 528
   OnDestroy = FormDestroy
   ExplicitWidth = 534
-  ExplicitHeight = 199
+  ExplicitHeight = 201
   PixelsPerInch = 96
   TextHeight = 13
   object Panel: TSpTBXPanel
     Left = 0
     Top = 0
     Width = 528
-    Height = 170
+    Height = 172
     Align = alClient
     TabOrder = 0
     TBXStyleBackground = True
-    ExplicitWidth = 446
-    ExplicitHeight = 150
+    ExplicitHeight = 170
     DesignSize = (
       528
-      170)
+      172)
     object SynParameters: TSynEdit
       Left = 11
-      Top = 82
+      Top = 84
       Width = 484
       Height = 18
       Anchors = [akLeft, akRight, akBottom]
@@ -43,6 +42,7 @@ inherited CommandLineDlg: TCommandLineDlg
       CodeFolding.ShowCollapsedLine = False
       CodeFolding.ShowHintMark = True
       UseCodeFolding = False
+      FontSmoothing = fsmNone
       Gutter.Font.Charset = DEFAULT_CHARSET
       Gutter.Font.Color = clWindowText
       Gutter.Font.Height = -11
@@ -53,12 +53,11 @@ inherited CommandLineDlg: TCommandLineDlg
       Options = [eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoShowScrollHint, eoSmartTabDelete, eoSmartTabs, eoTabsToSpaces]
       ScrollBars = ssNone
       WantReturns = False
-      FontSmoothing = fsmNone
-      ExplicitWidth = 460
+      ExplicitTop = 82
     end
     object OKButton: TSpTBXButton
       Left = 144
-      Top = 135
+      Top = 137
       Width = 75
       Height = 25
       Caption = '&OK'
@@ -67,11 +66,11 @@ inherited CommandLineDlg: TCommandLineDlg
       OnClick = OKButtonClick
       Default = True
       ModalResult = 1
-      ExplicitLeft = 120
+      ExplicitTop = 135
     end
     object BitBtn2: TSpTBXButton
       Left = 238
-      Top = 135
+      Top = 137
       Width = 75
       Height = 25
       Caption = '&Cancel'
@@ -79,22 +78,22 @@ inherited CommandLineDlg: TCommandLineDlg
       TabOrder = 2
       Cancel = True
       ModalResult = 2
-      ExplicitLeft = 214
+      ExplicitTop = 135
     end
     object HelpButton: TSpTBXButton
       Left = 333
-      Top = 135
+      Top = 137
       Width = 75
       Height = 25
       Caption = '&Help'
       Anchors = [akRight, akBottom]
       TabOrder = 3
       OnClick = btnHelpClick
-      ExplicitLeft = 309
+      ExplicitTop = 135
     end
     object TBXButton1: TSpTBXButton
       Left = 501
-      Top = 81
+      Top = 83
       Width = 17
       Height = 19
       Hint = 'History'
@@ -103,12 +102,11 @@ inherited CommandLineDlg: TCommandLineDlg
       ShowHint = True
       TabOrder = 5
       DropDownMenu = TBXPopupHistory
-      ExplicitLeft = 419
-      ExplicitTop = 61
+      ExplicitTop = 81
     end
     object cbUseCommandLine: TSpTBXCheckBox
-      Left = 11
-      Top = 11
+      Left = 13
+      Top = 16
       Width = 177
       Height = 21
       Caption = 'Use Command Line Parameters?'
@@ -116,8 +114,8 @@ inherited CommandLineDlg: TCommandLineDlg
       TabOrder = 4
     end
     object Label1: TSpTBXLabel
-      Left = 11
-      Top = 30
+      Left = 13
+      Top = 43
       Width = 507
       Height = 32
       Caption = 
@@ -126,17 +124,15 @@ inherited CommandLineDlg: TCommandLineDlg
         'gument.'
       Anchors = [akLeft, akRight, akBottom]
       Wrapping = twWrap
-      ExplicitWidth = 495
     end
     object Label3: TSpTBXLabel
-      Left = 11
-      Top = 105
+      Left = 13
+      Top = 108
       Width = 258
       Height = 19
       Caption = 'Parameters : Shift+Ctrl+P, Modifiers : Shift+Ctrl+M '
       Anchors = [akLeft, akBottom]
       Enabled = False
-      ExplicitTop = 99
     end
   end
   object TBXPopupHistory: TSpTBXPopupMenu
