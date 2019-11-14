@@ -114,7 +114,8 @@ uses
   cSSHSupport in 'cSSHSupport.pas',
   dlgRemoteFile in 'dlgRemoteFile.pas' {RemoteFileDialog},
   cPySSHDebugger in 'cPySSHDebugger.pas',
-  JclSysUtils in 'JclSysUtils.pas';
+  JclSysUtils in 'JclSysUtils.pas',
+  RtlVclFixes in 'RtlVclFixes.pas';
 
 {$R *.RES}
 {$R WebCopyAvi.RES}

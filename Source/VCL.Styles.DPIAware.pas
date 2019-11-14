@@ -61,6 +61,17 @@ Uses
   {$ENDIF VER330}
   uCommonFunctions;
 
+{TBitmapHelper}
+
+type TBitmapHelper = class helper for TBitmap
+  procedure PublicUnPreMultiplyAlpha;
+end;
+
+procedure TBitmapHelper.PublicUnPreMultiplyAlpha;
+begin
+  with Self do UnPreMultiplyAlpha;
+end;
+
 { TStyleDPIAwareness }
 
 procedure TStyleDPIAwareness.CMStyleChanged(var Message: TMessage);
@@ -206,6 +217,8 @@ begin
 
   if BitMapList.Count = 1 then begin
     Bitmap := TObject(BitmapList[0]) as TBitmap;
+    // It appears that the bitmap is premultiplied but has AlphaFormat afIgnored!
+    Bitmap.PublicUnPreMultiplyAlpha;
     ResizeBitmap(Bitmap, MulDiv(Bitmap.Width, DPI, 96), Muldiv(Bitmap.Height, DPI, 96));
 
     StyleObjectList := TRttiContext.Create.GetType(SeStyleSource.ClassType).GetField('FObjects').GetValue(SeStyleSource).AsObject as TList;
