@@ -24,17 +24,20 @@ uses
   Vcl.Dialogs,
   Vcl.OleCtrls,
   Vcl.ImgList,
+  Vcl.BaseImageCollection,
+  Vcl.ImageCollection,
+  Vcl.VirtualImageList,
   SHDocVw,
   TB2Item,
   TB2Dock,
   TB2Toolbar,
   SpTBXItem,
+  dmCommands,
   uEditAppIntfs;
 
 type
   TDocForm = class(TForm, IEditorView)
     WebBrowser: TWebBrowser;
-    Images: TImageList;
     TBXDock1: TSpTBXDock;
     TBXToolbar1: TSpTBXToolbar;
     ToolButtonForward: TSpTBXItem;
@@ -47,6 +50,7 @@ type
     TBXItem6: TSpTBXItem;
     TBXSeparatorItem4: TSpTBXSeparatorItem;
     TBXItem7: TSpTBXItem;
+    BrowserImages: TVirtualImageList;
     procedure ToolButtonBackClick(Sender: TObject);
     procedure ToolButtonForwardClick(Sender: TObject);
     procedure ToolButtonStopClick(Sender: TObject);
@@ -90,7 +94,6 @@ uses
   JvJVCLUtils,
   JvGnugettext,
   StringResources,
-  dmCommands,
   uCommonFunctions,
   cPyBaseDebugger,
   cPyControl;
@@ -182,7 +185,6 @@ end;
 function TDocView.CreateForm(Editor: IEditor; AOwner : TComponent): TCustomForm;
 begin
   Result := TDocForm.Create(AOwner);
-  ScaleImageList(TDocForm(Result).Images, Screen.PixelsPerInch, 96);
 end;
 
 function TDocView.GetImageIndex: Integer;

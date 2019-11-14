@@ -54,7 +54,7 @@ uses
   dlgSynEditOptions,
   dlgOptionsEditor,
   uEditAppIntfs,
-  cPyBaseDebugger;
+  cPyBaseDebugger, Vcl.BaseImageCollection, Vcl.ImageCollection;
 
 type
   TSearchCaseSensitiveType = (scsAuto, scsNotCaseSenitive, scsCaseSensitive);
@@ -250,6 +250,7 @@ type
     actEditReadOnly: TAction;
     actFileSaveToRemote: TAction;
     actDonate: TAction;
+    BrowserImages: TImageCollection;
     function ProgramVersionHTTPLocationLoadFileFromRemote(
       AProgramVersionLocation: TJvProgramVersionHTTPLocation; const ARemotePath,
       ARemoteFileName, ALocalPath, ALocalFileName: string): string;
