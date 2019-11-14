@@ -276,6 +276,8 @@ function FileExtInFileFilter(FileExt, FileFilter: string): Boolean;
 (* Checks if a file name is indicates a Python source file *)
 function FileIsPythonSource(FileName: string): Boolean;
 
+(* Simple routine to hook/detour a function *)
+procedure RedirectFunction(OrgProc, NewProc: Pointer);
 
 type
   (*  Extends System.RegularExperssions.TRegEx *)
@@ -2477,6 +2479,29 @@ begin
     Result := '';
 end;
 //  Regular Expressions End
+
+procedure RedirectFunction(OrgProc, NewProc: Pointer);
+{
+  From spring4d
+  See https://devblogs.microsoft.com/oldnewthing/20181206-00/?p=100415
+  in relation to the use of WriteProcessMemory
+}
+type
+  TJmpBuffer = packed record
+    Jmp: Byte;
+    Offset: Integer;
+  end;
+var
+  n: NativeUInt;
+  JmpBuffer: TJmpBuffer;
+begin
+  JmpBuffer.Jmp := $E9;
+  JmpBuffer.Offset := PByte(NewProc) - (PByte(OrgProc) + 5);
+  if not WriteProcessMemory(GetCurrentProcess, OrgProc, @JmpBuffer, SizeOf(JmpBuffer), n) then
+    RaiseLastOSError;
+  FlushInstructionCache(GetCurrentProcess, OrgProc, SizeOf(JmpBuffer))
+end;
+
 
 {https://stackoverflow.com/questions/20142166/explain-errors-from-getkeystate-getcursorpos}
 
