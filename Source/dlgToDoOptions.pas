@@ -46,33 +46,38 @@ interface
 
 
 uses
-  Classes, Controls, StdCtrls, Forms, SpTBXControls,
-  SpTBXEditors, dlgPyIDEBase, SpTBXItem, ComCtrls;
+  System.Classes,
+  Vcl.Controls,
+  Vcl.StdCtrls,
+  Vcl.Forms,
+  Vcl.ComCtrls,
+  Vcl.ExtCtrls,
+  dlgPyIDEBase;
 
 type
   TfmToDoOptions = class(TPyIDEDlgBase)
-    gbxTokens: TSpTBXGroupBox;
-    gbxOptions: TSpTBXGroupBox;
-    gbxSearchFiles: TSpTBXGroupBox;
-    btnInsert: TSpTBXButton;
-    btnApply: TSpTBXButton;
-    btnRemove: TSpTBXButton;
-    btnOK: TSpTBXButton;
-    btnCancel: TSpTBXButton;
-    btnBrowse: TSpTBXButton;
-    btnHelp: TSpTBXButton;
-    cbShowTokens: TSpTBXCheckBox;
-    chkInclude: TSpTBXCheckBox;
-    radScanOpen: TSpTBXRadioButton;
-    radScanDir: TSpTBXRadioButton;
-    radScanProject: TSpTBXRadioButton;
-    lstTokens: TSpTBXListBox;
-    edToken: TSpTBXEdit;
-    cboPriority: TSpTBXComboBox;
-    lblPriority: TSpTBXLabel;
-    lblToken: TSpTBXLabel;
-    pnlBG: TSpTBXPanel;
+    gbxTokens: TGroupBox;
+    gbxOptions: TGroupBox;
+    gbxSearchFiles: TGroupBox;
+    pnlBG: TPanel;
     meDirectories: TRichEdit;
+    chkInclude: TCheckBox;
+    cbShowTokens: TCheckBox;
+    radScanOpen: TRadioButton;
+    radScanDir: TRadioButton;
+    radScanProject: TRadioButton;
+    edToken: TEdit;
+    cboPriority: TComboBox;
+    lstTokens: TListBox;
+    btnInsert: TButton;
+    btnApply: TButton;
+    btnRemove: TButton;
+    btnBrowse: TButton;
+    btnOK: TButton;
+    btnCancel: TButton;
+    btnHelp: TButton;
+    lblPriority: TLabel;
+    lblToken: TLabel;
     procedure btnInsertClick(Sender: TObject);
     procedure btnRemoveClick(Sender: TObject);
     procedure btnApplyClick(Sender: TObject);
@@ -94,7 +99,13 @@ implementation
 {$R *.dfm}
 
 uses
-  System.UITypes, Dialogs, Graphics, SysUtils, frmToDo, dlgDirectoryList, JvGnugettext,
+  System.UITypes,
+  System.SysUtils,
+  Vcl.Dialogs,
+  Vcl.Graphics,
+  JvGnugettext,
+  frmToDo,
+  dlgDirectoryList,
   StringResources;
 
 procedure TfmToDoOptions.UpdateButtonState;
@@ -155,7 +166,7 @@ begin
   else
   begin
     // Warning message that an empty token is inserted
-    Dialogs.MessageDlg(_(SEmptyTokenTextError), mtError, [mbOK], 0);
+    Vcl.Dialogs.MessageDlg(_(SEmptyTokenTextError), mtError, [mbOK], 0);
   end;
   UpdateButtonState;
 end;

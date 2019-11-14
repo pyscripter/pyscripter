@@ -64,6 +64,9 @@ uses
   Vcl.ImgList,
   Vcl.ComCtrls,
   Vcl.Menus,
+  Vcl.VirtualImageList,
+  Vcl.BaseImageCollection,
+  Vcl.ImageCollection,
   TB2Item,
   TB2Dock,
   TB2Toolbar,
@@ -111,7 +114,6 @@ type
   end;
 
   TToDoWindow = class(TIDEDockWindow)
-    ilTodo: TImageList;
     TBXDock1: TSpTBXDock;
     Toolbar: TSpTBXToolbar;
     tbiGoTo: TSpTBXItem;
@@ -143,6 +145,8 @@ type
     actFilePrint: TAction;
     actEditGoto: TAction;
     actFileRefresh: TAction;
+    ToDoImageCollection: TImageCollection;
+    ToDoImages: TVirtualImageList;
     procedure actEditCopyExecute(Sender: TObject);
     procedure actFilePrintExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -386,8 +390,6 @@ end;
 procedure TToDoWindow.FormCreate(Sender: TObject);
 begin
   inherited;
-  ScaleImageList(ilTodo, Screen.PixelsPerInch, 96);
-
   FIsFirstActivation := True;
 
   FDataList := TObjectList.Create(True); // Owned objects
@@ -925,6 +927,7 @@ begin
   Assert(Integer(Node.Index) < fDataList.Count);
   with PToDoRec(ToDoView.GetNodeData(Node))^.ToDoInfo do
     case Column of
+      0:  CellText := '';
       1:  CellText := Display;
       2:  CellText := FileName;
       3:  CellText := IntToStr(LineNo);
@@ -956,7 +959,10 @@ begin
     Assert(ToDoView.GetNodeLevel(Node) = 0);
     Assert(Integer(Node.Index) < fDataList.Count);
     with PToDoRec(ToDoView.GetNodeData(Node))^.ToDoInfo do
-      ImageIndex := Ord(Priority);
+      if Priority = tpMed then
+        ImageIndex := -1
+      else
+        ImageIndex := Ord(Priority);
   end;
 end;
 
