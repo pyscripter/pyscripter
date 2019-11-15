@@ -147,6 +147,7 @@ inherited CustomizeParams: TCustomizeParams
         CodeFolding.ShowCollapsedLine = False
         CodeFolding.ShowHintMark = True
         UseCodeFolding = False
+        FontSmoothing = fsmNone
         Gutter.Font.Charset = DEFAULT_CHARSET
         Gutter.Font.Color = clWindowText
         Gutter.Font.Height = -11
@@ -157,7 +158,6 @@ inherited CustomizeParams: TCustomizeParams
         Options = [eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoShowScrollHint, eoSmartTabDelete, eoSmartTabs, eoTabsToSpaces]
         ScrollBars = ssNone
         WantReturns = False
-        FontSmoothing = fsmNone
       end
       object edName: TEdit
         Left = 133

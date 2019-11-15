@@ -355,6 +355,12 @@ type
     procedure actEditReadOnlyExecute(Sender: TObject);
     procedure actFileSaveToRemoteExecute(Sender: TObject);
     procedure actDonateExecute(Sender: TObject);
+    procedure ParameterCompletionExecute(Kind: SynCompletionType;
+      Sender: TObject; var CurrentInput: string; var x, y: Integer;
+      var CanExecute: Boolean);
+    procedure ModifierCompletionExecute(Kind: SynCompletionType;
+      Sender: TObject; var CurrentInput: string; var x, y: Integer;
+      var CanExecute: Boolean);
   private
     fHighlighters: TStrings;
     fUntitledNumbers: TBits;
@@ -2413,6 +2419,13 @@ begin
     Value := Parameters.MakeParameter(Value);
 end;
 
+procedure TCommandsDataModule.ParameterCompletionExecute(
+  Kind: SynCompletionType; Sender: TObject; var CurrentInput: string; var x,
+  y: Integer; var CanExecute: Boolean);
+begin
+  PrepareParameterCompletion;
+end;
+
 procedure TCommandsDataModule.ModifierCompletionCodeCompletion(
   Sender: TObject; var Value: string; Shift: TShiftState; Index: Integer;
   EndToken: WideChar);
@@ -2434,11 +2447,17 @@ begin
     end;
 end;
 
+procedure TCommandsDataModule.ModifierCompletionExecute(Kind: SynCompletionType;
+  Sender: TObject; var CurrentInput: string; var x, y: Integer;
+  var CanExecute: Boolean);
+begin
+  PrepareModifierCompletion;
+end;
+
 procedure TCommandsDataModule.actParameterCompletionExecute(
   Sender: TObject);
 begin
   if Assigned(Screen.ActiveControl) and (Screen.ActiveControl is TSynedit) then begin
-    PrepareParameterCompletion;
     ParameterCompletion.Title := _('Parameters');
     ParameterCompletion.NbLinesInWindow := PyIDEOptions.CodeCompletionListSize;
     ParameterCompletion.Editor := TSynEdit(Screen.ActiveControl);
@@ -2450,7 +2469,6 @@ procedure TCommandsDataModule.actModifierCompletionExecute(
   Sender: TObject);
 begin
   if Assigned(Screen.ActiveControl) and (Screen.ActiveControl is TSynedit) then begin
-    PrepareModifierCompletion;
     ModifierCompletion.Title := _('Modifiers');
     ModifierCompletion.NbLinesInWindow := PyIDEOptions.CodeCompletionListSize;
     ModifierCompletion.Editor := TSynEdit(Screen.ActiveControl);

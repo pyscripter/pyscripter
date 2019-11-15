@@ -17,10 +17,33 @@ inherited CommandLineDlg: TCommandLineDlg
     Align = alClient
     TabOrder = 0
     TBXStyleBackground = True
-    ExplicitHeight = 170
     DesignSize = (
       528
       172)
+    object Label1: TLabel
+      Left = 13
+      Top = 43
+      Width = 349
+      Height = 26
+      Anchors = [akLeft, akRight, akBottom]
+      Caption = 
+        'Please enter parameters to be appended to the command line:'#13#10'Not' +
+        'e that the script name is automatically inserted as the first ar' +
+        'gument.'
+      Color = clNone
+      ParentColor = False
+    end
+    object Label3: TLabel
+      Left = 13
+      Top = 108
+      Width = 252
+      Height = 13
+      Anchors = [akLeft, akBottom]
+      Caption = 'Parameters : Shift+Ctrl+P, Modifiers : Shift+Ctrl+M '
+      Color = clNone
+      Enabled = False
+      ParentColor = False
+    end
     object SynParameters: TSynEdit
       Left = 11
       Top = 84
@@ -53,43 +76,6 @@ inherited CommandLineDlg: TCommandLineDlg
       Options = [eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoShowScrollHint, eoSmartTabDelete, eoSmartTabs, eoTabsToSpaces]
       ScrollBars = ssNone
       WantReturns = False
-      ExplicitTop = 82
-    end
-    object OKButton: TSpTBXButton
-      Left = 144
-      Top = 137
-      Width = 75
-      Height = 25
-      Caption = '&OK'
-      Anchors = [akRight, akBottom]
-      TabOrder = 1
-      OnClick = OKButtonClick
-      Default = True
-      ModalResult = 1
-      ExplicitTop = 135
-    end
-    object BitBtn2: TSpTBXButton
-      Left = 238
-      Top = 137
-      Width = 75
-      Height = 25
-      Caption = '&Cancel'
-      Anchors = [akRight, akBottom]
-      TabOrder = 2
-      Cancel = True
-      ModalResult = 2
-      ExplicitTop = 135
-    end
-    object HelpButton: TSpTBXButton
-      Left = 333
-      Top = 137
-      Width = 75
-      Height = 25
-      Caption = '&Help'
-      Anchors = [akRight, akBottom]
-      TabOrder = 3
-      OnClick = btnHelpClick
-      ExplicitTop = 135
     end
     object TBXButton1: TSpTBXButton
       Left = 501
@@ -102,37 +88,47 @@ inherited CommandLineDlg: TCommandLineDlg
       ShowHint = True
       TabOrder = 5
       DropDownMenu = TBXPopupHistory
-      ExplicitTop = 81
     end
-    object cbUseCommandLine: TSpTBXCheckBox
+    object cbUseCommandLine: TCheckBox
       Left = 13
       Top = 16
       Width = 177
       Height = 21
       Caption = 'Use Command Line Parameters?'
-      ParentColor = True
       TabOrder = 4
     end
-    object Label1: TSpTBXLabel
-      Left = 13
-      Top = 43
-      Width = 507
-      Height = 32
-      Caption = 
-        'Please enter parameters to be appended to the command line:'#13#10'Not' +
-        'e that the script name is automatically inserted as the first ar' +
-        'gument.'
-      Anchors = [akLeft, akRight, akBottom]
-      Wrapping = twWrap
+    object OKButton: TButton
+      Left = 144
+      Top = 137
+      Width = 75
+      Height = 25
+      Anchors = [akRight, akBottom]
+      Caption = '&OK'
+      Default = True
+      ModalResult = 1
+      TabOrder = 1
+      OnClick = OKButtonClick
     end
-    object Label3: TSpTBXLabel
-      Left = 13
-      Top = 108
-      Width = 258
-      Height = 19
-      Caption = 'Parameters : Shift+Ctrl+P, Modifiers : Shift+Ctrl+M '
-      Anchors = [akLeft, akBottom]
-      Enabled = False
+    object btnCancel: TButton
+      Left = 238
+      Top = 137
+      Width = 75
+      Height = 25
+      Anchors = [akRight, akBottom]
+      Cancel = True
+      Caption = '&Cancel'
+      ModalResult = 2
+      TabOrder = 2
+    end
+    object btnHelp: TButton
+      Left = 333
+      Top = 137
+      Width = 75
+      Height = 25
+      Anchors = [akRight, akBottom]
+      Caption = '&Help'
+      TabOrder = 3
+      OnClick = btnHelpClick
     end
   end
   object TBXPopupHistory: TSpTBXPopupMenu

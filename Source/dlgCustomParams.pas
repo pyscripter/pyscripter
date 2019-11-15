@@ -58,8 +58,8 @@ uses Vcl.Themes, Vcl.Graphics, dmCommands, JvGnugettext, StringResources;
 
 procedure TCustomizeParams.FormDestroy(Sender: TObject);
 begin
-  CommandsDataModule.ParameterCompletion.RemoveEditor(SynValue);
-  CommandsDataModule.ModifierCompletion.RemoveEditor(SynValue);
+  CommandsDataModule.ParameterCompletion.Editor := nil;
+  CommandsDataModule.ModifierCompletion.Editor := nil;
 end;
 
 procedure TCustomizeParams.FormShow(Sender: TObject);

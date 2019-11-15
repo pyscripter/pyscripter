@@ -78,8 +78,8 @@ uses
 
 procedure TCodeTemplates.FormDestroy(Sender: TObject);
 begin
-  CommandsDataModule.ParameterCompletion.RemoveEditor(SynTemplate);
-  CommandsDataModule.ModifierCompletion.RemoveEditor(SynTemplate);
+  CommandsDataModule.ParameterCompletion.Editor := nil;
+  CommandsDataModule.ModifierCompletion.Editor := nil;
   SynTemplate.Highlighter := nil;
 end;
 
