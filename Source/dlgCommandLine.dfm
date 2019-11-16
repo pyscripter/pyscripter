@@ -9,14 +9,13 @@ inherited CommandLineDlg: TCommandLineDlg
   ExplicitHeight = 201
   PixelsPerInch = 96
   TextHeight = 13
-  object Panel: TSpTBXPanel
+  object Panel: TPanel
     Left = 0
     Top = 0
     Width = 528
     Height = 172
     Align = alClient
     TabOrder = 0
-    TBXStyleBackground = True
     DesignSize = (
       528
       172)

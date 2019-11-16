@@ -10,9 +10,21 @@ unit dlgPickList;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, Buttons, ExtCtrls, CheckLst, Menus, SpTBXControls,
-  SpTBXEditors, dlgPyIDEBase, SpTBXItem;
+  Winapi.Windows,
+  Winapi.Messages,
+  System.SysUtils,
+  System.Variants,
+  System.Classes,
+  Vcl.Graphics,
+  Vcl.Controls,
+  Vcl.Forms,
+  Vcl.Dialogs,
+  Vcl.StdCtrls,
+  Vcl.Buttons,
+  Vcl.ExtCtrls,
+  Vcl.CheckLst,
+  Vcl.Menus,
+  dlgPyIDEBase;
 
 type
   TPickListDialog = class(TPyIDEDlgBase)
@@ -20,15 +32,15 @@ type
     mnSelectAll: TMenuItem;
     mnDeselectAll: TMenuItem;
     imgIcon: TImage;
-    lbMessage: TSpTBXLabel;
-    CheckListBox: TSpTBXCheckListBox;
-    Panel2: TSpTBXPanel;
+    Panel2: TPanel;
     Bevel1: TBevel;
-    btnSelectAll: TSpTBXButton;
-    btnDeselectAll: TSpTBXButton;
-    btnOk: TSpTBXButton;
-    btnCancel: TSpTBXButton;
-    SpTBXPanel1: TSpTBXPanel;
+    Panel1: TPanel;
+    btnSelectAll: TButton;
+    btnDeselectAll: TButton;
+    btnOk: TButton;
+    btnCancel: TButton;
+    lbMessage: TLabel;
+    CheckListBox: TCheckListBox;
     procedure mnDeselectAllClick(Sender: TObject);
     procedure mnSelectAllClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -44,7 +56,9 @@ var
 
 implementation
 
-uses dmCommands, Math;
+uses
+  System.Math,
+  dmCommands;
 
 {$R *.dfm}
 

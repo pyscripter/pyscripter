@@ -643,6 +643,8 @@ begin
     OnRead := JvCreateProcessRead;
   end;
   TExternalTool.ExternalToolExecute := ExecuteTool;
+
+  lsbConsole.Font.Name := DefaultCodeFontName;
 end;
 
 procedure TOutputWindow.FormDestroy(Sender: TObject);

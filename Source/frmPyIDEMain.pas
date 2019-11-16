@@ -3373,7 +3373,7 @@ begin
   AppStorage.ReadCollection('Tools', ToolsCollection, True, 'Tool');
   AppStorage.ReadCollection('SSH', SSHServers, True, 'Server');
   AppStorage.ReadPersistent('Tools\External Run', ExternalPython);
-  OutputWindow.lsbConsole.Font.Name := AppStorage.ReadString('Output Window\Font Name', 'Courier New');
+  OutputWindow.lsbConsole.Font.Name := AppStorage.ReadString('Output Window\Font Name', DefaultCodeFontName);
   OutputWindow.lsbConsole.Font.Size := AppStorage.ReadInteger('Output Window\Font Size', 9);
   OutputWindow.FontOrColorUpdated;
   AppStorage.ReadPersistent('Watches', WatchesWindow);

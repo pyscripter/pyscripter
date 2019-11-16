@@ -15,47 +15,44 @@ uses
   Vcl.Forms,
   Vcl.Dialogs,
   Vcl.ExtCtrls,
-  SpTBXEditors,
-  SpTBXControls,
-  SpTBXItem,
+  SynEdit,
   cPySupportTypes,
   cPyBaseDebugger,
-  SynEdit,
   dlgPyIDEBase;
 
 type
   TRunConfigurationForm = class(TPyIDEDlgBase)
-    Panel1: TSpTBXPanel;
+    Panel1: TPanel;
     Bevel1: TBevel;
-    btnOK: TSpTBXButton;
-    btnCancel: TSpTBXButton;
-    btnHelp: TSpTBXButton;
-    GroupBox1: TSpTBXGroupBox;
-    GroupBox2: TSpTBXGroupBox;
+    GroupBox1: TGroupBox;
+    GroupBox2: TGroupBox;
     SynFileName: TSynEdit;
     SynParameters: TSynEdit;
     SynWorkDir: TSynEdit;
-    gbRemoteEngine: TSpTBXGroupBox;
-    cbReinitializeBeforeRun: TSpTBXCheckBox;
-    GroupBox3: TSpTBXGroupBox;
-    btnExternalRun: TSpTBXButton;
-    gbSaveOutput: TSpTBXGroupBox;
-    cbAppendToFile: TSpTBXCheckBox;
+    gbRemoteEngine: TGroupBox;
+    GroupBox3: TGroupBox;
+    gbSaveOutput: TGroupBox;
     SynOutputFileName: TSynEdit;
-    cbSaveOutput: TSpTBXCheckBox;
-    Label5: TSpTBXLabel;
-    Label2: TSpTBXLabel;
-    Label6: TSpTBXLabel;
-    Label7: TSpTBXLabel;
-    Label3: TSpTBXLabel;
-    Label1: TSpTBXLabel;
-    Label4: TSpTBXLabel;
-    cbEngineType: TSpTBXComboBox;
-    edDescription: TSpTBXEdit;
     btnFileName: TButton;
     btnWorkDir: TButton;
     btnOutputFileName: TButton;
     btnRemoteFileName: TButton;
+    cbReinitializeBeforeRun: TCheckBox;
+    cbAppendToFile: TCheckBox;
+    cbSaveOutput: TCheckBox;
+    cbEngineType: TComboBox;
+    Label5: TLabel;
+    Label2: TLabel;
+    Label6: TLabel;
+    Label7: TLabel;
+    Label3: TLabel;
+    Label1: TLabel;
+    Label4: TLabel;
+    edDescription: TEdit;
+    btnOK: TButton;
+    btnCancel: TButton;
+    btnHelp: TButton;
+    btnExternalRun: TButton;
     procedure btnExternalRunClick(Sender: TObject);
     procedure SynEditEnter(Sender: TObject);
     procedure FormDestroy(Sender: TObject);

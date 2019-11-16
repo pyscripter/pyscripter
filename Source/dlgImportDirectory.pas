@@ -3,20 +3,28 @@ unit dlgImportDirectory;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Controls, Forms,
-  Dialogs, StdCtrls, 
-  SpTBXControls, dlgPyIDEBase, SpTBXItem, SpTBXEditors;
+  Winapi.Windows,
+  Winapi.Messages,
+  System.SysUtils,
+  System.Variants,
+  System.Classes,
+  Vcl.Controls,
+  Vcl.ExtCtrls,
+  Vcl.Forms,
+  Vcl.Dialogs,
+  Vcl.StdCtrls,
+  dlgPyIDEBase;
 
 type
   TImportDirectoryForm = class(TPyIDEDlgBase)
-    Panel1: TSpTBXPanel;
+    Panel1: TPanel;
     ebMask: TEdit;
     cbRecursive: TCheckBox;
-    Label1: TSpTBXLabel;
-    Label2: TSpTBXLabel;
-    Button1: TSpTBXButton;
-    Button2: TSpTBXButton;
-    DirectoryEdit: TSpTBXButtonEdit;
+    Button1: TButton;
+    Button2: TButton;
+    Label1: TLabel;
+    Label2: TLabel;
+    DirectoryEdit: TButtonedEdit;
     procedure DirectoryEditBtnClick(Sender: TObject);
   private
     { Private declarations }
@@ -33,9 +41,12 @@ type
 implementation
 
 uses
-  ShLwApi,
+  Winapi.ShLwApi,
+  Vcl.FileCtrl,
+  Vcl.Graphics,
+  Vcl.Themes,
   JvGnuGetText,
-  FileCtrl;
+  dmCommands;
 
 {$R *.dfm}
 
@@ -65,6 +76,7 @@ begin
     cbRecursive.Checked := Recursive;
     SHAutoComplete(DirectoryEdit.Handle, SHACF_FILESYSTEM or SHACF_AUTOAPPEND_FORCE_ON or
       SHACF_AUTOSUGGEST_FORCE_OFF);
+    DirectoryEdit.Color := StyleServices.GetSystemColor(clWindow); //RSP-26633
     if ShowModal = mrOK then begin
       Result := True;
       FileMasks := ebMask.Text;

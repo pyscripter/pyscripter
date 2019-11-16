@@ -536,6 +536,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           CodeFolding.ShowCollapsedLine = False
           CodeFolding.ShowHintMark = True
           UseCodeFolding = False
+          FontSmoothing = fsmNone
           Gutter.Font.Charset = DEFAULT_CHARSET
           Gutter.Font.Color = clWindowText
           Gutter.Font.Height = -11
@@ -544,7 +545,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Gutter.Visible = False
           Gutter.Width = 0
           RightEdge = 0
-          FontSmoothing = fsmNone
         end
         object lbColorThemes: TListBox
           Left = 3
@@ -686,6 +686,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           CodeFolding.ShowCollapsedLine = False
           CodeFolding.ShowHintMark = True
           UseCodeFolding = False
+          FontSmoothing = fsmNone
           Gutter.Font.Charset = DEFAULT_CHARSET
           Gutter.Font.Color = clWindowText
           Gutter.Font.Height = -11
@@ -694,7 +695,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Gutter.Visible = False
           Gutter.Width = 0
           RightEdge = 0
-          FontSmoothing = fsmNone
         end
         object cbHighlighters: TComboBox
           Left = 3
@@ -956,7 +956,67 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             SelectedColor = clBlack
             SelectedFormat = cttHTML
           end
-          object btnGutterFont: TSpTBXButton
+          object ckGutterAutosize: TCheckBox
+            Left = 24
+            Top = 38
+            Width = 230
+            Height = 21
+            Caption = 'Autosize'
+            TabOrder = 1
+          end
+          object ckGutterShowLineNumbers: TCheckBox
+            Left = 24
+            Top = 58
+            Width = 230
+            Height = 21
+            Caption = 'Show line numbers'
+            TabOrder = 2
+          end
+          object ckGutterShowLeaderZeros: TCheckBox
+            Left = 24
+            Top = 99
+            Width = 230
+            Height = 21
+            Caption = 'Show leading zeros'
+            TabOrder = 3
+          end
+          object ckGutterVisible: TCheckBox
+            Left = 24
+            Top = 18
+            Width = 230
+            Height = 21
+            Caption = 'Visible'
+            Checked = True
+            State = cbChecked
+            TabOrder = 0
+          end
+          object ckGutterStartAtZero: TCheckBox
+            Left = 24
+            Top = 78
+            Width = 230
+            Height = 21
+            Caption = 'Start at zero'
+            TabOrder = 8
+          end
+          object cbGutterFont: TCheckBox
+            Left = 285
+            Top = 18
+            Width = 156
+            Height = 21
+            Caption = 'Use Gutter Font'
+            TabOrder = 4
+            OnClick = cbGutterFontClick
+          end
+          object ckGutterGradient: TCheckBox
+            Left = 285
+            Top = 99
+            Width = 230
+            Height = 21
+            Hint = 'Gutter gradient visible'
+            Caption = 'Gutter Gradient'
+            TabOrder = 9
+          end
+          object btnGutterFont: TButton
             Left = 447
             Top = 15
             Width = 89
@@ -964,73 +1024,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             Caption = 'Font'
             TabOrder = 5
             OnClick = btnGutterFontClick
-          end
-          object ckGutterAutosize: TSpTBXCheckBox
-            Left = 24
-            Top = 38
-            Width = 65
-            Height = 21
-            Caption = 'Autosize'
-            ParentColor = True
-            TabOrder = 1
-          end
-          object ckGutterShowLineNumbers: TSpTBXCheckBox
-            Left = 24
-            Top = 58
-            Width = 113
-            Height = 21
-            Caption = 'Show line numbers'
-            ParentColor = True
-            TabOrder = 2
-          end
-          object ckGutterShowLeaderZeros: TSpTBXCheckBox
-            Left = 24
-            Top = 99
-            Width = 116
-            Height = 21
-            Caption = 'Show leading zeros'
-            ParentColor = True
-            TabOrder = 3
-          end
-          object ckGutterVisible: TSpTBXCheckBox
-            Left = 24
-            Top = 18
-            Width = 53
-            Height = 21
-            Caption = 'Visible'
-            ParentColor = True
-            TabOrder = 0
-            Checked = True
-            State = cbChecked
-          end
-          object ckGutterStartAtZero: TSpTBXCheckBox
-            Left = 24
-            Top = 78
-            Width = 85
-            Height = 21
-            Caption = 'Start at zero'
-            ParentColor = True
-            TabOrder = 8
-          end
-          object cbGutterFont: TSpTBXCheckBox
-            Left = 285
-            Top = 18
-            Width = 101
-            Height = 21
-            Caption = 'Use Gutter Font'
-            ParentColor = True
-            TabOrder = 4
-            OnClick = cbGutterFontClick
-          end
-          object ckGutterGradient: TSpTBXCheckBox
-            Left = 285
-            Top = 99
-            Width = 99
-            Height = 21
-            Hint = 'Gutter gradient visible'
-            Caption = 'Gutter Gradient'
-            ParentColor = True
-            TabOrder = 9
           end
         end
         object gbBookmarks: TGroupBox
@@ -1041,22 +1034,20 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Anchors = [akTop, akRight]
           Caption = 'Bookmarks'
           TabOrder = 3
-          object ckBookmarkKeys: TSpTBXCheckBox
+          object ckBookmarkKeys: TCheckBox
             Left = 23
             Top = 16
-            Width = 95
+            Width = 230
             Height = 21
             Caption = 'Bookmark keys'
-            ParentColor = True
             TabOrder = 0
           end
-          object ckBookmarkVisible: TSpTBXCheckBox
+          object ckBookmarkVisible: TCheckBox
             Left = 23
             Top = 35
-            Width = 107
+            Width = 230
             Height = 21
             Caption = 'Bookmarks visible'
-            ParentColor = True
             TabOrder = 1
           end
         end
@@ -1091,7 +1082,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
               ExplicitHeight = 16
             end
           end
-          object btnFont: TSpTBXButton
+          object btnFont: TButton
             Left = 78
             Top = 57
             Width = 92
@@ -1165,48 +1156,50 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
         end
       end
     end
-    object btnOk: TSpTBXButton
+    object cbApplyToAll: TCheckBox
+      Left = 19
+      Top = 366
+      Width = 230
+      Height = 21
+      Caption = 'Apply to all editors'
+      Checked = True
+      Color = clNone
+      ParentColor = False
+      State = cbChecked
+      TabOrder = 2
+    end
+    object btnOk: TButton
       Left = 257
       Top = 388
       Width = 94
       Height = 25
-      Caption = '&OK'
       Anchors = [akRight, akBottom]
-      TabOrder = 0
-      OnClick = btnOkClick
+      Caption = '&OK'
       Default = True
       ModalResult = 1
+      TabOrder = 0
+      OnClick = btnOkClick
     end
-    object btnCancel: TSpTBXButton
+    object btnCancel: TButton
       Left = 361
       Top = 388
       Width = 94
       Height = 25
-      Caption = '&Cancel'
       Anchors = [akRight, akBottom]
-      TabOrder = 1
       Cancel = True
+      Caption = '&Cancel'
       ModalResult = 2
+      TabOrder = 1
     end
-    object btnHelp: TSpTBXButton
+    object btnHelp: TButton
       Left = 465
       Top = 388
       Width = 94
       Height = 25
-      Caption = '&Help'
       Anchors = [akRight, akBottom]
+      Caption = '&Help'
       TabOrder = 3
       OnClick = btnHelpClick
-    end
-    object cbApplyToAll: TSpTBXCheckBox
-      Left = 19
-      Top = 366
-      Width = 113
-      Height = 21
-      Caption = 'Apply to all editors'
-      TabOrder = 2
-      Checked = True
-      State = cbChecked
     end
   end
   object FontDialog: TFontDialog

@@ -1,29 +1,44 @@
 inherited ImportDirectoryForm: TImportDirectoryForm
   Caption = 'Import Directory'
   ClientHeight = 145
-  ClientWidth = 436
+  ClientWidth = 469
   PopupMode = pmAuto
   Position = poOwnerFormCenter
-  ExplicitWidth = 442
+  ExplicitWidth = 475
   ExplicitHeight = 174
   PixelsPerInch = 96
   TextHeight = 13
-  object Panel1: TSpTBXPanel
+  object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 436
+    Width = 469
     Height = 145
-    Color = clBtnFace
     Align = alClient
-    UseDockManager = True
     TabOrder = 0
-    TBXStyleBackground = True
     DesignSize = (
-      436
+      469
       145)
-    object ebMask: TEdit
-      Left = 167
+    object Label1: TLabel
+      Left = 8
+      Top = 15
+      Width = 94
+      Height = 13
+      Caption = 'Directory to import:'
+      Color = clNone
+      ParentColor = False
+    end
+    object Label2: TLabel
+      Left = 8
       Top = 72
+      Width = 142
+      Height = 13
+      Caption = 'File Masks (e.g. *.py;*.pyw):'
+      Color = clNone
+      ParentColor = False
+    end
+    object ebMask: TEdit
+      Left = 190
+      Top = 69
       Width = 142
       Height = 21
       Font.Charset = DEFAULT_CHARSET
@@ -35,9 +50,9 @@ inherited ImportDirectoryForm: TImportDirectoryForm
       TabOrder = 0
     end
     object cbRecursive: TCheckBox
-      Left = 349
-      Top = 74
-      Width = 76
+      Left = 352
+      Top = 71
+      Width = 108
       Height = 17
       Anchors = [akTop, akRight]
       Caption = 'Recursive?'
@@ -45,57 +60,39 @@ inherited ImportDirectoryForm: TImportDirectoryForm
       State = cbChecked
       TabOrder = 3
     end
-    object Label1: TSpTBXLabel
-      Left = 8
-      Top = 16
-      Width = 100
-      Height = 19
-      Caption = 'Directory to import:'
-    end
-    object Label2: TSpTBXLabel
-      Left = 8
-      Top = 72
-      Width = 148
-      Height = 19
-      Caption = 'File Masks (e.g. *.py;*.pyw):'
-    end
-    object Button1: TSpTBXButton
-      Left = 111
-      Top = 110
+    object Button1: TButton
+      Left = 124
+      Top = 111
       Width = 80
       Height = 25
-      Caption = '&OK'
       Anchors = [akLeft, akBottom]
-      TabOrder = 1
+      Caption = '&OK'
       Default = True
       ModalResult = 1
+      TabOrder = 1
     end
-    object Button2: TSpTBXButton
-      Left = 215
-      Top = 110
+    object Button2: TButton
+      Left = 228
+      Top = 111
       Width = 80
       Height = 25
-      Caption = '&Cancel'
       Anchors = [akLeft, akBottom]
-      TabOrder = 2
       Cancel = True
+      Caption = '&Cancel'
       ModalResult = 2
+      TabOrder = 2
     end
-    object DirectoryEdit: TSpTBXButtonEdit
+    object DirectoryEdit: TButtonedEdit
       Left = 8
       Top = 38
-      Width = 417
+      Width = 452
       Height = 21
       Anchors = [akLeft, akTop, akRight]
-      TabOrder = 6
-      EditButton.Left = 394
-      EditButton.Top = 0
-      EditButton.Width = 19
-      EditButton.Height = 17
-      EditButton.Align = alRight
-      EditButton.OnClick = DirectoryEditBtnClick
-      EditButton.Images = CommandsDataModule.Images
-      EditButton.ImageIndex = 45
+      Images = CommandsDataModule.Images
+      RightButton.ImageIndex = 45
+      RightButton.Visible = True
+      TabOrder = 4
+      OnRightButtonClick = DirectoryEditBtnClick
     end
   end
 end

@@ -45,27 +45,33 @@ unit dlgFindResultsOptions;
 interface
 
 uses
-  StdCtrls, Dialogs, Controls, ExtCtrls, Classes, Forms,
-  SpTBXControls, SpTBXEditors, dlgPyIDEBase, SpTBXItem;
+  System.Classes,
+  Vcl.StdCtrls,
+  Vcl.Dialogs,
+  Vcl.Controls,
+  Vcl.ExtCtrls,
+  Vcl.Forms,
+  Vcl.Samples.Spin,
+  dlgPyIDEBase;
 
 type
   TFindResultsOptionsDialog = class(TPyIDEDlgBase)
-    gbxMatchList: TSpTBXGroupBox;
-    gbxMatchContext: TSpTBXGroupBox;
+    gbxMatchList: TGroupBox;
+    gbxMatchContext: TGroupBox;
     dlgGrepListFont: TFontDialog;
     dlgGrepContextFont: TFontDialog;
     dlgContextFontColor: TColorDialog;
-    chkGrepMiddle: TSpTBXCheckBox;
-    chkGrepExpandAll: TSpTBXCheckBox;
-    btnOK: TSpTBXButton;
-    btnCancel: TSpTBXButton;
-    btnHelp: TSpTBXButton;
-    lblContextLines: TSpTBXLabel;
-    spnContextLines: TSpTBXSpinEdit;
     pnlListFont: TPanel;
     pnlContextFont: TPanel;
     pnlMatchLineColor: TPanel;
-    SpTBXPanel1: TSpTBXPanel;
+    Panel1: TPanel;
+    chkGrepMiddle: TCheckBox;
+    chkGrepExpandAll: TCheckBox;
+    btnOK: TButton;
+    btnCancel: TButton;
+    btnHelp: TButton;
+    spnContextLines: TSpinEdit;
+    lblContextLines: TLabel;
     procedure pnlContextFontClick(Sender: TObject);
     procedure pnlMatchLineColorClick(Sender: TObject);
     procedure pnlListFontClick(Sender: TObject);
@@ -74,7 +80,7 @@ type
 
 implementation
 
-uses Graphics;
+uses Vcl.Graphics;
 
 {$R *.dfm}
 

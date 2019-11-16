@@ -3,13 +3,28 @@ unit dlgCommandLine;
 interface
 
 uses
-  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  SynEdit, Buttons, TB2Item, 
-  Menus, SpTBXControls, SpTBXItem, dlgPyIDEBase, SpTBXMDIMRU, Vcl.StdCtrls;
+  Winapi.Windows,
+  Winapi.Messages,
+  System.SysUtils,
+  System.Variants,
+  System.Classes,
+  Vcl.Graphics,
+  Vcl.Controls,
+  Vcl.ExtCtrls,
+  Vcl.Forms,
+  Vcl.Buttons,
+  Vcl.Menus,
+  Vcl.StdCtrls,
+  SynEdit,
+  TB2Item,
+  SpTBXControls,
+  SpTBXItem,
+  SpTBXMDIMRU,
+  dlgPyIDEBase;
 
 type
   TCommandLineDlg = class(TPyIDEDlgBase)
-    Panel: TSpTBXPanel;
+    Panel: TPanel;
     SynParameters: TSynEdit;
     TBXButton1: TSpTBXButton;
     TBXPopupHistory: TSpTBXPopupMenu;
@@ -35,7 +50,9 @@ type
 
 implementation
 
-uses dmCommands, frmPyIDEMain;
+uses
+  dmCommands,
+  frmPyIDEMain;
 
 {$R *.dfm}
 

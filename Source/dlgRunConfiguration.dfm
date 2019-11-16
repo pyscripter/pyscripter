@@ -8,14 +8,13 @@ inherited RunConfigurationForm: TRunConfigurationForm
   ExplicitHeight = 465
   PixelsPerInch = 96
   TextHeight = 13
-  object Panel1: TSpTBXPanel
+  object Panel1: TPanel
     Left = 0
     Top = 0
     Width = 399
     Height = 436
     Align = alClient
     TabOrder = 0
-    TBXStyleBackground = True
     DesignSize = (
       399
       436)
@@ -29,27 +28,28 @@ inherited RunConfigurationForm: TRunConfigurationForm
       ExplicitTop = 458
       ExplicitWidth = 418
     end
-    object GroupBox1: TSpTBXGroupBox
+    object GroupBox1: TGroupBox
       Left = 8
       Top = 5
       Width = 385
       Height = 48
       Caption = 'General'
       TabOrder = 0
-      TBXStyleBackground = True
       DesignSize = (
         385
         48)
-      object Label5: TSpTBXLabel
+      object Label5: TLabel
         Left = 8
-        Top = 19
-        Width = 63
-        Height = 19
-        Caption = 'Desc&ription:'
+        Top = 22
+        Width = 57
+        Height = 13
         Anchors = [akLeft, akBottom]
+        Caption = 'Desc&ription:'
+        Color = clNone
         FocusControl = edDescription
+        ParentColor = False
       end
-      object edDescription: TSpTBXEdit
+      object edDescription: TEdit
         Left = 105
         Top = 19
         Width = 268
@@ -58,46 +58,59 @@ inherited RunConfigurationForm: TRunConfigurationForm
         TabOrder = 0
       end
     end
-    object btnOK: TSpTBXButton
-      Left = 139
-      Top = 402
-      Width = 75
-      Height = 25
-      Caption = '&OK'
-      Anchors = [akRight, akBottom]
-      TabOrder = 5
-      Default = True
-      ModalResult = 1
-    end
-    object btnCancel: TSpTBXButton
-      Left = 223
-      Top = 402
-      Width = 75
-      Height = 25
-      Caption = '&Cancel'
-      Anchors = [akRight, akBottom]
-      TabOrder = 6
-      Cancel = True
-      ModalResult = 2
-    end
-    object btnHelp: TSpTBXButton
-      Left = 307
-      Top = 402
-      Width = 75
-      Height = 25
-      Caption = '&Help'
-      Anchors = [akRight, akBottom]
-      TabOrder = 7
-      OnClick = btnHelpClick
-    end
-    object GroupBox2: TSpTBXGroupBox
+    object GroupBox2: TGroupBox
       Left = 8
       Top = 59
       Width = 385
       Height = 106
       Caption = 'Python Script'
       TabOrder = 1
-      TBXStyleBackground = True
+      object Label2: TLabel
+        Left = 8
+        Top = 21
+        Width = 50
+        Height = 13
+        Caption = '&File Name:'
+        Color = clNone
+        FocusControl = SynFileName
+        ParentColor = False
+      end
+      object Label6: TLabel
+        Left = 8
+        Top = 45
+        Width = 59
+        Height = 13
+        Caption = '&Parameters:'
+        Color = clNone
+        FocusControl = SynParameters
+        ParentColor = False
+      end
+      object Label7: TLabel
+        Left = 8
+        Top = 69
+        Width = 90
+        Height = 13
+        Caption = 'Working &Directory:'
+        Color = clNone
+        FocusControl = SynWorkDir
+        ParentColor = False
+      end
+      object Label3: TLabel
+        Left = 8
+        Top = 85
+        Width = 252
+        Height = 13
+        Caption = 'Parameters : Shift+Ctrl+P, Modifiers : Shift+Ctrl+M '
+        Color = clNone
+        Enabled = False
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clGrayText
+        Font.Height = -11
+        Font.Name = 'MS Shell Dlg 2'
+        Font.Style = []
+        ParentColor = False
+        ParentFont = False
+      end
       object SynFileName: TSynEdit
         Left = 105
         Top = 16
@@ -118,6 +131,7 @@ inherited RunConfigurationForm: TRunConfigurationForm
         CodeFolding.ShowCollapsedLine = False
         CodeFolding.ShowHintMark = True
         UseCodeFolding = False
+        FontSmoothing = fsmNone
         Gutter.Font.Charset = DEFAULT_CHARSET
         Gutter.Font.Color = clWindowText
         Gutter.Font.Height = -11
@@ -128,7 +142,6 @@ inherited RunConfigurationForm: TRunConfigurationForm
         Options = [eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoShowScrollHint, eoSmartTabDelete, eoSmartTabs, eoTabsToSpaces]
         ScrollBars = ssNone
         WantReturns = False
-        FontSmoothing = fsmNone
       end
       object SynParameters: TSynEdit
         Left = 105
@@ -150,6 +163,7 @@ inherited RunConfigurationForm: TRunConfigurationForm
         CodeFolding.ShowCollapsedLine = False
         CodeFolding.ShowHintMark = True
         UseCodeFolding = False
+        FontSmoothing = fsmNone
         Gutter.Font.Charset = DEFAULT_CHARSET
         Gutter.Font.Color = clWindowText
         Gutter.Font.Height = -11
@@ -160,7 +174,6 @@ inherited RunConfigurationForm: TRunConfigurationForm
         Options = [eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoShowScrollHint, eoSmartTabDelete, eoSmartTabs, eoTabsToSpaces]
         ScrollBars = ssNone
         WantReturns = False
-        FontSmoothing = fsmNone
       end
       object SynWorkDir: TSynEdit
         Left = 120
@@ -182,6 +195,7 @@ inherited RunConfigurationForm: TRunConfigurationForm
         CodeFolding.ShowCollapsedLine = False
         CodeFolding.ShowHintMark = True
         UseCodeFolding = False
+        FontSmoothing = fsmNone
         Gutter.Font.Charset = DEFAULT_CHARSET
         Gutter.Font.Color = clWindowText
         Gutter.Font.Height = -11
@@ -192,45 +206,6 @@ inherited RunConfigurationForm: TRunConfigurationForm
         Options = [eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoShowScrollHint, eoSmartTabDelete, eoSmartTabs, eoTabsToSpaces]
         ScrollBars = ssNone
         WantReturns = False
-        FontSmoothing = fsmNone
-      end
-      object Label2: TSpTBXLabel
-        Left = 8
-        Top = 16
-        Width = 56
-        Height = 19
-        Caption = '&File Name:'
-        FocusControl = SynFileName
-      end
-      object Label6: TSpTBXLabel
-        Left = 8
-        Top = 38
-        Width = 65
-        Height = 19
-        Caption = '&Parameters:'
-        FocusControl = SynParameters
-      end
-      object Label7: TSpTBXLabel
-        Left = 8
-        Top = 62
-        Width = 96
-        Height = 19
-        Caption = 'Working &Directory:'
-        FocusControl = SynWorkDir
-      end
-      object Label3: TSpTBXLabel
-        Left = 8
-        Top = 85
-        Width = 258
-        Height = 19
-        Caption = 'Parameters : Shift+Ctrl+P, Modifiers : Shift+Ctrl+M '
-        Enabled = False
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clGrayText
-        Font.Height = -11
-        Font.Name = 'MS Shell Dlg 2'
-        Font.Style = []
-        ParentFont = False
       end
       object btnFileName: TButton
         Left = 335
@@ -247,7 +222,7 @@ inherited RunConfigurationForm: TRunConfigurationForm
         Top = 62
         Width = 19
         Height = 20
-        ImageIndex = 1
+        ImageIndex = 45
         Images = CommandsDataModule.Images
         TabOrder = 4
         OnClick = btnWorkDirClick
@@ -259,39 +234,42 @@ inherited RunConfigurationForm: TRunConfigurationForm
         Height = 20
         ImageIndex = 161
         Images = CommandsDataModule.Images
-        TabOrder = 9
+        TabOrder = 5
         OnClick = btnRemoteFileNameClick
       end
     end
-    object gbRemoteEngine: TSpTBXGroupBox
+    object gbRemoteEngine: TGroupBox
       Left = 8
       Top = 171
       Width = 385
       Height = 68
       Caption = 'Python Engine'
       TabOrder = 2
-      TBXStyleBackground = True
       DesignSize = (
         385
         68)
-      object cbReinitializeBeforeRun: TSpTBXCheckBox
-        Left = 8
-        Top = 44
-        Width = 131
-        Height = 21
-        Caption = 'Reinitiali&ze Before Run'
-        Anchors = [akTop, akRight]
-        TabOrder = 0
-      end
-      object Label1: TSpTBXLabel
+      object Label1: TLabel
         Left = 8
         Top = 18
-        Width = 69
-        Height = 19
+        Width = 63
+        Height = 13
         Caption = 'Engine &Type:'
+        Color = clNone
         FocusControl = cbEngineType
+        ParentColor = False
       end
-      object cbEngineType: TSpTBXComboBox
+      object cbReinitializeBeforeRun: TCheckBox
+        Left = 8
+        Top = 44
+        Width = 350
+        Height = 21
+        Anchors = [akTop, akRight]
+        Caption = 'Reinitiali&ze Before Run'
+        Color = clNone
+        ParentColor = False
+        TabOrder = 0
+      end
+      object cbEngineType: TComboBox
         Left = 120
         Top = 17
         Width = 103
@@ -302,7 +280,6 @@ inherited RunConfigurationForm: TRunConfigurationForm
         Font.Height = -11
         Font.Name = 'MS Shell Dlg 2'
         Font.Style = []
-        ItemHeight = 13
         ItemIndex = 1
         ParentFont = False
         TabOrder = 1
@@ -316,15 +293,14 @@ inherited RunConfigurationForm: TRunConfigurationForm
           'SSH')
       end
     end
-    object GroupBox3: TSpTBXGroupBox
+    object GroupBox3: TGroupBox
       Left = 7
       Top = 245
       Width = 385
       Height = 47
       Caption = 'External Run'
       TabOrder = 3
-      TBXStyleBackground = True
-      object btnExternalRun: TSpTBXButton
+      object btnExternalRun: TButton
         Left = 52
         Top = 16
         Width = 277
@@ -334,21 +310,22 @@ inherited RunConfigurationForm: TRunConfigurationForm
         OnClick = btnExternalRunClick
       end
     end
-    object gbSaveOutput: TSpTBXGroupBox
+    object gbSaveOutput: TGroupBox
       Left = 8
       Top = 298
       Width = 385
       Height = 88
       Caption = 'Output'
       TabOrder = 4
-      TBXStyleBackground = True
-      object cbAppendToFile: TSpTBXCheckBox
+      object Label4: TLabel
         Left = 8
-        Top = 64
-        Width = 91
-        Height = 21
-        Caption = '&Append to file'
-        TabOrder = 0
+        Top = 44
+        Width = 50
+        Height = 13
+        Caption = 'File &Name:'
+        Color = clNone
+        FocusControl = SynOutputFileName
+        ParentColor = False
       end
       object SynOutputFileName: TSynEdit
         Left = 105
@@ -370,6 +347,7 @@ inherited RunConfigurationForm: TRunConfigurationForm
         CodeFolding.ShowCollapsedLine = False
         CodeFolding.ShowHintMark = True
         UseCodeFolding = False
+        FontSmoothing = fsmNone
         Gutter.Font.Charset = DEFAULT_CHARSET
         Gutter.Font.Color = clWindowText
         Gutter.Font.Height = -11
@@ -380,35 +358,70 @@ inherited RunConfigurationForm: TRunConfigurationForm
         Options = [eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoShowScrollHint, eoSmartTabDelete, eoSmartTabs, eoTabsToSpaces]
         ScrollBars = ssNone
         WantReturns = False
-        FontSmoothing = fsmNone
-      end
-      object cbSaveOutput: TSpTBXCheckBox
-        Left = 8
-        Top = 20
-        Width = 85
-        Height = 21
-        Caption = 'Save Output'
-        TabOrder = 3
-        OnClick = cbSaveOutputClick
-      end
-      object Label4: TSpTBXLabel
-        Left = 8
-        Top = 42
-        Width = 56
-        Height = 19
-        Caption = 'File &Name:'
-        FocusControl = SynOutputFileName
       end
       object btnOutputFileName: TButton
         Left = 357
-        Top = 41
+        Top = 43
         Width = 19
         Height = 20
-        ImageIndex = 2
+        ImageIndex = 1
         Images = CommandsDataModule.Images
         TabOrder = 2
         OnClick = btnOutputFileNameClick
       end
+      object cbAppendToFile: TCheckBox
+        Left = 8
+        Top = 64
+        Width = 350
+        Height = 21
+        Caption = '&Append to file'
+        Color = clNone
+        ParentColor = False
+        TabOrder = 0
+      end
+      object cbSaveOutput: TCheckBox
+        Left = 8
+        Top = 20
+        Width = 350
+        Height = 21
+        Caption = 'Save Output'
+        Color = clNone
+        ParentColor = False
+        TabOrder = 3
+        OnClick = cbSaveOutputClick
+      end
+    end
+    object btnOK: TButton
+      Left = 139
+      Top = 402
+      Width = 75
+      Height = 25
+      Anchors = [akRight, akBottom]
+      Caption = '&OK'
+      Default = True
+      ModalResult = 1
+      TabOrder = 5
+    end
+    object btnCancel: TButton
+      Left = 223
+      Top = 402
+      Width = 75
+      Height = 25
+      Anchors = [akRight, akBottom]
+      Cancel = True
+      Caption = '&Cancel'
+      ModalResult = 2
+      TabOrder = 6
+    end
+    object btnHelp: TButton
+      Left = 307
+      Top = 402
+      Width = 75
+      Height = 25
+      Anchors = [akRight, akBottom]
+      Caption = '&Help'
+      TabOrder = 7
+      OnClick = btnHelpClick
     end
   end
 end

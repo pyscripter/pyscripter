@@ -630,7 +630,9 @@ procedure TFindResultsWindow.AssignSettingsToForm;
 begin
   Assert(Assigned(FindInFilesExpert));
   reContext.Font.Assign(FindInFilesExpert.ContextFont);
+  reContext.Font.Color := SpTBXThemeServices.GetSystemColor(clWindowText);
   lbResults.Font.Assign(FindInFilesExpert.ListFont);
+  lbResults.Font.Color := SpTBXThemeServices.GetSystemColor(clWindowText);
 end;
 
 procedure TFindResultsWindow.ClearResultsListbox;
@@ -826,9 +828,9 @@ begin
   reContext.SelAttributes.Style := [];
 
   // Highlight the matched line
-  reContext.SelStart := reContext.Perform(EM_LINEINDEX, MatchLineNo, 0) + MatchLineNo;  // adjusted for TntRichEdit wierdness
+  reContext.SelStart := reContext.Perform(EM_LINEINDEX, MatchLineNo, 0);
   reContext.SelLength := Length(reContext.Lines[MatchLineNo]);
-  reContext.SelAttributes.Color := FindInFilesExpert.ContextMatchColor;
+  reContext.SelAttributes.Color := SpTBXThemeServices.GetSystemColor(FindInFilesExpert.ContextMatchColor);
 
   for i := StartLine + 1 to StartLine + reContext.Lines.Count + 1 do
   begin
@@ -837,10 +839,10 @@ begin
     begin
       if Matches[j].ShowBold then
       begin
-        reContext.SelStart := reContext.Perform(EM_LINEINDEX, i - StartLine - 1, 0) + Matches[j].SPos - 1
-          + (i - StartLine - 1); // adjusted for TntRichEdit wierdness
+        reContext.SelStart := reContext.Perform(EM_LINEINDEX, i - StartLine - 1, 0) + Matches[j].SPos - 1;
         reContext.SelLength := Matches[j].EPos - Matches[j].SPos + 1;
         reContext.SelAttributes.Style := [fsBold];
+
       end;
     end;
   end;

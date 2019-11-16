@@ -6,7 +6,7 @@ inherited PickListDialog: TPickListDialog
   ExplicitHeight = 362
   PixelsPerInch = 96
   TextHeight = 13
-  object Panel2: TSpTBXPanel
+  object Panel2: TPanel
     Left = 0
     Top = 249
     Width = 484
@@ -15,8 +15,6 @@ inherited PickListDialog: TPickListDialog
     Anchors = [akLeft, akBottom]
     UseDockManager = True
     TabOrder = 1
-    TBXStyleBackground = True
-    ExplicitWidth = 442
     DesignSize = (
       484
       84)
@@ -29,59 +27,56 @@ inherited PickListDialog: TPickListDialog
       Shape = bsTopLine
       ExplicitWidth = 404
     end
-    object btnSelectAll: TSpTBXButton
+    object btnSelectAll: TButton
       Left = 109
       Top = 6
       Width = 130
       Height = 24
       Caption = '&Select All'
+      ImageIndex = 104
+      Images = CommandsDataModule.Images
       TabOrder = 0
       OnClick = mnSelectAllClick
-      Images = CommandsDataModule.Images
-      ImageIndex = 104
     end
-    object btnDeselectAll: TSpTBXButton
+    object btnDeselectAll: TButton
       Left = 245
       Top = 6
       Width = 130
       Height = 24
       Caption = '&Deselect All'
+      ImageIndex = 105
+      Images = CommandsDataModule.Images
       TabOrder = 1
       OnClick = mnDeselectAllClick
-      Images = CommandsDataModule.Images
-      ImageIndex = 105
     end
-    object btnOk: TSpTBXButton
+    object btnOk: TButton
       Left = 151
       Top = 47
       Width = 75
       Height = 25
       Caption = '&OK'
-      TabOrder = 2
       Default = True
       ModalResult = 1
+      TabOrder = 2
     end
-    object btnCancel: TSpTBXButton
+    object btnCancel: TButton
       Left = 258
       Top = 47
       Width = 75
       Height = 25
-      Caption = '&Cancel'
-      TabOrder = 3
       Cancel = True
+      Caption = '&Cancel'
       ModalResult = 2
+      TabOrder = 3
     end
   end
-  object SpTBXPanel1: TSpTBXPanel
+  object Panel1: TPanel
     Left = 0
     Top = 0
     Width = 484
     Height = 249
-    Caption = 'SpTBXPanel1'
     Align = alClient
     TabOrder = 0
-    TBXStyleBackground = True
-    ExplicitWidth = 442
     DesignSize = (
       484
       249)
@@ -92,30 +87,29 @@ inherited PickListDialog: TPickListDialog
       Height = 32
       Transparent = True
     end
-    object lbMessage: TSpTBXLabel
+    object lbMessage: TLabel
       Left = 56
       Top = 8
-      Width = 420
-      Height = 6
+      Width = 409
+      Height = 13
       Anchors = [akLeft, akTop, akRight]
-      Wrapping = twWrap
-      ExplicitWidth = 378
+      Color = clNone
+      ParentColor = False
     end
-    object CheckListBox: TSpTBXCheckListBox
+    object CheckListBox: TCheckListBox
       AlignWithMargins = True
       Left = 5
-      Top = 64
+      Top = 67
       Width = 474
-      Height = 180
+      Height = 177
       Align = alBottom
       BevelInner = bvNone
       BevelOuter = bvNone
       BevelKind = bkSoft
       ItemHeight = 13
       PopupMenu = PickListPopUp
-      Style = lbStandard
       TabOrder = 0
-      ExplicitWidth = 432
+      ExplicitTop = -116
     end
   end
   object PickListPopUp: TPopupMenu

@@ -24,10 +24,8 @@ uses
   Vcl.ToolWin,
   Vcl.Themes,
   Vcl.Styles,
-  SpTBXItem,
-  SpTBXControls,
-  dlgPyIDEBase,
-  Vcl.Styles.PyScripter;
+  Vcl.Styles.PyScripter,
+  dlgPyIDEBase;
 
 type
   TStyleSelectorForm = class(TPyIDEDlgBase)
@@ -35,10 +33,10 @@ type
     ActionManager1: TActionManager;
     ActionApplyStyle: TAction;
     Panel1: TPanel;
-    Button1: TSpTBXButton;
     Button2: TButton;
     LBStyleNames: TListBox;
     Label2: TLabel;
+    Button1: TButton;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);

@@ -7,22 +7,21 @@ inherited UnitTestWizard: TUnitTestWizard
   ExplicitHeight = 520
   PixelsPerInch = 96
   TextHeight = 13
-  object Panel1: TSpTBXPanel
+  object Panel1: TPanel
     Left = 0
     Top = 0
     Width = 436
     Height = 491
     Align = alClient
     TabOrder = 0
-    TBXStyleBackground = True
     DesignSize = (
       436
       491)
     object Bevel1: TBevel
       AlignWithMargins = True
-      Left = 5
-      Top = 5
-      Width = 426
+      Left = 4
+      Top = 4
+      Width = 428
       Height = 61
       Align = alTop
       Shape = bsFrame
@@ -30,6 +29,35 @@ inherited UnitTestWizard: TUnitTestWizard
       ExplicitLeft = 12
       ExplicitTop = 8
       ExplicitWidth = 413
+    end
+    object Label1: TLabel
+      Left = 5
+      Top = 81
+      Width = 323
+      Height = 13
+      Caption = 
+        'Select the functions and methods for which tests will be generat' +
+        'ed:'
+      Color = clNone
+      ParentColor = False
+    end
+    object lbHeader: TLabel
+      Left = 10
+      Top = 15
+      Width = 275
+      Height = 13
+      Caption = 'This wizard will generate unit tests for the Python module'
+      Color = clNone
+      ParentColor = False
+    end
+    object lbFileName: TLabel
+      Left = 10
+      Top = 36
+      Width = 399
+      Height = 13
+      AutoSize = False
+      Color = clNone
+      ParentColor = False
     end
     object ExplorerTree: TVirtualStringTree
       Left = 5
@@ -60,61 +88,37 @@ inherited UnitTestWizard: TUnitTestWizard
       OnInitNode = ExplorerTreeInitNode
       Columns = <>
     end
-    object Label1: TSpTBXLabel
-      Left = 5
-      Top = 81
-      Width = 329
-      Height = 19
-      Caption = 
-        'Select the functions and methods for which tests will be generat' +
-        'ed:'
-    end
-    object lbHeader: TSpTBXLabel
-      Left = 10
-      Top = 15
-      Width = 281
-      Height = 19
-      Caption = 'This wizard will generate unit tests for the Python module'
-    end
-    object OKButton: TSpTBXButton
+    object OKButton: TButton
       Left = 85
       Top = 454
       Width = 75
       Height = 25
-      Caption = '&OK'
       Anchors = [akRight, akBottom]
-      TabOrder = 1
+      Caption = '&OK'
       Default = True
       ModalResult = 1
+      TabOrder = 1
     end
-    object BitBtn2: TSpTBXButton
+    object BitBtn2: TButton
       Left = 181
       Top = 454
       Width = 75
       Height = 25
-      Caption = '&Cancel'
       Anchors = [akRight, akBottom]
-      TabOrder = 2
       Cancel = True
+      Caption = '&Cancel'
       ModalResult = 2
+      TabOrder = 2
     end
-    object HelpButton: TSpTBXButton
+    object HelpButton: TButton
       Left = 277
       Top = 454
       Width = 75
       Height = 25
-      Caption = '&Help'
       Anchors = [akRight, akBottom]
+      Caption = '&Help'
       TabOrder = 3
       OnClick = HelpButtonClick
-    end
-    object lbFileName: TSpTBXLabel
-      Left = 10
-      Top = 36
-      Width = 417
-      Height = 19
-      AutoSize = False
-      Wrapping = twPathEllipsis
     end
   end
   object PopupUnitTestWizard: TSpTBXPopupMenu

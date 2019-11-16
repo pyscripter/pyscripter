@@ -186,6 +186,7 @@ inherited FindResultsWindow: TFindResultsWindow
           ScrollBars = ssBoth
           TabOrder = 1
           WordWrap = False
+          StyleElements = [seClient, seBorder]
           Zoom = 100
         end
       end
@@ -199,7 +200,7 @@ inherited FindResultsWindow: TFindResultsWindow
           MinHeight = 20
         end
         object SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem
-          CustomWidth = 570
+          CustomWidth = 0
         end
         object StatusRightLabel: TSpTBXLabelItem
           Alignment = taRightJustify

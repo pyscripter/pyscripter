@@ -34,19 +34,19 @@ uses
   JclUnitVersioning,
   JclUnitVersioningProviders,
   {$ENDIF UNITVERSIONING}
-  JclDebug, dlgPyIDEBase, SpTBXItem, SpTBXControls;
+  JclDebug, dlgPyIDEBase;
 
 const
   UM_CREATEDETAILS = WM_USER + $100;
 
 type
   TExceptionDialogMail = class(TPyIDEDlgBase)
-    SendBtn: TSpTBXButton;
     TextMemo: TMemo;
-    OkBtn: TSpTBXButton;
-    DetailsBtn: TSpTBXButton;
     BevelDetails: TBevel;
     DetailsMemo: TMemo;
+    SendBtn: TButton;
+    OkBtn: TButton;
+    DetailsBtn: TButton;
     procedure SendBtnClick(Sender: TObject);
     procedure FormPaint(Sender: TObject);
     procedure FormCreate(Sender: TObject);

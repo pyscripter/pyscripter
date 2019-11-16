@@ -1,7 +1,7 @@
 {-----------------------------------------------------------------------------
  Unit Name: dlgDirectoryList
  Author:    Kiriakos Vlahos
- Date:      03-Απρ-2008
+ Date:      03-09-2008
  Purpose:   Dialog for editing a list of paths
  History:
 -----------------------------------------------------------------------------}
@@ -11,25 +11,31 @@ unit dlgDirectoryList;
 interface
 
 uses
-  Types, SysUtils, Classes, Windows, Controls, Forms, StdCtrls,
-  SpTBXControls, SpTBXEditors, dlgPyIDEBase,
-  SpTBXItem;
+  Winapi.Windows,
+  System.Types,
+  System.SysUtils,
+  System.Classes,
+  Vcl.Controls,
+  Vcl.Forms,
+  Vcl.StdCtrls,
+  Vcl.ExtCtrls,
+  dlgPyIDEBase;
 
 type
   TDirectoryListDialog = class(TPyIDEDlgBase)
-    SpTBXPanel1: TSpTBXPanel;
-    DirectoryList: TSpTBXListBox;
-    SpTBXPanel2: TSpTBXPanel;
-    SpTBXPanel3: TSpTBXPanel;
-    OKBtn: TSpTBXButton;
-    CancelBtn: TSpTBXButton;
-    btnAdd: TSpTBXButton;
-    btnReplace: TSpTBXButton;
-    btnMoveUp: TSpTBXButton;
-    btnMoveDown: TSpTBXButton;
-    SpTBXLabel1: TSpTBXLabel;
-    edPath: TSpTBXButtonEdit;
-    btnDelete: TSpTBXButton;
+    Panel1: TPanel;
+    Panel2: TPanel;
+    Panel3: TPanel;
+    btnMoveUp: TButton;
+    btnMoveDown: TButton;
+    OKBtn: TButton;
+    CancelBtn: TButton;
+    btnAdd: TButton;
+    btnReplace: TButton;
+    btnDelete: TButton;
+    Label1: TLabel;
+    DirectoryList: TListBox;
+    edPath: TButtonedEdit;
     procedure btnAddClick(Sender: TObject);
     procedure BtnPathClick(Sender: TObject);
     procedure btnReplaceClick(Sender: TObject);
@@ -52,12 +58,14 @@ function EditFolderList(Folders: TStrings; FormCaption : string = 'Directory Lis
 implementation
 
 uses
-  Math,
-  ShLwApi,
+  Winapi.ShLwApi,
+  Vcl.FileCtrl,
+  Vcl.Themes,
+  Vcl.Graphics,
+  System.Math,
   JVBoxProcs,
   JvGnuGetText,
-  dmCommands,
-  FileCtrl;
+  dmCommands;
 
 {$R *.dfm}
 
@@ -178,6 +186,7 @@ end;
 
 procedure TDirectoryListDialog.FormShow(Sender: TObject);
 begin
+  edPath.Color := StyleServices.GetSystemColor(clWindow);  // RSP-26633
   CheckButtons;
   CommandsDataModule.Images.GetIcon(84, Icon)
 end;

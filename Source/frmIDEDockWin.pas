@@ -64,21 +64,13 @@ uses
 
 procedure TIDEDockWindow.WMSpSkinChange(var Message: TMessage);
 begin
-  if SkinManager.GetSkinType <> sknSkin  then begin
-    if IsStyledWindowsColorDark then begin
-      BorderHighlight := StyleServices.GetSystemColor(clBtnHighlight);
-      BorderNormal := StyleServices.GetSystemColor(clBtnFace);
-    end else begin
-      BorderHighlight := StyleServices.GetSystemColor(clBtnShadow);
-      BorderNormal := StyleServices.GetSystemColor(clBtnFace);
-    end;
+  Assert(SkinManager.GetSkinType <> sknSkin);
+  if IsStyledWindowsColorDark then begin
+    BorderHighlight := StyleServices.GetSystemColor(clBtnHighlight);
+    BorderNormal := StyleServices.GetSystemColor(clBtnFace);
   end else begin
-    BorderHighlight := GetHotColor(CurrentSkin.Options(skncTab, sknsCheckedAndHotTrack).Body);
-    BorderNormal := CurrentSkin.Options(skncTab, sknsChecked).Body.Color1;
-    if BorderHighlight = clNone then
-      BorderHighlight := CurrentSkin.Options(skncPanel, sknsNormal).Body.Color1;
-    if BorderNormal = clNone then
-      BorderNormal := CurrentSkin.Options(skncPanel, sknsNormal).Body.Color1;
+    BorderHighlight := StyleServices.GetSystemColor(clBtnShadow);
+    BorderNormal := StyleServices.GetSystemColor(clBtnFace);
   end;
   if HasFocus then begin
     BGPanel.Color := BorderHighlight;

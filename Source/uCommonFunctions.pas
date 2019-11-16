@@ -22,7 +22,6 @@ Uses
   Vcl.Graphics,
   SynEditTypes,
   SynUnicode,
-  SpTBXSkins,
   SynEdit,
   uEditAppIntfs;
 
@@ -55,7 +54,7 @@ function StrIsRight(AText, ARight: PChar): Boolean;
 
 (* returns next token - based on Classes.ExtractStrings *)
 function StrGetToken(var Content: PChar;
-                     Separators, WhiteSpace, QuoteChars: TSysCharSet): string;
+  Separators, WhiteSpace, QuoteChars: TSysCharSet): string;
 
 (* removes quotes to AText, if needed *)
 function StrUnQuote(const AText: string): string;
@@ -132,7 +131,8 @@ function SortedIdentToInt(const Ident: string; var Int: Longint;
 function ComparePythonIdents(const S1, S2 : string): Integer; overload;
 function ComparePythonIdents(List: TStringList; Index1, Index2: Integer): Integer; overload;
 
-(* Used to get Vista fonts *)
+(* Used to get Vista and code fonts *)
+function DefaultCodeFontName: string;
 procedure SetDefaultFonts(const AFont: TFont);
 procedure SetDesktopIconFonts(const AFont: TFont);
 procedure SetVistaContentFonts(const AFont: TFont);
@@ -205,9 +205,6 @@ function StrTrimCharsRight(const S: string; const Chars: TSysCharSet): string;
 
 (* Extracts a token and returns the remainder of a string *)
 function StrToken(var S: String; Separator: Char): string;
-
-(* Get Hot Color from SpTBX Skin option entry *)
-function GetHotColor(OptionEntry : TSpTBXSkinOptionEntry) : TColor;
 
 (* Improved CanFocus *)
 function CanActuallyFocus(WinControl: TWinControl): Boolean;
@@ -1159,6 +1156,14 @@ begin
   Result := ComparePythonIdents(S1, S2);
 end;
 
+function DefaultCodeFontName: string;
+begin
+    if CheckWin32Version(6) then
+      Result := 'Consolas'
+    else
+      Result := 'Courier New';
+end;
+
 procedure SetDefaultFonts(const AFont: TFont);
 begin
   AFont.Handle := GetStockObject(DEFAULT_GUI_FONT);
@@ -1840,17 +1845,6 @@ end;
 //    if CharInSet(Result[I], Chars) then
 //      Result[I] := Replace;
 //end;
-
-function GetHotColor(OptionEntry : TSpTBXSkinOptionEntry) : TColor;
-begin
-  with OptionEntry do
-    case SkinType of
-      0 : Result := Color1;
-      1,2 : Result := Color2;
-    else
-      Result := Color4;
-    end;
-end;
 
 function CanActuallyFocus(WinControl: TWinControl): Boolean;
 var

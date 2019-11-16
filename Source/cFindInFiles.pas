@@ -254,7 +254,7 @@ uses
   cProjectClasses,
   dmCommands,
   cParameters,
-  cPyScripterSettings;
+  cPyScripterSettings, Vcl.Themes;
 
 { TLineMatches }
 
@@ -620,7 +620,7 @@ begin
     Dialog.pnlListFont.Font.Assign(ListFont);
     Dialog.pnlContextFont.Font.Assign(ContextFont);
     Dialog.pnlMatchLineColor.Font.Assign(ContextFont);
-    Dialog.pnlMatchLineColor.Font.Color := ContextMatchColor;
+    Dialog.pnlMatchLineColor.Font.Color := StyleServices.GetSystemColor(ContextMatchColor);
     Dialog.spnContextLines.Value := NumContextLines;
 
     if Dialog.ShowModal = mrOk then
@@ -647,7 +647,8 @@ begin
   FListFont := TFont.Create;
   SetVistaContentFonts(FListFont);
   FContextFont := TFont.Create;
-  SetVistaContentFonts(FContextFont);
+  FContextFont.Name := DefaultCodeFontName;
+  FContextFont.Size := 9;
   FContextMatchColor := clHighlight;
   FNumContextLines := 2;
 

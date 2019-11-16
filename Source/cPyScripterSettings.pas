@@ -882,10 +882,7 @@ begin
   EditorOptions := TSynEditorOptionsContainer.Create(nil);
   with EditorOptions do begin
     Font.Size := 10;
-    if CheckWin32Version(6) then
-      Font.Name := 'Consolas'
-    else
-      Font.Name := 'Courier New';
+    Font.Name := DefaultCodeFontName;
     Gutter.Font.Name := Font.Name;
     Gutter.Font.Color := clGrayText;
     Gutter.Gradient := True;

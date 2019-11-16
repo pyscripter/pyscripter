@@ -205,7 +205,6 @@ begin
     DPI := Screen.PixelsPerInch;
     if RoundScalingFactor then
       DPI := Round(DPI / 96) * 96;
-//      DPI := Round(Pred(DPI) / 96) * 96;
   end;
 
   if (Style = TStyleManager.SystemStyle) or  (DPI <= 120) then
