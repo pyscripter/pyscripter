@@ -1489,6 +1489,7 @@ Var
   LocalOptionsFileName: string;
 begin
   // Style DPI awareness
+  TStyleDPIAwareness.RoundScalingFactor := False;
   StyleDPIAwareness := TStyleDPIAwareness.Create(Self);
   StyleDPIAwareness.Parent := Self;
 
@@ -1498,9 +1499,6 @@ begin
     JvAppInstances.Active := True;
     JvAppInstances.Check;
   end;
-
-  // Trying to reduce flicker!
-  // ControlStyle := ControlStyle + [csOpaque];
 
   // Notifications
   SkinManager.AddSkinNotification(Self);
@@ -1677,6 +1675,14 @@ begin
   //Set the HelpFile
   Application.HelpFile := ExtractFilePath(Application.ExeName) + 'PyScripter.chm';
   Application.OnHelp := Self.ApplicationHelp;
+
+  //Flicker
+  MainMenu.DoubleBuffered := True;
+  MainToolBar.DoubleBuffered := True;
+  DebugToolbar.DoubleBuffered := True;
+  ViewToolbar.DoubleBuffered := True;
+  EditorToolbar.DoubleBuffered := True;
+  UserToolbar.DoubleBuffered := True;
 
   SkinManager.AddSkinNotification(Self);
   SkinManager.BroadcastSkinNotification;

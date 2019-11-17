@@ -46,12 +46,12 @@ uses
   SynEditPrintTypes, SynEditPrint, SynEditPrintMargins,
   SynEditPrintHeaderFooter, SpTBXControls, TB2Item,
   SpTBXItem, TB2Dock, TB2Toolbar, SpTBXEditors,
-  dlgPyIDEBase, SpTBXTabs, System.Actions, System.ImageList;
+  dlgPyIDEBase, SpTBXTabs, System.Actions, System.ImageList,
+  Vcl.VirtualImageList, Vcl.BaseImageCollection, Vcl.ImageCollection;
 
 type
   TPageSetupDlg = class(TPyIDEDlgBase)
     Image1: TImage;
-    ImageList: TImageList;
     FontDialog: TFontDialog;
     ColorDialog: TColorDialog;
     OKBtn: TButton;
@@ -144,6 +144,8 @@ type
     REFooterLeft: TRichEdit;
     REFooterCenter: TRichEdit;
     REFooterRight: TRichEdit;
+    ic_PageSetup: TImageCollection;
+    vilPageSetup: TVirtualImageList;
     procedure PageNumCmdExecute(Sender: TObject);
     procedure PagesCmdExecute(Sender: TObject);
     procedure TimeCmdExecute(Sender: TObject);
@@ -199,7 +201,6 @@ uses
 
 procedure TPageSetupDlg.FormCreate(Sender: TObject);
 begin
-  ScaleImageList(ImageList, Screen.PixelsPerInch, 96);
   Editor := nil;
   inherited;
   FMargins := TSynEditPrintMargins.Create;

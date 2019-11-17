@@ -33,7 +33,7 @@ object PyIDEMainForm: TPyIDEMainForm
     end
     object SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem
       Wrapping = twNone
-      CustomWidth = 0
+      CustomWidth = 195
     end
     object SpTBXSeparatorItem22: TSpTBXSeparatorItem
     end
@@ -256,6 +256,7 @@ object PyIDEMainForm: TPyIDEMainForm
     Width = 780
     Height = 77
     PopupMenu = ToolbarPopupMenu
+    DoubleBuffered = False
     object MainMenu: TSpTBXToolbar
       Left = 8
       Top = 0

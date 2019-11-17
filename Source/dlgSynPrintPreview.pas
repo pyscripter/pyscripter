@@ -44,11 +44,11 @@ uses
   Windows, SysUtils, Classes, Graphics, Forms, Controls,
   Buttons, ActnList, ImgList, Dialogs,
   SynEditPrintPreview, Printers, SpTBXItem,
-  TB2Item, TB2Dock, TB2Toolbar, dlgPyIDEBase, System.Actions, System.ImageList;
+  TB2Item, TB2Dock, TB2Toolbar, dlgPyIDEBase, System.Actions, System.ImageList,
+  Vcl.VirtualImageList, Vcl.BaseImageCollection, Vcl.ImageCollection;
 
 type
   TPrintPreviewDlg = class(TPyIDEDlgBase)
-    ImageList: TImageList;
     SynEditPrintPreview: TSynEditPrintPreview;
     ActionList: TActionList;
     CloseCmd: TAction;
@@ -83,6 +83,8 @@ type
     SpTBXSeparatorItem5: TSpTBXSeparatorItem;
     LeftStatusLabel: TSpTBXLabelItem;
     SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem;
+    icPrintPreview: TImageCollection;
+    vilPrintPreview: TVirtualImageList;
 
     procedure FirstCmdExecute(Sender: TObject);
     procedure PrevCmdExecute(Sender: TObject);
@@ -121,7 +123,6 @@ resourcestring
 
 procedure TPrintPreviewDlg.FormShow(Sender: TObject);
 begin
-  ScaleImageList(ImageList, Screen.PixelsPerInch, 96);
   SynEditPrintPreview.UpdatePreview;
   SynEditPrintPreview.FirstPage;
   if Printer.PrinterIndex >= 0 then

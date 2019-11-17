@@ -49,7 +49,7 @@ object CommandsDataModule: TCommandsDataModule
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -13
-    Font.Name = 'Courier New'
+    Font.Name = 'MS Sans Serif'
     Font.Style = []
     Highlighter = SynPythonSyn
     TabWidth = 8

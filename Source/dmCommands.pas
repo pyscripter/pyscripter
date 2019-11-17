@@ -366,6 +366,8 @@ type
     fUntitledNumbers: TBits;
     fConfirmReplaceDialogRect: TRect;
     procedure PyIDEOptionsChanged(Sender: TObject);
+  protected
+    procedure Loaded; override;
   public
     SynYAMLSyn: TSynYAMLSyn;
     SynCythonSyn: TSynCythonSyn;
@@ -681,30 +683,10 @@ begin
 
   MaskFPUExceptions(PyIDEOptions.MaskFPUExceptions);
 
-  with SynEditPrint.Header do begin
-    Add('$TITLE$', nil, taCenter, 2);
-  end;
-  with SynEditPrint.Footer do begin
-    Add('$PAGENUM$/$PAGECOUNT$', nil, taCenter, 1);
-  end;
-
   // Setup the ShellIcon imagelist
   ShellImages.Handle := SHGetFileInfo('', 0, SHFileInfo, SizeOf(SHFileInfo),
     SHGFI_SYSICONINDEX or SHGFI_SMALLICON);
   NumberOfOriginalImages := Images.Count;
-
-  // Help file
-  //StoHelpViewer.HtmlExt := '.html';
-
-  //Program Version Check
-  ProgramVersionCheck.ThreadDialog.DialogOptions.ShowModal := False;
-  ProgramVersionCheck.ThreadDialog.DialogOptions.Caption := 'Downloading...';
-  ProgramVersionCheck.ThreadDialog.DialogOptions.ResName := 'WebCopyAvi';
-  {$IFDEF CPUX64}
-  ProgramVersionHTTPLocation.VersionInfoFileName := 'PyScripterVersionInfo-x64.ini';
-  {$ELSE}
-  ProgramVersionHTTPLocation.VersionInfoFileName := 'PyScripterVersionInfo.ini';
-  {$ENDIF}
 
   PyIDEOptions.OnChange.AddHandler(PyIDEOptionsChanged);
 
@@ -1060,6 +1042,34 @@ class function TCommandsDataModule.IsHighlighterStored(
 begin
   Result :=  not (Highlighter is TSynCythonSyn) and
     (not (Highlighter is TSynWebBase) or (Highlighter is TSynWebHtmlSyn));
+end;
+
+procedure TCommandsDataModule.Loaded;
+begin
+  inherited;
+  // SynEditPrint
+  with SynEditPrint do begin
+    Font.Name := DefaultCodeFontName;
+    Font.Size := 10;
+    with Header do begin
+      Add('$TITLE$', nil, taCenter, 2);
+      DefaultFont.Size := 10;
+    end;
+    with Footer do begin
+      Add('$PAGENUM$/$PAGECOUNT$', nil, taCenter, 1);
+      DefaultFont.Size := 10;
+    end;
+  end;
+
+  //Program Version Check
+  ProgramVersionCheck.ThreadDialog.DialogOptions.ShowModal := False;
+  ProgramVersionCheck.ThreadDialog.DialogOptions.Caption := 'Downloading...';
+  ProgramVersionCheck.ThreadDialog.DialogOptions.ResName := 'WebCopyAvi';
+  {$IFDEF CPUX64}
+  ProgramVersionHTTPLocation.VersionInfoFileName := 'PyScripterVersionInfo-x64.ini';
+  {$ELSE}
+  ProgramVersionHTTPLocation.VersionInfoFileName := 'PyScripterVersionInfo.ini';
+  {$ENDIF}
 end;
 
 procedure TCommandsDataModule.actSearchReplaceNowExecute(Sender: TObject);

@@ -2081,6 +2081,22 @@ begin
   end;
 end;
 
+//procedure ResizeBitmap(Bitmap: TBitmap; const NewWidth, NewHeight: integer);
+//var
+//  buffer: TBitmap;
+//begin
+//  buffer := TBitmap.Create;
+//  try
+//    buffer.SetSize(NewWidth, NewHeight);
+//    buffer.AlphaFormat := afDefined;
+//    buffer.Canvas.StretchDraw(Rect(0, 0, NewWidth, NewHeight), Bitmap);
+//    Bitmap.SetSize(NewWidth, NewHeight);
+//    Bitmap.Canvas.Draw(0, 0, buffer);
+//  finally
+//    buffer.Free;
+//  end;
+//end;
+
 procedure ResizeBitmap(Bitmap: TBitmap; const NewWidth, NewHeight: integer);
 var
   Factory: IWICImagingFactory;
@@ -2121,7 +2137,6 @@ function DesktopSizeString: string;
 begin
   Result := Format('(%dx%d)', [Screen.DesktopWidth, Screen.DesktopHeight]);
 end;
-
 
 function DownloadUrlToFile(const URL, Filename: string): Boolean;
 begin

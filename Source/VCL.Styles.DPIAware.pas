@@ -216,6 +216,8 @@ begin
 
   if BitMapList.Count = 1 then begin
     Bitmap := TObject(BitmapList[0]) as TBitmap;
+
+    if Bitmap.Width mod 2 = 1 then Bitmap.Width := Bitmap.Width - 1;
     // It appears that the bitmap is premultiplied but has AlphaFormat afIgnored!
     Bitmap.PublicUnPreMultiplyAlpha;
     ResizeBitmap(Bitmap, MulDiv(Bitmap.Width, DPI, 96), Muldiv(Bitmap.Height, DPI, 96));
