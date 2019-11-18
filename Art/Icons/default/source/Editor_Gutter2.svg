@@ -11,14 +11,14 @@
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="33"
-   height="28"
-   viewBox="0 0 8.7312503 7.4083335"
+   width="48"
+   height="42"
+   viewBox="0 0 12.7 11.1125"
    version="1.1"
    id="svg8"
    inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
-   sodipodi:docname="Editor_Gutter.svg"
-   inkscape:export-filename="C:\Delphi\Progs32\Python\Pyscripter\Art\Icons\default\16x16\Editor Gutter_14x11_2.png"
+   sodipodi:docname="Editor_Gutter2.svg"
+   inkscape:export-filename="C:\Delphi\Progs32\Python\Pyscripter\Art\Icons\default\24x24\Editor Gutter_21x16.png"
    inkscape:export-xdpi="96"
    inkscape:export-ydpi="96">
   <defs
@@ -2303,8 +2303,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="15.839192"
-     inkscape:cx="-3.1554631"
-     inkscape:cy="17.147634"
+     inkscape:cx="18.285198"
+     inkscape:cy="23.303476"
      inkscape:document-units="mm"
      inkscape:current-layer="layer3"
      showgrid="false"
@@ -2314,7 +2314,8 @@
      inkscape:window-height="1046"
      inkscape:window-x="-11"
      inkscape:window-y="-11"
-     inkscape:window-maximized="1" />
+     inkscape:window-maximized="1"
+     scale-x="1.5" />
   <metadata
      id="metadata5">
     <rdf:RDF>
@@ -2331,7 +2332,7 @@
      inkscape:groupmode="layer"
      id="layer2"
      inkscape:label="background"
-     transform="translate(0,-1.0583334)"
+     transform="translate(0,2.6458333)"
      style="display:none">
     <rect
        y="5.5562501"
@@ -2380,7 +2381,7 @@
      inkscape:groupmode="layer"
      id="layer3"
      inkscape:label="icon"
-     transform="translate(0,-1.0583334)">
+     transform="translate(0,2.6458333)">
     <g
        id="layer29"
        inkscape:label="background"
@@ -3729,7 +3730,7 @@
        transform="matrix(0.03311179,0,0,0.03311179,-55.058953,184.61737)" />
     <g
        id="g8607"
-       transform="matrix(0.71104081,0,0,0.71104082,-0.69157948,8.6079131)">
+       transform="matrix(1.0665612,0,0,1.0665612,-1.1696609,8.6123903)">
       <circle
          style="fill:#ff0000;fill-opacity:1;stroke:#333333;stroke-width:0.07255582;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
          cx="3.156143"
@@ -3745,7 +3746,7 @@
     </g>
     <g
        id="g5061"
-       transform="matrix(0.71097553,0,0,0.70877924,0.98084817,1.6064808)">
+       transform="matrix(1.0664633,0,0,1.0631688,1.1706437,-1.8897581)">
       <circle
          id="circle8540"
          r="1.4230347"
@@ -3774,7 +3775,7 @@
        r="0" />
     <g
        id="g5041"
-       transform="translate(-0.08008023,-0.67810078)">
+       transform="matrix(1.5,0,0,1.5,-0.25241198,-5.1843388)">
       <circle
          id="circle8568"
          r="0.5526911"
@@ -3789,13 +3790,13 @@
          transform="matrix(0.03808767,0,0,0.03808767,1.0139759,3.1550056)" />
     </g>
     <polygon
-       points="186.52,433.256 186.52,422.559 191.636,422.559 213.387,444.311 191.636,466.062 186.52,466.062 186.52,455.366 166.645,455.366 166.645,444.311 166.645,433.256 "
+       points="166.645,455.366 166.645,444.311 166.645,433.256 186.52,433.256 186.52,422.559 191.636,422.559 213.387,444.311 191.636,466.062 186.52,466.062 186.52,455.366 "
        id="polygon8582"
-       transform="matrix(0.05749316,0,0,0.05416131,-6.4991592,-20.967876)"
+       transform="matrix(0.08538365,0,0,0.08344552,-9.7965316,-36.691342)"
        style="fill:url(#linearGradient8586);fill-opacity:1;stroke:#ffffff;stroke-width:3.37749052;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none" />
     <g
        id="g8613"
-       transform="matrix(0.80369632,0,0,0.80369632,4.7403988,5.4453188)">
+       transform="matrix(1.2055445,0,0,1.2055445,6.8586899,4.0007905)">
       <circle
          id="circle8609"
          r="1.4230347"
@@ -3811,11 +3812,11 @@
     </g>
     <polygon
        style="fill:url(#linearGradient5056);fill-opacity:1;stroke:#ffffff;stroke-width:3.37749052;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
-       transform="matrix(0.05749316,0,0,0.05019778,-3.6531405,-19.260691)"
+       transform="matrix(0.07896692,0,0,0.07538514,-4.558863,-33.05029)"
        id="polygon5054"
-       points="166.645,444.311 166.645,433.256 186.52,433.256 186.52,422.559 191.636,422.559 213.387,444.311 191.636,466.062 186.52,466.062 186.52,455.366 166.645,455.366 " />
+       points="191.636,466.062 186.52,466.062 186.52,455.366 166.645,455.366 166.645,444.311 166.645,433.256 186.52,433.256 186.52,422.559 191.636,422.559 213.387,444.311 " />
     <g
-       transform="matrix(0.71104082,0,0,0.71104082,4.9622099,8.6079131)"
+       transform="matrix(1.0665612,0,0,1.0665612,7.0965533,8.6123903)"
        id="g5071">
       <circle
          id="circle5067"

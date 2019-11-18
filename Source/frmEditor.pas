@@ -48,7 +48,8 @@ uses
   cPythonSourceScanner,
   cCodeCompletion,
   cPyBaseDebugger,
-  cPySupportTypes;
+  cPySupportTypes, Vcl.VirtualImageList, Vcl.BaseImageCollection,
+  Vcl.ImageCollection;
 
 const
   WM_PARAMCOMPLETION = WM_USER +1040;
@@ -69,7 +70,6 @@ type
   end;
 
   TEditorForm = class(TForm)
-    imglGutterGlyphs: TImageList;
     pmnuEditor: TSpTBXPopupMenu;
     pmnuViewsTab: TSpTBXPopupMenu;
     mnCloseTab: TSpTBXItem;
@@ -128,6 +128,8 @@ type
     SpTBXSeparatorItem7: TSpTBXSeparatorItem;
     mnUnfoldFunctions: TSpTBXItem;
     mnUnfoldClasses: TSpTBXItem;
+    vilGutterGlyphs: TVirtualImageList;
+    icGutterGlyphs: TImageCollection;
     procedure SynEditMouseMove(Sender: TObject; Shift: TShiftState;
       X, Y: Integer);
     procedure SynParamCompletionExecute(Kind: SynCompletionType;
@@ -2201,7 +2203,7 @@ begin
     begin
       if SynEdit.AllFoldRanges.FoldHidesLine(Line) then
         continue;
-      Y := (LH - imglGutterGlyphs.Height) div 2 + LH *
+      Y := (LH - vilGutterGlyphs.Height) div 2 + LH *
         (SynEdit.LineToRow(Line) - SynEdit.TopLine);
       LI := PyControl.GetLineInfos(fEditor, Line);
       if dlCurrentLine in LI then
@@ -2232,7 +2234,7 @@ begin
           ImgIndex := -1;
       end;
       if ImgIndex >= 0 then
-        imglGutterGlyphs.Draw(ACanvas, X, Y, ImgIndex);
+        vilGutterGlyphs.Draw(ACanvas, X, Y, ImgIndex);
     end;
   end;
 end;
@@ -2278,9 +2280,6 @@ end;
 
 procedure TEditorForm.FormCreate(Sender: TObject);
 begin
-  // Scale ImageList
-  ScaleImageList(imglGutterGlyphs, Screen.PixelsPerInch, 96);
-
   FGPanelExit(Self);
 
   SynEdit.OnReplaceText := CommandsDataModule.SynEditReplaceText;
@@ -2760,7 +2759,10 @@ begin
 
   PyIDEMainForm.ThemeEditorGutter(SynEdit.Gutter);
   SynEdit.InvalidateGutter;
+  SynEdit.CodeFolding.FolderBarLinesColor := SynEdit.Gutter.Font.Color;
+
   PyIDEMainForm.ThemeEditorGutter(SynEdit2.Gutter);
+  SynEdit2.CodeFolding.FolderBarLinesColor := SynEdit2.Gutter.Font.Color;
   SynEdit2.InvalidateGutter;
   Invalidate;
 end;

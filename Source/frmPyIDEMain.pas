@@ -4188,8 +4188,9 @@ end;
 
 procedure TPyIDEMainForm.ThemeEditorGutter(Gutter : TSynGutter);
 Var
-  GradColor, TextColor : TColor;
+  GradColor: TColor;
 begin
+  Assert(SkinManager.GetSkinType <> sknSkin);
   if SkinManager.GetSkinType in [sknNone, sknWindows] then begin
     Gutter.GradientStartColor := clWindow;
     Gutter.GradientEndColor := clBtnFace;
@@ -4197,23 +4198,12 @@ begin
     Exit;
   end;
 
-  if SkinManager.GetSkinType = sknSkin then begin
-    GradColor := CurrentSkin.Options(skncToolbar, sknsNormal).Body.Color1;
-    if GradColor = clNone then
-      GradColor := CurrentSkin.Options(skncDock, sknsNormal).Body.Color1;
-    Gutter.Font.Color := CurrentSkin.GetTextColor(skncTab, sknsNormal)
-  end else begin  // Delphi Skins
-    if not StyleServices.GetElementColor(StyleServices.GetElementDetails(ttTabItemNormal),
-      ecFillColor, GradColor) or (GradColor = clNone)
-    then
-      GradColor := StyleServices.GetSystemColor(clBtnFace);
-
-//    if not StyleServices.GetElementColor(StyleServices.GetElementDetails(ttTabItemNormal),
-//      ecTextColor, TextColor) or (TextColor = clNone)
-//    then
-      TextColor := StyleServices.GetSystemColor(clGrayText);
-    Gutter.Font.Color := TextColor;
-  end;
+  // Delphi Styles
+  if not StyleServices.GetElementColor(StyleServices.GetElementDetails(ttTabItemNormal),
+    ecFillColor, GradColor) or (GradColor = clNone)
+  then
+    GradColor := StyleServices.GetSystemColor(clBtnFace);
+  Gutter.Font.Color :=  StyleServices.GetSystemColor(clGrayText);;
 
   with Gutter do begin
     BorderStyle := gbsNone;
@@ -4416,6 +4406,7 @@ procedure TPyIDEMainForm.WMSpSkinChange(var Message: TMessage);
 begin
   // Update EditorOptions
   ThemeEditorGutter(EditorOptions.Gutter);
+  PyIDEOptions.CodeFolding.FolderBarLinesColor := EditorOptions.Gutter.Font.Color;
 //  BGPanel.Color := CurrentTheme.GetItemColor(GetItemInfo('inactive'));
 //  Application.HintColor := CurrentTheme.GetViewColor(VT_DOCKPANEL);
 end;
