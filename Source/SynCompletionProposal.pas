@@ -3427,79 +3427,84 @@ begin
     i := AutoCompleteList.IndexOf(Token);
     if (Length(Token) > 0) and (i <> -1) then
     begin
-      TmpOptions := Editor.Options;
-      OrigOptions := Editor.Options;
-      ChangedIndent := eoAutoIndent in TmpOptions;
-      ChangedTrailing := eoTrimTrailingSpaces in TmpOptions;
+      Editor.Lines.BeginUpdate;
+      try
+        TmpOptions := Editor.Options;
+        OrigOptions := Editor.Options;
+        ChangedIndent := eoAutoIndent in TmpOptions;
+        ChangedTrailing := eoTrimTrailingSpaces in TmpOptions;
 
-      if ChangedIndent then Exclude(TmpOptions, eoAutoIndent);
-      if ChangedTrailing then Exclude(TmpOptions, eoTrimTrailingSpaces);
+        if ChangedIndent then Exclude(TmpOptions, eoAutoIndent);
+        if ChangedTrailing then Exclude(TmpOptions, eoTrimTrailingSpaces);
 
-      if ChangedIndent or ChangedTrailing then
-        Editor.Options := TmpOptions;
+        if ChangedIndent or ChangedTrailing then
+          Editor.Options := TmpOptions;
 
-      Editor.UndoList.AddChange(crAutoCompleteBegin, StartOfBlock, StartOfBlock, '',
-        smNormal);
+        Editor.UndoList.AddChange(crAutoCompleteBegin, StartOfBlock, StartOfBlock, '',
+          smNormal);
 
-      fNoNextKey := True;
-      for j := 1 to Length(Token) do
-        Editor.CommandProcessor(ecDeleteLastChar, ' ', nil);
-      BeginningSpaceCount := Editor.DisplayX - 1;
-      if not(eoTabsToSpaces in Editor.Options) and
-        (BeginningSpaceCount >= Editor.TabWidth)
-      then
-        Spacing := StringofChar(#9, BeginningSpaceCount div Editor.TabWidth)
-          + StringofChar(' ', BeginningSpaceCount mod Editor.TabWidth)
-      else
-        Spacing := StringofChar(' ', BeginningSpaceCount);
+        fNoNextKey := True;
+        for j := 1 to Length(Token) do
+          Editor.CommandProcessor(ecDeleteLastChar, ' ', nil);
+        BeginningSpaceCount := Editor.DisplayX - 1;
+        if not(eoTabsToSpaces in Editor.Options) and
+          (BeginningSpaceCount >= Editor.TabWidth)
+        then
+          Spacing := StringofChar(#9, BeginningSpaceCount div Editor.TabWidth)
+            + StringofChar(' ', BeginningSpaceCount mod Editor.TabWidth)
+        else
+          Spacing := StringofChar(' ', BeginningSpaceCount);
 
-      inc(i);
-      if (i < AutoCompleteList.Count) and
-         (Length(AutoCompleteList[i]) > 0) and
-         (AutoCompleteList[i][1] = '|') then
-      begin
-        inc(i);
-      end;
-      StartOfBlock.Char := -1;
-      StartOfBlock.Line := -1;
-      while (i < AutoCompleteList.Count) and
-            (length(AutoCompleteList[i]) > 0) and
-            (AutoCompleteList[i][1] = '=') do
-      begin
-  {      for j := 0 to PrevSpace - 1 do
-          Editor.CommandProcessor(ecDeleteLastChar, ' ', nil);}
-        Temp := AutoCompleteList[i];
-        for j := 2 to Length(Temp) do begin
-          if (Temp[j] = #9) then
-            Editor.CommandProcessor(ecTab, Temp[j], nil)
-          else
-            Editor.CommandProcessor(ecChar, Temp[j], nil);
-          if (Temp[j] = '|') then
-            StartOfBlock := Editor.CaretXY
-        end;
         inc(i);
         if (i < AutoCompleteList.Count) and
-           (length(AutoCompleteList[i]) > 0) and
-           (AutoCompleteList[i][1] = '=') then
+           (Length(AutoCompleteList[i]) > 0) and
+           (AutoCompleteList[i][1] = '|') then
         begin
-           Editor.CommandProcessor (ecLineBreak,' ',nil);
-           for j := 1 to length(Spacing) do
-             if (Spacing[j] = #9) then
-               Editor.CommandProcessor(ecTab, #9, nil)
-             else
-               Editor.CommandProcessor (ecChar, ' ', nil);
+          inc(i);
         end;
-      end;
-      if (StartOfBlock.Char <> -1) and (StartOfBlock.Line <> -1) then begin
-        Editor.CaretXY := StartOfBlock;
-        Editor.CommandProcessor(ecDeleteLastChar, ' ', nil);
-      end;
+        StartOfBlock.Char := -1;
+        StartOfBlock.Line := -1;
+        while (i < AutoCompleteList.Count) and
+              (length(AutoCompleteList[i]) > 0) and
+              (AutoCompleteList[i][1] = '=') do
+        begin
+    {      for j := 0 to PrevSpace - 1 do
+            Editor.CommandProcessor(ecDeleteLastChar, ' ', nil);}
+          Temp := AutoCompleteList[i];
+          for j := 2 to Length(Temp) do begin
+            if (Temp[j] = #9) then
+              Editor.CommandProcessor(ecTab, Temp[j], nil)
+            else
+              Editor.CommandProcessor(ecChar, Temp[j], nil);
+            if (Temp[j] = '|') then
+              StartOfBlock := Editor.CaretXY
+          end;
+          inc(i);
+          if (i < AutoCompleteList.Count) and
+             (length(AutoCompleteList[i]) > 0) and
+             (AutoCompleteList[i][1] = '=') then
+          begin
+             Editor.CommandProcessor (ecLineBreak,' ',nil);
+             for j := 1 to length(Spacing) do
+               if (Spacing[j] = #9) then
+                 Editor.CommandProcessor(ecTab, #9, nil)
+               else
+                 Editor.CommandProcessor (ecChar, ' ', nil);
+          end;
+        end;
+        if (StartOfBlock.Char <> -1) and (StartOfBlock.Line <> -1) then begin
+          Editor.CaretXY := StartOfBlock;
+          Editor.CommandProcessor(ecDeleteLastChar, ' ', nil);
+        end;
 
-      if ChangedIndent or ChangedTrailing then Editor.Options := OrigOptions;
+        if ChangedIndent or ChangedTrailing then Editor.Options := OrigOptions;
 
-      Editor.UndoList.AddChange(crAutoCompleteEnd, StartOfBlock, StartOfBlock,
-        '', smNormal);
-      fNoNextKey := False;
+        Editor.UndoList.AddChange(crAutoCompleteEnd, StartOfBlock, StartOfBlock,
+          '', smNormal);
+        fNoNextKey := False;
+      finally
+        Editor.Lines.EndUpdate;
+      end;
     end
     else if LookupIfNotExact and Assigned(FInternalCompletion) then
     begin

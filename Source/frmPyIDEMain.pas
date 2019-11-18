@@ -488,7 +488,7 @@
           New Features
             Improved compatibility with venv virtual environments
           Issues addressed
-            #962, #948, #966, #967, #968
+            #962, #948, #966, #967, #968, #972
 
             { TODO : Review Search and Replace }
             { TODO : Auto PEP8 tool }
