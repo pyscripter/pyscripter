@@ -79,6 +79,7 @@ object EditorForm: TEditorForm
           Font.Height = -13
           Font.Name = 'Courier New'
           Font.Style = []
+          Font.Quality = fqClearTypeNatural
           PopupMenu = pmnuEditor
           TabOrder = 0
           OnDblClick = SynEditDblClick
@@ -505,6 +506,7 @@ object EditorForm: TEditorForm
           Font.Height = -13
           Font.Name = 'Courier New'
           Font.Style = []
+          Font.Quality = fqClearTypeNatural
           PopupMenu = pmnuEditor
           TabOrder = 1
           Visible = False
@@ -1046,8 +1048,8 @@ object EditorForm: TEditorForm
   end
   object pmnuViewsTab: TSpTBXPopupMenu
     Images = CommandsDataModule.Images
-    Left = 96
-    Top = 128
+    Left = 168
+    Top = 32
     object mnUpdateView: TSpTBXItem
       Caption = 'Update View'
       Hint = 'Update View|Update the selected view'
@@ -1078,15 +1080,15 @@ object EditorForm: TEditorForm
     TitleFont.Style = [fsBold]
     Columns = <>
     Resizeable = False
-    Images = CommandsDataModule.CodeImages
+    Images = vicCodeImages
     OnClose = SynCodeCompletionClose
     OnExecute = SynCodeCompletionExecute
     ShortCut = 0
     Editor = SynEdit
     TimerInterval = 300
     OnAfterCodeCompletion = SynCodeCompletionAfterCodeCompletion
-    Left = 458
-    Top = 32
+    Left = 452
+    Top = 33
   end
   object SynParamCompletion: TSynCompletionProposal
     DefaultType = ctParams
@@ -1104,13 +1106,13 @@ object EditorForm: TEditorForm
     TitleFont.Name = 'MS Sans Serif'
     TitleFont.Style = [fsBold]
     Columns = <>
-    Images = CommandsDataModule.CodeImages
+    Images = vicCodeImages
     OnExecute = SynParamCompletionExecute
     ShortCut = 0
     Editor = SynEdit
     TimerInterval = 300
     Left = 456
-    Top = 79
+    Top = 87
   end
   object SynWebCompletion: TSynCompletionProposal
     Options = [scoLimitToMatchedText, scoUseInsertList, scoUsePrettyText, scoUseBuiltInTimer, scoEndCharCompletion, scoCompleteWithTab, scoCompleteWithEnter]
@@ -1178,8 +1180,8 @@ object EditorForm: TEditorForm
         Name = 'Item6'
       end>
     ImageCollection = icGutterGlyphs
-    Left = 96
-    Top = 240
+    Left = 168
+    Top = 80
   end
   object icGutterGlyphs: TImageCollection
     Images = <
@@ -1575,6 +1577,74 @@ object EditorForm: TEditorForm
           end>
       end>
     Left = 96
-    Top = 192
+    Top = 80
+  end
+  object vicCodeImages: TVirtualImageList
+    DisabledGrayscale = False
+    DisabledSuffix = '_Disabled'
+    Images = <
+      item
+        CollectionIndex = 0
+        CollectionName = 'CodeImages\Item1'
+        Disabled = False
+        Name = 'Item1'
+      end
+      item
+        CollectionIndex = 1
+        CollectionName = 'CodeImages\Item2'
+        Disabled = False
+        Name = 'Item2'
+      end
+      item
+        CollectionIndex = 2
+        CollectionName = 'CodeImages\Item3'
+        Disabled = False
+        Name = 'Item3'
+      end
+      item
+        CollectionIndex = 3
+        CollectionName = 'CodeImages\Item4'
+        Disabled = False
+        Name = 'Item4'
+      end
+      item
+        CollectionIndex = 4
+        CollectionName = 'CodeImages\Item5'
+        Disabled = False
+        Name = 'Item5'
+      end
+      item
+        CollectionIndex = 5
+        CollectionName = 'CodeImages\Item6'
+        Disabled = False
+        Name = 'Item6'
+      end
+      item
+        CollectionIndex = 6
+        CollectionName = 'CodeImages\Item7'
+        Disabled = False
+        Name = 'Item7'
+      end
+      item
+        CollectionIndex = 7
+        CollectionName = 'CodeImages\Item8'
+        Disabled = False
+        Name = 'Item8'
+      end
+      item
+        CollectionIndex = 8
+        CollectionName = 'CodeImages\Item9'
+        Disabled = False
+        Name = 'Item9'
+      end
+      item
+        CollectionIndex = 9
+        CollectionName = 'CodeImages\Item10'
+        Disabled = False
+        Name = 'Item10'
+      end>
+    ImageCollection = CommandsDataModule.icCodeImages
+    Left = 100
+    Top = 127
   end
 end

@@ -29,6 +29,7 @@ uses
   System.Variants,
   System.Actions,
   System.SyncObjs,
+  System.ImageList,
   Vcl.Clipbrd,
   Vcl.Graphics,
   Vcl.Controls,
@@ -37,6 +38,8 @@ uses
   Vcl.Dialogs ,
   Vcl.Menus,
   Vcl.ActnList,
+  Vcl.ImgList,
+  Vcl.VirtualImageList,
   JvComponentBase,
   JvDockControlForm,
   SynHighlighterPython,
@@ -88,6 +91,7 @@ type
     actClearContents: TAction;
     actCopyHistory: TAction;
     mnPythonVersions: TSpTBXSubmenuItem;
+    vicCodeImages: TVirtualImageList;
     procedure SynEditPaintTransient(Sender: TObject; Canvas: TCanvas;
       TransientType: TTransientType);
     procedure FormCreate(Sender: TObject);

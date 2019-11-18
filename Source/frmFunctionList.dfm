@@ -84,7 +84,7 @@ inherited FunctionListWindow: TFunctionListWindow
       HideSelection = False
       ReadOnly = True
       RowSelect = True
-      SmallImages = CommandsDataModule.CodeImages
+      SmallImages = vicCodeImages
       TabOrder = 0
       ViewStyle = vsReport
       OnChange = lvProcsChange
@@ -218,7 +218,7 @@ inherited FunctionListWindow: TFunctionListWindow
     end
     object SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem
       Wrapping = twNone
-      CustomWidth = 0
+      CustomWidth = 501
     end
     object SpTBXSeparatorItem5: TSpTBXSeparatorItem
     end
@@ -284,5 +284,73 @@ inherited FunctionListWindow: TFunctionListWindow
       ImageIndex = 33
       OnExecute = actHelpHelpExecute
     end
+  end
+  object vicCodeImages: TVirtualImageList
+    DisabledGrayscale = False
+    DisabledSuffix = '_Disabled'
+    Images = <
+      item
+        CollectionIndex = 0
+        CollectionName = 'CodeImages\Item1'
+        Disabled = False
+        Name = 'Item1'
+      end
+      item
+        CollectionIndex = 1
+        CollectionName = 'CodeImages\Item2'
+        Disabled = False
+        Name = 'Item2'
+      end
+      item
+        CollectionIndex = 2
+        CollectionName = 'CodeImages\Item3'
+        Disabled = False
+        Name = 'Item3'
+      end
+      item
+        CollectionIndex = 3
+        CollectionName = 'CodeImages\Item4'
+        Disabled = False
+        Name = 'Item4'
+      end
+      item
+        CollectionIndex = 4
+        CollectionName = 'CodeImages\Item5'
+        Disabled = False
+        Name = 'Item5'
+      end
+      item
+        CollectionIndex = 5
+        CollectionName = 'CodeImages\Item6'
+        Disabled = False
+        Name = 'Item6'
+      end
+      item
+        CollectionIndex = 6
+        CollectionName = 'CodeImages\Item7'
+        Disabled = False
+        Name = 'Item7'
+      end
+      item
+        CollectionIndex = 7
+        CollectionName = 'CodeImages\Item8'
+        Disabled = False
+        Name = 'Item8'
+      end
+      item
+        CollectionIndex = 8
+        CollectionName = 'CodeImages\Item9'
+        Disabled = False
+        Name = 'Item9'
+      end
+      item
+        CollectionIndex = 9
+        CollectionName = 'CodeImages\Item10'
+        Disabled = False
+        Name = 'Item10'
+      end>
+    ImageCollection = CommandsDataModule.icCodeImages
+    Left = 32
+    Top = 184
   end
 end

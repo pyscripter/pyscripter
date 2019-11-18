@@ -27,6 +27,8 @@ uses
   Vcl.ExtCtrls,
   Vcl.ImgList,
   Vcl.Dialogs,
+  Vcl.BaseImageCollection,
+  Vcl.ImageCollection,
   TB2Item,
   SpTBXItem,
   SpTBXSkins,
@@ -48,8 +50,8 @@ uses
   cPythonSourceScanner,
   cCodeCompletion,
   cPyBaseDebugger,
-  cPySupportTypes, Vcl.VirtualImageList, Vcl.BaseImageCollection,
-  Vcl.ImageCollection;
+  cPySupportTypes,
+  Vcl.VirtualImageList;
 
 const
   WM_PARAMCOMPLETION = WM_USER +1040;
@@ -130,6 +132,7 @@ type
     mnUnfoldClasses: TSpTBXItem;
     vilGutterGlyphs: TVirtualImageList;
     icGutterGlyphs: TImageCollection;
+    vicCodeImages: TVirtualImageList;
     procedure SynEditMouseMove(Sender: TObject; Shift: TShiftState;
       X, Y: Integer);
     procedure SynParamCompletionExecute(Kind: SynCompletionType;

@@ -26,22 +26,23 @@ unit SynCompletionProposal;
 interface
 
 uses
+  Winapi.Windows,
+  Winapi.Messages,
   System.Types,
+  System.SysUtils,
+  System.Classes,
   System.UITypes,
-  Windows,
-  Messages,
-  Graphics,
-  Forms,
-  Controls,
-  StdCtrls,
-  ExtCtrls,
-  Menus,
+  Vcl.Graphics,
+  Vcl.Forms,
+  Vcl.Controls,
+  Vcl.StdCtrls,
+  Vcl.ExtCtrls,
+  Vcl.Menus,
+  Vcl.ImgList,
   SynEditTypes,
   SynEditKeyCmds,
   SynEdit,
-  SynUnicode,
-  SysUtils,
-  Classes;
+  SynUnicode;
 
 type
   SynCompletionType = (ctCode, ctHint, ctParams);
@@ -127,7 +128,7 @@ type
     FItemHeight: Integer;
     FMargin: Integer;
     FEffectiveItemHeight: Integer;
-    FImages: TImageList;
+    FImages: TCustomImageList;
 
 //These are the reflections of the Options property of the CompletionProposal
     FCase: boolean;
@@ -160,7 +161,7 @@ type
     procedure SetPosition(const Value: Integer);
     procedure SetResizeable(const Value: Boolean);
     procedure SetItemHeight(const Value: Integer);
-    procedure SetImages(const Value: TImageList);
+    procedure SetImages(const Value: TCustomImageList);
     procedure StringListChange(Sender: TObject);
     procedure DoDoubleClick(Sender : TObject);
     procedure DoFormShow(Sender: TObject);
@@ -237,7 +238,7 @@ type
     property Font: TFont read fFont write SetFont;
     property Columns: TProposalColumns read FColumns write SetColumns;
     property Resizeable: Boolean read FResizeable write SetResizeable default True;
-    property Images: TImageList read FImages write SetImages;
+    property Images: TCustomImageList read FImages write SetImages;
   end;
 
   TSynBaseCompletionProposal = class(TComponent)
@@ -276,7 +277,7 @@ type
     procedure SetPosition(const Value: Integer);
     procedure SetOnValidate(const Value: TValidateEvent);
     procedure SetWidth(Value: Integer);
-    procedure SetImages(const Value: TImageList);
+    procedure SetImages(const Value: TCustomImageList);
     function GetDisplayKind: SynCompletionType;
     procedure SetDisplayKind(const Value: SynCompletionType);
     function GetParameterToken: TCompletionParameter;
@@ -312,7 +313,7 @@ type
     procedure SetItemHeight(const Value: Integer);
     function GetMargin: Integer;
     procedure SetMargin(const Value: Integer);
-    function GetImages: TImageList;
+    function GetImages: TCustomImageList;
     function IsWordBreakChar(AChar: WideChar): Boolean;
   protected
     procedure DefineProperties(Filer: TFiler); override;
@@ -366,7 +367,7 @@ type
     property Columns: TProposalColumns read GetColumns write SetColumns;
     property Resizeable: Boolean read GetResizeable write SetResizeable default True;
     property ItemHeight: Integer read GetItemHeight write SetItemHeight default 0;
-    property Images: TImageList read GetImages write SetImages default nil;
+    property Images: TCustomImageList read GetImages write SetImages default nil;
     property Margin: Integer read GetMargin write SetMargin default 2;
 
     property OnChange: TCompletionChange read GetOnChange write SetOnChange;
@@ -523,9 +524,9 @@ type
 
 
 procedure FormattedTextOut(TargetCanvas: TCanvas; const Rect: TRect;
-  const Text: string; Selected: Boolean; Columns: TProposalColumns; Images: TImageList);
+  const Text: string; Selected: Boolean; Columns: TProposalColumns; Images: TCustomImageList);
 function FormattedTextWidth(TargetCanvas: TCanvas; const Text: string;
-  Columns: TProposalColumns; Images: TImageList): Integer;
+  Columns: TProposalColumns; Images: TCustomImageList): Integer;
 function PrettyTextToFormattedString(const APrettyText: string;
   AlternateBoldStyle: Boolean = False): string;
 (*
@@ -539,11 +540,11 @@ function GetParameter(var S: string): string;
 implementation
 
 uses
-  Math,
+  System.Math,
+  Vcl.Themes,
   SynEditTextBuffer,
   SynEditMiscProcs,
   SynEditKeyConst,
-  Vcl.Themes,
   JvGnugettext,
   uCommonFunctions;
 
@@ -724,7 +725,7 @@ var
 
       if CurChar = '}' then
       begin
-        Command := SysUtils.AnsiUpperCase(Command);
+        Command := System.SysUtils.AnsiUpperCase(Command);
 
         Data := nil;
         CommandType := fcNoCommand;
@@ -772,14 +773,14 @@ var
         begin
           if (Length(Parameter) = 2)
             and CharInSet(Parameter[1], ['+', '-', '~'])
-            and CharInSet(SysUtils.AnsiUpperCase(Parameter[2])[1],
+            and CharInSet(System.SysUtils.AnsiUpperCase(Parameter[2])[1],
               ['B', 'I', 'U', 'S']) then
           begin
             CommandType := fcStyle;
             if not (fcStyle in StripCommands) then
             begin
               Data := New(PFormatStyleData);
-              PFormatStyleData(Data)^.Style := SysUtils.AnsiUpperCase(Parameter[2])[1];
+              PFormatStyleData(Data)^.Style := System.SysUtils.AnsiUpperCase(Parameter[2])[1];
               case Parameter[1] of
               '+': PFormatStyleData(Data)^.Action := 1;
               '-': PFormatStyleData(Data)^.Action := -1;
@@ -857,7 +858,7 @@ end;
 
 
 function PaintChunks(TargetCanvas: TCanvas; const Rect: TRect;
-  ChunkList: TFormatChunkList; Columns: TProposalColumns; Images: TImageList;
+  ChunkList: TFormatChunkList; Columns: TProposalColumns; Images: TCustomImageList;
   Invisible: Boolean): Integer;
 var
   i: Integer;
@@ -972,7 +973,7 @@ begin
 end;
 
 procedure FormattedTextOut(TargetCanvas: TCanvas; const Rect: TRect;
-  const Text: string; Selected: Boolean; Columns: TProposalColumns; Images: TImageList);
+  const Text: string; Selected: Boolean; Columns: TProposalColumns; Images: TCustomImageList);
 var
   Chunks: TFormatChunkList;
   StripCommands: TFormatCommands;
@@ -992,7 +993,7 @@ begin
 end;
 
 function FormattedTextWidth(TargetCanvas: TCanvas; const Text: string;
-  Columns: TProposalColumns; Images: TImageList): Integer;
+  Columns: TProposalColumns; Images: TCustomImageList): Integer;
 var
   Chunks: TFormatChunkList;
   TmpRect: TRect;
@@ -1030,7 +1031,7 @@ Begin
         end;
       #3:
         begin
-          if CharInSet(SysUtils.AnsiUpperCase(APrettyText[i + 1])[1], ['B', 'I', 'U']) then
+          if CharInSet(System.SysUtils.AnsiUpperCase(APrettyText[i + 1])[1], ['B', 'I', 'U']) then
           begin
             Result := Result + '\style{';
 
@@ -1890,7 +1891,7 @@ begin
   end;
 end;
 
-procedure TSynBaseCompletionProposalForm.SetImages(const Value: TImageList);
+procedure TSynBaseCompletionProposalForm.SetImages(const Value: TCustomImageList);
 begin
   if FImages <> Value then
   begin
@@ -2646,12 +2647,12 @@ begin
     FForm.ItemHeight := Value;
 end;
 
-procedure TSynBaseCompletionProposal.SetImages(const Value: TImageList);
+procedure TSynBaseCompletionProposal.SetImages(const Value: TCustomImageList);
 begin
   FForm.Images := Value;
 end;
 
-function TSynBaseCompletionProposal.GetImages: TImageList;
+function TSynBaseCompletionProposal.GetImages: TCustomImageList;
 begin
   Result := FForm.Images;
 end;
@@ -2984,7 +2985,7 @@ begin
   fTimerInterval:= 1000;
   fNoNextKey := False;
 
-  fShortCut := Menus.ShortCut(Ord(' '), [ssCtrl]);
+  fShortCut := Vcl.Menus.ShortCut(Ord(' '), [ssCtrl]);
   Options := DefaultProposalOptions;
   fEditors := TList.Create;
 end;
@@ -3358,7 +3359,7 @@ begin
   FEndOfTokenChr := DefaultEndOfTokenChr;
   fAutoCompleteList := TStringList.Create;
   fNoNextKey := false;
-  fShortCut := Menus.ShortCut(Ord(' '), [ssShift]);
+  fShortCut := Vcl.Menus.ShortCut(Ord(' '), [ssShift]);
 end;
 
 procedure TSynAutoComplete.SetShortCut(Value: TShortCut);

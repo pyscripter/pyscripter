@@ -12,10 +12,31 @@ unit frmCodeExplorer;
 interface
 
 uses
-  Windows, Messages, System.UITypes, SysUtils, Variants, Classes, Graphics,
-  Controls, Forms, Dialogs, ExtCtrls, JvDockControlForm, JvAppStorage,
-  Menus, Contnrs, VirtualTrees, frmIDEDockWin, TB2Item,
-  cPythonSourceScanner, SpTBXItem, JvComponentBase, SpTBXControls;
+  Winapi.Windows,
+  Winapi.Messages,
+  System.UITypes,
+  System.SysUtils,
+  System.Variants,
+  System.Classes,
+  System.Contnrs,
+  System.ImageList,
+  Vcl.Graphics,
+  Vcl.Controls,
+  Vcl.Forms,
+  Vcl.Dialogs,
+  Vcl.ExtCtrls,
+  Vcl.Menus,
+  Vcl.ImgList,
+  Vcl.VirtualImageList,
+  JvComponentBase,
+  JvDockControlForm,
+  JvAppStorage,
+  VirtualTrees,
+  TB2Item,
+  SpTBXItem,
+  SpTBXControls,
+  frmIDEDockWin,
+  cPythonSourceScanner;
 
 type
   TCESortOrder = (soPosition, soAlpha);
@@ -227,6 +248,7 @@ type
     mnFindReferences: TSpTBXItem;
     mnAlphaSort: TSpTBXItem;
     mnFollowEditor: TSpTBXItem;
+    vicCodeImages: TVirtualImageList;
     procedure ExplorerTreeGetHint(Sender: TBaseVirtualTree; Node: PVirtualNode;
       Column: TColumnIndex; var LineBreakStyle: TVTTooltipLineBreakStyle;
       var HintText: string);

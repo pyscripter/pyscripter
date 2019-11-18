@@ -16,6 +16,7 @@ uses
   System.SysUtils,
   System.Variants,
   System.Classes,
+  System.ImageList,
   Vcl.Graphics,
   Vcl.Controls,
   Vcl.Forms,
@@ -23,12 +24,15 @@ uses
   Vcl.Buttons,
   Vcl.Menus,
   Vcl.ExtCtrls,
+  Vcl.StdCtrls,
+  Vcl.ImgList,
+  Vcl.VirtualImageList,
   TB2Item,
   SpTBXItem,
   VirtualTrees,
   frmCodeExplorer,
   cPythonSourceScanner,
-  dlgPyIDEBase, Vcl.StdCtrls;
+  dlgPyIDEBase;
 
 type
 
@@ -64,6 +68,7 @@ type
     OKButton: TButton;
     BitBtn2: TButton;
     HelpButton: TButton;
+    vicCodeImages: TVirtualImageList;
     procedure HelpButtonClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure ExplorerTreeInitNode(Sender: TBaseVirtualTree; ParentNode,

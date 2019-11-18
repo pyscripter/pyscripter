@@ -20,12 +20,15 @@ uses
   System.Variants,
   System.Classes,
   System.Contnrs,
+  System.ImageList,
   Vcl.Graphics,
   Vcl.Controls,
   Vcl.Forms,
   Vcl.Dialogs,
   Vcl.Menus,
   Vcl.ExtCtrls,
+  Vcl.ImgList,
+  Vcl.VirtualImageList,
   frmIDEDockWin,
   JvComponentBase,
   JvAppStorage,
@@ -51,6 +54,7 @@ type
     mnCopyToClipboard: TSpTBXItem;
     TBXItem1: TSpTBXItem;
     Panel1: TPanel;
+    vicCodeImages: TVirtualImageList;
     procedure mnCopyToClipboardClick(Sender: TObject);
     procedure mnAddWatchClick(Sender: TObject);
     procedure mnEditWatchClick(Sender: TObject);

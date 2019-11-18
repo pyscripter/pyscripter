@@ -126,7 +126,6 @@ type
     SynEditPrint: TSynEditPrint;
     PrintDialog: TPrintDialog;
     PrinterSetupDialog: TPrinterSetupDialog;
-    CodeImages: TImageList;
     ParameterCompletion: TSynCompletionProposal;
     ModifierCompletion: TSynCompletionProposal;
     CodeTemplatesCompletion: TSynAutoComplete;
@@ -250,7 +249,8 @@ type
     actEditReadOnly: TAction;
     actFileSaveToRemote: TAction;
     actDonate: TAction;
-    BrowserImages: TImageCollection;
+    icBrowserImages: TImageCollection;
+    icCodeImages: TImageCollection;
     function ProgramVersionHTTPLocationLoadFileFromRemote(
       AProgramVersionLocation: TJvProgramVersionHTTPLocation; const ARemotePath,
       ARemoteFileName, ALocalPath, ALocalFileName: string): string;

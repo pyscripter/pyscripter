@@ -3637,7 +3637,6 @@ begin
   D := 96;
   if M <> D then begin
     ScaleImageList(CommandsDataModule.Images, M, D);
-    ScaleImageList(CommandsDataModule.CodeImages, M, D);
     // Status bar
     StatusBar.Toolbar.Items.ViewBeginUpdate;
     try
