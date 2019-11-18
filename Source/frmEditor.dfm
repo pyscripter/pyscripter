@@ -99,7 +99,6 @@ object EditorForm: TEditorForm
           CodeFolding.ShowHintMark = True
           UseCodeFolding = False
           BorderStyle = bsNone
-          FontSmoothing = fsmNone
           Gutter.BorderStyle = gbsNone
           Gutter.Font.Charset = DEFAULT_CHARSET
           Gutter.Font.Color = clWindowText
@@ -526,7 +525,6 @@ object EditorForm: TEditorForm
           CodeFolding.ShowHintMark = True
           UseCodeFolding = False
           BorderStyle = bsNone
-          FontSmoothing = fsmNone
           Gutter.Font.Charset = DEFAULT_CHARSET
           Gutter.Font.Color = clWindowText
           Gutter.Font.Height = -11

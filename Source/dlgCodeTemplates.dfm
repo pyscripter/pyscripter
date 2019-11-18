@@ -182,7 +182,6 @@ inherited CodeTemplates: TCodeTemplates
         CodeFolding.ShowCollapsedLine = False
         CodeFolding.ShowHintMark = True
         UseCodeFolding = False
-        FontSmoothing = fsmNone
         Gutter.Font.Charset = DEFAULT_CHARSET
         Gutter.Font.Color = clWindowText
         Gutter.Font.Height = -11

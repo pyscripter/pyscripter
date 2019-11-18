@@ -38,6 +38,5 @@ object DisForm: TDisForm
     Gutter.Font.Style = []
     Gutter.Visible = False
     Gutter.Width = 0
-    FontSmoothing = fsmNone
   end
 end

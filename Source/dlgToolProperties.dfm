@@ -336,7 +336,6 @@ inherited ToolProperties: TToolProperties
             Options = [eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoShowScrollHint, eoSmartTabDelete, eoSmartTabs, eoTabsToSpaces]
             ScrollBars = ssNone
             WantReturns = False
-            FontSmoothing = fsmNone
           end
           object SynParameters: TSynEdit
             Left = 86
@@ -369,7 +368,6 @@ inherited ToolProperties: TToolProperties
             Options = [eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoShowScrollHint, eoSmartTabDelete, eoSmartTabs, eoTabsToSpaces]
             ScrollBars = ssNone
             WantReturns = False
-            FontSmoothing = fsmNone
           end
           object SynWorkDir: TSynEdit
             Left = 114
@@ -402,7 +400,6 @@ inherited ToolProperties: TToolProperties
             Options = [eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoShowScrollHint, eoSmartTabDelete, eoSmartTabs, eoTabsToSpaces]
             ScrollBars = ssNone
             WantReturns = False
-            FontSmoothing = fsmNone
           end
           object btnAppDir: TButton
             Left = 395

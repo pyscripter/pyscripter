@@ -106,7 +106,6 @@ inherited PythonIIForm: TPythonIIForm
         OnProcessCommand = SynEditProcessCommand
         OnProcessUserCommand = SynEditProcessUserCommand
         OnPaintTransient = SynEditPaintTransient
-        FontSmoothing = fsmNone
       end
     end
   end

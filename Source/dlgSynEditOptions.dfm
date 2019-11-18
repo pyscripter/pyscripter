@@ -527,6 +527,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Font.Height = -12
           Font.Name = 'Courier New'
           Font.Style = []
+          Font.Quality = fqClearTypeNatural
           TabOrder = 0
           CodeFolding.GutterShapeSize = 11
           CodeFolding.CollapsedLineColor = clGrayText
@@ -536,7 +537,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           CodeFolding.ShowCollapsedLine = False
           CodeFolding.ShowHintMark = True
           UseCodeFolding = False
-          FontSmoothing = fsmNone
           Gutter.Font.Charset = DEFAULT_CHARSET
           Gutter.Font.Color = clWindowText
           Gutter.Font.Height = -11
@@ -676,6 +676,7 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           Font.Height = -12
           Font.Name = 'Courier New'
           Font.Style = []
+          Font.Quality = fqClearTypeNatural
           TabOrder = 4
           OnClick = SynEdit1Click
           CodeFolding.GutterShapeSize = 11
@@ -686,7 +687,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
           CodeFolding.ShowCollapsedLine = False
           CodeFolding.ShowHintMark = True
           UseCodeFolding = False
-          FontSmoothing = fsmNone
           Gutter.Font.Charset = DEFAULT_CHARSET
           Gutter.Font.Color = clWindowText
           Gutter.Font.Height = -11
@@ -932,8 +932,8 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             object lblGutterFont: TLabel
               Left = 1
               Top = 1
-              Width = 179
-              Height = 25
+              Width = 72
+              Height = 8
               Align = alClient
               Alignment = taCenter
               Caption = 'Terminal 8pt'
@@ -943,8 +943,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
               Font.Name = 'Terminal'
               Font.Style = []
               ParentFont = False
-              ExplicitWidth = 72
-              ExplicitHeight = 8
             end
           end
           object cbGutterColor: TSpTBXColorEdit
@@ -1067,8 +1065,8 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
             object labFont: TLabel
               Left = 1
               Top = 1
-              Width = 188
-              Height = 28
+              Width = 128
+              Height = 16
               Align = alClient
               Alignment = taCenter
               Caption = 'Courier New 10pt'
@@ -1078,8 +1076,6 @@ inherited fmEditorOptionsDialog: TfmEditorOptionsDialog
               Font.Name = 'Courier New'
               Font.Style = []
               ParentFont = False
-              ExplicitWidth = 128
-              ExplicitHeight = 16
             end
           end
           object btnFont: TButton

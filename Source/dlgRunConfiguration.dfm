@@ -131,7 +131,6 @@ inherited RunConfigurationForm: TRunConfigurationForm
         CodeFolding.ShowCollapsedLine = False
         CodeFolding.ShowHintMark = True
         UseCodeFolding = False
-        FontSmoothing = fsmNone
         Gutter.Font.Charset = DEFAULT_CHARSET
         Gutter.Font.Color = clWindowText
         Gutter.Font.Height = -11
@@ -163,7 +162,6 @@ inherited RunConfigurationForm: TRunConfigurationForm
         CodeFolding.ShowCollapsedLine = False
         CodeFolding.ShowHintMark = True
         UseCodeFolding = False
-        FontSmoothing = fsmNone
         Gutter.Font.Charset = DEFAULT_CHARSET
         Gutter.Font.Color = clWindowText
         Gutter.Font.Height = -11
@@ -195,7 +193,6 @@ inherited RunConfigurationForm: TRunConfigurationForm
         CodeFolding.ShowCollapsedLine = False
         CodeFolding.ShowHintMark = True
         UseCodeFolding = False
-        FontSmoothing = fsmNone
         Gutter.Font.Charset = DEFAULT_CHARSET
         Gutter.Font.Color = clWindowText
         Gutter.Font.Height = -11
@@ -347,7 +344,6 @@ inherited RunConfigurationForm: TRunConfigurationForm
         CodeFolding.ShowCollapsedLine = False
         CodeFolding.ShowHintMark = True
         UseCodeFolding = False
-        FontSmoothing = fsmNone
         Gutter.Font.Charset = DEFAULT_CHARSET
         Gutter.Font.Color = clWindowText
         Gutter.Font.Height = -11
