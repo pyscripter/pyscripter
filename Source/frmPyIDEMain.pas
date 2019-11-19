@@ -3742,9 +3742,6 @@ begin
   for i := actlStandard.ActionCount - 1 downto 0 do
     if actlStandard.Actions[i].Category = 'External Tools' then
       actlStandard.Actions[i].Free;
-  // Delete Images added in previous calls
-  for i := CommandsDataModule.Images.Count - 1 downto CommandsDataModule.NumberOfOriginalImages do
-    CommandsDataModule.Images.Delete(i);
   for i := 0 to ToolsCollection.Count - 1 do begin
     Tool := (ToolsCollection.Items[i] as TToolItem).ExternalTool;
     if Tool.Caption <> '' then begin
@@ -3753,6 +3750,7 @@ begin
       Action.ActionList := actlStandard;
       mnTools.Add(MenuItem);
       MenuItem.Action := Action;
+      MenuItem.Images := TPyScripterSettings.ShellImages;
     end;
   end;
 end;
@@ -4028,6 +4026,8 @@ begin
           if not Assigned(Item) then begin
             Item := TSpTBXItem.Create(Self);
             Item.Name := 'tb' + Action.Name;
+            if Action is TExternalToolAction then
+              Item.Images := TPyScripterSettings.ShellImages;
             SpTBXCustomizer.Items.Add(Item);
           end;
           Item.Action := Action;

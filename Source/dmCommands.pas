@@ -251,6 +251,7 @@ type
     actDonate: TAction;
     icBrowserImages: TImageCollection;
     icCodeImages: TImageCollection;
+    icImages: TImageCollection;
     function ProgramVersionHTTPLocationLoadFileFromRemote(
       AProgramVersionLocation: TJvProgramVersionHTTPLocation; const ARemotePath,
       ARemoteFileName, ALocalPath, ALocalFileName: string): string;
@@ -371,7 +372,6 @@ type
   public
     SynYAMLSyn: TSynYAMLSyn;
     SynCythonSyn: TSynCythonSyn;
-    NumberOfOriginalImages : integer;
     function GetHighlighterForFile(AFileName: string): TSynCustomHighlighter;
     class function IsHighlighterStored(Highlighter: TObject): Boolean;
     procedure SynEditOptionsDialogGetHighlighterCount(Sender: TObject;
@@ -686,7 +686,6 @@ begin
   // Setup the ShellIcon imagelist
   ShellImages.Handle := SHGetFileInfo('', 0, SHFileInfo, SizeOf(SHFileInfo),
     SHGFI_SYSICONINDEX or SHGFI_SMALLICON);
-  NumberOfOriginalImages := Images.Count;
 
   PyIDEOptions.OnChange.AddHandler(PyIDEOptionsChanged);
 

@@ -315,7 +315,6 @@ constructor TExternalToolAction.CreateExtToolAction(AOwner: TComponent;
 var
   S: string;
   AppFile: string;
-  Index: Integer;
 begin
   inherited Create(AOwner);
   fExternalTool := ExternalTool;
@@ -330,11 +329,8 @@ begin
     ImageIndex := -1;
     if (fExternalTool.ApplicationName <> '') then begin
       AppFile := PrepareCommandLine(fExternalTool.ApplicationName);
-      if FileExists(AppFile) then begin
-        Index := GetIconIndexFromFile(AppFile, True);
-        ImageIndex :=
-          TPyScripterSettings.Images.AddImage(TPyScripterSettings.ShellImages, Index) - 1;
-      end;
+      if FileExists(AppFile) then
+        ImageIndex := GetIconIndexFromFile(AppFile, True);
     end;
   end;
 end;
