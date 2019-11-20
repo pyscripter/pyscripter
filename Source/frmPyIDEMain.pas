@@ -487,6 +487,8 @@
   History:   v 3.6.2
           New Features
             Improved compatibility with venv virtual environments
+            Restore code folding state when you start PyScripter (#973)
+            Improve DPI scaling
           Issues addressed
             #962, #948, #966, #967, #968, #972
 
@@ -572,7 +574,7 @@ uses
   cPyDebugger,
   cRefactoring,
   cPyScripterSettings,
-  cPyControl;
+  cPyControl, System.ImageList, Vcl.VirtualImageList;
 
 const
   WM_FINDDEFINITION  = WM_USER + 100;
@@ -1071,6 +1073,7 @@ type
     lbPythonVersion: TSpTBXLabelItem;
     SpTBXSeparatorItem23: TSpTBXSeparatorItem;
     lbPythonEngine: TSpTBXLabelItem;
+    vilImages: TVirtualImageList;
     procedure mnFilesClick(Sender: TObject);
     procedure actEditorZoomInExecute(Sender: TObject);
     procedure actEditorZoomOutExecute(Sender: TObject);
@@ -3636,7 +3639,6 @@ begin
   M := Screen.PixelsPerInch;
   D := 96;
   if M <> D then begin
-    ScaleImageList(CommandsDataModule.Images, M, D);
     // Status bar
     StatusBar.Toolbar.Items.ViewBeginUpdate;
     try

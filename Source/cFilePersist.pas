@@ -44,6 +44,8 @@ Type
     SecondEditorUseCodeFolding: Boolean;
     EditorOptions2 : TSynEditorOptionsContainer;
     ReadOnly : Boolean;
+    FoldState : string;
+    FoldState2 : string;
   protected
     // IJvAppStorageHandler implementation
     procedure ReadFromAppStorage(AppStorage: TJvCustomAppStorage; const BasePath: string); virtual;
@@ -92,7 +94,7 @@ uses
   uHighlighterProcs,
   cPyBaseDebugger,
   cPyControl,
-  cPyScripterSettings;
+  cPyScripterSettings, JvJCLUtils;
 
 { TFilePersistInfo }
 
@@ -119,6 +121,7 @@ begin
    AppStorage.WriteObjectList(BasePath+'\BreakPoints', BreakPoints, 'BreakPoint');
    AppStorage.WriteObjectList(BasePath+'\BookMarks', BookMarks, 'BookMarks');
    AppStorage.WriteBoolean(BasePath+'\UseCodeFolding', UseCodeFolding);
+   if UseCodeFolding then AppStorage.WriteString(BasePath+'\FoldState', FoldState);
    AppStorage.WriteBoolean(BasePath+'\ReadOnly', ReadOnly);
 
    AppStorage.WriteBoolean(BasePath+'\SecondEditorVisible', SecondEditorVisible);
@@ -131,6 +134,8 @@ begin
        AppStorage.WriteEnumeration(BasePath+'\Second Editor Align', TypeInfo(TAlign), SecondEditorAlign);
        AppStorage.WriteInteger(BasePath+'Second Editor Size', SecondEditorSize);
        AppStorage.WriteBoolean(BasePath+'\Second Editor UseCodeFolding', SecondEditorUseCodeFolding);
+       if SecondEditorUseCodeFolding then
+         AppStorage.WriteString(BasePath+'\Second Editor FoldState', FoldState2);
        AppStorage.WritePersistent(BasePath+'\Second Editor Options', EditorOptions2,
          True, IgnoreProperties);
      end;
@@ -151,6 +156,8 @@ begin
    AppStorage.ReadObjectList(BasePath+'\BreakPoints', BreakPoints, CreateListItem, True, 'BreakPoint');
    AppStorage.ReadObjectList(BasePath+'\BookMarks', BookMarks, CreateListItem, True, 'BookMarks');
    UseCodeFolding := AppStorage.ReadBoolean(BasePath+'\UseCodeFolding', False);
+   if UseCodeFolding then
+     FoldState := AppStorage.ReadString(BasePath+'\FoldState', '');
    ReadOnly := AppStorage.ReadBoolean(BasePath+'\ReadOnly', False);
    EditorOptions.Assign(cPyScripterSettings.EditorOptions);
    AppStorage.ReadPersistent(BasePath+'\Editor Options', EditorOptions, True, True);
@@ -161,6 +168,8 @@ begin
        SecondEditorAlign, SecondEditorAlign);
      SecondEditorSize := AppStorage.ReadInteger(BasePath+'Second Editor Size');
      SecondEditorUseCodeFolding := AppStorage.ReadBoolean(BasePath+'\Second Editor UseCodeFolding', False);
+     if SecondEditorUseCodeFolding then
+       FoldState2 := AppStorage.ReadString(BasePath+'\Second Editor FoldState', '');
      EditorOptions2.Assign(cPyScripterSettings.EditorOptions);
      AppStorage.ReadPersistent(BasePath+'\Second Editor Options', EditorOptions2, True, True);
    end;
@@ -187,6 +196,23 @@ begin
 end;
 
 constructor TFilePersistInfo.CreateFromEditor(Editor: IEditor);
+
+  procedure GetFoldInfo(SynEdit: TSynEdit; var UseCodeFolding: Boolean; var FoldState: string);
+  Var
+    Stream : TMemoryStream;
+  begin
+    UseCodeFolding := SynEdit.UseCodeFolding;
+    if UseCodeFolding then begin
+      Stream := TMemoryStream.Create;
+      try
+        SynEdit.AllFoldRanges.StoreCollapsedState(Stream);
+        FoldState := BufToBinStr(Stream.Memory, Stream.Size);
+      finally
+        Stream.Free;
+      end;
+    end;
+  end;
+
 Var
   i : integer;
   BookMark : TBookMarkInfo;
@@ -223,7 +249,7 @@ begin
     end;
   end;
   EditorOptions.Assign(Editor.SynEdit);
-  UseCodeFolding := Editor.SynEdit.UseCodeFolding;
+  GetFoldInfo(Editor.SynEdit, UseCodeFolding, FoldState);
   ReadOnly := Editor.ReadOnly;
 
   SecondEditorVisible := Editor.SynEdit2.Visible;
@@ -232,7 +258,7 @@ begin
     SecondEditorSize := IfThen(SecondEditorAlign = alRight,
       Editor.SynEdit2.Width, Editor.SynEdit2.Height);
     EditorOptions2.Assign(Editor.SynEdit2);
-    SecondEditorUseCodeFolding := Editor.SynEdit2.UseCodeFolding;
+    GetFoldInfo(Editor.SynEdit2, SecondEditorUseCodeFolding, FoldState2);
   end;
 end;
 
@@ -245,6 +271,27 @@ end;
 
 class procedure TPersistFileInfo.ReadFromAppStorage(
   AppStorage: TJvCustomAppStorage; Path : String);
+
+  procedure RestoreFoldInfo(SynEdit: TSynEdit; UseCodeFolding: Boolean; FoldState: String);
+  Var
+    Stream: TMemoryStream;
+  begin
+    SynEdit.UseCodeFolding := UseCodeFolding;
+    if UseCodeFolding and (FoldState <> '') then begin
+      Stream := TMemoryStream.Create;
+      try
+        Stream.Size := FoldState.Length div 2;
+        BinStrToBuf(FoldState, Stream.Memory, Stream.Size);
+        Stream.Position := 0;
+        SynEdit.AllFoldRanges.RestoreCollapsedState(Stream);
+        SynEdit.Invalidate;
+        SynEdit.InvalidateGutter;
+      finally
+        Stream.Free;
+      end;
+    end;
+  end;
+
 Var
   PersistFileInfo : TPersistFileInfo;
   FilePersistInfo : TFilePersistInfo;
@@ -280,11 +327,14 @@ begin
           Editor.SynEdit2.Highlighter := Editor.SynEdit.Highlighter;
         end;
         Editor.SynEdit.Assign(FilePersistInfo.EditorOptions);
-        Editor.SynEdit.UseCodeFolding := FilePersistInfo.UseCodeFolding;
+        RestoreFoldInfo(Editor.SynEdit, FilePersistInfo.UseCodeFolding, FilePersistInfo.FoldState);
         Editor.ReadOnly := FilePersistInfo.ReadOnly;
 
         if FilePersistInfo.SecondEditorVisible then begin
           Editor.SynEdit2.Assign(FilePersistInfo.EditorOptions2);
+          RestoreFoldInfo(Editor.SynEdit2, FilePersistInfo.SecondEditorUseCodeFolding,
+            FilePersistInfo.FoldState2);
+
           Editor.SynEdit2.UseCodeFolding := FilePersistInfo.SecondEditorUseCodeFolding;
 
           if FilePersistInfo.SecondEditorAlign = alRight then begin

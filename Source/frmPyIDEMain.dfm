@@ -26,14 +26,13 @@ object PyIDEMainForm: TPyIDEMainForm
     Top = 512
     Width = 780
     Height = 25
-    ExplicitTop = 527
     object lbStatusMessage: TSpTBXLabelItem
       Wrapping = twEndEllipsis
       Options = [tboNoAutoHint]
     end
     object SpTBXRightAlignSpacerItem1: TSpTBXRightAlignSpacerItem
       Wrapping = twNone
-      CustomWidth = 0
+      CustomWidth = 195
     end
     object SpTBXSeparatorItem22: TSpTBXSeparatorItem
     end
@@ -150,7 +149,7 @@ object PyIDEMainForm: TPyIDEMainForm
       PopupMenu = TabControlPopupMenu
       OnContextPopup = TabContolContextPopup
       ActiveTabIndex = -1
-      Images = CommandsDataModule.Images
+      Images = vilImages
       TabDragReorder = True
       TabPosition = ttpBottom
       OnActiveTabChange = TabControlActiveTabChange
@@ -200,7 +199,7 @@ object PyIDEMainForm: TPyIDEMainForm
       Visible = False
       OnContextPopup = TabContolContextPopup
       ActiveTabIndex = -1
-      Images = CommandsDataModule.Images
+      Images = vilImages
       TabDragReorder = True
       TabPosition = ttpBottom
       OnActiveTabChange = TabControlActiveTabChange
@@ -262,7 +261,7 @@ object PyIDEMainForm: TPyIDEMainForm
       CloseButton = False
       DockMode = dmCannotFloatOrChangeDocks
       DockPos = 8
-      Images = CommandsDataModule.Images
+      Images = vilImages
       ProcessShortCuts = True
       ShrinkMode = tbsmWrap
       TabOrder = 0
@@ -1012,7 +1011,7 @@ object PyIDEMainForm: TPyIDEMainForm
       Top = 25
       DockPos = -6
       DockRow = 1
-      Images = CommandsDataModule.Images
+      Images = vilImages
       TabOrder = 1
       Caption = 'Main Toolbar'
       object tbiFileNewModule: TSpTBXItem
@@ -1079,7 +1078,7 @@ object PyIDEMainForm: TPyIDEMainForm
       Top = 25
       DockPos = 361
       DockRow = 1
-      Images = CommandsDataModule.Images
+      Images = vilImages
       TabOrder = 2
       Caption = 'Debug Toolbar'
       object tbiRunRun: TSpTBXItem
@@ -1122,7 +1121,7 @@ object PyIDEMainForm: TPyIDEMainForm
       Top = 25
       DockPos = 728
       DockRow = 1
-      Images = CommandsDataModule.Images
+      Images = vilImages
       TabOrder = 4
       Caption = 'View Toolbar'
       object tbiSelectPythonVersion: TSpTBXSubmenuItem
@@ -1146,7 +1145,7 @@ object PyIDEMainForm: TPyIDEMainForm
       Top = 25
       DockPos = 574
       DockRow = 1
-      Images = CommandsDataModule.Images
+      Images = vilImages
       TabOrder = 3
       Caption = 'Editor Toolbar'
       object tbiBrowsePrevious: TSpTBXSubmenuItem
@@ -1200,7 +1199,7 @@ object PyIDEMainForm: TPyIDEMainForm
       CloseButtonWhenDocked = True
       DockPos = 1
       DockRow = 2
-      Images = CommandsDataModule.Images
+      Images = vilImages
       Options = [tboDropdownArrow]
       TabOrder = 5
       Visible = False
@@ -1315,7 +1314,7 @@ object PyIDEMainForm: TPyIDEMainForm
       Top = 51
       DockPos = 310
       DockRow = 2
-      Images = CommandsDataModule.Images
+      Images = vilImages
       TabOrder = 6
       Visible = False
       Caption = 'User Toolbar'
@@ -1391,7 +1390,7 @@ object PyIDEMainForm: TPyIDEMainForm
     Top = 219
   end
   object TabControlPopupMenu: TSpTBXPopupMenu
-    Images = CommandsDataModule.Images
+    Images = vilImages
     Left = 312
     Top = 282
     object mnNewModule2: TSpTBXItem
@@ -1452,13 +1451,13 @@ object PyIDEMainForm: TPyIDEMainForm
     Top = 93
   end
   object SpTBXCustomizer: TSpTBXCustomizer
-    Images = CommandsDataModule.Images
+    Images = vilImages
     OnGetCustomizeForm = SpTBXCustomizerGetCustomizeForm
     Left = 280
     Top = 96
   end
   object ToolbarPopupMenu: TSpTBXPopupMenu
-    Images = CommandsDataModule.Images
+    Images = vilImages
     LinkSubitems = mnuToolbars
     Left = 40
     Top = 280
@@ -1473,7 +1472,7 @@ object PyIDEMainForm: TPyIDEMainForm
     Top = 93
   end
   object actlImmutable: TActionList
-    Images = CommandsDataModule.Images
+    Images = vilImages
     Left = 112
     Top = 100
     object actViewNextEditor: TAction
@@ -1496,7 +1495,7 @@ object PyIDEMainForm: TPyIDEMainForm
     end
   end
   object actlStandard: TActionList
-    Images = CommandsDataModule.Images
+    Images = vilImages
     Left = 42
     Top = 100
     object actViewMainMenu: TAction
@@ -2289,5 +2288,991 @@ object PyIDEMainForm: TPyIDEMainForm
     SubStorages = <>
     Left = 394
     Top = 141
+  end
+  object vilImages: TVirtualImageList
+    DisabledGrayscale = False
+    DisabledSuffix = '_Disabled'
+    Images = <
+      item
+        CollectionIndex = 0
+        CollectionName = 'Item1'
+        Disabled = False
+        Name = 'Item1'
+      end
+      item
+        CollectionIndex = 1
+        CollectionName = 'Item2'
+        Disabled = False
+        Name = 'Item2'
+      end
+      item
+        CollectionIndex = 2
+        CollectionName = 'Item3'
+        Disabled = False
+        Name = 'Item3'
+      end
+      item
+        CollectionIndex = 3
+        CollectionName = 'Item4'
+        Disabled = False
+        Name = 'Item4'
+      end
+      item
+        CollectionIndex = 4
+        CollectionName = 'Item5'
+        Disabled = False
+        Name = 'Item5'
+      end
+      item
+        CollectionIndex = 5
+        CollectionName = 'Item6'
+        Disabled = False
+        Name = 'Item6'
+      end
+      item
+        CollectionIndex = 6
+        CollectionName = 'Item7'
+        Disabled = False
+        Name = 'Item7'
+      end
+      item
+        CollectionIndex = 7
+        CollectionName = 'Item8'
+        Disabled = False
+        Name = 'Item8'
+      end
+      item
+        CollectionIndex = 8
+        CollectionName = 'Item9'
+        Disabled = False
+        Name = 'Item9'
+      end
+      item
+        CollectionIndex = 9
+        CollectionName = 'Item10'
+        Disabled = False
+        Name = 'Item10'
+      end
+      item
+        CollectionIndex = 10
+        CollectionName = 'Item11'
+        Disabled = False
+        Name = 'Item11'
+      end
+      item
+        CollectionIndex = 11
+        CollectionName = 'Item12'
+        Disabled = False
+        Name = 'Item12'
+      end
+      item
+        CollectionIndex = 12
+        CollectionName = 'Item13'
+        Disabled = False
+        Name = 'Item13'
+      end
+      item
+        CollectionIndex = 13
+        CollectionName = 'Item14'
+        Disabled = False
+        Name = 'Item14'
+      end
+      item
+        CollectionIndex = 14
+        CollectionName = 'Item15'
+        Disabled = False
+        Name = 'Item15'
+      end
+      item
+        CollectionIndex = 15
+        CollectionName = 'Item16'
+        Disabled = False
+        Name = 'Item16'
+      end
+      item
+        CollectionIndex = 16
+        CollectionName = 'Item17'
+        Disabled = False
+        Name = 'Item17'
+      end
+      item
+        CollectionIndex = 17
+        CollectionName = 'Item18'
+        Disabled = False
+        Name = 'Item18'
+      end
+      item
+        CollectionIndex = 18
+        CollectionName = 'Item19'
+        Disabled = False
+        Name = 'Item19'
+      end
+      item
+        CollectionIndex = 19
+        CollectionName = 'Item20'
+        Disabled = False
+        Name = 'Item20'
+      end
+      item
+        CollectionIndex = 20
+        CollectionName = 'Item21'
+        Disabled = False
+        Name = 'Item21'
+      end
+      item
+        CollectionIndex = 21
+        CollectionName = 'Item22'
+        Disabled = False
+        Name = 'Item22'
+      end
+      item
+        CollectionIndex = 22
+        CollectionName = 'Item23'
+        Disabled = False
+        Name = 'Item23'
+      end
+      item
+        CollectionIndex = 23
+        CollectionName = 'Item24'
+        Disabled = False
+        Name = 'Item24'
+      end
+      item
+        CollectionIndex = 24
+        CollectionName = 'Item25'
+        Disabled = False
+        Name = 'Item25'
+      end
+      item
+        CollectionIndex = 25
+        CollectionName = 'Item26'
+        Disabled = False
+        Name = 'Item26'
+      end
+      item
+        CollectionIndex = 26
+        CollectionName = 'Item27'
+        Disabled = False
+        Name = 'Item27'
+      end
+      item
+        CollectionIndex = 27
+        CollectionName = 'Item28'
+        Disabled = False
+        Name = 'Item28'
+      end
+      item
+        CollectionIndex = 28
+        CollectionName = 'Item29'
+        Disabled = False
+        Name = 'Item29'
+      end
+      item
+        CollectionIndex = 29
+        CollectionName = 'Item30'
+        Disabled = False
+        Name = 'Item30'
+      end
+      item
+        CollectionIndex = 30
+        CollectionName = 'Item31'
+        Disabled = False
+        Name = 'Item31'
+      end
+      item
+        CollectionIndex = 31
+        CollectionName = 'Item32'
+        Disabled = False
+        Name = 'Item32'
+      end
+      item
+        CollectionIndex = 32
+        CollectionName = 'Item33'
+        Disabled = False
+        Name = 'Item33'
+      end
+      item
+        CollectionIndex = 33
+        CollectionName = 'Item34'
+        Disabled = False
+        Name = 'Item34'
+      end
+      item
+        CollectionIndex = 34
+        CollectionName = 'Item35'
+        Disabled = False
+        Name = 'Item35'
+      end
+      item
+        CollectionIndex = 35
+        CollectionName = 'Item36'
+        Disabled = False
+        Name = 'Item36'
+      end
+      item
+        CollectionIndex = 36
+        CollectionName = 'Item37'
+        Disabled = False
+        Name = 'Item37'
+      end
+      item
+        CollectionIndex = 37
+        CollectionName = 'Item38'
+        Disabled = False
+        Name = 'Item38'
+      end
+      item
+        CollectionIndex = 38
+        CollectionName = 'Item39'
+        Disabled = False
+        Name = 'Item39'
+      end
+      item
+        CollectionIndex = 39
+        CollectionName = 'Item40'
+        Disabled = False
+        Name = 'Item40'
+      end
+      item
+        CollectionIndex = 40
+        CollectionName = 'Item41'
+        Disabled = False
+        Name = 'Item41'
+      end
+      item
+        CollectionIndex = 41
+        CollectionName = 'Item42'
+        Disabled = False
+        Name = 'Item42'
+      end
+      item
+        CollectionIndex = 42
+        CollectionName = 'Item43'
+        Disabled = False
+        Name = 'Item43'
+      end
+      item
+        CollectionIndex = 43
+        CollectionName = 'Item44'
+        Disabled = False
+        Name = 'Item44'
+      end
+      item
+        CollectionIndex = 44
+        CollectionName = 'Item45'
+        Disabled = False
+        Name = 'Item45'
+      end
+      item
+        CollectionIndex = 45
+        CollectionName = 'Item46'
+        Disabled = False
+        Name = 'Item46'
+      end
+      item
+        CollectionIndex = 46
+        CollectionName = 'Item47'
+        Disabled = False
+        Name = 'Item47'
+      end
+      item
+        CollectionIndex = 47
+        CollectionName = 'Item48'
+        Disabled = False
+        Name = 'Item48'
+      end
+      item
+        CollectionIndex = 48
+        CollectionName = 'Item49'
+        Disabled = False
+        Name = 'Item49'
+      end
+      item
+        CollectionIndex = 49
+        CollectionName = 'Item50'
+        Disabled = False
+        Name = 'Item50'
+      end
+      item
+        CollectionIndex = 50
+        CollectionName = 'Item51'
+        Disabled = False
+        Name = 'Item51'
+      end
+      item
+        CollectionIndex = 51
+        CollectionName = 'Item52'
+        Disabled = False
+        Name = 'Item52'
+      end
+      item
+        CollectionIndex = 52
+        CollectionName = 'Item53'
+        Disabled = False
+        Name = 'Item53'
+      end
+      item
+        CollectionIndex = 53
+        CollectionName = 'Item54'
+        Disabled = False
+        Name = 'Item54'
+      end
+      item
+        CollectionIndex = 54
+        CollectionName = 'Item55'
+        Disabled = False
+        Name = 'Item55'
+      end
+      item
+        CollectionIndex = 55
+        CollectionName = 'Item56'
+        Disabled = False
+        Name = 'Item56'
+      end
+      item
+        CollectionIndex = 56
+        CollectionName = 'Item57'
+        Disabled = False
+        Name = 'Item57'
+      end
+      item
+        CollectionIndex = 57
+        CollectionName = 'Item58'
+        Disabled = False
+        Name = 'Item58'
+      end
+      item
+        CollectionIndex = 58
+        CollectionName = 'Item59'
+        Disabled = False
+        Name = 'Item59'
+      end
+      item
+        CollectionIndex = 59
+        CollectionName = 'Item60'
+        Disabled = False
+        Name = 'Item60'
+      end
+      item
+        CollectionIndex = 60
+        CollectionName = 'Item61'
+        Disabled = False
+        Name = 'Item61'
+      end
+      item
+        CollectionIndex = 61
+        CollectionName = 'Item62'
+        Disabled = False
+        Name = 'Item62'
+      end
+      item
+        CollectionIndex = 62
+        CollectionName = 'Item63'
+        Disabled = False
+        Name = 'Item63'
+      end
+      item
+        CollectionIndex = 63
+        CollectionName = 'Item64'
+        Disabled = False
+        Name = 'Item64'
+      end
+      item
+        CollectionIndex = 64
+        CollectionName = 'Item65'
+        Disabled = False
+        Name = 'Item65'
+      end
+      item
+        CollectionIndex = 65
+        CollectionName = 'Item66'
+        Disabled = False
+        Name = 'Item66'
+      end
+      item
+        CollectionIndex = 66
+        CollectionName = 'Item67'
+        Disabled = False
+        Name = 'Item67'
+      end
+      item
+        CollectionIndex = 67
+        CollectionName = 'Item68'
+        Disabled = False
+        Name = 'Item68'
+      end
+      item
+        CollectionIndex = 68
+        CollectionName = 'Item69'
+        Disabled = False
+        Name = 'Item69'
+      end
+      item
+        CollectionIndex = 69
+        CollectionName = 'Item70'
+        Disabled = False
+        Name = 'Item70'
+      end
+      item
+        CollectionIndex = 70
+        CollectionName = 'Item71'
+        Disabled = False
+        Name = 'Item71'
+      end
+      item
+        CollectionIndex = 71
+        CollectionName = 'Item72'
+        Disabled = False
+        Name = 'Item72'
+      end
+      item
+        CollectionIndex = 72
+        CollectionName = 'Item73'
+        Disabled = False
+        Name = 'Item73'
+      end
+      item
+        CollectionIndex = 73
+        CollectionName = 'Item74'
+        Disabled = False
+        Name = 'Item74'
+      end
+      item
+        CollectionIndex = 74
+        CollectionName = 'Item75'
+        Disabled = False
+        Name = 'Item75'
+      end
+      item
+        CollectionIndex = 75
+        CollectionName = 'Item76'
+        Disabled = False
+        Name = 'Item76'
+      end
+      item
+        CollectionIndex = 76
+        CollectionName = 'Item77'
+        Disabled = False
+        Name = 'Item77'
+      end
+      item
+        CollectionIndex = 77
+        CollectionName = 'Item78'
+        Disabled = False
+        Name = 'Item78'
+      end
+      item
+        CollectionIndex = 78
+        CollectionName = 'Item79'
+        Disabled = False
+        Name = 'Item79'
+      end
+      item
+        CollectionIndex = 79
+        CollectionName = 'Item80'
+        Disabled = False
+        Name = 'Item80'
+      end
+      item
+        CollectionIndex = 80
+        CollectionName = 'Item81'
+        Disabled = False
+        Name = 'Item81'
+      end
+      item
+        CollectionIndex = 81
+        CollectionName = 'Item82'
+        Disabled = False
+        Name = 'Item82'
+      end
+      item
+        CollectionIndex = 82
+        CollectionName = 'Item83'
+        Disabled = False
+        Name = 'Item83'
+      end
+      item
+        CollectionIndex = 83
+        CollectionName = 'Item84'
+        Disabled = False
+        Name = 'Item84'
+      end
+      item
+        CollectionIndex = 84
+        CollectionName = 'Item85'
+        Disabled = False
+        Name = 'Item85'
+      end
+      item
+        CollectionIndex = 85
+        CollectionName = 'Item86'
+        Disabled = False
+        Name = 'Item86'
+      end
+      item
+        CollectionIndex = 86
+        CollectionName = 'Item87'
+        Disabled = False
+        Name = 'Item87'
+      end
+      item
+        CollectionIndex = 87
+        CollectionName = 'Item88'
+        Disabled = False
+        Name = 'Item88'
+      end
+      item
+        CollectionIndex = 88
+        CollectionName = 'Item89'
+        Disabled = False
+        Name = 'Item89'
+      end
+      item
+        CollectionIndex = 89
+        CollectionName = 'Item90'
+        Disabled = False
+        Name = 'Item90'
+      end
+      item
+        CollectionIndex = 90
+        CollectionName = 'Item91'
+        Disabled = False
+        Name = 'Item91'
+      end
+      item
+        CollectionIndex = 91
+        CollectionName = 'Item92'
+        Disabled = False
+        Name = 'Item92'
+      end
+      item
+        CollectionIndex = 92
+        CollectionName = 'Item93'
+        Disabled = False
+        Name = 'Item93'
+      end
+      item
+        CollectionIndex = 93
+        CollectionName = 'Item94'
+        Disabled = False
+        Name = 'Item94'
+      end
+      item
+        CollectionIndex = 94
+        CollectionName = 'Item95'
+        Disabled = False
+        Name = 'Item95'
+      end
+      item
+        CollectionIndex = 95
+        CollectionName = 'Item96'
+        Disabled = False
+        Name = 'Item96'
+      end
+      item
+        CollectionIndex = 96
+        CollectionName = 'Item97'
+        Disabled = False
+        Name = 'Item97'
+      end
+      item
+        CollectionIndex = 97
+        CollectionName = 'Item98'
+        Disabled = False
+        Name = 'Item98'
+      end
+      item
+        CollectionIndex = 98
+        CollectionName = 'Item99'
+        Disabled = False
+        Name = 'Item99'
+      end
+      item
+        CollectionIndex = 99
+        CollectionName = 'Item100'
+        Disabled = False
+        Name = 'Item100'
+      end
+      item
+        CollectionIndex = 100
+        CollectionName = 'Item101'
+        Disabled = False
+        Name = 'Item101'
+      end
+      item
+        CollectionIndex = 101
+        CollectionName = 'Item102'
+        Disabled = False
+        Name = 'Item102'
+      end
+      item
+        CollectionIndex = 102
+        CollectionName = 'Item103'
+        Disabled = False
+        Name = 'Item103'
+      end
+      item
+        CollectionIndex = 103
+        CollectionName = 'Item104'
+        Disabled = False
+        Name = 'Item104'
+      end
+      item
+        CollectionIndex = 104
+        CollectionName = 'Item105'
+        Disabled = False
+        Name = 'Item105'
+      end
+      item
+        CollectionIndex = 105
+        CollectionName = 'Item106'
+        Disabled = False
+        Name = 'Item106'
+      end
+      item
+        CollectionIndex = 106
+        CollectionName = 'Item107'
+        Disabled = False
+        Name = 'Item107'
+      end
+      item
+        CollectionIndex = 107
+        CollectionName = 'Item108'
+        Disabled = False
+        Name = 'Item108'
+      end
+      item
+        CollectionIndex = 108
+        CollectionName = 'Item109'
+        Disabled = False
+        Name = 'Item109'
+      end
+      item
+        CollectionIndex = 109
+        CollectionName = 'Item110'
+        Disabled = False
+        Name = 'Item110'
+      end
+      item
+        CollectionIndex = 110
+        CollectionName = 'Item111'
+        Disabled = False
+        Name = 'Item111'
+      end
+      item
+        CollectionIndex = 111
+        CollectionName = 'Item112'
+        Disabled = False
+        Name = 'Item112'
+      end
+      item
+        CollectionIndex = 112
+        CollectionName = 'Item113'
+        Disabled = False
+        Name = 'Item113'
+      end
+      item
+        CollectionIndex = 113
+        CollectionName = 'Item114'
+        Disabled = False
+        Name = 'Item114'
+      end
+      item
+        CollectionIndex = 114
+        CollectionName = 'Item115'
+        Disabled = False
+        Name = 'Item115'
+      end
+      item
+        CollectionIndex = 115
+        CollectionName = 'Item116'
+        Disabled = False
+        Name = 'Item116'
+      end
+      item
+        CollectionIndex = 116
+        CollectionName = 'Item117'
+        Disabled = False
+        Name = 'Item117'
+      end
+      item
+        CollectionIndex = 117
+        CollectionName = 'Item118'
+        Disabled = False
+        Name = 'Item118'
+      end
+      item
+        CollectionIndex = 118
+        CollectionName = 'Item119'
+        Disabled = False
+        Name = 'Item119'
+      end
+      item
+        CollectionIndex = 119
+        CollectionName = 'Item120'
+        Disabled = False
+        Name = 'Item120'
+      end
+      item
+        CollectionIndex = 120
+        CollectionName = 'Item121'
+        Disabled = False
+        Name = 'Item121'
+      end
+      item
+        CollectionIndex = 121
+        CollectionName = 'Item122'
+        Disabled = False
+        Name = 'Item122'
+      end
+      item
+        CollectionIndex = 122
+        CollectionName = 'Item123'
+        Disabled = False
+        Name = 'Item123'
+      end
+      item
+        CollectionIndex = 123
+        CollectionName = 'Item124'
+        Disabled = False
+        Name = 'Item124'
+      end
+      item
+        CollectionIndex = 124
+        CollectionName = 'Item125'
+        Disabled = False
+        Name = 'Item125'
+      end
+      item
+        CollectionIndex = 125
+        CollectionName = 'Item126'
+        Disabled = False
+        Name = 'Item126'
+      end
+      item
+        CollectionIndex = 126
+        CollectionName = 'Item127'
+        Disabled = False
+        Name = 'Item127'
+      end
+      item
+        CollectionIndex = 127
+        CollectionName = 'Item128'
+        Disabled = False
+        Name = 'Item128'
+      end
+      item
+        CollectionIndex = 128
+        CollectionName = 'Item129'
+        Disabled = False
+        Name = 'Item129'
+      end
+      item
+        CollectionIndex = 129
+        CollectionName = 'Item130'
+        Disabled = False
+        Name = 'Item130'
+      end
+      item
+        CollectionIndex = 130
+        CollectionName = 'Item131'
+        Disabled = False
+        Name = 'Item131'
+      end
+      item
+        CollectionIndex = 131
+        CollectionName = 'Item132'
+        Disabled = False
+        Name = 'Item132'
+      end
+      item
+        CollectionIndex = 132
+        CollectionName = 'Item133'
+        Disabled = False
+        Name = 'Item133'
+      end
+      item
+        CollectionIndex = 133
+        CollectionName = 'Item134'
+        Disabled = False
+        Name = 'Item134'
+      end
+      item
+        CollectionIndex = 134
+        CollectionName = 'Item135'
+        Disabled = False
+        Name = 'Item135'
+      end
+      item
+        CollectionIndex = 135
+        CollectionName = 'Item136'
+        Disabled = False
+        Name = 'Item136'
+      end
+      item
+        CollectionIndex = 136
+        CollectionName = 'Item137'
+        Disabled = False
+        Name = 'Item137'
+      end
+      item
+        CollectionIndex = 137
+        CollectionName = 'Item138'
+        Disabled = False
+        Name = 'Item138'
+      end
+      item
+        CollectionIndex = 138
+        CollectionName = 'Item139'
+        Disabled = False
+        Name = 'Item139'
+      end
+      item
+        CollectionIndex = 139
+        CollectionName = 'Item140'
+        Disabled = False
+        Name = 'Item140'
+      end
+      item
+        CollectionIndex = 140
+        CollectionName = 'Item141'
+        Disabled = False
+        Name = 'Item141'
+      end
+      item
+        CollectionIndex = 141
+        CollectionName = 'Item142'
+        Disabled = False
+        Name = 'Item142'
+      end
+      item
+        CollectionIndex = 142
+        CollectionName = 'Item143'
+        Disabled = False
+        Name = 'Item143'
+      end
+      item
+        CollectionIndex = 143
+        CollectionName = 'Item144'
+        Disabled = False
+        Name = 'Item144'
+      end
+      item
+        CollectionIndex = 144
+        CollectionName = 'Item145'
+        Disabled = False
+        Name = 'Item145'
+      end
+      item
+        CollectionIndex = 145
+        CollectionName = 'Item146'
+        Disabled = False
+        Name = 'Item146'
+      end
+      item
+        CollectionIndex = 146
+        CollectionName = 'Item147'
+        Disabled = False
+        Name = 'Item147'
+      end
+      item
+        CollectionIndex = 147
+        CollectionName = 'Item148'
+        Disabled = False
+        Name = 'Item148'
+      end
+      item
+        CollectionIndex = 148
+        CollectionName = 'Item149'
+        Disabled = False
+        Name = 'Item149'
+      end
+      item
+        CollectionIndex = 149
+        CollectionName = 'Item150'
+        Disabled = False
+        Name = 'Item150'
+      end
+      item
+        CollectionIndex = 150
+        CollectionName = 'Item151'
+        Disabled = False
+        Name = 'Item151'
+      end
+      item
+        CollectionIndex = 151
+        CollectionName = 'Item152'
+        Disabled = False
+        Name = 'Item152'
+      end
+      item
+        CollectionIndex = 152
+        CollectionName = 'Item153'
+        Disabled = False
+        Name = 'Item153'
+      end
+      item
+        CollectionIndex = 153
+        CollectionName = 'Item154'
+        Disabled = False
+        Name = 'Item154'
+      end
+      item
+        CollectionIndex = 154
+        CollectionName = 'Item155'
+        Disabled = False
+        Name = 'Item155'
+      end
+      item
+        CollectionIndex = 155
+        CollectionName = 'Item156'
+        Disabled = False
+        Name = 'Item156'
+      end
+      item
+        CollectionIndex = 156
+        CollectionName = 'Item157'
+        Disabled = False
+        Name = 'Item157'
+      end
+      item
+        CollectionIndex = 157
+        CollectionName = 'Item158'
+        Disabled = False
+        Name = 'Item158'
+      end
+      item
+        CollectionIndex = 158
+        CollectionName = 'Item159'
+        Disabled = False
+        Name = 'Item159'
+      end
+      item
+        CollectionIndex = 159
+        CollectionName = 'Item160'
+        Disabled = False
+        Name = 'Item160'
+      end
+      item
+        CollectionIndex = 160
+        CollectionName = 'Item161'
+        Disabled = False
+        Name = 'Item161'
+      end
+      item
+        CollectionIndex = 161
+        CollectionName = 'Item162'
+        Disabled = False
+        Name = 'Item162'
+      end
+      item
+        CollectionIndex = 162
+        CollectionName = 'Item163'
+        Disabled = False
+        Name = 'Item163'
+      end>
+    ImageCollection = CommandsDataModule.icImages
+    Left = 40
+    Top = 344
   end
 end
