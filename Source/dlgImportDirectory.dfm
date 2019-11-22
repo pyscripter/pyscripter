@@ -88,11 +88,25 @@ inherited ImportDirectoryForm: TImportDirectoryForm
       Width = 452
       Height = 21
       Anchors = [akLeft, akTop, akRight]
-      Images = CommandsDataModule.Images
-      RightButton.ImageIndex = 45
+      Images = vicImages
+      RightButton.ImageIndex = 0
       RightButton.Visible = True
       TabOrder = 4
       OnRightButtonClick = DirectoryEditBtnClick
     end
+  end
+  object vicImages: TVirtualImageList
+    DisabledGrayscale = False
+    DisabledSuffix = '_Disabled'
+    Images = <
+      item
+        CollectionIndex = 45
+        CollectionName = 'Item46'
+        Disabled = False
+        Name = 'Item46'
+      end>
+    ImageCollection = CommandsDataModule.icImages
+    Left = 24
+    Top = 93
   end
 end

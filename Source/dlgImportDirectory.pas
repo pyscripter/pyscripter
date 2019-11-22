@@ -8,11 +8,14 @@ uses
   System.SysUtils,
   System.Variants,
   System.Classes,
+  System.ImageList,
   Vcl.Controls,
   Vcl.ExtCtrls,
   Vcl.Forms,
   Vcl.Dialogs,
   Vcl.StdCtrls,
+  Vcl.ImgList,
+  Vcl.VirtualImageList,
   dlgPyIDEBase;
 
 type
@@ -25,6 +28,7 @@ type
     Label1: TLabel;
     Label2: TLabel;
     DirectoryEdit: TButtonedEdit;
+    vicImages: TVirtualImageList;
     procedure DirectoryEditBtnClick(Sender: TObject);
   private
     { Private declarations }

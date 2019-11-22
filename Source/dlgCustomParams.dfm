@@ -44,7 +44,7 @@ inherited CustomizeParams: TCustomizeParams
       Width = 100
       Height = 24
       Action = actAddItem
-      Images = CommandsDataModule.Images
+      Images = vicImages
       TabOrder = 3
     end
     object TBXButton3: TButton
@@ -53,7 +53,7 @@ inherited CustomizeParams: TCustomizeParams
       Width = 100
       Height = 24
       Action = actDeleteItem
-      Images = CommandsDataModule.Images
+      Images = vicImages
       TabOrder = 4
     end
     object TBXButton4: TButton
@@ -62,7 +62,7 @@ inherited CustomizeParams: TCustomizeParams
       Width = 100
       Height = 24
       Action = actMoveUp
-      Images = CommandsDataModule.Images
+      Images = vicImages
       TabOrder = 5
     end
     object TBXButton5: TButton
@@ -71,7 +71,7 @@ inherited CustomizeParams: TCustomizeParams
       Width = 100
       Height = 24
       Action = actMoveDown
-      Images = CommandsDataModule.Images
+      Images = vicImages
       TabOrder = 6
     end
     object TBXButton2: TButton
@@ -80,7 +80,7 @@ inherited CustomizeParams: TCustomizeParams
       Width = 100
       Height = 24
       Action = actUpdateItem
-      Images = CommandsDataModule.Images
+      Images = vicImages
       TabOrder = 7
     end
     object btnOK: TButton
@@ -138,6 +138,7 @@ inherited CustomizeParams: TCustomizeParams
         Font.Name = 'Courier New'
         Font.Pitch = fpFixed
         Font.Style = []
+        Font.Quality = fqClearTypeNatural
         TabOrder = 1
         CodeFolding.GutterShapeSize = 11
         CodeFolding.CollapsedLineColor = clGrayText
@@ -192,39 +193,77 @@ inherited CustomizeParams: TCustomizeParams
     end
   end
   object ActionList: TActionList
-    Images = CommandsDataModule.Images
+    Images = vicImages
     OnUpdate = ActionListUpdate
-    Left = 378
-    Top = 138
+    Left = 354
+    Top = 18
     object actAddItem: TAction
       Caption = '&Add'
       Hint = 'Add item'
-      ImageIndex = 49
+      ImageIndex = 4
       OnExecute = actAddItemExecute
     end
     object actDeleteItem: TAction
       Caption = '&Delete'
       Hint = 'Delete item'
-      ImageIndex = 14
+      ImageIndex = 0
       OnExecute = actDeleteItemExecute
     end
     object actMoveUp: TAction
       Caption = '&Up'
       Hint = 'Move item up'
-      ImageIndex = 47
+      ImageIndex = 2
       OnExecute = actMoveUpExecute
     end
     object actMoveDown: TAction
       Caption = '&Down'
       Hint = 'Move item down'
-      ImageIndex = 48
+      ImageIndex = 3
       OnExecute = actMoveDownExecute
     end
     object actUpdateItem: TAction
       Caption = '&Update'
       Hint = 'Update item'
-      ImageIndex = 39
+      ImageIndex = 4
       OnExecute = actUpdateItemExecute
     end
+  end
+  object vicImages: TVirtualImageList
+    DisabledGrayscale = False
+    DisabledSuffix = '_Disabled'
+    Images = <
+      item
+        CollectionIndex = 14
+        CollectionName = 'Item15'
+        Disabled = False
+        Name = 'Item15'
+      end
+      item
+        CollectionIndex = 39
+        CollectionName = 'Item40'
+        Disabled = False
+        Name = 'Item40'
+      end
+      item
+        CollectionIndex = 47
+        CollectionName = 'Item48'
+        Disabled = False
+        Name = 'Item48'
+      end
+      item
+        CollectionIndex = 48
+        CollectionName = 'Item49'
+        Disabled = False
+        Name = 'Item49'
+      end
+      item
+        CollectionIndex = 49
+        CollectionName = 'Item50'
+        Disabled = False
+        Name = 'Item50'
+      end>
+    ImageCollection = CommandsDataModule.icImages
+    Left = 304
+    Top = 17
   end
 end

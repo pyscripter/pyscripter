@@ -13,7 +13,6 @@ inherited PickListDialog: TPickListDialog
     Height = 84
     Align = alBottom
     Anchors = [akLeft, akBottom]
-    UseDockManager = True
     TabOrder = 1
     DesignSize = (
       484
@@ -33,8 +32,8 @@ inherited PickListDialog: TPickListDialog
       Width = 130
       Height = 24
       Caption = '&Select All'
-      ImageIndex = 104
-      Images = CommandsDataModule.Images
+      ImageIndex = 0
+      Images = vicImages
       TabOrder = 0
       OnClick = mnSelectAllClick
     end
@@ -44,8 +43,8 @@ inherited PickListDialog: TPickListDialog
       Width = 130
       Height = 24
       Caption = '&Deselect All'
-      ImageIndex = 105
-      Images = CommandsDataModule.Images
+      ImageIndex = 1
+      Images = vicImages
       TabOrder = 1
       OnClick = mnDeselectAllClick
     end
@@ -90,7 +89,7 @@ inherited PickListDialog: TPickListDialog
     object lbMessage: TLabel
       Left = 56
       Top = 8
-      Width = 409
+      Width = 3
       Height = 13
       Anchors = [akLeft, akTop, akRight]
       Color = clNone
@@ -98,9 +97,9 @@ inherited PickListDialog: TPickListDialog
     end
     object CheckListBox: TCheckListBox
       AlignWithMargins = True
-      Left = 5
-      Top = 67
-      Width = 474
+      Left = 4
+      Top = 68
+      Width = 476
       Height = 177
       Align = alBottom
       BevelInner = bvNone
@@ -109,24 +108,43 @@ inherited PickListDialog: TPickListDialog
       ItemHeight = 13
       PopupMenu = PickListPopUp
       TabOrder = 0
-      ExplicitTop = -116
     end
   end
   object PickListPopUp: TPopupMenu
-    Images = CommandsDataModule.Images
+    Images = vicImages
     Left = 296
     Top = 112
     object mnSelectAll: TMenuItem
       Caption = '&Select All'
       Hint = 'Select all items'
-      ImageIndex = 104
+      ImageIndex = 0
       OnClick = mnSelectAllClick
     end
     object mnDeselectAll: TMenuItem
       Caption = '&Deselect All'
       Hint = 'Deselect all items'
-      ImageIndex = 105
+      ImageIndex = 1
       OnClick = mnDeselectAllClick
     end
+  end
+  object vicImages: TVirtualImageList
+    DisabledGrayscale = False
+    DisabledSuffix = '_Disabled'
+    Images = <
+      item
+        CollectionIndex = 104
+        CollectionName = 'Item105'
+        Disabled = False
+        Name = 'Item105'
+      end
+      item
+        CollectionIndex = 105
+        CollectionName = 'Item106'
+        Disabled = False
+        Name = 'Item106'
+      end>
+    ImageCollection = CommandsDataModule.icImages
+    Left = 224
+    Top = 112
   end
 end

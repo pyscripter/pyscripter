@@ -3,9 +3,25 @@ unit dlgCustomParams;
 interface
 
 uses
-  System.UITypes, Windows, Messages, SysUtils, Variants, Classes,
-  Controls, Forms, Dialogs, StdCtrls,
-  SynEdit, ActnList,  dlgPyIDEBase, System.Actions, Vcl.ComCtrls, Vcl.ExtCtrls;
+  Winapi.Windows,
+  Winapi.Messages,
+  System.UITypes,
+  System.SysUtils,
+  System.Variants,
+  System.Classes,
+  System.Actions,
+  System.ImageList,
+  Vcl.Controls,
+  Vcl.Forms,
+  Vcl.Dialogs,
+  Vcl.StdCtrls,
+  Vcl.ActnList,
+  Vcl.ComCtrls,
+  Vcl.ExtCtrls,
+  Vcl.ImgList,
+  Vcl.VirtualImageList,
+  SynEdit,
+  dlgPyIDEBase;
 
 type
   TCustomizeParams = class(TPyIDEDlgBase)
@@ -31,6 +47,7 @@ type
     Label2: TLabel;
     edName: TEdit;
     lvItems: TListview;
+    vicImages: TVirtualImageList;
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure edNameKeyPress(Sender: TObject; var Key: Char);
@@ -52,7 +69,12 @@ type
 
 implementation
 
-uses Vcl.Themes, Vcl.Graphics, dmCommands, JvGnugettext, StringResources;
+uses
+  Vcl.Themes,
+  Vcl.Graphics,
+  JvGnugettext,
+  dmCommands,
+  StringResources;
 
 {$R *.dfm}
 
@@ -156,7 +178,7 @@ begin
       if (CompareText(lvItems.Items[i].Caption, edName.Text) = 0) and
          (i <> lvItems.ItemIndex) then
       begin
-        Dialogs.MessageDlg(_(SSameName), mtError, [mbOK], 0);
+        Vcl.Dialogs.MessageDlg(_(SSameName), mtError, [mbOK], 0);
         Exit;
       end;
     with lvItems.Items[lvItems.ItemIndex] do begin

@@ -149,8 +149,8 @@ inherited FindInFilesDialog: TFindInFilesDialog
         Height = 20
         Hint = 'Select directory'
         Anchors = [akTop, akRight]
-        ImageIndex = 45
-        Images = CommandsDataModule.Images
+        ImageIndex = 0
+        Images = vicImages
         ParentShowHint = False
         ShowHint = True
         TabOrder = 1
@@ -228,5 +228,19 @@ inherited FindInFilesDialog: TFindInFilesDialog
       DropDownCount = 15
       TabOrder = 0
     end
+  end
+  object vicImages: TVirtualImageList
+    DisabledGrayscale = False
+    DisabledSuffix = '_Disabled'
+    Images = <
+      item
+        CollectionIndex = 45
+        CollectionName = 'Item46'
+        Disabled = False
+        Name = 'Item46'
+      end>
+    ImageCollection = CommandsDataModule.icImages
+    Left = 24
+    Top = 248
   end
 end

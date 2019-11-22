@@ -11,9 +11,25 @@ unit dlgCodeTemplates;
 interface
 
 uses
-  System.UITypes, Windows, Messages, SysUtils, Variants, Classes,
-  Controls, Forms, Dialogs, StdCtrls, SynEdit,  ActnList, 
-  dlgPyIDEBase, System.Actions, Vcl.ComCtrls, Vcl.ExtCtrls;
+  Winapi.Windows,
+  Winapi.Messages,
+  System.UITypes,
+  System.ImageList,
+  System.Actions,
+  System.SysUtils,
+  System.Variants,
+  System.Classes,
+  Vcl.Controls,
+  Vcl.Forms,
+  Vcl.Dialogs,
+  Vcl.StdCtrls,
+  Vcl.ActnList,
+  Vcl.ComCtrls,
+  Vcl.ExtCtrls,
+  Vcl.ImgList,
+  Vcl.VirtualImageList,
+  SynEdit,
+  dlgPyIDEBase;
 
 type
   TCodeTemplates = class(TPyIDEDlgBase)
@@ -42,6 +58,7 @@ type
     edDescription: TEdit;
     edShortcut: TEdit;
     lvItems: TListview;
+    vicImages: TVirtualImageList;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormDestroy(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -70,8 +87,8 @@ implementation
 uses
   Vcl.Themes,
   Vcl.Graphics,
-  dmCommands,
   JvGnugettext,
+  dmCommands,
   StringResources;
 
 {$R *.dfm}
@@ -208,7 +225,7 @@ begin
       if (CompareText(lvItems.Items[i].Caption, edShortCut.Text) = 0) and
          (i <> lvItems.ItemIndex) then
       begin
-        Dialogs.MessageDlg(_(SSameName), mtError, [mbOK], 0);
+        Vcl.Dialogs.MessageDlg(_(SSameName), mtError, [mbOK], 0);
         Exit;
       end;
     with lvItems.Items[lvItems.ItemIndex] do begin
@@ -295,7 +312,7 @@ procedure TCodeTemplates.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   if (edShortcut.Text <> '') and SynTemplate.Modified then
   begin
-    if (Dialogs.MessageDlg(_(SCodeTemplateModified),
+    if (Vcl.Dialogs.MessageDlg(_(SCodeTemplateModified),
       mtConfirmation, [mbYes, mbNo], 0) = mrYes)
     then
       actUpdateItemExecute(Sender);

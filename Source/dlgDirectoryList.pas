@@ -15,10 +15,13 @@ uses
   System.Types,
   System.SysUtils,
   System.Classes,
+  System.ImageList,
   Vcl.Controls,
   Vcl.Forms,
   Vcl.StdCtrls,
   Vcl.ExtCtrls,
+  Vcl.ImgList,
+  Vcl.VirtualImageList,
   dlgPyIDEBase;
 
 type
@@ -36,6 +39,7 @@ type
     Label1: TLabel;
     DirectoryList: TListBox;
     edPath: TButtonedEdit;
+    vicImages: TVirtualImageList;
     procedure btnAddClick(Sender: TObject);
     procedure BtnPathClick(Sender: TObject);
     procedure btnReplaceClick(Sender: TObject);
@@ -186,9 +190,9 @@ end;
 
 procedure TDirectoryListDialog.FormShow(Sender: TObject);
 begin
+  vicImages.GetIcon(3, Icon);
   edPath.Color := StyleServices.GetSystemColor(clWindow);  // RSP-26633
   CheckButtons;
-  CommandsDataModule.Images.GetIcon(84, Icon)
 end;
 
 procedure TDirectoryListDialog.DirectoryListDragDrop(Sender, Source: TObject;

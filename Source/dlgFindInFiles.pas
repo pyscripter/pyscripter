@@ -45,8 +45,18 @@ unit dlgFindInFiles;
 interface
 
 uses
-  System.Classes, Vcl.Controls, Vcl.Graphics, Vcl.Forms, Vcl.StdCtrls,
-  cFindInFiles, dlgPyIDEBase, Vcl.ExtCtrls;
+  System.Classes,
+  System.ImageList,
+  Vcl.Controls,
+  Vcl.Graphics,
+  Vcl.Forms,
+  Vcl.StdCtrls,
+  Vcl.ExtCtrls,
+  Vcl.ImgList,
+  Vcl.VirtualImageList,
+  cFindInFiles,
+  dmCommands,
+  dlgPyIDEBase;
 
 type
   TFindInFilesDialog = class(TPyIDEDlgBase)
@@ -73,6 +83,7 @@ type
     lblMasks: TLabel;
     lblDirectory: TLabel;
     Panel1: TPanel;
+    vicImages: TVirtualImageList;
     procedure btnBrowseClick(Sender: TObject);
     procedure rbProjectClick(Sender: TObject);
     procedure btnHelpClick(Sender: TObject);

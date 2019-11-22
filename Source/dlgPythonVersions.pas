@@ -10,6 +10,7 @@ uses
   System.Classes,
   System.UITypes,
   System.Actions,
+  System.ImageList,
   Vcl.Graphics,
   Vcl.Controls,
   Vcl.Forms,
@@ -17,13 +18,15 @@ uses
   Vcl.StdCtrls,
   Vcl.ExtCtrls,
   Vcl.ActnList,
-  dlgPyIDEBase,
-  dmCommands,
-  VirtualTrees,
+  Vcl.ImgList,
+  Vcl.VirtualImageList,
   TB2Dock,
   TB2Toolbar,
   SpTBXItem,
-  TB2Item;
+  TB2Item,
+  VirtualTrees,
+  dlgPyIDEBase,
+  dmCommands;
 
 type
   TPythonVersionsDialog = class(TPyIDEDlgBase)
@@ -51,6 +54,7 @@ type
     tbiPVHelp: TSpTBXItem;
     actPVRename: TAction;
     SpTBXItem1: TSpTBXItem;
+    vicImages: TVirtualImageList;
     procedure vtPythonVersionsGetCellText(Sender: TCustomVirtualStringTree;
       var E: TVSTGetCellTextEventArgs);
     procedure FormCreate(Sender: TObject);
@@ -309,7 +313,7 @@ begin
      (((Node.Parent.Index = 0) and (PyControl.PythonVersionIndex = integer(Node.Index))) or
       ((Node.Parent.Index = 1) and (PyControl.PythonVersionIndex = - (Node.Index + 1))))
   then
-    ImageIndex := 51;
+    ImageIndex := 2;
 end;
 
 procedure TPythonVersionsDialog.vtPythonVersionsInitChildren(

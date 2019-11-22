@@ -15,6 +15,7 @@ uses
   System.SysUtils,
   System.Variants,
   System.Classes,
+  System.ImageList,
   Vcl.Graphics,
   Vcl.Controls,
   Vcl.Forms,
@@ -24,6 +25,8 @@ uses
   Vcl.ExtCtrls,
   Vcl.CheckLst,
   Vcl.Menus,
+  Vcl.ImgList,
+  Vcl.VirtualImageList,
   dlgPyIDEBase;
 
 type
@@ -41,6 +44,7 @@ type
     btnCancel: TButton;
     lbMessage: TLabel;
     CheckListBox: TCheckListBox;
+    vicImages: TVirtualImageList;
     procedure mnDeselectAllClick(Sender: TObject);
     procedure mnSelectAllClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);

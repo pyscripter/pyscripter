@@ -11,9 +11,27 @@ unit dlgFileTemplates;
 interface
 
 uses
-  System.UITypes, Windows, Messages, SysUtils, Variants, Classes, Controls,
-  Forms, Dialogs, System.Contnrs, StdCtrls, SynEdit, ActnList, cFileTemplates,
-  dlgPyIDEBase, System.Actions, Vcl.ComCtrls, Vcl.ExtCtrls;
+  Winapi.Windows,
+  Winapi.Messages,
+  System.UITypes,
+  System.SysUtils,
+  System.Variants,
+  System.Classes,
+  System.Contnrs,
+  System.Actions,
+  System.ImageList,
+  Vcl.Controls,
+  Vcl.Forms,
+  Vcl.Dialogs,
+  Vcl.StdCtrls,
+  Vcl.ActnList,
+  Vcl.ComCtrls,
+  Vcl.ExtCtrls,
+  Vcl.ImgList,
+  Vcl.VirtualImageList,
+  SynEdit,
+  cFileTemplates,
+  dlgPyIDEBase;
 
 type
   TFileTemplatesDialog = class(TPyIDEDlgBase)
@@ -46,6 +64,7 @@ type
     edName: TEdit;
     edCategory: TEdit;
     edExtension: TEdit;
+    vicImages: TVirtualImageList;
     procedure FormDestroy(Sender: TObject);
     procedure ActionListUpdate(Action: TBasicAction; var Handled: Boolean);
     procedure actAddItemExecute(Sender: TObject);
@@ -71,9 +90,9 @@ type
 implementation
 
 uses
-  dmCommands,
   SynEditHighlighter,
   JvGnugettext,
+  dmCommands,
   StringResources;
 
 {$R *.dfm}
@@ -197,7 +216,7 @@ begin
          (CompareText(lvItems.Items[i].SubItems[0], edCategory.Text) = 0) and
          (i <> lvItems.ItemIndex) then
       begin
-        Dialogs.MessageDlg(_(SSameName), mtError, [mbOK], 0);
+        Vcl.Dialogs.MessageDlg(_(SSameName), mtError, [mbOK], 0);
         Exit;
       end;
     with lvItems.Items[lvItems.ItemIndex] do begin
