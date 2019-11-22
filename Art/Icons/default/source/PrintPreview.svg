@@ -16,7 +16,7 @@
    viewBox="0 0 25.399999 25.400001"
    version="1.1"
    id="svg8"
-   inkscape:version="0.92.1 r15371"
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
    sodipodi:docname="PrintPreview.svg"
    inkscape:export-filename="E:\inkscape\pyscripter\final\default icons\16x16\PrintPreview_16x16.png"
    inkscape:export-xdpi="48.000008"
@@ -2547,16 +2547,16 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.98994949"
-     inkscape:cx="182.2322"
-     inkscape:cy="110.37049"
+     inkscape:zoom="5.6"
+     inkscape:cx="65.507611"
+     inkscape:cy="49.613131"
      inkscape:document-units="mm"
-     inkscape:current-layer="layer2"
+     inkscape:current-layer="layer3"
      showgrid="false"
      units="px"
      inkscape:snap-global="false"
      inkscape:window-width="1366"
-     inkscape:window-height="706"
+     inkscape:window-height="705"
      inkscape:window-x="-8"
      inkscape:window-y="-8"
      inkscape:window-maximized="1" />
@@ -2568,7 +2568,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -2582,7 +2582,7 @@
        id="g5170">
       <rect
          y="-16.933392"
-         x="1.0274279e-006"
+         x="1.0274279e-06"
          height="8.4666662"
          width="8.4666662"
          id="rect4496"
@@ -2606,7 +2606,7 @@
          id="rect4504"
          width="8.4666662"
          height="8.4666662"
-         x="1.0274279e-006"
+         x="1.0274279e-06"
          y="-8.4667168" />
       <rect
          y="-8.4667168"
@@ -2623,8 +2623,8 @@
          x="16.933332"
          y="-8.4667168" />
       <rect
-         y="-4.1948864e-005"
-         x="1.0274279e-006"
+         y="-4.1948864e-05"
+         x="1.0274279e-06"
          height="8.4666662"
          width="8.4666662"
          id="rect4512"
@@ -2635,9 +2635,9 @@
          width="8.4666662"
          height="8.4666662"
          x="8.4666691"
-         y="-4.1948864e-005" />
+         y="-4.1948864e-05" />
       <rect
-         y="-4.1948864e-005"
+         y="-4.1948864e-05"
          x="16.933332"
          height="8.4666662"
          width="8.4666662"
@@ -3891,7 +3891,7 @@
        id="g5201"
        transform="matrix(0.24349745,0,0,0.2464124,-165.12272,138.3092)" />
     <g
-       transform="matrix(0.2645918,0,0,0.26458521,15.118155,21.0531)"
+       transform="matrix(0.25083066,0,0,0.25082441,15.432732,19.737977)"
        id="g5556-3"
        inkscape:export-filename="E:\inkscape\pyscripter\default 32x32 icon pack\browser 32x32.png"
        inkscape:export-xdpi="96"
@@ -3923,7 +3923,7 @@
            transform="matrix(0.22265196,0,0,0.22112421,-35.897192,-173.22395)"
            style="fill:#ffff00;stroke:none;stroke-linecap:round;stroke-linejoin:round"
            id="polygon46-6"
-           points="295.074,867.574 294.311,859.641 281.451,862.928 282.563,871.235 " />
+           points="294.311,859.641 281.451,862.928 282.563,871.235 295.074,867.574 " />
         <path
            style="fill:url(#linearGradient5529);fill-opacity:1;stroke:#333333;stroke-width:0.22188677;stroke-linecap:round;stroke-linejoin:round"
            inkscape:connector-curvature="0"
@@ -3967,7 +3967,7 @@
        transform="matrix(0.03814992,0,0,0.03767432,-89.064092,179.19817)" />
     <g
        id="g8547"
-       transform="translate(124.46389,-60.337973)">
+       transform="matrix(0.96651865,0,0,0.96651865,120.43841,-58.17604)">
       <g
          transform="matrix(0.26458333,0,0,0.26458333,-124.46391,60.337931)"
          id="g5598">
@@ -4001,7 +4001,7 @@
            style="fill:#004500;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
         <polygon
            style="fill:url(#linearGradient5585);fill-opacity:1;stroke:#695f9f;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
-           points="-77.588,554.81 -78.693,465.607 -110.634,482.234 -110.634,539.836 "
+           points="-78.693,465.607 -110.634,482.234 -110.634,539.836 -77.588,554.81 "
            id="polygon5673"
            transform="matrix(0.35466285,0,0,0.35476408,44.065535,-165.00365)" />
         <path
@@ -4197,7 +4197,7 @@
        transform="matrix(0.03311179,0,0,0.03311179,-55.058953,184.61737)" />
     <g
        id="g8577"
-       transform="translate(107.53055,-145.00451)">
+       transform="matrix(0.95264909,0,0,0.95264909,103.44114,-138.73977)">
       <g
          inkscape:export-ydpi="96"
          inkscape:export-xdpi="96"
@@ -4219,12 +4219,12 @@
       </g>
       <polygon
          style="fill:url(#linearGradient8655);fill-opacity:1;stroke:none;stroke-width:2.16384578;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-         points="250.888,1192.968 250.888,1165.959 277.897,1192.968 250.888,1219.978 "
+         points="250.888,1165.959 277.897,1192.968 250.888,1219.978 250.888,1192.968 "
          id="polygon8653"
          transform="matrix(0.10131656,0,0,0.10131656,-112.49642,11.437111)" />
     </g>
     <g
-       transform="translate(99.063891,-145.00451)"
+       transform="matrix(0.95267723,0,0,0.95266786,94.976911,-138.74225)"
        id="g8588">
       <g
          inkscape:export-filename="E:\inkscape\pyscripter\default 32x32 icon pack\browser 32x32.png"
@@ -4248,12 +4248,12 @@
       <polygon
          transform="matrix(-0.10131656,0,0,0.10131656,-60.044271,11.437111)"
          id="polygon8586"
-         points="250.888,1165.959 277.897,1192.968 250.888,1219.978 250.888,1192.968 "
+         points="277.897,1192.968 250.888,1219.978 250.888,1192.968 250.888,1165.959 "
          style="fill:url(#linearGradient8601);fill-opacity:1;stroke:none;stroke-width:2.16384578;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
     </g>
     <g
        id="g8664"
-       transform="translate(-3.4174589,23.078823)">
+       transform="matrix(0.95267723,0,0,0.95266786,-3.055402,21.385333)">
       <g
          inkscape:export-ydpi="96"
          inkscape:export-xdpi="96"
@@ -4275,7 +4275,7 @@
       </g>
       <polygon
          style="fill:url(#linearGradient8629);fill-opacity:1;stroke:none;stroke-width:2.16384578;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-         points="277.897,1192.968 250.888,1219.978 250.888,1192.968 250.888,1165.959 "
+         points="250.888,1219.978 250.888,1192.968 250.888,1165.959 277.897,1192.968 "
          id="polygon8621"
          transform="matrix(-0.10131656,0,0,0.10131656,34.946384,-156.64622)" />
       <path
@@ -4288,7 +4288,7 @@
     </g>
     <g
        id="g8676"
-       transform="translate(-3.4174587,31.545499)">
+       transform="matrix(0.95267723,0,0,0.95266786,-3.055402,29.852007)">
       <g
          inkscape:export-filename="E:\inkscape\pyscripter\default 32x32 icon pack\browser 32x32.png"
          id="g8670"
@@ -4313,7 +4313,7 @@
          transform="matrix(-1,0,0,1,14.877308,0)">
         <polygon
            style="fill:url(#linearGradient8682);fill-opacity:1;stroke:none;stroke-width:2.16384578;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-           points="250.888,1165.959 277.897,1192.968 250.888,1219.978 250.888,1192.968 "
+           points="277.897,1192.968 250.888,1219.978 250.888,1192.968 250.888,1165.959 "
            id="polygon8672"
            transform="matrix(-0.10131656,0,0,0.10131656,34.946384,-156.64622)" />
         <path
